@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184FE23AB81
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D7138E106
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777537150; cv=none; b=jcwVAJftY3bCivhwAIuy2/1EtYuMNhx0HtDVcoq+SkS8zGipki/xt38L+9LSCYMwehuWGQUgPipeZNPSZa+yeLVhBHye+JB4Bem7m83reolhsnIgB6nwcQCku9Na7yvXmbNtMuYzRthrlKsvYuTK93CA8+c5EwZRNIiL2cjiY6g=
+	t=1777537215; cv=none; b=UtctCCzxekhgd9XyBKGBOeTjZ8rjncPikr5io77E1aXbsvFFTTJEMlKdpUGF57CAJXdjBy8xMX1f8n2/2g0utRCE8rmyzqSWce95UI607YCdaCT+m74F7RlTQ/IZWSjiqePHhSQ+6JKgrt+QTorzAVtJ4A8/OfhfZenuCbGHOcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777537150; c=relaxed/simple;
-	bh=nHo+/9OPreuHPaTVBBmuUZuduI9RsjnvcQGNAo1H/A8=;
+	s=arc-20240116; t=1777537215; c=relaxed/simple;
+	bh=/QxKNFJU1RiDto7Sd+89dyCnhZsAUrdrZ4SH3TK8tgk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=a5VQuOL4+ZWAA5JU6CXse81bUhrdTJYHtqYcJqZhrF/ZSmQeN+eWD9RM6pBIJFG/2iakRc5/eaLDBijfRkWvdG+6Swb8bljKaiebiDJfMPJoGSZi0L5ZRP4lP0rdzOVnLJ9tgtIyQTKNwDWQyjJb/ERWyITvISNmapCC2+ycWTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oUyT0Aiu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=sQ9THAQPRfUEV4wH2DT2J1evY+bVeh6jfRi9I6IBmh3Ome2R3tCAE/RH5DofoFluNEtSvBCfkeUzl62nHqfurLGUp1btoZPysajylyfT45hPG+hSRaUFnR2bIBGN6WgGnyIRjZrtvn7CugLB6GCM7S155xsbewGy/YDJGs/O4tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rFwZ7nf+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oUyT0Aiu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3069AC2BCB3;
-	Thu, 30 Apr 2026 08:19:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rFwZ7nf+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98C3BC2BCB3;
+	Thu, 30 Apr 2026 08:20:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777537149;
-	bh=nHo+/9OPreuHPaTVBBmuUZuduI9RsjnvcQGNAo1H/A8=;
+	s=k20201202; t=1777537213;
+	bh=/QxKNFJU1RiDto7Sd+89dyCnhZsAUrdrZ4SH3TK8tgk=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=oUyT0AiukyQBBiEZUD9dk9O1uQNxm1iMwZMUbugSEDv4lTUURMgsCt/wiKrq4AbCI
-	 hl89tvrv+KeSHmTnI2NOQ03xzOkQnaCYF87hM9AprlCeUO1gQDtwnr5XGlJSGZjVwt
-	 3us/nx2CDtc29VCApFFNHXgug94dpssqcynS5W1s01JajmkuXd/UbrDYkSxtOYlHTn
-	 CBQLMolK0zXK0BJQ+PJ8EP5zUIDrBu0FmiQYLDnqQaqI8eNBDg1dWbMdAT8KFw9TUA
-	 37V7303pLmIA2Hn6FDZ32FJheLOzbZXSFyBMOJ6G4Hvs4Jte28ePBS+M+39vCmlriw
-	 cxhAnX5oux4jw==
-Message-ID: <98de5c670d5b46c294513f10d698039a0b061459.camel@kernel.org>
-Subject: Re: [PATCH v2 06/14] fuse: support buffer copying for kernel
- addresses
+	b=rFwZ7nf+oM1g5a0ypJDmIRzJjG5PeREMx4PhtTcUrx1Yedd02y7iKbg2/dR/8Oyew
+	 ZHLeyDdu+B65pwN1mc9iBeW59Ni2xmEZCI8hO5kuSewQsm2UOeLvZsUToYIBCGzJLy
+	 0DldjMbC9Spjs1RYzUkIgD54tCDgxWvp0ZxKd3cAxXrzISWJgsU165puCcjGlnxoHk
+	 qZtpXTGzSbhG1ermKn+WSzACywWVKpIp0pYoAikEe/pIHCWn8mHvWvS1De544YJLwb
+	 9RdBvlp4n1kLGysTVyjQjA6qpC+3oSQK17XY9qgRFfULUR0eqvJKShrHlHCB7yiP5B
+	 bmwf6Sh/OEg7Q==
+Message-ID: <823192881773ec71b06ee61483a3d7dff85cca89.camel@kernel.org>
+Subject: Re: [PATCH v2 07/14] fuse: use named constants for io-uring iovec
+ indices
 From: Jeff Layton <jlayton@kernel.org>
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
 Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
-Date: Thu, 30 Apr 2026 09:19:05 +0100
-In-Reply-To: <20260402162840.2989717-7-joannelkoong@gmail.com>
+Date: Thu, 30 Apr 2026 09:20:11 +0100
+In-Reply-To: <20260402162840.2989717-8-joannelkoong@gmail.com>
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
-	 <20260402162840.2989717-7-joannelkoong@gmail.com>
+	 <20260402162840.2989717-8-joannelkoong@gmail.com>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -121,99 +121,90 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Thu, 2026-04-02 at 09:28 -0700, Joanne Koong wrote:
-> This is a preparatory patch needed to support pinned buffers in
-> fuse-over-io-uring. For pinned buffers, we get the vmapped address of
-> the buffer, which we can directly use with memcpy.
->=20
-> Currently, buffer copying in fuse only supports extracting underlying
-> pages from an iov iter and kmapping them. This commit allows buffer
-> copying to work directly on a kaddr.
+> Replace magic indices 0 and 1 for the iovec array with named constants
+> FUSE_URING_IOV_HEADERS and FUSE_URING_IOV_PAYLOAD. This makes the usages
+> self-documenting and prepares for buffer ring support which will also
+> reference these iovec slots by index.
 >=20
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
 > ---
->  fs/fuse/dev.c        | 23 +++++++++++++++++++----
->  fs/fuse/fuse_dev_i.h |  7 ++++++-
->  2 files changed, 25 insertions(+), 5 deletions(-)
+>  fs/fuse/dev_uring.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
 >=20
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 0b0241f47170..a87939eaa103 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -848,6 +848,9 @@ void fuse_copy_init(struct fuse_copy_state *cs, bool =
-write,
->  /* Unmap and put previous page of userspace buffer */
->  void fuse_copy_finish(struct fuse_copy_state *cs)
->  {
-> +	if (cs->is_kaddr)
-> +		return;
-> +
->  	if (cs->currbuf) {
->  		struct pipe_buffer *buf =3D cs->currbuf;
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index 045394a7ae41..a85acd9c2b71 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -18,7 +18,8 @@ MODULE_PARM_DESC(enable_uring,
+>  		 "Enable userspace communication through io-uring");
 > =20
-> @@ -873,6 +876,12 @@ static int fuse_copy_fill(struct fuse_copy_state *cs=
-)
->  	struct page *page;
+>  #define FUSE_URING_IOV_SEGS 2 /* header and payload */
+> -
+> +#define FUSE_URING_IOV_HEADERS 0
+> +#define FUSE_URING_IOV_PAYLOAD 1
+> =20
+>  bool fuse_uring_enabled(void)
+>  {
+> @@ -1063,8 +1064,8 @@ static void fuse_uring_do_register(struct fuse_ring=
+_ent *ent,
+>  }
+> =20
+>  /*
+> - * sqe->addr is a ptr to an iovec array, iov[0] has the headers, iov[1]
+> - * the payload
+> + * sqe->addr is a ptr to an iovec array, iov[FUSE_URING_IOV_HEADERS] has=
+ the
+> + * headers, iov[FUSE_URING_IOV_PAYLOAD] the payload
+>   */
+>  static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
+>  					 struct iovec iov[FUSE_URING_IOV_SEGS])
+> @@ -1094,8 +1095,8 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd=
+,
+>  {
+>  	struct fuse_ring *ring =3D queue->ring;
+>  	struct fuse_ring_ent *ent;
+> -	size_t payload_size;
+>  	struct iovec iov[FUSE_URING_IOV_SEGS];
+> +	struct iovec *headers, *payload;
 >  	int err;
 > =20
-> +	if (cs->is_kaddr) {
-> +		if (!cs->len)
-> +			return -ENOBUFS;
-> +		return 0;
-> +	}
-> +
->  	err =3D unlock_request(cs->req);
->  	if (err)
->  		return err;
-> @@ -931,15 +940,21 @@ static int fuse_copy_do(struct fuse_copy_state *cs,=
- void **val, unsigned *size)
->  {
->  	unsigned ncpy =3D min(*size, cs->len);
->  	if (val) {
-> -		void *pgaddr =3D kmap_local_page(cs->pg);
-> -		void *buf =3D pgaddr + cs->offset;
-> +		void *pgaddr, *buf;
-> +
-> +		if (!cs->is_kaddr) {
-> +			pgaddr =3D kmap_local_page(cs->pg);
-> +			buf =3D pgaddr + cs->offset;
-> +		} else {
-> +			buf =3D cs->kaddr + cs->offset;
-> +		}
-> =20
->  		if (cs->write)
->  			memcpy(buf, *val, ncpy);
->  		else
->  			memcpy(*val, buf, ncpy);
-> -
-> -		kunmap_local(pgaddr);
-> +		if (!cs->is_kaddr)
-> +			kunmap_local(pgaddr);
->  		*val +=3D ncpy;
+>  	err =3D fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
+> @@ -1106,15 +1107,16 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *c=
+md,
 >  	}
->  	*size -=3D ncpy;
-> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-> index 134bf44aff0d..aa1d25421054 100644
-> --- a/fs/fuse/fuse_dev_i.h
-> +++ b/fs/fuse/fuse_dev_i.h
-> @@ -28,12 +28,17 @@ struct fuse_copy_state {
->  	struct pipe_buffer *currbuf;
->  	struct pipe_inode_info *pipe;
->  	unsigned long nr_segs;
-> -	struct page *pg;
-> +	union {
-> +		struct page *pg;
-> +		void *kaddr;
-> +	};
->  	unsigned int len;
->  	unsigned int offset;
->  	bool write:1;
->  	bool move_folios:1;
->  	bool is_uring:1;
-> +	/* if set, use kaddr; otherwise use pg */
-> +	bool is_kaddr:1;
->  	struct {
->  		unsigned int copied_sz; /* copied size into the user buffer */
->  	} ring;
+> =20
+>  	err =3D -EINVAL;
+> -	if (iov[0].iov_len < sizeof(struct fuse_uring_req_header)) {
+> -		pr_info_ratelimited("Invalid header len %zu\n", iov[0].iov_len);
+> +	headers =3D &iov[FUSE_URING_IOV_HEADERS];
+> +	if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
+> +		pr_info_ratelimited("Invalid header len %zu\n", headers->iov_len);
+>  		return ERR_PTR(err);
+>  	}
+> =20
+> -	payload_size =3D iov[1].iov_len;
+> -	if (payload_size < ring->max_payload_sz) {
+> +	payload =3D &iov[FUSE_URING_IOV_PAYLOAD];
+> +	if (payload->iov_len < ring->max_payload_sz) {
+>  		pr_info_ratelimited("Invalid req payload len %zu\n",
+> -				    payload_size);
+> +				    payload->iov_len);
+>  		return ERR_PTR(err);
+>  	}
+> =20
+> @@ -1126,8 +1128,8 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd=
+,
+>  	INIT_LIST_HEAD(&ent->list);
+> =20
+>  	ent->queue =3D queue;
+> -	ent->headers =3D iov[0].iov_base;
+> -	ent->payload =3D iov[1].iov_base;
+> +	ent->headers =3D headers->iov_base;
+> +	ent->payload =3D payload->iov_base;
+> =20
+>  	atomic_inc(&ring->queue_refs);
+>  	return ent;
+
+Much more readable.
 
 Reviewed-by: Jeff Layton <jlayton@kernel.org>
