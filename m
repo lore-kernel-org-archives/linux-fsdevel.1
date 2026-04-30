@@ -1,200 +1,226 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C190C40DFD7
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 04:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777523641; cv=pass; b=EAs7Cxs+7VqrmS5w/zTgETQKZ5sllh4hjMH5F0i+zBa+cK4PMURxU+HfDBs+RPwtgtFQRGtNCXauq/YCwNf2yiyFkKBg58dLmxcSv9e0RLAlqE4AvOFwPUel7SZ66iBsrS3eZPP7Y+gu0c9P5rujj0Y9HPx28uu2DCAdgUuUl2I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777523641; c=relaxed/simple;
-	bh=GUdIAWCWBvZ87PdCZf77qJNo0fjqOsqh1svrUL2Ht70=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=iGha/P5yBzMGuzlbzTr9LX1xuzYvUTRcQeb6qZ+1wqGNraLxdT5qiCm2IUYNXXtG3z0C0dUG+wnxQtJ96GJYGFfILyZjBq3mGsIpJVMD1k73rjuSEhFi2bOnANWybkIHgsBNpFKTs/OARCAXHTdCa2nya7A9wup8QHRo4hLHbZM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BEWSnfZn; arc=pass smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCC734405B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 05:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777527414; cv=none; b=mR16iygZGjKA7vHsRj/QEsuq25I/a+La7VrPLlsrP2KHRKootmNc4Ekq8ns/inyH3tV3mCwpKwjR8Y0UFrRW9LmdEepMc+XThu3AEua1KqvSstz2S3gUdwAgCmLnVrNB/IqBwq9KuTu0EDWsS+6w9JsEgSTmFUFwo4+mTdI4VFI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777527414; c=relaxed/simple;
+	bh=mdtDdNY2h3DBj2KnBEOFyjFZNYUhiPcjox3rvAtufTY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cDyZ6+FR4WMAZY8w/RRn2mePj7N61+ZlRlUMtSJ2zPaMhltWnlzFxD1dOFiPty/fLzh/BAR59SAc7WbH3vgH5pCh4Stnhyz0imO2sjYjJNdujoP92Idjx4B5yWOhLe5a+g2nzWirbCAd7aqAcjv4KCKRtBB0vWskTB8yJPzWws8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BkL2o/qd; arc=none smtp.client-ip=209.85.222.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BEWSnfZn"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-656d749109cso249729d50.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 21:33:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777523638; cv=none;
-        d=google.com; s=arc-20240605;
-        b=W2ok+Hed5FoLBOZbzjMO06lhhUzpcaS/lqevQqn3P0WQAvaRSH5LQ+TQR2N/0Ui/XP
-         5VPI1gvAp+MGrh/yzCqMNCC37ZgXdYQVTBiZ6FErUgMdn1bcko+jzsYOTo1eY4b45OtA
-         WbvVVJ6EyD/wIKlMtYmRtlt+hbTHmZWk86RzTPvFp2rb3e1hLs25ulFFKHlIBL5YMnk6
-         Y59Mv+pfBSLiJMzhXl5Ui8cS/xJRP2ezzH6meyuUZMC4188nvITVHAC8KAIkVQ4OCXf5
-         gY/E818tGVbgJlyb3wLOfjWzcI6Ovhm0f9/EpQsVOE+znWDnwuqz9Rb20nrMc51Molhm
-         fACQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=ReTcQ8WomYbvcLoKBR3DjWCQ3wtT0PpRDdgNLjlgfSQ=;
-        fh=7yzVB5GHoApDxsP1Y24r6qzk2eDCEJTTJVIlHqll2/I=;
-        b=bqw6arT6XYaFy5ylM6u5tL0YPykv+KdWC1wFXwlfnJjiXRfKR8QugrpHBZXnZ/D2pI
-         Qs5cA759+wGWzz0ptvazvBNE4pIAN+fDMTiQXop7gBanD8GJ20Q+SdD3CpByy80XwW72
-         Lp5f+abqeQzFd3b8Jr8hb9vePw52+bfe53xHSa/IksPZbJKx5eeSF6z5DpBw7l17xqgv
-         p4bjanlHVSJJIR5/GZnzbKjbzFq5Zf+Ku1UcTz/QwkCGuEnZIw3OLh/ttOuGZTkB4OVp
-         BHGBt9LokOng+khYgdnW6Sw+hs8K+RUlV/seBV620CYkPvlLDlMezxgp5FtMMvH0AJ60
-         mvXQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BkL2o/qd"
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-9567aa1a047so193111241.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 22:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777523638; x=1778128438; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ReTcQ8WomYbvcLoKBR3DjWCQ3wtT0PpRDdgNLjlgfSQ=;
-        b=BEWSnfZndXsfv/6Uwwh/9J9CK5ihUZmPUFZ9GyZGrN6Srt4o49FGsGe8HylfX2FL/b
-         XVSMPwr34l6g+kkDYg1mdE5ITZ+PaL+K8pao5JsyX1v9lPpnnqTTT3GzjSkircnbN4GK
-         XreBD5kYKP8A2qLJ/e2IQQ80X/Sni5w/vgY8nKHQ38VKIyxKDLNOXUqM0HaoZKL9u4Ht
-         BovF6av9bNT3lJ63zdzrbCBgs3hKwS3Y3vNr2pyhP8JcKwhYu3+T30w7AsQok1Nsdw3k
-         Hk0L+KmtwNpgh3pKLTPGO+Ljt5FTrBqhep7YdIuxVdVF/OAvc7a+A7c986bp3SoAxKxu
-         SEnw==
+        d=gmail.com; s=20251104; t=1777527412; x=1778132212; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ocQlHHH1wPEO06aL5OauXm+y1fwgshk6cQ3uJMAxoO0=;
+        b=BkL2o/qdTUsp/uqx+zLk7ID3+ABFCEcuE0XNvGSb551w5qwENbJm1dCNwhFDWJ7xIE
+         PobWRsQLloR8RNZzcvqzHDCVNonEdIaJTBFKKxZFIjcT1+Ourm/ef+985A2CV3zYMP2E
+         s8BYH40xrGB0HoAETulpNdsIgjNnLm4aCvWZ4mF4uVprGdzBexKUWpgzdWC9sAU95LbC
+         7fYwA3lRJitFQkKQcQdSyQVNiyG8EkcBwJ4ppR4810382XzRi3hbpVjF1E50Ujhxtd2n
+         1sYlfhFnR/nyjK9BaRIwj7V5joJk9xoH0VxEsLNWoYLYpe58w4HiTFnlr1t4uqFxpK0d
+         OHpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777523638; x=1778128438;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ReTcQ8WomYbvcLoKBR3DjWCQ3wtT0PpRDdgNLjlgfSQ=;
-        b=Qg16wimhKiRKh1j5OhaRhXGbdi1Pf2VAMOd7hpw0Ov+0nqP2VgfHA8LVjAeu5DXumy
-         6MqRaXMQadHHriJpoQtmMs0LLKXXBh+yROlTBukPW6QB4TXC4QyUKGunZTJ6HMo8xdrc
-         Hv8nuF5ZGpKLpf3y6/wOtqIcVX1meC1h2vUl9Vmx5JKQuCo9dxQH08p9Nkx36WHCfkh/
-         PD+LYKEiAde5h83LPxHJoRnx47xq/LurGvNwOMu8YDcwt8ZLD2/ii8UHH5IKJcUGBK+0
-         T4VZyeTAz6YQJqve4CkEfIGzbz3ASwhK34LtOJM5FyJPWD2AZ2dxB4+S3otaG+ByJZG6
-         Gpnw==
-X-Gm-Message-State: AOJu0YzU9ZyqhgBUtPsn5YK3QWPs9vkoMTylxinfOggGnHfFQmbSXY6F
-	nH7rhL+Wj1ATL9SnmFkkTt//QWPQqu20hqOvyWvlHd9dEdB9cu7PW6OkkHtLPU4wQKQ1Lk7/jNC
-	P/1wCAamCCvIlgi8nYPoONk4SkeE0qtutkNRA
-X-Gm-Gg: AeBDievu+6E/RF+n8+9d7DNdX/LUT1tRkr7tH+ismobQRVl5SUEEKpdJIUIqiKHKnQM
-	lKMsYL5zmKLFerITwNVzIROR/2aNKKF1sWkfy8Uq0gbexFik0wiRhiM1sFKUY/+JcdgBDbHF+Xs
-	KVXFoQIUlXAQmp+CrF316FImm9fxsENk+gSLZbREenOy9M4NtgdcDmo8FEcfa1Y8EJAq7jBxEpH
-	j5yPcq74HhuPmOD4FfsHsIcXZrCkHsZDxRLo5/2EvvQ20a9jOtMqGw2HJRRRWL8FKa/BrQYH+un
-	mj0SsZWSTpIUtbzguWvRk1AkM5MbweT35p54iG5ryTKhNmECDR5WSiol7tozVSInQegNzxw4ZEO
-	CQetlD6E=
-X-Received: by 2002:a05:690e:134f:b0:651:b728:6f49 with SMTP id
- 956f58d0204a3-65c18f7f291mr894763d50.49.1777523638313; Wed, 29 Apr 2026
- 21:33:58 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777527412; x=1778132212;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ocQlHHH1wPEO06aL5OauXm+y1fwgshk6cQ3uJMAxoO0=;
+        b=io+OgQ1X7Fs7uV1jNvMmLTG6s88VRVQAK+3mpwm3/l8L8PGFRbZH0if83JWL5urvwp
+         UMkmH5/qNA1FizM0vKkJKiAbZoeFOYUttxs5klE3QsZ7AFVJaktLp1/MDrvBtgiMBfbP
+         AlS/f6WG2DSFvzSSJn/G5bU1nmfCFZiWIMs3ZRADAphlTqrwu30ONXJWjAEq96BYnC48
+         Gwj4P25Rw6sDn+srMiVJmbS83tDbk0NWlg9S9EZt/LEG9LLMwtf6FK+ZzrYcMLRdb4H1
+         vCkFK9N/f+SomsqQTLMt2Gf6xz05oK/GQ1Po+esGd5Zs+sONriUg3cM0wdD53wHqV6PF
+         yWaA==
+X-Gm-Message-State: AOJu0Yzd8p18VpwxzVOTI7w4rz6Zig6ewMZUjZAbD7Xq0Y49Y2HBSoGK
+	8hsm1Aba9lJk2NELVk9B7s9d6PYteQUZknOH5UdriuK0O64aKL6R51aqdpLsUL0Mqnw=
+X-Gm-Gg: AeBDieu55RcqGFPGe+8XzmkTC/+j8NSMEIEuSU21Gi1pCGY9aPuuvBudSRlSgAURFVJ
+	cnBu6oJMi7n81p4XqWRahCXPvPBH/JfjehNKBzihbVMOJeQlE6GYVnVht0R0GJmvybYBGaH+TwH
+	HCwPS31m0DziuBRgtFcNFJLee07fMf1YuOX03eAB25uHx6JVp0SxsupPnYUut4ureC59KKYUMFo
+	4BhKu1qY/UxTy4b+4zEzot+E1TH9l/GwcVMI+5J+m16+/+LNszzYYb7LHA4Ay0qw1aFMWK+vWm5
+	AUFfc+aJ/F8oFHw6yhpJhtjT//zaeIT5oyy1ZgvNCyrV8FLU1n0b+7C7xUT3H7KrNfG5jss7ipS
+	hIFvLziwTlHUatxCvaWaw70ggT3uGcqcFgrofl/qkAe2lDmd32uFSznr6UkFgQaBUOgpPImE1Gj
+	iRmnSWRcOfZ3M2KOadgNpz9K9WAn9goF9PV+O00NzhIU+uWLQe4FWp
+X-Received: by 2002:a05:6102:149d:b0:609:5643:e9f2 with SMTP id ada2fe7eead31-62ad1529ba1mr582184137.6.1777527411933;
+        Wed, 29 Apr 2026 22:36:51 -0700 (PDT)
+Received: from syssplab.cs.fiu.edu (nat1.cs.fiu.edu. [131.94.134.89])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-62982736ba5sm2411089137.5.2026.04.29.22.36.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 22:36:50 -0700 (PDT)
+From: Chao Shi <coshi036@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	willy@infradead.org,
+	linux-kernel@vger.kernel.org,
+	Chao Shi <coshi036@gmail.com>,
+	Sungwoo Kim <iam@sung-woo.kim>,
+	Dave Tian <daveti@purdue.edu>,
+	Weidong Zhu <weizhu@fiu.edu>
+Subject: [PATCH v2] fs/buffer: serialize set_buffer_uptodate against concurrent clears
+Date: Thu, 30 Apr 2026 01:36:45 -0400
+Message-ID: <20260430053645.1466196-1-coshi036@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Gabriel Sakash <gabrielsakash@gmail.com>
-Date: Thu, 30 Apr 2026 00:33:47 -0400
-X-Gm-Features: AVHnY4I5krczZC4JxofcXK_rmS1EozxPAjbo8i5jIpJKtTz_T6KvLE4l8wu1glY
-Message-ID: <CA+PzELx7nhdo9XAJ7v3mb3hzK2LLTv6OOCHNdfnKJojX1ijoaQ@mail.gmail.com>
-Subject: Faulty interaction between open_tree_clone and OPEN_TREE_NAMESPACE?
-To: linux-fsdevel@vger.kernel.org
-Cc: brauner@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello.
+A WARN_ON_ONCE(!buffer_uptodate(bh)) in mark_buffer_dirty() is
+reachable from the buffered write path on a block device when the
+underlying device returns I/O errors at high density.  Reproduced
+by fuzzing an NVMe controller (FEMU) that returns crafted error
+completions for a sustained workload from /dev/nvme0n1.
 
-Christian Brauner, I have CC'd you since you're the author of
-https://lore.kernel.org/all/20251229-work-empty-namespace-v1-0-
-bfb24c7b061f@kernel.org/.
+The contract documented at set_buffer_uptodate() in
+include/linux/buffer_head.h reads:
 
-Due to Arch Linux updating the kernel to 7.0.2 today, I have been able to test
-the new OPEN_TREE_NAMESPACE open_tree flag on my main workstation.
-However, I have found that it and open_tree_attr do not work together.
+  Any other serialization (with IO errors or whatever that might
+  clear the bit) has to come from other state (eg BH_Lock).
 
-At the end is the C program I used to test the following.
-I expect that the output is something like:
-TARGET SOURCE                    FSTYPE OPTIONS PROPAGATION
-/               /dev/nvme0n1p2[/@] btrfs         <options> private
-But I get:
-open_tree_attr /: Operation not permitted
+In fs/buffer.c, BH_Uptodate can be cleared from four I/O completion
+callbacks: __end_buffer_read_notouch, end_buffer_write_sync,
+end_buffer_async_read, end_buffer_async_write.
 
-Using "plain" open_tree works as expected. I have narrowed down 3 issues:
+end_buffer_async_read() runs with BH_Lock held throughout, so its
+clear is already serialized against any caller that also holds
+BH_Lock around set_buffer_uptodate(); the call may in fact be
+redundant, but addressing that is independent of this fix.
 
-1:
-fs/namespace.c:5196 => wants_mount_setattr(...) to check if the attribute
-changes are sound.
-fs/namespace.c:5101 => may_mount() to check if the permission are met
+end_buffer_write_sync() likewise holds BH_Lock while it clears
+BH_Uptodate on the write-error path.  Removing that clear would
+change long-standing buffer-cache I/O-error semantics and is out
+of scope here.
 
-may_mount is:
-return ns_capable(current->nsproxy->mnt_ns->user_ns, CAP_SYS_ADMIN);
+The race is therefore between block_commit_write() and
+end_buffer_write_sync():
 
-Because this is from open_tree_attr, the process has not entered the new mount
-namespace yet. This will check if the process has CAP_SYS_ADMIN in the init
-user namespace, which it won't.
+  CPU A: block_commit_write              CPU B: end_buffer_write_sync
+         (folio lock held, BH_Lock NOT)         (BH_Lock held)
+    set_buffer_uptodate(bh);
+                                           clear_buffer_uptodate(bh);
+                                           unlock_buffer(bh);
+    mark_buffer_dirty(bh);  /* WARN */
 
-2:
-fs/namespace.c:5198 => do_mount_setattr(&file->f_path, ...)
-fs/namespace.c:5198 => path_mounted(path)
+CPU B observes the contract; CPU A does not.  With one side unlocked
+the serialization is one-sided and ineffective: CPU A's set can be
+immediately followed by CPU B's clear, tripping the WARN_ON_ONCE.
+In the fuzzing reproducer, write-error completions are frequent
+(visible as repeated "lost async page write" and per-LBA write
+failures); buffer I/O completion callbacks on the write-error path
+(e.g. end_buffer_write_sync, end_buffer_async_write) clear
+BH_Uptodate while holding BH_Lock.
 
-This attempts to make the mount attribute changes on the path of the namespace
-"file", and not to the (root) mount in the new mount namespace. It will fail on
-path_mounted because the namespace "file" won't be the root of the NS FS.
+The bug is not benign: a not-uptodate buffer can be marked dirty
+and subsequently written back; depending on whether the buffer was
+fully or partially covered by the user write, this can leave on-disk
+content that does not match the intended buffered write state.
 
-3:
-fs/namespace.c:4952 => !anon_ns_root(mnt) && !check_mnt(mnt)
+Fix this by taking BH_Lock around set_buffer_uptodate() +
+mark_buffer_dirty() in block_commit_write(), so both sides of the
+contract use the documented serialization.
 
-This checks if the mount is anonymous (it won't be), and if not,that
-it's in the same
-mount namespace as the process (also false).
-It appears that the current mount attribute calls aren't set up to handle
-mount namespaces different from that of the current process.
+Found by FuzzNvme (Syzkaller with FEMU fuzzing framework).
 
-This issue is still prevalent when running a VM with a kernel built off of
-Linus's master branch. Apologies if this is already known about.
+Acked-by: Sungwoo Kim <iam@sung-woo.kim>
+Acked-by: Dave Tian <daveti@purdue.edu>
+Acked-by: Weidong Zhu <weizhu@fiu.edu>
+Signed-off-by: Chao Shi <coshi036@gmail.com>
+---
+Hi Matthew, Hi Jan,
 
-Thank you for your time and good day.
+Thanks for the review on v1.  v2 takes the feedback, quick notes below.
 
+To Matthew:
 
+You were right that the v1's timing diagram named the wrong racer.
 
-C code to reproduce:
-==================================================
-#include <fcntl.h>
-#include <linux/mount.h>
-#include <sched.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/mount.h>
-#include <syscall.h>
-#include <unistd.h>
+The actual race is with end_buffer_write_sync() on the write-error
+path, as Jan pointed out -- it also clears BH_Uptodate under BH_Lock,
+but block_commit_write()'s else branch was reaching set_buffer_uptodate
+without BH_Lock, leaving the serialization one-sided.  v2's commit
+message and in-code comment now name end_buffer_write_sync() as the
+racer.
 
-// linux-api-headers on Arch is only up to 6.19 so /usr/include/linux/mount.h
-// doesn't have this constant yet
-#define OPEN_TREE_NAMESPACE (1 << 1)
+To Jan:
 
-int open_tree_attr(int dirfd, const char *path, unsigned int flags,
-                   struct mount_attr *attr) {
-    return (int) syscall(SYS_open_tree_attr, dirfd, path, flags, attr,
-                         sizeof(struct mount_attr));
-}
+Thanks for confirming the racer and for the historical context on the
+dirty + !uptodate state question.  v2 keeps the fix scoped to taking
+BH_Lock in block_commit_write(); the broader semantic question and any
+change to end_buffer_write_sync()'s clear is left out of scope here.
 
-int main(void) {
-    if (unshare(CLONE_NEWUSER) != 0) {
-        perror("unsharing user namespace");
-        return EXIT_FAILURE;
-    }
+The redundant lock_buffer/unlock_buffer that v1 added to the
+buffer_new branch of __block_write_begin_int() is also dropped in v2 --
+that bh has no in-flight async I/O so no race exists there.
 
-    struct mount_attr attrs = {.propagation = MS_PRIVATE};
+v1 thread for context:
+https://lore.kernel.org/all/20260426020137.1221985-1-coshi036@gmail.com/
 
-    const int namespace_fd = open_tree_attr(AT_FDCWD, "/",
-        OPEN_TREE_CLOEXEC | OPEN_TREE_NAMESPACE, &attrs);
+Thanks,
+Chao
 
-    if (namespace_fd < 0) {
-        perror("open_tree_attr /");
-        return EXIT_FAILURE;
-    }
+Changes in v2:
+  - Drop the lock_buffer/unlock_buffer added in v1 to the buffer_new
+    branch of __block_write_begin_int(): that bh is freshly BH_New
+    and has no in-flight async I/O on it, so no race exists at that
+    site.
+  - Rewrite the commit message and the in-code comment to identify
+    end_buffer_write_sync() as the actual racer, not
+    end_buffer_async_read() as v1 claimed; end_buffer_async_read()
+    holds BH_Lock across its clear so a caller that also holds
+    BH_Lock would already be serialized.
+  - Reference the BH_Lock contract at set_buffer_uptodate() in
+    include/linux/buffer_head.h explicitly.
+  - Drop verbose line-number citations and the WARN stack dump from
+    the commit message; tighten wording around reproducer evidence
+    and on-disk impact.
 
-    if (setns(namespace_fd, CLONE_NEWNS) != 0) {
-        perror("setns");
-        return EXIT_FAILURE;
-    }
+v1: https://lore.kernel.org/all/20260426020137.1221985-1-coshi036@gmail.com/
 
-    close(namespace_fd);
+ fs/buffer.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-    char *args[] = {
-        "/usr/bin/findmnt",
-        "--kernel=listmount", // Needed due to proc not being mounted
-        "-o", "+PROPAGATION",
-        NULL
-    };
+diff --git a/fs/buffer.c b/fs/buffer.c
+index 4d7f84e77d2..6fddb2f1e7c 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -2104,8 +2104,22 @@ void block_commit_write(struct folio *folio, size_t from, size_t to)
+ 			if (!buffer_uptodate(bh))
+ 				partial = true;
+ 		} else {
++			/*
++			 * Per the contract documented at set_buffer_uptodate()
++			 * in include/linux/buffer_head.h, callers must hold
++			 * BH_Lock to serialize against concurrent clears of
++			 * BH_Uptodate.  Holding only the folio lock is not
++			 * sufficient: a concurrent end_buffer_write_sync() on
++			 * the write-error path clears BH_Uptodate while
++			 * holding BH_Lock; without BH_Lock here the clear can
++			 * land between set_buffer_uptodate() and
++			 * mark_buffer_dirty(), tripping the WARN_ON_ONCE in
++			 * mark_buffer_dirty().
++			 */
++			lock_buffer(bh);
+ 			set_buffer_uptodate(bh);
+ 			mark_buffer_dirty(bh);
++			unlock_buffer(bh);
+ 		}
+ 		if (buffer_new(bh))
+ 			clear_buffer_new(bh);
 
-    execv(args[0], args);
+base-commit: ffe69af1f87fa77da975ad4b0b093d48c3cbe6c3
+-- 
+2.43.0
 
-    perror("exec");
-    return EXIT_FAILURE;
-}
-==================================================
