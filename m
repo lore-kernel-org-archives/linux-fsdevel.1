@@ -1,239 +1,433 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C831EEA49
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 02:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777514647; cv=none; b=XsE3ImgKYsRUiD5PkJtfgUqTZZwic3vzx6O2ZNruj/t5GC8apeZJWtyKLDe50OI2lzZbPrSM5dqrGATti/5qdzlMTbO/nSew708qy72Wcub7wMYarYrU506ao5lU7y+Cf/dhOIunFTcXRoaa1QhQANWiI+8Q35DJeYFhpvksKzI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777514647; c=relaxed/simple;
-	bh=BPlMwhuat8Z2DNDWGK62GNqN1Lw6WWTq4lLI/wwLvFU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nVwjvRTYMhKJDdZVCTyDq6oEHJjIkGu8FQAIqk7uSlEcJ2lVJPFTjbAz4bx/oAPipQf5z8SM5X0fZtebMqJumS2OlSAww11e5HU8Hmi3cFZQr0n7IPGiCRh1QKb5ILRfWtTITRm2ED3pvqAfDM4XhjuA80t3Xl6/bhTJahKqckc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gb5AC/GY; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB05EACD
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 02:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777514680; cv=pass; b=EQNCEpBJNLj0ItXUTUp7a/DOXx8MkkqeEXuHSBLC2uMXuFySZu1PS7VkpICMfLsn6A9b65qKUdgaAtvVxDQGUYIArInIPROp4P//Vp4uyBUVeAUzeDg+XHjIH/5D1kFGPr0uNbqYPvKXYdVq/w3AjbFitV9AsdvSMNtou7G8XNg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777514680; c=relaxed/simple;
+	bh=JfRn7LeEM2Z4wOW+xEk0Arv/D81Qc9qMKhr4etxYk3s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rBqYAmQ2SM0Ssl+zre2VwHRtz3gBoMizejLdF/1waK+IdoYNMr/oYHe6dWOeRuwHaHgyUOyf711yYmlX+mL+Gpf7aJ/SQ1MzI5O9eOwgfrpkm1UUAu36QSwV1peB+oz9C62wGI7Ha2oUi4JzV6iBuRiYgtuTDEQzMz7t4KCzRyQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U1hhz6fP; arc=pass smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gb5AC/GY"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-82418b0178cso227192b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 19:04:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U1hhz6fP"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2d8ffdc31d0so1202200eec.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 19:04:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777514678; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T4BX2u3taRfRCseAkw7/e+vC5KJNIB06CsmzSJcoTsmCPmJBZ4fvpcHMuaDn89sSp7
+         awFLLIilZigNsBbCuYQMUd8wbkIyA9mhBdgwQ4qYFiIuxCdiLZS/ktS8WThuEm8zWV7s
+         MvqC+Cl3FCL90Cm75x2RN45ROgIW+QdCJQirPlRQtMPJblAJKTRUemV+2sCgzQggVwod
+         +SdNA9e3LDrmOUyu8iAAbQS8/us85J+LDTuanVJmzB4klI0l7o8eH7X0sfInwRqWcf5O
+         +VUfQ2Q4aG1/BS98EliJnFcC3KO7MG0qIMMv4GYAwmV2uagWWuo88ln4CsbfJS+D7vBi
+         M99w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aDxeCxdQ9PGx9KNRHGpF+PZcTI/LTfYCvsCotQDae10=;
+        fh=Tp4D6j76FFnijK/Ymmz+qepUKj7uKrQ7hPEU0NlzGes=;
+        b=KNwrwcamcjWIDvWSKGS8cvjsbl1gzi8K/BpbbxYDjaNsulPdFG8TtoDj7U/lNeu/pD
+         pIjMPeTN8zPM2EmpvvlIw5+nREgEFtWzFPmb8JF4vOn6oiicQKTuePGwHFkphxFEL/FH
+         d3MiWekbUo8GkgspAyy8cOT+mTUewoZYD5k1tDmBdtjgh4aDcdeXNavlMsqJv9OZMAw4
+         zGjjgThzZ/yabBuiUHOYr1eAaIWOL6Wy5GMwQUkMpmCPzVLT0R3YCGQd5p8ULTJmvIsg
+         um5YjDo/R2RWd5PtJJIWxBJE87RHly8ts1LwKMFkwP38eXDwKNzxP6fdEWFCVKSKOobT
+         qOFA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777514646; x=1778119446; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cvrYR2j0ICuUKwoOORo2Jsr4bEEaaxRMCJzK85U8m3Y=;
-        b=Gb5AC/GYZLDJHw3B23FMI9IFgPzhS0CSCo/gunbN/L9Do1Ba8ylJpxUeMWnu9Hh+7M
-         mNfb8VrlCPk54nwBN/CMN7FBFyP+mkRPCVo6393C0OovJjw8FgN9TtgC/qzcqTzLo+QQ
-         yS++NZfTgmy4pxQX4CLONrgz6g8CzGJ30VjDxhnoMfXUikGpRK5Wx2xuC8K7OLkVRCPR
-         3ouBHugenCcovpdCOdWrhS4A+4jBb2r1ZrRXlMzvjZfdLPzSSbJazqDE6HYMIZ8EyMGw
-         QgMpgVw1Qga2+F5h1ByISr6Wp5KKyP1+3WfPTXyPfhqsRyoSHnURrsOXeP721t837KT4
-         a8yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777514646; x=1778119446;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1777514678; x=1778119478; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cvrYR2j0ICuUKwoOORo2Jsr4bEEaaxRMCJzK85U8m3Y=;
-        b=bLL3fet2DJWMEsKQoNkWnVy8q476njrr2pKpaQocfoX1+atN3fQoh4n+mK4yvr/vwa
-         4jnVpHtnwXK0QEUvQiTW5ENkoPY0q4+R+LHS8dOTuyteXOtQFrSvuAVL+xAUAPUSdmaD
-         JES3GsubKpNsiDLVP4XuJmNP0c0wp3IjndceBQ8udB/5Q8nmv8vVy8P0YLLkRuBxq5XY
-         uTPlL2etcWcc+HaMb4PGpn1m3QbBXz6cM3guqDrpi2Hb5SuRoKrMtCaucIUC2tsNZZeX
-         70ZIF8BjpoiXxb9a4WKepVOt4t/0PpPALqdactIZfr/V3EWITd8DGmCSEF/8WDj7rWNt
-         e0jQ==
-X-Gm-Message-State: AOJu0Yy0MoQPMqRIUGUd/1O6vfJd5/zLlwYKIzJrI1EETjJbBjYZJJ/l
-	6+wANMZH3ndcAsh0GzoXot/+Ja5DFFk8SfP0uJLIgLKRueyy4DOMrIdf
-X-Gm-Gg: AeBDietUs9e0pemj1SBF7WaMgSuBbr2zZxvOsKhNmCqf1ecGjsx6OCJRdFnKqs+Gk6s
-	7zrNcMehGFWCR7r6UFo7nHPJzezzyM0KS1mDo2fAzqxkIXn7oFPGPQt8PduEhr6AvsCVeSYG+s0
-	sPeOdJwo6N3KJHIH2kF23JXQ+lrEPrScK3ZtNIXUpgVwev/RbkFcq9EO08DXW9Q19Ml/Tlcbdu2
-	BWTLerYKLjCnodkqGbtvKEsmwZ277tklvkaxW1oTaE1Xg+xVIn5+g+J233hzGIkDSTuttqq+E01
-	UUBtu5LHQYI+pb95sW3Fbagh9u4sIcpVjp9oJE+uEAP1ROo4lTvt79nKMdvNuJWpPhK2UH3qm1W
-	O6ZTSEU+6fbtQlNpANmnosBx7nICEyf9mw/de6l4XFOWiUDoRfcxKVo6GqzsNXherjgT+LrRNNG
-	7sivrJBEiYVsfbMV4FC+OJX10KmG8uMkGMWgocRfIdAB+0h8tkB1QgUDDQqH9BuGliP5EUxrkgD
-	tGPGO6kuHyyUuerWA==
-X-Received: by 2002:a05:6a00:8007:b0:82d:24f:2509 with SMTP id d2e1a72fcca58-834fdb19a0emr1170284b3a.1.1777514645497;
-        Wed, 29 Apr 2026 19:04:05 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:e9bf:615b:4859:6e22])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834ed80ec94sm3431157b3a.52.2026.04.29.19.04.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 19:04:04 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Subject: [PATCH v4] hfsplus: fix null-ptr-deref by creating hidden dir on remount rw
-Date: Thu, 30 Apr 2026 07:33:58 +0530
-Message-ID: <20260430020358.111052-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=aDxeCxdQ9PGx9KNRHGpF+PZcTI/LTfYCvsCotQDae10=;
+        b=U1hhz6fPkfkahO3PD7pkb22O9UuU4UHLtZX5buZCGkfK4Q1UAj2IOPDokuIfihtSfz
+         OzPQCgegR+allVMs9nNqYuDBEO0+t0sqGKqOOmlbLhEmpV7heY2qslvMACMmIhc51dX6
+         ExyofCwvHWwain6KqPv26Kb4QBDkJsv6YwHJ4Y5TuIDVqDONz7CSqn1AXIGzdD6ioGTR
+         PN/uBTxI5xH13pUM1pYjOf1FHqSJS4obxe/50hqLJvyn8NRQfxOKNTNXtjRzFjVIv3ml
+         zFUPZEtkHI+z4applbL9kZ8C+nIaXQxzfPzI9bniWG3LxaUR2dUmlgNTY51XVGz6lC4Y
+         DBtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777514678; x=1778119478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aDxeCxdQ9PGx9KNRHGpF+PZcTI/LTfYCvsCotQDae10=;
+        b=lMjzm5qVOdGMpCedB5TFtB5xKUhr4mGpObflGP+jgNIsARzoTZRaO4lE+4a+2MREd7
+         zJwcK3bTKsuCyisgdnDPDuivBNCpiEkEqBh2MfHWym57xoxVskU8k94xVr4lEYglDbbv
+         Tb62sHXHVP0CPVqCflD8IoGMdb3fWkA9A6X/aND2YUYKL9b4v+qBmUxTybUf1pVoQiFt
+         DBkLjId0RZay/fkRv/NMJHRMUURkZ0M61HID7UawJkZ6BdW0sV+34304ux4s8ERq6yJQ
+         rki4vTZQkIN8hhjl4i8ZOYBCdlx4KFi6xTiNfpkJ1bhTlb5Z6ZlS+QI5yx85Tg+frrLY
+         gK+Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9eHfiPqqpcacK4vgBfogiE8DLulxDv/ShOK07T1icim4V1ypE2CWxGN/b6vIvLda2wvL+9EzxqpABfh0QT@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgRF3JU9Dp3P+d40DyFIyU3Jtu/Abxnqs5lIxfnk82JktYLNOW
+	ae+Hl0kmj0b+EM79goGExCq77lUrWrX1P9/wVLT4Vbr9N6y6ird1Xqrdo06KZmFYXT1lAtRxvhK
+	zROFhqqodsqSeA3AJt8inOe0MGlf7Gq3YtT707cnc
+X-Gm-Gg: AeBDietjJyDka6q/JipTHeVjlT+6ly1UGEmlMxV1uJlDBwbxd74B3q8VOtizGrlkCrs
+	CrjN1c3dgx3z81GS6WmAZmRYCUhlP6Zqwx8K9doknepkzkN5nokxn9iOzppDKyGqLS9ytcDDYVw
+	9eGj/sdrOUJ0AgquT+uqxn/Z9EZNDfJuNA/7jKpm1ZTDuwgboH8z1fZ8eG298kY0yFTjp5XPRdd
+	n7K3ClpSXQhvPlksfSgRJolPR4sj7D566mDJQVDv1HDGzQKtTV9NXNJgSAfnJ/Yg8IuyAubuVTD
+	Dm+hCEyEkA4DYAw5EjmlB2pbKAx9ES7Fh016SRKF9vXvwIJ1eoMW6SQo4DyRA7b8YYMxb0Zcig+
+	Io9pC2DXsWCZIYmqUj9UNVsxmZOpYN3gUrHrQ91XhcOEmXjbPVUKyx5i+LIWlF6Sni1p1iwrVGA
+	==
+X-Received: by 2002:a05:7022:207:b0:12d:ceaf:ffcc with SMTP id
+ a92af1059eb24-12deac3aa70mr554238c88.5.1777514677240; Wed, 29 Apr 2026
+ 19:04:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260428175125.2705296-1-jkoolstra@xs4all.nl> <20260428175125.2705296-2-jkoolstra@xs4all.nl>
+In-Reply-To: <20260428175125.2705296-2-jkoolstra@xs4all.nl>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Wed, 29 Apr 2026 19:04:25 -0700
+X-Gm-Features: AVHnY4JYACaJ3lOY3vhTsY9K5_lOk4dNnlzp9D9zNaCs3b5RV1wtvUbOZutFyfk
+Message-ID: <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] net: af_unix: Useful handling of LSM denials on SCM_RIGHTS
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemb@google.com>, "David S . Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>, Kees Cook <kees@kernel.org>, 
+	Simon Horman <horms@kernel.org>, Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>, 
+	Jeff Layton <jlayton@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Andrei Vagin <avagin@gmail.com>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Mateusz Guzik <mjguzik@gmail.com>, 
+	Joel Granados <joel.granados@kernel.org>, Charlie Mirabile <cmirabil@redhat.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	io-uring@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-hfsplus_reconfigure() does not create the hidden directory when
-remounting from read-only to read-write, leaving sbi->hidden_dir
-as NULL. This causes a null-ptr-deref when any subsequent
-link/unlink/rename operation dereferences it.
+On Tue, Apr 28, 2026 at 10:51=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.nl=
+> wrote:
+>
+> Right now if some LSM such as Smack denies an AF_UNIX socket peer to
+> receive an SCM_RIGHTS fd the SCM_RIGHTS fd array will be cut short at
+> that point, and MSG_CTRUNC is set on return of recvmsg(). This is
+> highly problematic behaviour, because it leaves the receiver
+> wondering what happened. As per man page MSG_CTRUNC is supposed to
+> indicate that the control buffer was sized too short, but suddenly
+> a permission error might result in the exact same flag being set.
+> Moreover, the receiver has no chance to determine how many fds got
+> originally sent and how many were suppressed.[1]
+>
+> Add two MSG_* flags:
 
-Extract hidden directory creation into a helper and call it from
-hfsplus_reconfigure() when switching to read-write mode.
-
-Reported-by: syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c0ba772a362e70937dfb
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
-Changes in v4:
-  - Correct fix: extract hidden dir creation into helper and call
-    from hfsplus_reconfigure() on remount rw, as suggested by
-    Vyacheslav Dubeyko.
-
-Changes in v3:
-  - Correct fix location: guard sbi->hidden_dir in hfsplus_link()
-    and hfsplus_unlink() in dir.c.
-
-Changes in v2:
-  - Fixed commit message: hfsplus_delete_cat() has multiple callers,
-    not just hfsplus_unlink() as incorrectly stated in v1.
----
- fs/hfsplus/super.c | 88 ++++++++++++++++++++++++++++------------------
- 1 file changed, 53 insertions(+), 35 deletions(-)
-
-diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-index 7229a8ae89f9..8b5c39ce4d48 100644
---- a/fs/hfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -372,15 +372,59 @@ static int hfsplus_statfs(struct dentry *dentry, struct kstatfs *buf)
- 	return 0;
- }
- 
-+static int hfsplus_create_hidden_dir(struct super_block *sb)
-+{
-+	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
-+	struct inode *root = d_inode(sb->s_root);
-+	struct qstr str;
-+	int err;
-+
-+	str.len = sizeof(HFSP_HIDDENDIR_NAME) - 1;
-+	str.name = HFSP_HIDDENDIR_NAME;
-+
-+	mutex_lock(&sbi->vh_mutex);
-+	sbi->hidden_dir = hfsplus_new_inode(sb, root, S_IFDIR);
-+	if (!sbi->hidden_dir) {
-+		mutex_unlock(&sbi->vh_mutex);
-+		return -ENOMEM;
-+	}
-+
-+	err = hfsplus_create_cat(sbi->hidden_dir->i_ino, root,
-+				 &str, sbi->hidden_dir);
-+	if (err) {
-+		mutex_unlock(&sbi->vh_mutex);
-+		goto out_put_hidden_dir;
-+	}
-+
-+	err = hfsplus_init_security(sbi->hidden_dir, root, &str);
-+	if (err == -EOPNOTSUPP)
-+		err = 0;
-+	else if (err) {
-+		hfsplus_delete_cat(sbi->hidden_dir->i_ino, root, &str);
-+		mutex_unlock(&sbi->vh_mutex);
-+		goto out_put_hidden_dir;
-+	}
-+
-+	mutex_unlock(&sbi->vh_mutex);
-+	hfsplus_mark_inode_dirty(sbi->hidden_dir,
-+				 HFSPLUS_I_CAT_DIRTY);
-+	return 0;
-+
-+out_put_hidden_dir:
-+	iput(sbi->hidden_dir);
-+	sbi->hidden_dir = NULL;
-+	return err;
-+}
-+
- static int hfsplus_reconfigure(struct fs_context *fc)
- {
- 	struct super_block *sb = fc->root->d_sb;
-+	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
- 
- 	sync_filesystem(sb);
- 	if ((bool)(fc->sb_flags & SB_RDONLY) == sb_rdonly(sb))
- 		return 0;
- 	if (!(fc->sb_flags & SB_RDONLY)) {
--		struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
- 		struct hfsplus_vh *vhdr = sbi->s_vhdr;
- 
- 		if (!(vhdr->attributes & cpu_to_be32(HFSPLUS_VOL_UNMNT))) {
-@@ -401,6 +445,12 @@ static int hfsplus_reconfigure(struct fs_context *fc)
- 			fc->sb_flags |= SB_RDONLY;
- 		}
- 	}
-+	/*
-+	 * Create hidden dir if remounting read-write and it does
-+	 * not exist - required for link/unlink/rename operations.
-+	 */
-+	if (!sb_rdonly(sb) && !sbi->hidden_dir)
-+		return hfsplus_create_hidden_dir(sb);
- 	return 0;
- }
- 
-@@ -595,38 +645,9 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
- 		hfsplus_sync_fs(sb, 1);
- 
- 		if (!sbi->hidden_dir) {
--			mutex_lock(&sbi->vh_mutex);
--			sbi->hidden_dir = hfsplus_new_inode(sb, root, S_IFDIR);
--			if (!sbi->hidden_dir) {
--				mutex_unlock(&sbi->vh_mutex);
--				err = -ENOMEM;
-+			err = hfsplus_create_hidden_dir(sb);
-+			if (err)
- 				goto out_put_root;
--			}
--			err = hfsplus_create_cat(sbi->hidden_dir->i_ino, root,
--						 &str, sbi->hidden_dir);
--			if (err) {
--				mutex_unlock(&sbi->vh_mutex);
--				goto out_put_hidden_dir;
--			}
--
--			err = hfsplus_init_security(sbi->hidden_dir,
--							root, &str);
--			if (err == -EOPNOTSUPP)
--				err = 0; /* Operation is not supported. */
--			else if (err) {
--				/*
--				 * Try to delete anyway without
--				 * error analysis.
--				 */
--				hfsplus_delete_cat(sbi->hidden_dir->i_ino,
--							root, &str);
--				mutex_unlock(&sbi->vh_mutex);
--				goto out_put_hidden_dir;
--			}
--
--			mutex_unlock(&sbi->vh_mutex);
--			hfsplus_mark_inode_dirty(sbi->hidden_dir,
--						 HFSPLUS_I_CAT_DIRTY);
- 		}
- 	}
- 
-@@ -634,9 +655,6 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
- 	sbi->nls = nls;
- 	return 0;
- 
--out_put_hidden_dir:
--	cancel_delayed_work_sync(&sbi->sync_work);
--	iput(sbi->hidden_dir);
- out_put_root:
- 	dput(sb->s_root);
- 	sb->s_root = NULL;
--- 
-2.43.0
+Since we only have 5 bits remaining for future extension,
+we need to consider the use case a bit more carefully.
 
 
+>  - MSG_RIGHTS_DENIAL is set whenever any file is rejected by the LSM
+>    during recvmsg() of SCM_RIGHTS fds.
+
+Is this really needed ?
+
+Even if the fd array is truncated, the application will traverse
+the array anyway since it has some fds already installed (to
+clean up in case of MSG_CTRUNC ?).
+
+Then, it will find the -EPERM entry.
+
+I assume no one uses MSG_RIGHTS_DENIAL without
+MSG_RIGHTS_FILTER.
+
+
+>  - If MSG_RIGHTS_FILTER is passed as a flag to recvmsg(), the SCM_RIGHTS
+
+Does this flag need per-recvmsg() granularity ?
+
+If the application does not welcome the truncated fd array,
+it would have passed MSG_RIGHTS_FILTER to every
+recvmsg(), no ?
+
+( and I feel _FILTER sounds like "please do filtering (truncase)".
+  Maybe _NOTRUNC ? )
+
+
+>    fd array is always passed in its full original size. However, any
+>    files rejected by the LSM are replaced in this array with -EPERM
+>    instead of an assigned fd, while keeping the original order. If the
+>    flag is not set, the original truncate behavior is used.
+>
+> [1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm=
+-denials-on-scm_rights
+>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>  fs/file.c              | 21 ++++++++++++++++++---
+>  include/linux/file.h   |  4 +++-
+>  include/linux/socket.h |  3 +++
+>  include/net/scm.h      |  8 ++++----
+>  io_uring/openclose.c   |  2 +-
+>  kernel/pid.c           |  2 +-
+>  kernel/seccomp.c       |  2 +-
+>  net/compat.c           |  7 ++++---
+>  net/core/scm.c         | 11 ++++++-----
+>  9 files changed, 41 insertions(+), 19 deletions(-)
+>
+> diff --git a/fs/file.c b/fs/file.c
+> index 2c81c0b162d0..cc33a1e77049 100644
+> --- a/fs/file.c
+> +++ b/fs/file.c
+> @@ -1370,10 +1370,11 @@ int replace_fd(unsigned fd, struct file *file, un=
+signed flags)
+>  }
+>
+>  /**
+> - * receive_fd() - Install received file into file descriptor table
+> + * receive_fd_msg() - Install received file into file descriptor table
+>   * @file: struct file that was received from another process
+>   * @ufd: __user pointer to write new fd number to
+>   * @o_flags: the O_* flags to apply to the new fd entry
+> + * @msg_flags: the MSG_* flags to set for recvmsg(2)
+>   *
+>   * Installs a received file into the file descriptor table, with appropr=
+iate
+>   * checks and count updates. Optionally writes the fd number to userspac=
+e, if
+> @@ -1384,13 +1385,21 @@ int replace_fd(unsigned fd, struct file *file, un=
+signed flags)
+>   *
+>   * Returns newly install fd or -ve on error.
+>   */
+> -int receive_fd(struct file *file, int __user *ufd, unsigned int o_flags)
+> +int receive_fd_msg(struct file *file, int __user *ufd, unsigned int o_fl=
+ags,
+> +              unsigned int *msg_flags)
+>  {
+>         int error;
+>
+>         error =3D security_file_receive(file);
+> -       if (error)
+> +       if (error) {
+> +               if (msg_flags)
+> +                       *msg_flags |=3D MSG_RIGHTS_DENIAL;
+> +
+> +               if (ufd)
+> +                       put_user(-EPERM, ufd);
+> +
+>                 return error;
+> +       }
+>
+>         FD_PREPARE(fdf, o_flags, file);
+>         if (fdf.err)
+> @@ -1406,6 +1415,12 @@ int receive_fd(struct file *file, int __user *ufd,=
+ unsigned int o_flags)
+>         __receive_sock(fd_prepare_file(fdf));
+>         return fd_publish(fdf);
+>  }
+> +EXPORT_SYMBOL_GPL(receive_fd_msg);
+> +
+> +int receive_fd(struct file *file, unsigned int o_flags)
+> +{
+> +       return receive_fd_msg(file, NULL, o_flags, NULL);
+> +}
+>  EXPORT_SYMBOL_GPL(receive_fd);
+>
+>  int receive_fd_replace(int new_fd, struct file *file, unsigned int o_fla=
+gs)
+> diff --git a/include/linux/file.h b/include/linux/file.h
+> index 27484b444d31..38f022d997a6 100644
+> --- a/include/linux/file.h
+> +++ b/include/linux/file.h
+> @@ -118,7 +118,9 @@ DEFINE_FREE(fput, struct file *, if (!IS_ERR_OR_NULL(=
+_T)) fput(_T))
+>
+>  extern void fd_install(unsigned int fd, struct file *file);
+>
+> -int receive_fd(struct file *file, int __user *ufd, unsigned int o_flags)=
+;
+> +int receive_fd_msg(struct file *file, int __user *ufd, unsigned int o_fl=
+ags,
+> +                  unsigned int *msg_flags);
+> +int receive_fd(struct file *file, unsigned int o_flags);
+>
+>  int receive_fd_replace(int new_fd, struct file *file, unsigned int o_fla=
+gs);
+>
+> diff --git a/include/linux/socket.h b/include/linux/socket.h
+> index ec4a0a025793..3809a8add2fc 100644
+> --- a/include/linux/socket.h
+> +++ b/include/linux/socket.h
+> @@ -342,6 +342,9 @@ struct ucred {
+>                                           * plain text and require encryp=
+tion
+>                                           */
+>
+> +#define MSG_RIGHTS_DENIAL 0x200000
+> +#define MSG_RIGHTS_FILTER 0x400000
+> +
+>  #define MSG_SOCK_DEVMEM 0x2000000      /* Receive devmem skbs as cmsg */
+>  #define MSG_ZEROCOPY   0x4000000       /* Use user data in kernel path *=
+/
+>  #define MSG_SPLICE_PAGES 0x8000000     /* Splice the pages from the iter=
+ator in sendmsg() */
+> diff --git a/include/net/scm.h b/include/net/scm.h
+> index c52519669349..983efa952c8e 100644
+> --- a/include/net/scm.h
+> +++ b/include/net/scm.h
+> @@ -50,8 +50,8 @@ struct scm_cookie {
+>  #endif
+>  };
+>
+> -void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm);
+> -void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm);
+> +void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, int recv=
+_flags);
+> +void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, i=
+nt recv_flags);
+>  int __scm_send(struct socket *sock, struct msghdr *msg, struct scm_cooki=
+e *scm);
+>  void __scm_destroy(struct scm_cookie *scm);
+>  struct scm_fp_list *scm_fp_dup(struct scm_fp_list *fpl);
+> @@ -108,11 +108,11 @@ void scm_recv_unix(struct socket *sock, struct msgh=
+dr *msg,
+>                    struct scm_cookie *scm, int flags);
+>
+>  static inline int scm_recv_one_fd(struct file *f, int __user *ufd,
+> -                                 unsigned int flags)
+> +                                 unsigned int o_flags, unsigned int *msg=
+_flags)
+>  {
+>         if (!ufd)
+>                 return -EFAULT;
+> -       return receive_fd(f, ufd, flags);
+> +       return receive_fd_msg(f, ufd, o_flags, msg_flags);
+>  }
+>
+>  #endif /* __LINUX_NET_SCM_H */
+> diff --git a/io_uring/openclose.c b/io_uring/openclose.c
+> index c71242915dad..1b6cb05b0e3d 100644
+> --- a/io_uring/openclose.c
+> +++ b/io_uring/openclose.c
+> @@ -308,7 +308,7 @@ int io_install_fixed_fd(struct io_kiocb *req, unsigne=
+d int issue_flags)
+>         int ret;
+>
+>         ifi =3D io_kiocb_to_cmd(req, struct io_fixed_install);
+> -       ret =3D receive_fd(req->file, NULL, ifi->o_flags);
+> +       ret =3D receive_fd(req->file, ifi->o_flags);
+>         if (ret < 0)
+>                 req_set_fail(req);
+>         io_req_set_res(req, ret, 0);
+> diff --git a/kernel/pid.c b/kernel/pid.c
+> index fd5c2d4aa349..62af6874192d 100644
+> --- a/kernel/pid.c
+> +++ b/kernel/pid.c
+> @@ -929,7 +929,7 @@ static int pidfd_getfd(struct pid *pid, int fd)
+>         if (IS_ERR(file))
+>                 return PTR_ERR(file);
+>
+> -       ret =3D receive_fd(file, NULL, O_CLOEXEC);
+> +       ret =3D receive_fd(file, O_CLOEXEC);
+>         fput(file);
+>
+>         return ret;
+> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+> index 066909393c38..ad5ab16fe2b1 100644
+> --- a/kernel/seccomp.c
+> +++ b/kernel/seccomp.c
+> @@ -1130,7 +1130,7 @@ static void seccomp_handle_addfd(struct seccomp_kad=
+dfd *addfd, struct seccomp_kn
+>          */
+>         list_del_init(&addfd->list);
+>         if (!addfd->setfd)
+> -               fd =3D receive_fd(addfd->file, NULL, addfd->flags);
+> +               fd =3D receive_fd(addfd->file, addfd->flags);
+>         else
+>                 fd =3D receive_fd_replace(addfd->fd, addfd->file, addfd->=
+flags);
+>         addfd->ret =3D fd;
+> diff --git a/net/compat.c b/net/compat.c
+> index 2c9bd0edac99..056bce0927c4 100644
+> --- a/net/compat.c
+> +++ b/net/compat.c
+> @@ -287,18 +287,19 @@ static int scm_max_fds_compat(struct msghdr *msg)
+>         return (msg->msg_controllen - sizeof(struct compat_cmsghdr)) / si=
+zeof(int);
+>  }
+>
+> -void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
+> +void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, i=
+nt recv_flags)
+>  {
+>         struct compat_cmsghdr __user *cm =3D
+>                 (struct compat_cmsghdr __user *)msg->msg_control_user;
+>         unsigned int o_flags =3D (msg->msg_flags & MSG_CMSG_CLOEXEC) ? O_=
+CLOEXEC : 0;
+> +       bool filter_rights =3D recv_flags & MSG_RIGHTS_FILTER;
+>         int fdmax =3D min_t(int, scm_max_fds_compat(msg), scm->fp->count)=
+;
+>         int __user *cmsg_data =3D CMSG_COMPAT_DATA(cm);
+>         int err =3D 0, i;
+>
+>         for (i =3D 0; i < fdmax; i++) {
+> -               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
+flags);
+> -               if (err < 0)
+> +               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
+flags, &msg->msg_flags);
+> +               if (err < 0 && !filter_rights)
+>                         break;
+>         }
+>
+> diff --git a/net/core/scm.c b/net/core/scm.c
+> index eec13f50ecaf..035329645d8f 100644
+> --- a/net/core/scm.c
+> +++ b/net/core/scm.c
+> @@ -351,10 +351,11 @@ static int scm_max_fds(struct msghdr *msg)
+>         return (msg->msg_controllen - sizeof(struct cmsghdr)) / sizeof(in=
+t);
+>  }
+>
+> -void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
+> +void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, int recv=
+_flags)
+>  {
+>         struct cmsghdr __user *cm =3D
+>                 (__force struct cmsghdr __user *)msg->msg_control_user;
+> +       bool filter_rights =3D recv_flags & MSG_RIGHTS_FILTER;
+>         unsigned int o_flags =3D (msg->msg_flags & MSG_CMSG_CLOEXEC) ? O_=
+CLOEXEC : 0;
+>         int fdmax =3D min_t(int, scm_max_fds(msg), scm->fp->count);
+>         int __user *cmsg_data =3D CMSG_USER_DATA(cm);
+> @@ -365,13 +366,13 @@ void scm_detach_fds(struct msghdr *msg, struct scm_=
+cookie *scm)
+>                 return;
+>
+>         if (msg->msg_flags & MSG_CMSG_COMPAT) {
+> -               scm_detach_fds_compat(msg, scm);
+> +               scm_detach_fds_compat(msg, scm, recv_flags);
+>                 return;
+>         }
+>
+>         for (i =3D 0; i < fdmax; i++) {
+> -               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
+flags);
+> -               if (err < 0)
+> +               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
+flags, &msg->msg_flags);
+> +               if (err < 0 && !filter_rights)
+>                         break;
+>         }
+>
+> @@ -524,7 +525,7 @@ static bool __scm_recv_common(struct sock *sk, struct=
+ msghdr *msg,
+>         scm_passec(sk, msg, scm);
+>
+>         if (scm->fp)
+> -               scm_detach_fds(msg, scm);
+> +               scm_detach_fds(msg, scm, flags);
+>
+>         return true;
+>  }
+> --
+> 2.54.0
+>
