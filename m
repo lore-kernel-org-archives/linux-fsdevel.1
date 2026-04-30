@@ -1,226 +1,168 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFFC336897;
-	Thu, 30 Apr 2026 20:57:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4647F2EF653;
+	Thu, 30 Apr 2026 21:15:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777582653; cv=none; b=c9CuKPnBKDciLSUE/TVx6ISTL3io/iKMR7PMgi5X4xLKzSNWjSVlCm2YojJhr0fXJS/a1woSWFZ8z+TRG+AVDq1LV+FtrmUWhT0M16v60QZ/prICzoTPY8ArWHJ/8zwrqB41y8I+iILuC+Jb427Hsw1287mxRwF0K7XlU85TZ0A=
+	t=1777583712; cv=none; b=e6KI+xhutArLETpOOTrPBmdifew3y8M4hP11Ydypp5/85uT+d6AJvsZ6dMY0dareYdf0IfMfbD69egGnvz5zx9zOqaV7Yyct62AszJ1WRldfqJDSmGhkc9rVzeQkWHaPcvbbKpLd+jyUlYybLeSKSYh26zgl1et4gWDZYQ6JQcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777582653; c=relaxed/simple;
-	bh=t9GtFBOV5pzaNCoC5lVpPdISdQHFpHZX2j4L8IQkSDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fUco+kqZxUaUXBChN859sOR201gElR+PjV7bA9VYvPF+oudeclnIuQejTWL0C3ZyXQi//1+zNGzF9suZDSbdKxKCQSW27TdYdLhuNtqK9R6ebmhRsXRmurkdd19tgeLfJVNzMVlUHzJK4xDbHcZZfGEVxXZuaLQB374V2Fq9Xsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTq28zEI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777583712; c=relaxed/simple;
+	bh=aoOFAQdEHetNra8ZBV5i3tjYRbiE0hW41hJs/mFbCeo=;
+	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=o7fm9U10d5rwSaBNUpZ6fDkeX1Vq3ywAlXFC8qCjwEZn7PM9hkOaq4RiTXWAXgm4ps7Q9UZJWDazVMMjdFCljd62D7VDax3navR3wgh2KufgBVuH/cBotEI3tBHoQH4FEplWuo7HM3RBGvqWPP3icyP157xp64V3BwiQU1mSah0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H1Op7dnJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTq28zEI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A5C5C2BCB3;
-	Thu, 30 Apr 2026 20:57:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H1Op7dnJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1578CC2BCB3;
+	Thu, 30 Apr 2026 21:15:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777582652;
-	bh=t9GtFBOV5pzaNCoC5lVpPdISdQHFpHZX2j4L8IQkSDk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GTq28zEIIpH3Qh1JqT++3AuJ5yzFY5gbiKyPheAT85NTsOv1xanN+1k351Ko7pAWK
-	 5jkD0kax9VSfK6Bf8NHbc5Mg3UGxAKuxAPWRRKLECT6wEIHGHce2XU6oDKYXi1Wn3c
-	 E65EDuke9zwbYAg6XZeR4ONqoZMx919+OJ1hkUGaABpbZ05EiHpntnLMDoAnE6ayrs
-	 I7HKtgbDFzuALS5i3XYaYlAgc7o6cUJLigQDvexsmSil1O9ckQxKT3A+uDwj77ooZk
-	 sUvGjVg2BOIuAxxDHOeS9x3VofvXEhdIGPfRx3hFY1rm+vQiOWaq8gTBBnNG91p/h/
-	 UMiMrb4X0bOGQ==
-Date: Thu, 30 Apr 2026 13:57:31 -0700
+	s=k20201202; t=1777583712;
+	bh=aoOFAQdEHetNra8ZBV5i3tjYRbiE0hW41hJs/mFbCeo=;
+	h=Date:Subject:From:To:Cc:From;
+	b=H1Op7dnJRBP6WjqbnkILMNm5yRNHG+2/A7CubKDwnPtg734r8AIe9aaiqzo8Im9Xt
+	 lfeXQcljhdgaY0ZKDdTkqcQrba3Z9mQ6rbQSGnF4X6ZYuMarphkdbkBDbBd93bl+Qm
+	 ePeu7g94bxUCOkfQq+8MsSDDRPIFv7NNDXO9SS6TcE9ZvdqG7w/9JP8gJ+JMlOG65h
+	 FxFuSBcaIeAH7ySADcCt2jzl9oOKe5MsqG/UxWKqmK2sAx9UDAXLz/Ivgmx052vUpy
+	 hSOTOT9hc3WIEW99v7ilIhve57H0s8Yb08z3SaY+qijUsW/N5hlJl/65J2bkgHVCdN
+	 gqw4Z6DLWmwPQ==
+Date: Thu, 30 Apr 2026 14:15:11 -0700
+Subject: [PATCHSET v5.1] libfuse: run fuse servers as a contained service
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 3/4] fuse: update file mode when updating acls
-Message-ID: <20260430205731.GV7739@frogsfrogsfrogs>
-References: <177747203969.4101397.1905820467457875817.stgit@frogsfrogsfrogs>
- <177747204051.4101397.16466232272715875212.stgit@frogsfrogsfrogs>
- <CAJnrk1bYYBf2qYBvhv=MFKvG-2VekKwHCuRS6tjva=tExw6Gdw@mail.gmail.com>
+To: bernd@bsbernd.com, djwong@kernel.org
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ linux-ext4@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev,
+ joannelkoong@gmail.com
+Message-ID: <177758363484.1314717.11777978893472254088.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1bYYBf2qYBvhv=MFKvG-2VekKwHCuRS6tjva=tExw6Gdw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 30, 2026 at 02:48:29PM +0100, Joanne Koong wrote:
-> On Wed, Apr 29, 2026 at 3:22 PM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > From: Darrick J. Wong <djwong@kernel.org>
-> >
-> > If someone sets ACLs on a file that can be expressed fully as Unix DAC
-> > mode bits, most local filesystems will then update the mode bits and
-> > drop the ACL xattr to reduce inefficiency in the file access paths.
-> > Let's do that too.  Note that means that we can setacl and end up with
-> > no ACL xattrs, so we also need to tolerate ENODATA returns from
-> > fuse_removexattr.
-> >
-> > Note that here we define a "local" fuse filesystem as one that uses
-> > fuseblk mode; we'll shortly add fuse servers that use iomap for the file
-> > IO path to that list.
-> >
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  fs/fuse/fuse_i.h |    2 +-
-> >  fs/fuse/acl.c    |   56 +++++++++++++++++++++++++++++++++++++++++++++++-------
-> >  2 files changed, 50 insertions(+), 8 deletions(-)
-> >
-> >
-> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > index 4c135a7edf54ac..0bcfb42592895c 100644
-> > --- a/fs/fuse/fuse_i.h
-> > +++ b/fs/fuse/fuse_i.h
-> > @@ -1050,7 +1050,7 @@ static inline struct fuse_mount *get_fuse_mount(struct inode *inode)
-> >         return get_fuse_mount_super(inode->i_sb);
-> >  }
-> >
-> > -static inline struct fuse_conn *get_fuse_conn(struct inode *inode)
-> > +static inline struct fuse_conn *get_fuse_conn(const struct inode *inode)
-> >  {
-> >         return get_fuse_mount_super(inode->i_sb)->fc;
-> >  }
-> > diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
-> > index cbde6ac1add35a..bee8a9a734f50a 100644
-> > --- a/fs/fuse/acl.c
-> > +++ b/fs/fuse/acl.c
-> > @@ -11,6 +11,18 @@
-> >  #include <linux/posix_acl.h>
-> >  #include <linux/posix_acl_xattr.h>
-> >
-> > +/*
-> > + * If this fuse server behaves like a local filesystem, we can implement the
-> > + * kernel's optimizations for ACLs for local filesystems instead of passing
-> > + * the ACL requests straight through to another server.
-> 
-> nit: "to the server" instead of "to another server"? another server
-> sounds like there's 2 servers
-> 
-> > + */
-> > +static inline bool fuse_inode_has_local_acls(const struct inode *inode)
-> > +{
-> > +       const struct fuse_conn *fc = get_fuse_conn(inode);
-> > +
-> > +       return fc->posix_acl && fuse_inode_is_exclusive(inode);
-> > +}
-> > +
-> >  static struct posix_acl *__fuse_get_acl(struct fuse_conn *fc,
-> >                                         struct inode *inode, int type, bool rcu)
-> >  {
-> > @@ -98,6 +110,8 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-> >         struct inode *inode = d_inode(dentry);
-> >         struct fuse_conn *fc = get_fuse_conn(inode);
-> >         const char *name;
-> > +       umode_t mode = inode->i_mode;
-> > +       const bool local_acls = fuse_inode_has_local_acls(inode);
-> >         int ret;
-> >
-> >         if (fuse_is_bad(inode))
-> > @@ -113,14 +127,25 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-> >         else
-> >                 return -EINVAL;
-> >
-> > +       /*
-> > +        * If the ACL can be represented entirely with changes to the mode
-> > +        * bits, then most filesystems will update the mode bits and delete
-> > +        * the ACL xattr.
-> > +        */
-> > +       if (acl && type == ACL_TYPE_ACCESS && local_acls) {
-> > +               ret = posix_acl_update_mode(idmap, inode, &mode, &acl);
-> > +               if (ret)
-> > +                       return ret;
-> > +       }
-> > +
-> >         if (acl) {
-> >                 unsigned int extra_flags = 0;
-> >                 /*
-> > -                * Fuse userspace is responsible for updating access
-> > -                * permissions in the inode, if needed. fuse_setxattr
-> > -                * invalidates the inode attributes, which will force
-> > -                * them to be refreshed the next time they are used,
-> > -                * and it also updates i_ctime.
-> > +                * For non-local filesystems, fuse userspace is responsible for
-> > +                * updating access permissions in the inode, if needed.
-> > +                * fuse_setxattr invalidates the inode attributes, which will
-> > +                * force them to be refreshed the next time they are used, and
-> > +                * it also updates i_ctime.
-> >                  */
-> >                 size_t size;
-> >                 void *value;
-> > @@ -137,9 +162,10 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-> >                 /*
-> >                  * Fuse daemons without FUSE_POSIX_ACL never changed the passed
-> >                  * through POSIX ACLs. Such daemons don't expect setgid bits to
-> > -                * be stripped.
-> > +                * be stripped, unless they've explicitly told the kernel to
-> > +                * take care of that.
-> 
-> nit: imo this would be clearer as its own sentence, eg "For local
-> filesystems, the kernel already handled sgid stripping in
-> posix_acl_update_mode() above".
-> 
-> >                  */
-> > -               if (fc->posix_acl &&
-> > +               if (fc->posix_acl && !local_acls &&
-> >                     !in_group_or_capable(idmap, inode,
-> >                                          i_gid_into_vfsgid(idmap, inode)))
-> >                         extra_flags |= FUSE_SETXATTR_ACL_KILL_SGID;
-> > @@ -148,6 +174,22 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-> >                 kfree(value);
-> >         } else {
-> >                 ret = fuse_removexattr(inode, name);
-> > +               /* If the acl didn't exist to start with that's fine. */
-> > +               if (ret == -ENODATA)
-> > +                       ret = 0;
-> > +       }
-> > +
-> > +       /* If we scheduled a mode update above, push that to userspace now. */
-> > +       if (!ret) {
-> > +               struct iattr attr = { };
-> > +
-> > +               if (mode != inode->i_mode) {
-> > +                       attr.ia_valid |= ATTR_MODE;
-> > +                       attr.ia_mode = mode;
-> > +               }
-> > +
-> > +               if (attr.ia_valid)
-> > +                       ret = fuse_do_setattr(idmap, dentry, &attr, NULL);
-> 
-> maybe something like this is clearer?
-> 
->     if (!ret && mode != inode->i_mode) {
->          struct iattr attr = {
->                 .ia_valid |= ATTR_MODE,
->                 .ia_mode = mode,
->           };
->          ret = fuse_do_setattr(idmap, dentry, &attr, NULL);
->     }
+Hi all,
 
-I know, you said that last time ;)
-https://lore.kernel.org/linux-fsdevel/CAJnrk1YL3KnON-WtNjNi+2GZ+6rYvnVUnYwCk5efv0o41XkxcA@mail.gmail.com/
+This patchset defines the necessary communication protocols and library
+code so that users can mount fuse servers that run in unprivileged
+systemd service containers.  That in turn allows unprivileged untrusted
+mounts, because the worst that can happen is that a malicious image
+crashes the fuse server and the mount dies, instead of corrupting the
+kernel's memory.
 
-and my reply is the same:
-https://lore.kernel.org/linux-fsdevel/20260325222308.GH6202@frogsfrogsfrogs/#t
+v5.1: fix some of the SCM_RIGHTS handling code, fix header inclusion
+      errors, improve documentation of example code, improve statx
+      flags handling, improve phony timestamp handling
+v5: Refactor socket IO into helpers, tighten the security checks in
+    mount_service.c, always set nosuid/nodev for unprivileged mounts,
+    use posix_spawnp in mount.fuse, restructure sample programs and hl
+    library code to avoid the need for unmounting during startup
+v4.1: fix various cppcheck/codecheck complaints
+v4: fix a large number of security problems that only matter when the
+    mount helper is being run as a setuid program; fix protocol
+    byteswapping problems; add CLOEXEC to all files being traded
+    back and forth; add an umount command; and strengthen mount socket
+    protocol checks.
+v3: refactor the sample code to reduce duplication; fix all the
+    checkpatch complaints; examples actually build standalone;
+    fuservicemount handles utab now; cleaned up meson feature detection;
+    handle MS_ flags that don't translate to MOUNT_ATTR_*
+v2: cleaned up error code handling and logging; add some example fuse
+    service; fuservicemount3 can now be a setuid program to allow
+    unprivileged userspace to fire up a contained filesystem driver.
+    This could be opening Pandora's box...
+v1: detach from fuse-iomap series
 
-...which is to say, does anyone think that's worth the churn?
+If you're going to start using this code, I strongly recommend pulling
+from my git trees, which are linked below.
 
-> 
-> Overall, this lgtm though.
-> 
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-
-Thanks!
+With a bit of luck, this should all go splendidly.
+Comments and questions are, as always, welcome.
 
 --D
 
-> Thanks,
-> Joanne
-> 
-> >         }
-> >
-> >         if (fc->posix_acl) {
-> >
-> 
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-service-container
+---
+Commits in this patchset:
+ * Refactor mount code / move common functions to mount_util.c
+ * mount_service: add systemd socket service mounting helper
+ * mount_service: create high level fuse helpers
+ * mount_service: use the new mount api for the mount service
+ * mount_service: update mtab after a successful mount
+ * util: hoist the fuse.conf parsing and setuid mode enforcement code
+ * util: fix checkpatch complaints in fuser_conf.[ch]
+ * mount_service: enable unprivileged users in a similar manner as fusermount
+ * mount.fuse3: integrate systemd service startup
+ * mount_service: allow installation as a setuid program
+ * example/service_ll: create a sample systemd service fuse server
+ * example/service: create a sample systemd service for a high-level fuse server
+ * nullfs: support fuse systemd service mode
+---
+ example/single_file.h                            |  195 ++
+ include/fuse.h                                   |   34 
+ include/fuse_service.h                           |  243 +++
+ include/fuse_service_priv.h                      |  161 ++
+ lib/fuse_i.h                                     |    3 
+ lib/mount_common_i.h                             |   22 
+ lib/mount_util.h                                 |    8 
+ lib/util.h                                       |   35 
+ util/fuser_conf.h                                |   62 +
+ util/mount_service.h                             |   49 +
+ .github/workflows/install-ubuntu-dependencies.sh |    4 
+ README.md                                        |    3 
+ doc/fuservicemount3.8                            |   32 
+ doc/meson.build                                  |    3 
+ example/meson.build                              |   26 
+ example/null.c                                   |   51 +
+ example/null.socket.in                           |   15 
+ example/null@.service                            |  102 +
+ example/service_hl.c                             |  240 +++
+ example/service_hl.socket.in                     |   15 
+ example/service_hl@.service                      |  102 +
+ example/service_ll.c                             |  329 +++
+ example/service_ll.socket.in                     |   15 
+ example/service_ll@.service                      |  102 +
+ example/single_file.c                            |  992 ++++++++++
+ include/meson.build                              |    4 
+ lib/fuse_service.c                               | 1248 +++++++++++++
+ lib/fuse_service_stub.c                          |  106 +
+ lib/fuse_versionscript                           |   18 
+ lib/helper.c                                     |  160 ++
+ lib/meson.build                                  |   17 
+ lib/mount.c                                      |   72 +
+ lib/mount_util.c                                 |    9 
+ meson.build                                      |   53 +
+ meson_options.txt                                |    9 
+ test/ci-build.sh                                 |   14 
+ util/fuser_conf.c                                |  398 ++++
+ util/fusermount.c                                |  363 ----
+ util/fuservicemount.c                            |   65 +
+ util/install_helper.sh                           |    6 
+ util/meson.build                                 |   24 
+ util/mount.fuse.c                                |  171 ++
+ util/mount_service.c                             | 2111 ++++++++++++++++++++++
+ 43 files changed, 7287 insertions(+), 404 deletions(-)
+ create mode 100644 example/single_file.h
+ create mode 100644 include/fuse_service.h
+ create mode 100644 include/fuse_service_priv.h
+ create mode 100644 lib/mount_common_i.h
+ create mode 100644 util/fuser_conf.h
+ create mode 100644 util/mount_service.h
+ create mode 100644 doc/fuservicemount3.8
+ create mode 100644 example/null.socket.in
+ create mode 100644 example/null@.service
+ create mode 100644 example/service_hl.c
+ create mode 100644 example/service_hl.socket.in
+ create mode 100644 example/service_hl@.service
+ create mode 100644 example/service_ll.c
+ create mode 100644 example/service_ll.socket.in
+ create mode 100644 example/service_ll@.service
+ create mode 100644 example/single_file.c
+ create mode 100644 lib/fuse_service.c
+ create mode 100644 lib/fuse_service_stub.c
+ create mode 100644 util/fuser_conf.c
+ create mode 100644 util/fuservicemount.c
+ create mode 100644 util/mount_service.c
+
