@@ -1,63 +1,63 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E7333F59E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 17:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540104779B9
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 17:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777569670; cv=none; b=bDbnofLW/51NTzFUqpa0y7onVUWJOyDLQlt9pngkwyWO918tyohTePyz6i6+1eMov9SubV2Rz+f+XSZM6DeWqDVrXPZ0SgR+d2LGNPBfZxm+Gon4UaXasxl9uc46BAsH3b4EXvW1qFfn0IAEEJRZxNrBZleYGpsaojobQsETIFM=
+	t=1777569673; cv=none; b=ZAJogkTvImAC8xebMrV5RugLQGhblAB/wJWN93WvJkSiMqD1cZp9EYiqDtHwRRMOrLf0HtZCghq9yFigsgUvTRgoVAwzLlsX8d8KdHF4YOstxNfDahbY+yztm++BtafcWZeU7QUFGpTWPE3I9+56AbDhqjhyzfeluoQ+7Y2yg0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777569670; c=relaxed/simple;
-	bh=Y6cqM4EvlGBOS6YziDRM0sHRZX+RsE98GsTLUFKYfi0=;
+	s=arc-20240116; t=1777569673; c=relaxed/simple;
+	bh=umo4zIPzLejFoJtAFxdj3s7yRQi2X8Xhk9rRZgAVPcY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d8zp/obv53WMrRyP5gn6WmEbCq3c46THVzQrSOLVk2Vqz2Zd7j9/zVqKock14I9gthglgV4pAfrvGpjw6ghSodj72Q0+4J1/uekXjCAsajriMDPt9laDR2Sb0nRp9sGZlRk8K2QRj6r18g6H9oWOsvmwtpmiVhGKFTZ1hg9hkHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nx90Pvv4; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=IahmiclgRh9ha/+fPFlRuZP9PnhECy3Oip4MRAnzbgSzlG8p4iZmw8dPjiMaRua5deAkhlNxxjh6RdKiq8Z0F5Iht9Vf8leeu1f5f6pAuYhCiYTMVbHou8UiAEkwTVIShjhKKukQT5VinGRaxlyg1H4KFtqFA8UfQUn6HoXUkQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p+4B8sGY; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nx90Pvv4"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-824b03d9787so126124b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 10:21:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p+4B8sGY"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b249d6ba0bso338195ad.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 10:21:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777569669; x=1778174469; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777569671; x=1778174471; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jr3axVcnDiZy1sAOlbAWcyfqiZ/0xXxvJPVhUZbgyfs=;
-        b=nx90Pvv44opU3V4qRyXp7aVoeh7IvNQQDHRXO7fQzfovzK/+ycjYt1ad9OudTduNzF
-         +ZL5N3s8uEtNjNLbmd0Jev/WbbzAW5OoddGF98RIzkVD1LN9XhCKRN7xyb9qc1HmiZWG
-         UgbtFQOd3IMNcE5BTZGPaay2G7dPMq2pYB8HPCGyM3TY4OuNJq8FputfcXq8eJSu/td5
-         W5OculZopKGJFtGL32ch9vIc1Y9RV7vx92/MdXoC1nRvrJdahQRApTuE6h4hc8nmZ0dj
-         p//XNsqWWq5hpKwdyHxs49HDCX243koCLRZqi3B8mDFLahv06Ln8VUAd5xm7NayQSTWM
-         Y3QQ==
+        bh=J6IbrhHuu9LdihQtZR7Baqf3GnWs6lIG8jJXLzb7smA=;
+        b=p+4B8sGYdZkBwT7u1Ri4neTsu00fmKitfGh5767VBrpUEpLHwDPXXNuFHE4cixHVL4
+         lsoEZNAsP618HIjTYJXHfNC4V2DpJMPaFdt87I0yp7OmyqM0NqeDb1d7MtEqkK2AzoQZ
+         +jyRgxFIIR7gYC91lPzLxvQ0tDAQHu4k5rNY5WZPOH8JEffUPkftp0+tmbl1Y8m7s9Go
+         sz2dtgf2ZgLHnHs2ytCaUTNQYH0yQFfdSLJZu66uycbZs1lzWmgckYSqr7L7OTffJTWr
+         cTXZ8RtTcabSMNmX2O+FaR6TZxOXu9cPq1AtdR7MBhXZFoBco5wuwd1TLK/+VD80p2rp
+         FSKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777569669; x=1778174469;
+        d=1e100.net; s=20251104; t=1777569671; x=1778174471;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=jr3axVcnDiZy1sAOlbAWcyfqiZ/0xXxvJPVhUZbgyfs=;
-        b=dYRycPghULEFQOQUA6gzHLLRl8UrWJ1vYxGntYfklWT1VHoGbo1yq+sUFYzbhiio0e
-         szqUVtvIMhMHEigp/S/gt2qShTlbESDhCcS/X6Bxb4XqLQWDfaUk4tPchmlKEkRspT/o
-         foRN5m92ueGwCzFpGu3iPdVAx25LH88J1H6SDYyQCCnlg9MQ9+VYHCDv9OWgwW8QbXSq
-         Bmrlvu1KxC/FPTX3F6KxQ+zmEEo7v2mBRKnmTRuGtNqDsJwGzGR2cGf8P0gbIze7ZVw8
-         cn9tyWycv7M9zWDkTYPyNIsqkrB3l3kndc8GH9qvGfFRLxETWdceIbl4KOBqv+JQnFLe
-         q2fg==
-X-Forwarded-Encrypted: i=1; AFNElJ/VzDJK7AIAbw1hUyBnguOPL4JPUsRvnNaUZ4rTHgRxguP6HZLH4JEAJcSYBDPL2juit37MB9RDIcNa9Wqn@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBEQaVOhyu95jQgE0Q69OHXqEm0G4XwUfXLNkD1SJaOdteINWD
-	n/oqFn+wb46f6R0lJG/wcAQtOTHVSjIMpclOMxQtSEK7Jmrp2/V+IMpC
-X-Gm-Gg: AeBDiesP7WbwrKW+0lcPb/+8HmFfDn4etlcQZpddtJDMpcGhZlYX/b1jmG022OJ6sru
-	yaL1SD1rK1W1hHt5JLvLApeb6LdlymMxQYOFzlI0Z/vn/eHPvzMlHGloVIU7h4MaewWnslenPd3
-	3Mnmo6o/buqTYXdlEyV+4KP1El7h7Cjuq6q8YQpnRFlDqYibSe913QzU9xX+81B0YrSF8UEb/JL
-	UCdm5/EqZ4J+mjg09B0P5UW8JTu2PCvQYB3P1nrw90ZTHLfTfatdLsiFNuEMA70oOWvezsnRuqe
-	zEbRDIl9AoDICS5BiuJHrKP9loQT/eNTvtz6NQUVZJCNl+36UTBxn3XsDu8iugOSmS1z3rFakqM
-	Boi4gbi8cLqL798KVJzssEKM6N7kII6WPnrtxoFa/CcT/hl0dA+JPLVDkSOtxGXyejp4o5frPWM
-	TqtcOJVlqlv24j11isAFsF+og34hc=
-X-Received: by 2002:a17:903:b06:b0:2ae:464f:fe3e with SMTP id d9443c01a7336-2b9a2861e94mr21157545ad.5.1777569668859;
-        Thu, 30 Apr 2026 10:21:08 -0700 (PDT)
+        bh=J6IbrhHuu9LdihQtZR7Baqf3GnWs6lIG8jJXLzb7smA=;
+        b=PwbaA75rJ1uRWLGHePcskffiTBIIFWyd0PU0Gpe8mTLF0HT22GsSxEJtuJbmAJ7s1i
+         qSNh0rBokTYkVxrzjSCPDhm8JqUTIEin6wmb6r23UQfqCPvkWHHaLo/g63Mx1CgItG7a
+         OlrAb9dAy2qmJb43CLhCUHseVsj7+8c9Uyc5bEfVnWObvmxbte+Ll+SxIBYLXIKJk4h2
+         3FHusDjRKuXkqBizk4pYTtedoq9HC0LumpCaicFH5GzbIPMAlV0PQQ/cFmrhfQ9hEhG/
+         XVs5aCSlAJiJMhFVolJOlt9HWkFDQlp+S9hykJpnowI7NYnmBIS5ISzae8PZurcR66j+
+         wOqA==
+X-Forwarded-Encrypted: i=1; AFNElJ/QXLiNGAIMXGQAta18TiwLcHyH7KD4MFLGDHdZ8oV4fnYA2AOsw2w/EpUUzasj8Vpbvts03ixRCVGZGqjk@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy41DuwYowDO99SvYE6dbKn9tchVqGx5he4/rflYZhBCJ6hzLNP
+	HBT5s4zD0R/kfi8OVi7TURFt9Z1xx8MiX/LqTOXelj4PdPeEIS9g9qiZ
+X-Gm-Gg: AeBDiet8UcX65JCskY8RD6M/+4oEcyCq++GVRsgToXXuDS2F6hS6GymiFfHJ0gblqQn
+	dzhzna+YE+cYfIqp3XEWG8sPOgSBl0yEI7AE3aBt4JrtNNtzF2orymo2Nj+jkA5QvK6fQUdBUPs
+	h1s0QqmuxZBb6hxfNg4EmZMsO2bQc4YmFsD/Sjw5B+ZLioUPnASsEKi1rhIuTbPjqB2Hu/sRVve
+	d3/2pE062XDDfikSYndvv8sEzNp9ORduqjn+6lR0ln2iYCdrJx6XCoQVbjrqMsdBrDJFLkNbBva
+	F4XL0qD4UjuOgmnpmnCEYdMRVc3Hx/2fj1n0hwRgV1BtqO7c5KSPT0A0ZfwDPWnKlKMpHitsydp
+	JG7ZkWTTuhvFub8uGpk4xykgzQH/tpxLtKbEM6eZYw2ejBAbS/auAIBk6MVnYNGxlNBF0zlwFRX
+	S0gr+Sny1xK7sgWjNe8Zi0rOV+Tbg=
+X-Received: by 2002:a17:902:f650:b0:2ae:3f3f:67c4 with SMTP id d9443c01a7336-2b9a1cf7d35mr21854375ad.0.1777569671378;
+        Thu, 30 Apr 2026 10:21:11 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caa7e7besm2043795ad.12.2026.04.30.10.21.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caa7e7besm2043795ad.12.2026.04.30.10.21.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 10:21:08 -0700 (PDT)
+        Thu, 30 Apr 2026 10:21:11 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
@@ -65,9 +65,9 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH 2/3] ntfs: redirty folio when ntfs_write_mft_block() runs out of memory
-Date: Fri,  1 May 2026 02:20:54 +0900
-Message-ID: <0d61bd7f181f4e46207572c5d8a4b026e370a57b.1777568957.git.charsyam@gmail.com>
+Subject: [PATCH 3/3] ntfs: capture mft mirror sync errors in ntfs_write_mft_block()
+Date: Fri,  1 May 2026 02:20:55 +0900
+Message-ID: <f83cb152b97cbc98a4850caf0a23a229db5b9e98.1777568957.git.charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1777568957.git.charsyam@gmail.com>
 References: <cover.1777568957.git.charsyam@gmail.com>
@@ -79,40 +79,44 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ntfs_write_mft_block() is called by writeback_iter() with the folio
-locked.  When the per-call allocations for @locked_nis or @ref_inos
-fail, the function returns -ENOMEM directly without unlocking the
-folio.  Any later task that needs the folio's lock then stalls, and
-the folio's dirty state is silently lost from the writeback
-iterator's point of view.
+After ntfs_sync_mft_mirror() became able to return real I/O errors,
+ntfs_write_mft_block() still discards its return value at the call
+site inside the per-record loop.  A failed $MFTMirr write therefore
+leaves the volume looking clean from the writeback path even though
+the on-disk mirror is now stale.
 
-Use folio_redirty_for_writepage() so the folio remains dirty for a
-subsequent writeback pass, unlock it, and only then return -ENOMEM
-so the caller can propagate the error to fsync()/sync_filesystem().
+Capture the return value and feed it into the function's existing
+@err variable using the same "first error wins" pattern already used
+on other failure paths.  The error is propagated to the caller and,
+via the existing tail of the function, sets NVolErrors so umount and
+chkdsk see the volume as inconsistent.
 
-Fixes: f462fdf3d6a4 ("ntfs: reduce stack usage in ntfs_write_mft_block()")
+Fixes: 115380f9a2f9 ("ntfs: update mft operations")
 Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 ---
- fs/ntfs/mft.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ fs/ntfs/mft.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
-index 4051b4823162..00f172fd1b21 100644
+index 00f172fd1b21..866816f710b5 100644
 --- a/fs/ntfs/mft.c
 +++ b/fs/ntfs/mft.c
-@@ -2740,8 +2740,11 @@ static int ntfs_write_mft_block(struct folio *folio, struct writeback_control *w
- 	ntfs_debug("Entering for inode 0x%llx, attribute type 0x%x, folio index 0x%lx.",
- 			ni->mft_no, ni->type, folio->index);
+@@ -2862,9 +2862,13 @@ static int ntfs_write_mft_block(struct folio *folio, struct writeback_control *w
+ 			}
+ 			prev_mft_ofs = mft_ofs;
  
--	if (!locked_nis || !ref_inos)
-+	if (!locked_nis || !ref_inos) {
-+		folio_redirty_for_writepage(wbc, folio);
-+		folio_unlock(folio);
- 		return -ENOMEM;
-+	}
- 
- 	/* We have to zero every time due to mmap-at-end-of-file. */
- 	if (folio->index >= (i_size >> folio_shift(folio)))
+-			if (mft_no < vol->mftmirr_size)
+-				ntfs_sync_mft_mirror(vol, mft_no,
++			if (mft_no < vol->mftmirr_size) {
++				int sub_err = ntfs_sync_mft_mirror(vol, mft_no,
+ 						(struct mft_record *)(kaddr + mft_ofs));
++
++				if (unlikely(sub_err) && !err)
++					err = sub_err;
++			}
+ 		} else if (ref_inos[nr_ref_inos])
+ 			nr_ref_inos++;
+ 	}
 -- 
 2.43.0
 
