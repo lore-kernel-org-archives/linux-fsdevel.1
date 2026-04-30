@@ -1,63 +1,63 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46EE477992
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 17:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E7333F59E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 17:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777569666; cv=none; b=fImDFw3DQ6G5Wv6hVYccvgJVD1hcHnSFl01uSmx9Atd+4LLt4Wb2uIUJ13u5kAiZ5hS6iQQpcpbhxwmQChCzFl9/nhG5Mi5auBK03ONAkd4ikwiWtThlP8++xz/qBV1rdDuvcFFpJB2UMv7CrllgAWRQxW13UMS3OJeXdgG9xY8=
+	t=1777569670; cv=none; b=bDbnofLW/51NTzFUqpa0y7onVUWJOyDLQlt9pngkwyWO918tyohTePyz6i6+1eMov9SubV2Rz+f+XSZM6DeWqDVrXPZ0SgR+d2LGNPBfZxm+Gon4UaXasxl9uc46BAsH3b4EXvW1qFfn0IAEEJRZxNrBZleYGpsaojobQsETIFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777569666; c=relaxed/simple;
-	bh=bhrIiFkqisYrNnLDHJt2WB+bQ8eTaLnEMB4CU7n8KPU=;
+	s=arc-20240116; t=1777569670; c=relaxed/simple;
+	bh=Y6cqM4EvlGBOS6YziDRM0sHRZX+RsE98GsTLUFKYfi0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OAWwpzXy4mrxzvmMouU2mV8GNeSA2c6uGXAT5os1Tm1ipaWf2m79Oy2NJkHhvX4JrGrsKc/NRWzzYLwfNdW8IAZ5VboWj1CLWUTjg3A4MHyK8xW3BY6YcJ54Vf91yrKc5zFf3pXvO456ZKVBDiBIoa43QPCf3wugHjcT5CbvYsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sl3pODq9; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=d8zp/obv53WMrRyP5gn6WmEbCq3c46THVzQrSOLVk2Vqz2Zd7j9/zVqKock14I9gthglgV4pAfrvGpjw6ghSodj72Q0+4J1/uekXjCAsajriMDPt9laDR2Sb0nRp9sGZlRk8K2QRj6r18g6H9oWOsvmwtpmiVhGKFTZ1hg9hkHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nx90Pvv4; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sl3pODq9"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ae1255a90bso1578775ad.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 10:21:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nx90Pvv4"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-824b03d9787so126124b3a.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 10:21:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777569663; x=1778174463; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777569669; x=1778174469; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0rkZuFsQKFtmCUkCnQjdOLllhL4V1PYXXSXU9jElRg0=;
-        b=sl3pODq9mP2Ee2WVxhH3kPdRuQPydc5PKfZ6GaBSehwf0DVpOSdWLJiwgA67Dd/lgR
-         R3J+32iSQOLAkKvYjRaNlWdXkHti3c+KLEcV04xmRHxphwXAGjOxzYFlC2e8G8Wdvtvk
-         pAR9we3lixXLaOAdsMW25p50NqFIRTr6Qi3bzcmisdwKklLqFqDBlmurgZnaX3rFvM3P
-         Dk9w3lZgRhN85iS56qLoPUMHWqkS8nfdzUsP2R8sTGd/gSvCo8KO0AE/123oP7ph//y5
-         YY5ueB+YTY5tK78ExlSpxIcgw6BmNLdyJ21EntqXeR48SWaZCz0VOT++BuqJaQCFg21D
-         UVnA==
+        bh=jr3axVcnDiZy1sAOlbAWcyfqiZ/0xXxvJPVhUZbgyfs=;
+        b=nx90Pvv44opU3V4qRyXp7aVoeh7IvNQQDHRXO7fQzfovzK/+ycjYt1ad9OudTduNzF
+         +ZL5N3s8uEtNjNLbmd0Jev/WbbzAW5OoddGF98RIzkVD1LN9XhCKRN7xyb9qc1HmiZWG
+         UgbtFQOd3IMNcE5BTZGPaay2G7dPMq2pYB8HPCGyM3TY4OuNJq8FputfcXq8eJSu/td5
+         W5OculZopKGJFtGL32ch9vIc1Y9RV7vx92/MdXoC1nRvrJdahQRApTuE6h4hc8nmZ0dj
+         p//XNsqWWq5hpKwdyHxs49HDCX243koCLRZqi3B8mDFLahv06Ln8VUAd5xm7NayQSTWM
+         Y3QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777569663; x=1778174463;
+        d=1e100.net; s=20251104; t=1777569669; x=1778174469;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0rkZuFsQKFtmCUkCnQjdOLllhL4V1PYXXSXU9jElRg0=;
-        b=ZmXLT7BHmC33zqh4dskwrv8T1pKhPH4DO6+FzJgFywtnq+eiIaxab7Bw39sfZPWjvl
-         1MuD7jKJx3HyqoFtDS+cpXq6/GZ7PINAa4UFdiKbIiuR1BEKzyU89fY3afl+uGOtCV/a
-         QRK/3MYNo+AI0GWd3hlN0eXfbsrNv5z+tHLSJkQOEZ1ZZQQg+rk+LMfujzqQ4eVnFhHJ
-         3YBZ8v2TXHzzC7+AFqOwu2GZIsWgQ9pI9OR4eWNlhYKxFZM2GpwE2Mz3YlnyCnRXflw3
-         FLFGQIsvDUgynfD+ZGXbRJqrzz1rjcQzIMPmvii6AGSpbUbOiH591QakT8G8L8zp4Ptp
-         ZKPg==
-X-Forwarded-Encrypted: i=1; AFNElJ+8yTLZLdjJ47A+NyWL0mFsw+Na8VOv5IcrU5mhxtX6+0vgIQ+CW2e81Y2MECMuMgI6vXbbxvEqbl3wx6sx@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDNJg5IS5ClIW1Kb3VatbE6oPUUBn1InDh3O0+WHEIa23YFuGq
-	AEsTS9ftJ6XPKvR9cvbJnuKrNC4IOYkhpufiBO6gcbYja9WT1WYi4E7Y
-X-Gm-Gg: AeBDieskOlPPWNAoSbDOJEsZq/S5C4WaOBcNH7wLAFqjm2danplaxgSiLNUulf48Zu0
-	zN4bK1qlq1OwSlH4k6EiWQUXGvmrSFZMWF2RKuiqlBbluL6yniuBFjRVX6wvU6YIn2uoZj64opZ
-	DkwAKYLvOy+xEYPPp/OjgN0DwkTjVvdNDpJLDN5+7WxpGh6ImRxBf23ZGzg2kJteplAKN+Cr301
-	vajL3c/tr8Wk0CoXR7a9+1/zCCrMYo/zUPLxTZLTwTWZWzVCG1LV/zXt3n81sG2hraR3l/UhoLk
-	5yxCONHfqjAgathdRVtpcusnn9rCX/ouWOI/3qYVXO5iatlBcl7kXkuo1Ao0QP/rWVQ3Di1nV5Y
-	wB+IV0h2ZhXGW/XwIYEplGMfz/oOBMQpij+xcJnLk18oRfsnJA75S5VmL4078wAi8FRToG+nq4T
-	loXrjM722aRjpz5WJyW+amqkfaO+8=
-X-Received: by 2002:a17:902:7c06:b0:2b9:5926:d057 with SMTP id d9443c01a7336-2b9a1d2c524mr15730205ad.0.1777569662739;
-        Thu, 30 Apr 2026 10:21:02 -0700 (PDT)
+        bh=jr3axVcnDiZy1sAOlbAWcyfqiZ/0xXxvJPVhUZbgyfs=;
+        b=dYRycPghULEFQOQUA6gzHLLRl8UrWJ1vYxGntYfklWT1VHoGbo1yq+sUFYzbhiio0e
+         szqUVtvIMhMHEigp/S/gt2qShTlbESDhCcS/X6Bxb4XqLQWDfaUk4tPchmlKEkRspT/o
+         foRN5m92ueGwCzFpGu3iPdVAx25LH88J1H6SDYyQCCnlg9MQ9+VYHCDv9OWgwW8QbXSq
+         Bmrlvu1KxC/FPTX3F6KxQ+zmEEo7v2mBRKnmTRuGtNqDsJwGzGR2cGf8P0gbIze7ZVw8
+         cn9tyWycv7M9zWDkTYPyNIsqkrB3l3kndc8GH9qvGfFRLxETWdceIbl4KOBqv+JQnFLe
+         q2fg==
+X-Forwarded-Encrypted: i=1; AFNElJ/VzDJK7AIAbw1hUyBnguOPL4JPUsRvnNaUZ4rTHgRxguP6HZLH4JEAJcSYBDPL2juit37MB9RDIcNa9Wqn@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBEQaVOhyu95jQgE0Q69OHXqEm0G4XwUfXLNkD1SJaOdteINWD
+	n/oqFn+wb46f6R0lJG/wcAQtOTHVSjIMpclOMxQtSEK7Jmrp2/V+IMpC
+X-Gm-Gg: AeBDiesP7WbwrKW+0lcPb/+8HmFfDn4etlcQZpddtJDMpcGhZlYX/b1jmG022OJ6sru
+	yaL1SD1rK1W1hHt5JLvLApeb6LdlymMxQYOFzlI0Z/vn/eHPvzMlHGloVIU7h4MaewWnslenPd3
+	3Mnmo6o/buqTYXdlEyV+4KP1El7h7Cjuq6q8YQpnRFlDqYibSe913QzU9xX+81B0YrSF8UEb/JL
+	UCdm5/EqZ4J+mjg09B0P5UW8JTu2PCvQYB3P1nrw90ZTHLfTfatdLsiFNuEMA70oOWvezsnRuqe
+	zEbRDIl9AoDICS5BiuJHrKP9loQT/eNTvtz6NQUVZJCNl+36UTBxn3XsDu8iugOSmS1z3rFakqM
+	Boi4gbi8cLqL798KVJzssEKM6N7kII6WPnrtxoFa/CcT/hl0dA+JPLVDkSOtxGXyejp4o5frPWM
+	TqtcOJVlqlv24j11isAFsF+og34hc=
+X-Received: by 2002:a17:903:b06:b0:2ae:464f:fe3e with SMTP id d9443c01a7336-2b9a2861e94mr21157545ad.5.1777569668859;
+        Thu, 30 Apr 2026 10:21:08 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caa7e7besm2043795ad.12.2026.04.30.10.21.01
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caa7e7besm2043795ad.12.2026.04.30.10.21.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 10:21:02 -0700 (PDT)
+        Thu, 30 Apr 2026 10:21:08 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
@@ -65,9 +65,9 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH 1/3] ntfs: wait for sync mft writes to complete
-Date: Fri,  1 May 2026 02:20:53 +0900
-Message-ID: <afaac877edbd92ee82bb443ca35fd110f823a31d.1777568957.git.charsyam@gmail.com>
+Subject: [PATCH 2/3] ntfs: redirty folio when ntfs_write_mft_block() runs out of memory
+Date: Fri,  1 May 2026 02:20:54 +0900
+Message-ID: <0d61bd7f181f4e46207572c5d8a4b026e370a57b.1777568957.git.charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1777568957.git.charsyam@gmail.com>
 References: <cover.1777568957.git.charsyam@gmail.com>
@@ -79,152 +79,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ntfs_sync_mft_mirror() and write_mft_record_nolock() with @sync set
-are both documented as synchronous, but neither actually waits for
-the bio they submit nor inspects bi_status.  write_inode() can
-return success while dirty mft record bytes are still in flight, and
-bio errors are silently dropped: the volume is not marked with
-errors and the inode is not redirtied.  This breaks fsync()/sync
-metadata durability.
+ntfs_write_mft_block() is called by writeback_iter() with the folio
+locked.  When the per-call allocations for @locked_nis or @ref_inos
+fail, the function returns -ENOMEM directly without unlocking the
+folio.  Any later task that needs the folio's lock then stalls, and
+the folio's dirty state is silently lost from the writeback
+iterator's point of view.
 
-Switch ntfs_sync_mft_mirror() and the @sync path of
-write_mft_record_nolock() to submit_bio_wait() and propagate the
-returned error to the caller.  Capture ntfs_sync_mft_mirror()'s
-return value at its call sites in write_mft_record_nolock() so a
-mirror write failure surfaces too.
+Use folio_redirty_for_writepage() so the folio remains dirty for a
+subsequent writeback pass, unlock it, and only then return -ENOMEM
+so the caller can propagate the error to fsync()/sync_filesystem().
 
-The @sync parameter only controls the main MFT bio.  The !@sync main
-submission is therefore unchanged and still uses ntfs_bio_end_io() to
-drop the folio reference taken before submission.  The mirror call
-has always been documented as performing synchronous I/O regardless
-of @sync, so making it actually block restores the originally
-intended contract for both @sync and !@sync callers.
-
-Note this only fixes the synchronous mirror/main paths reachable
-from write_mft_record_nolock().  The main MFT write submitted from
-ntfs_write_mft_block() (the .writepages path) still does not wait
-for completion or check bi_status; that requires a larger
-restructuring and is left to a follow-up patch.
-
-Fixes: 115380f9a2f9 ("ntfs: update mft operations")
+Fixes: f462fdf3d6a4 ("ntfs: reduce stack usage in ntfs_write_mft_block()")
 Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 ---
- fs/ntfs/mft.c | 63 +++++++++++++++++++++++++++++++++------------------
- 1 file changed, 41 insertions(+), 22 deletions(-)
+ fs/ntfs/mft.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
-index 7d989267a82b..4051b4823162 100644
+index 4051b4823162..00f172fd1b21 100644
 --- a/fs/ntfs/mft.c
 +++ b/fs/ntfs/mft.c
-@@ -449,7 +449,7 @@ static void ntfs_bio_end_io(struct bio *bio)
- int ntfs_sync_mft_mirror(struct ntfs_volume *vol, const u64 mft_no,
- 		struct mft_record *m)
- {
--	u8 *kmirr = NULL;
-+	u8 *kmirr;
- 	struct folio *folio;
- 	unsigned int folio_ofs, lcn_folio_off = 0;
- 	int err = 0;
-@@ -479,6 +479,7 @@ int ntfs_sync_mft_mirror(struct ntfs_volume *vol, const u64 mft_no,
- 	kmirr = kmap_local_folio(folio, 0) + folio_ofs;
- 	/* Copy the mst protected mft record to the mirror. */
- 	memcpy(kmirr, m, vol->mft_record_size);
-+	kunmap_local(kmirr);
+@@ -2740,8 +2740,11 @@ static int ntfs_write_mft_block(struct folio *folio, struct writeback_control *w
+ 	ntfs_debug("Entering for inode 0x%llx, attribute type 0x%x, folio index 0x%lx.",
+ 			ni->mft_no, ni->type, folio->index);
  
- 	if (vol->cluster_size_bits > PAGE_SHIFT) {
- 		lcn_folio_off = folio->index << PAGE_SHIFT;
-@@ -490,20 +491,22 @@ int ntfs_sync_mft_mirror(struct ntfs_volume *vol, const u64 mft_no,
- 		NTFS_B_TO_SECTOR(vol, NTFS_CLU_TO_B(vol, vol->mftmirr_lcn) +
- 				 lcn_folio_off + folio_ofs);
- 
--	if (!bio_add_folio(bio, folio, vol->mft_record_size, folio_ofs)) {
-+	if (bio_add_folio(bio, folio, vol->mft_record_size, folio_ofs))
-+		err = submit_bio_wait(bio);
-+	else
- 		err = -EIO;
--		bio_put(bio);
--		goto unlock_folio;
--	}
-+	bio_put(bio);
- 
--	bio->bi_end_io = ntfs_bio_end_io;
--	submit_bio(bio);
--	/* Current state: all buffers are clean, unlocked, and uptodate. */
-+	/*
-+	 * The in-memory mirror is now valid because we just memcpy()'d the
-+	 * mst-protected mft record into it.  Mark the folio uptodate even on
-+	 * write error so a subsequent read_mapping_folio() does not refetch
-+	 * the stale on-disk mirror and overwrite this copy.  The error is
-+	 * propagated to the caller via @err.
-+	 */
- 	folio_mark_uptodate(folio);
- 
--unlock_folio:
- 	folio_unlock(folio);
--	kunmap_local(kmirr);
- 	folio_put(folio);
- 	if (likely(!err)) {
- 		ntfs_debug("Done.");
-@@ -588,20 +591,36 @@ int write_mft_record_nolock(struct ntfs_inode *ni, struct mft_record *m, int syn
- 		}
- 
- 		/* Synchronize the mft mirror now if not @sync. */
--		if (!sync && ni->mft_no < vol->mftmirr_size)
--			ntfs_sync_mft_mirror(vol, ni->mft_no, fixup_m);
-+		if (!sync && ni->mft_no < vol->mftmirr_size) {
-+			int sub_err = ntfs_sync_mft_mirror(vol, ni->mft_no,
-+							   fixup_m);
-+			if (unlikely(sub_err) && !err)
-+				err = sub_err;
-+		}
- 
--		folio_get(folio);
--		bio->bi_private = folio;
--		bio->bi_end_io = ntfs_bio_end_io;
--		submit_bio(bio);
-+		if (sync) {
-+			int sub_err = submit_bio_wait(bio);
-+
-+			bio_put(bio);
-+			if (unlikely(sub_err) && !err)
-+				err = sub_err;
-+		} else {
-+			folio_get(folio);
-+			bio->bi_private = folio;
-+			bio->bi_end_io = ntfs_bio_end_io;
-+			submit_bio(bio);
-+		}
- 		offset += vol->cluster_size;
- 		i++;
- 	}
- 
- 	/* If @sync, now synchronize the mft mirror. */
--	if (sync && ni->mft_no < vol->mftmirr_size)
--		ntfs_sync_mft_mirror(vol, ni->mft_no, fixup_m);
-+	if (sync && ni->mft_no < vol->mftmirr_size) {
-+		int sub_err = ntfs_sync_mft_mirror(vol, ni->mft_no, fixup_m);
-+
-+		if (unlikely(sub_err) && !err)
-+			err = sub_err;
+-	if (!locked_nis || !ref_inos)
++	if (!locked_nis || !ref_inos) {
++		folio_redirty_for_writepage(wbc, folio);
++		folio_unlock(folio);
+ 		return -ENOMEM;
 +	}
- 	kunmap_local(kaddr);
- 	if (unlikely(err)) {
- 		/* I/O error during writing.  This is really bad! */
-@@ -617,10 +636,10 @@ int write_mft_record_nolock(struct ntfs_inode *ni, struct mft_record *m, int syn
- 	bio_put(bio);
- err_out:
- 	/*
--	 * Current state: all buffers are clean, unlocked, and uptodate.
--	 * The caller should mark the base inode as bad so that no more i/o
--	 * happens.  ->drop_inode() will still be invoked so all extent inodes
--	 * and other allocated memory will be freed.
-+	 * The caller should mark the base inode as bad so no more I/O
-+	 * happens. ->drop_inode() will still be invoked so all extent inodes
-+	 * and other allocated memory will be freed. ENOMEM is retried by
-+	 * redirtying the mft record below.
- 	 */
- 	if (err == -ENOMEM) {
- 		ntfs_error(vol->sb,
+ 
+ 	/* We have to zero every time due to mmap-at-end-of-file. */
+ 	if (folio->index >= (i_size >> folio_shift(folio)))
 -- 
 2.43.0
 
