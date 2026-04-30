@@ -1,291 +1,181 @@
-Received: from mx07-001d1705.pphosted.com (mx07-001d1705.pphosted.com [185.132.183.11])
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4343793C3
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 11:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.132.183.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DF240149B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 11:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=216.71.154.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777549746; cv=fail; b=ZD7GLFgl3S85Zi847yg2K+VH0CwWUyNIoyzY3QodLmx//5HtBxbLotf+DBlw29WeAvd6MXrjQR62weHbpIvyuyj19NvrfZxqTrwgs3eJRgrinn9DiUoW3nKTfMqg3NnKA3+2PQ9vh7u2a6H1IqdHSQHzMAhjtLY5lI5MVUnCYsU=
+	t=1777550000; cv=fail; b=KO50qxQn/7IWtHymfscHy6HD6yMDGaN3Epsq5Jv4dvz+6azDo54Qtt7AgpJBu3xDz7dA1OF/PEs9ZnXlGxMdCPcpBaD8AZ2EkRwHYjT26bUO5vjnW2yHGLZU1QExy8/AEAx0cVxPcqGZlG3q6TrG11REVJ5e457wu3EQWDUtBLM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777549746; c=relaxed/simple;
-	bh=Kwf2ty0g4VesizK+3cju2b4skDeI3DH/vCl2FktxGCY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=gV9JKAmhpAlieSLLTrBORxHxWHzI/Quol/2Rdj1Ajs17V5g433GPT/iIHCiKtZqPxVer1yETDqrpXmHkt/54NXE7bHlg22CF4aJdMreRu9wBRBg53S+OhmPHrGNxPZW4a5/6yBobJWaVr0iWfPXaYXXNDQxQcxdd60X9OVIvDbU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=FBehzFhK; arc=fail smtp.client-ip=185.132.183.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	s=arc-20240116; t=1777550000; c=relaxed/simple;
+	bh=XhNYGOT5/sAuvScIor7owlL20fbN+hufFjmzN+MJiEo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=m2mfyQzYi2tCt2H5Mkp4T/fTjo+fe4VAdzofHLk76lKQQeNEa0WubmstxQqeK1+mkgnQ4GSGzBCAu1RhEbJEf17LX9U0NcbR6KQu3NIwtfRL8XxWbVDiSrrL9bp/yueyukL0IPJDNTmEVT/FcuONTQYTVsHC2ftZ1izKSnNG4cQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=VpD1bif+; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=ysVYgp8V; arc=fail smtp.client-ip=216.71.154.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="FBehzFhK"
-Received: from pps.filterd (m0209326.ppops.net [127.0.0.1])
-	by mx08-001d1705.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63UBLcmA3828113;
-	Thu, 30 Apr 2026 11:48:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=p1; bh=NLyTHDq
-	HY7t3IyoT42W4fZKMdwEradQjgUdFRFcJ4Sg=; b=FBehzFhKSh849Zk06NSgZ2d
-	5H+fYDfMolNIU0QL7ZeWcf3UII3BB7VduiEn2TvTT0WwtnQJr6q2RlMC8VE4iFi3
-	LPbFkcz7vDmpwIRVBClLd39N3AyTheR8Mp7eUqBcByq+T9rGLsb/J4mm7JLVedw/
-	P17oUl2vYWns1DYDU+/nicaEnVShys3d6UjW4F2MZECISBnoBGkigRAnby8gXpGN
-	9i0QRl+EGTqW+NeXMdgl0nzs2lhwaMiFB6TrmjWC4IjQxgxdYHlHLTDIaDQ8BK2d
-	U+5OBG4O2j2NX6hEOA+0Y0GgAmGuSDu43fcEbBJeb1QlWhwRfku9A2C/8OQikNA=
-	=
-Received: from os8pr02cu002.outbound.protection.outlook.com (mail-japanwestazon11012029.outbound.protection.outlook.com [40.107.75.29])
-	by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 4drktdnshv-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Thu, 30 Apr 2026 11:48:44 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="VpD1bif+";
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="ysVYgp8V"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1777549996; x=1809085996;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=XhNYGOT5/sAuvScIor7owlL20fbN+hufFjmzN+MJiEo=;
+  b=VpD1bif+/jZt7HCS7wgojpNhcW0W0gTlTsgYcUxYrT2bbYwJEHUb2VI/
+   HukSejiyh24OxMrUzFenQcGFXtYLiM8I92L8nRJgVfLcRr2sRU0eP2Pop
+   LpOCu5Lh3Yfnj9kCqtnBVHIfIjuhbJAZjiV2ZBobs8a+QTjUYdWX6wJW0
+   IYW8FhMuJZ9fEDIK3gFLTrv76N9HjLI8LkOmY6bPLaOmirnLQDjiTCUYV
+   KfB7lxVTe0TtDDU912Q+fGosn8Xw0YeK84DI5mVxeKplUrVcl1kKBc1eW
+   EsL7OPhTw4CYE2fz31wc7zTXAHBqEPJjTuqvXzkyeJ3+uLTlTgPcVvQfB
+   Q==;
+X-CSE-ConnectionGUID: 7VavyClTTgmzmz8MIVmYOA==
+X-CSE-MsgGUID: oA34q3tXS96WcumkUGt8BQ==
+X-IronPort-AV: E=Sophos;i="6.23,208,1770566400"; 
+   d="scan'208";a="144483417"
+Received: from mail-westus3azon11012056.outbound.protection.outlook.com (HELO PH8PR06CU001.outbound.protection.outlook.com) ([40.107.209.56])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 30 Apr 2026 19:53:13 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nnVUNJJBgAKu5fbBJGkvEoSf6Gi7cgnuqY5MmqF6T9gFsBeblGAES3jq+QQNPMWcE/XR9mNLXX4vBF6e2GR64XI4GV/LdVdZ3NKv0QMWUuieo5ZqPZZMgRc/nBwEzIL9UAqJOL5jjoe+k64cf6P1wlJwnmRyUMQuxgbfL2O0Hj4qez+tCNHmJkHJuPWDknJ4rTcohEaOLfju8vtvYtDzS8ht+hEVi1NEtB+HVjePNIX3u5IPXFEIyHbFiln2PdjmNxYgCRPsZwRwoQhZ5MhOBMaKeaBNb07PanterkLY69HF1V3pIQ2g4JgrTSfDB9qRbk/mzrCSTfk7LmxABeElwQ==
+ b=bWAxXiITD9GkQSg1ubGNWkqxwFQelWucuN/NQsJmUywel0k1ISdnPosBnJgOiNcWsov16O91AaiBqGuyy6Z+ksho4ku9DU9xG2nvi5SardoTupbczPYQleqEs48dUuWZmOIZaJSv7C4W7/yNUA7tilvNcXRrWiS5NMh2T16m7cj43jcxUO1ySDjvTZr0/uJ0cUjEiQMhOh+p0GWkSKwlY4YXmfFeyr7HOyKrA9d/uw3WLi/L1Y+mXKfMrnuhQPJlXvVjAwXAtCwpzl8hdTaQex++6odpLxDQJUNXT5HKJJegIglQ5SsZpCzzXNYKKO7UY0MUEz61VDPrKj9VVBqjxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NLyTHDqHY7t3IyoT42W4fZKMdwEradQjgUdFRFcJ4Sg=;
- b=h6HfzLG1xRO2aYsETyFV0ukEzOdeumoUAwnQ7eDBwFuGKaXyNPkAT/hb0YG8AbYtvi3KI0q5SZ9Fej28HI6SEwHQwqhdcb6Mam8AlYp7q1ix1Piw4/Dsq99ets4JfCvs4tUPI/BOxlHdZFlqOG68DMD7ug1+X8ED+b6yWsZCBB9mC7SRmLZrmArwZDG5G/Pj8xyakj6jirZ9UxzymVqq1y3cyA9DoDoGk4Ej4WzlXQo2TSnQPPPNgGLrTvTugIjidXzelw7xc3avdIG8PglP61mozMCcgtUltoK+PLulBfoOFtgkhtlAY5rfD9rmU+ex0lH0MxYRWFeANG97Fz0iDQ==
+ bh=XhNYGOT5/sAuvScIor7owlL20fbN+hufFjmzN+MJiEo=;
+ b=xtPiZY4DCJvzOM+pKl2N7bRKIwYKmL6CgD5yQmF61tP6Yvz0kGXLSWQe3e/7aH9JY//A/zI6Xn4Ymj8NgPo+LM+oNoCe1loD6dLvtXaoCRFhxGX3poI/8SMHqgp14VZZOzujmHX6SW7uFgPkH5cT4lYfi+WTA38E+n+/yWI1rlR8YZ4t/mrt7uH03TKcau7SdYluKLD7rnx5RgOO4UPks0Dx6PotyA0zIQTjjubARWklFN84D8WcBtSx1TaO+p6I+X/4bq/NktJWWTSfL9afqwDBPqYb2840XLoh3VSNgfof4GFAEbT8c/fQLDbHSaREI97r+bqJkFgqSTzl+izUvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-Received: from PUZPR04MB6316.apcprd04.prod.outlook.com (2603:1096:301:fc::7)
- by TY0PR04MB6343.apcprd04.prod.outlook.com (2603:1096:400:328::6) with
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XhNYGOT5/sAuvScIor7owlL20fbN+hufFjmzN+MJiEo=;
+ b=ysVYgp8VHEwu6wmOdK1tL7CcIrpTIsbhvWWbEwdViAqky1wpqH2KnyhY8nfNAtFO2fmt3otaoqYYcceA5FdeP4Xh5/wbva8awcHCLnnd2L3q5S/gNlq/ClfgIgQRXeIbIHFUtVqo09f6rElY0941llMlHgjFkE9aEc2UJjkR0lw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA6PR04MB9447.namprd04.prod.outlook.com (2603:10b6:806:436::21)
+ by BY5PR04MB6485.namprd04.prod.outlook.com (2603:10b6:a03:1d9::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Thu, 30 Apr
- 2026 11:48:38 +0000
-Received: from PUZPR04MB6316.apcprd04.prod.outlook.com
- ([fe80::a631:6b1a:332c:831c]) by PUZPR04MB6316.apcprd04.prod.outlook.com
- ([fe80::a631:6b1a:332c:831c%4]) with mapi id 15.20.9870.016; Thu, 30 Apr 2026
- 11:48:38 +0000
-From: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>
-To: David Timber <dxdt@dev.snart.me>, Namjae Jeon <linkinjeon@kernel.org>,
-        Sungjong Seo <sj1557.seo@samsung.com>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH v1 2/4] exfat: use upcase_ptable and upcase_range_info to
- reduce memory footprint
-Thread-Topic: [PATCH v1 2/4] exfat: use upcase_ptable and upcase_range_info to
- reduce memory footprint
-Thread-Index: AQHc12np1ZnUrgkEIUykrJx6T+bQ5LX3OoFUgAAi6gCAACFDRA==
-Date: Thu, 30 Apr 2026 11:48:38 +0000
-Message-ID:
- <PUZPR04MB63163EE1D4CAB693180948A581352@PUZPR04MB6316.apcprd04.prod.outlook.com>
-References: <20260428235038.93816-1-dxdt@dev.snart.me>
- <20260428235038.93816-3-dxdt@dev.snart.me>
- <PUZPR04MB6316657C9EB764F8A3A119AB81352@PUZPR04MB6316.apcprd04.prod.outlook.com>
- <79b70927-e766-4487-bbda-2481288a0f31@dev.snart.me>
-In-Reply-To: <79b70927-e766-4487-bbda-2481288a0f31@dev.snart.me>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.22; Thu, 30 Apr
+ 2026 11:53:09 +0000
+Received: from SA6PR04MB9447.namprd04.prod.outlook.com
+ ([fe80::14c6:1c14:485f:1825]) by SA6PR04MB9447.namprd04.prod.outlook.com
+ ([fe80::14c6:1c14:485f:1825%5]) with mapi id 15.20.9870.020; Thu, 30 Apr 2026
+ 11:52:56 +0000
+Message-ID: <f6a6849c-bdbb-43a3-ab16-b6a2fc6193d6@wdc.com>
+Date: Thu, 30 Apr 2026 13:52:52 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] zonefs: handle integer overflow in zonefs_fname_to_fno
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: Naohiro Aota <naohiro.aota@wdc.com>, linux-fsdevel@vger.kernel.org,
+ Alexey Dobriyan <adobriyan@gmail.com>
+References: <20260429205815.810952-1-johannes.thumshirn@wdc.com>
+ <6fde66d3-04a6-421a-b90d-0443f872b722@kernel.org>
 Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PUZPR04MB6316:EE_|TY0PR04MB6343:EE_
-x-ms-office365-filtering-correlation-id: 5fef197f-fc89-4a49-6d3e-08dea6ae6b07
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|1800799024|10070799003|366016|38070700021|56012099003|22082099003|18002099003;
-x-microsoft-antispam-message-info:
- jX1BfMqqdbiCXTZJ05lvOclY5JsY5QOSs+0pEggHtMYche1b7aEnH1TqY0aYC2vqfIjShcjCs1qFY3bAp3Ka3IS8tTp1hLiLiqK3InLkJsSkizBa5dJIw5wZHqt/DqfhSS8Qv6qB75m2ksBoxrFshah8CXioAL8vm/IjB5Uq3jAXvEe8SMmiWegVNFio5Ue3dqYjXPbfkI3SiYGTQeo8AM9+FGu3uytnzX3aCx+FfGRg9YhFu/xram9rrIb3X7oALRCmUJHWWzSVIPfJ057P2RAd9J0PQrxC1RThS0kYp1LyiX5VAQvXOENcI+Arg7T6ZGByx/xLU3nMvm7dBS0VzuJHPgGov6xaNIDMPbrYMS7nlNR8hWTp7Io9QHPqWJFsYUVWCsDM9Ow4WUCpHZQsEkdDRQ+oqsiwlgwCSuwrczCWa5u3nGEYJBsrVKwKCpz8Iu9d8n1QDSm4uHMSxX5gjYAzA44DaEY2TTymYqIspILZ9kFCqR45D1l8wI6ZauNTmOQd2wD3SYJaWLP0C06G0WC4Am5/4USB3bCAdoApooNqvDnOimJo7yiR4do+8jBFxX76sltJw4ZE0Pn6DLRkVx3gta7KM6OfIR1WXe7MsjGwmM1OZ6gCoi61ngoOEuBr3I/PTpGmdA+jWMYsUgF0gZaHWiA2Gc449QhXQaVtSnw+z51bujFbjqHydayYxi8bkrSR4V0onZAiCDwFzAG/NgAdcg5mrH5W7YYmQMTHEigp+vr/hxwLhRybZOW4hYMupr+rV00ScqYk5B/XdMjnEX2fuFns3nEBeYJb1rUuDVQ=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB6316.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(38070700021)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?WO+T2qkc+Jb6wQnVjcztmLo2cTeskv2zzhvxyM51H9VM+KEypE5urxJsLW?=
- =?iso-8859-1?Q?PlcHe/u8PbA7FUl+Fs9lQ1TjdyUAuWTsq+tKl1X+fKhOFXBx3Ojzxr1gXZ?=
- =?iso-8859-1?Q?q4RaC4fXsY1WyJfEebjfe3ZdOywGtVyLUlVfug5A7jD4w3REpURpQmL0dx?=
- =?iso-8859-1?Q?zRSZ9KH6sCU+AmIJaTgwcLmB1pu+RNBJIHb4JqxXzZVimH93MpuR2CCadK?=
- =?iso-8859-1?Q?js8lOdLw96JaGd6mfIWG2xkV4YbCfKMSlkrjMMQYt/Ia2NDc8wJI7rTQIC?=
- =?iso-8859-1?Q?5hbJuhYyONcNxsXu3Fm277jqwWeKtt1NUdyyyZm/ms9S+dYn4itpTm1PGF?=
- =?iso-8859-1?Q?sGH3/U5mh+1zAl3C22Un87kH0eBLlQ0UqGUOmdJV8K+qcYYCDTKNzwlCwS?=
- =?iso-8859-1?Q?xpIRAQjmBBTznJAXPC5wPJZSzFq+FjInn7Wb/yc/gE9+kr2ClGne2qt306?=
- =?iso-8859-1?Q?jA2bl/ce8n/AyP8H9VAEEFfrikYLyE9pTaQML+LXl/iggOHsOHO6B3Vp4Q?=
- =?iso-8859-1?Q?yFS6ChLpZaqCTp75He4NLUHcYt0dDs6jxHqpVofm9472FhPtsAfDAU35gN?=
- =?iso-8859-1?Q?tPa8ub/tjk59FZFKKY60nOSB57KjW1hGe9EdjtzwxjoFURWqk6i9GqceNV?=
- =?iso-8859-1?Q?GiGOnVlJOn8/X4p8kO1dBvaEDKSRfzjKZpY5477AZRyByXHjtWzcdxnyKR?=
- =?iso-8859-1?Q?GSnUuRry6meWZkJdq2CdkVZOQUhirEUtrXkyBHtn5dFua6Wa3wq7CKL4PT?=
- =?iso-8859-1?Q?qSIsfUUtVGtDFPczXKskbqlJZkf2NQRpg1vtaEqS+ve2AqfYuz8bwPm8JE?=
- =?iso-8859-1?Q?uZUqNMQrv3n9FDUsGyEfdXUQfZcXwuNpQmdq+Egs0OcjXNRXgKA9R2yeAg?=
- =?iso-8859-1?Q?P6drmjGXA0uX4ii930PFteLz8v2u0b2yRdzISwTNeI2phfnxVDaoWC8TXD?=
- =?iso-8859-1?Q?ajWUd1h9QROXgmKTBUXgveQ0M0khRVfgAeAWu0SJ07pLX9Jci5PAIeMC5t?=
- =?iso-8859-1?Q?xHvtCG6ucEIa5W+Y7sCa4U5D0Hzb/kq5Mbrx9k66yRw52oWAenNvGtWEFW?=
- =?iso-8859-1?Q?g4RLB5ebRcACnslZZR8Owiz5Y4gYDY7hk261n75D4i4lTB8J8Qehk8L2T3?=
- =?iso-8859-1?Q?HtTRNAg3ZsMpL9Soa0pMWCSVBb12X8w6Trootn47+GqnxP2X6qL7AWgnO+?=
- =?iso-8859-1?Q?bc5tLyU0L+SshgtMZCWwUGhjZcxyXjvYmsqIs7TH9+ecSYwpINAfpPP8x3?=
- =?iso-8859-1?Q?hjep2bASYtCKYbdGec84bS8Sk1iVzMy2bf47Cd+3qrl7U78xMU8ycceryG?=
- =?iso-8859-1?Q?3Jx7XsUrWZlyoOVapNdTN+SDHlsjKs0oiMjm6q5tECmAURPrExu1YaM9Wq?=
- =?iso-8859-1?Q?jcRMM1H9CR/S5QXhJPd2y5cUtnM+dQxAuhVy2X3mXlDsl7cumPWSatHs8E?=
- =?iso-8859-1?Q?hQ0BDoWU19QBVRIxep2Kp+zeR/gHmgfkeCPJ5I1v+2/akvPGdwv7lTbU5j?=
- =?iso-8859-1?Q?52K7M6QZAmc5vrGGlTtsmE1Mo6WBCK/fITOokR6+I4tJ8HuIvVoz4XvlCv?=
- =?iso-8859-1?Q?wEbHNV36HTYG65UDgKbI6IVmWYwZ2k0ERqAKxlK1nV+xtqbHqhXH9QKjVy?=
- =?iso-8859-1?Q?qRXpTc3KYKwgkzCahWhQNnAF6YxQ5SVlbaaGhDGlxiHkR3SZ3jWgT8vQCi?=
- =?iso-8859-1?Q?T/R+i3iH5iJKX3yHGKUKZvMfUrAJPxFLOJeGONcW1s/ojEOg7V9COD6GJZ?=
- =?iso-8859-1?Q?8SiME/ChK6U0vihTjZQkf2L4ZS81ju+aIIb4uDAv9DCw3kvZkR+NWfXMlV?=
- =?iso-8859-1?Q?tRJQ77ogegqOLPFUqvqhkoPGxHF/zL4=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+From: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+In-Reply-To: <6fde66d3-04a6-421a-b90d-0443f872b722@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0020.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::7) To SA6PR04MB9447.namprd04.prod.outlook.com
+ (2603:10b6:806:436::21)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA6PR04MB9447:EE_|BY5PR04MB6485:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98329149-0c38-4750-9732-08dea6af04e2
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|376014|1800799024|366016|19092799006|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	UzJWKY6mLUKpu3ls703Vg5ILFjXDzyB4YQZCE1sFpSwm7PRlgjknDkOINzAK6XbdYlU/RXeAjAFzBTXiLavwDie5bGNLMXPcl1+qZtc/5OoEHPlyaAxHjc4isEma+dmyQBv7oSjsHTDSuc3fy0hboPAQQjUWTVKhixzH4OUo4gg4jZKrT44iqNVQmgR1SYSigZwgu225a7OkwVS+7SMuWzZQrEu7N1nbjHb7cmbLTNvaqU9SjTEto64h/K3YDZHyRmPWgtqZjevYu3xJLJ65axe7+IGJMcWl7O6oTJbVBm4j3KglyptTuY88mlHbu+T4BfFyvK7QMG1oKvO6emYfPF8opZ3Gbxs7HG4TuuxMZfvLbE5XSCY6bNvCJl/XeAGPDN1/vsCqkga6pgEjAD12Edfdg4U01RltYjILw5Mxy+pm3HaQKICoNW+2xg/jvOHklyqrlsdNARdAgI6wUgxq1+hdjQfuy9nF0j/avRcWodh6LisDqGaTSevIDLnFC0J+1o/bSw6wAp/T0tHdiFjCCL9DoXzz+I7girxno1Gx3xNUA4NplXItZYlOXRTwOFVAm7eF0q8jQJ4FqUYNaQ8DBuYrEqZUg9wI2iIYhytZxHkBbMxGqFX+S4dKQvuxLN2b9ny/WKYCN3FGodQHfSab4jxNH80x+rngrH3tcE5LTLr8/amTv97Jxmeg39dydpNwK0iDLsJ1nTFCapHlo1UPmQZMsKylZgQV+/MmFvyV3G0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA6PR04MB9447.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(1800799024)(366016)(19092799006)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RktVb3k5czV1ci81Z0hFd3lRdWExYkpGaVlZSTJlUlhMK1BkTzlQVkc1VCtJ?=
+ =?utf-8?B?UkxNb3JaV0VxbmFWd1VoUFpQV2FRZFdKbVhtYnRoKzdpWlNDRXlZQ3I4dWlI?=
+ =?utf-8?B?aVBIOGtGTWZaTkxpeEkrQ2FWcU1HZklWVXJPTWtSQTd3QUZRSVA1NjFlUVo1?=
+ =?utf-8?B?VFJFUGlLQ25ldFA1OVJ3RzNBbUpWVGN2Rm81NVJ3bkJ2bnlPN1oyNkc2MEdP?=
+ =?utf-8?B?WldGLzI2c2QycUlDcGlzYVlSaVBqSU5SdFNuMjl4RGFCNE92N3lDekdCbFdq?=
+ =?utf-8?B?QVg3WkdWdUNvRTNPNE50NlRDUzNpQWNLT1BYM0dRQlVZbVlCY3haUmlPQ0xu?=
+ =?utf-8?B?bG9rbzJBMnZYVTBGTUZLQmN6S1RQcEdpTHIxUFJvQjdLVjJ0V0l5dUtsWThY?=
+ =?utf-8?B?TVkwVzFsUHdUb202QkZQSFUzMHk1TG5nRlczY3BzWmNVM01GUWxUaXExZHVv?=
+ =?utf-8?B?NFd1N3pLRWhtZTg0dnFDTzVzZjZvcUxmbWJrcVFvNm8waUEyY2d4L09Uanl6?=
+ =?utf-8?B?aWxYVGdLMGFyeUpBakxSSS8wVFY2dUkxNTBsUWhjNjIxam40MVFxaUNhRXhm?=
+ =?utf-8?B?c3F0ei9Qd21zdUFuamdMQnpWcWhjMUcyZ1Fac2JiU05qSHBrek1vVS9OUXdG?=
+ =?utf-8?B?RXhtWHAzbG9yQlA1MWcyZ2txZGtYQThHcGFIMmZTT2t4b2JELzYzUVNjMVRn?=
+ =?utf-8?B?TE5Fd09YQ1R2N0FVcXpwZitxc1FJaHRLS3EwUDE2SjJ5dEVmaFR1akE4ck5r?=
+ =?utf-8?B?dVBuZkFjYW55MkJ6YzJCOVk3VHVwT0EwUjI5ZjF3TXRISnYzME5pbkE1ZDFj?=
+ =?utf-8?B?dGxHOEhOM3FwUjNJT2Z0dnY1MnJGQ3pSdWVCK29xY1J1TTF2ZGNLWk9iby9z?=
+ =?utf-8?B?ODRzUXppQk5MUER4cDhBQkxoT2ZvNWN1dEg4dHlMZ09aUEZIdVlwcVg0a3ZI?=
+ =?utf-8?B?V2pLYnVoZ0NQZjZHeG9xV2dVMGFZUks5WTdMcU4ybFVCN3ppa1U4Z1hlLzY2?=
+ =?utf-8?B?bnp3N3dKajYyTysvWE1WdzVoUnlzNVJhbWxveFNrOG5ycGkrQ1FhQmZpalBO?=
+ =?utf-8?B?L1htRzFybC8yeXZ1d2JEdTNQdDlOa2U3clBrMEd4cnVybXdtZUl5VjBxcmhL?=
+ =?utf-8?B?L1h3U2QvdWlCeE85M25nNzdiSUkyUXkvaUlSOUxoSjFIT1craG4rbjJtcFRY?=
+ =?utf-8?B?NnJRMlUzUW9qUVlSWVorNHdvaHNzb29GYUVGaDgwc0NzYUNwb0NKdnNscjVh?=
+ =?utf-8?B?RzJVN0l4S0JTa2VxU3JqelBtSnNwcUdDUzBtelJaT09Cam5mSEJ4VDltSk14?=
+ =?utf-8?B?Z0R6clE1YWVMeS9NVm5pbm9qVnNZSFBtUDRGbWoyU2xlZkhnREllU2tCdXZ4?=
+ =?utf-8?B?QVh6ekNKYW1MeHRGVzIwNVlXMk9jdmdyYzFsQkpzOUZML2xUa2lFdi9MZmxF?=
+ =?utf-8?B?S2pIRWxNTUJYODVGRXc3TE5RQ3JLWFAyV05iWHVRemxlYzZPN3YrQXAvd2M1?=
+ =?utf-8?B?cFJoc1BjV2N4OXR2emg1MHE5alQyWGpyL1M1WnFXSTRzd2NxbU05ajNPTS9a?=
+ =?utf-8?B?WTdPSE9VUXVCQzIwWFUwa3NGM3M3Vm5KK041M2dhV0N6dFdEQlNnU2tHMnlm?=
+ =?utf-8?B?Ti93KzdDL3FVNVRDZml3YWFZRkVTckd0Q2d3NlJOMHByUEw4NjNzVTh1R1l5?=
+ =?utf-8?B?VnV0VjRxaEFLQ3lrVVpFbnlOd283enVDWG10R1pQMllKdFVsRFBtRTM3RkZT?=
+ =?utf-8?B?Z2UwZElaejhueWtlVm5aLzZyTmVpSmZaVlJnSzc4T1o5RWVHUGNUR1p3Y1VM?=
+ =?utf-8?B?VGwxYU5wNkU4MlhXY0FnVXJoNDR0aVhxblV0NnJRUjcrajdxamRiM2hxVzhT?=
+ =?utf-8?B?MXZBUVc4U0lvWXNFbE1PdVZ1c0NLNkhPbE5CbHZrQ2Q5STFDMWZwQVlRVlh6?=
+ =?utf-8?B?clZOSC9GS3FiMmxET3ZkdnVIc0dlWkRQTHAzcXZobFhTZHVQVEdXUnRoaC9w?=
+ =?utf-8?B?M1VNTytTUWlZcmtpMEpwb3dDeVhLY1prdmJQaHAwaE44cUxvVlFaczYyWjlk?=
+ =?utf-8?B?MjluT1VVMGQrdmIraWIvZFpLck1pamdqUXdSaHpydFI5WXA1QXpMR09ISVFI?=
+ =?utf-8?B?b1RvY2ZYTVR0MHRnWWVEdEJRTFA0WmtnNGRwWWkwOWt0OFZ6OFU3V2pjNHlv?=
+ =?utf-8?B?amdnNjVGYmpVclNZSWI4RWZ4aEZHUTVwalhobVB3RktJZHQ1NzZIUU8wUmhZ?=
+ =?utf-8?B?M3NhZUZUYnlZTFkxMlVwL3lsL2tnR3FMRGlzaGxna3BqZ2k1bzBLUWF3RUYx?=
+ =?utf-8?B?ZDFFSzl6VHNMYUVzTEdQdlNHa2R5N2dmSElqRUhnSEZQNEFFb01JMEVuVnpS?=
+ =?utf-8?Q?GfYBzK1UMRz6yqvSqK49Iig3CATvihv5ouMbuvv7reY5R?=
+X-MS-Exchange-AntiSpam-MessageData-1: 7l5iSLNQBJrUBwQdvOZBbrP7S9dx9h90PUk=
 X-Exchange-RoutingPolicyChecked:
-	jNJzuS8thG0+S4RlefhDV4PHKxlc8T5r2FDtelS8XoFDYOISTzbWtT2bHshGvrhxtRg6a4Qsomtb9HXKQfYKHAe1YpiUpnlxlH+L9+DvVKA6F0J/PlUKhzerthbPS9er6qFh5917F2tHoe4RAozFHJPEp0iUAoQ/3Y0Jwz4WzNQhkqTE+PMJ9WhaC5M4rRuDf+uyAXq4pky1dNqa22A+bPhFy94KslIigMSdWZunx/VpTjgWi5fEBSl+Xao6gpBohI/Bi8tvkVadsII8OmIjby74TxqyvDSrGmdeeG+kg+2p21/43R1TS5xI3aQ3qfFweDHE9Up7Oo2hKdJ/YhYeNw==
+	iHIjqm+rtISb0OlO2Iuv0hGxg8c6M3d4TZYzG5fL1bskWHv70JWAC12/GzFCEDoJXM2ctAOPUiyHgP7vX5UTh1U7gnTulZZDmzh/dn/9EUKSsIMI4NbJpkiLQuc1lyMmgMJeLxp+NigN0wut1hoPYpwJjNBoaSb4fc35h5JjI5uINS08n4YGAnPWCK1/sLY+e0JrNas1W1fbRyVNjCCywV70+GZmo8/QAykEvj64DvAssyNHvd1/ieRQ3UZ85RGfxnsYXcb9L3geB6k+4kftrPK2YsZkaTYy8/36o6RWPPYHglvT6x5AI9YKFuNG+3JycdVkhc7SX2/AQZqsdnjPYg==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	x9JqzadIN4p7Jx2CzBmEvwPSDl3rXT+TGSDMp0O4OFkylAK2Krowegk4u9yepPPExP4izvNYlrCsxDSpn3ata+htGQVV1a8lnoQKKKwATST2vau5/GWJz0OJ1Z08jo5d3S/zy6K2jHM17QqX1cOTtIrb0nSMJ7eoDgSQNV5INjUCB0BdGtvmZ2rW3e51CbevcsOepI+BfmdjcR3GyLyvOkf29SQiyXm4+drHJIRRsMfhT6L3nZGLIJcSrQGgpDiR42C55QE9+6vyxkryICOFwXAxInRzPqmvJu8eIwLM11Oid8ieUCxhexSyxU7IhqpxhcwhDfIhJscsYUMrzPJO/0GWE3+rpnhBsNgi7AA3aTySTJwT1UvClBEePywEZcqmDqKd0jICnZa0Lp0hb8IawmsXM1kOpZP/zi2HjQf7tfypQQBnVPPakr5yG0rpyXxFxX9WGjhTr7gVeTJxS+FRERgN9RIUMPlS4gV1XVNrFk0alQFRlP99cH9i1f1soIlDngDz0KaXcam8TC2UoPseLgtmM3d0zKeefyeIl/DWV5D5yU4M2wOX1Cmm2XhNrnfVcuuIyOeL80CGgW8ZY5L+45MC3nTr8eg6+mmppygxcKEG2PYhLDQ/yBt4sua3jorh
-X-OriginatorOrg: sony.com
+	1+cZcmusiLFuIDUJtkqzJrfMVzuaHG6GFbDqS3SyceStNZlUhIrQBpCBzHjkMvEXDbOX6SbqUKvb3eHiay4mtm9mdlBv2ikw7N8afWvMWVZC1WK2Y0wnXidcnh6JB31eFLvcM8FDBjjo065f45cHMbgZIb3MRTfu5Ncul6Lb0U9JzPEnixjmD1g5IcXnwMnlS2VKAU5+aj3NxU7kS1m768K6SU/kAZejPom5Y0JmAsJZYEgrum/W2y1zqrrCid7I6wk1oF5zdfPm5eBU2bAwxVG1muLdtm9+LHzggJCQlDU/PRJIoD6mCGY8pGLjjun71oTiVcuAdvaNuV05XRh4DkqcEHgIyxC3FhTf0yV74LTE7WARz/yGzxyrPPR6EdlWu8Gy10/j2Mrysj7IsvH/VKVP1ITkOm8S5sg4IGy1MjCZtNQ4oMfR77wTjEKqVgCg0wUjZpavAJ2gmuSALW4a18xlfJW3lV336bQX83/ZgQh4cnNG3nbCQbHuadCKpCgpNjMh/bNteXiTwHraOMXU11hAl2ai7ki6211qxNGevj2N9rslzDPEeP9WqQ5oyLesLrFP2LF8HHCzm7KidPS6LupPhZjVo4ze4/lw+ZUt+JqzlICsFu7RIlLDpu97ryZV
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98329149-0c38-4750-9732-08dea6af04e2
+X-MS-Exchange-CrossTenant-AuthSource: SA6PR04MB9447.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB6316.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fef197f-fc89-4a49-6d3e-08dea6ae6b07
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2026 11:48:38.2650
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 11:52:56.7152
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Uh7nxYC+ADkgQCB27o4OGo//O/TIXOU1i4QAT5TmfioJH3TNoaJGHTp/zy1bmilMozl8MSepm1oBwOkFjsJSqg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR04MB6343
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDEyMCBTYWx0ZWRfX4EGa4WrA7DR1
- WgUt49O1j3JpVKjtoVO0kGjLHT8OXmApQ77BV/RpfvXMrl0Uy23bp1wWuPTj3VmdqKKRUcJ5/PL
- 3kNkLkRwgCMhfx/o3ayFqmrP++5nvg3eBB3IWu5Y671h/QZgcyjyzVFMbtV88ZuyTQbtQUcxTMC
- BFFtRhtxvj+WBy3Pr/ZUNeLzkraOOjk/K8qgcimquxLA4edYCDdR98t2Mg/FpE7ExwJGgNbOPvt
- dykqwCwA0HHMxdLOyUueKF4EIaYVNoV5IHQ/l+2FpVIVC+BNozZr/XeXPgIMLa0i7vWn0ugPVuh
- 6vxt8eIynLHZ7pVVmfQ83X/v5Ndatjrwem+GBQdp5DMM9lAaxX7L94ziILAMYzi7q2e9+yQJoFo
- OsFyuDpfTj6i2+napjzmSru9nJk1+gcD+c5uy10YdRsk5Oysu0zoBXj9YVxFI35RoJgQ1mjgPn2
- o/atEazm8bpiFbOv9sw==
-X-Proofpoint-ORIG-GUID: URcuffKvzglYOZxmHa-g_u7aiK3q8wos
-X-Proofpoint-GUID: URcuffKvzglYOZxmHa-g_u7aiK3q8wos
-X-Authority-Analysis: v=2.4 cv=Q5TiJY2a c=1 sm=1 tr=0 ts=69f3419c cx=c_pps
- a=HoTJ84mEtfQ0dpb6y/f3IQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=A5OVakUREuEA:10 a=7j0FZ4iXMVMA:10 a=xR56lInIT_wA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KAb5x4SsHD3PzxGk7EmX:22 a=lmptg-Pxpg44AF-n8Qp9:22
- a=z6gsHLkEAAAA:8 a=6U3a1BeVi4rxWXsw2u8A:9 a=wPNLvfGTeEIA:10
-X-Sony-Outbound-GUID: URcuffKvzglYOZxmHa-g_u7aiK3q8wos
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-30_04,2026-04-28_01,2025-10-01_01
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gDRaRZStC4+VSjxblPGqR6MUP6wmP69dCKqS39S3rgk6E3aS1FA9dp/otQr0M9To9VQ3cGrKCCw9vrPOVtob60b+FnXcQpNUfaYD8+OdL88=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6485
 
-> On 4/30/26 16:58, Yuezhang.Mo@sony.com wrote:=0A=
-> >> +static inline __u16 exfat_lookup_upcase_ptable(const struct exfat_upc=
-ase_ptable *ptbl,=0A=
-> >> +      a       const __u16 index)=0A=
-> >> +{=0A=
-> >> +     const size_t page_idx =3D index / EXFAT_UPTBL_PAGESIZE;=0A=
-> >> +     const size_t idx_in_page =3D index % EXFAT_UPTBL_PAGESIZE;=0A=
-> >> +=0A=
-> >> +     return ptbl->pages[page_idx] =3D=3D NULL ? 0 : ptbl->pages[page_=
-idx][idx_in_page];=0A=
-> >=0A=
-> > How about this? Then we won't need to check it again in exfat_toupper()=
-.=0A=
-> >=0A=
-> > return ptbl->pages[page_idx] =3D=3D NULL ? index : ptbl->pages[page_idx=
-][idx_in_page];=0A=
-> =0A=
-> Zero(invalid character in exFAT spec) is used as identity within the=0A=
-> kernel. We'll have to be a bit careful. I'd have to change this logic in=
-=0A=
-> exfat_load_upcase_table()=0A=
-> =0A=
->                 ret =3D exfat_set_upcase_ptable(upcase_table, index, uni)=
-;=0A=
->                 if (ret) {=0A=
->                     brelse(bh);=0A=
->                     goto err;=0A=
->                 }=0A=
-> =0A=
->                 def_upcase =3D=0A=
-> exfat_lookup_upcase_ptable(&default_upcase_table,=0A=
->                                     index);=0A=
->                 is_default &=3D def_upcase =3D=3D uni;=0A=
-> =0A=
-> Some OOB data check will be ignored:=0A=
-> =0A=
->  - the character is "skipped": zero=0A=
->  - the character is not skipped or specified as identity: non-zero=0A=
-> =0A=
-> Subtle difference. If we change exfat_lookup_upcase_ptable() to return=0A=
-> identity on non-existent mapping, that information is lost, I think. But=
-=0A=
-> again, the resulting contents would be the same regardless so I think=0A=
-> there isn't really a side effect.=0A=
-> =0A=
-> >> +}=0A=
-> >> +=0A=
-> >> +void exfat_free_upcase_ptable(struct exfat_upcase_ptable *ptbl);=0A=
-> >> +int exfat_populate_upcase_ptable(struct exfat_upcase_ptable *ptbl,=0A=
-> >> +             const struct exfat_upcase_range_info *ri,=0A=
-> >> +             const size_t cnt);=0A=
-> >> +=0A=
-> >>  /* exfat/tables.c */=0A=
-> >>  /* Upcase table macro */=0A=
-> >> -#define EXFAT_NUM_UPCASE     (2918)=0A=
-> >> -#define EXFAT_UTBL_COUNT     (0x10000)=0A=
-> >> +#define EXFAT_DEF_UTBL_RI_COUNT      (112)=0A=
-> >> +#define EXFAT_DEF_UTBL_CHKSUM        (0xE619D30D)=0A=
-> >>=0A=
-> >> -extern const unsigned short exfat_uni_def_upcase[EXFAT_NUM_UPCASE];=
-=0A=
-> >> +extern const struct exfat_upcase_range_info exfat_def_utbl_ri[EXFAT_D=
-EF_UTBL_RI_COUNT];=0A=
-> >=0A=
-> > Is there a way to reduce the size of `exfat_def_utbl_ri` so that we=0A=
-> > can put it on the stack of `exfat_init_default_upcase_ptable()`?=0A=
-> >=0A=
-> > If not, add `__initconst` for `exfat_def_utbl_ri`.=0A=
-> >=0A=
-> Nah. It's as packed as it could get without breaking the alignment. We=0A=
-> could pack it down to 784 bytes, but that's still a lot of stack usage IM=
-O.=0A=
-> =0A=
-> >> +int exfat_init_default_upcase_ptable(void)=0A=
-> >=0A=
-> > Add __init.=0A=
-> >=0A=
-> >> +void exfat_free_default_upcase_ptable(void)=0A=
-> >=0A=
-> > Add __exit.=0A=
-> Thanks.=0A=
-> =0A=
-> >> @@ -896,6 +896,12 @@ static int __init init_exfat_fs(void)=0A=
-> >>  {=0A=
-> >>       int err;=0A=
-> >>=0A=
-> >> +     err =3D exfat_init_default_upcase_ptable();=0A=
-> >> +     if (err) {=0A=
-> >> +             WARN_ON(err =3D=3D -EINVAL);=0A=
-> >> +             return err;=0A=
-> >> +     }=0A=
-> >> +=0A=
-> >>       err =3D exfat_cache_init();=0A=
-> >>       if (err)=0A=
-> >>               return err;=0A=
-> >=0A=
-> > Please add error handling to release default_upcase_ptable.=0A=
-> >=0A=
-> >> +=0A=
-> >> +int exfat_populate_upcase_ptable(struct exfat_upcase_ptable *ptbl,=0A=
-> >> +             const struct exfat_upcase_range_info *ri,=0A=
-> >> +             const size_t cnt)=0A=
-> >=0A=
-> > This function is only called by exfat_init_default_upcase_ptable(),=0A=
-> > how about merge this function to it?=0A=
-> >=0A=
-> default_upcase_ptable is already freed up before returning from=0A=
-> exfat_init_default_upcase_ptable() upon error. I made=0A=
-=0A=
-What I mean is that if the subsequent operations fail, such as=0A=
-exfat_cache_init() returning an error, exfat_free_default_upcase_ptable()=
-=0A=
-needs to be called to release default_upcase_ptable.=0A=
-=0A=
-> exfat_populate_upcase_ptable() as a separate function to use it on my=0A=
-> test cases. The compiler inlines the function anyway(although=0A=
-> appropriate attributes are missing in the original patch, my bad) so=0A=
-> there's no ELF overhead either. I'd like to leave it as it is, if that's=
-=0A=
-> okay.=0A=
-=0A=
-Your test cases are only for the current development phase and will not=0A=
-be needed later, right?=0A=
-=0A=
-If not, keeping it is fine. Otherwise, we should try to keep the code as=0A=
-concise as possible.=0A=
+On 4/30/26 12:41 AM, Damien Le Moal wrote:
+> On 4/30/26 05:58, Johannes Thumshirn wrote:
+>> In zonefs the file name in one of the two directories corresponds to the
+>> zone number.
+>>
+>> Here Alexey reported a possible integer overflow in zonefs_fname_to_fno(),
+>> where the parsing of the zone number from the file name can overflow the
+>> 'long' data type.
+>>
+>> Add a check for integer overflows and if the fno 'long' did overflow
+>> return -ENOENT.
+>>
+>> Reported-by: Alexey Dobriyan <adobriyan@gmail.com>
+>> Signed-off-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+> This needs a fixes tag I think.
+
+That would then be:
+
+Fixes: d207794ababe ("zonefs: Dynamically create file inodes when needed")
+
+Can you add it when applying or should I resend?
+
