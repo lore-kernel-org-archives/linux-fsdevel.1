@@ -1,183 +1,287 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012034.outbound.protection.outlook.com [40.107.209.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946026FC5;
-	Thu, 30 Apr 2026 06:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777529043; cv=fail; b=FQyp5ocSQHmYvUoWgMG3eo0D64q4LnQ7fdF10gnYEVUVWKzeSnAYOu4y4a8MGn0x38PBnqjFapgHvyoXddkIT5y1Lcfo0BPJyjEJL4NSA5+O4Mls1O9PwYEvwu3oJuWQyIUo5lEnfvMt75iQ7/SGbgdH27cZKph4YXfk/sVXx/M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777529043; c=relaxed/simple;
-	bh=CkE2njFrNxtacYptG+fynN6MRyIdNrD5/EnJGT2DjJk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UzjtxE6cbKVnSFVnPg0TdeYEKxePYAojeHh+7WThP0DALFg20ycHrKsIUd5dwf0VlJ8w2Hm6kX/N4IzJ5tFhTbm7UCRYFX2vk6wc5fRyDpHAdSBYyGRq/btI2+1snFFeeEEdj1sOEljY9f4l+SB/Ma0Qx2m07mNLRUrE2k0yelk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=TW/MgvAa; arc=fail smtp.client-ip=40.107.209.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D69E3A4F5C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 07:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777534103; cv=none; b=mwRPFX9mfRkceO/kqlOgRQdqeELhVZgHaGc13cs1XGrfuRXepGYe6WQ60C0I95fMYSoGHmW7Yv8yrxbjAXbl3Z+NaVf8UYX14xMbC25fpPluLzWnJoWFSohj3JIiicbBIgH44A0JH7+YbU/lROPUPDuTQIY9sFFmQZ9x3FVhbtY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777534103; c=relaxed/simple;
+	bh=J0dJSdVShA5CRFUV0tuVvfuxeQR2Fc6gLsUr03UigAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sezUCjV7blmyBRlcesyJn4im3EDo/QZ4/nG+fZ/mvwsHLfk9G/yxJZoidVFlCTnf+/R4JT1YW2uvG71l163bfq+Ni8CD7Gkup5HVa63WbBDI2ST2EEZhj/yrwT3CUNXuqh7yxnhdB1edLgt5lODfLZYz5MzYynGVdUMj3/g99qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fx9k+lPg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DIg0FLeY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fx9k+lPg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DIg0FLeY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="TW/MgvAa"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ug6UGsZj9ZmQkqE4NOMZEqxby9ocGm3Z+i8r08dK28U2iSDSYc/2Ub3UxZeOcHjZlMp5r4YtdaiMcNrORbhy3dtacdNaL3yakIUTliuIL8tWBp+2QYudXf+8Rl3A5q/QvRwGdOBHBRSlq2Di9M+optVQsupdWCLK1XjuXIEvNOA+F1sSfEwYxgo3d+ox7cZJsqaHK9CCQxyfzIPO95HBQPNPH/khQt44lwUSBSFSTs0FSER+fqHHy5cxz12WpjtRAwuCUplOX4IEHuf/T74jJth84wXMpbkQh5Ibrs/ZlAXHrRK/yXUBsnhoTex9zr0Ka8j5k2wfxnvzyxPWflg6Cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u9lC75TgHXestJFdYXvOH+AE0yP0KFvdVluZb/Y/OiE=;
- b=I/4w+oHrrVQJDpHT7uba8fwpodS0H62dChCJ6mCvqGmW6NC+ble+EzTm3nGVbzuN0dUGqWVjjtl9XC1A6RGjTvNdBxLs0Ulc87C8nyF5EPDNgysN+TF0s+mcnNdvBwP9d8FOWAIZ+4RmFPMVySo05hx8fL8dFebcdIuF1FpGSU8TheeuG8fHa+cNZsEZHs8OCZMnjfjr43/TKHE479wC2mFvmfk1m/SnAqHy69VrzJe9cRny65TaMCFNfRKMMUdqkvaj3oH3zFQ2W4k0pK+dbBOCrbtydN30n9oZSBAuOY+rnNrIdrqlxM0+yP78zT7a0tNxxamVlaSN83N2HfudHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u9lC75TgHXestJFdYXvOH+AE0yP0KFvdVluZb/Y/OiE=;
- b=TW/MgvAaXd8LGMd2f2+Ajkd6zBwA2PAa362uUKmHMqZAIat25VRjd3NNPF612S03JzekszgZDC3eq7gJGkXMw5MET+jCml1o4FJNZPRPxgCw++pzImSo3aheN6YxgEAVGZdL/cpKivTLkHzOkzrf/tzp2rcKOGdvJMsO16EhClU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS7PR12MB8419.namprd12.prod.outlook.com (2603:10b6:8:e9::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Thu, 30 Apr
- 2026 06:03:57 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9870.020; Thu, 30 Apr 2026
- 06:03:55 +0000
-Message-ID: <f0dd8f89-835e-4331-b593-4405ec59f4fe@amd.com>
-Date: Thu, 30 Apr 2026 08:03:47 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/10] file: add callback for creating long-term dmabuf
- maps
-To: Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Cc: Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi
- <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
- Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <ae941457cf6cacb9d4c16b6ec904da9ef7fed97f.1777475843.git.asml.silence@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ae941457cf6cacb9d4c16b6ec904da9ef7fed97f.1777475843.git.asml.silence@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0162.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b3::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fx9k+lPg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DIg0FLeY";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fx9k+lPg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DIg0FLeY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C8CFE6A801;
+	Thu, 30 Apr 2026 07:28:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777534097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3g5z/5HnB77pIpEaD8VGv9Qpr78pLYH7k2mEFQvLTb4=;
+	b=fx9k+lPgcbf603dVBkDstjUgkdczL1gHNkYtKV+kSCYGEmVaafw7vYuVIeVXuKQM1LkNpk
+	Uy5rxSlCY3XCBJlDz5tiddv4Xnod4/c+JpKFWiQSsENyXr4d+ecsUM3Te3sZ093jybHceR
+	CeEQ3OGofGCQYgPReXr36bcCiATcGf0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777534097;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3g5z/5HnB77pIpEaD8VGv9Qpr78pLYH7k2mEFQvLTb4=;
+	b=DIg0FLeYj9BFay/nl3iPbKs39uz3RwAqufYDDDYq7R0/Rr/wVG/jXwYiCdeJo+gFUWF3Ks
+	lP2AtLGONb3BIpCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777534097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3g5z/5HnB77pIpEaD8VGv9Qpr78pLYH7k2mEFQvLTb4=;
+	b=fx9k+lPgcbf603dVBkDstjUgkdczL1gHNkYtKV+kSCYGEmVaafw7vYuVIeVXuKQM1LkNpk
+	Uy5rxSlCY3XCBJlDz5tiddv4Xnod4/c+JpKFWiQSsENyXr4d+ecsUM3Te3sZ093jybHceR
+	CeEQ3OGofGCQYgPReXr36bcCiATcGf0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777534097;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3g5z/5HnB77pIpEaD8VGv9Qpr78pLYH7k2mEFQvLTb4=;
+	b=DIg0FLeYj9BFay/nl3iPbKs39uz3RwAqufYDDDYq7R0/Rr/wVG/jXwYiCdeJo+gFUWF3Ks
+	lP2AtLGONb3BIpCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC4FF593B0;
+	Thu, 30 Apr 2026 07:28:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QWPvLZEE82m1SAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 30 Apr 2026 07:28:17 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 69B48A07AC; Thu, 30 Apr 2026 09:28:13 +0200 (CEST)
+Date: Thu, 30 Apr 2026 09:28:13 +0200
+From: Jan Kara <jack@suse.cz>
+To: Chao Shi <coshi036@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, jack@suse.cz, willy@infradead.org, linux-kernel@vger.kernel.org, 
+	Sungwoo Kim <iam@sung-woo.kim>, Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
+Subject: Re: [PATCH v2] fs/buffer: serialize set_buffer_uptodate against
+ concurrent clears
+Message-ID: <xaqwfkwjnp7h2lg7ir6wy2tnyay26t3im3ftkdl64rhys3rhmu@lc5vfh5tc2f5>
+References: <20260430053645.1466196-1-coshi036@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB8419:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06b5e2cb-1c68-4750-a58c-08dea67e42bf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|18002099003|56012099003|22082099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	y3qRTqOnXr/59SqtrsyISWMUaVCIZO4DPkk61mZYRqEEW1GU9PCIR3QxETgNU5qABOCNcAf4n59zE9h/poXBEK7RhPwIhVyx8zsSV13NS59oR0ZRX7ffRgyxUKjjb9bI0V6svV3O9V5H+gpmGIilR4i4VRRODFXppnDMP9WtkEicNP9CVfJqElhHbxba7ZwKg+rpLwsO/zj7+A8SPsSbQOkNGwdykoUGnpwMxdgJIApj9fwWKIQ1dWhy6Iw5EFRbk90gjQWiXIrubxs6hVF/N/hI4eaysW4kZkS0PRCtQZBFMpxHXmep4EtJb+DJ/CiXVNBSTD/JsbT9WdtN8eEfyXiek08x3kp6ceAbU4ukaTE+delBRgGpuJVBxbK4SLDP74Ps3mNRaiF+bm+HbjJI+k9Rd+jQL/c9rkouVDJdgOwIr3kBKIWXZY0LvMTFtgPwDcavhm/5NAc77nM9/P94nF3vAuPfG0GwHPmAjvPNjfm+zns/Bbizbtxqx/+nsm0kQoeH0o5X0jkHZEd9bXwzhJEX7Girb2Qu89cH56s9ccMiZBYNFkyjc87N8ZLP6k56HbvEr7SdH7ShR3YOBsI+Lw0Pd+TV3Gh+IQkZWQyJwRyx6JOoSDe8Iw5RGDnePgwue/NpV2URJry7oUXxabWxveWBifQ64CKXtPHbYnaT6e0uyDdyK6WJqsVvJW5l/lcfYM1tbslfCmcGd+oxe1Z9/1IBFf9KFN2Mxmnu5ZNF/luTusbPhLZGchfVPkf1wrH46dj5A2ZldillkkJuzV9x5w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(18002099003)(56012099003)(22082099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?N1NVdEJ0WmFCb2hsRXJuaDZ3QVgveDV3Y2JKZHgyYTFUdmVIT09yekRORFVa?=
- =?utf-8?B?NkNWY21DOWdGVUE5Y2FvMGFtN1lzSysyb2FTUDg1N2ZRNHh2eXNPWDhaR0V0?=
- =?utf-8?B?M2Fqb2F2bVdCZC9LQWhBb3ZJcFJLSWhZWmtlc2FlV0RYTHdaa1hqWTNOaCtF?=
- =?utf-8?B?QWlPWlpYMjltWkN6ZzJEcHhBNFVnOGlteVVaU2thZ1lTTW92dkFKZ0ZmdFRx?=
- =?utf-8?B?MGpwSXZxSGo3Q2wveDk5ZDdpL1RIdUhGK1lrYmg3Q1FEck8vbk5SZXVnalhl?=
- =?utf-8?B?OEVoK1dhVFpMdFFaTDBscm9BSmg1WFZUVEh1QVkwOUR1OWNBcEJCdXZWZ0ky?=
- =?utf-8?B?aFlVQVo5SkdSZU5iSVBWQ3gwWTBKS1gzMXp4bXFXSm9ESFlnN1o5VHIxcGtU?=
- =?utf-8?B?OWlsRWYxQWQ5Si9YSGszL1IxcTBrREdrcDRvUU1uaE5LbzU1MTZCOFRKcFB3?=
- =?utf-8?B?VE9xT0hFRUtHV3B6UVBlMkZiZk5xVGk0ekQ4SUFjT25walMzMEFiTUtqOHkx?=
- =?utf-8?B?NjlQUlcrRnZFdFZ6Y1g1OVFOYWJuK2RnQURYbDBqTGN6bURzZk5ZZVhVeEtD?=
- =?utf-8?B?bVNYYnlyYjd3VTE1V2VVSHhRY05GTGdvOXBXVlhTVGZTTUlXanBUbXZFVXFz?=
- =?utf-8?B?SUt2Sk9IbEI0Q244U0orU0MrbzZNTTdBWWsrWXVuVkRIK1VtUTk5NG5saVpu?=
- =?utf-8?B?YjU1ejZSUkU3TWFOM1cyZ0w1WVRCKzJSM0VZNmU1TEdyc0ZjSDYveEk5MTlC?=
- =?utf-8?B?NDQ1YUU0WW9YckZ0YWpxdjV6N2l6Kzc3MUJBYXZLalNMMzZMalA0a3hNMmli?=
- =?utf-8?B?RGMrU2R6Y0xVVE5tSDEyUVBjZTZIczNXeEpGTkJWZm9VRUdxNytLVm01M2xS?=
- =?utf-8?B?ODdtN0VsNFpXUXZRdkdFbittd29kczJhcTBFU0VnMnozOTl6cno4enZiMzVL?=
- =?utf-8?B?akxjL3VrdE01WENsM2U3NG9adWI4ZHdIRjh3Zko3TS8rbk1XRDhDZzBBTkZv?=
- =?utf-8?B?Q2owZTlxdzZOVzVwZERJNHAzOHphdUpiSGVMYWNEdCt2Zlg4bmJkYmpIUWQ4?=
- =?utf-8?B?R25taThYb1VielAremVCM0VGVGRvNC9icDM1anVoMEFMWXBtYVU2bGNHc1kx?=
- =?utf-8?B?WGZCZjV3aG53b1FKeWJWNjBIdEdlam9EN2FSV2NHT0h5aTJqbzFyeURvSnhC?=
- =?utf-8?B?UVZiRmUwR0Q5VmpWSGJINjZkNy9vTjhQWTc2TGtQbllrdHZuQ0dWNjdKaUlC?=
- =?utf-8?B?MTBDQThNYyszYlpCUWpPY2twUmVaYmxLZVVpUEk4NWVwQXpDanFyWmZ5SVhF?=
- =?utf-8?B?UFF5WVZpVmJhVlVyT1JBYXZxS3A5dWxMT2pESnp6Uy9LNXowOVUvdG5mSGhl?=
- =?utf-8?B?ZlU4VkxuOEdWMHdFQk5uemdQelI3ZHBkVjI2OEJHRUJBbHFmRGxTTFdpWTdl?=
- =?utf-8?B?OGsweTBmMkdTTEdyTU01OXZxWFdpT1RFU2Y1ckNwcFd4b1VISzJ2WGhVaVFj?=
- =?utf-8?B?K1ZXME9PR251T2hBZThtMno5ZHhlcGQ5SHZLRXJSTFRxOWQwQ1NueDl0Z2pY?=
- =?utf-8?B?dVVpaHhBZXYrMHRHOTRVZ2NpcEZBRTdicDRib1ROTjQ2aVU0YWV5UHp6NEVJ?=
- =?utf-8?B?SUhLSXVDbmJBb2tWUlBzUXRlVmFaZHRYN2tDM2dsTmFqOW05MHNIK0pBRjh5?=
- =?utf-8?B?N0VSMmQxcUkzR1JUTmZURmRpUVV4eHkrMkhGZWdYU0gzYzZSdEZHL3pDWUZB?=
- =?utf-8?B?bnpYSURlcDg3b0xxOE9ZWlRVem5qREF2dU01a09xMTNzSW9RWVJmWThuYTNy?=
- =?utf-8?B?Q1I2dXcxdnV6eGNXN3VaWW41cWZJNm1xNWJob0xQdlFJSWo1ZFZERytnemZl?=
- =?utf-8?B?N2w2K2FuTS9XMWFSVGdwdFNMVEFEMFJUZEJaUkdXYnBwb0doY1ZlTnRuTkVF?=
- =?utf-8?B?OG9MS2pOTlQ0bDkyTWcxbWRpLzcrUzBWSnAxYlZwSW9aM1BPS3JaK01vaWNk?=
- =?utf-8?B?K3ZwR0Mxd0JsZVAyTjNFUjc3RzhxNDNncmlRVEU1S1JPZVB3MzdCaFAwZDRp?=
- =?utf-8?B?SndGdGtwOXdraTZuMVF4U0hBa3BBdThJcGhEQUpzNk8vRjVIdWkxMjN1RGp4?=
- =?utf-8?B?c1YwbXZJNkl0Qk9rVk14VXdadjM2QUVRMFE3cFZYM0c1RlBtUWw0a2gvYU9U?=
- =?utf-8?B?SlVIa0Yxc3l4NVJNVnFtQ1JWZjFacjNlS0EwR3BLZWVNU3Y2WlorZUZ1anZr?=
- =?utf-8?B?VkEzemJ5QnZqVFNiUlFoeVRMYUY0THJ3Mi9NdEYrTjVCWU5lSXNhSkRYUVNP?=
- =?utf-8?Q?AEh1t6TmVo5wAItjC3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06b5e2cb-1c68-4750-a58c-08dea67e42bf
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 06:03:55.0975
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tYuwUUPyokcXz9ITvIYe0pG4+c9AtBGN3uTDemo48ItiaxhDMKUJSZkwoCO6HEjL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8419
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260430053645.1466196-1-coshi036@gmail.com>
+X-Spam-Score: -0.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-0.30 / 50.00];
+	SEM_URIBL(3.50)[purdue.edu:email];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-On 4/29/26 17:25, Pavel Begunkov wrote:
-> Introduce a new file callback that allows creating long-term dma
-> mapping. All necessary information together with a dmabuf will be passed
-> in the second argument of type struct io_dmabuf_token, which will be
-> defined in following patches.
-
-Well first of all the naming is probably not the best. Maybe rather call that dma-buf attachment or context or mappping.
-
-Then the patch should probably define the full interface and not just add the callback here and then the structure in a follow up patch.
-
-Regards,
-Christian.
-
+On Thu 30-04-26 01:36:45, Chao Shi wrote:
+> A WARN_ON_ONCE(!buffer_uptodate(bh)) in mark_buffer_dirty() is
+> reachable from the buffered write path on a block device when the
+> underlying device returns I/O errors at high density.  Reproduced
+> by fuzzing an NVMe controller (FEMU) that returns crafted error
+> completions for a sustained workload from /dev/nvme0n1.
 > 
-> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> The contract documented at set_buffer_uptodate() in
+> include/linux/buffer_head.h reads:
+> 
+>   Any other serialization (with IO errors or whatever that might
+>   clear the bit) has to come from other state (eg BH_Lock).
+> 
+> In fs/buffer.c, BH_Uptodate can be cleared from four I/O completion
+> callbacks: __end_buffer_read_notouch, end_buffer_write_sync,
+> end_buffer_async_read, end_buffer_async_write.
+> 
+> end_buffer_async_read() runs with BH_Lock held throughout, so its
+> clear is already serialized against any caller that also holds
+> BH_Lock around set_buffer_uptodate(); the call may in fact be
+> redundant, but addressing that is independent of this fix.
+> 
+> end_buffer_write_sync() likewise holds BH_Lock while it clears
+> BH_Uptodate on the write-error path.  Removing that clear would
+> change long-standing buffer-cache I/O-error semantics and is out
+> of scope here.
+> 
+> The race is therefore between block_commit_write() and
+> end_buffer_write_sync():
+> 
+>   CPU A: block_commit_write              CPU B: end_buffer_write_sync
+>          (folio lock held, BH_Lock NOT)         (BH_Lock held)
+>     set_buffer_uptodate(bh);
+>                                            clear_buffer_uptodate(bh);
+>                                            unlock_buffer(bh);
+>     mark_buffer_dirty(bh);  /* WARN */
+> 
+> CPU B observes the contract; CPU A does not.  With one side unlocked
+> the serialization is one-sided and ineffective: CPU A's set can be
+> immediately followed by CPU B's clear, tripping the WARN_ON_ONCE.
+> In the fuzzing reproducer, write-error completions are frequent
+> (visible as repeated "lost async page write" and per-LBA write
+> failures); buffer I/O completion callbacks on the write-error path
+> (e.g. end_buffer_write_sync, end_buffer_async_write) clear
+> BH_Uptodate while holding BH_Lock.
+> 
+> The bug is not benign: a not-uptodate buffer can be marked dirty
+> and subsequently written back; depending on whether the buffer was
+> fully or partially covered by the user write, this can leave on-disk
+> content that does not match the intended buffered write state.
+> 
+> Fix this by taking BH_Lock around set_buffer_uptodate() +
+> mark_buffer_dirty() in block_commit_write(), so both sides of the
+> contract use the documented serialization.
+> 
+> Found by FuzzNvme (Syzkaller with FEMU fuzzing framework).
+> 
+> Acked-by: Sungwoo Kim <iam@sung-woo.kim>
+> Acked-by: Dave Tian <daveti@purdue.edu>
+> Acked-by: Weidong Zhu <weizhu@fiu.edu>
+> Signed-off-by: Chao Shi <coshi036@gmail.com>
+
+Thanks for trying but this basically just silences the warning without
+addressing the real problem. Sure enough it silences the warning in
+mark_buffer_dirty() but effectively it just papers over the real problem -
+the IO completion with error can come the moment you unlock the bh and it
+will happily clear the uptodate bit, resulting in the same "dirty but not
+uptodate" invalid buffer state. So I actually prefer keeping things as they
+currently are so that we are reminded there is this unresolved issue.
+
+But it would be actually very welcome if you took the work, went through
+all the places using end_buffer_write_sync() and converted them in
+filesystem-by-filesystem to check for IO error by checking
+buffer_write_io_error() instead of buffer_uptodate() and then we can drop
+clear_buffer_uptodate() call from end_buffer_write_sync(). Yes, it is much
+more work but also much more useful.
+
+								Honza
+
 > ---
->  include/linux/fs.h | 2 ++
->  1 file changed, 2 insertions(+)
+> Hi Matthew, Hi Jan,
 > 
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index b5b01bb22d12..c5558aab4628 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -1920,6 +1920,7 @@ struct dir_context {
->  
->  struct io_uring_cmd;
->  struct offset_ctx;
-> +struct io_dmabuf_token;
->  
->  typedef unsigned int __bitwise fop_flags_t;
->  
-> @@ -1967,6 +1968,7 @@ struct file_operations {
->  	int (*uring_cmd_iopoll)(struct io_uring_cmd *, struct io_comp_batch *,
->  				unsigned int poll_flags);
->  	int (*mmap_prepare)(struct vm_area_desc *);
-> +	int (*create_dmabuf_token)(struct file *, struct io_dmabuf_token *);
->  } __randomize_layout;
->  
->  /* Supports async buffered reads */
-
+> Thanks for the review on v1.  v2 takes the feedback, quick notes below.
+> 
+> To Matthew:
+> 
+> You were right that the v1's timing diagram named the wrong racer.
+> 
+> The actual race is with end_buffer_write_sync() on the write-error
+> path, as Jan pointed out -- it also clears BH_Uptodate under BH_Lock,
+> but block_commit_write()'s else branch was reaching set_buffer_uptodate
+> without BH_Lock, leaving the serialization one-sided.  v2's commit
+> message and in-code comment now name end_buffer_write_sync() as the
+> racer.
+> 
+> To Jan:
+> 
+> Thanks for confirming the racer and for the historical context on the
+> dirty + !uptodate state question.  v2 keeps the fix scoped to taking
+> BH_Lock in block_commit_write(); the broader semantic question and any
+> change to end_buffer_write_sync()'s clear is left out of scope here.
+> 
+> The redundant lock_buffer/unlock_buffer that v1 added to the
+> buffer_new branch of __block_write_begin_int() is also dropped in v2 --
+> that bh has no in-flight async I/O so no race exists there.
+> 
+> v1 thread for context:
+> https://lore.kernel.org/all/20260426020137.1221985-1-coshi036@gmail.com/
+> 
+> Thanks,
+> Chao
+> 
+> Changes in v2:
+>   - Drop the lock_buffer/unlock_buffer added in v1 to the buffer_new
+>     branch of __block_write_begin_int(): that bh is freshly BH_New
+>     and has no in-flight async I/O on it, so no race exists at that
+>     site.
+>   - Rewrite the commit message and the in-code comment to identify
+>     end_buffer_write_sync() as the actual racer, not
+>     end_buffer_async_read() as v1 claimed; end_buffer_async_read()
+>     holds BH_Lock across its clear so a caller that also holds
+>     BH_Lock would already be serialized.
+>   - Reference the BH_Lock contract at set_buffer_uptodate() in
+>     include/linux/buffer_head.h explicitly.
+>   - Drop verbose line-number citations and the WARN stack dump from
+>     the commit message; tighten wording around reproducer evidence
+>     and on-disk impact.
+> 
+> v1: https://lore.kernel.org/all/20260426020137.1221985-1-coshi036@gmail.com/
+> 
+>  fs/buffer.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 4d7f84e77d2..6fddb2f1e7c 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -2104,8 +2104,22 @@ void block_commit_write(struct folio *folio, size_t from, size_t to)
+>  			if (!buffer_uptodate(bh))
+>  				partial = true;
+>  		} else {
+> +			/*
+> +			 * Per the contract documented at set_buffer_uptodate()
+> +			 * in include/linux/buffer_head.h, callers must hold
+> +			 * BH_Lock to serialize against concurrent clears of
+> +			 * BH_Uptodate.  Holding only the folio lock is not
+> +			 * sufficient: a concurrent end_buffer_write_sync() on
+> +			 * the write-error path clears BH_Uptodate while
+> +			 * holding BH_Lock; without BH_Lock here the clear can
+> +			 * land between set_buffer_uptodate() and
+> +			 * mark_buffer_dirty(), tripping the WARN_ON_ONCE in
+> +			 * mark_buffer_dirty().
+> +			 */
+> +			lock_buffer(bh);
+>  			set_buffer_uptodate(bh);
+>  			mark_buffer_dirty(bh);
+> +			unlock_buffer(bh);
+>  		}
+>  		if (buffer_new(bh))
+>  			clear_buffer_new(bh);
+> 
+> base-commit: ffe69af1f87fa77da975ad4b0b093d48c3cbe6c3
+> -- 
+> 2.43.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
