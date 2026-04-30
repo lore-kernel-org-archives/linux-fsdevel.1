@@ -1,62 +1,62 @@
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E94345CCA;
-	Thu, 30 Apr 2026 03:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B5233F5BA;
+	Thu, 30 Apr 2026 03:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777518584; cv=none; b=fnOnrtxanGT29oYjDR5Ms46bv0msEO8HEZTP47w056m3VQLUx6G4HhvOa54s0g7piuUqCx81n2xbL6Ediy8e7ZTx8QexxDFFZxNkg88eVdlxZt+y+8NyxIApkzayZLBZpmGA2DvOrjJp+S6KxUd7wWxcgYYUkvDZu+Qk+22nUaA=
+	t=1777518589; cv=none; b=oz9OG7OEW5WG6sI3BvdBDd85aeJNUKoNEN3rurG+7meggI9N72muRqlxIpgDF2469H6DRSjsZu4uOgyic3Haa0TGePSzO8mXeOGXCJTPplD9JZDADcy4erWC9mpQ5yBClDUDczGZkFBMmpy9PcNOEW3eZMgJn+4OeCqzoFeepVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777518584; c=relaxed/simple;
-	bh=Af17cpjWLrgjln+x15PYEXYO/pHIZybmrmOg/uu6FGs=;
+	s=arc-20240116; t=1777518589; c=relaxed/simple;
+	bh=t9kggWsulA9KxdwVFklPlh4m30Ed/VK+5i4xHr1w7C0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hbRFRyQzRBkGsH8tciGLtPylG/oHmzG9j92qU6OvtC8c+gxfQve3BzBnCbcXKZkd4YeBcAIt7Jg1AVot8yltH0DkSlXyFEf/jQmPNCOnEo83g+5umhLcMjEpG1UEuqGnXfgbOlcNWM2TAIRNHgbHOcEG22HgCXWFN1lwR0m1oKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=a0Y62ua1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HCOULj61; arc=none smtp.client-ip=202.12.124.150
+	 MIME-Version; b=cSya4jlrRvw+vTrl92h95pkdbN/nbPr3+v0uzr8sWLVt6dMxMdwLvd3cSKybnyhnbNsLXEnsJcRGONDYaAzNtI4JvE4uu9lLfhBeBa84mEH9PhuyKAm9l5meeQiHExqhxOgWEsMkqiRkmaLlNKvvKU9w8H0FWMgJP/T6+jCYsag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=mjOcLmdJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E4Hakb2i; arc=none smtp.client-ip=202.12.124.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="a0Y62ua1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HCOULj61"
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id 6989F1D00187;
-	Wed, 29 Apr 2026 23:09:42 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Wed, 29 Apr 2026 23:09:42 -0400
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="mjOcLmdJ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E4Hakb2i"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9BBA87A00F5;
+	Wed, 29 Apr 2026 23:09:47 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 29 Apr 2026 23:09:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1777518582;
-	 x=1777604982; bh=2Sazp1M0TdInI6mi6hF1QSnGjDghjOgL8lkwZNivMpc=; b=
-	a0Y62ua1vVCLsl69JwzQxchZl1shpnRTPoaHvWI3PkzJGk+Hurdz/mjf1utsz6+2
-	qI+VFakyW8s6gXyMAbQxYqKj3cAl2y2XbU6fJg7PoinOYPFS0QGz5f9I+Z1s3RjT
-	B1/sm1PD5aNttS+kn1/hBGB4tLJctn++xxK+PsnxNPC4IW/qzMHKOLFiGZ3XIlZV
-	R06RJafSBj/qPSqVrUs7t0GbHWBDbvb63g/fmcQmKPV1x/2ywj+sqc37IdsBRB9B
-	Abq0Pbe7ndqd4yaEX3rmpzfaPDYAK6bz4Mjn+ooDI1qauFfpi3/QjHgFxeJgTgBQ
-	9uQ1dLSHDOM7H6oUdpdvUQ==
+	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1777518587;
+	 x=1777604987; bh=IPvhYgSpY2OYytpoQzuPZwD9BYsKRv/q4WdeXo/yL6E=; b=
+	mjOcLmdJ3h41bDxvkjxgid0w9Nu1cvc39wuBEygvf1JMVgYYdV9zLh/NiaEYgHW/
+	FbRikC+bTbOqamyvM54fGa6eFF407CRfp+eAu+/vgB9204MGGsA4OfXglnHkzstW
+	GNJVgq7EsloGgw/NW8fbofSIpoOkgw5SUH5kcVIYuta5IVI9EhTVKC5m90egkwLh
+	K+txFgMxGnZ/Wg1BS+Ris3itmFLdQ65Qu6+pobYEAvm1Rg2OxXkYFemZLastA8Gd
+	k/f6zp+2soffEhQYQZkXEKOCUDNeY/X1Ekbx46X84p+XnSfS3OtvRS9fwnaoQc23
+	Pa2RIp8SdBaBRf9oqPotjw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1777518582; x=1777604982; bh=2
-	Sazp1M0TdInI6mi6hF1QSnGjDghjOgL8lkwZNivMpc=; b=HCOULj61wXs5YEkWO
-	SnnwnyIKL3CEVfQtpnrfq//f5jPaXJ2mdAK0gXQhd8cA+uXRYtglOjTztf5PhpCp
-	owjxux6a43GmNCherHrt1iEE/FQQCuonEBeOfiRiPPOM4mrSVkvbfnSYSeiL9bS2
-	HRd7UzormfXmbxr+I4plXNrEDFCgc2l1paL/3sigNf4DWGwBSK+Ge4CFBTGvETla
-	5WutSQB3OOSZvIA9R6b/BGjSyrPzKwMeWpknrb+R8p3Ikro4lnheUQ9gGdBkh/yp
-	yNmQs0V0UF2R7kS65+yDrXAno4MvA8hh1BM0a39VlmN75XftzkEyBj+OML7uXOrh
-	A/jEQ==
-X-ME-Sender: <xms:9sfyaT-ptLQTiw6OayJH1gq4ElCjFKbyjl6yvpQu8rFV3atfx2bP4w>
-    <xme:9sfyaSSKwhvJ0SK1oD6dLMKLVFlF7pcuMtMbc0xBjoKkr7ZvNb7rnvV5m5UNCrVaM
-    2X48_iS5hwLGodrkf9jg5vXggH9RWvO6KIJ4iHk6QW1pxazEw>
-X-ME-Received: <xmr:9sfyaUr-PrLS94T4O5rIWzSZmRq793NHoo2X_qGzUtGTfrvcpM27u8PwXNYd9HIild7IQTZybKpr3CsDksr8tVhkx0O9bKs>
+	:x-me-sender:x-sasl-enc; s=fm2; t=1777518587; x=1777604987; bh=I
+	PvhYgSpY2OYytpoQzuPZwD9BYsKRv/q4WdeXo/yL6E=; b=E4Hakb2iISaU+sNW+
+	7BB5nZgPMwDJEiz3KMmIr9tFTv0Otp+zE5RmRb9pIqJB2GgPPLhpNgesv2VHMBpS
+	fWL+lbuTes5SV1Ooo7+B3fguxl50sMyK+OdJchcR4FUEZxn1sSE7phpLy5rDLYCf
+	VE9xqDscO04eHjBG8SqBTFvWm82Bt6o2udIkpVkBgQ4Amo6fYRSZvWucY1YbLTZI
+	4hjOh5l7PdjyRqWlRIdSj5JiuT5rmI7meIIEjhEKN882gk45wLE7XZU7yiA5X7/R
+	UgFQMG+dJmrwDIQ3IR4Wwxw3SPlayaHofW5p5D6xt2pngQHL+B0RKjjL+oxclirw
+	cafeg==
+X-ME-Sender: <xms:-8fyaWrmxdSoGvXhjCywCxqMGPbnBV3m21aAJJi5Um9saiaMZerpEQ>
+    <xme:-8fyaXM3su3S4frEgRCwI0P0mNfA301brawmttSbktowiSU44kNJ9V81GobWC374k
+    Zf0b8L06dGDutim5IIOcTqck-y4qOrmFZzz-UmxGD6CtGIIKQ>
+X-ME-Received: <xmr:-8fyae3C1LHMgt8Qb7iR8CZPcmgfg0fW07X9DZtZfBB5oRQVxIgYYTmGJ9rkjyQBtXXv1XjatQcko92hUflc_se1LWxhTNo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekiedvtdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
     hrpefhvfevufffkffojghfrhgggfestdekredtredttdenucfhrhhomheppfgvihhluehr
     ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
     evveekffduueevhfeigefhgfdukedtleekjeeitdejudfgueekvdekffdvfedvudenucev
-    lhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
     hofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhu
     thdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtg
     hpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
@@ -65,14 +65,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekiedvtdcutefuodetgg
     sheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepjhhlrgihth
     honheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghl
     rdhorhhgpdhrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:9sfyafl2DSOJcGQiTQGiS4c6mlwho66LYhI_jV0BwOg9F0wxFaFdRg>
-    <xmx:9sfyadeNqyLmwUz1Bjok2okJhyQw1yTlc2_Ap-itbbqt2zzXWKv5Hw>
-    <xmx:9sfyabpEUCpNKtRjS0VYPq_9XieWIyHf2AROCDDzBnGTCAYGynk75g>
-    <xmx:9sfyaXNba5KzOjWt9zcXsTxuPc4Txv2orhIe_lSRevMeeoza7mwbCg>
-    <xmx:9sfyaZG9M2HbbMhn2w-pqtMDaGJlKAXI6S1n6d07rlMSDHmZHbaEsNVl>
+X-ME-Proxy: <xmx:-8fyaWCiwCRdX3vIBkyj0Q8ITiFdXE0kaojKIv8QpKb0ZGc_U-KT7w>
+    <xmx:-8fyabKS5ynGex_PsvGmpdESTYWiHxD-s5mQ9MNjLNQO_KHWUCLrpQ>
+    <xmx:-8fyafkXH4-jkl8CKAj6hgF8HYHwOLZlAO42G5nF6w0gA6Vms3zdug>
+    <xmx:-8fyaUbnWbB6KaGpPpxTfCnfklhyvWPzaRWNJdo3AvCNcG1Oceo1vg>
+    <xmx:-8fyaTwycULdyN1Fdrz2tlOpVNzxCFmTW9zGp78S8YLVOglbyu5wooJn>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Apr 2026 23:09:39 -0400 (EDT)
+ 29 Apr 2026 23:09:44 -0400 (EDT)
 From: NeilBrown <neilb@ownmail.net>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
 	Al Viro <viro@zeniv.linux.org.uk>,
@@ -82,9 +82,9 @@ To: Linus Torvalds <torvalds@linux-foundation.org>,
 	Amir Goldstein <amir73il@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 6/7] VFS: Add LOOKUP_SHARED flag.
-Date: Thu, 30 Apr 2026 11:56:59 +1000
-Message-ID: <20260430020137.3305302-7-neilb@ownmail.net>
+Subject: [PATCH v4 7/7] VFS/xfs/ntfs: drop parent lock across d_alloc_parallel() in d_add_ci()
+Date: Thu, 30 Apr 2026 11:57:00 +1000
+Message-ID: <20260430020137.3305302-8-neilb@ownmail.net>
 X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
 In-Reply-To: <20260430020137.3305302-1-neilb@ownmail.net>
 References: <20260430020137.3305302-1-neilb@ownmail.net>
@@ -99,77 +99,116 @@ Content-Transfer-Encoding: 8bit
 
 From: NeilBrown <neil@brown.name>
 
-Some ->lookup handlers will need to drop and retake the parent lock, so
-they can safely use d_alloc_parallel().
+A proposed change will invert the lock ordering between
+d_alloc_parallel() and inode_lock() on the parent.
+When that happens it will not be safe to call d_alloc_parallel() while
+holding the parent lock - even shared.
 
-->lookup can be called with the parent lock either exclusive or shared.
+We don't need to keep the parent lock held when d_add_ci() is run - the
+VFS doesn't need it as dentry is exclusively held due to
+DCACHE_PAR_LOOKUP and the filesystem has finished its work.
 
-A new flag, LOOKUP_SHARED, tells ->lookup how the parent is locked.
-
-This is rather ugly, but will be gone soon after we move
-d_alloc_parallel() out of the directory lock as ->lookup() will *always*
-called with a shared lock on the parent.
+So drop and reclaim the lock (shared or exclusive as determined by
+LOOKUP_SHARED) to avoid future deadlock.
 
 Signed-off-by: NeilBrown <neil@brown.name>
 ---
- fs/namei.c            | 7 ++++---
- include/linux/namei.h | 3 ++-
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ fs/dcache.c            | 18 +++++++++++++++++-
+ fs/ntfs/namei.c        |  2 +-
+ fs/xfs/xfs_iops.c      |  2 +-
+ include/linux/dcache.h |  3 ++-
+ 4 files changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/fs/namei.c b/fs/namei.c
-index a6349b31fdb6..e77ba9d31857 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -1928,7 +1928,7 @@ static noinline struct dentry *lookup_slow(const struct qstr *name,
- 	struct inode *inode = dir->d_inode;
- 	struct dentry *res;
- 	inode_lock_shared(inode);
--	res = __lookup_slow(name, dir, flags);
-+	res = __lookup_slow(name, dir, flags | LOOKUP_SHARED);
- 	inode_unlock_shared(inode);
- 	return res;
- }
-@@ -1942,7 +1942,7 @@ static struct dentry *lookup_slow_killable(const struct qstr *name,
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 1943607f7547..43cd0765670f 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -2275,6 +2275,7 @@ EXPORT_SYMBOL(d_obtain_root);
+  * @dentry: the negative dentry that was passed to the parent's lookup func
+  * @inode:  the inode case-insensitive lookup has found
+  * @name:   the case-exact name to be associated with the returned dentry
++ * @lookup_flags: flags passed to ->lookup
+  *
+  * This is to avoid filling the dcache with case-insensitive names to the
+  * same inode, only the actual correct case is stored in the dcache for
+@@ -2287,7 +2288,7 @@ EXPORT_SYMBOL(d_obtain_root);
+  * the exact case, and return the spliced entry.
+  */
+ struct dentry *d_add_ci(struct dentry *dentry, struct inode *inode,
+-			struct qstr *name)
++			struct qstr *name, unsigned int lookup_flags)
+ {
+ 	struct dentry *found, *res;
  
- 	if (inode_lock_shared_killable(inode))
- 		return ERR_PTR(-EINTR);
--	res = __lookup_slow(name, dir, flags);
-+	res = __lookup_slow(name, dir, flags | LOOKUP_SHARED);
- 	inode_unlock_shared(inode);
- 	return res;
- }
-@@ -4413,6 +4413,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	struct dentry *dentry;
- 	int error, create_error = 0;
- 	umode_t mode = op->mode;
-+	unsigned int shared_flag = (op->open_flag & O_CREAT) ? 0 : LOOKUP_SHARED;
- 
- 	if (unlikely(IS_DEADDIR(dir_inode)))
- 		return ERR_PTR(-ENOENT);
-@@ -4480,7 +4481,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 
+@@ -2300,6 +2301,17 @@ struct dentry *d_add_ci(struct dentry *dentry, struct inode *inode,
+ 		iput(inode);
+ 		return found;
+ 	}
++	/*
++	 * We are holding parent lock and so don't want to wait for a
++	 * d_in_lookup() dentry.  We can safely drop the parent lock and
++	 * reclaim it as we have exclusive access to dentry as it is
++	 * d_in_lookup() (so ->d_parent is stable) and we are near the
++	 * end ->lookup() and will shortly drop the lock anyway.
++	 */
++	if (lookup_flags & LOOKUP_SHARED)
++		inode_unlock_shared(d_inode(dentry->d_parent));
++	else
++		inode_unlock(d_inode(dentry->d_parent));
  	if (d_in_lookup(dentry)) {
- 		struct dentry *res = dir_inode->i_op->lookup(dir_inode, dentry,
--							     nd->flags);
-+							     nd->flags | shared_flag);
- 		d_lookup_done(dentry);
- 		if (unlikely(res)) {
- 			if (IS_ERR(res)) {
-diff --git a/include/linux/namei.h b/include/linux/namei.h
-index 2ad6dd9987b9..b3346a513d8f 100644
---- a/include/linux/namei.h
-+++ b/include/linux/namei.h
-@@ -37,8 +37,9 @@ enum {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT};
- #define LOOKUP_CREATE		BIT(17)	/* ... in object creation */
- #define LOOKUP_EXCL		BIT(18)	/* ... in target must not exist */
- #define LOOKUP_RENAME_TARGET	BIT(19)	/* ... in destination of rename() */
-+#define LOOKUP_SHARED		BIT(20) /* Parent lock is held shared */
+ 		found = d_alloc_parallel(dentry->d_parent, name);
+ 		if (IS_ERR(found) || !d_in_lookup(found)) {
+@@ -2313,6 +2325,10 @@ struct dentry *d_add_ci(struct dentry *dentry, struct inode *inode,
+ 			return ERR_PTR(-ENOMEM);
+ 		} 
+ 	}
++	if (lookup_flags & LOOKUP_SHARED)
++		inode_lock_shared(d_inode(dentry->d_parent));
++	else
++		inode_lock_nested(d_inode(dentry->d_parent), I_MUTEX_PARENT);
+ 	res = d_splice_alias(inode, found);
+ 	if (res) {
+ 		d_lookup_done(found);
+diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+index 10894de519c3..e2f3430c2e6d 100644
+--- a/fs/ntfs/namei.c
++++ b/fs/ntfs/namei.c
+@@ -310,7 +310,7 @@ static struct dentry *ntfs_lookup(struct inode *dir_ino, struct dentry *dent,
+ 		}
+ 		nls_name.hash = full_name_hash(dent, nls_name.name, nls_name.len);
  
--/* 4 spare bits for intent */
-+/* 3 spare bits for intent */
+-		dent = d_add_ci(dent, dent_inode, &nls_name);
++		dent = d_add_ci(dent, dent_inode, &nls_name, flags);
+ 		kfree(nls_name.name);
+ 		return dent;
  
- /* Scoping flags for lookup. */
- #define LOOKUP_NO_SYMLINKS	BIT(24) /* No symlink crossing. */
+diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
+index 325c2200c501..db0beb3831a9 100644
+--- a/fs/xfs/xfs_iops.c
++++ b/fs/xfs/xfs_iops.c
+@@ -369,7 +369,7 @@ xfs_vn_ci_lookup(
+ 	/* else case-insensitive match... */
+ 	dname.name = ci_name.name;
+ 	dname.len = ci_name.len;
+-	dentry = d_add_ci(dentry, VFS_I(ip), &dname);
++	dentry = d_add_ci(dentry, VFS_I(ip), &dname, flags);
+ 	kfree(ci_name.name);
+ 	return dentry;
+ }
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index b4663a1a0636..9553bffbb098 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -263,7 +263,8 @@ struct dentry *d_duplicate(struct dentry *dentry);
+ /* weird procfs mess; *NOT* exported */
+ extern struct dentry * d_splice_alias_ops(struct inode *, struct dentry *,
+ 					  const struct dentry_operations *);
+-extern struct dentry * d_add_ci(struct dentry *, struct inode *, struct qstr *);
++extern struct dentry * d_add_ci(struct dentry *, struct inode *, struct qstr *,
++				unsigned int);
+ extern bool d_same_name(const struct dentry *dentry, const struct dentry *parent,
+ 			const struct qstr *name);
+ extern struct dentry *d_find_any_alias(struct inode *inode);
 -- 
 2.50.0.107.gf914562f5916.dirty
 
