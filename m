@@ -1,112 +1,124 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F316401A1F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 11:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB50318FDBE
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 11:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777550096; cv=none; b=i1oJzjI69qpbK5sL5V5mLCyF0hacs6HONhwtGGrm5B8OsIW0XATAKyM1S/70vCjCMST8yj2CLdVuox/qTmWdQMG3a+ftfRmQJa4b4wAWNMSd49ijUh8xLSTzj3tZ816XlkuCPfJqtpMtdv4x1VJveup5jb8ZzhVqrCdW5Yx1beg=
+	t=1777550284; cv=none; b=g8EzwqLs2hTyFJ/TYUs+ix7J2l5Aer4R48pniKJHhbN9hZlB8+pX0u3fGOGKeHPx32usQC/JSTRlE9zD1z1vQ31xl679QUgFLHOCJXj8vT4TeMIynuZGdmEBk3GyH+lecR4NYV9EPC8yMVDYIsRlCL6FpUYwnEZO+MJ4lmL9KSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777550096; c=relaxed/simple;
-	bh=3avQNtr9r1XeGBlARJq+n7rtgl0oPb2V57klUAIwCbM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iI18RGpfCfCEnpUvnSofVjitPozKW0g915qP6ipJKoD+Voiyco7ZGnkR49uriDiMkwBwg0azJW+/ek7v+j0OXbGFTTPufd5b//GePSPU+FYME2qKc6ow88zFh8vGX6qTEEfjkOMR6k5wrgwnbfi4jUqgrtrWiKctufsSq0HQTCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJN34Utr; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1777550284; c=relaxed/simple;
+	bh=MthpMT33XCv+n5gHHo2fASuF1na0bjoxfCIjFK3Viow=;
+	h=From:To:Cc:Subject:Date:Message-ID; b=kReG2d/6H9vjUBBHXABMATqSWyq6ZnEdghKwWTe5xsTfd2RdPP1Lt0GAFszCfqm+wNTylzNuFNNExdIEW4C1EKzQzz44dymdWyLva/TyGZD708HGi+YlijgWzIAqey8uoY43FkL6kH5V0hqNLeIRJpM5iDGHGjAdGOgaG0RsC2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mEpD7Tc2; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJN34Utr"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ae3a007bd1so1149625ad.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 04:54:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mEpD7Tc2"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-35d90833cacso633778a91.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 04:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777550093; x=1778154893; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7rRQ8aJ/ZThGuX3nr1u97elNO+8kmxjinhPQTpYBxIo=;
-        b=IJN34UtrydM32pQwGpQLbOazZ542enqEPxBDD4pco1dXQXyl1HYpyiNZFqYm0TuSkc
-         nEQthe9J0C8MOjCyJ1Mg1yYF4IhWLBv7IYXYVpRdYB1sTTm9wiMNIxfDUw8vXFXhnoFo
-         0VseScrHGhG8ZUka+4Ae721Jl9POhoKFURXaD/ULCfhWw1DnJV2hnxkH06kBbTEybXSH
-         fARVEDni1DC/rgewfQdfmdBF9Kc8/Z0FvdO5o2o0CCz4ubH/6GqXIlnnQil1tGEKdpp5
-         Yz53hGmGhLljaOcO/43LVyDgq0H6ZfVSzGasv6O9yHWpScbENGwnh2Y4Pi4peVsTS3rL
-         kEmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777550093; x=1778154893;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777550282; x=1778155082; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7rRQ8aJ/ZThGuX3nr1u97elNO+8kmxjinhPQTpYBxIo=;
-        b=OqiApyB85Z2s06lxOrwa6h9b3izgogRQQRWGbsKTrH+GFKm9PyMOfsZkg5yMGUv+Gz
-         OsWfm8ICsR2ZvOuyl5GW21YOhHbpCBj3MWW/F4WY+dE6A7m2+aCCoBK6GFw7EcGuqt+l
-         4YQjYHzP8ymxav6p38D7VLZ7Dz7mKyo8FGATbhaPiyEOIA33PGNfJvNDS4/IPOplXhXS
-         1R4LdARbkJsA1vAMGlyNf/EDmYKxAPVGcAC6YzFCV5/5UZq3ARNCUecGSbwNcKNGBfdo
-         C9XTFFx4aNhAD7YUkqqXHxscL0mDsDRJhIitFCnoi+B/gfBmMCFlLD2PdCOoI5NjEpLt
-         G2TQ==
-X-Gm-Message-State: AOJu0YxcSyv9MWogbJ7Kn9h+YD4cgI1nYcNvY+PbQ5IrM/qPOUOGBYwW
-	RPHpawxgGGHB67hGxG9zYbgca5GzTSgxg1j9GWDML0mTT/Rxifznlv/X
-X-Gm-Gg: AeBDietzUiTqBRxOgVSGlFLcSzgHa+l3w3hijsxqvr8jjQEh82melzSEX3DQzLQeny5
-	3QJxhEfIKhENX8j/AxmoeBLvlx13XpY4/NDNYZGdc0VH/uk9fYXz6Zzhjb3wM2rau7MBeQO54Gx
-	n0DDogQzQeK4vAmYGF2L3biuP9n0uxXEGGGeVhllMC/Wpb3fNWiIfCZpc3kPePu5Q1EA0ZWi3iX
-	y7rqF97h5kHW3yF57Lr8tL8zWhH4uYrP1ASw2Czqnxfqrr64RBdKD1gea136hy+8C642zXCFijy
-	5rEsUbKfIINV9MsQAN7ntPjmQXfYOTu4CXtqAixLRrxBKzhl4CGWKdTRHmwY8bY9Bdpc3sMxXZW
-	15CZGE5CwCP7vHQ1VG5S0GTydCBNKXeiJcWbL0hc/qOJt9ues8U0KVZ4WrDGfKcFDWVkEhMLaE6
-	aPfltYhOFkPJiOPHM+KAHfGSpqbkY=
-X-Received: by 2002:a17:902:ebcb:b0:2b2:5c84:32ba with SMTP id d9443c01a7336-2b9a2325249mr14801585ad.2.1777550093146;
-        Thu, 30 Apr 2026 04:54:53 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b988972dfasm53272545ad.72.2026.04.30.04.54.51
+        bh=rueCD1ZsgcCsQQilyqi458mm+zVO0hUPiotgswNp7CE=;
+        b=mEpD7Tc2E2UoZxxhVni9NE+CMVqY2VuZMrGIltWG9k27vIUxo0S8DNCvpglX4VgYU7
+         loUOb7pxrLYX9P3NuAQcB4FQcSrSTFr2cfNmSd82rVKrebO5nL7cV6yWIFBI81XWKnoC
+         RpFNmosJmeu1MBbTTKrVd47t+kYtvU47uFp0/r17wjoOgK2V4aV7rAfXhx/3WhXrE10J
+         WkFeaJuw+G5h+PrhQAbONi3H6JYxH45hfBfbfEsA6Jd6LWu1Eo/qGbGJL1D/rDGHyn4g
+         rdEJB6iMQwKgN/hik58N7rHHizK7Lq8OHJVXZqDUGsjhYJSCwqk6E05nf5cw/2dJ7cfB
+         VsHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777550282; x=1778155082;
+        h=message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rueCD1ZsgcCsQQilyqi458mm+zVO0hUPiotgswNp7CE=;
+        b=GerSXal+aSr8RviBpsacpw+Mga2U0gyLIgcL2z1JTRUQzUvHLZEzLQrgMjpiiDh4qT
+         yDiD9zVapRNzhWkcDRcW3tccvxicGOMTkc3RGrKupTduuuGFVPfQUS5mwBf5OjbhthXH
+         ucKkqtMnu43DpxIpPFdrIMrQmA5+Xga7AWMyVTgW9I0nAhhF8C9I0U3SCYD2p+gUvqOr
+         h1nIhXflYOxW3Br3WisSAB4f/dpPz0SkUjwjv3JbNjNpIVrwtlhSqJrq5zXT6shFiofl
+         BSOovo+2SaCyi057kfAXoPYrQpCtA8ab+ukXFrBciHm+1q8Z5xT8eVr4J8Fonq9VNVTF
+         LVFA==
+X-Gm-Message-State: AOJu0YzZc+wc754XZGKRGbtTztoCvOMdrnVwu7F5a+0VrBzlOqIFYpSK
+	tRsNhU1uKZoqyeUhtTuAlnx1kIjKCUWIe3CRvLOEVr53Gs3yjpqCd0ZM
+X-Gm-Gg: AeBDievwMOzjANyn4Kru6UjZ4sP/5pQ5k6/BLFffKXmIC1WBloy2OXrglqtaHagGzhu
+	p4z0vxE649Q1aE1OQU0bgQsU52E7DEFSnEBiqPjO6Tu3duFZ9+cXHiH5suR5f+utwW4SRPAZQc0
+	h23PXyP0d0VSeHrWKADPzm0i+JyR4kuRwRRDFBJz9Px/LyP4+522DEtuvpvPC22bqFEyWceMiwq
+	CzWioGX5sxx9STG1sT7hSR6BL7SSotkmNxSDsFc9R1002DoZV3ZidBe/E6jsLN476DjdkvJhpGv
+	ZQzn+HziGz12zEsKg/ERXHTJ9CbLeXtXF2EgfPQJX5chrxgYgVsMbqJrKQ00OPTfrZowQRNKCVe
+	x7VbW7dNK3umgbnbMSGCaduld2vBj7DziRV6VMQDe9OsMLUbvCxOWOvbAJSuAvdfxvy6NA1YuzI
+	bR7YmUKFie8EyG779opajIV4tuaPPiJIsP
+X-Received: by 2002:a17:90b:17cc:b0:364:919c:b52f with SMTP id 98e67ed59e1d1-364c30ff32fmr2632823a91.24.1777550282152;
+        Thu, 30 Apr 2026 04:58:02 -0700 (PDT)
+Received: from pve-server ([49.205.216.49])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364bdf2aa41sm3638926a91.4.2026.04.30.04.57.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 04:54:52 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH] ntfs: use base mft_no when looking up base inode for extent record
-Date: Thu, 30 Apr 2026 20:54:47 +0900
-Message-ID: <20260430115447.2604683-1-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 30 Apr 2026 04:58:01 -0700 (PDT)
+From: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+To: linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Cc: Amir Goldstein <amir73il@gmail.com>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, lsf-pc <lsf-pc@lists.linux-foundation.org>, Gregory Price <gourry@gourry.net>, Bharata B Rao <bharata@amd.com>, Donet Tom <donettom@linux.ibm.com>, Matthew Wilcox <willy@infradead.org>, Aboorva Devarajan <aboorvad@linux.ibm.com>, linux-mm@kvack.org, Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Subject: [LSF/MM/BPF BoF Session] Numa-Aware Placement for Page Cache Pages
+Date: Thu, 30 Apr 2026 17:03:37 +0530
+Message-ID: <h5ossmwe.ritesh.list@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-When the mft record is an extent record, ntfs_may_write_mft_record()
-looks up its base inode in the icache. The hash key passed to
-find_inode_nowait() must be the base inode's mft number (na.mft_no,
-set just above to MREF_LE(m->base_mft_record)), but the code passes
-@mft_no, the extent record's own number.
 
-find_inode_nowait() uses its second argument as the hashval, so the
-lookup lands in the wrong bucket and almost always returns NULL.
-ntfs_may_write_mft_record() then returns false and the writeback
-path (ntfs_write_mft_block()) skips that extent record, leaving the
-on-disk copy permanently out of sync with the in-memory one.
+Hi All,
 
-The original ilookup5_nowait() call this conversion replaced used
-na.mft_no.  Restore that.
+Amir insisted for this :)
+> IOW, bring the Hallway session into the room, so that other people
+> can participate and we can use the hallway time for gossip and
+> stuffing our faces.
 
-Fixes: 115380f9a2f9 ("ntfs: update mft operations")
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
----
- fs/ntfs/mft.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So, since we might have few slots available in FS breakout sessions -
+here is something that I was hoping to have a discussion with you all
+in hallway. However, I thought maybe it will be a good idea to initiate
+this thread here, to see what do you think about this.
 
-diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
-index 7d989267a82b..ef423303565d 100644
---- a/fs/ntfs/mft.c
-+++ b/fs/ntfs/mft.c
-@@ -833,7 +833,7 @@ static bool ntfs_may_write_mft_record(struct ntfs_volume *vol, const u64 mft_no,
- 		vi = igrab(mft_vi);
- 		WARN_ON(vi != mft_vi);
- 	} else {
--		vi = find_inode_nowait(sb, mft_no, ntfs_test_inode_wb, &na);
-+		vi = find_inode_nowait(sb, na.mft_no, ntfs_test_inode_wb, &na);
- 		if (na.state == NI_BeingDeleted || na.state == NI_BeingCreated)
- 			return false;
- 	}
--- 
-2.43.0
 
+Linux already supports memory tiers and there are ongoing discussions around
+promotion of unmapped page cache pages, which lets kernel do the right thing
+for userspace page cache pages on a tiered system.
+
+v6.17 added support for per-node global reclaim via
+/sys/devices/system/node/nodeX/reclaim, which lets users perform per-node
+reclaim of page cache pages. We also already have interfaces that let userspace
+define the lifetime of page cache pages, such as RWF_DONTCACHE and
+FADV_DONTNEED. These are increasingly useful because locally-attached DRAM is
+a costly resource and we don't want unwanted page cache pollution there.
+Userspace, sometimes is in a better position than the kernel to know the
+workload's access pattern and whether it makes sense to drop page cache pages
+once the I/O is done.
+
+So the question is:
+Do we need a userspace interface for the placement policy of page cache pages on a per file basis?
+
+Note that we do have per-task placement policies like set_mempolicy(), but those
+are too coarse and don't help if userspace wants per-fd control. mmap+mbind()
+doesn't reach unmapped page cache. shared_policy per-inode works for
+shmem/guest_memfd but not for other filesystems (I think so, but I maybe
+wrong).
+
+So what I would like to discuss with others is:
+
+1. Is there a need for an interface that allows userspace to do per-fd page
+   placement and maybe per-fd page migration?
+2. Are there applications that need such an interface or would they benefit
+   from it?
+3. Even if applications may not need this today, should kernel developers start
+   thinking about it now, before users start abusing some not-well-defined
+   existing interface. e.g. the story of echo 1 > /proc/sys/vm/drop_caches,
+   which became a production workload tool despite never being intended as
+   one?
+
+Let me know if people think that this discussion qualifies for a BoF discussion at LSFMM?
+Or do you think it's a bad idea altogether, if that is the case - Then
+please help me understand, why so?
+Before starting to jump on the implemention of any of this - I would
+like to gather feedback on what do others think?
+
+-ritesh
