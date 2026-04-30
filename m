@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D7138E106
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24B61DA0E1
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777537215; cv=none; b=UtctCCzxekhgd9XyBKGBOeTjZ8rjncPikr5io77E1aXbsvFFTTJEMlKdpUGF57CAJXdjBy8xMX1f8n2/2g0utRCE8rmyzqSWce95UI607YCdaCT+m74F7RlTQ/IZWSjiqePHhSQ+6JKgrt+QTorzAVtJ4A8/OfhfZenuCbGHOcc=
+	t=1777537300; cv=none; b=EE0ci/9erjNWWRvp9qpsQdY5baysFJSKxZV9aPsOZjrg3qcRlQyPr7DtpJZfd2XEudvvUdkLV5dap1dY2HnPtBOqhESMA2K/6sipW/L/id1k8a4xDYg6j+3PYQTeA6GQ03WKC+RuYBB/js6TF+Zgi3s/Ma4mhzRGfenMpQKJA9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777537215; c=relaxed/simple;
-	bh=/QxKNFJU1RiDto7Sd+89dyCnhZsAUrdrZ4SH3TK8tgk=;
+	s=arc-20240116; t=1777537300; c=relaxed/simple;
+	bh=uuzOqEWyCklE2An1Kp9Q/kkV0IL43W0q3E8QqTDgLl0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sQ9THAQPRfUEV4wH2DT2J1evY+bVeh6jfRi9I6IBmh3Ome2R3tCAE/RH5DofoFluNEtSvBCfkeUzl62nHqfurLGUp1btoZPysajylyfT45hPG+hSRaUFnR2bIBGN6WgGnyIRjZrtvn7CugLB6GCM7S155xsbewGy/YDJGs/O4tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rFwZ7nf+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=B3hK0ngRLmYkm+mtgwGp9zbTprFLYp9MsuE1Elt2PsFbfwm+lBjVWMP8QsXuqSV1GrSG793L0rbhgd7HuDP8LQe1DBua6kcT2NLGBOkp4MGBSyYC+abxCNc1skhVy73pnVhPjUumMX1fUM3Q6K59DwE25dVS+q+sq4OcJ3CZ5L0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SHQpS/2e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rFwZ7nf+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98C3BC2BCB3;
-	Thu, 30 Apr 2026 08:20:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SHQpS/2e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 161F6C2BCB3;
+	Thu, 30 Apr 2026 08:21:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777537213;
-	bh=/QxKNFJU1RiDto7Sd+89dyCnhZsAUrdrZ4SH3TK8tgk=;
+	s=k20201202; t=1777537300;
+	bh=uuzOqEWyCklE2An1Kp9Q/kkV0IL43W0q3E8QqTDgLl0=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=rFwZ7nf+oM1g5a0ypJDmIRzJjG5PeREMx4PhtTcUrx1Yedd02y7iKbg2/dR/8Oyew
-	 ZHLeyDdu+B65pwN1mc9iBeW59Ni2xmEZCI8hO5kuSewQsm2UOeLvZsUToYIBCGzJLy
-	 0DldjMbC9Spjs1RYzUkIgD54tCDgxWvp0ZxKd3cAxXrzISWJgsU165puCcjGlnxoHk
-	 qZtpXTGzSbhG1ermKn+WSzACywWVKpIp0pYoAikEe/pIHCWn8mHvWvS1De544YJLwb
-	 9RdBvlp4n1kLGysTVyjQjA6qpC+3oSQK17XY9qgRFfULUR0eqvJKShrHlHCB7yiP5B
-	 bmwf6Sh/OEg7Q==
-Message-ID: <823192881773ec71b06ee61483a3d7dff85cca89.camel@kernel.org>
-Subject: Re: [PATCH v2 07/14] fuse: use named constants for io-uring iovec
- indices
+	b=SHQpS/2e6jX/WhjmcHGOiuc7YmJucWnHDzgYkwRh7cQIWy2hY+om5PbYLCaf4ZLDk
+	 mrxTl0xoCnQHPvKdQcpABFHA6JQji2QchDmjt9r/xB6A98ezNXTVL/GQU9sJpwjFvw
+	 ++JqghCQl8IMKDERmVi4gghK8POrS+HLYrvpyYHMw317b9zvHV1Hw6ig3hfZT9cFRH
+	 0YLNQVswthNNZtE1T+LTwh3poQzhN/i50MMOm1drKWXqr3EdFegB4t6PR+IpDTvrQH
+	 7o/FDuvMppY7PHF5xfGZ/zEluQLcFUKE52lmE/EfaNKSVjyl7QgDq8oyM6v8rO0NTR
+	 AOHNV2FARLFtg==
+Message-ID: <8bae3d0d8e44061610533db56e189ae9b84a7a90.camel@kernel.org>
+Subject: Re: [PATCH v2 08/14] fuse: move fuse_uring_abort() from header to
+ dev_uring.c
 From: Jeff Layton <jlayton@kernel.org>
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
 Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
-Date: Thu, 30 Apr 2026 09:20:11 +0100
-In-Reply-To: <20260402162840.2989717-8-joannelkoong@gmail.com>
+Date: Thu, 30 Apr 2026 09:21:36 +0100
+In-Reply-To: <20260402162840.2989717-9-joannelkoong@gmail.com>
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
-	 <20260402162840.2989717-8-joannelkoong@gmail.com>
+	 <20260402162840.2989717-9-joannelkoong@gmail.com>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -121,90 +121,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Thu, 2026-04-02 at 09:28 -0700, Joanne Koong wrote:
-> Replace magic indices 0 and 1 for the iovec array with named constants
-> FUSE_URING_IOV_HEADERS and FUSE_URING_IOV_PAYLOAD. This makes the usages
-> self-documenting and prepares for buffer ring support which will also
-> reference these iovec slots by index.
+> Move fuse_uring_abort() out of the inline header definition and into
+> dev_uring.c. This function calls several internal helpers (abort
+> requests, stop queues) that are all defined in dev_uring.c so inlining
+> it in the header unnecessarily exposes implementation details.
+>=20
+> This will make the subsequent commit that adds pinning capabilties for
+> fuse buffers cleaner.
 >=20
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > ---
->  fs/fuse/dev_uring.c | 24 +++++++++++++-----------
->  1 file changed, 13 insertions(+), 11 deletions(-)
+>  fs/fuse/dev_uring.c   | 17 +++++++++++++++--
+>  fs/fuse/dev_uring_i.h | 16 +---------------
+>  2 files changed, 16 insertions(+), 17 deletions(-)
 >=20
 > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 045394a7ae41..a85acd9c2b71 100644
+> index a85acd9c2b71..cce8994241b7 100644
 > --- a/fs/fuse/dev_uring.c
 > +++ b/fs/fuse/dev_uring.c
-> @@ -18,7 +18,8 @@ MODULE_PARM_DESC(enable_uring,
->  		 "Enable userspace communication through io-uring");
-> =20
->  #define FUSE_URING_IOV_SEGS 2 /* header and payload */
-> -
-> +#define FUSE_URING_IOV_HEADERS 0
-> +#define FUSE_URING_IOV_PAYLOAD 1
-> =20
->  bool fuse_uring_enabled(void)
->  {
-> @@ -1063,8 +1064,8 @@ static void fuse_uring_do_register(struct fuse_ring=
-_ent *ent,
+> @@ -129,7 +129,7 @@ static void fuse_uring_abort_end_queue_requests(struc=
+t fuse_ring_queue *queue)
+>  	fuse_dev_end_requests(&req_list);
 >  }
 > =20
->  /*
-> - * sqe->addr is a ptr to an iovec array, iov[0] has the headers, iov[1]
-> - * the payload
-> + * sqe->addr is a ptr to an iovec array, iov[FUSE_URING_IOV_HEADERS] has=
- the
-> + * headers, iov[FUSE_URING_IOV_PAYLOAD] the payload
->   */
->  static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
->  					 struct iovec iov[FUSE_URING_IOV_SEGS])
-> @@ -1094,8 +1095,8 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd=
-,
+> -void fuse_uring_abort_end_requests(struct fuse_ring *ring)
+> +static void fuse_uring_abort_end_requests(struct fuse_ring *ring)
 >  {
->  	struct fuse_ring *ring =3D queue->ring;
->  	struct fuse_ring_ent *ent;
-> -	size_t payload_size;
->  	struct iovec iov[FUSE_URING_IOV_SEGS];
-> +	struct iovec *headers, *payload;
->  	int err;
+>  	int qid;
+>  	struct fuse_ring_queue *queue;
+> @@ -477,7 +477,7 @@ static void fuse_uring_async_stop_queues(struct work_=
+struct *work)
+>  /*
+>   * Stop the ring queues
+>   */
+> -void fuse_uring_stop_queues(struct fuse_ring *ring)
+> +static void fuse_uring_stop_queues(struct fuse_ring *ring)
+>  {
+>  	int qid;
 > =20
->  	err =3D fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
-> @@ -1106,15 +1107,16 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *c=
-md,
+> @@ -501,6 +501,19 @@ void fuse_uring_stop_queues(struct fuse_ring *ring)
 >  	}
+>  }
 > =20
->  	err =3D -EINVAL;
-> -	if (iov[0].iov_len < sizeof(struct fuse_uring_req_header)) {
-> -		pr_info_ratelimited("Invalid header len %zu\n", iov[0].iov_len);
-> +	headers =3D &iov[FUSE_URING_IOV_HEADERS];
-> +	if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
-> +		pr_info_ratelimited("Invalid header len %zu\n", headers->iov_len);
->  		return ERR_PTR(err);
->  	}
+> +void fuse_uring_abort(struct fuse_conn *fc)
+> +{
+> +	struct fuse_ring *ring =3D fc->ring;
+> +
+> +	if (ring =3D=3D NULL)
+> +		return;
+> +
+> +	if (atomic_read(&ring->queue_refs) > 0) {
+> +		fuse_uring_abort_end_requests(ring);
+> +		fuse_uring_stop_queues(ring);
+> +	}
+> +}
+> +
+>  /*
+>   * Handle IO_URING_F_CANCEL, typically should come on daemon termination=
+.
+>   *
+> diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+> index 51a563922ce1..349418db3374 100644
+> --- a/fs/fuse/dev_uring_i.h
+> +++ b/fs/fuse/dev_uring_i.h
+> @@ -137,27 +137,13 @@ struct fuse_ring {
 > =20
-> -	payload_size =3D iov[1].iov_len;
-> -	if (payload_size < ring->max_payload_sz) {
-> +	payload =3D &iov[FUSE_URING_IOV_PAYLOAD];
-> +	if (payload->iov_len < ring->max_payload_sz) {
->  		pr_info_ratelimited("Invalid req payload len %zu\n",
-> -				    payload_size);
-> +				    payload->iov_len);
->  		return ERR_PTR(err);
->  	}
+>  bool fuse_uring_enabled(void);
+>  void fuse_uring_destruct(struct fuse_conn *fc);
+> -void fuse_uring_stop_queues(struct fuse_ring *ring);
+> -void fuse_uring_abort_end_requests(struct fuse_ring *ring);
+> +void fuse_uring_abort(struct fuse_conn *fc);
+>  int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
+>  void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req =
+*req);
+>  bool fuse_uring_queue_bq_req(struct fuse_req *req);
+>  bool fuse_uring_remove_pending_req(struct fuse_req *req);
+>  bool fuse_uring_request_expired(struct fuse_conn *fc);
 > =20
-> @@ -1126,8 +1128,8 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd=
-,
->  	INIT_LIST_HEAD(&ent->list);
-> =20
->  	ent->queue =3D queue;
-> -	ent->headers =3D iov[0].iov_base;
-> -	ent->payload =3D iov[1].iov_base;
-> +	ent->headers =3D headers->iov_base;
-> +	ent->payload =3D payload->iov_base;
-> =20
->  	atomic_inc(&ring->queue_refs);
->  	return ent;
-
-Much more readable.
+> -static inline void fuse_uring_abort(struct fuse_conn *fc)
+> -{
+> -	struct fuse_ring *ring =3D fc->ring;
+> -
+> -	if (ring =3D=3D NULL)
+> -		return;
+> -
+> -	if (atomic_read(&ring->queue_refs) > 0) {
+> -		fuse_uring_abort_end_requests(ring);
+> -		fuse_uring_stop_queues(ring);
+> -	}
+> -}
+> -
+>  static inline void fuse_uring_wait_stopped_queues(struct fuse_conn *fc)
+>  {
+>  	struct fuse_ring *ring =3D fc->ring;
 
 Reviewed-by: Jeff Layton <jlayton@kernel.org>
