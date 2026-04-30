@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34047389101
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC6A1E1DE5
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:06:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777536264; cv=none; b=hSTIfck1E8ecP0MOBqHpwiXyD3mZDtfVuoIQu7MWowBWwQCktsBU7rmKoth/jERQTElDoAKsdZ9re83WwXa3kRq5JEMN956YICKbkYGqssEsbI4rRoa4V+vPuUgjJI4eeA6EspfhYI2iRZJ2aSy/jkXc4DpV9LYOAD3WTb2wXO0=
+	t=1777536405; cv=none; b=G5wLTD5bbRJ6eY3tdLuy8jKDT+PQax7p/iR2bm8mf4lDD1MrW1I23dTWQXf2zYcXMlHV6zu7W+H+3HkxBzsEluZZm6hmcA+v7LwxceaLOLZMVvjCLAQmL3CU4u688gLC0MmtE/Ls90uZmEEFjjW2AQDQSkPCARgNIOQZ6jcCF/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777536264; c=relaxed/simple;
-	bh=ETEkJ2e/MHVdbiSaVG6VVYzzJQ7pyI05DXZ0lKcmBGg=;
+	s=arc-20240116; t=1777536405; c=relaxed/simple;
+	bh=bMDGgvTwgAh4n6XGYjcgbGMrn5kxuhRrzjeAhmIiUuA=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MR1csci0TLPYvYJXQzdXSmzsp4YMMeDWTU63c2n4ZoFE3rMPNuRb9C0OusDFmOxBXFu4AxASSIcJOjFwKXRbBHVR8MFPm4f1h/y2Wgfxlk0D2/PFCdIxkF+8bef6RGpahIhbdKvygkMznc5BTfgKHavRj46FZgkOE0M594ChCFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1kQlWbh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=esVtCxv3G/8cSwAjCVqmwiq4zQ+4gRZTq10k8bC+ngkV8Gvt+RqhTE4CvsX0tttBMO4WNz/bcSCSXUleLJQs8CsIfGQbHVNrBDizRrEoBtwxmw7AtQtFdkZFJivk8+hw116ZkyytYdhL+7HoWnlgRrAdecx1ba2+bBWlTloUti0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eu9nmh4/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1kQlWbh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 446CDC2BCB3;
-	Thu, 30 Apr 2026 08:04:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eu9nmh4/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827D9C2BCC4;
+	Thu, 30 Apr 2026 08:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777536263;
-	bh=ETEkJ2e/MHVdbiSaVG6VVYzzJQ7pyI05DXZ0lKcmBGg=;
+	s=k20201202; t=1777536404;
+	bh=bMDGgvTwgAh4n6XGYjcgbGMrn5kxuhRrzjeAhmIiUuA=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=f1kQlWbh1o+9G5d5mlpPeU7DmSY2VXVRiNymDc9VH5/rISVKZcoCjZmjK8q8oT93J
-	 8L+/IkUiiVUL9k5ZzABXNk+xQjB9djoqEOTFei94rwbaO5oFaZ9DU8/FPN6ADyQU3/
-	 UNJ3JB6jpjCll0TP+uW7fy1jj7SoKSMBJQO14XecnpcJMNiuZPmpNKGseYNrsFodzS
-	 yakloAW2jLemvvWOeY1WxVfhjzgw2BCBsLg/U+AFVU9E+C9/MTU/0BHx592m5G5AhK
-	 PzoKe85DUT8d0EJhLDO6Q46z/lTuPmASjK2d2e/ide/ZoDEANWbKZkiGtJ3zdapjEw
-	 1GpsOKw3alEgQ==
-Message-ID: <9bd52f215f1773d4d1a1217fa8c1047dba5f7314.camel@kernel.org>
-Subject: Re: [PATCH v2 04/14] fuse: use enum types for header copying
+	b=Eu9nmh4/7FRCiiiH0EaOpsr89CwoaGchVmEdOJJ0+G9UyotiwI9C/Nu0nz1TigTSH
+	 pag5XZcz+qcEX51A7UvKwR5Ulg3/7D2mXwUqZ3kNdroOZjXKj8qaR7J6S+sZn/81IU
+	 nSYHiPsQM93mUdxAl7Oa5EKgYPRhlZIX2FHCwHB1JTh1xZnm9VO8eiO3GWwUFzIMY2
+	 O7TNgxJfyuBoWIkpoh5QNZd9j68QCPbBkx4tZ60CCSzA7K3wHSW06SofmgD1DS0624
+	 89+qEcavP2x6ec5+iU5v+uky8XvjS5pZFzV9DMvefseZGdQg+sTbZLMKa2/GMTou3D
+	 KLPzJEFaRPNAA==
+Message-ID: <f342121e0f2acaa54de47b13fc9dc2b48a9c1d94.camel@kernel.org>
+Subject: Re: [PATCH v2 05/14] fuse: refactor setting up copy state for
+ payload copying
 From: Jeff Layton <jlayton@kernel.org>
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
 Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org, Bernd
  Schubert <bschubert@ddn.com>
-Date: Thu, 30 Apr 2026 09:04:19 +0100
-In-Reply-To: <20260402162840.2989717-5-joannelkoong@gmail.com>
+Date: Thu, 30 Apr 2026 09:06:41 +0100
+In-Reply-To: <20260402162840.2989717-6-joannelkoong@gmail.com>
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
-	 <20260402162840.2989717-5-joannelkoong@gmail.com>
+	 <20260402162840.2989717-6-joannelkoong@gmail.com>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -121,156 +122,87 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Thu, 2026-04-02 at 09:28 -0700, Joanne Koong wrote:
-> Use enum types to identify which part of the header needs to be copied.
-> This improves the interface and will simplify both kernel-space and
-> user-space header addresses copying when buffer rings are added.
+> Add a new helper function setup_fuse_copy_state() to contain the logic
+> for setting up the copy state for payload copying.
 >=20
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > Reviewed-by: Bernd Schubert <bschubert@ddn.com>
 > ---
->  fs/fuse/dev_uring.c | 66 ++++++++++++++++++++++++++++++++++++---------
->  1 file changed, 53 insertions(+), 13 deletions(-)
+>  fs/fuse/dev_uring.c | 38 ++++++++++++++++++++++++--------------
+>  1 file changed, 24 insertions(+), 14 deletions(-)
 >=20
 > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 86f9bb94b45a..cca795dd72e1 100644
+> index cca795dd72e1..045394a7ae41 100644
 > --- a/fs/fuse/dev_uring.c
 > +++ b/fs/fuse/dev_uring.c
-> @@ -31,6 +31,15 @@ struct fuse_uring_pdu {
-> =20
->  static const struct fuse_iqueue_ops fuse_io_uring_ops;
-> =20
-> +enum fuse_uring_header_type {
-> +	/* struct fuse_in_header / struct fuse_out_header */
-> +	FUSE_URING_HEADER_IN_OUT,
-> +	/* per op code header */
-> +	FUSE_URING_HEADER_OP,
-> +	/* struct fuse_uring_ent_in_out header */
-> +	FUSE_URING_HEADER_RING_ENT,
-> +};
-> +
->  static void uring_cmd_set_ring_ent(struct io_uring_cmd *cmd,
->  				   struct fuse_ring_ent *ring_ent)
->  {
-> @@ -575,10 +584,33 @@ static int fuse_uring_out_header_has_err(struct fus=
-e_out_header *oh,
->  	return err;
->  }
-> =20
-> -static __always_inline int copy_header_to_ring(void __user *ring,
-> -					       const void *header,
-> -					       size_t header_size)
-> +static int ring_header_type_offset(enum fuse_uring_header_type type)
->  {
-> +	switch (type) {
-> +	case FUSE_URING_HEADER_IN_OUT:
-> +		return 0;
-> +	case FUSE_URING_HEADER_OP:
-> +		return offsetof(struct fuse_uring_req_header, op_in);
-> +	case FUSE_URING_HEADER_RING_ENT:
-> +		return offsetof(struct fuse_uring_req_header, ring_ent_in_out);
-> +	default:
-> +		WARN_ONCE(1, "Invalid header type: %d\n", type);
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int copy_header_to_ring(struct fuse_ring_ent *ent,
-> +			       enum fuse_uring_header_type type,
-> +			       const void *header, size_t header_size)
-> +{
-> +	int offset =3D ring_header_type_offset(type);
-> +	void __user *ring;
-> +
-> +	if (offset < 0)
-> +		return offset;
-> +
-> +	ring =3D (void __user *)ent->headers + offset;
-> +
->  	if (copy_to_user(ring, header, header_size)) {
->  		pr_info_ratelimited("Copying header to ring failed.\n");
->  		return -EFAULT;
-> @@ -587,10 +619,18 @@ static __always_inline int copy_header_to_ring(void=
- __user *ring,
+> @@ -639,6 +639,27 @@ static int copy_header_from_ring(struct fuse_ring_en=
+t *ent,
 >  	return 0;
 >  }
 > =20
-> -static __always_inline int copy_header_from_ring(void *header,
-> -						 const void __user *ring,
-> -						 size_t header_size)
-
-nit: this patch drops the __always_inline's (which is probably a good
-idea), but there is no mention of why you did it in the changelog.
-
-> +static int copy_header_from_ring(struct fuse_ring_ent *ent,
-> +				 enum fuse_uring_header_type type, void *header,
-> +				 size_t header_size)
->  {
-> +	int offset =3D ring_header_type_offset(type);
-> +	const void __user *ring;
+> +static int setup_fuse_copy_state(struct fuse_copy_state *cs,
+> +				 struct fuse_ring *ring, struct fuse_req *req,
+> +				 struct fuse_ring_ent *ent, int dir,
+> +				 struct iov_iter *iter)
+> +{
+> +	int err;
 > +
-> +	if (offset < 0)
-> +		return offset;
+> +	err =3D import_ubuf(dir, ent->payload, ring->max_payload_sz, iter);
+> +	if (err) {
+> +		pr_info_ratelimited("fuse: Import of user buffer failed\n");
+> +		return err;
+> +	}
 > +
-> +	ring =3D (void __user *)ent->headers + offset;
+> +	fuse_copy_init(cs, dir =3D=3D ITER_DEST, iter);
 > +
->  	if (copy_from_user(header, ring, header_size)) {
->  		pr_info_ratelimited("Copying header from ring failed.\n");
->  		return -EFAULT;
-> @@ -609,8 +649,8 @@ static int fuse_uring_copy_from_ring(struct fuse_ring=
- *ring,
->  	int err;
->  	struct fuse_uring_ent_in_out ring_in_out;
-> =20
-> -	err =3D copy_header_from_ring(&ring_in_out, &ent->headers->ring_ent_in_=
-out,
-> -				    sizeof(ring_in_out));
-> +	err =3D copy_header_from_ring(ent, FUSE_URING_HEADER_RING_ENT,
-> +				    &ring_in_out, sizeof(ring_in_out));
+> +	cs->is_uring =3D true;
+> +	cs->req =3D req;
+> +
+> +	return 0;
+> +}
+> +
+>  static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
+>  				     struct fuse_req *req,
+>  				     struct fuse_ring_ent *ent)
+> @@ -654,15 +675,10 @@ static int fuse_uring_copy_from_ring(struct fuse_ri=
+ng *ring,
 >  	if (err)
 >  		return err;
 > =20
-> @@ -661,7 +701,7 @@ static int fuse_uring_args_to_ring(struct fuse_ring *=
-ring, struct fuse_req *req,
->  		 * Some op code have that as zero size.
->  		 */
->  		if (args->in_args[0].size > 0) {
-> -			err =3D copy_header_to_ring(&ent->headers->op_in,
-> +			err =3D copy_header_to_ring(ent, FUSE_URING_HEADER_OP,
->  						  in_args->value,
->  						  in_args->size);
->  			if (err)
-> @@ -681,8 +721,8 @@ static int fuse_uring_args_to_ring(struct fuse_ring *=
-ring, struct fuse_req *req,
->  	}
+> -	err =3D import_ubuf(ITER_SOURCE, ent->payload, ring->max_payload_sz,
+> -			  &iter);
+> +	err =3D setup_fuse_copy_state(&cs, ring, req, ent, ITER_SOURCE, &iter);
+>  	if (err)
+>  		return err;
 > =20
->  	ent_in_out.payload_sz =3D cs.ring.copied_sz;
-> -	return copy_header_to_ring(&ent->headers->ring_ent_in_out, &ent_in_out,
-> -				   sizeof(ent_in_out));
-> +	return copy_header_to_ring(ent, FUSE_URING_HEADER_RING_ENT,
-> +				   &ent_in_out, sizeof(ent_in_out));
->  }
+> -	fuse_copy_init(&cs, false, &iter);
+> -	cs.is_uring =3D true;
+> -	cs.req =3D req;
+> -
+>  	err =3D fuse_copy_out_args(&cs, args, ring_in_out.payload_sz);
+>  	fuse_copy_finish(&cs);
+>  	return err;
+> @@ -685,15 +701,9 @@ static int fuse_uring_args_to_ring(struct fuse_ring =
+*ring, struct fuse_req *req,
+>  		.commit_id =3D req->in.h.unique,
+>  	};
 > =20
->  static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
-> @@ -711,7 +751,7 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_e=
-nt *ent,
->  	}
+> -	err =3D import_ubuf(ITER_DEST, ent->payload, ring->max_payload_sz, &ite=
+r);
+> -	if (err) {
+> -		pr_info_ratelimited("fuse: Import of user buffer failed\n");
+> +	err =3D setup_fuse_copy_state(&cs, ring, req, ent, ITER_DEST, &iter);
+> +	if (err)
+>  		return err;
+> -	}
+> -
+> -	fuse_copy_init(&cs, true, &iter);
+> -	cs.is_uring =3D true;
+> -	cs.req =3D req;
 > =20
->  	/* copy fuse_in_header */
-> -	return copy_header_to_ring(&ent->headers->in_out, &req->in.h,
-> +	return copy_header_to_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->in.h,
->  				   sizeof(req->in.h));
->  }
-> =20
-> @@ -806,7 +846,7 @@ static void fuse_uring_commit(struct fuse_ring_ent *e=
-nt, struct fuse_req *req,
->  	struct fuse_conn *fc =3D ring->fc;
->  	ssize_t err =3D 0;
-> =20
-> -	err =3D copy_header_from_ring(&req->out.h, &ent->headers->in_out,
-> +	err =3D copy_header_from_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->out.=
-h,
->  				    sizeof(req->out.h));
->  	if (err) {
->  		req->out.h.error =3D err;
+>  	if (num_args > 0) {
+>  		/*
+
+Nice cleanup.
 
 Reviewed-by: Jeff Layton <jlayton@kernel.org>
