@@ -1,433 +1,126 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB05EACD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 02:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777514680; cv=pass; b=EQNCEpBJNLj0ItXUTUp7a/DOXx8MkkqeEXuHSBLC2uMXuFySZu1PS7VkpICMfLsn6A9b65qKUdgaAtvVxDQGUYIArInIPROp4P//Vp4uyBUVeAUzeDg+XHjIH/5D1kFGPr0uNbqYPvKXYdVq/w3AjbFitV9AsdvSMNtou7G8XNg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777514680; c=relaxed/simple;
-	bh=JfRn7LeEM2Z4wOW+xEk0Arv/D81Qc9qMKhr4etxYk3s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rBqYAmQ2SM0Ssl+zre2VwHRtz3gBoMizejLdF/1waK+IdoYNMr/oYHe6dWOeRuwHaHgyUOyf711yYmlX+mL+Gpf7aJ/SQ1MzI5O9eOwgfrpkm1UUAu36QSwV1peB+oz9C62wGI7Ha2oUi4JzV6iBuRiYgtuTDEQzMz7t4KCzRyQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U1hhz6fP; arc=pass smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8846F5474F;
+	Thu, 30 Apr 2026 03:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777518554; cv=none; b=aGORjZ1BoJmClMbF9awRcufTm64aDgvFc5xtSS0oUgQhbWL1mw8zSkpUanCjzbg3wmdMxsjwrgiVsGTi9f7mfLexx6ZFYmCxP71gv8b8AVp19MNOWkWxfdUr+nGkPlsgPtT22bl4+q55CfwQKWtSQo3TmCtMWvysCUF358Lk5p8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777518554; c=relaxed/simple;
+	bh=a8LDTuqZAH9oA57hmQkjMoUsBgVyGLcOBiJHfzlP8tM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AZ4I/EUKjWdEcwVctvn98kbjKn8hKKj4b1518PZKiz1Io84ia3kc2GXnNFeacKPhoCsS7faeWYjzMBNUCSxhU5jTHz74exP5Fz/TvZ5BAMB60dAcXzhpMvJvXDtmn/VnRLKLnC185ny17aqF5fUYMNGGCIs23spdyZeDHlMgbDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=SysrEw42; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tQSDnhdC; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U1hhz6fP"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2d8ffdc31d0so1202200eec.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 29 Apr 2026 19:04:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777514678; cv=none;
-        d=google.com; s=arc-20240605;
-        b=T4BX2u3taRfRCseAkw7/e+vC5KJNIB06CsmzSJcoTsmCPmJBZ4fvpcHMuaDn89sSp7
-         awFLLIilZigNsBbCuYQMUd8wbkIyA9mhBdgwQ4qYFiIuxCdiLZS/ktS8WThuEm8zWV7s
-         MvqC+Cl3FCL90Cm75x2RN45ROgIW+QdCJQirPlRQtMPJblAJKTRUemV+2sCgzQggVwod
-         +SdNA9e3LDrmOUyu8iAAbQS8/us85J+LDTuanVJmzB4klI0l7o8eH7X0sfInwRqWcf5O
-         +VUfQ2Q4aG1/BS98EliJnFcC3KO7MG0qIMMv4GYAwmV2uagWWuo88ln4CsbfJS+D7vBi
-         M99w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aDxeCxdQ9PGx9KNRHGpF+PZcTI/LTfYCvsCotQDae10=;
-        fh=Tp4D6j76FFnijK/Ymmz+qepUKj7uKrQ7hPEU0NlzGes=;
-        b=KNwrwcamcjWIDvWSKGS8cvjsbl1gzi8K/BpbbxYDjaNsulPdFG8TtoDj7U/lNeu/pD
-         pIjMPeTN8zPM2EmpvvlIw5+nREgEFtWzFPmb8JF4vOn6oiicQKTuePGwHFkphxFEL/FH
-         d3MiWekbUo8GkgspAyy8cOT+mTUewoZYD5k1tDmBdtjgh4aDcdeXNavlMsqJv9OZMAw4
-         zGjjgThzZ/yabBuiUHOYr1eAaIWOL6Wy5GMwQUkMpmCPzVLT0R3YCGQd5p8ULTJmvIsg
-         um5YjDo/R2RWd5PtJJIWxBJE87RHly8ts1LwKMFkwP38eXDwKNzxP6fdEWFCVKSKOobT
-         qOFA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777514678; x=1778119478; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aDxeCxdQ9PGx9KNRHGpF+PZcTI/LTfYCvsCotQDae10=;
-        b=U1hhz6fPkfkahO3PD7pkb22O9UuU4UHLtZX5buZCGkfK4Q1UAj2IOPDokuIfihtSfz
-         OzPQCgegR+allVMs9nNqYuDBEO0+t0sqGKqOOmlbLhEmpV7heY2qslvMACMmIhc51dX6
-         ExyofCwvHWwain6KqPv26Kb4QBDkJsv6YwHJ4Y5TuIDVqDONz7CSqn1AXIGzdD6ioGTR
-         PN/uBTxI5xH13pUM1pYjOf1FHqSJS4obxe/50hqLJvyn8NRQfxOKNTNXtjRzFjVIv3ml
-         zFUPZEtkHI+z4applbL9kZ8C+nIaXQxzfPzI9bniWG3LxaUR2dUmlgNTY51XVGz6lC4Y
-         DBtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777514678; x=1778119478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=aDxeCxdQ9PGx9KNRHGpF+PZcTI/LTfYCvsCotQDae10=;
-        b=lMjzm5qVOdGMpCedB5TFtB5xKUhr4mGpObflGP+jgNIsARzoTZRaO4lE+4a+2MREd7
-         zJwcK3bTKsuCyisgdnDPDuivBNCpiEkEqBh2MfHWym57xoxVskU8k94xVr4lEYglDbbv
-         Tb62sHXHVP0CPVqCflD8IoGMdb3fWkA9A6X/aND2YUYKL9b4v+qBmUxTybUf1pVoQiFt
-         DBkLjId0RZay/fkRv/NMJHRMUURkZ0M61HID7UawJkZ6BdW0sV+34304ux4s8ERq6yJQ
-         rki4vTZQkIN8hhjl4i8ZOYBCdlx4KFi6xTiNfpkJ1bhTlb5Z6ZlS+QI5yx85Tg+frrLY
-         gK+Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9eHfiPqqpcacK4vgBfogiE8DLulxDv/ShOK07T1icim4V1ypE2CWxGN/b6vIvLda2wvL+9EzxqpABfh0QT@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgRF3JU9Dp3P+d40DyFIyU3Jtu/Abxnqs5lIxfnk82JktYLNOW
-	ae+Hl0kmj0b+EM79goGExCq77lUrWrX1P9/wVLT4Vbr9N6y6ird1Xqrdo06KZmFYXT1lAtRxvhK
-	zROFhqqodsqSeA3AJt8inOe0MGlf7Gq3YtT707cnc
-X-Gm-Gg: AeBDietjJyDka6q/JipTHeVjlT+6ly1UGEmlMxV1uJlDBwbxd74B3q8VOtizGrlkCrs
-	CrjN1c3dgx3z81GS6WmAZmRYCUhlP6Zqwx8K9doknepkzkN5nokxn9iOzppDKyGqLS9ytcDDYVw
-	9eGj/sdrOUJ0AgquT+uqxn/Z9EZNDfJuNA/7jKpm1ZTDuwgboH8z1fZ8eG298kY0yFTjp5XPRdd
-	n7K3ClpSXQhvPlksfSgRJolPR4sj7D566mDJQVDv1HDGzQKtTV9NXNJgSAfnJ/Yg8IuyAubuVTD
-	Dm+hCEyEkA4DYAw5EjmlB2pbKAx9ES7Fh016SRKF9vXvwIJ1eoMW6SQo4DyRA7b8YYMxb0Zcig+
-	Io9pC2DXsWCZIYmqUj9UNVsxmZOpYN3gUrHrQ91XhcOEmXjbPVUKyx5i+LIWlF6Sni1p1iwrVGA
-	==
-X-Received: by 2002:a05:7022:207:b0:12d:ceaf:ffcc with SMTP id
- a92af1059eb24-12deac3aa70mr554238c88.5.1777514677240; Wed, 29 Apr 2026
- 19:04:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="SysrEw42";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tQSDnhdC"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 74CC47A00EA;
+	Wed, 29 Apr 2026 23:09:10 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Wed, 29 Apr 2026 23:09:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to; s=fm2; t=1777518550; x=1777604950; bh=D447f0ggT4
+	8dgN9bjFVq1QpgbaNCFFwOUy/NhI/3usQ=; b=SysrEw42aQSGSG8Ac2kXPQkGmh
+	PPf3iO4rmBcr8q1Y6cNn5Lv35KVAjnZS5Lg8MPQTzxk/8Bd9wsHs8Oizmk8aY9o4
+	QJ4297m1OBAjv4Wh7Jd05JwT7nugMPbize5VlIxmy+fPvg230wLg9WiIfSvjlIR/
+	cOgYXyoY75OYQG74f+XfdOc38NrtJQeEo1I7cbxivHdN//c5VGdVnVzA7iYIQ3s9
+	1iOCdXfAagLZJ9YiU6jfVWiTQY7zj63GEnSfnNBARmUmJmVGoJX6fbJ8k2IoxF8j
+	cx/bl1VWsrR3unEHNB0COJrSyY1Psqn0Q+wXpf1e76tvjMADXvu3/N35TOEQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1777518550; x=1777604950; bh=D447f0ggT48dgN9bjFVq1QpgbaNC
+	FFwOUy/NhI/3usQ=; b=tQSDnhdCAruevXYWIOTbCcsBP+Doghlha5xAyNX1Pqvh
+	M0awxyENM5qM/XdXZvtjG/P8esEaeSKtpVoQarR8UyD6RyB9tIoDzcuVJ3/Dcafv
+	gFiuPsW2ULfcVJqM7KAkK602sRyWu4X/KztjBAOiX6qksi0JrdIbqVwHTeTsvpKN
+	2uivZzwH9Vba6/zxKJq+7DHPDXJfMW5OQXN6iAgIErchf9xAEoKtcIJNHAUFyBlr
+	s6eV0XQZiusGAlnXaNu2+M+SZ3T00Le3N6OpZFCbg4x2OO0/4WjBD0knBRlKyzMg
+	y5wTi38fuwRWtQ46M6DoWoNNfpHEIDJknskoEph66Q==
+X-ME-Sender: <xms:1cfyaUnm2cF_MQmI0syq4Ixz9pt89Rq14IyfzB3CxyPs3VjrYI79ng>
+    <xme:1cfyaQt4Fm99GoGzpLmqWhTrmiQWUxMbBjyE--2N58lF80cX1HhOJuDjw3ysA_Fdd
+    ukZONRoehy20zZqsFaQDD4XIY6z95rY31q-tkwwxN7YttXO>
+X-ME-Received: <xmr:1cfyaSa0G74P779l83k7UOcDcJGUW32ClLSt3AcCtuDA_YfNSZ_CilWfDhq1ktVkUGat0w2HyO6w_DlHuocNczoq2NBxO5Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekiedvtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkfforhgggfestdekredtredttdenucfhrhhomheppfgvihhluehrohif
+    nhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpeegte
+    efgedttddviefggeeuveefleellefgjeeufeeukedtleeiieekvedtleevleenucevlhhu
+    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofi
+    hnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpth
+    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehjrggtkhesshhushgvrdgtiidprhgtphhtthhopehtohhrvhgrlhgushes
+    lhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepjhhlrgihthhonh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:1cfyaQAILl5Nj_gMj_nHcvAt2NgdkgnqSRRE8nQYPWix50KNz6kgFA>
+    <xmx:1cfyaS8ea-ZYMyow8-t4OXIpiNY1y0X3YAX1-6Nl6-Oi7qTzadxsJQ>
+    <xmx:1cfyaUQQFbfnjLDYgJPjkgVAEO68HnmM5Osf4nRJWboubLckNolGzA>
+    <xmx:1cfyaeXrEE_7EOq_1GJgXCBe6eIswfWda-Sr5r4-jJtgo43HyEM-Fg>
+    <xmx:1sfyaWcVpkQTb7dxfv8l-EB7KSEycWd-tuDRZz1DiX0WXTeBLTg8f4E6>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Apr 2026 23:09:07 -0400 (EDT)
+From: NeilBrown <neilb@ownmail.net>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/7]] VFS: Prepare to lift lookup out of exclusive lock for directory ops
+Date: Thu, 30 Apr 2026 11:56:53 +1000
+Message-ID: <20260430020137.3305302-1-neilb@ownmail.net>
+X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
+Reply-To: NeilBrown <neil@brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428175125.2705296-1-jkoolstra@xs4all.nl> <20260428175125.2705296-2-jkoolstra@xs4all.nl>
-In-Reply-To: <20260428175125.2705296-2-jkoolstra@xs4all.nl>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Wed, 29 Apr 2026 19:04:25 -0700
-X-Gm-Features: AVHnY4JYACaJ3lOY3vhTsY9K5_lOk4dNnlzp9D9zNaCs3b5RV1wtvUbOZutFyfk
-Message-ID: <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/2] net: af_unix: Useful handling of LSM denials on SCM_RIGHTS
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, "David S . Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>, Kees Cook <kees@kernel.org>, 
-	Simon Horman <horms@kernel.org>, Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>, 
-	Jeff Layton <jlayton@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Andrei Vagin <avagin@gmail.com>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Mateusz Guzik <mjguzik@gmail.com>, 
-	Joel Granados <joel.granados@kernel.org>, Charlie Mirabile <cmirabil@redhat.com>, 
-	Aleksa Sarai <cyphar@cyphar.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	io-uring@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 28, 2026 at 10:51=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.nl=
-> wrote:
->
-> Right now if some LSM such as Smack denies an AF_UNIX socket peer to
-> receive an SCM_RIGHTS fd the SCM_RIGHTS fd array will be cut short at
-> that point, and MSG_CTRUNC is set on return of recvmsg(). This is
-> highly problematic behaviour, because it leaves the receiver
-> wondering what happened. As per man page MSG_CTRUNC is supposed to
-> indicate that the control buffer was sized too short, but suddenly
-> a permission error might result in the exact same flag being set.
-> Moreover, the receiver has no chance to determine how many fds got
-> originally sent and how many were suppressed.[1]
->
-> Add two MSG_* flags:
+Following are 7 VFS patches which modify or introduce APIs that will
+allow modifying filesystems so that they will work with a proposed
+change to move d_alloc_paralle() out from the parent i_rw_sem lock.
 
-Since we only have 5 bits remaining for future extension,
-we need to consider the use case a bit more carefully.
+If these can land in a non-rebasing tree, I can work with individual
+filesystem maintainers to start using these APIs.
 
+I haven't included d_alloc_noblock_return() as it is only needed for one
+fs (ovl) and it is not yet clear that it is the best approach.
 
->  - MSG_RIGHTS_DENIAL is set whenever any file is rejected by the LSM
->    during recvmsg() of SCM_RIGHTS fds.
+I also haven't included the change to d_alloc_name() as that is only
+needed so that I can deprecate d_alloc() and there is no rush for that.
 
-Is this really needed ?
+Patch 2/7 is exactly the patch Al proposed in the conversation for v3.
+I have taken the libery to added a Signed-off-by by Al to match the
+Co-developed-by.  I hope that was not inappropriate.
 
-Even if the fd array is truncated, the application will traverse
-the array anyway since it has some fds already installed (to
-clean up in case of MSG_CTRUNC ?).
+I have been testing this series over NFS mounts from XFS so patches 2
+and 3 don't seem to be causing any problems.  The changes in 4/5/6/7
+won't be tested by this, and some cannot be tested until filesystems
+start using new interfaces.
 
-Then, it will find the -EPERM entry.
+Thanks,
+NeilBrown
 
-I assume no one uses MSG_RIGHTS_DENIAL without
-MSG_RIGHTS_FILTER.
-
-
->  - If MSG_RIGHTS_FILTER is passed as a flag to recvmsg(), the SCM_RIGHTS
-
-Does this flag need per-recvmsg() granularity ?
-
-If the application does not welcome the truncated fd array,
-it would have passed MSG_RIGHTS_FILTER to every
-recvmsg(), no ?
-
-( and I feel _FILTER sounds like "please do filtering (truncase)".
-  Maybe _NOTRUNC ? )
-
-
->    fd array is always passed in its full original size. However, any
->    files rejected by the LSM are replaced in this array with -EPERM
->    instead of an assigned fd, while keeping the original order. If the
->    flag is not set, the original truncate behavior is used.
->
-> [1]: https://github.com/uapi-group/kernel-features#useful-handling-of-lsm=
--denials-on-scm_rights
->
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> ---
->  fs/file.c              | 21 ++++++++++++++++++---
->  include/linux/file.h   |  4 +++-
->  include/linux/socket.h |  3 +++
->  include/net/scm.h      |  8 ++++----
->  io_uring/openclose.c   |  2 +-
->  kernel/pid.c           |  2 +-
->  kernel/seccomp.c       |  2 +-
->  net/compat.c           |  7 ++++---
->  net/core/scm.c         | 11 ++++++-----
->  9 files changed, 41 insertions(+), 19 deletions(-)
->
-> diff --git a/fs/file.c b/fs/file.c
-> index 2c81c0b162d0..cc33a1e77049 100644
-> --- a/fs/file.c
-> +++ b/fs/file.c
-> @@ -1370,10 +1370,11 @@ int replace_fd(unsigned fd, struct file *file, un=
-signed flags)
->  }
->
->  /**
-> - * receive_fd() - Install received file into file descriptor table
-> + * receive_fd_msg() - Install received file into file descriptor table
->   * @file: struct file that was received from another process
->   * @ufd: __user pointer to write new fd number to
->   * @o_flags: the O_* flags to apply to the new fd entry
-> + * @msg_flags: the MSG_* flags to set for recvmsg(2)
->   *
->   * Installs a received file into the file descriptor table, with appropr=
-iate
->   * checks and count updates. Optionally writes the fd number to userspac=
-e, if
-> @@ -1384,13 +1385,21 @@ int replace_fd(unsigned fd, struct file *file, un=
-signed flags)
->   *
->   * Returns newly install fd or -ve on error.
->   */
-> -int receive_fd(struct file *file, int __user *ufd, unsigned int o_flags)
-> +int receive_fd_msg(struct file *file, int __user *ufd, unsigned int o_fl=
-ags,
-> +              unsigned int *msg_flags)
->  {
->         int error;
->
->         error =3D security_file_receive(file);
-> -       if (error)
-> +       if (error) {
-> +               if (msg_flags)
-> +                       *msg_flags |=3D MSG_RIGHTS_DENIAL;
-> +
-> +               if (ufd)
-> +                       put_user(-EPERM, ufd);
-> +
->                 return error;
-> +       }
->
->         FD_PREPARE(fdf, o_flags, file);
->         if (fdf.err)
-> @@ -1406,6 +1415,12 @@ int receive_fd(struct file *file, int __user *ufd,=
- unsigned int o_flags)
->         __receive_sock(fd_prepare_file(fdf));
->         return fd_publish(fdf);
->  }
-> +EXPORT_SYMBOL_GPL(receive_fd_msg);
-> +
-> +int receive_fd(struct file *file, unsigned int o_flags)
-> +{
-> +       return receive_fd_msg(file, NULL, o_flags, NULL);
-> +}
->  EXPORT_SYMBOL_GPL(receive_fd);
->
->  int receive_fd_replace(int new_fd, struct file *file, unsigned int o_fla=
-gs)
-> diff --git a/include/linux/file.h b/include/linux/file.h
-> index 27484b444d31..38f022d997a6 100644
-> --- a/include/linux/file.h
-> +++ b/include/linux/file.h
-> @@ -118,7 +118,9 @@ DEFINE_FREE(fput, struct file *, if (!IS_ERR_OR_NULL(=
-_T)) fput(_T))
->
->  extern void fd_install(unsigned int fd, struct file *file);
->
-> -int receive_fd(struct file *file, int __user *ufd, unsigned int o_flags)=
-;
-> +int receive_fd_msg(struct file *file, int __user *ufd, unsigned int o_fl=
-ags,
-> +                  unsigned int *msg_flags);
-> +int receive_fd(struct file *file, unsigned int o_flags);
->
->  int receive_fd_replace(int new_fd, struct file *file, unsigned int o_fla=
-gs);
->
-> diff --git a/include/linux/socket.h b/include/linux/socket.h
-> index ec4a0a025793..3809a8add2fc 100644
-> --- a/include/linux/socket.h
-> +++ b/include/linux/socket.h
-> @@ -342,6 +342,9 @@ struct ucred {
->                                           * plain text and require encryp=
-tion
->                                           */
->
-> +#define MSG_RIGHTS_DENIAL 0x200000
-> +#define MSG_RIGHTS_FILTER 0x400000
-> +
->  #define MSG_SOCK_DEVMEM 0x2000000      /* Receive devmem skbs as cmsg */
->  #define MSG_ZEROCOPY   0x4000000       /* Use user data in kernel path *=
-/
->  #define MSG_SPLICE_PAGES 0x8000000     /* Splice the pages from the iter=
-ator in sendmsg() */
-> diff --git a/include/net/scm.h b/include/net/scm.h
-> index c52519669349..983efa952c8e 100644
-> --- a/include/net/scm.h
-> +++ b/include/net/scm.h
-> @@ -50,8 +50,8 @@ struct scm_cookie {
->  #endif
->  };
->
-> -void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm);
-> -void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm);
-> +void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, int recv=
-_flags);
-> +void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, i=
-nt recv_flags);
->  int __scm_send(struct socket *sock, struct msghdr *msg, struct scm_cooki=
-e *scm);
->  void __scm_destroy(struct scm_cookie *scm);
->  struct scm_fp_list *scm_fp_dup(struct scm_fp_list *fpl);
-> @@ -108,11 +108,11 @@ void scm_recv_unix(struct socket *sock, struct msgh=
-dr *msg,
->                    struct scm_cookie *scm, int flags);
->
->  static inline int scm_recv_one_fd(struct file *f, int __user *ufd,
-> -                                 unsigned int flags)
-> +                                 unsigned int o_flags, unsigned int *msg=
-_flags)
->  {
->         if (!ufd)
->                 return -EFAULT;
-> -       return receive_fd(f, ufd, flags);
-> +       return receive_fd_msg(f, ufd, o_flags, msg_flags);
->  }
->
->  #endif /* __LINUX_NET_SCM_H */
-> diff --git a/io_uring/openclose.c b/io_uring/openclose.c
-> index c71242915dad..1b6cb05b0e3d 100644
-> --- a/io_uring/openclose.c
-> +++ b/io_uring/openclose.c
-> @@ -308,7 +308,7 @@ int io_install_fixed_fd(struct io_kiocb *req, unsigne=
-d int issue_flags)
->         int ret;
->
->         ifi =3D io_kiocb_to_cmd(req, struct io_fixed_install);
-> -       ret =3D receive_fd(req->file, NULL, ifi->o_flags);
-> +       ret =3D receive_fd(req->file, ifi->o_flags);
->         if (ret < 0)
->                 req_set_fail(req);
->         io_req_set_res(req, ret, 0);
-> diff --git a/kernel/pid.c b/kernel/pid.c
-> index fd5c2d4aa349..62af6874192d 100644
-> --- a/kernel/pid.c
-> +++ b/kernel/pid.c
-> @@ -929,7 +929,7 @@ static int pidfd_getfd(struct pid *pid, int fd)
->         if (IS_ERR(file))
->                 return PTR_ERR(file);
->
-> -       ret =3D receive_fd(file, NULL, O_CLOEXEC);
-> +       ret =3D receive_fd(file, O_CLOEXEC);
->         fput(file);
->
->         return ret;
-> diff --git a/kernel/seccomp.c b/kernel/seccomp.c
-> index 066909393c38..ad5ab16fe2b1 100644
-> --- a/kernel/seccomp.c
-> +++ b/kernel/seccomp.c
-> @@ -1130,7 +1130,7 @@ static void seccomp_handle_addfd(struct seccomp_kad=
-dfd *addfd, struct seccomp_kn
->          */
->         list_del_init(&addfd->list);
->         if (!addfd->setfd)
-> -               fd =3D receive_fd(addfd->file, NULL, addfd->flags);
-> +               fd =3D receive_fd(addfd->file, addfd->flags);
->         else
->                 fd =3D receive_fd_replace(addfd->fd, addfd->file, addfd->=
-flags);
->         addfd->ret =3D fd;
-> diff --git a/net/compat.c b/net/compat.c
-> index 2c9bd0edac99..056bce0927c4 100644
-> --- a/net/compat.c
-> +++ b/net/compat.c
-> @@ -287,18 +287,19 @@ static int scm_max_fds_compat(struct msghdr *msg)
->         return (msg->msg_controllen - sizeof(struct compat_cmsghdr)) / si=
-zeof(int);
->  }
->
-> -void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm)
-> +void scm_detach_fds_compat(struct msghdr *msg, struct scm_cookie *scm, i=
-nt recv_flags)
->  {
->         struct compat_cmsghdr __user *cm =3D
->                 (struct compat_cmsghdr __user *)msg->msg_control_user;
->         unsigned int o_flags =3D (msg->msg_flags & MSG_CMSG_CLOEXEC) ? O_=
-CLOEXEC : 0;
-> +       bool filter_rights =3D recv_flags & MSG_RIGHTS_FILTER;
->         int fdmax =3D min_t(int, scm_max_fds_compat(msg), scm->fp->count)=
-;
->         int __user *cmsg_data =3D CMSG_COMPAT_DATA(cm);
->         int err =3D 0, i;
->
->         for (i =3D 0; i < fdmax; i++) {
-> -               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
-flags);
-> -               if (err < 0)
-> +               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
-flags, &msg->msg_flags);
-> +               if (err < 0 && !filter_rights)
->                         break;
->         }
->
-> diff --git a/net/core/scm.c b/net/core/scm.c
-> index eec13f50ecaf..035329645d8f 100644
-> --- a/net/core/scm.c
-> +++ b/net/core/scm.c
-> @@ -351,10 +351,11 @@ static int scm_max_fds(struct msghdr *msg)
->         return (msg->msg_controllen - sizeof(struct cmsghdr)) / sizeof(in=
-t);
->  }
->
-> -void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
-> +void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm, int recv=
-_flags)
->  {
->         struct cmsghdr __user *cm =3D
->                 (__force struct cmsghdr __user *)msg->msg_control_user;
-> +       bool filter_rights =3D recv_flags & MSG_RIGHTS_FILTER;
->         unsigned int o_flags =3D (msg->msg_flags & MSG_CMSG_CLOEXEC) ? O_=
-CLOEXEC : 0;
->         int fdmax =3D min_t(int, scm_max_fds(msg), scm->fp->count);
->         int __user *cmsg_data =3D CMSG_USER_DATA(cm);
-> @@ -365,13 +366,13 @@ void scm_detach_fds(struct msghdr *msg, struct scm_=
-cookie *scm)
->                 return;
->
->         if (msg->msg_flags & MSG_CMSG_COMPAT) {
-> -               scm_detach_fds_compat(msg, scm);
-> +               scm_detach_fds_compat(msg, scm, recv_flags);
->                 return;
->         }
->
->         for (i =3D 0; i < fdmax; i++) {
-> -               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
-flags);
-> -               if (err < 0)
-> +               err =3D scm_recv_one_fd(scm->fp->fp[i], cmsg_data + i, o_=
-flags, &msg->msg_flags);
-> +               if (err < 0 && !filter_rights)
->                         break;
->         }
->
-> @@ -524,7 +525,7 @@ static bool __scm_recv_common(struct sock *sk, struct=
- msghdr *msg,
->         scm_passec(sk, msg, scm);
->
->         if (scm->fp)
-> -               scm_detach_fds(msg, scm);
-> +               scm_detach_fds(msg, scm, flags);
->
->         return true;
->  }
-> --
-> 2.54.0
->
+ [PATCH v4 1/7] VFS: fix various typos in documentation for
+ [PATCH v4 2/7] VFS: use wait_var_event for waiting in
+ [PATCH v4 3/7] VFS: enhance d_splice_alias() to handle in-lookup
+ [PATCH v4 4/7] VFS: introduce d_alloc_noblock()
+ [PATCH v4 5/7] VFS: add d_duplicate()
+ [PATCH v4 6/7] VFS: Add LOOKUP_SHARED flag.
+ [PATCH v4 7/7] VFS/xfs/ntfs: drop parent lock across
