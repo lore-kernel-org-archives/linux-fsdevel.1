@@ -1,171 +1,276 @@
-Received: from mx07-001d1705.pphosted.com (mx07-001d1705.pphosted.com [185.132.183.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020223FBEA2
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 07:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.132.183.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777535920; cv=fail; b=g0EfvWXGQlkyUX7k0rTsgeS1ADjoKXWieEhP383lRsckDIJJyqC1OL0eYejISFE/UKCfsHbPb9h7kt5y8jVFuW3Q/bFOqW7kPBQSCcfZpPkIoJG4M+OZJ809rrP2LkpvE/NoiWx06h3XCB1LopCTTQFkNJLrsOrWMDivAl8Zw/k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777535920; c=relaxed/simple;
-	bh=5rRWu7YyAoy7TgVyUNXhzvO6IHUDVamN2yUeW0KbKEU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=e9WowvO/6MB9SkRxyVH6m30Hl9s5+AGVlHbqWN4DxzO5qYvS8OtJdNCaYYq5SvO/Q+oUpRnSz+cRmvDazPbO0dMByBM2wgHASSRmaa2UCqAacf/3KtXX1jyfktxrsASPDZrgVWqri9St4FsKly1A0BvRVQifGWNqkD8K33GzV5A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=pDxqSvmU; arc=fail smtp.client-ip=185.132.183.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34047389101
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 08:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777536264; cv=none; b=hSTIfck1E8ecP0MOBqHpwiXyD3mZDtfVuoIQu7MWowBWwQCktsBU7rmKoth/jERQTElDoAKsdZ9re83WwXa3kRq5JEMN956YICKbkYGqssEsbI4rRoa4V+vPuUgjJI4eeA6EspfhYI2iRZJ2aSy/jkXc4DpV9LYOAD3WTb2wXO0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777536264; c=relaxed/simple;
+	bh=ETEkJ2e/MHVdbiSaVG6VVYzzJQ7pyI05DXZ0lKcmBGg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MR1csci0TLPYvYJXQzdXSmzsp4YMMeDWTU63c2n4ZoFE3rMPNuRb9C0OusDFmOxBXFu4AxASSIcJOjFwKXRbBHVR8MFPm4f1h/y2Wgfxlk0D2/PFCdIxkF+8bef6RGpahIhbdKvygkMznc5BTfgKHavRj46FZgkOE0M594ChCFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1kQlWbh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="pDxqSvmU"
-Received: from pps.filterd (m0209324.ppops.net [127.0.0.1])
-	by mx08-001d1705.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63TNtBgR2623175;
-	Thu, 30 Apr 2026 07:58:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=p1; bh=U29iWRE
-	Gmur+rWYx2ET0C2fBA6Sz7SfK48VuA1B0XOc=; b=pDxqSvmUKqc5kIHRVtmS8On
-	zXNYAiHwC3iuvY2iGe8ZSrcKCAF8vJp3MCiCWghUW2S5nzaALUeOc4FBD5JKTU3N
-	muCq59/ICYDoH8FgmDZB2DrHYM24harnTyyvZiAl6D1q3lGTXoXXHNfEEBJusYQd
-	oijwrAbZiIybmrlJzbGQhgge43NMH9JZ32r1qi2QYRz0XQbv8aWK9Zqkg78wZdU+
-	g58/2JWuwsAqLZvpzhgczBiNNA/oJ7M6EEd+kYEm/WLSQSgYHMZmMbVLEBUjBX2c
-	k32jgGiMMGx/D8XMQ+phkRDb85/TJkcc06BZG48ZkzpTGQenzu/itu1c1JKN4xA=
-	=
-Received: from os8pr02cu002.outbound.protection.outlook.com (mail-japanwestazon11012002.outbound.protection.outlook.com [40.107.75.2])
-	by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 4drjs45km9-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Thu, 30 Apr 2026 07:58:25 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qf27j1B1G5tXKNNOWU7W85eag5MAmyRDfWUROfYw/CQQ+Oe8O9luaVmHd8rEhxlS0Yv5VAXzS0oK4+Q9Myp2fuGqDQ29LEHo86CdR2BKOXfynkX5Ic7G1o6Kuvkhy2N9uQsxQO88HTeYQlFU9KZD3o4C5ZZ3gefaLmPsmo7HKjvqvb2lHyqRXY9Rp0NtqMkfCBZZxtMUtqry2FYGXY0yQUVZPcCmOiiAfBEwzO/sGPjch56a4PGQf81Nwb8Rn7gq6GJMLBjE7qT56bvUye+cJQH8Gs3kzZamtIMI80E9L3efsAJkNLF+M3vv0cvoV89uE1ExaPZfbDXfEYZWwzwFuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U29iWREGmur+rWYx2ET0C2fBA6Sz7SfK48VuA1B0XOc=;
- b=C2eLqmiHfqO5dJyfUHpJi80FJXXieFHm3Z+RMHcZ+QfE6LNAkQG/lfWd4Wzmh0FAAY1LBUH6qXafSLrApseh4wVC2S2MzNZkv5VaxForWo3oE7HX6o3NkGSbzL5wJWbl0a+Q34PNrV3qj7DcC9/q8K7loYgS1wv/PmtgSz9tinWwIcwZo+B0aqNO3qANe7fUAmjrel7WxBHqetzbWmMFwoHTjH+G/YX/7sa2uYYLyYH2ebgGICUyF1ZJ6KLb3k+d2FMUcAGfxUlSmel/V09j5thbidXrpvOx/UNZOlGyW3DQXIq280l7bdqEFyMGnT7GguYiiSi4qkMxcz8hlBbRdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-Received: from PUZPR04MB6316.apcprd04.prod.outlook.com (2603:1096:301:fc::7)
- by TY0PR04MB6445.apcprd04.prod.outlook.com (2603:1096:400:278::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Thu, 30 Apr
- 2026 07:58:20 +0000
-Received: from PUZPR04MB6316.apcprd04.prod.outlook.com
- ([fe80::a631:6b1a:332c:831c]) by PUZPR04MB6316.apcprd04.prod.outlook.com
- ([fe80::a631:6b1a:332c:831c%4]) with mapi id 15.20.9870.016; Thu, 30 Apr 2026
- 07:58:19 +0000
-From: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>
-To: David Timber <dxdt@dev.snart.me>, Namjae Jeon <linkinjeon@kernel.org>,
-        Sungjong Seo <sj1557.seo@samsung.com>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH v1 4/4] exfat: more pedantic upcase table validity check
-Thread-Topic: [PATCH v1 4/4] exfat: more pedantic upcase table validity check
-Thread-Index: AQHc12nqK7S6w+4sFEaIG01h5XC297X3O/ly
-Date: Thu, 30 Apr 2026 07:58:19 +0000
-Message-ID:
- <PUZPR04MB631687B9E5BF6066086C7F5E81352@PUZPR04MB6316.apcprd04.prod.outlook.com>
-References: <20260428235038.93816-1-dxdt@dev.snart.me>
- <20260428235038.93816-5-dxdt@dev.snart.me>
-In-Reply-To: <20260428235038.93816-5-dxdt@dev.snart.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PUZPR04MB6316:EE_|TY0PR04MB6445:EE_
-x-ms-office365-filtering-correlation-id: c773c470-3775-4bf8-651f-08dea68e3e96
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|10070799003|376014|1800799024|366016|38070700021|22082099003|18002099003|56012099003;
-x-microsoft-antispam-message-info:
- UrrITd4rjuoplMU7MI9c8ZJOJGcEa03Qmy8/MtR0eCiPvekSZ5uoqYMr619hl3smYU9m/bUpJx73zy9hWxMq36cRqu0XjbD9enX8/gGDK0+q5zjVqQmWLuPxc4io8nmcp26KyuQIOnn9l8UOL24ijIsi6nQdIDtW/vss3WgLKnPFTr7G8rHf8qGsZ8/pGXFsOwCMuE4eOM3wfIrUoG69Xxdantx7jK03m9ArIkS9S9+OMwD38+nrYSFV7ICnG8sMKM/EqUaIqd5PrN0VxNQoVfMRR5etci/i4SF77XjEONxQLs4SL7JPG0TcWOj9PbKGN/kSaZpNAs9soCyIkWwQFxd8QqfTl0xVylc+bWe07d125+kQCa+cBPbWrdf4TdBng8EHOmxdvLBAPMM7pBodfsye2iol5tAWSme8Rr3FR/g5fqcvA+LV/NZAEWhflG4uUWtPzbXETjv4K9IApXBS7L1KANhYCzO704mJuySjMRbo6WjB89bG9PkVctIud26gWDDdU4PjpIaEgW4VUpbgRlW9GU6TtZz1/WUyY6CC0ioj+fHGfOHp0APm/2iKH8P/maR0ba9lcrYRr9oK+x2n78SDsBKbLYEJWA7Hmpr8GKhnfMSh0TG/fXy4Qo884ToerkMf6uhU25Tq0As7XrURZ6TTlR/vJnvSuJLQhT0nFAO8zdJu5ORgvSK+WrmM6sE9SRAs+j0jIxQ1c3yu+cf9EN65/Lm7Ytu+IDDjx0DGn0H0WapvngV6oBvratxuKCA7U1czdh2Ate7McAJAFY9+m0lAH3VCbW5JLo1A/sRXsI8=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB6316.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(1800799024)(366016)(38070700021)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?EyWA1KY8dBPATwlVBoHQuDlgcOR6sXhgvJQJpUlv50HrPqz3DAtLCZSBsI?=
- =?iso-8859-1?Q?dfLQTYnc2Dr00U4CzKIyWUWkErfwkSb5y6in3mlxtWganPQpjhpdUFvGEr?=
- =?iso-8859-1?Q?f1gNFEKUfH+FfUIpkojJpQF2IxOgZmY8r1V1KWlYyRJfcwI5nLhjKUAvqb?=
- =?iso-8859-1?Q?sEujPjKqjCh+7V43Hbti/89yU1ABNadNxEb6lnCP5nj9elx7FDmmUUFIWc?=
- =?iso-8859-1?Q?TvsMwPZOlXQgZvhepiBDSzCGa3DLDU+wY6ammNLNOMVjHVt5ll7dfB+g/w?=
- =?iso-8859-1?Q?iZRrKykFgOCb4LkJ9EtitDZJPFToRT5dHOmh+6ntEjQivuv8qZni0/PHj9?=
- =?iso-8859-1?Q?ysqkEoxMEyjTIM8IlK2HeecbW4DtDiZiFgJTFwO58lrmuMwhXVtsJFclWd?=
- =?iso-8859-1?Q?sUPJKWBE6sRKHBZdHccsngk5xLgCTCN0EyMyIlhcLlh21+KO4BnJRyevPW?=
- =?iso-8859-1?Q?OqSnXA973e7L83y1/sSceZPIc1i9Vb+TWAW2FlTVrkldrUs7QAb1oPGbmN?=
- =?iso-8859-1?Q?3+wxrSfQci3IghnLI/cktQRZ1cUfo38v2C2GgziaLY6/VcB1xIbVdUBEJ+?=
- =?iso-8859-1?Q?znwKgoJhCWRsCcF6qTt1f9SrfDaYihcfYIBT+zLNFVPc5g/5x/rAF6NrdY?=
- =?iso-8859-1?Q?4q/3hIaYpo2LNlDKVRPxTMNuG3mxpQqKLpyhab5pAUJBGb7klQWTkDp048?=
- =?iso-8859-1?Q?Zekk7NRODjRVCsrW7IJs32LaxSfGXRqxldx49jVFbhS3vRq3ee0cmiHodP?=
- =?iso-8859-1?Q?yUbM6Nc9viSAjq8yc6f360OiW4NPz2YEydrjb58OQjTDSUocp640ee3qJR?=
- =?iso-8859-1?Q?PIBQnStuyfIYYDIPZUZmfEUqKUOtjRkAkmJEcTLhas82Yj5XaBPgCaaIFE?=
- =?iso-8859-1?Q?JAQbh+ZgCMWIR8AjKvMjsg0H8GCNo08zR94vx6E1K0dD1wwSnK035yZn+g?=
- =?iso-8859-1?Q?ZDgLWwKzytyj781DL8xtG3PUF+CUJlXj9msLKtNgMFpcF+oqjobIFQtZfF?=
- =?iso-8859-1?Q?gfyH2C2ZRWkrfyHLarxUjUdV8rD/RtigDfzjbErlpgyouwQjhdyymngEZm?=
- =?iso-8859-1?Q?+taO5cAT9BdlqdZ2wwfClH4GyjoCc6uHRug/zmiQ081ZPjOIxVaf53S+Gp?=
- =?iso-8859-1?Q?gY2xqcurASk3xexGG4gmPLcVybaRAaPbfrQ5rNjHZzY+H0T/RSK0IAeBvE?=
- =?iso-8859-1?Q?sszV2v5sb1dBCTEYZBGsfY/VZP2epKGkNqqfJz0Cy9w9UN04Q5Ootw/If9?=
- =?iso-8859-1?Q?gvkiMh4erllt2b6KSrHjYNsSxsu1pzULD5CV5ynyuEErFxLOVnrv0Oj4ii?=
- =?iso-8859-1?Q?uZSaW5BzS+HLPOP4abWeKONEwaIq4oYbSsB02tDZefBWQp1yfJdELQ6ymI?=
- =?iso-8859-1?Q?mQJdvG/A/mme+OdOa4vtON/NzQFly/bT6mWirI8Qj7LqcyAFmLuYRLOYw6?=
- =?iso-8859-1?Q?2hK+1NkIu8ZlczTfGBi55KFR0kXHPf3vmAjHwStZtpdURIcHlyVeRrUW63?=
- =?iso-8859-1?Q?l6Z747OnAHP3yzGTeRhDDmM1sl0xdoSr63+OeD9JNbHMJM0kXwPNAN2BlD?=
- =?iso-8859-1?Q?SvbbauuFOG5G42Fy6D5tX4f6KYevOnARJHYd6WH0opIgjWjNdTrBmf6Jq5?=
- =?iso-8859-1?Q?R8txHyuELnbJCL/RcAGoVh3KuG2xCWWYjVRvRmuom0iuc3n5HiIPfUeBK4?=
- =?iso-8859-1?Q?z4Scpi2rsQ+EByFMD0HsKQTgqiwKoEFs03ypGFbw/B4cs8Ru9s4Kqve33G?=
- =?iso-8859-1?Q?7K+7rQ+TRhPF7A37nIIdW+TNcQbbJnaKfafMAyRqUZJ93FBlDapEe9DEAy?=
- =?iso-8859-1?Q?jo9yPgTSm6HE+jT23xC+b7KMLvu/jl0=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1kQlWbh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 446CDC2BCB3;
+	Thu, 30 Apr 2026 08:04:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777536263;
+	bh=ETEkJ2e/MHVdbiSaVG6VVYzzJQ7pyI05DXZ0lKcmBGg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=f1kQlWbh1o+9G5d5mlpPeU7DmSY2VXVRiNymDc9VH5/rISVKZcoCjZmjK8q8oT93J
+	 8L+/IkUiiVUL9k5ZzABXNk+xQjB9djoqEOTFei94rwbaO5oFaZ9DU8/FPN6ADyQU3/
+	 UNJ3JB6jpjCll0TP+uW7fy1jj7SoKSMBJQO14XecnpcJMNiuZPmpNKGseYNrsFodzS
+	 yakloAW2jLemvvWOeY1WxVfhjzgw2BCBsLg/U+AFVU9E+C9/MTU/0BHx592m5G5AhK
+	 PzoKe85DUT8d0EJhLDO6Q46z/lTuPmASjK2d2e/ide/ZoDEANWbKZkiGtJ3zdapjEw
+	 1GpsOKw3alEgQ==
+Message-ID: <9bd52f215f1773d4d1a1217fa8c1047dba5f7314.camel@kernel.org>
+Subject: Re: [PATCH v2 04/14] fuse: use enum types for header copying
+From: Jeff Layton <jlayton@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
+Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org, Bernd
+ Schubert <bschubert@ddn.com>
+Date: Thu, 30 Apr 2026 09:04:19 +0100
+In-Reply-To: <20260402162840.2989717-5-joannelkoong@gmail.com>
+References: <20260402162840.2989717-1-joannelkoong@gmail.com>
+	 <20260402162840.2989717-5-joannelkoong@gmail.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	YYiPXiSlFespZMlZWq4LW+l25PP6P9B4+KbZcyJY1ByXRWexWPqVvm+g+hVbr7Z/DA9OtQCs5ANrXFJaZ4hxl31DeWt7DufcFxrZHJ24EHhMiAFYYwiooxG8UgSLofhEqfJVN4bEjMKyVjBZDE2x80SyHFZYjfHye6a1QdZgPvwpGHBu0F4LPw3eJYbAo8QJEv/I+65GdOj0Xj9cKEFf5injqsBWayr4H9GGqKYMPT+yhn1QlyKLYb1qja8CQTlo/p6OMu9fLOpiP+gjv6kFFHyRe//KmcOxQvEfo1ADhpSNcXyO7HtS3q4T1aN6ihZXSbb/o+iC7Xfdfo9/dWPyeA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	D5xvhKISlYz2gyqtofoB5cden/J8foQTzheI8kulTu2T2wSXIheF9vhIfwFojsRQUAfeaRpT53iq5UoHVWxZ3VFiNIJSTHRKTdZTJGVcgOdUoQjci3MQQwjzUwmiS18+9X0GYTrfru86l3UXHOlc+GBTWyoi5KpIIFQWYyt81+hVnSSTbflo1IE6OgRkqkxOIonCzPOPa8Q3V95TeAuKfY/WtZMDhRSI+xY6tcXaRtm4d7o0+2nMm8kwQXClbIM9x6ekytVS5bC/ppd9H3jL+aUG8efcFD2PmEpGvflei7iZ9CkCopV4c9QMIXWLFEpGcdp6/P5ehOYRSjqi2JbfM+N1xgFloI7/VqPZfnvYnWimi7TElBn6qoeL0l77MEVnVh1wPephxK2nwx8RcLSO7/BsotPRst0v6CjEnl9xrPt/smuUSJjiC753xw7Y/z5hz9koJiRDlXWhl9dJDLQRSwH4VB88S4gr2f9JpEeKTuopX3XQnuUknZaW6yAeezsgNyVr6qRp+ZJey56W0ORKCfrtPC+JtblAzjviBqAm4UVP4dpEOBeWz8lzeKht0DGYKZx89jyr7j8aFY06OiH8Ol+Pz1EZlvepOj/VEljt+rFA936pQMmw7+WkXdSdtO96
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB6316.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c773c470-3775-4bf8-651f-08dea68e3e96
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2026 07:58:19.8409
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2KAx4cp7DCQbWJ7vOFJ+9/DhDHoTGGU0piS/SL88vNenb8z1lYXJKRTC0Ghg15rzlW+x2QjGPL0qvLyCLrOHQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR04MB6445
-X-Authority-Analysis: v=2.4 cv=R8Ez39RX c=1 sm=1 tr=0 ts=69f30ba1 cx=c_pps
- a=uxO36MsyforZG/P9Ztohsw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=A5OVakUREuEA:10 a=7j0FZ4iXMVMA:10 a=xR56lInIT_wA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KAb5x4SsHD3PzxGk7EmX:22 a=I_Y4LlEPCAdqsIK1J1Zo:22
- a=zXxTFxg3KmBQXHV-y2MA:9 a=wPNLvfGTeEIA:10
-X-Proofpoint-ORIG-GUID: IcnHRen3erOXL_5HyH9YIoKhxcGtcQeX
-X-Proofpoint-GUID: IcnHRen3erOXL_5HyH9YIoKhxcGtcQeX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDA3NyBTYWx0ZWRfX0FyX32UmfmJG
- WwwX6yFo8aoy8U+1lR+SM/it1LU3UEJIjKltobFisefxLPojuTfRtBAlwp6ofsmoob8buyxMxY2
- HvilRSoz/fmgvt34t7fKxFWuBXOvkFsXe3sDHfpReIgeaCsGAFF3qWna3z4gtF0bBIU11012bbR
- xTTXDlx/LOyWTPNNwtVU1KF42tOE4AtgYSgylZLTY7+BMkF/owEMTPAHYXh+pzt3TyBSAcTrZpO
- K6wBPDt9R2b1BnRX4ZznUI06WnJofHTgH2oiqOwtoYFBP1lNiCDd8AxwOaOmof1wsxZZBKzIaIP
- qA5YpqaUURKD8A98KhBkxLuACWSjTMmqbLGuROmWxz+azWx5Uamg5MLEr4hdjL7Xat6xE2SgrS4
- itdA5il+HZuJsYNU1SIBVRWNIG3jRERLCsd7rcF6xh0vTD5bce4hNBKj3BsNZ8LWxzru4bqonbF
- LpjY3sSJZUSeTQtlsYQ==
-X-Sony-Outbound-GUID: IcnHRen3erOXL_5HyH9YIoKhxcGtcQeX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-30_02,2026-04-28_01,2025-10-01_01
 
->  static int exfat_load_upcase_table(struct super_block *sb,=0A=
-> -             sector_t sector, unsigned long long num_sectors,=0A=
-> -             unsigned int utbl_checksum)=0A=
-> +             unsigned long long tbl_size, sector_t sector,=0A=
-> +             unsigned long long num_sectors, unsigned int utbl_checksum)=
-=0A=
-=0A=
-After adding the parameter tbl_size, the parameter num_sectors is no=0A=
-longer needed.=0A=
-=0A=
+On Thu, 2026-04-02 at 09:28 -0700, Joanne Koong wrote:
+> Use enum types to identify which part of the header needs to be copied.
+> This improves the interface and will simplify both kernel-space and
+> user-space header addresses copying when buffer rings are added.
+>=20
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> Reviewed-by: Bernd Schubert <bschubert@ddn.com>
+> ---
+>  fs/fuse/dev_uring.c | 66 ++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 53 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index 86f9bb94b45a..cca795dd72e1 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -31,6 +31,15 @@ struct fuse_uring_pdu {
+> =20
+>  static const struct fuse_iqueue_ops fuse_io_uring_ops;
+> =20
+> +enum fuse_uring_header_type {
+> +	/* struct fuse_in_header / struct fuse_out_header */
+> +	FUSE_URING_HEADER_IN_OUT,
+> +	/* per op code header */
+> +	FUSE_URING_HEADER_OP,
+> +	/* struct fuse_uring_ent_in_out header */
+> +	FUSE_URING_HEADER_RING_ENT,
+> +};
+> +
+>  static void uring_cmd_set_ring_ent(struct io_uring_cmd *cmd,
+>  				   struct fuse_ring_ent *ring_ent)
+>  {
+> @@ -575,10 +584,33 @@ static int fuse_uring_out_header_has_err(struct fus=
+e_out_header *oh,
+>  	return err;
+>  }
+> =20
+> -static __always_inline int copy_header_to_ring(void __user *ring,
+> -					       const void *header,
+> -					       size_t header_size)
+> +static int ring_header_type_offset(enum fuse_uring_header_type type)
+>  {
+> +	switch (type) {
+> +	case FUSE_URING_HEADER_IN_OUT:
+> +		return 0;
+> +	case FUSE_URING_HEADER_OP:
+> +		return offsetof(struct fuse_uring_req_header, op_in);
+> +	case FUSE_URING_HEADER_RING_ENT:
+> +		return offsetof(struct fuse_uring_req_header, ring_ent_in_out);
+> +	default:
+> +		WARN_ONCE(1, "Invalid header type: %d\n", type);
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int copy_header_to_ring(struct fuse_ring_ent *ent,
+> +			       enum fuse_uring_header_type type,
+> +			       const void *header, size_t header_size)
+> +{
+> +	int offset =3D ring_header_type_offset(type);
+> +	void __user *ring;
+> +
+> +	if (offset < 0)
+> +		return offset;
+> +
+> +	ring =3D (void __user *)ent->headers + offset;
+> +
+>  	if (copy_to_user(ring, header, header_size)) {
+>  		pr_info_ratelimited("Copying header to ring failed.\n");
+>  		return -EFAULT;
+> @@ -587,10 +619,18 @@ static __always_inline int copy_header_to_ring(void=
+ __user *ring,
+>  	return 0;
+>  }
+> =20
+> -static __always_inline int copy_header_from_ring(void *header,
+> -						 const void __user *ring,
+> -						 size_t header_size)
+
+nit: this patch drops the __always_inline's (which is probably a good
+idea), but there is no mention of why you did it in the changelog.
+
+> +static int copy_header_from_ring(struct fuse_ring_ent *ent,
+> +				 enum fuse_uring_header_type type, void *header,
+> +				 size_t header_size)
+>  {
+> +	int offset =3D ring_header_type_offset(type);
+> +	const void __user *ring;
+> +
+> +	if (offset < 0)
+> +		return offset;
+> +
+> +	ring =3D (void __user *)ent->headers + offset;
+> +
+>  	if (copy_from_user(header, ring, header_size)) {
+>  		pr_info_ratelimited("Copying header from ring failed.\n");
+>  		return -EFAULT;
+> @@ -609,8 +649,8 @@ static int fuse_uring_copy_from_ring(struct fuse_ring=
+ *ring,
+>  	int err;
+>  	struct fuse_uring_ent_in_out ring_in_out;
+> =20
+> -	err =3D copy_header_from_ring(&ring_in_out, &ent->headers->ring_ent_in_=
+out,
+> -				    sizeof(ring_in_out));
+> +	err =3D copy_header_from_ring(ent, FUSE_URING_HEADER_RING_ENT,
+> +				    &ring_in_out, sizeof(ring_in_out));
+>  	if (err)
+>  		return err;
+> =20
+> @@ -661,7 +701,7 @@ static int fuse_uring_args_to_ring(struct fuse_ring *=
+ring, struct fuse_req *req,
+>  		 * Some op code have that as zero size.
+>  		 */
+>  		if (args->in_args[0].size > 0) {
+> -			err =3D copy_header_to_ring(&ent->headers->op_in,
+> +			err =3D copy_header_to_ring(ent, FUSE_URING_HEADER_OP,
+>  						  in_args->value,
+>  						  in_args->size);
+>  			if (err)
+> @@ -681,8 +721,8 @@ static int fuse_uring_args_to_ring(struct fuse_ring *=
+ring, struct fuse_req *req,
+>  	}
+> =20
+>  	ent_in_out.payload_sz =3D cs.ring.copied_sz;
+> -	return copy_header_to_ring(&ent->headers->ring_ent_in_out, &ent_in_out,
+> -				   sizeof(ent_in_out));
+> +	return copy_header_to_ring(ent, FUSE_URING_HEADER_RING_ENT,
+> +				   &ent_in_out, sizeof(ent_in_out));
+>  }
+> =20
+>  static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
+> @@ -711,7 +751,7 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_e=
+nt *ent,
+>  	}
+> =20
+>  	/* copy fuse_in_header */
+> -	return copy_header_to_ring(&ent->headers->in_out, &req->in.h,
+> +	return copy_header_to_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->in.h,
+>  				   sizeof(req->in.h));
+>  }
+> =20
+> @@ -806,7 +846,7 @@ static void fuse_uring_commit(struct fuse_ring_ent *e=
+nt, struct fuse_req *req,
+>  	struct fuse_conn *fc =3D ring->fc;
+>  	ssize_t err =3D 0;
+> =20
+> -	err =3D copy_header_from_ring(&req->out.h, &ent->headers->in_out,
+> +	err =3D copy_header_from_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->out.=
+h,
+>  				    sizeof(req->out.h));
+>  	if (err) {
+>  		req->out.h.error =3D err;
+
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
