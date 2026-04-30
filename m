@@ -1,163 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B68D244694;
-	Thu, 30 Apr 2026 22:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306BD3D904E;
+	Thu, 30 Apr 2026 23:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777589352; cv=none; b=KA0wk2pR51ukaa8TL68jLr3YXuyaY7GToRL0Nf3o7ffjM5rIp9/lRdayZlnYLuyBxKiXKoxv9084MtWDQNrbMjdXk6VPzLXfmDCwq4v5zNlKg6jfpt9yB3WSoHlEyTEKgQZznvrVI9AUX8ocer++UhYfHLW3j2b6UIsFIneueNw=
+	t=1777593101; cv=none; b=jjBJUzJUdmNY1MitSVH+a60If6dTcabygig/6nvU8WBil/10iiqrolqgIFG5xHSi6Fv+rfVySHz7y2F3ooz0+tlxLriCH35CadtGAmRcbX90SDdLFDxN6gbJwxJXY1k51GY2ixZwKahjoF056AsCWbTGB9BTTmWpKtrrJTC594w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777589352; c=relaxed/simple;
-	bh=gCatdnP88Ve9njnjtfj6SDwlQPjNZnCbiusngZUoy2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XquQn84vNcbmPpjDXzso+ndqG5fxoBJZD2OIL0E1l1j6xsm4S6e1PQsRUzdmiOjqvG2yppGcOimFg/XF1/VaArKbk+3JtAiZPEFYpcgC7tW2BbCEENy8VfK8odMjnrw15p31B4h19dzpwAUyAUmpxDk5616lkJ6CPQfT/3oIwqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oxmV7ICp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777593101; c=relaxed/simple;
+	bh=aO6LLC8o1CRIM0rP3dZEQagY+ByLjZzuWf3NiqNRKN4=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=IScjOwmJ7uiMgPJIJAgKAA5TSPRmmI9bUDBmynukULPGfUrYxVd4B3GD42r/7y2AFMrwgqLbEsCmor2a9f5bwdXEY/X5ANAWrHK9bjjDRfQSyHhTqdCSCP2ohgRyrC25UcYeVhPeGUjSpKHKDXWt9t/bE6SSrGjxGqKUiiFlHs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=M08qftXn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cHS/FKj/; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oxmV7ICp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C91B5C2BCB3;
-	Thu, 30 Apr 2026 22:49:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777589351;
-	bh=gCatdnP88Ve9njnjtfj6SDwlQPjNZnCbiusngZUoy2U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oxmV7ICpUrX2wL8OE9fAJ7eNsE0gQiMChVo85DbHyU1ifMBJdW8C9xSfROqOW3FIJ
-	 XEedjDaCg4nAlk4aUwQLDXAslJ5m3YqSZ0NAhROBdsL27aPPVKSH5Z16VOPWVsiQ9c
-	 wioU33X1lk9PoKkqU5MhEtjoXK4L+AZJv6NVZN2h4xJ/Xtvjllbr9r/kMHrsNJJ2xS
-	 w56FTF2nMUGdC4+aleX0Iw0WD6JvUQRcJ1/QTNVwuxR35lg6/uL4u4Sh9QqYx+wFpn
-	 1s9Gdcu9Tm9F5TW5P8f1wG7F17U++CKLAJcBBItewezUgabBn7xP4muTLc0AFhEaWY
-	 IzuukwxqwZYcw==
-Date: Thu, 30 Apr 2026 15:49:11 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	miklos@szeredi.hu, neal@gompa.dev
-Subject: Re: [GIT PULL v5.1] libfuse: run fuse servers as a contained service
-Message-ID: <20260430224911.GN7765@frogsfrogsfrogs>
-References: <177758364789.1315233.15610945404741826500.stg-ugh@frogsfrogsfrogs>
- <9c920b17-81a8-4c1e-921e-4c08cc290cb5@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="M08qftXn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cHS/FKj/"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DF5961400159;
+	Thu, 30 Apr 2026 19:51:36 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Thu, 30 Apr 2026 19:51:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1777593096; x=1777679496; bh=SoFsYwQGnMtWMKIme69DRpXKTM5BZO5qLvs
+	+ZUwxrZY=; b=M08qftXnutctKSp/G5u74axo0GjWhCsfpUK8OR0I5JoXIsK02md
+	GiF94elNIV5izQfaImQyXcjJxMiQ5vH10wEuiUhx5QfvlDUEkY8uA5EeaGGu6y+2
+	gAjCQGBuCojrG1LOeN4uZh5uYzxmFIbqQYUeiFg7Tf8RyNqSm6NL9G7jAQxKyPNW
+	QNtGsB+dRpcNI7j63tpUoLKAGBhqC76/DSv3np4Qh8AE4fgYsoGILHCgczB91qWR
+	wLQAwSutU9pAP3Eai2KCtbD8daSepCOWLivGXIgVpx+5hXxsBTFavos+o2klHjb6
+	BYf73Bf2AJg9SdSkJ15uwrTYFD1ZhSzb6ZA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777593096; x=
+	1777679496; bh=SoFsYwQGnMtWMKIme69DRpXKTM5BZO5qLvs+ZUwxrZY=; b=c
+	HS/FKj/qUnZDVmrRSZbqMiCoXRSyjiFOeEI4XuYSkzhzd5WQfAoHStf/4yQbOddR
+	OGiZN9PPpf2Fm6wguVKI0qK1Ky25cvSEzKXt4yXnkt7ZT4H50TXSh+HDKCnw0O+b
+	nmAPB1NqfWxedDuXNN3uQYpOmJ5HUau3NvrNMuVLTD5Z8DmyInuF4KjTnGsGr8sv
+	UzHwj+JjGomgMM4PMSlh6z31YlobHPTyEfozbctDIQqWdhe4D1BVDJiSy57PDlIm
+	S+c5VTFJmit6DKsnMRRT3yyws4pwDHl85nXgFbVO2gpDnO4PM1sP+zofVE4Fi2YW
+	Y3bCTA4J0f7C/bEK4ytdw==
+X-ME-Sender: <xms:COvzacsHaUgvHpBxoA1OhSFr9Wf26BmVYRIe39YqVxdglpLEboWRHA>
+    <xme:COvzadlV0iQN0V0jQClf8pQZEkSyB7NoMiMv0L1_i-7pfy1nyq358ORdA3zM1Psx4
+    Vb0CnX53nGLWxdsLxuQTERe_fTxvwZItCWtt98lqNdLMd8nFuo>
+X-ME-Received: <xmr:COvzaUxCAEL5Mf3NKO22kS1vBdTAOPgi6QASYkmmHRdfFUeau8oQal_PKpu5c_SgIyKmKfgTw1NRTk4Wdtvr_O5PWU2nM84>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekkeeilecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpegtgfgghffvvefujghffffkrhesthhqredttddtjeenucfhrhhomheppfgvihhluehr
+    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    eljedtfeegueekieetudevheduveefffevudetgfetudfhgedvgfdtieeguedujeenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
+    hofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphho
+    uhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprh
+    gtphhtthhopehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhgrtg
+    hksehsuhhsvgdrtgiipdhrtghpthhtohepjhhksehoiihlrggsshdrohhrgh
+X-ME-Proxy: <xmx:COvzaZwenh6wP_KcPPyALOYQqiRbbfuVFESj5E3gfsRmrtnQc9m6sA>
+    <xmx:COvzaT8JSbuduUt2JjHnZ1w6jWVjQNYd82tMcte0ktZ7u89KAHEqwQ>
+    <xmx:COvzaZ88O5H2atcHOVuYrCZtgYPAT3cAUQ_adXn18y9gOBiVIXddkg>
+    <xmx:COvzaWdFbHBD4NPLaBYmJBw0-FR20uOY0RW0LZ_1ugTgsY9Et525hw>
+    <xmx:COvzaeCsiVKPAdC-rXvJ_YY_N5ldgTPvgJQPXf2mA48_juqBMN-zwSdy>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Apr 2026 19:51:31 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9c920b17-81a8-4c1e-921e-4c08cc290cb5@bsbernd.com>
+From: NeilBrown <neilb@ownmail.net>
+To: "Al Viro" <viro@zeniv.linux.org.uk>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Amir Goldstein" <amir73il@gmail.com>, "Jeremy Kerr" <jk@ozlabs.org>,
+ "Ard Biesheuvel" <ardb@kernel.org>, linux-efi@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/19] VFS: use wait_var_event for waiting in
+ d_alloc_parallel()
+In-reply-to: <20260429170731.GZ3518998@ZenIV>
+References: <20260427040517.828226-1-neilb@ownmail.net>
+  <20260427040517.828226-5-neilb@ownmail.net>
+  <20260428033738.GV3518998@ZenIV>
+  <177737511992.1474915.1952404144121931523@noble.neil.brown.name>
+  <20260428142225.GX3518998@ZenIV>
+  <177741881482.1474915.12527082398060370192@noble.neil.brown.name>
+  <20260429052626.GY3518998@ZenIV>  <20260429170731.GZ3518998@ZenIV>
+Date: Fri, 01 May 2026 09:51:28 +1000
+Message-id: <177759308866.1474915.9708613530229799376@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Thu, Apr 30, 2026 at 11:34:06PM +0200, Bernd Schubert wrote:
-> Hi Darrick,
-> 
-> On 4/30/26 23:18, Darrick J. Wong wrote:
-> > Hi Bernd,
-> > 
-> > Please pull this branch with changes for libfuse.
-> > 
-> > As usual, I did a test-merge with the main upstream branch as of a few
-> > minutes ago, and didn't see any conflicts.  Please let me know if you
-> > encounter any problems.
-> 
-> pushed to my github branch. BSD build fails with
-> 
-> 2026-04-30T21:25:16.3874802Z FAILED: [code=1] lib/libfuse3.so.3.19.0 
-> 2026-04-30T21:25:16.3906762Z cc  -o lib/libfuse3.so.3.19.0 lib/libfuse3.so.3.19.0.p/fuse.c.o lib/libfuse3.so.3.19.0.p/fuse_loop.c.o lib/libfuse3.so.3.19.0.p/fuse_loop_mt.c.o lib/libfuse3.so.3.19.0.p/fuse_lowlevel.c.o lib/libfuse3.so.3.19.0.p/fuse_opt.c.o lib/libfuse3.so.3.19.0.p/fuse_signals.c.o lib/libfuse3.so.3.19.0.p/buffer.c.o lib/libfuse3.so.3.19.0.p/cuse_lowlevel.c.o lib/libfuse3.so.3.19.0.p/helper.c.o lib/libfuse3.so.3.19.0.p/modules_subdir.c.o lib/libfuse3.so.3.19.0.p/mount_util.c.o lib/libfuse3.so.3.19.0.p/fuse_log.c.o lib/libfuse3.so.3.19.0.p/compat.c.o lib/libfuse3.so.3.19.0.p/util.c.o lib/libfuse3.so.3.19.0.p/mount_bsd.c.o lib/libfuse3.so.3.19.0.p/fuse_service_stub.c.o lib/libfuse3.so.3.19.0.p/modules_iconv.c.o -Wl,--as-needed -Wl,--no-undefined -shared -fPIC -Wl,-soname,libfuse3.so.4 -Wl,--version-script,/home/runner/work/libfuse/libfuse/lib/fuse_versionscript -pthread -Wl,--start-group -ldl -lrt -Wl,--end-group
-> 2026-04-30T21:25:16.3939590Z ld: error: version script assignment of 'FUSE_3.19' to symbol 'fuse_service_can_allow_other' failed: symbol not defined
+On Thu, 30 Apr 2026, Al Viro wrote:
+> On Wed, Apr 29, 2026 at 06:26:26AM +0100, Al Viro wrote:
+>=20
+> > with obvious adjustments in end_dir_add().  That's it.  Outside of fs/dca=
+che.c,
+> > same as in the patch you've posted, modulo renaming you've suggested for =
+new flag.
+>=20
+> Something like patch below (on top of -rc1, completely untested).  I've lif=
+ted
+> the wakeup part out of end_dir_add() into its callers - less confusing that=
+ way.
+> Note that in __d_move() the dentry you've ended up passing to end_dir_add()=
+ was
+> *NOT* the one added - it was the one replaced with existing one spliced in =
+its place.
 
-Aha, that function got left out of the stub. :(
+I saw this comment the first time I read this email, but I didn't
+process it properly.  That code is wrong.  It only makes sense to=20
+__d_wake_in_lookup_waiters() a dentry that we know was in-lookup, and in
+d_move, that is target.
+This can only happen (I think) in nfs where nfs_lookup() skips the lookup
+for LOOKUP_RENAME_TARGET and leaves the dentry in-lookup.  Other threads
+looking up that name will then block.
+After the rename completes that in-lookup dentry will now be unhashed
+but we need to wake it up so other threads can continue (and repeat the
+lookup).=20
 
-Annoyingly, on Linux the build succeeds despite the missing symbol
-when I tweak meson so that it doesn't build the service stuff.  I would
-have thought that --no-undefined would have done that, but alas.
+So we need
 
-Sorry about that too.  The following patch fixes it.
+		__d_wake_in_lookup_waiters(target);
 
-diff --git i/lib/fuse_service_stub.c w/lib/fuse_service_stub.c
-index d34df3891a6e31..231b98423df628 100644
---- i/lib/fuse_service_stub.c
-+++ w/lib/fuse_service_stub.c
-@@ -49,12 +49,17 @@ int fuse_service_send_goodbye(struct fuse_service *sf, int error)
- int fuse_service_accept(struct fuse_service **sfp)
- {
- 	*sfp = NULL;
- 	return 0;
- }
- 
-+bool fuse_service_can_allow_other(struct fuse_service *sf)
-+{
-+	return false;
-+}
-+
- int fuse_service_append_args(struct fuse_service *sf,
- 			     struct fuse_args *existing_args)
- {
- 	return -EOPNOTSUPP;
- }
- 
+in d_move.  target, not dentry.
 
-> 2026-04-30T21:25:16.3951874Z cc: error: linker command failed with exit code 1 (use -v to see invocation)
-> 2026-04-30T21:25:16.4291582Z [44/82] cc -Itest/test_teardown_watchdog.p -Itest -I../test -Iinclude -I../include -Ilib -I../lib -I. -I.. -fdiagnostics-color=always -
-> 
-> 
-> checkpatch, CodeChecker-cppcheck, CodeChecker-gcc also all fail. This CodeQL
+Thanks for flagging this,
 
-Not sure why checkpatch fails, this is what I got (Debian 13):
+Also my testing has hit a problem with some sort of deadlock in the nfs
+server (so accessing and XFS filesystem).  They are tring to unlink a
+file and are waiting in d_alloc_parallel() under reconnect_path.
+This is running generic/467.
 
-$ git diff origin/master.. | ./checkpatch.pl --max-line-length=100 --no-tree --ignore MAINTAINERS,SPDX_LICENSE_TAG,COMMIT_MESSAGE,FILE_PATH_CHANGES,EMAIL_SUBJECT,AVOID_EXTERNS,GIT_COMMIT_ID,ENOSYS_SYSCALL,ENOSYS,FROM_SIGN_OFF_MISMATCH,QUOTED_COMMIT_ID,,PREFER_ATTRIBUTE_ALWAYS_UNUSED,PREFER_DEFINED_ATTRIBUTE_MACRO,STRCPY,STRNCPY -
-No typos will be found - file '/storage/home/djwong/cdev/work/libfuse/spelling.txt': No such file or directory
-No structs that should be const will be found - file '/storage/home/djwong/cdev/work/libfuse/const_structs.checkpatch': No such file or directory
-total: 0 errors, 0 warnings, 3908 lines checked
+So better hold off this patchset until I have that understood.
 
-Your patch has no obvious style problems and is ready for submission.
-
-NOTE: Ignored message types: AVOID_EXTERNS COMMIT_MESSAGE EMAIL_SUBJECT ENOSYS ENOSYS_SYSCALL FILE_PATH_CHANGES FROM_SIGN_OFF_MISMATCH GIT_COMMIT_ID MAINTAINERS PREFER_ATTRIBUTE_ALWAYS_UNUSED PREFER_DEFINED_ATTRIBUTE_MACRO QUOTED_COMMIT_ID SPDX_LICENSE_TAG STRCPY STRNCPY
-
-cppcheck had a few things to say, but none of it was about the changed
-lines.
-
-> report is funny
-> 
-> > int mount_service_main(int argc, char *argv[])
-> > Warning
-> > Poorly documented large function
-> > Poorly documented function: fewer than 2% comments for a function of 113 lines.
-> > CodeQL
-
-Hrmm.  I guess I'll have to figure out how to get those things running.
-That said, the stuff in mount_service.c is internal to libfuse (i.e.
-it's not public library API) so I didn't comment them as intensely.
-Would you like more?
-
-> I think I'm going to merge my sync fuse init series tomorrow.
-
-Yay!
-
-> Are you ok if skip posting another version of the series?
-
-               ^ is there an "I" here?  e.g. "...if I skip posting..."?
-
-/My/ normal practice (from xfs) was to repost the series as it was
-merged, followed by an announcement.  That way the mailing list is a
-complete record of what was merged.  However, very very few people
-actually do that, even in the kernel.
-
-I'm ok with you not posting another version of the series.
-
-> Or do you prefer to review the recent changes and last piece I'm going
-> to do tomorrow?
-
-Nah, just merge it.  I'll look over the changes once it's in the branch
-and if there's anything weird, you or I or anyone else can send patches.
-As long as you're not planning to tag it as a release, nothing's set in
-stone.
-
-> Basically my goal is to rebase your series against it immediately and
-> to merge your series during the next few days.
-
-<nod> Let me know what you want changed, I'll be around since I am not
-travelling anywhere for a couple of weeks. :)
-
-I can reflow changes into the patchset, or if you'd prefer, I can add
-them as new patches that would go on the end of the series.
-
---D
+Thanks,
+NeilBrown
