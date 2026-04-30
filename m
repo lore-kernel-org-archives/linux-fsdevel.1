@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C59D19E839
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 11:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2463D6674
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 11:29:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777548156; cv=none; b=a3tlGWSlGK5zttKBcW7ZQbzrU+IH6BvyAHjFMbNOot+sRSp620r21mcQrwwXKV3F97s9J8pUakRKC1wJulyl06WF+IA2/jX+MO/3WrsB6QPUohBCsIEFyytEJnOFN+UejSFshZmfZvs6UM7ioVo2tOGWeqVCtDRg+6eVhQ+xMbw=
+	t=1777548567; cv=none; b=Jgd+qHvrXkENguDkcPHY8LzxLLPS9m4CzNxsUaivwuNqrdtDtp9qwXRG4p+lc/MjgBnzfimyl5Y9WkfhsJgObNLXDUcICBU1MDO/o79YaJbHTV8EbaXelRKsfgLJMJBWROAKcDbd5jOD8zA4UBQYX7NCrVbyYE+3zVnzRsZHKDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777548156; c=relaxed/simple;
-	bh=Top18xpO/wCyBn1TqvLzdapkVPN4jAZpLJmOzCgPbyE=;
+	s=arc-20240116; t=1777548567; c=relaxed/simple;
+	bh=U3Up/PRRZCOdfYDvu9RFzUqMl6506ew63nO0+erUgLQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=t4/b8nkW5Plcmah9jqCj5PZ/IQWMahezvL2xMtQmhDLAQP3g/p0yEmpTWX2BMyEzU2x0hDzAMtHaUEX15dWCAS/YaHxNUHr7mT4LVKssvUs6X4M2j3cKAEMvDzRyEnGeZKoL4ULa4svrqf48P6QMkzkYCNaCehPPOdBzzdkN3lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XibJbFCb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=C0C4xWW2WfGvXtDhbwxMU/zY/5OXHjqqFxZQO2NyEtsCS3CS6i2Tc2chhfSFSB9EchaTu/FK/ZqsAm0e92aplH1pTUUgtEexYO8i9osF5Vg9Wqk4id8ylYIzGWbv3jeDPFyJryau2fR9y8cVOfxr3I5Gzx0oyGi4jHaa8j6Krb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QwU01QOO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XibJbFCb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B05C2BCB3;
-	Thu, 30 Apr 2026 11:22:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QwU01QOO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 513CEC2BCB3;
+	Thu, 30 Apr 2026 11:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777548156;
-	bh=Top18xpO/wCyBn1TqvLzdapkVPN4jAZpLJmOzCgPbyE=;
+	s=k20201202; t=1777548567;
+	bh=U3Up/PRRZCOdfYDvu9RFzUqMl6506ew63nO0+erUgLQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=XibJbFCbToRNFJx9aCpkZtAWrnVxsO3NAqPf0mubS9Kngo93FeIjyxQZeWR/TmWPR
-	 72MSN/uUas9nKa4eDWrUPJzG998xM3R9Z6UW6L2LB0JOv+4pyCEvqUMUuT0pavpKtr
-	 LxQfa9mQKO27esNlsNFF3YxbweOq+qHgwuYc+I92sozaY5HA5AnbKUC4DNoQfqIlsZ
-	 DQv3awYjbRUyKP1FQUssFjAIjF2uSmgoJpfNVopHYQHQYaZ6cIeUcSKerdpAiHpxKr
-	 B3+NJeA1OhlYc2HiS5Cx2ZsCTYyHtO+Z8xDlyL22wJEXf2YlG/0P52e1Lt1N6pmqxV
-	 aLSXTvpfq8dog==
-Message-ID: <2bd55e996401939a75a6d03d6608198dc1d4fc53.camel@kernel.org>
-Subject: Re: [PATCH v2 11/14] fuse: add pinned headers capability for
- io-uring buffer rings
+	b=QwU01QOO6D9hYlDfV1Qq+yDjBF8oXr0F1jNxueTOLIRBDmOE+OOiYan3hMiq8rdgK
+	 MzJ1VIpHQBg8OgQjmuED+RP3THTDsu6dhEk7OmLXgYfyvjY0H7mwiIEXZmJh6bv0kr
+	 rsb9fAxrmNMok1n2VRv5tiUNq56YAeXr5XNDUzV6Z7W9PbgiiRACItRRRfjDuodOuU
+	 MNq7p1vMgwDS5E0BS7uAGDML7AG18ZoppZBLm3LthdV288ByQn0IGrErg9zV9Yqpvv
+	 tBeW9oKibk4dQl+tidOCi+TyL2AHJDHXXB+IOUFWTPQToddGqp34Pujcup29TR8Gb2
+	 vdCTH0FdxrYwg==
+Message-ID: <f27f236a66a58c93c413a5c04d76b646ff7860e5.camel@kernel.org>
+Subject: Re: [PATCH v2 12/14] fuse: add pinned payload buffers capability
+ for io-uring buffer rings
 From: Jeff Layton <jlayton@kernel.org>
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
 Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
-Date: Thu, 30 Apr 2026 12:22:32 +0100
-In-Reply-To: <20260402162840.2989717-12-joannelkoong@gmail.com>
+Date: Thu, 30 Apr 2026 12:29:24 +0100
+In-Reply-To: <20260402162840.2989717-13-joannelkoong@gmail.com>
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
-	 <20260402162840.2989717-12-joannelkoong@gmail.com>
+	 <20260402162840.2989717-13-joannelkoong@gmail.com>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -121,430 +121,210 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Thu, 2026-04-02 at 09:28 -0700, Joanne Koong wrote:
-> Allow fuse servers to pin their header buffers by setting the
-> FUSE_URING_PINNED_HEADERS flag alongside FUSE_URING_BUFRING on REGISTER
-> sqes. When set, the kernel pins the header pages, vmaps them for a
-> kernel virtual address, and uses direct memcpy for copying. This avoids
-> the per-request overhead of having to pin/unpin user pages and translate
-> virtual addresses.
+> Extend the buffer ring pinning capability to payload buffers via the
+> FUSE_URING_PINNED_BUFFERS flag. When set alongside FUSE_URING_BUFRING,
+> the kernel pins and vmaps the payload buffer region during queue setup.
 >=20
-> Buffers must be page-aligned. The kernel accounts pinned pages against
-> RLIMIT_MEMLOCK (bypassed with CAP_IPC_LOCK) and tracks mm->pinned_vm.
-> Unpinning is done in process context during connection abort, since vmap
-> cannot run in softirq (where final destruction occurs via RCU).
+> With pinned payloads, the kernel uses direct memcpy for all payload
+> buffer copies, avoiding the per-request overhead of pinning/unpinning
+> user pages and translating virtual addresses. This is particularly
+> beneficial for large payload copies.
+>=20
+> As with pinned headers, buffers must be page-aligned. Pinned pages are
+> accounted against RLIMIT_MEMLOCK (bypassed with CAP_IPC_LOCK) and
+> unpinned in process context during connection abort.
+>=20
+> In benchmarks using passthrough_hp on a high-performance NVMe-backed
+> system, pinned headers and pinned payload buffers showed around a 10%
+> throughput improvement for direct randreads (~2150 MiB/s to ~2400
+> MiB/s), a 4% improvement for direct sequential reads (~2510 MiB/s to
+> ~2620 MiB/s), a 8% improvement for buffered randreads (~2100 MiB/s to
+> ~2280 MiB/s), and a 6% improvement for buffered sequential reads (~2500
+> MiB/s to ~2670 MiB/s).
 >=20
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > ---
->  fs/fuse/dev_uring.c       | 228 ++++++++++++++++++++++++++++++++++++--
->  fs/fuse/dev_uring_i.h     |  23 +++-
->  include/uapi/linux/fuse.h |   2 +
->  3 files changed, 243 insertions(+), 10 deletions(-)
+>  fs/fuse/dev_uring.c       | 54 +++++++++++++++++++++++++++++++++------
+>  fs/fuse/dev_uring_i.h     |  4 +++
+>  include/uapi/linux/fuse.h |  2 ++
+>  3 files changed, 52 insertions(+), 8 deletions(-)
 >=20
 > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 9f14a2bcde3f..79736b02cf9f 100644
+> index 79736b02cf9f..06d3d8dc1c82 100644
 > --- a/fs/fuse/dev_uring.c
 > +++ b/fs/fuse/dev_uring.c
-> @@ -11,6 +11,7 @@
-> =20
->  #include <linux/fs.h>
->  #include <linux/io_uring/cmd.h>
-> +#include <linux/vmalloc.h>
-> =20
->  static bool __read_mostly enable_uring;
->  module_param(enable_uring, bool, 0644);
-> @@ -46,6 +47,11 @@ static inline bool bufring_enabled(struct fuse_ring_qu=
-eue *queue)
->  	return queue->bufring !=3D NULL;
+> @@ -52,6 +52,11 @@ static inline bool bufring_pinned_headers(struct fuse_=
+ring_queue *queue)
+>  	return queue->bufring->use_pinned_headers;
 >  }
 > =20
-> +static inline bool bufring_pinned_headers(struct fuse_ring_queue *queue)
+> +static inline bool bufring_pinned_buffers(struct fuse_ring_queue *queue)
 > +{
-> +	return queue->bufring->use_pinned_headers;
+> +	return queue->bufring->use_pinned_buffers;
 > +}
 > +
 >  static void uring_cmd_set_ring_ent(struct io_uring_cmd *cmd,
 >  				   struct fuse_ring_ent *ring_ent)
 >  {
-> @@ -200,6 +206,37 @@ bool fuse_uring_request_expired(struct fuse_conn *fc=
-)
->  	return false;
->  }
-> =20
-> +static void fuse_bufring_unpin_mem(struct fuse_bufring_pinned *mem)
-> +{
-> +	struct page **pages =3D mem->pages;
-> +	unsigned int nr_pages =3D mem->nr_pages;
-> +	struct user_struct *user =3D mem->user;
-> +	struct mm_struct *mm_account =3D mem->mm_account;
-> +
-> +	vunmap(mem->addr);
-> +	unpin_user_pages(pages, nr_pages);
-> +
-> +	if (user) {
-> +		atomic_long_sub(nr_pages, &user->locked_vm);
-> +		free_uid(user);
-> +	}
-> +
-> +	atomic64_sub(nr_pages, &mm_account->pinned_vm);
-> +	mmdrop(mm_account);
-> +
-> +	kvfree(mem->pages);
-> +}
-> +
-> +static void fuse_uring_bufring_unpin(struct fuse_ring_queue *queue)
-> +{
-> +	struct fuse_bufring *br =3D queue->bufring;
-> +
-> +	if (bufring_pinned_headers(queue)) {
-> +		fuse_bufring_unpin_mem(&br->pinned_headers);
-> +		br->use_pinned_headers =3D false;
-> +	}
-> +}
-> +
->  void fuse_uring_destruct(struct fuse_conn *fc)
->  {
->  	struct fuse_ring *ring =3D fc->ring;
-> @@ -227,7 +264,10 @@ void fuse_uring_destruct(struct fuse_conn *fc)
->  		}
-> =20
->  		kfree(queue->fpq.processing);
-> -		kfree(queue->bufring);
-> +		if (bufring_enabled(queue)) {
-> +			fuse_uring_bufring_unpin(queue);
-> +			kfree(queue->bufring);
-> +		}
->  		kfree(queue);
->  		ring->queues[qid] =3D NULL;
+> @@ -235,6 +240,11 @@ static void fuse_uring_bufring_unpin(struct fuse_rin=
+g_queue *queue)
+>  		fuse_bufring_unpin_mem(&br->pinned_headers);
+>  		br->use_pinned_headers =3D false;
 >  	}
-> @@ -309,14 +349,131 @@ static int fuse_uring_get_iovec_from_sqe(const str=
-uct io_uring_sqe *sqe,
->  	return 0;
+> +
+> +	if (bufring_pinned_buffers(queue)) {
+> +		fuse_bufring_unpin_mem(&br->pinned_bufs);
+> +		br->use_pinned_buffers =3D false;
+> +	}
 >  }
 > =20
-> +static struct page **fuse_uring_pin_user_pages(void __user *uaddr,
-> +					       unsigned long len, int *npages)
-> +{
-> +	unsigned long addr =3D (unsigned long)uaddr;
-> +	unsigned long start, end, nr_pages;
-> +	struct page **pages;
-> +	int pinned;
-> +
-> +	if (check_add_overflow(addr, len, &end))
-> +		return ERR_PTR(-EOVERFLOW);
-> +	if (check_add_overflow(end, PAGE_SIZE - 1, &end))
-> +		return ERR_PTR(-EOVERFLOW);
-> +
-> +	end =3D end >> PAGE_SHIFT;
-> +	start =3D addr >> PAGE_SHIFT;
-> +	nr_pages =3D end - start;
-> +	if (WARN_ON_ONCE(!nr_pages))
-> +		return ERR_PTR(-EINVAL);
-> +	if (WARN_ON_ONCE(nr_pages > INT_MAX))
-> +		return ERR_PTR(-EOVERFLOW);
-> +
-> +	pages =3D kvmalloc_objs(struct page *, nr_pages, GFP_KERNEL_ACCOUNT);
-> +	if (!pages)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	pinned =3D pin_user_pages_fast(addr, nr_pages, FOLL_WRITE | FOLL_LONGTE=
-RM,
-> +				     pages);
-> +	/* success, mapped all pages */
-> +	if (pinned =3D=3D nr_pages) {
-> +		*npages =3D nr_pages;
-> +		return pages;
-> +	}
-> +
-> +	/* remove any partial pins */
-> +	if (pinned > 0)
-> +		unpin_user_pages(pages, pinned);
-> +
-> +	kvfree(pages);
-> +
-> +	return ERR_PTR(pinned < 0 ? pinned : -EFAULT);
-> +}
-> +
-> +static int account_pinned_pages(struct fuse_bufring_pinned *mem,
-> +				struct page **pages, unsigned int nr_pages)
-> +{
-> +	unsigned long page_limit, cur_pages, new_pages;
-> +	struct user_struct *user =3D current_user();
-> +
-> +	if (!nr_pages)
-> +		return 0;
-> +
-> +	if (!capable(CAP_IPC_LOCK)) {
-> +		/* Don't allow more pages than we can safely lock */
-> +		page_limit =3D rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
-> +
-> +		cur_pages =3D atomic_long_read(&user->locked_vm);
-> +		do {
-> +			new_pages =3D cur_pages + nr_pages;
-> +			if (new_pages > page_limit)
-> +				return -ENOMEM;
-> +		} while (!atomic_long_try_cmpxchg(&user->locked_vm,
-> +						  &cur_pages, new_pages));
-> +
-> +		mem->user =3D get_uid(current_user());
-> +	}
-> +
-> +	atomic64_add(nr_pages, &current->mm->pinned_vm);
-> +	mmgrab(current->mm);
-> +	mem->mm_account =3D current->mm;
-> +
-> +	return 0;
-> +}
-> +
-> +static int fuse_bufring_pin_mem(struct fuse_bufring_pinned *mem,
-> +				void __user *addr, size_t len)
-> +{
-> +	struct page **pages =3D NULL;
-> +	int nr_pages;
-> +	int err;
-> +
-> +	if (!PAGE_ALIGNED(addr))
-> +		return -EINVAL;
-> +
-> +	pages =3D fuse_uring_pin_user_pages(addr, len, &nr_pages);
-> +	if (IS_ERR(pages))
-> +		return PTR_ERR(pages);
-> +
-> +	err =3D account_pinned_pages(mem, pages, nr_pages);
-> +	if (err)
-> +		goto unpin;
-> +
-> +	mem->addr =3D vmap(pages, nr_pages, VM_MAP, PAGE_KERNEL);
-> +	if (!mem->addr) {
-> +		err =3D -ENOMEM;
-> +		goto unaccount;
-> +	}
-> +
-> +	mem->pages =3D pages;
-> +	mem->nr_pages =3D nr_pages;
-> +
-> +	return 0;
-> +
-> +unaccount:
-> +	if (mem->user) {
-> +		atomic_long_sub(nr_pages, &mem->user->locked_vm);
-> +		free_uid(mem->user);
-> +	}
-> +	atomic64_sub(nr_pages, &current->mm->pinned_vm);
-> +	mmdrop(mem->mm_account);
-> +unpin:
-> +	unpin_user_pages(pages, nr_pages);
-> +	kvfree(pages);
-> +	return err;
-> +}
-> +
->  static int fuse_uring_bufring_setup(struct io_uring_cmd *cmd,
-> -				     struct fuse_ring_queue *queue)
-> +				    struct fuse_ring_queue *queue,
-> +				    u64 init_flags)
->  {
->  	const struct fuse_uring_cmd_req *cmd_req =3D
->  		io_uring_sqe128_cmd(cmd->sqe, struct fuse_uring_cmd_req);
->  	u16 queue_depth =3D READ_ONCE(cmd_req->init.queue_depth);
+>  void fuse_uring_destruct(struct fuse_conn *fc)
+> @@ -474,6 +484,7 @@ static int fuse_uring_bufring_setup(struct io_uring_c=
+md *cmd,
 >  	unsigned int buf_size =3D READ_ONCE(cmd_req->init.buf_size);
 >  	struct iovec iov[FUSE_URING_IOV_SEGS];
-> +	bool pinned_headers =3D init_flags & FUSE_URING_PINNED_HEADERS;
+>  	bool pinned_headers =3D init_flags & FUSE_URING_PINNED_HEADERS;
+> +	bool pinned_bufs =3D init_flags & FUSE_URING_PINNED_BUFFERS;
 >  	void __user *payload, *headers;
 >  	size_t headers_size, payload_size, ring_size;
 >  	struct fuse_bufring *br;
-> @@ -354,7 +511,17 @@ static int fuse_uring_bufring_setup(struct io_uring_=
+> @@ -523,7 +534,22 @@ static int fuse_uring_bufring_setup(struct io_uring_=
 cmd *cmd,
->  		return -ENOMEM;
+>  		br->headers =3D headers;
+>  	}
 > =20
->  	br->queue_depth =3D queue_depth;
-> -	br->headers =3D headers;
-> +	if (pinned_headers) {
-> +		err =3D fuse_bufring_pin_mem(&br->pinned_headers, headers,
-> +					   headers_size);
+> -	payload_addr =3D (uintptr_t)payload;
+> +	if (pinned_bufs) {
+> +		err =3D fuse_bufring_pin_mem(&br->pinned_bufs, payload,
+> +					   payload_size);
 > +		if (err) {
+> +			if (pinned_headers)
+> +				fuse_bufring_unpin_mem(&br->pinned_headers);
 > +			kfree(br);
 > +			return err;
 > +		}
-> +		br->use_pinned_headers =3D true;
-> +	} else {
-> +		br->headers =3D headers;
+> +		br->use_pinned_buffers =3D true;
 > +	}
+> +
+> +	if (pinned_bufs)
+> +		payload_addr =3D (uintptr_t)br->pinned_bufs.addr;
+> +	else
+> +		payload_addr =3D (uintptr_t)payload;
 > =20
->  	payload_addr =3D (uintptr_t)payload;
-> =20
-> @@ -385,8 +552,15 @@ static bool queue_init_flags_consistent(struct fuse_=
-ring_queue *queue,
->  					u64 init_flags)
+>  	/* populate the ring buffer */
+>  	for (i =3D 0; i < nr_bufs; i++, payload_addr +=3D buf_size) {
+> @@ -553,6 +579,7 @@ static bool queue_init_flags_consistent(struct fuse_r=
+ing_queue *queue,
 >  {
 >  	bool bufring =3D init_flags & FUSE_URING_BUFRING;
-> +	bool pinned_headers =3D init_flags & FUSE_URING_PINNED_HEADERS;
-> +
-> +	if (bufring_enabled(queue) !=3D bufring)
-> +		return false;
-> +
-> +	if (!bufring)
-> +		return true;
+>  	bool pinned_headers =3D init_flags & FUSE_URING_PINNED_HEADERS;
+> +	bool pinned_bufs =3D init_flags & FUSE_URING_PINNED_BUFFERS;
 > =20
-> -	return bufring_enabled(queue) =3D=3D bufring;
-> +	return bufring_pinned_headers(queue) =3D=3D pinned_headers;
+>  	if (bufring_enabled(queue) !=3D bufring)
+>  		return false;
+> @@ -560,7 +587,8 @@ static bool queue_init_flags_consistent(struct fuse_r=
+ing_queue *queue,
+>  	if (!bufring)
+>  		return true;
+> =20
+> -	return bufring_pinned_headers(queue) =3D=3D pinned_headers;
+> +	return bufring_pinned_headers(queue) =3D=3D pinned_headers &&
+> +		bufring_pinned_buffers(queue) =3D=3D pinned_bufs;
 >  }
 > =20
 >  static struct fuse_ring_queue *
-> @@ -423,7 +597,7 @@ fuse_uring_create_queue(struct io_uring_cmd *cmd, str=
-uct fuse_ring *ring,
->  	fuse_pqueue_init(&queue->fpq);
+> @@ -1011,13 +1039,15 @@ static int setup_fuse_copy_state(struct fuse_copy=
+_state *cs,
+>  				 struct fuse_ring_ent *ent, int dir,
+>  				 struct iov_iter *iter)
+>  {
+> -	void __user *payload;
+> +	void __user *payload =3D NULL;
+> +	bool use_bufring =3D bufring_enabled(ent->queue);
+> +	bool pinned_buffers =3D use_bufring && bufring_pinned_buffers(ent->queu=
+e);
+>  	int err;
 > =20
->  	if (use_bufring) {
-> -		int err =3D fuse_uring_bufring_setup(cmd, queue);
-> +		int err =3D fuse_uring_bufring_setup(cmd, queue, init_flags);
+> -	if (bufring_enabled(ent->queue))
+> -		payload =3D (void __user *)ent->payload_buf.addr;
+> -	else
+> +	if (!use_bufring)
+>  		payload =3D ent->payload;
+> +	else if (!pinned_buffers)
+> +		payload =3D (void __user *)ent->payload_buf.addr;
 > =20
->  		if (err) {
->  			kfree(pq);
-> @@ -437,8 +611,10 @@ fuse_uring_create_queue(struct io_uring_cmd *cmd, st=
-ruct fuse_ring *ring,
->  	if (ring->queues[qid]) {
->  		spin_unlock(&fc->lock);
->  		kfree(queue->fpq.processing);
-> -		if (use_bufring)
-> +		if (use_bufring) {
-> +			fuse_uring_bufring_unpin(queue);
->  			kfree(queue->bufring);
-> +		}
->  		kfree(queue);
+>  	if (payload) {
+>  		err =3D import_ubuf(dir, payload, ring->max_payload_sz, iter);
+> @@ -1029,6 +1059,12 @@ static int setup_fuse_copy_state(struct fuse_copy_=
+state *cs,
 > =20
->  		queue =3D ring->queues[qid];
-> @@ -605,6 +781,25 @@ static void fuse_uring_async_stop_queues(struct work=
-_struct *work)
->  	}
->  }
+>  	fuse_copy_init(cs, dir =3D=3D ITER_DEST, iter);
 > =20
-> +static void fuse_uring_unpin_queues(struct fuse_ring *ring)
-> +{
-> +	int qid;
-> +
-> +	for (qid =3D 0; qid < ring->nr_queues; qid++) {
-> +		struct fuse_ring_queue *queue =3D READ_ONCE(ring->queues[qid]);
-> +		struct fuse_bufring *br;
-> +
-> +		if (!queue)
-> +			continue;
-> +
-> +		br =3D queue->bufring;
-> +		if (!br)
-> +			continue;
-> +
-> +		fuse_uring_bufring_unpin(queue);
+> +	if (pinned_buffers) {
+> +		cs->is_kaddr =3D true;
+> +		cs->kaddr =3D (void *)ent->payload_buf.addr;
+> +		cs->len =3D ent->payload_buf.len;
 > +	}
-> +}
 > +
->  /*
->   * Stop the ring queues
->   */
-> @@ -643,6 +838,9 @@ void fuse_uring_abort(struct fuse_conn *fc)
->  		fuse_uring_abort_end_requests(ring);
->  		fuse_uring_stop_queues(ring);
->  	}
-> +
-> +	/* unpin while in process context - can't do this in softirq */
-> +	fuse_uring_unpin_queues(ring);
->  }
+>  	cs->is_uring =3D true;
+>  	cs->req =3D req;
 > =20
->  /*
-> @@ -758,6 +956,11 @@ static int copy_header_to_ring(struct fuse_ring_ent =
-*ent,
->  		int buf_offset =3D offset +
->  			sizeof(struct fuse_uring_req_header) * ent->id;
-> =20
-> +		if (bufring_pinned_headers(ent->queue)) {
-> +			memcpy(ent->queue->bufring->pinned_headers.addr + buf_offset,
-> +			       header, header_size);
-> +			return 0;
-> +		}
->  		ring =3D ent->queue->bufring->headers + buf_offset;
->  	} else {
->  		ring =3D (void __user *)ent->headers + offset;
-> @@ -785,6 +988,11 @@ static int copy_header_from_ring(struct fuse_ring_en=
-t *ent,
->  		int buf_offset =3D offset +
->  			sizeof(struct fuse_uring_req_header) * ent->id;
-> =20
-> +		if (bufring_pinned_headers(ent->queue)) {
-> +			memcpy(header, ent->queue->bufring->pinned_headers.addr + buf_offset,
-> +			       header_size);
-> +			return 0;
-> +		}
->  		ring =3D ent->queue->bufring->headers + buf_offset;
->  	} else {
->  		ring =3D (void __user *)ent->headers + offset;
-> @@ -1399,7 +1607,13 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cm=
-d,
-> =20
+> @@ -1608,11 +1644,13 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *c=
+md,
 >  static bool init_flags_valid(u64 init_flags)
 >  {
-> -	u64 valid_flags =3D FUSE_URING_BUFRING;
-> +	u64 valid_flags =3D
-> +		FUSE_URING_BUFRING | FUSE_URING_PINNED_HEADERS;
-> +	bool bufring =3D init_flags & FUSE_URING_BUFRING;
-> +	bool pinned_headers =3D init_flags & FUSE_URING_PINNED_HEADERS;
-> +
-> +	if (pinned_headers && !bufring)
-> +		return false;
+>  	u64 valid_flags =3D
+> -		FUSE_URING_BUFRING | FUSE_URING_PINNED_HEADERS;
+> +		FUSE_URING_BUFRING | FUSE_URING_PINNED_HEADERS |
+> +		FUSE_URING_PINNED_BUFFERS;
+>  	bool bufring =3D init_flags & FUSE_URING_BUFRING;
+>  	bool pinned_headers =3D init_flags & FUSE_URING_PINNED_HEADERS;
+> +	bool pinned_buffers =3D init_flags & FUSE_URING_PINNED_BUFFERS;
+> =20
+> -	if (pinned_headers && !bufring)
+> +	if (!bufring && (pinned_headers || pinned_buffers))
+>  		return false;
 > =20
 >  	return !(init_flags & ~valid_flags);
->  }
 > diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-> index 66d5d5f8dc3f..05c0f061a882 100644
+> index 05c0f061a882..859ee4e6ba03 100644
 > --- a/fs/fuse/dev_uring_i.h
 > +++ b/fs/fuse/dev_uring_i.h
-> @@ -42,12 +42,29 @@ struct fuse_bufring_buf {
->  	unsigned int id;
->  };
+> @@ -57,6 +57,7 @@ struct fuse_bufring_pinned {
 > =20
-> -struct fuse_bufring {
-> -	/* pointer to the headers buffer */
-> -	void __user *headers;
-> +struct fuse_bufring_pinned {
-> +	void *addr;
-> +	struct page **pages;
-> +	unsigned int nr_pages;
-> +
-> +	/*
-> +	 * need to track this so we can unpin / unaccount pages during teardown
-> +	 * when not running in the server's task context
-> +	 */
-> +	struct user_struct *user;
-> +	struct mm_struct *mm_account;
-> +};
-> =20
-> +struct fuse_bufring {
-> +	bool use_pinned_headers: 1;
+>  struct fuse_bufring {
+>  	bool use_pinned_headers: 1;
+> +	bool use_pinned_buffers: 1;
 >  	unsigned int queue_depth;
 > =20
-> +	union {
-> +		/* pointer to the headers buffer */
-> +		void __user *headers;
-> +		struct fuse_bufring_pinned pinned_headers;
-> +	};
+>  	union {
+> @@ -65,6 +66,9 @@ struct fuse_bufring {
+>  		struct fuse_bufring_pinned pinned_headers;
+>  	};
+> =20
+> +	/* only used if the buffers are pinned */
+> +	struct fuse_bufring_pinned pinned_bufs;
 > +
 >  	/* metadata tracking state of the bufring */
 >  	unsigned int nbufs;
 >  	unsigned int head;
 > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 8753de7eb189..e57244c03d42 100644
+> index e57244c03d42..51ecb66dd6eb 100644
 > --- a/include/uapi/linux/fuse.h
 > +++ b/include/uapi/linux/fuse.h
-> @@ -244,6 +244,7 @@
->   *  7.46
+> @@ -245,6 +245,7 @@
 >   *  - add FUSE_URING_BUFRING flag
 >   *  - add fuse_uring_cmd_req init struct
-> + *  - add FUSE_URING_PINNED_HEADERS flag
+>   *  - add FUSE_URING_PINNED_HEADERS flag
+> + *  - add FUSE_URING_PINNED_BUFFERS flag
 >   */
 > =20
 >  #ifndef _LINUX_FUSE_H
-> @@ -1306,6 +1307,7 @@ enum fuse_uring_cmd {
-> =20
+> @@ -1308,6 +1309,7 @@ enum fuse_uring_cmd {
 >  /* fuse_uring_cmd_req flags */
 >  #define FUSE_URING_BUFRING		(1 << 0)
-> +#define FUSE_URING_PINNED_HEADERS	(1 << 1)
+>  #define FUSE_URING_PINNED_HEADERS	(1 << 1)
+> +#define FUSE_URING_PINNED_BUFFERS	(1 << 2)
 > =20
 >  /**
 >   * In the 80B command area of the SQE.
