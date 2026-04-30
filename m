@@ -1,41 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28B6406269
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 12:57:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1036F40F8F9
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 12:59:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777553824; cv=none; b=VFQBCwMMer8WX670mC2v9PF8Gv/EwW48j+REXqHQPaeoDAPNLBXRoR+xnUmSQLHHaZPDqn5M1aMLO2ind47WQo3qsAxCV97ztQ6AhEe8puT4RT5DNs5wJgvtq48Zi9rQfEDxh03Fu+k5/hyglE8gFOg64WlXIolH+TBKkiI+Feg=
+	t=1777553964; cv=none; b=n/mrRknm44H+PJEWy1Ai606UeszxGG2y858mKgo9m0k+sQ72F3O3m4xrcEc0G8BDsf3Y6AieTBTPHKQBOonDdTdznUHU+glyum/djelWZwpXybp3YuQxINdsOnFcBChZFzENlbDNYiL2HqSq8aSy1y1XBl+hHMMx4rHvLgUPYVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777553824; c=relaxed/simple;
-	bh=Cax0EkstDZnIZoxEe/zAVh3M5U+jCPNrC7XUMm+Iszs=;
+	s=arc-20240116; t=1777553964; c=relaxed/simple;
+	bh=RO9AMBx1mGt23i8/tpPEkax82KnBXZueuhiAZwqhCSQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LamzGAq9GAwmJxBNqGYO+pidx4LiX8CE0NDDnizH2XFDlAvyfM8ZZL5IwzVEbze1o37KGbxiMXSql8q2nSge4dFayAvBXO5Vh+o8nkD7oDma0JdOpHFB0Pko8NfBoczKKdnEN9Riq+Ng+SrPDHubnXJKyyTx48nCzz87KUqjLNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7r3hyU4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=H2efkwd17v5ZIcJB6Uj7msAuFwu8xbFFTqV784Yq6XZuoNhiZE5r9w8WDpAeqBdMrwNuvvQzQ4tltAcysSgupfn4NCVaRsNA74YX36+iQjy0U6+5HqfzTo9T9h+Jp8QZekiw3Q8ynnb8EjMblBKEPlccSQug/qhEZlFyqSfj6/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6zGpSHt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7r3hyU4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C0DCC2BCB9;
-	Thu, 30 Apr 2026 12:57:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6zGpSHt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E67B2C2BCB3;
+	Thu, 30 Apr 2026 12:59:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777553823;
-	bh=Cax0EkstDZnIZoxEe/zAVh3M5U+jCPNrC7XUMm+Iszs=;
+	s=k20201202; t=1777553963;
+	bh=RO9AMBx1mGt23i8/tpPEkax82KnBXZueuhiAZwqhCSQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=T7r3hyU4hQVtLqZLJrws3ygn0K7OveYbXvk6o3szhNtPhS32eZ0BYO+egR5lxjA1d
-	 B4otLlV7Zh+/sgqf3j5rYgDJ4F3IQPhqQzGRASUn0aB86IWRxcqKvQZVV1gL/Mcxtt
-	 KhDxh0vegcCUtirv2JnYd5iTqrtir/fqMHmqZClXTCsDqNGJaybpH84ATe2XZm5CF3
-	 y8VGqiWBoosvTn6p2/nKOD/ZdyBnfM3Ev4+kr4kM+ugpo2phoIMhOHTHDR0EXMlAil
-	 AODH34r2vlEkxNIYaSprseZzIea6R7H6vcAaMhgeQuO/oL2iEGoOcBnyog/oCZnXLA
-	 OsvGwbsUMjH7g==
-Message-ID: <b8653c7c80e21cf1fad7e66562f2e4f4127683e0.camel@kernel.org>
-Subject: Re: [PATCH v2 14/14] docs: fuse: add io-uring bufring and zero-copy
- documentation
+	b=R6zGpSHt1C0/DfwFv57/3EpAStBZVQB53ZQniPrzGIDOg6/W7vnZuF7go7DWKPqSV
+	 upMm8mvXGjsjHwBZa1/WnHmEi45LjcpsZ3a6X1Ju2ewux6oVuJ+NWzmmX4u4/yZCni
+	 R8LP9IQuVqklhLuRxcLaD9kf6Ce74qnpSCpKebVGYAo/Iy2lboNXwFHxunNEne3pON
+	 gfUa1eOgarBK3bNycrp6sjN45ltI+qRV1lJEWXXTMBxHuPhBdxthGlgEkCKTnFzyLR
+	 HY981xFC/pyQqQXb34dBwcCua6vpp/5EBBDEpFg50JfEklUjDPngZA8rv0q9FnoeHk
+	 DfGChNWMbmWRA==
+Message-ID: <8b120087b497c20aca3f0c73669d55c9fb779baa.camel@kernel.org>
+Subject: Re: [PATCH v2 00/14] fuse: add io-uring buffer rings and zero-copy
 From: Jeff Layton <jlayton@kernel.org>
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
 Cc: bernd@bsbernd.com, axboe@kernel.dk, linux-fsdevel@vger.kernel.org
-Date: Thu, 30 Apr 2026 13:57:00 +0100
-In-Reply-To: <20260402162840.2989717-15-joannelkoong@gmail.com>
+Date: Thu, 30 Apr 2026 13:59:20 +0100
+In-Reply-To: <20260402162840.2989717-1-joannelkoong@gmail.com>
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
-	 <20260402162840.2989717-15-joannelkoong@gmail.com>
 Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
  keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
  n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
@@ -121,232 +119,149 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 On Thu, 2026-04-02 at 09:28 -0700, Joanne Koong wrote:
-> Add documentation for fuse over io-uring usage of buffer rings and
-> zero-copy.
+> This series adds buffer ring and zero-copy capabilities to fuse over io-u=
+ring.
 >=20
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  .../filesystems/fuse/fuse-io-uring.rst        | 189 ++++++++++++++++++
->  1 file changed, 189 insertions(+)
+> Using buffer rings has advantages over the non-buffer-ring (iovec) path:
+> - Reduced memory usage: in the iovec path, each entry has its own
+>   dedicated payload buffer, requiring N buffers for N entries where each
+>   buffer must be large enough to accommodate the maximum possible
+>   payload size. With buffer rings, payload buffers are pooled and
+>   selected on demand. Entries only hold a buffer while actively
+>   processing a request with payload data. When incremental buffer
+>   consumption is added, this will allow non-overlapping regions of a
+>   single buffer to be used simultaneously across multiple requests,
+>   further reducing memory requirements.
+> - Foundation for pinned buffers: the buffer ring headers and payloads
+>   are now each passed in as a contiguous memory allocation, which allows
+>   fuse to easily pin and vmap the entire region in one operation during
+>   queue setup. This will eliminate the per-request overhead of having to
+>   pin/unpin user pages and translate virtual addresses and is a
+>   prerequisite for future optimizations like performing data copies
+>   outside of the server's task context.
 >=20
-> diff --git a/Documentation/filesystems/fuse/fuse-io-uring.rst b/Documenta=
-tion/filesystems/fuse/fuse-io-uring.rst
-> index d73dd0dbd238..bc47686c023f 100644
-> --- a/Documentation/filesystems/fuse/fuse-io-uring.rst
-> +++ b/Documentation/filesystems/fuse/fuse-io-uring.rst
-> @@ -95,5 +95,194 @@ Sending requests with CQEs
->   |    <fuse_unlink()                         |
->   |  <sys_unlink()                            |
-> =20
-> +Buffer rings
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> +Buffer rings have two main advantages:
-> =20
-> +* Reduced memory usage: payload buffers are pooled and selected on deman=
-d
-> +  rather than dedicated per-entry, allowing fewer buffers than entries. =
-This
-> +  infrastructure also allows for future optimizations like incremental b=
-uffer
-> +  consumption where non-overlapping parts of a buffer may be used across
-> +  concurrent requests.
-> +* Foundation for pinned buffers: contiguous buffer allocations allow the
-> +  kernel to pin and vmap the entire region, avoiding per-request page
-> +  resolution overhead
-> +
-> +At a high-level, this is how fuse uses buffer rings:
-> +
-> +* The first REGISTER SQE for a queue creates the queue and sets up the
-> +  buffer ring. The server provides two iovecs: one for headers and one f=
-or
-> +  payload buffers. Each entry gets a fixed ID (sqe->buf_index) that maps
-> +  to a specific header slot.
-> +* When a client request arrives, the kernel selects a payload buffer fro=
-m
-> +  the ring (if the request has copyable data), copies headers and payloa=
-d
-> +  data, and completes the sqe.
-> +* The buf_id of the selected payload buffer is communicated to the serve=
-r
-> +  via the fuse_uring_ent_in_out header. The server uses this to locate t=
-he
-> +  payload data in its buffer.
-> +* The server processes the request and sends a COMMIT_AND_FETCH SQE with
-> +  the reply. The kernel processes the reply and recycles the buffer.
-> +
-> +Visually, this looks like::
-> +
-> + Headers buffer:
-> + +-----------------------+-----------------------+-----+
-> + | fuse_uring_req_header | fuse_uring_req_header | ... |
-> + | [ent 0]               | [ent 1]               |     |
-> + +-----------------------+-----------------------+-----+
-> + ^                       ^
-> + |                       |
-> + ent 0 header slot       ent 1 header slot
-> + (sqe->buf_index=3D0)      (sqe->buf_index=3D1)
-> +
-> + Payload buffer pool:
-> + +-----------+-----------+-----------+-----+
-> + | buf 0     | buf 1     | buf 2     | ... |
-> + | (buf_size)| (buf_size)| (buf_size)|     |
-> + +-----------+-----------+-----------+-----+
-> + selected on demand, recycled after each request
-> +
-> +Buffer ring request flow
-> +------------------------::
-> +
-> +|  Kernel                                  |  FUSE daemon
-> +|                                          |
-> +|  [client request arrives]                |
-> +|  >fuse_uring_send()                      |
-> +|    [select payload buf from ring]        |
-> +|    >fuse_uring_select_buffer()           |
-> +|    [copy headers to ent's header slot]   |
-> +|    >copy_header_to_ring()                |
-> +|    [copy payload to selected buf]        |
-> +|    >fuse_uring_copy_to_ring()            |
-> +|    [set buf_id in ent_in_out header]     |
-> +|    >io_uring_cmd_done()                  |
-> +|                                          |  [CQE received]
-> +|                                          |  [read headers from header =
-slot]
-> +|                                          |  [read payload from buf_id]
-> +|                                          |  [process request]
-> +|                                          |  [write reply to header slo=
-t]
-> +|                                          |  [write reply payload to bu=
-f]
-> +|                                          |  >io_uring_submit()
-> +|                                          |   COMMIT_AND_FETCH
-> +|  >fuse_uring_commit_fetch()              |
-> +|    >fuse_uring_commit()                  |
-> +|     [copy reply from ring]               |
-> +|     >fuse_uring_recycle_buffer()         |
-> +|    >fuse_uring_get_next_fuse_req()       |
-> +
-> +Pinned buffers
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Servers can optionally pin their header and/or payload buffers by settin=
-g
-> +FUSE_URING_PINNED_HEADERS and/or FUSE_URING_PINNED_BUFFERS flags. When
-> +set, the kernel pins the user pages and vmaps them during queue setup,
-> +enabling memcpy to/from the kernel virtual address instead of
-> +copy_to_user/copy_from_user.
-> +
-> +This avoids the per-request cost of pinning/unpinning user pages and
-> +translating virtual addresses. Buffers must be page-aligned. The pinned =
-pages
-> +are accounted against RLIMIT_MEMLOCK (bypassable with CAP_IPC_LOCK).
-> +
-> +Zero-copy
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Fuse io-uring zero-copy allows the server to directly read from / write =
+> This series adds the capability to pin the underlying header and payload
+> buffers by setting init flags at registration time, depending on the user=
+'s
+> mlock limit.
+>=20
+> Zero-copy (only for privileged servers) is also opt-in by setting an init=
+ flag
+> at registration time. Zero-copy eliminates the memory copies between kern=
+el and
+> userspace for read/write/payload-heavy operations by allowing the server =
 to
-> +the client's pages, bypassing any intermediary buffer copies. This requi=
-res
-> +the FUSE_URING_ZERO_COPY flag, buffer rings with pinned headers and buff=
-ers,
-> +and CAP_SYS_ADMIN.
-> +
-> +The kernel registers the client's underlying pages as a sparse buffer at
-> +the entry's fixed id via io_buffer_register_bvec(). The fuse server can
-> +then perform io_uring read/write operations directly on these pages.
-> +Non-page-backed args (eg out headers) go through the payload buffer as
-> +normal. Pages are unregistered when the request completes.
-> +
-> +The request flow for the zero-copy write path (client writes data, serve=
-r
-> +reads it) is as follows:
-> +
-> +Zero-copy write
-> +---------------::
-> +|  Kernel                                   |  FUSE server
-> +|                                           |
-> +|  "write(fd, buf, 1MB)"                    |
-> +|                                           |
-> +|  >sys_write()                             |
-> +|    >fuse_file_write_iter()                |
-> +|      >fuse_send_one()                     |
-> +|        [req->args->in_pages =3D true]       |
-> +|        [folios hold client write data]    |
-> +|                                           |
-> +|  >fuse_uring_copy_to_ring()               |
-> +|    >copy_header_to_ring(IN_OUT)           |
-> +|      [memcpy fuse_in_header to            |
-> +|       pinned headers buf via kaddr]       |
-> +|    >copy_header_to_ring(OP)               |
-> +|      [memcpy write_in header]             |
-> +|                                           |
-> +|    >fuse_uring_args_to_ring()             |
-> +|      >setup_fuse_copy_state()             |
-> +|        [is_kaddr =3D true]                  |
-> +|        [skip_folio_copy =3D true]           |
-> +|                                           |
-> +|      >fuse_uring_set_up_zero_copy()       |
-> +|        [folio_get for each client folio]  |
-> +|        [build bio_vec array from folios]  |
-> +|        >io_buffer_register_bvec()         |
-> +|          [register pages at ent->id]      |
-> +|        [ent->zero_copied =3D true]          |
-> +|                                           |
-> +|      >fuse_copy_args()                    |
-> +|        [skip_folio_copy =3D> return 0       |
-> +|         for page arg, skip data copy]     |
-> +|                                           |
-> +|    >copy_header_to_ring(RING_ENT)         |
-> +|      [memcpy ent_in_out]                  |
-> +|    >io_uring_cmd_done()                   |
-> +|                                           |
-> +|                                           | [CQE received]
-> +|                                           |
-> +|                                           | [issue io_uring READ at
-> +|                                           |  ent->id]
-> +|                                           | [reads directly from
-> +|                                           | client's pages (ZERO_COPY)=
-]
-> +|                                           |
-> +|                                           | [write data to backing
-> +|                                           | store]
-> +|                                           |  [submit COMMIT AND FETCH]
-> +|                                           |
-> +|  >fuse_uring_commit_fetch()               |
-> +|    >fuse_uring_commit()                   |
-> +|      >fuse_uring_copy_from_ring()         |
-> +|    >fuse_uring_req_end()                  |
-> +|      >io_buffer_unregister(ent->id)       |
-> +|        [unregister sparse buffer]         |
-> +|      >fuse_zero_copy_release()            |
-> +|        [folio_put for each folio]         |
-> +|      [ent->zero_copied =3D false]           |
-> +|      >fuse_request_end()                  |
-> +|        [wake up client]                   |
-> +
-> +The zero-copy read path is analogous.
-> +
-> +Some requests may have both page-backed args and non-page-backed args.
-> +For these requests, the page-backed args are zero-copied while the
-> +non-page-backed args are copied to the buffer selected from the buffer
-> +ring:
-> +  zero-copy: pages registered via io_buffer_register_bvec()
-> +  non-page-backed: copied to payload buffer via fuse_copy_args()
-> +
-> +For a request whose payload is zero-copied, the registration/unregistrat=
-ion
-> +path looks like:
-> +
-> +register:  fuse_uring_set_up_zero_copy()
-> +	     folio_get() for each folio
-> +	     io_buffer_register_bvec(ent->id)
-> +
-> +[server accesses pages via io_uring fixed buf at ent->id]
-> +
-> +unregister: fuse_uring_req_end()
-> +	      io_buffer_unregister(ent->id)
-> +	      -> fuse_zero_copy_release() callback
-> +		 folio_put() for each folio
+> directly operate on the client's underlying pages.
+>=20
+> This series has a dependency on io-uring registered bvec buffers changes
+> in [1].
+>=20
+> The throughput improvements from pinned buffers and zero-copy depends on =
+how
+> much of the server's per-request latency is spent on data copying vs back=
+ing
+> I/O. When backing I/O dominates, the saved memcpy is a negligible fractio=
+n of
+> overall latency. Please also note that for the server to read/write
+> into the zero-copied pages, the read/write must go through io-uring
+> as an IORING_OP_READ_FIXED / IORING_OP_WRITE_FIXED operation. If the
+> server's backing I/O is instantaneous (eg served from cache), the
+> overhead of the additional io_uring operation may negate the savings
+> from eliminating the memcpy.
+>=20
+> In benchmarks using passthrough_hp on a high-performance NVMe-backed
+> system, pinned headers and pinned payload buffers showed around a 10%
+> throughput improvement for direct randreads (~2150 MiB/s to ~2400
+> MiB/s), a 4% improvement for direct sequential reads (~2510 MiB/s to
+> ~2620 MiB/s), a 8% improvement for buffered randreads (~2100 MiB/s to
+> ~2280 MiB/s), and a 6% improvement for buffered sequential reads (~2500
+> MiB/s to ~2670 MiB/s).
+>=20
+> Zero-copy showed around a 35% throughput improvement for direct
+> randreads (~2150 MiB/s to ~2900 MiB/s), a 15% improvement for direct
+> sequential reads (~2510 MiB/s to ~2900 MiB/s), a 15% improvement for
+> buffered randreads (~2100 MiB/s to ~2470 MiB/s), and a 10% improvement
+> for buffered sequential reads (~2500 MiB/s to ~2750 MiB/s). I didn't see
+> enough of a clear improvement for writes due to write latency being I/O
+> dominated.
+>=20
+> The benchmarks were run using:
+>   fio --name=3Dtest_run --ioengine=3Dsync --rw=3Drand{read,write} --bs=3D=
+1M
+>   --size=3D1G --numjobs=3D2 --ramp_time=3D30 --group_reporting=3D1
+>=20
+> To run the benchmark, please also add this patch [2].
+>=20
+> The libfuse changes can be found in [3]. To test the server, run:
+> sudo ~/libfuse/build/example/passthrough_hp ~/src ~/mounts/tmp
+> --nopassthrough -o io_uring_zero_copy -o io_uring_q_depth=3D8
+> Once this series is merged, the libfuse changes will be tidied up and
+> submitted upstream.
+>=20
+> Further optimizations for incremental buffer consumption, request
+> dispatching in current task context, and backing buffer integration with
+> IORING_OP_READ/IORING_OP_WRITE operations will be submitted as part of a
+> separate series.
+>=20
+> Thanks,
+> Joanne=20
+>=20
+> [1] https://lore.kernel.org/io-uring/20260402160929.2749744-1-joannelkoon=
+g@gmail.com/T/#t
+> [2] https://lore.kernel.org/linux-fsdevel/20260326215127.3857682-2-joanne=
+lkoong@gmail.com/
+> [3] https://github.com/joannekoong/libfuse/commits/zero_copy_v2/
+>=20
+> Changelog
+> ---------
+> v1: https://lore.kernel.org/linux-fsdevel/20260324224532.3733468-1-joanne=
+lkoong@gmail.com/
+> v1 -> v2:
+> * Drop kernel managed buffers from io-uring infrastructure and instead mo=
+ve
+>   logic into fuse. To later use buffers with io-uring requests natively w=
+ill
+>   require fuse to place the backing buffer as a fixed buffer in a sparse =
+slot
+>   for the server, but that will be added as an optimization in a separate
+>   series. This makes the io-uring code cleaner and accomodates for more f=
+lexible
+>   fuse user configurations (eg mlock limits) and easier setup (me)
+> * Run more benchmarks and get more numbers (me)
+> * Add visual diagrams and more documentatoin to commit messages and
+>   documentation patch (Bernd)
+>=20
+> Joanne Koong (14):
+>   fuse: separate next request fetching from sending logic
+>   fuse: refactor io-uring header copying to ring
+>   fuse: refactor io-uring header copying from ring
+>   fuse: use enum types for header copying
+>   fuse: refactor setting up copy state for payload copying
+>   fuse: support buffer copying for kernel addresses
+>   fuse: use named constants for io-uring iovec indices
+>   fuse: move fuse_uring_abort() from header to dev_uring.c
+>   fuse: rearrange io-uring iovec and ent allocation logic
+>   fuse: add io-uring buffer rings
+>   fuse: add pinned headers capability for io-uring buffer rings
+>   fuse: add pinned payload buffers capability for io-uring buffer rings
+>   fuse: add zero-copy over io-uring
+>   docs: fuse: add io-uring bufring and zero-copy documentation
+>=20
+>  .../filesystems/fuse/fuse-io-uring.rst        |  189 +++
+>  fs/fuse/dev.c                                 |   30 +-
+>  fs/fuse/dev_uring.c                           | 1042 ++++++++++++++---
+>  fs/fuse/dev_uring_i.h                         |   86 +-
+>  fs/fuse/fuse_dev_i.h                          |    8 +-
+>  include/uapi/linux/fuse.h                     |   36 +-
+>  6 files changed, 1194 insertions(+), 197 deletions(-)
+>=20
+>=20
+> base-commit: 619fa72e875483dabf7683001496cc0ca4480aa6
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
+Nice work, Joanne! This seems to be in great shape overall.
+
+I'll note that the first 9 patches or so (maybe modulo patch #6) could
+be merged in advance of the bigger io_uring changes.
+=20
+--=20
+Jeff Layton <jlayton@kernel.org>
