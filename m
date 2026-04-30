@@ -1,304 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7E3184;
-	Thu, 30 Apr 2026 00:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51D840DFDB;
+	Thu, 30 Apr 2026 00:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777507498; cv=none; b=SK0VvfSSpSjJczuC0jjtmlmWKKmwaptRzL5QkxGxrDkZ86Wil9ShvQ92W4OJCzAY791+i/RBqPN3P01n/E1I6+duOhEe2Q/su6sgP+qO+b/VZ19ZLzJLHher/ZTyE9DO1g2H7hTZPd5j4z790l++4uZh55+u3B92MJz9idOlklc=
+	t=1777509375; cv=none; b=Z2nvFC2wheFXjlRH8iR0lUpFBaAgqpTHEIYvDqa/XYOv4Bv0xbVNQF0qUsx4GfOVVFXKrkfZ3u1/yE5kVc6Qa9KHXTqc51C5Q+9uv8hzFeMpp2+cw/tDzRdzXeLeI9yxV+Y1j9hlvpxdqxs5UAPGbcYfqKGagUqIKPJ7xosgeEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777507498; c=relaxed/simple;
-	bh=gQ1rZdCtZ9VF0FSHS4B0X31OH5zT94IMnvb92/BSeuI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EGot7bdPoZJe1EiTU/tXZ14fqG3ork03lpIDYV4mq257oKuk+bMbVV/W+Wq+KBdytoP34CBBQgmuSYIV/CFDUspeh3Pcf6FB4mwWjNN4O1S+KzJqQFFkMqmA7KFpsun106kpIVOtuulq/Jpr4+QFIZLQ3muyulh8YRbCShpQcoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C7SVENHw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C7SVENHw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574D9C2BCB3;
-	Thu, 30 Apr 2026 00:04:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777507498;
-	bh=gQ1rZdCtZ9VF0FSHS4B0X31OH5zT94IMnvb92/BSeuI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C7SVENHwZ2ckWZwEmQd95j5x+V5ywgwCdUd/uMCpKNJqXn1+copRzUTPZq1/wpTBN
-	 Jn9sWN2bF+rzkXcf7jyQUsMlbD0RqQmeSZm0wVAm2tMD+RljkV0FTEYNj7kBecs7F/
-	 Olyf6n5hEXaKZ9gfZbNpqw99WqMRyGU+KQxwdr6cXEJom04lpSMggMw2eWQNp9OC1j
-	 OaiLHjGAg5DVUfQNJFBKWbzNft7ogEOxQsH1OD1OfeMTnkztqI43cgYxw9t5pgWFY7
-	 Ye32xl71kiiuyIuuhOLmuOqMf6pxdOrTPU030uAXFEO9SiQLJbMQSPysCi6qOk8bvO
-	 H7479Y0R3GKng==
-From: Song Liu <song@kernel.org>
-To: linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	selinux@vger.kernel.org,
-	apparmor@lists.ubuntu.com
-Cc: paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	john.johansen@canonical.com,
-	stephen.smalley.work@gmail.com,
-	omosnace@redhat.com,
-	mic@digikod.net,
-	gnoack@google.com,
-	takedakn@nttdata.co.jp,
-	penguin-kernel@I-love.SAKURA.ne.jp,
-	herton@canonical.com,
-	kernel-team@meta.com,
-	Song Liu <song@kernel.org>
-Subject: [PATCH v2 7/7] lsm: Remove security_sb_mount and security_move_mount
-Date: Wed, 29 Apr 2026 17:03:15 -0700
-Message-ID: <20260430000315.918964-8-song@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260430000315.918964-1-song@kernel.org>
-References: <20260430000315.918964-1-song@kernel.org>
+	s=arc-20240116; t=1777509375; c=relaxed/simple;
+	bh=tpzsN0JWkujhum5ypZyRd6xbSgB/sHmGL101UkNnqac=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=cbu/+GtafyqfEHuPaE0amnP0gBD3WgE5nMo2jRNej5gt2uvOiwV7NjmUgHMppfw1ivVwgRL0P4wyv071NhU7CzDljZI4W5l0kE55pn6cH4HnBMjsExONqpN9wuUnFZNiZS5AaCpFpnHx6ukl4TUkS6gwcuuJjpL9sE0kCMVjHd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id 7FD061D459;
+	Thu, 30 Apr 2026 00:36:03 +0000 (UTC)
+Received: from [192.168.1.18] ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id AaspC/Oj8mknvwUA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Thu, 30 Apr 2026 00:36:03 +0000
+Message-ID: <d7edfeab-af06-4b2d-a085-f8eef077e877@dev.snart.me>
+Date: Thu, 30 Apr 2026 09:36:00 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: David Timber <dxdt@dev.snart.me>
+Subject: [RFC] determining if the underlying storage device of blockdev is
+ "real", the Linux modern way
+To: driver-core@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>,
+ Yuezhang Mo <yuezhang.mo@sony.com>
+Content-Language: en-US, ko
+Autocrypt: addr=dxdt@dev.snart.me; keydata=
+ xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
+ IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
+ X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
+ sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
+ 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
+ EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
+ VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
+ Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Now that all LSMs have been converted to granular mount hooks,
-remove the old hooks:
+Hello maintainers,
 
-- security_sb_mount(): removed from lsm_hook_defs.h, security.h,
-  security.c, and its call in path_mount().
-- security_move_mount(): removed and replaced by security_mount_move()
-  in do_move_mount(). All LSMs now use mount_move exclusively.
+https://github.com/exfatprogs/exfatprogs/pull/351
 
-Code generated with the assistance of Claude, reviewed by human.
+I'm currently implementing a feature in exfatprogs to fix a long
+standing compatibility issue with MS Windows systems. mkfs.exfat was
+missing a crucial feature and that lead to compatibility issues reported
+by users.
 
-Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com> # for selinux only
-Signed-off-by: Song Liu <song@kernel.org>
----
- fs/namespace.c                |  6 +-----
- include/linux/lsm_hook_defs.h |  4 ----
- include/linux/security.h      | 16 ---------------
- kernel/bpf/bpf_lsm.c          |  2 --
- security/apparmor/lsm.c       |  1 -
- security/landlock/fs.c        |  1 -
- security/security.c           | 38 -----------------------------------
- security/selinux/hooks.c      |  2 --
- 8 files changed, 1 insertion(+), 69 deletions(-)
+*Background*
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index e263319fb333..43f22c5e2bf4 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -4103,7 +4103,6 @@ int path_mount(const char *dev_name, const struct path *path,
- 		const char *type_page, unsigned long flags, void *data_page)
- {
- 	unsigned int mnt_flags = 0, sb_flags;
--	int ret;
- 
- 	/* Discard magic */
- 	if ((flags & MS_MGC_MSK) == MS_MGC_VAL)
-@@ -4116,9 +4115,6 @@ int path_mount(const char *dev_name, const struct path *path,
- 	if (flags & MS_NOUSER)
- 		return -EINVAL;
- 
--	ret = security_sb_mount(dev_name, path, type_page, flags, data_page);
--	if (ret)
--		return ret;
- 	if (!may_mount())
- 		return -EPERM;
- 	if (flags & SB_MANDLOCK)
-@@ -4568,7 +4564,7 @@ static inline int vfs_move_mount(const struct path *from_path,
- {
- 	int ret;
- 
--	ret = security_move_mount(from_path, to_path);
-+	ret = security_mount_move(from_path, to_path);
- 	if (ret)
- 		return ret;
- 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 98f0fe382665..c870260bf402 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -69,8 +69,6 @@ LSM_HOOK(int, 0, sb_remount, struct super_block *sb, void *mnt_opts)
- LSM_HOOK(int, 0, sb_kern_mount, const struct super_block *sb)
- LSM_HOOK(int, 0, sb_show_options, struct seq_file *m, struct super_block *sb)
- LSM_HOOK(int, 0, sb_statfs, struct dentry *dentry)
--LSM_HOOK(int, 0, sb_mount, const char *dev_name, const struct path *path,
--	 const char *type, unsigned long flags, void *data)
- LSM_HOOK(int, 0, sb_umount, struct vfsmount *mnt, int flags)
- LSM_HOOK(int, 0, sb_pivotroot, const struct path *old_path,
- 	 const struct path *new_path)
-@@ -79,8 +77,6 @@ LSM_HOOK(int, 0, sb_set_mnt_opts, struct super_block *sb, void *mnt_opts,
- LSM_HOOK(int, 0, sb_clone_mnt_opts, const struct super_block *oldsb,
- 	 struct super_block *newsb, unsigned long kern_flags,
- 	 unsigned long *set_kern_flags)
--LSM_HOOK(int, 0, move_mount, const struct path *from_path,
--	 const struct path *to_path)
- LSM_HOOK(int, 0, mount_bind, const struct path *from, const struct path *to,
- 	 bool recurse)
- LSM_HOOK(int, 0, mount_new, struct fs_context *fc, const struct path *mp,
-diff --git a/include/linux/security.h b/include/linux/security.h
-index b1b3da51a88d..f1dcfc569cf2 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -373,8 +373,6 @@ int security_sb_remount(struct super_block *sb, void *mnt_opts);
- int security_sb_kern_mount(const struct super_block *sb);
- int security_sb_show_options(struct seq_file *m, struct super_block *sb);
- int security_sb_statfs(struct dentry *dentry);
--int security_sb_mount(const char *dev_name, const struct path *path,
--		      const char *type, unsigned long flags, void *data);
- int security_sb_umount(struct vfsmount *mnt, int flags);
- int security_sb_pivotroot(const struct path *old_path, const struct path *new_path);
- int security_sb_set_mnt_opts(struct super_block *sb,
-@@ -385,7 +383,6 @@ int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- 				struct super_block *newsb,
- 				unsigned long kern_flags,
- 				unsigned long *set_kern_flags);
--int security_move_mount(const struct path *from_path, const struct path *to_path);
- int security_mount_bind(const struct path *from, const struct path *to,
- 			bool recurse);
- int security_mount_new(struct fs_context *fc, const struct path *mp,
-@@ -825,13 +822,6 @@ static inline int security_sb_statfs(struct dentry *dentry)
- 	return 0;
- }
- 
--static inline int security_sb_mount(const char *dev_name, const struct path *path,
--				    const char *type, unsigned long flags,
--				    void *data)
--{
--	return 0;
--}
--
- static inline int security_sb_umount(struct vfsmount *mnt, int flags)
- {
- 	return 0;
-@@ -859,12 +849,6 @@ static inline int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- 	return 0;
- }
- 
--static inline int security_move_mount(const struct path *from_path,
--				      const struct path *to_path)
--{
--	return 0;
--}
--
- static inline int security_mount_bind(const struct path *from,
- 				      const struct path *to, bool recurse)
- {
-diff --git a/kernel/bpf/bpf_lsm.c b/kernel/bpf/bpf_lsm.c
-index aa228372cfb4..77371ca25d09 100644
---- a/kernel/bpf/bpf_lsm.c
-+++ b/kernel/bpf/bpf_lsm.c
-@@ -350,7 +350,6 @@ BTF_ID(func, bpf_lsm_release_secctx)
- BTF_ID(func, bpf_lsm_sb_alloc_security)
- BTF_ID(func, bpf_lsm_sb_eat_lsm_opts)
- BTF_ID(func, bpf_lsm_sb_kern_mount)
--BTF_ID(func, bpf_lsm_sb_mount)
- BTF_ID(func, bpf_lsm_sb_remount)
- BTF_ID(func, bpf_lsm_sb_set_mnt_opts)
- BTF_ID(func, bpf_lsm_sb_show_options)
-@@ -382,7 +381,6 @@ BTF_ID(func, bpf_lsm_task_setscheduler)
- BTF_ID(func, bpf_lsm_userns_create)
- BTF_ID(func, bpf_lsm_bdev_alloc_security)
- BTF_ID(func, bpf_lsm_bdev_setintegrity)
--BTF_ID(func, bpf_lsm_move_mount)
- BTF_ID(func, bpf_lsm_mount_bind)
- BTF_ID(func, bpf_lsm_mount_new)
- BTF_ID(func, bpf_lsm_mount_remount)
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index e0a8a44c95aa..b0de7f316f51 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1705,7 +1705,6 @@ static struct security_hook_list apparmor_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(capget, apparmor_capget),
- 	LSM_HOOK_INIT(capable, apparmor_capable),
- 
--	LSM_HOOK_INIT(move_mount, apparmor_move_mount),
- 	LSM_HOOK_INIT(mount_bind, apparmor_mount_bind),
- 	LSM_HOOK_INIT(mount_new, apparmor_mount_new),
- 	LSM_HOOK_INIT(mount_remount, apparmor_mount_remount),
-diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-index 4547e736e496..7377f22a165e 100644
---- a/security/landlock/fs.c
-+++ b/security/landlock/fs.c
-@@ -1983,7 +1983,6 @@ static struct security_hook_list landlock_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(mount_reconfigure, hook_mount_reconfigure),
- 	LSM_HOOK_INIT(mount_change_type, hook_mount_change_type),
- 	LSM_HOOK_INIT(mount_move, hook_move_mount),
--	LSM_HOOK_INIT(move_mount, hook_move_mount),
- 	LSM_HOOK_INIT(sb_umount, hook_sb_umount),
- 	LSM_HOOK_INIT(sb_remount, hook_sb_remount),
- 	LSM_HOOK_INIT(sb_pivotroot, hook_sb_pivotroot),
-diff --git a/security/security.c b/security/security.c
-index b7ec0ec7af26..bc55ee588c59 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -1065,29 +1065,6 @@ int security_sb_statfs(struct dentry *dentry)
- 	return call_int_hook(sb_statfs, dentry);
- }
- 
--/**
-- * security_sb_mount() - Check permission for mounting a filesystem
-- * @dev_name: filesystem backing device
-- * @path: mount point
-- * @type: filesystem type
-- * @flags: mount flags
-- * @data: filesystem specific data
-- *
-- * Check permission before an object specified by @dev_name is mounted on the
-- * mount point named by @nd.  For an ordinary mount, @dev_name identifies a
-- * device if the file system type requires a device.  For a remount
-- * (@flags & MS_REMOUNT), @dev_name is irrelevant.  For a loopback/bind mount
-- * (@flags & MS_BIND), @dev_name identifies the	pathname of the object being
-- * mounted.
-- *
-- * Return: Returns 0 if permission is granted.
-- */
--int security_sb_mount(const char *dev_name, const struct path *path,
--		      const char *type, unsigned long flags, void *data)
--{
--	return call_int_hook(sb_mount, dev_name, path, type, flags, data);
--}
--
- /**
-  * security_sb_umount() - Check permission for unmounting a filesystem
-  * @mnt: mounted filesystem
-@@ -1167,21 +1144,6 @@ int security_sb_clone_mnt_opts(const struct super_block *oldsb,
- }
- EXPORT_SYMBOL(security_sb_clone_mnt_opts);
- 
--/**
-- * security_move_mount() - Check permissions for moving a mount
-- * @from_path: source mount point
-- * @to_path: destination mount point
-- *
-- * Check permission before a mount is moved.
-- *
-- * Return: Returns 0 if permission is granted.
-- */
--int security_move_mount(const struct path *from_path,
--			const struct path *to_path)
--{
--	return call_int_hook(move_mount, from_path, to_path);
--}
--
- /**
-  * security_mount_bind() - Check permissions for a bind mount
-  * @from: source path
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index f0d9712356cf..b6229fb619cf 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -7590,8 +7590,6 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(sb_set_mnt_opts, selinux_set_mnt_opts),
- 	LSM_HOOK_INIT(sb_clone_mnt_opts, selinux_sb_clone_mnt_opts),
- 
--	LSM_HOOK_INIT(move_mount, selinux_move_mount),
--
- 	LSM_HOOK_INIT(dentry_init_security, selinux_dentry_init_security),
- 	LSM_HOOK_INIT(dentry_create_files_as, selinux_dentry_create_files_as),
- 
--- 
-2.52.0
+There exist two different authoritative exFAT specifications by two
+different organisations: one being Microsoft and the other being the SD
+Association. As Brauner said years ago when the exFAT implementation has
+been introduced to the mainline, Microsoft's exFAT specs remain largely
+incomplete and my humble personal view is that the specs by the SD
+Association is more mature. However, the SD specs are still locked
+behind the paywall to this day so it's hard for the file system devs to
+implement to the spec. Nonetheless, the fact that there exist two
+different specs lead opensource implementations of exFAT to become a
+kind of amalgamation of the two and exfatprogs and the in-kernel exFAT
+fs were no exception.
 
+Let me bring your attention to dosfstools, which has played an important
+role for supporting UEFI on Linux therefore has been shipped with many
+distros as long as the Linux community can remember.
+
+MKFS.FAT(8):
+...
+>        --mbr[=y|yes|n|no|a|auto]
+>            Fill (fake) MBR table with disk signature one partition
+> which starts at sector 0 (includes MBR itself) and spans whole disk
+> device.  It is needed only for non-removable disks used on Microsoft
+> Windows  systems  and  only  when formatting  whole  unpartitioned
+> disk.  Location of the disk signature and partition table overlaps
+> with the end of the first FAT sector (boot code location), therefore
+> there is no additional space usage.  Default is auto mode in which
+> mkfs.fat put MBR table only for non-removable disks when formatting
+> whole unpartitioned disk.
+...
+
+It is evident from the manpage that MS Window systems had issues
+recognising "removable" disks formatted without MBR. From the personal
+observations I made, this still remains true in recent releases of
+Windows don't seem to recognise "fixed"
+devices(/sys/dev/block/*/removable reads 0) formatted without MBR.
+
+https://github.com/dosfstools/dosfstools/commit/5199d6847a5e183800fc356abcb2e2ea5fb8fa01
+https://github.com/dosfstools/dosfstools/blob/289a48b9cb5b3c589391d28aa2515c325c932c7a/src/device_info.c#L109
+
+Diving into the source code, we can see that mkfs.fat does its best to
+figure out if the device associated with a "real" physical device and if
+the device is NOT removable, mkfs.fat deems that the device needs the
+MBR region to be filled so that the volume can be recognised and used on
+MS Windows systems.
+
+https://aussiestorageblog.wordpress.com/2013/11/11/your-sandisk-usb-stick-is-no-longer-removable-and-its-microsofts-fault/
+
+For your information, the "removable" attribute comes from the device
+itself via SCSI RMB bit(UAS uses as its underlying transport protocol).
+So, whether the storage is actually removable or not has nothing to do
+with the actual type of the storage. If the USB stick advertises itself
+as "removable", then it is removable. If it doesn't, it's not. For
+example, the MMC interface doesn't have the corresponding attribute so
+"removable" in sysfs always reads as 0 although you'd think that MMC
+media are removable.
+
+The problem is that MS Windows kernel treats "removable" and "fixed"
+storage devices differently. If the device is removable, it's not
+required to have MBR. MS Windows will detect the volume with or without
+MBR. But in case of "fixed"(RMB unset), MS Windows kernel will treat the
+device uninitialised if it doesn't contain an MBR. We can all agree that
+this behaviour has some serious consequences, but the problem remains
+corrected in recent release of Windows.
+
+Ironically, despite the quirk of their own implementation, MS's version
+of exFAT specs do not mandate the use of MBR, which lead to
+compatibility issues with mkfs.exfat. On the other hand, SD
+associations' specs clearly recommends the use of MBR regardless of the
+type of device.
+
+The recursive MBR partition entry approach has its own potential
+issues(parted actually can't handle recursive partitions other than that
+of vFAT and nukes the entries of exFAT boot sector without any prompts).
+So when it's not required, it's best not to put one to be on the safe
+side. Besides, Linux kernel partscanning the MBR and a partition being
+create after runinng mkfs.fat is definitely confusing for many users as
+well as other fs utils.
+
+*Question*
+
+The existing dosfstools implementation juggles through the sysfs tree to
+see if the device has "children" or "slaves", or if the device is
+dm(RAID/dm-crypt ...) or loopdev. If any of the condition is true, the
+device is considered "virtual" and no MBR partition entries will be
+written for the new volume.
+
+https://github.com/exfatprogs/exfatprogs/pull/351/changes/25bea15e3e229bf2661392d0f960c28ab3badf0e
+
+I believe that this is mostly redundant and the code required to do this
+is not so straightforwrad. Using the fairly modern kernel(post-2.6), I
+think it can be simplified to:
+
+  * has /sys/dev/block/*/partition and reads integer value > 0: then
+    it's a partition so MBR not required
+  * has /sys/dev/block/*/device symlink: then it's definitely a real
+    physical device
+  * but if there's entries in /sys/dev/block/*/slaves: then it's
+    "virtual" device
+
+And maybe add
+
+  * /sys/dev/block/*/start reads > 0: then it's a partition or a some
+    sort of slave
+
+So symlink dereferencing, no visiting parent directories and so on.
+
+The whole point of doing this is to write MBR only to "real" storage
+devices that may be connected to MS Windows systems later. More
+specifically: when running mkfs.exfat on a HDD/SDD/SATA/NVME/USB(UAS) drive.
+
+What did I miss? Would this be good enough heuristics? Or any better way
+to achieve this?
+
+Thanks,
+Davo
