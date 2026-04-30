@@ -1,55 +1,55 @@
 Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A17A33F8B7;
-	Thu, 30 Apr 2026 03:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ED93431F2;
+	Thu, 30 Apr 2026 03:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777518564; cv=none; b=ENbOsYcaUxULk5vIT8VQ1b3iJlt+Q8urfE7rdVsNkaWKOi0InBFRLLhhF/dn8s3xpWtT2muX3c1emeh0uqRCk++YHAfUnKuSyBgYzTvPkK2kYw+ltUOFPDag14OszmBvvotWM953I43quQpoY40kr69jJSeYU8Ym19i4Il7Aaik=
+	t=1777518569; cv=none; b=Vj+rdZ7WPgPf+kTMNk67uUN887YqtCfYwDwao1jRFpJpmxPQtN65poQ8A7GoZUFWIe0fq51ZyjK4JhWu7WppuJ/hLuP1uD1Wdnhn/1342h/EZ+Fdnc6Dwpfy2wEATWalluw5NgmqYViPh+Q7PoJ1FrDnWiWpZYAbtt2OLgAK+Ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777518564; c=relaxed/simple;
-	bh=jf6KAreEhzC9iKfr8qZxGb49Bp93yd84aSdVysagRTM=;
+	s=arc-20240116; t=1777518569; c=relaxed/simple;
+	bh=5mBhhdWXfdaAZ07YKnPOt9GDUV+dFOUGUrrpEQj+IH8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nRJeDTNDlc0rm7zsxTgR/zgpfOeASTA0MYmA0YYybrKhALPtAEe7csD1kF7FAYVq/71SyU6JqQEW82QQ5zTJsIQJttlBfjXXfiE7J9Rw1Q3QU8c+phjv0XSFIWG5A4yTfTmC+FxU8A28uBhBg+idg/OoCPkQRO1U8m/kHZ00cAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=FYmUgT+O; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=btGk7LSk; arc=none smtp.client-ip=202.12.124.156
+	 MIME-Version; b=l57NqjwnqH8pJM4+xNYWeyjG7xC8wsO4zZuopTZLgDDjmO1ETez6OI876eo/3BerPU2KuNnJkOBu9mx+hbmv5LVYaDbfkkoji8ibcfr8Su4u5T3CKWztnZ65yfapY/yNLsU2vJcAPHUwe8uq/8cICXfXz20nIrUx0341iKMeul0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=CsREaFYr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vgkM2n3+; arc=none smtp.client-ip=202.12.124.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="FYmUgT+O";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="btGk7LSk"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id BFAD77A00EA;
-	Wed, 29 Apr 2026 23:09:21 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 29 Apr 2026 23:09:21 -0400
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="CsREaFYr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vgkM2n3+"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id ECA3E7A00EA;
+	Wed, 29 Apr 2026 23:09:26 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 29 Apr 2026 23:09:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1777518561;
-	 x=1777604961; bh=+/kF3lV3RjcCVMTQn+tev9+a0eFeqoHqrap29/WwdPI=; b=
-	FYmUgT+OcRLzzuZz99hKpjZiXngjMEiVI5Cnb+nVrMN2NCq6suKK15cf76VQMxaU
-	X4Fdjd3zge9A/CNnCoKfzNawuOLVCoC23K+LynUSFK+V8L9dh/SC5nB56z0yQ8kS
-	lVLroBUkfdPAGlI4WXV26MOnpZECqrbxH32Z5zKOfgS8UsTBXK3nPPjHn2iYu7M7
-	6cx3HSv1VwCEcNVh4E4DMX5Ag6Xn2hM0GUQXPAmYKFBItkxEPQ1NYyoaCxjUvHZT
-	MrCHmQGDin/ZOc6wcZqVn7Kkfj709yrZDwtiY/VGewrWiJ1Zj2I26Au9Jb2ImelT
-	D02te4NCqH/uayPaYiwhig==
+	:reply-to:reply-to:subject:subject:to:to; s=fm2; t=1777518566;
+	 x=1777604966; bh=o0VDMq63HKComdkN2neiDrUWUFgUELHBmVs/SqfLOjc=; b=
+	CsREaFYrHvwKXb/dFGYAiGE7kmce7C5j6kWxFlszcFdtontDRTCY8qe/PFlNryTF
+	/n/CuELwbu0h0+oODm3MFOoi/OV9JXTnvvh4B1/LryqMgH9jSokErgjXr7P1fYzU
+	PGk3NpKXpUzgc6QEZmyIJYSqDuaal8p2hfYEmcBmPBdq1IRzLnvyFGQbCKv2pygg
+	CJA26DGnqrUTEVA7Z0PduyWdtMRBI3fyYZX2MXC2AB+cDPwfLlrVjrxdHiCYeV+y
+	WYHIws8I8zCtGydS1nhGgEFYiok8VwduVwJ7gV6EzT2dwvFHjLcOtkdyAFkrOJeY
+	lUuv0wmHUxxIDOjqfZeAaA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1777518561; x=1777604961; bh=+
-	/kF3lV3RjcCVMTQn+tev9+a0eFeqoHqrap29/WwdPI=; b=btGk7LSkFiHU7JUIr
-	jTILTwJxQRYR04fa5mUaLBD5hsh4H9tuUWlOkfO5rlEUrPFj4VURjEABh8msYZMz
-	wqHYdJaD1qCpLCu7/cn3MyV4oOBP1A55UByZFB/r0LHkRK0UBzqyIMHXT2zGcJ97
-	yW6C7y19nlVkHRr8K/ZSNBgjbbWuCe89Qg/tFctVvWPuOiqdD2f009gHf/CCwKF/
-	vikwxRNUbWpoam68bhPLrwdEzTqKoYI8CRS8oTeViHED1t/QjbabnI/nwHBv10zk
-	kYYtedvvObLlVZum3St/jnU2nFx4GeecDMJzp8uLjwrRbM1B0Zz4w/VEIJBIqK9p
-	J1viw==
-X-ME-Sender: <xms:4cfyaYd5RYgib64eTHpiyLrtGmqk8zsoIpkt2zqEB4ClvRjK7rRdxw>
-    <xme:4cfyaczo670SC20TW8HGgEwUu-TQJu-Siynf18sOzyDqxCF042oHLlJBRzvslF3sN
-    vObt5fxMRqzsJZutlaH9Tdl_XqiMAzQscHNGXPr5fR-9UVNGg>
-X-ME-Received: <xmr:4cfyadI7x9s5sp4-M0xABLqIdeK0AG4w6lz5YhBh-8wCy-xFLdY8m6N9CC2PJmqkYngFrZCxifigxMfoZgR0W2y8cntlzs8>
+	:x-me-sender:x-sasl-enc; s=fm2; t=1777518566; x=1777604966; bh=o
+	0VDMq63HKComdkN2neiDrUWUFgUELHBmVs/SqfLOjc=; b=vgkM2n3+3vpZFFJVk
+	JTXjuC+PDfWMgD9LZxbDQF2GR2Dpt1+qK9CXLl9TXxpRFdKg74Z/J7IIfjaw9U0H
+	QcZU4Pq0vKBXZCz8P2zWJKOBGOgk1Q+sJnEuDB4h8Um9nFmoWutAuWhmoO/5S2Oa
+	lftmKDBtSXZjIwwnyCGvDEge6d6P7rvYXxhXZX1RIio61DPpxyd9T4DzV287qd51
+	rRAq3uKAIPYMJlWYgrKI7/iTkilr+tqm24PjcwpSy3HhBhfJmKSuyzxNNWZr0hsO
+	ISS+Ox81aDS+n+JT6aXZmCm71IX8LCUmO2fmHjPbetOWrObiJScvo6r68+VkiltJ
+	JHJ1A==
+X-ME-Sender: <xms:5sfyael4y4hx3Jouu5g6yY75hRTYxz6L0V8P_SAQnvXl7ZKoekcpgQ>
+    <xme:5sfyaYaxw8QSkndjog8hOaqO2ijLKO1iXFEEVKjLNWpUl8PZpK_MvZ4t9gsjcYLzX
+    78DqS5EK-9lAid5fBV4VAnclTCkin5qS-f0zI5IaleXGZHuQg>
+X-ME-Received: <xmr:5sfyaQTPdvtT2BmR1xSN5pQRR4xDrYrYE0nWLxZsiZcSaCtR0ixj93ma_o_gzAvhy1bflSrNIoX13ooos5Ee6bFiutmnjqc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekiedvtdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
@@ -65,14 +65,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekiedvtdcutefuodetgg
     sheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepjhhlrgihth
     honheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghl
     rdhorhhgpdhrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:4cfyaeHZt-IQ3hYSyfvTRuhs-mp_-jl28Mg_UoWfgOKLuAxybNSQzg>
-    <xmx:4cfyaZ8a9DDZF10q_Ddh1sWf6lBImTNL4dvZHz6fmdxSqLjSlpIPig>
-    <xmx:4cfyaeLlD6ZYEwZkcXuoCtElx8_nE8BrCdwiNvHArakKgzv32vKlHw>
-    <xmx:4cfyaXvprK5Wcy-B1ZvJ7xnORUy71wKq33qoFCMibvTwuyWK6FGnMQ>
-    <xmx:4cfyadlhZZ3Ok45QXgftsUBtC27QJtq1nEB8BNbyoQCJWJBV8FQrdaLN>
+X-ME-Proxy: <xmx:5sfyaSty0CyR1WWtVi1I5pbr1BH9CPThvDyI8wP6OKZKLMYndJM--w>
+    <xmx:5sfyaSFud2ach9Pm_1eb3b72LenPj4h-VZ-wWHctM7TQCHtWfwJK4A>
+    <xmx:5sfyaTxA2SN6iEhXWGA6hbbtZOvIZKEfTr9hUnQy-J2BkHrKkxZbTQ>
+    <xmx:5sfyac09jXvdEXE8_7ehxBfztWKPN9qLy4wZHUkVgJCM-LdPXgNMzg>
+    <xmx:5sfyaTseE_ZTW8KTGo2pSh-iAN5r08XDlX9pMhTTLUKWJSkuLHFEVHph>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Apr 2026 23:09:18 -0400 (EDT)
+ 29 Apr 2026 23:09:24 -0400 (EDT)
 From: NeilBrown <neilb@ownmail.net>
 To: Linus Torvalds <torvalds@linux-foundation.org>,
 	Al Viro <viro@zeniv.linux.org.uk>,
@@ -82,9 +82,9 @@ To: Linus Torvalds <torvalds@linux-foundation.org>,
 	Amir Goldstein <amir73il@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/7] VFS: use wait_var_event for waiting in d_alloc_parallel()
-Date: Thu, 30 Apr 2026 11:56:55 +1000
-Message-ID: <20260430020137.3305302-3-neilb@ownmail.net>
+Subject: [PATCH v4 3/7] VFS: enhance d_splice_alias() to handle in-lookup dentries
+Date: Thu, 30 Apr 2026 11:56:56 +1000
+Message-ID: <20260430020137.3305302-4-neilb@ownmail.net>
 X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
 In-Reply-To: <20260430020137.3305302-1-neilb@ownmail.net>
 References: <20260430020137.3305302-1-neilb@ownmail.net>
@@ -99,481 +99,150 @@ Content-Transfer-Encoding: 8bit
 
 From: NeilBrown <neil@brown.name>
 
-d_alloc_parallel() currently requires a wait_queue_head to be passed in.
-This must have a life time which extends until the lookup is completed.
+We currently have three interfaces for attaching existing inodes to
+normal filesystems(*).
+- d_add() requires an unhashed or in-lookup dentry and doesn't handle
+  splicing in case a directory already has dentry
+- d_instantiate() requires a hashed dentry, and also doesn't handle
+  splicing.
+- d_splice_alias() requires unhashed or in-lookup and does handle
+  splicing, and can return an alternate dentry.
 
-This makes it awkward to use and particularly make it hard to use in
-lookup_one_qstr_excl() which I hope to do in the future.
+So there is no interface that supports both hashed and in-lookup, which
+is what ->atomic_open needs to deal with.
 
-This patch changes d_alloc_parallel() to use wake_up_var_locked() to
-wake up waiters, and wait_var_event_spinlock() to wait.  dentry->d_lock
-is used for synchronisation as it is already held and the relevant
-times.
+Some filesystems check for in-lookup in their atomic_open and if found,
+perform a ->lookup and can subsequently use d_instantiate() if the
+dentry is still negative.  Others d_drop() the dentry so they can use
+d_splice_alias().
 
-In most cases there will be no waiters so the wake_up_var_locked() call
-(which can walk an arbitrarily long list) would be a complete waste.  To
-optimise this a new ->d_flags flag is added: DCACHE_LOOKUP_WAITER.  This
-is set whenever any thread prepares to wait for the dentry, and if it
-isn't set when DCACHE_PAR_LOOKUP is cleared, no wakeup is sent.
-DCACHE_LOOKUP_WAITER is cleared after the wakeup is set.
+This last will cause a problem for proposed changes to locking which
+require the dentry to remain hashed while and operation proceeds on it.
 
-__d_lookup_unhash() no longer returns a wq.  Callers check
-DCACHE_LOOKUP_WAITER to check if a wakeup is needed, and
-wake_up_var_locked() can find the wq.
+There is also no interface which splices a directory (which might
+already have a dentry) to a hashed dentry.  Filesystems which need to do
+this d_drop() first.
 
-__d_lookup_unhash() no longer needs to re-init ->d_lru.  That was
-previously shared (in a union) with ->d_wait but ->d_wait is now gone
-so it no longer corrupts ->d_lru.
+Some filesystemss (NFS) skip ->lookup processing for
+  LOOKUP_CREATE|LOOKUP_EXCL
+which includes mknod, link, symlink etc.  So these inode operations
+might get an unhashed or a hashed-negative dentry.  There is no
+interface for instantiating these so again they need to unhash
+first (nfs_link)
 
-Wakeup is move out of end_dir_add() as it is conceptually a separate action.
+So with this patch d_splice_alias() can handle hashed, unhashed, or
+in-lookup dentries.  This makes it suitable for ->lookup, ->atomic_open,
+and ->mkdir and others.
 
-Co-developed-by: Al Viro <viro@zeniv.linux.org.uk>
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+As a side effect d_add() will also now handle hashed dentries, but
+I have plans to remove d_add() as there is no benefit having it as
+well as the others.
+
+__d_add() currently contains code that is identical to
+__d_instantiate(), so the former is changed to call the later, and both
+d_add() and d_instantiate() call __d_add().
+
+* There is also d_make_persistent() for filesystems which are
+  dcache-based and don't support mkdir, create etc, and
+  d_instantiate_new() for newly created inodes that are still locked.
+
 Signed-off-by: NeilBrown <neil@brown.name>
 ---
- Documentation/filesystems/porting.rst |  6 ++
- fs/afs/dir_silly.c                    |  4 +-
- fs/dcache.c                           | 83 +++++++++++++++------------
- fs/fuse/readdir.c                     |  3 +-
- fs/namei.c                            |  6 +-
- fs/nfs/dir.c                          |  6 +-
- fs/nfs/unlink.c                       |  3 +-
- fs/proc/base.c                        |  3 +-
- fs/proc/proc_sysctl.c                 |  3 +-
- fs/smb/client/readdir.c               |  3 +-
- include/linux/dcache.h                | 11 ++--
- include/linux/nfs_xdr.h               |  1 -
- 12 files changed, 67 insertions(+), 65 deletions(-)
+ Documentation/filesystems/vfs.rst |  4 ++--
+ fs/dcache.c                       | 31 ++++++++++++-------------------
+ 2 files changed, 14 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-index bfdff4608028..5cc6ae19845c 100644
---- a/Documentation/filesystems/porting.rst
-+++ b/Documentation/filesystems/porting.rst
-@@ -1385,3 +1385,9 @@ for_each_alias(dentry, inode) instead of hlist_for_each_entry; better
- yet, see if any of the exported primitives could be used instead of
- the entire loop.  You still need to hold ->i_lock of the inode over
- either form of manual loop.
-+
-+---
-+
-+**mandatory**
-+
-+d_alloc_parallel() no longer requires a waitqueue_head.
-diff --git a/fs/afs/dir_silly.c b/fs/afs/dir_silly.c
-index a748fd133faf..982bb6ec15f0 100644
---- a/fs/afs/dir_silly.c
-+++ b/fs/afs/dir_silly.c
-@@ -248,13 +248,11 @@ int afs_silly_iput(struct dentry *dentry, struct inode *inode)
- 	struct dentry *alias;
- 	int ret;
+diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
+index 7c753148af88..d8df0a84cdba 100644
+--- a/Documentation/filesystems/vfs.rst
++++ b/Documentation/filesystems/vfs.rst
+@@ -507,8 +507,8 @@ otherwise noted.
+ 	dentry before the first mkdir returns.
  
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
--
- 	_enter("%p{%pd},%llx", dentry, dentry, vnode->fid.vnode);
+ 	If there is any chance this could happen, then the new inode
+-	should be d_drop()ed and attached with d_splice_alias().  The
+-	returned dentry (if any) should be returned by ->mkdir().
++	should be attached with d_splice_alias().  The returned
++	dentry (if any) should be returned by ->mkdir().
  
- 	down_read(&dvnode->rmdir_lock);
- 
--	alias = d_alloc_parallel(dentry->d_parent, &dentry->d_name, &wq);
-+	alias = d_alloc_parallel(dentry->d_parent, &dentry->d_name);
- 	if (IS_ERR(alias)) {
- 		up_read(&dvnode->rmdir_lock);
- 		return 0;
+ ``rmdir``
+ 	called by the rmdir(2) system call.  Only required if you want
 diff --git a/fs/dcache.c b/fs/dcache.c
-index 2c61aeea41f4..1a065df22ecd 100644
+index 1a065df22ecd..a4ee380f3dfc 100644
 --- a/fs/dcache.c
 +++ b/fs/dcache.c
-@@ -2250,8 +2250,7 @@ struct dentry *d_add_ci(struct dentry *dentry, struct inode *inode,
- 		return found;
- 	}
- 	if (d_in_lookup(dentry)) {
--		found = d_alloc_parallel(dentry->d_parent, name,
--					dentry->d_wait);
-+		found = d_alloc_parallel(dentry->d_parent, name);
- 		if (IS_ERR(found) || !d_in_lookup(found)) {
- 			iput(inode);
- 			return found;
-@@ -2638,32 +2637,24 @@ static inline unsigned start_dir_add(struct inode *dir)
- 	}
- }
- 
--static inline void end_dir_add(struct inode *dir, unsigned int n,
--			       wait_queue_head_t *d_wait)
-+static inline void end_dir_add(struct inode *dir, unsigned int n)
- {
- 	smp_store_release(&dir->i_dir_seq, n + 2);
- 	preempt_enable_nested();
--	if (wq_has_sleeper(d_wait))
--		wake_up_all(d_wait);
- }
- 
- static void d_wait_lookup(struct dentry *dentry)
- {
--	if (d_in_lookup(dentry)) {
--		DECLARE_WAITQUEUE(wait, current);
--		add_wait_queue(dentry->d_wait, &wait);
--		do {
--			set_current_state(TASK_UNINTERRUPTIBLE);
--			spin_unlock(&dentry->d_lock);
--			schedule();
--			spin_lock(&dentry->d_lock);
--		} while (d_in_lookup(dentry));
-+	if (likely(d_in_lookup(dentry))) {
-+		dentry->d_flags |= DCACHE_LOOKUP_WAITERS;
-+		wait_var_event_spinlock(&dentry->d_flags,
-+					!d_in_lookup(dentry),
-+					&dentry->d_lock);
- 	}
- }
- 
- struct dentry *d_alloc_parallel(struct dentry *parent,
--				const struct qstr *name,
--				wait_queue_head_t *wq)
-+				const struct qstr *name)
- {
- 	unsigned int hash = name->hash;
- 	struct hlist_bl_head *b = in_lookup_hash(parent, hash);
-@@ -2766,7 +2757,6 @@ struct dentry *d_alloc_parallel(struct dentry *parent,
- 		return dentry;
- 	}
- 	rcu_read_unlock();
--	new->d_wait = wq;
- 	hlist_bl_add_head(&new->d_in_lookup_hash, b);
- 	hlist_bl_unlock(b);
- 	return new;
-@@ -2778,13 +2768,26 @@ struct dentry *d_alloc_parallel(struct dentry *parent,
- EXPORT_SYMBOL(d_alloc_parallel);
- 
- /*
-- * - Unhash the dentry
-- * - Retrieve and clear the waitqueue head in dentry
-- * - Return the waitqueue head
-+ * Move dentry from in-lookup state to busy-negative one.
-+ *
-+ * From now on d_in_lookup(dentry) will return false and dentry is gone from
-+ * in-lookup hash.
-+ *
-+ * Anyone who had been waiting on it in d_alloc_parallel() is free to
-+ * proceed after that.  Note that waking such waiters up is left to
-+ * the callers; PREEMPT_RT kernels can't have that wakeup done while
-+ * in write-side critical area for ->i_dir_seq, so it's done by calling
-+ * __d_wake_in_lookup_waiters() once it's safe to do so.
-+ *
-+ * Both __d_lookup_unhash() and __d_wake_in_lookup_waiters() should
-+ * be called within the same ->d_lock scope.  PAR_LOOKUP is cleared
-+ * here, while LOOKUP_WAITERS (set by somebody finding dentry in
-+ * the in-lookup hash and setting down to wait) is checked and cleared
-+ * in __d_wake_in_lookup_waiters().  Both are gone by the end of
-+ * ->d_lock scope.
+@@ -2068,7 +2068,6 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
+  * (or otherwise set) by the caller to indicate that it is now
+  * in use by the dcache.
   */
--static wait_queue_head_t *__d_lookup_unhash(struct dentry *dentry)
-+static void __d_lookup_unhash(struct dentry *dentry)
+- 
+ void d_instantiate(struct dentry *entry, struct inode * inode)
  {
--	wait_queue_head_t *d_wait;
- 	struct hlist_bl_head *b;
- 
- 	lockdep_assert_held(&dentry->d_lock);
-@@ -2793,18 +2796,23 @@ static wait_queue_head_t *__d_lookup_unhash(struct dentry *dentry)
- 	hlist_bl_lock(b);
- 	dentry->d_flags &= ~DCACHE_PAR_LOOKUP;
- 	__hlist_bl_del(&dentry->d_in_lookup_hash);
--	d_wait = dentry->d_wait;
--	dentry->d_wait = NULL;
- 	hlist_bl_unlock(b);
- 	dentry->waiters = NULL;
--	INIT_LIST_HEAD(&dentry->d_lru);
--	return d_wait;
-+}
-+
-+static inline void __d_wake_in_lookup_waiters(struct dentry *dentry)
-+{
-+	if (dentry->d_flags & DCACHE_LOOKUP_WAITERS) {
-+		wake_up_var_locked(&dentry->d_flags, &dentry->d_lock);
-+		dentry->d_flags &= ~DCACHE_LOOKUP_WAITERS;
-+	}
- }
- 
- void __d_lookup_unhash_wake(struct dentry *dentry)
- {
- 	spin_lock(&dentry->d_lock);
--	wake_up_all(__d_lookup_unhash(dentry));
-+	__d_lookup_unhash(dentry);
-+	__d_wake_in_lookup_waiters(dentry);
- 	spin_unlock(&dentry->d_lock);
- }
- EXPORT_SYMBOL(__d_lookup_unhash_wake);
-@@ -2814,14 +2822,13 @@ EXPORT_SYMBOL(__d_lookup_unhash_wake);
- static inline void __d_add(struct dentry *dentry, struct inode *inode,
- 			   const struct dentry_operations *ops)
- {
--	wait_queue_head_t *d_wait;
- 	struct inode *dir = NULL;
- 	unsigned n;
- 	spin_lock(&dentry->d_lock);
- 	if (unlikely(d_in_lookup(dentry))) {
+ 	BUG_ON(d_really_is_positive(entry));
+@@ -2829,18 +2828,14 @@ static inline void __d_add(struct dentry *dentry, struct inode *inode,
  		dir = dentry->d_parent->d_inode;
  		n = start_dir_add(dir);
--		d_wait = __d_lookup_unhash(dentry);
-+		__d_lookup_unhash(dentry);
+ 		__d_lookup_unhash(dentry);
++		__d_rehash(dentry);
++	} else if (d_unhashed(dentry)) {
++		__d_rehash(dentry);
  	}
  	if (unlikely(ops))
  		d_set_d_op(dentry, ops);
-@@ -2834,8 +2841,10 @@ static inline void __d_add(struct dentry *dentry, struct inode *inode,
- 		fsnotify_update_flags(dentry);
- 	}
- 	__d_rehash(dentry);
--	if (dir)
--		end_dir_add(dir, n, d_wait);
-+	if (dir) {
-+		end_dir_add(dir, n);
-+		__d_wake_in_lookup_waiters(dentry);
-+	}
- 	spin_unlock(&dentry->d_lock);
- 	if (inode)
- 		spin_unlock(&inode->i_lock);
-@@ -2948,7 +2957,6 @@ static void __d_move(struct dentry *dentry, struct dentry *target,
- 		     bool exchange)
- {
- 	struct dentry *old_parent, *p;
--	wait_queue_head_t *d_wait;
- 	struct inode *dir = NULL;
- 	unsigned n;
+-	if (inode) {
+-		unsigned add_flags = d_flags_for_inode(inode);
+-		hlist_add_head(&dentry->d_alias, &inode->i_dentry);
+-		raw_write_seqcount_begin(&dentry->d_seq);
+-		__d_set_inode_and_type(dentry, inode, add_flags);
+-		raw_write_seqcount_end(&dentry->d_seq);
+-		fsnotify_update_flags(dentry);
+-	}
+-	__d_rehash(dentry);
++	if (inode)
++		__d_instantiate(dentry, inode);
+ 	if (dir) {
+ 		end_dir_add(dir, n);
+ 		__d_wake_in_lookup_waiters(dentry);
+@@ -3142,8 +3137,6 @@ struct dentry *d_splice_alias_ops(struct inode *inode, struct dentry *dentry,
+ 	if (IS_ERR(inode))
+ 		return ERR_CAST(inode);
  
-@@ -2979,7 +2987,7 @@ static void __d_move(struct dentry *dentry, struct dentry *target,
- 	if (unlikely(d_in_lookup(target))) {
- 		dir = target->d_parent->d_inode;
- 		n = start_dir_add(dir);
--		d_wait = __d_lookup_unhash(target);
-+		__d_lookup_unhash(target);
- 	}
- 
- 	write_seqcount_begin(&dentry->d_seq);
-@@ -3018,9 +3026,10 @@ static void __d_move(struct dentry *dentry, struct dentry *target,
- 	write_seqcount_end(&target->d_seq);
- 	write_seqcount_end(&dentry->d_seq);
- 
--	if (dir)
--		end_dir_add(dir, n, d_wait);
+-	BUG_ON(!d_unhashed(dentry));
 -
-+	if (dir) {
-+		end_dir_add(dir, n);
-+		__d_wake_in_lookup_waiters(dentry);
-+	}
- 	if (dentry->d_parent != old_parent)
- 		spin_unlock(&dentry->d_parent->d_lock);
- 	if (dentry != old_parent)
-diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-index db5ae8ec1030..a2361f1d9905 100644
---- a/fs/fuse/readdir.c
-+++ b/fs/fuse/readdir.c
-@@ -164,7 +164,6 @@ static int fuse_direntplus_link(struct file *file,
- 	struct inode *dir = d_inode(parent);
- 	struct fuse_conn *fc;
- 	struct inode *inode;
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 	int epoch;
+ 	if (!inode)
+ 		goto out;
  
- 	if (!o->nodeid) {
-@@ -201,7 +200,7 @@ static int fuse_direntplus_link(struct file *file,
- 	dentry = d_lookup(parent, &name);
- 	if (!dentry) {
- retry:
--		dentry = d_alloc_parallel(parent, &name, &wq);
-+		dentry = d_alloc_parallel(parent, &name);
- 		if (IS_ERR(dentry))
- 			return PTR_ERR(dentry);
- 	}
-diff --git a/fs/namei.c b/fs/namei.c
-index 65e60536a6d1..a6349b31fdb6 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -1891,13 +1891,12 @@ static struct dentry *__lookup_slow(const struct qstr *name,
+@@ -3192,6 +3185,8 @@ struct dentry *d_splice_alias_ops(struct inode *inode, struct dentry *dentry,
+  * @inode:  the inode which may have a disconnected dentry
+  * @dentry: a negative dentry which we want to point to the inode.
+  *
++ * @dentry must be negative and may be in-lookup or unhashed or hashed.
++ *
+  * If inode is a directory and has an IS_ROOT alias, then d_move that in
+  * place of the given dentry and return it, else simply d_add the inode
+  * to the dentry and return NULL.
+@@ -3199,16 +3194,14 @@ struct dentry *d_splice_alias_ops(struct inode *inode, struct dentry *dentry,
+  * If a non-IS_ROOT directory is found, the filesystem is corrupt, and
+  * we should error out: directories can't have multiple aliases.
+  *
+- * This is needed in the lookup routine of any filesystem that is exportable
+- * (via knfsd) so that we can build dcache paths to directories effectively.
++ * This should be used to return the result of ->lookup() and to
++ * instantiate the result of ->mkdir(), is often useful for
++ * ->atomic_open, and may be used to instantiate other objects.
+  *
+  * If a dentry was found and moved, then it is returned.  Otherwise NULL
+- * is returned.  This matches the expected return value of ->lookup.
++ * is returned.  This matches the expected return value of ->lookup and
++ * ->mkdir.
+  *
+- * Cluster filesystems may call this function with a negative, hashed dentry.
+- * In that case, we know that the inode will be a regular file, and also this
+- * will only occur during atomic_open. So we need to check for the dentry
+- * being already hashed only in the final case.
+  */
+ struct dentry *d_splice_alias(struct inode *inode, struct dentry *dentry)
  {
- 	struct dentry *dentry, *old;
- 	struct inode *inode = dir->d_inode;
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 
- 	/* Don't go there if it's already dead */
- 	if (unlikely(IS_DEADDIR(inode)))
- 		return ERR_PTR(-ENOENT);
- again:
--	dentry = d_alloc_parallel(dir, name, &wq);
-+	dentry = d_alloc_parallel(dir, name);
- 	if (IS_ERR(dentry))
- 		return dentry;
- 	if (unlikely(!d_in_lookup(dentry))) {
-@@ -4414,7 +4413,6 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	struct dentry *dentry;
- 	int error, create_error = 0;
- 	umode_t mode = op->mode;
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 
- 	if (unlikely(IS_DEADDIR(dir_inode)))
- 		return ERR_PTR(-ENOENT);
-@@ -4423,7 +4421,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 	dentry = d_lookup(dir, &nd->last);
- 	for (;;) {
- 		if (!dentry) {
--			dentry = d_alloc_parallel(dir, &nd->last, &wq);
-+			dentry = d_alloc_parallel(dir, &nd->last);
- 			if (IS_ERR(dentry))
- 				return dentry;
- 		}
-diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
-index e9ce1883288c..9580af999d70 100644
---- a/fs/nfs/dir.c
-+++ b/fs/nfs/dir.c
-@@ -726,7 +726,6 @@ void nfs_prime_dcache(struct dentry *parent, struct nfs_entry *entry,
- 		unsigned long dir_verifier)
- {
- 	struct qstr filename = QSTR_INIT(entry->name, entry->len);
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 	struct dentry *dentry;
- 	struct dentry *alias;
- 	struct inode *inode;
-@@ -755,7 +754,7 @@ void nfs_prime_dcache(struct dentry *parent, struct nfs_entry *entry,
- 	dentry = d_lookup(parent, &filename);
- again:
- 	if (!dentry) {
--		dentry = d_alloc_parallel(parent, &filename, &wq);
-+		dentry = d_alloc_parallel(parent, &filename);
- 		if (IS_ERR(dentry))
- 			return;
- 	}
-@@ -2106,7 +2105,6 @@ int nfs_atomic_open(struct inode *dir, struct dentry *dentry,
- 		    struct file *file, unsigned open_flags,
- 		    umode_t mode)
- {
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 	struct nfs_open_context *ctx;
- 	struct dentry *res;
- 	struct iattr attr = { .ia_valid = ATTR_OPEN };
-@@ -2162,7 +2160,7 @@ int nfs_atomic_open(struct inode *dir, struct dentry *dentry,
- 		d_drop(dentry);
- 		switched = true;
- 		dentry = d_alloc_parallel(dentry->d_parent,
--					  &dentry->d_name, &wq);
-+					  &dentry->d_name);
- 		if (IS_ERR(dentry))
- 			return PTR_ERR(dentry);
- 		if (unlikely(!d_in_lookup(dentry)))
-diff --git a/fs/nfs/unlink.c b/fs/nfs/unlink.c
-index df3ca4669df6..43ea897943c0 100644
---- a/fs/nfs/unlink.c
-+++ b/fs/nfs/unlink.c
-@@ -124,7 +124,7 @@ static int nfs_call_unlink(struct dentry *dentry, struct inode *inode, struct nf
- 	struct dentry *alias;
- 
- 	down_read_non_owner(&NFS_I(dir)->rmdir_sem);
--	alias = d_alloc_parallel(dentry->d_parent, &data->args.name, &data->wq);
-+	alias = d_alloc_parallel(dentry->d_parent, &data->args.name);
- 	if (IS_ERR(alias)) {
- 		up_read_non_owner(&NFS_I(dir)->rmdir_sem);
- 		return 0;
-@@ -185,7 +185,6 @@ nfs_async_unlink(struct dentry *dentry, const struct qstr *name)
- 
- 	data->cred = get_current_cred();
- 	data->res.dir_attr = &data->dir_attr;
--	init_waitqueue_head(&data->wq);
- 
- 	status = -EBUSY;
- 	spin_lock(&dentry->d_lock);
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index d9acfa89c894..d55a4b603188 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2132,8 +2132,7 @@ bool proc_fill_cache(struct file *file, struct dir_context *ctx,
- 		goto end_instantiate;
- 
- 	if (!child) {
--		DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
--		child = d_alloc_parallel(dir, &qname, &wq);
-+		child = d_alloc_parallel(dir, &qname);
- 		if (IS_ERR(child))
- 			goto end_instantiate;
- 		if (d_in_lookup(child)) {
-diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index 49ab74e0bfde..04a382178c65 100644
---- a/fs/proc/proc_sysctl.c
-+++ b/fs/proc/proc_sysctl.c
-@@ -692,8 +692,7 @@ static bool proc_sys_fill_cache(struct file *file,
- 
- 	child = d_lookup(dir, &qname);
- 	if (!child) {
--		DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
--		child = d_alloc_parallel(dir, &qname, &wq);
-+		child = d_alloc_parallel(dir, &qname);
- 		if (IS_ERR(child))
- 			return false;
- 		if (d_in_lookup(child)) {
-diff --git a/fs/smb/client/readdir.c b/fs/smb/client/readdir.c
-index be22bbc4a65a..a8995261831c 100644
---- a/fs/smb/client/readdir.c
-+++ b/fs/smb/client/readdir.c
-@@ -73,7 +73,6 @@ cifs_prime_dcache(struct dentry *parent, struct qstr *name,
- 	struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
- 	bool posix = cifs_sb_master_tcon(cifs_sb)->posix_extensions;
- 	bool reparse_need_reval = false;
--	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
- 	int rc;
- 
- 	cifs_dbg(FYI, "%s: for %s\n", __func__, name->name);
-@@ -105,7 +104,7 @@ cifs_prime_dcache(struct dentry *parent, struct qstr *name,
- 		    (fattr->cf_flags & CIFS_FATTR_NEED_REVAL))
- 			return;
- 
--		dentry = d_alloc_parallel(parent, name, &wq);
-+		dentry = d_alloc_parallel(parent, name);
- 	}
- 	if (IS_ERR(dentry))
- 		return;
-diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-index 2577c05f84ec..97a887be150a 100644
---- a/include/linux/dcache.h
-+++ b/include/linux/dcache.h
-@@ -116,10 +116,7 @@ struct dentry {
- 					 * possible!
- 					 */
- 
--	union {
--		struct list_head d_lru;		/* LRU list */
--		wait_queue_head_t *d_wait;	/* in-lookup ones only */
--	};
-+	struct list_head d_lru;		/* LRU list */
- 	struct hlist_node d_sib;	/* child of parent list */
- 	struct hlist_head d_children;	/* our children */
- 	/*
-@@ -210,6 +207,9 @@ enum dentry_flags {
- 	DCACHE_REFERENCED		= BIT(6),	/* Recently used, don't discard. */
- 	DCACHE_DONTCACHE		= BIT(7),	/* Purge from memory on final dput() */
- 	DCACHE_CANT_MOUNT		= BIT(8),
-+	DCACHE_LOOKUP_WAITERS		= BIT(9),	/* A thread is waiting for
-+							 * PAR_LOOKUP to clear
-+							 */
- 	DCACHE_SHRINK_LIST		= BIT(10),
- 	DCACHE_OP_WEAK_REVALIDATE	= BIT(11),
- 	/*
-@@ -256,8 +256,7 @@ extern void d_delete(struct dentry *);
- /* allocate/de-allocate */
- extern struct dentry * d_alloc(struct dentry *, const struct qstr *);
- extern struct dentry * d_alloc_anon(struct super_block *);
--extern struct dentry * d_alloc_parallel(struct dentry *, const struct qstr *,
--					wait_queue_head_t *);
-+extern struct dentry * d_alloc_parallel(struct dentry *, const struct qstr *);
- extern struct dentry * d_splice_alias(struct inode *, struct dentry *);
- /* weird procfs mess; *NOT* exported */
- extern struct dentry * d_splice_alias_ops(struct inode *, struct dentry *,
-diff --git a/include/linux/nfs_xdr.h b/include/linux/nfs_xdr.h
-index fcbd21b5685f..6aced49d5f00 100644
---- a/include/linux/nfs_xdr.h
-+++ b/include/linux/nfs_xdr.h
-@@ -1743,7 +1743,6 @@ struct nfs_unlinkdata {
- 	struct nfs_removeargs args;
- 	struct nfs_removeres res;
- 	struct dentry *dentry;
--	wait_queue_head_t wq;
- 	const struct cred *cred;
- 	struct nfs_fattr dir_attr;
- 	long timeout;
 -- 
 2.50.0.107.gf914562f5916.dirty
 
