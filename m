@@ -1,86 +1,87 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D69E3A4F5C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 07:28:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D513D091F
+	for <linux-fsdevel@vger.kernel.org>; Thu, 30 Apr 2026 07:33:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777534103; cv=none; b=mwRPFX9mfRkceO/kqlOgRQdqeELhVZgHaGc13cs1XGrfuRXepGYe6WQ60C0I95fMYSoGHmW7Yv8yrxbjAXbl3Z+NaVf8UYX14xMbC25fpPluLzWnJoWFSohj3JIiicbBIgH44A0JH7+YbU/lROPUPDuTQIY9sFFmQZ9x3FVhbtY=
+	t=1777534412; cv=none; b=RJuWJtZfWAwaJejABg03dIeVxhsMi1XkEl07MbeSgdl6vtg3MJknb2BxB4vwk19LSBLwmR3dzTbNRHapJ1w3bqU1RW0SLOKXGRiikWUlF/M/SlmBWhHOEqs+9UBaORMsdPaTmiO2J4IsnlqA1kZ+iieMbNjwCc8M2d99NH0by/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777534103; c=relaxed/simple;
-	bh=J0dJSdVShA5CRFUV0tuVvfuxeQR2Fc6gLsUr03UigAg=;
+	s=arc-20240116; t=1777534412; c=relaxed/simple;
+	bh=6GB+rL5AtFOV0IYK43qjfbBG7eqPQsL8Y/De31outEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sezUCjV7blmyBRlcesyJn4im3EDo/QZ4/nG+fZ/mvwsHLfk9G/yxJZoidVFlCTnf+/R4JT1YW2uvG71l163bfq+Ni8CD7Gkup5HVa63WbBDI2ST2EEZhj/yrwT3CUNXuqh7yxnhdB1edLgt5lODfLZYz5MzYynGVdUMj3/g99qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fx9k+lPg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DIg0FLeY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fx9k+lPg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DIg0FLeY; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=FopN6u2GZaQ0S6F6M5L0T9cNrxrlnS4GllL/EVMS/KLVPV9PCSwev8VbCCmhMrtESivjoSkDps0ZoyMZiFVx/ICUox0vs9BsfS+ERJm9d/V9ODB9Ev2jUn3VD5EdfGqrvU00lY3ZL16I+zoC8ZoD8qXzMQxzEMd3xS9mUQUPvcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NtJD3dKQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lqkkyGob; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NtJD3dKQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lqkkyGob; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fx9k+lPg";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DIg0FLeY";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fx9k+lPg";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DIg0FLeY"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NtJD3dKQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lqkkyGob";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NtJD3dKQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lqkkyGob"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C8CFE6A801;
-	Thu, 30 Apr 2026 07:28:17 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 69A6D6A7DE;
+	Thu, 30 Apr 2026 07:33:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777534097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777534389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3g5z/5HnB77pIpEaD8VGv9Qpr78pLYH7k2mEFQvLTb4=;
-	b=fx9k+lPgcbf603dVBkDstjUgkdczL1gHNkYtKV+kSCYGEmVaafw7vYuVIeVXuKQM1LkNpk
-	Uy5rxSlCY3XCBJlDz5tiddv4Xnod4/c+JpKFWiQSsENyXr4d+ecsUM3Te3sZ093jybHceR
-	CeEQ3OGofGCQYgPReXr36bcCiATcGf0=
+	bh=plbWhxNpYLeFGBJno02mxGZasSRd9/GHoMSBEMAOw1U=;
+	b=NtJD3dKQmImdKYxPBncDXLDM6GDPWdV27+yU1j8EzxJDWx0KB1+EIhkn4dPSz8tCL6/AK6
+	CSPrnZgi5hCJsOiU/lsl1mLp6WBBn1jnwNJR7ya4vNoDbR79k/QF02DaBYcO8JbFL9178H
+	khXQtlJc8UirWQv10ZqMq7XAqZ5phD0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777534097;
+	s=susede2_ed25519; t=1777534389;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3g5z/5HnB77pIpEaD8VGv9Qpr78pLYH7k2mEFQvLTb4=;
-	b=DIg0FLeYj9BFay/nl3iPbKs39uz3RwAqufYDDDYq7R0/Rr/wVG/jXwYiCdeJo+gFUWF3Ks
-	lP2AtLGONb3BIpCg==
+	bh=plbWhxNpYLeFGBJno02mxGZasSRd9/GHoMSBEMAOw1U=;
+	b=lqkkyGobM8sV9afYp4hC+q/Ub7h7P+Ydp3RjvzlO9A4g7teUYroxMMaLkJ5bGMo5DJdYb/
+	/P6ehIBBGZJ1mtCA==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777534097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777534389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3g5z/5HnB77pIpEaD8VGv9Qpr78pLYH7k2mEFQvLTb4=;
-	b=fx9k+lPgcbf603dVBkDstjUgkdczL1gHNkYtKV+kSCYGEmVaafw7vYuVIeVXuKQM1LkNpk
-	Uy5rxSlCY3XCBJlDz5tiddv4Xnod4/c+JpKFWiQSsENyXr4d+ecsUM3Te3sZ093jybHceR
-	CeEQ3OGofGCQYgPReXr36bcCiATcGf0=
+	bh=plbWhxNpYLeFGBJno02mxGZasSRd9/GHoMSBEMAOw1U=;
+	b=NtJD3dKQmImdKYxPBncDXLDM6GDPWdV27+yU1j8EzxJDWx0KB1+EIhkn4dPSz8tCL6/AK6
+	CSPrnZgi5hCJsOiU/lsl1mLp6WBBn1jnwNJR7ya4vNoDbR79k/QF02DaBYcO8JbFL9178H
+	khXQtlJc8UirWQv10ZqMq7XAqZ5phD0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777534097;
+	s=susede2_ed25519; t=1777534389;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3g5z/5HnB77pIpEaD8VGv9Qpr78pLYH7k2mEFQvLTb4=;
-	b=DIg0FLeYj9BFay/nl3iPbKs39uz3RwAqufYDDDYq7R0/Rr/wVG/jXwYiCdeJo+gFUWF3Ks
-	lP2AtLGONb3BIpCg==
+	bh=plbWhxNpYLeFGBJno02mxGZasSRd9/GHoMSBEMAOw1U=;
+	b=lqkkyGobM8sV9afYp4hC+q/Ub7h7P+Ydp3RjvzlO9A4g7teUYroxMMaLkJ5bGMo5DJdYb/
+	/P6ehIBBGZJ1mtCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BC4FF593B0;
-	Thu, 30 Apr 2026 07:28:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E759593B0;
+	Thu, 30 Apr 2026 07:33:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QWPvLZEE82m1SAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 30 Apr 2026 07:28:17 +0000
+	id jswhE7UF82mOTQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 30 Apr 2026 07:33:09 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 69B48A07AC; Thu, 30 Apr 2026 09:28:13 +0200 (CEST)
-Date: Thu, 30 Apr 2026 09:28:13 +0200
+	id 19083A07AC; Thu, 30 Apr 2026 09:33:01 +0200 (CEST)
+Date: Thu, 30 Apr 2026 09:33:01 +0200
 From: Jan Kara <jack@suse.cz>
-To: Chao Shi <coshi036@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, jack@suse.cz, willy@infradead.org, linux-kernel@vger.kernel.org, 
-	Sungwoo Kim <iam@sung-woo.kim>, Dave Tian <daveti@purdue.edu>, Weidong Zhu <weizhu@fiu.edu>
-Subject: Re: [PATCH v2] fs/buffer: serialize set_buffer_uptodate against
- concurrent clears
-Message-ID: <xaqwfkwjnp7h2lg7ir6wy2tnyay26t3im3ftkdl64rhys3rhmu@lc5vfh5tc2f5>
-References: <20260430053645.1466196-1-coshi036@gmail.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Arjan van de Ven <arjan@linux.intel.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	clm@meta.com, kernel-team@meta.com
+Subject: Re: [PATCH] fs/select: reject negative timeval components in
+ kern_select()
+Message-ID: <gyswxhot4ze7u47kxhljzcwd4bjvutq5yrwlir5x37ulry2grc@52i7icjp6rki>
+References: <20260429-timeval-v1-1-4448e2588bbf@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,198 +90,153 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260430053645.1466196-1-coshi036@gmail.com>
-X-Spam-Score: -0.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.30 / 50.00];
-	SEM_URIBL(3.50)[purdue.edu:email];
+In-Reply-To: <20260429-timeval-v1-1-4448e2588bbf@debian.org>
+X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
 
-On Thu 30-04-26 01:36:45, Chao Shi wrote:
-> A WARN_ON_ONCE(!buffer_uptodate(bh)) in mark_buffer_dirty() is
-> reachable from the buffered write path on a block device when the
-> underlying device returns I/O errors at high density.  Reproduced
-> by fuzzing an NVMe controller (FEMU) that returns crafted error
-> completions for a sustained workload from /dev/nvme0n1.
+On Wed 29-04-26 06:09:37, Breno Leitao wrote:
+> kern_select() normalises the user-supplied struct __kernel_old_timeval
+> with
 > 
-> The contract documented at set_buffer_uptodate() in
-> include/linux/buffer_head.h reads:
+> 	tv.tv_sec + (tv.tv_usec / USEC_PER_SEC)
+> 	(tv.tv_usec % USEC_PER_SEC) * NSEC_PER_USEC
 > 
->   Any other serialization (with IO errors or whatever that might
->   clear the bit) has to come from other state (eg BH_Lock).
+> before calling poll_select_set_timeout() -> timespec64_valid().  Both
+> operands of the seconds sum are unbounded user-controlled signed long.
+> A crafted pair where tv_usec is a negative multiple of USEC_PER_SEC
+> drives the sum across the wrap boundary - e.g.
 > 
-> In fs/buffer.c, BH_Uptodate can be cleared from four I/O completion
-> callbacks: __end_buffer_read_notouch, end_buffer_write_sync,
-> end_buffer_async_read, end_buffer_async_write.
+> 	{ .tv_sec = LONG_MIN, .tv_usec = -1000000 }
 > 
-> end_buffer_async_read() runs with BH_Lock held throughout, so its
-> clear is already serialized against any caller that also holds
-> BH_Lock around set_buffer_uptodate(); the call may in fact be
-> redundant, but addressing that is independent of this fix.
+> yields sec = LONG_MAX, nsec = 0, which passes timespec64_valid() and
+> then flows through timespec64_add_safe(), which saturates the absolute
+> deadline to TIME64_MAX (clamped further to KTIME_MAX downstream).
+> select(2) therefore blocks effectively forever instead of returning
+> -EINVAL as POSIX requires for a negative timeout.
 > 
-> end_buffer_write_sync() likewise holds BH_Lock while it clears
-> BH_Uptodate on the write-error path.  Removing that clear would
-> change long-standing buffer-cache I/O-error semantics and is out
-> of scope here.
+> Only the legacy __NR_select syscall takes this path.  pselect6, ppoll,
+> poll and epoll_pwait2 all hand the user's two fields directly to
+> poll_select_set_timeout(), which validates *before* doing any
+> arithmetic:
 > 
-> The race is therefore between block_commit_write() and
-> end_buffer_write_sync():
+> 	/* fs/select.c:271 -- the validator */
+> 	int poll_select_set_timeout(struct timespec64 *to, time64_t sec, long nsec)
+> 	{
+> 		struct timespec64 ts = {.tv_sec = sec, .tv_nsec = nsec};
+> 		if (!timespec64_valid(&ts))
+> 			return -EINVAL;
+> 		...
+> 	}
 > 
->   CPU A: block_commit_write              CPU B: end_buffer_write_sync
->          (folio lock held, BH_Lock NOT)         (BH_Lock held)
->     set_buffer_uptodate(bh);
->                                            clear_buffer_uptodate(bh);
->                                            unlock_buffer(bh);
->     mark_buffer_dirty(bh);  /* WARN */
+> 	/* include/linux/time64.h:97 -- timespec64_valid */
+> 	if (ts->tv_sec < 0)                              return false;
+> 	if ((unsigned long)ts->tv_nsec >= NSEC_PER_SEC)  return false;
 > 
-> CPU B observes the contract; CPU A does not.  With one side unlocked
-> the serialization is one-sided and ineffective: CPU A's set can be
-> immediately followed by CPU B's clear, tripping the WARN_ON_ONCE.
-> In the fuzzing reproducer, write-error completions are frequent
-> (visible as repeated "lost async page write" and per-LBA write
-> failures); buffer I/O completion callbacks on the write-error path
-> (e.g. end_buffer_write_sync, end_buffer_async_write) clear
-> BH_Uptodate while holding BH_Lock.
+> 	/* fs/select.c:744  do_pselect() (pselect6, pselect6_time32) */
+> 	if (get_timespec64(&ts, tsp)) return -EFAULT;
+> 	if (poll_select_set_timeout(to, ts.tv_sec, ts.tv_nsec)) return -EINVAL;
 > 
-> The bug is not benign: a not-uptodate buffer can be marked dirty
-> and subsequently written back; depending on whether the buffer was
-> fully or partially covered by the user write, this can leave on-disk
-> content that does not match the intended buffered write state.
+> 	/* fs/select.c:1097 ppoll */
+> 	if (get_timespec64(&ts, tsp)) return -EFAULT;
+> 	if (poll_select_set_timeout(to, ts.tv_sec, ts.tv_nsec)) return -EINVAL;
 > 
-> Fix this by taking BH_Lock around set_buffer_uptodate() +
-> mark_buffer_dirty() in block_commit_write(), so both sides of the
-> contract use the documented serialization.
+> 	/* fs/select.c:1065 poll -- timeout_msecs is int; >= 0 gates the math */
+> 	if (timeout_msecs >= 0)
+> 		poll_select_set_timeout(to, timeout_msecs / MSEC_PER_SEC,
+> 		                        NSEC_PER_MSEC * (timeout_msecs % MSEC_PER_SEC));
 > 
-> Found by FuzzNvme (Syzkaller with FEMU fuzzing framework).
+> 	/* fs/eventpoll.c:2512 epoll_pwait2 */
+> 	if (get_timespec64(&ts, timeout)) return -EFAULT;
+> 	if (poll_select_set_timeout(to, ts.tv_sec, ts.tv_nsec)) return -EINVAL;
 > 
-> Acked-by: Sungwoo Kim <iam@sung-woo.kim>
-> Acked-by: Dave Tian <daveti@purdue.edu>
-> Acked-by: Weidong Zhu <weizhu@fiu.edu>
-> Signed-off-by: Chao Shi <coshi036@gmail.com>
+> In every one of these the wrap-prone arithmetic from kern_select()
+> simply does not exist; the user fields reach timespec64_valid()
+> unmodified.  glibc routes the C-library select() through pselect6,
+> so the bug is reachable only via a direct syscall(__NR_select, ...).
+> 
+> The pre-validation negative check that used to live here was lost
+> when the syscall was switched to the poll_select_set_timeout() helper.
+> Restore it: reject tv_sec < 0 || tv_usec < 0 up front, mirroring what
+> glibc does in userspace.  do_compat_select() has the same arithmetic
+> pattern but is only reachable on 32-bit compat and from a different
+> syscall entry; left for a follow-up so this change stays minimal.
+> 
+> Reproducer (returns -1/EINVAL on a fixed kernel; blocks indefinitely
+> on an unfixed one):
+> 
+> 	struct timeval tv = { .tv_sec = LONG_MIN, .tv_usec = -1000000 };
+> 	fd_set r;
+> 	int pfd[2];
+> 	pipe(pfd);
+> 	FD_ZERO(&r);
+> 	FD_SET(pfd[0], &r);
+> 	syscall(__NR_select, pfd[0] + 1, &r, NULL, NULL, &tv);
+> 
+> Fixes: 4d36a9e65d49 ("select: deal with math overflow from borderline valid userland data")
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-Thanks for trying but this basically just silences the warning without
-addressing the real problem. Sure enough it silences the warning in
-mark_buffer_dirty() but effectively it just papers over the real problem -
-the IO completion with error can come the moment you unlock the bh and it
-will happily clear the uptodate bit, resulting in the same "dirty but not
-uptodate" invalid buffer state. So I actually prefer keeping things as they
-currently are so that we are reminded there is this unresolved issue.
+Looks good. I just wonder whether we shouldn't also check that tv.tv_usec <
+USEC_PER_SEC. But in any case feel free to add:
 
-But it would be actually very welcome if you took the work, went through
-all the places using end_buffer_write_sync() and converted them in
-filesystem-by-filesystem to check for IO error by checking
-buffer_write_io_error() instead of buffer_uptodate() and then we can drop
-clear_buffer_uptodate() call from end_buffer_write_sync(). Yes, it is much
-more work but also much more useful.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
-> Hi Matthew, Hi Jan,
+>  fs/select.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> Thanks for the review on v1.  v2 takes the feedback, quick notes below.
+> diff --git a/fs/select.c b/fs/select.c
+> index 75978b18f48f8..bf71c9838dfe1 100644
+> --- a/fs/select.c
+> +++ b/fs/select.c
+> @@ -708,6 +708,17 @@ static int kern_select(int n, fd_set __user *inp, fd_set __user *outp,
+>  		if (copy_from_user(&tv, tvp, sizeof(tv)))
+>  			return -EFAULT;
+>  
+> +		/*
+> +		 * Reject negative components before normalisation. The seconds
+> +		 * sum below is performed in signed long and a crafted negative
+> +		 * timeval can wrap to a positive value that passes
+> +		 * timespec64_valid() and turns into an effectively-infinite
+> +		 * deadline via timespec64_add_safe()'s saturation, instead of
+> +		 * the -EINVAL POSIX requires for negative timeouts.
+> +		 */
+> +		if (tv.tv_sec < 0 || tv.tv_usec < 0)
+> +			return -EINVAL;
+> +
+>  		to = &end_time;
+>  		if (poll_select_set_timeout(to,
+>  				tv.tv_sec + (tv.tv_usec / USEC_PER_SEC),
 > 
-> To Matthew:
+> ---
+> base-commit: 9974969c14031a097d6b45bcb7a06bb4aa525c40
+> change-id: 20260429-timeval-8a3498dde479
 > 
-> You were right that the v1's timing diagram named the wrong racer.
-> 
-> The actual race is with end_buffer_write_sync() on the write-error
-> path, as Jan pointed out -- it also clears BH_Uptodate under BH_Lock,
-> but block_commit_write()'s else branch was reaching set_buffer_uptodate
-> without BH_Lock, leaving the serialization one-sided.  v2's commit
-> message and in-code comment now name end_buffer_write_sync() as the
-> racer.
-> 
-> To Jan:
-> 
-> Thanks for confirming the racer and for the historical context on the
-> dirty + !uptodate state question.  v2 keeps the fix scoped to taking
-> BH_Lock in block_commit_write(); the broader semantic question and any
-> change to end_buffer_write_sync()'s clear is left out of scope here.
-> 
-> The redundant lock_buffer/unlock_buffer that v1 added to the
-> buffer_new branch of __block_write_begin_int() is also dropped in v2 --
-> that bh has no in-flight async I/O so no race exists there.
-> 
-> v1 thread for context:
-> https://lore.kernel.org/all/20260426020137.1221985-1-coshi036@gmail.com/
-> 
-> Thanks,
-> Chao
-> 
-> Changes in v2:
->   - Drop the lock_buffer/unlock_buffer added in v1 to the buffer_new
->     branch of __block_write_begin_int(): that bh is freshly BH_New
->     and has no in-flight async I/O on it, so no race exists at that
->     site.
->   - Rewrite the commit message and the in-code comment to identify
->     end_buffer_write_sync() as the actual racer, not
->     end_buffer_async_read() as v1 claimed; end_buffer_async_read()
->     holds BH_Lock across its clear so a caller that also holds
->     BH_Lock would already be serialized.
->   - Reference the BH_Lock contract at set_buffer_uptodate() in
->     include/linux/buffer_head.h explicitly.
->   - Drop verbose line-number citations and the WARN stack dump from
->     the commit message; tighten wording around reproducer evidence
->     and on-disk impact.
-> 
-> v1: https://lore.kernel.org/all/20260426020137.1221985-1-coshi036@gmail.com/
-> 
->  fs/buffer.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 4d7f84e77d2..6fddb2f1e7c 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -2104,8 +2104,22 @@ void block_commit_write(struct folio *folio, size_t from, size_t to)
->  			if (!buffer_uptodate(bh))
->  				partial = true;
->  		} else {
-> +			/*
-> +			 * Per the contract documented at set_buffer_uptodate()
-> +			 * in include/linux/buffer_head.h, callers must hold
-> +			 * BH_Lock to serialize against concurrent clears of
-> +			 * BH_Uptodate.  Holding only the folio lock is not
-> +			 * sufficient: a concurrent end_buffer_write_sync() on
-> +			 * the write-error path clears BH_Uptodate while
-> +			 * holding BH_Lock; without BH_Lock here the clear can
-> +			 * land between set_buffer_uptodate() and
-> +			 * mark_buffer_dirty(), tripping the WARN_ON_ONCE in
-> +			 * mark_buffer_dirty().
-> +			 */
-> +			lock_buffer(bh);
->  			set_buffer_uptodate(bh);
->  			mark_buffer_dirty(bh);
-> +			unlock_buffer(bh);
->  		}
->  		if (buffer_new(bh))
->  			clear_buffer_new(bh);
-> 
-> base-commit: ffe69af1f87fa77da975ad4b0b093d48c3cbe6c3
-> -- 
-> 2.43.0
+> Best regards,
+> --  
+> Breno Leitao <leitao@debian.org>
 > 
 -- 
 Jan Kara <jack@suse.com>
