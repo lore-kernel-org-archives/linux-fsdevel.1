@@ -1,272 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0145F3FA5FC;
-	Fri,  1 May 2026 16:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA923FD15C
+	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 16:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777652122; cv=none; b=n7wCGvgTju1AYcKZvZtz4Yg1A6iOeVH4Q0/dijH55vMfES8bcdkoslXfAnUTW8gq4STWE2huwrmQw8J/0zYh0DsK8fPYcScA1cMMFOATVA9CPDcfiHV2y5jPMdwNpCZq5BsAq2SUOhnOnqzZ76AwHulaBOljENIx8nPYpFFS080=
+	t=1777653862; cv=none; b=kWVmtgUEl7NbvDCSY4ipcQO1ZjMc6ZkoyA1ybN8mR0Y8MUMGHo/MZDvlOJ5ECJWeEMDZ3B2HwW16QeMTR+a3Cg5pqVlJsmeeeIEP+MyaMXYddryw8OMPeR4hv8nEP289xOHWVc6i0bbcl4ZWOolkN8LtcQ0Bm2VTV0ZIj7pJRos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777652122; c=relaxed/simple;
-	bh=6BtEnmuQHmVuA1S7+CHBCyb9TspbiqW76s56V5/WpPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tjw4aYN+K+vh9uwu6+/ER5qwkf0/iQ8CD7ywasvBBSMq6i4USaFMm4iFN8k8gsB+rh0eJ0xCy7hrnULdBjp5xet4Hamvc0b8rgnL3ZBnso4euqEWWD2HMuRlPkthtOgqzt5w6jgTGMZcr7JJwIcta6zx8buVsh8W7lHEPDRoT3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iD7t4S84; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777653862; c=relaxed/simple;
+	bh=BzpvNNe0Y7pWnImNb7utvKGVhDIu4ekSHRzW3u8hMCQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p53sKkQFz3PUb1Gch7in+IEPvQXf5lr8jmFGEC+IMQKfOoMY1HnRDAwRrDoyt/3qDPQe3EvWzvPG4RVsQqH5lYnL4MrjKJw0Sx3yzKxhJ72WenFZaNRzs+017VucSZTBAtMGzmyXQid/H60sgNRAX8kUhKxFNUQ2INRJzYoX9+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=t/A09e1g; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iD7t4S84"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07048C2BCB4;
-	Fri,  1 May 2026 16:15:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777652121;
-	bh=6BtEnmuQHmVuA1S7+CHBCyb9TspbiqW76s56V5/WpPw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iD7t4S84v5upTK6tqQSAK2utjfhVEo1prIA70x0V+PKF+DOpoeDQf1ahwfbXPiahY
-	 Z+WwepWhi5KhbRWmkgfyQWAxCf/RHR6pDtBbpEtJoWPC07V5N/siX6MkFhqtdLjUjl
-	 vvk21gIqDHrByK1S6nAXIET4v+yK5eeRyhnBLRZKyXGO4fuPDCs7V8GnrUT7WnzzPf
-	 48wg2ZQag2k8e7KqFezO6rENuiUVCrtJT9QZuHyK44p0bmEm5KnYSxQmJ8SWFCZfYf
-	 wZOwRxP1gtqa3CCqohl19WV6sAYBd4TuXRG62hYyai8L9GOPQ1dAUyRNOZQ4KZkSbF
-	 Uj7wqqOk6Z3lg==
-Date: Fri, 1 May 2026 09:15:20 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 3/4] fuse: update file mode when updating acls
-Message-ID: <20260501161520.GW7739@frogsfrogsfrogs>
-References: <177747203969.4101397.1905820467457875817.stgit@frogsfrogsfrogs>
- <177747204051.4101397.16466232272715875212.stgit@frogsfrogsfrogs>
- <CAJnrk1bYYBf2qYBvhv=MFKvG-2VekKwHCuRS6tjva=tExw6Gdw@mail.gmail.com>
- <20260430205731.GV7739@frogsfrogsfrogs>
- <CAJnrk1YCXxXvd7vgTm5vhbHOJCiW=FGWkMNQLzGPh5PHdZpvpw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="t/A09e1g"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-479fc1fc048so1542949b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 09:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1777653854; x=1778258654; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=258tSgDmQvsBwqYiudf3HzA2YcVV3/7qcjtUVSy9L94=;
+        b=t/A09e1gBKwHej8bFSSsDKaY+HbwtWehYTY6lD/aQAbC6dd7DgC01GYCseKf6U4Drp
+         Nbu7cxnKVoOHHYDRK0bMNqX38VmWz9bPLe7lXQjWZhwP8rQ+wBdaOc2TZfNjdTp+fq5n
+         J4/yDwZY6l2DpYYyZBBrSJ/aqLOZvzOcbRlBtgtIyA+Ug2IyK8NITuZt1WnAr9tHJZU2
+         2aNDB1xK/1sP9de7FFVxjaqR2bVfBbc7w3XUCpg2PuqK+E7TP8Awfn3yzKbmJMP3uTaR
+         dqBtWdMDAUQ8PtDgW0rUmoblNP27wev8sG/a2YqsNsQVbkvVAj+TjSvxxHE4pKcUrX8K
+         v6gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777653854; x=1778258654;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=258tSgDmQvsBwqYiudf3HzA2YcVV3/7qcjtUVSy9L94=;
+        b=g9GLhWTYx3SR+PMWDJVePm8TcSgjgrxidUgmjl+EmQhXpg5kFdZKp+pBTAzdkq0eml
+         EKSrJk8K0cAk/VRZnYXqlKLNWXOjqKRRaT8Hkdp7pDgFNw4pmwRSzSVo5DJoQ+KtgceW
+         gmuwy1gqC7AV8ljyyjolITusboBYA2wrrWLkFNne0ZWPWzUmDEkJG/myS4/RkJcoKkNa
+         WwnkhKLLcU04NsL4aqvLYqvxvnlh+pYn++D4G5WcyiPDWfAFQrt/qn4QFb1vnKy3yh13
+         EBC99IcQoNsQZ53bEwrZ81FHTsPQLexWhJMZHLSnGsaZzxCixR0OCAWk2bTm3utfSC6M
+         TZ7w==
+X-Gm-Message-State: AOJu0YylYXMfrweVmjPHU2b+9h8msnq/jv1xhG/2u2bgH3GL0r2msZHF
+	4STn8o6M/iFsV+sICyuKZ0jTJ7Wid8YbJG29ptVJAVbPJZcMs6NTrAFM1d2g8ERVtOA=
+X-Gm-Gg: AeBDietVVzPRoHC5Wzo2eCpGwxHqwoAEYwY9EvpcOlU99YJfY7s/aT7aN5q87GR0dC4
+	+0klUo0LIHP9bnnbPU1jhaspSCh/NvUjm9usMs4z3Ps/Y/Vmun2+xOuCHtA+a5f8dQMbky1YOGu
+	QKKyo7ssz3uAgLGG/dWrimTAOxKiO8iZyO2TxXcVkZpXU5qmviong4KCqMYwc9vL8mFZgQ/gSUl
+	eXU0/v3lTPOu8C3EXQ/vTPgKRjhnqmKFWq9QPYMdBqMZwGHYKUyhMJutNq6rcKT+RoCCnh0vAXi
+	DOWNN/5KK/Gg3wIw/1JxQGWWkFtkGK9Q4MuZLr+6Wo8GOkdcvNTL3c1f++SLQCdFoaJRUAUySHC
+	fuQNZm1aRP7aDzpXGk7EomHaFiukTqr8kNbF2Y/chD90Qus4nK+93e7BkC0do3VdjxYO1+AZvt5
+	hSoHObwXjwr5nWIrc3/+zWSXPMuqZYOtsAaiVoHeydG2hOvGqLfVmBowGBapxqmfEguwrRvJ1cQ
+	qxljNbIfB/DUc3wlPA=
+X-Received: by 2002:a05:6820:a04:b0:694:8c67:5cb6 with SMTP id 006d021491bc7-6967a5dbd54mr3873019eaf.41.1777653853660;
+        Fri, 01 May 2026 09:44:13 -0700 (PDT)
+Received: from [192.168.1.102] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43454d8ed0dsm2836466fac.17.2026.05.01.09.44.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 May 2026 09:44:13 -0700 (PDT)
+Message-ID: <ec07180c-665a-4e78-94a4-1670a8bf8efd@kernel.dk>
+Date: Fri, 1 May 2026 10:44:11 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] mm: kick writeback flusher for IOCB_DONTCACHE with
+ targeted dirty tracking
+To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Snitzer <snitzer@kernel.org>, Ritesh Harjani <ritesh.list@gmail.com>,
+ Chuck Lever <chuck.lever@oracle.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-mm@kvack.org
+References: <20260501-dontcache-v4-0-5d5e6dc71cb3@kernel.org>
+ <20260501-dontcache-v4-2-5d5e6dc71cb3@kernel.org>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20260501-dontcache-v4-2-5d5e6dc71cb3@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1YCXxXvd7vgTm5vhbHOJCiW=FGWkMNQLzGPh5PHdZpvpw@mail.gmail.com>
 
-On Fri, May 01, 2026 at 10:53:20AM +0100, Joanne Koong wrote:
-> On Thu, Apr 30, 2026 at 9:57 PM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > On Thu, Apr 30, 2026 at 02:48:29PM +0100, Joanne Koong wrote:
-> > > On Wed, Apr 29, 2026 at 3:22 PM Darrick J. Wong <djwong@kernel.org> wrote:
-> > > >
-> > > > From: Darrick J. Wong <djwong@kernel.org>
-> > > >
-> > > > If someone sets ACLs on a file that can be expressed fully as Unix DAC
-> > > > mode bits, most local filesystems will then update the mode bits and
-> > > > drop the ACL xattr to reduce inefficiency in the file access paths.
-> > > > Let's do that too.  Note that means that we can setacl and end up with
-> > > > no ACL xattrs, so we also need to tolerate ENODATA returns from
-> > > > fuse_removexattr.
-> > > >
-> > > > Note that here we define a "local" fuse filesystem as one that uses
-> > > > fuseblk mode; we'll shortly add fuse servers that use iomap for the file
-> > > > IO path to that list.
-> > > >
-> > > > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > > > ---
-> > > >  fs/fuse/fuse_i.h |    2 +-
-> > > >  fs/fuse/acl.c    |   56 +++++++++++++++++++++++++++++++++++++++++++++++-------
-> > > >  2 files changed, 50 insertions(+), 8 deletions(-)
-> > > >
-> > > >
-> > > > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > > > index 4c135a7edf54ac..0bcfb42592895c 100644
-> > > > --- a/fs/fuse/fuse_i.h
-> > > > +++ b/fs/fuse/fuse_i.h
-> > > > @@ -1050,7 +1050,7 @@ static inline struct fuse_mount *get_fuse_mount(struct inode *inode)
-> > > >         return get_fuse_mount_super(inode->i_sb);
-> > > >  }
-> > > >
-> > > > -static inline struct fuse_conn *get_fuse_conn(struct inode *inode)
-> > > > +static inline struct fuse_conn *get_fuse_conn(const struct inode *inode)
-> > > >  {
-> > > >         return get_fuse_mount_super(inode->i_sb)->fc;
-> > > >  }
-> > > > diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
-> > > > index cbde6ac1add35a..bee8a9a734f50a 100644
-> > > > --- a/fs/fuse/acl.c
-> > > > +++ b/fs/fuse/acl.c
-> > > > @@ -11,6 +11,18 @@
-> > > >  #include <linux/posix_acl.h>
-> > > >  #include <linux/posix_acl_xattr.h>
-> > > >
-> > > > +/*
-> > > > + * If this fuse server behaves like a local filesystem, we can implement the
-> > > > + * kernel's optimizations for ACLs for local filesystems instead of passing
-> > > > + * the ACL requests straight through to another server.
-> > >
-> > > nit: "to the server" instead of "to another server"? another server
-> > > sounds like there's 2 servers
-> > >
-> > > > + */
-> > > > +static inline bool fuse_inode_has_local_acls(const struct inode *inode)
-> > > > +{
-> > > > +       const struct fuse_conn *fc = get_fuse_conn(inode);
-> > > > +
-> > > > +       return fc->posix_acl && fuse_inode_is_exclusive(inode);
-> > > > +}
-> > > > +
-> > > >  static struct posix_acl *__fuse_get_acl(struct fuse_conn *fc,
-> > > >                                         struct inode *inode, int type, bool rcu)
-> > > >  {
-> > > > @@ -98,6 +110,8 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-> > > >         struct inode *inode = d_inode(dentry);
-> > > >         struct fuse_conn *fc = get_fuse_conn(inode);
-> > > >         const char *name;
-> > > > +       umode_t mode = inode->i_mode;
-> > > > +       const bool local_acls = fuse_inode_has_local_acls(inode);
-> > > >         int ret;
-> > > >
-> > > >         if (fuse_is_bad(inode))
-> > > > @@ -113,14 +127,25 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-> > > >         else
-> > > >                 return -EINVAL;
-> > > >
-> > > > +       /*
-> > > > +        * If the ACL can be represented entirely with changes to the mode
-> > > > +        * bits, then most filesystems will update the mode bits and delete
-> > > > +        * the ACL xattr.
-> > > > +        */
-> > > > +       if (acl && type == ACL_TYPE_ACCESS && local_acls) {
-> > > > +               ret = posix_acl_update_mode(idmap, inode, &mode, &acl);
-> > > > +               if (ret)
-> > > > +                       return ret;
-> > > > +       }
-> > > > +
-> > > >         if (acl) {
-> > > >                 unsigned int extra_flags = 0;
-> > > >                 /*
-> > > > -                * Fuse userspace is responsible for updating access
-> > > > -                * permissions in the inode, if needed. fuse_setxattr
-> > > > -                * invalidates the inode attributes, which will force
-> > > > -                * them to be refreshed the next time they are used,
-> > > > -                * and it also updates i_ctime.
-> > > > +                * For non-local filesystems, fuse userspace is responsible for
-> > > > +                * updating access permissions in the inode, if needed.
-> > > > +                * fuse_setxattr invalidates the inode attributes, which will
-> > > > +                * force them to be refreshed the next time they are used, and
-> > > > +                * it also updates i_ctime.
-> > > >                  */
-> > > >                 size_t size;
-> > > >                 void *value;
-> > > > @@ -137,9 +162,10 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-> > > >                 /*
-> > > >                  * Fuse daemons without FUSE_POSIX_ACL never changed the passed
-> > > >                  * through POSIX ACLs. Such daemons don't expect setgid bits to
-> > > > -                * be stripped.
-> > > > +                * be stripped, unless they've explicitly told the kernel to
-> > > > +                * take care of that.
-> > >
-> > > nit: imo this would be clearer as its own sentence, eg "For local
-> > > filesystems, the kernel already handled sgid stripping in
-> > > posix_acl_update_mode() above".
-> > >
-> > > >                  */
-> > > > -               if (fc->posix_acl &&
-> > > > +               if (fc->posix_acl && !local_acls &&
-> > > >                     !in_group_or_capable(idmap, inode,
-> > > >                                          i_gid_into_vfsgid(idmap, inode)))
-> > > >                         extra_flags |= FUSE_SETXATTR_ACL_KILL_SGID;
-> > > > @@ -148,6 +174,22 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
-> > > >                 kfree(value);
-> > > >         } else {
-> > > >                 ret = fuse_removexattr(inode, name);
-> > > > +               /* If the acl didn't exist to start with that's fine. */
-> > > > +               if (ret == -ENODATA)
-> > > > +                       ret = 0;
-> > > > +       }
-> > > > +
-> > > > +       /* If we scheduled a mode update above, push that to userspace now. */
-> > > > +       if (!ret) {
-> > > > +               struct iattr attr = { };
-> > > > +
-> > > > +               if (mode != inode->i_mode) {
-> > > > +                       attr.ia_valid |= ATTR_MODE;
-> > > > +                       attr.ia_mode = mode;
-> > > > +               }
-> > > > +
-> > > > +               if (attr.ia_valid)
-> > > > +                       ret = fuse_do_setattr(idmap, dentry, &attr, NULL);
-> > >
-> > > maybe something like this is clearer?
-> > >
-> > >     if (!ret && mode != inode->i_mode) {
-> > >          struct iattr attr = {
-> > >                 .ia_valid |= ATTR_MODE,
-> > >                 .ia_mode = mode,
-> > >           };
-> > >          ret = fuse_do_setattr(idmap, dentry, &attr, NULL);
-> > >     }
-> >
-> > I know, you said that last time ;)
-> > https://lore.kernel.org/linux-fsdevel/CAJnrk1YL3KnON-WtNjNi+2GZ+6rYvnVUnYwCk5efv0o41XkxcA@mail.gmail.com/
-> >
-> > and my reply is the same:
-> > https://lore.kernel.org/linux-fsdevel/20260325222308.GH6202@frogsfrogsfrogs/#t
+On 5/1/26 3:49 AM, Jeff Layton wrote:
+> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
+> filemap_flush_range() on every write, submitting writeback inline in
+> the writer's context.  Perf lock contention profiling shows the
+> performance problem is not lock contention but the writeback submission
+> work itself — walking the page tree and submitting I/O blocks the writer
+> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
+> (dontcache).
 > 
-> Fair enough, I'd forgotten the conversation from v7.
+> Replace the inline filemap_flush_range() call with a flusher kick that
+> drains dirty pages in the background.  This moves writeback submission
+> completely off the writer's hot path.
 > 
-> Also btw, I think there's the edge case where if the fuse_removexattr
-> succeeds but the fuse_do_setattr() fails, then the acl would have been
-> removed but the mode bits weren't updated. Maybe reordering it for
-> that case so that the mode update happens first before the xattr
-> removal would be safer (eg if the xattr removal fails, the old acl is
-> still there to enforce permissions)?
-
-I don't think reordering the upcalls will help much for atomicity -- if
-the mode update succeeds but the removexattr fails, the file's ACLs are
-still inconsistent with what the calling process was trying to do.
-
-Hrm.  Solving this atomically probably means declaring a new
-FUSE_SET_ACL command which conveys i_mode and the name/value of the
-acl xattr, or null if the acl should be removed.
-
-OTOH, XFS and ext4 don't do this atomically either.  Updating the ACL
-xattr and the mode are separate transactions in both.
-
-XFS has this comment:
-
-	/*
-	 * We set the mode after successfully updating the ACL xattr
-	 * because the xattr update can fail at ENOSPC and we don't want
-	 * to change the mode if the ACL update hasn't been applied.
-	 */
-
-so I think I'll inject that comment into the patch but otherwise leave
-the code as-is.
-
-Well actually, I also forgot to set inode->i_mode = mode if the
-fuse_do_setattr succeeds.  So I'll change that too.
-
---D
-
-> Thanks,
-> Joanne
+> To avoid flushing unrelated buffered dirty data, add a dedicated
+> WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
+> the per-wb WB_DONTCACHE_DIRTY counter to determine how many pages to
+> write back.  The flusher writes back that many pages from the oldest dirty
+> inodes (not restricted to dontcache-specific inodes). This helps
+> preserve I/O batching while limiting the scope of expedited writeback.
 > 
-> >
-> > ...which is to say, does anyone think that's worth the churn?
-> >
-> > >
-> > > Overall, this lgtm though.
-> > >
-> > > Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> >
-> > Thanks!
-> >
-> > --D
-> >
-> > > Thanks,
-> > > Joanne
-> > >
-> > > >         }
-> > > >
-> > > >         if (fc->posix_acl) {
-> > > >
-> > >
+> Like WB_start_all, the WB_start_dontcache bit coalesces multiple
+> DONTCACHE writes into a single flusher wakeup without per-write
+> allocations.
 > 
+> Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
+> visibility, and target the correct cgroup writeback domain via
+> unlocked_inode_to_wb_begin().
+> 
+> dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
+> xfs on NVMe, fio io_uring):
+> 
+> Buffered and direct I/O paths are unaffected by this patchset. All
+> improvements are confined to the dontcache path:
+> 
+> Single-stream throughput (MB/s):
+>                         Before    After    Change
+>   seq-write/dontcache      298      897    +201%
+>   rand-write/dontcache     131      236     +80%
+> 
+> Tail latency improvements (seq-write/dontcache):
+>   p99:    135,266 us  ->  23,986 us   (-82%)
+>   p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
+> 
+> Multi-writer (4 jobs, sequential write):
+>                                 Before    After    Change
+>   dontcache aggregate (MB/s)     2,529    4,532     +79%
+>   dontcache p99 (us)             8,553    1,002     -88%
+>   dontcache p99.9 (us)         109,314    1,057     -99%
+> 
+>   Dontcache multi-writer throughput now matches buffered (4,532 vs
+>   4,616 MB/s).
+> 
+> 32-file write (Axboe test):
+>                                 Before    After    Change
+>   dontcache aggregate (MB/s)     1,548    3,499    +126%
+>   dontcache p99 (us)            10,170      602     -94%
+>   Peak dirty pages (MB)          1,837      213     -88%
+> 
+>   Dontcache now reaches 81% of buffered throughput (was 35%).
+> 
+> Competing writers (dontcache vs buffered, separate files):
+>                                 Before    After
+>   buffered writer                  868      433 MB/s
+>   dontcache writer                 415      433 MB/s
+>   Aggregate                      1,284      866 MB/s
+> 
+>   Previously the buffered writer starved the dontcache writer 2:1.
+>   With per-bdi_writeback tracking, both writers now receive equal
+>   bandwidth. The aggregate matches the buffered-vs-buffered baseline
+>   (863 MB/s), indicating fair sharing regardless of I/O mode.
+> 
+>   The dontcache writer's p99.9 latency collapsed from 119 ms to
+>   33 ms (-73%), eliminating the severe periodic stalls seen in the
+>   baseline. Both writers now share identical latency profiles,
+>   matching the buffered-vs-buffered pattern.
+> 
+> The per-bdi_writeback dirty tracking dramatically reduces peak dirty
+> pages in dontcache workloads, with the 32-file test dropping from
+> 1.8 GB to 213 MB. Dontcache sequential write throughput triples and
+> multi-writer throughput reaches parity with buffered I/O, with tail
+> latencies collapsing by 1-2 orders of magnitude.
+
+I like this, this is the better way to kick off the writeback.
+
+Reviewed-by: Jens Axboe <axboe@kernel.dk>
+
+-- 
+Jens Axboe
+
