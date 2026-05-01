@@ -1,60 +1,62 @@
 Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100A8396B76
-	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 11:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736D439B94A
+	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 11:02:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777633344; cv=none; b=lZ3AiVPfDORGxA2ELpBK3f7Tjxzun8RZL3dlTbVcz1n+85HaLFxKm87sf2qYGM7TCzKhligzwlwx8GeMhIUFTXinD+B6nlkQHESOPQGOM73ulaBFe6vMElL2AuX/Hi4OGGeAXJWzF+2kt5BXU5nKPNayoaCkQgJVYgyO2QyCxbc=
+	t=1777633344; cv=none; b=CLoehhdtJ4qF8f4tEuCewddYlq3vN0tWHts7ER+DgwY1UrIugWt0L649EI0ZxgCIQuT74bw/KM6TYOQ3p/7rqQZoPdsetSBHtPpgTOY5IkBXQgb8sPewjZ8WNY5aGM0RBZSzXcgEii3iJiAne+Y4ixUrvI55bhbpp7ffQGGzsEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777633344; c=relaxed/simple;
-	bh=6q7Cse9LTZEajpIegGdnRfkT5EI8IG2GJIGVRzPO0tM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pJtThVzwTaF2ntlMhkTW7fND5MbVDoLI20n7CJZD7ZYne8Okp2NlxIurOypd2FFu0JcYSLV8SSTyKke3kX1TzuJNBjbds6d2dvNcUw0o9M1i3byfisAJIJe6R0mFPaqQPHdZb3JavgSckyOtQX4xeNhXzwSc9wEZMIxdVY9+MuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNjju8WS; arc=none smtp.client-ip=209.85.128.46
+	bh=Fv/OiQ1bnW0J2vPNKf91L9Akl/sJBzQMgAnEhO7UEdU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N8VkQaLLZO1sQRAdRN3TDXWlaz4qfIBdqiCK5to5chkZnq+Sxic/KUwbFu6H5L65nq1uOzvSCmIGNOp+HEhr6JBYuiSnupdEOjxhkzJ4tddECnwN99mw38nP75kQTlgi0+2XpT8QhmLif9aV4vUgCMqOhs5iAPjHiRUrlDCkjkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=brCv+gyu; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNjju8WS"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488b0046078so15068705e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 04:02:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="brCv+gyu"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso10592185e9.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 04:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777633339; x=1778238139; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J+eCDUN5/k1aTUcp0ocOWEOuyZhFTl6ujThN0C1b1A0=;
-        b=BNjju8WS4lnA/Alb5bTNhxbGspl/940t68iZBlNDpyqPt1F5lQc04bfTvt0/2vAOWk
-         nthzTPpNDR/H6bqdX7T3urcyO97P1LP/tl1+CC3aSZE9uRrdSIlombaPWPrPS5+q0Ixu
-         XRDZGZyQ7e4zmZIRtTzOwUuoINLT0Ak0Y4Q8Sv2S9WY+O423cVQNOPxysCTxejUXIeB3
-         iyMdwDG++oN0LGiBFq4nOZ8X1KC6jXFSkIEj0gLlHd/DT8gg/KE9TKcnTgssThmeyQYT
-         u9t5X6r2Iosg0JsqNwMcy1zzPwTs6U4CD7S7KuNJu6DS/tk9gI9VrhH5AhJhvPqo7Zus
-         GqFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777633339; x=1778238139;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777633341; x=1778238141; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J+eCDUN5/k1aTUcp0ocOWEOuyZhFTl6ujThN0C1b1A0=;
-        b=rBl58hCUT4PcoweZJg+IBj9FEcEowOfgDZ9NxhUSY8ee3s+o7OWhCkArweL1IRSPtg
-         XYt03WiFEWJ54C9NjQ9gG0j9inzdftQwtXmyD/jLs6LIVJvZmTz3XNEViHoIEyWl2OH6
-         oBfAhHy1xLAi5knK6TxuLPMe0z3xeklF6C9wmEsx8IMtuzRQ8070gV8lintiAg5Gw8yQ
-         Q8l0ZAkykdJV/+7+b67/ArsjQHS2lrqE+m8/daoA1D2U9XnH/zcpxutXhWswS3OhTetD
-         U/WI9mhvl5SXUAz7PMeIhIbuBqXUlDT3y45uKQvC+E4AdRqk+tyyWLj7U//tx+cBmxPs
-         liQg==
-X-Gm-Message-State: AOJu0YxaY7CY0g+GQ6TuYFU2hL41eraCAA5S1eKM3DU8dhY2tMScB33T
-	yH4Lxd2GeXXe1D5MPaIpJcp8L9JxGN9azVnW/kk6+RxqS57nHBsnTb8=
-X-Gm-Gg: AeBDieuqz30Wyeme/n+rRmYh/4LiiOSrqtCmd/4cBJdbLLKwoCARZLRwW45JuRh/w0O
-	VeAJGXRpUQuczjXxCTjxz5Xt4IpmoFoZ9R6WHF2Gmg4h8aKV2SdwsdtEI25Z247/gXefNi+QVJk
-	ee749ISdqTbOj91C73sxZHs//YX1NKycqP2fdkAxgkgCXOacGo6IwqvV9SD2PgGDJSIUdlsald+
-	qQekAaotj6U/H0TdLXgjuY31I6YpQOXOt1j43tkoKvbHXb6TmtIBRdyZt1IRR+ThWc7eJrYBatZ
-	aavqqTG5QWrKbcEmG0JuuZR6AdUY9gxIsSeG1DpAwWcPj5thXhzCYfVQsEPBfucinYYLIbV6LNT
-	11YuCmqjezohWAJeT7FH5bqvYtlLjucZu3CLuKKjzZHJgje1mGc3TjaBgn84SppYz/j9Xe9MRpv
-	Jgu0Q=
-X-Received: by 2002:a05:600c:a00a:b0:487:219e:42d with SMTP id 5b1f17b1804b1-48a8eb73a3cmr38267405e9.11.1777633339156;
-        Fri, 01 May 2026 04:02:19 -0700 (PDT)
+        bh=xkx0SbVcB+vrfiwO5OKv0Vwto/EW891UcGdT1uFJmtM=;
+        b=brCv+gyu/kz7RnEGt9CPjcygTi8NWhRI7vx0LiI1NV2yJNCK5bVpJ4w9ETQOsqx9d6
+         NRJyqTleU2KAaZYA9ADkdVeluRo+xPeOdq542fsGfEGjgv66KVP7bbyMDPGOg68Rq9uH
+         0oklUMCIB92qPGnNQfSZzqsHCFlu9nAF9XI85IkUN0IVRY7945dpa6nwdBIglOFLTy5V
+         eHkZfOS9uLIPg9ePQ7veChjPoZc0F7XknhKJj5BNxABcX3kPiGcoRYfgRqxE9seiy10r
+         R08yudyw0uDeYN9kopOoV+j/8McPjUKhC+Q8D0goAqzDqWlecGSfSD2ACpQGfhoj39Op
+         tO6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777633341; x=1778238141;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xkx0SbVcB+vrfiwO5OKv0Vwto/EW891UcGdT1uFJmtM=;
+        b=ScN+zcD5redw2S+l7lEr1urNuiUjiPo/JfaHirXH8T9IlM759mlbMhVJKRQ//7/v25
+         f35lDeN4P+UzJnLbID3V/nUp4e4yI+GIfrHD3MZiPgjMiM6VEz/v+obogxFRnSKLucGn
+         qxIiSCfXFKJerJFT8qvKBh6bUntO7w8/aB8aMjILGDb1WnagkIPJhIHzH6xMtxAtHmat
+         kq+3X8ODH3ROyYgpbb/QuuS336x3oFMqGUhw0rzbF7IEs9OxYC0Df9ghNKnfMWDr5pGF
+         zXfBi7BWixzRQuY0JTIfepMs3RFlktANaoUqaX+/gnOTDbhDcg2qh68+MT99EI7wPq4E
+         KLFg==
+X-Gm-Message-State: AOJu0Yz7UkizKEAWf9vU8qzMSKgOQxyIMdUTmzquC6Jk1wL+buUW8tgL
+	6Cfd4it5aMTq/14Q5ZoEUCX1zWOHju/vkZWkDJDg0bDD3RrlGN23c8A=
+X-Gm-Gg: AeBDietn9tHQ3jisg10bRWiCPKehGUMqTn6IGzRCWRbV4GbCQOqg8CAQmla5ce3jBpi
+	zoxYJ7l390ZoJMBcBlwckm6irFya2uui+KvuyZok7MQCnMGTrWdFnkOI25B26ZvEQ40L5xK0Nib
+	hiOGNEjtPRVHmFz/xwI6xHoJKh16JXq6mFCczhL9ICMrFDnB5iOqxLC+tnAl6ILtNPFPfHmaYKp
+	BwoDmiQ0NCL25O2w/Pbin0ZghvLM2+n+IMDB2cfgqpNp+DXonetyrKkNQrFH9j3D+4JbHeX/B2f
+	SfasqrI6SAkm4x86zd15yQTD3t9reMb3Uw5zwCZveXZkEwhUf9oa/VYnaeUoxTPCLKIhTg2Vvfe
+	dO1wmjww/cEhEFM1yzdWnVPoWkDa38kGWBxCKLxsm6lnn3NT3lBZe0xVoBh7Kjcyxnwso7dokuC
+	pAnWA=
+X-Received: by 2002:a05:600c:c10b:b0:48a:5821:5ff2 with SMTP id 5b1f17b1804b1-48a844eba7fmr87053555e9.8.1777633340787;
+        Fri, 01 May 2026 04:02:20 -0700 (PDT)
 Received: from debian.. ([2001:41d0:303:db6b::])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a820c8556sm121627405e9.4.2026.05.01.04.02.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a820c8556sm121627405e9.4.2026.05.01.04.02.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 04:02:18 -0700 (PDT)
+        Fri, 01 May 2026 04:02:20 -0700 (PDT)
 From: Tristan Madani <tristmd@gmail.com>
 To: Viacheslav Dubeyko <slava@dubeyko.com>,
 	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
@@ -63,12 +65,13 @@ Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Tristan Madani <tristan@talencesecurity.com>,
-	syzbot+6df204b70bf3261691c5@syzkaller.appspotmail.com,
-	syzbot+e76bf3d19b85350571ac@syzkaller.appspotmail.com
-Subject: [PATCH 1/3] hfs/hfsplus: fix u32 overflow in check_and_correct_requested_length
-Date: Fri,  1 May 2026 11:02:15 +0000
-Message-ID: <20260501110218.29906-1-tristmd@gmail.com>
+	syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
+Subject: [PATCH 3/3] hfsplus: fix null pointer dereference in hfsplus_create_attributes_file
+Date: Fri,  1 May 2026 11:02:17 +0000
+Message-ID: <20260501110218.29906-3-tristmd@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260501110218.29906-1-tristmd@gmail.com>
+References: <20260501110218.29906-1-tristmd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,61 +82,44 @@ Content-Transfer-Encoding: 8bit
 
 From: Tristan Madani <tristan@talencesecurity.com>
 
-check_and_correct_requested_length() compares (off + len) against
-node_size using u32 arithmetic.  When the caller passes a large len
-value (e.g. from an underflowed subtraction in hfs_brec_remove()),
-off + len can wrap past 2^32 and produce a small result, causing the
-bounds check to pass when it should fail.
+hfsplus_create_attributes_file() calls hfsplus_mark_inode_dirty() with
+HFSPLUS_ATTR_TREE_I(sb) before sbi->attr_tree has been set by
+hfs_btree_open().  HFSPLUS_ATTR_TREE_I dereferences sbi->attr_tree to
+reach ->inode, causing a null pointer dereference when attr_tree is
+still NULL.
 
-For example, with off=14 and len=0xFFFFFFF2 (underflowed from
-data_off - keyoffset - size in hfs_brec_remove), off + len wraps to 6,
-which is less than a typical node_size of 512, so the check passes and
-the subsequent memmove reads ~4GB past the node buffer.
+Move the mark_dirty call to after hfs_btree_open() and guard it with a
+NULL check on sbi->attr_tree.
 
-Fix this by comparing len against (node_size - off) instead.  Since
-is_bnode_offset_valid() already guarantees off < node_size before this
-point, the subtraction cannot underflow.
-
-Reported-by: syzbot+6df204b70bf3261691c5@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=6df204b70bf3261691c5
-Tested-by: syzbot+6df204b70bf3261691c5@syzkaller.appspotmail.com
-Reported-by: syzbot+e76bf3d19b85350571ac@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=e76bf3d19b85350571ac
-Tested-by: syzbot+e76bf3d19b85350571ac@syzkaller.appspotmail.com
-Fixes: a431930c9bac ("hfs: fix slab-out-of-bounds in hfs_bnode_read()")
+Reported-by: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=bc70a12e438dadba4fb4
+Tested-by: syzbot+bc70a12e438dadba4fb4@syzkaller.appspotmail.com
+Fixes: ee8422d00b7c ("hfsplus: fix potential Allocation File corruption after fsync")
 Cc: stable@vger.kernel.org
 Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
 ---
- fs/hfs/bnode.c          | 2 +-
- fs/hfsplus/hfsplus_fs.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ fs/hfsplus/xattr.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
-index 13d58c51fc46b..c00645a4a5733 100644
---- a/fs/hfs/bnode.c
-+++ b/fs/hfs/bnode.c
-@@ -41,7 +41,7 @@ u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
+diff --git a/fs/hfsplus/xattr.c b/fs/hfsplus/xattr.c
+index 452a1f9becb2d..1ea9f313368c5 100644
+--- a/fs/hfsplus/xattr.c
++++ b/fs/hfsplus/xattr.c
+@@ -317,12 +317,13 @@ static int hfsplus_create_attributes_file(struct super_block *sb)
+ 		next_node++;
+ 	}
  
- 	node_size = node->tree->node_size;
+-	hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb), HFSPLUS_I_ATTR_DIRTY);
+ 	hfsplus_mark_inode_dirty(attr_file, HFSPLUS_I_ATTR_DIRTY);
  
--	if ((off + len) > node_size) {
-+	if (len > node_size - off) {
- 		u32 new_len = node_size - off;
+ 	sbi->attr_tree = hfs_btree_open(sb, HFSPLUS_ATTR_CNID);
+ 	if (!sbi->attr_tree)
+ 		pr_err("failed to load attributes file\n");
++	else
++		hfsplus_mark_inode_dirty(HFSPLUS_ATTR_TREE_I(sb), HFSPLUS_I_ATTR_DIRTY);
  
- 		pr_err("requested length has been corrected: "
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index 3545b8dbf11c5..10b2dda3f8044 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -600,7 +600,7 @@ u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
- 
- 	node_size = node->tree->node_size;
- 
--	if ((off + len) > node_size) {
-+	if (len > node_size - off) {
- 		u32 new_len = node_size - off;
- 
- 		pr_err("requested length has been corrected: "
+ failed_header_node_init:
+ 	kfree(buf);
 -- 
 2.47.3
 
