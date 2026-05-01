@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23AD3CAE7D;
-	Fri,  1 May 2026 14:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2A33CEB9A;
+	Fri,  1 May 2026 14:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777647279; cv=none; b=QRT6KWeN39pr+Uqmuxj9ua3jhwUsOg4TCXHe11v5406sXJPLvln7PxgeOcZUq6Wi65Dy90GskbppuAPrs4y9vJ/LkTtNjr2WnbNU++HfTuir7ivk07jxdXkTvCMQdYJmlNnjWX1Ytgx9bM71aZbLi2y0/RdHUU7ylNGXr7okiy8=
+	t=1777647282; cv=none; b=QhaeUJqPyGGv5BizmnQfUl80yGSbJVdpdY44J9V46S8ebrmWwQA3JLnfGyWt36YhrxeWI3OfhrLMdFEqP4iGTLwbhpfkEj3Ie00OOeyxBmk1TyFs2/LY6wUzBCW5A79Wrem60xdA4TlB5BJYyMbBGEr9MT7eED7Skw1FxBK6Npk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777647279; c=relaxed/simple;
-	bh=q0c91woVsg3J+mEvem4ByLKRY6SAAHiSu7FvlL1Tgt8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jvMIp7Fr0PULME1f6LLuwzV5XtovJ5FP0/yD2/6SUMVOAJYaeoh3jLu2Abh0z2POP1D/R0GKrNXV/eekdakndvqsqjRaTBPyOLvIZSp0IxXSVL/meYjJAr0ixm17dBc1IVEls3dHtDVeEjDIuLt/v3RILlhO3tTH0r4o5rdVA/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FQhVAhSv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777647282; c=relaxed/simple;
+	bh=sIdxJn2uWKCUgOB/jcXwOeB6VnuZjhcEA2rnh/yGasw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=T7KsJt+edC59tUhj704kTOg3t3ve1qGh6MmpkMaiDAQxZOUu4f07ZseDqZsB8i5/UBRQMHKG3FgZYksuCBpA3Tuex5jNXe8kTpGCC9XCoEztoB0UCqTjrSVla2VCc3tt6Jz5pstnvrhQFCMfZ7S0lhgdKg6rrEt2OgwvJSV/Dq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCWpnuFT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FQhVAhSv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B866DC2BCB9;
-	Fri,  1 May 2026 14:54:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCWpnuFT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC207C2BCB4;
+	Fri,  1 May 2026 14:54:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777647279;
-	bh=q0c91woVsg3J+mEvem4ByLKRY6SAAHiSu7FvlL1Tgt8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FQhVAhSvPoU/8cnjtJ3Tqrr/2ta5/7WaC9QbRWCmfKv1N/HZOOtV/quw21za3lZjM
-	 ja+DGAgn/jpzIF2FPzjiXw9HwLJR03N3re4aNIo9LhAK1tP7F4GR1uuOaatYg3HO4A
-	 02P0cWs/G5yGdbJpmXyt9zove9C4cU/ZEcMFt02Tfz6ClUiL9kcJMnhM4BNNjKEuns
-	 r1XnC2Vo0ObO94uN5hEkmBpwuQSu/vIv7VAjYH9TEkhb8Z+KUY6HaA/LsaapSLBaCL
-	 ZLpNzxaIWVhVpDVRA3Qk6nohjQTh3Ra5g6qY4yVM4qvggGLhPEABu8PyhBoEOcrNWs
-	 xThaAdGKuxoDw==
+	s=k20201202; t=1777647282;
+	bh=sIdxJn2uWKCUgOB/jcXwOeB6VnuZjhcEA2rnh/yGasw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aCWpnuFTXV3upoj4UjPdpW1McawbKlnlCFBEeLNisCH0zC9aWEqdLEdLMJKuQcw+n
+	 bKBiKeo9aht3nZsrkK+rDHGoJzxDQPmcu12UOUCZIoWPKTH9WjcYywhpGlTbayCTe8
+	 /tGF7q3lBktif4gkzAfQ+rYgdYJgizImzBILlUHRN0vfXeYsBSqEBLfo13RgnBAGrY
+	 jSKK8ythzvY8zLjL4DxRRCKaA1RHIBV5XkKszVHtqNr/OQI01bbn3362NHvfMg1Scd
+	 D0sAx3Jarg7VkGo3UTYZOjrTK6cimClDGb5e68fLG82Zq/ploz5vbriOdXTXGlJ7az
+	 RlGxBVemjSjBg==
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -36,10 +37,12 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH v2 0/3] userfaultfd: merge fs/userfaultfd.c into mm/userfaultfd.c
-Date: Fri,  1 May 2026 17:54:30 +0300
-Message-ID: <20260501145433.156211-1-rppt@kernel.org>
+Subject: [PATCH v2 1/3] userfaultfd: ensure mremap_userfaultfd_fail() releases mmap_changing
+Date: Fri,  1 May 2026 17:54:31 +0300
+Message-ID: <20260501145433.156211-2-rppt@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260501145433.156211-1-rppt@kernel.org>
+References: <20260501145433.156211-1-rppt@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,31 +53,37 @@ Content-Transfer-Encoding: 8bit
 
 From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
 
-Hi,
+Sashiko says:
 
-These patches merge fs/userfaultfd.c into mm/userfaultfd.c and make
-functions used only inside mm/userfaultfd.c static.
+  mremap_userfaultfd_prep() increments ctx->mmap_changing to stall
+  concurrent operations, but mremap_userfaultfd_fail() does not
+  decrement it before dropping the context reference.
 
-v2 changes:
-* add a fix for pre-existing bug found by sashiko as a separate patch
+If an mremap operation fails, ctx->mmap_changing remains elevated. This
+will causes subsequent userfaultfd operations like a UFFDIO_COPY to fail
+with -EAGAIN.
 
-v1: https://lore.kernel.org/all/20260430113512.115938-1-rppt@kernel.org
+Decrement ctx->mmap_changing in mremap_userfaultfd_fail().
 
-Mike Rapoport (Microsoft) (3):
-  userfaultfd: ensure mremap_userfaultfd_fail() releases mmap_changing
-  userfaultfd: merge fs/userfaultfd.c into mm/userfaultfd.c
-  userfaultfd: make functions that are not used outside uffd static
+Link: https://sashiko.dev/#/patchset/20260430113512.115938-1-rppt@kernel.org
+Fixes: df2cc96e7701 ("userfaultfd: prevent non-cooperative events vs mcopy_atomic races")
+Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+---
+ fs/userfaultfd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- MAINTAINERS                   |    1 -
- fs/Makefile                   |    1 -
- fs/userfaultfd.c              | 2231 --------------------------------
- include/linux/userfaultfd_k.h |   36 -
- mm/userfaultfd.c              | 2239 ++++++++++++++++++++++++++++++++-
- 5 files changed, 2227 insertions(+), 2281 deletions(-)
- delete mode 100644 fs/userfaultfd.c
-
-
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+index 4b53dc4a3266..ef963a58f1a1 100644
+--- a/fs/userfaultfd.c
++++ b/fs/userfaultfd.c
+@@ -786,6 +786,7 @@ void mremap_userfaultfd_fail(struct vm_userfaultfd_ctx *vm_ctx)
+ 	if (!ctx)
+ 		return;
+ 
++	atomic_dec(&ctx->mmap_changing);
+ 	userfaultfd_ctx_put(ctx);
+ }
+ 
 -- 
 2.53.0
 
