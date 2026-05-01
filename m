@@ -1,74 +1,77 @@
-Received: from mail-qv1-f99.google.com (mail-qv1-f99.google.com [209.85.219.99])
+Received: from mail-oo1-f97.google.com (mail-oo1-f97.google.com [209.85.161.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541602F12AD
-	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 23:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19162329C71
+	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 23:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777678069; cv=none; b=nbg3GEzjAl+qBcKO7DfU0He3upNR3zli3JTBXIwjAQoKPlWsSP+YBdz4QyI0goYKwofLJjHkPsSXIfckh4Adq/66MqIA3mmnk2IhMroVtYbhSGugwUC4HPFpRQGOa638EFt6x44++IDQU+AVIEs4e12dVglVe5xHPJHBqafcirs=
+	t=1777678780; cv=none; b=KtAJjnx+sNLGMMkTIYRb/Yhpx/Z93wsnU1o3brR4Fr3it2Ag+icSkjApdcmH6vhIax4fsnbJsqsJMt/YeehoPr7Zk0AiJHOYTWZq8h9f+7XaxsKndjAOUwE1GvG56XbHbMXO5F6pVZoQFqR9FewaxSzRafojZXr3fTCzYl+UpOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777678069; c=relaxed/simple;
-	bh=IzsHTZd6P6eYxd9Efo/a+pL4VeFLJKPvFGqGLptMSas=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=btTY/A0zSE1nCDGqhLBjDcaCWNQrCJw8TOT0fXgOBdkvlqoTeJHley+7FEv2L1BBA0Z1aPRAtFnrBlIzr4aqkDtbnSFR0smgZ8CsqUzAXhRWG0Gd79P7eXd8QlcELH2Sk6d2u58uSxl8HDRWQmqyZEWpti39cJDBPrnk007rH1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amlalabs.com; spf=pass smtp.mailfrom=amlalabs.com; dkim=pass (2048-bit key) header.d=amlalabs-com.20251104.gappssmtp.com header.i=@amlalabs-com.20251104.gappssmtp.com header.b=a5rLOY7H; arc=none smtp.client-ip=209.85.219.99
+	s=arc-20240116; t=1777678780; c=relaxed/simple;
+	bh=MQlW50n380xfH4YSLTJFu5splwcmM0wqWdXlHGJpjXU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZLsIE85EJj1rMc2EYqMVmzqd5DQd7dp/gcTmKesM/1Zq4PjCBGkZVf+x1cJXmG7zdaERCfyIfsdUgLlby9pXk7MvjD/62hNa0NMMHTtvhDgJG5yfZIjO9WCREmrvyLZM2kFqCp9VotaFttFgZSnM4OralSAk3FojAXxzIz/j+2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amlalabs.com; spf=pass smtp.mailfrom=amlalabs.com; dkim=pass (2048-bit key) header.d=amlalabs-com.20251104.gappssmtp.com header.i=@amlalabs-com.20251104.gappssmtp.com header.b=Jo0TF+pU; arc=none smtp.client-ip=209.85.161.97
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amlalabs.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amlalabs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amlalabs-com.20251104.gappssmtp.com header.i=@amlalabs-com.20251104.gappssmtp.com header.b="a5rLOY7H"
-Received: by mail-qv1-f99.google.com with SMTP id 6a1803df08f44-8b6c9fdb68cso374546d6.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 16:27:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amlalabs-com.20251104.gappssmtp.com header.i=@amlalabs-com.20251104.gappssmtp.com header.b="Jo0TF+pU"
+Received: by mail-oo1-f97.google.com with SMTP id 006d021491bc7-6949831a7bcso1321224eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 16:39:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amlalabs-com.20251104.gappssmtp.com; s=20251104; t=1777678067; x=1778282867; darn=vger.kernel.org;
+        d=amlalabs-com.20251104.gappssmtp.com; s=20251104; t=1777678778; x=1778283578; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PIMoo2xEXf7dASzi8yK3wgyb6uWnPH179QZ1IGul6o0=;
-        b=a5rLOY7HOyhrAzO/IcTwgTXnfYNKbOHSJHVEwCg7pLMv16Ta78Ore9X4ROM6qd/XAB
-         bJeQW21ljJAWVs1ALYJZ+Q14T2ERUiiyRKWmNnY1xv1Jw59RJkvraYM15mXIQPZeSDDJ
-         9SYUHeuQQetbvww8XuoBMBIpsWNvYtV8XHdBDByzDCpykLRDqK60tyO0yF1o87eZJaYo
-         5eKeUz0BTaxi/Irs/xnjzE3MP9MuV5oHPSYc4ZmLReW2joVYvLJ4zmJwtKvfKSiQn224
-         oxA3oejr3qmPR5eUf9qe7FS4kXCmDV5MJnOgd6qSjZRxPxxi+46SYj2K0EpOUBPHNbF/
-         NqKg==
+        bh=2qFO2NeB0Skobdzpthr8c1Mn9L79Z6O0Ds9iXE6n6s0=;
+        b=Jo0TF+pUjzgyZkOGcV1NdwCDthNAFPhlu603OU85L26A7GhwkIjvCfrBxlpL+24yVW
+         jrGPSwQyDhaZe10csr1h6IwzeRfhkfzUN3MRmbd/llzAaFSjTxP0cH2lgacZA5ORkNUI
+         zF6PTk8+ccP/sxWtsqsiw36YjRup6hcVL8UeT2z01b9TaQVDMJITztrRNJP4fC+lYcJd
+         mssGWt34VrRGw9bN3xRMltC/X64+yT4Qh0uzL3brVwcryXbjFw9QjcTPlxNDP7H4Cyd8
+         RE5RpdBlsuB8QORqrNNRosR1yqfLzv8h2jfff98fdlRke7VHrjjx7JCXTX7rCSuhTmi0
+         zwgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777678067; x=1778282867;
+        d=1e100.net; s=20251104; t=1777678778; x=1778283578;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PIMoo2xEXf7dASzi8yK3wgyb6uWnPH179QZ1IGul6o0=;
-        b=VBd7v8ksMOG3X7TlIQBGa3AQh2l5qpicQfWkUpN+jJSbLuHQqie3pdCIpJIUn/uF2O
-         QKqn38uADRN70Qyq9vrIghbDXWS9Ku0x001nMHDla+cNG8Cx5z3rdtCprlKPaP7b6A90
-         IRYEZSia5NPklfBTmPXbrRBaSbTit3LxRxM6cIFaZA0sD7y2mfbmzMZfQpoLXZKYRvrT
-         zKf4MI+hBtnRTOxdmy4Z8Mquwr2vJO/8jjAY0AdIna4uFXWGh1MvWrfpT5ohi1YOqI8b
-         TE8K2Qf/wVkOgeNL2H7Yx+n9ClrWRhExSKTOaJhZ+HQIhqY0aqd5uMA3jCD567DwVhaG
-         WYLA==
-X-Forwarded-Encrypted: i=1; AFNElJ8MVgUwciv0l+HtWLHK66Vfu76gziDCOL1hK69emIrYnrZsyVcQ3BNCsUR9DqvC3PtHNuHdpBtUhntQmMEt@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDwBqvOeYkUUyeR5LhsJNoe8yjMM+Ty4No0xq4CmX1TSK+DrYD
-	TAZ9ujVpzKTQ8bHqAkqJ6E1kcmyRUjB4janevJHWUY4mHx81XHUxRCCDfdhu4XHSb6rXfxeTq0L
-	2I9IBjjYC/WEZN8jy/pcuH7+UvR2LUjc8qjP0BBk=
-X-Gm-Gg: AeBDiesoXReqv2FNlQA4mxiioxhbtTroVoXjhyLJqJEna6Ht/MUisV/G9XIfU3ODddy
-	naRc7QF/umQHRzl8cWOej4lw9aKSts3ld9/ZxEQb/Tc8MM7jZenCUDFdjnqmB9Avhj5sy6w5sc3
-	sz8GA4n9TPUotqtDJhoEcy7vpzIr78PwOglOlI8HAx71PTpaq8B/dimBvFWAM0bxuuyuWB4tmPT
-	fq6rdFTEnkMzyqVKdKfitNrXaBy3Nlf2DQJghdgZ4f0G632ibwCHmQQ3QFNzCU/3W/wjI9nmGhE
-	hOArz36vlR72XOAyRRnjAf0rf+5Mxu8qzm23mdjVf04CTW0SeALtrEsBBMbQ/4v/34pis9SD9BS
-	NA/lKUU7k295D/eOToXR0mewn2qQxotUEaC5C+NWt2RzAaJ4K4GOQZoLlRF6KRVyWv1CwDyMoZp
-	jUJdy/MFGP
-X-Received: by 2002:a0c:e001:0:b0:89c:d50e:b57 with SMTP id 6a1803df08f44-8b6665f1489mr23648016d6.15.1777678067303;
-        Fri, 01 May 2026 16:27:47 -0700 (PDT)
+        bh=2qFO2NeB0Skobdzpthr8c1Mn9L79Z6O0Ds9iXE6n6s0=;
+        b=AVzXvKVlbdaHZFOElVqHFrMpWX+GUMfvI6Gqd7HsR3yDskcHeoDg3ZbrYh6T8hgnbp
+         PYUuD4KdJrncIK7sn/hoI14E4RGTH4zLIz9UMjv6yxgi5q0gnCSbEvQnyZc3rtBj7LJh
+         EOKSmZBAOzGoWzsE4IU3LB/SkZUc8a6OUsf5yvlN8GJG00/4gBHTOSLzsn/Z0wQVBP0c
+         WhVf0dL5n58Uqgn0HyyeFxRis123UiWNh2DdUwz1dKlMdWF5nddFgBg6lHCZq2Y7m8e4
+         krEvcrOPFbQLb2VBSP5FGs9QwqL0Yv5KnRs5qcJ2LNjLepqaVSWJ0t86fC1+Wr5Uiw5I
+         fCEQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+SZmjzK0bmJrEHHgIgXZ8B3qsoBWpnnAdud/Y/3WEVvJmw+9dE9JXO4lhEVXejeMugfV2yzRIbO/Rcznd5@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDNE+a6IQpOJjkRLwe9+sIZoyAkwQRO12inrb3Jya5K91zFE2I
+	mbw7IdI0CN6vZiz2Hc/jSgm0epp38sz2IzCdTc7ssL3PTgSig3txYkGWisykXz25X+baJFUcv/V
+	qYL2DfQlKIwQCkeYP5LZ0cVGrNpjYrt5aTHe4cqE=
+X-Gm-Gg: AeBDievjJ36csfuThJfADfgLX1r8lRxLSUyKefzNxB5xrif6sWj3nu5gx+4E1OMZg50
+	kfkgBxupMx98PZiIYdEluiY+WOtLWAA3InH8ZqqB/hMWUG6bIuRMFatdypVzCrpO13ojqlfude5
+	zxOJL/krkba3KNrNagZnVAJSSWkbQ5ovVCOTx5Q01r4oXH4+dOEyKUiQmcxeycu1bqXQzGyjEhO
+	aYdbnz3hg/4ihWromyRaY5pPl8N5M2CsYsT6xlo32hClhV0G5Y9DxPPWqXPL6ozcH/l4ha06kXI
+	wxXd66hJLdNWIAH58ODYv5TQFpY+ielT6xXuwmu09oV+bMTz2HzuRRbec7thU+b6M93kTWGlwqc
+	/Wz/g6QBontyrP0UOzwVuJidSV5J8e+TM2NSXqIeN1ilP6ltadBYiwoR8QxIj7q4LOwA95qcply
+	OysTpe8J6a
+X-Received: by 2002:a05:6820:61e:b0:67e:160c:36ba with SMTP id 006d021491bc7-69697d6a089mr608506eaf.48.1777678778004;
+        Fri, 01 May 2026 16:39:38 -0700 (PDT)
 Received: from amlalabs.com (104-10-255-95.lightspeed.sntcca.sbcglobal.net. [104.10.255.95])
-        by smtp-relay.gmail.com with ESMTPS id 6a1803df08f44-8b53b918281sm3200306d6.19.2026.05.01.16.27.46
+        by smtp-relay.gmail.com with ESMTPS id 586e51a60fabf-434549400e9sm365539fac.5.2026.05.01.16.39.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 16:27:47 -0700 (PDT)
+        Fri, 01 May 2026 16:39:38 -0700 (PDT)
 X-Relaying-Domain: amlalabs.com
 From: Souvik Banerjee <souvik@amlalabs.com>
-To: miklos@szeredi.hu,
-	amir73il@gmail.com
-Cc: linux-unionfs@vger.kernel.org,
+To: dan.j.williams@intel.com
+Cc: willy@infradead.org,
+	jack@suse.cz,
+	apopple@nvidia.com,
 	linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Souvik Banerjee <souvik@amlalabs.com>
-Subject: [PATCH] ovl: use linked upper dentry in copy-up tmpfile
-Date: Fri,  1 May 2026 23:27:35 +0000
-Message-ID: <20260501232735.2610824-1-souvik@amlalabs.com>
+Subject: [PATCH] fs/dax: check for empty/zero entries before calling pfn_to_page()
+Date: Fri,  1 May 2026 23:39:33 +0000
+Message-ID: <20260501233933.2614302-1-souvik@amlalabs.com>
 X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -76,97 +79,77 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-ovl_copy_up_tmpfile() stores the disconnected O_TMPFILE dentry as the
-overlay's upper dentry reference via ovl_inode_update().  vfs_tmpfile()
-allocated this dentry via d_alloc(parentpath->dentry, &slash_name), so
-d_name is "/" and d_parent is c->workdir.  Local upper filesystems
-(ext4, btrfs, xfs, ...) immediately rename it to "#<inum>" via
-d_mark_tmpfile() inside their ->tmpfile() op; FUSE and virtiofs do
-not, so both fields stay that way.  Neither identifies the destination
-directory and filename where ovl_do_link() actually linked the file.
+Commit 98c183a4fccf ("fs/dax: don't disassociate zero page entries")
+added zero/empty-entry early returns to dax_associate_entry() and
+dax_disassociate_entry(), but placed them *after* the
+`struct folio *folio = dax_to_folio(entry);` line.  dax_to_folio()
+expands to page_folio(pfn_to_page(dax_to_pfn(entry))), and page_folio()
+performs READ_ONCE(page->compound_head) -- a real dereference of the
+struct page pointer derived from a bogus PFN extracted from the
+empty/zero XA value.
 
-When the upper filesystem implements ->d_revalidate() (e.g. FUSE or
-virtiofs), ovl_revalidate_real() calls it with the dentry's parent
-inode and a snapshot of d_name.  The server tries to look up "/" inside
-c->workdir, fails, and overlayfs reports -ESTALE.
+On systems where vmemmap covers all of RAM that dereference reads
+garbage and is harmless: the early return then discards the result.
+On virtio-pmem with altmap (vmemmap stored inside the device), only
+the real device PFN range is mapped, so the dereference triggers a
+kernel paging fault from the truncate / invalidate path and from the
+PMD-downgrade branch of dax_iomap_pte_fault when an entry is being
+freed:
 
-This causes persistent ESTALE errors for any file that was copied up via
-the tmpfile path, breaking dpkg, apt, and other tools that do
-rename-over-existing on overlayfs with a FUSE/virtiofs upper.
+  Unable to handle kernel paging request at
+  virtual address ffff_fdff_bf00_0008 (vmemmap region)
+  Call trace:
+   dax_disassociate_entry.isra.0+0x20/0x50
+   dax_iomap_pte_fault
+   dax_iomap_fault
+   erofs_dax_fault
 
-Before commit 6b52243f633e ("ovl: fold copy-up helpers into callers"),
-the tmpfile copy-up path used a dedicated helper ovl_link_tmpfile()
-that captured the linked destination dentry returned by ovl_do_link():
+Close the residual gap by moving the dax_to_folio() call after the
+zero/empty guard in dax_disassociate_entry().  Apply the same
+treatment to dax_busy_page(), which has the identical pattern but
+was not touched by the prior fix.
 
-    err = ovl_do_link(temp, udir, upper);
-    ...
-    if (!err)
-        *newdentry = dget(upper);
-
-and published it via ovl_inode_update(d_inode(c->dentry), newdentry).
-The fold inlined ovl_do_link() into ovl_copy_up_tmpfile() but dropped
-the dget(upper) capture, and rewrote the publish line as
-ovl_inode_update(d_inode(c->dentry), dget(temp)) — where temp is the
-disconnected O_TMPFILE dentry.
-
-Fix by keeping a reference to the linked destination dentry after
-ovl_do_link() succeeds, and publishing that dentry at the existing
-ovl_inode_update() call site.  The non-tmpfile/workdir path continues to
-publish the renamed temporary dentry.
-
-Reproducer:
-  - Mount overlayfs with virtiofs (or a FUSE fs whose server advertises
-    FUSE_TMPFILE) as upper
-  - Run: dpkg -i <any .deb>
-  - Observe: "error installing new file '...': Stale file handle"
-
-Fixes: 6b52243f633e ("ovl: fold copy-up helpers into callers")
-Cc: stable@vger.kernel.org # v4.20+
+Fixes: 98c183a4fccf ("fs/dax: don't disassociate zero page entries")
+Fixes: 38607c62b34b ("fs/dax: properly refcount fs dax pages")
+Cc: stable@vger.kernel.org # v6.15+
+Cc: Alistair Popple <apopple@nvidia.com>
 Signed-off-by: Souvik Banerjee <souvik@amlalabs.com>
 ---
- fs/overlayfs/copy_up.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ fs/dax.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-index 13cb60b52bd6..e963701b4c87 100644
---- a/fs/overlayfs/copy_up.c
-+++ b/fs/overlayfs/copy_up.c
-@@ -853,7 +853,7 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_ctx *c)
+diff --git a/fs/dax.c b/fs/dax.c
+index 6d175cd47a99..6878473265bb 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -505,21 +505,23 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
+ static void dax_disassociate_entry(void *entry, struct address_space *mapping,
+ 				bool trunc)
  {
- 	struct ovl_fs *ofs = OVL_FS(c->dentry->d_sb);
- 	struct inode *udir = d_inode(c->destdir);
--	struct dentry *temp, *upper;
-+	struct dentry *temp, *upper, *newdentry = NULL;
- 	struct file *tmpfile;
- 	int err;
+-	struct folio *folio = dax_to_folio(entry);
++	struct folio *folio;
  
-@@ -889,6 +889,14 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_ctx *c)
- 	err = PTR_ERR(upper);
- 	if (!IS_ERR(upper)) {
- 		err = ovl_do_link(ofs, temp, udir, upper);
-+		if (!err) {
-+			/*
-+			 * Record the linked dentry -- not the disconnected
-+			 * O_TMPFILE dentry -- so that ->d_revalidate() on
-+			 * the upper fs sees the real parent/name.
-+			 */
-+			newdentry = dget(upper);
-+		}
- 		end_creating(upper);
- 	}
+ 	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+ 		return;
  
-@@ -903,7 +911,7 @@ static int ovl_copy_up_tmpfile(struct ovl_copy_up_ctx *c)
++	folio = dax_to_folio(entry);
+ 	dax_folio_put(folio);
+ }
  
- 	if (!c->metacopy)
- 		ovl_set_upperdata(d_inode(c->dentry));
--	ovl_inode_update(d_inode(c->dentry), dget(temp));
-+	ovl_inode_update(d_inode(c->dentry), newdentry);
+ static struct page *dax_busy_page(void *entry)
+ {
+-	struct folio *folio = dax_to_folio(entry);
++	struct folio *folio;
  
- out:
- 	ovl_end_write(c->dentry);
+ 	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+ 		return NULL;
+ 
++	folio = dax_to_folio(entry);
+ 	if (folio_ref_count(folio) - folio_mapcount(folio))
+ 		return &folio->page;
+ 	else
 -- 
 2.51.1
 
