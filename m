@@ -1,181 +1,326 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA923FD15C
-	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 16:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAE23FFABE
+	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 16:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777653862; cv=none; b=kWVmtgUEl7NbvDCSY4ipcQO1ZjMc6ZkoyA1ybN8mR0Y8MUMGHo/MZDvlOJ5ECJWeEMDZ3B2HwW16QeMTR+a3Cg5pqVlJsmeeeIEP+MyaMXYddryw8OMPeR4hv8nEP289xOHWVc6i0bbcl4ZWOolkN8LtcQ0Bm2VTV0ZIj7pJRos=
+	t=1777653998; cv=none; b=AxjBITfGrbjzxyRCn3GTkCwvofRkZp7O3u6gq7u3wxxb2OWrBLJ1kpwtXyW55Bq2L9LX1cSMJSrnDYI4ttJNVCMZo8KxNYpOAqPk2Vx6wR8GrooAi6yltQ087JONkBxLya2VkLV8cjsFDLfw1OOXcMJxpjCcv1QBu5+0AG4/QvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777653862; c=relaxed/simple;
-	bh=BzpvNNe0Y7pWnImNb7utvKGVhDIu4ekSHRzW3u8hMCQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p53sKkQFz3PUb1Gch7in+IEPvQXf5lr8jmFGEC+IMQKfOoMY1HnRDAwRrDoyt/3qDPQe3EvWzvPG4RVsQqH5lYnL4MrjKJw0Sx3yzKxhJ72WenFZaNRzs+017VucSZTBAtMGzmyXQid/H60sgNRAX8kUhKxFNUQ2INRJzYoX9+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=t/A09e1g; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1777653998; c=relaxed/simple;
+	bh=nS1JEwXuSEMQqIwqn6vvKmnnkPh11+Um6cYYeSU7MmU=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jkeAjm9YcuQ7h/n2otPM2QwQYj/vGs1LW0AZIWPhHB9w4untPI9VlstNkdwwS85EgXSHzx98CXjllaQkjGjy524eXZU0HqQcXiAY+w5eSkwAwBjYx6lQUft840IEJXX94h1PX7CdaX9azhsCSTyXF/eSfM0HPxImkBEBGNNLQ7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBdPtMCN; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="t/A09e1g"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-479fc1fc048so1542949b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 09:44:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBdPtMCN"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2b9ec9443c2so1473535ad.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 09:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1777653854; x=1778258654; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=258tSgDmQvsBwqYiudf3HzA2YcVV3/7qcjtUVSy9L94=;
-        b=t/A09e1gBKwHej8bFSSsDKaY+HbwtWehYTY6lD/aQAbC6dd7DgC01GYCseKf6U4Drp
-         Nbu7cxnKVoOHHYDRK0bMNqX38VmWz9bPLe7lXQjWZhwP8rQ+wBdaOc2TZfNjdTp+fq5n
-         J4/yDwZY6l2DpYYyZBBrSJ/aqLOZvzOcbRlBtgtIyA+Ug2IyK8NITuZt1WnAr9tHJZU2
-         2aNDB1xK/1sP9de7FFVxjaqR2bVfBbc7w3XUCpg2PuqK+E7TP8Awfn3yzKbmJMP3uTaR
-         dqBtWdMDAUQ8PtDgW0rUmoblNP27wev8sG/a2YqsNsQVbkvVAj+TjSvxxHE4pKcUrX8K
-         v6gQ==
+        d=gmail.com; s=20251104; t=1777653990; x=1778258790; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:date:from:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TEk9+tR6w5DSSU4GT6TPKec767CGUcJqj2tfyjWPJDs=;
+        b=cBdPtMCNCoDLD9dSw62+ORKmFEy5bakT+Gs/uSHu4Pi7H7MZuJxWUUzleU1cywu1k+
+         89pqFiejLHBBFqWjnJG6lPsAbJ8xFke2ift0KiJiSyEz/OXIvQ/rssSxgN24WRPWECwN
+         QVfnK+FFZczt4HIm2kok0o7n6sUR6DrENwZRzXUbS9Ww2qEk3Vx1asC0gbjWveTb+9gL
+         gGzPGz9AlnvBDX6E2xEm7dA2/9/1bFaWcTFv159b62JO3nLR4qoEvo6ToqrBl3fFVyVC
+         /0Rl21sLBiPY+Tv1oZ6FQzCXnje/83VLHgRimbGCXSJx6PWWn4wH+fG/Cya0G34vTezd
+         1RLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777653854; x=1778258654;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=258tSgDmQvsBwqYiudf3HzA2YcVV3/7qcjtUVSy9L94=;
-        b=g9GLhWTYx3SR+PMWDJVePm8TcSgjgrxidUgmjl+EmQhXpg5kFdZKp+pBTAzdkq0eml
-         EKSrJk8K0cAk/VRZnYXqlKLNWXOjqKRRaT8Hkdp7pDgFNw4pmwRSzSVo5DJoQ+KtgceW
-         gmuwy1gqC7AV8ljyyjolITusboBYA2wrrWLkFNne0ZWPWzUmDEkJG/myS4/RkJcoKkNa
-         WwnkhKLLcU04NsL4aqvLYqvxvnlh+pYn++D4G5WcyiPDWfAFQrt/qn4QFb1vnKy3yh13
-         EBC99IcQoNsQZ53bEwrZ81FHTsPQLexWhJMZHLSnGsaZzxCixR0OCAWk2bTm3utfSC6M
-         TZ7w==
-X-Gm-Message-State: AOJu0YylYXMfrweVmjPHU2b+9h8msnq/jv1xhG/2u2bgH3GL0r2msZHF
-	4STn8o6M/iFsV+sICyuKZ0jTJ7Wid8YbJG29ptVJAVbPJZcMs6NTrAFM1d2g8ERVtOA=
-X-Gm-Gg: AeBDietVVzPRoHC5Wzo2eCpGwxHqwoAEYwY9EvpcOlU99YJfY7s/aT7aN5q87GR0dC4
-	+0klUo0LIHP9bnnbPU1jhaspSCh/NvUjm9usMs4z3Ps/Y/Vmun2+xOuCHtA+a5f8dQMbky1YOGu
-	QKKyo7ssz3uAgLGG/dWrimTAOxKiO8iZyO2TxXcVkZpXU5qmviong4KCqMYwc9vL8mFZgQ/gSUl
-	eXU0/v3lTPOu8C3EXQ/vTPgKRjhnqmKFWq9QPYMdBqMZwGHYKUyhMJutNq6rcKT+RoCCnh0vAXi
-	DOWNN/5KK/Gg3wIw/1JxQGWWkFtkGK9Q4MuZLr+6Wo8GOkdcvNTL3c1f++SLQCdFoaJRUAUySHC
-	fuQNZm1aRP7aDzpXGk7EomHaFiukTqr8kNbF2Y/chD90Qus4nK+93e7BkC0do3VdjxYO1+AZvt5
-	hSoHObwXjwr5nWIrc3/+zWSXPMuqZYOtsAaiVoHeydG2hOvGqLfVmBowGBapxqmfEguwrRvJ1cQ
-	qxljNbIfB/DUc3wlPA=
-X-Received: by 2002:a05:6820:a04:b0:694:8c67:5cb6 with SMTP id 006d021491bc7-6967a5dbd54mr3873019eaf.41.1777653853660;
-        Fri, 01 May 2026 09:44:13 -0700 (PDT)
-Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43454d8ed0dsm2836466fac.17.2026.05.01.09.44.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 May 2026 09:44:13 -0700 (PDT)
-Message-ID: <ec07180c-665a-4e78-94a4-1670a8bf8efd@kernel.dk>
-Date: Fri, 1 May 2026 10:44:11 -0600
+        d=1e100.net; s=20251104; t=1777653990; x=1778258790;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TEk9+tR6w5DSSU4GT6TPKec767CGUcJqj2tfyjWPJDs=;
+        b=NHitQ8Dwi2oUyVnWtQmDq+Z99EWaeNjZpKURrC7tRWOE5xTnCB8ETx55OGMHZ1qgcI
+         jie8IZdybIXPkshvj5F7vjla170PCE9o0wyvO/9WRbiEOHj/+/zCEb1VRTZYju7gMfwf
+         lwxUOz/6246Ak3HKdN+LG2RcgloxnRdgVSJZ/BF2628AM6kyqL7FTd+RVkbjLu4enf0H
+         5NhotsN0flRAFa3Mrn1b/tL750F4Gn9PBmgLn81ZBJAULUOhKQ/tieGDskv+Honma2YQ
+         evVS7xGfN6E6E3oNbrkKWNN/XyHuazyATSTmIUE+r+kXFSo78IahqoxdwBhc++STHLVc
+         NfIw==
+X-Forwarded-Encrypted: i=1; AFNElJ+1l+pQyLLRK7dDJfr7GB+A57PyQ/TzEMtScNRf9BdGjyVz8h4Dn8Px3Gqy3J+6QSfTGEaWP6bZpZITA/Km@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQDtGz1qFzQxfCfPuMPFcBRQHzldMEEeNxShdhY815XqZpzEqt
+	lsm2KrKIcAXs0XE9I7E7dtbe02c3Gy1JTn1WitNodPuPSPKxUT6AUU7k
+X-Gm-Gg: AeBDievmLBbmo2Wx4quEjsqJDESD2Y7tF7KdormJpbI2fT6gKdJe6ZM+iY62t2tVZ0k
+	6qz+VBkUhI/Itun3+otRu7L+svN5sjUICN9R4dTUszLzv6ZscCp8L8z8+yIIlzV8MxcwcaIu5V4
+	yvpO/2B2pqnWMkzW8AYTpGOTZvXkLY/93oZNMp+rWufy/WEzyZeIoLKVb/3FbGrGnAdGjKTLraK
+	UiiUDIzIT04oqvhDazFRmSAvX0elUdOAltSZ7icnto0kDgb3Jo0Cthewjj03E1x99QzMSU31YYM
+	yufaZnGE8NMnh4hKbH9BHW1DuvyQa8kOkAQvThjQISrWrGwnI5UjoUqbIlBlceI1KUb65umdQyq
+	vbxwVGWhAWSNcjIRPQYtbo4pk62fqITh2Odhvr9mobVPeuuciZ5YVDiF+0ABzs8l84Uy4mlr29Y
+	8E/WmSxp7UYVojVhz1w6GiAtZwLWTgd7Y=
+X-Received: by 2002:a17:903:8ce:b0:2b4:68c9:302a with SMTP id d9443c01a7336-2b9a44bec2cmr67906645ad.17.1777653989961;
+        Fri, 01 May 2026 09:46:29 -0700 (PDT)
+Received: from zlang-mailbox ([218.69.128.26])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caaae29dsm26749955ad.19.2026.05.01.09.46.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 09:46:29 -0700 (PDT)
+From: Zorro Lang <zorro.lang@gmail.com>
+X-Google-Original-From: Zorro Lang <zlang@kernel.org>
+Date: Sat, 2 May 2026 00:46:21 +0800
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: fstests@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, bfoster@redhat.com, jack@suse.cz, yi.zhang@huawei.com, 
+	yizhang089@gmail.com, yangerkun@huawei.com
+Subject: Re: [PATCH v3] generic/790: test post-EOF gap zeroing persistence
+Message-ID: <afTXtkrW_6m-0Os3@zlang-mailbox>
+Mail-Followup-To: Zhang Yi <yi.zhang@huaweicloud.com>, 
+	fstests@vger.kernel.org, linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	bfoster@redhat.com, jack@suse.cz, yi.zhang@huawei.com, yizhang089@gmail.com, 
+	yangerkun@huawei.com
+References: <20260428085750.1072612-1-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] mm: kick writeback flusher for IOCB_DONTCACHE with
- targeted dirty tracking
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Mike Snitzer <snitzer@kernel.org>, Ritesh Harjani <ritesh.list@gmail.com>,
- Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-mm@kvack.org
-References: <20260501-dontcache-v4-0-5d5e6dc71cb3@kernel.org>
- <20260501-dontcache-v4-2-5d5e6dc71cb3@kernel.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260501-dontcache-v4-2-5d5e6dc71cb3@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428085750.1072612-1-yi.zhang@huaweicloud.com>
 
-On 5/1/26 3:49 AM, Jeff Layton wrote:
-> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-> filemap_flush_range() on every write, submitting writeback inline in
-> the writer's context.  Perf lock contention profiling shows the
-> performance problem is not lock contention but the writeback submission
-> work itself — walking the page tree and submitting I/O blocks the writer
-> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
-> (dontcache).
+On Tue, Apr 28, 2026 at 04:57:50PM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> Replace the inline filemap_flush_range() call with a flusher kick that
-> drains dirty pages in the background.  This moves writeback submission
-> completely off the writer's hot path.
+> Test that extending a file past a non-block-aligned EOF correctly
+> zero-fills the gap [old_EOF, block_boundary), and that this zeroing
+> persists through a filesystem shutdown+remount cycle.
 > 
-> To avoid flushing unrelated buffered dirty data, add a dedicated
-> WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
-> the per-wb WB_DONTCACHE_DIRTY counter to determine how many pages to
-> write back.  The flusher writes back that many pages from the oldest dirty
-> inodes (not restricted to dontcache-specific inodes). This helps
-> preserve I/O batching while limiting the scope of expedited writeback.
+> Stale data beyond EOF can persist on disk when append write data blocks
+> are flushed before the on-disk file size update, or when concurrent
+> append writeback and mmap writes persist non-zero data past EOF.
+> Subsequent post-EOF operations (append write, fallocate, truncate up)
+> must zero-fill and persist the gap to prevent exposing stale data.
 > 
-> Like WB_start_all, the WB_start_dontcache bit coalesces multiple
-> DONTCACHE writes into a single flusher wakeup without per-write
-> allocations.
+> The test pollutes the file's last physical block (via FIEMAP + raw
+> device write) with a sentinel pattern beyond i_size, then performs each
+> extend operation and verifies the gap is zeroed both in memory and on
+> disk.
 > 
-> Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
-> visibility, and target the correct cgroup writeback domain via
-> unlocked_inode_to_wb_begin().
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> ---
+> v2->v3:
+>  - Add error check for the raw device pwrite, a failed pwrite would
+>    silently leave the test continuing with an unpolluted block,
+>    producing false-positive passes.
+>  - Add sync_range -a to wait until the extending I/O completes and to
+>    ensure file size update is persisted before shutdown, preventing
+>    unexpected file size errors.
+> v1->v2:
+>  - Add _require_no_realtime to prevent testing on XFS realtime devices,
+>    where file data may reside on $SCRATCH_RTDEV.
+>  - Add _exclude_fs btrfs since FIEMAP returns logical addresses, not
+>    physical device offsets, writing to these offsets on $SCRATCH_DEV
+>    would corrupt the filesystem in multi-device setups. Besides, since
+>    btrfs doesn't support shutdown right now, we can support it later.
+>  - Add -v flag to od in _check_gap_zero() to prevent line folding of
+>    identical consecutive lines.
+>  - Add expected_new_sz parameter to _test_eof_zeroing(), verify file
+>    size was not rolled back after shutdown+remount cycle, and also drop
+>    the unnecessary file size check before the shutdown as well.
+>  - Clarify the comment regarding when stale data beyond EOF can persist.
 > 
-> dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
-> xfs on NVMe, fio io_uring):
+>  tests/generic/790     | 168 ++++++++++++++++++++++++++++++++++++++++++
+>  tests/generic/790.out |   4 +
+>  2 files changed, 172 insertions(+)
+>  create mode 100755 tests/generic/790
+>  create mode 100644 tests/generic/790.out
 > 
-> Buffered and direct I/O paths are unaffected by this patchset. All
-> improvements are confined to the dontcache path:
-> 
-> Single-stream throughput (MB/s):
->                         Before    After    Change
->   seq-write/dontcache      298      897    +201%
->   rand-write/dontcache     131      236     +80%
-> 
-> Tail latency improvements (seq-write/dontcache):
->   p99:    135,266 us  ->  23,986 us   (-82%)
->   p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
-> 
-> Multi-writer (4 jobs, sequential write):
->                                 Before    After    Change
->   dontcache aggregate (MB/s)     2,529    4,532     +79%
->   dontcache p99 (us)             8,553    1,002     -88%
->   dontcache p99.9 (us)         109,314    1,057     -99%
-> 
->   Dontcache multi-writer throughput now matches buffered (4,532 vs
->   4,616 MB/s).
-> 
-> 32-file write (Axboe test):
->                                 Before    After    Change
->   dontcache aggregate (MB/s)     1,548    3,499    +126%
->   dontcache p99 (us)            10,170      602     -94%
->   Peak dirty pages (MB)          1,837      213     -88%
-> 
->   Dontcache now reaches 81% of buffered throughput (was 35%).
-> 
-> Competing writers (dontcache vs buffered, separate files):
->                                 Before    After
->   buffered writer                  868      433 MB/s
->   dontcache writer                 415      433 MB/s
->   Aggregate                      1,284      866 MB/s
-> 
->   Previously the buffered writer starved the dontcache writer 2:1.
->   With per-bdi_writeback tracking, both writers now receive equal
->   bandwidth. The aggregate matches the buffered-vs-buffered baseline
->   (863 MB/s), indicating fair sharing regardless of I/O mode.
-> 
->   The dontcache writer's p99.9 latency collapsed from 119 ms to
->   33 ms (-73%), eliminating the severe periodic stalls seen in the
->   baseline. Both writers now share identical latency profiles,
->   matching the buffered-vs-buffered pattern.
-> 
-> The per-bdi_writeback dirty tracking dramatically reduces peak dirty
-> pages in dontcache workloads, with the 32-file test dropping from
-> 1.8 GB to 213 MB. Dontcache sequential write throughput triples and
-> multi-writer throughput reaches parity with buffered I/O, with tail
-> latencies collapsing by 1-2 orders of magnitude.
+> diff --git a/tests/generic/790 b/tests/generic/790
+> new file mode 100755
+> index 00000000..6daf3793
+> --- /dev/null
+> +++ b/tests/generic/790
+> @@ -0,0 +1,168 @@
+> +#! /bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Copyright (c) 2026 Huawei.  All Rights Reserved.
+> +#
+> +# FS QA Test No. 790
+> +#
+> +# Test that extending a file past a non-block-aligned EOF correctly zero-fills
+> +# the gap [old_EOF, block_boundary), and that this zeroing persists through a
+> +# filesystem shutdown+remount cycle.
+> +#
+> +# Stale data beyond EOF can persist on disk when:
+> +# 1) append write data blocks are flushed before the on-disk file size update,
+> +#    and the system crashes in this window.
+> +# 2) concurrent append writeback and mmap writes persist non-zero data past EOF.
+> +#
+> +# Subsequent post-EOF operations (append write, fallocate, truncate up) must
+> +# zero-fill and persist the gap to prevent exposing stale data.
+> +#
+> +# The test pollutes the file's last physical block (via FIEMAP + raw device
+> +# write) with a sentinel pattern beyond i_size, then performs each extend
+> +# operation and verifies the gap is zeroed both in memory and on disk.
+> +#
+> +. ./common/preamble
+> +_begin_fstest auto quick rw shutdown
+> +
+> +. ./common/filter
+> +
+> +_require_scratch
+> +_require_block_device $SCRATCH_DEV
+> +_require_no_realtime
+> +_require_scratch_shutdown
+> +_require_metadata_journaling $SCRATCH_DEV
+> +
+> +# FIEMAP on Btrfs returns logical addresses within the filesystem's address
+> +# space, not physical device offsets. Writing to these offsets on $SCRATCH_DEV
+> +# would corrupt the filesystem in multi-device setups.
+> +_exclude_fs btrfs
+> +
+> +_require_xfs_io_command "fiemap"
+> +_require_xfs_io_command "falloc"
 
-I like this, this is the better way to kick off the writeback.
+Add "fiemap" and "prealloc" groups, I'll do that when I merge it.
 
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
+> +_require_xfs_io_command "pwrite"
+> +_require_xfs_io_command "truncate"
+> +_require_xfs_io_command "sync_range"
+> +
+> +# Check that gap region [offset, offset+nbytes) is entirely zero
+> +_check_gap_zero()
+> +{
+> +	local file="$1"
+> +	local offset="$2"
+> +	local nbytes="$3"
+> +	local label="$4"
+> +	local data
+> +	local stripped
+> +
+> +	data=$(od -A n -t x1 -v -j $offset -N $nbytes "$file" 2>/dev/null)
+> +
+> +	# Remove whitespace and check if any byte is non-zero
+> +	stripped=$(printf '%s' "$data" | tr -d ' \n\t')
+> +	if [ -n "$stripped" ] && ! echo "$stripped" | grep -qE "^0+$"; then
+> +		echo "FAIL: non-zero data in gap [$offset,$((offset + nbytes))) $label"
+> +		_hexdump -N $((offset + nbytes)) "$file"
+> +		return 1
+> +	fi
+> +	return 0
+> +}
+> +
+> +# Get the physical block offset (in bytes) of the file's first block on device
+> +_get_phys_offset()
+> +{
+> +	local file="$1"
+> +	local fiemap_output
+> +	local phys_blk
+> +
+> +	fiemap_output=$($XFS_IO_PROG -r -c "fiemap -v" "$file" 2>/dev/null)
+> +	phys_blk=$(echo "$fiemap_output" | _filter_xfs_io_fiemap | head -1 | awk '{print $3}')
+> +	if [ -z "$phys_blk" ]; then
+> +		echo ""
+> +		return
+> +	fi
+> +	# Convert 512-byte blocks to bytes
+> +	echo $((phys_blk * 512))
+> +}
+> +
+> +_test_eof_zeroing()
+> +{
+> +	local test_name="$1"
+> +	local extend_cmd="$2"
+> +	local expected_new_sz="$3"
+> +	local file=$SCRATCH_MNT/testfile_${test_name}
+> +
+> +	echo "$test_name" | tee -a $seqres.full
+> +
+> +	# Compute non-block-aligned EOF offset
+> +	local gap_bytes=16
+> +	local eof_offset=$((blksz - gap_bytes))
+> +
+> +	# Step 1: Write one full block to ensure the filesystem allocates a
+> +	#         physical block for the file instead of using inline data.
+> +	$XFS_IO_PROG -f -c "pwrite -S 0x5a 0 $blksz" -c fsync \
+> +		"$file" >> $seqres.full 2>&1
+> +
+> +	# Step 2: Get physical block offset on device via FIEMAP
+> +	local phys_offset
+> +	phys_offset=$(_get_phys_offset "$file")
+> +	if [ -z "$phys_offset" ]; then
+> +		_fail "$test_name: failed to get physical block offset via fiemap"
+> +	fi
+> +
+> +	# Step 3: Truncate file to non-block-aligned size and fsync.
+> +	#         The on-disk region [eof_offset, blksz) may or may not be
+> +	#         zeroed by the filesystem at this point.
+> +	$XFS_IO_PROG -c "truncate $eof_offset" -c fsync \
+> +		"$file" >> $seqres.full 2>&1
+> +
+> +	# Step 4: Unmount and restore the physical block to all-0x5a on disk.
+> +	#         This bypasses the kernel's pagecache EOF-zeroing to ensure
+> +	#         the stale pattern is present on disk. Then remount.
+> +	_scratch_unmount
+> +	$XFS_IO_PROG -d -c "pwrite -S 0x5a $phys_offset $blksz" \
+> +		$SCRATCH_DEV >> $seqres.full 2>&1
+> +	if [ $? -ne 0 ]; then
+> +		_fail "$test_name: failed to inject stale data on disk"
+> +	fi
+> +	_scratch_mount >> $seqres.full 2>&1
+> +
+> +	# Step 5: Execute the extend operation.
+> +	$XFS_IO_PROG -c "$extend_cmd" "$file" >> $seqres.full 2>&1
+> +
+> +	# Step 6: Verify gap [eof_offset, blksz) is zeroed BEFORE shutdown
+> +	_check_gap_zero "$file" $eof_offset $gap_bytes "before shutdown" || return 1
+> +
+> +	# Step 7: Sync the extended range and shutdown the filesystem with
+> +	#         journal flush. This persists the file size extending, and
+> +	#         the filesystem should persist the zeroed data in the gap
+> +	#         range as well.
+> +	if [ "$extend_cmd" != "${extend_cmd#pwrite}" ]; then
+> +		$XFS_IO_PROG -c "sync_range -w $blksz $blksz" \
+> +			-c "sync_range -a $blksz $blksz" \
+> +			"$file" >> $seqres.full 2>&1
+> +	fi
+> +	_scratch_shutdown -f
 
--- 
-Jens Axboe
+Wow, the usage of sync_range in step#7 is impressive !
 
+Reviewed-by: Zorro Lang <zlang@kernel.org>
+
+> +
+> +	# Step 8: Remount and verify gap is still zeroed
+> +	_scratch_cycle_mount
+> +
+> +	# Verify file size was not rolled back after shutdown+remount
+> +	local sz
+> +	sz=$(stat -c %s "$file")
+> +	if [ "$sz" -ne "$expected_new_sz" ]; then
+> +		_fail "$test_name: file size rolled back after shutdown+remount: $sz != $expected_new_sz"
+> +	fi
+> +
+> +	_check_gap_zero "$file" $eof_offset $gap_bytes "after shutdown+remount" || return 1
+> +}
+> +
+> +_scratch_mkfs >> $seqres.full 2>&1
+> +_scratch_mount
+> +
+> +blksz=$(_get_block_size $SCRATCH_MNT)
+> +
+> +# Test three variants of EOF-extending operations
+> +_test_eof_zeroing "append_write" "pwrite -S 0x42 $blksz $blksz" $((blksz * 2))
+> +_test_eof_zeroing "truncate_up" "truncate $((blksz * 2))" $((blksz * 2))
+> +_test_eof_zeroing "fallocate" "falloc $blksz $blksz" $((blksz * 2))
+> +
+> +# success, all done
+> +status=0
+> +exit
+> diff --git a/tests/generic/790.out b/tests/generic/790.out
+> new file mode 100644
+> index 00000000..e5e2cc09
+> --- /dev/null
+> +++ b/tests/generic/790.out
+> @@ -0,0 +1,4 @@
+> +QA output created by 790
+> +append_write
+> +truncate_up
+> +fallocate
+> -- 
+> 2.52.0
+> 
