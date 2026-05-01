@@ -1,223 +1,155 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36A4192590;
-	Fri,  1 May 2026 10:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B079639B482
+	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 11:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777632393; cv=none; b=QKYghovPwmgBobjQtNhOvHjs+PT2di+m3pJFBQJy7xVsuIZ2JD9nSRj5KY142PmET7Ps5Sjj+DT5n9DtQjJ/JKNammiXanJ+McsfWhK/95seu+fA0RfZRM7P44cpbzta/HHpptJWth5Qx7D6FS8q2+4dbpXzaaViJuFlq7AG0T4=
+	t=1777633343; cv=none; b=DTgGzXjJdNtl7KBQKysWdNLzIHwGUDMWkQWHsCyKcby1+VaHa8zUGo7Z3PFR5MNdh2mJ8vo5uJXCM6qTAydQwmSQjZGbckOHEczc4CCtmE8E89rNnLnjyZOQSs3LlWjpTNty13p5vQnCHCoHSGNGE6r35L0btawp9TTjBywmHyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777632393; c=relaxed/simple;
-	bh=prCaRoSYmj64MXpiId8tjYxP/D+Dyae/L+g+QGh/VWY=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=RyTYMry1tOI4X5IUMr36ckSCAxTcX4DGV9y7hyT5WFS3Ko0DLPhtzzOkPHBfWApJItVbN4yKvtHBCx3VPi6T0ynyzHF0sPLcwY491SW8hbkANk/Nwm4/Zl5sJdE6ugYwHdTi25LkDu2J7iubj4fgs+hrlv05FArBuhj1ymMJ1b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Mg3A221i; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fiXPo2Xi; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1777633343; c=relaxed/simple;
+	bh=e96F4VL0FqghnjCcfD5j5AlSChhZ6jZluo6CEFl4jqA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rx3uAWb/ujRL8JVgH/HauKXyXcnbXCBeEkt/8uMswFFDht9Q0CFZh1v1/q5DlJkX3yCDv//ldamWVO4w+ml+0uWx7Pi1kc6DmjJguUJKnvbMvaphvaXcmPdhJHieqjVea/thPVc/kXf31xDMI2Kmr/e3mwpGLTyqab1foYonXaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WnTolhOI; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Mg3A221i";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fiXPo2Xi"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id 8CC551D00129;
-	Fri,  1 May 2026 06:46:29 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 01 May 2026 06:46:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1777632389; x=1777718789; bh=ik5a7MC4PBdLeM/Fa2W8c64dptvpYcrqCSM
-	lKFZOCU8=; b=Mg3A221izmR6XpCipCPeEw92O+KB92I18eGJnfauHSC9QNiODu2
-	MnXYfhW8uYi8cdAlSCjawrEiW2DwApqG9cgWQuduZDrYfXc18MRhXE94zJ4gzKVG
-	Xdi/092djiTVH2sfNQ5QiOR9hU+KWyhZ7S6AjflsVO0IZm1qeOXVVOX7F6aF9b6K
-	tsM+zGJHyGq8I2Q3T2b68vJd6NYkR2hzAjjIwIz6tX4hoUYiM9OKCHEdI7hD6bEe
-	3RRgb95nF7/PhVBFW7XLHWFa/G0NyqTzfFes9VbqpKM9hQJXNl/gaLPDK79+hIzp
-	JmppLM/tYEsqX/v4cyISzAGASIy+m3Coctg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777632389; x=
-	1777718789; bh=ik5a7MC4PBdLeM/Fa2W8c64dptvpYcrqCSMlKFZOCU8=; b=f
-	iXPo2XiZZUG98T73ELuqH7RyJUHVpBovynnjsAY7fSQKSE+xNM5oiMWhtyq9LHNO
-	uGANhrZheYanmy78SrB+9pbsuIx03zKHI3DYmIcuRKs2NaQ3K/s3THEdSFVeTJfV
-	Q1TZkrgrTtt3dnQZ/awLmNBuwzlAnuLNBTia9l651hnfKoUiB2ncKBc//SBCF9ng
-	W7ABFPdNS1hQtsEZu8sGjvObpJyPsVGMzIpldvYnPfVkn4IFdeq2yTtHdX4GW8eo
-	gyI4HW3+7nHJ4y5/sL5VWJMeIgS7jutO39wJwW39/utTcf2XP0lnsjHC2G7tfvaz
-	X7F9NXIJ9oXzRRGvb1zVg==
-X-ME-Sender: <xms:hIT0aZ7phXdO1JK38gb9wAgGto3QBwFVcFs1GNYocP2epzN7vsygoQ>
-    <xme:hIT0aTM2EkONopqck_hESu7BAyHAx8lo6IScQr5cGKCL-Pzup9aYZXJ8EnfxWOQJc
-    CLUvdTwpmkPiLspXDtB_p6A6JzE6fdKb2AL8VC59qB9KntsvsQ>
-X-ME-Received: <xmr:hIT0aSGIbNbSvADXnt6EDLL-VieUdHnC4JICehp0zl32fVFb_ctzRYgWdxMnMGh8amP1BA4Az6So71MX5fFRSl-z59YrcL8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeltddttdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpegtgfgghffvvefujghffffkrhesthhqredttddtjeenucfhrhhomheppfgvihhluehr
-    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    ffveejleejheeujeegheelleeuveduheejkeegveeuffetvefhfeevtdeuuefgjeenucff
-    ohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgr
-    ihhlrdhnvghtpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthho
-    pehlihhnuhigqdhunhhiohhnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
-    htoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtoheplhhinhhugidqvghfihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepjhgrtghksehsuhhs
-    vgdrtgiipdhrtghpthhtohepjhhksehoiihlrggsshdrohhrgh
-X-ME-Proxy: <xmx:hIT0afRaNDT70brM-V7_HHfAGsqViYZMQpCwm_6ik3ZHpjj6ZY0-xQ>
-    <xmx:hIT0aSSO03eU9OjjPmXDUiRS0D8FVkfJrAej62GBTzJiHcWxi0iUng>
-    <xmx:hIT0aSe2nXpIyFptkoNQjWH3NYjqgpe63vHxb7tCeYuMoWJBy9-ytA>
-    <xmx:hIT0aWdLgbEJLs1L-NzYWpLxwXstwGzqnKqGenc0KreoSEPEmJ8TPA>
-    <xmx:hYT0aYIkXlxHehQK3w3ouyX9BTgop2r3PZBy6DkyKL0AOoYIzqErcVHf>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 May 2026 06:46:24 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WnTolhOI"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so17627855e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 04:02:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777633340; x=1778238140; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M8YgggC+mPdbH7rnccFGr/mooO19vkDnSnGo0lHMmlI=;
+        b=WnTolhOIWmbDz2RYtAOoRocfSl7akvFcw8CR9SyNd5auy33oaOR7OwiLojc8PokBCU
+         vhnsWpQgXojrgCbZhd24FsWAhgsXhhIe4pz8kaVaEI1bEHMGbQk+DDh5MFqYfamJBunm
+         pAo87wZvrxWStPugMN+kfPqjzzY5r+DeTl1AC5tckoJcUV3lLNihAO0TtvwsNDDbU2Ri
+         DuYW6rWVYnkB7Y+KXOUyf2Jm6g1UK8fn/Ui/16tz2O9J2ZSdOCaIeogfhHSuMX3MEvnj
+         CVIECKGkmz6PC+RWWXm+t12xFStGYcAOER6JSXSwBisVZZhdZaWLelCkhXLyLUnzoelJ
+         72Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777633340; x=1778238140;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=M8YgggC+mPdbH7rnccFGr/mooO19vkDnSnGo0lHMmlI=;
+        b=r6ezoiyhyxWnpwRyV0givdQf3VEX4W7XsqK/nxrBi2UViWe6Lp2Sncpd0AcYYhg6ZN
+         MjUL60x6Mcwi/iE0FF70caqPWK+71KO/MXjfmIhSNQ59teWiXx773/ZdhFTtTU1E5hx6
+         i9v87XzstYCm6iN/65L+RKjOdXPrZ5tQ4qtBu7/HOgl9REzpA9HpH9ITXVbZxpD/X5uz
+         VPT0LL3wOYL/Ghmc+eNin3B8cvC3H3igJEpkhCFhMhUnC0jRatTnviio+KQw4OkSgbXA
+         jpLBETryBYzGOdJ11iFfBjMcVIJgMC+WhxEARq/hVn4aQNqZCDSSg0B+Hv8AGGbb3sX2
+         eKZA==
+X-Gm-Message-State: AOJu0YxhTeWStWsz/9Fe/NacUNyImgvwzayrN9yKvfKmBAHB/Y/kDe9x
+	JvYbrHDBQ5hQOuQz7nCXy3++1G6XMnOKRYCgMU0el1io8D/wm/9JBz5RUokk
+X-Gm-Gg: AeBDieuWnT5eQOPvdRto1g+2yrb+S5oZZIPBfIQog/YGVEclbG1XemjP93jdWcBkjZX
+	U+9y/7xi8JCyArS/+Cl68vNKo+jOUBTuxbnk+NRssZm7Y6IWK1rW6ncE9C0BjWh6RiF9TkUAYwv
+	OkEXixCOiR5D+faQuovpaUvOq3oHM462itXXcjjqumFOxjzZDy/7xN1WWed7zQ7z85tnEBRMTTw
+	Eb01ZCdf9SWlhuxgReh3LWfB97a766lxOxgJY9pauTMTXPkLcRyoGCzNuIW4zek76yIsVfLmncc
+	U2a8lcklqb7pC38CgoW4kLx7dgjIAXhdP6KLwJJCzQpX+y0goBBxbopXx0DUUwEkyphBxZNgmvL
+	X1J0l7I5NxQbjhUxMlvVhuSKR7xZuhWCZLPx6u074g/F3CnxDDJtDix5vsLwowZUZK+NTQ7jyrU
+	8CQIA=
+X-Received: by 2002:a05:600c:a40e:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-48a83f6e2e9mr85879755e9.1.1777633340022;
+        Fri, 01 May 2026 04:02:20 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a820c8556sm121627405e9.4.2026.05.01.04.02.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 04:02:19 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>,
+	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+Subject: [PATCH 2/3] hfs/hfsplus: initialize data buffer in hfs_bnode_read_u16 and hfs_bnode_read_u8
+Date: Fri,  1 May 2026 11:02:16 +0000
+Message-ID: <20260501110218.29906-2-tristmd@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260501110218.29906-1-tristmd@gmail.com>
+References: <20260501110218.29906-1-tristmd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Al Viro" <viro@zeniv.linux.org.uk>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Jeff Layton" <jlayton@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>,
- "Amir Goldstein" <amir73il@gmail.com>, "Jeremy Kerr" <jk@ozlabs.org>,
- "Ard Biesheuvel" <ardb@kernel.org>, linux-efi@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/19] VFS: use wait_var_event for waiting in
- d_alloc_parallel()
-In-reply-to: <20260501033715.GB3518998@ZenIV>
-References: <20260427040517.828226-5-neilb@ownmail.net>
-  <20260428033738.GV3518998@ZenIV>
-  <177737511992.1474915.1952404144121931523@noble.neil.brown.name>
-  <20260428142225.GX3518998@ZenIV>
-  <177741881482.1474915.12527082398060370192@noble.neil.brown.name>
-  <20260429052626.GY3518998@ZenIV>  <20260429170731.GZ3518998@ZenIV>
-  <177759308866.1474915.9708613530229799376@noble.neil.brown.name>
-  <20260501011132.GA3518998@ZenIV>
-  <177759959922.1474915.14496442965390503813@noble.neil.brown.name>
-  <20260501033715.GB3518998@ZenIV>
-Date: Fri, 01 May 2026 20:46:21 +1000
-Message-id: <177763238102.1474915.1506201584306941315@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Transfer-Encoding: 8bit
 
-On Fri, 01 May 2026, Al Viro wrote:
-> On Fri, May 01, 2026 at 11:39:59AM +1000, NeilBrown wrote:
->=20
-> > I dislike them too.  I doubt I can find solutions that either of us
-> > like, but they should be relatively short-lived.  Once we push the
-> > locking down in the the inode_operations the filesystem will be in a
-> > position to hold the lock only when it actually needs it (if at all).
->=20
-> ... or we'll end up with hard-to-formulate constraints on what a filesystem
-> may do with its internal locking to use the APIs provided by fs/{dcache,nam=
-ei}.c
-> safely.
->=20
-> Note that e.g. "->iterate_shared() wants to know the synthetic inumbers
-> a concurrent stat(2) would inject into dcache" (which is the original
-> reason for dcache preseeding in that thing) is not uncommon.  In procfs
-> you are lucky to have no mkdir() and friends; the same is not true in
-> general and we'd better have a sane answer to "what could a filesystem
-> like that do with its internal locking".  Or that thing will get blindly
-> copied, with predictable results.
+From: Tristan Madani <tristan@talencesecurity.com>
 
-You say "not uncommon" but I can only find it in procfs and overlayfs.
+hfs_bnode_read_u16() and hfs_bnode_read_u8() declare local data buffers
+without initialization, then pass them to hfs_bnode_read().  If
+is_bnode_offset_valid() fails inside hfs_bnode_read(), the function
+returns early without writing to the buffer, leaving it uninitialized.
+The caller then returns the garbage value to its caller.
 
-You only need this if there is a backing store that doesn't provide
-anything usable as inode numbers.
-If there is no backing store, then you'll populate with
-d_make_persistent() and provide inode numbers at that time.
-If the backing store provides inode numbers - you use them.
+This triggers KMSAN uninit-value reports when a corrupted HFS+ image
+has a node_size of 1, causing rec_off to underflow in hfs_bnode_find()
+and the subsequent hfs_bnode_read_u16() to operate on an invalid offset.
 
-For procfs the backing store is various kernel data structures (e.g. the
-process table).  For overlayfs the backing store is a blend of 2 or more
-other filesystems.
+Zero-initialize both buffers so that callers get a deterministic zero
+value when the underlying read fails.
 
-In either case, the backing store has its own locking protocol to manage
-create/remove/iterate, so the filesystem likely doesn't need to provide
-one.=20
+Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=217eb327242d08197efb
+Tested-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+Fixes: a431930c9bac ("hfs: fix slab-out-of-bounds in hfs_bnode_read()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+---
+ fs/hfs/bnode.c     | 4 ++--
+ fs/hfsplus/bnode.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-For procfs I imagine that once we push parent parent-locking down in to
-the filesystem, we'll simply remove it all from procfs.  Then there will
-be no problem calling d_alloc_parallel() in iterate_shared as the thread
-which owns the in-lookup dentry will never try to lock the parent.
+diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
+index c00645a4a5733..08307faea7a68 100644
+--- a/fs/hfs/bnode.c
++++ b/fs/hfs/bnode.c
+@@ -97,7 +97,7 @@ void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len)
+ 
+ u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off)
+ {
+-	__be16 data;
++	__be16 data = 0;
+ 	// optimize later...
+ 	hfs_bnode_read(node, &data, off, 2);
+ 	return be16_to_cpu(data);
+@@ -105,7 +105,7 @@ u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off)
+ 
+ u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off)
+ {
+-	u8 data;
++	u8 data = 0;
+ 	// optimize later...
+ 	hfs_bnode_read(node, &data, off, 1);
+ 	return data;
+diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+index f8b5a8ae58ff5..35790085b5b2e 100644
+--- a/fs/hfsplus/bnode.c
++++ b/fs/hfsplus/bnode.c
+@@ -55,7 +55,7 @@ void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len)
+ 
+ u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off)
+ {
+-	__be16 data;
++	__be16 data = 0;
+ 	/* TODO: optimize later... */
+ 	hfs_bnode_read(node, &data, off, 2);
+ 	return be16_to_cpu(data);
+@@ -63,7 +63,7 @@ u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off)
+ 
+ u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off)
+ {
+-	u8 data;
++	u8 data = 0;
+ 	/* TODO: optimize later... */
+ 	hfs_bnode_read(node, &data, off, 1);
+ 	return data;
+-- 
+2.47.3
 
-For overlayfs I *think* there is no need for parent locking in ->lookup
-so it is possible the same approach will work, though more careful
-analysis will be needed.
-
-The current code to drop and retake the lock is only transitional code
-to get from here to there is manageable steps.
-
->=20
-> > I'm confident that dropping the lock is safe.  If there was some way to
-> > tell the VFS that the lock has already been dropped, then we wouldn't
-> > need to reclaim it, but I cannot see a clean way to do that.
->=20
-> FWIW, I'm more concerned about ->iterate_shared() - d_add_ci() is garbage
-> that isn't used on a sanely configured kernel; ls -lR is not going away,
-> no matter what, and exclusion requirements are going to be a lot more
-> interesting for that one anyway.  It might be worth teaching iterate_dir()
-> that in such-and-such conditions it ought to save position, drop the lock,
-> do a lookup on name stashed in dir_context, retake the lock and call back i=
-nto
-> ->iterate_shared() from saved position.  With helper callable by ->iterate_=
-shared()
-> instances if they run into failing d_alloc_trylock() in a situation where t=
-hey
-> can't just shrug and move on...  Not sure.
->=20
-> What kind of exclusion do you have in mind for foo_iterate_shared() in the
-> long run?  Assuming that filesystem has directory-modifying operations, as
-> well as lookups, and its inumbers are synthetic.
-
-I think the VFS will still be taking a shared lock on the parent when
-calling ->iterate_shared.  This is the easiest way to block rmdir while
-a readdir is happening.
-
->=20
-> BTW, do you have AFS and CIFS counterparts of your stuff from back in 2022
-> that killed d_rehash() uses in fs/nfs?  I would love to kill d_rehash();
-> exfat use is an easily removable junk, but fs/afs and fs/smb/client ones
-> are trickier and the reasons why it needed to be killed in fs/nfs apply
-> to those as well.
->=20
-
-For fs/afs:
-
-  https://github.com/neilbrown/linux/commit/7d074238b7674245308bb482d29f8b2eb=
-10a6598
-  https://github.com/neilbrown/linux/commit/a1ab4d991e1cbf02b7ae493798067db75=
-d88ef48
-
-or on lore.kernel.org
-  20260312214330.3885211-20-neilb@ownmail.net
-  20260312214330.3885211-21-neilb@ownmail.net
-
-
-for fs/smb/client
-
-  https://github.com/neilbrown/linux/commit/1df67fbccd424aaaf03a4dfeda07cd8f9=
-e3bc682
-  https://github.com/neilbrown/linux/commit/3c4f603881db16984b0b44e38a634d951=
-7b9be84
-
-or
-  20260312214330.3885211-26-neilb@ownmail.net
-  20260312214330.3885211-27-neilb@ownmail.net
-
-I don't suppose you have any memory of
-   Commit: a00be0e ("cifs: don't use ->d_time")
-from 10 years ago.  Maybe you didn't even see it.
-
-NeilBrown
