@@ -1,62 +1,60 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B079639B482
-	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 11:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100A8396B76
+	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 11:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777633343; cv=none; b=DTgGzXjJdNtl7KBQKysWdNLzIHwGUDMWkQWHsCyKcby1+VaHa8zUGo7Z3PFR5MNdh2mJ8vo5uJXCM6qTAydQwmSQjZGbckOHEczc4CCtmE8E89rNnLnjyZOQSs3LlWjpTNty13p5vQnCHCoHSGNGE6r35L0btawp9TTjBywmHyo=
+	t=1777633344; cv=none; b=lZ3AiVPfDORGxA2ELpBK3f7Tjxzun8RZL3dlTbVcz1n+85HaLFxKm87sf2qYGM7TCzKhligzwlwx8GeMhIUFTXinD+B6nlkQHESOPQGOM73ulaBFe6vMElL2AuX/Hi4OGGeAXJWzF+2kt5BXU5nKPNayoaCkQgJVYgyO2QyCxbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777633343; c=relaxed/simple;
-	bh=e96F4VL0FqghnjCcfD5j5AlSChhZ6jZluo6CEFl4jqA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rx3uAWb/ujRL8JVgH/HauKXyXcnbXCBeEkt/8uMswFFDht9Q0CFZh1v1/q5DlJkX3yCDv//ldamWVO4w+ml+0uWx7Pi1kc6DmjJguUJKnvbMvaphvaXcmPdhJHieqjVea/thPVc/kXf31xDMI2Kmr/e3mwpGLTyqab1foYonXaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WnTolhOI; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1777633344; c=relaxed/simple;
+	bh=6q7Cse9LTZEajpIegGdnRfkT5EI8IG2GJIGVRzPO0tM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pJtThVzwTaF2ntlMhkTW7fND5MbVDoLI20n7CJZD7ZYne8Okp2NlxIurOypd2FFu0JcYSLV8SSTyKke3kX1TzuJNBjbds6d2dvNcUw0o9M1i3byfisAJIJe6R0mFPaqQPHdZb3JavgSckyOtQX4xeNhXzwSc9wEZMIxdVY9+MuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNjju8WS; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WnTolhOI"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so17627855e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 04:02:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNjju8WS"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488b0046078so15068705e9.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 04:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777633340; x=1778238140; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M8YgggC+mPdbH7rnccFGr/mooO19vkDnSnGo0lHMmlI=;
-        b=WnTolhOIWmbDz2RYtAOoRocfSl7akvFcw8CR9SyNd5auy33oaOR7OwiLojc8PokBCU
-         vhnsWpQgXojrgCbZhd24FsWAhgsXhhIe4pz8kaVaEI1bEHMGbQk+DDh5MFqYfamJBunm
-         pAo87wZvrxWStPugMN+kfPqjzzY5r+DeTl1AC5tckoJcUV3lLNihAO0TtvwsNDDbU2Ri
-         DuYW6rWVYnkB7Y+KXOUyf2Jm6g1UK8fn/Ui/16tz2O9J2ZSdOCaIeogfhHSuMX3MEvnj
-         CVIECKGkmz6PC+RWWXm+t12xFStGYcAOER6JSXSwBisVZZhdZaWLelCkhXLyLUnzoelJ
-         72Pw==
+        d=gmail.com; s=20251104; t=1777633339; x=1778238139; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J+eCDUN5/k1aTUcp0ocOWEOuyZhFTl6ujThN0C1b1A0=;
+        b=BNjju8WS4lnA/Alb5bTNhxbGspl/940t68iZBlNDpyqPt1F5lQc04bfTvt0/2vAOWk
+         nthzTPpNDR/H6bqdX7T3urcyO97P1LP/tl1+CC3aSZE9uRrdSIlombaPWPrPS5+q0Ixu
+         XRDZGZyQ7e4zmZIRtTzOwUuoINLT0Ak0Y4Q8Sv2S9WY+O423cVQNOPxysCTxejUXIeB3
+         iyMdwDG++oN0LGiBFq4nOZ8X1KC6jXFSkIEj0gLlHd/DT8gg/KE9TKcnTgssThmeyQYT
+         u9t5X6r2Iosg0JsqNwMcy1zzPwTs6U4CD7S7KuNJu6DS/tk9gI9VrhH5AhJhvPqo7Zus
+         GqFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777633340; x=1778238140;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M8YgggC+mPdbH7rnccFGr/mooO19vkDnSnGo0lHMmlI=;
-        b=r6ezoiyhyxWnpwRyV0givdQf3VEX4W7XsqK/nxrBi2UViWe6Lp2Sncpd0AcYYhg6ZN
-         MjUL60x6Mcwi/iE0FF70caqPWK+71KO/MXjfmIhSNQ59teWiXx773/ZdhFTtTU1E5hx6
-         i9v87XzstYCm6iN/65L+RKjOdXPrZ5tQ4qtBu7/HOgl9REzpA9HpH9ITXVbZxpD/X5uz
-         VPT0LL3wOYL/Ghmc+eNin3B8cvC3H3igJEpkhCFhMhUnC0jRatTnviio+KQw4OkSgbXA
-         jpLBETryBYzGOdJ11iFfBjMcVIJgMC+WhxEARq/hVn4aQNqZCDSSg0B+Hv8AGGbb3sX2
-         eKZA==
-X-Gm-Message-State: AOJu0YxhTeWStWsz/9Fe/NacUNyImgvwzayrN9yKvfKmBAHB/Y/kDe9x
-	JvYbrHDBQ5hQOuQz7nCXy3++1G6XMnOKRYCgMU0el1io8D/wm/9JBz5RUokk
-X-Gm-Gg: AeBDieuWnT5eQOPvdRto1g+2yrb+S5oZZIPBfIQog/YGVEclbG1XemjP93jdWcBkjZX
-	U+9y/7xi8JCyArS/+Cl68vNKo+jOUBTuxbnk+NRssZm7Y6IWK1rW6ncE9C0BjWh6RiF9TkUAYwv
-	OkEXixCOiR5D+faQuovpaUvOq3oHM462itXXcjjqumFOxjzZDy/7xN1WWed7zQ7z85tnEBRMTTw
-	Eb01ZCdf9SWlhuxgReh3LWfB97a766lxOxgJY9pauTMTXPkLcRyoGCzNuIW4zek76yIsVfLmncc
-	U2a8lcklqb7pC38CgoW4kLx7dgjIAXhdP6KLwJJCzQpX+y0goBBxbopXx0DUUwEkyphBxZNgmvL
-	X1J0l7I5NxQbjhUxMlvVhuSKR7xZuhWCZLPx6u074g/F3CnxDDJtDix5vsLwowZUZK+NTQ7jyrU
-	8CQIA=
-X-Received: by 2002:a05:600c:a40e:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-48a83f6e2e9mr85879755e9.1.1777633340022;
-        Fri, 01 May 2026 04:02:20 -0700 (PDT)
-Received: from debian.. ([2001:41d0:303:db6b::])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a820c8556sm121627405e9.4.2026.05.01.04.02.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20251104; t=1777633339; x=1778238139;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J+eCDUN5/k1aTUcp0ocOWEOuyZhFTl6ujThN0C1b1A0=;
+        b=rBl58hCUT4PcoweZJg+IBj9FEcEowOfgDZ9NxhUSY8ee3s+o7OWhCkArweL1IRSPtg
+         XYt03WiFEWJ54C9NjQ9gG0j9inzdftQwtXmyD/jLs6LIVJvZmTz3XNEViHoIEyWl2OH6
+         oBfAhHy1xLAi5knK6TxuLPMe0z3xeklF6C9wmEsx8IMtuzRQ8070gV8lintiAg5Gw8yQ
+         Q8l0ZAkykdJV/+7+b67/ArsjQHS2lrqE+m8/daoA1D2U9XnH/zcpxutXhWswS3OhTetD
+         U/WI9mhvl5SXUAz7PMeIhIbuBqXUlDT3y45uKQvC+E4AdRqk+tyyWLj7U//tx+cBmxPs
+         liQg==
+X-Gm-Message-State: AOJu0YxaY7CY0g+GQ6TuYFU2hL41eraCAA5S1eKM3DU8dhY2tMScB33T
+	yH4Lxd2GeXXe1D5MPaIpJcp8L9JxGN9azVnW/kk6+RxqS57nHBsnTb8=
+X-Gm-Gg: AeBDieuqz30Wyeme/n+rRmYh/4LiiOSrqtCmd/4cBJdbLLKwoCARZLRwW45JuRh/w0O
+	VeAJGXRpUQuczjXxCTjxz5Xt4IpmoFoZ9R6WHF2Gmg4h8aKV2SdwsdtEI25Z247/gXefNi+QVJk
+	ee749ISdqTbOj91C73sxZHs//YX1NKycqP2fdkAxgkgCXOacGo6IwqvV9SD2PgGDJSIUdlsald+
+	qQekAaotj6U/H0TdLXgjuY31I6YpQOXOt1j43tkoKvbHXb6TmtIBRdyZt1IRR+ThWc7eJrYBatZ
+	aavqqTG5QWrKbcEmG0JuuZR6AdUY9gxIsSeG1DpAwWcPj5thXhzCYfVQsEPBfucinYYLIbV6LNT
+	11YuCmqjezohWAJeT7FH5bqvYtlLjucZu3CLuKKjzZHJgje1mGc3TjaBgn84SppYz/j9Xe9MRpv
+	Jgu0Q=
+X-Received: by 2002:a05:600c:a00a:b0:487:219e:42d with SMTP id 5b1f17b1804b1-48a8eb73a3cmr38267405e9.11.1777633339156;
         Fri, 01 May 2026 04:02:19 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a820c8556sm121627405e9.4.2026.05.01.04.02.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 04:02:18 -0700 (PDT)
 From: Tristan Madani <tristmd@gmail.com>
 To: Viacheslav Dubeyko <slava@dubeyko.com>,
 	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
@@ -65,13 +63,12 @@ Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Tristan Madani <tristan@talencesecurity.com>,
-	syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
-Subject: [PATCH 2/3] hfs/hfsplus: initialize data buffer in hfs_bnode_read_u16 and hfs_bnode_read_u8
-Date: Fri,  1 May 2026 11:02:16 +0000
-Message-ID: <20260501110218.29906-2-tristmd@gmail.com>
+	syzbot+6df204b70bf3261691c5@syzkaller.appspotmail.com,
+	syzbot+e76bf3d19b85350571ac@syzkaller.appspotmail.com
+Subject: [PATCH 1/3] hfs/hfsplus: fix u32 overflow in check_and_correct_requested_length
+Date: Fri,  1 May 2026 11:02:15 +0000
+Message-ID: <20260501110218.29906-1-tristmd@gmail.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260501110218.29906-1-tristmd@gmail.com>
-References: <20260501110218.29906-1-tristmd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,74 +79,61 @@ Content-Transfer-Encoding: 8bit
 
 From: Tristan Madani <tristan@talencesecurity.com>
 
-hfs_bnode_read_u16() and hfs_bnode_read_u8() declare local data buffers
-without initialization, then pass them to hfs_bnode_read().  If
-is_bnode_offset_valid() fails inside hfs_bnode_read(), the function
-returns early without writing to the buffer, leaving it uninitialized.
-The caller then returns the garbage value to its caller.
+check_and_correct_requested_length() compares (off + len) against
+node_size using u32 arithmetic.  When the caller passes a large len
+value (e.g. from an underflowed subtraction in hfs_brec_remove()),
+off + len can wrap past 2^32 and produce a small result, causing the
+bounds check to pass when it should fail.
 
-This triggers KMSAN uninit-value reports when a corrupted HFS+ image
-has a node_size of 1, causing rec_off to underflow in hfs_bnode_find()
-and the subsequent hfs_bnode_read_u16() to operate on an invalid offset.
+For example, with off=14 and len=0xFFFFFFF2 (underflowed from
+data_off - keyoffset - size in hfs_brec_remove), off + len wraps to 6,
+which is less than a typical node_size of 512, so the check passes and
+the subsequent memmove reads ~4GB past the node buffer.
 
-Zero-initialize both buffers so that callers get a deterministic zero
-value when the underlying read fails.
+Fix this by comparing len against (node_size - off) instead.  Since
+is_bnode_offset_valid() already guarantees off < node_size before this
+point, the subtraction cannot underflow.
 
-Reported-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=217eb327242d08197efb
-Tested-by: syzbot+217eb327242d08197efb@syzkaller.appspotmail.com
+Reported-by: syzbot+6df204b70bf3261691c5@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=6df204b70bf3261691c5
+Tested-by: syzbot+6df204b70bf3261691c5@syzkaller.appspotmail.com
+Reported-by: syzbot+e76bf3d19b85350571ac@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=e76bf3d19b85350571ac
+Tested-by: syzbot+e76bf3d19b85350571ac@syzkaller.appspotmail.com
 Fixes: a431930c9bac ("hfs: fix slab-out-of-bounds in hfs_bnode_read()")
 Cc: stable@vger.kernel.org
 Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
 ---
- fs/hfs/bnode.c     | 4 ++--
- fs/hfsplus/bnode.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ fs/hfs/bnode.c          | 2 +-
+ fs/hfsplus/hfsplus_fs.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
-index c00645a4a5733..08307faea7a68 100644
+index 13d58c51fc46b..c00645a4a5733 100644
 --- a/fs/hfs/bnode.c
 +++ b/fs/hfs/bnode.c
-@@ -97,7 +97,7 @@ void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len)
+@@ -41,7 +41,7 @@ u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
  
- u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off)
- {
--	__be16 data;
-+	__be16 data = 0;
- 	// optimize later...
- 	hfs_bnode_read(node, &data, off, 2);
- 	return be16_to_cpu(data);
-@@ -105,7 +105,7 @@ u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off)
+ 	node_size = node->tree->node_size;
  
- u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off)
- {
--	u8 data;
-+	u8 data = 0;
- 	// optimize later...
- 	hfs_bnode_read(node, &data, off, 1);
- 	return data;
-diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-index f8b5a8ae58ff5..35790085b5b2e 100644
---- a/fs/hfsplus/bnode.c
-+++ b/fs/hfsplus/bnode.c
-@@ -55,7 +55,7 @@ void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len)
+-	if ((off + len) > node_size) {
++	if (len > node_size - off) {
+ 		u32 new_len = node_size - off;
  
- u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off)
- {
--	__be16 data;
-+	__be16 data = 0;
- 	/* TODO: optimize later... */
- 	hfs_bnode_read(node, &data, off, 2);
- 	return be16_to_cpu(data);
-@@ -63,7 +63,7 @@ u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off)
+ 		pr_err("requested length has been corrected: "
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index 3545b8dbf11c5..10b2dda3f8044 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -600,7 +600,7 @@ u32 check_and_correct_requested_length(struct hfs_bnode *node, u32 off, u32 len)
  
- u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off)
- {
--	u8 data;
-+	u8 data = 0;
- 	/* TODO: optimize later... */
- 	hfs_bnode_read(node, &data, off, 1);
- 	return data;
+ 	node_size = node->tree->node_size;
+ 
+-	if ((off + len) > node_size) {
++	if (len > node_size - off) {
+ 		u32 new_len = node_size - off;
+ 
+ 		pr_err("requested length has been corrected: "
 -- 
 2.47.3
 
