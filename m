@@ -1,175 +1,133 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772DB3BFE3F
-	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 15:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777649752; cv=none; b=YZf3eWU99r0N/A0FqwP+4C/Hr8VzKfO2dvMvTGDs4NQnuaLcxytlD2EadV9S37QAESRhTkWU+sz+OrvueVZd0znhJ/sAs9+PMqSFFIRxuXSJgaYolkJmf0KwpZQwNUsKX4AVbYG4MENC6MbipRSUxQ+dNS35LOk57uJwyJBhHfQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777649752; c=relaxed/simple;
-	bh=27HBlAxg0ZM6N2nrQoLYUcVV7TnAlR8/aIP3GxzSa9s=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=LZ+DelxzA09fFAgVG/8lEW3EN/P0I0+Zkn60tJmHaM1mv4aXeYBA1+m45iQ3XX/CDgTCUbP1nNQsTeexaM419ydQFwuEwJeSuEsmLJ+44xlDovLeKnGhBeQFBCvVyYXismBaq/+CZfoRRNT2uZvCuhmnUY6emuWo262WY0NSX+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=jnTpLX1R; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3FA30F543
+	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 15:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777649856; cv=pass; b=YLyuBNbNbsul25qIZKL83EFoSjtZB5rFdKyvI2zsWfhZEztbzekt1cjDfmyPC42HRr0lcIFToFzLg7dY5gOEMtfnlayBBluLW+IeuN9/NACThVnEvB4/BmLw+pZB3XM6pgl6dqLE9CqtN22ZEoLprb5fSyLjIAUiCsYnlVtftRo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777649856; c=relaxed/simple;
+	bh=TmZOkd4LjdDYloHzxeaTkn/dgtYW8v+Yk+8UEv1tCuM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f+2Bb2BJzGIE03cHq1zrDs5oJIwtEKuo9Gvwnfbm8FIf7AO6gdVXUN8ED01ud9VFEuj+hdAf9fqkVxaXms7WRSErhU+jbyao2puCzTcZYF9JzYDdgcwEorKnCg+i2EgIw8vtjM4/rnfDJJDpRLyR7YyJzJfNuW+mUW8/wGdA3Pk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXEE6EtR; arc=pass smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="jnTpLX1R"
-X-KPN-MessageId: 451195f7-4573-11f1-afe2-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 451195f7-4573-11f1-afe2-005056994fde;
-	Fri, 01 May 2026 17:34:40 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 45107614-4573-11f1-b5d1-0050569981f5;
-	Fri, 01 May 2026 17:34:40 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXEE6EtR"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-50e5b55062fso13486451cf.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 08:37:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777649854; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NcSbTzq+Semzejm0Kkn4I99tY7olDe4c17yxViqTGflUSkShSU/+cHmMa/g03zJU1X
+         4KTQO0E9LrZKcdLLkXHKhGjmZaSJa7PTGwtw1tWaIXmFqW7UQ7DcwAskhC0Hqei+8ltl
+         UkUykRud9T4jUV9VLex7i0VEnUYSdvcdulQyB1CkvPBDo26cxxt5xZGNtoGVU96AhjiN
+         +zp6xpA/9dbsuQhUM1MBv936Hk9NP1coYrngJzK7s+zapqNnXgrRKTlo3AYXtrH7K1Bp
+         d+ngH7agkHfjlc5Ql5vPuxR6sNC+odBM0Tet3KNgqGGAUk2wObkGY5076m4C6/lRo+rt
+         uisQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=TmZOkd4LjdDYloHzxeaTkn/dgtYW8v+Yk+8UEv1tCuM=;
+        fh=J6MWnnEDByIPOl1XdLEqTyYydg4nA9EylGRKY+dFFbQ=;
+        b=ZMP0uoEAbfpLJ+8IY3O4eskuBnFCwj/acdvLqchxpVRRhZPT3Pf8ZkgMG1biEUGzc8
+         mYyEP1jn/87xyhomT8ibildBB387diom5yXRluDeL2O4iWHT1l4d5EAspxIt9fyoek90
+         L21F4T0usuXBqYk9TpQei1AkDAJhhC1SgUdxXpe/lC3T6nhn5l1vdmk3l7NTckzFpO2E
+         49Pbw+8RNFQcyJQyo8ya9nKjnqSldQsFnMqMM6+Sf1vV7XQJshwnhPmKJP36l3YPSmdN
+         FwobaUut9Wqf3Sc/scjXkvyO10S2Fs4cYy9+RaEXWbS/FwzCF09f/EAucvPAVSWnxQUE
+         T8mQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=yWlYvHDKJLboPw9xhm3CMUezHzmqhjNa6HKZQkEvPVQ=;
-	b=jnTpLX1Ri3JA4mDO10E7pg44QFiChMj5lRgY4JAZEiVY2yZCGnTQc8cRaBhaVjpt7ZltUgK2RMZ3E
-	 M78CQ86x2rRoZxcMJdnbES5oddauFOdW2vX3n1GQfnsXzQ+mGrYuh5mCGjVHMdnmc5zzpmxU4t5KrO
-	 9QJ/0D5hdkS6X1sHYi+yZnJNitTfhvUK1i+0YwJN/qp39Kri9r51h+5x7+FDFKWJmmnw3nuKisftzZ
-	 UblDWpvZqwkotbs3kYhIIfmqIgl5iCzkD+Sh6losmwQFndSax7Cqo+Fwe3Upj8en/AUcIetXgdHg19
-	 Eq31JTRYRp73sO//MsNbYLe10mApeFw==
-X-KPN-MID: 33|+wst0lK91gmxlExsuJLOoikJCsA0QLTVmXpcK9nSTwrmv8tILalQp4kUKabb/fl
- 23gsYBj7cofRS+4WVOGphlVqzjqy98YIhFTStYjYCvDY=
-X-CMASSUN: 33|pyE9OPP/7F9Ad8pTvxO8IbpJEd1c575BI62ZUn6pjmt4BfrO94fDDv6nxUOe1PV
- AfWwg25InOqgBieh3R8hXPg==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 4503de11-4573-11f1-94b1-00505699eff2;
-	Fri, 01 May 2026 17:34:40 +0200 (CEST)
-Date: Fri, 1 May 2026 17:34:40 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Willem de Bruijn <willemb@google.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Kees Cook <kees@kernel.org>, Simon Horman <horms@kernel.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Will Drewry <wad@chromium.org>, Jeff Layton <jlayton@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>, Andrei Vagin <avagin@gmail.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Joel Granados <joel.granados@kernel.org>,
-	Charlie Mirabile <cmirabil@redhat.com>,
-	Aleksa Sarai <cyphar@cyphar.com>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	io-uring@vger.kernel.org
-Message-ID: <89346381.2074764.1777649680664@kpc.webmail.kpnmail.nl>
-In-Reply-To: <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
-References: <20260428175125.2705296-1-jkoolstra@xs4all.nl>
- <20260428175125.2705296-2-jkoolstra@xs4all.nl>
- <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/2] net: af_unix: Useful handling of LSM denials on
- SCM_RIGHTS
+        d=gmail.com; s=20251104; t=1777649854; x=1778254654; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TmZOkd4LjdDYloHzxeaTkn/dgtYW8v+Yk+8UEv1tCuM=;
+        b=FXEE6EtREwYj4KAs1LNIJ1N/UwhJG0PZ7wgEEEvZ7H/ieYXQqZE9B91k20MCTkHwVb
+         nrq4yqaZCSvDix9tSJwSVgyjiadaEIGkN91qw3HS/EyVzEKX1gdqbRETmnLar8ldIJ4W
+         js244wvNIEnkSWXNcCtdTou86m3rrW74e2r5WC3aikTzH+ObvLrnwStoce5evLSlgRrk
+         aR/I/3s2Onm0sFaIQao7dUpCW03Vgjg/FJQLV/RYlt6ZtXvsVj/uKHi3As/5O/eoD+Xy
+         aQFqsCfAN1hqAzkp6xDsKuvfOnu9699HEjlQu6Q8PdL7RVTrP1tMLfRDPLUgfjunJ0Ah
+         GiNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777649854; x=1778254654;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TmZOkd4LjdDYloHzxeaTkn/dgtYW8v+Yk+8UEv1tCuM=;
+        b=DiO0z/J9/28KsDvJWz92yHvVTtenEVdXtiHrvGcOUma1HUwzD1gtGm7A/9nKPq+yhD
+         faE81knPs76oRQHXeaH2H70/h4iJFihifOwjyVHf10AtQP4XTMx76QWsyHkVbqxPNORR
+         vdUcVyrdgQ0A1xt2uDIvNHY/ny79D3QKbr00WX64z1JfGICwP4QI2ucb+vFtakDbK9Kj
+         +Qfju984ANMQuEhOY3km/KWpY1986bu+bAh/qD4UH4ruZrvvbmZyfNZh1obrMmnHqxGC
+         1B5NIksPVXSUQniayDlpMPuUa0fGagktZ2txzD6TsnDMKW1y2Apk0lS4KTocAPi8sxRB
+         Wn9A==
+X-Forwarded-Encrypted: i=1; AFNElJ9MAJa1mOSpPah15GZIVSZ4N32NQI2vkmvVR5iC8KKL622g3a9Feo+LETW0K9MJ5hQBKhtlLJv/c80i3G7p@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy13tc7uLxj5vPHmB9cewKJQw+bFsVyp+dOIwZMtaDcu0kDB6IL
+	Z0Q1JZsFak/9GAZC7F5IY2s/4lvCN1XkkgpPM2LLK1ZF0qFnmGJNNy4bnfDqFCWAWt5yp454JhT
+	l/cpC7NZHerDWAYugesZV6+6LxkF5be4=
+X-Gm-Gg: AeBDieuWeB6MG0RRDZXmU/NunAtmPzP3+titI9G03NfFfM0S7CuwwpxxzUkBm0CGTY1
+	XzpsEtbVeJzZp+3Y1s1boleyacTBmRpuqHbhSaxnx7qwtTMkFMUXpNLTYDew7FpsT52zaQHWPo6
+	nd+wlxDWZg+SwY1fw0b+NpUjWdCSygwe03cnIOXzAe+QCui5xKG6Kd+kQ4dC1k10A7v8q8L839D
+	6qd9n7cOU9ilo4YDt9VZyT6/Q8yMVnd+zv7XW+I7GR6zpvymQKEBcuO99GEbpHwsaofQfXh2/9E
+	Yut4fCfrI3yN52ufYPQDg/MBTX8ks9U0PfZGuvUcl7Sg1QydJOMVcQRKwvn40Q==
+X-Received: by 2002:a05:622a:1390:b0:50d:86d9:4c24 with SMTP id
+ d75a77b69052e-5103e801278mr51004741cf.12.1777649853785; Fri, 01 May 2026
+ 08:37:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-Importance: Normal
+References: <20260427001602.38353-1-dwindsor@gmail.com> <20260427001602.38353-2-dwindsor@gmail.com>
+ <CAP01T74iuSDJeL6g=5yLdYGb-VcESK1SYY3R1S1r-CtQEsW+oQ@mail.gmail.com>
+ <CAEXv5_heSFK5rZYtaJG70Xgv92Um6Dbq8b95PtnpKy7XFwpKUw@mail.gmail.com>
+ <CAP01T74WBjcMXbWYeaWB-oTk-bUzoxi_EEALDpT1hFUEOovnpw@mail.gmail.com>
+ <ae82Vv0RWzcXqSaz@google.com> <CAPhsuW60SRXZbFYRDm-QaTiB8tTtJD_N4jk1=680x5UsZmpj9w@mail.gmail.com>
+ <CAP01T75SBw6NNvBKyPW11JSYY2oh449yoBsWi_GOBR5Kq1ykmw@mail.gmail.com>
+ <afCUADdbNrpbEPMa@google.com> <CAP01T76ipTgY3EM8uMSXymdO4co3AWZeXqwV3amqDnHiFXhrTw@mail.gmail.com>
+In-Reply-To: <CAP01T76ipTgY3EM8uMSXymdO4co3AWZeXqwV3amqDnHiFXhrTw@mail.gmail.com>
+From: David Windsor <dwindsor@gmail.com>
+Date: Fri, 1 May 2026 11:37:22 -0400
+X-Gm-Features: AVHnY4LLx68NFbw4R6d2DByeiT2ksgjJ8FlMA2rRsoOrBqjrTHhEtUSBsgoGVxM
+Message-ID: <CAEXv5_jkPwf1EGCd3OkCzsnL_dF8fF=x-RNKSuvNZn24Ns5erg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] bpf: add bpf_init_inode_xattr kfunc for
+ atomic inode labeling
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: Matt Bobrowski <mattbobrowski@google.com>, Song Liu <song@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jan Kara <jack@suse.cz>, 
+	John Fastabend <john.fastabend@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
-> Op 30-04-2026 04:04 CEST schreef Kuniyuki Iwashima <kuniyu@google.com>:
->=20
-> =20
-> On Tue, Apr 28, 2026 at 10:51=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.=
-nl> wrote:
 > >
-> > Right now if some LSM such as Smack denies an AF_UNIX socket peer to
-> > receive an SCM_RIGHTS fd the SCM_RIGHTS fd array will be cut short at
-> > that point, and MSG_CTRUNC is set on return of recvmsg(). This is
-> > highly problematic behaviour, because it leaves the receiver
-> > wondering what happened. As per man page MSG_CTRUNC is supposed to
-> > indicate that the control buffer was sized too short, but suddenly
-> > a permission error might result in the exact same flag being set.
-> > Moreover, the receiver has no chance to determine how many fds got
-> > originally sent and how many were suppressed.[1]
+> > > Even if we wanted to ensure argument provenance was stuff loaded from
+> > > context, the right solution would be some kfunc flag that constraints
+> > > the argument to be derived by following the ctx pointer, not whatever
+> > > is done in this patch.
 > >
-> > Add two MSG_* flags:
->=20
-> Since we only have 5 bits remaining for future extension,
-> we need to consider the use case a bit more carefully.
->=20
+> > OK, so it is provenance-like tracking which you were initially kinda
+> > alluding to here. Currently, I don't believe that PTR_TO_CTX is
+> > preserved upon any subsequent R1 (ctx) dereferences, so we'd need to
+> > think about how this type could be preserved such that we can enforce
+> > this kinda constraint (__ctx) at the time which the new BPF kfunc is
+> > called. Do you have any ideas on how to do this?
+>
+> I think we'll have to track in the register whether the PTR_TO_BTF_ID
+> came from a PTR_TO_CTX load. That said, I still prefer changing the
+> prototype to pack the array and its output size parameter together. It
+> is even clearer to have a well named type than int *xattr_count in the
+> prototype.
 
-Right. Since it wasn't a lot of work I implemented it exactly as the reques=
-t
-was made from userspace, and then discuss it from there. By the way, I supp=
-ose
-nothing can be done about that small flag space?
-
->=20
-> >  - MSG_RIGHTS_DENIAL is set whenever any file is rejected by the LSM
-> >    during recvmsg() of SCM_RIGHTS fds.
->=20
-> Is this really needed ?
->=20
-> Even if the fd array is truncated, the application will traverse
-> the array anyway since it has some fds already installed (to
-> clean up in case of MSG_CTRUNC ?).
->=20
-> Then, it will find the -EPERM entry.
->=20
-> I assume no one uses MSG_RIGHTS_DENIAL without
-> MSG_RIGHTS_FILTER.
->=20
-
-I guess that is a fair assumption to make. We can certainly do without
-MSG_RIGHTS_DENIAL if saving flags is important. I also suggested that
-we may see whether we can make MSG_RIGHTS_FILTER the default behavior.
-In the mean time I've found grep.app, and it turns out the answer is no.
-Apparently almost no one checks even for the truncation flag (mostly 1 fd
-is passed and then it is check the cmsg lenght). But cpython has this for
-instance:
-
-    /* Close all descriptors coming from SCM_RIGHTS, so they don't leak. */
-    for (cmsgh =3D ((msg.msg_controllen > 0) ? CMSG_FIRSTHDR(&msg) : NULL);
-         cmsgh !=3D NULL; cmsgh =3D CMSG_NXTHDR(&msg, cmsgh)) {
-        cmsg_status =3D get_cmsg_data_len(&msg, cmsgh, &cmsgdatalen);
-        if (cmsg_status < 0)
-            break;
-        if (cmsgh->cmsg_level =3D=3D SOL_SOCKET &&
-            cmsgh->cmsg_type =3D=3D SCM_RIGHTS) {
-            size_t numfds;
-            int *fdp;
-            numfds =3D cmsgdatalen / sizeof(int);
-            fdp =3D (int *)CMSG_DATA(cmsgh);
-            while (numfds-- > 0)
-                close(*fdp++);
-        }
-        if (cmsg_status !=3D 0)
-            break;
-    }
-
->=20
-> >  - If MSG_RIGHTS_FILTER is passed as a flag to recvmsg(), the SCM_RIGHT=
-S
->=20
-> Does this flag need per-recvmsg() granularity ?
->=20
-
-Perhaps not. What would be the alternative? A fcntl option for the socket f=
-d?
-
-> If the application does not welcome the truncated fd array,
-> it would have passed MSG_RIGHTS_FILTER to every
-> recvmsg(), no ?
->=20
-
-Correct.
-
-
-Thanks,
-Jori.
+Thanks for your feedback, sorry I've been busy this week. I will send
+v2 with this change, as well as Matt's suggested change for guarding
+the bpf xattr namespace.
