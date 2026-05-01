@@ -1,78 +1,156 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF2E2FFF8F;
-	Fri,  1 May 2026 04:53:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892CC350D7D;
+	Fri,  1 May 2026 09:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777611225; cv=none; b=DPY187eT5I9p/TYkjwfCrudtFBJjHRBQahQMjsAkkjEgogJ8LJxk4AokA3rpa5Ae/Ju11gVv/rpFMzA0yiBEpBaTUC1jw+g3HpuxHoxMaMsEnoZk6L9R4ak7P3oHYTW5ESwL0rIJ8+av6zQ5zbAjS04ZyzfRpbcTHlJbrHLqO6Y=
+	t=1777629015; cv=none; b=s4z1eTLadkmQ9xf2B+YBnS9rsQpfS1MoqLEdx/EXAG9GwdwKVUWW0i3tVyDGHMuabYAcAtbwLALNfjfSbGMyo7hHRP2ABgwnc2jWxtM1aDQNtxTvMQgWAqBjYIr+vYsRSXXWtZcATT+dIKEDrYoQ3b04ld/9Gilma1r3C0y5gH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777611225; c=relaxed/simple;
-	bh=MbuJTASI1NMr0qwmJMQcwY2ZaenMiX6xo6i5oAcLOmw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Dzkf3JvIbqa3K/7IiUBCTLFGhhy3OozX7OQ7NVwmPvGZp2Ri08pibC65M3IJMSWfq6uTm8YhDEhwSkX0HntHdOTpLLmwKgniOQOaeJXJri7QHfrv1ZKQi+0mA8E+sAaH2GM0wZ6wJ4fTaHV2OhYSiNrIszLIRURgHTuh0BclcsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RwcKVh5v; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777629015; c=relaxed/simple;
+	bh=mP+fXN+cyH0QE8nS6Oz/OpXZk5m+VMXyOKE7LaxfOhU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KPZe4kxvYnG5lViZd+mS/qh9QIOXaMfThLerV0kqYwGfZgTFOledl7NVqYxsU0oj/COPunjrwueNd0IkLfdLw6s5JzGr6zZup7qwYdXyvZEsyLb7MntGT2Y2G776CDQzRPf8zc2lBbFeKlbBK3yDIpH1yrXPSim2qrf04V1CnEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AE9kxXYN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RwcKVh5v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D19A0C2BCB7;
-	Fri,  1 May 2026 04:53:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AE9kxXYN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72166C2BCB4;
+	Fri,  1 May 2026 09:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777611224;
-	bh=MbuJTASI1NMr0qwmJMQcwY2ZaenMiX6xo6i5oAcLOmw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=RwcKVh5vkhuhNmPt+56eQe4YaRxH157iDCwIBQI44xZDpVko4cO8Lnh+jzL2OTIVN
-	 1kvrCbC9YKaV7bJQKRa/gIBMrUHE2Pjcx3R+N2fWKS2S1Gzewv0lZQV8/7V1HaNBJ1
-	 45cR2EsE052/mQri2rt1egREHRNWUn/ePhMvlHL7YyAnY307T4vCvMOMDrnglhVZOd
-	 8DvnAPRMxapteG6OONcB6VXaN3GXethlHSK8k7+xsauI2wW9tHrYyQ0PZsXWwhve3l
-	 39lJblOtvun7IlcTO9+VCT+rHIwoL+JuimtkF8Ro5ZUR3G+2AsOoZcInpKcBjdxBYq
-	 hyJ0WfM5QkPcg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 09CD2380AA67;
-	Fri,  1 May 2026 04:53:00 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1777629015;
+	bh=mP+fXN+cyH0QE8nS6Oz/OpXZk5m+VMXyOKE7LaxfOhU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=AE9kxXYN20in1PQFB2FIpDD/FJhdX3b0QIsQhWSW/y+KVKeacFOn77Kb5GLGO4scX
+	 oPEOSW0E6fkR7txGW6BEfT8w1rFqRrIizIjWxqqGfGfYsc6rBwf/xRzCfv5s51lOkg
+	 JeSCM5r/0Cmoz3Xlq/lcu8q5AF6qf3wzeXmpJ0WATmoogcxXvzOeH5VcaSmZfMvncF
+	 QTR+VwLGUQFOTB4mS5Cj9ZIypNANkJUvY4kpxsm5pFTYxvBKuAqzVKADw67m6soE0p
+	 tKDFjSqChmG2h+NhIjYIMhFLmoWvOyh0qK/aEVy5uYTuzpTQMKjqY+eiTe0MkHnUwU
+	 fpnG7OfavuC3A==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v4 0/4] mm: improve write performance with RWF_DONTCACHE
+Date: Fri, 01 May 2026 10:49:34 +0100
+Message-Id: <20260501-dontcache-v4-0-5d5e6dc71cb3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [GIT PULL] fscrypt updates for 6.7
-From: patchwork-bot+f2fs@kernel.org
-Message-Id: 
- <177761117874.3324081.12076569941435908568.git-patchwork-notify@kernel.org>
-Date: Fri, 01 May 2026 04:52:58 +0000
-References: <20231030040419.GA43439@sol.localdomain>
-In-Reply-To: <20231030040419.GA43439@sol.localdomain>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: torvalds@linux-foundation.org, tytso@mit.edu,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- jaegeuk@kernel.org, linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23MTQ7CIBCG4asY1mKA8tO68h7GBYWhJRow0DSap
+ neXdoXR5TeZ511QhuQho/NhQQlmn30MZfDjAZlRhwGwt2UjRpgknFBsY5iMNiNg0VIKzirQrkH
+ l/5nA+dfeut7KHn2eYnrv6Zlu13+VmWKCqROKS6d7rvTlDinA4xTTgLbMzGra1pQV2vHWgqGgh
+ Ox/aFNRJmvaFKo66BtldSe4+qLrun4AkWURtRkBAAA=
+X-Change-ID: 20260401-dontcache-5811efd7eaf3
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Ritesh Harjani <ritesh.list@gmail.com>, 
+ Chuck Lever <chuck.lever@oracle.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-nfs@vger.kernel.org, linux-mm@kvack.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3840; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=mP+fXN+cyH0QE8nS6Oz/OpXZk5m+VMXyOKE7LaxfOhU=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBp9HdOa0u0OLd8ip7GlOCc1ttZzER5B1Il5CNrT
+ xGtvmsi4EGJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCafR3TgAKCRAADmhBGVaC
+ FRLQEADXbJsWzNf6xlledXUOy4FvUKU8SNZY54YjBCf4Tqyat3f9Aqy3BEgKo6q7+9sMAYmLriK
+ IcCUN8Mxxc1XGR4srl6uTf4vveaNzepzTMonBen210IBhm6zmDL92iiCj8AOKBNgtidBze0Nfg7
+ XMwsdicxH66RXnSM/y3bdrcJRUAHk7M6t6r9LZ12CfgApcCGXPqW6NwzAg/88A962tDl2/oep6B
+ 3AoHavnSpi0gYi/cW5IJIKQ8g/M93LMGBTBR8x+VjawVyAkG2+gb56ByCAdgUXSRSdzHZ3BG2KA
+ bTNHgPx2Y2O/aRQ7wzNg9HxrHVBLqwEG12Iq2cDTwkd0p+KV+05CmEFCcWUQRxCukhf14wzbP/P
+ gGDBiUf33lezTJldqtLhyzYaM/hsP/r9RgwvRMNzxR/pKrqSd1Erras6As2sPPoy2tfcJAEWqe1
+ udk6X9zFA/aZxWdvomoVRtCyjBQ61mMDXGl9EdqiG6Xijms0CxVKS+gjhu4+cLRBMRihWt1Zq7O
+ Ue78ljy0nFc70iCld6I06SO9cMgCMmHKgUPtLOtHeS9xGwmERx5aveG2jYpk7+NnRmijs2I2B9y
+ peFUXvIYZIO5daBqodbpTUSmHwa3QhPF749nVazDzaEO2YXrYC/QAIRNRPZe42Nmc0N/4zfUBvY
+ Fz+6DJkvsj8mJoA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-Hello:
+Here's a new version for everyone to contemplate while traveling!
 
-This pull request was applied to jaegeuk/f2fs.git (dev)
-by Linus Torvalds <torvalds@linux-foundation.org>:
+This patch series attempts to improve write performance with
+RWF_DONTCACHE. The main justification and benchmarks for the series are
+in patch #2.
 
-On Sun, 29 Oct 2023 21:04:19 -0700 you wrote:
-> The following changes since commit 6465e260f48790807eef06b583b38ca9789b6072:
-> 
->   Linux 6.6-rc3 (2023-09-24 14:31:13 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/fs/fscrypt/linux.git tags/fscrypt-for-linus
-> 
-> [...]
+This version implements a scheme that Jan Kara and Christoph Hellwig
+suggested during review of the earlier series: after a DONTCACHE write,
+kick the flusher thread to do an amount of writeback proportional to the
+amount written, but don't target any particular inode or pages when
+doing writeback.
 
-Here is the summary with links:
-  - [f2fs-dev,GIT,PULL] fscrypt updates for 6.7
-    https://git.kernel.org/jaegeuk/f2fs/c/9932f00bf40d
+The second patch in the series has a summary of the benchmark results.
+This seems to markedly improve RWF_DONTCACHE write performance in all
+the benchmarks I tested.
 
-You are awesome, thank you!
+The benchmarks I used are in the last two patches. I'm not sure if we
+want to merge those into the tree as they are (mostly) AI slop. There
+is probably a better tool for this out there.
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v4:
+- Track DONTCACHE dirty pages per bdi_writeback
+- New benchmark for competing buffered and dontcache writers
+- New benchmark replicating Jens' original 32 concurrent writer test
+- Link to v3: https://lore.kernel.org/r/20260426-dontcache-v3-0-79eb37da9547@kernel.org
+
+Changes in v3:
+- Track dirty DONTCACHE pages in the VM
+- Have flusher write back a proportional number of pages after DONTCACHE write
+- Link to v2: https://lore.kernel.org/r/20260408-dontcache-v2-0-948dec1e756b@kernel.org
+
+Changes in v2:
+- kick flusher thread instead of initiating writeback inline
+- add mechanism to run 'perf lock' around the testcases
+- Link to v1: https://lore.kernel.org/r/20260401-dontcache-v1-0-1f5746fab47a@kernel.org
+
+---
+Jeff Layton (4):
+      mm: track DONTCACHE dirty pages per bdi_writeback
+      mm: kick writeback flusher for IOCB_DONTCACHE with targeted dirty tracking
+      testing: add nfsd-io-bench NFS server benchmark suite
+      testing: add dontcache-bench local filesystem benchmark suite
+
+ fs/fs-writeback.c                                  |  60 ++
+ include/linux/backing-dev-defs.h                   |   3 +
+ include/linux/fs.h                                 |   6 +-
+ include/trace/events/writeback.h                   |   3 +-
+ mm/filemap.c                                       |  13 +-
+ mm/page-writeback.c                                |   6 +
+ .../dontcache-bench/fio-jobs/axboe-write.fio       |  14 +
+ .../dontcache-bench/fio-jobs/lat-reader.fio        |  12 +
+ .../dontcache-bench/fio-jobs/multi-write.fio       |  11 +
+ .../dontcache-bench/fio-jobs/noisy-writer.fio      |  12 +
+ .../testing/dontcache-bench/fio-jobs/rand-read.fio |  13 +
+ .../dontcache-bench/fio-jobs/rand-write.fio        |  13 +
+ .../testing/dontcache-bench/fio-jobs/seq-read.fio  |  13 +
+ .../testing/dontcache-bench/fio-jobs/seq-write.fio |  13 +
+ .../dontcache-bench/scripts/parse-results.sh       | 346 +++++++++++
+ .../dontcache-bench/scripts/run-benchmarks.sh      | 643 +++++++++++++++++++++
+ .../testing/nfsd-io-bench/fio-jobs/lat-reader.fio  |  15 +
+ .../testing/nfsd-io-bench/fio-jobs/multi-write.fio |  14 +
+ .../nfsd-io-bench/fio-jobs/noisy-writer.fio        |  14 +
+ tools/testing/nfsd-io-bench/fio-jobs/rand-read.fio |  15 +
+ .../testing/nfsd-io-bench/fio-jobs/rand-write.fio  |  15 +
+ tools/testing/nfsd-io-bench/fio-jobs/seq-read.fio  |  14 +
+ tools/testing/nfsd-io-bench/fio-jobs/seq-write.fio |  14 +
+ .../testing/nfsd-io-bench/scripts/parse-results.sh | 238 ++++++++
+ .../nfsd-io-bench/scripts/run-benchmarks.sh        | 591 +++++++++++++++++++
+ .../testing/nfsd-io-bench/scripts/setup-server.sh  |  94 +++
+ 26 files changed, 2199 insertions(+), 6 deletions(-)
+---
+base-commit: 26fd6bff2c050196005312d1d306889220952a99
+change-id: 20260401-dontcache-5811efd7eaf3
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Jeff Layton <jlayton@kernel.org>
 
