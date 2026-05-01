@@ -1,94 +1,93 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038A822652D
-	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 13:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8344C22652D
+	for <linux-fsdevel@vger.kernel.org>; Fri,  1 May 2026 13:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777640690; cv=pass; b=XlIviisD8sChG160I8jDf+PtVHY2QtRgNVTIvTsXKOYPyutxx7L713C1jNnRzuK/OjB5tPw6WHDoE8uL2z/fKE+j3e7baZP9STGCgOxJVzy20GAOqvxIhRCfP6SY2uFu/jKWS7F8KshswMA6h9H2tBZqr/zQRZtiPt+x0zy7BsI=
+	t=1777640712; cv=pass; b=HfEgS8/6k7ZvPCn2KjzBm2fxnonElr/Ca/k+9IX7jTRcnHAw1GUSXzqmUD3n9vqOHXmxsxx+WIwsT88/sWzG4f2zKAJShvBFQCF9JI502y5Wh610u4fHq8Tmg+XFc1DYVGx5rkJ2t8RS0ttNdusexJUyXgZEcRlY6svIH/uYvrE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777640690; c=relaxed/simple;
-	bh=a5s0Ws8xxjmTlA6TNYrog795OBqbc0Pp0SU5QDM2Qrg=;
+	s=arc-20240116; t=1777640712; c=relaxed/simple;
+	bh=4uTp5lZOmzULj+EfYozObhtGx6LyvaZco97b2+ajmnQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E6nz3n7VI3bk/ZZRoAEMMhYd646mAFk/gSJq7vmTrV5d++hxbxDqJ0sxBmxYVZgFg1KTjGHdKWFOCsVIfqaToAinSkwzkYbUF7HqJ7MVTBePZy4et3OkT9ViujoE2WInh9bJHdKmDiIbNGODGeWLMCLewvwuF9XYFTYdf1Xpp+A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KlIS2nPH; arc=pass smtp.client-ip=209.85.208.171
+	 To:Cc:Content-Type; b=fuOFtsRrlFu9EvwFr2V7fb2hhfvcYJK7apARuO3/mPfUefsBDpsu3NwErxuuJ+I9gdaG4IvXoRd/zfV3sSJPimC46Bq85Xgy6MwuFJ4IfT1lUArUS+C3TDbERjooOo2d+bGRPIynNC6B09KIDrWA3TlGgr2oRPN14C9j8A9EvI8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TVN8E5Cq; arc=pass smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KlIS2nPH"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38e96a071c3so19975971fa.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 06:04:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777640687; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TVN8E5Cq"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38def541b0bso16200951fa.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 06:05:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777640710; cv=none;
         d=google.com; s=arc-20240605;
-        b=az/1zVaCHusKvT9B/sYjn5S7bZwwt5Uzfqf5dYlf/VoL+nk1oQ9FtfSlPkEid+FPHC
-         TcsBIGU0Ce/g6diKRJyHzHQ5FYntaNvGUMhiFUMzwZ+jJRd+apAb82ObTdbFRtvn22z7
-         LbvFx+rvRD8FnrmNJ7MyjdBk2SFpXg8srSazd4x0MAZxjbVgmeeL2Kak4PLPzqemKEfN
-         j7t2TFQWP6dNg+T+3PO7e3Aq2CicfYI478BaOr7pVkBCd7QX0UOSjvDxuz0Cs8REN0QW
-         nbMtvhOXWmFpMdjVxLLEMdJG4EprachqluveFMMMSixKJBRKhV8mi5Kyltjuqmmi/hRP
-         Q3Sw==
+        b=CeHkOmkrSId42y5Kn49sgT+7/EAPlg+w3mG6YdN9MYeOk/fAg0FUMs6A1fARPxzXUv
+         oUo53hT2p6+6L8L+G3CQSomas7pMx69yhOHWCeUJvaKjYQ1j85WrARwdSYFyCkyzEW0U
+         coxy7knvjgNhFJR1jm53UABXp+2tHIwWXkec6gfCQ8kl0m4T2qq5+aAdPvN/ldaGXMP2
+         azxGFsVZRhISRMYu11805XMUIIdEcS6CMkIVQGCl5t+ukktLLX5HfkKIQQOecN3E3QtT
+         BKWGy34eaKbms8GLSpvtXkYtVuhwHY7k3VNYEYCg712yYx/VdoK3jCK5mRH8xEt4tg5K
+         0jDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=8T+W5p+jhDuKYVoO31TNQcR6W250JWtg5kdm/5Dy47o=;
-        fh=voOBjJxyFFdZoHutoNT48AaJWV8YLKYpG2PFSfVyteo=;
-        b=LxPeYDSZurNymfTq3Pt2VOUn0NIuuEUUQ57JnV4kdmnfx5SAWvuI5DH7H24YrfZEfv
-         40ieW4tR8+fK18i78rbUxoEQr+FDBN9F+3QP78PK/9lRkE/ic5UkFXqfH6LZof5cS7Rd
-         9UV43DuxGq7W3L4XTKqyAlu+QW6AMshG8y7ELG1xFtXbUJ18AUixULxG1yT1dFWwQ/Os
-         WWDcJZUXMMIbTIVGiKw63DX+P5TkAwCjMX/aS9sgrwEJVt3BY4z4dad/cIPIuuwafk6+
-         V1RhjGyTgGdqh1a0q/wgslI/Avdtc9iaO/vTO/wUJUvEJvu/0BeA3Q2NIvNrUOXKUySn
-         fc9g==;
+        bh=TMjGQOHCZ0IBq982b1rHzuDHs/ZxEkZga3hl66eybBM=;
+        fh=Gmxj5jJG9yUk6vwIPRUZ9vM9fZyTEbangy6vPCuaLKw=;
+        b=c2IJHEcHPEL6+XL1FJehaeEvJayuQHyfa3j5VMDYLjme97PESPwlZAK0td24OhyO9R
+         LZspyufNDD/AqJL93UQp/KHVvSSvpKmEO/XoYZL63Lv0hxwAH1ZJL+i2jDh4xFfcxDzm
+         69JXON0wof1hBPbLuGntAs4Rjvlm04D0TF7cK6ydWWhQVgsmKUp8SX77cnVZFBkizR4t
+         kPxTINAXx/U0+23E0mfw+e7+7GlwBMaUEX6+IHy/vParbjo0jeYyfRTZETZhy7kCqbhg
+         gTeDS25UfSP3KUaZYoeL6BXLc5F3dsFPxH5U3rKIMtDnrZWcIN/eEZSflUhGJhgZL695
+         J6UQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777640687; x=1778245487; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777640710; x=1778245510; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8T+W5p+jhDuKYVoO31TNQcR6W250JWtg5kdm/5Dy47o=;
-        b=KlIS2nPHGV3mK2zClCSMYWiGmYBIoXSAlFM8aYlzx5eSkyjzhaEA9Cl//9XRe5NL2V
-         kkr4gsO3b+Sm46SThV17gpaHoU5n4Q4drtkvQ9n2iCHSw4q9dlONcq5ZDZLstQblQJoG
-         L32Geg1ckBqXyfz6SpSBmMxMhVjC30iwV5G6NnSRs9iflf/ENzBz6835RUVuXrt9vLBs
-         kC/hItAl3kTVMmRm/fZS8sXUUG/lf7ee1EnOEHj3/SnlDz+J8iyy199AAvX6P2CovG5T
-         tr9lKrx4VytvZc/3n2Iu31NDJ3YbS37htXEvy9kkYzs905V3S5YFKI5s0Z7jYSLKRSNI
-         7iRA==
+        bh=TMjGQOHCZ0IBq982b1rHzuDHs/ZxEkZga3hl66eybBM=;
+        b=TVN8E5CqNmitqJSuy925HzXh5HolIykHftAQfzkcUghhsz+o0ZXU3ibv6JbHMdvicP
+         eA84DNuQlLzzCT9HKg6JXhACmzjxFYm9TjGK0/WD2iDSWXGx6n7VpDQbtv7Bf/kIP6E7
+         EOpZIZITy/fllbJ9ifhkQzPxf3ZvRg+SCTbyzhlUjdWPhoJONbt9NCA4JUBhy0rNNXDa
+         StuyERlwVWR2NAVnboNcaGr4OqZej/Rk0tyTDwkSh6j2W4GyUWx8KUb0ObkvEoEIhJPy
+         HynV4uj7RwM3MXpLsUiV+7bEe2eIJNLuNaZmxtksTeTRSd27q2yXYzZ+n1lR8zbtkzOj
+         +UPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777640687; x=1778245487;
+        d=1e100.net; s=20251104; t=1777640710; x=1778245510;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8T+W5p+jhDuKYVoO31TNQcR6W250JWtg5kdm/5Dy47o=;
-        b=EN5qoN1j4mmGhyxOpVoIYeTl5dtF88MUTqP082Kd/0Mw+rPBBdgwdrbAZ0ORycLrYf
-         kTXm6QwLwr4j3Iz4IpXeVcNICKujvM+RCsUQ97nPZ3zcLnPeg3oGJ8R6PrK2xLi9nb/E
-         ExYR4IWH62Swu+3bMt7D7tcPIbjZXIdm4g36Cup1ind70R6syq8OrhLpFyLrLJ/SdI0O
-         leoYvQWkwHgDBFh4Xu2nccc7ItDm/cXVNQUcaPeA1kQN1jz3aRLWMjuT8ZOVawbV6EQl
-         XiZl+aCDA1ZANkJXNQSbvD3v/rp5zkUmFBRvzHaCY1F6HKXJlJycFGVHfhuEJlCpiO5r
-         M1BA==
-X-Forwarded-Encrypted: i=1; AFNElJ/HpDI23EmdYGO1aW8GiTxhFlf6rrCtpLNXrz6Pr3VYFikY1caF4uvfFR+pZsS3r4icsjkbAYJB6PIrYCsQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnN1t/GhqFYi0BhWUsqW2tOZtJAiyCozaw1bxdiqFrBh8hTdsi
-	ENDUv7N66cirokrGSq0LqBjJZmjUSYGdxrBXrPTa7YyZtofICxZc/QxND5ELplixbzg4Zebcylt
-	Sgh0uAx7Y328B/kb54zY3AcbYWEoU1rM=
-X-Gm-Gg: AeBDietpQrX+FGxGrCkSbTWKJkTtU33b2d7/3v2lhfwce4c1HI22P2qZbqWmSb3MU8f
-	ljyJ3e3PgovmMo86Kzw+SVeP7cxrtTvVW6ymFIMKfJ4FvTpN6PsYZ2+oRcpek/EQjUPWvgLzAbg
-	ArriHeHFnzCvdCIwO430G94uSw/3EHtiDpeKml4USaYDP8WzqIHMQrVDRpieHTPsEKFBpqw0VZ8
-	KDOnx/DJbzH74yXij/Btem/gFlmJvQfqnfRa87hFYbwK3oRVUZO6ZVOlLyoWrNFSbM/yrT4g+mv
-	qDM00hqD5CE0LWJT2I8=
-X-Received: by 2002:a05:651c:1581:b0:38e:da0:cc0 with SMTP id
- 38308e7fff4ca-3934e1d6335mr25873961fa.14.1777640687101; Fri, 01 May 2026
- 06:04:47 -0700 (PDT)
+        bh=TMjGQOHCZ0IBq982b1rHzuDHs/ZxEkZga3hl66eybBM=;
+        b=IyQ1zb0aSXi0+R8AgtPe2o/eQLFjI8rShSh4NEGxasOwOWdJgHrzvrCSxD0dMK+JUK
+         jQgGh4ke2vF5YM5BfjZJ3mXe0ux0WatRlNK/twK7uhBfcXTrkzRZqgHUxUwCRCs8hMXF
+         Q+/WKWY1R/cpZRhVxucpBTakdzX/yTjWkg9li1xk2MvW2rNylTsVv9VvdIm4U5eBSbdB
+         2deiayCH8qbiy8tW/QsA22QeB+e6FDR4P3tq4c/IJgzJVZemP93wcc3NAvLSjWaX3PmR
+         DQlkIBNwtc+S4a2xlh8ifNgwKoBu9kD8wKbWRw3NP7GZXFxk9ZO8ragimKTTsDxD8yIc
+         XqKg==
+X-Forwarded-Encrypted: i=1; AFNElJ+zeEnZUSYKOyZ+Aqul5sUYFVQtYMY/8YP4CrGoOfep2/Bq9iNWGmdj02rJjGtslXjiUjaKo7zDVRxeGG5S@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrGLuQs6LJypPbkiQCivBdrZ0P2MEyIqw2MSkblWs8PlXXhfZM
+	1/kzxjMli1LsLvap5viyLedaitMTbRUc+QatfXO49opzjCNGOoTHdu+/VNXP716bgfKmMHzuAeY
+	WJTnMidyXYW9z5anrPGbtA4zQfoHBxOk=
+X-Gm-Gg: AeBDievGuC4EjECxCpjVSeUOXiGT0VpmT9lx1ROrqmxM+lZHBumupSOxzsFYF4m4keO
+	Y9SAmi0tLuLyyBRmJSha+2SKGBZPYWQpXzXVBU2ozZOGImra3Ld4/t7w1OwNd39GF+QS6JwgJyp
+	2KT8CFCcQ0yioYPwCx4muT17pvxdOqjH2kdXb9DozwMN37n4MSkEajccIQwnLOZmjtdaxCnomdq
+	4uhY5nQ9ZHAHfeqHZ94IUmQI4d76VO47IWlJZrt7FK03S0At7IuTtlqVxWBRdTL3v7BaVJTyIHH
+	/ikqWLiX/M2Hb6pZfve00lHOcHoKwA==
+X-Received: by 2002:a05:651c:1106:b0:393:5ada:4605 with SMTP id
+ 38308e7fff4ca-3935ada5645mr19258261fa.25.1777640709579; Fri, 01 May 2026
+ 06:05:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1777568957.git.charsyam@gmail.com> <0d61bd7f181f4e46207572c5d8a4b026e370a57b.1777568957.git.charsyam@gmail.com>
-In-Reply-To: <0d61bd7f181f4e46207572c5d8a4b026e370a57b.1777568957.git.charsyam@gmail.com>
+References: <cover.1777568957.git.charsyam@gmail.com> <f83cb152b97cbc98a4850caf0a23a229db5b9e98.1777568957.git.charsyam@gmail.com>
+In-Reply-To: <f83cb152b97cbc98a4850caf0a23a229db5b9e98.1777568957.git.charsyam@gmail.com>
 From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Fri, 1 May 2026 22:04:33 +0900
-X-Gm-Features: AVHnY4JSuPGKUI1_UrSgt9RiXw8O4kUFz4HQWvBVC-psvcppq69IPx8pMlJ9f4M
-Message-ID: <CANFS6bbpnXFy3ZPHMfrqb9+KpNGDVntPDy8hJ4NG_2Z7+A8BAQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] ntfs: redirty folio when ntfs_write_mft_block() runs
- out of memory
+Date: Fri, 1 May 2026 22:04:58 +0900
+X-Gm-Features: AVHnY4IyW2eoKqh3LUQa0mR21drw8Gf0BUOgsHWF0wDAwiTTlNGH1P31CYRU--0
+Message-ID: <CANFS6baE_bDUB3cyt0pSvetiO6Yv5rbOaKi-TLCs7OMeJGGhTA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ntfs: capture mft mirror sync errors in ntfs_write_mft_block()
 To: DaeMyung Kang <charsyam@gmail.com>
 Cc: Namjae Jeon <linkinjeon@kernel.org>, Arnd Bergmann <arnd@arndb.de>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
@@ -98,19 +97,19 @@ Content-Transfer-Encoding: quoted-printable
 2026=EB=85=84 5=EC=9B=94 1=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 2:21, Da=
 eMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> ntfs_write_mft_block() is called by writeback_iter() with the folio
-> locked.  When the per-call allocations for @locked_nis or @ref_inos
-> fail, the function returns -ENOMEM directly without unlocking the
-> folio.  Any later task that needs the folio's lock then stalls, and
-> the folio's dirty state is silently lost from the writeback
-> iterator's point of view.
+> After ntfs_sync_mft_mirror() became able to return real I/O errors,
+> ntfs_write_mft_block() still discards its return value at the call
+> site inside the per-record loop.  A failed $MFTMirr write therefore
+> leaves the volume looking clean from the writeback path even though
+> the on-disk mirror is now stale.
 >
-> Use folio_redirty_for_writepage() so the folio remains dirty for a
-> subsequent writeback pass, unlock it, and only then return -ENOMEM
-> so the caller can propagate the error to fsync()/sync_filesystem().
+> Capture the return value and feed it into the function's existing
+> @err variable using the same "first error wins" pattern already used
+> on other failure paths.  The error is propagated to the caller and,
+> via the existing tail of the function, sets NVolErrors so umount and
+> chkdsk see the volume as inconsistent.
 >
-> Fixes: f462fdf3d6a4 ("ntfs: reduce stack usage in ntfs_write_mft_block()"=
-)
+> Fixes: 115380f9a2f9 ("ntfs: update mft operations")
 > Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 
 Looks good to me.
@@ -119,28 +118,32 @@ Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 
 
 > ---
->  fs/ntfs/mft.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  fs/ntfs/mft.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
 > diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
-> index 4051b4823162..00f172fd1b21 100644
+> index 00f172fd1b21..866816f710b5 100644
 > --- a/fs/ntfs/mft.c
 > +++ b/fs/ntfs/mft.c
-> @@ -2740,8 +2740,11 @@ static int ntfs_write_mft_block(struct folio *foli=
+> @@ -2862,9 +2862,13 @@ static int ntfs_write_mft_block(struct folio *foli=
 o, struct writeback_control *w
->         ntfs_debug("Entering for inode 0x%llx, attribute type 0x%x, folio=
- index 0x%lx.",
->                         ni->mft_no, ni->type, folio->index);
+>                         }
+>                         prev_mft_ofs =3D mft_ofs;
 >
-> -       if (!locked_nis || !ref_inos)
-> +       if (!locked_nis || !ref_inos) {
-> +               folio_redirty_for_writepage(wbc, folio);
-> +               folio_unlock(folio);
->                 return -ENOMEM;
-> +       }
->
->         /* We have to zero every time due to mmap-at-end-of-file. */
->         if (folio->index >=3D (i_size >> folio_shift(folio)))
+> -                       if (mft_no < vol->mftmirr_size)
+> -                               ntfs_sync_mft_mirror(vol, mft_no,
+> +                       if (mft_no < vol->mftmirr_size) {
+> +                               int sub_err =3D ntfs_sync_mft_mirror(vol,=
+ mft_no,
+>                                                 (struct mft_record *)(kad=
+dr + mft_ofs));
+> +
+> +                               if (unlikely(sub_err) && !err)
+> +                                       err =3D sub_err;
+> +                       }
+>                 } else if (ref_inos[nr_ref_inos])
+>                         nr_ref_inos++;
+>         }
 > --
 > 2.43.0
 >
