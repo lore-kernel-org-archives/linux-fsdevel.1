@@ -1,184 +1,219 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D832F222580
-	for <linux-fsdevel@vger.kernel.org>; Sat,  2 May 2026 00:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777682962; cv=none; b=AHI7IEEPz+gbCRz6EdSTj0tahFVwZKeTH/7VI1kX0kE3gCv6nN8BOVnK1HakZCjPVV38X7MI9sUmSQLiFuzUo3vnBYSKf4DtyvGxjuTvEou8w/ou9OlmsN5lX+ZbVMGQlKqdKe8BUqYoyOsHGIGV6Xyk99IXD1qm3p56u2Ysq68=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777682962; c=relaxed/simple;
-	bh=IeV2kFIhwjJnX0skXZIwlcr9DgYoBXSMOh8rEjHzi6E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eNx3rXaStPdW60SkcWiGiyNUbj28y9qTAolX3cKOUsmA4uHpopRyXIWE1TptdZ18Z9Lc1X3KgML/v4XeS4qcOExRj/ir3gjaEbyMe3AWA+vM/yYlatgFwTzqEjza5vN95Bt28XQ703VarslfmAUSZLhHeP3wo1q/8SMaJkBKaYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y8t6ALYC; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6B6222580
+	for <linux-fsdevel@vger.kernel.org>; Sat,  2 May 2026 01:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777685080; cv=pass; b=cRZ5l/owcfqQj8k8uGhfz8iKRm1EChdZ9YrujHuFRxuKIqUqpJ4VUMPVJdDjwHD2boBUFJGAHmFPCc23Hd8oma4rjZHpk1NBNBqryQQBrLA/kZnLjbqI5CR33rAD82SODWHCavvOOqb1Djr1pShgDy1PGFAFaYgUAowadbOmz4o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777685080; c=relaxed/simple;
+	bh=tlWzm/LweUKhSpUnvp6PcsofBh7GX2GlpWV4iQcCDA4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EKmluMFY8oU1516bLOuVAln0uz4cfGC0vXtM/pnXlCkTooUBu7Fnh3jg3EGfgx7jXDmgFd0/4GWis85UgLQn9aUnebK0h9KTcgSE9NmKhntT+8e3T/jRVXpEzVbFf2YelM9FYIzu9HVIjgzyA//ygLUnvvdc97hxmmctrbW17Ok=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tglJjcaN; arc=pass smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y8t6ALYC"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-364da4849b2so472150a91.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 17:49:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tglJjcaN"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12c8f9846c8so3257974c88.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 18:24:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777685078; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kVYrNUwrENtgKrALagBz0DapH0TOmkquhr7cQ5v9BOz1QNkA3k2kHpAtMXLrNbtIHZ
+         OJQ20tH+1mDkvdLb9K8EaOO7ynjc2jJUSLRs3Hi/81RnqsmtGY2Od1xi0kCUDJbkzvtH
+         ycDWXGRV3kQAWcsrEDPu6lm0X0XvFaUVuTL8oLgZwfyxkTMFHtGAgC1taw5AbsgsKLG6
+         mZFmLp3CWtDApcuzaQeXS1c/oTe1SBzJJsbzNgMzI+tDmXF90XdhM2Yqdwt1rpjxXuwp
+         nGB8AsXxFN67vSUIhbEh803X92K7/n3VKh90byatFW6Y5fKkTmumBl0V4TWUS/x4stxI
+         jHxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UTYEXtZbnOW94bihUSWzw/uzxtoul8H4TwtkWQ/OOcs=;
+        fh=1rsiXBQFrcLPZeKfwtw6CwlyT+DS8+U+9pmJoHsrmx8=;
+        b=bzNV2/Xqwt+wcCN4nOvpY1Pif9mNJgvnj3FhdTRclK+Qzq3tgk+2NBQbal5O3x4Ysu
+         5Evdxa84dAc1lEhzcnXTRfOqciN9VZI3JLxpv2jC5yJvJCraqpXZgxIw0BZCW8n5Q3vp
+         uYwM38blgOMuFioKrphCRcEySLdicxYGYGOn827AjENfVfTkeEddF5g2ITcUY7eiAZlF
+         LLBLmGWuS0VHXA4Crx7FI6Cbda8Rf1DqVmHCtl2md70CgZL/SHSq+ENk0QmjD2X5CrCN
+         ms8WQF1ptRfpDEpPGn5JLUQNbZwF9UGvUv25wFsz7mesqleOKSkUHjrdCZ4UlUs1Smth
+         7Iag==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777682960; x=1778287760; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KvbakKe1AH43pz8vth2Kv2pNuUbrRZ4DWIjUmda08Cg=;
-        b=Y8t6ALYCyHC5bHtZJL32zaMAu4nm66n1YwRHsWvc/q06T6fcamah/2c9qsobPS9Nba
-         m5RQuKP7sP9edgrfbUmYTlkVoVFnWpGULKbMQQNUgueQPDLVrIeagKoq3/wXI41yq2jh
-         bLUSy5ZAfn1bgmQwY+ENz8GqbirJYmfaRrx6ZbeWyHD2NkORhHqfLOulNzRIH995f5dE
-         dc/9aCMrxQFUEBCnifPV7zGtzZlAVKgiCa0o6+0cF+QSD+pr0/Yv4o7kHOw8CMbY2K5B
-         dYDW6IezhHRxqrh9LE2e2WqnxFO92eaV+j/3F7AesniSy0m3RLP/YuR8LQUIMT89vsOy
-         F+Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777682960; x=1778287760;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1777685078; x=1778289878; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KvbakKe1AH43pz8vth2Kv2pNuUbrRZ4DWIjUmda08Cg=;
-        b=fqRigCiKVMDkp6wSsv0L7njIrRqqTo20k2+ejw+aXapkHNwsYhaaXX2IKISXA035cd
-         rbeQdNFjHz0nmfTmzVoASdhPd8TNp/PUxcjjFNS37phzQ800K/F0UwuAgZpP/9zrLVUW
-         Kus2PPUaJKcZNZ9fBDRmv+G6tFUeAZLmQOYtKS3IEyOwlP7T2KNifLVeJL+vlpU5Ebw4
-         GZLA8apG7o1Dd01lE2nscOr5zgrNkmc8yPmfK7Ierqv1n1fgtC/ObKw+OBloW5FSYV0K
-         YIvJSeYcRE7Und3yiJI+ryp95vxKcy3YX1GdRUQcCqoLp298HO+oW/tNXlzq9Edb27U9
-         HDjQ==
-X-Gm-Message-State: AOJu0Yy9OrgC54f00y+QmS9OBk1UYvNqyqg8j+E24CnompnXwQ1TC6mE
-	QkxwjUrAUy3hRtHOikWQD8aVNp+AVBD2kBoEHwYpkVCsCq9lXiHRUEG2
-X-Gm-Gg: AeBDiesXG1Zydie9bM3Uu/K3EbC/weDvmMJ4LIIipPCBmPgjF1FyDpNhThHLwZRfQrQ
-	dGtciJDTxOYYSQUVm8hicZXLynwg3FBEoUc0CpSZJ77Yqku7qkMWy+r+IvwTUXKCSKIKTrKhWOy
-	tU0wgAgz88S6zeG3iWaXKX3QDrG/0Y40qpTd2g88WSe1pev9ZWehTFfAk0OVw6li617pMF+bljS
-	4xd4BL2LhVnvcWjp/AFvclaIgMNd6pQgdQLLmShL9YjXyIj0r2FXodi59r/8NzGcWUTYDFRHm3y
-	HxNHPASisR6ymd6Rjvj0H0BVX+RTTakzQfxjMyFz2oUGR2t6A8mpMgRpQi52v31CvLHihEv8Zkh
-	0Wb59k0+hCQwDb6LzsJ+3L6uhHjus1aq5Togkj2vO5cc+ZnE65pd/MkUKpv1VDqBX3NIlVE/HcL
-	ufbM8lBLgQkmencfR6ZCL4gfB3S9U=
-X-Received: by 2002:a17:902:d2c9:b0:2b0:7136:d980 with SMTP id d9443c01a7336-2b9f25330b1mr7048495ad.2.1777682960211;
-        Fri, 01 May 2026 17:49:20 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caa7e827sm30526155ad.1.2026.05.01.17.49.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 17:49:19 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH] ntfs: avoid use-after-free of index inode in ntfs_inode_sync_filename()
-Date: Sat,  2 May 2026 09:49:16 +0900
-Message-ID: <20260502004916.492207-1-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=UTYEXtZbnOW94bihUSWzw/uzxtoul8H4TwtkWQ/OOcs=;
+        b=tglJjcaNWzt4y7utHMv+h2WL5OY5tf5X5qF5TicSwYXh7uIlMSi3KGJkcoVmkjYyk7
+         NRPdtihqKCqv0HTBx8FcZrVYkTJOT0IhjprmkHL88ahl8tGnbEw9q3Bk95tIRC4vPjC5
+         huKTLA6roSivAdw/1nwE/w+FaU0jaHvMhFPS+NGeD9YXIsDfXL9ZBp6UTL8rnABdmcGo
+         K8PrvuslN0Hr8RQeiJhswis2WE5mgekajTIad+8M9TuDZ+BpNsyx0/qpGfUzlTwY6McZ
+         ey407Z2nBmi+QqZU9C01XJBn+Jc9oWjE5MqdVr7mzP5cDy3FuvEdDLJvElRZHKhvSbHQ
+         m7Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777685078; x=1778289878;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UTYEXtZbnOW94bihUSWzw/uzxtoul8H4TwtkWQ/OOcs=;
+        b=LKoyfj4J8CjcC4PqvDm3O/x1mP/9GVC+DmxeJ+glsDCOXRwMFau/8BbuM2GWuc5a1N
+         2NpaT4c0JHizP519YN1vHRe1u+LDo8oAunaVQyBqx5tidPXwuDSnE+GvRrNHmzaoh8MM
+         MqZAHhnZaMxoZC8eAXIYdzmM+VT7P6oC6VXer7BXA6Y7pJ3F2WMn//H3MvvceVnYfVg3
+         GK1nTQ2JWc/bpVPxMflWZwGAY39b0cX4LoW7NAIR/Nl8QQCFqZiopd1fLn+eqoLoKd9L
+         zVzDhLeKBKORFRvi0m5vzmHU03z7Ihb64/OdBsvY5vs++RLiY8UQr005ExOj7b++HRu4
+         Q93A==
+X-Forwarded-Encrypted: i=1; AFNElJ+VIEsqnASEgc7hYA+vIuQST4XDZl/4ZGiYoCH4EW2IbMs63PpA3KMU4DbM+mbPhU3p++AS2Fnu5QWXxzqy@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVasdi64TraDzMsHAlPEV7i4/wS3t8JTgXgwr/b1ki/iE2+tw0
+	5MQaIjxzLsYEm+kT6N0YDzexXpf/wmcCYk/qm+GDp/teRjRIrfen+SpTYm+A72NgBUbmxY1Ldux
+	zy4BrgW5nRL/u0h5RQvi5ukhAcTEMvCCHPXtBQPfK
+X-Gm-Gg: AeBDiesEhqwl2U1yKIk3dq+M1C4tLrfENZfZE5IZg6UUQrXt9w4szJxs2Eav2+Qs1c5
+	LQ/dQ8BrCdNMIfKnHUj3HmValHYi5d89d/+KSKKv8gCLDyUAWf4r6lLgbw9W1HAzRkngxlRKqrx
+	Xkk29m4aOL1zu2364RinI2S3W8UTeiOthAb2NvPSMiKRYcvescsFUT1hsFvAgB/z44c1BK9CPds
+	O40LUMbO9WtzPsVgxDu38AyBK+WrsUBBaIx4oOACEQ4LdgR/KBY2R0T4vWbqBENrELDX9RE829N
+	opYNBzWNdBwTO7+UZNygQv1AV2HETPjEy/hf1POQXAroufXv4OIAdXUL4704Ge8O/FRYyiqNejf
+	KPl9PaUf9LI6XBzzXuZkLGi3YmcBmDyeM2M7sRdI+CMlCS9aIizGHlVigBhcHPz/SaSakkdjYXA
+	==
+X-Received: by 2002:a05:7022:2514:b0:12d:de3f:f3d9 with SMTP id
+ a92af1059eb24-12dfd8459ffmr501080c88.35.1777685077641; Fri, 01 May 2026
+ 18:24:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260428175125.2705296-1-jkoolstra@xs4all.nl> <20260428175125.2705296-2-jkoolstra@xs4all.nl>
+ <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com> <89346381.2074764.1777649680664@kpc.webmail.kpnmail.nl>
+In-Reply-To: <89346381.2074764.1777649680664@kpc.webmail.kpnmail.nl>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Fri, 1 May 2026 18:24:26 -0700
+X-Gm-Features: AVHnY4Ivy4FFEa5elE6XvX0acVHEeFy5f9-HW7mgZQCbQK3BFpKAMdSRMm9bNLQ
+Message-ID: <CAAVpQUDKgWdgPjPmJKhNxofssasS8-RdaLAcbFXHMWH8ztMJXA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] net: af_unix: Useful handling of LSM denials on SCM_RIGHTS
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemb@google.com>, "David S . Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>, Kees Cook <kees@kernel.org>, 
+	Simon Horman <horms@kernel.org>, Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>, 
+	Jeff Layton <jlayton@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Andrei Vagin <avagin@gmail.com>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Mateusz Guzik <mjguzik@gmail.com>, 
+	Joel Granados <joel.granados@kernel.org>, Charlie Mirabile <cmirabil@redhat.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	io-uring@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ntfs_inode_sync_filename() walks every FILE_NAME attribute and, for
-each one that points at a different parent, opens the parent index
-inode with ntfs_iget() and locks index_ni->mrec_lock.  All three error
-branches (NInoBeingDeleted, ntfs_index_ctx_get failure, ntfs_index_lookup
-failure) drop the parent reference before unlocking:
+On Fri, May 1, 2026 at 8:34=E2=80=AFAM Jori Koolstra <jkoolstra@xs4all.nl> =
+wrote:
+>
+>
+> > Op 30-04-2026 04:04 CEST schreef Kuniyuki Iwashima <kuniyu@google.com>:
+> >
+> >
+> > On Tue, Apr 28, 2026 at 10:51=E2=80=AFAM Jori Koolstra <jkoolstra@xs4al=
+l.nl> wrote:
+> > >
+> > > Right now if some LSM such as Smack denies an AF_UNIX socket peer to
+> > > receive an SCM_RIGHTS fd the SCM_RIGHTS fd array will be cut short at
+> > > that point, and MSG_CTRUNC is set on return of recvmsg(). This is
+> > > highly problematic behaviour, because it leaves the receiver
+> > > wondering what happened. As per man page MSG_CTRUNC is supposed to
+> > > indicate that the control buffer was sized too short, but suddenly
+> > > a permission error might result in the exact same flag being set.
+> > > Moreover, the receiver has no chance to determine how many fds got
+> > > originally sent and how many were suppressed.[1]
+> > >
+> > > Add two MSG_* flags:
+> >
+> > Since we only have 5 bits remaining for future extension,
+> > we need to consider the use case a bit more carefully.
+> >
+>
+> Right. Since it wasn't a lot of work I implemented it exactly as the requ=
+est
+> was made from userspace, and then discuss it from there. By the way, I su=
+ppose
+> nothing can be done about that small flag space?
 
-	iput(index_vi);
-	mutex_unlock(&index_ni->mrec_lock);
-	continue;
+We could reuse an existing flag (e.g. MSG_FIN, MSG_RST)
+if we were confident enough that the userspace does not use
+the flag for a specific socket type.
 
-index_ni is NTFS_I(index_vi), so the ntfs_inode (and its mrec_lock) is
-embedded in the inode allocation.  If the parent directory is not held
-outside the icache - no open dentry, recently evicted from dcache, no
-other concurrent lookup - ntfs_iget() returns with i_count == 1 and
-our iput() drops the last reference.  evict_inode() then runs and
-destroy_inode() schedules the slab object for RCU free, while
-mutex_unlock() on the next line is still touching index_ni->mrec_lock.
+Another option is to add another syscall, recvmsg2.
 
-Swap the order so the mutex is dropped while index_vi is still alive,
-matching the success path at the bottom of the loop which already
-unlocks before iput().
 
-Reproduced under KASAN with a debug build that forces
-ntfs_index_ctx_get() to fail when the parent index inode has been
-opened with i_count == 1.  KASAN reports a slab-use-after-free read
-on the parent's mrec_lock from mutex_unlock() on the writeback worker:
+>
+> >
+> > >  - MSG_RIGHTS_DENIAL is set whenever any file is rejected by the LSM
+> > >    during recvmsg() of SCM_RIGHTS fds.
+> >
+> > Is this really needed ?
+> >
+> > Even if the fd array is truncated, the application will traverse
+> > the array anyway since it has some fds already installed (to
+> > clean up in case of MSG_CTRUNC ?).
+> >
+> > Then, it will find the -EPERM entry.
+> >
+> > I assume no one uses MSG_RIGHTS_DENIAL without
+> > MSG_RIGHTS_FILTER.
+> >
+>
+> I guess that is a fair assumption to make. We can certainly do without
+> MSG_RIGHTS_DENIAL if saving flags is important. I also suggested that
+> we may see whether we can make MSG_RIGHTS_FILTER the default behavior.
+> In the mean time I've found grep.app, and it turns out the answer is no.
+> Apparently almost no one checks even for the truncation flag (mostly 1 fd
+> is passed and then it is check the cmsg lenght). But cpython has this for
+> instance:
+>
+>     /* Close all descriptors coming from SCM_RIGHTS, so they don't leak. =
+*/
+>     for (cmsgh =3D ((msg.msg_controllen > 0) ? CMSG_FIRSTHDR(&msg) : NULL=
+);
+>          cmsgh !=3D NULL; cmsgh =3D CMSG_NXTHDR(&msg, cmsgh)) {
+>         cmsg_status =3D get_cmsg_data_len(&msg, cmsgh, &cmsgdatalen);
+>         if (cmsg_status < 0)
+>             break;
+>         if (cmsgh->cmsg_level =3D=3D SOL_SOCKET &&
+>             cmsgh->cmsg_type =3D=3D SCM_RIGHTS) {
+>             size_t numfds;
+>             int *fdp;
+>             numfds =3D cmsgdatalen / sizeof(int);
+>             fdp =3D (int *)CMSG_DATA(cmsgh);
+>             while (numfds-- > 0)
+>                 close(*fdp++);
+>         }
+>         if (cmsg_status !=3D 0)
+>             break;
+>     }
+>
+> >
+> > >  - If MSG_RIGHTS_FILTER is passed as a flag to recvmsg(), the SCM_RIG=
+HTS
+> >
+> > Does this flag need per-recvmsg() granularity ?
+> >
+>
+> Perhaps not. What would be the alternative? A fcntl option for the socket=
+ fd?
 
-  BUG: KASAN: slab-use-after-free in __mutex_unlock_slowpath+0xb5/0x970
-  Read of size 8 at addr ffff8880014b7598 by task kworker/u8:0/12
-  Workqueue: writeback wb_workfn (flush-253:0)
-  Call Trace:
-   mutex_unlock
-   ntfs_inode_sync_filename
-   __ntfs_write_inode
-   ntfs_write_inode
-   __writeback_single_inode
+I'd add a new socket option like
 
-  Allocated by task 103:
-   ntfs_alloc_big_inode
-   ntfs_iget
-   ntfs_lookup
-   __x64_sys_mkdir
+setsockopt(SOL_SOCKET, SO_RIGHTS_TRUNC, &(int){0}, sizeof(int));
 
-  Freed by task 12:
-   ntfs_free_big_inode
-   i_callback
-   rcu_do_batch
 
-  Last potentially related work creation:
-   call_rcu
-   destroy_inode
-   evict
-   dispose_list
-   evict_inodes
-   ntfs_inode_sync_filename
-   __ntfs_write_inode
-
-  The buggy address belongs to the object at ffff8880014b7440
-   which belongs to the cache ntfs_big_inode_cache of size 1800
-
-The freed object is the parent directory inode itself: allocated by
-mkdir(2) via ntfs_iget(), then released through call_rcu(i_callback)
-that destroy_inode() scheduled when evict_inodes() ran from inside
-ntfs_inode_sync_filename().  Re-running the same workload with
-mutex_unlock() moved before iput() runs cleanly under KASAN.
-
-Fixes: af0db57d4293 ("ntfs: update inode operations")
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
----
- fs/ntfs/inode.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-index 16890d411194..360bebd1ee3f 100644
---- a/fs/ntfs/inode.c
-+++ b/fs/ntfs/inode.c
-@@ -2582,8 +2582,8 @@ int ntfs_inode_sync_filename(struct ntfs_inode *ni)
- 
- 		mutex_lock_nested(&index_ni->mrec_lock, NTFS_INODE_MUTEX_PARENT);
- 		if (NInoBeingDeleted(ni)) {
--			iput(index_vi);
- 			mutex_unlock(&index_ni->mrec_lock);
-+			iput(index_vi);
- 			continue;
- 		}
- 
-@@ -2591,8 +2591,8 @@ int ntfs_inode_sync_filename(struct ntfs_inode *ni)
- 		if (!ictx) {
- 			ntfs_error(sb, "Failed to get index ctx, inode %llu",
- 					index_ni->mft_no);
--			iput(index_vi);
- 			mutex_unlock(&index_ni->mrec_lock);
-+			iput(index_vi);
- 			continue;
- 		}
- 
-@@ -2601,8 +2601,8 @@ int ntfs_inode_sync_filename(struct ntfs_inode *ni)
- 			ntfs_debug("Index lookup failed, inode %llu",
- 					index_ni->mft_no);
- 			ntfs_index_ctx_put(ictx);
--			iput(index_vi);
- 			mutex_unlock(&index_ni->mrec_lock);
-+			iput(index_vi);
- 			continue;
- 		}
- 		/* Update flags and file size. */
--- 
-2.43.0
-
+>
+> > If the application does not welcome the truncated fd array,
+> > it would have passed MSG_RIGHTS_FILTER to every
+> > recvmsg(), no ?
+> >
+>
+> Correct.
+>
+>
+> Thanks,
+> Jori.
