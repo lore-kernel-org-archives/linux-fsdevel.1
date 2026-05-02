@@ -1,69 +1,69 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C417224AFA
-	for <linux-fsdevel@vger.kernel.org>; Sat,  2 May 2026 00:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D832F222580
+	for <linux-fsdevel@vger.kernel.org>; Sat,  2 May 2026 00:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777682940; cv=none; b=Vt7F9izRQXGu9v2uit/hDFw3X8pQOIaSeH7mr4YMN0GEwRfqJSVWiqkweiYXXcGRz+9ZN6GIUVlFUsc33r8EdYf19TpPD/0lgqFs1yhBdJhrfPfyVkvcDOUrRM0aXatkJIWEUsmrAe40rzKOYHR2kToj31kkjVOfACKqXM5injQ=
+	t=1777682962; cv=none; b=AHI7IEEPz+gbCRz6EdSTj0tahFVwZKeTH/7VI1kX0kE3gCv6nN8BOVnK1HakZCjPVV38X7MI9sUmSQLiFuzUo3vnBYSKf4DtyvGxjuTvEou8w/ou9OlmsN5lX+ZbVMGQlKqdKe8BUqYoyOsHGIGV6Xyk99IXD1qm3p56u2Ysq68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777682940; c=relaxed/simple;
-	bh=AEHtC+ETvaK2lmz50YcRV/jLNIU8jkk56VMXFCK1zn0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HSa3vGo+Vukd5CzFF9DLFPWv96vNGIqgere5LgX5phxaMKXjCBSv5FLMeSoFA+HQVKdh0eND9nxtwfU1Q8plnaLeH3Q5d0obNbKn62z0E3zgL/bSsbaKmq8nplYTpZ0eXj/1hx7cSMTSe94m2Bsi4qTv/rDB3UbpEeBn69oEdv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fZ8dpWSR; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1777682962; c=relaxed/simple;
+	bh=IeV2kFIhwjJnX0skXZIwlcr9DgYoBXSMOh8rEjHzi6E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eNx3rXaStPdW60SkcWiGiyNUbj28y9qTAolX3cKOUsmA4uHpopRyXIWE1TptdZ18Z9Lc1X3KgML/v4XeS4qcOExRj/ir3gjaEbyMe3AWA+vM/yYlatgFwTzqEjza5vN95Bt28XQ703VarslfmAUSZLhHeP3wo1q/8SMaJkBKaYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y8t6ALYC; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fZ8dpWSR"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2aae4d2d215so1214095ad.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 17:48:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y8t6ALYC"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-364da4849b2so472150a91.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 01 May 2026 17:49:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777682938; x=1778287738; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777682960; x=1778287760; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ChL8A5gfwDt9baobC+l6qF9XfISv6FkLXO1fVsQDnY=;
-        b=fZ8dpWSR3gl+elj1yA2lYirC9OG1M2fvBXTmsArDB2AtKqe4OMczsQlixNxFsQTElo
-         VWfbRXtcz8aGWWQnuech4lMEye8wJWZsR1NocNd6Wy0pRhC1qRK1CeJ25Ew/KIEoFLOG
-         z1JJAgCOP2AL8xy8v/GQBsZVZ/WjkocNtYKVX275zd4dllHGiKzZjnkQJBM5rpM0DqeL
-         0HOxbNYYU3Zu/Z0zZVkrAx7zirk3bTqvShRGkyz05I8FYAmdkdD2VAw+4f2qZWADcwDt
-         mUtArcQbrS/Xxm2kvmhwOx8c0awBLt+dRx1huO5t1cdRQw89187msYTwnqqvuh1Sz1Pc
-         JdMA==
+        bh=KvbakKe1AH43pz8vth2Kv2pNuUbrRZ4DWIjUmda08Cg=;
+        b=Y8t6ALYCyHC5bHtZJL32zaMAu4nm66n1YwRHsWvc/q06T6fcamah/2c9qsobPS9Nba
+         m5RQuKP7sP9edgrfbUmYTlkVoVFnWpGULKbMQQNUgueQPDLVrIeagKoq3/wXI41yq2jh
+         bLUSy5ZAfn1bgmQwY+ENz8GqbirJYmfaRrx6ZbeWyHD2NkORhHqfLOulNzRIH995f5dE
+         dc/9aCMrxQFUEBCnifPV7zGtzZlAVKgiCa0o6+0cF+QSD+pr0/Yv4o7kHOw8CMbY2K5B
+         dYDW6IezhHRxqrh9LE2e2WqnxFO92eaV+j/3F7AesniSy0m3RLP/YuR8LQUIMT89vsOy
+         F+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777682938; x=1778287738;
+        d=1e100.net; s=20251104; t=1777682960; x=1778287760;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6ChL8A5gfwDt9baobC+l6qF9XfISv6FkLXO1fVsQDnY=;
-        b=YpxRWNvT908XKUGypAxabW0FTEgsgj+8SVVAhSELYTi3p9okmrdGdUkUBrxGp1oqlj
-         JzQVXOEPcJMEGGfrXvk913tryelCem6ksW1WgeoE2JYOSAz30WH17MaC7hStL86+PDij
-         miPXjJg9u796lJX8qMVckuVqUVjJAwfLl6hEj5erplECuji5trbqGXI1B1U2DpLyP+/a
-         LPU2OdS/ttVukO3zQpHB8X3rg+zhU3/iIyXC7Z7pMyHdaSugScWVbgHaY+0Y/5W2tRo9
-         skzA0nYA0cy3i0MYQR6rzUQE05WQpi4wl+0T1cVF3hzHfEu4tEVFjDEku1qosi3sK9uA
-         qZCw==
-X-Gm-Message-State: AOJu0YwyF9SDk8O2VAQFGmmpnuR2G55Ci6drxctiH6jtCeVNb8EgoGdG
-	1K4H43X3e1aViwCxXHnkIRmuW84rSB+jqfwbw/IMc5+EJDTfJe20/D4u5cNojZrq
-X-Gm-Gg: AeBDieuXgVAGBsUgiIdTKZ+e0PtPkXbUxUF5Bw8AQtgRaagAbYpUFBKiOY5SXlAGrnZ
-	+sT+i1kpdrHVWdoQDgBnSS6DAiwPNb5OJVy8Ah6fzN2i5yp2nb41tirmFIekM7kBFzO/6wXnRqr
-	g4aS+ZZYEcGSq6/HCp4JRGVFq6Y0Vshe2zOZnP1S36QX93D5KvPD8DWcd+C7to3Li4nLfYm77uf
-	QHJylnxIQtT74uE8Y4c7+/CNlHPhnEY8sipgzs53IIDOBaczIVueZsmCfsCTolWqldvkyLao/b5
-	yBAaniHC58vr+XH4/gO4Y3sXAo/kD5wz7N0ftSu2aucxpIpfklhpleLFbGAoOvGwtIl7D6dx5l+
-	GkvsjdNrGI86HsI4v/XZZlLpSqgJ5YtlcHfqaBVRroYtwACkontRtCCE3ByZjcisRjQeuTLUmXQ
-	EgevhtG53uCnjnpn+KJvITWpr/KJc=
-X-Received: by 2002:a17:902:d2c9:b0:2ae:cefd:18ce with SMTP id d9443c01a7336-2b9f252e30bmr6999925ad.2.1777682938459;
-        Fri, 01 May 2026 17:48:58 -0700 (PDT)
+        bh=KvbakKe1AH43pz8vth2Kv2pNuUbrRZ4DWIjUmda08Cg=;
+        b=fqRigCiKVMDkp6wSsv0L7njIrRqqTo20k2+ejw+aXapkHNwsYhaaXX2IKISXA035cd
+         rbeQdNFjHz0nmfTmzVoASdhPd8TNp/PUxcjjFNS37phzQ800K/F0UwuAgZpP/9zrLVUW
+         Kus2PPUaJKcZNZ9fBDRmv+G6tFUeAZLmQOYtKS3IEyOwlP7T2KNifLVeJL+vlpU5Ebw4
+         GZLA8apG7o1Dd01lE2nscOr5zgrNkmc8yPmfK7Ierqv1n1fgtC/ObKw+OBloW5FSYV0K
+         YIvJSeYcRE7Und3yiJI+ryp95vxKcy3YX1GdRUQcCqoLp298HO+oW/tNXlzq9Edb27U9
+         HDjQ==
+X-Gm-Message-State: AOJu0Yy9OrgC54f00y+QmS9OBk1UYvNqyqg8j+E24CnompnXwQ1TC6mE
+	QkxwjUrAUy3hRtHOikWQD8aVNp+AVBD2kBoEHwYpkVCsCq9lXiHRUEG2
+X-Gm-Gg: AeBDiesXG1Zydie9bM3Uu/K3EbC/weDvmMJ4LIIipPCBmPgjF1FyDpNhThHLwZRfQrQ
+	dGtciJDTxOYYSQUVm8hicZXLynwg3FBEoUc0CpSZJ77Yqku7qkMWy+r+IvwTUXKCSKIKTrKhWOy
+	tU0wgAgz88S6zeG3iWaXKX3QDrG/0Y40qpTd2g88WSe1pev9ZWehTFfAk0OVw6li617pMF+bljS
+	4xd4BL2LhVnvcWjp/AFvclaIgMNd6pQgdQLLmShL9YjXyIj0r2FXodi59r/8NzGcWUTYDFRHm3y
+	HxNHPASisR6ymd6Rjvj0H0BVX+RTTakzQfxjMyFz2oUGR2t6A8mpMgRpQi52v31CvLHihEv8Zkh
+	0Wb59k0+hCQwDb6LzsJ+3L6uhHjus1aq5Togkj2vO5cc+ZnE65pd/MkUKpv1VDqBX3NIlVE/HcL
+	ufbM8lBLgQkmencfR6ZCL4gfB3S9U=
+X-Received: by 2002:a17:902:d2c9:b0:2b0:7136:d980 with SMTP id d9443c01a7336-2b9f25330b1mr7048495ad.2.1777682960211;
+        Fri, 01 May 2026 17:49:20 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae15fb6sm33435645ad.43.2026.05.01.17.48.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caa7e827sm30526155ad.1.2026.05.01.17.49.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 17:48:57 -0700 (PDT)
+        Fri, 01 May 2026 17:49:19 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH] ntfs: fix copy length in ntfs_bdev_write() for non-page-aligned start
-Date: Sat,  2 May 2026 09:48:52 +0900
-Message-ID: <20260502004852.491934-1-charsyam@gmail.com>
+Subject: [PATCH] ntfs: avoid use-after-free of index inode in ntfs_inode_sync_filename()
+Date: Sat,  2 May 2026 09:49:16 +0900
+Message-ID: <20260502004916.492207-1-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -73,93 +73,112 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is not a normal data I/O hot path.  The single in-tree caller is
-the $LogFile emptying path used during read-write mount/remount, and
-the bug only becomes visible on NTFS volumes whose cluster_size is
-strictly smaller than the kernel's PAGE_SIZE (typically 4 KiB on
-x86_64).  Per Microsoft's format command documentation, NTFS supports
-allocation unit sizes starting at 512 bytes, so 512 B, 1 KiB and 2 KiB
-clusters are uncommon but valid on-disk configurations.  When
-cluster_size >= PAGE_SIZE every "start" passed in is page-aligned and
-the buggy "from != 0" path is never taken.
+ntfs_inode_sync_filename() walks every FILE_NAME attribute and, for
+each one that points at a different parent, opens the parent index
+inode with ntfs_iget() and locks index_ni->mrec_lock.  All three error
+branches (NInoBeingDeleted, ntfs_index_ctx_get failure, ntfs_index_lookup
+failure) drop the parent reference before unlocking:
 
-ntfs_bdev_write() splits the write across one or more block-device
-folios.  Inside the loop, "to" is computed as the *end byte offset*
-within the current page (0..PAGE_SIZE), and "from" is the start byte
-offset within the page (reset to 0 from the second iteration onward).
-The copy length should therefore be "to - from", but the current code
-uses "to" directly:
+	iput(index_vi);
+	mutex_unlock(&index_ni->mrec_lock);
+	continue;
 
-	to = min_t(u32, end - offset, PAGE_SIZE);
-	memcpy_to_folio(folio, from, buf + buf_off, to);
-	buf_off += to;
+index_ni is NTFS_I(index_vi), so the ntfs_inode (and its mrec_lock) is
+embedded in the inode allocation.  If the parent directory is not held
+outside the icache - no open dentry, recently evicted from dcache, no
+other concurrent lookup - ntfs_iget() returns with i_count == 1 and
+our iput() drops the last reference.  evict_inode() then runs and
+destroy_inode() schedules the slab object for RCU free, while
+mutex_unlock() on the next line is still touching index_ni->mrec_lock.
 
-When "from != 0" (i.e. "start" is not page-aligned) memcpy_to_folio()
-copies "from" extra bytes:
+Swap the order so the mutex is dropped while index_vi is still alive,
+matching the success path at the bottom of the loop which already
+unlocks before iput().
 
-  - it reads "from" bytes past the source buffer into kernel heap;
-  - it writes "from" bytes past the requested range into the next part
-    of the block-device page (or, if "from + to > PAGE_SIZE", past the
-    folio boundary entirely, which trips the VM_BUG_ON inside
-    memcpy_to_folio() on CONFIG_DEBUG_VM=y kernels).
+Reproduced under KASAN with a debug build that forces
+ntfs_index_ctx_get() to fail when the parent index inode has been
+opened with i_count == 1.  KASAN reports a slab-use-after-free read
+on the parent's mrec_lock from mutex_unlock() on the writeback worker:
 
-"buf_off" is then advanced by the wrong amount, so every subsequent
-iteration also reads the source buffer at the wrong offset and writes
-the wrong content to disk.
+  BUG: KASAN: slab-use-after-free in __mutex_unlock_slowpath+0xb5/0x970
+  Read of size 8 at addr ffff8880014b7598 by task kworker/u8:0/12
+  Workqueue: writeback wb_workfn (flush-253:0)
+  Call Trace:
+   mutex_unlock
+   ntfs_inode_sync_filename
+   __ntfs_write_inode
+   ntfs_write_inode
+   __writeback_single_inode
 
-ntfs_empty_logfile() calls
+  Allocated by task 103:
+   ntfs_alloc_big_inode
+   ntfs_iget
+   ntfs_lookup
+   __x64_sys_mkdir
 
-	ntfs_bdev_write(sb, empty_buf, NTFS_CLU_TO_B(vol, lcn),
-			vol->cluster_size);
+  Freed by task 12:
+   ntfs_free_big_inode
+   i_callback
+   rcu_do_batch
 
-with empty_buf sized to vol->cluster_size.  On a sub-PAGE_SIZE-cluster
-volume, any $LogFile run whose LCN is not aligned to
-PAGE_SIZE / cluster_size reaches the non-page-aligned path.  The
-over-copy can read beyond empty_buf and overwrite the sectors following
-the requested cluster in the block-device page with unrelated kernel
-heap contents while $LogFile is being emptied.
+  Last potentially related work creation:
+   call_rcu
+   destroy_inode
+   evict
+   dispose_list
+   evict_inodes
+   ntfs_inode_sync_filename
+   __ntfs_write_inode
 
-A userspace reducer of the same arithmetic and copy loop confirms the
-bug under AddressSanitizer: ASan reports a heap-buffer-overflow read
-past the source buffer for the buggy length, and the fixed version is
-ASan-clean.
+  The buggy address belongs to the object at ffff8880014b7440
+   which belongs to the cache ntfs_big_inode_cache of size 1800
 
-Compute the copy length as "to - from" and advance buf_off by the same
-amount.
+The freed object is the parent directory inode itself: allocated by
+mkdir(2) via ntfs_iget(), then released through call_rcu(i_callback)
+that destroy_inode() scheduled when evict_inodes() ran from inside
+ntfs_inode_sync_filename().  Re-running the same workload with
+mutex_unlock() moved before iput() runs cleanly under KASAN.
 
-Fixes: 5218cd102aec ("ntfs: update misc operations")
-Link: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/format
+Fixes: af0db57d4293 ("ntfs: update inode operations")
 Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 ---
- fs/ntfs/bdev-io.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ fs/ntfs/inode.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ntfs/bdev-io.c b/fs/ntfs/bdev-io.c
-index 67e65c88d681..27d7c2767a33 100644
---- a/fs/ntfs/bdev-io.c
-+++ b/fs/ntfs/bdev-io.c
-@@ -97,6 +97,8 @@ int ntfs_bdev_write(struct super_block *sb, void *buf, loff_t start, size_t size
- 		idx_end++;
+diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+index 16890d411194..360bebd1ee3f 100644
+--- a/fs/ntfs/inode.c
++++ b/fs/ntfs/inode.c
+@@ -2582,8 +2582,8 @@ int ntfs_inode_sync_filename(struct ntfs_inode *ni)
  
- 	for (; idx < idx_end; idx++, from = 0) {
-+		u32 len;
-+
- 		folio = read_mapping_folio(sb->s_bdev->bd_mapping, idx, NULL);
- 		if (IS_ERR(folio)) {
- 			ntfs_error(sb, "Unable to read %ld page", idx);
-@@ -105,9 +107,10 @@ int ntfs_bdev_write(struct super_block *sb, void *buf, loff_t start, size_t size
+ 		mutex_lock_nested(&index_ni->mrec_lock, NTFS_INODE_MUTEX_PARENT);
+ 		if (NInoBeingDeleted(ni)) {
+-			iput(index_vi);
+ 			mutex_unlock(&index_ni->mrec_lock);
++			iput(index_vi);
+ 			continue;
+ 		}
  
- 		offset = (loff_t)idx << PAGE_SHIFT;
- 		to = min_t(u32, end - offset, PAGE_SIZE);
-+		len = to - from;
+@@ -2591,8 +2591,8 @@ int ntfs_inode_sync_filename(struct ntfs_inode *ni)
+ 		if (!ictx) {
+ 			ntfs_error(sb, "Failed to get index ctx, inode %llu",
+ 					index_ni->mft_no);
+-			iput(index_vi);
+ 			mutex_unlock(&index_ni->mrec_lock);
++			iput(index_vi);
+ 			continue;
+ 		}
  
--		memcpy_to_folio(folio, from, buf + buf_off, to);
--		buf_off += to;
-+		memcpy_to_folio(folio, from, buf + buf_off, len);
-+		buf_off += len;
- 		folio_mark_uptodate(folio);
- 		folio_mark_dirty(folio);
- 		folio_put(folio);
+@@ -2601,8 +2601,8 @@ int ntfs_inode_sync_filename(struct ntfs_inode *ni)
+ 			ntfs_debug("Index lookup failed, inode %llu",
+ 					index_ni->mft_no);
+ 			ntfs_index_ctx_put(ictx);
+-			iput(index_vi);
+ 			mutex_unlock(&index_ni->mrec_lock);
++			iput(index_vi);
+ 			continue;
+ 		}
+ 		/* Update flags and file size. */
 -- 
 2.43.0
 
