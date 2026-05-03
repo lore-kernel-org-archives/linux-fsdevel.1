@@ -1,138 +1,120 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E013A875A
-	for <linux-fsdevel@vger.kernel.org>; Sun,  3 May 2026 13:53:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BF83CD8C8
+	for <linux-fsdevel@vger.kernel.org>; Sun,  3 May 2026 14:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777816412; cv=none; b=GJLGyId7rvPFHg+ze2n3w96If9tWM7XhlY7QNecPtznNJo/TwbJmYom03xf9tFiIQrBv5se02E3i8KQU9rKNwyZ2S5kdjAxFEEE5DNTpYXwmWDt2KWfxV+QMxIf1fnA1bp1pUE/rlRUdb3pdHI3M+FlhirMFLTn9Ob1qXOTYHqU=
+	t=1777817735; cv=none; b=OY/JR3sUweUmSNAJrsc6WbK65gLAL3QUNbyCC/Wef5YFQT8oZHIKQC7ATaGZNWm7kafh++XNuJUIQ16ygmAq+BmFllw27VfLVnwnoddsgZd+N1/+IUorT5YO2xlQfn2JwJZxn0ZZqDmuut6yANKNxvbMMtvP8cTaPyLPiMmvjeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777816412; c=relaxed/simple;
-	bh=tQsA1PM+dKTuEIPPt4nJnLS3mUX5G0TCq5ohttwrp/M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A5FO6g9UV+HdktmjxNMtEJR4Vxfg1zYpkPgtBly3QZIc44f+osl3P5QsjuMTWUA1ri1yL8XIJKcrT2Du9LI/okV+Fn3HzG3Tt9KUnbMo8PbLelaLJXXWXTN67CeB2KHK7HPbzAEQ3enRuHbhEPZLrmN+64tQxxZZ7XK8IgY3q4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ubmkI4RK; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1777817735; c=relaxed/simple;
+	bh=75uFtPxapFid+TP3SqIuonzscbWMOB7EIctLrsn84KY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mufhVCCDcuNRV+QZOYH1Fh+pRcINCaq5Ot0WXK3oNYyTBLEWWrXb7dKBBAJjDbOekpJPQzHeZ+F/Jw+A8rNEODvMnTxZtJBGGCzuihXDQVXBILFikiizQ7OYoJAVv9ZrrnJ7Fn1RH1RVsb0My1yTR6X8yoVeRgBYLcng88LmPwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=VyPjQxIu; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ubmkI4RK"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4g7mT26gsRz9vGF;
-	Sun,  3 May 2026 15:53:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777816406;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=+0hw2mMUJbCqQL61RqW8ZH++K1WRxx7PfQpqTJju0GE=;
-	b=ubmkI4RK/3+pGsyChH/9tUEsO3xSkk+h5htfxhS++DdnNiaf/VavCYhD3HpD+08fuFTAv8
-	jX9yYoMHgDdV1jqWb41eXYO+GBOobHgQtie0tGGBwX9pjTG6F4A5V0zW4U+3evGPM8DtNe
-	sjc2pKcHS79Uk1B2GG5n78R1AdOzypkFRzuJMq0Mc8DXoUUtU9CvDX+84buEqbAmctsDjU
-	TKyHERGK3BE6mKPVClJxP+n4LFroPh1xdT/6y3r8wKiODMHY43xOGwR/p9JB0ypLx5VRGC
-	AvDTsjYraFd1yPv4MOo8xeH4etlzH9+/nWOxUB2A17ThvlL1IZckG7S4aUkKMg==
-Message-ID: <b4a08cd3-4ea5-43cf-aa9d-2748f33de3ed@mailbox.org>
-Date: Sun, 3 May 2026 15:53:25 +0200
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="VyPjQxIu"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so30475515e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 03 May 2026 07:15:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1777817732; x=1778422532; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YoLu4/Y6To8vmjRfh7km84wvUeDNcP0Umpn2civnYdM=;
+        b=VyPjQxIuf+QVi+SeSvoIerEHupf655XdYNa5uZv4EPQ0Al4G4NVT3gnmaXsvuckOxI
+         wDSnNysWTZ1rOPSrk3Y/aCc1MEIu2KXr4TTYz5CI8oalcoP64z7G7aCb4AAjYfU6qkCR
+         YsLC1zvMIpC7MpGpY7cJ0SDpqWqv75D7yy4OrJzlqQFA/4JwxG+kcFdzaYh9NHKcpaVG
+         WufETHZCkrOAjPbT9hznygqE3YM5dsLBxb7La3yVkjEg293Xv5SrZZD1Dl2qy9JHLZY9
+         ILcFLNsDH4IKbzlDrOS7RghPAgBaX5VjtCmKBkihhe4hyTgKERfFqYqKK+Mj3MVoWzxS
+         MP5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777817732; x=1778422532;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YoLu4/Y6To8vmjRfh7km84wvUeDNcP0Umpn2civnYdM=;
+        b=d1opyMZQTIgRR33q2e77aMlD1ZjnCeribwIBR5aSEl3XnspAMzRXl8aC+q8ZZQhD3x
+         COhf0FC7tPneY1aSDPqE8CAKc+X1TYjcy8IUuLsZE6zWSk+H49Jd/OF04CLA2q355S4+
+         +pzF1XKxUGlYf2E4CcKxJj1dXXd9Q8gTGtxRxFVfg8YgkE/nkrRK4hEtSsxQb2GgL04E
+         IL2pm6s1w1HIf/bTFQ82voupvP1fYDi6M5okJAsd8dwGjv9npxMaqVCBST+GK+Ts07Qz
+         dQc/eDHVFOiXPWG2yEViJ7Dmp3MRP4xS6OImIYEpyHPbZnZJKFjQ2WMC3UucLWMbeURX
+         /thQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+FOMaL+nM1syLbflptQa3pPeWBOZr/UKIy4YY8m7LCkQrfsF2Ki1klS4kZycGfBrbWaQgSyWCQcyEWfw4O@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBU2IfAsGxyhU7Z7rBHJ1vQWLDbS4oeTqS/x+nWOf/2axBf/wt
+	4obxGsON4hEv6mBQsvcVwOGuYMJWDLwcGzRDM13iBWUSzI+l7mf3BflO9AuEXfHWwPU=
+X-Gm-Gg: AeBDieszIHUIuMEvh3oLyWkCK+HLke5txqpQSE+ekosKsCnGYHI2BRK9x0KIaEX+lQ5
+	A1bBM3L9r5mSftCLsK8uoM8A+2Ro34FYxMkRvL4baie+uV7FzCqnI6H3c6SHBmWrF0M1Rg3hZ1l
+	8wvykazwkhXnvCknjifLROJ9aR30PLwXVt3lPzzID50LZ0SzRfRi8+triU3nbVLe1iF2osv+ah/
+	BjNxFlR5O5XZKWZeJgowY92oUw+/CrcV1R8iTD4O2c52hwYsWb4dN1LZRHzlQVh4k9QLBRxPAFg
+	VsmbL24L50E9QE3JJ+wxlECbc2ko+jsfbcdeW3JxIjX1R0SQxZ8wharUwedlks4tQramiCyX/bS
+	UcgeOehnWShlIUV1DpVzJZFF+EiWZciDl4avRSW5roSm0AiuBWDo9WCzG0gmuoXY3HCdmwHZ7Sl
+	/YZY9hTa3Z3Hb6VXmEFUuZkdQJjkSIXm98g6pJ+2qh2NnD
+X-Received: by 2002:a05:600c:4e0b:b0:48a:599a:3716 with SMTP id 5b1f17b1804b1-48a98668329mr118389885e9.23.1777817732149;
+        Sun, 03 May 2026 07:15:32 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F ([213.147.98.98])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8eb75fc1sm208853235e9.7.2026.05.03.07.15.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 07:15:31 -0700 (PDT)
+Date: Sun, 3 May 2026 15:15:28 +0100
+From: Gregory Price <gourry@gourry.net>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	lsf-pc <lsf-pc@lists.linux-foundation.org>,
+	Bharata B Rao <bharata@amd.com>, Donet Tom <donettom@linux.ibm.com>,
+	Aboorva Devarajan <aboorvad@linux.ibm.com>, linux-mm@kvack.org,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Subject: Re: [LSF/MM/BPF BoF Session] Numa-Aware Placement for Page Cache
+ Pages
+Message-ID: <afdYgG6d9Vrt3miV@gourry-fedora-PF4VCD3F>
+References: <h5ossmwe.ritesh.list@gmail.com>
+ <afNV5wbhsFQJLzxi@casper.infradead.org>
+ <afYQz3YJdWB2R-1q@gourry-fedora-PF4VCD3F>
+ <afaCICnrkTEJN562@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: Meaning of struct statx->stx_blksize field
-To: Andreas Dilger <adilger@dilger.ca>
-Cc: linux-fsdevel@vger.kernel.org
-References: <FAE1F98E-276A-4D61-86D4-47AE39F2E7E8@dilger.ca>
-Content-Language: en-US
-From: Zeno Endemann <zeno.endemann@mailbox.org>
-Autocrypt: addr=zeno.endemann@mailbox.org; keydata=
- xjMEaQTnsRYJKwYBBAHaRw8BAQdAaM0iP7BM4cim48CUrxLA/GL1pYCCEzcWwMWZpif6rNXN
- M1plbm8gU2ViYXN0aWFuIEVuZGVtYW5uIDx6ZW5vLmVuZGVtYW5uQG1haWxib3gub3JnPsKW
- BBMWCgA+FiEEmC5dRIssSc8usW9ctw5fyLMNvKkFAmkE57ECGwMFCQWjmoAFCwkIBwIGFQoJ
- CAsCBBYCAwECHgECF4AACgkQtw5fyLMNvKlmYgD+LcbsvEZxyegeAcyvZXvpZBEjHXqkdM90
- C9QVC1CsW3IA/jqxTNUPJZ26XR3/d7XcWMFg5JRZyJdL7dP+7crJeMkGzjgEaQTnsRIKKwYB
- BAGXVQEFAQEHQHFzaxdORLfIxXTm1tjSnTbboFXL9tw5GgcNA4Nz0AQiAwEIB8J+BBgWCgAm
- FiEEmC5dRIssSc8usW9ctw5fyLMNvKkFAmkE57ECGwwFCQWjmoAACgkQtw5fyLMNvKmYmgEA
- xY2IpTWenWoXXSyhGUWu/ZfdRUsUBtYM5wSj7XeayCUA/0/dEWSKHsuxuFgvaetZE92+qjb8
- HkxusIwKIh1rafYI
-In-Reply-To: <FAE1F98E-276A-4D61-86D4-47AE39F2E7E8@dilger.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: h8ycdfqzfqtduymqcaojptxneinetmyb
-X-MBO-RS-ID: e139ead7acdb4ae2080
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afaCICnrkTEJN562@casper.infradead.org>
 
-Andreas Dilger wrote on 03.05.26 14:41:
-> ﻿On Apr 27, 2026, at 06:41, Zeno Endemann <zeno.endemann@mailbox.org> wrote:
->>
->> Hi,
->>
->> The man page of statx(2) describes the stx_blksize like so:
->>
->>> The "preferred" block size for efficient filesystem I/O.
->>> (Writing to a file in smaller chunks may cause an
->>> inefficient read-modify-rewrite.)
+On Sun, May 03, 2026 at 12:00:48AM +0100, Matthew Wilcox wrote:
+> On Sat, May 02, 2026 at 03:57:19PM +0100, Gregory Price wrote:
+> > On Thu, Apr 30, 2026 at 02:15:19PM +0100, Matthew Wilcox wrote:
+> > > Ideally, no, the kernel should observe the task and get it right.
+> > 
+> > Out of curiosity, a use case i've been exploring is something like
+> > 
+> > fd = open()
+> > buf = mmap(fd, ...)
+> > mbind(buf, device_node)
+> > /* fault file pages directly onto device memory */
 > 
-> The statx(2) interface is meant to be able to emulate the stat(2)
-> interface, where 'stx_blksize' is reporting the same information
-> as 'st_blksize' exactly as documented (preferred IO size),
-> 
->> However, from observation it rather looks like that field
->> is set to the "block size" (meaning the allocation unit) of
->> the file system the given file resides on - at least for
->> ext4 and vfat.
-> 
-> IIRC, ext2/ext3/ext4 have always returned the blocksize for stat(2)
-> st_blksize, so that doesn't prevent the two from being the same.
-> 
->> To my understanding that value is fairly unrelated to a good
->> IO transfer size and for the most part not really relevant
->> for userspace apps. For avoiding inefficient read-modify
->> rewrite the actual relevant thing is writing in multiples of
->> the page size (unless the page cache is bypassed, in which
->> case I guess stx_dio_offset_align is the value to use).
-> 
-> That is probably more an effect of history rather than anything
-> related to statx() itself.  ext4 doesn't really have any other
-> preference on the IO size other than the blocksize.
+> Could you be explicit what _kind_ of node you're talking about here?
+> My initial thought went to something like DAX where the node actually
+> contains persistent memory and the fd is a reference to some chunk
+> of that storage.  But I don't think that's what you're referring to.
+> You might be thinking about a presentation of DRAM over the CXL fabric.
+> Or you might be thinking about memory presented by a graphics card
+> (perhaps over CXL, perhaps some other way).  The meaning of "device
+> memory" has become thoroughly confused (thanks Jerome!) so I sincerely
+> don't know what you're talking about.
+>
 
-Sorry if I'm being a bit pedantic here, but if we are talking
-about the filesystem as the underlying data structure, then there
-really is no preferred IO size, as long as there is no filesystem-
-level block checksumming/encryption (or something to that effect)
-in place. Reading or writing single bytes would be just fine from
-purely the filesystem perspective regardless of fs blocksize then.
+Ah, I can see how the language has moved over time.
 
-But if we're talking about the filesystem as the filesystem driver,
-then I believe it would make sense for it to rather report the page
-size than the block size (at least when the block size is smaller),
-since the driver is using the page cache to read and write to the
-device.
+But yes a gpu with onboard memory presented as a NUMA node, or some
+other accelerator where the kernel is responsible for managing its
+memory (rather than a driver).
 
-Anyway, I'm not suggesting to change the behavior, just to change
-the man page to state that this actually reports the filesystem
-block size, which may or may not be a good IO transfer size. So I
-wanted to get an approval for that here.
+Probably the use-case needs a bit more consideration before we go
+dangling new policies off the page cache - just chewing on ideas.
 
-
-Cheers,
-
-> 
->>
->> Can someone confirm my interpretation, so the man page can be
->> corrected? Or do I misunderstand or overlook something?
->>
->> Thanks,
->>
->> Zeno Endemann
-> 
-> 
-> Cheers, Andreas
-> 
-> 
-> 
-> 
-> 
-
+~Gregory
