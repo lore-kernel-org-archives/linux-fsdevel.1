@@ -1,28 +1,28 @@
 Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4600A346AD3;
-	Sun,  3 May 2026 07:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBEDD7260F
+	for <linux-fsdevel@vger.kernel.org>; Sun,  3 May 2026 08:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777794075; cv=none; b=R7GcadoNxHULtyhBtN0FE8rLZ/68O3V49lTADZSa7QWtaY7VSXwhxyQZnvyYy6r8wBW5XmsVYwCXpeBOsDezNCcfsoqVGM9bVqqwEYIVcsuKA1hluCFmsWYd/hRVtTloMmPioF1AC14EDs+LqkebU5F1QekY7IUXoCgJDqe4rdc=
+	t=1777795389; cv=none; b=gL6RSJUHpx/WntcLvZjyn/0u/miqZ9e+/S9LF3M1bTdoze01g0p9R51QY0P+Oqy0eZxQZhU4Fdy2p8XzYZwyXGpHtC2ku5R2mwKz18eWt/hUEhvCqTxSJbosqj2snIBdEfJlffUyIEdEvrkjL9J51MgTSuOus75qdoc44U755q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777794075; c=relaxed/simple;
-	bh=mg/KNrw0hRlSPXFSPAgmZQ3PsY/sIUTZ7V4wy8JJXvI=;
-	h=Message-ID:Date:MIME-Version:Subject:References:From:To:
-	 In-Reply-To:Content-Type; b=IxLfxIwURV7UzranNglgQ9kZ1IwXYRHUA6XcmNKi74eOmEXQZrYxdgZtuzoPnpyYgrkabt//Wb95cGYjPqrvG6i1+A+EvOKiORMja7C1b0KuSoGtqCITJF89bHc65YM4jy4wA6+S3Nis0a+8aeLJ6TdMvOmNHf9Wl3eLRs419bA=
+	s=arc-20240116; t=1777795389; c=relaxed/simple;
+	bh=EcKGVC9lhGQR0aaXeQ7l53HeJ32fr/haxG6oZhNp/lI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=isHKw6aQzjAB+Jh9h4dJhiGdiDGDkbNmWYl81TKdu3pN9iWm0kK//wUb6g1CFKfOGOlrL6Ys05nIvNAK86ecaY2ZoH0JavBQoV7yEO9YrvoDgQ3aXoBVck7wj2fnlpGi8NFAWoskIM6eBieDhNWaZdnq0pMJ5hfuiPAadpH3/oE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id 26A761D490;
-	Sun,  3 May 2026 07:41:09 +0000 (UTC)
+	by embla.dev.snart.me (Postfix) with ESMTP id CBAAC1D490;
+	Sun,  3 May 2026 08:03:05 +0000 (UTC)
 Received: from [192.168.1.18] ([182.226.25.243])
 	by embla.dev.snart.me with ESMTPSA
-	id rQP5MRX89mnzmQAA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Sun, 03 May 2026 07:41:09 +0000
-Message-ID: <b6c3cbf5-d8da-4157-9b75-918633bbef1d@dev.snart.me>
-Date: Sun, 3 May 2026 16:41:08 +0900
+	id CY/ZHjkB92lymwAA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Sun, 03 May 2026 08:03:05 +0000
+Message-ID: <bd7379db-dc8b-43f6-9c56-dd229a5fb1bc@dev.snart.me>
+Date: Sun, 3 May 2026 17:03:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -30,9 +30,15 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [mm?] [exfat?] [f2fs?] memory leak in __kfree_rcu_sheaf
-References: <69f6f8c5.050a0220.1584b9.0044.GAE@google.com>
 From: David Timber <dxdt@dev.snart.me>
+Subject: Re: [PATCH v1 1/4] exfat: refactor nls.c (tables)
+To: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>,
+ Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20260428235038.93816-1-dxdt@dev.snart.me>
+ <20260428235038.93816-2-dxdt@dev.snart.me>
+ <PUZPR04MB631683CFF8B30FE0C5EC106181352@PUZPR04MB6316.apcprd04.prod.outlook.com>
+ <04c4213b-0918-4736-b736-238490322880@dev.snart.me>
 Content-Language: en-US, ko
 Autocrypt: addr=dxdt@dev.snart.me; keydata=
  xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
@@ -43,46 +49,38 @@ Autocrypt: addr=dxdt@dev.snart.me; keydata=
  EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
  VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
  Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-To: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>,
- Liam.Howlett@oracle.com, akpm@linux-foundation.org, chao@kernel.org,
- jaegeuk@kernel.org, jannh@google.com, linkinjeon@kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- lorenzo.stoakes@oracle.com, pfalcato@suse.de, sj1557.seo@samsung.com,
- syzkaller-bugs@googlegroups.com, vbabka@suse.cz
-In-Reply-To: <69f6f8c5.050a0220.1584b9.0044.GAE@google.com>
+In-Reply-To: <04c4213b-0918-4736-b736-238490322880@dev.snart.me>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 5/3/26 16:27, syzbot wrote:
-> Hello,
+On 4/30/26 18:22, David Timber wrote:
+> On 4/30/26 16:53, Yuezhang.Mo@sony.com wrote:
+>>> +/* exfat/tables.c */
+>>> +/* Upcase table macro */
+>>> +#define EXFAT_NUM_UPCASE     (2918)
+>>> +#define EXFAT_UTBL_COUNT     (0x10000)
+>>> +
+>>> +extern const unsigned short exfat_uni_def_upcase[EXFAT_NUM_UPCASE];
+>>> +extern const unsigned short exfat_bad_uni_chars[];
+>> The global variable exfat_bad_uni_chars[] is unnecessary, as is the 
+>> generic function exfat_wstrchr().
+>>
+>> We can implement a dedicated function `exfat_is_bad_uni_char()`, in
+>> which we can define static `exfat_bad_uni_chars`, or we can use a
+>> switch...case... statement.
+> I agree.
 >
-> syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+> I too think that switch a case statement is suitable here because
+> there's only a few __u16's to compare so there's really no need to leave
+> room for cache misses. Let the CPU prefetch the characters along with
+> the instructions.
 >
-> Reported-by: syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com
-> Tested-by: syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com
->
-> Tested on:
->
-> commit:         66edb901 Merge tag 'v7.1-p3' of git://git.kernel.org/p..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11fb7082580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=9645c21cfd1d3e8f
-> dashboard link: https://syzkaller.appspot.com/bug?extid=cae7809e9dc1459e4e63
-> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=17f2f326580000
->
-> Note: testing is done by a robot and is best-effort only.
+> Will make a separate commit if no objection.
+Did some fiddling and found out that that could risk performance
+regression. But it's a problem specific to Clang, which is not so
+popular choice of compiler in the embedded world where it could have a
+significant impact.
 
-The error message might be misleading.
+If it doesn't bother anyone, I'll send out the reroll.
 
- 1. the report is done after f2fs attempted to mount the corrupt image,
-    not before
- 2. f2fs exhibits undefined behaviour, evident from the fs attempting to
-    do I/O out of blockdev bounds
-
-This might have been cause by f2fs corrupting memory in which case the
-leak report is invalid.
-
-Davo
-
+https://github.com/llvm/llvm-project/issues/127365#issuecomment-4362781091
