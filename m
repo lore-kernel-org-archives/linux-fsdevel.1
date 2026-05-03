@@ -1,29 +1,29 @@
 Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4C12D7BF;
-	Sun,  3 May 2026 06:00:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626403A543B;
+	Sun,  3 May 2026 06:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777788029; cv=none; b=WF/CX/OViPaaj4lVIRm+nRV2iI0jHQh7LMHJeqDSNOhCoq/CNdGiUXx7S5bP75mORpPwbtcl0ICv2A42kluWA1F91pPR/evytnK6dziIxWvAoNSukj5vUoyyfLsojDwHAZ7W9oG+Uux3aK50+4B12cCo1sgeBdk6ynNAD9jMRfw=
+	t=1777788321; cv=none; b=erW7M1EYL7BvBUFHApwjk7hSzHPNAR38FLu0VcIe+AHiLPwFXwxmYH24COtDoNX0cEjD23Pi7J1D8HEflO+omN5zm9J3bszp0VX1RU3JhN/hl/fxmO5y0TAAm1OXJGzTOHcZ0lmZgqtN0Y9pjosxyTPEp8nDViOZ1zn7+RQd1mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777788029; c=relaxed/simple;
-	bh=wO8rjCYdIBcW/Y7koahzQo+OytF/YnJYooGQ+ycDZ4w=;
+	s=arc-20240116; t=1777788321; c=relaxed/simple;
+	bh=J8c7SmBQ01EtqJJQTtwM21E2eMDYKtcol6ObEcRtRhQ=;
 	h=Content-Type:Message-ID:Date:MIME-Version:From:Subject:To:Cc:
-	 References:In-Reply-To; b=HsyJ5KV5OGQ6tPBlngTIAOxE4vbfAianCqurK7qDYNTJeTcwayJ+Pc2q//0hdSBSD39NEFzUKzedBOcSHjLUlmGkL10INxNe8Cptc/FQUzDMqE4hGVolEHMPcDIpfyo12KbXiA05G5dhO/w6Cz9oSb+4cAhOqoqIJbKzbT3il2w=
+	 References:In-Reply-To; b=s6rKg+U0wEW52SfGWmLoY/7qI1JCpBpV/buMULRgV7tl0MtxGwxJButfPRRwhkLL35uMDS9QeuJvZpSELcQLVwe7Rr5BVNe+k0ou6mpnGg29ANieGgB98wHxa+JbN5Crks8vi9PCkIRWTj/Qtz/SmAzRUVoDaQopLTHpIQVQ7RM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id B5BC91D490;
-	Sun,  3 May 2026 06:00:18 +0000 (UTC)
+	by embla.dev.snart.me (Postfix) with ESMTP id 0785A1D490;
+	Sun,  3 May 2026 06:05:17 +0000 (UTC)
 Received: from [192.168.1.18] ([182.226.25.243])
 	by embla.dev.snart.me with ESMTPSA
-	id 1TKCGXLk9mlxkwAA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Sun, 03 May 2026 06:00:18 +0000
-Content-Type: multipart/mixed; boundary="------------GQoHdbbTEYRjJyiNyC5SxWyd"
-Message-ID: <4b30ba28-6f75-43a1-a108-5c0288ab021a@dev.snart.me>
-Date: Sun, 3 May 2026 15:00:14 +0900
+	id jrXWKp3l9mnSkwAA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Sun, 03 May 2026 06:05:17 +0000
+Content-Type: multipart/mixed; boundary="------------EE7yNjuyaUTamfcM6BvJA0BI"
+Message-ID: <e50ceb6c-4239-4009-9578-51ece89fdc77@dev.snart.me>
+Date: Sun, 3 May 2026 15:05:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,29 +51,12 @@ Autocrypt: addr=dxdt@dev.snart.me; keydata=
 In-Reply-To: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
 
 This is a multi-part message in MIME format.
---------------GQoHdbbTEYRjJyiNyC5SxWyd
+--------------EE7yNjuyaUTamfcM6BvJA0BI
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 #syz test
---------------GQoHdbbTEYRjJyiNyC5SxWyd
-Content-Type: text/x-patch; charset=UTF-8;
- name="syz-cae7809e9dc1459e4e63.patch"
-Content-Disposition: attachment; filename="syz-cae7809e9dc1459e4e63.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2ZzL2V4ZmF0L3N1cGVyLmMgYi9mcy9leGZhdC9zdXBlci5jCmluZGV4
-IDk1ZDg3ZTJkNzcxNy4uZGYxMGQ5YTc5YTI5IDEwMDY0NAotLS0gYS9mcy9leGZhdC9zdXBl
-ci5jCisrKyBiL2ZzL2V4ZmF0L3N1cGVyLmMKQEAgLTY1Niw2ICs2NTYsNyBAQCBzdGF0aWMg
-aW50IF9fZXhmYXRfZmlsbF9zdXBlcihzdHJ1Y3Qgc3VwZXJfYmxvY2sgKnNiLAogZnJlZV9h
-bGxvY19iaXRtYXA6CiAJZXhmYXRfZnJlZV9iaXRtYXAoc2JpKTsKIGZyZWVfYmg6CisJZXhm
-YXRfZnJlZV91cGNhc2VfdGFibGUoc2JpKTsKIAlicmVsc2Uoc2JpLT5ib290X2JoKTsKIAly
-ZXR1cm4gcmV0OwogfQpAQCAtNzUyLDYgKzc1Myw3IEBAIHN0YXRpYyBpbnQgZXhmYXRfZ2V0
-X3RyZWUoc3RydWN0IGZzX2NvbnRleHQgKmZjKQogCiBzdGF0aWMgdm9pZCBleGZhdF9mcmVl
-X3NiaShzdHJ1Y3QgZXhmYXRfc2JfaW5mbyAqc2JpKQogeworCWV4ZmF0X2ZyZWVfdXBjYXNl
-X3RhYmxlKHNiaSk7CiAJZXhmYXRfZnJlZV9pb2NoYXJzZXQoc2JpKTsKIAlrZnJlZShzYmkp
-OwogfQo=
---------------GQoHdbbTEYRjJyiNyC5SxWyd
+--------------EE7yNjuyaUTamfcM6BvJA0BI
 Content-Type: text/x-patch; charset=UTF-8;
  name="syz-cae7809e9dc1459e4e63.f2fs-crippled.patch"
 Content-Disposition: attachment;
@@ -90,4 +73,4 @@ KTsKKwlpZiAodHJ1ZSkKKwkJcmV0dXJuIC1FTk9NRU07CisJZWxzZQorCQlyZXR1cm4gZ2V0
 X3RyZWVfYmRldihmYywgZjJmc19maWxsX3N1cGVyKTsKIH0KIAogc3RhdGljIGludCBmMmZz
 X3JlY29uZmlndXJlKHN0cnVjdCBmc19jb250ZXh0ICpmYykK
 
---------------GQoHdbbTEYRjJyiNyC5SxWyd--
+--------------EE7yNjuyaUTamfcM6BvJA0BI--
