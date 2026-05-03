@@ -1,135 +1,336 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65542248B4
-	for <linux-fsdevel@vger.kernel.org>; Sun,  3 May 2026 17:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2943537D2
+	for <linux-fsdevel@vger.kernel.org>; Sun,  3 May 2026 18:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777831142; cv=none; b=M8U9TeZ7mmTYba4Md3tZUaXpeBLZTgvIeLI7IXwI7ZOfBFFySLpft/KQskaYups/BqRfYXlyHydDBVT0i92EpGhveHvMP/4wzyZxm45ZWepMuGp29Mbs8dp0YFz2VFTXXHyet5WF4F1DwyypAPvxIEBzuAOx5mxRcprM/FrVu04=
+	t=1777832259; cv=none; b=DwQbn7BfRXg2PHd4rJLDlk/1GbPiGQ+oRGSHz0k4Mfvu/6Yer6LVFs9EunFPRZIeNjdxNEcVrRlzp8quJ5dpmybq3+cD8uJHdmTifBj2uR4vmTCsS+qjX7BSu2jom5sBxZleN2pTuLnxmegvhkrfTDWsip+5peHSiHA6fkHX0wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777831142; c=relaxed/simple;
-	bh=hVzHMQ85MveykDgGj1INLZiQi23DLXlBjZGj6hWpYkU=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=G7032MiJ6E2LtXG91Z9OAGzrsgsuR+4RJYC/ficbjYlgL9Bx12eDwosyGn09Jag+KfDB7Rv/+Y5F/TC8QH773ebUVYNirPkQh6YxzS8cp/stxcKoEwIQC0iORb3HKDK3J+BKmFS166VkSF9/+NXQ0hcP5bKcp/FX+/fAJ/RGr3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUIMG+y9; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777832259; c=relaxed/simple;
+	bh=jaj2ejL373SPRV7ouUV0r0R8PXqDMV+HdYrxAnFdg4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cwgXCtdRKLj4o+iCz6rcgtUsXSu3Bh+jaz1H/mm2Tp9uONp+OMOSzin47DvZql5X1rpnDy/GmedVKWYTQsKuXfkjUt5m4OruRoxbmkWW3EFafewONK8MmqXv04t/0M9L8MkWiL28PHeDF6yBjQ8cpKs5R2nDiEutfrcJjwYDwdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jgUTA6M0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dLFIdEgZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jgUTA6M0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dLFIdEgZ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUIMG+y9"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-365425c98c6so147588a91.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 03 May 2026 10:59:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777831141; x=1778435941; darn=vger.kernel.org;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pFk0o4JWpcFOrDUzmGXYwzfHWtQM19RfFRUQ7XDLJQ0=;
-        b=QUIMG+y9EQFcVj4Sn7Kh5XwCW6hw8X805ZbzrrUQjh6BN1v/ok/m/qzUAOW6UZD09i
-         TYM8jwzhAK0lmBc2jq5g8ncpoaBjKBTrIyVhmdM795rR0ndpVxdNYnhvMdAdEX8tX/UX
-         4isymyuotFWmdwb89J5p4k476SYs2tCDTPXIDPMvbFJkhMNLNnJcNE13Rk830Ym4YB18
-         d3XSjycWf985k3Vz9SW8aWitBzyV9noLPDZTTTUdLEj9kVYmZdTsk9qGnOoZZ0D83FgF
-         xzAxVBa1P7pvXWKJOQLCRWWVI4gUaNYDdt9fSYwJg+zNTrX9fSXcq3y2izQCkPziQPbg
-         5u9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777831141; x=1778435941;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pFk0o4JWpcFOrDUzmGXYwzfHWtQM19RfFRUQ7XDLJQ0=;
-        b=CzgPdjsHQ/wc4xHR/dvuo7F1YSIvrNPr5NsAct1JB/McU2G1jcZ+m3qH1T7Wvt34iz
-         Gvgx7SYMyZG2OmzTp6JPwexrHdWmu5DoPfxSJCfHUQae7go/dIHzGo9yuat5z69jF3Or
-         CEZvgpAyyD1m1yVGDav0uYC+8LSIEa0Yz0jDMxiPjsscypyMJa1Q+5pHNpy1hwv8oJXP
-         c/OayvV1avN6hd1Cb4+pabV0pJ/oUP9MHVvIkX6SW4+CNJBEzWa3HwuTBYX5LqrvDv8R
-         VeEgB8UO48NRX2Oxt+2kgLOy0Nn3+hejuGrf7jh/afwzAkLkEicuImFZfcgR6T97S2Oq
-         WLnQ==
-X-Gm-Message-State: AOJu0YwvuVtiAuu/Rs6x99DMdscYTx91IBnFG5NvtQ2DMEb5oI0E6BvN
-	wBB7YRz/DsnBhzdVHKN3Shp5d2C+HrhttxoUGjIDhlFRlJRgvnlWmJvV
-X-Gm-Gg: AeBDieuCouhx1yNYtpW0ADto4bEF1yK4+xM+RFL36isZ3F6LLV1J4CkfQjTLE0YkeaE
-	vj16hVfCacxKOfGCvwtrhO9eFgfPpyQp+8taEMUo4oaFVNRdZDRxLgO41gKlhy+2Fb0NSfciPi4
-	4a42vNAafk8y1RbhvJOXRvOK4u47UBPVOED0f0q536Oyb+urqNMHiTo5nYEq8jEW16vM/iJ1tAO
-	oG/OREEz25lR2anI1DFoUgoS5zYHm4WUIlzEahRsBUsBmUDb+2eqH+8dxD4Uiibw0RqmL9WCrNV
-	IPSsl4btUVDlF9Tz88ImpISaMgY6pTuTFRK/m2FPbQqtowYC2EkAQc0KjFlUL3x14EwjtiI/p2C
-	qVb+F4RPAqSSCKQFA7Ssm5Kvvzl6I0SZHgM24BgeBpJ/XCszJICie8IqInVnMgKeAVypT69dKOr
-	D4Sxn66FA5ufpnvKSUDxsbjsWhLf9A6gzI
-X-Received: by 2002:a17:90a:e18c:b0:35d:a4c0:a0ac with SMTP id 98e67ed59e1d1-3650ccefc6cmr7084928a91.3.1777831140990;
-        Sun, 03 May 2026 10:59:00 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364bdf2aa41sm15437701a91.4.2026.05.03.10.58.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 10:59:00 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Gregory Price <gourry@gourry.net>, Matthew Wilcox <willy@infradead.org>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>, Amir Goldstein <amir73il@gmail.com>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, lsf-pc <lsf-pc@lists.linux-foundation.org>, Bharata B Rao <bharata@amd.com>, Donet Tom <donettom@linux.ibm.com>, Aboorva Devarajan <aboorvad@linux.ibm.com>, linux-mm@kvack.org, Ojaswin Mujoo <ojaswin@linux.ibm.com>
-Subject: Re: [LSF/MM/BPF BoF Session] Numa-Aware Placement for Page Cache Pages
-In-Reply-To: <afYdH4Alu9QA18CO@gourry-fedora-PF4VCD3F>
-Date: Sun, 03 May 2026 21:48:01 +0530
-Message-ID: <8qa0sc06.ritesh.list@gmail.com>
-References: <h5ossmwe.ritesh.list@gmail.com> <afNV5wbhsFQJLzxi@casper.infradead.org> <afYQz3YJdWB2R-1q@gourry-fedora-PF4VCD3F> <afYdH4Alu9QA18CO@gourry-fedora-PF4VCD3F>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jgUTA6M0";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dLFIdEgZ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jgUTA6M0";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dLFIdEgZ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A50C56AC16;
+	Sun,  3 May 2026 18:17:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777832255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EmFj4O1Es2noDuOq46EGI+8PrLmWpzUtMFyktWCCsH8=;
+	b=jgUTA6M0EiYoQ2T58qm2XgxG/B6DwUXdDBJcRb2FV1qSABBx8rt926TVPlE7Po5McKyP9J
+	l3Qjbt55oFvdGZFX6FjW34PqaUS3TuGDw/l216nad0/zLfMDLr6wx292PyzgQ9+gygwLaw
+	CKHde2S6Q24M+aY0aT8tnC1pUC0cLAg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777832255;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EmFj4O1Es2noDuOq46EGI+8PrLmWpzUtMFyktWCCsH8=;
+	b=dLFIdEgZToLYUlDU6J1rBQT78DPq9pnewh4QgyFVIwizK8wzxDNGY8dnRDTDEZI7E0Ct+s
+	9BICQbhHD2w8AVCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=jgUTA6M0;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=dLFIdEgZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1777832255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EmFj4O1Es2noDuOq46EGI+8PrLmWpzUtMFyktWCCsH8=;
+	b=jgUTA6M0EiYoQ2T58qm2XgxG/B6DwUXdDBJcRb2FV1qSABBx8rt926TVPlE7Po5McKyP9J
+	l3Qjbt55oFvdGZFX6FjW34PqaUS3TuGDw/l216nad0/zLfMDLr6wx292PyzgQ9+gygwLaw
+	CKHde2S6Q24M+aY0aT8tnC1pUC0cLAg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1777832255;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EmFj4O1Es2noDuOq46EGI+8PrLmWpzUtMFyktWCCsH8=;
+	b=dLFIdEgZToLYUlDU6J1rBQT78DPq9pnewh4QgyFVIwizK8wzxDNGY8dnRDTDEZI7E0Ct+s
+	9BICQbhHD2w8AVCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8444E593A7;
+	Sun,  3 May 2026 18:17:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JnpOHz+R92kmFQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Sun, 03 May 2026 18:17:35 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C0932A0791; Sun, 03 May 2026 16:45:58 +0200 (CEST)
+Date: Sun, 3 May 2026 16:45:58 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Chuck Lever <chuck.lever@oracle.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCH v4 2/4] mm: kick writeback flusher for IOCB_DONTCACHE
+ with targeted dirty tracking
+Message-ID: <oykxd436yv47u2yojrwrp3qdtzekq63hanezs6bwlovot6il2a@266nl5oqnnam>
+References: <20260501-dontcache-v4-0-5d5e6dc71cb3@kernel.org>
+ <20260501-dontcache-v4-2-5d5e6dc71cb3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260501-dontcache-v4-2-5d5e6dc71cb3@kernel.org>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLw3ioq39c3nu3jw3uq54yipmg)];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,infradead.org,linux-foundation.org,oracle.com,google.com,suse.com,kernel.dk,gmail.com,vger.kernel.org,kvack.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:dkim,suse.cz:email]
+X-Rspamd-Queue-Id: A50C56AC16
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
 
-Gregory Price <gourry@gourry.net> writes:
+On Fri 01-05-26 10:49:36, Jeff Layton wrote:
+> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
+> filemap_flush_range() on every write, submitting writeback inline in
+> the writer's context.  Perf lock contention profiling shows the
+> performance problem is not lock contention but the writeback submission
+> work itself — walking the page tree and submitting I/O blocks the writer
+> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
+> (dontcache).
+> 
+> Replace the inline filemap_flush_range() call with a flusher kick that
+> drains dirty pages in the background.  This moves writeback submission
+> completely off the writer's hot path.
+> 
+> To avoid flushing unrelated buffered dirty data, add a dedicated
+> WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
+> the per-wb WB_DONTCACHE_DIRTY counter to determine how many pages to
+> write back.  The flusher writes back that many pages from the oldest dirty
+> inodes (not restricted to dontcache-specific inodes). This helps
+> preserve I/O batching while limiting the scope of expedited writeback.
+> 
+> Like WB_start_all, the WB_start_dontcache bit coalesces multiple
+> DONTCACHE writes into a single flusher wakeup without per-write
+> allocations.
+> 
+> Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
+> visibility, and target the correct cgroup writeback domain via
+> unlocked_inode_to_wb_begin().
+> 
+> dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
+> xfs on NVMe, fio io_uring):
+> 
+> Buffered and direct I/O paths are unaffected by this patchset. All
+> improvements are confined to the dontcache path:
+> 
+> Single-stream throughput (MB/s):
+>                         Before    After    Change
+>   seq-write/dontcache      298      897    +201%
+>   rand-write/dontcache     131      236     +80%
+> 
+> Tail latency improvements (seq-write/dontcache):
+>   p99:    135,266 us  ->  23,986 us   (-82%)
+>   p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
+> 
+> Multi-writer (4 jobs, sequential write):
+>                                 Before    After    Change
+>   dontcache aggregate (MB/s)     2,529    4,532     +79%
+>   dontcache p99 (us)             8,553    1,002     -88%
+>   dontcache p99.9 (us)         109,314    1,057     -99%
+> 
+>   Dontcache multi-writer throughput now matches buffered (4,532 vs
+>   4,616 MB/s).
+> 
+> 32-file write (Axboe test):
+>                                 Before    After    Change
+>   dontcache aggregate (MB/s)     1,548    3,499    +126%
+>   dontcache p99 (us)            10,170      602     -94%
+>   Peak dirty pages (MB)          1,837      213     -88%
+> 
+>   Dontcache now reaches 81% of buffered throughput (was 35%).
+> 
+> Competing writers (dontcache vs buffered, separate files):
+>                                 Before    After
+>   buffered writer                  868      433 MB/s
+>   dontcache writer                 415      433 MB/s
+>   Aggregate                      1,284      866 MB/s
+> 
+>   Previously the buffered writer starved the dontcache writer 2:1.
+>   With per-bdi_writeback tracking, both writers now receive equal
+>   bandwidth. The aggregate matches the buffered-vs-buffered baseline
+>   (863 MB/s), indicating fair sharing regardless of I/O mode.
+> 
+>   The dontcache writer's p99.9 latency collapsed from 119 ms to
+>   33 ms (-73%), eliminating the severe periodic stalls seen in the
+>   baseline. Both writers now share identical latency profiles,
+>   matching the buffered-vs-buffered pattern.
+> 
+> The per-bdi_writeback dirty tracking dramatically reduces peak dirty
+> pages in dontcache workloads, with the 32-file test dropping from
+> 1.8 GB to 213 MB. Dontcache sequential write throughput triples and
+> multi-writer throughput reaches parity with buffered I/O, with tail
+> latencies collapsing by 1-2 orders of magnitude.
+> 
+> Assisted-by: Claude:claude-opus-4-6
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-> On Sat, May 02, 2026 at 03:57:19PM +0100, Gregory Price wrote:
->> On Thu, Apr 30, 2026 at 02:15:19PM +0100, Matthew Wilcox wrote:
->> 
->> fd = open()
->> buf = mmap(fd, ...)
->> mbind(buf, device_node)
->> /* fault file pages directly onto device memory */
->>
->
-> maybe more explicitly, something like this
->
-> fcntl(fd, F_SET_FILE_NUMA_NODE, gpu_nid); /* pref node */
-> mbind(addr, size, MPOL_BIND, ..., MOVE_ALL); /* move existing */
+Nice and looks good to me now. Feel free to add:
 
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-One existing problem with this approach of using MPOL_MF_MOVE[_ALL] (not
-specifically about gpu nid usecase here) is that, it only considers
-pages which are mapped into process address space. So, unmapped page
-cache pages are invisible to it.
+One nit below:
 
-So, the problem which I am trying to highlight here is - Today there is
-no mechanism for a user to move/migrate the file-cache pages w/o
-incurring extra I/Os. The only way that works today is to first populate
-all the folios belonging to the file into the process address space by
-issuing MADV_POPULATE_READ and then issue mbind(..., MPOL_F_MOVE). But
-there is no primitive to populate the process address space with only
-the folios which are already present in the page cache (which maybe
-residing on a different numa node). Note that MADV_POPULATE_READ will
-read the missing pages from disk too.
+> +/**
+> + * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
+> + * @mapping:	address_space that was just written to
+> + *
+> + * Kick the writeback flusher thread to expedite writeback of dontcache
+> + * dirty pages.  Uses a dedicated WB_start_dontcache bit so that only
+> + * pages tracked by WB_DONTCACHE_DIRTY are written back, rather than
+> + * flushing the entire BDI's dirty pages.
 
-So, maybe something like this.. Would this still be useful? i.e.
+This comment is a bit confusing as in fact we write arbitrary dirty pages.
+It is only the amount of pages that is influenced by WB_DONTCACHE_DIRTY. So
+I'd rephrase the last sentence like: We queue writeback for the inode's wb
+for as many pages as there are dontcache pages but we don't restrict
+writeback to dontcache pages only. This significantly improves performance
+over either writing all wb's pages or writing only dontcache pages.
+Although it doesn't guarantee quick writeback and reclaim of dontcache
+pages it keeps the amount of dirty pages in check and over longer term
+dontcache pages get written and reclaimed by background writeback even with
+this rough heuristic.
 
-madvise (addr, size, MADV_POPULATE_READ_NOIO);
-mbind(addr, size, MPOL_BIND, ..., MPOL_MF_MOVE);
+								Honza
 
-MADV_POPULATE_READ_NOIO should ensure that only the cached folios
-belonging to that file are mapped into the process address space w/o
-doing any extra disk I/Os. The subsequent mbind call with MPOL_MF_MOVE,
-will then ensure that all the existing mapped folios are migrated into the
-chosen numa node. And also that any new pages which gets faulted in will
-get allocated onto the chose numa node because of MPOL_BIND policy. 
-
-I believe there might be existing applications which might be facing
-this problem today. This can happen, for instance, when there is a
-workload which can run multiple times and may run across different NUMA
-nodes. Our internal test team once reported a similar performance
-regression with llama-bench on subsequent runs when running it across
-different NUMA nodes. The reason this happened was that the existing
-page cache folios of model weight file (from the previous run on a
-separate NUMA node) were not getting migrated (because they were not
-calling MADV_POPULATE_READ since it can cause a read of a large model
-weight file into the page cache all at once).
-
-With that in mind, do we think having something like
-MADV_POPULATE_READ_NOIO make sense to address such problems? Do we have
-any other usecases of this too?
-Or do we see any problems with this, due to which it never existed?
-
-(Note that I haven't yet given a thought for how it should behave for
-anon memory).
-
--ritesh
-
+> + */
+> +void filemap_dontcache_kick_writeback(struct address_space *mapping)
+> +{
+> +	struct inode *inode = mapping->host;
+> +	struct bdi_writeback *wb;
+> +	struct wb_lock_cookie cookie = {};
+> +
+> +	wb = unlocked_inode_to_wb_begin(inode, &cookie);
+> +	wb_start_dontcache_writeback(wb);
+> +	unlocked_inode_to_wb_end(inode, &cookie);
+> +}
+> +EXPORT_SYMBOL_GPL(filemap_dontcache_kick_writeback);
+> +
+>  /*
+>   * Wakeup the flusher threads to start writeback of all currently dirty pages
+>   */
+> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
+> index cb660dd37286..4f1084937315 100644
+> --- a/include/linux/backing-dev-defs.h
+> +++ b/include/linux/backing-dev-defs.h
+> @@ -26,6 +26,7 @@ enum wb_state {
+>  	WB_writeback_running,	/* Writeback is in progress */
+>  	WB_has_dirty_io,	/* Dirty inodes on ->b_{dirty|io|more_io} */
+>  	WB_start_all,		/* nr_pages == 0 (all) work pending */
+> +	WB_start_dontcache,	/* dontcache writeback pending */
+>  };
+>  
+>  enum wb_stat_item {
+> @@ -56,6 +57,7 @@ enum wb_reason {
+>  	 */
+>  	WB_REASON_FORKER_THREAD,
+>  	WB_REASON_FOREIGN_FLUSH,
+> +	WB_REASON_DONTCACHE,
+>  
+>  	WB_REASON_MAX,
+>  };
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 11559c513dfb..df72b42a9e9b 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -2624,6 +2624,7 @@ extern int __must_check file_write_and_wait_range(struct file *file,
+>  						loff_t start, loff_t end);
+>  int filemap_flush_range(struct address_space *mapping, loff_t start,
+>  		loff_t end);
+> +void filemap_dontcache_kick_writeback(struct address_space *mapping);
+>  
+>  static inline int file_write_and_wait(struct file *file)
+>  {
+> @@ -2657,10 +2658,7 @@ static inline ssize_t generic_write_sync(struct kiocb *iocb, ssize_t count)
+>  		if (ret)
+>  			return ret;
+>  	} else if (iocb->ki_flags & IOCB_DONTCACHE) {
+> -		struct address_space *mapping = iocb->ki_filp->f_mapping;
+> -
+> -		filemap_flush_range(mapping, iocb->ki_pos - count,
+> -				iocb->ki_pos - 1);
+> +		filemap_dontcache_kick_writeback(iocb->ki_filp->f_mapping);
+>  	}
+>  
+>  	return count;
+> diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
+> index bdac0d685a98..13ee076ccd16 100644
+> --- a/include/trace/events/writeback.h
+> +++ b/include/trace/events/writeback.h
+> @@ -44,7 +44,8 @@
+>  	EM( WB_REASON_PERIODIC,			"periodic")		\
+>  	EM( WB_REASON_FS_FREE_SPACE,		"fs_free_space")	\
+>  	EM( WB_REASON_FORKER_THREAD,		"forker_thread")	\
+> -	EMe(WB_REASON_FOREIGN_FLUSH,		"foreign_flush")
+> +	EM( WB_REASON_FOREIGN_FLUSH,		"foreign_flush")	\
+> +	EMe(WB_REASON_DONTCACHE,		"dontcache")
+>  
+>  WB_WORK_REASON
+>  
+> 
+> -- 
+> 2.54.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
