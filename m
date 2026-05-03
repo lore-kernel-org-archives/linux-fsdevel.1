@@ -1,130 +1,124 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6790938DD3;
-	Sun,  3 May 2026 11:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963592641C6
+	for <linux-fsdevel@vger.kernel.org>; Sun,  3 May 2026 12:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777809358; cv=none; b=HKa3l1R+XVaV8fDwp0RuxnUR8w8l8kozpNi4DeucLpgNh6+q1UlhEO1qoPQAtAWlFhvg43D+trzZXpaXVpNNKVGgScObLkmJLkL17EsAerpzX/H0I1fRkcWQK92Bh1uvoeSjxVF1i8LVMFPiGjJc48yIwFF0doxylnF6eGvMwCQ=
+	t=1777812126; cv=none; b=S6qIGSghC6rfPdSgqvZhfnfhp280AG1o4CFHwBhJD70e8yKiOCkftA0C+2Cx+PCIIB1wQ1RauZvoO/4YFzi8QfOSE4Z8wWFdo78iw2jozqMtPn0Jabw3LrcVIqcMaWrIXD8W6mwLpwD+COH1cpy8/tuR5Q6L9b2QeaL2gPH5Wn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777809358; c=relaxed/simple;
-	bh=GhxPynsqlQoPstEW4fv2fa4C/Cb9zcVZcHddhrTFQos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SCcI8YcJy7x8vf2U9hSNzv5yGwp23rIuZ9HZevHve5XW3HEp7WpPfw7qPe65DgcNY41L5ztZv2zFcLqhXDJOrChQkzlOcjbESffwnnvy03TMTVrm78Yx28RxxjMPn7ynrpyPqrRDgUbFCrco5AMi938iZ1sFuypyai3dGkLU/FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gyiR4lME; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777812126; c=relaxed/simple;
+	bh=dt0StbWCWLJfXBRUgdFQWHuaugN16EV1camHQn0ZTfM=;
+	h=Content-Type:From:Mime-Version:Subject:Message-Id:Date:Cc:To; b=b2Hv5/Y3H1a5Ed0EAmfGmO6qsI0N8VLfUabC5QuoDT6q5daECPbBCeywxw/xVkfIhna6FekQhnAtQaA43qWNdpcR/vvqtGkmQ8dAAjYqSF35YbG0CX71IimDsrKGbim7JS1cUvAyFQfD9CB3vTMgY4arnnbwKSFT6sZ3ruD/OWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b=YfJx4Hf0; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gyiR4lME"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=CE0IODkixju0+rcNdA3JHyloJEzjxQGb1seeQBb+Rz0=; b=gyiR4lMEmEdCdQiJcUiy0/H8IQ
-	9prnP/1UmTUCdQJZViZhxCo7RbhgQyuTyMbYCriAdYf4fLEU2PtrM0JCI/hQV1hyzuHZftBHXBysU
-	oX+Xdre6gg0mqdZ5sqHXsRB1IWlS+3gP2T5afTfNz80luUvxOuc9B931xnZmMe+MdV70dF0CGp4v9
-	9Rv7l3EBFQ9Th1XhsSgbrNUAAkQkSJzG429IAUTh9kbWr3dEA4aX4axR5hHJdp3zWcOiKfwQq96b2
-	mpnP8L3G6AeWEDeCFrwvPYrtbdTiawmfq18HoE6Fm6KAsB08pKNxk6Pon+n9mQHAZ0u+9J/OIE6FU
-	2e7Tl+cw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wJVQK-0000000Gx1K-2mC4;
-	Sun, 03 May 2026 11:55:48 +0000
-Date: Sun, 3 May 2026 12:55:48 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Ritesh Harjani <ritesh.list@gmail.com>
-Cc: Salvatore Dipietro <dipiets@amazon.it>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	Vlastimil Babka <vbabka@suse.com>, abuehaze@amazon.com,
-	alisaidi@amazon.com, blakgeof@amazon.com, brauner@kernel.org,
-	dipietro.salvatore@gmail.com, djwong@kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/1] iomap: avoid compaction for costly folio order
- allocation
-Message-ID: <afc3xFgKogxF5Lbq@casper.infradead.org>
-References: <cxztt8nw.ritesh.list@gmail.com>
- <20260428150240.3009-1-dipiets@amazon.it>
- <a4uhrqet.ritesh.list@gmail.com>
+	dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b="YfJx4Hf0"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8353c9f24d2so355542b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 03 May 2026 05:42:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dilger-ca.20251104.gappssmtp.com; s=20251104; t=1777812123; x=1778416923; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version:from
+         :content-transfer-encoding:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9Eote778LdrknJsapZDxLzaDakks9rKzrSxwhLLyLxo=;
+        b=YfJx4Hf0slVay8bUXpjXo/UXODmcn27alraDkYjEZGCVz/kAQBy2oyvkLl6kHjkjnS
+         YHb9F5SFIfGrdJIl4KtgClfJGG2JEmZHkwQvlPYcCVHWJhbDgJifoPrGpEqPBniCROmi
+         DZCXmF+5ugBHgmuKw81BJsp5NnZd3Taylwdnq2bHFMbpHE6RyZfZSHGycGmcDKwcyna5
+         2n8/cz4sKbNfdkaLuUMlPaVTcwFhc4maibFOYL6TzrkCK8AI9VqER2oAoUz7l9mRrjLR
+         024VVKlJ7qUstQxKWbLMgm2ueE0AVnQfHclKnOSmkNxGJOR3SrBON6o+iLcdubFR9cL9
+         Q2ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777812123; x=1778416923;
+        h=to:cc:date:message-id:subject:mime-version:from
+         :content-transfer-encoding:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9Eote778LdrknJsapZDxLzaDakks9rKzrSxwhLLyLxo=;
+        b=OUcxRpTCjquYTFyIQAvd3pRAr6h/mObvnKPJMl0DkGxdwmuVnK2CWFsBsslPAclk//
+         prNaZAmKJYULZVLFklru8da5TnbT/+q1tsvZWuhFiibJ1JvNpUn6o7dgncBh5pNGqj0J
+         64xWb6vpuAoHdWrrwtEHKK/nrHtNKdfgD54NzXafuaQ07YQ6q45ukHjmgIlZ7bRgX174
+         DeHiZrNfdThHEOnT3r6LXNxb6VVINMYaIf+1WW3F1e0Hp2AY1Ke3gG+CnwQHCN1QkoPt
+         JJ8XEXmn93bo69ZAmKvIoy5FJEQfYTPuzh05TkodlIQhHqmkikG/9RVl2w5L0vE5LyiV
+         QRiA==
+X-Gm-Message-State: AOJu0Ywxn+y1rsYnwpUZToLRkB6a61+UlKueUPC/6oNacAmb5fDCinFs
+	HxK/vJxzzgjQWgegW4wQ5oLOBi87WOM8dBNc7/RmDLdYPGyCvi9KRir96X9b2RRYOz0I7dww67W
+	/liWJ
+X-Gm-Gg: AeBDieueMYPdTIJ+SIG2TwieOILlDX7ah/OuR7IVOdhwAX2ZOnVXHNiibOwifQVWsnm
+	N2xTe45N9nK5/MkDetvNo/c6oALB2T37gklQdX4OIs5zKdwod6G9bu84JTwKYS4L/WC1IeRnWuL
+	H9D/xNeAWmYaRJSNL0YIxz0jGxZdL5ww2aeP2T4arXrj89RzAvo9RFmnkevAhx1djB3Iwk5AofX
+	ZLHGsX4eI+e8kwRSqXRx2R+gxhZgUEh1jXgCUs7SS98ClsfFmGT0tvP6ZqlgOPJKw1+LG3nNYIl
+	iGTcg7GuqUsNdIG/C3RxuyftweFuo9jqzyw0TqnnbjV+sFRIbFWX946ldBKu6f4F1X4IZIv7Eza
+	09hgdDowAcZINpsxZp2o0Sppv//VjhkJ+kveowWqJLUG1RQLDSGTNx/RMsVwMkk0shqzylWKCJu
+	6p+5U8BNJH8rMBCT3Vev9et9JolWUenMMjEGunhBgllaYLJSnXQdxmk6ijsyhodmU=
+X-Received: by 2002:a05:6a00:bc8a:b0:82c:249d:d84f with SMTP id d2e1a72fcca58-8352d23cac1mr6248636b3a.37.1777812123077;
+        Sun, 03 May 2026 05:42:03 -0700 (PDT)
+Received: from smtpclient.apple ([2604:3d09:3a84:1700:4008:5c92:aafa:bb6b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515b5b921sm9760937b3a.54.2026.05.03.05.42.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 05:42:02 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Andreas Dilger <adilger@dilger.ca>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a4uhrqet.ritesh.list@gmail.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: Meaning of struct statx->stx_blksize field
+Message-Id: <FAE1F98E-276A-4D61-86D4-47AE39F2E7E8@dilger.ca>
+Date: Sun, 3 May 2026 06:41:52 -0600
+Cc: linux-fsdevel@vger.kernel.org
+To: Zeno Endemann <zeno.endemann@mailbox.org>
+X-Mailer: iPhone Mail (23D8133)
 
-On Sun, May 03, 2026 at 11:22:10AM +0530, Ritesh Harjani wrote:
-> Now this is what I believe could be the reason for memory fragmentation
-> with this workload - 
-> In Linux, each PTE page table uses 4KB size (assuming you are using 4KB
-> system PAGE_SIZE). When your workload forks a
-> child process for each new connection, child gets its own copy of the
-> page tables which maps the shared buffer.
-> Since each PTE table is a single 4KB page, hundreds of connections
-> spawning means hundreds of thousands of single-page allocations for page
-> tables. So it looks like, the major source of your memory fragmentation
-> problem must be these several order-0 allocations for PTE page table
-> pages.
+=EF=BB=BFOn Apr 27, 2026, at 06:41, Zeno Endemann <zeno.endemann@mailbox.org=
+> wrote:
+>=20
+> Hi,
+>=20
+> The man page of statx(2) describes the stx_blksize like so:
+>=20
+> > The "preferred" block size for efficient filesystem I/O.
+> > (Writing to a file in smaller chunks may cause an
+> > inefficient read-modify-rewrite.)
 
-While memory is fragmented, the _problem_ is that we try too hard to
-defragment.  From the original post:
+The statx(2) interface is meant to be able to emulate the stat(2)
+interface, where 'stx_blksize' is reporting the same information
+as 'st_blksize' exactly as documented (preferred IO size),
 
-: When memory is fragmented, each failed allocation triggers
-: compaction and drain_all_pages() via __alloc_pages_slowpath()
+> However, from observation it rather looks like that field
+> is set to the "block size" (meaning the allocation unit) of
+> the file system the given file resides on - at least for
+> ext4 and vfat.
 
-We really should only try compaction once.  If it didn't make useful
-progress last time, it won't this time either.
+IIRC, ext2/ext3/ext4 have always returned the blocksize for stat(2)
+st_blksize, so that doesn't prevent the two from being the same.=20
 
-> > | Patch                |    Run 1   |    Run 2   |    Run 3   |   Average   | % vs Baseline |
-> > |----------------------|-----------:|-----------:|-----------:|------------:|:-------------:|
-> > | Baseline             | 107,064.61 |  97,043.86 | 101,830.78 | 101,979.75  |       —       |
-> > | Proposed patch       | 146,012.23 | 136,392.36 | 141,178.00 | 141,194.20  |    +38.45%    |
-> > | Ritesh's suggestion  | 147,481.50 | 133,069.03 | 137,051.30 | 139,200.61  |    +36.50%    |
-> > | Matthew's suggestion | 145,653.91 | 144,169.24 | 141,768.31 | 143,863.82  |    +41.07%    |
-> 
-> 
-> The main reason, why I proposed the below patch was because, this only
-> affects costly order allocation (i.e for order > PAGE_ALLOC_COSTLY_ORDER)
-> by skipping direct reclaim for those orders, while still keeping the
-> behaviour same for others.
-> 
-> So, for smaller orders (order > min_order and <=
-> PAGE_ALLOC_COSTLY_ORDER), the allocator will still attempt for direct
-> reclaim and compaction (which I guess is required to avoid oom too?) And
-> also, this looks like a change which could be easily backportable :)
-> 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 4e636647100c..f2343c26dd63 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -2007,8 +2007,13 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping,
->  			gfp_t alloc_gfp = gfp;
->  
->  			err = -ENOMEM;
-> -			if (order > min_order)
-> -				alloc_gfp |= __GFP_NORETRY | __GFP_NOWARN;
-> +			if (order > min_order) {
-> +				alloc_gfp |= __GFP_NOWARN;
-> +				if (order > PAGE_ALLOC_COSTLY_ORDER)
-> +					alloc_gfp &= ~__GFP_DIRECT_RECLAIM;
-> +				else
-> +					alloc_gfp |= __GFP_NORETRY;
-> +			}
-> 
-> 
-> But of course let's hear from others on their suggestions / thoughts.
-> Maybe the filemap is not the right place to fix this as Matthew, Andrew
-> and others were pointing. Any other suggestions on how to approach this,
-> please?
+> To my understanding that value is fairly unrelated to a good
+> IO transfer size and for the most part not really relevant
+> for userspace apps. For avoiding inefficient read-modify
+> rewrite the actual relevant thing is writing in multiples of
+> the page size (unless the page cache is bypassed, in which
+> case I guess stx_dio_offset_align is the value to use).
 
-filemap.c REALLY shouldn't know about PAGE_ALLOC_COSTLY_ORDER.
-That's an internal detail of the memory allocator.
+That is probably more an effect of history rather than anything
+related to statx() itself.  ext4 doesn't really have any other
+preference on the IO size other than the blocksize.  =20
 
-Either we want an API to say "allocate me a folio between orders A and B"
-or we need more understandable GFP flags.  Or the page allocator could
-use the __GFP_NORETRY flag to say "oh well, this allocation has a fallback,
-I'll kick kcompactd to try to compact some more memory, but I'll fail
-the allocation".
+>=20
+> Can someone confirm my interpretation, so the man page can be
+> corrected? Or do I misunderstand or overlook something?
+>=20
+> Thanks,
+>=20
+> Zeno Endemann
+
+
+Cheers, Andreas
+
+
+
+
+
