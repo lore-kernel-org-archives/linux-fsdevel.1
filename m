@@ -1,120 +1,89 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BF83CD8C8
-	for <linux-fsdevel@vger.kernel.org>; Sun,  3 May 2026 14:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4132829B78B;
+	Sun,  3 May 2026 15:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777817735; cv=none; b=OY/JR3sUweUmSNAJrsc6WbK65gLAL3QUNbyCC/Wef5YFQT8oZHIKQC7ATaGZNWm7kafh++XNuJUIQ16ygmAq+BmFllw27VfLVnwnoddsgZd+N1/+IUorT5YO2xlQfn2JwJZxn0ZZqDmuut6yANKNxvbMMtvP8cTaPyLPiMmvjeM=
+	t=1777820897; cv=none; b=eecjxmSbnllfL3ag7dQxsDR3aA3eJkkGk/29Up8boBjT0d8JfPO/vLf/RroAfxcy1zSgl1E7wqBuWoMI9oNxIRFI3DcpSkgB9AeMbZB3PPRbO7/k1cXo1K0ozAsHKBq2kdHNsWqns4VKd0oa7JI9XYRq6XeqfXfRXvpyMRJS9Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777817735; c=relaxed/simple;
-	bh=75uFtPxapFid+TP3SqIuonzscbWMOB7EIctLrsn84KY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mufhVCCDcuNRV+QZOYH1Fh+pRcINCaq5Ot0WXK3oNYyTBLEWWrXb7dKBBAJjDbOekpJPQzHeZ+F/Jw+A8rNEODvMnTxZtJBGGCzuihXDQVXBILFikiizQ7OYoJAVv9ZrrnJ7Fn1RH1RVsb0My1yTR6X8yoVeRgBYLcng88LmPwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=VyPjQxIu; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1777820897; c=relaxed/simple;
+	bh=4kMyH3o0/5Er6i7De0D/h0b8a4ihDoO4OEd8UX2tGDg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=tclY6E+VUdfzXByLXCr7HEJ05PsYhU4f4J7XpM8lUiQXtHp06w1xZhpt7s+71wBY3aZ/Fmh+N7woWB1EicvPBuwUdHZVQGArUXAD13Y3yyliRlxIhlvqGkkKG2Wu0VOFTNgZ+lbWO1X2iOd266ToMEF5u3pSalWkTxEZKY5npwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=apesZn5T; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="VyPjQxIu"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so30475515e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 03 May 2026 07:15:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1777817732; x=1778422532; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YoLu4/Y6To8vmjRfh7km84wvUeDNcP0Umpn2civnYdM=;
-        b=VyPjQxIuf+QVi+SeSvoIerEHupf655XdYNa5uZv4EPQ0Al4G4NVT3gnmaXsvuckOxI
-         wDSnNysWTZ1rOPSrk3Y/aCc1MEIu2KXr4TTYz5CI8oalcoP64z7G7aCb4AAjYfU6qkCR
-         YsLC1zvMIpC7MpGpY7cJ0SDpqWqv75D7yy4OrJzlqQFA/4JwxG+kcFdzaYh9NHKcpaVG
-         WufETHZCkrOAjPbT9hznygqE3YM5dsLBxb7La3yVkjEg293Xv5SrZZD1Dl2qy9JHLZY9
-         ILcFLNsDH4IKbzlDrOS7RghPAgBaX5VjtCmKBkihhe4hyTgKERfFqYqKK+Mj3MVoWzxS
-         MP5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777817732; x=1778422532;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YoLu4/Y6To8vmjRfh7km84wvUeDNcP0Umpn2civnYdM=;
-        b=d1opyMZQTIgRR33q2e77aMlD1ZjnCeribwIBR5aSEl3XnspAMzRXl8aC+q8ZZQhD3x
-         COhf0FC7tPneY1aSDPqE8CAKc+X1TYjcy8IUuLsZE6zWSk+H49Jd/OF04CLA2q355S4+
-         +pzF1XKxUGlYf2E4CcKxJj1dXXd9Q8gTGtxRxFVfg8YgkE/nkrRK4hEtSsxQb2GgL04E
-         IL2pm6s1w1HIf/bTFQ82voupvP1fYDi6M5okJAsd8dwGjv9npxMaqVCBST+GK+Ts07Qz
-         dQc/eDHVFOiXPWG2yEViJ7Dmp3MRP4xS6OImIYEpyHPbZnZJKFjQ2WMC3UucLWMbeURX
-         /thQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+FOMaL+nM1syLbflptQa3pPeWBOZr/UKIy4YY8m7LCkQrfsF2Ki1klS4kZycGfBrbWaQgSyWCQcyEWfw4O@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBU2IfAsGxyhU7Z7rBHJ1vQWLDbS4oeTqS/x+nWOf/2axBf/wt
-	4obxGsON4hEv6mBQsvcVwOGuYMJWDLwcGzRDM13iBWUSzI+l7mf3BflO9AuEXfHWwPU=
-X-Gm-Gg: AeBDieszIHUIuMEvh3oLyWkCK+HLke5txqpQSE+ekosKsCnGYHI2BRK9x0KIaEX+lQ5
-	A1bBM3L9r5mSftCLsK8uoM8A+2Ro34FYxMkRvL4baie+uV7FzCqnI6H3c6SHBmWrF0M1Rg3hZ1l
-	8wvykazwkhXnvCknjifLROJ9aR30PLwXVt3lPzzID50LZ0SzRfRi8+triU3nbVLe1iF2osv+ah/
-	BjNxFlR5O5XZKWZeJgowY92oUw+/CrcV1R8iTD4O2c52hwYsWb4dN1LZRHzlQVh4k9QLBRxPAFg
-	VsmbL24L50E9QE3JJ+wxlECbc2ko+jsfbcdeW3JxIjX1R0SQxZ8wharUwedlks4tQramiCyX/bS
-	UcgeOehnWShlIUV1DpVzJZFF+EiWZciDl4avRSW5roSm0AiuBWDo9WCzG0gmuoXY3HCdmwHZ7Sl
-	/YZY9hTa3Z3Hb6VXmEFUuZkdQJjkSIXm98g6pJ+2qh2NnD
-X-Received: by 2002:a05:600c:4e0b:b0:48a:599a:3716 with SMTP id 5b1f17b1804b1-48a98668329mr118389885e9.23.1777817732149;
-        Sun, 03 May 2026 07:15:32 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F ([213.147.98.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8eb75fc1sm208853235e9.7.2026.05.03.07.15.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 07:15:31 -0700 (PDT)
-Date: Sun, 3 May 2026 15:15:28 +0100
-From: Gregory Price <gourry@gourry.net>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	lsf-pc <lsf-pc@lists.linux-foundation.org>,
-	Bharata B Rao <bharata@amd.com>, Donet Tom <donettom@linux.ibm.com>,
-	Aboorva Devarajan <aboorvad@linux.ibm.com>, linux-mm@kvack.org,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>
-Subject: Re: [LSF/MM/BPF BoF Session] Numa-Aware Placement for Page Cache
- Pages
-Message-ID: <afdYgG6d9Vrt3miV@gourry-fedora-PF4VCD3F>
-References: <h5ossmwe.ritesh.list@gmail.com>
- <afNV5wbhsFQJLzxi@casper.infradead.org>
- <afYQz3YJdWB2R-1q@gourry-fedora-PF4VCD3F>
- <afaCICnrkTEJN562@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="apesZn5T"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 54D7E41084
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1777820895; bh=EY31/lB+p3Ty2G2hZ4XxiO9VJJzRrgjaTW0nSguAHI0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=apesZn5Tz5QecRd+DB00WmNdlmt1iqV/SIexTW9DLiHWIWqR8BhTRPj1pQIwU/uFT
+	 52DjmGROvcylScP0rqBzXG3OYRfRe7rTT0L5y60M6KkslvWwPBFaZNDc+UkvUo/wxp
+	 +W9X4QCPjrsW74AJjs9J3jDorJSVXWsJjREmlv8R5r+C9fwjAgQmOwlx/W3I2pCE9y
+	 a8HhpISp8y0z4uYDB0Okx7iPPG6OtZnJad/1nyrp+HP3ZJkNxxEq4+KS6TlbfT/3+p
+	 hWSBfKzZrQ799fOm7R9nVyRR14jTPfggdj1f7IdAflry43E1yWTzE1SfxTG6Vyk5Tb
+	 uPPMdW25+4U/g==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 54D7E41084;
+	Sun,  3 May 2026 15:08:15 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Myro <mirademche@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Myro Demma <myro@myromyro.com>
+Subject: Re: [PATCH] docs: proc: fix minor grammar and formatting issues
+In-Reply-To: <20260428133001.11384-1-myro@myromyro.com>
+References: <20260428133001.11384-1-myro@myromyro.com>
+Date: Sun, 03 May 2026 09:08:12 -0600
+Message-ID: <87fr48cyzn.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afaCICnrkTEJN562@casper.infradead.org>
+Content-Type: text/plain
 
-On Sun, May 03, 2026 at 12:00:48AM +0100, Matthew Wilcox wrote:
-> On Sat, May 02, 2026 at 03:57:19PM +0100, Gregory Price wrote:
-> > On Thu, Apr 30, 2026 at 02:15:19PM +0100, Matthew Wilcox wrote:
-> > > Ideally, no, the kernel should observe the task and get it right.
-> > 
-> > Out of curiosity, a use case i've been exploring is something like
-> > 
-> > fd = open()
-> > buf = mmap(fd, ...)
-> > mbind(buf, device_node)
-> > /* fault file pages directly onto device memory */
-> 
-> Could you be explicit what _kind_ of node you're talking about here?
-> My initial thought went to something like DAX where the node actually
-> contains persistent memory and the fd is a reference to some chunk
-> of that storage.  But I don't think that's what you're referring to.
-> You might be thinking about a presentation of DRAM over the CXL fabric.
-> Or you might be thinking about memory presented by a graphics card
-> (perhaps over CXL, perhaps some other way).  The meaning of "device
-> memory" has become thoroughly confused (thanks Jerome!) so I sincerely
-> don't know what you're talking about.
+Myro <mirademche@gmail.com> writes:
+
+> From: Myro Demma <myro@myromyro.com>
 >
+> Fix missing "from" in "prevent <pid> being reused" and
+> add spacing in vm_area_struct range notation for readability.
+>
+> No functional changes.
+>
+> Signed-off-by: Myro Demma <myro@myromyro.com>
+> ---
+>  Documentation/filesystems/proc.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 873761087f8d..d828006bd91c 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -118,7 +118,7 @@ PTRACE_MODE_ATTACH permissions; CAP_PERFMON capability does not grant access
+>  to /proc/PID/mem for other processes.
+>  
+>  Note that an open file descriptor to /proc/<pid> or to any of its
+> -contained files or subdirectories does not prevent <pid> being reused
+> +contained files or subdirectories does not prevent <pid> from being reused
+>  for some other process in the event that <pid> exits. Operations on
+>  open /proc/<pid> file descriptors corresponding to dead processes
+>  never act on any new process that the kernel may, through chance, have
+> @@ -2199,7 +2199,7 @@ the process is maintaining.  Example output::
+>       | lr-------- 1 root root 64 Jan 27 11:24 400000-41a000 -> /usr/bin/ls
+>  
+>  The name of a link represents the virtual memory bounds of a mapping, i.e.
+> -vm_area_struct::vm_start-vm_area_struct::vm_end.
+> +vm_area_struct::vm_start - vm_area_struct::vm_end.
+>  
 
-Ah, I can see how the language has moved over time.
+Applied, thanks.
 
-But yes a gpu with onboard memory presented as a NUMA node, or some
-other accelerator where the kernel is responsible for managing its
-memory (rather than a driver).
-
-Probably the use-case needs a bit more consideration before we go
-dangling new policies off the page cache - just chewing on ideas.
-
-~Gregory
+jon
