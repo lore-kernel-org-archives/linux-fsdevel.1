@@ -1,47 +1,46 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DF637DE91;
-	Mon,  4 May 2026 09:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6228037D135;
+	Mon,  4 May 2026 09:33:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777887222; cv=none; b=GazYloRNJkZa5e4FnPy7Ujb0vENUJIf8biVjbWA8s/0ysCQL0hkx8R7LHa+mcXNzJbipxb8V6iD6LGHdKFNoIr9XxL1othWDUuB8bsFk8ihnc4K8oa5jH1lt1wccIHuJoSizQXk/BuWlhsBQaQTC1mrQGZsdowdy/LhoHrmi6pI=
+	t=1777887223; cv=none; b=tb+d3bLBjF2jVzNJOkQPjV1X8Wfs8Kcw0djL7cpJ2IeeQt+JnQ8NGBMfzzuLFBdlCodh7stDe51eLd+oIZkCzvNNwc+k1Mdhcr8Tg5N34/XPsLaZJsLflBOiYzpFCmM4JwFsbgy3bXyhN64Po8dbx8xEzk/uAsDi4JwJZ7jUuls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777887222; c=relaxed/simple;
-	bh=2eKO4vMe4Rs11ZE058NHDusLM5GzLyo6TWJUCIU1st4=;
+	s=arc-20240116; t=1777887223; c=relaxed/simple;
+	bh=TauxOYpi03qFPcnNm3AqoC889sKpf9SoQTyDHbRy9hg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NUILjASWvDz0LKbcQFL5mT8q51bbJK2mK11lhOM0cJfXTSUAFeLLpesTnWutGDoG1hBQM/6zsetHQTGwV5orfU55VeGGKtXsNAp2r0nNWcP90XYMb5Yp6i0bR2DawHk/XQNjKCZNHS5NPPlcSqgThsNS67tNb/A+GrXY+Tr0FKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mytd3Boy; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SmVfsSu9; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=VTBduZgBvyQPeQEKPVLv/odn6e1LPk5SLHgem3w+hguTnflS3SNEQaSAgfZUh7QK5AqIQ7Tvjk8BKERPP/Rt6erJWpiyS/MRCBrawhHEiVdOsRLCGb2XXXymXbEQ+VuzsRbgv0C5GYo69+WSJAZl/GzaQtF0wr2wafzcsfnWYfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BqTtpk+C; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZanvYVfs; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mytd3Boy";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SmVfsSu9"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BqTtpk+C";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZanvYVfs"
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777887218;
+	s=2020; t=1777887220;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=txu04uvacD5BOS6pZdks2wuxHk5ixo4TfuHlWKL2s0s=;
-	b=mytd3Boyf69X4DDkWYFsi3ghOpooOmkdsKjdjdOBxbNWBWvOZP9MPNV43Sc79YmSQtHmRE
-	eva8BnHmWcioprtk8fVgJd3wokb8PwA5ABxUvu9bO1BJGh8iRtLshnMDDIEgMkfXXnupq6
-	AQTA2l9yxbUhGe8cvG/rq3Vr1TSuiIKGR4sVCZ73LzT9lnfbc7F7j0TpunBJsfo7kSSbIs
-	2vFXEW3QMA90ILnGysdIhsPPNdRC2eOl+RUj9baIAALDNFxvdQJQ/x2rYgWy5kJwV8r2BI
-	h8rZyhDn0/kpWS1B1xoj96n2d+IvapYP4hB7J3MPtfAajl0Mrbwo86x78k6WgQ==
+	bh=PrS0k2Drv80OdaJ1YmUo8BOgCdISFvzkHUaFnv4iGkM=;
+	b=BqTtpk+CXBSv6WfgRGnKdP1smf/6qR/nWC5fL4wYSSvJxXy7s4NFkunXA3qfZLfKUsavGv
+	+wWq9EV1hah3Ei3nPcAx79AIcSZ3TyR/mBlC1+p00FxtQ5KObA4ZCuFlDx85ejGxU7UuiJ
+	hdLrvogkSvos2xghKe2i5Zg0/+3dTwMhgb/xDUIQfGz/hiBploTjsyScRo9K3Lp063ksFZ
+	KzgVsVr3Wz1txl6BZ4AYTQWPMD8nC9S9mrHhWkoN7NIsQukE0LAQCDjOiPaHKUWEQNa4HQ
+	+4ImbazmNQDpitSLHA2xSNSI6H6qGMn2BzEBX84vIbkUnsWP6iIGtvp6ILTFkw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777887218;
+	s=2020e; t=1777887220;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=txu04uvacD5BOS6pZdks2wuxHk5ixo4TfuHlWKL2s0s=;
-	b=SmVfsSu9Ki8BtDRjyzCt/w/mgkUvSIl+eZyl+8rVP3O0aXLRqNJ5Md6wQqTc+aIj6Ss/iO
-	OGjOTGd18wjqzsAQ==
-Date: Mon, 04 May 2026 11:33:24 +0200
-Subject: [PATCH v6 08/11] kunit: uapi: Forward test executable output to
- KUnit log
+	bh=PrS0k2Drv80OdaJ1YmUo8BOgCdISFvzkHUaFnv4iGkM=;
+	b=ZanvYVfsjTNqFNMSVnatHHJiQ1Hha7pnJ5tAY/2b8uIVYGIg3BEt/sK+UwR+ADsManbVrj
+	jvpfybI/ZMvglgCw==
+Date: Mon, 04 May 2026 11:33:27 +0200
+Subject: [PATCH v6 11/11] kunit: uapi: Validate usability of /proc
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,7 +49,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260504-kunit-kselftests-v6-8-712d3d526d97@linutronix.de>
+Message-Id: <20260504-kunit-kselftests-v6-11-712d3d526d97@linutronix.de>
 References: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
 In-Reply-To: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
 To: Nathan Chancellor <nathan@kernel.org>, 
@@ -68,214 +67,159 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
  Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=5270;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=4066;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=2eKO4vMe4Rs11ZE058NHDusLM5GzLyo6TWJUCIU1st4=;
- b=eAyXR25yto2GniYCRLnQQbR726ZuqwLNF+cJwkhT563vUaH60/3lrMUsQgD6kXStTvdCBgEwI
- vf+45teK5TZC+XQ54PNDtmEuDO+/q/Y8/AerLsK3YVRVM8UiBjRLNwu
+ bh=TauxOYpi03qFPcnNm3AqoC889sKpf9SoQTyDHbRy9hg=;
+ b=1hWzT6507OnOzELkr3kP6C8GS+SfvKLQdLpAiBvyOpYn0JryvJmarJBk+xXRskvu55bxKdheG
+ G3cv2zqewfuCaw+z7LMh9TYx3Tv2oeaAUW9Qr91SEgKS00S4V/4Fr0G
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-The output of the test executable should be grouped together with the
-regular KUnit output and also be available in debugfs.
-Install a custom miscdevice as stdout and stderr which forwards the
-written data to the KUnit log.
+Show that the selftests are executed from a fairly "normal"
+userspace context.
 
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- lib/kunit/kunit-uapi.c | 155 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 154 insertions(+), 1 deletion(-)
+ MAINTAINERS                 |  1 +
+ lib/kunit/Makefile          |  9 ++++++++
+ lib/kunit/kunit-test-uapi.c | 51 +++++++++++++++++++++++++++++++++++++++++++++
+ lib/kunit/kunit-test.c      | 24 ++++++++++++++++++++-
+ 4 files changed, 84 insertions(+), 1 deletion(-)
 
-diff --git a/lib/kunit/kunit-uapi.c b/lib/kunit/kunit-uapi.c
-index 485b79fd193d..7f0309a827a5 100644
---- a/lib/kunit/kunit-uapi.c
-+++ b/lib/kunit/kunit-uapi.c
-@@ -11,6 +11,7 @@
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/fs_struct.h>
-+#include <linux/miscdevice.h>
- #include <linux/pid.h>
- #include <linux/pipe_fs_i.h>
- #include <linux/sched/task.h>
-@@ -22,6 +23,8 @@
- #include <kunit/test.h>
- #include <kunit/uapi.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4e8cf9fa7aa9..693aafe4d3f9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14400,6 +14400,7 @@ M:	Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+ S:	Maintained
+ F:	include/kunit/uapi.h
+ F:	lib/kunit/kunit-example-uapi.c
++F:	lib/kunit/kunit-test-uapi.c
+ F:	lib/kunit/kunit-uapi.c
+ F:	lib/kunit/uapi-preinit.c
  
-+#define KUNIT_LOG_DEVICE "kunit-log"
-+
- enum {
- 	KSFT_PASS	= 0,
- 	KSFT_FAIL	= 1,
-@@ -94,10 +97,48 @@ static int kunit_uapi_get_cwd(struct vfsmount *mnt)
- 	return take_fd(fd);
- }
+diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+index 05991d69aa70..1a4af6b66524 100644
+--- a/lib/kunit/Makefile
++++ b/lib/kunit/Makefile
+@@ -29,6 +29,15 @@ endif
+ obj-$(if $(CONFIG_KUNIT),y) +=		hooks.o
  
-+static int kunit_uapi_open_standard_streams(void)
-+{
-+	struct vfsmount *devtmpfs __free(kern_unmount) = kunit_uapi_mount_fs("devtmpfs");
-+	if (IS_ERR(devtmpfs))
-+		return PTR_ERR(devtmpfs);
+ obj-$(CONFIG_KUNIT_TEST) +=		kunit-test.o
 +
-+	CLASS(get_unused_fd, stdin_fd)(O_RDONLY);
-+	if (stdin_fd < 0)
-+		return stdin_fd;
++userprogs +=				kunit-test-uapi
++kunit-test-uapi-userccflags :=		-static $(NOLIBC_USERCFLAGS)
 +
-+	CLASS(get_unused_fd, stdout_fd)(O_WRONLY);
-+	if (stdout_fd < 0)
-+		return stdout_fd;
++ifdef CONFIG_KUNIT_UAPI
++CFLAGS_kunit-test.o :=			-Wa,-I$(obj)
++$(obj)/kunit-test.o: $(obj)/kunit-test-uapi
++endif
 +
-+	CLASS(get_unused_fd, stderr_fd)(O_WRONLY);
-+	if (stderr_fd < 0)
-+		return stderr_fd;
-+
-+	struct file *logfile __free(fput) = file_open_root_mnt(devtmpfs, KUNIT_LOG_DEVICE,
-+							       O_RDWR, 0);
-+	if (IS_ERR(logfile))
-+		return PTR_ERR(logfile);
-+
-+	fd_install(stdin_fd, no_free_ptr(logfile));
-+	fd_install(stdout_fd, fget(stdin_fd));
-+	fd_install(stderr_fd, fget(stdin_fd));
-+
-+	take_fd(stdin_fd);
-+	take_fd(stdout_fd);
-+	take_fd(stderr_fd);
-+
-+	return 0;
-+}
-+
- static int kunit_uapi_usermodehelper_init(struct subprocess_info *info, struct cred *new)
- {
- 	struct kunit_uapi_usermodehelper_ctx *ctx = info->data;
--	int dirfd;
-+	int ret, dirfd;
-+
-+	ret = kunit_uapi_open_standard_streams();
-+	if (ret)
-+		return ret;
+ obj-$(CONFIG_KUNIT_TEST) +=		platform-test.o
  
- 	dirfd = kunit_uapi_get_cwd(ctx->mnt);
- 	if (dirfd < 0)
-@@ -188,6 +229,118 @@ void kunit_uapi_run_kselftest(struct kunit *test, const struct kunit_uapi_blob *
- }
- EXPORT_SYMBOL_GPL(kunit_uapi_run_kselftest);
- 
-+struct kunit_uapi_log_private {
-+	struct mutex mutex;
-+	struct seq_buf buf;
-+	char data[4096];
-+};
+ # string-stream-test compiles built-in only.
+diff --git a/lib/kunit/kunit-test-uapi.c b/lib/kunit/kunit-test-uapi.c
+new file mode 100644
+index 000000000000..2e75e57865e3
+--- /dev/null
++++ b/lib/kunit/kunit-test-uapi.c
+@@ -0,0 +1,51 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit Userspace selftest.
++ *
++ * Copyright (C) 2026, Linutronix GmbH.
++ * Author: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
++ *
++ * This is *userspace* code.
++ */
 +
-+static int kunit_uapi_log_open(struct inode *ino, struct file *file)
++#include <fcntl.h>
++#include <unistd.h>
++#include <string.h>
++
++#include "../../tools/testing/selftests/kselftest.h"
++
++static void test_procfs(void)
 +{
-+	struct kunit_uapi_log_private *priv;
++	char buf[256];
++	ssize_t r;
++	int fd;
 +
-+	priv = kmalloc_obj(*priv);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	mutex_init(&priv->mutex);
-+	seq_buf_init(&priv->buf, priv->data, sizeof(priv->data));
-+
-+	file->private_data = priv;
-+
-+	return 0;
-+}
-+
-+static void kunit_uapi_log_str(struct kunit *test, const char *str, size_t len)
-+{
-+	kunit_log(KERN_INFO, test, KUNIT_SUBSUBTEST_INDENT "%.*s", (int)len, str);
-+}
-+
-+static void kunit_uapi_print_buf_to_log(struct kunit *test, struct seq_buf *s)
-+{
-+	const char *start, *lf;
-+
-+	if (s->size == 0 || s->len == 0)
++	fd = open("/proc/self/comm", O_RDONLY);
++	if (fd == -1) {
++		ksft_test_result_fail("procfs: open() failed: %s\n", strerror(errno));
 +		return;
-+
-+	start = seq_buf_str(s);
-+	while ((lf = strchr(start, '\n'))) {
-+		kunit_uapi_log_str(test, start, lf - start + 1);
-+		start = ++lf;
 +	}
 +
-+	/* Remove printed data from buffer */
-+	memmove(s->buffer, start, start - s->buffer);
-+	s->len -= start - s->buffer;
++	r = read(fd, buf, sizeof(buf));
++	close(fd);
++
++	if (r == -1) {
++		ksft_test_result_fail("procfs: read() failed: %s\n", strerror(errno));
++		return;
++	}
++
++	if (r != 16 || strncmp("kunit-test-uapi\n", buf, 16) != 0) {
++		ksft_test_result_fail("procfs: incorrect comm\n");
++		return;
++	}
++
++	ksft_test_result_pass("procfs\n");
 +}
 +
-+static ssize_t kunit_uapi_log_write(struct file *file, const char __user *ubuf, size_t count,
-+				    loff_t *off)
++int main(void)
 +{
-+	struct kunit_uapi_log_private *priv = file->private_data;
-+	struct seq_buf *buf = &priv->buf;
-+	struct kunit *test;
-+
-+	test = kunit_get_current_test();
-+	if (!test)
-+		return -ENODEV;
-+
-+	guard(mutex)(&priv->mutex);
-+
-+	if (seq_buf_has_overflowed(buf))
-+		return -E2BIG;
-+
-+	if (buf->size < buf->len + count) {
-+		seq_buf_set_overflow(buf);
-+		kunit_warn(test, "KUnit UAPI line buffer has overflowed\n");
-+		return -E2BIG;
-+	}
-+
-+	if (copy_from_user(buf->buffer + buf->len, ubuf, count))
-+		return -EFAULT;
-+
-+	buf->len += count;
-+
-+	kunit_uapi_print_buf_to_log(test, &priv->buf);
-+
-+	return count;
++	ksft_print_header();
++	ksft_set_plan(1);
++	test_procfs();
++	ksft_finished();
 +}
-+
-+static int kunit_uapi_log_release(struct inode *ino, struct file *file)
+diff --git a/lib/kunit/kunit-test.c b/lib/kunit/kunit-test.c
+index 126e30879dad..b62e24fb9c55 100644
+--- a/lib/kunit/kunit-test.c
++++ b/lib/kunit/kunit-test.c
+@@ -9,6 +9,7 @@
+ #include <kunit/test.h>
+ #include <kunit/test-bug.h>
+ #include <kunit/static_stub.h>
++#include <kunit/uapi.h>
+ 
+ #include <linux/device.h>
+ #include <kunit/device.h>
+@@ -914,10 +915,31 @@ static struct kunit_suite kunit_stub_test_suite = {
+ 	.test_cases = kunit_stub_test_cases,
+ };
+ 
++static void kunit_uapi_test(struct kunit *test)
 +{
-+	struct kunit_uapi_log_private *priv = file->private_data;
-+	struct kunit *test;
++	KUNIT_UAPI_EMBED_BLOB(kunit_test_uapi, "kunit-test-uapi");
 +
-+	mutex_destroy(&priv->mutex);
-+
-+	test = kunit_get_current_test();
-+	if (!test) {
-+		kfree(priv);
-+		return -ENODEV;
-+	}
-+
-+	/* Flush last partial line */
-+	kunit_uapi_log_str(test, priv->buf.buffer, priv->buf.len);
-+	kunit_uapi_log_str(test, "\n", 1);
-+
-+	kfree(priv);
-+	return 0;
++	if (IS_ENABLED(CONFIG_KUNIT_UAPI))
++		kunit_uapi_run_kselftest(test, &kunit_test_uapi);
++	else
++		kunit_skip(test, "CONFIG_KUNIT_UAPI is not enabled");
 +}
 +
-+static const struct file_operations kunit_uapi_log_fops = {
-+	.owner		= THIS_MODULE,
-+	.open		= kunit_uapi_log_open,
-+	.release	= kunit_uapi_log_release,
-+	.write		= kunit_uapi_log_write,
++static struct kunit_case kunit_uapi_test_cases[] = {
++	KUNIT_CASE(kunit_uapi_test),
++	{}
 +};
 +
-+static struct miscdevice kunit_uapi_log = {
-+	.minor	= MISC_DYNAMIC_MINOR,
-+	.name	= KUNIT_LOG_DEVICE,
-+	.fops	= &kunit_uapi_log_fops,
++static struct kunit_suite kunit_uapi_test_suite = {
++	.name = "kunit_uapi",
++	.test_cases = kunit_uapi_test_cases,
 +};
-+module_misc_device(kunit_uapi_log);
 +
- MODULE_DESCRIPTION("KUnit UAPI testing framework");
- MODULE_AUTHOR("Thomas Weißschuh <thomas.weissschuh@linutronix.de");
- MODULE_LICENSE("GPL");
+ kunit_test_suites(&kunit_try_catch_test_suite, &kunit_resource_test_suite,
+ 		  &kunit_log_test_suite, &kunit_status_test_suite,
+ 		  &kunit_current_test_suite, &kunit_device_test_suite,
+-		  &kunit_fault_test_suite, &kunit_stub_test_suite);
++		  &kunit_fault_test_suite, &kunit_stub_test_suite,
++		  &kunit_uapi_test_suite);
+ 
+ MODULE_DESCRIPTION("KUnit test for core test infrastructure");
+ MODULE_LICENSE("GPL v2");
 
 -- 
 2.53.0
