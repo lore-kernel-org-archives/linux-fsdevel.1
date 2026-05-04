@@ -1,123 +1,85 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A593E4C8C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 17:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E74A3E3D89;
+	Mon,  4 May 2026 17:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777916487; cv=none; b=ot23Zol/SWWnLldYEhY64kJioR/d/ykDFuXAZBUwvV76LyfSxWM/wiT+he3GwCbMvkxrOCcjbvdUmCWNXN9K2XjowqxefgNLTGGHYVhg4ACmOFmyidxvUbBLEObFZHJbEGD9hkfwTlFNrUaJLJQ1086Ius4ty8qhx17QzSnUf3M=
+	t=1777916597; cv=none; b=udkdIWBPezaJ10ye+XWCXMq4tR9ai1YwQIwtQWKAsKZxThOV0rM5jKvOhHs1DOjF+SX9ostdDtEhkBDAaaF+lQjkHdsrBfLd0wMprp0ra16jnTjlMp7LI/q65Rcc08fuT5IrBLPWZIJw6X5dcEKl34iJKoYBT1MApcbHkiDF9YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777916487; c=relaxed/simple;
-	bh=T0R5oShVL9DF3ukvuDQvHdiJ/o761Zq2ZpTk4m6QFrk=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=Je7AzZKAfM572MgXhCHFKFUbFQskhStN0Ws66l2BKlBCUz79Hci2o/nkaR+kExOZTY58caq+bx+bYH5BPnqcF2MN79gPT7ZSARGxzOw34qfCHuCno/wyejgESy2U54D6VQzvXZ+xLEuUL143OJammCzfa99kG+wbLM1ieJfR2NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=CB+mEt8T; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1777916597; c=relaxed/simple;
+	bh=QAMGO3XMXQYWp0JGzxDSNDarEFMXe4IoJPUIi2nAO08=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PxbG1l9AeA5OoH2/PmVXlDzxn2IXW/u56pol++w3SxWxdSOEmMZ5AC3zcLfiy8RLs/lJmMWtPIJj63Yg3tHVUmPhZ6KTtYrs4REBKtEUwrNpQUOGp6uV1+MHPXn9rw1H94FccyJRxND73QgVVByks+vme8qem9YAYL47u1s9dgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZUnQsR2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="CB+mEt8T"
-X-KPN-MessageId: 73717a2e-47e0-11f1-afe2-005056994fde
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 73717a2e-47e0-11f1-afe2-005056994fde;
-	Mon, 04 May 2026 19:41:16 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 737004dc-47e0-11f1-b5d2-0050569981f5;
-	Mon, 04 May 2026 19:41:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=/ynlSJMPqfbLbvNL5NiC19w0yuRUPJanIcitny5Df/k=;
-	b=CB+mEt8TzQPKGnImhTF/Z45zxKFff35iw/zJIb3j/KcCWlLFR98nriDkqkfTa6jXE5NJhnvhewuAb
-	 svtZWQ1xTZxJYSOQ2AyWCFwIW6oWL+OSu/Z8QLdFzqBjbT/lQO03nP1mdcUeAErJZwh6qZHc5iLgGr
-	 vxFYxewIt44MFyKFPn39aq9Fq2Xu6p7EYbK9eKt7q7ZONpTH41quoEvtle+jsY57MhD3G1HKR9JBNH
-	 sQMcE6DgpPVEjqUichoBVh/lVzlpWt2CiVSVO26cXFfme84PRDUJcvs/udsSTEwOxF5Hw2TON+6plC
-	 RJ6RryiyRFe39IWv+5HGq7FKVnLS8kA==
-X-KPN-MID: 33|e8+pJRKQ8FkoXtJ35182rskBIUFWw22eXeogVVaBP4Y05ToouxOgAdQ5OKftghR
- jJ2S1gl2g6z9te9fOQDNDTPA3Tpe2Q0A4b4r2g/zZXrU=
-X-CMASSUN: 33|y/an9B+ieBBE4jHK2/83KwCXvNNIRvQvpy2tOTvDShVYrIUK/U3DNJVYp9s4+Hv
- U93T5IKjerCciXNHV3gyQPw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 73638eac-47e0-11f1-b8d7-005056995d6c;
-	Mon, 04 May 2026 19:41:15 +0200 (CEST)
-Date: Mon, 4 May 2026 19:41:15 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>,
-	Jan Kara <jack@suse.cz>, Peter Zijlstra <peterz@infradead.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-	Thomas Weißschuh <thomas.weissschuh@linutronix.de>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Message-ID: <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
-References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
- <20260412135434.3095416-2-jkoolstra@xs4all.nl>
- <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
-Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns
- an O_DIRECTORY fd
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZUnQsR2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BA07C2BCB8;
+	Mon,  4 May 2026 17:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777916597;
+	bh=QAMGO3XMXQYWp0JGzxDSNDarEFMXe4IoJPUIi2nAO08=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YZUnQsR2wFTV7Xw0aTbLW2kepVcEl9h7yZ/y1jmJr7tayQaGNaKyPepo6grhN9OUm
+	 2+r+QgITFFATBHsCo6poakgzWZWhG3AeuRN3SF2uz25eQYN7RGfbxyMuebOxTb4wWA
+	 OOHCMe7XpowGD10eF7d4n0XU7MnpXLXIY02vkgVqO2DpzydpMrN+mGk8jWnbyGT3/B
+	 yhpRnz4o1UV5mlpBdFSgKNy0TwIQ32SX68jMdymOdghr2YOyyY5GWS3nuQ7zsdlOEK
+	 w+ibkmImKfup6JLor2gsnE7erbYwMr1N60aeWxux1lgVUVGCDbZmsVXbEAq1jPCeU9
+	 eH6qtMRScPCXA==
+Date: Mon, 4 May 2026 10:43:16 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	miklos@szeredi.hu, neal@gompa.dev
+Subject: Re: [GIT PULL v5.1] libfuse: run fuse servers as a contained service
+Message-ID: <20260504174316.GZ7739@frogsfrogsfrogs>
+References: <177758364789.1315233.15610945404741826500.stg-ugh@frogsfrogsfrogs>
+ <9c920b17-81a8-4c1e-921e-4c08cc290cb5@bsbernd.com>
+ <20260430224911.GN7765@frogsfrogsfrogs>
+ <2f2ba053-53a7-43e5-969a-32d185e9c7b7@bsbernd.com>
+ <1d2c00d0-255f-44cd-9757-d7418373cdcd@bsbernd.com>
+ <20260502190543.GG3778109@frogsfrogsfrogs>
+ <757367d0-3a8b-4de8-aa86-f74f316b3445@bsbernd.com>
+ <14222a33-62a3-4c8f-b86f-7c5ee47c9db7@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <14222a33-62a3-4c8f-b86f-7c5ee47c9db7@bsbernd.com>
 
-
-> Op 27-04-2026 17:48 CEST schreef Christian Brauner <brauner@kernel.org>:
+On Mon, May 04, 2026 at 05:41:38PM +0200, Bernd Schubert wrote:
 > 
-> So definitely a patchset worthing doing but this will be hairy. And
-> Mateusz is right. As written this doesn't work. The canonical pattern
-> how e.g., dentry_open() does it is to preallocate the file.
 > 
-
-Is this because of Mateusz point that we should fail as soon as possible
-to prevent any fs changes from taking effect?
-
-But like Mateusz points out, this is not really happening for open() with
-O_CREAT either. So is there any policy for what we do and do not tolerate?
-(although I agree we should definitely preallocate the file; thanks for
-pointing that pattern out).
-
-> I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
-> work. I remember that I had a vague comment about this in [1] a few
-> years ago (cf. [1]). It might even be less hairy to get that one right
-> as all the thinking for O_CREAT is already there.
+> On 5/2/26 21:51, Bernd Schubert wrote:
+> > 
+> >> Oh, that's concerning.  Could you figure out exactly what it's
+> >> complaining about and send that to me, please?
+> > 
+> Hi Darrick,
 > 
-> What was the rationale for mkdirat2() instead of threading this through
-> openat()/openat2() with O_CREAT?
-> 
+> just pushed a new branch version that should avoid all chekpatch
+> warnings (squash of yours and fix of one I had introduced).
 
-Because of Mateusz' objection, but I agree with Aleksa (and you in 2023)
-that this is intuitive and you mentioned POSIX allows for it.
+Ok, thanks.  I'll have a look, thanks.
 
-But a more general issue, that also applies to this mkdirat2 patch,
-is Linus' objection in that same thread.[1] However, the use-case of
-the UAPI request is different. Still, do we have any concrete examples
-of programs that need to do such permissions/ownership/labels
-/timestamps/acls/xattrs changes concurrently with another process
-that has delete and create permissions in the same folder, and that
-currently relies on the fstat() workaround?
+> Please find attached all the CodeChecker warnings.
 
-> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
-> O_DIRECTORY?
-> 
-> [1]: 43b450632676 ("open: return EINVAL for O_DIRECTORY | O_CREAT")
+<nod> I'll try to eliminate as many of these as possible.  I think the
+complaints about "can be declared as pointer to const struct" are easily
+amended.
 
+The ones involving char **argv might be a little trickier though.
+Anyway, I'll try to have something ready to send out before morning in
+Europe, assuming that either you're at LSFMM or at least in a similar
+timezone.
 
-[1]: https://lore.kernel.org/lkml/CAHk-=wgLimhZ8px+BxTvkonBGHr9oFcjrk4tmE2-_mmd3vBGdg@mail.gmail.com/
+Also thanks for sending the tarball, it's useful (a) to know which
+cppcheck complaints you want fixed, and (b) to compare against the
+version on my system (Debian 13).
+
+--D
