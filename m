@@ -1,69 +1,123 @@
-Received: from mx.fmap.me (fmap.me [51.75.121.85])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175A83E1CE5
-	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 16:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.75.121.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A593E4C8C
+	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 17:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777913695; cv=none; b=O1cdfrFtBDt+aBogdC3umV/gDZEBWGeqpUk2XqegHWSSNRk9YtBfyht44FBTR5VXh3xq1ycni0U1tu1HxTKQsFAzDtwR18gK2Auq/i1ttCLemJtKuHCyPL+dyysfqvcxAdF0XS6wfwrWaE+FZLtXeScJrSogWmkgzfSfodDGMdo=
+	t=1777916487; cv=none; b=ot23Zol/SWWnLldYEhY64kJioR/d/ykDFuXAZBUwvV76LyfSxWM/wiT+he3GwCbMvkxrOCcjbvdUmCWNXN9K2XjowqxefgNLTGGHYVhg4ACmOFmyidxvUbBLEObFZHJbEGD9hkfwTlFNrUaJLJQ1086Ius4ty8qhx17QzSnUf3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777913695; c=relaxed/simple;
-	bh=kbfgiZEVR6XEHKoJLxsYwISmQTQBgaTsGqgOjBuxx2I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XAa8cunr8pxJ0RGMka3bwe+xzY9pEY1QRHGtO59YNc/AczHEmOv2/3TadCw4jotHkrz7hXyaIrOLMrS+KL0XP/M5g+P3/kwRYshYaDOAAKq2neR5w1Alkm12fY9QMzqePX8NNtre+DNHOvLpKyjtKN+UbdDno3/+PNDjCLUnNXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fmap.me; spf=pass smtp.mailfrom=fmap.me; dkim=pass (1024-bit key) header.d=fmap.me header.i=@fmap.me header.b=J0GuFscf; arc=none smtp.client-ip=51.75.121.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fmap.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fmap.me
+	s=arc-20240116; t=1777916487; c=relaxed/simple;
+	bh=T0R5oShVL9DF3ukvuDQvHdiJ/o761Zq2ZpTk4m6QFrk=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=Je7AzZKAfM572MgXhCHFKFUbFQskhStN0Ws66l2BKlBCUz79Hci2o/nkaR+kExOZTY58caq+bx+bYH5BPnqcF2MN79gPT7ZSARGxzOw34qfCHuCno/wyejgESy2U54D6VQzvXZ+xLEuUL143OJammCzfa99kG+wbLM1ieJfR2NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=CB+mEt8T; arc=none smtp.client-ip=195.121.94.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fmap.me header.i=@fmap.me header.b="J0GuFscf"
-Message-ID: <9fe5ff50-4c1c-49ee-a8c2-4cacc3c6781d@fmap.me>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fmap.me; s=mail;
-	t=1777913368;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=stYj82WGH8bA5rmt9vqvvbBBjdMNd6riTWEwiJA6O3M=;
-	b=J0GuFscfOWbUw9bnmsn0vb0yp46l/jaXBHbfblwsfGETOx9KsUAS+9dVuNSPPwfic4gTy8
-	NUss1G0pMNHHXtFe5ObhaUBF1zsTNKPlmAyil/sQaNWpjy5J+4Pvkr+K1Wmmpcr3ElRXEx
-	r6FXlweKKruMbGkoTh2BELs1/bOkXJs=
-Date: Mon, 4 May 2026 23:49:22 +0700
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="CB+mEt8T"
+X-KPN-MessageId: 73717a2e-47e0-11f1-afe2-005056994fde
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 73717a2e-47e0-11f1-afe2-005056994fde;
+	Mon, 04 May 2026 19:41:16 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 737004dc-47e0-11f1-b5d2-0050569981f5;
+	Mon, 04 May 2026 19:41:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=/ynlSJMPqfbLbvNL5NiC19w0yuRUPJanIcitny5Df/k=;
+	b=CB+mEt8TzQPKGnImhTF/Z45zxKFff35iw/zJIb3j/KcCWlLFR98nriDkqkfTa6jXE5NJhnvhewuAb
+	 svtZWQ1xTZxJYSOQ2AyWCFwIW6oWL+OSu/Z8QLdFzqBjbT/lQO03nP1mdcUeAErJZwh6qZHc5iLgGr
+	 vxFYxewIt44MFyKFPn39aq9Fq2Xu6p7EYbK9eKt7q7ZONpTH41quoEvtle+jsY57MhD3G1HKR9JBNH
+	 sQMcE6DgpPVEjqUichoBVh/lVzlpWt2CiVSVO26cXFfme84PRDUJcvs/udsSTEwOxF5Hw2TON+6plC
+	 RJ6RryiyRFe39IWv+5HGq7FKVnLS8kA==
+X-KPN-MID: 33|e8+pJRKQ8FkoXtJ35182rskBIUFWw22eXeogVVaBP4Y05ToouxOgAdQ5OKftghR
+ jJ2S1gl2g6z9te9fOQDNDTPA3Tpe2Q0A4b4r2g/zZXrU=
+X-CMASSUN: 33|y/an9B+ieBBE4jHK2/83KwCXvNNIRvQvpy2tOTvDShVYrIUK/U3DNJVYp9s4+Hv
+ U93T5IKjerCciXNHV3gyQPw==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 73638eac-47e0-11f1-b8d7-005056995d6c;
+	Mon, 04 May 2026 19:41:15 +0200 (CEST)
+Date: Mon, 4 May 2026 19:41:15 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>
+Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>,
+	Jan Kara <jack@suse.cz>, Peter Zijlstra <peterz@infradead.org>,
+	Andrey Albershteyn <aalbersh@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+	Thomas Weißschuh <thomas.weissschuh@linutronix.de>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Message-ID: <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns
+ an O_DIRECTORY fd
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [fuse-devel] Debugging a stale kernel cache during file growth
-To: Miklos Szeredi <miklos@szeredi.hu>, Matthew Wilcox <willy@infradead.org>
-Cc: fuse-devel@lists.sourceforge.net,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev,
- linux-mm <linux-mm@kvack.org>
-References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me>
- <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
- <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
- <59ab54f6-680e-456e-91f4-0a26889844ef@fmap.me>
- <aeFuarTL7xBbut0F@casper.infradead.org>
- <CAJfpegtAeyMRENdneJkJrMKu8Uwnyk9LYBThjvTrFjHmPr6O_g@mail.gmail.com>
-Content-Language: en-US
-From: Nikolay Amiantov <ab@fmap.me>
-In-Reply-To: <CAJfpegtAeyMRENdneJkJrMKu8Uwnyk9LYBThjvTrFjHmPr6O_g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-Kindly bringing this discussion up.
 
-On 4/17/26 20:48, Miklos Szeredi wrote:
-> Should that code check for a truncated page and retry?
+> Op 27-04-2026 17:48 CEST schreef Christian Brauner <brauner@kernel.org>:
+> 
+> So definitely a patchset worthing doing but this will be hairy. And
+> Mateusz is right. As written this doesn't work. The canonical pattern
+> how e.g., dentry_open() does it is to preallocate the file.
+> 
 
-If I understand you correctly, this can be accomplished with a new page 
-flag because there's no other way to find out the truncation happened; 
-would you say this is the right way forward?
+Is this because of Mateusz point that we should fail as soon as possible
+to prevent any fs changes from taking effect?
 
-Sadly I didn't have time to try and make a PoC fix yet, but I want to 
-try tackle it this weekend; meanwhile, any guidance is appreciated!
+But like Mateusz points out, this is not really happening for open() with
+O_CREAT either. So is there any policy for what we do and do not tolerate?
+(although I agree we should definitely preallocate the file; thanks for
+pointing that pattern out).
 
-Thanks,
-Nikolay.
+> I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
+> work. I remember that I had a vague comment about this in [1] a few
+> years ago (cf. [1]). It might even be less hairy to get that one right
+> as all the thinking for O_CREAT is already there.
+> 
+> What was the rationale for mkdirat2() instead of threading this through
+> openat()/openat2() with O_CREAT?
+> 
 
+Because of Mateusz' objection, but I agree with Aleksa (and you in 2023)
+that this is intuitive and you mentioned POSIX allows for it.
+
+But a more general issue, that also applies to this mkdirat2 patch,
+is Linus' objection in that same thread.[1] However, the use-case of
+the UAPI request is different. Still, do we have any concrete examples
+of programs that need to do such permissions/ownership/labels
+/timestamps/acls/xattrs changes concurrently with another process
+that has delete and create permissions in the same folder, and that
+currently relies on the fstat() workaround?
+
+> And side-question: @Jeff, can nfs atomic open deal with O_CREAT |
+> O_DIRECTORY?
+> 
+> [1]: 43b450632676 ("open: return EINVAL for O_DIRECTORY | O_CREAT")
+
+
+[1]: https://lore.kernel.org/lkml/CAHk-=wgLimhZ8px+BxTvkonBGHr9oFcjrk4tmE2-_mmd3vBGdg@mail.gmail.com/
