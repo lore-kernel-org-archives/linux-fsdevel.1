@@ -1,46 +1,46 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86ED937CD54;
-	Mon,  4 May 2026 09:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F042737CD49;
+	Mon,  4 May 2026 09:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777887216; cv=none; b=bvPoPf5UEyByGrJOq5X0HVgEqR6M4c+EciamYNoBPvD7TUo2D6G8QCcMWBjQgPcMAJKrOFzqrM6gtBwwpMSvT1bkuPDXN6R4qzdXwvanoF8CNxY31z+CpeP+QLV/4KCIzdzkB8rEUZaLejeLi47mZ2yEmM5k8Paq7O/fiIbJY7w=
+	t=1777887217; cv=none; b=W4bMQOdKH818VGSICIh1eNX/7GxbuJr4hx+4ljB1wrNo/mIPblQXuy+Ew+7etR+hHHf8haqb/Hpsi9L4NiQ3K55XZx33JD2ulM3htnvH3nazEl6x52+wMoyW69wlY5TQch/5hoAmsEGqLV6guoPNXRlek8F2D6qXSMtAtmSj/74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777887216; c=relaxed/simple;
-	bh=n0bgWJFcNKpR7u48Mrp0bvJ0+QUs8bWyY+A+fgnbBQA=;
+	s=arc-20240116; t=1777887217; c=relaxed/simple;
+	bh=f2sOt9t/Nc7lPFpTZEDpIpO59t74OzxRJgeKcPUSTUw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aq3NMTG4Vm6I7hXxaSKzZoRApxAPWRlvQX9In6AGSPklgPlbSOhhe+TxoYtrsGs38UuFYFFaPyWUHqVHghDVOkagqY57Gpqo7siNK6Nmdu7mj7l9Nc8YslGu/NA+ko+mKGk1vzKFc7dU3QqaHO3+8MbmtA2pWdyhNH5N1NEWmA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=31e3QaS3; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7w72VJSi; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=Q400UuuKc5PMH5zYmmeQvtTV+amjbVjyj3sX/Dyo4WTI6m29WS1FnZBSIxmKV7uqv4/3J+3ACzCeryWADzzmBn5oQ9cXaPkPXVaUdoAsPYS5fTO9eZxL+7hdtvquD9ns6p2uycviyIGTJeOcrBHYRLZBbCSRtCoUl738tzQrYi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZfEnFY9m; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=desvd651; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="31e3QaS3";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7w72VJSi"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZfEnFY9m";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="desvd651"
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777887214;
+	s=2020; t=1777887213;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zQAG7CVmsWKVP7u5YLgZP2CRjHSITjRICazIKHci/JM=;
-	b=31e3QaS305TiIXvNkEsYdXEq2eU+zYNch+6P5rkxUluCBQJPcV7hVEaDkKYyYeIL3C+Yt1
-	osYMcLwRsWWX+q5WCdjKSOqe7XfwCjUVKwqAop/pWZXx9VHZ3a2YSmNKcwkmv4A3qaF4+/
-	7O3UurhRVwY0qOVaPlAyIZsaSqS4yED8MO8Q8tEVXoGLRIceH7ByYMrruwARg4v6VVJBw4
-	W2ZmJGNVh5qODK2gltQSGap0jHN72aMhS002NHIfI+W/tsnHmguGPJ5iqtsHXLHO2ew2o9
-	MBkh6IVMUZEn1UkxqgRMfrqaKKbIfEA9NB5Op7hEiNr+wVNevfQuw7cUaWdEmQ==
+	bh=AX3UrfvA1Ikfg089WZjhUzDCbqXp2g4JW2YQG6OsmjU=;
+	b=ZfEnFY9mf0iJZB1ywy4UBaWbZrc8H/EtXlIfbBtfonmSQSi2Am5KYfHBpV464WS0iKBQVk
+	6v5ZWvddDmCBlBV6ifCojrzz5ZmWlZymKx08Vhmsx3PaIqzeiLQKLjSS4nCV8fDXzlgvvJ
+	rbnYq640vbPkkr3ZwcpdcGcj7PDaQIWiEj0Re5BcyHA+dlbBYcDZyGYiqqPjjlfWwt8fI1
+	BtY+bvEi3g54Wp66xeAsMpAMmpmQ3qGGHfUgPPQ2oLjfTo9P7/E4P8xN3U4sw7yeQOsSj9
+	fLIiA/IC7ghbqQx5j9hCDkBnKUz1LzCG0YrIyP2UNZpTkGo9hUrHXB19fEqR7A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777887214;
+	s=2020e; t=1777887213;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zQAG7CVmsWKVP7u5YLgZP2CRjHSITjRICazIKHci/JM=;
-	b=7w72VJSiZ5PXzKa8n3vn+sDeCdYJDKrqfyShNuVyd9tO+RxOtuTTMMTgwPN8tdVccUOYJm
-	CDuB+hzrPiZiI8Cw==
-Date: Mon, 04 May 2026 11:33:18 +0200
-Subject: [PATCH v6 02/11] exec: add dirfd parameter to kernel_execve()
+	bh=AX3UrfvA1Ikfg089WZjhUzDCbqXp2g4JW2YQG6OsmjU=;
+	b=desvd651teQu4s3xchQ3J/eCMojhKG1JMLBIUG7dUu/RPjOGwGT2ntEK8YhMREvL4L9KFL
+	c1ifPU38TgG8EEDw==
+Date: Mon, 04 May 2026 11:33:17 +0200
+Subject: [PATCH v6 01/11] kbuild: doc: add label for userprogs section
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260504-kunit-kselftests-v6-2-712d3d526d97@linutronix.de>
+Message-Id: <20260504-kunit-kselftests-v6-1-712d3d526d97@linutronix.de>
 References: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
 In-Reply-To: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
 To: Nathan Chancellor <nathan@kernel.org>, 
@@ -66,87 +66,40 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
  linux-fsdevel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
- Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=2639;
+ Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=835;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=n0bgWJFcNKpR7u48Mrp0bvJ0+QUs8bWyY+A+fgnbBQA=;
- b=Iv+b/AJAUhxlOTF9z5Z/INA2wyJRCzy+sdAo250bsF4VV1rrH0mVXbVA7E8pS7XEdlsgRzsjV
- Y0RMQJeyPDnA1ttbX0DCypA1WPwqFMqXkH/2F3PqTAa3sXcWYb8gpni
+ bh=f2sOt9t/Nc7lPFpTZEDpIpO59t74OzxRJgeKcPUSTUw=;
+ b=DyzVL+xRfpFMe5PKS783jTTg3qoqmzhHUZ/6MOAtZDAx+lIJdXP5aUWBZRLCxDwqpa+DBjMr0
+ OzcGhakd3wbBfx39rgZhAF4A3/a69mMob7GDZWZXTJML3mGcL0DyBTH
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-Allow callers to specify the directory against which to resolve the
-program filename. Enables running executables from private mounts.
+Some upcoming documentation will link directly to the userprogs section.
+
+Add a label to the section so it can be referenced.
 
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- fs/exec.c               | 4 ++--
- include/linux/binfmts.h | 2 +-
- init/main.c             | 2 +-
- kernel/umh.c            | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/kbuild/makefiles.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/exec.c b/fs/exec.c
-index ba12b4c466f6..affae4b4f6f6 100644
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1846,7 +1846,7 @@ static int do_execveat_common(int fd, struct filename *filename,
- 	return bprm_execve(bprm);
- }
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 24a4708d26e8..6e54ad4cfecb 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -891,6 +891,8 @@ This is possible in two ways:
+     This will tell kbuild to build lxdialog even if not referenced in
+     any rule.
  
--int kernel_execve(const char *kernel_filename,
-+int kernel_execve(int dirfd, const char *kernel_filename,
- 		  const char *const *argv, const char *const *envp)
- {
- 	int retval;
-@@ -1856,7 +1856,7 @@ int kernel_execve(const char *kernel_filename,
- 		return -EINVAL;
++.. _kbuild_userprogs:
++
+ Userspace Program support
+ =========================
  
- 	CLASS(filename_kernel, filename)(kernel_filename);
--	CLASS(bprm, bprm)(AT_FDCWD, filename, 0);
-+	CLASS(bprm, bprm)(dirfd, filename, 0);
- 	if (IS_ERR(bprm))
- 		return PTR_ERR(bprm);
- 
-diff --git a/include/linux/binfmts.h b/include/linux/binfmts.h
-index 65abd5ab8836..04e2b7a85b2b 100644
---- a/include/linux/binfmts.h
-+++ b/include/linux/binfmts.h
-@@ -144,7 +144,7 @@ int copy_string_kernel(const char *arg, struct linux_binprm *bprm);
- extern void set_binfmt(struct linux_binfmt *new);
- extern ssize_t read_code(struct file *, unsigned long, loff_t, size_t);
- 
--int kernel_execve(const char *filename,
-+int kernel_execve(int dirfd, const char *filename,
- 		  const char *const *argv, const char *const *envp);
- 
- #endif /* _LINUX_BINFMTS_H */
-diff --git a/init/main.c b/init/main.c
-index 96f93bb06c49..551d03681234 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -1511,7 +1511,7 @@ static int run_init_process(const char *init_filename)
- 	pr_debug("  with environment:\n");
- 	for (p = envp_init; *p; p++)
- 		pr_debug("    %s\n", *p);
--	return kernel_execve(init_filename, argv_init, envp_init);
-+	return kernel_execve(AT_FDCWD, init_filename, argv_init, envp_init);
- }
- 
- static int try_to_run_init_process(const char *init_filename)
-diff --git a/kernel/umh.c b/kernel/umh.c
-index cffda97d961c..bab134fa8c36 100644
---- a/kernel/umh.c
-+++ b/kernel/umh.c
-@@ -106,7 +106,7 @@ static int call_usermodehelper_exec_async(void *data)
- 	commit_creds(new);
- 
- 	wait_for_initramfs();
--	retval = kernel_execve(sub_info->path,
-+	retval = kernel_execve(AT_FDCWD, sub_info->path,
- 			       (const char *const *)sub_info->argv,
- 			       (const char *const *)sub_info->envp);
- out:
 
 -- 
 2.53.0
