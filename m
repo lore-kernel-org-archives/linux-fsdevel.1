@@ -1,194 +1,464 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B4737F8A7;
-	Mon,  4 May 2026 09:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1005037D113
+	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 10:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777887222; cv=none; b=bgc4b3xK7qLRoakmMqTpGuyE24ip6I4huXef4THXNZpdGjCLJkeEfyLlBqa7fS/U7tzMGQ8NJcho3N/YUHfVq2UFRUXHPEZ4LNg3+RzzVctLU9SDvD0DSi731r5ggttLvIkVZRzVQcR2xB3ugpfwTNXUMGkc6Aj9WvJBCPsHtr4=
+	t=1777889462; cv=none; b=Ne9913J6Vkm2qhPmw3GUvDHcAjV6442jOQOEafPM4k2orkDqvyrzB9BSdwEdcWpA/fcglZFvhqq4O+r+If7ToOVRloif24oCuLsO6c7In+W3M0sURk52JJ+hpV69IlaQLbuJ9RAIHVkmiIZ98QyNGgMIfPgloXPOpEfQZnHomKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777887222; c=relaxed/simple;
-	bh=X2NN2sojneity7IMySlccOZ5k53NgDydZFJmaouxqdA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=P0RZT4drm+YX2uU+ICnlmIEH1eoHNbPR5V9EnvgCF0+7oYHkwU09gap42EnqqWpLRfAdjahaJMQ10cd1ie18poixzK85mqJ5MQcLsyspa+PJzKsz6T5ITPay5IgAMcP6HGu6UFJmycTzVjms8IaBBsh2520dXg9Mjya5eO3fKcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NC+00Yvn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YjAiuNtu; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1777889462; c=relaxed/simple;
+	bh=zPbEKSIFBK/OdCYeXzqAX8VZ1fj7iqmUge6wNAIkJRY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MqeQvpn/DpiX/3HynAtsxHx6oXPmoSYEY0OOxU6mOXzwOfCD8WgrLaZ7gwPzAsSArhCSHpzHTzlP5pheIuykCHsjyOaU8b67KAXmlq/u6h8YQP6aPxERFsPGtcKN9nG+8+oyfltEuu+/z+DzDiEekbAz5VXhf1EU6b+Yv80H/q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ENcE2C4L; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=mQjQ+b6U; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NC+00Yvn";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YjAiuNtu"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777887219;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ENcE2C4L";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="mQjQ+b6U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777889460;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ft5tjVlJemnVxdKrQOWR07GWUrenfDbo6YKiLlRQjYg=;
-	b=NC+00YvnEebssrgHehzlz8bX7d+X1xp33wCP3F4/hOYN8p9eHYVnXdW9p4aP28p0zVsJt9
-	KeKHZP/hTwB7uHL5RRZhma/aQBpVrdIOJh1JTyz/NAxYkUX/wdjJdZYhI8xbOZJHmUdQa6
-	NOimy2qPsefv3aMws9u7uUwsUXTWN0MagCH2NggrHygMmRa+2AdYfvPKVvUA88IDNb1aQy
-	Z4UF9aa9F9JaaLJtPRjudkod2k2pqxoZu9KITzPUWycNwzWDJTGBV70ah0fZbcD1owZru8
-	jzHvynCd/7HagURExUsddqcXdodk2pS0roZJu0rMOXpXX/Qce4KiKQ4KwZvlQA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777887219;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ft5tjVlJemnVxdKrQOWR07GWUrenfDbo6YKiLlRQjYg=;
-	b=YjAiuNtuewrsNsYXNQ5rzmlr51bXN+FcRHyyKsBkqi8MmLFxxEc/o7iKpcKU16CH1ILplT
-	wmFhEZ+1YxCEjKCA==
-Date: Mon, 04 May 2026 11:33:25 +0200
-Subject: [PATCH v6 09/11] kunit: uapi: Add example for UAPI tests
+	bh=81kZB1lQDdoEwhatA9igFuYifA9DMVlrGv5S79TABrk=;
+	b=ENcE2C4LZBKg7XsBvt6cEQN9fxsxboY6AMLi+Ef4yGHfuck+anmuySjVmmHx6Lwr7zB1Kc
+	In2PT/TaBbG1A6msr2rOYPwJkgYvP3Y1EBB8bbyEXphOVIemcbLY4AnI5thkLuwL+hYtGZ
+	WBM4BvYwBHIqBjp1AWc3M2liizuTNG0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-437-bwbRGOduNBS5JygrxK_s2Q-1; Mon, 04 May 2026 06:10:58 -0400
+X-MC-Unique: bwbRGOduNBS5JygrxK_s2Q-1
+X-Mimecast-MFC-AGG-ID: bwbRGOduNBS5JygrxK_s2Q_1777889458
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-4470d6d2a4fso4357912f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 04 May 2026 03:10:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777889457; x=1778494257; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=81kZB1lQDdoEwhatA9igFuYifA9DMVlrGv5S79TABrk=;
+        b=mQjQ+b6U9gzcAlgcV83IaUcNbkv1b69axgbwZ8xAd0jP5uuYP9f6IqnAvgsAKlWs+l
+         fbU1LSWaDFVYNnbtDNaAOWdm91gd6smCNw0EzeA36k8P0SoSWTNFm0p3qFGTsZyjVMCL
+         V9prsYK6BoQkO/I9GRjrtMN15PoVQjw1MmEcsEkUVEkirh8uvldwQD/ULmxt6lhiZYdS
+         JP69KSuDQGWcC27lpgTtv18/pbmriBX9c5hdHSY9tsU7CnGtLSygFvPB+5OlgXqYiDUm
+         XQre9JifCQMm3PZu3c1wgzbatTVeoiUffPQOXsi34yBSzsTGwPTYb0ofu5IoKp8KGPod
+         iyTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777889457; x=1778494257;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=81kZB1lQDdoEwhatA9igFuYifA9DMVlrGv5S79TABrk=;
+        b=ZePV44M+YLpFEfW/YcwyEAbj9Krqu3jph/zifAAN26ydPZUL3ESOq5g5+HYIc2uuyI
+         Hfxl7Gd41nBeCr7LY8bpcyPo/PSr07pmlyz5txtwXnh9P4yRR4lBol0YlLnw8VD1zzkk
+         ra4spSRAbZBVg77lQg9Am+5BSIFKIDpeXEriqpFfWOA8RIoq37KG865h44uVoRKHjQuY
+         YlYvm1sDfk2ztIWh6sKdhND6RCVrvHJvMtOO9pePygyAl/sFSBhNr5j4EZy2rj/Xp3It
+         ZbWRbqccUBh2FH74yhzbe8mJK0JZHLyVCIGYcc9LqoRgwQnE5NPt8g74Tx6crXFssl4b
+         QhbQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/cwP8jN0HRcOhn6YLs4ulSCkbr3YGXpR14U6tlfJ8eEbCXI7gNVMHbSyWOinUjYV7Nr7j5/LOd91EKo7pE@vger.kernel.org
+X-Gm-Message-State: AOJu0YyG7LLEcrXWGpbx4pYUCI60fjKh+kYdT3OqzIppZWgopxwM5aSe
+	J1YMORS+ghcwiGZF5asOSkI+Mo2/zOunGu8ZhxANbgxLogTgJof7UL/L62BHMFaM1mnEtVAUinE
+	Wyykm+UXeC5byK0MF1ck+67708xmDO96cTAXVNFL5rEmUnNhCQBXJX2jGYkCG/vg8mzU=
+X-Gm-Gg: AeBDieuaJ3uafXmWVTSfYLF+8jKJ3yD/tEovhzJnRPEAyKhUvIOVEtA6vtFRZ6z/9PT
+	5I6Cy955GS6ZOpmoKkev8q54drStSdzjdVbRDtcGDXR+tHLVIcI+/AH8qPh4p8ffkCMPMNNyym1
+	0ae0tOZ8l+iDaOIUggOEhMc9zrLBZnBdrnvUbwzHf2Cu0GMu1YuhbQGW/OwX6M0obAMjzk/KCHp
+	nBnv80WQ5DIFeXuFeDDkmSwBkra1rYXwC4uWxbME+ZrMwHicnw+1ZJgoplZpUmruuNDw+DcVhnp
+	SkmTl69nG3exn4HAhi71upO81Tgm/qpFhODO200B/MDwVDv+BD5jcK3YTbrw5ZyKhpFWtiODw7k
+	KXUISgolPeFgL1Znjg8/rujlpwbLcUps3
+X-Received: by 2002:a05:6000:22c4:b0:441:36b7:725f with SMTP id ffacd0b85a97d-44bb33f1b4emr15775209f8f.5.1777889457442;
+        Mon, 04 May 2026 03:10:57 -0700 (PDT)
+X-Received: by 2002:a05:6000:22c4:b0:441:36b7:725f with SMTP id ffacd0b85a97d-44bb33f1b4emr15775159f8f.5.1777889456963;
+        Mon, 04 May 2026 03:10:56 -0700 (PDT)
+Received: from [10.211.10.91] ([213.147.98.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a8ea7cf6asm25084303f8f.8.2026.05.04.03.10.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2026 03:10:54 -0700 (PDT)
+Message-ID: <7e42faea-9f55-4722-a426-94be7fc3a49b@redhat.com>
+Date: Mon, 4 May 2026 04:11:30 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260504-kunit-kselftests-v6-9-712d3d526d97@linutronix.de>
-References: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
-In-Reply-To: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Brendan Higgins <brendan.higgins@linux.dev>, Shuah Khan <shuah@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
- Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>, 
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
- Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=3560;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=X2NN2sojneity7IMySlccOZ5k53NgDydZFJmaouxqdA=;
- b=d+F6BfdlzPGVKpRtvndevjxQUwuA2kdiKjOKE+xclSjrFppN4PZlwNeh8L5VMEutjdqDzgLmY
- LaFBlIeV+GPAc2hVsx4yFUiV9oZx8OMoKI//hL7q4tmqR6l1KjH9PQg
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 11/14] selftests/mm: remove READ_ONLY_THP_FOR_FS in
+ khugepaged
+To: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Song Liu <songliubraving@fb.com>
+Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Lorenzo Stoakes <ljs@kernel.org>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+ linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org
+References: <20260429152924.727124-1-ziy@nvidia.com>
+ <20260429153538.727855-7-ziy@nvidia.com>
+Content-Language: en-US
+From: Nico Pache <npache@redhat.com>
+In-Reply-To: <20260429153538.727855-7-ziy@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Extend the example to show how to run a userspace executable.
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-Reviewed-by: David Gow <davidgow@google.com>
----
- MAINTAINERS                    |  1 +
- lib/kunit/Makefile             | 10 ++++++++++
- lib/kunit/kunit-example-test.c | 15 +++++++++++++++
- lib/kunit/kunit-example-uapi.c | 22 ++++++++++++++++++++++
- 4 files changed, 48 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e29ca56f7334..b7358d89df70 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14399,6 +14399,7 @@ KUNIT UAPI TESTING FRAMEWORK (in addition to KERNEL UNIT TESTING FRAMEWORK)
- M:	Thomas Weißschuh <thomas.weissschuh@linutronix.de>
- S:	Maintained
- F:	include/kunit/uapi.h
-+F:	lib/kunit/kunit-example-uapi.c
- F:	lib/kunit/kunit-uapi.c
- 
- KVM PARAVIRT (KVM/paravirt)
-diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-index 6059621a2d32..2434470e9985 100644
---- a/lib/kunit/Makefile
-+++ b/lib/kunit/Makefile
-@@ -1,3 +1,5 @@
-+include $(srctree)/init/Makefile.nolibc
-+
- obj-$(CONFIG_KUNIT) +=			kunit.o
- 
- kunit-objs +=				test.o \
-@@ -31,3 +33,11 @@ obj-$(CONFIG_KUNIT_TEST) +=		assert_test.o
- endif
- 
- obj-$(CONFIG_KUNIT_EXAMPLE_TEST) +=	kunit-example-test.o
-+
-+userprogs +=				kunit-example-uapi
-+kunit-example-uapi-userccflags :=	-static $(NOLIBC_USERCFLAGS)
-+
-+ifdef CONFIG_KUNIT_UAPI
-+CFLAGS_kunit-example-test.o :=		-Wa,-I$(obj)
-+$(obj)/kunit-example-test.o: $(obj)/kunit-example-uapi
-+endif
-diff --git a/lib/kunit/kunit-example-test.c b/lib/kunit/kunit-example-test.c
-index 0bae7b7ca0b0..febabc995405 100644
---- a/lib/kunit/kunit-example-test.c
-+++ b/lib/kunit/kunit-example-test.c
-@@ -8,6 +8,7 @@
- 
- #include <kunit/test.h>
- #include <kunit/static_stub.h>
-+#include <kunit/uapi.h>
- 
- /*
-  * This is the most fundamental element of KUnit, the test case. A test case
-@@ -489,6 +490,19 @@ static void example_params_test_with_init_dynamic_arr(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, param_val - param_val, 0);
- }
- 
-+/*
-+ * This test shows the usage of UAPI tests.
-+ */
-+static void example_uapi_test(struct kunit *test)
-+{
-+	KUNIT_UAPI_EMBED_BLOB(kunit_example_uapi, "kunit-example-uapi");
-+
-+	if (IS_ENABLED(CONFIG_KUNIT_UAPI))
-+		kunit_uapi_run_kselftest(test, &kunit_example_uapi);
-+	else
-+		kunit_skip(test, "CONFIG_KUNIT_UAPI is not enabled");
-+}
-+
- /*
-  * Here we make a list of all the test cases we want to add to the test suite
-  * below.
-@@ -514,6 +528,7 @@ static struct kunit_case example_test_cases[] = {
- 				   kunit_array_gen_params, example_param_init_dynamic_arr,
- 				   example_param_exit_dynamic_arr),
- 	KUNIT_CASE_SLOW(example_slow_test),
-+	KUNIT_CASE(example_uapi_test),
- 	{}
- };
- 
-diff --git a/lib/kunit/kunit-example-uapi.c b/lib/kunit/kunit-example-uapi.c
-new file mode 100644
-index 000000000000..5875b0d680d4
---- /dev/null
-+++ b/lib/kunit/kunit-example-uapi.c
-@@ -0,0 +1,22 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit Userspace example test.
-+ *
-+ * Copyright (C) 2026, Linutronix GmbH.
-+ * Author: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-+ *
-+ * This is *userspace* code.
-+ */
-+
-+#include "../../tools/testing/selftests/kselftest.h"
-+
-+int main(void)
-+{
-+	ksft_print_header();
-+	ksft_set_plan(4);
-+	ksft_test_result_pass("userspace test 1\n");
-+	ksft_test_result_pass("userspace test 2\n");
-+	ksft_test_result_skip("userspace test 3: some reason\n");
-+	ksft_test_result_pass("userspace test 4\n");
-+	ksft_finished();
-+}
+On 4/29/26 9:35 AM, Zi Yan wrote:
+> Change the requirement to a file system with large folio support and the
+> supported order needs to include PMD_ORDER.
+> 
+> Also add tests of opening a file with read write permission and populating
+> folios with writes. Reuse the XFS image from split_huge_page_test.
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
+>   tools/testing/selftests/mm/khugepaged.c   | 131 +++++++++++++++-------
+>   tools/testing/selftests/mm/run_vmtests.sh |  12 +-
+>   2 files changed, 102 insertions(+), 41 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/mm/khugepaged.c b/tools/testing/selftests/mm/khugepaged.c
+> index a6bb9d50363d2..80b913185c643 100644
+> --- a/tools/testing/selftests/mm/khugepaged.c
+> +++ b/tools/testing/selftests/mm/khugepaged.c
+> @@ -49,7 +49,8 @@ struct mem_ops {
+>   	const char *name;
+>   };
+>   
+> -static struct mem_ops *file_ops;
+> +static struct mem_ops *read_only_file_ops;
+> +static struct mem_ops *read_write_file_ops;
+>   static struct mem_ops *anon_ops;
+>   static struct mem_ops *shmem_ops;
+>   
+> @@ -112,7 +113,8 @@ static void restore_settings(int sig)
+>   static void save_settings(void)
+>   {
+>   	printf("Save THP and khugepaged settings...");
+> -	if (file_ops && finfo.type == VMA_FILE)
+> +	if ((read_only_file_ops || read_write_file_ops) &&
+> +	    finfo.type == VMA_FILE)
+>   		thp_set_read_ahead_path(finfo.dev_queue_read_ahead_path);
+>   	thp_save_settings();
+>   
+> @@ -364,11 +366,14 @@ static bool anon_check_huge(void *addr, int nr_hpages)
+>   	return check_huge_anon(addr, nr_hpages, hpage_pmd_size);
+>   }
+>   
+> -static void *file_setup_area(int nr_hpages)
+> +static void *file_setup_area_common(int nr_hpages, bool read_only)
+>   {
+>   	int fd;
+>   	void *p;
+>   	unsigned long size;
+> +	int open_opt = read_only ? O_RDONLY : O_RDWR;
+> +	int mmap_prot = read_only ? PROT_READ : (PROT_READ | PROT_WRITE);
+> +	int mmap_opt = read_only ? MAP_PRIVATE : MAP_SHARED;
+>   
+>   	unlink(finfo.path);  /* Cleanup from previous failed tests */
+>   	printf("Creating %s for collapse%s...", finfo.path,
+> @@ -399,14 +404,15 @@ static void *file_setup_area(int nr_hpages)
+>   	munmap(p, size);
+>   	success("OK");
+>   
+> -	printf("Opening %s read only for collapse...", finfo.path);
+> -	finfo.fd = open(finfo.path, O_RDONLY, 777);
+> +	printf("Opening %s %s for collapse...", finfo.path,
+> +	       read_only ? "read only" : "read-write");
+> +	finfo.fd = open(finfo.path, open_opt, 777);
+>   	if (finfo.fd < 0) {
+>   		perror("open()");
+>   		exit(EXIT_FAILURE);
+>   	}
+> -	p = mmap(BASE_ADDR, size, PROT_READ,
+> -		 MAP_PRIVATE, finfo.fd, 0);
+> +	p = mmap(BASE_ADDR, size, mmap_prot,
+> +		 mmap_opt, finfo.fd, 0);
+>   	if (p == MAP_FAILED || p != BASE_ADDR) {
+>   		perror("mmap()");
+>   		exit(EXIT_FAILURE);
+> @@ -418,6 +424,16 @@ static void *file_setup_area(int nr_hpages)
+>   	return p;
+>   }
+>   
+> +static void *file_setup_read_only_area(int nr_hpages)
+> +{
+> +	return file_setup_area_common(nr_hpages, /* read_only= */ true);
+> +}
+> +
+> +static void *file_setup_read_write_area(int nr_hpages)
+> +{
+> +	return file_setup_area_common(nr_hpages, /* read_only= */ false);
+> +}
+> +
+>   static void file_cleanup_area(void *p, unsigned long size)
+>   {
+>   	munmap(p, size);
+> @@ -425,14 +441,25 @@ static void file_cleanup_area(void *p, unsigned long size)
+>   	unlink(finfo.path);
+>   }
+>   
+> -static void file_fault(void *p, unsigned long start, unsigned long end)
+> +static void file_fault_common(void *p, unsigned long start, unsigned long end,
+> +		int madv_ops)
+>   {
+> -	if (madvise(((char *)p) + start, end - start, MADV_POPULATE_READ)) {
+> +	if (madvise(((char *)p) + start, end - start, madv_ops)) {
+>   		perror("madvise(MADV_POPULATE_READ");
+>   		exit(EXIT_FAILURE);
+>   	}
+>   }
+>   
+> +static void file_fault_read(void *p, unsigned long start, unsigned long end)
+> +{
+> +	file_fault_common(p, start, end, MADV_POPULATE_READ);
+> +}
+> +
+> +static void file_fault_write(void *p, unsigned long start, unsigned long end)
+> +{
+> +	file_fault_common(p, start, end, MADV_POPULATE_WRITE);
+> +}
+> +
+>   static bool file_check_huge(void *addr, int nr_hpages)
+>   {
+>   	switch (finfo.type) {
+> @@ -488,10 +515,18 @@ static struct mem_ops __anon_ops = {
+>   	.name = "anon",
+>   };
+>   
+> -static struct mem_ops __file_ops = {
+> -	.setup_area = &file_setup_area,
+> +static struct mem_ops __read_only_file_ops = {
+> +	.setup_area = &file_setup_read_only_area,
+>   	.cleanup_area = &file_cleanup_area,
+> -	.fault = &file_fault,
+> +	.fault = &file_fault_read,
+> +	.check_huge = &file_check_huge,
+> +	.name = "file",
+> +};
+> +
+> +static struct mem_ops __read_write_file_ops = {
+> +	.setup_area = &file_setup_read_write_area,
+> +	.cleanup_area = &file_cleanup_area,
+> +	.fault = &file_fault_write,
+>   	.check_huge = &file_check_huge,
+>   	.name = "file",
+>   };
+> @@ -504,6 +539,18 @@ static struct mem_ops __shmem_ops = {
+>   	.name = "shmem",
+>   };
+>   
+> +static bool is_tmpfs(struct mem_ops *ops)
+> +{
+> +	return (ops == &__read_only_file_ops ||
+> +		ops == &__read_write_file_ops) &&
+> +	       finfo.type == VMA_SHMEM;
+> +}
+> +
+> +static bool is_anon(struct mem_ops *ops)
+> +{
+> +	return ops == &__anon_ops;
+> +}
+> +
+>   static void __madvise_collapse(const char *msg, char *p, int nr_hpages,
+>   			       struct mem_ops *ops, bool expect)
+>   {
+> @@ -512,6 +559,10 @@ static void __madvise_collapse(const char *msg, char *p, int nr_hpages,
+>   
+>   	printf("%s...", msg);
+>   
+> +	/* read&write file collapse always fail */
+> +	if (!is_tmpfs(ops) && ops == &__read_write_file_ops)
+> +		expect = false;
+> +
+>   	/*
+>   	 * Prevent khugepaged interference and tests that MADV_COLLAPSE
+>   	 * ignores /sys/kernel/mm/transparent_hugepage/enabled
+> @@ -578,6 +629,10 @@ static bool wait_for_scan(const char *msg, char *p, int nr_hpages,
+>   static void khugepaged_collapse(const char *msg, char *p, int nr_hpages,
+>   				struct mem_ops *ops, bool expect)
+>   {
+> +	/* read&write file collapse always fail */
+> +	if (!is_tmpfs(ops) && ops == &__read_write_file_ops)
+> +		expect = false;
+> +
+>   	if (wait_for_scan(msg, p, nr_hpages, ops)) {
+>   		if (expect)
+>   			fail("Timeout");
+> @@ -612,16 +667,6 @@ static struct collapse_context __madvise_context = {
+>   	.name = "madvise",
+>   };
+>   
+> -static bool is_tmpfs(struct mem_ops *ops)
+> -{
+> -	return ops == &__file_ops && finfo.type == VMA_SHMEM;
+> -}
+> -
+> -static bool is_anon(struct mem_ops *ops)
+> -{
+> -	return ops == &__anon_ops;
+> -}
+> -
+>   static void alloc_at_fault(void)
+>   {
+>   	struct thp_settings settings = *thp_current_settings();
+> @@ -1097,8 +1142,8 @@ static void usage(void)
+>   	fprintf(stderr, "\t<context>\t: [all|khugepaged|madvise]\n");
+>   	fprintf(stderr, "\t<mem_type>\t: [all|anon|file|shmem]\n");
+>   	fprintf(stderr, "\n\t\"file,all\" mem_type requires [dir] argument\n");
+> -	fprintf(stderr, "\n\t\"file,all\" mem_type requires kernel built with\n");
+> -	fprintf(stderr,	"\tCONFIG_READ_ONLY_THP_FOR_FS=y\n");
+> +	fprintf(stderr, "\n\t\"file,all\" mem_type requires a file system\n");
+> +	fprintf(stderr,	"\twith large folio support (order >= PMD order)\n");
+>   	fprintf(stderr, "\n\tif [dir] is a (sub)directory of a tmpfs mount, tmpfs must be\n");
+>   	fprintf(stderr,	"\tmounted with huge=advise option for khugepaged tests to work\n");
+>   	fprintf(stderr,	"\n\tSupported Options:\n");
+> @@ -1154,20 +1199,22 @@ static void parse_test_type(int argc, char **argv)
+>   		usage();
+>   
+>   	if (!strcmp(buf, "all")) {
+> -		file_ops =  &__file_ops;
+> +		read_only_file_ops =  &__read_only_file_ops;
+> +		read_write_file_ops =  &__read_write_file_ops;
+>   		anon_ops = &__anon_ops;
+>   		shmem_ops = &__shmem_ops;
+>   	} else if (!strcmp(buf, "anon")) {
+>   		anon_ops = &__anon_ops;
+>   	} else if (!strcmp(buf, "file")) {
+> -		file_ops =  &__file_ops;
+> +		read_only_file_ops =  &__read_only_file_ops;
+> +		read_write_file_ops =  &__read_write_file_ops;
+>   	} else if (!strcmp(buf, "shmem")) {
+>   		shmem_ops = &__shmem_ops;
+>   	} else {
+>   		usage();
+>   	}
+>   
+> -	if (!file_ops)
+> +	if (!read_only_file_ops && !read_write_file_ops)
+>   		return;
+>   
+>   	if (argc != 2)
+> @@ -1239,37 +1286,43 @@ int main(int argc, char **argv)
+>   	} while (0)
+>   
+>   	TEST(collapse_full, khugepaged_context, anon_ops);
+> -	TEST(collapse_full, khugepaged_context, file_ops);
+> +	TEST(collapse_full, khugepaged_context, read_only_file_ops);
+> +	TEST(collapse_full, khugepaged_context, read_write_file_ops);
+>   	TEST(collapse_full, khugepaged_context, shmem_ops);
+>   	TEST(collapse_full, madvise_context, anon_ops);
+> -	TEST(collapse_full, madvise_context, file_ops);
+> +	TEST(collapse_full, madvise_context, read_only_file_ops);
+> +	TEST(collapse_full, madvise_context, read_write_file_ops);
+>   	TEST(collapse_full, madvise_context, shmem_ops);
+>   
+>   	TEST(collapse_empty, khugepaged_context, anon_ops);
+>   	TEST(collapse_empty, madvise_context, anon_ops);
+>   
+>   	TEST(collapse_single_pte_entry, khugepaged_context, anon_ops);
+> -	TEST(collapse_single_pte_entry, khugepaged_context, file_ops);
+> +	TEST(collapse_single_pte_entry, khugepaged_context, read_only_file_ops);
+> +	TEST(collapse_single_pte_entry, khugepaged_context, read_write_file_ops);
+>   	TEST(collapse_single_pte_entry, khugepaged_context, shmem_ops);
+>   	TEST(collapse_single_pte_entry, madvise_context, anon_ops);
+> -	TEST(collapse_single_pte_entry, madvise_context, file_ops);
+> +	TEST(collapse_single_pte_entry, madvise_context, read_only_file_ops);
+> +	TEST(collapse_single_pte_entry, madvise_context, read_write_file_ops);
+>   	TEST(collapse_single_pte_entry, madvise_context, shmem_ops);
+>   
+>   	TEST(collapse_max_ptes_none, khugepaged_context, anon_ops);
+> -	TEST(collapse_max_ptes_none, khugepaged_context, file_ops);
+> +	TEST(collapse_max_ptes_none, khugepaged_context, read_only_file_ops);
+> +	TEST(collapse_max_ptes_none, khugepaged_context, read_write_file_ops);
+>   	TEST(collapse_max_ptes_none, madvise_context, anon_ops);
+> -	TEST(collapse_max_ptes_none, madvise_context, file_ops);
+> +	TEST(collapse_max_ptes_none, madvise_context, read_only_file_ops);
+> +	TEST(collapse_max_ptes_none, madvise_context, read_write_file_ops);
+>   
+>   	TEST(collapse_single_pte_entry_compound, khugepaged_context, anon_ops);
+> -	TEST(collapse_single_pte_entry_compound, khugepaged_context, file_ops);
+> +	TEST(collapse_single_pte_entry_compound, khugepaged_context, read_only_file_ops);
+>   	TEST(collapse_single_pte_entry_compound, madvise_context, anon_ops);
+> -	TEST(collapse_single_pte_entry_compound, madvise_context, file_ops);
+> +	TEST(collapse_single_pte_entry_compound, madvise_context, read_only_file_ops);
+>   
+>   	TEST(collapse_full_of_compound, khugepaged_context, anon_ops);
+> -	TEST(collapse_full_of_compound, khugepaged_context, file_ops);
+> +	TEST(collapse_full_of_compound, khugepaged_context, read_only_file_ops);
+>   	TEST(collapse_full_of_compound, khugepaged_context, shmem_ops);
+>   	TEST(collapse_full_of_compound, madvise_context, anon_ops);
+> -	TEST(collapse_full_of_compound, madvise_context, file_ops);
+> +	TEST(collapse_full_of_compound, madvise_context, read_only_file_ops);
+>   	TEST(collapse_full_of_compound, madvise_context, shmem_ops);
+>   
+>   	TEST(collapse_compound_extreme, khugepaged_context, anon_ops);
+> @@ -1291,10 +1344,10 @@ int main(int argc, char **argv)
+>   	TEST(collapse_max_ptes_shared, madvise_context, anon_ops);
+>   
+>   	TEST(madvise_collapse_existing_thps, madvise_context, anon_ops);
+> -	TEST(madvise_collapse_existing_thps, madvise_context, file_ops);
+> +	TEST(madvise_collapse_existing_thps, madvise_context, read_only_file_ops);
+>   	TEST(madvise_collapse_existing_thps, madvise_context, shmem_ops);
+>   
+> -	TEST(madvise_retracted_page_tables, madvise_context, file_ops);
+> +	TEST(madvise_retracted_page_tables, madvise_context, read_only_file_ops);
+>   	TEST(madvise_retracted_page_tables, madvise_context, shmem_ops);
+>   
+>   	restore_settings(0);
+> diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
+> index 3b61677fe9840..854c5c3e3a6ae 100755
+> --- a/tools/testing/selftests/mm/run_vmtests.sh
+> +++ b/tools/testing/selftests/mm/run_vmtests.sh
+> @@ -490,8 +490,6 @@ CATEGORY="thp" run_test ./khugepaged all:shmem
+>   
+>   CATEGORY="thp" run_test ./khugepaged -s 4 all:shmem
+>   
+> -CATEGORY="thp" run_test ./transhuge-stress -d 20
+> -
+>   # Try to create XFS if not provided
+>   if [ -z "${SPLIT_HUGE_PAGE_TEST_XFS_PATH}" ]; then
+>       if [ "${HAVE_HUGEPAGES}" = "1" ]; then
+> @@ -508,6 +506,14 @@ if [ -z "${SPLIT_HUGE_PAGE_TEST_XFS_PATH}" ]; then
+>       fi
+>   fi
+>   
+> +if [ -n "${SPLIT_HUGE_PAGE_TEST_XFS_PATH}" ]; then
+> +CATEGORY="thp" run_test ./khugepaged all:file ${SPLIT_HUGE_PAGE_TEST_XFS_PATH}
+> +else
+> +	count_total=$(( count_total + 1 ))
+> +	count_skip=$(( count_skip + 1 ))
+> +	echo "[SKIP] ./khugepaged all:file" | tap_prefix
 
--- 
-2.53.0
+This leads selftest runs to always litter the output with SKIP when 
+running this with the wrapper
+
+make -C tools/testing/selftests TARGETS=mm run_tests
+
+> +fi
+> +
+>   CATEGORY="thp" run_test ./split_huge_page_test ${SPLIT_HUGE_PAGE_TEST_XFS_PATH}
+>   
+>   if [ -n "${MOUNTED_XFS}" ]; then
+> @@ -516,6 +522,8 @@ if [ -n "${MOUNTED_XFS}" ]; then
+>       rm -f ${XFS_IMG}
+>   fi
+>   
+> +CATEGORY="thp" run_test ./transhuge-stress -d 20
+> +
+>   CATEGORY="thp" run_test ./folio_split_race_test
+>   
+>   CATEGORY="migration" run_test ./migration
 
