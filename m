@@ -1,241 +1,343 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013051.outbound.protection.outlook.com [40.93.196.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6883E3C4B;
-	Mon,  4 May 2026 19:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2132FFDCB
+	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 20:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777922097; cv=fail; b=bCXBeAyqCoS7YxsdEk9buj3QpXQOLLWDtecvEsM8mAiSiR/5WGfjPBi8fME88kPu7LhzHANkl5ZZBjERc9VzuDSgVjs2ENQtAUW8KAiOZY8wOk0TDnAwjs7epQgHyrNjtJOMj4ZobEu40gebmCpmDjBU6KAJ0ie07OAn9ngsWQA=
+	t=1777925675; cv=pass; b=Oh1M7Wp63Rn9wEMpGbL7dXWia5R9GaSCQva3WfS8Xt14VXFGZh4Rzu/Fy4qnEFnGe6V2SWh11FVk3aLqTzb3zejPN5nlkyNVHeZyXSaq5BLDzwF/NAHmlU4Wf/s0jUDiHQAH5DenLqmq6ge6rKUsFnZGFa1tLs+Ve0HOB984Za0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777922097; c=relaxed/simple;
-	bh=r0hQ5vYaUzYi3KTpoBzm29AEkm/x6IyIrVlU22DOa1g=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TSAEOFuBFlGKYZ+Ss8Y/iVOhs7p4pzVbdoCbI9a3TdLVN6BqvjMElqw4zWZ94flHr5ebBLhJcIg4jhVzqqUH+AOe9FbdOznnojzwBMRFSyfpArF4oI/9Ah8ZYvkBtWJiVVOmTSEC23RW7f/fyULJKhVncLKKLMCrkYMn3lb5ZC8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=DC1fEVqu; arc=fail smtp.client-ip=40.93.196.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1777925675; c=relaxed/simple;
+	bh=EUvJ9obLHOrc/VdLy0f/NpAYvu5fY/mSXWQhaybFraA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O4ZNTUHMxUAZJy8Q+CBDhg7yQhMIZ9yoBOe3jIqEmBSop18XnvOZUt8RB1IrHfHCPjeFcBZuIorCg57jm3jCfevzNKvvFma+CgcQveaZ7+vtCB3OXb/BjoXI0NmCCe/gruJmvb1h8cuVPNXIsH6QNaPvPO9UfoI08o3Z9tUCb1A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=KOuuH2po; arc=pass smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DC1fEVqu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=drkAsiEsgwaZ3TWCFXhzCOotkGqzLPjGZ8ZvGrZ5Mwo3d03Twys2NPXtHYd+heesZ5vF2uFOQq0/PiZjDD0G7UKD/PPzjZ4LlCQoJsIKLlhyZxtW7Fpj8mqQMDcdU+qq1wcmXDlfpCpaTaFhhhXZL7OszvZo8RMmODmxgTFl0rIZbFv1eyWw55hZDbnor9ZE763HdBZmxpxd5wwxULcUi7LWxsxpuq3l5++z48ELhupjwrXJx9hDNizu5tkM/ZyoOWwf+fa1VZArHPhcthBNajWcI5OYOrq8SJAcV6bSe5sdrWzeeG6B1tOi2b+kQpWWtjUZN2Nppvy8iambQte6Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IylxmGaCWXN3NNdNsgVD2NmzajvWDbyO7MIz3gWKSSo=;
- b=hlBdTMNLLUR9V1sIqxaC1iIU3ADF82ortPeHIXLGkw4TjITswYDqeBprNP6j3iGRHo2acO5vI1yS6AV+Y3aDSO3azgig6mXUXCYkBNjEbMtLS9lvcbcNb2B6C14W/x7Rwgg7tFFLfSKyXriHNGtDPZcUN8XkcYlzoR/EdKBmhlVCUMbXDZO3T7NrJ9ivYvn5VM279IIVCkMTDf99hfvXb6IaB8wqk7Dtyc0O18saIgOa8v7rQ1Fun6I7bJj4YP/NvkOLsW3jF/A3qnwmV44xizDVN7A3MR5n8LziFhups9452KFGcSEf9HoRwZcaN+twRmnU5SVGmVJHrqtejgBsEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IylxmGaCWXN3NNdNsgVD2NmzajvWDbyO7MIz3gWKSSo=;
- b=DC1fEVquJw4TY+zTDqnN61ycdjnzosqGGa3s//Boqz6etP55SmYZQSpz8SI5YjGT/5Rf5QPwZshYU7dDo06Hz79FeZLx/nNJESWC10A8SOPSosmtEMfjnbDGDBvag2V6ucB7xD0/zp9d8JQftIKNWVLYugmgczrNVBUkZ1gzX7s=
-Received: from BN9PR03CA0124.namprd03.prod.outlook.com (2603:10b6:408:fe::9)
- by DM4PR12MB5963.namprd12.prod.outlook.com (2603:10b6:8:6a::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9870.25; Mon, 4 May 2026 19:14:46 +0000
-Received: from BL02EPF00021F6F.namprd02.prod.outlook.com
- (2603:10b6:408:fe:cafe::4a) by BN9PR03CA0124.outlook.office365.com
- (2603:10b6:408:fe::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.25 via Frontend Transport; Mon,
- 4 May 2026 19:14:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL02EPF00021F6F.mail.protection.outlook.com (10.167.249.11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.9 via Frontend Transport; Mon, 4 May 2026 19:14:45 +0000
-Received: from fdavid-dev.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 4 May
- 2026 14:14:42 -0500
-From: David Francis <David.Francis@amd.com>
-To: <linux-kernel@vger.kernel.org>
-CC: <brauner@kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<Alexander.Deucher@amd.com>, <Christian.Koenig@amd.com>, David Francis
-	<David.Francis@amd.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH] fdinfo: Add fops flag to allow CAP_PERFMON to see fdinfo
-Date: Mon, 4 May 2026 15:14:29 -0400
-Message-ID: <20260504191429.1770840-1-David.Francis@amd.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="KOuuH2po"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c70e27e2b74so1437355a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 04 May 2026 13:14:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777925672; cv=none;
+        d=google.com; s=arc-20240605;
+        b=etaKk6jTcgbjyZKdX6PfGLwaikaw46xhqHvp4hEtPzossGCkeRYdJrNRei9egcGLHn
+         F+djhQxohA6Q9sk7nOfxWp0R7mgtijv1NeyzxkKjd1ERBrBQhdlo+wTQMok9TX/ZaVKZ
+         M/toX4f8CJV6d54Dzz5LbNoGsx7BoBAm6MpS2HUivVgiaPQvM0SZloK9nDuKAKmGDyDn
+         ANyxF/6EmPVhASvaOTuAVMVX7gG3cufTru6hreNlyslcuXZxJONq2vCDCfeYi5IbA3Mg
+         GW4KFkF/p20fpAqjqfV2SXPDDksJS94hYUyN+lHly6K6GPdPo0+UUzc3xQvObFRyruM2
+         MxWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Q3hSbRXPUjpKlP0OUaWzuKOPeS3ICzNcvwmTq3T3NAQ=;
+        fh=jyDDtdDzWmfiseIXl711eAC5bWX5sFWpGQ5YOPhhq3M=;
+        b=dXKcxbqovOjhv49hUYDtRAIlR0QFVh0dLKBa5DGKQsfi2GUqAeMFsHC322XJCZ4g1/
+         m3XcgVzhH6xhx4SynOreXXbrFGA6Xwb8YWrMiL786gcPPNeJHl3HG98St25+pb3nHEMK
+         TTbypSQ8vidS7V3GhFJgVWIbvpciPOdH1da6n7gsNyRugPcrssSfdkbLCARyXmpobYWL
+         tZ9dM+wfy5OKNcUE+xiUI92Xsd4RB+hLj8yW1EFD/Rgnfejqh26MggU8m/2VyQKQ+cWt
+         7G1vHe1zfkMMNFJIWMNkPtP4jH1vJ+gKgZQn8uRY56W5fwE9+1eywoiyexOVb846s91f
+         AGtw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1777925672; x=1778530472; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q3hSbRXPUjpKlP0OUaWzuKOPeS3ICzNcvwmTq3T3NAQ=;
+        b=KOuuH2poO+/mmqRSZdvJkGzQgZ4HEYgOqNOXOfB2tmtrstfeZzRZ7zmRqdPCNHWbub
+         0oSKqnp04NjD4y216VGzVroXJZ9OZr+wUDoy8MnEsEEnwspjuc6fkU6om3HP9snYTBdr
+         nKovV9bYdKltJYulkFGG/smrvEMkHdFjH8y+VnO+UvBRHUrascI3l0OlKiDY+d2yp93/
+         o2P7JHJatW0szduBib9UcA/VIhZpk1vuZShmriCvJ4fvCbdx9QVg9bqZRkj20U1R9e92
+         BUH9zLrvg+2ot+3w0iXJVIn9hrJjUz7xPqcOI47Yl+DGMuGNW5+h8cj2c3u+SSHP7+A5
+         ewaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777925672; x=1778530472;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Q3hSbRXPUjpKlP0OUaWzuKOPeS3ICzNcvwmTq3T3NAQ=;
+        b=dHqLAKaYJv+5xO1EA6lV2Y0aFg2w4dv6tVQNGMqAAlvMyEa1R25Rd0klGmkfkm1R02
+         pmON2BKp4SaFYHowqekD6y+d3yjfVhwUOoBp+DgIQ412IVT7aimtjJkBHBfLSAGzKFe5
+         cSuL+tXW53ZQkagS+/JlGDp99KjG0rFDcbjsoyK7+V5pJuaE4se+589ZR9cLeP2OtnJ+
+         G4DupGKEIu4miE18tC6I31LNzVj4BVTWQZoexkX2u1z2J1c44JRCNxnnS5b+FgfJ/82S
+         7xnUiYPrnIDHESL0lX0LoEIfp8BxA0PyZ/hFiWRUQVgUHLu9HWErmr6Jb3NMDHRrC7Gx
+         rHHQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/LE001oxIQz8cjpo4WX6F9DIOxo+VaWpfJKxTJnDeQ+LZ2lw43cvCrvNRtSdvoKx95FYntpF3zQL8gieSw@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGl61VdVAFdsHkOE+EaswOPNmJR+B5aiquugOmNuwcN+pr6f0U
+	Y8VyCcIq4YXYuRZccT3+EXTJO4woxanoUuCCqf6Sj3cOiQAJVAws4QepzzPvN6JVdajMrG6AbpN
+	czQESWoSybjz/O4kkoswdJM/5JmogZerTpe4f7NPM
+X-Gm-Gg: AeBDies6bXosyjUtr4jMu3nFPMxcDLNPELM8rRgZRdlRD+0z7UvDPoJb2JcxH0KRja5
+	Aqu4XIIC8ZHy8qzPszS82JsWy07fDFmF8BzhvxSV9oM12G4Z5ctOQbpmmiJtBoSbro5taOP0hNP
+	TgnvO44dtg5M1J3ihkm9Y9rYHbvqTCOETUah7K+W+xg8DyLM8eud1Q7SkU2f2XSYkzBLz9oB3oo
+	x3oE318+/Ogq+mrJvRcmFPsKGZVAlGR1hk6vjPkpZYBN+2q6MJEqhwhNowGdn76JgqiUCLjJABI
+	poNYp3DrDFoHjYMflA==
+X-Received: by 2002:a05:6a20:4324:b0:39b:f12e:d53 with SMTP id
+ adf61e73a8af0-3a7f1a9cc09mr11311079637.18.1777925671622; Mon, 04 May 2026
+ 13:14:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F6F:EE_|DM4PR12MB5963:EE_
-X-MS-Office365-Filtering-Correlation-Id: c7b954a3-a2dc-469a-7e06-08deaa116752
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|376014|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	WZ6dHe5n18BPA4meJwe83n0tzz9l9gFRezf/hqzSg5yZZM0MwyOM6PQePbsvjrAUoHeBJ+5ctSnpPZLJBV9arxWiixNObI2Vc+9BMZGHouwt0WZkhOFb2NCs3o1dOPySebaAhpGSL3fUVy8lG+q1rjNhPTe3Di45+aV3rYidayuzdVDH3lhRGctPPizXaAs0X3G5YbcRX0cuEVCCCMf4A8zu0ycHFz9m5LBUSoTWJ+kCDtXBN//B9JSR7/LVOtUkFxOr2Ac8UrAW76Cu3eWZ15QIcvCKXT2fe11FPhPZ3jk8fNcafRSO4FdArVJAUgI++SLzkbT79UrUM3EDr19c8lQVPWUBRsPvqw2YG7MeTf3Gk93XFHVAQKLrAkmjBWFqW4SpioLrp5dCCYOnXHsbBkKr3Z30qp41pvqTbwdpSUeNGYynTv45vz43vTM8dG0T0Qyz9pxFaArXuVO07NIguO6o/eTPZYTiVq+aEppY/iCzhUN5vOFr8XItT9bb/QuUaBJnf+SBfs5kogUzDnySWVvyZISP6aEcbmIntlYbXSwLp0ZfvI9d2eOgv7jMfMFLcoQP00fQZ4JQQfssy3uvxUrq1YhNUBrnk46VTFZkwkYAFUb8/7EzvAxWAdFSty+t0SntRVPE62247smOMCQl3pIC7PhVAYrPChTuIjiWmvjoYRVWe60edJjFQ3RbqD+ZKnYu+oA6PCaekTci7eYdQ4jBdzyXrF2R2LyooPukaKM=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(376014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	xhI27s5RlNy1PyLxGx5h8ow6lgfcc0eDjMQ0VF+/aikbu/rrW5HendS6YyWKFw/fc6VEg/tO7sJIZZr5zJKotd26jVoJ9V87dZ/VLX8BrMIqKkxsmk2Z9anV5CY9jDFJexE/YEm+7Raiz3KdwRddL9ZRdwihGD1rCUCLeTplV+ca4lzG9U8xIPKIsoh2Ql29bwa8wyUhZ3VFWZHittU9DCO23Z7Z0NB7C33L2xWn6fUlm7mAMb/8eahhRG7wZ9O+CLPP7zxXWzzMgEmiZFg9jsAda1GGX++HYVw6tfVgkRy0Mxl1lW5o+Kkym6s8vLws1TT1ll1Ftc+EiCH05DZoMOH7CLxIlrIp6As+/k7+ap8S/HzdruSwWCktBhHgqNE5JSyFfwiZNminZHdWXqXj3OyJvZGclaDMBEKPdyPgN3x1Ewb45nZs3OiJ5TfwR79U
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 19:14:45.7362
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7b954a3-a2dc-469a-7e06-08deaa116752
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF00021F6F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5963
+References: <20260503211835.16103-1-dwindsor@gmail.com> <20260503211835.16103-2-dwindsor@gmail.com>
+In-Reply-To: <20260503211835.16103-2-dwindsor@gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 4 May 2026 16:14:19 -0400
+X-Gm-Features: AVHnY4JwbbxWaxO92zQ0YDwE9Y67k5IjHq4HKHTHEoo89ilJEakV5ErxNF9_k_c
+Message-ID: <CAHC9VhSy5K5nQTtFUE4BScy1Ur61v7eZW067vTcUYDQeJb13Bw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] bpf: add bpf_init_inode_xattr kfunc for atomic
+ inode labeling
+To: David Windsor <dwindsor@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Matt Bobrowski <mattbobrowski@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Song Liu <song@kernel.org>, Jan Kara <jack@suse.cz>, 
+	John Fastabend <john.fastabend@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We want some GPU information to be publicly available to all
-processes for basic system-wide profiling (think GPU versions
-of top).
+On Sun, May 3, 2026 at 5:18=E2=80=AFPM David Windsor <dwindsor@gmail.com> w=
+rote:
+>
+> Add bpf_init_inode_xattr() kfunc for BPF LSM programs to atomically set
+> xattrs via the inode_init_security hook using lsm_get_xattr_slot().
+>
+> The inode_init_security hook previously took the xattr array and count
+> as two separate output parameters (struct xattr *xattrs, int
+> *xattr_count), which BPF programs cannot write to. Pass the xattr state
+> as a single context object (struct lsm_xattr_ctx) instead, and have
+> bpf_init_inode_xattr() take that context directly. Update the existing
+> in-tree callers of inode_init_security to take and forward the new
+> lsm_xattr_ctx.
+>
+> Because we rely on the hook-specific ctx layout, the kfunc is
+> restricted to lsm/inode_init_security. Restrict the xattr names that
+> may be set via this kfunc to the bpf.* namespace.
+>
+> Suggested-by: Song Liu <song@kernel.org>
+> Signed-off-by: David Windsor <dwindsor@gmail.com>
+> ---
+>  fs/bpf_fs_kfuncs.c                | 106 +++++++++++++++++++++++++++++-
+>  include/linux/bpf_lsm.h           |   3 +
+>  include/linux/evm.h               |   9 +--
+>  include/linux/lsm_hook_defs.h     |   4 +-
+>  include/linux/lsm_hooks.h         |  16 ++---
+>  include/linux/security.h          |   5 ++
+>  kernel/bpf/bpf_lsm.c              |   1 +
+>  security/bpf/hooks.c              |   1 +
+>  security/integrity/evm/evm_main.c |   8 ++-
+>  security/security.c               |   7 +-
+>  security/selinux/hooks.c          |   4 +-
+>  security/smack/smack_lsm.c        |  13 ++--
+>  12 files changed, 147 insertions(+), 30 deletions(-)
 
-This information is available in fdinfo and not easily exposed
-by other interfaces.
+Comments below ...
 
-Allow processes with CAP_PERFMON capability to
-- read /proc/<pid>/fd
-- follow symlinks in /proc/<pid>/fd, but only if that file has
-new file operations flag FOP_PERFMON_FDINFO
-- read /proc/<pid>/fdinfo
-- read /proc/<pid>/fdinfo/<fd>, but only if that file has
-FOP_PERFMON_FDINFO
+> diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
+> index 9d27be058494..193accc00796 100644
+> --- a/fs/bpf_fs_kfuncs.c
+> +++ b/fs/bpf_fs_kfuncs.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/fsnotify.h>
+>  #include <linux/file.h>
+>  #include <linux/kernfs.h>
+> +#include <linux/lsm_hooks.h>
+>  #include <linux/mm.h>
+>  #include <linux/xattr.h>
+>
+> @@ -353,6 +354,97 @@ __bpf_kfunc int bpf_cgroup_read_xattr(struct cgroup =
+*cgroup, const char *name__s
+>  }
+>  #endif /* CONFIG_CGROUPS */
+>
+> +static int bpf_xattrs_used(const struct lsm_xattr_ctx *ctx)
+> +{
+> +       const size_t prefix_len =3D sizeof(XATTR_BPF_LSM_SUFFIX) - 1;
+> +       int i, n =3D 0;
+> +
+> +       for (i =3D 0; i < *ctx->xattr_count; i++) {
+> +               const char *name =3D ctx->xattrs[i].name;
+> +
+> +               if (name && !strncmp(name, XATTR_BPF_LSM_SUFFIX, prefix_l=
+en))
+> +                       n++;
+> +       }
+> +       return n;
+> +}
+> +
+> +static int __bpf_init_inode_xattr(struct lsm_xattr_ctx *xattr_ctx,
+> +                                 const char *name__str,
+> +                                 const struct bpf_dynptr *value_p)
+> +{
+> +       struct bpf_dynptr_kern *value_ptr =3D (struct bpf_dynptr_kern *)v=
+alue_p;
+> +       size_t name_len;
+> +       void *xattr_value;
+> +       struct xattr *xattr;
+> +       struct xattr *xattrs;
+> +       int *xattr_count;
+> +       const void *value;
+> +       u32 value_len;
+> +
+> +       if (!xattr_ctx || !name__str)
+> +               return -EINVAL;
+> +
+> +       xattrs =3D xattr_ctx->xattrs;
+> +       xattr_count =3D xattr_ctx->xattr_count;
+> +       if (!xattrs || !xattr_count)
+> +               return -EINVAL;
+> +       if (bpf_xattrs_used(xattr_ctx) >=3D BPF_LSM_INODE_INIT_XATTRS)
+> +               return -ENOSPC;
+> +
+> +       name_len =3D strlen(name__str);
+> +       if (name_len =3D=3D 0 || name_len > XATTR_NAME_MAX)
+> +               return -EINVAL;
+> +       if (strncmp(name__str, XATTR_BPF_LSM_SUFFIX,
+> +                   sizeof(XATTR_BPF_LSM_SUFFIX) - 1))
+> +               return -EPERM;
+> +
+> +       value_len =3D __bpf_dynptr_size(value_ptr);
+> +       if (value_len =3D=3D 0 || value_len > XATTR_SIZE_MAX)
+> +               return -EINVAL;
+> +
+> +       value =3D __bpf_dynptr_data(value_ptr, value_len);
+> +       if (!value)
+> +               return -EINVAL;
+> +
+> +       /* Combine xattr value + name into one allocation. */
+> +       xattr_value =3D kmalloc(value_len + name_len + 1, GFP_KERNEL);
+> +       if (!xattr_value)
+> +               return -ENOMEM;
+> +
+> +       memcpy(xattr_value, value, value_len);
+> +       memcpy(xattr_value + value_len, name__str, name_len);
+> +       ((char *)xattr_value)[value_len + name_len] =3D '\0';
+> +
+> +       xattr =3D lsm_get_xattr_slot(xattr_ctx);
+> +       if (!xattr) {
+> +               kfree(xattr_value);
+> +               return -ENOSPC;
+> +       }
+> +
+> +       xattr->value =3D xattr_value;
+> +       xattr->name =3D (const char *)xattr_value + value_len;
+> +       xattr->value_len =3D value_len;
+> +
+> +       return 0;
+> +}
+> +
+> +/**
+> + * bpf_init_inode_xattr - set an xattr on a new inode from inode_init_se=
+curity
+> + * @xattr_ctx: inode_init_security xattr state from the hook context
+> + * @name__str: xattr name (e.g., "bpf.file_label")
+> + * @value_p: dynptr containing the xattr value
+> + *
+> + * Only callable from lsm/inode_init_security programs.
+> + *
+> + * Return: 0 on success, negative error on failure.
+> + */
+> +__bpf_kfunc int bpf_init_inode_xattr(struct lsm_xattr_ctx *xattr_ctx,
+> +                                    const char *name__str,
+> +                                    const struct bpf_dynptr *value_p)
+> +{
+> +       return __bpf_init_inode_xattr(xattr_ctx, name__str, value_p);
+> +}
+> +
+>  __bpf_kfunc_end_defs();
+>
+>  BTF_KFUNCS_START(bpf_fs_kfunc_set_ids)
+> @@ -363,13 +455,25 @@ BTF_ID_FLAGS(func, bpf_get_dentry_xattr, KF_SLEEPAB=
+LE)
+>  BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
+>  BTF_ID_FLAGS(func, bpf_set_dentry_xattr, KF_SLEEPABLE)
+>  BTF_ID_FLAGS(func, bpf_remove_dentry_xattr, KF_SLEEPABLE)
+> +BTF_ID_FLAGS(func, bpf_init_inode_xattr, KF_SLEEPABLE)
+>  BTF_KFUNCS_END(bpf_fs_kfunc_set_ids)
+>
+> +BTF_ID_LIST(bpf_lsm_inode_init_security_btf_ids)
+> +BTF_ID(func, bpf_lsm_inode_init_security)
+> +
+> +BTF_ID_LIST(bpf_init_inode_xattr_btf_ids)
+> +BTF_ID(func, bpf_init_inode_xattr)
+> +
+>  static int bpf_fs_kfuncs_filter(const struct bpf_prog *prog, u32 kfunc_i=
+d)
+>  {
+>         if (!btf_id_set8_contains(&bpf_fs_kfunc_set_ids, kfunc_id) ||
+> -           prog->type =3D=3D BPF_PROG_TYPE_LSM)
+> +           prog->type =3D=3D BPF_PROG_TYPE_LSM) {
+> +               /* bpf_init_inode_xattr only attaches to inode_init_secur=
+ity. */
+> +               if (kfunc_id =3D=3D bpf_init_inode_xattr_btf_ids[0] &&
+> +                   prog->aux->attach_btf_id !=3D bpf_lsm_inode_init_secu=
+rity_btf_ids[0])
+> +                       return -EACCES;
+>                 return 0;
+> +       }
+>         return -EACCES;
+>  }
 
-Signed-off-by: David Francis <David.Francis@amd.com>
-Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  2 +-
- fs/proc/base.c                          | 18 ++++++++++++++++
- fs/proc/fd.c                            | 28 ++++++++++++++++++++++++-
- include/linux/fs.h                      |  2 ++
- 4 files changed, 48 insertions(+), 2 deletions(-)
+Perhaps I'm simply not seeing it, but is there a check to ensure that
+there is only one BPF LSM calling into security_inode_init_security()
+at any given time?  With the BPF LSM only reserving a single xattr
+slot, multiple loaded BPF LSM programs providing
+security_inode_init_security() callbacks will be a problem.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 03814a23eb54..d62f8b400258 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -3022,7 +3022,7 @@ static const struct file_operations amdgpu_driver_kms_fops = {
- #ifdef CONFIG_PROC_FS
- 	.show_fdinfo = drm_show_fdinfo,
- #endif
--	.fop_flags = FOP_UNSIGNED_OFFSET,
-+	.fop_flags = FOP_UNSIGNED_OFFSET | FOP_PERFMON_FDINFO,
- };
- 
- int amdgpu_file_to_fpriv(struct file *filp, struct amdgpu_fpriv **fpriv)
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 6299878e3d97..83182ff6b96d 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -86,6 +86,7 @@
- #include <linux/user_namespace.h>
- #include <linux/fs_parser.h>
- #include <linux/fs_struct.h>
-+#include <linux/fdtable.h>
- #include <linux/slab.h>
- #include <linux/sched/autogroup.h>
- #include <linux/sched/mm.h>
-@@ -716,6 +717,23 @@ static bool proc_fd_access_allowed(struct inode *inode)
- 	task = get_proc_task(inode);
- 	if (task) {
- 		allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
-+		if (!allowed && capable(CAP_PERFMON)) {
-+			struct files_struct *files;
-+
-+			task_lock(task);
-+			files = task->files;
-+			if (files) {
-+				struct file *file;
-+
-+				spin_lock(&files->file_lock);
-+				file = files_lookup_fd_locked(files,
-+							      proc_fd(inode));
-+				allowed = file && file->f_op->fop_flags &
-+						  FOP_PERFMON_FDINFO;
-+				spin_unlock(&files->file_lock);
-+			}
-+			task_unlock(task);
-+		}
- 		put_task_struct(task);
- 	}
- 	return allowed;
-diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-index 9eeccff49b2a..89c1a205148a 100644
---- a/fs/proc/fd.c
-+++ b/fs/proc/fd.c
-@@ -86,12 +86,35 @@ static int proc_fdinfo_permission(struct mnt_idmap *idmap, struct inode *inode,
- 				  int mask)
- {
- 	bool allowed = false;
--	struct task_struct *task = get_proc_task(inode);
-+	struct task_struct *task;
- 
-+	task = get_proc_task(inode);
- 	if (!task)
- 		return -ESRCH;
- 
- 	allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
-+
-+	if (!allowed && capable(CAP_PERFMON)) {
-+		struct files_struct *files;
-+
-+		if (S_ISDIR(inode->i_mode)) {
-+			allowed = true;
-+		} else {
-+			task_lock(task);
-+			files = task->files;
-+			if (files) {
-+				struct file *file;
-+
-+				spin_lock(&files->file_lock);
-+				file = files_lookup_fd_locked(files, proc_fd(inode));
-+				allowed = file && file->f_op->fop_flags &
-+						  FOP_PERFMON_FDINFO;
-+				spin_unlock(&files->file_lock);
-+			}
-+			task_unlock(task);
-+		}
-+	}
-+
- 	put_task_struct(task);
- 
- 	if (!allowed)
-@@ -338,6 +361,9 @@ int proc_fd_permission(struct mnt_idmap *idmap,
- 	if (rv == 0)
- 		return rv;
- 
-+	if (capable(CAP_PERFMON))
-+		return 0;
-+
- 	rcu_read_lock();
- 	p = pid_task(proc_pid(inode), PIDTYPE_PID);
- 	if (p && same_thread_group(p, current))
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index dd3b57cfadee..bc2826e1cc38 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2327,6 +2327,8 @@ struct file_operations {
- #define FOP_ASYNC_LOCK		((__force fop_flags_t)(1 << 6))
- /* File system supports uncached read/write buffered IO */
- #define FOP_DONTCACHE		((__force fop_flags_t)(1 << 7))
-+/* fdinfo readable with CAP_SYS_PERFMON */
-+#define FOP_PERFMON_FDINFO	((__force fop_flags_t)(1 << 8))
- 
- /* Wrap a directory iterator that needs exclusive inode access */
- int wrap_directory_iterator(struct file *, struct dir_context *,
--- 
-2.34.1
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index 41d7367cf403..a2fc72e63ada 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -68,6 +68,11 @@ struct watch;
+>  struct watch_notification;
+>  struct lsm_ctx;
+>
+> +struct lsm_xattr_ctx {
+> +       struct xattr *xattrs;
+> +       int *xattr_count;
+> +};
 
+I'd prefer this to be simply "struct lsm_xattrs" as "ctx" is an
+overloaded term in the LSM space.
+
+> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+> index 97801966bf32..dca81a22bf83 100644
+> --- a/security/selinux/hooks.c
+> +++ b/security/selinux/hooks.c
+> @@ -2962,11 +2962,11 @@ static int selinux_dentry_create_files_as(struct =
+dentry *dentry, int mode,
+>
+>  static int selinux_inode_init_security(struct inode *inode, struct inode=
+ *dir,
+>                                        const struct qstr *qstr,
+> -                                      struct xattr *xattrs, int *xattr_c=
+ount)
+> +                                      struct lsm_xattr_ctx *xattr_ctx)
+>  {
+>         const struct cred_security_struct *crsec =3D selinux_cred(current=
+_cred());
+>         struct superblock_security_struct *sbsec;
+> -       struct xattr *xattr =3D lsm_get_xattr_slot(xattrs, xattr_count);
+> +       struct xattr *xattr =3D lsm_get_xattr_slot(xattr_ctx);
+>         u32 newsid, clen;
+>         u16 newsclass;
+>         int rc;
+
+In case you didn't see it, your fix for the above lsm_get_xattr_slot()
+usage is now in Linus' tree.  It's a trivial bit of merge fuzz, but
+you might want to rebase your next revision.
+
+--=20
+paul-moore.com
