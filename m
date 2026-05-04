@@ -1,85 +1,85 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA1323D2A1
-	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 04:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E5D40DFD1
+	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 04:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777867325; cv=none; b=GkqY0irWeVl5Okn/jhQCII2aMvCo9ZQJugGcF12scjltltlkExk4rFvBreDqZIfUwnqsKlEFFJ5Qc0UEYEHzgpWoYh0DDxNALBwys11qckKfl0BsGBW2ejPW8Rhbwg7rqZlu/y+qg1beqTPZZsxL09mP0G5WxPVkaDYsNmvpY3g=
+	t=1777867879; cv=none; b=BaUzlKW1P5iJmGOA+o+CvuoTZ89fCc8AFeRRbaJcixD9jLzhpUjgGxsnGyfYUvFtFuxokuBlb385eidvVG6TftPLP+10mOezJdHUqW9ID2btMmZ/kigFpBrpu77vRbLCMYDn2VXin11pm2gPvcBdBNvmO5fk5OIXKAwFqCt6vik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777867325; c=relaxed/simple;
-	bh=3P9PTGXQEqceejzlt4oB6hCgg6/9NoHPJVWEt1XjDfk=;
+	s=arc-20240116; t=1777867879; c=relaxed/simple;
+	bh=ALLpA1Spli6gEIvD2eBig7ozCGKkYWm7GRvHWMn4OJc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eCLI/ufXARDxpnqh79KUzBuAkOhsxx//kA3gpX9vcDM5UU1rhl9+1JWR97x3qVaMjDDSHhj2O/WdRLn1DghLapLBYQkTA8Wcb8eL2MNyauKI3kdnQZOzuKDEro98jsA//GN/JTxV5TDemmg1eOWSomHyB/rlJbkrwMqlDTF/W/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ua8w5baX; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ahR74mpf; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=B7hbexYhhObJpoyFxGWZkE2k6w7MhA+15Tv0hSaq1aCYLtJSV0UY9JSKstfm8wDW1gmZlJhuIJtQQbpLQk98rSTS5lRkpqQUMikipylgP+JH9o6bPYlC6LbW3T74zq02c2uSp0S0C2gEFtV4iRYcwp+7jrkatf88c6UVKwZRWE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M9PGbb3Y; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=sDOeSp2y; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ua8w5baX";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ahR74mpf"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M9PGbb3Y";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="sDOeSp2y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777867322;
+	s=mimecast20190719; t=1777867876;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=m+5Um6TFBnBOiuOAmXBNCCA71a07CLbH3rgRCp2jTGs=;
-	b=Ua8w5baXTyx647bYp7W1t231fDT7If2CZdyS+eI13gdUGfJdDE5Au+oL2fz356thMlE050
-	i786VyLj2payeqgZdYk+2U5mdEiGIWsBimOqCw2cnko0rgRRj53ZrcFhziCfVgfsMIL+MD
-	G4T4WAKJ5Rv8ZiUPfDEwdYc8e6HH51Y=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=pu1MzcUI/l6Cm0rp2QFR6z3D/O2HWrrKP5PFPjdVM80=;
+	b=M9PGbb3YN+bGbIQfmNEpnyp+MmmEWAscjLZV9PZbjpDJm60kqY/H218HHpesxRstrVcGCK
+	GgzkfobUfn3lR3+LKD16TkaFnjM+cboEgP0J5QqiwQQfU2AfX7JT1bDYidjH0MQkpmiWvP
+	b2MoFhLlmkOnJkTXac5ahawRBnFNphY=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-56-Oaqj6jACOaWVsj0O86v6oA-1; Mon, 04 May 2026 00:01:59 -0400
-X-MC-Unique: Oaqj6jACOaWVsj0O86v6oA-1
-X-Mimecast-MFC-AGG-ID: Oaqj6jACOaWVsj0O86v6oA_1777867319
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7bd5c42192aso16176277b3.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 03 May 2026 21:01:59 -0700 (PDT)
+ us-mta-528-aySuB21qPOeqc__YHEwt0w-1; Mon, 04 May 2026 00:11:15 -0400
+X-MC-Unique: aySuB21qPOeqc__YHEwt0w-1
+X-Mimecast-MFC-AGG-ID: aySuB21qPOeqc__YHEwt0w_1777867875
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-79a670a6032so79507287b3.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 03 May 2026 21:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1777867319; x=1778472119; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1777867875; x=1778472675; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=m+5Um6TFBnBOiuOAmXBNCCA71a07CLbH3rgRCp2jTGs=;
-        b=ahR74mpfjikES/sgx6xLa/BlnQXifJ4h6HXe6qLXrKtEC+bL/gABxFJjjNfMC+/5/+
-         nLzFjIYylBjQS6n19zZio8rwBbMNlVLjdJCyUuOPC4QnmMrzjdclBu7n1gQoAspU1ceb
-         tTrQOPRRr5ZBbRvkiy1c4gyyh7HMuhVAfJf0cW2ewvvT5HWPyI2ucfpBcTGTJW4YoYrK
-         Ciqn3wQbO6iQaR3BbY74WB2sf/sIWETkuMl5SDK/HhynLdPK4WMSldCyOr6+DnDEiSc1
-         mOAI6eEsXjYjx5x+CEPn1RhuLqLNo52XiK2DxOB3sebtOzUgUWZeEpLkszuiyy+lDtF2
-         lDjw==
+        bh=pu1MzcUI/l6Cm0rp2QFR6z3D/O2HWrrKP5PFPjdVM80=;
+        b=sDOeSp2y89ZUmkjVAg2qFmiPL7vgVeZe2wERf0/8fOrUEKvc95O03koS0hUGWicz07
+         cOPmsVZyb3DIaTUKgsnWk7+T0IiuNEfJ9zmDnHlC4vXvGk1xudNDRJlCcB8rKoc8VVkk
+         1mx7o6nME5XkOryjZK6S8E0ZomybNTFR16PuVPaud6Sb0MyqDT1KBf+KKG6FvJYsuhLG
+         LsCOIPrRUUW4J2wqdhgQ64GUKBdCGa41Cz6gfL+gFWtDjirtIydfu71e4HR+l4dgNGjd
+         rrv8HwNEJ9HeswovDGW1CsGDaLomgw7zHz+Vfa3eCWZtPAmSRIzMkJ/fzX2FvDFnFvgV
+         FZFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777867319; x=1778472119;
+        d=1e100.net; s=20251104; t=1777867875; x=1778472675;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m+5Um6TFBnBOiuOAmXBNCCA71a07CLbH3rgRCp2jTGs=;
-        b=D1+OtfbnDegCD8+YSFsRRzk4tLMxe5EWv+vyCiZJZJnx34nOFPH3qSY/98mefNsxRs
-         Xo0is1IpykBAlcT4OOLB8epCin5CbbLDZMsjDoYkB8Bzp9cnKWNWGwWL+GYXEw0BYR2m
-         MVM7UPRQ6WWG517s7sXNySnDgEcW2I/29Pe560vjVuSVRcTFKW1XsXfUyUC2BGJg7qY+
-         xS6Ze1ffXHWCMBJHFuUARpG3/MtfHF/kOAs534whGp12K7Kx5aRaL0LAAiuCxFXOatJv
-         4prVam7STeR3El+4/eQFYqfrNu5XqVeZkV73hcaqu68xjBpBeImQzwamaIufbL+l8Vte
-         z2sw==
-X-Forwarded-Encrypted: i=1; AFNElJ962gdOW3NyTdfKLd1FUO+l6cB/TtGw7cHLlv5rbWmiYSJTpDvgMzltOaXIOlOV0ZoiP/c+DWVZVPy+4b6L@vger.kernel.org
-X-Gm-Message-State: AOJu0YzlYUKSVxVuND9FgVi4T45htqbeJx4GcF+iS289pCGUNBrx7zY8
-	lC9VijzsKLSSb18IkpWhg/B1mMslqOMvXjKgjtdm2ydwtIh7lSZ/gtAFzdtDzqFqKQS1EH5NP+z
-	4v5LMBO8T3Vib6UbDBJeNgZDUSJFQ6gG7K3SEXdSjnWbsSoON27pawbr6PKXKdygEW6s=
-X-Gm-Gg: AeBDiesrsKowWzTR0vCrFCeOkEiHIeRVEEqG+kbyj+49t3+nmw1LCMHNjO7RGIm1MtZ
-	AVBbi3bGEPfS5apwy7ADrB9eQa+BNx+WFSwl0eMVSmC9krTu1lKoPhWoSMSoo3jL+Mp4YzTls5H
-	IP5ImupXKH3UO5QS69qgEw92RzmyCd4bCbrcWSnOsws3KfLHSOU6I0e9w76McNq2SbpAO+uz65T
-	DyTz0EYfqwnoomJmiSJ7zUQ6NY7dosXshCwG4ow3JuwZ40cHcACHZM8qHYoU2/L9OKHcbeooUDl
-	a2GPmEcwQxE2JdIq1X6HZDQSAy9mwvCm6Ve1oc4cJ9cDbDYF0CqTmPDXJOv2UhBNp1uRmZS5Cqy
-	o0gXMbgt8UzFz+552O16zUA5Psn5zNF0wvchnEv33nQAeoLUDzX8YodJ8KeK6cQyiUQM=
-X-Received: by 2002:a05:690c:289:b0:79a:b440:5c8d with SMTP id 00721157ae682-7bd76928ceamr64734307b3.11.1777867318931;
-        Sun, 03 May 2026 21:01:58 -0700 (PDT)
-X-Received: by 2002:a05:690c:289:b0:79a:b440:5c8d with SMTP id 00721157ae682-7bd76928ceamr64734087b3.11.1777867318535;
-        Sun, 03 May 2026 21:01:58 -0700 (PDT)
+        bh=pu1MzcUI/l6Cm0rp2QFR6z3D/O2HWrrKP5PFPjdVM80=;
+        b=bhH53/WLHZZVKy5kuHQYHoNDnO/0uyad+PChAkBP1ksha0QmGp5mWyqHYa/+85egZL
+         Oxi2d+6y/rx16CwmJ0AklalFlFgyBrhiCGPjIIcKzPEXPjuCVH/es534MTFwRjsoQabX
+         3HjgtrZF3+Tfagt3rhU04dGxq/Rdk95LrI3Fjsep/UqHEqzsJ8hybTJ07pAuXYP6iqKs
+         8/mDzunWsZiOKrrsPOuHoEG9qiv0ajKijukccwgLuefaTPv1CTC8vPlvGZdtAc21jrpf
+         cDnSDdxBAiTSKUsUbhlDxzesq2zOpk88Qld1HqnHlIIqJpMCtoYmx8gypXwbunwVUDTx
+         XKfg==
+X-Forwarded-Encrypted: i=1; AFNElJ95GZOv4fAeD1OLpZ5IeZxeKCA+9ElXgHN/OMqVGlriS+cieHRHIWFvZKkY9FeIfmPwGTezNidyx+8lgQ/a@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6kfcmFsNHPrgPWe4jNFbUmxOP1oawPAzLsay2jAF4rUUW8hii
+	OW11au3rBCGi0QJiIw+QDxAzINCvaIjP31ChxG791ev29iCoj8QLa5wvz3MWVdqe2Ls48udMXv8
+	yqncFiK4wBRvXGFQbbzD1AyNRwLfT6q3BTE2tRnxjxpHzBqyxogzRKQ79TZmjS0Xb8Ic=
+X-Gm-Gg: AeBDieu8drEW5dHqzMPBPVjf8wGxqQeMPYMBKruW3iclZbotoKPJhfydpsHTsl0mJzC
+	q15AyXIlwPu5+oyjm/s9BwEDyP8p8/T30TNnlK9kv29AEUpnVkPVYCjLu0dEKyhFJreQlgweC0v
+	S3EA8k9xrMdFJo95nv5zeFB4DJUHCL1pq1IbgWW8Nl5P2/VMB+49+V4Y2mNxkyZyHnXJ1+RUcxK
+	8rpb38YDwbU323PisFBJbPGGq4BxXJQXSpmZNjAJZd7jlvGzyt6/C8MhvRS64SqMRazkZT6SNFV
+	B+V8p1SlwU5gs4HwImLntwjPnp3yuZ8IdHr1CWW/kLt39R5+o1DM5OX0IY68sArg3Q/xuRKPvVl
+	ylj8ytT/G6UFsW6aZYVpDYYI4uCoU/+TI6YUlGrJhr1IoWFJ03/Mc36/11XlVnBhVr1w=
+X-Received: by 2002:a05:690c:398:b0:7bd:8cd8:d6b6 with SMTP id 00721157ae682-7bd8cd8d855mr29092547b3.22.1777867875011;
+        Sun, 03 May 2026 21:11:15 -0700 (PDT)
+X-Received: by 2002:a05:690c:398:b0:7bd:8cd8:d6b6 with SMTP id 00721157ae682-7bd8cd8d855mr29092277b3.22.1777867874473;
+        Sun, 03 May 2026 21:11:14 -0700 (PDT)
 Received: from [192.168.178.105] (78-0-206-107.adsl.net.t-com.hr. [78.0.206.107])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd6654e464sm44456777b3.14.2026.05.03.21.01.53
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd6654e464sm44532247b3.14.2026.05.03.21.11.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 May 2026 21:01:58 -0700 (PDT)
-Message-ID: <0c385b67-035a-4f66-8f3a-febd68a9318b@redhat.com>
-Date: Sun, 3 May 2026 22:02:30 -0600
+        Sun, 03 May 2026 21:11:14 -0700 (PDT)
+Message-ID: <1f3aedf7-9e48-4650-a7e2-5584c8b299c7@redhat.com>
+Date: Sun, 3 May 2026 22:11:46 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -87,7 +87,7 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/14] mm: remove READ_ONLY_THP_FOR_FS Kconfig option
+Subject: Re: [PATCH v5 07/14] fs: remove nr_thps from struct address_space
 To: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
  David Hildenbrand <david@kernel.org>,
  "Matthew Wilcox (Oracle)" <willy@infradead.org>,
@@ -106,55 +106,77 @@ Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
  linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
  linux-kselftest@vger.kernel.org
 References: <20260429152924.727124-1-ziy@nvidia.com>
- <20260429153538.727855-1-ziy@nvidia.com>
+ <20260429153538.727855-3-ziy@nvidia.com>
 Content-Language: en-US
 From: Nico Pache <npache@redhat.com>
-In-Reply-To: <20260429153538.727855-1-ziy@nvidia.com>
+In-Reply-To: <20260429153538.727855-3-ziy@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 4/29/26 9:35 AM, Zi Yan wrote:
-> After removing READ_ONLY_THP_FOR_FS check in file_thp_enabled(),
-> khugepaged and MADV_COLLAPSE can run on FSes with PMD THP pagecache
-> support even without READ_ONLY_THP_FOR_FS enabled. Remove the Kconfig first
-> so that no one can use READ_ONLY_THP_FOR_FS as upcoming commits remove
-> mapping->nr_thps, which its safe guard mechanism relies on.
+> filemap_nr_thps*() are removed, the related field, address_space->nr_thps,
+> is no longer needed. Remove it. This shrinks struct address_space by 8
+> bytes on 64-bit systems which may increase the number of inodes we can
+> cache.
+
+We've had performance impacts in the past by changing the alignment of 
+certain structs. This is a rather critical one. Ill keep an eye out for 
+any performance differences noted by our PerfQE team surrounding this 
+feature.
+
+LGTM!
+
+Reviewed-by: Nico Pache <npache@redhat.com>
+
 > 
 > Signed-off-by: Zi Yan <ziy@nvidia.com>
 > Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 > Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
 > ---
->   mm/Kconfig | 11 -----------
->   1 file changed, 11 deletions(-)
+>   fs/inode.c         | 3 ---
+>   include/linux/fs.h | 5 -----
+>   2 files changed, 8 deletions(-)
 > 
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index e221fa1dc54d0..27dc5b0139ba6 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -936,17 +936,6 @@ config THP_SWAP
->   
->   	  For selection by architectures with reasonable THP sizes.
->   
-> -config READ_ONLY_THP_FOR_FS
-
-Yay its gone! Thanks for working on this :)
-
-Reviewed-by: Nico Pache <npache@redhat.com>
-
-> -	bool "Read-only THP for filesystems (EXPERIMENTAL)"
-> -	depends on TRANSPARENT_HUGEPAGE
-> -
-> -	help
-> -	  Allow khugepaged to put read-only file-backed pages in THP.
-> -
-> -	  This is marked experimental because it is a new feature. Write
-> -	  support of file THPs will be developed in the next few release
-> -	  cycles.
-> -
->   config NO_PAGE_MAPCOUNT
->   	bool "No per-page mapcount (EXPERIMENTAL)"
->   	help
+> diff --git a/fs/inode.c b/fs/inode.c
+> index 6a3cbc7dcd28c..d8a6d6266c3c3 100644
+> --- a/fs/inode.c
+> +++ b/fs/inode.c
+> @@ -279,9 +279,6 @@ int inode_init_always_gfp(struct super_block *sb, struct inode *inode, gfp_t gfp
+>   	mapping->flags = 0;
+>   	mapping->wb_err = 0;
+>   	atomic_set(&mapping->i_mmap_writable, 0);
+> -#ifdef CONFIG_READ_ONLY_THP_FOR_FS
+> -	atomic_set(&mapping->nr_thps, 0);
+> -#endif
+>   	mapping_set_gfp_mask(mapping, GFP_HIGHUSER_MOVABLE);
+>   	mapping->writeback_index = 0;
+>   	init_rwsem(&mapping->invalidate_lock);
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 11559c513dfbb..bb9cc4f7207c1 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -460,7 +460,6 @@ struct mapping_metadata_bhs {
+>    *   memory mappings.
+>    * @gfp_mask: Memory allocation flags to use for allocating pages.
+>    * @i_mmap_writable: Number of VM_SHARED, VM_MAYWRITE mappings.
+> - * @nr_thps: Number of THPs in the pagecache (non-shmem only).
+>    * @i_mmap: Tree of private and shared mappings.
+>    * @i_mmap_rwsem: Protects @i_mmap and @i_mmap_writable.
+>    * @nrpages: Number of page entries, protected by the i_pages lock.
+> @@ -476,10 +475,6 @@ struct address_space {
+>   	struct rw_semaphore	invalidate_lock;
+>   	gfp_t			gfp_mask;
+>   	atomic_t		i_mmap_writable;
+> -#ifdef CONFIG_READ_ONLY_THP_FOR_FS
+> -	/* number of thp, only for non-shmem files */
+> -	atomic_t		nr_thps;
+> -#endif
+>   	struct rb_root_cached	i_mmap;
+>   	unsigned long		nrpages;
+>   	pgoff_t			writeback_index;
 
