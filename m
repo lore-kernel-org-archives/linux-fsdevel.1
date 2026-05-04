@@ -1,36 +1,35 @@
 Received: from e3i432.smtp2go.com (e3i432.smtp2go.com [158.120.85.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F87318EC7
-	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 20:37:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0544431E851
+	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 20:37:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777927060; cv=none; b=dXoT1sFDesdEJ7i9LLoVftN5C7/p/GhyFHawNQywfs2wifiTMqa5j7s2PJTay12r44ImlTxY2jbSPx2PLYvViEGjH9iG04FXQDe8WcvyC2cUJhm1OuXrNz/55i49HBERxinYGiS1QfNQSiqo+nlo4JJL7RKkJI+OSVRVH+dGT+U=
+	t=1777927062; cv=none; b=Ls2RxGmlTKoSicD/Jty39dfvlpwc/2B3+ArGrl3ZcUV2eoKSr6SBjGtJ8PrMl7L1FM/bEDltMQWK8dvuOaXjlKygrUGb9PLxStEf0I1cyIYManQ8OSgTkeX7667tLn5BDxcOXEQ7SkvpRGVkXajrK4OUi4PZmhQ6Ylc3r/IzMpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777927060; c=relaxed/simple;
-	bh=1w5hPt95kvdK3bvsMQ++pD0aFvYSZaxaP58nTnY4aR0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NIe5RSqBrZkau8JPYYmvaD9tKzRsB+ypkRtfVL0yTeNZQE6UVVF7qWW0jGi0WomKUDQiEmgYRGBxzCvY7FdlENYkgMobvWemS6/ehL6AIyD0WU8ZGRVIMZ2qpUXD5GOWibE8XaRNy58Y40Pk1oT3XAIjJbEwuLsKFF8NBj6q5Zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=NH7jylpR; arc=none smtp.client-ip=158.120.85.176
+	s=arc-20240116; t=1777927062; c=relaxed/simple;
+	bh=u2HYfcja/d+pjHWbNbckX8D9a2gqBvN6zmE0axOF82A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ihMSq1CbHXDWrTuAJ84d+5VKh4RaQluxLyVnhw3chTzkTQjl5u1T57+NFFXHAa0ePBRPUXcXN84BvhSoK9E2F1f7Cq6VlL+DyYG+LPIcPr9IdIq6vVHQsnYDkpNSIFqpm60GHha2p7QV4ELRD3zrdHWGtogmG4JeZ0Ywqkq5uS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=be0HXHLP; arc=none smtp.client-ip=158.120.85.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em510616.triplefau.lt
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="NH7jylpR"
+	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="be0HXHLP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triplefau.lt;
- i=@triplefau.lt; q=dns/txt; s=s510616; t=1777927053; h=from : subject
+ i=@triplefau.lt; q=dns/txt; s=s510616; t=1777927055; h=from : subject
  : to : message-id : date;
- bh=HveqeKXevsB+nd/6Kp89wxlt/3s0YH3C1oh9fPsuSr0=;
- b=NH7jylpRDSLcGcLokL6dyBH8dGe4WQTD2695HrmUU3GiAX/M41JDaSAcbr+e11ok53fX4
- N/zQAnolZ/bx2jRkR3qpgezGSRmzA9QZWvzkjjFXlU8uJFJHbfe1tAfZ1wB1tgkZgak7uci
- 9re6IjC0lMfur7vMI/JiiWRqdw0ZFbmM14b5fZ4e39pcWyzAd5ip07+ECpVdsCnxHFc2naU
- eZ0H2+ih4cZ+uvqapWahQyfVvRKkjSIBJDVZsx7wqxtHdAKfIvwQgIF4tbZ9hXF0KwKNWgj
- YYS+62dQ+vLgCF9o41meeExcrbgPSqbHGTXviztP1BuZ3mf73p+WE1LncavQ==
+ bh=mV7a+m0YYP7z4oY7su4TQFc86hoFqZn+cXv8ETIwXIM=;
+ b=be0HXHLPdIF12ug8DrWlaGBSTYgQ0TlrguCzt0nN3qf07+G+7hOCEb7hGOiYGVBzv5w+X
+ 9QRZc5c5NbcZWyUbdH55SwtoB19PLHC2W7mAN8tI8i49DT4kGXcAM4/xR/8ufH9a55RvXvk
+ 9ps2jwMACYZVZ7lADSbTGFkiCVfwam7Hj1JuZ8EU1c9FNOT89hPxBBzr4VKGPFhuRRRR2if
+ jBo76cwUGI6rXZ7Wze01OrSDvwU4oWJCXhePlOlUVBo/16ZWpJ+6zcSpY64kz7FrJo8y2+G
+ RJUqjBnAXXgYjEG2rdD1ZNTldwv2DPCv0PzQvlgmkSgTrQxb7jrVnk80OBmw==
 Received: from [10.12.239.196] (helo=localhost)
 	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.99.1-S2G)
 	(envelope-from <repk@triplefau.lt>)
-	id 1wK02l-AIkwcC8rh2a-IM4A;
-	Mon, 04 May 2026 20:37:31 +0000
+	id 1wK02i-4o5NDgrvVHP-rTL7;
+	Mon, 04 May 2026 20:37:28 +0000
 From: Remi Pommarel <repk@triplefau.lt>
 To: v9fs@lists.linux.dev
 Cc: linux-fsdevel@vger.kernel.org,
@@ -40,12 +39,10 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Dominique Martinet <asmadeus@codewreck.org>,
 	Christian Schoenebeck <linux_oss@crudebyte.com>,
 	Remi Pommarel <repk@triplefau.lt>
-Subject: [PATCH v5 2/4] 9p: Add mount option for negative dentry cache retention
-Date: Mon,  4 May 2026 22:15:52 +0200
-Message-ID: <4f51032ea3329c1a3b7c0f00bb2885e8d104c6c5.1777923233.git.repk@triplefau.lt>
+Subject: [PATCH v5 0/4] 9p: Performance improvements for build workloads
+Date: Mon,  4 May 2026 22:15:50 +0200
+Message-ID: <cover.1777923233.git.repk@triplefau.lt>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1777923233.git.repk@triplefau.lt>
-References: <cover.1777923233.git.repk@triplefau.lt>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,130 +51,108 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 510616m:510616apGKSTK:510616sjjVRx_3me
-X-smtpcorp-track: j9wuOO7ZFLbz.bVzJhp4IrO6u.ZHSN-Q4IfRH
+Feedback-ID: 510616m:510616apGKSTK:510616s4Qe5DmHKk
+X-smtpcorp-track: _zrFzIvQqNx9.K6Z403Zcdrg1.dhFeEQov_SA
 
-Introduce a new mount option, negtimeout, for v9fs that allows users
-to specify how long negative dentries are retained in the cache. The
-retention time can be set in milliseconds (e.g. negtimeout=10000 for
-a 10secs retention time) or a negative value (e.g. negtimeout=-1) to
-keep negative entries until the buffer cache management removes them.
+This patchset introduces several performance optimizations for the 9p
+filesystem when used with cache=loose option (exclusive or read only
+mounts). These improvements particularly target workloads with frequent
+lookups of non-existent paths and repeated symlink resolutions.
 
-For consistency reasons, this option should only be used in exclusive
-or read-only mount scenarios, aligning with the cache=loose usage.
+The very state of the art benchmark consisting of cloning a fresh
+hostap repository and building hostapd and wpa_supplicant for hwsim
+tests (cd tests/hwsim; time ./build.sh) in a VM running on a 9pfs rootfs
+(with trans=virtio,cache=loose options) has been used to test those
+optimizations impact.
 
-Signed-off-by: Remi Pommarel <repk@triplefau.lt>
----
- Documentation/filesystems/9p.rst |  5 +++++
- fs/9p/v9fs.c                     | 16 +++++++++++++++-
- fs/9p/v9fs.h                     | 23 +++++++++++++----------
- 3 files changed, 33 insertions(+), 11 deletions(-)
+For reference, the build takes 0m56.492s on my laptop natively while it
+completes in 2m18.702sec on the VM. This represents a significant
+performance penalty considering running the same build on a VM using a
+virtiofs rootfs (with "--cache always" virtiofsd option) takes around
+1m32.141s. This patchset aims to bring the 9pfs build time close to
+that of virtiofs, rather than the native host time, as a realistic
+expectation.
 
-diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
-index be3504ca034a..b014c7aabba4 100644
---- a/Documentation/filesystems/9p.rst
-+++ b/Documentation/filesystems/9p.rst
-@@ -238,6 +238,11 @@ Options
-   cachetag	cache tag to use the specified persistent cache.
- 		cache tags for existing cache sessions can be listed at
- 		/sys/fs/9p/caches. (applies only to cache=fscache)
-+
-+  negtimeout    the duration (in milliseconds) that negative dentries (paths
-+                that do not actually exist) are retained in the cache. If
-+                set to a negative value, those entries are kept indefinitely
-+                until evicted by the buffer cache management system
-   ============= ===============================================================
- 
- Behavior
-diff --git a/fs/9p/v9fs.c b/fs/9p/v9fs.c
-index c5dca81a553e..f16517be7fc2 100644
---- a/fs/9p/v9fs.c
-+++ b/fs/9p/v9fs.c
-@@ -39,7 +39,7 @@ enum {
- 	 * source if we rejected it as EINVAL */
- 	Opt_source,
- 	/* Options that take integer arguments */
--	Opt_debug, Opt_dfltuid, Opt_dfltgid, Opt_afid,
-+	Opt_debug, Opt_dfltuid, Opt_dfltgid, Opt_afid, Opt_negtimeout,
- 	/* String options */
- 	Opt_uname, Opt_remotename, Opt_cache, Opt_cachetag,
- 	/* Options that take no arguments */
-@@ -93,6 +93,7 @@ const struct fs_parameter_spec v9fs_param_spec[] = {
- 	fsparam_string	("access",	Opt_access),
- 	fsparam_flag	("posixacl",	Opt_posixacl),
- 	fsparam_u32	("locktimeout",	Opt_locktimeout),
-+	fsparam_s32	("negtimeout",	Opt_negtimeout),
- 
- 	/* client options */
- 	fsparam_u32	("msize",	Opt_msize),
-@@ -159,6 +160,9 @@ int v9fs_show_options(struct seq_file *m, struct dentry *root)
- 			   from_kgid_munged(&init_user_ns, v9ses->dfltgid));
- 	if (v9ses->afid != ~0)
- 		seq_printf(m, ",afid=%u", v9ses->afid);
-+	if (v9ses->flags & V9FS_NDENTRY_TIMEOUT_SET)
-+		seq_printf(m, ",negtimeout=%d",
-+			   (int)v9ses->ndentry_timeout_ms);
- 	if (strcmp(v9ses->uname, V9FS_DEFUSER) != 0)
- 		seq_printf(m, ",uname=%s", v9ses->uname);
- 	if (strcmp(v9ses->aname, V9FS_DEFANAME) != 0)
-@@ -337,6 +341,16 @@ int v9fs_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 		session_opts->session_lock_timeout = (long)result.uint_32 * HZ;
- 		break;
- 
-+	case Opt_negtimeout:
-+		session_opts->flags |= V9FS_NDENTRY_TIMEOUT_SET;
-+		if (result.int_32 < 0) {
-+			session_opts->ndentry_timeout_ms =
-+				NDENTRY_TIMEOUT_NEVER;
-+		} else {
-+			session_opts->ndentry_timeout_ms = result.int_32;
-+		}
-+		break;
-+
- 	/* Options for client */
- 	case Opt_msize:
- 		if (result.uint_32 < 4096) {
-diff --git a/fs/9p/v9fs.h b/fs/9p/v9fs.h
-index e630c5111d74..32179f64a603 100644
---- a/fs/9p/v9fs.h
-+++ b/fs/9p/v9fs.h
-@@ -24,6 +24,8 @@
-  * @V9FS_ACCESS_ANY: use a single attach for all users
-  * @V9FS_ACCESS_MASK: bit mask of different ACCESS options
-  * @V9FS_POSIX_ACL: POSIX ACLs are enforced
-+ * @V9FS_NDENTRY_TIMEOUT_SET: Has negative dentry timeout retention time been
-+ *                            overriden by ndentrycache mount option
-  *
-  * Session flags reflect options selected by users at mount time
-  */
-@@ -34,16 +36,17 @@
- #define V9FS_ACL_MASK V9FS_POSIX_ACL
- 
- enum p9_session_flags {
--	V9FS_PROTO_2000U    = 0x01,
--	V9FS_PROTO_2000L    = 0x02,
--	V9FS_ACCESS_SINGLE  = 0x04,
--	V9FS_ACCESS_USER    = 0x08,
--	V9FS_ACCESS_CLIENT  = 0x10,
--	V9FS_POSIX_ACL      = 0x20,
--	V9FS_NO_XATTR       = 0x40,
--	V9FS_IGNORE_QV      = 0x80, /* ignore qid.version for cache hints */
--	V9FS_DIRECT_IO      = 0x100,
--	V9FS_SYNC           = 0x200
-+	V9FS_PROTO_2000U         = 0x01,
-+	V9FS_PROTO_2000L         = 0x02,
-+	V9FS_ACCESS_SINGLE       = 0x04,
-+	V9FS_ACCESS_USER         = 0x08,
-+	V9FS_ACCESS_CLIENT       = 0x10,
-+	V9FS_POSIX_ACL           = 0x20,
-+	V9FS_NO_XATTR            = 0x40,
-+	V9FS_IGNORE_QV           = 0x80, /* ignore qid.version for cache hints */
-+	V9FS_DIRECT_IO           = 0x100,
-+	V9FS_SYNC                = 0x200,
-+	V9FS_NDENTRY_TIMEOUT_SET = 0x400,
- };
- 
- /**
+This first three patches in this series focus on keeping negative
+dentries in the cache, ensuring that subsequent lookups for paths known
+to not exist do not require redundant 9P RPC calls. This optimization
+reduces the time needed for the compiler to search for header files
+across known locations. The two first patches introduce a new mount
+option, ndentrycache, which specifies the number of ms to keep the
+dentry in the cache. Using ndentrycache without value (i.e. keeping the
+negative dentry indifinetly) shrunk build time to 1m46.198s. The third
+patch enable the negative dentry caching for 24 hours by default on
+cache=loose.
+
+The fourth patch extends page cache usage to symlinks by allowing
+p9_client_readlink() results to be cached. Resolving symlink is
+apparently something done quite frequently during the build process and
+avoiding the cost of a 9P RPC call round trip for already known symlinks
+helps reduce the build time to 1m26.602s, outperforming the virtiofs
+setup.
+
+Here is summary of the different hostapd/wpa_supplicant build times:
+
+  - Baseline (no patch): 2m18.702s
+  - negative dentry caching (patches 1-3): 1m46.198s (23% improvement)
+  - Above + symlink caching (patches 1-4): 1m26.302s (an additional 18%
+    improvement, 37% in total)
+
+With this ~37% performance gain, 9pfs with cache=loose can compete with
+virtiofs for (at least) this specific scenario. Although this benchmark
+is not the most typical, I do think that these caching optimizations
+could benefit a wide range of other workflows as well.
+
+Changes since v4:
+  - Fix potential uninitialized access in v9fs_issue_read() and
+    v9fs_vfs_symlink_dotl()
+  - Fix potential memory leak in v9fs_issue_read()
+
+Changes since v3:
+  - Go back to s32 ndentry timeout option, rename it to negtimeout so
+    its easier to grep
+  - Bring back the missing 4 letters for *_TIMEOUT_* macro name
+  - Fix some alignment/space issues
+
+Changes since v2:
+  - Rename v9fs_dentry_is_{expired,refresh} to ndentry
+  - Some grammatical fixes in couple of comments
+  - Rename the negative cache mount option to ndentrycache. Using
+    ndentrycache without value enable infinite caching while
+    ndentrycache=<time> enable caching for <time> milliseconds.
+    This allows the option to be unsigned.
+  - Make it more obvious v9fs_issue_read() is only called on dotl
+    symlinks
+
+Changes since v1:
+  - Rebase on 9p-next (with new mount API conversion)
+  - Integrated symlink caching with the network filesystem helper
+    library for robustness (a lot of code expects a valid netfs context)
+  - Instantiate symlink dentry at creation to avoid keeping a negative
+    dentry in cache
+  - Moved IO waiting time accounting to a separate patch series
+
+Thanks.
+
+Remi Pommarel (4):
+  9p: Cache negative dentries for lookup performance
+  9p: Add mount option for negative dentry cache retention
+  9p: Set default negative dentry retention time for cache=loose
+  9p: Enable symlink caching in page cache
+
+ Documentation/filesystems/9p.rst |   5 ++
+ fs/9p/fid.c                      |  11 ++--
+ fs/9p/v9fs.c                     |  27 +++++++-
+ fs/9p/v9fs.h                     |  28 ++++++---
+ fs/9p/v9fs_vfs.h                 |  15 +++++
+ fs/9p/vfs_addr.c                 |  35 ++++++++++-
+ fs/9p/vfs_dentry.c               | 105 ++++++++++++++++++++++++++-----
+ fs/9p/vfs_inode.c                |  18 +++---
+ fs/9p/vfs_inode_dotl.c           |  62 +++++++++++++++---
+ fs/9p/vfs_super.c                |   1 +
+ include/net/9p/client.h          |   2 +
+ 11 files changed, 261 insertions(+), 48 deletions(-)
+
 -- 
 2.52.0
 
