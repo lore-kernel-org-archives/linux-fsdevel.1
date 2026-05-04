@@ -1,326 +1,634 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284D33D6CAC;
-	Mon,  4 May 2026 13:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44443A3822;
+	Mon,  4 May 2026 14:01:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777900893; cv=none; b=EzxjqM8lPjbpSqRltv5pxU+NF/uzEz0u8gRBktxyww4Jjq2a/35Twp9LVS9pFbdYHFhkVDjui24rAqQvzYjzk3Xk6dyzdQhLvs60iNsyeulxD2MKIeyx9w8il3bRfLP3tqkm5ODqqTF+gZXiQNWARSQngUxA9epqKxKu16lhxcQ=
+	t=1777903288; cv=none; b=sPdbAPK+pCaVIW888LKfuXqNeGx+WWBwDapZbRcfUnVgLJ92MvA/8wAxWtOuHi9aFZJbPf/P6rud5dZ7fiErTji8WjXZ3ksg7jQTwX/j4nLsh0Vs9yCtWOQFlitC94rLw8IGIFx/nZiqnMflNVdtqJ+IJ2aGpfCCi3/cx2+6mc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777900893; c=relaxed/simple;
-	bh=K5q1zRIUANtP5+ezPR77QL8VR3Y+17PrUYBZelKYwQA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ipf4MV4/0zlOxiAEb52fCKRjk80NxZGz/XpWybtthXB3U6VWOqIoT3wvndYM59N7ZU+q3yL63izXkiLLCNM3UP766Xeoz1G5xmKwM+e4fxUimJcMR483tUuVeF1r2Hh24d6fVNwqkz4KGi+dIGYN7iHoAFjaEIXVU3k9Q8VHHO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j54ynDpx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777903288; c=relaxed/simple;
+	bh=o2Y+vSjaGbdKBXMg25ZKL3lww2liVQ9DbWgCCInv6bg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pJbR6ZmK32fyWgXna1yD9uhuumRMFsT3OqbXq8rPSCd/ajiWPatChnCytL+Dz7Wka0BznApeQXps15KL5hEYLCwyZZoA/MBPw+n8sW5xImFzIOL1XKA1Cgmk+DyurTzVk8TrD5R0zIWE9vXkJMTFShmwOekO5EDKreaH/i28MrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oGvbo4GI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j54ynDpx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62EEFC2BCB9;
-	Mon,  4 May 2026 13:21:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777900893;
-	bh=K5q1zRIUANtP5+ezPR77QL8VR3Y+17PrUYBZelKYwQA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=j54ynDpx41SgtpTVwV13AhhL34YKqxMGpZizKJZcLZ+2+lrgjuxzi3Zk5lCbe4zOj
-	 6XTe/latR5gEu258dSfB0RATqtjUNpF9v+RQKNcgwGwNTzzkIg8p9JqGbjNJtPLYr/
-	 oYoEV24VejBaNO75lVqN4Xn1pR3DIjsXA+F5+nHZs0zRRdXiVDJPJWTgkySqU2tdnN
-	 nQEyBH4d6Kr1W3NiQ/+O8XvrSkKKS/fY6I/KqFbmMkZdzo4v0shUYt9lN4T7u1/xhj
-	 lMpu+qOjNXn4CSMhwSMIJCkqEdLdAhhQ4ycUeyND4Lj5LsRbn20ljQfk8Z0JH86A+6
-	 jTEtqphdH50Mw==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 04 May 2026 15:20:50 +0200
-Subject: [PATCH v5 2/2] mm: kick writeback flusher for IOCB_DONTCACHE with
- targeted dirty tracking
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oGvbo4GI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ADB4C2BCB8;
+	Mon,  4 May 2026 14:01:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777903288;
+	bh=o2Y+vSjaGbdKBXMg25ZKL3lww2liVQ9DbWgCCInv6bg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oGvbo4GIBQJKCfp1xia27IyV+knXe605HVcE3FLWcetRC6GlnBvjiahkunHSalrTY
+	 bupyXtxy28/a1Sn4C4NwOHTEu1PXgQ4bNLvd7r/GQSg0YzKKfyZ60IQCQ/GJcZr4yN
+	 ThVjWum5E+TOPzWD7wD+aBNoPyHYOFv2QEWexfgY=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-unionfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org,
+	Amir Goldstein <amir73il@gmail.com>,
+	Serge Hallyn <serge@hallyn.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Paul Moore <paul@paul-moore.com>
+Subject: [PATCH 7.0 169/307] lsm: add backing_file LSM hooks
+Date: Mon,  4 May 2026 15:50:54 +0200
+Message-ID: <20260504135149.223269107@linuxfoundation.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260504135142.814938198@linuxfoundation.org>
+References: <20260504135142.814938198@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260504-dontcache-v5-2-4103e58bb377@kernel.org>
-References: <20260504-dontcache-v5-0-4103e58bb377@kernel.org>
-In-Reply-To: <20260504-dontcache-v5-0-4103e58bb377@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Ritesh Harjani <ritesh.list@gmail.com>, 
- Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-nfs@vger.kernel.org, linux-mm@kvack.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9241; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=K5q1zRIUANtP5+ezPR77QL8VR3Y+17PrUYBZelKYwQA=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBp+J1NiIvi0vMSfHfxkcBTX763n3T4fxh6pexT8
- YCbsfLYCRmJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCafidTQAKCRAADmhBGVaC
- FVOaEACVZZ3bkMrZlVY1320n9egVK7t2tt9rIjgPzUaEXprs9pjMWgMRRQBIeC/Rwy3a94SfMUN
- koHfEaSesiOsNg72wBd2wlkTFYmsjM78M+aRz3jMrlAXQsSrGaOr1f3LJ4qXKmd+C711vkWKkRv
- 5q85XNGvIWF2mXApReoSsgxQy4jcJSQu9Qwjsl2s7CKyCiX3HhA/Cuv7SPAAcUcmbqKc3EzugtS
- OgSgiHHhdxTGoXK/FOXFhz1M/E5a3sHr17qUwo6DsyjKyvSiFlsLiWYuEgKIwxW6J1itILeGi8a
- X0be5F2+6gEBRou/yF5fvH8jZC9+lCeFdNR+lXwC+n/OAVltkPu6IrAv4JA6Bk2mfFUlOSvsrEQ
- Ncxjpww+Q0YBtE1NAu8Qjx+a2lht0xI+/7NxkO85sAfU93F4egCAvh5If+Nw3e2in2GVfNmPbuj
- KSFEhBsa17IXZoIeQ5ZG4hseRVWRlneHq9x3d0G12HOyjseq6MSgUjzvBTP5ywDe921aWQu1hTI
- /+3Iog762IfDxLhzPA76ZAPhPQu4ZSDdjfbPaqzYu7toyaRBJDea8311y7NLM2Uer5E2ug2Vd2+
- ZJVieEQ3C74DSbEN8cGc/KbZZvI6XhA2tTaJV8y0iVfcRGspgZu1u680cvRQwl3m8EkLnkYe/gU
- 6IX0WNnHJ9rfE5Q==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-filemap_flush_range() on every write, submitting writeback inline in
-the writer's context.  Perf lock contention profiling shows the
-performance problem is not lock contention but the writeback submission
-work itself — walking the page tree and submitting I/O blocks the writer
-for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
-(dontcache).
+7.0-stable review patch.  If anyone has any objections, please let me know.
 
-Replace the inline filemap_flush_range() call with a flusher kick that
-drains dirty pages in the background.  This moves writeback submission
-completely off the writer's hot path.
+------------------
 
-To avoid flushing unrelated buffered dirty data, add a dedicated
-WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
-the per-wb WB_DONTCACHE_DIRTY counter to determine how many pages to
-write back.  The flusher writes back that many pages from the oldest dirty
-inodes (not restricted to dontcache-specific inodes). This helps
-preserve I/O batching while limiting the scope of expedited writeback.
+From: Paul Moore <paul@paul-moore.com>
 
-Like WB_start_all, the WB_start_dontcache bit coalesces multiple
-DONTCACHE writes into a single flusher wakeup without per-write
-allocations.
+commit 6af36aeb147a06dea47c49859cd6ca5659aeb987 upstream.
 
-Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
-visibility, and target the correct cgroup writeback domain via
-unlocked_inode_to_wb_begin().
+Stacked filesystems such as overlayfs do not currently provide the
+necessary mechanisms for LSMs to properly enforce access controls on the
+mmap() and mprotect() operations.  In order to resolve this gap, a LSM
+security blob is being added to the backing_file struct and the following
+new LSM hooks are being created:
 
-dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
-xfs on NVMe, fio io_uring):
+ security_backing_file_alloc()
+ security_backing_file_free()
+ security_mmap_backing_file()
 
-Buffered and direct I/O paths are unaffected by this patchset. All
-improvements are confined to the dontcache path:
+The first two hooks are to manage the lifecycle of the LSM security blob
+in the backing_file struct, while the third provides a new mmap() access
+control point for the underlying backing file.  It is also expected that
+LSMs will likely want to update their security_file_mprotect() callback
+to address issues with their mprotect() controls, but that does not
+require a change to the security_file_mprotect() LSM hook.
 
-Single-stream throughput (MB/s):
-                        Before    After    Change
-  seq-write/dontcache      298      897    +201%
-  rand-write/dontcache     131      236     +80%
+There are a three other small changes to support these new LSM hooks:
+* Pass the user file associated with a backing file down to
+alloc_empty_backing_file() so it can be included in the
+security_backing_file_alloc() hook.
+* Add getter and setter functions for the backing_file struct LSM blob
+as the backing_file struct remains private to fs/file_table.c.
+* Constify the file struct field in the LSM common_audit_data struct to
+better support LSMs that need to pass a const file struct pointer into
+the common LSM audit code.
 
-Tail latency improvements (seq-write/dontcache):
-  p99:    135,266 us  ->  23,986 us   (-82%)
-  p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
+Thanks to Arnd Bergmann for identifying the missing EXPORT_SYMBOL_GPL()
+and supplying a fixup.
 
-Multi-writer (4 jobs, sequential write):
-                                Before    After    Change
-  dontcache aggregate (MB/s)     2,529    4,532     +79%
-  dontcache p99 (us)             8,553    1,002     -88%
-  dontcache p99.9 (us)         109,314    1,057     -99%
-
-  Dontcache multi-writer throughput now matches buffered (4,532 vs
-  4,616 MB/s).
-
-32-file write (Axboe test):
-                                Before    After    Change
-  dontcache aggregate (MB/s)     1,548    3,499    +126%
-  dontcache p99 (us)            10,170      602     -94%
-  Peak dirty pages (MB)          1,837      213     -88%
-
-  Dontcache now reaches 81% of buffered throughput (was 35%).
-
-Competing writers (dontcache vs buffered, separate files):
-                                Before    After
-  buffered writer                  868      433 MB/s
-  dontcache writer                 415      433 MB/s
-  Aggregate                      1,284      866 MB/s
-
-  Previously the buffered writer starved the dontcache writer 2:1.
-  With per-bdi_writeback tracking, both writers now receive equal
-  bandwidth. The aggregate matches the buffered-vs-buffered baseline
-  (863 MB/s), indicating fair sharing regardless of I/O mode.
-
-  The dontcache writer's p99.9 latency collapsed from 119 ms to
-  33 ms (-73%), eliminating the severe periodic stalls seen in the
-  baseline. Both writers now share identical latency profiles,
-  matching the buffered-vs-buffered pattern.
-
-The per-bdi_writeback dirty tracking dramatically reduces peak dirty
-pages in dontcache workloads, with the 32-file test dropping from
-1.8 GB to 213 MB. Dontcache sequential write throughput triples and
-multi-writer throughput reaches parity with buffered I/O, with tail
-latencies collapsing by 1-2 orders of magnitude.
-
-Assisted-by: Claude:claude-opus-4-6
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
+Cc: stable@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-unionfs@vger.kernel.org
+Cc: linux-erofs@lists.ozlabs.org
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Reviewed-by: Serge Hallyn <serge@hallyn.com>
+Reviewed-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Paul Moore <paul@paul-moore.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- fs/fs-writeback.c                | 65 ++++++++++++++++++++++++++++++++++++++++
- include/linux/backing-dev-defs.h |  2 ++
- include/linux/fs.h               |  6 ++--
- include/trace/events/writeback.h |  3 +-
- 4 files changed, 71 insertions(+), 5 deletions(-)
+ fs/backing-file.c             |   18 +++++--
+ fs/erofs/ishare.c             |   10 +++-
+ fs/file_table.c               |   27 +++++++++--
+ fs/fuse/passthrough.c         |    2 
+ fs/internal.h                 |    3 -
+ fs/overlayfs/dir.c            |    2 
+ fs/overlayfs/file.c           |    2 
+ include/linux/backing-file.h  |    4 -
+ include/linux/fs.h            |   13 +++++
+ include/linux/lsm_audit.h     |    2 
+ include/linux/lsm_hook_defs.h |    5 ++
+ include/linux/lsm_hooks.h     |    1 
+ include/linux/security.h      |   22 +++++++++
+ security/lsm.h                |    1 
+ security/lsm_init.c           |    9 +++
+ security/security.c           |  102 ++++++++++++++++++++++++++++++++++++++++++
+ 16 files changed, 206 insertions(+), 17 deletions(-)
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index a65694cbfe68..ebef485b2f8b 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -1334,6 +1334,18 @@ static void wb_start_writeback(struct bdi_writeback *wb, enum wb_reason reason)
- 	wb_wakeup(wb);
- }
+--- a/fs/backing-file.c
++++ b/fs/backing-file.c
+@@ -12,6 +12,7 @@
+ #include <linux/backing-file.h>
+ #include <linux/splice.h>
+ #include <linux/mm.h>
++#include <linux/security.h>
  
-+static void wb_start_dontcache_writeback(struct bdi_writeback *wb)
-+{
-+	if (!wb_has_dirty_io(wb))
-+		return;
-+
-+	if (test_bit(WB_start_dontcache, &wb->state) ||
-+	    test_and_set_bit(WB_start_dontcache, &wb->state))
-+		return;
-+
-+	wb_wakeup(wb);
-+}
-+
- /**
-  * wb_start_background_writeback - start background writeback
-  * @wb: bdi_writback to write from
-@@ -2373,6 +2385,28 @@ static long wb_check_start_all(struct bdi_writeback *wb)
- 	return nr_pages;
- }
+ #include "internal.h"
  
-+static long wb_check_start_dontcache(struct bdi_writeback *wb)
-+{
-+	long nr_pages;
-+
-+	if (!test_bit(WB_start_dontcache, &wb->state))
-+		return 0;
-+
-+	nr_pages = wb_stat(wb, WB_DONTCACHE_DIRTY);
-+	if (nr_pages) {
-+		struct wb_writeback_work work = {
-+			.nr_pages	= nr_pages,
-+			.sync_mode	= WB_SYNC_NONE,
-+			.range_cyclic	= 1,
-+			.reason		= WB_REASON_DONTCACHE,
-+		};
-+
-+		nr_pages = wb_writeback(wb, &work);
-+	}
-+
-+	clear_bit(WB_start_dontcache, &wb->state);
-+	return nr_pages;
-+}
- 
- /*
-  * Retrieve work items and do the writeback they describe
-@@ -2394,6 +2428,11 @@ static long wb_do_writeback(struct bdi_writeback *wb)
- 	 */
- 	wrote += wb_check_start_all(wb);
- 
-+	/*
-+	 * Check for dontcache writeback request
-+	 */
-+	wrote += wb_check_start_dontcache(wb);
-+
- 	/*
- 	 * Check for periodic writeback, kupdated() style
- 	 */
-@@ -2468,6 +2507,32 @@ void wakeup_flusher_threads_bdi(struct backing_dev_info *bdi,
- 	rcu_read_unlock();
- }
- 
-+/**
-+ * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
-+ * @mapping:	address_space that was just written to
-+ *
-+ * Kick the writeback flusher thread to expedite writeback of dontcache dirty
-+ * pages. Queue writeback for the inode's wb for as many pages as there are
-+ * dontcache pages, but don't restrict writeback to dontcache pages only.
-+ *
-+ * This significantly improves performance over either writing all wb's pages
-+ * or writing only dontcache pages.  Although it doesn't guarantee quick
-+ * writeback and reclaim of dontcache pages, it keeps the amount of dirty pages
-+ * in check. Over longer term dontcache pages get written and reclaimed by
-+ * background writeback even with this rough heuristic.
-+ */
-+void filemap_dontcache_kick_writeback(struct address_space *mapping)
-+{
-+	struct inode *inode = mapping->host;
-+	struct bdi_writeback *wb;
-+	struct wb_lock_cookie cookie = {};
-+
-+	wb = unlocked_inode_to_wb_begin(inode, &cookie);
-+	wb_start_dontcache_writeback(wb);
-+	unlocked_inode_to_wb_end(inode, &cookie);
-+}
-+EXPORT_SYMBOL_GPL(filemap_dontcache_kick_writeback);
-+
- /*
-  * Wakeup the flusher threads to start writeback of all currently dirty pages
+@@ -29,14 +30,15 @@
+  * returned file into a container structure that also stores the stacked
+  * file's path, which can be retrieved using backing_file_user_path().
   */
-diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-index cb660dd37286..4f1084937315 100644
---- a/include/linux/backing-dev-defs.h
-+++ b/include/linux/backing-dev-defs.h
-@@ -26,6 +26,7 @@ enum wb_state {
- 	WB_writeback_running,	/* Writeback is in progress */
- 	WB_has_dirty_io,	/* Dirty inodes on ->b_{dirty|io|more_io} */
- 	WB_start_all,		/* nr_pages == 0 (all) work pending */
-+	WB_start_dontcache,	/* dontcache writeback pending */
+-struct file *backing_file_open(const struct path *user_path, int flags,
++struct file *backing_file_open(const struct file *user_file, int flags,
+ 			       const struct path *real_path,
+ 			       const struct cred *cred)
+ {
++	const struct path *user_path = &user_file->f_path;
+ 	struct file *f;
+ 	int error;
+ 
+-	f = alloc_empty_backing_file(flags, cred);
++	f = alloc_empty_backing_file(flags, cred, user_file);
+ 	if (IS_ERR(f))
+ 		return f;
+ 
+@@ -52,15 +54,16 @@ struct file *backing_file_open(const str
+ }
+ EXPORT_SYMBOL_GPL(backing_file_open);
+ 
+-struct file *backing_tmpfile_open(const struct path *user_path, int flags,
++struct file *backing_tmpfile_open(const struct file *user_file, int flags,
+ 				  const struct path *real_parentpath,
+ 				  umode_t mode, const struct cred *cred)
+ {
+ 	struct mnt_idmap *real_idmap = mnt_idmap(real_parentpath->mnt);
++	const struct path *user_path = &user_file->f_path;
+ 	struct file *f;
+ 	int error;
+ 
+-	f = alloc_empty_backing_file(flags, cred);
++	f = alloc_empty_backing_file(flags, cred, user_file);
+ 	if (IS_ERR(f))
+ 		return f;
+ 
+@@ -336,8 +339,13 @@ int backing_file_mmap(struct file *file,
+ 
+ 	vma_set_file(vma, file);
+ 
+-	scoped_with_creds(ctx->cred)
++	scoped_with_creds(ctx->cred) {
++		ret = security_mmap_backing_file(vma, file, user_file);
++		if (ret)
++			return ret;
++
+ 		ret = vfs_mmap(vma->vm_file, vma);
++	}
+ 
+ 	if (ctx->accessed)
+ 		ctx->accessed(user_file);
+--- a/fs/erofs/ishare.c
++++ b/fs/erofs/ishare.c
+@@ -4,6 +4,7 @@
+  */
+ #include <linux/xxhash.h>
+ #include <linux/mount.h>
++#include <linux/security.h>
+ #include "internal.h"
+ #include "xattr.h"
+ 
+@@ -106,7 +107,8 @@ static int erofs_ishare_file_open(struct
+ 
+ 	if (file->f_flags & O_DIRECT)
+ 		return -EINVAL;
+-	realfile = alloc_empty_backing_file(O_RDONLY|O_NOATIME, current_cred());
++	realfile = alloc_empty_backing_file(O_RDONLY|O_NOATIME, current_cred(),
++					    file);
+ 	if (IS_ERR(realfile))
+ 		return PTR_ERR(realfile);
+ 	ihold(sharedinode);
+@@ -150,8 +152,14 @@ static ssize_t erofs_ishare_file_read_it
+ static int erofs_ishare_mmap(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct file *realfile = file->private_data;
++	int err;
+ 
+ 	vma_set_file(vma, realfile);
++
++	err = security_mmap_backing_file(vma, realfile, file);
++	if (err)
++		return err;
++
+ 	return generic_file_readonly_mmap(file, vma);
+ }
+ 
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -50,6 +50,9 @@ struct backing_file {
+ 		struct path user_path;
+ 		freeptr_t bf_freeptr;
+ 	};
++#ifdef CONFIG_SECURITY
++	void *security;
++#endif
  };
  
- enum wb_stat_item {
-@@ -56,6 +57,7 @@ enum wb_reason {
- 	 */
- 	WB_REASON_FORKER_THREAD,
- 	WB_REASON_FOREIGN_FLUSH,
-+	WB_REASON_DONTCACHE,
+ #define backing_file(f) container_of(f, struct backing_file, file)
+@@ -66,8 +69,21 @@ void backing_file_set_user_path(struct f
+ }
+ EXPORT_SYMBOL_GPL(backing_file_set_user_path);
  
- 	WB_REASON_MAX,
++#ifdef CONFIG_SECURITY
++void *backing_file_security(const struct file *f)
++{
++	return backing_file(f)->security;
++}
++
++void backing_file_set_security(struct file *f, void *security)
++{
++	backing_file(f)->security = security;
++}
++#endif /* CONFIG_SECURITY */
++
+ static inline void backing_file_free(struct backing_file *ff)
+ {
++	security_backing_file_free(&ff->file);
+ 	path_put(&ff->user_path);
+ 	kmem_cache_free(bfilp_cachep, ff);
+ }
+@@ -288,10 +304,12 @@ struct file *alloc_empty_file_noaccount(
+ 	return f;
+ }
+ 
+-static int init_backing_file(struct backing_file *ff)
++static int init_backing_file(struct backing_file *ff,
++			     const struct file *user_file)
+ {
+ 	memset(&ff->user_path, 0, sizeof(ff->user_path));
+-	return 0;
++	backing_file_set_security(&ff->file, NULL);
++	return security_backing_file_alloc(&ff->file, user_file);
+ }
+ 
+ /*
+@@ -301,7 +319,8 @@ static int init_backing_file(struct back
+  * This is only for kernel internal use, and the allocate file must not be
+  * installed into file tables or such.
+  */
+-struct file *alloc_empty_backing_file(int flags, const struct cred *cred)
++struct file *alloc_empty_backing_file(int flags, const struct cred *cred,
++				      const struct file *user_file)
+ {
+ 	struct backing_file *ff;
+ 	int error;
+@@ -318,7 +337,7 @@ struct file *alloc_empty_backing_file(in
+ 
+ 	/* The f_mode flags must be set before fput(). */
+ 	ff->file.f_mode |= FMODE_BACKING | FMODE_NOACCOUNT;
+-	error = init_backing_file(ff);
++	error = init_backing_file(ff, user_file);
+ 	if (unlikely(error)) {
+ 		fput(&ff->file);
+ 		return ERR_PTR(error);
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -167,7 +167,7 @@ struct fuse_backing *fuse_passthrough_op
+ 		goto out;
+ 
+ 	/* Allocate backing file per fuse file to store fuse path */
+-	backing_file = backing_file_open(&file->f_path, file->f_flags,
++	backing_file = backing_file_open(file, file->f_flags,
+ 					 &fb->file->f_path, fb->cred);
+ 	err = PTR_ERR(backing_file);
+ 	if (IS_ERR(backing_file)) {
+--- a/fs/internal.h
++++ b/fs/internal.h
+@@ -106,7 +106,8 @@ extern void chroot_fs_refs(const struct
+  */
+ struct file *alloc_empty_file(int flags, const struct cred *cred);
+ struct file *alloc_empty_file_noaccount(int flags, const struct cred *cred);
+-struct file *alloc_empty_backing_file(int flags, const struct cred *cred);
++struct file *alloc_empty_backing_file(int flags, const struct cred *cred,
++				      const struct file *user_file);
+ void backing_file_set_user_path(struct file *f, const struct path *path);
+ 
+ static inline void file_put_write_access(struct file *file)
+--- a/fs/overlayfs/dir.c
++++ b/fs/overlayfs/dir.c
+@@ -1374,7 +1374,7 @@ static int ovl_create_tmpfile(struct fil
+ 				return PTR_ERR(cred);
+ 
+ 			ovl_path_upper(dentry->d_parent, &realparentpath);
+-			realfile = backing_tmpfile_open(&file->f_path, flags, &realparentpath,
++			realfile = backing_tmpfile_open(file, flags, &realparentpath,
+ 							mode, current_cred());
+ 			err = PTR_ERR_OR_ZERO(realfile);
+ 			pr_debug("tmpfile/open(%pd2, 0%o) = %i\n", realparentpath.dentry, mode, err);
+--- a/fs/overlayfs/file.c
++++ b/fs/overlayfs/file.c
+@@ -48,7 +48,7 @@ static struct file *ovl_open_realfile(co
+ 			if (!inode_owner_or_capable(real_idmap, realinode))
+ 				flags &= ~O_NOATIME;
+ 
+-			realfile = backing_file_open(file_user_path(file),
++			realfile = backing_file_open(file,
+ 						     flags, realpath, current_cred());
+ 		}
+ 	}
+--- a/include/linux/backing-file.h
++++ b/include/linux/backing-file.h
+@@ -18,10 +18,10 @@ struct backing_file_ctx {
+ 	void (*end_write)(struct kiocb *iocb, ssize_t);
  };
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 11559c513dfb..df72b42a9e9b 100644
+ 
+-struct file *backing_file_open(const struct path *user_path, int flags,
++struct file *backing_file_open(const struct file *user_file, int flags,
+ 			       const struct path *real_path,
+ 			       const struct cred *cred);
+-struct file *backing_tmpfile_open(const struct path *user_path, int flags,
++struct file *backing_tmpfile_open(const struct file *user_file, int flags,
+ 				  const struct path *real_parentpath,
+ 				  umode_t mode, const struct cred *cred);
+ ssize_t backing_file_read_iter(struct file *file, struct iov_iter *iter,
 --- a/include/linux/fs.h
 +++ b/include/linux/fs.h
-@@ -2624,6 +2624,7 @@ extern int __must_check file_write_and_wait_range(struct file *file,
- 						loff_t start, loff_t end);
- int filemap_flush_range(struct address_space *mapping, loff_t start,
- 		loff_t end);
-+void filemap_dontcache_kick_writeback(struct address_space *mapping);
+@@ -2475,6 +2475,19 @@ struct file *dentry_create(struct path *
+ 			   const struct cred *cred);
+ const struct path *backing_file_user_path(const struct file *f);
  
- static inline int file_write_and_wait(struct file *file)
++#ifdef CONFIG_SECURITY
++void *backing_file_security(const struct file *f);
++void backing_file_set_security(struct file *f, void *security);
++#else
++static inline void *backing_file_security(const struct file *f)
++{
++	return NULL;
++}
++static inline void backing_file_set_security(struct file *f, void *security)
++{
++}
++#endif /* CONFIG_SECURITY */
++
+ /*
+  * When mmapping a file on a stackable filesystem (e.g., overlayfs), the file
+  * stored in ->vm_file is a backing file whose f_inode is on the underlying
+--- a/include/linux/lsm_audit.h
++++ b/include/linux/lsm_audit.h
+@@ -94,7 +94,7 @@ struct common_audit_data {
+ #endif
+ 		char *kmod_name;
+ 		struct lsm_ioctlop_audit *op;
+-		struct file *file;
++		const struct file *file;
+ 		struct lsm_ibpkey_audit *ibpkey;
+ 		struct lsm_ibendport_audit *ibendport;
+ 		int reason;
+--- a/include/linux/lsm_hook_defs.h
++++ b/include/linux/lsm_hook_defs.h
+@@ -191,6 +191,9 @@ LSM_HOOK(int, 0, file_permission, struct
+ LSM_HOOK(int, 0, file_alloc_security, struct file *file)
+ LSM_HOOK(void, LSM_RET_VOID, file_release, struct file *file)
+ LSM_HOOK(void, LSM_RET_VOID, file_free_security, struct file *file)
++LSM_HOOK(int, 0, backing_file_alloc, struct file *backing_file,
++	 const struct file *user_file)
++LSM_HOOK(void, LSM_RET_VOID, backing_file_free, struct file *backing_file)
+ LSM_HOOK(int, 0, file_ioctl, struct file *file, unsigned int cmd,
+ 	 unsigned long arg)
+ LSM_HOOK(int, 0, file_ioctl_compat, struct file *file, unsigned int cmd,
+@@ -198,6 +201,8 @@ LSM_HOOK(int, 0, file_ioctl_compat, stru
+ LSM_HOOK(int, 0, mmap_addr, unsigned long addr)
+ LSM_HOOK(int, 0, mmap_file, struct file *file, unsigned long reqprot,
+ 	 unsigned long prot, unsigned long flags)
++LSM_HOOK(int, 0, mmap_backing_file, struct vm_area_struct *vma,
++	 struct file *backing_file, struct file *user_file)
+ LSM_HOOK(int, 0, file_mprotect, struct vm_area_struct *vma,
+ 	 unsigned long reqprot, unsigned long prot)
+ LSM_HOOK(int, 0, file_lock, struct file *file, unsigned int cmd)
+--- a/include/linux/lsm_hooks.h
++++ b/include/linux/lsm_hooks.h
+@@ -104,6 +104,7 @@ struct security_hook_list {
+ struct lsm_blob_sizes {
+ 	unsigned int lbs_cred;
+ 	unsigned int lbs_file;
++	unsigned int lbs_backing_file;
+ 	unsigned int lbs_ib;
+ 	unsigned int lbs_inode;
+ 	unsigned int lbs_sock;
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -472,11 +472,17 @@ int security_file_permission(struct file
+ int security_file_alloc(struct file *file);
+ void security_file_release(struct file *file);
+ void security_file_free(struct file *file);
++int security_backing_file_alloc(struct file *backing_file,
++				const struct file *user_file);
++void security_backing_file_free(struct file *backing_file);
+ int security_file_ioctl(struct file *file, unsigned int cmd, unsigned long arg);
+ int security_file_ioctl_compat(struct file *file, unsigned int cmd,
+ 			       unsigned long arg);
+ int security_mmap_file(struct file *file, unsigned long prot,
+ 			unsigned long flags);
++int security_mmap_backing_file(struct vm_area_struct *vma,
++			       struct file *backing_file,
++			       struct file *user_file);
+ int security_mmap_addr(unsigned long addr);
+ int security_file_mprotect(struct vm_area_struct *vma, unsigned long reqprot,
+ 			   unsigned long prot);
+@@ -1141,6 +1147,15 @@ static inline void security_file_release
+ static inline void security_file_free(struct file *file)
+ { }
+ 
++static inline int security_backing_file_alloc(struct file *backing_file,
++					      const struct file *user_file)
++{
++	return 0;
++}
++
++static inline void security_backing_file_free(struct file *backing_file)
++{ }
++
+ static inline int security_file_ioctl(struct file *file, unsigned int cmd,
+ 				      unsigned long arg)
  {
-@@ -2657,10 +2658,7 @@ static inline ssize_t generic_write_sync(struct kiocb *iocb, ssize_t count)
- 		if (ret)
- 			return ret;
- 	} else if (iocb->ki_flags & IOCB_DONTCACHE) {
--		struct address_space *mapping = iocb->ki_filp->f_mapping;
--
--		filemap_flush_range(mapping, iocb->ki_pos - count,
--				iocb->ki_pos - 1);
-+		filemap_dontcache_kick_writeback(iocb->ki_filp->f_mapping);
- 	}
+@@ -1159,6 +1174,13 @@ static inline int security_mmap_file(str
+ {
+ 	return 0;
+ }
++
++static inline int security_mmap_backing_file(struct vm_area_struct *vma,
++					     struct file *backing_file,
++					     struct file *user_file)
++{
++	return 0;
++}
  
- 	return count;
-diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-index bdac0d685a98..13ee076ccd16 100644
---- a/include/trace/events/writeback.h
-+++ b/include/trace/events/writeback.h
-@@ -44,7 +44,8 @@
- 	EM( WB_REASON_PERIODIC,			"periodic")		\
- 	EM( WB_REASON_FS_FREE_SPACE,		"fs_free_space")	\
- 	EM( WB_REASON_FORKER_THREAD,		"forker_thread")	\
--	EMe(WB_REASON_FOREIGN_FLUSH,		"foreign_flush")
-+	EM( WB_REASON_FOREIGN_FLUSH,		"foreign_flush")	\
-+	EMe(WB_REASON_DONTCACHE,		"dontcache")
+ static inline int security_mmap_addr(unsigned long addr)
+ {
+--- a/security/lsm.h
++++ b/security/lsm.h
+@@ -29,6 +29,7 @@ extern struct lsm_blob_sizes blob_sizes;
  
- WB_WORK_REASON
+ /* LSM blob caches */
+ extern struct kmem_cache *lsm_file_cache;
++extern struct kmem_cache *lsm_backing_file_cache;
+ extern struct kmem_cache *lsm_inode_cache;
  
+ /* LSM blob allocators */
+--- a/security/lsm_init.c
++++ b/security/lsm_init.c
+@@ -293,6 +293,8 @@ static void __init lsm_prepare(struct ls
+ 	blobs = lsm->blobs;
+ 	lsm_blob_size_update(&blobs->lbs_cred, &blob_sizes.lbs_cred);
+ 	lsm_blob_size_update(&blobs->lbs_file, &blob_sizes.lbs_file);
++	lsm_blob_size_update(&blobs->lbs_backing_file,
++			     &blob_sizes.lbs_backing_file);
+ 	lsm_blob_size_update(&blobs->lbs_ib, &blob_sizes.lbs_ib);
+ 	/* inode blob gets an rcu_head in addition to LSM blobs. */
+ 	if (blobs->lbs_inode && blob_sizes.lbs_inode == 0)
+@@ -441,6 +443,8 @@ int __init security_init(void)
+ 	if (lsm_debug) {
+ 		lsm_pr("blob(cred) size %d\n", blob_sizes.lbs_cred);
+ 		lsm_pr("blob(file) size %d\n", blob_sizes.lbs_file);
++		lsm_pr("blob(backing_file) size %d\n",
++		       blob_sizes.lbs_backing_file);
+ 		lsm_pr("blob(ib) size %d\n", blob_sizes.lbs_ib);
+ 		lsm_pr("blob(inode) size %d\n", blob_sizes.lbs_inode);
+ 		lsm_pr("blob(ipc) size %d\n", blob_sizes.lbs_ipc);
+@@ -462,6 +466,11 @@ int __init security_init(void)
+ 		lsm_file_cache = kmem_cache_create("lsm_file_cache",
+ 						   blob_sizes.lbs_file, 0,
+ 						   SLAB_PANIC, NULL);
++	if (blob_sizes.lbs_backing_file)
++		lsm_backing_file_cache = kmem_cache_create(
++						   "lsm_backing_file_cache",
++						   blob_sizes.lbs_backing_file,
++						   0, SLAB_PANIC, NULL);
+ 	if (blob_sizes.lbs_inode)
+ 		lsm_inode_cache = kmem_cache_create("lsm_inode_cache",
+ 						    blob_sizes.lbs_inode, 0,
+--- a/security/security.c
++++ b/security/security.c
+@@ -82,6 +82,7 @@ const struct lsm_id *lsm_idlist[MAX_LSM_
+ struct lsm_blob_sizes blob_sizes;
+ 
+ struct kmem_cache *lsm_file_cache;
++struct kmem_cache *lsm_backing_file_cache;
+ struct kmem_cache *lsm_inode_cache;
+ 
+ #define SECURITY_HOOK_ACTIVE_KEY(HOOK, IDX) security_hook_active_##HOOK##_##IDX
+@@ -174,6 +175,30 @@ static int lsm_file_alloc(struct file *f
+ }
+ 
+ /**
++ * lsm_backing_file_alloc - allocate a composite backing file blob
++ * @backing_file: the backing file
++ *
++ * Allocate the backing file blob for all the modules.
++ *
++ * Returns 0, or -ENOMEM if memory can't be allocated.
++ */
++static int lsm_backing_file_alloc(struct file *backing_file)
++{
++	void *blob;
++
++	if (!lsm_backing_file_cache) {
++		backing_file_set_security(backing_file, NULL);
++		return 0;
++	}
++
++	blob = kmem_cache_zalloc(lsm_backing_file_cache, GFP_KERNEL);
++	backing_file_set_security(backing_file, blob);
++	if (!blob)
++		return -ENOMEM;
++	return 0;
++}
++
++/**
+  * lsm_blob_alloc - allocate a composite blob
+  * @dest: the destination for the blob
+  * @size: the size of the blob
+@@ -2419,6 +2444,57 @@ void security_file_free(struct file *fil
+ }
+ 
+ /**
++ * security_backing_file_alloc() - Allocate and setup a backing file blob
++ * @backing_file: the backing file
++ * @user_file: the associated user visible file
++ *
++ * Allocate a backing file LSM blob and perform any necessary initialization of
++ * the LSM blob.  There will be some operations where the LSM will not have
++ * access to @user_file after this point, so any important state associated
++ * with @user_file that is important to the LSM should be captured in the
++ * backing file's LSM blob.
++ *
++ * LSM's should avoid taking a reference to @user_file in this hook as it will
++ * result in problems later when the system attempts to drop/put the file
++ * references due to a circular dependency.
++ *
++ * Return: Return 0 if the hook is successful, negative values otherwise.
++ */
++int security_backing_file_alloc(struct file *backing_file,
++				const struct file *user_file)
++{
++	int rc;
++
++	rc = lsm_backing_file_alloc(backing_file);
++	if (rc)
++		return rc;
++	rc = call_int_hook(backing_file_alloc, backing_file, user_file);
++	if (unlikely(rc))
++		security_backing_file_free(backing_file);
++
++	return rc;
++}
++
++/**
++ * security_backing_file_free() - Free a backing file blob
++ * @backing_file: the backing file
++ *
++ * Free any LSM state associate with a backing file's LSM blob, including the
++ * blob itself.
++ */
++void security_backing_file_free(struct file *backing_file)
++{
++	void *blob = backing_file_security(backing_file);
++
++	call_void_hook(backing_file_free, backing_file);
++
++	if (blob) {
++		backing_file_set_security(backing_file, NULL);
++		kmem_cache_free(lsm_backing_file_cache, blob);
++	}
++}
++
++/**
+  * security_file_ioctl() - Check if an ioctl is allowed
+  * @file: associated file
+  * @cmd: ioctl cmd
+@@ -2507,6 +2583,32 @@ int security_mmap_file(struct file *file
+ }
+ 
+ /**
++ * security_mmap_backing_file - Check if mmap'ing a backing file is allowed
++ * @vma: the vm_area_struct for the mmap'd region
++ * @backing_file: the backing file being mmap'd
++ * @user_file: the user file being mmap'd
++ *
++ * Check permissions for a mmap operation on a stacked filesystem.  This hook
++ * is called after the security_mmap_file() and is responsible for authorizing
++ * the mmap on @backing_file.  It is important to note that the mmap operation
++ * on @user_file has already been authorized and the @vma->vm_file has been
++ * set to @backing_file.
++ *
++ * Return: Returns 0 if permission is granted.
++ */
++int security_mmap_backing_file(struct vm_area_struct *vma,
++			       struct file *backing_file,
++			       struct file *user_file)
++{
++	/* recommended by the stackable filesystem devs */
++	if (WARN_ON_ONCE(!(backing_file->f_mode & FMODE_BACKING)))
++		return -EIO;
++
++	return call_int_hook(mmap_backing_file, vma, backing_file, user_file);
++}
++EXPORT_SYMBOL_GPL(security_mmap_backing_file);
++
++/**
+  * security_mmap_addr() - Check if mmap'ing an address is allowed
+  * @addr: address
+  *
 
--- 
-2.54.0
 
