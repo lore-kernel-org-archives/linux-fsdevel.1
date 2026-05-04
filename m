@@ -1,85 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E74A3E3D89;
-	Mon,  4 May 2026 17:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AEF3E3D89
+	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 17:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777916597; cv=none; b=udkdIWBPezaJ10ye+XWCXMq4tR9ai1YwQIwtQWKAsKZxThOV0rM5jKvOhHs1DOjF+SX9ostdDtEhkBDAaaF+lQjkHdsrBfLd0wMprp0ra16jnTjlMp7LI/q65Rcc08fuT5IrBLPWZIJw6X5dcEKl34iJKoYBT1MApcbHkiDF9YE=
+	t=1777916619; cv=none; b=N9U62+M9pIrAz/SMmy6LN1f309vW0Ds+rwSGAPJ8VSe6av21moYGXrcC/L11Ptodi1q0pY3W+dZTWugFV8kG7umxpkPtGXke0GgTf6bCkCpcxPa9Xy0+KeNFRfQjyjQ1+mVDFZV0M7U8CYMo/Ng8mnLoBtn93Cn3rf6cRe+cVhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777916597; c=relaxed/simple;
-	bh=QAMGO3XMXQYWp0JGzxDSNDarEFMXe4IoJPUIi2nAO08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PxbG1l9AeA5OoH2/PmVXlDzxn2IXW/u56pol++w3SxWxdSOEmMZ5AC3zcLfiy8RLs/lJmMWtPIJj63Yg3tHVUmPhZ6KTtYrs4REBKtEUwrNpQUOGp6uV1+MHPXn9rw1H94FccyJRxND73QgVVByks+vme8qem9YAYL47u1s9dgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZUnQsR2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777916619; c=relaxed/simple;
+	bh=UmnAEidipRT5i3DpB57vlHvWvY7ZbghL8NryuFr/o2E=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=W51yPz2apBxNR7Z4uXCnGy1nLIXCEBzZizVTwdcTGVz4Cjt3yHoaP8PZtVKvvJ/9cA7b+2IgzWXFIKZo90pPkxQiRIF4spCryQGj2OxngC/Blhh5AJjIwp8mWrveAFyHlRUaVB39aSpnZ5kgP5PQi1LV4r4wQdIZTCJ3tXHcuZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=X9uVeR9j; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZUnQsR2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BA07C2BCB8;
-	Mon,  4 May 2026 17:43:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777916597;
-	bh=QAMGO3XMXQYWp0JGzxDSNDarEFMXe4IoJPUIi2nAO08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YZUnQsR2wFTV7Xw0aTbLW2kepVcEl9h7yZ/y1jmJr7tayQaGNaKyPepo6grhN9OUm
-	 2+r+QgITFFATBHsCo6poakgzWZWhG3AeuRN3SF2uz25eQYN7RGfbxyMuebOxTb4wWA
-	 OOHCMe7XpowGD10eF7d4n0XU7MnpXLXIY02vkgVqO2DpzydpMrN+mGk8jWnbyGT3/B
-	 yhpRnz4o1UV5mlpBdFSgKNy0TwIQ32SX68jMdymOdghr2YOyyY5GWS3nuQ7zsdlOEK
-	 w+ibkmImKfup6JLor2gsnE7erbYwMr1N60aeWxux1lgVUVGCDbZmsVXbEAq1jPCeU9
-	 eH6qtMRScPCXA==
-Date: Mon, 4 May 2026 10:43:16 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	miklos@szeredi.hu, neal@gompa.dev
-Subject: Re: [GIT PULL v5.1] libfuse: run fuse servers as a contained service
-Message-ID: <20260504174316.GZ7739@frogsfrogsfrogs>
-References: <177758364789.1315233.15610945404741826500.stg-ugh@frogsfrogsfrogs>
- <9c920b17-81a8-4c1e-921e-4c08cc290cb5@bsbernd.com>
- <20260430224911.GN7765@frogsfrogsfrogs>
- <2f2ba053-53a7-43e5-969a-32d185e9c7b7@bsbernd.com>
- <1d2c00d0-255f-44cd-9757-d7418373cdcd@bsbernd.com>
- <20260502190543.GG3778109@frogsfrogsfrogs>
- <757367d0-3a8b-4de8-aa86-f74f316b3445@bsbernd.com>
- <14222a33-62a3-4c8f-b86f-7c5ee47c9db7@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="X9uVeR9j"
+X-KPN-MessageId: c3abf1da-47e0-11f1-bea8-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.188])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id c3abf1da-47e0-11f1-bea8-005056992ed3;
+	Mon, 04 May 2026 19:43:30 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id c3b04f5b-47e0-11f1-80fc-00505699693e;
+	Mon, 04 May 2026 19:43:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=kdpYfIX+URTvw/wf5koeiRsTKprTy2NaYWQX03NB+IU=;
+	b=X9uVeR9j1Iz9IcchmfYfcB2+oARQT9t00sirJbn8eZN5SB+W/czEx2L9vOWtBlE8YYIw1a9/uf0QL
+	 JtbgDvpP0p7Bn/X00H82OIfktOat2f8Mui7MMc74KIrTzVkqjdOaWRu+BxVGultMEfJeQTMm1o1Nb/
+	 wXLCaW1fqbs5QxhPTQd8CNfbnfC3LDUvFajwKv3AxyvSAoQeJ3TjvNA2+6jc5r1adRgt0Wqt4KXbBW
+	 eSmyroMauz3V3v89IiN8uQCMNOGlng/LskwtHpT4/WxmRQhQEFQOihrl+k1RpmdagSJAKn2HVWWAB0
+	 iPtn6T0mXfDGEfuhS0K/CA9XfW+PVAg==
+X-KPN-MID: 33|Oe96tHjdqLcXG0+4p3g9qL+qjYCkVqfDCbZeSJ15n5e+210MBUIX8rTzjMrdbVD
+ FRArJlNNiY+UlB9IHfFx7dOSKHBq8DIgfF2pCihJ73ow=
+X-CMASSUN: 33|sm6o1OA6K6UEpMWW6cTWJ0kgfRL2hfIYXSaPNctPG5j1Bd6gVKJ0hWLwCZMWN+I
+ Bk/mQSOTh0WfSmVVk1hIwew==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id c39bf502-47e0-11f1-94b1-00505699eff2;
+	Mon, 04 May 2026 19:43:30 +0200 (CEST)
+Date: Mon, 4 May 2026 19:43:30 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Kees Cook <kees@kernel.org>, Simon Horman <horms@kernel.org>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Will Drewry <wad@chromium.org>, Jeff Layton <jlayton@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>, Andrei Vagin <avagin@gmail.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Joel Granados <joel.granados@kernel.org>,
+	Charlie Mirabile <cmirabil@redhat.com>,
+	Aleksa Sarai <cyphar@cyphar.com>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	io-uring@vger.kernel.org
+Message-ID: <1440036704.77422.1777916610532@kpc.webmail.kpnmail.nl>
+In-Reply-To: <CAAVpQUDKgWdgPjPmJKhNxofssasS8-RdaLAcbFXHMWH8ztMJXA@mail.gmail.com>
+References: <20260428175125.2705296-1-jkoolstra@xs4all.nl>
+ <20260428175125.2705296-2-jkoolstra@xs4all.nl>
+ <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
+ <89346381.2074764.1777649680664@kpc.webmail.kpnmail.nl>
+ <CAAVpQUDKgWdgPjPmJKhNxofssasS8-RdaLAcbFXHMWH8ztMJXA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] net: af_unix: Useful handling of LSM denials on
+ SCM_RIGHTS
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14222a33-62a3-4c8f-b86f-7c5ee47c9db7@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Mon, May 04, 2026 at 05:41:38PM +0200, Bernd Schubert wrote:
+
+> Op 02-05-2026 03:24 CEST schreef Kuniyuki Iwashima <kuniyu@google.com>:
+> 
+> > >
+> > > Does this flag need per-recvmsg() granularity ?
+> > >
+> >
+> > Perhaps not. What would be the alternative? A fcntl option for the socket fd?
+> 
+> I'd add a new socket option like
+> 
+> setsockopt(SOL_SOCKET, SO_RIGHTS_TRUNC, &(int){0}, sizeof(int));
 > 
 > 
-> On 5/2/26 21:51, Bernd Schubert wrote:
-> > 
-> >> Oh, that's concerning.  Could you figure out exactly what it's
-> >> complaining about and send that to me, please?
-> > 
-> Hi Darrick,
-> 
-> just pushed a new branch version that should avoid all chekpatch
-> warnings (squash of yours and fix of one I had introduced).
 
-Ok, thanks.  I'll have a look, thanks.
-
-> Please find attached all the CodeChecker warnings.
-
-<nod> I'll try to eliminate as many of these as possible.  I think the
-complaints about "can be declared as pointer to const struct" are easily
-amended.
-
-The ones involving char **argv might be a little trickier though.
-Anyway, I'll try to have something ready to send out before morning in
-Europe, assuming that either you're at LSFMM or at least in a similar
-timezone.
-
-Also thanks for sending the tarball, it's useful (a) to know which
-cppcheck complaints you want fixed, and (b) to compare against the
-version on my system (Debian 13).
-
---D
+I think this is reasonable suggestion (and better than using the MSG_ flags).
+Let's just let this sit for a few days to see if anyone else has suggestions/
+objections.
