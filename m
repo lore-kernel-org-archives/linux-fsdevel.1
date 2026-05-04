@@ -1,95 +1,80 @@
-Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+Received: from e3i432.smtp2go.com (e3i432.smtp2go.com [158.120.85.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BAF2E5B2A;
-	Mon,  4 May 2026 20:17:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F9431B114
+	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 20:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777925878; cv=none; b=HvE5BWIqLj3DeewtX1OToGaZ5UEuW46Y0AUNObPtk+PDhawiT6CCLiO6JqZhlwtD3rSKaxPgHpCQYrqOHmtGVOFyWa3uQpypIeVAPJQ/uy9R9XOKy1dtGkhfOs0yohkfyW8QB94kg+nlPlWj/AZcmswnFy96Xde4KvGJaxYg6KI=
+	t=1777926244; cv=none; b=J689TycGG6xcN9RJWACQDSK/ekxpjzqEoz9oQpZ1fspcnCSV2HG0ANjLXax/ZmoA8KPFPqQf8j7JFKe/wh95Lxh43jh2PSUElO8+SUS0kYMGBGm1/GKwm/ddOX3itAi9tjsI0c6/ZjHDWeGIO2mwf/N04NaREOdjyJoIZ2VMPsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777925878; c=relaxed/simple;
-	bh=XBCWx0m8bb3GJusI0mviL4YlaAPRihO9FHtlhisSfT8=;
-	h=Content-Type:Message-ID:Date:MIME-Version:From:Subject:To:Cc:
-	 References:In-Reply-To; b=aX0s0uOSwIm7yG/YeHbExZPGk/QoYFhSkyffHXx1IbvIb8lj1CQGsq5xbTYL0gIzpNK2ZgpS9yaozU9EM4MKYOfgN/ngLANHWUmxHEqy+0tcixCxx9JWEfh9jOONNusXWWPJMQeMec5N5R1AvCWvhZMCh96kWbC+/DGbH58xhf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
-Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id CF49C1D490;
-	Mon,  4 May 2026 20:17:48 +0000 (UTC)
-Received: from [192.168.1.18] ([182.226.25.243])
-	by embla.dev.snart.me with ESMTPSA
-	id kpfYIez++GlJJwEA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Mon, 04 May 2026 20:17:48 +0000
-Content-Type: multipart/mixed; boundary="------------k0h9QtSMARiwiU4a30pozDMq"
-Message-ID: <2956b248-c79f-4eae-8bfc-81178b5899af@dev.snart.me>
-Date: Tue, 5 May 2026 05:17:44 +0900
+	s=arc-20240116; t=1777926244; c=relaxed/simple;
+	bh=XI4Fj0z7pooldJ/2eC7J8+I39C4uFxxaIC44PQ0TLnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZbGVyFA8fRihOKXLIYkFJFdq9dgt1IydJiWr8gcAhKJZNvaVYgjlr12MTFnR/AZebMSM/6jXKEPcgXmFO6QQOgssrVSQFlK4hiOjUQUKfG2EiyEYx4PWwTHRrAg6ZK7CBYAuzUjZiQrQ7IYqQRDutgWjQWpbE1s/Nk4grUKoOOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=C5Sba0cn; arc=none smtp.client-ip=158.120.85.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em510616.triplefau.lt
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="C5Sba0cn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triplefau.lt;
+ i=@triplefau.lt; q=dns/txt; s=s510616; t=1777925333; h=from : subject
+ : to : message-id : date;
+ bh=4wCA54cVg8I6wngdC5dE4awASRWsyxnda2eZdotTRFA=;
+ b=C5Sba0cndV22eHV52CSYPc8rb7x1DUhCw51vQsfvTmw+30ipOPfjBapjUMSlmFy1Wq9mg
+ 5gQZGD0Pthdnlgt8Hp0gVjITC/vCGNHvnSybdBCHnoLt6vFPxAk81q8LLUhTGUOZfO4/bxq
+ WyAa0JZhUhSCxU7fGg7X6Hw8GdJaEyG7I3RSGQ1DEeK4fGFnmR+p4HNinFczNx09vZQMNkG
+ 0Y/CTqUy8lSYinUSZtZhOLLVlrHYqAf279r75C8g42hSM5NBu3nq+PTtZ9HdWlhsfTSdlWQ
+ 4trdnhOA/+murdlt5UaG/IWFp8f2/HkgbTkBhSUzPnfGd0yaH4ewRGdSKjYQ==
+Received: from [10.12.239.196] (helo=localhost)
+	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.99.1-S2G)
+	(envelope-from <repk@triplefau.lt>)
+	id 1wJzax-4o5NDgrvBYf-rg09;
+	Mon, 04 May 2026 20:08:47 +0000
+Date: Mon, 4 May 2026 21:47:17 +0200
+From: Remi Pommarel <repk@triplefau.lt>
+To: Dominique Martinet <asmadeus@codewreck.org>
+Cc: v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>
+Subject: Re: [PATCH v4 0/4] 9p: Performance improvements for build workloads
+Message-ID: <afj3xZOpaUlvFuIj@pilgrim>
+References: <cover.1774380535.git.repk@triplefau.lt>
+ <aeBGIg9aEPFbzZuZ@codewreck.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: David Timber <dxdt@dev.snart.me>
-Subject: Re: [syzbot] [mm?] [f2fs?] [exfat?] memory leak in __kfree_rcu_sheaf
-To: syzbot <syzbot+cae7809e9dc1459e4e63@syzkaller.appspotmail.com>
-Cc: linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- syzkaller-bugs@googlegroups.com
-References: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
-Content-Language: en-US, ko
-Autocrypt: addr=dxdt@dev.snart.me; keydata=
- xjMEYmJg1hYJKwYBBAHaRw8BAQdAf5E+ri1XLtjqYbZdHOyc8oS+1/XJ5bSlbx5WHXmVBZzN
- IERhdmlkIFRpbWJlciA8ZHhkdEBkZXYuc25hcnQubWU+wpQEExYKADwWIQQn/Jn96EMUaIoF
- X+T/ldyyrZpWaAUCYmJg1gIbAwULCQgHAgMiAgEGFQoJCAsCBBYCAwECHgcCF4AACgkQ/5Xc
- sq2aVmjJZwD8COjPlUwccrlRvbNQ6f87DWchtYO0o8W2DNRM3RLps0EA/jEhIbRV6AsyC8jr
- 30Ut3aJ3/mO/6G4sLj7OvkEEBH0MzjgEYmJg1hIKKwYBBAGXVQEFAQEHQFpgtIgaByv9lIEY
- EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
- VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
- Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-In-Reply-To: <698a26d3.050a0220.3b3015.007e.GAE@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aeBGIg9aEPFbzZuZ@codewreck.org>
+X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
+Feedback-ID: 510616m:510616apGKSTK:510616sYZT3vgZ5L
+X-smtpcorp-track: qYCat2ZrR-Kv.WuPV7Z6jHZOu.tZZafgxgSnd
 
-This is a multi-part message in MIME format.
---------------k0h9QtSMARiwiU4a30pozDMq
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+On Thu, Apr 16, 2026 at 11:14:58AM +0900, Dominique Martinet wrote:
+> Remi Pommarel wrote on Tue, Mar 24, 2026 at 08:43:30PM +0100:
+> > Also sorry for the long delay for v4, it's been quite busy lately.
+> 
+> Thank you for this v4; I've been busy myself so can't complain...
+> 
+> I think we've iterated enough on this for now, so I'll tentatively pick
+> this up for -next shortly, but there are a few fixes I'd like to get in
+> first and we're a bit late to send this for 7.1, so this cache change
+> will be for 7.2 in a couple of months
+> 
+> Meanwhile if there are other comments etc we can always iterate (with
+> either a v5 or pilling patches on top)
 
-#syz test
---------------k0h9QtSMARiwiU4a30pozDMq
-Content-Type: text/x-patch; charset=UTF-8;
- name="syz-cae7809e9dc1459e4e63.f2fs-use-after-free.patch"
-Content-Disposition: attachment;
- filename="syz-cae7809e9dc1459e4e63.f2fs-use-after-free.patch"
-Content-Transfer-Encoding: base64
+Thanks but if you can hold that a little bit as sashiko.dev found some
+important issues with PATCH 4/4 that must be addressed. A v5 is
+comming very shortly with the needed fixes.
 
-ZGlmZiAtLWdpdCBhL2ZzL2YyZnMvc3VwZXIuYyBiL2ZzL2YyZnMvc3VwZXIuYwppbmRleCBj
-NGMyMjVlMDlkYzQuLjVhMzhiNzQ3NTdjYSAxMDA2NDQKLS0tIGEvZnMvZjJmcy9zdXBlci5j
-CisrKyBiL2ZzL2YyZnMvc3VwZXIuYwpAQCAtNDU5NSw2ICs0NTk1LDggQEAgdm9pZCBmMmZz
-X2hhbmRsZV9lcnJvcihzdHJ1Y3QgZjJmc19zYl9pbmZvICpzYmksIHVuc2lnbmVkIGNoYXIg
-ZXJyb3IpCiAJCXJldHVybjsKIAlpZiAoIXRlc3RfYml0KGVycm9yLCAodW5zaWduZWQgbG9u
-ZyAqKXNiaS0+ZXJyb3JzKSkKIAkJcmV0dXJuOworCisJZjJmc19ub3RpY2Uoc2JpLCAic19l
-cnJvcl93b3JrIHNjaGVkdWxlZCBpbiBmMmZzX2hhbmRsZV9lcnJvcigpIGJ5IHNiaSBhdCAl
-cCIsIHNiaSk7CiAJc2NoZWR1bGVfd29yaygmc2JpLT5zX2Vycm9yX3dvcmspOwogfQogCkBA
-IC00NjIxLDYgKzQ2MjMsNyBAQCB2b2lkIGYyZnNfaGFuZGxlX2NyaXRpY2FsX2Vycm9yKHN0
-cnVjdCBmMmZzX3NiX2luZm8gKnNiaSwgdW5zaWduZWQgY2hhciByZWFzb24pCiAJCSAqIGlu
-IG9yZGVyIHRvIGF2b2lkIHBvdGVudGlhbCBkZWFkbG9jayB3aGVuIHJ1bm5pbmcgaW50bwog
-CQkgKiBmMmZzX3JlY29yZF9zdG9wX3JlYXNvbigpIHN5bmNocm9ub3VzbHkuCiAJCSAqLwor
-CQlmMmZzX25vdGljZShzYmksICJzX2Vycm9yX3dvcmsgc2NoZWR1bGVkIGluIGYyZnNfaGFu
-ZGxlX2NyaXRpY2FsX2Vycm9yKCkgYnkgc2JpIGF0ICVwIiwgc2JpKTsKIAkJc2NoZWR1bGVf
-d29yaygmc2JpLT5zX2Vycm9yX3dvcmspOwogCX0KIApAQCAtNDY2Niw2ICs0NjY5LDEwIEBA
-IHN0YXRpYyB2b2lkIGYyZnNfcmVjb3JkX2Vycm9yX3dvcmsoc3RydWN0IHdvcmtfc3RydWN0
-ICp3b3JrKQogCXN0cnVjdCBmMmZzX3NiX2luZm8gKnNiaSA9IGNvbnRhaW5lcl9vZih3b3Jr
-LAogCQkJCQlzdHJ1Y3QgZjJmc19zYl9pbmZvLCBzX2Vycm9yX3dvcmspOwogCisJZjJmc19u
-b3RpY2Uoc2JpLCAiZjJmc19yZWNvcmRfZXJyb3Jfd29yaygpIik7CisJaWYgKHVubGlrZWx5
-KGlzX3NiaV9mbGFnX3NldChzYmksIFNCSV9JU19DTE9TRSkpKQorCQlwYW5pYygiISEhIHNi
-aSBhdCAlcCB1c2VkIGFmdGVyIGZyZWVpbmcgISEhIiwgc2JpKTsKKwogCWYyZnNfcmVjb3Jk
-X3N0b3BfcmVhc29uKHNiaSk7CiB9CiAKQEAgLTU0NTQsNiArNTQ2MSw3IEBAIHN0YXRpYyB2
-b2lkIGtpbGxfZjJmc19zdXBlcihzdHJ1Y3Qgc3VwZXJfYmxvY2sgKnNiKQogCWtpbGxfYmxv
-Y2tfc3VwZXIoc2IpOwogCS8qIFJlbGVhc2UgYmxvY2sgZGV2aWNlcyBsYXN0LCBhZnRlciBm
-c2NyeXB0X2Rlc3Ryb3lfa2V5cmluZygpLiAqLwogCWlmIChzYmkpIHsKKwkJZjJmc19ub3Rp
-Y2Uoc2JpLCAiZnJlZWluZyBzYmkgYXQgJXB4IGluIGtpbGxfZjJmc19zdXBlcigpIiwgc2Jp
-KTsKIAkJZGVzdHJveV9kZXZpY2VfbGlzdChzYmkpOwogCQlrZnJlZShzYmkpOwogCQlzYi0+
-c19mc19pbmZvID0gTlVMTDsK
+Thanks.
 
---------------k0h9QtSMARiwiU4a30pozDMq--
+-- 
+Remi
