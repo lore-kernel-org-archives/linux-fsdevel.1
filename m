@@ -1,210 +1,299 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513FE33121D
-	for <linux-fsdevel@vger.kernel.org>; Mon,  4 May 2026 08:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B79F37CD36;
+	Mon,  4 May 2026 09:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777883153; cv=none; b=R4EQssDQ986rFVNdyLrDBYNv/2TTK3w80RC/1lP6/S/TXhZhWwDGswetlpAikbH/0/9yXTL2pa7VsG7u/Muo3y+SsPVI2khgtwgBd9qN6nri3AF3HQ7nLf2Y4Gx667XAHs8rVoXBNlMtCmchy5hBzhTwPe9sUZ2kuhj3qkg62FA=
+	t=1777887216; cv=none; b=A3MR0mao+TMGifIYMXN+gkCF4m7sKssSYjzWnqzLkP5FXxAkaoOhOdE7MHc4XvZfPfN5jUnYxCOFoGz7OJ0sMDTOKvUHusixGwkSDe0xC6ExAY3ZaTo2U4jN2YKrtPzuY5x9kFRmSGp9+xaErEVuVso50vFhitgKb/O7vO/DXOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777883153; c=relaxed/simple;
-	bh=EoSMGZ8BHuo2iYsT5CSwekAK8hSWVeoWPfOgzslGAZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AjSHdkNkS+D4C4UBe9UEObrQmrT198UpmEAcvnAa4gPpBdQ2VL12HE69JeL2297lR8BfgXkTT3Xtp33GdYqmBr5uBfpTeJpSW+ZmYBKJJPQnoKBxMKSdy0kQxMb1tQ7tUIUYknWPtUdwnUaYLqUfkYf4cpwR474lTatAH4wbSO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=BQ2YFozO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nz+Wri1z; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1777887216; c=relaxed/simple;
+	bh=jjFMDKdhbjQLZ+fcrbaCzSYxbFlqAxUmrc8TwIq24gA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Vg7iZNc4xcxU55Ils4CYSKQgWqtpbKZmb0anpeQNwgfwQFsoIqlWdnP54FzDzF3As3PrY1gawNzdJGb3+8BGDX1i5iuQVB96YndLcCVTs7WQgyjnTEzc6we8ZbyVcprHhgf/LTxdMYZB46LTvcF23ygmKti0WzxwM/IF5gTadis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CkF4Ur92; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ne2XaM9e; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="BQ2YFozO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nz+Wri1z"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 1CEE81D000CA;
-	Mon,  4 May 2026 04:25:47 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 04 May 2026 04:25:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1777883146;
-	 x=1777969546; bh=4RClhYkzNtn3Uga/Wv0ISUuXXB/2BGhyIMcXqbL/5IE=; b=
-	BQ2YFozOOK28q9k6MohS+Uk/ztkoqp6T4FaUdP2QEeH8zQiuH9j+owDiXEQGVoEL
-	BVoSyQb44GwRNrTM3oodoCgSf52Kw8FMmeL/3iupYjd+n7Dj2AEsj3aQ04L+dQHi
-	sU0svNoTw21pkWQ/qV8C2vj9Q+P/OzZh5F9Va0WLv+4D6S0rOFoh5x2PGtS5ELh+
-	TFRbQSdgXn3DCAvZDxMjk+qTaFGGCdmokoSPHVztDouJ7dQS46L6Z0xPeqseBZAe
-	2xLLAR9vcT3EoXFaYr0k1YUhtyYXYgLBafGmDTH8pHdcVFe7vldqbC672tdP73g5
-	BUAU0/J7i/47roUMOuQiUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777883146; x=
-	1777969546; bh=4RClhYkzNtn3Uga/Wv0ISUuXXB/2BGhyIMcXqbL/5IE=; b=n
-	z+Wri1zMrsQAw3qiADVO39WM5A23un+wm2Az3YVVQlgG0RsajRcWB6xuTFtKwFiK
-	YnqsJN6RS1BwrN6r4En21exHlQlPjsMiHvudVm4zt7LF5h3thrqKd/Nq7TADrsA+
-	dDjjocPrN5tb13V1ueDuu+rsj1+efDDoGIj+yIZV5qmiC5E7/7edQtT5AQPLkV5t
-	SrsppBL9hNph/jnCbQv4gwASUxcMJtkfjRFneD5Zi/dtVay3yg6HBQ0Lk2VCds0Y
-	dSsZOcQdFw6dLlj7MiI5PT7RqW7p0RtkqTSd5B7GX+LLRRPijJf1T2S8QqwIuhBg
-	83muaN+R+SumMYSiLNS4g==
-X-ME-Sender: <xms:Clj4aeWYYMRLdp96RlcQKXv4f3bnQD3ga5Yf94o-QrlwToGYHxhxoQ>
-    <xme:Clj4aeQYDOezHNjRZEEeT0m7rKseNjpsolMnR-ARlX5SuaZ8mzjYFAUa1-LAqbJoR
-    OcYb2mTIxV089C9xdRFdzXTB30U09lUSrvnDWDcuK8YCmBWbSqy>
-X-ME-Received: <xmr:Clj4acPLdjFYVbO-PlDfXZ28nl2-3ev50GGFxtQjNh680g58j-gmmyZ-29TxVEzyzOA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdelkeefhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhepfeeggeefffekudduleefheelleehgfffhedujedvgfetvedvtdefieehfeel
-    gfdvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
-    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepiedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtohepsggvrhhnugessghssggvrhhnugdrtghomhdprhgtphhtthhopehm
-    ihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtoheplhhinhhugidqfhhsuggvvh
-    gvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehluhhishesihhgrghl
-    ihgrrdgtohhmpdhrtghpthhtohepuggthhhgvddttddtsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:Clj4acRjV6AXDNa_RtpbBINeEpuau0QYlLi9z34hBhhXGoINmWHYnA>
-    <xmx:Clj4aahh_R8Mf4Fk6C-xR5EpmbYUTRevEPt-bE0exWKqAivZ8v8wqA>
-    <xmx:Clj4aV-jr4rlrZa6nWgI2HUqyVt5l0-fXkFwBdglW3ur_8Fj0Kdh5A>
-    <xmx:Clj4aRFgLOWUxBYGnV8lSdqe32fXQk4GqbqptQJ-yowLWAy8Lv5bkg>
-    <xmx:Clj4aVjkHKJhfnqzWxsCbm6a0K7Z-zWKzXEIj6-qhUJ2HuujIusuMzc6>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 4 May 2026 04:25:44 -0400 (EDT)
-Message-ID: <34e56fec-e5ca-4138-bb2b-c0ab1515a504@bsbernd.com>
-Date: Mon, 4 May 2026 10:25:41 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CkF4Ur92";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ne2XaM9e"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1777887213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jiw5cliQjVOVd7Hg7M7qqHEcA53QLkykbCEMKUj9V/4=;
+	b=CkF4Ur92AwTZrXO/sv6QGR6uZ0gVg6WWgj6BnkXL6F5RbU98XwApIIYsadlvw5FwHBbUle
+	KCUF8wrjD1nFAaEC+LP7e3ieNZnEFRlj4rPux9WT4dGihNf7DTiGa4MzTqQ0qBuK90HVtb
+	eTTv5ceRJC+vx74zomg8a1zLuIIoDXNawlOsUXZJsJqVZHcfzOCyfqr7cmFOx0cqf2W1m3
+	9Ke/DHoO6Xun0TBR2CGg5bs3lgbv5gqf//6/upZusSDIqVi3uGPe6WMezvqZvUFMXdTag3
+	SM2WVhET9UGxbAAdANHBdE1hwKfbCD4LbHC9dK3KfulAGRKlA0V/mm/+OBxQzA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1777887213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jiw5cliQjVOVd7Hg7M7qqHEcA53QLkykbCEMKUj9V/4=;
+	b=Ne2XaM9eh1DjfbRR/wisAzh5vD9LeAq/Wx1SZRdaT2Nkb1bs9RWaUWN2krijC8nFY8z9Cq
+	hsCmlkBXoqVqPyDQ==
+Subject: [PATCH v6 00/11] kunit: Introduce UAPI testing framework
+Date: Mon, 04 May 2026 11:33:16 +0200
+Message-Id: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/8] fuse: {io-uring} Allow reduced number of ring
- queues
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: "bernd@bsbernd.com" <bernd@bsbernd.com>,
- Miklos Szeredi <miklos@szeredi.hu>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- Luis Henriques <luis@igalia.com>, Gang He <dchg2000@gmail.com>
-References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com>
- <20260413-reduced-nr-ring-queues_3-v4-5-982b6414b723@bsbernd.com>
- <CAJnrk1aYYSVU-AdxRoqC5H8xk+4rt9Tf=3BPphsw4vvNxjpEyA@mail.gmail.com>
- <b7e93b2a-7096-4957-bf75-38e096a9dd3e@ddn.com>
- <CAJnrk1aL7xW1Z+=ns=zaOtjcUvOZMRR9icz72B9Ye7d0jYgDeQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr
-In-Reply-To: <CAJnrk1aL7xW1Z+=ns=zaOtjcUvOZMRR9icz72B9Ye7d0jYgDeQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XQQWrDMBAF0KsErauiGc1Ypqveo2RhS+NGJDjBc
+ kxK8N0rhYJLqi6/4D8N/66STFGSetvd1SRLTPE85tC87JQ/dOOn6BhyVmiQwADr43WMsz4mOQ2
+ zpDlpbtDZ3pMhQpVrl0mGeHuQH/ucDzHN5+nr8cMC5bVgbBDsX2wBbXTXW2fbwB2DvJ/ieJ2n8
+ xhvr0GK/1N2/5QJe2Ikb3vTPZXLNQtuF5CpIVgQJgASbN0QaojdkAaggtiMMIsNQK3vfVND6Be
+ CTQWhcknrGsOWBhm4hvCGuOomXJA8igPwQfB50P26rt970M1eBQIAAA==
+X-Change-ID: 20241015-kunit-kselftests-56273bc40442
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
+ Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=9871;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=jjFMDKdhbjQLZ+fcrbaCzSYxbFlqAxUmrc8TwIq24gA=;
+ b=qOGf/9JYWpejLSdzdJlFIjDSwMfYxKdIYhfx+3gP9+i2EIhD8YSa1FSioTUt/I6UX+Q5JWZRD
+ LmSMw75cIUZA/0vVN9hOfjuYLJ0o3WWN/JB2wWfvSs0qp4L2PmW3rUL
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On 4/27/26 15:10, Joanne Koong wrote:
-> On Fri, Apr 24, 2026 at 11:01 PM Bernd Schubert <bschubert@ddn.com> wrote:
->>
->> On 4/24/26 20:28, Joanne Koong wrote:
->>> On Mon, Apr 13, 2026 at 2:41 AM Bernd Schubert via B4 Relay
->>> <devnull+bernd.bsbernd.com@kernel.org> wrote:
->>>>
->>>> From: Bernd Schubert <bschubert@ddn.com>
->>>>
->>>> Queues selection (fuse_uring_get_queue) can handle reduced number
->>>> queues - using io-uring is possible now even with a single
->>>> queue and entry.
->>>>
->>>> The FUSE_URING_REDUCED_Q flag is being introduce tell fuse server that
->>>> reduced queues are possible, i.e. if the flag is set, fuse server
->>>> is free to reduce number queues.
->>>>
->>>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
->>>> ---
->>>>  fs/fuse/dev_uring.c       | 160 ++++++++++++++++++++++++----------------------
->>>>  fs/fuse/inode.c           |   2 +-
->>>>  include/uapi/linux/fuse.h |   3 +
->>>>  3 files changed, 88 insertions(+), 77 deletions(-)
->>>>
->>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
->>>> index 9dcbc39531f0e019e5abf58a29cdf6c75fafdca1..e68089babaf89fb81741e4a5e605c6e36a137f9e 100644
->>>> --- a/fs/fuse/dev_uring.c
->>>> +++ b/fs/fuse/dev_uring.c
->>>>
->>>> -static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
->>>> +static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
->>>>  {
->>>>         unsigned int qid;
->>>> -       struct fuse_ring_queue *queue;
->>>> +       int node;
->>>> +       unsigned int nr_queues;
->>>> +       unsigned int cpu = task_cpu(current);
->>>>
->>>> -       qid = task_cpu(current);
->>>> +       cpu = cpu % ring->max_nr_queues;
->>>>
->>>> -       if (WARN_ONCE(qid >= ring->max_nr_queues,
->>>> -                     "Core number (%u) exceeds nr queues (%zu)\n", qid,
->>>> -                     ring->max_nr_queues))
->>>> -               qid = 0;
->>>> +       /* numa local registered queue bitmap */
->>>> +       node = cpu_to_node(cpu);
->>>> +       if (WARN_ONCE(node >= ring->nr_numa_nodes,
->>>> +                     "Node number (%d) exceeds nr nodes (%d)\n",
->>>> +                     node, ring->nr_numa_nodes)) {
->>>> +               node = 0;
->>>> +       }
->>>>
->>>> -       queue = ring->queues[qid];
->>>> -       WARN_ONCE(!queue, "Missing queue for qid %d\n", qid);
->>>> +       nr_queues = READ_ONCE(ring->numa_q_map[node].nr_queues);
->>>> +       if (nr_queues) {
->>>> +               qid = ring->numa_q_map[node].cpu_to_qid[cpu];
->>>> +               if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
->>>> +                       return NULL;
->>>> +               return READ_ONCE(ring->queues[qid]);
->>>> +       }
->>>
->>> Hi Bernd,
->>>
->>> Thanks for making the changes on this - I really like how much simpler
->>> the logic is now.
->>>
->>> I'm looking through how the block multiqueue code works
->>> (block/blk-mq.c and block/blk-mq-cpumap.c) because I think they
->>> basically have to do the same thing with figuring out which cpu to
->>> dispatch a request to.
->>>
->>> It looks like what they do is use group_cpus_evenly(), which as I
->>> understand it, will partition CPUs taking into account numa nodes (as
->>> well as clustering and SMT siblings). I think if we use this for fuse
->>> io-uring, it will make things a lot simpler and we could get rid of
->>> the per-numa state tracking (eg numa_q_map, registered_q_mask,
->>> nr_numa_nodes)  and simplify queue selection where now that can just
->>> be a cpu to qid lookup instead of a two-level
->>> numa-then-global-fallback lookup.
->>>
->>> Do you think something like this makes sense?
->>
->> Maybe, I need to check that code. However, does this really need to be
->> done right now? This cannot be updated later? For me it looks a bit like
->> we are going to replace one code by another, without a clear advantage.
->> I can look into group_cpus_evenly(), but I cannot promise you when that
->> will happen.
->> My personal preference would be to work on real issue, like getting rid
->> of two locks (queue->lock and bg->lock) and distribute max_bg accross
->> queues. And that probably requires the distribution across queues, which
->> you didn't like in the previous series. Anway, already finding the time
->> for that is hard.
-> 
-> Ok, we should go with what you have then and I'll submit changes as a
-> separate patch.
+Currently testing of userspace and in-kernel API use two different
+frameworks. kselftests for the userspace ones and Kunit for the
+in-kernel ones. Besides their different scopes, both have different
+strengths and limitations:
 
-I quickly looked into on Satturday and I'm curious if this will be so
-much simpler with the follow up patches that go into different queues.
-With this current patch that just does a static mapping, yes,
-group_cpus_evenly() would be simpler. With the follow up patches that
-schedule to other queues, not sure. At minimum we need a nother map. At
-best group_cpus_evenly() could be improved or a new generic API invented
-that would simplify finding other queues. Virtiofs also might benefit
-from that, but is outside of the target of this series.
+Kunit:
+* Tests are normal kernel code.
+* They use the regular kernel toolchain.
+* They can be packaged and distributed as modules conveniently.
 
+Kselftests:
+* Tests are normal userspace code
+* They need a userspace toolchain.
+  A kernel cross toolchain is likely not enough.
+* A fair amout of userland is required to run the tests,
+  which means a full distro or handcrafted rootfs.
+* There is no way to conveniently package and run kselftests with a
+  given kernel image.
+* The kselftests makefiles are not as powerful as regular kbuild.
+  For example they are missing proper header dependency tracking or more
+  complex compiler option modifications.
 
-Thanks,
-Bernd
+Therefore kunit is much easier to run against different kernel
+configurations and architectures.
+This series aims to combine kselftests and kunit, avoiding both their
+limitations. It works by compiling the userspace kselftests as part of
+the regular kernel build, embedding them into the kunit kernel or module
+and executing them from there. If the kernel toolchain is not fit to
+produce userspace because of a missing libc, the kernel's own nolibc can
+be used instead.
+The structured TAP output from the kselftest is integrated into the
+kunit KTAP output transparently, the kunit parser can parse the combined
+logs together.
+
+Further room for improvements:
+* Call each test in its completely dedicated namespace
+* Handle additional test files besides the test executable through
+  archives. CPIO, cramfs, etc.
+* Expose the blobs in debugfs
+* Provide some convience wrappers around compat userprogs
+* Figure out a migration path/coexistence solution for
+  kunit UAPI and tools/testing/selftests/
+
+Output from the kunit example testcase, note the output of
+"example_uapi_tests".
+
+$ ./tools/testing/kunit/kunit.py run --kunitconfig lib/kunit example
+...
+Running tests with:
+$ .kunit/linux kunit.filter_glob=example kunit.enable=1 mem=1G console=tty kunit_shutdown=halt
+[11:53:53] ================== example (10 subtests) ===================
+[11:53:53] [PASSED] example_simple_test
+[11:53:53] [SKIPPED] example_skip_test
+[11:53:53] [SKIPPED] example_mark_skipped_test
+[11:53:53] [PASSED] example_all_expect_macros_test
+[11:53:53] [PASSED] example_static_stub_test
+[11:53:53] [PASSED] example_static_stub_using_fn_ptr_test
+[11:53:53] [PASSED] example_priv_test
+[11:53:53] =================== example_params_test  ===================
+[11:53:53] [SKIPPED] example value 3
+[11:53:53] [PASSED] example value 2
+[11:53:53] [PASSED] example value 1
+[11:53:53] [SKIPPED] example value 0
+[11:53:53] =============== [PASSED] example_params_test ===============
+[11:53:53] [PASSED] example_slow_test
+[11:53:53] ======================= (4 subtests) =======================
+[11:53:53] [PASSED] procfs
+[11:53:53] [PASSED] userspace test 2
+[11:53:53] [SKIPPED] userspace test 3: some reason
+[11:53:53] [PASSED] userspace test 4
+[11:53:53] ================ [PASSED] example_uapi_test ================
+[11:53:53] ===================== [PASSED] example =====================
+[11:53:53] ============================================================
+[11:53:53] Testing complete. Ran 16 tests: passed: 11, skipped: 5
+[11:53:53] Elapsed time: 67.543s total, 1.823s configuring, 65.655s building, 0.058s running
+
+---
+Changes in v6:
+- Use usermode helper framework
+- Trim now unnecessary new module exports
+- Report unhandled output line
+- Add SUPERH to ARCH_HAS_NOLIBC
+- Remove non-integral patches submitted elsewhere
+- Drop CC_CAN_LINK_STATIC support. It is based on CC_CAN_LINK which is
+  currently being reworked.
+- Use more cleanup helpers
+- Split stdout/stderr forwarding into its own patch
+- Link to v5: https://lore.kernel.org/r/20250717-kunit-kselftests-v5-0-442b711cde2e@linutronix.de
+
+Changes in v5:
+- Initialize output variable of kernel_wait()
+- Fix .incbin with in-tree builds
+- Keep requirement of KTAP tests to have a number which was removed accidentally
+- Only synthesize KTAP subtest failure if the outer one is TestStatus.FAILURE
+- Use -I instead of -isystem in NOLIBC_USERCFLAGS to populate dependency files
+- +To filesystem developers to all patches
+- +To Luis Chamberlain for discussions about usage of usermodehelper
+  (see patches 6 and 12)
+- Link to v4: https://lore.kernel.org/r/20250626-kunit-kselftests-v4-0-48760534fef5@linutronix.de
+
+Changes in v4:
+- Move Kconfig.nolibc from tools/ to init/
+- Drop generic userprogs nolibc integration
+- Drop generic blob framework
+- Pick up review tags from David
+- Extend new kunit TAP parser tests
+- Add MAINTAINERS entry
+- Allow CONFIG_KUNIT_UAPI=m
+- Split /proc validation into dedicated UAPI test
+- Trim recipient list a bit
+- Use KUNIT_FAIL_AND_ABORT() over KUNIT_FAIL()
+- Link to v3: https://lore.kernel.org/r/20250611-kunit-kselftests-v3-0-55e3d148cbc6@linutronix.de
+
+Changes in v3:
+- Reintroduce CONFIG_CC_CAN_LINK_STATIC
+- Enable CONFIG_ARCH_HAS_NOLIBC for m68k and SPARC
+- Properly handle 'clean' target for userprogs
+- Use ramfs over tmpfs to reduce dependencies
+- Inherit userprogs byte order and ABI from kernel
+- Drop now unnecessary "#ifndef NOLIBC"
+- Pick up review tags
+- Drop usage of __private in blob.h,
+  sparse complains and it is not really necessary
+- Fix execution on loongarch when using clang
+- Drop userprogs libgcc handling, it was ugly and is not yet necessary
+- Link to v2: https://lore.kernel.org/r/20250407-kunit-kselftests-v2-0-454114e287fd@linutronix.de
+
+Changes in v2:
+- Rebase onto v6.15-rc1
+- Add documentation and kernel docs
+- Resolve invalid kconfig breakages
+- Drop already applied patch "kbuild: implement CONFIG_HEADERS_INSTALL for Usermode Linux"
+- Drop userprogs CONFIG_WERROR integration, it doesn't need to be part of this series
+- Replace patch prefix "kconfig" with "kbuild"
+- Rename kunit_uapi_run_executable() to kunit_uapi_run_kselftest()
+- Generate private, conflict-free symbols in the blob framework
+- Handle kselftest exit codes
+- Handle SIGABRT
+- Forward output also to kunit debugfs log
+- Install a fd=0 stdin filedescriptor
+- Link to v1: https://lore.kernel.org/r/20250217-kunit-kselftests-v1-0-42b4524c3b0a@linutronix.de
+
+To: Nathan Chancellor <nathan@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Willy Tarreau <w@1wt.eu>
+To: Thomas Weißschuh <linux@weissschuh.net>
+To: Brendan Higgins <brendan.higgins@linux.dev>
+To: David Gow <davidgow@google.com>
+To: Rae Moar <rmoar@google.com>
+To: Shuah Khan <shuah@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Nicolas Schier <nicolas.schier@linux.dev>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: kunit-dev@googlegroups.com
+Cc: linux-doc@vger.kernel.org
+Cc: workflows@vger.kernel.org
+To: Kees Cook <kees@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+To: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Nicolas Schier <n.schier@avm.de>
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
+---
+Thomas Weißschuh (11):
+      kbuild: doc: add label for userprogs section
+      exec: add dirfd parameter to kernel_execve()
+      umh: add dirfd parameter
+      mount: add support for __free(kern_unmount)
+      init: add nolibc build support
+      kunit: qemu_configs: loongarch: Enable LSX/LSAX
+      kunit: Introduce UAPI testing framework
+      kunit: uapi: Forward test executable output to KUnit log
+      kunit: uapi: Add example for UAPI tests
+      kunit: uapi: Introduce preinit executable
+      kunit: uapi: Validate usability of /proc
+
+ Documentation/dev-tools/kunit/api/index.rst   |   5 +
+ Documentation/dev-tools/kunit/api/uapi.rst    |  14 +
+ Documentation/kbuild/makefiles.rst            |   2 +
+ MAINTAINERS                                   |  11 +
+ fs/coredump.c                                 |   2 +-
+ fs/exec.c                                     |   4 +-
+ include/kunit/uapi.h                          |  77 ++++++
+ include/linux/binfmts.h                       |   2 +-
+ include/linux/mount.h                         |   2 +
+ include/linux/umh.h                           |   3 +-
+ init/Kconfig                                  |   2 +
+ init/Kconfig.nolibc                           |  16 ++
+ init/Makefile.nolibc                          |  13 +
+ init/main.c                                   |   2 +-
+ kernel/module/kmod.c                          |   2 +-
+ kernel/umh.c                                  |   9 +-
+ lib/kobject_uevent.c                          |   2 +-
+ lib/kunit/Kconfig                             |  16 ++
+ lib/kunit/Makefile                            |  26 ++
+ lib/kunit/kunit-example-test.c                |  15 ++
+ lib/kunit/kunit-example-uapi.c                |  22 ++
+ lib/kunit/kunit-test-uapi.c                   |  51 ++++
+ lib/kunit/kunit-test.c                        |  24 +-
+ lib/kunit/kunit-uapi.c                        | 351 ++++++++++++++++++++++++++
+ lib/kunit/uapi-preinit.c                      |  68 +++++
+ security/keys/request_key.c                   |   2 +-
+ tools/testing/kunit/qemu_configs/loongarch.py |   2 +
+ 27 files changed, 732 insertions(+), 13 deletions(-)
+---
+base-commit: 813d26ba48f9e3909d39966857421500faef508a
+change-id: 20241015-kunit-kselftests-56273bc40442
+
+Best regards,
+--  
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
