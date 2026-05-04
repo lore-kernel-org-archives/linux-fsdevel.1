@@ -1,46 +1,46 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F042737CD49;
-	Mon,  4 May 2026 09:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB03B37D13B;
+	Mon,  4 May 2026 09:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777887217; cv=none; b=W4bMQOdKH818VGSICIh1eNX/7GxbuJr4hx+4ljB1wrNo/mIPblQXuy+Ew+7etR+hHHf8haqb/Hpsi9L4NiQ3K55XZx33JD2ulM3htnvH3nazEl6x52+wMoyW69wlY5TQch/5hoAmsEGqLV6guoPNXRlek8F2D6qXSMtAtmSj/74=
+	t=1777887218; cv=none; b=Q7Wl648nOJXZWgy8094soLdrgo2hq5S2FComcD0duKj5fhwWVICVHJnMdnE3LAxhRX2EvU8++BLdywjrEAwl20gsVgxIZsS1PNPbpQ+n4j1voYj0PwnXfF9gowAVAL0+kCPH9izvt6fYyXfC+v7xtWH3lYDGExs8lIuceCbeNBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777887217; c=relaxed/simple;
-	bh=f2sOt9t/Nc7lPFpTZEDpIpO59t74OzxRJgeKcPUSTUw=;
+	s=arc-20240116; t=1777887218; c=relaxed/simple;
+	bh=6IQeujXtDmMJBXxwWbg/iZaGW/kWT5oGF6ONKpLUivo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q400UuuKc5PMH5zYmmeQvtTV+amjbVjyj3sX/Dyo4WTI6m29WS1FnZBSIxmKV7uqv4/3J+3ACzCeryWADzzmBn5oQ9cXaPkPXVaUdoAsPYS5fTO9eZxL+7hdtvquD9ns6p2uycviyIGTJeOcrBHYRLZBbCSRtCoUl738tzQrYi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZfEnFY9m; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=desvd651; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=HU0XI3Dno9JB4y9kun+5AB9Pq2Ehr0xMiZu7WLLRCmA/m55wauNq3w53KlseEOTB+0Wxzvz7dmE+KUImrBGLiaABI5iwHcz1DQvtCj08PEnr4OEI2bcmQDzS0qYaR4Oo01vtyyoIWu/4v/Tduei+v2MDFarze55qsAut6wEKMK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KHJzFSXo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3JNrBWg4; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZfEnFY9m";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="desvd651"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KHJzFSXo";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3JNrBWg4"
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777887213;
+	s=2020; t=1777887214;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AX3UrfvA1Ikfg089WZjhUzDCbqXp2g4JW2YQG6OsmjU=;
-	b=ZfEnFY9mf0iJZB1ywy4UBaWbZrc8H/EtXlIfbBtfonmSQSi2Am5KYfHBpV464WS0iKBQVk
-	6v5ZWvddDmCBlBV6ifCojrzz5ZmWlZymKx08Vhmsx3PaIqzeiLQKLjSS4nCV8fDXzlgvvJ
-	rbnYq640vbPkkr3ZwcpdcGcj7PDaQIWiEj0Re5BcyHA+dlbBYcDZyGYiqqPjjlfWwt8fI1
-	BtY+bvEi3g54Wp66xeAsMpAMmpmQ3qGGHfUgPPQ2oLjfTo9P7/E4P8xN3U4sw7yeQOsSj9
-	fLIiA/IC7ghbqQx5j9hCDkBnKUz1LzCG0YrIyP2UNZpTkGo9hUrHXB19fEqR7A==
+	bh=jHToxwgv5knqBTlwVbm55Ico/NITwpixj9Vnj9WYkao=;
+	b=KHJzFSXo8K9RwrWApixGzV0XEkity1pGDhE2I04yIGVqYXik2ObZ5MVMp5vEU/RgvdhH+n
+	xnwkV3vZj/pBvofthYGrE+S/gesdCJAoSnOsnFd5Be69xApwwwbuAsCf6uLq/Wk273egAz
+	HlWmUpAi6yYmXoHA34SwlvBhaEcBIuXpb2uXhkXSQZ6gWKRIkO3/yV0S27IJtm7/UXBd0f
+	0a3QyTtfLtwjqgNEUTWQiZ87vfoScZ4EjfqqwLBpiyMdigOEuYw0Hi7MV6Rf+aPdkjjBvf
+	56XrwPG6d9L4TFxe11mMQfvIqz3qMGp0Xpl/BFqWrExswaWyex/9esdzbWpOxg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777887213;
+	s=2020e; t=1777887214;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AX3UrfvA1Ikfg089WZjhUzDCbqXp2g4JW2YQG6OsmjU=;
-	b=desvd651teQu4s3xchQ3J/eCMojhKG1JMLBIUG7dUu/RPjOGwGT2ntEK8YhMREvL4L9KFL
-	c1ifPU38TgG8EEDw==
-Date: Mon, 04 May 2026 11:33:17 +0200
-Subject: [PATCH v6 01/11] kbuild: doc: add label for userprogs section
+	bh=jHToxwgv5knqBTlwVbm55Ico/NITwpixj9Vnj9WYkao=;
+	b=3JNrBWg4lE1cji7KDMZA96EMu1CCZeW+mQtJ3mU3dPORXJm9+LwS+RJJ6PD3Dbi4pvCKRp
+	iMHUlYSzYh1t/oBg==
+Date: Mon, 04 May 2026 11:33:19 +0200
+Subject: [PATCH v6 03/11] umh: add dirfd parameter
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,7 +49,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260504-kunit-kselftests-v6-1-712d3d526d97@linutronix.de>
+Message-Id: <20260504-kunit-kselftests-v6-3-712d3d526d97@linutronix.de>
 References: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
 In-Reply-To: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
 To: Nathan Chancellor <nathan@kernel.org>, 
@@ -66,40 +66,151 @@ Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
  linux-fsdevel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
- Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Masahiro Yamada <masahiroy@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=835;
+ Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=5541;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=f2sOt9t/Nc7lPFpTZEDpIpO59t74OzxRJgeKcPUSTUw=;
- b=DyzVL+xRfpFMe5PKS783jTTg3qoqmzhHUZ/6MOAtZDAx+lIJdXP5aUWBZRLCxDwqpa+DBjMr0
- OzcGhakd3wbBfx39rgZhAF4A3/a69mMob7GDZWZXTJML3mGcL0DyBTH
+ bh=6IQeujXtDmMJBXxwWbg/iZaGW/kWT5oGF6ONKpLUivo=;
+ b=Bk32p7HowhqNBjsR8fXr53puXfLwSLesnkOi5si5O6aApY04poo5Gma1mEo9waYkeDsu9TM1O
+ LsjNchuYUR8Ax8X2kZKRTRsO6Lg34ZsS7JyN6TSyV/RhqESvpp0PeIw
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-Some upcoming documentation will link directly to the userprogs section.
-
-Add a label to the section so it can be referenced.
+Allow callers to specify the directory against which to resolve the
+helper's filename. Enables the running of helpers from private mounts.
 
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- Documentation/kbuild/makefiles.rst | 2 ++
- 1 file changed, 2 insertions(+)
+ fs/coredump.c               | 2 +-
+ include/linux/umh.h         | 3 ++-
+ kernel/module/kmod.c        | 2 +-
+ kernel/umh.c                | 9 ++++++---
+ lib/kobject_uevent.c        | 2 +-
+ security/keys/request_key.c | 2 +-
+ 6 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 24a4708d26e8..6e54ad4cfecb 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -891,6 +891,8 @@ This is possible in two ways:
-     This will tell kbuild to build lxdialog even if not referenced in
-     any rule.
+diff --git a/fs/coredump.c b/fs/coredump.c
+index bb6fdb1f458e..45df2387be3d 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -1015,7 +1015,7 @@ static bool coredump_pipe(struct core_name *cn, struct coredump_params *cprm,
+ 		helper_argv[argi] = cn->corename + argv[argi];
+ 	helper_argv[argi] = NULL;
  
-+.. _kbuild_userprogs:
-+
- Userspace Program support
- =========================
+-	sub_info = call_usermodehelper_setup(helper_argv[0], helper_argv, NULL,
++	sub_info = call_usermodehelper_setup(AT_FDCWD, helper_argv[0], helper_argv, NULL,
+ 					     GFP_KERNEL, umh_coredump_setup,
+ 					     NULL, cprm);
+ 	if (!sub_info)
+diff --git a/include/linux/umh.h b/include/linux/umh.h
+index daa6a7048c11..6670b9ff85d4 100644
+--- a/include/linux/umh.h
++++ b/include/linux/umh.h
+@@ -20,6 +20,7 @@ struct file;
+ struct subprocess_info {
+ 	struct work_struct work;
+ 	struct completion *complete;
++	int dirfd;
+ 	const char *path;
+ 	char **argv;
+ 	char **envp;
+@@ -34,7 +35,7 @@ extern int
+ call_usermodehelper(const char *path, char **argv, char **envp, int wait);
  
+ extern struct subprocess_info *
+-call_usermodehelper_setup(const char *path, char **argv, char **envp,
++call_usermodehelper_setup(int dirfd, const char *path, char **argv, char **envp,
+ 			  gfp_t gfp_mask,
+ 			  int (*init)(struct subprocess_info *info, struct cred *new),
+ 			  void (*cleanup)(struct subprocess_info *), void *data);
+diff --git a/kernel/module/kmod.c b/kernel/module/kmod.c
+index a25dccdf7aa7..a85c57a707af 100644
+--- a/kernel/module/kmod.c
++++ b/kernel/module/kmod.c
+@@ -95,7 +95,7 @@ static int call_modprobe(char *orig_module_name, int wait)
+ 	argv[3] = module_name;	/* check free_modprobe_argv() */
+ 	argv[4] = NULL;
+ 
+-	info = call_usermodehelper_setup(modprobe_path, argv, envp, GFP_KERNEL,
++	info = call_usermodehelper_setup(AT_FDCWD, modprobe_path, argv, envp, GFP_KERNEL,
+ 					 NULL, free_modprobe_argv, NULL);
+ 	if (!info)
+ 		goto free_module_name;
+diff --git a/kernel/umh.c b/kernel/umh.c
+index bab134fa8c36..5cdcba6005d9 100644
+--- a/kernel/umh.c
++++ b/kernel/umh.c
+@@ -106,7 +106,7 @@ static int call_usermodehelper_exec_async(void *data)
+ 	commit_creds(new);
+ 
+ 	wait_for_initramfs();
+-	retval = kernel_execve(AT_FDCWD, sub_info->path,
++	retval = kernel_execve(sub_info->dirfd, sub_info->path,
+ 			       (const char *const *)sub_info->argv,
+ 			       (const char *const *)sub_info->envp);
+ out:
+@@ -331,6 +331,7 @@ static void helper_unlock(void)
+ 
+ /**
+  * call_usermodehelper_setup - prepare to call a usermode helper
++ * @dirfd: directory to resolve path against
+  * @path: path to usermode executable
+  * @argv: arg vector for process
+  * @envp: environment for process
+@@ -352,7 +353,7 @@ static void helper_unlock(void)
+  * Function must be runnable in either a process context or the
+  * context in which call_usermodehelper_exec is called.
+  */
+-struct subprocess_info *call_usermodehelper_setup(const char *path, char **argv,
++struct subprocess_info *call_usermodehelper_setup(int dirfd, const char *path, char **argv,
+ 		char **envp, gfp_t gfp_mask,
+ 		int (*init)(struct subprocess_info *info, struct cred *new),
+ 		void (*cleanup)(struct subprocess_info *info),
+@@ -366,8 +367,10 @@ struct subprocess_info *call_usermodehelper_setup(const char *path, char **argv,
+ 	INIT_WORK(&sub_info->work, call_usermodehelper_exec_work);
+ 
+ #ifdef CONFIG_STATIC_USERMODEHELPER
++	sub_info->dirfd = AT_FDCWD;
+ 	sub_info->path = CONFIG_STATIC_USERMODEHELPER_PATH;
+ #else
++	sub_info->dirfd = dirfd;
+ 	sub_info->path = path;
+ #endif
+ 	sub_info->argv = argv;
+@@ -484,7 +487,7 @@ int call_usermodehelper(const char *path, char **argv, char **envp, int wait)
+ 	struct subprocess_info *info;
+ 	gfp_t gfp_mask = (wait == UMH_NO_WAIT) ? GFP_ATOMIC : GFP_KERNEL;
+ 
+-	info = call_usermodehelper_setup(path, argv, envp, gfp_mask,
++	info = call_usermodehelper_setup(AT_FDCWD, path, argv, envp, gfp_mask,
+ 					 NULL, NULL, NULL);
+ 	if (info == NULL)
+ 		return -ENOMEM;
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index ddbc4d7482d2..426ac83f1d2a 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -628,7 +628,7 @@ int kobject_uevent_env(struct kobject *kobj, enum kobject_action action,
+ 			goto exit;
+ 
+ 		retval = -ENOMEM;
+-		info = call_usermodehelper_setup(env->argv[0], env->argv,
++		info = call_usermodehelper_setup(AT_FDCWD, env->argv[0], env->argv,
+ 						 env->envp, GFP_KERNEL,
+ 						 NULL, cleanup_uevent_env, env);
+ 		if (info) {
+diff --git a/security/keys/request_key.c b/security/keys/request_key.c
+index a7673ad86d18..f6f3d4bc0bda 100644
+--- a/security/keys/request_key.c
++++ b/security/keys/request_key.c
+@@ -101,7 +101,7 @@ static int call_usermodehelper_keys(const char *path, char **argv, char **envp,
+ {
+ 	struct subprocess_info *info;
+ 
+-	info = call_usermodehelper_setup(path, argv, envp, GFP_KERNEL,
++	info = call_usermodehelper_setup(AT_FDCWD, path, argv, envp, GFP_KERNEL,
+ 					  umh_keys_init, umh_keys_cleanup,
+ 					  session_keyring);
+ 	if (!info)
 
 -- 
 2.53.0
