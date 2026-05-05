@@ -1,286 +1,197 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF7115FA81
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 22:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463554921BA;
+	Tue,  5 May 2026 22:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778018501; cv=none; b=IMbFMx8h/JOFK5FlpcavZpRkx3Yf9wzEkry1bzcJts2RvZdowZO57Nk4UvtFEXu7bpvbxmiNOjFAMbWdpMAYjzELk942c1L8yjKJue7NGVtpN6wwbBxYP4RdUQ0GdpDYDzseRcVNFd8QW1vl0cbQFYGwiDqSN69//feTJ7yGthY=
+	t=1778018897; cv=none; b=k4WumB0X5GA28QLkSY4E4sKV+YpkrWFF6qbbdBg80mmT0M1VNZAABpgyoTwoPwLntIf8fQIOVI65DCCL9GUg06UQUOsV+68WAocjdGhfXzNOAtXW2nTsoe+EFOEY1+GaCCGYB3/OpP0bBte7n/kDWnfmgcH8461KWA38Eslcuqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778018501; c=relaxed/simple;
-	bh=LKA16h5VDUn0t35u+k1BiGLV5sHU3fkhJaiFA8e00Os=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BPo2ln1Gk9d0vbA940pHnVZLN0RYo9XneKS1QttZGH+ALRCXdsfvIHTcBg8t+TQZsx7jiiQWb+zcjEGVAiqAGJb0GYkXCGUeWVzWjJ+TwOH3vGKOIytPsfMJ/lGRffeD2EBrVR99sJhREG8LmZq1JZXVEzwybWfdNSJ71AR+lyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=iV18rpw4; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1778018897; c=relaxed/simple;
+	bh=G6ackGx0k2Tc1/1RLJh2MtbsUqfWKgNc3pKER+WmBJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rWELyC63cOF2sb49wuwcP0xSiWruP92oVdFtgEGxMt08oGXTQduIme01Ft6d+q4ntXs2U3SkXk5ZL4nBo85I9CBdNw97p1oOdLDdNt+Ou6mqXV5Y/f4DVSinhQtmbhAashhOgtN3XRzEz9kBcL1/WPdxTA2XtsmWmCgvqPaibK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EP2griEy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="iV18rpw4"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-79885f4a8ffso56842367b3.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 05 May 2026 15:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1778018498; x=1778623298; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R2MeVIg4VpP+9zwLnJOlZvfGC5R5bmW9a18q0/iM5VE=;
-        b=iV18rpw4n7mE+3HtSQugXIwzgFDbnQEIh7LYtIIjZk7BLXMA0RJTNNXVB2qtTNx8BA
-         P9F8BD6ueqOaHeNlUVDo12WrrRuuEshAaEnBWUuBC3tlg90smfYnW6tZJasm4AtJ1Ku5
-         ep603VXONqh33RaDTsLn+yPPA6W1c8b1+NjSzWgW9f/7jvOCxIBtQHVFNBNhE0U8wy+R
-         zG2/zB0dYUTdDrHZI17uqOTT0TGAVPjVuJMbqbua9jEPyHgbbaJPX0Ob5fnY9tBLfKOg
-         1dwjdzbvk4Xmjek4bTjuMYTg/WzCnXpH1riqEfbG7WTxh7HeT5QIc2psZNvGkRCaMNPp
-         4j1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778018498; x=1778623298;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R2MeVIg4VpP+9zwLnJOlZvfGC5R5bmW9a18q0/iM5VE=;
-        b=OlHAySs3AVqe0l8eUcPO7NEYvmb5s4R2kVR+1NLx8+RhcGk8bPSxKc3CXvgTihXXJY
-         YmDSZq8c7vmfkQslgjS5lVjE05lW4VgA4G1usm/JZZ/A6BhLoKOwhoPkJ3ByRCUg64Tw
-         CP56HPjHz7ofKyWVvVdU0tj79fqpb9aw32gJfzDcZw6KaWMdIDof/EhdVUdRWJyl/o9J
-         miaVg70k1OQq5t7UZVLDYxTJqiGF7qSuHSdzmwHY5aUoVuSPW2SQHBkUKs+cKCftTJYr
-         qRwaXdpnDv5QswIi4QSglPLQvQo0o87ogY7o09TiMagt3+yhws6FMiQXWqkRDmJbHn3V
-         oUUg==
-X-Forwarded-Encrypted: i=1; AFNElJ8HlBNTGdr1d2bhzlmQLStHUDtjxed3WA0JnTDE9m2DfXfXGzxPALOYN0mfgrpm4wSDhf18mFZzd5ZXYdAl@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8wSC9Ozukigxh0MrIqkHBMbWJtWmbX3anUFe+SyXTK6ciZOLT
-	cenGHlbq7MTJwf73M06buiOjpPzR1ShdE+Eb5uBViaO51cpS0wtKZBN5e/YlvSIVFRk=
-X-Gm-Gg: AeBDietjL5HF6ElnRW1bdUt3GZM38eO35tJAOWi+JbwzUbSveACstlkrtjZ+LBeQCZr
-	Vx7ziJ3Fgb5rkmVT+O3c1KQMLP21r2CLOvNyXw2u0e5uJk67XXAMfrP0PTtltBNG2WxorU66ho2
-	iVh+JcNNkusgyz+YW9lzcCUPWip1nXdcv7rK9FnNuDAQKt8JnXNJdS5sAJan07N/GVPWgs5ET4z
-	OhB/0urBWN513zMgu/J/WAr7CcIOlSWNb6FPkcmg093fMCSR4VKXpoaS/fgLH5nG27jmrNktSjj
-	D4QTZW14VAe2y1+TxVskbwLom27eCBeg0l/agRctHw6q89JHV7B4Q7amnGrFYopJsTMHVAfyxei
-	0NGKkXAeRh5za/dd1ipa/0FHfCUCu53Xg5OmeyTinVIfyNuDhTyWIAATPlg5YxM8Ea+VFmsoDgG
-	kHoCaordmR8w8y++zeC4YmRuZlwSwOT+2pF8YcKzVVIwY2T8tT/qusDQLl/JaUvqym4V/2SXr+/
-	RsVClUp/xo8xDFPqWbRDk7mfT+8cf9yhd8=
-X-Received: by 2002:a05:690c:6ac6:b0:7ba:ef98:9712 with SMTP id 00721157ae682-7bdf5da082bmr13599277b3.11.1778018498143;
-        Tue, 05 May 2026 15:01:38 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:2774:549a:b50b:270e])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65c7aff693fsm169989d50.19.2026.05.05.15.01.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 15:01:37 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	frank.li@vivo.com
-Cc: Slava.Dubeyko@ibm.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH] hfsplus: rework hfsplus_readdir() logic
-Date: Tue,  5 May 2026 15:00:52 -0700
-Message-ID: <20260505220051.2854696-2-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EP2griEy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E32F0C2BCB4;
+	Tue,  5 May 2026 22:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778018897;
+	bh=G6ackGx0k2Tc1/1RLJh2MtbsUqfWKgNc3pKER+WmBJc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EP2griEyfRbrcYEKD4CJkN46fX/ZkHkS7h6o3hIZfUjQ6m4JKFXxbMTHve7YSUreT
+	 k/oBRtvzdAMKUI/75ebpHwLCO9KLXhbCABwH02iG723+SPBoZBnCWDfUSN8J86YVSp
+	 V+Uh02vN98CUEdMEBPMlcM00MjF772MuZbjvZba5dFOKiLSG2tizVDuwImfJ4hIBad
+	 ai7S+PrW0pKO44xYep89RA0hfuN4ia+YWwGkpgOdhuJXvbQOJJZWS8gGVj1Lpq7IAf
+	 wZzgCxjFUmDaIsazcmqFWdxUQvVtHLI3IdyFbEczIJNsB4N3Vjrjd/ZeXOq7QPckXy
+	 rbDdSI6NiqvMg==
+Date: Tue, 5 May 2026 15:08:16 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
+Subject: Re: [PATCH v1.1 1/2] libfuse: don't use SYNC_INIT unless asked for
+Message-ID: <20260505220816.GS7765@frogsfrogsfrogs>
+References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
+ <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+ <20260505164428.GC7739@frogsfrogsfrogs>
+ <0de919e0-7d90-4fad-bf93-656bfd28ad7d@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0de919e0-7d90-4fad-bf93-656bfd28ad7d@bsbernd.com>
 
-The xfstests' test-case generic/637 fails with error:
+On Tue, May 05, 2026 at 10:02:18PM +0200, Bernd Schubert wrote:
+> 
+> 
+> On 5/5/26 18:44, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> > 
+> > fuse2fs calls fuse_main, then starts threads from ->init.  It doesn't
+> > call fuse_daemonize_early_start because I haven't ported it to use any
+> > of the new APIs.  I don't have io_uring enabled for fuse on my dev box.
+> > 
+> > fuse_main calls fuse_session_mount calls fuse_session_mount_new_api
+> > calls session_start_sync_init.  At the start of the function,
+> > se->want_sync_init, se->uring.enable, and daemonize.active are all
+> > false.  The first branch is not taken, so we call FUSE_DEV_IOC_SYNC_INIT
+> > and enable sync_init even though the user didn't ask for that and didn't
+> > prepare for it either.
+> > 
+> > FUSE_DEV_IOC_SYNC_INIT succeeds, so we send the synchronous FUSE_INIT
+> > from mount, which calls fuse2fs' init() method.  That starts the
+> > background threads and returns.  Upon return to the kernel, the mount()
+> > now succeeds, and the next thing that fuse_main does is call
+> > fuse_daemonize().  Since we didn't call fuse_daemonize_early_start, the
+> > daemonize forks the process and the threads die with the parent.
+> > 
+> > If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
+> > maintain compatibility with older fuse servers that only support
+> > asynchronous FUSE_INIT.
+> > 
+> > Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
+> > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> > ---
+> > v1.1: improve commit message, refine logging logic
+> > ---
+> >  lib/fuse_lowlevel.c |   18 +++++++++++++++---
+> >  1 file changed, 15 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+> > index 0e16845d2f14ff..83158d02bb8827 100644
+> > --- a/lib/fuse_lowlevel.c
+> > +++ b/lib/fuse_lowlevel.c
+> > @@ -4475,9 +4475,21 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
+> >  {
+> >  	int err, res;
+> >  
+> > -	if (!se->want_sync_init &&
+> > -		(se->uring.enable && !fuse_daemonize_is_used())) {
+> > -		if (se->debug)
+> > +	if (!se->want_sync_init) {
+> > +		/*
+> > +		 * SYNC_INIT is required for io_uring to initialize without
+> > +		 * deadlocking the kernel if the fuse server crashes.
+> > +		 *
+> > +		 * !fuse_daemonize_is_used implies the fuse server doesn't know
+> > +		 * about any of the SYNC_INIT APIs, so we don't enable sync
+> > +		 * init or generate log messages.
+> > +		 */
+> > +		if (se->uring.enable)
+> > +			fuse_log(FUSE_LOG_DEBUG,
+> > +					"fuse: io_uring broken with async init\n");
+> 
+> So want_sync_init is not enabled and it still logs this? Note that
+> default libfuse does not have a way to set log levels.
 
-FSTYP -- hfsplus
-PLATFORM -- Linux/x86_64 hfsplus-testing-0001 6.15.0-rc4+ #8 SMP PREEMPT_DYNAMIC Thu May 1 16:43:22 PDT 2025
-MKFS_OPTIONS -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+I'm not 
 
-QA output created by 637
-entries 7 and 8 have duplicate d_off 8
-Found unlinked files in open dir (see xfstests-dev/results//generic/637.full for details)
+> > +		else if (!fuse_daemonize_is_used())
+> > +			; /* empty */
+> 
+> Unless I misread it, it would still go into the return 0?
 
-Debugging of the hfsplus_readdir() logic showed this:
+Correct.
 
-hfsplus: hfsplus_readdir(): 163 ctx->pos 0
-hfsplus: hfsplus_readdir(): 189 ctx->pos 1
-hfsplus: hfsplus_readdir(): 264 ctx->pos 2, ino 18
-hfsplus: hfsplus_readdir(): 264 ctx->pos 3, ino 19
-hfsplus: hfsplus_readdir(): 264 ctx->pos 4, ino 28
-hfsplus: hfsplus_readdir(): 264 ctx->pos 5, ino 118
-hfsplus: hfsplus_readdir(): 264 ctx->pos 6, ino 29
-hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 30
-hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 31
-hfsplus: hfsplus_readdir(): 304 ctx->pos 8
-hfsplus: hfsplus_unlink():420 dir->i_ino 17, inode->i_ino 28
-hfsplus: hfsplus_readdir(): 141 ctx->pos 7
-hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 31
-hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 32
-hfsplus: hfsplus_readdir(): 264 ctx->pos 9, ino 33
+> > +		else if (se->debug)
+> >  			fuse_log(FUSE_LOG_DEBUG,
+> >  					"fuse: sync init not enabled\n");
+> 
+> And now every time a log message here.
 
-It means that hfsplus_readdir() stopped the processing of
-folder's items on ctx->pos 8, then, item with ino 28 has
-been deleted and hfsplus_readdir() re-started the logic
-from ctx->pos 7. As a result, previous and new sets of
-folder's items have overlapping values for the case of
-d_off 8.
+Only if you enable debug mode.
 
-Currently, HFS+ has very complicated and fragile logic
-of rd->file->f_pos correction in hfsplus_delete_cat().
-This patch removes this logic and it stores the current
-pos into hfsplus_readdir_data. Finally, if rd->pos == ctx->pos
-then hfsplus_readdir() tries to find the position in
-b-tree's node by means of hfsplus_cat_key. This position is
-used to re-start the folder's content traversal.
+> >  		return 0;
+> 
+> Why can't we change it to
+> 
+> if (!fuse_daemonize_is_used() && !want_sync_init)
+>        return 0;
 
-sudo ./check generic/637
-FSTYP         -- hfsplus
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #44 SMP PREEMPT_DYNAMIC Mon May  4 15:58:45 PDT 2026
-MKFS_OPTIONS  -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+That works for me.
 
-generic/637  22s ...  22s
-Ran: generic/637
-Passed all 1 tests
+> If someone uses then new mount API, that someone has also tested sync
+> init.
 
-Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/198
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
----
- fs/hfsplus/catalog.c    | 11 -----------
- fs/hfsplus/dir.c        | 28 +++++++++++-----------------
- fs/hfsplus/hfsplus_fs.h |  5 +----
- fs/hfsplus/inode.c      |  2 --
- fs/hfsplus/super.c      |  2 --
- 5 files changed, 12 insertions(+), 36 deletions(-)
+I'm confused by this statement.
 
-diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
-index 9bc8a6c48fd3..776ce36cf076 100644
---- a/fs/hfsplus/catalog.c
-+++ b/fs/hfsplus/catalog.c
-@@ -333,7 +333,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
- 	struct super_block *sb = dir->i_sb;
- 	struct hfs_find_data fd;
- 	struct hfsplus_fork_raw fork;
--	struct list_head *pos;
- 	int err, off;
- 	u16 type;
- 
-@@ -392,16 +391,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
- 		hfsplus_free_fork(sb, cnid, &fork, HFSPLUS_TYPE_RSRC);
- 	}
- 
--	/* we only need to take spinlock for exclusion with ->release() */
--	spin_lock(&HFSPLUS_I(dir)->open_dir_lock);
--	list_for_each(pos, &HFSPLUS_I(dir)->open_dir_list) {
--		struct hfsplus_readdir_data *rd =
--			list_entry(pos, struct hfsplus_readdir_data, list);
--		if (fd.tree->keycmp(fd.search_key, (void *)&rd->key) < 0)
--			rd->file->f_pos--;
--	}
--	spin_unlock(&HFSPLUS_I(dir)->open_dir_lock);
--
- 	err = hfs_brec_remove(&fd);
- 	if (err)
- 		goto out;
-diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
-index 47194370c2c5..8bf6c7cdd9a8 100644
---- a/fs/hfsplus/dir.c
-+++ b/fs/hfsplus/dir.c
-@@ -185,7 +185,15 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 	}
- 	if (ctx->pos >= inode->i_size)
- 		goto out;
--	err = hfs_brec_goto(&fd, ctx->pos - 1);
-+	rd = file->private_data;
-+	if (rd && rd->pos == ctx->pos) {
-+		memcpy(fd.search_key, &rd->key, sizeof(struct hfsplus_cat_key));
-+		err = hfs_brec_find(&fd, hfs_find_rec_by_key);
-+		if (err == -ENOENT)
-+			err = hfs_brec_goto(&fd, 1);
-+	} else {
-+		err = hfs_brec_goto(&fd, ctx->pos - 1);
-+	}
- 	if (err)
- 		goto out;
- 	for (;;) {
-@@ -261,7 +269,6 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 		if (err)
- 			goto out;
- 	}
--	rd = file->private_data;
- 	if (!rd) {
- 		rd = kmalloc_obj(struct hfsplus_readdir_data);
- 		if (!rd) {
-@@ -269,15 +276,8 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 			goto out;
- 		}
- 		file->private_data = rd;
--		rd->file = file;
--		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
--		list_add(&rd->list, &HFSPLUS_I(inode)->open_dir_list);
--		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
- 	}
--	/*
--	 * Can be done after the list insertion; exclusion with
--	 * hfsplus_delete_cat() is provided by directory lock.
--	 */
-+	rd->pos = ctx->pos;
- 	memcpy(&rd->key, fd.key, sizeof(struct hfsplus_cat_key));
- out:
- 	kfree(strbuf);
-@@ -287,13 +287,7 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 
- static int hfsplus_dir_release(struct inode *inode, struct file *file)
- {
--	struct hfsplus_readdir_data *rd = file->private_data;
--	if (rd) {
--		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
--		list_del(&rd->list);
--		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
--		kfree(rd);
--	}
-+	kfree(file->private_data);
- 	return 0;
- }
- 
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index 3545b8dbf11c..1c3ce2b9e3aa 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -214,8 +214,6 @@ struct hfsplus_inode_info {
- 	sector_t fs_blocks;
- 	u8 userflags;		/* BSD user file flags */
- 	u32 subfolders;		/* Subfolder count (HFSX only) */
--	struct list_head open_dir_list;
--	spinlock_t open_dir_lock;
- 	loff_t phys_size;
- 
- 	struct inode vfs_inode;
-@@ -272,8 +270,7 @@ struct hfs_find_data {
- };
- 
- struct hfsplus_readdir_data {
--	struct list_head list;
--	struct file *file;
-+	loff_t pos;
- 	struct hfsplus_cat_key key;
- };
- 
-diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-index 036ca516d851..1de9cc97b42e 100644
---- a/fs/hfsplus/inode.c
-+++ b/fs/hfsplus/inode.c
-@@ -483,8 +483,6 @@ struct inode *hfsplus_new_inode(struct super_block *sb, struct inode *dir,
- 	simple_inode_init_ts(inode);
- 
- 	hip = HFSPLUS_I(inode);
--	INIT_LIST_HEAD(&hip->open_dir_list);
--	spin_lock_init(&hip->open_dir_lock);
- 	mutex_init(&hip->extents_lock);
- 	atomic_set(&hip->opencnt, 0);
- 	hip->extent_state = 0;
-diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-index 40a0feda716b..5777e31de45a 100644
---- a/fs/hfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -91,8 +91,6 @@ struct inode *hfsplus_iget(struct super_block *sb, unsigned long ino)
- 	HFSPLUS_I(inode)->fs_blocks = 0;
- 	HFSPLUS_I(inode)->userflags = 0;
- 	HFSPLUS_I(inode)->subfolders = 0;
--	INIT_LIST_HEAD(&HFSPLUS_I(inode)->open_dir_list);
--	spin_lock_init(&HFSPLUS_I(inode)->open_dir_lock);
- 	HFSPLUS_I(inode)->phys_size = 0;
- 
- 	if (inode->i_ino >= HFSPLUS_FIRSTUSER_CNID ||
--- 
-2.43.0
+In this early bailout case (fuse server did not call
+fuse_daemonize_early_start or fuse_session_want_sync_init) we return 0
+without actually setting SYNC_INIT, correct?
 
+Next, fuse_session_mount_new_api calls fuse_kern_fsmount_mo and libfuse
+proceeds to mount with the new mount API.  The kernel uses the old async
+init code, because nobody told it to do a synchronous init.
+
+That sequence works fine, and I can prove it by strace'ing fuse2fs
+startup.  The new mount API is used, but FUSE_INIT isn't seen by fuse2fs
+until after the fuse_daemonize() call and the event loop gets set up.
+
+In other words, fuse2fs uses the new mount API and does not use sync
+init.  I think the correct statement is the inverse:
+
+    If someone uses sync_init, that someone has also tested the new
+    mount API.
+
+My understanding of where we are right now is:
+
+1. If a fuse server starts up the new daemonize code or sets
+   want_sync_init, it will get SYNC_INIT.
+
+   (I'm not sure what it means if they set want_sync_init and try to
+   use the old daemonize code)
+
+2. If it does neither of those things, it will not get SYNC_INIT.
+
+In both cases we try the new fsmount().  If the fsmount API fails, then
+we fall back to the classic mount().
+
+Is that correct?
+
+> At best we could change want_sync_init to an integer so that a
+> daemon could disable sync init.
+> For testing I'm probably also going to add an env variable that allows
+> to disable sync init.
+
+<shrug> That sounds ok to me.
+
+> Btw, during the meetings I had asked AI to write tests for sync init,
+> looks like "ro" doesn't work yet. AI had created patch to fix that, but
+> I don't apply either the test nor the fix yet, need to carefully read
+> through it, but need to do something else before going to bed.
+
+Oh, yeah, mount_flags[] needs to have:
+
+{"rw",           MS_RDONLY,        0,  1,    MOUNT_ATTR_RDONLY},
+{"ro",           MS_RDONLY,        1,  1,    MOUNT_ATTR_RDONLY},
+
+Sorry I missed that in the review.  I also missed that mount_service.c
+should be ported to use mount_flags[].
+
+--D
