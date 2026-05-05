@@ -1,120 +1,145 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CF7B48B360;
-	Tue,  5 May 2026 15:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0E835AC0B;
+	Tue,  5 May 2026 16:27:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777996584; cv=none; b=rryTg8c0n80OSHgviSc9ZfgBhv1K5B9PwGClDf/XxusN2r/I5CfnjK3Dz84Jzc6r0UhmPipxgZi+QFHWqPfBvJumVfOvX4HWkJ+qbDyLMiRZZHh2s1euKE+OWZwnjr4ftwR046LH87EgIukNiOollztBWF+V0x7iDOxAUmEZW4U=
+	t=1777998445; cv=none; b=WpYB3hs4Upc0gNWmXpA6hdFZUtn1elhuZFSGKBo/4hcgFvJOswqv6iONai2hKEd//RkNllbCbfjw8XEnkPv5OcXHfmedt8kxpKhCkEvT3uIJb9Q722FkTXaTe3CmcYcqKARsAhv4aZVcbRHoClNneop4GBexjCLd0R8ibl+V3jA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777996584; c=relaxed/simple;
-	bh=kvJeHu3YGkMrq2Vupe9NLww3ryBGHfmI7ERF9HH9Xuk=;
-	h=From:To:Subject:CC:Date:Message-ID:MIME-Version:Content-Type; b=qxM/GmZ7RxboGb1MftGfCcXG7TB+WC8AR09g77YCIneixbyV3MvUH+JVkJjb8yoxJ9SSWElsjomhejCXfWmckk0Nn6gACH4TTk0d/O83+6tpTUSPv9+YzriSPmgjRG6N5zT6NuPWzTScTtvN3sHa38YQ8EC3zY4vsp2lp2NFje0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NYCsE1KM; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1777998445; c=relaxed/simple;
+	bh=Ec6mMkn2zXIg9PkBMv6BC9JSNkpZ18JeypVxaBgfaRE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=urXJMeziCDxn4EOqSFpPf+xrZ8KgdkLTSx4odaaQxc6q1+rBmCCb9N6nD9QMwOUlT5DTsDLA1MMspzBvxxCYLTd5DpN4Xk/+RIg6iEvCGwQMcEvyv5hzm9eNzZtUYRRwt8d6plIJ3RjKK1dcztXR7kHA4odwJ5NOkvai59ssh3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bvCQO39q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NYCsE1KM"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B3B62681;
-	Tue,  5 May 2026 08:56:14 -0700 (PDT)
-Received: from GX9GF4H4XN (unknown [10.1.25.224])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A67CE3F836;
-	Tue,  5 May 2026 08:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1777996579; bh=kvJeHu3YGkMrq2Vupe9NLww3ryBGHfmI7ERF9HH9Xuk=;
-	h=From:To:Subject:CC:Date:From;
-	b=NYCsE1KM5DeKUXhyKa+C+1z08/dxT/RHr2cHuIiKwpOq5paO/igWgTvFZaRPWJtxC
-	 DY/V/H95uIy4lACZiBSae6XEjGRiptbTk9eg7M17HILbTl2MYCFX+FPujEcYyw/bID
-	 8y/DXb4+X7jKxMxxv3c/417/Qd5Zm7xtJTFCHbFE=
-From: Seunguk Shin <seunguk.shin@arm.com>
-To: <linux-kernel@vger.kernel.org>, <dan.j.williams@intel.com>
-Subject: [PATCH v3] fs/dax: check zero or empty entry before converting
- xarray entry
-CC: <linux-fsdevel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
- <jack@suse.cz>, <willy@infradead.org>, <Nick.Connolly@arm.com>,
- <ffidencio@nvidia.com>, <seunguk.shin@arm.com>
-Date: Tue, 05 May 2026 16:56:08 +0100
-Message-ID: <m2jythetpj.fsf@arm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bvCQO39q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF1BC2BCB4;
+	Tue,  5 May 2026 16:27:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777998445;
+	bh=Ec6mMkn2zXIg9PkBMv6BC9JSNkpZ18JeypVxaBgfaRE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bvCQO39qOu42Aj9gyTmmo3i4YpFa/yFXDqsnw76u/DoiAjSUDVGHyj5uVj+aGx0mu
+	 0l+TswOsU6AHMrAgIddWQL9RuvZPhBKe0HlDukK48PRBb2KJ9Ay+3mWZyJsfoibqeD
+	 zGx+TT8Dh2vV0BpdNLXq96lpmfiO7K0h/BE398oNvJPhzDEzE35Ldau/mW33hGZBcB
+	 abzWCGfoy8qQNPmzrqHrLIHeN1nzwPXvrca7dNNujHIMxXUwA4LqgMUNXMSf+g/ghi
+	 EXNybv+P4ow5GR5V/8xZ1YX7uzvG/OyvnA31JqBKBnA1iYlVBPZPLRUmAtrCwtK+Wx
+	 sW7BlbCFaPwNQ==
+Date: Tue, 5 May 2026 09:27:24 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
+Subject: Re: [PATCH 1/2] libfuse: don't use SYNC_INIT unless asked for
+Message-ID: <20260505162724.GA7739@frogsfrogsfrogs>
+References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
+ <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+ <b023fe55-c8a5-40ed-be37-a21e1682b509@bsbernd.com>
+ <52bf2b08-49e6-4484-8222-b0ef8473b912@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <52bf2b08-49e6-4484-8222-b0ef8473b912@bsbernd.com>
 
-dax_associate_entry(), dax_disassociate_entry(), and dax_busy_page()
-call dax_to_folio(entry) before checking whether entry is a zero or
-empty xarray entry.
+On Tue, May 05, 2026 at 10:17:54AM +0200, Bernd Schubert wrote:
+> 
+> 
+> On 5/5/26 09:30, Bernd Schubert wrote:
+> > 
+> > 
+> > On 5/5/26 07:23, Darrick J. Wong wrote:
+> >> From: Darrick J. Wong <djwong@kernel.org>
+> >>
+> >> If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
+> >> maintain compatibility with older fuse servers that only support
+> >> asynchronous FUSE_INIT.
+> >>
+> >> Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
+> >> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> >> ---
+> >>  lib/fuse_lowlevel.c |    6 +++---
+> >>  1 file changed, 3 insertions(+), 3 deletions(-)
+> >>
+> >>
+> >> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+> >> index 0e16845d2f14ff..0a801132590079 100644
+> >> --- a/lib/fuse_lowlevel.c
+> >> +++ b/lib/fuse_lowlevel.c
+> >> @@ -4475,9 +4475,9 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
+> >>  {
+> >>  	int err, res;
+> >>  
+> >> -	if (!se->want_sync_init &&
+> >> -		(se->uring.enable && !fuse_daemonize_is_used())) {
+> >> -		if (se->debug)
+> >> +	if (!se->want_sync_init) {
+> >> +		/* SYNC_INIT is required for io_uring(?) */
+> >> +		if ((se->uring.enable && !fuse_daemonize_is_used()) || se->debug)
+> >>  			fuse_log(FUSE_LOG_DEBUG,
+> >>  					"fuse: sync init not enabled\n");
+> >>  		return 0;
+> >>
+> > 
+> > Hmm, but mounting is kind of a libuse internal part? If this is really
+> > needed the commit message should mention the exact reason - what is the
+> > issue with old fuse servers and sync init?
 
-That ordering is wrong because zero and empty entries are not folio
-entries. Commit 98c183a4fccf ("fs/dax: don't disassociate zero page
-entries") added guards in the associate and disassociate paths, but the
-guards still come after dax_to_folio(entry), and dax_busy_page() still
-has the same problem.
+fuse2fs calls fuse_main, then starts threads from ->init.  It doesn't
+call fuse_daemonize_early_start because I haven't ported it to use any
+of the new APIs.  I don't have io_uring enabled for fuse on my dev box.
 
-Move the zero/empty checks before dax_to_folio(entry) in all three helpers.
+fuse_main calls fuse_session_mount calls fuse_session_mount_new_api
+calls session_start_sync_init.  At the start of the function,
+se->want_sync_init, se->uring.enable, and daemonize.active are all
+false.  The first branch is not taken, so we call FUSE_DEV_IOC_SYNC_INIT
+and enable sync_init even though the user didn't ask for that and didn't
+prepare for it either.
 
-Fixes: 38607c62b34b ("fs/dax: properly refcount fs dax pages")
-Signed-off-by: Seunguk Shin <seunguk.shin@arm.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Alistair Popple <apopple@nvidia.com>
----
-Changes in v3:
-- Rebase on current upstream
-- Update the changelog for the current code state
-- Link to v2: https://lore.kernel.org/all/m2jyv11mqe.fsf@arm.com/
-Changes in v2:
-- Add Fixes and Reviewed-by tags.
-- Rebase on the latest.
-- Link to v1: https://lore.kernel.org/all/18af3213-6c46-4611-ba75-da5be5a1c9b0@arm.com/
----
- fs/dax.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+FUSE_DEV_IOC_SYNC_INIT succeeds, so we send the synchronous FUSE_INIT
+from mount, which calls fuse2fs' init() method.  That starts the
+background threads and returns.  Upon return to the kernel, the mount()
+now succeeds, and the next thing that fuse_main does is call
+fuse_daemonize().  Since we didn't call fuse_daemonize_early_start, the
+daemonize forks the process and the threads die with the parent.
 
-diff --git a/fs/dax.c b/fs/dax.c
-index 6d175cd47a99..4bca6e2bc342 100644
---- a/fs/dax.c
-+++ b/fs/dax.c
-@@ -480,11 +480,12 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
- 				unsigned long address, bool shared)
- {
- 	unsigned long size = dax_entry_size(entry), index;
--	struct folio *folio = dax_to_folio(entry);
-+	struct folio *folio;
- 
- 	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
- 		return;
- 
-+	folio = dax_to_folio(entry);
- 	index = linear_page_index(vma, address & ~(size - 1));
- 	if (shared && (folio->mapping || dax_folio_is_shared(folio))) {
- 		if (folio->mapping)
-@@ -505,21 +506,23 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
- static void dax_disassociate_entry(void *entry, struct address_space *mapping,
- 				bool trunc)
- {
--	struct folio *folio = dax_to_folio(entry);
-+	struct folio *folio;
- 
- 	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
- 		return;
- 
-+	folio = dax_to_folio(entry);
- 	dax_folio_put(folio);
- }
- 
- static struct page *dax_busy_page(void *entry)
- {
--	struct folio *folio = dax_to_folio(entry);
-+	struct folio *folio;
- 
- 	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
- 		return NULL;
- 
-+	folio = dax_to_folio(entry);
- 	if (folio_ref_count(folio) - folio_mapcount(folio))
- 		return &folio->page;
- 	else
--- 
-2.34.1
+Looking at that logic a little more, I /think/ you could enable sync
+init for fuse servers if they've called fuse_daemonize_early_start even
+if they haven't called fuse_session_want_sync_init:
+
+	/*
+	 * The fuse server didn't explicitly ask for SYNC_INIT and it
+	 * didn't call fuse_daemonize_early_start.  Assume this server
+	 * was written before SYNC_INIT and continue using async init.
+	 */
+	if (!se->want_sync_init && !fuse_daemonize_is_used()) {
+		/*
+		 * The io_uring backend requires SYNC_INIT because
+		 * $reasons, so log a message if we're not enabling
+		 * that.
+		 */
+		if (se->uring.enable)
+			fuse_log(..., "io_uring broken with async init");
+		else if (se->debug)
+			fuse_log(..., "sync init not enabled");
+		return 0;
+	}
+
+Since (to the extent that I'm familiar with what fuse servers really do
+with libfuse) I haven't seen anything that would be a problem.  However
+the more cautious thing to do would be to continue using async init
+unless fuse_session_want_sync_init is called.
+
+> One reason I can think off is if the ->init() method starts new threads.
+> In that case we could still do allow the new mount API when the new
+> daemonize API is used.
+
+Yes.  The new mount api still works (modulo patch 2) even if the
+SYNC_INIT stuff isn't used.
+
+--D
