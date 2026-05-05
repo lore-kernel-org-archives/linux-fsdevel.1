@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A382239E9B;
-	Tue,  5 May 2026 05:23:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3291D239E9B;
+	Tue,  5 May 2026 05:23:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777958600; cv=none; b=e1J5bW4IKD/PB6iNqr7uexdVwqNI6NIktARx+C9i4MZKrsWhT8SZZcUoaf7ZrwNgz6PYYnwyodfn1fTd0Nf2nWMkBXe1SPxTEV/hYZ/1FkZSQRbxazXOdmOu52JczRJ8vL35ohClKi5gY1p7xX86SXopbEi2IB45bJft74g1Q4c=
+	t=1777958616; cv=none; b=iS5eyIWsJljAHNMMWkiHgIMzEpvHGDSvAmLg/O2LF7GU7q7OlY96OzXDRzFx5Suftfr6TWTBvoXWGAuuZoIhuAHTjQF80nEhoXpAyP0IIT7JlP0kXlUfTkUCR19UECl1dJ2C9WIHrt1Gm/DeF/ZByvqadUtQnkJGt5EmN5GqpOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777958600; c=relaxed/simple;
-	bh=W0fwXI5996HgyxPDAtnHHFKt8H5a+Vcg5W6rN5xBkBo=;
+	s=arc-20240116; t=1777958616; c=relaxed/simple;
+	bh=hwlYGN1NM17s8/dTGHtnIEzBC4IpjzB25d2fSGmx+WA=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tfn+ccFCkhNPVwd15HHkB77W85TTPwa8q0rb18kV/2ik3g/Nh0eZ0pL4t5AZY23cdHJK5mVWpdt7QH7MQCn6zCYDpsImITNMMISF+5P8xxTX19YmmJsNteGVZhSYGn5kEsOzXjBUBmnE00UeJEpHxPYCek43KDyy22X1Y1cE+3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lnni+C+/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Lp1UCAAMYjaRim406Ji3XAyuPV0TcWyQtVl+OX6dmv3dEKqt8ZDBmhi775l1YLhP4JSKjrC9EfHwTNxF8H2MG/1kRYt+ughRe85J/Mq/y+TN6/Yj1+S1QYywAtgNSbfJazCwuPkGA4sC+G3XCwVlt7TZyqmgMuS3W2UBXcnFOYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EY2O0x0i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lnni+C+/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 295B4C2BCB4;
-	Tue,  5 May 2026 05:23:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EY2O0x0i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB2EC2BCB4;
+	Tue,  5 May 2026 05:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777958600;
-	bh=W0fwXI5996HgyxPDAtnHHFKt8H5a+Vcg5W6rN5xBkBo=;
+	s=k20201202; t=1777958615;
+	bh=hwlYGN1NM17s8/dTGHtnIEzBC4IpjzB25d2fSGmx+WA=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=lnni+C+/gRfH2gxebg8DV80xZHAbViGXRDBziHiaZkZbbEQaNiscZ/UKCBos6Z0Yz
-	 12mv/rD4/eG3dbM2AtRDdpvKUuDStdz1S507ezVQsSXmvZQvnPcWcsQcn/nevH91J5
-	 2SZfoylUyFZrOR9rMJLwVoaOOV/DgmL+AzMHf/71/d3YJ+KoHrmWcILoOMULuGQqwF
-	 DamMz2uU30gbAIulkzEq5Kraawrx1Q7jO/VBjb4s+r6fkYSZ4olhRRBRaZWxZg7mlj
-	 TAhDHNX2Hx4DraA7cLexnQUfq1s4cpUG40GoczYxBHn6zRr91DoTiSO/KkP57VdUEX
-	 Vr40wd3vr/4yg==
-Date: Mon, 04 May 2026 22:23:19 -0700
-Subject: [PATCHSET 2/2] libfuse: new mount service container fixes
+	b=EY2O0x0i5DdJMm1WTjLV1l91i1jfEZGEFuzCZdj65yd6fj6azKL8KeIXZj0J9R98L
+	 Y4mgfKCy3JAYLg7hnZ0OHRwiKnFfX5IwKu8DNfePxxB+Zv0KJ+YbOAX4pkXdGLPUBD
+	 6Kr5uzzCFZcGNKOtSlJL8+SNm4JZeIsaVZaL5PyErSlN+6HgAlFZbBFN5alqPtbFhu
+	 Xay4PUiKfiNjFG/qiD3kfGRBaxxbHaOJZ5x9PD8Nxf9tQ7mRZMmqWqWXhA49A+hv9H
+	 KC3HM2QkXNR+BBFB1ZF31oIiXKDL3EdblSS4wqZWENHBDUqgJhDvZg9745zxetBM0P
+	 gR+S6hhH8dltw==
+Date: Mon, 04 May 2026 22:23:35 -0700
+Subject: [PATCH 1/2] libfuse: don't use SYNC_INIT unless asked for
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-Message-ID: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
-In-Reply-To: <20260505052133.GR7765@frogsfrogsfrogs>
-References: <20260505052133.GR7765@frogsfrogsfrogs>
+Message-ID: <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+In-Reply-To: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
+References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,38 +44,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Hi all,
+From: Darrick J. Wong <djwong@kernel.org>
 
-This is a collection of bug fixes and cppcheck cleanups for the new fuse
-service container code.
+If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
+maintain compatibility with older fuse servers that only support
+asynchronous FUSE_INIT.
 
-With a bit of luck, this should all go splendidly.
-Comments and questions are, as always, welcome.
-
---D
+Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
+Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
-Commits in this patchset:
- * util/mount.fuse.c: loop in waitpid
- * fuse_service: handle weird behavior during SCM_RIGHTS fd transfers
- * examples: improve documentation of the new systemd service fuse servers
- * example/single_file: sync backing fd when statx wants us to fsync
- * example/single_file: fix ctime handling
- * libfuse: fix cppcheck complaints about constifying pointers
- * libfuse: fix cppcheck complaints about constifying pointers in user-visible ABI
- * util: fix cppcheck complaints about constifying pointers
- * fuser_conf: fix cppcheck complaints
- * example: fix cppcheck complaints about constifying pointers
----
- example/single_file.h   |    6 +++-
- include/fuse_service.h  |   18 ++++++-----
- example/service_hl.c    |   20 +++++++++++-
- example/service_ll.c    |   20 +++++++++++-
- example/single_file.c   |   31 ++++++++++++++++---
- lib/fuse_service.c      |   76 ++++++++++++++++++++++++++++++++---------------
- lib/fuse_service_stub.c |   17 ++++++-----
- util/fuser_conf.c       |    9 +++---
- util/fuservicemount.c   |    2 +
- util/mount.fuse.c       |    4 ++
- util/mount_service.c    |   68 ++++++++++++++++++++++--------------------
- 11 files changed, 183 insertions(+), 88 deletions(-)
+ lib/fuse_lowlevel.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+
+diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+index 0e16845d2f14ff..0a801132590079 100644
+--- a/lib/fuse_lowlevel.c
++++ b/lib/fuse_lowlevel.c
+@@ -4475,9 +4475,9 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
+ {
+ 	int err, res;
+ 
+-	if (!se->want_sync_init &&
+-		(se->uring.enable && !fuse_daemonize_is_used())) {
+-		if (se->debug)
++	if (!se->want_sync_init) {
++		/* SYNC_INIT is required for io_uring(?) */
++		if ((se->uring.enable && !fuse_daemonize_is_used()) || se->debug)
+ 			fuse_log(FUSE_LOG_DEBUG,
+ 					"fuse: sync init not enabled\n");
+ 		return 0;
 
