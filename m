@@ -1,39 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655573B0AD3;
-	Tue,  5 May 2026 05:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102E23B0AD3;
+	Tue,  5 May 2026 05:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777958694; cv=none; b=QVnr8CDw/G9cfUtaQoE1Z23ldaTQWFLRNbpk1ccU4546Dyx1fhbQlDbSdB7b3/HCjNmstYsnCx1DRGN5ykiOBpQkJj8oWufM7RLIlIhcV9rYKH7qIJrEvZqEbw73DFuPBQ418y9+zSFy43jw0jI0Wthg+nNc+VzthPU1oXnVbng=
+	t=1777958710; cv=none; b=kuQ/7esgfCrvfmTHfqvTaLoGTpeL2CV7J33hdHIxMpMc9Ee2qE0YkRoCLAGGUYAVQFe3zQ9muosfmPzLU/t9XLpZWStRNC2ZzrEzFhbw24EpjPYZUOCTtCh1deyAOtS6hRuEVf0i/eYqK5SYZQw7E1OXzRHPwfRVrBeLxasid9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777958694; c=relaxed/simple;
-	bh=UwpMp5xMo543DBsRVtyRED+i+b50fRc6MBRJ7qrJNFk=;
+	s=arc-20240116; t=1777958710; c=relaxed/simple;
+	bh=2arsCg+uvQtYsLSsPtMc5j5SxvU5FlXgntx5wONBqUM=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XepyWKvxMXHajiLsnkx2s8YHVFn5n5jlHCSWaYIhjSoWfpumRbmVf1kzqm5mStVZgPySZskWxjCQA13sHMXsKjiCNgsAW6KEfJ5B+f5C0wVnBTsSQJa4vGpLxv9TIUS13e6SssAx+G0oMISOB552ImLh11F8JygxN+xO4yCywYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fjZu2jBR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=XTO4fR8Pi7k4zgiIwmvy0UzvV93zraEJmS89sShU0GjBwc+Kt9cktNogqddNVFlQgX7JKaA88t4z9C3HbYmoNIpKioSHroOZiS+Z1SXIMB1RkSErCK04Yd6jxZmRdTzzS9AsJc8cQHklG80fEtbQdBGOOXY3RFPnlPfFT6jkU/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TldjjrSS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fjZu2jBR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 091CAC2BCB4;
-	Tue,  5 May 2026 05:24:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TldjjrSS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1FC3C2BCB4;
+	Tue,  5 May 2026 05:25:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777958694;
-	bh=UwpMp5xMo543DBsRVtyRED+i+b50fRc6MBRJ7qrJNFk=;
+	s=k20201202; t=1777958709;
+	bh=2arsCg+uvQtYsLSsPtMc5j5SxvU5FlXgntx5wONBqUM=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=fjZu2jBRtPwA45r3LUejl1JHCSPUle/izjeriDUw2F+BTuTCF/SJeci69hi5TUc7G
-	 13NppybdCAbt5DJPLliZEQIynBip1xqtt4bbyGvP266s2z9qjyAH6oRhXAod7z55FF
-	 6X9ene076yQEQMv98g6fEQzz/0GH7a0kwIQAmDjB6/cRJTqku1VcmU3tWzKVb+6RoO
-	 mGGa/+ONFc5+/DiwTfaTCgepHLH+cnRvrGLOi2TUcuv31Io1gCA7LK29Red6ifOBvR
-	 ph7pDZxejGn9Xao2cA1jsckc+BQwlBH7x21TbgKyh1K+r/CA7f+FmVoRO7lO5wTYZa
-	 N3uGeVKz2UX3g==
-Date: Mon, 04 May 2026 22:24:53 -0700
-Subject: [PATCH 04/10] example/single_file: sync backing fd when statx wants
- us to fsync
+	b=TldjjrSSQIMkr5xQflS6Vm2cUKFZx7DB2iJwStVqWOlNB3BxRaHXZEBIfFFvPOIMZ
+	 GaqoUeBbjwyybktyyK2xVL3OGkejn7mkYKEOdyNStroGbehQUoLbDMNBfvzhjttVpo
+	 MA0n9bhU/CLOyPRSSQDrClRDFipQABOpKCJIsaRNQHrgMyEiBXjlV4iPMtuLRfppPI
+	 7AII/MM7chaXxi/1DQB3JYCe8k3rHuvbPrhuLFt7bI+635L8NCRUw03BqhJb2j8gLU
+	 e1GtjqQxGJEpXce5djFf6UTy2W+8CaqG1vX5UYS9FcRsVe4N8WmiGXfNQaP1aHDv+e
+	 et4SHFl2Ki6gg==
+Date: Mon, 04 May 2026 22:25:09 -0700
+Subject: [PATCH 05/10] example/single_file: fix ctime handling
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-Message-ID: <177795853757.1133612.6951380899522271929.stgit@frogsfrogsfrogs>
+Message-ID: <177795853775.1133612.10606468635840557496.stgit@frogsfrogsfrogs>
 In-Reply-To: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
 References: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,59 +46,50 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-statx callers can tell the filesystem to fsync the file, so let's pass
-that through to the backing fd.
+Fix the ctime initialization and updates so that it behaves like ctime
+is supposed to.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- example/single_file.c |   20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ example/single_file.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 
 diff --git a/example/single_file.c b/example/single_file.c
-index aeceac83c517c1..e7da1f2933fc81 100644
+index e7da1f2933fc81..a962232d576e17 100644
 --- a/example/single_file.c
 +++ b/example/single_file.c
-@@ -286,9 +286,18 @@ void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
- 	struct statx stx = { };
- 	bool filled;
- 
--	(void)flags;
- 	(void)fi;
- 
-+	if ((flags & AT_STATX_FORCE_SYNC) && is_single_file_ino(ino) &&
-+	    single_file.backing_fd >= 0) {
-+		int ret = fsync(single_file.backing_fd);
-+
-+		if (ret) {
-+			fuse_reply_err(req, errno);
-+			return;
-+		}
-+	}
-+
- 	pthread_mutex_lock(&single_file.lock);
- 	filled = sf_statx(ino, mask, &stx);
+@@ -466,8 +466,6 @@ void single_file_ll_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+ 			single_file.mtime = attr->st_mtim;
+ 	}
+ 	if (to_set & FUSE_SET_ATTR_CTIME)
+-		single_file.ctime = attr->st_mtim;
+-	else
+ 		single_file.ctime = now;
  	pthread_mutex_unlock(&single_file.lock);
-@@ -301,13 +310,20 @@ void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
- int single_file_hl_statx(const char *path, int statx_flags, int statx_mask,
- 			 struct statx *stx, struct fuse_file_info *fi)
- {
--	(void)statx_flags;
- 	fuse_ino_t ino = single_open_file_path_to_ino(fi, path);
- 	bool filled;
  
- 	if (!ino)
- 		return -ENOENT;
+@@ -491,6 +489,7 @@ int single_file_hl_chmod(const char *path, mode_t mode,
  
-+	if ((statx_flags & AT_STATX_FORCE_SYNC) && is_single_file_ino(ino) &&
-+	    single_file.backing_fd >= 0) {
-+		int ret = fsync(single_file.backing_fd);
-+
-+		if (ret)
-+			return -errno;
-+	}
-+
  	pthread_mutex_lock(&single_file.lock);
- 	filled = sf_statx(ino, statx_mask, stx);
+ 	single_file.mode = (single_file.mode & S_IFMT) | (mode & ~S_IFMT);
++	get_now(&single_file.ctime);
  	pthread_mutex_unlock(&single_file.lock);
+ 
+ 	return 0;
+@@ -844,6 +843,7 @@ ssize_t single_file_pwrite(const char *buf, size_t count, off_t pos)
+ 		get_now(&now);
+ 
+ 		pthread_mutex_lock(&single_file.lock);
++		single_file.mtime = now;
+ 		single_file.ctime = now;
+ 		pthread_mutex_unlock(&single_file.lock);
+ 
+@@ -973,6 +973,7 @@ int single_file_configure_simple(const char *filename)
+ 	get_now(&startup_time);
+ 	single_file.atime = startup_time;
+ 	single_file.mtime = startup_time;
++	single_file.ctime = startup_time;
+ 
+ 	if (!single_file.ro)
+ 		single_file.mode |= 0220;
 
