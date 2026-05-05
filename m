@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9853A2549;
-	Tue,  5 May 2026 05:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655573B0AD3;
+	Tue,  5 May 2026 05:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777958678; cv=none; b=Uva8h2s0pGJSZnFkt2s7NfVW24oAsNyK2SomvI3z9TYXD/xrHFnke5XtqHbHmaU35tH+vG0xJXGccQMV8sauD0Vj2fYkfAYqA15HeA0CiJdAjwfwUQmU5AmCMSniBBdVnHdY2+EDELNZGaLcTxHG3TS2v0plSHC+JezKm2o8VXc=
+	t=1777958694; cv=none; b=QVnr8CDw/G9cfUtaQoE1Z23ldaTQWFLRNbpk1ccU4546Dyx1fhbQlDbSdB7b3/HCjNmstYsnCx1DRGN5ykiOBpQkJj8oWufM7RLIlIhcV9rYKH7qIJrEvZqEbw73DFuPBQ418y9+zSFy43jw0jI0Wthg+nNc+VzthPU1oXnVbng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777958678; c=relaxed/simple;
-	bh=JOMuYDqsC0SpvvZDHuMTCod2q/pAy/tOrKT1t2Qn0g4=;
+	s=arc-20240116; t=1777958694; c=relaxed/simple;
+	bh=UwpMp5xMo543DBsRVtyRED+i+b50fRc6MBRJ7qrJNFk=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rzuGWMcwHdchk+T9ja33DsCHptfHLDRqfSbYmDdAz3o0AKU1k6dyV4UDVxYEJ6nRvTjslzKPgCVfFv9MAQ+CtPQUkDPVY0y57/D1Xf6EkQHMpOnL2UVW/Jj3vOW+35ax/GSN9LiVao7R2969dp5pMv9hE/3aU8bTfL3WsIhrkdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wbr6Y22U; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=XepyWKvxMXHajiLsnkx2s8YHVFn5n5jlHCSWaYIhjSoWfpumRbmVf1kzqm5mStVZgPySZskWxjCQA13sHMXsKjiCNgsAW6KEfJ5B+f5C0wVnBTsSQJa4vGpLxv9TIUS13e6SssAx+G0oMISOB552ImLh11F8JygxN+xO4yCywYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fjZu2jBR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wbr6Y22U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64801C2BCB4;
-	Tue,  5 May 2026 05:24:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fjZu2jBR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 091CAC2BCB4;
+	Tue,  5 May 2026 05:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777958678;
-	bh=JOMuYDqsC0SpvvZDHuMTCod2q/pAy/tOrKT1t2Qn0g4=;
+	s=k20201202; t=1777958694;
+	bh=UwpMp5xMo543DBsRVtyRED+i+b50fRc6MBRJ7qrJNFk=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=Wbr6Y22UX6YYbCjzVto5+AjWh1UFM5d6GsMVmKYjgP6zsUwx2aQ6Dx46l4ucp1fWo
-	 J+TPtJuoNsxjKgVWwwPfLqo4two4BjMcre6WMjlnVm9SnV7RZj5VZvpfsMeiXLHGY/
-	 Sc/9N8hnkvUryWKxPpAyi51yrRp0ojAfoyiTo0HwBb8t4S3ErYucjYFVzTLuMdnReJ
-	 FZgLBs8EwbvtQS5Lf9XQP5NXc4fUNvSGQp892xLeFpqCOrtV6h/0RGSj5b0ujLQPqm
-	 pxaqQ+l5o+jvrPSX7rwsG+u4xM3IRPNbZPccpKCVI04mzHkFgSuK6cqMezVX5a2yKk
-	 DqiFpfS8rEWVg==
-Date: Mon, 04 May 2026 22:24:38 -0700
-Subject: [PATCH 03/10] examples: improve documentation of the new systemd
- service fuse servers
+	b=fjZu2jBRtPwA45r3LUejl1JHCSPUle/izjeriDUw2F+BTuTCF/SJeci69hi5TUc7G
+	 13NppybdCAbt5DJPLliZEQIynBip1xqtt4bbyGvP266s2z9qjyAH6oRhXAod7z55FF
+	 6X9ene076yQEQMv98g6fEQzz/0GH7a0kwIQAmDjB6/cRJTqku1VcmU3tWzKVb+6RoO
+	 mGGa/+ONFc5+/DiwTfaTCgepHLH+cnRvrGLOi2TUcuv31Io1gCA7LK29Red6ifOBvR
+	 ph7pDZxejGn9Xao2cA1jsckc+BQwlBH7x21TbgKyh1K+r/CA7f+FmVoRO7lO5wTYZa
+	 N3uGeVKz2UX3g==
+Date: Mon, 04 May 2026 22:24:53 -0700
+Subject: [PATCH 04/10] example/single_file: sync backing fd when statx wants
+ us to fsync
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-Message-ID: <177795853739.1133612.4172736040951763446.stgit@frogsfrogsfrogs>
+Message-ID: <177795853757.1133612.6951380899522271929.stgit@frogsfrogsfrogs>
 In-Reply-To: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
 References: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,121 +47,59 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Say a bit more about what the sample files are actually trying to do.
+statx callers can tell the filesystem to fsync the file, so let's pass
+that through to the backing fd.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- example/single_file.h |    4 ++++
- example/service_hl.c  |   20 ++++++++++++++++++--
- example/service_ll.c  |   20 ++++++++++++++++++--
- example/single_file.c |    4 ++++
- 4 files changed, 44 insertions(+), 4 deletions(-)
+ example/single_file.c |   20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
 
-diff --git a/example/single_file.h b/example/single_file.h
-index 86edb51afb3384..290dd6051ed6f5 100644
---- a/example/single_file.h
-+++ b/example/single_file.h
-@@ -4,6 +4,10 @@
-  *
-  * This program can be distributed under the terms of the GNU GPLv2.
-  * See the file GPL2.txt.
-+ *
-+ * This file is shared library code for example fuse servers that want to
-+ * expose a single regular file that wraps another file in a manner that goes
-+ * beyond simple passthrough.  It is not itself a fuse server.
-  */
- #ifndef FUSE_SINGLE_FILE_H_
- #define FUSE_SINGLE_FILE_H_
-diff --git a/example/service_hl.c b/example/service_hl.c
-index 9c4f3ae7a6cf3c..ea041f670f2ec5 100644
---- a/example/service_hl.c
-+++ b/example/service_hl.c
-@@ -8,7 +8,15 @@
- 
- /** @file
-  *
-- * minimal example filesystem using high-level API and systemd service api
-+ * Minimal example filesystem using high-level API and systemd service API.
-+ *
-+ * - Shows how to build a high level FUSE filesystem server that can be managed
-+ *   by systemd
-+ * - Enables on-demand filesystem mounting via socket activation
-+ * - Demonstrates requesting resources from the mount-caller's environment
-+ * - Allows running FUSE servers with minimal privileges; isolated mount,
-+ *   network, and pid namespaces; and a separate uid/gid (unlike traditional
-+ *   FUSE which needs mount permissions and runs in the caller's environment)
-  *
-  * Compile with:
-  *
-@@ -25,7 +33,15 @@
-  * to point to the actual path of the service_hl binary.
-  *
-  * Finally, install the service_hl@.service and service_hl.socket files to the
-- * systemd service directory, usually /run/systemd/system.
-+ * systemd service directory, usually /run/systemd/system.  Run these commands
-+ * to activate:
-+ *
-+ *     systemctl daemon-reload
-+ *     systemctl start service_hl.socket
-+ *
-+ * Then mount with:
-+ *
-+ *     mount -t fuse.service_hl /dev/sda /mnt
-  *
-  * ## Source code ##
-  * \include service_hl.c
-diff --git a/example/service_ll.c b/example/service_ll.c
-index 8958a221e09a66..33a8bd48bc1215 100644
---- a/example/service_ll.c
-+++ b/example/service_ll.c
-@@ -8,7 +8,15 @@
- 
- /** @file
-  *
-- * minimal example filesystem using low-level API and systemd service api
-+ * Minimal example filesystem using low-level API and systemd service API.
-+ *
-+ * - Shows how to build a low level FUSE filesystem server that can be managed
-+ *   by systemd
-+ * - Enables on-demand filesystem mounting via socket activation
-+ * - Demonstrates requesting resources from the mount-caller's environment
-+ * - Allows running FUSE servers with minimal privileges; isolated mount,
-+ *   network, and pid namespaces; and a separate uid/gid (unlike traditional
-+ *   FUSE which needs mount permissions and runs in the caller's environment)
-  *
-  * Compile with:
-  *
-@@ -25,7 +33,15 @@
-  * to point to the actual path of the service_ll binary.
-  *
-  * Finally, install the service_ll@.service and service_ll.socket files to the
-- * systemd service directory, usually /run/systemd/system.
-+ * systemd service directory, usually /run/systemd/system.  Run these commands
-+ * to activate:
-+ *
-+ *     systemctl daemon-reload
-+ *     systemctl start service_ll.socket
-+ *
-+ * Then mount with:
-+ *
-+ *     mount -t fuse.service_ll /dev/sda /mnt
-  *
-  * ## Source code ##
-  * \include service_ll.c
 diff --git a/example/single_file.c b/example/single_file.c
-index 6932eac3a2f276..aeceac83c517c1 100644
+index aeceac83c517c1..e7da1f2933fc81 100644
 --- a/example/single_file.c
 +++ b/example/single_file.c
-@@ -4,6 +4,10 @@
-  *
-  * This program can be distributed under the terms of the GNU GPLv2.
-  * See the file GPL2.txt.
-+ *
-+ * This file is shared library code for example fuse servers that want to
-+ * expose a single regular file that wraps another file in a manner that goes
-+ * beyond simple passthrough.  It is not itself a fuse server.
-  */
- #define _GNU_SOURCE
- #include <pthread.h>
+@@ -286,9 +286,18 @@ void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
+ 	struct statx stx = { };
+ 	bool filled;
+ 
+-	(void)flags;
+ 	(void)fi;
+ 
++	if ((flags & AT_STATX_FORCE_SYNC) && is_single_file_ino(ino) &&
++	    single_file.backing_fd >= 0) {
++		int ret = fsync(single_file.backing_fd);
++
++		if (ret) {
++			fuse_reply_err(req, errno);
++			return;
++		}
++	}
++
+ 	pthread_mutex_lock(&single_file.lock);
+ 	filled = sf_statx(ino, mask, &stx);
+ 	pthread_mutex_unlock(&single_file.lock);
+@@ -301,13 +310,20 @@ void single_file_ll_statx(fuse_req_t req, fuse_ino_t ino, int flags, int mask,
+ int single_file_hl_statx(const char *path, int statx_flags, int statx_mask,
+ 			 struct statx *stx, struct fuse_file_info *fi)
+ {
+-	(void)statx_flags;
+ 	fuse_ino_t ino = single_open_file_path_to_ino(fi, path);
+ 	bool filled;
+ 
+ 	if (!ino)
+ 		return -ENOENT;
+ 
++	if ((statx_flags & AT_STATX_FORCE_SYNC) && is_single_file_ino(ino) &&
++	    single_file.backing_fd >= 0) {
++		int ret = fsync(single_file.backing_fd);
++
++		if (ret)
++			return -errno;
++	}
++
+ 	pthread_mutex_lock(&single_file.lock);
+ 	filled = sf_statx(ino, statx_mask, stx);
+ 	pthread_mutex_unlock(&single_file.lock);
 
