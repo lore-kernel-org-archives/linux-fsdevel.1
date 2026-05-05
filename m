@@ -1,175 +1,149 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A1F3DE429
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 07:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDDA3E8678;
+	Tue,  5 May 2026 07:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777966927; cv=none; b=k7aGf7GPk8c7cw3TlHHmb8BPn6D6fqTqaiHlgH07dMzxqqX/aIeJNSCPuN4chSzqhXItrV6cHNJf8J18qY3AIkx4WhWCbXBVSBNurFzMqrREJgMhFu7aU5y1U08IWyYM+CpflHt5YIf2ZRcVezpnO4ebs1RDaYJrUr/6dqnaicc=
+	t=1777967169; cv=none; b=eyyD6h4DMoqAMp8TVUgMh2jCVa/ESzgd+ukmszitnzxm0IZA8HdYDZ300vaAYP1FIfzItZCsIrrSYQ5yozT27Z+OiEiNTIy/iR4qmN0RBN1L712cBSlDVU5mODprNCCAzfbRZhCBQKkGkMYJQsO+ySQecuGMxP6gv5CilcMVNu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777966927; c=relaxed/simple;
-	bh=015x3tZSrQSHbVJPhw1RXoNoX9fH+nEeMR8ZEhpOfk0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NTmupWhCXvhMiljqs/ypNJ8Resb9FLPXeMr0BMt8fXTypSeKz16fmA1fuzi+XM8pF556ki1vsO3uyvPh2l2vaLo4OEwtujrz0bVeSqSL92y/y1YxRl95C5LTSIJhVQ9H+l8dVZoUenrshFi5sNJnFBn3DdK+FTtdQ+5LZ48m5fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=eEDD1uYt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=K2N5TkU7; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1777967169; c=relaxed/simple;
+	bh=JT5wMT1sCsg0RU/PTayQKO84i81hI2p6dfYOztR/VGk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=ppxdzTSkktrrTz6O8PzSDZPvdBngeWc4RIakhe7NzT5+dhbIaCuPrT1IPZWB+F4Phf8z6h31TeGdXzLgpvek7WJ5wzI9bwYiYso7QSGfCrMlw3heN7BNNKT1wWxNwT6bQTCL3BVxsAHrdav/nZFDanT2ZlivxTfrv2ELkEsqjnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+GB989b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="eEDD1uYt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="K2N5TkU7"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id D08A8140002F;
-	Tue,  5 May 2026 03:42:03 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Tue, 05 May 2026 03:42:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1777966923;
-	 x=1778053323; bh=WUj5qGZXtgqTHeKTZGxwLw0uKYyn5Z942FTCLutI7QE=; b=
-	eEDD1uYt08piXA5CbWBQYV2uPAI6ozwBQZ7dvPfi8qZ2f1rhHGgP+VTeT+5xnVqe
-	hIeSkQKGPeLs7L79yPXCpTPHjTzkRMgDiwErx646v7zH6VNv9T1979mjFmYRErLT
-	CPs4Wg91QtcbYEZYQ3DtyEu8ifrlztTxf9LZKt3ZN+asnXV16OUDBw+qbxRNh+K6
-	yz+Ancrjt35EMBC1faubQnM1PSmCnAzuX6wTmtkqZnkB+SSc8DhxBXOgNFyJIGCU
-	EK5qGYR//PKgvbQpzOXIMCv5G+9e7dISGN8lqHLxn0kA35To1zaokdEYtqsLPGDo
-	O+SXbJp4E4EKx3b/8XjnaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777966923; x=
-	1778053323; bh=WUj5qGZXtgqTHeKTZGxwLw0uKYyn5Z942FTCLutI7QE=; b=K
-	2N5TkU7MTKwe87MjKxnElpFs5WuC7vLJN5QOlttZu89S0SmdyP99J/2DFgEAXWwo
-	8g8ZFBOoCPK05cS/dr1plcNGjwrtSYLdIxRhvlI+AvTzuwjLmn/7T/TLCX93jSDw
-	DbF08pvRGTUrE68ZH2dOvW717joL0Z/Wb6/lwW6BDyRgF1qmqSbkWX1Biv4AI/M5
-	QeU3ffKPA1kIJmk45yZz5BXNWTxHufnE1gWI63HlrgvX+ryls7dZmJW9LyXhEVPI
-	npnn3jJDh2R5+LkJAmpKHeQzHt0xGEJaebcsT+pbFn4+sRZBnMd5+1DFYVTvkx6m
-	dt2CyoJue/uPvJt2WW/Zg==
-X-ME-Sender: <xms:S5_5aQpJdzyIVAmChRFf7Xms18jo0vjSotlCaEEyatbQKhk39mWcTQ>
-    <xme:S5_5af-Ejs_9rvWMk_yjUT_DbOb-6-MUuX5wuYBppLgf6tBGTcjRiHtBRySEPxf8u
-    R7Uv4GVj7BvOxA3YFmRrfOJb0QoDoFXcUu5pwXZU9joWgytpg>
-X-ME-Received: <xmr:S5_5aceJtY4-WWhpxVl-61m-3o3y3v4c3D7VOzc1adpogV2rEJLSkyt9LmwzMZdvoak>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduudefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlih
-    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
-    guihdrhhhu
-X-ME-Proxy: <xmx:S5_5aZKSuAE51p21gV65XlQybFkUP-loG46fjkNDKkhFArK59XMVdQ>
-    <xmx:S5_5acgK5ldBAV5uA3hNjzXnL_sZjZxKcuA1Q-hhjMK0vTx8-xToYA>
-    <xmx:S5_5aXRL0Hmd6m75gT0xqbLEPZ6dcnVAFajTTCrSoHc7pEEhIZJ0tg>
-    <xmx:S5_5aWU0rhP4nuqBe6qrJkbuy71lNzGsZgYycI75Tp9nkU8owVpG3A>
-    <xmx:S5_5aV7Uqi5SitkI81ff5GS0-m1hexgbANoeQkqOCRipJnAlEaVF49eM>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 May 2026 03:42:01 -0400 (EDT)
-Message-ID: <3b37a5be-c3c8-461d-8382-04ae86de81cc@bsbernd.com>
-Date: Tue, 5 May 2026 09:41:59 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+GB989b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3116CC2BCB4;
+	Tue,  5 May 2026 07:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777967167;
+	bh=JT5wMT1sCsg0RU/PTayQKO84i81hI2p6dfYOztR/VGk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=g+GB989b1D6WCa0QN/ERbitOY7ZApGccfMd3uN+3EpYnDIfoQXsV/jhmUsDNjIpzx
+	 ymirHWum/1CD3WruoXTSUKcAg6tLryb69b2SMiLN59SpNlSfG2hmfc6JrIl+oqa+vU
+	 OC/yLYIE4+JmJoiymWsQZTnkfD9x7q8/EuZojKVf0+XQkttuc2MjS/clz35NXizRWW
+	 rEE8sO0pTdHGOoF0qsrCKCaWZOLEGHJorufkc8gWCTLBlBiVUgzc2fQW2h8BXGuMnk
+	 DAXrRABEIctXv69kQb/FnL5lNPO8xPZx0NPV/V+yQjX8p8A2E4a53Dm/r3ZLxzE4Wf
+	 dCCYR0zGPDdSA==
+From: Sasha Levin <sashal@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org,
+	tools@kernel.org,
+	x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v3 1/9] kernel/api: introduce kernel API specification framework
+Date: Tue,  5 May 2026 03:45:40 -0400
+Message-ID: <20260505074545.430334-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <177726106581.2478607.12645653803520391071.b4-review@b4>
+References: <20260424165130.2306833-1-sashal@kernel.org> <20260424165130.2306833-2-sashal@kernel.org> <177726106581.2478607.12645653803520391071.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] libfuse: always send the subtype to the kernel when
- using fsconfig()
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
- <177795853491.1133476.14673788941960394877.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US
-In-Reply-To: <177795853491.1133476.14673788941960394877.stgit@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+On Sun, Apr 26, 2026 at 11:37:45PM -0400, Nathan Chancellor wrote:
+> On Fri, 24 Apr 2026 12:51:21 -0400, Sasha Levin <sashal@kernel.org> wrote:
+> > diff --git a/kernel/Makefile b/kernel/Makefile
+> > index 6785982013dc..564315153643 100644
+> > --- a/kernel/Makefile
+> > +++ b/kernel/Makefile
+> > @@ -59,6 +59,9 @@ obj-y += dma/
+> >  obj-y += entry/
+> >  obj-y += unwind/
+> >  obj-$(CONFIG_MODULES) += module/
+> > +obj-$(CONFIG_KAPI_SPEC) += api/
+> > +# Ensure api/ is always cleaned even when CONFIG_KAPI_SPEC is not set
+> > +obj- += api/
+>
+> If $(CONFIG_KAPI_SPEC) is not set, shouldn't
+>
+>   obj-$(CONFIG_KAPI_SPEC) += api/
+>
+> evaluate to
+>
+>   obj- += api/
+>
+> anyways? Why the duplication? This is the only place in the kernel where
+> this would be needed?
 
+You are right, the explicit "obj- += api/" is redundant. Nicolas pointed
+to scripts/Makefile.clean which already evaluates obj- during
+'make clean', so the conditional gate alone is sufficient. Dropped in
+v4.
 
-On 5/5/26 07:23, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Although it's possible to supply a filesystem subtype when calling
-> fsopen(), it does not pass the stuff after the dot to the mount option
-> parsing mechanism like the legacy mount() call does.  Therefore, it's
-> necessary to pass the subtype explicitly via fsconfig() or else the
-> subtype will be missing from the /proc/mounts output.
-> 
-> For example, fuse4fs with the old mount API produces this:
-> 
-> /dev/sda /mnt fuse.ext4 rw,nosuid,nodev,relatime,user_id=0,group_id=0 0 0
-> 
-> But with the new mount API, we only get:
-> 
-> /dev/sda /mnt fuse rw,nosuid,nodev,relatime,user_id=0,group_id=0 0 0
-> 
-> ...which breaks fstests, which requires the fsname to match the string
-> that it passes to mount -t.  Update the comment in mount_service.c to
-> match this requirement.
-> 
-> Fixes: 14cb7b93bb9688 ("Add support for the new linux mount API")
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  lib/mount_fsmount.c  |   13 +++++++++++++
->  util/mount_service.c |    3 ++-
->  2 files changed, 15 insertions(+), 1 deletion(-)
-> 
-> 
-> diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
-> index 615271b09758c3..5e13b34ccfc610 100644
-> --- a/lib/mount_fsmount.c
-> +++ b/lib/mount_fsmount.c
-> @@ -359,6 +359,19 @@ int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
->  		goto out_free;
->  	}
->  
-> +	/* Configure subtype */
-> +	if (subtype) {
-> +		res = fsconfig(fsfd, FSCONFIG_SET_STRING, "subtype",
-> +			       subtype, 0);
-> +		if (res) {
-> +			err = -errno;
-> +			log_fsconfig_kmsg(fsfd);
-> +			fprintf(stderr, "fuse: fsconfig subtype failed: %s\n",
-> +				strerror(-err));
-> +			goto out_free;
-> +		}
-> +	}
-> +
->  	/* Configure source */
->  	res = fsconfig(fsfd, FSCONFIG_SET_STRING, "source", source, 0);
->  	if (res == -1) {
+> > diff --git a/kernel/api/.gitignore b/kernel/api/.gitignore
+> > new file mode 100644
+> > index 000000000000..ca2f632621cf
+> > --- /dev/null
+> > +++ b/kernel/api/.gitignore
+> > @@ -0,0 +1,2 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +/generated_api_specs.c
+>
+> This appears unused?
 
-Oh yes, that had slipped through. Going to apply this.
+Correct, leftover from an earlier prototype that generated a single
+combined .c file. Nothing in the current series produces
+generated_api_specs.c, so the .gitignore is removed entirely in v4.
 
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index bc5940bc900dad..3fbabfdd69300d 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -821,7 +821,8 @@ static void try_fsopen(struct mount_service *mo)
->  	/*
->  	 * As of Linux 7.0 you can pass subtypes to fsopen, but the manpage for
->  	 * fsopen only says that you can pass any value of the second column of
-> -	 * /proc/filesystems into fsopen.
-> +	 * /proc/filesystems into fsopen.  You must still call fsconfig() for
-> +	 * the subtype separately, however.
->  	 */
->  	mo->fsopenfd = fsopen(fsname(mo), FSOPEN_CLOEXEC);
->  }
-> 
+> > diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
+> > new file mode 100644
+> > index 000000000000..d1072728742a
+> > --- /dev/null
+> > +++ b/kernel/api/Kconfig
+> > @@ -0,0 +1,77 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +# Kernel API Specification Framework Configuration
+> > +#
+> > +
+> > +config KAPI_SPEC
+> > +	bool "Kernel API Specification Framework"
+> > +	default n
+>
+> I think 'default n' is tautological since 'n' is the default for all
+> bool symbols. Consider dropping it on all symbols throughtout this file.
 
-Can we integrate that into you series separately, as it is not merged yet?
+Dropped from KAPI_SPEC, KAPI_RUNTIME_CHECKS, and KAPI_SPEC_DEBUGFS in
+v4. KAPI_KUNIT_TEST already uses "default KUNIT_ALL_TESTS" and is left
+unchanged.
 
+Thanks for the review!
 
+--
 Thanks,
-Bernd
+Sasha
