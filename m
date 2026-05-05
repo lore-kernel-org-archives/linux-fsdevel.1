@@ -1,91 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D326027380A;
-	Tue,  5 May 2026 18:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3FD3C5540
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 18:16:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778004475; cv=none; b=QuDNX6S0BmSCbHye9vrw4ujNqRa2orq+udvEbLuoP323OTUDMsqJFBcPw1wUtyy2lTuXQ0k3M6KJQGPlmiJz/ptbwpKWCOiE+lSEwVfnfUo18knT/6W2migu69d1BzSO5dQ1WIAOSfiidRvPaqoe6HD2B0p9UUTNpzHz3NlTKjc=
+	t=1778004982; cv=none; b=Pzb0P1S+Rf6mRs3lehPR7JePvpeu7gNYYL2x+EWFeQGjiItcB407EIj0UtUJPtaCU5EZBbBKCSeoqT1BJCtJJ+BPBZPT+h9RPwp4UbRoieAlBf5sfAw3klRDgL/1o8/TGkidk/mXEL+beaDziE9Xqfx7syCQuzcxsxCFFWqXzRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778004475; c=relaxed/simple;
-	bh=nTW1FFOU6HDlagnPSEMnDHIHx1gyT83bIkb9h2/EE3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DT2NlCIZv+haW2W6tnG0H2ui+syolfn+Shi2U5e01GphECa1Ljac1WUnr4Jj2OJVVa5n1fMoLKobmwiBmSlLr2Qf8+fYztqO/f73Yp1uO81ILldNZ0YLNmhlEv/8Kof0wi/LjIg4lQz1+fJZOjur91XgLDNYvXMZ7jY10D9W6jM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qS4bWKYE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778004982; c=relaxed/simple;
+	bh=fhURrlvPMXLSIw16pLxHLerXAVLdXSPhNl4GlPyZdjY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:Subject:Content-Type; b=C4vaDemBmjXlSz8Rxf+898mhqakzJmvsB3SVCsgw8TMu6wpyg7xEwxWmciBjR3XLqEPFtw9/B7wojQsUGIBRRzDpn+gqTZsNDK1jiUFVlMHiDl0RKUT5/hUfD4ERq/kZwegtGSCryjT+8ouhwfCXvGjckMmfPRMwRcISIjClYhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=verbum.org; spf=pass smtp.mailfrom=verbum.org; dkim=pass (2048-bit key) header.d=verbum.org header.i=@verbum.org header.b=H/+TUDXI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=h41ZuoUE; arc=none smtp.client-ip=202.12.124.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=verbum.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=verbum.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qS4bWKYE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339F7C2BCB4;
-	Tue,  5 May 2026 18:07:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778004475;
-	bh=nTW1FFOU6HDlagnPSEMnDHIHx1gyT83bIkb9h2/EE3c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qS4bWKYEFtWomcLI+M3EN4b8P1d8Rb2lWL1eUOs2U+b0Ic2tJ3GcgQ35/76J4WtLt
-	 /AbW5otCJiT2gLNx1APWjeDpFg4EL/iVVn9gFNS2zCSiskQrLSmGjAbs/fZfl9LNTf
-	 NMxdEFxveI/h8Z4I+/EtTcOiswZitpbXTAyU1oYAqC2rWNlMSiF2mYkpTowK0MjAyI
-	 52YYcKJK15zdg3TrdAu3BmITKYKvIwA9rfbHh8GIPSt7CCiPZqJZCaVNTOSnj9bUTK
-	 5tSje0HTEdyOI35vylIfvlpi5L3kIpn51IjJbSi314TdHQUTue2bIXATW61gIvdUFs
-	 /pKej4TCRkUWQ==
-Date: Tue, 5 May 2026 20:07:50 +0200
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Colin Walters <walters@verbum.org>, 
-	Christoph Hellwig <hch@infradead.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	fsverity@lists.linux.dev
-Subject: Re: overlayfs: verity validation broken since f77f281b6118
-Message-ID: <lna7qosffjeymh553wfgew6txfhzb567xqfki7cvq5n6lfsrgg@tkb6wvmyvie6>
-References: <bf0ba588-002b-4860-848e-e806b193840a@app.fastmail.com>
- <20260501180725.GB2260@sol>
+	dkim=pass (2048-bit key) header.d=verbum.org header.i=@verbum.org header.b="H/+TUDXI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="h41ZuoUE"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 267587A009A;
+	Tue,  5 May 2026 14:16:20 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-04.internal (MEProxy); Tue, 05 May 2026 14:16:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verbum.org; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1778004979; x=1778091379; bh=Hp
+	PHvYdSwEnT29CVBNW5B3pwf4Xqk0Sr578QklFGbxU=; b=H/+TUDXIw90th9etoA
+	1a0cQAJu+p6gwvjN2lUHbSTwQWU1bpG2dBNLUjUVwM6PmwJ2DXiK8qfKQeI8PieU
+	EpcttKunVjBZd8CIlPf+avEeErkBWgY68nUvch2YLApU6BD5XQLG8k5x6KY5rtds
+	L57PKqngIccxRhYNPCQfLI++TilIE1A13/7cDJeEBa3Fmrb6TOkmpqm+GllZpS27
+	Gp2gJSjoDAH6PPlrWRE1sMCB2Dbe6L/KxL1CRsnQQrbIvbbdXckltdba7ed2/Rb3
+	tqfyhEm3zMm0L8uCjbAY2Eert8j96pUJ7/Osv3qSTnRUWN1uyUWxrAOrAGOyhq6/
+	m7gg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1778004979; x=1778091379; bh=HpPHvYdSwEnT29CVBNW5B3pwf4Xq
+	k0Sr578QklFGbxU=; b=h41ZuoUE7vGGoY8JlyF+hpBJU7OXUTvTOeuE2pAFKT5v
+	yvfaIlG15aseUgZRED69wk0IEFTNkhSaRK/9STtBgVyuf0KzcnSLDDK9RYMzoq6h
+	akCemOpjpQC2SK7VV+pvIl4msCYutzWMcfwtMl57k2SZQiMlSHu0Sma9syhpubap
+	vMYAs1tW4m0j/SSPDhaKxLv0rv30bHkIGRMemzzt3yQzheeL1i8ObsZEi9ds+nuS
+	CEJnxMJT2OP/pHeSHRBd2ZBIOEX5E0gd1If+onIAVZZ/4RiJrxFICV+vHTPpIcbG
+	0wwf6R90hMxQ0xj3N4qpaMkFZ3aZ8okYUtSbZR3l3Q==
+X-ME-Sender: <xms:8jP6aVHVwRUIWdKDH9hgptNIy81SR5NhOpXSUFz_tFw3kFmC0OY_7g>
+    <xme:8jP6aVJtaSkbGsPsKlIPU0EuYPgRZbkSzzMQz_oeaUDsDlntrkpVB_N59Vp5wCkLn
+    vfN14EtDHhczzuJLb9eHe17U2DQ_Z_mecHqj9FT6fR5Ksme3bs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutddvgedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkffutgfgsehtjeertdertddtnecuhfhrohhmpedfveholhhinhcu
+    hggrlhhtvghrshdfuceofigrlhhtvghrshesvhgvrhgsuhhmrdhorhhgqeenucggtffrrg
+    htthgvrhhnpeelfeejkefggfejfeejvedtveeglefgtdffieekgfetjeejveegfeevffek
+    gfetudenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepfigrlhhtvghrshesvhgvrhgsuhhmrdho
+    rhhgpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
+    grmhhirhejfehilhesghhmrghilhdrtghomhdprhgtphhtthhopegvsghighhgvghrshes
+    ghhoohhglhgvrdgtohhmpdhrtghpthhtohephhgthhesihhnfhhrrgguvggrugdrohhrgh
+    dprhgtphhtthhopehfshhvvghrihhthieslhhishhtshdrlhhinhhugidruggvvhdprhgt
+    phhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtoheplhhinhhugi
+    dqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:8jP6aTlGZlsqoMAmvEveuD06N2WfBpsBVaEwGeF6pMv8fLadl893kA>
+    <xmx:8jP6aRw7X4c93dfF50Qn0t15s8PFCbdKdpWvMp5X_c2urkcrw1D88w>
+    <xmx:8jP6aYrJfwbTbDC0KKYHfW85k2y-mt_gqsVUkHXv9R6pFb4iyx9kjw>
+    <xmx:8jP6aQ7QgAltccUrVvimIvQox95d7fvOb1Z4huIJ63lkAdRsS9dEJA>
+    <xmx:8zP6accTm9kmV7LRdEMcS4PnLSXRh4_cmcNJ9fjSy0bV40VR95pXSB5r>
+Feedback-ID: ibe7c40e9:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B4CBB780070; Tue,  5 May 2026 14:16:18 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260501180725.GB2260@sol>
+Date: Tue, 05 May 2026 14:15:58 -0400
+From: "Colin Walters" <walters@verbum.org>
+To: fsverity@lists.linux.dev,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Cc: "Eric Biggers" <ebiggers@google.com>,
+ "Miklos Szeredi" <miklos@szeredi.hu>, "Amir Goldstein" <amir73il@gmail.com>,
+ "Christoph Hellwig" <hch@infradead.org>
+Message-Id: <6630d44f-967d-41f0-81ce-6958b371465a@app.fastmail.com>
+Subject: [PATCH] ovl: fix verity lazy-load guard broken by fsverity_active() semantic
+ change
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 2026-05-01 11:07:25, Eric Biggers wrote:
-> [+Cc fsverity@lists.linux.dev]
-> 
-> On Fri, May 01, 2026 at 01:14:54PM -0400, Colin Walters wrote:
-> > Hi Christoph & Eric,
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f77f281b6118 broke composefs's usage of overlayfs verity=require, this was reported originally in https://github.com/bootc-dev/bootc/issues/2174
-> > 
-> > There's some output from an agent run I had in the <details> there, but here's an xfstests patch that passes on without that commit and fails with it.
-> > 
-> > From 14231122bfd1e41337e4fb847acbbe038457c32a Mon Sep 17 00:00:00 2001
-> > From: Colin Walters <walters@verbum.org>
-> > Date: Fri, 1 May 2026 09:45:58 -0400
-> > Subject: [PATCH] overlay/118: test fsverity lazy load through metacopy overlay
-> > 
-> > Reproduces the regression reported at:
-> > https://github.com/bootc-dev/bootc/issues/2174
-> > 
-> > A recent change in how fsverity state was cached in memory
-> > I think caused inodes not in cache to appear to have
-> > missing verity=require for overlayfs.
-> > 
-> > This test catches that.
-> > 
-> > Generated-by: OpenCode (Claude Sonnet 4.5)
-> > Signed-off-by: Colin Walters <walters@verbum.org>
-> 
-> Sorry about that.  I guess it's because the semantics of
-> fsverity_active() changed to be basically the same as IS_VERITY(), and
-> that broke ovl_ensure_verity_loaded() which does
-> '!fsverity_active(inode) && IS_VERITY(inode)'.  I guess now it should
-> do: IS_VERITY(inode) && fsverity_get_info(inode) == NULL.
-> 
-> - Eric
-> 
+Commit f77f281b6118 ("fsverity: use a hashtable to find the fsverity_info")
+that broke `ovl_ensure_verity_loaded` in the case when the inode was not in core.
 
-I guess this could be also fixed by patch 2 and 3 from my XFS
-fsverity support [1]
+The APIs here are in my opinion now confusing, but this patch intentionally
+aims for a minimized fix by using `fsverity_get_info()` which ensures
+the hash table is loaded.
 
-1: https://lore.kernel.org/fsverity/20260428083332.768693-1-aalbersh@kernel.org/T/#t
+Fixes: f77f281b6118 ("fsverity: use a hashtable to find the fsverity_info")
+Cc: stable@vger.kernel.org
+Link: https://github.com/bootc-dev/bootc/issues/2174
+Signed-off-by: Colin Walters <walters@verbum.org>
+---
+ fs/overlayfs/util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+index 7b86a6bac644..bfdf9310ee78 100644
+--- a/fs/overlayfs/util.c
++++ b/fs/overlayfs/util.c
+@@ -1354,7 +1354,7 @@ int ovl_ensure_verity_loaded(const struct path *datapath)
+ 	struct inode *inode = d_inode(datapath->dentry);
+ 	struct file *filp;
+ 
+-	if (!fsverity_active(inode) && IS_VERITY(inode)) {
++	if (IS_VERITY(inode) && !fsverity_get_info(inode)) {
+ 		/*
+ 		 * If this inode was not yet opened, the verity info hasn't been
+ 		 * loaded yet, so we need to do that here to force it into memory.
 -- 
-- Andrey
+2.52.0
+
