@@ -1,324 +1,192 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A421F5847;
-	Tue,  5 May 2026 19:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B3B3CF02C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 20:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778007620; cv=none; b=jPbMdNNThAsJUQbyFu56UKPQ8iQwJayW/OUoVVHX1fYVhstDrQqMUPIKadKli8KtB52/dJ6+/jvAIcthhxNEQaKBwxeKsqJGunBuc+JIh0KchzRR+nshu7u78MWdxe2ZQPnvbgDn5AJ1SLDZbZkEAvrbXG9fwVoIxZC25uVLs0s=
+	t=1778011350; cv=none; b=u4Bel/9iACc/jo/U80mzz5ENZ4F+5Z22fymndXjjGkwADzdhMPO/6xqUDMtLf/GN7Lj98xWpXK4FrD48P+/m545+q9MLY3+NAGCRGENWO6nd87IwjWHhQ/iVppUKf6yVwMKEOLP8ZPGkTyA6D29gX06xs2GKIiuSyfhpb/TpQuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778007620; c=relaxed/simple;
-	bh=/OcYNCE/fDC5kwoNxmn93OOTbnEEIB7Un/u2ZoKZZmM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MS9MDYoVIjIVP861RhZ+D8rxnu2A9elUYC7XC7YQFzr9NDkgU9i1zw4MnVrSYPeHTZK1hha2kBnuvOrsj8PCf7NPu4i7v5sWyTgTigbt0MR5BXiQQ7JES/wz2Xjln8wiyqSFXiaO6MWMk4XfOrb3MaMQIO06pgVPO62rPPNiihE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pw/HlPtL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778011350; c=relaxed/simple;
+	bh=o/cAr7n0MC+NVVVX6dfW2cTfDGKeaxI/JreYgNvb15E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ba8zoPBDjmQ20B/Ih1H7pq8YQElbHs/Rw+9X6mrNkZ+5foTx8ou4TrM7qYJuni3m6lPPOwKlrSxnNXz/gvPLKO570+MHL2sG4gEaupGLN3DeOuYFlC2DYvwuVqua9BEdv4uAyL8uxfjTrGkl+3sk/EPhby/FQVFEu7yCOke933o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=ZMVSAzCi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GM41qvNz; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pw/HlPtL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0E64C2BCB4;
-	Tue,  5 May 2026 19:00:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778007620;
-	bh=/OcYNCE/fDC5kwoNxmn93OOTbnEEIB7Un/u2ZoKZZmM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Pw/HlPtLi9QZuSy0R/GnGVx/M088vN+is++AsVyK+HkM65BpmXKrjG1+FtVEufNbF
-	 1JTwPCDtTtFASeItu0D/qS/p7Hrmo5kPk8V12o7x+VtPlFlstl0AoU1oma0wToRPKE
-	 qvaLSBSW7sZQltZopaacSX5nIxkIsQBYz1vltvTlMljHo4qJzJZK5ps13ccTFCnyWu
-	 voQfWk/C0S4JQJRq0Vn56aWoQxcFPCikGxFRGRzIJojN3iKBreYa0PeZRgr3y9nngK
-	 3YZcffK8BS+CHZ/ln1P9+7SFkSpmhTQdnT7HP6WwLXTuPzVlsPl8sbwh8BqXTmk2Mo
-	 wYkZ3nLfCV/lw==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Tue, 05 May 2026 20:59:49 +0200
-Subject: [PATCH v6 2/2] mm: kick writeback flusher for IOCB_DONTCACHE with
- targeted dirty tracking
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="ZMVSAzCi";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GM41qvNz"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 2F809EC00D4;
+	Tue,  5 May 2026 16:02:27 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Tue, 05 May 2026 16:02:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778011347;
+	 x=1778097747; bh=LoirpClyky8S8tuRpSnlDGXDkBfXFThbkKlmwY4Ps4E=; b=
+	ZMVSAzCi5NQ98kVTeok5hA9yR4prbAN57Vj/Ux3lVGtAlx+r2YnX07am5khhpWox
+	xRt2UO1k7zm2V7Oil84EYf/3LNAGGnZ2wJfYtV94t4/a8OhuM93OUDe3zznlTQGe
+	ul+96Kd1dPOoTzD48BORyV4MIKsspT8/D+YPAdYg/r/9PFtBTms2T0xcRRxEbhBp
+	qdMHAt2MZHNdrZyxRItkCfJzcee1WryTul54sa8/LXAe5gO6u06AfkVtuOOGC3uT
+	YC8xAr+d20Ba2TpPAAmcaStQ1eDQO7xwKwjbEmF+/xQHHV+iCpdC7Q5Bpkr/HKyP
+	vCZiHlXN4IzTJ8qDPMfY9A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778011347; x=
+	1778097747; bh=LoirpClyky8S8tuRpSnlDGXDkBfXFThbkKlmwY4Ps4E=; b=G
+	M41qvNztcCa9BMRR6/H1+ModPhXk8PMnDoF/MHwrlrHjDy/gBsJz0ATABMDwNrvg
+	w+TUKJsKNr8ni5CL7u61wmXtkOV6BIe7RDZD0X7YKtNAbRpJ7pNisjQhiaYyyln/
+	SoqZWjSTrmlm92/HBMxbIvdAnaExhQHcOOOrHo3vaWranpMmA1GYfDbWacRDfcWm
+	az1cWdHeFKSoozaGK9+PsVcl8gIVLZn4m13sGS3cmo7Ku4GEnYmvK2QrWa0PnubU
+	OCcfpb4lqBWO4hbfWozveTseZf2UyOH6Z04xR4g2kq4KX6lvwSzSi2Hcd1OoM/Or
+	Sst8izaBUC2qhndRedFeA==
+X-ME-Sender: <xms:0kz6aRe-QvDOl8teLAq-MU4rU0CEOH6byXzm_2sYWbemAkXym3D8Uw>
+    <xme:0kz6aYgJVVaVA8oj-Lkx2zblEvip8gYhzCBMtH2vW0Zjtdyf08-9XAyxO6XWKz05M
+    rl60tG2zLioDdtNCRGeGo_4ymr0rawwHT5Rjs3ZHV30Lybsd-vs>
+X-ME-Received: <xmr:0kz6aRwOm0hUOHnvx_odPi_rzLtH0DYze_yx8U92qTfh_nPO0uUIxEcmXmlMNeE6NkSKL9IJfSpTHI2uB_S1zToUBHQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutddviedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlih
+    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
+    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
+    guihdrhhhu
+X-ME-Proxy: <xmx:0kz6acNIshGEPmdaWYmfRx8y3KnCOxtV39rhqfcBOpEZH2bSq8Wjmg>
+    <xmx:0kz6aaWjFPL0rSccgXNmkdE4pHVmu3gbCQC6OjXM7gQdYPjgcnBUjw>
+    <xmx:0kz6aY3vuY5gpnFbVBGhFof8TxczspTHvVoYUC_sA1lsgQQAmpXryA>
+    <xmx:0kz6aQqJo9mJ9hbsEJlYGpFg_vhbYn1TpyJLINqkM9DO-PF5d6zVMA>
+    <xmx:00z6acGbCA6QjENs9Kw3Vj1PRJT94hnmQsJSAZ-UxX03dnGPoEyH9UNE>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 May 2026 16:02:22 -0400 (EDT)
+Message-ID: <0de919e0-7d90-4fad-bf93-656bfd28ad7d@bsbernd.com>
+Date: Tue, 5 May 2026 22:02:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260505-dontcache-v6-2-66463805dd6a@kernel.org>
-References: <20260505-dontcache-v6-0-66463805dd6a@kernel.org>
-In-Reply-To: <20260505-dontcache-v6-0-66463805dd6a@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Ritesh Harjani <ritesh.list@gmail.com>, 
- Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-nfs@vger.kernel.org, linux-mm@kvack.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9615; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=/OcYNCE/fDC5kwoNxmn93OOTbnEEIB7Un/u2ZoKZZmM=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBp+j4zmzZ7nDbB+fjQU1X+H+KbEaew/Rb2QF6q/
- oHNf3dZOuWJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCafo+MwAKCRAADmhBGVaC
- FaZgEACq12/XKwbO+w71Vhf3mCc0WqNQSjceQThHmpkBQv9ZlF8uO/C7lf/v7idibv62hAJPRCC
- H3Uj4IauQdId4XWPj9SxBYQQASNuK+0qILP0XkR0YChV4RZvLPDPuT0ty4BKyyd3G76icATGdZB
- nKc0pdzr/YNo8RK5OI1iOpnlxM+l2jiiI182RtkmnatMQZZ5gfPqNwMSwayO16kMambplXFRMEp
- We13egbqmz7ayZO+RAnbdcpGbqU4doJq9GLZQCK8QNulUwxdmGsjgnB/TRwRA19/XBN1g3L4mSu
- ektu96BSyIIIJ1eWDHCfvNjO83FIlQ3Pal9oPTzrCm8aAUe3cLxiwlVX+YtIJE0smP5JO8x+auv
- iPd8j59q1eton3j/vUG/kuICFmTVHdYguxpBJ7BkbPwOMWPS9RQvj42+TzxwiJCQXqNPloimRKl
- JHWttx/Y0OjA4pypoGH5K8+n7MaFckzIv+S7T8rJXs85UMHci/TnuI6soZn4B7q7ypnxV164bXv
- ZEwwmjaXSgFoR3L/KZ9d/dQXbjr8weRraFl55IX+qcmQ4Anw1DuJqRSaYS8I57lor9WkA+u8yth
- TkogGYAY87faDji9bazKU3HLXprV5pSq9Agpn5Rtw5N+u/oQCY2cN9eM3X26fsP116+XoTxAF0x
- 79lm31kEMtSuNcQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1.1 1/2] libfuse: don't use SYNC_INIT unless asked for
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
+References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
+ <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+ <20260505164428.GC7739@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260505164428.GC7739@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-filemap_flush_range() on every write, submitting writeback inline in
-the writer's context.  Perf lock contention profiling shows the
-performance problem is not lock contention but the writeback submission
-work itself — walking the page tree and submitting I/O blocks the writer
-for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
-(dontcache).
 
-Replace the inline filemap_flush_range() call with a flusher kick that
-drains dirty pages in the background.  This moves writeback submission
-completely off the writer's hot path.
 
-To avoid flushing unrelated buffered dirty data, add a dedicated
-WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
-the per-wb WB_DONTCACHE_DIRTY counter to determine how many pages to
-write back.  The flusher writes back that many pages from the oldest dirty
-inodes (not restricted to dontcache-specific inodes). This helps
-preserve I/O batching while limiting the scope of expedited writeback.
+On 5/5/26 18:44, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> fuse2fs calls fuse_main, then starts threads from ->init.  It doesn't
+> call fuse_daemonize_early_start because I haven't ported it to use any
+> of the new APIs.  I don't have io_uring enabled for fuse on my dev box.
+> 
+> fuse_main calls fuse_session_mount calls fuse_session_mount_new_api
+> calls session_start_sync_init.  At the start of the function,
+> se->want_sync_init, se->uring.enable, and daemonize.active are all
+> false.  The first branch is not taken, so we call FUSE_DEV_IOC_SYNC_INIT
+> and enable sync_init even though the user didn't ask for that and didn't
+> prepare for it either.
+> 
+> FUSE_DEV_IOC_SYNC_INIT succeeds, so we send the synchronous FUSE_INIT
+> from mount, which calls fuse2fs' init() method.  That starts the
+> background threads and returns.  Upon return to the kernel, the mount()
+> now succeeds, and the next thing that fuse_main does is call
+> fuse_daemonize().  Since we didn't call fuse_daemonize_early_start, the
+> daemonize forks the process and the threads die with the parent.
+> 
+> If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
+> maintain compatibility with older fuse servers that only support
+> asynchronous FUSE_INIT.
+> 
+> Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> ---
+> v1.1: improve commit message, refine logging logic
+> ---
+>  lib/fuse_lowlevel.c |   18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+> index 0e16845d2f14ff..83158d02bb8827 100644
+> --- a/lib/fuse_lowlevel.c
+> +++ b/lib/fuse_lowlevel.c
+> @@ -4475,9 +4475,21 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
+>  {
+>  	int err, res;
+>  
+> -	if (!se->want_sync_init &&
+> -		(se->uring.enable && !fuse_daemonize_is_used())) {
+> -		if (se->debug)
+> +	if (!se->want_sync_init) {
+> +		/*
+> +		 * SYNC_INIT is required for io_uring to initialize without
+> +		 * deadlocking the kernel if the fuse server crashes.
+> +		 *
+> +		 * !fuse_daemonize_is_used implies the fuse server doesn't know
+> +		 * about any of the SYNC_INIT APIs, so we don't enable sync
+> +		 * init or generate log messages.
+> +		 */
+> +		if (se->uring.enable)
+> +			fuse_log(FUSE_LOG_DEBUG,
+> +					"fuse: io_uring broken with async init\n");
 
-Like WB_start_all, the WB_start_dontcache bit coalesces multiple
-DONTCACHE writes into a single flusher wakeup without per-write
-allocations.  Use test_and_clear_bit to atomically consume the kick
-request before reading the dirty counter and starting writeback, so that
-concurrent DONTCACHE writes during writeback can re-set the bit and
-schedule a follow-up flusher run.
+So want_sync_init is not enabled and it still logs this? Note that
+default libfuse does not have a way to set log levels.
 
-Read the dirty counter with wb_stat_sum() (aggregating per-CPU batches)
-rather than wb_stat() (which reads only the global counter) to ensure
-small writes below the percpu batch threshold are visible to the flusher.
+> +		else if (!fuse_daemonize_is_used())
+> +			; /* empty */
 
-In filemap_dontcache_kick_writeback(), set the WB_start_dontcache bit
-inside the unlocked_inode_to_wb_begin/end section for correct cgroup
-writeback domain targeting, but defer the wb_wakeup() call until after
-the section ends, since wb_wakeup() uses spin_unlock_irq() which would
-unconditionally re-enable interrupts while the i_pages xa_lock may still
-be held under irqsave during a cgroup writeback switch.
+Unless I misread it, it would still go into the return 0?
 
-Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
-visibility.
+> +		else if (se->debug)
+>  			fuse_log(FUSE_LOG_DEBUG,
+>  					"fuse: sync init not enabled\n");
 
-dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
-xfs on NVMe, fio io_uring):
+And now every time a log message here.
 
-Buffered and direct I/O paths are unaffected by this patchset. All
-improvements are confined to the dontcache path:
+>  		return 0;
 
-Single-stream throughput (MB/s):
-                        Before    After    Change
-  seq-write/dontcache      298      897    +201%
-  rand-write/dontcache     131      236     +80%
+Why can't we change it to
 
-Tail latency improvements (seq-write/dontcache):
-  p99:    135,266 us  ->  23,986 us   (-82%)
-  p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
+if (!fuse_daemonize_is_used() && !want_sync_init)
+       return 0;
 
-Multi-writer (4 jobs, sequential write):
-                                Before    After    Change
-  dontcache aggregate (MB/s)     2,529    4,532     +79%
-  dontcache p99 (us)             8,553    1,002     -88%
-  dontcache p99.9 (us)         109,314    1,057     -99%
 
-  Dontcache multi-writer throughput now matches buffered (4,532 vs
-  4,616 MB/s).
+If someone uses then new mount API, that someone has also tested sync
+init. At best we could change want_sync_init to an integer so that a
+daemon could disable sync init.
+For testing I'm probably also going to add an env variable that allows
+to disable sync init.
 
-32-file write (Axboe test):
-                                Before    After    Change
-  dontcache aggregate (MB/s)     1,548    3,499    +126%
-  dontcache p99 (us)            10,170      602     -94%
-  Peak dirty pages (MB)          1,837      213     -88%
+Btw, during the meetings I had asked AI to write tests for sync init,
+looks like "ro" doesn't work yet. AI had created patch to fix that, but
+I don't apply either the test nor the fix yet, need to carefully read
+through it, but need to do something else before going to bed.
 
-  Dontcache now reaches 81% of buffered throughput (was 35%).
 
-Competing writers (dontcache vs buffered, separate files):
-                                Before    After
-  buffered writer                  868      433 MB/s
-  dontcache writer                 415      433 MB/s
-  Aggregate                      1,284      866 MB/s
-
-  Previously the buffered writer starved the dontcache writer 2:1.
-  With per-bdi_writeback tracking, both writers now receive equal
-  bandwidth. The aggregate matches the buffered-vs-buffered baseline
-  (863 MB/s), indicating fair sharing regardless of I/O mode.
-
-  The dontcache writer's p99.9 latency collapsed from 119 ms to
-  33 ms (-73%), eliminating the severe periodic stalls seen in the
-  baseline. Both writers now share identical latency profiles,
-  matching the buffered-vs-buffered pattern.
-
-The per-bdi_writeback dirty tracking dramatically reduces peak dirty
-pages in dontcache workloads, with the 32-file test dropping from
-1.8 GB to 213 MB. Dontcache sequential write throughput triples and
-multi-writer throughput reaches parity with buffered I/O, with tail
-latencies collapsing by 1-2 orders of magnitude.
-
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/fs-writeback.c                | 59 ++++++++++++++++++++++++++++++++++++++++
- include/linux/backing-dev-defs.h |  2 ++
- include/linux/fs.h               |  6 ++--
- include/trace/events/writeback.h |  3 +-
- 4 files changed, 65 insertions(+), 5 deletions(-)
-
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index a65694cbfe68..faf15cf84c68 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -2373,6 +2373,27 @@ static long wb_check_start_all(struct bdi_writeback *wb)
- 	return nr_pages;
- }
- 
-+static long wb_check_start_dontcache(struct bdi_writeback *wb)
-+{
-+	long nr_pages;
-+
-+	if (!test_and_clear_bit(WB_start_dontcache, &wb->state))
-+		return 0;
-+
-+	nr_pages = wb_stat_sum(wb, WB_DONTCACHE_DIRTY);
-+	if (nr_pages) {
-+		struct wb_writeback_work work = {
-+			.nr_pages	= nr_pages,
-+			.sync_mode	= WB_SYNC_NONE,
-+			.range_cyclic	= 1,
-+			.reason		= WB_REASON_DONTCACHE,
-+		};
-+
-+		nr_pages = wb_writeback(wb, &work);
-+	}
-+
-+	return nr_pages;
-+}
- 
- /*
-  * Retrieve work items and do the writeback they describe
-@@ -2394,6 +2415,11 @@ static long wb_do_writeback(struct bdi_writeback *wb)
- 	 */
- 	wrote += wb_check_start_all(wb);
- 
-+	/*
-+	 * Check for dontcache writeback request
-+	 */
-+	wrote += wb_check_start_dontcache(wb);
-+
- 	/*
- 	 * Check for periodic writeback, kupdated() style
- 	 */
-@@ -2468,6 +2494,39 @@ void wakeup_flusher_threads_bdi(struct backing_dev_info *bdi,
- 	rcu_read_unlock();
- }
- 
-+/**
-+ * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
-+ * @mapping:	address_space that was just written to
-+ *
-+ * Kick the writeback flusher thread to expedite writeback of dontcache dirty
-+ * pages. Queue writeback for the inode's wb for as many pages as there are
-+ * dontcache pages, but don't restrict writeback to dontcache pages only.
-+ *
-+ * This significantly improves performance over either writing all wb's pages
-+ * or writing only dontcache pages.  Although it doesn't guarantee quick
-+ * writeback and reclaim of dontcache pages, it keeps the amount of dirty pages
-+ * in check. Over longer term dontcache pages get written and reclaimed by
-+ * background writeback even with this rough heuristic.
-+ */
-+void filemap_dontcache_kick_writeback(struct address_space *mapping)
-+{
-+	struct inode *inode = mapping->host;
-+	struct bdi_writeback *wb;
-+	struct wb_lock_cookie cookie = {};
-+	bool need_wakeup = false;
-+
-+	wb = unlocked_inode_to_wb_begin(inode, &cookie);
-+	if (wb_has_dirty_io(wb) &&
-+	    !test_bit(WB_start_dontcache, &wb->state) &&
-+	    !test_and_set_bit(WB_start_dontcache, &wb->state))
-+		need_wakeup = true;
-+	unlocked_inode_to_wb_end(inode, &cookie);
-+
-+	if (need_wakeup)
-+		wb_wakeup(wb);
-+}
-+EXPORT_SYMBOL_GPL(filemap_dontcache_kick_writeback);
-+
- /*
-  * Wakeup the flusher threads to start writeback of all currently dirty pages
-  */
-diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-index cb660dd37286..4f1084937315 100644
---- a/include/linux/backing-dev-defs.h
-+++ b/include/linux/backing-dev-defs.h
-@@ -26,6 +26,7 @@ enum wb_state {
- 	WB_writeback_running,	/* Writeback is in progress */
- 	WB_has_dirty_io,	/* Dirty inodes on ->b_{dirty|io|more_io} */
- 	WB_start_all,		/* nr_pages == 0 (all) work pending */
-+	WB_start_dontcache,	/* dontcache writeback pending */
- };
- 
- enum wb_stat_item {
-@@ -56,6 +57,7 @@ enum wb_reason {
- 	 */
- 	WB_REASON_FORKER_THREAD,
- 	WB_REASON_FOREIGN_FLUSH,
-+	WB_REASON_DONTCACHE,
- 
- 	WB_REASON_MAX,
- };
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 11559c513dfb..df72b42a9e9b 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2624,6 +2624,7 @@ extern int __must_check file_write_and_wait_range(struct file *file,
- 						loff_t start, loff_t end);
- int filemap_flush_range(struct address_space *mapping, loff_t start,
- 		loff_t end);
-+void filemap_dontcache_kick_writeback(struct address_space *mapping);
- 
- static inline int file_write_and_wait(struct file *file)
- {
-@@ -2657,10 +2658,7 @@ static inline ssize_t generic_write_sync(struct kiocb *iocb, ssize_t count)
- 		if (ret)
- 			return ret;
- 	} else if (iocb->ki_flags & IOCB_DONTCACHE) {
--		struct address_space *mapping = iocb->ki_filp->f_mapping;
--
--		filemap_flush_range(mapping, iocb->ki_pos - count,
--				iocb->ki_pos - 1);
-+		filemap_dontcache_kick_writeback(iocb->ki_filp->f_mapping);
- 	}
- 
- 	return count;
-diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-index bdac0d685a98..13ee076ccd16 100644
---- a/include/trace/events/writeback.h
-+++ b/include/trace/events/writeback.h
-@@ -44,7 +44,8 @@
- 	EM( WB_REASON_PERIODIC,			"periodic")		\
- 	EM( WB_REASON_FS_FREE_SPACE,		"fs_free_space")	\
- 	EM( WB_REASON_FORKER_THREAD,		"forker_thread")	\
--	EMe(WB_REASON_FOREIGN_FLUSH,		"foreign_flush")
-+	EM( WB_REASON_FOREIGN_FLUSH,		"foreign_flush")	\
-+	EMe(WB_REASON_DONTCACHE,		"dontcache")
- 
- WB_WORK_REASON
- 
-
--- 
-2.54.0
+Thanks,
+Bernd
 
