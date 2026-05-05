@@ -1,96 +1,105 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F2D3AE1B9
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 17:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51838480947;
+	Tue,  5 May 2026 17:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778000978; cv=none; b=Bhreo/BOStjPFSqrKxMOQu6KbuyA8WiGaMHQX+OJJUgAGN8GgCdKXsuXclXjFRSQ5eXsWVmc+bSDevY3GfOPI9LvrPCO3Wjyr4jOzxFOP1HLEs8WWTIvoE74h35bLiZ+UXk9/w4RVrXl8QXh7Ru8vJL8M936DFJHxWUZndDPXwc=
+	t=1778001587; cv=none; b=EUkx0V61FESigt9HULXa0fcBAC35FAYLYwTuftYxw1+awSRlWI4zO6ZfJWk5LYagNrdm64rW0dFAUb9eVGyQeH7/fYMNpjknpgo16OFbJkdi2VBUe51PQ4cKsfAZmxKMOg+qxB/iMu+8pWSvzQTAfJyjKkICfzQCzh7Ail4/uT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778000978; c=relaxed/simple;
-	bh=3IzOvHwnS1hWFqQ73c/CZIyZVXZ1QDNcTIoxjObBN4w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VOyNMkpu7ksidwWQ7q339+D4npx6hv02rUHiKWMYNq+vVRd9CVKBfVbkZDr3kCyoMYjiPoHHzs3AlxeS652qatrUgXXpKQxPYv9MlwX+Y1yufWdcvLimw1CmHKM+MCE+4YU0wR431In+XBk1GxbuJn9LEXkq0c9RVDDIxN95YKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=BcrApQJe; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1778001587; c=relaxed/simple;
+	bh=w366vW6gTE7PZjWFzruIX59ph/Eyj/Rm0AE1LoX/bA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E4K2Z+YC/mo3uQdhh5VyGURB5LOb2qDVYJzUg2Sz8pmmGOd5M4IRE5AVzM9vck4ZIRqTUO+AE/yAgpYQe1Jrf4mgWNRZiiEyF834nY4QecC7m+HGL6CISkvxa5r0gsbJ+3HIPEeeL9UeaKJM56UJonWkqy+AsH2WiR4CWKTlK+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYEEPYce; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="BcrApQJe"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-67c2b4809baso5660310a12.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 05 May 2026 10:09:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1778000975; x=1778605775; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4SI0ve6DPikOEnjOv3AEgY0fhZ6kWI9KucnWlT3Noj0=;
-        b=BcrApQJe+/dCDw9h3fdu7U6FClLmsYwM0uo+8UpEFw5UB17Pdy6r6n8EHvn+ee43Lv
-         0QCi8BTFG5el88omZ9Q/O0b2QhjiydANrHRN8pznpczo8lVKBZreqZlOT1P904KC1j0W
-         IHGlEqYFzmZu+5mmVk7es1+a8AYmdQqAvVIOA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778000975; x=1778605775;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4SI0ve6DPikOEnjOv3AEgY0fhZ6kWI9KucnWlT3Noj0=;
-        b=d4apvHGoBeGRjRTKpABdCYAYfOd1G2IOTFKznBofY/VmekRMotVuxMx5UnADoVar8J
-         Gs9g1JFWIknOei4njkShrpID5DwjY1rX2S6oSBGtGlaKKHBodm6BHZJzGH1y/ssO8AX+
-         x1Lt5Ts7gKalUrTiMbUh/FEV6pRYtLTxRz6v5m0UBSgpF1m/GvGPX8y/neAXPI08Otpy
-         G1x0Iw6/1TCKCQRHedAMUzjCTRA4+useEKOiCvbBRvmG78W2AR0K870F3fTzP0FcaUgy
-         L/FYI5m04Qh9Od4cA8PLwi7q54hMS/mAImagGENEtDOudFMkzOqHUaHtjxUsiDxiX+n2
-         ZIFQ==
-X-Gm-Message-State: AOJu0YwvLOIr74yUpMHmhk/yZiOve6UF5QPYC0XNTr1GgY7/f6Ad5EI+
-	pDMIRxMYG3AK8h+wGnk6X53hy+hhPk5LKwgY6xREYxkIguWtVcEU/UUB2E9b+MtWNCMkS1Ju98G
-	y613WpOQ=
-X-Gm-Gg: AeBDietn5GpoVBfGTDoVNv/5sS/1553kUDcdt1ZxSp1FHecQI3B09MCfEPfP96AHU7m
-	LThxa4cdTg/Kef4gp6LB0KQpaOuplh3SjnME0D4Z4172F2xIYiRhj0sDDyesJTvURZxUYcf6by3
-	vrZGh3GVUVs4yegkaVS6DZnxtR/wdMUu+nssAbkLXDFcLOg4JHVP2ybyUsotghrk9XJJfIbVOXq
-	U+brzWrjnYyacUbFQNe5rEbdnqhfhbRE5TfslkMOthblTBs5YnGoTP9WsCCaUUvz6Vm1mMI6zYH
-	GGBajpd/1m5MFBr6iaqRvCdjrEmX44h/wCABDd8XNVDZDSg2zO0+AKFDSPUq0eW77yB1XECH30O
-	9EJD4FWWgPOx2x37X1PsCsqcqZHKNKumudMvL5GpsSZ6JHDlInkQaeaOheiioCPDouChS6obsdJ
-	IMeughLGudWdw86zyXK9PEZ0karpEHw90OWhJkwS/veHGnRq4FQJAkr+XM+JciDIHkWkd0IxuuE
-	Y3gfeUnB4Y=
-X-Received: by 2002:a17:907:3f87:b0:bc3:c9e9:1534 with SMTP id a640c23a62f3a-bc3c9e91747mr326771766b.30.1778000974603;
-        Tue, 05 May 2026 10:09:34 -0700 (PDT)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bc1dd343108sm256784466b.63.2026.05.05.10.09.33
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2026 10:09:33 -0700 (PDT)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bc177ebda91so483196866b.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 05 May 2026 10:09:33 -0700 (PDT)
-X-Received: by 2002:a17:907:6c0e:b0:bc4:d795:5bab with SMTP id
- a640c23a62f3a-bc4d7955cd0mr156098166b.16.1778000973518; Tue, 05 May 2026
- 10:09:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYEEPYce"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6322C2BCB4;
+	Tue,  5 May 2026 17:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778001586;
+	bh=w366vW6gTE7PZjWFzruIX59ph/Eyj/Rm0AE1LoX/bA0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WYEEPYceM8fVn3kV6ErEhtso5FJDntRnhKqeL8R0VYHS5EfD/2BN3p69PadjSrlhG
+	 8vXYdoP3QVXBVHyw74rmZrYQIiYYbCU1G9toxt6shpr5X+uOjdaWAWUbPsnfBuNyZz
+	 AYBPKwsy0wbIz//ucgag4heDKXRuHBXRggnSP2cRDOhlj4+CE/SqQ4LYnrDh+1Gtg7
+	 FzEtuka8YfP38rerV0YJRo98RXPPwjGjoUa+X9BWK89JJVmjEvMPatml4MQ+jwZGGf
+	 lxhYn6JSFGHEE2RJVLmL6JFQ1YQPbf2Q9RSzXak5kfZAzAU2GbaL83CVQNDTAcJ5vv
+	 L2paQT3teyV+Q==
+Date: Tue, 5 May 2026 10:18:27 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Colin Walters <walters@verbum.org>
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	fsverity@lists.linux.dev
+Subject: Re: overlayfs: verity validation broken since f77f281b6118
+Message-ID: <20260505171827.GB2291@sol>
+References: <bf0ba588-002b-4860-848e-e806b193840a@app.fastmail.com>
+ <afXCoGk2Bu9rBKvJ@amir-ThinkPad-T480>
+ <7baedcfe-534b-49f1-b00c-a8280c2703c0@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
-In-Reply-To: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 5 May 2026 10:09:17 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whaY30TwQQtNzTbAZTmOck7mZhdPLpQiFsfQmXSm5be-g@mail.gmail.com>
-X-Gm-Features: AVHnY4K-g5RSX-8TbOaaq0_sTLVotBybIDZg8eZOBm0-Md0ZUDmIJEeGup8kmkM
-Message-ID: <CAHk-=whaY30TwQQtNzTbAZTmOck7mZhdPLpQiFsfQmXSm5be-g@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/25] assorted dcache cleanups and fixes
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7baedcfe-534b-49f1-b00c-a8280c2703c0@app.fastmail.com>
 
-On Mon, 4 May 2026 at 22:55, Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> This series has grown out of trying to prove memory safety
-> of dentry handling; there are followups sitting in the local
-> tree, but those are getting reshuffled.
+[+Cc Miklos Szeredi <miklos@szeredi.hu>]
 
-Ok, so I had negative reactions to some of the patches that I
-documented, but on the whole I like this series.
+On Tue, May 05, 2026 at 12:51:47PM -0400, Colin Walters wrote:
+> On Sat, May 2, 2026, at 5:23 AM, Amir Goldstein wrote:
+> > On Fri, May 01, 2026 at 01:14:54PM -0400, Colin Walters wrote:
+> >> Hi Christoph & Eric,
+> >> 
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f77f281b6118 broke composefs's usage of overlayfs verity=require, this was reported originally in https://github.com/bootc-dev/bootc/issues/2174
+> >> 
+> >> There's some output from an agent run I had in the <details> there, but here's an xfstests patch that passes on without that commit and fails with it.
+> >> 
+> >> From 14231122bfd1e41337e4fb847acbbe038457c32a Mon Sep 17 00:00:00 2001
+> >> From: Colin Walters <walters@verbum.org>
+> >> Date: Fri, 1 May 2026 09:45:58 -0400
+> >> Subject: [PATCH] overlay/118: test fsverity lazy load through metacopy overlay
+> >> 
+> >> Reproduces the regression reported at:
+> >> https://github.com/bootc-dev/bootc/issues/2174
+> >> 
+> >> A recent change in how fsverity state was cached in memory
+> >> I think caused inodes not in cache to appear to have
+> >> missing verity=require for overlayfs.
+> >> 
+> >> This test catches that.
+> >> 
+> >> Generated-by: OpenCode (Claude Sonnet 4.5)
+> >> Signed-off-by: Colin Walters <walters@verbum.org>
+> >> ---
+> >>  tests/overlay/118     | 62 +++++++++++++++++++++++++++++++++++++++++++
+> >>  tests/overlay/118.out |  1 +
+> >
+> >
+> > Please use free test numbers below 100
+> 
+> OK, I can resend with that change if that's the only thing.
+> 
+> 
+> >
+> > Is there a kernel fix for this? please mention it.
+> 
+> Not that I know of. I did have my agent framework (opencode + combo of Gemini+Claude models) generate one initially, but I intentionally didn't post it because the generating is ~easy, verifying it's "good" is another thing and my C has bitrotted a bit (in favor of Rust mostly but I have to deal with a lot of Go too).
+> 
+> Anyways, this trivial change works:
 
-None of my negative reactions were deal killers, and I'm perfectly
-happy to be ignored if people think my reactions were a bit odd. So
-take them as you will.
+Please do a fix patch first, and then any cleanup second as separate
+patch(es).
 
-                Linus
+You'll also need to submit your patches correctly, otherwise they cannot
+be accepted into the kernel:
+https://docs.kernel.org/process/submitting-patches.html
+
+Thanks,
+
+- Eric
