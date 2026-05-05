@@ -1,129 +1,286 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9058C365A1B
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 21:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF7115FA81
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 22:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778018348; cv=none; b=Jdr0mGrXGyK6ctslnkwistq8kT0IKe4bEEgCkar6lu7KuQXvtyg0P+E3y7wFAfkW8vsqcKvhrVkf2dDzXFchGJhvowrr42xnC7M68DUCaawd2JntcFeDPyvW02Egb3TQqWYfaPQGhY0t/8OFDQknwoJqK2T4IvGU1qSRtDCIrQo=
+	t=1778018501; cv=none; b=IMbFMx8h/JOFK5FlpcavZpRkx3Yf9wzEkry1bzcJts2RvZdowZO57Nk4UvtFEXu7bpvbxmiNOjFAMbWdpMAYjzELk942c1L8yjKJue7NGVtpN6wwbBxYP4RdUQ0GdpDYDzseRcVNFd8QW1vl0cbQFYGwiDqSN69//feTJ7yGthY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778018348; c=relaxed/simple;
-	bh=YQ2lw3ozT9znAFucq7kVfNkA+Fw12aXAHdf6xlRG0cY=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=lbkd6iGy04NFxfU6ZyIAQThTDXOQ76DMkwYr+gWjm4VqPI+cfOjqLHNUHfzNzZ1n9eDyQBLzR5yiQiwSD7NsPIYlVyXluCt1ApCNIIithbKYzQSM8F25z/fZAsXI2L07tLx5T/aq23R97qGQr5ecJM9qugpaMrhPGr1icEL2hPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=hX/Ze9kk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CexciFW0; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1778018501; c=relaxed/simple;
+	bh=LKA16h5VDUn0t35u+k1BiGLV5sHU3fkhJaiFA8e00Os=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BPo2ln1Gk9d0vbA940pHnVZLN0RYo9XneKS1QttZGH+ALRCXdsfvIHTcBg8t+TQZsx7jiiQWb+zcjEGVAiqAGJb0GYkXCGUeWVzWjJ+TwOH3vGKOIytPsfMJ/lGRffeD2EBrVR99sJhREG8LmZq1JZXVEzwybWfdNSJ71AR+lyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=iV18rpw4; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="hX/Ze9kk";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CexciFW0"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 90F1D1D000CD;
-	Tue,  5 May 2026 17:59:04 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Tue, 05 May 2026 17:59:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1778018344; x=1778104744; bh=cm13/f4bdtWJ/OyxZsvGO/rzF7XLjUC664p
-	fTH4lRYg=; b=hX/Ze9kkTnAczBXB7AparI3VLOXLsPjSblyyJySUcQks+q5u/V+
-	IxfKz1Z4Vg0ukrfcL+VKVZcSuFTJOzGpGSqdi1Yw8xRa9AZ+PmUZJXXeGgBAcf1N
-	m2LWYiOxpYfh24jvWkzokAckiYKZFlnApGxpWx4P6+u6dzodekj5lgObg7d59oLF
-	EMPW2h6AwW0JVpCTU5ZttODBuIMy4sGijPjDw5ekwiB2At1n8G6STcqpzKcIP2rf
-	HKYpG5y6WvculA4TnFwyDhZcPuk36v+KJsVL9sssPeqI0WiM6reDWr6ZrVxGSIIj
-	jHTX30zvPCnL+/LYVYx0DleKsY5yJrD7zLA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778018344; x=
-	1778104744; bh=cm13/f4bdtWJ/OyxZsvGO/rzF7XLjUC664pfTH4lRYg=; b=C
-	exciFW0L4kvlJQzUd1I1qmrj2ro54EGIgd/MgpZji1rHIKFjsgRS2OK2pDqaaQ9v
-	npKrq77+MDa9kdv0Qs9REDSb8SS09F6ictwlqQJtAvBD6S83atUq+rM2EQ4b608u
-	rx7OMMTsLF30AUdbY8w2wif0EuG/4oT9bYOO11MsI7jL9Pd5b4BX3I0topFGKRff
-	IcwgwsfW7FfxCepzUsG0IyqufPC2VoN9EpmcjiRmp4sr/XuihleQDHeVKfIN8w2k
-	oFGqRfqFzvoOtpfhOWDvfgr1d624QBL2i2iRe8QRrrRFU8KDGLw20HsRcbIu/5TK
-	PW0RZepIxCsWPvrKTRiHA==
-X-ME-Sender: <xms:J2j6aeA_cEWyZ-I-s62eEvaxTkE3zGYEVUsp4vVnaaDyOQiGLG9Ktw>
-    <xme:J2j6aRfMqpDxjR8syOzFsDI1C4Ie0030p2nH_hObXmBH9S9gjFQUFvhPRGFxqJG1A
-    IHdLQo8znZR7XudCZNm8dMmVrBe95FrGQlH0BrE6Mg1z4sj4g>
-X-ME-Received: <xmr:J2j6adLXgnn8uJh874Rg66q4GTZrUg5TqFg5qp_MWTiRp6COTDDDGIqu2eRQUybGkOqfsXrh89u4IalqsILf2RwLCwB4M8E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutddvkeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epvdeuteelkeejkeevteetvedtkeegleduieeftdeftefgtddtleejgfelgfevffeinecu
-    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
-    rhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehvihhrohesii
-    gvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheplhhinhhugidqfhhsuggv
-    vhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjrggtkhesshhush
-    gvrdgtiidprhgtphhtthhopehtohhrvhgrlhgusheslhhinhhugidqfhhouhhnuggrthhi
-    ohhnrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:J2j6ac3RpVNJXqkI7s9gSJGaUrXOL1yj0R2FiPRUcbqg5vVZqp7nYw>
-    <xmx:KGj6afjc1w_xPH6oxAGJ9RxplotOnN34N6tCVt8a7-XEphqGxLaeDg>
-    <xmx:KGj6aVVV_VfNuCK92GKMCFA9IUydYoLqcYoxAs16UtL_CmUthjVWiw>
-    <xmx:KGj6aWWCWdi2ZxgwFNx6EJXP5Mj-v4Hk_XqSwDtJ-UTZoLIDB1QFEw>
-    <xmx:KGj6aSQ7ip0DuIyBk26tpcKK6UHDA9H9yTykd97Lp8XppZPUVcUv6wA7>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 May 2026 17:59:02 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="iV18rpw4"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-79885f4a8ffso56842367b3.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 05 May 2026 15:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1778018498; x=1778623298; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R2MeVIg4VpP+9zwLnJOlZvfGC5R5bmW9a18q0/iM5VE=;
+        b=iV18rpw4n7mE+3HtSQugXIwzgFDbnQEIh7LYtIIjZk7BLXMA0RJTNNXVB2qtTNx8BA
+         P9F8BD6ueqOaHeNlUVDo12WrrRuuEshAaEnBWUuBC3tlg90smfYnW6tZJasm4AtJ1Ku5
+         ep603VXONqh33RaDTsLn+yPPA6W1c8b1+NjSzWgW9f/7jvOCxIBtQHVFNBNhE0U8wy+R
+         zG2/zB0dYUTdDrHZI17uqOTT0TGAVPjVuJMbqbua9jEPyHgbbaJPX0Ob5fnY9tBLfKOg
+         1dwjdzbvk4Xmjek4bTjuMYTg/WzCnXpH1riqEfbG7WTxh7HeT5QIc2psZNvGkRCaMNPp
+         4j1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778018498; x=1778623298;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R2MeVIg4VpP+9zwLnJOlZvfGC5R5bmW9a18q0/iM5VE=;
+        b=OlHAySs3AVqe0l8eUcPO7NEYvmb5s4R2kVR+1NLx8+RhcGk8bPSxKc3CXvgTihXXJY
+         YmDSZq8c7vmfkQslgjS5lVjE05lW4VgA4G1usm/JZZ/A6BhLoKOwhoPkJ3ByRCUg64Tw
+         CP56HPjHz7ofKyWVvVdU0tj79fqpb9aw32gJfzDcZw6KaWMdIDof/EhdVUdRWJyl/o9J
+         miaVg70k1OQq5t7UZVLDYxTJqiGF7qSuHSdzmwHY5aUoVuSPW2SQHBkUKs+cKCftTJYr
+         qRwaXdpnDv5QswIi4QSglPLQvQo0o87ogY7o09TiMagt3+yhws6FMiQXWqkRDmJbHn3V
+         oUUg==
+X-Forwarded-Encrypted: i=1; AFNElJ8HlBNTGdr1d2bhzlmQLStHUDtjxed3WA0JnTDE9m2DfXfXGzxPALOYN0mfgrpm4wSDhf18mFZzd5ZXYdAl@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8wSC9Ozukigxh0MrIqkHBMbWJtWmbX3anUFe+SyXTK6ciZOLT
+	cenGHlbq7MTJwf73M06buiOjpPzR1ShdE+Eb5uBViaO51cpS0wtKZBN5e/YlvSIVFRk=
+X-Gm-Gg: AeBDietjL5HF6ElnRW1bdUt3GZM38eO35tJAOWi+JbwzUbSveACstlkrtjZ+LBeQCZr
+	Vx7ziJ3Fgb5rkmVT+O3c1KQMLP21r2CLOvNyXw2u0e5uJk67XXAMfrP0PTtltBNG2WxorU66ho2
+	iVh+JcNNkusgyz+YW9lzcCUPWip1nXdcv7rK9FnNuDAQKt8JnXNJdS5sAJan07N/GVPWgs5ET4z
+	OhB/0urBWN513zMgu/J/WAr7CcIOlSWNb6FPkcmg093fMCSR4VKXpoaS/fgLH5nG27jmrNktSjj
+	D4QTZW14VAe2y1+TxVskbwLom27eCBeg0l/agRctHw6q89JHV7B4Q7amnGrFYopJsTMHVAfyxei
+	0NGKkXAeRh5za/dd1ipa/0FHfCUCu53Xg5OmeyTinVIfyNuDhTyWIAATPlg5YxM8Ea+VFmsoDgG
+	kHoCaordmR8w8y++zeC4YmRuZlwSwOT+2pF8YcKzVVIwY2T8tT/qusDQLl/JaUvqym4V/2SXr+/
+	RsVClUp/xo8xDFPqWbRDk7mfT+8cf9yhd8=
+X-Received: by 2002:a05:690c:6ac6:b0:7ba:ef98:9712 with SMTP id 00721157ae682-7bdf5da082bmr13599277b3.11.1778018498143;
+        Tue, 05 May 2026 15:01:38 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:2774:549a:b50b:270e])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65c7aff693fsm169989d50.19.2026.05.05.15.01.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 15:01:37 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	frank.li@vivo.com
+Cc: Slava.Dubeyko@ibm.com,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH] hfsplus: rework hfsplus_readdir() logic
+Date: Tue,  5 May 2026 15:00:52 -0700
+Message-ID: <20260505220051.2854696-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Al Viro" <viro@zeniv.linux.org.uk>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- linux-fsdevel@vger.kernel.org, "Christian Brauner" <brauner@kernel.org>,
- "Jan Kara" <jack@suse.cz>
-Subject: Re: [RFC PATCH 12/25] reducing rcu_read_lock() scopes in dput and
- friends, step 1
-In-reply-to: <20260505142221.GD3518998@ZenIV>
-References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
-  <20260505055412.1261144-13-viro@zeniv.linux.org.uk>
-  <177797133377.1474915.1770170197135589795@noble.neil.brown.name>
-  <20260505142221.GD3518998@ZenIV>
-Date: Wed, 06 May 2026 07:58:59 +1000
-Message-id: <177801833914.1474915.11041706009072243778@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Transfer-Encoding: 8bit
 
-On Wed, 06 May 2026, Al Viro wrote:
-> On Tue, May 05, 2026 at 06:55:33PM +1000, NeilBrown wrote:
-> > On Tue, 05 May 2026, Al Viro wrote:
-> > > rcu_read_lock() scopes in dentry eviction machinery are too wide;
-> > > worse, quite a few of the function involved are not neutral wrt
-> > > that, making them harder to reason about.
-> > >=20
-> > > rcu_read_lock() scope is not the only thing establishing an
-> > > RCU read-side critical area - spin_lock scope does the same and
-> > > they can be mixed - the sequence
-> >=20
-> > Does it?  I can't find any document or code which supports that clain.
-> > Could you provide a pointer?
->=20
-> Documentation/RCU/whatisRCU.rst in the section on rcu_read_unlock().
->=20
-> See the subthread back in April:
-> https://lore.kernel.org/all/CAHk-=3DwjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrw=
-svWdig@mail.gmail.com/
->=20
-> including this, for example:
->=20
-> https://lore.kernel.org/all/4e59837d-567b-4678-8a15-e933def32fcb@paulmck-la=
-ptop/
->=20
-> Basically, "if ain't true, RCU implementation has a bug that needs fixing"
->=20
+The xfstests' test-case generic/637 fails with error:
 
-Thanks - that helped a lot.  As you note elsewhere, things have changed
-over the years.
+FSTYP -- hfsplus
+PLATFORM -- Linux/x86_64 hfsplus-testing-0001 6.15.0-rc4+ #8 SMP PREEMPT_DYNAMIC Thu May 1 16:43:22 PDT 2025
+MKFS_OPTIONS -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
 
-NeilBrown
+QA output created by 637
+entries 7 and 8 have duplicate d_off 8
+Found unlinked files in open dir (see xfstests-dev/results//generic/637.full for details)
+
+Debugging of the hfsplus_readdir() logic showed this:
+
+hfsplus: hfsplus_readdir(): 163 ctx->pos 0
+hfsplus: hfsplus_readdir(): 189 ctx->pos 1
+hfsplus: hfsplus_readdir(): 264 ctx->pos 2, ino 18
+hfsplus: hfsplus_readdir(): 264 ctx->pos 3, ino 19
+hfsplus: hfsplus_readdir(): 264 ctx->pos 4, ino 28
+hfsplus: hfsplus_readdir(): 264 ctx->pos 5, ino 118
+hfsplus: hfsplus_readdir(): 264 ctx->pos 6, ino 29
+hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 30
+hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 31
+hfsplus: hfsplus_readdir(): 304 ctx->pos 8
+hfsplus: hfsplus_unlink():420 dir->i_ino 17, inode->i_ino 28
+hfsplus: hfsplus_readdir(): 141 ctx->pos 7
+hfsplus: hfsplus_readdir(): 264 ctx->pos 7, ino 31
+hfsplus: hfsplus_readdir(): 264 ctx->pos 8, ino 32
+hfsplus: hfsplus_readdir(): 264 ctx->pos 9, ino 33
+
+It means that hfsplus_readdir() stopped the processing of
+folder's items on ctx->pos 8, then, item with ino 28 has
+been deleted and hfsplus_readdir() re-started the logic
+from ctx->pos 7. As a result, previous and new sets of
+folder's items have overlapping values for the case of
+d_off 8.
+
+Currently, HFS+ has very complicated and fragile logic
+of rd->file->f_pos correction in hfsplus_delete_cat().
+This patch removes this logic and it stores the current
+pos into hfsplus_readdir_data. Finally, if rd->pos == ctx->pos
+then hfsplus_readdir() tries to find the position in
+b-tree's node by means of hfsplus_cat_key. This position is
+used to re-start the folder's content traversal.
+
+sudo ./check generic/637
+FSTYP         -- hfsplus
+PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #44 SMP PREEMPT_DYNAMIC Mon May  4 15:58:45 PDT 2026
+MKFS_OPTIONS  -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
+
+generic/637  22s ...  22s
+Ran: generic/637
+Passed all 1 tests
+
+Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/198
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+---
+ fs/hfsplus/catalog.c    | 11 -----------
+ fs/hfsplus/dir.c        | 28 +++++++++++-----------------
+ fs/hfsplus/hfsplus_fs.h |  5 +----
+ fs/hfsplus/inode.c      |  2 --
+ fs/hfsplus/super.c      |  2 --
+ 5 files changed, 12 insertions(+), 36 deletions(-)
+
+diff --git a/fs/hfsplus/catalog.c b/fs/hfsplus/catalog.c
+index 9bc8a6c48fd3..776ce36cf076 100644
+--- a/fs/hfsplus/catalog.c
++++ b/fs/hfsplus/catalog.c
+@@ -333,7 +333,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
+ 	struct super_block *sb = dir->i_sb;
+ 	struct hfs_find_data fd;
+ 	struct hfsplus_fork_raw fork;
+-	struct list_head *pos;
+ 	int err, off;
+ 	u16 type;
+ 
+@@ -392,16 +391,6 @@ int hfsplus_delete_cat(u32 cnid, struct inode *dir, const struct qstr *str)
+ 		hfsplus_free_fork(sb, cnid, &fork, HFSPLUS_TYPE_RSRC);
+ 	}
+ 
+-	/* we only need to take spinlock for exclusion with ->release() */
+-	spin_lock(&HFSPLUS_I(dir)->open_dir_lock);
+-	list_for_each(pos, &HFSPLUS_I(dir)->open_dir_list) {
+-		struct hfsplus_readdir_data *rd =
+-			list_entry(pos, struct hfsplus_readdir_data, list);
+-		if (fd.tree->keycmp(fd.search_key, (void *)&rd->key) < 0)
+-			rd->file->f_pos--;
+-	}
+-	spin_unlock(&HFSPLUS_I(dir)->open_dir_lock);
+-
+ 	err = hfs_brec_remove(&fd);
+ 	if (err)
+ 		goto out;
+diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
+index 47194370c2c5..8bf6c7cdd9a8 100644
+--- a/fs/hfsplus/dir.c
++++ b/fs/hfsplus/dir.c
+@@ -185,7 +185,15 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 	}
+ 	if (ctx->pos >= inode->i_size)
+ 		goto out;
+-	err = hfs_brec_goto(&fd, ctx->pos - 1);
++	rd = file->private_data;
++	if (rd && rd->pos == ctx->pos) {
++		memcpy(fd.search_key, &rd->key, sizeof(struct hfsplus_cat_key));
++		err = hfs_brec_find(&fd, hfs_find_rec_by_key);
++		if (err == -ENOENT)
++			err = hfs_brec_goto(&fd, 1);
++	} else {
++		err = hfs_brec_goto(&fd, ctx->pos - 1);
++	}
+ 	if (err)
+ 		goto out;
+ 	for (;;) {
+@@ -261,7 +269,6 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 		if (err)
+ 			goto out;
+ 	}
+-	rd = file->private_data;
+ 	if (!rd) {
+ 		rd = kmalloc_obj(struct hfsplus_readdir_data);
+ 		if (!rd) {
+@@ -269,15 +276,8 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 			goto out;
+ 		}
+ 		file->private_data = rd;
+-		rd->file = file;
+-		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
+-		list_add(&rd->list, &HFSPLUS_I(inode)->open_dir_list);
+-		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
+ 	}
+-	/*
+-	 * Can be done after the list insertion; exclusion with
+-	 * hfsplus_delete_cat() is provided by directory lock.
+-	 */
++	rd->pos = ctx->pos;
+ 	memcpy(&rd->key, fd.key, sizeof(struct hfsplus_cat_key));
+ out:
+ 	kfree(strbuf);
+@@ -287,13 +287,7 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
+ 
+ static int hfsplus_dir_release(struct inode *inode, struct file *file)
+ {
+-	struct hfsplus_readdir_data *rd = file->private_data;
+-	if (rd) {
+-		spin_lock(&HFSPLUS_I(inode)->open_dir_lock);
+-		list_del(&rd->list);
+-		spin_unlock(&HFSPLUS_I(inode)->open_dir_lock);
+-		kfree(rd);
+-	}
++	kfree(file->private_data);
+ 	return 0;
+ }
+ 
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index 3545b8dbf11c..1c3ce2b9e3aa 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -214,8 +214,6 @@ struct hfsplus_inode_info {
+ 	sector_t fs_blocks;
+ 	u8 userflags;		/* BSD user file flags */
+ 	u32 subfolders;		/* Subfolder count (HFSX only) */
+-	struct list_head open_dir_list;
+-	spinlock_t open_dir_lock;
+ 	loff_t phys_size;
+ 
+ 	struct inode vfs_inode;
+@@ -272,8 +270,7 @@ struct hfs_find_data {
+ };
+ 
+ struct hfsplus_readdir_data {
+-	struct list_head list;
+-	struct file *file;
++	loff_t pos;
+ 	struct hfsplus_cat_key key;
+ };
+ 
+diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+index 036ca516d851..1de9cc97b42e 100644
+--- a/fs/hfsplus/inode.c
++++ b/fs/hfsplus/inode.c
+@@ -483,8 +483,6 @@ struct inode *hfsplus_new_inode(struct super_block *sb, struct inode *dir,
+ 	simple_inode_init_ts(inode);
+ 
+ 	hip = HFSPLUS_I(inode);
+-	INIT_LIST_HEAD(&hip->open_dir_list);
+-	spin_lock_init(&hip->open_dir_lock);
+ 	mutex_init(&hip->extents_lock);
+ 	atomic_set(&hip->opencnt, 0);
+ 	hip->extent_state = 0;
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index 40a0feda716b..5777e31de45a 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -91,8 +91,6 @@ struct inode *hfsplus_iget(struct super_block *sb, unsigned long ino)
+ 	HFSPLUS_I(inode)->fs_blocks = 0;
+ 	HFSPLUS_I(inode)->userflags = 0;
+ 	HFSPLUS_I(inode)->subfolders = 0;
+-	INIT_LIST_HEAD(&HFSPLUS_I(inode)->open_dir_list);
+-	spin_lock_init(&HFSPLUS_I(inode)->open_dir_lock);
+ 	HFSPLUS_I(inode)->phys_size = 0;
+ 
+ 	if (inode->i_ino >= HFSPLUS_FIRSTUSER_CNID ||
+-- 
+2.43.0
+
