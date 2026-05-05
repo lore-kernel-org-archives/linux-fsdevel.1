@@ -1,43 +1,46 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0835F3BD643
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 05:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2836A3C2768
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 05:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777960444; cv=none; b=lPd3DlQXhljQ413XyE3UrBsFTB3LMnUzlLvJCL3VbFOdEFVQ5hh/tQQ02aZHKoe7wWaJEIsD8ZuYQun5CYqELn3CyAUhdzxTU/GciH1c8eft8fHJ5V1ed4DiBT1XdeNTbPqDFBoxk0vHLjCdLLARWkWTyNNP3DT7KZkSA2YIg04=
+	t=1777960445; cv=none; b=m9brHU/Ls3a0w6KcbITu/nmyLQ/30M7DCVOuTiV8hVIAmhwXOFZnTJC8AZy9Pb2O/E0I8vIq9JO80LGOwlQStvM+cZyLc6x3v/1HsTCw6lsjramYriA5kAxFAzrS7q+r1raT7D2BxN7DwoXUuBiKps5y5p88n6iDc/KzzOCaYL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777960444; c=relaxed/simple;
-	bh=jziuh2FymogpZOeZrdGNJ4LCSB3FmICnOy6ZoVG4b1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uo9PLIxANOZbDrTbJdB2ZgoSIehalxA9VP7sDAW8J7H0r7q0+C3BiM1eFRQIdaVkdzAhi44YUi/f6rFQXVj25ii10fb46Q0pIfznEp+FBl/ocl/6HbkfIiTPIdcIFVelnUWEwB7+F7H+Xm8A0onS8UTeam/D5rbYEyJ3K7SleSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=wsfOM8LB; arc=none smtp.client-ip=62.89.141.173
+	s=arc-20240116; t=1777960445; c=relaxed/simple;
+	bh=c84P57wvbwm9aYUjeK6x1gHGJ3MqfDr81EYVWSoRmkU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZxWNJMMOq2T8jZvWxxAwUgEO/WOzuBr7FFK8DJ30p7ciI0qL6ZlMMMznw4RkAtGwA7ZGjCpzWjw6zLBb0xVRKm8ZtpejYWlrPU3No4tH+e0iroT1nKB2S52w57BaY/ZKvN782ROIicrvTfdQEG/y01E8kDkU7DTHdCWbUM3X6nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=nAXg6Lo0; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="wsfOM8LB"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="nAXg6Lo0"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=yJq6czuxoXP2Gkb/nMmDCWpdOlfpvmenHEoTkjmfYRk=; b=wsfOM8LBPljdhMGRPIpuDZnA2E
-	LPJxnOAY7laEGLTFKJDzyT/7+hqXuHrSnwb0iBWS1zletrtK8xLnOdpkVD3+X+SKGpe9vKvogFzT9
-	B7ncT+OIWuLNxUcDtd2yHpleLvWWKk/zX97THQih1QISugD2UHRQdeIHgJnFOyuAuxboDTZM7IjNj
-	sh5idxRMnfFMF2ayADVWbmg7yeckTOZ0LI+f63M1sdwPGohLvW7SZG2g1UW7mQS5+DXPbVxlcEZ/O
-	4mKQ9oSyQgpIxJDROAH5ERL45RDiJsk3m7lauOyxSQ8aBh680YWo1u1wIBjppOBl+ZKqOLXKYujkz
-	+e11cJWA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=OeKkLbt/CTaVTc4tUQ0smwd6LOffyf9RbvvLM4o8QTk=; b=nAXg6Lo0aD6T3GYzrsKnDBsPcP
+	yYkGabaxmrcBJ+xUECGJgX7sa+N8omd4jBkoHHwj7l/+pElg+vZILd29WsKW2HwEBp5vSpDmfz/cX
+	HV35Hm1qyI4BQcap8Ul8wcEdl0qF9fMYgNpzbxHBC2jRp5ZvVm2ylgNqYLK7Ly2umdUJatIFnG35W
+	5oDlvsJH61o+1SNelKC9tfPWTgqHUruJ+y4HBY744usrAdYcGkLyrOZaXh8vN3bT89cWFuhekPhaq
+	YwuSfv10D7Mq6CgGIDsp+uokN6jNAQt0XjS7yFly4vI2qHOKsq+nDEOPJimkYkYrNBnW504NX5hIN
+	HYPUK4NQ==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wK8jV-00000005I5P-14Nc;
-	Tue, 05 May 2026 05:54:13 +0000
+	id 1wK8je-00000005I72-0fIn;
+	Tue, 05 May 2026 05:54:22 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: Linus Torvalds <torvalds@linux-foundation.org>
 Cc: linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>,
 	NeilBrown <neil@brown.name>
-Subject: [RFC PATCH 00/25] assorted dcache cleanups and fixes
-Date: Tue,  5 May 2026 06:53:47 +0100
-Message-ID: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
+Subject: [RFC PATCH 12/25] reducing rcu_read_lock() scopes in dput and friends, step 1
+Date: Tue,  5 May 2026 06:53:59 +0100
+Message-ID: <20260505055412.1261144-13-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
+References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,79 +50,65 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-This series has grown out of trying to prove memory safety
-of dentry handling; there are followups sitting in the local
-tree, but those are getting reshuffled.
+rcu_read_lock() scopes in dentry eviction machinery are too wide;
+worse, quite a few of the function involved are not neutral wrt
+that, making them harder to reason about.
 
-* d_alloc_parallel() API change (Neil's with my changes).
-* NORCU fixes.
-* Reorganization and simplification of dentry eviction logics.
-* Reducing and documenting rcu_read_lock() scopes in fs/dcache.c
-* Secondary roots work - getting rid of NFS fake root dentries and
-dealing with remaining shrink_dcache_for_umount()/shrink_dentry_list()
-races.
-* making cursors NORCU (surprisingly easy)
+rcu_read_lock() scope is not the only thing establishing an
+RCU read-side critical area - spin_lock scope does the same and
+they can be mixed - the sequence
+	rcu_read_lock()
+	...
+	spin_lock()
+	...
+	rcu_read_unlock()
+	...
+	rcu_read_lock()
+	...
+	spun_unlock()
+	...
+	rcu_read_unlock()
+is an unbroken RCU read-side critical area.
 
-Currently that stuff lives in
-git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git #work.dcache
-individual patches in followups.
+Use of that observation allows to shrink rcu_read_lock() scopes;
+it's too delicate to do that in a single step, so we'll split that
+into several commits.
 
-Please, review.  It survives the local beating so far, but more testing
-is obviously needed.
+This one breaks rcu_read_lock() scopes in front of shrink_kill() call
+in shrink_dentry_list() and finish_dput() call in dput(); in both
+places we are withing ->d_lock scope, so doing that won't change
+the RCU read-side critical areas.
 
-Al Viro (24):
-  alloc_path_pseudo(): make sure we don't end up with NORCU dentries for
-    directories
-  fix a race between d_find_any_alias() and final dput() of NORCU
-    dentries
-  find_acceptable_alias(): skip NORCU aliases with zero refcount
-  select_collect(): ignore dentries on shrink lists if they have
-    positive refcounts
-  make to_shrink_list() return whether it has moved dentry to list
-  kill d_dispose_if_unused()
-  d_prune_aliases(): make sure to skip NORCU aliases
-  shrink_dentry_list(): start with removing from shrink list
-  fold lock_for_kill() into shrink_kill()
-  fold lock_for_kill() and __dentry_kill() into common helper
-  reducing rcu_read_lock() scopes in dput and friends, step 1
-  reducing rcu_read_lock() scopes in dput and friends, step 2
-  reducing rcu_read_lock() scopes in dput and friends, step 3
-  reducing rcu_read_lock() scopes in dput and friends, step 4
-  reducing rcu_read_lock() scopes in dput and friends, step 5
-  reducing rcu_read_lock() scopes in dput and friends, step 6
-  adjust calling conventions of lock_for_kill(), fold __dentry_kill()
-    into dentry_kill()
-  document dentry_kill()
-  d_walk(): shrink rcu_read_lock() scope
-  shrinking rcu_read_lock() scope in d_alloc_parallel()
-  shrink_dentry_tree(): unify the calls of shrink_dentry_list()
-  wind ->s_roots via ->d_sib instead of ->d_hash
-  nfs: get rid of fake root dentries
-  make cursors NORCU
+With that done, we have all calls of shrink_kill() and finish_dput()
+immediately preceded by rcu_read_lock(); next step will use that.
 
-NeilBrown (1):
-  VFS: use wait_var_event for waiting in d_alloc_parallel()
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+ fs/dcache.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- Documentation/filesystems/porting.rst |  17 +
- fs/afs/dir_silly.c                    |   4 +-
- fs/dcache.c                           | 527 +++++++++++++++-----------
- fs/exportfs/expfs.c                   |   9 +-
- fs/file_table.c                       |   2 +
- fs/fuse/dir.c                         |   2 +-
- fs/fuse/readdir.c                     |   3 +-
- fs/namei.c                            |   6 +-
- fs/nfs/dir.c                          |   6 +-
- fs/nfs/getroot.c                      |  35 +-
- fs/nfs/unlink.c                       |   3 +-
- fs/proc/base.c                        |   3 +-
- fs/proc/proc_sysctl.c                 |   3 +-
- fs/smb/client/readdir.c               |   3 +-
- fs/super.c                            |   1 +
- include/linux/dcache.h                |  31 +-
- include/linux/fs/super_types.h        |   3 +-
- include/linux/nfs_xdr.h               |   1 -
- 18 files changed, 369 insertions(+), 290 deletions(-)
-
+diff --git a/fs/dcache.c b/fs/dcache.c
+index 7cf965f9fb29..d690c18f0c33 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -978,6 +978,8 @@ void dput(struct dentry *dentry)
+ 		rcu_read_unlock();
+ 		return;
+ 	}
++	rcu_read_unlock();
++	rcu_read_lock();
+ 	finish_dput(dentry);
+ }
+ EXPORT_SYMBOL(dput);
+@@ -1682,6 +1684,8 @@ static void shrink_dcache_tree(struct dentry *parent, bool for_umount)
+ 				wait_for_completion(&wait.completion);
+ 				continue;
+ 			}
++			rcu_read_unlock();
++			rcu_read_lock();
+ 			shrink_kill(v);
+ 		}
+ 		if (!list_empty(&data.dispose))
 -- 
 2.47.3
 
