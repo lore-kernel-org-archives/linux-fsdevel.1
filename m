@@ -1,138 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4D830DECE
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 21:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9058C365A1B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 21:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778017247; cv=none; b=JXd+BDogv/QVuCwwdP0d2EfQOsfFO9nHZcsSdtIoBxUaDpPOtpXI93nQw1xdVDQJcUf0L5+LmN6HfGAQq7T74cnpbBDb4M5QFGfUVg3AZFMZF/z5gYb0Jm3Wvdbzrna5f/QyDQjgML+pn4vCRpaNbEBICGVZLmoxQ5eVQoG2VyQ=
+	t=1778018348; cv=none; b=Jdr0mGrXGyK6ctslnkwistq8kT0IKe4bEEgCkar6lu7KuQXvtyg0P+E3y7wFAfkW8vsqcKvhrVkf2dDzXFchGJhvowrr42xnC7M68DUCaawd2JntcFeDPyvW02Egb3TQqWYfaPQGhY0t/8OFDQknwoJqK2T4IvGU1qSRtDCIrQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778017247; c=relaxed/simple;
-	bh=XHGhTsSXAxX2gpK0Tt63tJG+t1j0ddwA4q9CQzHkixY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tr/NnRTpHbchs2pUIYj+lcbXOiksrCXbtat09EPpU3d+6+PaNXre85sPh/WzFT3zzF7GB47dQzxHYM5m6/pVyP+9/y4iMQDdKHkPFlDlVGsj9g6OVOuHl9jGAT6sCi+/LKPyZ+76xk54ZcZIPPzXJAUPGYaOB4C5X/HeJEvLm78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nb9zUxjF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778018348; c=relaxed/simple;
+	bh=YQ2lw3ozT9znAFucq7kVfNkA+Fw12aXAHdf6xlRG0cY=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=lbkd6iGy04NFxfU6ZyIAQThTDXOQ76DMkwYr+gWjm4VqPI+cfOjqLHNUHfzNzZ1n9eDyQBLzR5yiQiwSD7NsPIYlVyXluCt1ApCNIIithbKYzQSM8F25z/fZAsXI2L07tLx5T/aq23R97qGQr5ecJM9qugpaMrhPGr1icEL2hPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=hX/Ze9kk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CexciFW0; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nb9zUxjF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9468C2BCB4;
-	Tue,  5 May 2026 21:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778017247;
-	bh=XHGhTsSXAxX2gpK0Tt63tJG+t1j0ddwA4q9CQzHkixY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nb9zUxjFFd0d6DU2Ur4DP0CTHR3Dub/t0JkjWXXiZOUzySo9PxyITgOoiV8k3m2sp
-	 MxiK+Pq49pCZNoBNf2oeksJTGec7TZlmfqr288asbqzDosbzxQdhoVStg48yao4B0o
-	 67LKTrtWCPqXAeVnFI1UA2XI6yU4J2rfj01/Z8gbZpee51UBeMt9UKKN0bzSGlROZc
-	 EP3nc+AbBdUQx9Qny03/BEDKxHMKeJgliVQy1TsrjaAOFKHxQHvpzhkNz7cF6tO5fr
-	 yhbOXocXr7OuZ8zrsGhv7VidE2C7t9h6t8ikAul2K70R97df+T6DXasNnZs+Tg0p/2
-	 7jkjQ5bJC6P8g==
-Date: Tue, 5 May 2026 23:40:44 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>, Boqun Feng <boqun@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Uladzislau Rezki <urezki@gmail.com>
-Subject: Re: [RFC PATCH 20/25] d_walk(): shrink rcu_read_lock() scope
-Message-ID: <afpj3FBrvHer0E6Y@pavilion.home>
-References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
- <20260505055412.1261144-21-viro@zeniv.linux.org.uk>
- <CAHk-=wj9WdmFn=gw4c0+mv9dLCGFsiawF60Eu3Kw3t8SfvpZsw@mail.gmail.com>
- <20260505200501.GF3518998@ZenIV>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="hX/Ze9kk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CexciFW0"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 90F1D1D000CD;
+	Tue,  5 May 2026 17:59:04 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 05 May 2026 17:59:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1778018344; x=1778104744; bh=cm13/f4bdtWJ/OyxZsvGO/rzF7XLjUC664p
+	fTH4lRYg=; b=hX/Ze9kkTnAczBXB7AparI3VLOXLsPjSblyyJySUcQks+q5u/V+
+	IxfKz1Z4Vg0ukrfcL+VKVZcSuFTJOzGpGSqdi1Yw8xRa9AZ+PmUZJXXeGgBAcf1N
+	m2LWYiOxpYfh24jvWkzokAckiYKZFlnApGxpWx4P6+u6dzodekj5lgObg7d59oLF
+	EMPW2h6AwW0JVpCTU5ZttODBuIMy4sGijPjDw5ekwiB2At1n8G6STcqpzKcIP2rf
+	HKYpG5y6WvculA4TnFwyDhZcPuk36v+KJsVL9sssPeqI0WiM6reDWr6ZrVxGSIIj
+	jHTX30zvPCnL+/LYVYx0DleKsY5yJrD7zLA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778018344; x=
+	1778104744; bh=cm13/f4bdtWJ/OyxZsvGO/rzF7XLjUC664pfTH4lRYg=; b=C
+	exciFW0L4kvlJQzUd1I1qmrj2ro54EGIgd/MgpZji1rHIKFjsgRS2OK2pDqaaQ9v
+	npKrq77+MDa9kdv0Qs9REDSb8SS09F6ictwlqQJtAvBD6S83atUq+rM2EQ4b608u
+	rx7OMMTsLF30AUdbY8w2wif0EuG/4oT9bYOO11MsI7jL9Pd5b4BX3I0topFGKRff
+	IcwgwsfW7FfxCepzUsG0IyqufPC2VoN9EpmcjiRmp4sr/XuihleQDHeVKfIN8w2k
+	oFGqRfqFzvoOtpfhOWDvfgr1d624QBL2i2iRe8QRrrRFU8KDGLw20HsRcbIu/5TK
+	PW0RZepIxCsWPvrKTRiHA==
+X-ME-Sender: <xms:J2j6aeA_cEWyZ-I-s62eEvaxTkE3zGYEVUsp4vVnaaDyOQiGLG9Ktw>
+    <xme:J2j6aRfMqpDxjR8syOzFsDI1C4Ie0030p2nH_hObXmBH9S9gjFQUFvhPRGFxqJG1A
+    IHdLQo8znZR7XudCZNm8dMmVrBe95FrGQlH0BrE6Mg1z4sj4g>
+X-ME-Received: <xmr:J2j6adLXgnn8uJh874Rg66q4GTZrUg5TqFg5qp_MWTiRp6COTDDDGIqu2eRQUybGkOqfsXrh89u4IalqsILf2RwLCwB4M8E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutddvkeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epvdeuteelkeejkeevteetvedtkeegleduieeftdeftefgtddtleejgfelgfevffeinecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
+    rhgtphhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehvihhrohesii
+    gvnhhivhdrlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheplhhinhhugidqfhhsuggv
+    vhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjrggtkhesshhush
+    gvrdgtiidprhgtphhtthhopehtohhrvhgrlhgusheslhhinhhugidqfhhouhhnuggrthhi
+    ohhnrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:J2j6ac3RpVNJXqkI7s9gSJGaUrXOL1yj0R2FiPRUcbqg5vVZqp7nYw>
+    <xmx:KGj6afjc1w_xPH6oxAGJ9RxplotOnN34N6tCVt8a7-XEphqGxLaeDg>
+    <xmx:KGj6aVVV_VfNuCK92GKMCFA9IUydYoLqcYoxAs16UtL_CmUthjVWiw>
+    <xmx:KGj6aWWCWdi2ZxgwFNx6EJXP5Mj-v4Hk_XqSwDtJ-UTZoLIDB1QFEw>
+    <xmx:KGj6aSQ7ip0DuIyBk26tpcKK6UHDA9H9yTykd97Lp8XppZPUVcUv6wA7>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 May 2026 17:59:02 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260505200501.GF3518998@ZenIV>
+From: NeilBrown <neilb@ownmail.net>
+To: "Al Viro" <viro@zeniv.linux.org.uk>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ linux-fsdevel@vger.kernel.org, "Christian Brauner" <brauner@kernel.org>,
+ "Jan Kara" <jack@suse.cz>
+Subject: Re: [RFC PATCH 12/25] reducing rcu_read_lock() scopes in dput and
+ friends, step 1
+In-reply-to: <20260505142221.GD3518998@ZenIV>
+References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
+  <20260505055412.1261144-13-viro@zeniv.linux.org.uk>
+  <177797133377.1474915.1770170197135589795@noble.neil.brown.name>
+  <20260505142221.GD3518998@ZenIV>
+Date: Wed, 06 May 2026 07:58:59 +1000
+Message-id: <177801833914.1474915.11041706009072243778@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-(Adding other RCU folks in Cc)
+On Wed, 06 May 2026, Al Viro wrote:
+> On Tue, May 05, 2026 at 06:55:33PM +1000, NeilBrown wrote:
+> > On Tue, 05 May 2026, Al Viro wrote:
+> > > rcu_read_lock() scopes in dentry eviction machinery are too wide;
+> > > worse, quite a few of the function involved are not neutral wrt
+> > > that, making them harder to reason about.
+> > >=20
+> > > rcu_read_lock() scope is not the only thing establishing an
+> > > RCU read-side critical area - spin_lock scope does the same and
+> > > they can be mixed - the sequence
+> >=20
+> > Does it?  I can't find any document or code which supports that clain.
+> > Could you provide a pointer?
+>=20
+> Documentation/RCU/whatisRCU.rst in the section on rcu_read_unlock().
+>=20
+> See the subthread back in April:
+> https://lore.kernel.org/all/CAHk-=3DwjRgHLvSnEY3P45hSQ0ycKxdz-xqnccAMPuGRrw=
+svWdig@mail.gmail.com/
+>=20
+> including this, for example:
+>=20
+> https://lore.kernel.org/all/4e59837d-567b-4678-8a15-e933def32fcb@paulmck-la=
+ptop/
+>=20
+> Basically, "if ain't true, RCU implementation has a bug that needs fixing"
+>=20
 
+Thanks - that helped a lot.  As you note elsewhere, things have changed
+over the years.
 
-Le Tue, May 05, 2026 at 09:05:01PM +0100, Al Viro a écrit :
-> On Tue, May 05, 2026 at 10:01:39AM -0700, Linus Torvalds wrote:
-> 
-> > If we had a function that was "transfer spinlock without dropping RCU
-> > read lock", and we'd use that as an _optimization_ (maybe we could
-> > avoid all the preemption count games and testing for whether there are
-> > active RCU events etc), that would make sense to me.
-> >
-> > At that point it would *all* become "we rely on the spinlock to hold
-> > RCU read locking", and it wouldn't mix locking models. So I think such
-> > an operation might make sense on its own.
-> 
-> Definitely; we have the same "bridge two spin_lock scopes together into
-> a contiguous RCU read-side critical area" elsewhere as well.  Hell,
-> 
-> 	rcu_read_lock();
-> 	do {
-> 		spin_unlock(&dentry->d_lock);
-> 		spin_lock(&inode->i_lock);
-> 		spin_lock(&dentry->d_lock);
-> 		if (likely(inode == dentry->d_inode))
-> 			break;
-> 		spin_unlock(&inode->i_lock);
-> 		inode = dentry->d_inode;
-> 	} while (inode);
-> 	rcu_read_unlock();
-> 
-> in lock_for_kill() might be better off as
-> 
-> 	do {
-> 		transfer_spinlock_with_rcu(&dentry->d_lock, &inode->i_lock);
-> 		spin_lock(&dentry->d_lock);
-> 		if (likely(inode == dentry->d_inode))
-> 			break;
-> 		spin_unlock(&inode->i_lock);
-> 		inode = dentry->d_inode;
-> 	} while (inode);
-> 
-> Explicit rcu_read_lock() uses don't explain what's really going on; in this
-> form it's "we can't take ->i_lock under ->d_lock, but we need an unbroken
-> RCU read-side critical area for memory safety".  The same goes for d_walk()
-> use ("can't take parent's ->d_lock under child's one"), as well as in
-> shrink_dcache_for_umount() ("can't take ->d_lock under ->s_roots_lock")
-> and I wouldn't be surprised to see other instances of the same pattern.
-> 
-> I would really prefer to have all explicit rcu_read_lock() in fs/dcache.c
-> clearly documented ;-/
-
-And the calls to rcu_read_lock() / rcu_read_unlock() are _usually_ cheap enough
-that their explicit calls should go unnoticed over an implicit spinlock RCU
-critical section. Ok rcu_read_unlock() has its slowpath but it would otherwise
-trigger randomly when implicit read side are used (context switch, interrupts,
-etc...)
-
-Also rcu_read_lock() has the advantage to tell clearly that we are doing an RCU read
-side (and its uses indeed claim to be documented) here while relying on spinlocks to do
-that is fine but implicit and more error-prone when there are tricky things
-like spinlock transfers: better don't ask for trouble.
-
-So I would say that we should probably avoid introducing such an API if possible.
-
-> FWIW, back in 2015 spin_lock() did *not* provide an RCU read-side critical
-> area, according to https://lwn.net/Articles/652156/; would be nice to have
-> the history mentioned in D/RCU/whatisRCU.rst - at least to the level of
-> "once upon a time one *did* need an explicit rcu_read_lock() in addition
-> to spin_lock() - spin_lock() or preempt_disable() alone was not enough;
-> that has changed in <...>".
-> 
-> I'm not familiar enough with that code for that kind of archaeology ;-/
-> Could somebody help with that?  Paul?
-
-That's quite outdated. Now preempt disabled, IRQs disabled, and spinlocks
-are all implicit RCU read sides. On non RT spinlocks disable preemption and
-on RT they call rcu_read_lock() internally.
-
-Thanks.
-
--- 
-Frederic Weisbecker
-SUSE Labs
+NeilBrown
