@@ -1,44 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51838480947;
-	Tue,  5 May 2026 17:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F733A5455
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 17:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778001587; cv=none; b=EUkx0V61FESigt9HULXa0fcBAC35FAYLYwTuftYxw1+awSRlWI4zO6ZfJWk5LYagNrdm64rW0dFAUb9eVGyQeH7/fYMNpjknpgo16OFbJkdi2VBUe51PQ4cKsfAZmxKMOg+qxB/iMu+8pWSvzQTAfJyjKkICfzQCzh7Ail4/uT8=
+	t=1778003309; cv=none; b=IgShGXx5JAbpYzncuV+Lx8t9HqUGWFG+hQDYe6JtbRJnnFSLXuubpFmBAJcLLt87bD85RC+n3uhBvriK4nOIyToPLGxn1nQG5eZBQKDK89QEjgMeZlftTVw6m4tTwwN4DO+C5NN2k9UPRwIfifECWAIFfvYCiJsDVwvz9h8uKTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778001587; c=relaxed/simple;
-	bh=w366vW6gTE7PZjWFzruIX59ph/Eyj/Rm0AE1LoX/bA0=;
+	s=arc-20240116; t=1778003309; c=relaxed/simple;
+	bh=9E2p9gDY4bCM1MbON/0L4msH0QvFXWO4KLu/KngbEW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E4K2Z+YC/mo3uQdhh5VyGURB5LOb2qDVYJzUg2Sz8pmmGOd5M4IRE5AVzM9vck4ZIRqTUO+AE/yAgpYQe1Jrf4mgWNRZiiEyF834nY4QecC7m+HGL6CISkvxa5r0gsbJ+3HIPEeeL9UeaKJM56UJonWkqy+AsH2WiR4CWKTlK+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYEEPYce; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=t+sH9qF9EX/JD/vi7fDpikd4QJQsm7P+Rv8YZNeInUiKnrPwgEJi579Wihqxlc2r9NMydJe5aJ4td3iPKhiIS/7BGlTNajRsxDDQ8EX1qaY4/KNSAFz2h+I0akXzUJtsI/9mrEiia6BO2+wsGizHBnv4MCZ64CTcs9mtk8XnRaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=HjME3Grt; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYEEPYce"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6322C2BCB4;
-	Tue,  5 May 2026 17:19:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778001586;
-	bh=w366vW6gTE7PZjWFzruIX59ph/Eyj/Rm0AE1LoX/bA0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WYEEPYceM8fVn3kV6ErEhtso5FJDntRnhKqeL8R0VYHS5EfD/2BN3p69PadjSrlhG
-	 8vXYdoP3QVXBVHyw74rmZrYQIiYYbCU1G9toxt6shpr5X+uOjdaWAWUbPsnfBuNyZz
-	 AYBPKwsy0wbIz//ucgag4heDKXRuHBXRggnSP2cRDOhlj4+CE/SqQ4LYnrDh+1Gtg7
-	 FzEtuka8YfP38rerV0YJRo98RXPPwjGjoUa+X9BWK89JJVmjEvMPatml4MQ+jwZGGf
-	 lxhYn6JSFGHEE2RJVLmL6JFQ1YQPbf2Q9RSzXak5kfZAzAU2GbaL83CVQNDTAcJ5vv
-	 L2paQT3teyV+Q==
-Date: Tue, 5 May 2026 10:18:27 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Colin Walters <walters@verbum.org>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	fsverity@lists.linux.dev
-Subject: Re: overlayfs: verity validation broken since f77f281b6118
-Message-ID: <20260505171827.GB2291@sol>
-References: <bf0ba588-002b-4860-848e-e806b193840a@app.fastmail.com>
- <afXCoGk2Bu9rBKvJ@amir-ThinkPad-T480>
- <7baedcfe-534b-49f1-b00c-a8280c2703c0@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="HjME3Grt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3182iYibxPw7gZw6GeJ+lurCuII/RNa4Aj/j21WqzRo=; b=HjME3Grt7kPI3ThTxH629lv5kT
+	pTP8Rrys2+mWtYOsIqHSh49cvPw9cYbWAbfzlhytjns8H0WX2awFLrw93RyTGsPAR6qU5rInnPICX
+	tafPNEPLJWv6jiJztyaxMhHVd7MXjizGmqdAGs9R1uPGQ/ea3BV+JZ3MQmiLwHd6O7pK5+Ghrr/f5
+	KEEBvDhmGi1VMRjgCQwcxrg6VI4msEdKiDP1owm9fFc/98wG3dbPzhgVo0a8UFHqOgI1LDTnWucKX
+	pZ831jWpOjQNKzUZc/ty2PsVYdbNYZlmiTQmaPyxOav7CdT0u04tFgJso5FO3UD8j55RUc6RW86i6
+	6mJw35NA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wKJsy-00000007I0c-0mdh;
+	Tue, 05 May 2026 17:48:44 +0000
+Date: Tue, 5 May 2026 18:48:44 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: NeilBrown <neil@brown.name>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [RFC PATCH 02/25] alloc_path_pseudo(): make sure we don't end up
+ with NORCU dentries for directories
+Message-ID: <20260505174844.GE3518998@ZenIV>
+References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
+ <20260505055412.1261144-3-viro@zeniv.linux.org.uk>
+ <177796931573.1474915.17389032143652405017@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,59 +49,27 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7baedcfe-534b-49f1-b00c-a8280c2703c0@app.fastmail.com>
+In-Reply-To: <177796931573.1474915.17389032143652405017@noble.neil.brown.name>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-[+Cc Miklos Szeredi <miklos@szeredi.hu>]
-
-On Tue, May 05, 2026 at 12:51:47PM -0400, Colin Walters wrote:
-> On Sat, May 2, 2026, at 5:23 AM, Amir Goldstein wrote:
-> > On Fri, May 01, 2026 at 01:14:54PM -0400, Colin Walters wrote:
-> >> Hi Christoph & Eric,
-> >> 
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f77f281b6118 broke composefs's usage of overlayfs verity=require, this was reported originally in https://github.com/bootc-dev/bootc/issues/2174
-> >> 
-> >> There's some output from an agent run I had in the <details> there, but here's an xfstests patch that passes on without that commit and fails with it.
-> >> 
-> >> From 14231122bfd1e41337e4fb847acbbe038457c32a Mon Sep 17 00:00:00 2001
-> >> From: Colin Walters <walters@verbum.org>
-> >> Date: Fri, 1 May 2026 09:45:58 -0400
-> >> Subject: [PATCH] overlay/118: test fsverity lazy load through metacopy overlay
-> >> 
-> >> Reproduces the regression reported at:
-> >> https://github.com/bootc-dev/bootc/issues/2174
-> >> 
-> >> A recent change in how fsverity state was cached in memory
-> >> I think caused inodes not in cache to appear to have
-> >> missing verity=require for overlayfs.
-> >> 
-> >> This test catches that.
-> >> 
-> >> Generated-by: OpenCode (Claude Sonnet 4.5)
-> >> Signed-off-by: Colin Walters <walters@verbum.org>
-> >> ---
-> >>  tests/overlay/118     | 62 +++++++++++++++++++++++++++++++++++++++++++
-> >>  tests/overlay/118.out |  1 +
-> >
-> >
-> > Please use free test numbers below 100
+On Tue, May 05, 2026 at 06:21:55PM +1000, NeilBrown wrote:
+> On Tue, 05 May 2026, Al Viro wrote:
+> > A lot of places relies upon directories never having NORCU dentries;
+> > currently that property holds, but the proof is not straightforward
+> > and rather brittle.
 > 
-> OK, I can resend with that change if that's the only thing.
-> 
-> 
-> >
-> > Is there a kernel fix for this? please mention it.
-> 
-> Not that I know of. I did have my agent framework (opencode + combo of Gemini+Claude models) generate one initially, but I intentionally didn't post it because the generating is ~easy, verifying it's "good" is another thing and my C has bitrotted a bit (in favor of Rust mostly but I have to deal with a lot of Go too).
-> 
-> Anyways, this trivial change works:
+> This requirement is only indirectly documented in d_alloc_pseudo()
+> where it says "the stuff that should never be anyone's children or
+> parents", and they are for "lookup-less filesystems" wherein directories
+> obviously cannot have a role.
+> Would it be worth making it explicit? 
+>   "A pseudo dentry must never be used for a directory"
 
-Please do a fix patch first, and then any cleanup second as separate
-patch(es).
+The comment in d_alloc_pseudo() is going to be replaced; currently it's
+flat-out inaccurate - memfd_create(2) will result in a NORCU dentry
+on tmpfs, which is very definitely *NOT* a lookup-less filesystem.
 
-You'll also need to submit your patches correctly, otherwise they cannot
-be accepted into the kernel:
-https://docs.kernel.org/process/submitting-patches.html
-
-Thanks,
-
-- Eric
+I have a half-finished documentation on the rules for NORCU dentries -
+adding that is in the "yet to be stabilized" local followups to this
+series.  I hope to get that dealt with during this cycle - this is not
+the final iteration of that patchset.
