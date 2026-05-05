@@ -1,82 +1,151 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D3F3914FE
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 11:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A895B426EC5
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 12:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777981389; cv=none; b=uJkspB1H8s4qcDcPxDB4Hs+p6y7ttz5M3OubTqIBI8udJNsrrP283DKK2scj1LKTKDhNtEyNFuE1VZn7OYGI8NNyi8Xx74OiLZpnu3Xoms5bhZJcmLr5G6RSzVb6URuwGFtNwRRJ3vVOXwzwPy6hlilhMx1UxM2wwGAwGeBErC8=
+	t=1777984119; cv=none; b=edExKL5BLWJ/ssyruL8vbDSRjXdKNqhPI4/Q8WwjO0wap6dLzMt6v1+dG9w8cVFIW87yQZxBT2FpOkPe6C84L5e4Ftm53yqIjZXGksvanS1ceSh4OQ1fp6CY7Jpwvics4j5V+yn7FqOP1lNCQJ9hPE29J9pcTrTBEMZL6Gh692Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777981389; c=relaxed/simple;
-	bh=BmYK5O/Z+DQvYl6WI1DjpP91uuMKacDT9ltQ8AxHY08=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I2mvWQ4IFYLSzLws8GQWTbpeBp0+I/8RFg4I7qyODAgUQrRj/wcLo7jPMDeQmdiMYBhokCzI1XJz6qxCkOJVgWkWU9OR3tbArsdGWhET7qH4IharvxwLOuKYXiv77ni1dF7oXbIB0Vr3TaxTQl2fMVImCTQTno30+KK1kFr679k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ne4hd+oH; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ne4hd+oH"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777981383;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Wr4hzfuW5ZM/ULHUTZ9h1gf7GOP2pEdCkryUPktgQ80=;
-	b=Ne4hd+oHH3dEv0KVW5Nyx5VgX8GzJOaJhMeraZomMKOQXtw+s34L5+E0sU04ST5BkDHsOK
-	joKdfhcmbO5CO/bNZ9HYNPtA2zR1syngCVPJJjR5WZxpPJ0sQjy+U64mRFeGMEeAgyYV+m
-	tKaFnNfMja80l4BwdPts3Euhzpi6SmY=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v2] namei: use QSTR() instead of QSTR_INIT() in path_pts
-Date: Tue,  5 May 2026 13:42:42 +0200
-Message-ID: <20260505114242.158883-2-thorsten.blum@linux.dev>
+	s=arc-20240116; t=1777984119; c=relaxed/simple;
+	bh=g3A+7C0OJqHzNIO4gY4OAfUvQh3Tf8t4E+x0q7RUKMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mVWTNse/H6KamX4YCeU0QJSHZE9QxKaLDLOIOo/aaeWnzQvtlHj1glWOPtCHQhHyfHx+igVsjc00CzvpGCHV+Hn+kYDjinpke6XRCbThF1LJ56WxKZcwE8/sNVMkVal/djXyLwyKZD1DLcgWaT9B0W8V4cqyz92qBcSUBxv5GJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id 39D3F1D490;
+	Tue,  5 May 2026 12:28:35 +0000 (UTC)
+Received: from maya.d.snart.me ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id L3/cOHLi+WkgZAEA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Tue, 05 May 2026 12:28:35 +0000
+From: David Timber <dxdt@dev.snart.me>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	David Timber <dxdt@dev.snart.me>
+Subject: [PATCH v1 1/3] exfat: add volume limit bounds checks
+Date: Tue,  5 May 2026 21:28:06 +0900
+Message-ID: <20260505122808.728020-1-dxdt@dev.snart.me>
+X-Mailer: git-send-email 2.53.0.1.ga224b40d3f.dirty
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1092; i=thorsten.blum@linux.dev; h=from:subject; bh=BmYK5O/Z+DQvYl6WI1DjpP91uuMKacDT9ltQ8AxHY08=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDJk/r29qsGNcx9HRrVzIYeIq4v/qi8vniov7BM/d9/xWe Lsx9v26jlIWBjEuBlkxRZYHs37M8C2tqdxkErETZg4rE8gQBi5OAZjI4WmMDLNV4+Ijv5+ZZRbr Eb0pauv6d1W887hvHN23i/04X6BlaSDDP12vFS7Bsy+/ZtfMY9C99se6Mt1cnfetvfy9o53nZhv P4QUA
-X-Developer-Key: i=thorsten.blum@linux.dev; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Drop the hard-coded length argument and use the simpler QSTR(). Inline
-the code and drop the local variable.
+If the user inadvertenly truncates an exFAT volume(mistakenly shrinks
+the partition or simply dd'ing from a larger removable device to a
+smaller one. eg: device marketed as having 8GB capatity < 8GiB), the
+kernel exFAT obliviously mounts the volume and operates on it. No error
+is reported to userspace unless the filesystem is accessed with O_SYNC
+or O_DIRECT.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+Off by one sector test:
+
+	# truncate -s 1073741824 img
+	# mkfs.exfat img
+	# truncate -s 1073741312 img
+	# mount -t exfat img ...
+
+The existing filesystem implementations, prime examples being XFS and
+ext*, refuse to mount the volume with such condition. Introduce the
+checks similar checks in-place to exFAT.
+
+Also, to prevent UB, add checks against exFAT volumes with maliciously
+a crafted main boot sectors with the ClusterCount field equal to or
+larger than (2^32 - 11) as per format spec.
+
+Link: https://github.com/exfatprogs/exfatprogs/issues/353
+Signed-off-by: David Timber <dxdt@dev.snart.me>
 ---
-Changes in v2:
-- Inline QSTR() and drop the local variable as suggested by Al Viro
-- v1: https://lore.kernel.org/lkml/20260422123002.99876-3-thorsten.blum@linux.dev/
----
- fs/namei.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ fs/exfat/super.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
 
-diff --git a/fs/namei.c b/fs/namei.c
-index c7fac83c9a85..01f3fbdf646c 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -3617,7 +3617,6 @@ int path_pts(struct path *path)
- 	 */
- 	struct dentry *parent = dget_parent(path->dentry);
- 	struct dentry *child;
--	struct qstr this = QSTR_INIT("pts", 3);
+diff --git a/fs/exfat/super.c b/fs/exfat/super.c
+index 95d87e2d7717..15e99766cb8c 100644
+--- a/fs/exfat/super.c
++++ b/fs/exfat/super.c
+@@ -431,6 +431,7 @@ static int exfat_read_boot_sector(struct super_block *sb)
+ {
+ 	struct boot_sector *p_boot;
+ 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
++	unsigned int nb_clusters;
  
- 	if (unlikely(!path_connected(path->mnt, parent))) {
- 		dput(parent);
-@@ -3625,7 +3624,7 @@ int path_pts(struct path *path)
+ 	/* set block size to read super block */
+ 	if (!sb_min_blocksize(sb, 512)) {
+@@ -501,8 +502,17 @@ static int exfat_read_boot_sector(struct super_block *sb)
+ 	sbi->data_start_sector = le32_to_cpu(p_boot->clu_offset);
+ 	sbi->num_sectors = le64_to_cpu(p_boot->vol_length);
+ 	/* because the cluster index starts with 2 */
+-	sbi->num_clusters = le32_to_cpu(p_boot->clu_count) +
+-		EXFAT_RESERVED_CLUSTERS;
++	nb_clusters = le32_to_cpu(p_boot->clu_count);
++	/*
++	 * The inclusive comparison in the following check seems a bit off(quite
++	 * literally), but the exFAT format section 3.1.9 says
++	 * "lesser of the following". Aye, aye, captain.
++	 */
++	if (nb_clusters >= EXFAT_MAX_NUM_CLUSTER) {
++		exfat_err(sb, "bogus number of clusters : %u", nb_clusters);
++		return -EINVAL;
++	}
++	sbi->num_clusters = nb_clusters + EXFAT_RESERVED_CLUSTERS;
+ 
+ 	sbi->root_dir = le32_to_cpu(p_boot->root_cluster);
+ 	sbi->dentries_per_clu = 1 <<
+@@ -591,6 +601,34 @@ static int exfat_verify_boot_region(struct super_block *sb)
+ 	return 0;
+ }
+ 
++static inline int exfat_check_volume_sizes(struct super_block *sb)
++{
++	struct exfat_sb_info *sbi = EXFAT_SB(sb);
++	/* last sector of exFAT volume == end of last cluster */
++	const sector_t lc_end = exfat_cluster_to_sector(sbi, sbi->num_clusters);
++	/*
++	 * Do the calculations in bytes because the blocksize may have been
++	 * calibrated in exfat_calibrate_blocksize(), and bdev_nr_sectors()
++	 * always reports in 512-byte units.
++	 */
++	const unsigned long long vol_size = EXFAT_BLK_TO_B(sbi->num_sectors, sb);
++	const unsigned long long bdev_size = (unsigned long long)bdev_nr_bytes(sb->s_bdev);
++
++	if (sbi->num_sectors < (unsigned long long)lc_end) {
++		exfat_err(sb, "number of clusters out of volume length bounds : num_sectors=%llu, last_cluster_sector=%lld",
++			  sbi->num_sectors, lc_end);
++		return -EINVAL;
++	}
++
++	if (bdev_size < vol_size) {
++		exfat_err(sb, "volume length out of bounds : dev=%llu, vol=%lld",
++			  bdev_size, vol_size);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /* mount the file system volume */
+ static int __exfat_fill_super(struct super_block *sb,
+ 		struct exfat_chain *root_clu)
+@@ -610,6 +648,12 @@ static int __exfat_fill_super(struct super_block *sb,
+ 		goto free_bh;
  	}
- 	dput(path->dentry);
- 	path->dentry = parent;
--	child = d_hash_and_lookup(parent, &this);
-+	child = d_hash_and_lookup(parent, &QSTR("pts"));
- 	if (IS_ERR_OR_NULL(child))
- 		return -ENOENT;
  
++	ret = exfat_check_volume_sizes(sb);
++	if (ret) {
++		exfat_warn(sb, "volume bounds check failed. Please run fsck");
++		goto free_bh;
++	}
++
+ 	/*
+ 	 * Call exfat_count_num_cluster() before searching for up-case and
+ 	 * bitmap directory entries to avoid infinite loop if they are missing
+-- 
+2.53.0.1.ga224b40d3f.dirty
+
