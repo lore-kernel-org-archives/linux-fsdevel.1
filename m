@@ -1,155 +1,137 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2A43C9453
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 06:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7496C3CF02C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 07:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777961519; cv=none; b=Z+SSR5WJawdlnzB12KyBS4HR3wcf2T55AUngb7JNK7Vo7jENrVWwoZ0fhM4oF+oi5vxK5mjjAwyzZdMGoU1QTcB8SuC7wEv4ubnUTVldI9LR+08t0N3VTP2+GqEbPQDn1XvhT0Cz9DXMO46QP4MFd+64cU+PVqCuOEGY4hUEDFQ=
+	t=1777966241; cv=none; b=ct5v1JlZt3Zd2Ch93gajgeEggYPMHqytmxisj1QKspEDMuzBqkL5kuPB7zoOmlfqc7/HWarf2Pxgs89sCSwYIzjPtAp0VuYxYALil/RbAsCyoc/9GA0xGiH6Lb9rbbgt7zqnKT0kKka94kG1ehdHhiMCE/AdkkHRn6Qb3NUZAl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777961519; c=relaxed/simple;
-	bh=3RwYYy8oQs7B3Nh+ZfPDXaEpMDZlE/1vWf/pCAzCJp0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tH6GfGMR+PhZt0KMl3tUYS6H1WDpG9rZLB8PnfLxYf+5ZaaktMH9wnLE+otE/9b3plym6Q9JwY8FmDGXV6uRqFMtns6Rp7T2l4jDlLnp8Ofzzekd4gVHEHefzoyVN1eY02tDOgJ2lhnpJSMJ2gQ9IBaPFkDYOgqDFjvCxr2aLgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qQs2dLly; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777966241; c=relaxed/simple;
+	bh=S15u2ghd07Hs8aWspJcili6WDv4THXWieTnaU5W515I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rJ3tAkdv6RrS0Iapb8g6kYIjkW/n0Ik+Ajw4cDUD/ywhlEVjVJbqSkok51PiYJNv9u7ULHmZYgglDAgi1r8/IG3KT7SYEK8AkvzxqB9eO7YdO4SDpDGF0NQWaUeKvhTnPbKPEOFXnBckA7qC5hgRxqs0BL+Cl+MVVi0fDuW0jk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=E5ZGsPSP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=L4CE06ba; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qQs2dLly"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8353c9f24d2so1481153b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 04 May 2026 23:11:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777961517; x=1778566317; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X+wwvpFMRip9QGwFsLUcpUYYHp8W07YpxKheBhhRTr4=;
-        b=qQs2dLlyGZFdmv+AtLC79ziwdPhf4TFpo+NcAKiQYcFSwhqV0SaQKskXLT6Jq0jJQw
-         xkkk6qVUWbZPIW6KfbGdqBVArT2s/PANU8Bq38d7CMMpZbkRnNxVj4x3QkS25GD9m8OJ
-         7iXAsguXe6cgK1bzk7o3ZSHMVGMD/tX9hdNTd8e7EQD9zP6yUUS8NlcSqqsuANXurxvs
-         VmVp4G8n8NGzh0A2BmRFKIXRxRKGI2ofCZic0rMG9fyhibtlxfH6HDFNMxp9TQJlxtpv
-         gFK1sYueBDYwkIWdidxIBKTV6C+EkNp7ORPaEyRZRR0n1+SM31ZEoFk9D7frQgGJaGYK
-         Mblg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777961517; x=1778566317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X+wwvpFMRip9QGwFsLUcpUYYHp8W07YpxKheBhhRTr4=;
-        b=VYg89+bAeh/lGQC69893jSJT26ZY+XvW6e7hPEsaGM+95swmeLkqUvsN9HNOE85/gn
-         hTsGiuK2K2KF5hpVYegvHGj7PNUjYRjyPtP7wbzNohg8PG7pCw4YHpJxoH7hWjL6g1/D
-         XAT2nYpRHFWGuuErE3u5Q0yK+ERzR5wTcwaaTrEFfBHVwhAAw/ZQDSflD+IM3SFtb9jT
-         zqVSTLqGYmGBGgmkTYEeP4AWUM5iYWgyf7ZP6DrC5jFw9Fv1Zrr3burjgJf8THzHCNhN
-         I+7XhBPlhsOWAAzeHe+lt44IkYB8+mVgJxZEGWXwToODDltM1W1EghLcq3NMZ6J+qdIC
-         B68Q==
-X-Gm-Message-State: AOJu0Yy8E985zXfzQb8MHS3zrGMvup2XfWnpyQzBu7NLK6cxoKLyv+uQ
-	0cK7urFjCaO4RD6h4sdTTribjLFVGH9EQ7gzYqY1B9+Hhedsyuy256I2s1IXrA==
-X-Gm-Gg: AeBDieukRirKPCnEFkfchUiJSepFwyl2H12u9XA/KLnFRTdH0gUnmXDl84pAfPholMx
-	bcRLfPkcRWD+XEXtb6SWQlhumsQkPgD1IiYBR4UXOM5JO6QGprVE5GH8fYXRygCA5lAEKoQV6uC
-	moIuD8aABRd37uOwzPUSl/rVtqHJuvaWYpenpIrEpWqAcBl7mu4BfZy5YAp6uMJ6eB324p3mAhr
-	mWvU7tR6/0t3+Fl4FmgNhSqrE9xdgW/Qb9eVastpmR7VQoNanfU90L37QVgaTUaoWPjbe9hAHT6
-	C8Ya8RLXWQ2KF8RNBC1zgrFVN2PAExS7GyQ75+uFjKfErJgqpJxQiPfd2BrYZmOfTBoRcryKJZw
-	km0u+mvGdD5UPjmZTQvwgvxCgf8tI6kXGpfyEBuTCCMe9r2e+Gu4yuBV+6Yy4SUZBDsUXlL8Myq
-	UaOvCvHBqES8Pugm34dAy/eeEkpzdnWnjJmz2VYUynnUvdRPnG
-X-Received: by 2002:a05:6a00:4f88:b0:81f:4e6a:7276 with SMTP id d2e1a72fcca58-839227d1216mr1744350b3a.14.1777961517008;
-        Mon, 04 May 2026 23:11:57 -0700 (PDT)
-Received: from localhost ([49.207.150.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83967dbdda0sm903484b3a.44.2026.05.04.23.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 23:11:56 -0700 (PDT)
-From: Piyush Sachdeva <s.piyush1024@gmail.com>
-To: linux-fsdevel@vger.kernel.org,linux-cifs@vger.kernel.org,linux-nfs@vger.kernel.org,netfs@lists.linux.dev
-Cc: sprasad@microsoft.com,linux-kernel@vger.kernel.org,sfrench@samba.org
-Subject: [DISCUSSION] Preventing ENOSPC/EDQUOT writeback errors on network
- filesystems
-Date: Tue, 05 May 2026 11:41:53 +0530
-Message-ID: <m21pfqgzbq.fsf@gmail.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="E5ZGsPSP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="L4CE06ba"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9111EEC0180;
+	Tue,  5 May 2026 03:30:38 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Tue, 05 May 2026 03:30:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1777966238;
+	 x=1778052638; bh=ztCrO0TiNhKNN32MJW69ULpbucNxiimv9N9A3WLevX4=; b=
+	E5ZGsPSPvPU17mY+y36rf/zgWnIGeSm9lZLmnlwK1IFmgeNIfHB+sFI/0hOn99ey
+	/ixqddJNXQRq9gk9qukyfB/gpWZfyEAXKiOcxv+4BVpSte/HqeCqHJKMOxa2UyW2
+	aSOAlFU9jybhX18aaciNq+PNMmc6v2+/VM1DtKXHfKB97mYjB5YgNrZqqlpQKuaK
+	Ok6iMqskh63qUvI7mewRjBa06tA4ec1Mng1W0lAbQlbClNl4Ts4+Dl9KW1nV9+Sr
+	VxWyk+LXu+HEhxAF5Dv/F9hlI0wcnPTO3KQKVwxp0GyYEKz71s9H1oa7JSaOJIUL
+	23gcdt+NM5ghwfNmDalrug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777966238; x=
+	1778052638; bh=ztCrO0TiNhKNN32MJW69ULpbucNxiimv9N9A3WLevX4=; b=L
+	4CE06baYLsmBOR+LMR9KAxzrGngaqEG6CvFFVP2x5ZguysnrbstBSbEv0AZBy9mD
+	XhsPP1Hs1ACkMJFiF8Y3I3xOAGxOdzEaeXrz/cFZDopOh5P1sd4q4Jsnn6zmARtm
+	1/64JTJixZUdYJrvtW6Y5Zg+QOgW0vmOdtXiqHaxCdTxKADzsoDQH7onB8KMr7CA
+	RKn9tMhEOoCOzng9jsMtYp4gn9RruLznyJUEeHTHz613Ncdlhdu+sVAjpq/NKxSz
+	DPDe3inmBWuCBvBZehpsVGRT1Fc7CTPEKdg4hsTLqtjKjx8o2uGnIeSHl0W5lE/l
+	YFOgQ+nuofEis44spkP9g==
+X-ME-Sender: <xms:nZz5aUowSmn97Zj5ZVOrUvP3Jqf7zwsjan197g5b-tq9cQxnjv2MLw>
+    <xme:nZz5aT97HhBMeSHf_sb7WjP3GrksVdGNSNCWYbkuUgrDI2VscWjHQjfv20Jq31LWO
+    gnp6FEA-uTDOt34b9EPJImKT221UDVYHB3GeI5kwFmh9PHKiPM>
+X-ME-Received: <xmr:nZz5aQfjPuazrpCZvm5rG7oHxoHdneGevVBKG-14drgakEFaiSfe_HjCepdOufQ8fF0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduudduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlih
+    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
+    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
+    guihdrhhhu
+X-ME-Proxy: <xmx:npz5adISY3SiT7blRUoP0vK-_gt91Jh3tINnmXLXeVEC7_Z0FMiQpQ>
+    <xmx:npz5aQgmuBQaTuYNSZZF86sdmOdxPorQKrqqnDxpTInfrevsxtZ7Uw>
+    <xmx:npz5abRlwUIr-SFcN78KGU0lCVaJYN2GvMqXdz2GCxnNhrjeKX7Jxg>
+    <xmx:npz5aaXh6_J-CLrrTC5-oGB45x5oQI5S-kZdv_c44VqY930YLqUlpg>
+    <xmx:npz5aUhdCaiUzTWlvOKv3AHW9UxnU8O9L5dSWTDVQ__BeH0LSc_yb9Di>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 May 2026 03:30:36 -0400 (EDT)
+Message-ID: <b023fe55-c8a5-40ed-be37-a21e1682b509@bsbernd.com>
+Date: Tue, 5 May 2026 09:30:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] libfuse: don't use SYNC_INIT unless asked for
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
+References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
+ <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr
+In-Reply-To: <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
-There have been plenty of discussions on how to handle writeback errors for
-network filesystems, but most have focused on error reporting after the fac=
-t.
-I'd like to start a discussion around preventing writeback errors specifica=
-lly
-ENOSPC and EDQUOT, before they cause silent data loss.
 
-The problem:
-With buffered writes on network filesystems (cifs, nfs, etc.), the write()
-syscall copies data into the page cache and returns success immediately. The
-actual upload to the server happens later during writeback. If the server is
-out of space at that point, the write fails with ENOSPC. The netfs/writeback
-layer records this error via mapping_set_error(), but critically the folio's
-writeback flag is cleared and the page is now clean. Under memory pressure,=
- the
-VM can reclaim these clean pages, permanently losing data that the applicat=
-ion
-believes was successfully written. Meanwhile, i_size has already been updat=
-ed
-to reflect the new file size. So stat() shows a file size inclusive of the =
-data
-that was never persisted. Another inconsistency here is that total free spa=
-ce
-hasn't been modified for the file system on the server, leading to incorrect
-values in statfs() output from the client's pov (assuming statfs() calls go
-to the server).
-To illustrate with real-world scenarios:
 
-- A user or application can keep issuing writes to an fd well beyond the
-  available space, since buffered writes return success as soon as data is
-  copied to the page cache. A significant amount of data, exceeding the
-  available quota can accumulate before fsync() is called, at which point
-  critical data loss is nearly certain.
+On 5/5/26 07:23, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
+> maintain compatibility with older fuse servers that only support
+> asynchronous FUSE_INIT.
+> 
+> Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> ---
+>  lib/fuse_lowlevel.c |    6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> 
+> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+> index 0e16845d2f14ff..0a801132590079 100644
+> --- a/lib/fuse_lowlevel.c
+> +++ b/lib/fuse_lowlevel.c
+> @@ -4475,9 +4475,9 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
+>  {
+>  	int err, res;
+>  
+> -	if (!se->want_sync_init &&
+> -		(se->uring.enable && !fuse_daemonize_is_used())) {
+> -		if (se->debug)
+> +	if (!se->want_sync_init) {
+> +		/* SYNC_INIT is required for io_uring(?) */
+> +		if ((se->uring.enable && !fuse_daemonize_is_used()) || se->debug)
+>  			fuse_log(FUSE_LOG_DEBUG,
+>  					"fuse: sync init not enabled\n");
+>  		return 0;
+> 
 
-- A malicious user can exploit this to keep resources pinned and memory
-  oversubscribed, impacting other applications.
+Hmm, but mounting is kind of a libuse internal part? If this is really
+needed the commit message should mention the exact reason - what is the
+issue with old fuse servers and sync init?
 
-The error is technically observable: fsync() will return it, and close()
-surfaces it through the flush callback. But in practice, many applications
-check neither, and the POSIX "just call fsync()" answer isn't satisfying for
-users who lose data silently.
 
-Local filesystems largely avoid this because they can check available space
-synchronously in write_begin() and fail the write() syscall directly. Netwo=
-rk
-filesystems can't do this cheaply =E2=80=94 a round-trip per write to check=
- server
-space would negate the benefits of buffered I/O.
-
-Through recent development, netfs is becoming a central layer for network
-filesystem I/O. It already has retry logic for transient failures (EAGAIN,
-ECONNABORTED), but ENOSPC/EDQUOT remain hard failures. This affects every
-network filesystem using buffered writes.
-
-I am curious to know if NFS has a solution to this and what the approach is
-towards this specific problem by NFS community?
-
-This problem is worth solving for all network filesystems. I have a few
-thoughts on approaches, combining cached statfs() output with
-fallocate()-style pre-allocation on the write path:
-
-1. Pre-allocate space on the server before writing to the page cache,
-   analogous to fallocate() on the write path. This guarantees server-side
-   space for page cache data.
-
-2. Since per-write fallocate() calls require a server round-trip, effective=
-ly
-   negating the benefit of buffered I/O. Use cached statfs() output to gate
-   when pre-allocation is triggered. For example, once free space drops bel=
-ow
-   20% of total space, enable fallocate() on the write path. Otherwise, let
-   writes proceed as normal.
-
-3. Handle refresh and synchronization of the cached statfs() data separately
-   to avoid staleness.
-
-I'd appreciate feedback from the community on viable approaches.
-
---
-Regards,
-Piyush
+Thanks,
+Bernd
