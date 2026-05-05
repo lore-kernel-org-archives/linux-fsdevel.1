@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC10B3A2549;
-	Tue,  5 May 2026 05:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4071A3B38BD;
+	Tue,  5 May 2026 05:25:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777958725; cv=none; b=paqVrwxvRMqAOnx0FNQoR0P94pUG3WRgjOrdHniWqxIZubS4IhhQqSnUJDmqMMX97yDUxyJtHE5/mRBudbeNfnwANBlSeTJlSEqMFnP0nqZdMi0qt3Vwapxf4Nxn0KNtgNEljHSMejzsvL5hQciStPa3HUtBP9uRCeIr27lChGs=
+	t=1777958741; cv=none; b=dIpgIoNhhFRRZiFu65gElJzrLuLcdWzhO8871oY8gwJUjmt66Q4v+tHGkQOE6ffCwhaUqRgcqRCC2aNBe9HEdsckB1K6QJAtzEox85OLjzzfwDKmBmUixADhc5H4KQ4OITgKuGQqjWDoJsnCVy2D42EeM8KdyH5yxS4L8GkLXq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777958725; c=relaxed/simple;
-	bh=4nyBvYNb00bN2VljvbdIhCYVVaNo09L+Ii+kMz8PTWk=;
+	s=arc-20240116; t=1777958741; c=relaxed/simple;
+	bh=CECCQlEnzj4mqsr2rHCvaHiMQhX+ENk7FrLR/bbRNGs=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ocEGO4lIXM5g9tCZMp11qnGuYGvFLgIvqs193XT4o4SGLia2GnNnyCHyPBsQW8wLZWqL/7oVVNCUmIWa3a3+VOxEKNxa5Rm/mcCvmowBSK/Asgc6dLGXf9ix2pKIR3tJzsWFNvN/Gd5PlttAKDtp48ORKJd5G5uyI2FtBQ4SckY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6OMITM0; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=HWw5ctqenVG+mMviZmM+Ty62KAjNfwM0kV//zmzSFvfrQWu3yseyWYRI8iLVYfA4U6c4FDhcaJqYs/POstuBJBQmn8Lm7ntRDYfl+4L69aRRzLoLeDrCdZKGjQIhtjLJphUxTH0tqzjflX2R0F+rQ1E63n9njgk9l0xUxqMiD5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BUNmychu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6OMITM0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A3FCC2BCB4;
-	Tue,  5 May 2026 05:25:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BUNmychu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFABFC2BCB4;
+	Tue,  5 May 2026 05:25:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777958725;
-	bh=4nyBvYNb00bN2VljvbdIhCYVVaNo09L+Ii+kMz8PTWk=;
+	s=k20201202; t=1777958740;
+	bh=CECCQlEnzj4mqsr2rHCvaHiMQhX+ENk7FrLR/bbRNGs=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=J6OMITM0fUBWs/ynd78eo+zNVikKI+QzVaSYg88vx+8sNJfWlNfBjI2fQDGwBsmeJ
-	 cb6T4BcPSW5xkJIWArFbadcq+KJwmy2Xs7nkKPa+tRsmpM2aMd7mJerXhKTAT9AxuH
-	 8/jJ2Z8h4kIPB+zzZArkteDXaR9IbSZhYZC+AA25XYC9E5h1RrCsT8pUaBKs7Wwc+2
-	 LH9inHcN2rr6Md+vFo6+wCC4C/6ix0PYRuYslXEL6Y0FG3bGoIWTp6LOLlQtRpqT8t
-	 58SKcM8meyJM2gW5a3kd5qN8LVg5ZSa5nZRAv0b46Rq2yo8KBLbQvl95RWxp7asMuE
-	 41VAoopLGRMHg==
-Date: Mon, 04 May 2026 22:25:24 -0700
-Subject: [PATCH 06/10] libfuse: fix cppcheck complaints about constifying
- pointers
+	b=BUNmychuT3cfLmI0wx3Buv8JPomn7yrsyGKf80KIgipHyFUfrkvN9OgotbBdL61Qr
+	 MltHibFAtNMyYDj075fX6GRb+PAjURQfJJ+glMiglGu0Rw5nG3xrg88kwclLZM7RIW
+	 TMnTe6isYpxniTT0W8rCX0ubMJRHlqjqTAcOtRsUE/s1FdFvEp4nBcw0SvTAjOz2Iq
+	 cINK2mVrboN3Hp5ph9HK/juf8vw6mQGMpuVU5WcrO7TbPtxDGWWcuivJCQFnFzjDA/
+	 RWc3JzP3Wup3LqMQ4dCzy8IZZ3ryR0LEUFkyd7LOhrkcqNKctsBo4ohuWtdaoJEkWT
+	 2Wo4dscGA+NPw==
+Date: Mon, 04 May 2026 22:25:40 -0700
+Subject: [PATCH 07/10] libfuse: fix cppcheck complaints about constifying
+ pointers in user-visible ABI
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-Message-ID: <177795853793.1133612.11088485120340130526.stgit@frogsfrogsfrogs>
+Message-ID: <177795853811.1133612.11619751593807121023.stgit@frogsfrogsfrogs>
 In-Reply-To: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
 References: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -50,190 +50,173 @@ From: Darrick J. Wong <djwong@kernel.org>
 Fix various cppcheck complaints about pointers that could be const
 pointers instead.
 
+I am not sure you ought to take this patch, because this affects the
+client program ABI by limiting what the library can do in the future
+with the passed in struct fuse_service object.
+
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 ---
- include/fuse_service.h  |    7 ++++---
- lib/fuse_service.c      |   30 +++++++++++++++++-------------
- lib/fuse_service_stub.c |    6 ++++--
- 3 files changed, 25 insertions(+), 18 deletions(-)
+ include/fuse_service.h  |   11 ++++++-----
+ lib/fuse_service.c      |   13 +++++++------
+ lib/fuse_service_stub.c |   11 ++++++-----
+ 3 files changed, 19 insertions(+), 16 deletions(-)
 
 
 diff --git a/include/fuse_service.h b/include/fuse_service.h
-index 7e4c204e7a70bf..399830fcf142fe 100644
+index 399830fcf142fe..bd89189cfe5d5b 100644
 --- a/include/fuse_service.h
 +++ b/include/fuse_service.h
-@@ -48,7 +48,7 @@ int fuse_service_accept(struct fuse_service **sfp);
-  * @param sf service context
-  * @return true if it has, false if not
+@@ -139,7 +139,7 @@ int fuse_service_parse_cmdline_opts(struct fuse_args *args,
+  * @param request_flags set of FUSE_SERVICE_REQUEST_* flags
+  * @return 0 on success, or negative errno on failure
   */
--static inline bool fuse_service_accepted(struct fuse_service *sf)
-+static inline bool fuse_service_accepted(const struct fuse_service *sf)
- {
- 	return sf != NULL;
- }
-@@ -59,7 +59,7 @@ static inline bool fuse_service_accepted(struct fuse_service *sf)
-  * @param sf service context
-  * @return true if it has, false if not
+-int fuse_service_request_file(struct fuse_service *sf, const char *path,
++int fuse_service_request_file(const struct fuse_service *sf, const char *path,
+ 			      int open_flags, mode_t create_mode,
+ 			      unsigned int request_flags);
+ 
+@@ -155,7 +155,8 @@ int fuse_service_request_file(struct fuse_service *sf, const char *path,
+  * @param block_size set the block device block size to this value
+  * @return 0 on success, or negative errno on failure
   */
--bool fuse_service_can_allow_other(struct fuse_service *sf);
-+bool fuse_service_can_allow_other(const struct fuse_service *sf);
+-int fuse_service_request_blockdev(struct fuse_service *sf, const char *path,
++int fuse_service_request_blockdev(const struct fuse_service *sf,
++				  const char *path,
+ 				  int open_flags, mode_t create_mode,
+ 				  unsigned int request_flags,
+ 				  unsigned int block_size);
+@@ -169,7 +170,7 @@ int fuse_service_request_blockdev(struct fuse_service *sf, const char *path,
+  *      descriptor value on success, or negative errno on failure
+  * @return 0 on success, or negative errno on socket communication failure
+  */
+-int fuse_service_receive_file(struct fuse_service *sf,
++int fuse_service_receive_file(const struct fuse_service *sf,
+ 			      const char *path, int *fdp);
  
  /**
-  * Release all resources associated with the service context.
-@@ -97,7 +97,8 @@ int fuse_service_append_args(struct fuse_service *sf, struct fuse_args *args);
-  * @param args fuse args structure
-  * @return effective command line string, or NULL
+@@ -178,7 +179,7 @@ int fuse_service_receive_file(struct fuse_service *sf,
+  * @param sf service context
+  * @return 0 on success, or negative errno on failure
   */
--char *fuse_service_cmdline(int argc, char *argv[], struct fuse_args *args);
-+char *fuse_service_cmdline(int argc, const char * const *argv,
-+			   struct fuse_args *args);
+-int fuse_service_finish_file_requests(struct fuse_service *sf);
++int fuse_service_finish_file_requests(const struct fuse_service *sf);
  
- struct fuse_cmdline_opts;
+ /**
+  * Require that the filesystem mount point have the expected file format
+@@ -215,7 +216,7 @@ int fuse_service_session_mount(struct fuse_service *sf, struct fuse_session *se,
+  * @param sf service context
+  * @return 0 on success, or negative errno on failure
+  */
+-int fuse_service_session_unmount(struct fuse_service *sf);
++int fuse_service_session_unmount(const struct fuse_service *sf);
  
+ /**
+  * Bid farewell to the mount.service helper.  It is still necessary to call
 diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-index 240b1107296849..5831e2131e9cbf 100644
+index 5831e2131e9cbf..d14aced29e8268 100644
 --- a/lib/fuse_service.c
 +++ b/lib/fuse_service.c
-@@ -53,7 +53,7 @@ struct fuse_service {
- 	bool allow_other;
- };
- 
--static int __recv_fd(struct fuse_service *sf,
-+static int __recv_fd(const struct fuse_service *sf,
- 		     struct fuse_service_requested_file *buf,
- 		     ssize_t bufsize, int *fdp)
- {
-@@ -132,7 +132,8 @@ static int __recv_fd(struct fuse_service *sf,
- 	return 0;
+@@ -162,7 +162,7 @@ static ssize_t __recv_packet(const struct fuse_service *sf, void *ptr,
+ 	return recvmsg(sf->sockfd, &msg, MSG_TRUNC);
  }
  
--static ssize_t __send_packet(struct fuse_service *sf, void *ptr, size_t len)
-+static ssize_t __send_packet(const struct fuse_service *sf, void *ptr,
-+			     size_t len)
+-int fuse_service_receive_file(struct fuse_service *sf, const char *path,
++int fuse_service_receive_file(const struct fuse_service *sf, const char *path,
+ 			      int *fdp)
  {
- 	struct iovec iov = {
- 		.iov_base = ptr,
-@@ -146,7 +147,8 @@ static ssize_t __send_packet(struct fuse_service *sf, void *ptr, size_t len)
- 	return sendmsg(sf->sockfd, &msg, MSG_EOR | MSG_NOSIGNAL);
- }
- 
--static ssize_t __recv_packet(struct fuse_service *sf, void *ptr, size_t len)
-+static ssize_t __recv_packet(const struct fuse_service *sf, void *ptr,
-+			     size_t len)
- {
- 	struct iovec iov = {
- 		.iov_base = ptr,
-@@ -219,7 +221,8 @@ int fuse_service_receive_file(struct fuse_service *sf, const char *path,
- 
- #define FUSE_SERVICE_REQUEST_FILE_FLAGS	(FUSE_SERVICE_REQUEST_FILE_QUIET)
- 
--static int fuse_service_request_path(struct fuse_service *sf, const char *path,
-+static int fuse_service_request_path(const struct fuse_service *sf,
-+				     const char *path,
- 				     mode_t expected_fmt, int open_flags,
- 				     mode_t create_mode,
- 				     unsigned int request_flags,
-@@ -322,8 +325,8 @@ int fuse_service_send_goodbye(struct fuse_service *sf, int exitcode)
- 
- static int count_listen_fds(void)
- {
--	char *listen_fds;
--	char *listen_pid;
-+	const char *listen_fds;
-+	const char *listen_pid;
- 	char *p;
- 	long l;
- 
-@@ -589,7 +592,7 @@ int fuse_service_accept(struct fuse_service **sfp)
+ 	struct fuse_service_requested_file *req;
+@@ -278,7 +278,7 @@ static int fuse_service_request_path(const struct fuse_service *sf,
  	return ret;
  }
  
--bool fuse_service_can_allow_other(struct fuse_service *sf)
-+bool fuse_service_can_allow_other(const struct fuse_service *sf)
+-int fuse_service_request_file(struct fuse_service *sf, const char *path,
++int fuse_service_request_file(const struct fuse_service *sf, const char *path,
+ 			      int open_flags, mode_t create_mode,
+ 			      unsigned int request_flags)
  {
- 	return sf->allow_other;
+@@ -286,7 +286,8 @@ int fuse_service_request_file(struct fuse_service *sf, const char *path,
+ 					 create_mode, request_flags, 0);
  }
-@@ -781,7 +784,7 @@ int fuse_service_finish_file_requests(struct fuse_service *sf)
- }
- #endif
  
--static int send_fsopen(struct fuse_service *sf, const char *fstype,
-+static int send_fsopen(const struct fuse_service *sf, const char *fstype,
- 		       int *errorp)
+-int fuse_service_request_blockdev(struct fuse_service *sf, const char *path,
++int fuse_service_request_blockdev(const struct fuse_service *sf,
++				  const char *path,
+ 				  int open_flags, mode_t create_mode,
+ 				  unsigned int request_flags,
+ 				  unsigned int block_size)
+@@ -752,7 +753,7 @@ int fuse_service_append_args(struct fuse_service *sf,
+ }
+ 
+ #ifdef SO_PASSRIGHTS
+-int fuse_service_finish_file_requests(struct fuse_service *sf)
++int fuse_service_finish_file_requests(const struct fuse_service *sf)
  {
- 	struct fuse_service_simple_reply reply = { };
-@@ -825,7 +828,7 @@ static int send_fsopen(struct fuse_service *sf, const char *fstype,
+ 	int zero = 0;
+ 	int ret;
+@@ -777,7 +778,7 @@ int fuse_service_finish_file_requests(struct fuse_service *sf)
  	return 0;
  }
- 
--static int send_string(struct fuse_service *sf, uint32_t command,
-+static int send_string(const struct fuse_service *sf, uint32_t command,
- 		       const char *value, int *errorp)
+ #else
+-int fuse_service_finish_file_requests(struct fuse_service *sf)
++int fuse_service_finish_file_requests(const struct fuse_service *sf)
  {
- 	struct fuse_service_simple_reply reply = { };
-@@ -877,7 +880,7 @@ static int send_string(struct fuse_service *sf, uint32_t command,
+ 	(void)sf;
  	return 0;
+@@ -1102,7 +1103,7 @@ int fuse_service_session_mount(struct fuse_service *sf, struct fuse_session *se,
+ 	return ret;
  }
  
--static int send_mountpoint(struct fuse_service *sf, mode_t expected_fmt,
-+static int send_mountpoint(const struct fuse_service *sf, mode_t expected_fmt,
- 			   const char *value, int *errorp)
+-int fuse_service_session_unmount(struct fuse_service *sf)
++int fuse_service_session_unmount(const struct fuse_service *sf)
  {
  	struct fuse_service_simple_reply reply = { };
-@@ -932,7 +935,7 @@ static int send_mountpoint(struct fuse_service *sf, mode_t expected_fmt,
- 	return 0;
- }
- 
--static int send_mount(struct fuse_service *sf, unsigned int ms_flags,
-+static int send_mount(const struct fuse_service *sf, unsigned int ms_flags,
- 		      int *errorp)
- {
- 	struct fuse_service_simple_reply reply = { };
-@@ -1175,12 +1178,13 @@ void fuse_service_destroy(struct fuse_service **sfp)
- 	*sfp = NULL;
- }
- 
--char *fuse_service_cmdline(int argc, char *argv[], struct fuse_args *args)
-+char *fuse_service_cmdline(int argc, const char * const *argv,
-+			   struct fuse_args *args)
- {
- 	char *p, *dst;
- 	size_t len = 1;
- 	ssize_t ret;
--	char *argv0;
-+	const char *argv0;
- 	unsigned int i;
- 
- 	/* Try to preserve argv[0] */
+ 	struct fuse_service_unmount_command c = {
 diff --git a/lib/fuse_service_stub.c b/lib/fuse_service_stub.c
-index 231b98423df628..83f749bc15c0cc 100644
+index 83f749bc15c0cc..1e27f5ea0c6b57 100644
 --- a/lib/fuse_service_stub.c
 +++ b/lib/fuse_service_stub.c
-@@ -23,6 +23,7 @@
- int fuse_service_receive_file(struct fuse_service *sf, const char *path,
+@@ -20,21 +20,22 @@
+ #include "fuse_i.h"
+ #include "fuse_service.h"
+ 
+-int fuse_service_receive_file(struct fuse_service *sf, const char *path,
++int fuse_service_receive_file(const struct fuse_service *sf, const char *path,
  			      int *fdp)
  {
-+	*fdp = -1;
+ 	*fdp = -1;
  	return -EOPNOTSUPP;
  }
  
-@@ -52,7 +53,7 @@ int fuse_service_accept(struct fuse_service **sfp)
- 	return 0;
- }
- 
--bool fuse_service_can_allow_other(struct fuse_service *sf)
-+bool fuse_service_can_allow_other(const struct fuse_service *sf)
+-int fuse_service_request_file(struct fuse_service *sf, const char *path,
++int fuse_service_request_file(const struct fuse_service *sf, const char *path,
+ 			      int open_flags, mode_t create_mode,
+ 			      unsigned int request_flags)
  {
- 	return false;
- }
-@@ -63,7 +64,8 @@ int fuse_service_append_args(struct fuse_service *sf,
  	return -EOPNOTSUPP;
  }
  
--char *fuse_service_cmdline(int argc, char *argv[], struct fuse_args *args)
-+char *fuse_service_cmdline(int argc, const char * const *argv,
-+			   struct fuse_args *args)
- {
+-int fuse_service_request_blockdev(struct fuse_service *sf, const char *path,
++int fuse_service_request_blockdev(const struct fuse_service *sf,
++				  const char *path,
+ 				  int open_flags, mode_t create_mode,
+ 				  unsigned int request_flags,
+ 				  unsigned int block_size)
+@@ -70,7 +71,7 @@ char *fuse_service_cmdline(int argc, const char * const *argv,
  	return NULL;
+ }
+ 
+-int fuse_service_finish_file_requests(struct fuse_service *sf)
++int fuse_service_finish_file_requests(const struct fuse_service *sf)
+ {
+ 	return -EOPNOTSUPP;
+ }
+@@ -87,7 +88,7 @@ int fuse_service_session_mount(struct fuse_service *sf, struct fuse_session *se,
+ 	return -EOPNOTSUPP;
+ }
+ 
+-int fuse_service_session_unmount(struct fuse_service *sf)
++int fuse_service_session_unmount(const struct fuse_service *sf)
+ {
+ 	return -EOPNOTSUPP;
  }
 
