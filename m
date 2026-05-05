@@ -1,38 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3291D239E9B;
-	Tue,  5 May 2026 05:23:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F112B22083;
+	Tue,  5 May 2026 05:23:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777958616; cv=none; b=iS5eyIWsJljAHNMMWkiHgIMzEpvHGDSvAmLg/O2LF7GU7q7OlY96OzXDRzFx5Suftfr6TWTBvoXWGAuuZoIhuAHTjQF80nEhoXpAyP0IIT7JlP0kXlUfTkUCR19UECl1dJ2C9WIHrt1Gm/DeF/ZByvqadUtQnkJGt5EmN5GqpOs=
+	t=1777958632; cv=none; b=NiYDnaY12yQwSzuiQd/MhEpApyY1dDRhaveamswGDjHh6QwAK0zM2PGF15urltWjX1MkXagao5lFBSdZn6WnzBEiXwgory5lUTMiAwfetlUZqxEOQf/b7QvPOKaY3VBox7OQ3OuxSfmMifIlwB5u1k/sqmTpWmhKEsbsZJaBtRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777958616; c=relaxed/simple;
-	bh=hwlYGN1NM17s8/dTGHtnIEzBC4IpjzB25d2fSGmx+WA=;
+	s=arc-20240116; t=1777958632; c=relaxed/simple;
+	bh=5VMreoLJ1ccVuP+R9Nm8iI4Duk0cvjnMQvKTJbng0XU=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Lp1UCAAMYjaRim406Ji3XAyuPV0TcWyQtVl+OX6dmv3dEKqt8ZDBmhi775l1YLhP4JSKjrC9EfHwTNxF8H2MG/1kRYt+ughRe85J/Mq/y+TN6/Yj1+S1QYywAtgNSbfJazCwuPkGA4sC+G3XCwVlt7TZyqmgMuS3W2UBXcnFOYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EY2O0x0i; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LNjVQa+rbR1+sRR+Dgtat9TK6zGlydq7wAYpfIFO23PpgtdYMCio3/9TDRK58plYM0HmPcQaqCgWLuqAGH2aPT4X3YCmnmE0KsWZVWVkK4HshUgR2+COy1T7dTpqZbUlJroVB+HfRISd8A2f6m6zeYgSSn8RtWeZ3VQcMZUnlmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PgTqeBHz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EY2O0x0i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB2EC2BCB4;
-	Tue,  5 May 2026 05:23:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PgTqeBHz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73124C2BCB4;
+	Tue,  5 May 2026 05:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777958615;
-	bh=hwlYGN1NM17s8/dTGHtnIEzBC4IpjzB25d2fSGmx+WA=;
+	s=k20201202; t=1777958631;
+	bh=5VMreoLJ1ccVuP+R9Nm8iI4Duk0cvjnMQvKTJbng0XU=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=EY2O0x0i5DdJMm1WTjLV1l91i1jfEZGEFuzCZdj65yd6fj6azKL8KeIXZj0J9R98L
-	 Y4mgfKCy3JAYLg7hnZ0OHRwiKnFfX5IwKu8DNfePxxB+Zv0KJ+YbOAX4pkXdGLPUBD
-	 6Kr5uzzCFZcGNKOtSlJL8+SNm4JZeIsaVZaL5PyErSlN+6HgAlFZbBFN5alqPtbFhu
-	 Xay4PUiKfiNjFG/qiD3kfGRBaxxbHaOJZ5x9PD8Nxf9tQ7mRZMmqWqWXhA49A+hv9H
-	 KC3HM2QkXNR+BBFB1ZF31oIiXKDL3EdblSS4wqZWENHBDUqgJhDvZg9745zxetBM0P
-	 gR+S6hhH8dltw==
-Date: Mon, 04 May 2026 22:23:35 -0700
-Subject: [PATCH 1/2] libfuse: don't use SYNC_INIT unless asked for
+	b=PgTqeBHzMNG813r2HaqHCln6N37UZKOhXPt3PGwdX1R7v76qKmkNOr7qcJJ/wtwWu
+	 JTne276VrCVM6LgVINQj6DQ53EzbZTtr6slrrahwu1WDiJG6KaGqF1KE/wEl/PVnEf
+	 UFGe/ypjDeM3u5ziEiv8o5faeuj6vEuyELQDmqCIbjZ40brX0QlAcCrSGjkY9aVSsb
+	 /OjDXgG2e31yPbxE5fjUTkbthsDEUHM4n69miI1i/R6AGABvoBhevrtOgBEzaA0Z8E
+	 FSBnM6wDSUzMzYAHc/w3/VO8C1CZMU1UiWmPshM3nWW1PlMV9JOwr+8RCeSQIoy9xC
+	 sg2hYUMjXpD2A==
+Date: Mon, 04 May 2026 22:23:51 -0700
+Subject: [PATCH 2/2] libfuse: always send the subtype to the kernel when using
+ fsconfig()
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-Message-ID: <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+Message-ID: <177795853491.1133476.14673788941960394877.stgit@frogsfrogsfrogs>
 In-Reply-To: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
 References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,32 +47,68 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
-maintain compatibility with older fuse servers that only support
-asynchronous FUSE_INIT.
+Although it's possible to supply a filesystem subtype when calling
+fsopen(), it does not pass the stuff after the dot to the mount option
+parsing mechanism like the legacy mount() call does.  Therefore, it's
+necessary to pass the subtype explicitly via fsconfig() or else the
+subtype will be missing from the /proc/mounts output.
 
-Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+For example, fuse4fs with the old mount API produces this:
+
+/dev/sda /mnt fuse.ext4 rw,nosuid,nodev,relatime,user_id=0,group_id=0 0 0
+
+But with the new mount API, we only get:
+
+/dev/sda /mnt fuse rw,nosuid,nodev,relatime,user_id=0,group_id=0 0 0
+
+...which breaks fstests, which requires the fsname to match the string
+that it passes to mount -t.  Update the comment in mount_service.c to
+match this requirement.
+
+Fixes: 14cb7b93bb9688 ("Add support for the new linux mount API")
+Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- lib/fuse_lowlevel.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ lib/mount_fsmount.c  |   13 +++++++++++++
+ util/mount_service.c |    3 ++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
 
-diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-index 0e16845d2f14ff..0a801132590079 100644
---- a/lib/fuse_lowlevel.c
-+++ b/lib/fuse_lowlevel.c
-@@ -4475,9 +4475,9 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
- {
- 	int err, res;
+diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
+index 615271b09758c3..5e13b34ccfc610 100644
+--- a/lib/mount_fsmount.c
++++ b/lib/mount_fsmount.c
+@@ -359,6 +359,19 @@ int fuse_kern_fsmount(const char *mnt, unsigned long flags, int blkdev,
+ 		goto out_free;
+ 	}
  
--	if (!se->want_sync_init &&
--		(se->uring.enable && !fuse_daemonize_is_used())) {
--		if (se->debug)
-+	if (!se->want_sync_init) {
-+		/* SYNC_INIT is required for io_uring(?) */
-+		if ((se->uring.enable && !fuse_daemonize_is_used()) || se->debug)
- 			fuse_log(FUSE_LOG_DEBUG,
- 					"fuse: sync init not enabled\n");
- 		return 0;
++	/* Configure subtype */
++	if (subtype) {
++		res = fsconfig(fsfd, FSCONFIG_SET_STRING, "subtype",
++			       subtype, 0);
++		if (res) {
++			err = -errno;
++			log_fsconfig_kmsg(fsfd);
++			fprintf(stderr, "fuse: fsconfig subtype failed: %s\n",
++				strerror(-err));
++			goto out_free;
++		}
++	}
++
+ 	/* Configure source */
+ 	res = fsconfig(fsfd, FSCONFIG_SET_STRING, "source", source, 0);
+ 	if (res == -1) {
+diff --git a/util/mount_service.c b/util/mount_service.c
+index bc5940bc900dad..3fbabfdd69300d 100644
+--- a/util/mount_service.c
++++ b/util/mount_service.c
+@@ -821,7 +821,8 @@ static void try_fsopen(struct mount_service *mo)
+ 	/*
+ 	 * As of Linux 7.0 you can pass subtypes to fsopen, but the manpage for
+ 	 * fsopen only says that you can pass any value of the second column of
+-	 * /proc/filesystems into fsopen.
++	 * /proc/filesystems into fsopen.  You must still call fsconfig() for
++	 * the subtype separately, however.
+ 	 */
+ 	mo->fsopenfd = fsopen(fsname(mo), FSOPEN_CLOEXEC);
+ }
 
