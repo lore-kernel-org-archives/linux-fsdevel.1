@@ -1,169 +1,139 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E799420E702
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 08:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876D23C4547
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 09:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777971341; cv=none; b=s0xOEMRoP3kBt8byYvK4OF0SSLpxgDsqH9td0Nd5r77GteMLvqNSRpYzznD4SdbWqlHmZ3ptdlXXwWIVgdabvs0ly6PQmrRo/nxAqtNY2ofEgJFiS9x+ukJvQH4jXPoxz4mvCLVx9p1QIaniu3t1htlXrUijD34z6r/pjPOO6kM=
+	t=1777971622; cv=none; b=ty+VA7ylEmUn9LF39B3ITr3nkjcyBAhgPhN67ZHDhMlgbToXivqdYxi9yVgDVtbCj2k3ENkj7g+angSkVHNtjBWvy03j0pY0bL7n5GBwTyKe7N227UB5YYxCQur4lCHnjReKO+Quxab0xIN6EAZZheDzGmh11QHPvcHg2tPz+kE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777971341; c=relaxed/simple;
-	bh=KqEbeWBlci6AFpbR+05BQN8ruCmBgZ5592wjY5kDt2o=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=ggjGsE+JcEmY5Qa2KV5G9/YRThlghogIfAyeCOS8Zfn8VfJPzJbt3uBEYHBXS6RYwrNZILMP9p6YEFwTnEk7P/heyL0XwTxdNRUL0l0XzirQ0DLfH8SRQCozp2h7QuZzoFzxSrxFPL9YhC2IdK//IWDjyF5ZzuMfVJE1NRYfTkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=o7WXrgtS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NOKsodCA; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1777971622; c=relaxed/simple;
+	bh=GtynK+QDnGUBQOJKvHqQ80Y68fNNiSCEP6oNzkZNKZk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gYCuu97HTFsQ4bbvZ2iI8ZWbL2idSOHVQlb7aO02I+/n7BJSWo5OyQf4DkK4x/L/ck+7v9vMykkUzpYZ0uu6064K4w61KSv9DC8zxfjGhcWDycCF/phyv3FDwgBMGWXLurLOeuqBQjJUwDaWMunC7/zWytZzUZ2OCsFyJsQxwGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQ+2iaMv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="o7WXrgtS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NOKsodCA"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1F6F87A0097;
-	Tue,  5 May 2026 04:55:39 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Tue, 05 May 2026 04:55:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1777971338; x=1778057738; bh=Nrwuo/+nYfvvkFdN9r0lVAZqHDvFKDhxxjP
-	siSToe70=; b=o7WXrgtSXap1ck/96zT5a/6p/38PvgsSvImGu7cibp4T8JgaZUs
-	X5RPkOGHhmGA63+1tAl6cYFFM3ZnBzDLI6PLuy94b0k0cu95u8cegcsiS4ephhi4
-	7nFFJo2J9UCwxR11GYHwGC8nE3dysitXHALCxVftMrxJdCyzBJpAv7UikKczkEHj
-	P1Et5dpKj4c75t3u/RxsDWinyPLCh21oetUwQjjJyF2O6EhKX9NuhbPYxp/qSOjP
-	hscJkfuBEgR96JOvyPvUUmB9+NlW7FWpvrHYZEGQPIOv/kxbh/uSYyNkrLTzc7qO
-	gL+i1vivgGvjQ29fc3IWk1Cyc7OlkeH6VNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777971338; x=
-	1778057738; bh=Nrwuo/+nYfvvkFdN9r0lVAZqHDvFKDhxxjPsiSToe70=; b=N
-	OKsodCAbsamJLPBcCcCwxhOZ9BfJmKBKNeVI5pNkhGkjCHs+yd/Yn/5OjyXi0EGL
-	bLQ5XKZDNjBQFb3OT3yUDIi2jeUSAfes5HnBR5+wTHXu7tvwmVvl7EyO4peMhSoG
-	QG+KmBTFAR1wJAbdz6+aDdTumQx+fTp00m9e+U9TyVl4wwmqWP93RP8YvWwyn4fp
-	DcGHDOgtx/40qb6WyztYl48z1dfHc5VgdNxkJCRNCHqcRDhZ5q+36W30UFXjCagm
-	KqxKAQAR//Hy3r9q6s7xv2gJqsUyClm1LgxKsKMoM8tdpVSd8gn7pmKi1NezKD38
-	r8wULbnt/bzysMpIMIN9Q==
-X-ME-Sender: <xms:irD5adCvi-1KUVqNYKQlrMdjXI1ApYS0MIhAu0vDZKc7xVz2YTUUnw>
-    <xme:irD5aUcVKxz4mIwOI0kvESDA9pfcazLGRA0dFj3ovMo3Y-gjJxgt1WOxM_4KVtjLK
-    BdzNZLEGMN1BD6OxRO3rvxlwIX2-VN6WAM4aiE1entam33b>
-X-ME-Received: <xmr:irD5aUIhIzka7wazAaTzPNLMksOHdp8YyI9iSZSOeQ1671xKsFJgEOnXn0p7xAjfykilqlM9KkIFNNcZ78xxoXUMRvibPuU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduvdekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epleejtdefgeeukeeiteduveehudevfeffvedutefgteduhfegvdfgtdeigeeuudejnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsg
-    esohifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphho
-    uhhtpdhrtghpthhtohepvhhirhhoseiivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprh
-    gtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthhtohepthhorhhvrghlug
-    hssehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegsrhgruhhn
-    vghrsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:irD5aX22H8A6-LjgvTRPqRsROPXI9tpTmKT58th57gse41NbNy7gFg>
-    <xmx:irD5aehbdDWEmMxUzi2Iy5yTE1jO1V7HVD6nsRgnLqvwa5RcPgLOQg>
-    <xmx:irD5aYUB6xrVNg-KKdJXFwYUrFOco2ClqDhPaBaYabWZxtcUPBJucA>
-    <xmx:irD5adXyfryIOwmQvZ2ku3El1lTgNyBe0tuYtd5uY_IwCzM3Kqlr_A>
-    <xmx:irD5aSRi5AikivYmkQ8qXdBOWPhBBVSdhxL32TKDe3a4W16uFJYH4MWW>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 May 2026 04:55:36 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iQ+2iaMv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2A3C2BCFD
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 09:00:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777971622;
+	bh=GtynK+QDnGUBQOJKvHqQ80Y68fNNiSCEP6oNzkZNKZk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=iQ+2iaMvprBkbqdSBJfABXbXXE1HirzM9Sulp25o/VrQpAqzzsXhEHB0L+k8duVoY
+	 27Xi5fDo5ogec/JXicfmx0QFhfMAv6Wb1cxSX6/01tw+OZtLnsQXkOol9jtDHmnHTc
+	 oWNQvyGT8giDM2N3DurQdrVQtcc+XNKlBV3f1q89L9hrx7Ponal3vKjYHKF/+hvAz0
+	 fAxkEqDBRtnHCyItJ+gMbdpgc2t1nrhXldpxdv1w8MGxedg+TejZ9lIn54RHRODt79
+	 LsuaeDIqSXMOTIgWcWmsNDEpvlpdkLjtseTRGTUQ9wt1JIdb6fMcKWs+Fz9KrAorCV
+	 nnQvHDM5RXIEw==
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8b3fe2f19a4so45875816d6.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 05 May 2026 02:00:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/0BXv/HLSZ3xqvibpg4jW59i3ewp6kdc1inetVqfNNQC+iflJ4OFqPOR31uUhRmywnXxLsFHWWmZlySeVs@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFXVcCXmyLVQhZPhXtEJqFA8OORVQoPxThrX7U0C98hUemc46V
+	vIHYR+eWOqE/aPoLQMI51LHMpg3tFUt7ZHBEd1z3hQBIb5zk8cOXe2rOYckanHeWdqlFsqxUK06
+	f292075lr7rKs3Gej4JCNMmc5/ind+MI=
+X-Received: by 2002:a05:6214:3012:b0:89c:4985:83e3 with SMTP id
+ 6a1803df08f44-8b6698d2a69mr214767286d6.49.1777971621057; Tue, 05 May 2026
+ 02:00:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Al Viro" <viro@zeniv.linux.org.uk>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- linux-fsdevel@vger.kernel.org, "Christian Brauner" <brauner@kernel.org>,
- "Jan Kara" <jack@suse.cz>
-Subject: Re: [RFC PATCH 12/25] reducing rcu_read_lock() scopes in dput and
- friends, step 1
-In-reply-to: <20260505055412.1261144-13-viro@zeniv.linux.org.uk>
-References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
-  <20260505055412.1261144-13-viro@zeniv.linux.org.uk>
-Date: Tue, 05 May 2026 18:55:33 +1000
-Message-id: <177797133377.1474915.1770170197135589795@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20260503211835.16103-1-dwindsor@gmail.com> <20260503211835.16103-2-dwindsor@gmail.com>
+ <CAHC9VhSy5K5nQTtFUE4BScy1Ur61v7eZW067vTcUYDQeJb13Bw@mail.gmail.com>
+ <CAPhsuW6sy2cdC4B7Z48-5A-yVX6fmVWxS_fWVjQxiX95KeUguw@mail.gmail.com>
+ <CAHC9VhQLN5NA_ZMMNyUdMCZVdwC3VM4PUnzka8xDK5rpR2a3sw@mail.gmail.com>
+ <CAPhsuW5nDaLAV5UfAHeX6QPeF6bs-WDkFYOzYO7Q9_O6v=jEHA@mail.gmail.com> <CAHC9VhRx7L1WXYgQvWmGN0a7ssSaDKx4JPhup2E3W161sdp74A@mail.gmail.com>
+In-Reply-To: <CAHC9VhRx7L1WXYgQvWmGN0a7ssSaDKx4JPhup2E3W161sdp74A@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Tue, 5 May 2026 11:00:08 +0200
+X-Gmail-Original-Message-ID: <CAPhsuW5zRktottTujy_O1=8VkdJGDO71M3DVVM4ezffwT_dm+A@mail.gmail.com>
+X-Gm-Features: AVHnY4JZRdCG9loGqSDCFw7FZrMfBgkgMT9QoL0A5yPckhp_yvZ1LkYDW4fZ9vI
+Message-ID: <CAPhsuW5zRktottTujy_O1=8VkdJGDO71M3DVVM4ezffwT_dm+A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] bpf: add bpf_init_inode_xattr kfunc for atomic
+ inode labeling
+To: Paul Moore <paul@paul-moore.com>
+Cc: David Windsor <dwindsor@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Matt Bobrowski <mattbobrowski@google.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Jan Kara <jack@suse.cz>, John Fastabend <john.fastabend@gmail.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 05 May 2026, Al Viro wrote:
-> rcu_read_lock() scopes in dentry eviction machinery are too wide;
-> worse, quite a few of the function involved are not neutral wrt
-> that, making them harder to reason about.
->=20
-> rcu_read_lock() scope is not the only thing establishing an
-> RCU read-side critical area - spin_lock scope does the same and
-> they can be mixed - the sequence
+On Tue, May 5, 2026 at 4:02=E2=80=AFAM Paul Moore <paul@paul-moore.com> wro=
+te:
+>
+> On Mon, May 4, 2026 at 7:09=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+> > On Tue, May 5, 2026 at 12:42=E2=80=AFAM Paul Moore <paul@paul-moore.com=
+> wrote:
+> > [...]
+> > > > > Perhaps I'm simply not seeing it, but is there a check to ensure =
+that
+> > > > > there is only one BPF LSM calling into security_inode_init_securi=
+ty()
+> > > > > at any given time?  With the BPF LSM only reserving a single xatt=
+r
+> > > > > slot, multiple loaded BPF LSM programs providing
+> > > > > security_inode_init_security() callbacks will be a problem.
+> > > >
+> > > > I don't think there is such a check. Also, a single BPF LSM functio=
+n
+> > > > may call the kfunc multiple times, which is also problematic.
+> > > >
+> > > > I think we will need to make the default bigger, and also introduce
+> > > > some realloc mechanism for the worst case scenario. This should
+> > > > work, but the code might be a bit messy.
+> > >
+> > > Thanks for the clarification, that is what I was afraid of when
+> > > looking at the code, but I was hoping I was just missing it.
+> > >
+> > > Increasing the default is an option, but I don't think we want to
+> > > support a dynamic reallocation scheme for the xattr slots, that will
+> > > likely get extremely messy with synchronization between the LSM
+> > > framework and BPF LSM hook registrations as well as special code to
+> > > handle inodes with lifetimes that are disjoint from the BPF LSM
+> > > programs ... I suppose there may be a way to do it, but it will surel=
+y
+> > > be ugly and come at a cost.
+> >
+> > BPF trampoline already handles all the synchronizations, such as
+> > add hook, remove hook, etc. properly. So this is not that hard.
+>
+> How do you plan to handle the issue of disjoint lifetimes?
+>
+> > All we really need is to allocate a new array, copy pointers, and free
+> > the old array. And we only really need this in the worst case
+> > scenarios.
+>
+> Oh, is that all? :D
+>
+> Keep in mind that the code must also handle arbitrary ordering of
+> LSMs; in other words, you must handle a BPF LSM that isn't at the end
+> of the LSM order.  While a BPF LSM at the end of the LSM list is the
+> most common, and recommended ordering for the vast majority of users,
+> we've been working to make the ordering as generalized as possible.
 
-Does it?  I can't find any document or code which supports that clain.
-Could you provide a pointer?
+All the BPF LSM hooks are called together, so it should be fine.
+Maybe I missed some corner cases.
+
+Either way, I agree with David that we don't need too many xattrs.
+Since BPF LSM is reserved to the privileged users only, it is safe
+to put a reasonable limit, say 4 or 8, and do not handle the realloc.
+If the admin would like to brick a system with BPF LSM, there are
+many other ways to do it.
 
 Thanks,
-NeilBrown
-
-
-> 	rcu_read_lock()
-> 	...
-> 	spin_lock()
-> 	...
-> 	rcu_read_unlock()
-> 	...
-> 	rcu_read_lock()
-> 	...
-> 	spun_unlock()
-> 	...
-> 	rcu_read_unlock()
-> is an unbroken RCU read-side critical area.
->=20
-> Use of that observation allows to shrink rcu_read_lock() scopes;
-> it's too delicate to do that in a single step, so we'll split that
-> into several commits.
->=20
-> This one breaks rcu_read_lock() scopes in front of shrink_kill() call
-> in shrink_dentry_list() and finish_dput() call in dput(); in both
-> places we are withing ->d_lock scope, so doing that won't change
-> the RCU read-side critical areas.
->=20
-> With that done, we have all calls of shrink_kill() and finish_dput()
-> immediately preceded by rcu_read_lock(); next step will use that.
->=20
-> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-> ---
->  fs/dcache.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index 7cf965f9fb29..d690c18f0c33 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -978,6 +978,8 @@ void dput(struct dentry *dentry)
->  		rcu_read_unlock();
->  		return;
->  	}
-> +	rcu_read_unlock();
-> +	rcu_read_lock();
->  	finish_dput(dentry);
->  }
->  EXPORT_SYMBOL(dput);
-> @@ -1682,6 +1684,8 @@ static void shrink_dcache_tree(struct dentry *parent,=
- bool for_umount)
->  				wait_for_completion(&wait.completion);
->  				continue;
->  			}
-> +			rcu_read_unlock();
-> +			rcu_read_lock();
->  			shrink_kill(v);
->  		}
->  		if (!list_empty(&data.dispose))
-> --=20
-> 2.47.3
->=20
->=20
-
+Song
