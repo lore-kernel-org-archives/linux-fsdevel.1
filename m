@@ -1,45 +1,43 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671DD3A8F7
-	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 20:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED173EFD30;
+	Tue,  5 May 2026 21:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778012930; cv=none; b=kGj/XItTXs4oTH30RMtu1dAcFzQvB4LSuUfxlDu4MnNZsVEkd5UayaZSw2RObxGTwDPL2bp/sXG28evnDobBrh9pxU1qF3g+udJQL0jhtjA/NbbDVx98Bqz6Co+WR4WfJPwE7uDUbil1OMMUKTmCYi8NCR9h9FZh407kxXiTv/U=
+	t=1778014821; cv=none; b=c60747M+C/Z+ZV9gf09bysxaX0/OqI0XHFwtBVf8jeX4JC2Q1WjOVrxYEWrGE+4P3I4Bsb14PSPGoRoSnSVrX02eKetcq1cXxwAXoQg2GJTod19oWLcubtus+onLvDv2ghN9PVIHp6yzPovDZ5Iq3ymkBxBxFdMZNDBj13UdCjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778012930; c=relaxed/simple;
-	bh=L3lQuz51YbpOJZmCb0rL7xSh4HKevO9kmwtWCsmkuh0=;
+	s=arc-20240116; t=1778014821; c=relaxed/simple;
+	bh=M1EULEHUjdnkQykduF0+PVxhMQpk8F8v4jxC+DrYfJ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g0w3bwihoQN6kUINTP0ZSyvNiqC2+2E9SDps78goM/4nnhgVa2ly/RtxCBNHTQ725/znb5OW5siGnWhwP1+gHrjDMhkp0Ox0HoP5QKmEJgQKIo2TAU9nDHbkRrs6mCYXzcS22i4iIbARdtjIXehUhsjFg45TX5q4o4qZHUQ3Hno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=ccrwX10A; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=iEBuPHg0HvFo6OkmR0jdiSGRA4dWVznAG11M1O+P94V8of0tmUr07MofvuU4PLIpyxtrq046w5fdrhyHX0+fzDZXsv2gl100LOShD7R1wQGSOZal115lUPI+fLmqAK9dE49jIvdF/QDcoJBO0NQ3mog705XAjeEs53ZxoXCRfy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vN4fl2WW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="ccrwX10A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=As/cZ5HPyH3zNCjVk22IRnmhgn1KQIkmJdr0ClJAPag=; b=ccrwX10AkeY4bAVVpMsN4fR+Xo
-	a+hA+8d1mLNwTDZ00jYGDpuKaawUAj0s01CMks+QVVWJs+2ne9gKfv0nVgGi1IYMU7SgmstcFomdR
-	AH+18uI8IofwcKpY4UmJTTMLez5OmT0Ey0IzITc9gKHQdwFrcxtTyh4hZqhunSBly/hTTsbT4WMpg
-	0rRaPbX5wguUomWM0z7dcn5MRzlrYqnGe54jllMywpehZXohkzVOcbTMMINUE8q1fdHzrFd7ejfk9
-	mm+x21j6DOiOeXWGaTSt/Kv1eup7rJfORO/QvKrQH7cZWgFR1x0+Hd/hdBxRL72RTZftw+0OGCPBv
-	Pq70cvsw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKMOA-00000008Coa-2qlO;
-	Tue, 05 May 2026 20:29:06 +0000
-Date: Tue, 5 May 2026 21:29:06 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>
-Subject: Re: [RFC PATCH 03/25] fix a race between d_find_any_alias() and
- final dput() of NORCU dentries
-Message-ID: <20260505202906.GG3518998@ZenIV>
-References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
- <20260505055412.1261144-4-viro@zeniv.linux.org.uk>
- <CAHk-=wjSmm8r9yv6EvjaDYqMgBa1OwCi=W+NM9ZLzEgaGs66Bw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vN4fl2WW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406A3C2BCB4;
+	Tue,  5 May 2026 21:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778014820;
+	bh=M1EULEHUjdnkQykduF0+PVxhMQpk8F8v4jxC+DrYfJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vN4fl2WWIcUwnYi4h0+Hq2iysUfx9bd9YflB+YELzAAjswbiVv4dVWNuiD8I8qenJ
+	 9Xg6V5F0EsmU5s2mDZinbzwN/zdkBgiuHiA+R+NeXVpLYX2MlZbbzrWJT0cO8d9HMz
+	 MgZ8d0rSn0Gj+5FNgpWP+f9TbAHLJCz+X2LTI6jpvRTNrmey7uhIfTg4xMLMa+ygms
+	 MmWhNb+tgWjY54ld9148z0YGqeC17tL9IRbsBzJ7em7ZlIBPMM7L5Sgkp9Zo3R79yW
+	 lWE8eru0709pZbgQ4gphrkfN0RvqCj6uvuVHXdHkfXr9aRvfkk6KrvX4fd5Ma4DFSz
+	 qgaHC3tlbVQTg==
+Date: Tue, 5 May 2026 14:00:16 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Colin Walters <walters@verbum.org>
+Cc: fsverity@lists.linux.dev,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH] ovl: fix verity lazy-load guard broken by
+ fsverity_active() semantic change
+Message-ID: <20260505210016.GA3895@quark>
+References: <6630d44f-967d-41f0-81ce-6958b371465a@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,27 +46,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wjSmm8r9yv6EvjaDYqMgBa1OwCi=W+NM9ZLzEgaGs66Bw@mail.gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <6630d44f-967d-41f0-81ce-6958b371465a@app.fastmail.com>
 
-On Tue, May 05, 2026 at 10:06:06AM -0700, Linus Torvalds wrote:
-> On Mon, 4 May 2026 at 22:55, Al Viro <viro@zeniv.linux.org.uk> wrote:
-> >
-> > +/* dentry->d_inode->i_lock must be held by caller */
-> > +static inline bool __dget_alias_careful(struct dentry *dentry)
+On Tue, May 05, 2026 at 02:15:58PM -0400, Colin Walters wrote:
+> Commit f77f281b6118 ("fsverity: use a hashtable to find the fsverity_info")
+> that broke `ovl_ensure_verity_loaded` in the case when the inode was not in core.
 > 
-> I know the double-underscore pattern is the standard pattern we use
-> for "internal functions that have special requirements you need to
-> care about" and I'll take the blame for that pattern... It goes back
-> to the very beginning.
+> The APIs here are in my opinion now confusing, but this patch intentionally
+> aims for a minimized fix by using `fsverity_get_info()` which ensures
+> the hash table is loaded.
 > 
-> But maybe in cases like this, we could just instead document the rule
-> in the name instead of that "careful" and double underscores?
-> 
-> IOW, how about just calling it
-> 
->     static inline bool dget_alias_ilocked(struct dentry *dentry)
-> 
-> or something like that?
+> Fixes: f77f281b6118 ("fsverity: use a hashtable to find the fsverity_info")
+> Cc: stable@vger.kernel.org
+> Link: https://github.com/bootc-dev/bootc/issues/2174
+> Signed-off-by: Colin Walters <walters@verbum.org>
 
-Makes sense, will do...
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+
+I can take this through the fsverity tree as a fix for 7.1.  Amir, let
+me know if you'd prefer to take it instead.
+
+- Eric
