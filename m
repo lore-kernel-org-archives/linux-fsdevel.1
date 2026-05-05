@@ -1,65 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC400175A6E;
-	Tue,  5 May 2026 05:21:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9CB239E9B;
+	Tue,  5 May 2026 05:23:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777958495; cv=none; b=pfJyMYfydRn9wvTUb+Iw7etwJ/6S7uY1fz7SBG6TDH4Y1gYTnUKMjX/pjuv/QUcK4Npf2Sf5lo58MASih/NZyHSX2eqLTra1487xbNue5rm0WaWPLjKxkSpgBzl6yW24J5uuArC26EfWKj7FbDDeDehE1ZeVUGstyTHATMNaEig=
+	t=1777958584; cv=none; b=iQKosz50fzabUdhKwdyk0i0tWLKrXNSoB2dnbufdllT1FQ989yESBTK5iMEBMkY3hjBY1+yGDt5hIutDbU7+s00onKiVCpvjopvqDRd7vbbVrKYglix2bMtN/kYNEJ6ZL4C7rl1NZFySxO6H9unDxxidOp9FmMDQRc5MF85rYg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777958495; c=relaxed/simple;
-	bh=/ZJZKBaq7O387rInC/N1nA3zu0tjFjaxr2LdeJEzKvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gbt5J2QfwBbkb3pbvMfLZIZUSQiUyv531GxuIFslYLPX93PfhNNxpBZge+IqRWa972E696AU0SfEK7p3dqlZfN7iGDGnvUHQexaJ7bdvn4Loset72AmTac2OPJjk3DEgKGCd7lrHEC9I2eb5hz5b4byHuLTuADpGL/7HNifHujM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHdGDLEA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777958584; c=relaxed/simple;
+	bh=jQ1Y+8aK8IQo7UeyGoegW71GC4dwqnzp8ucctb1nn+w=;
+	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=honHP3BvCsXoRxrn83OpbOhE9CtaBgIUPecD1yNStN8iX87ApaOHXom5zZL7BOqiPqR7+P68xQxYo1CcOFmmea5jPlopROuoPX9acIkrVf8M0SXKz7bioO0EGeLhbWgYbxq8dXWCbR7Wg1Zx0/6vhjO5T63R7G93ptK6C1Jn/VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWWdnl89; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHdGDLEA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67731C2BCB4;
-	Tue,  5 May 2026 05:21:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWWdnl89"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70539C2BCB4;
+	Tue,  5 May 2026 05:23:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777958495;
-	bh=/ZJZKBaq7O387rInC/N1nA3zu0tjFjaxr2LdeJEzKvw=;
-	h=Date:From:To:Cc:Subject:From;
-	b=nHdGDLEADcETtWdusmibrsGb0wm9QJX8mTO/6Afno9ztnYr3E0yPVg2kZJtznKkV7
-	 t8JZIRRrFwD0kvn9SuLarx+gp4Khc4O4ActGdR2vG8eeDS6JDNfaqZdqQF9OJWYnMs
-	 a0IGc1RZPBKwdvSBtf4oaDtx51K80vgdsGqVGtyt+RTyMunP2q7RUi4/FVOzBpdgEP
-	 72brHuUjDzEFNT4EnijTsoEyIZKYj+DIYjl6w626a5uDEO43Fwv68DqGDd9ImYPNxN
-	 ss0HJwMIsiuG29r9iCBVD6q+xJOW5rA/6PaJyRu6xRS75BsEr/ylBpY9Ol8RR0fdYG
-	 lHJfeEmAoWrSA==
-Date: Mon, 4 May 2026 22:21:33 -0700
+	s=k20201202; t=1777958584;
+	bh=jQ1Y+8aK8IQo7UeyGoegW71GC4dwqnzp8ucctb1nn+w=;
+	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
+	b=cWWdnl89h2C7xTO0gt+clgmLPinulJ5Hrww7R/wPo094XtOd1Cv0O/llMIeXwV9UA
+	 m+9A2ozRQGKJDHrqt6H+VcOAfOtBJ1LzLg4a0WiKLn9maXztkdOzyCnkndoZaYcJ9Z
+	 YNdJ7n9L07bF1A5PGOd0I/dyRUSgniV9L+xVR/Sq3R0wSAr9hg+dAhW2Eo5Lbm+YeZ
+	 vVcCcHmuT9+ryDzDDePK24T7ZxZnWIlK9PFSmacgICAMgVia/ClFe5Bam9RKwUUxfq
+	 /VsuEdl3T7AgvXsScL3mALU/n8qkPOFI0Ld8KvMkqFduVBhZ10psvmoU6zmhKP4lNl
+	 1TmdFqwlYz1ug==
+Date: Mon, 04 May 2026 22:23:03 -0700
+Subject: [PATCHSET 1/2] libfuse: new mount API and SYNC_INIT fixes
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
-	miklos@szeredi.hu, neal@gompa.dev, joannelkoong@gmail.com
-Subject: [PATCHBOMB] libfuse: various fixes for new mount code
-Message-ID: <20260505052133.GR7765@frogsfrogsfrogs>
+To: djwong@kernel.org, bernd@bsbernd.com
+Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
+Message-ID: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
+In-Reply-To: <20260505052133.GR7765@frogsfrogsfrogs>
+References: <20260505052133.GR7765@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Bernd,
+Hi all,
 
-The two patchsets under this message try to fix various bugs in both
-yours and my new fuse filesystem mounting code.
+Here's a collection of bug fixes and cppcheck cleanups for the new mount
+API code and the new SYNC_INIT code that landed in main recently.
 
-The first patchset branches off the "fuse-service-container" branch on
-your private github account and fixes a couple of problems I noticed in
-the new SYNC_INIT + fsmount code.  I think they should be applied to
-libfuse master sooner than later since all that stuff is in master now.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/log/?h=fuse-mount-api-fixes_2026-05-04
-
-The second patchset contains some latent bugfixes that I put into my
-branch after you pulled my series *and* what I hope are sufficient
-corrections to resolve all the new cppcheck complaints that you sent me.
-I have now managed to (I think) replicate your setup exactly enough that
-I can run it here independently.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/log/?h=fuse-service-container-fixes_2026-05-04
+With a bit of luck, this should all go splendidly.
+Comments and questions are, as always, welcome.
 
 --D
+---
+Commits in this patchset:
+ * libfuse: don't use SYNC_INIT unless asked for
+ * libfuse: always send the subtype to the kernel when using fsconfig()
+---
+ lib/fuse_lowlevel.c  |    6 +++---
+ lib/mount_fsmount.c  |   13 +++++++++++++
+ util/mount_service.c |    3 ++-
+ 3 files changed, 18 insertions(+), 4 deletions(-)
+
