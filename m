@@ -1,190 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C943EAC90;
-	Tue,  5 May 2026 07:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D000F3EAC82
+	for <linux-fsdevel@vger.kernel.org>; Tue,  5 May 2026 08:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777967194; cv=none; b=crHWEX21T8cUjXkcFy+JbL/R6UjPgb7GSs2DP2iA/7bFRpA7NHyygKCfSDGuTgYn0XCJ99KDSCT8JefRRmguMRmDzEDaPsTlJhw6KfkI+FK07WWUnoWt3ExARfD/rleD+iWWz06Es7FFcjWWmJ37XuqPpCBhb4IPbpusPiMbSq0=
+	t=1777969080; cv=none; b=i9FciZc2jQ2r6GYPdxwGw27e1R0tFQzxNOr5MKsvXjVGC/Ui2KazCojqvmR2bVe/PWDdo8ZMtcd2gnubMd1jaoYVDzHSAEuli5CIcIiz3N/Px7bE586kwLJ+Z45N/IxauGdokKscm8uPGiKSDgGsimSuh/DSp5gqZtpeXIjRWVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777967194; c=relaxed/simple;
-	bh=Rl3qzGbfwLjg5DijAFUn8oGFe8lDakZsz8523J5ndLA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=lMhq5Ayxw/w8d7kYk77+4uSoajzWBnJqHwr3wy4CKjg6zUkbLNVvbfFlqdq0szxeQWFUhgH75k2DWSV004AvmeaztsvgonbPWCw8umJRQzW53H3J/LsuMnuhUOtz9xwjj5pWp36Kum5YmRR4/vZNpWTsFWWt5GUwFHJdfxC/R2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLqBXYQf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777969080; c=relaxed/simple;
+	bh=FLeP3R0wxUYPX2i2I8xsmPuz7nUB+cvC8EdEkIrSGVs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=csPNETaHL6DpDh03bA/EYKjknQsYwMhvt5VKJpqPFmYAB1OKXewyPlFOohkUdjjJeHrVGwXIoH1tV5nTkZA8JJTJvwKjCmoGeRpo23ryS0IRMTLlxElA/5XqrOPHlKb5B5rKpHfBzGpInhcc4QYHosZA5MKlKrye37BJdljoCNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=kPUX1jSD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=USuYm0lj; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLqBXYQf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5301C2BCF4;
-	Tue,  5 May 2026 07:46:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777967192;
-	bh=Rl3qzGbfwLjg5DijAFUn8oGFe8lDakZsz8523J5ndLA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iLqBXYQfGtYCekmIFmeZDd+1eQpY90M+okEBoT/QJts07U7n9oLOel6m6aQ6SK57r
-	 /gf6LaaTXwWQUMtM1APShNgQbnrxykDBKsIst4UWqXrmP0VRDPe5ukCJztAtBUWmxu
-	 lEE0kSm8Fe46YboVgTf6eYQVLfrKOnAFFj3TE9+vC74Cy011B77JPYDVwt5l9oD8Fu
-	 Hk9OKWIwqxUNP3NWr6lT0SERqqRievXUDKK/OEGWasq+j3wetyKVtjwj+mPLzYEmD3
-	 NO6mMi7QbkQlfnnZoKR3Kgqy6nka44CFmRwMKJ4Tz+++hNzIxuMXyTOuixmyxmuH+N
-	 nkBEplOzqTTCg==
-From: Sasha Levin <sashal@kernel.org>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Sasha Levin <sashal@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org,
-	tools@kernel.org,
-	x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>,
-	Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v3 2/9] kernel/api: enable kerneldoc-based API specifications
-Date: Tue,  5 May 2026 03:45:43 -0400
-Message-ID: <20260505074545.430334-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <afNrbm8URHlClZ-8@levanger>
-References: <20260424165130.2306833-1-sashal@kernel.org> <20260424165130.2306833-3-sashal@kernel.org> <afNrbm8URHlClZ-8@levanger>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="kPUX1jSD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="USuYm0lj"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 317DD140003E;
+	Tue,  5 May 2026 04:17:58 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Tue, 05 May 2026 04:17:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1777969078;
+	 x=1778055478; bh=g+tNfC/v4bnva0UsPQrDhLCVfzIbJpsDyk1y282O4Wo=; b=
+	kPUX1jSD0jK9e0SNemeTEmKVLvoDZVRhm3Ju2ldre/wtwgcZvinBb4agdyAJ0+cR
+	/GRPFeyUj6feEWXhvLASMcxow9acggw6/TyxhGLODomFoTM1yjl+18uL8/0ccM1Y
+	nmGQwbJngOjaAoSuRywbpWAzg90SF1UCxFKd22up9vDkwnSJj6YU3YoZSela9OLO
+	e07D9JjW5KWrujklH55XqVut5d1lWUE7yqCvE/GpKhMiyJn/RG6eBquPHOy6XJIN
+	EX9wovT1UkIt+g+bMPzKDxG0SqIEPj6wG/WBhH2RF714s0hWAQBekr1RRCP8cyRt
+	yZO/PyMU4yCvzOeDVkN5Kg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777969078; x=
+	1778055478; bh=g+tNfC/v4bnva0UsPQrDhLCVfzIbJpsDyk1y282O4Wo=; b=U
+	SuYm0lj4Js+3Rd66f4c+DmPvpHx0lYgnMk8gDQh6deazDz/vJZxWBtQ5ZBlIEH33
+	GZbGni70hHcxzXQhpnOpEGSHbqlxB62wC+eReGHj67DLYe4r2nn4jld9pqeWhH1X
+	1hvF0sLOLkZ4V/jPHkBcwJkzmYa8CHgWYa0imtu5xL1ciPNyLfZlHhB8YwW/WkCX
+	KacrR+c27QTgzryQ0ALPUcAuPr8ih7WJdXPjUuUJP6ZHNVss0U5scCBwvvjLf2Av
+	1OcUsxynwqr7gxhvVjMLhnV/LXI3H6FsHViII4u0ErJnCBQ7vUyVvgCQ//iTjTG8
+	M5vFH0LdoBZVE8GVpRgug==
+X-ME-Sender: <xms:taf5acntgh0DMOq8xgsTecqy1mglc3vy4Yh-dUfryBAAjsjgok_Suw>
+    <xme:taf5aVJEm5ngYkHQ-lawayfICkFIeQ4rMPb3L-01xC3qX7ruPbFwzoeHlpndNTuu8
+    P450YngSsbae1UWjx8WXz75Qe-7M6K-1D7A6dcbjY_SgyQ-G-g>
+X-ME-Received: <xmr:taf5aR6Si2RW8pWrSM3KB9irStjIQtm7tUZL_3klCbAS6qm9EfKw21iuTTYc8-8hvck>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduvdduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffhvfevfhgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeelleegudduueffuddvteegffehudeuieffledtudehkeehffegteegfeeh
+    vedtteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlih
+    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
+    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
+    guihdrhhhu
+X-ME-Proxy: <xmx:taf5aZ1JjHui1DhwMR4gMAtXEEQsaToRIpTVWwbmYlDHh2bIedNEug>
+    <xmx:taf5aXfcorXkJUEL-NKjlZwm0l1Ho2tjxxJM7-qb9Vdk1I-Ha14ClQ>
+    <xmx:taf5affM7BZVwbxdf0OmHHoDs90jBFOyctQmy8MzamfAZMQ86timqA>
+    <xmx:taf5aSwL8ZMywLyKLz9yhtXCisZqDPExCJr3yJ8OSlQ4qKokLb2MFg>
+    <xmx:tqf5aW1OGk7bJb4MFuzRsbS6vEYMX9-mZTYUiUACS4IyrfC1rxROwzzn>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 May 2026 04:17:56 -0400 (EDT)
+Message-ID: <52bf2b08-49e6-4484-8222-b0ef8473b912@bsbernd.com>
+Date: Tue, 5 May 2026 10:17:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] libfuse: don't use SYNC_INIT unless asked for
+From: Bernd Schubert <bernd@bsbernd.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
+References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
+ <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+ <b023fe55-c8a5-40ed-be37-a21e1682b509@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <b023fe55-c8a5-40ed-be37-a21e1682b509@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 30, 2026 at 04:47:10PM +0200, Nicolas Schier wrote:
-> On Fri, Apr 24, 2026 at 12:51:22PM -0400, Sasha Levin wrote:
-> > +# Generate API spec headers from kernel-doc comments
-> > +ifeq ($(CONFIG_KAPI_SPEC),y)
-> > +# Function to check if a file has API specifications
-> > +has-apispec = $(shell grep -qE '^\s*\*\s*context-flags:' $(src)/$(1) 2>/dev/null && echo $(1))
-> > +
-> > +# Get base names without directory prefix
-> > +c-objs-base := $(notdir $(real-obj-y) $(real-obj-m))
-> > +# Filter to only .o files with corresponding .c source files
-> > +c-files := $(foreach o,$(c-objs-base),$(if $(wildcard $(src)/$(o:.o=.c)),$(o:.o=.c)))
->
-> Looks to me as if the two lines above are redundant, since 'find'
-> (below) will find all files gathered in $(c-files).
 
-Right, those two lines are dropped in v4. The replacement uses the
-kbuild-derived file list described below, so neither set survives.
 
-> > +# Also check for any additional .c files that contain API specs but are included
-> > +extra-c-files := $(shell find $(src) -maxdepth 1 -name "*.c" -exec grep -l '^\s*\*\s*\(long-desc\|context-flags\|state-trans\):' {} \; 2>/dev/null | xargs -r basename -a)
-> > +# Combine both lists and remove duplicates
-> > +all-c-files := $(sort $(c-files) $(extra-c-files))
-> > +# Only include files that actually have API specifications
-> > +apispec-files := $(foreach f,$(all-c-files),$(call has-apispec,$(f)))
-> > +# Generate apispec targets with proper directory prefix
-> > +apispec-y := $(addprefix $(obj)/,$(apispec-files:.c=.apispec.h))
->
-> To goal is to find any relevant C file in $(src)/ (but not deeper below)
-> that holds KAPI documentation, right?
->
-> I do not like the find call, as it picks up anything.  Might it make
-> sense to evaluate $(obj-) along with $(obj-y) and $(obj-m) to pick up
-> all C files that are references in kbuild?
->
->
->
-> # in top definition block -- before 'include $(kbuild-file)' et al.
-> obj- :=
->
-> # below the definitions of real-obj-{y,m}
-> real-obj-any := $(call real-search, $(obj-y) $(obj-m) $(obj-), .o, -objs -y -m -)
->
-> has-apispec = $(shell grep -lE '^\s*\*\s*context-flags:' $(1) 2>/dev/null)
-> apispec-y := $(patsubst $(src)/%.c, $(obj)/%.apispec.h, $(call has-apispec,
-> 		    $(patsubst $(obj)/%.o, $(src)/%.c, $(real-obj-any))))
->
-> #...
->
-> # Source files that include their own apispec.h need to depend on it
-> $(apispec-y:.apispec.h=.o): $(obj)/%.o: $(obj)/%.apispec.h
->
-> (untested)
+On 5/5/26 09:30, Bernd Schubert wrote:
+> 
+> 
+> On 5/5/26 07:23, Darrick J. Wong wrote:
+>> From: Darrick J. Wong <djwong@kernel.org>
+>>
+>> If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
+>> maintain compatibility with older fuse servers that only support
+>> asynchronous FUSE_INIT.
+>>
+>> Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
+>> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+>> ---
+>>  lib/fuse_lowlevel.c |    6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>>
+>> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+>> index 0e16845d2f14ff..0a801132590079 100644
+>> --- a/lib/fuse_lowlevel.c
+>> +++ b/lib/fuse_lowlevel.c
+>> @@ -4475,9 +4475,9 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
+>>  {
+>>  	int err, res;
+>>  
+>> -	if (!se->want_sync_init &&
+>> -		(se->uring.enable && !fuse_daemonize_is_used())) {
+>> -		if (se->debug)
+>> +	if (!se->want_sync_init) {
+>> +		/* SYNC_INIT is required for io_uring(?) */
+>> +		if ((se->uring.enable && !fuse_daemonize_is_used()) || se->debug)
+>>  			fuse_log(FUSE_LOG_DEBUG,
+>>  					"fuse: sync init not enabled\n");
+>>  		return 0;
+>>
+> 
+> Hmm, but mounting is kind of a libuse internal part? If this is really
+> needed the commit message should mention the exact reason - what is the
+> issue with old fuse servers and sync init?
+> 
 
-Thanks, the kbuild-driven approach is much cleaner. v4 takes your sketch
-with two adjustments:
+One reason I can think off is if the ->init() method starts new threads.
+In that case we could still do allow the new mount API when the new
+daemonize API is used.
 
-1. obj-m is already addprefix'd with $(obj)/ by line 116 of
-   Makefile.build at the point where this block runs, so calling
-   real-search again on the mixed list double-prefixes the module
-   entries (giving $(src)/$(obj)/foo.c). v4 uses the existing
-   $(real-obj-y)/$(real-obj-m) and strips the prefix in patsubst
-   instead:
 
-       apispec-c-files := $(call has-apispec, \
-           $(patsubst $(obj)/%.o,$(src)/%.c, \
-               $(filter-out %/built-in.a,$(real-obj-y) $(real-obj-m))))
-       apispec-y := $(patsubst $(src)/%.c,$(obj)/%.apispec.h,$(apispec-c-files))
-
-2. The has-apispec grep needs to match the same set of keys that
-   tools/lib/python/kdoc/kdoc_apispec.py actually parses, which is
-   "contexts:", "context-flags:" and "context:" interchangeably (see
-   _get_section calls around line 866 of kdoc_apispec.py). The original
-   grep for "context-flags:" matched zero files in the tree (every
-   instrumented file uses "contexts:"), which is the latent bug behind
-   the build failure you saw. v4 widens the regex:
-
-       has-apispec = $(shell grep -lE \
-           '^[[:space:]]*\*[[:space:]]*(contexts|context-flags|context):' \
-           $(1) 2>/dev/null)
-
-> > diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-> > index 6ead00ec7313b..f78dbbe637f27 100644
-> > --- a/scripts/Makefile.clean
-> > +++ b/scripts/Makefile.clean
-> > @@ -35,6 +35,9 @@ __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
-> >
-> >  __clean-files   := $(wildcard $(addprefix $(obj)/, $(__clean-files)))
-> >
-> > +# Also clean generated apispec headers (computed dynamically in Makefile.build)
-> > +__clean-files   += $(wildcard $(obj)/*.apispec.h)
->
-> We have a list of wildcard clean patterns in top-level Makefile
-> (line 2114 ff.); please add '*.apispec.h' there instead.
-
-Will fix.
-
-> When I apply the series on top of v7.1, compilation fails with
->
-> ../fs/open.c:2148:10: fatal error: open.apispec.h: No such file or directory
-> ../fs/read_write.c:2519:10: fatal error: read_write.apispec.h: No such file or directory
-
-This is the symptom of (2) above. fs/open.c and fs/read_write.c only
-declare "contexts: process, sleepable" (no "context-flags:" anywhere in
-the tree, confirmed via grep), so apispec-files was always empty and no
-*.apispec.h ever got generated. With CONFIG_KAPI_SPEC=y the
-"#if IS_ENABLED(CONFIG_KAPI_SPEC)" guarded include then fails. Also
-reproducible on v7.0; thanks for catching it.
-
-Thanks for the review and the kbuild sketch!
-
---
-Thanks,
-Sasha
