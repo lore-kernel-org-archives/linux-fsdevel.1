@@ -1,154 +1,150 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFD623D2AB
-	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 09:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD1314B08A
+	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 09:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778059003; cv=none; b=EAK3rp84hymKSe/YYhyyy7IBSUA/4hQlZ0gi7ugm+IW2MZ8tnNyn3JZSIBsjHusXVHo11O+TW+DAZwphWmf7y+AhbPiN7z2wJDPuKof0EOCUvy9fZJUsa45Vs4H2s2s6em6kDUngQ28jAD4zAtySSx6YAF2JMAfmaI+WtTrHvXw=
+	t=1778059494; cv=none; b=iKpM7OBl/o5G24BpmuuAxqifMl9gwe4IKsNq98QjAhF6hPXQ2Tp0DoMOcWvAKJ9nYMgjYme2CshASN4Pfq0DQ2ddk6Xyy+QWkL7Uh5HGUG0RmgCppboGrJN+I2w48Vzo8MsJGmNNo91lK/FYraz0izKEd2ALnnz886moQYOlFK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778059003; c=relaxed/simple;
-	bh=xD1k9WF7Dxfz+Stmxdlpr0gowqUIsb2AH5G6sJHBXP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wg83qMZ8q5ols/lzdHWuQgocd3ENQv4/THDp3CUyI1w3Mx5PdJIiLOyXysW36/5dKqb/dqrdGAs+B5pdvivWN0S+2ExxcI25FLN3BRAHES+Eue2g0lbXqAfZNnNV4wNWnjTWJgdW0gLa1fjII6RCg3Y9gryZJbLU9laLzsgeIc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=suNvDOHg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dQlzgI/x; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DFZQPSYI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=u4gzh1OO; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1778059494; c=relaxed/simple;
+	bh=OV7kw/pGisRe9JOuNhKKAFp1urzMk+K+3mO5rR+o9CM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hrdoGHg0+14OVpkOB4qWZgJkXOFV+kBb1rO1rViLbIEEnYrsVf83n9Ux5abMxCAyPQfYj5qBotDAPjG2tl8Ooo/YgRVMG6aSam3e/Hm/4XOt3U+6bHOeyXb0q+L/Ym0WMCLTJbK/DS6et16humrTFcPavLQmnU3NENGeSo24MxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DFfCSmAT; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="suNvDOHg";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dQlzgI/x";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DFZQPSYI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="u4gzh1OO"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8C3705C12D;
-	Wed,  6 May 2026 09:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778058999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q1VPFia6hiDAQQhgQpLG0ei8yQjDCguEt6cJAO5vMAg=;
-	b=suNvDOHgYDRWz7rIvyIwHinyLp3Oc52TNUsKLPJ2DX+OFN7LAnBIncbobems1q2RdEIsef
-	OTb3of4RevCLkonLHhrbglWvS0vpEZS3okWvp/KQz8nk7YMxu8CG1oeW+22qraokOYezRS
-	Z2LvYf3dkxZ3v/LlLj8BQ0uxBj3f75E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778058999;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q1VPFia6hiDAQQhgQpLG0ei8yQjDCguEt6cJAO5vMAg=;
-	b=dQlzgI/xAUwQKzh9eAzLv6qJJeycxkpTat+k6HjlC9dCz/AK38TxezEc7DSkoeBcAshO06
-	kCBf8OsZ7mkrL4CQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=DFZQPSYI;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=u4gzh1OO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778058998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q1VPFia6hiDAQQhgQpLG0ei8yQjDCguEt6cJAO5vMAg=;
-	b=DFZQPSYI+UgtwY/h2FYKPiNVrHOWXJ/LzTGE1uBx6tgC8Ip8nYLOFboi7yyL5pfg453Niv
-	QaARUWuELuYld4yOJXoeLITzuhvNddDdGHRm7jzYHO5n2tdWlA9fJbi+qJH2q50hw3MfF2
-	+4DCT16d4M7GnsNkv+aj6t6eK/+4pz0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778058998;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q1VPFia6hiDAQQhgQpLG0ei8yQjDCguEt6cJAO5vMAg=;
-	b=u4gzh1OOXZkxZVtitRFT3AbTLMwPF0P5kybOEWUjeWgrwuu536Au99qcRAbfF2yoR9bJQ0
-	x2zlGFTOG7728RDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82305593A3;
-	Wed,  6 May 2026 09:16:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vAfGH/YG+2nIcAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 06 May 2026 09:16:38 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 47C01A0790; Wed, 06 May 2026 11:16:33 +0200 (CEST)
-Date: Wed, 6 May 2026 11:16:33 +0200
-From: Jan Kara <jack@suse.cz>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] sync_file_range: delete dead S_ISLNK code
-Message-ID: <leia3l5jr6evrllxbz2o6kp5wf6lofpnlzxlg5ozh7is5t2nli@avxnsedur6d2>
-References: <295235c7-7f68-4554-bb6f-85398beca350@p183>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFfCSmAT"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36526b81c21so421753a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 06 May 2026 02:24:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778059493; x=1778664293; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IVw4UQ1Otw6PPSYzAZJJw/x+RLkMIP+IcH6IHhLdhuQ=;
+        b=DFfCSmAT2g1FMDV/A69vtN7FzMYztdQVCTbrkR3fU+/s1pn8pe7LYeMbhFW0hR7Zz7
+         kfi0YcVDY3VhqUBwj8FhYGdkvKbRnHhI/1da2OapfCwzAimdz5mHp0NKcosjQMXFhOpW
+         4eeOxT7EN9j354U4cJu4nXh37zUgalxLOUAQAl7S9w1hkMhO3KLzu56/uNmjQ1c/zGxV
+         9QKp8zSjZZcChprz4HvPhUkFc+l2/d7agY1V4zVkDVlkWYOQQLKKjITzbyQYG2m1Wfzg
+         cewCruCaCDLJpx7HmmQEL8l6M9MFZfZ8i++rQqYc5X1eZZMav0q4L1nv/DevadiG2VES
+         T2dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778059493; x=1778664293;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IVw4UQ1Otw6PPSYzAZJJw/x+RLkMIP+IcH6IHhLdhuQ=;
+        b=gNZ9irvlahgmb8pH6BGm1IW9NhC8XAwIB891vQ4St/uE2Aji8JYZVOdr1NM9TA3kc/
+         Cj/N1opo7fr/b6tocnvFoQYwhaUUM3LOUDYJgUKt7pt60DKsI81sDKeZCq8zcqwVS/wx
+         /xLOdUAOnX5bKPiDsfdoTBBKL5bb69f4L0KEVmCPj4oNE9qvKQdOwkqxQNfphpqzIipS
+         t10agRMjItNyJCFfjLFsJKS0rzxTuvPTy5a2DhRHGGXQ1Ee7ZIFOZ0L/DzktB9639dNi
+         w3SpJ1sSqC+AXNQYW3om3rNhpLs+Qwjsm4XGxcpZO4xghG59M9O5rWlgQctNsNYaXfQ9
+         0L4g==
+X-Gm-Message-State: AOJu0Yxc9JOR35C2kY22QkUmY/VVlLwIBL0ztdTMEVZlAvsbfnY2f6sk
+	gK1pMmp60TDQ+/yKfnHu1XJvqwRyeXTgvk2PwhzwDM9vhzF5adUqS2F4
+X-Gm-Gg: AeBDietxifgdvMNLhESDur52Q1EN0LGDhgGARXzjsTgRzYWwO9fA/w8xs81OogL+1hE
+	houPmKY8UYef6jfh0M4ErE/6LWvZef8sk2eeRsEPFZD3mHaookHtZmSBR4gjFQ1x6MgPxgSNaZ7
+	HgrRpAQXSPZASpo2F1dw40m8WOjxdrfy7qbT0DIH5VGqgV3YWbHeaPNGzCTX6YL/ZGoK4xW7Eme
+	rG4Z9at/D+PB1oCJEOmfTgxVqxqWDaksLGqNRlE5LoevF9sTCPy8PGCkXfGp3XLstPpZgyyIa5I
+	CIzGdu519sDfzo06ndpOyZUqArgPUhKmYlE6kYar1jsAcdijHXOQZxWKmycoXiYmTM37Qs5o8I5
+	uvQ+RzC0d0TCm0QnDGxkBqXh1BcmS6JCQv/NHcyrHwEHsMnhZM1EGdYBDpANylXCFB5rdK2DZ5f
+	igiMCo6yDPh+kfJgbE8YoAFylvP+k=
+X-Received: by 2002:a17:90a:c886:b0:35d:ab8b:abe6 with SMTP id 98e67ed59e1d1-365ad70d711mr1408222a91.4.1778059492859;
+        Wed, 06 May 2026 02:24:52 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365b4bc8fb9sm2101888a91.4.2026.05.06.02.24.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2026 02:24:52 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	DaeMyung Kang <charsyam@gmail.com>
+Subject: [PATCH v2] ntfs: fix out-of-bounds write in ntfs_rl_collapse_range() merge path
+Date: Wed,  6 May 2026 18:24:48 +0900
+Message-ID: <20260506092448.521995-1-charsyam@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260504154851.3034915-1-charsyam@gmail.com>
+References: <20260504154851.3034915-1-charsyam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <295235c7-7f68-4554-bb6f-85398beca350@p183>
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 8C3705C12D
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-On Tue 05-05-26 21:55:29, Alexey Dobriyan wrote:
-> Symlinks can't appear as opened file.
-> 
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+ntfs_rl_collapse_range() merges the run on the left of the collapsed
+region with the run on its right when they are contiguous. The contiguous
+check chooses a clamped index when @new_1st_cnt is 0:
 
-Looks good. Feel free to add:
+	i = new_1st_cnt == 0 ? 1 : new_1st_cnt;
+	if (ntfs_rle_lcn_contiguous(&new_rl[i - 1], &new_rl[i])) {
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+but the merge itself uses the unclamped value:
 
-								Honza
+	s_rl = &new_rl[new_1st_cnt - 1];
+	s_rl->length += s_rl[1].length;
 
-> ---
-> 
->  fs/sync.c |    3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> --- a/fs/sync.c
-> +++ b/fs/sync.c
-> @@ -266,8 +266,7 @@ int sync_file_range(struct file *file, loff_t offset, loff_t nbytes,
->  
->  	i_mode = file_inode(file)->i_mode;
->  	ret = -ESPIPE;
-> -	if (!S_ISREG(i_mode) && !S_ISBLK(i_mode) && !S_ISDIR(i_mode) &&
-> -			!S_ISLNK(i_mode))
-> +	if (!S_ISREG(i_mode) && !S_ISBLK(i_mode) && !S_ISDIR(i_mode))
->  		goto out;
->  
->  	mapping = file->f_mapping;
+When @new_1st_cnt is 0 this computes &new_rl[-1] and writes 8 bytes
+before the kvcalloc() runlist buffer. The path is reachable through
+fallocate(FALLOC_FL_COLLAPSE_RANGE) starting at vcn 0 against an
+attribute whose first run after the collapsed region and the following
+run are holes. In that case ntfs_rle_lcn_contiguous() returns true
+because both checked entries are LCN_HOLE, so the merge path is entered
+with @new_1st_cnt still 0. Such consecutive holes do not occur on a
+well-formed runlist (NTFS keeps runlists coalesced in memory), so this
+OOB path is only reachable from a crafted volume.
+
+A normal runlist has no element to the left of vcn 0, so the left/right
+merge is not valid when @new_1st_cnt is 0. Require @new_1st_cnt to be
+positive before checking or performing the merge. This skips the merge
+entirely in that case instead of clamping the merge target.
+
+The out-of-bounds write can corrupt an adjacent slab object. On a
+non-KASAN kernel, it is reachable after a crafted NTFS volume has been
+mounted read-write with the legacy fs/ntfs driver, by a local user that
+has write access to the crafted file.
+
+Fixes: 11ccc9107dc4 ("ntfs: update runlist handling and cluster allocator")
+Suggested-by: Hyunchul Lee <hyc.lee@gmail.com>
+Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+---
+Changes since v1:
+  - Skip the merge entirely when @new_1st_cnt == 0 instead of using a
+    clamped index, per review feedback. The clamped form silently
+    changed the operation's semantics from "merge the run left of the
+    collapsed region with the run right of it" to "coalesce two
+    right-side runs"; the new form closes a path that is only
+    reachable on malformed runlists. Behaviour on well-formed runlists
+    is unchanged.
+
+ fs/ntfs/runlist.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/fs/ntfs/runlist.c b/fs/ntfs/runlist.c
+index da21dbeaaf66..e7de3d01257e 100644
+--- a/fs/ntfs/runlist.c
++++ b/fs/ntfs/runlist.c
+@@ -2056,10 +2056,11 @@ struct runlist_element *ntfs_rl_collapse_range(struct runlist_element *dst_rl, i
+ 	 * consists of holes.
+ 	 */
+ 	merge_cnt = 0;
+-	i = new_1st_cnt == 0 ? 1 : new_1st_cnt;
+-	if (ntfs_rle_lcn_contiguous(&new_rl[i - 1], &new_rl[i])) {
+-		/* Merge right and left */
+-		s_rl =  &new_rl[new_1st_cnt - 1];
++	if (new_1st_cnt > 0 &&
++	    ntfs_rle_lcn_contiguous(&new_rl[new_1st_cnt - 1],
++				    &new_rl[new_1st_cnt])) {
++		/* Merge right and left. */
++		s_rl = &new_rl[new_1st_cnt - 1];
+ 		s_rl->length += s_rl[1].length;
+ 		merge_cnt = 1;
+ 	}
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.43.0
+
