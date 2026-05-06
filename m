@@ -1,62 +1,62 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085A33128CA
-	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 21:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADBB34A3BF
+	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 21:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778102848; cv=none; b=X2Kq5fNvKo9uwj0KMJK31cEG+091dkrFO6AHwbl4bESrnPxcVo4GzGTiTFh72YlldefrY8zTwd9oXLDeARCYAnnnUWvFJnE3FEocfIT1vTl5zsKe7GvpcRro36Mc89VFCys6pX6MdRJ5slB87WGQ0/G5b/h/vO0ppvlwK2+6eTQ=
+	t=1778103378; cv=none; b=KB0j3wkhxtE7X6xTOp8wbyhZNvsrtrfBy59PUC8pNjtQmIFQfbGq1ZefL0EbN7+Xjuqx2Apik6m3G0M0ibRliMOiRPq6PYJdtsNp63hOXzo+gw6U4vAM8G/c3eOnPlaAgX1sXE4CKGbbYjy7awoD9NhKHxqJGTTUgyvmvCqO+8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778102848; c=relaxed/simple;
-	bh=x2qyDhGSExwelEJx56uGmAqs++59MajuevYUTDzB/1E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sXWw2BSj8e+vyK/IsILlj4+FPUnCvdBHV0qsZWX+6fgo3pHUWmvCT92+7OsO3MflRfe5TZx0J3C2L1rQi2giQl4S7G3la+J5fWOxa9f7qMnyiE88fg1Dq/8gCJoeuZnr0A6aOgwSODYqBPzQvSmUxRKl04rA0FKSk6QAIq5+l68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=DU/Sm14i; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=f6MG6/8e; arc=none smtp.client-ip=103.168.172.144
+	s=arc-20240116; t=1778103378; c=relaxed/simple;
+	bh=g2gTSm0Xn06tTbWQMYs9+0zqL22HjasOMjUgnvdT3OE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=H4EU6sQFe5DPzLHkrJxYZCaeB4iYMVKm/5ndRaVg587m8fEXx6KGJfg8x7lbPqcLUzjTjMAbwLZMs1ScRd6HYGzjZYBMx4/rd8PpGYBgNzoyt2xLsjihKg9iqYfyAATREYL1hKl3uviVhujHgriMG6wDfqmFpA+/kz6aRtnDuvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=lgRmXONr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FPcwi7+H; arc=none smtp.client-ip=103.168.172.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="DU/Sm14i";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="f6MG6/8e"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id 4DAE4EC02B3;
-	Wed,  6 May 2026 17:27:25 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="lgRmXONr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FPcwi7+H"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 73CF7140009C;
+	Wed,  6 May 2026 17:36:16 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Wed, 06 May 2026 17:27:25 -0400
+  by phl-compute-06.internal (MEProxy); Wed, 06 May 2026 17:36:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778102845;
-	 x=1778189245; bh=KAWBf/bloIFloicPBY0UwxsP1knrR1VI6gPl3F/3rT4=; b=
-	DU/Sm14iNeI3lu8s9jZ5invA3oaDFn5BTnQ5pyVuxDWF3Jud2X13lQ3k2svOVWbL
-	11xG2QA2CjUbODXFPD937aqIkaJo2DzbRXGo2vZhqjkQFx7zBr1vgG6w21qdAsd8
-	UmCmFL3Q4MnftNQDsOA8onHu+3ZWpk+VhzIBjWZn8IW3KTKtdzNBKhSDFtsXYQ4v
-	HcIc9dU3WJB0zA25LRxrYC1zkOVg/ierAC70vtsK5HHU6y1eEFQCwJizEANNRKqb
-	JdGF7w4Cv0aXsIiEMN9tK3lmUUKEdVN+cOFKoBjbJkHwk/8GuFhZH/HvnlYMNyXu
-	x+2LEh6JQX80J9JuSSordA==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778103376;
+	 x=1778189776; bh=2i+OyQS09XZNh69e+3fgbxGfkkFN3izUXIbJEUWyssw=; b=
+	lgRmXONrmb2h20/WtuocCHbZU9KH1T+AOaNuDjDPXjuv/EFpacXcehB8LuTubRTi
+	T2vfBcpHJc0EzoG8fUpQqbrq000HH9xuglzTWZqs929lUouRMQoQaDob2AuiasIZ
+	Vku6h8BrjJCTZb3J2SmjO0yQKxSaVWlgDa+HKxU3gpKU43bv/FZ/9qkSc7J69wF3
+	39w9sRfoaqvUEW3DwI67oi7QlaTMLukPmCON2Ji1XQTdIMOTHZpExG8h9bS1JKZS
+	sd1hmNxYsAAGtVC6xqmn/9NPMj95tsKWaiK98qASb3zcUnucPQmazAR8xXL457hz
+	vvbI1x+Eu9eo35Cb/yxyoQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778102845; x=
-	1778189245; bh=KAWBf/bloIFloicPBY0UwxsP1knrR1VI6gPl3F/3rT4=; b=f
-	6MG6/8eK1Q7zh3OEiGYEHu3XR89+yyA8olrhc2mrIsWah0uFL4HwuvS5xKVWb5Zs
-	6tOVuF10TyPgmYtOyfwGFps+KXcoOyJPuDiITCRaUe4uhAXcrt2yFU13WZOBe2t8
-	lyVF4//0zx61kW6rx9YTA0EqjLW83iDAAbOCnRb+ALYD6BHUC17BSkyJyKRj+6mr
-	sswMX5zrkqZ13JfVnJvyMLLiYJGtrFmKBl6WWGxtln60wdx3hZ2D9ohg6U4oHfbJ
-	A3fm3tEkzrINgok6fhQ8T0gRAy2fxD8Umz2tKcKH/0dsK3j4PXmrmOaw9POAACB3
-	eVnHR/lSd2av5YetGuy/A==
-X-ME-Sender: <xms:PLL7aTyMo4WvbuEBtifnxHqsSCTI3i6R-HlmwQnvgARwVTqfM7yKCQ>
-    <xme:PLL7aUkN3gk_Oe9f-6gonSZ5BRyK7b7sFGdwyDz-js-Ly_IaVoOkHX0_AnZ0Dp7gF
-    gf8_URDR_cSuwoqikrZL9lTke0Y26o11OGST4Ugm1EqbuuntH9L>
-X-ME-Received: <xmr:PLL7aUkNPadlg9Uye4E4lQ0Y-zDFA3M-giSjgFetrerru40R6iUSpjSjXhngG8BTAVFyC7oJ129rUpu8lAmGBsTzl9qkHUC0EB4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdehieejucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778103376; x=
+	1778189776; bh=2i+OyQS09XZNh69e+3fgbxGfkkFN3izUXIbJEUWyssw=; b=F
+	Pcwi7+HEwfEiBfprBBCHe7Td5cKw1Mj/7xBUQ32S9vedehq/MfIVueoUIqNa4efF
+	ZlaTVrvUunJZSoAdqY9vv7ZV8Ok6nqC97gGVnl5NPfDpcHLmzlFkluUbkDDsYCvZ
+	FGhyqE4C+GWYkg+QsGP2H0moDZu7CojBG6BoMwnq5to31LBBA+evjcLKaSgeT9iq
+	EKea6lGtd1GUdjNBJ2e055GN5JN9RcdDNcndkZojna/wMYXKsBjnlpi65SnszZB8
+	4lx0H012xMXJU0t9ywRvUXkyYzeAk0L1pSz+RY/2z/t1WWqoIdbGolgH8bm7frDD
+	ofOss39uh9M50EtmXFHcA==
+X-ME-Sender: <xms:ULT7aUOZPNprmM2JqygFX0iKvwH-wpT9pfvADPRL0pk7dYI4-mpNCQ>
+    <xme:ULT7aUTjMKWfyHhCuP9wRtxm1BJSaDdfWv-Fuux96G68nLgfUW0KErMDWTDVcrTXr
+    KZJ-8D2bxojeuv4rUSEB-NKCnt5DWQWoIcVp5U6TK8fZdgCYb7uDw>
+X-ME-Received: <xmr:ULT7aSirJSMpDQ1DU1j_2sXBaXA_XKv4a6ObQCgPKRM4PmNpWEtSapW7uwvmlmJuqRMBirNpEYJyQQgfvBNlRu7VhtFYml-ccJA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdehieekucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    gurhepkfffgggfuffhvfevfhgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
     ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    htthgvrhhnpeelleegudduueffuddvteegffehudeuieffledtudehkeehffegteegfeeh
+    vedtteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
     shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
     hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
@@ -64,16 +64,16 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdehieejucetufdote
     hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
     vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
     guihdrhhhu
-X-ME-Proxy: <xmx:PLL7aexcaivyN6gSxleJu8EzDbo2Vxr_WHgN3mkcU83fQBglE2eMbA>
-    <xmx:PLL7aRoPXmvKAk-snGKX2CHBpCCUGbRSJSid6zhlk0v9B5cm2-eYvg>
-    <xmx:PLL7aV7OY6-TtS27x2AsG5Feca2EjGzAEUQcUhcW_CZaxxuZTTaH1Q>
-    <xmx:PLL7aQcu0wbA268zZNSTo9DY8yKDLqXNxTvjunRw5zmdROTcGzr_og>
-    <xmx:PbL7aTKiiHl5S0DKiL7u5DXzc_GrNeXIaJwGP-6XmH7kbyX1D1xfdlOF>
+X-ME-Proxy: <xmx:ULT7ad_u39ZxMXZk0ZPWPlxzVDiS1ktjpDnvHdBMQlLKyalC_pmpzg>
+    <xmx:ULT7aZGFkVPo-b7nhX4I_hWEpaWCHl3mz_tZQuU0j2Co6UiyaEnCOg>
+    <xmx:ULT7aQkpcDFUkUwNmD2Wu9g8NOitKGFlk1KxI1fxn-JC6CRL0L4sLA>
+    <xmx:ULT7adZqL18ndDeTHt-JwvI7b0NlnLeTrUTrnWa8V8n9MoGU-mOarw>
+    <xmx:ULT7acdJO0Qdlp8kGwSdHgmaix4ks-yoM288iCQz_4TXm9Q5xxlsp8hg>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 May 2026 17:27:21 -0400 (EDT)
-Message-ID: <605ed94c-82f8-430f-b753-99b06eec27fa@bsbernd.com>
-Date: Wed, 6 May 2026 23:27:17 +0200
+ 6 May 2026 17:36:12 -0400 (EDT)
+Message-ID: <39b1d822-e198-4f9b-8469-9424f165979e@bsbernd.com>
+Date: Wed, 6 May 2026 23:36:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,67 +82,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCHSET 2/2] libfuse: new mount service container fixes
+From: Bernd Schubert <bernd@bsbernd.com>
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
 References: <20260505052133.GR7765@frogsfrogsfrogs>
  <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
+ <605ed94c-82f8-430f-b753-99b06eec27fa@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
+In-Reply-To: <605ed94c-82f8-430f-b753-99b06eec27fa@bsbernd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/5/26 07:23, Darrick J. Wong wrote:
-> Hi all,
+On 5/6/26 23:27, Bernd Schubert wrote:
 > 
-> This is a collection of bug fixes and cppcheck cleanups for the new fuse
-> service container code.
 > 
-> With a bit of luck, this should all go splendidly.
-> Comments and questions are, as always, welcome.
+> On 5/5/26 07:23, Darrick J. Wong wrote:
+>> Hi all,
+>>
+>> This is a collection of bug fixes and cppcheck cleanups for the new fuse
+>> service container code.
+>>
+>> With a bit of luck, this should all go splendidly.
+>> Comments and questions are, as always, welcome.
+> 
+> Hi Darrick,
+> 
+> do you have by any chance a branch I could pull from? With PATCHSET 1 in
+> the same thread I don't know how to handle it with "b4 shazam".
+> Alternatively, I'm also open to learn new b4 or git am commands.
+> 
+> I will try to review it at airport or during the flight, but would
+> reallu help me, if I could just get the patches into a branch for
+> offline processing.
+> 
 
-Hi Darrick,
+Sorry, never mind, just found the pull request mail. Thanks a lot for
+that! Pull and pushed to my github repo. Let's see how tests go :)
 
-do you have by any chance a branch I could pull from? With PATCHSET 1 in
-the same thread I don't know how to handle it with "b4 shazam".
-Alternatively, I'm also open to learn new b4 or git am commands.
-
-I will try to review it at airport or during the flight, but would
-reallu help me, if I could just get the patches into a branch for
-offline processing.
 
 Thanks,
 Bernd
 
-> 
-> --D
-> ---
-> Commits in this patchset:
->  * util/mount.fuse.c: loop in waitpid
->  * fuse_service: handle weird behavior during SCM_RIGHTS fd transfers
->  * examples: improve documentation of the new systemd service fuse servers
->  * example/single_file: sync backing fd when statx wants us to fsync
->  * example/single_file: fix ctime handling
->  * libfuse: fix cppcheck complaints about constifying pointers
->  * libfuse: fix cppcheck complaints about constifying pointers in user-visible ABI
->  * util: fix cppcheck complaints about constifying pointers
->  * fuser_conf: fix cppcheck complaints
->  * example: fix cppcheck complaints about constifying pointers
-> ---
->  example/single_file.h   |    6 +++-
->  include/fuse_service.h  |   18 ++++++-----
->  example/service_hl.c    |   20 +++++++++++-
->  example/service_ll.c    |   20 +++++++++++-
->  example/single_file.c   |   31 ++++++++++++++++---
->  lib/fuse_service.c      |   76 ++++++++++++++++++++++++++++++++---------------
->  lib/fuse_service_stub.c |   17 ++++++-----
->  util/fuser_conf.c       |    9 +++---
->  util/fuservicemount.c   |    2 +
->  util/mount.fuse.c       |    4 ++
->  util/mount_service.c    |   68 ++++++++++++++++++++++--------------------
->  11 files changed, 183 insertions(+), 88 deletions(-)
-> 
+
 
