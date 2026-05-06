@@ -1,153 +1,154 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC89C3DC4C9
-	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 09:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFD623D2AB
+	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 09:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778058151; cv=none; b=OW64lZTmMlMYPLt9zFPjATlCOMBNGCcf2MiXTm/VG2AX4PTsJrH0fHPP30SEBWCQV1thv5bWpKPLpX/UjJcgFqLtNfqzsux6gINlYDLToc1/oLulJtrdHAz/+52w7M83O7j29klMODYdUXcFbH1/FHXHKQQ2xJRqcnOTDnm60pg=
+	t=1778059003; cv=none; b=EAK3rp84hymKSe/YYhyyy7IBSUA/4hQlZ0gi7ugm+IW2MZ8tnNyn3JZSIBsjHusXVHo11O+TW+DAZwphWmf7y+AhbPiN7z2wJDPuKof0EOCUvy9fZJUsa45Vs4H2s2s6em6kDUngQ28jAD4zAtySSx6YAF2JMAfmaI+WtTrHvXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778058151; c=relaxed/simple;
-	bh=nLSZKCR0woXtN6W5cyzs5oEHO2Ts0XPwdeXwd60CnUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZV2aHYLiCjFT31FYB57wfuoyx/le5os2r0I/zRnGJtqAU2h+PqNaATH67KdZd0XQp7QdK4+aNAwK6RYPKThTmO77URSeLwuWH9WD6mhatfVw1DGLI8BkQr6WEv1zxzepVuBsLQ9dCUKhcZ77DWz7AwmMq5hBpqeihOcsU3ZWzek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGAPdKzL; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778059003; c=relaxed/simple;
+	bh=xD1k9WF7Dxfz+Stmxdlpr0gowqUIsb2AH5G6sJHBXP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wg83qMZ8q5ols/lzdHWuQgocd3ENQv4/THDp3CUyI1w3Mx5PdJIiLOyXysW36/5dKqb/dqrdGAs+B5pdvivWN0S+2ExxcI25FLN3BRAHES+Eue2g0lbXqAfZNnNV4wNWnjTWJgdW0gLa1fjII6RCg3Y9gryZJbLU9laLzsgeIc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=suNvDOHg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dQlzgI/x; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DFZQPSYI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=u4gzh1OO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGAPdKzL"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso47202475e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 06 May 2026 02:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778058143; x=1778662943; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
-        b=KGAPdKzLk3vJJ86/+9JWb0pewVd+eSoidY3lk7EZPts94uHo4N/VRkoM9t57Na8hZU
-         ohCDqtJlErkxUgfhc1xF31gaTTxEEV9aQTpYdnIYJw5UqkLIvfOYXMVeC0yFRnX/MHe4
-         HmgeTl6uAbvaO7lSltkxovg9zHAEVQVtWdlJLq+MyigLOHJOPN3xooUX/QlPsg9aezCX
-         fcFIH2ULFXdTlkzGp+Ry1SgKQ1i2euO26Gf6Maw6yBVWA69E1LILuSHMu5h7drw4GBsF
-         YHnLv0r1kzhMzpzHNEVk53axTY4nfGL7MMB052P2FX+fuI9Xsu9HaT6ntUkADcXIzcaX
-         fiPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778058143; x=1778662943;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
-        b=kyoxsUEiBtE5dHCpla2LAxVEmxC0US8MovDYiwq14elS1uIDd6JHs9l+glVCZwJJ1t
-         7vrGsYeQ6KvjAqaEFaHu0HzntzmsbrvC28+3EVkgdZs24FhH0sd77TvyxVoYexWMR8KU
-         CPvchaz4Ehiux8gnPJWTmmGaMt9ttmDKbCbtczV3RQWp/ynwtXwhBbAkB/fHSJyb0KaF
-         v/gZBgCOXEUdFB63qjYsCcyxsWVDcdGMEnxVopsCyY6YAvw2fwR3QYZHR/KBS7zQtbXs
-         kBV6cBztZ6Mgb3zN1dfWzHrQfELBYq+viPjQZk63mtVqKssS+tfzhEDBewqGdHmjnSq9
-         ZzyA==
-X-Forwarded-Encrypted: i=1; AFNElJ+LDKPfu0aELtJJ1GqNgkhBD9ngRDCZwMYjUB6oLNuSPC2n4LZDS8soCTbSQthr2uGXH9Z/wRZ1uUpcA7Zy@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLJIpEBNg6Fke6FieHMlshQrDvXNMv8UrRxvxAHcB+RdsgOINw
-	bXOz3j2Fq4qwVunBcA/hWLdL/0/gn3Y+8pr6uFN3e7xQTpsdmPt2ddFO
-X-Gm-Gg: AeBDietRp1I4Hium6kR6ZB3iiyfPGN77Rpg+uifGxPX4lah1IlbTPYz0gY23z5ypDB7
-	uyWvkde7sDQDsUlgbZwnhlTiiwXYaXiciuPRvPxV5u2/HpTiW5y23wkiyUD6E9Xu9OT+2V9hZ/R
-	yPKJidC0C1yHpV2Nu7bNoUsC4aTswWaOyW0zkKU+QCwOw/sdGstWXjdD5cRJMtvnHSl/fs6vhSN
-	yg5q1AZuNIqA386dEXHq66st5UA3iUV7rUfply+dxhKHOz71db7tPsfgr+M77MMWqYuxnV1E8BT
-	vqFXiVkbC5XAz1oagyIXdtvFkQMXy1UXrO/xcE9nNtZFJHKBToG5sMu8RM4Z6yQeHWVLspvcQzT
-	pNeIjhTUKYB11OxUg8RE73mtwfyeJHcc9xoQzlBT8g/HrztZZ7HwNhGIbqbiumZjZDUyPzm9uV7
-	jjs7SMKYQrtHPi3CDKAb24fJrE34j7+jDera4OMi+l7xOo1LNb8OT7Z/9+1y50mH3AfyF6qTWju
-	HagEvKVD9daxo11pVJ4Tfeirz6gsAhR6mWE6VzfXw==
-X-Received: by 2002:a05:600c:2e0c:b0:489:1c2d:211e with SMTP id 5b1f17b1804b1-48e51e0c833mr25734095e9.5.1778058142476;
-        Wed, 06 May 2026 02:02:22 -0700 (PDT)
-Received: from [10.109.92.22] ([86.33.71.194])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e52f5c1cfsm21365215e9.0.2026.05.06.02.02.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 02:02:21 -0700 (PDT)
-Message-ID: <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
-Date: Wed, 6 May 2026 10:02:11 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="suNvDOHg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dQlzgI/x";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DFZQPSYI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="u4gzh1OO"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8C3705C12D;
+	Wed,  6 May 2026 09:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778058999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q1VPFia6hiDAQQhgQpLG0ei8yQjDCguEt6cJAO5vMAg=;
+	b=suNvDOHgYDRWz7rIvyIwHinyLp3Oc52TNUsKLPJ2DX+OFN7LAnBIncbobems1q2RdEIsef
+	OTb3of4RevCLkonLHhrbglWvS0vpEZS3okWvp/KQz8nk7YMxu8CG1oeW+22qraokOYezRS
+	Z2LvYf3dkxZ3v/LlLj8BQ0uxBj3f75E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778058999;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q1VPFia6hiDAQQhgQpLG0ei8yQjDCguEt6cJAO5vMAg=;
+	b=dQlzgI/xAUwQKzh9eAzLv6qJJeycxkpTat+k6HjlC9dCz/AK38TxezEc7DSkoeBcAshO06
+	kCBf8OsZ7mkrL4CQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=DFZQPSYI;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=u4gzh1OO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778058998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q1VPFia6hiDAQQhgQpLG0ei8yQjDCguEt6cJAO5vMAg=;
+	b=DFZQPSYI+UgtwY/h2FYKPiNVrHOWXJ/LzTGE1uBx6tgC8Ip8nYLOFboi7yyL5pfg453Niv
+	QaARUWuELuYld4yOJXoeLITzuhvNddDdGHRm7jzYHO5n2tdWlA9fJbi+qJH2q50hw3MfF2
+	+4DCT16d4M7GnsNkv+aj6t6eK/+4pz0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778058998;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q1VPFia6hiDAQQhgQpLG0ei8yQjDCguEt6cJAO5vMAg=;
+	b=u4gzh1OOXZkxZVtitRFT3AbTLMwPF0P5kybOEWUjeWgrwuu536Au99qcRAbfF2yoR9bJQ0
+	x2zlGFTOG7728RDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82305593A3;
+	Wed,  6 May 2026 09:16:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vAfGH/YG+2nIcAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 06 May 2026 09:16:38 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 47C01A0790; Wed, 06 May 2026 11:16:33 +0200 (CEST)
+Date: Wed, 6 May 2026 11:16:33 +0200
+From: Jan Kara <jack@suse.cz>
+To: Alexey Dobriyan <adobriyan@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] sync_file_range: delete dead S_ISLNK code
+Message-ID: <leia3l5jr6evrllxbz2o6kp5wf6lofpnlzxlg5ozh7is5t2nli@avxnsedur6d2>
+References: <295235c7-7f68-4554-bb6f-85398beca350@p183>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <afi7c-VUJWOLlC1m@fedora>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <afi7c-VUJWOLlC1m@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <295235c7-7f68-4554-bb6f-85398beca350@p183>
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 8C3705C12D
+X-Spam-Level: 
 
-Hey Ming,
-
-On 5/4/26 16:29, Ming Lei wrote:
-> On Wed, Apr 29, 2026 at 04:25:46PM +0100, Pavel Begunkov wrote:
->> The patch set allows to register a dmabuf to an io_uring instance for
->> a specified file and use it with io_uring read / write requests. The
->> infrastructure is not tied to io_uring and there could be more users
->> in the future. A similar idea was attempted some years ago by Keith [1],
->> from where I borrowed a good number of changes, and later was brough up
->> by Tushar and Vishal from Intel.
->>
->> It's an opt-in feature for files, and they need to implement a new
->> file operation to use it. Only NVMe block devices are supported in this
->> series. The user API is built on top of io_uring's "registered buffers",
->> where a dmabuf is registered in a special way, but after it can be used
->> as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
->> requests. It's created via a new file operation and the resulted map is
->> then passed through the I/O stack in a new iterator type. There is some
->> additional infrastructure to bind it all, which also counts requests
->> using a dmabuf map and managing lifetimes, which is used to implement
->> map invalidation.
->>
->> It was tested for GPU <-> NVMe transfers. Also, as it maintains a
->> long-term dma mapping, it helps with the IOMMU cost. The numbers
->> below are for udmabuf reads previously run by Anuj for different
->> IOMMU modes:
+On Tue 05-05-26 21:55:29, Alexey Dobriyan wrote:
+> Symlinks can't appear as opened file.
 > 
-> Plain registered buffer is long-live too, which raises question: does this
-> framework need to take it into account from beginning?
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
 
-Not sure I follow, mind expanding on what should be accounted?
-Are you suggesting that we might want to use normal registered
-buffers in a similar way? I.e. giving the driver an ability to
-pre-register them?
+Looks good. Feel free to add:
 
-> BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
-> which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Interesting, just too a glance, and it looks like what David Wei
-was thinking to add to fuse, but IIUC he gave up exactly because the
-client will need to cooperate and that could be troublesome.
+								Honza
 
-Should we try to push everything under the same interface instead of
-keeping a ublk specific one? Again to the point that it requires
-a cooperative client, but if it's something more generic, the user
-might just try to use it as a general optimisation. In the same way
-it'll be helpful to fuse, and as a bonus you wouldn't need tree look
-ups (but mandates clients using registered buffers as a downside).
-
-It'd need to shaped to somehow work better with host memory as I
-assume you want to be able to map it into server in common case.
-Switch case'ing if it's a udmabuf is not the greatest approach,
-but maybe we can figure out something else.
-  
+> ---
+> 
+>  fs/sync.c |    3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> --- a/fs/sync.c
+> +++ b/fs/sync.c
+> @@ -266,8 +266,7 @@ int sync_file_range(struct file *file, loff_t offset, loff_t nbytes,
+>  
+>  	i_mode = file_inode(file)->i_mode;
+>  	ret = -ESPIPE;
+> -	if (!S_ISREG(i_mode) && !S_ISBLK(i_mode) && !S_ISDIR(i_mode) &&
+> -			!S_ISLNK(i_mode))
+> +	if (!S_ISREG(i_mode) && !S_ISBLK(i_mode) && !S_ISDIR(i_mode))
+>  		goto out;
+>  
+>  	mapping = file->f_mapping;
 -- 
-Pavel Begunkov
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
