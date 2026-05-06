@@ -1,122 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A417E438FFB
-	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 11:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22C836BCC2
+	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 12:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778067303; cv=none; b=X8bWGhex58PMWsz4EjXvrIvkIt95EI1FJrCeRWE8UJeaxV1Hn/At9EaxmcQkwkNoeY1YaN0dffYVJOTYTca+HLoZf/sJeLd1OVffeVu4DrXb2gxBo32B3V7Bem4SO3lHaOn4BVm+mprL1jnTLoJJ9QlMFfWdFXzRDmo03e2GIo8=
+	t=1778070260; cv=none; b=MFuG9aW88lCDfXFyzTtGdNGwmCLyzJ17Mc6D2ZnSiVUegKaRWIyrrcFBsQEkcuBt1C2uj0p3EaRxWEVHWMjG+frsr2ymyxd1J/x52HptTgUGSEoEheJ7zUf4n7wzAjoEgmhgLl/NkM+zpKMpTLeOw6c2eTvkrXGB590shKUEcHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778067303; c=relaxed/simple;
-	bh=I9lVILlm7BHTqUvwglOwuEOyYxL1cNPl/qBpAYcP8+o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bzGoEHvY95/T5D6zE3CmlQwc04lFlriorgzuac/epDDCXiAGNRpC6JeKuvcoWxot14ZIzSVmZsjfB1tDgZAcLwRNCBM7jhPOt++6rKPSRMsuHuX9ILTTwQk3FZ5zV71ufx8aR7bjwtCXeRgGpm8IQU6TmTA9GHD+yYTgOSMiIg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYwiDxOg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778070260; c=relaxed/simple;
+	bh=pqFri5VkDvyO7q8ZaTFm+3zve13RTKgavV0qIrdZWoQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=l9Dxirlj/3AnFLp9x0/jdVnGpYO1VAtLJpwaSzx9ApPLrE2Famwo/e8oqLIFGJINEiy4XZTJVaDlwT0KHeFJuJdnCRbCxaO8+YmCepHC1l8zEMFWIkD9ntZOXZSsSXFhnygDFR1ZQV2eh7SEPLaPjSANw+0a72Ei3iLmg/4NKEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SLRnheZt; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYwiDxOg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8549CC2BCC4
-	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 11:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778067303;
-	bh=I9lVILlm7BHTqUvwglOwuEOyYxL1cNPl/qBpAYcP8+o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eYwiDxOgJ2apZPsM+eP2uO3fMFZK4MFH/g+QOU3jI6Ixc9Cy9k+3JWNnwzzoCvkVN
-	 fKreZy8kwEIvIbZhz3LMqjQP6Aj4IH1ZJnBpHGHY5ujNg4ouYfZZSy2AnDsRGZo2vV
-	 rcjTGWKDAkCISSjWM4PMyFsGEMsTDsxGfkOmD2dk9axcTXwEWzQCbdbXzxh3nMopMw
-	 zMy04tMwjRoU4LvX0JcZJ9Yi/7xICHXqIMJUBNtfkp+qJUeO5nE1CEnzqx/+4hZ5Nw
-	 +m2DSdvWgejQRpee5TqoMcj9CkDQueJlR/0gUQceEC4zRkjpREhuXvmA5sLtPvXWdc
-	 3Y5EPPJeYhP7g==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7bdec52f48dso9551297b3.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 06 May 2026 04:35:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8hQXoSdFN1sZlgenE9+ddvHuivqPko9sYh2AUkbeXFHYiMoIA+uxgMeT8JGiOUL/HB82CFMc8rSBqgZEcc@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR8NoCj/zKW+5LMHMNz7g9rvt8re1eEOcYJn/QU1yTprBua95V
-	SuXJTsK/vxQlrKB1e5V1V/9qk4G1YgFxKTK5VOaGNPuSWFQZJq0rWaSWauByTbNHJIriy8wk5B1
-	WbNWNm8LhDhMcxEfubIQ9KTNAoonFtXU=
-X-Received: by 2002:a05:690c:6d81:b0:7b1:9036:a23a with SMTP id
- 00721157ae682-7bda89a610emr69009307b3.14.1778067302711; Wed, 06 May 2026
- 04:35:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SLRnheZt"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-364eef1891dso3533618a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 06 May 2026 05:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778070259; x=1778675059; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AG48vQGF89Wp3oiv3qeQlyHb/SVpouFehHB4gYw7kkU=;
+        b=SLRnheZt70l4na3fR3ZYTK9OIazO5SaRQAx13+nCCILNqaipB+NVUQX0hqS9EKU3G5
+         JCKAiMi49Ai+7uHDrmdPCD6lVN6hSmvJZqRCbA+8+olMYmVniVn+H5OKOEVJbmF5b5Es
+         dKhBBlZ5qZHjHNk5VDhv0SA5ltJnrm3HbkKmRzGgW0U+dS+gueEhadEujVQlpnHkcIZP
+         v52UhYRUp/pO3FHT+d4p5Eo2ys30MIIdBeNOVL1MAb9rheumrT7V8MG0N4TxGA7CXGI3
+         ETaWGoYFP+h2H63TwP7NkcWRMUlU1gNyCP+HCx8Tye5G+P6hxWFcHeSGMg0uH1UYBRNC
+         h+tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778070259; x=1778675059;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AG48vQGF89Wp3oiv3qeQlyHb/SVpouFehHB4gYw7kkU=;
+        b=qYHf0W4Jqwqb79w3Wn3USZIBEYeothAWUPIWRPZ7oKfwjSLq5xZqYBBdpYRo+bg4Zk
+         jOZWILzb86bPcMI6wLPy8EviNva93D5ZgwMKQ3ZyBNIr0kRrrqfOaYFHdKxx7EPOud5i
+         v3bhGsvA4/KwXSu8QLNc3CkuJ7Jf29Ot8URqVVDujcXpXktKsSIaCTTkFOCEK4dsfuYv
+         9lqRMMFz4dzIN1GTyLV/GyMisPC8Xt2R00Ut5z92HClh6xaKYo9m4UWZss5EvHr8yOd1
+         Ip9keFhPBzi23I+kkqdIIU+L8uGgAjbWZOnQdhHYYJiNB//YFfBoQP4F4PhqidPglLVF
+         1PkQ==
+X-Gm-Message-State: AOJu0YzIddDRWglcb4NM5IEugVgm1bxDIQ+O8biqEVao+m649KhGBlCd
+	u0aiUEERWODR3ojrO4YVUAhAPGr/yUHrFBs9jrtF7ou9tXkYSd6p5n8vjxubZXsAcc0=
+X-Gm-Gg: AeBDieu3fbBZBAiK+pip5f128XcJ+dMD8cGr6cJBVDq5i1ehNk/ZdLM9KnYX7tBcpdj
+	uzP7abAa94yrsfwZD7Gg+8M+WwDFi5V69WpWbS4wZ+SVdq32Kog+gp2okT/OFsBGurO5N7kZebV
+	ucM01HtF46OPATNLxZwzsizHtvJTsu6GREtw1J7NEVVOLXWqhUcPPjfseTMKrb0DNslnnaTKUP0
+	mkbu6VPIYo7Ea0uHR3vFc37ckbLeiT4SIGmdn7GympZWk/MPKGnGCEuLbXAPy4JSvZFcr03DApV
+	dOrcJnJj5IToQU7KZb3l0FCLCt9F/scp659Or9aD5BqYNsTRemWNX1msIni08tO+y05bsslzwCm
+	/AWj1ONFEmddPFD25yAOwp9zXtcwLSD19PrO7uba013RStD/yziw31+8KTFJDo+mM6w/zUQKf9l
+	YVyYv6JyZrr8ZkzZbDZ8RpGn1QiBbprYohNP5WxN6XBgRkZaZZdqrD++dI
+X-Received: by 2002:a17:90b:314e:b0:35a:cf:64a6 with SMTP id 98e67ed59e1d1-365ac472124mr3210181a91.23.1778070258844;
+        Wed, 06 May 2026 05:24:18 -0700 (PDT)
+Received: from localhost.tail66efb9.ts.net ([14.218.2.118])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365b06b6f12sm1105584a91.5.2026.05.06.05.24.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2026 05:24:18 -0700 (PDT)
+From: Junxi Qian <qjx1298677004@gmail.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Joanne Koong <joannelkoong@gmail.com>
+Subject: [PATCH] fuse: fix writeback array overflow when max_pages is one
+Date: Wed,  6 May 2026 20:24:15 +0800
+Message-Id: <20260506122415.205340-1-qjx1298677004@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260505130752.3906509-1-charsyam@gmail.com>
-In-Reply-To: <20260505130752.3906509-1-charsyam@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 6 May 2026 20:34:49 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_ZusqWzR0kvVEfR6cTL3+ut4fKR8eKgz-LeqprKhuy=A@mail.gmail.com>
-X-Gm-Features: AVHnY4JqOEVIEr5GaY35T39Tdfk-Lr9bS7CqOuI-6-U25njp8e3yqlGrBxSFGi8
-Message-ID: <CAKYAXd_ZusqWzR0kvVEfR6cTL3+ut4fKR8eKgz-LeqprKhuy=A@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: fix default_upcase refcount underflow and UAF on
- fs_context teardown
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: hyc.lee@gmail.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 5, 2026 at 10:07=E2=80=AFPM DaeMyung Kang <charsyam@gmail.com> =
-wrote:
->
-> ntfs_init_fs_context() allocates a fresh ntfs_volume with vol->upcase
-> left as NULL. ntfs_free_fs_context() unconditionally calls
-> ntfs_volume_free() during fs_context teardown, even when ntfs_fill_super(=
-)
-> never ran or already cleaned up. ntfs_volume_free() then executes:
->
->         mutex_lock(&ntfs_lock);
->         if (vol->upcase =3D=3D default_upcase) {
->                 ntfs_nr_upcase_users--;
->                 vol->upcase =3D NULL;
->         }
->
-> When the global default_upcase is also NULL (very first mount attempt,
-> or all prior mounts have released the table), the comparison is
-> NULL =3D=3D NULL, and ntfs_nr_upcase_users is decremented even though thi=
-s
-> volume never claimed a reference. ntfs_nr_upcase_users is unsigned long,
-> so the decrement wraps to ULONG_MAX.
->
-> A subsequent successful mount can then free the shared table while the
-> mounted volume still points at it:
->
->   1. ntfs_fill_super() does the temporary ntfs_nr_upcase_users++ at the
->      "Generate the global default upcase table if necessary" block. With
->      the prior wraparound this brings the counter back to 0.
->   2. If the volume's $UpCase matches the default, the match path does
->      ntfs_nr_upcase_users++ and sets vol->upcase =3D default_upcase. The
->      counter is now 1.
->   3. On the success path, !--ntfs_nr_upcase_users evaluates true and
->      default_upcase is kvfree()'d while vol->upcase still points at it.
->      Subsequent upcase comparisons through that mount touch freed
->      memory.
->
-> This was reproduced with KASAN by closing a fresh fsopen("ntfs") context,
-> then mounting an NTFS image whose $UpCase table matches
-> generate_default_upcase(), and finally doing a case-insensitive lookup.
-> KASAN reports the dangling vol->upcase access:
->
->   BUG: KASAN: use-after-free in ntfs_collate_names+0x3b4/0x420
->   Read of size 2 at addr ffff888008d40048 by task init/1
->    ntfs_collate_names+0x3b4/0x420
->    ntfs_lookup_inode_by_name+0x1921/0x3130
->    ntfs_lookup+0x193/0xc40
->    vfs_statx+0xc7/0x190
->    vfs_fstatat+0x4b/0xa0
->    __do_sys_newfstatat+0x92/0xf0
->
-> The same QEMU reproducer was rerun after this change with KASAN
-> enabled. It reached "reproducer finished", and the log contained no
-> KASAN, use-after-free, Oops, or panic signatures.
->
-> Guard each comparison with an explicit vol->upcase non-NULL check so a
-> volume that never took a reference cannot decrement the global users
-> counter. Apply the same guard to the other default_upcase release sites
-> so all cleanup paths follow the same ownership rule: only volumes that
-> actually hold a default_upcase reference may drop one.
->
-> Fixes: 1e9ea7e04472 ("Revert "fs: Remove NTFS classic"")
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-Applied it to #ntfs-next.
-Thanks!
+fuse_iomap_writeback_range() appends one folio pointer and one
+fuse_folio_desc for every dirty range that is merged into the current
+writeback request.  The merge decision checks the byte budget against
+fc->max_pages and fc->max_write, but it does not check whether the folio
+and descriptor arrays still have another free slot.
+
+This is not sufficient for fuseblk, where the filesystem block size can
+be smaller than PAGE_SIZE.  With writeback cache enabled and max_pages
+negotiated as one, contiguous sub-page dirty ranges can fit within the
+byte budget while spanning more than one folio.  The next append can then
+write past the one-slot folios and descs arrays.
+
+Split the request when the number of already attached folios has reached
+fc->max_pages.  This keeps the folio/descriptor slot accounting in sync
+with the send decision.
+
+Fixes: ef7e7cbb323f ("fuse: use iomap for writeback")
+Cc: stable@vger.kernel.org
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Signed-off-by: Junxi Qian <qjx1298677004@gmail.com>
+---
+ fs/fuse/file.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index c59452d60..f94f3dc08 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -2176,7 +2176,10 @@ static bool fuse_folios_need_send(struct fuse_conn *fc, loff_t pos,
+ 
+ 	WARN_ON(!ap->num_folios);
+ 
+-	/* Reached max pages */
++	/* Reached max pages or max folio slots */
++	if (ap->num_folios >= fc->max_pages)
++		return true;
++
+ 	if (DIV_ROUND_UP(bytes, PAGE_SIZE) > fc->max_pages)
+ 		return true;
+ 
+-- 
+2.43.0
