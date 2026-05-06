@@ -1,145 +1,153 @@
-Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51F83E123A;
-	Wed,  6 May 2026 08:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC89C3DC4C9
+	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 09:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778054902; cv=none; b=HR3WOs7Ja2eh1TvGbXchV5JIFq0KEV/8X2D979+F034arWQ6wqgREKDP4KEXw4Mt5sCNJcE61akfIfh9YlJutbLO6kZOcjAooo3ZkXLQ9mtUIxjNVJeSp0bEJPHiZftJYmW0WZUdAwS2u2tp+2cMIhEoUFlHC0AEAZbvcDGLRSo=
+	t=1778058151; cv=none; b=OW64lZTmMlMYPLt9zFPjATlCOMBNGCcf2MiXTm/VG2AX4PTsJrH0fHPP30SEBWCQV1thv5bWpKPLpX/UjJcgFqLtNfqzsux6gINlYDLToc1/oLulJtrdHAz/+52w7M83O7j29klMODYdUXcFbH1/FHXHKQQ2xJRqcnOTDnm60pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778054902; c=relaxed/simple;
-	bh=LakSgXK9xZWfp62uOJDjuByvdgT3HOkvb9TfiFQGvLA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TVG39jySvJ/+3ee7DQECwTBZ09B3nHnwfKA1bs6/JCudtcE2X1XMsLcEeWjP9ohBlOFjIA+KoUEc8F62Jvg1Ai/80p1MHnuY0DBvvvsvz/z4kVCzTaRKFmLXL4g/iS7lSANmj4cxHMOL9vBqHOHjg66z2SzDNC66KUKP9jc6gsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=XmfCuIXA; arc=none smtp.client-ip=44.246.1.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1778058151; c=relaxed/simple;
+	bh=nLSZKCR0woXtN6W5cyzs5oEHO2Ts0XPwdeXwd60CnUg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZV2aHYLiCjFT31FYB57wfuoyx/le5os2r0I/zRnGJtqAU2h+PqNaATH67KdZd0XQp7QdK4+aNAwK6RYPKThTmO77URSeLwuWH9WD6mhatfVw1DGLI8BkQr6WEv1zxzepVuBsLQ9dCUKhcZ77DWz7AwmMq5hBpqeihOcsU3ZWzek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KGAPdKzL; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="XmfCuIXA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KGAPdKzL"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso47202475e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 06 May 2026 02:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1778054900; x=1809590900;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=bfdMAsgvM6p8hWk2sdmIXhE1O1tOVF0HFNlReXBroqU=;
-  b=XmfCuIXAF6d7b2BBCfezzI6lhB2W3xRFdTJ58T7uFoDIjOQRXC/wdaZY
-   ThKAkg+TdefJtTnaGAg4Wu+hZk0qtvw3DpMIVGO7XTouuWs8WbfODJmtt
-   BxGb4uhnzZxBGiIPEPhiz6+LuQnrTTdtWBDPGCgje78IZBtJGAnXt30Nx
-   FBUmVOzjTRUr4uZDqVNBU7hqMbLE4D2TfkHcUDdaMGuHHfYBlvxnzrcL9
-   GY8aA5L3yMpDf0cqksUWxseGsaEG/g5O+G72uJLm6AP8BPfZd6sAhNLVK
-   UewJGEb4jl7vd3wAvmrnP5xMZ/hKYzU9VdAAleMG+HOszeHEouwQAyZ+H
-   g==;
-X-CSE-ConnectionGUID: MmMFvwZCQLewcyBwlWjNrw==
-X-CSE-MsgGUID: dKPa6oOPR+SZmZUz/KuDQg==
-X-IronPort-AV: E=Sophos;i="6.23,219,1770595200"; 
-   d="scan'208";a="18975878"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 08:08:18 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:20934]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.20.153:2525] with esmtp (Farcaster)
- id 4c3798b6-d4c5-412e-bccc-51de55c2e359; Wed, 6 May 2026 08:08:17 +0000 (UTC)
-X-Farcaster-Flow-ID: 4c3798b6-d4c5-412e-bccc-51de55c2e359
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Wed, 6 May 2026 08:08:17 +0000
-Received: from dev-dsk-itazur-1b-11e7fc0f.eu-west-1.amazon.com (172.19.66.53)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Wed, 6 May 2026 08:08:03 +0000
-From: Takahiro Itazuri <itazur@amazon.com>
-To: <seanjc@google.com>, <ljs@kernel.org>
-CC: <Liam.Howlett@oracle.com>, <ackerleytng@google.com>,
-	<agordeev@linux.ibm.com>, <ajones@ventanamicro.com>,
-	<akpm@linux-foundation.org>, <alex@ghiti.fr>, <andrii@kernel.org>,
-	<aou@eecs.berkeley.edu>, <ast@kernel.org>, <baolu.lu@linux.intel.com>,
-	<borntraeger@linux.ibm.com>, <bp@alien8.de>, <bpf@vger.kernel.org>,
-	<catalin.marinas@arm.com>, <chenhuacai@kernel.org>, <corbet@lwn.net>,
-	<coxu@redhat.com>, <daniel@iogearbox.net>, <dave.hansen@linux.intel.com>,
-	<david@kernel.org>, <derekmn@amazon.com>, <dev.jain@arm.com>,
-	<eddyz87@gmail.com>, <gerald.schaefer@linux.ibm.com>, <gor@linux.ibm.com>,
-	<haoluo@google.com>, <hca@linux.ibm.com>, <hpa@zytor.com>,
-	<itazur@amazon.co.uk>, <jackabt@amazon.co.uk>, <jackmanb@google.com>,
-	<jannh@google.com>, <jgg@ziepe.ca>, <jgross@suse.com>, <jhubbard@nvidia.com>,
-	<jiayuan.chen@shopee.com>, <jmattson@google.com>, <joey.gouly@arm.com>,
-	<john.fastabend@gmail.com>, <jolsa@kernel.org>, <jthoughton@google.com>,
-	<kalyazin@amazon.co.uk>, <kas@kernel.org>, <kernel@xen0n.name>,
-	<kpsingh@kernel.org>, <kvm@vger.kernel.org>, <kvmarm@lists.linux.dev>,
-	<lenb@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-pm@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-	<loongarch@lists.linux.dev>, <lorenzo.stoakes@oracle.com>, <luto@kernel.org>,
-	<maobibo@loongson.cn>, <martin.lau@linux.dev>, <maz@kernel.org>,
-	<mhocko@suse.com>, <mingo@redhat.com>, <mlevitsk@redhat.com>,
-	<nikita.kalyazin@linux.dev>, <oupton@kernel.org>, <palmer@dabbelt.com>,
-	<patrick.roy@linux.dev>, <pavel@kernel.org>, <pbonzini@redhat.com>,
-	<peterx@redhat.com>, <peterz@infradead.org>, <pfalcato@suse.de>,
-	<pjw@kernel.org>, <prsampat@amd.com>, <rafael@kernel.org>,
-	<riel@surriel.com>, <rppt@kernel.org>, <ryan.roberts@arm.com>,
-	<sdf@fomichev.me>, <shijie@os.amperecomputing.com>,
-	<skhan@linuxfoundation.org>, <song@kernel.org>, <surenb@google.com>,
-	<suzuki.poulose@arm.com>, <svens@linux.ibm.com>, <tabba@google.com>,
-	<tglx@kernel.org>, <thuth@redhat.com>, <urezki@gmail.com>,
-	<vannapurve@google.com>, <vbabka@kernel.org>, <will@kernel.org>,
-	<willy@infradead.org>, <wu.fei9@sanechips.com.cn>, <x86@kernel.org>,
-	<yang@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
-	<yonghong.song@linux.dev>, <yosry@kernel.org>, <yu-cheng.yu@intel.com>,
-	<yuzenghui@huawei.com>, <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH v12 00/16] Direct Map Removal Support for guest_memfd
-Date: Wed, 6 May 2026 08:07:52 +0000
-Message-ID: <20260506080753.14517-1-itazur@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <aeennZlV60k81OBf@google.com>
-References: <aeennZlV60k81OBf@google.com>
+        d=gmail.com; s=20251104; t=1778058143; x=1778662943; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
+        b=KGAPdKzLk3vJJ86/+9JWb0pewVd+eSoidY3lk7EZPts94uHo4N/VRkoM9t57Na8hZU
+         ohCDqtJlErkxUgfhc1xF31gaTTxEEV9aQTpYdnIYJw5UqkLIvfOYXMVeC0yFRnX/MHe4
+         HmgeTl6uAbvaO7lSltkxovg9zHAEVQVtWdlJLq+MyigLOHJOPN3xooUX/QlPsg9aezCX
+         fcFIH2ULFXdTlkzGp+Ry1SgKQ1i2euO26Gf6Maw6yBVWA69E1LILuSHMu5h7drw4GBsF
+         YHnLv0r1kzhMzpzHNEVk53axTY4nfGL7MMB052P2FX+fuI9Xsu9HaT6ntUkADcXIzcaX
+         fiPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778058143; x=1778662943;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mmaZWXsqMxYY1SXzoardDG6u5dyIRaJ/iULJJHwbN+E=;
+        b=kyoxsUEiBtE5dHCpla2LAxVEmxC0US8MovDYiwq14elS1uIDd6JHs9l+glVCZwJJ1t
+         7vrGsYeQ6KvjAqaEFaHu0HzntzmsbrvC28+3EVkgdZs24FhH0sd77TvyxVoYexWMR8KU
+         CPvchaz4Ehiux8gnPJWTmmGaMt9ttmDKbCbtczV3RQWp/ynwtXwhBbAkB/fHSJyb0KaF
+         v/gZBgCOXEUdFB63qjYsCcyxsWVDcdGMEnxVopsCyY6YAvw2fwR3QYZHR/KBS7zQtbXs
+         kBV6cBztZ6Mgb3zN1dfWzHrQfELBYq+viPjQZk63mtVqKssS+tfzhEDBewqGdHmjnSq9
+         ZzyA==
+X-Forwarded-Encrypted: i=1; AFNElJ+LDKPfu0aELtJJ1GqNgkhBD9ngRDCZwMYjUB6oLNuSPC2n4LZDS8soCTbSQthr2uGXH9Z/wRZ1uUpcA7Zy@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLJIpEBNg6Fke6FieHMlshQrDvXNMv8UrRxvxAHcB+RdsgOINw
+	bXOz3j2Fq4qwVunBcA/hWLdL/0/gn3Y+8pr6uFN3e7xQTpsdmPt2ddFO
+X-Gm-Gg: AeBDietRp1I4Hium6kR6ZB3iiyfPGN77Rpg+uifGxPX4lah1IlbTPYz0gY23z5ypDB7
+	uyWvkde7sDQDsUlgbZwnhlTiiwXYaXiciuPRvPxV5u2/HpTiW5y23wkiyUD6E9Xu9OT+2V9hZ/R
+	yPKJidC0C1yHpV2Nu7bNoUsC4aTswWaOyW0zkKU+QCwOw/sdGstWXjdD5cRJMtvnHSl/fs6vhSN
+	yg5q1AZuNIqA386dEXHq66st5UA3iUV7rUfply+dxhKHOz71db7tPsfgr+M77MMWqYuxnV1E8BT
+	vqFXiVkbC5XAz1oagyIXdtvFkQMXy1UXrO/xcE9nNtZFJHKBToG5sMu8RM4Z6yQeHWVLspvcQzT
+	pNeIjhTUKYB11OxUg8RE73mtwfyeJHcc9xoQzlBT8g/HrztZZ7HwNhGIbqbiumZjZDUyPzm9uV7
+	jjs7SMKYQrtHPi3CDKAb24fJrE34j7+jDera4OMi+l7xOo1LNb8OT7Z/9+1y50mH3AfyF6qTWju
+	HagEvKVD9daxo11pVJ4Tfeirz6gsAhR6mWE6VzfXw==
+X-Received: by 2002:a05:600c:2e0c:b0:489:1c2d:211e with SMTP id 5b1f17b1804b1-48e51e0c833mr25734095e9.5.1778058142476;
+        Wed, 06 May 2026 02:02:22 -0700 (PDT)
+Received: from [10.109.92.22] ([86.33.71.194])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e52f5c1cfsm21365215e9.0.2026.05.06.02.02.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2026 02:02:21 -0700 (PDT)
+Message-ID: <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
+Date: Wed, 6 May 2026 10:02:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: EX19D037UWB002.ant.amazon.com (10.13.138.121) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+ <afi7c-VUJWOLlC1m@fedora>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <afi7c-VUJWOLlC1m@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Lorenzo and Sean,
+Hey Ming,
 
-Apologies for the delayed reply =E2=80=94 Nikita is leaving Amazon, and I'm
-taking over this series going forward. Thanks for your patience.
+On 5/4/26 16:29, Ming Lei wrote:
+> On Wed, Apr 29, 2026 at 04:25:46PM +0100, Pavel Begunkov wrote:
+>> The patch set allows to register a dmabuf to an io_uring instance for
+>> a specified file and use it with io_uring read / write requests. The
+>> infrastructure is not tied to io_uring and there could be more users
+>> in the future. A similar idea was attempted some years ago by Keith [1],
+>> from where I borrowed a good number of changes, and later was brough up
+>> by Tushar and Vishal from Intel.
+>>
+>> It's an opt-in feature for files, and they need to implement a new
+>> file operation to use it. Only NVMe block devices are supported in this
+>> series. The user API is built on top of io_uring's "registered buffers",
+>> where a dmabuf is registered in a special way, but after it can be used
+>> as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
+>> requests. It's created via a new file operation and the resulted map is
+>> then passed through the I/O stack in a new iterator type. There is some
+>> additional infrastructure to bind it all, which also counts requests
+>> using a dmabuf map and managing lifetimes, which is used to implement
+>> map invalidation.
+>>
+>> It was tested for GPU <-> NVMe transfers. Also, as it maintains a
+>> long-term dma mapping, it helps with the IOMMU cost. The numbers
+>> below are for udmabuf reads previously run by Anuj for different
+>> IOMMU modes:
+> 
+> Plain registered buffer is long-live too, which raises question: does this
+> framework need to take it into account from beginning?
 
-On Tue, Apr 21, 2026 at 01:40:00PM +0000, Lorenzo Stoakes wrote:
-> Hm, given this touches a fair bit of mm, I wonder if we shouldn't try to =
-do this
-> through the mm tree?
+Not sure I follow, mind expanding on what should be accounted?
+Are you suggesting that we might want to use normal registered
+buffers in a similar way? I.e. giving the driver an ability to
+pre-register them?
 
-On Tue, Apr 21, 2026 at 04:36:00PM +0000, Sean Christopherson wrote:
-> Yeah, when the time comes, the mm pieces definitely need to go through th=
-e mm
-> tree.  Ideally, I think this would be merged in two separate parts, with =
-all mm
-> changes going through the mm tree, and then the KVM changes through the K=
-VM tree
-> using a stable topic branch/tag from Andrew.
+> BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
+> which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
 
-Thanks for the guidance. The split makes sense to me; I'm planning to
-follow this approach with patches 1-6 (mm) going through the mm tree
-and patches 7-16 (KVM) through the KVM tree on top of a stable
-branch/tag from mm. I'll confirm the exact boundary and coordination
-details as I prepare the repost.
+Interesting, just too a glance, and it looks like what David Wei
+was thinking to add to fuse, but IIUC he gave up exactly because the
+client will need to cooperate and that could be troublesome.
 
-On Tue, Apr 21, 2026 at 01:40:00PM +0000, Lorenzo Stoakes wrote:
-> In any case, we definitely need a rebase on something not-next :) if not =
-mm then
-> Linus's tree at least maybe?
->
-> I'm seeing a lot of conflicts against mm-unstable, it can't b4 shazam eve=
-n patch
-> 1 and in Linus's tree it's failing at an mm patch (mm: introduce
-> AS_NO_DIRECT_MAP).
+Should we try to push everything under the same interface instead of
+keeping a ublk specific one? Again to the point that it requires
+a cooperative client, but if it's something more generic, the user
+might just try to use it as a general optimisation. In the same way
+it'll be helpful to fuse, and as a bonus you wouldn't need tree look
+ups (but mandates clients using registered buffers as a downside).
 
-I'll rebase onto v7.1-rc1 and resolve the conflicts as part of the split.
-
-Takahiro
+It'd need to shaped to somehow work better with host memory as I
+assume you want to be able to map it into server in common case.
+Switch case'ing if it's a udmabuf is not the greatest approach,
+but maybe we can figure out something else.
+  
+-- 
+Pavel Begunkov
 
