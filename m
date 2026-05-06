@@ -1,296 +1,122 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C793469E0;
-	Wed,  6 May 2026 11:24:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A417E438FFB
+	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 11:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778066652; cv=none; b=Zr+1AxCZWitumvnFbGERIXMDwCRRLe9erg7XmcRf66d9js585T0oVeueUw+6HSdOeS2uYMmXr7Ppvgal38Ru6eNod+uN/6nyA/ZFr3Lb83lPIlhi82uz9eq24ai8HUGcgKK3hA8u7o8vdgSU9r9c2fs7H9j0AdAKsup01rfL/vU=
+	t=1778067303; cv=none; b=X8bWGhex58PMWsz4EjXvrIvkIt95EI1FJrCeRWE8UJeaxV1Hn/At9EaxmcQkwkNoeY1YaN0dffYVJOTYTca+HLoZf/sJeLd1OVffeVu4DrXb2gxBo32B3V7Bem4SO3lHaOn4BVm+mprL1jnTLoJJ9QlMFfWdFXzRDmo03e2GIo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778066652; c=relaxed/simple;
-	bh=s+NcZDrPsV2pVpDSlJT/+9O/DpnrOKaF32h+6PElSG8=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=QGrksRQ40ibvHh0RixfW509yNvnn40PuKjGo1sgBHfoUMgzDd9x0rZEQnX5Zp1fkYv5xBjmp+U6FNX+1Jms7WCtfZMA8SnzLCQ/54fcF59nqXSreZeJzlWPgokcYkpRqciLnFHdXOQ0/I5LyTtJD9OzGZKNSpLhUtAuwzjwlBuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=aYJ5tFAh; arc=none smtp.client-ip=162.62.57.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1778067303; c=relaxed/simple;
+	bh=I9lVILlm7BHTqUvwglOwuEOyYxL1cNPl/qBpAYcP8+o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bzGoEHvY95/T5D6zE3CmlQwc04lFlriorgzuac/epDDCXiAGNRpC6JeKuvcoWxot14ZIzSVmZsjfB1tDgZAcLwRNCBM7jhPOt++6rKPSRMsuHuX9ILTTwQk3FZ5zV71ufx8aR7bjwtCXeRgGpm8IQU6TmTA9GHD+yYTgOSMiIg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYwiDxOg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="aYJ5tFAh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1778066643; bh=RAZoLQTv9r/26e1bwlN9bINGIKqm114i2HLArY7Q3jw=;
-	h=From:To:Cc:Subject:Date;
-	b=aYJ5tFAhPjwl+zG37IKzIfomgXzeaaE0dWeh5EoN7xn/Q8xuzA8/3GelhzVEPfWeT
-	 6vR9aVNelTWQiENnLRiYXN/9Ziv+HMManEPKkAvo25om0VNx1BQf+UlFyFHJ/2SMlg
-	 yrQ8jihViFdjp8O/mSY5x6R/d2qZI+IJ1ScnhkzI=
-Received: from node68.. ([166.111.236.25])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 5FBAE665; Wed, 06 May 2026 19:23:59 +0800
-X-QQ-mid: xmsmtpt1778066639tpmdwybvm
-Message-ID: <tencent_DEDC345B4071ED3C9B293ACD437B9C8DBC0A@qq.com>
-X-QQ-XMAILINFO: NwU6Bou9okj/buYd+9QBWbpsVasMPRPGt+xZAu9PwSvw3rkThXNsP6EMotjPK3
-	 iKJGsRkQZIxNODmJV+ZjieSnaXNLbk/ZzZOOkBLzBJn62R61mphqYgIr7AdtZGhmMsAjecpecnXU
-	 eKPyYgJB6uD1lytL2SZykkdSw53QaUTmoQ35pCGd3zKybazaiG1rtbLgc4UpEhOvKIjv5GegVr5J
-	 bu91TFx0k0xIizjNY92/bg/ZQHqpG3lExb8gMpjy2yXobrK6HAzzPFvWstLsPF3X5YkxuLpiYVSu
-	 voBcb6Q6pRqVAvGFwB20IXHDMFB8N9AxOGzEH4Mv116BWkHoPsprowTuEBugeUdv/fcCgF9A8VjG
-	 ZNFAZDvF7nPZy04AXzeflIFt3lPVbc6Y514PD7B6vbViDP3Eb9SYUkqkX5A8rn193ASxmjGN/wMl
-	 Hvj1BoAKT7WaijNlGny8agaS6fY6TtRp8vI4pP+se/zz/wNFK3jhEQe2/LBFeU9FP7nUrp3o+T7s
-	 u7j/3MluD/qjnIts+PeY5CeJSufmO0w3LF4VHs6nZCgBMH9UHYdPTT3TpFnjpJP7sCgbjqG4VoAk
-	 l3Oon/+NieOa20u4tZ13cvmCqG2bP7MZxodOQg8ESM1pi4kCVfQlUQi/mrWuxXbsGrCPLuFizHcE
-	 mDt5Lp7AEJ8I3hfEp+53vUHsiXay3hC7tipPgSS3DpFQMQDoz+F6xPUDEsPjr2zEQenaJanbzeK2
-	 xGnj10hpYbLUcWyvOE12arlVzJ0jVhcuAlIzvXdHm9TXJzwTstEHKy9vJVtzyrc4dC8BLPOGqTQj
-	 XoaGnsEiVM8rpGa1LV67U4Zzp3NNFFIHR1TvSwkDGoW8k+/5PpiHGifCQNT9t0avoNHHmU92lXQ3
-	 8zz7XAqGgBZTD5Qbzfth76mYYI9JQs5XhezaZG+TRuY3vj6lNFRpTsJpuOn6p62Tf02wdHz/uK6A
-	 bZwttH/qLM1kDc+D80Ml1CYV4/WpMqkHKkKnXhSQh2skcMs6xJT1ei0/CzoyHsL3qqet8b5rTymN
-	 SFLDQtiEX6mujI67eohQnpVM2iUBs=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-From: fujunjie <fujunjie1@qq.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	David Hildenbrand <david@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mm/fadvise: avoid remote LRU drain for mapped folio failures
-Date: Wed,  6 May 2026 11:23:59 +0000
-X-OQ-MSGID: <20260506112359.2269114-1-fujunjie1@qq.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYwiDxOg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8549CC2BCC4
+	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 11:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778067303;
+	bh=I9lVILlm7BHTqUvwglOwuEOyYxL1cNPl/qBpAYcP8+o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=eYwiDxOgJ2apZPsM+eP2uO3fMFZK4MFH/g+QOU3jI6Ixc9Cy9k+3JWNnwzzoCvkVN
+	 fKreZy8kwEIvIbZhz3LMqjQP6Aj4IH1ZJnBpHGHY5ujNg4ouYfZZSy2AnDsRGZo2vV
+	 rcjTGWKDAkCISSjWM4PMyFsGEMsTDsxGfkOmD2dk9axcTXwEWzQCbdbXzxh3nMopMw
+	 zMy04tMwjRoU4LvX0JcZJ9Yi/7xICHXqIMJUBNtfkp+qJUeO5nE1CEnzqx/+4hZ5Nw
+	 +m2DSdvWgejQRpee5TqoMcj9CkDQueJlR/0gUQceEC4zRkjpREhuXvmA5sLtPvXWdc
+	 3Y5EPPJeYhP7g==
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7bdec52f48dso9551297b3.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 06 May 2026 04:35:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8hQXoSdFN1sZlgenE9+ddvHuivqPko9sYh2AUkbeXFHYiMoIA+uxgMeT8JGiOUL/HB82CFMc8rSBqgZEcc@vger.kernel.org
+X-Gm-Message-State: AOJu0YxR8NoCj/zKW+5LMHMNz7g9rvt8re1eEOcYJn/QU1yTprBua95V
+	SuXJTsK/vxQlrKB1e5V1V/9qk4G1YgFxKTK5VOaGNPuSWFQZJq0rWaSWauByTbNHJIriy8wk5B1
+	WbNWNm8LhDhMcxEfubIQ9KTNAoonFtXU=
+X-Received: by 2002:a05:690c:6d81:b0:7b1:9036:a23a with SMTP id
+ 00721157ae682-7bda89a610emr69009307b3.14.1778067302711; Wed, 06 May 2026
+ 04:35:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260505130752.3906509-1-charsyam@gmail.com>
+In-Reply-To: <20260505130752.3906509-1-charsyam@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 6 May 2026 20:34:49 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_ZusqWzR0kvVEfR6cTL3+ut4fKR8eKgz-LeqprKhuy=A@mail.gmail.com>
+X-Gm-Features: AVHnY4JqOEVIEr5GaY35T39Tdfk-Lr9bS7CqOuI-6-U25njp8e3yqlGrBxSFGi8
+Message-ID: <CAKYAXd_ZusqWzR0kvVEfR6cTL3+ut4fKR8eKgz-LeqprKhuy=A@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: fix default_upcase refcount underflow and UAF on
+ fs_context teardown
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: hyc.lee@gmail.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-generic_fadvise(POSIX_FADV_DONTNEED) drains the local LRU batch and
-then tries to invalidate the requested page-cache range. If any folio
-could not be evicted, it assumes that a remote per-cpu LRU batch might
-be pinning the folio, calls lru_add_drain_all(), and walks the mapping
-again.
-
-mapping_try_invalidate() currently treats every failed
-mapping_evict_folio() as a possible remote-LRU-batch failure. But
-mapping_evict_folio() also fails for dirty or writeback folios, mapped
-folios, and folios whose filesystem-private state cannot be released. A
-global drain cannot make those folios evictable, so the drain adds
-latency and cross-CPU work without addressing those failure reasons.
-
-Mapped folios are a common false positive. They may also have transient
-references, but while any page in the folio is mapped, a remote LRU drain
-cannot remove the page-table references that keep the folio unevictable.
-POSIX_FADV_DONTNEED does not unmap userspace mappings.
-
-Teach the folio eviction path to report whether a failure hit the
-existing refcount check on a clean, unmapped folio. Only request the
-global drain for that case. This preserves the existing fallback for
-failures that a remote LRU drain can plausibly fix, while avoiding it
-for failure reasons that a remote drain is not expected to resolve.
-
-On a 4-vCPU, 8G QEMU/KVM guest, a mmap streaming workload scanned a
-128 MiB MAP_SHARED file in 2 MiB chunks. It called POSIX_FADV_DONTNEED
-on each chunk after reading it while keeping the mapping in place. 5
-rounds with 256 fadvise calls per round showed:
-
-  baseline: 112116 ns/call, 256 lru_add_drain_all() calls/round
-  patched:   79012 ns/call,   0 lru_add_drain_all() calls/round
-
-A separate cross-CPU fallback test exercised the case this fallback was
-originally intended to protect: CPU 0 created and wrote an 8-page file,
-then CPU 1 called fsync() and POSIX_FADV_DONTNEED on it. On the patched
-kernel, 10/10 rounds still called lru_add_drain_all() once and the
-subsequent mincore() check saw 0 resident pages. This shows that the
-patch does not remove the global drain path from this cross-CPU case.
-
-The workload is a controlled test, not production workload proof. It
-exercises the fadvise path and shows that mapped folio failures no
-longer trigger global drains in this setup while the cross-CPU fallback
-test continues to pass.
-
-Signed-off-by: fujunjie <fujunjie1@qq.com>
----
- mm/fadvise.c  | 16 ++++++++-----
- mm/internal.h |  2 +-
- mm/truncate.c | 64 +++++++++++++++++++++++++++++++++------------------
- 3 files changed, 52 insertions(+), 30 deletions(-)
-
-diff --git a/mm/fadvise.c b/mm/fadvise.c
-index b63fe21416ff2..ef26c23bf35c6 100644
---- a/mm/fadvise.c
-+++ b/mm/fadvise.c
-@@ -141,7 +141,7 @@ int generic_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
- 		}
- 
- 		if (end_index >= start_index) {
--			unsigned long nr_failed = 0;
-+			unsigned long nr_lru_refs = 0;
- 
- 			/*
- 			 * It's common to FADV_DONTNEED right after
-@@ -155,14 +155,18 @@ int generic_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
- 			lru_add_drain();
- 
- 			mapping_try_invalidate(mapping, start_index, end_index,
--					&nr_failed);
-+					&nr_lru_refs);
- 
- 			/*
--			 * The failures may be due to the folio being
--			 * in the LRU cache of a remote CPU. Drain all
--			 * caches and try again.
-+			 * Some clean, unmapped folios can fail invalidation
-+			 * because they are still sitting in remote per-cpu LRU
-+			 * batches.  Failures caused by dirty/writeback state,
-+			 * user mappings or filesystem-private release state are
-+			 * not helped by a remote drain, so avoid it unless
-+			 * mapping_try_invalidate() found a failure that could
-+			 * plausibly be resolved by it.
- 			 */
--			if (nr_failed) {
-+			if (nr_lru_refs) {
- 				lru_add_drain_all();
- 				invalidate_mapping_pages(mapping, start_index,
- 						end_index);
-diff --git a/mm/internal.h b/mm/internal.h
-index 5a2ddcf68e0b6..e95e691fb4a01 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -562,7 +562,7 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start,
- 		loff_t end);
- long mapping_evict_folio(struct address_space *mapping, struct folio *folio);
- unsigned long mapping_try_invalidate(struct address_space *mapping,
--		pgoff_t start, pgoff_t end, unsigned long *nr_failed);
-+		pgoff_t start, pgoff_t end, unsigned long *nr_lru_refs);
- 
- /**
-  * folio_evictable - Test whether a folio is evictable.
-diff --git a/mm/truncate.c b/mm/truncate.c
-index 12cc89f89afcf..abd72f3d358eb 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -311,19 +311,11 @@ int generic_error_remove_folio(struct address_space *mapping,
- }
- EXPORT_SYMBOL(generic_error_remove_folio);
- 
--/**
-- * mapping_evict_folio() - Remove an unused folio from the page-cache.
-- * @mapping: The mapping this folio belongs to.
-- * @folio: The folio to remove.
-- *
-- * Safely remove one folio from the page cache.
-- * It only drops clean, unused folios.
-- *
-- * Context: Folio must be locked.
-- * Return: The number of pages successfully removed.
-- */
--long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
-+static long __mapping_evict_folio(struct address_space *mapping,
-+				  struct folio *folio, bool *lru_refs)
- {
-+	if (lru_refs)
-+		*lru_refs = false;
- 	/* The page may have been truncated before it was locked */
- 	if (!mapping)
- 		return 0;
-@@ -331,14 +323,38 @@ long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
- 		return 0;
- 	/* The refcount will be elevated if any page in the folio is mapped */
- 	if (folio_ref_count(folio) >
--			folio_nr_pages(folio) + folio_has_private(folio) + 1)
-+			folio_nr_pages(folio) + folio_has_private(folio) + 1) {
-+		/*
-+		 * A remote LRU drain can only help with extra references on
-+		 * otherwise evictable folios.  Mapped folios also have an
-+		 * elevated refcount, but draining LRU caches cannot unmap them.
-+		 */
-+		if (lru_refs && !folio_mapped(folio))
-+			*lru_refs = true;
- 		return 0;
-+	}
- 	if (!filemap_release_folio(folio, 0))
- 		return 0;
- 
- 	return remove_mapping(mapping, folio);
- }
- 
-+/**
-+ * mapping_evict_folio() - Remove an unused folio from the page-cache.
-+ * @mapping: The mapping this folio belongs to.
-+ * @folio: The folio to remove.
-+ *
-+ * Safely remove one folio from the page cache.
-+ * It only drops clean, unused folios.
-+ *
-+ * Context: Folio must be locked.
-+ * Return: The number of pages successfully removed.
-+ */
-+long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
-+{
-+	return __mapping_evict_folio(mapping, folio, NULL);
-+}
-+
- /**
-  * truncate_inode_pages_range - truncate range of pages specified by start & end byte offsets
-  * @mapping: mapping to truncate
-@@ -526,13 +542,15 @@ EXPORT_SYMBOL(truncate_inode_pages_final);
-  * @mapping: the address_space which holds the folios to invalidate
-  * @start: the offset 'from' which to invalidate
-  * @end: the offset 'to' which to invalidate (inclusive)
-- * @nr_failed: How many folio invalidations failed
-+ * @nr_lru_refs: Optional counter for failures which may be due to remote
-+ *                per-cpu LRU refs
-  *
-- * This function is similar to invalidate_mapping_pages(), except that it
-- * returns the number of folios which could not be evicted in @nr_failed.
-+ * This function is similar to invalidate_mapping_pages(), except that callers
-+ * may request the number of folio eviction failures that may be resolved by
-+ * draining remote per-cpu LRU batches in @nr_lru_refs.
-  */
- unsigned long mapping_try_invalidate(struct address_space *mapping,
--		pgoff_t start, pgoff_t end, unsigned long *nr_failed)
-+		pgoff_t start, pgoff_t end, unsigned long *nr_lru_refs)
- {
- 	pgoff_t indices[FOLIO_BATCH_SIZE];
- 	struct folio_batch fbatch;
-@@ -548,6 +566,7 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
- 
- 		for (i = 0; i < nr; i++) {
- 			struct folio *folio = fbatch.folios[i];
-+			bool lru_refs = false;
- 
- 			/* We rely upon deletion not changing folio->index */
- 
-@@ -557,18 +576,17 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
- 				continue;
- 			}
- 
--			ret = mapping_evict_folio(mapping, folio);
-+			ret = __mapping_evict_folio(mapping, folio,
-+						    nr_lru_refs ? &lru_refs : NULL);
-+			if (!ret && lru_refs)
-+				(*nr_lru_refs)++;
- 			folio_unlock(folio);
- 			/*
- 			 * Invalidation is a hint that the folio is no longer
- 			 * of interest and try to speed up its reclaim.
- 			 */
--			if (!ret) {
-+			if (!ret)
- 				deactivate_file_folio(folio);
--				/* Likely in the lru cache of a remote CPU */
--				if (nr_failed)
--					(*nr_failed)++;
--			}
- 			count += ret;
- 		}
- 
-
-base-commit: 1b55f8358e35a67bf3969339ea7b86988af92f66
--- 
-2.34.1
-
+On Tue, May 5, 2026 at 10:07=E2=80=AFPM DaeMyung Kang <charsyam@gmail.com> =
+wrote:
+>
+> ntfs_init_fs_context() allocates a fresh ntfs_volume with vol->upcase
+> left as NULL. ntfs_free_fs_context() unconditionally calls
+> ntfs_volume_free() during fs_context teardown, even when ntfs_fill_super(=
+)
+> never ran or already cleaned up. ntfs_volume_free() then executes:
+>
+>         mutex_lock(&ntfs_lock);
+>         if (vol->upcase =3D=3D default_upcase) {
+>                 ntfs_nr_upcase_users--;
+>                 vol->upcase =3D NULL;
+>         }
+>
+> When the global default_upcase is also NULL (very first mount attempt,
+> or all prior mounts have released the table), the comparison is
+> NULL =3D=3D NULL, and ntfs_nr_upcase_users is decremented even though thi=
+s
+> volume never claimed a reference. ntfs_nr_upcase_users is unsigned long,
+> so the decrement wraps to ULONG_MAX.
+>
+> A subsequent successful mount can then free the shared table while the
+> mounted volume still points at it:
+>
+>   1. ntfs_fill_super() does the temporary ntfs_nr_upcase_users++ at the
+>      "Generate the global default upcase table if necessary" block. With
+>      the prior wraparound this brings the counter back to 0.
+>   2. If the volume's $UpCase matches the default, the match path does
+>      ntfs_nr_upcase_users++ and sets vol->upcase =3D default_upcase. The
+>      counter is now 1.
+>   3. On the success path, !--ntfs_nr_upcase_users evaluates true and
+>      default_upcase is kvfree()'d while vol->upcase still points at it.
+>      Subsequent upcase comparisons through that mount touch freed
+>      memory.
+>
+> This was reproduced with KASAN by closing a fresh fsopen("ntfs") context,
+> then mounting an NTFS image whose $UpCase table matches
+> generate_default_upcase(), and finally doing a case-insensitive lookup.
+> KASAN reports the dangling vol->upcase access:
+>
+>   BUG: KASAN: use-after-free in ntfs_collate_names+0x3b4/0x420
+>   Read of size 2 at addr ffff888008d40048 by task init/1
+>    ntfs_collate_names+0x3b4/0x420
+>    ntfs_lookup_inode_by_name+0x1921/0x3130
+>    ntfs_lookup+0x193/0xc40
+>    vfs_statx+0xc7/0x190
+>    vfs_fstatat+0x4b/0xa0
+>    __do_sys_newfstatat+0x92/0xf0
+>
+> The same QEMU reproducer was rerun after this change with KASAN
+> enabled. It reached "reproducer finished", and the log contained no
+> KASAN, use-after-free, Oops, or panic signatures.
+>
+> Guard each comparison with an explicit vol->upcase non-NULL check so a
+> volume that never took a reference cannot decrement the global users
+> counter. Apply the same guard to the other default_upcase release sites
+> so all cleanup paths follow the same ownership rule: only volumes that
+> actually hold a default_upcase reference may drop one.
+>
+> Fixes: 1e9ea7e04472 ("Revert "fs: Remove NTFS classic"")
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
