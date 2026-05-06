@@ -1,393 +1,296 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA543F7888
-	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 10:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C793469E0;
+	Wed,  6 May 2026 11:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778064227; cv=none; b=ZQF8Ahs0XgtljKQGPub7LJH2NuYlW19z0XCvo5Ea/N8fvb0V0uP6bQ9gZX+5+Phbh/ZbtJznT4UBzFArY+qHSiu5ETI1+zHFvGlGaEaeqiLd5F9v1mjysCKhhXe+FxLCvW0BplBkvzjm2QfMDSWsyzA0netHiWPcWG2gvvLS6DI=
+	t=1778066652; cv=none; b=Zr+1AxCZWitumvnFbGERIXMDwCRRLe9erg7XmcRf66d9js585T0oVeueUw+6HSdOeS2uYMmXr7Ppvgal38Ru6eNod+uN/6nyA/ZFr3Lb83lPIlhi82uz9eq24ai8HUGcgKK3hA8u7o8vdgSU9r9c2fs7H9j0AdAKsup01rfL/vU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778064227; c=relaxed/simple;
-	bh=x79tElgG/HQY8d0sEhjwdDb1d4y/GUIKL1wHtqruqq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p9tVdIp4fSHk++E5lz6rzaq30Ycuntx8Tl5T7SAEPylk3gB9yKRikvagkkTaRs82/A+xnx8EZmWCA37KiWWclzCY7jD0er+2kkSU9TEV8Q+p4AfvL75wvdNc/w/1szr1BuMhLrhXhQPv+6s83eooxFMyQxWHafsBUXVkMvfkm5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uUno8sSZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=I/nJMp1g; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=uUno8sSZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=I/nJMp1g; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1778066652; c=relaxed/simple;
+	bh=s+NcZDrPsV2pVpDSlJT/+9O/DpnrOKaF32h+6PElSG8=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=QGrksRQ40ibvHh0RixfW509yNvnn40PuKjGo1sgBHfoUMgzDd9x0rZEQnX5Zp1fkYv5xBjmp+U6FNX+1Jms7WCtfZMA8SnzLCQ/54fcF59nqXSreZeJzlWPgokcYkpRqciLnFHdXOQ0/I5LyTtJD9OzGZKNSpLhUtAuwzjwlBuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=aYJ5tFAh; arc=none smtp.client-ip=162.62.57.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uUno8sSZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="I/nJMp1g";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="uUno8sSZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="I/nJMp1g"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 915256BC44;
-	Wed,  6 May 2026 10:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778064222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKJJpKo4selPgwo4u799sd/7fHc43w/Qqia5bTZ5JMs=;
-	b=uUno8sSZwIpQbbKuT+Tn7b/O5N5bNyYny+2bMvjIX6zVv/42mcjR2UYMIGvd3SO/eaFE1H
-	WWXI7+vBtlqejaCFS8ps8lC90puyicZ2Zs8X5jrwIy25FeGV02rqxd8ywtnNZ0uaLE1zDM
-	Q1lVLz4etWtyXWcF8Qxy5ov+4V7iyQc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778064222;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKJJpKo4selPgwo4u799sd/7fHc43w/Qqia5bTZ5JMs=;
-	b=I/nJMp1g4XU8KNu25pVJlQSo2ySwu5a9X+yT6JssYpfQlbpODY8P3DdLglkXEAwAyfI97T
-	V3YUrDF3rSFSQNBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778064222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKJJpKo4selPgwo4u799sd/7fHc43w/Qqia5bTZ5JMs=;
-	b=uUno8sSZwIpQbbKuT+Tn7b/O5N5bNyYny+2bMvjIX6zVv/42mcjR2UYMIGvd3SO/eaFE1H
-	WWXI7+vBtlqejaCFS8ps8lC90puyicZ2Zs8X5jrwIy25FeGV02rqxd8ywtnNZ0uaLE1zDM
-	Q1lVLz4etWtyXWcF8Qxy5ov+4V7iyQc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778064222;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KKJJpKo4selPgwo4u799sd/7fHc43w/Qqia5bTZ5JMs=;
-	b=I/nJMp1g4XU8KNu25pVJlQSo2ySwu5a9X+yT6JssYpfQlbpODY8P3DdLglkXEAwAyfI97T
-	V3YUrDF3rSFSQNBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 73C28593A3;
-	Wed,  6 May 2026 10:43:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iL/GG14b+2kQSAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 06 May 2026 10:43:42 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C8142A0790; Wed, 06 May 2026 12:43:41 +0200 (CEST)
-Date: Wed, 6 May 2026 12:43:41 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Chuck Lever <chuck.lever@oracle.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH v6 2/2] mm: kick writeback flusher for IOCB_DONTCACHE
- with targeted dirty tracking
-Message-ID: <yz5zorwpe5vunerb6wn4jv7sdumrkfe2jcvo6cnknk465kn4wa@g6fw43s7qb4a>
-References: <20260505-dontcache-v6-0-66463805dd6a@kernel.org>
- <20260505-dontcache-v6-2-66463805dd6a@kernel.org>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="aYJ5tFAh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1778066643; bh=RAZoLQTv9r/26e1bwlN9bINGIKqm114i2HLArY7Q3jw=;
+	h=From:To:Cc:Subject:Date;
+	b=aYJ5tFAhPjwl+zG37IKzIfomgXzeaaE0dWeh5EoN7xn/Q8xuzA8/3GelhzVEPfWeT
+	 6vR9aVNelTWQiENnLRiYXN/9Ziv+HMManEPKkAvo25om0VNx1BQf+UlFyFHJ/2SMlg
+	 yrQ8jihViFdjp8O/mSY5x6R/d2qZI+IJ1ScnhkzI=
+Received: from node68.. ([166.111.236.25])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 5FBAE665; Wed, 06 May 2026 19:23:59 +0800
+X-QQ-mid: xmsmtpt1778066639tpmdwybvm
+Message-ID: <tencent_DEDC345B4071ED3C9B293ACD437B9C8DBC0A@qq.com>
+X-QQ-XMAILINFO: NwU6Bou9okj/buYd+9QBWbpsVasMPRPGt+xZAu9PwSvw3rkThXNsP6EMotjPK3
+	 iKJGsRkQZIxNODmJV+ZjieSnaXNLbk/ZzZOOkBLzBJn62R61mphqYgIr7AdtZGhmMsAjecpecnXU
+	 eKPyYgJB6uD1lytL2SZykkdSw53QaUTmoQ35pCGd3zKybazaiG1rtbLgc4UpEhOvKIjv5GegVr5J
+	 bu91TFx0k0xIizjNY92/bg/ZQHqpG3lExb8gMpjy2yXobrK6HAzzPFvWstLsPF3X5YkxuLpiYVSu
+	 voBcb6Q6pRqVAvGFwB20IXHDMFB8N9AxOGzEH4Mv116BWkHoPsprowTuEBugeUdv/fcCgF9A8VjG
+	 ZNFAZDvF7nPZy04AXzeflIFt3lPVbc6Y514PD7B6vbViDP3Eb9SYUkqkX5A8rn193ASxmjGN/wMl
+	 Hvj1BoAKT7WaijNlGny8agaS6fY6TtRp8vI4pP+se/zz/wNFK3jhEQe2/LBFeU9FP7nUrp3o+T7s
+	 u7j/3MluD/qjnIts+PeY5CeJSufmO0w3LF4VHs6nZCgBMH9UHYdPTT3TpFnjpJP7sCgbjqG4VoAk
+	 l3Oon/+NieOa20u4tZ13cvmCqG2bP7MZxodOQg8ESM1pi4kCVfQlUQi/mrWuxXbsGrCPLuFizHcE
+	 mDt5Lp7AEJ8I3hfEp+53vUHsiXay3hC7tipPgSS3DpFQMQDoz+F6xPUDEsPjr2zEQenaJanbzeK2
+	 xGnj10hpYbLUcWyvOE12arlVzJ0jVhcuAlIzvXdHm9TXJzwTstEHKy9vJVtzyrc4dC8BLPOGqTQj
+	 XoaGnsEiVM8rpGa1LV67U4Zzp3NNFFIHR1TvSwkDGoW8k+/5PpiHGifCQNT9t0avoNHHmU92lXQ3
+	 8zz7XAqGgBZTD5Qbzfth76mYYI9JQs5XhezaZG+TRuY3vj6lNFRpTsJpuOn6p62Tf02wdHz/uK6A
+	 bZwttH/qLM1kDc+D80Ml1CYV4/WpMqkHKkKnXhSQh2skcMs6xJT1ei0/CzoyHsL3qqet8b5rTymN
+	 SFLDQtiEX6mujI67eohQnpVM2iUBs=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+From: fujunjie <fujunjie1@qq.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	David Hildenbrand <david@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] mm/fadvise: avoid remote LRU drain for mapped folio failures
+Date: Wed,  6 May 2026 11:23:59 +0000
+X-OQ-MSGID: <20260506112359.2269114-1-fujunjie1@qq.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260505-dontcache-v6-2-66463805dd6a@kernel.org>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,infradead.org,linux-foundation.org,oracle.com,google.com,suse.com,kernel.dk,gmail.com,vger.kernel.org,kvack.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
 
-On Tue 05-05-26 20:59:49, Jeff Layton wrote:
-> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-> filemap_flush_range() on every write, submitting writeback inline in
-> the writer's context.  Perf lock contention profiling shows the
-> performance problem is not lock contention but the writeback submission
-> work itself — walking the page tree and submitting I/O blocks the writer
-> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
-> (dontcache).
-> 
-> Replace the inline filemap_flush_range() call with a flusher kick that
-> drains dirty pages in the background.  This moves writeback submission
-> completely off the writer's hot path.
-> 
-> To avoid flushing unrelated buffered dirty data, add a dedicated
-> WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
-> the per-wb WB_DONTCACHE_DIRTY counter to determine how many pages to
-> write back.  The flusher writes back that many pages from the oldest dirty
-> inodes (not restricted to dontcache-specific inodes). This helps
-> preserve I/O batching while limiting the scope of expedited writeback.
-> 
-> Like WB_start_all, the WB_start_dontcache bit coalesces multiple
-> DONTCACHE writes into a single flusher wakeup without per-write
-> allocations.  Use test_and_clear_bit to atomically consume the kick
-> request before reading the dirty counter and starting writeback, so that
-> concurrent DONTCACHE writes during writeback can re-set the bit and
-> schedule a follow-up flusher run.
-> 
-> Read the dirty counter with wb_stat_sum() (aggregating per-CPU batches)
-> rather than wb_stat() (which reads only the global counter) to ensure
-> small writes below the percpu batch threshold are visible to the flusher.
-> 
-> In filemap_dontcache_kick_writeback(), set the WB_start_dontcache bit
-> inside the unlocked_inode_to_wb_begin/end section for correct cgroup
-> writeback domain targeting, but defer the wb_wakeup() call until after
-> the section ends, since wb_wakeup() uses spin_unlock_irq() which would
-> unconditionally re-enable interrupts while the i_pages xa_lock may still
-> be held under irqsave during a cgroup writeback switch.
-> 
-> Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
-> visibility.
-> 
-> dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
-> xfs on NVMe, fio io_uring):
-> 
-> Buffered and direct I/O paths are unaffected by this patchset. All
-> improvements are confined to the dontcache path:
-> 
-> Single-stream throughput (MB/s):
->                         Before    After    Change
->   seq-write/dontcache      298      897    +201%
->   rand-write/dontcache     131      236     +80%
-> 
-> Tail latency improvements (seq-write/dontcache):
->   p99:    135,266 us  ->  23,986 us   (-82%)
->   p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
-> 
-> Multi-writer (4 jobs, sequential write):
->                                 Before    After    Change
->   dontcache aggregate (MB/s)     2,529    4,532     +79%
->   dontcache p99 (us)             8,553    1,002     -88%
->   dontcache p99.9 (us)         109,314    1,057     -99%
-> 
->   Dontcache multi-writer throughput now matches buffered (4,532 vs
->   4,616 MB/s).
-> 
-> 32-file write (Axboe test):
->                                 Before    After    Change
->   dontcache aggregate (MB/s)     1,548    3,499    +126%
->   dontcache p99 (us)            10,170      602     -94%
->   Peak dirty pages (MB)          1,837      213     -88%
-> 
->   Dontcache now reaches 81% of buffered throughput (was 35%).
-> 
-> Competing writers (dontcache vs buffered, separate files):
->                                 Before    After
->   buffered writer                  868      433 MB/s
->   dontcache writer                 415      433 MB/s
->   Aggregate                      1,284      866 MB/s
-> 
->   Previously the buffered writer starved the dontcache writer 2:1.
->   With per-bdi_writeback tracking, both writers now receive equal
->   bandwidth. The aggregate matches the buffered-vs-buffered baseline
->   (863 MB/s), indicating fair sharing regardless of I/O mode.
-> 
->   The dontcache writer's p99.9 latency collapsed from 119 ms to
->   33 ms (-73%), eliminating the severe periodic stalls seen in the
->   baseline. Both writers now share identical latency profiles,
->   matching the buffered-vs-buffered pattern.
-> 
-> The per-bdi_writeback dirty tracking dramatically reduces peak dirty
-> pages in dontcache workloads, with the 32-file test dropping from
-> 1.8 GB to 213 MB. Dontcache sequential write throughput triples and
-> multi-writer throughput reaches parity with buffered I/O, with tail
-> latencies collapsing by 1-2 orders of magnitude.
-> 
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+generic_fadvise(POSIX_FADV_DONTNEED) drains the local LRU batch and
+then tries to invalidate the requested page-cache range. If any folio
+could not be evicted, it assumes that a remote per-cpu LRU batch might
+be pinning the folio, calls lru_add_drain_all(), and walks the mapping
+again.
 
-Looks good. Feel free to add:
+mapping_try_invalidate() currently treats every failed
+mapping_evict_folio() as a possible remote-LRU-batch failure. But
+mapping_evict_folio() also fails for dirty or writeback folios, mapped
+folios, and folios whose filesystem-private state cannot be released. A
+global drain cannot make those folios evictable, so the drain adds
+latency and cross-CPU work without addressing those failure reasons.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Mapped folios are a common false positive. They may also have transient
+references, but while any page in the folio is mapped, a remote LRU drain
+cannot remove the page-table references that keep the folio unevictable.
+POSIX_FADV_DONTNEED does not unmap userspace mappings.
 
-								Honza
+Teach the folio eviction path to report whether a failure hit the
+existing refcount check on a clean, unmapped folio. Only request the
+global drain for that case. This preserves the existing fallback for
+failures that a remote LRU drain can plausibly fix, while avoiding it
+for failure reasons that a remote drain is not expected to resolve.
 
-> ---
->  fs/fs-writeback.c                | 59 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/backing-dev-defs.h |  2 ++
->  include/linux/fs.h               |  6 ++--
->  include/trace/events/writeback.h |  3 +-
->  4 files changed, 65 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index a65694cbfe68..faf15cf84c68 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -2373,6 +2373,27 @@ static long wb_check_start_all(struct bdi_writeback *wb)
->  	return nr_pages;
->  }
->  
-> +static long wb_check_start_dontcache(struct bdi_writeback *wb)
-> +{
-> +	long nr_pages;
-> +
-> +	if (!test_and_clear_bit(WB_start_dontcache, &wb->state))
-> +		return 0;
-> +
-> +	nr_pages = wb_stat_sum(wb, WB_DONTCACHE_DIRTY);
-> +	if (nr_pages) {
-> +		struct wb_writeback_work work = {
-> +			.nr_pages	= nr_pages,
-> +			.sync_mode	= WB_SYNC_NONE,
-> +			.range_cyclic	= 1,
-> +			.reason		= WB_REASON_DONTCACHE,
-> +		};
-> +
-> +		nr_pages = wb_writeback(wb, &work);
-> +	}
-> +
-> +	return nr_pages;
-> +}
->  
->  /*
->   * Retrieve work items and do the writeback they describe
-> @@ -2394,6 +2415,11 @@ static long wb_do_writeback(struct bdi_writeback *wb)
->  	 */
->  	wrote += wb_check_start_all(wb);
->  
-> +	/*
-> +	 * Check for dontcache writeback request
-> +	 */
-> +	wrote += wb_check_start_dontcache(wb);
-> +
->  	/*
->  	 * Check for periodic writeback, kupdated() style
->  	 */
-> @@ -2468,6 +2494,39 @@ void wakeup_flusher_threads_bdi(struct backing_dev_info *bdi,
->  	rcu_read_unlock();
->  }
->  
-> +/**
-> + * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
-> + * @mapping:	address_space that was just written to
-> + *
-> + * Kick the writeback flusher thread to expedite writeback of dontcache dirty
-> + * pages. Queue writeback for the inode's wb for as many pages as there are
-> + * dontcache pages, but don't restrict writeback to dontcache pages only.
-> + *
-> + * This significantly improves performance over either writing all wb's pages
-> + * or writing only dontcache pages.  Although it doesn't guarantee quick
-> + * writeback and reclaim of dontcache pages, it keeps the amount of dirty pages
-> + * in check. Over longer term dontcache pages get written and reclaimed by
-> + * background writeback even with this rough heuristic.
-> + */
-> +void filemap_dontcache_kick_writeback(struct address_space *mapping)
-> +{
-> +	struct inode *inode = mapping->host;
-> +	struct bdi_writeback *wb;
-> +	struct wb_lock_cookie cookie = {};
-> +	bool need_wakeup = false;
-> +
-> +	wb = unlocked_inode_to_wb_begin(inode, &cookie);
-> +	if (wb_has_dirty_io(wb) &&
-> +	    !test_bit(WB_start_dontcache, &wb->state) &&
-> +	    !test_and_set_bit(WB_start_dontcache, &wb->state))
-> +		need_wakeup = true;
-> +	unlocked_inode_to_wb_end(inode, &cookie);
-> +
-> +	if (need_wakeup)
-> +		wb_wakeup(wb);
-> +}
-> +EXPORT_SYMBOL_GPL(filemap_dontcache_kick_writeback);
-> +
->  /*
->   * Wakeup the flusher threads to start writeback of all currently dirty pages
->   */
-> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-> index cb660dd37286..4f1084937315 100644
-> --- a/include/linux/backing-dev-defs.h
-> +++ b/include/linux/backing-dev-defs.h
-> @@ -26,6 +26,7 @@ enum wb_state {
->  	WB_writeback_running,	/* Writeback is in progress */
->  	WB_has_dirty_io,	/* Dirty inodes on ->b_{dirty|io|more_io} */
->  	WB_start_all,		/* nr_pages == 0 (all) work pending */
-> +	WB_start_dontcache,	/* dontcache writeback pending */
->  };
->  
->  enum wb_stat_item {
-> @@ -56,6 +57,7 @@ enum wb_reason {
->  	 */
->  	WB_REASON_FORKER_THREAD,
->  	WB_REASON_FOREIGN_FLUSH,
-> +	WB_REASON_DONTCACHE,
->  
->  	WB_REASON_MAX,
->  };
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 11559c513dfb..df72b42a9e9b 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2624,6 +2624,7 @@ extern int __must_check file_write_and_wait_range(struct file *file,
->  						loff_t start, loff_t end);
->  int filemap_flush_range(struct address_space *mapping, loff_t start,
->  		loff_t end);
-> +void filemap_dontcache_kick_writeback(struct address_space *mapping);
->  
->  static inline int file_write_and_wait(struct file *file)
->  {
-> @@ -2657,10 +2658,7 @@ static inline ssize_t generic_write_sync(struct kiocb *iocb, ssize_t count)
->  		if (ret)
->  			return ret;
->  	} else if (iocb->ki_flags & IOCB_DONTCACHE) {
-> -		struct address_space *mapping = iocb->ki_filp->f_mapping;
-> -
-> -		filemap_flush_range(mapping, iocb->ki_pos - count,
-> -				iocb->ki_pos - 1);
-> +		filemap_dontcache_kick_writeback(iocb->ki_filp->f_mapping);
->  	}
->  
->  	return count;
-> diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-> index bdac0d685a98..13ee076ccd16 100644
-> --- a/include/trace/events/writeback.h
-> +++ b/include/trace/events/writeback.h
-> @@ -44,7 +44,8 @@
->  	EM( WB_REASON_PERIODIC,			"periodic")		\
->  	EM( WB_REASON_FS_FREE_SPACE,		"fs_free_space")	\
->  	EM( WB_REASON_FORKER_THREAD,		"forker_thread")	\
-> -	EMe(WB_REASON_FOREIGN_FLUSH,		"foreign_flush")
-> +	EM( WB_REASON_FOREIGN_FLUSH,		"foreign_flush")	\
-> +	EMe(WB_REASON_DONTCACHE,		"dontcache")
->  
->  WB_WORK_REASON
->  
-> 
-> -- 
-> 2.54.0
-> 
+On a 4-vCPU, 8G QEMU/KVM guest, a mmap streaming workload scanned a
+128 MiB MAP_SHARED file in 2 MiB chunks. It called POSIX_FADV_DONTNEED
+on each chunk after reading it while keeping the mapping in place. 5
+rounds with 256 fadvise calls per round showed:
+
+  baseline: 112116 ns/call, 256 lru_add_drain_all() calls/round
+  patched:   79012 ns/call,   0 lru_add_drain_all() calls/round
+
+A separate cross-CPU fallback test exercised the case this fallback was
+originally intended to protect: CPU 0 created and wrote an 8-page file,
+then CPU 1 called fsync() and POSIX_FADV_DONTNEED on it. On the patched
+kernel, 10/10 rounds still called lru_add_drain_all() once and the
+subsequent mincore() check saw 0 resident pages. This shows that the
+patch does not remove the global drain path from this cross-CPU case.
+
+The workload is a controlled test, not production workload proof. It
+exercises the fadvise path and shows that mapped folio failures no
+longer trigger global drains in this setup while the cross-CPU fallback
+test continues to pass.
+
+Signed-off-by: fujunjie <fujunjie1@qq.com>
+---
+ mm/fadvise.c  | 16 ++++++++-----
+ mm/internal.h |  2 +-
+ mm/truncate.c | 64 +++++++++++++++++++++++++++++++++------------------
+ 3 files changed, 52 insertions(+), 30 deletions(-)
+
+diff --git a/mm/fadvise.c b/mm/fadvise.c
+index b63fe21416ff2..ef26c23bf35c6 100644
+--- a/mm/fadvise.c
++++ b/mm/fadvise.c
+@@ -141,7 +141,7 @@ int generic_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
+ 		}
+ 
+ 		if (end_index >= start_index) {
+-			unsigned long nr_failed = 0;
++			unsigned long nr_lru_refs = 0;
+ 
+ 			/*
+ 			 * It's common to FADV_DONTNEED right after
+@@ -155,14 +155,18 @@ int generic_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
+ 			lru_add_drain();
+ 
+ 			mapping_try_invalidate(mapping, start_index, end_index,
+-					&nr_failed);
++					&nr_lru_refs);
+ 
+ 			/*
+-			 * The failures may be due to the folio being
+-			 * in the LRU cache of a remote CPU. Drain all
+-			 * caches and try again.
++			 * Some clean, unmapped folios can fail invalidation
++			 * because they are still sitting in remote per-cpu LRU
++			 * batches.  Failures caused by dirty/writeback state,
++			 * user mappings or filesystem-private release state are
++			 * not helped by a remote drain, so avoid it unless
++			 * mapping_try_invalidate() found a failure that could
++			 * plausibly be resolved by it.
+ 			 */
+-			if (nr_failed) {
++			if (nr_lru_refs) {
+ 				lru_add_drain_all();
+ 				invalidate_mapping_pages(mapping, start_index,
+ 						end_index);
+diff --git a/mm/internal.h b/mm/internal.h
+index 5a2ddcf68e0b6..e95e691fb4a01 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -562,7 +562,7 @@ bool truncate_inode_partial_folio(struct folio *folio, loff_t start,
+ 		loff_t end);
+ long mapping_evict_folio(struct address_space *mapping, struct folio *folio);
+ unsigned long mapping_try_invalidate(struct address_space *mapping,
+-		pgoff_t start, pgoff_t end, unsigned long *nr_failed);
++		pgoff_t start, pgoff_t end, unsigned long *nr_lru_refs);
+ 
+ /**
+  * folio_evictable - Test whether a folio is evictable.
+diff --git a/mm/truncate.c b/mm/truncate.c
+index 12cc89f89afcf..abd72f3d358eb 100644
+--- a/mm/truncate.c
++++ b/mm/truncate.c
+@@ -311,19 +311,11 @@ int generic_error_remove_folio(struct address_space *mapping,
+ }
+ EXPORT_SYMBOL(generic_error_remove_folio);
+ 
+-/**
+- * mapping_evict_folio() - Remove an unused folio from the page-cache.
+- * @mapping: The mapping this folio belongs to.
+- * @folio: The folio to remove.
+- *
+- * Safely remove one folio from the page cache.
+- * It only drops clean, unused folios.
+- *
+- * Context: Folio must be locked.
+- * Return: The number of pages successfully removed.
+- */
+-long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
++static long __mapping_evict_folio(struct address_space *mapping,
++				  struct folio *folio, bool *lru_refs)
+ {
++	if (lru_refs)
++		*lru_refs = false;
+ 	/* The page may have been truncated before it was locked */
+ 	if (!mapping)
+ 		return 0;
+@@ -331,14 +323,38 @@ long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
+ 		return 0;
+ 	/* The refcount will be elevated if any page in the folio is mapped */
+ 	if (folio_ref_count(folio) >
+-			folio_nr_pages(folio) + folio_has_private(folio) + 1)
++			folio_nr_pages(folio) + folio_has_private(folio) + 1) {
++		/*
++		 * A remote LRU drain can only help with extra references on
++		 * otherwise evictable folios.  Mapped folios also have an
++		 * elevated refcount, but draining LRU caches cannot unmap them.
++		 */
++		if (lru_refs && !folio_mapped(folio))
++			*lru_refs = true;
+ 		return 0;
++	}
+ 	if (!filemap_release_folio(folio, 0))
+ 		return 0;
+ 
+ 	return remove_mapping(mapping, folio);
+ }
+ 
++/**
++ * mapping_evict_folio() - Remove an unused folio from the page-cache.
++ * @mapping: The mapping this folio belongs to.
++ * @folio: The folio to remove.
++ *
++ * Safely remove one folio from the page cache.
++ * It only drops clean, unused folios.
++ *
++ * Context: Folio must be locked.
++ * Return: The number of pages successfully removed.
++ */
++long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
++{
++	return __mapping_evict_folio(mapping, folio, NULL);
++}
++
+ /**
+  * truncate_inode_pages_range - truncate range of pages specified by start & end byte offsets
+  * @mapping: mapping to truncate
+@@ -526,13 +542,15 @@ EXPORT_SYMBOL(truncate_inode_pages_final);
+  * @mapping: the address_space which holds the folios to invalidate
+  * @start: the offset 'from' which to invalidate
+  * @end: the offset 'to' which to invalidate (inclusive)
+- * @nr_failed: How many folio invalidations failed
++ * @nr_lru_refs: Optional counter for failures which may be due to remote
++ *                per-cpu LRU refs
+  *
+- * This function is similar to invalidate_mapping_pages(), except that it
+- * returns the number of folios which could not be evicted in @nr_failed.
++ * This function is similar to invalidate_mapping_pages(), except that callers
++ * may request the number of folio eviction failures that may be resolved by
++ * draining remote per-cpu LRU batches in @nr_lru_refs.
+  */
+ unsigned long mapping_try_invalidate(struct address_space *mapping,
+-		pgoff_t start, pgoff_t end, unsigned long *nr_failed)
++		pgoff_t start, pgoff_t end, unsigned long *nr_lru_refs)
+ {
+ 	pgoff_t indices[FOLIO_BATCH_SIZE];
+ 	struct folio_batch fbatch;
+@@ -548,6 +566,7 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
+ 
+ 		for (i = 0; i < nr; i++) {
+ 			struct folio *folio = fbatch.folios[i];
++			bool lru_refs = false;
+ 
+ 			/* We rely upon deletion not changing folio->index */
+ 
+@@ -557,18 +576,17 @@ unsigned long mapping_try_invalidate(struct address_space *mapping,
+ 				continue;
+ 			}
+ 
+-			ret = mapping_evict_folio(mapping, folio);
++			ret = __mapping_evict_folio(mapping, folio,
++						    nr_lru_refs ? &lru_refs : NULL);
++			if (!ret && lru_refs)
++				(*nr_lru_refs)++;
+ 			folio_unlock(folio);
+ 			/*
+ 			 * Invalidation is a hint that the folio is no longer
+ 			 * of interest and try to speed up its reclaim.
+ 			 */
+-			if (!ret) {
++			if (!ret)
+ 				deactivate_file_folio(folio);
+-				/* Likely in the lru cache of a remote CPU */
+-				if (nr_failed)
+-					(*nr_failed)++;
+-			}
+ 			count += ret;
+ 		}
+ 
+
+base-commit: 1b55f8358e35a67bf3969339ea7b86988af92f66
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.34.1
+
