@@ -1,88 +1,52 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D4F221FBB;
-	Thu,  7 May 2026 05:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B483264D8;
+	Thu,  7 May 2026 05:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778130128; cv=none; b=E+3Lv8kWT3QK2nUokeq6+eJNQkkEBXnsKaff+hjFM9216dFY7WCP6M3PWbAQI7VE4plw9YnasCl64iLBx4aFQ4vKvNP16SsDMY0qsCf4MmFkft2SRciCudseqAQhbCMecj4mqfZT9hCn0tW/OBGwwj4ExWUqZBEyFDoYSnpctyk=
+	t=1778133141; cv=none; b=j4uUlczTm4MAlVyU16ZF3OfawQqtylQDhi4A2RLCplLUE2Yx1Wib8WIWe1t4h0BDZCPvjCi3UNoJ4TP8zoH8sseM0l6WQ1J/xIeUcyDmp1orr+P0Ty+87MQKzhm2p62oB+qDX1DqXBsSds8ds8baEuQRN7l8zChAVRF5vtLbd1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778130128; c=relaxed/simple;
-	bh=7EBB5GHCkHN0TskgiyxxoRk10u5pmW6e6NqBn22cBxg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GQu0oZwbP6QCeTJxaySeHMIPqWH0RbvVjfcaW+Ugk4sbwm2G5C5JF3hQF82kGQBSTZstgRfeR83Hzb+t5MB3ww9gcSE5AeiIGgQjuI/0cCHnUqzlykwFkYWYrqloZby5r3pL7hDwoSd1E9yF/4QNwMN1cppmj5HE2c6jBLH8yrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4vRWR5Kw; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4vRWR5Kw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=mDN+B9dh+NPxIY/UB0rdWyWd3aHMT0pACMhP7a3XzOM=; b=4vRWR5KwZkPPg6LdybCjDetnMH
-	A786va23jzt+cNxDaQrkM1wCrgRFjCPqJ4yW1c7ObSPJbIbywzAQJ0KVmKVW1q9c4lXp7lTV/h0xg
-	EAozP7kAbsPbqXtQZLcRo8qoJZ5Zplu3py19VrFTSzqM9Mt8omQh5ZgoBgYQHMAzu3hxgKkitJgaE
-	5eyk9b1Kg6wJIGFSVtMy0fTsyGDoY5OzN5Mx1d403nxlqnr3FVXrkxNZQ5+ozA7sIvafvzrDG4S3V
-	69RyS218hsdpCJEK5prxb0Qz2zgXTe2widhoN1sAMCkcjY/YK20A+zkXFICxIwPbd1hZkcZC8husb
-	B8vFbepQ==;
-Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKqsA-00000002lyY-17sW;
-	Thu, 07 May 2026 05:02:06 +0000
+	s=arc-20240116; t=1778133141; c=relaxed/simple;
+	bh=kgPalJv7veT0KOeNATxyzEZn/BLemJspD2/UygeoTGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AH5r+BmuH289LtNNUuYE5KJ0DeJqCxQj3wJjCqSy4I3PAUjGjxLHi+OTse95QTrHEnMHdWUXAmeYrkg1cAgQjdbBZ3AwZqo+s0bir/u8HVL97TKTxgIyF8jCUEsSe478pkSi/P1z4hm4Ojq5XfQY1Z2tzJ/G1c24PQRjPIFOcqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 6C60468BEB; Thu,  7 May 2026 07:52:17 +0200 (CEST)
+Date: Thu, 7 May 2026 07:52:17 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Pankaj Raghav <pankaj.raghav@linux.dev>,
-	linux-block@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 2/2] block: align down bounces bios
-Date: Thu,  7 May 2026 07:01:48 +0200
-Message-ID: <20260507050153.1298375-3-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260507050153.1298375-1-hch@lst.de>
-References: <20260507050153.1298375-1-hch@lst.de>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: linux-xfs@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	djwong@kernel.org, david@fromorbit.com
+Subject: Re: [PATCH v9 00/22] fs-verity support for XFS with post EOF
+ merkle tree
+Message-ID: <20260507055217.GA19888@lst.de>
+References: <20260428083332.768693-1-aalbersh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428083332.768693-1-aalbersh@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Just like for the extract user pages path, we need to align down the
-size to the supported boundary.
+On Tue, Apr 28, 2026 at 10:33:06AM +0200, Andrey Albershteyn wrote:
+> This series based on v7.0 with Christoph's read ioends patchset [1].
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- block/bio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That's not a good baseline.  We'll need it on the -rc that has everything
+from the current merge window at least.  It might also interact with
+the fsverity fix that just went in.
 
-diff --git a/block/bio.c b/block/bio.c
-index f3e5d8bea08c..5f10900b3f42 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -1345,7 +1345,7 @@ static int bio_iov_iter_bounce_write(struct bio *bio, struct iov_iter *iter,
- 
- 	if (!bio->bi_iter.bi_size)
- 		return -ENOMEM;
--	return 0;
-+	return bio_iov_iter_align_down(bio, iter, minsize - 1);
- }
- 
- static int bio_iov_iter_bounce_read(struct bio *bio, struct iov_iter *iter,
-@@ -1383,7 +1383,7 @@ static int bio_iov_iter_bounce_read(struct bio *bio, struct iov_iter *iter,
- 	bvec_set_folio(&bio->bi_io_vec[0], folio, bio->bi_iter.bi_size, 0);
- 	if (iov_iter_extract_will_pin(iter))
- 		bio_set_flag(bio, BIO_PAGE_PINNED);
--	return 0;
-+	return bio_iov_iter_align_down(bio, iter, minsize - 1);
- }
- 
- /**
--- 
-2.53.0
+This might also be time to come up with a merge plan to figure out through
+what tree(s) to merge it as there don't seem to be any maintainer
+objections.
 
