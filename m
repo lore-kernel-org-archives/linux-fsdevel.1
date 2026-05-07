@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02F533E345;
-	Thu,  7 May 2026 12:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D979B3F166D;
+	Thu,  7 May 2026 12:44:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778157883; cv=none; b=jNj4a1Q/KLaUGsV0ADi4+QtFK+PHgkyuwhFz1MmJ6XneJv6lUB9Mox5lga3Mc/jueK3nfVVi34Q4oKMHWIX6KUI+9qApUq455WxoJP6UQCp5AnV48YVHOQXXjoBBuF6CTbs8o0vtluwi4ibY6RihLS7E+2UqEYYmok03metkFD8=
+	t=1778157888; cv=none; b=TLdPI3Icn97UcXMkgLcebPekcEXIH5SPPhst2DalHwYqkZmf3b8wxFYommuvRJ/APCJpzPSnBuHBC+qlTHrhpwgZOpka0ieFBsuWkBs0nfV0IR0Lxo8TEo0n7OqvZa4XV8YBwehevc1uCXJrwNyg7DQVe0+ScZ+evdo4kexP7KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778157883; c=relaxed/simple;
-	bh=q7iu0mK6wq0YpbKSRRtPEDTqgZmAcPHb4MPNaT5DtPQ=;
+	s=arc-20240116; t=1778157888; c=relaxed/simple;
+	bh=dVYEwiT/vQkj9bceBjC7oEzVsWkx7VDYr7J0MQQAjXw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HBsHUrL7hBFJ9eszx5b/Y+eBGB0tkVYjSLexNooS771SqDTdvhSya6tmf88GNLdzNff4pvPtzTARnMXJ82rM4nfgRaN9FCasBa/Nsg6Gq3ypKIqzWFHFkS5uan5CdmQvCv40yqN34F9/yuOlagvfhRkUpsMnY6qLBovu+4mAyr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FX/RQVk1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=BNtTV8qdXjmUvFrt4mAUQkPz9axK2AxxY1wjtvCPUcMBoI0Ph/R2kw30II9TRJzXq6HesFWyZS4vkXScNknxkKx1a8Upm97G/76FKoCNjmo58sC8sw7EthvmFA7vZS0t8vJakWe3kp8r+ZlBg0gErHpV25ohCJspN07zMo/tJjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HIuqQJth; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FX/RQVk1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0722C2BCB8;
-	Thu,  7 May 2026 12:44:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HIuqQJth"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 557C8C2BCB2;
+	Thu,  7 May 2026 12:44:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778157881;
-	bh=q7iu0mK6wq0YpbKSRRtPEDTqgZmAcPHb4MPNaT5DtPQ=;
+	s=k20201202; t=1778157887;
+	bh=dVYEwiT/vQkj9bceBjC7oEzVsWkx7VDYr7J0MQQAjXw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FX/RQVk1xHQhetl4dL6RcESpJqC9i868f0B4Vxzs2Y3nAXJh157DWRt5JKEPqthBG
-	 FGpfy/uHK5ck+/by9ZoV0xU3Uj0hmDkmtRhC2iAtzcAyU7QRvJMzKg0pzNW1c3OpGC
-	 obVF7PRAsqAce898j8FQr5v7eQqA6fpnZeo94J1/2tlG8PE2YSah2k7vbuzGLlUU7D
-	 lpLesmb1bfhg10Q67Ttb6sIeTN88EaYgIMdlN0h8sh2TdoHy5NhxyUt1gi7YrxQKIs
-	 MEAEv3xkaqSbDjhDn2babuR7roLBubDSeQGlAmBSXiEa9ORUaiwvuG3QGiWKtJYYDQ
-	 mr1vES0Dl3Wkg==
+	b=HIuqQJthR4++uR/BPrpjfDxwXJFbVB1LJEApdW6C5g9BcByrwpdSUNPUop765VlDJ
+	 Wlgfq6iSBtkrLxE3VWBcLowUkcRhu1AyK9ZDihytnsGET5junrctSqbGWlY2rKqfPs
+	 IEo2m0Ffkg69r7+hoGPFum6RXMmKQyLhAhn3WP+V0gm7DtphjNu5jOlHWfRpcmalEc
+	 Chtx4mzXJvL4SY2dwi9Vd9FbS2DZ8ytDjcZEpzhtFmkx+1nRZvJmhrEwmGZd2Fs6M3
+	 ImyRIi+99Z3lXW1VSo06w5/NXA8I7JuzcLx3T507x542HYs8gqc4c1xQaMN8ZSx+cf
+	 Q07Wxwcinlspw==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: sj1557.seo@samsung.com,
 	yuezhang.mo@sony.com,
@@ -38,9 +38,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	chizhiling@kylinos.cn,
 	linux-kernel@vger.kernel.org,
 	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH v2 2/9] exfat: add balloc parameter to exfat_map_cluster() for iomap support
-Date: Thu,  7 May 2026 21:42:31 +0900
-Message-Id: <20260507124238.7313-3-linkinjeon@kernel.org>
+Subject: [PATCH v2 3/9] exfat: add exfat_file_open()
+Date: Thu,  7 May 2026 21:42:32 +0900
+Message-Id: <20260507124238.7313-4-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260507124238.7313-1-linkinjeon@kernel.org>
 References: <20260507124238.7313-1-linkinjeon@kernel.org>
@@ -52,50 +52,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In preparation for supporting the iomap infrastructure, we need to know
-whether a new cluster was allocated or not in exfat_map_cluster().
-
-Add an optional 'bool *balloc' output parameter. When a new cluster is
-allocated, *balloc is set to true. Pass NULL from exfat_get_block() to
-preserve the existing behavior.
+Add exfat_file_open() to handle file open operation for exFAT.
+This change is a preparation step before introducing iomap-based direct
+IO support.
 
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/exfat/inode.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ fs/exfat/file.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/fs/exfat/inode.c b/fs/exfat/inode.c
-index d25e0a69865b..1246713567a5 100644
---- a/fs/exfat/inode.c
-+++ b/fs/exfat/inode.c
-@@ -124,7 +124,8 @@ void exfat_sync_inode(struct inode *inode)
-  * *clu = (~0), if it's unable to allocate a new cluster
-  */
- static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
--		unsigned int *clu, unsigned int *count, int create)
-+		unsigned int *clu, unsigned int *count, int create,
-+		bool *balloc)
- {
- 	int ret;
- 	unsigned int last_clu;
-@@ -229,6 +230,8 @@ static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
- 		if (exfat_cluster_walk(sb, clu, num_to_be_allocated - 1, ei->flags))
- 			return -EIO;
- 		*count = 1;
-+		if (balloc)
-+			*balloc = true;
- 	}
+diff --git a/fs/exfat/file.c b/fs/exfat/file.c
+index 29a36a80e29b..b7a4964631a0 100644
+--- a/fs/exfat/file.c
++++ b/fs/exfat/file.c
+@@ -800,7 +800,22 @@ static ssize_t exfat_splice_read(struct file *in, loff_t *ppos,
+ 	return filemap_splice_read(in, ppos, pipe, len, flags);
+ }
  
- 	/* hint information */
-@@ -262,7 +265,7 @@ static int exfat_get_block(struct inode *inode, sector_t iblock,
- 	/* Is this block already allocated? */
- 	count = exfat_bytes_to_cluster_round_up(sbi, bh_result->b_size);
- 	err = exfat_map_cluster(inode, iblock >> sbi->sect_per_clus_bits,
--			&cluster, &count, create);
-+			&cluster, &count, create, NULL);
- 	if (err) {
- 		if (err != -ENOSPC)
- 			exfat_fs_error_ratelimit(sb,
++static int exfat_file_open(struct inode *inode, struct file *filp)
++{
++	int err;
++
++	if (unlikely(exfat_forced_shutdown(inode->i_sb)))
++		return -EIO;
++
++	err = generic_file_open(inode, filp);
++	if (err)
++		return err;
++
++	return 0;
++}
++
+ const struct file_operations exfat_file_operations = {
++	.open		= exfat_file_open,
+ 	.llseek		= generic_file_llseek,
+ 	.read_iter	= exfat_file_read_iter,
+ 	.write_iter	= exfat_file_write_iter,
 -- 
 2.25.1
 
