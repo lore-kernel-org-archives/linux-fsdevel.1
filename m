@@ -1,151 +1,119 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737BE3FD14A
-	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 15:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778168939; cv=none; b=cNG1Q06fmnIE7yCo5l5poLPBD+XXggJgGAt1iSStIq7tTEpWwPq86tOnOIge7nen5kG/meWwFstgZTfZaIEkYmANwnNRiwxRozOk2myYPa5CDPz9MSvvAtK6G2Upk8iX4fKcIhhz65aztHIevaJqh8vSz6PafS2WbeljKDKOf/U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778168939; c=relaxed/simple;
-	bh=qkNoeGkk1EDvbqr2YYvb3ZfhLuvKkUA3Dp1BcLHOb58=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WBqRtOyYL8uoFmw1ryQj63xGFR2LYFYJxqdB4n6Y8CrTGSHXmsF71oKJ+AnKR1FGydPfPYQ90QC1w9D9vdxjTc9huR5qeHh3YCq8frdDpjENXwEI0ddTpwxLJQiFFsNL13ff02z6AUKnbGplioYZ1BHsBO+Mysl2EVl2v6jamDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qhGJkbhg; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CE929ACD7
+	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 15:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778169000; cv=pass; b=DRuRZudbFDorPaYrSwaQ9pbL4O4xby3pYdOgMChS5uAUm5YgoB/a2Usuf+sLux4OXusxn7YS8F+iQ4xN6RokpeuxcuVMjVLTacDGh1u+M8F4AOzlW9lT1tFonT0XnkIiF3pkhkoLKX+higi3zTq5BihlIfAxJ/pJgxa9OW3Ll8A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778169000; c=relaxed/simple;
+	bh=cM5Qfgu26HeWPnOS+BMs/06uKacZ3LRecy3MhffiVEc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CSzDU/zj7X1pDILKuZxpnvHoWgalZHbtr0doLQk+zzbfRtZdkbVIfxiGGYTi0B4q6IaHz6d9lfNTYBnKC73v0vokMmCy9tqbYK2+d//LW2DwImCkwV5HVXeCTmR3Cfzck5NvwebQKJis45jIaCeRTbmKPZh04F6q0y/DPrwyXZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=S01gbA1J; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qhGJkbhg"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a9633ef0d6so539965ad.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 08:48:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="S01gbA1J"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50d876329bbso8817711cf.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 08:49:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778168996; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iqKwMWyj0FM6JMILy3J8wrlWlKe8e/NNvgFzE1hDFPvLlVbdn18bKKmbFtszz4Z6Cl
+         3d+j7EGPasNe8bMLZXJvGhl3XBW3mTM3YlGajzXzq9w5czq3fqmtI1sYdp36aElDjL7J
+         J1bQwxg2iXoloLXxtSogpOpFgrG/brjSVLR/j+9K8cEB+TFGIYyIKt40gng9wO1fcX8q
+         E5aEjmO/BbOyQSbk1X2x3zT4ss39fZ5lXQB3lYOxBdVl/213ZbEzcFpD0/FW2hovnt99
+         z8h8nIHxBs99NHgBjfNiQKuMUvDMUD89BdaopFYKJHps55onYfoS1L/erEG0romCctJK
+         o2eQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YCLGNrMDke+UiwoXvwXPE7/456l4MP8QDj44lzoYnFk=;
+        fh=qxZ7rbP3qJDXJpwWf0ZU+eyqEMYXpWDFQTy3MLeGuQ4=;
+        b=XgxTzOZjLsM9qn3teK0NnG7NWxyzg3j/8AyWuV6mg8Avbf7zNr69f7JB0VMbHdsDLO
+         zaZBgKEy4tPdj4yI1u7wJQK4y/8kcCcUOlvMcKiIGAQEMuf2+j/IoIFQC/aRPwDCWHR7
+         DuDpeos/1cwPzyBYD2Fouei3oupMcPK0G9ssyG1Dnngmi8PaPuTi+V9KGk/JCKIb5HqC
+         ncQR9Whr8AK30LjnolD8yh2IeZslC8Ks/nIO//03osr9stEAoJaV/MOnDzyY4eeL/jgT
+         9k3u7UgjoK0N0fS6OysrNLJjmEypNqyA5y5J7jH0RaeQFLUADXwY87LPXksbfncc8cxz
+         3RnQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778168938; x=1778773738; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eKm6d3Tcv+zN5MgNnW1QNHFyC06/mNbb0XfWewjzA7k=;
-        b=qhGJkbhg+NPu4JCwV8ENh5FWLh3qTGrdbnjpoDhIRxxcip1qqT2SNnJJvUrqwBFGEI
-         XQEWeKsfk/0hEhj0+HkGLZRzqr1VzhTBy3GcYVm4ku1xSndtrkxHkYGXIxY4Af9wdffc
-         RsZF88qFeia+D78rxJiyt2CnTNg9bjGqw9d/pwiAvks6Z33iIqFsH4E+Rfx3kg31IIv3
-         nIPOWUsD97JXpoywo+A+1JXHEN0Ll/fKMdl4J8ct9PEbSg2NOKTsB49WH/lfg+WLzOvr
-         RzvxZp1Qq6t1kzwK2ILCKagJhjJfZlx7XNz37Uqb4OiKjcZeci3ZD4WAElkB25wjo4XM
-         ewzg==
+        d=szeredi.hu; s=google; t=1778168996; x=1778773796; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YCLGNrMDke+UiwoXvwXPE7/456l4MP8QDj44lzoYnFk=;
+        b=S01gbA1JrSBjv4qgRTbMB1PAXblylTAliQy/4h9OFKIhOVinv3oain5FpPt/xkyfC5
+         V86lvoNNwZbsTO3d91v6GjILfOC2cVC7UrOugy/CUYyCbtOiDip8pA7YPfXpaZ71fU2A
+         r+UCv4oni/eoYcqqYokpaKEryBPgW5WXiT5MY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778168938; x=1778773738;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1778168996; x=1778773796;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eKm6d3Tcv+zN5MgNnW1QNHFyC06/mNbb0XfWewjzA7k=;
-        b=Y5hh372egezhjKTu3g968SecbQ9Jvm+WT0sL7UMOdDcNXWD3xNApShqmJt9eFuWJk6
-         1HUE9S8mus57BMShPNYGD549nSE68lCb4edv9Fy5po8DnqNyu+oLvs9lMpGWDEHmzzj/
-         yf1ZrZX+feTPFUM7mYdPv929XlrV80f1bsErGAivTXZ722Q5n/SHcMeL9Y7SzpnP3Sfz
-         02ImZKWzSt2xCtAtenUdVN3zAzeeMByNxVZTxnuQQ/B4W6eSyPBLcDV6cAevqZVTwFDr
-         tWIBvWOlPJNnd0js9Vl+skk8rwahP5ZGH1C8uvuS7dO8KTj/HSq52AToeQaSxlexpQ8F
-         LCXw==
-X-Gm-Message-State: AOJu0Yz9ILP2IS+HwCevk5J/lB4jH9/Mdw8b/+uIpx1t4ibycsey2s1d
-	I9ucJ+47bzXDQUb00qA7UpE3Qr7uomt/YrMMWq8lOK2BhMyO6EQLW7T0
-X-Gm-Gg: AeBDiesacfS9adOS6mzIeGUmEYzSShT5ECYTcK4Oaol8QPOHEz+MxuoQHZ1dXhFd13M
-	dWOt6rMz2Cxcieu8vLuEG3uTgkKrBJdKjm8oy4voMqAR/VxmCp/XdW4wfamqnu5xhRclkOKv189
-	o9mYNCXI+FHeDGwM5vE3N7WlIkHvOJjLfTcHibS087s6AiMI4dCs65zmzPhPPVSo0pjkXUu2BqZ
-	cke0Csa8RSGtibHE0haPYQeBgUn3CEnwAJoAqmzFEzwYaKmvI1PsSd6yKbXjXec8wCrcC8DwOoR
-	xVmtc6fuOTTYGJ5yP17+OwXvDJmQJpAyYTEz/Vc9hdDjuY47LqwUb8SS0rCuElKY908Uq3b0KEI
-	l3mVNRKpiNePHCQRJcBFA7/Aus4c1ooK8jA2nYoigzsaoGvZwh3ecPAzpuQuHUVeaVcnmeFhRXK
-	5h/x6/YIS3C+N6neRfJMw2L4HfSLA=
-X-Received: by 2002:a17:902:d2c1:b0:2ba:7662:804f with SMTP id d9443c01a7336-2ba7afccbccmr43919385ad.2.1778168937668;
-        Thu, 07 May 2026 08:48:57 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bae7857d8esm934685ad.55.2026.05.07.08.48.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 08:48:57 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH] ntfs: avoid leaking uninitialised bytes in new security descriptors
-Date: Fri,  8 May 2026 00:48:52 +0900
-Message-ID: <20260507154852.1721710-1-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=YCLGNrMDke+UiwoXvwXPE7/456l4MP8QDj44lzoYnFk=;
+        b=foWS35WqnfogC6Pfghdnk3RgPcZGzqXBTS+9otaMUx5GpNykQgnurzMlf8FVsWRTVh
+         EOuobW03/YHOriNoFZSSx9rOQA4xb/fh1/cA1ODdRLSsL0KT0kE/3TB4dY+zzlO2NEFd
+         dzehdR84LO3GLRDywDR2kM3RqpQFzYYLm0qNfFR6QEnuL+r1Zs02neSRpRqDoSQtiu+T
+         ZrKC6zVRtJXF0PFNYFJgpeJrn9xeNeYmBzY9t6BuxgxY/4Lwh7Khjlf3qN79hXftwFhf
+         2gLmX2SR9YulJ8FMDMtIZZAzzmo4Oicp9Tq3Ws2HrdL8Ljt4f1diMTzttV4Gghi0hf5c
+         rYQw==
+X-Gm-Message-State: AOJu0Yxv9FaBYVkFngFFk2zzNSfc3SwFIjgB85iZNqc3zMrgPUsofzXH
+	C/UaiILNDQxNal0TfKEBRnOLb9kXNxjwMG0QvPr2rOyOPp1H9eITSRS4Fxec+SG8neYvAqg8CeV
+	iuAKS6J1SVf6JJ+QspAAINEKpQqRl1y4butIpNNA4tA==
+X-Gm-Gg: AeBDieuVOLkfr+iWVrG70hPw4oG7iPRDILyE9ZG18UfJPMtWoLGs7m2W600Gzi4AiDj
+	jOYtFlCTPsgYvAfeU2XN9nYotdQzO+waC0jlBvzWRv+mk+L/uId/w6DOvE2HMjIu1GF/XWtnuXW
+	ACQGR2Iw/ZMNS7LyWhva1Fxm9b+07Ra+npKynYBBFzhh1rFCarq5rfu5eRZyZNVjkCwPm5lttUD
+	yIUShwf/mi3O1GvTjnABuQCNjw9ym+TVQiGA+droQqi/bzskirXgQ/2bP+hnFwJIq/od0RpB87s
+	ai/7XCf0JPGSVG7drkoaI/RZhPeIUw68Bb+IIyI1
+X-Received: by 2002:a05:622a:48:b0:50e:a1aa:2cd9 with SMTP id
+ d75a77b69052e-51461c04ebbmr112852541cf.15.1778168996266; Thu, 07 May 2026
+ 08:49:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260506122415.205340-1-qjx1298677004@gmail.com>
+In-Reply-To: <20260506122415.205340-1-qjx1298677004@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 7 May 2026 17:49:45 +0200
+X-Gm-Features: AVHnY4ITO-Rvtl8Hpuf2meRqmUsBlE7Te--h2ufYP7Y3hMpAgIZjOOspXr3r1gU
+Message-ID: <CAJfpegvBgjaT4ZhWV8dm-5AKVKpm2N77gu1+nJuTFSLVyXnCwg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: fix writeback array overflow when max_pages is one
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>, 
+	Joanne Koong <joannelkoong@gmail.com>, Junxi Qian <qjx1298677004@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-ntfs_sd_add_everyone() builds the on-disk security descriptor for a
-newly created file by kmalloc()'ing a buffer and then partially
-filling it in:
+On Wed, 6 May 2026 at 14:24, Junxi Qian <qjx1298677004@gmail.com> wrote:
+>
+> fuse_iomap_writeback_range() appends one folio pointer and one
+> fuse_folio_desc for every dirty range that is merged into the current
+> writeback request.  The merge decision checks the byte budget against
+> fc->max_pages and fc->max_write, but it does not check whether the folio
+> and descriptor arrays still have another free slot.
+>
+> This is not sufficient for fuseblk, where the filesystem block size can
+> be smaller than PAGE_SIZE.  With writeback cache enabled and max_pages
+> negotiated as one, contiguous sub-page dirty ranges can fit within the
+> byte budget while spanning more than one folio.  The next append can then
+> write past the one-slot folios and descs arrays.
+>
+> Split the request when the number of already attached folios has reached
+> fc->max_pages.  This keeps the folio/descriptor slot accounting in sync
+> with the send decision.
+>
+> Fixes: ef7e7cbb323f ("fuse: use iomap for writeback")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> Signed-off-by: Junxi Qian <qjx1298677004@gmail.com>
 
-	sd = kmalloc(sd_len, GFP_NOFS);
-	...
-	sd->revision = 1;
-	sd->control = SE_DACL_PRESENT | SE_SELF_RELATIVE;
-	...
+Acked-by: Miklos Szeredi <mszeredi@redhat.com>
 
-The buffer is then handed to ntfs_attr_add() and persisted as the
-SECURITY_DESCRIPTOR attribute of the new MFT record.  The descriptor
-covers a relative security descriptor header, two SIDs (owner and
-group), an ACL header, and a single ACE, but several fields inside
-those structures are never written before the buffer is committed
-to disk:
+Christian, can you please apply this?
 
-  - struct security_descriptor_relative
-        @alignment		(1 byte)
-        @sacl			(4 bytes; SE_SACL_PRESENT is not set
-                                 but the offset still reaches disk)
-
-  - struct ntfs_sid (3 instances: owner, group, ACE.sid)
-        identifier_authority.value[0..4] (5 bytes per SID, 15 total
-                                          - only value[5] is set)
-
-  - struct ntfs_acl
-        @alignment1		(1 byte)
-        @alignment2		(2 bytes)
-
-That is 23 bytes of uninitialised slab memory persisted to disk for
-every new file or directory the legacy ntfs driver creates.  The
-"+ 4" trailing accounting in sd_len holds ace->sid.sub_authority[0],
-which the existing code does explicitly write to zero, so it is
-not part of the leak.
-
-Anything later able to read the SECURITY_DESCRIPTOR attribute - the
-same NTFS volume mounted on Windows or by another NTFS reader, an
-offline forensics tool, an unprivileged user that ends up with read
-access to the volume - can recover those bytes.  The leak persists
-for the lifetime of the file on disk, not just the lifetime of the
-kernel that wrote it.
-
-Switch the allocation to kzalloc() so every byte the on-disk
-descriptor covers is zero before the explicit initialisations run.
-While there, replace the bare "return -1" allocation-failure path
-with a proper -ENOMEM so the error reaches userspace as a meaningful
-errno instead of an unrelated -EPERM.
-
-Found by inspection while auditing fs/ntfs new-inode paths.
-
-Fixes: af0db57d4293 ("ntfs: update inode operations")
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
----
- fs/ntfs/namei.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
-index dc786270afe5..aad928ebb7bd 100644
---- a/fs/ntfs/namei.c
-+++ b/fs/ntfs/namei.c
-@@ -355,9 +355,9 @@ static int ntfs_sd_add_everyone(struct ntfs_inode *ni)
- 	sd_len = sizeof(struct security_descriptor_relative) + 2 *
- 		(sizeof(struct ntfs_sid) + 8) + sizeof(struct ntfs_acl) +
- 		sizeof(struct ntfs_ace) + 4;
--	sd = kmalloc(sd_len, GFP_NOFS);
-+	sd = kzalloc(sd_len, GFP_NOFS);
- 	if (!sd)
--		return -1;
-+		return -ENOMEM;
- 
- 	sd->revision = 1;
- 	sd->control = SE_DACL_PRESENT | SE_SELF_RELATIVE;
--- 
-2.43.0
-
+Thanks,
+Miklos
