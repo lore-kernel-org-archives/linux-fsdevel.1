@@ -1,86 +1,104 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F255239B97A;
-	Thu,  7 May 2026 11:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BCB3CFF58;
+	Thu,  7 May 2026 11:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778153251; cv=none; b=Y/pA5jwFYbGwPGHXWjdx68hH4wbsWWSfApeMA17tqE1r+0HRxFR419oiMB6Al2CqZkqKWyLq/igVRKQ0+g7fvjYl5ahAcvkamPauQNeWojRDVvHvBUOFikCEDTHipJ2AsXz2PfVhGxdzlK99C6Nc/kRHlLOvL5Z1YqyZObolL20=
+	t=1778153347; cv=none; b=BYDInu5bDxMqBYRdaODQMoG9osV0zbkuqEe2v2r2Qk4EX7ORh3amIBccMqeJ5XfZw/Lhs9KHqzFIHyhgX/1p2PzwexMpfdsmLXThoX5Ic2iVu6KIrfAAoBK9h4u8zm0Wv8GbNCV5u5HAy8rEYp2NeKwz4NwgGNwqAkAU3IrbpIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778153251; c=relaxed/simple;
-	bh=uMgzkn4mhzquLtNAfnhlFHgJyUM2YrumFH2xoyclWlg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MjLwhJlYkpVqgE3x5BeJWFv1R120H5NWDbA/GQrJimxysEVkK79SvqUdonniti6zAsytse3s6NwMLZdjBiTQATW293rMMNkfl0taih9I7Y355V1Q2jT5sPF1pGJ2ts3Tva4f3RzjMuOcJLrgb2twEGuWo2dSjfCQXR38Pwe2q9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=OZY1c5dZ; arc=none smtp.client-ip=113.46.200.218
+	s=arc-20240116; t=1778153347; c=relaxed/simple;
+	bh=Q517F6Uy3MLTmNCd0zXvFOW1dkgaW5XtTdMQDoqfd1o=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=oxZ7MDQA2cpyD39ognTCo+WXvxSwh6Jmggj+xhUQravN6ktUj8dzpDOMHWdOehsvMf/V72nq4PscW8bmbCFDQiKzCldGRYE+exK8d7HSVa3KOZ4F4GLvXqpCPxDGL+flVrMWcdGneEpd2L5E5QNd4AJ3fVFtYb32mKOEIUcJb70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=caq5uwqz; arc=none smtp.client-ip=113.46.200.227
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="OZY1c5dZ"
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="caq5uwqz"
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=DF01+QXLy8g00wDgYh2jIyULzG/ALEH5daN6HCCGS+0=;
-	b=OZY1c5dZwIHv+7tJZ1Gd0Xy1YYrZCGUiPTMBTbrJYl+wJ5KTIg17n87XbXnvPOq+3SlpPG9oo
-	1G/8t/1DI4jdvvMBtuSeCKBbEcE+jWb+lXy4hOrBvOVu+gtT1WoQ5K8z/YA3YyxK96CdaZVl+sj
-	QttWLOQTq/Joczf5r8tclK0=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4gB8th31PPzpSts;
-	Thu,  7 May 2026 19:20:28 +0800 (CST)
+	bh=IPaxjuxkQFaT7VyixKL22XhRyUNa15W2RvMeOdRAjbI=;
+	b=caq5uwqzWjdXpTJpPYaA96n5WVL/UjFTh5cYCI8uXed4+HBaSqQwwY3Zs12pqMNrQBpSU1tZi
+	xTIGuWlm9+JbqaE7lLPCvF7yuIg2pXNARZfCNYvCoNPFMHfrnQaeJduoTV59rv6Jw7HR3eZYatZ
+	s6ApXQr095yPv1DjTWKkJUU=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gB8wM2LcjznTZq;
+	Thu,  7 May 2026 19:21:55 +0800 (CST)
 Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7CFC220104;
-	Thu,  7 May 2026 19:27:19 +0800 (CST)
-Received: from huawei.com (10.50.85.155) by kwepemk500005.china.huawei.com
- (7.202.194.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 7 May
- 2026 19:27:18 +0800
+	by mail.maildlp.com (Postfix) with ESMTPS id 80CB3402AB;
+	Thu,  7 May 2026 19:29:01 +0800 (CST)
+Received: from [10.174.178.46] (10.174.178.46) by
+ kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 7 May 2026 19:29:00 +0800
+Subject: Re: [PATCH] nsfs: fix wrong error code returned for pidns ioctls
+To: <trondmy@kernel.org>, <anna@kernel.org>, <viro@zeniv.linux.org.uk>,
+	<brauner@kernel.org>, <jlayton@kernel.org>, <josef@toxicpanda.com>
+CC: <linux-nfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <yangerkun@huawei.com>,
+	<yi.zhang@huawei.com>, <changdiankang@huawei.com>
+References: <20260507111404.638608-1-chengzhihao1@huawei.com>
 From: Zhihao Cheng <chengzhihao1@huawei.com>
-To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jlayton@kernel.org>,
-	<josef@toxicpanda.com>
-CC: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>,
-	<changdiankang@huawei.com>
-Subject: [PATCH v2] nsfs: fix wrong error code returned for pidns ioctls
-Date: Thu, 7 May 2026 19:23:01 +0800
-Message-ID: <20260507112301.1042757-1-chengzhihao1@huawei.com>
-X-Mailer: git-send-email 2.52.0
+Message-ID: <bc06e923-1189-4251-42dd-5215b9f9b7d3@huawei.com>
+Date: Thu, 7 May 2026 19:29:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20260507111404.638608-1-chengzhihao1@huawei.com>
+Content-Type: text/plain; charset="gbk"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
  kwepemk500005.china.huawei.com (7.202.194.90)
 
-When executing NS_GET_PID_FROM_PIDNS (or similar pidns ioctls), if the
-target task cannot be found in the corresponding pid_ns, the error code
-should be ESRCH instead of ENOTTY.
+ÔÚ 2026/5/7 19:14, Zhihao Cheng Ð´µÀ:
+> When executing NS_GET_PID_FROM_PIDNS (or similar pidns ioctls), if the
+> target task cannot be found in the corresponding pid_ns, the error code
+> should be ESRCH instead of ENOTTY.
+> 
+> This bug was introduced when the extensible ioctl handling was added.
+> Without proper return, ret would be overwritten by the default case in
+> the extensible ioctl switch statement.
+> 
+> Fixes: a1d220d9dafa8 ("nsfs: iterate through mount namespaces")
+> Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
+> ---
+>   fs/nfs/nfs4state.c | 1 +
+>   fs/nsfs.c          | 2 +-
+>   2 files changed, 2 insertions(+), 1 deletion(-)
+Ignore this patch, see v2. 
+https://lore.kernel.org/linux-fsdevel/20260507112301.1042757-1-chengzhihao1@huawei.com/T/#u> 
 
-This bug was introduced when the extensible ioctl handling was added.
-Without proper return, ret would be overwritten by the default case in
-the extensible ioctl switch statement.
-
-Fixes: a1d220d9dafa8 ("nsfs: iterate through mount namespaces")
-Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
----
-v1->v2: Delete unnecessary blank line.
- fs/nsfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/nsfs.c b/fs/nsfs.c
-index 51e8c9430477..160018c4fb36 100644
---- a/fs/nsfs.c
-+++ b/fs/nsfs.c
-@@ -266,7 +266,7 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
- 		else
- 			tsk = find_task_by_pid_ns(arg, pid_ns);
- 		if (!tsk)
--			break;
-+			return ret;
- 
- 		switch (ioctl) {
- 		case NS_GET_PID_FROM_PIDNS:
--- 
-2.52.0
+> diff --git a/fs/nfs/nfs4state.c b/fs/nfs/nfs4state.c
+> index 305a772e5497..5044bb4c870f 100644
+> --- a/fs/nfs/nfs4state.c
+> +++ b/fs/nfs/nfs4state.c
+> @@ -2039,6 +2039,7 @@ static int nfs4_purge_lease(struct nfs_client *clp)
+>    *
+>    * Returns zero or a negative NFS4ERR status code.
+>    */
+> +
+>   static int nfs4_try_migration(struct nfs_server *server, const struct cred *cred)
+>   {
+>   	struct nfs_client *clp = server->nfs_client;
+> diff --git a/fs/nsfs.c b/fs/nsfs.c
+> index 51e8c9430477..160018c4fb36 100644
+> --- a/fs/nsfs.c
+> +++ b/fs/nsfs.c
+> @@ -266,7 +266,7 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
+>   		else
+>   			tsk = find_task_by_pid_ns(arg, pid_ns);
+>   		if (!tsk)
+> -			break;
+> +			return ret;
+>   
+>   		switch (ioctl) {
+>   		case NS_GET_PID_FROM_PIDNS:
+> 
 
