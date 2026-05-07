@@ -1,44 +1,59 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC212F8E81
-	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 20:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE59F2F8EBD
+	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 21:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778186345; cv=none; b=d7Qh8X52WbZ6JHMdgl4qoX1Fsz9un4GHiQWKZu816cAnfD+ncd6ZHFg/EAi5AqoH9hvMNAvbA3CkO4HzzV+bUaGUF+3i2UDvED/EeFRtJx0oCDxbsYI9g09C7G0r7dnz6Wmb5fFgMeCmuh4PoJhj4aj6tZkeMXpgfTaiF0A1wp0=
+	t=1778190823; cv=none; b=j9s0Imh5mAIKrxbzB21Dw8/ztorOsVKy+IqrkarPlnXdypdMj5JXzxVeqMPJCS2P06I+qAXM52n2QG/ngUK5nwp2TZ07wpicPahyV1yZOyug7oL+g8YoFxlZdhyrcyNdF2qhVNgbpp4xihqpE22VMyZxObsQ8v1voGiLN8xEhGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778186345; c=relaxed/simple;
-	bh=Rvb9avwJjKVoJ3eHyjP1HI/ML2ogSioC+t9JryLQcRY=;
+	s=arc-20240116; t=1778190823; c=relaxed/simple;
+	bh=GL9ulosMAXeHVnLzuL9n+MNorqN8hIwNgKyUgHbI0ig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uaxkzPppRPVJz08pTxG+hVc93xXNmukUcwPPlNfb1v8tj5zQKP/nr6KyB8MjYklgONMJOmy1NEnXSRe3eIq8UoXQwUjHse/ZR4rXuqiYg9xLBWJ/+22xdn38/vnpmmZcJ+eFZrmUXw8NQrkdUl7zVXR3FYdFJjGGBwXUrhJaxJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=snaOoi0I; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=LQbTxcw/AkwBbEQPVZo3n61uoKlHs+s6yaTuwcrQ6TOYtKysW0NJdDjJc2ht2mxLplDgjazZh4tNOYhvv+FxUl0eU2KYQX5th82+EUj81QwqLOsOHj+aQZPXIa9mXBhP0/SdV56nRMpc6ShPvxryyq4uK9OLJC93+yooATMvFf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=g381vi37; arc=none smtp.client-ip=195.121.94.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="snaOoi0I"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=QGPFKcEGFjhIJrwg+tfMputPFsUXl5hVKDkUHxa67U0=; b=snaOoi0IJIbcF2THp+wOOl8J0P
-	i0XLidMUWZMwzikC24fXVnp0eqpoDcnAuifHJk6FIa6M/VkMC8G6GfOUVauyS2JluCJT3s0YvzxKc
-	DwDkBxu8BBBlzA/eNUSTxudFGEpr221ayCoN4lLs37PCNTq963m7eyxTXjfwUOZfCRe10Ln0AUd10
-	Ivko50VWPPgRfKdhBzUetPiFWztwO8CqEXTvHfs5BK6XIhuaYCPzwfbezXIAWtR7puw+UtXaAhLk0
-	5SiKB19hv02RlMWiWtqCWQF+xy8Mrg5WyzzzcXH3iNmoztQp92ciOw56nQpW/CnM0avuczZESLkLu
-	doc7KWlQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wL5VE-00000006xER-1Y0F;
-	Thu, 07 May 2026 20:39:24 +0000
-Date: Thu, 7 May 2026 21:39:24 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>
-Subject: Re: [RFC PATCH 09/25] shrink_dentry_list(): start with removing from
- shrink list
-Message-ID: <20260507203924.GM3518998@ZenIV>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="g381vi37"
+X-KPN-MessageId: 0b25ba37-4a5f-11f1-969e-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 0b25ba37-4a5f-11f1-969e-005056abbe64;
+	Thu, 07 May 2026 23:52:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:message-id:subject:to:from:date;
+	bh=zo+p4y13vdoOBfOrt/Ha4Aiamv2LUMxnnZiBEghgHF8=;
+	b=g381vi37z+Ng4DVszNpcacaU2ps2B21HZkK0oHF0uvfXtl2/Jh8Hlsk2Z96vzQuaCk08ILqbtYqNK
+	 qg8QLJsKn7RgDC6/ZA4KrkRGYuOFjkcinJy9MCIhS3w+XiBmYa/6uanHz+gzEG1o98s6hf6CnuClT8
+	 +55IGJvYUAVX8VolnZhYUugl4hsEYrhQx8o9+56mU5oCy0dCJqzcKfoDQeQU53O85GsvX40eybm1KK
+	 2sszAVEkxHydD14hvUkUkt9PJ7TbuQZqVkPgjzQfQ8556E6oKJm7Ab+noTh0TzAGFggNvK82vPnUCg
+	 I/RNvmAWhOtDKazI2B66eT+3U+6ePxg==
+X-KPN-MID: 33|JUnKXq1FJRjwj4Huizm0Ua8w+y81xQFtDNCIEdq9fHNRFw2frHN8AuyAG+GdaAY
+ JB+KwmA8/GRFmCYDtJUCHzJ1e60mTeq+pmspuAwm7XNM=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|4KEv0oAJylrEWsqgi4h2vwbPhmceGbxhvLEpgBpqySV2hdZY/4z51dzNg6Icu5c
+ K45UZV5fKd2fOq7djUbxVQQ==
+Received: from localhost (unknown [178.226.144.191])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 0ae03081-4a5f-11f1-8011-005056ab7447;
+	Thu, 07 May 2026 23:52:29 +0200 (CEST)
+Date: Thu, 7 May 2026 23:52:21 +0200
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	NeilBrown <neil@brown.name>
+Subject: Re: [RFC PATCH 21/25] shrinking rcu_read_lock() scope in
+ d_alloc_parallel()
+Message-ID: <af0F6BwrJRxMMKMT@lt-jori.localdomain>
+Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	NeilBrown <neil@brown.name>
 References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
- <20260505055412.1261144-10-viro@zeniv.linux.org.uk>
+ <20260505055412.1261144-22-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,43 +62,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260505055412.1261144-10-viro@zeniv.linux.org.uk>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20260505055412.1261144-22-viro@zeniv.linux.org.uk>
 
-On Tue, May 05, 2026 at 06:53:56AM +0100, Al Viro wrote:
+On Tue, May 05, 2026 at 06:54:08AM +0100, Al Viro wrote:
+> 
+> 	If no match is found, we proceed to lock the hash chain of
+> in-lookup hash and scan that for a match.  If we find a match, we want
+> to grab it and wait for lookup in progress to finish.  Since the bitlock
+> we use for these hash chains has to nest inside ->d_lock, we need to
+> unlock the chain first and use lockref_get_not_dead() on the match.
 
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index 34d57ed9d791..ee11171a75e6 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -1228,19 +1228,19 @@ void shrink_dentry_list(struct list_head *list)
+Just curious, reading this code as someone fairly new to the kernel,
+how can I know what is the agreed-upon lock order between these hash
+chains and the d_locks of the dentries they contain?
 
-> +		if (unlikely(dentry->d_flags & DCACHE_DENTRY_KILLED)) {
-> +			dentry_free(dentry);
-> +			spin_unlock(&dentry->d_lock);
+> 
+> 	That makes the entire thing easier to follow and the purpose
+> of those rcu_read_lock() calls easier to describe - the first scope is
+> for __d_lookup_rcu() + lockref_get_not_dead(), the second one bridges
+> over from the bitlock scope to the ->d_lock scope on the match found in
+> in-lookup hash.
 
-In the opposite order, obviously.  It *is* safe in such form, but only
-because NORCU dentries placed on shrink lists can't be evicted by
-shrink_dentry_tree() (they won't be found by select_collect2()) or
-by dput() (once on a shrink list, they have refcount zero and they
-never get it incremented afterwards).  So this "if killed by another
-thread, with the empty husk left on the shrink list to be disposed of"
-can only happen for !NORCU ones, with actual freeing not happening
-until we are done with spin_unlock().
+Because the dentry could be freed after the hash chain unlock and before
+grabbing the d_lock?
 
-But even though that braino does not result in a UAF, we obviously should
-just unlock first.  Or, possibly, make dentry_free() called locked and
-have it unlock the sucker as the first step...  That would mean
--       if (dentry->d_flags & DCACHE_SHRINK_LIST)
--               can_free = false;
--       spin_unlock(&dentry->d_lock);
--       if (likely(can_free))
-+       if (unlikely(dentry->d_flags & DCACHE_SHRINK_LIST))
-+               spin_unlock(&dentry->d_lock);
-+       else
-                dentry_free(dentry);
-in dentry_kill(), and to hell with 'can_free' variable in there.
-Not sure...
+I do think the hlist_bl_for_each_entry loop would read clearer if we
+pull the code after having found the initial match out of it, since we
+always exit the loop afterwards.
 
-Anyway, for now I'm just fixing that braino; we can always revisit
-the calling conventions for dentry_free() later.
+Thanks for this patch, I've found myself puzzeled with the locking here
+several times, and this clears things up for me. I see no issues with
+the change, for what it's worth.
+
+Best,
+Jori.
