@@ -1,73 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EB33B530D;
-	Thu,  7 May 2026 09:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783043B774F
+	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 09:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778146111; cv=none; b=Nfd0mzHF4UX9/LMPtpoJpcogQdbWYZ2FjctsAIN0c40qPb/JPWYAKYaHLj06WmNUCbhD903gHknd1fRmGaYx0y0dAyCPjvycg3enxKWhFfZN96NGymzhusi0AMbKAHPMeaW4zO/cO2Bm79n7w0ep3IGUFyt5Wkdd6yfd6glRe2c=
+	t=1778147462; cv=none; b=FmmY/IelRm0PpPjAp5tPTIQRidSAlNpK88LnuZMrVJJGBjhpfLo15UObZjuVCA+MRhHry65/9DaB9F2ByBh7FvIJDni14+gawT5Vrb5LgI8hkg1CexMKCObftxKR1+tyLNOg/lnYrSjQSgZuCZvvrfv00PZWSin74QXyWUuw2Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778146111; c=relaxed/simple;
-	bh=178o+5XAJR9FcxxECLB4eJNmOcRXDFiwLbay6hI9XDs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=ZW/+cZmAqVB9hGfjlq5fxi+c1Y7UYWeQRxGuMrEJOZprT6K+eCxMgUqnltBeRQDKjmC2yIyAWjBb9yFtkRRMZ5IYb6wHigzIcTaIf7pEH44AAKTIwYyTvCqz+fgnVP/5s//fx4QlH7pOMF/zrnaC1m32JfuYIMnShxHZjgdggb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sU/zMiTh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778147462; c=relaxed/simple;
+	bh=SGEcwnAvvWnARcPzNzohe5P5P1OF2zid+5BmrvKQSbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZZ6OfwqVDPzTjWMWgC5qrFKasXDSMQBitZw3JChf6GWULbJ1sp4dzPI9Xni0rjRRugJvpXUCkHf97hxsW4FrwQEy6k2zIwsB1CFH41w8TYFD4hv726vd6Rer1HG45rCWcyqp2RQQSY/C3oexxuWd4IiEgSIk+Bugf+OSFtw7tKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qb6d1Z+s; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sU/zMiTh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA53C2BCB2;
-	Thu,  7 May 2026 09:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778146111;
-	bh=178o+5XAJR9FcxxECLB4eJNmOcRXDFiwLbay6hI9XDs=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=sU/zMiThEqUIGCXpYuDolUL9oExUHccG9nQDTkBFmCpdQWq2+vzizQAanCx4ETwzH
-	 lrxi0tMkXwPlRVm+SIHWtE7EWtC5zo9mBALsrUNajbxpEguO+o0+DEWy625/2MebZF
-	 n9rWyyHoM00mSE1OKle5eAy2qOaVw9CRbn4c6TO7qV0udyZOYZ1VbxbTXET9kU0U2Q
-	 TD6c0AFT6bsLNnhQuhk/dObaRAgKK4h4HvUDfFGmZ+5r1GDm/C1c0RRNmkP+k1U0ks
-	 O8BDn1LAIHG7Fvvp0yjJ9E9kMyIF8CGQlMvyPsFrqcEAXs8dUiXiHASPU7wlNtdDls
-	 dZ/KADDtfTpPA==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qb6d1Z+s"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-44c350a5b87so398192f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 02:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778147459; x=1778752259; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EcZwFh2QZ44n0xgSUmMbcy6iZL2QmvBbYa+KTyDF4zs=;
+        b=Qb6d1Z+sFmZAoweE/gz8UcIKxryKUEkHsLlzEG0V++nPg75LSmnULTfGYSa9yVm5sF
+         rHal6jM18HSYeMMBitU23Ys9nmVQqDxtvZJLLrBaIcT9E0bCVdjBZ/sXJG25qSqdSQvc
+         mWHHK46kKDfvDtvrtveG6YgnLwknIkrmDLhr+qJxboC26WKWD3+q5QJAtBCL0mJfg8MK
+         KHQqqHIvUc3OUtmqij4iPvzScUg1METxrzed/zAReXH0ek1hGi6/eU3ZfZxUhiKHVwpW
+         RdEWeOo4qH32eZeywVzwJZZgsFxfQG4Ya+5W20Y3bLGDho8geWYg3UfaJZp9PWvsYzYx
+         tlsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778147459; x=1778752259;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EcZwFh2QZ44n0xgSUmMbcy6iZL2QmvBbYa+KTyDF4zs=;
+        b=eMP95zXATWuoFgvuIc4BnEiRX2TuspSxcQvot6hk7sy2FfcAboW/RrCHVKr4W/Nxl7
+         xkmUE/AChai0osaEyQGfLYDCKGmXF8PxnGkAN0X2Pncj6YxCKZJbyWPo94FZSOta50n2
+         5fsTPXe3lyuR++LLA0qR/8+uxXMxYT9kFa3/FQfuAJopo5lmm8zCKRG83JZ3fOsbbkem
+         /pkh4YWvm1/ROhl/xQC8mpJB7phiQNQKIZhf0kbwTQFM7rhczoB1YeGblc3qnTAOXJ7S
+         AnIo7u/49BXnK+7x7bsEqi0S5Er3uM6+fn7sJ6A1PuqOCHrcUsI13eJwWFi42ImBhigI
+         3cdA==
+X-Forwarded-Encrypted: i=1; AFNElJ+PC5Cgt6vpg7B/nzcM+dWXia4QhQIXU+LQPPyDaNC2P5oBO/tIrzN7n6t/v+ijRwLM9zmPxE0MJi5lIqPi@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx21qYs6yUOG5QAaVj+SxFPS8ITzLTMERyBjnpEy70bw6IBjTW2
+	cNf7T1tTvxq+jgchZVVo2YUNxKEQQeZeKN1EexGQn0/JULbJ+ThaxWsS
+X-Gm-Gg: AeBDiesMdoclNKFvMCo2t4XTmceRvuINVOtyceQjaH5seyLp2MYgQNMBR32FM9QgE6p
+	C4GiA9AgoHVbwWlrrrbhB8PtXztl5+OKwaYNbh/PHJ/SXJoVgSMLiceRNjGrz5vlxbdgKlgSury
+	T+Fsig4IDYm7kU2ku0g0hts/6r6MScvMgAaIzvTpTC7FJFd27IA5URyWVgLv2XzKkPYdNsNw6GA
+	nS2dCDYiXt9Mnp8laUYn/e0l6JYc0EiVJWA8eRZdn8U1N6pyvatE8j20J7/fzRJbZurjKyhJX9O
+	DHvUzd4jE/cOgLKpZVF8QusnxKax9CbwfX+xTk+pFkiR2c7G0t8Nf73dA5r8jFoQN/QnhfEPL0C
+	LLYSUYaKS3+LYhqNMXOrfDXgtqP48Rh738IQM3fft/YaYmx4leDivh2d7wrPjDWljonREYRr0J0
+	/10KdgPnHICW92TeriDkHx6JQVTK4ujehTPwwCvh/Sh52g0VCucMtAcMwQHTL7AQ==
+X-Received: by 2002:a05:6000:2207:b0:43d:7dc2:b655 with SMTP id ffacd0b85a97d-4515ad767c3mr12533550f8f.15.1778147458336;
+        Thu, 07 May 2026 02:50:58 -0700 (PDT)
+Received: from fedora ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45052a48c04sm19976392f8f.15.2026.05.07.02.50.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 02:50:57 -0700 (PDT)
+Date: Thu, 7 May 2026 17:50:43 +0800
+From: Ming Lei <tom.leiming@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
+Message-ID: <afxgc4hizusnAA26@fedora>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+ <afi7c-VUJWOLlC1m@fedora>
+ <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 07 May 2026 11:28:29 +0200
-Message-Id: <DICC6TIGNBZA.1ZW4SSME21HRF@kernel.org>
-Subject: Re: [PATCH] sysfs: upgrade OOB write by buggy .show hook into
- WARNing
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <driver-core@lists.linux.dev>
-To: "Alexey Dobriyan" <adobriyan@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <5f794f46-5afd-405c-9747-76f2c95d4598@p183>
- <3cc3e8c6-c6e8-4625-a88f-f5708b935dab@p183>
-In-Reply-To: <3cc3e8c6-c6e8-4625-a88f-f5708b935dab@p183>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
 
-(Cc: driver-core)
+On Wed, May 06, 2026 at 10:02:11AM +0100, Pavel Begunkov wrote:
+> Hey Ming,
+> 
+> On 5/4/26 16:29, Ming Lei wrote:
+> > On Wed, Apr 29, 2026 at 04:25:46PM +0100, Pavel Begunkov wrote:
+> > > The patch set allows to register a dmabuf to an io_uring instance for
+> > > a specified file and use it with io_uring read / write requests. The
+> > > infrastructure is not tied to io_uring and there could be more users
+> > > in the future. A similar idea was attempted some years ago by Keith [1],
+> > > from where I borrowed a good number of changes, and later was brough up
+> > > by Tushar and Vishal from Intel.
+> > > 
+> > > It's an opt-in feature for files, and they need to implement a new
+> > > file operation to use it. Only NVMe block devices are supported in this
+> > > series. The user API is built on top of io_uring's "registered buffers",
+> > > where a dmabuf is registered in a special way, but after it can be used
+> > > as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
+> > > requests. It's created via a new file operation and the resulted map is
+> > > then passed through the I/O stack in a new iterator type. There is some
+> > > additional infrastructure to bind it all, which also counts requests
+> > > using a dmabuf map and managing lifetimes, which is used to implement
+> > > map invalidation.
+> > > 
+> > > It was tested for GPU <-> NVMe transfers. Also, as it maintains a
+> > > long-term dma mapping, it helps with the IOMMU cost. The numbers
+> > > below are for udmabuf reads previously run by Anuj for different
+> > > IOMMU modes:
+> > 
+> > Plain registered buffer is long-live too, which raises question: does this
+> > framework need to take it into account from beginning?
+> 
+> Not sure I follow, mind expanding on what should be accounted?
+> Are you suggesting that we might want to use normal registered
+> buffers in a similar way? I.e. giving the driver an ability to
+> pre-register them?
 
-On Thu May 7, 2026 at 11:01 AM CEST, Alexey Dobriyan wrote:
-> Buggy .show hook will get just 1 line of dmesg:
->
-> 	fill_read_buffer: ext4_attr_show+0x0/0x600 returned bad count
->
-> It may or may not oops later in some unrelated process.
->
-> But buggy .show hook most likely is corrupting random memory past sysfs
-> buffer therefore deserving more. WARN, make it more visible and let
-> QA machines panic earlier.
->
-> Also, delete useless cast -- "count" is >=3D0 at this point.
->
-> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+Yeah, normal registered buffer is long-live too, which is exactly
+what the driver cares for the long-term dma mapping motivation.
 
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+> 
+> > BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
+> > which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
+> 
+> Interesting, just too a glance, and it looks like what David Wei
+> was thinking to add to fuse, but IIUC he gave up exactly because the
+> client will need to cooperate and that could be troublesome.
 
-NIT: This patch also cleans up the stale "fill_read_buffer:" prefix, and in=
-stead
-points out the actual caller, which could be mentioned in the commit messag=
-e --
-no need to resend for this though.
+Here the cooperation is minimized, maybe one shmem/hugetlb path, or memfd,
+and it is one optimization and opt-in, and fallback to normal path
+if application doesn't cooperate.
+
+> 
+> Should we try to push everything under the same interface instead of
+> keeping a ublk specific one? Again to the point that it requires
+
+If generic interface can be figured out, it shouldn't be a big deal for
+ublk to switch to it, and the usage is simple actually.
+
+So far, ublk supports both FS and nvme block device.
+
+And cooperation can't be avoided for this usage no matter if generic or
+driver specific implementation is taken, for both fuse & ublk.
+
+> a cooperative client, but if it's something more generic, the user
+> might just try to use it as a general optimisation. In the same way
+> it'll be helpful to fuse, and as a bonus you wouldn't need tree look
+> ups (but mandates clients using registered buffers as a downside).
+
+Yeah, but tree lookup is fast enough in case of huge page for typical
+application, and it is simple in concept.
+
+
+Thanks,
+Ming
