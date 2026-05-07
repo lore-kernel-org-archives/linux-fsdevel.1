@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE923BED23;
-	Thu,  7 May 2026 12:45:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1BA53F0AB7;
+	Thu,  7 May 2026 12:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778157901; cv=none; b=T5pa+U4x72KTEKRYHZkHDgDZoCj2SaZ8j4VxqbDxpvoh9qPExdrFH/DxgcwMHqEDhYfIldMY46ZP4n7E3ydJrQ2mAS/ot//vnUAM8C/UbLcLYv0xwYX4UySXCInzJBLlM2Yps0K3gtrQBEicGjwdiJBR07uVuz3O3qOqEm3LYU8=
+	t=1778157907; cv=none; b=hN9/DOBKXrCIsiH9p+2F3C40NUqirNN7L/jyJZlgxpLOgE+fhvTAAmsRRhVlpwumI+lUGx7tSS3HgJwBei75vcWKhm5duUb+YoL7sA+GWxsrKuYZW0IoxwxYcrxbKlMu8HCRzsxDqx1PtPD2r7u1wyDxr6ZpvWM1Vbz6ul7QVLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778157901; c=relaxed/simple;
-	bh=57ehCUb8ln12GUYleL0SvSEDRAcrNUcK94TBctYsESs=;
+	s=arc-20240116; t=1778157907; c=relaxed/simple;
+	bh=BXeKpcXHUMxJBOF2Ttkp2hd4HX0qq9vhDwqwZeWLR6c=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JYuD/pDu/xYmFBN8MpOOy+Ai9DjxvQV7x/IHzmO6SSMjJuyOPY8k03I+ib19VXq5YdMLZdMRwX6gubPLGD8H2wdueN4tHzs0Ncc0QBRHFkA8++pfD3oOpbEaXAyv+kXpkCGYNKR8XoJDjR2QrL0topFj4KmgWe1Ns39s9uzCuHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViP6UUUG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=clWQHs958WvhiUn01wVMaMCf0zXWxPKaUjR04WSUIOFM57fIr4DHJLxxtxGypkwTjwEK+5EZpkK5LqcMTti2Jv4a4nrIm149ut/3bBWLemldKDF2hoVHt8cX/y6q0C2O3fGhtWcBH3rzf+TXIsvtdX2DcjbAdjIt4P2C3xCgos8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYYYPnqv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViP6UUUG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 804A5C2BCB2;
-	Thu,  7 May 2026 12:44:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYYYPnqv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB397C2BCB2;
+	Thu,  7 May 2026 12:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778157901;
-	bh=57ehCUb8ln12GUYleL0SvSEDRAcrNUcK94TBctYsESs=;
+	s=k20201202; t=1778157906;
+	bh=BXeKpcXHUMxJBOF2Ttkp2hd4HX0qq9vhDwqwZeWLR6c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ViP6UUUG4sP46/QVb3dSqK/snAMd51xAfe3tl3oyELPfM7IhymmgNoI89Yl+WNrr7
-	 YZzKYCKWpBC7j+9d88SXh41/0Uc1jwi4arqIxcbKFmOpSi6Xa2RW50znJmfGz+lxE8
-	 CuDyFlbKrP1Oh05pFJHeFqG+2uD9q1A+YX+jNFhM4NnuKoVIX6Vw54yO45Q2nJU3LO
-	 JPhBBAjaQVHd6Ot/gmj1ae7NAdVPc8wOp2wP88nXIxg4PLCtXT9YJUNAimcpu0MUTh
-	 rWYwDtAgOGk7rzeu4Mp60tUX+6mZo6HSNvKoYnFXayDsVP6HfMpqiVUwZ8pJUA9Ryy
-	 Im+an/m9Ydo7Q==
+	b=SYYYPnqvkjXP8RJRQnqzBepczJTR+t+dp6e1FX1ZrkXVUj3Ss1wwQAqBba/zTvHew
+	 N41xA2TLYckgeBl690W/e86DPCynxE740hr3mzQMaRepURN/1HZeabkoXfQsaySF6H
+	 mQgzU6w0lrWPR+qC89dSZVfB8fbx58ZSeC8ZMVmAn5R1aeQGRD1gK5tdy3rVTqdW7M
+	 4GbuK0FFSFF2WhHYXCkfIitj/UUKGV1puybb7SpXZuB2RLKWAHZcnqIQT7KaMFawiG
+	 9iTB9COqoEJ5nzmbWs7K3YJKp5mLNdu58CYe0Il1chGr0vngGY/b7wJzpP9iKVo/Dj
+	 XhKeX2NMNszcQ==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: sj1557.seo@samsung.com,
 	yuezhang.mo@sony.com,
@@ -38,9 +38,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	chizhiling@kylinos.cn,
 	linux-kernel@vger.kernel.org,
 	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH v2 6/9] exfat: add data_start_bytes and exfat_cluster_to_phys() helper
-Date: Thu,  7 May 2026 21:42:35 +0900
-Message-Id: <20260507124238.7313-7-linkinjeon@kernel.org>
+Subject: [PATCH v2 7/9] exfat: add iomap buffered I/O support
+Date: Thu,  7 May 2026 21:42:36 +0900
+Message-Id: <20260507124238.7313-8-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260507124238.7313-1-linkinjeon@kernel.org>
 References: <20260507124238.7313-1-linkinjeon@kernel.org>
@@ -52,54 +52,748 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This caches the data area start offset in bytes (data_start_bytes)
-and introduces a helper function exfat_cluster_to_phys() to compute
-the physical byte position of a given cluster.
+Add full buffered I/O support using the iomap framework to the exfat
+filesystem. This will replaces the old exfat_get_block(),
+exfat_write_begin(), exfat_write_end(), and exfat_block_truncate_page()
+with their iomap equivalents. Buffered writes now use
+iomap_file_buffered_write(), read uses iomap_bio_read_folio() and
+iomap_bio_readahead(), and writeback is handled through iomap_writepages().
 
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/exfat/exfat_fs.h | 8 ++++++++
- fs/exfat/super.c    | 1 +
- 2 files changed, 9 insertions(+)
+ fs/exfat/Kconfig    |   1 +
+ fs/exfat/Makefile   |   2 +-
+ fs/exfat/exfat_fs.h |   7 +-
+ fs/exfat/file.c     | 141 ++++++++++++++++++++-----------
+ fs/exfat/inode.c    | 117 ++++++++------------------
+ fs/exfat/iomap.c    | 197 ++++++++++++++++++++++++++++++++++++++++++++
+ fs/exfat/iomap.h    |  14 ++++
+ 7 files changed, 350 insertions(+), 129 deletions(-)
+ create mode 100644 fs/exfat/iomap.c
+ create mode 100644 fs/exfat/iomap.h
 
+diff --git a/fs/exfat/Kconfig b/fs/exfat/Kconfig
+index cbeca8e44d9b..e0b200902253 100644
+--- a/fs/exfat/Kconfig
++++ b/fs/exfat/Kconfig
+@@ -5,6 +5,7 @@ config EXFAT_FS
+ 	select BUFFER_HEAD
+ 	select NLS
+ 	select LEGACY_DIRECT_IO
++	select FS_IOMAP
+ 	help
+ 	  This allows you to mount devices formatted with the exFAT file system.
+ 	  exFAT is typically used on SD-Cards or USB sticks.
+diff --git a/fs/exfat/Makefile b/fs/exfat/Makefile
+index ed51926a4971..e06bf85870ae 100644
+--- a/fs/exfat/Makefile
++++ b/fs/exfat/Makefile
+@@ -5,4 +5,4 @@
+ obj-$(CONFIG_EXFAT_FS) += exfat.o
+ 
+ exfat-y	:= inode.o namei.o dir.o super.o fatent.o cache.o nls.o misc.o \
+-	   file.o balloc.o
++	   file.o balloc.o iomap.o
 diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
-index 6e7fd6822b01..415f987afa9a 100644
+index 415f987afa9a..448857d4b70f 100644
 --- a/fs/exfat/exfat_fs.h
 +++ b/fs/exfat/exfat_fs.h
-@@ -227,6 +227,7 @@ struct exfat_sb_info {
- 	unsigned long long FAT1_start_sector; /* FAT1 start sector */
- 	unsigned long long FAT2_start_sector; /* FAT2 start sector */
- 	unsigned long long data_start_sector; /* data area start sector */
-+	unsigned long long data_start_bytes;
- 	unsigned int num_FAT_sectors; /* num of FAT sectors */
- 	unsigned int root_dir; /* root dir cluster */
- 	unsigned int dentries_per_clu; /* num of dentries per cluster */
-@@ -400,6 +401,13 @@ static inline loff_t exfat_ondisk_size(const struct inode *inode)
- 	return ((loff_t)inode->i_blocks) << 9;
+@@ -12,6 +12,7 @@
+ #include <linux/blkdev.h>
+ #include <linux/backing-dev.h>
+ #include <uapi/linux/exfat.h>
++#include <linux/buffer_head.h>
+ 
+ #define EXFAT_ROOT_INO		1
+ 
+@@ -293,6 +294,8 @@ struct exfat_inode_info {
+ 	/* on-disk position of directory entry or 0 */
+ 	loff_t i_pos;
+ 	loff_t valid_size;
++	/* page-aligned size that has been zeroed out for mmap */
++	loff_t zeroed_size;
+ 	/* hash by i_location */
+ 	struct hlist_node i_hash_fat;
+ 	/* protect bmap against truncate */
+@@ -648,7 +651,9 @@ struct inode *exfat_iget(struct super_block *sb, loff_t i_pos);
+ int __exfat_write_inode(struct inode *inode, int sync);
+ int exfat_write_inode(struct inode *inode, struct writeback_control *wbc);
+ void exfat_evict_inode(struct inode *inode);
+-int exfat_block_truncate_page(struct inode *inode, loff_t from);
++int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
++		unsigned int *clu, unsigned int *count, int create,
++		bool *balloc);
+ 
+ /* exfat/nls.c */
+ unsigned short exfat_toupper(struct super_block *sb, unsigned short a);
+diff --git a/fs/exfat/file.c b/fs/exfat/file.c
+index 15b9d6a1766a..6033e8ae4628 100644
+--- a/fs/exfat/file.c
++++ b/fs/exfat/file.c
+@@ -14,9 +14,11 @@
+ #include <linux/writeback.h>
+ #include <linux/filelock.h>
+ #include <linux/falloc.h>
++#include <linux/iomap.h>
+ 
+ #include "exfat_raw.h"
+ #include "exfat_fs.h"
++#include "iomap.h"
+ 
+ static int exfat_cont_expand(struct inode *inode, loff_t size)
+ {
+@@ -26,8 +28,9 @@ static int exfat_cont_expand(struct inode *inode, loff_t size)
+ 	struct super_block *sb = inode->i_sb;
+ 	struct exfat_sb_info *sbi = EXFAT_SB(sb);
+ 	struct exfat_chain clu;
++	loff_t oldsize = i_size_read(inode);
+ 
+-	truncate_pagecache(inode, i_size_read(inode));
++	truncate_pagecache(inode, oldsize);
+ 
+ 	ret = inode_newsize_ok(inode, size);
+ 	if (ret)
+@@ -78,6 +81,13 @@ static int exfat_cont_expand(struct inode *inode, loff_t size)
+ 	inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
+ 	/* Expanded range not zeroed, do not update valid_size */
+ 	i_size_write(inode, size);
++	/*
++	 * When extending file size, call truncate_pagecache() first,
++	 * then update i_size, and call pagecache_isize_extended()
++	 * to ensures the straddling folio is properly marked RO so
++	 * page_mkwrite() is called and post-EOF area is zeroed.
++	 */
++	pagecache_isize_extended(inode, oldsize, inode->i_size);
+ 
+ 	inode->i_blocks = round_up(size, sbi->cluster_size) >> 9;
+ 	mark_inode_dirty(inode);
+@@ -236,7 +246,7 @@ int __exfat_truncate(struct inode *inode)
+ 	}
+ 
+ 	if (i_size_read(inode) < ei->valid_size)
+-		ei->valid_size = i_size_read(inode);
++		ei->valid_size = ei->zeroed_size = i_size_read(inode);
+ 
+ 	if (ei->type == TYPE_FILE)
+ 		ei->attr |= EXFAT_ATTR_ARCHIVE;
+@@ -383,10 +393,6 @@ int exfat_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	exfat_truncate_inode_atime(inode);
+ 
+ 	if (attr->ia_valid & ATTR_SIZE) {
+-		error = exfat_block_truncate_page(inode, attr->ia_size);
+-		if (error)
+-			goto out;
+-
+ 		down_write(&EXFAT_I(inode)->truncate_lock);
+ 		truncate_setsize(inode, attr->ia_size);
+ 
+@@ -631,42 +637,31 @@ int exfat_file_fsync(struct file *filp, loff_t start, loff_t end, int datasync)
+ 
+ static int exfat_extend_valid_size(struct inode *inode, loff_t new_valid_size)
+ {
+-	int err;
+-	loff_t pos;
+ 	struct exfat_inode_info *ei = EXFAT_I(inode);
+-	struct address_space *mapping = inode->i_mapping;
+-	const struct address_space_operations *ops = mapping->a_ops;
+-
+-	pos = ei->valid_size;
+-	while (pos < new_valid_size) {
+-		u32 len;
+-		struct folio *folio;
+-		unsigned long off;
+-
+-		len = PAGE_SIZE - (pos & (PAGE_SIZE - 1));
+-		if (pos + len > new_valid_size)
+-			len = new_valid_size - pos;
+-
+-		err = ops->write_begin(NULL, mapping, pos, len, &folio, NULL);
+-		if (err)
+-			goto out;
++	struct exfat_sb_info *sbi = EXFAT_SB(inode->i_sb);
++	loff_t old_valid_size;
++	int ret = 0;
+ 
+-		off = offset_in_folio(folio, pos);
+-		folio_zero_new_buffers(folio, off, off + len);
++	mutex_lock(&sbi->s_lock);
++	old_valid_size = ei->valid_size;
++	mutex_unlock(&sbi->s_lock);
+ 
+-		err = ops->write_end(NULL, mapping, pos, len, len, folio, NULL);
+-		if (err < 0)
+-			goto out;
+-		pos += len;
++	if (old_valid_size < new_valid_size) {
++		if (i_size_read(inode) < new_valid_size) {
++			i_size_write(inode, new_valid_size);
++			mark_inode_dirty(inode);
++		}
+ 
+-		balance_dirty_pages_ratelimited(mapping);
+-		cond_resched();
++		ret = iomap_zero_range(inode, old_valid_size,
++				new_valid_size - old_valid_size, NULL,
++				&exfat_write_iomap_ops, NULL, NULL);
++		if (ret) {
++			truncate_setsize(inode, old_valid_size);
++			exfat_truncate(inode);
++		}
+ 	}
+ 
+-	return 0;
+-
+-out:
+-	return err;
++	return ret;
  }
  
-+static inline loff_t exfat_cluster_to_phys(struct exfat_sb_info *sbi,
-+		unsigned int clus)
+ static ssize_t exfat_file_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+@@ -677,6 +672,7 @@ static ssize_t exfat_file_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	struct exfat_inode_info *ei = EXFAT_I(inode);
+ 	loff_t pos = iocb->ki_pos;
+ 	loff_t valid_size;
++	int err;
+ 
+ 	if (unlikely(exfat_forced_shutdown(inode->i_sb)))
+ 		return -EIO;
+@@ -702,6 +698,12 @@ static ssize_t exfat_file_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 		}
+ 	}
+ 
++	err = file_modified(iocb->ki_filp);
++	if (err) {
++		ret = err;
++		goto unlock;
++	}
++
+ 	if (pos > valid_size) {
+ 		ret = exfat_extend_valid_size(inode, pos);
+ 		if (ret < 0 && ret != -ENOSPC) {
+@@ -713,7 +715,11 @@ static ssize_t exfat_file_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 			goto unlock;
+ 	}
+ 
+-	ret = __generic_file_write_iter(iocb, iter);
++	if (iocb->ki_flags & IOCB_DIRECT)
++		ret = __generic_file_write_iter(iocb, iter);
++	else
++		ret = iomap_file_buffered_write(iocb, iter,
++				&exfat_write_iomap_ops, NULL, NULL);
+ 	if (ret < 0)
+ 		goto unlock;
+ 
+@@ -749,28 +755,56 @@ static ssize_t exfat_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 
+ static vm_fault_t exfat_page_mkwrite(struct vm_fault *vmf)
+ {
+-	int err;
+ 	struct inode *inode = file_inode(vmf->vma->vm_file);
+ 	struct exfat_inode_info *ei = EXFAT_I(inode);
+-	loff_t new_valid_size;
++	vm_fault_t ret;
++	loff_t new_valid_size, mmap_valid_size;
+ 
+ 	if (!inode_trylock(inode))
+ 		return VM_FAULT_RETRY;
+ 
+-	new_valid_size = ((loff_t)vmf->pgoff + 1) << PAGE_SHIFT;
+-	new_valid_size = min(new_valid_size, i_size_read(inode));
++	mmap_valid_size = ((loff_t)vmf->pgoff + 1) << PAGE_SHIFT;
++	new_valid_size = min(mmap_valid_size, i_size_read(inode));
+ 
+ 	if (ei->valid_size < new_valid_size) {
+-		err = exfat_extend_valid_size(inode, new_valid_size);
+-		if (err < 0) {
+-			inode_unlock(inode);
+-			return vmf_fs_error(err);
++		if (ei->zeroed_size < mmap_valid_size) {
++			int err;
++
++			/*
++			 * Only zero the range that hasn't been zeroed yet for
++			 * this mmap write path. zeroed_size tracks the largest
++			 * page-aligned offset that has already been zeroed.
++			 *
++			 * This prevents unnecessarily zeroing out the entire
++			 * tail page on every page fault when userspace writes
++			 * data byte-by-byte through mmap (after a small
++			 * fallocate). It fixes data corruption in the tail page
++			 * while preserving the existing valid_size semantics.
++			 */
++			err = iomap_zero_range(inode, ei->zeroed_size,
++					mmap_valid_size - ei->zeroed_size, NULL,
++					&exfat_write_iomap_ops, NULL, NULL);
++			if (err < 0) {
++				inode_unlock(inode);
++				return vmf_fs_error(err);
++			}
++			ei->zeroed_size = mmap_valid_size;
+ 		}
++
++		ei->valid_size = new_valid_size;
++		mark_inode_dirty(inode);
+ 	}
+ 
++	sb_start_pagefault(inode->i_sb);
++	file_update_time(vmf->vma->vm_file);
++
++	filemap_invalidate_lock_shared(inode->i_mapping);
++	ret = iomap_page_mkwrite(vmf, &exfat_write_iomap_ops, NULL);
++	filemap_invalidate_unlock_shared(inode->i_mapping);
++	sb_end_pagefault(inode->i_sb);
+ 	inode_unlock(inode);
+ 
+-	return filemap_page_mkwrite(vmf);
++	return ret;
+ }
+ 
+ static const struct vm_operations_struct exfat_file_vm_ops = {
+@@ -786,6 +820,21 @@ static int exfat_file_mmap_prepare(struct vm_area_desc *desc)
+ 	if (unlikely(exfat_forced_shutdown(file_inode(desc->file)->i_sb)))
+ 		return -EIO;
+ 
++	if (vma_desc_test_all(desc, VMA_SHARED_BIT, VMA_MAYWRITE_BIT)) {
++		struct inode *inode = file_inode(file);
++		loff_t from, to;
++		int err;
++
++		from = ((loff_t)desc->pgoff << PAGE_SHIFT);
++		to = min_t(loff_t, i_size_read(inode),
++				from + vma_desc_size(desc));
++		if (EXFAT_I(inode)->valid_size < to) {
++			err = exfat_extend_valid_size(inode, to);
++			if (err)
++				return err;
++		}
++	}
++
+ 	file_accessed(file);
+ 	desc->vm_ops = &exfat_file_vm_ops;
+ 	return 0;
+diff --git a/fs/exfat/inode.c b/fs/exfat/inode.c
+index 7b09d94ac464..6083ccef9408 100644
+--- a/fs/exfat/inode.c
++++ b/fs/exfat/inode.c
+@@ -13,9 +13,11 @@
+ #include <linux/uio.h>
+ #include <linux/random.h>
+ #include <linux/iversion.h>
++#include <linux/iomap.h>
+ 
+ #include "exfat_raw.h"
+ #include "exfat_fs.h"
++#include "iomap.h"
+ 
+ int __exfat_write_inode(struct inode *inode, int sync)
+ {
+@@ -76,15 +78,7 @@ int __exfat_write_inode(struct inode *inode, int sync)
+ 		on_disk_size = 0;
+ 
+ 	ep2->dentry.stream.size = cpu_to_le64(on_disk_size);
+-	/*
+-	 * mmap write does not use exfat_write_end(), valid_size may be
+-	 * extended to the sector-aligned length in exfat_get_block().
+-	 * So we need to fixup valid_size to the writren length.
+-	 */
+-	if (on_disk_size < ei->valid_size)
+-		ep2->dentry.stream.valid_size = ep2->dentry.stream.size;
+-	else
+-		ep2->dentry.stream.valid_size = cpu_to_le64(ei->valid_size);
++	ep2->dentry.stream.valid_size = cpu_to_le64(ei->valid_size);
+ 
+ 	if (on_disk_size) {
+ 		ep2->dentry.stream.flags = ei->flags;
+@@ -123,7 +117,7 @@ void exfat_sync_inode(struct inode *inode)
+  * Output: errcode, cluster number
+  * *clu = (~0), if it's unable to allocate a new cluster
+  */
+-static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
++int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
+ 		unsigned int *clu, unsigned int *count, int create,
+ 		bool *balloc)
+ {
+@@ -377,7 +371,13 @@ static int exfat_get_block(struct inode *inode, sector_t iblock,
+ 
+ static int exfat_read_folio(struct file *file, struct folio *folio)
+ {
+-	return mpage_read_folio(folio, exfat_get_block);
++	struct iomap_read_folio_ctx ctx = {
++		.cur_folio = folio,
++		.ops = &exfat_iomap_bio_read_ops,
++	};
++
++	iomap_read_folio(&exfat_iomap_ops, &ctx, NULL);
++	return 0;
+ }
+ 
+ static void exfat_readahead(struct readahead_control *rac)
+@@ -386,6 +386,10 @@ static void exfat_readahead(struct readahead_control *rac)
+ 	struct inode *inode = mapping->host;
+ 	struct exfat_inode_info *ei = EXFAT_I(inode);
+ 	loff_t pos = readahead_pos(rac);
++	struct iomap_read_folio_ctx ctx = {
++		.ops = &exfat_iomap_bio_read_ops,
++		.rac = rac,
++	};
+ 
+ 	/* Range cross valid_size, read it page by page. */
+ 	if (ei->valid_size < i_size_read(inode) &&
+@@ -393,16 +397,22 @@ static void exfat_readahead(struct readahead_control *rac)
+ 	    ei->valid_size < pos + readahead_length(rac))
+ 		return;
+ 
+-	mpage_readahead(rac, exfat_get_block);
++	iomap_readahead(&exfat_iomap_ops, &ctx, NULL);
+ }
+ 
+ static int exfat_writepages(struct address_space *mapping,
+ 		struct writeback_control *wbc)
+ {
++	struct iomap_writepage_ctx wpc = {
++		.inode		= mapping->host,
++		.wbc		= wbc,
++		.ops		= &exfat_writeback_ops,
++	};
++
+ 	if (unlikely(exfat_forced_shutdown(mapping->host->i_sb)))
+ 		return -EIO;
+ 
+-	return mpage_writepages(mapping, wbc, exfat_get_block);
++	return iomap_writepages(&wpc);
+ }
+ 
+ static void exfat_write_failed(struct address_space *mapping, loff_t to)
+@@ -416,51 +426,6 @@ static void exfat_write_failed(struct address_space *mapping, loff_t to)
+ 	}
+ }
+ 
+-static int exfat_write_begin(const struct kiocb *iocb,
+-			     struct address_space *mapping,
+-			     loff_t pos, unsigned int len,
+-			     struct folio **foliop, void **fsdata)
+-{
+-	int ret;
+-
+-	if (unlikely(exfat_forced_shutdown(mapping->host->i_sb)))
+-		return -EIO;
+-
+-	ret = block_write_begin(mapping, pos, len, foliop, exfat_get_block);
+-
+-	if (ret < 0)
+-		exfat_write_failed(mapping, pos+len);
+-
+-	return ret;
+-}
+-
+-static int exfat_write_end(const struct kiocb *iocb,
+-			   struct address_space *mapping,
+-			   loff_t pos, unsigned int len, unsigned int copied,
+-			   struct folio *folio, void *fsdata)
+-{
+-	struct inode *inode = mapping->host;
+-	struct exfat_inode_info *ei = EXFAT_I(inode);
+-	int err;
+-
+-	err = generic_write_end(iocb, mapping, pos, len, copied, folio, fsdata);
+-	if (err < len)
+-		exfat_write_failed(mapping, pos+len);
+-
+-	if (!(err < 0) && pos + err > ei->valid_size) {
+-		ei->valid_size = pos + err;
+-		mark_inode_dirty(inode);
+-	}
+-
+-	if (!(err < 0) && !(ei->attr & EXFAT_ATTR_ARCHIVE)) {
+-		inode_set_mtime_to_ts(inode, inode_set_ctime_current(inode));
+-		ei->attr |= EXFAT_ATTR_ARCHIVE;
+-		mark_inode_dirty(inode);
+-	}
+-
+-	return err;
+-}
+-
+ static ssize_t exfat_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+ {
+ 	struct address_space *mapping = iocb->ki_filp->f_mapping;
+@@ -510,34 +475,23 @@ static sector_t exfat_aop_bmap(struct address_space *mapping, sector_t block)
+ 
+ 	/* exfat_get_cluster() assumes the requested blocknr isn't truncated. */
+ 	down_read(&EXFAT_I(mapping->host)->truncate_lock);
+-	blocknr = generic_block_bmap(mapping, block, exfat_get_block);
++	blocknr = iomap_bmap(mapping, block, &exfat_iomap_ops);
+ 	up_read(&EXFAT_I(mapping->host)->truncate_lock);
+ 	return blocknr;
+ }
+ 
+-/*
+- * exfat_block_truncate_page() zeroes out a mapping from file offset `from'
+- * up to the end of the block which corresponds to `from'.
+- * This is required during truncate to physically zeroout the tail end
+- * of that block so it doesn't yield old data if the file is later grown.
+- * Also, avoid causing failure from fsx for cases of "data past EOF"
+- */
+-int exfat_block_truncate_page(struct inode *inode, loff_t from)
+-{
+-	return block_truncate_page(inode->i_mapping, from, exfat_get_block);
+-}
+-
+ static const struct address_space_operations exfat_aops = {
+-	.dirty_folio	= block_dirty_folio,
+-	.invalidate_folio = block_invalidate_folio,
+-	.read_folio	= exfat_read_folio,
+-	.readahead	= exfat_readahead,
+-	.writepages	= exfat_writepages,
+-	.write_begin	= exfat_write_begin,
+-	.write_end	= exfat_write_end,
+-	.direct_IO	= exfat_direct_IO,
+-	.bmap		= exfat_aop_bmap,
+-	.migrate_folio	= buffer_migrate_folio,
++	.read_folio		= exfat_read_folio,
++	.readahead		= exfat_readahead,
++	.writepages		= exfat_writepages,
++	.dirty_folio		= iomap_dirty_folio,
++	.bmap			= exfat_aop_bmap,
++	.migrate_folio		= filemap_migrate_folio,
++	.is_partially_uptodate	= iomap_is_partially_uptodate,
++	.error_remove_folio	= generic_error_remove_folio,
++	.release_folio		= iomap_release_folio,
++	.invalidate_folio	= iomap_invalidate_folio,
++	.direct_IO		= exfat_direct_IO,
+ };
+ 
+ static inline unsigned long exfat_hash(loff_t i_pos)
+@@ -601,6 +555,7 @@ static int exfat_fill_inode(struct inode *inode, struct exfat_dir_entry *info)
+ 	ei->flags = info->flags;
+ 	ei->type = info->type;
+ 	ei->valid_size = info->valid_size;
++	ei->zeroed_size = info->valid_size;
+ 
+ 	ei->version = 0;
+ 	ei->hint_stat.eidx = 0;
+diff --git a/fs/exfat/iomap.c b/fs/exfat/iomap.c
+new file mode 100644
+index 000000000000..0c5aadfd4132
+--- /dev/null
++++ b/fs/exfat/iomap.c
+@@ -0,0 +1,197 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * iomap callack functions
++ *
++ * Copyright (C) 2026 Namjae Jeon <linkinjeon@kernel.org>
++ */
++
++#include <linux/iomap.h>
++#include <linux/pagemap.h>
++
++#include "exfat_raw.h"
++#include "exfat_fs.h"
++#include "iomap.h"
++
++static int __exfat_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
++		unsigned int flags, struct iomap *iomap, bool may_alloc)
 +{
-+	return ((loff_t)(clus - EXFAT_RESERVED_CLUSTERS) << sbi->cluster_size_bits) +
-+		sbi->data_start_bytes;
++	struct super_block *sb = inode->i_sb;
++	struct exfat_sb_info *sbi = EXFAT_SB(sb);
++	struct exfat_inode_info *ei = EXFAT_I(inode);
++	unsigned int cluster, num_clusters;
++	loff_t cluster_offset, cluster_length;
++	int err;
++	bool balloc = false;
++
++	if (may_alloc)
++		num_clusters = exfat_bytes_to_cluster_round_up(sbi,
++				offset + length) - exfat_bytes_to_cluster(sbi, offset);
++	else
++		num_clusters = exfat_bytes_to_cluster_round_up(sbi, length);
++
++	mutex_lock(&sbi->s_lock);
++	iomap->bdev = inode->i_sb->s_bdev;
++	iomap->offset = offset;
++
++	err = exfat_map_cluster(inode, exfat_bytes_to_cluster(sbi, offset),
++			&cluster, &num_clusters, may_alloc, &balloc);
++	if (err)
++		goto out;
++
++	cluster_offset = exfat_cluster_offset(sbi, offset);
++	cluster_length = exfat_cluster_to_bytes(sbi, num_clusters);
++	if (length > cluster_length - cluster_offset)
++		iomap->length = cluster_length - cluster_offset;
++	else
++		iomap->length = length;
++
++	iomap->addr = exfat_cluster_to_phys(sbi, cluster) + cluster_offset;
++	iomap->type = IOMAP_MAPPED;
++	if (may_alloc) {
++		if (balloc)
++			iomap->flags = IOMAP_F_NEW;
++		else if (iomap->offset + iomap->length >= ei->valid_size)
++			iomap->flags = IOMAP_F_ZERO_TAIL;
++	} else {
++		if (offset >= ei->valid_size)
++			iomap->type = IOMAP_UNWRITTEN;
++
++		if (iomap->type == IOMAP_MAPPED &&
++		    iomap->offset < ei->valid_size &&
++		    iomap->offset + iomap->length > ei->valid_size) {
++			iomap->length = round_up(ei->valid_size,
++						 1 << inode->i_blkbits) -
++							iomap->offset;
++		}
++	}
++
++	iomap->flags |= IOMAP_F_MERGED;
++out:
++	mutex_unlock(&sbi->s_lock);
++	return err;
 +}
 +
- /*
-  * helpers for cluster size to byte conversion.
-  */
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index cb2f8eefff99..388db271c6bf 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -499,6 +499,7 @@ static int exfat_read_boot_sector(struct super_block *sb)
- 	if (p_boot->num_fats == 2)
- 		sbi->FAT2_start_sector += sbi->num_FAT_sectors;
- 	sbi->data_start_sector = le32_to_cpu(p_boot->clu_offset);
-+	sbi->data_start_bytes = sbi->data_start_sector << p_boot->sect_size_bits;
- 	sbi->num_sectors = le64_to_cpu(p_boot->vol_length);
- 	/* because the cluster index starts with 2 */
- 	sbi->num_clusters = le32_to_cpu(p_boot->clu_count) +
++static int exfat_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
++		unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
++{
++	return __exfat_iomap_begin(inode, offset, length, flags, iomap, false);
++}
++
++static int exfat_write_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
++		unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
++{
++	return __exfat_iomap_begin(inode, offset, length, flags, iomap, true);
++}
++
++const struct iomap_ops exfat_iomap_ops = {
++	.iomap_begin = exfat_iomap_begin,
++};
++
++/*
++ * exfat_write_iomap_end - Update the state after write
++ *
++ * Extends ->valid_size to cover the newly written range.
++ * Marks the inode dirty if metadata was changed.
++ */
++static int exfat_write_iomap_end(struct inode *inode, loff_t pos, loff_t length,
++		ssize_t written, unsigned int flags, struct iomap *iomap)
++{
++	if (written) {
++		struct exfat_sb_info *sbi = EXFAT_SB(inode->i_sb);
++		struct exfat_inode_info *ei = EXFAT_I(inode);
++		bool dirtied = false;
++		loff_t end = pos + written;
++
++		mutex_lock(&sbi->s_lock);
++		if (ei->valid_size < end) {
++			ei->valid_size = end;
++			if (ei->zeroed_size < end)
++				ei->zeroed_size = end;
++			dirtied = true;
++		}
++		mutex_unlock(&sbi->s_lock);
++
++		if (dirtied || iomap->flags & IOMAP_F_SIZE_CHANGED)
++			mark_inode_dirty(inode);
++	}
++
++	return written;
++}
++
++const struct iomap_ops exfat_write_iomap_ops = {
++	.iomap_begin	= exfat_write_iomap_begin,
++	.iomap_end	= exfat_write_iomap_end,
++};
++
++/*
++ * exfat_writeback_range - Map folio during writeback
++ *
++ * Called for each folio during writeback. If the folio falls outside the
++ * current iomap, remaps by calling read_iomap_begin.
++ */
++static ssize_t exfat_writeback_range(struct iomap_writepage_ctx *wpc,
++		struct folio *folio, u64 offset, unsigned int len, u64 end_pos)
++{
++	if (offset < wpc->iomap.offset ||
++	    offset >= wpc->iomap.offset + wpc->iomap.length) {
++		int error;
++
++		error = __exfat_iomap_begin(wpc->inode, offset, len,
++				0, &wpc->iomap, false);
++		if (error)
++			return error;
++	}
++
++	return iomap_add_to_ioend(wpc, folio, offset, end_pos, len);
++}
++
++const struct iomap_writeback_ops exfat_writeback_ops = {
++	.writeback_range	= exfat_writeback_range,
++	.writeback_submit	= iomap_ioend_writeback_submit,
++};
++
++/**
++ * exfat_iomap_read_end_io - iomap read bio completion handler for exFAT
++ * @bio: bio that has completed reading
++ *
++ * exfat_iomap_begin() rounds up MAPPED extents to the block boundary of
++ * valid_size. This ensures that any subsequent blocks are treated as
++ * IOMAP_UNWRITTEN, but it also causes the "straddle block" containing
++ * valid_size to be read from disk. The disk data beyond valid_size in
++ * this block is stale and must be zeroed to prevent data leakage.
++ */
++static void exfat_iomap_read_end_io(struct bio *bio)
++{
++	int error = blk_status_to_errno(bio->bi_status);
++	struct folio_iter iter;
++
++	bio_for_each_folio_all(iter, bio) {
++		struct folio *folio = iter.folio;
++		struct exfat_inode_info *ei = EXFAT_I(folio->mapping->host);
++		s64 valid_size;
++		loff_t pos = folio_pos(folio);
++
++		valid_size = ei->valid_size;
++		if (pos + iter.offset < valid_size &&
++		    pos + iter.offset + iter.length > valid_size)
++			folio_zero_segment(folio, offset_in_folio(folio, valid_size),
++					   iter.offset + iter.length);
++
++		iomap_finish_folio_read(folio, iter.offset, iter.length, error);
++	}
++	bio_put(bio);
++}
++
++static void exfat_iomap_bio_submit_read(const struct iomap_iter *iter,
++		struct iomap_read_folio_ctx *ctx)
++{
++	struct bio *bio = ctx->read_ctx;
++
++	bio->bi_end_io = exfat_iomap_read_end_io;
++	submit_bio(bio);
++}
++
++const struct iomap_read_ops exfat_iomap_bio_read_ops = {
++	.read_folio_range	= iomap_bio_read_folio_range,
++	.submit_read		= exfat_iomap_bio_submit_read,
++};
+diff --git a/fs/exfat/iomap.h b/fs/exfat/iomap.h
+new file mode 100644
+index 000000000000..7f8dcbe20a17
+--- /dev/null
++++ b/fs/exfat/iomap.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Copyright (c) 2026 Namjae Jeon <linkinjeon@kernel.org>
++ */
++
++#ifndef _LINUX_EXFAT_IOMAP_H
++#define _LINUX_EXFAT_IOMAP_H
++
++extern const struct iomap_ops exfat_iomap_ops;
++extern const struct iomap_ops exfat_write_iomap_ops;
++extern const struct iomap_writeback_ops exfat_writeback_ops;
++extern const struct iomap_read_ops exfat_iomap_bio_read_ops;
++
++#endif /* _LINUX_EXFAT_IOMAP_H */
 -- 
 2.25.1
 
