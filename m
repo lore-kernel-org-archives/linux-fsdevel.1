@@ -1,41 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA34B2F1FC9;
-	Thu,  7 May 2026 22:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21692F8E80;
+	Thu,  7 May 2026 22:15:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778192054; cv=none; b=rBqpOEIfWLiuUUzxrhOtCTmi7DQXlWSJ/pRDH/ZT7R3NqQ5mzrD5lsuEv2ZcMbQ9COD0IZhYyAA4FtLPqT3UIZnRJIGLd1OIz+LmFd9ITLrlGfImF6PRfST2bQHpbd5tSIGU2foXVzgrHmkfRH9R7j7ZgSxCELEqiiq4eBbLsA8=
+	t=1778192122; cv=none; b=f3oc9KCMBus6rvZKPpsjHuG5a4S99DXWZKR0pHfDyYtCnAIvHXaqPpKxEuv0u8QdlnKNZdfv5s4YVnBDHd/qt8WhrMgxA4EuuRd/Y4k3Rnd5rUbLoay1Bp8132TYPRPt4EPtp3jok6NHew+KIJ3LnQSyc9x3kp3TadqMuoe+Ahk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778192054; c=relaxed/simple;
-	bh=M0MBFckKQ1+aNhZzXBzOvQ2OPfKnAE3uuhI/5nKdrII=;
-	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ey84ganJ6OQ0uHLloXr/0f7yBRMQ56gPIVTnwjeX5W3+BifmISByoGJN8GmT7A6r+AqyA+YlOAwkCNWHoYUmg7YfjYqzadn0wl739HLSjYUmG35zfXwlzdBuUhai/9dqASFtxyLiDp9QwNUM8H6e01mKf/h0ZjV2L1KhOFk3OpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fj1VzwSO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778192122; c=relaxed/simple;
+	bh=lbNTcq3tgcnfN3p1yogcoX1nobmFagdnDuNl8jbmmGk=;
+	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=nIzQAJjYnhq18mOYr0+uwRIj3HGKXXVlRBPJwDU4dcshNdlnQJpzqL58BWJ5z0+tmqThpt9e7dVCDFjBTm6Vs/AvQ8mp9PECQ3ED2ljClkBEBwmz2gLHZALK9xSEKYDg4cD4Sa1AXwUod7H41Z0gStO3hCNN2A/imeyVCJIYios=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWck9Njo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fj1VzwSO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5D51C2BCB2;
-	Thu,  7 May 2026 22:14:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWck9Njo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A86C2BCB2;
+	Thu,  7 May 2026 22:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778192054;
-	bh=M0MBFckKQ1+aNhZzXBzOvQ2OPfKnAE3uuhI/5nKdrII=;
-	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=fj1VzwSOXJCh+Z+DA3ZABB1VEjO2+GAnThGM+a3Z7GDSRgi3+8WvevjW4h0angVl1
-	 hsAOZkr5vIDiFO8nkQNMIlbkObJr1NGXU2SvHn2rsnlB+meOex55Ksy1qMbxu/H9Ct
-	 tgBBRAeAl9vxubk1OMEA/LU6yLZOe2Oa5f4TRzznMhDfses9pzLP/HNEGyaVAWcnZU
-	 OgKHhBKk+/enX/o5oZJbJgm4E9jZzipz25az0fWGZO4t3Sg6ZmHuI/JFgZ9Odcvevj
-	 x5lDepWngdUyISBkhm9RQnkZz30UFfv4RrKGLWo1bxxOD0d3zvxRVMuNCjrKDcfs05
-	 EHWB53VggVPLg==
-Date: Thu, 07 May 2026 15:14:14 -0700
-Subject: [PATCH 1/1] mount_service: use the mount_flags table instead of
- declaring our own
+	s=k20201202; t=1778192122;
+	bh=lbNTcq3tgcnfN3p1yogcoX1nobmFagdnDuNl8jbmmGk=;
+	h=Date:Subject:From:To:Cc:From;
+	b=UWck9NjogRbhOKPgo1dinW/PNIzkoRW6sUNCySZC0ttTpCxB9A2MffhQxecOQ2dmS
+	 7+iOY+uirATWQI2CEn+n5EwUmKM39CHFoFUfDgHPQvYLci1Wdkdio0tIpVG9vSFEkm
+	 wWaH6hX7gPTKKIxBEQV2WOoPd5bU9FS7SYtccVFspt4o3vz6QxIswqwL2mPzsavNRz
+	 B9+FDrbAptNntozRPNDoxv4qEjWH1XdGXeT6cWbtgEi8GnEj+8YwVrHpsCf93sPJ8K
+	 RWDK+9/fYfE/5DmmvRD8Xs8zi0c4TqL1YcIG0TdqhGAE/yq3o4ej96LNH7q1kiV19Q
+	 eRrbioUTmVYrg==
+Date: Thu, 07 May 2026 15:15:21 -0700
+Subject: [GIT PULL 1/2] libfuse: new mount API and SYNC_INIT fixes
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com, djwong@kernel.org
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
- neal@gompa.dev, linux-fsdevel@vger.kernel.org
-Message-ID: <177819198067.3490792.2943381236495611249.stgit@frogsfrogsfrogs>
-In-Reply-To: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
-References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
+Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com, linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev
+Message-ID: <177819210365.3493306.5644302857661456554.stg-ugh@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -45,106 +40,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-From: Darrick J. Wong <djwong@kernel.org>
+Hi Bernd,
 
-Use the canonical mount flags table in mount_util.c instead of
-opencoding our own version in mount_service.c.
+Please pull this branch with changes for libfuse.
+
+As usual, I did a test-merge with the main upstream branch as of a few
+minutes ago, and didn't see any conflicts.  Please let me know if you
+encounter any problems.
+
+--D
+
+The following changes since commit e3db9d31953fc5640999adcc8b74a54dfde0e651:
+
+example: fix cppcheck complaints about constifying pointers (2026-05-04 16:22:44 -0700)
+
+are available in the Git repository at:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-mount-api-fixes_2026-05-07
+
+for you to fetch changes up to 1760a7221342ada367b5102641e3ecc9f03f7805:
+
+mount_util: fix mount_flags entries for MS_RDONLY (2026-05-07 15:12:21 -0700)
+
+----------------------------------------------------------------
+libfuse: new mount API and SYNC_INIT fixes [01/11]
+
+Here's a collection of bug fixes and cppcheck cleanups for the new mount
+API code and the new SYNC_INIT code that landed in main recently.
+
+With a bit of luck, this should all go splendidly.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
----
- util/mount_service.c |   51 +++++++++++++-------------------------------------
- 1 file changed, 13 insertions(+), 38 deletions(-)
 
+----------------------------------------------------------------
+Darrick J. Wong (1):
+mount_util: fix mount_flags entries for MS_RDONLY
 
-diff --git a/util/mount_service.c b/util/mount_service.c
-index 8c9747b3928a51..79e5b060ba3356 100644
---- a/util/mount_service.c
-+++ b/util/mount_service.c
-@@ -1457,73 +1457,48 @@ struct ms_to_mount_map {
- 	unsigned int mount_attr_flag;
- };
- 
--static const struct ms_to_mount_map attrs[] = {
--	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
--	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
--	{ MS_NODEV,		MOUNT_ATTR_NODEV },
--	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
--	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
--	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
--	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
--	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
--#ifdef MOUNT_ATTR_NOSYMFOLLOW
--	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
--#endif
--	{ 0, 0 },
--};
--
- static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
- 				 unsigned int *attr_flags,
- 				 unsigned long *leftover_ms_flags)
- {
--	const struct ms_to_mount_map *i;
-+	const struct mount_flags *i;
- 	unsigned int ms_flags = ntohl(oc->ms_flags);
- 	unsigned int mount_attr_flags = 0;
- 
--	for (i = attrs; i->ms_flag != 0; i++) {
--		if (ms_flags & i->ms_flag)
--			mount_attr_flags |= i->mount_attr_flag;
--		ms_flags &= ~i->ms_flag;
-+	for (i = mount_flags; i->opt != NULL; i++) {
-+		if (!i->on || !(ms_flags & i->flag))
-+			continue;
-+
-+		mount_attr_flags |= i->mount_attr;
-+		ms_flags &= ~i->flag;
- 	}
- 
- 	*leftover_ms_flags = ms_flags;
- 	*attr_flags = mount_attr_flags;
- }
- 
--struct ms_to_str_map {
--	unsigned long ms_flag;
--	const char *string;
--};
--
--static const struct ms_to_str_map strflags[] = {
--	{ MS_SYNCHRONOUS,	"sync" },
--	{ MS_DIRSYNC,		"dirsync" },
--	{ MS_LAZYTIME,		"lazytime" },
--	{ 0, 0 },
--};
--
- static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
- {
--	const struct ms_to_str_map *i;
-+	const struct mount_flags *i;
- 	int ret;
- 
--	for (i = strflags; i->ms_flag != 0; i++) {
--		if (!(ms_flags & i->ms_flag))
-+	for (i = mount_flags; i->opt != NULL; i++) {
-+		if (!i->on || !(ms_flags & i->flag))
- 			continue;
- 
--		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
-+		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->opt,
- 			       NULL, 0);
- 		if (ret) {
- 			int error = errno;
- 
- 			fprintf(stderr, "%s: set %s option: %s\n",
--				mo->msgtag, i->string, strerror(error));
-+				mo->msgtag, i->opt, strerror(error));
- 			emit_fsconfig_messages(mo);
- 
- 			errno = error;
- 			return -1;
- 		}
--		ms_flags &= ~i->ms_flag;
-+		ms_flags &= ~i->flag;
- 	}
- 
- 	/*
+lib/mount_util.c | 4 ++--
+1 file changed, 2 insertions(+), 2 deletions(-)
 
