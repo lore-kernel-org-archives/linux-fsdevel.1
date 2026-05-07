@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA10E3AB262;
-	Thu,  7 May 2026 12:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE923BED23;
+	Thu,  7 May 2026 12:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778157897; cv=none; b=qPBao5e8h738BxrkC+e92yovJkOruQC8srx9d5ZpMaLde6eqlwiH9yHqo8Pcluwv0OC/e/6SV0z7CAHpsEp0FrpgrUL5s8smNE+c/NrVbNchfp+jLZ0KiVZ7pe0URmch7wP3wh8Vpd94DW9Mn8fDpqAoTtBJbkKXlwk+Q4sb+us=
+	t=1778157901; cv=none; b=T5pa+U4x72KTEKRYHZkHDgDZoCj2SaZ8j4VxqbDxpvoh9qPExdrFH/DxgcwMHqEDhYfIldMY46ZP4n7E3ydJrQ2mAS/ot//vnUAM8C/UbLcLYv0xwYX4UySXCInzJBLlM2Yps0K3gtrQBEicGjwdiJBR07uVuz3O3qOqEm3LYU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778157897; c=relaxed/simple;
-	bh=CVxGxcnAW5/o9BqN0DaMgSSTzT0Xe9tR5fS9KdRLbLs=;
+	s=arc-20240116; t=1778157901; c=relaxed/simple;
+	bh=57ehCUb8ln12GUYleL0SvSEDRAcrNUcK94TBctYsESs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nwcT3Ayaq+ipR29rdGTZVaMrY0u2TQPSeBNqnNTgfN2sTf+SHXVKkgfZWOjFsegiykfZDV2/bLbq74hiVz0bjhb17YCRPLozeYbUz4d0FwRcLVX2iy1NQv5LRiqCccJOU9/bnwm4COyZebIZU2rt+WCAEXZNjLXlWYCEPuU1ZVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1HCw/VH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=JYuD/pDu/xYmFBN8MpOOy+Ai9DjxvQV7x/IHzmO6SSMjJuyOPY8k03I+ib19VXq5YdMLZdMRwX6gubPLGD8H2wdueN4tHzs0Ncc0QBRHFkA8++pfD3oOpbEaXAyv+kXpkCGYNKR8XoJDjR2QrL0topFj4KmgWe1Ns39s9uzCuHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ViP6UUUG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1HCw/VH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20785C2BCB8;
-	Thu,  7 May 2026 12:44:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ViP6UUUG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 804A5C2BCB2;
+	Thu,  7 May 2026 12:44:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778157896;
-	bh=CVxGxcnAW5/o9BqN0DaMgSSTzT0Xe9tR5fS9KdRLbLs=;
+	s=k20201202; t=1778157901;
+	bh=57ehCUb8ln12GUYleL0SvSEDRAcrNUcK94TBctYsESs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y1HCw/VH7msnp8F/8RPA6UmS6E6aHtliR0znmZ5R25UqJBfb5BuYaZsYFwDZREO9n
-	 5tKkRv7NsMct1DnvcLykQRgeP4dJpndHNtWfoOAsLAs71D/jDkBIq8sIJM8/XZAOB1
-	 4EiADMIBjz2PAfxQNqTfD6aUZ7UZZ0tPpc7YHsKuaWjgwCayFaRujWV9Q9fiIaHaaV
-	 Jbb2sXoVNaRIh5RRp3f9kVoxmbjmsL7N8PRuz5jt/Lg/qwHeEauWWd6qjKJZgsNTAR
-	 DBsp1rWUEsUmJfq2NbDqeJOGy6W/i8CuuKYgjt0RIY3FwrR/o84gmDAgNxiPRSSMYb
-	 8apuufMQlqRcQ==
+	b=ViP6UUUG4sP46/QVb3dSqK/snAMd51xAfe3tl3oyELPfM7IhymmgNoI89Yl+WNrr7
+	 YZzKYCKWpBC7j+9d88SXh41/0Uc1jwi4arqIxcbKFmOpSi6Xa2RW50znJmfGz+lxE8
+	 CuDyFlbKrP1Oh05pFJHeFqG+2uD9q1A+YX+jNFhM4NnuKoVIX6Vw54yO45Q2nJU3LO
+	 JPhBBAjaQVHd6Ot/gmj1ae7NAdVPc8wOp2wP88nXIxg4PLCtXT9YJUNAimcpu0MUTh
+	 rWYwDtAgOGk7rzeu4Mp60tUX+6mZo6HSNvKoYnFXayDsVP6HfMpqiVUwZ8pJUA9Ryy
+	 Im+an/m9Ydo7Q==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: sj1557.seo@samsung.com,
 	yuezhang.mo@sony.com,
@@ -38,9 +38,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	chizhiling@kylinos.cn,
 	linux-kernel@vger.kernel.org,
 	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH v2 5/9] iomap: introduce IOMAP_F_ZERO_TAIL flag
-Date: Thu,  7 May 2026 21:42:34 +0900
-Message-Id: <20260507124238.7313-6-linkinjeon@kernel.org>
+Subject: [PATCH v2 6/9] exfat: add data_start_bytes and exfat_cluster_to_phys() helper
+Date: Thu,  7 May 2026 21:42:35 +0900
+Message-Id: <20260507124238.7313-7-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260507124238.7313-1-linkinjeon@kernel.org>
 References: <20260507124238.7313-1-linkinjeon@kernel.org>
@@ -52,69 +52,54 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In filesystems that maintain a separate Valid Data Length, such as exFAT
-and NTFS, a partial write may start at or beyond the current valid_size and
-extend it. In this case, the region after the previous valid_size but
-within the same filesystem block is considered unwritten.
-
-This patch introduces IOMAP_F_ZERO_TAIL. When this flag is set in iomap,
-__iomap_write_begin() will zero only the tail portion while preserving any
-valid data before it in the same block.
-
-Without this tail zeroing, stale data in the unwritten portion of the block
-can remain in the page cache. Subsequent reads can then return incorrect
-contents from that region.
+This caches the data area start offset in bytes (data_start_bytes)
+and introduces a helper function exfat_cluster_to_phys() to compute
+the physical byte position of a given cluster.
 
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/iomap/buffered-io.c | 4 ++++
- include/linux/iomap.h  | 4 ++++
- 2 files changed, 8 insertions(+)
+ fs/exfat/exfat_fs.h | 8 ++++++++
+ fs/exfat/super.c    | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index d7b648421a70..9ae136a9fcd4 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -837,6 +837,7 @@ static int __iomap_write_begin(const struct iomap_iter *iter,
- 			folio_zero_segments(folio, poff, from, to, poff + plen);
- 		} else {
- 			int status;
-+			const struct iomap *iomap = iomap_iter_srcmap(iter);
+diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
+index 6e7fd6822b01..415f987afa9a 100644
+--- a/fs/exfat/exfat_fs.h
++++ b/fs/exfat/exfat_fs.h
+@@ -227,6 +227,7 @@ struct exfat_sb_info {
+ 	unsigned long long FAT1_start_sector; /* FAT1 start sector */
+ 	unsigned long long FAT2_start_sector; /* FAT2 start sector */
+ 	unsigned long long data_start_sector; /* data area start sector */
++	unsigned long long data_start_bytes;
+ 	unsigned int num_FAT_sectors; /* num of FAT sectors */
+ 	unsigned int root_dir; /* root dir cluster */
+ 	unsigned int dentries_per_clu; /* num of dentries per cluster */
+@@ -400,6 +401,13 @@ static inline loff_t exfat_ondisk_size(const struct inode *inode)
+ 	return ((loff_t)inode->i_blocks) << 9;
+ }
  
- 			if (iter->flags & IOMAP_NOWAIT)
- 				return -EAGAIN;
-@@ -853,6 +854,9 @@ static int __iomap_write_begin(const struct iomap_iter *iter,
- 						  len, status, GFP_NOFS);
- 			if (status)
- 				return status;
++static inline loff_t exfat_cluster_to_phys(struct exfat_sb_info *sbi,
++		unsigned int clus)
++{
++	return ((loff_t)(clus - EXFAT_RESERVED_CLUSTERS) << sbi->cluster_size_bits) +
++		sbi->data_start_bytes;
++}
 +
-+			if (iomap->flags & IOMAP_F_ZERO_TAIL)
-+				folio_zero_segment(folio, to, poff + plen);
- 		}
- 		iomap_set_range_uptodate(folio, poff, plen);
- 	} while ((block_start += plen) < block_end);
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index 2c5685adf3a9..e3e7ad72b29e 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -67,6 +67,9 @@ struct vm_fault;
-  * bio, i.e. set REQ_ATOMIC.
-  *
-  * IOMAP_F_INTEGRITY indicates that the filesystems handles integrity metadata.
-+ *
-+ * IOMAP_F_ZERO_TAIL indicates only the unwritten tail of the block should be
-+ * zeroed.
-  */
- #define IOMAP_F_NEW		(1U << 0)
- #define IOMAP_F_DIRTY		(1U << 1)
-@@ -86,6 +89,7 @@ struct vm_fault;
- #else
- #define IOMAP_F_INTEGRITY	0
- #endif /* CONFIG_BLK_DEV_INTEGRITY */
-+#define IOMAP_F_ZERO_TAIL	(1U << 10)
- 
  /*
-  * Flag reserved for file system specific usage
+  * helpers for cluster size to byte conversion.
+  */
+diff --git a/fs/exfat/super.c b/fs/exfat/super.c
+index cb2f8eefff99..388db271c6bf 100644
+--- a/fs/exfat/super.c
++++ b/fs/exfat/super.c
+@@ -499,6 +499,7 @@ static int exfat_read_boot_sector(struct super_block *sb)
+ 	if (p_boot->num_fats == 2)
+ 		sbi->FAT2_start_sector += sbi->num_FAT_sectors;
+ 	sbi->data_start_sector = le32_to_cpu(p_boot->clu_offset);
++	sbi->data_start_bytes = sbi->data_start_sector << p_boot->sect_size_bits;
+ 	sbi->num_sectors = le64_to_cpu(p_boot->vol_length);
+ 	/* because the cluster index starts with 2 */
+ 	sbi->num_clusters = le32_to_cpu(p_boot->clu_count) +
 -- 
 2.25.1
 
