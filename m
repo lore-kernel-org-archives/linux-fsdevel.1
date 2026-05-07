@@ -1,171 +1,149 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7439B40DFCC
-	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 02:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F891EE01A
+	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 03:30:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778120317; cv=none; b=QMvCGUWqG6R/auU68xGV8cBpFTd/B4P7E44VjES21eDOyMWRzOOfIuGsaP5akxVxfAxusNnY4nJez4KrrgXV1zAlN3u6D4oUAsMFBH2x+x8sgBEoBiHAv2+wRya4imY6p68tDynfYi4SCFU0tu2nj6yM3RFcokoczm2T9IAJyH4=
+	t=1778124660; cv=none; b=cgwQ/FONzHkNhaXFIK2/wFhbKq9zyekZkLu7oGBT3fZ4HMEAy3Q+DheMnTbRWB9Gs7gNUb/INBiYi9icF89Jiki46QhCaNxNZBtQVgWkwie+hNMFnH5nlhbNntjGNse3MszkC5y2psg6PM15ds4pEoqilk9VZBweyR6kpiPesvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778120317; c=relaxed/simple;
-	bh=ZrCFww4ECwWfkhoTbDCSwXoIXXrKkY8X/i5G6H9JP1o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GgtySlxCjGcjBgQoiOxHZkkvsevmbhQYmnVXZfNzVhmxgBhDq5A2rMLnxyQNPsPKk0z7my4Iy8nJWsD+zYQPSdNCTw+J4B3EWVl0EfL7CXMbgWCNxddgeAsLYLFMD9fiVIcYmzF+Dd9v3MnHQ3kFu2/ykFZExMfXhRJH4Lf/6Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCjnghtu; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778124660; c=relaxed/simple;
+	bh=jqKPQiXpW98oldrpDjDj8FIZFTLmhrpfzebJ9KHHGwI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=b03WwDjjGHslQm30riDncZjGmMEdrQsx+3Qo596lXYm/icj5pv78pukdgZU3Th8tGOIluqx9QuNSlMiSsppxjsdsD36cQz0bjMKQCooTEVJTozyEcOw8nPIoEyUd7ng29oWOmC9LGjC2TuSEt+pbhdPwSuNYFz8L4gfq6fl2vto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wKNe1+eN; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCjnghtu"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-364d13df3ccso55667a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 06 May 2026 19:18:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778120316; x=1778725116; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fn/rXSpLj+R/ku7nBy1V0OPJZZmEvQ+YBVAy/f5BFj0=;
-        b=bCjnghtu6AYIxTiJpjj9SoDw4PPdpANtR03JrDReJwR+MTQQ2hFTWjMVFh0jhFAAVD
-         S1K09A1Nsu4qWqc4+wYfVEJn3lliahVQWY6UNI1kiJcuASaEjFTWdqU0SKn9+ofX0saz
-         hzkFg2PGPA/K+gW+yl+TjAZjDWHtZN9BZi/Hj/9FMMvzYjD0Y6huxNq5pWPzwCy0wRxr
-         fUPnln7sgdXQrbYTEw9Fa19N0EQP+cKGypBeFX0RIPlmXvTWKEto5tfhrPrNPX0lODMO
-         VDmtJpLHwNLWigWNYPLfeZJYn3X+csOa4e9PHa5jpZXUxlYUIkSZYJP0zyJtfU06dSPg
-         T7cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778120316; x=1778725116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Fn/rXSpLj+R/ku7nBy1V0OPJZZmEvQ+YBVAy/f5BFj0=;
-        b=NDggjPkyzTnDjp7SMsy+YnrHlc62GMDcVUrKQf+8ggRhp0Sqm3ESDqDJlfoFKztb9b
-         LZq208MwUJxm4UxwhMzRCdyEHeOdNl+Axh6O12I9dXYMnqZzt49jtBCANVzVRLY1iLGn
-         eKKL+ITtefI9uwDO5d8rJhIEMrKAAhTPiXekEOYDQwwviw6jAk7dkzfWQZG0kd0TfU5S
-         wXH0LD5WDbptEUodKXGH11gpb/wU4lKxd77jo1tYXdHRwAEiDI4ZN8XygRuwkti3EJEf
-         Ts+121jdL5AzCheAv8Ikw2Yc7csxX099vNooo5fFnP39Ih8nNXHg+WD/aMYXDQf73Z8F
-         CAqw==
-X-Gm-Message-State: AOJu0YzjiG2CLMf+x+5ys9bA11QfPL6OG1LCFFiYtFqY58+4g8bljCrT
-	h9DolG9mHS2AQaNN+xyuNpQgdWpDyI78fvMviRNIPZfhcae20yWGKrPDT6RM/g==
-X-Gm-Gg: AeBDieu2WPhQjfhojIBQeUc9lRfMm6IKqPpJcOeitSjGcW8+h+9BdoyqR6m9dYvqBNc
-	Y4gyaEKd/IKIVjoAN8iDuzrjgQuVg+K6681HiNO3kfk9zeBjgxxPsG+ggaQpyNYHkgQabx9Gysj
-	Gm//dPVb1RgkKjmMBH/X7/GDwtJTgehoridqtpTRzaUBD/yq5t4gidpEF090P/rB8+WJKAI7Sji
-	flrhiQGzw9dQuQrg8NrTv9i3ZoGCfv7LXEk8Nr156zLP/LvrWUiEWKmA6GkKgSH65DvdIlYE2/9
-	shSADNh5XQpZdhd7yI9ouYyULtNok33u9/Ish2TnrRaTeNXuESmXHgPLNvhemnecvaTHrIj30G6
-	6PVZYRGXLbpCcSwbdXcsFdagzFWWMtbpKaExVsT4SzbZ+dE+s7smtWTBjU0hvupOsO7jTNb8wWO
-	AZ/Ave96IbD//LuqFKEEdBivMS/kX6e37KxrM9qA==
-X-Received: by 2002:a17:90a:e60f:b0:366:1075:ba with SMTP id 98e67ed59e1d1-36610750520mr96545a91.0.1778120315720;
-        Wed, 06 May 2026 19:18:35 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2babadd2314sm6002305ad.54.2026.05.06.19.18.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 19:18:35 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ntfs: fix out-of-bounds write in ntfs_index_walk_down()
-Date: Thu,  7 May 2026 11:18:31 +0900
-Message-ID: <20260507021831.1196548-1-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260506153850.774060-1-charsyam@gmail.com>
-References: <20260506153850.774060-1-charsyam@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wKNe1+eN"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778124646;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gyZVzRsxXhQaw+/BT2qurWH8p+SNTVYpiB+XsnLougQ=;
+	b=wKNe1+eNgeqPd05y2iLWXfahEWECb2xBV6LFtMbhJ/SgQmjH9tQEUCZeFHpSXAQKhrRJOp
+	Azr0VuQ3gyPGc04emwvgd4V9ks6rWAWm5Z/ewD5QSMupmexgbMlVW5cYJy3E1Q/wRixsWK
+	2D2oc9njborSjMOUdqtqKxJWTK4j0aA=
+From: Lance Yang <lance.yang@linux.dev>
+To: npache@redhat.com,
+	ziy@nvidia.com
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	willy@infradead.org,
+	songliubraving@fb.com,
+	clm@fb.com,
+	dsterba@suse.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	ljs@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	Liam.Howlett@oracle.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 01/14] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check
+Date: Thu,  7 May 2026 11:29:56 +0800
+Message-Id: <20260507032956.51667-1-lance.yang@linux.dev>
+In-Reply-To: <aa778cfc-b7f8-4100-89bb-d2b2ef8e1138@redhat.com>
+References: <aa778cfc-b7f8-4100-89bb-d2b2ef8e1138@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-ntfs_index_walk_down() used to update the index traversal depth
-directly before writing parent_pos[] and parent_vcn[]. A malformed
-directory index with too many child-node levels can therefore advance
-pindex past MAX_PARENT_VCN and write past the fixed arrays in struct
-ntfs_index_context, corrupting context state used by later index
-traversal.
 
-Use ntfs_icx_parent_inc() for walk-down transitions so the existing
-depth limit is enforced before the arrays are updated. Make the helper
-check the limit before incrementing pindex so failed callers do not
-leave the context at an out-of-range depth.
+On Sun, May 03, 2026 at 09:48:40PM -0600, Nico Pache wrote:
+>
+>
+>On 4/29/26 9:29 AM, Zi Yan wrote:
+>> collapse_file() requires FSes supporting large folio with at least
+>> PMD_ORDER, so replace the READ_ONLY_THP_FOR_FS check with that.
+>> MADV_COLLAPSE ignores shmem huge config, so exclude the check for shmem.
+>> 
+>> While at it, replace VM_BUG_ON with VM_WARN_ON_ONCE.
+>> 
+>> Add a helper function mapping_pmd_folio_support() for FSes supporting large
+>> folio with at least PMD_ORDER.
+>> 
+>> Signed-off-by: Zi Yan <ziy@nvidia.com>
+>> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+>> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>> ---
+>>   include/linux/pagemap.h | 26 ++++++++++++++++++++++++++
+>>   mm/khugepaged.c         | 10 ++++++++--
+>>   2 files changed, 34 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+>> index 1f50991b43e3b..1fed3414fe9b8 100644
+>> --- a/include/linux/pagemap.h
+>> +++ b/include/linux/pagemap.h
+>> @@ -513,6 +513,32 @@ static inline bool mapping_large_folio_support(const struct address_space *mappi
+>>   	return mapping_max_folio_order(mapping) > 0;
+>>   }
+>>   
+>> +/**
+>> + * mapping_pmd_folio_support() - Check if a mapping support PMD-sized folio
+>> + * @mapping: The address_space
+>> + *
+>> + * Some file supports large folio but does not support as large as PMD order.
+>> + * If a PMD-sized pagecache folio is attempted to be created on a filesystem,
+>> + * this check needs to be performed first.
+>> + *
+>> + * Return: true - PMD-sized folio is supported, false - PMD-sized folio is not
+>> + * supported.
+>> + */
+>> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>> +static inline bool mapping_pmd_folio_support(const struct address_space *mapping)
+>> +{
+>> +	/* AS_FOLIO_ORDER is only reasonable for pagecache folios */
+>> +	VM_WARN_ON_ONCE((unsigned long)mapping & FOLIO_MAPPING_ANON);
+>> +
+>> +	return mapping_max_folio_order(mapping) >= PMD_ORDER;
+>
+>Probably a stupid question, but I dont know FS thats well.
+>
+>Here we are checking that the max allowed folio order is greater than 
+>(or eq) to the PMD_ORDER. Yet the function asks if PMD specifically is 
+>supported. In the future could we have some FS that does not support PMD 
+>orders, but does support larger orders (eg. PUD)?
 
-This is reachable by iterating a crafted NTFS directory after the volume
-has been mounted, including read-only mounts. The reproducer uses
-getdents64() on an index root that points to an excessively deep chain
-of child index blocks.
+Good point.
 
-A crafted directory index with a chain of child-node entries reproduced
-UBSAN array-index-out-of-bounds reports in ntfs_index_walk_down() and
-subsequent KASAN reports in ntfs_index_walk_up(). With this change, the
-same image is rejected with "Index is over 32 level deep" and no KASAN
-or UBSAN report is emitted.
+IIUC, mapping_max_folio_order() means "maximum supported order" not
+"the only supported order", so mapping_pmd_folio_support() just means
+"PMD order is within the supported range".
 
-Fixes: 0a8ac0c1fa0b ("ntfs: update directory operations")
-Suggested-by: Namjae Jeon <linkinjeon@kernel.org>
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
----
-Changes since v1:
-  - In the is_in_root walk-down branch, drop the ntfs_icx_parent_inc()
-    call and the kvfree(ib) error handling; restore the direct
-    ictx->pindex = 1 assignment, per review by Namjae Jeon. The helper
-    call there was unnecessary because is_in_root == true implies
-    pindex == 0, and the resulting error path was dead code. Add a
-    comment documenting the invariant. The non-root walk-down branch
-    keeps using ntfs_icx_parent_inc() since pindex can approach
-    MAX_PARENT_VCN there.
+Also, mapping_set_large_folios() sets the range to:
 
- fs/ntfs/index.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+mapping_set_folio_order_range(mapping, 0, MAX_PAGECACHE_ORDER);
 
-diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
-index a547bdcfa456..146e011c1a41 100644
---- a/fs/ntfs/index.c
-+++ b/fs/ntfs/index.c
-@@ -677,11 +677,11 @@ static int ntfs_ib_read(struct ntfs_index_context *icx, s64 vcn, struct index_bl
- 
- static int ntfs_icx_parent_inc(struct ntfs_index_context *icx)
- {
--	icx->pindex++;
--	if (icx->pindex >= MAX_PARENT_VCN) {
-+	if (icx->pindex >= MAX_PARENT_VCN - 1) {
- 		ntfs_error(icx->idx_ni->vol->sb, "Index is over %d level deep", MAX_PARENT_VCN);
- 		return -EOPNOTSUPP;
- 	}
-+	icx->pindex++;
- 	return 0;
- }
- 
-@@ -1970,6 +1970,7 @@ struct index_entry *ntfs_index_walk_down(struct index_entry *ie, struct ntfs_ind
- {
- 	struct index_entry *entry;
- 	struct index_block *ib;
-+	int err;
- 	s64 vcn;
- 
- 	entry = ie;
-@@ -1979,14 +1980,20 @@ struct index_entry *ntfs_index_walk_down(struct index_entry *ie, struct ntfs_ind
- 			ib = kvzalloc(ictx->block_size, GFP_NOFS);
- 			if (!ib)
- 				return ERR_PTR(-ENOMEM);
--			/* down from level zero */
-+			/*
-+			 * Descending from root index (level 0) to the first
-+			 * child level. is_in_root == true implies pindex == 0,
-+			 * so advance to level 1.
-+			 */
-+			ictx->pindex = 1;
- 			ictx->ir = NULL;
- 			ictx->ib = ib;
--			ictx->pindex = 1;
- 			ictx->is_in_root = false;
- 		} else {
- 			/* down from non-zero level */
--			ictx->pindex++;
-+			err = ntfs_icx_parent_inc(ictx);
-+			if (err)
-+				return ERR_PTR(err);
- 		}
- 
- 		ictx->parent_pos[ictx->pindex] = 0;
--- 
-2.43.0
+and __filemap_get_folio_mpol() treats max as a cap, then falls back down
+towards min.
 
+That said, if we want the helper name to mean "PMD order specifically is
+supported", the more future-proof test would be:
+
+mapping_min_folio_order(mapping) <= PMD_ORDER &&
+mapping_max_folio_order(mapping) >= PMD_ORDER
+
+Thoughs?
