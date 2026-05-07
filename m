@@ -1,169 +1,65 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68924324B23
-	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 04:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0461B78F3;
+	Thu,  7 May 2026 05:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778129404; cv=none; b=H5gSIZ7zllE6tRG4JhJ7io7Ooa/nN98yd/an2IweRB+MzXMp0yHzDM768dAA+5LH6nF0IR7J0bcReFEGFuUh9hx+MvqQ4E2Up1JblcLM9wmRJLLzlRk1MfIzOK6HxOv3Hte4nkWyR5jAtp4ePh9oYFanE1SjNI5RN0UQcLEl3fc=
+	t=1778130125; cv=none; b=kL3lzdje3CJJZv0q0oy/fE7u680SfcggH4n98RIFMODVmDmSFfPTsr6tGzRgjVLZqC+XR+oIzu0jScBLgA2KiPXRjvkFEH9+1njbUJFJvuSbOZh5fcGqWlz+JWKIbskDnTGiE+d5OHXTTUAIsX0fYk4RiZypCzk+Etb8cWVj5AQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778129404; c=relaxed/simple;
-	bh=bQB2s8WxmFtpfxZIVw/wVGZuGsPY7l5Dxg6IzHMJ1s4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iF9C2NU1xiagW7oEeRO8IPVv3x1qj+qZDVvELAzdeFy85g7lBdTo3Dw4Xgv8+3k/NMt0ctH5+I+fUZO6q7K3F1ugy68AbWvKSO+9KV/XQldStWcYAzd6B6X/0Ec/zzPfDWyiTl3yl+Hde2OuFe+1CCFEyxmE17JVw+F9ea0PHlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BQd+lmXA; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778130125; c=relaxed/simple;
+	bh=yxroJRjEGUbyRj5kI6X/DS8yQTTEQHsAthXLoWFrpug=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m3rlDzkW+BJdGZrIihzxvswESVBlAc9brgTsJtwuu3nPF9Q+UHAmyQ4CpcVzpK1SX8NsHKXnYSE5ht+/R+0uedhZ3w5x2T+8C1rNJBRHJ9GYfmjMkbwDslYxPlc535InjFe4e1H2QW84u7VBXVJQXxleTy5ekwnFmHkqsy7z4cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nRauK8iA; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BQd+lmXA"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778129399;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T92lbeSuDJF7TOb0l3mnZYGDplRGv4RFUXtmKR9fQi8=;
-	b=BQd+lmXA/f8WxjtF/4MvcydOiZ2rTKsUXYuNzKxVCyqK0llXG8SamTlt4wBud+vNOjd6jY
-	DeEajAO4982nOxFQgRyaNturbsK3JjGj9nIf8/wzzwGBS1WHqsGdMgEwwa6AQrffAnCajT
-	exWHhM88xlcXdwqUY8+G+f2BslZyrZI=
-From: Lance Yang <lance.yang@linux.dev>
-To: ziy@nvidia.com,
-	akpm@linux-foundation.org
-Cc: david@kernel.org,
-	willy@infradead.org,
-	songliubraving@fb.com,
-	clm@fb.com,
-	dsterba@suse.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	ljs@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	Liam.Howlett@oracle.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	shuah@kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 04/14] mm/khugepaged: remove READ_ONLY_THP_FOR_FS check in hugepage_enabled()
-Date: Thu,  7 May 2026 12:49:38 +0800
-Message-Id: <20260507044938.12529-1-lance.yang@linux.dev>
-In-Reply-To: <20260429152924.727124-5-ziy@nvidia.com>
-References: <20260429152924.727124-5-ziy@nvidia.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nRauK8iA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=CKFAjES2gFiXuKnMxHCHtVrZ0QNMmLLhxSZDfzYnhko=; b=nRauK8iAwUlrJyE5zK65kFWuUx
+	StKrPXXvPesiloHhpI/99MprzszQGcr+ZffwKUFNnkhtMjgoDnvi/3HEubc1xHTulBh2Ikrm06aDY
+	5p/K5J7F3N77WX3nYBiSJDUE/uKb8zzKQcx0S2sHWDo9mVDYgtH7PACUnLQO8BqGID2BCdDXotVd1
+	Qg2/EyIyAd0dgZ0znT/Sy4YBhxLSeVABsD0nsEGMrBMAyNnQbbAct/aqVl9iJWPimXWTnwDA0QYXx
+	tm6FFeqr/tYiZFpHUI3iG65JkVmerLJxJFpjAWc5ahcnPxfEkP1R205BoMAG+/OUCpEm0apbDrbz+
+	K4lIGSEw==;
+Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wKqs3-00000002lxa-03e3;
+	Thu, 07 May 2026 05:01:59 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Pankaj Raghav <pankaj.raghav@linux.dev>,
+	linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: fix block layer bounce buffering for block size > PAGE_SIZE v2
+Date: Thu,  7 May 2026 07:01:46 +0200
+Message-ID: <20260507050153.1298375-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Andrew,
+Hi all,
 
-I just noticed that mm-new commit 83f151d1f7e3[1] links to this patch:
+this series has two fixes that make the new block layer bounce
+buffering code work for the block size > PAGE_SIZE case.
 
-Link: https://lore.kernel.org/20260429152924.727124-5-ziy@nvidia.com
+Changes since v1:
+ - update a commit log to better describe the applicability
 
-but the applied commit only has the include/linux/shmem_fs.h hunk ...
-The mm/khugepaged.c hunk seems missing. Was this dropped unintentionally?
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-new&id=83f151d1f7e3429100d148fbafc65203294e9f90
-
-Thanks, Lance
-
-On Wed, Apr 29, 2026 at 11:29:14AM -0400, Zi Yan wrote:
->Remove the READ_ONLY_THP_FOR_FS gate and khugepaged for file-backed
->pmd-sized hugepages are enabled by the global transparent hugepage control.
->khugepaged can still be enabled by per-size control for anon and shmem when
->the global control is off.
->
->Add shmem_hpage_pmd_enabled() stub for !CONFIG_SHMEM to remove
->IS_ENABLED(SHMEM) in hugepage_enabled().
->
->Clean up hugepage_enabled() by moving anon code to anon_hpage_enabled().
->
->Signed-off-by: Zi Yan <ziy@nvidia.com>
->Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
->Acked-by: David Hildenbrand (Arm) <david@kernel.org>
->---
-> include/linux/shmem_fs.h |  2 +-
-> mm/khugepaged.c          | 26 ++++++++++++++++----------
-> 2 files changed, 17 insertions(+), 11 deletions(-)
->
->diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
->index 93a0ba872ebe0..acb8dd961b45c 100644
->--- a/include/linux/shmem_fs.h
->+++ b/include/linux/shmem_fs.h
->@@ -127,7 +127,7 @@ int shmem_writeout(struct folio *folio, struct swap_iocb **plug,
-> void shmem_truncate_range(struct inode *inode, loff_t start, uoff_t end);
-> int shmem_unuse(unsigned int type);
-> 
->-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
->+#if defined(CONFIG_TRANSPARENT_HUGEPAGE) && defined(CONFIG_SHMEM)
-> unsigned long shmem_allowable_huge_orders(struct inode *inode,
-> 				struct vm_area_struct *vma, pgoff_t index,
-> 				loff_t write_end, bool shmem_huge_force);
->diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->index 71209a72195ab..d6971ada8f199 100644
->--- a/mm/khugepaged.c
->+++ b/mm/khugepaged.c
->@@ -524,26 +524,32 @@ static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
-> 		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);
-> }
-> 
->+static inline bool anon_hpage_enabled(void)
->+{
->+	if (READ_ONCE(huge_anon_orders_always))
->+		return true;
->+	if (READ_ONCE(huge_anon_orders_madvise))
->+		return true;
->+	if (READ_ONCE(huge_anon_orders_inherit) &&
->+	    hugepage_global_enabled())
->+		return true;
->+	return false;
->+}
->+
-> static bool hugepage_enabled(void)
-> {
-> 	/*
-> 	 * We cover the anon, shmem and the file-backed case here; file-backed
->-	 * hugepages, when configured in, are determined by the global control.
->+	 * hugepages are determined by the global control.
-> 	 * Anon hugepages are determined by its per-size mTHP control.
-> 	 * Shmem pmd-sized hugepages are also determined by its pmd-size control,
-> 	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
-> 	 */
->-	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
->-	    hugepage_global_enabled())
->-		return true;
->-	if (READ_ONCE(huge_anon_orders_always))
->+	if (hugepage_global_enabled())
-> 		return true;
->-	if (READ_ONCE(huge_anon_orders_madvise))
->-		return true;
->-	if (READ_ONCE(huge_anon_orders_inherit) &&
->-	    hugepage_global_enabled())
->+	if (anon_hpage_enabled())
-> 		return true;
->-	if (IS_ENABLED(CONFIG_SHMEM) && shmem_hpage_pmd_enabled())
->+	if (shmem_hpage_pmd_enabled())
-> 		return true;
-> 	return false;
-> }
->-- 
->2.53.0
->
->
+Diffstat:
+ block/bio.c          |   27 +++++++++++++++------------
+ fs/iomap/direct-io.c |    2 +-
+ include/linux/bio.h  |    3 ++-
+ 3 files changed, 18 insertions(+), 14 deletions(-)
