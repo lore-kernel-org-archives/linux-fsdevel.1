@@ -1,130 +1,184 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADBB34A3BF
-	for <linux-fsdevel@vger.kernel.org>; Wed,  6 May 2026 21:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778103378; cv=none; b=KB0j3wkhxtE7X6xTOp8wbyhZNvsrtrfBy59PUC8pNjtQmIFQfbGq1ZefL0EbN7+Xjuqx2Apik6m3G0M0ibRliMOiRPq6PYJdtsNp63hOXzo+gw6U4vAM8G/c3eOnPlaAgX1sXE4CKGbbYjy7awoD9NhKHxqJGTTUgyvmvCqO+8s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778103378; c=relaxed/simple;
-	bh=g2gTSm0Xn06tTbWQMYs9+0zqL22HjasOMjUgnvdT3OE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=H4EU6sQFe5DPzLHkrJxYZCaeB4iYMVKm/5ndRaVg587m8fEXx6KGJfg8x7lbPqcLUzjTjMAbwLZMs1ScRd6HYGzjZYBMx4/rd8PpGYBgNzoyt2xLsjihKg9iqYfyAATREYL1hKl3uviVhujHgriMG6wDfqmFpA+/kz6aRtnDuvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=lgRmXONr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FPcwi7+H; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F72E1A316E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 00:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778114261; cv=pass; b=cwM7Q+eRGho1cenSz+ogBPcOejL0zPxViiL5RE9sGWsty1KJ0fQ6C/9mXqzSwozZWFs++qJgVurX50J145XSB0wZIJ57HlyTny/GUZJnytfGo2FlyPDue706ZZKwCnInOiD9uvCNKc2CUfzh9WFfDgkG8EXgAf6MDt0LUdCKiw0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778114261; c=relaxed/simple;
+	bh=a1bOwwaCmfU4XNHV/8/YKr0yPvqFQ3FaJ+P5x6K65FM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=naqzOzJ6uqLmj6RE98b4IChgrbaTq+NCsVDqmMQU7hwQWFH03QrDd47eNuZKvKlrLKpzZvDu+25Zjw8si5rXFcAgo5p3mxqpOi3RvF3P62T+Uh+WbGNQZIjKN8UN+PTVCT3NsIWPh1oBjA/zUOpJHCZOHO/fxEc8y/m01DZldz8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DRMQO8sg; arc=pass smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="lgRmXONr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FPcwi7+H"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 73CF7140009C;
-	Wed,  6 May 2026 17:36:16 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 06 May 2026 17:36:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778103376;
-	 x=1778189776; bh=2i+OyQS09XZNh69e+3fgbxGfkkFN3izUXIbJEUWyssw=; b=
-	lgRmXONrmb2h20/WtuocCHbZU9KH1T+AOaNuDjDPXjuv/EFpacXcehB8LuTubRTi
-	T2vfBcpHJc0EzoG8fUpQqbrq000HH9xuglzTWZqs929lUouRMQoQaDob2AuiasIZ
-	Vku6h8BrjJCTZb3J2SmjO0yQKxSaVWlgDa+HKxU3gpKU43bv/FZ/9qkSc7J69wF3
-	39w9sRfoaqvUEW3DwI67oi7QlaTMLukPmCON2Ji1XQTdIMOTHZpExG8h9bS1JKZS
-	sd1hmNxYsAAGtVC6xqmn/9NPMj95tsKWaiK98qASb3zcUnucPQmazAR8xXL457hz
-	vvbI1x+Eu9eo35Cb/yxyoQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778103376; x=
-	1778189776; bh=2i+OyQS09XZNh69e+3fgbxGfkkFN3izUXIbJEUWyssw=; b=F
-	Pcwi7+HEwfEiBfprBBCHe7Td5cKw1Mj/7xBUQ32S9vedehq/MfIVueoUIqNa4efF
-	ZlaTVrvUunJZSoAdqY9vv7ZV8Ok6nqC97gGVnl5NPfDpcHLmzlFkluUbkDDsYCvZ
-	FGhyqE4C+GWYkg+QsGP2H0moDZu7CojBG6BoMwnq5to31LBBA+evjcLKaSgeT9iq
-	EKea6lGtd1GUdjNBJ2e055GN5JN9RcdDNcndkZojna/wMYXKsBjnlpi65SnszZB8
-	4lx0H012xMXJU0t9ywRvUXkyYzeAk0L1pSz+RY/2z/t1WWqoIdbGolgH8bm7frDD
-	ofOss39uh9M50EtmXFHcA==
-X-ME-Sender: <xms:ULT7aUOZPNprmM2JqygFX0iKvwH-wpT9pfvADPRL0pk7dYI4-mpNCQ>
-    <xme:ULT7aUTjMKWfyHhCuP9wRtxm1BJSaDdfWv-Fuux96G68nLgfUW0KErMDWTDVcrTXr
-    KZJ-8D2bxojeuv4rUSEB-NKCnt5DWQWoIcVp5U6TK8fZdgCYb7uDw>
-X-ME-Received: <xmr:ULT7aSirJSMpDQ1DU1j_2sXBaXA_XKv4a6ObQCgPKRM4PmNpWEtSapW7uwvmlmJuqRMBirNpEYJyQQgfvBNlRu7VhtFYml-ccJA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdehieekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffhvfevfhgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeelleegudduueffuddvteegffehudeuieffledtudehkeehffegteegfeeh
-    vedtteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlih
-    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
-    guihdrhhhu
-X-ME-Proxy: <xmx:ULT7ad_u39ZxMXZk0ZPWPlxzVDiS1ktjpDnvHdBMQlLKyalC_pmpzg>
-    <xmx:ULT7aZGFkVPo-b7nhX4I_hWEpaWCHl3mz_tZQuU0j2Co6UiyaEnCOg>
-    <xmx:ULT7aQkpcDFUkUwNmD2Wu9g8NOitKGFlk1KxI1fxn-JC6CRL0L4sLA>
-    <xmx:ULT7adZqL18ndDeTHt-JwvI7b0NlnLeTrUTrnWa8V8n9MoGU-mOarw>
-    <xmx:ULT7acdJO0Qdlp8kGwSdHgmaix4ks-yoM288iCQz_4TXm9Q5xxlsp8hg>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 May 2026 17:36:12 -0400 (EDT)
-Message-ID: <39b1d822-e198-4f9b-8469-9424f165979e@bsbernd.com>
-Date: Wed, 6 May 2026 23:36:10 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DRMQO8sg"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3938cc204a7so1891121fa.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 06 May 2026 17:37:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778114255; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TvH0pBslyjlNqMiMaSk1UDBwukZ/6Ica3aOt0xMxON76nR3v66boDZiZiFWAsM2vMl
+         qc9MnE8eEhX3C5VHmuT8tsFf0e1hsaCCHamrBs7P+QGrbcDSNgDehzvFhMpKbPDnkkCR
+         wx3rJlnQKEBMsP5XZTmBa01HkdrC6QW7KhxEKTtZrhuwPRBcCVlVF5KdKQ63Rc4uIEF1
+         2lcp6HeFCLiiZDMZFyfQIIWL4o0nLYggub+E3i4EvFN8+mVST/3S+VAnnSfa+Z8wlRAv
+         Eay8xGe9yTV8ddFMhEIf1glZN7u+A3K9UXk+DMxyiwkQEssb0C80xX6LAIcUrtJdVmW0
+         76ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0Nu/JbAiu7ivsPkfNKguKNhWbTjUJBMaIdrQCFA61Rs=;
+        fh=GdXACDizXTJUazjr9vZcoRCmhOnZKkEQRjC/QifMLHI=;
+        b=FXwGW60mROP5WAKS1mWJJJeDwc8R/H8HoASfP8zdlZgnxCCPzyUEaTx2/gmu9Hkcrf
+         DGYoQAYS8BKVDOmZs6lsMWqeN8/pJKIoRF1Vu9oS/OqQ4ptva6RM2/f/hnActTbDBeU4
+         J1ErSQODweFB3k5Q995pqrTxVvS/3mDffXw/Dcb4HZNWWs2FZ4V8Djt3UbrCkpgYjyTv
+         6uPks4YcqTdT4iB56d9VRMENkyGsc/FHDMrADgdSKVoYfV7t7QBLWIRVTZ7Yb3Ey/HBx
+         mOHoNCHWX7OpTAM438zxXl9grh6z2Z1PeVgfMbLGEoaPziM6CQ0g4fBXbRUgzlbW5/KY
+         ynbg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778114255; x=1778719055; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0Nu/JbAiu7ivsPkfNKguKNhWbTjUJBMaIdrQCFA61Rs=;
+        b=DRMQO8sgAl9WE37+T5YNnBltGKL/PTzXA2DJj5b3Z/kcSElsLGfwsYPUOdUX5Vfiyd
+         ImxXq7HjJTuoV1SqFQ4bqZ08hEeZwrrYUPN9VG9g7icbVVOrAMxvTnBWXBo4k46vJumN
+         MHS7y6Rc6cCN1SpD1TCn35o1nBE/MoyXplmuYnygRSuOLeweatQZBXa2g4qT9FA5uRNo
+         aohiNO3qzXcQZykHvXcGFB5pqku3Ls2Ijb+8QKoVqBGhBUJqM6eyn8EQH55zJJIE1RKU
+         GiumZTxDh5jZbVEjvUwbbqzkcYtZxrUUtCsRbBcXrEVptrQ9xMSwrmoSxO3AaxYtIAxX
+         EbtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778114255; x=1778719055;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0Nu/JbAiu7ivsPkfNKguKNhWbTjUJBMaIdrQCFA61Rs=;
+        b=KbUQ2Y2sP0AKsNXFMrlmgCJ4qqYGaFOqxko92FAB57gpofdMnFeAmTCeLM6qkMAy8y
+         v6o4mIm8BVPEnfsL4u7PLJWU3/0aSBKaiYu2Di31Mlzd4QoPRGjlXVa5M/mObyBqdk21
+         XD5GHcNXmNVHDDzv4axPhMbH6LdLbnl7ibstlFYlcAqGqNumxh7dd94iOgLmjS4hoJQc
+         XNCrAXZB2CQHaWrucXqDmVIdZVmu6ADABgEm/TMYqrjbhAVs9AjHI3AlWVkejW0Jf7Yn
+         gRW846WURFubLYcm5JosUvQYlm7QwdudGDqLfZLxHd0O+qxakGkJ+RZmvBp+yxsfNQ1+
+         3MOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ84lzKD3hnQZYDoMEj1Tgf4kHBGkS+BQ4f7ItYNQYV9/qnCXbadby7M/2iZGPnUKFuv27t39jcmmygxJ3W+@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3Vxs/ygEKOl+92UTlUzkLph3AxPdZRnj3LEiFuMYsyQCDDdX3
+	OSoJ/Ey3oRN4Tqs3YgFaMH77MzzjX+wNhEa1Rgek5/SWm5lAveO9jI5dxejWgzDfdOioAuajBgT
+	jmi6a1R2f0wYCvzW/SI/14aPts81Y0WU=
+X-Gm-Gg: AeBDieve59ZNIhCCeot+O6s8jALhvKvQ0pi30pJ/td1q3tMA/J1U3iJOxk1f01YW3jN
+	FM4Ry+S+FBmaNOnaHDm770/oxq1vaGllXkKhqD28q1srR/2RvKETM8MuJLMPs99BhXv+orwvynG
+	8mTBzn2DO63GzxdxeGLXEUhvHHdsgrLmFovoEajuf4413dJWdlxEv946vLq/0d0ChuhtUE1KyrL
+	JOwjUqa2o9gup3wKtl5SdLKhvetajd9RIR5wnvujOXl3xJkLOsCoBDxs7mmjQ3Z32Q/a5fOydrQ
+	351XdCbo9xOp8/6IXw==
+X-Received: by 2002:a05:6512:3046:b0:5a4:56:aa88 with SMTP id
+ 2adb3069b0e04-5a887ce5cb9mr2146894e87.27.1778114254653; Wed, 06 May 2026
+ 17:37:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHSET 2/2] libfuse: new mount service container fixes
-From: Bernd Schubert <bernd@bsbernd.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-References: <20260505052133.GR7765@frogsfrogsfrogs>
- <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
- <605ed94c-82f8-430f-b753-99b06eec27fa@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <605ed94c-82f8-430f-b753-99b06eec27fa@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260504154851.3034915-1-charsyam@gmail.com> <20260506092448.521995-1-charsyam@gmail.com>
+In-Reply-To: <20260506092448.521995-1-charsyam@gmail.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Thu, 7 May 2026 09:37:21 +0900
+X-Gm-Features: AVHnY4JNlOFPoe_DZB5xKUQ_gQX4-nn5si1UWH4an-mkIHd_iPVcwuo8IXE_5y4
+Message-ID: <CANFS6bYxRQ5RWCumT+N+KCJuL5d61=64RDV9qfXOhdfpQsE6AA@mail.gmail.com>
+Subject: Re: [PATCH v2] ntfs: fix out-of-bounds write in ntfs_rl_collapse_range()
+ merge path
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+2026=EB=85=84 5=EC=9B=94 6=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 6:24, Da=
+eMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> ntfs_rl_collapse_range() merges the run on the left of the collapsed
+> region with the run on its right when they are contiguous. The contiguous
+> check chooses a clamped index when @new_1st_cnt is 0:
+>
+>         i =3D new_1st_cnt =3D=3D 0 ? 1 : new_1st_cnt;
+>         if (ntfs_rle_lcn_contiguous(&new_rl[i - 1], &new_rl[i])) {
+>
+> but the merge itself uses the unclamped value:
+>
+>         s_rl =3D &new_rl[new_1st_cnt - 1];
+>         s_rl->length +=3D s_rl[1].length;
+>
+> When @new_1st_cnt is 0 this computes &new_rl[-1] and writes 8 bytes
+> before the kvcalloc() runlist buffer. The path is reachable through
+> fallocate(FALLOC_FL_COLLAPSE_RANGE) starting at vcn 0 against an
+> attribute whose first run after the collapsed region and the following
+> run are holes. In that case ntfs_rle_lcn_contiguous() returns true
+> because both checked entries are LCN_HOLE, so the merge path is entered
+> with @new_1st_cnt still 0. Such consecutive holes do not occur on a
+> well-formed runlist (NTFS keeps runlists coalesced in memory), so this
+> OOB path is only reachable from a crafted volume.
+>
+> A normal runlist has no element to the left of vcn 0, so the left/right
+> merge is not valid when @new_1st_cnt is 0. Require @new_1st_cnt to be
+> positive before checking or performing the merge. This skips the merge
+> entirely in that case instead of clamping the merge target.
+>
+> The out-of-bounds write can corrupt an adjacent slab object. On a
+> non-KASAN kernel, it is reachable after a crafted NTFS volume has been
+> mounted read-write with the legacy fs/ntfs driver, by a local user that
+> has write access to the crafted file.
+>
+> Fixes: 11ccc9107dc4 ("ntfs: update runlist handling and cluster allocator=
+")
+> Suggested-by: Hyunchul Lee <hyc.lee@gmail.com>
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+
+Looks good to me.
+
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
 
 
+> ---
+> Changes since v1:
+>   - Skip the merge entirely when @new_1st_cnt =3D=3D 0 instead of using a
+>     clamped index, per review feedback. The clamped form silently
+>     changed the operation's semantics from "merge the run left of the
+>     collapsed region with the run right of it" to "coalesce two
+>     right-side runs"; the new form closes a path that is only
+>     reachable on malformed runlists. Behaviour on well-formed runlists
+>     is unchanged.
+>
+>  fs/ntfs/runlist.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/ntfs/runlist.c b/fs/ntfs/runlist.c
+> index da21dbeaaf66..e7de3d01257e 100644
+> --- a/fs/ntfs/runlist.c
+> +++ b/fs/ntfs/runlist.c
+> @@ -2056,10 +2056,11 @@ struct runlist_element *ntfs_rl_collapse_range(st=
+ruct runlist_element *dst_rl, i
+>          * consists of holes.
+>          */
+>         merge_cnt =3D 0;
+> -       i =3D new_1st_cnt =3D=3D 0 ? 1 : new_1st_cnt;
+> -       if (ntfs_rle_lcn_contiguous(&new_rl[i - 1], &new_rl[i])) {
+> -               /* Merge right and left */
+> -               s_rl =3D  &new_rl[new_1st_cnt - 1];
+> +       if (new_1st_cnt > 0 &&
+> +           ntfs_rle_lcn_contiguous(&new_rl[new_1st_cnt - 1],
+> +                                   &new_rl[new_1st_cnt])) {
+> +               /* Merge right and left. */
+> +               s_rl =3D &new_rl[new_1st_cnt - 1];
+>                 s_rl->length +=3D s_rl[1].length;
+>                 merge_cnt =3D 1;
+>         }
+> --
+> 2.43.0
+>
 
-On 5/6/26 23:27, Bernd Schubert wrote:
-> 
-> 
-> On 5/5/26 07:23, Darrick J. Wong wrote:
->> Hi all,
->>
->> This is a collection of bug fixes and cppcheck cleanups for the new fuse
->> service container code.
->>
->> With a bit of luck, this should all go splendidly.
->> Comments and questions are, as always, welcome.
-> 
-> Hi Darrick,
-> 
-> do you have by any chance a branch I could pull from? With PATCHSET 1 in
-> the same thread I don't know how to handle it with "b4 shazam".
-> Alternatively, I'm also open to learn new b4 or git am commands.
-> 
-> I will try to review it at airport or during the flight, but would
-> reallu help me, if I could just get the patches into a branch for
-> offline processing.
-> 
 
-Sorry, never mind, just found the pull request mail. Thanks a lot for
-that! Pull and pushed to my github repo. Let's see how tests go :)
-
-
+--
 Thanks,
-Bernd
-
-
-
+Hyunchul
