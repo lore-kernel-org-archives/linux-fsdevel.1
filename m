@@ -1,107 +1,154 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507AA3FB7D5
-	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 13:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778161801; cv=none; b=oKRCPg8s8pUemhSKHDiGohS949Cy86xo96phhcAvo7BLezPEp274kxzufFVvhN7blYeiCpcB3CddTbrT8aD0lH8NO8VybNanSj4kIwhOMRLgex51WIn3396J7a6lWHu+1V4Hwim13jIRncLWTNMtErz/xqYicGCjlVIDNI4RTmA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778161801; c=relaxed/simple;
-	bh=y+uKXvWavECBqe4i8FCfX/X2zoA3kl9zR298cLW4eYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MmnuMFu4koigiiWiawED3wu0/XaSrqLnG05D4ZnzZLAHq2yM4Wj6ZGgRKk5vqYxb6PYA/sVrg0hFo4STFwJty+12lo1iITDMzZSvvPccc2/uHjFG+I/XvefUob06AJG+pkh1eGsU6fUAMe4wG/4PHZnQ80OBxbzTLriGe5IhqPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gfA+0+PR; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9503F54B4
+	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 13:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778161939; cv=pass; b=NNll1uuV5NbTvXiywrDotB+NMDeyIMqU5DYsgDMdfgzx1TA0Do6ujJABaS5/Mq0DnjYVWtVb2eJi0kP4Qxzo+yiLIXXeCcgt1QKCTnYAvpLNJNAjgbrpqYBevzZcwxqbVU2yjLBs6e6Xqf+Xz3LTAS/YFhnt19NnwL/rGsqNFYc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778161939; c=relaxed/simple;
+	bh=N+/6BGtSqy+rDxrhfNX9GC1VVT97qBJY8f2fbuDOAFA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZPTfC57Qv1X2W3i9caXSU0cFY5e5ENU9WARxUqaIPCQbaYXgkYYf2REV+RuZPEEk6KkOKp6o22PxcZ3JfQwBstEhwkCKw8hJE9aVnzd8ZVzYTTMHEdJpxUzq6IHUSAshy1KZleihXjOmGfstFXq/CzMKqWu6lUhw6OfZu29mmDg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jYXosJ60; arc=pass smtp.client-ip=74.125.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gfA+0+PR"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48374014a77so10636085e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 06:50:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jYXosJ60"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-65c2e7ff1acso112659d50.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 06:52:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778161937; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Bnh6gcCDYUYuZRsdbsltM5UBbp5sZ2kUKZIZSOYxbQBbTk0PRfnXlGhK+2jXuTqtGP
+         q1omYsMJrMEmxEeX+NyUEp/MNTQNquMuFEu+J50+1iZZ4hQs/JznJQqZ1SZz330p8KJZ
+         Q2TxV7860abNn+eaci7glz/UoFFJfpdMhZgFg3mdZ8vsNWTmc2TJt9nE3Ht8rcOj8blR
+         ZSJLHEqS26+UMpsmnqbQoGHA0x/FXvCYycEQ67qsBO/1RiEUPQ0Xym2lM/tHTKtWQmTz
+         pywU55D9qJyFwYzBOw+5BbXvoTGqDYqShzV5eqe5HPrGwzOHTGeGJ0PIVmHRJd9qCFBf
+         W+Jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jlJOeuL8AUn3zh4DygdpxRKJ+UZPkBpq8vVzH7H79qQ=;
+        fh=YnhMySj9pnmn5GXh8RpDBRo3z3Z6skB0wuWDOQ1LGZ0=;
+        b=NImFVlwtvRnH9hpzjqnjz7GT5qMAYeA9ZQSEzVoDAPkmj8LtkJPF1m+m3Rz5zkjfDM
+         B21reSxEftKGvrH3O3W7kA1ENCqd0PhPbBkpV6V2PnIo0uFkpPixd5Tsd/+tEScP/K1W
+         tOsLiRy9c7neHsEpdZCVeQzEUhdEEG8Cei/bJVCHQDLRK8tgXWwqfsebQtNQSX2NJ8TH
+         Zk0RixpbJaUETdDQQRfBvrRL40zOW1OyC7owJ6ql5/DEYPnPNEK1u6JuLiclMZc6dsuD
+         71AqUYDaYFeVfyPPagdidKced6XK6QZ7q1B+cnYTg386NDTnBWPA79kHOTvjYLT64QDN
+         lU4w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778161799; x=1778766599; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=63Zk1soB0pWql4fWbhVmbD4zB7eoGfppwocKxntreYI=;
-        b=gfA+0+PRHAILV5/9eXw0/MsEwPSgexDM30cv/MYoHLkqOhntysumGb5VZNllVQZFML
-         lPXj1pUEOXf1MkFoQaInmZDf1ypj0KMbzOF9RpXCcc+PYEc1dL87Zggc+LN0KnqyRwue
-         /G1VH0a7dOcM+aBvI83GbhmFkLLbbn/h5rCj8Q08a+8sOmPAbLuJQNVyNuPSUWktW8JO
-         vraDNT/BNDZZHippk6ZR5wJNvRRIDUedbqVjENOcJLEeSOAD22/d0GU+uzQRB8RCquu6
-         1p25HCdNNJEil+SqtlCqkh4i/J7EStxlevPR6VXhI592pFUdxpuH7gji5OBAbQnB/3wz
-         L75w==
+        d=gmail.com; s=20251104; t=1778161937; x=1778766737; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jlJOeuL8AUn3zh4DygdpxRKJ+UZPkBpq8vVzH7H79qQ=;
+        b=jYXosJ60Q6HDnucLlsj9OOEOTCosW723P0S9vThkf7YcezN2t9B7O0Y+m6mMihjZux
+         DRFlZVHBN+64tzTJwjI6ppqUdPfCJe96jo+g7SoqWb4TTYrfiBfUrb5TWn97kysCcX9j
+         5K8sckMbLQl02rSy2DeNVy8q6ngKo16r5FEvWM/1t0tNxN2p1lPs0K3tgpSzUiKqZHMV
+         wicJJSzTG3oJ9zZCwa1zRhRZy8Hvr5/bbX3Dwla3otTJ/IXEJhn+PDJHqfx2hfILRruU
+         gq9QPf3B/nPonQprhnr8W8EWDaVGnVUVUTP17tXR4jbC80qSt5yrgVrxxNGtorSXCTo3
+         Gbvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778161799; x=1778766599;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=63Zk1soB0pWql4fWbhVmbD4zB7eoGfppwocKxntreYI=;
-        b=OqA+G0EjXj5gWo61IE/Aa4UBR7LRthvRpd41yRM+12HnfP/KN6wkr/hLRpW5fUV3+w
-         tueYjjkf9B9BtgqpvZdnDEqoXYuvSZ0AeujtoBx3QVz9ly1ykPxJoiRXYU9B8BASEB85
-         /hnSezZIi1aOwJQ86ha9MsDtuJemrdpBgj1oohlhPAEifl7aXQgyp1Ft8qqvPa0FphSS
-         M5TvV5bHk/1ZCUQoaQTGZ+jwrFeucS3OQc4a31W2CjGmC6zQpY9D+ndaCeIDEwqCQ3iq
-         hqrtc1ANRHybuo2+DqPGef/YnPKfec2D78KmZB0jIs1An7yd0NyBUSuwAem6sD+4oUFR
-         Z1eA==
-X-Forwarded-Encrypted: i=1; AFNElJ8qvOnLCAzSEBtTRDA7zBwDnzSqDRD44+E1P6FZGx2t0bOAtqfIi3g3zhVH3Adfle6z2nnzM1KDzARDBKvE@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx36zzF5fByrJSDz+ZbAcjwG9hKJPKVm4oULOrmoEQxa3pCUpyL
-	HIj5B5gR58+wB1ZLUG0/K5Gd3tuSByPse6Y4iRcjsX9Sy33mIf7SjMo=
-X-Gm-Gg: AeBDievxtDtizjLuFGtrRlt8LcTfZ6HZu21W7G+yOvXQHE2c4IhfdspwgaMvrJal4/i
-	YF+LBe9SGHoJNGTxA8YJFmDQ5uhnQKeaUOxYp+F5r6C44cFlI1TsUqegedXOgam+Jb2yrJ7nWTt
-	pEIOV5oyyGD4eypY9YKg2r5kq6dM1weguE7DrHvqXBTYcArCIn3+3t0TYC/2DnWQNdGN49CB4ib
-	lKTHASanDaCUAOf6aZQClqek4ksSYNFYNeARbvE8T+JXINcVQnzzb5+g4w0sV6fwtRp46+GMGua
-	HCFquEnxppN2Fxq46UwMLXqU4CIDRB4zfLC3voJnhRBDP2pUuY6Jiz1mjrGs29UEyDyY/2wYQL7
-	DVVIo+uNoKxtUHt1V2FjJfz389zfCdRU0+0N+4LTDcvEui5LeB3KdceLqilXdaUnVy2by7XMPjQ
-	uf8C/HSy+2sP0xs0gqFKK7yjHzHvOQYTJJhB/K4jfJMvY8ruH9Q2KEdyMRaEPnHXNZZibrcLpbZ
-	sipJQ==
-X-Received: by 2002:a05:600c:871b:b0:483:709e:f238 with SMTP id 5b1f17b1804b1-48e51f4652fmr137400015e9.29.1778161798241;
-        Thu, 07 May 2026 06:49:58 -0700 (PDT)
-Received: from p183 (dynamic-vpdn-brest-46-53-134-148.brest.telecom.by. [46.53.134.148])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e5382a327sm224564925e9.0.2026.05.07.06.49.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 06:49:57 -0700 (PDT)
-Date: Thu, 7 May 2026 16:52:19 +0300
-From: Alexey Dobriyan <adobriyan@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH] sysfs: upgrade OOB write by buggy .show hook into WARNing
-Message-ID: <7bc745f1-a8fb-4bfd-8b85-657333a1bbf1@p183>
-References: <5f794f46-5afd-405c-9747-76f2c95d4598@p183>
- <3cc3e8c6-c6e8-4625-a88f-f5708b935dab@p183>
- <DICC6TIGNBZA.1ZW4SSME21HRF@kernel.org>
+        d=1e100.net; s=20251104; t=1778161937; x=1778766737;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jlJOeuL8AUn3zh4DygdpxRKJ+UZPkBpq8vVzH7H79qQ=;
+        b=oOsRHDEVaQd/Dj+0M2lSyrUDdcuSOQDyEZnwccARdZRzTvv4xk4lnCsxyJMcLzKX48
+         Vddc0BQoEFDATzB+B2nG4v9J0XVWpkQmRRoB8uLwXhOevaH3QETyD4FY9HWvVlCct6kH
+         0rqfeCcNQ/6dToxlQJ6DC3T+mRTlUhj4Y4cM3ZIVNzlPQrFHT/zhbe9G5r81rKS4my2q
+         ZoDMrta3vw1+tvvG1cYjF1v+XnKB5dUEMTF9DyIAU+iU6P0RUvOVMQEZNHeVavrNbEzm
+         Mv39Vf/lrHbeHJRHGb2iu+PCqXR7ksW4dndJAso5JFzqxLxfPbrVGVrOQOxgvL5GAeF+
+         36CA==
+X-Forwarded-Encrypted: i=1; AFNElJ8gb/Sk32P6CjALJVLag446jqJotOXc4wyctLZxNLVi3zoovjkIzu4CsrdcEcn4P+zrV4waa863KqpI/HnJ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx20PlnMGDmfenxRzepJPp4O8UcTBup+fsvM7kA11s4cXH/j7El
+	igyRgZze+DpfRLWSEC/2WIkjitr2MoGfCkPNlMiN9CO7leaozLzVbVzHBtTXYw3/GsYNAl8E/c/
+	TQT8ap2ZAaAqoi3JwGcIZijrhxbgzRNs=
+X-Gm-Gg: Acq92OGwOFX7eb1GeGYRI6SCzxDsF3FQEOZh9ae8h9HqnbX/4QsZUvD9I59yagfwL8s
+	f4qO23bGzzO3IHBOYTPX76kjKwcA0ZkYiI7c2vAlavBSxQo/xdLliz5EjEffwU33oW8Qn+WAU6o
+	0on62jM+3pBzTr2ajoZcDwqvrcoL8C08VOFXfjxZW/zE50xi+RREPsI5ddtzxDn27hPVnwkIaya
+	VRhJvi7qYGkuD4nfr1w+BT5ZVPAjDBQc8HpMhoiMP6ccAP93o+MRJrzdy9KAueVQREXzfW2Ga5e
+	XoVfTn9dSJqoLGk3T8Ws1vxCI0K26lo=
+X-Received: by 2002:a53:accb:0:20b0:65d:30fa:3360 with SMTP id
+ 956f58d0204a3-65d30fa35e0mr2157930d50.2.1778161937398; Thu, 07 May 2026
+ 06:52:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DICC6TIGNBZA.1ZW4SSME21HRF@kernel.org>
+References: <20260507124238.7313-1-linkinjeon@kernel.org> <20260507124238.7313-4-linkinjeon@kernel.org>
+In-Reply-To: <20260507124238.7313-4-linkinjeon@kernel.org>
+From: CharSyam <charsyam@gmail.com>
+Date: Thu, 7 May 2026 22:52:06 +0900
+X-Gm-Features: AVHnY4JxAGvWvRko4byupp0uOGhojRYPJ4u8Y2EoScKOwbQf_odFYbetP5eKpH0
+Message-ID: <CAMrLSE41=jUxnzAHve5WSVg4Vbx-Xp2QU+UdX9PFLdkY3Y9OHA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] exfat: add exfat_file_open()
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org, 
+	djwong@kernel.org, hch@lst.de, linux-fsdevel@vger.kernel.org, 
+	anmuxixixi@gmail.com, dxdt@dev.snart.me, chizhiling@kylinos.cn, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 07, 2026 at 11:28:29AM +0200, Danilo Krummrich wrote:
-> (Cc: driver-core)
-> 
-> On Thu May 7, 2026 at 11:01 AM CEST, Alexey Dobriyan wrote:
-> > Buggy .show hook will get just 1 line of dmesg:
-> >
-> > 	fill_read_buffer: ext4_attr_show+0x0/0x600 returned bad count
-> >
-> > It may or may not oops later in some unrelated process.
-> >
-> > But buggy .show hook most likely is corrupting random memory past sysfs
-> > buffer therefore deserving more. WARN, make it more visible and let
-> > QA machines panic earlier.
-> >
-> > Also, delete useless cast -- "count" is >=0 at this point.
-> >
-> > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> 
-> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
-> 
-> NIT: This patch also cleans up the stale "fill_read_buffer:" prefix, and instead
-> points out the actual caller, which could be mentioned in the commit message --
-> no need to resend for this though.
+Hi, namjae.
 
-Yes. WARN prints enough information to locate the bug, so stale function
-name just goes away.
+How about this? I think err is not needed.
+
+  static int exfat_file_open(struct inode *inode, struct file *filp)
+  {
+      if (unlikely(exfat_forced_shutdown(inode->i_sb)))
+          return -EIO;
+
+      return generic_file_open(inode, filp);
+  }
+
+2026=EB=85=84 5=EC=9B=94 7=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 9:45, Na=
+mjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Add exfat_file_open() to handle file open operation for exFAT.
+> This change is a preparation step before introducing iomap-based direct
+> IO support.
+>
+> Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+> ---
+>  fs/exfat/file.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>
+> diff --git a/fs/exfat/file.c b/fs/exfat/file.c
+> index 29a36a80e29b..b7a4964631a0 100644
+> --- a/fs/exfat/file.c
+> +++ b/fs/exfat/file.c
+> @@ -800,7 +800,22 @@ static ssize_t exfat_splice_read(struct file *in, lo=
+ff_t *ppos,
+>         return filemap_splice_read(in, ppos, pipe, len, flags);
+>  }
+>
+> +static int exfat_file_open(struct inode *inode, struct file *filp)
+> +{
+> +       int err;
+> +
+> +       if (unlikely(exfat_forced_shutdown(inode->i_sb)))
+> +               return -EIO;
+> +
+> +       err =3D generic_file_open(inode, filp);
+> +       if (err)
+> +               return err;
+> +
+> +       return 0;
+> +}
+> +
+>  const struct file_operations exfat_file_operations =3D {
+> +       .open           =3D exfat_file_open,
+>         .llseek         =3D generic_file_llseek,
+>         .read_iter      =3D exfat_file_read_iter,
+>         .write_iter     =3D exfat_file_write_iter,
+> --
+> 2.25.1
+>
+>
