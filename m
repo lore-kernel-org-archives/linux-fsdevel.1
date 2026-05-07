@@ -1,169 +1,98 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783043B774F
-	for <linux-fsdevel@vger.kernel.org>; Thu,  7 May 2026 09:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356FB3B6C18;
+	Thu,  7 May 2026 11:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778147462; cv=none; b=FmmY/IelRm0PpPjAp5tPTIQRidSAlNpK88LnuZMrVJJGBjhpfLo15UObZjuVCA+MRhHry65/9DaB9F2ByBh7FvIJDni14+gawT5Vrb5LgI8hkg1CexMKCObftxKR1+tyLNOg/lnYrSjQSgZuCZvvrfv00PZWSin74QXyWUuw2Vw=
+	t=1778152720; cv=none; b=IlGSFGMB20Ftyk7nwyljJwTuCT02A42XT1rpuAMcPlJdt0BhH67m7YKH+72LKFnStGkYij0D7DRWUgEfuImORXTGbOTxg39VvXM8K2bfcSTfTsk7sF12RmrZT5VjcPaK2V0PlbbAmcv82s/p5WiXAGsPdEDdxx+tbW3tQ4v0OQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778147462; c=relaxed/simple;
-	bh=SGEcwnAvvWnARcPzNzohe5P5P1OF2zid+5BmrvKQSbU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZZ6OfwqVDPzTjWMWgC5qrFKasXDSMQBitZw3JChf6GWULbJ1sp4dzPI9Xni0rjRRugJvpXUCkHf97hxsW4FrwQEy6k2zIwsB1CFH41w8TYFD4hv726vd6Rer1HG45rCWcyqp2RQQSY/C3oexxuWd4IiEgSIk+Bugf+OSFtw7tKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qb6d1Z+s; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778152720; c=relaxed/simple;
+	bh=YQBLHtIL3sLkDZZb9b9xmTib8lOtK1kmV5+ERuLWKJ4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D77iK49xmPrZnmdCqqVA//zgfioVXVDEJ69xZEFM4QZKY8BcI9rhEmd+J3abdzAapt0jWFTD4NK01m5UMqSASim96hvMTd0Pxix6gTjoRbGDk5hB4+WFQJ1qOZ9Zv7H7YPXWUf/6rXoD8q65umC499WtMMtUu1y9r17ug48TCqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oNNTcj6j; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qb6d1Z+s"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-44c350a5b87so398192f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 02:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778147459; x=1778752259; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EcZwFh2QZ44n0xgSUmMbcy6iZL2QmvBbYa+KTyDF4zs=;
-        b=Qb6d1Z+sFmZAoweE/gz8UcIKxryKUEkHsLlzEG0V++nPg75LSmnULTfGYSa9yVm5sF
-         rHal6jM18HSYeMMBitU23Ys9nmVQqDxtvZJLLrBaIcT9E0bCVdjBZ/sXJG25qSqdSQvc
-         mWHHK46kKDfvDtvrtveG6YgnLwknIkrmDLhr+qJxboC26WKWD3+q5QJAtBCL0mJfg8MK
-         KHQqqHIvUc3OUtmqij4iPvzScUg1METxrzed/zAReXH0ek1hGi6/eU3ZfZxUhiKHVwpW
-         RdEWeOo4qH32eZeywVzwJZZgsFxfQG4Ya+5W20Y3bLGDho8geWYg3UfaJZp9PWvsYzYx
-         tlsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778147459; x=1778752259;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EcZwFh2QZ44n0xgSUmMbcy6iZL2QmvBbYa+KTyDF4zs=;
-        b=eMP95zXATWuoFgvuIc4BnEiRX2TuspSxcQvot6hk7sy2FfcAboW/RrCHVKr4W/Nxl7
-         xkmUE/AChai0osaEyQGfLYDCKGmXF8PxnGkAN0X2Pncj6YxCKZJbyWPo94FZSOta50n2
-         5fsTPXe3lyuR++LLA0qR/8+uxXMxYT9kFa3/FQfuAJopo5lmm8zCKRG83JZ3fOsbbkem
-         /pkh4YWvm1/ROhl/xQC8mpJB7phiQNQKIZhf0kbwTQFM7rhczoB1YeGblc3qnTAOXJ7S
-         AnIo7u/49BXnK+7x7bsEqi0S5Er3uM6+fn7sJ6A1PuqOCHrcUsI13eJwWFi42ImBhigI
-         3cdA==
-X-Forwarded-Encrypted: i=1; AFNElJ+PC5Cgt6vpg7B/nzcM+dWXia4QhQIXU+LQPPyDaNC2P5oBO/tIrzN7n6t/v+ijRwLM9zmPxE0MJi5lIqPi@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx21qYs6yUOG5QAaVj+SxFPS8ITzLTMERyBjnpEy70bw6IBjTW2
-	cNf7T1tTvxq+jgchZVVo2YUNxKEQQeZeKN1EexGQn0/JULbJ+ThaxWsS
-X-Gm-Gg: AeBDiesMdoclNKFvMCo2t4XTmceRvuINVOtyceQjaH5seyLp2MYgQNMBR32FM9QgE6p
-	C4GiA9AgoHVbwWlrrrbhB8PtXztl5+OKwaYNbh/PHJ/SXJoVgSMLiceRNjGrz5vlxbdgKlgSury
-	T+Fsig4IDYm7kU2ku0g0hts/6r6MScvMgAaIzvTpTC7FJFd27IA5URyWVgLv2XzKkPYdNsNw6GA
-	nS2dCDYiXt9Mnp8laUYn/e0l6JYc0EiVJWA8eRZdn8U1N6pyvatE8j20J7/fzRJbZurjKyhJX9O
-	DHvUzd4jE/cOgLKpZVF8QusnxKax9CbwfX+xTk+pFkiR2c7G0t8Nf73dA5r8jFoQN/QnhfEPL0C
-	LLYSUYaKS3+LYhqNMXOrfDXgtqP48Rh738IQM3fft/YaYmx4leDivh2d7wrPjDWljonREYRr0J0
-	/10KdgPnHICW92TeriDkHx6JQVTK4ujehTPwwCvh/Sh52g0VCucMtAcMwQHTL7AQ==
-X-Received: by 2002:a05:6000:2207:b0:43d:7dc2:b655 with SMTP id ffacd0b85a97d-4515ad767c3mr12533550f8f.15.1778147458336;
-        Thu, 07 May 2026 02:50:58 -0700 (PDT)
-Received: from fedora ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45052a48c04sm19976392f8f.15.2026.05.07.02.50.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 02:50:57 -0700 (PDT)
-Date: Thu, 7 May 2026 17:50:43 +0800
-From: Ming Lei <tom.leiming@gmail.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-Message-ID: <afxgc4hizusnAA26@fedora>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <afi7c-VUJWOLlC1m@fedora>
- <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oNNTcj6j"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=uncgW9df5VjQV909YzewzWv4EDpnmYPD4iNOCRSrHRw=;
+	b=oNNTcj6jfNgbabvkH+A4bzvtO3QoMxfqhiHKfleBUUzR3iF+UB1Vp1E4K3v/Q+GMkIVX969fF
+	AtQ5ekF1U8duT0f04jkJPZ1VylVKuwvWqzaILFUVxei4/6w3oWmH5OPHzkMujCx1K+BCo+BJ9yp
+	+QPYuOG/9bTdTF4Efn8t89w=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4gB8gX2WP0zmV8v;
+	Thu,  7 May 2026 19:10:48 +0800 (CST)
+Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
+	by mail.maildlp.com (Postfix) with ESMTPS id F363F4056C;
+	Thu,  7 May 2026 19:18:22 +0800 (CST)
+Received: from huawei.com (10.50.85.155) by kwepemk500005.china.huawei.com
+ (7.202.194.90) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 7 May
+ 2026 19:18:22 +0800
+From: Zhihao Cheng <chengzhihao1@huawei.com>
+To: <trondmy@kernel.org>, <anna@kernel.org>, <viro@zeniv.linux.org.uk>,
+	<brauner@kernel.org>, <jlayton@kernel.org>, <josef@toxicpanda.com>
+CC: <linux-nfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <chengzhihao1@huawei.com>,
+	<yangerkun@huawei.com>, <yi.zhang@huawei.com>, <changdiankang@huawei.com>
+Subject: [PATCH] nsfs: fix wrong error code returned for pidns ioctls
+Date: Thu, 7 May 2026 19:14:04 +0800
+Message-ID: <20260507111404.638608-1-chengzhihao1@huawei.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemk500005.china.huawei.com (7.202.194.90)
 
-On Wed, May 06, 2026 at 10:02:11AM +0100, Pavel Begunkov wrote:
-> Hey Ming,
-> 
-> On 5/4/26 16:29, Ming Lei wrote:
-> > On Wed, Apr 29, 2026 at 04:25:46PM +0100, Pavel Begunkov wrote:
-> > > The patch set allows to register a dmabuf to an io_uring instance for
-> > > a specified file and use it with io_uring read / write requests. The
-> > > infrastructure is not tied to io_uring and there could be more users
-> > > in the future. A similar idea was attempted some years ago by Keith [1],
-> > > from where I borrowed a good number of changes, and later was brough up
-> > > by Tushar and Vishal from Intel.
-> > > 
-> > > It's an opt-in feature for files, and they need to implement a new
-> > > file operation to use it. Only NVMe block devices are supported in this
-> > > series. The user API is built on top of io_uring's "registered buffers",
-> > > where a dmabuf is registered in a special way, but after it can be used
-> > > as any other "registered buffer" with IORING_OP_{READ,WRITE}_FIXED
-> > > requests. It's created via a new file operation and the resulted map is
-> > > then passed through the I/O stack in a new iterator type. There is some
-> > > additional infrastructure to bind it all, which also counts requests
-> > > using a dmabuf map and managing lifetimes, which is used to implement
-> > > map invalidation.
-> > > 
-> > > It was tested for GPU <-> NVMe transfers. Also, as it maintains a
-> > > long-term dma mapping, it helps with the IOMMU cost. The numbers
-> > > below are for udmabuf reads previously run by Anuj for different
-> > > IOMMU modes:
-> > 
-> > Plain registered buffer is long-live too, which raises question: does this
-> > framework need to take it into account from beginning?
-> 
-> Not sure I follow, mind expanding on what should be accounted?
-> Are you suggesting that we might want to use normal registered
-> buffers in a similar way? I.e. giving the driver an ability to
-> pre-register them?
+When executing NS_GET_PID_FROM_PIDNS (or similar pidns ioctls), if the
+target task cannot be found in the corresponding pid_ns, the error code
+should be ESRCH instead of ENOTTY.
 
-Yeah, normal registered buffer is long-live too, which is exactly
-what the driver cares for the long-term dma mapping motivation.
+This bug was introduced when the extensible ioctl handling was added.
+Without proper return, ret would be overwritten by the default case in
+the extensible ioctl switch statement.
 
-> 
-> > BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
-> > which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
-> 
-> Interesting, just too a glance, and it looks like what David Wei
-> was thinking to add to fuse, but IIUC he gave up exactly because the
-> client will need to cooperate and that could be troublesome.
+Fixes: a1d220d9dafa8 ("nsfs: iterate through mount namespaces")
+Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
+---
+ fs/nfs/nfs4state.c | 1 +
+ fs/nsfs.c          | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Here the cooperation is minimized, maybe one shmem/hugetlb path, or memfd,
-and it is one optimization and opt-in, and fallback to normal path
-if application doesn't cooperate.
+diff --git a/fs/nfs/nfs4state.c b/fs/nfs/nfs4state.c
+index 305a772e5497..5044bb4c870f 100644
+--- a/fs/nfs/nfs4state.c
++++ b/fs/nfs/nfs4state.c
+@@ -2039,6 +2039,7 @@ static int nfs4_purge_lease(struct nfs_client *clp)
+  *
+  * Returns zero or a negative NFS4ERR status code.
+  */
++
+ static int nfs4_try_migration(struct nfs_server *server, const struct cred *cred)
+ {
+ 	struct nfs_client *clp = server->nfs_client;
+diff --git a/fs/nsfs.c b/fs/nsfs.c
+index 51e8c9430477..160018c4fb36 100644
+--- a/fs/nsfs.c
++++ b/fs/nsfs.c
+@@ -266,7 +266,7 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
+ 		else
+ 			tsk = find_task_by_pid_ns(arg, pid_ns);
+ 		if (!tsk)
+-			break;
++			return ret;
+ 
+ 		switch (ioctl) {
+ 		case NS_GET_PID_FROM_PIDNS:
+-- 
+2.52.0
 
-> 
-> Should we try to push everything under the same interface instead of
-> keeping a ublk specific one? Again to the point that it requires
-
-If generic interface can be figured out, it shouldn't be a big deal for
-ublk to switch to it, and the usage is simple actually.
-
-So far, ublk supports both FS and nvme block device.
-
-And cooperation can't be avoided for this usage no matter if generic or
-driver specific implementation is taken, for both fuse & ublk.
-
-> a cooperative client, but if it's something more generic, the user
-> might just try to use it as a general optimisation. In the same way
-> it'll be helpful to fuse, and as a bonus you wouldn't need tree look
-> ups (but mandates clients using registered buffers as a downside).
-
-Yeah, but tree lookup is fast enough in case of huge page for typical
-application, and it is simple in concept.
-
-
-Thanks,
-Ming
