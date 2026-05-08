@@ -1,137 +1,165 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from forward102d.mail.yandex.net (forward102d.mail.yandex.net [178.154.239.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61F9330B0B
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 10:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE7937187B;
+	Fri,  8 May 2026 11:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778237000; cv=none; b=KTS8m4gBoFf2OBq6eK77m/EBJaqeurFogCahvj0P85KaYeW3x1hr2jmQMfpQa960IDbLLDrwwMVfpcvTfRZUlfdRnfilOAbSjxegWLPGeWitgVbHXMvqivKpXGsoWDztQ/RiT09iLMQwvchOlROnqyZSMS01460JB1mPKwqF3Tk=
+	t=1778238927; cv=none; b=gZaZesjo/aLS9z9u8ZGhmbniSldkfB6zWfmzu4vXmKtpdTiwj/XK4IJxBGIg4GaKzAARsJftEKYnyN1Rm2eg0sAzXq7AR1HU31MgBKVIHog6m1ioJxy4MW2FTcb7eOwLwWl+r7jO30bEdRrB1spYGeTV36UsI+hyvo0U+1lorRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778237000; c=relaxed/simple;
-	bh=lj095PnXNVGxSaO9uhhAnoBWMXArt4qVTKac/ecG39w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ui16UGPM1QJR7n4abvUwM4paDPcHCZQMirLNCBaChxXTsGfivWmVVydPioEgwBj75sPxPPIBBrHOsyCYHv0vmDmYBBHYNx0totCuQt2dRYJjBgoDgtRy8NRezKXWX4636cAwFVCn1szOQLDERHCHqCzXDiEqRLlXnnCcnUg8s3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=sNGx008A; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FvBbHg99; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1778238927; c=relaxed/simple;
+	bh=233mq/faJh6is6meW777b5v9jeXzszz2Xt3EdCCMPeg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qPstQvWLG/3KoZhbrq521QiiWV5mNLoSJWLUcHmR0ej37rI0SFeShy+IMeuvubNygM7wIahdpOreVg9Uynzme0iRKEHlKN79qJtFC0c9/0NdKISBNciut87MzdLNu2/1BCf80EXBfybvTt7JGGXNpFC9WmY1gb9RDTbx0O18tn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=sPUWgfAB; arc=none smtp.client-ip=178.154.239.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="sNGx008A";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FvBbHg99"
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id 88D951D0007D;
-	Fri,  8 May 2026 06:43:17 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Fri, 08 May 2026 06:43:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778236997;
-	 x=1778323397; bh=SDDn4AgzsTYYgSuJLh908btmskYTyXTdlToS1bfJppg=; b=
-	sNGx008AylRFsK+1xFhIUjzj6lYOINCDOQhxQTMi5sZlebhc8XWFZV5Pk9zt+Xtk
-	J4ix/iChbb1i/tHxYuztHJ1XAccF2T0ZcQ4GgCSMu3Kip9pf5oZ1u7xoQcdzIe8z
-	1gIBaby4R5feqF/Ryxb9BJ4ZA2lV7ZCIfHvCJD/uk74KClfs4oJx5S8qlOPENqjA
-	y4RCOFgdClNrw9B2FR0kEyX14D/M/zbjZT0QNBjOGaaxGGLjvQfnytQuSqPRV7fo
-	YLHIEOrC1LpPWxSELAJpQI7bzyQ7GiDpnkwchHa99RNQFKCmHDAvHY7OmoSnZmvy
-	vHd4jIJzjUGOpgjQ3/heuQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778236997; x=
-	1778323397; bh=SDDn4AgzsTYYgSuJLh908btmskYTyXTdlToS1bfJppg=; b=F
-	vBbHg998w3MoLFAtYS6cACtsTHsYyLQ2j81ebT1fJUsrekv4289w/4zOVKgefKkl
-	YJDHauOP0ZvVHokYOr2fIqvKdhIBIhUb2CmgTGJd89uCUPjKlZs37s/QAc8FyD/m
-	0VqO0swXSeP0YHh7zikENz8rPAXbNG8pz/lLVvZ8O7lct5jUPFIbsJmOu/KKk6RV
-	ocA6DTmAd+DPKoNejo6QVAa4KeWfJ9Uf1MMRk7Uo1OIYO4jMakRWCDbRwJ/lvXSg
-	cPngRtkgmqAUqHxlBToZRvpyVuIGOg7Jap93iwkbNJSsr5jp4s0Ot1cFmpx+SB8A
-	2tdGDGPfrI2wABUU8t9dg==
-X-ME-Sender: <xms:RL79aYVlzWb4lDRwG01-6j49fiCTR8cG1FoVtRPAGT04Q2Lwjy79TQ>
-    <xme:RL79aV4nMx-G2UB_RWfnOTXfa09s5atn209jfrsjJ1uTLItO-Xd4Dp5oTskstcc7G
-    tvb_Bv3s7dguNbzmq0tVZF6V8xjIruL-2t0tCjIQDQh0zcbS6dI>
-X-ME-Received: <xmr:RL79aToGRHMsUYEV5EMHmpg8Z-UjHKZcv7uxfRS3Hvd0-uqWxgK1AyeCpOm_YWBIXnBWV-xyUngF7vsYiFf0gU-W4OL4FBUIbZ6EztUKostGyOIOnQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddtudegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhn
-    vghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehfuhhsvgdquggvvhgvlh
-    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvggrlhesghhomhhprgdr
-    uggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhg
-X-ME-Proxy: <xmx:RL79aYnhNsqXqOjpmpksE-kTLGOTvY63T8N0H0AVrgRyy1kjsX8D3w>
-    <xmx:RL79afOTUy4zWeSEQ5hKwYy6s6cuMnVwnnb7LQ37GIyOSJUv2QwbLA>
-    <xmx:RL79acNUVO32CVqRzpgBxcGyFUbNmiSGwd9Tsz4Ci6NX8QXGxL3YZQ>
-    <xmx:RL79aQglF_pDPBmq0J5BXfPyunrPSrJDte87Ir9eJFCfgBgE-voYeQ>
-    <xmx:Rb79aWnfC8Su-1mKgvut0RZatAgj9yT18s7eSTGVZZGFTYkYe0WVvonS>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 May 2026 06:43:16 -0400 (EDT)
-Message-ID: <6276b3d6-cc8c-4e37-b670-ff2a25c69686@bsbernd.com>
-Date: Fri, 8 May 2026 12:43:14 +0200
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="sPUWgfAB"
+Received: from mail-nwsmtp-smtp-production-main-77.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-77.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:7ba3:0:640:5ad4:0])
+	by forward102d.mail.yandex.net (Yandex) with ESMTPS id 2A883C01D3;
+	Fri, 08 May 2026 14:15:15 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-77.klg.yp-c.yandex.net (smtp) with ESMTPSA id DFESAFMS7Os0-YZiOMHrK;
+	Fri, 08 May 2026 14:15:14 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1778238914; bh=hdEv90OrIa5Or68EvQ9jPENOtjFFvSTt1FJMESWp1pE=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=sPUWgfABlGj4F+i0tV7eMT2VXirgVwBD/nO7cSxleRbYEKidjlxS5nePA+69oSdBE
+	 Bq9/7507YaSmLgRd6I7zuUnsiAhwuBirbkIuJuNj5bk7H1wF7lDA/9Hm8qIzdF6G2A
+	 tLGuIxCInDjGsTxMVkjpk9syZcRr/kzlE2k4PbH8=
+Authentication-Results: mail-nwsmtp-smtp-production-main-77.klg.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Jens Axboe <axboe@kernel.dk>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+	linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	Dmitry Antipov <dmantipov@yandex.ru>,
+	Fedor Pchelkin <pchelkin@ispras.ru>
+Subject: [PATCH] lib: free pagelist on error in iov_iter_extract_pages()
+Date: Fri,  8 May 2026 14:13:29 +0300
+Message-ID: <20260508111329.329943-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] mount_util: fix mount_flags entries for MS_RDONLY
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
- neal@gompa.dev, linux-fsdevel@vger.kernel.org
-References: <177819197881.3490692.13850589276777261250.stgit@frogsfrogsfrogs>
- <177819197899.3490692.5280827494230619038.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <177819197899.3490692.5280827494230619038.stgit@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Since 'iov_iter_extract_pages()' may allocate new pagelist if the passed
+one isn't large enough, the worst-case scenario may be:
 
+...
+struct page *stack_pages[SMALL];
+struct page **pages = stack_pages;
+...
+if (iov_iter_extract_pages(i..., &pages, ...) <= 0) {
+        /* Even in case of error, new pagelist may be allocated */
+        if (pages != stack_pages)
+                kvfree(pages);                                  [1]
+        /* The rest of error handling and return */
+}
+/* Regular flow */
+...
+if (pages != stack_pages)
+        kvfree(pages);
+...
+return 0;
 
-On 5/8/26 00:13, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> MS_RDONLY maps to MOUNT_ATTR_RDONLY in the new fsmount API, but the
-> table omitted that.  Fix that.
-> 
-> Fixes: 0d7e72541564a5 ("Unify mount flag structures and remove redundant is_mount_attr field")
-> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> ---
->  lib/mount_util.c |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> 
-> diff --git a/lib/mount_util.c b/lib/mount_util.c
-> index 1a0aec9bfe1a70..7ab1dba91e28e3 100644
-> --- a/lib/mount_util.c
-> +++ b/lib/mount_util.c
-> @@ -110,8 +110,8 @@
->  
->  const struct mount_flags mount_flags[] = {
->  /* opt            flag             on  safe  mount_attr */
-> -{"rw",           MS_RDONLY,        0,  1,    0},                      /* fsconfig */
-> -{"ro",           MS_RDONLY,        1,  1,    0},                      /* fsconfig */
-> +{"rw",           MS_RDONLY,        0,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
-> +{"ro",           MS_RDONLY,        1,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
->  {"suid",         MS_NOSUID,        0,  0,    MOUNT_ATTR_NOSUID},     /* fsmount  */
->  {"nosuid",       MS_NOSUID,        1,  1,    MOUNT_ATTR_NOSUID},     /* fsmount  */
->  {"dev",          MS_NODEV,         0,  1,    MOUNT_ATTR_NODEV},      /* fsmount  */
-> 
+If you're unlucky so SMALL amount of pages wasn't enough and new
+pagelist was allocated, missing [1] causes the memory leak similar
+to one I've recently observed and fixed for 6.12 in [2]. So adjust
+'iov_iter_extract_pages()' to make such a cleanup itself rather than
+rely on caller's handling on error paths, thus making [1] not needed.
 
-Hi Darrick,
+[2] https://lore.kernel.org/stable/20260505094529.406783-1-dmantipov@yandex.ru/T/#u
 
-I had already pulled this the night before and it fails the new tests as
-well. I think issue is that ro needs to be done via fsmount(...,
-MOUNT_ATTR_RDONLY) *and* fsconfig(SET_FLAG, "ro"). I'm going to add a
-new column into const struct mount_flags mount_flags[].
+Suggested-by: Fedor Pchelkin <pchelkin@ispras.ru>
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+ lib/iov_iter.c | 54 ++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 33 insertions(+), 21 deletions(-)
 
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 243662af1af7..46dd11913df0 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1807,7 +1807,8 @@ static ssize_t iov_iter_extract_user_pages(struct iov_iter *i,
+  *  (*) Use with ITER_DISCARD is not supported as that has no content.
+  *
+  * On success, the function sets *@pages to the new pagelist, if allocated, and
+- * sets *offset0 to the offset into the first page.
++ * sets *offset0 to the offset into the first page. On error, new pagelist
++ * is freed if was allocated, and *@pages sets back to its original value.
+  *
+  * It may also return -ENOMEM and -EFAULT.
+  */
+@@ -1818,31 +1819,42 @@ ssize_t iov_iter_extract_pages(struct iov_iter *i,
+ 			       iov_iter_extraction_t extraction_flags,
+ 			       size_t *offset0)
+ {
++	struct page **oldpages = *pages;
++	int ret;
++
+ 	maxsize = min_t(size_t, min_t(size_t, maxsize, i->count), MAX_RW_COUNT);
+ 	if (!maxsize)
+ 		return 0;
+ 
+ 	if (likely(user_backed_iter(i)))
+-		return iov_iter_extract_user_pages(i, pages, maxsize,
+-						   maxpages, extraction_flags,
+-						   offset0);
+-	if (iov_iter_is_kvec(i))
+-		return iov_iter_extract_kvec_pages(i, pages, maxsize,
+-						   maxpages, extraction_flags,
+-						   offset0);
+-	if (iov_iter_is_bvec(i))
+-		return iov_iter_extract_bvec_pages(i, pages, maxsize,
+-						   maxpages, extraction_flags,
+-						   offset0);
+-	if (iov_iter_is_folioq(i))
+-		return iov_iter_extract_folioq_pages(i, pages, maxsize,
+-						     maxpages, extraction_flags,
+-						     offset0);
+-	if (iov_iter_is_xarray(i))
+-		return iov_iter_extract_xarray_pages(i, pages, maxsize,
+-						     maxpages, extraction_flags,
+-						     offset0);
+-	return -EFAULT;
++		ret = iov_iter_extract_user_pages(i, pages, maxsize,
++						  maxpages, extraction_flags,
++						  offset0);
++	else if (iov_iter_is_kvec(i))
++		ret = iov_iter_extract_kvec_pages(i, pages, maxsize,
++						  maxpages, extraction_flags,
++						  offset0);
++	else if (iov_iter_is_bvec(i))
++		ret = iov_iter_extract_bvec_pages(i, pages, maxsize,
++						  maxpages, extraction_flags,
++						  offset0);
++	else if (iov_iter_is_folioq(i))
++		ret = iov_iter_extract_folioq_pages(i, pages, maxsize,
++						    maxpages, extraction_flags,
++						    offset0);
++	else if (iov_iter_is_xarray(i))
++		ret = iov_iter_extract_xarray_pages(i, pages, maxsize,
++						    maxpages, extraction_flags,
++						    offset0);
++	else
++		ret = -EFAULT;
++
++	if (unlikely(ret) && *pages && *pages != oldpages) {
++		kvfree(*pages);
++		*pages = oldpages;
++	}
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(iov_iter_extract_pages);
+ 
+-- 
+2.54.0
 
-Cheers,
-Bernd
