@@ -1,154 +1,133 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC2B370D54
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 13:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778245293; cv=pass; b=BEOw3G4u3yLFRx4gwxk+6zzsyPbnUliUUI+X6uT3xY2ICYNZ+9zkaR3mTHTVe14KhOXK6dvd7d8ARngw/j9nycusvNojhBVgaeofjiAoaolC9+fMKJX/QQGRSHaZBdtOq/KVkVxLrX6r6C5DqYkM/L6kAuIjBD6xo6V+KNoQkbI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778245293; c=relaxed/simple;
-	bh=UEqXicTfnM6HdHxwrNeRDh2kHHPbf0wyeUC9LcwMo5c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o89CiD6HWSmrbFvG+NdC7dTppmgIpJ6RlidSqir6GF0FKRfKmVrpYEWw0hVpXwgINY4AtRd0D8b34bCb/zBwsvHEKhcLkaIN9XGta16ywy4aomSRmFFReUyj727xhn6KF81/mp/auHgkhkhQyRx9hX704sTMZwmQFDDfF4Za1GE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QLNIOxz3; arc=pass smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC693ECBD9
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 13:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778247958; cv=none; b=hXhans3Vv8Ys+RcoVHECM3u85KhXI/MI2783EG2FlPhBSApfq4AwnwAmLvTc3UYDnfaoaYYXrrpanM5GI7vxomR9P8vrfYGwNIg6zJO2bMbXrUoPYxoXGbrZA7Tij1zER0y3vpBFhqfBSBuzj1Q4YU7Ck1ddEZgHFiXf7aIGqZ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778247958; c=relaxed/simple;
+	bh=vVpE+sk92WLPbTkS8UwRksrlO+TCUZy5fra6+QJlA3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pp8DyszyYOvZlbki19XuYa+KWrLMVTV5a9G0UYkWwgzoFczFzNVjAd0O9u1svCdIvQEMjoqSC6aCdsRpiR/X80iPbzYNOIkTdNFMnZhvJ5+SAhOtzflbtjH6+qrQu7DrNyoUavsSy8zsFXu253/jfuPZ2tCQxMYOGZqYIKLAvnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ED8G/+9v; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QLNIOxz3"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-67b8d9c26bbso3438486a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 06:01:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778245290; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OBdBLcOPCnJeaFCOhqj/mb2lJW9cB4yuZTV9GBhurpm4EPyDdU5mtYt7um6IUmKCgL
-         /E0TGs18vjYGHCJYuzviGPotMW+ctjpghioKcg3eDcZs9rssgy6h6nv1ubkA7e7WxRug
-         wqwMrj9ZyipcvX9QM8jtl1BJ+6HOfQtob5EIoYEAJh8PE3gyQhqDRMiEa1GqeZq0F6DN
-         2q8CLzSIhKV1nPUbDIJwIx0jPGp5w0SAtkqThDBHfQAVgXSO3Z5WQ4aqfbSS0JY07wU5
-         25kJpxpNCDM6cnVU51H5qXBKsT315pcJNTdbQqhsjh6FtwebTNFVWeepoJe827JP/k7c
-         nybg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eheK66B8cRyIDoMQkUeVVcUOm8ou8dWbCp5qpckbR9A=;
-        fh=0HKCtmjOdyu/gAkiGTRrLFPZ04dVCqkqwZ1GOF0Fdr4=;
-        b=esee+9LwNr7ysWFRlcNnCCdFFmCU0Iqy+FPr6ywO/u2zNypGROrZij3ghQ+fODTnCo
-         M2gWcGYdlTOMwh/N3U8xLcs14UXsEzbyU4C7d5T6+TnThVBnR4maCkh66UDPKpWpKWAW
-         siXhQe3itOgagZuZ/yQOlEwDakm5VKtspyKdER17bYnPdtlw0Dttg2AmJc2uiWl3ISjm
-         r6q667XPBLU1XRlE/bSHsTs4LN0xB2cpKNuoG3coNIfa9QOFwO3TqYt8hoawKmrCJe1G
-         hpDaxzO2pTTftTocjY8slc118U+QRELYbmnOZ2TtZV6YBioeRtX8Aq8FBaZvla1x4Sc2
-         kJnQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ED8G/+9v"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48374014a77so22409475e9.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 06:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778245290; x=1778850090; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=suse.com; s=google; t=1778247954; x=1778852754; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eheK66B8cRyIDoMQkUeVVcUOm8ou8dWbCp5qpckbR9A=;
-        b=QLNIOxz3Wz9ArprLItrB49FsCcL7HVGe1Z1nd//UQyiKkw5KVEejTK9QFrYxGum3g7
-         khYkbd2DLTIiTBYXm+7Oh/TefGipDvDB6BqzP92eko2YBNi6mUWImMhoDXc9qSHbpHy7
-         4sb8WorKN9nylnnGBs51GCvG3mjx/1JlAbR6ZlRferljS2r10F7irfc8UMJs0/AXwpdU
-         dRdBHdNrYDB0rTgRGvoROAPK+sOnxkhY58qUDdWsmUTwAX0R4R7tzpdn3UMp2qvKZSTh
-         nlrMennXjnyBQIm12ztBLSuE5ebzuIRarB+BnRcLzS4LzwczdQLG+jbrM3dIFKG1WLbF
-         CAww==
+        bh=78phUcQ5Rif/EmDwGcADRoP9ZKpZ/G8QAJtY0ciIHXg=;
+        b=ED8G/+9vg8Z0Dc9aGmDOEy5dyWhyjXJCWLRgNOBxq4vedj0zsiFQeLrTUbQDhSOIaR
+         y5bTlqcdjzYGA9rBOt/BYo0k8fOF94t+ap8NsGudc0shGa6DsltktjkVZRcNw08p6C6x
+         x9wE3/SqG0POERKZcrVTI+V68l/lpTquJBViLz+WujlHYqnttchPrvMe9GXeQdNAKjoM
+         NkjF59Dw2prbMp36hSahIU5x4Nr4pU2q/PusUDEbhhhlolp1Yowa2vXW431StO0H767O
+         eBolmtrUcb5vs1C/vwC8qcVcpq6R3rmlMyoSXyufP+ugJj8BsaAt/Yls55m1/r7cU6Wk
+         RMfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778245290; x=1778850090;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1778247954; x=1778852754;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=eheK66B8cRyIDoMQkUeVVcUOm8ou8dWbCp5qpckbR9A=;
-        b=APYU3nqUq9nBxFAYJR1ryyo5wmDD4UW3kiWgyJoorK+i6aSpaZCPwEkZV/ZOncDIif
-         w3ou8qdwYdkW2vc4a99MtsyvGnW6GJqHjmqRwMVUF9nxv++1CA3sHrcMRrXWEkqmcQOc
-         M+pCZKFcbV/TUAY/TTPRxkMGBFLf3aLdNLKu2g2GKy+2mtFesTPcba1e0ZekGs9dnTug
-         w3q3WtWE0csl6qURX/2jNbnqmX47qeVOLdmsBGX+ruKbcMeENuSSO23EearEaeybXDUi
-         e2RKwps1D5e55L1WCefuZzKw1E9XGoKD7g1Xfk3RyAcVUXfhwWPGYCbDq+MQPdq1TqpL
-         SQuw==
-X-Forwarded-Encrypted: i=1; AFNElJ9Ue50vFBfBiiBIlOaJOZn9JWEH/nce9L49mTEHI/jPKrikS6cir0x6eHMR+4C2rNczwYT+y6PFy5qdct/t@vger.kernel.org
-X-Gm-Message-State: AOJu0YztPcCXh3beBRUC3fhAAAuhgEmUNTyekjqHCxjdQm6NHkN7szDn
-	9E6uygYIcEC1Fnu0/yLaUvv2boo080lSlvkuabDriwGH2gVhQ7VzApD1D3IX7HNBJxiLOFblgjx
-	vgfaxkwAfgXjPzCAr+dikTpZDFZ3Edx4=
-X-Gm-Gg: Acq92OGb5uDSq7l6lSTwcnIk1Rm0X9+uZUoA6yaiqPXhrEo5pNWoaaI83Qevrl9ecP1
-	j13xCdzX7513gQoMDLRNe1nNX0ZpTKP8caXwH0LpAsjMLf+/Wocw5x5FhuJLrEURpogsyC9H+PY
-	4BlqrupzfYpJQQilR7ey8mAu0OTJtAtfNesyIYD3LZT1z+IBTWSDuDbPoXfqC8S/CBXWaFiqJTI
-	8JFUY66ZdMZ7MoHK3qxihMbM/T3O6028fvfSZ6ibJ7IneMaBpQ/tAKneflLLOVyo12PjY3SsuUm
-	tmDaZvEHy8uJFEpTjpyaHKxa9+9lJ6uKwbvHeBuhqg==
-X-Received: by 2002:a05:6402:4348:b0:676:9caa:f070 with SMTP id
- 4fb4d7f45d1cf-67d642b23f0mr6835419a12.14.1778245289801; Fri, 08 May 2026
- 06:01:29 -0700 (PDT)
+        bh=78phUcQ5Rif/EmDwGcADRoP9ZKpZ/G8QAJtY0ciIHXg=;
+        b=c5rNIQUWgWHzD9pM1Z9naZ6Y42J/rjKn/CMQayYH3+Cjo+X6dnwd2rnBtTXB23Yzbu
+         gNLQsXRXnxuLHDoCrgRN+lCDQCA2l8YPeeCBTnMCWvt4X+H+Q8oau+H1ErBVVDdjKSbG
+         f1lYtjfG6Mhpmp76bgI5+BfY2jUlhpWuMJ41GRm0nr23NNiZgDX0B9WPAc4Z+gBQE55a
+         LAXtrg8jSAzIwqQAcgUd8yr7J6Bneb7vOLQtnGlXj2lKxB1Gv2NQaYz4YYOZghFtJQxm
+         8y/gK3uI0QTMiigr+653lB51b73vVkzE2HFkRGNPkCk7JwZbmLpSz+rxAPjAn3gxhKhX
+         ZHtA==
+X-Forwarded-Encrypted: i=1; AFNElJ9/cMaOUD3hGfUKthqQTmtvRdS7RR08+s4jze44xAH7nh7c7evTIi9gbV35WW0j8zVZ8j90ONVfr5QCyGEj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxa+7VnkQFsVNEdS5rUECqL4Vt983r5+mikcVhDUOuP7oj25Gkv
+	COn5VG1fPCgl3BLt+LRBYTgnl/jdK94BKcO3bmKB7XD41WwSzBgsNw/KmmTsfSYKUHc=
+X-Gm-Gg: AeBDieu/3lXoNqokFLlKIBAy5B93cByauTQhUtWbo+RMbyLY0JxjAwz/eZrKwz/pTpp
+	/ckKXYdjjBSLEeWMLkfg7c36eiTWT26nOoHT0b7f0QzXfIqfQmeNcV4Hd9xia/M+BXJsZvzkkfj
+	l5VMpevwR++8c4w8mXeUacxhwjVnygKTL9/Z+6+DZboAhRtxG5l/NLdmVhU59UgkIRkLhX655x1
+	Wc9hJ67aRqRgQWhP8ors4Wp+1DrgWCWzbTVvt3LF7dyj2sxWxlptXmRGMRQzVztSc3Yu7ygQ8Oi
+	B8nEjFaKwrRDQyQgoxwtQaQX+hXBna/h0hFrKf0BfiDWYkgSis9lGBkDPYwq0P6u0l+PrU94bII
+	6EP/XfEmOHrdABUPQIl3qeBdU0XLnum2brBE7P2jXj+rYmdu8RA4vKUazc3FQtd5rk6Qt831rgv
+	4HKJU8hakC5pXWlCgBRQOjc3N8WVFD0/EexCk2ABhHu+CpW4g=
+X-Received: by 2002:a05:600c:811a:b0:489:1c32:210d with SMTP id 5b1f17b1804b1-48e51f369c3mr203601785e9.15.1778247954175;
+        Fri, 08 May 2026 06:45:54 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db1413csm178475e9.29.2026.05.08.06.45.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 06:45:53 -0700 (PDT)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org
+Subject: [RFC PATCH 3/6] hfsplus: Move long delayed work on system_dfl_long_wq
+Date: Fri,  8 May 2026 15:45:31 +0200
+Message-ID: <20260508134541.282073-4-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260508134541.282073-1-marco.crivellari@suse.com>
+References: <20260508134541.282073-1-marco.crivellari@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260429102058.1362965-1-mszeredi@redhat.com> <afxK2HSiwY32KaWw@fedora>
-In-Reply-To: <afxK2HSiwY32KaWw@fedora>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 8 May 2026 15:01:16 +0200
-X-Gm-Features: AVHnY4IXxta-2ngFEGkxy0LC7oZseIvF0NghuKtJ8IJRDq2LCu03iYMcxCxKPsg
-Message-ID: <CAOQ4uxg-tgCmJkjFAQ86_xB7dDQKGy=geKAcxT2vB8cUSEKdPQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: add fusex filesystem
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	Horst Birthelmer <horst@birthelmer.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 7, 2026 at 10:49=E2=80=AFAM Horst Birthelmer <horst@birthelmer.=
-de> wrote:
->
-> On Wed, Apr 29, 2026 at 12:20:57PM +0200, Miklos Szeredi wrote:
-> > This stands for "fuse extended/experimental".
-> >
-> > The purpose is to provide a clean base for big features like the FUSE_I=
-OMAP
-> > api.
-> >
-> > It's also a good way to try new stuff like file handles and compound
-> > requests without the risk of breaking something in the large and comple=
-x
-> > fuse codebase.
-> >
-> > Whether these features will be migrated back into the main fuse codebas=
-e,
-> > or fusex is going to end up as a major version update is still up in th=
-e
-> > air.
-> >
-> > Major differences from regular fuse:
-> >
-> >  - local filesystem mode only
+Currently the code enqueue work items using {queue|mod}_delayed_work(),
+using system_long_wq. This workqueue should be used when long works are
+expected and it is a per-cpu workqueue.
 
-What about things like?
-FUSE_HANDLE_KILLPRIV | FUSE_HANDLE_KILLPRIV_V2
-FUSE_ATOMIC_O_TRUNC
+The function(s) end up calling __queue_delayed_work(), which set a global
+timer that could fire anywhere, enqueuing the work where the timer fired.
 
-Does local-only mean that all those (and default_permissions)
-are handled by the kernel?
+Unbound works could benefit from scheduler task placement, to optimize
+performance and power consumption. Long work shouldn't stick to a single
+CPU.
 
-> >  - only synchronous FUSE_INIT is supported
-> >  - only no-open mode
-> >  - new requests:
-> >    + FUSE_LOOKUP_ROOT - return nodeid of root
-> >    + FUSE_LOOKUPX - FUSE_LOOKUP without the getattr
-> >    + FUSE_MKOBJX - merged FUSE_MKNOD, MKDIR, SYMLINK and TMPFILE
-> >    + FUSE_SETSTATX - extended version of FUSE_SETATTR
-> >
-> > Missing features:
-> >
-> >  - file handles / export ops
+Recently, a new unbound workqueue specific for long running work has
+been added:
 
-Need to sort out this API that grew odd organically over the years:
+    c116737e972e ("workqueue: Add system_dfl_long_wq for long unbound works")
 
-FUSE_EXPORT_SUPPORT | FUSE_NO_EXPORT_SUPPORT
+Since the workqueue work doesn't rely on per-cpu variables, there is no
+obvious reason that justify the use of a per-cpu workqueue. So change
+system_long_wq with system_dfl_long_wq so that the work may benefit from
+scheduler task placement.
 
-The problem is that libfuse declares FUSE_EXPORT_SUPPORT
-on behalf of high level filesystems which do not really provide thse
-persistent NFS file handle guarantees.
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
+---
+ fs/hfsplus/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I see no reason for fusex to not support lookup by ".", which is
-anyway needed for "reconnect", so a fresh FUSEX_NFS_EXPORT opt-in
-for "re-export to NFS" may make more sense.
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index 40a0feda716b..12ba672e13bc 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -314,7 +314,7 @@ void hfsplus_mark_mdb_dirty(struct super_block *sb)
+ 	spin_lock(&sbi->work_lock);
+ 	if (!sbi->work_queued) {
+ 		delay = msecs_to_jiffies(dirty_writeback_interval * 10);
+-		queue_delayed_work(system_long_wq, &sbi->sync_work, delay);
++		queue_delayed_work(system_dfl_long_wq, &sbi->sync_work, delay);
+ 		sbi->work_queued = 1;
+ 	}
+ 	spin_unlock(&sbi->work_lock);
+-- 
+2.53.0
 
-Thanks,
-Amir.
