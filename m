@@ -1,165 +1,149 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE7C37C921
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 07:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6451E37D128
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 07:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778225386; cv=none; b=NRcNmnsGlp9QgDcCZ04LMZy8LPGpOZWRNLyP+lh0fs069wIN2BC6DWprojHcKxKBH4jMUSJMWv+ARZ/w/ASwl6Pe3RKHGkD7mC/lf+TuQf6tWqaHPCsNzFqbZURbSn5iBjIY/7aMcO6ACmbUKypJzJd15iuF8NMs4Wr4HFgUuiM=
+	t=1778226439; cv=none; b=B0MJ/1akcLKQKiqw2xdlhd+3U+PagQ/mOkXSYWB2TxtndyTs1sZ8WmIFD44Fj/vSWUBn8e38f9r3luovI+R8XA3j5LcGI466KIx5h8s7aG5yJT7wLX3yC2Uqj7Lsk0u1jakbr7I5ciGVOvH/JAl4Kn58n5x2cRd/laGhcOpHF9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778225386; c=relaxed/simple;
-	bh=ZgrXGqpaDT/J0urZZBGJCBmmlHto5IvLWqZnYCnml38=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r+d8/LYcnFeclhWOSvhHHSWBP/u8CdZEawFI5SBcOW5WspkhKdkeAQhDXEnYZXcWmizeXtgyVfbfhR8Bg0kfnO7P+VzFU0F/1BjVKMqCH/I9icFU4lD6lu5ySne89CqIznp8rWvtvjNgt0qc1CgJ536CdMYmVOwZuERFS3wRaRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KcVrs3p+; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778226439; c=relaxed/simple;
+	bh=VX0XzmygCP006w30fb/t3PlZoR7eIn8pG4f57T93yMM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GWvHrCEQNtVcALDEJYaexcG4jC2kvbEsY7jp+XM6PrX4m0WNlxo3084xOOoCvgd+naJ4bjYPSyDUlT0YZiTpySU3al6SD9xhKrJi7shV22LRIDkh/GfDskNNWL2IewYZMal5YU01oY2nE6BkVVNNoC2GJKisDaVakgpz+nKoTus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ewXSNaom; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KcVrs3p+"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ba17c8cfacso17157105ad.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 00:29:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778225381; x=1778830181; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1sGrET6MfLhRsKAL/g+VL/AvixebTV1us/He7UBP6No=;
-        b=KcVrs3p+Jxbp5Gfp1WNs3/1mFstCczFytmXFszqw3B/++s45NBZ/j4whTSMArqzTTU
-         GqEAqJEf6XCpOqxgbuObKzK+Dssz095nqvU94RzleSK2QAwuZQtCyzl7hzHJ13Uz3XPZ
-         Cfv1dN5Ko0+BQfzl6Mw3kulWLDk46KQAbivVCc5rH28AxZ9umQJRPpDAxtmzA5vsEWNm
-         fU+i2MesHmBnMIYyNAMBPXnmSPDW7iw9I5tnTMuu/eCmsx1EYm1y8Yo+mfg3fzOi7+bE
-         n78iEl+lOliZSp9VLr4SCjeIOmy6xFpnWytsv8HV1E2TT4r7MQF8vyGpkePhyNubxxg/
-         JXAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778225381; x=1778830181;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1sGrET6MfLhRsKAL/g+VL/AvixebTV1us/He7UBP6No=;
-        b=BgnBHDFXycbHTg5CrtiExe4jUoiF6hgPkm65uYPPMFfFbizKldmtXReZdNHtSIUx5W
-         C7Mo0f68fW7r8Eh7U6Vd0DrKijDdvdQch19y0Ys2KpPEEKSPFpJRwKsY99biw9C8Jj6b
-         EPotkEaZaBkl6ruIYQKaE/Q2/hVv7PPg7ipX5Tm0yMAlN7j2VFrAvUG11Z1yODEA2l+C
-         EblS2MwrOvLowbHDExHZdo8djVow5cgFJ+lzQSLFadxdF/fqwz4tE5pa0ranBaRxCoN/
-         0cUuBqibWgg6r5AX3NuNzntB9ivrYElWZ/8v9+6t2dK/iKCVCe6yJQ7lajan6eKLZjXR
-         Ri2w==
-X-Gm-Message-State: AOJu0Yws6c6M59MW3OrmDhLA8Tul+00rk1Z742/rMmNx53jhFI83j6kJ
-	4H9wf40GLIt2nK2kmqthAjFZhOq5RPl/5T5oZ5rUSvXqNAkWZWPv88qy
-X-Gm-Gg: Acq92OGY2llL9c9jGIKYXSJ4/T6dumomagu7FnWTWtNlgUI6ehCNWOnSo1OSiN5gv4Y
-	B+u5OpgEp52bdX3kAi9tdcfvBCfKbzZ1F57sHAwK1eO3fpwWG5OWU2oHcBm34XNXPJ4IMU3T71j
-	yIrDm4HRFecakM6we9+jtNndHn4LRwnmGZ5TPYWDK1XOJd8YjDDW5kj+3cNlcgZD8g3E6cCa0uY
-	d022fGet+0K2047A27EP4QcaA/mWp1o+Nl51AwBJCQLp4VxJTxOHXOy+rSmS06IfHGxdfSjeI6q
-	5/E3kwnPthnwSm0K25t8FXgDCNeMZpwjVasZ8KAKBA0r323aWtk2TnHZmZBY0Xw2+s6xkGLSofc
-	Gak2ye8S8GymN3Pv85UpRimnybFGTb2IKQrDgQ+9QKKn1i/FMSHkOeAEkRoiTeN/LtGT6r/dnMk
-	w+4XkH7/+H1RoBbQG5XGJ1S8vHDtQQuhPTjWOAvZ1LQEm8jZaNIe8XK7fgAQ==
-X-Received: by 2002:a17:903:2f07:b0:2b2:4fcc:2687 with SMTP id d9443c01a7336-2ba79bf5da9mr125351735ad.31.1778225380496;
-        Fri, 08 May 2026 00:29:40 -0700 (PDT)
-Received: from DESKTOP-MOQC9AF.mioffice.cn ([43.224.245.246])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e35632sm12053365ad.53.2026.05.08.00.29.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 00:29:40 -0700 (PDT)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ewXSNaom"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778226432;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3ywAzvaNWn4c6wjdRn8PKJu6vnrjvK/OKJzqJA8I7cw=;
+	b=ewXSNaomo+/VRA3wetbuDv59SQT1taIzdio5CEahqiCz4zhct+/v18Re0BtsLAuGdvyGxE
+	B9Fn3h+8B6UTstuCfEXlLMJbXwvumE7KhHFX9T9NMPrhp+T6aNglDmsxIgX9qKdcns2t91
+	qQ3MG3ZjU2BcYoTu8TbBcS/+tTpXuTU=
+From: Lance Yang <lance.yang@linux.dev>
+To: ziy@nvidia.com
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	willy@infradead.org,
+	songliubraving@fb.com,
+	clm@fb.com,
+	dsterba@suse.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	ljs@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	Liam.Howlett@oracle.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	linux-btrfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Zhan Xusheng <zhanxusheng@xiaomi.com>
-Subject: [PATCH v2] ntfs: fix missing kstrdup() error check in ntfs_write_volume_label()
-Date: Fri,  8 May 2026 15:29:34 +0800
-Message-ID: <20260508072934.75939-1-zhanxusheng@xiaomi.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CANFS6bYFbn_z7f3Maxze0GsZbsHnV7kS=q-gLw0U3Bwf+75s_g@mail.gmail.com>
-References: <CANFS6bYFbn_z7f3Maxze0GsZbsHnV7kS=q-gLw0U3Bwf+75s_g@mail.gmail.com>
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 13/14] mm/khugepaged: enable clean pagecache folio collapse for writable files
+Date: Fri,  8 May 2026 15:46:43 +0800
+Message-Id: <20260508074643.55548-1-lance.yang@linux.dev>
+In-Reply-To: <20260429153538.727855-9-ziy@nvidia.com>
+References: <20260429153538.727855-9-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-ntfs_write_volume_label() does not check the return value of
-kstrdup().  If the allocation fails, vol->volume_label is set to
-NULL while the function returns success.  A subsequent
-FS_IOC_GETFSLABEL then returns an empty string even though the
-on-disk label was updated correctly.
 
-Fix by allocating the new label before taking vol_ni->mrec_lock and
-updating any on-disk metadata, so an -ENOMEM from kstrdup() leaves
-both the in-memory and on-disk labels untouched and consistent.  On
-success the preallocated copy replaces the old vol->volume_label.
-Also move mark_inode_dirty_sync() into the success path so that it
-is not called when no metadata was actually modified.
+On Wed, Apr 29, 2026 at 11:35:36AM -0400, Zi Yan wrote:
+>collapse_file() is capable of collapsing pagecache folios from writable
+>files to PMD folios. Now enable clean pagecache folio collapse in addition
+>to read-only pagecache folio collapse by removing the
+>inode_is_open_for_write() from file_thp_enabled() and only performing
+>filemap_flush() if the file is read-only.
+>
+>This means userspace needs to explicitly flush the content of pagecache
+>folios before khugepaged can collapse the folios, or use
+>madvise(MADV_COLLAPSE), which does the flush in the retry. The reason is
+>that blindly enabling dirty pagecache folio from writable files collapse
+>makes khugepaged flush these folios all the time. It is undesirable to
+>cause system level pagecache flushes.
+>
+>To properly support dirty pagecache folio collapse, filemap_flush() needs
+>to be avoided. Potentially, merging associated buffer instead of dropping
+>it with filemap_release_folio() might be needed.
+>
+>NOTE: this breaks khugepaged selftests for writable file pagecache
+>collapse, which is set to fail all the time. The next commit fix it.
+>
+>Signed-off-by: Zi Yan <ziy@nvidia.com>
+>---
+> mm/huge_memory.c | 2 +-
+> mm/khugepaged.c  | 9 ++++++++-
+> 2 files changed, 9 insertions(+), 2 deletions(-)
+>
+>diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>index 9b3abb98a7e51..e1e9d59db6e70 100644
+>--- a/mm/huge_memory.c
+>+++ b/mm/huge_memory.c
+>@@ -97,7 +97,7 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
+> 	if (!mapping_pmd_folio_support(vma->vm_file->f_mapping))
+> 		return false;
+> 
+>-	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
+>+	return S_ISREG(inode->i_mode);
+> }
+> 
+> /* If returns true, we are unable to access the VMA's folios. */
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index 1ee15b48962a3..fb7ff643973cc 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+>@@ -2345,7 +2345,14 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+> 				 * forcing writeback in loop.
+> 				 */
 
-Fixes: 6251f0b0de7d ("ntfs: update super block operations")
-Suggested-by: Hyunchul Lee <hyc.lee@gmail.com>
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
----
- fs/ntfs/super.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+Nit: the comment above now looks stale. It still says:
 
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index 22dc7865eca7..ba99c497ee38 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -413,6 +413,7 @@ int ntfs_write_volume_label(struct ntfs_volume *vol, char *label)
- {
- 	struct ntfs_inode *vol_ni = NTFS_I(vol->vol_ino);
- 	struct ntfs_attr_search_ctx *ctx;
-+	char *new_label;
- 	__le16 *uname;
- 	int uname_len, ret;
- 
-@@ -425,7 +426,7 @@ int ntfs_write_volume_label(struct ntfs_volume *vol, char *label)
- 		return uname_len;
- 	}
- 
--	if (uname_len  > NTFS_MAX_LABEL_LEN) {
-+	if (uname_len > NTFS_MAX_LABEL_LEN) {
- 		ntfs_error(vol->sb,
- 			   "Volume label is too long (max %d characters).",
- 			   NTFS_MAX_LABEL_LEN);
-@@ -433,11 +434,22 @@ int ntfs_write_volume_label(struct ntfs_volume *vol, char *label)
- 		return -EINVAL;
- 	}
- 
-+	/*
-+	 * Allocate the in-memory label copy up front. If kstrdup() fails we
-+	 * bail out before touching on-disk metadata, so the in-memory label
-+	 * and the on-disk label stay in sync.
-+	 */
-+	new_label = kstrdup(label, GFP_KERNEL);
-+	if (!new_label) {
-+		kvfree(uname);
-+		return -ENOMEM;
-+	}
-+
- 	mutex_lock(&vol_ni->mrec_lock);
- 	ctx = ntfs_attr_get_search_ctx(vol_ni, NULL);
- 	if (!ctx) {
- 		ret = -ENOMEM;
--		goto  out;
-+		goto out;
- 	}
- 
- 	if (!ntfs_attr_lookup(AT_VOLUME_NAME, NULL, 0, 0, 0, NULL, 0,
-@@ -450,12 +462,14 @@ int ntfs_write_volume_label(struct ntfs_volume *vol, char *label)
- out:
- 	mutex_unlock(&vol_ni->mrec_lock);
- 	kvfree(uname);
--	mark_inode_dirty_sync(vol->vol_ino);
- 
- 	if (ret >= 0) {
- 		kfree(vol->volume_label);
--		vol->volume_label = kstrdup(label, GFP_KERNEL);
-+		vol->volume_label = new_label;
-+		mark_inode_dirty_sync(vol->vol_ino);
- 		ret = 0;
-+	} else {
-+		kfree(new_label);
- 	}
- 	return ret;
- }
--- 
-2.43.0
+"There won’t be new dirty pages."
 
+That was true when file_thp_enabled() rejected writable-open files, but
+not after this patch ;)
+
+Otherwise, LGTM.
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
+
+> 				xas_unlock_irq(&xas);
+>-				filemap_flush(mapping);
+>+				/*
+>+				 * Only flush for read-only files. Writable
+>+				 * files can have their folios dirty at any
+>+				 * time; blindly flushing them would cause
+>+				 * undesirable system-wide writeback.
+>+				 */
+>+				if (!inode_is_open_for_write(mapping->host))
+>+					filemap_flush(mapping);
+> 				result = SCAN_PAGE_DIRTY_OR_WRITEBACK;
+> 				goto xa_unlocked;
+> 			} else if (folio_test_writeback(folio)) {
+>-- 
+>2.53.0
+>
+>
