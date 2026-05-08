@@ -1,244 +1,118 @@
-Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02222F4A18
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 17:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D328421EE4;
+	Fri,  8 May 2026 17:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778261812; cv=none; b=VlSP7zesX58+0wR1EUBwHJzZpXJ0nC3x6m4AY6H5dYEueN3dUERGjUM8+fcms/ysj3mqWOgX3y/HoO+FEyZKKr0UmLGdVtQQ6gtDAx1y6cPwhBgn/6X42t0PhDXtMldjSeXBwvrKeI18T1syTAacwNPNucMH2T+r78e84BEq/fk=
+	t=1778262065; cv=none; b=g5MaVOmbdS96/Uw9bf23iHm8M2FWK20wF39JotoYfcIW7hERCasRvCuCiW744JR0UP7a8Pgajh0rO944GChw2ZrUW7a22viQkb8CZ+Vmm3p49ctosEDrRI0DWeuGtZJ9UF9occeRsn532QTmZLRNNvb7Jt1rmybFAZpesc0VQjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778261812; c=relaxed/simple;
-	bh=3zWJyKs3KACWzczwpPCufRtipMTJCgItkIObQl3U6yA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jWb6tAXlf1AjVrGqqOZkjex5A1QUtQV0mp9+E1ShCLJs6iPwXVOT7xMIixnMOz0eZbiKbpKxd8sd8pTfutCGzezGxFLGCDqheOvukdQDyOnWDeGjDfR951Zh42FxwdpoeiGZaivyo+AMXLCbqxhl4geEdg5096cpYk8HrkandRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (204-141-067-156.ip-addr.inexio.net [156.67.141.204])
-	by smtp03-ext2.udag.de (Postfix) with ESMTPA id D969EE03DF;
-	Fri,  8 May 2026 19:29:44 +0200 (CEST)
-Authentication-Results: smtp03-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Fri, 8 May 2026 19:29:44 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fuse: add fusex filesystem
-Message-ID: <af4clh11ik-DYbiF@fedora.fritz.box>
-References: <20260429102058.1362965-1-mszeredi@redhat.com>
+	s=arc-20240116; t=1778262065; c=relaxed/simple;
+	bh=m6d49qXRXl06RFwK6IQO1C2DpYFBSBX8sil9W1AqFoA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=EIQugZKlrrDmJGWIdaB1NBC+nYb6zGwcxnBE0XFAEgkXmQeC4mHowHrjfEQgjGBknKuu4RUZL8jWhBeVskA5v8ZngSOenTY4ey0p/owWorPKTFBo/jJK8ggfvb23FcidTeSM+ZFmaKRvIoVKGtyDu8Jexe/6IY+c7XjTRutehGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FtLX8Ee2; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FtLX8Ee2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=c4XzaOg7HOldvBJBPqmFDK1R7qTAK0U4wLJ/ZbVHYp0=; b=FtLX8Ee2NkKGkKFmjwucrwClCT
+	7PHN/9RqycqXI34+VLb2gfLWjzsnVGPL6PRKWVCluK583upFPQojR8KB270++IPwvGcLnc8weqdfF
+	OiM7oADRA7qgJifHJFM1j509Ixv/BdVMZTEqbcQa+mRZEHt4QpK/r+sldD/V86w/nvOpqs0fBTVJj
+	yoerdZKyoZHZDii3uQdydJprd+EDFAhxRO5thYRw625+DMUNCB8z+AQikQEcsGZzIt3rKdufx01s7
+	lRU4qwmGtq+E6wzpoFnL2J2WoXcOHD41/2wuiom2J4kJm8/1Wnl0AweRHjZvvvhn8c8Tko9/rbEVV
+	fsXdWZGQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wLPC1-00000007Aci-0wQz;
+	Fri, 08 May 2026 17:40:53 +0000
+Message-ID: <5f68ac30-21ac-494b-a140-2307e236f0a2@infradead.org>
+Date: Fri, 8 May 2026 10:40:49 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260429102058.1362965-1-mszeredi@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] docs: fix repeated word 'that' across documentation
+To: Shuah Khan <skhan@linuxfoundation.org>,
+ Adrien Reynard <reynard.adrien.08@gmail.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ "open list:READ-COPY UPDATE (RCU)" <rcu@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS"
+ <driver-core@lists.linux.dev>,
+ "open list:FILESYSTEMS [NETFS LIBRARY]" <netfs@lists.linux.dev>,
+ "open list:FILESYSTEMS [NETFS LIBRARY]" <linux-fsdevel@vger.kernel.org>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>
+References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
+ <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 29, 2026 at 12:20:57PM +0200, Miklos Szeredi wrote:
-> This stands for "fuse extended/experimental".
-> 
-> The purpose is to provide a clean base for big features like the FUSE_IOMAP
-> api.
-> 
-> It's also a good way to try new stuff like file handles and compound
-> requests without the risk of breaking something in the large and complex
-> fuse codebase.
-> 
-> Whether these features will be migrated back into the main fuse codebase,
-> or fusex is going to end up as a major version update is still up in the
-> air.
-> 
-> Major differences from regular fuse:
-> 
->  - local filesystem mode only
->  - only synchronous FUSE_INIT is supported
->  - only no-open mode
->  - new requests:
->    + FUSE_LOOKUP_ROOT - return nodeid of root
->    + FUSE_LOOKUPX - FUSE_LOOKUP without the getattr
->    + FUSE_MKOBJX - merged FUSE_MKNOD, MKDIR, SYMLINK and TMPFILE
->    + FUSE_SETSTATX - extended version of FUSE_SETATTR
-> 
-> Missing features:
-> 
->  - file handles / export ops
->  - compound requests
->  - xattr caching
->  - fileattr
->  - fiemap
->  - ioctl
->  - copy_file_range
->  - lazy dir open
-> 
-> Test server can be found at:
-> 
->   https://github.com/szmi/fuse-utils
-> 
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
-> 
-> Patch is against
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#for-next
-> 
->  fs/fuse/Makefile          |    2 +-
->  fs/fuse/args.h            |    1 +
->  fs/fuse/dev.c             |   13 +-
->  fs/fuse/dir.c             |    4 +-
->  fs/fuse/fuse_i.h          |    8 +
->  fs/fuse/fusex.c           | 1751 +++++++++++++++++++++++++++++++++++++
->  fs/fuse/fusex.h           |    4 +
->  fs/fuse/inode.c           |   16 +-
->  include/uapi/linux/fuse.h |   36 +
->  9 files changed, 1826 insertions(+), 9 deletions(-)
->  create mode 100644 fs/fuse/fusex.c
->  create mode 100644 fs/fuse/fusex.h
-> 
-> diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
-> index 245e67852b03..d9963e411b62 100644
-> --- a/fs/fuse/Makefile
-> +++ b/fs/fuse/Makefile
-> @@ -12,7 +12,7 @@ obj-$(CONFIG_VIRTIO_FS) += virtiofs.o
->  
->  fuse-y := trace.o	# put trace.o first so we see ftrace errors sooner
->  fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o req_timeout.o req.o
-> -fuse-y += poll.o notify.o
-> +fuse-y += poll.o notify.o fusex.o
->  fuse-y += iomode.o
->  fuse-$(CONFIG_FUSE_DAX) += dax.o
->  fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o backing.o
-> diff --git a/fs/fuse/args.h b/fs/fuse/args.h
-> index ecfe51a192af..1c1e0a25ea07 100644
-> --- a/fs/fuse/args.h
-> +++ b/fs/fuse/args.h
-> @@ -35,6 +35,7 @@ struct fuse_args {
->  	bool out_pages:1;
->  	bool user_pages:1;
->  	bool out_argvar:1;
-> +	bool out_var_alloc:1;
->  	bool page_zeroing:1;
->  	bool page_replace:1;
->  	bool may_block:1;
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 6fe0d8c263df..134572b1a9af 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -1847,15 +1847,24 @@ int fuse_copy_out_args(struct fuse_copy_state *cs, struct fuse_args *args,
->  
->  	reqsize += fuse_len_args(args->out_numargs, args->out_args);
->  
-> -	if (reqsize < nbytes || (reqsize > nbytes && !args->out_argvar))
-> +	if (reqsize < nbytes)
->  		return -EINVAL;
-> -	else if (reqsize > nbytes) {
-> +
-> +	if (args->out_argvar) {
->  		struct fuse_arg *lastarg = &args->out_args[args->out_numargs-1];
->  		unsigned diffsize = reqsize - nbytes;
->  
->  		if (diffsize > lastarg->size)
->  			return -EINVAL;
->  		lastarg->size -= diffsize;
-> +
-> +		if (args->out_var_alloc) {
-> +			lastarg->value = kvmalloc(lastarg->size, GFP_KERNEL);
-> +			if (!lastarg->value)
-> +				return -ENOMEM;
-> +		}
-> +	} else if (reqsize > nbytes) {
-> +		return -EINVAL;
->  	}
->  	return fuse_copy_args(cs, args->out_numargs, args->out_pages,
->  			      args->out_args, args->page_zeroing);
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index be41c14ef329..cbe0d4b65d49 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -542,7 +542,7 @@ int fuse_valid_type(int m)
->  		S_ISBLK(m) || S_ISFIFO(m) || S_ISSOCK(m);
->  }
->  
-> -static bool fuse_valid_size(u64 size)
-> +bool fuse_valid_size(u64 size)
->  {
->  	return size <= LLONG_MAX;
->  }
-> @@ -2485,7 +2485,7 @@ static int fuse_symlink_read_folio(struct file *null, struct folio *folio)
->  	return err;
->  }
->  
-> -static const struct address_space_operations fuse_symlink_aops = {
-> +const struct address_space_operations fuse_symlink_aops = {
->  	.read_folio	= fuse_symlink_read_folio,
->  };
->  
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 3a7ac74a23ed..fe66281b7554 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -69,6 +69,9 @@ extern struct mutex fuse_mutex;
->  extern unsigned int max_user_bgreq;
->  extern unsigned int max_user_congthresh;
->  
-> +extern struct kmem_cache *fuse_inode_cachep;
-> +extern const struct address_space_operations fuse_symlink_aops;
-> +
->  struct fuse_forget_link;
->  
->  /**
-> @@ -911,6 +914,8 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
->  int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name,
->  		     struct fuse_entry_out *outarg, struct inode **inode);
->  
-> +void fuse_umount_begin(struct super_block *sb);
-> +
->  /*
->   * Initialize READ or READDIR request
->   */
-> @@ -1102,6 +1107,7 @@ void fuse_ctl_remove_conn(struct fuse_conn *fc);
->   * Is file type valid?
->   */
->  int fuse_valid_type(int m);
-> +bool fuse_valid_size(u64 size);
->  
->  bool fuse_invalid_attr(struct fuse_attr *attr);
->  
-> @@ -1204,6 +1210,8 @@ struct posix_acl *fuse_get_acl(struct mnt_idmap *idmap,
->  int fuse_set_acl(struct mnt_idmap *, struct dentry *dentry,
->  		 struct posix_acl *acl, int type);
->  
-> +void fuse_convert_statfs(struct kstatfs *stbuf, struct fuse_kstatfs *attr);
-> +
->  /* readdir.c */
->  int fuse_readdir(struct file *file, struct dir_context *ctx);
->  
-> diff --git a/fs/fuse/fusex.c b/fs/fuse/fusex.c
-> new file mode 100644
-> index 000000000000..98e239e7e00e
-> --- /dev/null
-> +++ b/fs/fuse/fusex.c
-> @@ -0,0 +1,1751 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include "fusex.h"
-> +#include "dev.h"
-> +#include "fuse_i.h"
-> +
-> +#include <linux/fs_context.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/xxhash.h>
-> +#include <linux/pagemap.h>
-> +#include <linux/exportfs.h>
-> +#include <linux/iversion.h>
-> +#include <linux/posix_acl_xattr.h>
-> +#include <linux/statfs.h>
-> +#include <linux/falloc.h>
-> +#include <linux/fs_parser.h>
-> +
 
-I think you're missing 
-#include <uapi/linux/magic.h>
-here for FUSE_SUPER_MAGIC
+
+On 5/8/26 10:15 AM, Shuah Khan wrote:
+> On 5/8/26 10:37, Adrien Reynard wrote:
+> 
+> Missing commit log in all your patches - I don't patch 1/5 in
+> my Inbox.
+> 
+>> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
+>> ---
+>>   Documentation/RCU/rcu.rst                          | 2 +-
+>>   Documentation/driver-api/driver-model/overview.rst | 2 +-
+>>   Documentation/filesystems/netfs_library.rst        | 2 +-
+>>   Documentation/trace/histogram-design.rst           | 2 +-
+>>   Documentation/trace/histogram.rst                  | 2 +-
+>>   5 files changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
+>> index bf6617b330a7..320ad3292b75 100644
+>> --- a/Documentation/RCU/rcu.rst
+>> +++ b/Documentation/RCU/rcu.rst
+>> @@ -32,7 +32,7 @@ Frequently Asked Questions
+>>     Just as with spinlocks, RCU readers are not permitted to
+>>     block, switch to user-mode execution, or enter the idle loop.
+>>     Therefore, as soon as a CPU is seen passing through any of these
+>> -  three states, we know that that CPU has exited any previous RCU
+>> +  three states, we know that CPU has exited any previous RCU
+> 
+> The original intent might have been to say, "that cpu", so adding
+> the missing comma after the first "that" or change "that" to "the"
+> would make sense.
+
+Not a comma, please.
+I don't see a problem with "that that," but "that the" could also be OK.
+
+> 
+> 
+>>     read-side critical sections.  So, if we remove an item from a
+>>     linked list, and then wait until all CPUs have switched context,
+>>     executed in user mode, or executed in the idle loop, we can
+
+
+-- 
+~Randy
 
