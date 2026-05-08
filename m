@@ -1,149 +1,52 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6451E37D128
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 07:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E29622759C;
+	Fri,  8 May 2026 08:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778226439; cv=none; b=B0MJ/1akcLKQKiqw2xdlhd+3U+PagQ/mOkXSYWB2TxtndyTs1sZ8WmIFD44Fj/vSWUBn8e38f9r3luovI+R8XA3j5LcGI466KIx5h8s7aG5yJT7wLX3yC2Uqj7Lsk0u1jakbr7I5ciGVOvH/JAl4Kn58n5x2cRd/laGhcOpHF9Q=
+	t=1778227933; cv=none; b=ia7Nc0HnFF5kv4QECu9+Xy53zUnwGmI9lCjgOqyE4BzPnSFvILUPVUwOJxz3RW5/qQlmQOYhdtrTbLzz5KtYUi3Oi/9aOW2RaIMPMCttcAS2RzAeQI04KDukC3tykWVJCLXhj1CqaUC1g4H0jnl9ndCv/xlUnPV/wwe7kf/fbdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778226439; c=relaxed/simple;
-	bh=VX0XzmygCP006w30fb/t3PlZoR7eIn8pG4f57T93yMM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GWvHrCEQNtVcALDEJYaexcG4jC2kvbEsY7jp+XM6PrX4m0WNlxo3084xOOoCvgd+naJ4bjYPSyDUlT0YZiTpySU3al6SD9xhKrJi7shV22LRIDkh/GfDskNNWL2IewYZMal5YU01oY2nE6BkVVNNoC2GJKisDaVakgpz+nKoTus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ewXSNaom; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ewXSNaom"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778226432;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ywAzvaNWn4c6wjdRn8PKJu6vnrjvK/OKJzqJA8I7cw=;
-	b=ewXSNaomo+/VRA3wetbuDv59SQT1taIzdio5CEahqiCz4zhct+/v18Re0BtsLAuGdvyGxE
-	B9Fn3h+8B6UTstuCfEXlLMJbXwvumE7KhHFX9T9NMPrhp+T6aNglDmsxIgX9qKdcns2t91
-	qQ3MG3ZjU2BcYoTu8TbBcS/+tTpXuTU=
-From: Lance Yang <lance.yang@linux.dev>
-To: ziy@nvidia.com
-Cc: akpm@linux-foundation.org,
-	david@kernel.org,
-	willy@infradead.org,
-	songliubraving@fb.com,
-	clm@fb.com,
-	dsterba@suse.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	ljs@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	Liam.Howlett@oracle.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	shuah@kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 13/14] mm/khugepaged: enable clean pagecache folio collapse for writable files
-Date: Fri,  8 May 2026 15:46:43 +0800
-Message-Id: <20260508074643.55548-1-lance.yang@linux.dev>
-In-Reply-To: <20260429153538.727855-9-ziy@nvidia.com>
-References: <20260429153538.727855-9-ziy@nvidia.com>
+	s=arc-20240116; t=1778227933; c=relaxed/simple;
+	bh=OJRMt2tYOgvhkjjDt2AWOGD/eZEwihXaHy8mSL/WQlY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tFzgH+xQgTQV/2Xsb0b8uLagIDaAkIhEToTAYNsbHcPhGyz4vW7GQ7Fi6fnlrOabm3F36OF1sKyrt1Je9btCZRFvsWOzPneXQUEVp/D/floaxaLklk0fDpYBwZu5EK9uhSG9WV4G0yfhx+8D8bwHLAV0HbkrS4Lh51kd/DMyD0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B6C0A68BFE; Fri,  8 May 2026 10:12:09 +0200 (CEST)
+Date: Fri, 8 May 2026 10:12:09 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-block@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] block: pass a minsize argument to
+ bio_iov_iter_bounce
+Message-ID: <20260508081209.GB19748@lst.de>
+References: <20260507050153.1298375-1-hch@lst.de> <20260507050153.1298375-2-hch@lst.de> <7a24ulsyoczubsjc2y4rkv7tkgqzpo7ehkkljdytyo6tzqdw24@avwve4kr7tzy>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7a24ulsyoczubsjc2y4rkv7tkgqzpo7ehkkljdytyo6tzqdw24@avwve4kr7tzy>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-
-On Wed, Apr 29, 2026 at 11:35:36AM -0400, Zi Yan wrote:
->collapse_file() is capable of collapsing pagecache folios from writable
->files to PMD folios. Now enable clean pagecache folio collapse in addition
->to read-only pagecache folio collapse by removing the
->inode_is_open_for_write() from file_thp_enabled() and only performing
->filemap_flush() if the file is read-only.
->
->This means userspace needs to explicitly flush the content of pagecache
->folios before khugepaged can collapse the folios, or use
->madvise(MADV_COLLAPSE), which does the flush in the retry. The reason is
->that blindly enabling dirty pagecache folio from writable files collapse
->makes khugepaged flush these folios all the time. It is undesirable to
->cause system level pagecache flushes.
->
->To properly support dirty pagecache folio collapse, filemap_flush() needs
->to be avoided. Potentially, merging associated buffer instead of dropping
->it with filemap_release_folio() might be needed.
->
->NOTE: this breaks khugepaged selftests for writable file pagecache
->collapse, which is set to fail all the time. The next commit fix it.
->
->Signed-off-by: Zi Yan <ziy@nvidia.com>
->---
-> mm/huge_memory.c | 2 +-
-> mm/khugepaged.c  | 9 ++++++++-
-> 2 files changed, 9 insertions(+), 2 deletions(-)
->
->diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->index 9b3abb98a7e51..e1e9d59db6e70 100644
->--- a/mm/huge_memory.c
->+++ b/mm/huge_memory.c
->@@ -97,7 +97,7 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
-> 	if (!mapping_pmd_folio_support(vma->vm_file->f_mapping))
-> 		return false;
+On Thu, May 07, 2026 at 01:36:11PM +0200, Pankaj Raghav (Samsung) wrote:
+> On Thu, May 07, 2026 at 07:01:47AM +0200, Christoph Hellwig wrote:
+> > When bouncing for block size > PAGE_SIZE file systems that require
+> > file system block size alignment (e.g. zoned XFS), the bio needs to
+> > be big enough to fit an entire block.
 > 
->-	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
->+	return S_ISREG(inode->i_mode);
-> }
-> 
-> /* If returns true, we are unable to access the VMA's folios. */
->diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->index 1ee15b48962a3..fb7ff643973cc 100644
->--- a/mm/khugepaged.c
->+++ b/mm/khugepaged.c
->@@ -2345,7 +2345,14 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
-> 				 * forcing writeback in loop.
-> 				 */
+> Not related to the patch but I am wondering why we don't need this for
+> non-zoned bs > PS configurations.
 
-Nit: the comment above now looks stale. It still says:
-
-"There won’t be new dirty pages."
-
-That was true when file_thp_enabled() rejected writable-open files, but
-not after this patch ;)
-
-Otherwise, LGTM.
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
-
-> 				xas_unlock_irq(&xas);
->-				filemap_flush(mapping);
->+				/*
->+				 * Only flush for read-only files. Writable
->+				 * files can have their folios dirty at any
->+				 * time; blindly flushing them would cause
->+				 * undesirable system-wide writeback.
->+				 */
->+				if (!inode_is_open_for_write(mapping->host))
->+					filemap_flush(mapping);
-> 				result = SCAN_PAGE_DIRTY_OR_WRITEBACK;
-> 				goto xa_unlocked;
-> 			} else if (folio_test_writeback(folio)) {
->-- 
->2.53.0
->
->
+Because they only require sector size alignment for both read and
+writes.  So I guess we could actually hit it with a large sector size
+and not just fs block size.
