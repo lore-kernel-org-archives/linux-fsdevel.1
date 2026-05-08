@@ -1,176 +1,149 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9F4221DB3;
-	Fri,  8 May 2026 20:14:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABA72EDD7D
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 20:29:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778271241; cv=none; b=kkYPtTDum72NQ8XvKCc626jd71xwbk4kS9TnjZAMtBaJyA5ozdOtAx9L937LKCLd/are55JePb47XNB7iAOWNuXHYXLfUnvJkEbR8I0WSQBL4N+nqZRRoWWQV+cb5tR+hBz1pCkw006zDGucLmT912ty5EOMRLO4AGjHg1lJOkk=
+	t=1778272157; cv=none; b=Zuf5ybOfqijt2dlh//vFgiqy66btsTkffMziBxTX03ohv0Sn4H8Yp18zeTxLOABPrIQct1xF/oZ+niARi0inRmWUqV5sadDntwR6JM5FhzNo4kP8Mx8xPpT6AtUDkviwhdaVUwH6H+0f9mI7y6EMRoc7p/Xp9VYNYp5gLgpUSWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778271241; c=relaxed/simple;
-	bh=hxYgkYjG67gsdnfV7iJptPK6UKCqEsrTTyrjyXlkR1c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eyWEOF1/sgj06Z6Uxx2oJ1KR2D8Gcw0m77QBdT9cGC5DtHXpxQ+NOyjEqNhGGmAJ3PF5oKipGAi+fzR60TjTEf/2460XdwZWShdLbB/ciLNRDxFC26NgsbqtAemKgvLkntnzbINP1Wzwc9d9hxBY5NhpHwzE9SEvZ5/06J7lWpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHtvnfbU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778272157; c=relaxed/simple;
+	bh=LFbJezyej/RamRova8N5zk+E6+LJuk5RpehIIlVX+dE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PLY7Ddzut4S7k0i8oohe6+gTt0OPMyOpM33rrCUQxdlEzjNglb81ROFKXULKIOqTV5wlzsp2LSMzf9Q9q+M3pqN2pRie0RP3/8TUZUeAmUMzZe947BH6sEizVaWI2bG3wXLcRI0EV+ngU/eKnptdCSZMuNux3JVP/2FF4P4pLCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E8as32Q6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHtvnfbU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C735C2BCB0;
-	Fri,  8 May 2026 20:13:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E8as32Q6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C148C2BCFA
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 20:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778271241;
-	bh=hxYgkYjG67gsdnfV7iJptPK6UKCqEsrTTyrjyXlkR1c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LHtvnfbUnAn1itMO5JnsxJvmwUVGU8cIc09e/GNdS5u0N99UZQaOCu1FUn5eHyLFz
-	 kiU1yWY7UdIgcbhFWm7ChdnCjgQoBWHtva/iyb0ZXmrpL7koLNRthngO4y0yswIGhO
-	 gBpNjkIkRCIu4C4olmSvuEFzfuQOYLoXP/evhxI5czz1aKF/LlwtwFCqwQwVLe2HP1
-	 WrQ6sctqlZh29QqtfiYzSuvlvwmjcnEMCegSO4qlxxZlKGVV4pmFzhRgPr2wAvgADU
-	 V/0MOSyp24Uwypku5XAbLe7Gcbntnvmp6eV6HY7xVvKUyKnOp8mtXHsJdL/tnjixjT
-	 M3ekFqMx+v39A==
-Message-ID: <b8a3c3eb-f241-40fe-9121-4ae5a1097807@kernel.org>
-Date: Fri, 8 May 2026 22:13:50 +0200
+	s=k20201202; t=1778272157;
+	bh=LFbJezyej/RamRova8N5zk+E6+LJuk5RpehIIlVX+dE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=E8as32Q6GDztGu2LEQLH14Pw20N6CICvff/6dRyVjQbwjMaTvFS4GVX9RHx2cQVli
+	 Afy9ypcLfZaT6W7hN/VfLGF6RBuU5LbWlpg5MNLO9dCjNxJX5E3vSaXOT1nWK1fET/
+	 IPszMZ/eiQ/6e8gMTXzeIPYAylxfmT5OhHngf2AwLAP+AFVqZdNyw/PhZ6YXQN/0DK
+	 Rw7RxlryN9FkNmODvPPg//0fbitIQWuDiSPKopvL2c7ZHdEwlK6zFDfDsYAUIXtiR1
+	 drtT1TffpxIqGuoTr/Zpq2VWlajM0vJjYBkWNZFXGKbxlV/iQRm9bsqiJkqtanlwae
+	 tLnDGAr3pcjqg==
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8b7f937ef44so14458646d6.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 13:29:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8I2Z6mz04fqsVYixymhux/U2ob5IUjx6SGCYPioEhecNuZgbOA7f35RsYO6QrBy0vtJkHS2FIjZrGoOlWB@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8Rg4aON9qOjGEEglu6lFAV7+TAUFOLTGiz9ZUp4gXLHH0j3jz
+	sMw3hlwBKaX5NqtxLMElP+epYEq0ICEMLIT8Kd3LNLkb3vwVjkz/3TApEokDLv+tVLhYDfXoiFX
+	haqSspx3c0ptIHVcir0cqoThiC2kptio=
+X-Received: by 2002:ad4:5ded:0:b0:8bd:75c2:5528 with SMTP id
+ 6a1803df08f44-8bd75c255c0mr162188686d6.12.1778272155948; Fri, 08 May 2026
+ 13:29:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 13/14] mm/khugepaged: enable clean pagecache folio
- collapse for writable files
-To: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>
-Cc: Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Lorenzo Stoakes <ljs@kernel.org>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-References: <20260429152924.727124-1-ziy@nvidia.com>
- <20260429153538.727855-9-ziy@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260429153538.727855-9-ziy@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260430000315.918964-1-song@kernel.org> <20260430000315.918964-2-song@kernel.org>
+ <CAHC9VhT6YxJQqSkBbSeACFL6+AoL0031u2VT4fuRqPxDkGzSfw@mail.gmail.com>
+In-Reply-To: <CAHC9VhT6YxJQqSkBbSeACFL6+AoL0031u2VT4fuRqPxDkGzSfw@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Fri, 8 May 2026 22:29:02 +0200
+X-Gmail-Original-Message-ID: <CAPhsuW6VqfPGnMqwSu-3EC9suWScOBZDHh16d5Bsg6dcjcB4ww@mail.gmail.com>
+X-Gm-Features: AVHnY4Li5XRpBjwgHrnFV0QsoHxiEid2uDBKSpAKmsfa6C_FEechGcPyhIjAY-8
+Message-ID: <CAPhsuW6VqfPGnMqwSu-3EC9suWScOBZDHh16d5Bsg6dcjcB4ww@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] lsm: Add granular mount hooks to replace security_sb_mount
+To: Paul Moore <paul@paul-moore.com>
+Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	selinux@vger.kernel.org, apparmor@lists.ubuntu.com, jmorris@namei.org, 
+	serge@hallyn.com, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	john.johansen@canonical.com, stephen.smalley.work@gmail.com, 
+	omosnace@redhat.com, mic@digikod.net, gnoack@google.com, 
+	takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	herton@canonical.com, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/29/26 17:35, Zi Yan wrote:
-> collapse_file() is capable of collapsing pagecache folios from writable
-> files to PMD folios. Now enable clean pagecache folio collapse in addition
-> to read-only pagecache folio collapse by removing the
-> inode_is_open_for_write() from file_thp_enabled() and only performing
-> filemap_flush() if the file is read-only.
-> 
-> This means userspace needs to explicitly flush the content of pagecache
-> folios before khugepaged can collapse the folios, or use
-> madvise(MADV_COLLAPSE), which does the flush in the retry. The reason is
-> that blindly enabling dirty pagecache folio from writable files collapse
-> makes khugepaged flush these folios all the time. It is undesirable to
-> cause system level pagecache flushes.
-> 
-> To properly support dirty pagecache folio collapse, filemap_flush() needs
-> to be avoided. Potentially, merging associated buffer instead of dropping
-> it with filemap_release_folio() might be needed.
-> 
-> NOTE: this breaks khugepaged selftests for writable file pagecache
-> collapse, which is set to fail all the time. The next commit fix it.
-> 
-> Signed-off-by: Zi Yan <ziy@nvidia.com>
-> ---
->  mm/huge_memory.c | 2 +-
->  mm/khugepaged.c  | 9 ++++++++-
->  2 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 9b3abb98a7e51..e1e9d59db6e70 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -97,7 +97,7 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
->  	if (!mapping_pmd_folio_support(vma->vm_file->f_mapping))
->  		return false;
->  
-> -	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
-> +	return S_ISREG(inode->i_mode);
->  }
->  
->  /* If returns true, we are unable to access the VMA's folios. */
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 1ee15b48962a3..fb7ff643973cc 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -2345,7 +2345,14 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
->  				 * forcing writeback in loop.
->  				 */
->  				xas_unlock_irq(&xas);
-> -				filemap_flush(mapping);
-> +				/*
-> +				 * Only flush for read-only files. Writable
-> +				 * files can have their folios dirty at any
-> +				 * time; blindly flushing them would cause
-> +				 * undesirable system-wide writeback.
-> +				 */
+On Fri, May 8, 2026 at 1:10=E2=80=AFPM Paul Moore <paul@paul-moore.com> wro=
+te:
+>
+> On Wed, Apr 29, 2026 at 8:03=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+> >
+> > Add six new LSM hooks for mount operations:
+> >
+> > - mount_bind(from, to, recurse): bind mount with pre-resolved
+> >   struct path for source and destination.
+> > - mount_new(fc, mp, mnt_flags, flags, data): new mount, called after
+> >   mount options are parsed. The flags and data parameters carry the
+> >   original mount(2) flags and data for LSMs that need them (AppArmor,
+> >   Tomoyo).
+> > - mount_remount(fc, mp, mnt_flags, flags, data): filesystem remount,
+> >   called after mount options are parsed into the fs_context.
+> > - mount_reconfigure(mp, mnt_flags, flags): mount flag reconfiguration
+> >   (MS_REMOUNT|MS_BIND path).
+> > - mount_move(from, to): move mount with pre-resolved paths.
+> > - mount_change_type(mp, ms_flags): propagation type changes.
+> >
+> > These replace the monolithic security_sb_mount() which conflates
+> > multiple distinct operations into a single hook, and suffers from
+> > TOCTOU issues where LSMs re-resolve string-based dev_name via
+> > kern_path().
+> >
+> > The mount_move hook is added alongside the existing move_mount hook.
+> > During the transition, LSMs register for both hooks. The move_mount
+> > hook will be removed once all LSMs have been converted.
+> >
+> > Some LSMs, such as apparmor and tomoyo, audit the original input passed
+> > in the mount syscall. To keep the same behavior, argument data and flag=
+s
+> > are passed in do_* functions. These can be removed if these LSMs no
+> > longer need these information.
+> >
+> > All new hooks are registered as sleepable BPF LSM hooks.
+> >
+> > Code generated with the assistance of Claude, reviewed by human.
+> >
+> > Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
+> > Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com> # for selin=
+ux only
+> > Signed-off-by: Song Liu <song@kernel.org>
+> > ---
+> >  fs/namespace.c                |  35 ++++++++++--
+> >  include/linux/lsm_hook_defs.h |  12 ++++
+> >  include/linux/security.h      |  50 +++++++++++++++++
+> >  kernel/bpf/bpf_lsm.c          |   7 +++
+> >  security/security.c           | 101 ++++++++++++++++++++++++++++++++++
+> >  5 files changed, 199 insertions(+), 6 deletions(-)
+>
+> ...
+>
+> > @@ -3708,6 +3724,10 @@ static int do_move_mount_old(const struct path *=
+path, const char *old_name)
+> >         if (err)
+> >                 return err;
+> >
+> > +       err =3D security_mount_move(&old_path, path);
+> > +       if (err)
+> > +               return err;
+> > +
+> >         return do_move_mount(&old_path, path, 0);
+> >  }
+>
+> While the security_sb_mount() hook calls into do_move_mount_old(), the
+> security_move_mount() hook calls into do_mount_mount().  As you remove
+> both of these LSM hooks in patch 7/7, should we consider moving the
+> new security_mount_move() into do_move_mount()?  If not, how do we
+> ensure that we don't lose coverage when removing the
+> security_move_mount() hook, or can you explain why it is not needed?
 
-That comment should really be merged in the comment above.
+Patch 7/7 _replaces_ security_move_mount() with security_mount_move()
+in vfs_move_mount().  IOW, security_mount_move() is called from both
+vfs_move_mount() and do_move_mount_old(), so we are not losing any
+coverage. Did I miss something?
 
-Also, there we say "khugepaged only works on read-only fd" ... which is now just
-wrong?
+vfs_move_mount() has a special case (MNT_TREE_PROPAGATION).
+If we move the hook to do_move_mount(), we are missing the coverage
+for this case. Therefore, I think current code as-is is the best design at
+this point.
 
-Please revise that whole comment as you incorporate your comment.
+Does this make sense?
 
-Apart from that I guess this is fine ... or we'll learn rather quickly, haha.
-
--- 
-Cheers,
-
-David
+Thanks,
+Song
