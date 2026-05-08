@@ -1,103 +1,116 @@
-Received: from mail-dy1-f202.google.com (mail-dy1-f202.google.com [74.125.82.202])
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5841FC10C
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 01:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778205266; cv=none; b=hc1oSgEKllAeetEDkKBvTNnEfUrwYykmDJR7ihG1HsyptFl2y9uYFvX4hwhBkrXMNXYatPZK6Cl2GGt8pUuae7O5MQX9jQ/hOBItns/qb04augfKjPI7kTGpq6gFuK6mXo2YTnX3zbvp/6QPwiyCnmyJH/I3sKH4KAwCAJWeg84=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778205266; c=relaxed/simple;
-	bh=JvbD0U0T+bhy9IJj6fXaNvDa29+thTK1djpSTzYkHgw=;
-	h=Date:Mime-Version:Message-ID:Subject:From:Cc:Content-Type; b=JeAu10WOx+c4FFWrHOppcoJqo3tLDQ1TCfJiV1+gfnyqxi0d2BCLr7LutG1xa2lrPKWuEJ9WKiNECuQCi1bDs5HrQWItTDaTbwSbvhyfKAjRFf3Yhm0LCPdgdye6oPCVqjMKOi4EMPUrdjanssOCH1rWQwcEwCTIaidgjvU0WRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DH9fQ94j; arc=none smtp.client-ip=74.125.82.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6811AA797
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 02:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778205701; cv=pass; b=Z8PcCORp6goxpaKDAwnTycLj/gZp6/jUh9tUJrf+ThZORXlRyROB3b8pHBeLDesO6ilVBDg0iQ583OLoFykVXBQzsF+rsvVsLcCcQQF5QASU2s5l4CDgsJDDG+fpXkSd4XjC2CHdqG/oPSqg9CM5Gm0WfeBKdz4NRpJAhfW+v2M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778205701; c=relaxed/simple;
+	bh=1qH18qdpYxAFdRK8nMmKj+a4ErONg5k6uU1EBZJbI9g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ipzgf+ISbs54DQGmcfYx/6ptfio+m4m8vhQgzHEouhBaLcFBK5PUU/32h+BTyrOfM8ddNA2PbxiZGrubdHxEM1lScNCEoVOwsiHE4EkEDhMzMSrLdF6oR441ix9rcKajYlDBkBEvO6utfViEn8UwWcztywA+nxhYuP8CSMq3fhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QHNxT+sw; arc=pass smtp.client-ip=74.125.82.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DH9fQ94j"
-Received: by mail-dy1-f202.google.com with SMTP id 5a478bee46e88-2efc342ef15so2332312eec.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 18:54:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QHNxT+sw"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-126ea4e9697so3568c88.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 19:01:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778205700; cv=none;
+        d=google.com; s=arc-20240605;
+        b=A5Zbgys4QMiswShQSonOzNs1NT4S4+vFcaAQVTPLUCJivmcYeP9K+ls2gM1ax+DIJ0
+         Vr7zPlLY5JSHav/cqnRzQn9/pc0f/ERqwSBBOwC4Itr+DWBR/9JEqjpW8X0rBw3Wz3bo
+         2O4Cg8lj2VMWi47n+q6NhNocSP6cwvJpW60bccuagYTQ+kqrGiaE9YEpXjMu9cDyGmHV
+         5IZHVxoDh15UZa4C3pKbS5HlwfjW1aFD53/nxP3pEJkbtJiZYjpo+Q8aOfh94ItwiZ09
+         MM13IYroxWSzZvOO8SwJ8KYDwFA8XXvn5GP7v0ARL9JzycwUz0KD+EXfi8IqLfCbJppN
+         Nk7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6jsJtIabJmDpsyQAeEg05bOKsXfq/l+0TOvsDmHecoE=;
+        fh=LY5GC2Imbr8OSOSl9RfEn0KXypbcWfprp+POGOCXlaw=;
+        b=PUZjYnTzGd0lc+SMdsuybKXRsuaQHK5D19lp0XGXth2RR+reIO1UVjnQ7uii2hJIev
+         icH0ncmkliCtO6QyY/UEGBMDGS82VWkSXjtJSk6QmVCAMlVtvqV+qiHC+1/M72bkaTDa
+         FwgHvKlIgwJxqX1s6iGrb0xbnp+ebAYYvwERdxUd3NCw5bNTdH6WDTL98KdZDSiqXOwj
+         wZgK3l5e8XiY3E2+Zm8CNJyE806nFSV67a1P+ITwcL2krcTWEtWr1b6Tjx1TQrKf2GuV
+         OeShitv0Ymx4elIYIhQrKYzi4qXN8GNkm9s5DCITB71dt1ip7jWxRLveuEfxEGVLu+mO
+         Mo8A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778205264; x=1778810064; darn=vger.kernel.org;
-        h=cc:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nDCNoZ6k2LKNRaJd57QrXwFLyWNzjd5ZsttzB1Naw58=;
-        b=DH9fQ94j/vmH8gtjjZEEozd4FIP8es8vfu6caveYEJOARiW/TkWe3r6Wp4CjXL4LZ1
-         sYwQHxQ4J2cXHFZt5trf6w27XkfyMdmQJFIM1qV2/dWD7oEsATVSo/qlbhvlpcjYeg/O
-         pTvs3F+mKYfIbFSqv1V+Nsu1S4XFFkiUZ57sVZs0Ksaoz+9UZz2eheV1saZdA77+XGxS
-         Rnvx9Kt7knMCMiwW4Y8ZyF9ESQ2KKF/z4PUonyvghAFqWqr9NN6ymmdlyZxvvyHUafuw
-         HpE/7NhyIR9habje65gdGWufBCDoJHf/OkfJbTYDtL70t5Ig7cJvIdlSIymoWCmc7tmk
-         UWYQ==
+        d=google.com; s=20251104; t=1778205700; x=1778810500; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6jsJtIabJmDpsyQAeEg05bOKsXfq/l+0TOvsDmHecoE=;
+        b=QHNxT+swISpkBYz3xKHb+VF5WA951AH/HrmJ4qasEhJTxyUoqD24EzBjb9tDP2XcIA
+         RcErwmz7kihV4kC69FMqmg3OgZdPJa0n/aU+jaVJ6X5tOMS0//g5fBgdaQik8ory4byd
+         NBAm9IhORi5caUR3thLPBw1tsXc2nSo1vvXzXm8uFGM756S+pFg5lkdpGp+QondHvkEb
+         f93VNTBeQrNrVQcAlEm4fTtAqr7PaBKmmuG8ifbOS2eCNOTNburdmg9WfLVmsBqNkdXn
+         yARdHhFZbdw3Suz+B2FfkUfQ4wN2D02T+7sWBDmSA8uzKelIrxKdhSXxKV0Sq8FW/EZV
+         d5WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778205264; x=1778810064;
-        h=cc:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nDCNoZ6k2LKNRaJd57QrXwFLyWNzjd5ZsttzB1Naw58=;
-        b=Q4ijkEUdVg2wfEop/r2mmg6M8nQ2qXlJ4/xfCtbAytk56JQQvEP7ZIhBbICaGNDv8k
-         fNPs0Epe9QP9K3SLOA/XB5ETpRxdfDgDtMozLgPzo05aDgu2/XyJUdDZJIzdnXpMgyM2
-         wA78Onow6FKnCciVJ4c5MHYscxBk/6o0oPOOI2W93MTJe8rR+sq+y0nb4TGKT7L6hK2f
-         RInfhRwd4IC7JynVCKnSjbSyPt499U2wqxgPdzrMNoyVDxMLTpowY0xWPOytsxVlxlrk
-         Mizj+ro2jFQLUsIQAzrekLATtoH2b97XNuLBUrwHvy2BGtad5qCL4YIhkMip+1bJF2in
-         /Nhw==
-X-Forwarded-Encrypted: i=1; AFNElJ9tXGr5YmIgto1jsty62tx2qJbiRDn4kKNEhRXXSVHzs2SLXQxTXLDnSSSQuGRR7EoEojeUP6ydBEJLI7sj@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+wUTKtMe+OIsnWktCBtMHNSgWWPPrtVjvpKdXPuibfT0KWvxo
-	543WOvRRHs+2iIRURyS3qtE8bIFA/lvBwrgqthbLLASzmf3BBKHkn9/Q8tVh6q14DSruqWdMBQD
-	TM94BRA==
-X-Received: from dlbep12.prod.google.com ([2002:a05:7022:108c:b0:12d:c585:f600])
- (user=fmayle job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:7a6:b0:128:d9a1:b68b
- with SMTP id a92af1059eb24-131a69ece6bmr5011504c88.33.1778205263925; Thu, 07
- May 2026 18:54:23 -0700 (PDT)
-Date: Thu,  7 May 2026 18:53:57 -0700
+        d=1e100.net; s=20251104; t=1778205700; x=1778810500;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6jsJtIabJmDpsyQAeEg05bOKsXfq/l+0TOvsDmHecoE=;
+        b=ZIWMABFW3v5hXgT0C4jIwb6fVOBR5uWvDeBTHf2qm6XWkj76k3bqqwTPcWPbk4Mvs4
+         xH6POBlCYd5adc9tuZmvtj9bbhD7wyoEUN27wnc/sU7xEPkcjSIk+5pVPdKiLS+V7ZXG
+         MFRGG/mgX4XLctNtYYDSxtBvmcJjWuzqB7EFw6+ec253AwpyF4Xl5lyvCEwlJHMaXyOI
+         B/FoiW3NFhIXSrNs99Ylm35YhmQqE0ZUI7mQSIxSBD1Xc00Sa3lyt/0rrp4IN+xO3kv3
+         sw0aKSKF8zidHfmL6cRCIVnhuzTWn42w/PNuRIYfQTeEFhBJ/c5x01WWtqUdG5L5yD4w
+         +DeA==
+X-Forwarded-Encrypted: i=1; AFNElJ83oxxMmihB+GTApNg+bBq5L4JOxTr/1eWw1HKTyjO1OB+Ewz7Jp/m2AWzIaOVNoMpbZ8lJB1+av1P0VRJw@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC26lATAlxs6wvAAmysOO2eHbTRa9DqFTiR7Ma5jT0YvNq2zxs
+	zR0vYdYouIIUXGbDm+3W+iZi5EQ5ey1qhFYJmpQQK5SfiaauD7IS9gJlureR30EmvVRU7+u28eP
+	n4tqdss67SWohfZdliVuPhIsnGAzfsF5+uXMuzdXw
+X-Gm-Gg: AeBDiet4xZtVrfMJLV4mUC4u6ys1sjEeWOSDAtIl1V7yzi40kJ6Gu+eTmDs/ebuxiKj
+	NMgEvR+Hln0jBnu+epOp4FKANXdSAM755n1wpR22Nzii/5euhQDJSAzlVsK/ysKd5vYjHKiTzcL
+	8jBwvc1wkofDFY9VQIRbCZ3g5nCBiWmzZyhUjqiuWuO3JU0jMMb8bk4rLkQdyYhEXH7pJS3Vsr9
+	8+y2gyDGaGXNc9YxOqTtzgkOR04RS8n3paZYBbUJjPlK+OcvmvZQ4ElHAPN7rjvbODCtdwHVTyj
+	nhxCYNSLYJmmzb9/iak=
+X-Received: by 2002:a05:7022:6706:b0:130:c9cc:2919 with SMTP id
+ a92af1059eb24-1326f5e59aamr47946c88.19.1778205698960; Thu, 07 May 2026
+ 19:01:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
-Message-ID: <20260508015402.735441-1-fmayle@google.com>
-Subject: [PATCH 1/1] mm/readahead: add kerneldoc for read_pages
+MIME-Version: 1.0
+References: <20260501011908.3630802-1-fmayle@google.com> <20260501061146.6e61392d125cf1847d7cc181@linux-foundation.org>
+In-Reply-To: <20260501061146.6e61392d125cf1847d7cc181@linux-foundation.org>
 From: Frederick Mayle <fmayle@google.com>
-Cc: android-mm@google.com, kernel-team@android.com, 
-	Frederick Mayle <fmayle@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Date: Thu, 7 May 2026 19:01:27 -0700
+X-Gm-Features: AVHnY4Lka4VCHovYje-DOBwkYGJx5QVAilqV-2NuomKV-25k6NdoK_k5CuukxfE
+Message-ID: <CAHCxdc5Kug-o8ubLmZgeQdcFmhvAMmAtNUc95t1kx3Wjggbnvw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] mm/readahead: simplify page_cache_ra_unbounded loop
+ counter reset
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>, android-mm@google.com, kernel-team@android.com, 
+	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Formalize one of the invariants provided by the current implementation
-so that callers can depend on it, as discussed in [1].
+On Fri, May 1, 2026 at 6:11=E2=80=AFAM Andrew Morton <akpm@linux-foundation=
+.org> wrote:
+>
+> On Thu, 30 Apr 2026 18:19:07 -0700 Frederick Mayle <fmayle@google.com> wr=
+ote:
+>
+> > Minor cleanup, no behavior change intended.
+> >
+> > `read_pages` ensures that `ractl->_nr_pages` is zero before it returns,
+>
+> So it seems, but depending upon this might be a bit fragile?
+>
+> It would be better to make this a more explicit/formal part of the
+> read_pages() contract.  kerneldocifying read_pages() would be a
+> suitable way.
 
-Link: https://lore.kernel.org/all/20260501061146.6e61392d125cf1847d7cc181@linux-foundation.org/ [1]
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Frederick Mayle <fmayle@google.com>
----
- mm/readahead.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/mm/readahead.c b/mm/readahead.c
-index 8c12b63ccd4a..23bec5497308 100644
---- a/mm/readahead.c
-+++ b/mm/readahead.c
-@@ -146,6 +146,17 @@ file_ra_state_init(struct file_ra_state *ra, struct address_space *mapping)
- }
- EXPORT_SYMBOL_GPL(file_ra_state_init);
- 
-+/**
-+ * read_pages() - Start IO for a contiguous range of allocated folios in the
-+ *                page cache.
-+ * @rac: Readahead control.
-+ *
-+ * When read_pages() returns, it is guaranteed that all of the folios will have
-+ * been processed or removed so that ``readahead_count(rac) == 0``. However,
-+ * that does not imply that ``readahead_index(rac)`` will be updated to point
-+ * to the end of the originally requested range because, for example, the
-+ * filesystem may expand the range upwards.
-+ */
- static void read_pages(struct readahead_control *rac)
- {
- 	const struct address_space_operations *aops = rac->mapping->a_ops;
-
-base-commit: 2d565cbaafd43b10b75da56e43e5db9852a56afd
--- 
-2.54.0.563.g4f69b47b94-goog
-
+I agree. I've sent the following patch to document the invariant
+https://lore.kernel.org/r/20260508015402.735441-1-fmayle@google.com/
