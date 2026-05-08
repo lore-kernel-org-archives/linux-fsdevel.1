@@ -1,136 +1,149 @@
-Received: from mail-dy1-f202.google.com (mail-dy1-f202.google.com [74.125.82.202])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79D227CCE0
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 18:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82B23D648F
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 18:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778263974; cv=none; b=dJsf3fKlOT7iN+v94geq2lUkZKl6+or2GFpoeSsst1WNJjBsMuUa+LKgsp1/7Xepcc6WScGEHsYicrYVTWUQKN6lUHM+fL2dVzql+eMpDfysn0jJ6YTB7XqmfCXPvrrk9M3EwxzHMiD5Lf21M91nGNNWsSycjXVr2nqZD8HhbTc=
+	t=1778264773; cv=none; b=hrmeRBSX32T5EmDdtSCm9w1a6Gzuv937epj/y/TX/wxYaZvIYmNP5ddU9DUdSjL2SpSknpnNilaz9gfgiwhCcMTvQJui6ORcVDp4eKy5PeW/iRmZff1BzFE3IumcfGCKo6rTb98zfZB2M82SqDvIGKH1JJh7Amu1Lcddn4UFKKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778263974; c=relaxed/simple;
-	bh=LC5XXTxDfGbmu5cYp7Av/M44Iq8J0sO6eFtx44JJjXY=;
-	h=Date:Mime-Version:Message-ID:Subject:From:Cc:Content-Type; b=WwDSMLTfbCJxkrpthugCet/ufscOZJ6jzumxToHDiEVddmDmpEKZDtzV035/6PP8Iwylve1vHPX+GVacSDyh6M+4ZiXzbs34m0PrlNRO9dwZq/iwlXiIeaveeZPXARHQaOpIqriM2m6KUHDxyC0AMisdi5QUmh/6QITz1t3h+p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mdeO6SLo; arc=none smtp.client-ip=74.125.82.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com
+	s=arc-20240116; t=1778264773; c=relaxed/simple;
+	bh=gPt2p5mRydIx09aB5eoi5h+EjR87ILB07pmtiyqKD6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gqfNXhtwHfPQoj8RCQszeEdYkuIEfEMcivYhR7u391l1zt9V0YRxXW86lIa/h2GM+TQZjpKULWlWwuTX85hdYVIWO0yQ/Bc/8lfBEZK0bGN8GbGaMwgOaEB+Z8uCCmpjHiJE9jtlFm9lGn22310fpLuhziUkfqoCUNYQWcAri60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UH89eDTW; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mdeO6SLo"
-Received: by mail-dy1-f202.google.com with SMTP id 5a478bee46e88-2f5943ca81aso3655060eec.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 11:12:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UH89eDTW"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-44c350a5b87so1465221f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 11:26:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778263972; x=1778868772; darn=vger.kernel.org;
-        h=cc:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UyKGCYrU63Aq4NGiL04wV7gIZx0hsmStPfmXdP8BRuQ=;
-        b=mdeO6SLo8ToclB67XHN+K4uH/Roqx+vU8ftchmmH512mHSnPARw8FhdsaZR5SsI/cz
-         md1eEsTLw5/ixs4agpggZLbVJPCvi5PgeJQEb9+gYbsca7r0PHp2oZa9c7FuNP/M9bct
-         YFQNqBx6uRbO+CGx0zPEzdpyiu7OJ1Q1VxXL9PEr2yaULO/WDR9ijDc28g7b6xdase69
-         MdGuHI5runnU4ME4ficdPN2vPU4TSCqxxnaNt/3y8z346VPKS9Hi2ZHuJ3ieinuFRfJt
-         Z0Lh9Zv+B5PdtGKqD7se+y+CMU3uT7ZMOaV9r1PXgtb5wr02tkv3zNJ7mNHtM1ypE0hw
-         06zw==
+        d=gmail.com; s=20251104; t=1778264770; x=1778869570; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
+        b=UH89eDTWQh9OmS5hUj/dgbTfi3H7wYOPLAD09tyOadceQmuQ1jSW8ecpWt6e65vzgO
+         dUPuw2rKBsNlxygqwzKdECs3V10qe9a4JTkf9GaWDDLwqBqvoMNLKQ2z3FbIsAL/Xdkv
+         h7/yFvPjCarOyc2epdk5HYzixl3aB5dJ7/MAOl6vWwy/FkzEklri+HmlVblgJNeywYs3
+         jY4s5DAbrSwYKbkt8b7zGAZBoJzpLJWvDWX8ghQ6HhC4QCi71rcwijca/mxruMoHZWW5
+         w3gPGRNJQkqEZa35nbPwNKiM05kM5CZ5Ih7Ano8akSmPY2OogTfMOuflpNXAGNBjiHZS
+         1bcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778263972; x=1778868772;
-        h=cc:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UyKGCYrU63Aq4NGiL04wV7gIZx0hsmStPfmXdP8BRuQ=;
-        b=dpI/HYcLg/NdmHfrzjQ3CzB2Tscp4g8fI2wVAndQrb0jvcezquP6ELiY60IyDlyPWv
-         aX5zaSzDfuTQ2k+18L7lNXunsAmrlwEXEE9Yutx7ijrYPp4qnIZhNLYha9PJt30RqEqr
-         rbiaVwHcc7T+0CKx4fZDohzTOmr2Mrl1J8VFOXK+5GElsO2nhUyfr7/r9MH+AZCqikEk
-         RPgxi0u2CV9h51k+zt3QxTJHTLo0L2703IaGSpjcWVWU1G8gY1SHw/2vrPNaLf+TJbvS
-         vMHE6/oPF+BNuGdvbFHkGeXh/hREXd9AXJE6ftZGByp1Nxn0W/j8M1Eh/hsi8Vt/XmBk
-         OJ+Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/nibon37rlaG9iRMkzRP/wC5QLxThVoI5SonEbJrE8iZx+hFB7gJXY/JA0okEjGWDNddBYv0KZXrzuo0uC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3wyJZytD6PUFZTtGTDO6DhQk0PJD8LZL/feJRQxi0PejRTyiq
-	VsziTM5GUfFCuw+/tpmIBSnHdm+soRVynaROw+wx/NoCDw8MHm3v3bg1Qqy+Ekwd2gbEqPdqZW3
-	83cAIIw==
-X-Received: from dlbcj32.prod.google.com ([2002:a05:7022:69a0:b0:12c:b3eb:b31e])
- (user=fmayle job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:1e10:b0:12b:ec67:3523
- with SMTP id a92af1059eb24-1317d89653emr7226915c88.9.1778263971653; Fri, 08
- May 2026 11:12:51 -0700 (PDT)
-Date: Fri,  8 May 2026 11:12:31 -0700
+        d=1e100.net; s=20251104; t=1778264770; x=1778869570;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
+        b=Jz7EI4bT6eeNUGO+u6+6UK2kB6HeKTZJy3UMFPjcY8De0vjysRbWuxM6al8AcDyVgW
+         5sUEWnVlk1aJRFFhJVVOFFf0/q1mVb2FHl3VXB0d+D2xDVtxSHKpSyOef2vJ2MY4si4n
+         FCksahOggWfBfnkcQmXC1+ok7jt1CXF0E8E2mgR6jbqsSaZ1KQgWdWpmfDDKa82O2wZ1
+         dLy0vt71z1FS+s/WgNmxCN+dLTvxS67gLl+nkg5H5kMGbgH4I/yC3medqfwH0g6/ml0V
+         xu7BA7rMyal6IiAtn5f4JCby5ITXjUXMrnvwP6MDUX0VrpTrBj2Ja3wIaV2kd2PUMiN9
+         2rPw==
+X-Forwarded-Encrypted: i=1; AFNElJ8lY2JNkp0fiMDoNSNfrtL6zFBSKrvi0hXy5l4738AnWRm8cYzrTwqqJjKJzfDsmheBBj/l0dap91sUozU9@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS/KD87Yq9lujcobwGhdn80y7vd4iYpFmt9QzDHApOVnU/VpPJ
+	KR0zdtEPAXgqL593JKjXhErPrEWGHBPkQEKmD4E4+x/BFtPyFqNW7jza
+X-Gm-Gg: Acq92OFHQ4+VzneZynE+ibcmw2eP3GQhWwzxQubRq8AoqrOs5imJBpx60awKZegSFzV
+	4UhkvtMFOOldtkouVxAgE92Hd8Ex4BsMIKGrbCBBL6QvEaeIpK7PEiyG8GNiyjXPRtJXmN3/2kb
+	QHOMecdqlkipqZIjT27YYax1O+mlAH3fPNwASsA9C/Z2tZiRM11ZLHfWRsPKUE4DEWryWQoYTzJ
+	FYxTvkOn9DoRXFeRJ09qsVPr1WE6FLisTRwGzdtB5eyDOjhUKGrKuytn6qofOicU9mhvuA1E1Rs
+	d0GGPFg9tD90WBTrlSvKq0YlcmZRy5AFse8Ijis6lMp04h3yJnwdRHPYiCOZd2spBAvnK37Wi1a
+	JBBSTgsba8ScHVZXCG6GUolreT2ZUETLBtng89SRUF9eQs/OrcGEJmBOfD3yyzvMwVPYvPwoYtl
+	E2wqfk8Em/Ad1mHlBjuNx+D8llnGcDEhSmQ/dxqXbyYcCU23PWKTiqTnfelSbn7dQI
+X-Received: by 2002:a05:6000:420c:b0:43d:7508:c9c9 with SMTP id ffacd0b85a97d-4515c5752d8mr22366137f8f.27.1778264770073;
+        Fri, 08 May 2026 11:26:10 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6c79fsm6435208f8f.15.2026.05.08.11.26.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 11:26:09 -0700 (PDT)
+Date: Fri, 8 May 2026 19:26:06 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Adrien Reynard <reynard.adrien.08@gmail.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
+ Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
+ <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
+ <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, David Howells <dhowells@redhat.com>,
+ Paulo Alcantara <pc@manguebit.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ "open list:READ-COPY UPDATE (RCU)" <rcu@vger.kernel.org>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:DRIVER CORE, KOBJECTS, DEBUGFS
+ AND SYSFS" <driver-core@lists.linux.dev>, "open list:FILESYSTEMS [NETFS
+ LIBRARY]" <netfs@lists.linux.dev>, "open list:FILESYSTEMS [NETFS LIBRARY]"
+ <linux-fsdevel@vger.kernel.org>, "open list:TRACING"
+ <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/5] docs: fix repeated word 'that' across documentation
+Message-ID: <20260508192606.2423f50e@pumpkin>
+In-Reply-To: <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
+References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
+	<1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
-Message-ID: <20260508181237.670645-1-fmayle@google.com>
-Subject: [PATCH] mm/readahead: no PG_readahead on EOF
-From: Frederick Mayle <fmayle@google.com>
-Cc: android-mm@google.com, kernel-team@android.com, 
-	Frederick Mayle <fmayle@google.com>, Kalesh Singh <kaleshsingh@google.com>, 
-	Suren Baghdasaryan <surenb@google.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-When readahead pulls in all the remaining pages for a file, setting the
-readahead bit is counter productive. The async readahead it would
-trigger would almost certainly be a no-op. Additionally, for mmap'd file
-IO, the readahead bit limits the fault around [0], causing an extra
-minor fault when the page is accessed.
+On Fri, 8 May 2026 11:15:28 -0600
+Shuah Khan <skhan@linuxfoundation.org> wrote:
 
-This was discovered when looking at /sys/kernel/tracing/events/readahead
-traces for a simple program. With the patch applied, fewer
-page_cache_ra_unbounded calls are observed.
+> On 5/8/26 10:37, Adrien Reynard wrote:
+> 
+> Missing commit log in all your patches - I don't patch 1/5 in
+> my Inbox.
+> 
+> > Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
+> > ---
+> >   Documentation/RCU/rcu.rst                          | 2 +-
+> >   Documentation/driver-api/driver-model/overview.rst | 2 +-
+> >   Documentation/filesystems/netfs_library.rst        | 2 +-
+> >   Documentation/trace/histogram-design.rst           | 2 +-
+> >   Documentation/trace/histogram.rst                  | 2 +-
+> >   5 files changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
+> > index bf6617b330a7..320ad3292b75 100644
+> > --- a/Documentation/RCU/rcu.rst
+> > +++ b/Documentation/RCU/rcu.rst
+> > @@ -32,7 +32,7 @@ Frequently Asked Questions
+> >     Just as with spinlocks, RCU readers are not permitted to
+> >     block, switch to user-mode execution, or enter the idle loop.
+> >     Therefore, as soon as a CPU is seen passing through any of these
+> > -  three states, we know that that CPU has exited any previous RCU
+> > +  three states, we know that CPU has exited any previous RCU  
+> 
+> The original intent might have been to say, "that cpu", so adding
+> the missing comma after the first "that" or change "that" to "the"
+> would make sense.
+...
 
-[1] do_fault_around calls filemap_map_pages, which finds eligible pages
-    by calling next_uptodate_folio [2]. next_uptodate_folio skips pages
-    with PG_readahead set [3].
+I don't think adding a comma would be correct.
+The clause splits as 'we know that' 'that CPU' and the repeated 'that'
+is absolutely correct.
+Maybe 'that CPU' could be replaced by 'it'; but it can be difficult to
+work out what back references like 'it' refer to.
 
-Link: https://github.com/torvalds/linux/blob/v7.0/mm/filemap.c#L3921-L3939 [2]
-Link: https://github.com/torvalds/linux/blob/v7.0/mm/filemap.c#L3721-L3722 [3]
-Cc: Kalesh Singh <kaleshsingh@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Signed-off-by: Frederick Mayle <fmayle@google.com>
----
- mm/readahead.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+You can re-order it, as (say):
+	Therefore we know that as soon as a CPU is seen passing through any of these
+	three states it has exited any previous RCU read-side critical sections.
 
-diff --git a/mm/readahead.c b/mm/readahead.c
-index 8c12b63ccd4a..784a3bde82be 100644
---- a/mm/readahead.c
-+++ b/mm/readahead.c
-@@ -329,8 +329,11 @@ static void do_page_cache_ra(struct readahead_control *ractl,
- 	if (index > end_index)
- 		return;
- 	/* Don't read past the page containing the last byte of the file */
--	if (nr_to_read > end_index - index)
-+	if (nr_to_read > end_index - index) {
- 		nr_to_read = end_index - index + 1;
-+		/* We've reached the end, so don't set a readahead marker. */
-+		lookahead_size = 0;
-+	}
- 
- 	filemap_invalidate_lock_shared(mapping);
- 	page_cache_ra_unbounded(ractl, nr_to_read, lookahead_size);
-@@ -474,7 +477,7 @@ void page_cache_ra_order(struct readahead_control *ractl,
- 	pgoff_t index = start;
- 	unsigned int min_order = mapping_min_folio_order(mapping);
- 	pgoff_t limit;
--	pgoff_t mark = index + ra->size - ra->async_size;
-+	pgoff_t mark;
- 	unsigned int nofs;
- 	int err = 0;
- 	gfp_t gfp = readahead_gfp_mask(mapping);
-@@ -488,7 +491,13 @@ void page_cache_ra_order(struct readahead_control *ractl,
- 
- 	limit = (i_size_read(mapping->host) - 1) >> PAGE_SHIFT;
- 	limit = min(limit, ractl->_max_index);
--	limit = min(limit, index + ra->size - 1);
-+	if (limit > index + ra->size - 1) {
-+		limit = index + ra->size - 1;
-+		mark = index + ra->size - ra->async_size;
-+	} else {
-+		/* We've reached the end, so don't set a readahead marker. */
-+		mark = ULONG_MAX;
-+	}
- 
- 	new_order = min(mapping_max_folio_order(mapping), new_order);
- 	new_order = min_t(unsigned int, new_order, ilog2(ra->size));
+But just because some grammar book says you shouldn't have repeated words
+doesn't mean there aren't exceptions.
 
-base-commit: 2d565cbaafd43b10b75da56e43e5db9852a56afd
--- 
-2.54.0.563.g4f69b47b94-goog
+The sign writer was doing a new sign for the 'Pig and Whistle'.
+Unfortunately the gaps between Pig and and and and and Whistle
+ended up visibly different.
+
+-- David
+
 
