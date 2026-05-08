@@ -1,51 +1,47 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720051DF736
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 03:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8345F2571DD
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 03:12:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778209252; cv=none; b=WhHiRHo4Jimyq3LicBnbf4JjQ47LY1q2ZYmVavOtUMsVMGe6iO4sDVxPlV/Syra/y2+vejrlPw+cTNR7WLdZtnGACnLC6CETn6mh3TGXQabfEGPLV0/a+OIpvhvyfxP9jD/ljE8JRednMbM3zrpo1Xt+vkUxicyVUI/mN1jz0gY=
+	t=1778209935; cv=none; b=OMM0DGfDbF/p6wkkEfZyikjinCA0FyV2s1gwZ8tTvitOldWtBff0cUTvcVBuUeKlV+ZyTsEKT1ORY7+G4o1t7+b4wmD36+niQFhAkbuayZjuVSpbeAu9L1rQbjF/QpTzulf5ktguXdQ3NJh7PN+1nJ/9l8LR4DON/K/wbQeQ1BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778209252; c=relaxed/simple;
-	bh=J/Kvfv0Ie//mjzZ8vq/mKcB29Lh364vDUYR4oWyFcpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sKTUqPQjuSo7wNmj6kshhY5Dw3+ke1kYzlUad+hm89/BwCYePap6RrfRV04R+rffedCdwIfqdrXDURA9FCMOy5q7ry2zI8KNCZLAMVwBRl0Hs1464/C8JhICJJKODkmlvpxvWmFUY6k50vNa65dTAU7VnsItQTFxJgWQMe42ltI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=KvhLKR94; arc=none smtp.client-ip=62.89.141.173
+	s=arc-20240116; t=1778209935; c=relaxed/simple;
+	bh=GrA136KEcBq2LatWywHzgCuqFmzO7fbzNxJq82uUlMY=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OGzUbSts88k5utgFlPLJ9SfRdz4TzFaU0yso8iAwamRzlKiQJGk4fT7ydhYcV+/7dp8IclDuL+Snb0Qu5nhj6DsyZE6jF9ergn469dep7wQloYqBWqc1Ilv5yoh1gT7yjot2NlSdGa2Owb8X5JR+wCi2XmFH6aR3sKlv/KWYfOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=heYyQ5yE; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="KvhLKR94"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="heYyQ5yE"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	MIME-Version:References:Message-ID:Subject:To:From:Date:Reply-To:Cc:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=y3aunpa4mlvZL0w2mdRREYYvnVdxkRl0rFKcB1Xz13M=; b=KvhLKR94C8O0wv8QK+TwOFJRuk
-	sfi6jMhfjHZ2NRC8CvHyvLd1HWbQSWowJ7NWQM61gATj0OFO8gm49idP7QrIqeFqfW7f9q2vkQiuX
-	tm1bn1P9L7M9wyAKhJpdFOB2Yeteo3dyIn2oLRH4TEuRfeXdftTYV/C212irv3qyqBJowDYSRCbWF
-	KrvCflvENUFpqLsvPgQrhqojSgolXp15eIObVYaXYETgJHSemSRa5VLgYexe0S+5PvknbWCcKHH5g
-	PZ2BhoCxamZmnUbppDFsgK1jhgfFWQkvzw3zuM+o8UtKIMEq5pysYSTOT1Nh0cojyhu4OujUwvpOt
-	xjdjIg5g==;
+	bh=4I6X+5idr01+rC02vSFwofOXQJc8hynOvy5IrPFYeD4=; b=heYyQ5yEvlkdnB1Y3TJfgs+9Oj
+	aaqv/ErbfT1wj7ccQS5PNg2Ggyaldukns/7YUrjqWDKvAeqsV4LjN/LgL8f2C9SyUXyVn77t7U5Bi
+	Q4ooCODs7h5VghhUzpE1chmtWMQYYVS/fpKgpYLPylaVKO4ZeImPwshM8dmHxqrMY5S5kthttAcBP
+	Y8t7svYTRDCerVZpaHl8RtVCbDhTuFAmMkRDHtqX9irhCVfeKK2nbr9AMniNBOWlJb7SUMT88Yxc0
+	hyYi7uR6lWi8o3XBAkLaV+KvD/q/vHyY0VYBynM72n/LpFuFxjWTGZ7CKZ/VexknKLmChQ7d384u5
+	V+gsPMYg==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLBSi-0000000B3pU-0JmC;
-	Fri, 08 May 2026 03:01:12 +0000
-Date: Fri, 8 May 2026 04:01:12 +0100
+	id 1wLBdj-0000000B6Uf-44Tw;
+	Fri, 08 May 2026 03:12:36 +0000
+Date: Fri, 8 May 2026 04:12:35 +0100
 From: Al Viro <viro@zeniv.linux.org.uk>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
+To: Jori Koolstra <jkoolstra@xs4all.nl>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>, Boqun Feng <boqun@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Uladzislau Rezki <urezki@gmail.com>
-Subject: Re: [RFC PATCH 20/25] d_walk(): shrink rcu_read_lock() scope
-Message-ID: <20260508030112.GN3518998@ZenIV>
+	NeilBrown <neil@brown.name>
+Subject: Re: [RFC PATCH 21/25] shrinking rcu_read_lock() scope in
+ d_alloc_parallel()
+Message-ID: <20260508031235.GA2636677@ZenIV>
 References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
- <20260505055412.1261144-21-viro@zeniv.linux.org.uk>
- <CAHk-=wj9WdmFn=gw4c0+mv9dLCGFsiawF60Eu3Kw3t8SfvpZsw@mail.gmail.com>
- <20260505200501.GF3518998@ZenIV>
- <afpj3FBrvHer0E6Y@pavilion.home>
+ <20260505055412.1261144-22-viro@zeniv.linux.org.uk>
+ <af0F6BwrJRxMMKMT@lt-jori.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,57 +50,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <afpj3FBrvHer0E6Y@pavilion.home>
+In-Reply-To: <af0F6BwrJRxMMKMT@lt-jori.localdomain>
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Tue, May 05, 2026 at 11:40:44PM +0200, Frederic Weisbecker wrote:
-
-> > I would really prefer to have all explicit rcu_read_lock() in fs/dcache.c
-> > clearly documented ;-/
+On Thu, May 07, 2026 at 11:52:21PM +0200, Jori Koolstra wrote:
+> > 	If no match is found, we proceed to lock the hash chain of
+> > in-lookup hash and scan that for a match.  If we find a match, we want
+> > to grab it and wait for lookup in progress to finish.  Since the bitlock
+> > we use for these hash chains has to nest inside ->d_lock, we need to
+> > unlock the chain first and use lockref_get_not_dead() on the match.
 > 
-> And the calls to rcu_read_lock() / rcu_read_unlock() are _usually_ cheap enough
-> that their explicit calls should go unnoticed over an implicit spinlock RCU
-> critical section. Ok rcu_read_unlock() has its slowpath but it would otherwise
-> trigger randomly when implicit read side are used (context switch, interrupts,
-> etc...)
+> Just curious, reading this code as someone fairly new to the kernel,
+> how can I know what is the agreed-upon lock order between these hash
+> chains and the d_locks of the dentries they contain?
+
+Either wait for documentation to get there, or look at the places where
+we deal with those locks; in particular, the removal from the in-lookup
+hash chain comes in __d_lookup_unhash():
+        hlist_bl_lock(b);
+	dentry->d_flags &= ~DCACHE_PAR_LOOKUP;
+	__hlist_bl_del(&dentry->d_in_lookup_hash);
+	hlist_bl_unlock(b);
+with callers of that thing all done under ->d_lock.  And yes, we *do*
+need to document that shite - no arguments here.
+
+> > 	That makes the entire thing easier to follow and the purpose
+> > of those rcu_read_lock() calls easier to describe - the first scope is
+> > for __d_lookup_rcu() + lockref_get_not_dead(), the second one bridges
+> > over from the bitlock scope to the ->d_lock scope on the match found in
+> > in-lookup hash.
 > 
-> Also rcu_read_lock() has the advantage to tell clearly that we are doing an RCU read
-> side (and its uses indeed claim to be documented) here while relying on spinlocks to do
-> that is fine but implicit and more error-prone when there are tricky things
-> like spinlock transfers: better don't ask for trouble.
-> 
-> So I would say that we should probably avoid introducing such an API if possible.
+> Because the dentry could be freed after the hash chain unlock and before
+> grabbing the d_lock?
 
-The problem is, for dentries such transfer may be _less_ error-prone than
-a large rcu_read_lock() scope.  There's such thing as NORCU dentries, and
-for those freeing is not RCU-delayed.  So for d_walk() the safety of
-                dentry = this_parent;
-		this_parent = dentry->d_parent;
-		 
-		spin_unlock(&dentry->d_lock);
-		spin_lock(&this_parent->d_lock);
-requires more than just "everything is in RCU read-side critical area"; it's
-also "and NORCU dentries never occur as anyone's parents".
+Yes.  It's a bit more complicated - the missing bit is "and dentry we might
+find in the in-lookup hash is not going to be NORCU, so freeing is guaranteed
+to be RCU-delayed".
 
-We do rely upon ->d_lock for all other transitions in that graph walk -
-for descent into a subtree and for traversals into the next sibling,
-including those during ascent from subtree.
+> I do think the hlist_bl_for_each_entry loop would read clearer if we
+> pull the code after having found the initial match out of it, since we
+> always exit the loop afterwards.
 
-Any place where we rely solely upon rcu_read_lock() needs an analysis of
-NORCU case and it's not always "NORCU can't occur here" - e.g. fast_dput()
-is hit every time we close a pipe or socket, and these are the original
-reason for having NORCU in the first place.
-
-FWIW, the rules (and I'm still not finished writing down a coherent
-variant of those) are very heavily ->d_lock-based; basically, we have
-3 safe cases - counting reference, RCU reference and locked reference.
-We don't have that enforced by the type system, unfortunately, and I'm
-not sure we *can* express that with C type system in a way that would
-be entirely compiler-enforced.  I do think we can reduce most of that
-down to a handful of "prove the safety manually" areas; we'll see.
-
-Long story short, rcu_read_lock() is really too blunt a tool in that area.
-Look at the list of scopes in
-https://lore.kernel.org/all/20260507073510.GL3518998@ZenIV/
-and tell me if you like having to rely upon that kind of analysis in
-proof of correctness...
+Umm...  Not sure - we'd need to distinguish between "no match found" and "got
+a match, stopped looking" cases.  Would have to be something like
+	if (!pos)
+		insert into hash
+	ele
+		dentry is a match, deal with it
+which is more reliant upon the details of hlist_bl_for_each_entry than I'd like...
