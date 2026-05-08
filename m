@@ -1,80 +1,79 @@
 Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B59359A6B
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 06:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E61375F88
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 06:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778223387; cv=none; b=pMDJp31/AQeVmFxm4+mKApwFzRg7cBPxz1Jqn4nE/Hr2gM9DVNOrYEqdIvrU6tgiTOX2lPVplPU8dZeJySW0UKPQSBwJDD++Eu484kgUyVOQr7KWBBrBT0FaJ8H9qLIRuo9eqV4aHFPecmFaoYdIYg8Qnwsa7k6H6P3C9PVYdSk=
+	t=1778223389; cv=none; b=P1cLAKkb4Gk5z1kBpQxLl/xfqOXi9djWbiKcZkUBLE2JIk2vaQkcrlJ+6UBOd88iJVOuVNRl6TkRLZGgt2UQDAmLxV5UqLWGb+uk/SFakLBq8nf2R87wgBuG+9t6QcuuCQ8wZc3rVUDZsHqHdFPRNrPPReGx7zKopLfy0kFZehs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778223387; c=relaxed/simple;
-	bh=3HxQPuVwCVCsCaZ7W5vnVIYYhXesmAcDhblnvgUmsiA=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=KW9cDnECdmHZWttvWK7y15s7+UFxVoFCgS3vV2ZanURvD/I6ACJfdfTpystrmyHB3t/dvlWAc5wMVGqGKBZkcxLS25E31WV0tX/PjsUMrIcR8ZxTBvXHX/u6+DAYF9Q56DBzNSXa+IY4gI17PjzlRsBUL7UNXU+OygnSTeeHhvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KwU+agQa; arc=none smtp.client-ip=209.85.128.74
+	s=arc-20240116; t=1778223389; c=relaxed/simple;
+	bh=CLtHpbaS1mKle8E88YQIhhMZXFuxKBPqK83vNenbugs=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=qjweK5XHj6NeSitQAwemqDUX9JbZ4qXHVDnD1g/5EmRAhoQdeIGAplPZDbFr3z3mCUc1dYwo95xa+KUjHyzqA4llqtsEx494ILEId8oo7OqTDthgi7rP7O8W0tzK1G5ZwxJOtcSLOTUpUKHW/VmViR4UqIH9BC2zbmzMq7s1NAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ScwoWPlW; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KwU+agQa"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-488c2cc0cbaso12145895e9.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 23:56:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ScwoWPlW"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-488bd1ee9e7so15125175e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 23:56:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778223383; x=1778828183; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=E8Yo81HQg3mTqMyXl+c2fp/H083zC4e16FOXpi0px5A=;
-        b=KwU+agQa6b/61J4gjG4hsqvvMx2tuZW/+DQl39ke2PmaBq9FWy+FGwJxiQpFeyv8vg
-         SIqiTJE7bH1K9y+D4HoXJ0daZYFRZi5I93r6D5oFZ1/Bb06vKp8VFKPO/l4o35Ymu5SS
-         zOGLiLNXBgXYFOuR9w5Cvrl88dtWJXDlQFAN949oOOaUNDGWsTPY1ul9YinzwFKM23PH
-         uF11LE0hJ2/7ht9RUl4byjFL6pWlwwIkyllfR6kMYXaw0Z+oUlc6unSgWJqWSLdj70/m
-         3OenqOJMWogEug+57vqDUW6sRdDd9Dnq7FF5V6Ty3tJMFqGTcMklbEkUrwetkfVZNYhy
-         UAJw==
+        d=google.com; s=20251104; t=1778223384; x=1778828184; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gwR5zUblvdpSOLiS9fu4K+/lNRVrhgwROb1hUxq0umc=;
+        b=ScwoWPlWjWp2AwDH+knW6mKO/88bWlvFG12uvon34qZ4d6ZkzYlprUB6kBlwyRn93J
+         wm3lJgic8puwNHrpBFcGpsm6lAAvX1xn0xPMeH5aixkWpYxsabxeThkvW4TpEqsgwA5I
+         XR6gAiD3pUWkOt0mOsaC4fGpk3nw+QZ7JmiYFOsFvnYCy383kYHmJ/mimmsyeA75OEMd
+         izDppb3AILTQhIHOv4d4vyoM7jwIeLS8k8ZvqYa2P1ElGcD+gAWO6PYS/ZswNWBJSNny
+         FCyrJZjLxxsehrHVweu6AxmLLlyaEoPmMfADzZmL8Vx3iQicGaWKPJAoFw8qR44HaXa4
+         f+JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778223383; x=1778828183;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E8Yo81HQg3mTqMyXl+c2fp/H083zC4e16FOXpi0px5A=;
-        b=L1KZUWR4j+3g3hGg6DglgEdrMuNIEZA+NCfGM6kb95MMiHmcG/Lk0URLfaOm+s/adf
-         ElGjIsMeVfN4sZ3tO+iUX+KjJ3f6WDaayOjVm7hctHrO6CKifgb20+c0m8Juhdtk/jYc
-         3tpL4qtjOiHHRzEs6QSinud1M9IHq9mPZjL8G/hymKDOgM06pDieWq92DpoRagm9VW3J
-         yGiQPdLgMM2doCgZH+MnuHtOqkY1EPvFZhLnfLtqpWalNcvUjfT3y0kkN8DfXlyGBGb/
-         XLXw+e4uicYpo1NOSwMVPxQ4otGJKDf/nkXEp1kx1ERLy8JV76+7cuDSSj4lYHN3Tr8N
-         OpSQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+7Og20M1w0oKL6p70e+3uN+SSBtJjG0KUt2UGEmUKbAUiZXFWTzC8dWs2l4fdEWYvW1WImpW+Jsc9SywWU@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJfNMoENnXjjg+F6etPXh/kuXLoTkXVfsv1U2jb6JPWz64PQWz
-	Fal9rp1r2WNHXOAzn82UDEuC32uyIkh1MUHHjP3/X1Kiwyekup4/m+3ZhWqTLbrJy3/qtd9S277
-	N4ZuSZnAdmmMRv8zsUQ==
-X-Received: from wrbfc17.prod.google.com ([2002:a05:6000:2611:b0:44c:2531:86d3])
+        d=1e100.net; s=20251104; t=1778223384; x=1778828184;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gwR5zUblvdpSOLiS9fu4K+/lNRVrhgwROb1hUxq0umc=;
+        b=RE7ATaA3TnFwmEFBRbi1QxaRSnBK4kbZjYpLGKxWgtdNOGKCa0vd3Loy+sbeR1qtYn
+         HeiyHeoGCCuqrBHTKw/hTCQOfDOwRTuwv2yJ15wjsFJXVGxBPnfgAHzdVHofwXLffNfS
+         5049N8VwC6K5Qw1pydJpadYwKX8x9nlraL6e5c07W9HcvpvA4v/4ekZx0sTMjl6JnSGf
+         JVsWP6SmQ1z9uuPsktRj69j5KbRoVu0CJ5ERqGIqgyTYGBHMzA7rpobBbaAk/8UKvAJl
+         bSb60pf60fSc2Tlst51C0VHS5cVRyMtBY+NLudZK32zPvEdXds0gsqXeuNXlEjgvY2DO
+         Twew==
+X-Forwarded-Encrypted: i=1; AFNElJ/I3c4zi/UMtuTL7d9YLv5ehorgAevHMOjF2ODj8rdF5AfJjgkuwI4YwkCfpO04EJGM3p9TyWT4+JE/itEp@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2Un6z/Ockkb9NEC5u6kGCfwLgTrQizKCUfNCpK2NHFsndMufi
+	356QWsX4uU+fvqrepJWLM3EFm0fgIGW7iLknSuKOukBF4XuAER624iwmPeI54wU28mF9N41mEYG
+	lDM7Gvo+JgyDmmeZ75Q==
+X-Received: from wmco5.prod.google.com ([2002:a05:600c:a305:b0:48a:6051:b5af])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4686:b0:488:aa33:dcbd with SMTP id 5b1f17b1804b1-48e676b6882mr20379715e9.26.1778223382836;
- Thu, 07 May 2026 23:56:22 -0700 (PDT)
-Date: Fri, 08 May 2026 06:55:10 +0000
+ 2002:a05:600c:871b:b0:483:709e:f238 with SMTP id 5b1f17b1804b1-48e51f4652fmr182535775e9.29.1778223384122;
+ Thu, 07 May 2026 23:56:24 -0700 (PDT)
+Date: Fri, 08 May 2026 06:55:11 +0000
+In-Reply-To: <20260508-upgrade-poll-v3-0-0c619fe846e8@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAM6I/WkC/3XMSwrCMBSF4a2UjI3khbdx5D7EQdLcpoFqSqJBK
- d27aSei4PAc+P6ZZEwBMzk2M0lYQg7xVofcNaQbzM0jDa5uIpg4MM6BPiafjEM6xXGkEhCFAQP
- aOVLJlLAPzy13vtQ9hHyP6bXVC1/fP6HCKaMctJJgwTqlTz5GP+K+i1eylor4aMHljxZV61YZ1 lveqt5+6WVZ3lmYia/nAAAA
-X-Change-Id: 20260117-upgrade-poll-37ee2a7a79dd
+References: <20260508-upgrade-poll-v3-0-0c619fe846e8@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1549; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=3HxQPuVwCVCsCaZ7W5vnVIYYhXesmAcDhblnvgUmsiA=;
- b=kA0DAAoBBFi+7ljGOUYByyZiAGn9iRCgrpOTtTq2nLtj3sVLei20k8b+wFjY7qa7V5Jur5+t7
- 4kCMwQAAQoAHRYhBIOSopRNZAcK8Ui9sgRYvu5YxjlGBQJp/YkQAAoJEARYvu5YxjlGKkYP/0ab
- tUDV3eLTpGZBsMKRDpRrLsRcVHg4GAuagL6143ZgpC3nN1jEVkhnv3rV4yl9Vji/I4QIzFlZlbg
- X9GVwsWKGt0ygjsnsKasyYyK6EC4l/opAsW+8aukwYCerPtEKvnHUcuggFvgvfoziE5imdmom9d
- lqYzaTGJrDJ0IqlpqZblj7ddgF4B/F2aR8W33+DIuoRE1NlJr95DI7rY1tdrnXAEvQVkolRYdxV
- nd4JH4CKl17rOaY418VMkYsmQQIxm7LdAJHKHrW6MWTwtlYZFNkkEzmwlNPH1IjtKSHvQ86xLmy
- I5AwjeFIID1z6IYHZInKAcvCsLLXg8lAIfShSRWkXMAQE1wjLDBGQKHtKp1ybO0LCyW1sdL/wH2
- ytxzl/U7ij8IobA/Z1LkuYs/nDKqHCKakp4TAkb9ZDrHvd3M34CC3yCiI5T4XgY8ON8+d+6Vxlk
- +NoQrd5ZLNqmf4WVSjIlTrDQoVsxtIJxD+74k0GiaK0C7lYA1g229W7C4xtIaTQjzZuavZGflvf
- GJw4urGnTBz4/ztjMU3V5op1tkdfmSYZ8p2WQJpcibsPlyFMVtPwRlR+lA1j6LxLJHK8BpyR5XM
- Nv6n9cR3dMm8DRb0z1p+3NwBi8UpjU8V42qn/uDviyemNuLeydOoYie7hxXhB7Dy7wPw2tmlLNg 8xRl3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3877; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=CLtHpbaS1mKle8E88YQIhhMZXFuxKBPqK83vNenbugs=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBp/YkVE+D4eBTnrKBD7RpNEkaLJYcGJN9FVMPVA
+ tpjeihBSDmJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaf2JFQAKCRAEWL7uWMY5
+ RjLnD/4qe7AUfbmAav2TJeIzh0lJeGXw+I6OP8Tq2TCTVjiPv3qlWfj8oCy1my4vgtAbTdqaODG
+ WZsvmVoE5jwKnjjsMSHqpyHtX1WwduCAb+PlEdEplDn5Z9e0bXM2nXoJ82uPMU3daSgvSoUJein
+ 8mtr4xdHo05M2flIbnkxtI6emRljXVo48raQ1A6wkxgJ0Y/m8HGDSAZjUBo7Wo8HZ7EkAxSJxFL
+ JOMcp+14P11ZiQdcVH/yIZ82trhm5x6zdDvFXyAy6duRH6SrcQ3D2Ersf/kQTUXGZDMwKVQjKfi
+ y6dk2AoALrQbVpwMAF+8eXpLKsq39iO1wbjgJCr0VBM/3ZNrLWxuS3doO3Rynfv2YdTNttNutK0
+ 8FNBS5rq+CWglBg6kJfabbMGtVQuaCot+qET7tg7pH8+zMuta3OVXoOfhhv/QMSZzbJKqdcrv+D
+ zn95oZTU4TfSrMnwdLO7y5QjMIEAmAg1yP3abXMjN5GxCUvs7P+otDBePN2RAfH9BNMxHdDOQrO
+ dp9f+JekhMyD+SzUASjvJJJVC5FlBPTkOz5tUx1nd167Fv3c4C9UhTSazmsjrci7572lzndzRgF
+ xluguRFQIJ/Y9r22t3uugsBXAhJIr5g96tPgTOqMDSesq0HiMBFcPeaG0DHKIitkvDSSE0gO6qA yR3x5CXSjKhhGZQ==
 X-Mailer: b4 0.14.3
-Message-ID: <20260508-upgrade-poll-v3-0-0c619fe846e8@google.com>
-Subject: [PATCH v3 0/2] Avoid synchronize_rcu() for every thread drop in Rust Binder
+Message-ID: <20260508-upgrade-poll-v3-1-0c619fe846e8@google.com>
+Subject: [PATCH v3 1/2] rust: poll: use kfree_rcu() for PollCondVar
 From: Alice Ryhl <aliceryhl@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
 	Christian Brauner <brauner@kernel.org>, Boqun Feng <boqun@kernel.org>
@@ -87,41 +86,122 @@ Cc: "Paul E. McKenney" <paulmck@kernel.org>, Alexander Viro <viro@zeniv.linux.or
 	Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-Right now Rust Binder calls synchronize_rcu() more often than is
-necessary. Most processes do not use epoll at all, so they don't require
-rcu here. Back in Kangrejos I came up with a way to avoid this. Idea is
-to move the value that needs rcu to a separate allocation that's easy to
-kfree_rcu(). We pay the allocation only when the proc uses epoll using
-an "upgrade" strategy - most processes don't.
+Rust Binder currently uses PollCondVar, but it calls synchronize_rcu()
+in the destructor, which we would like to avoid. Add a variation of
+PollCondVar that kfree_rcu() instead.
+
+One could avoid the `rcu` field and allocate the rcu_head on drop using
+a fallback to synchronize_rcu() on ENOMEM. However, I'd prefer to avoid
+the potential for synchronize_rcu(), and Binder will only use this for a
+small fraction of processes, so even if it changes which kmalloc bucket
+it falls into, the extra memory is not a problem.
 
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
-Changes in v3:
-- This series was almost entirely rewritten to use a different
-  implementation strategy. By moving the PollCondVar to the process we
-  can avoid the upgrade logic entirely.
-- Link to v2: https://lore.kernel.org/r/20260213-upgrade-poll-v2-0-984a0fb184fb@google.com
+ rust/kernel/sync/poll.rs | 73 +++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 72 insertions(+), 1 deletion(-)
 
-Changes in v2:
-- Change how Rust Binder handles the lock class key.
-- Rebase.
-- Link to v1: https://lore.kernel.org/r/20260117-upgrade-poll-v1-0-179437b7bd49@google.com
+diff --git a/rust/kernel/sync/poll.rs b/rust/kernel/sync/poll.rs
+index 0ec985d560c8..684dfa242b1a 100644
+--- a/rust/kernel/sync/poll.rs
++++ b/rust/kernel/sync/poll.rs
+@@ -5,12 +5,18 @@
+ //! Utilities for working with `struct poll_table`.
+ 
+ use crate::{
++    alloc::AllocError,
+     bindings,
+     fs::File,
+     prelude::*,
+     sync::{CondVar, LockClassKey},
++    types::Opaque, //
++};
++use core::{
++    marker::PhantomData,
++    mem::ManuallyDrop,
++    ops::Deref, //
+ };
+-use core::{marker::PhantomData, ops::Deref};
+ 
+ /// Creates a [`PollCondVar`] initialiser with the given name and a newly-created lock class.
+ #[macro_export]
+@@ -66,6 +72,7 @@ pub fn register_wait(&self, file: &File, cv: &PollCondVar) {
+ ///
+ /// [`CondVar`]: crate::sync::CondVar
+ #[pin_data(PinnedDrop)]
++#[repr(transparent)]
+ pub struct PollCondVar {
+     #[pin]
+     inner: CondVar,
+@@ -104,3 +111,67 @@ fn drop(self: Pin<&mut Self>) {
+         unsafe { bindings::synchronize_rcu() };
+     }
+ }
++
++/// A [`KBox<PollCondVar>`] that uses `kfree_rcu`.
++///
++/// [`KBox<PollCondVar>`]: PollCondVar
++pub struct PollCondVarBox {
++    inner: ManuallyDrop<Pin<KBox<PollCondVarBoxInner>>>,
++}
++
++#[pin_data]
++#[repr(C)]
++struct PollCondVarBoxInner {
++    #[pin]
++    inner: PollCondVar,
++    rcu: Opaque<bindings::callback_head>,
++}
++
++// SAFETY: PollCondVar is Send
++unsafe impl Send for PollCondVarBoxInner {}
++// SAFETY: PollCondVar is Sync
++unsafe impl Sync for PollCondVarBoxInner {}
++
++impl PollCondVarBox {
++    /// Constructs a new boxed [`PollCondVar`].
++    pub fn new(name: &'static CStr, key: Pin<&'static LockClassKey>) -> Result<Self, AllocError> {
++        let b = KBox::pin_init(
++            pin_init!(PollCondVarBoxInner {
++                inner <- PollCondVar::new(name, key),
++                rcu: Opaque::uninit(),
++            }),
++            GFP_KERNEL,
++        )
++        .map_err(|_| AllocError)?;
++
++        Ok(PollCondVarBox {
++            inner: ManuallyDrop::new(b),
++        })
++    }
++}
++
++impl Deref for PollCondVarBox {
++    type Target = PollCondVar;
++    fn deref(&self) -> &PollCondVar {
++        &self.inner.inner
++    }
++}
++
++impl Drop for PollCondVarBox {
++    #[inline]
++    fn drop(&mut self) {
++        // SAFETY: ManuallyDrop::take ok because not already taken.
++        let boxed = unsafe { ManuallyDrop::take(&mut self.inner) };
++
++        // SAFETY: The code below frees the box without calling the actual destructor of the type,
++        // but it's okay because it re-implements the destructor using `kfree_rcu()` in place of
++        // `synchronize_rcu()`.
++        let ptr = KBox::into_raw(unsafe { Pin::into_inner_unchecked(boxed) });
++
++        // SAFETY: The pointer points at a valid `wait_queue_head`.
++        unsafe { bindings::__wake_up_pollfree((*ptr).inner.inner.wait_queue_head.get()) };
++
++        // SAFETY: This was allocated using `KBox::pin_init`, so it can be freed with `kvfree`.
++        unsafe { bindings::kvfree_call_rcu((*ptr).rcu.get(), ptr.cast::<ffi::c_void>()) };
++    }
++}
 
----
-Alice Ryhl (2):
-      rust: poll: use kfree_rcu() for PollCondVar
-      rust_binder: move (e)poll wait queue to Process
-
- drivers/android/binder/process.rs     | 51 +++++++++++++++++------
- drivers/android/binder/thread.rs      | 78 +++++++++++++++++------------------
- drivers/android/binder/transaction.rs |  4 ++
- rust/kernel/sync/poll.rs              | 73 +++++++++++++++++++++++++++++++-
- 4 files changed, 154 insertions(+), 52 deletions(-)
----
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-change-id: 20260117-upgrade-poll-37ee2a7a79dd
-
-Best regards,
 -- 
-Alice Ryhl <aliceryhl@google.com>
+2.54.0.563.g4f69b47b94-goog
 
