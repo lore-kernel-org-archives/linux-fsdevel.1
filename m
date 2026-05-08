@@ -1,149 +1,254 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82B23D648F
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 18:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778264773; cv=none; b=hrmeRBSX32T5EmDdtSCm9w1a6Gzuv937epj/y/TX/wxYaZvIYmNP5ddU9DUdSjL2SpSknpnNilaz9gfgiwhCcMTvQJui6ORcVDp4eKy5PeW/iRmZff1BzFE3IumcfGCKo6rTb98zfZB2M82SqDvIGKH1JJh7Amu1Lcddn4UFKKs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778264773; c=relaxed/simple;
-	bh=gPt2p5mRydIx09aB5eoi5h+EjR87ILB07pmtiyqKD6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gqfNXhtwHfPQoj8RCQszeEdYkuIEfEMcivYhR7u391l1zt9V0YRxXW86lIa/h2GM+TQZjpKULWlWwuTX85hdYVIWO0yQ/Bc/8lfBEZK0bGN8GbGaMwgOaEB+Z8uCCmpjHiJE9jtlFm9lGn22310fpLuhziUkfqoCUNYQWcAri60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UH89eDTW; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007543358D6
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 18:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778265243; cv=pass; b=Zv9sv+SkjigDP4NuJlCZm1qDDrOKPVmKsjsCObRmSzSD3RX+0EeVoObmXMEZ2lI1BBvoGgpeihIPi/KnHMxZg+XtRM/C/57YbtWqRvqvxbgOEWvOjcVJl1/pNqaSNTpVJw2S4a4ERX+izO5iyHcpF/xioUeBQ9bP8G+UYjHzJ64=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778265243; c=relaxed/simple;
+	bh=r3XXb9IN5ZVx+jLOe7kh1RVJqYQ8qmUQn0mB+j/aYU4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JME1mqFUlxmojVwlJ0gwwq/jfzCLyfI1bHeZPo7Fz4Kmplz7F1c+ywgWOXpvxCqwZJEUXDX3GzLgM6cScxWmyVGmZ6I9B2xlqfwMIfotF8j/y0GceS9xa5/BFsbG0AuPeXHOTdNcH97SvJFE1S+8MGHjHMQDos3bZszV0oKL9qs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=TxWul6wm; arc=pass smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UH89eDTW"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-44c350a5b87so1465221f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 11:26:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="TxWul6wm"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6948c21f72eso110008eaf.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 11:34:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778265241; cv=none;
+        d=google.com; s=arc-20240605;
+        b=i99Soq/rV1MedqTYdnM0eKOe3S0wn60R6C3jQAw0WlPhcFuk+S6eKsYugr8ygzBnpU
+         xPNR+VBaG82RWwc5BkVgQFjK6ro+YF0IpZA5HO0al/vYUozMYNXgw+0F5to2ut190+eJ
+         O+1MpMcaDOi1km9ehZ1vyggdBTklHgDHtu3KBKfO0nAgv24h+xtLXiRYQExAOD7Qbls6
+         XpI9m2TSJ+kcJw42BcW1Ih2DEQMtMD0Cknn1vcVzt5MO2Esk8xXXoc7WupLEqZpeMj+r
+         XisgrLoPuFFz3pQsaniKlzsoVWh0jjgV3QvjD/FD9M4HArE59vnvQSA68aJUSaqia1Ur
+         536Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8nkOfPakqBrzI3UVxelt6anKkv3W2RalwTF2aEOhdFY=;
+        fh=SKMcMXPSa5mb5+XpBG3ox6mJSfMO+dz3rKheMhg5LLE=;
+        b=TCLrrWASCm8Xg26hZfR6VsZbb4GnlWe3/D2mxSW1beeN4K2gCc721V5CBatAb12/kR
+         7Q8msi6SXlW/cp3wfuTW3stcDSw4lIzkBOBP9gsLKyJ3tCKDJJHfVzm3UsEsIu1Ars9l
+         ph56nY8tdu/EzKRmjJ2exdVVkBTN08qhBBnVtKoYUfyeY+xrSSMv8LCx5NpLhlmWYX7o
+         LdzuxzcLqJBw3TmVaT+9TuXCJP6K98YElwsCvrTHPzOClPfRFcwPC97RsCX/jbfquib5
+         VsvSD62HiWR28GjCi0qIIvZLwpCwQU9eGxZBP5ueijFIeOzxrBDHQgGb0HNoZTf5y3Ar
+         UAqg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778264770; x=1778869570; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=purestorage.com; s=google2022; t=1778265241; x=1778870041; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
-        b=UH89eDTWQh9OmS5hUj/dgbTfi3H7wYOPLAD09tyOadceQmuQ1jSW8ecpWt6e65vzgO
-         dUPuw2rKBsNlxygqwzKdECs3V10qe9a4JTkf9GaWDDLwqBqvoMNLKQ2z3FbIsAL/Xdkv
-         h7/yFvPjCarOyc2epdk5HYzixl3aB5dJ7/MAOl6vWwy/FkzEklri+HmlVblgJNeywYs3
-         jY4s5DAbrSwYKbkt8b7zGAZBoJzpLJWvDWX8ghQ6HhC4QCi71rcwijca/mxruMoHZWW5
-         w3gPGRNJQkqEZa35nbPwNKiM05kM5CZ5Ih7Ano8akSmPY2OogTfMOuflpNXAGNBjiHZS
-         1bcg==
+        bh=8nkOfPakqBrzI3UVxelt6anKkv3W2RalwTF2aEOhdFY=;
+        b=TxWul6wmar2qgbWa5kCDCA71H6U0jczZrhTnPm6L8c4/LP8whI/iPF3rdICuDD81bF
+         fyv/f8/I5rSWur7buHAqJ93rclHdlhHeH/No54EOKE3I732HGRuA7d0i0j4dRipSMKUg
+         dtIgMhZ+LmbZ10RXAzELpiPF0n28uwZRnqdUInNVe8ruhDs0mMcN6fnDbWO0uR2ck6PR
+         7Os5qAUm2LpIKDTQHpRr1pNji2/MQFVva2tZ2ZS/4tZf/uQ3qFMoLup8zxJpb0+R9T9g
+         R+EOUdQjyvV00yF1A1SWaK+9ITuvkm5Kccwp7lOtW61+x5q+T6+3QS6w41L0+M4N1t2T
+         Ot3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778264770; x=1778869570;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1778265241; x=1778870041;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
-        b=Jz7EI4bT6eeNUGO+u6+6UK2kB6HeKTZJy3UMFPjcY8De0vjysRbWuxM6al8AcDyVgW
-         5sUEWnVlk1aJRFFhJVVOFFf0/q1mVb2FHl3VXB0d+D2xDVtxSHKpSyOef2vJ2MY4si4n
-         FCksahOggWfBfnkcQmXC1+ok7jt1CXF0E8E2mgR6jbqsSaZ1KQgWdWpmfDDKa82O2wZ1
-         dLy0vt71z1FS+s/WgNmxCN+dLTvxS67gLl+nkg5H5kMGbgH4I/yC3medqfwH0g6/ml0V
-         xu7BA7rMyal6IiAtn5f4JCby5ITXjUXMrnvwP6MDUX0VrpTrBj2Ja3wIaV2kd2PUMiN9
-         2rPw==
-X-Forwarded-Encrypted: i=1; AFNElJ8lY2JNkp0fiMDoNSNfrtL6zFBSKrvi0hXy5l4738AnWRm8cYzrTwqqJjKJzfDsmheBBj/l0dap91sUozU9@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS/KD87Yq9lujcobwGhdn80y7vd4iYpFmt9QzDHApOVnU/VpPJ
-	KR0zdtEPAXgqL593JKjXhErPrEWGHBPkQEKmD4E4+x/BFtPyFqNW7jza
-X-Gm-Gg: Acq92OFHQ4+VzneZynE+ibcmw2eP3GQhWwzxQubRq8AoqrOs5imJBpx60awKZegSFzV
-	4UhkvtMFOOldtkouVxAgE92Hd8Ex4BsMIKGrbCBBL6QvEaeIpK7PEiyG8GNiyjXPRtJXmN3/2kb
-	QHOMecdqlkipqZIjT27YYax1O+mlAH3fPNwASsA9C/Z2tZiRM11ZLHfWRsPKUE4DEWryWQoYTzJ
-	FYxTvkOn9DoRXFeRJ09qsVPr1WE6FLisTRwGzdtB5eyDOjhUKGrKuytn6qofOicU9mhvuA1E1Rs
-	d0GGPFg9tD90WBTrlSvKq0YlcmZRy5AFse8Ijis6lMp04h3yJnwdRHPYiCOZd2spBAvnK37Wi1a
-	JBBSTgsba8ScHVZXCG6GUolreT2ZUETLBtng89SRUF9eQs/OrcGEJmBOfD3yyzvMwVPYvPwoYtl
-	E2wqfk8Em/Ad1mHlBjuNx+D8llnGcDEhSmQ/dxqXbyYcCU23PWKTiqTnfelSbn7dQI
-X-Received: by 2002:a05:6000:420c:b0:43d:7508:c9c9 with SMTP id ffacd0b85a97d-4515c5752d8mr22366137f8f.27.1778264770073;
-        Fri, 08 May 2026 11:26:10 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6c79fsm6435208f8f.15.2026.05.08.11.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 11:26:09 -0700 (PDT)
-Date: Fri, 8 May 2026 19:26:06 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Adrien Reynard <reynard.adrien.08@gmail.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
- Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
- <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt
- <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, David Howells <dhowells@redhat.com>,
- Paulo Alcantara <pc@manguebit.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- "open list:READ-COPY UPDATE (RCU)" <rcu@vger.kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:DRIVER CORE, KOBJECTS, DEBUGFS
- AND SYSFS" <driver-core@lists.linux.dev>, "open list:FILESYSTEMS [NETFS
- LIBRARY]" <netfs@lists.linux.dev>, "open list:FILESYSTEMS [NETFS LIBRARY]"
- <linux-fsdevel@vger.kernel.org>, "open list:TRACING"
- <linux-trace-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] docs: fix repeated word 'that' across documentation
-Message-ID: <20260508192606.2423f50e@pumpkin>
-In-Reply-To: <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
-References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
-	<1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        bh=8nkOfPakqBrzI3UVxelt6anKkv3W2RalwTF2aEOhdFY=;
+        b=c3rPqXWxLyTDKrFdCOtN7smSiMalWxIsEJwwpMo7d3Eo8eglIrfX4/4sbYeA5iAWh4
+         R8Qm03TjwTBx6w2gkoZCVitu47noSp5N3fkwVuouyBLH4eHBz3aFgh6gsTkk5jEnXxWO
+         OelaG885bReawgJkomeOxfs8NNeDQnb6oEm6rqYdNiLm0ICxto0EZdmIgc3QGcG0hFeD
+         HOsqvR9zrXKPCfYXndtnVKLmnICRY/z+PfuHkeIZP08Ft3eNEDjQpV2KTU+gowU/HjXo
+         n2Gq3aOzdUgb69b0YmNjiudICD+gfmWGmdecwwtDTha40NBRo0wrc9yMCBGR59fNOpIE
+         +sSw==
+X-Forwarded-Encrypted: i=1; AFNElJ/fZK1S1cPxfQ5dmEUjwu0oMQ3mgbL0cOK0UElZy/s8xunpLaFdrfgQE17kDKBKiJ/yyeZU4UNnn1S3ZLuq@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4baMJW3qw4p6N0exJ2ieVjjEzoz9jKdBCqcFB3JM1cOUFjR7y
+	zeItVciy1BeBzkdjt+GoY7mM39sWoYHJBfR9usqWolFDCOX25shhEU3U+gWXPybZfRt33tvw8Dh
+	SivxHow3qrzXKPkj7nnFi0lc7osYCAope4ulAUNghmQ==
+X-Gm-Gg: AeBDietURRlB/Qzt8BWEKUmFPYIALYeaPMGWDvwGpvAd9qgkby+bKdtnWuQbLmnPPZP
+	NJBT/9dUuKmsmXZM2Dc6zLajFxKHO1cKwusABmM7Oe7jK7+Fjd7BfhI6BzCYjqIWlWk56fOzUcj
+	Oi6NlGILs7+63hI4VM83PNDXK9bq008wXeVGLq1pHxA/P4exhVi+6qbIlZpHsJyT2fPI87vTXi0
+	x63LFACBb7mBH6ISsYyCAG+xQG/X8T9b8gDAKS2DIofpDTpCGEbQJcVyfX9oyR/u5jijPzOCqLN
+	I7RyH62m
+X-Received: by 2002:a4a:c008:0:b0:696:1daf:3e97 with SMTP id
+ 006d021491bc7-699abb80692mr1912064eaf.2.1778265240827; Fri, 08 May 2026
+ 11:34:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260508111329.329943-1-dmantipov@yandex.ru>
+In-Reply-To: <20260508111329.329943-1-dmantipov@yandex.ru>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Fri, 8 May 2026 11:33:50 -0700
+X-Gm-Features: AVHnY4KYBHj_X1o9i3IsAyatyr5IiUqrj-vxG_frJgzDpEzijRG1010Eo-aP3JE
+Message-ID: <CADUfDZpC5WOBY4_xvAy6ORtgQsxwFYj3Px81RdN7NKQZBFdJSQ@mail.gmail.com>
+Subject: Re: [PATCH] lib: free pagelist on error in iov_iter_extract_pages()
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: Jens Axboe <axboe@kernel.dk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	lvc-project@linuxtesting.org, Fedor Pchelkin <pchelkin@ispras.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 8 May 2026 11:15:28 -0600
-Shuah Khan <skhan@linuxfoundation.org> wrote:
+On Fri, May 8, 2026 at 4:16=E2=80=AFAM Dmitry Antipov <dmantipov@yandex.ru>=
+ wrote:
+>
+> Since 'iov_iter_extract_pages()' may allocate new pagelist if the passed
+> one isn't large enough, the worst-case scenario may be:
+>
+> ...
+> struct page *stack_pages[SMALL];
+> struct page **pages =3D stack_pages;
+> ...
+> if (iov_iter_extract_pages(i..., &pages, ...) <=3D 0) {
+>         /* Even in case of error, new pagelist may be allocated */
+>         if (pages !=3D stack_pages)
+>                 kvfree(pages);                                  [1]
 
-> On 5/8/26 10:37, Adrien Reynard wrote:
-> 
-> Missing commit log in all your patches - I don't patch 1/5 in
-> my Inbox.
-> 
-> > Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> > ---
-> >   Documentation/RCU/rcu.rst                          | 2 +-
-> >   Documentation/driver-api/driver-model/overview.rst | 2 +-
-> >   Documentation/filesystems/netfs_library.rst        | 2 +-
-> >   Documentation/trace/histogram-design.rst           | 2 +-
-> >   Documentation/trace/histogram.rst                  | 2 +-
-> >   5 files changed, 5 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-> > index bf6617b330a7..320ad3292b75 100644
-> > --- a/Documentation/RCU/rcu.rst
-> > +++ b/Documentation/RCU/rcu.rst
-> > @@ -32,7 +32,7 @@ Frequently Asked Questions
-> >     Just as with spinlocks, RCU readers are not permitted to
-> >     block, switch to user-mode execution, or enter the idle loop.
-> >     Therefore, as soon as a CPU is seen passing through any of these
-> > -  three states, we know that that CPU has exited any previous RCU
-> > +  three states, we know that CPU has exited any previous RCU  
-> 
-> The original intent might have been to say, "that cpu", so adding
-> the missing comma after the first "that" or change "that" to "the"
-> would make sense.
-...
+iov_iter_extract_pages() will only allocate a pages array if the
+initial struct page ** passed is NULL (see want_pages_array()). So the
+condition pages !=3D stack_pages will never be true. Indeed, it looks
+like *all* callers of iov_iter_extract_pages() pass a non-NULL struct
+page **. Would it make sense for iov_iter_extract_pages() to require a
+pre-allocated pages array and remove support for allocating one?
 
-I don't think adding a comma would be correct.
-The clause splits as 'we know that' 'that CPU' and the repeated 'that'
-is absolutely correct.
-Maybe 'that CPU' could be replaced by 'it'; but it can be difficult to
-work out what back references like 'it' refer to.
+>         /* The rest of error handling and return */
+> }
+> /* Regular flow */
+> ...
+> if (pages !=3D stack_pages)
+>         kvfree(pages);
+> ...
+> return 0;
+>
+> If you're unlucky so SMALL amount of pages wasn't enough and new
+> pagelist was allocated, missing [1] causes the memory leak similar
+> to one I've recently observed and fixed for 6.12 in [2]. So adjust
+> 'iov_iter_extract_pages()' to make such a cleanup itself rather than
+> rely on caller's handling on error paths, thus making [1] not needed.
+>
+> [2] https://lore.kernel.org/stable/20260505094529.406783-1-dmantipov@yand=
+ex.ru/T/#u
+>
+> Suggested-by: Fedor Pchelkin <pchelkin@ispras.ru>
+> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+> ---
+>  lib/iov_iter.c | 54 ++++++++++++++++++++++++++++++--------------------
+>  1 file changed, 33 insertions(+), 21 deletions(-)
+>
+> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+> index 243662af1af7..46dd11913df0 100644
+> --- a/lib/iov_iter.c
+> +++ b/lib/iov_iter.c
+> @@ -1807,7 +1807,8 @@ static ssize_t iov_iter_extract_user_pages(struct i=
+ov_iter *i,
+>   *  (*) Use with ITER_DISCARD is not supported as that has no content.
+>   *
+>   * On success, the function sets *@pages to the new pagelist, if allocat=
+ed, and
+> - * sets *offset0 to the offset into the first page.
+> + * sets *offset0 to the offset into the first page. On error, new pageli=
+st
+> + * is freed if was allocated, and *@pages sets back to its original valu=
+e.
+>   *
+>   * It may also return -ENOMEM and -EFAULT.
+>   */
+> @@ -1818,31 +1819,42 @@ ssize_t iov_iter_extract_pages(struct iov_iter *i=
+,
+>                                iov_iter_extraction_t extraction_flags,
+>                                size_t *offset0)
+>  {
+> +       struct page **oldpages =3D *pages;
+> +       int ret;
 
-You can re-order it, as (say):
-	Therefore we know that as soon as a CPU is seen passing through any of these
-	three states it has exited any previous RCU read-side critical sections.
+Should be ssize_t to avoid truncation?
 
-But just because some grammar book says you shouldn't have repeated words
-doesn't mean there aren't exceptions.
+> +
+>         maxsize =3D min_t(size_t, min_t(size_t, maxsize, i->count), MAX_R=
+W_COUNT);
+>         if (!maxsize)
+>                 return 0;
+>
+>         if (likely(user_backed_iter(i)))
+> -               return iov_iter_extract_user_pages(i, pages, maxsize,
+> -                                                  maxpages, extraction_f=
+lags,
+> -                                                  offset0);
+> -       if (iov_iter_is_kvec(i))
+> -               return iov_iter_extract_kvec_pages(i, pages, maxsize,
+> -                                                  maxpages, extraction_f=
+lags,
+> -                                                  offset0);
+> -       if (iov_iter_is_bvec(i))
+> -               return iov_iter_extract_bvec_pages(i, pages, maxsize,
+> -                                                  maxpages, extraction_f=
+lags,
+> -                                                  offset0);
+> -       if (iov_iter_is_folioq(i))
+> -               return iov_iter_extract_folioq_pages(i, pages, maxsize,
+> -                                                    maxpages, extraction=
+_flags,
+> -                                                    offset0);
+> -       if (iov_iter_is_xarray(i))
+> -               return iov_iter_extract_xarray_pages(i, pages, maxsize,
+> -                                                    maxpages, extraction=
+_flags,
+> -                                                    offset0);
+> -       return -EFAULT;
+> +               ret =3D iov_iter_extract_user_pages(i, pages, maxsize,
+> +                                                 maxpages, extraction_fl=
+ags,
+> +                                                 offset0);
+> +       else if (iov_iter_is_kvec(i))
+> +               ret =3D iov_iter_extract_kvec_pages(i, pages, maxsize,
+> +                                                 maxpages, extraction_fl=
+ags,
+> +                                                 offset0);
+> +       else if (iov_iter_is_bvec(i))
+> +               ret =3D iov_iter_extract_bvec_pages(i, pages, maxsize,
+> +                                                 maxpages, extraction_fl=
+ags,
+> +                                                 offset0);
+> +       else if (iov_iter_is_folioq(i))
+> +               ret =3D iov_iter_extract_folioq_pages(i, pages, maxsize,
+> +                                                   maxpages, extraction_=
+flags,
+> +                                                   offset0);
+> +       else if (iov_iter_is_xarray(i))
+> +               ret =3D iov_iter_extract_xarray_pages(i, pages, maxsize,
+> +                                                   maxpages, extraction_=
+flags,
+> +                                                   offset0);
+> +       else
+> +               ret =3D -EFAULT;
+> +
+> +       if (unlikely(ret) && *pages && *pages !=3D oldpages) {
 
-The sign writer was doing a new sign for the 'Pig and Whistle'.
-Unfortunately the gaps between Pig and and and and and Whistle
-ended up visibly different.
+iov_iter_extract_pages() returns a positive value (number of bytes
+extracted) on success (even if all maxsize bytes were extracted), so I
+don't think this condition is correct. Callers seem to be inconsistent
+about whether they treat ret < 0 or ret <=3D 0 as the error case, which
+is another argument not to handle freeing the pages array inside
+iov_iter_extract_pages().
 
--- David
+Best,
+Caleb
 
-
+> +               kvfree(*pages);
+> +               *pages =3D oldpages;
+> +       }
+> +
+> +       return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(iov_iter_extract_pages);
+>
+> --
+> 2.54.0
+>
+>
