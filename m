@@ -1,63 +1,63 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC693ECBD9
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 13:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD433EBF33
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 13:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778247958; cv=none; b=hXhans3Vv8Ys+RcoVHECM3u85KhXI/MI2783EG2FlPhBSApfq4AwnwAmLvTc3UYDnfaoaYYXrrpanM5GI7vxomR9P8vrfYGwNIg6zJO2bMbXrUoPYxoXGbrZA7Tij1zER0y3vpBFhqfBSBuzj1Q4YU7Ck1ddEZgHFiXf7aIGqZ4=
+	t=1778247960; cv=none; b=XFA30LhU/kzDk+MxjQP33OJvgsomW4R49osdy0Srd81SFrD2D1KNYatqZBkdQoMFuvS0xDNQQ0A4FJVh0EIIvRrRZsGltW2L9qJxAYZ3CmFuh4KJAiITvxdWx8JOR5eWfEQTKdVg+t3Wu+YxcVHK4RRxCX2dG3E5rHuaaQBZtzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778247958; c=relaxed/simple;
-	bh=vVpE+sk92WLPbTkS8UwRksrlO+TCUZy5fra6+QJlA3M=;
+	s=arc-20240116; t=1778247960; c=relaxed/simple;
+	bh=HbOMvrveZ7GrPJvW/6bKtTuYOy45fOlbCFun/XxRkGA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pp8DyszyYOvZlbki19XuYa+KWrLMVTV5a9G0UYkWwgzoFczFzNVjAd0O9u1svCdIvQEMjoqSC6aCdsRpiR/X80iPbzYNOIkTdNFMnZhvJ5+SAhOtzflbtjH6+qrQu7DrNyoUavsSy8zsFXu253/jfuPZ2tCQxMYOGZqYIKLAvnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ED8G/+9v; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version:Content-Type; b=sI5krJv3X4JeCX6o2+t/Mu1TaIokaOylcq21ebk7VqX8cpW3h4q75MOsQ4DVmjjXchu/STiNIR8GZvoWLkLVsHauhz8oHm1EeIbm5Ubv1+urcQc917t1gaoZSbq7VL563bkVMROVHlC5IhPRfL+qP40KOsbPcEIJDicWpuJIvyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=B7XK3MVx; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ED8G/+9v"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48374014a77so22409475e9.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 06:45:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="B7XK3MVx"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso19113595e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 06:45:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1778247954; x=1778852754; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1778247956; x=1778852756; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=78phUcQ5Rif/EmDwGcADRoP9ZKpZ/G8QAJtY0ciIHXg=;
-        b=ED8G/+9vg8Z0Dc9aGmDOEy5dyWhyjXJCWLRgNOBxq4vedj0zsiFQeLrTUbQDhSOIaR
-         y5bTlqcdjzYGA9rBOt/BYo0k8fOF94t+ap8NsGudc0shGa6DsltktjkVZRcNw08p6C6x
-         x9wE3/SqG0POERKZcrVTI+V68l/lpTquJBViLz+WujlHYqnttchPrvMe9GXeQdNAKjoM
-         NkjF59Dw2prbMp36hSahIU5x4Nr4pU2q/PusUDEbhhhlolp1Yowa2vXW431StO0H767O
-         eBolmtrUcb5vs1C/vwC8qcVcpq6R3rmlMyoSXyufP+ugJj8BsaAt/Yls55m1/r7cU6Wk
-         RMfA==
+        bh=A6ZLFvL+lKydXpO4WILavVeDHicN0myZST2IZFNTkj0=;
+        b=B7XK3MVx5C1MpciTIGMtCkRgLh+3KgzrNq0uKYjhUbj21r7to0uizFvQl8cuu4XnTH
+         fIEz03UluZIwJ8i8oMgYPlzYRmEdv0hdEIY2OC4r4qF2PcyqmYUIx6iZk2n62XmExcpT
+         Ac/S8qVdoTXufkggtRZRULSMlWDsG0sNbkZqs8j9L0SxmkWZTGhNsx980HhSYm7rwdFl
+         TStkp7oNuDaZW4cppp+cPDXG/zzi6cRFqyH9Bjn3f+ccMOT9GJEuokaBOHWo22xNrani
+         WpmQsdTSe+ZkE7I/v4zt99ADrAeNw6E076f93CYkBj41kY283Vc9UvqOlBC9RnpjLhnt
+         Cbfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778247954; x=1778852754;
+        d=1e100.net; s=20251104; t=1778247956; x=1778852756;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=78phUcQ5Rif/EmDwGcADRoP9ZKpZ/G8QAJtY0ciIHXg=;
-        b=c5rNIQUWgWHzD9pM1Z9naZ6Y42J/rjKn/CMQayYH3+Cjo+X6dnwd2rnBtTXB23Yzbu
-         gNLQsXRXnxuLHDoCrgRN+lCDQCA2l8YPeeCBTnMCWvt4X+H+Q8oau+H1ErBVVDdjKSbG
-         f1lYtjfG6Mhpmp76bgI5+BfY2jUlhpWuMJ41GRm0nr23NNiZgDX0B9WPAc4Z+gBQE55a
-         LAXtrg8jSAzIwqQAcgUd8yr7J6Bneb7vOLQtnGlXj2lKxB1Gv2NQaYz4YYOZghFtJQxm
-         8y/gK3uI0QTMiigr+653lB51b73vVkzE2HFkRGNPkCk7JwZbmLpSz+rxAPjAn3gxhKhX
-         ZHtA==
-X-Forwarded-Encrypted: i=1; AFNElJ9/cMaOUD3hGfUKthqQTmtvRdS7RR08+s4jze44xAH7nh7c7evTIi9gbV35WW0j8zVZ8j90ONVfr5QCyGEj@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa+7VnkQFsVNEdS5rUECqL4Vt983r5+mikcVhDUOuP7oj25Gkv
-	COn5VG1fPCgl3BLt+LRBYTgnl/jdK94BKcO3bmKB7XD41WwSzBgsNw/KmmTsfSYKUHc=
-X-Gm-Gg: AeBDieu/3lXoNqokFLlKIBAy5B93cByauTQhUtWbo+RMbyLY0JxjAwz/eZrKwz/pTpp
-	/ckKXYdjjBSLEeWMLkfg7c36eiTWT26nOoHT0b7f0QzXfIqfQmeNcV4Hd9xia/M+BXJsZvzkkfj
-	l5VMpevwR++8c4w8mXeUacxhwjVnygKTL9/Z+6+DZboAhRtxG5l/NLdmVhU59UgkIRkLhX655x1
-	Wc9hJ67aRqRgQWhP8ors4Wp+1DrgWCWzbTVvt3LF7dyj2sxWxlptXmRGMRQzVztSc3Yu7ygQ8Oi
-	B8nEjFaKwrRDQyQgoxwtQaQX+hXBna/h0hFrKf0BfiDWYkgSis9lGBkDPYwq0P6u0l+PrU94bII
-	6EP/XfEmOHrdABUPQIl3qeBdU0XLnum2brBE7P2jXj+rYmdu8RA4vKUazc3FQtd5rk6Qt831rgv
-	4HKJU8hakC5pXWlCgBRQOjc3N8WVFD0/EexCk2ABhHu+CpW4g=
-X-Received: by 2002:a05:600c:811a:b0:489:1c32:210d with SMTP id 5b1f17b1804b1-48e51f369c3mr203601785e9.15.1778247954175;
-        Fri, 08 May 2026 06:45:54 -0700 (PDT)
+        bh=A6ZLFvL+lKydXpO4WILavVeDHicN0myZST2IZFNTkj0=;
+        b=NS0aMFKmpq/9Puram97kV34TZ54ZQR5NI+u1qrGA2TVmFi2si/EIbmgHLj2639UT3m
+         wh11BQeI2la3VIciEvJIympDfu7u+dQLQiT8cnBtEVkNnTulgXkH16Gd00wpmPVGYIxu
+         LuQK7OiW4j2+IetAG3q548vQ9Gc6fLUkwv0mYkBPj/DcoESDxWBwyFEJXOBgLrvwl8L6
+         xAsHY6vgzmI8lXRTS987ST4Q6kXgdvVDnqX9wRopRjmgRi26fA+aTObrVP0Pba90faty
+         3QrRah6TT699192T7NbKBUKuYEKsS2WbiS7jpQzgXvpaXW+/0EgoJMudDLZRPuqn5iPU
+         6NPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+uwFp1BmOGS3xvuXkSxhvd4CdsHVWTE/l6CskNWD9ky6GIJlu+NHbYdpiitkiER3vLeBXZMCmpncIAoubX@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7PMGyYLZ4TqDzuuTqHXTlra1B4ZNQahbr2d/SAmyiQVcvR+Zt
+	plfuOVCWG3thNbf586EpGviJVBnb8WYHw3ip7lieFbXYT9VjBLHzitS2z8kWQRJnDiM=
+X-Gm-Gg: AeBDieu1w9XuXOJbepmTU3gECuPUi/yV3zflM6M9M2eOHnhSUnpariY6GxS3MsFJTqw
+	YeFwaVSRSv54itLno/I9snWJcCtk0DoNpSI+t43NwWEtXyu0ucz5mWah0Udwst5wgm1avrVDgmr
+	0KoRfmoKJkE5EZh0bA0ZVcCnjId9GXSzLT6VoaTNP3N3O2jmLYlAxEdu3Yz3fp6S+Ij8Rcxs9Wp
+	w++rhML+RNfo/M9G9H4ET/NS7/mj59pqlR/oc1l8cBdwNFB9upfRwM/fYkMQCIBoemxI6N18w4g
+	lYYyMb8x22ISHHTG3hB37OcG/rcrabdzS43Aryci/rIpVr8gI1SiM6v5ecy1QPIm8eHVpysk8+N
+	N69QZtrvqy5AuYI0FVcVuNOQ1XN+3CsZfng9Zswf1Ri83iUi1PK+0BZpgl+lGmXgR0Egr15xlCb
+	nUlPXnFn5ub0N89DjgYnmz02v34hz2rdWHMy9LAedrAbGOuChj451PZMU2mg==
+X-Received: by 2002:a05:600c:a118:b0:489:a4:e578 with SMTP id 5b1f17b1804b1-48e51f32870mr151383775e9.14.1778247956168;
+        Fri, 08 May 2026 06:45:56 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db1413csm178475e9.29.2026.05.08.06.45.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db1413csm178475e9.29.2026.05.08.06.45.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 06:45:53 -0700 (PDT)
+        Fri, 08 May 2026 06:45:55 -0700 (PDT)
 From: Marco Crivellari <marco.crivellari@suse.com>
 To: linux-kernel@vger.kernel.org
 Cc: Tejun Heo <tj@kernel.org>,
@@ -66,13 +66,11 @@ Cc: Tejun Heo <tj@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Marco Crivellari <marco.crivellari@suse.com>,
 	Michal Hocko <mhocko@suse.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
 	linux-fsdevel@vger.kernel.org
-Subject: [RFC PATCH 3/6] hfsplus: Move long delayed work on system_dfl_long_wq
-Date: Fri,  8 May 2026 15:45:31 +0200
-Message-ID: <20260508134541.282073-4-marco.crivellari@suse.com>
+Subject: [RFC PATCH 5/6] fuse: dax: Move long delayed work on system_dfl_long_wq
+Date: Fri,  8 May 2026 15:45:33 +0200
+Message-ID: <20260508134541.282073-6-marco.crivellari@suse.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260508134541.282073-1-marco.crivellari@suse.com>
 References: <20260508134541.282073-1-marco.crivellari@suse.com>
@@ -106,28 +104,26 @@ obvious reason that justify the use of a per-cpu workqueue. So change
 system_long_wq with system_dfl_long_wq so that the work may benefit from
 scheduler task placement.
 
-Cc: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Yangtao Li <frank.li@vivo.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>
 Cc: linux-fsdevel@vger.kernel.org
 Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 ---
- fs/hfsplus/super.c | 2 +-
+ fs/fuse/dax.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-index 40a0feda716b..12ba672e13bc 100644
---- a/fs/hfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -314,7 +314,7 @@ void hfsplus_mark_mdb_dirty(struct super_block *sb)
- 	spin_lock(&sbi->work_lock);
- 	if (!sbi->work_queued) {
- 		delay = msecs_to_jiffies(dirty_writeback_interval * 10);
--		queue_delayed_work(system_long_wq, &sbi->sync_work, delay);
-+		queue_delayed_work(system_dfl_long_wq, &sbi->sync_work, delay);
- 		sbi->work_queued = 1;
- 	}
- 	spin_unlock(&sbi->work_lock);
+diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
+index f6cf00a8938c..8b53625ac7ab 100644
+--- a/fs/fuse/dax.c
++++ b/fs/fuse/dax.c
+@@ -113,7 +113,7 @@ __kick_dmap_free_worker(struct fuse_conn_dax *fcd, unsigned long delay_ms)
+ 	free_threshold = max_t(unsigned long, fcd->nr_ranges * FUSE_DAX_RECLAIM_THRESHOLD / 100,
+ 			     1);
+ 	if (fcd->nr_free_ranges < free_threshold)
+-		queue_delayed_work(system_long_wq, &fcd->free_work,
++		queue_delayed_work(system_dfl_long_wq, &fcd->free_work,
+ 				   msecs_to_jiffies(delay_ms));
+ }
+ 
 -- 
 2.53.0
 
