@@ -1,116 +1,148 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6811AA797
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 02:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778205701; cv=pass; b=Z8PcCORp6goxpaKDAwnTycLj/gZp6/jUh9tUJrf+ThZORXlRyROB3b8pHBeLDesO6ilVBDg0iQ583OLoFykVXBQzsF+rsvVsLcCcQQF5QASU2s5l4CDgsJDDG+fpXkSd4XjC2CHdqG/oPSqg9CM5Gm0WfeBKdz4NRpJAhfW+v2M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778205701; c=relaxed/simple;
-	bh=1qH18qdpYxAFdRK8nMmKj+a4ErONg5k6uU1EBZJbI9g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ipzgf+ISbs54DQGmcfYx/6ptfio+m4m8vhQgzHEouhBaLcFBK5PUU/32h+BTyrOfM8ddNA2PbxiZGrubdHxEM1lScNCEoVOwsiHE4EkEDhMzMSrLdF6oR441ix9rcKajYlDBkBEvO6utfViEn8UwWcztywA+nxhYuP8CSMq3fhw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QHNxT+sw; arc=pass smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E4D27CCE0
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 02:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778208764; cv=none; b=XJbftyA6eg1rO7PhbszuNmNOacBqhKqHN82m+O/+ZnuqhnGTYD9RmTNxzdoYxlQZoCwsLgPqW5Uj12/LE2gii84JLdADb5EJy/LeNUn0tGFHKYBh8VInGF7S+g2VfEXRvandNczPh3qW2B6dz18NBQsNTYGP+yxk/7Zu11RfeH0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778208764; c=relaxed/simple;
+	bh=TxFqk8i+4b6dEi3VGsPCyT6UMh99EcS5+9xa5h8ZEmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DxZiRkBu9RrWJ6w0i9/sbnsgwdRWW0tUESUAXRR3mJs/L5Hi4h7ZETQn9DaK1jgN0wsBe8TkGOlsdJaDUwXUDsVSqDUsfoM9vZF7U4jm9nn9Dx4M9c1WV+M0pOhK+3nKK9Toms0FnJlCJiJnQMh6cUpqPdgs/9AeqLttZ2uoimU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qd1qlXli; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QHNxT+sw"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-126ea4e9697so3568c88.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 19:01:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778205700; cv=none;
-        d=google.com; s=arc-20240605;
-        b=A5Zbgys4QMiswShQSonOzNs1NT4S4+vFcaAQVTPLUCJivmcYeP9K+ls2gM1ax+DIJ0
-         Vr7zPlLY5JSHav/cqnRzQn9/pc0f/ERqwSBBOwC4Itr+DWBR/9JEqjpW8X0rBw3Wz3bo
-         2O4Cg8lj2VMWi47n+q6NhNocSP6cwvJpW60bccuagYTQ+kqrGiaE9YEpXjMu9cDyGmHV
-         5IZHVxoDh15UZa4C3pKbS5HlwfjW1aFD53/nxP3pEJkbtJiZYjpo+Q8aOfh94ItwiZ09
-         MM13IYroxWSzZvOO8SwJ8KYDwFA8XXvn5GP7v0ARL9JzycwUz0KD+EXfi8IqLfCbJppN
-         Nk7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6jsJtIabJmDpsyQAeEg05bOKsXfq/l+0TOvsDmHecoE=;
-        fh=LY5GC2Imbr8OSOSl9RfEn0KXypbcWfprp+POGOCXlaw=;
-        b=PUZjYnTzGd0lc+SMdsuybKXRsuaQHK5D19lp0XGXth2RR+reIO1UVjnQ7uii2hJIev
-         icH0ncmkliCtO6QyY/UEGBMDGS82VWkSXjtJSk6QmVCAMlVtvqV+qiHC+1/M72bkaTDa
-         FwgHvKlIgwJxqX1s6iGrb0xbnp+ebAYYvwERdxUd3NCw5bNTdH6WDTL98KdZDSiqXOwj
-         wZgK3l5e8XiY3E2+Zm8CNJyE806nFSV67a1P+ITwcL2krcTWEtWr1b6Tjx1TQrKf2GuV
-         OeShitv0Ymx4elIYIhQrKYzi4qXN8GNkm9s5DCITB71dt1ip7jWxRLveuEfxEGVLu+mO
-         Mo8A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qd1qlXli"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6634bb959a2so2052388a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 19:52:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778205700; x=1778810500; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778208762; x=1778813562; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6jsJtIabJmDpsyQAeEg05bOKsXfq/l+0TOvsDmHecoE=;
-        b=QHNxT+swISpkBYz3xKHb+VF5WA951AH/HrmJ4qasEhJTxyUoqD24EzBjb9tDP2XcIA
-         RcErwmz7kihV4kC69FMqmg3OgZdPJa0n/aU+jaVJ6X5tOMS0//g5fBgdaQik8ory4byd
-         NBAm9IhORi5caUR3thLPBw1tsXc2nSo1vvXzXm8uFGM756S+pFg5lkdpGp+QondHvkEb
-         f93VNTBeQrNrVQcAlEm4fTtAqr7PaBKmmuG8ifbOS2eCNOTNburdmg9WfLVmsBqNkdXn
-         yARdHhFZbdw3Suz+B2FfkUfQ4wN2D02T+7sWBDmSA8uzKelIrxKdhSXxKV0Sq8FW/EZV
-         d5WQ==
+        bh=GXo8YRKGAQ0gGQsS3CnfFEP5ggHykysOGobJBcjxhWg=;
+        b=Qd1qlXliLfZ849CmHV+HjAVyD4ZF5SV6Cmf29ECSofNbg0K8Yu6jMtNHVO3Zxd/AMH
+         MuABcvUrioFKZkHOjKAy5eJTKaGKk1F4/u+jOtUvGwdFeJ73NiKhSrEgZVpXe+jGuk6v
+         /ikzuFTMRJUnG55XQIp8Vt3E/fnZcBWQCZFqXMv9Dw+FVPD/gStCsr8T5H+3zo31l3AR
+         HNDbdoeijQBjpXIIEaWA3tEUbkoUSaqpz7LY5ztn5d/m1Sb3XUJg45vFL+Rx6HXGNHfp
+         ENkmpB0oJ/kHEi9Ibl4I4MCbhhgMWGHuaie4h0ZMbtLRNmxk3GRCGyjuDuqFAr4vzts5
+         HmHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778205700; x=1778810500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6jsJtIabJmDpsyQAeEg05bOKsXfq/l+0TOvsDmHecoE=;
-        b=ZIWMABFW3v5hXgT0C4jIwb6fVOBR5uWvDeBTHf2qm6XWkj76k3bqqwTPcWPbk4Mvs4
-         xH6POBlCYd5adc9tuZmvtj9bbhD7wyoEUN27wnc/sU7xEPkcjSIk+5pVPdKiLS+V7ZXG
-         MFRGG/mgX4XLctNtYYDSxtBvmcJjWuzqB7EFw6+ec253AwpyF4Xl5lyvCEwlJHMaXyOI
-         B/FoiW3NFhIXSrNs99Ylm35YhmQqE0ZUI7mQSIxSBD1Xc00Sa3lyt/0rrp4IN+xO3kv3
-         sw0aKSKF8zidHfmL6cRCIVnhuzTWn42w/PNuRIYfQTeEFhBJ/c5x01WWtqUdG5L5yD4w
-         +DeA==
-X-Forwarded-Encrypted: i=1; AFNElJ83oxxMmihB+GTApNg+bBq5L4JOxTr/1eWw1HKTyjO1OB+Ewz7Jp/m2AWzIaOVNoMpbZ8lJB1+av1P0VRJw@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC26lATAlxs6wvAAmysOO2eHbTRa9DqFTiR7Ma5jT0YvNq2zxs
-	zR0vYdYouIIUXGbDm+3W+iZi5EQ5ey1qhFYJmpQQK5SfiaauD7IS9gJlureR30EmvVRU7+u28eP
-	n4tqdss67SWohfZdliVuPhIsnGAzfsF5+uXMuzdXw
-X-Gm-Gg: AeBDiet4xZtVrfMJLV4mUC4u6ys1sjEeWOSDAtIl1V7yzi40kJ6Gu+eTmDs/ebuxiKj
-	NMgEvR+Hln0jBnu+epOp4FKANXdSAM755n1wpR22Nzii/5euhQDJSAzlVsK/ysKd5vYjHKiTzcL
-	8jBwvc1wkofDFY9VQIRbCZ3g5nCBiWmzZyhUjqiuWuO3JU0jMMb8bk4rLkQdyYhEXH7pJS3Vsr9
-	8+y2gyDGaGXNc9YxOqTtzgkOR04RS8n3paZYBbUJjPlK+OcvmvZQ4ElHAPN7rjvbODCtdwHVTyj
-	nhxCYNSLYJmmzb9/iak=
-X-Received: by 2002:a05:7022:6706:b0:130:c9cc:2919 with SMTP id
- a92af1059eb24-1326f5e59aamr47946c88.19.1778205698960; Thu, 07 May 2026
- 19:01:38 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778208762; x=1778813562;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GXo8YRKGAQ0gGQsS3CnfFEP5ggHykysOGobJBcjxhWg=;
+        b=eLcga4QpVNK9/+rtF9Wdrb0lqjOHS4q5dHGa5+bu0rE+LUI+ToT1ZV731HjGBXIFh6
+         cDLI7BOY/LGl8pPMdXyRGyXY7ESeiOGVFudo0tTEa8HptxXsmf4h5Wg3BrjdQXWozL1/
+         6RhUkzX9aNwv/kIVDfrlQn6LLJTYFQv+hJdceFVN9Nd64V5nJk4BG274Ioxh3b1ytKTk
+         /97+83BmsocGU/Ex8UoJg7co8shQ/wIlf/cdhrv8Qi+BdU8ND3nXosmoG8d+pVpLbbco
+         rORVp/i034wE+Ow51YcBaB9okDrkQ1cYCO2d3EyzUAip5QsUrHftks7EaCh/N6HcXB1i
+         15kw==
+X-Forwarded-Encrypted: i=1; AFNElJ+xJVMT0Ol5YnN42mNSR+g9sQfNIXQg6X1Yin5Nn3hCHuV/CiHGz+ie494vppTokp5Pj0GqZAnTJB9oj2uN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5AH/PCsqJ21EF9s5zy+GIWrvegUuhK+eiSoi8jl4BvN8O+u5r
+	RDxMuocHLg8Fah7uUS7lhtgR6UjIZLWBMtKjJNCJlZtrYbjX/vuHI3G7
+X-Gm-Gg: Acq92OFwScsHvBUFzbNdervpRETO0AzYvlCtNTb+i2KCrZrxnDjN3WuimuKejBNy7Ru
+	/B8fW4UMG3svIDTDdDk590iIuCmTmR2M+LfCQtzfkDiwJVjc0sxbZVmw2+KgfKDKXW+F5SJoofv
+	DI4Q4L81iuKuDnhdgSLSuG3M9wjPlMDUz8C5wo/+3f74kTvjhdgfMH37AZH6UlxiNGCerRcLqVs
+	U/cDIJa5IdgmClRaPC1ZPkqBPsBk6T7FrM7bTWDOsgVkOcTcbB64yYreYn5tPnKyq5Nzo//UrGb
+	SV5DRDu3az1Hy/uIPCNApa+3n+A2uXBZ5iVMB3VTZE8GMVPsfFkKiub0jr12M/ky03eOilTCpvl
+	MU95J91Cw9rgaNc16kv4tKNM6CUrB0ZsOMJNK3a/y2YIuo+3Gxs/DOCg70q5thNKmt3mv1Uu9G1
+	Y2urYkafsgVvB/QxL5t4NRwzPNblMcByAn
+X-Received: by 2002:a50:fa8d:0:b0:676:988e:8eb6 with SMTP id 4fb4d7f45d1cf-67d648a9ed2mr3977298a12.26.1778208761525;
+        Thu, 07 May 2026 19:52:41 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67ef0e1a221sm102651a12.24.2026.05.07.19.52.39
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 07 May 2026 19:52:40 -0700 (PDT)
+Date: Fri, 8 May 2026 02:52:39 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
+	David Sterba <dsterba@suse.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 05/14] mm: remove READ_ONLY_THP_FOR_FS Kconfig option
+Message-ID: <20260508025239.ooz5kc5a3n372ebb@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20260429152924.727124-1-ziy@nvidia.com>
+ <20260429153538.727855-1-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260501011908.3630802-1-fmayle@google.com> <20260501061146.6e61392d125cf1847d7cc181@linux-foundation.org>
-In-Reply-To: <20260501061146.6e61392d125cf1847d7cc181@linux-foundation.org>
-From: Frederick Mayle <fmayle@google.com>
-Date: Thu, 7 May 2026 19:01:27 -0700
-X-Gm-Features: AVHnY4Lka4VCHovYje-DOBwkYGJx5QVAilqV-2NuomKV-25k6NdoK_k5CuukxfE
-Message-ID: <CAHCxdc5Kug-o8ubLmZgeQdcFmhvAMmAtNUc95t1kx3Wjggbnvw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] mm/readahead: simplify page_cache_ra_unbounded loop
- counter reset
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Matthew Wilcox <willy@infradead.org>, android-mm@google.com, kernel-team@android.com, 
-	Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260429153538.727855-1-ziy@nvidia.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Fri, May 1, 2026 at 6:11=E2=80=AFAM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
+On Wed, Apr 29, 2026 at 11:35:28AM -0400, Zi Yan wrote:
+>After removing READ_ONLY_THP_FOR_FS check in file_thp_enabled(),
+>khugepaged and MADV_COLLAPSE can run on FSes with PMD THP pagecache
+>support even without READ_ONLY_THP_FOR_FS enabled. Remove the Kconfig first
+>so that no one can use READ_ONLY_THP_FOR_FS as upcoming commits remove
+>mapping->nr_thps, which its safe guard mechanism relies on.
 >
-> On Thu, 30 Apr 2026 18:19:07 -0700 Frederick Mayle <fmayle@google.com> wr=
-ote:
+>Signed-off-by: Zi Yan <ziy@nvidia.com>
+>Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+>Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+>Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>---
+> mm/Kconfig | 11 -----------
+> 1 file changed, 11 deletions(-)
 >
-> > Minor cleanup, no behavior change intended.
-> >
-> > `read_pages` ensures that `ractl->_nr_pages` is zero before it returns,
->
-> So it seems, but depending upon this might be a bit fragile?
->
-> It would be better to make this a more explicit/formal part of the
-> read_pages() contract.  kerneldocifying read_pages() would be a
-> suitable way.
+>diff --git a/mm/Kconfig b/mm/Kconfig
+>index e221fa1dc54d0..27dc5b0139ba6 100644
+>--- a/mm/Kconfig
+>+++ b/mm/Kconfig
+>@@ -936,17 +936,6 @@ config THP_SWAP
+> 
+> 	  For selection by architectures with reasonable THP sizes.
+> 
+>-config READ_ONLY_THP_FOR_FS
+>-	bool "Read-only THP for filesystems (EXPERIMENTAL)"
+>-	depends on TRANSPARENT_HUGEPAGE
+>-
+>-	help
+>-	  Allow khugepaged to put read-only file-backed pages in THP.
+>-
+>-	  This is marked experimental because it is a new feature. Write
+>-	  support of file THPs will be developed in the next few release
+>-	  cycles.
+>-
 
-I agree. I've sent the following patch to document the invariant
-https://lore.kernel.org/r/20260508015402.735441-1-fmayle@google.com/
+Hi,
+
+I see hugepage_enabled() in khugepaged.c still use READ_ONLY_THP_FOR_FS.
+
+> config NO_PAGE_MAPCOUNT
+> 	bool "No per-page mapcount (EXPERIMENTAL)"
+> 	help
+>-- 
+>2.53.0
+>
+
+-- 
+Wei Yang
+Help you, Help me
