@@ -1,32 +1,33 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82906371049;
-	Fri,  8 May 2026 09:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DB7375F88;
+	Fri,  8 May 2026 09:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778231446; cv=none; b=FzFaU1i2TzUnNNir6g1hV5XqTFZ8n0IlFRQMJaFE0MXdUfpYoGiucmOJSPrAef6SS5eOZyVwiX8QKAq6UV7kRLuzeEL/UonH+siyApbEBAuNRGHBAx0mxN2bjmZI8h2uFeUSQdVGtmEJ2LMYK/ic3HJExQKyhcDo0PhLMX6hEuU=
+	t=1778231710; cv=none; b=Lz2TsB09mHxDF6h13ggAknZLPXCG63bDUPVaY/NoMF3mFBShSGbHC394O8d2to6shBvSj0huGvODpp7G5ZBHBJw2cGkIaXSG3QrC7OMFTIkf2N7HrwnrcoeaDYgy8M7k4vOKys3J/SwRHU9b+t9SR6vJoHELYpZSSFENVhiv3eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778231446; c=relaxed/simple;
-	bh=G1Gg/u98w8atwA14XNv7U2/AU3zvqxe6RLy/1mgkehA=;
+	s=arc-20240116; t=1778231710; c=relaxed/simple;
+	bh=NXZCU9O+VnXKW0Sj9R4wxcr+LevLi2lp2ovXFLv6vJk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LAU0Mymv5jVq0LMRjo1/VRd/oAybqgNbgvSsMRcrvLorAQc3+Zlj7HfdjfwbE54U736rrUb/wAIkkSnODsON0TbhXZV1xYGDKwcgB0ShyzxgpnIFGBswQcVuyV+ENC4EiiMOudOcZMYNfN+nwjpDF5UTcNfPalJmNJduGh5rEtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Vdu60LdW; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	 In-Reply-To:Content-Type; b=TsnV2YWuc2LASuZ+3tJ2aTVGGZ8vpfgoGYeoVRZuLSjftUGoV1B3wkVRmUE0j83J54oqx/n8nY5i0JpulFUIzUrqX0Dy8XnOdAoqW+iqoVUFK91wsL+HK4tG5mGEk2keAnfzuEr/vYoGh2HYlfbpOhJkgidk7d6UKJ1XUPds624=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oKmgI4wq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Vdu60LdW"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1778231435; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=G7gqn9fF68YEGO2rjLNc6y68iZ4WaEVDGDVBH/83ckA=;
-	b=Vdu60LdWGc5YTPf/HOIVrnWaUtViRI+OarxIcLxq2sFzS0XdYT+aLr1R40YYPU9quUqcxMk46YBdPJAxvKJ05kUyfhGkDHlXjQ8h/Bo8UOEovXF3malq1UVjuBCm3NcAhjdpu3PZiQ7eBbaOblr2bzlITnNiGt2gF0ibSgGS2eE=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X2WwjyI_1778231422;
-Received: from 30.69.177.140(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X2WwjyI_1778231422 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 08 May 2026 17:10:34 +0800
-Message-ID: <50668994-b6cf-4288-9ee2-0264bad2b271@linux.alibaba.com>
-Date: Fri, 8 May 2026 17:10:21 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oKmgI4wq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE1DC2BCC7;
+	Fri,  8 May 2026 09:15:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778231710;
+	bh=NXZCU9O+VnXKW0Sj9R4wxcr+LevLi2lp2ovXFLv6vJk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oKmgI4wq7bbeVrOg4MRR6sfYHcNJ4J+g8kT2q+cfspcG0ggGGazKNsKJW9yHW8Yht
+	 UfKdlAf8CONiwguOIIXA8zzDMabe3eZZ9Wop21tmbFQk0s0+wricTFF+eBLpFZZii1
+	 wsUO+jsMDHDypwLO8KVorS5qpt+ddDuwgG76To6GvFrYwOWYfEUxrQEHYC70YIyJA/
+	 PiySftNL/Go2Daomk44GyADSVg1SXDY79SLFwr74xdcb0Otza2Sf1fpbp1T+pFWGyx
+	 KPXDafM+0hQ1IeWB5YV7nJirMYMI47Ly4IxIsc9ZgN7rOg3UzIMWwgdX+QsvNbiWYB
+	 Gv5SbUKY/Oplw==
+Message-ID: <a708a295-9d80-4538-9d12-53c12820f9ed@kernel.org>
+Date: Fri, 8 May 2026 11:15:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,87 +35,140 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] erofs: use the opener's credential when verifing metadata
- accesses
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-erofs@lists.ozlabs.org, Chao Yu <chao@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, oliver.yang@linux.alibaba.com,
- Carlos Llamas <cmllamas@google.com>, Sandeep Dhavale <dhavale@google.com>,
- Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- Tatsuyuki Ishi <ishitatsuyuki@google.com>,
- Matthew Wilcox <willy@infradead.org>
-References: <af2kDfHe0B3LnvVm@infradead.org>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <af2kDfHe0B3LnvVm@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] fs/dax: check for empty/zero entries before calling
+ pfn_to_page()
+To: Souvik Banerjee <souvik@amlalabs.com>, dan.j.williams@intel.com
+Cc: willy@infradead.org, jack@suse.cz, apopple@nvidia.com,
+ linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260501233933.2614302-1-souvik@amlalabs.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260501233933.2614302-1-souvik@amlalabs.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 2026/5/8 16:51, Christoph Hellwig wrote:
-> On Fri, May 08, 2026 at 04:39:15PM +0800, Gao Xiang wrote:
->> Currently EROFS file-backed mount metadata is directly using underlay
->> fs page cache, which is mainly used for composefs, etc. to avoid
->> different EROFS instances have their own EROFS page cache for the
->> same underlay backing file and avoid unnecessary copies into them.
->> --- That is also what composefs once did in their codebase.
->>
->> Since EROFS just read the underlayfs page cache and does _not_
->> touch anything inside the underlay page cache itself, so I guess
->> it's fine?
+On 5/2/26 01:39, Souvik Banerjee wrote:
+> Commit 98c183a4fccf ("fs/dax: don't disassociate zero page entries")
+> added zero/empty-entry early returns to dax_associate_entry() and
+> dax_disassociate_entry(), but placed them *after* the
+> `struct folio *folio = dax_to_folio(entry);` line.  dax_to_folio()
+> expands to page_folio(pfn_to_page(dax_to_pfn(entry))), and page_folio()
+> performs READ_ONCE(page->compound_head) -- a real dereference of the
+> struct page pointer derived from a bogus PFN extracted from the
+> empty/zero XA value.
 > 
-> At the micro-level this does mean erofs needs to do the checks itself.
-> OTOH it means this whole scheme is completely broken.  The page cache
-> is owned by the file system, so erofs can't simply poke into it.
-
-The page cache is indeed owned by the underlay file system
-instead, but erofs doesn't poke into it: it just needs some
-temporary metadata read usage without extra allocated buffers.
-
-On the one side, I hope if there could be some interface for
-such temporary usage rather than just one vfs_iter_read model.
-
+> On systems where vmemmap covers all of RAM that dereference reads
+> garbage and is harmless: the early return then discards the result.
+> On virtio-pmem with altmap (vmemmap stored inside the device), only
+> the real device PFN range is mapped, so the dereference triggers a
+> kernel paging fault from the truncate / invalidate path and from the
+> PMD-downgrade branch of dax_iomap_pte_fault when an entry is being
+> freed:
 > 
-> Now for reads it mostly works on the most common disk-based file systems,
-> but it does create lots of problem for slightly more complex ones like
-> network/clustered or synthetic file systems.  It also really breaks
-
-Just out of curiousity, could you point out one specific path
-so I can look into that.
-
-> layering, so we need to fix it.  Not sure what would be best, but I'd be
-> tempted to have a cross-instance cache maintained by erofs and filled
-> using in-kernel direct I/O.  IFF the page policies work great for you
-
-Direct I/O may be improper for many cases, since users will use
-buffer I/Os to download the images from remotes just now, and
-direct I/O just makes it worse (invalidate the cache, and reread
-from disk) and double caching if underlay file is also read.
-
-> that even could be a synthetic inode/mapping.
-
-I expect the similar comments, if we really need to work out such
-cross-instance cache, I'm fine to implement for Linux 7.2.  It will
-increase the complexity of the codebase and also it won't share the
-cache with the underlay fs.
-
-But could we just fix this issue first for previous linux versions?
-
+>   Unable to handle kernel paging request at
+>   virtual address ffff_fdff_bf00_0008 (vmemmap region)
+>   Call trace:
+>    dax_disassociate_entry.isra.0+0x20/0x50
+>    dax_iomap_pte_fault
+>    dax_iomap_fault
+>    erofs_dax_fault
 > 
->> On the other hand, we talked a bit commit f2fed441c69b ("loop:
->> stop using vfs_iter_{read,write} for buffered I/O") in another
->> private thread related to fanotify, which lacks proper
->> rw_verify_area() as well, since it called into raw read/write
->> iter methods instead of using the previous vfs_iter_{read,write}.
+> Close the residual gap by moving the dax_to_folio() call after the
+> zero/empty guard in dax_disassociate_entry().  Apply the same
+> treatment to dax_busy_page(), which has the identical pattern but
+> was not touched by the prior fix.
 > 
-> Note that this does not add the bypass, just extends it to both I/O
-> types.  But yes, this breaks fanotify.  We actually have quite a few
-> raw ->read_iter/->write_iter calls, so this might need more structured
-> treatment.
+> Fixes: 98c183a4fccf ("fs/dax: don't disassociate zero page entries")
+> Fixes: 38607c62b34b ("fs/dax: properly refcount fs dax pages")
+> Cc: stable@vger.kernel.org # v6.15+
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Signed-off-by: Souvik Banerjee <souvik@amlalabs.com>
+> ---
+>  fs/dax.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/dax.c b/fs/dax.c
+> index 6d175cd47a99..6878473265bb 100644
+> --- a/fs/dax.c
+> +++ b/fs/dax.c
+> @@ -505,21 +505,23 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
+>  static void dax_disassociate_entry(void *entry, struct address_space *mapping,
+>  				bool trunc)
+>  {
+> -	struct folio *folio = dax_to_folio(entry);
+> +	struct folio *folio;
+>  
+>  	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+>  		return;
+>  
+> +	folio = dax_to_folio(entry);
+>  	dax_folio_put(folio);
+>  }
+>  
+>  static struct page *dax_busy_page(void *entry)
+>  {
+> -	struct folio *folio = dax_to_folio(entry);
+> +	struct folio *folio;
+>  
+>  	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
+>  		return NULL;
+>  
+> +	folio = dax_to_folio(entry);
+>  	if (folio_ref_count(folio) - folio_mapcount(folio))
+>  		return &folio->page;
+>  	else
 
-It also bypasses the security hooks I think.
-
-Thanks,
-Gao Xiang
+Makes perfect sense to me.
 
 
+What about the usage in dax_associate_entry()?
+
+-- 
+Cheers,
+
+David
