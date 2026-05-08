@@ -1,114 +1,137 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AE92494D8
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 09:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778233345; cv=pass; b=k39xzIkQvaUF+7cp56CdxpAMQvZkDteo7uIK3wKitisyJ0DcKKUrD9751sA5EnyVEk3B9MB/OicW4V3Q3/ICjKRhktPN+P0iRgdB3FQew9AnZL495luMzlOk3ROjg+TupdqgduPiHuHMwbxYx/B6obpBPy08B61wpXngYLXPoKU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778233345; c=relaxed/simple;
-	bh=Lf4MAC55lAOec19tAL9RrUImgEkejoJyRibgvawRaa4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KqTVyz1+vdq++t+EdUYCMYUVEeJYFi2gkFyv5fvOgxqaqC6bNu5XOYuUujCV9L9gXOhrnbvBJRxlIhw/PohWa7wVHJ4AA3xTAexoR1dQId/koyI2C8UdPD/Ppvu6Nto0Ekz/ygsc2Y9vibL55hG0NiChmKIgAiUGYqapm3Xrdss=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=QwoNJ4Ot; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61F9330B0B
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 10:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778237000; cv=none; b=KTS8m4gBoFf2OBq6eK77m/EBJaqeurFogCahvj0P85KaYeW3x1hr2jmQMfpQa960IDbLLDrwwMVfpcvTfRZUlfdRnfilOAbSjxegWLPGeWitgVbHXMvqivKpXGsoWDztQ/RiT09iLMQwvchOlROnqyZSMS01460JB1mPKwqF3Tk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778237000; c=relaxed/simple;
+	bh=lj095PnXNVGxSaO9uhhAnoBWMXArt4qVTKac/ecG39w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ui16UGPM1QJR7n4abvUwM4paDPcHCZQMirLNCBaChxXTsGfivWmVVydPioEgwBj75sPxPPIBBrHOsyCYHv0vmDmYBBHYNx0totCuQt2dRYJjBgoDgtRy8NRezKXWX4636cAwFVCn1szOQLDERHCHqCzXDiEqRLlXnnCcnUg8s3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=sNGx008A; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FvBbHg99; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="QwoNJ4Ot"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-50d75bfb259so11304291cf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 02:42:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778233341; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Coo1nDBbQeuwVEOgd+OH7KYrkz6Ew+q2Ll2qciT2MUMYA0TIPozvA8xUsx0q3J1nu4
-         dstokHw6EljKBkyPR7UQnQ2mPB3W1Uo7ZDwV1JemIa8kFCA3hse4lVjBSEUQN8Dy0ZiM
-         Ij4F7agTXygiDww/XzASHKs9L4Gl63RCojMv92HrJG0Bm4gcv8ZiVg8o9S76kNQZ4NpI
-         bTF5TWE7Fou6zXDdhs9bROdGDs2OAvzN6+tJaCibX9lLkB5qCt2EJDv70LLNgvF0cRXp
-         l+BDwi2c4HLu0Hs0nfVsA0iHKoeqEnQSDxFanPEwP5xCRbba2WqOsegCUK90/3wcfWRd
-         1RPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=F+Ag+RgQmGLxPApkJv6LIm7lslO0K7aTyAwI9XqKQM0=;
-        fh=AHYLQTk6vIXiQDKOnNqAl7LgtVONZC/0P5gKVn3vBrg=;
-        b=Yg0LqBs6ZBt+tAxm77aU4+QTD15ABuuS/BAI8uSgqHMwRm7Rc2vV6jH9Mp42fIvm65
-         5GiAo0lTEgjK7jJy4qZiF1G1hot7FJUfHUjkHtNVnaRiCg85hTmokOhbjMrNxGpTGD2u
-         hjmvfKk+qP5J8Z0E8/zPZ7d9kRgg3521YCKo6IrC/Y4yCpLbiMOwcUR2lNgHXoQLs8PS
-         SJm8fHjPi/uOevQKnSAIFIhp25keDH+RpXrhNCxHQpcbOFppVqfA6DFK1o9OdFwujK8z
-         egsLbUcABDlwXWULBNYWjy+aWuUCW8M4zpYKewbzbqHcovjmgnr5ZEjDBzh2m6txKn44
-         UNPQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1778233341; x=1778838141; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=F+Ag+RgQmGLxPApkJv6LIm7lslO0K7aTyAwI9XqKQM0=;
-        b=QwoNJ4OttcQvASpzdEUauxpblDLw/ZpDYg7kqiaxBR6XS+2kA+sdr+1BjjAfUpOcwQ
-         wvkKz0LzBqPOqYvLMcjA6nkrl9HlLMkIkMGShWhuKFdHLK/DgIQcP88yCF+0f75w+rwQ
-         t4y9PBolcjI32VMmiGhcD3sibz9I7JPRZPJnA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778233341; x=1778838141;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F+Ag+RgQmGLxPApkJv6LIm7lslO0K7aTyAwI9XqKQM0=;
-        b=MThE5/iFp4YNtAoWEuE+I1ZjNCigR83maGEeJK+nMMgPi50YTuq5jyIfuHRjtwdclr
-         jhqQ2/0d7xsOAjOvI7z9/BpVTxaewLJmcw46x7rrKDTGUop2WnT38GfYnJ+WfooiLkX7
-         O8/9qZB996j9c4DskiPFLIIapUYNCSnfga9AEJgCtHZEB+D4J1VqZ/Hr5lXj5zxXZ2HY
-         ta5Jr4UWO0iXA7ar/P6tLCnYPJdq5LutRQEkeQAuy9nt2mKNqvlJ8K13jmLe1AcupBVh
-         kOypVelCwLAkF9fM5GuHXqBIP9De4ZyutCmcUbk1wdkts+VZDL25jku12twsfus7x8lR
-         PH8g==
-X-Gm-Message-State: AOJu0Yx+qr9rGuTH8KiCCv1yivbFaa4Hz2+ZlhsWsGGzrEIn09hgSHTq
-	nyQBt0VRTOdMc+JoLVlfRH95uI7MHV/tOBH3rnY3GoVueIwskbcTC73cuQ7MVbbrmZxPBicpSwF
-	qD9xezdfSx6enhe9FM9Dlw9FkIub093US/XrqdbdnEg==
-X-Gm-Gg: AeBDietUu18oB83Rh5udWgHUVAtHsBzl/xBlt8zsU1pYx6ZI/Y9uTxobsdS5ke+VNrN
-	lro5I2O1UDvcIMgAbnL6QXhkFtJ7IXqyemNuenZ90Vq442Tu2huPAYuy9DB0rnOiCS5B90bSWI1
-	uqSYu9F+ErvkMj1FnUSsdPCtDk5PEZHzQUdTGbxA3nY49/BYDYDEgmUkUcBOXwtqhzAp0yFZukW
-	lVBFP+/HFgz2EAY5WqJ1RqkQHmk1pjTe2gWp6V8Dk3mvn0TBrxh18k+ClZsaYxCJX/IKF2dTI0G
-	mvqwS+As+ZdE46SiVf7hH2qbv+ka+HhtBRr1Fw==
-X-Received: by 2002:a05:622a:4016:b0:50d:863d:b50e with SMTP id
- d75a77b69052e-51461bea508mr153318161cf.3.1778233341541; Fri, 08 May 2026
- 02:42:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="sNGx008A";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FvBbHg99"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id 88D951D0007D;
+	Fri,  8 May 2026 06:43:17 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Fri, 08 May 2026 06:43:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778236997;
+	 x=1778323397; bh=SDDn4AgzsTYYgSuJLh908btmskYTyXTdlToS1bfJppg=; b=
+	sNGx008AylRFsK+1xFhIUjzj6lYOINCDOQhxQTMi5sZlebhc8XWFZV5Pk9zt+Xtk
+	J4ix/iChbb1i/tHxYuztHJ1XAccF2T0ZcQ4GgCSMu3Kip9pf5oZ1u7xoQcdzIe8z
+	1gIBaby4R5feqF/Ryxb9BJ4ZA2lV7ZCIfHvCJD/uk74KClfs4oJx5S8qlOPENqjA
+	y4RCOFgdClNrw9B2FR0kEyX14D/M/zbjZT0QNBjOGaaxGGLjvQfnytQuSqPRV7fo
+	YLHIEOrC1LpPWxSELAJpQI7bzyQ7GiDpnkwchHa99RNQFKCmHDAvHY7OmoSnZmvy
+	vHd4jIJzjUGOpgjQ3/heuQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778236997; x=
+	1778323397; bh=SDDn4AgzsTYYgSuJLh908btmskYTyXTdlToS1bfJppg=; b=F
+	vBbHg998w3MoLFAtYS6cACtsTHsYyLQ2j81ebT1fJUsrekv4289w/4zOVKgefKkl
+	YJDHauOP0ZvVHokYOr2fIqvKdhIBIhUb2CmgTGJd89uCUPjKlZs37s/QAc8FyD/m
+	0VqO0swXSeP0YHh7zikENz8rPAXbNG8pz/lLVvZ8O7lct5jUPFIbsJmOu/KKk6RV
+	ocA6DTmAd+DPKoNejo6QVAa4KeWfJ9Uf1MMRk7Uo1OIYO4jMakRWCDbRwJ/lvXSg
+	cPngRtkgmqAUqHxlBToZRvpyVuIGOg7Jap93iwkbNJSsr5jp4s0Ot1cFmpx+SB8A
+	2tdGDGPfrI2wABUU8t9dg==
+X-ME-Sender: <xms:RL79aYVlzWb4lDRwG01-6j49fiCTR8cG1FoVtRPAGT04Q2Lwjy79TQ>
+    <xme:RL79aV4nMx-G2UB_RWfnOTXfa09s5atn209jfrsjJ1uTLItO-Xd4Dp5oTskstcc7G
+    tvb_Bv3s7dguNbzmq0tVZF6V8xjIruL-2t0tCjIQDQh0zcbS6dI>
+X-ME-Received: <xmr:RL79aToGRHMsUYEV5EMHmpg8Z-UjHKZcv7uxfRS3Hvd0-uqWxgK1AyeCpOm_YWBIXnBWV-xyUngF7vsYiFf0gU-W4OL4FBUIbZ6EztUKostGyOIOnQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddtudegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhn
+    vghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehfuhhsvgdquggvvhgvlh
+    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvggrlhesghhomhhprgdr
+    uggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhg
+X-ME-Proxy: <xmx:RL79aYnhNsqXqOjpmpksE-kTLGOTvY63T8N0H0AVrgRyy1kjsX8D3w>
+    <xmx:RL79afOTUy4zWeSEQ5hKwYy6s6cuMnVwnnb7LQ37GIyOSJUv2QwbLA>
+    <xmx:RL79acNUVO32CVqRzpgBxcGyFUbNmiSGwd9Tsz4Ci6NX8QXGxL3YZQ>
+    <xmx:RL79aQglF_pDPBmq0J5BXfPyunrPSrJDte87Ir9eJFCfgBgE-voYeQ>
+    <xmx:Rb79aWnfC8Su-1mKgvut0RZatAgj9yT18s7eSTGVZZGFTYkYe0WVvonS>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 8 May 2026 06:43:16 -0400 (EDT)
+Message-ID: <6276b3d6-cc8c-4e37-b670-ff2a25c69686@bsbernd.com>
+Date: Fri, 8 May 2026 12:43:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251008204133.2781356-1-joannelkoong@gmail.com>
- <CAJfpegsyHmSAYP04ot8neu_QtsCkTA2-qc2vvvLrsNLQt1aJCg@mail.gmail.com>
- <CAJnrk1anOVeNyzEe37p5H-z5UoKeccVMGBCUL_4pqzc=e2J7Ug@mail.gmail.com> <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 8 May 2026 11:42:10 +0200
-X-Gm-Features: AVHnY4Ij0Ire3MAWEQiBcsWG_9EdTD3zoQD3nOkow39AT2iktVxrgGC95EvY0MM
-Message-ID: <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.sourceforge.net>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] mount_util: fix mount_flags entries for MS_RDONLY
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
+ neal@gompa.dev, linux-fsdevel@vger.kernel.org
+References: <177819197881.3490692.13850589276777261250.stgit@frogsfrogsfrogs>
+ <177819197899.3490692.5280827494230619038.stgit@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <177819197899.3490692.5280827494230619038.stgit@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 27 Oct 2025 at 23:39, Joanne Koong <joannelkoong@gmail.com> wrote:
-> Miklos, could you share your thoughts on this? Are you in favor of
-> disabling default strictlimiting? Or do you prefer to have it kept
-> enabled by default, with some mount option or sysctl added for
-> privileged servers to be able to disable strictlimiting + enable large
-> folios if they use the writeback cache?
 
-So what I think we should do is implement some sort of slow writer
-test, and see what happens with and without strictlimit.
 
-Tried to ask claude to do this for me, but not getting very far.
+On 5/8/26 00:13, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> MS_RDONLY maps to MOUNT_ATTR_RDONLY in the new fsmount API, but the
+> table omitted that.  Fix that.
+> 
+> Fixes: 0d7e72541564a5 ("Unify mount flag structures and remove redundant is_mount_attr field")
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> ---
+>  lib/mount_util.c |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> 
+> diff --git a/lib/mount_util.c b/lib/mount_util.c
+> index 1a0aec9bfe1a70..7ab1dba91e28e3 100644
+> --- a/lib/mount_util.c
+> +++ b/lib/mount_util.c
+> @@ -110,8 +110,8 @@
+>  
+>  const struct mount_flags mount_flags[] = {
+>  /* opt            flag             on  safe  mount_attr */
+> -{"rw",           MS_RDONLY,        0,  1,    0},                      /* fsconfig */
+> -{"ro",           MS_RDONLY,        1,  1,    0},                      /* fsconfig */
+> +{"rw",           MS_RDONLY,        0,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+> +{"ro",           MS_RDONLY,        1,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+>  {"suid",         MS_NOSUID,        0,  0,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+>  {"nosuid",       MS_NOSUID,        1,  1,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+>  {"dev",          MS_NODEV,         0,  1,    MOUNT_ATTR_NODEV},      /* fsmount  */
+> 
 
-So if I take this maintainership role seriously and not let myself
-drown in the details, then the logical thing to do is to delegate ;)
-Which is hard (for me at least) but I'll give it a try...
+Hi Darrick,
 
-Could you please check how things change if there's limited writeback
-rate and we disable strictlimit?  And what happens if there are
-several such instances running in parallel?
+I had already pulled this the night before and it fails the new tests as
+well. I think issue is that ro needs to be done via fsmount(...,
+MOUNT_ATTR_RDONLY) *and* fsconfig(SET_FLAG, "ro"). I'm going to add a
+new column into const struct mount_flags mount_flags[].
 
-Thanks,
-Miklos
+
+Cheers,
+Bernd
