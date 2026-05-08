@@ -1,115 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EAE3EB7FA
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 14:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4FB3E5EF0
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 14:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778250121; cv=none; b=nc3MRDMniSYgA1k3WXpNjOcuhXs+RhhNx4MMTTwOoXmFEFsvs6/8zLYEqJHJqMtYme+kR4l3+p9BG2NPfP5jIRjRKFa3NqaQKTnk1oQApK4SRpO4nlrqjSjYJvh11RjTHeglWAmyORblWcOPTqTMQ5doB+Gm4jobWWMRXziyfVQ=
+	t=1778251653; cv=none; b=J+hcy88mDsqu1rS7vniz4Oz7NwgElMROjOLFbH/NBCah63B1T81Op+VrJdbJFqCCYrcmRo/SsLvJoJm+lV11H/WAVNqQl95XpuR7PqI8opr/tn49fmZ463NzvCK7xh0tgg6P9qezyVQjyHK67MEjrC8Myc4htxfsGUtWAkrEBOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778250121; c=relaxed/simple;
-	bh=nkRtOEf+E2kmbnl/ZnfR1q7JLb3NujZOaaXeYMoi6KU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nI/iJqe/th3TVu9SWVOTVMtqVuHGUNiW3R3JDzP5UlQSxe0jYVhTK9KW3R5OZGqt5hcPuPk5WztReymZuiQo1Q5JYQjx5PIin724E99bPeT8SHsJvdaDWQoLcG5Nvyd+TZ3hz/+r5+D2H1GyeEwNMnnPPXLeglulnQVqK8O8+K0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmxPEawo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778251653; c=relaxed/simple;
+	bh=wSyOlL4kr5J7f4YDSATbbd5kjenHgkUY2pBEL2Zrfuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oUbikq6kc3549NkpUEhTHaSb1ZgHq2Qe/55Ug9D4HqUO31ZZC8qz5iPo6iUVkBpkDeYP8d3YATnKxNc9UBDYBzgpy9xTx8uKu7u8Tz6JraCU/8d0ZnkpJM2CeTfgWwRPI/komXSrtFOP2ad25BMfSpBMKwsJvWQF0vmFmaqJSaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=ubvAnt38; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmxPEawo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03CBFC2BCC7
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 14:22:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778250121;
-	bh=nkRtOEf+E2kmbnl/ZnfR1q7JLb3NujZOaaXeYMoi6KU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ZmxPEawoUy5TW3e0+vMLPBGz6D6nmkVhm7LgWXh47BrtkIRSYJyP2dvYlnPL9pTXf
-	 XCXPo4TfOoFITQLfHVGdLB09GKiUlONXaCyRcTTjt9wKRgJurA4IVJu704zJaXnsIP
-	 uX+qUNloQCaRGMLqS4Bak1ICghv2Thmrt+x+MAqn7/eBF1c2TO7gHiA7/ZdIcyHVRf
-	 zJYtAAlhEG9v3JcHyQmbJKgitc/ztGUH3flGn8VLKrN1SVkxKPhrEnDG+YLzZwBiR3
-	 hgaBFoAxQASpT91bJamC++8dnWyM6p5eaLCb4LfjOBUwjXoj8UjmR57DZ8yBLmuwTq
-	 rlGeiQsfw33NA==
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so3326528a12.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 07:22:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/J9dI12aUg9Zifg3FhRmhUdVqY1eKlnq/B8XMaAV+TcZib2C9vMi817MUQfbHjA30aLlZhSRM07GArIZAy@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6o/U7zF6AKvNzeJ9daZmY8m5Z/qZak5nWYARnuLkY2Zveg3Pe
-	ioXCYKvhS5g4CPjmqtBRYiNzFy1r5tb2sO0tcTw+jHciSLnwK808JrEqmnS6ERqP9iXceGfsAiO
-	ER40f+1KAC93gv2WyCirDibyyGLVHtk8=
-X-Received: by 2002:a05:6402:278c:b0:67d:a63a:deb1 with SMTP id
- 4fb4d7f45d1cf-67da63adf40mr5848439a12.5.1778250119566; Fri, 08 May 2026
- 07:21:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="ubvAnt38"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FP3Ao21x/NnCUTeexToKNWQRvsQ5x84iFbNo7Yjxcvo=; b=ubvAnt38dYXSORcKbboSxwOW2Z
+	nhnLDIxfzM8XYoKu6pCjeXSRqqh90hkhLnu17/y7efh5rFb3fGeH5AYOZ6moxfovmx944pCgYcwma
+	ODJTL3aEdwvCGx5Oqt6mmPTUoRCBRAf49Ht55+fZb7ZCl9Zn7XVkvIfGZIhzS+x5MzDqZrMfsh/dD
+	36c96rxFDW9OzE+VNrdqk1cRl0pjW/v69CXRn3TynPFwS5kaFtBDBHbTTFahp0RqqN/4i4XUjWHDM
+	8Xxf9i7T+6HiYW+O0FLGmtHCW1uwvlTtqN8ksCrClaDopb2/P68bFzHHpVtH824HtkjpbN2/u7Qh7
+	ZTMR7AMQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wLMUc-0000000DEyW-2Jf4;
+	Fri, 08 May 2026 14:47:54 +0000
+Date: Fri, 8 May 2026 15:47:54 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: NeilBrown <neil@brown.name>, Frederic Weisbecker <frederic@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Boqun Feng <boqun@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Uladzislau Rezki <urezki@gmail.com>
+Subject: Re: [RFC PATCH 20/25] d_walk(): shrink rcu_read_lock() scope
+Message-ID: <20260508144754.GB2636677@ZenIV>
+References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
+ <20260505055412.1261144-21-viro@zeniv.linux.org.uk>
+ <CAHk-=wj9WdmFn=gw4c0+mv9dLCGFsiawF60Eu3Kw3t8SfvpZsw@mail.gmail.com>
+ <20260505200501.GF3518998@ZenIV>
+ <afpj3FBrvHer0E6Y@pavilion.home>
+ <20260505225028.GI3518998@ZenIV>
+ <ba887c23-9122-40c3-86ff-95e3a5afdc7e@paulmck-laptop>
+ <177819357555.1474915.12171087837586376086@noble.neil.brown.name>
+ <586a6402-ae1a-47c5-b054-f02cbd457928@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260507154852.1721710-1-charsyam@gmail.com>
-In-Reply-To: <20260507154852.1721710-1-charsyam@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 8 May 2026 23:21:46 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9zuxef_7ZgMDVmK-JqK5vo_8s9Q=QdLuA7hPj82C=4LA@mail.gmail.com>
-X-Gm-Features: AVHnY4Kuffzo54HoUAzeGb1MxndYHGNfNXadhbMnrPQRZDwmI4zwy1DnnJGhXKo
-Message-ID: <CAKYAXd9zuxef_7ZgMDVmK-JqK5vo_8s9Q=QdLuA7hPj82C=4LA@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: avoid leaking uninitialised bytes in new security descriptors
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <586a6402-ae1a-47c5-b054-f02cbd457928@paulmck-laptop>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Fri, May 8, 2026 at 12:49=E2=80=AFAM DaeMyung Kang <charsyam@gmail.com> =
-wrote:
->
-> ntfs_sd_add_everyone() builds the on-disk security descriptor for a
-> newly created file by kmalloc()'ing a buffer and then partially
-> filling it in:
->
->         sd =3D kmalloc(sd_len, GFP_NOFS);
->         ...
->         sd->revision =3D 1;
->         sd->control =3D SE_DACL_PRESENT | SE_SELF_RELATIVE;
->         ...
->
-> The buffer is then handed to ntfs_attr_add() and persisted as the
-> SECURITY_DESCRIPTOR attribute of the new MFT record.  The descriptor
-> covers a relative security descriptor header, two SIDs (owner and
-> group), an ACL header, and a single ACE, but several fields inside
-> those structures are never written before the buffer is committed
-> to disk:
->
->   - struct security_descriptor_relative
->         @alignment              (1 byte)
->         @sacl                   (4 bytes; SE_SACL_PRESENT is not set
->                                  but the offset still reaches disk)
->
->   - struct ntfs_sid (3 instances: owner, group, ACE.sid)
->         identifier_authority.value[0..4] (5 bytes per SID, 15 total
->                                           - only value[5] is set)
->
->   - struct ntfs_acl
->         @alignment1             (1 byte)
->         @alignment2             (2 bytes)
->
-> That is 23 bytes of uninitialised slab memory persisted to disk for
-> every new file or directory the legacy ntfs driver creates.  The
-> "+ 4" trailing accounting in sd_len holds ace->sid.sub_authority[0],
-> which the existing code does explicitly write to zero, so it is
-> not part of the leak.
->
-> Anything later able to read the SECURITY_DESCRIPTOR attribute - the
-> same NTFS volume mounted on Windows or by another NTFS reader, an
-> offline forensics tool, an unprivileged user that ends up with read
-> access to the volume - can recover those bytes.  The leak persists
-> for the lifetime of the file on disk, not just the lifetime of the
-> kernel that wrote it.
->
-> Switch the allocation to kzalloc() so every byte the on-disk
-> descriptor covers is zero before the explicit initialisations run.
-> While there, replace the bare "return -1" allocation-failure path
-> with a proper -ENOMEM so the error reaches userspace as a meaningful
-> errno instead of an unrelated -EPERM.
->
-> Found by inspection while auditing fs/ntfs new-inode paths.
->
-> Fixes: af0db57d4293 ("ntfs: update inode operations")
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-Applied it to #ntfs-next.
-Thanks!
+On Thu, May 07, 2026 at 04:21:28PM -0700, Paul E. McKenney wrote:
+
+> Alternatively, if the bitlock acquisition is always a trylock-style
+> operation with no tight loop around the trylock, it should not be
+> necessary to disable preemption.  (Give or take the expectations of the
+> code in the critical section, of course!)
+
+In dcache we have two of those - hash chains in the main dentry hash
+(insertion and removal only; RCU for traversals) and, more unpleasantly,
+hash chains in the in-lookup hash.  Those have search-and-insert-new
+and removal, the former with full traversal of the chain under the
+lock.
+
+The entries are there for duration of ->lookup(), so it stuffing a lot
+of them in there might be feasible with a bunch of lookups for different
+names on a stuck network filesystem (each with a separate thread blocked
+waiting for server to reply)...
