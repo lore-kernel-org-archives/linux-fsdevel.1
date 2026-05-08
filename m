@@ -1,218 +1,168 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012023.outbound.protection.outlook.com [52.101.53.23])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4A840B6C7;
-	Fri,  8 May 2026 16:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778258670; cv=fail; b=uBqOFrW5Jhi1O3VSAZFwbLeXpJj5+QGz9mtGsjOpjD+vRyTiCp0xnSTcvliNdRAJ8RSSCRAtdZT2dqnm+2TifuwMOom46W7uBa/0f7IsnWVJCB6mjcV538ZfscFdsBvhU8Dqr18ZgLIS6EToWN8WcAQmlztCcDfUmd54hXmkyDs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778258670; c=relaxed/simple;
-	bh=EC88jfShMkaBPHaXeTMGSTVappROdKTj5C42uzps0m0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=RgXACZIgBGcpEwhu+xsI5KGnkQ2aEdkGx6bWjarYt1cWNoKksXjuttyzeYrdS5Gg03hs3dYt5TU2MvTOvQe4MgWlruxqyXKwCNbkj9S4KTd250A6hxrIZQzdBdaroAA/UYz8nEDLDSh9hGOFJ1Bz+envrx6lIJb9ONNJdbAZkms=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LRjbjRXY; arc=fail smtp.client-ip=52.101.53.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D7024E4B5
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 16:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778258672; cv=none; b=Q3+zi/RsvIpogBpesQisnK7MCyf/P58Q7wcAu1VKx4z0CWKpkl0SRhDvn4LL0md51rvsCRX7trt3LhpLdiYdq3JEUjJYOK6V2Xvy/06De60enHBMOeXvX50eS7yAsZKcQNGPNmVitk6UrMJdk/pYofYNtawMDlMIwWPUmjHWnck=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778258672; c=relaxed/simple;
+	bh=aeM86RbDl9RtK20Hj6hueVqg2Eug05MOdiZz7H2B3CM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DrthMEbVdCZyOwUaNSSgkDanGzvepUJB/3XbI4O5kK71ERwKd2gQ7I4GPooSh0KsZWmtYvD17+bc85B9gQfKvNUOY+g6GgokZb2CcuOqv23Y66QjkQOztWaiOYeFAZonr9u/xZX+PJ6CQExzVnXtZR3igHj2GiTe/13Yn/SzW5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=IrozEHfW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GQPCtun2; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LRjbjRXY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JQ1ndRvTbUzxyuKHC7RD715/9dG595yKo77JVHFXgaj8gkL5RQVzhrT2mzMDdz5eLc9k9d46gr7BLE56fRs3ZRqabgPDYoroJWL/cKx2/ukMVb3vUdKyQvaB0+YBGbyn+D0W/m6QA9l0M3wn4ak7AvCLbVQzXxQ1Ur+QxT/t1nq/c2Hous7gmN1Dm5us4fKk4zeIUbq2gQKaOPq5wi/2J5syRqa2s36tkDnhZzHFsABHaAO8VQktUbcFjYTOXdM6FGHJ7MOee6PuOY40bS8nLGyC+yZG82xt22fFgejrrF9cRCzTFcZPowBDu3Oo24eV7kGMoHwKQft8lp/srUEYIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JVh+mJ/1nYCzawy+c7Ai9Nk2MN+bNm1fAl8GRPeZ248=;
- b=YQeWCvBzKsLyxWLXBPakgElEtB1Z5RsT1g75gKxQWaLlhn7dS7Dq0exe2gURGXFFE/8wr+Co38VIyGsh6d+vK3GCq5xaVJfPznHJfUfHU2miwz7gJWZ2cnxN0y7mB7kv8+SdMb/M2CbnYyQC9ok6hNpTwHUrKA/9QpfMm/263kFfocHAudRMVKB2TsTorkBTYfHLJQdLlLkRrNzvW7fqCqjc6Ris1laQ2TkSUVihnGZEvF3gTGJgkswfq2MmCNcb0d7dr9SdOXUkyj4b5+nRCa/X2YDug7fGVsvIwBE4ox6p4WrvJfq7om4nD7PTbXIhd9Bh1bgjYjfJDtbRGAu4jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JVh+mJ/1nYCzawy+c7Ai9Nk2MN+bNm1fAl8GRPeZ248=;
- b=LRjbjRXYj+hNgz1pZW6TX48j1ZANN/M03fd5EnNTGJhmaPqe+jDgfcllKkCcpsPj/PIRzaTl7n51ccbiphHLAxGtSrBl3bTj+bT38gpM4XGyPlch8NY1xfEUYnDpduRAx+x8dJKjXqm2Vb9TVtyKyUhWv8iS9uHK/CKPKFgrdso/L9QFdWuzRvUknT+6ZflJfwJPvR5i+R9xjrAy2KBOPCuGBrlOuKwKO3U0gJA0tAE1g+HA7XhanDFGF9njF/HAb6omM3uAr++TqR7Kph2Cjg4tikbdx54vz3W0oyHhbEs1nZnlSRUqWDugExxJkk85mqjTtea30FN6R9s7EIzhPw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- CY5PR12MB6528.namprd12.prod.outlook.com (2603:10b6:930:43::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.19; Fri, 8 May 2026 16:44:24 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::5807:8e24:69b0:f6c0]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::5807:8e24:69b0:f6c0%4]) with mapi id 15.20.9891.008; Fri, 8 May 2026
- 16:44:24 +0000
-Date: Sat, 9 May 2026 02:44:14 +1000
-From: Alistair Popple <apopple@nvidia.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Souvik Banerjee <souvik@amlalabs.com>, dan.j.williams@intel.com, 
-	willy@infradead.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH] fs/dax: check for empty/zero entries before calling
- pfn_to_page()
-Message-ID: <af4SR5-QwUCAClR8@nvdebian.thelocal>
-References: <20260501233933.2614302-1-souvik@amlalabs.com>
- <a708a295-9d80-4538-9d12-53c12820f9ed@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a708a295-9d80-4538-9d12-53c12820f9ed@kernel.org>
-X-ClientProxiedBy: SY6PR01CA0006.ausprd01.prod.outlook.com
- (2603:10c6:10:e8::11) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="IrozEHfW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GQPCtun2"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id F3F3C1400124;
+	Fri,  8 May 2026 12:44:27 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 08 May 2026 12:44:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778258667;
+	 x=1778345067; bh=wbQyJrHL+eBAOXZGwnIrgzXT5kRpiT5/b03F0U6lfZg=; b=
+	IrozEHfWyvK6yxSS6Q/Bl5CeFS9gK3wJaTBtWpeM6AUzSZpeiROExsR0Ii6D4sf4
+	lJSLw3Fc0KewjAGMEkOQX2dI7mXl5TTWzOJSwkYBioV4pb19TFNFhyQxB4DAIRpp
+	i4vMgY7izeWC70yNtd9Mjf1AxRAH/lCV3mQ15imtBVideRBn1xoBz8MA2pWUW22x
+	ZhcV+mVXX+3PcrclqSwGJHVDpe8A9FalFeGx72QRexwMVwpcGktNkXo0UkqiU/ha
+	6z2CBEQIEQ5GJigHz9GyZ11UgEhqpiR3sP4xv9k4P1dBWaP3qcT/t7cdl7d30PQp
+	yFcaOCPExOSEUnfWU91Iaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778258667; x=
+	1778345067; bh=wbQyJrHL+eBAOXZGwnIrgzXT5kRpiT5/b03F0U6lfZg=; b=G
+	QPCtun2c7a9RhHZYe2ehAr2X/jzIEjbre5tG8+dWN/BKGpdPZZ8GPnUoCtxw0htN
+	hqUh5idA+sgTUP3bQLGkKZUzCa3YBu+YTl8zqqpTesRPPoVC/sWh7QtjZ18l+PxY
+	jugMhky0J8md+k+QDR5jgHKWwB3Pa+mfjfFoYs5hLww+TachMJrNauH3Afo3ZMvC
+	WUSdPOakNujH/EwumvYTIWgsTVIc3LwDa1VVfSj6A1dw+CrvWJNNRd4ODRBhbBKl
+	DqvPudIT5wZ46io/kkBzwMP22VvAYCiOS32by5oXR/2Xm7vRg8IcB3/u15GjRc/B
+	W/HUeZP6YlV3xdhwNPgrQ==
+X-ME-Sender: <xms:6xL-abSN2XpI-E30D2MrKBLOqaHSH2Wmpqa_m2tbdbk71CzPOfaBwA>
+    <xme:6xL-aWF9zmEKSceHGE5H9AAOCKaoFq_AS60B5BTisNkwQqPJmp0V_2M_qCadlNZQ_
+    -30nqWB-25NvgHKg4TbJv3BTaM396_HIROzpoaLVFJ_tjDGCgc>
+X-ME-Received: <xmr:6xL-aYFXckO92MUevqvSVLO0TOCWO38Dmnl-Zv3BFVMHphLdgCvU56FDX2_fXYlPSKuWEpZjqSwllnYGDp8joBeMjQyZGvES3fSiIj1Rm1Lb2cXpPQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddtkeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhn
+    vghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehfuhhsvgdquggvvhgvlh
+    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvggrlhesghhomhhprgdr
+    uggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhg
+X-ME-Proxy: <xmx:6xL-acRGaYogH_lf0b0HDpVDVMpMf44xAo3cfmKSpVuq5kyZBPsXdg>
+    <xmx:6xL-aRKwH8d99Tzd-2jk82uul7y0MGu1YkSehRBw4dCdf9aLaYgBhA>
+    <xmx:6xL-afYnFCxtA_o5ZRZi0Qwfg827kZzTDY3hIvTuYYLpnc2FFiK-wg>
+    <xmx:6xL-ab_jh_bRaOK6FELosE_1nRpm17nrd6Ae7v4ceGyiI8iYe02pZg>
+    <xmx:6xL-aehZGFmEY4JvIBObUnQ0MkUw1dujkDSoKyHWVCuM4CJl24ts_Gxg>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 8 May 2026 12:44:26 -0400 (EDT)
+Message-ID: <4a4dda92-4c60-471f-8afc-6afa68d06f2c@bsbernd.com>
+Date: Fri, 8 May 2026 18:44:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|CY5PR12MB6528:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab7b36a0-3363-4dc1-cac2-08dead210fa4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|7416014|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	kmAd7uc5LmEOqL4eQB6Gps32pmXqPFbNZVyHRL8XfRIE8JNFsky1baTmojs7F8/djBButoXSzzuYPUr5gE0Kmy8zQB0mVNuSQjBidau9U1RClhQMPVbqFueBttsczBcqjmjyY1kMC03dG1BVswOLoNWmyUd9Ads6BKUWwWM6hklGSlhSOMygTnU9eqzmFrcTIayhw0pfg4qDWwRdv10DOG90lwl5OdmZv7Uolf6LCBdk32bS4I4RYCd6UCNxxeNKYk04xWfZl4K1P9DZ2GB1djZZkaXU47M6t/hXXnRc/P7s5qmUxVwhhdoSjst15Y1FJQTK9JzY/+GOhKw2KmIldAPfLYUNlEHwi12YrmT/IipnupjBMJGkCb+3uzVLqzKhhrlkiK2tJJQlxA0wbkXDJzz7KG2Gcv+Mii7xItUj9Nou4TCgQMP3yMFB9U4EX/rIbCnkJYGed2T/8ElTxhYRujumojpY0vA8sO5p7j44OZfpyA2wytub31ILFmrdYV51EFcA3SFWtXwMDloMNab0pjTdjLr/nQtwf1K0/cbUcYD6o3KhLmUTTtscPE8HZXJ789+fv6OZqvxm4RwQUlmheEc31i7fZibyI45bxrTwE/6MXFsTlt7660JYWFqZaa2v4JHt24uLIWNUfYe8ctSeZUJMewmwRjehQx4A0ObKxozHMZO0fUT257CrDbPjapXt
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bg+ovCIMOvPnQmErLf83WVuE+t2QKnysoZDcxh7nUkk5YTIHOggaUOeJVDcr?=
- =?us-ascii?Q?XfO7DRFkYWEBmyeCrK8A2JdiQXQx2wvDTVnxflzz6EwdP4N/A1gluH/v88q8?=
- =?us-ascii?Q?/ZETSStScNS0B+lN1OQ5o9t051SB0J7bEBgmkhrGW/OtZDk1ZWgN/8kmO3Eb?=
- =?us-ascii?Q?W4rU6F6oxS6cZ9J+mCc8NEOVSTuoRmZBbMwnsZXwOqNPGuH24X6n3qJ/Ui8m?=
- =?us-ascii?Q?mY8mLlZivaVSsptAtgaaSV8yz2hO9t9H5bPGmXnbXUMZCugF5N3KjRVSyQhO?=
- =?us-ascii?Q?psPyRHBcBXdooehWjDS3IpHyH3XtBKXT8/PB69yUZAtZDEi4RD2JKsEr7Ttd?=
- =?us-ascii?Q?cqXFWjdKRxh4+NeTiB/gWjaAeTUnsixT53iGdFa/6IwVMHTk41RpUj55OTBY?=
- =?us-ascii?Q?xtDbEl8VtprN0KpEazfoy54snykRfY6sa8SKRoCBYc7NEWm17o8iq5L0rGDF?=
- =?us-ascii?Q?BIa+EvhT8CyrIQjFcoBo5MT/VoY3gGWEn+wLMTgGwwZrvzw3ZcDKfdCafLnG?=
- =?us-ascii?Q?5KgbzuJ3h6PPLeNDv8hr1lLXBvKLgKxd0bgMTThbiVR1z8KYJexB8Ko2QvLj?=
- =?us-ascii?Q?fccEDkpQE2zEbVcijxHbDJHyrketYJtXfIsauoVD4TuWd9NkYqcnvBLDfzSk?=
- =?us-ascii?Q?UbVKcy81mRYFFhtBbr1g0kSCRqPcdTdm8CwOToR8GPDieuo7lZHu1uJueOQd?=
- =?us-ascii?Q?MUoXKsUT9YTUD+J+M3wDnfpaqydXZYdIAk68BQjOLnyt1dmUbbdonuPyFVDE?=
- =?us-ascii?Q?k+mvDESzemRnBPFT/T7b4kV2nRmPu+pTikkgdkIhgd8O7QnwlLBpIkEgnfiZ?=
- =?us-ascii?Q?fUp3tnbnq5xD8JVjo3Y3Z6qhkXW9E6V67K694QsBnpUnzNV5MJB3cNBCCq/k?=
- =?us-ascii?Q?dQ/H29cf61yk9nPrAKLo5qo/mn7z15rBJzH2gqT3XI10sCEDGPfKIdTprVrb?=
- =?us-ascii?Q?RLPfLvte/lgu71oYStdxD0RkxiWLBzm1bUKUEXTsXn9JbAuTv17mg3Ed8Kxf?=
- =?us-ascii?Q?Bv+m83YdtCMdfo31nplHHukuZhzBtG1xSRaSa9oOrI34WQIddbrofrqd0eWe?=
- =?us-ascii?Q?t5telK244pbJ90SxJV1L5uTM2ZM+YQvfIkF1vcsn9X1Ud2G0hhAW0wdAmYWM?=
- =?us-ascii?Q?/HEb2KJWTEfJ0h7a2UV1+NFPJClhFVHT1I1yZCJwRJnBtnN5Im8OulVeXJyY?=
- =?us-ascii?Q?bhxrdoXo9+7oXeDnXvAM1hatbsySwAjN6YecrLDmSrBErurYb8ZV+AOHpUfz?=
- =?us-ascii?Q?8B0ZdzfJLhuXvqY70lbimYafv4PzD2lYyHi1f0O6EPxRdC/MOVvzYJKTFALc?=
- =?us-ascii?Q?53kGgoi+8whEOrLYUndSbJcJetE8oweyQLJBh4r4PW7VrliEFbFeqwpaOiPX?=
- =?us-ascii?Q?Ibt5dTFB5DplIMUetq5KwQ3OrBSVEGwP0lVUxgaeIrwzJahKKZkDGPoLAkRC?=
- =?us-ascii?Q?MIKsSNrDPXsYuNX7TE6cd8JdQD2hJ5rVY1WBieOhAHFtR21voGKdDYjKGvFf?=
- =?us-ascii?Q?4UL3xfkIVikxAaKVF///QqjO7FhlCn8SjjjQu+wd/ufCtITXDQ4Rp/Wy+Thm?=
- =?us-ascii?Q?RCSfHzsK7Pv8s9kbYByB5+UbMzpgZEU6Sc8ZjN9AEznT3CiHj4ZQ2Fp23WCg?=
- =?us-ascii?Q?jD1jReywSxCofqV1EIjmNb+piC+DF+8vjO4ROIcBPtgWJm/YSCplR2V1hbR8?=
- =?us-ascii?Q?yWNdlQ2hgchSQ9baezoRPNqvuydb5z8+ZfQaUdZ6+OvmDw7amFde0NiTpWhl?=
- =?us-ascii?Q?XsyLRUvxLg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab7b36a0-3363-4dc1-cac2-08dead210fa4
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 16:44:24.5959
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nMu8ocvQbyfH8hd/SUbBtU0jF1+o7VdxUKHaVs5yoFaMsYnyz0ISMaSRiWZ5HuF6MfnjkSS32LDVKfBQj7qo8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6528
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] mount_util: fix mount_flags entries for MS_RDONLY
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
+ neal@gompa.dev, linux-fsdevel@vger.kernel.org
+References: <177819197881.3490692.13850589276777261250.stgit@frogsfrogsfrogs>
+ <177819197899.3490692.5280827494230619038.stgit@frogsfrogsfrogs>
+ <6276b3d6-cc8c-4e37-b670-ff2a25c69686@bsbernd.com>
+ <20260508154400.GC2241589@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260508154400.GC2241589@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2026-05-08 at 19:15 +1000, "David Hildenbrand (Arm)" <david@kernel.org> wrote...
-> On 5/2/26 01:39, Souvik Banerjee wrote:
-> > Commit 98c183a4fccf ("fs/dax: don't disassociate zero page entries")
-> > added zero/empty-entry early returns to dax_associate_entry() and
-> > dax_disassociate_entry(), but placed them *after* the
-> > `struct folio *folio = dax_to_folio(entry);` line.  dax_to_folio()
-> > expands to page_folio(pfn_to_page(dax_to_pfn(entry))), and page_folio()
-> > performs READ_ONCE(page->compound_head) -- a real dereference of the
-> > struct page pointer derived from a bogus PFN extracted from the
-> > empty/zero XA value.
-> > 
-> > On systems where vmemmap covers all of RAM that dereference reads
-> > garbage and is harmless: the early return then discards the result.
-> > On virtio-pmem with altmap (vmemmap stored inside the device), only
-> > the real device PFN range is mapped, so the dereference triggers a
-> > kernel paging fault from the truncate / invalidate path and from the
-> > PMD-downgrade branch of dax_iomap_pte_fault when an entry is being
-> > freed:
-> > 
-> >   Unable to handle kernel paging request at
-> >   virtual address ffff_fdff_bf00_0008 (vmemmap region)
-> >   Call trace:
-> >    dax_disassociate_entry.isra.0+0x20/0x50
-> >    dax_iomap_pte_fault
-> >    dax_iomap_fault
-> >    erofs_dax_fault
-> > 
-> > Close the residual gap by moving the dax_to_folio() call after the
-> > zero/empty guard in dax_disassociate_entry().  Apply the same
-> > treatment to dax_busy_page(), which has the identical pattern but
-> > was not touched by the prior fix.
-> > 
-> > Fixes: 98c183a4fccf ("fs/dax: don't disassociate zero page entries")
-> > Fixes: 38607c62b34b ("fs/dax: properly refcount fs dax pages")
-> > Cc: stable@vger.kernel.org # v6.15+
-> > Cc: Alistair Popple <apopple@nvidia.com>
 
-Thanks for fixing this.
 
-> > Signed-off-by: Souvik Banerjee <souvik@amlalabs.com>
-> > ---
-> >  fs/dax.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/fs/dax.c b/fs/dax.c
-> > index 6d175cd47a99..6878473265bb 100644
-> > --- a/fs/dax.c
-> > +++ b/fs/dax.c
-> > @@ -505,21 +505,23 @@ static void dax_associate_entry(void *entry, struct address_space *mapping,
-> >  static void dax_disassociate_entry(void *entry, struct address_space *mapping,
-> >  				bool trunc)
-> >  {
-> > -	struct folio *folio = dax_to_folio(entry);
-> > +	struct folio *folio;
-> >  
-> >  	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
-> >  		return;
-> >  
-> > +	folio = dax_to_folio(entry);
-> >  	dax_folio_put(folio);
-> >  }
-> >  
-> >  static struct page *dax_busy_page(void *entry)
-> >  {
-> > -	struct folio *folio = dax_to_folio(entry);
-> > +	struct folio *folio;
-> >  
-> >  	if (dax_is_zero_entry(entry) || dax_is_empty_entry(entry))
-> >  		return NULL;
-> >  
-> > +	folio = dax_to_folio(entry);
-> >  	if (folio_ref_count(folio) - folio_mapcount(folio))
-> >  		return &folio->page;
-> >  	else
+On 5/8/26 17:44, Darrick J. Wong wrote:
+> On Fri, May 08, 2026 at 12:43:14PM +0200, Bernd Schubert wrote:
+>>
+>>
+>> On 5/8/26 00:13, Darrick J. Wong wrote:
+>>> From: Darrick J. Wong <djwong@kernel.org>
+>>>
+>>> MS_RDONLY maps to MOUNT_ATTR_RDONLY in the new fsmount API, but the
+>>> table omitted that.  Fix that.
+>>>
+>>> Fixes: 0d7e72541564a5 ("Unify mount flag structures and remove redundant is_mount_attr field")
+>>> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+>>> ---
+>>>  lib/mount_util.c |    4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>>
+>>> diff --git a/lib/mount_util.c b/lib/mount_util.c
+>>> index 1a0aec9bfe1a70..7ab1dba91e28e3 100644
+>>> --- a/lib/mount_util.c
+>>> +++ b/lib/mount_util.c
+>>> @@ -110,8 +110,8 @@
+>>>  
+>>>  const struct mount_flags mount_flags[] = {
+>>>  /* opt            flag             on  safe  mount_attr */
+>>> -{"rw",           MS_RDONLY,        0,  1,    0},                      /* fsconfig */
+>>> -{"ro",           MS_RDONLY,        1,  1,    0},                      /* fsconfig */
+>>> +{"rw",           MS_RDONLY,        0,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+>>> +{"ro",           MS_RDONLY,        1,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+>>>  {"suid",         MS_NOSUID,        0,  0,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+>>>  {"nosuid",       MS_NOSUID,        1,  1,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+>>>  {"dev",          MS_NODEV,         0,  1,    MOUNT_ATTR_NODEV},      /* fsmount  */
+>>>
+>>
+>> Hi Darrick,
+>>
+>> I had already pulled this the night before and it fails the new tests as
+>> well. I think issue is that ro needs to be done via fsmount(...,
+>> MOUNT_ATTR_RDONLY) *and* fsconfig(SET_FLAG, "ro"). I'm going to add a
+>> new column into const struct mount_flags mount_flags[].
 > 
-> Makes perfect sense to me.
+> Ewww, you're right.  util-linux also special-cases this, and in a weird
+> way:
 > 
+>        Since version 2.41, libmount has the ability to use optional
+>        arguments vfs and fs (e.g. ro=fs) to specify where the read-only
+>        setting should be applied. For example, using the command:
 > 
-> What about the usage in dax_associate_entry()?
-
-Pretty sure the issue exists there as well given this code path implies we could
-pass zero/empty entries there as well:
-
-	if (shared || dax_is_zero_entry(entry) || dax_is_empty_entry(entry)) {
-		void *old;
-
-		dax_disassociate_entry(entry, mapping, false);
-		dax_associate_entry(new_entry, mapping, vmf->vma,
-					vmf->address, shared);
-
- - Alistair
-
-> -- 
-> Cheers,
+>           mount -o ro=vfs /dev/sdc1 /A
 > 
-> David
+>        will mount the filesystem as read-write on the superblock level,
+>        but the /A node will be set as read-only. In previous versions,
+>        this required an additional "-o bind,remount,ro" operation to
+>        achieve the same result.
+> 
+> "ro=vfs" means apply it to the mount but don't tell the filesystem;
+> "ro=fs" means apply tell it to the filesystem, but not the mount;
+> and plain "ro" means apply it to both?  Apparently??
+> 
+
+I just sent out a new patch series that fixes plain "ro". Thanks for
+looking it up in util-linux, I see "ro=vfs/fs" as new feature and
+already spent the entire (public holi)day on this series (there was
+another critical sync-init issue, when sync-init was actually not used).
+I.e. I'm going to ignore the "weird ways" for now.
+
+
+Thanks,
+Bernd
