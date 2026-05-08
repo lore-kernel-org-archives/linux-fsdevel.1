@@ -1,54 +1,54 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E61375F88
-	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 06:56:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0197637AA8E
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 06:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778223389; cv=none; b=P1cLAKkb4Gk5z1kBpQxLl/xfqOXi9djWbiKcZkUBLE2JIk2vaQkcrlJ+6UBOd88iJVOuVNRl6TkRLZGgt2UQDAmLxV5UqLWGb+uk/SFakLBq8nf2R87wgBuG+9t6QcuuCQ8wZc3rVUDZsHqHdFPRNrPPReGx7zKopLfy0kFZehs=
+	t=1778223393; cv=none; b=DfZUy4qcetVrqZ6lx/ZRjSFRRM+TGb4Cs5qyHHXA9GqUBUl9FJbxlIul7Ypzg8uvBQvXj4HenppY99btuO10BisyDSnKRpac4o4aqLzNatjNB0eQG7zCBE6pewvgTpgxHja3jS4OjpzSfWHZ92qPGuod4TFbqRQOaMdTa3Ivxjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778223389; c=relaxed/simple;
-	bh=CLtHpbaS1mKle8E88YQIhhMZXFuxKBPqK83vNenbugs=;
+	s=arc-20240116; t=1778223393; c=relaxed/simple;
+	bh=7ggYT7Cf6g063n4K/hPOh+tKS9dcGxoYdeOPk9iTix8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=qjweK5XHj6NeSitQAwemqDUX9JbZ4qXHVDnD1g/5EmRAhoQdeIGAplPZDbFr3z3mCUc1dYwo95xa+KUjHyzqA4llqtsEx494ILEId8oo7OqTDthgi7rP7O8W0tzK1G5ZwxJOtcSLOTUpUKHW/VmViR4UqIH9BC2zbmzMq7s1NAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ScwoWPlW; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=apMddpa/OHWoaFw6XidT5mkNq+n1r/gUXIxTHiO2br28ZW3L2bnjPklVhvEaTuQEmD3UgK0UCHdZr2qAVi4N7IuwBQNpY7YsEJf1+qDfIDWi0Zgpcudq0wRc74lhLu59Cvr0HgUSm6Yb1w2+uFD/Vhy7gu6UeE8HAiKXSlnQuDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fm9GDUCK; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ScwoWPlW"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-488bd1ee9e7so15125175e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 23:56:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fm9GDUCK"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-44d79da8cf7so1428648f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 07 May 2026 23:56:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778223384; x=1778828184; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1778223386; x=1778828186; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gwR5zUblvdpSOLiS9fu4K+/lNRVrhgwROb1hUxq0umc=;
-        b=ScwoWPlWjWp2AwDH+knW6mKO/88bWlvFG12uvon34qZ4d6ZkzYlprUB6kBlwyRn93J
-         wm3lJgic8puwNHrpBFcGpsm6lAAvX1xn0xPMeH5aixkWpYxsabxeThkvW4TpEqsgwA5I
-         XR6gAiD3pUWkOt0mOsaC4fGpk3nw+QZ7JmiYFOsFvnYCy383kYHmJ/mimmsyeA75OEMd
-         izDppb3AILTQhIHOv4d4vyoM7jwIeLS8k8ZvqYa2P1ElGcD+gAWO6PYS/ZswNWBJSNny
-         FCyrJZjLxxsehrHVweu6AxmLLlyaEoPmMfADzZmL8Vx3iQicGaWKPJAoFw8qR44HaXa4
-         f+JA==
+        bh=XyW8IIOCNsLiUtVIwDCGziMFg169iWbV1XdBe620o5g=;
+        b=fm9GDUCKSjlNKgZxE8JTlmk+3wSTSuZJoU8jPBDNP/KrFvCOXPs4HprfKhLwDkiG5/
+         qufaptpafN+wtcLzAPq/4kw7+YpHWakPZ8H4hJt6jvbfu2RA/Er8TPaF5OUrgilRzucH
+         7zAVCCcOJEL53gHYsVwnwW4Z371OScdEd8L/ksGyDqIy0My8FN7ODj+zr4gU1YqP05Pd
+         /Rw1ulfZddkSR0hXvCIg2Ui8JyI/yi7pAPNuojwaRbuC+emffxbOHpIwRTmKuUQ00R1G
+         6V2+SAkPO6nXd29rzpkYu99HzTphbAF9vGfoyDQGqwSdixA8DCMgqNHxPjV6IcS+yZDr
+         GdoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778223384; x=1778828184;
+        d=1e100.net; s=20251104; t=1778223386; x=1778828186;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gwR5zUblvdpSOLiS9fu4K+/lNRVrhgwROb1hUxq0umc=;
-        b=RE7ATaA3TnFwmEFBRbi1QxaRSnBK4kbZjYpLGKxWgtdNOGKCa0vd3Loy+sbeR1qtYn
-         HeiyHeoGCCuqrBHTKw/hTCQOfDOwRTuwv2yJ15wjsFJXVGxBPnfgAHzdVHofwXLffNfS
-         5049N8VwC6K5Qw1pydJpadYwKX8x9nlraL6e5c07W9HcvpvA4v/4ekZx0sTMjl6JnSGf
-         JVsWP6SmQ1z9uuPsktRj69j5KbRoVu0CJ5ERqGIqgyTYGBHMzA7rpobBbaAk/8UKvAJl
-         bSb60pf60fSc2Tlst51C0VHS5cVRyMtBY+NLudZK32zPvEdXds0gsqXeuNXlEjgvY2DO
-         Twew==
-X-Forwarded-Encrypted: i=1; AFNElJ/I3c4zi/UMtuTL7d9YLv5ehorgAevHMOjF2ODj8rdF5AfJjgkuwI4YwkCfpO04EJGM3p9TyWT4+JE/itEp@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2Un6z/Ockkb9NEC5u6kGCfwLgTrQizKCUfNCpK2NHFsndMufi
-	356QWsX4uU+fvqrepJWLM3EFm0fgIGW7iLknSuKOukBF4XuAER624iwmPeI54wU28mF9N41mEYG
-	lDM7Gvo+JgyDmmeZ75Q==
-X-Received: from wmco5.prod.google.com ([2002:a05:600c:a305:b0:48a:6051:b5af])
+        bh=XyW8IIOCNsLiUtVIwDCGziMFg169iWbV1XdBe620o5g=;
+        b=O8LgdtY06ZY92n2rNIdQpbMWUzp4uFjKRoR8n1Sz+hessOT0sIy7gMAmfDsRWepUxJ
+         Rk7ukbYp6ydUjPkBil7IRYgRAItj/SU2Bnjo4W2b1mrzUrAeneqt50hhg8dFtZPAxlnb
+         o242GY79mlkLIg53/qCoqZ38NE3kEjqaWcJ4pPMezVYFlO3rjQPg2XQbRo9FpswL9Ce0
+         jYYxzfLAe0i3cklKQ8xCqOZkiAH8+2joxuhDZ7g2fOAG8R08AgFjYxqtXhtAa9qpaUF7
+         4wtmQ1ThBTafNR1nC1+vtj9jC3pX3bWTee+Hb0oaW1acsGyjnOoqioFJ2nCONCfNBdOo
+         zv5w==
+X-Forwarded-Encrypted: i=1; AFNElJ+bXrXA7txfOyMdR82o8X6IF+VmzbN1O2LF/zE4jLCYIJu0pIdHeS/4a0O5xihS1qpk/NBdpkKiBwqQNvT2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4KDly2fmh1LrvegX+0p2hfEqkTxpEQUyuKkCagtM3timEWPvG
+	XQjWUNMf+6/zvgC69/d/KLS6Tuu0pwL4uwmSc+Yh43DoHGIQ6Fn93Hkk2xGGBVn6xH9LVNQ8wIb
+	iVm3W0sItQ3HnR4k3zw==
+X-Received: from wrua3.prod.google.com ([2002:a5d:4d43:0:b0:449:dcfe:7e41])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:871b:b0:483:709e:f238 with SMTP id 5b1f17b1804b1-48e51f4652fmr182535775e9.29.1778223384122;
- Thu, 07 May 2026 23:56:24 -0700 (PDT)
-Date: Fri, 08 May 2026 06:55:11 +0000
+ 2002:a05:6000:4381:b0:441:247a:e98e with SMTP id ffacd0b85a97d-4515ce1c738mr17900362f8f.24.1778223385682;
+ Thu, 07 May 2026 23:56:25 -0700 (PDT)
+Date: Fri, 08 May 2026 06:55:12 +0000
 In-Reply-To: <20260508-upgrade-poll-v3-0-0c619fe846e8@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -58,22 +58,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260508-upgrade-poll-v3-0-0c619fe846e8@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3877; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=CLtHpbaS1mKle8E88YQIhhMZXFuxKBPqK83vNenbugs=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBp/YkVE+D4eBTnrKBD7RpNEkaLJYcGJN9FVMPVA
- tpjeihBSDmJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaf2JFQAKCRAEWL7uWMY5
- RjLnD/4qe7AUfbmAav2TJeIzh0lJeGXw+I6OP8Tq2TCTVjiPv3qlWfj8oCy1my4vgtAbTdqaODG
- WZsvmVoE5jwKnjjsMSHqpyHtX1WwduCAb+PlEdEplDn5Z9e0bXM2nXoJ82uPMU3daSgvSoUJein
- 8mtr4xdHo05M2flIbnkxtI6emRljXVo48raQ1A6wkxgJ0Y/m8HGDSAZjUBo7Wo8HZ7EkAxSJxFL
- JOMcp+14P11ZiQdcVH/yIZ82trhm5x6zdDvFXyAy6duRH6SrcQ3D2Ersf/kQTUXGZDMwKVQjKfi
- y6dk2AoALrQbVpwMAF+8eXpLKsq39iO1wbjgJCr0VBM/3ZNrLWxuS3doO3Rynfv2YdTNttNutK0
- 8FNBS5rq+CWglBg6kJfabbMGtVQuaCot+qET7tg7pH8+zMuta3OVXoOfhhv/QMSZzbJKqdcrv+D
- zn95oZTU4TfSrMnwdLO7y5QjMIEAmAg1yP3abXMjN5GxCUvs7P+otDBePN2RAfH9BNMxHdDOQrO
- dp9f+JekhMyD+SzUASjvJJJVC5FlBPTkOz5tUx1nd167Fv3c4C9UhTSazmsjrci7572lzndzRgF
- xluguRFQIJ/Y9r22t3uugsBXAhJIr5g96tPgTOqMDSesq0HiMBFcPeaG0DHKIitkvDSSE0gO6qA yR3x5CXSjKhhGZQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14834; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=7ggYT7Cf6g063n4K/hPOh+tKS9dcGxoYdeOPk9iTix8=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBp/YkVF9kjl9PXk0VnSKuyAEtWQ6InwiiCbMlBi
+ yDcDHR+3z2JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaf2JFQAKCRAEWL7uWMY5
+ RuTOEACIlvXZMK8/IQEOLwBYKrbLUXzotxq90F7esS1PGcaoefsnQJnLqyVzr362IGOnPlKhG61
+ aF8IURyNu0G2pN9IB7BCf51cHiOVS2bgMaIBfoB5xmAR/AEvXfU6/b+bQVD5oSB5Aq1PthabEvB
+ PTX1RKJJckPyY2jNIICdPdHRK8NbE1/J0+qK6JARWQFgVW3J/zgM5CSCxboYzjyYVedP5QlRzgK
+ RCwufetdXuT/JpeJDzfiw6jv0xlY6/oWqV3X3B1MM9IuzAyKw/g2aHlb89K4KnaUqFO2OubHyHT
+ u3t+KNeZ+xIT6JYuqLSzW9/wlm+4k17P1y6LLee1VlztPxhop6UL7jKazP+0UM6sIP50kgiLtPw
+ M74imUn2M/nU0ixr5l4L+O8D3VEjHwOq0dPLQFMtAT4XAaH48BfX1wwCw8aeepneppaPbTtm5qH
+ rt9vBKgSWHTv0pys+yv8HcnREts9tA9Stf/TtZDlT/OVBsPLBN8uOlvcm/1+uPAqTj9yjWbA8B4
+ QiKGYmQP2jGL2rRGROpnD1fNDi4Ld3yj5v7NId1qWrgw+mS8UgSVRXS51R+PQ5m3E2QW6slhQ39
+ NkSidGredGE1ypCB8gOiCF5IKgQUAInyIptA9lItSZFkkYat1a2WS4uFRkMzjuHa9mdZmuhJRv9 33jzrwGhe5pDwiQ==
 X-Mailer: b4 0.14.3
-Message-ID: <20260508-upgrade-poll-v3-1-0c619fe846e8@google.com>
-Subject: [PATCH v3 1/2] rust: poll: use kfree_rcu() for PollCondVar
+Message-ID: <20260508-upgrade-poll-v3-2-0c619fe846e8@google.com>
+Subject: [PATCH v3 2/2] rust_binder: move (e)poll wait queue to Process
 From: Alice Ryhl <aliceryhl@google.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
 	Christian Brauner <brauner@kernel.org>, Boqun Feng <boqun@kernel.org>
@@ -86,121 +86,379 @@ Cc: "Paul E. McKenney" <paulmck@kernel.org>, Alexander Viro <viro@zeniv.linux.or
 	Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-Rust Binder currently uses PollCondVar, but it calls synchronize_rcu()
-in the destructor, which we would like to avoid. Add a variation of
-PollCondVar that kfree_rcu() instead.
+Most processes do not use Rust Binder with epoll, so avoid paying the
+synchronize_rcu() cost in drop for those that don't need it. For those
+that do, we also manage to replace synchronize_rcu() with kfree_rcu(),
+though we introduce an extra allocation.
 
-One could avoid the `rcu` field and allocate the rcu_head on drop using
-a fallback to synchronize_rcu() on ENOMEM. However, I'd prefer to avoid
-the potential for synchronize_rcu(), and Binder will only use this for a
-small fraction of processes, so even if it changes which kmalloc bucket
-it falls into, the extra memory is not a problem.
+In case the last ref to an Arc<Thread> is dropped outside of
+deferred_release(), this also ensures that synchronize_rcu() is not
+called in destructor of Arc<Thread> in other places. Theoretically that
+could lead to jank by making other syscalls slow, which would be
+problematic.
 
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- rust/kernel/sync/poll.rs | 73 +++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 72 insertions(+), 1 deletion(-)
+ drivers/android/binder/process.rs     | 51 +++++++++++++++++------
+ drivers/android/binder/thread.rs      | 78 +++++++++++++++++------------------
+ drivers/android/binder/transaction.rs |  4 ++
+ 3 files changed, 82 insertions(+), 51 deletions(-)
 
-diff --git a/rust/kernel/sync/poll.rs b/rust/kernel/sync/poll.rs
-index 0ec985d560c8..684dfa242b1a 100644
---- a/rust/kernel/sync/poll.rs
-+++ b/rust/kernel/sync/poll.rs
-@@ -5,12 +5,18 @@
- //! Utilities for working with `struct poll_table`.
+diff --git a/drivers/android/binder/process.rs b/drivers/android/binder/process.rs
+index 820cbd541435..29fdfc964685 100644
+--- a/drivers/android/binder/process.rs
++++ b/drivers/android/binder/process.rs
+@@ -30,6 +30,7 @@
+     sync::{
+         aref::ARef,
+         lock::{spinlock::SpinLockBackend, Guard},
++        poll::PollCondVarBox,
+         Arc, ArcBorrow, CondVar, CondVarTimeoutResult, Mutex, SpinLock, UniqueArc,
+     },
+     task::Task,
+@@ -135,6 +136,7 @@ pub(crate) struct ProcessInner {
+     pub(crate) binderfs_file: Option<BinderfsProcFile>,
+     /// Check for oneway spam
+     oneway_spam_detection_enabled: bool,
++    poll: Option<PollCondVarBox>,
+ }
  
- use crate::{
-+    alloc::AllocError,
+ impl ProcessInner {
+@@ -158,6 +160,7 @@ fn new() -> Self {
+             async_recv: false,
+             binderfs_file: None,
+             oneway_spam_detection_enabled: false,
++            poll: None,
+         }
+     }
+ 
+@@ -174,19 +177,23 @@ pub(crate) fn push_work(
+         &mut self,
+         work: DLArc<dyn DeliverToRead>,
+     ) -> Result<(), (BinderError, DLArc<dyn DeliverToRead>)> {
++        let sync = work.should_sync_wakeup();
++
+         // Try to find a ready thread to which to push the work.
+         if let Some(thread) = self.ready_threads.pop_front() {
+             // Push to thread while holding state lock. This prevents the thread from giving up
+             // (for example, because of a signal) when we're about to deliver work.
+-            match thread.push_work(work) {
++            match thread.push_work_inner(work, sync) {
+                 PushWorkRes::Ok => Ok(()),
++                PushWorkRes::OkNotifyPoll => {
++                    self.notify_poll(sync);
++                    Ok(())
++                }
+                 PushWorkRes::FailedDead(work) => Err((BinderError::new_dead(), work)),
+             }
+         } else if self.is_dead {
+             Err((BinderError::new_dead(), work))
+         } else {
+-            let sync = work.should_sync_wakeup();
+-
+             // Didn't find a thread waiting for proc work; this can happen
+             // in two scenarios:
+             // 1. All threads are busy handling transactions
+@@ -194,22 +201,26 @@ pub(crate) fn push_work(
+             //    the kernel driver soon and pick up this work.
+             // 2. Threads are using the (e)poll interface, in which case
+             //    they may be blocked on the waitqueue without having been
+-            //    added to waiting_threads. For this case, we just iterate
+-            //    over all threads not handling transaction work, and
+-            //    wake them all up. We wake all because we don't know whether
+-            //    a thread that called into (e)poll is handling non-binder
+-            //    work currently.
++            //    added to waiting_threads. For this case, we wake it up
++            //    directly.
+             self.work.push_back(work);
+ 
+             // Wake up polling threads, if any.
+-            for thread in self.threads.values() {
+-                thread.notify_if_poll_ready(sync);
+-            }
++            self.notify_poll(sync);
+ 
+             Ok(())
+         }
+     }
+ 
++    pub(crate) fn notify_poll(&self, sync: bool) {
++        if let Some(poll) = &self.poll {
++            if sync {
++                poll.notify_sync();
++            }
++            poll.notify_all();
++        }
++    }
++
+     pub(crate) fn remove_node(&mut self, ptr: u64) {
+         self.nodes.remove(&ptr);
+     }
+@@ -1322,11 +1333,15 @@ fn deferred_flush(&self) {
+ 
+     fn deferred_release(self: Arc<Self>) {
+         let is_manager = {
++            // These variables contain values to be dropped after releasing spinlock.
++            let _poll;
++
+             let mut inner = self.inner.lock();
+             inner.is_dead = true;
+             inner.is_frozen = IsFrozen::No;
+             inner.sync_recv = false;
+             inner.async_recv = false;
++            _poll = inner.poll.take();
+             inner.is_manager
+         };
+ 
+@@ -1696,7 +1711,19 @@ pub(crate) fn poll(
+         table: PollTable<'_>,
+     ) -> Result<u32> {
+         let thread = this.get_current_thread()?;
+-        let (from_proc, mut mask) = thread.poll(file, table);
++        {
++            let mut inner = this.inner.lock();
++            let poll = if let Some(poll) = &inner.poll {
++                &**poll
++            } else {
++                drop(inner);
++                let poll = PollCondVarBox::new(c"Process::poll", kernel::static_lock_class!())?;
++                inner = this.inner.lock();
++                &**inner.poll.get_or_insert(poll)
++            };
++            table.register_wait(file, poll);
++        }
++        let (from_proc, mut mask) = thread.poll()?;
+         if mask == 0 && from_proc && !this.inner.lock().work.is_empty() {
+             mask |= bindings::POLLIN;
+         }
+diff --git a/drivers/android/binder/thread.rs b/drivers/android/binder/thread.rs
+index 97d5f31e8fe3..425c50298706 100644
+--- a/drivers/android/binder/thread.rs
++++ b/drivers/android/binder/thread.rs
+@@ -9,15 +9,14 @@
+ 
+ use kernel::{
      bindings,
-     fs::File,
+-    fs::{File, LocalFile},
++    fs::LocalFile,
+     list::{AtomicTracker, List, ListArc, ListLinks, TryNewListArc},
      prelude::*,
-     sync::{CondVar, LockClassKey},
-+    types::Opaque, //
-+};
-+use core::{
-+    marker::PhantomData,
-+    mem::ManuallyDrop,
-+    ops::Deref, //
- };
--use core::{marker::PhantomData, ops::Deref};
- 
- /// Creates a [`PollCondVar`] initialiser with the given name and a newly-created lock class.
- #[macro_export]
-@@ -66,6 +72,7 @@ pub fn register_wait(&self, file: &File, cv: &PollCondVar) {
- ///
- /// [`CondVar`]: crate::sync::CondVar
- #[pin_data(PinnedDrop)]
-+#[repr(transparent)]
- pub struct PollCondVar {
-     #[pin]
-     inner: CondVar,
-@@ -104,3 +111,67 @@ fn drop(self: Pin<&mut Self>) {
-         unsafe { bindings::synchronize_rcu() };
+     security,
+     seq_file::SeqFile,
+     seq_print,
+     sync::atomic::{ordering::Relaxed, Atomic},
+-    sync::poll::{PollCondVar, PollTable},
+-    sync::{aref::ARef, Arc, SpinLock},
++    sync::{aref::ARef, Arc, CondVar, SpinLock},
+     task::Task,
+     uaccess::{UserPtr, UserSlice, UserSliceReader},
+     uapi,
+@@ -225,8 +224,10 @@ fn claim_next(&mut self, size: usize) -> Result<usize> {
      }
  }
-+
-+/// A [`KBox<PollCondVar>`] that uses `kfree_rcu`.
-+///
-+/// [`KBox<PollCondVar>`]: PollCondVar
-+pub struct PollCondVarBox {
-+    inner: ManuallyDrop<Pin<KBox<PollCondVarBoxInner>>>,
-+}
-+
-+#[pin_data]
-+#[repr(C)]
-+struct PollCondVarBoxInner {
-+    #[pin]
-+    inner: PollCondVar,
-+    rcu: Opaque<bindings::callback_head>,
-+}
-+
-+// SAFETY: PollCondVar is Send
-+unsafe impl Send for PollCondVarBoxInner {}
-+// SAFETY: PollCondVar is Sync
-+unsafe impl Sync for PollCondVarBoxInner {}
-+
-+impl PollCondVarBox {
-+    /// Constructs a new boxed [`PollCondVar`].
-+    pub fn new(name: &'static CStr, key: Pin<&'static LockClassKey>) -> Result<Self, AllocError> {
-+        let b = KBox::pin_init(
-+            pin_init!(PollCondVarBoxInner {
-+                inner <- PollCondVar::new(name, key),
-+                rcu: Opaque::uninit(),
-+            }),
-+            GFP_KERNEL,
-+        )
-+        .map_err(|_| AllocError)?;
-+
-+        Ok(PollCondVarBox {
-+            inner: ManuallyDrop::new(b),
-+        })
+ 
++#[must_use]
+ pub(crate) enum PushWorkRes {
+     Ok,
++    OkNotifyPoll,
+     FailedDead(DLArc<dyn DeliverToRead>),
+ }
+ 
+@@ -234,6 +235,7 @@ impl PushWorkRes {
+     fn is_ok(&self) -> bool {
+         match self {
+             PushWorkRes::Ok => true,
++            PushWorkRes::OkNotifyPoll => true,
+             PushWorkRes::FailedDead(_) => false,
+         }
+     }
+@@ -310,27 +312,32 @@ fn pop_work(&mut self) -> Option<DLArc<dyn DeliverToRead>> {
+ 
+     fn push_work(&mut self, work: DLArc<dyn DeliverToRead>) -> PushWorkRes {
+         if self.is_dead {
+-            PushWorkRes::FailedDead(work)
++            return PushWorkRes::FailedDead(work);
++        }
++        self.work_list.push_back(work);
++        self.process_work_list = true;
++        if self.looper_flags & LOOPER_POLL != 0 {
++            PushWorkRes::OkNotifyPoll
+         } else {
+-            self.work_list.push_back(work);
+-            self.process_work_list = true;
+             PushWorkRes::Ok
+         }
+     }
+ 
+-    fn push_reply_work(&mut self, code: u32) {
++    fn push_reply_work(&mut self, code: u32) -> PushWorkRes {
+         if let Ok(work) = ListArc::try_from_arc(self.reply_work.clone()) {
+             work.set_error_code(code);
+-            self.push_work(work);
++            self.push_work(work)
+         } else {
+             pr_warn!("Thread reply work is already in use.");
++            PushWorkRes::Ok
+         }
+     }
+ 
+     fn push_return_work(&mut self, reply: u32) {
+         if let Ok(work) = ListArc::try_from_arc(self.return_work.clone()) {
+             work.set_error_code(reply);
+-            self.push_work(work);
++            // Not notifying: Reply to current thread.
++            let _ = self.push_work(work);
+         } else {
+             pr_warn!("Thread return work is already in use.");
+         }
+@@ -422,7 +429,7 @@ pub(crate) struct Thread {
+     #[pin]
+     inner: SpinLock<InnerThread>,
+     #[pin]
+-    work_condvar: PollCondVar,
++    work_condvar: CondVar,
+     /// Used to insert this thread into the process' `ready_threads` list.
+     ///
+     /// INVARIANT: May never be used for any other list than the `self.process.ready_threads`.
+@@ -453,7 +460,7 @@ pub(crate) fn new(id: i32, process: Arc<Process>) -> Result<Arc<Self>> {
+                 process,
+                 task: ARef::from(&**kernel::current!()),
+                 inner <- kernel::new_spinlock!(inner, "Thread::inner"),
+-                work_condvar <- kernel::new_poll_condvar!("Thread::work_condvar"),
++                work_condvar <- kernel::new_condvar!("Thread::work_condvar"),
+                 links <- ListLinks::new(),
+                 links_track <- AtomicTracker::new(),
+             }),
+@@ -617,7 +624,14 @@ fn get_work(self: &Arc<Self>, wait: bool) -> Result<Option<DLArc<dyn DeliverToRe
+     /// Returns whether the item was successfully pushed. This can only fail if the thread is dead.
+     pub(crate) fn push_work(&self, work: DLArc<dyn DeliverToRead>) -> PushWorkRes {
+         let sync = work.should_sync_wakeup();
++        self.push_work_inner(work, sync)
 +    }
-+}
-+
-+impl Deref for PollCondVarBox {
-+    type Target = PollCondVar;
-+    fn deref(&self) -> &PollCondVar {
-+        &self.inner.inner
-+    }
-+}
-+
-+impl Drop for PollCondVarBox {
-+    #[inline]
-+    fn drop(&mut self) {
-+        // SAFETY: ManuallyDrop::take ok because not already taken.
-+        let boxed = unsafe { ManuallyDrop::take(&mut self.inner) };
-+
-+        // SAFETY: The code below frees the box without calling the actual destructor of the type,
-+        // but it's okay because it re-implements the destructor using `kfree_rcu()` in place of
-+        // `synchronize_rcu()`.
-+        let ptr = KBox::into_raw(unsafe { Pin::into_inner_unchecked(boxed) });
-+
-+        // SAFETY: The pointer points at a valid `wait_queue_head`.
-+        unsafe { bindings::__wake_up_pollfree((*ptr).inner.inner.wait_queue_head.get()) };
-+
-+        // SAFETY: This was allocated using `KBox::pin_init`, so it can be freed with `kvfree`.
-+        unsafe { bindings::kvfree_call_rcu((*ptr).rcu.get(), ptr.cast::<ffi::c_void>()) };
-+    }
-+}
+ 
++    pub(crate) fn push_work_inner(
++        &self,
++        work: DLArc<dyn DeliverToRead>,
++        sync: bool,
++    ) -> PushWorkRes {
+         let res = self.inner.lock().push_work(work);
+ 
+         if res.is_ok() {
+@@ -636,7 +650,8 @@ pub(crate) fn push_work(&self, work: DLArc<dyn DeliverToRead>) -> PushWorkRes {
+     pub(crate) fn push_work_if_looper(&self, work: DLArc<dyn DeliverToRead>) -> BinderResult {
+         let mut inner = self.inner.lock();
+         if inner.is_looper() && !inner.is_dead {
+-            inner.push_work(work);
++            // Not notifying: Reply to current thread.
++            let _ = inner.push_work(work);
+             Ok(())
+         } else {
+             drop(inner);
+@@ -1142,7 +1157,7 @@ fn deliver_single_reply(
+             transaction.set_outstanding(&mut self.process.inner.lock());
+         }
+ 
+-        {
++        let ret = {
+             let mut inner = self.inner.lock();
+             if !inner.pop_transaction_replied(transaction) {
+                 return false;
+@@ -1153,15 +1168,16 @@ fn deliver_single_reply(
+             }
+ 
+             match reply {
+-                Ok(work) => {
+-                    inner.push_work(work);
+-                }
++                Ok(work) => inner.push_work(work),
+                 Err(code) => inner.push_reply_work(code),
+             }
+-        }
++        };
+ 
+         // Notify the thread now that we've released the inner lock.
+         self.work_condvar.notify_sync();
++        if matches!(ret, PushWorkRes::OkNotifyPoll) {
++            self.process.inner.lock().notify_poll(true);
++        }
+         false
+     }
+ 
+@@ -1319,7 +1335,8 @@ fn reply_inner(self: &Arc<Self>, info: &mut TransactionInfo) -> BinderResult {
+             let process = orig.from.process.clone();
+             let allow_fds = orig.flags & TF_ACCEPT_FDS != 0;
+             let reply = Transaction::new_reply(self, process, info, allow_fds)?;
+-            self.inner.lock().push_work(completion);
++            // Not notifying: Reply to current thread.
++            let _ = self.inner.lock().push_work(completion);
+             orig.from.deliver_reply(Ok(reply), &orig);
+             Ok(())
+         })()
+@@ -1351,7 +1368,8 @@ fn oneway_transaction_inner(self: &Arc<Self>, info: &mut TransactionInfo) -> Bin
+         };
+         let list_completion = DTRWrap::arc_try_new(DeliverCode::new(code))?;
+         let completion = list_completion.clone_arc();
+-        self.inner.lock().push_work(list_completion);
++        // Not notifying: Reply to current thread.
++        let _ = self.inner.lock().push_work(list_completion);
+         match transaction.submit(info) {
+             Ok(()) => Ok(()),
+             Err(err) => {
+@@ -1551,10 +1569,9 @@ pub(crate) fn write_read(self: &Arc<Self>, data: UserSlice, wait: bool) -> Resul
+         ret
+     }
+ 
+-    pub(crate) fn poll(&self, file: &File, table: PollTable<'_>) -> (bool, u32) {
+-        table.register_wait(file, &self.work_condvar);
++    pub(crate) fn poll(&self) -> Result<(bool, u32)> {
+         let mut inner = self.inner.lock();
+-        (inner.should_use_process_work_queue(), inner.poll())
++        Ok((inner.should_use_process_work_queue(), inner.poll()))
+     }
+ 
+     /// Make the call to `get_work` or `get_work_local` return immediately, if any.
+@@ -1571,26 +1588,9 @@ pub(crate) fn exit_looper(&self) {
+         }
+     }
+ 
+-    pub(crate) fn notify_if_poll_ready(&self, sync: bool) {
+-        // Determine if we need to notify. This requires the lock.
+-        let inner = self.inner.lock();
+-        let notify = inner.looper_flags & LOOPER_POLL != 0 && inner.should_use_process_work_queue();
+-        drop(inner);
+-
+-        // Now that the lock is no longer held, notify the waiters if we have to.
+-        if notify {
+-            if sync {
+-                self.work_condvar.notify_sync();
+-            } else {
+-                self.work_condvar.notify_one();
+-            }
+-        }
+-    }
+-
+     pub(crate) fn release(self: &Arc<Self>) {
+         self.inner.lock().is_dead = true;
+ 
+-        //self.work_condvar.clear();
+         self.unwind_transaction_stack();
+ 
+         // Cancel all pending work items.
+diff --git a/drivers/android/binder/transaction.rs b/drivers/android/binder/transaction.rs
+index 47d5e4d88b07..3c9620da3d25 100644
+--- a/drivers/android/binder/transaction.rs
++++ b/drivers/android/binder/transaction.rs
+@@ -322,6 +322,10 @@ pub(crate) fn submit(self: DLArc<Self>, info: &mut TransactionInfo) -> BinderRes
+             crate::trace::trace_transaction(false, &self, Some(&thread.task));
+             match thread.push_work(self) {
+                 PushWorkRes::Ok => Ok(()),
++                PushWorkRes::OkNotifyPoll => {
++                    process_inner.notify_poll(true);
++                    Ok(())
++                }
+                 PushWorkRes::FailedDead(me) => Err((BinderError::new_dead(), me)),
+             }
+         } else {
 
 -- 
 2.54.0.563.g4f69b47b94-goog
