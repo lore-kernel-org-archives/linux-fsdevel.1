@@ -1,180 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f202.google.com (mail-dy1-f202.google.com [74.125.82.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255802857EE;
-	Fri,  8 May 2026 17:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79D227CCE0
+	for <linux-fsdevel@vger.kernel.org>; Fri,  8 May 2026 18:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778263186; cv=none; b=XcB3YDyv3fjQZE9fE3zYRa47fXArBVyxUMpcHhGJRsvD4BVmSXUu9uXKq0xi1ugIrLMkI0ya675yPH1Q8g2goE3DeYc96m/XqfiNU84elKggNSM9JVYOTE28E+wAkVIgRaREN6fIdqq1HSQ/k2fTaCa3p24u4hBC2VPzvamDv20=
+	t=1778263974; cv=none; b=dJsf3fKlOT7iN+v94geq2lUkZKl6+or2GFpoeSsst1WNJjBsMuUa+LKgsp1/7Xepcc6WScGEHsYicrYVTWUQKN6lUHM+fL2dVzql+eMpDfysn0jJ6YTB7XqmfCXPvrrk9M3EwxzHMiD5Lf21M91nGNNWsSycjXVr2nqZD8HhbTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778263186; c=relaxed/simple;
-	bh=gatNClLZL9QgFANDBhG0hyiMVGWwiq4u3yUV2zU/oKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L3AvtmZrfwzRiiuBymeH1E5WUqy5XekjQabtEpR/FxtSzPUjJVXnUa15zZ5EliDysCZjyqTrCs+uVGlzu0GKMQBWEBfhZrYZuZRjTRrfss7KLII2ehTt11pZecjzVbeUIiIzsbQmdNKRmEDsHc3nKoeUR6YZw369ut8NQ3S6h+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DsAntoyE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778263974; c=relaxed/simple;
+	bh=LC5XXTxDfGbmu5cYp7Av/M44Iq8J0sO6eFtx44JJjXY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:Cc:Content-Type; b=WwDSMLTfbCJxkrpthugCet/ufscOZJ6jzumxToHDiEVddmDmpEKZDtzV035/6PP8Iwylve1vHPX+GVacSDyh6M+4ZiXzbs34m0PrlNRO9dwZq/iwlXiIeaveeZPXARHQaOpIqriM2m6KUHDxyC0AMisdi5QUmh/6QITz1t3h+p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mdeO6SLo; arc=none smtp.client-ip=74.125.82.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DsAntoyE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8D8CC2BCB0;
-	Fri,  8 May 2026 17:59:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778263185;
-	bh=gatNClLZL9QgFANDBhG0hyiMVGWwiq4u3yUV2zU/oKo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DsAntoyE4NIrSkNaCi0kDY6cv7l05GedlxDY2BE13kk+3u9CgWI5Sq+2v50UeSteP
-	 5pC1rCQC5sWtIcwyoLvKgaYNR2Gtl6folOitQ1GzQ8t2e7VOxnG8WzcqlBQGua1X9V
-	 5YTtQU02NRAvD279kuY+TJo0NkPr9lSeqT6w7GeeoHBpfkgOV0fajZvNYXO6V8O2gJ
-	 3ADs3Sv1YStKJV0xn3U6K2r7GqjTSxLrrjSDOszSvmETGvndl/srrPyC2rYYYotdyM
-	 d/xzKJDzyjQ4ZHdI7yE4ohDhb6AXjWaaosnM9lCicoEAYtvLgpiuzsxDBOTGL2v3x7
-	 tBalW0MGGNx/w==
-Date: Fri, 8 May 2026 10:59:45 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
-	neal@gompa.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/1] mount_service: use the mount_flags table instead of
- declaring our own
-Message-ID: <20260508175945.GE2241589@frogsfrogsfrogs>
-References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
- <177819198067.3490792.2943381236495611249.stgit@frogsfrogsfrogs>
- <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mdeO6SLo"
+Received: by mail-dy1-f202.google.com with SMTP id 5a478bee46e88-2f5943ca81aso3655060eec.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 11:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778263972; x=1778868772; darn=vger.kernel.org;
+        h=cc:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UyKGCYrU63Aq4NGiL04wV7gIZx0hsmStPfmXdP8BRuQ=;
+        b=mdeO6SLo8ToclB67XHN+K4uH/Roqx+vU8ftchmmH512mHSnPARw8FhdsaZR5SsI/cz
+         md1eEsTLw5/ixs4agpggZLbVJPCvi5PgeJQEb9+gYbsca7r0PHp2oZa9c7FuNP/M9bct
+         YFQNqBx6uRbO+CGx0zPEzdpyiu7OJ1Q1VxXL9PEr2yaULO/WDR9ijDc28g7b6xdase69
+         MdGuHI5runnU4ME4ficdPN2vPU4TSCqxxnaNt/3y8z346VPKS9Hi2ZHuJ3ieinuFRfJt
+         Z0Lh9Zv+B5PdtGKqD7se+y+CMU3uT7ZMOaV9r1PXgtb5wr02tkv3zNJ7mNHtM1ypE0hw
+         06zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778263972; x=1778868772;
+        h=cc:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UyKGCYrU63Aq4NGiL04wV7gIZx0hsmStPfmXdP8BRuQ=;
+        b=dpI/HYcLg/NdmHfrzjQ3CzB2Tscp4g8fI2wVAndQrb0jvcezquP6ELiY60IyDlyPWv
+         aX5zaSzDfuTQ2k+18L7lNXunsAmrlwEXEE9Yutx7ijrYPp4qnIZhNLYha9PJt30RqEqr
+         rbiaVwHcc7T+0CKx4fZDohzTOmr2Mrl1J8VFOXK+5GElsO2nhUyfr7/r9MH+AZCqikEk
+         RPgxi0u2CV9h51k+zt3QxTJHTLo0L2703IaGSpjcWVWU1G8gY1SHw/2vrPNaLf+TJbvS
+         vMHE6/oPF+BNuGdvbFHkGeXh/hREXd9AXJE6ftZGByp1Nxn0W/j8M1Eh/hsi8Vt/XmBk
+         OJ+Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/nibon37rlaG9iRMkzRP/wC5QLxThVoI5SonEbJrE8iZx+hFB7gJXY/JA0okEjGWDNddBYv0KZXrzuo0uC@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3wyJZytD6PUFZTtGTDO6DhQk0PJD8LZL/feJRQxi0PejRTyiq
+	VsziTM5GUfFCuw+/tpmIBSnHdm+soRVynaROw+wx/NoCDw8MHm3v3bg1Qqy+Ekwd2gbEqPdqZW3
+	83cAIIw==
+X-Received: from dlbcj32.prod.google.com ([2002:a05:7022:69a0:b0:12c:b3eb:b31e])
+ (user=fmayle job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:1e10:b0:12b:ec67:3523
+ with SMTP id a92af1059eb24-1317d89653emr7226915c88.9.1778263971653; Fri, 08
+ May 2026 11:12:51 -0700 (PDT)
+Date: Fri,  8 May 2026 11:12:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
+Message-ID: <20260508181237.670645-1-fmayle@google.com>
+Subject: [PATCH] mm/readahead: no PG_readahead on EOF
+From: Frederick Mayle <fmayle@google.com>
+Cc: android-mm@google.com, kernel-team@android.com, 
+	Frederick Mayle <fmayle@google.com>, Kalesh Singh <kaleshsingh@google.com>, 
+	Suren Baghdasaryan <surenb@google.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 08, 2026 at 06:51:45PM +0200, Bernd Schubert wrote:
-> 
-> 
-> On 5/8/26 00:14, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
-> > 
-> > Use the canonical mount flags table in mount_util.c instead of
-> > opencoding our own version in mount_service.c.
-> > 
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  util/mount_service.c |   51 +++++++++++++-------------------------------------
-> >  1 file changed, 13 insertions(+), 38 deletions(-)
-> > 
-> > 
-> > diff --git a/util/mount_service.c b/util/mount_service.c
-> > index 8c9747b3928a51..79e5b060ba3356 100644
-> > --- a/util/mount_service.c
-> > +++ b/util/mount_service.c
-> > @@ -1457,73 +1457,48 @@ struct ms_to_mount_map {
-> >  	unsigned int mount_attr_flag;
-> >  };
-> >  
-> > -static const struct ms_to_mount_map attrs[] = {
-> > -	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
-> > -	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
-> > -	{ MS_NODEV,		MOUNT_ATTR_NODEV },
-> > -	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
-> > -	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
-> > -	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
-> > -	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
-> > -	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
-> > -#ifdef MOUNT_ATTR_NOSYMFOLLOW
-> > -	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
-> > -#endif
-> > -	{ 0, 0 },
-> > -};
-> > -
-> >  static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
-> >  				 unsigned int *attr_flags,
-> >  				 unsigned long *leftover_ms_flags)
-> >  {
-> > -	const struct ms_to_mount_map *i;
-> > +	const struct mount_flags *i;
-> >  	unsigned int ms_flags = ntohl(oc->ms_flags);
-> >  	unsigned int mount_attr_flags = 0;
-> >  
-> > -	for (i = attrs; i->ms_flag != 0; i++) {
-> > -		if (ms_flags & i->ms_flag)
-> > -			mount_attr_flags |= i->mount_attr_flag;
-> > -		ms_flags &= ~i->ms_flag;
-> > +	for (i = mount_flags; i->opt != NULL; i++) {
-> > +		if (!i->on || !(ms_flags & i->flag))
-> > +			continue;
-> > +
-> > +		mount_attr_flags |= i->mount_attr;
-> > +		ms_flags &= ~i->flag;
-> >  	}
-> >  
-> >  	*leftover_ms_flags = ms_flags;
-> >  	*attr_flags = mount_attr_flags;
-> >  }
-> >  
-> > -struct ms_to_str_map {
-> > -	unsigned long ms_flag;
-> > -	const char *string;
-> > -};
-> > -
-> > -static const struct ms_to_str_map strflags[] = {
-> > -	{ MS_SYNCHRONOUS,	"sync" },
-> > -	{ MS_DIRSYNC,		"dirsync" },
-> > -	{ MS_LAZYTIME,		"lazytime" },
-> > -	{ 0, 0 },
-> > -};
-> > -
-> >  static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
-> >  {
-> > -	const struct ms_to_str_map *i;
-> > +	const struct mount_flags *i;
-> >  	int ret;
-> >  
-> > -	for (i = strflags; i->ms_flag != 0; i++) {
-> > -		if (!(ms_flags & i->ms_flag))
-> > +	for (i = mount_flags; i->opt != NULL; i++) {
-> > +		if (!i->on || !(ms_flags & i->flag))
-> >  			continue;
-> >  
-> > -		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
-> > +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->opt,
-> >  			       NULL, 0);
-> >  		if (ret) {
-> >  			int error = errno;
-> >  
-> >  			fprintf(stderr, "%s: set %s option: %s\n",
-> > -				mo->msgtag, i->string, strerror(error));
-> > +				mo->msgtag, i->opt, strerror(error));
-> >  			emit_fsconfig_messages(mo);
-> >  
-> >  			errno = error;
-> >  			return -1;
-> >  		}
-> > -		ms_flags &= ~i->ms_flag;
-> > +		ms_flags &= ~i->flag;
-> >  	}
-> >  
-> >  	/*
-> > 
-> > 
-> 
-> 
-> Hi Darrick,
-> 
-> wouldn't it make sense to use the functions from mount_fsmount.c? I can
-> also clean this up later if you want.
+When readahead pulls in all the remaining pages for a file, setting the
+readahead bit is counter productive. The async readahead it would
+trigger would almost certainly be a no-op. Additionally, for mmap'd file
+IO, the readahead bit limits the fault around [0], causing an extra
+minor fault when the page is accessed.
 
-Oh, hah!  Yes, I'll revise this patch to use them.
+This was discovered when looking at /sys/kernel/tracing/events/readahead
+traces for a simple program. With the patch applied, fewer
+page_cache_ra_unbounded calls are observed.
 
-> I guess this doesn't handle the case for "ro" going into fsmount() and
-> fsconfig() yet - update now or later?
+[1] do_fault_around calls filemap_map_pages, which finds eligible pages
+    by calling next_uptodate_folio [2]. next_uptodate_folio skips pages
+    with PG_readahead set [3].
 
-That'll become another fix patch for mount_service.c.
+Link: https://github.com/torvalds/linux/blob/v7.0/mm/filemap.c#L3921-L3939 [2]
+Link: https://github.com/torvalds/linux/blob/v7.0/mm/filemap.c#L3721-L3722 [3]
+Cc: Kalesh Singh <kaleshsingh@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Signed-off-by: Frederick Mayle <fmayle@google.com>
+---
+ mm/readahead.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
---D
+diff --git a/mm/readahead.c b/mm/readahead.c
+index 8c12b63ccd4a..784a3bde82be 100644
+--- a/mm/readahead.c
++++ b/mm/readahead.c
+@@ -329,8 +329,11 @@ static void do_page_cache_ra(struct readahead_control *ractl,
+ 	if (index > end_index)
+ 		return;
+ 	/* Don't read past the page containing the last byte of the file */
+-	if (nr_to_read > end_index - index)
++	if (nr_to_read > end_index - index) {
+ 		nr_to_read = end_index - index + 1;
++		/* We've reached the end, so don't set a readahead marker. */
++		lookahead_size = 0;
++	}
+ 
+ 	filemap_invalidate_lock_shared(mapping);
+ 	page_cache_ra_unbounded(ractl, nr_to_read, lookahead_size);
+@@ -474,7 +477,7 @@ void page_cache_ra_order(struct readahead_control *ractl,
+ 	pgoff_t index = start;
+ 	unsigned int min_order = mapping_min_folio_order(mapping);
+ 	pgoff_t limit;
+-	pgoff_t mark = index + ra->size - ra->async_size;
++	pgoff_t mark;
+ 	unsigned int nofs;
+ 	int err = 0;
+ 	gfp_t gfp = readahead_gfp_mask(mapping);
+@@ -488,7 +491,13 @@ void page_cache_ra_order(struct readahead_control *ractl,
+ 
+ 	limit = (i_size_read(mapping->host) - 1) >> PAGE_SHIFT;
+ 	limit = min(limit, ractl->_max_index);
+-	limit = min(limit, index + ra->size - 1);
++	if (limit > index + ra->size - 1) {
++		limit = index + ra->size - 1;
++		mark = index + ra->size - ra->async_size;
++	} else {
++		/* We've reached the end, so don't set a readahead marker. */
++		mark = ULONG_MAX;
++	}
+ 
+ 	new_order = min(mapping_max_folio_order(mapping), new_order);
+ 	new_order = min_t(unsigned int, new_order, ilog2(ra->size));
 
-> 
-> Thanks,
-> Bernd
-> 
-> 
-> 
-> 
+base-commit: 2d565cbaafd43b10b75da56e43e5db9852a56afd
+-- 
+2.54.0.563.g4f69b47b94-goog
+
