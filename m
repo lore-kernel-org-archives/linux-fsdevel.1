@@ -1,163 +1,136 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970DB382365
-	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 06:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778307176; cv=none; b=QGkMTbY0clu9Tm3nVyQyZGsABMjJHyyiktRfPJUxpRsv5bVFlPvH2jgQvh84hpTJx5XUcuK1ZrKjMYoV9+Hup8fR3phwIlkJwATfP8+9lRnjQgzqLgbDi5w4Gf47YlpAcKaeIiPcLo8H2KcUj1DOY/cFl3O9oU677Wj1Uib6/8k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778307176; c=relaxed/simple;
-	bh=0iDZOjepnYHKbwUNptbhXbh2gt66eTQ2spfZriwBAiU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f6Vz5dLplIoplKlBQ/uYUWDjbd5sz5aE5OYo8mV+UftfmRz29cWryduGH7/QgyyKJ2CnTRYKYy9b48TPuO6Dx08mn6lxin5OOruk8yxz5Bkv8kNqVpLRzgP0qnV3pbOUrXNg2j1XFSrVNva5cfZiSEE+z0qGfoMe2pV8mKcGdec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f5xz103r; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C85261B9E
+	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 06:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778307263; cv=pass; b=bDJOTBmMtJud+TXTV5/EkJidPPRfyZquh9PHh/6gpd582pstBARpS+hNW6y9667nooO02UX1JyPDlxgqvzAVDVRWToIOZOnhvlmnJY7dv+ttzCLtEvqBeOZyohlIEHJN+bIOdH4EtOeYgmvxFWZcc5tK0YkEDbIYA/5IknbGZXo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778307263; c=relaxed/simple;
+	bh=bApG66Iyjaj+bxzLGg0/sBmkkKy8yZf5oPe63MxI1AY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ehvGA7ySA4UMCquaayvbB4A51etecb2dtGMM4Vb73AF+V9kFOIGPLeWtj5dtqQDRC5QWiKevVTn//wPOrgnMgs2zouiQFh+bXwEq8AUCCgxwdXetqA82Qy66ZosEkQJW2rf/hL/tgmnyL5blHUEKRz2+XkEazvcpqldlIEzbFCI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NrBeVu3j; arc=pass smtp.client-ip=74.125.224.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f5xz103r"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b95a78a11dso4217265ad.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 23:12:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NrBeVu3j"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64ca9d0d189so217840d50.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 23:14:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778307261; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YVJrWC1dUpkACIgc4AsCuNqxmDT6SdtPDI3azaUkXIiGM/FQ8UKbBkhKVk+XyGEKwh
+         ZFyj6P297ZPLF4gSMiIJS7NcukRu4DN3Oo5uX1RY4Vxx1xHM8MLpMVRV5I+y3FqH0jiz
+         yj7d9QDaVWyc/uqXJUmzDRyn0OB5IFK4B2CM8QwjJ/ImA66sWskkrwtK+gR+2gPqFwu9
+         BCWW/+Czfb7mHykSBoMMBsEwCoak2poQlcX5hXWKM/cGbakWQB6VvpqKJu6HQlv82B+I
+         /4fZjsu5v9FGxzZLxaZeg3Vi32y9Y7jzhn4fTqLH8tsqsc98e7L7LfPwsiotnPpu91jC
+         DFlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GzvYy02XDu6Dc3091MVWiiJDaPq8goGTqqPoAOqAo3g=;
+        fh=aY6IIkbEO0D5Sr8YDYE91wt3/EK2p5OMVHQ5aVIyuU0=;
+        b=irblMfIxv8V4KiCTMz2YDOBLSy3SmSyWXtqCcIaYYnDc9iFW2+oz+2KwKOwfWFsGNv
+         KGL+YcBfzi5cBQ6kF0qGVdD2w/dCXT2m7oEEaFa8WsQ3KykOP1hOpSOYFRdkpaqYOtM7
+         6/bpugdE9lJwX3UPoRTPDWJObP7j0ZRyIt6VpLiv1lZQ7Kc5+kRjgg+yIC7MUGml1Y7+
+         6/KHLEPgZ8PigEnTGBkJEJ6o1CSQAcxf/P3gdEW+WKHi8mGWEx5l33cpCYA/aPRbly5V
+         4Bi6EmrweYmwaJwEeXI4JDcxflvzK+qG7WJ99xukBiqwHYjzec7VeDYAxD/dpcoiMMpi
+         KvmA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778307175; x=1778911975; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778307261; x=1778912061; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DFcSdFJcr0n6ORD4bjAB2j+Li1vLVOxo6IRxDvRQ+ZE=;
-        b=f5xz103rkTMajunazNWYd48UvvJR6qjefoD7Z64k5lSdGgwiGyicnItwgMU6dvXCnd
-         YAlDaEh5GoJozdDwpN0XrcOeXNXZy5CdbKV5VUvI8vo18N1lqNuxHzBBqxeGCue1hDvM
-         K4C50pGZJvrFo40euOkKwA+R4sIe04krWRrqb9hpapfdhQM66RrYCP1l6eutaaqtSGow
-         5BzdXrF1gDkI+Fw3kiVmzYemTeU4kbEr58zVbSt46pyBsjBkPRguQNDZ4GbhwTDHF25w
-         PtywGr3knIC10WaRYV08TpXclyXkD5O8LRgAsoTs24nTaXa8ULlp6tBjEj7KG7jZo6bi
-         wVww==
+        bh=GzvYy02XDu6Dc3091MVWiiJDaPq8goGTqqPoAOqAo3g=;
+        b=NrBeVu3jlAJrC+kMUtYhkKf4e7hXx8hGGARQyOmRwIFGhidULCuFzSdec8EAfeJXro
+         pSBfp9hQv+UZIjHsTK+7jNMKhEFSIHwPpxOSrCVK/6pl5JNj+wnjUWqpVP5emzlEXfkX
+         ssIw1Khy4uGBx4pMntZYbCORAx3vG75+4hdhQRoinvg3VLTTQXeeAf6Aa2jRi5Xy8E8N
+         5bJDPr7rm4outYQCxZZDtDqc52fcjtLJYc344p9NYw0NTloSx3ukRyUsMsPpPJ1y8oeh
+         1dP1PbViKG25QFoni6/FJWTTIQkzc3hxW8fjai2lZeH/HVQWaPoVOSRQiSGicS4VbiGa
+         72vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778307175; x=1778911975;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1778307261; x=1778912061;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DFcSdFJcr0n6ORD4bjAB2j+Li1vLVOxo6IRxDvRQ+ZE=;
-        b=V+A/osOGwjRnMiJh8r4hvLqkOFxpKh0v+sHfFmrAoI4Mj4x3fSeeedb9tbrgwNSyYF
-         a5M9N9dSYPr43hRBXFv+8scEmI3Ak5p71YPDpDtudsnMQqV9eWvs3YEk/7LZeXYvjhdH
-         3+SWEXTQ81jOigWwUooVjvOd9I004JgLvomPLKfUKC3ORqE1fqMHGRLaNwGBTVlNAsC8
-         0vD3nftnCfhFHtwaMIvaJovMMSADP+69JvdfBX9zhYc/Z27EhuiCdnEh20kWujQdX03u
-         ddPwD1yRdHK+T/BxZV6yfu0FWZgAFZ8z6eaZ2BlkuiJ4HD/S5MqyjZrJ0w9q2Gahd3eq
-         SnLA==
-X-Gm-Message-State: AOJu0Yyc3/vBiBWP8BNbkOZnfm5OUoKoIks43cforaxYjF8e3LpCs+59
-	ZynsgScnHjKyCH5MT6rVYKnyNrMny4Ku3SQWmg20JT9TUjqLqED9fP2y
-X-Gm-Gg: Acq92OGI0zDaFLE/tclhEyMUTlLpPD/JGr/Mvim+EFUciTT+RUlpjZzQHwM3bvYmQng
-	zDhq08mwURwFcjBNFIeX1Kn65zHdHLoJ78tDootD2zIs1xCuG3OSdj7z7G7zEOx+mrWCW2GCPED
-	R7DIL8TSdMfcohRAxsNgFE8MqaERiYu//KcxiE/b0knlgRgLku6kJ+dOM8iOcZ/67hs0MsTnWWq
-	BH4iHMtm8LQWPh+tlue3m0kLo4eAC8AJalUwVLNteW8K8PSeJzEaf1FP5X5v+9njWIj3ObVWcSg
-	5BL0dA40ej+/u+gJjn5y0U/C+V7q3pzPagexcAYj4zxjwM7H6SEiIaEuQRQ1qNNwB99F6Q1Xu9R
-	24GScYThoyS++rcsLIXurtRARtgMe3h2oqHlV7NkOdn6CXuCwxtP5BYxwN4H9fbj19eQwlABfs0
-	HFP7wD7l1KQ3KWRGlSd/2WTmn5fJE=
-X-Received: by 2002:a05:6a20:160f:b0:3a1:6a7c:dba5 with SMTP id adf61e73a8af0-3aa5aa8a08bmr8415806637.6.1778307174930;
-        Fri, 08 May 2026 23:12:54 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839659487afsm13380429b3a.18.2026.05.08.23.12.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 23:12:54 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v2 3/3] ntfs: validate attribute name bounds before returning it
-Date: Sat,  9 May 2026 15:12:37 +0900
-Message-ID: <20260509061237.3233714-4-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260508153410.2624801-1-charsyam@gmail.com>
-References: <20260508153410.2624801-1-charsyam@gmail.com>
+        bh=GzvYy02XDu6Dc3091MVWiiJDaPq8goGTqqPoAOqAo3g=;
+        b=KvsACju30augrvlysTPT/EFCULxO31lxtzC8eBRqIYpwCghhN7aaAM2D3+NUeHMwoX
+         y6skNg0oVM4TYB4STl7+Cojl2L1d8WKj7o9ujCQi06AEtnmPHOBHqIhsS7cJjzyrsBrO
+         v4XcqWQ1H7toRmDBA2ZFQu2gsbrW3ExCX8dlvfgKdmXF+4lKL3c5W7e7D/dlSBD/GHme
+         HJj2EbhwZleKVgp2cZ1xMIL2wdtf9nBelmFzGgxy6fM/Iu37CCeCymcNTm+dSkYyHSC0
+         SivQRdPUy2GoJDHIcwLuyxFDVQxk9pKT7GXmsRCedCeXALyf5awNkkZA7xlbJjfBcwU9
+         G0Xg==
+X-Forwarded-Encrypted: i=1; AFNElJ8Dl2vBQu02S0yyQ/qLIL4z56H+A/4wNd66U5pSB/Mprt+/3q4INdg27Gme7tIYX/FrA1OxusyXawXhfkdG@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIuHUKsqcTpxZdOvVRWpVnORGG466Yf5F4sUziGkzatU5PvOOp
+	7Py0FW+6cPqIxGUP2yWPxoWR/j4sOABuER7hS0VaXn8cMDNYODL7f5SHf4+T/tG7WKRyYCfZ8An
+	z81q18fBBbX6GITLSzd54w4GQcJL9Mr0=
+X-Gm-Gg: Acq92OHhGW50dUU3RAB/x0Y/U5pf3/PgcSNp0bu1Nucv1yIhnAsdZuq5w6P8uwn1D1v
+	5emFhUbwbsbpVxN06UeXbHZqXgdyvUklTvC5FTZ711hGQtSUlY7FCXQTQ29NAeD53JhAiNBKRjz
+	pZ8Vdj3+Ex4f4tkcdd5sTW0AQgWDg+0iLEra2eqpWvkJDY/VqK5pwQvJ07mGRL3D8jYH2GGLelf
+	YDHRTl98e2Om7hBucp3qfpaww0izVA8SNdGVF/4YqZiasz+3DY4S9K3XKaeI8f/iAFWoGgs0hmt
+	6BkpBQ2eFkmWUG3cXkjv
+X-Received: by 2002:a05:690e:1697:b0:651:bdff:db07 with SMTP id
+ 956f58d0204a3-65c7ba535famr9072066d50.7.1778307261473; Fri, 08 May 2026
+ 23:14:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260508153410.2624801-1-charsyam@gmail.com> <20260508153410.2624801-3-charsyam@gmail.com>
+ <CAKYAXd8d7Y21GqeoMYrhRhNyT44uRuqF3hZVO6_dROS1JRFZRw@mail.gmail.com>
+In-Reply-To: <CAKYAXd8d7Y21GqeoMYrhRhNyT44uRuqF3hZVO6_dROS1JRFZRw@mail.gmail.com>
+From: CharSyam <charsyam@gmail.com>
+Date: Sat, 9 May 2026 15:14:10 +0900
+X-Gm-Features: AVHnY4IQjLtgunifLCf4dM7r9FVe8zJIrC9kqP2DE9QoINlGW3WnpLKeHlnizD4
+Message-ID: <CAMrLSE6NC3TvfwWRY2Nvu6pL6kuDd30G-WQo_1=9A3+GL9hChQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] ntfs: fix MFT bitmap scan 2^32 boundary check
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ntfs_attr_find() validates a named attribute before comparing it with the
-requested name, but that check is currently after the AT_UNUSED handling.
-When callers enumerate attributes with AT_UNUSED, ntfs_attr_find() can
-return a malformed named attribute before checking whether name_offset
-and name_length stay within the attribute record.
+I will send v2 patch again.
 
-Some enumeration callers use the returned attribute name pointer
-directly.  For example, one path passes (attr + name_offset, name_length)
-to ntfs_attr_iget(), where the name can later be copied according to
-name_length.  A malformed on-disk name_offset/name_length pair should not
-be exposed to those callers.
+Thanks for pointing it out.
 
-Move the existing name bounds validation before returning attributes
-during AT_UNUSED enumeration, and write it as an offset/remaining-size
-check so the subtraction cannot underflow.  Extract the converted values
-into local variables (name_offset, attr_len, name_size) to make the
-intent explicit and avoid repeating the endian conversions inside the
-bounds check.  This keeps matching attributes on the same checked path
-while also covering attribute enumeration.
-
-A small userspace ASAN model with attr length=32, name_offset=124 and
-name_length=8 reproduces a heap-buffer-overflow read in the old
-enumeration path.  With this change the same malformed attribute is
-rejected before the name pointer is returned to the caller.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
----
- fs/ntfs/attrib.c | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
-
-diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-index 97b660eaa00c..1a0e1f9e0853 100644
---- a/fs/ntfs/attrib.c
-+++ b/fs/ntfs/attrib.c
-@@ -672,6 +672,9 @@ static int ntfs_attr_find(const __le32 type, const __le16 *name,
- 	__le16 *upcase = vol->upcase;
- 	u32 upcase_len = vol->upcase_len;
- 	unsigned int space;
-+	u16 name_offset;
-+	u32 attr_len;
-+	u32 name_size;
- 
- 	/*
- 	 * Iterate over attributes in mft record starting at @ctx->attr, or the
-@@ -699,6 +702,20 @@ static int ntfs_attr_find(const __le32 type, const __le16 *name,
- 			return -ENOENT;
- 		if (unlikely(!a->length))
- 			break;
-+		if (a->name_length) {
-+			name_offset = le16_to_cpu(a->name_offset);
-+			attr_len = le32_to_cpu(a->length);
-+			name_size = a->name_length * sizeof(__le16);
-+
-+			if (name_offset > attr_len ||
-+			    attr_len - name_offset < name_size) {
-+				ntfs_error(vol->sb,
-+					   "Corrupt attribute name in MFT record %llu\n",
-+					   ctx->ntfs_ino->mft_no);
-+				break;
-+			}
-+		}
-+
- 		if (type == AT_UNUSED)
- 			return 0;
- 		if (a->type != type)
-@@ -712,14 +729,6 @@ static int ntfs_attr_find(const __le32 type, const __le16 *name,
- 			if (a->name_length)
- 				return -ENOENT;
- 		} else {
--			if (a->name_length && ((le16_to_cpu(a->name_offset) +
--					       a->name_length * sizeof(__le16)) >
--						le32_to_cpu(a->length))) {
--				ntfs_error(vol->sb, "Corrupt attribute name in MFT record %llu\n",
--					   ctx->ntfs_ino->mft_no);
--				break;
--			}
--
- 			if (!ntfs_are_names_equal(name, name_len,
- 					(__le16 *)((u8 *)a + le16_to_cpu(a->name_offset)),
- 					a->name_length, ic, upcase, upcase_len)) {
--- 
-2.43.0
-
+2026=EB=85=84 5=EC=9B=94 9=EC=9D=BC (=ED=86=A0) =EC=98=A4=ED=9B=84 1:03, Na=
+mjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> > Fixes: d3ad708fecaa ("ntfs: Initial commit")
+> The warning from checkpatch.pl indicates that the commit ID you
+> provided in the Fixes: tag does not exist...
+>
+> WARNING: Unknown commit id 'd3ad708fecaa', maybe rebased or not pulled?
+> #67:
+> Fixes: d3ad708fecaa ("ntfs: Initial commit")
+>
+> If the Fixes: tag refers to a commit from an oot version, please do
+> either remove the tag or replace it with the correct upstream commit
+> ID that introduced the bug. Other patches also have this tag, so
+> please update them all.
+>
+> > @@ -1279,7 +1279,7 @@ static s64 ntfs_mft_bitmap_find_and_alloc_free_re=
+c_nolock(struct ntfs_volume *vo
+> >                                 b =3D ffz((unsigned long)*byte);
+> >                                 if (b < 8 && b >=3D (bit & 7)) {
+> >                                         ll =3D data_pos + (bit & ~7ull)=
+ + b;
+> > -                                       if (unlikely(ll > (1ll << 32)))=
+ {
+> > +                                       if (unlikely(ll >=3D (1ll << 32=
+))) {
+> >  #if LINUX_VERSION_CODE >=3D KERNEL_VERSION(6, 6, 0)
+> The kernel version check code is not in the mainline, so it seems this
+> patch was created in the oot version... I cannot apply it unless you
+> remove this.
+> >                                                 folio_unlock(folio);
+> >                                                 kunmap_local(buf);
+> > --
+> > 2.34.1
+> >
