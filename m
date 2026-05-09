@@ -1,44 +1,74 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BF5381AFF;
-	Sat,  9 May 2026 05:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0432F37B019
+	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 06:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778306230; cv=none; b=o+aBnKhN/jOKyWelzMhIaCY73+s2Cl9EA+Ki0k95p6zSVgmWP0eaftfvDbdSUh2+v09yyJHIC1T0h4kdLI27gRvXoINoffwXr6kBbz4DKiVt2BLWfSJRq2pcqgMLoP5cewCbla64isIAAGFbYr89knlTddhhxjppXyfMmZ4yVZw=
+	t=1778307169; cv=none; b=BdFRZlvC+Sqp8n9MfhVuJ78kf0MLEemd0FJZzs+2qimVoU8IXQ2lCWU6ZM6zKYzp/jZRUCyIvL4bJ/jFlPS8cFdOUE51vkhmJoTjw+u2BnyQLkFcQjc7/mT4qG7TsHc35F+SLyvm+7+ijYSf6zKuPZgJKZeAd3SrrjieCd8gsvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778306230; c=relaxed/simple;
-	bh=5ddTeygHBwyTcRQbXeAonaLz3kIADPbI6jiIlj3mCB8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V9sSiWTseVKhBt9sWLBQajQOjYhdTwkCwdU+w3ldT1b7WJ1LlH4QEfaiSFmZqjePggVqUcpYz4dVHuL70gY27+Bs7/kI79qjRmjAqw0oGHpZ3GHHdj1EKnl+bZBMWPYlrl9iZYk+Vp37osnfSBljaThjAdwOGVC5VHsuK5wJleg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VcNgNYqu; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778307169; c=relaxed/simple;
+	bh=98bDbi8gLMuxwUsdSJ2c+yqEeFsDuc/6KFYVWS/lLS4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Za9FAomAsQ1FKwMYyORjrrxTtO0QnoT5wKkNJqgqwf5I3iSF/G4yq8ssgKer1QVb1HEurZySwqm9PQ8TKHNSREOj2iAhlSD1wu/Kn/jHKzehuxn5Wew+1ObUW5y0mslNbUtBlM7okPPEmZavLkIsKV6AsBBTGj1wHdqgxBv0yAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D28R83+3; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VcNgNYqu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=ehrfcN5Fo8wXpxrQ7bxESmYilMYB52ib/trW7BH+Fzw=; b=VcNgNYquz3jK/YJ/FkdzQ8mXZm
-	b3GIS6eGVUw3K9Lx7F0Go+G9bLqDc7HlZcFnkWR7yQvvO7kTyX6ANqrBmTAdpuoj+Z25Cvya8cCWr
-	pfZqrOOo/gJN8LYCTsvjmTONFcGHPDY0YKHVcNHlkDUejJUlIK1wUbYOKHGo2m9uHZQwNJ99n6/GP
-	TBHaQNkn88YjdpmbsID/7DuTI92LGr/z3SZ+9Y77DRdxoiZj36uPkv1kMPzikrwx4gZHFgoHKHzWW
-	ydfYE21ky++McbULwRDBMj5pUO5HT8Qymz9xbp2WitOmZEIAyhZpq3RSEuJaNSHvwTehBd+V7eVb6
-	OZ6kapOQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLagO-00000008Liq-1WcY;
-	Sat, 09 May 2026 05:57:00 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] sysctl: add Returns: kernel-doc for all functions
-Date: Fri,  8 May 2026 22:56:58 -0700
-Message-ID: <20260509055658.1089994-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D28R83+3"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-835378dc7cdso296602b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 23:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778307167; x=1778911967; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3VwLei+49vjcaDmCdz/Gvz5zUPPQyRMdRX6okGXpvhQ=;
+        b=D28R83+3NrvLJD27wNIiGq0LxzV0BH25nvHNcbyq5FILb78u1T3xVjQc8J6SBHstkd
+         uiM/KUDAAaI1ziCWL8NfonIsud+ynMq3vUp5sbsmjdkDZ6u9cs9GPBcZPr3yCxmf/nAh
+         5ItCJAiIg/PpLRFN6DpUky/rG0qzSASZPaURNasQS/laTpCQ5hl2yt1Vz+Qf4vyGT4Xq
+         EY/K8XFf2DGnkmHyp5MJQYviN5M0N9CCuI90qxfk9beSQ+td/OYMzuFqQg6iMCBkkvtN
+         amOQMsHlNE8E6RD8Ixxyx+irSqQBtVf53BFlym+wAkHDDO8bQ2KfO04Kn0CU0wSIna2M
+         tirA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778307167; x=1778911967;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3VwLei+49vjcaDmCdz/Gvz5zUPPQyRMdRX6okGXpvhQ=;
+        b=i4Yv4aPQIO75Us6zl5sl4BHCuAxHbkSYCYu+ceMxyQsW0qPhWZJGhR8J00tHwEtlm1
+         QQMVfZxv+5BOyfuVeYNKfD40Cn3MHxSdiuFzsQmkvEpgpSoHPe7WyewUknU8GvDnufsg
+         eiYvKM+pfVF6kJUeszBFb54veILG6toifU3Sx1IqJSrePKssQhdDaZnQMted3drXsU+r
+         H3pTZW26bHEBMqXJq+vGp0pS3lSa9nsh5hWJAVQ24YhnsgabAaSZno+tstXTuGfVfuCr
+         fcDQxOHnE/G/GYTYalY82Fqb3qoPfgQgbsaCFd2ALA/oSP6bXgRC95mC2Cx8UiErCaqQ
+         k/oA==
+X-Gm-Message-State: AOJu0YxUcfmN8jNKgfDf0yGVPZ8EHnaEAqChugzAeSXm08RjiN+nCTvU
+	LuYFw8xPxEASx2/gYYcRGpcrwOyGU5EabriI41eSgOBva94rKxFuyRVn
+X-Gm-Gg: Acq92OEEuf6XG8KOYtGhWbXNjfnIlOd+/aBijfPrMM/PcHSDgSLbR54NOwpMlgOp8F1
+	bsHou90KP2QBtOZlVdXb8WoL+IPXTAmzocgYTP5bu2Eq+o+qaDzElNJO0YhMEnfSPJuC2KYVR4d
+	UavsoyMcvcEDt3iyaxrlqPb+9wBnS49/Ca3RNdDuikBmaJhGyoWgl5+UxP06Vwtqhm0fwLuS6Xz
+	jA6zvPlKEV7OAuo9ZLwt66Oce8kIKmp9sAhWR1ncRUEiwDOTM7fxGdrFwXVtl2WfsBwyDRJAQXY
+	Yn9Ht7nAeI9zJy/zwxd68KBjoHgFIaOx9ji7M9qvAUU+UcJSJXmzRI8Jva3nvPIrzNvXvXIByHg
+	TzJIMi60tH7RP2cHdAprd2a/pPpZXSi1XV5cbARZqzZ/Wf5wRrmZBwrZsLprR3DoZJ9lVc6IcTm
+	RuSFcXkSMgq322NhVN
+X-Received: by 2002:a05:6a00:a804:b0:82f:21ee:270d with SMTP id d2e1a72fcca58-83a5aaf7794mr7698597b3a.1.1778307167179;
+        Fri, 08 May 2026 23:12:47 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839659487afsm13380429b3a.18.2026.05.08.23.12.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 23:12:46 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	DaeMyung Kang <charsyam@gmail.com>
+Subject: [PATCH v2 0/3] ntfs: harden MFT record and attribute parsing
+Date: Sat,  9 May 2026 15:12:34 +0900
+Message-ID: <20260509061237.3233714-1-charsyam@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260508153410.2624801-1-charsyam@gmail.com>
+References: <20260508153410.2624801-1-charsyam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,177 +77,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix kernel-doc warnings in kernel/sysctl.c by adding Returns:
-clauses for them.
+This series tightens fs/ntfs against malformed on-disk metadata and
+fixes one off-by-one in the MFT bitmap scan.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Joel Granados <joel.granados@kernel.org>
-Cc: Kees Cook <kees@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org
+Patches 1/3 and 3/3 are complementary: 1/3 rejects MFT records whose
+attrs_offset points past bytes_in_use at record entry, and 3/3 moves
+the per-attribute name bounds check earlier so it covers the AT_UNUSED
+enumeration path that hands the name pointer back to callers.  Without
+3/3, two enumeration paths can read past an attribute record: one in
+fs/ntfs/attrib.c passes the returned name pointer to ntfs_attr_iget(),
+and another in fs/ntfs/inode.c copies the name while building an
+attribute list.
 
- kernel/sysctl.c |   45 +++++++++++++++++++++++++--------------------
- 1 file changed, 25 insertions(+), 20 deletions(-)
+Patch 2/3 is independent: ntfs_mft_record_layout() rejects
+mft_no >= 2^32, but the bitmap scan in
+ntfs_mft_bitmap_find_and_alloc_free_rec_nolock() used '>'.  Bring it in
+line with the other 2^32 boundary checks in fs/ntfs/mft.c.
 
---- linux-next-20260508.orig/kernel/sysctl.c
-+++ linux-next-20260508/kernel/sysctl.c
-@@ -148,7 +148,7 @@ static void warn_sysctl_write(const stru
-  * @ppos: file position
-  * @table: the sysctl table
-  *
-- * Returns true if the first position is non-zero and the sysctl_writes_strict
-+ * Returns: true if the first position is non-zero and the sysctl_writes_strict
-  * mode indicates this is not allowed for numeric input types. String proc
-  * handlers can ignore the return value.
-  */
-@@ -184,7 +184,7 @@ static bool proc_first_pos_non_zero_igno
-  * and a newline '\n' is added. It is truncated if the buffer is
-  * not large enough.
-  *
-- * Returns 0 on success.
-+ * Returns: %0 on success.
-  */
- int proc_dostring(const struct ctl_table *table, int dir,
- 		  void *buffer, size_t *lenp, loff_t *ppos)
-@@ -225,11 +225,14 @@ static void proc_skip_char(char **buf, s
-  * @base: the base to use
-  * @res: where the parsed integer will be stored
-  *
-- * In case of success 0 is returned and @res will contain the parsed integer,
-- * @endp will hold any trailing characters.
-  * This function will fail the parse on overflow. If there wasn't an overflow
-  * the function will defer the decision what characters count as invalid to the
-  * caller.
-+ *
-+ * Returns:
-+ * * %0 on success and @res will contain the parsed integer,
-+ *   @endp will hold any trailing characters.
-+ * * %-ERANGE on overflow.
-  */
- static int strtoul_lenient(const char *cp, char **endp, unsigned int base,
- 			   unsigned long *res)
-@@ -263,10 +266,12 @@ static int strtoul_lenient(const char *c
-  * @perm_tr_len: size of the perm_tr vector
-  * @tr: pointer to store the trailer character
-  *
-- * In case of success %0 is returned and @buf and @size are updated with
-- * the amount of bytes read. If @tr is non-NULL and a trailing
-- * character exists (size is non-zero after returning from this
-- * function), @tr is updated with the trailing character.
-+ * Returns:
-+ * * %0 on success and @buf and @size are updated with
-+ *   the amount of bytes read. If @tr is non-NULL and a trailing
-+ *   character exists (size is non-zero after returning from this
-+ *   function), @tr is updated with the trailing character.
-+ * * %-EINVAL on failure.
-  */
- static int proc_get_long(char **buf, size_t *size,
- 			  unsigned long *val, bool *neg,
-@@ -365,7 +370,7 @@ static void proc_put_char(void **buf, si
-  * not NULL. Check that the values are less than UINT_MAX to avoid
-  * having to support wrap around from userspace.
-  *
-- * returns 0 on success.
-+ * Returns: %0 on success.
-  */
- int proc_uint_u2k_conv_uop(const ulong *u_ptr, uint *k_ptr,
- 			   ulong (*u_ptr_op)(const ulong))
-@@ -386,7 +391,7 @@ int proc_uint_u2k_conv_uop(const ulong *
-  *
-  * Uses READ_ONCE to assign value to u_ptr.
-  *
-- * returns 0 on success.
-+ * Returns: %0 on success.
-  */
- int proc_uint_k2u_conv(ulong *u_ptr, const uint *k_ptr)
- {
-@@ -409,7 +414,7 @@ int proc_uint_k2u_conv(ulong *u_ptr, con
-  * When direction is kernel to user, then the u_ptr is modified.
-  * When direction is user to kernel, then the k_ptr is modified.
-  *
-- * Returns 0 on success
-+ * Returns: %0 on success
-  */
- int proc_uint_conv(ulong *u_ptr, uint *k_ptr, int dir,
- 		   const struct ctl_table *tbl, bool k_ptr_range_check,
-@@ -774,7 +779,7 @@ static int do_proc_douintvec(const struc
-  * values from/to the user buffer, treated as an ASCII string. Negative
-  * strings are not allowed.
-  *
-- * Returns 0 on success
-+ * Returns: %0 on success
-  */
- int proc_douintvec_conv(const struct ctl_table *table, int dir, void *buffer,
- 			size_t *lenp, loff_t *ppos,
-@@ -798,7 +803,7 @@ int proc_douintvec_conv(const struct ctl
-  * table->data must point to a bool variable and table->maxlen must
-  * be sizeof(bool).
-  *
-- * Returns 0 on success.
-+ * Returns: %0 on success.
-  */
- int proc_dobool(const struct ctl_table *table, int dir, void *buffer,
- 		size_t *lenp, loff_t *ppos)
-@@ -835,7 +840,7 @@ int proc_dobool(const struct ctl_table *
-  * Reads/writes up to table->maxlen/sizeof(unsigned int) integer
-  * values from/to the user buffer, treated as an ASCII string.
-  *
-- * Returns 0 on success.
-+ * Returns: %0 on success.
-  */
- int proc_dointvec(const struct ctl_table *table, int dir, void *buffer,
- 		  size_t *lenp, loff_t *ppos)
-@@ -854,7 +859,7 @@ int proc_dointvec(const struct ctl_table
-  * Reads/writes up to table->maxlen/sizeof(unsigned int) unsigned integer
-  * values from/to the user buffer, treated as an ASCII string.
-  *
-- * Returns 0 on success.
-+ * Returns: %0 on success.
-  */
- int proc_douintvec(const struct ctl_table *table, int dir, void *buffer,
- 		size_t *lenp, loff_t *ppos)
-@@ -877,7 +882,7 @@ int proc_douintvec(const struct ctl_tabl
-  * This routine will ensure the values are within the range specified by
-  * table->extra1 (min) and table->extra2 (max).
-  *
-- * Returns 0 on success or -EINVAL when the range check fails and
-+ * Returns: %0 on success or -EINVAL when the range check fails and
-  * SYSCTL_USER_TO_KERN(dir) == true
-  */
- int proc_dointvec_minmax(const struct ctl_table *table, int dir,
-@@ -904,7 +909,7 @@ int proc_dointvec_minmax(const struct ct
-  * (max). And Check that the values are less than UINT_MAX to avoid having to
-  * support wrap around uses from userspace.
-  *
-- * Returns 0 on success or -ERANGE when range check failes and
-+ * Returns: %0 on success or -ERANGE when range check failes and
-  * SYSCTL_USER_TO_KERN(dir) == true
-  */
- int proc_douintvec_minmax(const struct ctl_table *table, int dir,
-@@ -929,7 +934,7 @@ int proc_douintvec_minmax(const struct c
-  * This routine will ensure the values are within the range specified by
-  * table->extra1 (min) and table->extra2 (max).
-  *
-- * Returns 0 on success or an error on SYSCTL_USER_TO_KERN(dir) == true
-+ * Returns: %0 on success or an error on SYSCTL_USER_TO_KERN(dir) == true
-  * and the range check fails.
-  */
- int proc_dou8vec_minmax(const struct ctl_table *table, int dir,
-@@ -1061,7 +1066,7 @@ int proc_doulongvec_minmax_conv(const st
-  * This routine will ensure the values are within the range specified by
-  * table->extra1 (min) and table->extra2 (max).
-  *
-- * Returns 0 on success.
-+ * Returns: %0 on success.
-  */
- int proc_doulongvec_minmax(const struct ctl_table *table, int dir,
- 			   void *buffer, size_t *lenp, loff_t *ppos)
-@@ -1108,7 +1113,7 @@ int proc_dointvec_conv(const struct ctl_
-  * large bitmaps may be represented in a compact manner. Writing into
-  * the file will clear the bitmap then update it with the given input.
-  *
-- * Returns 0 on success.
-+ * Returns: %0 on success.
-  */
- int proc_do_large_bitmap(const struct ctl_table *table, int dir,
- 			 void *buffer, size_t *lenp, loff_t *ppos)
+All three carry the same upstream Fixes tag (1da177e4c3f4) since the
+issues date from the initial upstream import of fs/ntfs.
+
+Changes since v1:
+  - All patches: replaced the OOT Fixes tag d3ad708fecaa ("ntfs:
+    Initial commit") with the upstream commit 1da177e4c3f4
+    ("Linux-2.6.12-rc2"), since checkpatch flagged the v1 commit id
+    as unknown to mainline and all three issues date from the initial
+    fs/ntfs import.
+  - 2/3: removed the OOT-only "#if LINUX_VERSION_CODE >= KERNEL_VERSION(
+    6, 6, 0)" guard that surrounded the folio_unlock()/kunmap_local()/
+    folio_put() block; mainline does not need it and it prevented the
+    patch from applying.
+  - 1/3, 3/3: no functional change.
+
+v1: https://lore.kernel.org/linux-ntfs/20260508153410.2624801-1-charsyam@gmail.com/
+
+DaeMyung Kang (3):
+  ntfs: validate MFT attrs_offset against bytes_in_use
+  ntfs: fix MFT bitmap scan 2^32 boundary check
+  ntfs: validate attribute name bounds before returning it
+
+ fs/ntfs/attrib.c | 25 +++++++++++++++++--------
+ fs/ntfs/mft.c    | 15 +++++++++++++--
+ 2 files changed, 30 insertions(+), 10 deletions(-)
+
+
+base-commit: 70390501d1944d4e5b8f7352be180fceb3a44132
+-- 
+2.43.0
+
