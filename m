@@ -1,121 +1,95 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0F8207A20;
-	Sat,  9 May 2026 10:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757E318A92F
+	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 12:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778322254; cv=none; b=jRBVlPBDQnrU43vzB2HocmQR9TmwG4j6TivAjVTdooJN4JEsQW5DeTSETQC19ocxyog/l0zVTVR3zfYmisNo2vNp13YhZomU+XNjhn9hdwXUkILP8j38Lc9EjvO8l46d3Il66NQcgcVTB2m7Dhr98BF/AaRupyX0kSvGlGKog8k=
+	t=1778329954; cv=none; b=oxI1Kxqg7357S/46DGPAvCaBXsOdDQCt/b1prf8ppcSJnZj5cPf3JPcP8AOcgZ+/oMC+4fUWDZMQn8+bfovbEzdlUsptLkXfuFcNAjLZ4uAM3y0//t4NsnFe5stLkr9gcX3jw0JC7aNB5/IIStEfAFkiI3A9P1B3DJaIvfAAdkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778322254; c=relaxed/simple;
-	bh=effh9FiMCpG/KCbsBZM4y9jBZgDzOBASZ2f730uFOfU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sherl+tc5xp8D0ocfPERmTpOO2kEJN/aa4UWBZ6fGiP4Ws+dUD2+yJIqZYAkJX3bCs9182y27MMhqoxVkI4WNMSjg5iMRl8jXkzsbRZK+lQGWjWuIlITM6zpd7/zGOeISoHjcds+1N5YkKgLuynZi179cK5bniQEe4Jo3Oq5KrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 365220e64b9111f1aa26b74ffac11d73-20260509
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
-	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
-	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:636394cb-98d6-41a8-b242-17293e4be515,IP:15,
-	URL:0,TC:0,Content:-5,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:30
-X-CID-INFO: VERSION:1.3.12,REQID:636394cb-98d6-41a8-b242-17293e4be515,IP:15,UR
-	L:0,TC:0,Content:-5,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:30
-X-CID-META: VersionHash:e7bac3a,CLOUDID:f66cd899e010dcf5fc334815cc6aa947,BulkI
-	D:260509182409UIY5CZLL,BulkQuantity:0,Recheck:0,SF:17|19|66|78|102|127|898
-	,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,
-	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 365220e64b9111f1aa26b74ffac11d73-20260509
-X-User: liwang@kylinos.cn
-Received: from computer.. [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1407622702; Sat, 09 May 2026 18:24:07 +0800
-From: Li Wang <liwang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Li Wang <liwang@kylinos.cn>
-Subject: [PATCH] fuse: propagate async RELEASE queue errno in fuse_file_put()
-Date: Sat,  9 May 2026 18:23:37 +0800
-Message-Id: <20260509102337.272593-1-liwang@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1778329954; c=relaxed/simple;
+	bh=RO2hh1rnR5VuDsbrlb8qjDJCIioQzd2h4AJ4trizovI=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=WFcpgi+Qjll6yqxDtDmjyfE/Nth1ca6DrBYhLi2yV9k1e5vV3oNV9EhoebvyK2wXOXak3pvjgbCkPk9Rl/VLuzybKCI47g+ByYWxd7JLVnRxMxiiv7GicGq3jJIb/YhpQ10BKTcv9XExE/xF9GdK5ZO3snU5WsMlNysOlKTarSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-6948eac3522so4812154eaf.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 09 May 2026 05:32:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778329952; x=1778934752;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1HKktugfmkP+XVMIhptO8vSwmLYWh7bwU9PyWEJcOw0=;
+        b=Ci4SdROLD0DhHZY2BEcPsbCEkPU0aMK/zfq4WFJQoXumoxd2tOzhevSevVrcy1G1GF
+         MkA/Kb7O7KIod8rWdBdszr3YVCkkOk03LpUJkXfGV0f1qwuOBOKpDxME4ahXfNReNKhQ
+         ulLbwpbSD3pBAFVUtWja/HDSv5zn0maVyvbPuWRFn/9HAp7sdwWCh6LWa7L84HNdjUvH
+         EiAgDur9GD6bsX1eDAFXpP573rq9qjgKh32cISosqkpXN+aNJEd2uP5MD/QzOSlP+61j
+         TLqr+EOMSgdJa2OJLGanPVuCFHigAl6gkcr/yRkyqgSdJoPUYNr4b4/u7aTAKkQWI2vj
+         eNLw==
+X-Gm-Message-State: AOJu0YzbSPb++bPbQYzfF58Uh/dah8/cq1ndWaiRK5XIo31qpVk+WYUa
+	xuzNmV3vlUQdJeIDPW8JjbMm33SQ6cp1ryCL1vGI8ZiRkgBBgJvCBWEIUVaWUz5FSMcAfp71WwY
+	zMPqXFX1dQotDsQXgZB94KpJwkkdjewvi5vaWQ5vwWqmrduP5RzVtzwkRLx8=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:55d7:20b0:68c:2ff9:522c with SMTP id
+ 006d021491bc7-69b25b179d6mr2464921eaf.2.1778329952548; Sat, 09 May 2026
+ 05:32:32 -0700 (PDT)
+Date: Sat, 09 May 2026 05:32:32 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69ff2960.a00a0220.1c3806.0008.GAE@google.com>
+Subject: [syzbot] Monthly fs report (May 2026)
+From: syzbot <syzbot+listf8b7e670eff9fb74ff89@syzkaller.appspotmail.com>
+To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-fuse_file_put() queues asynchronous FUSE_RELEASE via fuse_simple_background().
-When queueing fails, the failure branch always passed -ENOTCONN into
-fuse_release_end(). fuse_simple_background() can however fail for multiple reasons
-with different return values, such as -ENOMEM or -EINTR. Pass the actual negative
-errno into fuse_release_end(). Currently, the callback does not interpret it,
-but passing the real value avoids misleading future development or debug printf
-that assumes -ENOTCONN meant disconnect.
+Hello fs maintainers/developers,
 
-Add an explicit (void)error in fuse_release_end() so builds that enable
--Wunused-parameter (for example make W=3) stay clean.
+This is a 31-day syzbot report for the fs subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/fs
 
-Signed-off-by: Li Wang <liwang@kylinos.cn>
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 53 issues are still open and 633 have already been fixed.
+
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  25470   Yes   WARNING in path_noexec (2)
+                   https://syzkaller.appspot.com/bug?extid=a9391462075ffb9f77c6
+<2>  7449    Yes   INFO: task hung in __iterate_supers
+                   https://syzkaller.appspot.com/bug?extid=b10aefdd9ef275e9368d
+<3>  7277    Yes   possible deadlock in input_event (2)
+                   https://syzkaller.appspot.com/bug?extid=d4c06e848a1c1f9f726f
+<4>  7009    Yes   WARNING in inc_nlink (3)
+                   https://syzkaller.appspot.com/bug?extid=2b3af42c0644df1e4da9
+<5>  4856    Yes   INFO: task hung in path_openat (7)
+                   https://syzkaller.appspot.com/bug?extid=950a0cdaa2fdd14f5bdc
+<6>  3335    Yes   INFO: task hung in synchronize_rcu (4)
+                   https://syzkaller.appspot.com/bug?extid=222aa26d0a5dbc2e84fe
+<7>  2672    Yes   INFO: task hung in filename_create (4)
+                   https://syzkaller.appspot.com/bug?extid=72c5cf124089bc318016
+<8>  1991    Yes   INFO: task hung in lookup_slow (3)
+                   https://syzkaller.appspot.com/bug?extid=7cfc6a4f6b025f710423
+<9>  1936    Yes   kernel BUG in __filemap_add_folio
+                   https://syzkaller.appspot.com/bug?extid=4d3cc33ef7a77041efa6
+<10> 1617    Yes   INFO: task hung in user_get_super (2)
+                   https://syzkaller.appspot.com/bug?extid=ba09f4a317431df6cddf
+
 ---
- fs/fuse/file.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 3bdab8d03373..8b7badb7721a 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -96,6 +96,8 @@ static void fuse_release_end(struct fuse_args *args, int error)
- {
- 	struct fuse_release_args *ra = container_of(args, typeof(*ra), args);
- 
-+	(void)error;
-+
- 	iput(ra->inode);
- 	kfree(ra);
- }
-@@ -117,6 +119,8 @@ static void fuse_file_put(struct fuse_file *ff, bool sync)
- 			fuse_simple_request(ff->fm, args);
- 			fuse_release_end(args, 0);
- 		} else {
-+			int err;
-+
- 			/*
- 			 * DAX inodes may need to issue a number of synchronous
- 			 * request for clearing the mappings.
-@@ -124,9 +128,10 @@ static void fuse_file_put(struct fuse_file *ff, bool sync)
- 			if (ra && ra->inode && FUSE_IS_DAX(ra->inode))
- 				args->may_block = true;
- 			args->end = fuse_release_end;
--			if (fuse_simple_background(ff->fm, args,
--						   GFP_KERNEL | __GFP_NOFAIL))
--				fuse_release_end(args, -ENOTCONN);
-+			err = fuse_simple_background(ff->fm, args,
-+						     GFP_KERNEL | __GFP_NOFAIL);
-+			if (err)
-+				fuse_release_end(args, err);
- 		}
- 		kfree(ff);
- 	}
--- 
-2.34.1
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
