@@ -1,95 +1,75 @@
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757E318A92F
-	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 12:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7F8228CB8
+	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 14:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778329954; cv=none; b=oxI1Kxqg7357S/46DGPAvCaBXsOdDQCt/b1prf8ppcSJnZj5cPf3JPcP8AOcgZ+/oMC+4fUWDZMQn8+bfovbEzdlUsptLkXfuFcNAjLZ4uAM3y0//t4NsnFe5stLkr9gcX3jw0JC7aNB5/IIStEfAFkiI3A9P1B3DJaIvfAAdkk=
+	t=1778337022; cv=none; b=FF20WR5fs9abNFlJTlSDV4CTVi4W6tqcijPmSssewjsFpj82/pajSJE7wlmhMsyC8rqezXCBm7OCNS/NE6H38PhoiBaQRxeaL7JbVxfD+Meea95y5xlqgCY0uVl5/pdxT3E8ue8IloM71xis5EolL3j6o6uF2aZeFT5ct8UfDyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778329954; c=relaxed/simple;
-	bh=RO2hh1rnR5VuDsbrlb8qjDJCIioQzd2h4AJ4trizovI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=WFcpgi+Qjll6yqxDtDmjyfE/Nth1ca6DrBYhLi2yV9k1e5vV3oNV9EhoebvyK2wXOXak3pvjgbCkPk9Rl/VLuzybKCI47g+ByYWxd7JLVnRxMxiiv7GicGq3jJIb/YhpQ10BKTcv9XExE/xF9GdK5ZO3snU5WsMlNysOlKTarSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-6948eac3522so4812154eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 09 May 2026 05:32:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778329952; x=1778934752;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1HKktugfmkP+XVMIhptO8vSwmLYWh7bwU9PyWEJcOw0=;
-        b=Ci4SdROLD0DhHZY2BEcPsbCEkPU0aMK/zfq4WFJQoXumoxd2tOzhevSevVrcy1G1GF
-         MkA/Kb7O7KIod8rWdBdszr3YVCkkOk03LpUJkXfGV0f1qwuOBOKpDxME4ahXfNReNKhQ
-         ulLbwpbSD3pBAFVUtWja/HDSv5zn0maVyvbPuWRFn/9HAp7sdwWCh6LWa7L84HNdjUvH
-         EiAgDur9GD6bsX1eDAFXpP573rq9qjgKh32cISosqkpXN+aNJEd2uP5MD/QzOSlP+61j
-         TLqr+EOMSgdJa2OJLGanPVuCFHigAl6gkcr/yRkyqgSdJoPUYNr4b4/u7aTAKkQWI2vj
-         eNLw==
-X-Gm-Message-State: AOJu0YzbSPb++bPbQYzfF58Uh/dah8/cq1ndWaiRK5XIo31qpVk+WYUa
-	xuzNmV3vlUQdJeIDPW8JjbMm33SQ6cp1ryCL1vGI8ZiRkgBBgJvCBWEIUVaWUz5FSMcAfp71WwY
-	zMPqXFX1dQotDsQXgZB94KpJwkkdjewvi5vaWQ5vwWqmrduP5RzVtzwkRLx8=
+	s=arc-20240116; t=1778337022; c=relaxed/simple;
+	bh=F1jmSFSHCMDf0SKxoA9vtA8j17BRti975HalxExVeik=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jHIlMAG1hL9qolXtPha4HWOwnr95zQoh66HZRXlrpMVeJHgCmbHw1E72X8VhthziIvg8MoEgdt6o4V8tHYsN6VWg+I5UA9u3jdvjk8CXKT2Z0GJqfdPkDLwEdrFSoj7xR5IpGaAzapw4Y5Lc9DIvNQh0AFQb7Avq4ERXnXYRwKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uM5KMaIl; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uM5KMaIl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05D70C2BCF7
+	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 14:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778337022;
+	bh=F1jmSFSHCMDf0SKxoA9vtA8j17BRti975HalxExVeik=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uM5KMaIlj9zOA+TeMUVurtVzAT4FEn5hnCMqnUmDfw+F7JCExcyO/o6gukqWEH+oP
+	 6gWrB432FWyUOV7MEPfWET6SZRIioZ5wX3sWz2vslKpW+VLOgG6b1P19VsSfRUi/sE
+	 vOioLdb6yFmUI0lmiOg+VN+T8Fl+vKc1edHe54zvDjV9NTjOmRt/sSmKtgHN5JyvWH
+	 +rrPlqQyEeDJ6wBhUgYOKFM2tsHxQHZJSlQSBkRYLZMYQFyLNvx9GvmFEgygFMHu16
+	 Xv8KNzb5uOdI2ZQri960SlQT5ZnX0EJUUJCxuLx/RfpwjEOytsTm9xCQUWnUu45A3v
+	 2ZPRDB+I6+SeQ==
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-bc264a50e7fso542831466b.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 09 May 2026 07:30:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/NJcVKeCvEBeRfSM48ZJd9sFoK5NG+jDZ3XeIGyk0VJWZZU8jiGqB3kNFIrOBqoJ89y2ouVv6W7apdKKkl@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcxGz1RFY50qG30ryXNOBiHfc58AXYERutumyfduRScIx1clS0
+	kXtP0rIatGXUPFIyP41JJeTgwSUOkyM4urcq8NiZvkhtCUSpOjI6MyFYCPK91KX9W4t5A41/Nra
+	FZ8NzjfkG7OVkE6Tl0S2OUTBviCNDw0Y=
+X-Received: by 2002:a17:907:a186:b0:bcb:8b03:9fc2 with SMTP id
+ a640c23a62f3a-bcb8b03a05dmr201604166b.15.1778337020547; Sat, 09 May 2026
+ 07:30:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:55d7:20b0:68c:2ff9:522c with SMTP id
- 006d021491bc7-69b25b179d6mr2464921eaf.2.1778329952548; Sat, 09 May 2026
- 05:32:32 -0700 (PDT)
-Date: Sat, 09 May 2026 05:32:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ff2960.a00a0220.1c3806.0008.GAE@google.com>
-Subject: [syzbot] Monthly fs report (May 2026)
-From: syzbot <syzbot+listf8b7e670eff9fb74ff89@syzkaller.appspotmail.com>
-To: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
+References: <20260507124238.7313-1-linkinjeon@kernel.org> <20260507124238.7313-6-linkinjeon@kernel.org>
+ <9452723a-0c46-48ae-bbe4-9620923b179e@163.com>
+In-Reply-To: <9452723a-0c46-48ae-bbe4-9620923b179e@163.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sat, 9 May 2026 23:30:07 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9u2gzukNkycTojY4RKXaK2dUS1Cja1vovEkwxAMjoh=w@mail.gmail.com>
+X-Gm-Features: AVHnY4I2Suk3dbyv9ReTb4i5oqHwGqk0eWcCZEAb3zM66KykJIJ6WDoO7fQaD2s
+Message-ID: <CAKYAXd9u2gzukNkycTojY4RKXaK2dUS1Cja1vovEkwxAMjoh=w@mail.gmail.com>
+Subject: Re: [PATCH v2 5/9] iomap: introduce IOMAP_F_ZERO_TAIL flag
+To: Chi Zhiling <chizhiling@163.com>
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org, 
+	djwong@kernel.org, hch@lst.de, linux-fsdevel@vger.kernel.org, 
+	anmuxixixi@gmail.com, dxdt@dev.snart.me, chizhiling@kylinos.cn, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hello fs maintainers/developers,
-
-This is a 31-day syzbot report for the fs subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fs
-
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 53 issues are still open and 633 have already been fixed.
-
-Some of the still happening issues:
-
-Ref  Crashes Repro Title
-<1>  25470   Yes   WARNING in path_noexec (2)
-                   https://syzkaller.appspot.com/bug?extid=a9391462075ffb9f77c6
-<2>  7449    Yes   INFO: task hung in __iterate_supers
-                   https://syzkaller.appspot.com/bug?extid=b10aefdd9ef275e9368d
-<3>  7277    Yes   possible deadlock in input_event (2)
-                   https://syzkaller.appspot.com/bug?extid=d4c06e848a1c1f9f726f
-<4>  7009    Yes   WARNING in inc_nlink (3)
-                   https://syzkaller.appspot.com/bug?extid=2b3af42c0644df1e4da9
-<5>  4856    Yes   INFO: task hung in path_openat (7)
-                   https://syzkaller.appspot.com/bug?extid=950a0cdaa2fdd14f5bdc
-<6>  3335    Yes   INFO: task hung in synchronize_rcu (4)
-                   https://syzkaller.appspot.com/bug?extid=222aa26d0a5dbc2e84fe
-<7>  2672    Yes   INFO: task hung in filename_create (4)
-                   https://syzkaller.appspot.com/bug?extid=72c5cf124089bc318016
-<8>  1991    Yes   INFO: task hung in lookup_slow (3)
-                   https://syzkaller.appspot.com/bug?extid=7cfc6a4f6b025f710423
-<9>  1936    Yes   kernel BUG in __filemap_add_folio
-                   https://syzkaller.appspot.com/bug?extid=4d3cc33ef7a77041efa6
-<10> 1617    Yes   INFO: task hung in user_get_super (2)
-                   https://syzkaller.appspot.com/bug?extid=ba09f4a317431df6cddf
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+>
+> Hi, Namjae
+Hi Chi,
+>
+> While testing this patch series, I found that generic/299 can cause my
+> virtual machine to become unresponsive for a long time. Calling
+> balance_dirty_pages_ratelimited in the loop of iomap_zero_iter can
+> resolve this issue, so perhaps we need to add this change.
+I agree that this should be fixed with a separate patch as you
+suggested. I would be very grateful if you could send a patch for this
+fix. I will also take a look.
+>
+> I am continuing to test this patch series, but I'm not sure I will be
+> able to find all possible issues :)
+Let me know if you find more issues.
+Thanks!
