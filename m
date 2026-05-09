@@ -1,136 +1,246 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C85261B9E
-	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 06:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778307263; cv=pass; b=bDJOTBmMtJud+TXTV5/EkJidPPRfyZquh9PHh/6gpd582pstBARpS+hNW6y9667nooO02UX1JyPDlxgqvzAVDVRWToIOZOnhvlmnJY7dv+ttzCLtEvqBeOZyohlIEHJN+bIOdH4EtOeYgmvxFWZcc5tK0YkEDbIYA/5IknbGZXo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778307263; c=relaxed/simple;
-	bh=bApG66Iyjaj+bxzLGg0/sBmkkKy8yZf5oPe63MxI1AY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ehvGA7ySA4UMCquaayvbB4A51etecb2dtGMM4Vb73AF+V9kFOIGPLeWtj5dtqQDRC5QWiKevVTn//wPOrgnMgs2zouiQFh+bXwEq8AUCCgxwdXetqA82Qy66ZosEkQJW2rf/hL/tgmnyL5blHUEKRz2+XkEazvcpqldlIEzbFCI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NrBeVu3j; arc=pass smtp.client-ip=74.125.224.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5052032D
+	for <linux-fsdevel@vger.kernel.org>; Sat,  9 May 2026 07:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778312537; cv=none; b=bz3a4HO3jCtNe84aO62ZSUlADNPdHqFPIoJlrwmxvyI4rIMAVffVMA0R+k/DqWCQb7HF5T5ujx/DeWwbUOeWoKxNBuDJoEDXxA83ytjdziBedTOP7WE0FGzWLwgnkhavZWcQFI94+4+HO/4Ycg37tFzMnHnX3KE+inA/jwt3bn4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778312537; c=relaxed/simple;
+	bh=zSAznESrPV1rJaz+GsMNum3YfYH0ug0b/8QEmygbhxc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pRkEv4e40toVISHY7ysPc+grUwS96subbQBgMG9UjK2eUJFsBfaQScF8BauubsSnQO6c/yKGgSS6BNYrqHwkHznr2Ucixqvkow1bCdJJRofvx9m+AQEtxR47SrRKbqTU6FqjZW8Zp8F/+LmE/3BfHbpwooswL42O6PTb8X1D6fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=EUIB/1QO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ffK0ZMny; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NrBeVu3j"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-64ca9d0d189so217840d50.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 08 May 2026 23:14:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778307261; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YVJrWC1dUpkACIgc4AsCuNqxmDT6SdtPDI3azaUkXIiGM/FQ8UKbBkhKVk+XyGEKwh
-         ZFyj6P297ZPLF4gSMiIJS7NcukRu4DN3Oo5uX1RY4Vxx1xHM8MLpMVRV5I+y3FqH0jiz
-         yj7d9QDaVWyc/uqXJUmzDRyn0OB5IFK4B2CM8QwjJ/ImA66sWskkrwtK+gR+2gPqFwu9
-         BCWW/+Czfb7mHykSBoMMBsEwCoak2poQlcX5hXWKM/cGbakWQB6VvpqKJu6HQlv82B+I
-         /4fZjsu5v9FGxzZLxaZeg3Vi32y9Y7jzhn4fTqLH8tsqsc98e7L7LfPwsiotnPpu91jC
-         DFlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GzvYy02XDu6Dc3091MVWiiJDaPq8goGTqqPoAOqAo3g=;
-        fh=aY6IIkbEO0D5Sr8YDYE91wt3/EK2p5OMVHQ5aVIyuU0=;
-        b=irblMfIxv8V4KiCTMz2YDOBLSy3SmSyWXtqCcIaYYnDc9iFW2+oz+2KwKOwfWFsGNv
-         KGL+YcBfzi5cBQ6kF0qGVdD2w/dCXT2m7oEEaFa8WsQ3KykOP1hOpSOYFRdkpaqYOtM7
-         6/bpugdE9lJwX3UPoRTPDWJObP7j0ZRyIt6VpLiv1lZQ7Kc5+kRjgg+yIC7MUGml1Y7+
-         6/KHLEPgZ8PigEnTGBkJEJ6o1CSQAcxf/P3gdEW+WKHi8mGWEx5l33cpCYA/aPRbly5V
-         4Bi6EmrweYmwaJwEeXI4JDcxflvzK+qG7WJ99xukBiqwHYjzec7VeDYAxD/dpcoiMMpi
-         KvmA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778307261; x=1778912061; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GzvYy02XDu6Dc3091MVWiiJDaPq8goGTqqPoAOqAo3g=;
-        b=NrBeVu3jlAJrC+kMUtYhkKf4e7hXx8hGGARQyOmRwIFGhidULCuFzSdec8EAfeJXro
-         pSBfp9hQv+UZIjHsTK+7jNMKhEFSIHwPpxOSrCVK/6pl5JNj+wnjUWqpVP5emzlEXfkX
-         ssIw1Khy4uGBx4pMntZYbCORAx3vG75+4hdhQRoinvg3VLTTQXeeAf6Aa2jRi5Xy8E8N
-         5bJDPr7rm4outYQCxZZDtDqc52fcjtLJYc344p9NYw0NTloSx3ukRyUsMsPpPJ1y8oeh
-         1dP1PbViKG25QFoni6/FJWTTIQkzc3hxW8fjai2lZeH/HVQWaPoVOSRQiSGicS4VbiGa
-         72vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778307261; x=1778912061;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GzvYy02XDu6Dc3091MVWiiJDaPq8goGTqqPoAOqAo3g=;
-        b=KvsACju30augrvlysTPT/EFCULxO31lxtzC8eBRqIYpwCghhN7aaAM2D3+NUeHMwoX
-         y6skNg0oVM4TYB4STl7+Cojl2L1d8WKj7o9ujCQi06AEtnmPHOBHqIhsS7cJjzyrsBrO
-         v4XcqWQ1H7toRmDBA2ZFQu2gsbrW3ExCX8dlvfgKdmXF+4lKL3c5W7e7D/dlSBD/GHme
-         HJj2EbhwZleKVgp2cZ1xMIL2wdtf9nBelmFzGgxy6fM/Iu37CCeCymcNTm+dSkYyHSC0
-         SivQRdPUy2GoJDHIcwLuyxFDVQxk9pKT7GXmsRCedCeXALyf5awNkkZA7xlbJjfBcwU9
-         G0Xg==
-X-Forwarded-Encrypted: i=1; AFNElJ8Dl2vBQu02S0yyQ/qLIL4z56H+A/4wNd66U5pSB/Mprt+/3q4INdg27Gme7tIYX/FrA1OxusyXawXhfkdG@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIuHUKsqcTpxZdOvVRWpVnORGG466Yf5F4sUziGkzatU5PvOOp
-	7Py0FW+6cPqIxGUP2yWPxoWR/j4sOABuER7hS0VaXn8cMDNYODL7f5SHf4+T/tG7WKRyYCfZ8An
-	z81q18fBBbX6GITLSzd54w4GQcJL9Mr0=
-X-Gm-Gg: Acq92OHhGW50dUU3RAB/x0Y/U5pf3/PgcSNp0bu1Nucv1yIhnAsdZuq5w6P8uwn1D1v
-	5emFhUbwbsbpVxN06UeXbHZqXgdyvUklTvC5FTZ711hGQtSUlY7FCXQTQ29NAeD53JhAiNBKRjz
-	pZ8Vdj3+Ex4f4tkcdd5sTW0AQgWDg+0iLEra2eqpWvkJDY/VqK5pwQvJ07mGRL3D8jYH2GGLelf
-	YDHRTl98e2Om7hBucp3qfpaww0izVA8SNdGVF/4YqZiasz+3DY4S9K3XKaeI8f/iAFWoGgs0hmt
-	6BkpBQ2eFkmWUG3cXkjv
-X-Received: by 2002:a05:690e:1697:b0:651:bdff:db07 with SMTP id
- 956f58d0204a3-65c7ba535famr9072066d50.7.1778307261473; Fri, 08 May 2026
- 23:14:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="EUIB/1QO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ffK0ZMny"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id CE9B214000BB;
+	Sat,  9 May 2026 03:42:14 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Sat, 09 May 2026 03:42:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778312534;
+	 x=1778398934; bh=x+An5n6q1En7EzjV63I1NM0GT+3TOx6VWKvdivMHzto=; b=
+	EUIB/1QOwpI+JvSFfip8r6Emmckw2VruUGR4Kdzk5jITnMgP5lQvkW5+CrSY8gkI
+	7TE6+VEY7pqmXBlPyLvvhxru1PRKQWiq2/35dzBIHFBheJi6CPlmJu6GPHNKEwxJ
+	0HfBM7tsbueK+uCeJOyQY3eYjTE3WnPwNOYMcsmMXk/t4qA2MtGBawtbfgPrSDcV
+	3MmtLKa90V+BkxiYLO8LWHlJLnuvRi+J4Py/lvDDqYW/zATMdkOjTj9M75VL9HI4
+	vEAtCtfZ86wAxJFIxGJcVaY188nANq8ViH/cBQgaxhKwk9RsBBK1SgyMOeVo+Ke0
+	NGlezfbxcZOwHzze8EOi4w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778312534; x=
+	1778398934; bh=x+An5n6q1En7EzjV63I1NM0GT+3TOx6VWKvdivMHzto=; b=f
+	fK0ZMnyU3lmwYIfXihsMSG29+6bBQkqNDdFNkatho45dBcB8abJA9LJ9SIn7LAcI
+	Bepujsj1QhsuIOBcjwlx53cegPMuGwVt6nDLYA8SdKcKVb8um4uKE9zg3pxhL0it
+	RRBiEtzcn/JLzeGyq6woJHleqQDvtb046bHuaiWAJvZRT8f5n8fWq8f6CWhFU2iR
+	vadPpivK/QNvLVZzFECARYC0JwRIHOlFKg/bfVg9pPEJ3iav/aQhI+w5LmXnU3LR
+	6F6JmJ9L/iviAQzBGqbpI61dXZTm0pzImUGIvXQRCeZPFCTPdaNmdZM+Cmme7iS9
+	EXpcBe5laLgAL9m+RaS4A==
+X-ME-Sender: <xms:VuX-aT8a_1bLr70FuPNxAPmrOFBFXmmAv-VbqiSAk-p9a8e6IeNfMw>
+    <xme:VuX-aZA2NPSqZuev1sCjvNhpb7di8DM-FrA-H5jIIXyj_JI-iJPVo3QXB9aSskAMa
+    O-JElWZVHKIxfzym7_LMF8xTDBtNSFy4JVad_O7DnzpL476fW5C>
+X-ME-Received: <xmr:VuX-aYRqdnYCA-lz8tI73_zw6b6yOlgY3K4lne2qAmj3TBARNeuPdUWw3zwTTd2To4o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddvieeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhn
+    vghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehfuhhsvgdquggvvhgvlh
+    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvggrlhesghhomhhprgdr
+    uggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhg
+X-ME-Proxy: <xmx:VuX-aQsR_gwyn408-7sPbjGdqsqf3EVa_6rkewe8DBO5Sm8x3EkT9A>
+    <xmx:VuX-aU2aqRlSDRMbVcLUfPG3_8Vu5beAVKijAIsEk9v3jK1vOPyQ9Q>
+    <xmx:VuX-aRXloVGIBezh_QzYlUr65tPuOVqKuYCiP1f2FCbRruPi05_Seg>
+    <xmx:VuX-afJDX4a_KH3W_e-PNFj8VIi1FCI2re_BDLobvbne_9rKLNGxnA>
+    <xmx:VuX-aQPAhKnDvfe1_w_GPCrStIAgUqW2u78nuYAax55uuU_zY6edO7Lz>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 9 May 2026 03:42:13 -0400 (EDT)
+Message-ID: <37d55a0c-7358-455d-9552-c621160bb269@bsbernd.com>
+Date: Sat, 9 May 2026 09:42:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260508153410.2624801-1-charsyam@gmail.com> <20260508153410.2624801-3-charsyam@gmail.com>
- <CAKYAXd8d7Y21GqeoMYrhRhNyT44uRuqF3hZVO6_dROS1JRFZRw@mail.gmail.com>
-In-Reply-To: <CAKYAXd8d7Y21GqeoMYrhRhNyT44uRuqF3hZVO6_dROS1JRFZRw@mail.gmail.com>
-From: CharSyam <charsyam@gmail.com>
-Date: Sat, 9 May 2026 15:14:10 +0900
-X-Gm-Features: AVHnY4IQjLtgunifLCf4dM7r9FVe8zJIrC9kqP2DE9QoINlGW3WnpLKeHlnizD4
-Message-ID: <CAMrLSE6NC3TvfwWRY2Nvu6pL6kuDd30G-WQo_1=9A3+GL9hChQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] ntfs: fix MFT bitmap scan 2^32 boundary check
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] mount_service: use the mount_flags table instead of
+ declaring our own
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
+ neal@gompa.dev, linux-fsdevel@vger.kernel.org
+References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
+ <177819198067.3490792.2943381236495611249.stgit@frogsfrogsfrogs>
+ <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
+ <20260508175945.GE2241589@frogsfrogsfrogs>
+ <20260509004851.GF7739@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260509004851.GF7739@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-I will send v2 patch again.
 
-Thanks for pointing it out.
 
-2026=EB=85=84 5=EC=9B=94 9=EC=9D=BC (=ED=86=A0) =EC=98=A4=ED=9B=84 1:03, Na=
-mjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> > Fixes: d3ad708fecaa ("ntfs: Initial commit")
-> The warning from checkpatch.pl indicates that the commit ID you
-> provided in the Fixes: tag does not exist...
->
-> WARNING: Unknown commit id 'd3ad708fecaa', maybe rebased or not pulled?
-> #67:
-> Fixes: d3ad708fecaa ("ntfs: Initial commit")
->
-> If the Fixes: tag refers to a commit from an oot version, please do
-> either remove the tag or replace it with the correct upstream commit
-> ID that introduced the bug. Other patches also have this tag, so
-> please update them all.
->
-> > @@ -1279,7 +1279,7 @@ static s64 ntfs_mft_bitmap_find_and_alloc_free_re=
-c_nolock(struct ntfs_volume *vo
-> >                                 b =3D ffz((unsigned long)*byte);
-> >                                 if (b < 8 && b >=3D (bit & 7)) {
-> >                                         ll =3D data_pos + (bit & ~7ull)=
- + b;
-> > -                                       if (unlikely(ll > (1ll << 32)))=
- {
-> > +                                       if (unlikely(ll >=3D (1ll << 32=
-))) {
-> >  #if LINUX_VERSION_CODE >=3D KERNEL_VERSION(6, 6, 0)
-> The kernel version check code is not in the mainline, so it seems this
-> patch was created in the oot version... I cannot apply it unless you
-> remove this.
-> >                                                 folio_unlock(folio);
-> >                                                 kunmap_local(buf);
-> > --
-> > 2.34.1
-> >
+On 5/9/26 02:48, Darrick J. Wong wrote:
+> On Fri, May 08, 2026 at 10:59:45AM -0700, Darrick J. Wong wrote:
+>> On Fri, May 08, 2026 at 06:51:45PM +0200, Bernd Schubert wrote:
+>>>
+>>>
+>>> On 5/8/26 00:14, Darrick J. Wong wrote:
+>>>> From: Darrick J. Wong <djwong@kernel.org>
+>>>>
+>>>> Use the canonical mount flags table in mount_util.c instead of
+>>>> opencoding our own version in mount_service.c.
+>>>>
+>>>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+>>>> ---
+>>>>  util/mount_service.c |   51 +++++++++++++-------------------------------------
+>>>>  1 file changed, 13 insertions(+), 38 deletions(-)
+>>>>
+>>>>
+>>>> diff --git a/util/mount_service.c b/util/mount_service.c
+>>>> index 8c9747b3928a51..79e5b060ba3356 100644
+>>>> --- a/util/mount_service.c
+>>>> +++ b/util/mount_service.c
+>>>> @@ -1457,73 +1457,48 @@ struct ms_to_mount_map {
+>>>>  	unsigned int mount_attr_flag;
+>>>>  };
+>>>>  
+>>>> -static const struct ms_to_mount_map attrs[] = {
+>>>> -	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
+>>>> -	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
+>>>> -	{ MS_NODEV,		MOUNT_ATTR_NODEV },
+>>>> -	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
+>>>> -	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
+>>>> -	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
+>>>> -	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
+>>>> -	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
+>>>> -#ifdef MOUNT_ATTR_NOSYMFOLLOW
+>>>> -	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
+>>>> -#endif
+>>>> -	{ 0, 0 },
+>>>> -};
+>>>> -
+>>>>  static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
+>>>>  				 unsigned int *attr_flags,
+>>>>  				 unsigned long *leftover_ms_flags)
+>>>>  {
+>>>> -	const struct ms_to_mount_map *i;
+>>>> +	const struct mount_flags *i;
+>>>>  	unsigned int ms_flags = ntohl(oc->ms_flags);
+>>>>  	unsigned int mount_attr_flags = 0;
+>>>>  
+>>>> -	for (i = attrs; i->ms_flag != 0; i++) {
+>>>> -		if (ms_flags & i->ms_flag)
+>>>> -			mount_attr_flags |= i->mount_attr_flag;
+>>>> -		ms_flags &= ~i->ms_flag;
+>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
+>>>> +		if (!i->on || !(ms_flags & i->flag))
+>>>> +			continue;
+>>>> +
+>>>> +		mount_attr_flags |= i->mount_attr;
+>>>> +		ms_flags &= ~i->flag;
+>>>>  	}
+>>>>  
+>>>>  	*leftover_ms_flags = ms_flags;
+>>>>  	*attr_flags = mount_attr_flags;
+>>>>  }
+>>>>  
+>>>> -struct ms_to_str_map {
+>>>> -	unsigned long ms_flag;
+>>>> -	const char *string;
+>>>> -};
+>>>> -
+>>>> -static const struct ms_to_str_map strflags[] = {
+>>>> -	{ MS_SYNCHRONOUS,	"sync" },
+>>>> -	{ MS_DIRSYNC,		"dirsync" },
+>>>> -	{ MS_LAZYTIME,		"lazytime" },
+>>>> -	{ 0, 0 },
+>>>> -};
+>>>> -
+>>>>  static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
+>>>>  {
+>>>> -	const struct ms_to_str_map *i;
+>>>> +	const struct mount_flags *i;
+>>>>  	int ret;
+>>>>  
+>>>> -	for (i = strflags; i->ms_flag != 0; i++) {
+>>>> -		if (!(ms_flags & i->ms_flag))
+>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
+>>>> +		if (!i->on || !(ms_flags & i->flag))
+>>>>  			continue;
+>>>>  
+>>>> -		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
+>>>> +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->opt,
+>>>>  			       NULL, 0);
+>>>>  		if (ret) {
+>>>>  			int error = errno;
+>>>>  
+>>>>  			fprintf(stderr, "%s: set %s option: %s\n",
+>>>> -				mo->msgtag, i->string, strerror(error));
+>>>> +				mo->msgtag, i->opt, strerror(error));
+>>>>  			emit_fsconfig_messages(mo);
+>>>>  
+>>>>  			errno = error;
+>>>>  			return -1;
+>>>>  		}
+>>>> -		ms_flags &= ~i->ms_flag;
+>>>> +		ms_flags &= ~i->flag;
+>>>>  	}
+>>>>  
+>>>>  	/*
+>>>>
+>>>>
+>>>
+>>>
+>>> Hi Darrick,
+>>>
+>>> wouldn't it make sense to use the functions from mount_fsmount.c? I can
+>>> also clean this up later if you want.
+>>
+>> Oh, hah!  Yes, I'll revise this patch to use them.
+> 
+> Update: I tried this, but ran into a problem: the two helpers are in
+> lib/mount_fsmount.c, which means the object code ends up in libfuse.so.
+> Unfortunately, that means that util/mount_service.c can't use them
+> unless they're exported from the .so.
+> 
+> I don't mind doing that, but I feel that I should check with you if it's
+> ok to add that to the public libfuse API before doing that?
+> 
+> Though I think a better solution is to move ms_flags_to_mount_attrs and
+> set_ms_flags to mount_util.c because that's compiled into the util/
+> programs.
+> 
+> How about I do that second thing on Monday?
+
+
+I would prefer the 3rd option, like for fusermount3
+
+executable('fusermount3', ['fusermount.c', '../lib/mount_util.c',
+'../lib/mount_fsmount.c', '../lib/util.c'],
+
+
+I.e. add lib/mount_fsmount.c to mount_service_sources.
+
+
+Thanks,
+Bernd
