@@ -1,69 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491173822A1;
-	Sat,  9 May 2026 18:39:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B63C1A316E;
+	Sat,  9 May 2026 18:50:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778351969; cv=none; b=ApWN1IeO03h/83tfWRTY7fdcULt4iyXaoZzvHUqLiuGHfCozaWMgFEr44lTwb2Ij+wUVMXjQQX7g8W8rKqkbFjW+lGwl/mSlhYMsFc1+nuTy6bdK0DXUTdLeGGvQz4dK7ey/qKOtmqwcfZJA4rbjjYPM5KI7MwugI+IqhALSxVY=
+	t=1778352618; cv=none; b=ejkoTn39OZaLq2iXpBM00BhUwqlY2y+UFk16CxuKBLC0V5w5e3LVXZhR7Akh2xvbUDDbuPdkMcTduGtaViYwrjd7dkzUDk2/2TnO5yEMkX4DeSCLFSh6VuLKgiSKq3yIT7BktLVN3fJT/dZ1mCM/xKPQOGclBQzWlvDfhDOirQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778351969; c=relaxed/simple;
-	bh=QkyLmR+6zE4gx0l2d2bJ8D52daJqzGf8F5sAEUQeXaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zks0chcerSe81Oonm5N7wwn3sDuM3q3A8w0Et94rv+a9wS5pUqGIhRbE5obO66bmqJH1armMYoIYhCm0ge+ioTkR1mlm+IDwDbX4VA5wyOTnO0mu1zVJbsEzCEyVlVebBWWFkQWNbi0GdklMncv5MlR4+0VAdDzso9OAEiUaT4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cnwi8s5x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778352618; c=relaxed/simple;
+	bh=q4bT7v6dGaujMKEEI88wr38YDeJSR1XwYOk90KxkFpM=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=bKWp0onUN5j47frqsnyc9TJy2wd4QBp6W+YQPV4tUFih3InGJLr4H3vemz6Fk+0bzBEqluygHVRNaZGQGW2LGL2JyCXvk7h3F10hfx24w722iiXKtsdKZB9SWMYwuvFquTbnF86MMut0XN5BHjhUc1dnuxMxjEeYFnJi9dTJa1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EFErmrN8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cnwi8s5x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A64CDC2BCB2;
-	Sat,  9 May 2026 18:39:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EFErmrN8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28667C2BCB2;
+	Sat,  9 May 2026 18:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778351968;
-	bh=QkyLmR+6zE4gx0l2d2bJ8D52daJqzGf8F5sAEUQeXaY=;
-	h=Date:From:To:Cc:Subject:From;
-	b=cnwi8s5x9A3RTFc6UotsxULSUD7C0l8FtWvwexwcDb5CIjj2dRJf2+gSYiHORL4uS
-	 XqG6HU1UuaO/Pk/QFcQ3MqaIUJGmQMgp4WLo0AllqZy+5rDiB/Pzh4Y3/ZvENQDrt6
-	 Wt1mPcYImHTNuYFtBCW+vBV7woEjy+JbDMqLhsFx24F2cphhKXNEyfLn+zC0ncuuGQ
-	 G01U7d8aq305JzeiTA3ZAAjF3rOTB1klAaMbXLajqO0bp1cw+Hi2LHEa9f99FdLLzP
-	 WgmEGDV+xc2w2tdFqg0RiRQqbsCeaWNki6p4kI7kUVlDqcJ+3eA8tEU+gmWsy+PvDw
-	 ALnnj3ekOD/eg==
-Date: Sat, 9 May 2026 11:39:13 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Colin Walters <walters@verbum.org>
-Subject: [GIT PULL] fsverity fix for v7.1-rc3
-Message-ID: <20260509183913.GA11883@quark>
+	s=k20201202; t=1778352618;
+	bh=q4bT7v6dGaujMKEEI88wr38YDeJSR1XwYOk90KxkFpM=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=EFErmrN80tLSyyJe6gdWlItoXNyM4wMMvCeubemu0WifXjr5fCcrbcuskKu6c+7f5
+	 TE6IXJl7jN51d87BhZRBgU5MvpvT9vumZXlvL/pMFQpyNukN3hNvlKt6QS9lOUyEQk
+	 cnNdOwJtAgToa7+YyLTTDWc2tu9SRgZ5Lfgw/9Qs8wPvhmUazzO00FhpyCNZrfcSvr
+	 yxMOEzSkUqib8N0C4FlbDeTJL7pfplDGAQwE85dRltfhhlMrmXGQwxeIA3tRlzp3b5
+	 1MRiv5bfnYqnBIOGLBtbe4veEsGyRZLv31hBdBkjt3289/xWnIUgcY1EHIEGHXiBsa
+	 nlLQkzEAMMDBQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3FECA3811A5F;
+	Sat,  9 May 2026 18:49:27 +0000 (UTC)
+Subject: Re: [GIT PULL] fsverity fix for v7.1-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20260509183913.GA11883@quark>
+References: <20260509183913.GA11883@quark>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20260509183913.GA11883@quark>
+X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+X-PR-Tracked-Commit-Id: 0c8c88b8eb82a2a41bec5f17c076d6312dc40316
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1bfaee9d3351b9b32a99766bbfb1f5baed60ddef
+Message-Id: <177835256588.1153861.69730057292332831.pr-tracker-bot@kernel.org>
+Date: Sat, 09 May 2026 18:49:25 +0000
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, Colin Walters <walters@verbum.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-The following changes since commit 7fd2df204f342fc17d1a0bfcd474b24232fb0f32:
+The pull request you sent on Sat, 9 May 2026 11:39:13 -0700:
 
-  Linux 7.1-rc2 (2026-05-03 14:21:25 -0700)
+> https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1bfaee9d3351b9b32a99766bbfb1f5baed60ddef
 
-  https://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+Thank you!
 
-for you to fetch changes up to 0c8c88b8eb82a2a41bec5f17c076d6312dc40316:
-
-  ovl: fix verity lazy-load guard broken by fsverity_active() semantic change (2026-05-06 08:37:30 -0700)
-
-----------------------------------------------------------------
-
-Fix a regression in overlayfs caused by an fsverity API change
-
-----------------------------------------------------------------
-Colin Walters (1):
-      ovl: fix verity lazy-load guard broken by fsverity_active() semantic change
-
- fs/overlayfs/util.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
