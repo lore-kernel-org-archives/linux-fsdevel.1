@@ -1,47 +1,69 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FD039B951;
-	Sun, 10 May 2026 14:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057A339B483
+	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 17:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778424898; cv=none; b=K2Sm9pCXHmJbC5fNAvC9pGr1H0R34U+SN/b2nebiEhm9fsYlHDfrDK8neghKN2s1EqvA4HqXuP7Fje5YjnroHXkxPi0Fukp5evQWuuPWMSM9/YIOKo9V8UqZQtyrLE1jUyOajf0z/TQM9Q0kK9V0aekejMZn2U/kK43ao5fY1Go=
+	t=1778433082; cv=none; b=hqhbzctM0cSv8wc+41hPpn/hLLaP0X+Q2yIxNE3J7g6LiBcsgX3Ehs4mJBGNoux0Sjf3CuAY3KwUfMvuP6lhIB8oEjUXo1GbcplBWO40jmgfRO/LmYW3SF3OigfOeAFI4rBft5uIOSD7IR0BEMEtDa+EXNkPjgyBCedGSP9ite8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778424898; c=relaxed/simple;
-	bh=Uy+VhuXM3U5D7xhGtbWtxvB984/Dc6Vx7jr2cPumaZQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rl/+oEuJ+bNdAP0hmZSC+Z6qXTbnRF8xSMzkoCcyBJUr0BXC2jBw7eenVhc5NVpv4+cqo2fc1cBwVNQAkRSH6xAaWf07u9M2BXeJoTzAJJQQ9vu+NOjL6tHW9QApKYULHoTC/0H+lXUQxal0p4+0Ao+x7cjzmcu2fEI9VB2wTQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2c7c8d284c8011f1aa26b74ffac11d73-20260510
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:3f09d191-88ed-47a0-a4c3-8aefe452dadb,IP:10,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:5
-X-CID-INFO: VERSION:1.3.12,REQID:3f09d191-88ed-47a0-a4c3-8aefe452dadb,IP:10,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:9f539d34b1e59f095587e2a4fa0e354e,BulkI
-	D:260510225443B03DEX9C,BulkQuantity:0,Recheck:0,SF:10|66|78|102|123|127|89
-	8,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil
-	,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2c7c8d284c8011f1aa26b74ffac11d73-20260510
-X-User: zhaoguohan@kylinos.cn
-Received: from zgh-vmware-virtual-platform.localdomain [(120.228.139.157)] by mailgw.kylinos.cn
-	(envelope-from <zhaoguohan@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1503282378; Sun, 10 May 2026 22:54:41 +0800
-From: zhaoguohan@kylinos.cn
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org,
+	s=arc-20240116; t=1778433082; c=relaxed/simple;
+	bh=x9pvDzf+fY1FTfdaBgfdiihF5Jr+0DPrigW5GmWy+Ss=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rrZV5rR6dVVbMkquhIeEprJEUo4rTV5opy0mTKAe/APYct5Yx7bgcs0AifEUxEmQBXyQAODIspO/QTdGdTBsrbbNwiarHyheyQn7TIATMpR1ULP+/ip4hU+fz6zFTsaLpYWybv1Fbroiv8Tcsv8Hi7aY2RRtmzTORBlAsFpeGp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jnEQhO33; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jnEQhO33"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3683157ec13so89748a91.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 10:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778433080; x=1779037880; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zQvA8oYm5fgWSvqu1R06ttujcqV6rO1cZ19fO+2xVDo=;
+        b=jnEQhO33yQFay/H6JXaPUTX8OsZCI/TGYR2CrXEDu8Ip82K8b9tGRkNy2xNL0dCuuk
+         EsGBl8BH5mec9pg9G+v4mw/kon/85p6QpG9zbBwBnUd701D0DWWngE5Z12ABkdIR2ybj
+         wdUjMsxStbLBK0JzZeucCQIvkQ3ISwx78ro73DyvwO1aTWjrb+zw434gb060H3CmPraV
+         qc18E32BQrzLFDTh7M57BQAkQ5EloYU7w5LjLwwpXNiGPQ0JQTGlCMXtVQX+bQV+SiwJ
+         PK72KzyR+A7goRtFCCNJHPf+4eKSdtziRR2DVzdfzdhWI8IU4oXC77d+7vXAgLcjzdpX
+         onDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778433080; x=1779037880;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zQvA8oYm5fgWSvqu1R06ttujcqV6rO1cZ19fO+2xVDo=;
+        b=PY8FRzqtTtukvC9Cusdt0dVdBk3RUrcTHPMioClantNqobOGZE6QS0QdJrKTp/vGJd
+         6DDqnHk5AUGOlWJDYI2ZcDFJZUC+41HeoaAeAFeeMS5Rtw7peoRpVkg6DQq2sxG+afkH
+         9QesBGAHaEi9Y7sxxABfUAJxcU0PcsiPWdbu8MgD+EJwggKsIPoJa7fjQo5r9LOFWf6e
+         qzNx0dCppLuJS8HMt40VkyuBsQoTcarmCznOrVtIlp5+YoskVp2HYs2ZGc/I4kmWmIce
+         dIuv9CZWQQhs9yC8z4awdJx3RxwjIzCJLfWVOchEcbz2pVFQjqSldw4JYrk2fg35hiIu
+         vGng==
+X-Forwarded-Encrypted: i=1; AFNElJ8kF8fwYrzZRV+oqs+qC4jqbXrFvBU5OuGgAVkFh2xz9245PwQlikr/O7YeveONdXuWwx6ZEmxIeMWqVWw1@vger.kernel.org
+X-Gm-Message-State: AOJu0YznIe56sUBRAxCD62YlAn9wpLlypod7t8o+45d1WRQ/jhtGNjvb
+	SVnSJuS6kyH8febjdwQFK+3vXdn1HZtD5xmZxfYXFWNAWc3B4yO1TBgfJ0u1Ig==
+X-Gm-Gg: Acq92OE6yZFydmu3gL2fLOhsIieg+Fn9bpSBEzdZRvrG0FrMDok3FBk627DVl3LClUi
+	d/3QLVVzLkseBtAv4bt6klOAxjety39O1HiewOGTDv7xhGcnM2jeK2PBbSQ1KdEzOy1E074qYdJ
+	cv7hyuBa/0Kv0n9ER8+qLbhJdOsLDbWWGQEvkqt0qadPK8sie/Qk/cVm02t9vY9sHTT3W7AyY+K
+	zFz2/9/rVMDfEhCuNQuPKkLoZmGCgCih6wxZbJ/aY3/MqzJAI7G94QCNkbxhcp9CH/u6s3xCs62
+	abWOf/1cr/Hk5hiCoVLskBg1NCNLDFX6qqpKPsG3VpR9GFyfTujec8rVjxqW+fj1BA+Ig8K7VoZ
+	6SwB9CxjNCoOkH/mAbvNAtSf5ftBPHawzD84vHTB+SpPfVbLm2/hfIIFVhYdZgrPRh8+ZqPfprg
+	eycqsEeSDzyNKYfQj1Uyh+gVcIRJYYHreL33lQtw==
+X-Received: by 2002:a17:90a:d004:b0:35f:b8e6:6398 with SMTP id 98e67ed59e1d1-365b4f5bda0mr11628329a91.7.1778433080188;
+        Sun, 10 May 2026 10:11:20 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367d623fa47sm5120690a91.3.2026.05.10.10.11.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 10:11:19 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] fuse: use current creds for backing files
-Date: Sun, 10 May 2026 22:54:37 +0800
-Message-ID: <20260510145437.321141-1-zhaoguohan@kylinos.cn>
+Subject: [PATCH 0/2] ntfs: super.c fixes for MFT mirror check and sync_fs
+Date: Mon, 11 May 2026 02:11:13 +0900
+Message-ID: <20260510171115.368494-1-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -51,47 +73,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: GuoHan Zhao <zhaoguohan@kylinos.cn>
+This series fixes two regressions in fs/ntfs/super.c introduced by:
 
-FUSE backing files only need a stable snapshot of the current credentials
-for later backing-file I/O. prepare_creds() allocates a mutable copy and
-can fail, but this code never modifies or commits the result.
+  6251f0b0de7d ("ntfs: update super block operations")
 
-Use get_current_cred() instead and store it as a const pointer. This
-matches the rest of the backing-file helpers and avoids an unnecessary
-allocation and failure path.
+which switched the driver to the fs_context-based mount API and added
+->sync_fs.
 
-Signed-off-by: GuoHan Zhao <zhaoguohan@kylinos.cn>
----
- fs/fuse/backing.c | 2 +-
- fs/fuse/fuse_i.h  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Patch 1 restores the missing memcmp() inside check_mft_mirror().  The
+function still walks both $MFT and $MFTMirr records and computes a
+per-record byte count to compare, but the actual comparison was dropped
+when super block operations were updated.  As a result, mount silently
+accepts a stale or inconsistent $MFTMirr as long as both records pass
+the structural baad-record checks, defeating the purpose of having the
+mirror.  With the comparison restored, a mismatch is reported at mount
+time and the existing on_errors policy decides whether to convert to
+read-only or proceed with NVolErrors set.
 
-diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-index d95dfa48483f..8efb43b17c4d 100644
---- a/fs/fuse/backing.c
-+++ b/fs/fuse/backing.c
-@@ -118,7 +118,7 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
- 		goto out_fput;
- 
- 	fb->file = file;
--	fb->cred = prepare_creds();
-+	fb->cred = get_current_cred();
- 	refcount_set(&fb->count, 1);
- 
- 	res = fuse_backing_id_alloc(fc, fb);
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 17423d4e3cfa..36041e405bf8 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -106,7 +106,7 @@ struct fuse_submount_lookup {
- /** Container for data related to mapping to backing file */
- struct fuse_backing {
- 	struct file *file;
--	struct cred *cred;
-+	const struct cred *cred;
- 
- 	/** refcount */
- 	refcount_t count;
+Patch 2 stops ntfs_sync_fs() from clearing VOLUME_IS_DIRTY.  sync_fs
+can be called while the filesystem is still mounted read-write (for
+example via sync(2) or periodic writeback), so clearing the dirty bit
+there marks the volume clean before the mount lifetime has ended.  If
+the system crashes after sync_fs() but before unmount or remount-ro,
+the on-disk image is left looking cleanly shut down even though it is
+not.  The legitimate clear paths in ntfs_put_super() and the RW->RO
+remount path are kept intact and gate on !NVolErrors().
+
+Both patches apply on top of ntfs-next.
+
+DaeMyung Kang (2):
+  ntfs: restore $MFT mirror contents check
+  ntfs: do not mark the volume clean from sync_fs
+
+ fs/ntfs/super.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
 -- 
 2.43.0
+
