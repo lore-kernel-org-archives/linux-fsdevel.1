@@ -1,28 +1,28 @@
 Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2253002C8
-	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 22:22:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822783115AF
+	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 22:58:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778451747; cv=none; b=TY40Ev1SGKD6QW3TOT0hSPvoSyjj9NP9pzed/F6l/n0BTfZNGo/q+6YlwIJfUw6b7a3IIIHxOnfuCGNU18E3eUfGVwNnATM0NC2hfHhH/SWeM5jkbShXd++IVjGKjI9Ru9WPcG89uBptm6taClnhBDuc8H9stjJtZaMndsberww=
+	t=1778453924; cv=none; b=Wy/fha1xV0luWSabUHlG7yKPmd/pUPVUniItBupkUKH5YZ5s6fxv0PHZkr5ANlIA2bjjDYlkfJUIyQm7/LmEQXeb3LdnDJoMBSFRULhgm2heTwiQiFSnbayhchywcMytuM3qUc8kOxhj2DF7lfe1vneyBXwUOugFJmrSgVF1FJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778451747; c=relaxed/simple;
-	bh=jJ29MiwE6oYt074UrJS+WLoi4vAZeVDIjaa8yBio1TU=;
+	s=arc-20240116; t=1778453924; c=relaxed/simple;
+	bh=qAHOtAgNceqBfUPVmqWDFR0iHUrKuFs1Mp9iN+JfYug=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WBNJQdd0ekUw93B9LjVIE9xwQ1Q+J/xlsTDd/4BQv85uucW/aQfLEAmiMyMGh4+9c8tWfZ8CtEhhegS8FB+G8Hgl7SrHnX4REARyfGKqMcbFlHo0wh7P9sW1j2lZeAk8/kOmMU8tuuD52ArFLl+nffFzgjo3u5lR4XeRPo7oZVw=
+	 In-Reply-To:Content-Type; b=PZmGgA7R33tLkTslx7EvZNtMuPwhPiShLp5s8kdhNxWVjUm+gLsJfmvzC/SoIlRqo1X4OgTcPWMgkJZW8hzdV0Iw6W3D1TSn75NO6H+S9WnClsxk2EloGIjc71xQdEojT/DF1XXecbY8IZZ/4QbCSw3GjGai57EzaHg3AMlqYRo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id 8FB6F1D490;
-	Sun, 10 May 2026 22:22:17 +0000 (UTC)
+	by embla.dev.snart.me (Postfix) with ESMTP id 7408B1D490;
+	Sun, 10 May 2026 22:58:41 +0000 (UTC)
 Received: from [192.168.1.18] ([182.226.25.243])
 	by embla.dev.snart.me with ESMTPSA
-	id o/FeERkFAWrALwMA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Sun, 10 May 2026 22:22:17 +0000
-Message-ID: <258feba8-a4fd-4c31-9553-691ab375858b@dev.snart.me>
-Date: Mon, 11 May 2026 07:22:13 +0900
+	id 9H67CaENAWoGMgMA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Sun, 10 May 2026 22:58:41 +0000
+Message-ID: <9a4f44b0-ec1a-4bb0-bd58-37f470b6a595@dev.snart.me>
+Date: Mon, 11 May 2026 07:58:40 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -30,16 +30,14 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] exfat: use upcase_ptable and upcase_range_info to
- reduce memory footprint
+Subject: Re: [PATCH v2 2/4] exfat: optimise and refactor filename up-case
+ conversion
 To: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>,
  Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>, Jonathan Corbet <corbet@lwn.net>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
 References: <20260505123144.730782-1-dxdt@dev.snart.me>
- <20260505123144.730782-2-dxdt@dev.snart.me>
- <PUZPR04MB6316AD038BC864209E256243813C2@PUZPR04MB6316.apcprd04.prod.outlook.com>
+ <20260505123144.730782-3-dxdt@dev.snart.me>
+ <PUZPR04MB631684B809F703C8D62D3B59813C2@PUZPR04MB6316.apcprd04.prod.outlook.com>
 From: David Timber <dxdt@dev.snart.me>
 Content-Language: en-US, ko
 Autocrypt: addr=dxdt@dev.snart.me; keydata=
@@ -51,148 +49,53 @@ Autocrypt: addr=dxdt@dev.snart.me; keydata=
  EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
  VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
  Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-In-Reply-To: <PUZPR04MB6316AD038BC864209E256243813C2@PUZPR04MB6316.apcprd04.prod.outlook.com>
+In-Reply-To: <PUZPR04MB631684B809F703C8D62D3B59813C2@PUZPR04MB6316.apcprd04.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 5/7/26 21:03, Yuezhang.Mo@sony.com wrote:
->> + * To maintain interoperability, these errors are not corrected.
->> + */
->> +static const struct exfat_upcase_range_info def_utbl_ri[] __initconst = {
->> +       /* ASCII */
->> +       {
->> +               /* (index = 0, len = 26) */
->> +               .start = 0x0061,
->> +               .end   = 0x007B,
->> +               .value = 0x0041,
->> +               .inc   = 0x0001,
->> +       },
-> How about changing to this style? the table looks too long.
->
-> /*     start   end     value      inc */
-> /* ASCII */
-> [0] = {0x0061, 0x007B, 0x0041, 0x0001}, /* 26 characters */
->
-> And 'len' in the comments is not very meaningful, the comments indicate
-> how many characters need to be converted more appropriately.
-Agreed. Will change the procuder program.
-
->> @@ -896,6 +898,12 @@ static int __init init_exfat_fs(void)
+>> +static inline bool exfat_illegal_chr(const unsigned short wchar)
 >>  {
->>         int err;
->>
->> +       err = exfat_populate_upcase_ptable(&exfat_def_upcase_ptable);
->> +       if (err) {
->> +               WARN_ON(err == -EINVAL);
->> +               return err;
->> +       }
+>> -	while (*str) {
+>> -		if (*(str++) == wchar)
+>> -			return str;
+>> +	switch (wchar) {
+>> +	/*
+>> +	 * Control characters
+>> +	 *
+>> +	 * This saves some cmp instructions if the compiler does its job correctly
+>> +	 */
+>> +	case 0x0000: case 0x0001: case 0x0002: case 0x0003:
+>> +	case 0x0004: case 0x0005: case 0x0006: case 0x0007:
+>> +	case 0x0008: case 0x0009: case 0x000A: case 0x000B:
+>> +	case 0x000C: case 0x000D: case 0x000E: case 0x000F:
+>> +	case 0x0010: case 0x0011: case 0x0012: case 0x0013:
+>> +	case 0x0014: case 0x0015: case 0x0016: case 0x0017:
+>> +	case 0x0018: case 0x0019: case 0x001A: case 0x001B:
+>> +	case 0x001C: case 0x001D: case 0x001E: case 0x001F:
 >> +
->>         err = exfat_cache_init();
->>         if (err)
->>                 return err;
->>
-> As I said before, we should call exfat_free_upcase_ptable() if
-> exfat_cache_init() return an error.
-This is frustrating. Yes, this is skill issues on my end, but it makes
-me wonder why we can't just have only two return points(success and bail).
-
-Whilst trying to hunt down the kernel memory corruption error in f2fs,
-I've witness the horrors in the fill_super() as well. Why complicate
-things by having too many goto labels?
-
-https://www.kernel.org/doc/html/latest/process/coding-style.html#centralized-exiting-of-functions
-
-I think this generally comes from the coding guidelines that mixes up
-goto and return statements for clean ups. Sure, it makes sense if this
-is the function that gets called millions of times in like skb a
-handling callback, where avoiding a couple of no-op calls actually
-matters. In this case, I fail to see if doing something like this can
-hurt anything as long as we're careful with the order of resources being
-freed:
-
-    static int __init init_exfat_fs(void)
-    {
-    	int err;
-
-    	err = exfat_populate_upcase_ptable(&exfat_def_upcase_ptable);
-    	if (err) {
-    		WARN_ON(err == -EINVAL);
-    		goto bail;
-    	}
-
-    	err = exfat_cache_init();
-    	if (err)
-    		goto bail;
-
-    	exfat_inode_cachep = kmem_cache_create("exfat_inode_cache",
-    			sizeof(struct exfat_inode_info),
-    			0, SLAB_RECLAIM_ACCOUNT,
-    			exfat_inode_init_once);
-    	if (!exfat_inode_cachep) {
-    		err = -ENOMEM;
-    		goto bail;
-    	}
-
-    	err = register_filesystem(&exfat_fs_type);
-    	if (err)
-    		goto bail;
-
-    	return 0;
-
-    bail:
-    	kmem_cache_destroy(exfat_inode_cachep);
-    	exfat_cache_shutdown();
-    	exfat_free_upcase_ptable(&exfat_def_upcase_ptable);
-
-    	return err;
-    }
-
->> @@ -691,53 +330,36 @@ static int exfat_load_upcase_table(struct super_block *sb,
->>                 brelse(bh);
->>         }
->>
->> -       if (index >= 0xFFFF && utbl_checksum == chksum)
->> +       if (index >= 0xFFFF && utbl_checksum == chksum) {
->> +               /*
->> +                * is_default being set does not necessarily mean the contents are exact same as the
->> +                * upcase table loaded from the volume may be missing some entries. The checksum
->> +                * matching should be enough to cover that case.
->> +                */
->> +               if (is_default && utbl_checksum == EXFAT_DEF_UTBL_CHKSUM) {
->> +                       exfat_free_upcase_ptable(upcase_table);
->> +                       kvfree(upcase_table);
->>
-> If the default upcase table is used, 874 entries will be set.
+>> +	case 0x0022: /* QUOTATION MARK:    (") */
+>> +	case 0x002A: /* ASTERISK:          (*) */
+>> +	case 0x002F: /* FORWARD SLASH:     (/) */
+>> +	case 0x003A: /* COLON:             (:) */
+>> +	case 0x003C: /* LESS-THAN SIGN:    (<) */
+>> +	case 0x003E: /* GREATER-THAN SIGN: (>) */
+>> +	case 0x003F: /* QUESTION MARK:     (?) */
+>> +	case 0x005C: /* BACKSLASH:         (\) */
+>> +	case 0x007C: /* PIPE:              (|) */
+>> +		return true;
+> For the continuous range 0x0000 to 0x001F, I think it's better to
+> handle it like below, which avoids the large jump table, and may be
+> just as fast(or even faster).
 >
-> We can determine whether the default upcase table is being used, rather
-> than checksum, by checking `is_default` and the number of entries.
->
-Hmmm.. I can read between the lines. I get what you're saying.
+> 	default:
+> 		return wchar < 0x0020;
+I guess you're right.
 
-I have to admit, I realise now that the idea of `is_default` was rather
-stupid. Even with the algorithm you suggested, I've found that there are
-some corner cases that would have been missed.
+That costs one extra cmp instructions but still fits under a cache
+granularity on modern hardware(64 bytes) so it wouldn't really show up
+in profiling. Better to avoid risking compiler mindlessly producing a
+huge jump table.
 
-The look up op will definitely add a few milliseconds to the mounting
-process. Let's not do that.
-
-The thing is, we're probably giving too much love to the codepath that
-will (probably) never be executed in production. No sane formatter will
-ever use non-default table. We can even assume that volumes with
-non-default upcase tables are probably with malicious intent. I have no
-real-world data, though. If anyone can prove that there is indeed an
-exfat formatting util that uses non-default upcase table, I'd like to be
-enlightened, please.
-
-Anyway, we're stuck with the specs and so we have to do our best to find
-the common ground. How about removing `is_default` and just checking
-`utbl_checksum == EXFAT_DEF_UTBL_CHKSUM` for non-default fallback? That
-should be more than enough. I don't think other implementations actually
-bother to use the upcase table in the first place.
-
-Anyway, my patches will have to wait whilst Jeon is trying hard to get
-iomap settled down in the mainline. In the mean time, I will continue to
-contribute from userland as much as possible.
-
-Regards,
-Davo
+Either way, still a win since the processor no longer has to iterate
+over the array.
