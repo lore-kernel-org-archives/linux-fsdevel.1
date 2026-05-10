@@ -1,105 +1,89 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F0D1A682C;
-	Sun, 10 May 2026 06:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0963E31F99C
+	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 07:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778395756; cv=none; b=CWZ7KOMB80I8Csk7YnAxq+BYvu/pO3KGSpN0lQg1qLcyACu1wV68Ey+r+cvVdwmh1iJwkB7PrPzyiBJY5ddc3whWj0oFLJ3fLu+FYhm6PFQKRzrWWm5IniivrB+z8e5X9Qqjw1i1F1+bvgTPinakqNzvtZZgfln8rdeCqpMZMb8=
+	t=1778399195; cv=none; b=nMeSq4V3Z/WppMwTwMYK9UKP3T8aqgqlMMcQOc2zlyhI+HGRr3fG6vWTmvtlkTzjvIBjWjwFAUpSD94mHTXuJLVBZphgejq3cidd5Wv1mGYRSLV033Mn/ghuCjlD+2oTKgv4kRKGYInSNrJe11/eVBpB2DH6AS3HNFlTkbYiAQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778395756; c=relaxed/simple;
-	bh=EzWGUfdYQiOout0YGYrTVDE/d950ERQgy6ztJqCnLAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=udp9G83oA8YolI1XzSsAAIA8LvBi6ONcjl8uXkK7m24DZ7og/19Xmg5oKaqHWb6f/+qBQQSeGekoqewOgNGPLc59ucJ7zoMONkHXONdiBhaTdzXDMplip4h4vMJ+bP0+7bJ+DRoYoU4HKvoTmBauZhSQLx+F4luoNgpHLvFQ0Mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=V6ssRhYl; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1778399195; c=relaxed/simple;
+	bh=F93aXlNsHQJS7hEypebdb2l7YqYczrdys/+BlpWOHmo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MVEl/qHo5LYpXvMArUY7+jMfnIEPIfrfAG/lHRpIbfEcFrfLvDPxnfBYM9C9lZnU+3aM+pz8wmgruKapGuOI7IfUAiEdBwNEAW1vF2eIK5j/Md3z0Cpt65/UEYqkeS03qjny5yH5y7jIU5ZNVZO+2Xz+wHFsL82k2PrT0D/07ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OvFgY/tm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="V6ssRhYl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=M6
-	OZnrQ9NTeHYNCkVb0G8z8BWsRuRZ5gWA3G+JUn7e8=; b=V6ssRhYlEaEe3sy+zi
-	8QYJ5qLm/MHBATW+V8hI7DsjTWLV4mAFZhAoGW39pTCjwFXo/CRs1SE/nAX1OHhM
-	h2OGIOAsxLZ4ZyzosfFn+XD1lt8G05UxW+IvhVC1RHbYasfCFAMjAG8FuV5kZp2N
-	cexFV8nkjktvvpGPeMJ+NxGVU=
-Received: from czl-ubuntu-pc.. (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wC3s+5IKgBqZG8YAg--.60749S2;
-	Sun, 10 May 2026 14:48:41 +0800 (CST)
-From: Chi Zhiling <chizhiling@163.com>
-To: linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: brauner@kernel.org,
-	djwong@kernel.org,
-	hch@lst.de,
-	sj1557.seo@samsung.com,
-	yuezhang.mo@sony.com,
-	Chi Zhiling <chizhiling@kylinos.cn>,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH] iomap: add dirty page control to iomap_zero_iter
-Date: Sun, 10 May 2026 14:47:37 +0800
-Message-ID: <20260510064737.437597-1-chizhiling@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OvFgY/tm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA39C4AF0B
+	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 07:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778399194;
+	bh=F93aXlNsHQJS7hEypebdb2l7YqYczrdys/+BlpWOHmo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=OvFgY/tmFMecYrdncV2JyeZpL2PJp31PwC1mSzfw7zeOWxAVAQrUchnkxPWIRj2ac
+	 LXwVZK3rtfmCPnmGHHlNU4MWaJ6q1n71ObjTkp/eCRj+zxCPDwJ/SkS8MgIpcO3ryM
+	 FDHSUgZ1Qut+F0NBQOutqvRuv8BibzAyhz4qT8EJN5vpGEACqdSHMzHO8aMu9zgsMp
+	 LGdFjwzBNm579AVGwOJAEL8EbW8wg1mP8m916dQ8h/+Xp//VCoRLwkONJHujjFbI6o
+	 OjppHPJsu6yXkYX2GMRDYU74+zZJ0vvJ15cgTCfzJiiSx+MyZ0OY5+VwF+skoYPIpE
+	 a14lY43pJQj6g==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67bc6098640so5215134a12.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 00:46:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8+symwnzsFI0bJLT1DgpGgf1LQtIFfdfQOBGQvTr8P51AdJi7qNOvA8D1Fp2b7MDuLKUthLa+uQELlA6ct@vger.kernel.org
+X-Gm-Message-State: AOJu0YypZB8S+9ET8gK/ynL1D7Vb7/+I8wkvUgfWFMJr1ksrEW9ldKfj
+	n7GdFNcXVuQeTV+PAzZgWLQ2a6eZ9fEX+VZ9IBQvNgucuIz7cPuAGCeDzTiJc/2TlCtw8I/DKvV
+	54q9CeNLVGW0umZEMfxsquqgRcj0f0i0=
+X-Received: by 2002:a05:6402:913:b0:67c:d93d:89ce with SMTP id
+ 4fb4d7f45d1cf-67d648ab8damr9091696a12.23.1778399193285; Sun, 10 May 2026
+ 00:46:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wC3s+5IKgBqZG8YAg--.60749S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tFy3tFyxAr4xXFWUuF1xZrb_yoW8AF45pF
-	Z5KF4vkr4xX3yxZFs7CF95Zryjvan3Gr47G3yYg3y5A398ZF1jyr1qgFW293Wxtryjkr1Y
-	vr4q934xtr1UArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jjQ6JUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3Ao31GoAKkplfgAA3k
+References: <20260510021311.3995015-1-charsyam@gmail.com>
+In-Reply-To: <20260510021311.3995015-1-charsyam@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sun, 10 May 2026 16:46:19 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-8grj+VsrA_9=mNL+dQ7W7V9ZKmhKU3nkB=hXh5LuVpw@mail.gmail.com>
+X-Gm-Features: AVHnY4KT3SnIDQhn_m-qWNiqvtt9xCjUaOsjPOm_UCKBYQs9W9vs_huMIe8DrjE
+Message-ID: <CAKYAXd-8grj+VsrA_9=mNL+dQ7W7V9ZKmhKU3nkB=hXh5LuVpw@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: fix empty_buf and ra lifetime bugs in ntfs_empty_logfile()
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chi Zhiling <chizhiling@kylinos.cn>
-
-This patch prepares the iomap framework for exFAT's upcoming migration to
-iomap. During testing of the exFAT iomap branch with xfstests generic/299
-on a VM with 8GB RAM and a 40GB disk, system unresponsiveness was observed.
-
-iomap_zero_iter() lacked dirty page throttling, which could cause memory
-pressure when exFAT's valid_size mechanism triggers large-scale zeroing
-operations during writes beyond valid_size.
-
-Align iomap_zero_iter() with iomap_write_iter() by adding
-balance_dirty_pages_ratelimited() to throttle dirty page generation during
-large zeroing operations. Also add cond_resched() to provide voluntary
-rescheduling points during long-running loops.
-
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
-Cc: Namjae Jeon <linkinjeon@kernel.org>
----
-
-exFAT iomap migration:
-https://lore.kernel.org/linux-fsdevel/20260507124238.7313-1-linkinjeon@kernel.org/
-
- fs/iomap/buffered-io.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index d7b648421a70..f6955786c8ad 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -1543,6 +1543,8 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
- 		size_t offset;
- 		bool ret;
- 
-+		balance_dirty_pages_ratelimited(iter->inode->i_mapping);
-+
- 		bytes = min_t(u64, SIZE_MAX, bytes);
- 		status = iomap_write_begin(iter, write_ops, &folio, &offset,
- 				&bytes);
-@@ -1571,6 +1573,8 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
- 		if (WARN_ON_ONCE(!ret))
- 			return -EIO;
- 
-+		cond_resched();
-+
- 		status = iomap_iter_advance(iter, bytes);
- 		if (status)
- 			break;
--- 
-2.43.0
-
+On Sun, May 10, 2026 at 11:13=E2=80=AFAM DaeMyung Kang <charsyam@gmail.com>=
+ wrote:
+>
+> ntfs_empty_logfile() has three related allocator bugs around the
+> @empty_buf and @ra buffers it uses inside the per-cluster loop.
+>
+> When the loop encounters a runlist entry with LCN_RL_NOT_MAPPED, the
+> function kvfrees @empty_buf and goes to map_vcn to remap.  @empty_buf
+> is not cleared.  If ntfs_map_runlist_nolock() fails on re-entry,
+> control jumps to the err label which kvfrees @empty_buf a second time.
+>
+> In the same branch, @ra is left allocated.  When the remap succeeds
+> the function falls through the @empty_buf re-allocation and the @ra
+> re-allocation, overwriting the previous @ra pointer and leaking it.
+>
+> The success path frees @empty_buf with kfree() instead of kvfree().
+> kvzalloc() may fall back to vmalloc(), in which case kfree() does not
+> correctly release the memory.
+>
+> A KASAN-enabled QEMU harness mirroring this control flow reports
+> "BUG: KASAN: double-free" when the second ntfs_map_runlist_nolock()
+> fails.
+>
+> Clear both @empty_buf and @ra after the in-loop releases so the err
+> path is a no-op when the buffers have already been freed and so the
+> remap-success path does not leak the previous @ra.  Switch the success
+> path to kvfree() to match the @empty_buf allocator.
+>
+> Fixes: 5218cd102aec ("ntfs: update misc operations")
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
