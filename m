@@ -1,89 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0963E31F99C
-	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 07:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80D6286A4
+	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 12:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778399195; cv=none; b=nMeSq4V3Z/WppMwTwMYK9UKP3T8aqgqlMMcQOc2zlyhI+HGRr3fG6vWTmvtlkTzjvIBjWjwFAUpSD94mHTXuJLVBZphgejq3cidd5Wv1mGYRSLV033Mn/ghuCjlD+2oTKgv4kRKGYInSNrJe11/eVBpB2DH6AS3HNFlTkbYiAQg=
+	t=1778417138; cv=none; b=Klrzh3MYiMFcROGu7fc/oV/VJ8Ph/pcwKrqmL5rR3zTnv/26xQjJcslXQZhHFVHAaYRCiB4YvO/n+2aqsW0ZKZX7gn/hi02Px/V6ut9CtDrY+Q7rdCnnzEcnqnpg0iH3xzD/EnK7ijdBFwBh0ZbLPZkJu1+QfRQp7VRirfutFPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778399195; c=relaxed/simple;
-	bh=F93aXlNsHQJS7hEypebdb2l7YqYczrdys/+BlpWOHmo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MVEl/qHo5LYpXvMArUY7+jMfnIEPIfrfAG/lHRpIbfEcFrfLvDPxnfBYM9C9lZnU+3aM+pz8wmgruKapGuOI7IfUAiEdBwNEAW1vF2eIK5j/Md3z0Cpt65/UEYqkeS03qjny5yH5y7jIU5ZNVZO+2Xz+wHFsL82k2PrT0D/07ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OvFgY/tm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778417138; c=relaxed/simple;
+	bh=X/hFAuublZo3137FXmtleJGVotYYNrBYRLCfqdxFdXc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eihoGcK50d1wHr6P7tsuuAe1MePcJJBb6qyx5fcFnHL7g8Nf7ktHqMPSbqo7nmQm/tMoKPxuRxS99t+ITxynvVwJzz9EeyBo1GTeORfqfZnTsHVxyBjM/uAJIEIAxzEii6E7szb6uS7nicnFsvMsRdh+HJWwfcrozdXRX+Ec6SE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bKb4u5/f; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OvFgY/tm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA39C4AF0B
-	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 07:46:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778399194;
-	bh=F93aXlNsHQJS7hEypebdb2l7YqYczrdys/+BlpWOHmo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=OvFgY/tmFMecYrdncV2JyeZpL2PJp31PwC1mSzfw7zeOWxAVAQrUchnkxPWIRj2ac
-	 LXwVZK3rtfmCPnmGHHlNU4MWaJ6q1n71ObjTkp/eCRj+zxCPDwJ/SkS8MgIpcO3ryM
-	 FDHSUgZ1Qut+F0NBQOutqvRuv8BibzAyhz4qT8EJN5vpGEACqdSHMzHO8aMu9zgsMp
-	 LGdFjwzBNm579AVGwOJAEL8EbW8wg1mP8m916dQ8h/+Xp//VCoRLwkONJHujjFbI6o
-	 OjppHPJsu6yXkYX2GMRDYU74+zZJ0vvJ15cgTCfzJiiSx+MyZ0OY5+VwF+skoYPIpE
-	 a14lY43pJQj6g==
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67bc6098640so5215134a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 00:46:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8+symwnzsFI0bJLT1DgpGgf1LQtIFfdfQOBGQvTr8P51AdJi7qNOvA8D1Fp2b7MDuLKUthLa+uQELlA6ct@vger.kernel.org
-X-Gm-Message-State: AOJu0YypZB8S+9ET8gK/ynL1D7Vb7/+I8wkvUgfWFMJr1ksrEW9ldKfj
-	n7GdFNcXVuQeTV+PAzZgWLQ2a6eZ9fEX+VZ9IBQvNgucuIz7cPuAGCeDzTiJc/2TlCtw8I/DKvV
-	54q9CeNLVGW0umZEMfxsquqgRcj0f0i0=
-X-Received: by 2002:a05:6402:913:b0:67c:d93d:89ce with SMTP id
- 4fb4d7f45d1cf-67d648ab8damr9091696a12.23.1778399193285; Sun, 10 May 2026
- 00:46:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bKb4u5/f"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b0046078so27896735e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 05:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778417135; x=1779021935; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kdhWyaWXzaWwO4E5O8KkAS5mbQAZBKf8kRalyM8PNnw=;
+        b=bKb4u5/fLKbqRpG3iQrNaE6bt+UKYRAsMmCVWsgU51dSdH6K/yHBXipeR1gwX0aOGO
+         0nFOnceXnd+pHZYkZsnwLiXXBgGKeXESG3rv7H+zzCTYR3S5Ftus4HK6czh98KLlok7l
+         kR+P57y9DrPv82p1j2JgB4pLQagJik5HDCAi1e9JHQBcLRpsZqEzzNuYfZGUqjtgrgzr
+         xcGxVXASLzYfRE/Qf5hyS+zGPvwQj1HYKmcMQY8Uk3PpHjJHNHH4mkj5YxaHFO3rMlHl
+         GZbD5B4JZH5DQ5ldlUk/T5CKF/PuBO8+LrnUF54ehgSCLp4xgU9NviZcvWLf2/b+ZJzz
+         w92g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778417135; x=1779021935;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kdhWyaWXzaWwO4E5O8KkAS5mbQAZBKf8kRalyM8PNnw=;
+        b=A99B+45na40bwCCMcU3tjlw6WE89AmeyrhdFJ/XRbg0MEeZnVMSBNsUDcZdswKRGIu
+         Gxm8QH3ZLWq0/eUFziZs7LMsQURXt6sZPKMEOrPUocI2ei9x7zqHPQ+eusj63V+B/Rgd
+         nJ+J37yfVB9GhGtMtWFI0DrZOkxksRKW2QBQfbJzWRvftH9oBWZCVHmeDvcCpNGttoAb
+         TssgyTg8OglSA0KTrBiyx0kk4mAfWubl1wZHmD6AXIPpv7CZ20h9UOCVmh6bkAOuYu8O
+         8DHtadstjkJj3oAL22vkNnVY1jgOoB4zeA71C1mc8uSMky42NFobyF2nqICkVgBnyqxw
+         UIUg==
+X-Forwarded-Encrypted: i=1; AFNElJ8Oq35A6j9/tlc724i2aBg3IgafiGNNeQeHwugCZtGvDxaGYEr8rfd5JiLLUyfACzjS1LP2xkFX9t+NxYvH@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVO44ENL0r1e92KNl6TOkU1PBwjGe8mrL+oFXbd8XmpL9RFW+D
+	NKglqDHjOzKoG8CuPO5Q5jTK59NzXKjcs3l+hC+zoKPO1L9pl0iZvu9t
+X-Gm-Gg: Acq92OEJlu908+EYrxPAeqkwdZe30edCSy9XG7Hg1EHhifwbfsOGChYndhqNLLnueMf
+	hJUoTVrRjEbivRGNXup/9bZ83F7JhF6Ly1KKmRyfGH+u0endJ3NHNtCe8i1T3OvPeqPUICOD4AZ
+	22NyoacfIXxk+EZUt9d2D+5rTOwq5OKkWVIO2fOmLDyilGU8rbBBPa+nmWzWrcw4sWgTITu0kyB
+	Q2PEr0CS8yqwUgEsQX3D2oVJLpnTdbKvo8bu0fYfkj/HvnsVnHbIMBmYDEmKI/8ZfWHnvmt86L1
+	FaNNULC3YBgc0r+ERUgNbqTsurNmrSVdcHYbgErlntneaGyM3bZIVmvO5tJsLmdBKKwUsZmsZNl
+	/p+s0j9mSW0PqbZW59iYdFl6XBPya4kcjPxtsi5JrlOazLRRVWSq0F1+RoYFP7YSS38afyc5de+
+	82r9/WAdhMDQQdFtJEezYnRfwDEjxhh1vZ6s56bbwOy4Tjodcn
+X-Received: by 2002:a05:600c:4695:b0:48a:76a3:2b9b with SMTP id 5b1f17b1804b1-48e706b26fdmr93427255e9.17.1778417135052;
+        Sun, 10 May 2026 05:45:35 -0700 (PDT)
+Received: from fedora ([94.119.44.1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491bae13csm18186868f8f.29.2026.05.10.05.45.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 05:45:34 -0700 (PDT)
+Date: Sun, 10 May 2026 13:45:32 +0100
+From: Vishal Moola <vishal.moola@gmail.com>
+To: fujunjie <fujunjie1@qq.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Haoran Zhu <zhr1502@sjtu.edu.cn>
+Subject: Re: [PATCH v3 1/2] mm/filemap: count only the faulting address as a
+ mmap hit
+Message-ID: <agB97DSWxaS-z093@fedora>
+References: <tencent_AA501E9A238337BD167E5C2ACF948A1AF308@qq.com>
+ <tencent_756F151FE66F3D80479A6F982C0AB8569F09@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260510021311.3995015-1-charsyam@gmail.com>
-In-Reply-To: <20260510021311.3995015-1-charsyam@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Sun, 10 May 2026 16:46:19 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-8grj+VsrA_9=mNL+dQ7W7V9ZKmhKU3nkB=hXh5LuVpw@mail.gmail.com>
-X-Gm-Features: AVHnY4KT3SnIDQhn_m-qWNiqvtt9xCjUaOsjPOm_UCKBYQs9W9vs_huMIe8DrjE
-Message-ID: <CAKYAXd-8grj+VsrA_9=mNL+dQ7W7V9ZKmhKU3nkB=hXh5LuVpw@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: fix empty_buf and ra lifetime bugs in ntfs_empty_logfile()
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_756F151FE66F3D80479A6F982C0AB8569F09@qq.com>
 
-On Sun, May 10, 2026 at 11:13=E2=80=AFAM DaeMyung Kang <charsyam@gmail.com>=
- wrote:
->
-> ntfs_empty_logfile() has three related allocator bugs around the
-> @empty_buf and @ra buffers it uses inside the per-cluster loop.
->
-> When the loop encounters a runlist entry with LCN_RL_NOT_MAPPED, the
-> function kvfrees @empty_buf and goes to map_vcn to remap.  @empty_buf
-> is not cleared.  If ntfs_map_runlist_nolock() fails on re-entry,
-> control jumps to the err label which kvfrees @empty_buf a second time.
->
-> In the same branch, @ra is left allocated.  When the remap succeeds
-> the function falls through the @empty_buf re-allocation and the @ra
-> re-allocation, overwriting the previous @ra pointer and leaking it.
->
-> The success path frees @empty_buf with kfree() instead of kvfree().
-> kvzalloc() may fall back to vmalloc(), in which case kfree() does not
-> correctly release the memory.
->
-> A KASAN-enabled QEMU harness mirroring this control flow reports
-> "BUG: KASAN: double-free" when the second ntfs_map_runlist_nolock()
-> fails.
->
-> Clear both @empty_buf and @ra after the in-loop releases so the err
-> path is a no-op when the buffers have already been freed and so the
-> remap-success path does not leak the previous @ra.  Switch the success
-> path to kvfree() to match the @empty_buf allocator.
->
-> Fixes: 5218cd102aec ("ntfs: update misc operations")
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-Applied it to #ntfs-next.
-Thanks!
+On Tue, Apr 28, 2026 at 01:59:43AM +0000, fujunjie wrote:
+> filemap_map_pages() reduces file->f_ra.mmap_miss when fault-around maps
+> folios that are already present in the page cache.  That hit accounting
+> is too generous because fault-around can install PTEs around the
+> faulting address even though the fault only proves that the faulting
+> address was accessed.
+> 
+> Move the mmap_miss update back into filemap_map_pages(), drop the
+> mmap_miss argument from the helper functions, and decrement mmap_miss
+> only when the helper return value shows that the faulting address was
+> mapped.  Keep the existing workingset-folio behavior unchanged.
+> 
+> Signed-off-by: fujunjie <fujunjie1@qq.com>
+> ---
+
+Reviewed-by: Vishal Moola <vishal.moola@gmail.com>
