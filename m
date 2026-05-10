@@ -1,28 +1,28 @@
 Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822783115AF
-	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 22:58:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4856C2D6E44
+	for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 23:10:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778453924; cv=none; b=Wy/fha1xV0luWSabUHlG7yKPmd/pUPVUniItBupkUKH5YZ5s6fxv0PHZkr5ANlIA2bjjDYlkfJUIyQm7/LmEQXeb3LdnDJoMBSFRULhgm2heTwiQiFSnbayhchywcMytuM3qUc8kOxhj2DF7lfe1vneyBXwUOugFJmrSgVF1FJY=
+	t=1778454659; cv=none; b=k46muA7fh09yXYVUPxElLsikoEWrbRdg78jSIpqxEMh9aGNpXh7S6SnRABr6lN8LS70iHj/m+gLA7LOojELvC5GTO+aHiLq8xoW35I5UnxlsJcI4RHBJmZ9oT9M/L8eH1BE20b5UJp1ShMNMNvCg3Gq6m4wZNJAc1+u16P9PnkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778453924; c=relaxed/simple;
-	bh=qAHOtAgNceqBfUPVmqWDFR0iHUrKuFs1Mp9iN+JfYug=;
+	s=arc-20240116; t=1778454659; c=relaxed/simple;
+	bh=6/c5LqMmAk5VpCdr/Ih3iXfV90miT/TIVykfSYFaE+s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PZmGgA7R33tLkTslx7EvZNtMuPwhPiShLp5s8kdhNxWVjUm+gLsJfmvzC/SoIlRqo1X4OgTcPWMgkJZW8hzdV0Iw6W3D1TSn75NO6H+S9WnClsxk2EloGIjc71xQdEojT/DF1XXecbY8IZZ/4QbCSw3GjGai57EzaHg3AMlqYRo=
+	 In-Reply-To:Content-Type; b=c3f2RSJ3n3xBRkROnME3tV5fRANaYMQuGSh3qOjceR3HeN9jjcoOwYWm4PON7sH+t6m7ChD3OL3wTWdQaRIBrv7jFEZxUz2xXoE28L+CzedQ0g4I1YFWt42wukvD8+0WNyKUYZWdZED5ycvAqASbiW3C0lVfFpLrp5dv59u83ZY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; arc=none smtp.client-ip=54.252.183.203
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Received: from embla.dev.snart.me (localhost [IPv6:::1])
-	by embla.dev.snart.me (Postfix) with ESMTP id 7408B1D490;
-	Sun, 10 May 2026 22:58:41 +0000 (UTC)
+	by embla.dev.snart.me (Postfix) with ESMTP id 21B551D490;
+	Sun, 10 May 2026 23:10:55 +0000 (UTC)
 Received: from [192.168.1.18] ([182.226.25.243])
 	by embla.dev.snart.me with ESMTPSA
-	id 9H67CaENAWoGMgMA8KYfjw
-	(envelope-from <dxdt@dev.snart.me>); Sun, 10 May 2026 22:58:41 +0000
-Message-ID: <9a4f44b0-ec1a-4bb0-bd58-37f470b6a595@dev.snart.me>
-Date: Mon, 11 May 2026 07:58:40 +0900
+	id OU4KMH8QAWrSMgMA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Sun, 10 May 2026 23:10:55 +0000
+Message-ID: <32708b03-cc11-4154-af4f-d84d5234dfcc@dev.snart.me>
+Date: Mon, 11 May 2026 08:10:54 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -30,14 +30,13 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] exfat: optimise and refactor filename up-case
- conversion
+Subject: Re: [PATCH v1 3/3] exfat: fix memory leak (upcase table)
 To: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>,
  Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>
 Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <20260505123144.730782-1-dxdt@dev.snart.me>
- <20260505123144.730782-3-dxdt@dev.snart.me>
- <PUZPR04MB631684B809F703C8D62D3B59813C2@PUZPR04MB6316.apcprd04.prod.outlook.com>
+References: <20260505122808.728020-1-dxdt@dev.snart.me>
+ <20260505122808.728020-3-dxdt@dev.snart.me>
+ <PUZPR04MB6316EA20F9C7618B53803AD3813C2@PUZPR04MB6316.apcprd04.prod.outlook.com>
 From: David Timber <dxdt@dev.snart.me>
 Content-Language: en-US, ko
 Autocrypt: addr=dxdt@dev.snart.me; keydata=
@@ -49,53 +48,25 @@ Autocrypt: addr=dxdt@dev.snart.me; keydata=
  EmpavMO0pYjtu7TMJynwdnGYkN9LAwEIB8J4BBgWCgAgFiEEJ/yZ/ehDFGiKBV/k/5Xcsq2a
  VmgFAmJiYNYCGwwACgkQ/5Xcsq2aVmhFCwEA0kM9VyYB4bLCM7+SuXUUH+5Ec99Nj4RXxFad
  Key9GuwA/2BZK6bNyrLSfEk2JDRoskqf7OIL0wa6JOD5SrBnMe8E
-In-Reply-To: <PUZPR04MB631684B809F703C8D62D3B59813C2@PUZPR04MB6316.apcprd04.prod.outlook.com>
+In-Reply-To: <PUZPR04MB6316EA20F9C7618B53803AD3813C2@PUZPR04MB6316.apcprd04.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 5/7/26 21:03, Yuezhang.Mo@sony.com wrote:
->> +static inline bool exfat_illegal_chr(const unsigned short wchar)
+On 5/7/26 21:04, Yuezhang.Mo@sony.com wrote:
+>> @@ -802,6 +803,7 @@ static int exfat_get_tree(struct fs_context *fc)
+>>
+>>  static void exfat_free_sbi(struct exfat_sb_info *sbi)
 >>  {
->> -	while (*str) {
->> -		if (*(str++) == wchar)
->> -			return str;
->> +	switch (wchar) {
->> +	/*
->> +	 * Control characters
->> +	 *
->> +	 * This saves some cmp instructions if the compiler does its job correctly
->> +	 */
->> +	case 0x0000: case 0x0001: case 0x0002: case 0x0003:
->> +	case 0x0004: case 0x0005: case 0x0006: case 0x0007:
->> +	case 0x0008: case 0x0009: case 0x000A: case 0x000B:
->> +	case 0x000C: case 0x000D: case 0x000E: case 0x000F:
->> +	case 0x0010: case 0x0011: case 0x0012: case 0x0013:
->> +	case 0x0014: case 0x0015: case 0x0016: case 0x0017:
->> +	case 0x0018: case 0x0019: case 0x001A: case 0x001B:
->> +	case 0x001C: case 0x001D: case 0x001E: case 0x001F:
->> +
->> +	case 0x0022: /* QUOTATION MARK:    (") */
->> +	case 0x002A: /* ASTERISK:          (*) */
->> +	case 0x002F: /* FORWARD SLASH:     (/) */
->> +	case 0x003A: /* COLON:             (:) */
->> +	case 0x003C: /* LESS-THAN SIGN:    (<) */
->> +	case 0x003E: /* GREATER-THAN SIGN: (>) */
->> +	case 0x003F: /* QUESTION MARK:     (?) */
->> +	case 0x005C: /* BACKSLASH:         (\) */
->> +	case 0x007C: /* PIPE:              (|) */
->> +		return true;
-> For the continuous range 0x0000 to 0x001F, I think it's better to
-> handle it like below, which avoids the large jump table, and may be
-> just as fast(or even faster).
->
-> 	default:
-> 		return wchar < 0x0020;
-I guess you're right.
+>> +       exfat_free_upcase_table(sbi);
+> exfat_free_upcase_table() has already been called in delayed_free(), so it is
+> not needed here.
+Upon further inspection, I realised why exfat_free_upcase_table() is
+called in delayed_free() and I'm terrified. With the current
+implementation, the upcase table mustn't be freed there. I apologise.
 
-That costs one extra cmp instructions but still fits under a cache
-granularity on modern hardware(64 bytes) so it wouldn't really show up
-in profiling. Better to avoid risking compiler mindlessly producing a
-huge jump table.
+Everyone will agree that leaving stale objects should be avoided if
+possible. Yes, there's lock dependency problem, but I think someone has
+to fully understand it in order to remove delayed_free(). I'll put it on
+my list and revisit this in the future.
 
-Either way, still a win since the processor no longer has to iterate
-over the array.
+The leak condition in fill_super() is legit and needs to be fixed, though.
