@@ -1,103 +1,99 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA25383317;
-	Mon, 11 May 2026 22:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFAC30F932
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 22:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778538106; cv=none; b=OI6FkUyj5+JiIH3ssPx2/jhNo7Cz/pKuAFzTtQ9O6GAwlqJthWTJ8pkYleQhfAmfmcm9ZiFeWXif3uPfLnz0AOrcNe6fjXKp9uDJB0veUNIWrXeQ0ckZi/nByKvzliKocahOmgBogeK2cMgns7nBr8FjmVjZHyDc4L4oQ/kyJh8=
+	t=1778540138; cv=none; b=shsKGuF854kbW3HdgZJLDzOpBrfsVGJUUVhgOUFebLWh70a/WW9/LcrxVbI1+utliD+OfZS5E7qTzA2UsPwQyh36G3yDqo07ezl8URDWXhgE6jlZ3/mVWYsXgKXhRk+mFRGRnNss/8xFvdM+0YHRPouCoPKmJUB8UQ9xyH2EqX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778538106; c=relaxed/simple;
-	bh=z8jiOo7+jYCsDdLnV3GXjFgS61FPo80iHnorZ4/Usvk=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Date:Message-id; b=hvJqJ2d30ggGv98XBAWWzd5OQVaDFhie04jH3Tr5ST9IYreudtZTMLfd5Kcw0/gT0pPCEH/KVWQw7tPbwKkP1Gk2zMcl0+g3WqAtXwPDh3bS53qPyJVvs8d5XFzFR6gINJMSEZNecQC622Eiw9XYVumEtoDYHOVsdQuZVvWO5+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=RHDVts0e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IPm4pQI6; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1778540138; c=relaxed/simple;
+	bh=k7+huYN+Isl3+3XaOrqHg4PkHeBCg5Za5yKe2jhgWR4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CfSE/TLWblrX7Y1JFwSrbAZ+GqEkEfnwSWIkDT7XaQ1d9lfSmRX3Tqdsoeggv7dlMc1ALNdvbqPwB7h23oc6WRNEr8ImOI57Jb+bzwCd3Wjw7lLmg4ytbtB1Yn1SpbeYx2QATWSXIKWHfsJpp+umcLpZkCEgPqefg3Dde0qjofQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FPJl/XD9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="RHDVts0e";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IPm4pQI6"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id F07FEEC03FD;
-	Mon, 11 May 2026 18:21:43 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Mon, 11 May 2026 18:21:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:reply-to:subject:subject:to:to; s=fm3; t=1778538103; x=
-	1778624503; bh=IMWd0WLw3jtma0HqBSj2VOSy1rNRG73XyOFa28rRrgA=; b=R
-	HDVts0eoGaw/z4cgpTjiXDBTgZllL4n2oAXCkVYRGoBYFdmWah2CFobQUoSv+miW
-	itv6wWPbTNMFVzQ/DAKuMgiCNFnSqNAr2fixKDfRHzsfXSIcuaAgkAl+9mPtzCP1
-	OG7+duqllgj9/oKjCYOwluhdrHdOJJ2v6YVidzoy+XEUI80xbQTP1jqyKJAE+AMk
-	HPvOHd7vguTNc3/kk4fcqD40xWe8aAEHRg0fv3n166COwJD664ad1JMZDujj4N4j
-	qO5PPsxFp8kQrM6GPkfJkR408m+NjQuGeEQZSXquTWygOmeKsKpYmVaAEuSceao5
-	kUsogRNuRxQ2khPRhR2Nw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:reply-to
-	:subject:subject:to:to:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1778538103; x=1778624503; bh=IMWd0WLw3jtma
-	0HqBSj2VOSy1rNRG73XyOFa28rRrgA=; b=IPm4pQI6ERYIetrgcXkoETokL1Gdt
-	+5VmKFFXQ8ZQzcweB/LcT3TURMQpzfd7/tkY1fLLcsEEPJzNT45wmK2kYbsMfbff
-	P99Cp2HEQS5zXa7A/1UXL8G6Rth4B+xgdyZvkJcCTM00/R/B1oFoN7EDF3/uv02D
-	/i9CsbM2/N0rUenRx4A/n1cex9F7rs/jg72jA2xQU7Xu6oQzl1mVPrGuXhJVje6q
-	mjDicDphUNcdZ1QmlC+6SwNlYibhgxf/TCmwO1cvJpeGFVUebu+mU1CUoxNkcr3Q
-	DPV5y2mgd3w53dzmW/gE5WBM4y3ikJj62UQb6A765y+DDeSNvBaayKJNw==
-X-ME-Sender: <xms:d1YCajGaF_haC6yI2VgN2JFETtsLJ4r8OVRcF_89jZ_bv-L9dVRpow>
-    <xme:d1YCaoEwi2JKR_03ObsICGqbq9qZA2YThJ2pADAq8VTSrAjsrYsYD9m1l6Xarl8Ah
-    WwiyQp-9rDhgaEN5BfJs08PxJBkLXcZ4fJ5WI8eLOclZd6DZA>
-X-ME-Received: <xmr:d1YCaoMIJQLMF7_sqep7MX72niecxgiNSM7Q2DJ_ihOftNJwR2qAQRBrj-3TzboDOWDEMFl8Th_9ryxIRKG1aO5GWgT0fpg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvddtuddvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufffkfhrsehtjeertddttdejnecuhfhrohhmpefpvghilheurhho
-    fihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnhepff
-    ejfeegueefveejudegjeeivdekjeeffeelveefveetgffgffeivdekvdfggfdunecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhgvihhlsgesoh
-    ifnhhmrghilhdrnhgvthdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:d1YCavHSv6y8SBImRSoIN57vGwDxWa9u-htNyxWIsL0eP1yRvweB3w>
-    <xmx:d1YCanNgMMdYrb6UjBjGwkDvGJ2FGSaESfrGx3FE_BiCIlLMOYJkdQ>
-    <xmx:d1YCao8jc00Uy1iiNC_GA6AP_oilLc3rZZ_8KA92b7ENWWgfFPtBPA>
-    <xmx:d1YCarSrtqPnCo3o20H0wOYO0ZyBYeJwMJO_yAjJXfMrxkFa4T4_OA>
-    <xmx:d1YCavX4_B6whNU71-GMvcTqbe2oIb502KVKnfOmrkHLCM23JNqPZTF5>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 18:21:42 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FPJl/XD9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 371FEC2BCB0;
+	Mon, 11 May 2026 22:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778540137;
+	bh=k7+huYN+Isl3+3XaOrqHg4PkHeBCg5Za5yKe2jhgWR4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FPJl/XD9YNgm4poMduNbp994nTzlddq22RiO3DhcMOESD5SAMU4BK7+V5ia7oOyh1
+	 MnnUAOPqijR6MnlEdAJVdAXoO7KMWNUs/4bBZf++nOjBivBgD59k3/gj37SXoXb7LO
+	 ZJdEaLRL63rxWvc41v55dufvfMdiZtCZ5ZuFNSH3EgWzw5q9WK5Z7Aq3P0Qo5BKRPd
+	 H8t74Imi2BA8mjTvPAinYHzPBdhcZ02M96lMlM9w455c5aXqm394E7g0pY3eIDu937
+	 LMM+DOPjGD6HPZvk35jYnIMeFnbZhiQkk49Zmyp7qo8CxybNNe8wZpeydWaXFSOAFr
+	 643MdcvjHJV1w==
+Message-ID: <7ee40e26-252c-4199-8dfc-69746bd43746@kernel.org>
+Date: Tue, 12 May 2026 07:55:35 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
-Subject: try_break_deleg() and atomic_open()
-Date: Tue, 12 May 2026 08:21:40 +1000
-Message-id: <177853810078.2788210.11836979435758859096@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] zonefs: handle integer overflow in zonefs_fname_to_fno
+To: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Cc: Naohiro Aota <naohiro.aota@wdc.com>, linux-fsdevel@vger.kernel.org,
+ Alexey Dobriyan <adobriyan@gmail.com>
+References: <20260429205815.810952-1-johannes.thumshirn@wdc.com>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260429205815.810952-1-johannes.thumshirn@wdc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+On 4/30/26 05:58, Johannes Thumshirn wrote:
+> In zonefs the file name in one of the two directories corresponds to the
+> zone number.
+> 
+> Here Alexey reported a possible integer overflow in zonefs_fname_to_fno(),
+> where the parsing of the zone number from the file name can overflow the
+> 'long' data type.
+> 
+> Add a check for integer overflows and if the fno 'long' did overflow
+> return -ENOENT.
+> 
+> Reported-by: Alexey Dobriyan <adobriyan@gmail.com>
+> Signed-off-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+
+Applied to for-7.1-fixes, with the Fixes tag added.
+
+> ---
+>  fs/zonefs/super.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
+> index 9b646cb5335d..c3b497707f82 100644
+> --- a/fs/zonefs/super.c
+> +++ b/fs/zonefs/super.c
+> @@ -610,11 +610,15 @@ static long zonefs_fname_to_fno(const struct qstr *fname)
+>  		return c - '0';
+>  
+>  	for (i = 0, rname = name + len - 1; i < len; i++, rname--) {
+> +		long digit;
+> +
+>  		c = *rname;
+>  		if (!isdigit(c))
+>  			return -ENOENT;
+> -		fno += (c - '0') * shift;
+> +		digit = (c - '0') * shift;
+>  		shift *= 10;
+> +		if (check_add_overflow(fno, digit, &fno))
+> +			return -ENOENT;
+
+Note: I moved this hunk one line up, keeping "shift *= 10;" as the last line of
+the loop.
+
+>  	}
+>  
+>  	return fno;
 
 
-Hi Jeff,
- quick question (I hope).
-Should atomic_open() call try_break_deleg() on the directory
-when a create is pending?
-
-This seems a bit iffy because the VFS doesn't necessarily know if a
-create will happen before it calls ->atomic_open, so it cannot know
-if it needs to break the deleg or not.
-So maybe the individual ->atomic_open functions should do it?
-
-I'm looking at dentry_create() which calls atomic_open() is quite a
-different way to how lookup_open() calls it.  I'd like to change
-nfsd4 so it calls something a lot more like lookup_open() and in
-looking at what I would need to change, delegated_inode stood out.
-
-Thanks,
-NeilBrown
+-- 
+Damien Le Moal
+Western Digital Research
