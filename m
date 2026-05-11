@@ -1,73 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE16D3FFADC;
-	Mon, 11 May 2026 14:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2120E3FE67E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 14:57:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778511402; cv=none; b=asLXdIO0yo2kxZwWiathP4+DFEdHOC5rDf1rBoTfpFKnFqD1RpY0EnBN2WX56oTNs9K7qxcEp/DTGwWr4pQWH2rZy9YHOXkZYaN54P7l/epqYDV/Uaw9RrJVxNkx9nHSt9RepUHb+oEQTVF5Gxkj6ynN7XUtBGNYMftHUhHGs6Q=
+	t=1778511454; cv=none; b=sFB/IVDCARKV1T+Zs3H+OTgJ+AOsqbB4yzjY9vQi67/OqsHO5ZHUeFcLl6dyspPkntyMXc5+gx7YtzGdbnFFAQ9MR5klY9BaZVnlQuTFP3wyhudMMZT/GTY0MU6Heq9GihsM4uS8ExvhOmTGmIytRcrS+SG14FNl4xZtlFPmHh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778511402; c=relaxed/simple;
-	bh=RbMFSQRfHlsC61fn89QVW4CaFzV0E4rdaOIbFWO+Bzs=;
+	s=arc-20240116; t=1778511454; c=relaxed/simple;
+	bh=GhDXtWhXv1Pis9PPJuOpUzCtZVaIFCQzs5VQ5Dc8vuo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jpzjd+VagFE0lcyaXJWVTAGXqGn4Qtda2ZZSiXAoQfqhHMS+woHf2wCa0Zp0zoTlsvvGLZ0jEICI+EX0tvsAzfN9HPdtW0X2/OlV0M+mu7nKGSNV5L5WbOB1rpzIVWNjKHnfenKmcwyDVPihas8td5GyPWVFkeCpCMhLlzOHoOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JrsxxS6T; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=FTaMsqzgxD0vjFmLzDDVqR24Jv031WwuMQzDaQcVEz/RjLCQ0u6eOkVpgsW/6RbvHgIrptgZ4aEfpl050llZwpJTyHhENv5u/m7zxuwcXG8aBa4IbOSAmSSKNjiew4gGdFxHtwY3T3gxZe19fz+6tUpv1W7TGi7A3VpAtU1d/EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MoiR0Rq4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JrsxxS6T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8561DC2BCB0;
-	Mon, 11 May 2026 14:56:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MoiR0Rq4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA34C2BCB0;
+	Mon, 11 May 2026 14:57:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778511401;
-	bh=RbMFSQRfHlsC61fn89QVW4CaFzV0E4rdaOIbFWO+Bzs=;
+	s=k20201202; t=1778511453;
+	bh=GhDXtWhXv1Pis9PPJuOpUzCtZVaIFCQzs5VQ5Dc8vuo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JrsxxS6T6cY3TjCGu6OHQPrsLAOetrh6sLmIpD/hrlJl96QfexJKThlojmYOCSTAU
-	 /qHcK2fzEFC0oYhzm05gYE5qDnwlffSx8Gl+CqaGv5tgy3A7vRMdxsGEu3OnM84ymS
-	 Gn4Rg5EeYTMO1nGC5kroP+VBEu+opZFuUr3A9rzP0mSnHVt2gVkzsEzyjxcKHDxrSC
-	 GuYYGhy2A1JTdwhBpZPqIViHt4RHQesh62EM9BJWb3bDCmlkBW4/ci7W1G0HSgyALC
-	 yFqs4oGsJhc9QSVCc8QXQqXx3fJcMHcsWwCgO8wGV301WDDEA9+QgbVDx6mi3rE9Zk
-	 4fDN3Fp6oD7iA==
+	b=MoiR0Rq43CQa8zJedCf/tc9VsPJOhdl4bYtxYTY0Fe91cjxkzwlReXrkxiqbIODWr
+	 +lUfjnRp/MQwjzP+86uT7chvIj2EiHd9wxuQPFnFOTHJ5LVuJFB6qcl/MCeDAulXOY
+	 3VBQkt1/h81w5QYuljYCunX0XYeh/K7C8d5EzUWwz4uq2B/+KDsf0jywNknyJydoP3
+	 nbDljyGTEzaYFgKxp1I1kdclPqCMVpRG7AdtfbufJEUoIBiT93RLO8gheecD41Q3w4
+	 G7X3lLRchVTN0Jg0ZsODZZH47Hk9mPrP2x1/MTm2ACUTzUzBei3f7nG5f1AT2vswEP
+	 4BgQDg1fEYG1A==
 From: Christian Brauner <brauner@kernel.org>
-To: Chuck Lever <chuck.lever@oracle.com>
+To: djwong@kernel.org,
+	Namjae Jeon <linkinjeon@kernel.org>
 Cc: Christian Brauner <brauner@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	hirofumi@mail.parknet.co.jp,
-	linkinjeon@kernel.org,
-	sj1557.seo@samsung.com,
-	yuezhang.mo@sony.com,
-	almaz.alexandrovich@paragon-software.com,
-	slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	cem@kernel.org,
-	sfrench@samba.org,
-	pc@manguebit.org,
-	ronniesahlberg@gmail.com,
-	sprasad@microsoft.com,
-	trondmy@kernel.org,
-	anna@kernel.org,
-	jaegeuk@kernel.org,
-	chao@kernel.org,
-	hansg@kernel.org,
-	senozhatsky@chromium.org,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Roland Mainz <roland.mainz@nrubsig.org>,
-	Steve French <stfrench@microsoft.com>
-Subject: Re: [PATCH v14 00/15] Exposing case folding behavior
-Date: Mon, 11 May 2026 16:55:36 +0200
-Message-ID: <20260511-verglast-abtropfen-f5fe2ccc79ba@brauner>
+	willy@infradead.org,
+	xiang@kernel.org,
+	hch@lst.de,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RESEND] iomap: remove over-strict inline data boundary check
+Date: Mon, 11 May 2026 16:57:26 +0200
+Message-ID: <20260511-banden-sirenen-86654d8201a6@brauner>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
-References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+In-Reply-To: <20260511141151.6021-1-linkinjeon@kernel.org>
+References: <20260511141151.6021-1-linkinjeon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,26 +47,25 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2780; i=brauner@kernel.org; h=from:subject:message-id; bh=RbMFSQRfHlsC61fn89QVW4CaFzV0E4rdaOIbFWO+Bzs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQxvpPbtsTxReIhiawSkz4fxtPZ528qMl/imcesmKL13 /6nsuz9jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlc1GdkmHzU8leE55X+3sNn 78m6LK502/+sdc7fo0p/K2XXs3lf+sDI0Gqcuu1Ta8aS/b6pqm89GV3elm66eiFAVePnoS0rlp+ 7zAEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1476; i=brauner@kernel.org; h=from:subject:message-id; bh=GhDXtWhXv1Pis9PPJuOpUzCtZVaIFCQzs5VQ5Dc8vuo=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQxvouo2j31wzOR+7ahDebBLeosCxK1ta5e+bure/PsH 5ZnTV9Xd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkeQQjw40pVxdHztuyZqdm NV9BnL0/67293w0esF/58sLi93nXLk1Ghve3CndcaHiyTrWiX+pMX1fVw6Sfb0VfWb7me+YT3/2 hkwMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On Thu, 07 May 2026 04:52:53 -0400, Chuck Lever wrote:
-> Christian, let's lock this one in. I will post subsequent changes
-> as delta patches.
-> 
-> Following on from:
-> 
-> https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
+On Mon, 11 May 2026 23:11:51 +0900, Namjae Jeon wrote:
+> The current iomap_inline_data_valid() check ensures that inline data
+> does not cross a PAGE_SIZE boundary. However, this is an unnecessarily
+> strict constraint. If a filesystem provides a valid iomap::inline_data
+> pointer and iomap::length, we should trust that the caller has mapped
+> sufficient memory for the range, even if it spans across page boundaries.
+> Removing this check allows filesystems to point directly to their
+> internal data structures without forced page-alignment or additional
+> redundant allocations. This remove iomap_inline_data_valid() and
+> its callers in buffered and direct I/O paths.
 > 
 > [...]
 
-Now on the correct branch and pushed out.
-
----
-
-Applied to the vfs-7.2.casefold branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.casefold branch should appear in linux-next soon.
+Applied to the vfs-7.2.iomap branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.iomap branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -106,35 +77,7 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: master
+branch: vfs-7.2.iomap
 
-[01/15] fs: Move file_kattr initialization to callers
-        https://git.kernel.org/vfs/vfs/c/14c3197ecf07
-[02/15] fs: Add case sensitivity flags to file_kattr
-        https://git.kernel.org/vfs/vfs/c/3035e4454142
-[03/15] fat: Implement fileattr_get for case sensitivity
-        https://git.kernel.org/vfs/vfs/c/c92db2ca726f
-[04/15] exfat: Implement fileattr_get for case sensitivity
-        https://git.kernel.org/vfs/vfs/c/27e0b573dd4a
-[05/15] ntfs3: Implement fileattr_get for case sensitivity
-        https://git.kernel.org/vfs/vfs/c/eeb7b37b9700
-[06/15] hfs: Implement fileattr_get for case sensitivity
-        https://git.kernel.org/vfs/vfs/c/b6fe046c3023
-[07/15] hfsplus: Report case sensitivity in fileattr_get
-        https://git.kernel.org/vfs/vfs/c/a6469a15eefe
-[08/15] xfs: Report case sensitivity in fileattr_get
-        https://git.kernel.org/vfs/vfs/c/c9da43e4e5c3
-[09/15] cifs: Implement fileattr_get for case sensitivity
-        https://git.kernel.org/vfs/vfs/c/e50bc12f5a36
-[10/15] nfs: Implement fileattr_get for case sensitivity
-        https://git.kernel.org/vfs/vfs/c/92d67628a1a9
-[11/15] vboxsf: Implement fileattr_get for case sensitivity
-        https://git.kernel.org/vfs/vfs/c/ef14aa143f1d
-[12/15] isofs: Implement fileattr_get for case sensitivity
-        https://git.kernel.org/vfs/vfs/c/7bbd51b1d748
-[13/15] nfsd: Report export case-folding via NFSv3 PATHCONF
-        https://git.kernel.org/vfs/vfs/c/211cb2ba4877
-[14/15] nfsd: Implement NFSv4 FATTR4_CASE_INSENSITIVE and FATTR4_CASE_PRESERVING
-        https://git.kernel.org/vfs/vfs/c/01ee7c3d2e23
-[15/15] ksmbd: Report filesystem case sensitivity via FS_ATTRIBUTE_INFORMATION
-        https://git.kernel.org/vfs/vfs/c/0164df1d1de7
+[1/1] iomap: remove over-strict inline data boundary check
+      https://git.kernel.org/vfs/vfs/c/5a78a15537d4
