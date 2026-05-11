@@ -1,59 +1,77 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mail.alarsen.net (mail.alarsen.net [144.76.18.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143A73A5E85;
-	Mon, 11 May 2026 07:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E8D3A7590
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 07:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.18.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778485637; cv=none; b=kUVFGcLGzkDy2l0be5U0dAt5RAvT9poB7+4jTYB6CA5dfKXs52zJ770jjrB5ezOwE69oluxYnXDNH8D/m2vZ20pI/NQJRS45FeTP61ESCsQTSv/roVACHq5Nopg4gNwUkIM5PL+tP6NS137MJzMfJSNk9ORivn9aZHrCOwBgECI=
+	t=1778485763; cv=none; b=QreuZLdHdx35oBM87pnEmYkSo4bmWaMYW25jSbBv4FEgnttvDdb7eMyhf31gU+8q9YTLy9LF+lbh6iRuQSKInk0yHCsTmpJp6L/+VY0/MK6o/eYDuNk/wfyrRKSK8nd4KI+bgaKchQCwH1EDK9RRT7T+MYw9ZODojAZldghtzBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778485637; c=relaxed/simple;
-	bh=N6ss+xCOP7O0pY0VtA4mCakD33P3COe97atJnaQIhEE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WRIKePii9x3ej7iNMV+3zHx+QT4vlmNiGK1jxPbBFTtuZJn7sq0+hJf5j5pMYw/MfswhtNCmwrEL1e0V1bs3nufgCqg4gdxnJlbjAI4dmCUp4ITvsIHINX6ETN10P7GHK+kd8YlGON5vUSwq0SMdXVnle3IXNCos5vROXsVpFGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=draICOjW; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1778485763; c=relaxed/simple;
+	bh=RJklagVOb01rdp6xmcQNCN1hMtp3NVfyHk5jSrEWMHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J8rkgijDNQEc+Bjnuf+arECVBtrpxGBFg5mTzg5oyxP7BygST+H/ZUX+qVFMkoi2lO04Ap6AAvf2AAf8q/AL6NWfrWcy84J89jGw5uxocIXW1IkgAmyo2nhiKmZK5ZRqydWQrw14lXak9GHmhrNZEf7QpDdJXCVD2dz7Rp7gdjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=alarsen.net; spf=pass smtp.mailfrom=alarsen.net; dkim=pass (2048-bit key) header.d=alarsen.net header.i=@alarsen.net header.b=Cxe6v7yb; arc=none smtp.client-ip=144.76.18.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=alarsen.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alarsen.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="draICOjW"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=N6ss+xCOP7O0pY0VtA4mCakD33P3COe97atJnaQIhEE=; b=draICOjWgzkAZ6zgek0JMuGXHw
-	8dGMtAH7BOtNkW2sRYpJO7DX7AZ4w/Q+j0XOsk4qKawl8UI5eElFKUQrX06ZCYxSYIUOfIGD7HLfj
-	5gB+o3YL/1F7OUgmW37e8wPYaOkzC7lSXILtZfRWwbyl/P2wNbf2P9r0VYMo+ogRa3NQo1+B2fwWA
-	6842WaA361ni6tJRnJIKoooRKTEX50RZoEG9WyMCQHhZ2V9HTmp87na8qHpNX6tbAsPun/LLd5HrD
-	GaVIym5d9MkMVSXyyD+wYkgS1nLGLek7+K9F6bc1MfurdDXMXwvT5Bz+Dm4RCyCQZ4b7DT2KcGoNf
-	li/MIUbg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMLLu-0000000CeLe-2VVi;
-	Mon, 11 May 2026 07:46:58 +0000
-Date: Mon, 11 May 2026 00:46:58 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, tytso@mit.edu,
-	adilger.kernel@dilger.ca, libaokun@linux.alibaba.com, jack@suse.cz,
-	ojaswin@linux.ibm.com, ritesh.list@gmail.com, djwong@kernel.org,
-	hch@infradead.org, yi.zhang@huawei.com, yizhang089@gmail.com,
-	yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v4 11/23] iomap: correct the range of a partial dirty
- clear
-Message-ID: <agGJcqFNl23qNLvx@infradead.org>
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-12-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=alarsen.net header.i=@alarsen.net header.b="Cxe6v7yb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alarsen.net; s=joe;
+	t=1778485369; bh=aVWz5H2wKxVX7vJW+AJpzWM7hyjI7IFWMJIAyMyWz+k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Cxe6v7yb6CvZryvKsQF54hnFqeySE7moiO1FHzfzlThSAjtBKh39fKa47XsB5jcev
+	 PgS6+WigEvTY9f1yCo/rWJ85GlkE9chejMve/FwhpoHohkhIx/+DVw46w1nQZfvdtx
+	 DbBMalQd2ejdsQ7R9PxgD7f2+2iXz+dkPwH7I5vHsI9wPb/Zp8QP1KD1v2hL+Fj1H5
+	 7aE1pziMfU7Ya3z1CZAgSYX2ahErIaNqz4XS3hQpeoQssMeC1FXehcpf1CjBrz9UBC
+	 F8zh2CD0rAvXV+xITlc20aZ2/4rPifos/SzApJLxbSdDxDtoa6JkiBdwpLEM2uCIyV
+	 UXNkU/oyLHT/w==
+Received: from oscar.alarsen.net (unknown [IPv6:fd8b:531:bccf:96:13c6:f483:161f:2523])
+	by joe.alarsen.net (Postfix) with ESMTPS id B0769180593;
+	Mon, 11 May 2026 09:42:49 +0200 (CEST)
+Received: from oscar.localnet (localhost [IPv6:::1])
+	by oscar.alarsen.net (Postfix) with ESMTP id A34DE6DA;
+	Mon, 11 May 2026 09:42:49 +0200 (CEST)
+From: Anders Larsen <al@alarsen.net>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>,
+ Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+ Dave Kleikamp <shaggy@kernel.org>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Bob Copeland <me@bobcopeland.com>, linux-fsdevel@vger.kernel.org,
+ jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev,
+ linux-karma-devel@lists.sourceforge.net
+Subject: Re: [PATCH 03/10] qnx4: handle set_blocksize failures
+Date: Mon, 11 May 2026 09:42:49 +0200
+Message-ID: <12893675.O9o76ZdvQC@oscar>
+In-Reply-To: <20260511071701.2456211-4-hch@lst.de>
+References:
+ <20260511071701.2456211-1-hch@lst.de> <20260511071701.2456211-4-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511072344.191271-12-yi.zhang@huaweicloud.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Plase send the iomap patches out separate, including to all the
-relevant lists from the iomap MAINTAINERS entry.
+Hi,
+
+On 2026-05-11 09:16 Christoph Hellwig wrote:
+> qnx4 uses buffer_heads, which don't handle block size > PAGE_SIZE well.
+
+qnx4fs uses a fixed block size of 512 bytes, so this will never happen.
+
+> -	sb_set_blocksize(s, QNX4_BLOCK_SIZE);
+> +	if (!sb_set_blocksize(s, QNX4_BLOCK_SIZE))
+> +		return -EINVAL;
+
+QNX4_BLOCK_SIZE is a constant (512)...
+
+Cheers
+Anders
+
 
