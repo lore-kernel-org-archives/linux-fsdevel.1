@@ -1,288 +1,142 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626E639934A;
-	Mon, 11 May 2026 07:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914B5386425
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 07:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778484526; cv=none; b=SXAITSUejsHYtsFow8DWkEVKql4khecOrAcBxW1Bs8+OYvZzK7MWB+f9m7YTAIAmDR2ekprcDOJmJU9YvqwbtOHjpM6UuF4sftvQ3oIcRLBGWtah/hSFCr1V0tTqdkIx0HfjPSxKBtmz7lTpP0hY5Cqbgn2srOkr7uhqM/auMxI=
+	t=1778484572; cv=none; b=BuJiz3fqvqr5g2P4H6ThUjU0zxrr4dgUus/LLFIfZgPEmOWpN0ozpg4GFxsjBaP7x9ao6SWC0B59KwRDD7RvMa18b0wPT6wzKhjysEEHDQauzh2xtII7t0OzvRTvd9SRk7+5crzkJZE1rXVKKCocAbBX5i9ojuMZ2blrNN4NRAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778484526; c=relaxed/simple;
-	bh=ICkPKQHha3eXpAuWdrMJR8Vcj4myBIwUbNb1f1AnKJQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rUykNk7LPGURPrPlLf4ulsKEQoLkstyuvYPp+ERAvFnOLSIhb8UZGXYW5G1nuEGt+3K1tUgxKrRb54RMNsmXCXVH+o/TYIE5oqcSdw2z6vlZxMq3vNHfGZ7OZ65OlLLqeepNxFXm7RkJG1QWCFZJuJ8tk9yPrefleXCKV6syfJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gDWXW3ZzFzYQv3s;
-	Mon, 11 May 2026 15:27:55 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 2A8A84056B;
-	Mon, 11 May 2026 15:28:24 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP4 (Coremail) with SMTP id gCh0CgD3v1sKhQFqAy6MBw--.28537S23;
-	Mon, 11 May 2026 15:28:23 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	djwong@kernel.org,
-	hch@infradead.org,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH v4 19/23] ext4: update i_disksize to i_size on ordered I/O completion
-Date: Mon, 11 May 2026 15:23:39 +0800
-Message-ID: <20260511072344.191271-20-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+	s=arc-20240116; t=1778484572; c=relaxed/simple;
+	bh=E5C8dAUvAF6PK3tHWEWWwVfrtsNN2sP7v+XN8di0ieY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Z/bU3jA7u986EqXTRsGEJ1r346iUBdGtHRQwWrtuDEsiP8ssMvbFLZC9Sj4q3waRDV7J6SKByu3HGTZQWsj49R1RwFBDnhjGqaBe3YFyJh3ZUU1s7TKMb65SWkZlJZsAIpwpRMAOfK1AK1aZsdYHNyn3B6dQSPmT5LoVgFc8MKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-69b4f753046so1137934eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 00:29:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778484569; x=1779089369;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vrSzxj794BQXYltWHMaeU7bNnVUTfnI0zgOGBibu8Js=;
+        b=QhBKviVpWDUQgMD0GeEfZLZgD25bQSgmLoxh7OSHGFApaYG36LfYmhvOEa86G6hh4g
+         iHXt1bE9hz8932wr0HPnLY6xo3iVP5DLrwX7PR7JgjpC9Oxhmo1GesqBXfEXNZ0afH+k
+         upQMwdj3FTUwfJum4ivHzlxLIXbwzAITBXsbdH5IOSTWAOb3xUOJ8pkTiIhcUxH1Ba1X
+         MBCzhg5wAdvQf3qvPSvvrgE3EYvb19yadttEFepUdAM7f5ggRIoHGhPaPF831aSN0Nu+
+         tlxiCHI8M0C0yc6czKRml8Vm7cACKeffgAe30e8aWBTNU2VMDYSarK/0q57F4O9DCQb4
+         53Tw==
+X-Forwarded-Encrypted: i=1; AFNElJ8GLNzZ1gD8tyUPx+IYMNZw15AQegaCGAL8lEQhVkcKyQHXTrgE5J1y+eslNcwP2uqgaczynWFHRJPiM2bo@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/BXWnj6T7aH+IgVK1vAcsJt4PSQW/gwnp49BAf540iAD+A4fI
+	fzlAecIWV1kbzDGn4BFWNLq7ZI1GET/Gu8q7TG+7w97ZnqAsupSTY1K+L/y1XwzqpRWU9F0Q770
+	osgXxVFNwEdgzlP47MkY1hM3mLLvtJ4XVdDOF19Pl4V27zcw3bF2s0x19934=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgD3v1sKhQFqAy6MBw--.28537S23
-X-Coremail-Antispam: 1UD129KBjvJXoWxtr47uryxur1kJFyxtw17GFg_yoWfGr17pr
-	W5K34rAw1vq3sa9rs7Xry0qw1Fva1rGw48JFy7ur4vvFy5Cws2vF1xtryfuFW8trZ3Jw4j
-	qFWktr48Wr1kAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-	IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-	kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-	4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
-	daVFxhVjvjDU0xZFpf9x0JUQFxUUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-Received: by 2002:a05:6820:7510:b0:69b:545b:a182 with SMTP id
+ 006d021491bc7-69b545ba243mr984468eaf.32.1778484569442; Mon, 11 May 2026
+ 00:29:29 -0700 (PDT)
+Date: Mon, 11 May 2026 00:29:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a018559.170a0220.286ecb.0000.GAE@google.com>
+Subject: [syzbot] [exfat?] WARNING in fat_add_entries
+From: syzbot <syzbot+872e83c344f0ae2cf617@syzkaller.appspotmail.com>
+To: hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	sj1557.seo@samsung.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Zhang Yi <yi.zhang@huawei.com>
+Hello,
 
-Currently, i_disksize is updated after ordered data writeback to prevent
-exposing stale data in the post-EOF block. However, operations like
-append allocate, zero range and truncate update i_disksize directly. If
-the new i_disksize exceeds the original value, metadata may be written
-back before the zeroed data is persisted. To avoid this, we defer
-i_disksize updates when i_ordered_len is non-zero, only applying them
-after ordered I/O completes.
+syzbot found the following issue on:
 
-However, this deferral introduces a new problem: on ordered I/O
-completion, i_disksize is updated only to the end of that specific I/O,
-discarding any later updates (e.g., from fallocate) and causing
-filesystem inconsistency. A potential fix would involve scanning for
-dirty or writeback folios beyond the current position, then updating
-i_disksize to the start of the first such folio or to i_size. However,
-folio scanning is expensive and concurrency with operations like
-fallocate makes this approach prohibitively complex.
+HEAD commit:    adc1e5c6203c Merge tag 'efi-fixes-for-v7.1-1' of git://git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14b4bb26580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7f195f6be48c12ec
+dashboard link: https://syzkaller.appspot.com/bug?extid=872e83c344f0ae2cf617
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-Instead, when ordered zero I/O completes, update i_disksize directly to
-i_size. This may expose zeroed data (if dirty data within the range is
-not yet on disk after crash recovery), but it will never expose stale
-data. This limitation is restricted to unaligned append writes and is
-deemed acceptable.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Suggested-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-adc1e5c6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/f67d79b10054/vmlinux-adc1e5c6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f9dcdab6fabb/bzImage-adc1e5c6.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+872e83c344f0ae2cf617@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 128 to 0
+FAT-fs (loop0): Directory bread(block 40) failed
+FAT-fs (loop0): Directory bread(block 40) failed
+------------[ cut here ]------------
+!buffer_uptodate(bh)
+WARNING: fs/buffer.c:1087 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:1087, CPU#0: syz.0.0/5323
+Modules linked in:
+CPU: 0 UID: 0 PID: 5323 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:1087
+Code: 4c 89 f7 e8 89 5d da ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 b4 63 fb ff e8 ef 93 6d ff eb 8c e8 e8 93 6d ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 da 93 6d ff 90 0f 0b 90 e9 cf fd ff ff
+RSP: 0018:ffffc900057df208 EFLAGS: 00010287
+RAX: ffffffff82583af8 RBX: ffff888046d92000 RCX: 0000000000100000
+RDX: ffffc90020802000 RSI: 00000000000029e1 RDI: 00000000000029e2
+RBP: ffffc900057df401 R08: ffff888046d92007 R09: 1ffff11008db2400
+R10: dffffc0000000000 R11: ffffed1008db2401 R12: dffffc0000000000
+R13: 00000000000002a0 R14: dffffc0000000000 R15: ffff888046e3ba50
+FS:  00007f247469b6c0(0000) GS:ffff88808c885000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f247469aff8 CR3: 0000000039246000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ mmb_mark_buffer_dirty+0x2f/0x200 fs/buffer.c:719
+ fat_add_entries+0x799/0x2320 fs/fat/dir.c:1362
+ vfat_add_entry+0x2def/0x3580 fs/fat/namei_vfat.c:675
+ vfat_create+0x148/0x270 fs/fat/namei_vfat.c:769
+ lookup_open fs/namei.c:4511 [inline]
+ open_last_lookups fs/namei.c:4611 [inline]
+ path_openat+0x1395/0x3860 fs/namei.c:4855
+ do_file_open+0x23e/0x4a0 fs/namei.c:4887
+ do_sys_openat2+0x113/0x200 fs/open.c:1364
+ do_sys_open fs/open.c:1370 [inline]
+ __do_sys_creat fs/open.c:1448 [inline]
+ __se_sys_creat fs/open.c:1442 [inline]
+ __x64_sys_creat+0x8f/0xc0 fs/open.c:1442
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f247379cdd9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f247469afe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000055
+RAX: ffffffffffffffda RBX: 00007f2473a16090 RCX: 00007f247379cdd9
+RDX: 0000000000000000 RSI: 0000000000000009 RDI: 0000200000000e00
+RBP: 00007f2473832d69 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f2473a16128 R14: 00007f2473a16090 R15: 00007ffd5e53e4e8
+ </TASK>
+
+
 ---
- fs/ext4/ext4.h    | 29 +++++++++++++++++++++++++----
- fs/ext4/inode.c   | 30 ++++++++++++++++++++----------
- fs/ext4/page-io.c | 25 ++++++++++++++++++++-----
- 3 files changed, 65 insertions(+), 19 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 9ce2128eea3e..0a3bb44f1e6e 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -3493,13 +3493,21 @@ do {								\
- #define EXT4_FREECLUSTERS_WATERMARK 0
- #endif
- 
--/* Update i_disksize. Requires i_rwsem to avoid races with truncate */
-+/*
-+ * Update i_disksize. Requires i_rwsem to avoid races with truncate.
-+ *
-+ * In the iomap buffered I/O path, a non-zero i_ordered_len indicates that
-+ * an ordered I/O (zeroing the EOF partial block) is still in progress.
-+ * In that case, i_disksize will be updated after the ordered data has
-+ * been written out.
-+ */
- static inline void ext4_update_i_disksize(struct inode *inode, loff_t newsize)
- {
- 	WARN_ON_ONCE(S_ISREG(inode->i_mode) &&
- 		     !inode_is_locked(inode));
- 	down_write(&EXT4_I(inode)->i_data_sem);
--	if (newsize > EXT4_I(inode)->i_disksize)
-+	if (newsize > EXT4_I(inode)->i_disksize &&
-+	    READ_ONCE(EXT4_I(inode)->i_ordered_len) == 0)
- 		WRITE_ONCE(EXT4_I(inode)->i_disksize, newsize);
- 	up_write(&EXT4_I(inode)->i_data_sem);
- }
-@@ -3514,8 +3522,21 @@ static inline int ext4_update_inode_size(struct inode *inode, loff_t newsize)
- 		changed = 1;
- 	}
- 	if (newsize > EXT4_I(inode)->i_disksize) {
--		ext4_update_i_disksize(inode, newsize);
--		changed |= 2;
-+		/*
-+		 * Pairs with smp_store_release() in ext4_iomap_end_bio()
-+		 * that clears i_ordered_len.  The smp_mb() ensures the
-+		 * i_size store above is globally visible before we read
-+		 * i_ordered_len.  This way, if we skip the i_disksize
-+		 * update because i_ordered_len is still non-zero, the
-+		 * ordered-I/O completion path (which reads i_size under
-+		 * i_data_sem) is guaranteed to see the new i_size and will
-+		 * update i_disksize correctly.
-+		 */
-+		smp_mb();
-+		if (READ_ONCE(EXT4_I(inode)->i_ordered_len) == 0) {
-+			ext4_update_i_disksize(inode, newsize);
-+			changed |= 2;
-+		}
- 	}
- 	return changed;
- }
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 11fb369efeb1..1e208b3fad34 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -4868,9 +4868,6 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
- 	 * truncating up or performing an append write, because there might be
- 	 * exposing stale on-disk data which may caused by concurrent post-EOF
- 	 * mmap write during folio writeback.
--	 *
--	 * TODO: In the iomap path, handle this by updating i_disksize to
--	 * i_size after the zeroed data has been written back.
- 	 */
- 	if (did_zero && zero_written && !IS_DAX(inode)) {
- 		if (ext4_should_order_data(inode)) {
-@@ -4894,9 +4891,15 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
- 		 * for I/O completion before updating i_disksize if the write
- 		 * extends beyond the zeroed boundary.
- 		 *
--		 * TODO: Any other operation that extends i_disksize
--		 * (including truncate up and append fallocate) must wait for
--		 * the relevant I/O to complete before updating i_disksize.
-+		 * When zeroed I/O is in progress, operations that extend
-+		 * i_disksize are handled as follows:
-+		 *
-+		 *  - Truncate up, append fallocate and zero_range:
-+		 *    Defer the update. The file size will be updated to
-+		 *    i_size by the end_io handler once the ongoing I/O
-+		 *    completes.
-+		 *
-+		 *  - TODO: handle insert range and collapse range.
- 		 */
- 		} else if (ext4_inode_buffered_iomap(inode)) {
- 			err = ext4_iomap_submit_zero_block(inode, from, end);
-@@ -6512,11 +6515,16 @@ static void ext4_wait_for_tail_page_commit(struct inode *inode)
- }
- 
- /*
-- * Set i_size and i_disksize to 'newsize'.
-+ * Set i_size and i_disksize to 'newsize'.  In the iomap buffered I/O path,
-+ * if i_ordered_len is non-zero and newsize exceeds the current i_disksize,
-+ * the actual i_disksize update is deferred until after the ordered data is
-+ * written out.  In that case, i_disksize will be set to i_size upon I/O
-+ * completion.
-  *
-  * Both i_rwsem and i_data_sem are required here to avoid races between
-- * generic append writeback and concurrent truncate that also modify
-- * i_size and i_disksize.
-+ * generic append writeback (or ordered I/O writeback) and concurrent
-+ * operations (e.g., fallocate, truncate) that also modify i_size and
-+ * i_disksize.
-  */
- static inline void ext4_set_inode_size(struct inode *inode, loff_t newsize)
- {
-@@ -6524,7 +6532,9 @@ static inline void ext4_set_inode_size(struct inode *inode, loff_t newsize)
- 
- 	down_write(&EXT4_I(inode)->i_data_sem);
- 	i_size_write(inode, newsize);
--	EXT4_I(inode)->i_disksize = newsize;
-+	if (READ_ONCE(EXT4_I(inode)->i_ordered_len) == 0 ||
-+	    newsize < EXT4_I(inode)->i_disksize)
-+		WRITE_ONCE(EXT4_I(inode)->i_disksize, newsize);
- 	up_write(&EXT4_I(inode)->i_data_sem);
- }
- 
-diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
-index ad05ebb49bf6..2ad9f900c9f3 100644
---- a/fs/ext4/page-io.c
-+++ b/fs/ext4/page-io.c
-@@ -654,13 +654,13 @@ static void ext4_iomap_wb_ordered_wait(struct inode *inode,
- }
- 
- static int ext4_iomap_wb_update_disksize(handle_t *handle, struct inode *inode,
--					 loff_t end)
-+					 loff_t end, bool is_ordered)
- {
--	loff_t new_disksize = end;
-+	loff_t new_disksize, i_size;
- 	struct ext4_inode_info *ei = EXT4_I(inode);
- 	int ret;
- 
--	if (new_disksize <= READ_ONCE(ei->i_disksize))
-+	if (end <= READ_ONCE(ei->i_disksize) && !is_ordered)
- 		return 0;
- 
- 	/*
-@@ -668,7 +668,20 @@ static int ext4_iomap_wb_update_disksize(handle_t *handle, struct inode *inode,
- 	 * are avoided by checking i_size under i_data_sem.
- 	 */
- 	down_write(&ei->i_data_sem);
--	new_disksize = min(new_disksize, i_size_read(inode));
-+	i_size = i_size_read(inode);
-+
-+	/*
-+	 * Update i_disksize to i_size when completing an ordered I/O that
-+	 * zeroes the old EOF partial block.  This is safe because we never
-+	 * directly allocate written blocks during buffered writes.
-+	 *
-+	 * This ensures i_disksize is correctly advanced during truncate-up
-+	 * or append fallocate on a block-unaligned file, preventing it
-+	 * from remaining stale.  A downside is that zeroed data may be
-+	 * exposed after crash recovery if the dirty data in this range is
-+	 * not yet on disk, but stale data will never be exposed.
-+	 */
-+	new_disksize = is_ordered ? i_size : min(end, i_size);
- 	if (new_disksize > ei->i_disksize)
- 		ei->i_disksize = new_disksize;
- 	up_write(&ei->i_data_sem);
-@@ -685,6 +698,7 @@ static void ext4_iomap_finish_ioend(struct iomap_ioend *ioend)
- 	struct super_block *sb = inode->i_sb;
- 	loff_t pos = ioend->io_offset;
- 	size_t size = ioend->io_size;
-+	unsigned long io_mode = (unsigned long)ioend->io_private;
- 	handle_t *handle;
- 	int credits;
- 	int ret, err;
-@@ -714,7 +728,8 @@ static void ext4_iomap_finish_ioend(struct iomap_ioend *ioend)
- 			goto out_journal;
- 	}
- 
--	ret = ext4_iomap_wb_update_disksize(handle, inode, pos + size);
-+	ret = ext4_iomap_wb_update_disksize(handle, inode, pos + size,
-+			io_mode == EXT4_IOMAP_IOEND_ORDER_IO);
- out_journal:
- 	err = ext4_journal_stop(handle);
- 	if (!ret)
--- 
-2.52.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
