@@ -1,171 +1,162 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3729D42983A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 16:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BC942E009
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 16:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515605; cv=none; b=ATv6uBPzy+TG1D7p8aThGe1BYnujuiEq83BVZQXh84K6lFulNKSyT486YRESbpPWG5l7Lou/7fa1kTOFCarEOZl8Wp1TXUNlomN+RDOboj+OqmsaK5BaiTk+vMZZOiOcsZZpMhggikXajWEIQiAD48T+xnszw8IkU2a0u67lbfs=
+	t=1778515707; cv=none; b=ey040dsDvXfIv2CQMW3ZB0HN+nVyf/tZbWIYGAR8PwIrc9x4lOjAQNMV0BIDikm1fz4pZfHLPENlaj4eveULFc70iKDJzJyOfRTAaWIpf8kd68DDe6Bm63mqs3dQz/Ms294iNq4AK0kcrmwRt0YtBYQhlq/o6THjQC9SA8xPpUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515605; c=relaxed/simple;
-	bh=+J6fOs6RknJ3UJj+/3CaRW5nRW9JX3hT5h97wmxwpv8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YHIBKEkM/dBCFhvoJTjYevZ51kcZ/xNYX4BMrK9q2pKioHLSUzv/g3QFGnNF9ZfJTFHw52VsqG3PFM8/FCA3VD+9Y7fOKpulI5IfBkV8pZGlEDAvGxCyPjAhMVQR3KgX3KQq9OEwTD5qAoKSyV61rbDgkkEMcy18ZoK5PL/WQwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CX3bgWnv; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778515707; c=relaxed/simple;
+	bh=Nex8lPxLdHFCgIQClV3pK+gx/d15OefpM5JcdFYZI70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GW/ccNSOxYaKzW8fBWAZ5z60F0YzQ5PGLQPeu9nsnfm/85qUl7LLqzSkIvG9FYlvzKu9BdEKMRsyYdjO5F0xn5tqjE362hublVhKGooRvM8rzLoArNIYk44Ar+TkEFU2VapoHkxxPH3XOSgTx/6MRfu6pn0+0PbYaF1pyL6blPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QZol5d0S; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Il8p69kn; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QZol5d0S; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Il8p69kn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CX3bgWnv"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2bcdc085c52so700465ad.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 09:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778515603; x=1779120403; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2/puMZSjUUllHf9o6XXc/pt8PdxjFPmBhA/JoyPIRWU=;
-        b=CX3bgWnvUcZzq2W2ljEhyilgbJUVFZMd5s57lIFJrq/7Ve2F0j5vxa/C9Cvzu/CFrj
-         YpA5wVXG0lmKvmfBTFIOw+6XlLE1fX1jLeBdG57E2QKnnI23BSHLr7Dsjo+bpFuRWeYQ
-         RiwFKK4e31OZ6oEA01ZX9ja3WkRsI9iWVWwUggXKrz49TrOz/Br5UBQEqx9o60xLLFs8
-         vNUA1RYws7QP97wz42uOlMd1E8o6Rf1r3B9VporEskUVDVzqzptXr+Y1ubijOfCxOyyB
-         G+NJweIc6TWq/F/5pTq5/K3EQLVGIxjs84vrM8dFLhdzR9JmO63CcQyRzRtlLKotQv2A
-         h3xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778515603; x=1779120403;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2/puMZSjUUllHf9o6XXc/pt8PdxjFPmBhA/JoyPIRWU=;
-        b=UhONLU1w0UFcv7RgX18mTFdKk6rC5Ow6KRMTskoWuvN2J+Jrj2SscbYHcamtJAUZUD
-         SbFL11hsKBKn3JvfSdqBclK/efVifatQyFqzBqls2vhKpIQnijugGuxKWynevtyhZGQI
-         E/zmeBjlm8LWzo+7M9Q/KZEM5fW/RheUteTcdE8sabkUj6yi/LJ0kYSBY4+LlGX/Yp/4
-         jNZwJggtzQEuCBdhlOVlbgc6vrclWwQLX9kf1AaO6fg6SOUBFZ3G8VuDzJaXZym0nR4S
-         EV8vkHSey2jMTm+xknwldZl1n0YEbR7zByxXmS+jwV5AA456bIenkGWdgxyZ2UZxGMxn
-         J7EQ==
-X-Gm-Message-State: AOJu0YyFTiH8LZm79ejGIYUT+z79DQv52NMofrhx7Tkq8u8X+pirz49L
-	pL++myiNVbOFYoDWWp3AW2HCZuKptTJk0Q5lCaR2Vis2DtubKDdqsJNH
-X-Gm-Gg: Acq92OGLI6mjp+h2IoNC3MerPn4ehOUJEAumnPL8BT1+aUVTEBJLTda/l+mUXhT6LOd
-	nIHVoqYb6cA8kRuzjbfKwIrLcp1RPhTgXKaL1Sk2tKtECercDpHS00NkBRQivZAMRoONCM+m7WW
-	qC7TdjxJktSppuMVfNRzlX+5cwmFx1O3yvsKTqR5KAHzxx/fxW6H52OD620OXcsS9VTNF8MHUS6
-	dmjqwdBcoAH1Bg0wIvBcPDHP4wtGs71IiI5sFv4b829sSrezIGTu63utdxr/3HllZMoqSOiScvq
-	+dt/k5QAKJtis0wbPUyfiKsYkhhWDmdlU5SCeFy0qbueh9f7F2C0hfrIfwvhFdmwecX/Ne7V+Tx
-	vOEL/xy/ALTcK39OerLfJnxxjOvRg1x/YVShUE1CnPTVGdbtIVekrVqBoVvVUUZvReZkQpE0DTp
-	gWgwP8BWCpiRIwebtU
-X-Received: by 2002:a17:903:191:b0:2b2:67ca:5ffa with SMTP id d9443c01a7336-2ba7a599c68mr133831005ad.0.1778515603407;
-        Mon, 11 May 2026 09:06:43 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e35ebesm112447045ad.43.2026.05.11.09.06.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 09:06:43 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: linkinjeon@kernel.org,
-	hyc.lee@gmail.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH 3/3] ntfs: mark quotas out of date on initial rw mount
-Date: Tue, 12 May 2026 01:06:25 +0900
-Message-ID: <20260511160626.1268612-4-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260511160626.1268612-1-charsyam@gmail.com>
-References: <20260511160626.1268612-1-charsyam@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QZol5d0S";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Il8p69kn";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QZol5d0S";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Il8p69kn"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CD08A5F5B9;
+	Mon, 11 May 2026 16:08:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778515702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tcIEVBaVodUiSosdygBt1PqHBt7fsQlRKsYMMX7LIJc=;
+	b=QZol5d0S5JpQZpfbn2WEvu8oMis72c+s3F8LmKfmYZ+KjD7IzpfUGztsbcWyBAQ9oEXZz4
+	3DqZiU73Q3N9FlxCrWIQuB0qPx6MZq2VJi7ZR3qLvjaK0mt77K0OLqEUZ2EasLAnQrxiqJ
+	OSIaEFKxuaja683u/6bOLBgl9rvmC5o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778515702;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tcIEVBaVodUiSosdygBt1PqHBt7fsQlRKsYMMX7LIJc=;
+	b=Il8p69knNuAbtu10vesW6cQn17T4FTlBdMzNK/7tOlnHjKK+yH08L+1pU54VNA8vZAzPDj
+	N+c7oU1+EWvAQQAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778515702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tcIEVBaVodUiSosdygBt1PqHBt7fsQlRKsYMMX7LIJc=;
+	b=QZol5d0S5JpQZpfbn2WEvu8oMis72c+s3F8LmKfmYZ+KjD7IzpfUGztsbcWyBAQ9oEXZz4
+	3DqZiU73Q3N9FlxCrWIQuB0qPx6MZq2VJi7ZR3qLvjaK0mt77K0OLqEUZ2EasLAnQrxiqJ
+	OSIaEFKxuaja683u/6bOLBgl9rvmC5o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778515702;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tcIEVBaVodUiSosdygBt1PqHBt7fsQlRKsYMMX7LIJc=;
+	b=Il8p69knNuAbtu10vesW6cQn17T4FTlBdMzNK/7tOlnHjKK+yH08L+1pU54VNA8vZAzPDj
+	N+c7oU1+EWvAQQAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BAEE3593A3;
+	Mon, 11 May 2026 16:08:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id X6+PLfb+AWrrSAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 11 May 2026 16:08:22 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 56D4EA079E; Mon, 11 May 2026 18:08:18 +0200 (CEST)
+Date: Mon, 11 May 2026 18:08:18 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Sterba <dsterba@suse.com>, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+	Dave Kleikamp <shaggy@kernel.org>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Bob Copeland <me@bobcopeland.com>, Anders Larsen <al@alarsen.net>, linux-fsdevel@vger.kernel.org, 
+	jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, linux-karma-devel@lists.sourceforge.net
+Subject: Re: [PATCH 08/10] minix: handle set_blocksize failures
+Message-ID: <mxb2r7knst7hz2k454w6i7xy62kd6pyj6m2zqsaddkxqpzykxu@zqpqtbnigdp6>
+References: <20260511071701.2456211-1-hch@lst.de>
+ <20260511071701.2456211-9-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511071701.2456211-9-hch@lst.de>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,suse.com,gmail.com,artax.karlin.mff.cuni.cz,paragon-software.com,bobcopeland.com,alarsen.net,vger.kernel.org,lists.sourceforge.net,lists.linux.dev];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Level: 
 
-The remount read-write path marks quotas out of date after emptying the
-logfile, but initial read-write mount only loads $Quota and never calls
-ntfs_mark_quotas_out_of_date().
+On Mon 11-05-26 09:16:53, Christoph Hellwig wrote:
+> minix uses buffer_heads, which don't handle block size > PAGE_SIZE well.
+> Without this, mounting we will hit the
+> 
+>         BUG_ON(offset >= folio_size(folio));
+> 
+> in folio_set_bh on the first __bread_gfp call.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  fs/minix/inode.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/minix/inode.c b/fs/minix/inode.c
+> index 9c6bac248907..03a69b13950d 100644
+> --- a/fs/minix/inode.c
+> +++ b/fs/minix/inode.c
+> @@ -292,7 +292,8 @@ static int minix_fill_super(struct super_block *s, struct fs_context *fc)
+>  		sbi->s_namelen = 60;
+>  		sbi->s_version = MINIX_V3;
+>  		sbi->s_mount_state = MINIX_VALID_FS;
+> -		sb_set_blocksize(s, m3s->s_blocksize);
+> +		if (!sb_set_blocksize(s, m3s->s_blocksize))
+> +			goto out;
 
-That leaves quota tracking metadata looking up to date even though the
-driver can modify the volume.  Call the same helper after $Quota is loaded
-during initial read-write mount.  If marking quotas out of date fails and
-the mount policy is on_errors=remount-ro, convert the mount to read-only
-and set the volume error state, matching the nearby $Quota load failure
-handling.
+This should go to out_release AFAICT. Otherwise we leak the bh.
 
-This intentionally follows the initial mount error policy rather than the
-remount-rw path, where a quota marking failure rejects the remount with
--EROFS.
+								Honza
 
-Move the load/mark/policy handling into a small helper,
-ntfs_init_quota_for_mount(), which captures each call result in a local,
-derives the failure reason, and gates the read-only downgrade on policy
-in one place.  This avoids calling helpers inside compound if conditions
-and keeps ntfs_load_system_files() flat.
-
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
----
- fs/ntfs/super.c | 46 +++++++++++++++++++++++++++++++++--------------
- 1 file changed, 35 insertions(+), 11 deletions(-)
-
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index 22dc786..8fa298f 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -1221,6 +1221,39 @@ static bool load_and_init_quota(struct ntfs_volume *vol)
- 	return true;
- }
-
-+/*
-+ * ntfs_init_quota_for_mount - finish quota setup at mount time
-+ * @sb:		super block of the volume being mounted
-+ * @vol:	ntfs volume to set up
-+ *
-+ * Load $Quota and, on a read-write mount, mark quotas out of date so that
-+ * Windows rescans them on next boot.  On failure, downgrade the mount to
-+ * read-only when on_errors=remount-ro, matching the volume error policy.
-+ */
-+static void ntfs_init_quota_for_mount(struct super_block *sb,
-+				      struct ntfs_volume *vol)
-+{
-+	bool quota_loaded, quota_marked = true;
-+	const char *reason = NULL;
-+
-+	quota_loaded = load_and_init_quota(vol);
-+	if (quota_loaded && !sb_rdonly(sb))
-+		quota_marked = ntfs_mark_quotas_out_of_date(vol);
-+
-+	if (!quota_loaded)
-+		reason = "Failed to load $Quota";
-+	else if (!quota_marked)
-+		reason = "Failed to mark quotas out of date";
-+
-+	if (!reason || vol->on_errors != ON_ERRORS_REMOUNT_RO)
-+		return;
-+
-+	sb->s_flags |= SB_RDONLY;
-+	ntfs_error(sb, "%s.  Mounting read-only.  Run chkdsk.", reason);
-+	/* This will prevent a read-write remount. */
-+	NVolSetErrors(vol);
-+}
-+
- /*
-  * load_and_init_attrdef - load the attribute definitions table for a volume
-  * @vol:	ntfs super block describing device whose attrdef to load
-@@ -1638,16 +1671,7 @@ get_ctx_vol_failed:
- 		ntfs_error(sb, "Failed to load $Extend.");
- 		goto iput_sec_err_out;
- 	}
--	/* Find the quota file, load it if present, and set it up. */
--	if (!load_and_init_quota(vol) &&
--	    vol->on_errors == ON_ERRORS_REMOUNT_RO) {
--		static const char *es1 = "Failed to load $Quota";
--		static const char *es2 = ".  Run chkdsk.";
--
--		sb->s_flags |= SB_RDONLY;
--		ntfs_error(sb, "%s.  Mounting read-only%s", es1, es2);
--		/* This will prevent a read-write remount. */
--		NVolSetErrors(vol);
--	}
-+	/* Find the quota file, load it if present, and set it up. */
-+	ntfs_init_quota_for_mount(sb, vol);
-
- 	return true;
---
-2.43.0
-
+>  		s->s_max_links = MINIX2_LINK_MAX;
+>  	} else
+>  		goto out_no_fs;
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
