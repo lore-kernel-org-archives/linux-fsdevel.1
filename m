@@ -1,261 +1,131 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C241421A08
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 15:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCED423148
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 16:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515121; cv=none; b=YBP79ulvHKRlT0qMPsqJtoKofRsOQP+yrS9FRSxdySW01mEduK1Aglhy1dWA9+V9VPJwnhBCS4p7C3Oz7hpMqtvUtRZMaNr3lJH808zLoWriqilNMQ6s3uyIiL50/6ttmxfm21SPgm9AGxi0xqNl5QrqLOxkPRmMECFvMWJgbOY=
+	t=1778515594; cv=none; b=pwKao6p4OlaWp9G3X6tS4a6LNF4aZaWIPllOLWPWEGLt4LqRweuuhxlA0dyuXaeZdKWq4PQGUdq/1Hlr4ilLnCY9dzIY7kEwhsS9ImCD3AmkeQ8wCaWSaL9LWM2GJ4EhZCXXD8TxkweDgPN4S3yY8mg9mdorlf4OXbxR85xaoR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515121; c=relaxed/simple;
-	bh=aPV031t0d0WdK4n4+eFzoib5pTagpaQ8vVYLriVi+zA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G8EdOBAZY5arVeOBVx3q1HZsyRXEAbRnYqE5uUTcqf1eAbc0sEFRJQpREJP9Orxxe8Wp5GW5YR+Wj/TwDRCjmKe61GHr7WryuqMZFb11QliSi9UnIiGL9opv9Ehe5PsBW6W1Hec1sD5+GrMW5nwbVBRlrKQgLdxCHYtr80LXGak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=BdubbuIH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kaactY3+; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1778515594; c=relaxed/simple;
+	bh=BFtepgnp/PlnOpupuJFh72epy+jS/rjS4N7q0VTscnw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lsiqEVPDMCnt1Xo7HQVS4h59WwiA3Xp8HWIJCnCPIRjMHeQS1nDDb5UWSaF//Q6zbGxKqTh/q5rPTv4O3KlR81M4Bt6yCLf8+SFKgDWX5q39w3VIxhB5jtJq18KUaPLmXRy4wFAQM7cS8rhMGrfpUXCooU2DLxm2WtpZcaVixT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HxfxT8D2; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="BdubbuIH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kaactY3+"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B47D2140015D;
-	Mon, 11 May 2026 11:58:38 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 11 May 2026 11:58:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778515118;
-	 x=1778601518; bh=WOTQ21EEPEdU27zFCWnkLIMXPzlh5zaZvgobHRBHCMI=; b=
-	BdubbuIHL7BnPo2dywm8fpsZTk4mfowhPsNED40Mvp/2LEMj8gVsNzNJ6KfsjkdG
-	+eHGRmgr7vLCZB3/FVv5dzS8goitKu1Yd7LkAHKDIoTR1zMJs4hMGk56cbm1Xx7+
-	87EUKl7Ctg1e5Itw5Vp+AGzq5LnLPPQP2CnA8h98VZQfzNM3HsVUee5K75Olp/2r
-	RyFgOWdAYJgkeuEVuKk58n31sMA7L9kJT512RExfTh3CKiGOFCc79kKg2I9EhuFc
-	Ekw5sOcv10smnUkLQioUeyB4mOvpZXSq467gWpJSKOxNG5p/56o+xHIBUWFR1bEt
-	V9rP1TcK6iioZxBq/CUh3Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778515118; x=
-	1778601518; bh=WOTQ21EEPEdU27zFCWnkLIMXPzlh5zaZvgobHRBHCMI=; b=k
-	aactY3+STbN9DCEX1jGn8eaIDRSsKwo1nd6dx04VbIfoDUpCy7uWy7xLW/FGRJXs
-	0YBTtccY/glHJ7jmE21N3uYFZlOUUCmkZTZGfAmnOhJiLw0za97WkQzT4SnDnLwJ
-	CfWMYISmHK0x5qhGPUgKkiZgUqmOv1rc6ovXUJOUG/QjwGHcdzjCU8G/kQUAXRc0
-	ErGyBT/9h8Da/G2aOL3ydfLfrr4KZD78RVQ1j71azUwIKd7gvGuEnCgXSIrJBot4
-	0X7rz5oEYkxtIK1ohU3xc86Y9U5yAznvTGl8M2+5IMuA956dyBSa82GVBqd6tsED
-	LxltDrRcCLEz6dvVJLiuA==
-X-ME-Sender: <xms:rvwBann0-z_AovXv8EPT6HouqbxSe6H4zVA4n034wz-4vAKDkRsiAw>
-    <xme:rvwBakI9Zc0lrZ_FHcy443EZA3XJTZn66xLXyVPzHd3nVrLrT9_CTLb8RxaoKSAmd
-    gs-BnGMG7ko7gJpctUPbcRRJYKCbXvbvr1E4GrJQ2xx00fg9EpL>
-X-ME-Received: <xmr:rvwBak4wcoROpGfLzLcxQjc2ff7rVUUEKnJP4VLz11Dz9ePb3djjzUIoDbHZp_d2I0eYsU5bOHm69DJu-7llpprD3u3sG9gOnDhilivlG8SFNkBKOA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudelfeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhn
-    vghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehfuhhsvgdquggvvhgvlh
-    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvggrlhesghhomhhprgdr
-    uggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhg
-X-ME-Proxy: <xmx:rvwBag3EHLd35FG0QKaY02Z6wFxlYBUBAO2Xyy3tj1rLhSWGLtfS0w>
-    <xmx:rvwBaieeZ9_qR22rSWIvFgNkC06bq2Q_h8fvEVKW4jaLJxxweDvkQg>
-    <xmx:rvwBaudk99MZgAw7Cee2vqOHsoQ-ytpGD28sjtz343U0fUHNPu6duA>
-    <xmx:rvwBalxcNcfMlF90iVsFFBp2h-9aSqsMAq5Y5kUfolr5UIggtzpVPQ>
-    <xmx:rvwBah2Oz3ZfD1M5z1NBXOnH-OLIZpKuWOjZlTsWVvby6yhAdKDBIu72>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 11:58:37 -0400 (EDT)
-Message-ID: <1f30f0f7-5900-4cc6-951e-8762ce312ba1@bsbernd.com>
-Date: Mon, 11 May 2026 17:58:36 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HxfxT8D2"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a8720818aeso3810295ad.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 09:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778515591; x=1779120391; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9TqYJrlh6iNG/bwZqH/TNG2Kiv2CgDG6sq7EqRVuJDM=;
+        b=HxfxT8D2DZ/HHTsXka4G6Gv60Te4g4iAd3zATkYTWkoaI1enxB4xo3cJ+5qEHZDTDW
+         gU5GTm19O6RKNEl8WYvahigRGG9GkH6wNLOyRaQ/DDOFhszluIT3B8H/A5e67o4Ox8J2
+         pQ/B9Kbbk58sjw/HdFlqKGhEFHWkzUAKLGArWBSvpuVi0WIxylb6vEl9JeHMR+Jq9E0G
+         lJ2v5FK11QHhe6jqAdTiwQWYRPm+YooaaBolT/RfltpE2+rnAtcEhqTWxK2HXzbgiaE3
+         0/Rm5EBrsImo7JVPcyTm8f37tuYpVTXmF/vAhsXDiFi9CSVqzhBUJxwmh3hQnSFk/WGg
+         0obA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778515591; x=1779120391;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9TqYJrlh6iNG/bwZqH/TNG2Kiv2CgDG6sq7EqRVuJDM=;
+        b=qWVGiZ5y+CzaNTT1osU/AmWtTlV97pOeKCItDzHY6RmsJVhd/oKXKuxFzETSqk6V2z
+         4c/ux/UVkJsUqU6e1ppcI35GwMsXQMkxCYl4yPE7aGyTiW4NhgyGcb9Vy+6Fl31bseTf
+         ayywZfYN1xdwJel3NjMwkLpVE9Aql+0Rfd+tetG2V9gLIsgEqQqq2hGvnBbs/q2wxI6o
+         BgvYKj43+JPclMgDBWBcVt0EZAoSiqJO6DhY3kW3n6LiUMhZb3hQkJxTHlTI0bHS5YPP
+         dSide+da5lh/ZnIWzwq42Y/2ObZIrpTO7gAdL8/XHhs9Xt7ed/UV3C9qqq2jXzr2FVoN
+         QRrQ==
+X-Gm-Message-State: AOJu0Yz5Mxrjdkqf2+LKnR2ZsBCkQAEXOMfnfpCVvPRSG0xahTfIKSmz
+	2UZMNNWJZpo5CMRR5kzzQ3o5OPOlC2iGsKwq/i8PyycwlcOs/Ivnjmxu
+X-Gm-Gg: Acq92OHxfXgHRUGxFV6cILPh16RRWcJyJ5r1fHExRXNf5lpCutA+nwPgTiUlBPTIaEY
+	LxvtFaBOLTgNXb+yKJAjOBkIW+pG6ZkQoPYbNbjx9ZMhBsVI7VKYY440IiSCuDRa9mST6g30uB7
+	ap5bST+d3nqDfMFfTiLVZLhJ/6Rg8cYkRAdyjlnV4Ra0B8NQ332Xc3kNWvrU214fjNd70r5wBcA
+	PKgo590+9h30FvkUjhPj5a2MSZJkJ2qKdCaq/+JSclxUnjCsI57kYp0bDLQWoR+wOH1G/xe+tnq
+	KeXsGwA82owy4hzfwrjhKhL8ZHlbNQD7ElvUKzQz2Pf1B3NCx0SRQaaTf/7y1+gwe9Nlb6+ppm9
+	X6c8tI4P8CohPdL8ryoJRBZaEd79ZiHl5VNWCPeutgg81SWryDlJUKeNiO1GujMWX7RX83NTsAl
+	z8Jx3VOr4m74h/ILOTejBrExGgwdY=
+X-Received: by 2002:a17:902:da84:b0:2b2:eb6b:72f2 with SMTP id d9443c01a7336-2ba7f5444a2mr140161645ad.7.1778515590676;
+        Mon, 11 May 2026 09:06:30 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e35ebesm112447045ad.43.2026.05.11.09.06.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 09:06:30 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: linkinjeon@kernel.org,
+	hyc.lee@gmail.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	DaeMyung Kang <charsyam@gmail.com>
+Subject: [PATCH 0/3] ntfs: fix quota out-of-date marking
+Date: Tue, 12 May 2026 01:06:22 +0900
+Message-ID: <20260511160626.1268612-1-charsyam@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] mount_service: use the mount_flags table instead of
- declaring our own
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
- neal@gompa.dev, linux-fsdevel@vger.kernel.org
-References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
- <177819198067.3490792.2943381236495611249.stgit@frogsfrogsfrogs>
- <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
- <20260508175945.GE2241589@frogsfrogsfrogs>
- <20260509004851.GF7739@frogsfrogsfrogs>
- <37d55a0c-7358-455d-9552-c621160bb269@bsbernd.com>
- <20260511152210.GG7739@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260511152210.GG7739@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+This series fixes NTFS quota out-of-date marking in fs/ntfs.
 
+The driver already has quota compatibility code: it loads
+FILE_Extend/$Quota, opens the $Q index, and has
+ntfs_mark_quotas_out_of_date() to set QUOTA_FLAG_OUT_OF_DATE so Windows
+can rescan quota usage.  The failures were not an intentional quota block;
+the code could not reach and update the $Quota/$Q defaults entry correctly.
 
-On 5/11/26 17:22, Darrick J. Wong wrote:
-> On Sat, May 09, 2026 at 09:42:12AM +0200, Bernd Schubert wrote:
->>
->>
->> On 5/9/26 02:48, Darrick J. Wong wrote:
->>> On Fri, May 08, 2026 at 10:59:45AM -0700, Darrick J. Wong wrote:
->>>> On Fri, May 08, 2026 at 06:51:45PM +0200, Bernd Schubert wrote:
->>>>>
->>>>>
->>>>> On 5/8/26 00:14, Darrick J. Wong wrote:
->>>>>> From: Darrick J. Wong <djwong@kernel.org>
->>>>>>
->>>>>> Use the canonical mount flags table in mount_util.c instead of
->>>>>> opencoding our own version in mount_service.c.
->>>>>>
->>>>>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
->>>>>> ---
->>>>>>  util/mount_service.c |   51 +++++++++++++-------------------------------------
->>>>>>  1 file changed, 13 insertions(+), 38 deletions(-)
->>>>>>
->>>>>>
->>>>>> diff --git a/util/mount_service.c b/util/mount_service.c
->>>>>> index 8c9747b3928a51..79e5b060ba3356 100644
->>>>>> --- a/util/mount_service.c
->>>>>> +++ b/util/mount_service.c
->>>>>> @@ -1457,73 +1457,48 @@ struct ms_to_mount_map {
->>>>>>  	unsigned int mount_attr_flag;
->>>>>>  };
->>>>>>  
->>>>>> -static const struct ms_to_mount_map attrs[] = {
->>>>>> -	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
->>>>>> -	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
->>>>>> -	{ MS_NODEV,		MOUNT_ATTR_NODEV },
->>>>>> -	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
->>>>>> -	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
->>>>>> -	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
->>>>>> -	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
->>>>>> -	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
->>>>>> -#ifdef MOUNT_ATTR_NOSYMFOLLOW
->>>>>> -	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
->>>>>> -#endif
->>>>>> -	{ 0, 0 },
->>>>>> -};
->>>>>> -
->>>>>>  static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
->>>>>>  				 unsigned int *attr_flags,
->>>>>>  				 unsigned long *leftover_ms_flags)
->>>>>>  {
->>>>>> -	const struct ms_to_mount_map *i;
->>>>>> +	const struct mount_flags *i;
->>>>>>  	unsigned int ms_flags = ntohl(oc->ms_flags);
->>>>>>  	unsigned int mount_attr_flags = 0;
->>>>>>  
->>>>>> -	for (i = attrs; i->ms_flag != 0; i++) {
->>>>>> -		if (ms_flags & i->ms_flag)
->>>>>> -			mount_attr_flags |= i->mount_attr_flag;
->>>>>> -		ms_flags &= ~i->ms_flag;
->>>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
->>>>>> +		if (!i->on || !(ms_flags & i->flag))
->>>>>> +			continue;
->>>>>> +
->>>>>> +		mount_attr_flags |= i->mount_attr;
->>>>>> +		ms_flags &= ~i->flag;
->>>>>>  	}
->>>>>>  
->>>>>>  	*leftover_ms_flags = ms_flags;
->>>>>>  	*attr_flags = mount_attr_flags;
->>>>>>  }
->>>>>>  
->>>>>> -struct ms_to_str_map {
->>>>>> -	unsigned long ms_flag;
->>>>>> -	const char *string;
->>>>>> -};
->>>>>> -
->>>>>> -static const struct ms_to_str_map strflags[] = {
->>>>>> -	{ MS_SYNCHRONOUS,	"sync" },
->>>>>> -	{ MS_DIRSYNC,		"dirsync" },
->>>>>> -	{ MS_LAZYTIME,		"lazytime" },
->>>>>> -	{ 0, 0 },
->>>>>> -};
->>>>>> -
->>>>>>  static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
->>>>>>  {
->>>>>> -	const struct ms_to_str_map *i;
->>>>>> +	const struct mount_flags *i;
->>>>>>  	int ret;
->>>>>>  
->>>>>> -	for (i = strflags; i->ms_flag != 0; i++) {
->>>>>> -		if (!(ms_flags & i->ms_flag))
->>>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
->>>>>> +		if (!i->on || !(ms_flags & i->flag))
->>>>>>  			continue;
->>>>>>  
->>>>>> -		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
->>>>>> +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->opt,
->>>>>>  			       NULL, 0);
->>>>>>  		if (ret) {
->>>>>>  			int error = errno;
->>>>>>  
->>>>>>  			fprintf(stderr, "%s: set %s option: %s\n",
->>>>>> -				mo->msgtag, i->string, strerror(error));
->>>>>> +				mo->msgtag, i->opt, strerror(error));
->>>>>>  			emit_fsconfig_messages(mo);
->>>>>>  
->>>>>>  			errno = error;
->>>>>>  			return -1;
->>>>>>  		}
->>>>>> -		ms_flags &= ~i->ms_flag;
->>>>>> +		ms_flags &= ~i->flag;
->>>>>>  	}
->>>>>>  
->>>>>>  	/*
->>>>>>
->>>>>>
->>>>>
->>>>>
->>>>> Hi Darrick,
->>>>>
->>>>> wouldn't it make sense to use the functions from mount_fsmount.c? I can
->>>>> also clean this up later if you want.
->>>>
->>>> Oh, hah!  Yes, I'll revise this patch to use them.
->>>
->>> Update: I tried this, but ran into a problem: the two helpers are in
->>> lib/mount_fsmount.c, which means the object code ends up in libfuse.so.
->>> Unfortunately, that means that util/mount_service.c can't use them
->>> unless they're exported from the .so.
->>>
->>> I don't mind doing that, but I feel that I should check with you if it's
->>> ok to add that to the public libfuse API before doing that?
->>>
->>> Though I think a better solution is to move ms_flags_to_mount_attrs and
->>> set_ms_flags to mount_util.c because that's compiled into the util/
->>> programs.
->>>
->>> How about I do that second thing on Monday?
->>
->>
->> I would prefer the 3rd option, like for fusermount3
->>
->> executable('fusermount3', ['fusermount.c', '../lib/mount_util.c',
->> '../lib/mount_fsmount.c', '../lib/util.c'],
->>
->>
->> I.e. add lib/mount_fsmount.c to mount_service_sources.
-> 
-> That works, will put together a patch to do that. :)
+Patch 1 fixes ntfs_index_lookup() so callers looking up view indexes get
+the index entry value instead of the key.  Directory $I30 callers keep the
+existing key-return behavior.  The patch uses the index root type, not the
+collation rule, to choose between $FILE_NAME keys and view-index values. It
+also validates the returned value bounds without truncating the minimum
+offset, excludes the child VCN tail from INDEX_ENTRY_NODE value ranges, and
+clears the returned context pointers before returning an invalid view-index
+entry error.  The matched-entry data exposure and validation are moved into
+a small helper, ntfs_index_lookup_set_data(), so the done label stays flat
+and the bounds check has a single return.
 
-Hi Darrick,
+Patch 2 fixes ntfs_mark_quotas_out_of_date() to look up $Quota/$Q by the
+$Q index name, not $I30.
 
-I didn't manage yesterday anymore to work on that, the container branch
-is in a total merge conflict with libfuse master. If you want you could
-continue on the iomap and I would solve the merge conflicts. Though,
-probably not today or tomorrow.
+Patch 3 calls ntfs_mark_quotas_out_of_date() during initial read-write mount
+as well as the existing read-only to read-write remount path.  The init
+sequence is wrapped in a small helper, ntfs_init_quota_for_mount(), which
+captures each call result in a local variable, derives the failure reason,
+and gates the read-only downgrade on policy in one place — keeping
+ntfs_load_system_files() flat.
 
+QEMU/virtme testing:
 
-Cheers,
-Bernd
+- The original remount-rw reproducer failed with:
+  "Lookup of quota defaults entry failed."
+- After changing only the quota index name, the same path exposed the second
+  bug and failed with:
+  "Quota defaults entry size is invalid.  Run chkdsk."
+- With this series applied:
+  - read-only mount followed by remount,rw succeeds
+  - with the $Quota/$Q defaults flags prepared as 0x00000011, remount,rw
+    persists 0x00000211
+  - direct rw mount with the same prepared image also persists 0x00000211
+
+DaeMyung Kang (3):
+  ntfs: return view index entry data from lookup
+  ntfs: use $Q when marking quotas out of date
+  ntfs: mark quotas out of date on initial rw mount
+
+ fs/ntfs/index.c | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ fs/ntfs/index.h |  3 +-
+ fs/ntfs/quota.c |  3 +-
+ fs/ntfs/super.c | 46 ++++++++++++++++++++++++++--------
+ 4 files changed, 110 insertions(+), 17 deletions(-)
+
+-- 
+2.43.0
