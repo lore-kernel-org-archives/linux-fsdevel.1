@@ -1,175 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818FC28A72F;
-	Mon, 11 May 2026 13:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F140F3EB810;
+	Mon, 11 May 2026 13:32:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778506238; cv=none; b=R98N3zTdgFUZTZTNpmayKnCW81hw+HNj1XV6uZJrAS9A/VMUB6hzycVTKoD40bKfW2Qv6e4GjoT+9HmN0bRQZwd2XrstUmZpaKpA/imDIRUZhzRGmw6ROaWcggyTNIGKdqP/BhhJ9cdq+5vUJAqmuZTfYtbdvqYZQCDYnkUTxr4=
+	t=1778506359; cv=none; b=hziWxiHR4kmjgUj7qxlbY/oeYJI4bFu3xOC3a777asaJLqiAFuugDp6xooxT7QrYiqjk6pg8NxSj4T1TC/Ta7IHtFihRE9eQtHmfQ52O/CzVgQbxIohm6pyKRFxbkXUrNUiPiQefGF4QuJL8hGUextta727V3d8e1ZBnAPh4Xag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778506238; c=relaxed/simple;
-	bh=jbcVI1jrUyyXCbcXulItGm9FT6kPhvF1wROwKgAVnOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SRtFPj81vLgNm6CHgkF+Im91vrgOS5ypaHQrtnxVxN/pPRxVBfGkpJRpUmZDSqxZz375LlvSk37NukrD3eV6gJ4SKg01/ibzbNP1GuMybNjZzj2yz3uqj6ZD3F9KmDo/Uq4GVthqLG1GNVkxAx4l7vfnNCz0+ZkvMIClGMAd1iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UHuR6Nce; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778506359; c=relaxed/simple;
+	bh=sJoBRYVX6bOZsdoa19UgMBWwF9LWA3D8znwXdWe1B54=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L3Zskfj3e2QnyRLe7mvMviHYBaYUCBmflRxYEC+qYfXdIOGNVq/iUanpcCtsBNGKqgjs0eak/o4Kls6vVnt/3xq+SnpLc/CCcukWZPrh3Kl+MlRjkCA2trB2e6gqDqRu/98yA+Tfg7uDSyisgSz6LmSRNrK9iTQDWjxIQirsVLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rIIrZ3Dq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UHuR6Nce"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C54B4C2BCC9;
-	Mon, 11 May 2026 13:30:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rIIrZ3Dq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB252C2BCB0;
+	Mon, 11 May 2026 13:32:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778506238;
-	bh=jbcVI1jrUyyXCbcXulItGm9FT6kPhvF1wROwKgAVnOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UHuR6Nceb6LxsqK4kUrZCwzIQWgQHB/rIEllzq2o9+kYM1STACDZ/IWNvFTtRrrJ4
-	 ZaUpIpa6VY6rifO9CH34d66vEzIoa+U6+kw3GW3h+UZJssd9FKGQNbk5rpI9Sq99Rv
-	 YbrU6ps0usCRHdO/3tS3dc/JgAIU4Xnc3dBVAkvpuNuxm8i5Bh9+Ul8aT5E8aKpJiT
-	 ti+wwhrX0HWhSgUDX+hn5rqPCSZeJUcwNIjJ4DFPTSZD2vddyV2eQLQO8d0ln0++zv
-	 mETWNAoKIZtuv9bw6K4G5b/82b4nwDtahGd1JJEJR3ZGYv4MgSTS1SCg93ogLXNK4Z
-	 U7iZgCrApEikw==
-Date: Mon, 11 May 2026 15:30:34 +0200
+	s=k20201202; t=1778506358;
+	bh=sJoBRYVX6bOZsdoa19UgMBWwF9LWA3D8znwXdWe1B54=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rIIrZ3DqQaNc+tbsov72hHaUh2NBuEIQBhsbBsPkKGgwpsT70PxKojzqx4FiMYMif
+	 hyH5dsshvsvU/Hs0zHg8dzpvMegASszzCodE/FOnPLExJQav67wXJv8FJA+Rq9Z3zp
+	 nTFuw3t/zSAdZaowcLGyNa/4tZi60Ohr3lHp5O07+A1DINb/KvWv9ig8LcFP6vJAGu
+	 IbO9c2ixK3DaMEwDXf4h/y660nWAOLe1UIbnuX6I65nrJhYeEnJL/GrnxhIQct+ywq
+	 dha17C1r3e5MdUEBHcY8Nj/iUGnj1Y7MIlCKkVOI4m88S6r1XzMEeis/FM85EVQCUB
+	 i7Yrh9HFMjqBw==
 From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, aivazian.tigran@gmail.com, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Ted Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org
-Subject: Re: [PATCH 9/9] ext4: Use mmb infrastructure for inode buffer
- writeout
-Message-ID: <20260511-paletten-kekse-7dc3bc394633@brauner>
-References: <20260511115725.28441-1-jack@suse.cz>
- <20260511121356.241821-18-jack@suse.cz>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org,
+	Andres Freund <andres@anarazel.de>,
+	Jeff Layton <jlayton@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	linux-xfs@vger.kernel.org,
+	hch@lst.de,
+	linux-kernel@vger.kernel.org,
+	pankaj.raghav@linux.dev,
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH] fs: fix forced iversion increment on lazytime timestamp updates
+Date: Mon, 11 May 2026 15:32:22 +0200
+Message-ID: <20260511-entzaubern-jemals-2a6e61b051e3@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260511111918.1793689-1-p.raghav@samsung.com>
+References: <20260511111918.1793689-1-p.raghav@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260511121356.241821-18-jack@suse.cz>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1511; i=brauner@kernel.org; h=from:subject:message-id; bh=sJoBRYVX6bOZsdoa19UgMBWwF9LWA3D8znwXdWe1B54=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQx3io4teWVfd/lL7/f3BE/t7Emvru2mj1l494upkWVJ trnr8yc0lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARvxhGhotW7zVTOw5ed+zW qtyZPWftLMX77AknvlxjN1Ga5uJ34izD/xo7hvUz/zRIl4g1rYmcoJ1bGS3xVHx631KvjUZ8Id7 CzAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 11, 2026 at 02:13:59PM +0200, Jan Kara wrote:
-> Use mmb inode buffer writeout infrastructure to reliably write out
-> inode's inode table block on fsync(2) in nojournal mode (from
-> ext4_sync_parent() and ext4_fsync_nojournal()). This significantly
-> simplifies the code as we don't have to explicitely handle inode buffer
-> writeback in ext4_write_inode() and thus we can also remove
-> sync_inode_metadata() calls from ext4_sync_parent() and
-> ext4_write_inode() call from ext4_fsync_nojournal().
+On Mon, 11 May 2026 13:19:18 +0200, Pankaj Raghav wrote:
+> When updating timestamps with lazytime enabled, if only I_DIRTY_TIME is
+> set (pure lazytime update), inode_maybe_inc_iversion() should not be
+> forced to increment i_version. The force parameter should only be true
+> when actual data or metadata changes require an iversion bump.
 > 
-> Signed-off-by: Jan Kara <jack@suse.cz>
-> ---
->  fs/ext4/ext4_jbd2.c |  2 +-
->  fs/ext4/ext4_jbd2.h |  2 ++
->  fs/ext4/fsync.c     | 12 ------------
->  fs/ext4/inode.c     | 24 +++++-------------------
->  4 files changed, 8 insertions(+), 32 deletions(-)
+> The current code uses "!!dirty" which evaluates to true whenever dirty
+> has any bits set, including the I_DIRTY_TIME bit alone. This forces an
+> iversion increment on every lazytime timestamp update, which then sets
+> I_DIRTY_SYNC, triggering expensive log flushes on subsequent fdatasync
+> calls. Andres reported this issue when he noticed a perf regression[1].
 > 
-> diff --git a/fs/ext4/ext4_jbd2.c b/fs/ext4/ext4_jbd2.c
-> index 74f05bd0cdde..6bbaf72108fd 100644
-> --- a/fs/ext4/ext4_jbd2.c
-> +++ b/fs/ext4/ext4_jbd2.c
-> @@ -350,7 +350,7 @@ int __ext4_journal_get_create_access(const char *where, unsigned int line,
->  	return 0;
->  }
->  
-> -static void ext4_inode_attach_mmb(struct inode *inode)
-> +void ext4_inode_attach_mmb(struct inode *inode)
->  {
->  	struct mapping_metadata_bhs *mmb;
->  
-> diff --git a/fs/ext4/ext4_jbd2.h b/fs/ext4/ext4_jbd2.h
-> index 63d17c5201b5..2a01b8279c88 100644
-> --- a/fs/ext4/ext4_jbd2.h
-> +++ b/fs/ext4/ext4_jbd2.h
-> @@ -122,6 +122,8 @@
->  #define EXT4_HT_EXT_CONVERT     11
->  #define EXT4_HT_MAX             12
->  
-> +void ext4_inode_attach_mmb(struct inode *inode);
-> +
->  int
->  ext4_mark_iloc_dirty(handle_t *handle,
->  		     struct inode *inode,
-> diff --git a/fs/ext4/fsync.c b/fs/ext4/fsync.c
-> index e25d365e1179..af84489e57c6 100644
-> --- a/fs/ext4/fsync.c
-> +++ b/fs/ext4/fsync.c
-> @@ -75,9 +75,6 @@ static int ext4_sync_parent(struct inode *inode)
->  			if (ret)
->  				break;
->  		}
-> -		ret = sync_inode_metadata(inode, 1);
-> -		if (ret)
-> -			break;
->  	}
->  	dput(dentry);
->  	return ret;
-> @@ -87,10 +84,6 @@ static int ext4_fsync_nojournal(struct file *file, loff_t start, loff_t end,
->  				int datasync, bool *needs_barrier)
->  {
->  	struct inode *inode = file->f_inode;
-> -	struct writeback_control wbc = {
-> -		.sync_mode = WB_SYNC_ALL,
-> -		.nr_to_write = 0,
-> -	};
->  	int ret;
->  
->  	ret = mmb_fsync_noflush(file, EXT4_I(inode)->i_metadata_bhs,
-> @@ -98,11 +91,6 @@ static int ext4_fsync_nojournal(struct file *file, loff_t start, loff_t end,
->  	if (ret)
->  		return ret;
->  
-> -	/* Force writeout of inode table buffer to disk */
-> -	ret = ext4_write_inode(inode, &wbc);
-> -	if (ret)
-> -		return ret;
-> -
->  	ret = ext4_sync_parent(inode);
->  
->  	if (test_opt(inode->i_sb, BARRIER))
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index 3e66e9510909..09506b4de1b2 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -5786,24 +5786,6 @@ int ext4_write_inode(struct inode *inode, struct writeback_control *wbc)
->  
->  		err = ext4_fc_commit(EXT4_SB(inode->i_sb)->s_journal,
->  						EXT4_I(inode)->i_sync_tid);
-> -	} else {
-> -		struct ext4_iloc iloc;
-> -
-> -		err = __ext4_get_inode_loc_noinmem(inode, &iloc);
-> -		if (err)
-> -			return err;
-> -		/*
-> -		 * sync(2) will flush the whole buffer cache. No need to do
-> -		 * it here separately for each inode.
-> -		 */
-> -		if (wbc->sync_mode == WB_SYNC_ALL && !wbc->for_sync)
-> -			sync_dirty_buffer(iloc.bh);
-> -		if (buffer_req(iloc.bh) && !buffer_uptodate(iloc.bh)) {
-> -			ext4_error_inode_block(inode, iloc.bh->b_blocknr, EIO,
-> -					       "IO error syncing inode");
-> -			err = -EIO;
-> -		}
-> -		brelse(iloc.bh);
->  	}
->  	return err;
->  }
-> @@ -6348,7 +6330,11 @@ int ext4_mark_iloc_dirty(handle_t *handle,
->  
->  	/* the do_update_inode consumes one bh->b_count */
->  	get_bh(iloc->bh);
-> -
-> +	if (!ext4_handle_valid(handle)) {
-> +		if (!EXT4_I(inode)->i_metadata_bhs)
-> +			ext4_inode_attach_mmb(inode);
-> +		EXT4_I(inode)->i_metadata_bhs->inode_blk = iloc->bh->b_blocknr;
+> [...]
 
-The series is great overall. The only thing I think we should change is
-that we should hide this
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-EXT4_I(inode)->i_metadata_bhs->inode_blk = iloc->bh->b_blocknr;
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-behind a dedicated static inline/regular function call instead of
-open-coding it everywhere. Can then also be paired with some
-VFS_WARN_ON_ONCE() to detect garbage bh->b_blocknr.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] fs: fix forced iversion increment on lazytime timestamp updates
+      https://git.kernel.org/vfs/vfs/c/834e98acb748
