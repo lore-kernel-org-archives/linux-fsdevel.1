@@ -1,154 +1,193 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020093.outbound.protection.outlook.com [52.101.195.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877C037E2FA
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 19:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778529182; cv=none; b=hQBuLotZsVhxvAzpI+7+6Qqbyx7BdeN5mtS5yquh+UObetI55qLxShHCzJmo7QdrQ8KmlfKJViuHTvCpHuc9NMGCBuQUT1P0HMNgQesWV7hPKxiAHzJ+RiV1Qd8BViLzq1Y3LLZcoGdN4cV0jA2HBnlXut+s28wj+L15Mgiuuc0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778529182; c=relaxed/simple;
-	bh=0WCJDrovG+9Ixg/ZDeUHkV8CFYfHBfClr3tW4/3vGfk=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=rkmY5HffPFmT5o4GcwzWg38wlMOt0762+FDKokOR2Xrp1+OGH+fwhCjBmjiQ7zTLN+29auXdZY69m6KAVnC9foDEDJO4VY9f3aCgTJkoeRQvHvVeWAnJzsJ5o1CB4FF5lfBNee6fsaGNwg5lOJdC3eI//3JtGj3CWz3EzSek6ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=dgfw5eky; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="dgfw5eky"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8ef2118b478so484136885a.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 12:53:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1778529180; x=1779133980; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :mime-version:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZOo8mqYuky3aS2A2U/I/xcFROUzPmcuioh4GJDlL7KI=;
-        b=dgfw5eky/vNSYe7KOPr0mC/55FldRPmK6JpEUGd04ANvzHrZ3Oq9jyDs8GRC1v82WJ
-         bgqFWZwHhQSZiIJvz6D3M5PYY5kULi0uZgu1XK0AckylhVRSL9v4RYU0XLr6tOWhNGAx
-         RA/DjGOxaBYVWlodjur0Rk/Zovo/XXYHCkLburqQrDmBR8sj1XQJ2FKzLg8UUi9YUm8m
-         z0e9ttjsVe2Z8vM4bgmjSIjs1Rmrto+LX1ODdwGKGTgdcYrIXgQUGLq2y/uyQSlOgrWS
-         JcbbsB4Imt4+hemmAspE8biI/nEuPnDRMqi2DoxtnI3VW52Z7jw270TxkoUOlrneZliZ
-         4uyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778529180; x=1779133980;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZOo8mqYuky3aS2A2U/I/xcFROUzPmcuioh4GJDlL7KI=;
-        b=QY88nAhSxO5C5kv8+pZJoSMWPzX0Ov9rFknQVlkj1WSBaCswuVUGfpFqVT1hHPxZQ5
-         K1B1sKW83fUzabERwc6qPMiVkFwg9eAIb9GqcA24u8a6VKh6bCHvPyyPy98Iluh6tpmi
-         3ebalvhRiSn7eHfHFdKmXGIjEBqD5dEfUZKiy6VPQP/84fd+fxdPABzGvBcbVMKgUNhc
-         wAiZn7h+8nj+deVimqAEWsZjn49XBByEfWR4XnJljmDiK7F1nJxpSkskWumTenI0fsoV
-         V0Inp+pXxzaHTvCwFfWB9nt36Ypv7VfNMWBS3iiMwNlUSBmJf3Fl3gAkCSdZrC5xrQAA
-         Y26w==
-X-Forwarded-Encrypted: i=1; AFNElJ8WLjSnaLnM6N6g+GJV2DahzWF1LSCVLVqlQfPqTU+TbjNZjR7DM9koozK0WZTUsa7MaNjFXZB+aGXDbC3f@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIfzanRKoWFLn5ZiB9ZMB2EIxUElrYeHkhuIavzrIKVhUnxyOS
-	uNx8yKhO5dq96tn/AhQIw3vxd/HgIDpX2TqdGcxrK9Qk4RJ6sNMY0DsgFYZJ1agvoQ==
-X-Gm-Gg: Acq92OHT/XaGIwleEOjMBKWcorxqHfeUN3RB7W/HPWHg9SnhkUKuETmOkvy6kTnlU4l
-	s8MUeFNtB2qTBG3ez/rUIFLQxotytL0TfzZOm1VxjRmV40/1sPUz0zOYt6hb4laGXiIN/U1iKyC
-	MEHHPTZbWw3QTFHyTRcDTLEE4dRknP2uW44SgOmMK2eXl1aytQ4XZJHErAXgeBxA+Ml/4tHeZ2P
-	0qq0GdqwbL9mqpocR+K/9M5guaEuRVrzOi4n9z79ZYW5JyHzuNw4MlrbBX6Bnig5afQ7JV0PeZV
-	a9C7W9Ygj+cE0l+DJ6puZdMkHodGsX8iEKtY5zb9TmRJz9lwVxDF44O9IR/qkBjaaU/NFDKlvC3
-	O9INDmHKBADlSoW/aI9+lAo89E3zfio1qSXqP9rUuBvhx82gHJNO9+Pd6B+L7gN9jqKqDmsX78/
-	d2v1ziue7XT4bHwwgmlVbEM/eXDcCi4HFjfD/kkiPVFLM3n4yu9T3pt6rLe4L8Fka2R5xp
-X-Received: by 2002:a05:620a:698c:b0:8d9:3cb9:9905 with SMTP id af79cd13be357-904d6fcb765mr3693957985a.54.1778529180332;
-        Mon, 11 May 2026 12:53:00 -0700 (PDT)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b918cffesm1179663385a.14.2026.05.11.12.52.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 12:52:56 -0700 (PDT)
-Date: Mon, 11 May 2026 15:52:56 -0400
-Message-ID: <37ceb04c4c37370a2359f73a24b9c07b@paul-moore.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD43837EFF1;
+	Mon, 11 May 2026 20:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.93
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778531134; cv=fail; b=VVif1VoqsAIYf0aNJcIS32uqcjy60PhfZZqU3Fld3cbJRzvyQV+TOKgcUlRnpqzU71XdcW3Wl7oJcV9BjX4/yLvOrHEpj1/snWj0ZkFwxutZTS+TU6++VMwdPf5UAo9q7ewvmk12lV+fCfdNXRWwQTIwwnZXOXM+hgXrwHm7T6Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778531134; c=relaxed/simple;
+	bh=r7hDVemhI2YXZfCJE7LzF9SAYP0T8p1nJVdHsC6eF3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=g7ORScUQ1fM+rMDHTgyct9CzRdwg7JM6WX9NJdZK5/WZABQ2r8FfcMwPGpmyp+YjDLDUWB9+6G2zTDH3cqlKXVZ/Pq6tV71bRdtBwRtXlvx5q5X3qJphA+hfLRDJ6D9S/lWsNklEE8zv62NORAWeT3l+1GIqwgSCIW08R4GLTOY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.195.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=C6koXPU0I/sBtSe1Q7a23jMQYCQ2YX6TYo0uj2+V5IgtQ/Tm7pmAZ7eSraJ9pFVxA34clU4ac7fG9XK2Q5ghHazAGQWkg7rbKs0MRCq+IcI6/p0JjcpfhEJ7RAxOj3HkBKWWNKee9xhNA7sJwz8eT4eqpOVlWQp9Y2Y4CN9iM+21v8ZaYWL8W1QUoP+0gTadYRFm6EtveTFrT6BhxS0uC6AYxSFrd6v4chvvSHy1FW3TPFpm+Rw4bix7rwgnYQqnIKGsLYmVe5jExOWzIyoO1f7Jfh+glFS7yMh6kIXjBYwwH9t1b2NSEVWakdYNmb4nZo+A1qQw39Jpb9I9Rm1JvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r7hDVemhI2YXZfCJE7LzF9SAYP0T8p1nJVdHsC6eF3g=;
+ b=Ui3YOY2T4yNcWrwAlmyjHToCMZaWsxXzQtB9LePmj7Hqnqvg4VKrSZrFzYTgagjpLB3fXs14+KpeGuziGGI69k4769bHDl3ddYT5IMN/MTeSSO3CbNFjFsIdQNxYXEmnL7LaEymV62yYy36Gw5LvSZcfl5FC0lcENMWtttm5N0gqoIAthGZcjTnG8bF2baPYx2CRCBetGuAt+ZPdFpwNybWPY2MJIl0B8cXo+vOwoK7x2VZXbG8NIiO2ITXgu/7UURV9uwREjyULrHckV6ZJS2HuQCrS+zNkSUPOb76ZwuO2iWojIhspcBjVWNu3u0F2/tmxzptxlKJ2N6n6R35gaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by CW1P123MB7820.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:243::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 20:25:29 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.025; Mon, 11 May 2026
+ 20:25:29 +0000
+Date: Mon, 11 May 2026 16:25:25 -0400
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Waiman Long <longman@redhat.com>
+Cc: tsbogend@alpha.franken.de, paul@paul-moore.com, jmorris@namei.org, 
+	serge@hallyn.com, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, stephen.smalley.work@gmail.com, casey@schaufler-ca.com, 
+	tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, chenridong@huaweicloud.com, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, 
+	vschneid@redhat.com, kprateek.nayak@amd.com, omosnace@redhat.com, kees@kernel.org, 
+	neelx@suse.com, sean@ashe.io, chjohnst@gmail.com, steve@abita.co, 
+	mproche@gmail.com, nick.lange@gmail.com, cgroups@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] cgroup/cpuset: Fix deadline bandwidth leak in
+ cpuset_can_attach()
+Message-ID: <dif4xi73znyz3diguyxihzztgosvyj3bjeh3y3oidg4gnt2qpv@5nygeq3rk333>
+References: <20260509164847.939294-1-atomlin@atomlin.com>
+ <20260509164847.939294-2-atomlin@atomlin.com>
+ <8aaa7dd9-2426-475c-af64-85ef5f2aa855@redhat.com>
+ <aihz6zlfmcaxwb3ef4luisfpwqibwsajpphy5vzuksy3ftfkms@whhv2ax5plpb>
+ <354af9fc-1c70-4ee4-a0ff-8821bebec7b8@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jrqcg3cyap65nupq"
+Content-Disposition: inline
+In-Reply-To: <354af9fc-1c70-4ee4-a0ff-8821bebec7b8@redhat.com>
+X-ClientProxiedBy: BL1PR13CA0270.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::35) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20260511_1539/pstg-lib:20260511_1103/pstg-pwork:20260511_1539
-From: Paul Moore <paul@paul-moore.com>
-To: Song Liu <song@kernel.org>, linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com
-Cc: jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, john.johansen@canonical.com, stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, gnoack@google.com, takedakn@nttdata.co.jp, penguin-kernel@I-love.SAKURA.ne.jp, herton@canonical.com, kernel-team@meta.com, Song Liu <song@kernel.org>
-Subject: Re: [PATCH v3 7/7] lsm: Remove security_sb_mount and  security_move_mount
-References: <20260509015208.3853132-8-song@kernel.org>
-In-Reply-To: <20260509015208.3853132-8-song@kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CW1P123MB7820:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05b6edf2-a782-486d-95f3-08deaf9b712e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	sCWaxIkpj48DqctKtcI9qgp5NNpp81gNVBRYl0fHYmp1XC8KBi+nmT4bXdQ/sPecu4/0WgZxQg1Zi4oUPZPJMTab0QSjq3N9TdqtvSSRVsDo1i3otizMzNSf1ap8omwmEChKi0SaPt5tnBk9iDuPJaXigoEO6F7NfyA+z25n8X8/cMCneWWA8stt6E1aHWCA8/f87t8SJYYYMpX6YJlqr5ug8XnHGBs1+SbmS6QysvmBu69AOOf5uqINZPN9ztfXgRzr1qt1abLnK7hYlRi2WeZKeDisyI+n457UBk0lA7d7D+5KCFsEeK2tj/i5KWICrM1OOzICUfBPqIQyhwKj8PwTqQkXx2uYD91UVouIPlfcdXnj54+d4rivPeyYaVZcd50Oz/f4Auc/78R0BLLi6uCE15AAJJDfDcbSgjYLhCBMRH74ca62aGNfxFRA6hjdj8xGvXXEU8YsylJxhyLxMLDh5N/1gMJUKiBQRxmv4HHZCaV1+cc2LtTeiRY9KnVlCKFzDEauTvILDcCH+agvYEOHq0K0FUR0Q+9KYS9qW1QTOjT19vQvk0Sr4fzk3EIp31rVaV8wniY3orcRnPACLxUhYcIKAi/A1vmwIEU/do041lS/EaHH+l5SLWOk1udJN21FAvM606h3jSLzvGG4ahSIZVG+A4VedMVWkIFzm5EKalkhzIhQ7iW7IZmpJA1aaA8h/0E3hRtclvBEzB5Uxg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZXNrUVZjeGF3TTRhMTVvaGxYN2E5ZXkwdEU0OXBRREhJLytmZTJaTWl2bnNi?=
+ =?utf-8?B?TXVTK2NQd1drMmpHQlRDQnlWUWpxMHFPNVp3bk5yWUlxNVBGSTJabjlxVjZi?=
+ =?utf-8?B?VnpURXJnUmMyM241NnB2WGE3aGwxc0dWSms4L1ROdm5nQzlTMDBxam5URmt1?=
+ =?utf-8?B?bFlhMFFvK2FqNW9sc2s1WGhBTFhYMlpuaHhhNENyZmt3Vi8xTEM1TEpQZzlm?=
+ =?utf-8?B?b0Zyb0YrdFhIRGh1R1p6M2tuSWw4cmtoLzNudFpmK3orblcxckRmeFFJaHRJ?=
+ =?utf-8?B?UE1CUXpoZ0lBcVFENURjczlacVRDWTZsZXRwUkRZb0Z4d2U1elEwY20xVHZT?=
+ =?utf-8?B?U3NQdk0zR2VhVkhzMXVRdnhTemR3V05rRWtUVXlsQXY5M1BJTnhuU2VvT2Nq?=
+ =?utf-8?B?QUk4RmNqTGk1amE5UWZjNEFHVjlYVEtlTjdSa0t5akxUWU83MFM0SERrQ2sv?=
+ =?utf-8?B?TFZnYkRua1BVNW5lQ08zQVE2WEZOVVhRSkpxclB4MDJDQ055UXhBZzA4cmtC?=
+ =?utf-8?B?TGFuQVNEb0ovaGhESS9yM2d4MTZqQmxzMUZHLzRjN2UrWUFRTmd5V09HQmlG?=
+ =?utf-8?B?QTY0bnRDZnZQOUhSeHV2dDRMTzNNdTNPQ1d4YW9TdmQyang4a1ZxeTlPUHRP?=
+ =?utf-8?B?RWZmU2JFMERyaHZWOGNvZVg3b2UxNEZRZ0wwVG9tUEg3a2pEb2tZZjVKOHo4?=
+ =?utf-8?B?YVlIeGNHdkMrMXk0aW1XWHdzYWpCaWM2cG9MeWRoUHBYYnczSW10L294YWxL?=
+ =?utf-8?B?bGRQWjF6eEdOVEVleVJPWW1CQVpVSndJTUhEVW1pUmVTRWZWWXVQQzhFSXc5?=
+ =?utf-8?B?aGVOUkgxUzFkamV3dmJkbVRvSmFTY1N5ajRKOW1sNVE1TnFrMm5pK3Y3a3lQ?=
+ =?utf-8?B?Z3g0UFZVSHZ3bmxtT1FMSWdmTjJMdWtHSXZiVlQ2RGRjdUZFQjRWbklDS1d3?=
+ =?utf-8?B?RHRVeUlEVjgwMjVRSVFZVlNmeW5pclR5OTdrVWRzR0NZQ004WEZ5eWxaT3d2?=
+ =?utf-8?B?UjU4TFdVejlVK1RCN0xrN1Z6b3FPUHh3cTNmbEZTZUt0RTgxYjdUc0NJMEZQ?=
+ =?utf-8?B?ZXdKWlNITGpXUUxPVWRqNHZLM2F4bTlFMEh0R05ZMktJU0lsRzludFZJY0xX?=
+ =?utf-8?B?bWpEdmxMdWpUbFkyZlhOc1FZK1FENU9pOGk3aUpubDdGaCtjbEVlYWNUNUdC?=
+ =?utf-8?B?NXdtbitkZHYwUE1jMkE5RGl5bkt4QmVQT0NlY05jclRUNXY0OHppTVFmTUxo?=
+ =?utf-8?B?Njg4MTZDTGErUEh0UjFYZStSYW1mR2FXa2h5ZTJ2ZjZ2OWlsNC9oOFRnTmhN?=
+ =?utf-8?B?dXN0N1Qxa1c3Z3k5RFNCSzdZTDFmQkszdkdDYkhTc0g3dm0vU0J1bVo2eWUz?=
+ =?utf-8?B?SmVrVVBNa0ltdE0rTVgzR1NUS1c1VXcxSkVwKzhDUitEMWZVL1NLRzVCY1F0?=
+ =?utf-8?B?MENDVTJTOEZFZFRKaVEveGhOeU1IWlM3bGFrQXdzNVZ1Q0hYVEIyZ0hhbjJB?=
+ =?utf-8?B?V2NtYjkyMTNvTjh4OHVuOHAwd1UzTGdySmdrcXRDMVVSd0RDQk1IZ0VzcFVs?=
+ =?utf-8?B?UDdRTlJqMkcrMUpMc2pyTXdzU1J6aTZ4anNIMytucW5Kd3ZScVZQK2pFMnRQ?=
+ =?utf-8?B?VXNqajhvZWtYZ01Pdjd3WlA0eUtWcERJVi8waTJROUZGMmc2VExlVExNUnA0?=
+ =?utf-8?B?RGpvTEFyTFBYQkNzbm9EMzZPc0JGZjFTdWtMOUQvRGZEU2hpYmplUUhEUFBO?=
+ =?utf-8?B?cExncFNtK0NCdmJRdVc3aWd0UVBGRmxjdDlxc0xkbC9TRERyNXMxSzBwbTJy?=
+ =?utf-8?B?SThtYVRwNzlLTzBXckRMcDArbHBFUC9FOW1HaUhrcXZ1YmFrenFvcXhRWUY3?=
+ =?utf-8?B?RERVNVkwR21DSll2bGdibTdSTWVzSlc3bnRRY2xsUllIVEgzMGx5eDVqSzgv?=
+ =?utf-8?B?RTFla3E3aExwenI3bFV1NGh0UzAvR0MvUmZYbkdLSVVYQXR4Vm03SGVxT0tQ?=
+ =?utf-8?B?UStLSkZ4YkZzdklXWk01MS9NaEUvVmdmNlFDcWdReW1OVFN4NnFwazlQdUhK?=
+ =?utf-8?B?RGJmcjhUVnduV2hHaVZZV2hHQmdiSVo3Y3RrSVZpNDgyR0lXQ1FkNk93N0NC?=
+ =?utf-8?B?M0wvY2hiWGFwS1pMcUlRd2MzcXFzU1VJajBDWElIMmhnbmJNQ0NqbHQyZ3Qr?=
+ =?utf-8?B?V2FUQ1VEV0dwNnpzam8zL0pKbU5UWnVQWWtFSkMrNW1GellQS01WWG0rTngr?=
+ =?utf-8?B?RHVyVkpJVkxmREdQVEtVaktnS1lFODBYYUdSQzEwL2R6ZWN6eE00U3pGR3l1?=
+ =?utf-8?B?YUtPVlM4cFk1a1hralpGREJiYjlVWmh6eWg2QkZGOFhaRTYwN1NRUT09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05b6edf2-a782-486d-95f3-08deaf9b712e
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 20:25:28.9521
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ah7l86FDJvbj3RdeyHcdXA0zwoT9Tm05wokBH0wvd2Ul3wTjX+c6wXNBTSt4WMIq32Yd7Vy1tVLxnZpeK7u8SA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P123MB7820
 
-On May  8, 2026 Song Liu <song@kernel.org> wrote:
-> 
-> Now that all LSMs have been converted to granular mount hooks,
-> remove the old hooks:
-> 
-> - security_sb_mount(): removed from lsm_hook_defs.h, security.h,
->   security.c, and its call in path_mount().
-> - security_move_mount(): removed and replaced by security_mount_move()
->   in do_move_mount(). All LSMs now use mount_move exclusively.
-> 
-> Code generated with the assistance of Claude, reviewed by human.
-> 
-> Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-> Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com> # for selinux only
-> Signed-off-by: Song Liu <song@kernel.org>
-> ---
->  fs/namespace.c                |  8 --------
->  include/linux/lsm_hook_defs.h |  4 ----
->  include/linux/security.h      | 16 ---------------
->  kernel/bpf/bpf_lsm.c          |  2 --
->  security/apparmor/lsm.c       |  1 -
->  security/landlock/fs.c        |  1 -
->  security/security.c           | 38 -----------------------------------
->  security/selinux/hooks.c      |  2 --
->  8 files changed, 72 deletions(-)
+--jrqcg3cyap65nupq
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/3] cgroup/cpuset: Fix deadline bandwidth leak in
+ cpuset_can_attach()
+MIME-Version: 1.0
 
-...
+On Mon, May 11, 2026 at 01:54:37PM -0400, Waiman Long wrote:
+> > Hi Waiman,
+> >=20
+> > Thank you for the follow up.
+> >=20
+> > Acknowledged. I will drop this patch in the next iteration due to [1].
+> >=20
+> > Please note, the sashiko AI Review bot reported: cpuset_can_attach()
+> > incorrectly assumes all migrating tasks originate from the same source
+> > cpuset. At first glance, this feedback is valid. I plan to submit a pat=
+ch,
+> > if no solution was already proposed.
+> >=20
+> > [1]: https://lore.kernel.org/lkml/20260509102031.97608-2-zhangguopeng@k=
+ylinos.cn/
+>=20
+> Yes, it does look like the AI feedback is valid. I will take a further lo=
+ok
+> into this.
+>=20
+> Thanks,
+> Longman
 
-> diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-> index e0a8a44c95aa..b0de7f316f51 100644
-> --- a/security/apparmor/lsm.c
-> +++ b/security/apparmor/lsm.c
-> @@ -1705,7 +1705,6 @@ static struct security_hook_list apparmor_hooks[] __ro_after_init = {
->  	LSM_HOOK_INIT(capget, apparmor_capget),
->  	LSM_HOOK_INIT(capable, apparmor_capable),
->  
-> -	LSM_HOOK_INIT(move_mount, apparmor_move_mount),
+No worries, I have it. I'll submit a patch for review shortly.
 
-This should be in patch 3/7 when you convert AppArmor over to the new
-hooks.
+Kind regards,
+--=20
+Aaron Tomlin
 
->  	LSM_HOOK_INIT(mount_bind, apparmor_mount_bind),
->  	LSM_HOOK_INIT(mount_new, apparmor_mount_new),
->  	LSM_HOOK_INIT(mount_remount, apparmor_mount_remount),
-> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> index 4547e736e496..7377f22a165e 100644
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -1983,7 +1983,6 @@ static struct security_hook_list landlock_hooks[] __ro_after_init = {
->  	LSM_HOOK_INIT(mount_reconfigure, hook_mount_reconfigure),
->  	LSM_HOOK_INIT(mount_change_type, hook_mount_change_type),
->  	LSM_HOOK_INIT(mount_move, hook_move_mount),
-> -	LSM_HOOK_INIT(move_mount, hook_move_mount),
+--jrqcg3cyap65nupq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This should be in patch 5/7 when you convert Landlock.
+-----BEGIN PGP SIGNATURE-----
 
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 864a3ca772c9..c8de175bde04 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -7586,8 +7586,6 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
->  	LSM_HOOK_INIT(sb_set_mnt_opts, selinux_set_mnt_opts),
->  	LSM_HOOK_INIT(sb_clone_mnt_opts, selinux_sb_clone_mnt_opts),
->  
-> -	LSM_HOOK_INIT(move_mount, selinux_move_mount),
+iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmoCOzUACgkQ4t6WWBnM
+d9Z1Mw/9Fvj+bRSfdhTS2OSiYGFkxkwzjIV2hi2rP/F/074x3+NhmlyX6BU//3HT
+6jr+qYIn9ahQNAGW9qsoYJNINn5cDBWCAeIyLAygMvhe2uurN6d00TnljBxc15Py
+ARodKck6kz2A5MC/c3usSymZhs0Z1FXJAwFPVCEMzj5/n/Mu6k9Y4FL3JnUAKUgs
+ilgwo90VgMZTYxfEbTeWLwBga2qUta2TbiLjmR+ydAYrs6HcrXzZM77aj4CQtrbj
+EYKqe6btSK2FiDp4M723f02PtMq/AmKBKgjTOUUmXMF/vnsYAz5LxokcE0RxSmri
+WiuFY7st6uhL2KlKu46PB2T/dy+GM98su+sno6+ZpW19qDu6+8JZ3/uUvJ7UaDO3
+qllX+Qbgt5vrboeLso9FML/1xAKyPaSUSH9/zhK4c+J0j1EuRiWhz+AEOhYknHHl
+cw84zdVePJbHoSLq8yJUl6smoNF4TYU+6zuMF2pVXcCx1dvxW0Mji3gsh1yk4qh2
+HxaejZPiBTU+ERHW+kKkF0hF0JuI4sNJ8UnwYwgL+DiTHB9/BQYlYokKAjdswAQQ
+pKZpwgHHeENcf/rfu+ZG2MgYKbWlAChw3UHmkbXs/HiZYW5mzKvgz3dUYPrlmOLX
+6w1dnT2nY0IcIve8RozBPXUZRW5Hg3QXdRoLQDl2gmBeb3+NVqM=
+=aVzE
+-----END PGP SIGNATURE-----
 
-This should be in patch 4/7 when you convert SELinux.
-
->  	LSM_HOOK_INIT(dentry_init_security, selinux_dentry_init_security),
->  	LSM_HOOK_INIT(dentry_create_files_as, selinux_dentry_create_files_as),
->  
-> -- 
-> 2.53.0-Meta
-
---
-paul-moore.com
+--jrqcg3cyap65nupq--
