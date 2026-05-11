@@ -1,154 +1,158 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDE0438FF1
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 17:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778519033; cv=none; b=a+nqVJi7fAWw3f7I6hKfM5iGbTmtzYJQOKBC6/xRw9jdXet+RwLItwQC65c6bRm48VyX08sdLFem0WnNN0kL8ySeuDOT903CBE+BuvoaEvwq3FAd+3f0VJ8NjanT7+3XcbomRoJgLjs0KMUDI5rK3NHD6KD0E22nRhs5Gmd1ou0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778519033; c=relaxed/simple;
-	bh=yScn1zlY2NwcIFftNbJWqZi2soG7BLs4NsINLMIt6PY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQPZ+fjP8S/TRqkZX78djXkQWepxN7RCcNwMtjmmQnGAp/wXrBY1Gh21CfrbE49SSknmogwoq2+0TGXQC5+rje0esHyWUvHvF0851USLWzQbEKumHCvnjnXJ0J/CJEHDtCCP4f4jbjxWJAuI2i0qtYRTUTmItvltmVIKpI/Rxkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NXbtRW7/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=K6UQBNMv; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=c3Q9csFP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/iIhHWqn; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB17224887E
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 17:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778519927; cv=pass; b=FC4a6HcxBLJY1u+2s8WZa1TM5ElPsUs9H1VFZi4GTta7VtmcJWDxI4xjgfCugm7oS2/mYxv0UKD6LbHDfWf8huGHehapl7GyKHxsK4mt0FLjaJXEi7moaTIJV86aOiAjtVOoPuRdQllczs5i02KNQfi3EYW1uE+WfCgOvsjGdDc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778519927; c=relaxed/simple;
+	bh=vTAyvt4KJAeMmvi2USwEZousoYluq1FSg5GORmp0De8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R7zwIYCr1IhPc/6S/CPh6qKEYWxgX5trZahP3wmhksT90WBc7rSgdpeSsLntiGOL6OTgy2m78bZPBIkziEJ+r5OgyINDqWR1IjLw6YiT3XPIgAZJdww0wpt5gUmaeW3rl47smuy34GcutenlHmPMUkquyGIXyZLwM3JirMfenLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RpnCxIPr; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NXbtRW7/";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="K6UQBNMv";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="c3Q9csFP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/iIhHWqn"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 03C50683E3;
-	Mon, 11 May 2026 17:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778519030; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nCun6SfEa2kQ8DinZIEBKS8RV42S6Xv0kKMbqMrZolg=;
-	b=NXbtRW7/YkJee7NG2LSQ+U8OUDla2pVY8ce9y4Q7DkWqmqtEhW37uKhoiZnwDXPyIja1/p
-	+EipJvCUYzNxz0ZwlILqUGNfC07YorMqdoB+m+ks8SqirYw4EwM4KT5ii3ZyqnvteAi5/M
-	691vcnKH4R3GNCR/+g0xwnlWw3is65w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778519030;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nCun6SfEa2kQ8DinZIEBKS8RV42S6Xv0kKMbqMrZolg=;
-	b=K6UQBNMvz0QTAc9F393dX8ieJBZJ2xus7QU+581Gz/45y9y4iE55ruQaoI4pF4Dfeegjwt
-	oLe1gjJBDdX21ADg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778519029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nCun6SfEa2kQ8DinZIEBKS8RV42S6Xv0kKMbqMrZolg=;
-	b=c3Q9csFPrzyz7TtwiccGZ1vkDCXkb/3i/ktGfIbukPEKJkk6mr9BaM9jgTjV0+8cSl7RPs
-	9Zu59pEISz/r9JGKaF+kPBLIBaQDTqwTD5XwZ5dmB7Fu+kDU/tpnoSy0WAT+kcHknzGRUU
-	3ZRYu1M32vbh9NCpf8yLK3iRHl+1ptg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778519029;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nCun6SfEa2kQ8DinZIEBKS8RV42S6Xv0kKMbqMrZolg=;
-	b=/iIhHWqn4icqrUbYKnhlqIPUJOybzHPHGOXfv2pVQxJ623HcGqsGWeJm+vAqijAEW1NmKG
-	GRd2JgKsImXSsXCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6B40593A3;
-	Mon, 11 May 2026 17:03:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id quT9N/QLAmrDAQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 11 May 2026 17:03:48 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 8C98FA079E; Mon, 11 May 2026 19:03:41 +0200 (CEST)
-Date: Mon, 11 May 2026 19:03:41 +0200
-From: Jan Kara <jack@suse.cz>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	Christian Brauner <brauner@kernel.org>, aivazian.tigran@gmail.com, Ted Tso <tytso@mit.edu>, 
-	linux-ext4@vger.kernel.org
-Subject: Re: [PATCH 6/9] fat: Fix possibly missing inode write on fsync(2)
-Message-ID: <rnl552jwa6x72ibx3sg2oeitn6sh6jp5tnfu7evycol2fopw7v@ahwlfjnuoiwy>
-References: <20260511115725.28441-1-jack@suse.cz>
- <20260511121356.241821-15-jack@suse.cz>
- <87pl32yq2a.fsf@mail.parknet.co.jp>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RpnCxIPr"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-67cac5ece75so7676749a12.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 10:18:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778519924; cv=none;
+        d=google.com; s=arc-20240605;
+        b=A9Uz9VUx76M/74P3DtA74uaUevyig0mJu8R+6sPU8yLSqAzHSkY3hX5aVU7qM89J8u
+         ilasL4NSa8RRPyHcwg7+DZCMOlz6bIyHW8eWoMVq5xhJUNf4EiAWGzf60Xhk2FCPHbx9
+         gb9GCmu7Ee7O7KvQtYJ5WFJzIbbONjm90wv9ma7CLuTagwJYPH29aLCQAJglDptyJbEG
+         RXusgPG3pkLkLQq+IBZiQZYwu3pzSeo+llOe7xQqBTT7aTZjdw+UbSqPU9C/CCV/ZmKk
+         YsnqfqAkR9TZC7hUe1JiUQubTCKWfqhNVZzEfrE6oAXg7zyzv+V+1hwdQfD5o3yREuOq
+         JN8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6e1iOP4o0+fqDTjbfq0VbT57a/DIvrGH5IJQqP3yrx4=;
+        fh=jwkGkOXMwBQ8iFkDDQ3ekbpn4PnSDLEEflj7i4bnxc8=;
+        b=JoxyyZg9KsfwSg/sv1ksbjuJ7K1kvUsBAJMwsN9D5sbJeyuU3lRS+cx/RagSGLU0uE
+         Fomp1WOr2+iQsUX/beCHvSBb6VvfIlWj0+R5nxwQ2NrY/zkYOR4VndBlZG8OYWvm4SfV
+         k/c5qCw0JxxSzdYEZPnOYWHtNY/C/2UsLHHqZyWUe2RHDhTP2dpaO8QNz96gDUfy+gbH
+         xJ3T84NQQP4YFdkCOLKwO2TIJFF+vGe5PH2qO0v5mMdfYCMepQTM7v+x9C21pfoCNIw5
+         wFGhlcB9bWdXg8i5w2zDfljp0IBKmThkfw8wBPwsb+QdKJLq4cRMb5+WefjsyZqkA9iY
+         D5ZQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778519924; x=1779124724; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6e1iOP4o0+fqDTjbfq0VbT57a/DIvrGH5IJQqP3yrx4=;
+        b=RpnCxIPrmzFoTygCRDwPoCewGGi+qAL4Nzh4E1kVKFa4xHo7dOfW3jMh9dz/mGJwle
+         tNog0qZBkR/CW71DzSxz201TJbGTKPwPC7UxXn/hf6e4GUU6fn8kfiWC/9LoJtuDAUS+
+         ac1QKf+2jOofo784GJJcBINtjZ50WBg00RcJRzlLmiz/t6YFkH4BNYJ8hVSkTAoRmA9W
+         Adxhb1klF0S8aTqpacgrHHlRtJmo5UxJeyxDrJGpANqnzK+gaZ7hdBmaeM1TXoG5W9rw
+         s05YrAf7RoGAHK2CD4MiwY30uDUZWmxZu0KQFi1B+2Ge3at+wid1oWMzpzrW+TzbfcUV
+         oyJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778519924; x=1779124724;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6e1iOP4o0+fqDTjbfq0VbT57a/DIvrGH5IJQqP3yrx4=;
+        b=pCMSkB2AO/hwzb+TZUM8Xt+h99eqfNze1a58U3rWEa/E18m9uuONXQNYGWEl9lDe05
+         QX4qRQcDMzHs6OfJ19H9qwo9mVr29tNbeK9o47m5iOrJa4HgmyHlqwrlRg2hbdDJu9YA
+         EBqO7lYj1V3PAjp/Wx06TDwnplXYzjUolE6GzYnkAuyQMcwApjoXvvdoCD7ZXecBQ23X
+         MAzuJgerKph8nBh93kzus832NvIjBJF91Dk6zA5MpVChHYUN9Lygh+2e208YWQb9tFvY
+         k8z6ZnaJ1bKLm9N2Vr0bMlTHY5Z6Fr8e5jQXTah5bCs/DJXsv5Z5PRGUXNTqn/8WGK3b
+         dyFg==
+X-Forwarded-Encrypted: i=1; AFNElJ/hdsBPccesYvIxi6T2X1+UvszI9OwWsPFcBdaFCvPatcu8zH9y264odJMwng+A3Lbtwu0anEZtc+JfXUHy@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpqnBLJs5J+Px0TBai7zKSO51XX5rejTG5vNi/Dr0VoFmkFJJK
+	d1OoMoOXNhv4xHpr0ac5qFObmRGcibONMSDgQQcaGZR7JDfDCq0Dsf643KShMvsku7AxxZiewld
+	gazP9rp+fBxATTCGjHwy8npLchC2BKTA=
+X-Gm-Gg: Acq92OFpdUVHGRJSkfS3ZnLkwzUxtwHMDMDow+MLcKKqjUnnfNzvYvzBLcqG1IjwR4D
+	2osPb0FYUd0DTaW+S6dtkXEHVvGIqzFUK4IpSUr1PKCCa3am8JeiIVPQpu1+zFiKaSLRDLg0wSk
+	rDJmYYNbcXVHiSQYPL/1Z1BXHVzTGdNlsXeyMjgpQcdorKoF4nr+MN90Mb9Kp9qbQ7gtCLokwNv
+	FSQ4BuVMxNI+LtHgNPIs2wghAe97T3LJEPGdjxzQorJwQTbtdOeLECsO89sniRHMIQej40reeNF
+	WttJcUTPgCeDoxJRDxQCpfHZwnkcnQrt7o1BS1NsxrPzB9NOqPPB6JGkZ2jXIg==
+X-Received: by 2002:a05:6402:3509:b0:674:37b7:227c with SMTP id
+ 4fb4d7f45d1cf-67d63aa055amr13016647a12.2.1778519923727; Mon, 11 May 2026
+ 10:18:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pl32yq2a.fsf@mail.parknet.co.jp>
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kernel.org,gmail.com,mit.edu];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Level: 
+References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+In-Reply-To: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 11 May 2026 19:18:32 +0200
+X-Gm-Features: AVHnY4J2LowBbggJwZFIYxcstb6YO_MVN_SJAWnvOEiWS4HFZUfxz_BmmdOmD0k
+Message-ID: <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
+Subject: Re: [post LSFMM summary] where is fuse going?
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel <fuse-devel@lists.linux.dev>, linux-fsdevel@vger.kernel.org, 
+	John Groves <John@groves.net>, Joanne Koong <joannelkoong@gmail.com>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>, 
+	Horst Birthelmer <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon 11-05-26 23:32:45, OGAWA Hirofumi wrote:
-> Jan Kara <jack@suse.cz> writes:
-> 
-> > Use mmb inode buffer writeout infrastructure to reliably write out
-> > inode's buffer on fsync(2).
-> 
-> > Signed-off-by: Jan Kara <jack@suse.cz>
-> > ---
-> >  fs/fat/inode.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-> > index 28f78df086ef..4ca00b7a618b 100644
-> > --- a/fs/fat/inode.c
-> > +++ b/fs/fat/inode.c
-> > @@ -907,6 +907,7 @@ static int __fat_write_inode(struct inode *inode, int wait)
-> >  	}
-> >  	spin_unlock(&sbi->inode_hash_lock);
-> >  	mark_buffer_dirty(bh);
-> > +	MSDOS_I(inode)->i_metadata_bhs.inode_blk = bh->b_blocknr;
-> 
-> When inode position was changed/removed, this will point the wrong
-> block. And maybe sync a unrelated block and wait.
+On Mon, May 11, 2026 at 5:12=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> =
+wrote:
+>
+> Please let know what I missed.
+>
+> CO-MAINTAINER:  Position still open, though we formalized some
+> subsystem maintainership roles, sent MAINTAINERS patch.
+>
+> FAMFS: Let's try to find some common ground between the fuse-iomap api
+> and the famfs api.  I.e. add striping as a generic mapping method,
+> even though normal filesystems don't (currently) use it.  Using BPF is
+> a bad idea.
 
-So I didn't realize that e.g. rename does change the backing inode block.
-But given we set i_metadata_bhs.inode_blk on each inode write, inode_blk
-should always contain the current position where the inode was written so
-fsync should be syncing the right block. Or am I still missing something?
+IMO, FAMFS sits somewhere between PASSTHROUGH and IOMAP.
+The simple nature of the maps, the fact that famfs maps are const and
+queried at file open time makes me think that famfs is much closer to
+PASSTHROUGH than it is to IOMAP (in its full capacity).
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+I think Joanne has mentioned that her customers have a use case for
+multi backing ids per passthrough file and I assume this would be a pretty
+simple map, so that sounds pretty darn close to famfs already.
+
+>
+> FUSE-IOMAP: Need to reduce the scope of the patchset further, as no
+> one can sanely review it.  Idea: first just implement static maps
+> (i.e. read-or-re-write-only).  This should be much simpler, yet could
+> demonstrate a read-only mount of ext4, right?
+
+One more perspective regarding FUSE-IOMAP which you mentioned in LSFMM:
+
+wc -l fs/fuse/* on current master: 20875
+wc -l fs/fuse/* on fuse-iomap-fileio: 25325
+
+We have just taken a tiny bit of load off you by sub-maintaining
+2200 LOC which you are less familiar with:
+
+$ wc -l fs/fuse/backing.c fs/fuse/dev_uring.c fs/fuse/dev_uring_i.h
+fs/fuse/iomode.c fs/fuse/passthrough.c
+  179 fs/fuse/backing.c
+ 1371 fs/fuse/dev_uring.c
+  211 fs/fuse/dev_uring_i.h
+  275 fs/fuse/iomode.c
+  197 fs/fuse/passthrough.c
+ 2233 total
+
+Merging large new features without a sub-maintainer
+is likely going to hurt your ability to keep your head above water.
+
+I realize that it may be hard for people to commit and that the atmosphere
+in workplaces is of great uncertainty, but this is something for you
+to consider.
+
+If we are being honest, then we need to develop features that users need
+and if users need features, there are usually employers willing to pay for =
+the
+feature development and maintenance, if we let employers know that this is
+what it takes to get their users what they need.
+
+Thanks,
+Amir.
