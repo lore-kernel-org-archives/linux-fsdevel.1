@@ -1,120 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A911C36D9EC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 11:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A85636F40C;
+	Mon, 11 May 2026 11:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778498147; cv=none; b=k7ePJIFbIfmoQFr26qC89T8UkF56dLKWQTPVUVVY57DLt85ms33jzzwW3e47lAl4uyvmIZU1ytCfg8JP+Klq6Vue2MAByz7PeKfqbtrEV/vAHl0MMGqqmJO+iVnxD+3cxWVTtUIdhoxzYjLevbJrXVqtxldKZGDXkjM1+YzQRmM=
+	t=1778498381; cv=none; b=WcA7KlWR/zI2z6yV+q992ucl1WvwpvWgk7pa8edKWNBcr4aO+wB22yRhdOzJ/dIp/aMniJyAon1t9qCOGY0DqUWL3+X83oyFXhWBtVYnZ9xqr8qosFhD83LyKwi0GkqkfH+cAREBTTdvUyV+JIHWKgfgASGQWMDPnEiGu5O6Ah0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778498147; c=relaxed/simple;
-	bh=RR1NenBgrAYdu1c55iySbUR6WPCvJPcX8MV/1pGj/Aw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FjrbmhDhLZTgypfu0aSKH6iDARD5HBWfLU8QzhoY7dfDdtSWKP4Bo1f2d5+Uj5NZrYt5hCw66TXal0xIzUmIJEYHAYK53uHR7FevUjO2DcN/wPG41uoPAlgwfW3fT7FMjpd/PvG3AUaMnhLdrOJy/VHo9zJspPn2llXUTBPR5aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eiOXnVzB; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=JD7RYlZU; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eiOXnVzB";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="JD7RYlZU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778498144;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yQi40JXMVWHDZRjke+rHrQlcRrLFkKa2WRv/wpGjnDg=;
-	b=eiOXnVzB/pI21G1epMBuoDXb6oNlBBDexTMU4Pa0JCBceD31HbvlXiXC/IZQa1Fj8l9LKV
-	pw5PgOlAYz+3TPAX39WKLM4LkRWOgM1cChU19NATJtSHTy8eIWrTpo/2dvzXU9R2NFykm3
-	lwEojr5JQKwtDDdhTXGyrl+BoIaiuCg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-367-SST90N4COoeZJMGxbVMHfQ-1; Mon, 11 May 2026 07:15:43 -0400
-X-MC-Unique: SST90N4COoeZJMGxbVMHfQ-1
-X-Mimecast-MFC-AGG-ID: SST90N4COoeZJMGxbVMHfQ_1778498142
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-488d8deb75fso31275545e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 04:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1778498142; x=1779102942; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQi40JXMVWHDZRjke+rHrQlcRrLFkKa2WRv/wpGjnDg=;
-        b=JD7RYlZU6EskBY0iebQXhrP6fG75D84nXogDPu32FfcEw63rnM1IikbMUF2W/1X4Dt
-         vZt+Wq8PziYB+4Hp7ysslCShy8FNO/Ok6TcQ4mFZ6m0CiQTd60l6VyvOfoqewkkfBYYQ
-         FkZf3iCfI+5BBlhha7ptXvQZyNtIxwStyV/4KlGARJYEQYkV5SXdLGUxd+I4kXg7z+vB
-         r/CeTPBzHD4KfQFNbu0VqhuEplLProVADaEeS+0jmKCpu725WyJezz2C61yDE0sToe9q
-         lDw3yxAMwWPWjke4qYIA79uVQLaRPgr0bJBWYyFBaIo/2EAZGrKxl8U4V5UuHvErYF9T
-         vgyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778498142; x=1779102942;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yQi40JXMVWHDZRjke+rHrQlcRrLFkKa2WRv/wpGjnDg=;
-        b=ERckTHCWGPebYexGCMFzyp9UF3+3YwVpUV3sgZorx4d7EtzC9H9O8nKa2RFbZFk2sP
-         ktH9rqYbbrOA7/w26esPxhvYKaqvjm7v/LQwwTfateBECjQjulBCSGsEf4K8KAfs4QQY
-         CI2zjGryoYKzTbWBAZCuhsG6aAhc7FXL9pj6RiZB6m3d1srdN8GWQojqqxOJTwStb/AV
-         jokQof9YfFpDoD1BpW7B6BSWseJ1GFcTdcdYWvs7xP9VWiORa/UwCm78JITQjCZdd0xP
-         pOjRAAuVEAwRhrz7ggrDgeO0Njy4JZ7zOvABZhcxaLn1EgBo2B4W7JUnUsnqzbyN/d4p
-         Lu+Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+1mxjEU1tc5yzb/+suOgeaNbLY4vriHOc5Sb7V7wjlESTajNfw0r/vZR25ljp0Zf2ySWYovIyX/8FwDPfB@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz57c73zshPhR+IKnn1T4vFIZ7BmsWnrg1qgYyZxACYVOdnFBBw
-	c4MECIXMf4k9vuvJJnvel5hBak5x5YornFNMxe8DGGhctSbxZ0c2qS/u4s2u7vs58fDRheq/EeT
-	SK7VWbbdVVj5mXOiVEDtupNZgzaQKHTzVlI4+6ybuuyvTp9rD5ubQYIf3ILS5eF6nIQ==
-X-Gm-Gg: Acq92OHCdWt2Ty9yoUZEIscUqtO0Tx+SZWFsw1UPEeYPO0OdE2JspjuQ4H8DItI6Tl2
-	tI5NXJMFgAgLJwLgTbaoe9pkAIR4QYZ0XxM/xM92bQIYzP/30U9cC01uApia2dU9HsQ8lFfkiW9
-	7taKTGjHwxPRe+XXpRZHs8WMNxUXNiVJT4orbf2iTFB7ZBhiRfSLWp83LN0g+cXPnPzE7GMz1/g
-	if3JQihUUopwVU66MnQ0DrYjmjlU1uB702WK7LPi9kHLVmXMdb4v/510IK2LPJieKamQT3GutEU
-	+VsF0YLqD55RzFV1EH0kRBe/u8NF/g0fYLOFjDz5x9zwwnq9lXuyrYaIUC9tcXIAEJaKIMRE+mb
-	1atobyvAe5mY=
-X-Received: by 2002:a05:600c:1f89:b0:48e:8741:fd4c with SMTP id 5b1f17b1804b1-48e8741ff98mr21083545e9.18.1778498141634;
-        Mon, 11 May 2026 04:15:41 -0700 (PDT)
-X-Received: by 2002:a05:600c:1f89:b0:48e:8741:fd4c with SMTP id 5b1f17b1804b1-48e8741ff98mr21082605e9.18.1778498140980;
-        Mon, 11 May 2026 04:15:40 -0700 (PDT)
-Received: from thinky ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e7040a9a9sm309872515e9.9.2026.05.11.04.15.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 04:15:40 -0700 (PDT)
-Date: Mon, 11 May 2026 13:15:39 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, djwong@kernel.org, 
-	david@fromorbit.com
-Subject: Re: [PATCH v9 00/22] fs-verity support for XFS with post EOF merkle
- tree
-Message-ID: <hnsxzymuydf5evoxw4chao7rkixm4eafolebxfjtsqschgfazh@nll3fdfnsigx>
-References: <20260428083332.768693-1-aalbersh@kernel.org>
- <20260507055217.GA19888@lst.de>
+	s=arc-20240116; t=1778498381; c=relaxed/simple;
+	bh=qIajBd+EV8EdUBwYEvFMx/LoVcxBHusd3j5toUgFQ78=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GM3zrzjCCaq2WKh/wnzfYGO01KafKKKOR4jq0CmLre7eCKcUFkvdDFyBS3Ysuizkc0AX6Ehv3uQqTh5zG82hhkFZ6gLi55ndfsJLNMTj3CfwJ71z6th6hOMJ9uwCMUUiQUR3vWEm54w4HN6x/d0iX0N/UzubYajSe7KSjsvITCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=pankajraghav.com; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gDcgg6xYXz9tTM;
+	Mon, 11 May 2026 13:19:27 +0200 (CEST)
+From: Pankaj Raghav <p.raghav@samsung.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	Andres Freund <andres@anarazel.de>,
+	Jeff Layton <jlayton@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	linux-xfs@vger.kernel.org,
+	hch@lst.de,
+	linux-kernel@vger.kernel.org (open list),
+	pankaj.raghav@linux.dev,
+	Jan Kara <jack@suse.cz>,
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH] fs: fix forced iversion increment on lazytime timestamp updates
+Date: Mon, 11 May 2026 13:19:18 +0200
+Message-ID: <20260511111918.1793689-1-p.raghav@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260507055217.GA19888@lst.de>
+Content-Transfer-Encoding: 8bit
 
-On 2026-05-07 07:52:17, Christoph Hellwig wrote:
-> On Tue, Apr 28, 2026 at 10:33:06AM +0200, Andrey Albershteyn wrote:
-> > This series based on v7.0 with Christoph's read ioends patchset [1].
-> 
-> That's not a good baseline.  We'll need it on the -rc that has everything
-> from the current merge window at least.  It might also interact with
-> the fsverity fix that just went in.
+When updating timestamps with lazytime enabled, if only I_DIRTY_TIME is
+set (pure lazytime update), inode_maybe_inc_iversion() should not be
+forced to increment i_version. The force parameter should only be true
+when actual data or metadata changes require an iversion bump.
 
-Sure, I will sent v10 with a latest master and that fix soon.
+The current code uses "!!dirty" which evaluates to true whenever dirty
+has any bits set, including the I_DIRTY_TIME bit alone. This forces an
+iversion increment on every lazytime timestamp update, which then sets
+I_DIRTY_SYNC, triggering expensive log flushes on subsequent fdatasync
+calls. Andres reported this issue when he noticed a perf regression[1].
 
-> 
-> This might also be time to come up with a merge plan to figure out through
-> what tree(s) to merge it as there don't seem to be any maintainer
-> objections.
-> 
-> 
+Fix this by using "dirty != I_DIRTY_TIME" as the force parameter. This
+passes false for pure lazytime updates (allowing the I_VERSION_QUERIED
+optimization to work), while still forcing the increment when dirty
+contains other flags indicating real changes that require iversion
+updates.
 
+[1] https://lore.kernel.org/linux-xfs/7ys6erh3nnyeerv2nybyfvp7dmaknuxrlxv74wx56ocdothkc6@ekfiadtkfn2r/
+
+Fixes: 85c871a02b03 ("fs: add support for non-blocking timestamp updates")
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+---
+ fs/inode.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/fs/inode.c b/fs/inode.c
+index 6a3cbc7dcd28..62c579a0cf7d 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -2124,7 +2124,13 @@ static int inode_update_cmtime(struct inode *inode, unsigned int flags)
+ 			    inode_iversion_need_inc(inode))
+ 				return -EAGAIN;
+ 		} else {
+-			if (inode_maybe_inc_iversion(inode, !!dirty))
++			/*
++			 * Don't force iversion increment for pure lazytime
++			 * updates (I_DIRTY_TIME only), let I_VERSION_QUERIED
++			 * dictate whether the increment is needed.
++			 */
++			if (inode_maybe_inc_iversion(inode,
++						     dirty != I_DIRTY_TIME))
+ 				dirty |= I_DIRTY_SYNC;
+ 		}
+ 	}
+
+base-commit: 4cd074ae20bbcc293bbbce9163abe99d68ae6ae0
 -- 
-- Andrey
+2.51.2
 
