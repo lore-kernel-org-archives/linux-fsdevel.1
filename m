@@ -1,88 +1,47 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13113EC2DD
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 16:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D73442B75D;
+	Mon, 11 May 2026 16:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778516339; cv=none; b=GZrX8mocpUWlz4aELyrzyU7twzO4nZepE33sCKhOd0h+ZJ+5DMXgg4/BuIo1EG2nVjmzLeGD1tNeOY309awMmGhswyKc713Bf7dE6+JFV18E8+RXoB5hXv2zyRIfr4k13jtIqDXJZka5iWlwnBmVgVOAIZ264nDqeo7oCp8iYno=
+	t=1778516676; cv=none; b=D+G1eJh5orHM2fXe7tyAmBSWDhapp0DgNdsWP8YZgrtbrXMLKGOTKplo1eSQ7I9krG+gpjNo3feGNOKviuve0zILiWNENNVm0zTYM9hk9e6c8CR+8rHG/rYVIACe7egZrqWusqXNG7xhPCye5gdjeFpmXF8zAQGhNXbeOAaoJ24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778516339; c=relaxed/simple;
-	bh=UOvWgWzzTvyua7y5GXslYuZuIGVGynqp0+9VvOUzB90=;
+	s=arc-20240116; t=1778516676; c=relaxed/simple;
+	bh=UKNn7tsUPRgXmD+x1uG9z2qtp+bfT80iqcbLwE6zXYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PyEGqpY6miZpVM7oeW0ZWQVSSpTrQsOc/Wl8n4Qat9+599tsWhjLUaHu+arjqnQjz1a/9gREm4G2P3yZlvsHxWETotRW0tKfLCL/MlNdN5EwiSWkf3/x2DPwmOTOel6/gYC6Vdxg2ZtqLcRmrU+0Q47rdZnZeowX+g6MoIsE/8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=siFPerAT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Crf5buLZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=siFPerAT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Crf5buLZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=XXAfr2Hw6/QwZ7VwfySWxf8tqatNIkS/7IgZr1I7TOatVhd1liRESZvzU8lcCaTMq54cAB9XFyQ7rKlAuM2ewTidJm+UF2SbGVOwmeXW9di6J/tn0750ybwK4R8aoIiw+vZ9KoU3NvdX8dIKvt2UxTfzA87ddeN+WjOL+CJEDi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMnmOiV7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="siFPerAT";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Crf5buLZ";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="siFPerAT";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Crf5buLZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 12DF968328;
-	Mon, 11 May 2026 16:18:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778516336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S/nP9E6asF6AGOa4n4/RXYH8TS9je/msBLAfIloGanU=;
-	b=siFPerAT5CCXCEG+tm/l0bdp+MSPWNZ8pYJvkXuWCTnkWGsLX//4GsiFkV5pGa7yuVrhMT
-	W+X+Bi7YBgSUXoa+xoWUeOL5IH1wG9qrgQBiuH8OENz1H7gVcRo8u5p5+lFolx4aUXSH2g
-	iRXMlk98iMshdkoYJbalgacB2NtENTE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778516336;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S/nP9E6asF6AGOa4n4/RXYH8TS9je/msBLAfIloGanU=;
-	b=Crf5buLZ6faChQOv832BajRQl6gv/Qax3xc+Y4RRge7cFwrWvDt2sIKeh7gUoEvRdJgiLo
-	HQ1xVyUtx84/SNDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=siFPerAT;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Crf5buLZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778516336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S/nP9E6asF6AGOa4n4/RXYH8TS9je/msBLAfIloGanU=;
-	b=siFPerAT5CCXCEG+tm/l0bdp+MSPWNZ8pYJvkXuWCTnkWGsLX//4GsiFkV5pGa7yuVrhMT
-	W+X+Bi7YBgSUXoa+xoWUeOL5IH1wG9qrgQBiuH8OENz1H7gVcRo8u5p5+lFolx4aUXSH2g
-	iRXMlk98iMshdkoYJbalgacB2NtENTE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778516336;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S/nP9E6asF6AGOa4n4/RXYH8TS9je/msBLAfIloGanU=;
-	b=Crf5buLZ6faChQOv832BajRQl6gv/Qax3xc+Y4RRge7cFwrWvDt2sIKeh7gUoEvRdJgiLo
-	HQ1xVyUtx84/SNDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04EFF593A3;
-	Mon, 11 May 2026 16:18:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UU0uAXABAmoCVAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 11 May 2026 16:18:56 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id CE559A079E; Mon, 11 May 2026 18:18:50 +0200 (CEST)
-Date: Mon, 11 May 2026 18:18:50 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	NeilBrown <neil@brown.name>
-Subject: Re: [PATCH 3/3] fs: fold __start_removing_path into
- start_removing_path
-Message-ID: <ctmsec34gzs4cy64o6tchtge4ho3yczztuayzbebjubsnxdflg@hiof5cer2fnq>
-References: <20260511072239.2456725-1-hch@lst.de>
- <20260511072239.2456725-4-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMnmOiV7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2D4DC2BCB0;
+	Mon, 11 May 2026 16:24:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778516675;
+	bh=UKNn7tsUPRgXmD+x1uG9z2qtp+bfT80iqcbLwE6zXYE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PMnmOiV7lFTlwmGLDEciZ0u2ikSYfA+R07Z5q8TToxCkZLGUnYNaXW0O0iddAWYmV
+	 uf0GmmzXEEGMY6Vcf+a6Lv5733LKLbW/zlqlAiPDOcrz0MZjTFFcDSzLCB5qJRf/Gk
+	 E5c1fXqLGdMC3v80Omhg0m0TbGdiasiDnNpWJugiWnWqs062wgil7dyrvpkBdMHedr
+	 arDuoIDQJl/AIxMNAUWef69Emj3SSHEHubu2AnaT4eUH2DdIUCF9j8RD9MmqRQswN9
+	 SEGQge7hjbjj0SaaYw/mBJ3BVECQU+Em/HeoAo8AA0hFWgBn0MKS9e+1zPFCQJVeNy
+	 +deusBhcj4nOA==
+Date: Mon, 11 May 2026 09:24:34 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
+	neal@gompa.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/1] mount_service: use the mount_flags table instead of
+ declaring our own
+Message-ID: <20260511162434.GH7739@frogsfrogsfrogs>
+References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
+ <177819198067.3490792.2943381236495611249.stgit@frogsfrogsfrogs>
+ <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
+ <20260508175945.GE2241589@frogsfrogsfrogs>
+ <20260509004851.GF7739@frogsfrogsfrogs>
+ <37d55a0c-7358-455d-9552-c621160bb269@bsbernd.com>
+ <20260511152210.GG7739@frogsfrogsfrogs>
+ <1f30f0f7-5900-4cc6-951e-8762ce312ba1@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,98 +50,167 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260511072239.2456725-4-hch@lst.de>
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim,suse.cz:email,lst.de:email];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MISSING_XM_UA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,lst.de:email]
-X-Rspamd-Queue-Id: 12DF968328
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+In-Reply-To: <1f30f0f7-5900-4cc6-951e-8762ce312ba1@bsbernd.com>
 
-On Mon 11-05-26 09:22:30, Christoph Hellwig wrote:
-> Only one caller left, and simplified this way.
+On Mon, May 11, 2026 at 05:58:36PM +0200, Bernd Schubert wrote:
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Looks good. Seems like it's like this for 8 months so we're hopefully not
-breaking Neil in the middle of some of his vfs series. In the worst case he
-can reintroduce this once it is really needed. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/namei.c | 13 ++++---------
->  1 file changed, 4 insertions(+), 9 deletions(-)
 > 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index bc641838530f..4852ca208bd4 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -2955,15 +2955,16 @@ void end_dirop(struct dentry *de)
->  EXPORT_SYMBOL(end_dirop);
->  
->  /* does lookup, returns the object with parent locked */
-> -static struct dentry *__start_removing_path(int dfd, struct filename *name,
-> -					   struct path *path)
-> +struct dentry *start_removing_path(const char *name, struct path *path)
->  {
-> +	CLASS(filename_kernel, filename)(name);
->  	struct path parent_path __free(path_put) = {};
->  	struct dentry *d;
->  	struct qstr last;
->  	int type, error;
->  
-> -	error = filename_parentat(dfd, name, 0, &parent_path, &last, &type);
-> +	error = filename_parentat(AT_FDCWD, filename, 0, &parent_path, &last,
-> +			&type);
->  	if (error)
->  		return ERR_PTR(error);
->  	if (unlikely(type != LAST_NORM))
-> @@ -3023,12 +3024,6 @@ struct dentry *kern_path_parent(const char *name, struct path *path)
->  	return d;
->  }
->  
-> -struct dentry *start_removing_path(const char *name, struct path *path)
-> -{
-> -	CLASS(filename_kernel, filename)(name);
-> -	return __start_removing_path(AT_FDCWD, filename, path);
-> -}
-> -
->  int kern_path(const char *name, unsigned int flags, struct path *path)
->  {
->  	CLASS(filename_kernel, filename)(name);
-> -- 
-> 2.53.0
+> On 5/11/26 17:22, Darrick J. Wong wrote:
+> > On Sat, May 09, 2026 at 09:42:12AM +0200, Bernd Schubert wrote:
+> >>
+> >>
+> >> On 5/9/26 02:48, Darrick J. Wong wrote:
+> >>> On Fri, May 08, 2026 at 10:59:45AM -0700, Darrick J. Wong wrote:
+> >>>> On Fri, May 08, 2026 at 06:51:45PM +0200, Bernd Schubert wrote:
+> >>>>>
+> >>>>>
+> >>>>> On 5/8/26 00:14, Darrick J. Wong wrote:
+> >>>>>> From: Darrick J. Wong <djwong@kernel.org>
+> >>>>>>
+> >>>>>> Use the canonical mount flags table in mount_util.c instead of
+> >>>>>> opencoding our own version in mount_service.c.
+> >>>>>>
+> >>>>>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> >>>>>> ---
+> >>>>>>  util/mount_service.c |   51 +++++++++++++-------------------------------------
+> >>>>>>  1 file changed, 13 insertions(+), 38 deletions(-)
+> >>>>>>
+> >>>>>>
+> >>>>>> diff --git a/util/mount_service.c b/util/mount_service.c
+> >>>>>> index 8c9747b3928a51..79e5b060ba3356 100644
+> >>>>>> --- a/util/mount_service.c
+> >>>>>> +++ b/util/mount_service.c
+> >>>>>> @@ -1457,73 +1457,48 @@ struct ms_to_mount_map {
+> >>>>>>  	unsigned int mount_attr_flag;
+> >>>>>>  };
+> >>>>>>  
+> >>>>>> -static const struct ms_to_mount_map attrs[] = {
+> >>>>>> -	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
+> >>>>>> -	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
+> >>>>>> -	{ MS_NODEV,		MOUNT_ATTR_NODEV },
+> >>>>>> -	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
+> >>>>>> -	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
+> >>>>>> -	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
+> >>>>>> -	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
+> >>>>>> -	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
+> >>>>>> -#ifdef MOUNT_ATTR_NOSYMFOLLOW
+> >>>>>> -	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
+> >>>>>> -#endif
+> >>>>>> -	{ 0, 0 },
+> >>>>>> -};
+> >>>>>> -
+> >>>>>>  static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
+> >>>>>>  				 unsigned int *attr_flags,
+> >>>>>>  				 unsigned long *leftover_ms_flags)
+> >>>>>>  {
+> >>>>>> -	const struct ms_to_mount_map *i;
+> >>>>>> +	const struct mount_flags *i;
+> >>>>>>  	unsigned int ms_flags = ntohl(oc->ms_flags);
+> >>>>>>  	unsigned int mount_attr_flags = 0;
+> >>>>>>  
+> >>>>>> -	for (i = attrs; i->ms_flag != 0; i++) {
+> >>>>>> -		if (ms_flags & i->ms_flag)
+> >>>>>> -			mount_attr_flags |= i->mount_attr_flag;
+> >>>>>> -		ms_flags &= ~i->ms_flag;
+> >>>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
+> >>>>>> +		if (!i->on || !(ms_flags & i->flag))
+> >>>>>> +			continue;
+> >>>>>> +
+> >>>>>> +		mount_attr_flags |= i->mount_attr;
+> >>>>>> +		ms_flags &= ~i->flag;
+> >>>>>>  	}
+> >>>>>>  
+> >>>>>>  	*leftover_ms_flags = ms_flags;
+> >>>>>>  	*attr_flags = mount_attr_flags;
+> >>>>>>  }
+> >>>>>>  
+> >>>>>> -struct ms_to_str_map {
+> >>>>>> -	unsigned long ms_flag;
+> >>>>>> -	const char *string;
+> >>>>>> -};
+> >>>>>> -
+> >>>>>> -static const struct ms_to_str_map strflags[] = {
+> >>>>>> -	{ MS_SYNCHRONOUS,	"sync" },
+> >>>>>> -	{ MS_DIRSYNC,		"dirsync" },
+> >>>>>> -	{ MS_LAZYTIME,		"lazytime" },
+> >>>>>> -	{ 0, 0 },
+> >>>>>> -};
+> >>>>>> -
+> >>>>>>  static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
+> >>>>>>  {
+> >>>>>> -	const struct ms_to_str_map *i;
+> >>>>>> +	const struct mount_flags *i;
+> >>>>>>  	int ret;
+> >>>>>>  
+> >>>>>> -	for (i = strflags; i->ms_flag != 0; i++) {
+> >>>>>> -		if (!(ms_flags & i->ms_flag))
+> >>>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
+> >>>>>> +		if (!i->on || !(ms_flags & i->flag))
+> >>>>>>  			continue;
+> >>>>>>  
+> >>>>>> -		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
+> >>>>>> +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->opt,
+> >>>>>>  			       NULL, 0);
+> >>>>>>  		if (ret) {
+> >>>>>>  			int error = errno;
+> >>>>>>  
+> >>>>>>  			fprintf(stderr, "%s: set %s option: %s\n",
+> >>>>>> -				mo->msgtag, i->string, strerror(error));
+> >>>>>> +				mo->msgtag, i->opt, strerror(error));
+> >>>>>>  			emit_fsconfig_messages(mo);
+> >>>>>>  
+> >>>>>>  			errno = error;
+> >>>>>>  			return -1;
+> >>>>>>  		}
+> >>>>>> -		ms_flags &= ~i->ms_flag;
+> >>>>>> +		ms_flags &= ~i->flag;
+> >>>>>>  	}
+> >>>>>>  
+> >>>>>>  	/*
+> >>>>>>
+> >>>>>>
+> >>>>>
+> >>>>>
+> >>>>> Hi Darrick,
+> >>>>>
+> >>>>> wouldn't it make sense to use the functions from mount_fsmount.c? I can
+> >>>>> also clean this up later if you want.
+> >>>>
+> >>>> Oh, hah!  Yes, I'll revise this patch to use them.
+> >>>
+> >>> Update: I tried this, but ran into a problem: the two helpers are in
+> >>> lib/mount_fsmount.c, which means the object code ends up in libfuse.so.
+> >>> Unfortunately, that means that util/mount_service.c can't use them
+> >>> unless they're exported from the .so.
+> >>>
+> >>> I don't mind doing that, but I feel that I should check with you if it's
+> >>> ok to add that to the public libfuse API before doing that?
+> >>>
+> >>> Though I think a better solution is to move ms_flags_to_mount_attrs and
+> >>> set_ms_flags to mount_util.c because that's compiled into the util/
+> >>> programs.
+> >>>
+> >>> How about I do that second thing on Monday?
+> >>
+> >>
+> >> I would prefer the 3rd option, like for fusermount3
+> >>
+> >> executable('fusermount3', ['fusermount.c', '../lib/mount_util.c',
+> >> '../lib/mount_fsmount.c', '../lib/util.c'],
+> >>
+> >>
+> >> I.e. add lib/mount_fsmount.c to mount_service_sources.
+> > 
+> > That works, will put together a patch to do that. :)
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> Hi Darrick,
+> 
+> I didn't manage yesterday anymore to work on that, the container branch
+> is in a total merge conflict with libfuse master. If you want you could
+> continue on the iomap and I would solve the merge conflicts. Though,
+> probably not today or tomorrow.
+
+I don't mind trying to resolving the conflict, and will work on that
+this afternoon.  I'll report back whatever the outcome of that is.
+
+--D
