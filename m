@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0FD3A1A2F;
-	Mon, 11 May 2026 12:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253313A1CE6;
+	Mon, 11 May 2026 13:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778504307; cv=none; b=uOf5MLKuOn6I8aLGIdsB487k/fOU4JusuZGftvOWDGOgCe+7UIwo/t+06P2jwqyShxyLMZk858Z81+kryIY3bNCPgZCpZ8rt15MXEUm50bgZBWUY0nCyotrvsnsGp+AnEwFsmP4+VfeoZlZREG+2RlyKjH5SNbNoCqed467llTM=
+	t=1778505056; cv=none; b=hC/us9Ym7UFi5hiLI52/6ml2vUfhFKE4s3LWgt9Vz/JAQvSKJYf7AzBiDvGtYqFbSQ1XJX8o5qDHeYVy4cow2GEFYsuQo8MLh0viMWZQy9CbRwK/pYTWIqEamQMQPI+naL3y3yN/+g5FfXAey98JgdELhtDyaSJd2CnHcEjgJ9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778504307; c=relaxed/simple;
-	bh=fwFb95290ulg+CMJzz9K2hBFFbB1I9j1/bUNxZTyhe0=;
+	s=arc-20240116; t=1778505056; c=relaxed/simple;
+	bh=4IYVrNKfE39U89Ai1am7hQrNp3oZrSkOKSpVaaJ9FHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EfrIiD/WbwxadzhEDuwAiRRz/fISZ0BUaVuAB1xAZjDnS7It+dsPWJJZLdqapKJJider6foQbEjUw6XYu+DPOUCLpCfJOvkwLyBkNLnOT0uN97Gku30keNozAmEmyEnqQejxgma3nKkVKseFIRT3VgncDff42efqri9oS5WjEMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jy3jMpLd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TL9e9+IbuKVwU03GzWrtWC1oaWAG0Ra9Dj9pHQ/JQcHPZ2vsOUjDwjnaSMmMdb9b2G9EZp+YN8bbx8Ncr5ddgEilTw+KcqiWYUfseJd58BqSVNinUdg2y3FEuut8J1TEsKirmGpa8bCNu7RRX9W5tpuG6lSD0Kv2hF5LvDUOq68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FMnpmT/V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jy3jMpLd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52CB7C2BCB0;
-	Mon, 11 May 2026 12:58:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FMnpmT/V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88C94C2BCB0;
+	Mon, 11 May 2026 13:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778504307;
-	bh=fwFb95290ulg+CMJzz9K2hBFFbB1I9j1/bUNxZTyhe0=;
+	s=k20201202; t=1778505055;
+	bh=4IYVrNKfE39U89Ai1am7hQrNp3oZrSkOKSpVaaJ9FHs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jy3jMpLdLEyk3DtaXdtbko+F15N3hzEoFxnDRATaqFo+pI0DKBCGZ8TFgAcu7X8mK
-	 RV8G0Wr+rJi/NH1S+wCgjMYc6rLmKzWyNtY4SyDi4kpX2I2svY0RBDVzw4n8SfkPMH
-	 YkjS+ozPZ10DYA8Qou9o+p3Sg3/sZ99K+gmq8iQ4gov5nEHbXN+RqpjpsgcwYetDBq
-	 ZYNeWvmLaMkjYGFd6EWzTf0h1WFjLccnAoITr9OIBNacm1IimSRHbG6zChvrvOI/w7
-	 UohCxSuuM7zwiXY+9IrqQFxijV5p4PpPN9pNrZigYdfy23De8rzqvmqXp61iZHIqE+
-	 vvSow2H6ZmnMg==
-Date: Mon, 11 May 2026 14:58:22 +0200
+	b=FMnpmT/V2PuDt0NDeDkforyAcO0RMZPjHSRKnOws709em/Jb/gowlrPf93S7rRuX3
+	 f7yaT3abzvoNxzcKAll65O+Ef+pqonipYp5MT2DuTOJ1cuBhPx9eZs6fQTq6KWD1Ch
+	 qgeilxQb1Yy2/AZzjHtP2j1v0Azgs6bFqIMag3mqJp2FG8mT5sQry+Bx/HJHhLo9be
+	 Crc3MLAxSWIab99jPnKD1FYEzXlJl7/VWIXNjt4iqOLqnTuQbOGZO4/7oURsSCSM6A
+	 vmpHG1yN49ZletrxibcP/RcjqVl8gwawBPH4AZayBFHBnHJV/qodQCVkB9cZq3GlTB
+	 8sqgrszeg9sCA==
+Date: Mon, 11 May 2026 15:10:48 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Vineet Agarwal <agarwal.vineet2006@gmail.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Jori Koolstra <jkoolstra@xs4all.nl>, 
-	jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzbot <syzbot@syzkaller.appspotmail.com>
-Subject: Re: [PATCH] fs/namespace: fix NULL pointer dereference in
- do_lock_mount()
-Message-ID: <20260511-kommt-genug-c36a3c144bf4@brauner>
-References: <20260505095156.178351-1-agarwal.vineet2006@gmail.com>
- <afn88B9Z5TM-0d0T@lt-jori.localdomain>
- <CA+rjy8fM+8ahj7dcBWjnACU8xBWBqW4ssQFpi68dqRc-F-V3Xg@mail.gmail.com>
- <20260506021230.GJ3518998@ZenIV>
- <20260506022152.GK3518998@ZenIV>
- <CA+rjy8fdpT7arFGcA3Z9ev41AtDxoLfhu3wYBv5VL=7bqUFUYw@mail.gmail.com>
+To: Jeff Layton <jlayton@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Christoph Hellwig <hch@infradead.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Chuck Lever <chuck.lever@oracle.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCH v7 2/3] mm: track DONTCACHE dirty pages per bdi_writeback
+Message-ID: <20260511-begonnen-zuwege-b4272b78eb00@brauner>
+References: <20260511-dontcache-v7-0-2848ddce8090@kernel.org>
+ <20260511-dontcache-v7-2-2848ddce8090@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -49,89 +51,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+rjy8fdpT7arFGcA3Z9ev41AtDxoLfhu3wYBv5VL=7bqUFUYw@mail.gmail.com>
+In-Reply-To: <20260511-dontcache-v7-2-2848ddce8090@kernel.org>
 
-On Wed, May 06, 2026 at 10:07:29AM +0530, Vineet Agarwal wrote:
-> Hi,
+On Mon, May 11, 2026 at 07:58:28AM -0400, Jeff Layton wrote:
+> Add a per-wb WB_DONTCACHE_DIRTY counter that tracks the number of dirty
+> pages with the dropbehind flag set (i.e., pages dirtied via RWF_DONTCACHE
+> writes).
 > 
-> Thanks for the follow-up.
+> Increment the counter alongside WB_RECLAIMABLE in folio_account_dirtied()
+> when the folio has the dropbehind flag set, and decrement it in
+> folio_clear_dirty_for_io() and folio_account_cleaned(). Also decrement it
+> when a non-DONTCACHE lookup atomically clears the dropbehind flag on a
+> dirty folio in __filemap_get_folio_mpol(), using folio_test_clear_dropbehind()
+> to prevent concurrent lookups from double-decrementing the counter, and
+> guarding the decrement with mapping_can_writeback() to match the increment
+> path.
 > 
-> I don’t have a stable reproducer yet; the issue is triggered by syzkaller
-> under fuzzing on a local build (7.1.0-rc1 with KASAN enabled).
+> Transfer the counter alongside WB_RECLAIMABLE in inode_do_switch_wbs() so
+> that the stat is properly migrated when an inode switches cgroup writeback
+> domains.
 > 
-> However, I was able to capture consistent KASAN reports. The issue is not
-> limited to a NULL dereference — I am also observing slab-use-after-free
-> in do_lock_mount().
+> The counter will be used by the writeback flusher to determine how many
+> pages to write back when expediting writeback for IOCB_DONTCACHE writes,
+> without flushing the entire BDI's dirty pages.
 > 
-> >From the reports, the accessed object belongs to mnt_cache, and is freed
-> via mntput_no_expire_slowpath() from a concurrent umount path, while
-> do_lock_mount() is still using the mount returned by where_to_mount().
-> 
-> The stack traces consistently follow this pattern:
-> 
-> do_lock_mount()
-> → where_to_mount()
-> → do_move_mount()
-> → __do_sys_move_mount()
-> 
-> with the freeing happening via:
-> 
-> mntput_no_expire_slowpath()
-> → path_umount()
-> → __x64_sys_umount()
-> 
-> This seems consistent with a race between move_mount and umount, where
-> the mount object returned by where_to_mount() is no longer valid after
-> dropping mount_locked_reader.
-> 
-> I agree that my earlier explanation focusing on dentry state was not
-> accurate. The issue appears to be related to mount lifetime rather than
-> dentry revalidation.
-> 
-> Below is one of the stack traces:
-> 
-> ==================================================================
-> BUG: KASAN: slab-use-after-free in topmost_overmount fs/mount.h:239 [inline]
-> BUG: KASAN: slab-use-after-free in where_to_mount fs/namespace.c:2695
-> [inline]
-> BUG: KASAN: slab-use-after-free in where_to_mount fs/namespace.c:2688
-> [inline]
-> BUG: KASAN: slab-use-after-free in do_lock_mount.part.0+0xa1b/0xbf0
-> fs/namespace.c:2756
-> 
-> Call Trace:
->  <TASK>
->  topmost_overmount fs/mount.h:239 [inline]
->  where_to_mount fs/namespace.c:2695 [inline]
->  where_to_mount fs/namespace.c:2688 [inline]
->  do_lock_mount.part.0+0xa1b/0xbf0 fs/namespace.c:2756
->  do_lock_mount fs/namespace.c:2751 [inline]
->  do_move_mount.isra.0+0x1ac/0xce0 fs/namespace.c:3645
->  vfs_move_mount fs/namespace.c:4561 [inline]
->  __do_sys_move_mount+0x62e/0x770 fs/namespace.c:4629
->  do_syscall_64+0xe0/0x5a0 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->  </TASK>
-> 
-> Allocated by task:
->  alloc_vfsmnt fs/namespace.c:287
->  vfs_create_mount fs/namespace.c:1171
->  fc_mount fs/namespace.c:1191
->  do_new_mount fs/namespace.c:3840
->  path_mount fs/namespace.c:4160
->  __x64_sys_mount fs/namespace.c:4366
-> 
-> Freed by task:
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Assisted-by: Claude:claude-opus-4-6
 
-Nothing in here makes sense imho and the details you provide are fuzzy
-at best and I see a bunch of patches that got rejected already. The
-stacktraces here look rather sketchy and I'm not sure 
+Picking up on something we discussed at LSFMM in one of the sessions as
+an aside rant: I find these AI Assisted-by tags so useless tbh and just
+pure noise in the git log _especially_ for a core developer like Jeff
+that I really don't see the point of them and I'm always tempted to just
+remove the tags when I apply. I have dropped them before because I found
+them so pointless.
 
-This doesn't free anything. This just schedules task work and KASAN
-would always show the actual release/free paths. So this looks forged or
-tampered with.
-
-Provide all the details. Unless it is of the same quality and clarify as
-syzbot I'm inclined to call this hallucinated or based on some old
-kernel.
+Crediting Jan here is the right thing to do and it provides actual value
+and also just makes sure that a real person who spent time helping out
+gets visibility in the git history. Why we should extend the same
+courtesy to automated tooling is really beyond me. Somehow we've become
+all convinced that these tools require a special status but have spent
+months arguing about the usefulness of other tags.
