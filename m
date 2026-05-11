@@ -1,108 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFFE394471;
-	Mon, 11 May 2026 13:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1493BFE33
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 13:47:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778506936; cv=none; b=UDu9SjCCp+t5C5OleFSfVv+jqYLH8gAF1P5kuRkg6s3PxzmLO78XtByp2gtzuE3nZptm5oudQUft6Trp9TvwOV9kk6MPz13EQiLVgUa81OkGitCxw9HLtLZoK4YcAE8pi4M/IMcxxO0e0Me601Fc2+QEJDUB7yF2cUy1ScyZqdg=
+	t=1778507221; cv=none; b=fX/j8KS2j8d16G2oOl9BEhDOz3RMLiahKR9gTe8wyCeC7uc2t2jJVKR8NZvEaTmnLS27VzwvRBsgIT+WTYwjX/Xo3P2HvCUnxYhfOhss8HaL/QSr6G3cW7E9jpuuAhQo7gTePKnANr6PkWz6cE397fMN36qYgEj6+wh/lintZYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778506936; c=relaxed/simple;
-	bh=U9nAzU35K1gUbCJcTJZs3I3c/ZFBVVipLUKEX80vhoE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j2htX3IqQRindGN/ZNMN5DYSqBHG4j+kn34CX3u2vFwWsa5OkJC2Y1sTx0sHWrISj/pOQgDoRa92rYIA4PcJSNLilQ32IcV+3cPwC60k915+tX3Siabuek8b7h+mkw9kamRQr2T0iq+zEiuKJHRmAaUovhzBkT7wj8EZUzOiagE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aeyFBGDq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778507221; c=relaxed/simple;
+	bh=nhj4hX1RNsg2sNmC3Qe5fRQGq2laZMd0D19fr/m09oE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zv0aQdEwi197mDwRL32/WXuz/Iog6dChsVT8lqWRklDT7LsC4mE36jGAyZYZJi7Fk8IHj+/lCdYQjy5EIIqDIqkKLw/tNQ7eEQr6/EmUiyH3ieiKxGSyCG5jAdvhnBikNw/ZUCm02Gg7p/3wMdKAEhZHYMZ5rKYt9P/yW60ZE/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMUpKHui; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aeyFBGDq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64948C2BCB0;
-	Mon, 11 May 2026 13:42:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMUpKHui"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B450EC2BCFA
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 13:47:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778506936;
-	bh=U9nAzU35K1gUbCJcTJZs3I3c/ZFBVVipLUKEX80vhoE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aeyFBGDqNcJIxGk/lGQArGcsstwYzHVAUehohfgz19lRMN5iTy+j035pdbPhOs2ig
-	 /+y2yifaIRrzuNgz9P325lfRNPredUGqM5AO1fIbylf4KfIkC87er/NGIiKSfSp3BL
-	 sE7xKLD+Fh+ToCBq9cEzp0pfiXbh80yXYvIMGx0wjaYhQ31Uow+HOydklFmitLdwQU
-	 lwiSUCwqnSUGX9F9Yh6OAktJg7+sgXsQ/k7C4YbouIIn5tDrDLctvLf1ZN7wWqBCYh
-	 2p/4ccdQx6WXHEfTH9tDjcWuCaLKR24gPDzYdWfhMWHIL3MsdgnNNwARAT3QLndqDj
-	 kkNWDR+X7KCoQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	David Sterba <dsterba@suse.com>,
-	Luis de Bethencourt <luisbg@kernel.org>,
-	Salah Triki <salah.triki@gmail.com>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Bob Copeland <me@bobcopeland.com>,
-	Anders Larsen <al@alarsen.net>,
-	linux-fsdevel@vger.kernel.org,
-	jfs-discussion@lists.sourceforge.net,
-	ntfs3@lists.linux.dev,
-	linux-karma-devel@lists.sourceforge.net
-Subject: Re: fix crashes when mounting legacy file system with sector size > PAGE_SIZE
-Date: Mon, 11 May 2026 15:41:58 +0200
-Message-ID: <20260511-sporadisch-kopfhaar-12f7d430885d@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260511071701.2456211-1-hch@lst.de>
-References: <20260511071701.2456211-1-hch@lst.de>
+	s=k20201202; t=1778507220;
+	bh=nhj4hX1RNsg2sNmC3Qe5fRQGq2laZMd0D19fr/m09oE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QMUpKHuilNHqIBv1WzJvh2Z6tFMr77sz9HrHg/cVZ0y4uau61nL8I05U/4W6CNBR/
+	 sX3y5xN7PEWl4bg/TaOF7w0IZBS49cxMpkpZu4DHFFcufih92B+N922lyncvJ/eObV
+	 a/thz+sDOcbAUZV9AVQIakyP6N7Lt0Y6HK1OQP4fmL9hoQCfGc9zkZs3UNeg7BK6ox
+	 JaoQ7OrKY0Si5vJpZQgW1MZ4wwuJnWDIMtfKCRWI1MTX3vcduyJ2uvmmgdut89zIM+
+	 T8sxEGEXiQcpmNjRBVK45yDADCaYdgHOqxA2AaJ3aM3vKdReAzSNXzri8Fvb416NC0
+	 6SYp8wDK9KspQ==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67929ff6dbfso6623004a12.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 06:47:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/BLdtwaXOWwfEUQTAFvK7vXMrKAk9GBwPVVE17q9Z0gQD2RKzdfTIsHd36m+6sQZ6NK5Veulqy5GDu/+gV@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywv3KnhLkoqamjvax1o7mYeRRDWO5ilfqUwDhOZX6Gp9NwUrQOa
+	DzQznlaJveVA3AW+r3gR3Tg9vHlAQRW8rIaeD99QnIrgvMBPAdxzXjyMRozhGMcNittg/bMiodp
+	HakR/7essYsKeGdhCb+Eh+M3w21drYjo=
+X-Received: by 2002:a05:6402:a214:20b0:678:980c:f4eb with SMTP id
+ 4fb4d7f45d1cf-67d63d8eb50mr9371684a12.9.1778507219187; Mon, 11 May 2026
+ 06:46:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2129; i=brauner@kernel.org; h=from:subject:message-id; bh=U9nAzU35K1gUbCJcTJZs3I3c/ZFBVVipLUKEX80vhoE=; b=kA0DAAoWkcYbwGV43KIByyZiAGoB3LGjHbD4LnMeTLfcAfWHZKPtk9w/7pgimL7wi5+qkUgzS 4h1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmoB3LEACgkQkcYbwGV43KIqqwD+N0lm xRl0tIIvQbW9urnq7Y8CuWfFlTFe5Mm8rA4HOboBAJNOp9rXwvJk/bZNLF0xfdtHOR2Asml/zMc Ms6T+Ek4I
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+References: <20260507124238.7313-1-linkinjeon@kernel.org> <20260507124238.7313-6-linkinjeon@kernel.org>
+ <20260511124500.GA18149@lst.de>
+In-Reply-To: <20260511124500.GA18149@lst.de>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Mon, 11 May 2026 22:46:46 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_dPeCyXo6ASWyTHH4pZnWK3JymbkTrSwF=u5OgTCb_kQ@mail.gmail.com>
+X-Gm-Features: AVHnY4I-t_1H4cxbEgcD2NrW6DIU8Qh5gnQfi1F6lg8pxo1UkLuQtivLtOB86WY
+Message-ID: <CAKYAXd_dPeCyXo6ASWyTHH4pZnWK3JymbkTrSwF=u5OgTCb_kQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/9] iomap: introduce IOMAP_F_ZERO_TAIL flag
+To: Christoph Hellwig <hch@lst.de>
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org, 
+	djwong@kernel.org, linux-fsdevel@vger.kernel.org, anmuxixixi@gmail.com, 
+	dxdt@dev.snart.me, chizhiling@kylinos.cn, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 11 May 2026 09:16:45 +0200, Christoph Hellwig wrote:
-> due to an almost comical failure on my part, my work in progress test
-> case failed to create any file system on a 64k block size loop device,
-> and then tried to mount it, leading to a probe of file system built
-> into my kernel.  Roughly the first half of the series are file systems
-> that actually crashed, but I fixed up all the pattern of missing
-> error handling that I saw.
-> 
-> [...]
-
-Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.misc
-
-[01/10] bfs: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/bab288bb548d
-[02/10] hpfs: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/765969ab437b
-[03/10] qnx4: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/58afc2e824c3
-[04/10] jfs: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/aa9d3b31b70b
-[05/10] befs: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/d42cc4dfa0aa
-[06/10] affs: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/47239d1711ff
-[07/10] isofs: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/03f5399f6bcb
-[08/10] minix: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/d893fc670546
-[09/10] ntfs3: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/d5c1a645a715
-[10/10] omfs: handle set_blocksize failures
-        https://git.kernel.org/vfs/vfs/c/efc0b642ba34
+On Mon, May 11, 2026 at 9:45=E2=80=AFPM Christoph Hellwig <hch@lst.de> wrot=
+e:
+>
+> Note: out of subsystem patches should usually go first to stand out.
+Okay.
+>
+> > @@ -853,6 +854,9 @@ static int __iomap_write_begin(const struct iomap_i=
+ter *iter,
+> >                                                 len, status, GFP_NOFS);
+> >                       if (status)
+> >                               return status;
+> > +
+> > +                     if (iomap->flags & IOMAP_F_ZERO_TAIL)
+> > +                             folio_zero_segment(folio, to, poff + plen=
+);
+>
+> > + * IOMAP_F_ZERO_TAIL indicates only the unwritten tail of the block sh=
+ould be
+> > + * zeroed.
+>
+> So trying to understand what you are doing here.
+>
+> We're writing to a block with the magic all invalid beyond this marker,
+> and you want the data beyond the file write zeroed.  This seems really
+> nice and simply, but talking about 'unwritten' confused as I assumed it
+> to be an unwritten extent.  But I guess this is not actually reported
+> as an unwritten extent, right?  Maybe drop the unwritten here or
+> reword it as
+Right. I agreed.
+>
+>  * IOMAP_F_ZERO_TAIL indicates the remainder of the block after the
+>  * data written should be zeroed.
+>
+> ?
+I will update it like this in the next version.
+>
+> And for all this to trigger that write needs to be at valid_size
+> but before i_size so that iomap_block_needs_zeroing does not kick in,
+> right?
+Right.
+Thanks for the review!
+> And this does n
