@@ -1,332 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790E3370D7C;
-	Mon, 11 May 2026 11:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC372244665;
+	Mon, 11 May 2026 12:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778500729; cv=none; b=tXr7mSSrpewHOKhN1FyMhuSvkEbOftcD9PuHYWwVF056cnteg6cvi64/XNK0I0BCe3h8u8q9C6jpVPP5Cnyr/UnoQVrLuoeHYWMT5kdvXboOXU2uLxEQj6NlXYcnhPBJ6+PKoi97I81wacu3YrrTOyRJTmWi70Ih3Fr8/DVU/aE=
+	t=1778500853; cv=none; b=aYffw8ZR4uL1AvJKduzC7bHD4N6qC9MicxwqQnGlkTCdifq93XtwwjiT986Tk97EsU5XB48vvojPJZySXk0rmkDYkftMr7KeNeQtarbUUMPRbq+VJWolSIh02/yJgyKZlGMGH0cjQuCAsDHCCC4SPp1W+RAK1kFbbKHk+h7LlFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778500729; c=relaxed/simple;
-	bh=XKPJq5QezlNP12IRQEcyUTSt/8bOccpcPc3bZyrPITg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=edx8Ianhi72Gj7tSZJ4AGxn5mhVVIPyIc4ih8jyklGRaRLi1udRRqdTjKf+/wj+WrTfQ0HIXSVJ4Z0QR82kLYWam6xb1E1H4qmTBpuZDRQU0HNLXBNxlUdRIQFBjvsVUdV6/Cj0xUMBkXfB3FRF58gE9rnckJFM/Flmsq8SXRrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=attDCdZz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778500853; c=relaxed/simple;
+	bh=3ltXO6+gbYKtV0Usdp0V0TIVDklrgiK3bsK9XntO6Zc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R+3I+apUGLbOFFOvdhW48527xKMJNDAYALR//alEPB/CLOxY2qVcbFq4/fPDNobt5gSfcjqq3yysfHTabLDc8uNN/LWBNuQzgnnDODAA+GOhAoey4QweMW6Hbh1Jy6CZeZQlT610j/TXh+NUy2fEgBVjC3RCvzN8VrBGHeBoupg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tyouepRy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="attDCdZz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BE2BC2BCFB;
-	Mon, 11 May 2026 11:58:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tyouepRy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3437FC2BCB0;
+	Mon, 11 May 2026 12:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778500729;
-	bh=XKPJq5QezlNP12IRQEcyUTSt/8bOccpcPc3bZyrPITg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=attDCdZzMTFzU0M9ujFJsO3/m+4d/zS9fIUIV/YhRW2DY2i7Ip6oqZn/WexxmrLld
-	 LzivpQ1UYTMFXVMWPcWTiA/UoXVIHiPTvEuwfepW842Wes/xVJt9LlYL0aC35jXQcj
-	 gxi0kbxjoIh89/Q4z1rF9cUGSzqNorMcHKSCuQRRI4KcBj3yFnVLrnvqUg2kdJVf9/
-	 H4Ebzd+1ryhvSgjslgvo9RB/N3lV/ZE/veufExYfaAeQbrSWUecXpTn3lLGiVMF/qn
-	 cfo5DIpF3AYkpw1U7ku99xd45BENc1SKcy7rGv6QMAsRD+qQLZkLxeOk423seL6BQe
-	 Hgv2ZOM8akyEw==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 11 May 2026 07:58:29 -0400
-Subject: [PATCH v7 3/3] mm: kick writeback flusher for IOCB_DONTCACHE with
- targeted dirty tracking
+	s=k20201202; t=1778500853;
+	bh=3ltXO6+gbYKtV0Usdp0V0TIVDklrgiK3bsK9XntO6Zc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tyouepRyY8HBIVvAd0PpMtwm1T95c3wn+3rDWYuYhAlgKdCfyK/YT6SOSrppIcQyi
+	 l/1Oas2xv9LIlPZvZk6tzj6g6Und3idvH7qruSMQwBtZWke9K+EiRr5wC7glA95u39
+	 PEdgC06gDcljZaHoUK5yz7KHcAUsknmndSKBgLT6iuYx6KjoLKkO70/JT1wrejnNW7
+	 OQ/596rNlKiPsLm3RF0emnpAquDRoPNXlWd6NQS+LvzeE4oEHoRFbpUU+vMGId+ScS
+	 wO33z9MZn13e2xqhfsiGmV4Tj1gg2oyyQ2UqO/CwHzHrEJjGSgCnvOe93dNEnjVD2b
+	 IzN8YZgJb6gCg==
+Date: Mon, 11 May 2026 14:00:35 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+Message-ID: <20260511-hochdekoriert-neoliberale-f7a2922bc57c@brauner>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+ <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260511-dontcache-v7-3-2848ddce8090@kernel.org>
-References: <20260511-dontcache-v7-0-2848ddce8090@kernel.org>
-In-Reply-To: <20260511-dontcache-v7-0-2848ddce8090@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Ritesh Harjani <ritesh.list@gmail.com>, 
- Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-nfs@vger.kernel.org, linux-mm@kvack.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9911; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=XKPJq5QezlNP12IRQEcyUTSt/8bOccpcPc3bZyrPITg=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBqAcRwv/1r1ukrs2eUhxmYS8yfySR+xMzDSH8sO
- +fxb+n/PtOJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCagHEcAAKCRAADmhBGVaC
- Ff6fD/4rXPaczdBaJkzIeTTp1CXFQqi7GGM4Axx6hL9BFixen3jcak61QYUJvI6gy2Z+ITfLNOs
- zPC9fWD85ocBQKcr9h04RP+y5JPxj9Y602clUBxdVeODA5NbABBrVNvaoyKdddnNehkTRv+TV7D
- VbicqR6Z7B8QO1r0sJ7BR4QgkpxMSYDWvBR+Jfkm5zTuMkwZvouybLx7UzhsryCXyDpFlwArMbF
- DvvVz//AJUPwICH4JeFVhyx5ALTTLRNxMEEDow5OG8QpocuVqdNc0eUbWLrwcapI+Qo1ZEy/wyy
- 0b0bOpdrWxE+WjQb/Iyfe2Ta5NhyNcfavdPMt6chd3tcNbyyK/txZHHdSxq0GQR7MFoayYGBNcv
- zXotA2oBfCbBzqac+Gu1wPvQFdbVe/RDWlSvdDkMB/0uS4mR9KKzJVfGX72ZMpgEKPDVLqYv/+P
- zNOA3Ze2gAssUE/do1WYK02wXVrAWETrwgwLG2W3PGK+S4oMryu7UANdyQqmE+4nMBiqOoieIQ6
- H6Vbdtb4f/p1y/Ci3fOK6x3rPf8w23mnahqLt/6OGHevhTguO9LD2oPWMsqxO7RRsDmmZfzlC99
- bc+cW8H/8VQs87gAUgbjsTK9C3Rwu1s9cRTe10B1A+N9TsGoOg4epHwQvqecTq5ij0htd7TU2Qn
- 9w9rktSlZk2C39A==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
 
-The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-filemap_flush_range() on every write, submitting writeback inline in
-the writer's context.  Perf lock contention profiling shows the
-performance problem is not lock contention but the writeback submission
-work itself — walking the page tree and submitting I/O blocks the writer
-for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
-(dontcache).
+On Mon, May 04, 2026 at 07:41:15PM +0200, Jori Koolstra wrote:
+> 
+> > Op 27-04-2026 17:48 CEST schreef Christian Brauner <brauner@kernel.org>:
+> > 
+> > So definitely a patchset worthing doing but this will be hairy. And
+> > Mateusz is right. As written this doesn't work. The canonical pattern
+> > how e.g., dentry_open() does it is to preallocate the file.
+> > 
+> 
+> Is this because of Mateusz point that we should fail as soon as possible
+> to prevent any fs changes from taking effect?
+> 
+> But like Mateusz points out, this is not really happening for open() with
+> O_CREAT either. So is there any policy for what we do and do not tolerate?
+> (although I agree we should definitely preallocate the file; thanks for
+> pointing that pattern out).
 
-Replace the inline filemap_flush_range() call with a flusher kick that
-drains dirty pages in the background.  This moves writeback submission
-completely off the writer's hot path.
+Your version can fail in a lot more cases than O_CREAT because the file
+is allocated last which is just not acceptable.
 
-To avoid flushing unrelated buffered dirty data, add a dedicated
-WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
-the per-wb WB_DONTCACHE_DIRTY counter to determine how many pages to
-write back.  The flusher writes back that many pages from the oldest dirty
-inodes (not restricted to dontcache-specific inodes). This helps
-preserve I/O batching while limiting the scope of expedited writeback.
+And a misbehaving LSM that ends up preventing opening a created file is
+really not our concern. The system can behave in all non-standard ways
+with mandatory access control.
 
-Like WB_start_all, the WB_start_dontcache bit coalesces multiple
-DONTCACHE writes into a single flusher wakeup without per-write
-allocations.  Use test_and_clear_bit to atomically consume the kick
-request before reading the dirty counter and starting writeback, so that
-concurrent DONTCACHE writes during writeback can re-set the bit and
-schedule a follow-up flusher run.
+The other concern that was brought up in some version is truncate but I
+really don't understand what that is supposed to be about. O_TRUNC and
+O_CREAT raally don't get in the way of each other in the way people
+think they would.
 
-Read the dirty counter with wb_stat_sum() (aggregating per-CPU batches)
-rather than wb_stat() (which reads only the global counter) to ensure
-small writes below the percpu batch threshold are visible to the flusher.
+Just look at the FMODE_CREATED case. If that's raised on do_open() then
+O_TRUNC is ignored for very obvious reasons.
 
-In filemap_dontcache_kick_writeback(), set the WB_start_dontcache bit
-inside the unlocked_inode_to_wb_begin/end section for correct cgroup
-writeback domain targeting, but defer the wb_wakeup() call until after
-the section ends, since wb_wakeup() uses spin_unlock_irq() which would
-unconditionally re-enable interrupts while the i_pages xa_lock may still
-be held under irqsave during a cgroup writeback switch. Pin the wb with
-wb_get() inside the RCU critical section before calling wb_wakeup()
-outside it, since cgroup bdi_writeback structures are RCU-freed and the
-wb pointer could become invalid after unlocked_inode_to_wb_end() drops
-the RCU read lock.
+The only reason where O_TRUNC with O_CREAT matters is if the file did
+already exist which also implies O_EXCL isn't raised. In that case this
+ends up as a regular truncate request and then it is possible to hit the
+handle_truncate() codepath. And there it really doesn't matter. A
+concurrent exec or truncate that prevents you from O_CREAT | O_TRUNC
+seems perfectly benign if you didn't actually create the file in the
+first place. The O_TRUNC would only be honored if we did end up creating
+the file. If someone else raised us in doing their own truncate or is
+attempting an exe then we should most certainly not get to truncate over
+them. Failing is the right thing to do here.
 
-Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
-visibility.
+> 
+> > I do wonder though whether we shouldn't just make O_CREAT | O_DIRECTORY
+> > work. I remember that I had a vague comment about this in [1] a few
+> > years ago (cf. [1]). It might even be less hairy to get that one right
+> > as all the thinking for O_CREAT is already there.
+> > 
+> > What was the rationale for mkdirat2() instead of threading this through
+> > openat()/openat2() with O_CREAT?
+> > 
+> 
+> Because of Mateusz' objection, but I agree with Aleksa (and you in 2023)
+> that this is intuitive and you mentioned POSIX allows for it.
+> 
+> But a more general issue, that also applies to this mkdirat2 patch,
+> is Linus' objection in that same thread.[1] However, the use-case of
 
-dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
-xfs on NVMe, fio io_uring):
+mkdirat2() is objectively the worse api. It forces userspace to use a
+separate system call without any reason whatsoever. If you can to
+O_CREAT you should also be able to to O_DIRECTORY in the same system
+call. If we support O_DIRECTORY | O_CREAT we get all the lookup
+restriction niceties RESOLVE_* for free. Plus, it is supportable both in
+openat() and openat2() because I made that combo return an errno.
 
-Buffered and direct I/O paths are unaffected by this patchset. All
-improvements are confined to the dontcache path:
+UAPI design often is a nasty mix of performance (context switches),
+separation of concerns and privileges, tastefulness, and compromises you
+never thought or wanted to make.
 
-Single-stream throughput (MB/s):
-                        Before    After    Change
-  seq-write/dontcache      298      897    +201%
-  rand-write/dontcache     131      236     +80%
+I think here it is pretty clear that O_DIRECTORY | O_CREAT is the right
+thing to do. Instead of restructuring a bunch of codepaths so it can be
+plumbed through to the filesystems we just reuse the existing codepaths
+that give us the right context for free.
 
-Tail latency improvements (seq-write/dontcache):
-  p99:    135,266 us  ->  23,986 us   (-82%)
-  p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
-
-Multi-writer (4 jobs, sequential write):
-                                Before    After    Change
-  dontcache aggregate (MB/s)     2,529    4,532     +79%
-  dontcache p99 (us)             8,553    1,002     -88%
-  dontcache p99.9 (us)         109,314    1,057     -99%
-
-  Dontcache multi-writer throughput now matches buffered (4,532 vs
-  4,616 MB/s).
-
-32-file write (Axboe test):
-                                Before    After    Change
-  dontcache aggregate (MB/s)     1,548    3,499    +126%
-  dontcache p99 (us)            10,170      602     -94%
-  Peak dirty pages (MB)          1,837      213     -88%
-
-  Dontcache now reaches 81% of buffered throughput (was 35%).
-
-Competing writers (dontcache vs buffered, separate files):
-                                Before    After
-  buffered writer                  868      433 MB/s
-  dontcache writer                 415      433 MB/s
-  Aggregate                      1,284      866 MB/s
-
-  Previously the buffered writer starved the dontcache writer 2:1.
-  With per-bdi_writeback tracking, both writers now receive equal
-  bandwidth. The aggregate matches the buffered-vs-buffered baseline
-  (863 MB/s), indicating fair sharing regardless of I/O mode.
-
-  The dontcache writer's p99.9 latency collapsed from 119 ms to
-  33 ms (-73%), eliminating the severe periodic stalls seen in the
-  baseline. Both writers now share identical latency profiles,
-  matching the buffered-vs-buffered pattern.
-
-The per-bdi_writeback dirty tracking dramatically reduces peak dirty
-pages in dontcache workloads, with the 32-file test dropping from
-1.8 GB to 213 MB. Dontcache sequential write throughput triples and
-multi-writer throughput reaches parity with buffered I/O, with tail
-latencies collapsing by 1-2 orders of magnitude.
-
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/fs-writeback.c                | 63 ++++++++++++++++++++++++++++++++++++++++
- include/linux/backing-dev-defs.h |  2 ++
- include/linux/fs.h               |  6 ++--
- include/trace/events/writeback.h |  3 +-
- 4 files changed, 69 insertions(+), 5 deletions(-)
-
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 32ecc745f5f7..77d53df97cc3 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -2377,6 +2377,27 @@ static long wb_check_start_all(struct bdi_writeback *wb)
- 	return nr_pages;
- }
- 
-+static long wb_check_start_dontcache(struct bdi_writeback *wb)
-+{
-+	long nr_pages;
-+
-+	if (!test_and_clear_bit(WB_start_dontcache, &wb->state))
-+		return 0;
-+
-+	nr_pages = wb_stat_sum(wb, WB_DONTCACHE_DIRTY);
-+	if (nr_pages) {
-+		struct wb_writeback_work work = {
-+			.nr_pages	= nr_pages,
-+			.sync_mode	= WB_SYNC_NONE,
-+			.range_cyclic	= 1,
-+			.reason		= WB_REASON_DONTCACHE,
-+		};
-+
-+		nr_pages = wb_writeback(wb, &work);
-+	}
-+
-+	return nr_pages;
-+}
- 
- /*
-  * Retrieve work items and do the writeback they describe
-@@ -2398,6 +2419,11 @@ static long wb_do_writeback(struct bdi_writeback *wb)
- 	 */
- 	wrote += wb_check_start_all(wb);
- 
-+	/*
-+	 * Check for dontcache writeback request
-+	 */
-+	wrote += wb_check_start_dontcache(wb);
-+
- 	/*
- 	 * Check for periodic writeback, kupdated() style
- 	 */
-@@ -2472,6 +2498,43 @@ void wakeup_flusher_threads_bdi(struct backing_dev_info *bdi,
- 	rcu_read_unlock();
- }
- 
-+/**
-+ * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
-+ * @mapping:	address_space that was just written to
-+ *
-+ * Kick the writeback flusher thread to expedite writeback of dontcache dirty
-+ * pages. Queue writeback for the inode's wb for as many pages as there are
-+ * dontcache pages, but don't restrict writeback to dontcache pages only.
-+ *
-+ * This significantly improves performance over either writing all wb's pages
-+ * or writing only dontcache pages.  Although it doesn't guarantee quick
-+ * writeback and reclaim of dontcache pages, it keeps the amount of dirty pages
-+ * in check. Over longer term dontcache pages get written and reclaimed by
-+ * background writeback even with this rough heuristic.
-+ */
-+void filemap_dontcache_kick_writeback(struct address_space *mapping)
-+{
-+	struct inode *inode = mapping->host;
-+	struct bdi_writeback *wb;
-+	struct wb_lock_cookie cookie = {};
-+	bool need_wakeup = false;
-+
-+	wb = unlocked_inode_to_wb_begin(inode, &cookie);
-+	if (wb_has_dirty_io(wb) &&
-+	    !test_bit(WB_start_dontcache, &wb->state) &&
-+	    !test_and_set_bit(WB_start_dontcache, &wb->state)) {
-+		wb_get(wb);
-+		need_wakeup = true;
-+	}
-+	unlocked_inode_to_wb_end(inode, &cookie);
-+
-+	if (need_wakeup) {
-+		wb_wakeup(wb);
-+		wb_put(wb);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(filemap_dontcache_kick_writeback);
-+
- /*
-  * Wakeup the flusher threads to start writeback of all currently dirty pages
-  */
-diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-index cb660dd37286..4f1084937315 100644
---- a/include/linux/backing-dev-defs.h
-+++ b/include/linux/backing-dev-defs.h
-@@ -26,6 +26,7 @@ enum wb_state {
- 	WB_writeback_running,	/* Writeback is in progress */
- 	WB_has_dirty_io,	/* Dirty inodes on ->b_{dirty|io|more_io} */
- 	WB_start_all,		/* nr_pages == 0 (all) work pending */
-+	WB_start_dontcache,	/* dontcache writeback pending */
- };
- 
- enum wb_stat_item {
-@@ -56,6 +57,7 @@ enum wb_reason {
- 	 */
- 	WB_REASON_FORKER_THREAD,
- 	WB_REASON_FOREIGN_FLUSH,
-+	WB_REASON_DONTCACHE,
- 
- 	WB_REASON_MAX,
- };
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 11559c513dfb..df72b42a9e9b 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2624,6 +2624,7 @@ extern int __must_check file_write_and_wait_range(struct file *file,
- 						loff_t start, loff_t end);
- int filemap_flush_range(struct address_space *mapping, loff_t start,
- 		loff_t end);
-+void filemap_dontcache_kick_writeback(struct address_space *mapping);
- 
- static inline int file_write_and_wait(struct file *file)
- {
-@@ -2657,10 +2658,7 @@ static inline ssize_t generic_write_sync(struct kiocb *iocb, ssize_t count)
- 		if (ret)
- 			return ret;
- 	} else if (iocb->ki_flags & IOCB_DONTCACHE) {
--		struct address_space *mapping = iocb->ki_filp->f_mapping;
--
--		filemap_flush_range(mapping, iocb->ki_pos - count,
--				iocb->ki_pos - 1);
-+		filemap_dontcache_kick_writeback(iocb->ki_filp->f_mapping);
- 	}
- 
- 	return count;
-diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-index bdac0d685a98..13ee076ccd16 100644
---- a/include/trace/events/writeback.h
-+++ b/include/trace/events/writeback.h
-@@ -44,7 +44,8 @@
- 	EM( WB_REASON_PERIODIC,			"periodic")		\
- 	EM( WB_REASON_FS_FREE_SPACE,		"fs_free_space")	\
- 	EM( WB_REASON_FORKER_THREAD,		"forker_thread")	\
--	EMe(WB_REASON_FOREIGN_FLUSH,		"foreign_flush")
-+	EM( WB_REASON_FOREIGN_FLUSH,		"foreign_flush")	\
-+	EMe(WB_REASON_DONTCACHE,		"dontcache")
- 
- WB_WORK_REASON
- 
-
--- 
-2.54.0
-
+And during LSFMM the VFS maintains all agreed to proceed with
+O_DIRECTORY | O_CREAT.
