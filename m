@@ -1,173 +1,194 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC4F41C2FD
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 18:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FFF472784;
+	Mon, 11 May 2026 18:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778523353; cv=none; b=j9thH3kGM2aT4ROvDKC1OdpetRMqQugFuoGf0EMu8Fw8rVPVWHN0M+PZsTYKdg2paCwMFhJlfk8qjnfsW/LDoNBLeKiDxQLlPb/qoZcpDpJvgQVTQDFZdfiwrzLK0TTCgmEI13rFyoLulUJdnGbSDwUgD+Bg5U+IJgAyWS9RS+8=
+	t=1778524200; cv=none; b=LGbHGyuxuRQXU0A4dnzohwQDWBmMYF3JUXiy/fjyPNH39qnk7OZrf5Wim8q6a02ZzTh8Fr34bC6KAjomODck198MGILf5GhQ8cwG3izKIOm97mCCjYtMgKmZgesYT0G4SY55zjM3JRMmJ9OPruSAAB5/gqD00N7Ka82uPgnNCYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778523353; c=relaxed/simple;
-	bh=iIJyvYdb0mvMcIzFudM1xOo/1cP6jmXUp3LxZlvJGt4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JYlRzg5kSmL4ig90l61lIAkAacB3GaSDjEx0JgYMY2SBj4QE/4yOyPaEaa798iCe/kpfPdZdh69VHoWYIZfy97F2CAaxC3w9P4orqj9wGvU5wzbwt/U53hQW6w3xJFxWRSZ874zzhuk6bTvuOP/vxu4ciFu//r7ThukPAn2N5Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=ZnvkrCI7; arc=none smtp.client-ip=148.163.139.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	s=arc-20240116; t=1778524200; c=relaxed/simple;
+	bh=mOnRIt5cw4cH/R7V3vuuDDccJ8YG6ocMhdme456Cuvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RjJHYDP1zJGokUyhTwuvVdSk8vSBhZPNnvQG8GrCZ3YZadwSMYcMcwe0PomG5bRRHTsHwa3kR75UrIgzhMOa43p/5qBl2CWxt66Yf3aSUX69kP12POgphBmAPB3vzayWCjz1tkDlKCw7MW4YygxnmYKOkdnqjydPAO+ktjPJ3sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com; spf=pass smtp.mailfrom=cyphar.com; dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b=OOCcbXm1; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyphar.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyphar.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="ZnvkrCI7"
-Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64BHvnVT2575601
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 14:15:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=nNMh
-	459Qb0NBOZf/rMrLKlp+eY8nirwVRRGfS/oMrYc=; b=ZnvkrCI7Es9dc9+kR4dE
-	Nb8psOyeAAu8H1CvJTJ8r5ca0bG4Kd08AL8wqlGxZf79ol0E+6aey1eMXP9AsQMh
-	L3NJb4cOM7rqH2DrleUAJ/N7Xu+gWwvW2r13sZBRDhgQRSaBqHLKwmtGc7sGTnBG
-	pzc+l9DgH2CVbPUhhUdUokZimUJItAKr7B6VJ+vTcansyhZ9cvOu+tX8frtiIhzP
-	8mI++TFt9lvGgOuoo1N5rLWNBRymmFivAZ2U3+rdr0exTevZl3sNg46C7PMii90D
-	ZnjVAs8FrAFZH3pOUaNhlnRO2kgdLn/KPgQfMlfYnrzMokYlMavoTkTI8kJcPE2O
-	Mw==
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com [209.85.128.198])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4e3k8n0esm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 14:15:43 -0400 (EDT)
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7bdd1ef8648so103777427b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 11:15:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778523343; x=1779128143;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nNMh459Qb0NBOZf/rMrLKlp+eY8nirwVRRGfS/oMrYc=;
-        b=HzauZsPas0WRgVWerWSQGHGPRmhdfEktD5+4q7oV9hCL3Y35OiUcilxCGvP9AMI/Mb
-         QE+aSl0ylzllzEcFlRqKP/QTVd5/YwndHpOpHQQHfo0qBiS/kIHcJ2en3y1MS2Gwf0FF
-         SakcwcDJzfxA/l86j8CEguyKZI/yjolR83GtoeNikh9nEM5BmutNXoRVbW4bf0K+f8PS
-         pfV00+u/s1+uxrjif6Gp+xSO+MWs+LDWMhIkR5xS51jMPDJDyrjvvIDY0w/gvVTsJIMC
-         O7/zbjAXGEExpriAiTTyn2DSGmtnuoWVm279uNAog3pHTD4SVOz5Zy2K251ip1URkrZc
-         lH8w==
-X-Forwarded-Encrypted: i=1; AFNElJ8egZFyC+ltTAuPkIVf5IlvOlDuliDXyxhor9NLHOU5zDzWRpwLk6NNpP6JIcfZoEqFQDVlW5NXYcs923Hv@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiVex1vqk6fUN3XLzu0vW1AGmAIrV8U9MYU1lJsCOts329fEYg
-	Yzov/Z/G1s9jReKt+OX/3XX5XGCyokOWBnjqOGF8RjTPr+UdSem19TOHMYXH1vUN4Dxmf4iU8vR
-	4OgixHVL97kgUU6AsqJsUwQDOr/YFRJVOZ8cXPOEp15ueUS8nfcEbBkhDwjJUn9s=
-X-Gm-Gg: Acq92OF62NKshlHkVhpTPu+lR2147FBk7m/3NedoZ7DqM2GXY2naGq2BEe2zKJE9rjH
-	BJ5t0ZUBjFqPQ5uCMu718a86SWtzfBYhu1V3FJNq6+zoicayonTvgSGse9oDRtiTFZFhfV8DbJO
-	KWMiOS69D2bj8Qt4lwo52QsDTRTeo5aaWBdEza2BEbkc6/X+jKQskh8prrYSUTEMT5cjaTsHwW4
-	VjKv47WOYUtU1DuCmwutfcEJ900HaLa3Gb3Tn2eZTKs5ulYZz6jCiqf6jjQxZsvFncvr/T7RT9L
-	tFH2679PTsaap2iMOjHFk4l1lzLPS97fnnklBpenioIsxReV3822Qvtu3N2Uu9u1WQrnDkaywmh
-	0fxr59bpgSfp04HPAePyW3kEqzRtYIfkxPam6
-X-Received: by 2002:a05:690c:6983:b0:7ba:a726:57a4 with SMTP id 00721157ae682-7c10567accdmr99156417b3.36.1778523342831;
-        Mon, 11 May 2026 11:15:42 -0700 (PDT)
-X-Received: by 2002:a05:690c:6983:b0:7ba:a726:57a4 with SMTP id 00721157ae682-7c10567accdmr99156077b3.36.1778523342322;
-        Mon, 11 May 2026 11:15:42 -0700 (PDT)
-Received: from [10.206.149.208] ([129.236.224.3])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd66019105sm153053607b3.0.2026.05.11.11.15.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2026 11:15:41 -0700 (PDT)
-Message-ID: <5280b6f9-e6d7-4854-bbdc-ed5349a478ed@columbia.edu>
-Date: Mon, 11 May 2026 14:15:41 -0400
+	dkim=pass (2048-bit key) header.d=cyphar.com header.i=@cyphar.com header.b="OOCcbXm1"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gDpDD33Pxz9tJC;
+	Mon, 11 May 2026 20:29:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyphar.com; s=MBO0001;
+	t=1778524188;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TOM7dgV0LWr8FAq80PjCN0sPeuuxJ48ErXxXpU+rYJg=;
+	b=OOCcbXm1NPoSnniKZ+SU3coN0xN7AbJGjrIs7sXInnevGxgtaAlUbOrCb96KNCLW5/8NZK
+	W8GPbWtWVjCZDDfwN0T4WF4YhKMNHV0KrPgWnTrson6Cm+rf1qK9kt9naVY3ziUZrAc1eA
+	BkAG+ZsbUUJUtUNrhmArerwAS4vC4U3MbBu9ivtG46yu1ekIbqa6OsJ2FNrnv9ZdYe9qbk
+	b8nTyKmxZPgoL54aZU/6p6j3u9xZ0Ab63pFgIz9L5GPPxi/ysFr2mbJNBRZALgWuC9Ztqh
+	KQTgmq12KKAjx4X88KW04tHu0ZrKXSkLiktWEJBWCgEl1hOapvwsDutrgoi3kw==
+Date: Tue, 12 May 2026 04:29:32 +1000
+From: Aleksa Sarai <cyphar@cyphar.com>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Arnd Bergmann <arnd@arndb.de>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	"open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH v5 1/2] vfs: add O_EMPTYPATH to openat(2)/openat2(2)
+Message-ID: <2026-05-11-robotic-unseen-reversal-talisman-5w0bQM@cyphar.com>
+References: <20260424114611.1678641-1-jkoolstra@xs4all.nl>
+ <20260424114611.1678641-2-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/filemap: fix page_cache_prev_miss() when no hole is
- found
-To: Jan Kara <jack@suse.cz>, Vishal Moola <vishal.moola@gmail.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-References: <20260510-prev_miss_fix-v1-1-755bb123145a@columbia.edu>
- <agHPIcZHHyzBjcGN@fedora>
- <s6hnqm4bbi5j2ergudihydboj3uw7gsu7te4dfmjgv2qeosfbd@yvhp5oy3r3b6>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <s6hnqm4bbi5j2ergudihydboj3uw7gsu7te4dfmjgv2qeosfbd@yvhp5oy3r3b6>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTExMDE5NCBTYWx0ZWRfX53qDq1TPgdsU
- 4voHL3P4YJmYTyyd1fdrB2IcCReo5k32m72Hc+jGWZChqKQh/G/VZbga+kOvG0ibFtkuSTf/sgL
- LCdjhI7ekTRnv5yF9E29t1BHWTgFJIkLy4Er3hN4Vf05afW0bUM0As9jRdYcudacmQSHHkMQyC+
- xnymc1Hpx9g2fLobC6TT5p94Qt4p9oXWpCjDKh08NGrd8XCr+Vcq78fMYja6Jc4dIxy+bcRfoDI
- 0FuTY6uYCd5XWWsOl4MX2kk1PINCXZi6WcGN/DJXSyt6M4PGHfYLJX1LhMGgshswSXxENL1kzbr
- yZyCarWsqAnvFdEbL1uY1vFvmWultLN3bY6VMIyGIs0f/daHzLnwlk9XCSmEef8UgO5EYJTbjDI
- GZv7mrwcFvGhnnUxlCZkDRwQd1bROqw18tKg1QnLUxLLyUqquh6iMr8cqn1E0CPKn6qAX5+GlwS
- 1rMcaX7WIXLbYHVWQqg==
-X-Proofpoint-GUID: awtV2eXRh5TAlQmo7PgyXFI1PMEejsfB
-X-Proofpoint-ORIG-GUID: awtV2eXRh5TAlQmo7PgyXFI1PMEejsfB
-X-Authority-Analysis: v=2.4 cv=evfvCIpX c=1 sm=1 tr=0 ts=6a021ccf cx=c_pps
- a=g1v0Z557R90hA0UpD/5Yag==:117 a=uvjyHnA+wHnVBzamt/20/A==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
- a=5NEz3i_17GglibqS5w4A:9 a=QEXdDO2ut3YA:10 a=MFSWADHSvvjO3QEy5MdX:22
-X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11783
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=10 priorityscore=1501 malwarescore=0 clxscore=1015 spamscore=0
- phishscore=0 adultscore=0 suspectscore=0 lowpriorityscore=10 bulkscore=10
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605110194
-
-On 5/11/26 12:26 PM, Jan Kara wrote:
-> On Mon 11-05-26 13:44:17, Vishal Moola wrote:
->> On Sun, May 10, 2026 at 05:54:17PM -0400, Tal Zussman wrote:
->> > page_cache_prev_miss() is documented to return a value outside the
->> > searched range when no gap is found. However, the no-gap-found path
->> > returns xas.xa_index, which after a successful loop is the first index
->> > in the range. As such, that index is misreported as a gap.
->> > 
->> > The sole caller, page_cache_sync_ra(), uses the return value to estimate
->> > the cached run preceding a sequential read. In some cases, the buggy
->> > return value can undercount the contiguous range by one, shrinking the
->> > readahead window or pushing borderline requests into the
->> > small-random-read branch.
->> > 
->> > Mirror the fix in commit bbcaee20e03e ("readahead: fix return value of
->> > page_cache_next_miss() when no hole is found"): preserve max_scan in a
->> > separate variable across the loop and return `index - max_scan` from the
->> > no-gap-found path.
->> 
->> IMO, this way of fixing it hurts the readability. I'd prefer something
->> similar to the fix in the original commit. Or...
->> 
->> > -	while (max_scan--) {
->> > +	while (nr--) {
->> >  		void *entry = xas_prev(&xas);
->> >  		if (!entry || xa_is_value(entry))
->> > -			break;
->> > +			return xas.xa_index;
->> >  		if (xas.xa_index == ULONG_MAX)
->> > -			break;
->> > +			return ULONG_MAX;
->> >  	}
->> 
->> If I understand this correctly, couldn't we just do something like:
->> if (!max_scan)
->> 	return xas.xa_index - 1;
-> 
-> I think the easiest to understand would be to do the above two explicit
-> returns instead of 'break' and change below to:
-> 
-> 	/* Return start of the range - 1 when no hole is found */
-> 	return xas.xa_index - 1;
-
-I can do that, but I think it should be consistent with
-page_cache_next_miss(), which does index + max_scan. If the xas.xa_index
-approach is preferred, I'll change it in both functions, and also get rid of
-nr.
-
-The nice part of 'index - max_scan' is that the kdoc describes the range in
-terms of that already.
-
-Thoughts?
-
->> > -	return xas.xa_index;
->> > +	return index - max_scan;
->> >  }
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eoc2fy2uc2uxjcgx"
+Content-Disposition: inline
+In-Reply-To: <20260424114611.1678641-2-jkoolstra@xs4all.nl>
 
 
+--eoc2fy2uc2uxjcgx
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 1/2] vfs: add O_EMPTYPATH to openat(2)/openat2(2)
+MIME-Version: 1.0
+
+On 2026-04-24, Jori Koolstra <jkoolstra@xs4all.nl> wrote:
+> To get an operable version of an O_PATH file descriptor, it is possible
+> to use openat(fd, ".", O_DIRECTORY) for directories, but other files
+> currently require going through open("/proc/<pid>/fd/<nr>"), which
+> depends on a functioning procfs.
+>=20
+> This patch adds the O_EMPTYPATH flag to openat(2)/openat2(2). If passed,
+> LOOKUP_EMPTY is set at path resolution time.
+>=20
+> Note: This implies that you cannot rely anymore on disabling procfs from
+> being mounted (e.g. inside a container without procfs mounted and with
+> CAP_SYS_ADMIN dropped) to prevent O_PATH fds from being re-opened
+> read-write.
+>=20
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+
+Thanks!
+
+Reviewed-by: Aleksa Sarai <aleksa@amutable.com>
+
+> ---
+>  fs/fcntl.c                       | 2 +-
+>  fs/open.c                        | 6 ++++--
+>  include/linux/fcntl.h            | 2 +-
+>  include/uapi/asm-generic/fcntl.h | 4 ++++
+>  4 files changed, 10 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/fs/fcntl.c b/fs/fcntl.c
+> index beab8080badf..7d2165855a9c 100644
+> --- a/fs/fcntl.c
+> +++ b/fs/fcntl.c
+> @@ -1169,7 +1169,7 @@ static int __init fcntl_init(void)
+>  	 * Exceptions: O_NONBLOCK is a two bit define on parisc; O_NDELAY
+>  	 * is defined as O_NONBLOCK on some platforms and not on others.
+>  	 */
+> -	BUILD_BUG_ON(20 - 1 /* for O_RDONLY being 0 */ !=3D
+> +	BUILD_BUG_ON(21 - 1 /* for O_RDONLY being 0 */ !=3D
+>  		HWEIGHT32(
+>  			(VALID_OPEN_FLAGS & ~(O_NONBLOCK | O_NDELAY)) |
+>  			__FMODE_EXEC));
+> diff --git a/fs/open.c b/fs/open.c
+> index 681d405bc61e..9e0164a8c1fb 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1158,7 +1158,7 @@ struct file *kernel_file_open(const struct path *pa=
+th, int flags,
+>  EXPORT_SYMBOL_GPL(kernel_file_open);
+> =20
+>  #define WILL_CREATE(flags)	(flags & (O_CREAT | __O_TMPFILE))
+> -#define O_PATH_FLAGS		(O_DIRECTORY | O_NOFOLLOW | O_PATH | O_CLOEXEC)
+> +#define O_PATH_FLAGS		(O_DIRECTORY | O_NOFOLLOW | O_PATH | O_CLOEXEC | O=
+_EMPTYPATH)
+> =20
+>  inline struct open_how build_open_how(int flags, umode_t mode)
+>  {
+> @@ -1279,6 +1279,8 @@ inline int build_open_flags(const struct open_how *=
+how, struct open_flags *op)
+>  		lookup_flags |=3D LOOKUP_DIRECTORY;
+>  	if (!(flags & O_NOFOLLOW))
+>  		lookup_flags |=3D LOOKUP_FOLLOW;
+> +	if (flags & O_EMPTYPATH)
+> +		lookup_flags |=3D LOOKUP_EMPTY;
+> =20
+>  	if (how->resolve & RESOLVE_NO_XDEV)
+>  		lookup_flags |=3D LOOKUP_NO_XDEV;
+> @@ -1360,7 +1362,7 @@ static int do_sys_openat2(int dfd, const char __use=
+r *filename,
+>  	if (unlikely(err))
+>  		return err;
+> =20
+> -	CLASS(filename, name)(filename);
+> +	CLASS(filename_flags, name)(filename, op.lookup_flags);
+>  	return FD_ADD(how->flags, do_file_open(dfd, name, &op));
+>  }
+> =20
+> diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+> index a332e79b3207..c65c5c73d362 100644
+> --- a/include/linux/fcntl.h
+> +++ b/include/linux/fcntl.h
+> @@ -10,7 +10,7 @@
+>  	(O_RDONLY | O_WRONLY | O_RDWR | O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC |=
+ \
+>  	 O_APPEND | O_NDELAY | O_NONBLOCK | __O_SYNC | O_DSYNC | \
+>  	 FASYNC	| O_DIRECT | O_LARGEFILE | O_DIRECTORY | O_NOFOLLOW | \
+> -	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
+> +	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE | O_EMPTYPATH)
+> =20
+>  /* List of all valid flags for the how->resolve argument: */
+>  #define VALID_RESOLVE_FLAGS \
+> diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/=
+fcntl.h
+> index 613475285643..bfc68156b45a 100644
+> --- a/include/uapi/asm-generic/fcntl.h
+> +++ b/include/uapi/asm-generic/fcntl.h
+> @@ -88,6 +88,10 @@
+>  #define __O_TMPFILE	020000000
+>  #endif
+> =20
+> +#ifndef O_EMPTYPATH
+> +#define O_EMPTYPATH	(1 << 26)	/* allow empty path */
+> +#endif
+> +
+>  /* a horrid kludge trying to make sure that this will fail on old kernel=
+s */
+>  #define O_TMPFILE (__O_TMPFILE | O_DIRECTORY)
+> =20
+> --=20
+> 2.54.0
+>=20
+
+--=20
+Aleksa Sarai
+https://www.cyphar.com/
+
+--eoc2fy2uc2uxjcgx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQS2TklVsp+j1GPyqQYol/rSt+lEbwUCagIgCBsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQKJf60rfpRG8FIAD/RN5/VJyZB+aNtgs8bTC8
+wVFbPqqaFinpfNgQpu4CVoYBAPNFSLxNhiZbPud5qCUVIN4fzb+JemBJIxZh85nK
+QI0E
+=IBxS
+-----END PGP SIGNATURE-----
+
+--eoc2fy2uc2uxjcgx--
