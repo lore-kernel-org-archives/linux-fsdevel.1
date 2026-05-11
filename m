@@ -1,47 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D73442B75D;
-	Mon, 11 May 2026 16:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C326426ECF
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 16:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778516676; cv=none; b=D+G1eJh5orHM2fXe7tyAmBSWDhapp0DgNdsWP8YZgrtbrXMLKGOTKplo1eSQ7I9krG+gpjNo3feGNOKviuve0zILiWNENNVm0zTYM9hk9e6c8CR+8rHG/rYVIACe7egZrqWusqXNG7xhPCye5gdjeFpmXF8zAQGhNXbeOAaoJ24=
+	t=1778516773; cv=none; b=aoSEJy/IrXsOVlxNtTxL+ZpHDrpTd61znyPU1m/umPaWR4ArpM+GEWJVyn6nlmN0l7GGxHvqZ44BeFOKL36BUb8J+Ecrg+O3jrNW+NQrTMXzlV4Ud9qQ0cO1YyZUEn/9+yW8HtprC5n1aZ0OOAhs3o2uWwDcMzKHM7C+67JsSbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778516676; c=relaxed/simple;
-	bh=UKNn7tsUPRgXmD+x1uG9z2qtp+bfT80iqcbLwE6zXYE=;
+	s=arc-20240116; t=1778516773; c=relaxed/simple;
+	bh=1F1obJgnCpz56soGq6v1k7623NaPg6fpEzhOfNw//QE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XXAfr2Hw6/QwZ7VwfySWxf8tqatNIkS/7IgZr1I7TOatVhd1liRESZvzU8lcCaTMq54cAB9XFyQ7rKlAuM2ewTidJm+UF2SbGVOwmeXW9di6J/tn0750ybwK4R8aoIiw+vZ9KoU3NvdX8dIKvt2UxTfzA87ddeN+WjOL+CJEDi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMnmOiV7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qgcluCKfwo9AGVaUi3yl8sKZuZfQgG8BbeZA9PV4RaNrDkjiDDg5LT0pXP3Xbsrzp+xdQtOhfmy+2cWjUnZ/swKgKA8uA9cX7JMYYSTfb4SSIIDFrqbCDpV9hu4gD0pmGinO41hmaUrDiPBnc/hcpgWzlN/GYtTyTWwjvok4Xho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cG1enXI1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7HBCzjFk; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cG1enXI1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7HBCzjFk; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMnmOiV7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2D4DC2BCB0;
-	Mon, 11 May 2026 16:24:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778516675;
-	bh=UKNn7tsUPRgXmD+x1uG9z2qtp+bfT80iqcbLwE6zXYE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PMnmOiV7lFTlwmGLDEciZ0u2ikSYfA+R07Z5q8TToxCkZLGUnYNaXW0O0iddAWYmV
-	 uf0GmmzXEEGMY6Vcf+a6Lv5733LKLbW/zlqlAiPDOcrz0MZjTFFcDSzLCB5qJRf/Gk
-	 E5c1fXqLGdMC3v80Omhg0m0TbGdiasiDnNpWJugiWnWqs062wgil7dyrvpkBdMHedr
-	 arDuoIDQJl/AIxMNAUWef69Emj3SSHEHubu2AnaT4eUH2DdIUCF9j8RD9MmqRQswN9
-	 SEGQge7hjbjj0SaaYw/mBJ3BVECQU+Em/HeoAo8AA0hFWgBn0MKS9e+1zPFCQJVeNy
-	 +deusBhcj4nOA==
-Date: Mon, 11 May 2026 09:24:34 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
-	neal@gompa.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/1] mount_service: use the mount_flags table instead of
- declaring our own
-Message-ID: <20260511162434.GH7739@frogsfrogsfrogs>
-References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
- <177819198067.3490792.2943381236495611249.stgit@frogsfrogsfrogs>
- <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
- <20260508175945.GE2241589@frogsfrogsfrogs>
- <20260509004851.GF7739@frogsfrogsfrogs>
- <37d55a0c-7358-455d-9552-c621160bb269@bsbernd.com>
- <20260511152210.GG7739@frogsfrogsfrogs>
- <1f30f0f7-5900-4cc6-951e-8762ce312ba1@bsbernd.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cG1enXI1";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7HBCzjFk";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cG1enXI1";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7HBCzjFk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7E9076BA83;
+	Mon, 11 May 2026 16:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778516770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U4cEJJojjKJfVGKGY9ofdQshTBxx0aX2LtNULn18dP8=;
+	b=cG1enXI1P9zXeCfgkXjUx4u5hpncq+Y613nKTv0IRnAtEHFZ/V8xcL9EtVAabjgj6Zo19A
+	wq1KmMskBV+N/uT//dOkrglyJEqpyBFFRlilBlZDnvTgd5iixrO63Ao4kF0eGAe4IwtOIP
+	FvTXO4dRn58RgMAIZLAt9ACD6FCC25I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778516770;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U4cEJJojjKJfVGKGY9ofdQshTBxx0aX2LtNULn18dP8=;
+	b=7HBCzjFk19z3ATbwxp7QTHebnhnWYz+EGezfmSNN/SgEnC85vJjO7Tbe3sgA3El+odKGA6
+	R4zShiR/kMf+b+Dw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=cG1enXI1;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=7HBCzjFk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778516770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U4cEJJojjKJfVGKGY9ofdQshTBxx0aX2LtNULn18dP8=;
+	b=cG1enXI1P9zXeCfgkXjUx4u5hpncq+Y613nKTv0IRnAtEHFZ/V8xcL9EtVAabjgj6Zo19A
+	wq1KmMskBV+N/uT//dOkrglyJEqpyBFFRlilBlZDnvTgd5iixrO63Ao4kF0eGAe4IwtOIP
+	FvTXO4dRn58RgMAIZLAt9ACD6FCC25I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778516770;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U4cEJJojjKJfVGKGY9ofdQshTBxx0aX2LtNULn18dP8=;
+	b=7HBCzjFk19z3ATbwxp7QTHebnhnWYz+EGezfmSNN/SgEnC85vJjO7Tbe3sgA3El+odKGA6
+	R4zShiR/kMf+b+Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 350FC593A3;
+	Mon, 11 May 2026 16:26:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id u/XsDCIDAmrxWgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 11 May 2026 16:26:10 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3739CA079E; Mon, 11 May 2026 18:26:04 +0200 (CEST)
+Date: Mon, 11 May 2026 18:26:04 +0200
+From: Jan Kara <jack@suse.cz>
+To: Vishal Moola <vishal.moola@gmail.com>
+Cc: Tal Zussman <tz2294@columbia.edu>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/filemap: fix page_cache_prev_miss() when no hole is
+ found
+Message-ID: <s6hnqm4bbi5j2ergudihydboj3uw7gsu7te4dfmjgv2qeosfbd@yvhp5oy3r3b6>
+References: <20260510-prev_miss_fix-v1-1-755bb123145a@columbia.edu>
+ <agHPIcZHHyzBjcGN@fedora>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,167 +92,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1f30f0f7-5900-4cc6-951e-8762ce312ba1@bsbernd.com>
+In-Reply-To: <agHPIcZHHyzBjcGN@fedora>
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7E9076BA83
+X-Spam-Level: 
 
-On Mon, May 11, 2026 at 05:58:36PM +0200, Bernd Schubert wrote:
-> 
-> 
-> On 5/11/26 17:22, Darrick J. Wong wrote:
-> > On Sat, May 09, 2026 at 09:42:12AM +0200, Bernd Schubert wrote:
-> >>
-> >>
-> >> On 5/9/26 02:48, Darrick J. Wong wrote:
-> >>> On Fri, May 08, 2026 at 10:59:45AM -0700, Darrick J. Wong wrote:
-> >>>> On Fri, May 08, 2026 at 06:51:45PM +0200, Bernd Schubert wrote:
-> >>>>>
-> >>>>>
-> >>>>> On 5/8/26 00:14, Darrick J. Wong wrote:
-> >>>>>> From: Darrick J. Wong <djwong@kernel.org>
-> >>>>>>
-> >>>>>> Use the canonical mount flags table in mount_util.c instead of
-> >>>>>> opencoding our own version in mount_service.c.
-> >>>>>>
-> >>>>>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> >>>>>> ---
-> >>>>>>  util/mount_service.c |   51 +++++++++++++-------------------------------------
-> >>>>>>  1 file changed, 13 insertions(+), 38 deletions(-)
-> >>>>>>
-> >>>>>>
-> >>>>>> diff --git a/util/mount_service.c b/util/mount_service.c
-> >>>>>> index 8c9747b3928a51..79e5b060ba3356 100644
-> >>>>>> --- a/util/mount_service.c
-> >>>>>> +++ b/util/mount_service.c
-> >>>>>> @@ -1457,73 +1457,48 @@ struct ms_to_mount_map {
-> >>>>>>  	unsigned int mount_attr_flag;
-> >>>>>>  };
-> >>>>>>  
-> >>>>>> -static const struct ms_to_mount_map attrs[] = {
-> >>>>>> -	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
-> >>>>>> -	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
-> >>>>>> -	{ MS_NODEV,		MOUNT_ATTR_NODEV },
-> >>>>>> -	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
-> >>>>>> -	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
-> >>>>>> -	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
-> >>>>>> -	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
-> >>>>>> -	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
-> >>>>>> -#ifdef MOUNT_ATTR_NOSYMFOLLOW
-> >>>>>> -	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
-> >>>>>> -#endif
-> >>>>>> -	{ 0, 0 },
-> >>>>>> -};
-> >>>>>> -
-> >>>>>>  static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
-> >>>>>>  				 unsigned int *attr_flags,
-> >>>>>>  				 unsigned long *leftover_ms_flags)
-> >>>>>>  {
-> >>>>>> -	const struct ms_to_mount_map *i;
-> >>>>>> +	const struct mount_flags *i;
-> >>>>>>  	unsigned int ms_flags = ntohl(oc->ms_flags);
-> >>>>>>  	unsigned int mount_attr_flags = 0;
-> >>>>>>  
-> >>>>>> -	for (i = attrs; i->ms_flag != 0; i++) {
-> >>>>>> -		if (ms_flags & i->ms_flag)
-> >>>>>> -			mount_attr_flags |= i->mount_attr_flag;
-> >>>>>> -		ms_flags &= ~i->ms_flag;
-> >>>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
-> >>>>>> +		if (!i->on || !(ms_flags & i->flag))
-> >>>>>> +			continue;
-> >>>>>> +
-> >>>>>> +		mount_attr_flags |= i->mount_attr;
-> >>>>>> +		ms_flags &= ~i->flag;
-> >>>>>>  	}
-> >>>>>>  
-> >>>>>>  	*leftover_ms_flags = ms_flags;
-> >>>>>>  	*attr_flags = mount_attr_flags;
-> >>>>>>  }
-> >>>>>>  
-> >>>>>> -struct ms_to_str_map {
-> >>>>>> -	unsigned long ms_flag;
-> >>>>>> -	const char *string;
-> >>>>>> -};
-> >>>>>> -
-> >>>>>> -static const struct ms_to_str_map strflags[] = {
-> >>>>>> -	{ MS_SYNCHRONOUS,	"sync" },
-> >>>>>> -	{ MS_DIRSYNC,		"dirsync" },
-> >>>>>> -	{ MS_LAZYTIME,		"lazytime" },
-> >>>>>> -	{ 0, 0 },
-> >>>>>> -};
-> >>>>>> -
-> >>>>>>  static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
-> >>>>>>  {
-> >>>>>> -	const struct ms_to_str_map *i;
-> >>>>>> +	const struct mount_flags *i;
-> >>>>>>  	int ret;
-> >>>>>>  
-> >>>>>> -	for (i = strflags; i->ms_flag != 0; i++) {
-> >>>>>> -		if (!(ms_flags & i->ms_flag))
-> >>>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
-> >>>>>> +		if (!i->on || !(ms_flags & i->flag))
-> >>>>>>  			continue;
-> >>>>>>  
-> >>>>>> -		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
-> >>>>>> +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->opt,
-> >>>>>>  			       NULL, 0);
-> >>>>>>  		if (ret) {
-> >>>>>>  			int error = errno;
-> >>>>>>  
-> >>>>>>  			fprintf(stderr, "%s: set %s option: %s\n",
-> >>>>>> -				mo->msgtag, i->string, strerror(error));
-> >>>>>> +				mo->msgtag, i->opt, strerror(error));
-> >>>>>>  			emit_fsconfig_messages(mo);
-> >>>>>>  
-> >>>>>>  			errno = error;
-> >>>>>>  			return -1;
-> >>>>>>  		}
-> >>>>>> -		ms_flags &= ~i->ms_flag;
-> >>>>>> +		ms_flags &= ~i->flag;
-> >>>>>>  	}
-> >>>>>>  
-> >>>>>>  	/*
-> >>>>>>
-> >>>>>>
-> >>>>>
-> >>>>>
-> >>>>> Hi Darrick,
-> >>>>>
-> >>>>> wouldn't it make sense to use the functions from mount_fsmount.c? I can
-> >>>>> also clean this up later if you want.
-> >>>>
-> >>>> Oh, hah!  Yes, I'll revise this patch to use them.
-> >>>
-> >>> Update: I tried this, but ran into a problem: the two helpers are in
-> >>> lib/mount_fsmount.c, which means the object code ends up in libfuse.so.
-> >>> Unfortunately, that means that util/mount_service.c can't use them
-> >>> unless they're exported from the .so.
-> >>>
-> >>> I don't mind doing that, but I feel that I should check with you if it's
-> >>> ok to add that to the public libfuse API before doing that?
-> >>>
-> >>> Though I think a better solution is to move ms_flags_to_mount_attrs and
-> >>> set_ms_flags to mount_util.c because that's compiled into the util/
-> >>> programs.
-> >>>
-> >>> How about I do that second thing on Monday?
-> >>
-> >>
-> >> I would prefer the 3rd option, like for fusermount3
-> >>
-> >> executable('fusermount3', ['fusermount.c', '../lib/mount_util.c',
-> >> '../lib/mount_fsmount.c', '../lib/util.c'],
-> >>
-> >>
-> >> I.e. add lib/mount_fsmount.c to mount_service_sources.
+On Mon 11-05-26 13:44:17, Vishal Moola wrote:
+> On Sun, May 10, 2026 at 05:54:17PM -0400, Tal Zussman wrote:
+> > page_cache_prev_miss() is documented to return a value outside the
+> > searched range when no gap is found. However, the no-gap-found path
+> > returns xas.xa_index, which after a successful loop is the first index
+> > in the range. As such, that index is misreported as a gap.
 > > 
-> > That works, will put together a patch to do that. :)
+> > The sole caller, page_cache_sync_ra(), uses the return value to estimate
+> > the cached run preceding a sequential read. In some cases, the buggy
+> > return value can undercount the contiguous range by one, shrinking the
+> > readahead window or pushing borderline requests into the
+> > small-random-read branch.
+> > 
+> > Mirror the fix in commit bbcaee20e03e ("readahead: fix return value of
+> > page_cache_next_miss() when no hole is found"): preserve max_scan in a
+> > separate variable across the loop and return `index - max_scan` from the
+> > no-gap-found path.
 > 
-> Hi Darrick,
+> IMO, this way of fixing it hurts the readability. I'd prefer something
+> similar to the fix in the original commit. Or...
 > 
-> I didn't manage yesterday anymore to work on that, the container branch
-> is in a total merge conflict with libfuse master. If you want you could
-> continue on the iomap and I would solve the merge conflicts. Though,
-> probably not today or tomorrow.
+> > -	while (max_scan--) {
+> > +	while (nr--) {
+> >  		void *entry = xas_prev(&xas);
+> >  		if (!entry || xa_is_value(entry))
+> > -			break;
+> > +			return xas.xa_index;
+> >  		if (xas.xa_index == ULONG_MAX)
+> > -			break;
+> > +			return ULONG_MAX;
+> >  	}
+> 
+> If I understand this correctly, couldn't we just do something like:
+> if (!max_scan)
+> 	return xas.xa_index - 1;
 
-I don't mind trying to resolving the conflict, and will work on that
-this afternoon.  I'll report back whatever the outcome of that is.
+I think the easiest to understand would be to do the above two explicit
+returns instead of 'break' and change below to:
 
---D
+	/* Return start of the range - 1 when no hole is found */
+	return xas.xa_index - 1;
+
+> > -	return xas.xa_index;
+> > +	return index - max_scan;
+> >  }
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
