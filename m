@@ -1,31 +1,32 @@
-Received: from smtp06-ext.udag.de (smtp06-ext.udag.de [62.146.106.76])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60883BED5A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 08:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3313BA25F;
+	Mon, 11 May 2026 08:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778489820; cv=none; b=FgX+8JjVBwTQEwLv8WWFIjSZA9TK949i1nGUP5Gg68nEuOrtUYB0Wn+P4jeGyV+8LsfoIBdv0j2mVLlQNNH7DakZd/D4yiTQEW2O1D1WLX8n6vpav+HiVTLHRssOIzP7h/YVUolY5tN4HAAGksuPwiFnNUw419U8Xi41n+0iyd0=
+	t=1778489882; cv=none; b=oscULUIiXm5VDOYo/y8JV8dNefiVsnw1J/jeWEovQMmk2MzEJtv9zbqzwurlrMZCocZNKOS8x9WcHQ6Ytze0VeTipIkGg2iWai/1kK7MEEw2P5som3WXsYUNKvkxoN7zORzO32rEvjtUzETRW1i9Cya/jJiHbp2gXhO+KfZPGX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778489820; c=relaxed/simple;
-	bh=Xqf4fF6Xe5HJlStlBl8gEahfN5zn6RFHxF3MwT+DuVw=;
+	s=arc-20240116; t=1778489882; c=relaxed/simple;
+	bh=zQB6MpAt59FJ1txdrRzvc/fWJEFs2ql5bw3G1xw+9u8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HHSjkhfpJahR2N0pJybr5ttFidpdJYAt52D+hjlLwnG0Rdxb+kTvq5kMyTuEKAgY7Z9zvf3XAl1hemNR9PLlY1TkbX7lPs6djoaJ2GxMCft6dDRKMEs/Qrk/9TwjVT29ircy+WNlBuD0qsd1l0lwNSnwvS4wE5tmbNzbUDy8H0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (139-140-067-156.ip-addr.inexio.net [156.67.140.139])
-	by smtp06-ext.udag.de (Postfix) with ESMTPA id 3F3F7E01C9;
-	Mon, 11 May 2026 10:50:02 +0200 (CEST)
-Authentication-Results: smtp06-ext.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Mon, 11 May 2026 10:50:00 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fuse: add fusex filesystem
-Message-ID: <agGW6FCbnIyy_OuE@fedora.fritz.box>
-References: <20260429102058.1362965-1-mszeredi@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DwuIrAYDLt27ix0PNpGqLt1OJ1+BUINDGPO0YAYkOUX+jsHfdMf0pKa2Vt4C9Z961O7dTYiY5rbRBcnCVLTCU7ITIPruWeHTJpPMco7Up3eTJRhs/J4F4xUW+gQgSS038oemNT5fImCVbXRac/EUB6ZksACYrt54QMNIPgJwNxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3662A68BEB; Mon, 11 May 2026 10:57:58 +0200 (CEST)
+Date: Mon, 11 May 2026 10:57:57 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Chi Zhiling <chizhiling@163.com>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, brauner@kernel.org, djwong@kernel.org,
+	hch@lst.de, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	Chi Zhiling <chizhiling@kylinos.cn>,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: Re: [PATCH] iomap: add dirty page control to iomap_zero_iter
+Message-ID: <20260511085757.GB1186@lst.de>
+References: <20260510064737.437597-1-chizhiling@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,83 +35,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260429102058.1362965-1-mszeredi@redhat.com>
+In-Reply-To: <20260510064737.437597-1-chizhiling@163.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Apr 29, 2026 at 12:20:57PM +0200, Miklos Szeredi wrote:
-> This stands for "fuse extended/experimental".
+On Sun, May 10, 2026 at 02:47:37PM +0800, Chi Zhiling wrote:
+> From: Chi Zhiling <chizhiling@kylinos.cn>
 > 
-> The purpose is to provide a clean base for big features like the FUSE_IOMAP
-> api.
+> This patch prepares the iomap framework for exFAT's upcoming migration to
+> iomap. During testing of the exFAT iomap branch with xfstests generic/299
+> on a VM with 8GB RAM and a 40GB disk, system unresponsiveness was observed.
 > 
-> It's also a good way to try new stuff like file handles and compound
-> requests without the risk of breaking something in the large and complex
-> fuse codebase.
+> iomap_zero_iter() lacked dirty page throttling, which could cause memory
+> pressure when exFAT's valid_size mechanism triggers large-scale zeroing
+> operations during writes beyond valid_size.
 > 
-> Whether these features will be migrated back into the main fuse codebase,
-> or fusex is going to end up as a major version update is still up in the
-> air.
+> Align iomap_zero_iter() with iomap_write_iter() by adding
+> balance_dirty_pages_ratelimited() to throttle dirty page generation during
+> large zeroing operations. Also add cond_resched() to provide voluntary
+> rescheduling points during long-running loops.
+
+The balance_dirty_pages_ratelimited looks good.  Now with lazy preempt
+we really should not need more cond_resched calls, though.
+
 > 
-> Major differences from regular fuse:
-> 
->  - local filesystem mode only
->  - only synchronous FUSE_INIT is supported
->  - only no-open mode
->  - new requests:
->    + FUSE_LOOKUP_ROOT - return nodeid of root
->    + FUSE_LOOKUPX - FUSE_LOOKUP without the getattr
->    + FUSE_MKOBJX - merged FUSE_MKNOD, MKDIR, SYMLINK and TMPFILE
->    + FUSE_SETSTATX - extended version of FUSE_SETATTR
-> 
-> Missing features:
-> 
->  - file handles / export ops
->  - compound requests
->  - xattr caching
->  - fileattr
->  - fiemap
->  - ioctl
->  - copy_file_range
->  - lazy dir open
-> 
-> Test server can be found at:
-> 
->   https://github.com/szmi/fuse-utils
-> 
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+> Cc: Namjae Jeon <linkinjeon@kernel.org>
 > ---
 > 
-
-Hi Miklos,
-
-I have patched passthrough_hp to use fusex and have noticed, that I had to do
-the following to make it work:
-
-diff --git a/fs/fuse/fusex.c b/fs/fuse/fusex.c
-index 98e239e7e00e..87fcfc16645a 100644
---- a/fs/fuse/fusex.c
-+++ b/fs/fuse/fusex.c
-@@ -14,6 +14,7 @@
- #include <linux/statfs.h>
- #include <linux/falloc.h>
- #include <linux/fs_parser.h>
-+#include <uapi/linux/magic.h>
- 
- static void fusex_init_inode(struct inode *inode);
- 
-@@ -1337,6 +1338,7 @@ static int fusex_send_opendir(struct fuse_file *ff, struct inode *inode)
-        if (!err) {
-                ff->fh = outarg.fh;
-                ff->open_flags = FOPEN_CACHE_DIR;
-+               ff->nodeid = get_node_id(inode);
-        }
-        return err;
- }
-
----
-
-
-After that I could actually mount and do simple meta operations.
-The nodeid is used for listing.
-
-Thanks,
-Horst
+> exFAT iomap migration:
+> https://lore.kernel.org/linux-fsdevel/20260507124238.7313-1-linkinjeon@kernel.org/
+> 
+>  fs/iomap/buffered-io.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index d7b648421a70..f6955786c8ad 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -1543,6 +1543,8 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
+>  		size_t offset;
+>  		bool ret;
+>  
+> +		balance_dirty_pages_ratelimited(iter->inode->i_mapping);
+> +
+>  		bytes = min_t(u64, SIZE_MAX, bytes);
+>  		status = iomap_write_begin(iter, write_ops, &folio, &offset,
+>  				&bytes);
+> @@ -1571,6 +1573,8 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
+>  		if (WARN_ON_ONCE(!ret))
+>  			return -EIO;
+>  
+> +		cond_resched();
+> +
+>  		status = iomap_iter_advance(iter, bytes);
+>  		if (status)
+>  			break;
+> -- 
+> 2.43.0
+---end quoted text---
