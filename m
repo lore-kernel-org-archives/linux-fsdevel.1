@@ -1,71 +1,71 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B748532E137
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 16:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C200425CD9
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 16:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515597; cv=none; b=mv4aAj0tj24Ib1w3lQlj3BWgZETLKDxRMuMCreWynBBRYJ8VbOaU0PTNqwBvCOM2cqrXmLFRZIrx8wk3GrDyKOOQE+VUYYC8+VKTie2kBiJuJdK4TC7T6d5QvO9vGehb0plzyJ4AjakY25ZURtekNPw/YF2QGcaQ/vaps2dzkvE=
+	t=1778515599; cv=none; b=EJnyr0DaF/+SqWn7aAvXwzaoud2eAZZ4anL37Hl9LKENTRIwCbodYKbafjE5Bx01WLFAaFF98Ev75qI41UScevAJsPHAbe40i5+NRURtgWAonKct0pLW2DeVBM+nsAcLrglHNGAQxZ1HaF7Q0BEkpGZMcLftvtlbsxtxC8HBooU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515597; c=relaxed/simple;
-	bh=O7vxKwK4Frz7hw3ZsessBjAsAnJnPJnx/DkxIn7A+M4=;
+	s=arc-20240116; t=1778515599; c=relaxed/simple;
+	bh=ecIkuWz1WdckEtCiOyNKqYp5k/6uevV7IZoOGIaC+Io=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JzHtLc/XoHD+91uWZ/G84zytH24GXmRXApZmeOvv+30jIoS/CJ/c1A8QpWH3PUdM7eYP7I/3AXkvkkQe+F7xjsaqMKfdXBsBcG5AZ5Ur1r1YINEmDZpc/Q0D1lm+v2McLogt7OsDEdGO02vwwm2BlsGKfjJOPGuPjZxXmq0F0mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cv5idmbU; arc=none smtp.client-ip=209.85.216.42
+	 MIME-Version; b=rE83ReOvbEeoNeVF3Gc4AvJWJKaCTF4EKdBwM3mjCttQW+x8EAj5uaZ0FYvpPb454mSJcSFXVm7YnikBr/l7rFu8kHd6l3m61b72aFMTeVTasiyyjaf99UUpcWEhcdyns3WiyLdvQWbzGD6UjutjhZ7bF9nPCyPnSmA+0ZQ+EL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sj27m9xk; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cv5idmbU"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-365f36d7b88so646649a91.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 09:06:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sj27m9xk"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ba21e7fb97so2343965ad.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 09:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778515593; x=1779120393; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778515596; x=1779120396; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DGyckoWlKcj/g+dvE3DVtCFjUKqFutWWvhlGNP+u3/Y=;
-        b=cv5idmbUvwwbsLar+rJ+v0orLgJTCjLfgcHPDdRDEFretshVL1lbVBejHNm3+Wt1Y2
-         CJvjyrcWOTe+opE6bE4C0Q/OQeBpN4FMR6NZjGukEQtjB2ljJZVjePxX5DIdaYo+yNxc
-         Gb09LpHs6SqRb1Ph2oeGqnNpnUwBxpqLLXObN0R23m+MwzgSDCP06vfO8WnPJM4y5cLq
-         Qu3gBruJWTk+kVOQbxW2nGD/3YpwOOrDtljOnCUDccYfLV6prSJjCs5SYfvZqHSgVrT6
-         Pn0TcDoDXi7fFYTvT+Lbhwof6NImX4eUPk6AnLZ6Ts0ICTYALm6lWbzVS+A+C43LtZDe
-         ernA==
+        bh=fKIEyVTOjNsitHjzdLNLGjGFwGiysddgidr+ueXhPgU=;
+        b=Sj27m9xkDD25Dv1XtVL8m9g6flNyqETkzq03YFtAVWo3CyR8Xuju1owxjvrIlZo5au
+         Xg2Sm5UlqWMRYOirY+ZDJiLkvF1FFYkCaRt9sEn9ajAlYt2oPAbQ/kJYnyY5IieZHo1H
+         pF3HAnQMekwY1PUo2N2pkiRhhQlb+8IzmEbWuvwh0d6vjyJjGjm7c8kHEAbXSpPQUELP
+         hsNPFbAnUARG9hvgDJiy3XYSsETCWr2jo+CGng4X6fyEsu4ZAvMRjYDkSsPs/Zy/sYtI
+         cwKJirF1oW9OSvMlYEjZ1QY+zohvsurTRd74HAHBgp0S8Ot551kiUUCGdQzWX/G1avab
+         xXJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778515593; x=1779120393;
+        d=1e100.net; s=20251104; t=1778515596; x=1779120396;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DGyckoWlKcj/g+dvE3DVtCFjUKqFutWWvhlGNP+u3/Y=;
-        b=N+AWqM3JpllYGeIJ0HdTMVMl+Oom4dm/uGX6YdRCedeAIb+OUM54af0H9iFqO8xwGb
-         Ge98WzkEDTyfY8NcB3RrACThouk1gY5QQrGCX0AC4k4bw5dK0ho+klG06XGxj4+wI/im
-         Qsmbpz5ofwv/OAgeXCU3DwKrXvlFbBeslNfeGEFzWZkkWnpaUgKiYNh/FLVEwulMyQYF
-         if8r22zqJDHtAD5oCKzA5JppEq+DoKU8wNGJmHg+y2cr5fePkZrZJM1PD9xAflVzwDI0
-         Ms7UIBgh3/n2stMqC024ASyGbBzOXm4VRMwd5Sxp/e2H01UBjQoVdXBBP7eauOiR72qc
-         RHtA==
-X-Gm-Message-State: AOJu0YzYPiItSmoaWYsyoVa+gDZXrI3UiPwuVI7xp0rOBI+eKMhcH3Yx
-	gWoLwxS0vHC6EB+evd9rkf80hhyAZNWrA+bUR055Y9ScsQ3+RGiDkQx7
-X-Gm-Gg: Acq92OFdvEAXIiaFI1G1H3xnVCjTGqMvucl6SdPSav98DgUTq66/YaKU+XVcYGneECH
-	l0PWKRXVR7T9v0t8tU2toj+rSpRzkH5XDDP1KDn2d36CBkG67Ty5m4HcTLYoodlZbmnC/ZP9rr1
-	kzp8sS0JcxvnPG7oNYjZgNkRZAWl/O42I7tXIVbiylKb1iykcQed2V6rjWa/lg9rFdPM4mhcUx4
-	sFZNhpxdHVxChVAInvMLr4liNYQUGqYMPFVMStFqpDkD3VvMXQv6MtsazDAumwmF4cHXcjkIu6k
-	PBT2suunnfJFBm/4G/uHo0q0BWnxMnoFYPiRaPpCSqNNoBuTt11A6E8cTZwZzciyzxWxI1PT8u0
-	6D2/hCQfssv0BpwhuN8qtG6uY4aPR+TiA4G5sRnNx1o/EdG+AA6EIRzleZelVm9my79LW1lt9XQ
-	7Ie07IOiNWPXKPPIFo/U9ZT7/flmc=
-X-Received: by 2002:a17:902:d2cb:b0:2b2:aa7b:b3bd with SMTP id d9443c01a7336-2ba7f425857mr135549775ad.6.1778515593031;
-        Mon, 11 May 2026 09:06:33 -0700 (PDT)
+        bh=fKIEyVTOjNsitHjzdLNLGjGFwGiysddgidr+ueXhPgU=;
+        b=I3PXuJLVxcgpuhCLfoMTk9H3fhdO5rgwZZepTlDXwl7wVHP4Gxqf5BRIHHFZs7UG9q
+         um1opLTdB6nZpIEbuYeEwIdlYdsgPcowY+0rbx6cfYqdMo9cT+fzgekF8VpDlqOMQZNm
+         cklNVmmAt5OxrQvLFQBCjv8AX3M+Icd4FarA18PSPJN9JM+ubauPBwaduRBMEiGvkVjL
+         QkW9tVGqxGxPYUU5dgcTEu2xvr/9KPx81Z5nTwGrgnDafu7+el59Mfh3XidP2LX32WLF
+         l8fhAiH4tvn5QnOHLDVv0QFBTMSPisSsGZYjn6lL/hEMCumwZeaIcFHtexzOCILa7Gxl
+         PuOw==
+X-Gm-Message-State: AOJu0YzrxJ3x5TdwvLPXI5mQc0TC6+pTxSSbmEosW3+shNCzKjCRACoZ
+	adMr9kKph5HIWNtctkOek+jHxIMMOZepW0H4dajcT/L7zU5mUBIh7k3H
+X-Gm-Gg: Acq92OEiSVOslH7n5Rj5uU2xs0aa7mf37Ds4Z3EsSb5wi72ijZpbOkie4ptKgKvddoR
+	JHHFyxH0trKgr3fnxxjz2EzJwOFYaznZLXUX1tHE+bfS4Ae472Mwuh3D8QbNsT8VovOooz5bBlr
+	LKA1qqflM0URMC331KYvLG/7hRaTRtppweh9+OjaUAhkXS6zVb6tboFzOUosU0y3hEC4XNw5hY7
+	yJyPXw0M42n3gUYpckCG7nt7q79OWnJK0vJIkw95uxLxA7JvsU2CN2TotGc5ZiYwh0iCkCL8Uxw
+	c1Szb4s1eZIVcWhudUWBPnEP2Sp4VbS2LbOYxTwO8wbdsfCj0WYSf/hqkJubYZn03o3nob+5pxO
+	zpb9CdXK3fy3B8Ycq5Til36JE65BBOGV4F2eOBKF+NmfnFPmSZfay7V5wbtS3RKb6WQ/2eNzAEZ
+	NCodbuNi6DpGXPdgOP
+X-Received: by 2002:a17:903:40d2:b0:2ba:7662:805d with SMTP id d9443c01a7336-2ba7b21d4f4mr130591975ad.2.1778515596306;
+        Mon, 11 May 2026 09:06:36 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e35ebesm112447045ad.43.2026.05.11.09.06.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e35ebesm112447045ad.43.2026.05.11.09.06.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 09:06:32 -0700 (PDT)
+        Mon, 11 May 2026 09:06:36 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: linkinjeon@kernel.org,
 	hyc.lee@gmail.com
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH 1/3] ntfs: return view index entry data from lookup
-Date: Tue, 12 May 2026 01:06:23 +0900
-Message-ID: <20260511160626.1268612-2-charsyam@gmail.com>
+Subject: [PATCH 2/3] ntfs: use $Q when marking quotas out of date
+Date: Tue, 12 May 2026 01:06:24 +0900
+Message-ID: <20260511160626.1268612-3-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260511160626.1268612-1-charsyam@gmail.com>
 References: <20260511160626.1268612-1-charsyam@gmail.com>
@@ -77,152 +77,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ntfs_index_lookup() always exposes the matched entry key through
-icx->data.  That is correct for file name indexes, where $I30 callers
-expect the key to be a struct file_name_attr and update it in place.
+ntfs_mark_quotas_out_of_date() operates on vol->quota_q_ino, which is the
+$Quota/$Q index inode opened by load_and_init_quota().  However, it creates
+the index context with the $I30 name.
 
-NTFS view indexes store a separate value in index_entry.data.vi.  For
-example, $Quota/$Q uses the owner_id as the key and stores the
-quota_control_entry in the entry value.  Returning the key makes quota code
-see only the 4-byte owner_id instead of the quota control entry.
-
-Preserve the existing $FILE_NAME index behavior, but return the entry value
-for view indexes.  Use the index root type for that layout decision:
-indexes with ir->type == AT_FILE_NAME expose the entry key, while view
-indexes have type 0 and expose the entry value through data.vi.  Validate
-the value offset and length before exposing the pointer, and clear
-icx->data when the key is not found because the context then describes an
-insertion point rather than a matched value.  Use unsigned arithmetic for
-the minimum data offset check, account for the VCN stored at the end of
-INDEX_ENTRY_NODE entries, and clear the returned context pointers before
-returning an entry-data validation error.
-
-Move the matched-entry data exposure and validation into a small helper,
-ntfs_index_lookup_set_data(), so the done label stays flat and the bounds
-check has a single return.
+That asks the $Quota file for an $INDEX_ROOT named $I30 and fails before
+the quota defaults entry can be looked up.  Use the $Q index name when
+marking quotas out of date.
 
 Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 ---
- fs/ntfs/index.c | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++---
- fs/ntfs/index.h |  3 +-
- 2 files changed, 73 insertions(+), 5 deletions(-)
+ fs/ntfs/quota.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
-index a547bdc..30dfcbb 100644
---- a/fs/ntfs/index.c
-+++ b/fs/ntfs/index.c
-@@ -696,6 +696,53 @@ static int ntfs_icx_parent_dec(struct ntfs_index_context *icx)
- }
-
- /*
-+ * ntfs_index_lookup_set_data - populate icx->data for the matched entry
-+ *
-+ * For directory $FILE_NAME indexes the caller updates the key in place, so
-+ * expose the key.  For view indexes the value lives at data.vi; validate
-+ * its offset and length before exposing the pointer.  Return 0 on success,
-+ * or -EIO if the entry value is out of bounds.
-+ */
-+static int ntfs_index_lookup_set_data(struct ntfs_index_context *icx,
-+				      struct index_root *ir,
-+				      struct index_entry *ie)
-+{
-+	u16 data_len, data_off, entry_len, found_key_len;
-+	unsigned int data_end, min_data_off;
-+
-+	if (ie->flags & INDEX_ENTRY_END)
-+		return -EIO;
-+
-+	found_key_len = le16_to_cpu(ie->key_length);
-+	if (ir->type == AT_FILE_NAME) {
-+		icx->data = (u8 *)ie + offsetof(struct index_entry, key);
-+		icx->data_len = found_key_len;
-+		return 0;
-+	}
-+
-+	entry_len = le16_to_cpu(ie->length);
-+	data_off = le16_to_cpu(ie->data.vi.data_offset);
-+	data_len = le16_to_cpu(ie->data.vi.data_length);
-+	data_end = entry_len;
-+	if (ie->flags & INDEX_ENTRY_NODE) {
-+		/* The trailing child VCN is not part of the entry value. */
-+		if (data_end < sizeof(s64))
-+			return -EIO;
-+		data_end -= sizeof(s64);
-+	}
-+
-+	min_data_off = offsetof(struct index_entry, key) + found_key_len;
-+	if (data_off < min_data_off || data_off > data_end)
-+		return -EIO;
-+	if (data_len > data_end - data_off)
-+		return -EIO;
-+
-+	icx->data = (u8 *)ie + data_off;
-+	icx->data_len = data_len;
-+	return 0;
-+}
-+
-+/*
-  * ntfs_index_lookup - find a key in an index and return its index entry
-  * @key:	key for which to search in the index
-  * @key_len:	length of @key in bytes
-@@ -710,7 +757,8 @@ static int ntfs_icx_parent_dec(struct ntfs_index_context *icx)
-  * If the @key is found in the index, 0 is returned and @icx is setup to
-  * describe the index entry containing the matching @key.  @icx->entry is the
-  * index entry and @icx->data and @icx->data_len are the index entry data and
-- * its length in bytes, respectively.
-+ * its length in bytes, respectively.  For file name indexes @icx->data points
-+ * to the entry key; for view indexes @icx->data points to the entry value.
-  *
-  * If the @key is not found in the index, -ENOENT is returned and
-  * @icx is setup to describe the index entry whose key collates immediately
-@@ -836,11 +884,30 @@ err_out:
- 	return err;
- done:
- 	icx->entry = ie;
--	icx->data = (u8 *)ie + offsetof(struct index_entry, key);
--	icx->data_len = le16_to_cpu(ie->key_length);
-+	if (err) {
-+		/* When the key is not found, ie is an insertion point. */
-+		icx->data = NULL;
-+		icx->data_len = 0;
-+		ntfs_debug("Done.\n");
-+		return err;
-+	}
-+	err = ntfs_index_lookup_set_data(icx, ir, ie);
-+	if (err) {
-+		ntfs_error(sb,
-+			   "Index entry data out of bounds in inode 0x%llx.",
-+			   (unsigned long long)ni->mft_no);
-+		icx->entry = NULL;
-+		icx->data = NULL;
-+		icx->data_len = 0;
-+		if (!icx->is_in_root) {
-+			kvfree(ib);
-+			ib = NULL;
-+			icx->ib = NULL;
-+		}
-+		goto err_out;
-+	}
- 	ntfs_debug("Done.\n");
- 	return err;
--
- }
-
- static struct index_block *ntfs_ib_alloc(s64 ib_vcn, u32 ib_size,
-diff --git a/fs/ntfs/index.h b/fs/ntfs/index.h
-index e68d6fa..4b8c5c8 100644
---- a/fs/ntfs/index.h
-+++ b/fs/ntfs/index.h
-@@ -58,7 +58,8 @@
-  * To obtain a context call ntfs_index_ctx_get().
-  *
-  * We use this context to allow ntfs_index_lookup() to return the found index
-  * @entry and its @data without having to allocate a buffer and copy the @entry
-- * and/or its @data into it.
-+ * and/or its @data into it.  For file name indexes @data points to the entry
-+ * key; for view indexes @data points to the entry value.
-  *
-  * When finished with the @entry and its @data, call ntfs_index_ctx_put() to
-  * free the context and other associated resources.
---
+diff --git a/fs/ntfs/quota.c b/fs/ntfs/quota.c
+index b443243..7086951 100644
+--- a/fs/ntfs/quota.c
++++ b/fs/ntfs/quota.c
+@@ -21,6 +21,7 @@ bool ntfs_mark_quotas_out_of_date(struct ntfs_volume *vol)
+ {
+ 	struct ntfs_index_context *ictx;
+ 	struct quota_control_entry *qce;
++	static __le16 Q[3] = { cpu_to_le16('$'), cpu_to_le16('Q'), 0 };
+ 	const __le32 qid = QUOTA_DEFAULTS_ID;
+ 	int err;
+ 
+@@ -32,7 +33,7 @@ bool ntfs_mark_quotas_out_of_date(struct ntfs_volume *vol)
+ 		return false;
+ 	}
+ 	inode_lock(vol->quota_q_ino);
+-	ictx = ntfs_index_ctx_get(NTFS_I(vol->quota_q_ino), I30, 4);
++	ictx = ntfs_index_ctx_get(NTFS_I(vol->quota_q_ino), Q, 2);
+ 	if (!ictx) {
+ 		ntfs_error(vol->sb, "Failed to get index context.");
+ 		goto err_out;
+-- 
 2.43.0
+
