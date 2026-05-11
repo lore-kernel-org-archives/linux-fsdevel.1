@@ -1,49 +1,33 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25EB36605D
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 05:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4C020B22;
+	Mon, 11 May 2026 05:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778476225; cv=none; b=nYeaMouW8T5afEk+DXZMVYX3tzwIw3a7l7i/MYs9QcCS83f4wiFZ2RlR+OkBa74y3uyd4d5+Gqp7ieaHkdRAXRXxbKC8EWIlgu9ISz7sDYS5K7/ab48lyZ9MQxmTMFtANlCiEpK9KBZjZ204rgxMV9U7zjvLspg6bvINJC6BaZk=
+	t=1778478467; cv=none; b=I82LUchc+kNZC/GsGq00/mUrq4jRHF+d4ibQiyniN5wIVpg7q/oNcd7/PSv/Hd6u8+nJvS8o0AoJbXv8DeWOjwvChz++Sgg+n9SCkG1JgokeRJkS3m8+qsDIzvLCj/Ld1JnNz8A7b4xXzZRTKhX81rr0TMoVDqWjFAJ9bMS++ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778476225; c=relaxed/simple;
-	bh=9bPgUgowYtDZvwWDaDvH9GE08BbGRUl9XHTtvYleq54=;
+	s=arc-20240116; t=1778478467; c=relaxed/simple;
+	bh=g6K0hBTtSSGzY9xjrj27eIXTpmbboRH8hgEtabfGE54=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RhsMOSGONqZuB8QvWZlhgiIqx5E4QbXltmm46oVuqn3qxznP01S7vQMPnBqZhEIvoksKAKu1+rDILMljNf+/i7Q0S2edL3L/H/XhtZyB4fuZQ/hU8QthAlw6tzDzzrUtwhzSu59qtq+l3LOsqSGA0HCR/JQbbETDrBwe7wA7mAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dCRo5XzO; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=p7XvyN52kRchNCfqr0CjYcXPgnsXAcPz0bHPV9qCRSow4IvuK/uJPHj5jUOvvsxgznBs+pb0tTxYdvLjDEF7iyJB36ill0ZGcO0B6caFZx23xeNzlpnJ51mdnOQMNzrlx0MuP7SjX7f5lcGpXffsW1FeoyULd/Ca+fiBkycMxhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9WLE0V2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dCRo5XzO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778476222;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3tz4VshiSjvGUhY3dhtN6lD+p4cKMAlBefoUW+XXMHE=;
-	b=dCRo5XzO9wyELR5/hRGRkIMTcRJz9nxW9lWQES3RZ51w4GKsZDY3LmKYtoovgj5mD1wHzt
-	gCtvfwWmLVLezUd4s+YdDhoiR15xXdKS+EqCg+WSh0ATG9jyOVn7A5k/HVh2rGBzooJoA1
-	FutTVQhRrqsCXHXakQlS3CGxVvdqur8=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-422-w6iTBQSwOBK7DQjDiHYbAg-1; Mon,
- 11 May 2026 01:10:18 -0400
-X-MC-Unique: w6iTBQSwOBK7DQjDiHYbAg-1
-X-Mimecast-MFC-AGG-ID: w6iTBQSwOBK7DQjDiHYbAg_1778476215
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 51FEF19560B4;
-	Mon, 11 May 2026 05:10:13 +0000 (UTC)
-Received: from [10.2.16.21] (unknown [10.2.16.21])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3A09030001BE;
-	Mon, 11 May 2026 05:10:04 +0000 (UTC)
-Message-ID: <8aaa7dd9-2426-475c-af64-85ef5f2aa855@redhat.com>
-Date: Mon, 11 May 2026 01:10:02 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9WLE0V2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98EC8C2BCB0;
+	Mon, 11 May 2026 05:47:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778478467;
+	bh=g6K0hBTtSSGzY9xjrj27eIXTpmbboRH8hgEtabfGE54=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=V9WLE0V2N8OP0p9IkvG4/wAzvUnCWF/vu0Ae2+sjSBT88VHDqOvyt+TOCBjiJYl/d
+	 4PhH9pmNV7GC7EIrNnfcoSGUn7+qKDsDcfsmgUSOVksBmU4nWcay8pGHTCdKk6sWHL
+	 FOl1WpWokPgDnJiD6wwjprOjj5K7gYmAFtZ2ciWwSrxsXkxzPVc0bX0dxLeuNNWVXY
+	 3IQsiOzH3AFj+qnCvYXJNNxg2Fr85m9f2xrhUPSCm7TFUAfDwSJvC8hSuya3VsFWtL
+	 wYAWkFm8L5SdmsYZNlxJuBbjFY5X7QDvVJAJwvBr6uZAO0yGIPqmwaY/WeNz4dTeSL
+	 v6E7IOWB26vAA==
+Message-ID: <f7669744-f71c-49ee-9241-c015ed90f165@kernel.org>
+Date: Mon, 11 May 2026 07:47:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,62 +35,94 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] cgroup/cpuset: Fix deadline bandwidth leak in
- cpuset_can_attach()
-To: Aaron Tomlin <atomlin@atomlin.com>, tsbogend@alpha.franken.de,
- paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, mingo@redhat.com,
- peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- stephen.smalley.work@gmail.com, casey@schaufler-ca.com, tj@kernel.org,
- hannes@cmpxchg.org, mkoutny@suse.com
-Cc: chenridong@huaweicloud.com, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, kprateek.nayak@amd.com, omosnace@redhat.com,
- kees@kernel.org, neelx@suse.com, sean@ashe.io, chjohnst@gmail.com,
- steve@abita.co, mproche@gmail.com, nick.lange@gmail.com,
- cgroups@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
- selinux@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260509164847.939294-1-atomlin@atomlin.com>
- <20260509164847.939294-2-atomlin@atomlin.com>
+Subject: Re: [PATCH] mm/fadvise: avoid remote LRU drain for mapped folio
+ failures
+To: fujunjie <fujunjie1@qq.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Vlastimil Babka <vbabka@kernel.org>,
+ Michal Hocko <mhocko@suse.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_DEDC345B4071ED3C9B293ACD437B9C8DBC0A@qq.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260509164847.939294-2-atomlin@atomlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <tencent_DEDC345B4071ED3C9B293ACD437B9C8DBC0A@qq.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
+> -long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
+> +static long __mapping_evict_folio(struct address_space *mapping,
+> +				  struct folio *folio, bool *lru_refs)
+>  {
+> +	if (lru_refs)
+> +		*lru_refs = false;
+>  	/* The page may have been truncated before it was locked */
+>  	if (!mapping)
+>  		return 0;
+> @@ -331,14 +323,38 @@ long mapping_evict_folio(struct address_space *mapping, struct folio *folio)
+>  		return 0;
+>  	/* The refcount will be elevated if any page in the folio is mapped */
+>  	if (folio_ref_count(folio) >
+> -			folio_nr_pages(folio) + folio_has_private(folio) + 1)
+> +			folio_nr_pages(folio) + folio_has_private(folio) + 1) {
+> +		/*
+> +		 * A remote LRU drain can only help with extra references on
+> +		 * otherwise evictable folios.  Mapped folios also have an
+> +		 * elevated refcount, but draining LRU caches cannot unmap them.
+> +		 */
+> +		if (lru_refs && !folio_mapped(folio))
+> +			*lru_refs = true;
 
-On 5/9/26 12:48 PM, Aaron Tomlin wrote:
-> During a cgroup migration, cpuset_can_attach() iterates over the
-> provided taskset. If a task within the batch is a deadline (DL) task,
-> the destination cpuset's DL metrics (i.e., nr_migrate_dl_tasks and
-> sum_migrate_dl_bw) are appropriately incremented.
->
-> However, if a subsequent task in the same migration batch fails the
-> task_can_attach() check, the loop aborts and jumps directly to
-> out_unlock. Consequently, any DL metrics accumulated from previously
-> processed tasks in the batch remain permanently inflated in the
-> destination cpuset. Because the migration is subsequently aborted by the
-> cgroup core, cpuset_cancel_attach() is never invoked to unwind these
-> specific increments.
->
-> This behaviour results in a permanent leak of deadline bandwidth, which
-> incorrectly restricts the admission control capacity of the destination
-> cpuset.
->
-> To resolve this, introduce an out_unlock_reset failure path that
-> conditionally invokes reset_migrate_dl_data(). This guarantees that if a
-> batch migration is aborted for any reason, the pending DL metrics are
-> safely reset before returning the error.
->
-> Fixes: 0a67b847e1f06 ("cpuset: Allow setscheduler regardless of manipulated task")
+How can you conclude that it's a LRU refs? Could also just be something trivial
+like a remaining GUP reference, or am I wrong?
 
-That is not the commit that introduced the bug. Anyway, there is already 
-another patch sent recently to fix this bug. See
-
-https://lore.kernel.org/lkml/20260509102031.97608-2-zhangguopeng@kylinos.cn/
-
+-- 
 Cheers,
-Longman
 
-
+David
