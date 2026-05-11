@@ -1,104 +1,132 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EDF3093A6;
-	Mon, 11 May 2026 14:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E38B23EA89;
+	Mon, 11 May 2026 14:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778509977; cv=none; b=uCTraiTDm5t3I/WQTDbljNGeTyZJranV5iSnNt6Y2LUl7BupSRKSP0PLS1dHm7Ha0PygxeeAHnXKWL8IyZBjV3Qf44IXBVNJG3wQdJkUy6y8Ybk6XyZK/atUoaHBJtGWMfhjyx2+k+h//brc7eXoKTblayJ/txQHjVOzLpdGBTo=
+	t=1778510580; cv=none; b=QkWxBBjfe6qQhm7qRYtWwEEIlHdqrqePjv7d6IRHzhRUsQrfpEQto1EdGv/C3Cq5ebrXrUZYWh4fRr5TuTQr61fiXoauS/n0I5iXG4aZokW09Q26B3GR4yQsmJrqzM+X1M7IqE1nKIin0POAdzk8Y7ZPwAAHl+ZKiPAKZ1FphEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778509977; c=relaxed/simple;
-	bh=o3ggYFqJFP/ijHj/gPqwaUGDpd0BFzhrJOAK/cQU1cI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kStwB4y6EEzbxb6ZA0ZnlXL5iPaPT/4TNSWkghHQN0Tqz/cqLGMVlXrCAqdQHJ9SIwZA07a3+VYBcCVofgcYroDWZ7YS52EMeSMEzZLTpGE8cb/nRkXvhVG1mBE3QalJZZqNLgnDRhjD3Gics0q8kekRyD5oqvyGV4bYhaTzhrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=LJEs4vUg; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=8zRjJ4K4; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	s=arc-20240116; t=1778510580; c=relaxed/simple;
+	bh=67Te4w3aXuPF7dP95A0hbYAvVlxeMvhbp3DjO2HZ0Fs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lTQsk0mxj8hmW479o3x861rCnwU5hNv92h8yM/XM9Ex8se0RLajdwYfSqrx4hIi6Ttzghb6IHqWghAjc6tJ3Kv4MVBCijcFPwSOd9puKyoCDDALEeEFbM875737csyTwNoN9z5wsbxcUpEeI+TYYxhU7C/PxpgsLNGZGG+2hBp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Yc5yVf8e; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="LJEs4vUg";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="8zRjJ4K4"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id EBC8A26F765A;
-	Mon, 11 May 2026 23:32:45 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1778509966;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bCGZSoUsjwrgl5SZeZ48jPOeuX0g2G5mRVNmQZvx0gY=;
-	b=LJEs4vUgzv6kdhgUrnJyguoKxhjc3+nS3EK8lXMWTrM7T+b6Uj8lnzHPFxoIuAh7sBVGG5
-	06ZydK5dP35uV5DFjd54oL+tHJa/SdWVdBt0hItb2sPlFAblk/4ZmXuKrwXtuOoiLWiWVy
-	WModI+UShp59kuaJGbd64QW9su1eb17BAVVV6tNbrJzBnTs1XUHJwndttVHKhLrkP0qbwd
-	1SVSwfy2zXsP1qLABs/Y64hLsM5ZJJW/8u2z4s5ISa8GMWnpd88r/ypGFAzVC6Zwv36WT6
-	x8bP0hRMYo0wBhdU/oe76oz0MUwRzg9zgVCjYs7D2zBNe8kczCSBzvOfz5O7cw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1778509966;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bCGZSoUsjwrgl5SZeZ48jPOeuX0g2G5mRVNmQZvx0gY=;
-	b=8zRjJ4K4IFOZV/dp0qbUSTxARHytw+G81cyqUeWJc+nl2/I2IUivsyO9QMIelAFk4q8Qts
-	kC3TOArbbgppIHBQ==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 36295E002BE;
-	Mon, 11 May 2026 23:32:45 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 2C7772200101; Mon, 11 May 2026 23:32:45 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Jan Kara <jack@suse.cz>
-Cc: <linux-fsdevel@vger.kernel.org>,  Christian Brauner
- <brauner@kernel.org>,  aivazian.tigran@gmail.com,  Ted Tso
- <tytso@mit.edu>,  <linux-ext4@vger.kernel.org>
-Subject: Re: [PATCH 6/9] fat: Fix possibly missing inode write on fsync(2)
-In-Reply-To: <20260511121356.241821-15-jack@suse.cz>
-References: <20260511115725.28441-1-jack@suse.cz>
-	<20260511121356.241821-15-jack@suse.cz>
-Date: Mon, 11 May 2026 23:32:45 +0900
-Message-ID: <87pl32yq2a.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Yc5yVf8e"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1778510565; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=FMVWlhVg9AeJ1ZnmPiBpEL8Z//kUv99hwHffwNmxotg=;
+	b=Yc5yVf8e+uMp18+2IkASILI4X+j3EtOMqx4hgiB9aZlfjkleBu1575Bp7EEIl05arSCesdeXnY0+AqJuvCK6acPvaaMj+7w49ugFPJpzLeb2+GCWrexO4n8yZXJPTLTmUAPHDy2T3j8p2mHJKt5vVAjx1+pn01IZ0zok/HlM85M=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R751e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X2klsdY_1778510551;
+Received: from 30.69.177.140(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X2klsdY_1778510551 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 11 May 2026 22:42:44 +0800
+Message-ID: <98133825-30a0-4519-a0b0-8054ed02490c@linux.alibaba.com>
+Date: Mon, 11 May 2026 22:42:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] erofs: use the opener's credential when verifing metadata
+ accesses
+To: Christian Brauner <brauner@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-erofs@lists.ozlabs.org,
+ Chao Yu <chao@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ oliver.yang@linux.alibaba.com, Carlos Llamas <cmllamas@google.com>,
+ Sandeep Dhavale <dhavale@google.com>, linux-fsdevel@vger.kernel.org,
+ Tatsuyuki Ishi <ishitatsuyuki@google.com>
+References: <20260505155615.2719500-1-hsiangkao@linux.alibaba.com>
+ <af2c4X1YCB7NEb8p@infradead.org>
+ <CABqzrSOaCMPD_QrSq_y_6bXLC3ecm3FZsE_ACrdNbTHG8baMCw@mail.gmail.com>
+ <188c33e2-331f-4362-8475-b8cea7a8fe7d@linux.alibaba.com>
+ <20260511-ozonbelastung-verzweifeln-a03cd0309ad9@brauner>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <20260511-ozonbelastung-verzweifeln-a03cd0309ad9@brauner>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Jan Kara <jack@suse.cz> writes:
+Hi Christian,
 
-> Use mmb inode buffer writeout infrastructure to reliably write out
-> inode's buffer on fsync(2).
+On 2026/5/11 21:51, Christian Brauner wrote:
+> On Fri, May 08, 2026 at 04:39:15PM +0800, Gao Xiang wrote:
+>> Hi Christiph,
+>>
+>> On 2026/5/8 16:24, Tatsuyuki Ishi wrote:
+>>> On Fri, May 8, 2026 at 5:20 PM Christoph Hellwig <hch@infradead.org> wrote:
+>>>
+>>>> On Tue, May 05, 2026 at 11:56:15PM +0800, Gao Xiang wrote:
+>>>>> Similar to commit 905eeb2b7c33 ("erofs: impersonate the opener's
+>>>>> credentials when accessing backing file"), rw_verify_area() needs
+>>>>> the same too.
+>>>>
+>>>> Two things here:
+>>
+>> Let me use Tatsuyuki's reply to address your two comments.
+>>
+>>>>
+>>>>    - rw_verify_area is a helper for use inside the VFS and file system
+>>>>      read/write method implementation.  Erofs as a user of the VFS should
+>>>>      not use it at all.
+>>
+>> Currently EROFS file-backed mount metadata is directly using underlay
+>> fs page cache, which is mainly used for composefs, etc. to avoid
+>> different EROFS instances have their own EROFS page cache for the
+>> same underlay backing file and avoid unnecessary copies into them.
+>> --- That is also what composefs once did in their codebase.
+>>
+>> Since EROFS just read the underlayfs page cache and does _not_
+>> touch anything inside the underlay page cache itself, so I guess
+>> it's fine?
+>>
+>> On the other hand, we talked a bit commit f2fed441c69b ("loop:
+>> stop using vfs_iter_{read,write} for buffered I/O") in another
+>> private thread related to fanotify, which lacks proper
+>> rw_verify_area() as well, since it called into raw read/write
+>> iter methods instead of using the previous vfs_iter_{read,write}.
+>>
+>>>>    - using the opener credentials when accessing the backing file seems
+>>>>      wrong.  The entity accessing it is the file system, so it should
+>>>>      have system or mounter credentials, not that of someone causing
+>>>>      metadata / fs data access.  And this applies to all access by
+>>>>      a file system backed by a backing file.
+>>>>
+>>>
+>>> I think there's probably some confusion of terminology here. buf->file is
+>>> opened with the mounter's credentials, so we are impersonating the mounter
+>>> here. Perhaps the commit message could describe that more clearly. Same for
+>>> the previous patches mentioned.
+>>
+>> Here "opener" means the mounter as Tatsuyuki mentioned, I just
+>> follows Tatsuyuki's term, but it just means mounter credentials
+>> indeed.
+> 
+> We're slowly reinventing overlayfs I see. ;) I think it's probably fine
+> but it's also rather sketchy to mess around with permissions like that.
+> Mainly because I don't think we have any actual page cache permission
+> model. It's inherently shared beetween everyone and this kinda tries to
+> bolt permissions on top to not make it so. Probably fine here but also a
+> bit wonky.
 
-> Signed-off-by: Jan Kara <jack@suse.cz>
-> ---
->  fs/fat/inode.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-> index 28f78df086ef..4ca00b7a618b 100644
-> --- a/fs/fat/inode.c
-> +++ b/fs/fat/inode.c
-> @@ -907,6 +907,7 @@ static int __fat_write_inode(struct inode *inode, int wait)
->  	}
->  	spin_unlock(&sbi->inode_hash_lock);
->  	mark_buffer_dirty(bh);
-> +	MSDOS_I(inode)->i_metadata_bhs.inode_blk = bh->b_blocknr;
+Loop devices just purely use kernel cred instead, I think using
+the mounter cred is more reasonable and safer than the kernel
+cred.
 
-When inode position was changed/removed, this will point the wrong
-block. And maybe sync a unrelated block and wait.
+Anyway, I think this cred part is less controversy.. The main
+issue out of Christoph is still the metadata path: I tend to use
+the underlay inode page cache for temporary RO access since it's
+efficient and cache-friendly; and for immutable models we
+shouldn't care too much about the invalidation, etc. since there
+is no need to rely on the locking to keep the underlay data in
+a strict way.
 
->  	err = 0;
->  	if (wait)
->  		err = sync_dirty_buffer(bh);
-> @@ -925,7 +926,7 @@ static int fat_write_inode(struct inode *inode, struct writeback_control *wbc)
->  		err = fat_clusters_flush(sb);
->  		mutex_unlock(&MSDOS_SB(sb)->s_lock);
->  	} else
-> -		err = __fat_write_inode(inode, wbc->sync_mode == WB_SYNC_ALL);
-> +		err = __fat_write_inode(inode, 0);
->  
->  	return err;
->  }
 
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Thanks,
+Gao Xiang
+
