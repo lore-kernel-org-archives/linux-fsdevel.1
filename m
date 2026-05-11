@@ -1,48 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7083E63A4;
-	Mon, 11 May 2026 13:24:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FD23E63BA;
+	Mon, 11 May 2026 13:27:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778505877; cv=none; b=sncTt8ejItkd+GtLrOakNJMWUBuviOjhhCEm+pjmMz9A13THI1geMYUVPgxUrp2FTZPX6/PUYnDPjD1Xbips9AM9gBJPhs8oDL8xvKNi06dMk8YqNaD/x8colZ5E0RgcrjoK5QqLA+0v36ithqlnKqBVYRjCvWmikBkiSQFBw+M=
+	t=1778506054; cv=none; b=K4+McriWmtM9FjonAVNdft1pkEOqLKjs5Oxhh3TokOAnJyWf7QioNBp2pueUXCE1glZLsILNREg8LiJak6FXjMrBxS6WuGTnf8G6azbwdxEtyXHsgIWFcP3dPoZYa+P9M9gIct6NNUZOXC2fUiWTiUf8LzOKc+21iV4Z25Xu0W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778505877; c=relaxed/simple;
-	bh=45Jm/PhkxV5J5go2T8hXkU65Az6gpJJzXMVog7W1o6c=;
+	s=arc-20240116; t=1778506054; c=relaxed/simple;
+	bh=i8WNCUdJQW2hyM4tLIaFyiasEFPYq3SJAENo/R8jExE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qlNzKEtBjgxw43lQS0tC2cCcvaw54N9YYUzGkcy/iX5fUmDvjxu8RVe8kBDOilZ4mhJfqBt9zzc7FQxePWQcykm279kVCVg2yHVYpTlg6VRSn955bODzfscN817qa/bHmuOBtk/4hl/0x7725kjxLrKagSSCiHDo2n6/sHJksXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ozKRNnPS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cnvokvZd/QhK5zsBn4Hj4JfpyRXh8rLw4YZMm5RbGq7W9EyeLvnu8vmELUFjVQSxZJ51I7nI7dxXN2PegaL/TBzE9mlvCA/f1Anjq7ZfGcNoUkeV9lhI7o17fXugF9bvl7EZE2+d/xBtt5hXDjJWss1N7vT1WDybzMuSz6VBSv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ksnhIwZM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ozKRNnPS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF8D1C2BCB0;
-	Mon, 11 May 2026 13:24:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ksnhIwZM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D508DC2BCB0;
+	Mon, 11 May 2026 13:27:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778505876;
-	bh=45Jm/PhkxV5J5go2T8hXkU65Az6gpJJzXMVog7W1o6c=;
+	s=k20201202; t=1778506054;
+	bh=i8WNCUdJQW2hyM4tLIaFyiasEFPYq3SJAENo/R8jExE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ozKRNnPSby6dVKr1OyOOJp34eF/PUQ8m2BzMnJ3UDjBp3qh6WIVAD0AfZSzokF8vv
-	 iusOSSnCgeqQu/uiPKo8dUf/W5HXUepK2cjSA+lvfAg4adXt4btHWV19kZzxFXc1iK
-	 66oJSJK8g2l4uJSvQsHxw6ct7Ju1Ost5dAhb0KXLomY82vQncGzhZbPJETTHpNsRFC
-	 JNQ+iYrHR7KgIVBNUuwRlfKMhM6iPqFkz26EryuL8OruTNDtNRrhl8gFhCK0bVF71e
-	 W8erm/gQ+BE9YczlLPDqyQ+eL14u0K4PUpwPgXEHLe/G9H1jLbqW6wFqj0PTzOmaas
-	 k7mb4m0tAWahg==
-Date: Mon, 11 May 2026 15:24:29 +0200
+	b=ksnhIwZMvHyGeo7ZWBiAwHtheHxVOb7qxM91OkBbbozFU0OIK3hfOTv5fpQZCGLKH
+	 FUL0M4bg1nsn+DJLxZ6aI4IRmGc7yoy1Pgyibbez3miWWpfLZS/oE8ofxLFfFjLQ6m
+	 OMbP2qMfJiV+R90AoqmuXckeTCYrr7i54zulm58JeQoQ8faua2oYQdfO1FWcVEi4ux
+	 qc8cxDaKq+5N3XDl0chWNIGlGe2AmT3/lfgWkH76ZOygCSv8fWbducUMuCXwd6OzSh
+	 lroW9M6KeolPc+cVguLhFvaBdVJ0E/gAKwDF9CzpHuLsjmGse/2ZmeA3ngqhyXEU2L
+	 V7UGB0v1MNG3g==
+Date: Mon, 11 May 2026 15:27:30 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Ritesh Harjani <ritesh.list@gmail.com>, Chuck Lever <chuck.lever@oracle.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH v7 3/3] mm: kick writeback flusher for IOCB_DONTCACHE
- with targeted dirty tracking
-Message-ID: <20260511-zusieht-amputation-efe8b5058cb7@brauner>
-References: <20260511-dontcache-v7-0-2848ddce8090@kernel.org>
- <20260511-dontcache-v7-3-2848ddce8090@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, aivazian.tigran@gmail.com, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Ted Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org
+Subject: Re: [PATCH 3/9] fs: Writeout inode buffer from mmb_sync()
+Message-ID: <20260511-marder-showprogramm-9c7a3198ef15@brauner>
+References: <20260511115725.28441-1-jack@suse.cz>
+ <20260511121356.241821-12-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,295 +43,106 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260511-dontcache-v7-3-2848ddce8090@kernel.org>
+In-Reply-To: <20260511121356.241821-12-jack@suse.cz>
 
-On Mon, May 11, 2026 at 07:58:29AM -0400, Jeff Layton wrote:
-> The IOCB_DONTCACHE writeback path in generic_write_sync() calls
-> filemap_flush_range() on every write, submitting writeback inline in
-> the writer's context.  Perf lock contention profiling shows the
-> performance problem is not lock contention but the writeback submission
-> work itself — walking the page tree and submitting I/O blocks the writer
-> for milliseconds, inflating p99.9 latency from 23ms (buffered) to 93ms
-> (dontcache).
+On Mon, May 11, 2026 at 02:13:53PM +0200, Jan Kara wrote:
+> Currently metadata bh tracking does not track inode buffers because they
+> are usually shared by several inodes and so our linked list tracking
+> cannot be used. On fsync we call sync_inode_metadata() to write inode
+> instead where filesystems' .write_inode methods detect data integrity
+> writeback and take care to submit inode buffer to disk and wait for it
+> in that case. This is however racy as for example flush worker can
+> submit normal (WB_SYNC_NONE) inode writeback first, which makes the
+> inode clean and copies the inode to the buffer but doesn't submit the
+> buffer for IO. Thus sync_inode_metadata() call does nothing and we fail
+> to persist inode buffer to disk on fsync(2).
 > 
-> Replace the inline filemap_flush_range() call with a flusher kick that
-> drains dirty pages in the background.  This moves writeback submission
-> completely off the writer's hot path.
+> Fix the problem by allowing filesystem to set the number of block backing
+> the inode in mmb structure and mmb_sync() then takes care to writeout
+> corresponding buffer and wait for it.
 > 
-> To avoid flushing unrelated buffered dirty data, add a dedicated
-> WB_start_dontcache bit and wb_check_start_dontcache() handler that uses
-> the per-wb WB_DONTCACHE_DIRTY counter to determine how many pages to
-> write back.  The flusher writes back that many pages from the oldest dirty
-> inodes (not restricted to dontcache-specific inodes). This helps
-> preserve I/O batching while limiting the scope of expedited writeback.
-> 
-> Like WB_start_all, the WB_start_dontcache bit coalesces multiple
-> DONTCACHE writes into a single flusher wakeup without per-write
-> allocations.  Use test_and_clear_bit to atomically consume the kick
-> request before reading the dirty counter and starting writeback, so that
-> concurrent DONTCACHE writes during writeback can re-set the bit and
-> schedule a follow-up flusher run.
-> 
-> Read the dirty counter with wb_stat_sum() (aggregating per-CPU batches)
-> rather than wb_stat() (which reads only the global counter) to ensure
-> small writes below the percpu batch threshold are visible to the flusher.
-> 
-> In filemap_dontcache_kick_writeback(), set the WB_start_dontcache bit
-> inside the unlocked_inode_to_wb_begin/end section for correct cgroup
-> writeback domain targeting, but defer the wb_wakeup() call until after
-> the section ends, since wb_wakeup() uses spin_unlock_irq() which would
-> unconditionally re-enable interrupts while the i_pages xa_lock may still
-> be held under irqsave during a cgroup writeback switch. Pin the wb with
-> wb_get() inside the RCU critical section before calling wb_wakeup()
-> outside it, since cgroup bdi_writeback structures are RCU-freed and the
-> wb pointer could become invalid after unlocked_inode_to_wb_end() drops
-> the RCU read lock.
-> 
-> Also add WB_REASON_DONTCACHE as a new writeback reason for tracing
-> visibility.
-> 
-> dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
-> xfs on NVMe, fio io_uring):
-> 
-> Buffered and direct I/O paths are unaffected by this patchset. All
-> improvements are confined to the dontcache path:
-> 
-> Single-stream throughput (MB/s):
->                         Before    After    Change
->   seq-write/dontcache      298      897    +201%
->   rand-write/dontcache     131      236     +80%
-> 
-> Tail latency improvements (seq-write/dontcache):
->   p99:    135,266 us  ->  23,986 us   (-82%)
->   p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
-> 
-> Multi-writer (4 jobs, sequential write):
->                                 Before    After    Change
->   dontcache aggregate (MB/s)     2,529    4,532     +79%
->   dontcache p99 (us)             8,553    1,002     -88%
->   dontcache p99.9 (us)         109,314    1,057     -99%
-> 
->   Dontcache multi-writer throughput now matches buffered (4,532 vs
->   4,616 MB/s).
-> 
-> 32-file write (Axboe test):
->                                 Before    After    Change
->   dontcache aggregate (MB/s)     1,548    3,499    +126%
->   dontcache p99 (us)            10,170      602     -94%
->   Peak dirty pages (MB)          1,837      213     -88%
-> 
->   Dontcache now reaches 81% of buffered throughput (was 35%).
-> 
-> Competing writers (dontcache vs buffered, separate files):
->                                 Before    After
->   buffered writer                  868      433 MB/s
->   dontcache writer                 415      433 MB/s
->   Aggregate                      1,284      866 MB/s
-> 
->   Previously the buffered writer starved the dontcache writer 2:1.
->   With per-bdi_writeback tracking, both writers now receive equal
->   bandwidth. The aggregate matches the buffered-vs-buffered baseline
->   (863 MB/s), indicating fair sharing regardless of I/O mode.
-> 
->   The dontcache writer's p99.9 latency collapsed from 119 ms to
->   33 ms (-73%), eliminating the severe periodic stalls seen in the
->   baseline. Both writers now share identical latency profiles,
->   matching the buffered-vs-buffered pattern.
-> 
-> The per-bdi_writeback dirty tracking dramatically reduces peak dirty
-> pages in dontcache workloads, with the 32-file test dropping from
-> 1.8 GB to 213 MB. Dontcache sequential write throughput triples and
-> multi-writer throughput reaches parity with buffered I/O, with tail
-> latencies collapsing by 1-2 orders of magnitude.
-> 
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> Signed-off-by: Jan Kara <jack@suse.cz>
 > ---
->  fs/fs-writeback.c                | 63 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/backing-dev-defs.h |  2 ++
->  include/linux/fs.h               |  6 ++--
->  include/trace/events/writeback.h |  3 +-
->  4 files changed, 69 insertions(+), 5 deletions(-)
+>  fs/buffer.c        | 34 +++++++++++++++++++++++-----------
+>  include/linux/fs.h |  1 +
+>  2 files changed, 24 insertions(+), 11 deletions(-)
 > 
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 32ecc745f5f7..77d53df97cc3 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -2377,6 +2377,27 @@ static long wb_check_start_all(struct bdi_writeback *wb)
->  	return nr_pages;
->  }
->  
-> +static long wb_check_start_dontcache(struct bdi_writeback *wb)
-> +{
-> +	long nr_pages;
-> +
-> +	if (!test_and_clear_bit(WB_start_dontcache, &wb->state))
-> +		return 0;
-> +
-> +	nr_pages = wb_stat_sum(wb, WB_DONTCACHE_DIRTY);
-> +	if (nr_pages) {
-> +		struct wb_writeback_work work = {
-> +			.nr_pages	= nr_pages,
-> +			.sync_mode	= WB_SYNC_NONE,
-> +			.range_cyclic	= 1,
-> +			.reason		= WB_REASON_DONTCACHE,
-> +		};
-> +
-> +		nr_pages = wb_writeback(wb, &work);
-> +	}
-> +
-> +	return nr_pages;
-> +}
->  
->  /*
->   * Retrieve work items and do the writeback they describe
-> @@ -2398,6 +2419,11 @@ static long wb_do_writeback(struct bdi_writeback *wb)
->  	 */
->  	wrote += wb_check_start_all(wb);
->  
-> +	/*
-> +	 * Check for dontcache writeback request
-> +	 */
-> +	wrote += wb_check_start_dontcache(wb);
-> +
->  	/*
->  	 * Check for periodic writeback, kupdated() style
->  	 */
-> @@ -2472,6 +2498,43 @@ void wakeup_flusher_threads_bdi(struct backing_dev_info *bdi,
->  	rcu_read_unlock();
->  }
->  
-> +/**
-> + * filemap_dontcache_kick_writeback - kick flusher for IOCB_DONTCACHE writes
-> + * @mapping:	address_space that was just written to
-> + *
-> + * Kick the writeback flusher thread to expedite writeback of dontcache dirty
-> + * pages. Queue writeback for the inode's wb for as many pages as there are
-> + * dontcache pages, but don't restrict writeback to dontcache pages only.
-> + *
-> + * This significantly improves performance over either writing all wb's pages
-> + * or writing only dontcache pages.  Although it doesn't guarantee quick
-> + * writeback and reclaim of dontcache pages, it keeps the amount of dirty pages
-> + * in check. Over longer term dontcache pages get written and reclaimed by
-> + * background writeback even with this rough heuristic.
-> + */
-> +void filemap_dontcache_kick_writeback(struct address_space *mapping)
-> +{
-> +	struct inode *inode = mapping->host;
-> +	struct bdi_writeback *wb;
-> +	struct wb_lock_cookie cookie = {};
-> +	bool need_wakeup = false;
-> +
-> +	wb = unlocked_inode_to_wb_begin(inode, &cookie);
-> +	if (wb_has_dirty_io(wb) &&
-> +	    !test_bit(WB_start_dontcache, &wb->state) &&
-> +	    !test_and_set_bit(WB_start_dontcache, &wb->state)) {
-
-Doesn't test_and_set_bit() return the old value? IOW, if it sees that
-WB_start_dontcache was already set it'll return true? So you can remove
-the test_bit() call, right?
-
-> +		wb_get(wb);
-> +		need_wakeup = true;
-> +	}
-
-Actually, I think you can rewrite this function quite a bit:
-
-
-> +	unlocked_inode_to_wb_end(inode, &cookie);
-> +
-> +	if (need_wakeup) {
-> +		wb_wakeup(wb);
-> +		wb_put(wb);
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(filemap_dontcache_kick_writeback);
-
-void filemap_dontcache_kick_writeback(struct address_space *mapping)
-{
-	struct inode *inode = mapping->host;
-	struct bdi_writeback *wb;
-	struct wb_lock_cookie cookie = {};
-
-	wb = unlocked_inode_to_wb_begin(inode, &cookie);
-	if (wb_has_dirty_io(wb) && !test_and_set_bit(WB_start_dontcache, &wb->state))
-		wb_get(wb);
-	else
-		wb = NULL;
-	unlocked_inode_to_wb_end(inode, &cookie);
-
-	if (wb) {
-		wb_wakeup(wb);
-		wb_put(wb);
-	}
-}
-
-No?
-
-> +
->  /*
->   * Wakeup the flusher threads to start writeback of all currently dirty pages
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index b0b3792b1496..dba29a45346b 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -477,12 +477,14 @@ EXPORT_SYMBOL(mark_buffer_async_write);
+>   * using RCU, grab the lock, verify we didn't race with somebody detaching the
+>   * bh / moving it to different inode and only then proceeding.
 >   */
-> diff --git a/include/linux/backing-dev-defs.h b/include/linux/backing-dev-defs.h
-> index cb660dd37286..4f1084937315 100644
-> --- a/include/linux/backing-dev-defs.h
-> +++ b/include/linux/backing-dev-defs.h
-> @@ -26,6 +26,7 @@ enum wb_state {
->  	WB_writeback_running,	/* Writeback is in progress */
->  	WB_has_dirty_io,	/* Dirty inodes on ->b_{dirty|io|more_io} */
->  	WB_start_all,		/* nr_pages == 0 (all) work pending */
-> +	WB_start_dontcache,	/* dontcache writeback pending */
->  };
+> +#define INVALID_BLK (~0ULL)
 >  
->  enum wb_stat_item {
-> @@ -56,6 +57,7 @@ enum wb_reason {
->  	 */
->  	WB_REASON_FORKER_THREAD,
->  	WB_REASON_FOREIGN_FLUSH,
-> +	WB_REASON_DONTCACHE,
+>  void mmb_init(struct mapping_metadata_bhs *mmb, struct address_space *mapping)
+>  {
+>  	spin_lock_init(&mmb->lock);
+>  	INIT_LIST_HEAD(&mmb->list);
+>  	mmb->mapping = mapping;
+> +	mmb->inode_blk = INVALID_BLK;
+>  }
+>  EXPORT_SYMBOL(mmb_init);
 >  
->  	WB_REASON_MAX,
->  };
+> @@ -593,8 +595,18 @@ int mmb_sync(struct mapping_metadata_bhs *mmb)
+>  			}
+>  		}
+>  	}
+> -
+>  	spin_unlock(&mmb->lock);
+> +
+> +	/* Writeout inode buffer head */
+> +	if (mmb->inode_blk != INVALID_BLK) {
+> +		bh = sb_find_get_block(mmb->mapping->host->i_sb, mmb->inode_blk);
+> +		write_dirty_buffer(bh, REQ_SYNC);
+> +		wait_on_buffer(bh);
+> +		if (!buffer_uptodate(bh))
+> +			err = -EIO;
+> +		brelse(bh);
+> +	}
+> +
+>  	blk_finish_plug(&plug);
+>  	spin_lock(&mmb->lock);
+>  
+> @@ -646,18 +658,18 @@ int mmb_fsync_noflush(struct file *file, struct mapping_metadata_bhs *mmb,
+>  	if (err)
+>  		return err;
+>  
+> -	if (mmb)
+> -		ret = mmb_sync(mmb);
+>  	if (!(inode_state_read_once(inode) & I_DIRTY_ALL))
+> -		goto out;
+> +		goto sync_buffers;
+>  	if (datasync && !(inode_state_read_once(inode) & I_DIRTY_DATASYNC))
+> -		goto out;
+> -
+> -	err = sync_inode_metadata(inode, 1);
+> -	if (ret == 0)
+> -		ret = err;
+> -
+> -out:
+> +		goto sync_buffers;
+> +
+> +	ret = sync_inode_metadata(inode, 1);
+> +sync_buffers:
+> +	if (mmb) {
+> +		err = mmb_sync(mmb);
+> +		if (ret == 0)
+> +			ret = err;
+> +	}
+>  	/* check and advance again to catch errors after syncing out buffers */
+>  	err = file_check_and_advance_wb_err(file);
+>  	if (ret == 0)
 > diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 11559c513dfb..df72b42a9e9b 100644
+> index 11559c513dfb..435a41e4c90f 100644
 > --- a/include/linux/fs.h
 > +++ b/include/linux/fs.h
-> @@ -2624,6 +2624,7 @@ extern int __must_check file_write_and_wait_range(struct file *file,
->  						loff_t start, loff_t end);
->  int filemap_flush_range(struct address_space *mapping, loff_t start,
->  		loff_t end);
-> +void filemap_dontcache_kick_writeback(struct address_space *mapping);
->  
->  static inline int file_write_and_wait(struct file *file)
->  {
-> @@ -2657,10 +2658,7 @@ static inline ssize_t generic_write_sync(struct kiocb *iocb, ssize_t count)
->  		if (ret)
->  			return ret;
->  	} else if (iocb->ki_flags & IOCB_DONTCACHE) {
-> -		struct address_space *mapping = iocb->ki_filp->f_mapping;
-> -
-> -		filemap_flush_range(mapping, iocb->ki_pos - count,
-> -				iocb->ki_pos - 1);
-> +		filemap_dontcache_kick_writeback(iocb->ki_filp->f_mapping);
->  	}
->  
->  	return count;
-> diff --git a/include/trace/events/writeback.h b/include/trace/events/writeback.h
-> index bdac0d685a98..13ee076ccd16 100644
-> --- a/include/trace/events/writeback.h
-> +++ b/include/trace/events/writeback.h
-> @@ -44,7 +44,8 @@
->  	EM( WB_REASON_PERIODIC,			"periodic")		\
->  	EM( WB_REASON_FS_FREE_SPACE,		"fs_free_space")	\
->  	EM( WB_REASON_FORKER_THREAD,		"forker_thread")	\
-> -	EMe(WB_REASON_FOREIGN_FLUSH,		"foreign_flush")
-> +	EM( WB_REASON_FOREIGN_FLUSH,		"foreign_flush")	\
-> +	EMe(WB_REASON_DONTCACHE,		"dontcache")
->  
->  WB_WORK_REASON
->  
-> 
-> -- 
-> 2.54.0
-> 
+> @@ -446,6 +446,7 @@ extern const struct address_space_operations empty_aops;
+>  /* Structure for tracking metadata buffer heads associated with the mapping */
+>  struct mapping_metadata_bhs {
+>  	struct address_space *mapping;	/* Mapping bhs are associated with */
+> +	sector_t inode_blk;	/* Number of block containing the inode */
+
+This is great, thanks!
