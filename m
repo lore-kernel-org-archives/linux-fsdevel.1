@@ -1,156 +1,126 @@
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE753A7F5E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 20:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FC63B584F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 20:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778532558; cv=none; b=omZ3OXzRPEFnDIt9fHCOgiNCIb+qecid4r+Zci5TaZqjiwSVvkIglpl3TgtjuCLYNYOns+oY9eud8HYfg1cEFuDRKemY8NRrQRTiiHcOEBTsTryTId+Gjm7Leybc5SFJGWOHDf8U/cxQm7MP0dNKG6lbJj7BXeClkRETifYM1gM=
+	t=1778532758; cv=none; b=pAK1ytC6vyIy7VGA2P9BHlNL1rfv6Fltw20GhPME/F4WD89I2NE/kEpEjA3CEI5ceI/sVpcvNl0w0jWFeeBPNFlDZ9t2eWHKOSaSO88b90sigh9CswVdtjEyQm7yTCfqcbkHNwhe2ocof03lpi1W7Avn8emWQsde6bGJChlRau0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778532558; c=relaxed/simple;
-	bh=SoPmw+VXUfhLjD5912x7QQY0x76p4tblSzGvtnUg72g=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=typRXvjd7clRewkwmobauZV+oP2gNWbpSnuSrR7k6czW9DVuUwmQzbk3D50sze5OxefMiqSzv+W1e/GVpWProqmyhCu0/92nQ+hdvYkt2wXoCZYQKhtJhRNHbnJVIV7pJJ8urbIwxuzaqczg9gGyvN4xxMuSluhSLMoEeArygWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-694867ca29cso9660843eaf.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 13:49:17 -0700 (PDT)
+	s=arc-20240116; t=1778532758; c=relaxed/simple;
+	bh=uz1BipeOxO/kV5AdCXAtVjrhZPFvsFevY1buu71ZRP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h6bpzPcgWIy/MKrAY85ILO1n3WSDR0vlMJeHFFt2POIct54nnOIgX0b7ezVozXfuTO6Pzfw9+E/srfk8jHBRvOrN2BOya/WbqLFa4s7r/TZTOcuaIraJW5Iit5+XkmBG1PEAx1/YZ3O9sq4+JwLQqFRyNXxTvQNqQI/ZiR/m5MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f4EsW0gy; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f4EsW0gy"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bcc1459daddso342934966b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 13:52:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778532755; x=1779137555; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3YsA/sWweaP0g59517piytr1tPPtOa5YFwooaicDPx0=;
+        b=f4EsW0gyJuaJmqFK19CVGUXjcC8bJzHbIPuixtBSLe6biw9OMtulrXtjPCM86Np5rn
+         9i2Tcp54yzppLDsBobXIuI1UVz65C2fvR2+UJfqCyVZ/HumSX4FRFOdmkMWzGE1aF5ue
+         tm8LzUi27MpI++8fL7/3nC1ctngtA3WTwdIajbDnvJl7sQ2LGy7yr6U4Fdc5CdCj79Xy
+         Fl2I3tutvnjzJK7qNp8oYnRrovYo5i80M0PCzRzT1EeWVRGSxeP9YCLu5jbwbWc3CqYI
+         IJmOL+zJGCyJI9AFOAF2zK1Q6Zv+hDFItQTOYuOLr59XtcBcypeXX2uj9BERJCb9uR+p
+         FsKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778532556; x=1779137356;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=99nJ+y4hv8yCMmT45OGJ+EZML6MewLrbPCDP+fhWm10=;
-        b=YKyO02heKsi3TCguAX4VWHmYCWJLXqDlJWa4/jUqhkoi41F2GNybwk4K9nb2fqdeha
-         7G2K27vQwyHdWcXVWoD1MCxjNZ+r44juo/RZHn9zgfAcPFA6TYOqEhtFEwzOYeyVTgMm
-         JObNROJecN0kJR0fA43umySmhZrg7+DYfemASs8WsZjV4NOTjxz2j+blUqa34w7bdGY+
-         x6i8tOXs7AJy0XY1P6OoY85CjAnuBDDb9b1SZVCL3hHJmQfo2vxVOAhmRU9m1bbNjhuY
-         i6wHElftJ2WF5brTcaks+49dQ8tJyGG75f/JfrpaUE1FRsUyJFTf/gmkt9GXuJnPxFni
-         5C+w==
-X-Forwarded-Encrypted: i=1; AFNElJ90bB99U6aVzFhOrxylc3lrBVS/a+qc/PvwErsFvd44PxxyeIR6QPMcKf5I428kBbBTY5QGJzYFx4SzmCM5@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy80hbY/kxVJAQkPkj31XZd9tJdM4vUzAl47G6qZ2BPqojuIhT/
-	5abGlzC1ixc3PXEnnPfV7KYzr53eJG6k1zDEtMf/N9zxHuFooQmQX7Q3Q7aPVd56chxjzNv5/nd
-	71PImg1PMVy/EQ3LTGIRJ8emHNQHYVmIZmCreHtNwHSzvVZ+lPrqshu1hMpw=
+        d=1e100.net; s=20251104; t=1778532755; x=1779137555;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3YsA/sWweaP0g59517piytr1tPPtOa5YFwooaicDPx0=;
+        b=FXLmM6w6S/fngWqx3LLiZmfEv0lSvvgS/g1/DJdqLSosFd5t2Y0DAOL/2xTyFxFp1U
+         SLucBp79cv8CeoKnMTZ7iNyJmjQwAMrgAe7qjuiYq/6QotR/5Y4BcStxioAK9cgSE41g
+         KWUpHBdSbTPZ5izCAhTXUXVvt6aJPeetAKaig6IDfwqKsg/MPxJK18f5npkMVa+ssvJK
+         GrWM9YpDVgkVWwX5gIRsoRYKwo5Hg8dMEGVcghure3vUkCKBWu4PJwStphZzVg+mvm63
+         /NNSIo8zT07Kr0JMiqDjYFh3tRf+uXCpVcUnJkBm9EK7OH45wD4XBPsOl+YqfsfzZUPk
+         KYqA==
+X-Forwarded-Encrypted: i=1; AFNElJ+ucnPIQDun5c7JwpAiKc9OaYFGfPxwtPmw8Dmmx4xHlsbeWKLeSNPXowNlAVnOYymVpGLYvN8Jtev34igD@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKv+IsKsg1PsILFX2MWv3xOoZmq0GUlSPQ1Ny1BIP1QmfSfrh9
+	KwvizDwX70x0qi5Eih9mW+DnfBwbyTeFPHEbLMLFJyThTrL8hyqZX4Ts
+X-Gm-Gg: Acq92OElxriLfOziLfA2w94/OXXgbsyoqC0oMlYfGiOYjtoLP5EnmuYS+nJMFMvojtb
+	nc7TthqeBzVdQyYuq4IcPHW+scxIlJ7IQRDucIuuLuJrwtoM5QYceC3PRQKeM/Z83i6vqTbdx38
+	vMdE4S6O5oKqHmXfQrdBph6QF7JbxcliKqR5wbtJEtZGNkpgHDRnWHkXCscCgLC0DkEidlsoTlA
+	aSoPpr0BRLfqJ+tvnCdh5kWVDv26+m55SgCx5jiAmVcL73OUE5OO6poOBdepcb77QhWuiUKUEwY
+	JfirQKBbwC+KDDOZglwEmqUZksbU7KYgYq+hxWlvoyLTEqgGOgwXiZtS3hzWr5IHfVtWu0h3zMp
+	AuPa+BSb/bW3GpcJRhLNGz/Wt1xAjCM+6us18N6VUJot91tGzh26IU/c08DF8sdrSVC34cCMi4A
+	w4y6gbGPl+90frbJ0NxQvBMLXPuWbkNpkbAPzw1ML94Ek3xoZ9Jo2yPL8g9vmIRtBVR6MBvEWAq
+	p3w19eM+AjBsY0VXMhwwzN0Q2g=
+X-Received: by 2002:a17:907:c002:b0:bd0:39ba:8f60 with SMTP id a640c23a62f3a-bd039c9d5b5mr358958766b.39.1778532755368;
+        Mon, 11 May 2026 13:52:35 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-8e87-6a4e-f2be-0c04.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:8e87:6a4e:f2be:c04])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcac3989fbesm546407866b.33.2026.05.11.13.52.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 13:52:34 -0700 (PDT)
+Date: Mon, 11 May 2026 22:52:34 +0200
+From: Amir Goldstein <amir73il@gmail.com>
+To: zhaoguohan@kylinos.cn
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev
+Subject: Re: [PATCH] fuse: use current creds for backing files
+Message-ID: <agJBkmecYOl1MEgS@amir-ThinkPad-T480>
+References: <20260510145437.321141-1-zhaoguohan@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:208e:b0:695:818c:e56a with SMTP id
- 006d021491bc7-69b69e5a828mr17611eaf.27.1778532556361; Mon, 11 May 2026
- 13:49:16 -0700 (PDT)
-Date: Mon, 11 May 2026 13:49:16 -0700
-In-Reply-To: <20260511115725.28441-1-jack@suse.cz>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a0240cc.170a0220.7f9b3.0002.GAE@google.com>
-Subject: [syzbot ci] Re: fs: Fix missed inode write during fsync
-From: syzbot ci <syzbot+ci10e571aa5fa42db7@syzkaller.appspotmail.com>
-To: aivazian.tigran@gmail.com, brauner@kernel.org, dsterba@suse.com, 
-	hirofumi@mail.parknet.co.jp, jack@suse.cz, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, tytso@mit.edu
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260510145437.321141-1-zhaoguohan@kylinos.cn>
 
-syzbot ci has tested the following series
+On Sun, May 10, 2026 at 10:54:37PM +0800, zhaoguohan@kylinos.cn wrote:
+> From: GuoHan Zhao <zhaoguohan@kylinos.cn>
+> 
+> FUSE backing files only need a stable snapshot of the current credentials
+> for later backing-file I/O. prepare_creds() allocates a mutable copy and
+> can fail, but this code never modifies or commits the result.
+> 
+> Use get_current_cred() instead and store it as a const pointer. This
+> matches the rest of the backing-file helpers and avoids an unnecessary
+> allocation and failure path.
+> 
+> Signed-off-by: GuoHan Zhao <zhaoguohan@kylinos.cn>
 
-[v1] fs: Fix missed inode write during fsync
-https://lore.kernel.org/all/20260511115725.28441-1-jack@suse.cz
-* [PATCH 1/9] affs: Drop support for metadata bh tracking
-* [PATCH 2/9] ext4: Allocate mapping_metadata_bhs struct on demand
-* [PATCH 3/9] fs: Writeout inode buffer from mmb_sync()
-* [PATCH 4/9] ext2: Fix possibly missing inode write on fsync(2)
-* [PATCH 5/9] udf: Fix possibly missing inode write on fsync(2)
-* [PATCH 6/9] fat: Fix possibly missing inode write on fsync(2)
-* [PATCH 7/9] minix: Fix possibly missing inode write on fsync(2)
-* [PATCH 8/9] bfs: Fix possibly missing inode write on fsync(2)
-* [PATCH 9/9] ext4: Use mmb infrastructure for inode buffer writeout
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-and found the following issue:
-KASAN: null-ptr-deref Write in write_dirty_buffer
-
-Full report is available here:
-https://ci.syzbot.org/series/d987d2d8-3775-4aa9-959f-8a045778888c
-
-***
-
-KASAN: null-ptr-deref Write in write_dirty_buffer
-
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      5d6919055dec134de3c40167a490f33c74c12581
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/567d596c-ca65-43c9-bd7d-1e60cfe9da2a/config
-syz repro: https://ci.syzbot.org/findings/1bc13af8-2d91-4fbd-b43e-fbe72f29ca41/syz_repro
-
-EXT4-fs (loop2): unmounting filesystem 00000000-0000-0000-0000-000000000000.
-==================================================================
-BUG: KASAN: null-ptr-deref in instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
-BUG: KASAN: null-ptr-deref in test_and_set_bit_lock include/asm-generic/bitops/instrumented-lock.h:57 [inline]
-BUG: KASAN: null-ptr-deref in trylock_buffer include/linux/buffer_head.h:425 [inline]
-BUG: KASAN: null-ptr-deref in lock_buffer include/linux/buffer_head.h:431 [inline]
-BUG: KASAN: null-ptr-deref in write_dirty_buffer+0x37/0x190 fs/buffer.c:2760
-Write of size 8 at addr 0000000000000000 by task syz-executor/5742
-
-CPU: 1 UID: 0 PID: 5742 Comm: syz-executor Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
- instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
- test_and_set_bit_lock include/asm-generic/bitops/instrumented-lock.h:57 [inline]
- trylock_buffer include/linux/buffer_head.h:425 [inline]
- lock_buffer include/linux/buffer_head.h:431 [inline]
- write_dirty_buffer+0x37/0x190 fs/buffer.c:2760
- mmb_sync+0x74c/0xed0 fs/buffer.c:603
- ext4_evict_inode+0x2fa/0x1040 fs/ext4/inode.c:199
- evict+0x61e/0xb10 fs/inode.c:841
- ext4_quota_off+0x470/0x580 fs/ext4/super.c:7326
- ext4_quotas_off fs/ext4/super.c:1195 [inline]
- ext4_put_super+0xdf/0xd80 fs/ext4/super.c:1306
- generic_shutdown_super+0x13d/0x2d0 fs/super.c:646
- kill_block_super+0x44/0x90 fs/super.c:1725
- ext4_kill_sb+0x68/0xb0 fs/ext4/super.c:7494
- deactivate_locked_super+0xbc/0x130 fs/super.c:476
- cleanup_mnt+0x437/0x4d0 fs/namespace.c:1312
- task_work_run+0x1d9/0x270 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
- exit_to_user_mode_loop+0xf3/0x4d0 kernel/entry/common.c:98
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:238 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
- do_syscall_64+0x33e/0xf80 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fd8d1b9e017
-Code: a2 c7 05 dc 06 25 00 00 00 00 00 eb 96 e8 e1 12 00 00 90 31 f6 e9 09 00 00 00 66 0f 1f 84 00 00 00 00 00 b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 01 c3 48 c7 c2 e8 ff ff ff f7 d8 64 89 02 b8
-RSP: 002b:00007ffef04ebf88 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
-RAX: 0000000000000000 RBX: 00007fd8d1c32120 RCX: 00007fd8d1b9e017
-RDX: 0000000000000000 RSI: 0000000000000009 RDI: 00007ffef04ec040
-RBP: 00007ffef04ec040 R08: 00007ffef04ed040 R09: 00000000ffffffff
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffef04ed0d0
-R13: 00007fd8d1c32120 R14: 0000000000014595 R15: 00007ffef04ed110
- </TASK>
-==================================================================
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
-
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+> ---
+>  fs/fuse/backing.c | 2 +-
+>  fs/fuse/fuse_i.h  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+> index d95dfa48483f..8efb43b17c4d 100644
+> --- a/fs/fuse/backing.c
+> +++ b/fs/fuse/backing.c
+> @@ -118,7 +118,7 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+>  		goto out_fput;
+>  
+>  	fb->file = file;
+> -	fb->cred = prepare_creds();
+> +	fb->cred = get_current_cred();
+>  	refcount_set(&fb->count, 1);
+>  
+>  	res = fuse_backing_id_alloc(fc, fb);
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 17423d4e3cfa..36041e405bf8 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -106,7 +106,7 @@ struct fuse_submount_lookup {
+>  /** Container for data related to mapping to backing file */
+>  struct fuse_backing {
+>  	struct file *file;
+> -	struct cred *cred;
+> +	const struct cred *cred;
+>  
+>  	/** refcount */
+>  	refcount_t count;
+> -- 
+> 2.43.0
