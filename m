@@ -1,66 +1,65 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E13A37DEB7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 19:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF2237E2FD
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 19:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778529173; cv=none; b=pJbaZbiBI2wfzs/D+gIvMsTgy8fhMMM+Bck7iXxSfu9BckTvpcOPkX1Sl+KOoognXXWm0i9156w/ScaT+um8qQ229iDJlyO1GGKYD5jiyffHYauKdB+W7abhEn7CfzK3LzigLuGM0u172R75aP8UST0+QluHBu5HEAb0v8ihsic=
+	t=1778529179; cv=none; b=UH10ewFxYnDOzMXG+kInbOOicVCc4sINKSBGY+e0/KyPeEZma3Mp62k8TAx+TVWhFhrMV9Uw7UsazBiqX2R4FipZQT6W9O6O6hJMxfE5dPcno+UyzMs6FmBcaajoEFFgXbooGZ2AZckgs0w6pPyYsFXXMnzqNSVbgECtB0T8BjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778529173; c=relaxed/simple;
-	bh=0tf1vl0SQGqUQbLj6jwYNf1qsghLHDsVRNEO69K9iPw=;
+	s=arc-20240116; t=1778529179; c=relaxed/simple;
+	bh=NbvMVDje1g1aqaiVOzz2K32oDBpOtaiDEYD6UFem3c8=;
 	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=cWpRgpkthuiJ0y1gRronBHLMKittkEgE5QvllAncgNAtGIjkJShULxQOmUi26vmuNH79jsEbvKPmKjonb2os5ChUreDl74hxZcy5jyXDvJo4MVNB5HwxVk5ftg5H5dvVqvBculM26D9ysoDwzsHEOXsUR5vqZkjcdHBVFwHwdFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=biyWdz0x; arc=none smtp.client-ip=209.85.222.174
+	 References:In-Reply-To; b=nAGiHVEGlh15UXZdbkHMG3t8VavlPiw93WoM6Wu8SqcohIPjOCfGpzrcTl72RDJUp2ddLqTdttgKIbwa5XmMrIl+dhoUgW9YxYHFxzZoZ34StufQ/JD+HpKnG4pYGciVcSaKUKICa98wpsmGSOEIH6zmkOq1U1d/jf70eo55kn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=PKSlELAT; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="biyWdz0x"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8d560ede296so516769685a.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 12:52:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="PKSlELAT"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8ef45a6d9dfso514965285a.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 12:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1778529171; x=1779133971; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1778529176; x=1779133976; darn=vger.kernel.org;
         h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
          :mime-version:message-id:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DkJDSYXLDBh3wMcKjMLlLmxdhkbb1kc+xmdwPKDFOfA=;
-        b=biyWdz0xBCqjy+IfyiVgCjYv1+E6xKH7Pn/z6rpid7y6nDkJvy2rty9GGpqO5x5uzg
-         kdGplr9BasU6iasMX0EGI7BSesr189NpyJN9lDwJ2GgECV0HIVHVYJqrE6g9Uws1/D+z
-         q/FW8fwydK1s+IVrhG8x5DAWKLLowphUDJPER4Wq9DbAad/9ylgG70WS31OS4noz0CgQ
-         cGiCdNU3rY/OAwru59eIXBZO4CEsJqAvnybTIddF01nER1QeLX1eb/Mbo8kErJt2FKZx
-         k8zJX0pnmbtmYmsQrdO7mzzlU6NbaFwhmhZNMinf8K1vBkfwk2/HcatFKKNuCl41ozaL
-         T6Xg==
+        bh=PxQM3MCta0Hfqwc0x9Ru5t7hQnbf8j++I/Uj2TAvc2Y=;
+        b=PKSlELAT1V6RORNhm8RrQQXRmyieScRU6HdJ3kp5D5/5sVhFvy9B85LKTKl1m2z0gu
+         Pv0kvaE1epR2Pr6Jyu1MeAuNMve3o9UQro9S6M6IztUuGnOjmK0omJ5PxyCNaxLnvjP0
+         fw5B0rgIh/YtA05O4CZDnYqcO0jcUUUmknNUrwjYmE+/bQRQ4RTBJ91fC4lmZ1IcqCe7
+         NWANUdKNFRWOWzu40j0yWZNXxWbuoJiAmKqhiw/MD19yFQn3xwsQ023w91SubkHQpCTm
+         yXpT1JEfm72ATXJePUM+Zrj78uJsTPp8Ozg+5D5/c7vUA4a29b8pQQAp3qij84eRMEB0
+         ulig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778529171; x=1779133971;
+        d=1e100.net; s=20251104; t=1778529176; x=1779133976;
         h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
          :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DkJDSYXLDBh3wMcKjMLlLmxdhkbb1kc+xmdwPKDFOfA=;
-        b=dIX/H5G6d1KcVrjkoTqDSDeXQVmKz9vXDshJKR2B0YhoPq5yAgLz4diRu2+NVBcWJO
-         lQ7rMtSqF9LVp4JF76BoNC0BfGUf1BpeJvbSJe5RcIoepH5xtwk+mxdfx1zuijzOIl1+
-         D4AEUbiV8+Sh/GPrmqB8Ftom680WTO8r1GsLoWhWY2XOJM/cz5lKGVa5w+lCMFi+/DfQ
-         EN1P1V3/kq711bY6z7LafJZyB+UGjMfQ9eS623MqsmG/Y9v8RaUPT9LNRmChe6jDXSMy
-         Dm+FMgk02FOJYWF2+cE828PbVAo9t7hnxfEq9znaRbHPqTr36NlGkqpwKBDkXX5zrc4i
-         sHcA==
-X-Forwarded-Encrypted: i=1; AFNElJ9SW4oD81sxJDE+AycQL3Vs13G0q6J0RhQ97qfODWOGlibqoHyoOhDztkCLoC4HMhwtJT8oRQXdQXLZ1ne5@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw78jUg012JqzbUSP2Wkv+Hvb44YTfu5pSmBQiYRxIxGTjC1iJ0
-	MALd7wOsRxPAmDNV4/JtNfH79BGnNDJlTCtPb3dcwInMfqnYUUJHWTogDO8DfsStAA==
-X-Gm-Gg: Acq92OF78kgigO7/W9Ix0ZNFWYsOoD2kXTFYbpwZfyZ6msVUCMO4aJriN039CoPM9My
-	Bj/mmc/IxSNSsJBmP94c35n+Xkb9Z3F3lEs4TcHMhm/wStBFgGsAuHZZGNawyShQ3z4dVQfOj5x
-	YGHni3QfpY2MYko6+9iN+0+3KqU5Yn5d+HN4EAiU5IgvAWXtdV9H8bR22liB/AAFc9hYpPSWoLp
-	e4RP1k76hGBdjvFc6WFPsUTYqB/C1MRjgJdDYYBplNwmFUhQMh1MPW+e9WxPWWUlMa+Af6nk285
-	1KSQBXMH/ZZyxYwAKm3vMXnoEeRVT+H69fughJIgPMTZP2byrS6E7Ifu8kJmWt9CjnFgfLJBdhZ
-	YAcNktxSgyG1rdgeofPCU2YNRynTgWlKsqmC1MmkVEbL6qQ1CXukyWFx6Es3LiWXn+2YkaLBNbV
-	9ysg+0nMI7TpVSV5nPjKWtTlqSU5p6EhAkLsBH9zl93+X3Fkp+MIZHSMu/KchEmEZ1lwlQ46g7A
-	JkrfJrWXPGmrNt/9Q==
-X-Received: by 2002:a05:620a:2954:b0:8ed:d6df:c778 with SMTP id af79cd13be357-907badfc044mr2333240085a.37.1778529170980;
-        Mon, 11 May 2026 12:52:50 -0700 (PDT)
+        bh=PxQM3MCta0Hfqwc0x9Ru5t7hQnbf8j++I/Uj2TAvc2Y=;
+        b=kvyIFPhnrkS6WpJYSIFrBFmYdEI7EVUJ4/n0bxgGXsd2ulv/JqkkMgioT/m298I6Hb
+         5QY+Zf4+iGEh0nMnNwBmcomwlVnPuK/TiR20OP+d0m3odaesPbSTv3KhIgUJU6o50tFN
+         kXiEGGXjY+XmwqDt+PqtP1/G6hCTbafG8LWUqRcv48lGA6uoWr2I/g3HzQQtcf3K5yah
+         Rusiza5gfhBGjcI+LtTFWSj4JZlY80jQi1W4kU4cz9TScUMp+0/F3C7Nx+k8HMnJ1w5H
+         UYWYLf8qQWdDDXbOIKzmDzTNcB4JtfzsNZDrBDkJ4X4aRDu5R9/wDSLfRN3UXv/sqbtY
+         xz4A==
+X-Forwarded-Encrypted: i=1; AFNElJ8WmSEWR8XrSo+8YgPCBYjIlwRTAC3agb0oUb4VkkB3+dAJreaiwrk5mOOFXFRJGtyXRNYP1Tv/IPAWdX6z@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW1SGKsUfEjAS0taCT7AAGB0x7TvmgdhEPKOn+A5DYx7DrZMNO
+	jkaX0dKValKFlpptVeIxrr7Dd7Bh925GPnu8iuJlkNoPaEDdjNqUzekfaW06AEJj0w==
+X-Gm-Gg: Acq92OHqvIdKoHs3xQ4EnrWiVlb9wSiABbBLDiiuu6vv4zHhUYJfyzQ6e9LYPRJcrme
+	mA3ggON7lZk+zUyuazWBPHW3cj1tn852kpX9tljuxv+4eKuQBjzPEr2aS5RkAhI+SyjLgdU9iRa
+	GrBSzhf7gWwGgSIZAEIuYZkqq0iDEe8kyY62xsOae5gUiWqkujIIb5UUfhNeul0ZoCupNAWQZ6p
+	c0u1q8gTproFyyiAPeBgoEMLvbWbngyj8Oab5tUu7FicucrAbzhaFFVLr9cZ/envRCgY19qs64n
+	qNM+NJpo1vcBgPd4Thpi6Mi7FfP473nVGdIkpZAk5wgbMS9bYo12n8G5FbqyLp5l5MPtSZZTuHV
+	p9cmRF02ALkHD1CdSxAKPb4MiB76jn9cYYlOcjuMmt2rm4vnxqSIA5bmDL8kqw9oh+wNc90N5y7
+	o7c2U6ptO9IGWOqInVDFq3IVAsIbY/G3rUkkSYsqmaRaMldYxalWFdAKcQwQIav9KGJSZK
+X-Received: by 2002:a05:620a:4451:b0:8ee:a1d:baf1 with SMTP id af79cd13be357-904d68df87amr3599789485a.42.1778529175906;
+        Mon, 11 May 2026 12:52:55 -0700 (PDT)
 Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-904f810e354sm1742542385a.45.2026.05.11.12.52.47
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b9772b87sm1103258185a.5.2026.05.11.12.52.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 12:52:47 -0700 (PDT)
-Date: Mon, 11 May 2026 15:52:46 -0400
-Message-ID: <eb3d42b49940d9ecdc4ef384989d8f8d@paul-moore.com>
+        Mon, 11 May 2026 12:52:51 -0700 (PDT)
+Date: Mon, 11 May 2026 15:52:51 -0400
+Message-ID: <63277ce0e3f65eceb6da88d7cfec4d64@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -71,27 +70,43 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit 
 X-Mailer: pstg-pwork:20260511_1539/pstg-lib:20260511_1103/pstg-pwork:20260511_1539
 From: Paul Moore <paul@paul-moore.com>
-To: mic@digikod.net, gnoack@google.com, Song Liu <song@kernel.org>, linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com
-Cc: jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, john.johansen@canonical.com, stephen.smalley.work@gmail.com, omosnace@redhat.com, takedakn@nttdata.co.jp, penguin-kernel@I-love.SAKURA.ne.jp, herton@canonical.com, kernel-team@meta.com, Song Liu <song@kernel.org>
-Subject: Re: [PATCH v3 5/7] landlock: Convert from sb_mount to granular mount  hooks
-References: <20260509015208.3853132-6-song@kernel.org>
-In-Reply-To: <20260509015208.3853132-6-song@kernel.org>
+To: penguin-kernel@I-love.SAKURA.ne.jp, Song Liu <song@kernel.org>, linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com
+Cc: jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, john.johansen@canonical.com, stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, gnoack@google.com, takedakn@nttdata.co.jp, herton@canonical.com, kernel-team@meta.com, Song Liu <song@kernel.org>
+Subject: Re: [PATCH v3 6/7] tomoyo: Convert from sb_mount to granular mount  hooks
+References: <20260509015208.3853132-7-song@kernel.org>
+In-Reply-To: <20260509015208.3853132-7-song@kernel.org>
 
 On May  8, 2026 Song Liu <song@kernel.org> wrote:
 > 
-> Replace hook_sb_mount() with granular mount hooks. Landlock denies
-> all mount operations for sandboxed processes regardless of flags,
-> so all new hooks share a common hook_mount_deny() helper. The
-> mount_move hook reuses hook_move_mount().
+> Replace tomoyo_sb_mount() with granular mount hooks. Each hook
+> reconstructs the MS_* flags expected by tomoyo_mount_permission()
+> using the original flags parameter where available.
+> 
+> Key changes:
+> - mount_bind: passes the pre-resolved source path to
+>   tomoyo_mount_acl() via a new dev_path parameter, instead of
+>   re-resolving dev_name via kern_path(). This eliminates a TOCTOU
+>   vulnerability.
+> - mount_new, mount_remount, mount_reconfigure: use the original
+>   mount(2) flags for policy matching.
+> - mount_move: passes pre-resolved paths for both source and
+>   destination.
+> - mount_change_type: passes raw ms_flags directly.
+> 
+> Also removes the unused data_page parameter from
+> tomoyo_mount_permission().
 > 
 > Code generated with the assistance of Claude, reviewed by human.
 > 
 > Signed-off-by: Song Liu <song@kernel.org>
 > ---
->  security/landlock/fs.c | 40 ++++++++++++++++++++++++++++++++++++----
->  1 file changed, 36 insertions(+), 4 deletions(-)
+>  security/tomoyo/common.h |  2 +-
+>  security/tomoyo/mount.c  | 31 +++++++++++++-------
+>  security/tomoyo/tomoyo.c | 63 ++++++++++++++++++++++++++++++----------
+>  3 files changed, 70 insertions(+), 26 deletions(-)
 
-Mickaël, Günther, are you okay with this patch?
+Tetsuo, I know you had several comments on an earlier revision.  Can you
+either ACK this or let Song know what changes you require?
 
 --
 paul-moore.com
