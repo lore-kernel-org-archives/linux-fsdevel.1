@@ -1,43 +1,43 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B130337C930
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 07:22:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33F8379EFE
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 07:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778484176; cv=none; b=u6Ea0PoZtklnWhGYLDoVVPQeFVzj7k+WnrND7nhHdkCgT+KeXKVRGMXX/q2ghtsvm7h41gKzzmBMA95/OMWQFke6kuLuj7tv9sVRBlNASpDJGe9kQ93A6Ihj+M1rdUccDzQPXY/So6RLG0cKVN2wJO9O/ll6wJsbe2tCpEnv2dA=
+	t=1778484180; cv=none; b=qujhcWyIb5JdE5D3fhRykY4lgQUErE/WWDkhMXsIIun0KmczSkYxOyw8MMXgmUNrkz/9Xsect/iDECIhFfIObjOypgCbDX3s6fis7dHm9pb1gNOs44t0UunbV7fG6z7l8dYgqFFc9xGqMFwVAuiNSUQDwSNNbdq5MjIhCQZBoAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778484176; c=relaxed/simple;
-	bh=FmYFW+cvuvRUZc7kU+DheO77JH/C446rXTKXJn9tFeE=;
+	s=arc-20240116; t=1778484180; c=relaxed/simple;
+	bh=TgykqGKwyj+99AynLPyDGe3tJ9yOnDW8JLeh7cFx4CI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VbfktsG3T+FX8u1vEpKiBIjCok+8ygs/T1MwD618ktu1jWymnV71hEGP7WpTmAdGJf+5d5Ik7JS9hcL2OonCopjkmaPmv8Rh7kWwe7Y6RShLyPpkgKOJR4aCre59r9W5mo0mRkJZTMruaraKCmDMMdE6Q8k9WFIvzXB4+Kew/9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MmD0YmmB; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=ELzJuvDtoeJesVXereFynbLroUB82hPNe/peuM1M44Rz6FhSI6Fq8KToGGLCko6lwpWG8JKnLxELj0ywNNzl4nTDVGP7CKMZ9e72dlw4CTiSx4dBlGnAlSkNN/tUnBxGh64ChmOISO5B9w4pPvvIMlApuqFEORi70nxqFQLo0d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=4Ug6wrai; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MmD0YmmB"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4Ug6wrai"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=eY3YfrSiHGn+QyKL+EhxeV3jLRSOyd1osamOIw4l+FA=; b=MmD0YmmBAWJgMo43ea1zLPwQbc
-	Qc43YJmfuB5M/ue3kZ2BcWOcuVSIVkyu0GvGDl0paJ2fs9/uVJB/y+3JuMgJFZJC2IZ9EewV3iqx0
-	/8SiAbstx1vXuvfmGFH+T47iQy0fKBKr6XfU8qwAC+cX5RJPBVvv7hDMsZbIslEBbjTVSHKXFlWUS
-	jFxLS+eIWfiXFvlY9H7xgdDKfiSc+eGUCBSFf1GbQrzOTnQWxZgo12Gr3HsP7DPdd+7urZPMXhDkP
-	82APDflZ8stZTABMYnnc8RKSJKeATPSNDL+MlHMm3g65w10NzkaotV3VBJkrqBwC9DJEX01JogY5S
-	4G2STWog==;
+	bh=JPQfOwO2GopQaPjKrEl78VUsILY4Y3su5giieVfntPU=; b=4Ug6wrai2BfbNANVuow6wS/aS3
+	ivJDOkytyAqNIqGJanA8cAu0Qa07QI2gQcvegJwfm9DxkOAHfHKw0d9Hm9m4NIJpQPB+hEnrz0P4P
+	qDu2AiVmySTTQoTXNGJQvqS7my1M9GUxk/IzqN8I6OfUoAWFBry4uL99J2qwsjPPqL9bNYUMXCt9F
+	9wwDkX71AZR6ihPW2BKd+HuwRyETZvtkhuzV5QOyGnS+MD0+V0GlAbqh7wU/ZvtkGjEmsSm4aGPo6
+	DlX6nvaXx6B+AG9Q0iTvzbZcMLZGNS5jibavPYuCR48U5+a48/mWjFMjYV8XHgkSmiIHt75HGBLFf
+	5Rdt/9+A==;
 Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMKyc-0000000Cakd-3p2I;
-	Mon, 11 May 2026 07:22:55 +0000
+	id 1wMKyg-0000000Cam0-0d2l;
+	Mon, 11 May 2026 07:22:58 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 2/3] fs: remove start_removing_user_path_at
-Date: Mon, 11 May 2026 09:22:29 +0200
-Message-ID: <20260511072239.2456725-3-hch@lst.de>
+Subject: [PATCH 3/3] fs: fold __start_removing_path into start_removing_path
+Date: Mon, 11 May 2026 09:22:30 +0200
+Message-ID: <20260511072239.2456725-4-hch@lst.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260511072239.2456725-1-hch@lst.de>
 References: <20260511072239.2456725-1-hch@lst.de>
@@ -50,59 +50,50 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-This function is entirely unused, remove it.
+Only one caller left, and simplified this way.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- Documentation/filesystems/porting.rst | 1 -
- fs/namei.c                            | 9 ---------
- include/linux/namei.h                 | 1 -
- 3 files changed, 11 deletions(-)
+ fs/namei.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-index fdf074429cd3..f546b1d3897f 100644
---- a/Documentation/filesystems/porting.rst
-+++ b/Documentation/filesystems/porting.rst
-@@ -1297,7 +1297,6 @@ Several functions are renamed:
- -  kern_path_locked -> start_removing_path
- -  kern_path_create -> start_creating_path
- -  user_path_create -> start_creating_user_path
---  user_path_locked_at -> start_removing_user_path_at
- -  done_path_create -> end_creating_path
- 
- ---
 diff --git a/fs/namei.c b/fs/namei.c
-index c7fac83c9a85..bc641838530f 100644
+index bc641838530f..4852ca208bd4 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -3029,15 +3029,6 @@ struct dentry *start_removing_path(const char *name, struct path *path)
- 	return __start_removing_path(AT_FDCWD, filename, path);
+@@ -2955,15 +2955,16 @@ void end_dirop(struct dentry *de)
+ EXPORT_SYMBOL(end_dirop);
+ 
+ /* does lookup, returns the object with parent locked */
+-static struct dentry *__start_removing_path(int dfd, struct filename *name,
+-					   struct path *path)
++struct dentry *start_removing_path(const char *name, struct path *path)
+ {
++	CLASS(filename_kernel, filename)(name);
+ 	struct path parent_path __free(path_put) = {};
+ 	struct dentry *d;
+ 	struct qstr last;
+ 	int type, error;
+ 
+-	error = filename_parentat(dfd, name, 0, &parent_path, &last, &type);
++	error = filename_parentat(AT_FDCWD, filename, 0, &parent_path, &last,
++			&type);
+ 	if (error)
+ 		return ERR_PTR(error);
+ 	if (unlikely(type != LAST_NORM))
+@@ -3023,12 +3024,6 @@ struct dentry *kern_path_parent(const char *name, struct path *path)
+ 	return d;
  }
  
--struct dentry *start_removing_user_path_at(int dfd,
--					   const char __user *name,
--					   struct path *path)
+-struct dentry *start_removing_path(const char *name, struct path *path)
 -{
--	CLASS(filename, filename)(name);
--	return __start_removing_path(dfd, filename, path);
+-	CLASS(filename_kernel, filename)(name);
+-	return __start_removing_path(AT_FDCWD, filename, path);
 -}
--EXPORT_SYMBOL(start_removing_user_path_at);
 -
  int kern_path(const char *name, unsigned int flags, struct path *path)
  {
  	CLASS(filename_kernel, filename)(name);
-diff --git a/include/linux/namei.h b/include/linux/namei.h
-index 2ad6dd9987b9..80488b3de0c9 100644
---- a/include/linux/namei.h
-+++ b/include/linux/namei.h
-@@ -61,7 +61,6 @@ extern struct dentry *start_creating_path(int, const char *, struct path *, unsi
- extern struct dentry *start_creating_user_path(int, const char __user *, struct path *, unsigned int);
- extern void end_creating_path(const struct path *, struct dentry *);
- extern struct dentry *start_removing_path(const char *, struct path *);
--extern struct dentry *start_removing_user_path_at(int , const char __user *, struct path *);
- static inline void end_removing_path(const struct path *path , struct dentry *dentry)
- {
- 	end_creating_path(path, dentry);
 -- 
 2.53.0
 
