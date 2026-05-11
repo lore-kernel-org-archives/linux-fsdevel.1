@@ -1,84 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B8826ED46
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 02:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25EB36605D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 05:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778468321; cv=none; b=icbLs2o6nRUILrcwlTbDf4DGty9CSz9HV4V0WxHVV86McmNo379Woa0eplcMmcpXySlR2qz7Lzalm1P3SxNDt4diG3zh0Scw890eko2QkSLGarsKiDbNfy4KCn/9PWc1AGjy0QesnBt2N1RIEU/4HU539NpBVfHwQPkhpYkFPzo=
+	t=1778476225; cv=none; b=nYeaMouW8T5afEk+DXZMVYX3tzwIw3a7l7i/MYs9QcCS83f4wiFZ2RlR+OkBa74y3uyd4d5+Gqp7ieaHkdRAXRXxbKC8EWIlgu9ISz7sDYS5K7/ab48lyZ9MQxmTMFtANlCiEpK9KBZjZ204rgxMV9U7zjvLspg6bvINJC6BaZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778468321; c=relaxed/simple;
-	bh=MMvb5qG7DKg7BZ+qTNXN2A+xUzvq2M7D1NC/PwBnKwA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jZyeh+4hMX7Ezz+uV084ZuH/HAD8V+uupSytPlblPbNmwVuFh6Au5sGhwyphAgvy1OygPK9n+HYhbVRd/w7j30fTNokXJeEvLBVIQ1gbokFx2/N6qDwYVlI1iZ3tdzVnSO9jnXjQyIMwRjSsOm3XM86m3swdoi/HYZyJ2Ct69UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tvZug03z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778476225; c=relaxed/simple;
+	bh=9bPgUgowYtDZvwWDaDvH9GE08BbGRUl9XHTtvYleq54=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RhsMOSGONqZuB8QvWZlhgiIqx5E4QbXltmm46oVuqn3qxznP01S7vQMPnBqZhEIvoksKAKu1+rDILMljNf+/i7Q0S2edL3L/H/XhtZyB4fuZQ/hU8QthAlw6tzDzzrUtwhzSu59qtq+l3LOsqSGA0HCR/JQbbETDrBwe7wA7mAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dCRo5XzO; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tvZug03z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA6D2C2BCC7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 02:58:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778468321;
-	bh=MMvb5qG7DKg7BZ+qTNXN2A+xUzvq2M7D1NC/PwBnKwA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tvZug03zwB2K0e05HdqWIzuqHRd+Kg8W7LdZ6agi5HHo+PhN118VrVHmli/gIoi4R
-	 lEzwob+oIZvn0DtgABOb8ytrq5pap+fIY4C0OnGO4wSQV0qfvRe26t060mmlV9AMs2
-	 TcpRv9oOPmb0KGB0GdsByHfh76MNcvKI1BKsNRYQ0ZqMPoFuUUPmsViotIruFnK1ie
-	 FoTJJ+rKwKhp9a1ie5Zjq8fj8zVLfMwtFErRoAlC13Aoq07DuROpLVFP3PIMEMHuo0
-	 bWf2Rh1t6d8NyGfeQRWcVMze7Qc1HRN1COe+ox89be462pVaZNBP3aPm7G43XM2wF/
-	 nsrTDVYTj0Eng==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b936331786dso468792266b.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 10 May 2026 19:58:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8TnmGfhJ6i4Wdt8XjvYKj4sKjbnLTOGSjES1Qt6PtvsS8qJpAqmxz1FaVH/dqq0XgHXpFrwmUu8o24AZw1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6HTekvmqqKxGeBy7y5tiXYfcgA2SJNLrMjwsMxGXJFqJwqiX+
-	U6T8m4QNpv7GcGygBITzETSoJPwVZuOGBeWHBkHeGFty2xGO/rQJvrPFDS8kx3B7yK9+42Odi2M
-	XCUXRGT/sFvTVCYcuL9xPLAlCz9osqeI=
-X-Received: by 2002:a17:907:1c27:b0:ba4:94f8:4df with SMTP id
- a640c23a62f3a-bcc12668f74mr368340066b.17.1778468319593; Sun, 10 May 2026
- 19:58:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dCRo5XzO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778476222;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3tz4VshiSjvGUhY3dhtN6lD+p4cKMAlBefoUW+XXMHE=;
+	b=dCRo5XzO9wyELR5/hRGRkIMTcRJz9nxW9lWQES3RZ51w4GKsZDY3LmKYtoovgj5mD1wHzt
+	gCtvfwWmLVLezUd4s+YdDhoiR15xXdKS+EqCg+WSh0ATG9jyOVn7A5k/HVh2rGBzooJoA1
+	FutTVQhRrqsCXHXakQlS3CGxVvdqur8=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-422-w6iTBQSwOBK7DQjDiHYbAg-1; Mon,
+ 11 May 2026 01:10:18 -0400
+X-MC-Unique: w6iTBQSwOBK7DQjDiHYbAg-1
+X-Mimecast-MFC-AGG-ID: w6iTBQSwOBK7DQjDiHYbAg_1778476215
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 51FEF19560B4;
+	Mon, 11 May 2026 05:10:13 +0000 (UTC)
+Received: from [10.2.16.21] (unknown [10.2.16.21])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3A09030001BE;
+	Mon, 11 May 2026 05:10:04 +0000 (UTC)
+Message-ID: <8aaa7dd9-2426-475c-af64-85ef5f2aa855@redhat.com>
+Date: Mon, 11 May 2026 01:10:02 -0400
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260510171115.368494-1-charsyam@gmail.com> <20260510171115.368494-3-charsyam@gmail.com>
-In-Reply-To: <20260510171115.368494-3-charsyam@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 11 May 2026 11:58:26 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_Di8W_B4G6Wt6K3nJMACOsFWvDSm3UZL_Z2ewdO5G-Lw@mail.gmail.com>
-X-Gm-Features: AVHnY4JXFttXurbigpQmVykm9s__wtjSjAq8IDYQ7pm20j2zyUiSPCDYyrsI_Lw
-Message-ID: <CAKYAXd_Di8W_B4G6Wt6K3nJMACOsFWvDSm3UZL_Z2ewdO5G-Lw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ntfs: do not mark the volume clean from sync_fs
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] cgroup/cpuset: Fix deadline bandwidth leak in
+ cpuset_can_attach()
+To: Aaron Tomlin <atomlin@atomlin.com>, tsbogend@alpha.franken.de,
+ paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, mingo@redhat.com,
+ peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ stephen.smalley.work@gmail.com, casey@schaufler-ca.com, tj@kernel.org,
+ hannes@cmpxchg.org, mkoutny@suse.com
+Cc: chenridong@huaweicloud.com, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+ vschneid@redhat.com, kprateek.nayak@amd.com, omosnace@redhat.com,
+ kees@kernel.org, neelx@suse.com, sean@ashe.io, chjohnst@gmail.com,
+ steve@abita.co, mproche@gmail.com, nick.lange@gmail.com,
+ cgroups@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ selinux@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260509164847.939294-1-atomlin@atomlin.com>
+ <20260509164847.939294-2-atomlin@atomlin.com>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260509164847.939294-2-atomlin@atomlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Mon, May 11, 2026 at 2:11=E2=80=AFAM DaeMyung Kang <charsyam@gmail.com> =
-wrote:
->
-> ntfs_sync_fs() can be called while the filesystem remains mounted
-> read-write, for example by sync(2) or periodic writeback. Clearing
-> VOLUME_IS_DIRTY from that path marks the volume clean before the mount
-> lifetime has ended.
->
-> If the system crashes after sync_fs() clears the bit but before unmount o=
-r
-> remount-read-only, the volume can be left looking clean even though a cle=
-an
-> shutdown did not happen. Keep the dirty bit set during sync_fs(); the
-> unmount and remount-read-only paths already clear it when no NTFS errors
-> were seen.
->
-> Fixes: 6251f0b0de7d ("ntfs: update super block operations")
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-The VOLUME_IS_DIRTY flag is set just before write operations. Once
-those changes are safely flushed to disk, I think that it should be
-reasonable to clear the dirty bit. That said, because many users
-generally tend to simply unplug USB drives without unmounting,
-clearing it only in the unmount paths causes unnecessary warnings and
-chkdsk suggestions on the next mount, even when there is no actual
-corruption.
 
-Thanks.
+On 5/9/26 12:48 PM, Aaron Tomlin wrote:
+> During a cgroup migration, cpuset_can_attach() iterates over the
+> provided taskset. If a task within the batch is a deadline (DL) task,
+> the destination cpuset's DL metrics (i.e., nr_migrate_dl_tasks and
+> sum_migrate_dl_bw) are appropriately incremented.
+>
+> However, if a subsequent task in the same migration batch fails the
+> task_can_attach() check, the loop aborts and jumps directly to
+> out_unlock. Consequently, any DL metrics accumulated from previously
+> processed tasks in the batch remain permanently inflated in the
+> destination cpuset. Because the migration is subsequently aborted by the
+> cgroup core, cpuset_cancel_attach() is never invoked to unwind these
+> specific increments.
+>
+> This behaviour results in a permanent leak of deadline bandwidth, which
+> incorrectly restricts the admission control capacity of the destination
+> cpuset.
+>
+> To resolve this, introduce an out_unlock_reset failure path that
+> conditionally invokes reset_migrate_dl_data(). This guarantees that if a
+> batch migration is aborted for any reason, the pending DL metrics are
+> safely reset before returning the error.
+>
+> Fixes: 0a67b847e1f06 ("cpuset: Allow setscheduler regardless of manipulated task")
+
+That is not the commit that introduced the bug. Anyway, there is already 
+another patch sent recently to fix this bug. See
+
+https://lore.kernel.org/lkml/20260509102031.97608-2-zhangguopeng@kylinos.cn/
+
+Cheers,
+Longman
+
+
