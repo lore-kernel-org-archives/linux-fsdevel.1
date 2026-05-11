@@ -1,82 +1,150 @@
-Received: from mail.alarsen.net (mail.alarsen.net [144.76.18.233])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353263B9DAC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 08:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.18.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E2B3803F1;
+	Mon, 11 May 2026 08:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778487619; cv=none; b=Kck/5qQZUgiHiZ7UtQ9LLJS9U6ERwouximGWM4gTVu36JJ9Fb32L3mq1K99KBiYXMxL0XTAsRy0rgxFawnnkT3TSmlW1C/OiuUZbqdTCCucxYtmn3dqffV35jv/GPh7l/QZQo6fHioe/A2YPdqEq5EYAARQMKqiMjx7P5Ct9NQw=
+	t=1778489083; cv=none; b=cf93nKmkKpuDVWpC2M1pdnZsdSuCnmvluSnNf2HmQyeUjka6XiyM5UXVIdAjJ2CeD+OfG9EBDW6jtJWlFf+o/P+vC0rbL6SFCN4tqVIYnhIzVyv5tz1ZXtf3T4vgOrqU3d5rYyjFl31z/N2KiPVrW7hcIYANEoudmnv/+OaOPWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778487619; c=relaxed/simple;
-	bh=tupWpp1Wr/DI+50gRTgVZY8E+35pNiscrazte+ahbsI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KATXVH+Yot6/Pt6xdTmoOZSkMD3NDFaQqv7cVQ8vfTO0HX/UD6gabj8KWzmHbX0DFVNNs+6biTWzrBvNXar+MfJklhYFXukrjIy1ciTPeYFoIMEkHL05UShsf5XxqIXgg5PK+pxvInrQ4zJQNrXapkfKzUmLyhAeUIqDyMEeHDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=alarsen.net; spf=pass smtp.mailfrom=alarsen.net; dkim=pass (2048-bit key) header.d=alarsen.net header.i=@alarsen.net header.b=ZZSN9Lrs; arc=none smtp.client-ip=144.76.18.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=alarsen.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alarsen.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alarsen.net header.i=@alarsen.net header.b="ZZSN9Lrs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alarsen.net; s=joe;
-	t=1778487605; bh=Q5o7BZ/IFYZCK+kK5yddBBzChwDObHCsyIubnxvYSmc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZZSN9LrsVT7dohE8ai7eKJGMr5SuA7zH+HHwitlxs3JKuYJs7z2bHWxaN+bqvP81J
-	 Dvq85yefYMYDdk+KvAenBO6Wy+EvHUCMM4mCn6gTYGotMWh704lwc01jKn/YO1O1Ob
-	 NCkBoGPLcpSok9gU60MkR2V14aafG3leCjZIUKWe4xX7pzcsoxTGtJxEf24pe01bEw
-	 1BzdyhwafvSPpu918XXxZuUXj9t6tXzb6UwmGMRz+L1C6QLSnt2OUXfFCGbVomQWCW
-	 20YdrofoJObVueZ3kYKRDXaeMjGJJZ59XA18udJNZ6kWoy6fOEUQ5ANwEt9js3q7tT
-	 Rk8hOuCEDMe3A==
-Received: from oscar.alarsen.net (unknown [IPv6:fd8b:531:bccf:96:13c6:f483:161f:2523])
-	by joe.alarsen.net (Postfix) with ESMTPS id CD261180276;
-	Mon, 11 May 2026 10:20:05 +0200 (CEST)
-Received: from oscar.localnet (localhost [IPv6:::1])
-	by oscar.alarsen.net (Postfix) with ESMTP id BC291719;
-	Mon, 11 May 2026 10:20:05 +0200 (CEST)
-From: Anders Larsen <al@alarsen.net>
-To: Christoph Hellwig <hch@lst.de>, Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, David Sterba <dsterba@suse.com>,
- Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>,
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
- Dave Kleikamp <shaggy@kernel.org>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Bob Copeland <me@bobcopeland.com>, linux-fsdevel@vger.kernel.org,
- jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev,
- linux-karma-devel@lists.sourceforge.net
-Subject: Re: [PATCH 03/10] qnx4: handle set_blocksize failures
-Date: Mon, 11 May 2026 10:20:05 +0200
-Message-ID: <5102053.31r3eYUQgx@oscar>
-In-Reply-To: <20260511074556.GA28186@lst.de>
-References:
- <20260511071701.2456211-1-hch@lst.de> <12893675.O9o76ZdvQC@oscar>
- <20260511074556.GA28186@lst.de>
+	s=arc-20240116; t=1778489083; c=relaxed/simple;
+	bh=r7E1bGhdsZi0miaB9eI/+/OI9PLQJ1A2kS6KgYUaHNg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oBgtgXJWB+W7mq03OCt2EiMt3JKESAHvMYd0STMd+iY0+gJppFxTCU6VwsYnUVKiFDzewYSLEuLG9SuaS5XVkFvJq3Kia4eSyxFCSLluHLq2f2iHuvpWJSr2xsogpXjWcXGwMUJpRXOVe1kPZFN2eRIwfD7DjoJimkj2bEoORZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: a31b84624d1511f1aa26b74ffac11d73-20260511
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:b187f54d-c9e6-486c-94e4-59cc23cf0daa,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:e3d2900e4aa113a218b7eea4ec9b5546,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: a31b84624d1511f1aa26b74ffac11d73-20260511
+X-User: liwang@kylinos.cn
+Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1293493804; Mon, 11 May 2026 16:44:35 +0800
+Message-ID: <ac112955-d484-4b6e-b597-14eb83076e3e@kylinos.cn>
+Date: Mon, 11 May 2026 16:44:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fuse: propagate async RELEASE queue errno in
+ fuse_file_put()
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong
+ <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>,
+ fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260509102337.272593-1-liwang@kylinos.cn>
+ <CAOQ4uxjRtUkWB6oCttv-VnznCB3T+HNXgoYgEcU3RwU6BokaYQ@mail.gmail.com>
+Content-Language: en-GB
+From: Li Wang <liwang@kylinos.cn>
+In-Reply-To: <CAOQ4uxjRtUkWB6oCttv-VnznCB3T+HNXgoYgEcU3RwU6BokaYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026-05-11 09:45 Christoph Hellwig wrote:
-> On Mon, May 11, 2026 at 09:42:49AM +0200, Anders Larsen wrote:
-> > On 2026-05-11 09:16 Christoph Hellwig wrote:
-> > > qnx4 uses buffer_heads, which don't handle block size > PAGE_SIZE well.
-> > 
-> > qnx4fs uses a fixed block size of 512 bytes, so this will never happen.
-> > 
-> > > -	sb_set_blocksize(s, QNX4_BLOCK_SIZE);
-> > > +	if (!sb_set_blocksize(s, QNX4_BLOCK_SIZE))
-> > > +		return -EINVAL;
-> > 
-> > QNX4_BLOCK_SIZE is a constant (512)...
+Hi Amir,
+
+On 09/05/2026 22:46, Amir Goldstein wrote:
+> On Sat, May 9, 2026 at 12:24 PM Li Wang <liwang@kylinos.cn> wrote:
+>>
+>> fuse_file_put() queues asynchronous FUSE_RELEASE via fuse_simple_background().
+>> When queueing fails, the failure branch always passed -ENOTCONN into
+>> fuse_release_end(). fuse_simple_background() can however fail for multiple reasons
+>> with different return values, such as -ENOMEM or -EINTR. Pass the actual negative
+>> errno into fuse_release_end(). Currently, the callback does not interpret it,
+>> but passing the real value avoids misleading future development or debug printf
+>> that assumes -ENOTCONN meant disconnect.
+>>
 > 
-> Yes, which means that sb_set_blocksize fails when the device has an LBA
-> size larger than 512 bytes, and this failure should be handled.
+> Hi Li,
+> 
+> If fuse_release_end() does not do anything with the error, just drop this
+> argument.
+> 
+> I see no point in this patch as is, serving some unknown future development.
+> If future development needs the error, future developers can pass the error.
+> 
+I would have loved to drop it, however, while fuse_file_put() calls 
+fuse_release_end() directly if sending the async request fails, it also 
+registers fuse_release_end() as the success callback. Consequently, 
+fuse_release_end() must strictly adhere to the callback signature; removing 
+any parameter would trigger a compilation error. 
 
-OK, so I misunderstood the issue. In that case:
+A similar pattern occurs when fuse_send_readpages() calls fuse_readpages_end(). 
+In that case, if sending the request fails, fuse_readpages_end() is invoked 
+directly using the error value returned by the sending function as an argument. 
+Furthermore, the same applies to fuse_async_req_send() calling 
+fuse_aio_complete_req(). This patch aligns with those cases. I'll send out 
+a v2 patch with an updated commit message to clarify these points. 
+Looking forward to your feedback.
 
-Acked-by: Anders Larsen <al@alarsen.net>
+Thanks,
+Li
 
+> Thanks,
+> Amir.
+> 
+>> Add an explicit (void)error in fuse_release_end() so builds that enable
+>> -Wunused-parameter (for example make W=3) stay clean.
+>>
+>> Signed-off-by: Li Wang <liwang@kylinos.cn>
+>> ---
+>>  fs/fuse/file.c | 11 ++++++++---
+>>  1 file changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+>> index 3bdab8d03373..8b7badb7721a 100644
+>> --- a/fs/fuse/file.c
+>> +++ b/fs/fuse/file.c
+>> @@ -96,6 +96,8 @@ static void fuse_release_end(struct fuse_args *args, int error)
+>>  {
+>>         struct fuse_release_args *ra = container_of(args, typeof(*ra), args);
+>>
+>> +       (void)error;
+>> +
+>>         iput(ra->inode);
+>>         kfree(ra);
+>>  }
+>> @@ -117,6 +119,8 @@ static void fuse_file_put(struct fuse_file *ff, bool sync)
+>>                         fuse_simple_request(ff->fm, args);
+>>                         fuse_release_end(args, 0);
+>>                 } else {
+>> +                       int err;
+>> +
+>>                         /*
+>>                          * DAX inodes may need to issue a number of synchronous
+>>                          * request for clearing the mappings.
+>> @@ -124,9 +128,10 @@ static void fuse_file_put(struct fuse_file *ff, bool sync)
+>>                         if (ra && ra->inode && FUSE_IS_DAX(ra->inode))
+>>                                 args->may_block = true;
+>>                         args->end = fuse_release_end;
+>> -                       if (fuse_simple_background(ff->fm, args,
+>> -                                                  GFP_KERNEL | __GFP_NOFAIL))
+>> -                               fuse_release_end(args, -ENOTCONN);
+>> +                       err = fuse_simple_background(ff->fm, args,
+>> +                                                    GFP_KERNEL | __GFP_NOFAIL);
+>> +                       if (err)
+>> +                               fuse_release_end(args, err);
+>>                 }
+>>                 kfree(ff);
+>>         }
+>> --
+>> 2.34.1
+>>
+>>
 
