@@ -1,48 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CDF1EA65;
-	Mon, 11 May 2026 14:01:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97E13F7896;
+	Mon, 11 May 2026 14:02:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778508061; cv=none; b=JNQTTVKDmTYfMRSHgiuiVylNwaqu2ihOmTBhU1f5vgXaVtA4qeGAn9hHUjeSClxX09/qZtnIsAlqYnfaNrhw6TBnfiRqltx4a09TgCKA/j+wkvBYkHJyGn+PZVZ3q97A/fsWBRfRWtJnhxebCQicvoCmOId3frnwR8gx3yFhBK4=
+	t=1778508171; cv=none; b=aiKjwl/cX/mv0TuS+oAcJD5sqgN1InEEBWhR4UESh1YbT7BphbrN3JXilS5WoNzhYxq4k2uf4GCWok1dOlRW4EA8g0KCeS136mE5mzcbxX+QGgaiBWDgkQYdut7OquYb9AAWx8LQxKC2lsW18aY5lkjOvGbDbbPH+sW9SYXBKvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778508061; c=relaxed/simple;
-	bh=HY65l1AD7lJS9rR8EAszjnjy7yShnjTmAN0/RZjhmC8=;
+	s=arc-20240116; t=1778508171; c=relaxed/simple;
+	bh=0UpJUGzPjFdRF+kzA5dFbDzrBSNpqPmuECOqes5zOLs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IkA5TMDnDIXXe2JkfeJWezEIsZ1iVp6EqVBB1WgMixJ9azYge2tOaBemJBboT3bzxr2MyjreAacjzwP3a/+A7rlhUms4ZSxmYJ2POR9ZlpunBvdMi0fNke1lYcan7ooPmB2uuNrrtoubUWCpQdo3mglN6ukgonF2bVxEJ8PKJ8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q9RM8aF3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=f9dmdrNQarRVn/vqoEq/zZV7yONM2GvxSR9SxQiT1Vaon2ba8VcQAxQXCZY133UYY3UFLhY8Qrh10uispJlTsOMyJWqi00/CnaOWK0ivde2iQCIs5YBMoAoocgkPBVTv+vOzhAfJNGeDlBprSlsJvXwjwCW9f8IZllFdArwPm+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=foKLY5sK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q9RM8aF3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDCB6C2BCB0;
-	Mon, 11 May 2026 14:00:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="foKLY5sK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A9CC2BCB0;
+	Mon, 11 May 2026 14:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778508061;
-	bh=HY65l1AD7lJS9rR8EAszjnjy7yShnjTmAN0/RZjhmC8=;
+	s=k20201202; t=1778508171;
+	bh=0UpJUGzPjFdRF+kzA5dFbDzrBSNpqPmuECOqes5zOLs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q9RM8aF3ltIEOwD1UEVqIGlXg5y6DKpx3L5B4O19r3OqBgg1I6LGtb+CKvNSLj4+V
-	 HpkYoJBf/HxQM46oCmJyffkC459hVAZdTHwuf4ATuo25NWtjN4yJeMG+hjqaJfHfDS
-	 PNJ77+/rYLPBDwy7FyCfJApadgC1/7sHsM+NwoAnr+jTqEzrukVeg7WpTlm03/e3oK
-	 gcPhU+kKx6gMmYwdFj6XYTAZWfmJ1CLBUsT7e4zGRb5e5L2NyMeAAMKVfM0Kp3o0xs
-	 Nm0CsZkCjazwaaskLRjd/Bcx+JDkc+klbPtr89E/PbRRnn0KKxtZ2W1w12qidVtHEU
-	 Ho181maioBerQ==
+	b=foKLY5sKZ8pQXRuGHvimXnKVPDHujO7i9DUihew18ywt0UUkKvpcWEQ+GENjB0qNO
+	 NgxndUmM3WbrU08K5mm4wnFTJzeITiV9PHxDxNnq613Oo6dgzvUTfJ4/75GXQsn15r
+	 NJlH33gFSvNWgiZUBBYLjmXsJCL/6Obf0osLgh9dqAWq2pC9UmW+zvU5SZ3p1gFd4H
+	 9NTj/zHhF5SO3FGYLW42EKJjAe385+WS/DGrVUPgWh3nDkDhNJFaBUjjA4e2Hgsvor
+	 uPWR9IEwYD3MjdS9lV9YT2EinL9WsEwAuTWPBfysgN3ObitBAk5eEIS1jm4hwLXEn6
+	 xgJjFWUK5GBCA==
 From: Christian Brauner <brauner@kernel.org>
-To: Zhihao Cheng <chengzhihao1@huawei.com>,
-	viro@zeniv.linux.org.uk,
-	jlayton@kernel.org,
-	josef@toxicpanda.com
+To: Chuck Lever <chuck.lever@oracle.com>
 Cc: Christian Brauner <brauner@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	yangerkun@huawei.com,
-	yi.zhang@huawei.com,
-	changdiankang@huawei.com
-Subject: Re: [PATCH v2] nsfs: fix wrong error code returned for pidns ioctls
-Date: Mon, 11 May 2026 16:00:45 +0200
-Message-ID: <20260511-krass-takten-d4ff45841341@brauner>
+	linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	hirofumi@mail.parknet.co.jp,
+	linkinjeon@kernel.org,
+	sj1557.seo@samsung.com,
+	yuezhang.mo@sony.com,
+	almaz.alexandrovich@paragon-software.com,
+	slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	cem@kernel.org,
+	sfrench@samba.org,
+	pc@manguebit.org,
+	ronniesahlberg@gmail.com,
+	sprasad@microsoft.com,
+	trondmy@kernel.org,
+	anna@kernel.org,
+	jaegeuk@kernel.org,
+	chao@kernel.org,
+	hansg@kernel.org,
+	senozhatsky@chromium.org,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Roland Mainz <roland.mainz@nrubsig.org>,
+	Steve French <stfrench@microsoft.com>
+Subject: Re: [PATCH v14 00/15] Exposing case folding behavior
+Date: Mon, 11 May 2026 16:02:31 +0200
+Message-ID: <20260511-wertverlust-vorbringen-070f016f3bd4@brauner>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260507112301.1042757-1-chengzhihao1@huawei.com>
-References: <20260507112301.1042757-1-chengzhihao1@huawei.com>
+In-Reply-To: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+C: Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -50,23 +74,22 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1217; i=brauner@kernel.org; h=from:subject:message-id; bh=HY65l1AD7lJS9rR8EAszjnjy7yShnjTmAN0/RZjhmC8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQxPhSXnzxzlu31L82Pb1csbDlQfPOSy3a9I3yTleUYr /pGX9c36ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiItzLD/7Q/k55lKUXO5w7t se7S3n1c+eTuja6eC94vXpl+sSRmiyPDT8YSpdgvLQk7ooJcLu258s/68YroyRU1LE8UTstULWP PYQYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2738; i=brauner@kernel.org; h=from:subject:message-id; bh=0UpJUGzPjFdRF+kzA5dFbDzrBSNpqPmuECOqes5zOLs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQxPmzoE7cS0pi4htne4BtrZubeg2uf/OBf+WBFQOp93 w71crk5HaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMp2cbIMEfiXshT9YRVMeHy 0dt39r6+sDHh9aLmwo1tk7ifh+3OYWNk+HUvYr/S77VKu596N6437xR9oNG88+uX37/zSzhErP7 +YAYA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On Thu, 07 May 2026 19:23:01 +0800, Zhihao Cheng wrote:
-> When executing NS_GET_PID_FROM_PIDNS (or similar pidns ioctls), if the
-> target task cannot be found in the corresponding pid_ns, the error code
-> should be ESRCH instead of ENOTTY.
+On Thu, 07 May 2026 04:52:53 -0400, Chuck Lever wrote:
+> Christian, let's lock this one in. I will post subsequent changes
+> as delta patches.
 > 
-> This bug was introduced when the extensible ioctl handling was added.
-> Without proper return, ret would be overwritten by the default case in
-> the extensible ioctl switch statement.
+> Following on from:
+> 
+> https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
 > 
 > [...]
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Applied to the vfs-7.2.exportfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.exportfs branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -78,7 +101,35 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+branch: vfs-7.2.exportfs
 
-[1/1] nsfs: fix wrong error code returned for pidns ioctls
-      https://git.kernel.org/vfs/vfs/c/725ecd80688b
+[01/15] fs: Move file_kattr initialization to callers
+        https://git.kernel.org/vfs/vfs/c/9d3942fa6a55
+[02/15] fs: Add case sensitivity flags to file_kattr
+        https://git.kernel.org/vfs/vfs/c/72504a889e52
+[03/15] fat: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/d0d06cfce960
+[04/15] exfat: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/64a4f2090cb2
+[05/15] ntfs3: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/5fff53318cbf
+[06/15] hfs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/1b25c01375e0
+[07/15] hfsplus: Report case sensitivity in fileattr_get
+        https://git.kernel.org/vfs/vfs/c/b9e976dd58ff
+[08/15] xfs: Report case sensitivity in fileattr_get
+        https://git.kernel.org/vfs/vfs/c/30617d630d2f
+[09/15] cifs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/0f372b05c80c
+[10/15] nfs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/3ca9954cdc04
+[11/15] vboxsf: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/0f5f23d411ac
+[12/15] isofs: Implement fileattr_get for case sensitivity
+        https://git.kernel.org/vfs/vfs/c/d56f6094035c
+[13/15] nfsd: Report export case-folding via NFSv3 PATHCONF
+        https://git.kernel.org/vfs/vfs/c/5ca2c8f14428
+[14/15] nfsd: Implement NFSv4 FATTR4_CASE_INSENSITIVE and FATTR4_CASE_PRESERVING
+        https://git.kernel.org/vfs/vfs/c/62c9555937ca
+[15/15] ksmbd: Report filesystem case sensitivity via FS_ATTRIBUTE_INFORMATION
+        https://git.kernel.org/vfs/vfs/c/35188379f010
