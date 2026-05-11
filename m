@@ -1,65 +1,66 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EEE37DEBA
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 19:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D77237E30D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 19:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778529167; cv=none; b=oOMAObkIaFLcyCbsgGAKU2+7WKG7CVSxIxQSx0PCQrqiKoyRfRRaXzGtlNBh00WvEyuGQjDtbbBalSnl6gXnMjvHFbZnsTYBHjuQwTrsuYNRN0PvBExmPS9q62BjCPmvltESfoAmgKWGOI9myH8+fnF5H0Rh8DeRoRrupnyT9v0=
+	t=1778529170; cv=none; b=m2HKvvVXQSPLw6HAmlynbSnK448MJ+IQiRePzoaKsBko5Sbfc3ls65ngYE34GPi4I445wYLH8M9ORnF1u1Ckr/+hGFTGnpxZF13TkF945hEkO7kqosHjnEWE1wxxRAfO1KO+9JkYzxdQOoZb53ZhSXPkm8ZlU1kjF+Upo4zEo4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778529167; c=relaxed/simple;
-	bh=rKxh87Y4Rj2/mJmQycKYsxIgVUIAEj71pDy+b5FX/ow=;
+	s=arc-20240116; t=1778529170; c=relaxed/simple;
+	bh=VcQxfTFcZTn9ONn/zVhnpsD0/DB1MuCe94obAIHqHbM=;
 	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=asm+WCIjU0HJG055c/oBuo7TRXR5AcwyuJL3JQ7WHpRtAqye+xoHvu4Nfm6FQeqdzZ7Q03BcSfCiGHIzTvOq2QEjBNHkKGI6moKF0PH6KYExtQdyFfjQXTo/bujszyEOTx4Voy+NeKUfTIL8xPVW8ghLDDUly8iea+8tdl7VVBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=E9lVJyLD; arc=none smtp.client-ip=209.85.222.170
+	 References:In-Reply-To; b=k6hEoIlWUGMCwm/jViIj43OE4nhX1m4mUnPmRhB3ATpCRu8E89VPKwNPTNlyGHES2Xw0i8j7anT17YvCdAld3clKeaSTwIOUAHfg1/cLtmVLvSKBnxi2OWtMGQorGmbZ2zXoY6fzQ6YeH8rdTb4hrsYgCFQH3XkFBgUTDUNaOLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=O1dCdV6b; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="E9lVJyLD"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8d560ede296so516759585a.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 12:52:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="O1dCdV6b"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8bc3ef10cc4so53240196d6.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 12:52:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1778529164; x=1779133964; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1778529167; x=1779133967; darn=vger.kernel.org;
         h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
          :mime-version:message-id:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QhgeQ/Hv8h2FLNPnpqx7Nq4djCqVR8s71dQNMbQD8h8=;
-        b=E9lVJyLD68P9mb02OeDiuxB5mMUgH5x8C9eKQQXBi/kUsedChlQRKN28FBaldSCv51
-         3MwfG4uglNXTJjoQORG1jvzmokZMB1zTDwCdmAALZToHJ4jEmUDTIK77fGVGaxGuv45s
-         7oMTunZMG0fStvlKBpPxoxbtA5JV8dzbkFn4dwZL57ikpdXKjn0sQTdWkkFWIbsyHNdV
-         gDlQPMutxdJ1m5CVO3wiiE56/6gf9+al5sqf+QJrAf38IiPwDTdHYaKgKp1MloaCqNMj
-         Vyd7gx6VEdNGfOQYiMvMcvSBvCzZBfPfVzMwkkfiJbynwNQ2tVq9KF1f304SRsmECtYN
-         MeTQ==
+        bh=LL+UPYnZCOjrePrtqK6xOAZ5G7o1QmvEfzGseYDEIaM=;
+        b=O1dCdV6bVCNE0S2myy/TKrzkIxIwfCo/LphzIaKwCvVQeB+DzL4643965DQCBP4/OL
+         UA2ARqxufDGtcWp73ZPeUbFdiEuAv6eaHc+UR8k/qQSQb3FKvmZQ6T1MPDkXjIRcbL/W
+         e9x3gemRAy+fVWrZ1pXRYxd44F+8/HuoDe528Mxq/P9pFaQDxqAkMZ9NSMponXPGQKRw
+         SXYZ+0xIMxGVKNuvOC7zOM51JfdDgEXdAmwVbXtzD2TuPhG7onHGUhCpVSMNfWarhFdG
+         8o83kvZHZ9OwUNAq6CaF9Om9E+QlEL4KKmMYKwepIMqeabRywZ1/DVdgA6EelFx/f1SV
+         KMkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778529164; x=1779133964;
+        d=1e100.net; s=20251104; t=1778529167; x=1779133967;
         h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
          :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QhgeQ/Hv8h2FLNPnpqx7Nq4djCqVR8s71dQNMbQD8h8=;
-        b=FIlseLz0nZyjF9Nqgg+FzH4kDRxKBkP+OjeZ8vM2shpR6ov3HDwBhwSe/UdBD01E6x
-         B+0qek1H3iQ+2agKI9Md9a8dVnGfzDjvhO0OHsxB2H6/sIT28K8E4XqnCJkGNt7Kl9Zm
-         FPSD1aVLPpNky++Q81d8ls0awjEHKgO+WWNt0nc5OC4o/NwdKzwh0BK9tj2VA5AvlA5+
-         +sxBAq4iFinj7lHtn9W8ckQBdcd/Usn37xitJoiSU2wO45rNPNH+FhEjHNr1O5zgXk96
-         /wQvNdL+ba+PZHmHGX80ecDNl6Kg2/MmSq7LbkVVP+XJyg4qPryvy43IlWPvNAKTH5Dc
-         CSGw==
-X-Forwarded-Encrypted: i=1; AFNElJ+e9E0jedPoxBMAEoLYp02Pap33i/YThCrKV+8zaQyRyHW72m8xaOrthBhdXs5T5g+0YCfPaXh6wYMsLs/o@vger.kernel.org
-X-Gm-Message-State: AOJu0YysJNjsmD1zdeJMCeiFO1RrrsOavbvuRugD5ZwZx2jQWN0kyJGY
-	zwVH221fNoJh7sN1eXsgbikMPWdL6IrZasMQ2YkaniZ3Ou3xelya27lKDgNB0E3EKA==
-X-Gm-Gg: Acq92OEwu7KqLKBzjrQnQR3TpR/suxKxYZI/W/RBpcK3zz1afhU7hxNIA3pAlA1YnzA
-	j9U8RCJAPpY1NvultJgebZ6XR+H/X1s1hiOPeprkhuKVQmKYd9aPYmYnUm4ErRMcgIwY7Ar1ZjH
-	Ggm90yX7ULDJNnZYh9DBNtm1EySUObECVyHuqOUM8CglmkHH+i7w/PNeWcxB3IrBSHKwMXZozfI
-	FmQcRL5u2/R41/mMPlk69NJLMwdZq//HQGxVbPEPd/2AbgieL8Zy7NQVZGmQzLpc5U61J5+RB6+
-	vIdAS3PVMSkLfgQYlHxzfCImVhuHx+IjeXIaQBUSotwsLc+fBstD290w3kjsCqXhLFAVSsw96gG
-	stO3WAlt4vzJ2yiMRDljzS/SBunNHwwuayc9Pmbr1lwrxJ7JSgknTA4Qt0skqhqGHERwE4FXsqB
-	FFyutspThtnkJdWculmwrazkY0ySuEgIeYd74dEq0flw2rKCGExP+xlsM0fAGGhd6qEwko
-X-Received: by 2002:a05:620a:318d:b0:8e8:ffd2:ef90 with SMTP id af79cd13be357-907b8d9e67dmr2467034385a.3.1778529164314;
-        Mon, 11 May 2026 12:52:44 -0700 (PDT)
+        bh=LL+UPYnZCOjrePrtqK6xOAZ5G7o1QmvEfzGseYDEIaM=;
+        b=njDNrcvSbPcEALnHshQGT9ZU4KOQcIdCtpGC6z8HaMjHLoUjW8pStFW+EuPYR+cBEk
+         wmDYYRlHSi8Q9vOhy3ZnvuajxyUT/yvesfuXmPGnEgwQcrjVzsR42q99mjTXbftO8oyj
+         pjs9teLb9n8TAhL1zqp+Q5pQGgPje1w9vdyKmpZ77mu68qxu6OHbQQLEvSsc1E5AY1wm
+         OaT8alpURPkv9S5uxmLjB/Q5MnJyyqjiElc6z2TDa2IIrU+Q5hRgiobPoKsWnC+JFr85
+         sKqIIbicRdHAPTrievm4V6KSGhTfPBybZ6Rb70zcotw2kHIvPMY0JFcARAfwfEDZbFGd
+         0R7w==
+X-Forwarded-Encrypted: i=1; AFNElJ/lZyVxzZGrR4ensIM8i4JTKjGnL1TXVjvKeuKbdP3lKZouy3iTPp4sPyEv+vtkIPfwayidBWSN6uUd/BQ/@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmR9MVh2XsE2/IM1iepoXBmNLhnA51LNwq+YiaaQTh1kxReFAN
+	flO3OkN2wdUFrX5K0rkZeOl+L/75qyiq5PQFswXLHeDEBZNgScmjLU6N5XD2tdnCag==
+X-Gm-Gg: Acq92OFHKySt2DJGB0vLACBFZqHRbTIJpgPzWTBNBuVWutECz7IYK9gT0eui0LzQdzH
+	lcC6ASMryACs34sdBzG9/C8Gl8+af0JOG8G6+4RrqQYwyyxIUwE6JKzeB/O89+slNN93WejAACL
+	yLqAzSH2EkGIA0DeBUKqRAPMMKRWzNB/u2GvRePlzfu1oj78czNp7Ues6X1xFHEWgRWOcdzC865
+	V+CDgjMJllTjAD6/HeIqSEEt2K4gNu9FciF+cefQOf8JdSeWJLr4fPva+VZ0cm9o/c7hPLx8DkV
+	GZNDQVOY7+wP3AXUTboptZl4GomHdgap8KYVmbFL2Fj7jJBCAxSFVrXt6SKpGTB+XlYcXjw6NBu
+	9NblY+iEWx3KHaJBjv7JRPiuL4SxnO9O7ZDth5vfJwV7BtOMr/OfU0HBG2JKE3bOptei4w5jIys
+	pTBGlKGSrR2CIEH8k1244TeGGVhzyBHRGnQkO3C9vOUGfwMSBghNfUoB3bpQtbvuVzXXoWsEv6V
+	cWOe4E=
+X-Received: by 2002:a05:6214:2301:b0:8b5:e126:e77d with SMTP id 6a1803df08f44-8c1a2531e7emr167597196d6.8.1778529166775;
+        Mon, 11 May 2026 12:52:46 -0700 (PDT)
 Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b9286f22sm1151090885a.13.2026.05.11.12.52.43
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b53d450dcbsm322404436d6.45.2026.05.11.12.52.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 12:52:43 -0700 (PDT)
-Date: Mon, 11 May 2026 15:52:42 -0400
-Message-ID: <b32ee44eb833fad926f4667892f2259f@paul-moore.com>
+        Mon, 11 May 2026 12:52:45 -0700 (PDT)
+Date: Mon, 11 May 2026 15:52:44 -0400
+Message-ID: <ce407923a8717656e21a9f59b45043d4@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -72,24 +73,43 @@ X-Mailer: pstg-pwork:20260511_1539/pstg-lib:20260511_1103/pstg-pwork:20260511_15
 From: Paul Moore <paul@paul-moore.com>
 To: john.johansen@canonical.com, georgia.garcia@canonical.com, Song Liu <song@kernel.org>, linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com
 Cc: jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, gnoack@google.com, takedakn@nttdata.co.jp, penguin-kernel@I-love.SAKURA.ne.jp, herton@canonical.com, kernel-team@meta.com, Song Liu <song@kernel.org>
-Subject: Re: [PATCH v3 2/7] apparmor: Remove redundant MS_MGC_MSK stripping in  apparmor_sb_mount
-References: <20260509015208.3853132-3-song@kernel.org>
-In-Reply-To: <20260509015208.3853132-3-song@kernel.org>
+Subject: Re: [PATCH v3 3/7] apparmor: Convert from sb_mount to granular mount  hooks
+References: <20260509015208.3853132-4-song@kernel.org>
+In-Reply-To: <20260509015208.3853132-4-song@kernel.org>
 
 On May  8, 2026 Song Liu <song@kernel.org> wrote:
 > 
-> path_mount() already strips the magic number from flags before
-> calling security_sb_mount(), so this check in apparmor_sb_mount()
-> is a no-op. Remove it.
+> Replace AppArmor's monolithic apparmor_sb_mount() with granular
+> mount hooks.
+> 
+> Key changes:
+> - mount_bind: uses the pre-resolved struct path from VFS instead of
+>   re-resolving dev_name via kern_path(), eliminating a TOCTOU
+>   vulnerability. aa_bind_mount() now takes a struct path instead of
+>   a string for the source.
+> - mount_new, mount_remount: receive the original mount(2) flags and
+>   data parameters for policy matching via match_mnt_flags() and
+>   AA_MNT_CONT_MATCH data matching.
+> - mount_reconfigure: handles MS_REMOUNT|MS_BIND (mount attribute
+>   reconfiguration) which was previously handled as a remount.
+> - mount_move: reuses apparmor_move_mount() which already handles
+>   pre-resolved paths.
+> - mount_change_type: propagation type changes.
+> 
+> aa_move_mount_old() is removed since move mounts now go through
+> security_mount_move() with pre-resolved struct path pointers for
+> both the old mount(2) and new move_mount(2) APIs.
 > 
 > Code generated with the assistance of Claude, reviewed by human.
 > 
 > Signed-off-by: Song Liu <song@kernel.org>
 > ---
->  security/apparmor/lsm.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  security/apparmor/include/mount.h |  5 +-
+>  security/apparmor/lsm.c           | 99 ++++++++++++++++++++++++-------
+>  security/apparmor/mount.c         | 37 ++----------
+>  3 files changed, 83 insertions(+), 58 deletions(-)
 
-John, Georgia, are you okay with this patch?
+John, Georgia, are you guys okay with this patch?
 
 --
 paul-moore.com
