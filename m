@@ -1,43 +1,46 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A416B3112BD
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 07:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A360D37C912
+	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 07:22:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778484170; cv=none; b=p7nPIrZQqfUcBIllRG/qMVVRQZ7GwmaWvCkNS8orjYeBppIOx56qtT0TyeC8ApO8K2m2Gb2zWIMkTlJGRGpJCzPvuUaFbCzXPltweekG9neVHMVhuOigT9dvBRb+V2vCN0FYEngm+xbvgYscm3dxtVP9/nQha9Mv+JVr7e1gZU8=
+	t=1778484173; cv=none; b=Rk//q1O3qKN5oJwt6UoByKhq3qTvwZz2D+5VRymvAIzyIKqMkosfe0EFQurRah67kbXyLypLO1d/PKgLufk6hMabjex0oE46kSN7pHu0aJxiEAvujbpeGrKP+hDmAZmxldXuwgCewXqR9otza1zEEdhXoVEHuWOWfYqcVECmdVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778484170; c=relaxed/simple;
-	bh=RMM+ab0E5sCIfGo/3AVcTbOESRdP9wZ0uA064NM5n60=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vd8DpB08hFWRsHk9KnBBICEpFOL8TGRxOyT2eydW7SR4BevVXwoBygCJ1svf4Tm84wtzD7HcbCHkKdNPXgYBPlBbi6lBOhfYxNZzG0jEqdLtQI7AqRoJe5Ol+/QXH4s+IQ/j8jNNMYFTmq6f6r/nL0eDw92cvykOeIQ9niCMfpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pkYXoGL1; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1778484173; c=relaxed/simple;
+	bh=etXYBN7DThN+7kEy/QGabadTxHowEfZqiJneMCT80fw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TW7TBfrAz5wIncVk/t2sICgbkbcbCqPjuAE0C9m4vNpOz+iZs51wm5aRe4L7Xy/dusQRFKQIvsLup8UipxMmQHZCpqwrkMGEpArSA601pjJgltpRGXu35lN0YPXiMEIA17JeA0yJ+9YCxdctqIDzGUtKjQbOcMVcCwkpVEQyqXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hrgIMPP8; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pkYXoGL1"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hrgIMPP8"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=iuL4vbZe1FXj8BZwEKQAgyQ8NcFV2PVfzpoLKoU+ydM=; b=pkYXoGL1EK6L6hU7+3gX0e++/z
-	bcK9BPs7oNEtDrkqC6Hso1a1OievGHslsLDc+Vsd4/LosHTHr3ypBhCvTnYYtPZh0VlyR+Q/Lq5M4
-	Usa71ocaexB3tsWfYgCk5WI1NJ+jXZPvxMjUQkYtdV5B+aWjIUBQMnQhUO7D8LK+LIapUK5vODoKA
-	VDoSome242CeKbbg8YT4/gX+OY71jqiW+CqhMg1a321k8xgnx/iKMylBlbTJwEjL0hvAdxSCoH2j6
-	jJTuyrBVZJ3GqeDHwRJifl7Sjk54qIJ9c0F4qZFSd2J7gBrRHG1RPwippex9av8CGW62v4i5AF6WR
-	cO9hDD1w==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=V+Z/5Y7lcMRor0CQsxCoQiaNGD5Q91KR0NM9eObD2VI=; b=hrgIMPP8RoC9W1b4GsU2yOaL6i
+	rWE194I9zEMAPJQNBTdogjebt1d/P/xsViqqXyP3s00MvX+tzYK9o4cRnQwg4efPUknjZ9fMNupRI
+	o79s2QzylrJ2/S9QGPy5UoLReufwMWXwcOaobA4/9f51CeKCv3l73Siz2GRD2YPtysUrknHQRqqiD
+	QanXU02pNwsQE1CXyRgtbUpNvbC3b0caZ0oQKhea9l1YgymolSPQ59M0v4RqhCK7mbF9ja+ji1dn1
+	xlVyvr5R8CEfEwAVi1h1Wy+TaMh+PLhQPZ6vDU2ompoIn2XNktF0ep82GjAwKEx7iaHaXoOt6TJLm
+	U3YloCgQ==;
 Received: from 2a02-8389-2341-5b80-decc-1a96-daaa-a2cc.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:decc:1a96:daaa:a2cc] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wMKyQ-0000000CaiO-2G6b;
-	Mon, 11 May 2026 07:22:47 +0000
+	id 1wMKyZ-0000000Cajq-3X5v;
+	Mon, 11 May 2026 07:22:52 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Al Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
 Cc: Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org
-Subject: drop unused VFS exports
-Date: Mon, 11 May 2026 09:22:27 +0200
-Message-ID: <20260511072239.2456725-1-hch@lst.de>
+Subject: [PATCH 1/3] fs: unexport drop_super_exclusive
+Date: Mon, 11 May 2026 09:22:28 +0200
+Message-ID: <20260511072239.2456725-2-hch@lst.de>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260511072239.2456725-1-hch@lst.de>
+References: <20260511072239.2456725-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,13 +50,25 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi all,
+drop_super_exclusive is only used by the built-in quota code.
 
-this series drops a little dead code from the VFS.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/super.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Diffstat:
- Documentation/filesystems/porting.rst |    1 -
- fs/namei.c                            |   22 ++++------------------
- fs/super.c                            |    1 -
- include/linux/namei.h                 |    1 -
- 4 files changed, 4 insertions(+), 21 deletions(-)
+diff --git a/fs/super.c b/fs/super.c
+index 378e81efe643..5d46a0d5b616 100644
+--- a/fs/super.c
++++ b/fs/super.c
+@@ -882,7 +882,6 @@ void drop_super_exclusive(struct super_block *sb)
+ 	super_unlock_excl(sb);
+ 	put_super(sb);
+ }
+-EXPORT_SYMBOL(drop_super_exclusive);
+ 
+ enum super_iter_flags_t {
+ 	SUPER_ITER_EXCL		= (1U << 0),
+-- 
+2.53.0
+
