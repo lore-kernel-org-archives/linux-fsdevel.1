@@ -1,85 +1,79 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161271624D5;
-	Mon, 11 May 2026 00:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AE223C39A;
+	Mon, 11 May 2026 01:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778460401; cv=none; b=s4z3yGHXVIednzTgHUC/65mZU7c0zgEC29f27Vek9wimxUM1zMTP9QLZ7lgEAmcxz1E7VisMe3N3wiFcliPzz2JyD4OCATqL1Dp1j2ou5Be3Zz8QT/fo2KATWyb9Q0wRwol/3+IAFtK14DthvuIfukgUVcwfY8YaM6C2lPgD/lk=
+	t=1778463725; cv=none; b=ikdIkBYYXtJq0owfxA/JKewB1/uWPq1A3q3B5A0LimTS9wbKrxTI/HmGpVhTx8AQSyFXH9+0enhqUibjgPpONeIEacIfh39k8U81aOowICZSKMc9Awgi4BuAKWfxE9Wg8zicJfL326wqlySveAXCjVtBZTpSwx6lZMrp4jhJ0eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778460401; c=relaxed/simple;
-	bh=0w9tI9R4xwknXRsc7IRCwuf0HcEU8i/4XIdk9jTDqPI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=idOaX9ERhHs8424GdZICyD8UX5xB4G2Wz7Fcjipl9WpMtOTGlyJMWHudTzO9zICajUUt9jJe/YNYktoWHHgiRqFGZqyKusP0/4syyaYRdmgiMhtPFPDM/FZlM4dOiotv83J0kPAPk3K1x2j5NEKwtXuqGS9T9QdX+LYdC3WwyMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Gn9nmApY; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1778463725; c=relaxed/simple;
+	bh=l1dMEIH4cxx+wnZB0tqVb04wT+dwsZ6juwhVU7G3jEA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Zmh7hCgGh9UoOvOnhulQfDoXa4MkGFX3Jd7DJ+IIEAjVxKZk4LbA+lJ7vfWl5QgAlb61jQm2LmoyRl3Vn5Q70n4YAshLXiZb1kLyk1aUcR7mPMrMBb7w9utnnEwPFOQPs32LkDaIUFcrfOq2DgRapF9uWrxPbrBpoQeClvQYWmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=At5Qb51+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Gn9nmApY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=5s2OUIUvGbza0/yzgQs3Y3o4djvX7bFaSgbslqDOieQ=;
-	b=Gn9nmApY/oJne+J9aRHnQpETIEV6WXWukWd8I4wE/19B75Ts2dZVQc8TIIhf4j
-	fdVp7D+HcGb84VxKG8vC9uBW4pJWErJqo/0loeCQadlpjaNbgmPGxMaPU4CbTUG0
-	Q7REwKctHKFhYFrZMRMRLRDsR9yX2lmcY1lfl0Kv6vENA=
-Received: from [192.168.3.148] (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wA3F+O_JgFqxPSsAg--.54895S2;
-	Mon, 11 May 2026 08:45:53 +0800 (CST)
-Message-ID: <3919c924-3129-4e61-9355-992892915f24@163.com>
-Date: Mon, 11 May 2026 08:45:51 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="At5Qb51+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70196C2BCB8;
+	Mon, 11 May 2026 01:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778463725;
+	bh=l1dMEIH4cxx+wnZB0tqVb04wT+dwsZ6juwhVU7G3jEA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=At5Qb51+LYJ397XHy123a03vgbfslynusNYk8Un6LteRrhANlCZmNOpF0hmW5zWj8
+	 dc/3bPYQb0oqwKrzX1MyX8rfT5JvNbaPHoZv7e65SNH8XEnwAUG4bARnNyrjl9lnPM
+	 FJe+CD5yG2/rzGA6wdRGJKLD11OLhel/+Iq5r01AFeJA3Ky6gzxaOiDLWA/es2UBH7
+	 +jIkEy958guv630flGvAUiaIo9nNta7ZYseUXPwLJC8bQd1HMJXgikZHTDI3O/v43/
+	 v1jxMR6zyiLs4hyD0XFnEeBuwoUNJjwWJqEvzQ6trlCPynD1rA6qXtuohjMSPzrUTa
+	 wHseFHy4SMfjg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B9E393930039;
+	Mon, 11 May 2026 01:41:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/9] exfat: add support for multi-cluster allocation
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org,
- djwong@kernel.org, hch@lst.de, linux-fsdevel@vger.kernel.org,
- anmuxixixi@gmail.com, dxdt@dev.snart.me, chizhiling@kylinos.cn,
- linux-kernel@vger.kernel.org
-References: <20260507124238.7313-1-linkinjeon@kernel.org>
- <20260507124238.7313-5-linkinjeon@kernel.org>
- <ef3f055d-1d3e-4467-a835-37c52585fcad@163.com>
- <CAKYAXd8fSPP3w=Ec-ffXf6uiJkFQsfA9OhAQsjz-QZCZXSd7VA@mail.gmail.com>
-Content-Language: en-US
-From: Chi Zhiling <chizhiling@163.com>
-In-Reply-To: <CAKYAXd8fSPP3w=Ec-ffXf6uiJkFQsfA9OhAQsjz-QZCZXSd7VA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wA3F+O_JgFqxPSsAg--.54895S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Gw13AFy8Gr1DAr47Kry7trb_yoWkCrX_G3
-	WUZFW8Aa1Yv3WrGrZ8Kwn5trW8t3ySkr1jyr4DZr1Du3sxArZ8A3Z5X34I9w4xKrW5XrnI
-	vryftF1fWa4jvjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUD5r3UUUUU==
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC2wGUMmoBJsHAaQAA3Z
+Subject: Re: [f2fs-dev] [GIT PULL] fsverity updates for 7.0
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <177846367229.1975880.775776220391157336.git-patchwork-notify@kernel.org>
+Date: Mon, 11 May 2026 01:41:12 +0000
+References: <20260212012652.GA8885@sol>
+In-Reply-To: <20260212012652.GA8885@sol>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: torvalds@linux-foundation.org, fsverity@lists.linux.dev, tytso@mit.edu,
+ djwong@kernel.org, aalbersh@redhat.com, linux-kernel@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, dsterba@suse.com,
+ linux-fsdevel@vger.kernel.org, jack@suse.cz, linux-ext4@vger.kernel.org,
+ hch@lst.de, linux-btrfs@vger.kernel.org
 
-On 5/11/26 08:20, Namjae Jeon wrote:
->>> diff --git a/fs/exfat/inode.c b/fs/exfat/inode.c
->>> index 1246713567a5..7b09d94ac464 100644
->>> --- a/fs/exfat/inode.c
->>> +++ b/fs/exfat/inode.c
->>> @@ -137,9 +137,9 @@ static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
->>>        unsigned int num_to_be_allocated = 0, num_clusters;
->>>
->>>        num_clusters = exfat_bytes_to_cluster(sbi, exfat_ondisk_size(inode));
->>> -
->>> -     if (clu_offset >= num_clusters)
->>> -             num_to_be_allocated = clu_offset - num_clusters + 1;
->>> +     if (clu_offset > num_clusters ||
->>> +         *count > num_clusters - clu_offset)
->>> +             num_to_be_allocated = clu_offset + *count - num_clusters;
->>
->> We need to truncate *count for read operations so that it does not
->> extend beyond EOF. Otherwise, xfstests generic/003 will fail.
-> I'm not seeing this failure... Can you elaborate more why it was
-> failing on your side ?
+Hello:
 
-In my vm with 6G ram and 40G test disk, when the cluster size is 512 
-bytes, reading a 512-byte file (which consists of one cluster) fails 
-because iomap attempts to fetch a map for the 0–4K range, which exceeds 
-the file's EOF.
+This pull request was applied to jaegeuk/f2fs.git (dev)
+by Linus Torvalds <torvalds@linux-foundation.org>:
+
+On Wed, 11 Feb 2026 17:26:52 -0800 you wrote:
+> The following changes since commit 63804fed149a6750ffd28610c5c1c98cce6bd377:
+> 
+>   Linux 6.19-rc7 (2026-01-25 14:11:24 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/fs/fsverity/linux.git tags/fsverity-for-linus
+> 
+> [...]
+
+Here is the summary with links:
+  - [f2fs-dev,GIT,PULL] fsverity updates for 7.0
+    https://git.kernel.org/jaegeuk/f2fs/c/1bfaee9d3351
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
