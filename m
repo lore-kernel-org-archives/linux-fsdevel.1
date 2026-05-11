@@ -1,66 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4283FE67E
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 14:54:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4F13A1D05;
+	Mon, 11 May 2026 14:55:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778511265; cv=none; b=hCY8+S3RI/7Jo2bAEc1Pufc90NeMKP75GpE8f7KCV8edECvCOhqMt2LY4HLv4cDTrUd8Ivakg67JMyUYcP0r4AzRHNCXNiDrYUhYJJy79nvMJXAdehqYPYtC//FGJSpVCuAQ0Kz18phQ9W3tn3W1UKXfKXZI8KUoHZoDtQBITvw=
+	t=1778511314; cv=none; b=vFiLi2+OxyogYHlrvFdy2pOR+Lonp//VQDju6MtINxQ8PoWyvpHg0cBrvXjfIGJAO5ZqvJOdudmBmfD8vfVQiCntFjF910a9dx5wRT+ni3dqQFfOT69lLU6WMZrEzPVwZNcXbwGMbylrZ3fkzm74C9h/3WeiJ8KdYBXpLP7104o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778511265; c=relaxed/simple;
-	bh=gFsr2KWJ2DqTdnheo8y5w0wX9xCzEYSPKBu6yJtflO0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=swowd2dXhZkKOmRJGQUwAlM+eKQcUAzUKsxX3jlVgcUU8rtZyBflHRIbuBuDfIHF3KLGpxWbR03smpVZVa930C6/K2mrncDNaHfuCOG9zz83SgvYT6uknHIlTuDlJYiGvXDkBIW5UvMRRi+l1WaYMQshL67QNio6IiZt6qxj/3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cBqctr6X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778511314; c=relaxed/simple;
+	bh=6bkUFk7agXrVGw01n0hkhQsMUbSxdQH7PYPRMmWMUcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eRgwr6rTq4JNMaoePMQvgG9tF6k9vE1lUuBkIU1jBxAgyErJF9pzQuPe+UvW2EGZUC+9C+FtVOEYoflkdf2CgTy6WyqAoGH3EFzUnxYNaoJUg177z+f9L3p9GskSFOAXZzjDrAM1kf9OS+bgRmqIV2/+R71HqU9rHI0PqH0wshc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B36cI4lx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cBqctr6X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 697BBC2BCB0
-	for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 14:54:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B36cI4lx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B62EC2BCB0;
+	Mon, 11 May 2026 14:55:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778511265;
-	bh=gFsr2KWJ2DqTdnheo8y5w0wX9xCzEYSPKBu6yJtflO0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cBqctr6X1UALUw4mcWQJs3a4QD7oM/k+qSy/gvEwnmZHirDjN+uu/n6PRJDtQ9oQ2
-	 34YRINfhNL6QN5Jf/JOgbqCDKGQWQFi+1fKMnVRRF+W8hCKKi1L1PLq44UWqh//9yY
-	 QOb1DSSzFOcJfrwclZDHSIHtYwTzJ27SL/VRuGm1YytlRGiNBwq75+fB3W2mCvxbwb
-	 fC+ke3ecfJR/zTKPuOm6dyH29cKpLX1cZZ1zDEr4NGsL/wa0cQn2gU55PDWvTlEEf0
-	 2UgODaq+yd1dGDPaqjNva+bJFYLHKgPbZHk9XZi6/T8Hyrq+wKfU3HQpWIAYmeKH0K
-	 cYWc12dJqhlHQ==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-67b6a6bd7b8so9119354a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 11 May 2026 07:54:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ931200gdTMI3Mhy4xiacZo0jZFpkThQ5ZBwauzXBzrD8++dUBEAGSAeSNwAJeDG4lVD/PIFJFM37G2gvbw@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz1Cyiu0NB9tSP1lSUj4h+vVhKwk/bY+RSujxXbf5Vl4LEHuz2
-	pKsqyOgMXgeOUngk519PpqRJyBmCmo12MXOSwLXblsuTeB3C1yooqg8jQt2iQhVyPO8ocQIAeWl
-	yi56YkbhrG7LMWLwOeXt0/NJrHN8P7LY=
-X-Received: by 2002:a05:6402:4252:10b0:67c:89f2:ae27 with SMTP id
- 4fb4d7f45d1cf-67e0eab6c7cmr6306597a12.9.1778511259079; Mon, 11 May 2026
- 07:54:19 -0700 (PDT)
+	s=k20201202; t=1778511314;
+	bh=6bkUFk7agXrVGw01n0hkhQsMUbSxdQH7PYPRMmWMUcw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B36cI4lxkeKOrJg/YdwbrT9QFnN+7rE9cz0Kky2/Q0526+AEGWwQPoTE9qjPqMDeb
+	 GsQxQEwqcwpoPR7xJfJt4ke0fGSHgnXDTs74QCH3PcCySzkUYUhWn1OEyMSvK8dVBi
+	 meiLygIryKP1+8dQlZftGCG/2SdCNzQg/RmCG9UG5BuNgquK013JCqHIB105LciE9o
+	 oxNc+MysamaiqgVPh0Pwr+VONqKb+fjTLpnpqtMqjPHS3KqFQZQ7UVyJUuDQs7kPpJ
+	 Ii51EEwjYFanIdUoSukGU5nIUGrXy39uwG4I4Lb4+s2I3P+YvZao+5xnMVLvz7TF8D
+	 tck0/JxcJZ6+Q==
+Date: Mon, 11 May 2026 16:55:04 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, sj1557.seo@samsung.com, 
+	yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, slava@dubeyko.com, 
+	glaubitz@physik.fu-berlin.de, frank.li@vivo.com, tytso@mit.edu, adilger.kernel@dilger.ca, 
+	cem@kernel.org, sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com, 
+	sprasad@microsoft.com, trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org, 
+	chao@kernel.org, hansg@kernel.org, senozhatsky@chromium.org, 
+	"Darrick J. Wong" <djwong@kernel.org>, Roland Mainz <roland.mainz@nrubsig.org>, 
+	Steve French <stfrench@microsoft.com>
+Subject: Re: [PATCH v14 00/15] Exposing case folding behavior
+Message-ID: <20260511-kaffee-therapieren-1335259c65ee@brauner>
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+ <20260511-wertverlust-vorbringen-070f016f3bd4@brauner>
+ <705e1769-6a5e-440d-bf50-5e5feec2b88d@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511095032.155854-3-thorsten.blum@linux.dev>
-In-Reply-To: <20260511095032.155854-3-thorsten.blum@linux.dev>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 11 May 2026 23:54:06 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-da0GrpJOKDfbBrrw0QFdi0KtLb-hjUn5E2VKccuoEbQ@mail.gmail.com>
-X-Gm-Features: AVHnY4Ir01wREuMkPGN9hcjV5Kn9aZ031AeX7_8irn9JdSEXmN89863G72MPcwI
-Message-ID: <CAKYAXd-da0GrpJOKDfbBrrw0QFdi0KtLb-hjUn5E2VKccuoEbQ@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: use str_plural in ntfs_attr_make_non_resident
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <705e1769-6a5e-440d-bf50-5e5feec2b88d@oracle.com>
 
-On Mon, May 11, 2026 at 6:51=E2=80=AFPM Thorsten Blum <thorsten.blum@linux.=
-dev> wrote:
->
-> Replace the manual ternary "s" pluralization with str_plural() to
-> simplify the code.
->
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-Applied it to #ntfs-next.
-Thanks!
+On Mon, May 11, 2026 at 10:07:44AM -0400, Chuck Lever wrote:
+> On 5/11/26 10:02 AM, Christian Brauner wrote:
+> > On Thu, 07 May 2026 04:52:53 -0400, Chuck Lever wrote:
+> >> Christian, let's lock this one in. I will post subsequent changes
+> >> as delta patches.
+> >>
+> >> Following on from:
+> >>
+> >> https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
+> >>
+> >> [...]
+> > 
+> > Applied to the vfs-7.2.exportfs branch of the vfs/vfs.git tree.
+> > Patches in the vfs-7.2.exportfs branch should appear in linux-next soon.
+> 
+> Not vfs-7.2-casefold ?
+> 
+> Fwiw, I was intending to rebase nfsd-next on the vfs integration branch,
+> which should have both vfs-7.2-casefold and vfs-7.2.exportfs merged in,
+> along with Jeff's series that implements the infrastructure to support
+> directory delegation properly. LMK if that's crazy talk.
+
+I think you should just merge:
+
+vfs-7.2.exportfs
+vfs-7.2.casefold
+
+as the order doesn't matter and they don't depend on each other. I have
+marked both branches as shared so they won't get touched again. If more
+ends on either of these branches it doesn't matter to you. IOW, I think
+you should just pick the minimum you need and then you don't need to
+hear from again and by the time you send your pull request all the
+prerequisites will already be in Linus' tree.
+
+If you merge in vfs.all you're subject to problems from rebases. So I'd
+not recommend that.
