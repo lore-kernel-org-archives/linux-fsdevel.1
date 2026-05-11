@@ -1,51 +1,32 @@
-Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com [203.205.221.235])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2ED22FA0DF;
-	Mon, 11 May 2026 06:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453212EC0A1;
+	Mon, 11 May 2026 06:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778482357; cv=none; b=SyBEbu6IXJKnvCeuttD7nparaQ+Ia5ez7Zeckw8dnWl3EGc1TQ5/JmAbDHbvKc82B7dUaBn4P+iZHfL6BrC9G4ybFnwYIpDfSX1IOAD/oMCqwRFVOxTjHKBuymFyRkpTEVrcb3Enecn9Vd0T7i+olksJDJ21cWgJDZ2+5E5J9m4=
+	t=1778482392; cv=none; b=Mq5/DmVqnPwS/vubURLyd8uAPd86Me6VDK1VPPOdxfq1QGU9yvpehIkZAGh72vdBPP+E/29uF6tWyr97L0BK5+a1KCeNm/Q4Z8iVmRnmF9keXwdkP6/U6oZR67VFQKZjnOPROa8ISSWi1DmlyIE/cPcuaw0lCUE2Gz54v+GaQDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778482357; c=relaxed/simple;
-	bh=uchdXmEV8JAPkW6q1BtDekmd2FYFvq7YhBk2HK+vOKs=;
+	s=arc-20240116; t=1778482392; c=relaxed/simple;
+	bh=Nu62acDWGcxmGfXD7MOMdYP0sJJjYuQgbyW8mu2top0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CPWuN6Eh+oECwunlU1kzhlH7X3vtqwwX9qth8LmfR7H4N+frpj835z157U4mrMhRBfROaiU5lqW2yM9BVvptTC0FrfGQXA0H8cKNo5CPclxtkKIu2saG/gXMgJksFa9JU39PoYXqiEl1D5vxiyoPKt20fw5wR/fjbOMTx+P4pGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=s4UcPdhp; arc=none smtp.client-ip=203.205.221.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	 In-Reply-To:Content-Type; b=W+UnHzk/ydKBhOvsH1MUJDuQxLp5mPMv1ZvPWs1kj4/1MVvQvzd4ZFI3fN34YdDxXs5JOnNyjd/Hs9AT2ip5mRTy96HToAhO1xsyUQa76ke7kXtAXQk6dEQNZOEZC4Dd9GShvrtO0C7HVI2PwvE3/IxoVmQSLpDjrgMLTjXuHts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=r7CpiL5b; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="s4UcPdhp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1778482347; bh=sJMLXjcI26im9xhxw5BNpjzNLmJVL3i6Qc/ACsf+MrI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=s4UcPdhpU4ak5ukd2I/WMPJ7kJoOwf/ktiWr8AL9E7XlXPhHTK9EQGOP8gLLmlytr
-	 cxBonI7MKYzETwP065w0tdJ2hU2rC+ngvlm00r8rpB5VHMMZIcJy90bPyM9A+7xx0m
-	 ilxm71JplqL+Org4gq/GXdRmuea73KfhMYVtmPFo=
-Received: from [IPV6:240e:604:311:bdd:c445:e8ec:eca9:fced] ([240e:604:311:bdd:c445:e8ec:eca9:fced])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id D181BA5C; Mon, 11 May 2026 14:52:24 +0800
-X-QQ-mid: xmsmtpt1778482344tk43alsnr
-Message-ID: <tencent_C372613CCF2B0ECFAB78EC8C30DFA05A6C0A@qq.com>
-X-QQ-XMAILINFO: NHTNowOA4hJdL9MNiUn503bk+gIIoshFg41SfYK7ZghKAjSwMb/h46Np7NdrWy
-	 BOCKNIcDS1mY0Lu0VOYm4/QH0ue8n/Z263k3FVaMSFLRonuvkhlvbv/Botg+NJR8Cv5Ro9ADJKmC
-	 hYPV6vRZU7C2RNrRZo/yEedM6jjnb3hmF7dlhR6Yx84+nVSGeQTnNZgJdHsA+5f3bJPDIQLLQF9h
-	 ArAUfz346GiaUsqgg1l41Meh3msZhgV0PyuQcMZgumiutQB+803tF/KxW+kkYTaTSbzzc1Pu46Ov
-	 cT+clgy4em7iAjS0/sZCsryBCgLw3rMzXFCmn69TJEUflBKP/Yrs6sK+CndYb3CgbM0LbAHqlhYA
-	 IWV5EmKKKBvGcNwPxFKz9w9qyOMMMpnWBs1yukZZu06GZuNTKx5YW631+tzLxD3OTViRcjVC0EWD
-	 GaRrfisaMhWg+zVU8NOhDIWL4jBznAxasDbMnuVOK7ewS2sefYgB0MdF/j9WpmpErX6aYHicWTfc
-	 zLtTg9A0xCZuKaeKkHwh9d8fpL1FRKjMU+We48aSNW8oUaEaJ0L2pmg4qcodoSRimzQA0WZG4S+J
-	 PwIjwGs9oD5pppkZdf8xEZJQzdGbB1lOuxX3kOmADzlcUowCdAMoifLqJ5K4gbYYwvWW2qHUBq1D
-	 UHHKmkQyh99Ipej1/pq4CUtKdeYVEGmr1y7+i1ap93g5f6UQi7zMS3xS9CptsnkWgIAEUs/MUZe6
-	 /uiABfDy+L+MtzTM/JUGhAzgFD+9CAAVDY3L7cN1LyKOudczmx8Bc1fX1N1Tte6ipgrFXh0oeMR/
-	 e4NaFUySzFXJLSOiwPX/myXzByAyRlATTCmxuMG7Cq+PZAiDGgew+BHsmiwlBLdCJ7NOe0odf+LD
-	 yPuofSMpgKiCDnQHwWVSjlmvmUuTYvG31LN8aHmXEeuCf+3RhRuF5W0b2JybKjpQHkfNpyVcu7S9
-	 MHnIn0f9xzsv6cWoJb6HcMUtq5lS9TuLgTNZCRu+uuz15mbflwm9iXCgHnCn4i092lhf83G6avcn
-	 6dkqrse5z5g5qFct92oht/QVV7PdcBwcEF9kSAqHtzZxcmTY+XYD9NaUozjNsRvpH3iGM6ITgPrp
-	 kcE6+Drrr63E99Pd3upTyW3U1CCotov407AWgcbZdifkuJz6w=
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-OQ-MSGID: <a19c1140-5c5c-4dec-9746-f81f78f11bbb@qq.com>
-Date: Mon, 11 May 2026 14:52:23 +0800
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="r7CpiL5b"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1778482386; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=w8ztuvuiqII8JK6Sx0lF53pCfMpk/9qYJ0qOvBoYU1Y=;
+	b=r7CpiL5bxccVKUflGpQdWtdvY85amzCQYMOw6ECbLYjb9Dvaz9N0T6M3VGGcZv7HessQNGNiYT9b3nQ+SptRjYIVDjMjttz4nwpqwgoneSYTdo3Wzt6AYaURAHOCJsYRtPG0NSImcVrY794nc5JBEz+7PQKiSgkuN9Rs8YwtrWU=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0X2fyt74_1778482374;
+Received: from 30.69.177.140(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X2fyt74_1778482374 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 11 May 2026 14:53:05 +0800
+Message-ID: <507ddec5-3a13-4df6-a6b5-732cc6b62d22@linux.alibaba.com>
+Date: Mon, 11 May 2026 14:52:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -53,67 +34,79 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/fadvise: avoid remote LRU drain for mapped folio
- failures
-To: Matthew Wilcox <willy@infradead.org>
-Cc: David Hildenbrand <david@kernel.org>, Jan Kara <jack@suse.cz>,
- Michal Hocko <mhocko@suse.com>, Lorenzo Stoakes <ljs@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>
-References: <tencent_DEDC345B4071ED3C9B293ACD437B9C8DBC0A@qq.com>
- <20260508163549.40a7f3c8c4286a553855b02e@linux-foundation.org>
- <agDK6PkESVR5OOYn@casper.infradead.org>
-From: Fujunjie <fujunjie1@qq.com>
-In-Reply-To: <agDK6PkESVR5OOYn@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] erofs: use the opener's credential when verifing metadata
+ accesses
+To: Christoph Hellwig <hch@infradead.org>
+Cc: linux-erofs@lists.ozlabs.org, Chao Yu <chao@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, oliver.yang@linux.alibaba.com,
+ Carlos Llamas <cmllamas@google.com>, Sandeep Dhavale <dhavale@google.com>,
+ Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ Tatsuyuki Ishi <ishitatsuyuki@google.com>,
+ Matthew Wilcox <willy@infradead.org>
+References: <af2kDfHe0B3LnvVm@infradead.org>
+ <50668994-b6cf-4288-9ee2-0264bad2b271@linux.alibaba.com>
+ <agF0wJSFRAEcRP8M@infradead.org>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <agF0wJSFRAEcRP8M@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/11/2026 2:14 AM, Matthew Wilcox wrote:
-> On Fri, May 08, 2026 at 04:35:49PM -0700, Andrew Morton wrote:
->> On Wed,  6 May 2026 11:23:59 +0000 fujunjie <fujunjie1@qq.com> wrote:
+On 2026/5/11 14:18, Christoph Hellwig wrote:
+> On Fri, May 08, 2026 at 05:10:21PM +0800, Gao Xiang wrote:
+>> On the one side, I hope if there could be some interface for
+>> such temporary usage rather than just one vfs_iter_read model.
+> 
+> As in a in-kernel mmap?  While not entirely impossible, the locking
+> model for that sounds horrible.
+
+I don't think it needs a full in-kernel mmap, it just works on
+some uptodate folios.
+
+Which locking model? For page cache, it's expected that all folios
+shouldn't clear uptodate randomly at any time.
+
+At least for erofs use cases, we only care uptodate folios, no
+matter if it's being invalidated/truncated or not (mapping == NULL).
+Maybe it's not suitable for other stricter cases, but for immutable
+fs models, that is enough and efficient.
+
+> 
+>>> Now for reads it mostly works on the most common disk-based file systems,
+>>> but it does create lots of problem for slightly more complex ones like
+>>> network/clustered or synthetic file systems.  It also really breaks
 >>
->>> generic_fadvise(POSIX_FADV_DONTNEED) drains the local LRU batch and
->>> then tries to invalidate the requested page-cache range. If any folio
->>> could not be evicted, it assumes that a remote per-cpu LRU batch might
->>> be pinning the folio, calls lru_add_drain_all(), and walks the mapping
->>> again.
->>>
->>> ...
->>>
->>> Teach the folio eviction path to report whether a failure hit the
->>> existing refcount check on a clean, unmapped folio. Only request the
->>> global drain for that case. This preserves the existing fallback for
->>> failures that a remote LRU drain can plausibly fix, while avoiding it
->>> for failure reasons that a remote drain is not expected to resolve.
->>>
->>
->> Thanks.  AI reviw asked one question:
->> 	https://sashiko.dev/#/patchset/tencent_DEDC345B4071ED3C9B293ACD437B9C8DBC0A@qq.com
+>> Just out of curiousity, could you point out one specific path
+>> so I can look into that.
 > 
-> That's a pretty poor quality review.
+> file system might require their own locking, e.g. cluster locks for
+> cluster file systems, and at least in the path direct page cache access
+> also caused problems with NFS data invalidation semantics.  Last but not
+> least ->read_folio has a file paramater that isn't really a file but a
+> file system specific cookie.  So calling this with something not managed
+> by the file system can cause problems as has caused crashes in the past,
+> although the offender at that time (the old smbfs) is now gone.
+
+file is indeed a cookie, but I did some research on the codebase,
+and I've seen no odd cases other than a real "struct file *" anymore.
+
+I agree such usage is kind of gray area, but I've seen no risk in
+practice as long as the underlay fs supports proper ->read_folio
+callback (and erofs restricts that.)
+
 > 
-> My question is why we do this bizarre thing of switching between an
-> unsigned long and a bool pointer.
+>> But could we just fix this issue first for previous linux versions?
 > 
-> I would also avoid creating __mapping_evict_folio() and do the test for
-> folio_mapped() in mapping_try_invalidate().  It all feels a bit weird
-> (both this patch and the original code), and probably needs a lot more
-> thought, which I'm not in a position to do right now.
+> I just pointed out another issue.  You'll have to fix the credentials
+> either way.
 
-Thanks,agreed.
+I really hope Matthew could give some opinion on this too, because
+this way, the underlay cache can be directly used for temporary use,
+and it should be a RO access and won't impact any fs-owned state.
 
-The count is not really used as a count by the fadvise path; it only gates
-whether to do one remote drain and retry. Also, adding
-__mapping_evict_folio() just to pass back this bit makes the interface more
-awkward than it needs to be.
+Anyway, I could work out an alternative, but that makes the metadata
+access less efficient.
 
-I will rework this for v2 to keep mapping_evict_folio() unchanged and do
-the folio_mapped() check in mapping_try_invalidate(), as you suggested.
-I will also think more carefully about the fallback boundary and use less
-misleading naming, since an elevated refcount does not by itself prove a
-remote LRU-batch reference.
-
-
+Thanks,
+Gao Xiang
