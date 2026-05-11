@@ -1,95 +1,77 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3313BA25F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320933C1400;
 	Mon, 11 May 2026 08:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778489882; cv=none; b=oscULUIiXm5VDOYo/y8JV8dNefiVsnw1J/jeWEovQMmk2MzEJtv9zbqzwurlrMZCocZNKOS8x9WcHQ6Ytze0VeTipIkGg2iWai/1kK7MEEw2P5som3WXsYUNKvkxoN7zORzO32rEvjtUzETRW1i9Cya/jJiHbp2gXhO+KfZPGX4=
+	t=1778489886; cv=none; b=KO8aI0hWOXjCN7WqsDwdw2eEevms66SuTC+0kmANBizILlhTPi1FbmaI7HuzRYK10BrkfpQ6sYOSNcIFR0Ld5JrjwZzoJSu9wIW3WLOcq4KVXjn9ij7Iad7mkNIPPpLpTVg/bqa8MLqXaVloYEXuVltaVdT7HeZhVgc40xkDPVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778489882; c=relaxed/simple;
-	bh=zQB6MpAt59FJ1txdrRzvc/fWJEFs2ql5bw3G1xw+9u8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DwuIrAYDLt27ix0PNpGqLt1OJ1+BUINDGPO0YAYkOUX+jsHfdMf0pKa2Vt4C9Z961O7dTYiY5rbRBcnCVLTCU7ITIPruWeHTJpPMco7Up3eTJRhs/J4F4xUW+gQgSS038oemNT5fImCVbXRac/EUB6ZksACYrt54QMNIPgJwNxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3662A68BEB; Mon, 11 May 2026 10:57:58 +0200 (CEST)
-Date: Mon, 11 May 2026 10:57:57 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Chi Zhiling <chizhiling@163.com>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, brauner@kernel.org, djwong@kernel.org,
-	hch@lst.de, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	Chi Zhiling <chizhiling@kylinos.cn>,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: Re: [PATCH] iomap: add dirty page control to iomap_zero_iter
-Message-ID: <20260511085757.GB1186@lst.de>
-References: <20260510064737.437597-1-chizhiling@163.com>
+	s=arc-20240116; t=1778489886; c=relaxed/simple;
+	bh=UI+BpiBaT+/3sNnst4ttG75iE7173qobOTeSWI6p81M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l/+dDxEEx75YcQJ3KMZwUZhYaRb7vdK37ODC5+zRfkzaUcFPAUXZAZ/3jz1BQOTxmQklmx6a3aAF5Xr+2NK8bO4lAY4uTvRFc/Ugq3f2zjHkFJuzIZEP5HGxPzxeRB54lV5c5KiP/E1gACN4iKnNu4reQjk8gSwI3hian6EZVv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gDYWt2qG7zYQtyY;
+	Mon, 11 May 2026 16:57:30 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 28B694058D;
+	Mon, 11 May 2026 16:57:59 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP4 (Coremail) with SMTP id gCh0CgA3_1oVmgFqVLiTBw--.31408S3;
+	Mon, 11 May 2026 16:57:58 +0800 (CST)
+Message-ID: <91e19b32-da55-4d21-a580-abfa2b2c7dbe@huaweicloud.com>
+Date: Mon, 11 May 2026 16:57:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260510064737.437597-1-chizhiling@163.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 11/23] iomap: correct the range of a partial dirty
+ clear
+To: Christoph Hellwig <hch@infradead.org>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com,
+ ritesh.list@gmail.com, djwong@kernel.org, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-12-yi.zhang@huaweicloud.com>
+ <agGJcqFNl23qNLvx@infradead.org>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <agGJcqFNl23qNLvx@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgA3_1oVmgFqVLiTBw--.31408S3
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY37kC6x804xWl14x267AKxVW8JVW5JwAF
+	c2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII
+	0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xv
+	wVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4
+	x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG
+	64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r
+	1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kI
+	c2xKxwCF04k20xvY0x0EwIxGrwCF54CYxVCY1x0262kKe7AKxVWUtVW8ZwCFx2IqxVCFs4
+	IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1r
+	MI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJV
+	WUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j
+	6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJb
+	IYCTnIWIevJa73UjIFyTuYvjxUrR6zUUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On Sun, May 10, 2026 at 02:47:37PM +0800, Chi Zhiling wrote:
-> From: Chi Zhiling <chizhiling@kylinos.cn>
+On 5/11/2026 3:46 PM, Christoph Hellwig wrote:
+> Plase send the iomap patches out separate, including to all the
+> relevant lists from the iomap MAINTAINERS entry.
 > 
-> This patch prepares the iomap framework for exFAT's upcoming migration to
-> iomap. During testing of the exFAT iomap branch with xfstests generic/299
-> on a VM with 8GB RAM and a 40GB disk, system unresponsiveness was observed.
-> 
-> iomap_zero_iter() lacked dirty page throttling, which could cause memory
-> pressure when exFAT's valid_size mechanism triggers large-scale zeroing
-> operations during writes beyond valid_size.
-> 
-> Align iomap_zero_iter() with iomap_write_iter() by adding
-> balance_dirty_pages_ratelimited() to throttle dirty page generation during
-> large zeroing operations. Also add cond_resched() to provide voluntary
-> rescheduling points during long-running loops.
 
-The balance_dirty_pages_ratelimited looks good.  Now with lazy preempt
-we really should not need more cond_resched calls, though.
+OK, sure, will do.
 
-> 
-> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
-> Cc: Namjae Jeon <linkinjeon@kernel.org>
-> ---
-> 
-> exFAT iomap migration:
-> https://lore.kernel.org/linux-fsdevel/20260507124238.7313-1-linkinjeon@kernel.org/
-> 
->  fs/iomap/buffered-io.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index d7b648421a70..f6955786c8ad 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -1543,6 +1543,8 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
->  		size_t offset;
->  		bool ret;
->  
-> +		balance_dirty_pages_ratelimited(iter->inode->i_mapping);
-> +
->  		bytes = min_t(u64, SIZE_MAX, bytes);
->  		status = iomap_write_begin(iter, write_ops, &folio, &offset,
->  				&bytes);
-> @@ -1571,6 +1573,8 @@ static int iomap_zero_iter(struct iomap_iter *iter, bool *did_zero,
->  		if (WARN_ON_ONCE(!ret))
->  			return -EIO;
->  
-> +		cond_resched();
-> +
->  		status = iomap_iter_advance(iter, bytes);
->  		if (status)
->  			break;
-> -- 
-> 2.43.0
----end quoted text---
+Best Regards,
+Yi
+
