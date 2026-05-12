@@ -1,207 +1,141 @@
-Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF1D3EDE78
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 20:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778618777; cv=none; b=hnfT/hESSge+02qt0Dw5ous6IECk35OiiiNQWxGSbobrRrixFhGUU8yDLcBAe9zxnOWi8raTxyrp6ySl9zTn4W+yfxO2TCRBMQrDcSielkY/sr2BOqhJJz8wSNbcr22TpCZ5FHUfUV1lHmV7zkkF3/s1Kyehc95AFhASATJEsHc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778618777; c=relaxed/simple;
-	bh=EKfXg3Kedd/2DkHbNXwGJTPidd7Pkdr/1XwXuXKdOsY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=u2iZ5APqFdc1FZLf1WEd59TUMweqRrQZ/UorSCEF8hcRy1IfvRLHjrk0nMdaUPeEfv93gpA3WoytVEvGZtSTTHd/fobl1mI00ZjU/u2cPRLzjdmeXXrjuitFdX6DmjSD/nvOsYxBU1hDG2FfAcp/3o0V5jyrLIKJTMMQ4j1TToA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=Pk8dx9tV; arc=none smtp.client-ip=148.163.135.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6D119CD03
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 20:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778619431; cv=pass; b=SDFXWOpy6sP5Go8YEwz5KmzrhC1p2Ztb3jd9Agb4qtwDtGVcNSL4FiTcE1HWaRgJXppTUOZM6EG0vm5r0nL1QG1E7GAoWOugTmqNNiAeBriFhKrkTA1dyQl6RVbwv8zoRWi4OXuqsAEegFMPMM5bvoYIrM9Y0/1ceJecgtKXh5w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778619431; c=relaxed/simple;
+	bh=sH65genO9PSksSRgWawvOUfe015tcS5MMPhyerz5i5A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aPqD7Vjgo6xTksrGtlAxE1qf9Zh427jbbpPPhJc6QP9Y5ZZx7r/oshiFHtrvynDvsijVrfk1Gd8UBvp/NMJMbXijE7kG7tFzM8NwM1D5h1hsqlN3aoMeeFmTYYbarI9HenvplIEK4tevIIJ1ZttAI6mWzV/my8BBuyCxcMIUrQ4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L58HhpUO; arc=pass smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="Pk8dx9tV"
-Received: from pps.filterd (m0167072.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64CKjj3R1838363
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 16:46:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pps01; bh=oYr1O3U6/SXVN5rudFYRAdAuWO
-	paLoIuDsz1B8w0T78=; b=Pk8dx9tVmrD/akIDvKQ1+od69ZPWbp3kgH5UZcm6nz
-	8tt6kga349LKljWsRoDFOPUMZp8jsrqL5zhzGk/SgbfOxe5//Ls7qLRKRYtF36Ow
-	VsnkmR1ffrTr5lZ8FsMfQYE7FfPs5nnadc2qCXneVS+fNnELtpVga5jrXnDfYQCm
-	DeLPqMVXJyrXh5BvKN3d48KanEWTlMKhm3aXspXKyGPJGyLRxdY3rd+F4WFvB8VS
-	mjPYCUxGELPw2o3bYD2Zbe2amGp6q2IKEwFYXOVJSjiIHH+EsSWGjI8KByMPpNc9
-	a1dXV0G+ywH5aXAIMpGrzTASAP5snIzHnNCfUD7dtWfA==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4e456rkt44-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 16:46:09 -0400 (EDT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8eaaf673eb4so1297614985a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:46:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778618768; x=1779223568;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L58HhpUO"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43fe62837baso3114688f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:57:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778619429; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BjUZWMsmF/sw4GYhVNfn5Bap0NXmz/GXmTaHRE4ZAE+3+4OvQ18yqeWzMZlwNdoc1P
+         3aTStzw7eZhOrbipiVumISnU+Hh0eVI1LfVP+1Fdt5SAGEDjIx07X6DCQEsTaZ0ul4fx
+         aBNFvH/zybfXSg2Bi8F9rA9cYhn0qoKL+Iu4YMR3vcapmxlxA6r3JKS8RCC25RrYFQPv
+         yBIRsmzZW8q84WP6CkNhtjuP8sNPSWBT8Fd13h7SGOUjYf5YtIn/lYtVmoeKnSxDilnN
+         gx7kmkDiSaZNQwLa3s8AfWMPNyDvAemhHHFy/T4jGfYfoOGMIYXxIbKsWmL7tsi2uCjI
+         3hsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1GpjgDa7k7JEWi0ybDqpUw56GG9X3e/cpKKkJ3bjw+4=;
+        fh=gUuNmq1QDg4A2C7K1d7nFQ0NLejLPeJNDyyghlasiuQ=;
+        b=Ujg/TK+cH5jHZ//+bWn0Sycdqy4y8x1WQrrSlIlouOyjKVr4Dtg9mILhSf8dPFkK1L
+         NUkD+k/P55gncCifihoF5UjHTA9L0pbU6v6eQzDnUEp7XEiPkDX3Ya47x6c5J1yRbP2J
+         /OX+5plpp+d25p5Ck5HhEbe3fUJJE2F3FMezCMzkskufn1ygX1wrBigowpIYR4ZoDgfL
+         M5iHSzjvQa33kosb2zu6Lx0G05W8GtjmsnBPVkjLWeBRO1JEgu2NMh16ByYxBsWaO6c+
+         ZgA7v8C44noacp08OF/tRBQBU9hDXhwVEReSYwL4QFG1yVh+RbS7d2CKuA2uLNXe5aSt
+         umwQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778619429; x=1779224229; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oYr1O3U6/SXVN5rudFYRAdAuWOpaLoIuDsz1B8w0T78=;
-        b=dJ6C6r37t/3PFdY8tZslXNLPniVm+Sq+1vrxpQuAOjkqkBxJi2lsz7zOXr1B0l631y
-         56nVCByUXpzEqN5eWOkYe2YDV97cr18pFvy9vbHYBwAhW0qMcPEG85fIn/r2zHcED50g
-         HyMk6nONEadgVowGZVdefYZZLSRTKtJGLY/bAmhS0GecLodkATkvydcWfKRQaJuTxweW
-         91D39eodhcg9ElDK6PIxPNT0QGvwwnD0bUfZxflKSXFz8PAFCsHuX8gnNa+Vn/4SRdP6
-         MQTk2XXWq3541D1HquyQKagWnWmmGSGZY6e41rZxVp99162LV1nNNCoKjM93QoEd5BE5
-         RUSw==
-X-Gm-Message-State: AOJu0Yz/sb3+8Z8HTqV6+tsbnqMBUDFQdHP8L1BuEQf6RDG6DkbJo/N1
-	BXeePZDiNFIn075OWVR6l641KJDWZF2ke8JUOso32CqS0SJwNe9AH8eDWnYgp05aGOHt6/HXVp2
-	JxsT0BXE7wq88FMedoqXodBHwgzXyNmeC9uvR5qorPRWzxxq8QGboPqALlWy7FJE=
-X-Gm-Gg: Acq92OEEAevyrNK8owIQ7pwwOjBbwf458qbuLznb+hCQoBQDQ27U01yoU/JZIK70sAw
-	o974nl48QnZONTH9crrlTLNGc3Js3sKBgHuaBFtK8ZoGjncYmcJyxCPkpJy5ZbA7OOw36H21i11
-	sloVgnzwYsa/WG5/Vg7/N30VU9vcwZFM3Wa8xkEqVWX0Mb2fNf3cU7T+wmBnYcNl/QdUq+yX8zt
-	r2POPEu9v5XtI8v+rQgX+oOLDl7sWcQLJW9DbXyjzVAfuT19JZHR2eryinw2JJNWZQNyWDf2Z6p
-	w++hOzpxfkrSoE3g7jEbcsrVrb7YM97IXZKUBUXb/AxvOR4QgV4kpG8QXTiiO1i1yRSGDjtrPlc
-	HiXF95EKTBq7CKN6d4lOg3aXRdKIF91rpohtvwwR2Iozc7rykaVh00RCf651WIkZuFpc=
-X-Received: by 2002:a05:620a:2a0b:b0:90e:5b62:ea07 with SMTP id af79cd13be357-90f8b2d998dmr99073685a.56.1778618767923;
-        Tue, 12 May 2026 13:46:07 -0700 (PDT)
-X-Received: by 2002:a05:620a:2a0b:b0:90e:5b62:ea07 with SMTP id af79cd13be357-90f8b2d998dmr99068485a.56.1778618767456;
-        Tue, 12 May 2026 13:46:07 -0700 (PDT)
-Received: from [127.0.1.1] (dyn-160-39-33-242.dyn.columbia.edu. [160.39.33.242])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-90ccb338844sm374224485a.22.2026.05.12.13.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 13:46:06 -0700 (PDT)
-From: Tal Zussman <tz2294@columbia.edu>
-Date: Tue, 12 May 2026 16:45:59 -0400
-Subject: [PATCH v2] mm/filemap: fix page_cache_prev_miss() when no hole is
- found
+        bh=1GpjgDa7k7JEWi0ybDqpUw56GG9X3e/cpKKkJ3bjw+4=;
+        b=L58HhpUO097ocnq76Nq3TqkAbNoPb0zLO53iwWi6O0gwVRzK+IaKFeKWeP2EThBhN4
+         XIrFTbre0UjnogR4/JcDsrmqMAmH04ShdW+1jvkXJK8/2AXHpP6jPW0T7WJqX2MtGCRP
+         Drtxc2Yjt7ZRg9MlRcYN9Z2R2BM3atjBMwrFCv0J1nstp8AMsqn3zbKYL2c44gecnZqK
+         e6c8b29W+TuNnQswjoUA4HqHJz1rFOFo8OG7455CuYy9yi08cZxkNM2tBzLtnHOhlRiS
+         OzCucr5YHMTOp9EsmKgY8A0RgnmQmj4IU1ciiUjmt94m5XbTjmwbPK5tRzY+65y9Az5/
+         ck4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778619429; x=1779224229;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1GpjgDa7k7JEWi0ybDqpUw56GG9X3e/cpKKkJ3bjw+4=;
+        b=JvZ9ssZe9SAUINUlwS80TQm+U3pTroLtNjaYVL7fdQ6oJODNdP2KdP8C6h7YxoQHz5
+         Na/sZMsuc9SzCaE8CZ6Z3VR3lo16JvpOCqQJFE9oskus4cS27BvwyuITD9OOPCk2HX9H
+         Eb9XmHLMVIwGOE3nTBTAEeyz2MxiGxS1myhE3/vsiMgCwUsX/T+bt9t+gBBTha23TcBl
+         omQ9sGZUfyYqFrlQEJXNvyVyFNot3+I46n7ZZIRChTYeg/deTYfWwbc+l9B3oon1zNeJ
+         silijQ7CRlpudVSu4146J34Kqu0GShqS0RWFc/tQ5NFUn+W1sFiq/GLEsEh2oXC86xbO
+         AAYg==
+X-Gm-Message-State: AOJu0YwpilGI4rqkqbdZ6Ky8NJkwJqet3KGvrr1H01Btie3ej2G5Unau
+	+yqjKPvw9CRKP36pT0MSU0ZLZz5l+aV7WxHQpsnPNnqIsDscFgZf/NPGneJZUbr41Co3n171Mj8
+	/jPtUwnX4/+GkTImbrP8zOiENwQM0DGQ=
+X-Gm-Gg: Acq92OHyiAB0ZMBaYye3b/4JpEaPXZjRO645bDIuaIFApFs2/5t8m6LASD9nCi2PfUl
+	1GQItX3i4SkXFPppqhIqReCKaqZfE8hozPMQiBg8wS0fYFO46LExXy5w/hn3v/blWQyAxNfeyj5
+	HeIHa4AHYio5CPrmCA3vpBCe1bxLbM2kqlosd4FgFtl4zEmikP7zUndbI0Zt8huMSWbQsAxCN96
+	BROqeY6wxdAYXLS+QX9289UEfwKcF8aJCVPXiyRKGQ3YwB7oH4ewrFqZgg6+yevFD9UxV3sZwpf
+	LTWnoQ==
+X-Received: by 2002:a05:6000:22c6:b0:43d:2be:e54 with SMTP id
+ ffacd0b85a97d-45c5ad49b70mr410442f8f.39.1778619428746; Tue, 12 May 2026
+ 13:57:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260512-prev_miss_fix-v2-1-4af8e5c1ae62@columbia.edu>
-X-B4-Tracking: v=1; b=H4sIAIaRA2oC/3WMTQ6CMBBGr0JmbU2npWJceQ9DSFuKTCJgWmk0p
- Hd3ZO/yfT9vgxQihQSXaoMYMiVaZgZ1qMCPdr4HQT0zKKlO0qAUT151E6XUDfQWg3danutGoUb
- gD7cc775byzxSei3xs+sz/tJ/powCRWOMc6g01sZe/fJYJ0f2GPoV2lLKF0C55NWtAAAA
-X-Change-ID: 20260510-prev_miss_fix-fcb308472131
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vishal Moola <vishal.moola@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Tal Zussman <tz2294@columbia.edu>
-X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778618766; l=3136;
- i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=EKfXg3Kedd/2DkHbNXwGJTPidd7Pkdr/1XwXuXKdOsY=;
- b=XtPXuvkoCm1dLlbLMYm8YnPBn5FHXiqvrKn66Ff+O/0gAOrwSIpFbZ4yjNJznwjCnTf+2djQV
- pdORZT40uA/CCnyUGfFOCNYhfjqQxp4soMcu2D6CbBB5SZVlZnkmFn8
-X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
- pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Authority-Analysis: v=2.4 cv=d67FDxjE c=1 sm=1 tr=0 ts=6a039191 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=SsB-OO3BMngHh3ZO9fOt:22
- a=VwQbUJbxAAAA:8 a=MarPr37N4K3uxDc3k44A:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-ORIG-GUID: fJPgKE2GTX_bT-U-mJTN8-Mm0U_IDnRc
-X-Proofpoint-GUID: fJPgKE2GTX_bT-U-mJTN8-Mm0U_IDnRc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDIxMiBTYWx0ZWRfX+82qhcIyfJlP
- xTJ6kvaiQdV7KDt3KeTh1dajuqqHeSScRHlY/cmVT/WWNGhTDrA/Toy++cC+Fm7YDttgy3GkZ8Z
- lzwraY7OK1wPBQ6ojItEXhjZd7wJNgxShXP3OgkJVFm03MMqxqXddyu8LMW8RBawCdJKXFf/sj7
- nRfjt5f9b4VsAlrUcVqfdHGavxnPikNO/3CsyrOz2NYwpDfGOv0nTHugVUUoC8HyLEVmlR9PPPG
- apREo+kIWmFSXwqEVpFHBTQwT/8n2kvRnmKp6BiSd8Gi44mm1S784BTeG12lg9bERvyD8SKBCA5
- YC00QUY6/0/E2nnLL4fxJ/4r9E1AqQyPk6Md7L7D8mapi0zdflcoSUWsPVPxyaFTPGHMPfcTShA
- 94XlwK4p6MkfHX3eo2gUZKuWNbN12T+Ma3fNjtSXXDiBCnXc4gygzWY1gmZAXUj9EjmCourAcPD
- gEB4+5CjssbHo88ERWA==
-X-Proofpoint-Virus-Version: vendor=nai engine=6800 definitions=11784
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- impostorscore=10 bulkscore=10 adultscore=0 lowpriorityscore=10
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
- definitions=main-2605120212
+References: <20251008204133.2781356-1-joannelkoong@gmail.com>
+ <CAJfpegsyHmSAYP04ot8neu_QtsCkTA2-qc2vvvLrsNLQt1aJCg@mail.gmail.com>
+ <CAJnrk1anOVeNyzEe37p5H-z5UoKeccVMGBCUL_4pqzc=e2J7Ug@mail.gmail.com>
+ <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com> <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
+In-Reply-To: <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 12 May 2026 13:56:55 -0700
+X-Gm-Features: AVHnY4KEZ1Mmr0kDMENW8oEI36IhfcRB5Nub8mKis00I60VTCdS636HcgdgwrQU
+Message-ID: <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
+Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.sourceforge.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-page_cache_prev_miss() is documented to return a value outside the
-searched range when no gap is found. However, the no-gap-found path
-returns xas.xa_index, which after a successful loop is the first index
-in the range. As such, that index is misreported as a gap.
+On Fri, May 8, 2026 at 2:42=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> w=
+rote:
+>
+> On Mon, 27 Oct 2025 at 23:39, Joanne Koong <joannelkoong@gmail.com> wrote=
+:
+> > Miklos, could you share your thoughts on this? Are you in favor of
+> > disabling default strictlimiting? Or do you prefer to have it kept
+> > enabled by default, with some mount option or sysctl added for
+> > privileged servers to be able to disable strictlimiting + enable large
+> > folios if they use the writeback cache?
+>
+> So what I think we should do is implement some sort of slow writer
+> test, and see what happens with and without strictlimit.
+>
+> Tried to ask claude to do this for me, but not getting very far.
+>
+> So if I take this maintainership role seriously and not let myself
+> drown in the details, then the logical thing to do is to delegate ;)
+> Which is hard (for me at least) but I'll give it a try...
+>
+> Could you please check how things change if there's limited writeback
+> rate and we disable strictlimit?  And what happens if there are
+> several such instances running in parallel?
 
-The sole caller, page_cache_sync_ra(), uses the return value to estimate
-the cached run preceding a sequential read. In some cases, the buggy
-return value can undercount the contiguous range by one, shrinking the
-readahead window or pushing borderline requests into the
-small-random-read branch.
+I think for unprivileged fuse servers, strictlimting will always need
+to be enabled or else a malicious user can launch tons of unprivileged
+servers and eat up the global dirty page budget / starve writeback for
+the rest of the system. Similarly for privileged servers, it could be
+unintentionally slow or buggy and eat up the dirty page budget. I'll
+read through the writeback throttling code to verify this and run some
+local tests.
 
-Fix this by returning the start of the range - 1 when no hole is found.
-Update page_cache_next_miss() for clarity as well.
+I think the question is whether we want to let admins opt out of
+strictlimit when they're confident their server is well-behaved eg
+through a sysctl an admin can set to disable strictlimiting for all
+servers. Otherwise, large folios will always have to be off for any
+server that runs with writeback caching.
 
-Both helpers were previously fixed together in commit 9425c591e06a
-("page cache: fix page_cache_next/prev_miss off by one"), but the fix
-was reverted because it caused a hugetlb performance regression. hugetlb
-no longer uses these functions and next_miss was subsequently refixed
-in commit 901a269ff3d5 ("filemap: fix page_cache_next_miss() when no
-hole found") and commit bbcaee20e03e ("readahead: fix return value of
-page_cache_next_miss() when no hole is found"), but prev_miss was not
-addressed.
-
-This was found by pointing Claude Opus 4.7 at mm/filemap.c.
-
-Fixes: 0d3f92966629 ("page cache: Convert hole search to XArray")
-Assisted-by: Claude:claude-opus-4-7
-Signed-off-by: Tal Zussman <tz2294@columbia.edu>
----
-Changes in v2:
-- Change return value for clarity, per Vishal and Jan.
-- Update page_cache_next_miss() for consistency and get rid of nr variable.
-- Link to v1: https://lore.kernel.org/r/20260510-prev_miss_fix-v1-1-755bb123145a@columbia.edu
----
- mm/filemap.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/mm/filemap.c b/mm/filemap.c
-index ab34cab2416a..4263d9775998 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1808,9 +1808,8 @@ pgoff_t page_cache_next_miss(struct address_space *mapping,
- 			     pgoff_t index, unsigned long max_scan)
- {
- 	XA_STATE(xas, &mapping->i_pages, index);
--	unsigned long nr = max_scan;
- 
--	while (nr--) {
-+	while (max_scan--) {
- 		void *entry = xas_next(&xas);
- 		if (!entry || xa_is_value(entry))
- 			return xas.xa_index;
-@@ -1818,7 +1817,8 @@ pgoff_t page_cache_next_miss(struct address_space *mapping,
- 			return 0;
- 	}
- 
--	return index + max_scan;
-+	/* Return end of the range + 1 when no hole is found */
-+	return xas.xa_index + 1;
- }
- EXPORT_SYMBOL(page_cache_next_miss);
- 
-@@ -1849,12 +1849,13 @@ pgoff_t page_cache_prev_miss(struct address_space *mapping,
- 	while (max_scan--) {
- 		void *entry = xas_prev(&xas);
- 		if (!entry || xa_is_value(entry))
--			break;
-+			return xas.xa_index;
- 		if (xas.xa_index == ULONG_MAX)
--			break;
-+			return ULONG_MAX;
- 	}
- 
--	return xas.xa_index;
-+	/* Return start of the range - 1 when no hole is found */
-+	return xas.xa_index - 1;
- }
- EXPORT_SYMBOL(page_cache_prev_miss);
- 
-
----
-base-commit: e9dd96806dbc2d50a66770b6a86962bd5d601153
-change-id: 20260510-prev_miss_fix-fcb308472131
-
-Best regards,
--- 
-Tal Zussman <tz2294@columbia.edu>
-
+Thanks,
+Joanne
+>
+> Thanks,
+> Miklos
