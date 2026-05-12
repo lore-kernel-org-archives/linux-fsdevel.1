@@ -1,147 +1,170 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4047A3EDE6A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 19:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51066385D77
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 19:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778613675; cv=pass; b=PtInvRRDRPpjBESysDL7lzn8f/485XN68gPD0Unmurs2O4H4hd76zcT5lXiy+jO1j4rv6ECbYV/7XCSZiGRb52GFUpy/S4IiFINfzBAnXWTJeUKd3Yl+pxXz98OrTYSaWbbfM6dT02wPSpZzdZ3A3hKxe7qJlidEkpFozQwM8Ws=
+	t=1778613765; cv=pass; b=Ddl7qx0WXNEXFVRPPd0ekbCHSDfcePV90OR5ugdvXkJsfNaOwYp27CrI0KkMZ7Nt+K0Hb0rxERbXCJyZS42TIOuj2IlrvOqbzQ2L8XsFXqlULAJOfd+soZqJAqkQtlMPLXU3qrkY51gxObrKzbHSnzoGF0H+gqg3IJkF7tBYous=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778613675; c=relaxed/simple;
-	bh=nll91ULm6w2aHk9Z18ZnaI6Kevm+cuOw6+VQhhfKLeA=;
+	s=arc-20240116; t=1778613765; c=relaxed/simple;
+	bh=VtrKsBqRgrQg5Z05GDQZPthjO+/OzETxg7+nkm/RnNA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WpfF6AQynnfKolePJm5ISZOUMTaH0IV7rfasAzRDBfxXrj6HRS0JmXX1m8OjKSEfMx8tqeiUZN+GvYjfM0Si0kzpSvhY5Yil9fiQWnOhAoHUdDVNHUa5VrWgvEt69UZC6sdGfmPk2jMig3sNJ/X3IksEbuDlfGF4i78lBjFKhv8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=W4HnrVJK; arc=pass smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+	 To:Cc:Content-Type; b=KxMEzYvNNOT551o3whxvPaOE13O/UFhjqlRzM+UsLe4jK1wCVwqXNEK5Mcb3UYMVnVQAI/gFt6dS2qzL2b/hr6OPDxwHMAxPZbZkisNJlQ//1OJaDCRkjcI6bNJGNE1WZENMnnLqUV0Nxi6BsnV0HPvMOJ3SmQaQEf1i9oUDDOg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j22Pzkvy; arc=pass smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="W4HnrVJK"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-694907f7967so383760eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 12:21:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778613673; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j22Pzkvy"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48d146705b4so72137095e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 12:22:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778613763; cv=none;
         d=google.com; s=arc-20240605;
-        b=VzNzQby4CIAqQi7vBy9Fsczxxu6nvUQNMt8TToRcFaGBCJWl2o9/FZqMn4uTJQobKc
-         LB1QFapIuwVCssDNncMcM3Zy7UWdK+WIazGJ3SWFnXMl3xo5+8YOT5HuNuib9m14i0X2
-         nwZWyyLdWUMARIGF8M0mf5VL8MT9pKEOK8EOrSVGv3uyJx0xiJ+Uephz1esUhRSxdDXF
-         moNgdLBfq2vxFmpuuS6h40BYMc6vUdbpITrCrz8iNFTTdNh5H3DPpBaMgf1njvoGxt1Z
-         4fs/oo8ln88ArS2z0kPUWyzU8AMlxwEAr8g/Hm3nsWsYyC6xTEiVnQXfhgQLqmhni6Qx
-         fJSw==
+        b=e7t0ALOvRYlDhzSuaLmAuP+NSt/1rLptn9pDkyZTHewZ4SPi0pkuCJGTiGT5mhX2UW
+         CS2tdpHzOyIIVV3Cc0Bi9ugtM/hgCAMOcj4cOYyQ+3dtjl89C9ZLtanW/NPjTeLNu2nb
+         AK0M0Z5/6H6lWz1ENoKDl7ReM0HnOTPrFQyq5WnwCBKtjR+OccA4Vlv04uYAPmpnTuxo
+         mUq5ywi5yAPprk69lP8ixCl/IekDNVlMllO+DGzvq+fz4ZiOwQTdlc4EpTluuhZ+aHt7
+         Dd6FjXsj3fzDB8BeRAhNNywK3d3SRFv7SQke4mrYioAuahkfAuUr2qxLLZ16YlT7bTOa
+         WKdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=nO3qnWfhbRxzX+PzpSpdWAjHeYnC8LurbOKJOZKk+Lg=;
-        fh=mVUPQIhWY05uYD2F/FvwFrBHFUEkzY4AQ45dE5BS4s0=;
-        b=dgMz1LJV3QfRfVt6DOukDK2WX0t4D4cp+/GKEYHqwEwTM2FzAHdhZpIDM4g+rxlKyp
-         hjVOIZ5Cdzur4eGSsYCdxmjYY974m2KD9HCchPSBOcDRidMTZGfKV2dP4L3n/Opr4Skz
-         M+BmCO0iA5czqHzRsXWMHDhJM0GT8uLNxVd5GdW3Fnci8LMalSDeEiGWFwxCOpSdegAr
-         5GIbcJgYhGDUdwT5NrKNlORACRxk4fQgKasRl0t9PIsoQZrkAw9vD63e5xxsW7iRVoT5
-         mXqs6cWZzi93jDhU1kO/gfGPiWRbd3XWhD5nmzKD6gixU3sPR/HyicGU2LOFASNRwswE
-         Mj+A==;
+        bh=KrksB7YyuGcL8UdLAV/lyg74rIhz+tVDke7Rs32Izbw=;
+        fh=iBFInfgtOqHErb3p1wORuB1EeHSuUuRD/I+PnigndcU=;
+        b=V3UE6m6TmuFFyDZb/7IbjnMbzAiOL5IhdmMrHfKUPH/PjYQZSDgyOjq+jm11cov15s
+         vWGeb1XZp6zHOSkqCyUX7F24TqD9DESwVgwHWNhBN3mSFpdCjy9EfENTqilBdLOqxIuZ
+         joIuC+iBeAGjYxffIgZ06HuYMq30qn1c46dAbwl2oNqcBZmVBS93yyHQL44+0bmPKeJs
+         76pLOKo/HadffyyR3lxBeMMJ72vdtQg8PN+RKiYvHljTQyInvvKyngYAE+4ZHtqW4Kes
+         phWYXxHK/jS3DLdkXuVlA995h83Jl9xPPsJBj6Vz2u1Y2KaVPP7x93Ig1/YB16XsQBEI
+         lYkQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1778613673; x=1779218473; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778613763; x=1779218563; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nO3qnWfhbRxzX+PzpSpdWAjHeYnC8LurbOKJOZKk+Lg=;
-        b=W4HnrVJKCyu4I17/DkGo2/lcuHGcx2K4xJeeHUcDkBp71WiAhIhH6SlSJNNLhMcYNs
-         JhZZZLajy9pexHsnycEMKlPTtAiCO8qQo40AVelIpf12hbBTLGZtjgr59jdicq6pL3MG
-         gkthr01U20Lwve6ZM0mKyEgXxdO9Sp72XLlhss54KRfpFFbMBQ4r4E0E1AwB95g3docw
-         zaLn0hXN6Hktfbj/RVg2NP/U26KdZlQk2rcYKus2RbdMkir2X3LLK1T1iNOofFpwlcg3
-         Xo46vGFXAeibumYie/Rvq/nD9GbwGNcQWh9r8gS7RcgGSkuZSI3Pwt6kTCLukU1bZcbo
-         okZQ==
+        bh=KrksB7YyuGcL8UdLAV/lyg74rIhz+tVDke7Rs32Izbw=;
+        b=j22Pzkvyrb6Ti0js99OR7ykFuwLVn9VMn9XoyXWul9qh/wL3zLN6NQMyaXYbzjzl9W
+         kb+8kNzVWyEaz9yZtTM3ygbxXY8BVqdQ0HaBBmW7viXBrwQVkjAtfT7JOQeCfDG7ooAe
+         5KXBPN5Ppz76tTM04UomKdcb4ljmdyBQQ8Rm5oL0SEQOK4nkzuLfGNfrjlTkSON+nM/J
+         orLahSA0TI1pNLh1YmIGhOV8g45C3yXxqaSPEQF+1wap0n8tqJBimrirYSl+xU+7OoGu
+         T1VqnMxUp1NhE2RINKwu1saAxLXm+URcqs9BNxSR2mSSVEgkl35L7uGO1uXc7VILIUZN
+         y/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778613673; x=1779218473;
+        d=1e100.net; s=20251104; t=1778613763; x=1779218563;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nO3qnWfhbRxzX+PzpSpdWAjHeYnC8LurbOKJOZKk+Lg=;
-        b=TkqFWPuVJjoO7a9tYqN4SDjvrjVoU+8eyG/fQOEzIZcLz/vMwFXzAOhylmEvLdPurs
-         iymzo8ogvUoXok3I5LaDuvB6Lpaws46brtKFiXsWvoYc10LY+BvpynEPVV2ZTwY+GK22
-         JFgR64QL6jElCpeKqAXZzcx3VSjzr/VG1SU2Xd4JQdy8xP3GH1olVf/nD69OepIf4S+M
-         h/vy5JYwXWpEQM0AcJjW6gRe3afGI7Wlf/OsFcV7LqFLmv1+oKPIkfgNni8XEz5Anr+/
-         Tjb5XV9P+KFFbBDPsZ+vM/sTZUFt1qe31K3ZrOucHBA4wt9oL8pwhJ6E+ivgUFkTfqiG
-         3grQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9+iNv/NVTTNahgVISnJZxFq67o0GVAjIMR8n84eCc7iwkQlntSCI+CV6A3QfFF8JUr5eNGn4fr8d8I7ZZq@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFGIC/6ma3OoQUZoZyoPxpFlyLu45oVQEeTqpLg2+ylYzMubGI
-	1rKRZj5GETN6EjnQHLc65Rbj0yDef6W3527lRZLrwzt3DjPgMeyihaI35E2e81xfEejjcMS9B9i
-	n0PPDBfKL3yCi96O/B+mM4v20iCXSYzKjEx04F6VAlw==
-X-Gm-Gg: Acq92OEer3q1NabahkkLyasCP7fB36xw++cNHjJeznry7m/gnBV0QqlFPcOfwZ5q4yr
-	uOhAXKMVX2D3ay0SYyekNXPTz5uWYoCMOPeTEFKwpoq0nAd1G5dAn7Z7o+1yyYRHAvyW6SYoSwO
-	yrIy7OGzvXZ8Pa5eCt7qHVIp5JcRHDScnSdb1D6BKZrH6rXQTONABFXYZNk2O/Sgc9TgIGfWew8
-	dG33v29cm3GHkC6wgg3lzzjyol95kIROGtDcQsYUCzlvJNb/LtzDhxosjP+4UsGwlDmhv3jaP/j
-	L1JFC7FzUDhvx3eQoKg=
-X-Received: by 2002:a05:6820:55d2:10b0:694:8ed2:9bbf with SMTP id
- 006d021491bc7-69b78d98e1fmr26675eaf.2.1778613673210; Tue, 12 May 2026
- 12:21:13 -0700 (PDT)
+        bh=KrksB7YyuGcL8UdLAV/lyg74rIhz+tVDke7Rs32Izbw=;
+        b=bWDy40GUE2Jf5wc8a42PgXqKw7fDSEuFlS2rFf2FtRY7xk/+vaK0o7rMGKs9hnHdpL
+         OAtXrBgbEAc0lB7glVC+fuWUqjdxmNeBy2UVwayC65hp6tPVZ6K0fLbib8GGoeXa9ZNG
+         VWGcOxQSOyB+nXV3ICHTLVDgfiHPnLzxenHwMer+x2rcFdcxQiFL/+yEfw999X+o2DmM
+         Ygl2QlIVK5vEQvj6BeH11NUEmR93EeHosmYcxpVGL3jJFKTMA4N1hPtqWLg0YXCVAr4q
+         onWQFa4wN1+dHGvhhlv89FFJfEbvaT4kLYXm4LTgJOjByZnN/81C+akrE7A/Ekjv0Sr8
+         K0Ag==
+X-Forwarded-Encrypted: i=1; AFNElJ9umyA82lyjwpZ3E9yRto2vj/vriEfZ3j8EpBUOu7yQuFcJeFPokJdNRse3SUdPywLqbDjlRM50rZudI6ON@vger.kernel.org
+X-Gm-Message-State: AOJu0YzI2FDyuXWUzYCTusYfRa+jn4uYaYHTvWgW952j8RIYN1sATQzy
+	9I1WYBp+H52Fq6DHgIw6aSWUPZObvQPSPSI3WQySx3z5siR1mY0mWx5f5/V6AQ4edn6yg0quyQ/
+	ClCOQRgd/thgTpFF4yKxW1c6T1J0MmfU=
+X-Gm-Gg: Acq92OEv7PFS4q7nBkmu88rQnGVEM6K1dqCbZE+mT2zGN7yzRI0wGbUFMftmlizpKV1
+	zbemDw8UcipuC53hnUVVX/dmeZOYjyWXfdzVdS4yOWuVNcv5jC+oCzw8de2CrefQ3u6m3tbPKfV
+	u1bROrFiRtkzW9WhE+yLzrCxqGneKLuGpUozYRtOiN01tg7HGe4FxaI4T5xZ0PTqvvI4ZaLYeve
+	EzkAQeGdaceUAz+UePLs+WXQ4qj4eJqNs03YO5AJ/cOLLchzw6zAxG+NhxYrQHaCWEbHpzdVlfS
+	0x+R9A==
+X-Received: by 2002:a05:6000:2289:b0:43f:e99a:ff91 with SMTP id
+ ffacd0b85a97d-45c5859f1famr171276f8f.4.1778613762530; Tue, 12 May 2026
+ 12:22:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512170525.357573-1-dmantipov@yandex.ru> <CADUfDZqnV5BRwZq3c3Atu8w3gOm87AbmtexL=MenWcSbTVOgvw@mail.gmail.com>
- <26c1f22358ca894945dbfb8b7b6376a8a59229c7.camel@yandex.ru>
-In-Reply-To: <26c1f22358ca894945dbfb8b7b6376a8a59229c7.camel@yandex.ru>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Tue, 12 May 2026 12:20:59 -0700
-X-Gm-Features: AVHnY4KR8wr161beKIFztTVzYdNB9ClF9w_gJXdqgle_01-EMcDGH2azbqJmguw
-Message-ID: <CADUfDZrmXfHFV3k=m0+0Jmpd3dtx=pmsEefwkAunQt1JbQnG0g@mail.gmail.com>
-Subject: Re: [PATCH v2] lib: free pagelist on error in iov_iter_extract_pages()
-To: Dmitry Antipov <dmantipov@yandex.ru>
-Cc: Jens Axboe <axboe@kernel.dk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Chao Shi <cshi008@fiu.edu>, Weidong Zhu <weizhu@fiu.edu>, Dave Tian <daveti@purdue.edu>, 
-	Sungwoo Kim <iam@sung-woo.kim>
+References: <20260429102058.1362965-1-mszeredi@redhat.com> <CAJnrk1Z_JWtuA3UjucF9=YH63AH_-J_0hzr9jbY99Hx3O8YrAw@mail.gmail.com>
+ <CAJfpegspraqMp1Z3mi_csiw6haawZPa4zWheSUN7MhBy47aYKQ@mail.gmail.com> <CAOQ4uxgV4_Pet0w3f+Sq4kLkvgKM6FyJwZ4AQsnvctC3w=dP6g@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgV4_Pet0w3f+Sq4kLkvgKM6FyJwZ4AQsnvctC3w=dP6g@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 12 May 2026 12:22:30 -0700
+X-Gm-Features: AVHnY4I0Y3BrmLWelt6oDqQj0GcnCVMfHGqh6xLzugs-tH2pa1VNyILa-YgX3n0
+Message-ID: <CAJnrk1ZvB-R3Szn-VxOZvPRgX_dXwMLouBphnT9_URCE8SxTvQ@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add fusex filesystem
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2026 at 11:45=E2=80=AFAM Dmitry Antipov <dmantipov@yandex.r=
+On Tue, May 12, 2026 at 6:22=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+>
+> On Tue, May 12, 2026 at 11:31=E2=80=AFAM Miklos Szeredi <miklos@szeredi.h=
 u> wrote:
+> >
+> > > * in passthrough: backing_fd passed at lookup/creation time only (not
+> > > at open time), expanded struct fuse_backing_map
+> >
+> > Yes, this needs discussion.  Amir may have additional info on this.
+> >
 >
-> On Tue, 2026-05-12 at 10:46 -0700, Caleb Sander Mateos wrote:
+> Having the two different lifecycles (open-to-close, lookup-to-forget)
+> is by design.
 >
-> > The mismatch between ret <=3D 0 here and ret < 0 in
-> > bio_integrity_map_user() would result in a use-after-free in the ret
-> > =3D=3D 0 case, no? I guess this should be fixed by the "block:
-> > bio-integrity: Fix null-ptr-deref in bio_integrity_map_user()" patch
-> > that landed today.
->
-> Not sure about null-ptr-deref but IIUC this patch fixes memory leak
-> at [2] but not at [1]:
+> This allows the server to potentially move files from passthrough mode
+> to caching mode and vice versa, as long as all fds are closed.
 
-Yes, and I think your patch would fix the leak of pages in the ret < 0
-case. With both patches, ret =3D=3D 0 would result in calls to
-kvfree(pages) from both iov_iter_extract_pages() and
-bio_integrity_map_user(), but the value of pages in
-bio_integrity_map_user() should stay as NULL, so the second call
-should be a no-op.
+I'm unsure how useful mode switching is between caching and
+passthrough because the server has no control over when the client
+application closes all its fds (eg it can only react but not trigger
+it). For my internal use case of switching on passthrough, I was
+envisioning the server handling everything through direct io until
+passthrough is possible (eg the remote file has been fully downloaded
+over the network) so that passthrough can be switched on even with the
+application having open fds.
 
 >
->         ret =3D iov_iter_extract_pages(iter, &pages, bytes, nr_vecs,
->                                         extraction_flags, &offset);
->         if (unlikely(ret < 0))
->                 goto free_bvec;                                 [1]
+> Adding inode passthrough ops does not play well with this mode
+> this is why it requires the lookup-to-forget lifecycle, but I see no reas=
+on
+> kill the open-to-close lifecycle as it seems useful for servers that
+> mostly care about I/O passthrough.
 >
->         /*
->          * Handle partial pinning. This can happen when pin_user_pages_fa=
-st()
->          * returns fewer pages than requested.
->          */
->         if (user_backed_iter(iter) && unlikely(ret !=3D bytes)) {
->                 if (ret > 0) {
->                         int npinned =3D DIV_ROUND_UP(offset + ret, PAGE_S=
-IZE);
->                         int i;
+> w.r.t expanded struct fuse_backing_map, at the moment it does not
+> sound right to me to map a backing id X with more than a single backing
+> file or device.
+
+My thinking with the struct fuse_backing_map expansion was that future
+ioctls for managing backing files (eg attaching a backing file to a
+live inode or swapping one backing file for another) might benefit
+from a shared struct instead of needing to add new structs for each
+type.
+
 >
->                         for (i =3D 0; i < npinned; i++)
->                                 unpin_user_page(pages[i]);
->                 }
->                 if (pages !=3D stack_pages)
->                         kvfree(pages);                          [2]
->                 ret =3D -EFAULT;
->                 goto free_bvec;
->         }
+> I think that the maps of fuse_file to multiple fuse_backing is better
+> handled by another layer of mapping (sort of a backing_mapper)
+> which is what famfs and iomap need, but it is just my initial thoughts.
+
+I like this idea a lot, it makes sense to me.
+
 >
-> Dmitry
+>  Joanne, if you are a concrete use case for that, let's try to see
+> how a design to this use case may look like.
+
+The internal team I'm working with is planning to start working on
+their server in H2. They will run some benchmarks to see if current
+passthrough and/or io-uring+zero-copy might get them the performance
+gains they need, or whether they will still need the set of advanced
+passthrough features they requested. I'll keep you posted once there's
+performance data and if there is still a need for the more advanced
+passthrough features (file mapping to multiple backing files, backing
+files dynamically changing, enabling passthrough on a live inode),
+I'll draft up a design doc to get your thoughts on. In the meantime,
+I'm planning to send out v2 of the inode metadata passthrough patchset
+sometime this week or next with your feedback from v1.
+
+Thanks,
+Joanne
+
+>
+> Thanks,
+> Amir.
