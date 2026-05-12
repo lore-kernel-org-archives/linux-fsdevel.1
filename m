@@ -1,130 +1,111 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73F849550B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 09:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778578241; cv=none; b=g9xZlx/c7bfAc5eFiojnTeNlpjSInUGbomLy5uLv4KSRTxT+p1GTnXdKW8FTZF0YfsKwafuPkbk9CmAl70m2MrGh+yTlNoiBl4KZCeqDmBspqV1QEpH0ge8ibCWDXxQ/jtyuRd/NSzVa142rOinq5ckL6szZ1NtPcMyFudBM1Sg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778578241; c=relaxed/simple;
-	bh=AmxHQti+Cn5C3pCrdSnBlqV6BaHV+iBm0oydG8MleKw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K+oBMdgL953teDw9ggAoir6fPDh9We10M9+y3N+spHlOv8PxpwPmdc/nxdzxplcYsWf9sYYWlY8QGzQ/uGEXjF9bARf2GLkZNp6IWToe+BkipGNofSYH+VSFiqX0jF8ShZkppAqILLj757yNxB4lVdB8bx8mR/5S5a03lUnX8tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WHcEIjXa; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B1B39FCD7
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 09:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778578740; cv=pass; b=fMlUkW66VKr+vcSo4H1ZDyG7MSJso5SbbUITPalkew6vUw5zjGf2WRgNXcB6lPUO7rXJ9lZ8Vcf5HfgO6ztaN8cuWkiwm0uBpX0SITZnY00lpqDZw+qRqSQOkIEV0wRSGnSWdjP8bWwIoh8l6IRVSM+80zK1okaA6/EGPTYWgWQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778578740; c=relaxed/simple;
+	bh=nBMJidNHt66HghgmXUZTCEaSRlUL9/FTHnwxbGP1apM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ldQePZrHEHN+wTXq2oelo8engh9N/VSd7ctig4CJZ8ZCxTaH5sKdhFDkq9GPKeozTKu1CimNKsRFDMdenQYJgbN89WqU4ACSA9H52IXxkO+oN3rAnQLe6fkiSfFezpgG/LylnVTu32La3lZr84z6CJbEA44cY2/5hCjV1MPk9gQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=KFMXl50u; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WHcEIjXa"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-bcceb394417so329461466b.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 02:30:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="KFMXl50u"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-515226c0cdbso1139671cf.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 02:38:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778578735; cv=none;
+        d=google.com; s=arc-20240605;
+        b=E1LdRjclNz8iBEHnaaecHWIEZidmopDpDuWNbx0pqjIRe3QH7BQUONytBU2HS0Upv9
+         +cDG66dVT6NSjHrOY6b+wUDeqhn7xETveWxZvvLsjb96tv1vhsnpeNcQ7tv/rqoiQ8RT
+         KhBBVARlKFloItGDYorF1G92JnMqYvSAUYkgMPrYdFQgGQ1oaglq88ZpdeBnsSA83S/B
+         BrBXO4bwpX7OEMyO0LYDmWF0uRE9U6Ws29iy4zS4K6XpT7CBUSzq2tOUyHQF/Sh1CV95
+         tsQOEvCk3tVcmSu+Li0eX7CbKJr+rVZ2pyZxW6+LZkwxxEhwnBVryZODCAUIAs9oMgJ6
+         VNnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=tudgoBstBgoWV3PkywqJXS+rkKtuXHKcvUGzzQXZQEY=;
+        fh=G61z/honO+pT9+bKOFcRxSkjmFlT5mxJknsBR/QJRGA=;
+        b=YwD2QYJiMvM1J3/YM8HgxkxvrkwitWCFdnWK9tJO5X89zKSg2qhrmQ4X8XnYyMxghA
+         pfsOx/0trV5zy1ke0mjfYkkBiQuxg+Yl5XYgDFFZK0FlPWCP6me5Wg2v6U0UOv8Qlso4
+         xzRZTB1o5G8GB89ytkw2wIkbMStQDruJbhb/K+20sdbMGNeX7kv/EfN7ewkNL8lTSclR
+         I08pZTcy4NLAbAa6yoWQ47sLMg2xylj4gMOXKVEtSHTA2Ju2V3iAwXjwj2nkGTXAWyBl
+         S7kqF798kRU6eMxT/oNxkz2+FD2kacEXvht6WAIVIY59D0RFCASLJLi+KgGx87kScwSa
+         QePw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778578238; x=1779183038; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1i6gK0r7rGWa5W/9WTpQ/H0vww/+AQmB17cNctDGbjU=;
-        b=WHcEIjXadNkPFUtxZjibbIycxST9iPZAoiAmYMM+LukrN41+AEMZMMUijkA9iID3PE
-         xg4pwXQf1Jf28htElNpnJC22niTXyfKF2ymcgg/R2KWT8wuJf7+q2BzapkmyoHtiZ9yp
-         ZeXZ3dQBvv9XhLemLk6KoEUkaMeUy6581GgCbmz5Bl7y6+kbR3Wnh6/jD6M/cDn9kMfZ
-         8AT9zIXP9OC7N3eldFmoe4xsIW/dvKGuw497uGm9lfr9q33CRajDdp+P2QckaO8WZZWu
-         SK3l7wPIIMsdE2Ht4/8hyulcplC4t6peIu+13WnT+be/vVykhbBCd5Kgo5tQ7Kxl6IsG
-         JtHA==
+        d=szeredi.hu; s=google; t=1778578735; x=1779183535; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tudgoBstBgoWV3PkywqJXS+rkKtuXHKcvUGzzQXZQEY=;
+        b=KFMXl50ufb/876kEL1TQzl2OIEXRqJL1BdD1PSlgvUxDFxN3daUMPhedkLnxQNN6fR
+         p7QNay9/xbYguCqs50ofMujATCOWVc0M7NRW9yXayPfPC0jnJD/Md5byS6t6KqSc7Vd9
+         zrTSHC/7ch7uy6jsTTpQ6+XVuBQkvODc5p1pM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778578238; x=1779183038;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1i6gK0r7rGWa5W/9WTpQ/H0vww/+AQmB17cNctDGbjU=;
-        b=NNu4u7C7KIFZ0Rz5pkPsGtM4QhSBSph23AYOBZI+pFz5ELnJ8tIGgLG2sBPh+y3gtG
-         RsFacJeE5KgQ6GONSsAdBPcVHnI3NacpaUjOeovaKMHiPnM/gzc3hX2l/FHBqIwtcdOs
-         PWNAPEfZMaXMyTwiLGdK5s6Eb8BI5BooyoBOnZiLbMk06l5q/fHSiUoFsG/awWvA4NXv
-         nsuW3lnCZ/fnscuADdd64JiNfvDWHXPE2ITbm/uWCdN7SUZn1egd7lAtm9anlEJyy8N0
-         zYMpn+tCE8iGhVKVUAgOSZKDpl7yuFLjiYSqL4fGncp+B7XQcOaNZEraecjlQkFz8OH8
-         TMnw==
-X-Forwarded-Encrypted: i=1; AFNElJ+HK6G/vScMgLfCzXcQvt2ixz9WjmUsEQrRdJfW7WifjPw2SXOogdFtzMrB/EglDvlXBxFbMZwGaiZgBWRh@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYxJTi9SmPx6od1GcKBTO3TLn9JYKQA8jA45/GXtJpZPP3ZreV
-	seAxhgw5JtQRRd/KXe8iqVcSu49OUiZF/tO6ECMv+/IjYZQ8IyWncvLl
-X-Gm-Gg: Acq92OHwODGwErJq2f2NLK9/yZlJ5Ghu5L3VNsM2mJB4Ne3qvk+dH2K3fdb52xJ7fgT
-	TtbQKO+k2iKgH89/TbfR/1GenXjOMhcBQl77dExgyZztiCmn2qbjIcteXMnC3DB4038QQXBJJZ2
-	4SViZDbxEPAbifWAakWAIYn6b0mACveLAw8LCZTeeFxFScm+LC3jMVjseCXU0qCXE1KLFtYmvI1
-	+XBU5LCUu7zm5mQQ3MRwvd2g4Zdm3qO/WqMle1xJ49RCn53I/gxbud33RrT/Q5RKl3aPJELHYTJ
-	IBZKgmtSemOV4K5IfDRhQ06q9uSvSos0fY44nQuW5l0khYK/UBPNacQKE9UnehO6cnb/tzCF1lE
-	5Y5AgHyLH0q2EsakvLXbNm1IXMpP3EskvTS57+odODB3mcqE1LPvx/sSFwbUcs0iqD9kY8rgqRm
-	vCUxzjisQXmmw6pvKXR/Stenqs1R/+3i5b/9fnvVn8jEOoQ9nk+yyafNmEKl2/UJ9XiQmOMAFob
-	/vso2lZTo/mljlQvTXnn0mcHKN175F6jITZ7wC2bk5OQ3MY5g==
-X-Received: by 2002:a17:907:97d0:b0:bc2:1dab:3ea0 with SMTP id a640c23a62f3a-bd28de036d4mr114881866b.8.1778578237873;
-        Tue, 12 May 2026 02:30:37 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325::372? ([2620:10d:c092:600::1:8c90])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcfb7b17d1fsm303492866b.41.2026.05.12.02.30.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2026 02:30:37 -0700 (PDT)
-Message-ID: <24cc68b2-c432-4623-92eb-b56b76850c35@gmail.com>
-Date: Tue, 12 May 2026 10:30:34 +0100
+        d=1e100.net; s=20251104; t=1778578735; x=1779183535;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tudgoBstBgoWV3PkywqJXS+rkKtuXHKcvUGzzQXZQEY=;
+        b=fb2sCnIWP0pAcX4INhQ+mfsjTjWVhE56hfv21eta54Gbx0ejMAZMfHqgvwSnO8tb80
+         vjTehV75uJEG0ok6kvUOYtjNh0KW3tR36C+Tkijt90AE/IIMcPVbk60S3q7SIdChCsU5
+         WVdKuqzGFYIbxD9QAXeapUtoGasiLcCzXYPaE8wYtHd69nUed/CXqzTyMHC8SHgF2Da6
+         +ISJYWEfMpoaCyOU9uAzTr5xHJKzly+zHSpbWgaYtoA3psBJDOsRm0hxlG5C7vyOwV/S
+         ddAC/P4sshQDlNoAODWGRKcZCFfqIpGeV0D0auLmM8f3ZUkE+oEUOV6X3mXyHptSZfSm
+         JhYA==
+X-Forwarded-Encrypted: i=1; AFNElJ8KVbEKlaQQNHa2xMq6HJB5Vv0lBQCe38VMzenJTJ7WM2vke3xXTvjsMrWEt4McYU0Iv3NdI4hPdubpBOp2@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyT0pMKXjWkI/Fsrc4kZDRWAs68FvoYaNQ9K8PeIQaRdclP2hx
+	MswXpJbWnxjvW2rNAplTfMzdadSBm3djLxgcoaalgWSyAIn5uypx6q6iYGGad+LYpgj34tiCbA1
+	aY94xf9xS+yS9P0ryxVdQNh7aA5Hoh0B7xRZ3rqfJJg==
+X-Gm-Gg: Acq92OGPs8pCWeE0LEDA04tjR9tXwB53I/C0j0nSAcZiDmiIEvuY6YPbRNiLOhP06Wu
+	+9jdDryuJYAwPE7UN7Bg+KslY6p4jMDfc9UWsuJB6CuiD9k5JyRftDMq2G9AWPiiBfqfhOK58iv
+	hv1Fi9x4IYj89aILWD9NBj0pKLsUK0pVb05eB3cIM3U7cvloImuSOQcPXygnJi+94T5JVafe+Ty
+	24ZF4RVuS+G37TO7M5hBQdU6T2Jnkwzb99P4C668dtTptbrKMdO93z8WaOa/1qbM9qHkHiJ/iYs
+	pnJY3WN+1kCMzL586VP3oU73lOt3GDvTOUW+FaCrdD0/gNWXSQ==
+X-Received: by 2002:a05:622a:6105:b0:50f:bd6d:aa2a with SMTP id
+ d75a77b69052e-514d1c74edcmr29713291cf.17.1778578734644; Tue, 12 May 2026
+ 02:38:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] Add dmabuf read/write via io_uring
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <afi7c-VUJWOLlC1m@fedora> <6873d617-c904-45f3-bad9-e1ae39cfecd2@gmail.com>
- <afxgc4hizusnAA26@fedora>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <afxgc4hizusnAA26@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+ <87pl313ni5.fsf@igalia.com>
+In-Reply-To: <87pl313ni5.fsf@igalia.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 12 May 2026 11:38:43 +0200
+X-Gm-Features: AVHnY4LFFEbjeS8dhCWHmDPz0qaSyC1eBRE5sqfnh02Z5C9rnqZ87Ze4nPOvHUQ
+Message-ID: <CAJfpeguGGNY-o=p-gpKx0w1KNwKfNKxKMXn2JrjsO1mJfFCJRQ@mail.gmail.com>
+Subject: Re: [post LSFMM summary] where is fuse going?
+To: Luis Henriques <luis@igalia.com>
+Cc: fuse-devel <fuse-devel@lists.linux.dev>, linux-fsdevel@vger.kernel.org, 
+	John Groves <John@groves.net>, Joanne Koong <joannelkoong@gmail.com>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Bernd Schubert <bernd@bsbernd.com>, Horst Birthelmer <horst@birthelmer.de>
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/7/26 10:50, Ming Lei wrote:
-...
->>> BTW, inspired by this approach, I adds similar feature to ublk via UBLK_IO_F_SHMEM_ZC
->>> which can maintain long-term vfio dma mapping over registered user-place aligned buffer.
->>
->> Interesting, just too a glance, and it looks like what David Wei
->> was thinking to add to fuse, but IIUC he gave up exactly because the
->> client will need to cooperate and that could be troublesome.
-> 
-> Here the cooperation is minimized, maybe one shmem/hugetlb path, or memfd,
-> and it is one optimization and opt-in, and fallback to normal path
-> if application doesn't cooperate.
+On Mon, 11 May 2026 at 18:43, Luis Henriques <luis@igalia.com> wrote:
 
-My point is that with widely enough adopted interface the user will be
-able to opportunistically use it without knowledge about the file, i.e.
-not knowing whether it's ublk or something else. But as you mentioned
-below, it'd be cooperative interface in either case.
->> Should we try to push everything under the same interface instead of
->> keeping a ublk specific one? Again to the point that it requires
-> 
-> If generic interface can be figured out, it shouldn't be a big deal for
-> ublk to switch to it, and the usage is simple actually.
+> I'd like to clarify this: do you see fusex as some sort of staging area
+> for features development that would (or could) eventually be merged back
+> into the "traditional" FUSE?
 
-Sure, you'd just need to maintain both as there is a mismatch between
-interfaces.
+Could do that, yes.
 
-> So far, ublk supports both FS and nvme block device.
-> 
-> And cooperation can't be avoided for this usage no matter if generic or
-> driver specific implementation is taken, for both fuse & ublk.
--- 
-Pavel Begunkov
+> I'm asking because I got under the impression that file handles in
+> particular was something that would be desired to have in "traditional"
+> FUSE (and that's where I would rather have them TBH).  This would, for
+> example, help unbreak nfs exports.
 
+I'm fine with that.  Especially since code can easily be shared between the two.
+
+Thanks,
+Miklos
