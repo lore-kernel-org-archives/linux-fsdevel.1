@@ -1,115 +1,89 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01723C455F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 20:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817E9357D01;
+	Tue, 12 May 2026 20:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778617955; cv=none; b=On4BydEDHon0eo1by94zYuBVfdb8doHr241NWUjSsIIZ33D2GX1FGTMoGaXw1KG/x3MILoTG694XbmPPiWKd6MUlpsups3kXrNNPWSNuHiBEYkrNU4Y7yX98C/dM7U5QDJSZdfkoTh/oY4Uy1ylMwyPQgS3SmyoZF6QMbmS0T74=
+	t=1778618003; cv=none; b=nFA8Z3keR1pZ3r1NHNZYrHAFBpckC+LlZ4d/48tVuTIhOwUBCTejVWCuqkH8LwXlg2BCzbcHhxBiQv17He4xL3t0rxifiqJ3XnEyfFCX7I8VmyNB05b9zgANL6Rz7GJ0i2ZmoPtPUWg4mvxxDzwQ2zBtpqevWI3sVckmD6XjchQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778617955; c=relaxed/simple;
-	bh=+8jlEft9WNgvjqTEBfN6erytdcvw5sxxN4Zw4GFtOJo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 Cc:Content-Type; b=dn9fJO47NbH/oLa3Dw7koeby1uZah3kL+souau5mvGQNo5uKtZUgOVOVI6q0FEYPcyAs2LaM7LiIfjNKTt+atKFfvYdkeOQ5tpCX0LKryEs1bglYFxMFcVlmbx1sJgv8I03+BGnOoR+bepN5LQY4GTggjN0gIlyathCkLoMEXvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ilBtKnwb; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--fmayle.bounces.google.com
+	s=arc-20240116; t=1778618003; c=relaxed/simple;
+	bh=Km6Rh4v5G8T8dQPpj9+aS8fpGyk8ffjwfzNRUPfwcwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T93nr+xna7GMn011dSIpw+wuKDBmW85XBoF+GfvRoOT6b3UO+0WK++N6x7LUcAxYexRMj6ja8y0iuCflBuGojIAicEwcCoGx/vUg/vaCBDMugXAyv8zEvM/BnHBEyo4tPxA7wnFjZ7Es0jqWg7MyDpQXSPt7JorcJ9gkUdbnLY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjaTnOsW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ilBtKnwb"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-82fa7c6699fso7607820b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778617953; x=1779222753; darn=vger.kernel.org;
-        h=cc:from:subject:message-id:references:mime-version:in-reply-to:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q6bLlWzsZHxTKwI8h2tfKnH8AsKS+KM39iZ5XG/RwLQ=;
-        b=ilBtKnwbb70SE2XSDWEkVSFrLqlAbZb3i++/7g9LaboTX5vj11ODtjuTSMbtVfZ2yI
-         c4t/vrPLLfdaOj79qGZTCTgU6J44NuaKC+ScUjYRA9SLH2Bx1Q2838p5tAfCUxgRHiYr
-         dtgOPWhT8AMUIhuFNq4BiWUu1YG//0MXHoD7a6EAh34r+uSXuBElB4L42LggBEdcWitL
-         8VU9hp3NS/EdYFqNHHjOOwny7xTqb/dByoBJS3umTPq5JzF4jsEwf8/FdRZ68583V3b9
-         JfZ3kKCgEZF5C5SDwhI2dVWqh3cWnbBZF8779Emt6mEFXST6aXvMPrzO78clrcWFVz4H
-         EkMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778617953; x=1779222753;
-        h=cc:from:subject:message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q6bLlWzsZHxTKwI8h2tfKnH8AsKS+KM39iZ5XG/RwLQ=;
-        b=AOONRNJIXmo9Z6WZRH/WOWZH1IqQWFF9I53Yi0cljGpH91n3oYeDwojiCbepre2SQk
-         3FcZyF4+2mUV0mZMF6XtSk5vgkyvnHwWY3vrh/sAdvIpgqQ1XPYFUteOxSIwupIF2aoQ
-         eKbmwe+XZBAfZFTMjeCXohBOfnEPpMyQOx7NhFrnCgCCxH89wEAwBRQHVT3PR5q5LH/y
-         f2jIKXE9uDYAEGkS+2fSub3eulCCZIqB9/DFpjYh0Fyc0vLboeMuod3nrukLoivDfDAG
-         Jb9fmnvqJbdvIPz1iBxwNu/15y1oVLcmthDW9hzNndScNN+l2EoReekc+0ieNKkbtEoo
-         xmMA==
-X-Forwarded-Encrypted: i=1; AFNElJ9AJMAgiK9F/qURM22m714JJiDR8HTREuxNeeHT/hit6H7HVB8H26tvqEbl/VBXRXk1GSQw0P/IEcjDfR6K@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxBx2nDyEKlN2AkOQ4CPNVgOez3ztN1UF/TiRhUVllyiwBdqQC
-	wx7XFCUACfzR9zFrlNvyYXn1LdRmN7kez+7r61RkoyGQ7y0GXA7fObIxht8kDUHNuZnHNNt8arH
-	v7mYVVQ==
-X-Received: from pfbg7.prod.google.com ([2002:a05:6a00:ae07:b0:837:c09c:9cce])
- (user=fmayle job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:328c:b0:82f:2a78:6302
- with SMTP id d2e1a72fcca58-83f042789d4mr222577b3a.26.1778617952888; Tue, 12
- May 2026 13:32:32 -0700 (PDT)
-Date: Tue, 12 May 2026 13:31:36 -0700
-In-Reply-To: <20260512203154.754075-1-fmayle@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjaTnOsW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E437C2BCB0;
+	Tue, 12 May 2026 20:33:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778618003;
+	bh=Km6Rh4v5G8T8dQPpj9+aS8fpGyk8ffjwfzNRUPfwcwo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qjaTnOsWBxjdxTVVzjYkBp4Q0SOIKVMLuS5chsaWGNxJ1U0oChwpIOd9CJv1dPVwC
+	 nfH7xFIruSRUTpRzqjDfrR2u44RUBFNgmFOIUPhI5qBZ9I21Eh4POfgkL1Zfziu7LM
+	 sK9RmhmPo+tc1PSZb010pnpu05w8Dj5TGfC0NcR8gH3v8rmi23jvs3IvU8pT797CWP
+	 hqf7W3CN5/kUDEFAI3YyRJR3cT45pUOjFqQm9wB5OOaxHbdTr4J5gUaKVpGNtl/Sz2
+	 fUmMZLdnOaxrXKNeeUJy1ImTZ3dvQrgSAlGarCasopsK/55QcLz3HF33vFSB4eldgy
+	 bwa1iF0NdyhZQ==
+Date: Tue, 12 May 2026 13:33:22 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	fuse-devel <fuse-devel@lists.linux.dev>,
+	linux-fsdevel@vger.kernel.org, John Groves <John@groves.net>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	Horst Birthelmer <horst@birthelmer.de>,
+	Luis Henriques <luis@igalia.com>
+Subject: Re: [post LSFMM summary] where is fuse going?
+Message-ID: <20260512203322.GD9544@frogsfrogsfrogs>
+References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+ <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
+ <CAJfpegt=eWS_6ZfRsL_P79COKJKoLGNOsJ9g6TkrAhvhSbb7nw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260512203154.754075-1-fmayle@google.com>
-X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
-Message-ID: <20260512203154.754075-3-fmayle@google.com>
-Subject: [PATCH 2/2] mm/readahead: simplify page_cache_ra_unbounded loop
- counter reset
-From: Frederick Mayle <fmayle@google.com>
-Cc: android-mm@google.com, kernel-team@android.com, 
-	Frederick Mayle <fmayle@google.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegt=eWS_6ZfRsL_P79COKJKoLGNOsJ9g6TkrAhvhSbb7nw@mail.gmail.com>
 
-Minor cleanup, no behavior change intended.
+On Tue, May 12, 2026 at 11:52:53AM +0200, Miklos Szeredi wrote:
+> On Mon, 11 May 2026 at 19:18, Amir Goldstein <amir73il@gmail.com> wrote:
+> 
+> > IMO, FAMFS sits somewhere between PASSTHROUGH and IOMAP.
+> > The simple nature of the maps, the fact that famfs maps are const and
+> > queried at file open time makes me think that famfs is much closer to
+> > PASSTHROUGH than it is to IOMAP (in its full capacity).
+> >
+> > I think Joanne has mentioned that her customers have a use case for
+> > multi backing ids per passthrough file and I assume this would be a pretty
+> > simple map, so that sounds pretty darn close to famfs already.
+> 
+> TBH, I thought that fuse-iomap is just going to be a generalization of
+> the passthrough interface.  At this point it seems like it's trying to
+> do quite a bit more.
 
-`read_pages` ensures that `ractl->_nr_pages` is zero before it returns,
-so the `ractl->_nr_pages` term in these expressions contributes nothing.
-This seems to have been true since the statements were introduced in
-commit f615bd5c4725f ("mm/readahead: Handle ractl nr_pages being
-modified").
+To me it's always been more about exposing to fuse servers the same
+local filesystem file IO paths that in-kernel filesystems can use.
 
-The new expression has an intuitive explanation. When filesystems
-perform readahead, they increment `ractl->_index` by the number of pages
-processed, so, after `read_pages` returns, `ractl->_index` points to the
-first page after those already processed. `index` points to the first
-page considered in the loop. So, `ractl->_index - index` is the number
-of pages processed by the loop so far.
+> > If we are being honest, then we need to develop features that users need
+> > and if users need features, there are usually employers willing to pay for the
+> > feature development and maintenance, if we let employers know that this is
+> > what it takes to get their users what they need.
+> 
+> I fell that this is a "politically charged" topic.
+> 
+> Let's just say that maintainability is very important in big features
+> like this.  Even deep pocketed employers can go broke or change their
+> priorities, so we need code that can be understood by at least one
+> additional person with a different background.  I think that would be
+> a good enough guarantee that the code is not going to be a nightmare
+> to maintain.
 
-Signed-off-by: Frederick Mayle <fmayle@google.com>
----
- mm/readahead.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I can't credibly say much of anything to this right now. :(
 
-diff --git a/mm/readahead.c b/mm/readahead.c
-index 23bec5497308..42f2f20633b0 100644
---- a/mm/readahead.c
-+++ b/mm/readahead.c
-@@ -281,7 +281,7 @@ void page_cache_ra_unbounded(struct readahead_control *ractl,
- 			 */
- 			read_pages(ractl);
- 			ractl->_index += min_nrpages;
--			i = ractl->_index + ractl->_nr_pages - index;
-+			i = ractl->_index - index;
- 			continue;
- 		}
- 
-@@ -297,7 +297,7 @@ void page_cache_ra_unbounded(struct readahead_control *ractl,
- 				break;
- 			read_pages(ractl);
- 			ractl->_index += min_nrpages;
--			i = ractl->_index + ractl->_nr_pages - index;
-+			i = ractl->_index - index;
- 			continue;
- 		}
- 		if (i == mark)
--- 
-2.54.0.563.g4f69b47b94-goog
-
+--D
