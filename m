@@ -1,124 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B21A39AD44;
-	Tue, 12 May 2026 13:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778591182; cv=none; b=jHoCUc1z5wEeLu63AQ8WuBStBxdhbW0QgGBpWWCF3y+8uIm8vMj9iXya8J6et8UUx+1+mZtXKVInKdriZkd8S8e8YQ3rPYU5Zsrw+TCxs2uvjBRkW9AAC2L4A/dMLNBP46s9dteL8/ofuMuuqP1dYLv+XuTjQJOaNzFi5mDiKcI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778591182; c=relaxed/simple;
-	bh=UFLh1HQgMVqyhIdcFfusQ2fCIb61H7oDcv3Fks5hcaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KCIMWUmOyU+RTpyYqIVc5j6pHq7NXeq3SxlIb6Degf1CK7hbqS9jPPQtZp8dPQm3TDSMdchLdC3EeVaLU4hYfGWiTdrpQ8b41+XRj88FbHi0FyRKx/nS5nTEVXAo4jorn+kZdQwlzvPp4CBljWqjPz8X/G7kENGjJyybETuL67s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OigBHdyY; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7463325B0AA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778591286; cv=pass; b=mPU7Z64KFsJQCXnUm1AoTqqdFBpzEloGEhrvg8D+kXPZwd+0IMhylCn6sCXcE5RqQ+GxWJ6sTfr27LA+Zpzgd6r0oRZK/rHdNvDS6+95H1A0O3FIuRl6m9wBryh4k5vEhbAsYJ2+R9ZNp26n5O8AF1ciMEMkRDX9jkbGcjDklpw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778591286; c=relaxed/simple;
+	bh=+vcfNdRtvwQHAPFi9qeID7iVjTEIACNb7t52akS/Gx4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lz9wbJIJUEbZi/fHo/rG/fPX5WrPjvq/LB4D0bdiWIHOot2IzYdOutzNyMhTvhCLttEW4wgwsboEd8G+AilQgeK1in0JOO6jDTqtnJiAVRfkgCeL7Em798hpO/IYK3BurFVoU7vUXo8TBCEsjd+448w+D/wfd6ABMlXlY0ZAKRo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEGrDJvt; arc=pass smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OigBHdyY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FCF6C2BCB0;
-	Tue, 12 May 2026 13:06:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778591182;
-	bh=UFLh1HQgMVqyhIdcFfusQ2fCIb61H7oDcv3Fks5hcaI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OigBHdyYCbSkyyYJz6QrJH3KYMSIvtlAOUcjWa3CC9hvJooqA61fezXX9Re/DWLzX
-	 yZ00J0vFIkefV1t6g5WAnvIOtzF/msDuR8WjVl3nUS4C/jYUodzgjbOfv+BN/7tIJd
-	 vaQXyjVeRsT4rOGE83hIFlAwBbBD605lLXU2wKZf+pXQTJcSnd/DCKVyVC4v0SDatn
-	 iVt09xOZg9xi2qlbj5oPwxYvo1isXtXHHM8v7+XUMl9Xz977t/iG5Q6CAlbneLJrvb
-	 UNkM5XnRsW0s1TtnGsm7ScxI175pctMoM/7CZy2r6Sl49h/MiTxR5L50tdLZSv6ROF
-	 d8S2jMfkvw+uA==
-Date: Tue, 12 May 2026 15:06:14 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Kuniyuki Iwashima <kuniyu@google.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, 
-	"David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Kees Cook <kees@kernel.org>, Simon Horman <horms@kernel.org>, 
-	Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>, Jeff Layton <jlayton@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, Andrei Vagin <avagin@gmail.com>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Mateusz Guzik <mjguzik@gmail.com>, 
-	Joel Granados <joel.granados@kernel.org>, Charlie Mirabile <cmirabil@redhat.com>, 
-	Aleksa Sarai <cyphar@cyphar.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, io-uring@vger.kernel.org
-Subject: Re: [RFC PATCH 1/2] net: af_unix: Useful handling of LSM denials on
- SCM_RIGHTS
-Message-ID: <20260512-sparflamme-themen-4f3f10225b2a@brauner>
-References: <20260428175125.2705296-1-jkoolstra@xs4all.nl>
- <20260428175125.2705296-2-jkoolstra@xs4all.nl>
- <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEGrDJvt"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-65c30aabe8dso486982d50.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 06:08:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778591283; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HNO7WL4mWU2E301kegwX/eDvnkLA8kR1D8mQAtkM5nsufM/0a+2f6iKxUJSSrtwweI
+         Q+9+pt/tgasuC/FvjvH2DE629Ox9rUPMj8gazHIGGixACn43OaVsfYBKZ7WIG0217ZeR
+         LzRynGlRKMmcPu1LAciC2FaBMBXcbFZLl3Qy0g5DVSbZBnVyds4CyB8JvUM2qSdn/pbq
+         kPZSHfJVKtiTIVKa7oEb6DX9tXJ84ett1KjaWok9CQm6/f3IRIoTJqevKRdg6Fo26boF
+         4+9RfQllXonCE4ECGXvfbwU/OhASwMB/c1DmU+mI/5uJEXaeohUVEwikhz8BOumMMtEx
+         5RIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vnBWAAshyrw9uW2waQU9UJFxrzx86ul1N0tkpGj9Dmo=;
+        fh=7cg0uaYzZtUpTWlMIv46SMWt0QAN/h88FLjNAxODRDk=;
+        b=WdyriUvDkAHID3KYjOSgOhIp59631+la2c6UlsazEQpECvIisroZjn36ZcgzxfIxJw
+         iMFCNXpLYgmuf3ZG8S+dYoTj1pDW53vUK2ExX+aWAUv/3KbwADEb+FJC8Emzm/tHQfqv
+         9N0szRs4WLrV5WwbVYPdQ9cKqYCB/fp9NmMG3rIq2PwuR/CYznAHIiw2eV6fFq3eCNRI
+         MsyNj+2cbAMrRx+PGhxyrrGEqBYzApIEIsXyiQSllyqExiyOGKYtyfakla4Fu+sl6Z98
+         lVYhKeiM5mIhL3G4B6wiJ80Xoo0tHpOYMD+BAq/8Y37fGJ1JyGKJMQI8UC8OCw4ZC7xc
+         GDjg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778591283; x=1779196083; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vnBWAAshyrw9uW2waQU9UJFxrzx86ul1N0tkpGj9Dmo=;
+        b=fEGrDJvtHpIFtrTWjkSoGKqDTEQcVkexN4jqkdq4Th8fzXv9UTKn/H7MMd8olzktqd
+         2qVppYWSG4KHLvBTv3QKS2rbh4j+YD674sTm1qS7+gFGDg8nnkzV4OCMKG6vQlPS0l6n
+         HnJVvajdgkMF0uoiN4iFMck+1LrImvydCGoJw1xynC6YuSBYBAmXt4DIYqK+QFs7lygI
+         QuUY46kyQz1i6/B/pxWxeyVQXb1vbPYoK4OE+1wGDUyqs1nE+rZ84qnl+5DiWlRGICmQ
+         WNsPCeAKQZt4Bmwhi1eEo+WluE64FdBACfg+ocN/mJpHj/KLZ2ptvXO6LUs4IvPmpwUR
+         0/vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778591283; x=1779196083;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vnBWAAshyrw9uW2waQU9UJFxrzx86ul1N0tkpGj9Dmo=;
+        b=L8qMPIUldOqeCjjF08JAOSniV5/HOkhDo34eDebCclSBNVAj1y084jgqEJGSMHTzHf
+         jF9SlzfZYQF1UhYyB2WpblVNdadDScw8MS1lwLcngNODMrWiyXHUYvDf+FBrJs80v2Y2
+         F7a+X3OhmJkPl6gTwxK3daUydzu6YJJ4arH0+tlvsfmLVSI9dekBcAia/7aoCHxC0XaH
+         Eol4zaTshlbi5sWhqwKS54dmFY5XorNCc7K9s+cjxAURHf+xIWAbSaf6SQyyL5wbNEB+
+         of0Kmll9kPWdICaz48SkfDo2zGyi3agVmO3G+3tmO7hxbZDS/jnjcu9t4byDs0DnhkTR
+         a5JA==
+X-Forwarded-Encrypted: i=1; AFNElJ/OluuGKUejD6ThFcqg3XTJ0KMhd2On98IthnYSMBDCnF2zUarnf68O1ZjfgycYl7X8p3GrVSL0xLiIPSHH@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU0lGHVUtPlgPXeLGXsBeh5g0Lyc/ghCzz7dpK/UsiNRCZp/Bv
+	l8yM4lyLDvmRfTw0gvm7zR875tpozZr7a8QIPG6bBpAci4QJRI9G/YyicUARVJHlr7UsK8E3emL
+	uGYuoRgPpG7x2jpi0yMY3anMicoxNdcc=
+X-Gm-Gg: Acq92OHwWjTF8vmLrDvemTILIAi7CEHn+nr4viBHJmwfHjIhK6qTvQRiGc8v9je6RRU
+	HGLeEeqqx8+DMaxtgvsWVGtg1tyka2Tq6AKSf/FQxPS071vYvaWS6WGdtsOMA8Ym0GMgx5Ej7LT
+	/AFDYP/jBwBNnhSCOgmm8sGftu/4W2mSNeqBaKMKXnw06JC/5u7RSpxRMkz53HaZSSahq3XeBWf
+	8qe2MNPtuszMEVjXJpZbiZXzgmbQ8bLtEY8/wunu4Io3G5e8D0I4fyO2tkUlONwaeD4DmO447Pv
+	H4KCl2wa
+X-Received: by 2002:a05:690e:13ce:b0:65c:322a:7ac3 with SMTP id
+ 956f58d0204a3-65c7b70bfbbmr17655158d50.2.1778591283371; Tue, 12 May 2026
+ 06:08:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
+References: <20260512123404.719402-1-dhowells@redhat.com> <20260512123404.719402-9-dhowells@redhat.com>
+In-Reply-To: <20260512123404.719402-9-dhowells@redhat.com>
+From: CharSyam <charsyam@gmail.com>
+Date: Tue, 12 May 2026 22:07:51 +0900
+X-Gm-Features: AVHnY4I7C6CzYKo5rOIaKeFxn1UK1vSWmDrEYuJGWgiJZva0dOf3Ebu3U-sXK3A
+Message-ID: <CAMrLSE5jFZwmUrx5GWhz4AD9QpLsF9VsdaMJxiDa6ukXqH8RPg@mail.gmail.com>
+Subject: Re: [PATCH v6 08/24] netfs: Fix potential uninitialised var in netfs_extract_user_iter()
+To: David Howells <dhowells@redhat.com>
+Cc: Christian Brauner <christian@brauner.io>, Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev, 
+	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 29, 2026 at 07:04:25PM -0700, Kuniyuki Iwashima wrote:
-> On Tue, Apr 28, 2026 at 10:51 AM Jori Koolstra <jkoolstra@xs4all.nl> wrote:
-> >
-> > Right now if some LSM such as Smack denies an AF_UNIX socket peer to
-> > receive an SCM_RIGHTS fd the SCM_RIGHTS fd array will be cut short at
-> > that point, and MSG_CTRUNC is set on return of recvmsg(). This is
-> > highly problematic behaviour, because it leaves the receiver
-> > wondering what happened. As per man page MSG_CTRUNC is supposed to
-> > indicate that the control buffer was sized too short, but suddenly
-> > a permission error might result in the exact same flag being set.
-> > Moreover, the receiver has no chance to determine how many fds got
-> > originally sent and how many were suppressed.[1]
-> >
-> > Add two MSG_* flags:
-> 
-> Since we only have 5 bits remaining for future extension,
-> we need to consider the use case a bit more carefully.
-> 
-> 
-> >  - MSG_RIGHTS_DENIAL is set whenever any file is rejected by the LSM
-> >    during recvmsg() of SCM_RIGHTS fds.
-> 
-> Is this really needed ?
-> 
-> Even if the fd array is truncated, the application will traverse
-> the array anyway since it has some fds already installed (to
-> clean up in case of MSG_CTRUNC ?).
+Hi, David.
 
-The socket option suggested later: Wouldn't it be simpler to just add a
-socket that instructs the scm layer to send all fds that were denied
-with a -EPERM sentinel. Then systemd can:
+It looks like ret does not need to be initialized to 0, because it is
+only used after being assigned the
+return value of iov_iter_extract_pages(). In the zero-length case, the
+loop is skipped and ret is not used at all.
+What do you think?
 
-* detect all fds that were denied simply by seeing they were -EPERM
-* keep the count in tact
+Thanks
+DaeMyung
 
-and - see below - get rid of the blatant layering violation in here...
-
-> Then, it will find the -EPERM entry.
-
-I assume we're talking about the same thing. All the complicated rest
-should be dropped. There's a bunch of nonsense in that uapi entry -
-quite a few items are merely drafts.
-
-> > -int receive_fd(struct file *file, int __user *ufd, unsigned int o_flags)
-> > +int receive_fd_msg(struct file *file, int __user *ufd, unsigned int o_flags,
-> > +              unsigned int *msg_flags)
-> >  {
-> >         int error;
-> >
-> >         error = security_file_receive(file);
-> > -       if (error)
-> > +       if (error) {
-> > +               if (msg_flags)
-> > +                       *msg_flags |= MSG_RIGHTS_DENIAL;
-> > +
-> > +               if (ufd)
-> > +                       put_user(-EPERM, ufd);
-> > +
-> >                 return error;
-> > +       }
-
-I don't like this. It's bad enought that the generic file layer needs to
-call into __receive_sock() I don't want it to poke into other subsystems
-internals even more. That's just not appropriate. Get this out of the
-VFS's way, please.
+2026=EB=85=84 5=EC=9B=94 12=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 9:43, D=
+avid Howells <dhowells@redhat.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> In netfs_extract_user_iter(), if it's given a zero-length iterator, it wi=
+ll
+> fall through the loop without setting ret, and so the error handling
+> behaviour will be undefined, depending on whether ret happens to be
+> negative.  The value of ret then propagates back up the callstack.
+>
+> Fix this by presetting ret to 0.
+>
+> Fixes: 85dd2c8ff368 ("netfs: Add a function to extract a UBUF or IOVEC in=
+to a BVEC iterator")
+> Closes: https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowells%=
+40redhat.com
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> cc: Paulo Alcantara <pc@manguebit.org>
+> cc: Matthew Wilcox <willy@infradead.org>
+> cc: netfs@lists.linux.dev
+> cc: linux-fsdevel@vger.kernel.org
+> ---
+>  fs/netfs/iterator.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/fs/netfs/iterator.c b/fs/netfs/iterator.c
+> index 154a14bb2d7f..6903028b7162 100644
+> --- a/fs/netfs/iterator.c
+> +++ b/fs/netfs/iterator.c
+> @@ -43,7 +43,7 @@ ssize_t netfs_extract_user_iter(struct iov_iter *orig, =
+size_t orig_len,
+>         unsigned int max_pages;
+>         unsigned int npages =3D 0;
+>         unsigned int i;
+> -       ssize_t ret;
+> +       ssize_t ret =3D 0;
+>         size_t count =3D orig_len, offset, len;
+>         size_t bv_size, pg_size;
+>
+>
+>
