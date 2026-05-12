@@ -1,165 +1,104 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BDD306745
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778592191; cv=pass; b=YKYtLKiA+XbLlX9p1D49ZjAczCy7YwpDoDc4C1eJ3FG3yN4JxkWK3oZoVVy/AN9ysdkS9ptI8xcwDNoKvitdHbhg9paKiR2yZra8RZ+uAv5G32q4DPLsRq4JqZDM7ex7X6xpewdmyswW56VjGOkzM/YiK36SyQ0IP1PwL/+0obM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778592191; c=relaxed/simple;
-	bh=oLNne5cobDJZx5zkoUSLGFP9qe8rytYx2dxIodND2sk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I2BX61ZV9SjeJqmiI67SSAvxL2gy74Gelahiszpeyyi2G7pdc9zUh/BV6mV67OmjyNjK88E30iCWdAAtDJUl//Tcu8mA2iZQaemRJOk2jQ0gb8ggOHq3+K1BZMctAEKEGNVR0CnRbt+3ZsU4G3MEWgAdezDpD8WYw3NLS3wluyw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N7lItS+f; arc=pass smtp.client-ip=74.125.224.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF2D1448D5
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778592388; cv=none; b=hAjkYecV7JD/GhgXzGten5fnBAots6GbzV9Jc2+EtHoJEWeraAg17de4LGvqi9SL1ZirOsO/wxHaeJhBS11BwNf9x1JSOtgqbtngXO8QA7ke+3US6MDKGnCdLxzR0a8uvJpRB9CMIXI/iTqE1Rpret6YTI94ZQ0huxtBEAtHnhI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778592388; c=relaxed/simple;
+	bh=UrCVAaEomD1JBqShtBiRFlzxvPFrunwUPUxg9hoXK3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JnSgt9oyGNsF7PvZSFJlCZbTya4YnWtgiqgO5xmeek/CCmF/4EKlBnoz9eZFu/S90+OVLzCsVUCM60kbNDk5hwSikGh6TIy8nwD0PThboOIQpbuXa4VuBA53Qp74dFqSXrnOWtFyuwXzEuREKsbuhkfhdTmdKizo1d/hsc44d0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o9BmeYaN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N7lItS+f"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-651b71f5cffso714221d50.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 06:23:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778592189; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TMS38k0l6vmIQRAaxsh9tO3eIkPg0fbTOk4shLehx8+8qvEh5OvB+xDCfXgpg/c8Aa
-         bI0Ye1kBB2JhJRW4Y6rKyNesfE+eNvlzNiixUw3b/Zd1IQylFKXx4sU42MJxKNEmbl2b
-         nxMloeVhRLjs3Sd0l/11ksksuO/sS2wfaVoCRNg/L3f34bvRWlB0yRa8YXWWmhi8ht7A
-         pSfSSvRForfJNGjRb3ytY3qj4h60Cm5xu3kIecI8C9ZcjiBIRRsATuGg8wpeqxUUZFEJ
-         ThSli775lD1yCFlKN7AXVXX5vnd/IxKCoAkZcUrj4LStRxAUm0njXO1MiSfDN41pp2By
-         xNVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QJPBnYs94tK7QkuXGsl4iBCO8CLdE5ARLqd4Db6XIiI=;
-        fh=Vxu/QSl0yxbOOTQtbiLIXM3CHR0wKgMD0JLxYPqwqEc=;
-        b=VhgfvkWZEb4HcU8f8UjifxkPnTi8u3oH91mwcdEwd8lOC3GtlUaXnwjrMrRgGrEaU0
-         znpedJn5TD7Gf2IHEYLYK/8Lmzw3xpucUBZz71Csl0EHILLpPSAFztZYTOnuhrslNMNB
-         nAeuoLxEpkmdrZYxSrZFgyk5FkEIK4B0dHIv+EFzQYNqAwKz9UlQ68Xxz9rfHl3xSRFs
-         1RLKq22b6kfjfLs/RCMMNfShGKPaztsZt97/UZwG1/CPcyKeWqufR2/enWPvwIA9viYA
-         QAP79FGsVZPcM4peDpF00S0gJui7O0U21yvwkYH6nmPhXeHuTH5w5PVoJl36odEy3Jdh
-         vULg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778592189; x=1779196989; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QJPBnYs94tK7QkuXGsl4iBCO8CLdE5ARLqd4Db6XIiI=;
-        b=N7lItS+f7DWAjNLR2qC5vPqEH5cDwbCGT9nyrQOWTH1ixmkV4xQTwLkaY9wyx95xSH
-         G2PlcAa8SGed6AWdVjLSVFUXhDiGBD0W3L1LQ2GwjBXrqYAslVI0bxXOanaCZhQKId/J
-         sunNNGoOT3iMg8LJ5DhnZALN3hoY2hQH49KP1pILl1WBWCyYRbFojajJSy/tVPyi5kzX
-         faaypv7neCLq73Ve05Y9HC/Zpjcrj2zuC17ExODCQpcNt3zvcajqHQ7kFPNudDuZBcVf
-         Fp+Nb7x0Or8CYCJF93b3QE6+v8U50bv41GznUrm/H2FPrnIY+1pXDYFdmd+EQdxQ25RG
-         zjHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778592189; x=1779196989;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QJPBnYs94tK7QkuXGsl4iBCO8CLdE5ARLqd4Db6XIiI=;
-        b=TRspyhhEnjLocbJsMvd3tJWKip9JO7i176lyHa96GQfpdkYmqah4/Brw7v1Fh7tH6h
-         9RyVmCBMA8WHzKvMp2yj66NrbHfFBDdHjJmG0tAZP6RmblSinLaMxdsl9JlZHD2NcjXS
-         5qbWKBf0CwS+b34Djsyioj6woP1jeCowNtYl++faprtHJQiQFgE42Xhju/SbT5VVWaGN
-         OGJBoRvSSQn3QFH/IeFLyV1RnkTs4ooBOyABITxEfAUp1uRb5+G4+ewFfe6y5k7HqWb3
-         oQFxqy1DbxhLamjEoM9LlRBrMTdPmAdYUsJ1KPRVMjxPCxFV8AxIYvfShAWhmKs99vsZ
-         /qkw==
-X-Forwarded-Encrypted: i=1; AFNElJ/fAt+hfwH8Cq1ogtWeAJRDz92rH4hZXCYP1i0EYjNjSD64Q2v5JjdRso0KBnsdDUak0UMxA34QrpRPiwY4@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxS2USNV1YwizMKipHVjC34ylVK4fgoU19iSXmjiUSY9VW7gji
-	2iiAe/qJoLXR2aTrKa4PMLHZmuAH8U/1ctVudEewmnJlhBAzYr0hH0l3Cg0c0vYioK5aXjE5RR1
-	xBi95WySySywf0l6fqhoFuulrQ6vdUec=
-X-Gm-Gg: Acq92OEmMkPsAddXG2ky8L8PyVRgLlAmuSKw1QOu0C8QCiO3Sm2yqsu9sOH++pXKBr7
-	/TPu4MqYyo0jVXCO7OHayMW/LvTvPqJ7c9WeuZ5lIzOh9Xbhuz98R62Fgm2PMtP6bLrFHVOqa2d
-	GSj7qVmKrW6aMxRFq/endLdKE+M59OgkXfJy20cU5dAD3zTv97OZF9bKkymIsuTZjt/f3rBnlx6
-	98K56lY0IH2TOd5MvMZOolGKdGUflsB9OprwP8oKI6WNj73PKQ/QJQ5KxUlNVLsA/hbq/ECzgbp
-	vSygLaGl
-X-Received: by 2002:a05:690e:128f:b0:65c:124e:61ce with SMTP id
- 956f58d0204a3-65c796f49e5mr19234437d50.0.1778592189338; Tue, 12 May 2026
- 06:23:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o9BmeYaN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 863F1C2BCB0;
+	Tue, 12 May 2026 13:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778592388;
+	bh=UrCVAaEomD1JBqShtBiRFlzxvPFrunwUPUxg9hoXK3Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o9BmeYaNDqcTlhY2/rQC1gyG+Uu5AZcd4Qd53oAz8VjtEh5GC21oLNG/qbMINqxyQ
+	 y5qqCc0OXtPL4mGuq2LMpdWTHnq4+viX4aqX4WcmybaBD17sHXLAjH4xe6Lb7yUQ7P
+	 a0Q10NDWVLa9ZFAC4F64jbQVlIb+RVkzM24CgRqqc7gGq4OXeQnovMftj6mbFtLKk1
+	 jl8MRmz0hf1bTnZvPVIS2zG05DO6Ipb++lHt33PWoyxAXWxslK72LrUlGwYoqL+zPF
+	 HbMPlY04XlAMdA4rLwvZY7dYYAdWHtWtNeYpRNchL7RqzEP0usDohFLKCMNGGVSxmF
+	 bY33uGfePIyvw==
+Date: Tue, 12 May 2026 15:26:25 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Gabriel Sakash <gabrielsakash@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org
+Subject: Re: Faulty interaction between open_tree_clone and
+ OPEN_TREE_NAMESPACE?
+Message-ID: <20260512-albern-reitschule-18489fc9c55d@brauner>
+References: <CA+PzELx7nhdo9XAJ7v3mb3hzK2LLTv6OOCHNdfnKJojX1ijoaQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512123404.719402-1-dhowells@redhat.com> <20260512123404.719402-9-dhowells@redhat.com>
- <CAMrLSE5jFZwmUrx5GWhz4AD9QpLsF9VsdaMJxiDa6ukXqH8RPg@mail.gmail.com>
-In-Reply-To: <CAMrLSE5jFZwmUrx5GWhz4AD9QpLsF9VsdaMJxiDa6ukXqH8RPg@mail.gmail.com>
-From: CharSyam <charsyam@gmail.com>
-Date: Tue, 12 May 2026 22:22:58 +0900
-X-Gm-Features: AVHnY4JVdrnalD3VcY2gJzGM9eUXbqquyOoAkwfHaKwpTwhqh9XLF19h2Tihueg
-Message-ID: <CAMrLSE6Ff-_Kuyk44U1kbe6gjaeLuXanXUoBA5As69EYhZzw0g@mail.gmail.com>
-Subject: Re: [PATCH v6 08/24] netfs: Fix potential uninitialised var in netfs_extract_user_iter()
-To: David Howells <dhowells@redhat.com>
-Cc: Christian Brauner <christian@brauner.io>, Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev, 
-	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CA+PzELx7nhdo9XAJ7v3mb3hzK2LLTv6OOCHNdfnKJojX1ijoaQ@mail.gmail.com>
 
-Hi, David.
+On Thu, Apr 30, 2026 at 12:33:47AM -0400, Gabriel Sakash wrote:
+> Hello.
+> 
+> Christian Brauner, I have CC'd you since you're the author of
+> https://lore.kernel.org/all/20251229-work-empty-namespace-v1-0-
+> bfb24c7b061f@kernel.org/.
+> 
+> Due to Arch Linux updating the kernel to 7.0.2 today, I have been able to test
+> the new OPEN_TREE_NAMESPACE open_tree flag on my main workstation.
+> However, I have found that it and open_tree_attr do not work together.
+> 
+> At the end is the C program I used to test the following.
+> I expect that the output is something like:
+> TARGET SOURCE                    FSTYPE OPTIONS PROPAGATION
+> /               /dev/nvme0n1p2[/@] btrfs         <options> private
+> But I get:
+> open_tree_attr /: Operation not permitted
+> 
+> Using "plain" open_tree works as expected. I have narrowed down 3 issues:
+> 
+> 1:
+> fs/namespace.c:5196 => wants_mount_setattr(...) to check if the attribute
+> changes are sound.
+> fs/namespace.c:5101 => may_mount() to check if the permission are met
+> 
+> may_mount is:
+> return ns_capable(current->nsproxy->mnt_ns->user_ns, CAP_SYS_ADMIN);
+> 
+> Because this is from open_tree_attr, the process has not entered the new mount
+> namespace yet. This will check if the process has CAP_SYS_ADMIN in the init
+> user namespace, which it won't.
+> 
+> 2:
+> fs/namespace.c:5198 => do_mount_setattr(&file->f_path, ...)
+> fs/namespace.c:5198 => path_mounted(path)
+> 
+> This attempts to make the mount attribute changes on the path of the namespace
+> "file", and not to the (root) mount in the new mount namespace. It will fail on
+> path_mounted because the namespace "file" won't be the root of the NS FS.
+> 
+> 3:
+> fs/namespace.c:4952 => !anon_ns_root(mnt) && !check_mnt(mnt)
+> 
+> This checks if the mount is anonymous (it won't be), and if not,that
+> it's in the same
+> mount namespace as the process (also false).
+> It appears that the current mount attribute calls aren't set up to handle
+> mount namespaces different from that of the current process.
+> 
+> This issue is still prevalent when running a VM with a kernel built off of
+> Linus's master branch. Apologies if this is already known about.
+> 
+> Thank you for your time and good day.
 
-Sorry for the confusion. I was looking at the current mainline code,
-but after checking
-the version with commit 8ef352bc015d, I agree that `ret` needs to be
-initialized to 0.
-
-Looks good to me.
-
-Thanks.
-DaeMyung
-
-2026=EB=85=84 5=EC=9B=94 12=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 10:07, =
-CharSyam <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Hi, David.
->
-> It looks like ret does not need to be initialized to 0, because it is
-> only used after being assigned the
-> return value of iov_iter_extract_pages(). In the zero-length case, the
-> loop is skipped and ret is not used at all.
-> What do you think?
->
-> Thanks
-> DaeMyung
->
-> 2026=EB=85=84 5=EC=9B=94 12=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 9:43,=
- David Howells <dhowells@redhat.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> >
-> > In netfs_extract_user_iter(), if it's given a zero-length iterator, it =
-will
-> > fall through the loop without setting ret, and so the error handling
-> > behaviour will be undefined, depending on whether ret happens to be
-> > negative.  The value of ret then propagates back up the callstack.
-> >
-> > Fix this by presetting ret to 0.
-> >
-> > Fixes: 85dd2c8ff368 ("netfs: Add a function to extract a UBUF or IOVEC =
-into a BVEC iterator")
-> > Closes: https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowell=
-s%40redhat.com
-> > Signed-off-by: David Howells <dhowells@redhat.com>
-> > cc: Paulo Alcantara <pc@manguebit.org>
-> > cc: Matthew Wilcox <willy@infradead.org>
-> > cc: netfs@lists.linux.dev
-> > cc: linux-fsdevel@vger.kernel.org
-> > ---
-> >  fs/netfs/iterator.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/fs/netfs/iterator.c b/fs/netfs/iterator.c
-> > index 154a14bb2d7f..6903028b7162 100644
-> > --- a/fs/netfs/iterator.c
-> > +++ b/fs/netfs/iterator.c
-> > @@ -43,7 +43,7 @@ ssize_t netfs_extract_user_iter(struct iov_iter *orig=
-, size_t orig_len,
-> >         unsigned int max_pages;
-> >         unsigned int npages =3D 0;
-> >         unsigned int i;
-> > -       ssize_t ret;
-> > +       ssize_t ret =3D 0;
-> >         size_t count =3D orig_len, offset, len;
-> >         size_t bv_size, pg_size;
-> >
-> >
-> >
+Thank you for this bug report. It has all the details we need. This is a
+missing feature for open_tree_attr() for sure and should have been
+merged alongside the original implementation. Thanks for pointing that
+out. I'll send a fix for this.
