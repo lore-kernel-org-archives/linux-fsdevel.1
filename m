@@ -1,67 +1,67 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B5F3A7858
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 20:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2899A3A875F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 20:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778616209; cv=none; b=BDUpQaRu6U+ZBeXWDQCgPt3d1fjReKCdAGqw3c0rNAqSBdJukvIxZUY1Uj7ceazbMHapL8jYlRlPlOnJPsqDNLBjhuxLD4Qg2ltwVwuyy5GV4fBa+RI1+ssk/i44awtC6/1wISbAh0LlEzoX9NjAqCIc4RDTIawZ/1sp9/ghzaI=
+	t=1778616251; cv=none; b=SrCq6VpBR6nMYGoCXffjTeIPp9dPhlUx3xyBqIPc/u4CchLYm/zfen5sDPyEPVUuQUFgmnas0en0vT3q0N2rkxXsvCxSeCO8hC4RA6q9LcYOz01Ndr88JfpXWwD/6oW4fqn43AcPYRO8/V4cm6So6Qs3V5LBESkFRmTBaVEkJFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778616209; c=relaxed/simple;
-	bh=icfVQZTDpssRWG9KVcnT5QAPQw3lAHsnDTRA+hX/t/8=;
+	s=arc-20240116; t=1778616251; c=relaxed/simple;
+	bh=/hkOjn/leKAClt06K1k8dcGw0kKl6JVqrw3E17jd8L8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VopELy5DEabLeVTGzD672NR1BMe3LwW6ZnN7NYUVZS4NIV00qNgyFiyfdfm05wyTONItskoAlnL2e2vaYXRfi3rLV4xmIxPD1P1UlC+Ne6Bi3MgnNq8Q2ypLi42xOyFwgS//6A4H6o7OzmjERTgL1irwhYSJaQ4FBba0hzFLFvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=RoMHqMkC; arc=none smtp.client-ip=209.85.167.181
+	 In-Reply-To:Content-Type; b=DuQ+e54XuQPEVETLbA6LeJ/XaTQjYqCKeWVsWIOB30rcdHtl4TXD8BWo5iGple9gEbIdgJjprMSE4H9+3D6izcpo9BtWuqmp1Kj/rKQeJGv7QRoHGErsLKvw9IguBJilrMjFD4dVLA7Au5kHjNpvTDzGXqufHuQ6sNwngj+mOww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=bPAZrPur; arc=none smtp.client-ip=209.85.160.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="RoMHqMkC"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-479d68a9063so2240911b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:03:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="bPAZrPur"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-43587e63a8eso2043013fac.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1778616204; x=1779221004; darn=vger.kernel.org;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1778616249; x=1779221049; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=4sFjsl7rX9xdwkM4JBePDQqpzlupaZEv/JzhTJF06DY=;
-        b=RoMHqMkCDa0J5TOYNDw5ySapy7HT8ta6dSP8gai1NHt6+tZnvx3jKXfq9V8UM681vE
-         QrRcKMw2axa5ue46xYUedDVq/zFCHE0Y0NuaHdk9GaxSQ78GEFQeZflydEAFaWBPdboc
-         hfOi30sH/y+Z6EEBUCDqSPxYucpywviE7RAxKNpVOMQn309Lu+VfkRPZWI9TaE00h/So
-         L2jhxzX4zUdTvi1wqhLJ774Mgph/KwNVs+x5po3zaquh8AuRnyIQ+kwcX35nsI+k7hYi
-         2VvkRFWOFhoLK29MpAa4WtK1b2hN7d9T2OIm6dmIgOzZHuZXSnayrfWAa95eO72kl97f
-         112w==
+        bh=JAPMktyvOhiuLY9Ol3xDpLg5ZIMwHSxD+pTIiS+Dfmk=;
+        b=bPAZrPurMHnOmtjadFeQ3/bHrBK988B2OrvfeqFKxR2pvgAJLkQhqs9x5NnSloudCD
+         3bTU+Xjmkgv7EpsY4rMUoA8nOJZqdIWLDf5/IDkwJ+M7PMp/YpuEkVT9HwsMYJ/GfOpA
+         n8Dge7Xs2iPHVQo5e0nwvXDpb5HLYlMsDO8xOwuhvkmpNZlxbCT1Uu+MuMy/L3PzvQD5
+         ooCZPYlIJ+/XxxZdeR41HM3A4UrLGsVZvW7WxDwnlXpLZzq7fXpnbk9ZIJCX8OOXqtxY
+         K5FLjsID8uVOygDiC2Qjla16eRBjgC7asD7KiBdCLRE0K4X6bZ51UK1vgGhJYM7G0mm/
+         wQSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778616204; x=1779221004;
+        d=1e100.net; s=20251104; t=1778616249; x=1779221049;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4sFjsl7rX9xdwkM4JBePDQqpzlupaZEv/JzhTJF06DY=;
-        b=gLITtp5Iweb73dldtVtvSe3A8keKr+L34Ixfpti/qf39FmyOCnG6mao8wMe7XteifH
-         yVNd2dfLeJu62f5eZEd8AxfAOYINOAaVpzd+izM02BpKRg6K4rraqJKFypzdjCfA+Aka
-         Z65dSe7QROsfX65w8tfLH2rQtJsl/ToN8792cIDOyH/e8EwlSngHoXn79oqPfprfsFVh
-         6bQVQv2V1eJfTB8U6HzEBKRI5PPM7+UliMKhxOo1V6fIbsNBRuNfh+K0c2/mB2tJFMAA
-         99kNUn9nZIvHadC24TFj6bsAnhHPk+WkLKf8m1RI2cD3N65bPgrZyKQQN33s+oLkY0yi
-         KOgA==
-X-Forwarded-Encrypted: i=1; AFNElJ+ysioYNd/mDQJmaH3cFYVRWsepdUlHalYjV9VQK6hyLK2PuJB6IAhwKRFyL0KxbYDDLPHIlwNwoDdtjgTX@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDlBd6zx3EavVbeFIEpKxt0N45b/TLuEj7gMditKWyGUGStncE
-	K5KxxUEXq7UQg1glvnh31pVmxeITH1skkcC9N+SbttlXKcFEoUBHiYVIfZ6otlSEAio=
-X-Gm-Gg: Acq92OEtVvGSzchOG/dtHY3QZB9IweMoiNUib1FCYWJuImeQirv8YOgRNqbzoTfo5gu
-	8CVw9S52HdfKRj0RZ4z+ABKcWxyVKD3X1NdpiU4ftl9HHqM8DKfNPt6BbpUcHkS9gEOoLxGK+bq
-	l84jaspYxR5emmPE3uAbdw5rWE2ERU1gj2mWWOczpCTMEAxLql/PAK8HUQiWcJdPeXARCCPnVhj
-	IiEwodo0MEzjh9cpr/sivX0mAM7pe4+ZlcfGfLgnm4PiD0bNUlV4XV0Tfd56a/iHfWFwXwtgsJL
-	tCAxmqez7pXN75qTV32ik16Jh3DH6vgb1b6RZUEggM4kXJufEakrehglySX+xY6F4CP0dmA4s8H
-	GTU5p4zEWGXpxipO5BknhgTrfEXjzqVFcbcElBOjzEqIqKrlvdfr/QOYI7uS4UjEmKbd2Ca0pga
-	gFZ6lpQ7RlXEtRk45OiS1Zjh6wmbZIdfS8eESmROtyxqAjYEUDfl5BJ4N8I4Yh6E9+LGgtlUsPX
-	yFbNJUus0DDLA9EbLaG
-X-Received: by 2002:a05:6830:6310:b0:7dc:dd19:7f69 with SMTP id 46e09a7af769-7e3da4427afmr94184a34.17.1778616204344;
-        Tue, 12 May 2026 13:03:24 -0700 (PDT)
+        bh=JAPMktyvOhiuLY9Ol3xDpLg5ZIMwHSxD+pTIiS+Dfmk=;
+        b=LWQSQXkdD7Uu7L+aR+8lKYkpGRiNlu26adLq0bgN9H/wCQyX7qebLJ7B+Bf72MWrvs
+         +hIiqKB/xGG1nbRZdVUMLyF+P98pvBxnKGUO5F6JRZtYDvMEt28/r5xQworoMQejpta5
+         Ass1A+Z9VzC6JClSzVLwEvS/0+GBiOlt5264QMY9hPkLJ3MYTrJwAbqVogrInAcHJcmZ
+         nPzRSrBboB4CmtrgFwTlQPkkN2vGjSJABIrJJugn8EYIqhSDEGacJUKAoDhhgzY15EQN
+         6WPBX1kHcjud35HRVRlMkOazO6sEoVwWFqg6Rwa3mcSvDoabxbVObWA27B11t6AqFlNY
+         cD6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9ePEKd70q0tEz6N1Z6VmJZjkEeNzjNo3dWq+WjyT9hQSexl6C/Frn0fkow5vOZ4CuD0xQ1DBuhenSJRwhk@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPSuzSAxFfj27ZcjdmifA5RZAsEDdHFCQfqcI8KzXnf4UCR4OA
+	dkHHtG2y/PdPpMbunfC9CdnxmO697cHIjjy+qXQHfk+J5vGba2QtcdQZbpgKwJyG8TA=
+X-Gm-Gg: Acq92OGHyK84agj7o0+s85YvpP8gRYszjQwgOXatJ7J8IjgwW/lRnlcqaQg0wewCrMq
+	jw925HwvfKyr2Dx+e9JlZhOgKjp5qJ8IQQa8ZNo1A9xHLkRyQ/1kdrv7qGOyvHPWjqtVmZkP9RL
+	n2bmCEjC33r+R3He0syGYNQUCZFPFtr2yDJ5qfwmgoFFl0RYg+g7oLkAvy47a7iq0gUm11/bdb5
+	V49BfDwqxHf3q2K7d4hdedFC6nqXHK4tWmxQVmnVfj2M+Q0P5/jw2t5LqZAsjxDmlBMfU06gTGD
+	dm/NgbSCljwSK/L7RddgIHNE3U4KZd6i1fuiROEHcuUBii//rMyS/86DeO7QwkPbIHO7l9BdZJn
+	kyvj80181GyH6x3khLL6ziNQ7xmeTs4qciI73b/eJ141uftskUL2REEQon05sluyj0h+2LRNfZx
+	QFEsSuR7vMPsSkYa50i/2EWMcAxLBkSBhB/N3+ZzHnk2SdU9XGdANRrwvn6w7qP5dKl+/R+Q1kn
+	jGd26ddryT+s5BgJZlW
+X-Received: by 2002:a05:6870:d623:b0:423:9219:4c6 with SMTP id 586e51a60fabf-439ce12fb66mr120125fac.13.1778616249058;
+        Tue, 12 May 2026 13:04:09 -0700 (PDT)
 Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e367d8feb1sm9193403a34.23.2026.05.12.13.03.23
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-439c1e0b5easm816013fac.3.2026.05.12.13.04.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2026 13:03:23 -0700 (PDT)
-Message-ID: <0eed0ed6-7e56-4dc2-acbf-7a221012e08a@kernel.dk>
-Date: Tue, 12 May 2026 14:03:23 -0600
+        Tue, 12 May 2026 13:04:08 -0700 (PDT)
+Message-ID: <dbd67425-5bd4-4d14-9b44-bc5252c1dbab@kernel.dk>
+Date: Tue, 12 May 2026 14:04:07 -0600
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,41 +69,41 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] eventpoll: add file based control interface
+Subject: Re: [PATCH 5/5] io_uring/epoll: disallow adding an epoll file to an
+ epoll context
 To: Christian Brauner <brauner@kernel.org>
-Cc: io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc: io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>
 References: <20260503085101.112698-1-axboe@kernel.dk>
- <20260503085101.112698-4-axboe@kernel.dk>
- <177861542130.846060.12151691690322065378.b4-review@b4>
+ <20260503085101.112698-6-axboe@kernel.dk>
+ <177861542131.846060.10743549776459529700.b4-review@b4>
 Content-Language: en-US
 From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <177861542130.846060.12151691690322065378.b4-review@b4>
+In-Reply-To: <177861542131.846060.10743549776459529700.b4-review@b4>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 5/12/26 1:50 PM, Christian Brauner wrote:
-> On Sun, 03 May 2026 02:49:14 -0600, Jens Axboe <axboe@kernel.dk> wrote:
->> diff --git a/include/linux/eventpoll.h b/include/linux/eventpoll.h
->> index 7bf30e9f90d7..4a6fe989810b 100644
->> --- a/include/linux/eventpoll.h
->> +++ b/include/linux/eventpoll.h
->> @@ -61,6 +61,13 @@ static inline void eventpoll_release(struct file *file)
->>  	eventpoll_release_file(file);
->>  }
->>  
->> +struct epoll_filefd {
->> +	struct file *file;
->> +	int fd;
->> +} __packed;
+> On Sun, 03 May 2026 02:49:16 -0600, Jens Axboe <axboe@kernel.dk> wrote:
+>> diff --git a/io_uring/epoll.c b/io_uring/epoll.c
+>> index 59cd4f009648..42057aab9124 100644
+>> --- a/io_uring/epoll.c
+>> +++ b/io_uring/epoll.c
+>> @@ -62,6 +62,9 @@ int io_epoll_ctl(struct io_kiocb *req, unsigned int issue_flags)
+>>  	CLASS(fd, tf)(ie->fd);
+>>  	if (fd_empty(tf))
+>>  		return -EBADF;
+>> +	/* disallow adding an epoll context to another epoll context */
+>> +	if (ie->op == EPOLL_CTL_ADD && is_file_epoll(fd_file(tf)))
+>> +		return -EINVAL;
 > 
-> Since you're exposing this in a header now can we please rename this to:
-> 
-> struct epoll_key
-> 
-> This weird {file, fd} pairing is strange enough as it is.
+> This is the same pattern in epoll itself.
+> Might be worth also adding a tiny helper for this that both codepaths
+> can reuse.\
 
-I'm all for that, but let's do that as another cleanup on top. This way
-we can keep this one purely mechanical.
+My preference would be to just open-code it, then it's immediately
+obviously what it does. Unless you feel strongly about it?
+
 
 -- 
 Jens Axboe
