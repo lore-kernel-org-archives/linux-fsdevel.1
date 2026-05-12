@@ -1,115 +1,124 @@
-Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A477360EEA;
-	Tue, 12 May 2026 12:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.61.252
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B21A39AD44;
+	Tue, 12 May 2026 13:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778590758; cv=none; b=Lx1RmHHCzued+2V6XtwafkaKbR4PEfuYRBds8aAGXAS5MdikjwQcRy5pjAZFioxA6t66vAM1p0l5VAvuu8nUy1D/2I4j7fFNQDH7wrg4fuxDWwUIGSp+WYbsLxPDFoUvHu2o5WpAaL9kq208VWGeS18uYZtC0Ior/V9bhOckPcw=
+	t=1778591182; cv=none; b=jHoCUc1z5wEeLu63AQ8WuBStBxdhbW0QgGBpWWCF3y+8uIm8vMj9iXya8J6et8UUx+1+mZtXKVInKdriZkd8S8e8YQ3rPYU5Zsrw+TCxs2uvjBRkW9AAC2L4A/dMLNBP46s9dteL8/ofuMuuqP1dYLv+XuTjQJOaNzFi5mDiKcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778590758; c=relaxed/simple;
-	bh=8k/X+GBcN3HecsH9d0ZY/G38JCz9EdOaVsc9Cwpw0Tw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ob4+iMFpl4fYej3eB3JQLbptomHqPOEpfJefj7ZFvsNLBSVh+Ug8rzgPYKoHFvM47CjSwleJnZCtgpwYogyzKrfkxwtUc8dleORzRv08qdONze/rJokh3V8esXhtB60s/PWTITkxQ03j1OfBCwzc6jZ9MEE2IXJMxxcJ/ewbknE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=P5Od2HGZ; arc=none smtp.client-ip=139.138.61.252
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	s=arc-20240116; t=1778591182; c=relaxed/simple;
+	bh=UFLh1HQgMVqyhIdcFfusQ2fCIb61H7oDcv3Fks5hcaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KCIMWUmOyU+RTpyYqIVc5j6pHq7NXeq3SxlIb6Degf1CK7hbqS9jPPQtZp8dPQm3TDSMdchLdC3EeVaLU4hYfGWiTdrpQ8b41+XRj88FbHi0FyRKx/nS5nTEVXAo4jorn+kZdQwlzvPp4CBljWqjPz8X/G7kENGjJyybETuL67s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OigBHdyY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="P5Od2HGZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1778590756; x=1810126756;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8k/X+GBcN3HecsH9d0ZY/G38JCz9EdOaVsc9Cwpw0Tw=;
-  b=P5Od2HGZB9IAOU5LyUSwSP9luvp8NHYKITSaosgk+G1gNlcYkpW7Uh04
-   zrBIXiPqABpzGzTY18JRaAzRbD/YrDjZzhaolr9/cc97IkT5wyJD/zqKa
-   wqRxNtqVXR3ho8f068PTJFK/DKPZj5Gd5JOU5KdUfagc5MNn7vJ4EckJe
-   nF/dMda979b6l4xsyQiYTT3/DD8An0owM8qwrlp72PReuPrcRAZ+Qbg9x
-   XJXoCCU0wS/DSuOSHXJk4k1YIiwHKMYFP8gH7tH8/bBIM3wFW9pmwPpXE
-   eYrYIe9f2ez44LqA5rWtmoeHm2Gbs81bhWVyomTXTT+/aY1om5wTQcy3P
-   A==;
-X-CSE-ConnectionGUID: 0kPhNcvWQ32WScYsAXMHQA==
-X-CSE-MsgGUID: hPstsACCTgCfjMfKf7gCrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="218970910"
-X-IronPort-AV: E=Sophos;i="6.23,230,1770562800"; 
-   d="scan'208";a="218970910"
-Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
-  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 21:58:05 +0900
-Received: from az2uksmgm4.o.css.fujitsu.com (unknown [10.151.22.201])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id 3309BC000A2;
-	Tue, 12 May 2026 12:58:05 +0000 (UTC)
-Received: from az2uksmom1.o.css.fujitsu.com (az2uksmom1.o.css.fujitsu.com [10.151.22.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgm4.o.css.fujitsu.com (Postfix) with ESMTPS id E049A140036C;
-	Tue, 12 May 2026 12:58:04 +0000 (UTC)
-Received: from dhcp-portal (unknown [10.172.107.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by az2uksmom1.o.css.fujitsu.com (Postfix) with ESMTPS id 88AB01800A41;
-	Tue, 12 May 2026 12:58:03 +0000 (UTC)
-Received: from isar2.ecs00.fujitsu.local (unknown [10.172.183.27])
-	by dhcp-portal (Postfix) with ESMTP id D3033608BB;
-	Tue, 12 May 2026 14:58:02 +0200 (CEST)
-From: Tomasz Wolski <tomasz.wolski@fujitsu.com>
-To: tomasz.wolski@fujitsu.com
-Cc: alison.schofield@intel.com,
-	ardb@kernel.org,
-	benjamin.cheatham@amd.com,
-	bp@alien8.de,
-	dan.j.williams@intel.com,
-	dave.jiang@intel.com,
-	dave@stgolabs.net,
-	gregkh@linuxfoundation.org,
-	huang.ying.caritas@gmail.com,
-	ira.weiny@intel.com,
-	jack@suse.cz,
-	jeff.johnson@oss.qualcomm.com,
-	jonathan.cameron@huawei.com,
-	len.brown@intel.com,
-	linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	lizhijian@fujitsu.com,
-	ming.li@zohomail.com,
-	nathan.fontenot@amd.com,
-	nvdimm@lists.linux.dev,
-	pavel@kernel.org,
-	peterz@infradead.org,
-	rafael@kernel.org,
-	rrichter@amd.com,
-	smita.koralahallichannabasappa@amd.com,
-	terry.bowman@amd.com,
-	vishal.l.verma@intel.com,
-	willy@infradead.org,
-	yaoxt.fnst@fujitsu.com,
-	yazen.ghannam@amd.com
-Subject: Re: [PATCH v8 0/9] dax/hmem, cxl: Coordinate Soft Reserved handling with CXL and HMEM
-Date: Tue, 12 May 2026 14:57:59 +0200
-Message-Id: <20260512125759.30007-1-tomasz.wolski@fujitsu.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20260416224618.12987-1-tomasz.wolski@fujitsu.com>
-References: <20260416224618.12987-1-tomasz.wolski@fujitsu.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OigBHdyY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FCF6C2BCB0;
+	Tue, 12 May 2026 13:06:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778591182;
+	bh=UFLh1HQgMVqyhIdcFfusQ2fCIb61H7oDcv3Fks5hcaI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OigBHdyYCbSkyyYJz6QrJH3KYMSIvtlAOUcjWa3CC9hvJooqA61fezXX9Re/DWLzX
+	 yZ00J0vFIkefV1t6g5WAnvIOtzF/msDuR8WjVl3nUS4C/jYUodzgjbOfv+BN/7tIJd
+	 vaQXyjVeRsT4rOGE83hIFlAwBbBD605lLXU2wKZf+pXQTJcSnd/DCKVyVC4v0SDatn
+	 iVt09xOZg9xi2qlbj5oPwxYvo1isXtXHHM8v7+XUMl9Xz977t/iG5Q6CAlbneLJrvb
+	 UNkM5XnRsW0s1TtnGsm7ScxI175pctMoM/7CZy2r6Sl49h/MiTxR5L50tdLZSv6ROF
+	 d8S2jMfkvw+uA==
+Date: Tue, 12 May 2026 15:06:14 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, 
+	"David S . Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Kees Cook <kees@kernel.org>, Simon Horman <horms@kernel.org>, 
+	Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>, Jeff Layton <jlayton@kernel.org>, 
+	Oleg Nesterov <oleg@redhat.com>, Andrei Vagin <avagin@gmail.com>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Mateusz Guzik <mjguzik@gmail.com>, 
+	Joel Granados <joel.granados@kernel.org>, Charlie Mirabile <cmirabil@redhat.com>, 
+	Aleksa Sarai <cyphar@cyphar.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, io-uring@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] net: af_unix: Useful handling of LSM denials on
+ SCM_RIGHTS
+Message-ID: <20260512-sparflamme-themen-4f3f10225b2a@brauner>
+References: <20260428175125.2705296-1-jkoolstra@xs4all.nl>
+ <20260428175125.2705296-2-jkoolstra@xs4all.nl>
+ <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAVpQUBKeN2KtRkRAFr8sYJM1_-rbkdjsujau5fAyaiP_dO6FA@mail.gmail.com>
 
-Hello Smita,
+On Wed, Apr 29, 2026 at 07:04:25PM -0700, Kuniyuki Iwashima wrote:
+> On Tue, Apr 28, 2026 at 10:51 AM Jori Koolstra <jkoolstra@xs4all.nl> wrote:
+> >
+> > Right now if some LSM such as Smack denies an AF_UNIX socket peer to
+> > receive an SCM_RIGHTS fd the SCM_RIGHTS fd array will be cut short at
+> > that point, and MSG_CTRUNC is set on return of recvmsg(). This is
+> > highly problematic behaviour, because it leaves the receiver
+> > wondering what happened. As per man page MSG_CTRUNC is supposed to
+> > indicate that the control buffer was sized too short, but suddenly
+> > a permission error might result in the exact same flag being set.
+> > Moreover, the receiver has no chance to determine how many fds got
+> > originally sent and how many were suppressed.[1]
+> >
+> > Add two MSG_* flags:
+> 
+> Since we only have 5 bits remaining for future extension,
+> we need to consider the use case a bit more carefully.
+> 
+> 
+> >  - MSG_RIGHTS_DENIAL is set whenever any file is rejected by the LSM
+> >    during recvmsg() of SCM_RIGHTS fds.
+> 
+> Is this really needed ?
+> 
+> Even if the fd array is truncated, the application will traverse
+> the array anyway since it has some fds already installed (to
+> clean up in case of MSG_CTRUNC ?).
 
-Do you plan to address the remaining minor comments from Dan and Jonathan in the next revision?
-https://lore.kernel.org/linux-cxl/69c1a8d1c0fa9_7ee3100a1@dwillia2-mobl4.notmuch/
-https://lore.kernel.org/linux-cxl/20260323181331.000018f2@huawei.com/
+The socket option suggested later: Wouldn't it be simpler to just add a
+socket that instructs the scm layer to send all fds that were denied
+with a -EPERM sentinel. Then systemd can:
 
-Best regards,
-Tomasz
+* detect all fds that were denied simply by seeing they were -EPERM
+* keep the count in tact
+
+and - see below - get rid of the blatant layering violation in here...
+
+> Then, it will find the -EPERM entry.
+
+I assume we're talking about the same thing. All the complicated rest
+should be dropped. There's a bunch of nonsense in that uapi entry -
+quite a few items are merely drafts.
+
+> > -int receive_fd(struct file *file, int __user *ufd, unsigned int o_flags)
+> > +int receive_fd_msg(struct file *file, int __user *ufd, unsigned int o_flags,
+> > +              unsigned int *msg_flags)
+> >  {
+> >         int error;
+> >
+> >         error = security_file_receive(file);
+> > -       if (error)
+> > +       if (error) {
+> > +               if (msg_flags)
+> > +                       *msg_flags |= MSG_RIGHTS_DENIAL;
+> > +
+> > +               if (ufd)
+> > +                       put_user(-EPERM, ufd);
+> > +
+> >                 return error;
+> > +       }
+
+I don't like this. It's bad enought that the generic file layer needs to
+call into __receive_sock() I don't want it to poke into other subsystems
+internals even more. That's just not appropriate. Get this out of the
+VFS's way, please.
