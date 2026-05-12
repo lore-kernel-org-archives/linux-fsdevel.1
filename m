@@ -1,89 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817E9357D01;
-	Tue, 12 May 2026 20:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7441E3A872A;
+	Tue, 12 May 2026 20:37:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778618003; cv=none; b=nFA8Z3keR1pZ3r1NHNZYrHAFBpckC+LlZ4d/48tVuTIhOwUBCTejVWCuqkH8LwXlg2BCzbcHhxBiQv17He4xL3t0rxifiqJ3XnEyfFCX7I8VmyNB05b9zgANL6Rz7GJ0i2ZmoPtPUWg4mvxxDzwQ2zBtpqevWI3sVckmD6XjchQ=
+	t=1778618253; cv=none; b=b3/sZHKc8BTIkZPcwTsWXgk/QAUmn0llpNL1MW/TGLpGn0BCbDYVsXUskbb8IKZfOm4B59Zot3HOs8I4EiAW+atWOKxNlUOaJftAkN6JZjqlhmaN3aZZ9I/bLobUew3vxLnwYJrl7EQM7vMdcR7C9x/6cjDQpd64ZDIDmAoWt34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778618003; c=relaxed/simple;
-	bh=Km6Rh4v5G8T8dQPpj9+aS8fpGyk8ffjwfzNRUPfwcwo=;
+	s=arc-20240116; t=1778618253; c=relaxed/simple;
+	bh=T619MJxi1U3iEhZpcB0U7seu6WkqkC+ovVkP0Ms77w4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T93nr+xna7GMn011dSIpw+wuKDBmW85XBoF+GfvRoOT6b3UO+0WK++N6x7LUcAxYexRMj6ja8y0iuCflBuGojIAicEwcCoGx/vUg/vaCBDMugXAyv8zEvM/BnHBEyo4tPxA7wnFjZ7Es0jqWg7MyDpQXSPt7JorcJ9gkUdbnLY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjaTnOsW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=dT7h3lXFNC/4ljkzUAxNhwudNDRTgptFpN8n9+p74vvmkcbL+u2DoUG6Ro5dePhLVKWzHGayYmO1RwNIJSI03RYUV0nJQbDeDomWSpTiCltxWGzGBVOkASOxHBkd5cAjGpaadnQJueGBzlhieF2mUGk92gHT0fMBRPdULEGLN+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nfhIzY51; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjaTnOsW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E437C2BCB0;
-	Tue, 12 May 2026 20:33:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nfhIzY51"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 219DBC2BCB0;
+	Tue, 12 May 2026 20:37:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778618003;
-	bh=Km6Rh4v5G8T8dQPpj9+aS8fpGyk8ffjwfzNRUPfwcwo=;
+	s=k20201202; t=1778618253;
+	bh=T619MJxi1U3iEhZpcB0U7seu6WkqkC+ovVkP0Ms77w4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qjaTnOsWBxjdxTVVzjYkBp4Q0SOIKVMLuS5chsaWGNxJ1U0oChwpIOd9CJv1dPVwC
-	 nfH7xFIruSRUTpRzqjDfrR2u44RUBFNgmFOIUPhI5qBZ9I21Eh4POfgkL1Zfziu7LM
-	 sK9RmhmPo+tc1PSZb010pnpu05w8Dj5TGfC0NcR8gH3v8rmi23jvs3IvU8pT797CWP
-	 hqf7W3CN5/kUDEFAI3YyRJR3cT45pUOjFqQm9wB5OOaxHbdTr4J5gUaKVpGNtl/Sz2
-	 fUmMZLdnOaxrXKNeeUJy1ImTZ3dvQrgSAlGarCasopsK/55QcLz3HF33vFSB4eldgy
-	 bwa1iF0NdyhZQ==
-Date: Tue, 12 May 2026 13:33:22 -0700
+	b=nfhIzY51biXSO08enVtNZXMU4g/Nc+joxU7z3KRPIgaVtmUS3ri7IzATHNRbCS5dJ
+	 /3nsPArErYkFCmGlhGj2E0AsTC/tT1jpIbs00qSCJrZgg2zG4M7bGWGUTyFohu1/Dw
+	 iLmQGUJR7WyHUS99hXamyZpQWzrato23Arb2hxEcknXJUDtDuKICY9jctfMeKjVBVO
+	 9daenbaDE+yk0w2IZmMSzL13IlDxLzHZ30KWb6xgRDW3Gj9rpT/1YaDT95+4sycwQ7
+	 qDvkbZoAh6yUQU4CvGoqMWKaK4vr219wkoK4EpFSSH1kBZuIKWMngiPN3u8dC92ZXp
+	 UvDi44cJKYERg==
+Date: Tue, 12 May 2026 13:37:32 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Amir Goldstein <amir73il@gmail.com>,
-	fuse-devel <fuse-devel@lists.linux.dev>,
-	linux-fsdevel@vger.kernel.org, John Groves <John@groves.net>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	Horst Birthelmer <horst@birthelmer.de>,
-	Luis Henriques <luis@igalia.com>
-Subject: Re: [post LSFMM summary] where is fuse going?
-Message-ID: <20260512203322.GD9544@frogsfrogsfrogs>
-References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
- <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
- <CAJfpegt=eWS_6ZfRsL_P79COKJKoLGNOsJ9g6TkrAhvhSbb7nw@mail.gmail.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+	Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fuse: add fusex filesystem
+Message-ID: <20260512203732.GE9544@frogsfrogsfrogs>
+References: <20260429102058.1362965-1-mszeredi@redhat.com>
+ <CAJnrk1Z_JWtuA3UjucF9=YH63AH_-J_0hzr9jbY99Hx3O8YrAw@mail.gmail.com>
+ <CAJfpegspraqMp1Z3mi_csiw6haawZPa4zWheSUN7MhBy47aYKQ@mail.gmail.com>
+ <CAJnrk1Z+Y2SJ7o-Ms8s9OfEutsYefbQTjRYXBfy3BhWw1hWqAA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAJfpegt=eWS_6ZfRsL_P79COKJKoLGNOsJ9g6TkrAhvhSbb7nw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Z+Y2SJ7o-Ms8s9OfEutsYefbQTjRYXBfy3BhWw1hWqAA@mail.gmail.com>
 
-On Tue, May 12, 2026 at 11:52:53AM +0200, Miklos Szeredi wrote:
-> On Mon, 11 May 2026 at 19:18, Amir Goldstein <amir73il@gmail.com> wrote:
-> 
-> > IMO, FAMFS sits somewhere between PASSTHROUGH and IOMAP.
-> > The simple nature of the maps, the fact that famfs maps are const and
-> > queried at file open time makes me think that famfs is much closer to
-> > PASSTHROUGH than it is to IOMAP (in its full capacity).
+On Tue, May 12, 2026 at 10:33:20AM -0700, Joanne Koong wrote:
+> On Tue, May 12, 2026 at 2:18 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
 > >
-> > I think Joanne has mentioned that her customers have a use case for
-> > multi backing ids per passthrough file and I assume this would be a pretty
-> > simple map, so that sounds pretty darn close to famfs already.
+> > On Tue, 12 May 2026 at 07:05, Joanne Koong <joannelkoong@gmail.com> wrote:
+> >
+> > > If it's mostly to clean up interfaces that are now clunky/stale, I
+> > > wonder if now is the best time given that, as Amir phrased it in [1],
+> > > "FUSE is experiencing a renaissance of new features and protocol
+> > > enhancements", and I'm not sure if we know yet if these new interfaces
+> > > will also have some things we'll have wished in hindsight we had done
+> > > differently, especially since some of these new features are still
+> > > actively evolving and gaining new capabilities (including io-uring and
+> > > passthrough). Would it make sense to let these new features and
+> > > protocol enhancements evolve and stabilize first before baking them
+> > > into fusex?
+> >
+> > Excellent point.
+> >
+> > Currently fusex concerns only the filesystem layer, and is agnostic to
+> > the transport layer (except maybe the SYNC_INIT thing).  That doesn't
 > 
-> TBH, I thought that fuse-iomap is just going to be a generalization of
-> the passthrough interface.  At this point it seems like it's trying to
-> do quite a bit more.
+> As soon as fusex lands, doesn't this mean with the linux backwards
+> compatibility policy that any user-facing transport layer decisions
+> are also locked in? Or is the uapi for it still able to change later
+> because fusex is marked as "experimental"?
 
-To me it's always been more about exposing to fuse servers the same
-local filesystem file IO paths that in-kernel filesystems can use.
+Create a permissions checking predicate, ala:
 
-> > If we are being honest, then we need to develop features that users need
-> > and if users need features, there are usually employers willing to pay for the
-> > feature development and maintenance, if we let employers know that this is
-> > what it takes to get their users what they need.
-> 
-> I fell that this is a "politically charged" topic.
-> 
-> Let's just say that maintainability is very important in big features
-> like this.  Even deep pocketed employers can go broke or change their
-> priorities, so we need code that can be understood by at least one
-> additional person with a different background.  I think that would be
-> a good enough guarantee that the code is not going to be a nightmare
-> to maintain.
+bool fuse_iomap_enabled(void)
+{
+	/* Don't let anyone touch iomap until the end of the patchset. */
+	return false;
 
-I can't credibly say much of anything to this right now. :(
+	/*
+	 * There are fears that a fuse+iomap server could somehow DoS the
+	 * system by doing things like going out to lunch during a writeback
+	 * related iomap request.  Only allow iomap access if the fuse server
+	 * has rawio capabilities since those processes can mess things up
+	 * quite well even without our help.
+	 */
+	return enable_iomap && has_capability_noaudit(current, CAP_SYS_RAWIO);
+}
+
+and a default N Kconfig option, and then the only people who can
+actually use the uabi are fuse developers who are willing to patch and
+run their own kernels.
 
 --D
+
+> > mean that we shouldn't have the same API cleanup in the transport
+> > layer as well.  For example, I'd love to get rid of splice on
+> > /dev/fuse, which I feel is more burden than blessing.  And I guess
+> > fuse-uring could also do with an API cleanup.
+> >
+> > As to when and how this should be done?  I guess that's up to you and
+> > Bernd to decide.
+> >
+> > But I feel that we do need to have more high level discussion of APIs,
+> > if we want to avoid repeating past mistakes.
+> >
+> > >
+> > > >  - only no-open mode
+> > > >  - new requests:
+> > > >    + FUSE_LOOKUP_ROOT - return nodeid of root
+> > > >    + FUSE_LOOKUPX - FUSE_LOOKUP without the getattr
+> > >
+> > > Could you explain why it's preferred to have lookup disentangled from
+> > > attributes, eg why compounding lookup + attribute fetching is
+> > > preferred over embedding the statx directly inside the lookup request
+> > > without compounding? it was brought up in Luis's lookup handles
+> > > patchset [2] but it's still a bit unclear to me why compounding the
+> > > two is better. I think every operation/request that returns a struct
+> > > fuse_entry_out uses the attributes immediately after through
+> > > fuse_iget(..., &outarg->attr, ...) or fuse_change_attributes(...,
+> > > &outarg.attr, ...),
+> >
+> > That's one argument for decoupling: why include the same fields
+> > (attributes, validity) in several ops (LOOKUP_ROOT, LOOKUPX, MKOBJX)
+> > if we already have a separate one to do that?  It simplifies the
+> > protocol.  If we started with decoupled GETATTR, then we wouldn't be
+> > taking about adding these X versions, because it would be a simple
+> > GETATTR -> STATX conversion.
+> >
+> > There's also an interesting side effect of coupling STATX with LOOKUP,
+> > which is inherently racy:
+> >
+> > Thread A:
+> > send LOOKUP + STATX for /fuse/dir1/filea
+> > [server performs lookup and statx, sends reply]
+> >
+> > Thread B:
+> > send SETATTR for /fuse/dir2/fileb, which is hard linked to /fuse/dir1/filea
+> > evict inode for /fuse/dir2/fileb
+> >
+> > Thread A:
+> > looks up inode for /fuse/dir1/filea in cache, doesn't find any
+> > creates inode, fills stale attributes
+> >
+> > This issue is currently solved with fc->evict_ctr in regular fuse, but
+> > works fine without any additional checks in fusex because of the
+> > decoupled ops.
+> >
+> > Of course, it is probably desirable to compound LOOKUP with STATX
+> > despite this, but it gives the implementation more leeway  (e.g. on a
+> > different OS).
+> >
+> > To conclude:  separating out STATX from LOOKUPX, etc. makes the protocol:
+> >
+> >  a) simpler
+> >  b) more flexible
+> 
+> This makes sense to me, thanks for the explanation.
+> 
+> Thanks,
+> Joanne
+> 
