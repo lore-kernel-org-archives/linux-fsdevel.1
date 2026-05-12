@@ -1,149 +1,119 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7463325B0AA
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1582F6596
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778591286; cv=pass; b=mPU7Z64KFsJQCXnUm1AoTqqdFBpzEloGEhrvg8D+kXPZwd+0IMhylCn6sCXcE5RqQ+GxWJ6sTfr27LA+Zpzgd6r0oRZK/rHdNvDS6+95H1A0O3FIuRl6m9wBryh4k5vEhbAsYJ2+R9ZNp26n5O8AF1ciMEMkRDX9jkbGcjDklpw=
+	t=1778591344; cv=pass; b=AHWyLPeeH4Zl7M8q9+coOZpODE4HG9qM3rUpgJ//6kOQraRvZ5x+cqBlPXsCR4xvPkVm9LE3l9FiYs1vdugnQVGz1xJSxA+yyTLvLE8MqahW2xZYADzTzXpTKcxFMSsbOB3gCf0/aJ/r/kFPNbPZtbXPPpySupbBWqR1xcl/IGE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778591286; c=relaxed/simple;
-	bh=+vcfNdRtvwQHAPFi9qeID7iVjTEIACNb7t52akS/Gx4=;
+	s=arc-20240116; t=1778591344; c=relaxed/simple;
+	bh=mo49/bwIycAKmpSP+V6WX3/6DK2iyEaRqfrdokj7b6A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lz9wbJIJUEbZi/fHo/rG/fPX5WrPjvq/LB4D0bdiWIHOot2IzYdOutzNyMhTvhCLttEW4wgwsboEd8G+AilQgeK1in0JOO6jDTqtnJiAVRfkgCeL7Em798hpO/IYK3BurFVoU7vUXo8TBCEsjd+448w+D/wfd6ABMlXlY0ZAKRo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEGrDJvt; arc=pass smtp.client-ip=74.125.224.51
+	 To:Cc:Content-Type; b=KRDg80LPa9zT94lebrkcNo2LHNqtxherePhztfGCslKIKIyAVPst1EEsnFwIo0MDcGijg5G1mreipu34fjWzIGzt8MbqOyY9g/QPRB7+sjr3hs4qi75RzGqgxjodMgVYGd/NyHS70RovQ0mSRNrbPbT3DeCtuXtfQdSRQHw1FvA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEv120hL; arc=pass smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEGrDJvt"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-65c30aabe8dso486982d50.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 06:08:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778591283; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEv120hL"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bd36614d329so7216466b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 06:09:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778591341; cv=none;
         d=google.com; s=arc-20240605;
-        b=HNO7WL4mWU2E301kegwX/eDvnkLA8kR1D8mQAtkM5nsufM/0a+2f6iKxUJSSrtwweI
-         Q+9+pt/tgasuC/FvjvH2DE629Ox9rUPMj8gazHIGGixACn43OaVsfYBKZ7WIG0217ZeR
-         LzRynGlRKMmcPu1LAciC2FaBMBXcbFZLl3Qy0g5DVSbZBnVyds4CyB8JvUM2qSdn/pbq
-         kPZSHfJVKtiTIVKa7oEb6DX9tXJ84ett1KjaWok9CQm6/f3IRIoTJqevKRdg6Fo26boF
-         4+9RfQllXonCE4ECGXvfbwU/OhASwMB/c1DmU+mI/5uJEXaeohUVEwikhz8BOumMMtEx
-         5RIw==
+        b=d2wBLJRLj9xGn//n1mcAMCYJso0t0yb+nOLYNq8jR/0lgaHnzUsR1UAbadZppHRMLQ
+         IK+zl0MdlMT14rv+HpWQm+9dNfQUmm3WaeSAJvS0dtjAuakFy2DZBwGA6NMksEmnZzLm
+         P1WJDhUvzHvyqb/hEmtSI5JfCq6Vw2kjaGB+w/iH9ilHIdQqW9+iJhEe9NTlXosKWvEL
+         agka/XlwbPgNChummTBHzxkbU9xmnSg2gyc2UWxl/Mf04CxsDo06krFdcGBBLuuaD8NX
+         9+9dSiVHzVugu+DbLlJXgjP/p1/qGJMnbC4Jvq00OrZhTTBGDg39DborrorBjWWwJB4E
+         AJUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=vnBWAAshyrw9uW2waQU9UJFxrzx86ul1N0tkpGj9Dmo=;
-        fh=7cg0uaYzZtUpTWlMIv46SMWt0QAN/h88FLjNAxODRDk=;
-        b=WdyriUvDkAHID3KYjOSgOhIp59631+la2c6UlsazEQpECvIisroZjn36ZcgzxfIxJw
-         iMFCNXpLYgmuf3ZG8S+dYoTj1pDW53vUK2ExX+aWAUv/3KbwADEb+FJC8Emzm/tHQfqv
-         9N0szRs4WLrV5WwbVYPdQ9cKqYCB/fp9NmMG3rIq2PwuR/CYznAHIiw2eV6fFq3eCNRI
-         MsyNj+2cbAMrRx+PGhxyrrGEqBYzApIEIsXyiQSllyqExiyOGKYtyfakla4Fu+sl6Z98
-         lVYhKeiM5mIhL3G4B6wiJ80Xoo0tHpOYMD+BAq/8Y37fGJ1JyGKJMQI8UC8OCw4ZC7xc
-         GDjg==;
+        bh=2qBWjjaW/pbuvKmNqOdQeu4n6soD8yZr6RME3HLH1bE=;
+        fh=HT3NOtAQXRZTNRkiu8dXIIrk5NfikPGNUKJTF6hZxp8=;
+        b=H/F5DZW1xF/HUUehJnhEs5OGoldsRv58ESPIA9NAOdhTWqIz1+s22rsGPYvkzB+YUs
+         29D3blE4Ouj89Bazo3J71zfnKvBeYqR65IKVMGpRKbBMiMCDieXr1MmKV4xqBMXG++xh
+         4YvzFjdJSTMb9xwo7IDWIiPpQEDqj6ZeHn5/TU4ThmqXOBot6I9RPqaw24aDbMgFh9XQ
+         fWkVb7E0p+mCLuHZnkV62004sO8h9eO135K37MBA+qolpGtjbVm5YD15JX0Z3sfhRDgj
+         W5BQnIUzhWbnpF3m/iJl6/vAiAGlU4hAVOkNjO2uRjAF0kJixgC9dYj3CskT1cmjkZUU
+         vxLw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778591283; x=1779196083; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778591341; x=1779196141; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vnBWAAshyrw9uW2waQU9UJFxrzx86ul1N0tkpGj9Dmo=;
-        b=fEGrDJvtHpIFtrTWjkSoGKqDTEQcVkexN4jqkdq4Th8fzXv9UTKn/H7MMd8olzktqd
-         2qVppYWSG4KHLvBTv3QKS2rbh4j+YD674sTm1qS7+gFGDg8nnkzV4OCMKG6vQlPS0l6n
-         HnJVvajdgkMF0uoiN4iFMck+1LrImvydCGoJw1xynC6YuSBYBAmXt4DIYqK+QFs7lygI
-         QuUY46kyQz1i6/B/pxWxeyVQXb1vbPYoK4OE+1wGDUyqs1nE+rZ84qnl+5DiWlRGICmQ
-         WNsPCeAKQZt4Bmwhi1eEo+WluE64FdBACfg+ocN/mJpHj/KLZ2ptvXO6LUs4IvPmpwUR
-         0/vA==
+        bh=2qBWjjaW/pbuvKmNqOdQeu4n6soD8yZr6RME3HLH1bE=;
+        b=cEv120hLxoQGNm6YZeTgnlWKRXpn205RgOYDDJW6GmiKDRd6N3FKONiU/VV9Ol3ytI
+         O6RxOe7qvzEkpqh2nRUNUJqm8sfBYG+1vI1MkuY98i2csVp5QD2Yt5qaPB68kA3/7IzO
+         FLa+GYM4RBOJi5fvAs2sZSwWc0liQk7Ed51/wPwm97jdrcOfZycgxvRyWx1hA2wuVZBF
+         BuPS9IlvK4Akh9YbvJowTl1WyaDY3PRCSu9kr887sfM3gHau017Zg2tNwRVSpQE7u0Kd
+         Sy/j4u7jcTAqWgooZ2mB/sAr7FSXn5j7ZuE3h7DNh2P8DYJWVxiQ+X+z1GA65crvoX35
+         Wrpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778591283; x=1779196083;
+        d=1e100.net; s=20251104; t=1778591341; x=1779196141;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=vnBWAAshyrw9uW2waQU9UJFxrzx86ul1N0tkpGj9Dmo=;
-        b=L8qMPIUldOqeCjjF08JAOSniV5/HOkhDo34eDebCclSBNVAj1y084jgqEJGSMHTzHf
-         jF9SlzfZYQF1UhYyB2WpblVNdadDScw8MS1lwLcngNODMrWiyXHUYvDf+FBrJs80v2Y2
-         F7a+X3OhmJkPl6gTwxK3daUydzu6YJJ4arH0+tlvsfmLVSI9dekBcAia/7aoCHxC0XaH
-         Eol4zaTshlbi5sWhqwKS54dmFY5XorNCc7K9s+cjxAURHf+xIWAbSaf6SQyyL5wbNEB+
-         of0Kmll9kPWdICaz48SkfDo2zGyi3agVmO3G+3tmO7hxbZDS/jnjcu9t4byDs0DnhkTR
-         a5JA==
-X-Forwarded-Encrypted: i=1; AFNElJ/OluuGKUejD6ThFcqg3XTJ0KMhd2On98IthnYSMBDCnF2zUarnf68O1ZjfgycYl7X8p3GrVSL0xLiIPSHH@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU0lGHVUtPlgPXeLGXsBeh5g0Lyc/ghCzz7dpK/UsiNRCZp/Bv
-	l8yM4lyLDvmRfTw0gvm7zR875tpozZr7a8QIPG6bBpAci4QJRI9G/YyicUARVJHlr7UsK8E3emL
-	uGYuoRgPpG7x2jpi0yMY3anMicoxNdcc=
-X-Gm-Gg: Acq92OHwWjTF8vmLrDvemTILIAi7CEHn+nr4viBHJmwfHjIhK6qTvQRiGc8v9je6RRU
-	HGLeEeqqx8+DMaxtgvsWVGtg1tyka2Tq6AKSf/FQxPS071vYvaWS6WGdtsOMA8Ym0GMgx5Ej7LT
-	/AFDYP/jBwBNnhSCOgmm8sGftu/4W2mSNeqBaKMKXnw06JC/5u7RSpxRMkz53HaZSSahq3XeBWf
-	8qe2MNPtuszMEVjXJpZbiZXzgmbQ8bLtEY8/wunu4Io3G5e8D0I4fyO2tkUlONwaeD4DmO447Pv
-	H4KCl2wa
-X-Received: by 2002:a05:690e:13ce:b0:65c:322a:7ac3 with SMTP id
- 956f58d0204a3-65c7b70bfbbmr17655158d50.2.1778591283371; Tue, 12 May 2026
- 06:08:03 -0700 (PDT)
+        bh=2qBWjjaW/pbuvKmNqOdQeu4n6soD8yZr6RME3HLH1bE=;
+        b=Dqasxv/mdc/0we0JhVGhuT6OWb40VfmQZPUmtdmJwrKZ7r+eqB9fABAl4WtdfygJyW
+         e8YHcieQTyqcPw522ijVGc/Bdh8TZ20ZnvA9ZNvYOkrumAplNg4ZQw6RPjf0EmAIk0WQ
+         jRmNjliX4sh3QlNyfDm8BHgVhuhainOJkR81Z6lMzD8vaPR6SrpxT+yiB0NQ0n3PQfu5
+         6rRkdX1dHnKvUQyg3VMK/E2yks0VY+pbfEdPuGVMgCxAozCa92GLX0+FW4UZ926T3k7p
+         XxgiplffFhq8Eg5nOaIc64e87ohlpug4PpBLXbUBABmldYUslV0FKVTBg4nDd891qmLf
+         hbmQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8x4V14EEITijjmbi8c3D8tJGFCH7wJNMv5XZdN+UbDJ9dBvDtk/kX17twVGTMaiDnEtTYFeQMFarrVcSEF@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw19sGkAf2uPT4emjrjbNvgatDzTFVuQn8LWWMY1Ed0Y/1mlQbg
+	jfrEaTfzQ7Jp3TNqQUBftd4tkxlVvGEsOjUxxvYJpSBephwCnuzyyOKgaCRj1T/SeMvfsetXuMJ
+	WVU8baOZPXX+eCvT2CO41Fg75BghHe9c=
+X-Gm-Gg: Acq92OEdx9de/rwN9YxZSPUYMFqko2DU4NDs5H7IQ7codLf/7RNjt7wK+JgshiIVDaf
+	oKvqzn4xgdFuUDyohH6YFFC+BPCnlpxUDWimVfndCtjZ13gW/Jg7tL1l0tz3Q8Q/4HEnB0o6e1L
+	eZNGYpjuiKhodMDba+7W+adAjH3IMtRwjhSw//5jbVJdmE0ghJmRhyhzLElOU/Wt/dlOR9Wc1k7
+	p/Wuig+kks/MAr1OmFl1zWXNmVvZIRAghGkz/EEZ5obtwkIlLKx5gsZ+8nXXEFWNY+enepf6fDB
+	2oulgLFpC1qbWC+2734EvQAeuYAAI5c/f5fJOhYK
+X-Received: by 2002:a17:907:9806:b0:bc3:783f:1da9 with SMTP id
+ a640c23a62f3a-bd28f692fdbmr186838366b.33.1778591340776; Tue, 12 May 2026
+ 06:09:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512123404.719402-1-dhowells@redhat.com> <20260512123404.719402-9-dhowells@redhat.com>
-In-Reply-To: <20260512123404.719402-9-dhowells@redhat.com>
-From: CharSyam <charsyam@gmail.com>
-Date: Tue, 12 May 2026 22:07:51 +0900
-X-Gm-Features: AVHnY4I7C6CzYKo5rOIaKeFxn1UK1vSWmDrEYuJGWgiJZva0dOf3Ebu3U-sXK3A
-Message-ID: <CAMrLSE5jFZwmUrx5GWhz4AD9QpLsF9VsdaMJxiDa6ukXqH8RPg@mail.gmail.com>
-Subject: Re: [PATCH v6 08/24] netfs: Fix potential uninitialised var in netfs_extract_user_iter()
-To: David Howells <dhowells@redhat.com>
-Cc: Christian Brauner <christian@brauner.io>, Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev, 
-	linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+References: <20260429102058.1362965-1-mszeredi@redhat.com> <afxK2HSiwY32KaWw@fedora>
+ <CAOQ4uxg-tgCmJkjFAQ86_xB7dDQKGy=geKAcxT2vB8cUSEKdPQ@mail.gmail.com> <CAJfpegt7hj=WDKKASjWLVG-R2tGYUKMJ1qR0iv_Y+GaYS0mW4w@mail.gmail.com>
+In-Reply-To: <CAJfpegt7hj=WDKKASjWLVG-R2tGYUKMJ1qR0iv_Y+GaYS0mW4w@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 12 May 2026 15:08:47 +0200
+X-Gm-Features: AVHnY4JhU96zGLWsyuK7ihmNJ28PAQ9LCLpUgSWFv5s7IHoqjEj5a1B2ZwVtsLM
+Message-ID: <CAOQ4uxgoavKU6zNMN9YF5cchvux6CGGxd56BBOJFWX0gkVAChg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add fusex filesystem
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, Horst Birthelmer <horst@birthelmer.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi, David.
+On Tue, May 12, 2026 at 10:18=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu>=
+ wrote:
+>
+> > I see no reason for fusex to not support lookup by ".", which is
+> > anyway needed for "reconnect", so a fresh FUSEX_NFS_EXPORT opt-in
+> > for "re-export to NFS" may make more sense.
+>
+> Why add reconnect?  If server supports persistent file handles, and
+> all req's get the file handle, then no state (nodeid) needs to be
+> stored by the server.
+>
 
-It looks like ret does not need to be initialized to 0, because it is
-only used after being assigned the
-return value of iov_iter_extract_pages(). In the zero-length case, the
-loop is skipped and ret is not used at all.
-What do you think?
+Yes, we are saying the same thing.
+What I am saying is that legacy fuse has FUSE_EXPORT_SUPPORT
+which means server supports lookup of "." which libfuse always enabled
+and then we added FUSE_NO_EXPORT_SUPPORT to opt-out of nfs export.
 
-Thanks
-DaeMyung
+I am saying that in FUSEX, lookup "." support is implied.
+And that nfs export should always be opt-in (FUSEX_NFS_EXPORT).
 
-2026=EB=85=84 5=EC=9B=94 12=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 9:43, D=
-avid Howells <dhowells@redhat.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> In netfs_extract_user_iter(), if it's given a zero-length iterator, it wi=
-ll
-> fall through the loop without setting ret, and so the error handling
-> behaviour will be undefined, depending on whether ret happens to be
-> negative.  The value of ret then propagates back up the callstack.
->
-> Fix this by presetting ret to 0.
->
-> Fixes: 85dd2c8ff368 ("netfs: Add a function to extract a UBUF or IOVEC in=
-to a BVEC iterator")
-> Closes: https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowells%=
-40redhat.com
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> cc: Paulo Alcantara <pc@manguebit.org>
-> cc: Matthew Wilcox <willy@infradead.org>
-> cc: netfs@lists.linux.dev
-> cc: linux-fsdevel@vger.kernel.org
-> ---
->  fs/netfs/iterator.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/netfs/iterator.c b/fs/netfs/iterator.c
-> index 154a14bb2d7f..6903028b7162 100644
-> --- a/fs/netfs/iterator.c
-> +++ b/fs/netfs/iterator.c
-> @@ -43,7 +43,7 @@ ssize_t netfs_extract_user_iter(struct iov_iter *orig, =
-size_t orig_len,
->         unsigned int max_pages;
->         unsigned int npages =3D 0;
->         unsigned int i;
-> -       ssize_t ret;
-> +       ssize_t ret =3D 0;
->         size_t count =3D orig_len, offset, len;
->         size_t bv_size, pg_size;
->
->
->
+Thanks,
+Amir.
