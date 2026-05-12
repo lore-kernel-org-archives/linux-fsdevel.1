@@ -1,104 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF2D1448D5
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778592388; cv=none; b=hAjkYecV7JD/GhgXzGten5fnBAots6GbzV9Jc2+EtHoJEWeraAg17de4LGvqi9SL1ZirOsO/wxHaeJhBS11BwNf9x1JSOtgqbtngXO8QA7ke+3US6MDKGnCdLxzR0a8uvJpRB9CMIXI/iTqE1Rpret6YTI94ZQ0huxtBEAtHnhI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778592388; c=relaxed/simple;
-	bh=UrCVAaEomD1JBqShtBiRFlzxvPFrunwUPUxg9hoXK3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JnSgt9oyGNsF7PvZSFJlCZbTya4YnWtgiqgO5xmeek/CCmF/4EKlBnoz9eZFu/S90+OVLzCsVUCM60kbNDk5hwSikGh6TIy8nwD0PThboOIQpbuXa4VuBA53Qp74dFqSXrnOWtFyuwXzEuREKsbuhkfhdTmdKizo1d/hsc44d0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o9BmeYaN; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2511B1A267
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778592726; cv=pass; b=TGgWloeaLxdGdTK+NOSukNQijGzAobZWldSsZ4BR1S3KOoJzJg541aFN10PB4Tjp23qp7FwcT8Ec0jLiYxa+olnqa5QwoG/++kPs3rSqfmYLA1FI7IRmeOt80SCSsp74zNOpOfmYth042WNTiBRThW7AN4zBdgGwQCAYYli6APc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778592726; c=relaxed/simple;
+	bh=49jW8ZapXANMFie0lrwx7RkYd4uYDwwdGjS4FnYv9zM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M3GZwNQHHJh+Vse8g+XvNlSTMoBBjGR3D36GejnOeqJ4pYDuG/LxN+N8wCHPqBRNbtIJiXJbI4PVN4OBMTC8rWjVzoB4mN9hon0tXg5sUbqDDLWqDYQJws4O92UXxUmV/x4IinFeJm82w8k0bS5DHH3wrIPLsB4deglHGcrY8is=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Q6nbj3ar; arc=pass smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o9BmeYaN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 863F1C2BCB0;
-	Tue, 12 May 2026 13:26:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778592388;
-	bh=UrCVAaEomD1JBqShtBiRFlzxvPFrunwUPUxg9hoXK3Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o9BmeYaNDqcTlhY2/rQC1gyG+Uu5AZcd4Qd53oAz8VjtEh5GC21oLNG/qbMINqxyQ
-	 y5qqCc0OXtPL4mGuq2LMpdWTHnq4+viX4aqX4WcmybaBD17sHXLAjH4xe6Lb7yUQ7P
-	 a0Q10NDWVLa9ZFAC4F64jbQVlIb+RVkzM24CgRqqc7gGq4OXeQnovMftj6mbFtLKk1
-	 jl8MRmz0hf1bTnZvPVIS2zG05DO6Ipb++lHt33PWoyxAXWxslK72LrUlGwYoqL+zPF
-	 HbMPlY04XlAMdA4rLwvZY7dYYAdWHtWtNeYpRNchL7RqzEP0usDohFLKCMNGGVSxmF
-	 bY33uGfePIyvw==
-Date: Tue, 12 May 2026 15:26:25 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Gabriel Sakash <gabrielsakash@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: Re: Faulty interaction between open_tree_clone and
- OPEN_TREE_NAMESPACE?
-Message-ID: <20260512-albern-reitschule-18489fc9c55d@brauner>
-References: <CA+PzELx7nhdo9XAJ7v3mb3hzK2LLTv6OOCHNdfnKJojX1ijoaQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Q6nbj3ar"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b941cd869cso34535505ad.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 06:32:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778592724; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZdD4GWH7eCWDx/B9EsBjA3V88DBdDwbM3Td9kx4+x84LBWOv7SDjslAQ3PIps8pOrH
+         Gj9hMPQguAt865IrJX89yiWz09gzEXR5NQbksyWXBplhw9OCs9z5LxdUX6nm7+qjEuGN
+         wmuUVSnkxEzzegdBeKHEBzh54xBjbvWpzmluMJxi+u+b6xnEnzmd9vkaAjuWXih8MnAe
+         FvqIyQglk4KtXmcU+KFXQItrqzTk61DgorMn//YVecHF74AtTfsKkifjcljcLHuCTGq6
+         Fb224fvGTahEnORpboVbYa1+5f5W5IyKpq0N0LH67JXWMnfjAAbNSQ5LHFAx+78/Gj2Q
+         5X+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0/aQ9mwTMsHh/sgB4/Y2KBsn0VNAa/XO6yw99kEeKn0=;
+        fh=jKDMOlH0x9yCgRZE1hKpyqRvRWYt+CLomWTeAT0LtK4=;
+        b=OptTaurAd/Y/EA2qvQKG5mCnkH1nuFGyJEuPdGoWhaNsrVSTgU6zJUVnbX46zWRCl1
+         uEYPClfYqR3WPkMNbCPh2K7ES//hhN2UQfsWrjGugT+dr5BEdhyB9aMyL5bmBuVd12ur
+         6BIC5zpmQkYl8pGfd7vo0BfEFR2Lp5sI++8wwaNMPKmfMqtr/i4ky0Es1uspsPy+FLvv
+         KdZgRwt/XMfcI7xxBVA9rsel+vYVmObVRAzrCQqVqFOfuzaJ1d1lgDW2tGdY1pW81kIb
+         kPE7SELpfivF0d6/mVkqFZOpZLCD0YkMcxhQHr+qk3CQX651ma3aU99QzrUl/apwVZCB
+         lsbw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1778592724; x=1779197524; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0/aQ9mwTMsHh/sgB4/Y2KBsn0VNAa/XO6yw99kEeKn0=;
+        b=Q6nbj3arsrs1ZogqprDPGpNBOPMkhELFsB3N5YCHDF263py0coD/cKJ4XAI81ReJlX
+         hytSGWtxCzD5JSBLPFhUzBDXKv8AJYSj2XG64j5syFspKgTb1Ycoqvvv9Ihd/X6Ie959
+         GYGKadZ7tViP+6Zl3jwlzsw5bxSvkyAqwyAbbUD7iy2EpowVW81E0hkB/d/0K0FlW415
+         7ssdDaVxrIlhxx7qoQ4FCVI/ApRussIxmNJDYg1wIK2vNm33UxbmZh0DK/sd93Dk/Sot
+         7vmX+VbX0aCoznwEVklpf0uVXJZylcZ7k23sysAzIBdDS4Nx0Xl2/JYNQmpVxXVnxoRD
+         a3vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778592724; x=1779197524;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0/aQ9mwTMsHh/sgB4/Y2KBsn0VNAa/XO6yw99kEeKn0=;
+        b=UcZxREMCy3YFlQKtajQ/i1dIySCZISDRkAaiEHa9LtIe22CpHYTuLCQEMY8ygTdHLP
+         XSVe3TBfnn0npq/h2Rn/ASO/t5JUFuxY/3zHUQxzjzT3iWahhZhXukMG+jKQ8eof1vZ/
+         9MNGaoXLs7d0ZJEROL0vrNSm0ojt8wXzq6CtGfe4AuNiyottZS/PahTEFZAD4Z0CijR0
+         AJZfuXvLL/ivgavP/PLwz5GDyFULYwQfpk/B2xXxh28i5C2e+Q9KrKQoGIBB8BKbsShQ
+         0zhysM78BHeZdAcCUa14YRIWGjScjvXiHACk7RJC+FBqJfPFW8KBGOzUZXvAwfLaasck
+         UKfQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8A1wmGJZCdTDaLTdGK7m+F7/JGhYBN1S/e86ctyvVcJaHZ5By6DMYHhrtMcLBNwNoipG0POYtNd1VR+Es8@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB0t0Dpf9KSjuDys4XYKdXUyftXY26d9cq2qMjBc84FIRE5jzt
+	A597pc0fZvepvUVsj5uwxEXhz3sDlqS9bw5o6YWeYtO0YV/r2IoroNwSRdPqOIDzmvmeSylTjCF
+	AM0zxjcMgqAB9Jimn2ll8CZTvsAUtPmoenmhn5kSw
+X-Gm-Gg: Acq92OGro8P6hc4SMf48VXOwVlDz77o1mPGh2wdHEaH5G5UIuP8hGMoR++ZconIVnum
+	O86ZM0hIQsk9D4OK59ALj79qB2+YqD5uvJ0M0j0A39g4pEDG6SxmQP0OtJy0/NcMpOhu+GBCqsS
+	dFfpyTQxbu4qvTIlj0A1V/N4td17xFyXjVXpM4v7Ryic0moiTt6N5G0qBm3rhGzDAVkhBB4k7zJ
+	8EOBI4Bw2schACB5BKA9hH097QP+yM8idcQkCCpQbkLAr7p4dr9nvu985HbHNriHtEK9qCPKKsG
+	mvabXDNVl6+3mxutgg==
+X-Received: by 2002:a17:902:f805:b0:2bc:dc0b:ab1a with SMTP id
+ d9443c01a7336-2bcdc0bad76mr55621515ad.35.1778592724418; Tue, 12 May 2026
+ 06:32:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+PzELx7nhdo9XAJ7v3mb3hzK2LLTv6OOCHNdfnKJojX1ijoaQ@mail.gmail.com>
+References: <20260509015208.3853132-1-song@kernel.org> <20260509015208.3853132-7-song@kernel.org>
+ <42a9075e-a4b4-4eb7-b96e-48e5c0cd2f3a@I-love.SAKURA.ne.jp>
+In-Reply-To: <42a9075e-a4b4-4eb7-b96e-48e5c0cd2f3a@I-love.SAKURA.ne.jp>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 12 May 2026 09:31:52 -0400
+X-Gm-Features: AVHnY4IPU0C4Y8X9_dcIUSlLPhJJAw5e4I09h5zch8q_eb3KJ5_1mBDuZ4l2gH4
+Message-ID: <CAHC9VhT9vvaoYpRX4fPZ_H13+PaqG72CpRbS+d=9xgMBaKHo8w@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] tomoyo: Convert from sb_mount to granular mount hooks
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Song Liu <song@kernel.org>, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, jmorris@namei.org, serge@hallyn.com, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	john.johansen@canonical.com, stephen.smalley.work@gmail.com, 
+	omosnace@redhat.com, mic@digikod.net, gnoack@google.com, 
+	takedakn@nttdata.co.jp, herton@canonical.com, kernel-team@meta.com, 
+	selinux@vger.kernel.org, apparmor@lists.ubuntu.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 30, 2026 at 12:33:47AM -0400, Gabriel Sakash wrote:
-> Hello.
-> 
-> Christian Brauner, I have CC'd you since you're the author of
-> https://lore.kernel.org/all/20251229-work-empty-namespace-v1-0-
-> bfb24c7b061f@kernel.org/.
-> 
-> Due to Arch Linux updating the kernel to 7.0.2 today, I have been able to test
-> the new OPEN_TREE_NAMESPACE open_tree flag on my main workstation.
-> However, I have found that it and open_tree_attr do not work together.
-> 
-> At the end is the C program I used to test the following.
-> I expect that the output is something like:
-> TARGET SOURCE                    FSTYPE OPTIONS PROPAGATION
-> /               /dev/nvme0n1p2[/@] btrfs         <options> private
-> But I get:
-> open_tree_attr /: Operation not permitted
-> 
-> Using "plain" open_tree works as expected. I have narrowed down 3 issues:
-> 
-> 1:
-> fs/namespace.c:5196 => wants_mount_setattr(...) to check if the attribute
-> changes are sound.
-> fs/namespace.c:5101 => may_mount() to check if the permission are met
-> 
-> may_mount is:
-> return ns_capable(current->nsproxy->mnt_ns->user_ns, CAP_SYS_ADMIN);
-> 
-> Because this is from open_tree_attr, the process has not entered the new mount
-> namespace yet. This will check if the process has CAP_SYS_ADMIN in the init
-> user namespace, which it won't.
-> 
-> 2:
-> fs/namespace.c:5198 => do_mount_setattr(&file->f_path, ...)
-> fs/namespace.c:5198 => path_mounted(path)
-> 
-> This attempts to make the mount attribute changes on the path of the namespace
-> "file", and not to the (root) mount in the new mount namespace. It will fail on
-> path_mounted because the namespace "file" won't be the root of the NS FS.
-> 
-> 3:
-> fs/namespace.c:4952 => !anon_ns_root(mnt) && !check_mnt(mnt)
-> 
-> This checks if the mount is anonymous (it won't be), and if not,that
-> it's in the same
-> mount namespace as the process (also false).
-> It appears that the current mount attribute calls aren't set up to handle
-> mount namespaces different from that of the current process.
-> 
-> This issue is still prevalent when running a VM with a kernel built off of
-> Linus's master branch. Apologies if this is already known about.
-> 
-> Thank you for your time and good day.
+On Tue, May 12, 2026 at 7:03=E2=80=AFAM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+> On 2026/05/09 10:52, Song Liu wrote:
+> > Replace tomoyo_sb_mount() with granular mount hooks. Each hook
+> > reconstructs the MS_* flags expected by tomoyo_mount_permission()
+> > using the original flags parameter where available.
+>
+> Please fold below diff into this patch. Then,
+>
+> Acked-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> ---
+>  security/tomoyo/tomoyo.c | 60 ++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 58 insertions(+), 2 deletions(-)
 
-Thank you for this bug report. It has all the details we need. This is a
-missing feature for open_tree_attr() for sure and should have been
-merged alongside the original implementation. Thanks for pointing that
-out. I'll send a fix for this.
+Thanks Tetsuo.
+
+Song, assuming you have no objections to the comment blocks, please
+fold in Tetsuo's additions in your next version and add his ACK to
+this patch.
+
+--=20
+paul-moore.com
