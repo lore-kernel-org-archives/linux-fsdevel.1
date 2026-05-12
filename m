@@ -1,207 +1,293 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFD426D4F9;
-	Tue, 12 May 2026 12:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5416306745
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 12:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778588950; cv=none; b=A5hK8DUmzDAkQBEnzHukyBPaKk3Rm93z9953i/gwJ53hyvics0mBo3Mncwr2PqJjup51QEOr8e609hWuGbr99RyxvTLfyXBQT767KC2uk4drO8mwCZ1N7FykVP3blEvziLqunKMhxPxHRD85Dp1afoj56tvbL2np9bnudLEOJV4=
+	t=1778589268; cv=none; b=losEZI3n0Cux8pFD8/jK3/Z9wryjbHqx79bGDtwSB6BlDs50Kf7cwKi9E/APtakWR2dhv1H/5gJNnhGLthEwflSeNJxjKQg3uZmLGAsInX+ji+uvTVU2IhADEDGVMILu7kJFc47qeZDeuyLrwG5c8sYxFGj1pVAD1cSnSfsZDoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778588950; c=relaxed/simple;
-	bh=OxSg6AVJlEx4U4yVifjeaZgr8UBLtt+wMeKzFB0jhxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dkw06CbdSNz12+rZKlh2rVmL/kEXaXxLPH+G8onu2uMhQKQzSkUndnHxo1KZeAZMSWQR9vLP/auY6m02d7RKK0DM+K48xEyNKCDyUgyCtPYbWO1m2U9Ntt9SovIA5F3WrgchJrRaPjZ8ey5+bxHTEXzNe2z6WhfpFJXyERvbX0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W0CYu64b; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778589268; c=relaxed/simple;
+	bh=O3JFeZJnq5ntqdy8ik+cyWOgo3dfjWn8/B3lS7Mailc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Moc6r/ggYTK4HfwM1G75TwvlqjCx0TJBSD27zR9hswq1XfcOdtmlU0LOBAvi3gVKIhVwO/gx1oaL7Bt0J/Ka3A6nqJ3zcdHHQpAhuTj3kuvlTjKFWjj3aF71jH8B9CBC0WfBcl11H85mrlj2rJOXkSnWDQj6L/Qh9UGqj2KJsEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RKAqTatX; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W0CYu64b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77947C2BCB0;
-	Tue, 12 May 2026 12:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778588949;
-	bh=OxSg6AVJlEx4U4yVifjeaZgr8UBLtt+wMeKzFB0jhxc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W0CYu64bq8AEczE5gMq7eDDuWNM8rKKp7325OIC8vWsmBaq4v09HzDHwFDS/F7l1u
-	 hTtlderEu5G4HT24WwMr5gDaUPx4IYXfV7IJFXrSJgxwXHoIWO0dcSd5IWB0RKLTKl
-	 fYSnxx6p8uQU7+brUEi7/yPRgdxtO6fD/yzh6IKwnnwrLIsUXU7/kLPRpTbUyKGwts
-	 f3RQU31sARRPepZBDOy1PxpO3x6YoehUAvFYwI/hahshJbF/Ba5FfoJWcDjEBymkYu
-	 bul6B45D4Ac2Qv8gGIz24JQXZnWZ/9lUUmMh1r5XRmyKasLK3jctseRzibQGGaOZ0N
-	 OE4Bp89OfZGGw==
-Date: Tue, 12 May 2026 14:29:05 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: David Francis <David.Francis@amd.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Alexander.Deucher@amd.com, Christian.Koenig@amd.com, 
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: Re: [PATCH] fdinfo: Add fops flag to allow CAP_PERFMON to see fdinfo
-Message-ID: <20260512-einlegen-ehedrama-26b2c2bb8918@brauner>
-References: <20260504191429.1770840-1-David.Francis@amd.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RKAqTatX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778589258;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jbi2aaCZRorZeHEsrtY/2FKpctImKBSoOFQWD3zYb04=;
+	b=RKAqTatXaiDVKOdCWeV5MgXfz71k9hBIqjLRtHHzi1ErctHukPVs2C7wowTOgSMtm5fNEq
+	PGuRtPyxV8JSFirPOOw2P826IeWM85msyVpQ+wllAKdDfb4xbVhRvciSa1W9CTQAkkybwP
+	KfvATHhODJm7DtLJHmzgyZRIEZYp+wM=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-695-zL6jZ7iCMQ6be8QU77wnxw-1; Tue,
+ 12 May 2026 08:34:12 -0400
+X-MC-Unique: zL6jZ7iCMQ6be8QU77wnxw-1
+X-Mimecast-MFC-AGG-ID: zL6jZ7iCMQ6be8QU77wnxw_1778589251
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DBDF11956080;
+	Tue, 12 May 2026 12:34:10 +0000 (UTC)
+Received: from warthog.procyon.org.com (unknown [10.44.48.83])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 19A771800352;
+	Tue, 12 May 2026 12:34:06 +0000 (UTC)
+From: David Howells <dhowells@redhat.com>
+To: Christian Brauner <christian@brauner.io>
+Cc: David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>,
+	netfs@lists.linux.dev,
+	linux-afs@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	ceph-devel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 00/24] netfs: Miscellaneous fixes
+Date: Tue, 12 May 2026 13:33:37 +0100
+Message-ID: <20260512123404.719402-1-dhowells@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260504191429.1770840-1-David.Francis@amd.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Mon, May 04, 2026 at 03:14:29PM -0400, David Francis wrote:
-> We want some GPU information to be publicly available to all
-> processes for basic system-wide profiling (think GPU versions
-> of top).
-> 
-> This information is available in fdinfo and not easily exposed
-> by other interfaces.
-> 
-> Allow processes with CAP_PERFMON capability to
-> - read /proc/<pid>/fd
-> - follow symlinks in /proc/<pid>/fd, but only if that file has
-> new file operations flag FOP_PERFMON_FDINFO
-> - read /proc/<pid>/fdinfo
-> - read /proc/<pid>/fdinfo/<fd>, but only if that file has
-> FOP_PERFMON_FDINFO
-> 
-> Signed-off-by: David Francis <David.Francis@amd.com>
-> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  2 +-
->  fs/proc/base.c                          | 18 ++++++++++++++++
->  fs/proc/fd.c                            | 28 ++++++++++++++++++++++++-
->  include/linux/fs.h                      |  2 ++
->  4 files changed, 48 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 03814a23eb54..d62f8b400258 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -3022,7 +3022,7 @@ static const struct file_operations amdgpu_driver_kms_fops = {
->  #ifdef CONFIG_PROC_FS
->  	.show_fdinfo = drm_show_fdinfo,
->  #endif
-> -	.fop_flags = FOP_UNSIGNED_OFFSET,
-> +	.fop_flags = FOP_UNSIGNED_OFFSET | FOP_PERFMON_FDINFO,
->  };
->  
->  int amdgpu_file_to_fpriv(struct file *filp, struct amdgpu_fpriv **fpriv)
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index 6299878e3d97..83182ff6b96d 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -86,6 +86,7 @@
->  #include <linux/user_namespace.h>
->  #include <linux/fs_parser.h>
->  #include <linux/fs_struct.h>
-> +#include <linux/fdtable.h>
->  #include <linux/slab.h>
->  #include <linux/sched/autogroup.h>
->  #include <linux/sched/mm.h>
-> @@ -716,6 +717,23 @@ static bool proc_fd_access_allowed(struct inode *inode)
->  	task = get_proc_task(inode);
->  	if (task) {
->  		allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
-> +		if (!allowed && capable(CAP_PERFMON)) {
-> +			struct files_struct *files;
-> +
-> +			task_lock(task);
-> +			files = task->files;
-> +			if (files) {
-> +				struct file *file;
-> +
-> +				spin_lock(&files->file_lock);
-> +				file = files_lookup_fd_locked(files,
-> +							      proc_fd(inode));
-> +				allowed = file && file->f_op->fop_flags &
-> +						  FOP_PERFMON_FDINFO;
-> +				spin_unlock(&files->file_lock);
-> +			}
-> +			task_unlock(task);
-> +		}
+Hi Christian,
 
-No, sorry, that's such a blatant layering violation tying together
-capabilities restricted to a specific file operation marked via an FOP
-flag. That is such a bad precedent to set. Let's not go there.
+Here are the outstanding miscellaneous fixes for netfslib gathered together
+and with some fixes-to-fixes folded down and one rearrangement.  Various
+Sashiko review comments[1][2][3][4][5] are addressed:
 
-Also, if you don't have ptrace access rights to a process but then hold
-a global capability as an additional escape hatch is such a twisted
-security model.
+ (1) Fix subrequest cancellation cleanup in DIO read and single-read.
 
-You're trying to shoehorn gpu specific introspection into a generic
-interface that has absolutely no business exempting them. Build your own
-dedicated interface please and don't try forcing this into procfs in
-this way, please.
+ (2) Fix missing locking around retry adding new subrequests.
 
-Procfs has a very peculiar security model for very good reasons and
-ptrace_may_access() is the canonical check - with enough special sauce
-as it is. Let's not add opaque escape hatches for magic file
-descriptors and open us up for more security suprises...
+ (3) Fix read and write result collection to use barriering correctly to
+     access a request's subrequest lists without taking a lock.
 
->  		put_task_struct(task);
->  	}
->  	return allowed;
-> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> index 9eeccff49b2a..89c1a205148a 100644
-> --- a/fs/proc/fd.c
-> +++ b/fs/proc/fd.c
-> @@ -86,12 +86,35 @@ static int proc_fdinfo_permission(struct mnt_idmap *idmap, struct inode *inode,
->  				  int mask)
->  {
->  	bool allowed = false;
-> -	struct task_struct *task = get_proc_task(inode);
-> +	struct task_struct *task;
->  
-> +	task = get_proc_task(inode);
->  	if (!task)
->  		return -ESRCH;
->  
->  	allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
-> +
-> +	if (!allowed && capable(CAP_PERFMON)) {
-> +		struct files_struct *files;
-> +
-> +		if (S_ISDIR(inode->i_mode)) {
-> +			allowed = true;
-> +		} else {
-> +			task_lock(task);
-> +			files = task->files;
-> +			if (files) {
-> +				struct file *file;
-> +
-> +				spin_lock(&files->file_lock);
-> +				file = files_lookup_fd_locked(files, proc_fd(inode));
-> +				allowed = file && file->f_op->fop_flags &
-> +						  FOP_PERFMON_FDINFO;
-> +				spin_unlock(&files->file_lock);
-> +			}
-> +			task_unlock(task);
-> +		}
-> +	}
-> +
->  	put_task_struct(task);
->  
->  	if (!allowed)
-> @@ -338,6 +361,9 @@ int proc_fd_permission(struct mnt_idmap *idmap,
->  	if (rv == 0)
->  		return rv;
->  
-> +	if (capable(CAP_PERFMON))
-> +		return 0;
-> +
->  	rcu_read_lock();
->  	p = pid_task(proc_pid(inode), PIDTYPE_PID);
->  	if (p && same_thread_group(p, current))
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index dd3b57cfadee..bc2826e1cc38 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2327,6 +2327,8 @@ struct file_operations {
->  #define FOP_ASYNC_LOCK		((__force fop_flags_t)(1 << 6))
->  /* File system supports uncached read/write buffered IO */
->  #define FOP_DONTCACHE		((__force fop_flags_t)(1 << 7))
-> +/* fdinfo readable with CAP_SYS_PERFMON */
-> +#define FOP_PERFMON_FDINFO	((__force fop_flags_t)(1 << 8))
->  
->  /* Wrap a directory iterator that needs exclusive inode access */
->  int wrap_directory_iterator(struct file *, struct dir_context *,
-> -- 
-> 2.34.1
-> 
+     This adds list_add_tail_release() and
+     list_first_entry_or_null_acquire() to appropriate incorporate
+     barriering into some list functions.
+
+ (4) Fix netfs_read_to_pagecache() to pause on subrequest I/O failure.
+
+ (5) Fix the potential for 64-bit tearing on a 32-bit machine when reading
+     netfs_inode->remote_i_size and ->zero_point by using much the same
+     mechanism as is used for ->i_size.
+
+ (6) Fix the calculation of zero_point in netfs_release_folio() to limit it
+     to ->remote_i_size, not ->i_size.
+
+ (7) Fix triggering of a VM_BUG_ON_FOLIO() in netfs_write_begin().
+
+ (8) Fix a potentially uninitialised error value in
+     netfs_extract_user_iter().
+
+ (9) Fix error handling in netfs_extract_user_iter().
+
+(10) Fix overrun checking in netfs_extract_user_iter().
+
+(11) Fix netfs_invalidate_folio() to clear the folio dirty bit if all dirty
+     data removed.
+
+(12) Defer the emission of trace_netfs_folio() in netfs_perform_write().
+     This allows the next patch to emit the correct traces.
+
+(13) Fix the handling of a partially failed copy (ie. EFAULT) into a
+     streaming write folio.  Also remove the netfs_folio if a streaming
+     write folio is entirely overwritten.
+
+(14) Fix a potential deadlock in writethrough writing.
+
+(15) Fix netfs_read_gaps() to remove the netfs_folio from a filled folio.
+
+(16) Fix netfs_perform_write() to not disable streaming writes when writing
+     to an fd that's open O_RDWR.
+
+(17) Fix an early put of the sink page used in netfs_read_gaps(), before
+     the request has completed.
+
+(18) Fix request leak in netfs_write_begin() error handling.
+
+(19) Fix a potential UAF in netfs_unlock_abandoned_read_pages() due to
+     trying to check index of each folio we're abandoning to see if that
+     folio is actually owned by the caller (in which case, we're not
+     actually allowed to dereference it).
+
+(20) Fix incorrect adjustment of dirty region when partially invalidating a
+     streaming write folio.
+
+(21) Fix the handling of folio->private in netfs_perform_write() and the
+     attached netfs_folio and/or group when a streaming write folio is
+     modified.
+
+(22) Fix netfs_read_folio() to wait on writeback first (it holds the folio
+     lock) otherwise we aren't allowed to look at the netfs_folio struct as
+     that could be modified at any time by the writeback collector.
+
+(23) Fix write skipping in dir/symlink writepages.
+
+(24) Fix the locking used by afs_get_link().
+
+The patches can also be found here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=netfs-fixes
+
+Thanks,
+David
+
+[1] https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowells%40redhat.com
+[2] https://sashiko.dev/#/patchset/20260326104544.509518-1-dhowells%40redhat.com
+[3] https://sashiko.dev/#/patchset/20260425125426.3855807-1-dhowells%40redhat.com
+[4] https://sashiko.dev/#/patchset/20260427154639.180684-1-dhowells%40redhat.com
+[5] https://sashiko.dev/#/patchset/20260428131756.922303-1-dhowells%40redhat.com
+
+Changes
+=======
+ver #6)
+- Fix more Sashiko issues[5].
+  - Handle another missed cancellation in netfs_read_to_pagecache().
+  - Made sure that all updates of i_size within netfslib, 9p, afs and cifs
+    are done with i_lock held to prevent i_size_seqcount getting corrupted
+    if remote_i_size or zero_point are updated.
+  - In netfs_perform_write(), make it so that in write-through mode the
+    modified folios aren't put into writeback mode until each is completed
+    to prevent races with mmap.
+  - In netfs_perform_write(), annotate the conditions under which group
+    differences cause a folio to be flushed and warn if the filesystem
+    mixes no-group (ie. NULL) with groups.
+  - In afs_evict_symlink(), avoid a lockdep splat due to not holding any
+    locks when doing an RCU op.
+  - In afs_init_new_symlink(), don't access an __rcu pointer directly.
+  - In afs_do_read_symlink(), use the size returned by netfs_read_single()
+    rather than i_size as the size of the symlink content.
+  - In afs_symlink_writepages(), avoid a double free.
+  - In afs_validate(), make sure we don't call afs_invalidate_symlink() on
+    a directory.
+
+ver #5)
+- Fix more Sashiko issues[4].
+  - Handle missed cancellations in netfs_read_to_pagecache().
+  - Fixed potential double dio-end/put if no subreqs were submitted in dio
+    read.
+  - In netfs_single_dispatch_read(), cancellation needs to set ALL_QUEUED
+    and invoke the collector.
+  - In read/write retry, lock around deletion of subreqs also.
+  - Renamed list_first_entry_acquire() to
+    list_first_entry_or_null_acquire().
+  - In netfs_push_back_zero_point(), fix use of cmpxchg().
+  - Provide netfs_write_remote_i_size_locked() that can be used by a func
+    holding inode->i_lock (e.g. cifs_fattr_to_inode()).
+  - In netfs_extract_user_iter(), improved overrun checking.
+  - Added a patch to fix a potential deadlock with write-through writes.
+  - In netfs_page_mkwrite(), skip the flush if no group set on the folio.
+  - In the single-write users, mark the inode dirty again if a contended
+    lock was skipped due to WB_SYNC_NONE.
+
+ver #4)
+- Rebase on v7.0-rc1
+- Fix more Sashiko issues[3].
+  - Move the ->subrequests barriering patch up front as it modifies
+    linux/list.h.
+  - Split that barriering patch and make the first patch to harmonise the
+    order of adding a read subreq to the queue, for buffered, dio and
+    single reads and to fix cancellation on prep failure.  The second patch
+    then fixes the barriering.
+  - Lock ->subrequests in retry when adding in extra subreqs.
+  - Use a spinlock as well when modifying ->zero_point with a seq lock.
+  - Atomically check and change ->zero_point when bumping it up.
+  - Merged the two patches sorting out the locking in afs symlink handling,
+    then fixed a number of issues in them.
+- Added a patch to make afs dir and symlink writepages skip if the
+  validate_lock is held and WB_SYNC_NONE is set.
+
+ver #3)
+- Rebase on linus/master.
+- Consolidate the various sets of fixes for reposting.
+- Fold down fixes-to-fixes.
+- Move the tracing change in netfs_perform_write() down to below the patch
+  it primarily affects.
+
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+
+David Howells (22):
+  netfs: Fix cancellation of a DIO and single read subrequests
+  netfs: Fix missing locking around retry adding new subreqs
+  netfs: Fix missing barriers when accessing stream->subrequests
+    locklessly
+  netfs: Fix netfs_read_to_pagecache() to pause on subreq failure
+  netfs: Fix potential for tearing in ->remote_i_size and ->zero_point
+  netfs: Fix zeropoint update where i_size > remote_i_size
+  netfs: Fix potential uninitialised var in netfs_extract_user_iter()
+  netfs: Fix overrun check in netfs_extract_user_iter()
+  netfs: Fix netfs_invalidate_folio() to clear dirty bit if all changes
+    gone
+  netfs: Defer the emission of trace_netfs_folio()
+  netfs: Fix streaming write being overwritten
+  netfs: Fix potential deadlock in write-through mode
+  netfs: Fix read-gaps to remove netfs_folio from filled folio
+  netfs: Fix write streaming disablement if fd open O_RDWR
+  netfs: Fix early put of sink folio in netfs_read_gaps()
+  netfs: Fix leak of request in netfs_write_begin() error handling
+  netfs: Fix potential UAF in netfs_unlock_abandoned_read_pages()
+  netfs: Fix partial invalidation of streaming-write folio
+  netfs: Fix folio->private handling in netfs_perform_write()
+  netfs: Fix netfs_read_folio() to wait on writeback
+  netfs, afs: Fix write skipping in dir/link writepages
+  afs: Fix the locking used by afs_get_link()
+
+Paulo Alcantara (1):
+  netfs: fix error handling in netfs_extract_user_iter()
+
+Viacheslav Dubeyko (1):
+  netfs: fix VM_BUG_ON_FOLIO() issue in netfs_write_begin() call
+
+ fs/9p/v9fs_vfs.h             |  13 --
+ fs/9p/vfs_inode.c            |   6 +-
+ fs/9p/vfs_inode_dotl.c       |  12 +-
+ fs/afs/Makefile              |   1 +
+ fs/afs/dir.c                 |  79 +++++-----
+ fs/afs/file.c                |  24 ++-
+ fs/afs/fsclient.c            |   4 +-
+ fs/afs/inode.c               | 127 +++------------
+ fs/afs/internal.h            |  45 +++---
+ fs/afs/symlink.c             | 278 +++++++++++++++++++++++++++++++++
+ fs/afs/validation.c          |  14 +-
+ fs/afs/write.c               |   2 +-
+ fs/afs/yfsclient.c           |   4 +-
+ fs/netfs/buffered_read.c     |  73 +++++----
+ fs/netfs/buffered_write.c    | 174 +++++++++++++--------
+ fs/netfs/direct_read.c       |  42 ++---
+ fs/netfs/direct_write.c      |   6 +-
+ fs/netfs/internal.h          |   3 +
+ fs/netfs/iterator.c          |  41 +++--
+ fs/netfs/misc.c              |  41 +++--
+ fs/netfs/read_collect.c      |  19 ++-
+ fs/netfs/read_retry.c        |  17 +-
+ fs/netfs/read_single.c       |  23 ++-
+ fs/netfs/write_collect.c     |  15 +-
+ fs/netfs/write_issue.c       |  49 ++++--
+ fs/netfs/write_retry.c       |   6 +-
+ fs/smb/client/cifsfs.c       |  38 +++--
+ fs/smb/client/cifssmb.c      |   3 +-
+ fs/smb/client/file.c         |  13 +-
+ fs/smb/client/inode.c        |  14 +-
+ fs/smb/client/readdir.c      |   3 +-
+ fs/smb/client/smb2ops.c      |  42 +++--
+ fs/smb/client/smb2pdu.c      |   3 +-
+ include/linux/list.h         |  37 +++++
+ include/linux/netfs.h        | 295 +++++++++++++++++++++++++++++++++--
+ include/trace/events/netfs.h |   8 +
+ 36 files changed, 1142 insertions(+), 432 deletions(-)
+ create mode 100644 fs/afs/symlink.c
+
