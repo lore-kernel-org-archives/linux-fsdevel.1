@@ -1,121 +1,109 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A53135A53
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 08:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778573173; cv=none; b=ghCfMGJd1RDa8SMuLPj6PSGol1A7Tle3ZqmPqKL3Umye737DRspunvTzgfqYEj4DMq3SXD04JpdhsUPHcxJYm8KEqij9WzZkD/ybzAH0daEGzcnzZoAin4tt2yEE5IyMIw3mjQXFU3xy/qFgSlWJ7KaHf7Ol23LR3wtJogmkcCU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778573173; c=relaxed/simple;
-	bh=Cw5y9vpzQ+HGAAqvHwdnbCKDka1FgZ8X0LZB56QGS94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YuTPLQ2pC+QR9voBr4nKMuwi3R9MX654U64fuWIW3GqtFXROTB108WH1UWTot7PvFe267c+eyZW+mWUMxA89Hmz5knMya4KIrvMFYj5up32sQ+dECteyG/jPjUFXuDS11olSYdb/rb9g+f0hzTS5hqwjcQUnxVkJAKaW2uePZ5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gu/a4o4s; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F2A47AF67
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 08:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778573490; cv=pass; b=kYc1zY49wuEZ1dyVFVZdNNHGy7YpGAzUTdDeyFAlDAZ8T967RhOsCJ6Rw+TQrcg2TS3lpX9sr+QeS6nGerBpoYrnXaHmTwkJOvuzoLc7ARtInDreVJy6BlN4teoKRY+CavIJzbOty3XHS8GbZcN9yVS4w8tiiHRnIgnJfbaw+rs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778573490; c=relaxed/simple;
+	bh=vR4B6nWAaNG2wL5FxOLIegQKVBpVfVi5VwP039YC8TY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hbAKMYEEzFYhvhf83aQRFduaZ/CKy9WdMOdfwtivXqeZHEHMPx73qogOQLHkIQDFs8Dy+TZVHd7Xsr8VLOB/CrZq6WDgMa1TfAxjkjhjQEvnwSKC1Ip8DpS2M3v7fNmKPXGfX2p8BNTkIkBxu7MxJMVMSgrWdF3DKqK475puQ9U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Xsc5WUGd; arc=pass smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gu/a4o4s"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43fe3e22e33so3035599f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 01:06:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Xsc5WUGd"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-515226c0cdbso344501cf.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 01:11:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778573488; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LiTlTvDvQ5AHXleqqjjnJdgmS8KqizT/JoQb7ui5O7CoKyIW4XO3DV+bDUUocuJ88R
+         uPqaSlcvcCsAfv0ZiboCUPRY3VrIG/JjZ0AwB2UetN3Ymd35u71omW6llrvWN2SXqiVV
+         03GkwHEijgbSIu2+Wb0MlGTRT+QjFtMf0R0O3WIwSzoXMDwAwRoi8TMlqnP2WPQLxx1J
+         FWoH+7aOG+q4CazMS9xBgypPHhDvS41CWoe/y2aOWM43/e05bijenZsul19gCbr0FhAm
+         WP2+JAKzNHuWdViUn9kpS25K760sGgRz9cA0s3Ukd0QIK1buzK0491EB5xsnBYk2KuUU
+         p7Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=36Q9ZJb+S+FYcY8CC7VRpk3QMo0+LrgwTutEyNv7Gxo=;
+        fh=4T/VpUoFWxWrHm6vrxP5pVELgOohsFcWCmS8JSicgmU=;
+        b=NKQaMNdYkTL+Q3vL1ODVzlQ9NJV+yyLrh+nBSOc8Iad0W5Fl9AM6Cb7DiyvUtX0xRA
+         ppozzXIaZTPuJDycSrA4ozwsYvXRDYtk40C6KN6a4RWsoUBzJ+9gYfdQl7UOa2eItbCk
+         RX0BgZiw66SXrFjc4ETHVAstLYkt0QNHrDyjTIMyZUv+Ef2Hv/uqeK11Kra3pdpRjqB3
+         yjlqui4V70CTOyvsfl809fmoAe6ltEphD/ZT9h6oRW6zDOQfSdMpZkUZDUsveI+ReXFS
+         zV/6X243DmZ8hhWECptdH2TXSy9/NpGOVlyr1et4o2ozLNONQI/PWxINTVP/UP/p+aKj
+         VP5A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778573171; x=1779177971; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ub9rCJB+xiyh5qMMvDQ8N4fa009xZ6N4W+3GYqzTDBs=;
-        b=Gu/a4o4s2OwYS3JU03JpPaNeZZRabZtomXxQ1eM7TOCuqMsFsv36gr4xJdezROV5IA
-         Ef6GhZPDMAWGYv1DhbOVvo0x0GMAQz3vek9ayZpChQARGZKWpvlfLNgPDmqwV0P2kY/g
-         m4PB8tXEOP8ozDRbk9QCFpuUP6EbksDulwlwQ2/ZVZw2rP3tybPV3mUlSA2UKyZicVou
-         69iJGyfFFkmSS8RagYoRY+kMPy9D+jlIA6JcfgX1SXaQFScsMcLx1OwPLqMe9cBsseBX
-         gILd5IAXOCHKqiHPSLQGJ0qYXYAtdqEiy3kIx4IPKa8q70tJ0GSEm6q/WiJnGk6MKWDa
-         FpCw==
+        d=szeredi.hu; s=google; t=1778573488; x=1779178288; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=36Q9ZJb+S+FYcY8CC7VRpk3QMo0+LrgwTutEyNv7Gxo=;
+        b=Xsc5WUGdcycvyFVkhczhT7v4tFPTZ41uoAXuhySdVz+KO7Wgv1Q4uLHxfk6Mt7x0ZF
+         WY7wQZICcLDVkghdEt6D3ODsuywIYtttiytlmkPLdFpm3WNRqguMrH1EbTzgiz51V+Cu
+         ylRKG9iFzGXFcWXDwibAXpr8tumnh6jUfqQ3I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778573171; x=1779177971;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ub9rCJB+xiyh5qMMvDQ8N4fa009xZ6N4W+3GYqzTDBs=;
-        b=PGcDbQLldB7h2h1D9LSwRDSZXUl0rSgPUMjkrTPm1KhtDfAFcc0hfWJ7pR5VagfwK/
-         hRzH3kzW1SgrWoHC19gsCHSC3J3B0YpuiVRuPGBHGYO/ETaunLGJQHIDdanLlRfO0IVB
-         gc6H2KSohXDgQX8RzbAtiU5se0YO0cbmthEErIPLdsGN8O2qoMZgNpi5A3QjL/rIdYzu
-         Np9g+QNv6vNQtUQ0hPNkTqnZFf4zPD8bkoKtz8iZiDbDSEuDNuiGwH6KULtmk4rrMLSb
-         tL4w0JZMiagyiX+9Yi9pa9Lx1hx2CzE5uSpbzl1zCd0aQTrc9smOoYS2OanVzcz6KCPJ
-         He0Q==
-X-Forwarded-Encrypted: i=1; AFNElJ96B/5TdODOUD5Mn23J/GTdBSyC4u3OYcdTpK6pONEDvovXOMOJzmRBJrlIT+uq66GDJT4Iz9vMDNxWaEj8@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx93nyKjqYik9nAmt37H+AbmkwY/3owHv/BAULkhmzEUjy2uGS5
-	+Bs1kZ6EhxBgu/HzZTwBwBLylc8XWhOGlPsjC92JwemvZvDf8qWAbT1I
-X-Gm-Gg: Acq92OGlTO+yJWAJ97sjTby7q39fpMi+rcx10j13NYkETXg9rV700HcYDHT7/Ym2iwm
-	8uof1JHPDciULx33qZh71uvG4WREVyy4l4qMrork30thqkiu03ksPRSfQfUb6jSTqIpjzOq+7BA
-	9AP3auCryaC6HeXFLmEUkkmlUCrhoa6zGtuk25wsH2tfOtALpRb9JLxjpww8UHBakdllPXkbhhl
-	sixOI+Q4MWFsAivg2OHerdDmazSP8fEpnh2vkg8es8v5MuvV4cZuN/bmYdDqqwF9L6NMouInIrc
-	E00uslXKVBJSu6/poHXMkrqGtLGTegh1JTZ9HPoqptahy+NrPIo4b9JJ/NfBN+/ZADSofQoVROH
-	heI1m8oQlm0UIp/N4aIE8AuDKmT+kBJwoTUuCo73zaITNCenvokl99+jVfllbwdf8iSqSgPf0c+
-	mDygnOOOTXGcEMKlFAvbo=
-X-Received: by 2002:a05:600c:528e:b0:48e:7f1c:8778 with SMTP id 5b1f17b1804b1-48e8fe721bcmr30944315e9.17.1778573170670;
-        Tue, 12 May 2026 01:06:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491e94c0fsm31909250f8f.32.2026.05.12.01.06.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 01:06:09 -0700 (PDT)
-Date: Tue, 12 May 2026 11:06:06 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Calvin Owens <calvin@wbinvd.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
-	linux-pm@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [patch V2 01/11] hrtimer: Provide hrtimer_start_range_ns_user()
-Message-ID: <agLfbp9yEiQlTYYl@stanley.mountain>
-References: <20260408102356.783133335@kernel.org>
- <20260408114951.995031895@kernel.org>
+        d=1e100.net; s=20251104; t=1778573488; x=1779178288;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=36Q9ZJb+S+FYcY8CC7VRpk3QMo0+LrgwTutEyNv7Gxo=;
+        b=tNQmBEoA3Oof6R6KKdZHOfcptR5NV+8E2P6H6M3HRYaMtKC+uSJ4Kyz91Hb8Qw8d9I
+         OOZueIzbzU4yHGudjMWSIlrIDT+qhbNNryPDYoc0MlkhIscIJ+FAIvsVk6n0ttsRDEru
+         ilO0yWcMrwUMx/Z9lQm9Q8lcAfBlidwgsBoUXrhxSvq+f9yiCodKC9FW3ApGhPSywGYJ
+         vJWBret0GaHvdHD9vvcmErxIbYDM8UTv8igmxQZz72DhKs4Tulr7elsrukrVgOP74MGs
+         1ivQSyeMcgkw+oHGCMGELlX8VUNdLCxdXelFHyWPXrCZ93TMDWCxtikOoCqR9OTT+hVc
+         pMLw==
+X-Forwarded-Encrypted: i=1; AFNElJ+B5EUvQ7z+40e8tK+0DwYm4D+OBwdn7xgXlU6UKGkaZsumhzBCeTKpnf92VEBSvDTZ/fLU8zwuIDz9N471@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx10E4+o+MXQqJjFCDmtblVlB6L5Xf5EeGnoLs18plFKhSciEBB
+	xmZhE3oIF23E3LhhruPsbLq5c+EcYyeTVFIH19YreupLr7b8TabQpwt4R4hFBHPWILekEOsgE3i
+	PtCfpIYi7COcZOE2uYgL8Hj85KARILkx/JEoClpAxzQ==
+X-Gm-Gg: Acq92OHKSPnmGPIfcGeojn+ziOZQcTGFcL9FQbWDwBq7ztaD+v0/hZjp5UBmOMxrBq+
+	lcsrlz+X2D+c+W6ZKrvRXmjUh5CDiWaYeeey/GssCtcM62C7XbCBn88aTDO5I/HycfUgLPIxCsy
+	B0PuzkW4LUkamzp4YZGcUyjiY7vGyVyawXxBM7LyFUehgP/kSvg5WEylLV3tv8qxjg6udSzJ/Qu
+	uAzlmjSLwsx7ANByvtwRYueTkn40nL8K5/2W6uXVA82clUfOghSApsS5DNRxyzIeU5gLPfXR7uT
+	ghmyHZXifPaafrfDamOZ+PecM3twZvRbIyGZSMC0OwwSsT0Ocg==
+X-Received: by 2002:a05:622a:48:b0:50e:5752:d1bb with SMTP id
+ d75a77b69052e-514d1c1e4dbmr28870181cf.4.1778573487886; Tue, 12 May 2026
+ 01:11:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260408114951.995031895@kernel.org>
+References: <20260429102058.1362965-1-mszeredi@redhat.com> <afxK2HSiwY32KaWw@fedora>
+In-Reply-To: <afxK2HSiwY32KaWw@fedora>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 12 May 2026 10:11:16 +0200
+X-Gm-Features: AVHnY4IqKjt3bWi7g4y-OK800aSsTbqj0bqZHtMvDztGN5Cxy1jvogln1dO19q0
+Message-ID: <CAJfpegvYM2bdAJJHaqydxRzyVPNwOU95-MS5F+YrnOkJR+6yNg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add fusex filesystem
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 08, 2026 at 01:53:46PM +0200, Thomas Gleixner wrote:
-> +enum {
-> +	HRTIMER_REPROGRAM_NONE,
-> +	HRTIMER_REPROGRAM,
-> +	HRTIMER_REPROGRAM_FORCE,
-> +};
-> +
->  static bool __hrtimer_start_range_ns(struct hrtimer *timer, ktime_t tim, u64 delta_ns,
->  				     const enum hrtimer_mode mode, struct hrtimer_clock_base *base)
+On Thu, 7 May 2026 at 10:37, Horst Birthelmer <horst@birthelmer.de> wrote:
 
-The return type for this function needs to changed from bool to
-enum whatever...  Otherwise HRTIMER_REPROGRAM and HRTIMER_REPROGRAM_FORCE
-are both just true.
+> Where do you see the biggest challenge for this. To me, it doesn't look impossible to add that,
+> but I'm sure I'm missing a lot in this context.
 
->  {
-> @@ -1410,7 +1416,7 @@ static bool __hrtimer_start_range_ns(str
->  	/* If a deferred rearm is pending skip reprogramming the device */
->  	if (cpu_base->deferred_rearm) {
->  		cpu_base->deferred_needs_update = true;
-> -		return false;
-> +		return HRTIMER_REPROGRAM_NONE;
->  	}
->  
->  	if (!was_first || cpu_base != this_cpu_base) {
-> @@ -1423,7 +1429,7 @@ static bool __hrtimer_start_range_ns(str
->  		 * callbacks.
->  		 */
->  		if (likely(hrtimer_base_is_online(this_cpu_base)))
-> -			return first;
-> +			return first ? HRTIMER_REPROGRAM : HRTIMER_REPROGRAM_NONE;
+The biggest challenge I see is API design.  I'd really like to have a
+simple and consistent API for this.
 
-regards,
-dan carpenter
+First task: need to document the current interface, which is long
+overdue.  Here's a start:
 
+https://docs.google.com/document/d/1SInG6nc5dF-db3WtCqFOnRDCY1jRl5JQ0Toiryn2PRc/edit?usp=sharing
+
+This needs refinement, i.e. try to document by cache type, how is the
+cache used, invalidated, etc.
+
+Thanks,
+Miklos
