@@ -1,59 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB063299927
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 12:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378F22D7380;
+	Tue, 12 May 2026 12:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778587968; cv=none; b=dxRkM1hiJycVBcRJX8nGLpupDA4UMogatjM4obppyJdOCSUBtDYqji9PXEuXhKbgHtYA/P1HBYXMaOZTQFTq58PqOHNr9DPNiFA6nnEZ6fJ6yMxW1J8hnmhTtUIG+NYIw3OMaN8JHUu7ICBQGwB7vwaW74sSN6cAUnHgkDqL1Oc=
+	t=1778588013; cv=none; b=LEmlmdB17FvmfJP/DIErcZZLr37PVfWhShw4MK0jCMPT+9U2yhBJoUBE5YWlvoQe4/iKC8bCizMYM5mlUFLHOrfTRd4gFNeefyxb/JzcLLWqPyWnTl560sYDJUq3MMgxEYko7kAnDw+39ijq2qu8L8dl2eSQJiPSPYnG3wZtkng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778587968; c=relaxed/simple;
-	bh=/9dnAltSZovT/E00djwfS2l+dkMsZbRXWj3kVzkhyQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kEgw3wT8YnCc1XrXKMu3Q+uAPxJ4cXIRPxJt7v4pNc5FXn6hJdiMJuKSgcs7RnuEyj9tOqYCLVyHrUBtUGPVyfj0escyjolqvgGAujkKivOQ+CGtjji5C0tvqvlTDVfJFeMhJxGtc3XmubFjZ4m5UK27whHXId3wY48kz4AbDWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q72LQmLm; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q72LQmLm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B635C2BCF5;
-	Tue, 12 May 2026 12:12:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778587968;
-	bh=/9dnAltSZovT/E00djwfS2l+dkMsZbRXWj3kVzkhyQA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q72LQmLmkACmQ1OdbwME8lOd+3kGDIout/eK1R8Jsju8ddN1QO52xuVmES/T11w//
-	 +GVARS2lTBNENH8KoZFQI679lQqiQoWkWX+BNSBcllSx+IHhnOfBz7bdeeQuGGcV1e
-	 /FZwQuBVZiJehm3X29MUQTJ893jppiuwt/l8tvdXlRk1pTo7wb5CeZIUBBXZiSBjQ2
-	 Dr9Lc0Rh311PhKbdmfOLs+eCqy1TW8ulkQyhxEqAO7vJvCyg/kGtD/st3rUp/KGQ4J
-	 TsGSRT7Aer08T8tGT0vstC9AQCb4CJQUE/nNq29uo8G+Gf3b17+aC/v+MH2AKPOYBb
-	 lB++FcYbuSUGg==
-Date: Tue, 12 May 2026 14:12:44 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: djwong@kernel.org, Namjae Jeon <linkinjeon@kernel.org>, 
-	willy@infradead.org, xiang@kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH RESEND] iomap: remove over-strict inline data boundary
- check
-Message-ID: <20260512-marmeladen-abgraben-55a17189978b@brauner>
-References: <20260511141151.6021-1-linkinjeon@kernel.org>
- <20260511-banden-sirenen-86654d8201a6@brauner>
- <20260512060736.GA28955@lst.de>
+	s=arc-20240116; t=1778588013; c=relaxed/simple;
+	bh=k+0O39k849OgmKFDhM+U2vgVRccqaN1Td2VS0Y3WD/Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sdSUzVE7HCzPtF/ZcKujgUodB3rta40dkLn5glJ8NtRh5rEaFBv0AUkxJohXP2GIlPZmdUdqLW9H46gTbSVH4EDvpCqlaQNvznxSygruocKDZ3lHzYsGGQtLYp06wP+WbSWGW/ZfGwQR7ZOMXZS3IruGQNcsRmcNxZjrMq2Fp1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64CB1pc5064961;
+	Tue, 12 May 2026 20:01:51 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64CB1oa0064953
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 12 May 2026 20:01:50 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <42a9075e-a4b4-4eb7-b96e-48e5c0cd2f3a@I-love.SAKURA.ne.jp>
+Date: Tue, 12 May 2026 20:01:49 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260512060736.GA28955@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 6/7] tomoyo: Convert from sb_mount to granular mount
+ hooks
+To: Song Liu <song@kernel.org>, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Cc: paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+        john.johansen@canonical.com, stephen.smalley.work@gmail.com,
+        omosnace@redhat.com, mic@digikod.net, gnoack@google.com,
+        takedakn@nttdata.co.jp, herton@canonical.com, kernel-team@meta.com,
+        selinux@vger.kernel.org, apparmor@lists.ubuntu.com
+References: <20260509015208.3853132-1-song@kernel.org>
+ <20260509015208.3853132-7-song@kernel.org>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <20260509015208.3853132-7-song@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav101.rs.sakura.ne.jp
 
-On Tue, May 12, 2026 at 08:07:36AM +0200, Christoph Hellwig wrote:
-> On Mon, May 11, 2026 at 04:57:26PM +0200, Christian Brauner wrote:
-> > Applied to the vfs-7.2.iomap branch of the vfs/vfs.git tree.
-> > Patches in the vfs-7.2.iomap branch should appear in linux-next soon.
-> 
-> Shouldn't this go into 7.1 as it fixes a user triggered BUG_ON with
-> ntfs?
+On 2026/05/09 10:52, Song Liu wrote:
+> Replace tomoyo_sb_mount() with granular mount hooks. Each hook
+> reconstructs the MS_* flags expected by tomoyo_mount_permission()
+> using the original flags parameter where available.
 
-I was on the fence but there's no Fixes: tag. I usually mark patches at
-least with: Cc: stable@kernel.org # mainline only or something.
+Please fold below diff into this patch. Then,
+
+Acked-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ security/tomoyo/tomoyo.c | 60 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 58 insertions(+), 2 deletions(-)
+
+diff --git a/security/tomoyo/tomoyo.c b/security/tomoyo/tomoyo.c
+index ac84e1f03d5e..c93d000acc95 100644
+--- a/security/tomoyo/tomoyo.c
++++ b/security/tomoyo/tomoyo.c
+@@ -400,6 +400,15 @@ static int tomoyo_path_chroot(const struct path *path)
+ 	return tomoyo_path_perm(TOMOYO_TYPE_CHROOT, path, NULL);
+ }
+ 
++/**
++ * tomoyo_mount_bind - Target for security_mount_bind().
++ *
++ * @from:    Pointer to "struct path".
++ * @to:      Pointer to "struct path".
++ * @recurse: Whether recursive bind mount or not.
++ *
++ * Returns 0 on success, negative value otherwise.
++ */
+ static int tomoyo_mount_bind(const struct path *from, const struct path *to,
+ 			     bool recurse)
+ {
+@@ -408,6 +417,17 @@ static int tomoyo_mount_bind(const struct path *from, const struct path *to,
+ 	return tomoyo_mount_permission(NULL, to, NULL, flags, from);
+ }
+ 
++/**
++ * tomoyo_mount_new - Target for security_mount_new().
++ *
++ * @fc:        Pointer to "struct fs_context".
++ * @mp:        Pointer to "struct path".
++ * @mnt_flags: Mount options.
++ * @flags:     Original mount options.
++ * @data:      Optional data. Maybe NULL.
++ *
++ * Returns 0 on success, negative value otherwise.
++ */
+ static int tomoyo_mount_new(struct fs_context *fc, const struct path *mp,
+ 			    int mnt_flags, unsigned long flags, void *data)
+ {
+@@ -416,6 +436,17 @@ static int tomoyo_mount_new(struct fs_context *fc, const struct path *mp,
+ 				       flags, NULL);
+ }
+ 
++/**
++ * tomoyo_mount_remount - Target for security_mount_remount().
++ *
++ * @fc:        Pointer to "struct fs_context".
++ * @mp:        Pointer to "struct path".
++ * @mnt_flags: Mount options.
++ * @flags:     Original mount options.
++ * @data:      Optional data. Maybe NULL.
++ *
++ * Returns 0 on success, negative value otherwise.
++ */
+ static int tomoyo_mount_remount(struct fs_context *fc, const struct path *mp,
+ 				int mnt_flags, unsigned long flags, void *data)
+ {
+@@ -423,6 +454,15 @@ static int tomoyo_mount_remount(struct fs_context *fc, const struct path *mp,
+ 	return tomoyo_mount_permission(NULL, mp, NULL, flags, NULL);
+ }
+ 
++/**
++ * tomoyo_mount_reconfigure - Target for security_mount_reconfigure().
++ *
++ * @mp:        Pointer to "struct path".
++ * @mnt_flags: Mount options.
++ * @flags:     Original mount options.
++ *
++ * Returns 0 on success, negative value otherwise.
++ */
+ static int tomoyo_mount_reconfigure(const struct path *mp,
+ 				    unsigned int mnt_flags,
+ 				    unsigned long flags)
+@@ -431,12 +471,28 @@ static int tomoyo_mount_reconfigure(const struct path *mp,
+ 	return tomoyo_mount_permission(NULL, mp, NULL, flags, NULL);
+ }
+ 
++/**
++ * tomoyo_mount_change_type - Target for security_mount_change_type().
++ *
++ * @mp:       Pointer to "struct path".
++ * @ms_flags: Mount options.
++ *
++ * Returns 0 on success, negative value otherwise.
++ */
+ static int tomoyo_mount_change_type(const struct path *mp, int ms_flags)
+ {
+ 	return tomoyo_mount_permission(NULL, mp, NULL, ms_flags, NULL);
+ }
+ 
+-static int tomoyo_move_mount(const struct path *from_path,
++/**
++ * tomoyo_mount_move - Target for security_mount_move().
++ *
++ * @from_path: Pointer to "struct path".
++ * @to_path:   Pointer to "struct path".
++ *
++ * Returns 0 on success, negative value otherwise.
++ */
++static int tomoyo_mount_move(const struct path *from_path,
+ 			     const struct path *to_path)
+ {
+ 	return tomoyo_mount_permission(NULL, to_path, NULL, MS_MOVE,
+@@ -609,7 +665,7 @@ static struct security_hook_list tomoyo_hooks[] __ro_after_init = {
+ 	LSM_HOOK_INIT(mount_remount, tomoyo_mount_remount),
+ 	LSM_HOOK_INIT(mount_reconfigure, tomoyo_mount_reconfigure),
+ 	LSM_HOOK_INIT(mount_change_type, tomoyo_mount_change_type),
+-	LSM_HOOK_INIT(mount_move, tomoyo_move_mount),
++	LSM_HOOK_INIT(mount_move, tomoyo_mount_move),
+ 	LSM_HOOK_INIT(sb_umount, tomoyo_sb_umount),
+ 	LSM_HOOK_INIT(sb_pivotroot, tomoyo_sb_pivotroot),
+ 	LSM_HOOK_INIT(socket_bind, tomoyo_socket_bind),
+-- 
+2.47.3
+
+
