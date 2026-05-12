@@ -1,126 +1,172 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15CB344D9D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38973A2E2A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 13:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778593582; cv=none; b=J828DGWvTt+dzp3h6eghq/3hO8sOkXYW9iDZm82w/MxhyGLs9NQwUmgt6ITCU2b9PNzjdqmWxwJXdTCXFijHUGSznIplO+fZ6RIGukw5Tnlb/xP0QrrSe1yV2mPclSAd/0hW4l91a08mZomtnVmG3U5jDTS/GQ1vTyy5HcDe/9k=
+	t=1778594313; cv=none; b=fVDRuy1o50bEiW4hcC19F/8KayqsgIR+I6A36QduP4xQVFBgKeRX4qj03psfO18TNX0jePPwPLeo4PZiSmE0lXD0+zFF1R2rHFaFg9ka7JQp4KgNaJMr4C/n0eT932QOVGNB3yG1OENeJ1NOt5zlifHPdyp9BxmHBYoRJ1IT0ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778593582; c=relaxed/simple;
-	bh=aOskcgxpxnSejEUt/QNYJbvPuYTk4CJA2DNTP7+Od0I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qg+kg6k7UIuZqGcwUsMGZgx6WMIfzku1I3cewYYPXl4ENoISKJ9U6YBRI2tQ/rQZuizwMBIpN41ehBEnEESZRjSDHMYfsZS47RT9HkTRW9X9PMZOwbM0Yxuus82weIC9CiszR9ySTP44Sqqhtz4jjJNBnbNu9jeHbx8NfnogclE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=qfDzhWPW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QPG22o0Z; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1778594313; c=relaxed/simple;
+	bh=fsnFS0ikE1KqojIl3XqYuHy4MH9fhox5imP2tGFFrlM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=now5NhW7fqStwoadw+rLnyUGNBS+omPfAoZrJv2KPZVnpG+FSI2fkCW+5cQVR7rxCjyUkBHjFskFXTQnUJNgXDO1zB/Cje2k9p13N1ImHkv1DuAtVcQQFr5COT5CVKylShqnnaIGwV1XEPih6C/a5v8agmZ5R725C40fF8WOD8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iU40lfBc; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=59RRpz5u; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iU40lfBc; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=59RRpz5u; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="qfDzhWPW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QPG22o0Z"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 3966614001DD;
-	Tue, 12 May 2026 09:46:20 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Tue, 12 May 2026 09:46:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778593580;
-	 x=1778679980; bh=ePYcN8LaFhCB4zVDoNe7gz0F1I8EVhd0o7bu6goIYrQ=; b=
-	qfDzhWPWIm2BB/j3WfTwptRZ/k4moeoma/VMo/+je7uu1ig1axiITfvW+KIV+CpB
-	Doa02KPTVuJr/OWOaOwKuc4px0pKVz3HvTuHVYAc5T8FzAM22Wp67ytNsXmVHRWo
-	OKUUGDzZY6XxauNrwc2oSYAAV992WMXh9hZxwMyr5SXPpw74r2Ct9fkSmvoDVWOk
-	g1ot2dj+202/JwMtjVPZBDUDvZjYnRV9wQ6qAaW91EokXE0Qc0CIrrY7LiE8ks29
-	UIRwut55t07SlWv2mKBk1cQ+a8ff8LHw/dELIJeRBwWyJf6W9PBAANj815UJRVAn
-	HUVf65XSyu9oMVsG0sQjtg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778593580; x=
-	1778679980; bh=ePYcN8LaFhCB4zVDoNe7gz0F1I8EVhd0o7bu6goIYrQ=; b=Q
-	PG22o0Zx9Ifv1FzGfBFs6guMGJQsGLY0VIrf/8X86FOJmU365jOpsUniVO/tZflc
-	f+0H9DDwnVTex6NfJ48RYGfUI2kVZ5JYNF6EA++DBdFH/YSk7ZlAJUKCm6JlKmcB
-	5Gy7imMaOlAWpYE/kz+wFTpGcQyCkcMDUBNuaFOZUoZulYhQv05huXWFdzdxKNkf
-	0Tp4Qyv6Eo+wON8OjzOZfnQMRUlT2uo5Dc/wIJF6xJrw87vQFu5rpOz9q5avYUVM
-	it1Plt52C9lydp09xOU+z6KLDNnbfRQ4gGQ5cAQhxaxeXhjNPf9g1s28MGFu4G9y
-	E8ASG513QPPOa417lVhTw==
-X-ME-Sender: <xms:Ky8DaikD4cdHceORcAP66lheDEnJDYdTbD-iumt9CNpeMZUsFCNvDg>
-    <xme:Ky8DajKeXp_1FuyOqL9tut0Y9JZ2Cla_d1dSj9kFCjg3JWVjO9WpRVGNZo5baPhID
-    vfaLpWZxjkYmM845Ldg7Nm9fziy9OD1Z7rMvVW838oz3YJKHYAa>
-X-ME-Received: <xmr:Ky8Dan4W-HUZ_Menq8ZKs_2RQoN-1wu3idL4e4e91Q2AYuxpQDA6pXnrpYyTd5c03mQs5VBlDelEYMlxcBXPqS3YDpIrWsqTPDtOqB9WEFyfOXjtcQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdduleehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeefgeegfeffkeduudelfeehleelhefgffehudejvdfgteevvddtfeeiheef
-    lefgvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegrmhhirhejfehilhesghhmrghilhdrtghomhdprh
-    gtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepmhhsiigv
-    rhgvughisehrvgguhhgrthdrtghomhdprhgtphhtthhopehfuhhsvgdquggvvhgvlheslh
-    hishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghl
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhhorhhsthessghirhhthh
-    gvlhhmvghrrdguvg
-X-ME-Proxy: <xmx:Ky8Dan3mLq6fbMKYhoY9Xyz-PqviSvxxIsvnJRpNZu4RoH2bJtLTNw>
-    <xmx:Ky8DatfnUDykS2_R_BrmfqtJMBksexLYji3PeWWzWnglXtBAu0Dt8w>
-    <xmx:Ky8Datfkv4m4VTUnamTc-_zpzD9hIcyK2h-P1B4NOalgPTKmJz1SiA>
-    <xmx:Ky8Daox1xWFDMmep68P6bU6bk1hRBXc4xRkoA7SANXrooQatGbrI7Q>
-    <xmx:LC8Dao_Ztf-ddXtgod9_vyGqpMMP432S7IVNheQs57TQ0GaERmihYWHm>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 May 2026 09:46:19 -0400 (EDT)
-Message-ID: <89cb66a2-0f38-4b44-8897-50e932ef6153@bsbernd.com>
-Date: Tue, 12 May 2026 15:46:17 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iU40lfBc";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="59RRpz5u";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iU40lfBc";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="59RRpz5u"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 306EF6A92B;
+	Tue, 12 May 2026 13:58:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778594310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u/WMKLvXTakOwtcQCPmwP1f7LuJLeIEf0/ngyLHcaDo=;
+	b=iU40lfBcKYFLIF2OHmGSUAfvpl4nfAgf194chhYws9yDEb3DxOnb3xiRlbS7bQTusUdU2E
+	ni01ZeqaJ+Y9zyZTRYP9ARLN+TshLHI2Jdx9WCJNsMCuxCion8XMzzt/YlNDCH9rRP3ySj
+	xCzWegLpvRqZVVhL4JmfQelsXqMl4po=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778594310;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u/WMKLvXTakOwtcQCPmwP1f7LuJLeIEf0/ngyLHcaDo=;
+	b=59RRpz5uKRSwZuk3tmE0LVQS/rHnOlt1W7AHo63MzMrHcNg2Q+5Nbb5dRzHoGbOS/RA6d5
+	XpjQh9LYr1JSaJBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778594310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u/WMKLvXTakOwtcQCPmwP1f7LuJLeIEf0/ngyLHcaDo=;
+	b=iU40lfBcKYFLIF2OHmGSUAfvpl4nfAgf194chhYws9yDEb3DxOnb3xiRlbS7bQTusUdU2E
+	ni01ZeqaJ+Y9zyZTRYP9ARLN+TshLHI2Jdx9WCJNsMCuxCion8XMzzt/YlNDCH9rRP3ySj
+	xCzWegLpvRqZVVhL4JmfQelsXqMl4po=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778594310;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u/WMKLvXTakOwtcQCPmwP1f7LuJLeIEf0/ngyLHcaDo=;
+	b=59RRpz5uKRSwZuk3tmE0LVQS/rHnOlt1W7AHo63MzMrHcNg2Q+5Nbb5dRzHoGbOS/RA6d5
+	XpjQh9LYr1JSaJBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 23D7E593A9;
+	Tue, 12 May 2026 13:58:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cGAKCAYyA2q7cgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 12 May 2026 13:58:30 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B3EACA07B5; Tue, 12 May 2026 15:58:21 +0200 (CEST)
+Date: Tue, 12 May 2026 15:58:21 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Ritesh Harjani <ritesh.list@gmail.com>, Chuck Lever <chuck.lever@oracle.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-mm@kvack.org
+Subject: Re: [PATCH v7 1/3] mm: preserve PG_dropbehind flag during folio split
+Message-ID: <2lqxu3m6ueiiaqykqwgujxzddq7blcn2zmtntv742mvae3wqtd@ntr4mnzm6vic>
+References: <20260511-dontcache-v7-0-2848ddce8090@kernel.org>
+ <20260511-dontcache-v7-1-2848ddce8090@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: add fusex filesystem
-To: Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, Horst Birthelmer <horst@birthelmer.de>
-References: <20260429102058.1362965-1-mszeredi@redhat.com>
- <afxK2HSiwY32KaWw@fedora>
- <CAOQ4uxg-tgCmJkjFAQ86_xB7dDQKGy=geKAcxT2vB8cUSEKdPQ@mail.gmail.com>
- <CAJfpegt7hj=WDKKASjWLVG-R2tGYUKMJ1qR0iv_Y+GaYS0mW4w@mail.gmail.com>
- <CAOQ4uxgoavKU6zNMN9YF5cchvux6CGGxd56BBOJFWX0gkVAChg@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAOQ4uxgoavKU6zNMN9YF5cchvux6CGGxd56BBOJFWX0gkVAChg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511-dontcache-v7-1-2848ddce8090@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,infradead.org,linux-foundation.org,oracle.com,google.com,suse.com,kernel.dk,gmail.com,vger.kernel.org,kvack.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-
-
-On 5/12/26 15:08, Amir Goldstein wrote:
-> On Tue, May 12, 2026 at 10:18 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
->>
->>> I see no reason for fusex to not support lookup by ".", which is
->>> anyway needed for "reconnect", so a fresh FUSEX_NFS_EXPORT opt-in
->>> for "re-export to NFS" may make more sense.
->>
->> Why add reconnect?  If server supports persistent file handles, and
->> all req's get the file handle, then no state (nodeid) needs to be
->> stored by the server.
->>
+On Mon 11-05-26 07:58:27, Jeff Layton wrote:
+> __split_folio_to_order() copies page flags from the original folio to
+> newly created sub-folios using an explicit allowlist, but PG_dropbehind
+> is not included. When a large folio with PG_dropbehind set is split,
+> only the head sub-folio retains the flag; all tail sub-folios silently
+> lose it and will not be reclaimed eagerly after writeback completes.
 > 
-> Yes, we are saying the same thing.
-> What I am saying is that legacy fuse has FUSE_EXPORT_SUPPORT
-> which means server supports lookup of "." which libfuse always enabled
-> and then we added FUSE_NO_EXPORT_SUPPORT to opt-out of nfs export.
+> Add PG_dropbehind to the flag copy mask so that the drop-behind hint
+> is preserved across folio splits.
 > 
-> I am saying that in FUSEX, lookup "." support is implied.
-> And that nfs export should always be opt-in (FUSEX_NFS_EXPORT).
+> Fixes: a323281cdfec ("mm: add PG_dropbehind folio flag")
+> Assisted-by: Claude:claude-opus-4-6
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-I'm confused here, why do we need lookup of "." without NFS export? And
-which file system actually supports lookup of "."?
-Shouldn't all that be scratched in favor of LOOKUP_HANDLE?
+I'm not really very knowledgeable in this code but the change looks good to
+me. Feel free to add:
 
-Thanks,
-Bernd
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  mm/huge_memory.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 970e077019b7..e01917b14d1a 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -3642,6 +3642,7 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+>  				 (1L << PG_arch_3) |
+>  #endif
+>  				 (1L << PG_dirty) |
+> +				 (1L << PG_dropbehind) |
+>  				 LRU_GEN_MASK | LRU_REFS_MASK));
+>  
+>  		if (handle_hwpoison &&
+> 
+> -- 
+> 2.54.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
