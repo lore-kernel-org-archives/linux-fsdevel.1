@@ -1,124 +1,170 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AC038237C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 21:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5A5386C3C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 23:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778622059; cv=pass; b=ftWODEN7Kk1BmiSoemchCKuj9f/5t+WRo+VieMMkmS3jOgUWHJO/t/n1u8xpDNJoOqq2cEnWrd/j5eR9gdigOVYvXFglSGPZPXqAdIf4fovCaeJPXv4+Nx8RmETC/9+KPrmwkOj9EOxCi9LOYbsUO74bEi1MeI3WMrzOImuqLYU=
+	t=1778629378; cv=pass; b=Mku6zI4oIyVlXdzfrPbX8V9ZUOdOpclVLRnQfijv5k6INHRyNWJMkSlajeLIN+BJ6ARKU9rSi7oz5f+wDIbRHds2iwd15uh2B2cvPUK9QS66QYUouc+zb+jZwOQI8YoxDGnkOfl8ofW46tmiTmlJO04pD0eVpNbOH3Uj60TCTR0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778622059; c=relaxed/simple;
-	bh=jO46bD/DahYyJouYnkfmKNbZfEuWSP4xESEaREtQLrU=;
+	s=arc-20240116; t=1778629378; c=relaxed/simple;
+	bh=ihacAeS0i6fk5VQDmiyxQBBI5wafi+7J75DYIclWFuw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TqH+4A0hD+7DiSpKVdG3Tc50KPN4TFH+DMHDPItgEqakDOg0qfxuBdGzWF7Le54XxX5xdPKpmKOJMeHEcicXRXdbCWi2q+mT16ROUcXujXnf/E9tw4Fm6ociL4wAl9qJRzJRpYw9cYt7p5bFZydN38Vm5pP4fnj/LkMI+dsm3lI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lRGaqeZs; arc=pass smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=FqTu6cl/w5QUxmf4n4hkiEcpk9G0JVgbdnd++Ifso5WlCKo7ETqrkYTdUqM2PGGctcWKE+ok+1H9Oh3seNTMhLY8+ydGVKVv5KxtcwUTHpG8zKgLFBds+QSMdGGLLzw31wY1M4Tgxf2fi/tGTj12MpElrlXYsslWQJJDzJ1QiOA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bNUNREl2; arc=pass smtp.client-ip=74.125.82.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lRGaqeZs"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-67e24b8ef55so8521768a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 14:40:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778622056; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bNUNREl2"
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-132cccd3d77so53c88.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 16:42:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778629376; cv=none;
         d=google.com; s=arc-20240605;
-        b=TJr43QUWROhF+6JfWmecH1cDA8ossRtMfzEbLTC9dO64+8KY1Bv+Prlfn7ALyPOMC3
-         cuZgSdtmdB8y1ni5NupJniMa/oCh/0iO8hIoJJ1agzNY8rmc7IAlc5XttUsWKtLkfykU
-         MgbR02TVflmfRLpfU3Z2zNIEZlhIOu/Y93wWJ7I3yChxUwvHfVcWdilsTAGkUOJv6hyI
-         n5RgtWjZRw5XBOpjP/NFwJlSqc9elbrDuFttI5zixI/e1sIIAWyBSk/20rafqH8PxFzn
-         3cLfgy9982EmRVDIswW3KR2GonUw3O0q7Z47t6KkRj/Fzt7xTswhbwFcUme5eJQnDRhk
-         UX3w==
+        b=fFkMxCGD4Ak6uAAQed+Jwpp2xjI3cPFVhy/dly1UN9t67F37Nk5ON9oiyuVWBC9xmY
+         qsWV4IiefdRAatCv8WylwZcWPNsSxCuEDHZ1NHKVf8X2/LYDpJJi7ywPuN7DUJipToSJ
+         oSWdLI95vncyWaheYvOvm8p3pc6QUzyc9+CzwRbWQ4Ja0WJfmbGLp9IN/4anfo8Y6gzT
+         rtIX8t3wtqPWozH+vNz1QgTdLGzRCzzSwoZCzDLwahdougkeAXEHVHuu7xK2/zwDBwRc
+         fgzx7oekiuFJBeQAWn0IH1e71o/ZHgDoe1CvaDwLhVnRenrOhgQdIsPTwVEhRgvVg19b
+         nFnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=HntkDOW/alaXL+qx4nXenVMcscOf6fVg+5VtXbCPfAw=;
-        fh=GbGD3ZaBrAaAEYQQJw4fQbe2AaHPWsn7FZl/nq8tvUg=;
-        b=Sv5+tEkL1IKdA4wS3ICXAq/V83dXJvAuUtk9Znq0o0BP/4pYR4b0LZWFyghOD84Ed1
-         QQLyCpV5GK3eYfXiGSUG3pSXyL9YtYJkkRHzx7gwK6uV0VW0no+uXn2+5/RFPAA4Pz5C
-         Mr41Yd1BKyj7I2EPgcea51B2+AmXISOwbqf9ZqRl3yE216KPJNPZwSQphz89+Itm73cs
-         JDJ8C/HD1CMjC5C+5wGC2YE3JHFvZqPr5JJull1duuxSY5VCYLqYby2z4QPN4WoU5Mr4
-         qZAQyrk28CJFe8+jyi/+IyYDe7Cz/SgcJ20Ps4zJIrkKozT5jrfrzU7hZCfQPauGd3nR
-         /Znw==;
+        bh=h0VhtExHawMft8issPpgsUtVwnBbQo6CTp5v0nrHBV4=;
+        fh=JXsIMXUgUeQvPsYdj0sza1ECbpWkUMEJ+W3m6mi2+bw=;
+        b=WcBwthBdBrg0bMjBqIsjjmhHuKnoSNTJ8iGyvvzVdn9KwJKhuzsMPUUAGQJBwbAuRN
+         y6tWiEWFAJTMxL5deg0kv1uQmEN7iChxRa+tUC6Qf9NTDOpGP2VwvUzI0ksi1lResikA
+         jxBiqYe6L1qoH2sZ0c9De1Cxa5W8R1BUgWE8ccY8YcJWCMwgkKN8P1BbOOT2qMIl8bte
+         vsp7NLfxJRfeqXmJ/wKjvt+VDsSLi3ExdkkZxoU4Lo1cJmCB/YZZ5nmK3S96eR8z/dvP
+         fXcNFYfyPdJnrlJZp9YSwv/4FuZ3DBfBGPnM0JScARFDiEfI9II1BRIcfBFXOGp7aTi3
+         xqNg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778622056; x=1779226856; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1778629376; x=1779234176; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HntkDOW/alaXL+qx4nXenVMcscOf6fVg+5VtXbCPfAw=;
-        b=lRGaqeZsFC23dnkdLbPhZV/aI1MQe2C4WDW4Uo4AxuGJk2AQduAYNDnpvYfBY+mtOA
-         FH06D6E8esY/ibN7sPVKhityoDouN5V7LyDDw14uPOZUKVzxUBXgoMTJKhmi2jd0sZ/V
-         GQGATAHykEd93kdE3m+agPPPPT8aVlbIF5NkscIoK702hV3XT+aEam5O76Jte8l4eJDE
-         14HNfbrC3bgKDTk0uhHYAWqFKQyJrF3D9k7vC0F1385yvB1ba0NTiL8zkp+ZQHD5HMXI
-         jEr14oiWOvd+lchH0m/q91/7hPAsgwh/v+8LpkQ25TSfgYoj946/zd2NeKRqLw2gviBY
-         yMWA==
+        bh=h0VhtExHawMft8issPpgsUtVwnBbQo6CTp5v0nrHBV4=;
+        b=bNUNREl2RzQUp1N37MFkN7XmQnnZ2PSKk/rcgvBjBTYorEAaJe7VZx0CJFLobMohMO
+         BzWVrP/MjTmKLukWjR8ywynlqC6hjg91vOA+2YSjgKYrPTN0c9fFBYclll2+qBy6cPXy
+         wyfZ7+vzxhpJFy0NK5dUEIHdmSqsYskTOFJiZf3/lgAyECEMsp2n3BmwcYGUq2GIBnmO
+         QX3LODufnXBQSeT32iWXqUghqEZ4WINN+5SuSx+zar/N2o2LikJRcuG5y3ppnGnkA3hf
+         GjEkMrVZoh21mTVyr3GxpNcA/rvGsk4jcz15MtjjsEFrlGoH7c7hw5KC6how1ffMfn9S
+         ZT9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778622056; x=1779226856;
+        d=1e100.net; s=20251104; t=1778629376; x=1779234176;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HntkDOW/alaXL+qx4nXenVMcscOf6fVg+5VtXbCPfAw=;
-        b=IZoekWgUF1sf6C7ZZb0wBej7bWrOVCJ4IdDDh0dOZ1Zupc960LscmMJGAo3IwNzT3a
-         XIORJnXhQrp09LFOue7yL8irNNJJE4oQRAAerxZiR6R5JfLZaFenXMbxoBBjK9k8UtdB
-         +Ep8rw6VfNNVRH27b+lE83NEP4vVcNrD1zVeWbutiyDGzAbb71A4oVTIg5iO2HoZyBW0
-         A5DcmUqmjDp8CEhdCaFYkvPl+eV9+av+92Mi8uOem0FaNyzAk4lR/Ue6it1mlSO3fvpn
-         YAmRAPJQXu0AfROHq8CL10e6hrPZijq/4OtWF8s1DjeeAyL9HO/g6C+dts1LkZ9T1pIa
-         E4Eg==
-X-Forwarded-Encrypted: i=1; AFNElJ+3F20/3MGHzb5DfuswjSIsa+4run9sOgCaXJKe2K5/tLV8mdfwH3VzxsliVncAfCIV5sUXKVyvy7JpH7LV@vger.kernel.org
-X-Gm-Message-State: AOJu0YypPLzgaeKsDAHcRrJPG3Y0ZVR/Ob+pMNj6nOMODS/MX+J6vAUK
-	gRSjs6TsS+DIPFxsTvifAec3KE+aZzPlwhQx2AnNcbpZkz6viCJsV2B1PnpXRkxmFlpUXeZMPtP
-	922dKpwlTrlbw6291PfGzzfHS9SgXRsY=
-X-Gm-Gg: Acq92OG9KIKJQ5XJfmnJ+wLYhU9beBsz5gbojRScYGcMXEnKm+FI71oqTwxo3GeKi4h
-	B9QU4Uid+z0I1jLvD2HkLYXhHVsNREVSyZQE0JPu24NyDWRvDbrgjny4ToSVn7yX94C1aXvpjZw
-	JUEFFmmLYA0h3Z7J/mAHZbjALjX4KtnFNVTewIphoa8BCSNnu7GFqLbVG4+QNm+4ORn/8g3wAGF
-	Hk2UYIFG+eB20kf3l4KJdFclgGfeO0jSCucJpGaxaH3aHN+zveJ0+oVoeVXxqVN9Y5JM7K1ynGl
-	jK8jLEDMJbLAzTSMo02cWSsqb/qVHPRnMFQp9EE2
-X-Received: by 2002:aa7:dd0f:0:b0:67c:7697:1ee8 with SMTP id
- 4fb4d7f45d1cf-682557ef49amr239151a12.5.1778622056246; Tue, 12 May 2026
- 14:40:56 -0700 (PDT)
+        bh=h0VhtExHawMft8issPpgsUtVwnBbQo6CTp5v0nrHBV4=;
+        b=bqmDIUbEJv/bs0e9bisURoNiTa4kQnIb4hxIo3sjcCNwK9yNqtZ1ohRm7pUltGC4Lt
+         T9BLDP/ajvLyp1cRd+UmWJBfQoCbYALQpYxVAnwuVwESVtXzLOZpmKYu+DL5Zb9Xlnxx
+         Co8mgLEmc/ipJUzTowMnDAH4C24oiM/E2NWsgH4eNgEP/9U/1OtjXRVm8HXFK2TA/U73
+         66cNB43Ksv9LaphCsNUHG1+9Gl97TsSvDEl3LdUThCrcq2m5FCDxIPAFJDqxzzh5OUeb
+         8AokcM6uty87Es13z+Y05Wju9ri1Yg9xgyOASDCTr1OkOutWJ2vK5Btja1BXGHXZpJ3q
+         CJDw==
+X-Forwarded-Encrypted: i=1; AFNElJ/DLX6KAgxVMYVuwGSMb28vEGylAZU9oO+IlWSLhdCr+uo4CeoyCS0bWrA6Uej/5/ZTHo5zCgqmcZP7rKZ9@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHcJ4d8QTK7U/3S1SzYGZr8JXK0BIhu4xthQilG2yiOPFZt6QB
+	2r805OfbWMpN0fa0enWy8DFspNLA+QoWW11fMXBT+4kapa7URbnK8avDp1FWCc1LdTwoVTK1jf/
+	4uGD4TY1YPns8v0JW1D9nAwCWf6zPA6YvF4ZhaBZy
+X-Gm-Gg: Acq92OFPL5W2zh9go9M9oto1/6zz95QygfLZw3rDeDnQ0SLLTHeR4VIHkMiERGFCXbH
+	9+dBZBTf+lFSplOjAwMOL3vFr2CtbSZ8QhLKpczLLCMxpBDr9ShwLAgQsewQzlWZqC2ItZgBrzw
+	XsEVEyofseQRfpDGijMsYgKmHahegcN5QY8N3L6FfxiDFeCmkXE02j4eQWfJy6fdMk+G4vuk5WU
+	w1ePdpG/lNkOmdpABn35xH1+cQDbtGsjWhBzh3uj9pnTf1U0jX6rQQrMGkXhLeRdwjvD9WjdVml
+	gWR9VOmkIGvvOVeDWaZaJNizNulaRDoDUA/8jzwBqb/ytvvhPaqu
+X-Received: by 2002:a05:7022:518:b0:12c:6da8:860a with SMTP id
+ a92af1059eb24-13401ba55a2mr137632c88.4.1778629375192; Tue, 12 May 2026
+ 16:42:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
- <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
- <943cb464-78f3-44a7-92a7-57a1fe4fbc10@linux.alibaba.com> <CAOQ4uxh4yKEBdgbkfZTVyYM1P8ahALFVJzQCj7ASkrH746_4xw@mail.gmail.com>
- <CAJfpeguR=x+Kf7jd4zyeSoUtbjaPRLhXCRh9wa3c14x+M77kXA@mail.gmail.com>
-In-Reply-To: <CAJfpeguR=x+Kf7jd4zyeSoUtbjaPRLhXCRh9wa3c14x+M77kXA@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 12 May 2026 23:40:45 +0200
-X-Gm-Features: AVHnY4IbE3Bg883Q__tabvfXXxiDKtTVz49xRXuoaDl21VgCxTESGb3OYv1l38Q
-Message-ID: <CAOQ4uxiTowEnpQR3-oBXM3Q5uxBf5PXeNu+Qda8CVeD0fTHfXg@mail.gmail.com>
-Subject: Re: [post LSFMM summary] where is fuse going?
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, fuse-devel <fuse-devel@lists.linux.dev>, 
-	linux-fsdevel@vger.kernel.org, John Groves <John@groves.net>, 
-	Joanne Koong <joannelkoong@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Bernd Schubert <bernd@bsbernd.com>, Horst Birthelmer <horst@birthelmer.de>, 
-	Luis Henriques <luis@igalia.com>
+References: <20260508181237.670645-1-fmayle@google.com> <20260508165345.b40a73da1dbb45a95c55c0c1@linux-foundation.org>
+In-Reply-To: <20260508165345.b40a73da1dbb45a95c55c0c1@linux-foundation.org>
+From: Frederick Mayle <fmayle@google.com>
+Date: Tue, 12 May 2026 16:42:43 -0700
+X-Gm-Features: AVHnY4LWamnVNGFRDJjhOv7_S40CzCBIVjve0YhhnkS5TzJunUzhut_qzqGWO8I
+Message-ID: <CAHCxdc60iR5-vDwOp+1FfYsXPX-BbiZxEkwu+QoV0tcAHXWG=w@mail.gmail.com>
+Subject: Re: [PATCH] mm/readahead: no PG_readahead on EOF
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: android-mm@google.com, kernel-team@android.com, 
+	Kalesh Singh <kaleshsingh@google.com>, Suren Baghdasaryan <surenb@google.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2026 at 12:01=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
+On Fri, May 8, 2026 at 4:53=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
+.org> wrote:
 >
-> On Tue, 12 May 2026 at 09:53, Amir Goldstein <amir73il@gmail.com> wrote:
+> On Fri,  8 May 2026 11:12:31 -0700 Frederick Mayle <fmayle@google.com> wr=
+ote:
 >
-> > The problem is only with  fuse_passthrough_mmap().
-> > Depending on the workload (?) mmap may not be important and
-> > we could fail if trying to map cross-backing-id regions.
+> > When readahead pulls in all the remaining pages for a file, setting the
+> > readahead bit is counter productive. The async readahead it would
+> > trigger would almost certainly be a no-op. Additionally, for mmap'd fil=
+e
+> > IO, the readahead bit limits the fault around [0],
 >
-> mmap(2) is the main entry point into famfs,  so it's very important.
->
-> That doesn't work with "traditional" passthrough and needs to do the
-> DAX mapping that famfs currently does.
->
+> There is no "[0]".
 
-Yes, famfs surely needs mmap to multiple daxdev and this is done.
+Sorry, that should be "[1]".
 
-I was referring to Gao's question about dealing with non-dax multi
-backing id (const mapped) files.
+>
+> > causing an extra
+> > minor fault when the page is accessed.
+> >
+> > This was discovered when looking at /sys/kernel/tracing/events/readahea=
+d
+> > traces for a simple program. With the patch applied, fewer
+> > page_cache_ra_unbounded calls are observed.
+> >
+> > [1] do_fault_around calls filemap_map_pages, which finds eligible pages
+> >     by calling next_uptodate_folio [2]. next_uptodate_folio skips pages
+> >     with PG_readahead set [3].
+> >
+> > Link: https://github.com/torvalds/linux/blob/v7.0/mm/filemap.c#L3921-L3=
+939 [2]
+> > Link: https://github.com/torvalds/linux/blob/v7.0/mm/filemap.c#L3721-L3=
+722 [3]
+> > Cc: Kalesh Singh <kaleshsingh@google.com>
+> > Cc: Suren Baghdasaryan <surenb@google.com>
+> > Signed-off-by: Frederick Mayle <fmayle@google.com>
+>
+> AI review found a little race:
+>         https://sashiko.dev/#/patchset/20260508181237.670645-1-fmayle@goo=
+gle.com
 
-Thanks,
-Amir.
+Tricky. My understanding is that previous code technically has the same iss=
+ue
+sashiko is pointing out. An expression like `min(limit, index + ra->size - =
+1)`
+only mentions the field once but the compiler or hardware can still decide =
+to
+perform multiple loads from the field's address, resulting in incoherent
+results.
+
+I see from past discussions that the lack of locking is intentional for
+file_ra_state fields and also there has been pushback against requiring
+READ_ONCE and WRITE_ONCE for accesses, for example in the following recent
+thread:
+
+    https://lore.kernel.org/r/2xzc3lp6ehtjwbzip4i5muh4g6oep4l72zh3j6sablfgh=
+bvbau@kh7famgorzrh/
+
+There is another one of these just below (copied here) that can result in a=
+n
+underflow if ra->size gets smaller after the condition is checked. Looks to=
+ be
+benign right now because do_page_cache_ra puts a limit on the param.
+
+        if (ra->size > index - start)
+                do_page_cache_ra(ractl, ra->size - (index - start),
+                                 ra->async_size);
+
+I think a fully correct solution requires READ_ONCE, but, in the meantime, =
+I
+can make it less wrong by reading ra->size into a variable and reusing that
+variable through the function (+ re-reading before the fallback branch).
