@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CA83A782F;
-	Wed, 13 May 2026 20:03:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1854838B130;
+	Wed, 13 May 2026 20:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778702603; cv=none; b=rvq8OLO8RyzfQQYr/cpEAuFFlUphbu9BVdWXPS3/AsDGDJmOu/9pECiyt+lNKB0xuMcPrJBTwp/bBj1T+1qUAXif8ri+X24Yr3m2NqRx8Aq6mCWnwsDr8E5/36IIcY+wdsIxd//76gyikJBoeoSoxYiFSY31qdyrQGW3t7mGZxw=
+	t=1778702969; cv=none; b=Wpee34TEMHEmsANFOKfPiD+Lt926jesk+BG/xC3DR0OY8kCHosiURKagVB/otoIlbSgY92BMdj2i4fIFJjygBT2kExxVwn6VzF8yqIO9t871LYRAsR3Di8MynihMf5WY9Nt4OPew/DezXuPye+vbBC+sKmMfdJ9uqtyA7Jxh7dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778702603; c=relaxed/simple;
-	bh=oHFpqXxFjRgaX2WjZSUjZFrZB+VcyYrq17R7zHFSsHQ=;
+	s=arc-20240116; t=1778702969; c=relaxed/simple;
+	bh=V3ObskUO8jfpjBFseHVz96MM3neHlFU5X/oY4Kd/hc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WdDoHo8rKx2KAcR4lhmjRzKo5LJfBjhkW5fDScnMb4jvWEFMCTL6syBVOreMh0qphPk1AaAUjQNaW38f4RsFkZnkCMP6DVFZHib72FtJUv2qwNo7ZPal3dnj0zfULYDM+lFyL31TGUbPriewIF7rasRqv2C8BScD4WDi0a+Bl4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edSoo6q3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jb5RJWsaSue4qyWhzvq1T3TmUr5at0BsYR6tk9RKrfgPEXLeXfanqBpoNdodq4M+Jo5sPOceoZg/ArvmdghZrIUlevHlVZX99xFG+grvOlT6BkMFqlEUvwdN6Nxg6yPETUFSCJd+jJ/R5dKwUqBM0Z2h14L2pWIaIbNMnr654SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eAxx2R6U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edSoo6q3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E63C19425;
-	Wed, 13 May 2026 20:03:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eAxx2R6U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A683DC19425;
+	Wed, 13 May 2026 20:09:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778702603;
-	bh=oHFpqXxFjRgaX2WjZSUjZFrZB+VcyYrq17R7zHFSsHQ=;
+	s=k20201202; t=1778702968;
+	bh=V3ObskUO8jfpjBFseHVz96MM3neHlFU5X/oY4Kd/hc8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=edSoo6q3lYOIz7jtD4HPovsRbcc59CJnZr+/MmLtn8Qgb3gRTR+rru1zA85eZMuhg
-	 kaZJTK5Br7Meiz/UPbjN7iKY1L24/vOWHWeG5tVrRAg81xij9Q8Y/cBKmE+l5usVaY
-	 9wd6zhNmiJ6AY09if6p3t88wviVzwr5b6hdGPvrxm2eQQbKhPaasQrvGR/NAr3TM50
-	 pmctI0Y+cGdt1B9bS2erTuoe6NZX6pWEMXeiZDmes9ZRg1hryPAe2mYfYeykeHb6U3
-	 G9Bk2C+yaxg8kJyWrXAHyeolhLgJQ9uFE36+70ggb3RsO1fxHO75NnfsTSkqHjgDeS
-	 HJBNLE6t9bstg==
-Date: Wed, 13 May 2026 13:03:22 -0700
+	b=eAxx2R6UtDbQXRXS+guk3Zlt174oXte9YaJk7rNancdVX2eUhPn91mMcJDzUrCemh
+	 epOm+Ik7OxC9+TrpGAQ63xab9MIVpKMlXSKZa+ZoaHyePKn7laqiuX+JNYwuPjinWH
+	 PNsU5n1K5hcllhIMDwRwKduinjU+7KHERVsG+QHFaLjt1k21vAG13DX54VSGijL21x
+	 8UcfjGB6E9dr3dxDzjgL09D+TpOphlCiPU/4MyxgDM412xumeoBStQ9upyIRMnpxtr
+	 2K4A4LneJfwH+Tx1eMOgewoBzcWiAd/K1w7kjvi/RCSLj2Ye8dAdw3sgFvdhoxoLHf
+	 aJgLtWnsnrH5A==
+Date: Wed, 13 May 2026 13:09:28 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 26/33] fuse: implement inline data file IO via iomap
-Message-ID: <20260513200322.GP9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 27/33] fuse_trace: implement inline data file IO via iomap
+Message-ID: <20260513200928.GQ9544@frogsfrogsfrogs>
 References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205707.4101881.7117774253873164905.stgit@frogsfrogsfrogs>
+ <177747205728.4101881.16330195918071123208.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,324 +43,122 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747205707.4101881.7117774253873164905.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747205728.4101881.16330195918071123208.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:30:28AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:30:43AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Implement inline data file IO by issuing FUSE_READ/FUSE_WRITE commands
-> in response to an inline data mapping.
+> Add tracepoints for the previous patch.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/fuse_iomap.c |  213 ++++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 205 insertions(+), 8 deletions(-)
+>  fs/fuse/fuse_trace.h |   45 +++++++++++++++++++++++++++++++++++++++++++++
+>  fs/fuse/fuse_iomap.c |    7 +++++++
+>  2 files changed, 52 insertions(+)
 > 
 > 
-> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 807d84a2139362..b9531ad5ab5180 100644
-> --- a/fs/fuse/fuse_iomap.c
-> +++ b/fs/fuse/fuse_iomap.c
-> @@ -398,6 +398,156 @@ fuse_iomap_find_dev(struct fuse_conn *fc, const struct fuse_iomap_io *map)
->  	return ret;
->  }
+> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
+> index 0e4be645802055..d3352e75fa6bdf 100644
+> --- a/fs/fuse/fuse_trace.h
+> +++ b/fs/fuse/fuse_trace.h
+> @@ -230,6 +230,7 @@ DEFINE_FUSE_BACKING_EVENT(fuse_backing_close);
+>  #if IS_ENABLED(CONFIG_FUSE_IOMAP)
+>  struct iomap_writepage_ctx;
+>  struct iomap_ioend;
+> +struct iomap;
 >  
-> +static inline int fuse_iomap_inline_alloc(struct iomap *iomap)
-> +{
-> +	ASSERT(iomap->inline_data == NULL);
-> +	ASSERT(iomap->length > 0);
+>  /* tracepoint boilerplate so we don't have to keep doing this */
+>  #define FUSE_IOMAP_OPFLAGS_FIELD \
+> @@ -1079,6 +1080,50 @@ TRACE_EVENT(fuse_iomap_dev_inval,
+>  		  __entry->offset,
+>  		  __entry->length)
+>  );
 > +
-> +	iomap->inline_data = kvzalloc(iomap->length, GFP_KERNEL);
-> +	return iomap->inline_data ? 0 : -ENOMEM;
-> +}
+> +DECLARE_EVENT_CLASS(fuse_iomap_inline_class,
+> +	TP_PROTO(const struct inode *inode, loff_t pos, uint64_t count,
+> +		 const struct iomap *map),
+> +	TP_ARGS(inode, pos, count, map),
 > +
-> +static inline void fuse_iomap_inline_free(struct iomap *iomap)
-> +{
-> +	kvfree(iomap->inline_data);
-> +	iomap->inline_data = NULL;
-> +}
+> +	TP_STRUCT__entry(
+> +		FUSE_IO_RANGE_FIELDS()
+> +		FUSE_IOMAP_MAP_FIELDS(map)
+> +		__field(bool,			has_buf)
+> +		__field(uint64_t,		validity_cookie)
+> +	),
 > +
-> +/*
-> + * Use the FUSE_READ command to read inline file data from the fuse server.
-> + * Note that there's no file handle attached, so the fuse server must be able
-> + * to reconnect to the inode via the nodeid.
-> + */
-> +static int fuse_iomap_inline_read(struct inode *inode, loff_t pos,
-> +				  loff_t count, struct iomap *iomap)
-> +{
-> +	struct fuse_read_in in = {
-> +		.offset = pos,
-> +		.size = count,
-> +	};
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_mount *fm = get_fuse_mount(inode);
-> +	FUSE_ARGS(args);
-> +	ssize_t ret;
+> +	TP_fast_assign(
+> +		FUSE_INODE_ASSIGN(inode, fi, fm);
+> +		__entry->offset		=	pos;
+> +		__entry->length		=	count;
 > +
-> +	if (BAD_DATA(!iomap_inline_data_valid(iomap))) {
-> +		fuse_iomap_inline_free(iomap);
-> +		return -EFSCORRUPTED;
-> +	}
+> +		__entry->mapdev		=	FUSE_IOMAP_DEV_NULL;
+> +		__entry->mapaddr	=	map->addr;
+> +		__entry->mapoffset	=	map->offset;
+> +		__entry->maplength	=	map->length;
+> +		__entry->maptype	=	map->type;
+> +		__entry->mapflags	=	map->flags;
 > +
-> +	args.opcode = FUSE_READ;
-> +	args.nodeid = fi->nodeid;
-> +	args.in_numargs = 1;
-> +	args.in_args[0].size = sizeof(in);
-> +	args.in_args[0].value = &in;
-> +	args.out_argvar = true;
-> +	args.out_numargs = 1;
-> +	args.out_args[0].size = count;
+> +		__entry->has_buf	=	map->inline_data != NULL;
+> +		__entry->validity_cookie=	map->validity_cookie;
+> +	),
+> +
+> +	TP_printk(FUSE_IO_RANGE_FMT() FUSE_IOMAP_MAP_FMT() " has_buf? %d cookie 0x%llx",
+> +		  FUSE_IO_RANGE_PRINTK_ARGS(),
+> +		  FUSE_IOMAP_MAP_PRINTK_ARGS(map),
 
-Codex reminds me that it's possible for count > iomap->length, which
-means that we can arbitrarily overwrite kernel memory here.
-
-> +	args.out_args[0].value = iomap_inline_data(iomap, pos);
-> +
-> +	ret = fuse_simple_request(fm, &args);
-> +	if (ret == -ENOSYS)
-> +		ret = 0;
-> +	if (ret < 0) {
-> +		fuse_iomap_inline_free(iomap);
-> +		return ret;
-> +	}
-> +	/* no readahead means something bad happened */
-> +	if (ret == 0) {
-> +		fuse_iomap_inline_free(iomap);
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Use the FUSE_WRITE command to write inline file data from the fuse server.
-> + * Note that there's no file handle attached, so the fuse server must be able
-> + * to reconnect to the inode via the nodeid.
-> + */
-> +static int fuse_iomap_inline_write(struct inode *inode, loff_t pos,
-> +				   loff_t count, struct iomap *iomap)
-> +{
-> +	struct fuse_write_in in = {
-> +		.offset = pos,
-> +		.size = count,
-> +	};
-> +	struct fuse_write_out out = { };
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_mount *fm = get_fuse_mount(inode);
-> +	FUSE_ARGS(args);
-> +	ssize_t ret;
-> +
-> +	if (BAD_DATA(!iomap_inline_data_valid(iomap)))
-> +		return -EFSCORRUPTED;
-> +
-> +	args.opcode = FUSE_WRITE;
-> +	args.nodeid = fi->nodeid;
-> +	args.in_numargs = 2;
-> +	args.in_args[0].size = sizeof(in);
-> +	args.in_args[0].value = &in;
-> +	args.in_args[1].size = count;
-
-Here too.
-
-> +	args.in_args[1].value = iomap_inline_data(iomap, pos);
-> +	args.out_numargs = 1;
-> +	args.out_args[0].size = sizeof(out);
-> +	args.out_args[0].value = &out;
-> +
-> +	ret = fuse_simple_request(fm, &args);
-> +	if (ret == -ENOSYS)
-> +		ret = 0;
-> +	if (ret < 0) {
-> +		fuse_iomap_inline_free(iomap);
-> +		return ret;
-> +	}
-> +	/* short write means something bad happened */
-> +	if (out.size < count) {
-> +		fuse_iomap_inline_free(iomap);
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/* Set up inline data buffers for iomap_begin */
-> +static int fuse_iomap_set_inline(struct inode *inode, unsigned opflags,
-> +				 loff_t pos, loff_t count,
-> +				 struct iomap *iomap, struct iomap *srcmap)
-> +{
-> +	int err;
-> +
-> +	if (opflags & IOMAP_REPORT)
-> +		return 0;
-> +
-> +	if (fuse_is_iomap_file_write(opflags)) {
-> +		if (iomap->type == IOMAP_INLINE) {
-> +			err = fuse_iomap_inline_alloc(iomap);
-> +			if (err)
-> +				return err;
-> +		}
-> +
-> +		if (srcmap->type == IOMAP_INLINE) {
-> +			err = fuse_iomap_inline_alloc(srcmap);
-> +			if (!err)
-> +				err = fuse_iomap_inline_read(inode, pos, count,
-> +							     srcmap);
-> +			if (err) {
-> +				fuse_iomap_inline_free(iomap);
-> +				return err;
-> +			}
-> +		}
-
-Just from code inspection this fails to handle a pure overwrite of
-inline data correctly if the inline file data wasn't already in cache
-and the write was to a subset of the file data.
-
-> +	} else if (iomap->type == IOMAP_INLINE) {
-> +		/* inline data read */
-> +		err = fuse_iomap_inline_alloc(iomap);
-> +		if (!err)
-> +			err = fuse_iomap_inline_read(inode, pos, count, iomap);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
->  			    unsigned opflags, struct iomap *iomap,
->  			    struct iomap *srcmap)
-> @@ -467,12 +617,20 @@ static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
->  		fuse_iomap_from_server(iomap, read_dev, &outarg.read);
->  	}
->  
-> +	if (iomap->type == IOMAP_INLINE || srcmap->type == IOMAP_INLINE) {
-> +		err = fuse_iomap_set_inline(inode, opflags, pos, count, iomap,
-> +					    srcmap);
-> +		if (err)
-> +			goto out_write_dev;
-> +	}
-> +
->  	/*
->  	 * XXX: if we ever want to support closing devices, we need a way to
->  	 * track the fuse_backing refcount all the way through bio endios.
->  	 * For now we put the refcount here because you can't remove an iomap
->  	 * device until unmount time.
->  	 */
-> +out_write_dev:
->  	fuse_backing_put(write_dev);
->  out_read_dev:
->  	fuse_backing_put(read_dev);
-> @@ -511,8 +669,32 @@ static int fuse_iomap_end(struct inode *inode, loff_t pos, loff_t count,
->  {
->  	struct fuse_inode *fi = get_fuse_inode(inode);
->  	struct fuse_mount *fm = get_fuse_mount(inode);
-> +	struct iomap_iter *iter = container_of(iomap, struct iomap_iter, iomap);
-> +	struct iomap *srcmap = &iter->srcmap;
->  	int err;
->  
-> +	if (srcmap->inline_data)
-> +		fuse_iomap_inline_free(srcmap);
-> +
-> +	if (iomap->inline_data) {
-> +		if (fuse_is_iomap_file_write(opflags) && written > 0) {
-> +			err = fuse_iomap_inline_write(inode, pos, written,
-> +						      iomap);
-> +			fuse_iomap_inline_free(iomap);
-> +			if (err)
-> +				return err;
-> +
-> +			spin_lock(&fi->lock);
-> +			fi->i_disk_size = max(fi->i_disk_size, pos + written);
-> +			spin_unlock(&fi->lock);
-> +		} else {
-> +			fuse_iomap_inline_free(iomap);
-> +		}
-> +
-> +		/* fuse server should already be aware of what happened */
-> +		return 0;
-> +	}
-> +
->  	if (fuse_should_send_iomap_end(fm, iomap, opflags, count, written)) {
->  		struct fuse_iomap_end_in inarg = {
->  			.opflags = fuse_iomap_op_to_server(opflags),
-> @@ -1462,7 +1644,6 @@ static ssize_t fuse_iomap_writeback_range(struct iomap_writepage_ctx *wpc,
->  					  unsigned int len, u64 end_pos)
->  {
->  	struct inode *inode = wpc->inode;
-> -	struct iomap write_iomap, dontcare;
->  	ssize_t ret;
->  
->  	if (fuse_is_bad(inode)) {
-> @@ -1475,23 +1656,39 @@ static ssize_t fuse_iomap_writeback_range(struct iomap_writepage_ctx *wpc,
->  	trace_fuse_iomap_writeback_range(inode, offset, len, end_pos);
->  
->  	if (!fuse_iomap_revalidate_writeback(wpc, offset)) {
-> +		struct iomap_iter fake_iter = { };
-> +		struct iomap *write_iomap = &fake_iter.iomap;
-> +
->  		ret = fuse_iomap_begin(inode, offset, len,
-> -				       FUSE_IOMAP_OP_WRITEBACK,
-> -				       &write_iomap, &dontcare);
-> +				       FUSE_IOMAP_OP_WRITEBACK, write_iomap,
-> +				       &fake_iter.srcmap);
->  		if (ret)
->  			goto discard_folio;
->  
-> +		if (BAD_DATA(write_iomap->type == IOMAP_INLINE)) {
-> +			/*
-> +			 * iomap assumes that inline data writes are completed
-> +			 * by the time ->iomap_end completes, so it should
-> +			 * never mark a pagecache folio dirty.
-> +			 */
-> +			fuse_iomap_end(inode, offset, len, 0,
-> +				       FUSE_IOMAP_OP_WRITEBACK,
-> +				       write_iomap);
-> +			ret = -EIO;
-> +			goto discard_folio;
-> +		}
-> +
->  		/*
->  		 * Landed in a hole or beyond EOF?  Send that to iomap, it'll
->  		 * skip writing back the file range.
->  		 */
-> -		if (write_iomap.offset > offset) {
-> -			write_iomap.length = write_iomap.offset - offset;
-> -			write_iomap.offset = offset;
-> -			write_iomap.type = IOMAP_HOLE;
-> +		if (write_iomap->offset > offset) {
-> +			write_iomap->length = write_iomap->offset - offset;
-> +			write_iomap->offset = offset;
-> +			write_iomap->type = IOMAP_HOLE;
->  		}
->  
-> -		memcpy(&wpc->iomap, &write_iomap, sizeof(struct iomap));
-> +		memcpy(&wpc->iomap, write_iomap, sizeof(struct iomap));
-
-If the srcmap was inline, then we just leaked the buffer here by
-forgetting to call fuse_iomap_end.  But I think a better option now
-would be to use the conventional iomap_iter loop that everything else
-does:
-
-	struct iomap_iter iter = {
-		.inode		= inode,
-		.pos		= offset,
-		.len		= len,
-		.flags		= FUSE_IOMAP_OP_WRITEBACK,
-	};
-
-	while ((ret = iomap_iter(&iter, ops)) > 0) {
-		memcpy(&wpc->iomap, &iter.iomap, sizeof(struct iomap));
-		iomap_iter_advance(&iter, iomap_length(&iter));
-		iter.status = -ECANCELED;
-	}
-	if (ret < 0 && ret != -ECANCELED)
-		goto discard_folio;
+Codex complains that we're using the flags/type decoding strings for
+struct fuse_iomap_io on a struct iomap object so the decoding won't be
+correct.  We already know the type and the flags aren't that interesting
+for an inline mapping so let's just opencode the map offset/range.
 
 --D
 
+> +		  __entry->has_buf,
+> +		  __entry->validity_cookie)
+> +);
+> +#define DEFINE_FUSE_IOMAP_INLINE_EVENT(name)	\
+> +DEFINE_EVENT(fuse_iomap_inline_class, name,	\
+> +	TP_PROTO(const struct inode *inode, loff_t pos, uint64_t count, \
+> +		 const struct iomap *map), \
+> +	TP_ARGS(inode, pos, count, map))
+> +DEFINE_FUSE_IOMAP_INLINE_EVENT(fuse_iomap_inline_read);
+> +DEFINE_FUSE_IOMAP_INLINE_EVENT(fuse_iomap_inline_write);
+> +DEFINE_FUSE_IOMAP_INLINE_EVENT(fuse_iomap_set_inline_iomap);
+> +DEFINE_FUSE_IOMAP_INLINE_EVENT(fuse_iomap_set_inline_srcmap);
+>  #endif /* CONFIG_FUSE_IOMAP */
+>  
+>  #endif /* _TRACE_FUSE_H */
+> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+> index b9531ad5ab5180..8be8e49605bb85 100644
+> --- a/fs/fuse/fuse_iomap.c
+> +++ b/fs/fuse/fuse_iomap.c
+> @@ -435,6 +435,8 @@ static int fuse_iomap_inline_read(struct inode *inode, loff_t pos,
+>  		return -EFSCORRUPTED;
 >  	}
 >  
->  	ret = iomap_add_to_ioend(wpc, folio, offset, end_pos, len);
+> +	trace_fuse_iomap_inline_read(inode, pos, count, iomap);
+> +
+>  	args.opcode = FUSE_READ;
+>  	args.nodeid = fi->nodeid;
+>  	args.in_numargs = 1;
+> @@ -482,6 +484,8 @@ static int fuse_iomap_inline_write(struct inode *inode, loff_t pos,
+>  	if (BAD_DATA(!iomap_inline_data_valid(iomap)))
+>  		return -EFSCORRUPTED;
+>  
+> +	trace_fuse_iomap_inline_write(inode, pos, count, iomap);
+> +
+>  	args.opcode = FUSE_WRITE;
+>  	args.nodeid = fi->nodeid;
+>  	args.in_numargs = 2;
+> @@ -545,6 +549,9 @@ static int fuse_iomap_set_inline(struct inode *inode, unsigned opflags,
+>  			return err;
+>  	}
+>  
+> +	trace_fuse_iomap_set_inline_iomap(inode, pos, count, iomap);
+> +	trace_fuse_iomap_set_inline_srcmap(inode, pos, count, srcmap);
+> +
+>  	return 0;
+>  }
+>  
 > 
 > 
