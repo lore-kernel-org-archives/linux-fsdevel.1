@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4B62C21FD;
-	Wed, 13 May 2026 11:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDA03EFD0C;
+	Wed, 13 May 2026 11:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778671342; cv=none; b=MJrX9h5NFq3IaAD0IZP86VMonHCn+sUdsANUc7bityDaOxPTZOFrZVqHzUv80iQibTva5JObsOFmkg3u++8O1fxIla9N/+sUjRODOEqB9o33ne6fnnwDgfekUSITIxZNrsWv8lncY0/5fp+350BESmWD5UGv7FirLceQMxcMSfw=
+	t=1778671343; cv=none; b=HBWZkjtJGu1ixg3RHZjEcCb/AfI6ACuswojl2QSWIKNSUxJOU9Fq/INNQO57/71aTQLVlFFO32j3bjHtJQqN0k/i+KQqIy6iduqI6Nu5WgniJhhOPgUjW2edZv5dG27tAaNnAp4RlLh742GGijUEpORQu1O7C5cNfgJaX6sTirA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778671342; c=relaxed/simple;
-	bh=ZSAbrFmW3LCkx122pNqtv4L5RxOn49pWRO7AYEhhoTc=;
+	s=arc-20240116; t=1778671343; c=relaxed/simple;
+	bh=K/BCNpKLGFxnmuFMCfi3bztuoQKlyjzP4tCl9NIDCyM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=D54Y6h31Om4888w8lbM3uB10NVN/53stJhDUYYa4Np3LMm5eigstJkqkynkbojKj0rT7fnKFhNzZpPd9ZViqjLNwd9ZAcC56th5eRJla80Gp1jj8qohSfRestNw8gexrJVcxe52VbWtMKGv2hAWCLvJA0PL7iVJdaAnW3kdJeDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r4tztykk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Y2WDZwc0RRY990q5XCHyPrg6ZncFupYzqSwmcUn/i3nwd6Xy4Or9jRYHerpiQZRRAnz7bxh/5mZC7aTBqt0a6gH22zmxg75xtl50n1Fsy9JAfqReTP9wn5VUbhx1KhzNogeCfVcG+xTL3rRvPBUn6UqTwBs7jc2x6P+z1925JsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EOqw4BUt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r4tztykk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04338C2BCFB;
-	Wed, 13 May 2026 11:22:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EOqw4BUt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13EC5C2BCB7;
+	Wed, 13 May 2026 11:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778671339;
-	bh=ZSAbrFmW3LCkx122pNqtv4L5RxOn49pWRO7AYEhhoTc=;
+	s=k20201202; t=1778671342;
+	bh=K/BCNpKLGFxnmuFMCfi3bztuoQKlyjzP4tCl9NIDCyM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r4tztykkAOJoMj5MVPbGjiiJL4h8ozh9IRrUwIBiZyWUQFgZCd24IP8ci/0cbvGGW
-	 vehIsy7DyhpFxJYHTsi+DJg/3dIJl+94B3HcH4JZuiHhDAxosIEU0TMad5j5qZ2bHE
-	 whgoSCfOluw0xBZ6GScvqFpVu1gpaRFFdzcz8yWNt23gINIeRFr3MV0ROZckKgzyx3
-	 MVpLn/c+p5SRzvA5CkKTaPPPljX66EMXYo0PsYEPrBrI31k+Qk+l1L8d6wEIPE2+KF
-	 kZjtsnfKFV3abLxRTV5D6H6lgG0ZQ9BjrKmTNs081YLM4eYE59Mmv95/Z26jU0y9A6
-	 g95Edw0qprs2g==
+	b=EOqw4BUtpUFzD7Hrz6tdR7fDDtODlbcoRtWbOrDpmsjbgsxhFiwIN3Dr2FiqJD+ZF
+	 zh/EsHZ7iO7bJiQ5Eb91r6ESi50C1hIU49xH2Rdfbl+j5iHXo5Z2AUAc9wGS2hDWWI
+	 tPNn0Uk8mlCreMonyyRF8VV1O87gvLlHtUSyhZaWbCdSfpwpOHJv6kR3DWoNvxURLu
+	 Qz2b4hadaxRAWwJPrBeAhdCHIkWt/9IgzG/E53qQ5OKp5gKE67kDacmPXw1fzLR98f
+	 lO0E982KC4lmiICxU1aB/iilI0+WsLyQ/gLzA9gglTceWDMNjTVpK2o2zJiVFeh6XL
+	 XlmJrWkqYBUPw==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: sj1557.seo@samsung.com,
 	yuezhang.mo@sony.com,
@@ -39,9 +39,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	chizhiling@163.com,
 	linux-kernel@vger.kernel.org,
 	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH v3 04/11] exfat: add exfat_file_open()
-Date: Wed, 13 May 2026 20:21:49 +0900
-Message-Id: <20260513112156.9122-5-linkinjeon@kernel.org>
+Subject: [PATCH v3 05/11] exfat: add support for multi-cluster allocation
+Date: Wed, 13 May 2026 20:21:50 +0900
+Message-Id: <20260513112156.9122-6-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260513112156.9122-1-linkinjeon@kernel.org>
 References: <20260513112156.9122-1-linkinjeon@kernel.org>
@@ -53,36 +53,177 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add exfat_file_open() to handle file open operation for exFAT.
-This change is a preparation step before introducing iomap-based direct
-IO support.
+Currently exfat_map_cluster() allocates and returns only one cluster
+at a time even when more clusters are needed. This causes multiple
+FAT walks and repeated allocation calls during large sequential writes
+or when using iomap for writes. This change exfat_map_cluster() and
+exfat_alloc_cluster() to be able to allocate multiple contiguous
+clusters.
 
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/exfat/file.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ fs/exfat/dir.c      |  2 +-
+ fs/exfat/exfat_fs.h |  2 +-
+ fs/exfat/fatent.c   | 26 ++++++++++++++++----------
+ fs/exfat/file.c     |  2 +-
+ fs/exfat/inode.c    | 23 ++++++-----------------
+ fs/exfat/namei.c    |  2 +-
+ 6 files changed, 26 insertions(+), 31 deletions(-)
 
-diff --git a/fs/exfat/file.c b/fs/exfat/file.c
-index 29a36a80e29b..d0ecdcb4bf7a 100644
---- a/fs/exfat/file.c
-+++ b/fs/exfat/file.c
-@@ -800,7 +800,16 @@ static ssize_t exfat_splice_read(struct file *in, loff_t *ppos,
- 	return filemap_splice_read(in, ppos, pipe, len, flags);
+diff --git a/fs/exfat/dir.c b/fs/exfat/dir.c
+index ca9d707220df..37f324399b6b 100644
+--- a/fs/exfat/dir.c
++++ b/fs/exfat/dir.c
+@@ -295,7 +295,7 @@ int exfat_alloc_new_dir(struct inode *inode, struct exfat_chain *clu)
+ 
+ 	exfat_chain_set(clu, EXFAT_EOF_CLUSTER, 0, ALLOC_NO_FAT_CHAIN);
+ 
+-	ret = exfat_alloc_cluster(inode, 1, clu, IS_DIRSYNC(inode));
++	ret = exfat_alloc_cluster(inode, 1, clu, IS_DIRSYNC(inode), false);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
+index 9c8ab3df7a42..6e7fd6822b01 100644
+--- a/fs/exfat/exfat_fs.h
++++ b/fs/exfat/exfat_fs.h
+@@ -497,7 +497,7 @@ int exfat_clear_volume_dirty(struct super_block *sb);
+ 	exfat_cluster_walk(sb, (pclu), 1, ALLOC_FAT_CHAIN)
+ 
+ int exfat_alloc_cluster(struct inode *inode, unsigned int num_alloc,
+-		struct exfat_chain *p_chain, bool sync_bmap);
++		struct exfat_chain *p_chain, bool sync_bmap, bool contig);
+ int exfat_free_cluster(struct inode *inode, struct exfat_chain *p_chain);
+ int exfat_ent_get(struct super_block *sb, unsigned int loc,
+ 		unsigned int *content, struct buffer_head **last);
+diff --git a/fs/exfat/fatent.c b/fs/exfat/fatent.c
+index 45b0b754a2e4..a917c954bd23 100644
+--- a/fs/exfat/fatent.c
++++ b/fs/exfat/fatent.c
+@@ -419,7 +419,7 @@ int exfat_zeroed_cluster(struct inode *dir, unsigned int clu)
  }
  
-+static int exfat_file_open(struct inode *inode, struct file *filp)
-+{
-+	if (unlikely(exfat_forced_shutdown(inode->i_sb)))
-+		return -EIO;
+ int exfat_alloc_cluster(struct inode *inode, unsigned int num_alloc,
+-		struct exfat_chain *p_chain, bool sync_bmap)
++		struct exfat_chain *p_chain, bool sync_bmap, bool contig)
+ {
+ 	int ret = -ENOSPC;
+ 	unsigned int total_cnt;
+@@ -470,14 +470,20 @@ int exfat_alloc_cluster(struct inode *inode, unsigned int num_alloc,
+ 
+ 	while ((new_clu = exfat_find_free_bitmap(sb, hint_clu)) !=
+ 	       EXFAT_EOF_CLUSTER) {
+-		if (new_clu != hint_clu &&
+-		    p_chain->flags == ALLOC_NO_FAT_CHAIN) {
+-			if (exfat_chain_cont_cluster(sb, p_chain->dir,
+-					p_chain->size)) {
+-				ret = -EIO;
+-				goto free_cluster;
++		if (new_clu != hint_clu) {
++			if (p_chain->flags == ALLOC_NO_FAT_CHAIN) {
++				if (exfat_chain_cont_cluster(sb, p_chain->dir,
++							     p_chain->size)) {
++					ret = -EIO;
++					goto free_cluster;
++				}
++				p_chain->flags = ALLOC_FAT_CHAIN;
++			}
 +
-+	return generic_file_open(inode, filp);
-+}
-+
- const struct file_operations exfat_file_operations = {
-+	.open		= exfat_file_open,
- 	.llseek		= generic_file_llseek,
- 	.read_iter	= exfat_file_read_iter,
- 	.write_iter	= exfat_file_write_iter,
++			if (contig && p_chain->size > 0) {
++				hint_clu--;
++				goto done;
+ 			}
+-			p_chain->flags = ALLOC_FAT_CHAIN;
+ 		}
+ 
+ 		/* update allocation bitmap */
+@@ -507,9 +513,9 @@ int exfat_alloc_cluster(struct inode *inode, unsigned int num_alloc,
+ 		last_clu = new_clu;
+ 
+ 		if (p_chain->size == num_alloc) {
++done:
+ 			sbi->clu_srch_ptr = hint_clu;
+-			sbi->used_clusters += num_alloc;
+-
++			sbi->used_clusters += p_chain->size;
+ 			mutex_unlock(&sbi->bitmap_lock);
+ 			return 0;
+ 		}
+diff --git a/fs/exfat/file.c b/fs/exfat/file.c
+index d0ecdcb4bf7a..1effdf08ab69 100644
+--- a/fs/exfat/file.c
++++ b/fs/exfat/file.c
+@@ -56,7 +56,7 @@ static int exfat_cont_expand(struct inode *inode, loff_t size)
+ 	clu.flags = ei->flags;
+ 
+ 	ret = exfat_alloc_cluster(inode, new_num_clusters - num_clusters,
+-			&clu, inode_needs_sync(inode));
++			&clu, inode_needs_sync(inode), false);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/fs/exfat/inode.c b/fs/exfat/inode.c
+index a10d4f3c66a1..7b09d94ac464 100644
+--- a/fs/exfat/inode.c
++++ b/fs/exfat/inode.c
+@@ -137,9 +137,9 @@ static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
+ 	unsigned int num_to_be_allocated = 0, num_clusters;
+ 
+ 	num_clusters = exfat_bytes_to_cluster(sbi, exfat_ondisk_size(inode));
+-
+-	if (clu_offset >= num_clusters)
+-		num_to_be_allocated = clu_offset - num_clusters + 1;
++	if (clu_offset > num_clusters ||
++	    *count > num_clusters - clu_offset)
++		num_to_be_allocated = clu_offset + *count - num_clusters;
+ 
+ 	if (!create && (num_to_be_allocated > 0)) {
+ 		*clu = EXFAT_EOF_CLUSTER;
+@@ -182,7 +182,7 @@ static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
+ 		}
+ 
+ 		ret = exfat_alloc_cluster(inode, num_to_be_allocated, &new_clu,
+-				inode_needs_sync(inode));
++				inode_needs_sync(inode), true);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -216,20 +216,9 @@ static int exfat_map_cluster(struct inode *inode, unsigned int clu_offset,
+ 		}
+ 
+ 		*clu = new_clu.dir;
++		*count = new_clu.size;
+ 
+-		inode->i_blocks +=
+-			exfat_cluster_to_sectors(sbi, num_to_be_allocated);
+-
+-		/*
+-		 * Move *clu pointer along FAT chains (hole care) because the
+-		 * caller of this function expect *clu to be the last cluster.
+-		 * This only works when num_to_be_allocated >= 2,
+-		 * *clu = (the first cluster of the allocated chain) =>
+-		 * (the last cluster of ...)
+-		 */
+-		if (exfat_cluster_walk(sb, clu, num_to_be_allocated - 1, ei->flags))
+-			return -EIO;
+-		*count = 1;
++		inode->i_blocks += exfat_cluster_to_sectors(sbi, new_clu.size);
+ 		if (balloc)
+ 			*balloc = true;
+ 	}
+diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
+index 752fbec9316b..87e55c5c1bf4 100644
+--- a/fs/exfat/namei.c
++++ b/fs/exfat/namei.c
+@@ -341,7 +341,7 @@ int exfat_find_empty_entry(struct inode *inode,
+ 		}
+ 
+ 		/* allocate a cluster */
+-		ret = exfat_alloc_cluster(inode, 1, &clu, IS_DIRSYNC(inode));
++		ret = exfat_alloc_cluster(inode, 1, &clu, IS_DIRSYNC(inode), false);
+ 		if (ret)
+ 			return ret;
+ 
 -- 
 2.25.1
 
