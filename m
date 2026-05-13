@@ -1,84 +1,85 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC4B3D5643;
-	Wed, 13 May 2026 06:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D822D12ED
+	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 06:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778655380; cv=none; b=K2ZJM9Fm7XUvpFwzEPMq9TYVpCsbfbCSoKvpYCb72XWHWr8iv1Gj0bzr/tIIxRt6JqtUiJqp3hzVkmapEKU7M7AG6lfxWkQDBWj2LkmiZ1sB0Sd2YswI6cgeClEUr3btMjUTEes6IAbsIPGqu7tEHc1+7EEJEkUbREBs263QKlk=
+	t=1778655487; cv=none; b=exXEE01asOMBHXwMuXn2Q7bnB9pIxAeq1Pjczih8Lc43kIVw4Amq9edlJKSvAGIiBEMfoA6NRk8xNKHKiLuyx7yWDJTj921nHOZfwK9DOqtQOONZRC++FzUwLjtL2RMrjwTJCL6qLWPA1vBd+TyN4vceyR2AAm3K7IcRneHwgoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778655380; c=relaxed/simple;
-	bh=P5caj/MRFse/CJvpKQWbUktTehkszC/Sgk5XdsZppJU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JR0t3yQWUn/VTFKmG5V9VbdRk0ITuX43SNWH2kCNj1lz6unC9gr+olpbghacdvt+wgIkxWHuQkiQrohPtd3+oF+fPZAPlMXQkuoEsmwrLGPLcQZh51bXj07VttyWV8m+LCSQtlEClgjqxMOiZs7ZbsD4K4L4by39jyHiZNEnXP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 82B0768B05; Wed, 13 May 2026 08:56:08 +0200 (CEST)
-Date: Wed, 13 May 2026 08:56:08 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
-	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-block@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: Re: [PATCH 08/12] swap,iomap: simplify iomap_swapfile_iter
-Message-ID: <20260513065608.GA2250@lst.de>
-References: <20260512053625.2950900-1-hch@lst.de> <20260512053625.2950900-9-hch@lst.de> <20260512170204.GI9555@frogsfrogsfrogs>
+	s=arc-20240116; t=1778655487; c=relaxed/simple;
+	bh=AknfT6DOvNis5ZvNGkVKzRf4gJ8SGhx5DmaESprlZB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XtKv/iLTSNazC4+AaBlXMw6LUM1zEdGIuGE4QY2MFmS71zVu2GPd+KSxKuYVZM223uMf0/7lOvmDoEN9kdcsD3A5GYGVuV622cwGffP85Qm/49KoiQaBtAHQNPCSHdJQM3bRl1b2Bvohyz0NS2ufU+48z6J5xwN18iw8q6oms3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=dHi3+ung; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="dHi3+ung"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1778655480; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=hnMM+47wijWEsiSC/Rp2YSplBxkVNxtL2pqSMMI2mHU=;
+	b=dHi3+ungoee4ug8VGL+PTDK/7G3r7Hxjqqjc6Pzn89SGS2SpBNp443fNJPOVI1CnEbe5SMf8tsP/8qQPN/aOVnztUk3/y3FyFcAJ1QryvSslf3LIOfyf5y8w1CyQz0/mg7yHcH8gspBYuOMRJYWrOs09BUjytvSZULBvxMd2pKk=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X2svuPR_1778655479;
+Received: from 30.120.66.214(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X2svuPR_1778655479 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 13 May 2026 14:57:59 +0800
+Message-ID: <fe714fbc-c9a5-4c26-8b7d-6976adb56b63@linux.alibaba.com>
+Date: Wed, 13 May 2026 14:57:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512170204.GI9555@frogsfrogsfrogs>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [post LSFMM summary] where is fuse going?
+To: Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel <fuse-devel@lists.linux.dev>, linux-fsdevel@vger.kernel.org,
+ John Groves <John@groves.net>, Joanne Koong <joannelkoong@gmail.com>,
+ "Darrick J . Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>,
+ Horst Birthelmer <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
+References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+ <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
+ <943cb464-78f3-44a7-92a7-57a1fe4fbc10@linux.alibaba.com>
+ <CAOQ4uxh4yKEBdgbkfZTVyYM1P8ahALFVJzQCj7ASkrH746_4xw@mail.gmail.com>
+ <CAJfpeguR=x+Kf7jd4zyeSoUtbjaPRLhXCRh9wa3c14x+M77kXA@mail.gmail.com>
+ <CAOQ4uxiTowEnpQR3-oBXM3Q5uxBf5PXeNu+Qda8CVeD0fTHfXg@mail.gmail.com>
+From: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <CAOQ4uxiTowEnpQR3-oBXM3Q5uxBf5PXeNu+Qda8CVeD0fTHfXg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 12, 2026 at 10:02:04AM -0700, Darrick J. Wong wrote:
-> OH.  Now I remember why -- it's to handle contiguous mixed mappings
-> better.
+
+
+On 2026/5/13 05:40, Amir Goldstein wrote:
+> On Tue, May 12, 2026 at 12:01 PM Miklos Szeredi <miklos@szeredi.hu> wrote:
+>>
+>> On Tue, 12 May 2026 at 09:53, Amir Goldstein <amir73il@gmail.com> wrote:
+>>
+>>> The problem is only with  fuse_passthrough_mmap().
+>>> Depending on the workload (?) mmap may not be important and
+>>> we could fail if trying to map cross-backing-id regions.
+>>
+>> mmap(2) is the main entry point into famfs,  so it's very important.
+>>
+>> That doesn't work with "traditional" passthrough and needs to do the
+>> DAX mapping that famfs currently does.
+>>
 > 
-> Let's say that you have a 1k fsblock filesystem and 4k base pages.  You
-> fallocate an 8G swap file and then mkswap it.  The first mapping is a 1k
-> written mapping at offset 0 for the swap header, followed by an 8388607k
-> unwritten mapping at offset 3k.
+> Yes, famfs surely needs mmap to multiple daxdev and this is done.
 > 
-> The PAGE_SIZE rounding code in iomap_swapfile_add_extent will round the
-> end of that first mapping down to zero and ignore it.  The second
-> mapping will be treated as if it were a 8388604k mapping starting at
-> offset 4096.  Now the page counts are wrong and the swapon fails.
+> I was referring to Gao's question about dealing with non-dax multi
+> backing id (const mapped) files.
 
-Do we care about this use case?  I guess you did as you implemented
-his, but still?
+Yes, it can work on DAX and my question was all about
+mmap backed by multiple pagecache-backed files.
+
+Thanks,
+Gao Xiang
 
 > 
-> A more generic solution to this would be to change add_swap_extent to
-> take sector_t addr and length values and use them to construct a bitmap
-> representing contiguous physical space on the bdev, accounting of course
-> for PAGE_SIZE alignment.  Except for the swap header page, every other
-> contiguously set page-aligned region in the bitmap gets added to the
-> swap extent map.
-
-You don't even need a bitmap, just do basically the same checks as
-the iomap code when moving to a new swap extent after moving to use
-the sector_t.  And it really should anyway, as the current abuse of
-sector_t to store a disk offset in PAGE_SIZE units is pretty gross.
+> Thanks,
+> Amir.
 
