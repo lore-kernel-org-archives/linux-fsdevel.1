@@ -1,277 +1,435 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560033955ED;
-	Wed, 13 May 2026 21:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9780E379C29
+	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 22:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778708018; cv=none; b=MydmpxQ77J3bLy5hFF+iO2Pd+ttmpCmGbNum1YUQh4bs2MBE/o1cryEysBaXxdobkNGUWg+iTtnO8RwY0FtsQrG86IJ5mb+HlN9b5ivpUAEMfykzp1PYYNQE0rge7sH7hUSpAtZfDzqyEoybp919aE9L7dpGVU7mOAauDu9yThk=
+	t=1778710115; cv=none; b=CS+SGOcCxdxzFuodQ7pypxDAh7CdSdRWXnxrPyw3IwoSa432m5j/WV+okbXQ8kLxsbGBrY4faDT9nsSVXrxxBN02eSnKS5YaXhlsZxyhGnPIezcoTnrN7QfgIrbecQHtB9BYbds9Z8Sb/DoJJVNPHJ/dVZLG2rvA9trZUTq2yIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778708018; c=relaxed/simple;
-	bh=RRtFnMqnQlkkImKfign5KqzteQSuZdB7wBmviuQ5gRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H+PKDukca6t50OedVZkOTOeZixa8EvFNngkGy0bZjFP85yf8igLKQZA/hRmexoxtwGgijejnDiRCsRSpAyNCL942bg1n9ZyjpsIiUKCSHJQwtru1ASWU/OdUf9NCv4x3nKTOLqNymIAXYeWPGZIkz8/Sr/uS3DE/hWQs8Tvv3+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=diS37fS2; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="diS37fS2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D702FC19425;
-	Wed, 13 May 2026 21:33:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778708017;
-	bh=RRtFnMqnQlkkImKfign5KqzteQSuZdB7wBmviuQ5gRc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=diS37fS2S7VEgtqHLYt6jxr5obkohra73zJvH00cxobXLoHcWu2bUE0Ti5g1ralPx
-	 y+f+CVJTC8x/nszGxijcVOjwsZqPKyK1TWU6Wqz5rdZbJ8jBrPk4aa2WamlMR9VxJL
-	 P0+vj1hvD5bdJBNneoxnqadEgKQhVHA13mZxqvEOyFeWYNQZhJeBUa5Og3wE4L86Ul
-	 cBRTNzNXcxK/jd5FOZz5oeRAURQFYNFKtbySSZ1RFgqilbsfzs8vVcRpirE48ee7kZ
-	 kcKUhZGMUovhxRxTRuFXTKnifWQZGKXSP0envdfs1zc47jsMOt+r64nJFt+SpoeBe5
-	 hL9WF9eXZJaPQ==
-Date: Wed, 13 May 2026 14:33:37 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: miklos@szeredi.hu
-Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 1/2] fuse: allow privileged mount helpers to pre-approve
- iomap usage
-Message-ID: <20260513213337.GU9544@frogsfrogsfrogs>
-References: <177747207487.4104197.2228921108809032839.stgit@frogsfrogsfrogs>
- <177747207517.4104197.2708127799087809184.stgit@frogsfrogsfrogs>
+	s=arc-20240116; t=1778710115; c=relaxed/simple;
+	bh=YPR8BJYgZ46QxTQCgqvbpMBPBYcMqHx+ffAh7KCRgtk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ExV8OY/67hS3sgkTyzLPGogi32zhj5wzzuSZOATDEg604ibDQ6lK9KFSnHMhFrV23AJfHkac82MUue3SNkNM3VpbRgxNKjlsPT3KYATE4ZMVjfwYL3FwhpYvK3G4ZyUu6atqdVscr8ExNJsLqaDUPkp6gk3n0IG12mk2f6oVp0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-69649771a5aso13560141eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 15:08:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778710112; x=1779314912;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z8z0AdX0Vcxohf8RV/trjqqAyojHdIKq6N1TRI769CI=;
+        b=DiL17sOLPXsQdQPFrIAoazMxUJDz60s/rBSwb3IaQZIKYkoVu1e4zV82o+eFHbGLsC
+         0Wy3ucU7NOei7wPsQKHTqcKv2MaETnTkGWId8aUVraJxPuOItb0yUa8/z5Ygtu+yg7Dp
+         BrZt6kje+6dp2QrA4xvGM4IwI++631kzJBNB8248C1L/gDw0vrmGu5EsBuYu9MEdjqSE
+         CzN7oG7XTZhZaY1Flp+mNSkCrtZe9YULwJZ5KZmCjgsnijFDkkN0aHyY/jEK2IF1AFs/
+         cURseXdRG/aE4Wribe4QXeP/o2bA5vNFmrdQBRlPaJifP0gPKS27mepiH3gNAfCrWDYp
+         zQyA==
+X-Forwarded-Encrypted: i=1; AFNElJ/tZ2gk803/yq8Ic5vqqtrhGoDUdTAvJpp+hT0QlVTS2ezX4wrDd4dzE630arfIKl8h6Q+8+im+UryUEtIt@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAMzmAJ8Gs6PJASl5xDkM3GmSw1XbG3FnUrBuow8XlNPJzCzGY
+	eb4hvH+98NAkIPXz5mSw2wrn5vMnqPji0wkvyS6fX7xKVjEhjdJzAwLFAEyudj0RFz5xddQ7Nj+
+	RD7GgOiCPesCcfaOtvYS5kANmjBgK9ZkYuundHnfBefQbz2pW91UE6qpRu3c=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177747207517.4104197.2708127799087809184.stgit@frogsfrogsfrogs>
+X-Received: by 2002:a05:6820:812:b0:696:982b:1c24 with SMTP id
+ 006d021491bc7-69b7abc5ce3mr2500422eaf.57.1778710112686; Wed, 13 May 2026
+ 15:08:32 -0700 (PDT)
+Date: Wed, 13 May 2026 15:08:32 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a04f660.170a0220.14b6e7.0322.GAE@google.com>
+Subject: [syzbot] [fs?] possible deadlock in dump_user_range
+From: syzbot <syzbot+e38c5976dd6f8050906a@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 29, 2026 at 07:38:49AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> For the upcoming safemount functionality in libfuse, we will create a
-> privileged "mount.safe" helper that starts the fuse server in a
-> completely unprivileged systemd container.  The mount helper will pass
-> the mount options and fds for /dev/fuse and any other files requested by
-> the fuse server into the container via a Unix socket.
-> 
-> Currently, the ability to turn on iomap for fuse depends on a module
-> parameter and the process that calls mount() having the CAP_SYS_RAWIO
-> capability.  However, the unprivilged fuse server might want to query
-> the /dev/fuse fd for iomap capabilities before mount or FUSE_INIT so
-> that it can get ready.
-> 
-> Similar to FUSE_DEV_SYNC_INIT, add a new bit for iomap that can be
-> squirreled away in file->private_data and an ioctl to set that bit.
-> That way the privileged mount helper can pass its iomap privilege to the
-> contained fuse server without the fuse server needing to have
-> CAP_SYS_RAWIO.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  fs/fuse/fuse_i.h          |   10 ++++++++++
->  fs/fuse/fuse_iomap.h      |    2 ++
->  include/uapi/linux/fuse.h |    1 +
->  fs/fuse/dev.c             |    2 ++
->  fs/fuse/fuse_iomap.c      |   32 ++++++++++++++++++++++++++++++--
->  fs/fuse/inode.c           |    7 +++++--
->  6 files changed, 50 insertions(+), 4 deletions(-)
-> 
-> 
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 91f399a7a9a990..a491b80c2afacf 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -623,6 +623,9 @@ struct fuse_dev {
->  	/** Issue FUSE_INIT synchronously */
->  	bool sync_init;
->  
-> +	/** Allow fuse server to ask for IOMAP */
-> +	bool may_iomap;
-> +
->  	/** Fuse connection for this device */
->  	struct fuse_conn *fc;
->  
-> @@ -981,6 +984,13 @@ struct fuse_conn {
->  	/* Enable fs/iomap for file operations */
->  	unsigned int iomap:1;
->  
-> +	/*
-> +	 * Are filesystems using this connection allowed to use iomap?  This is
-> +	 * determined by the privilege level of the process that initiated the
-> +	 * mount() call.
-> +	 */
-> +	unsigned int may_iomap:1;
-> +
->  	/* Use io_uring for communication */
->  	unsigned int io_uring;
->  
-> diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
-> index 79625897dded50..636d75e44cda82 100644
-> --- a/fs/fuse/fuse_iomap.h
-> +++ b/fs/fuse/fuse_iomap.h
-> @@ -72,6 +72,7 @@ int fuse_iomap_flush_unmap_range(struct inode *inode, loff_t pos,
->  void fuse_iomap_copied_file_range(struct inode *inode, loff_t offset,
->  				  u64 written);
->  
-> +int fuse_dev_ioctl_add_iomap(struct file *file);
->  int fuse_dev_ioctl_iomap_support(struct file *file,
->  				 struct fuse_iomap_support __user *argp);
->  int fuse_iomap_dev_inval(struct fuse_conn *fc,
-> @@ -109,6 +110,7 @@ int fuse_iomap_inval_mappings(struct fuse_conn *fc,
->  # define fuse_iomap_fallocate(...)		(-ENOSYS)
->  # define fuse_iomap_flush_unmap_range(...)	(-ENOSYS)
->  # define fuse_iomap_copied_file_range(...)	((void)0)
-> +# define fuse_dev_ioctl_add_iomap(...)		(-EOPNOTSUPP)
->  # define fuse_dev_ioctl_iomap_support(...)	(-EOPNOTSUPP)
->  # define fuse_iomap_dev_inval(...)		(-ENOSYS)
->  # define fuse_iomap_fadvise			NULL
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 035e1a59ce50d3..1132493c66d266 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -1212,6 +1212,7 @@ struct fuse_iomap_support {
->  #define FUSE_DEV_IOC_IOMAP_SUPPORT	_IOR(FUSE_DEV_IOC_MAGIC, 99, \
->  					     struct fuse_iomap_support)
->  #define FUSE_DEV_IOC_SET_NOFS		_IOW(FUSE_DEV_IOC_MAGIC, 100, uint32_t)
-> +#define FUSE_DEV_IOC_ADD_IOMAP		_IO(FUSE_DEV_IOC_MAGIC, 101)
->  
->  struct fuse_lseek_in {
->  	uint64_t	fh;
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index fcee1a23375cee..fc2875cfffdb3b 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -2789,6 +2789,8 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
->  		return fuse_dev_ioctl_iomap_support(file, argp);
->  	case FUSE_DEV_IOC_SET_NOFS:
->  		return fuse_dev_ioctl_iomap_set_nofs(file, argp);
-> +	case FUSE_DEV_IOC_ADD_IOMAP:
-> +		return fuse_dev_ioctl_add_iomap(file);
->  
->  	default:
->  		return -ENOTTY;
-> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 8d3c7273dda810..3c2821c5f74c03 100644
-> --- a/fs/fuse/fuse_iomap.c
-> +++ b/fs/fuse/fuse_iomap.c
-> @@ -10,6 +10,7 @@
->  #include <linux/fadvise.h>
->  #include <linux/swap.h>
->  #include "fuse_i.h"
-> +#include "fuse_dev_i.h"
->  #include "fuse_trace.h"
->  #include "fuse_iomap.h"
->  #include "fuse_iomap_i.h"
-> @@ -80,6 +81,12 @@ bool fuse_iomap_enabled(void)
->  	return enable_iomap && has_capability_noaudit(current, CAP_SYS_RAWIO);
->  }
->  
-> +static inline bool fuse_iomap_may_enable(void)
-> +{
+Hello,
 
-Needs to have the same uabi blockade:
+syzbot found the following issue on:
 
-	/* Don't let anyone touch iomap until the end of the patchset. */
-	return false;
+HEAD commit:    8b2feced65cd Merge branch 'net-dsa-microchip-remove-one-in..
+git tree:       net-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=16df71ce580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f2b487b72ffad035
+dashboard link: https://syzkaller.appspot.com/bug?extid=e38c5976dd6f8050906a
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-> +	/* Same as above, but this time we log the denial in audit log */
-> +	return enable_iomap && capable(CAP_SYS_RAWIO);
-> +}
-> +
->  /* Convert IOMAP_* mapping types to FUSE_IOMAP_TYPE_* */
->  #define XMAP(word) \
->  	case IOMAP_##word: \
-> @@ -2537,14 +2544,35 @@ fuse_iomap_fallocate(
->  	return 0;
->  }
->  
-> +int fuse_dev_ioctl_add_iomap(struct file *file)
-> +{
-> +	int err = -EINVAL;
-> +	struct fuse_dev *fud = fuse_file_to_fud(file);
-> +
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Needs to check fuse_iomap_may_enable(); this apparently fell out when I
-was rebasing after the fuse_dev_fc_get series was merged.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/25f12e68ab8d/disk-8b2feced.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d8c43b4ea8e7/vmlinux-8b2feced.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e3d8f43606e0/bzImage-8b2feced.xz
 
---D
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e38c5976dd6f8050906a@syzkaller.appspotmail.com
 
-> +	mutex_lock(&fuse_mutex);
-> +	if (!fuse_dev_fc_get(fud)) {
-> +		fud->may_iomap = true;
-> +		err = 0;
-> +	}
-> +	mutex_unlock(&fuse_mutex);
-> +	return err;
-> +}
-> +
->  int fuse_dev_ioctl_iomap_support(struct file *file,
->  				 struct fuse_iomap_support __user *argp)
->  {
->  	struct fuse_iomap_support ios = { };
-> +	struct fuse_dev *fud = fuse_file_to_fud(file);
-> +	struct fuse_conn *fc;
->  
-> -	if (fuse_iomap_enabled())
-> +	mutex_lock(&fuse_mutex);
-> +	fc = fuse_dev_fc_get(fud);
-> +	if ((fc && fc != FUSE_DEV_FC_DISCONNECTED && fc->may_iomap) ||
-> +	    (!fc && fud->may_iomap) ||
-> +	    fuse_iomap_enabled())
->  		ios.flags = FUSE_IOMAP_SUPPORT_FILEIO |
->  			    FUSE_IOMAP_SUPPORT_ATOMIC;
-> +	mutex_unlock(&fuse_mutex);
->  
->  	if (copy_to_user(argp, &ios, sizeof(ios)))
->  		return -EFAULT;
-> @@ -2615,7 +2643,7 @@ int fuse_iomap_dev_inval(struct fuse_conn *fc,
->  
->  static inline bool can_set_nofs(struct fuse_dev *fud)
->  {
-> -	if (fud && fud->fc && fud->fc->iomap)
-> +	if (fud && fud->fc && (fud->fc->iomap || fud->fc->may_iomap))
->  	       return true;
->  
->  	return capable(CAP_SYS_RESOURCE);
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index 1a09b9e1446919..ca7981c38d5a1c 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -1076,6 +1076,7 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
->  	fc->name_max = FUSE_NAME_LOW_MAX;
->  	fc->timeout.req_timeout = 0;
->  	fc->root_nodeid = FUSE_ROOT_ID;
-> +	fc->may_iomap = fuse_iomap_enabled();
->  
->  	if (IS_ENABLED(CONFIG_FUSE_BACKING))
->  		fuse_backing_files_init(fc);
-> @@ -1610,7 +1611,7 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
->  			if (flags & FUSE_REQUEST_TIMEOUT)
->  				timeout = arg->request_timeout;
->  
-> -			if ((flags & FUSE_IOMAP) && fuse_iomap_enabled()) {
-> +			if ((flags & FUSE_IOMAP) && fc->may_iomap) {
->  				fc->iomap = 1;
->  				pr_warn(
->   "EXPERIMENTAL iomap feature enabled.  Use at your own risk!");
-> @@ -1697,7 +1698,7 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
->  	 */
->  	if (fuse_uring_enabled())
->  		flags |= FUSE_OVER_IO_URING;
-> -	if (fuse_iomap_enabled())
-> +	if (fm->fc->may_iomap)
->  		flags |= FUSE_IOMAP;
->  
->  	ia->in.flags = flags;
-> @@ -2093,6 +2094,8 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
->  			goto err_unlock;
->  		if (fud->sync_init)
->  			fc->sync_init = 1;
-> +		if (fud->may_iomap)
-> +			fc->may_iomap = 1;
->  	}
->  
->  	err = fuse_ctl_add_conn(fc);
-> 
-> 
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz.2.4726/25180 is trying to acquire lock:
+ffffffff8ea85520 (fs_reclaim){+.+.}-{0:0}, at: might_alloc include/linux/sched/mm.h:317 [inline]
+ffffffff8ea85520 (fs_reclaim){+.+.}-{0:0}, at: prepare_alloc_pages+0x152/0x650 mm/page_alloc.c:4995
+
+but task is already holding lock:
+ffff888025b88338 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_lock_killable include/linux/mmap_lock.h:601 [inline]
+ffff888025b88338 (&mm->mmap_lock){++++}-{4:4}, at: dump_user_range+0x1c5/0x12c0 fs/coredump.c:1360
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #7 (&mm->mmap_lock){++++}-{4:4}:
+       __might_fault+0xcb/0x130 mm/memory.c:7324
+       _inline_copy_from_user include/linux/uaccess.h:169 [inline]
+       _copy_from_user+0x28/0xb0 lib/usercopy.c:18
+       copy_from_user include/linux/uaccess.h:223 [inline]
+       csum_and_copy_from_user include/net/checksum.h:31 [inline]
+       copy_from_user_iter_csum net/core/skbuff.c:7402 [inline]
+       iterate_ubuf include/linux/iov_iter.h:30 [inline]
+       iterate_and_advance2 include/linux/iov_iter.h:302 [inline]
+       csum_and_copy_from_iter_full+0x1e7/0x1f00 net/core/skbuff.c:7414
+       ip_generic_getfrag+0x149/0x2d0 net/ipv4/ip_output.c:942
+       __ip6_append_data+0x39cd/0x3f60 net/ipv6/ip6_output.c:1736
+       ip6_append_data+0x10f/0x280 net/ipv6/ip6_output.c:1891
+       rawv6_sendmsg+0x12d3/0x18e0 net/ipv6/raw.c:913
+       sock_sendmsg_nosec net/socket.c:787 [inline]
+       __sock_sendmsg net/socket.c:802 [inline]
+       ____sys_sendmsg+0x80a/0x9f0 net/socket.c:2698
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2752
+       __sys_sendmsg net/socket.c:2784 [inline]
+       __do_sys_sendmsg net/socket.c:2789 [inline]
+       __se_sys_sendmsg net/socket.c:2787 [inline]
+       __x64_sys_sendmsg+0x1bd/0x2a0 net/socket.c:2787
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #6 (sk_lock-AF_INET6){+.+.}-{0:0}:
+       lock_sock_nested+0x41/0x100 net/core/sock.c:3783
+       lock_sock include/net/sock.h:1713 [inline]
+       inet_shutdown+0x6a/0x390 net/ipv4/af_inet.c:915
+       nbd_mark_nsock_dead+0x2e9/0x560 drivers/block/nbd.c:318
+       sock_shutdown+0x15e/0x260 drivers/block/nbd.c:411
+       nbd_clear_sock+0x24/0x170 drivers/block/nbd.c:1427
+       nbd_config_put+0x2dd/0x580 drivers/block/nbd.c:1451
+       nbd_genl_connect+0x19d5/0x1cf0 drivers/block/nbd.c:2248
+       genl_family_rcv_msg_doit+0x22a/0x330 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x61c/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x232/0x4b0 net/netlink/af_netlink.c:2551
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x75c/0x8e0 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1895
+       sock_sendmsg_nosec net/socket.c:787 [inline]
+       __sock_sendmsg net/socket.c:802 [inline]
+       ____sys_sendmsg+0x972/0x9f0 net/socket.c:2698
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2752
+       __sys_sendmsg net/socket.c:2784 [inline]
+       __do_sys_sendmsg net/socket.c:2789 [inline]
+       __se_sys_sendmsg net/socket.c:2787 [inline]
+       __x64_sys_sendmsg+0x1bd/0x2a0 net/socket.c:2787
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #5 (&nsock->tx_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a3/0x1550 kernel/locking/mutex.c:820
+       nbd_handle_cmd drivers/block/nbd.c:1143 [inline]
+       nbd_queue_rq+0x37b/0x1100 drivers/block/nbd.c:1207
+       blk_mq_dispatch_rq_list+0xa70/0x1910 block/blk-mq.c:2148
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xdcc/0x1600 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_hw_queue+0x348/0x4f0 block/blk-mq.c:2386
+       blk_mq_dispatch_list+0xd16/0xe10 include/linux/spinlock.h:-1
+       blk_mq_flush_plug_list+0x48d/0x570 block/blk-mq.c:2997
+       __blk_flush_plug+0x3ed/0x4d0 block/blk-core.c:1230
+       blk_finish_plug block/blk-core.c:1257 [inline]
+       __submit_bio+0x28d/0x580 block/blk-core.c:649
+       __submit_bio_noacct_mq block/blk-core.c:722 [inline]
+       submit_bio_noacct_nocheck+0x2f4/0xa40 block/blk-core.c:753
+       submit_bh fs/buffer.c:2742 [inline]
+       block_read_full_folio+0x599/0x830 fs/buffer.c:2344
+       filemap_read_folio+0x137/0x3b0 mm/filemap.c:2502
+       do_read_cache_folio+0x358/0x590 mm/filemap.c:4107
+       read_mapping_folio include/linux/pagemap.h:1017 [inline]
+       read_part_sector+0xb6/0x2b0 block/partitions/core.c:724
+       adfspart_check_ICS+0xb1/0x960 block/partitions/acorn.c:356
+       check_partition block/partitions/core.c:143 [inline]
+       blk_add_partitions block/partitions/core.c:591 [inline]
+       bdev_disk_changed+0x817/0x1770 block/partitions/core.c:695
+       blkdev_get_whole+0x380/0x510 block/bdev.c:756
+       bdev_open+0x31e/0xd30 block/bdev.c:965
+       blkdev_open+0x470/0x610 block/fops.c:697
+       do_dentry_open+0x785/0x14e0 fs/open.c:947
+       vfs_open+0x3b/0x340 fs/open.c:1079
+       do_open fs/namei.c:4699 [inline]
+       path_openat+0x2e08/0x3860 fs/namei.c:4858
+       do_file_open+0x23e/0x4a0 fs/namei.c:4887
+       do_sys_openat2+0x113/0x200 fs/open.c:1364
+       do_sys_open fs/open.c:1370 [inline]
+       __do_sys_openat fs/open.c:1386 [inline]
+       __se_sys_openat fs/open.c:1381 [inline]
+       __x64_sys_openat+0x138/0x170 fs/open.c:1381
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #4 (&cmd->lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a3/0x1550 kernel/locking/mutex.c:820
+       nbd_queue_rq+0xc6/0x1100 drivers/block/nbd.c:1199
+       blk_mq_dispatch_rq_list+0xa70/0x1910 block/blk-mq.c:2148
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xdcc/0x1600 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_hw_queue+0x348/0x4f0 block/blk-mq.c:2386
+       blk_mq_dispatch_list+0xd16/0xe10 include/linux/spinlock.h:-1
+       blk_mq_flush_plug_list+0x48d/0x570 block/blk-mq.c:2997
+       __blk_flush_plug+0x3ed/0x4d0 block/blk-core.c:1230
+       blk_finish_plug block/blk-core.c:1257 [inline]
+       __submit_bio+0x28d/0x580 block/blk-core.c:649
+       __submit_bio_noacct_mq block/blk-core.c:722 [inline]
+       submit_bio_noacct_nocheck+0x2f4/0xa40 block/blk-core.c:753
+       submit_bh fs/buffer.c:2742 [inline]
+       block_read_full_folio+0x599/0x830 fs/buffer.c:2344
+       filemap_read_folio+0x137/0x3b0 mm/filemap.c:2502
+       do_read_cache_folio+0x358/0x590 mm/filemap.c:4107
+       read_mapping_folio include/linux/pagemap.h:1017 [inline]
+       read_part_sector+0xb6/0x2b0 block/partitions/core.c:724
+       adfspart_check_ICS+0xb1/0x960 block/partitions/acorn.c:356
+       check_partition block/partitions/core.c:143 [inline]
+       blk_add_partitions block/partitions/core.c:591 [inline]
+       bdev_disk_changed+0x817/0x1770 block/partitions/core.c:695
+       blkdev_get_whole+0x380/0x510 block/bdev.c:756
+       bdev_open+0x31e/0xd30 block/bdev.c:965
+       blkdev_open+0x470/0x610 block/fops.c:697
+       do_dentry_open+0x785/0x14e0 fs/open.c:947
+       vfs_open+0x3b/0x340 fs/open.c:1079
+       do_open fs/namei.c:4699 [inline]
+       path_openat+0x2e08/0x3860 fs/namei.c:4858
+       do_file_open+0x23e/0x4a0 fs/namei.c:4887
+       do_sys_openat2+0x113/0x200 fs/open.c:1364
+       do_sys_open fs/open.c:1370 [inline]
+       __do_sys_openat fs/open.c:1386 [inline]
+       __se_sys_openat fs/open.c:1381 [inline]
+       __x64_sys_openat+0x138/0x170 fs/open.c:1381
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #3 (set->srcu){.+.+}-{0:0}:
+       srcu_lock_sync include/linux/srcu.h:199 [inline]
+       __synchronize_srcu+0xca/0x300 kernel/rcu/srcutree.c:1481
+       elevator_switch+0x1e8/0x7a0 block/elevator.c:576
+       elevator_change+0x2cc/0x450 block/elevator.c:681
+       elevator_set_default+0x36c/0x430 block/elevator.c:754
+       blk_register_queue+0x3e9/0x4e0 block/blk-sysfs.c:987
+       __add_disk+0x677/0xd50 block/genhd.c:528
+       add_disk_fwnode+0xfb/0x480 block/genhd.c:597
+       add_disk include/linux/blkdev.h:794 [inline]
+       nbd_dev_add+0x72c/0xb50 drivers/block/nbd.c:1984
+       nbd_init+0x168/0x1f0 drivers/block/nbd.c:2692
+       do_one_initcall+0x250/0x870 init/main.c:1392
+       do_initcall_level+0x104/0x190 init/main.c:1454
+       do_initcalls+0x59/0xa0 init/main.c:1470
+       kernel_init_freeable+0x2a6/0x3e0 init/main.c:1703
+       kernel_init+0x1d/0x1d0 init/main.c:1593
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #2 (&q->elevator_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a3/0x1550 kernel/locking/mutex.c:820
+       elevator_change+0x1b3/0x450 block/elevator.c:679
+       elevator_set_none+0xb5/0x140 block/elevator.c:769
+       blk_mq_elv_switch_none block/blk-mq.c:5131 [inline]
+       __blk_mq_update_nr_hw_queues block/blk-mq.c:5176 [inline]
+       blk_mq_update_nr_hw_queues+0x5e7/0x1a60 block/blk-mq.c:5241
+       nbd_start_device+0x17f/0xb10 drivers/block/nbd.c:1489
+       nbd_genl_connect+0x165b/0x1cf0 drivers/block/nbd.c:2239
+       genl_family_rcv_msg_doit+0x22a/0x330 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x61c/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x232/0x4b0 net/netlink/af_netlink.c:2551
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
+       netlink_unicast+0x75c/0x8e0 net/netlink/af_netlink.c:1345
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1895
+       sock_sendmsg_nosec net/socket.c:787 [inline]
+       __sock_sendmsg net/socket.c:802 [inline]
+       ____sys_sendmsg+0x972/0x9f0 net/socket.c:2698
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2752
+       __sys_sendmsg net/socket.c:2784 [inline]
+       __do_sys_sendmsg net/socket.c:2789 [inline]
+       __se_sys_sendmsg net/socket.c:2787 [inline]
+       __x64_sys_sendmsg+0x1bd/0x2a0 net/socket.c:2787
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&q->q_usage_counter(io)#49){++++}-{0:0}:
+       blk_alloc_queue+0x546/0x680 block/blk-core.c:461
+       blk_mq_alloc_queue block/blk-mq.c:4450 [inline]
+       __blk_mq_alloc_disk+0x197/0x390 block/blk-mq.c:4497
+       nbd_dev_add+0x499/0xb50 drivers/block/nbd.c:1954
+       nbd_init+0x168/0x1f0 drivers/block/nbd.c:2692
+       do_one_initcall+0x250/0x870 init/main.c:1392
+       do_initcall_level+0x104/0x190 init/main.c:1454
+       do_initcalls+0x59/0xa0 init/main.c:1470
+       kernel_init_freeable+0x2a6/0x3e0 init/main.c:1703
+       kernel_init+0x1d/0x1d0 init/main.c:1593
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #0 (fs_reclaim){+.+.}-{0:0}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+       __fs_reclaim_acquire mm/page_alloc.c:4325 [inline]
+       fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4339
+       might_alloc include/linux/sched/mm.h:317 [inline]
+       prepare_alloc_pages+0x152/0x650 mm/page_alloc.c:4995
+       __alloc_frozen_pages_noprof+0x12f/0x380 mm/page_alloc.c:5215
+       alloc_pages_mpol+0x235/0x490 mm/mempolicy.c:2490
+       alloc_frozen_pages_noprof mm/mempolicy.c:2561 [inline]
+       alloc_pages_noprof+0xac/0x2a0 mm/mempolicy.c:2581
+       pagetable_alloc_noprof include/linux/mm.h:3651 [inline]
+       pmd_alloc_one_noprof include/asm-generic/pgalloc.h:143 [inline]
+       __pmd_alloc+0x3a/0x5c0 mm/memory.c:6804
+       pmd_alloc include/linux/mm.h:3567 [inline]
+       __handle_mm_fault mm/memory.c:6501 [inline]
+       handle_mm_fault+0xe96/0x3170 mm/memory.c:6718
+       faultin_page mm/gup.c:1126 [inline]
+       __get_user_pages+0x1683/0x2720 mm/gup.c:1428
+       __get_user_pages_locked mm/gup.c:1692 [inline]
+       get_dump_page+0x1b5/0x410 mm/gup.c:2192
+       dump_user_range+0x20a/0x12c0 fs/coredump.c:1372
+       elf_core_dump+0x34c2/0x3ad0 fs/binfmt_elf.c:2109
+       coredump_write+0x1216/0x1910 fs/coredump.c:1053
+       do_coredump fs/coredump.c:1132 [inline]
+       vfs_coredump+0x3807/0x4530 fs/coredump.c:1206
+       get_signal+0x1107/0x1330 kernel/signal.c:3022
+       arch_do_signal_or_restart+0xbc/0x830 arch/x86/kernel/signal.c:337
+       __exit_to_user_mode_loop kernel/entry/common.c:64 [inline]
+       exit_to_user_mode_loop+0x86/0x480 kernel/entry/common.c:98
+       __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+       syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:238 [inline]
+       syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
+       do_syscall_64+0x33e/0xf80 arch/x86/entry/syscall_64.c:100
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  fs_reclaim --> sk_lock-AF_INET6 --> &mm->mmap_lock
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&mm->mmap_lock);
+                               lock(sk_lock-AF_INET6);
+                               lock(&mm->mmap_lock);
+  lock(fs_reclaim);
+
+ *** DEADLOCK ***
+
+2 locks held by syz.2.4726/25180:
+ #0: ffff88807db3a410 (sb_writers#5){.+.+}-{0:0}, at: do_coredump fs/coredump.c:1132 [inline]
+ #0: ffff88807db3a410 (sb_writers#5){.+.+}-{0:0}, at: vfs_coredump+0x3807/0x4530 fs/coredump.c:1206
+ #1: ffff888025b88338 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_lock_killable include/linux/mmap_lock.h:601 [inline]
+ #1: ffff888025b88338 (&mm->mmap_lock){++++}-{4:4}, at: dump_user_range+0x1c5/0x12c0 fs/coredump.c:1360
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 25180 Comm: syz.2.4726 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+ __fs_reclaim_acquire mm/page_alloc.c:4325 [inline]
+ fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4339
+ might_alloc include/linux/sched/mm.h:317 [inline]
+ prepare_alloc_pages+0x152/0x650 mm/page_alloc.c:4995
+ __alloc_frozen_pages_noprof+0x12f/0x380 mm/page_alloc.c:5215
+ alloc_pages_mpol+0x235/0x490 mm/mempolicy.c:2490
+ alloc_frozen_pages_noprof mm/mempolicy.c:2561 [inline]
+ alloc_pages_noprof+0xac/0x2a0 mm/mempolicy.c:2581
+ pagetable_alloc_noprof include/linux/mm.h:3651 [inline]
+ pmd_alloc_one_noprof include/asm-generic/pgalloc.h:143 [inline]
+ __pmd_alloc+0x3a/0x5c0 mm/memory.c:6804
+ pmd_alloc include/linux/mm.h:3567 [inline]
+ __handle_mm_fault mm/memory.c:6501 [inline]
+ handle_mm_fault+0xe96/0x3170 mm/memory.c:6718
+ faultin_page mm/gup.c:1126 [inline]
+ __get_user_pages+0x1683/0x2720 mm/gup.c:1428
+ __get_user_pages_locked mm/gup.c:1692 [inline]
+ get_dump_page+0x1b5/0x410 mm/gup.c:2192
+ dump_user_range+0x20a/0x12c0 fs/coredump.c:1372
+ elf_core_dump+0x34c2/0x3ad0 fs/binfmt_elf.c:2109
+ coredump_write+0x1216/0x1910 fs/coredump.c:1053
+ do_coredump fs/coredump.c:1132 [inline]
+ vfs_coredump+0x3807/0x4530 fs/coredump.c:1206
+ get_signal+0x1107/0x1330 kernel/signal.c:3022
+ arch_do_signal_or_restart+0xbc/0x830 arch/x86/kernel/signal.c:337
+ __exit_to_user_mode_loop kernel/entry/common.c:64 [inline]
+ exit_to_user_mode_loop+0x86/0x480 kernel/entry/common.c:98
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:238 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
+ do_syscall_64+0x33e/0xf80 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f71b9b9cdd9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f71bab36028 EFLAGS: 00000246 ORIG_RAX: 0000000000000141
+RAX: 0000000000000000 RBX: 00007f71b9e15fa0 RCX: 00007f71b9b9cdd9
+RDX: 0000000000000048 RSI: 0000200000000500 RDI: 000000000000000a
+RBP: 00007f71b9c32d69 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f71b9e16038 R14: 00007f71b9e15fa0 R15: 00007ffd0ce6f698
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
