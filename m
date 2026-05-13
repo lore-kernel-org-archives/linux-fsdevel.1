@@ -1,132 +1,171 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC05438E8CB
-	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 03:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778644721; cv=pass; b=dA3y8vfpPA633Qns5nshgl4XO9+T+C3MuDx2il254xVmGDpihezMHJBJsFBZq6qsBnb9sOQwORP0cYIywaaBOH49D39b+lCRfNlbZ1chmOxP87ShQAI9KfTtAbUq2E7ntiNiW8VlMgJV+3MkZzoERbr/boWQs1SPuRrFa+zP4qU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778644721; c=relaxed/simple;
-	bh=40b0mj9LccqvykOYFJDhNVL9/cfh3wCIRjlfxH+VtLQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rf8cl5jz0VZqwe2/NOnjFky+lEXge4hIqf9eaxrjbsEJZK/qxMrPHQjrXyifpqqQVynN12YM7yEXgUjYfCJaSCrD/zvrFhN/y3jnHN1SoATiH0Vhb81l4zXCsQO/kU+e/7HPa05AscnKKgtqxS/XSaOvDRgt+aS/NM3caOrCrrA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RhKG9E82; arc=pass smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB373A7D6E;
+	Wed, 13 May 2026 05:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778651319; cv=none; b=CiaZZgYF4tn+L0SHkGA+3HWRIRJw2meON4Mz7bAT2aZWolbyqZq14/LFj8oICZQYZyUq1jODaPBpdPke0A920eZVYop+y3Tfv3Q2U3ekvTlc1MIJza/3PUB/7Mm0n4/NhE07XOTQVYJsHyFH6l4AtQPUDpkoVD6VTx6s9Dqz4xQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778651319; c=relaxed/simple;
+	bh=ZDFlD9nsHgd27geF+Rb2AtZvStqqSfbUC7zxO/vvEMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VMFaYSOg1PUUNsf8TybRxWEmYgw3zr4HASsz6C8KG4Z53BlcYTz4Qd38s4w2vT3RY57EJIaNuqlndD/3lg+n0X3z2EKoMGIg5oztPBL/DqPI4IkasgmuOynmS82SNez+eClv+bJEHvUQ5VvGO++OnyQuWwHALZISyslVrHnVQSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mWHMG0UY; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RhKG9E82"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-671f1a0d0c5so92a12.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 20:58:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778644718; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Xvif8p4pSbmMXEV50wNOyXUErWoCIvCc1G6oYX39GcJ5y5yvMurUsG1E5yA9jRoyVq
-         tq+D4XySeu6QIYjoSodYH9GOVHGOhmHh0DhvARBCHqTnRnDuF1p+eobtOZE2RTbFlFFV
-         bfEvF/jZZ/PAmVFAGC0AjJlbCl6JIVO09BVXYLEhRbqEiwNGLNjhgM0Klaf0HHvTsPUX
-         3R7rYOs+mKpg94+zEb5qVy2+6ZsX6b3jllfgNzwG9b/LPg2vOWbMVDS7fxB8zv98IHde
-         nNtexg3BclwInkqOBvE+zPFyJejZVEihcS/TfdNV3jfXh1wP5CeF15e/N8bIw5+K7L28
-         jefQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=40b0mj9LccqvykOYFJDhNVL9/cfh3wCIRjlfxH+VtLQ=;
-        fh=WyO1yaZCmk6PH5POeMriMZJTDFfDQfPIBGqfmo1FBf8=;
-        b=Bxgu1eX93vVkPXBSU7z+Z9lKQrTzUmZrE71fIh6DY1lYEZ5Y7MWMhUmc2+wn81I7S/
-         V2lWTjCyKrN4IIpmpHGiWViSJkEK2EYkUi/Brc/JunW1e8YOlSKiJT+u76J5t4+Ntr9c
-         /4gKATd95z///9AJrtMLdMaw8xONQcqMMnEi5PZHrrDFqHNZCJL+NTC/COAWxgiA/nM2
-         Z8NkcxMROWBJenJkpqVruhGxRNEiSRIxtNN92tJyypz3MPkmQZhiNO6b3NRnL4qS5PHp
-         xM2PauoVdr3IY8EhzHe/9uXOT5YiwTvBjYFGpoyEnn7fDHQWzqMmLnzEwcEerHdaKaOu
-         rrSA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778644718; x=1779249518; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=40b0mj9LccqvykOYFJDhNVL9/cfh3wCIRjlfxH+VtLQ=;
-        b=RhKG9E826BMslqvMYNZZoYjgM5RAdS51NGBUgDWbrOiFYAjvnV5337BQftnqXJ2c23
-         tSoc71oYJsGOfI8TJUdGxradUDVhPxEU8WgAP9y4OHKDxrRxqk87+uheOJ/lKA6DofKW
-         z6teDznnZqJ7VPsXCQAVkmVHMQlJsRwVsgJWucRVvloSs+YbTrN9iuhk6HDbkRkDRVGw
-         oZCw+KpFyQkN99zthKVVP0bJiu8aMTX4wAyoumJpTqFqsWTHpubhBGYPV8hGDYzb+DTd
-         khdjMtk+p1yO6CWBnSdrmtrn7s+VA3NR0/RkdXkEY18ByXlyWeIDikhB/ieCrfhqlJNF
-         vTQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778644718; x=1779249518;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=40b0mj9LccqvykOYFJDhNVL9/cfh3wCIRjlfxH+VtLQ=;
-        b=NloZCl93Xpm+chW6pWJ1I6TLIgrt5Q124brweNXDqKirmUOI06ZwBpLYTXBkfg2ZGZ
-         TY+dNIJjk7a4AiJwkJBiCCOdJUA1uiyMbhK0yKx/bFI9n8xb0R+KG94SyyUOG2RF5QhM
-         OwlG4TcWG2V12lzLew756k9KiO1cNiTnfaXmVYc4OlkamDSOCQ6HUfnRPVgGJTUSVNLI
-         pk6UmUDwOS9RoL94ab1x7ROgHOz1aQDHV6m/6lBsxbRFOdtf8LgKQWlz9l0PsFidOXKV
-         KeBGBYZnnvCinqkML5HTGz9FPnbbGwtK1GF//6nI1E5UwQmAFA/7u49XMB1x6YlUtE6p
-         VLww==
-X-Forwarded-Encrypted: i=1; AFNElJ+9Tzt5THHrRA18G21pt9L18Fmf9FZRnd0lipLjCy5ZKcv4G5K1O7RpaTDFzlXqGf5FMEG+XPNVLbI7L6P1@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmiFVfBLFyyCBqDMV49qGmHdJpFDZ54ago/FXytQyrb6y690OV
-	NVGdMVHWuFP9nRdlVfNonUAnw5JzqFTTN0c9xGb8HzZw8z29EQES4SGgIwc2lMJaFX5fFEDsQTj
-	D7BexXuTVSm5q2Kr7oDBb4khGKHZtQDYgNPvojBWl
-X-Gm-Gg: Acq92OHX2k97PmJhExk8a+53OMdSrpkkFOhYJbzY/1MCvjuwgDMgJAofsWLdXqA6Uig
-	KcI99L7u0ADKjCjBnI1/0l4tKN4nt/3iqP4s2c207CCkKhJfvWuTKx/ofTeXtWC4/m3173m2Kt/
-	fufctkNzwjSAtLV/hGcMLXZ3MhmXhQF/Y2gBy7G1en/RWKVCpoKfi6tP42AV9x9VDCEAyer6nNA
-	vyG5OcRiHaDnxbjkaXAz/euj/wjUR2PEoL5cgGtIhHvsP51aN0PK2Gf7K/QWgXqH2rZ9TqPws/5
-	3P/2kj6JkfZaYBZj
-X-Received: by 2002:a05:6402:5050:b0:676:67ec:abaf with SMTP id
- 4fb4d7f45d1cf-6827bf5f4b3mr22466a12.3.1778644718024; Tue, 12 May 2026
- 20:58:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mWHMG0UY"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D3AaU43179891;
+	Wed, 13 May 2026 05:45:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=y5nkvrhcTp0ZLxYE/7ciAVLdhgaAzJ
+	xIEPhcn/2rpz0=; b=mWHMG0UYM8GorUZEQ6kw4Q3J4qBRCotpl6kstECvJD1rtb
+	xCfXEkIxJ4fmJPIQ+RSJsF3Eg3coBVehAPUDFIE0TaIiUmjJfeZKgZp1C5ytMBUb
+	JDsPtELRt0bCLSIMeCGsEW5fmY4TgC6nLP2CYbjctaNNzkVGbkt+a/uLHLIgJDv5
+	4Sa1F+TYCRFwkDQ3c7MWZ6ScuVXuh+CsAGRgHr5FugQdX71mt18waHUfRCt0Nrtg
+	GbhjGWRYzOKOZabLdeSvo6LU5LhrFCbkgxy6KgtCLVvaNsDE6Ri+3E4smeAY/Clh
+	uuHTT9OX4+uCDz8UsjYx2WoR6TZJowDRGP4dli0A==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e3nv6nxxb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 May 2026 05:45:30 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64D5dOtk018879;
+	Wed, 13 May 2026 05:45:30 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e3nfgxe3m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 May 2026 05:45:30 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64D5jSiI31130048
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 13 May 2026 05:45:28 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 16D9C2004B;
+	Wed, 13 May 2026 05:45:28 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A7B7220043;
+	Wed, 13 May 2026 05:45:18 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.210.65])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 13 May 2026 05:45:18 +0000 (GMT)
+Date: Wed, 13 May 2026 11:14:21 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Daniel Gomez <da.gomez@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org,
+        hch@lst.de, ritesh.list@gmail.com, jack@suse.cz,
+        Luis Chamberlain <mcgrof@kernel.org>, dgc@kernel.org, tytso@mit.edu,
+        p.raghav@samsung.com, andres@anarazel.de, brauner@kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        pankaj.raghav@linux.dev, Daniel Gomez <da.gomez@samsung.com>
+Subject: Re: [RFC PATCH v2 0/5] Add buffered write-through support to iomap &
+ xfs
+Message-ID: <agQPtTx2EXHr10Nn@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <d5d99db2-9d34-4caf-bcc8-c4a3af561901@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260426062718.1238437-1-surenb@google.com> <a27344e1-6f0c-4686-99ac-fc2cfcc5bb06@kernel.org>
-In-Reply-To: <a27344e1-6f0c-4686-99ac-fc2cfcc5bb06@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 12 May 2026 20:58:23 -0700
-X-Gm-Features: AVHnY4JDQcNVWDMwH3pin_nHYobX8urPy4XDY6wH_-41pJ7n237CNfSG2kbeWQ8
-Message-ID: <CAJuCfpG3xZhL94E=yR1KsWs6fVwcdoAECoOaV3UOeB10TXmOeg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] use vma locks for proc/pid/{smaps|numa_maps} reads
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: akpm@linux-foundation.org, liam@infradead.org, ljs@kernel.org, 
-	vbabka@kernel.org, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
-	pfalcato@suse.de, shuah@kernel.org, hsukrut3@gmail.com, 
-	richard.weiyang@gmail.com, reddybalavignesh9979@gmail.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d5d99db2-9d34-4caf-bcc8-c4a3af561901@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=Us1T8ewB c=1 sm=1 tr=0 ts=6a040ffb cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=NEAV23lmAAAA:8
+ a=lcIDxHtVAAAA:8 a=6-Iau3dbAAAA:20 a=e6PEXMpC0EWP8Up90DUA:9
+ a=qcg49hLlgF0N60+LroqrWnV/Vu4=:19 a=CjuIK1q_8ugA:10 a=SmPfr9tXhjlp3KZZvEYH:22
+ a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-GUID: Y02irxQB16MSD0o1gbPDksguta2VQXTm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDA1NCBTYWx0ZWRfX25Y19o3iK7En
+ Szk95/27oHoKr0ldyYQl2XiVgKxouARyLOPuBzsiB8pV4pxQZ3pujNnmWnGnueHT9UoJ9H+y4/P
+ 6fxtxF4UwdvM2rayClHEDLdSIiqpIu5bFs5h1YnT9qejxm1KcAXSLozg93Qcts2uhgurM1inLGW
+ 3AETfqHMezU9dzoZ0mSaib7Sj3LJliaA4Ed7VDjZ1+iCYKLFMVwxcpGwhwLTythjtr4ZHuCea2J
+ Tl4nt1AmBG0vV/g6D2RjMloZ0FLFoVfpoJHdG+85SdP8LYFmPStr5xP1z5si8N03UcWzRcV0uva
+ PsrrqohchQwqay+/0W76l08NODI+CM0+c2Q2rvqR1xrm5JmodScB0UgxzVf5N7pXnTQpFMtXo0F
+ FYyt/iGu8Bn2pEw5+OKzvAEG2RZoF2i5m49OFa6IktJ4MkS8ZBbfhdLT8osAN3lwTeejBhM6ZjE
+ 6lfKoiVACTgmP/6oduA==
+X-Proofpoint-ORIG-GUID: w8tY36-yrZQPqJpaWnynhyVjgRf4QTu5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 spamscore=0 malwarescore=0 clxscore=1011
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605130054
 
-On Tue, May 12, 2026 at 2:28=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 4/26/26 08:27, Suren Baghdasaryan wrote:
-> > Use per-vma locks when reading /proc/pid/smaps and /proc/pid/numa_maps
-> > similar to /proc/pid/maps to reduce contention on central mmap_lock. On=
-e
-> > major difference between maps and smaps/numa_maps reading is that the
-> > latter executes page table walk which can't be done under RCU due to a
-> > possibility of sleeping. Therefore we drop RCU read lock before this wa=
-lk
-> > while keeping the VMA locked. After the walk we retake RCU read lock,
-> > reset VMA iterator and proceed with the next VMA.
->
-> With many small VMAs, is that overhead noticable?
+On Mon, May 04, 2026 at 09:54:49AM +0200, Daniel Gomez wrote:
+> On 08/04/2026 20.45, Ojaswin Mujoo wrote:
+> > Hi all,
+> > 
+> > This is the v2 RFC to add buffered writethrough support to iomap and
+> > xfs. The changes made are mostly to get the writethrough implementation
+> > more inline with how dio handles writes. 
+> > 
+> > 
+> 
+> I gave these series a run with kdevops and fstests using the following
+> profiles: xfs-crc-logdev, xfs-crc, xfs-reflink-logdev, xfs-reflink.
+> 
+> Note that I applied all patches on top of v7.1-rc1 and xfstest-dev
+> patches from Ojaswin have been rebased on latest master [1].
+> 
+> Link:
+> https://github.com/dagomez137/xfstests-dev/tree/iomap-buf-writethrough2 [1].
+> 
+> In general, some of the results here seem flaky. But let me know what
+> you think. I'll try to confirm the possible regressions with another
+> full run.
+> 
+> 
+> Summary per profile:
+> 
+> * xfs-crc-logdev: no regressions or fixes found
+> * xfs-crc:
+>   * generic/753 fixed. This test failed on 7.1.0-rc1 run but succeeded
+> on 7.1.0-rc1-00005-gc6a39600d3c3.
+> * xfs-reflink-logdev:
+>   * generic/415 failed on 7.1.0-rc1-00005-gc6a39600d3c3. I tried to
+> replicate the issue by just running generic/415 (not the entire test
+> suite), and I couldn't replicate it.
+> * xfs-reflink:
+>   * generic/457 failed on 7.1.0-rc1-00005-gc6a39600d3c3.
+>   * generic/561 failed on 7.1.0-rc1 but not on
+> 7.1.0-rc1-00005-gc6a39600d3c3.
 
-It might be but the point of this patchset (and the previous one that
-made a similar change for /proc/pid/maps) is to reduce mmap_lock
-contention, not to speed up the read operation, which is not a
-performance critical part. The original problem that Paul McKenney
-described and which kicked these series of changes is that a
-low-priority monitoring process reading /proc/pid/{maps|smaps|...} can
-block a high-priority updates by holding the mmap_lock. You can see
-details about this problem and the numbers Paul obtained with the
-previous change in here:
-https://lore.kernel.org/all/20250719182854.3166724-1-surenb@google.com/
+Hey Daniel, 
 
->
-> --
-> Cheers,
->
-> David
+thanks so much for testing the patches. I'm back this week
+from travel so still catching up to my emails. I'll go trhough thi and
+get back to you soon.
+
+Regards,
+Ojaswin
+
+> 
+> 
+> Here the full report list for each A/B profile test run:
+> 
+> 
+> http://htmlpreview.github.io/?https://github.com/dagomez137/kdevops-results-archive-wt/blob/main/workflows/fstests/results/r0001/fstests-report-7.1.0-rc1-vs-7.1.0-rc1-00005-gc6a39600d3c3-r0001-qsu-xfs-crc-logdev.html
+> 
+> 
+> http://htmlpreview.github.io/?https://github.com/dagomez137/kdevops-results-archive-wt/blob/main/workflows/fstests/results/r0001/fstests-report-7.1.0-rc1-vs-7.1.0-rc1-00005-gc6a39600d3c3-r0001-qsu-xfs-crc.html
+> 
+> 
+> http://htmlpreview.github.io/?https://github.com/dagomez137/kdevops-results-archive-wt/blob/main/workflows/fstests/results/r0001/fstests-report-7.1.0-rc1-vs-7.1.0-rc1-00005-gc6a39600d3c3-r0001-qsu-xfs-reflink-logdev.html
+> 
+> 
+> http://htmlpreview.github.io/?https://github.com/dagomez137/kdevops-results-archive-wt/blob/main/workflows/fstests/results/r0001/fstests-report-7.1.0-rc1-vs-7.1.0-rc1-00005-gc6a39600d3c3-r0001-qsu-xfs-reflink.html
+> 
