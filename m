@@ -1,87 +1,73 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346E03D4116
-	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 07:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390EC3A5E8F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 07:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778658642; cv=none; b=MsujcQNbsYv4GSNM7Isu2V73jw4U/zlLkZLfYamsuCdrb8jyogAlFEIWO8OVM+JYQHrj+NLekZ6UiY3AIHb1F+1mGifShnnEaLSPGPS7t61wQ8GqSda83fan3C/IXuNSFhM+U3RW/WDYERrhaHRo5Bmk9/R89h6iiMd8ZXRjzSc=
+	t=1778658784; cv=none; b=RdssE70Bonzijjnw26g/tJEsMpB/vqqiRwdBCPo8daYedLDL+E6/1XA3rpaeNYzAubV9eMGTlk5G1CEuBymAGj92fFyS9Nm5w+r2j3C4oXZQ9SA+9dBWSNT3zAAWkyi+gKNgFVowyZy6wtofEUPPQavZZtE3xm2m1opxRe58Vzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778658642; c=relaxed/simple;
-	bh=XkD/aPXDER22x5sNIlssoMKO4PGXb1Vt7UpdHqk4GiY=;
+	s=arc-20240116; t=1778658784; c=relaxed/simple;
+	bh=Dop4pZxScudWKS4ltQhKDt8/6TrzV1cgZE+0HEmFWHk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UqO2Oq3M18tM44mQpLw+3atoXaR+qHKOZJx0zxuNXfrdBviyIMtVrxXZ+J4f8GDSi4A+wWmszBCYhBuGzhknmwFrYR96Ea7llN5A9ZZ28oyUJDuWqE7IuVAi0cVIZSvpBrlbIySx7HbUv35crhnINFHENw2D/AVzSonan5QEriY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QjY17WuU; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=3/2LlsYC; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QjY17WuU; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=3/2LlsYC; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rq/KABUPnBE1cn8Fkk139GtGDsLoyx0+xfyFsbFukROv58CAcLkviuqc048iQOhC/ayAKCGkWIXY1kRLoic4pOqB/5OO2vvBDPc+cG6qqzXPLgZYsoWYR30ehewHfzLBsTa+UVb+ifVcNNO0ZrbFoVAvLZ9noUdTaJJ4/IKGrQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pk1CFyd7; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QjY17WuU";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="3/2LlsYC";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QjY17WuU";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="3/2LlsYC"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4FDC57605B;
-	Wed, 13 May 2026 07:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778658639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vo3gnd9tOVkdydRyuHDb1N7zfRJ+dGjn+dOeC9LZ6yc=;
-	b=QjY17WuUC58PIFYigADFQvCE3rF/h7uW9OOywqyAXjx1vG5Y3NoffCPLhgtyvp0mxW79sx
-	EFDmthKekNV7h28r00oDwLnKbz4VB3BZegvbl6Mcw1I80wHbzw3KcRi5T3Ay3bUnPQ8/B+
-	hGPPr+/zMAxyJoGhHXvs0DhL7l9+d5M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778658639;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vo3gnd9tOVkdydRyuHDb1N7zfRJ+dGjn+dOeC9LZ6yc=;
-	b=3/2LlsYC0ifFYRzcbHROh0SpDFLMt/DozcOgc/KqGnVAc/UXKLU38yCpof4c1RGNgxqzWC
-	U8XzILNX/iIVfWDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=QjY17WuU;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="3/2LlsYC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778658639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vo3gnd9tOVkdydRyuHDb1N7zfRJ+dGjn+dOeC9LZ6yc=;
-	b=QjY17WuUC58PIFYigADFQvCE3rF/h7uW9OOywqyAXjx1vG5Y3NoffCPLhgtyvp0mxW79sx
-	EFDmthKekNV7h28r00oDwLnKbz4VB3BZegvbl6Mcw1I80wHbzw3KcRi5T3Ay3bUnPQ8/B+
-	hGPPr+/zMAxyJoGhHXvs0DhL7l9+d5M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778658639;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vo3gnd9tOVkdydRyuHDb1N7zfRJ+dGjn+dOeC9LZ6yc=;
-	b=3/2LlsYC0ifFYRzcbHROh0SpDFLMt/DozcOgc/KqGnVAc/UXKLU38yCpof4c1RGNgxqzWC
-	U8XzILNX/iIVfWDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46981593A9;
-	Wed, 13 May 2026 07:50:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wwE3EU8tBGrwBwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 13 May 2026 07:50:39 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C94FAA0800; Wed, 13 May 2026 09:50:34 +0200 (CEST)
-Date: Wed, 13 May 2026 09:50:34 +0200
-From: Jan Kara <jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pk1CFyd7"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48e8132c6d0so27079615e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 00:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778658782; x=1779263582; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=STHxK4qvqeQ0RbAPJE0Gc4vNM5XKJnXw+gBlPnD0MgQ=;
+        b=pk1CFyd7hpkOm4FQQ0MjsAtq36sY5yKyxGc/A9U7mNRYaojpTwkdalTEv0UkD0s3eo
+         QPrt+mcEcloFB1Jp7uVQHCp9TRrC9PuOpSDPswLwUapLuxyhExRBXGUQld1f9ROMRe+b
+         gikTUfItgnFZLNNycwj+KdOIVVkOzIsbaTDinRJ59rBFsgCRIwBF0E471ZORDdg18J/D
+         gD7SdRtZy7VdB6gBt8E8ncyVoTc+8GnmxA1Y9HtoZaJFlMUpyscL2JEVVtJr/QrfD+jh
+         He1LBFfZ4n3krTXkPOOF8CgHQJxG+dPeWlSOKoG/kwh59TggSbYhEJmcL+hIFQOq/EJR
+         VSXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778658782; x=1779263582;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=STHxK4qvqeQ0RbAPJE0Gc4vNM5XKJnXw+gBlPnD0MgQ=;
+        b=j05GxiO1g5h8sEschZGv9jyWz2zs57fEXEIa3CWBIJW7VYO7ewquG/6rbgKX1P3Nke
+         Lduh4hvWBP7kGX2n7tpL/HjcLw9mG1/weollavherY/vc5bgdOCSzhabOWL9Pz8pLPfv
+         HNGcWGZW5E/ZRX/U4KsleyAIASOJ5d9HHRXM4da6a4LZB5MTbVeM/sZoR0rpl85Lf0Wf
+         l3urddg8KbbkGbcqro2nxuLLC+zkQEqP+lzb6IaBQEzpByPHvO0AUZc7UFv88DrPTl5T
+         PNsBwG9HK+eUMC61ZBCm74m9FB8TckfCNpsXei4oXJXWA342eLCBWdyyTJte6DJUmfii
+         5Pig==
+X-Forwarded-Encrypted: i=1; AFNElJ9iLiu3dYY4DnsbpcDR6LpP8aGyStmHU8y63hEk4/5rEAMvHDk3kPGVj5NR1w9HKRRCa1zteYk/OTvmK7va@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6zQNor3n8fx0eKv5a1dMsCvk7WXCNyLzJWp4hJxNgOOLuGPVp
+	jUdVlGlzlAtqc7UcYxoRxBjI9hx0OnfUIa7Y41mLEkeIvLinpFMNBmkU
+X-Gm-Gg: Acq92OHT5R02pqndXBU+G1HkeQEq7JTpFo6AVsTnWpqKJieFKcpl8yDaazDP1HNzLuZ
+	1YnVqJd/NeIHFATIp2d6eld76etHXo9jFIovmzuOphXnvhpDmn1auk1fOYeSVW1t4Ej8q96rBlv
+	jOfC94pkvsktnMCCUYLDMbqs6ocMQrScmsIZ8FLR8qfK2K1k2FnJ1QQyOuCIdyOh1fIMXEiSYJV
+	Q0wJWNr4OgK3NKixITqH7c6+Py9qWbO/MqQHZZQsaTMzog+o4hCzOcrk4umcb2cOLzJF/vTFFzY
+	KPvf4A+UbpFF/Gg6owsm995dcvWUsgIQ2Q7fjzml20Ab0iBi6g2j27PPbOFVqNNNA1/xE2qgW/0
+	xQWV7p1ByicTTXWGzDfTckGvYpb4Kzy3qxaxAue81oMO1uf/zMPjbdM3mhXivCXhu/lBlHOR9Ts
+	osieeUvfZ4PzOw4LUnkxCnjJlGuaGurYf4Tyd7QChJSlTXe8e8ZfxgdOHQ7ln4fNeOE2GybrahA
+	Wa7mNmp1BmP0flHjaxLVQaHxipN1DYw7LX4We50I+UQ
+X-Received: by 2002:a05:600c:1547:b0:48e:8499:4bd7 with SMTP id 5b1f17b1804b1-48fce9eb099mr21737525e9.17.1778658781539;
+        Wed, 13 May 2026 00:53:01 -0700 (PDT)
+Received: from fedora (cpc92878-cmbg18-2-0-cust539.5-4.cable.virginm.net. [86.16.54.28])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fc8d19974sm52175545e9.2.2026.05.13.00.53.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 00:53:00 -0700 (PDT)
+Date: Wed, 13 May 2026 08:52:58 +0100
+From: Vishal Moola <vishal.moola@gmail.com>
 To: Tal Zussman <tz2294@columbia.edu>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vishal Moola <vishal.moola@gmail.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] mm/filemap: fix page_cache_prev_miss() when no hole
  is found
-Message-ID: <tjfvsxenoioeoxacuj3yy55zygz5acvgwha34lr5uxxm4563xy@hy4a5wfu2ksx>
+Message-ID: <agQt2ohpc3TwR2Xa@fedora>
 References: <20260512-prev_miss_fix-v2-1-4af8e5c1ae62@columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -92,44 +78,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20260512-prev_miss_fix-v2-1-4af8e5c1ae62@columbia.edu>
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,columbia.edu:email];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,suse.cz,linux-foundation.org,gmail.com,vger.kernel.org,kvack.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 4FDC57605B
-X-Spam-Level: 
 
-On Tue 12-05-26 16:45:59, Tal Zussman wrote:
+On Tue, May 12, 2026 at 04:45:59PM -0400, Tal Zussman wrote:
 > page_cache_prev_miss() is documented to return a value outside the
 > searched range when no gap is found. However, the no-gap-found path
 > returns xas.xa_index, which after a successful loop is the first index
@@ -158,73 +108,6 @@ On Tue 12-05-26 16:45:59, Tal Zussman wrote:
 > Fixes: 0d3f92966629 ("page cache: Convert hole search to XArray")
 > Assisted-by: Claude:claude-opus-4-7
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
 > ---
-> Changes in v2:
-> - Change return value for clarity, per Vishal and Jan.
-> - Update page_cache_next_miss() for consistency and get rid of nr variable.
-> - Link to v1: https://lore.kernel.org/r/20260510-prev_miss_fix-v1-1-755bb123145a@columbia.edu
-> ---
->  mm/filemap.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index ab34cab2416a..4263d9775998 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -1808,9 +1808,8 @@ pgoff_t page_cache_next_miss(struct address_space *mapping,
->  			     pgoff_t index, unsigned long max_scan)
->  {
->  	XA_STATE(xas, &mapping->i_pages, index);
-> -	unsigned long nr = max_scan;
->  
-> -	while (nr--) {
-> +	while (max_scan--) {
->  		void *entry = xas_next(&xas);
->  		if (!entry || xa_is_value(entry))
->  			return xas.xa_index;
-> @@ -1818,7 +1817,8 @@ pgoff_t page_cache_next_miss(struct address_space *mapping,
->  			return 0;
->  	}
->  
-> -	return index + max_scan;
-> +	/* Return end of the range + 1 when no hole is found */
-> +	return xas.xa_index + 1;
->  }
->  EXPORT_SYMBOL(page_cache_next_miss);
->  
-> @@ -1849,12 +1849,13 @@ pgoff_t page_cache_prev_miss(struct address_space *mapping,
->  	while (max_scan--) {
->  		void *entry = xas_prev(&xas);
->  		if (!entry || xa_is_value(entry))
-> -			break;
-> +			return xas.xa_index;
->  		if (xas.xa_index == ULONG_MAX)
-> -			break;
-> +			return ULONG_MAX;
->  	}
->  
-> -	return xas.xa_index;
-> +	/* Return start of the range - 1 when no hole is found */
-> +	return xas.xa_index - 1;
->  }
->  EXPORT_SYMBOL(page_cache_prev_miss);
->  
-> 
-> ---
-> base-commit: e9dd96806dbc2d50a66770b6a86962bd5d601153
-> change-id: 20260510-prev_miss_fix-fcb308472131
-> 
-> Best regards,
-> -- 
-> Tal Zussman <tz2294@columbia.edu>
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+Reviewed-by: Vishal Moola <vishal.moola@gmail.com>
