@@ -1,215 +1,133 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAE14968E8
-	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 13:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD12E33121E
+	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 13:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778677877; cv=none; b=iR0wCWeHfvbxNIVhv8AySxmeWhybSSCUJSXc+tgh4sF3crxvkveg3lPxkmxxUcTQlG2DYSI42PWkFj5oA32qSpSdyso1jw7iB5gmhbuGbM9mARa7mZMRxBIyVwqJJPwTdPCXdg/JK/Lq6AU5e/xGYbeEMqbyP23v8zLzcms242M=
+	t=1778678955; cv=none; b=PPN+e+R8QsdmZqJ2ky1GmCSEGZe/cnpLiM3tEEJ1iHVbJTshD+ijx0ZLO7zhSidlPCDddqU00/6+oamKkPzEka0zLSJ+4EoV67lAKzOdQUhHmnySoFT9Z/ZdYgKAOFL5+gPmc2Fp1brnr1RKdbqNQwmoNiEB3mofSlvGJ0LLFZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778677877; c=relaxed/simple;
-	bh=6FWAOdMRCGXRhuY+RZ6so9OqbtSfnT1i9cx1+5lpsns=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=aiCs9tQZHPsX6QgVdjvCJEgZnHGFg4R+27GTlfMvqFoUXeintQbSBI3F/ilQHVr0kRw02h06kGVeAdK9RbQB8De1kqU9YuKAFcX/RSl0cLxCmoDA+AENQ943ITqQMfkBj7rN4TGod/jfIVlx9TNoLRvh3zmMmv8jwPzTbSE/C5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WP2Pe2L6; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1778678955; c=relaxed/simple;
+	bh=qvrzIgPI09xnL+lPNRKw47FDVzkn2xkt2K7Rwhlyrpg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Jg+/1CRqoJQpJpQoa02ewDQBzc/pPa28JAQmCgOoACSPo7rQm4dCB2rGnfoJWhK/GDbAsAK/KUt7nFBOMuCM0RtkiR/UQrN8FIco61dw1LjdT/70kPy3prVdNNpXrKh3WzxHl9Xo5C0gSNenCY43QvTnxUyun5DxP+/uV5UtLjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a107B9Ew; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WP2Pe2L6"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8353fd1cb5fso3319447b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 06:11:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a107B9Ew"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso73856885e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 06:29:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778677874; x=1779282674; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wsFk6Og0o1PC9DlqH7Rg3d6wr5WjV/2ny+ljIhyfStU=;
-        b=WP2Pe2L6oXwYZAIqerHUY2jAuvBDziO4BcAF9i3Pb+emXcqwkTFABpVZOMH3Ko/pno
-         CzJayj5iwz5yhwYAdJuOZNaG8eGb0p6NyEr0ucleIkaFGgXft3rVGOE/dfxa4KmLxFWl
-         w6F/jdjKBOenI1XJBRtTe9K8mcEkd2H1/7l6uC2N2JiN/9vQRlBW3XASZPDFQTQ0MK6z
-         Aoal/rmw8eZOb6jm7+OgVV/dg196Y9SfClipaL96R/wJpIZTMVDpjPt4WwTvWjFz2oXj
-         D+2CFKWiAbzblOB6nBb4EmE/tfY81VDM36T90zllVXUpn0hJ8tycl89xIksTN+CuS3Hp
-         t2VQ==
+        d=gmail.com; s=20251104; t=1778678952; x=1779283752; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+cq+23+E96HQoAhwgeeSJr3+OJ8IJX5BGImZhad/wV8=;
+        b=a107B9Ew/L+JG9kf+Z1nV/fx/+/Yb5mbJ9IZSmqcqG5NRhHtSigWVxLyt5e4tVheRP
+         fVjtYzbSvKxWG/9swUAl2JC7bOL4zt7vyjCnIC8OuK2OMjbgJBd7ZXSOd9A2k/U6ZdZx
+         IjexhbZVncU3yj8qsWTZZXbphJKEGru0GTV9TW0VSNxNUEF9TejQU1LxeC23owu6b8iT
+         ERboyV8DTmKJyNrtYYu2ZtgNGMFqTuCpA+7JxZMpzt9wq45ITtvGgvRTJ8s7Z9NXHaiv
+         Dc2JWteKzwRsB8GUKRASoBUvNyZQ288ROHW0dQRuuliK8uDWf25EzvdXbuywp4OcMKw3
+         hDpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778677874; x=1779282674;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wsFk6Og0o1PC9DlqH7Rg3d6wr5WjV/2ny+ljIhyfStU=;
-        b=diRjTw3bnJthAQfMSisXPbM7Jgo4jHsL4FAqAep2XZP5FBz5YcTi3qCVLMFaG+WPaN
-         E2snhu9rTx5fmu0lXKqSSfUPoIdr8ocXvqOP3xSBcPHm7HIGaiQdU9mTJFuatzv2pb+M
-         rNNqmfxB2EMQi8s7H8kqJlTGXcOsg//T9LBkxcc4jKdMxXfU2Ri9Xv9rKC2r7LdC+QHx
-         CTz67vv/D8fLSBHXqqQ8+PHwXeTBlDhJbmv2Iezf/qecsgn7j0jqSkyC1XN5me8rDYCt
-         r7HjdSREv34QAPQYdrTv1htwTHI1C10jiqOEVywEGvIoV47HunDt4PiBagqa59VG/0xZ
-         DKcQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+9fUKDCQ8VpRO7gYrsWPM5SQ0b8le/ug4HDMavr5J4lteTvp88JW5k9A9XIyqizqCmhrCnGhsd3DASVoip@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiLLe1sZEdPbnu9+YvmDIFOIxnWwHNFI2haH203sBMr5+fA/9n
-	6L2wSVihKF3RUT6B+HRq/g1w1lPcjgdBa3JOnpmcRg3bVtHrYXrOz/T3
-X-Gm-Gg: Acq92OGQYEIUaWV4FeiyAU2LtFT4v7glym0n01vYWEZ9geklhfrdStUsSHFXecaa9l3
-	EHXgY4QOytgVwUdKF9gmgCjIIZbRpa3Of7gtlcKaRyid0TwH+FklGL5J06v33voe9FEVKFEy73o
-	p6TDjpw3mMuY/lS20X90FNPm2CaLrOLEBHDpfchGZfgIp8fIDCKzR7OlsMDh/11CDRQbIKiXThM
-	YWDVulHSBORFD+UkuKQ58t8g+8KXh4u29GmuNmX9wyY/PM39mrnIR7NTXiC1y0IdqNE/Co1mdok
-	BvwZ03Rig73wdhTBfwMII3C+26cYqNBGQ9ZGVT7ar/SHr/HI2dXbsvGyExNoFU1JV0Fo6PQpoG3
-	y9gTHeT7iVaw+WiCvoNqVRF0+XJk0pjVlayTqjt18NH/WBJFYId8RvQvbE0/s6YQ+IDOV6jSkCQ
-	h4mX8jESkqociRhEUUnfs8JxFC0J3qWyP59bYHeLc=
-X-Received: by 2002:a05:6a00:3692:b0:82f:7cb7:63c7 with SMTP id d2e1a72fcca58-83ee8321af5mr6868969b3a.11.1778677874347;
-        Wed, 13 May 2026 06:11:14 -0700 (PDT)
-Received: from localhost ([49.207.149.142])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839659487afsm26237472b3a.18.2026.05.13.06.11.13
+        d=1e100.net; s=20251104; t=1778678952; x=1779283752;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+cq+23+E96HQoAhwgeeSJr3+OJ8IJX5BGImZhad/wV8=;
+        b=UlsTUHGsN7sK3qtw+i6H1D+kYjxQS4Dj3Rs97jTmKQdQmPJmjifKLukFnLyiUg1ihO
+         fDuTwHraxTV9gZVh4BlyMQZimRQWg7Bm7C4TWNnHtf3ocw+7YKoOcabJN01oABo7Imlf
+         78dry192e3e8th5e7pK9lpT5FzlwO/Lw/yO+b+k1PIRswGK3rkP2hFL/PAho6D73ZJFx
+         PojxmJLHYpy29ayDfhiFEPW230a0e0TBQIzmfm2OnZRafD/addGERaSLeohrt4T5z7m6
+         XTCgSj7nmcjZ5iCr7aF41qFI4XkDRr+AWo/yBurCRJ/d5N9+nF1ppGmpKm2yGRWonkjw
+         AorQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9MFH8wOaWftihJXtHUgGnUP6b6QpWleirthZjVPOC9Hk/FEuCrDvCbToOnLRKQkY8BnelOY9VTJLMs5+Cw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0RxObuvdnw6KCFnrS1GAqGgBwZOdKHqGQeuptomOrpRxOyj9v
+	LG3asE0gqCFr9su9mEpq2J5LYHs61VFnH3ynxx6wDpp36ffTEXgcG98J
+X-Gm-Gg: Acq92OG8+Q3ZtB4M4C5jxRD0m+5EVnQoqq43TXemNO90Mcg4d8MopulePmXirGdoMix
+	YBT+2AOSuTaPhutP5ilFbyMJcR4PK8KCQPXDKoNx4xG0oG8Bqoge1lCasZmr3OFx0LEILx+ObLB
+	3qzSTrl3guo3lNHzO+5bNArr8sIrW75VC3P+2Eb5xzRlhvxx+igSDXOTncQpDtN7g/l6z0wIsHz
+	Bmh1nRhG0DfP6PMqu5Nyw5L/IKdVAHJWOlYe9M5OyGpQQlUadnHX5lpYTmhBsmkGPFGI6clnGFq
+	Ohi0eCwZsCCigdbrKNo2HaiZL2MjDUwSrZw0PkGDq8/O2yWfJPnc4GMpK/aZxojiZ7MQ2R8wDwC
+	oB5hzQvd8nNt1fF08312IihjklRfVpCynufcEYP37FkZNdTB5R/dMOLYo10/PoEYnHWY161cDqD
+	vl7E7y7q9p7WVYc8gWEuymLwHqC2bBUXvAX7KZfCr77sg5ptaVjwhImMR/PXh2
+X-Received: by 2002:a5d:591c:0:b0:446:708e:1e8d with SMTP id ffacd0b85a97d-45ac4504a13mr9930360f8f.30.1778678951817;
+        Wed, 13 May 2026 06:29:11 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4549120ec0asm40068578f8f.17.2026.05.13.06.29.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 06:11:13 -0700 (PDT)
-From: Piyush Sachdeva <s.piyush1024@gmail.com>
-To: Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
- netfs@lists.linux.dev
-Cc: sprasad@microsoft.com, linux-kernel@vger.kernel.org, sfrench@samba.org
-Subject: Re: [DISCUSSION] Preventing ENOSPC/EDQUOT writeback errors on
- network filesystems
-In-Reply-To: <9e48229614786e0c2e92bb6a2dd3269868f160d0.camel@kernel.org>
-References: <m21pfqgzbq.fsf@gmail.com>
- <9e48229614786e0c2e92bb6a2dd3269868f160d0.camel@kernel.org>
-Date: Wed, 13 May 2026 18:41:10 +0530
-Message-ID: <m2zf23e9ox.fsf@gmail.com>
+        Wed, 13 May 2026 06:29:11 -0700 (PDT)
+Date: Wed, 13 May 2026 14:29:09 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nitesh
+ Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, Anuj
+ Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 02/10] iov_iter: add iterator type for dmabuf maps
+Message-ID: <20260513142909.03ae6c2b@pumpkin>
+In-Reply-To: <20260513110557.705bdeed@pumpkin>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+	<20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
+	<20260513110557.705bdeed@pumpkin>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Jeff Layton <jlayton@kernel.org> writes:
+On Wed, 13 May 2026 11:05:57 +0100
+David Laight <david.laight.linux@gmail.com> wrote:
 
-> On Tue, 2026-05-05 at 11:41 +0530, Piyush Sachdeva wrote:
->> Hi,
->> There have been plenty of discussions on how to handle writeback errors =
-for
->> network filesystems, but most have focused on error reporting after the =
-fact.
->> I'd like to start a discussion around preventing writeback errors specif=
-ically
->> ENOSPC and EDQUOT, before they cause silent data loss.
->>=20
->> The problem:
->> With buffered writes on network filesystems (cifs, nfs, etc.), the write=
-()
->> syscall copies data into the page cache and returns success immediately.=
- The
->> actual upload to the server happens later during writeback. If the serve=
-r is
->> out of space at that point, the write fails with ENOSPC. The netfs/write=
-back
->> layer records this error via mapping_set_error(), but critically the fol=
-io's
->> writeback flag is cleared and the page is now clean. Under memory pressu=
-re, the
->> VM can reclaim these clean pages, permanently losing data that the appli=
-cation
->> believes was successfully written. Meanwhile, i_size has already been up=
-dated
->> to reflect the new file size. So stat() shows a file size inclusive of t=
-he data
->> that was never persisted. Another inconsistency here is that total free =
-space
->> hasn't been modified for the file system on the server, leading to incor=
-rect
->> values in statfs() output from the client's pov (assuming statfs() calls=
- go
->> to the server).
->> To illustrate with real-world scenarios:
->>=20
->> - A user or application can keep issuing writes to an fd well beyond the
->>   available space, since buffered writes return success as soon as data =
-is
->>   copied to the page cache. A significant amount of data, exceeding the
->>   available quota can accumulate before fsync() is called, at which point
->>   critical data loss is nearly certain.
->>=20
->> - A malicious user can exploit this to keep resources pinned and memory
->>   oversubscribed, impacting other applications.
->>=20
->> The error is technically observable: fsync() will return it, and close()
->> surfaces it through the flush callback. But in practice, many applicatio=
-ns
->> check neither, and the POSIX "just call fsync()" answer isn't satisfying=
- for
->> users who lose data silently.
->>=20
->
-> Yet, it is the only real answer we have.
->
-> This is just a fundamental issue with buffered writes and delayed
-> writeback. Either you flush the data to stable storage now, or you have
-> to do it later. If you do it later, then it can still fail for all
-> sorts of reasons.
->
->> Local filesystems largely avoid this because they can check available sp=
-ace
->> synchronously in write_begin() and fail the write() syscall directly. Ne=
-twork
->> filesystems can't do this cheaply =E2=80=94 a round-trip per write to ch=
-eck server
->> space would negate the benefits of buffered I/O.
->>=20
->> Through recent development, netfs is becoming a central layer for network
->> filesystem I/O. It already has retry logic for transient failures (EAGAI=
-N,
->> ECONNABORTED), but ENOSPC/EDQUOT remain hard failures. This affects every
->> network filesystem using buffered writes.
->>=20
->> I am curious to know if NFS has a solution to this and what the approach=
- is
->> towards this specific problem by NFS community?
->>=20
->> This problem is worth solving for all network filesystems. I have a few
->> thoughts on approaches, combining cached statfs() output with
->> fallocate()-style pre-allocation on the write path:
->>=20
->> 1. Pre-allocate space on the server before writing to the page cache,
->>    analogous to fallocate() on the write path. This guarantees server-si=
-de
->>    space for page cache data.
->>=20
->> 2. Since per-write fallocate() calls require a server round-trip, effect=
-ively
->>    negating the benefit of buffered I/O. Use cached statfs() output to g=
-ate
->>    when pre-allocation is triggered. For example, once free space drops =
-below
->>    20% of total space, enable fallocate() on the write path. Otherwise, =
-let
->>    writes proceed as normal.
->>=20
->> 3. Handle refresh and synchronization of the cached statfs() data separa=
-tely
->>    to avoid staleness.
->>=20
->> I'd appreciate feedback from the community on viable approaches.
->
-> NFSv4.2 does have an ALLOCATE operation:
->
->     https://datatracker.ietf.org/doc/html/rfc7862#section-15.1
->
-> ...and such an operation could (in principle) precede WRITE in a
-> compound, but that doesn't really help you. By the time we're issuing
-> RPCs to the server, the client application has already finished its
-> writes and moved on.
->
-> For applications that want to avoid ENOSPC/EDQUOT, the best thing they
-> could do is call fallocate() themselves to ensure that the space
-> exists. With a sufficiently recent NFS client and server, that should
-> DTRT.
+...
+> > @@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
+> >  {
+> >  	if (unlikely(i->count < size))
+> >  		size = i->count;
+> > -	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
+> > +	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
+> > +	    unlikely(iov_iter_is_dmabuf_map(i))) {  
+> 
+> 
+> Doesn't the extra check add more code to all the non-ubuf cases?
+> This could be fixed by either making iter_type a bitmask (with one bit set)
+> or writing an iter_is_one_of(i, ITER_xxx, ITER_yyy) define that uses
+> '(1 << i->iter_type) & ((1 << ITER_xxx) | ...)'
 
-Hey Jeff,
-Thanks for your email and for sharing the NFS spec. I noticed that the
-ALLOCATE operation ends up checking for space during write-back as well,
-and the initial concern of loosing data still remain. But if we do the
-operation before writing to the page-cache, it would be a performance
-issue.
+This seems to DTRT:
 
-I will try a few experiments and then post my findings here.=20
+#define _ITER_IS_ONE_OF(iter, t1, t2, t3, t4, t5, t6, t7, t8, ...) \
+    ((1u << (iter)->iter_type) & ((1u << ITER_##t1) | (1u << ITER_##t2) | \
+        (1u << ITER_##t3) | (1u << ITER_##t4) | (1u << ITER_##t5) | \
+        (1u << ITER_##t6) | (1u << ITER_##t7) | (1u << ITER_##t8)))
+#define ITER_IS_ONE_OF(iter, t, ...) \
+    _ITER_IS_ONE_OF(iter, t, ## __VA_ARGS__, t, t, t, t, t, t, t)
 
---
-Regards,
-Piyush
+int foo(void *);
+int f(struct iov_iter *i)
+{
+    return ITER_IS_ONE_OF(i, UBUF, KVEC) ? foo(i) : 0;
+}
+
+See https://godbolt.org/z/sMz93zah1
+
+Pasting ITER_ on the front ensures the values are constants of the right type.
+OTOH it makes it harder to search for uses of each type.
+You could paste _ITER_ on the front, elsewhere define _ITER_ITER_UVEC
+to be ITER_UVEC (etc), and require the caller use the full name.
+
+-- David
