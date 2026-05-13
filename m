@@ -1,232 +1,250 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72F23E9C28;
-	Wed, 13 May 2026 09:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFE5389E18
+	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 10:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778665733; cv=none; b=owt3fULcz0syBi0e7ft3tvo23cCpt9VYfZ1j/cToqkR92c6ZyJP7aRtUL2nJFtR9WwM8xRgzKtHs6PG1m1zv447zdURIxFWbuutxekmhcXxIoKXqfvHu/20nVIyIVG12sTOzZnyisH+hStgtQP+dUnrxaSSmL9pm9BEm1w7O6hY=
+	t=1778666764; cv=none; b=NwVFjYK4wBhlWLXyF4NzDPRDNqdm5eQf3eVtskiSPVYakOFV3e2+QUNp/hhwmOoSdMLJz0Uagsze2+K4wvRPG6Yz15OVk5cn91S2bZBwThekbR7lTTzbnkRgOaPgw8/vdtCW5TOn87RvRrx3B3Gr2PqjQwfWdHqnTH+8kSRQEwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778665733; c=relaxed/simple;
-	bh=bPZIbSSSan9io5w6ejdZJ2gLDOTt7m0tY9FMn9jP1Yo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sQ7hmayUCxlMqwXSx9c5GF2YKZhThO4Ukfj5WU4xaaMhX1wVkT+xHwxNPhZAiS26taxaLmQ08nsk0QeJ4lXS4z1n5CdhF2LOCLLlPFI01GQsNtJWtMQQ+wzKzUQlJZd8TTeDyZZ1xvO9ABOiaH1gfcmJqK2C+DrUUsDQOyj4Xxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=qz9X4gV0; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1778666764; c=relaxed/simple;
+	bh=CfUsDrF5ylNvxQAC5m07A4hEbvmSGmwJUzmCib0VNCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ppBIOUavsNuIppXSHZ+Md0TK/ak1KUh2lB1m+yf/FWue90SXI3bybUyM7sYLOadrzIMF0pKWrFcLIcjNAxymX2JZtCfrOb4I+HsvEprwDtdCDbgTvsDvA8UtNnq9Cz3M2z/nbWH0hXt32O19rEWaA8TTSExyFMTz9rTNgsCsBEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nYiQ/0MW; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="qz9X4gV0"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1778665725; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=z88s8tnfo0giRHF0Q1K4V8aXjEJmDaAln4yzcS1vhm8=;
-	b=qz9X4gV03U1ojk43Hj2npXHTCkoV9HCDlNZj3CM3P9uWLwcr4gHkq8zd4OxeORwQEoQQVC0ZuSnRAjQFBnHURy/wY7iwKoh+id2f2gYtig+vwrFV63TjfjzPzBgKihIwhGJbops0NQZj9um/sQ2fhNVotXt9caBNVpDxCFntwsU=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R381e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X2tbXx._1778665712;
-Received: from x31h02109.sqa.na131.tbsite.net(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X2tbXx._1778665712 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 13 May 2026 17:48:45 +0800
-From: Baokun Li <libaokun@linux.alibaba.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	tj@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Baokun Li <libaokun@linux.alibaba.com>
-Subject: [PATCH] writeback: fix race between cgroup_writeback_umount() and inode_switch_wbs()
-Date: Wed, 13 May 2026 17:48:29 +0800
-Message-ID: <20260513094829.867648-1-libaokun@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYiQ/0MW"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bd21ffaca79so379740766b.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 03:06:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778666761; x=1779271561; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y8agHE2UtR+0v8hUNRpGN3/NHmgQczj9TZKmKbKc+JU=;
+        b=nYiQ/0MWx9zqnzz8qzzGMzyLjhAbZWS6PTm/379VNMshJcLtpIu5kxF6cnraFj1DbO
+         BlzU1fL4lAJVK+xJyT+t0C2pgU0zXoRNRBJDuoDV7aRAV8/BXPrXurjZhhbFPRP66G4B
+         IJsfO+VD/5yKfUDzBtYj/qCOyb/VG1WmTK1QWVOgt5y86ToAS0jGu5rCD0iTU4ZwdKbt
+         PGSxd6voPOYFRhsskQZ2JVQRddLAKGHuQPOZVZK0jJea0/IaUCVN2Tich+MDh3mSnq/3
+         vJA4Hf9G9AHe9O8fkuLzpoR2r1IZWqWqTZZsA1X2Vx2+bgVyylnlQ272ERqYKRVGESq0
+         DC0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778666761; x=1779271561;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Y8agHE2UtR+0v8hUNRpGN3/NHmgQczj9TZKmKbKc+JU=;
+        b=No4ajlqoIrfyEijZqTlr2qun8Ig60EQ8EqTkNgWvLfWDGtQKb67D8koGiiDNqkQRHu
+         C+FnD5MHy2P7WRBsBHvKKXfkzYL1NTHSButc9T+KBZ7pyRvBBnSKIm0dk3sGQi+SGvwq
+         2aTokllH/VDR4l4m4iu4lFkblev4/F6TyIMsSz4uiPa6+46KJpWJeZTDWaSc0Ys+Z4mT
+         csyzNX/5RqXN6hwT3AH/r8lAy/4WPOfKcF6My9t/w1LNn6xw3s0l/NAY/FpTLMYQho5Q
+         GnEpJHlwHp0th2cKsJzjOlHhRCraQReH7SRLYHxF+TTf38MVLAh0zWNNXYg1Oz6IWco2
+         HwRg==
+X-Forwarded-Encrypted: i=1; AFNElJ8aUEeuef7dlbmmxnXXPV6WTJLlFKlvEmF0w7bNsNM28o0RESlJ+5iFytldYOk59Yx1I5m+AbMDLFGeQDIQ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxtd9dNSWrvSF8gqNvBOVPG7Vp8D40TcEYC3D97vG/bBEvm6JfG
+	hI1p9Fxjm3lWivTlPfQyfc/0i8N1MskezyfPJogSb4CNCXzqxizeFRSG
+X-Gm-Gg: Acq92OGZzmew/mNCwsv1oJHDgreEWH/jJ08/AEOsoy8bm/St6j/sXXpqHor9qm8Ou2o
+	2RSlHSbQzG5S1Up69njBfdPz8acvTipNYrcZmZrpworo4HeahsjIdORkAaxnbRLji/7Gx7cnAje
+	LYb/WtsCsL1K+W375TqH0ntnkkm5aHexTbQ5YlwEiLd9SW+ZOGuxvwA7ovAbORLzi7oMPOhpQb0
+	S24yrZRh3l5Ny9fxborJlmbHdIQ9I8EdFiLCSvvyh7nN9tqWP8+rXukWRy/71xuPY3bCXEXSkWj
+	ZNzxRqCBpdvvtj/4Z1ijuk1Lm1n6WLRDoXk35IpVphWP86ZVSUHv2T7gva6p2Q4EH6OKkc4X2gN
+	OUgxDcXs5LSrdtlsaPj/hlCHFRaeyblaiM7q+b1kbvVOKmmo/J6bXXaKN2m0/mgC1ilVzlHVie4
+	883T/6WWuL0OtTjUTGbXxFe5hUGJ/je/+2NlMkAUjG0rrfhQcvOZ1+uXX0dLwb
+X-Received: by 2002:a17:907:9493:b0:bc5:2352:555c with SMTP id a640c23a62f3a-bd3add39c4bmr174356866b.14.1778666759127;
+        Wed, 13 May 2026 03:05:59 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd2dba8fd22sm216615666b.16.2026.05.13.03.05.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 03:05:58 -0700 (PDT)
+Date: Wed, 13 May 2026 11:05:57 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nitesh
+ Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, Anuj
+ Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 02/10] iov_iter: add iterator type for dmabuf maps
+Message-ID: <20260513110557.705bdeed@pumpkin>
+In-Reply-To: <20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+	<20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-When a container exits, the following BUG_ON() is occasionally triggered:
+On Wed, 29 Apr 2026 16:25:48 +0100
+Pavel Begunkov <asml.silence@gmail.com> wrote:
 
-==================================================================
- VFS: Busy inodes after unmount of sdb (ext4)
- ------------[ cut here ]------------
- kernel BUG at fs/super.c:695!
- CPU: 3 PID: 6 Comm: containerd-shim Tainted: G OE K 6.6 #1
- pstate: 63400009 (nZCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
- pc : generic_shutdown_super+0xf0/0x100
- lr : generic_shutdown_super+0xf0/0x100
- Call trace:
-  generic_shutdown_super+0xf0/0x100
-  kill_block_super+0x20/0x48
-  ext4_kill_sb+0x28/0x60
-  deactivate_locked_super+0x54/0x130
-  deactivate_super+0x84/0xa0
-  cleanup_mnt+0xa4/0x140
-  __cleanup_mnt+0x18/0x28
-  task_work_run+0x78/0xe0
-  do_notify_resume+0x204/0x240
-==================================================================
+> Introduce a new iterator type for dmabuf maps. The map in an opaque
+> object with internals and format specific to the subsystem / driver, and
+> only it can use that subsystem / driver for issuing IO. The task of the
+> middle layers is to pass the map / iterator further down, maybe doing
+> basic splitting and length checking. The iterator can only be used by
+> operations of the file the associated map was created for.
+> 
+> Suggested-by: Keith Busch <kbusch@kernel.org>
+> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> ---
+>  include/linux/uio.h | 11 +++++++++++
+>  lib/iov_iter.c      | 29 +++++++++++++++++++++++------
+>  2 files changed, 34 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/linux/uio.h b/include/linux/uio.h
+> index a9bc5b3067e3..75051aed70de 100644
+> --- a/include/linux/uio.h
+> +++ b/include/linux/uio.h
+> @@ -12,6 +12,7 @@
+>  
+>  struct page;
+>  struct folio_queue;
+> +struct io_dmabuf_map;
+>  
+>  typedef unsigned int __bitwise iov_iter_extraction_t;
+>  
+> @@ -29,6 +30,7 @@ enum iter_type {
+>  	ITER_FOLIOQ,
+>  	ITER_XARRAY,
+>  	ITER_DISCARD,
+> +	ITER_DMABUF_MAP,
+>  };
+>  
+>  #define ITER_SOURCE	1	// == WRITE
+> @@ -71,6 +73,7 @@ struct iov_iter {
+>  				const struct folio_queue *folioq;
+>  				struct xarray *xarray;
+>  				void __user *ubuf;
+> +				struct io_dmabuf_map *dmabuf_map;
+>  			};
+>  			size_t count;
+>  		};
+> @@ -155,6 +158,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
+>  	return iov_iter_type(i) == ITER_XARRAY;
+>  }
+>  
+> +static inline bool iov_iter_is_dmabuf_map(const struct iov_iter *i)
+> +{
+> +	return iov_iter_type(i) == ITER_DMABUF_MAP;
+> +}
+> +
+>  static inline unsigned char iov_iter_rw(const struct iov_iter *i)
+>  {
+>  	return i->data_source ? WRITE : READ;
+> @@ -300,6 +308,9 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
+>  			  unsigned int first_slot, unsigned int offset, size_t count);
+>  void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
+>  		     loff_t start, size_t count);
+> +void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
+> +			struct io_dmabuf_map *map,
+> +			loff_t off, size_t count);
+>  ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
+>  			size_t maxsize, unsigned maxpages, size_t *start);
+>  ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
+> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+> index 243662af1af7..e2253684b991 100644
+> --- a/lib/iov_iter.c
+> +++ b/lib/iov_iter.c
+> @@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
+>  {
+>  	if (unlikely(i->count < size))
+>  		size = i->count;
+> -	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
+> +	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
+> +	    unlikely(iov_iter_is_dmabuf_map(i))) {
 
-The root cause is a race between cgroup_writeback_umount() and
-inode_switch_wbs()/cleanup_offline_cgwb(). There is a window between
-inode_prepare_wbs_switch() returning true and the subsequent
-wb_queue_isw() call. Following is the process that triggers the issue:
 
-      CPU A (umount)           |          CPU B (writeback)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                 inode_switch_wbs/cleanup_offline_cgwb
-                                  atomic_inc(&isw_nr_in_flight)
-                                  inode_prepare_wbs_switch
-                                   -> passes SB_ACTIVE check
-                                   __iget(inode)
- generic_shutdown_super
-  sb->s_flags &= ~SB_ACTIVE
-  cgroup_writeback_umount(sb)
-   smp_mb()
-   atomic_read(&isw_nr_in_flight)
-   rcu_barrier()
-    -> no pending RCU callbacks
-   flush_workqueue(isw_wq)
-    -> nothing queued, returns
-  evict_inodes(sb)
-   -> Inode skipped as isw still holds a ref.
-  sop->put_super(sb)
-   /* destroys percpu counters */
-  -> VFS: Busy inodes after unmount!
-                                  wb_queue_isw()
-                                   queue_work(isw_wq, ...)
-                                  /* later in work function */
-                                  inode_switch_wbs_work_fn
-                                   process_inode_switch_wbs
-                                    iput() -> evict
-                                     percpu_counter_dec() // UAF!
+Doesn't the extra check add more code to all the non-ubuf cases?
+This could be fixed by either making iter_type a bitmask (with one bit set)
+or writing an iter_is_one_of(i, ITER_xxx, ITER_yyy) define that uses
+'(1 << i->iter_type) & ((1 << ITER_xxx) | ...)'
+(look at the the nolibc printf code for an example).
 
-A simple approach to synchronize is to have cgroup_writeback_umount()
-wait for the isw_nr_in_flight count of the current superblock to drop
-to zero, since no new increments can occur after SB_ACTIVE is cleared.
-However, isw_nr_in_flight is global, so introduce a new per-sb counter
-s_isw_nr_in_flight for this purpose, while retaining the global counter
-for throttling.
+>  		i->iov_offset += size;
+>  		i->count -= size;
+>  	} else if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i))) {
+> @@ -631,7 +632,8 @@ void iov_iter_revert(struct iov_iter *i, size_t unroll)
+>  		return;
+>  	}
+>  	unroll -= i->iov_offset;
+> -	if (iov_iter_is_xarray(i) || iter_is_ubuf(i)) {
+> +	if (iov_iter_is_xarray(i) || iter_is_ubuf(i) ||
 
-Fixes: a1a0e23e4903 ("writeback: flush inode cgroup wb switches instead of pinning super_block")
-Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
----
- fs/fs-writeback.c              | 44 +++++++++++++++++++---------------
- include/linux/fs/super_types.h |  3 +++
- 2 files changed, 28 insertions(+), 19 deletions(-)
+iter_is_ubuf() should have been first here.
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 71b7fd036e97..7924cf3484fa 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -556,8 +556,12 @@ static void process_inode_switch_wbs(struct bdi_writeback *new_wb,
- 		wb_put_many(old_wb, nr_switched);
- 	}
- 
--	for (inodep = isw->inodes; *inodep; inodep++)
-+	for (inodep = isw->inodes; *inodep; inodep++) {
-+		struct super_block *sb = (*inodep)->i_sb;
-+
- 		iput(*inodep);
-+		atomic_dec(&sb->s_isw_nr_in_flight);
-+	}
- 	wb_put(new_wb);
- 	kfree(isw);
- 	atomic_dec(&isw_nr_in_flight);
-@@ -602,14 +606,15 @@ static bool inode_prepare_wbs_switch(struct inode *inode,
- {
- 	/*
- 	 * Paired with smp_mb() in cgroup_writeback_umount().
--	 * isw_nr_in_flight must be increased before checking SB_ACTIVE and
--	 * grabbing an inode, otherwise isw_nr_in_flight can be observed as 0
--	 * in cgroup_writeback_umount() and the isw_wq will be not flushed.
-+	 * s_isw_nr_in_flight must be increased before checking SB_ACTIVE and
-+	 * grabbing an inode, otherwise s_isw_nr_in_flight can be observed as
-+	 * 0 in cgroup_writeback_umount() and the isw_wq will be not flushed.
- 	 */
-+	atomic_inc(&inode->i_sb->s_isw_nr_in_flight);
- 	smp_mb();
- 
- 	if (IS_DAX(inode))
--		return false;
-+		goto out_dec;
- 
- 	/* while holding I_WB_SWITCH, no one else can update the association */
- 	spin_lock(&inode->i_lock);
-@@ -617,13 +622,17 @@ static bool inode_prepare_wbs_switch(struct inode *inode,
- 	    inode_state_read(inode) & (I_WB_SWITCH | I_FREEING | I_WILL_FREE) ||
- 	    inode_to_wb(inode) == new_wb) {
- 		spin_unlock(&inode->i_lock);
--		return false;
-+		goto out_dec;
- 	}
- 	inode_state_set(inode, I_WB_SWITCH);
- 	__iget(inode);
- 	spin_unlock(&inode->i_lock);
- 
- 	return true;
-+
-+out_dec:
-+	atomic_dec(&inode->i_sb->s_isw_nr_in_flight);
-+	return false;
- }
- 
- static void wb_queue_isw(struct bdi_writeback *wb,
-@@ -1212,31 +1221,28 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
-  * @sb: target super_block
-  *
-  * This function is called when a super_block is about to be destroyed and
-- * flushes in-flight inode wb switches.  An inode wb switch goes through
-- * RCU and then workqueue, so the two need to be flushed in order to ensure
-- * that all previously scheduled switches are finished.  As wb switches are
-- * rare occurrences and synchronize_rcu() can take a while, perform
-- * flushing iff wb switches are in flight.
-+ * waits for all in-flight inode wb switches on this sb to complete.  Since
-+ * SB_ACTIVE is cleared before this is called, no new switches can start,
-+ * so the per-sb counter will monotonically decrease to zero.
-  */
- void cgroup_writeback_umount(struct super_block *sb)
- {
--
- 	if (!(sb->s_bdi->capabilities & BDI_CAP_WRITEBACK))
- 		return;
- 
- 	/*
- 	 * SB_ACTIVE should be reliably cleared before checking
--	 * isw_nr_in_flight, see generic_shutdown_super().
-+	 * s_isw_nr_in_flight, see generic_shutdown_super().
-+	 *
-+	 * Paired with smp_mb() in inode_prepare_wbs_switch(), which ensures
-+	 * that either we see the incremented counter, or the switcher sees
-+	 * SB_ACTIVE cleared and aborts.
- 	 */
- 	smp_mb();
- 
--	if (atomic_read(&isw_nr_in_flight)) {
--		/*
--		 * Use rcu_barrier() to wait for all pending callbacks to
--		 * ensure that all in-flight wb switches are in the workqueue.
--		 */
--		rcu_barrier();
-+	while (atomic_read(&sb->s_isw_nr_in_flight)) {
- 		flush_workqueue(isw_wq);
-+		cond_resched();
- 	}
- }
- 
-diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-index 383050e7fdf5..8030c873016d 100644
---- a/include/linux/fs/super_types.h
-+++ b/include/linux/fs/super_types.h
-@@ -274,6 +274,9 @@ struct super_block {
- 
- 	/* number of fserrors that are being sent to fsnotify/filesystems */
- 	refcount_t				s_pending_errors;
-+
-+	/* number of in-flight inode writeback switches on this sb */
-+	atomic_t				s_isw_nr_in_flight;
- } __randomize_layout;
- 
- /*
--- 
-2.43.7
+-- David
+
+> +	    iov_iter_is_dmabuf_map(i)) {
+>  		BUG(); /* We should never go beyond the start of the specified
+>  			* range since we might then be straying into pages that
+>  			* aren't pinned.
+> @@ -775,6 +777,20 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
+>  }
+>  EXPORT_SYMBOL(iov_iter_xarray);
+>  
+> +void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
+> +			 struct io_dmabuf_map *map,
+> +			 loff_t off, size_t count)
+> +{
+> +	WARN_ON(direction & ~(READ | WRITE));
+> +	*i = (struct iov_iter){
+> +		.iter_type = ITER_DMABUF_MAP,
+> +		.data_source = direction,
+> +		.dmabuf_map = map,
+> +		.count = count,
+> +		.iov_offset = off,
+> +	};
+> +}
+> +
+>  /**
+>   * iov_iter_discard - Initialise an I/O iterator that discards data
+>   * @i: The iterator to initialise.
+> @@ -841,7 +857,7 @@ static unsigned long iov_iter_alignment_bvec(const struct iov_iter *i)
+>  
+>  unsigned long iov_iter_alignment(const struct iov_iter *i)
+>  {
+> -	if (likely(iter_is_ubuf(i))) {
+> +	if (likely(iter_is_ubuf(i)) || iov_iter_is_dmabuf_map(i)) {
+>  		size_t size = i->count;
+>  		if (size)
+>  			return ((unsigned long)i->ubuf + i->iov_offset) | size;
+> @@ -872,7 +888,7 @@ unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
+>  	size_t size = i->count;
+>  	unsigned k;
+>  
+> -	if (iter_is_ubuf(i))
+> +	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
+>  		return 0;
+>  
+>  	if (WARN_ON(!iter_is_iovec(i)))
+> @@ -1469,11 +1485,12 @@ EXPORT_SYMBOL_GPL(import_ubuf);
+>  void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
+>  {
+>  	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
+> -			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
+> +			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i) &&
+> +			 !iov_iter_is_dmabuf_map(i)))
+>  		return;
+>  	i->iov_offset = state->iov_offset;
+>  	i->count = state->count;
+> -	if (iter_is_ubuf(i))
+> +	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
+>  		return;
+>  	/*
+>  	 * For the *vec iters, nr_segs + iov is constant - if we increment
 
