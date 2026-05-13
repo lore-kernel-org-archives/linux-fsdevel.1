@@ -1,250 +1,173 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFE5389E18
-	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 10:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384943E6DC8
+	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 10:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778666764; cv=none; b=NwVFjYK4wBhlWLXyF4NzDPRDNqdm5eQf3eVtskiSPVYakOFV3e2+QUNp/hhwmOoSdMLJz0Uagsze2+K4wvRPG6Yz15OVk5cn91S2bZBwThekbR7lTTzbnkRgOaPgw8/vdtCW5TOn87RvRrx3B3Gr2PqjQwfWdHqnTH+8kSRQEwc=
+	t=1778669156; cv=none; b=LWWtXU0CwF69rwnAuhOt07sixPpar4mIwtkeZauqfXKO6q6PZgrFbmuBGil/z9rYNIajUXeOQVnZxeXDqucfWcl+BjoUdWOvjCwa6ISOKnHHvLdoSozQwpQUOx1ithkvnqaOZ3/qhLVhmQR6ibuJBKdxG8CuOFY0g5mwxBJMSGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778666764; c=relaxed/simple;
-	bh=CfUsDrF5ylNvxQAC5m07A4hEbvmSGmwJUzmCib0VNCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ppBIOUavsNuIppXSHZ+Md0TK/ak1KUh2lB1m+yf/FWue90SXI3bybUyM7sYLOadrzIMF0pKWrFcLIcjNAxymX2JZtCfrOb4I+HsvEprwDtdCDbgTvsDvA8UtNnq9Cz3M2z/nbWH0hXt32O19rEWaA8TTSExyFMTz9rTNgsCsBEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nYiQ/0MW; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778669156; c=relaxed/simple;
+	bh=jtJnEO1MxBeJ1DKO7dLMwQ6IXbt9KXSjtRCpjDGQZI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n2rG0CwZY1VuIlBpTCvR1dUmwj4K0tBJxy0f49uKfbI1oSUI9WxKk2Ef51FpmTeTCsAAW4RFX+XQgQ0bluVIi6m7NPQrjQkaT72H5eMzTe1Hw7hhRfutair9/BkQgcUyEEVgmVkVc7toxxNN9zSjgoG4/4XcrtHBqyYlNYxa8xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=V+/5nhoO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=F788WUQ5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=V+/5nhoO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=F788WUQ5; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYiQ/0MW"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bd21ffaca79so379740766b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 03:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778666761; x=1779271561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y8agHE2UtR+0v8hUNRpGN3/NHmgQczj9TZKmKbKc+JU=;
-        b=nYiQ/0MWx9zqnzz8qzzGMzyLjhAbZWS6PTm/379VNMshJcLtpIu5kxF6cnraFj1DbO
-         BlzU1fL4lAJVK+xJyT+t0C2pgU0zXoRNRBJDuoDV7aRAV8/BXPrXurjZhhbFPRP66G4B
-         IJsfO+VD/5yKfUDzBtYj/qCOyb/VG1WmTK1QWVOgt5y86ToAS0jGu5rCD0iTU4ZwdKbt
-         PGSxd6voPOYFRhsskQZ2JVQRddLAKGHuQPOZVZK0jJea0/IaUCVN2Tich+MDh3mSnq/3
-         vJA4Hf9G9AHe9O8fkuLzpoR2r1IZWqWqTZZsA1X2Vx2+bgVyylnlQ272ERqYKRVGESq0
-         DC0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778666761; x=1779271561;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y8agHE2UtR+0v8hUNRpGN3/NHmgQczj9TZKmKbKc+JU=;
-        b=No4ajlqoIrfyEijZqTlr2qun8Ig60EQ8EqTkNgWvLfWDGtQKb67D8koGiiDNqkQRHu
-         C+FnD5MHy2P7WRBsBHvKKXfkzYL1NTHSButc9T+KBZ7pyRvBBnSKIm0dk3sGQi+SGvwq
-         2aTokllH/VDR4l4m4iu4lFkblev4/F6TyIMsSz4uiPa6+46KJpWJeZTDWaSc0Ys+Z4mT
-         csyzNX/5RqXN6hwT3AH/r8lAy/4WPOfKcF6My9t/w1LNn6xw3s0l/NAY/FpTLMYQho5Q
-         GnEpJHlwHp0th2cKsJzjOlHhRCraQReH7SRLYHxF+TTf38MVLAh0zWNNXYg1Oz6IWco2
-         HwRg==
-X-Forwarded-Encrypted: i=1; AFNElJ8aUEeuef7dlbmmxnXXPV6WTJLlFKlvEmF0w7bNsNM28o0RESlJ+5iFytldYOk59Yx1I5m+AbMDLFGeQDIQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxtd9dNSWrvSF8gqNvBOVPG7Vp8D40TcEYC3D97vG/bBEvm6JfG
-	hI1p9Fxjm3lWivTlPfQyfc/0i8N1MskezyfPJogSb4CNCXzqxizeFRSG
-X-Gm-Gg: Acq92OGZzmew/mNCwsv1oJHDgreEWH/jJ08/AEOsoy8bm/St6j/sXXpqHor9qm8Ou2o
-	2RSlHSbQzG5S1Up69njBfdPz8acvTipNYrcZmZrpworo4HeahsjIdORkAaxnbRLji/7Gx7cnAje
-	LYb/WtsCsL1K+W375TqH0ntnkkm5aHexTbQ5YlwEiLd9SW+ZOGuxvwA7ovAbORLzi7oMPOhpQb0
-	S24yrZRh3l5Ny9fxborJlmbHdIQ9I8EdFiLCSvvyh7nN9tqWP8+rXukWRy/71xuPY3bCXEXSkWj
-	ZNzxRqCBpdvvtj/4Z1ijuk1Lm1n6WLRDoXk35IpVphWP86ZVSUHv2T7gva6p2Q4EH6OKkc4X2gN
-	OUgxDcXs5LSrdtlsaPj/hlCHFRaeyblaiM7q+b1kbvVOKmmo/J6bXXaKN2m0/mgC1ilVzlHVie4
-	883T/6WWuL0OtTjUTGbXxFe5hUGJ/je/+2NlMkAUjG0rrfhQcvOZ1+uXX0dLwb
-X-Received: by 2002:a17:907:9493:b0:bc5:2352:555c with SMTP id a640c23a62f3a-bd3add39c4bmr174356866b.14.1778666759127;
-        Wed, 13 May 2026 03:05:59 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd2dba8fd22sm216615666b.16.2026.05.13.03.05.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 03:05:58 -0700 (PDT)
-Date: Wed, 13 May 2026 11:05:57 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nitesh
- Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, Anuj
- Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 02/10] iov_iter: add iterator type for dmabuf maps
-Message-ID: <20260513110557.705bdeed@pumpkin>
-In-Reply-To: <20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
-	<20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="V+/5nhoO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="F788WUQ5";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="V+/5nhoO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="F788WUQ5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 57CE576326;
+	Wed, 13 May 2026 10:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778669153; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5bHOYLeNYE0wODawBNdsqrMOBQYnczA3eTPB0yU9HhU=;
+	b=V+/5nhoOZIVkcoic9shV5bd/k7YAEq0JL4Qk8Gpaiwxo/s9JlfD2AQvF7ciPK/+RKvJVtZ
+	XZ0Qrl2wb6+rp4gYHVVCe1HEUq1o+EpO8lWc7vKMeBVMgT12V/7DgylId8fi3v3+7v5Z/8
+	+D1rRwQsX5DJ6r8k5MJkLpzPSRtV1Fc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778669153;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5bHOYLeNYE0wODawBNdsqrMOBQYnczA3eTPB0yU9HhU=;
+	b=F788WUQ5MVideGeVYgOa9onXyE5s148+uF2t4UZaxi71MQpXHxvxxjTdo2IrvaGD3UHfaJ
+	xpPWrIZvinYpxdAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="V+/5nhoO";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=F788WUQ5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1778669153; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5bHOYLeNYE0wODawBNdsqrMOBQYnczA3eTPB0yU9HhU=;
+	b=V+/5nhoOZIVkcoic9shV5bd/k7YAEq0JL4Qk8Gpaiwxo/s9JlfD2AQvF7ciPK/+RKvJVtZ
+	XZ0Qrl2wb6+rp4gYHVVCe1HEUq1o+EpO8lWc7vKMeBVMgT12V/7DgylId8fi3v3+7v5Z/8
+	+D1rRwQsX5DJ6r8k5MJkLpzPSRtV1Fc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1778669153;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5bHOYLeNYE0wODawBNdsqrMOBQYnczA3eTPB0yU9HhU=;
+	b=F788WUQ5MVideGeVYgOa9onXyE5s148+uF2t4UZaxi71MQpXHxvxxjTdo2IrvaGD3UHfaJ
+	xpPWrIZvinYpxdAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E17E593A9;
+	Wed, 13 May 2026 10:45:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rzoKE2FWBGpzOAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 13 May 2026 10:45:53 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id EA16BA0800; Wed, 13 May 2026 12:45:52 +0200 (CEST)
+Date: Wed, 13 May 2026 12:45:52 +0200
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	aivazian.tigran@gmail.com, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Ted Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org
+Subject: Re: [PATCH 9/9] ext4: Use mmb infrastructure for inode buffer
+ writeout
+Message-ID: <sdvyxk5ieqcbxee5rxib6un3xpnsj6ngzlfhd76zkofzrtmwln@l2egplfhpjuq>
+References: <20260511115725.28441-1-jack@suse.cz>
+ <20260511121356.241821-18-jack@suse.cz>
+ <20260511-paletten-kekse-7dc3bc394633@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511-paletten-kekse-7dc3bc394633@brauner>
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,gmail.com,mail.parknet.co.jp,mit.edu];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 57CE576326
+X-Spam-Level: 
 
-On Wed, 29 Apr 2026 16:25:48 +0100
-Pavel Begunkov <asml.silence@gmail.com> wrote:
+On Mon 11-05-26 15:30:34, Christian Brauner wrote:
+> On Mon, May 11, 2026 at 02:13:59PM +0200, Jan Kara wrote:
+> > Use mmb inode buffer writeout infrastructure to reliably write out
+> > inode's inode table block on fsync(2) in nojournal mode (from
+> > ext4_sync_parent() and ext4_fsync_nojournal()). This significantly
+> > simplifies the code as we don't have to explicitely handle inode buffer
+> > writeback in ext4_write_inode() and thus we can also remove
+> > sync_inode_metadata() calls from ext4_sync_parent() and
+> > ext4_write_inode() call from ext4_fsync_nojournal().
+> > 
+> > Signed-off-by: Jan Kara <jack@suse.cz>
 
-> Introduce a new iterator type for dmabuf maps. The map in an opaque
-> object with internals and format specific to the subsystem / driver, and
-> only it can use that subsystem / driver for issuing IO. The task of the
-> middle layers is to pass the map / iterator further down, maybe doing
-> basic splitting and length checking. The iterator can only be used by
-> operations of the file the associated map was created for.
+...
+
+> > @@ -6348,7 +6330,11 @@ int ext4_mark_iloc_dirty(handle_t *handle,
+> >  
+> >  	/* the do_update_inode consumes one bh->b_count */
+> >  	get_bh(iloc->bh);
+> > -
+> > +	if (!ext4_handle_valid(handle)) {
+> > +		if (!EXT4_I(inode)->i_metadata_bhs)
+> > +			ext4_inode_attach_mmb(inode);
+> > +		EXT4_I(inode)->i_metadata_bhs->inode_blk = iloc->bh->b_blocknr;
 > 
-> Suggested-by: Keith Busch <kbusch@kernel.org>
-> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
-> ---
->  include/linux/uio.h | 11 +++++++++++
->  lib/iov_iter.c      | 29 +++++++++++++++++++++++------
->  2 files changed, 34 insertions(+), 6 deletions(-)
+> The series is great overall. The only thing I think we should change is
+> that we should hide this
 > 
-> diff --git a/include/linux/uio.h b/include/linux/uio.h
-> index a9bc5b3067e3..75051aed70de 100644
-> --- a/include/linux/uio.h
-> +++ b/include/linux/uio.h
-> @@ -12,6 +12,7 @@
->  
->  struct page;
->  struct folio_queue;
-> +struct io_dmabuf_map;
->  
->  typedef unsigned int __bitwise iov_iter_extraction_t;
->  
-> @@ -29,6 +30,7 @@ enum iter_type {
->  	ITER_FOLIOQ,
->  	ITER_XARRAY,
->  	ITER_DISCARD,
-> +	ITER_DMABUF_MAP,
->  };
->  
->  #define ITER_SOURCE	1	// == WRITE
-> @@ -71,6 +73,7 @@ struct iov_iter {
->  				const struct folio_queue *folioq;
->  				struct xarray *xarray;
->  				void __user *ubuf;
-> +				struct io_dmabuf_map *dmabuf_map;
->  			};
->  			size_t count;
->  		};
-> @@ -155,6 +158,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
->  	return iov_iter_type(i) == ITER_XARRAY;
->  }
->  
-> +static inline bool iov_iter_is_dmabuf_map(const struct iov_iter *i)
-> +{
-> +	return iov_iter_type(i) == ITER_DMABUF_MAP;
-> +}
-> +
->  static inline unsigned char iov_iter_rw(const struct iov_iter *i)
->  {
->  	return i->data_source ? WRITE : READ;
-> @@ -300,6 +308,9 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
->  			  unsigned int first_slot, unsigned int offset, size_t count);
->  void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
->  		     loff_t start, size_t count);
-> +void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
-> +			struct io_dmabuf_map *map,
-> +			loff_t off, size_t count);
->  ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
->  			size_t maxsize, unsigned maxpages, size_t *start);
->  ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
-> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-> index 243662af1af7..e2253684b991 100644
-> --- a/lib/iov_iter.c
-> +++ b/lib/iov_iter.c
-> @@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
->  {
->  	if (unlikely(i->count < size))
->  		size = i->count;
-> -	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
-> +	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
-> +	    unlikely(iov_iter_is_dmabuf_map(i))) {
+> EXT4_I(inode)->i_metadata_bhs->inode_blk = iloc->bh->b_blocknr;
+> 
+> behind a dedicated static inline/regular function call instead of
+> open-coding it everywhere. Can then also be paired with some
+> VFS_WARN_ON_ONCE() to detect garbage bh->b_blocknr.
 
+Good point. I've created mmb_mark_inode_buffer_dirty() helper for this
+matching mmb_mark_buffer_dirty() we use for standard metadata buffers. It
+now also handles dirtying the buffer and synchronization with mmb_sync()
+clearing the inode_blk.
 
-Doesn't the extra check add more code to all the non-ubuf cases?
-This could be fixed by either making iter_type a bitmask (with one bit set)
-or writing an iter_is_one_of(i, ITER_xxx, ITER_yyy) define that uses
-'(1 << i->iter_type) & ((1 << ITER_xxx) | ...)'
-(look at the the nolibc printf code for an example).
-
->  		i->iov_offset += size;
->  		i->count -= size;
->  	} else if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i))) {
-> @@ -631,7 +632,8 @@ void iov_iter_revert(struct iov_iter *i, size_t unroll)
->  		return;
->  	}
->  	unroll -= i->iov_offset;
-> -	if (iov_iter_is_xarray(i) || iter_is_ubuf(i)) {
-> +	if (iov_iter_is_xarray(i) || iter_is_ubuf(i) ||
-
-iter_is_ubuf() should have been first here.
-
--- David
-
-> +	    iov_iter_is_dmabuf_map(i)) {
->  		BUG(); /* We should never go beyond the start of the specified
->  			* range since we might then be straying into pages that
->  			* aren't pinned.
-> @@ -775,6 +777,20 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
->  }
->  EXPORT_SYMBOL(iov_iter_xarray);
->  
-> +void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
-> +			 struct io_dmabuf_map *map,
-> +			 loff_t off, size_t count)
-> +{
-> +	WARN_ON(direction & ~(READ | WRITE));
-> +	*i = (struct iov_iter){
-> +		.iter_type = ITER_DMABUF_MAP,
-> +		.data_source = direction,
-> +		.dmabuf_map = map,
-> +		.count = count,
-> +		.iov_offset = off,
-> +	};
-> +}
-> +
->  /**
->   * iov_iter_discard - Initialise an I/O iterator that discards data
->   * @i: The iterator to initialise.
-> @@ -841,7 +857,7 @@ static unsigned long iov_iter_alignment_bvec(const struct iov_iter *i)
->  
->  unsigned long iov_iter_alignment(const struct iov_iter *i)
->  {
-> -	if (likely(iter_is_ubuf(i))) {
-> +	if (likely(iter_is_ubuf(i)) || iov_iter_is_dmabuf_map(i)) {
->  		size_t size = i->count;
->  		if (size)
->  			return ((unsigned long)i->ubuf + i->iov_offset) | size;
-> @@ -872,7 +888,7 @@ unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
->  	size_t size = i->count;
->  	unsigned k;
->  
-> -	if (iter_is_ubuf(i))
-> +	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
->  		return 0;
->  
->  	if (WARN_ON(!iter_is_iovec(i)))
-> @@ -1469,11 +1485,12 @@ EXPORT_SYMBOL_GPL(import_ubuf);
->  void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
->  {
->  	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
-> -			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
-> +			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i) &&
-> +			 !iov_iter_is_dmabuf_map(i)))
->  		return;
->  	i->iov_offset = state->iov_offset;
->  	i->count = state->count;
-> -	if (iter_is_ubuf(i))
-> +	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
->  		return;
->  	/*
->  	 * For the *vec iters, nr_segs + iov is constant - if we increment
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
