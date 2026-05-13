@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FF53B1034;
-	Wed, 13 May 2026 21:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FEE375AB5;
+	Wed, 13 May 2026 21:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778707452; cv=none; b=CqPBLX3RcdK6s8wyMabie7rz+iJ2YZgOGXAqFYyYa/2FIqWwpL/4S3XrsROmm7w+xA0UvuLc0uqqdJ+m4Mb+cgZu7/qY+8HY+hlWkro4plnQGF68dfiIxmZ+bXz5iTDleOga8cFiiNFxRSlcYJjB82xV5b7NffjdjtzMOUjt0YE=
+	t=1778707666; cv=none; b=QznBIQi6V82k/eINhaC/RsbvGq98Luan1roRp+uMTkBaWwVSvBdbP/0OTi8OE06HA4ncqcZaMHVtBQOHpMswXc7fTy4tzfm8gbbyyQN6Wb6PgH+cUHcmpOfDRTVkuG7Cha61jREPDp7nYozNFBPhiCDK/RU/WZ/mH7ueBeKakGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778707452; c=relaxed/simple;
-	bh=ayi/NOaQHXPH3yBZXhDLPTYN4/A2wV53gbgrWn4OOp0=;
+	s=arc-20240116; t=1778707666; c=relaxed/simple;
+	bh=aHt2NKRxzUXSpOW1argeSit/2ugz/S0VoZjEUP9Ehfo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dy/W+8/eHcniypxfHbecxz+SjWMZ0CulAj0qAxZA8Pv+At+xmrugfjSqJHD2AZxq+FIlPEZltU8CUySd1aPu5It3qzSZdA6WQTcyED53InGe0QyGrYa/BmlK0qYbcxx7ArQ2GZ02mKvWKXph8RQCdCK7rgLo5nuELu88umWGByc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lyDArH7P; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=eoVuMztOusXnSBQUQYQG6OyN2A5lNjVRw3Qrg4E9zJO0Tlxi7kFvp2QuQEV7hZBrLUX7YNgCOfhGo3AMM4qkjF/X02KuNBdKc0vLqSwIWHrPjdhRMC6s6+I1QhsJFe4L5g5rH71Tw2ivWk7/2FPMKYW9sbqYLMKqIGkgkIfElcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6zZPpV8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lyDArH7P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED67EC19425;
-	Wed, 13 May 2026 21:24:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6zZPpV8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12662C19425;
+	Wed, 13 May 2026 21:27:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778707452;
-	bh=ayi/NOaQHXPH3yBZXhDLPTYN4/A2wV53gbgrWn4OOp0=;
+	s=k20201202; t=1778707666;
+	bh=aHt2NKRxzUXSpOW1argeSit/2ugz/S0VoZjEUP9Ehfo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lyDArH7PZ3dcQQnGlgd36EtCmYX/ClNY+oQXqChHzYWrdjm0FX/VnA/vkEKP1u4AL
-	 WuAAK/2SAFJQskxlVdIkswbAKgnPCFEXrBDp7d/tMwfjP5NWA8zNEZRWhbQvWS0kcm
-	 HwfYIAfR49Mz0mmEXOXVf01Rv7wK9WccsiJxuDZw0YF6WvaFNXoBUbiBvvH3wL2Fg3
-	 1jLVxrtiKosiYXcZqPlvcEtOCrZ23tgvnsjutaL6w5eC3zEvjewAXzYZfwE4NobVrD
-	 tDAjk6yBjXI64skoQ7w2Et6AuZJAN4u8tYDNpP6ZJKWSrmCUZlNZGCByDj7i1ZWjQz
-	 oNjd5K7x8GSeA==
-Date: Wed, 13 May 2026 14:24:11 -0700
+	b=c6zZPpV8XAXcSES7VaAyZu/u3qzoKwPUW4SkSNo6D/rXn1pFIrzpQdT05v8NlmBID
+	 pOszelYyfX4s06gBC4aFHeQhX9a08s0YkEVALmTgm7rdDcKQITy4+pJeUoBmRikW/m
+	 lUd1O+p4ozCzK4JAjEfOEp1Wp/klVk2uzueFYvWkLm5KRyJhCKCUYKN0ttn7FLWfNG
+	 WRyff1EtSo5RQ5+GJLicDQoQuUm7L8lYiDI88QpbyR5LoMcXSVMLUlkyuh6sG+gI8u
+	 MDy8hCoo9GflOs+T0KfJpCxRZTvsdsN5aCdNw+dfMATX/8Qi4nUwe1lU8dp9au7UhY
+	 /WJLnvdwrh5ww==
+Date: Wed, 13 May 2026 14:27:45 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 18/33] fuse: use an unrestricted backing device with
- iomap pagecache io
-Message-ID: <20260513212411.GS9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 31/33] fuse: disable direct fs reclaim for any fuse
+ server that uses iomap
+Message-ID: <20260513212745.GT9544@frogsfrogsfrogs>
 References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205537.4101881.12951730049525918450.stgit@frogsfrogsfrogs>
+ <177747205813.4101881.6342439978613586458.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,83 +44,136 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747205537.4101881.12951730049525918450.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747205813.4101881.6342439978613586458.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:28:23AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:31:47AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> With iomap support turned on for the pagecache, the kernel issues
-> writeback to directly to block devices and we no longer have to push all
-> those pages through the fuse device to userspace.  Therefore, we don't
-> need the tight dirty limits (~1M) that are used for regular fuse.  This
-> dramatically increases the performance of fuse's pagecache IO.
+> Any fuse server that uses iomap can create a substantial amount of dirty
+> pages in the pagecache because we don't write dirty stuff until reclaim
+> or fsync.  Therefore, memory reclaim on any fuse iomap server musn't
+> ever recurse back into the same filesystem.  We must also never throttle
+> the fuse server writes to a bdi because that will just slow down
+> metadata operations.
 > 
-> A reviewer of this patch asked why we reset s_bdi to the noop bdi and
-> call super_setup_bdi_name a second time, instead of simply clearing
-> STRICTLIMIT and resetting the bdi max ratio.
-> 
-> That's sufficient to undo the effects of fuse_bdi_init, yes.  However
-> the BDI gets created with the name "$major:$minor{-fuseblk}" and there
-> are "management" scripts that try to tweak fuse BDIs for better
-> performance.
-> 
-> I don't want some dumb script to mismanage a fuse-iomap filesystem
-> because it can't tell the difference, so I create a new bdi with the
-> name "$major:$minor.iomap" to make it obvious.  But super_setup_bdi_name
-> gets cranky if s_bdi isn't set to noop and we don't want to fail a mount
-> here due to ENOMEM so ... I implemented this weird switcheroo code.
-> 
-> Also, userspace scripts such as udev rules can modify the bdi as soon as
-> it appears in sysfs, so we can't run the fuse_bdi_init code in reverse
-> and expect that will undo everything.
+> Add a new ioctl that the fuse server can call on the fuse device to set
+> PF_MEMALLOC_NOFS and PF_LOCAL_THROTTLE.  Either the fuse connection must
+> have already enabled iomap, or the caller must have CAP_SYS_RESOURCE.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/fuse_iomap.c |   21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+>  fs/fuse/fuse_iomap.h      |    2 ++
+>  include/uapi/linux/fuse.h |    1 +
+>  fs/fuse/dev.c             |    2 ++
+>  fs/fuse/fuse_iomap.c      |   37 +++++++++++++++++++++++++++++++++++++
+>  4 files changed, 42 insertions(+)
 > 
 > 
+> diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
+> index ca44df00f113d2..25c36c9c39d6f3 100644
+> --- a/fs/fuse/fuse_iomap.h
+> +++ b/fs/fuse/fuse_iomap.h
+> @@ -76,6 +76,7 @@ int fuse_iomap_dev_inval(struct fuse_conn *fc,
+>  			 const struct fuse_iomap_dev_inval_out *arg);
+>  
+>  int fuse_iomap_fadvise(struct file *file, loff_t start, loff_t end, int advice);
+> +int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
+>  #else
+>  # define fuse_iomap_enabled(...)		(false)
+>  # define fuse_has_iomap(...)			(false)
+> @@ -103,6 +104,7 @@ int fuse_iomap_fadvise(struct file *file, loff_t start, loff_t end, int advice);
+>  # define fuse_dev_ioctl_iomap_support(...)	(-EOPNOTSUPP)
+>  # define fuse_iomap_dev_inval(...)		(-ENOSYS)
+>  # define fuse_iomap_fadvise			NULL
+> +# define fuse_dev_ioctl_iomap_set_nofs(...)	(-EOPNOTSUPP)
+>  #endif /* CONFIG_FUSE_IOMAP */
+>  
+>  #endif /* _FS_FUSE_IOMAP_H */
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index c454cea83083d3..9e59fba64f48d9 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -1195,6 +1195,7 @@ struct fuse_iomap_support {
+>  #define FUSE_DEV_IOC_SYNC_INIT		_IO(FUSE_DEV_IOC_MAGIC, 3)
+>  #define FUSE_DEV_IOC_IOMAP_SUPPORT	_IOR(FUSE_DEV_IOC_MAGIC, 99, \
+>  					     struct fuse_iomap_support)
+> +#define FUSE_DEV_IOC_SET_NOFS		_IOW(FUSE_DEV_IOC_MAGIC, 100, uint32_t)
+>  
+>  struct fuse_lseek_in {
+>  	uint64_t	fh;
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 9918911fe44855..cf4bad6ffc287b 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -2741,6 +2741,8 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
+>  
+>  	case FUSE_DEV_IOC_IOMAP_SUPPORT:
+>  		return fuse_dev_ioctl_iomap_support(file, argp);
+> +	case FUSE_DEV_IOC_SET_NOFS:
+> +		return fuse_dev_ioctl_iomap_set_nofs(file, argp);
+>  
+>  	default:
+>  		return -ENOTTY;
 > diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 3136326bafb858..3c40a1e58017b3 100644
+> index 94ed7c69d892d3..1e01e0011a412d 100644
 > --- a/fs/fuse/fuse_iomap.c
 > +++ b/fs/fuse/fuse_iomap.c
-> @@ -718,6 +718,27 @@ const struct fuse_backing_ops fuse_iomap_backing_ops = {
->  void fuse_iomap_mount(struct fuse_mount *fm)
->  {
->  	struct fuse_conn *fc = fm->fc;
-> +	struct super_block *sb = fm->sb;
-> +	struct backing_dev_info *old_bdi = sb->s_bdi;
-> +	char *suffix = sb->s_bdev ? "-fuseblk" : "-fuse";
-> +	int res;
+> @@ -12,6 +12,7 @@
+>  #include "fuse_trace.h"
+>  #include "fuse_iomap.h"
+>  #include "fuse_iomap_i.h"
+> +#include "fuse_dev_i.h"
+>  
+>  static bool __read_mostly enable_iomap =
+>  #if IS_ENABLED(CONFIG_FUSE_IOMAP_BY_DEFAULT)
+> @@ -2289,3 +2290,39 @@ int fuse_iomap_dev_inval(struct fuse_conn *fc,
+>  	up_read(&fc->killsb);
+>  	return ret;
+>  }
 > +
-> +	/*
-> +	 * sb->s_bdi points to the initial private bdi.  However, we want to
-> +	 * redirect it to a new private bdi with default dirty and readahead
-> +	 * settings because iomap writeback won't be pushing a ton of dirty
-> +	 * data through the fuse device.  If this fails we fall back to the
-> +	 * initial fuse bdi.
+> +static inline bool can_set_nofs(struct fuse_dev *fud)
+> +{
+> +	if (fud && fud->fc && fud->fc->iomap)
+> +	       return true;
+> +
+> +	return capable(CAP_SYS_RESOURCE);
+> +}
+> +
+> +int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp)
+> +{
+> +	struct fuse_dev *fud = fuse_get_dev(file);
 
-Codex points out that it's possible to create non-iomap regular file
-inodes after we've set up this fuse.iomap bdi.  If that happens, the
-non-iomap files won't be subject the strictlimit/max_ratio restrictions
-imposed on non-iomap fuse filesystems.  I don't think this is a serious
-concern because one has to have CAP_SYS_RAWIO privilege to enable iomap,
-but I'll change this patch to put back the old behavior.
+Codex complains that fuse_get_dev() can return EINTR, so we need to
+handle that.
+
+	if (IS_ERR(fud))
+		return PTR_ERR(fud);
 
 --D
 
+> +	uint32_t flags;
+> +
+> +	if (!can_set_nofs(fud))
+> +		return -EPERM;
+> +
+> +	if (copy_from_user(&flags, argp, sizeof(flags)))
+> +		return -EFAULT;
+> +
+> +	/*
+> +	 * The fuse server could be asked to perform a substantial amount of
+> +	 * writeback, so prohibit reclaim from recursing into fuse or the
+> +	 * kernel from throttling any bdis that the fuse server might write to.
 > +	 */
-> +	sb->s_bdi = &noop_backing_dev_info;
-> +	res = super_setup_bdi_name(sb, "%u:%u%s.iomap", MAJOR(fc->dev),
-> +				   MINOR(fc->dev), suffix);
-> +	if (res) {
-> +		sb->s_bdi = old_bdi;
-> +	} else {
-> +		bdi_unregister(old_bdi);
-> +		bdi_put(old_bdi);
+> +	switch (flags) {
+> +	case 1:
+> +		current->flags |= PF_MEMALLOC_NOFS | PF_LOCAL_THROTTLE;
+> +		return 0;
+> +	case 0:
+> +		current->flags &= ~(PF_MEMALLOC_NOFS | PF_LOCAL_THROTTLE);
+> +		return 0;
+> +	default:
+> +		return -EINVAL;
 > +	}
->  
->  	/*
->  	 * Enable syncfs for iomap fuse servers so that we can send a final
+> +}
 > 
 > 
