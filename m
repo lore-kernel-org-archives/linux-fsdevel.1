@@ -1,67 +1,126 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2FC38D687
-	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 14:53:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFA438655A;
+	Wed, 13 May 2026 14:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778684004; cv=none; b=taHjasA5xvFW1HrDsxi76SsY+82FDRkcJxJYzrzRLUV4c6MJuq/aZ/7DSE+DKe/NnCPV02ky8BJR3XMkx0OyVfoBad9K5bJVvalS4z5BgNl5oXY4y66Shve913Lci0JyZ7De9vN7Nm6Zy2nZRCYHYcsNByXQxF8YlUA+CzTAYRU=
+	t=1778684361; cv=none; b=iTK1QhfmhcdYbhmyQoPdM4VrW7HzWoI3PtTB101iNjpQXqUEouYHpZk1olqfT4B6LFqCTRT5yRrHRnekBCrOC5b8ONsdLjVCul4tZP9p1DGGaA2oL6sHF3Tyd3Jo/xSZBrkajesE/xWKD5KrbKXeOJJj9bq5NgrI/WxMgGf0Cjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778684004; c=relaxed/simple;
-	bh=s0NYlfptE24gUriCvi5WTNx1h/eWXvvFSemzwTBvRRw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mjOGplvMJJtFTbt34SxUp6zF39YqNWHzMasFZo7+HsfoUyboDnTaVQzET6+ykT5HijoX9ZVZKpj9jkkPM+LkvCMGHZ/+e+ZzL83uxe5N3JxxcU2OWXlHCYm5QUfSe2MptRiatHVs9ga7J0UaHe0clS6sMBbCNnhH2GeWRbUcJSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=he4TK2Rp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778684361; c=relaxed/simple;
+	bh=zbNHyyDRYAeGo6U86F5ea4LHa32zJh59lyteWOe4KGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZhMrupf3fZ6ls6FVHJp880rovHBrIpAxXmr8lnULIEhJPSrZiYAzG1/w8BjXXkWF/YlY651QuhNX2j5B0SV0hm4xGTDZ21uo84LwcqRDo7Umyj2OVhM7le6YNRunOLF4FBm+8lkkdyqRsJLIWqZH3UgwwtbbnGAmzRD9RgyiUzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iIhYEKx5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="he4TK2Rp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92213C4AF09
-	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 14:53:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iIhYEKx5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D47CC2BCB3;
+	Wed, 13 May 2026 14:59:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778684003;
-	bh=s0NYlfptE24gUriCvi5WTNx1h/eWXvvFSemzwTBvRRw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=he4TK2Rptnwr18TbtlUyWx0wqIhs+cYMAci/3So8T1gXuCr+dlHwxoR6mYXLjMiW7
-	 OBtbixvBLrv0YlOno1PmkuEo7DK1YpBWlwLGcYNdqfqc1F7/tY2aHLctC/SWgt6yKo
-	 YxIJxD93g6EVURgfkMq7x1o2BjVLVeAFWbs5glmu3rvYMHODU7tGQQ+hrDV6o1H6hY
-	 6RVMx+EfgxTd2vlJol+bZ9NC1V8ltR5gqTL5Cr/xeK/ygX3IT+YY/y7vanP4HGfo1Y
-	 PqoQ/08uwUL+d8W283sq3NJhBiglX4AcFb02/pQBNpJYfoYz4RPYTM8o2P/2fY1Z74
-	 y86Q2gAONFlbg==
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6804e24803bso5785844a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 07:53:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/AWTqrqyYnIny4KsX22MPJtafRFqSzJUr42hI32g3vVLg8R8zRQzp+2+mVWu1bYfSiTQArh86j2wMdJGdh@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTM1wVwrSLTiMprDC6l9NG+Xb7ofyu29VuvioaL6nyCtNUgsFU
-	ru6YgMnULRt5Z5YCYPIo6t5PFiW3h3iC3ooMQADbKCx3zArgpAWTon69cNYkQYPsy3jFehYOtJb
-	eqTWIgGvRf4OQ+dcNjMO84P/fFzh9FRw=
-X-Received: by 2002:a05:6402:5358:b0:676:20c8:5420 with SMTP id
- 4fb4d7f45d1cf-682579f58b2mr1760096a12.25.1778684002205; Wed, 13 May 2026
- 07:53:22 -0700 (PDT)
+	s=k20201202; t=1778684360;
+	bh=zbNHyyDRYAeGo6U86F5ea4LHa32zJh59lyteWOe4KGw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iIhYEKx51XcVXCXizSytP4ZvhZtiBJmIPf+6O8Mktq3AJeEzUzkfq9zJFMxWWOQN/
+	 aoWFZ5To1myUEqEdw7VallkySu/iGPAldgKZg0gl6xnLSnuloIhSu3lBTLqysfs1I0
+	 Skg4f9BktAuE18yvvQRJ70VrpwY5SAV36hi26w0P9GMsQkbf7JD+SNU9HxSde3AnHu
+	 bo3a4ZV9/09phwV+AioQvcuqmfuB2eTSN/4uxVBmpiaTeWdd95EFcAzHk3DTbz/8je
+	 v+mVMmUJ6OM8tMNlaOTQXwFxTd7uJskcOql+wcSZWQ2REyC0QM0b5EqoBwpRfC7ETk
+	 FtuJsAzYKU1jA==
+Date: Wed, 13 May 2026 07:59:19 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: Re: [PATCH 08/12] swap,iomap: simplify iomap_swapfile_iter
+Message-ID: <20260513145919.GP9555@frogsfrogsfrogs>
+References: <20260512053625.2950900-1-hch@lst.de>
+ <20260512053625.2950900-9-hch@lst.de>
+ <20260512170204.GI9555@frogsfrogsfrogs>
+ <20260513065608.GA2250@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511160626.1268612-1-charsyam@gmail.com> <20260511160626.1268612-3-charsyam@gmail.com>
-In-Reply-To: <20260511160626.1268612-3-charsyam@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 13 May 2026 23:53:09 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9=rt9sMwA+BpwomUT3ZdxA0YPKM1S6VyZMiYk3-9NqDg@mail.gmail.com>
-X-Gm-Features: AVHnY4KTy4NXlXPJvL5I5-f_Z59ugZZNAIPahYJuC8OtNkOzk-Ga4vk4fWk3hVw
-Message-ID: <CAKYAXd9=rt9sMwA+BpwomUT3ZdxA0YPKM1S6VyZMiYk3-9NqDg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] ntfs: use $Q when marking quotas out of date
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: hyc.lee@gmail.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260513065608.GA2250@lst.de>
 
-> diff --git a/fs/ntfs/quota.c b/fs/ntfs/quota.c
-> index b443243..7086951 100644
-> --- a/fs/ntfs/quota.c
-> +++ b/fs/ntfs/quota.c
-> @@ -21,6 +21,7 @@ bool ntfs_mark_quotas_out_of_date(struct ntfs_volume *vol)
->  {
->         struct ntfs_index_context *ictx;
->         struct quota_control_entry *qce;
-> +       static __le16 Q[3] = { cpu_to_le16('$'), cpu_to_le16('Q'), 0 };
-Since Q[] is already defined in load_and_init_quota(), it would be
-better to define it in quota.h to avoid redundancy.
+On Wed, May 13, 2026 at 08:56:08AM +0200, Christoph Hellwig wrote:
+> On Tue, May 12, 2026 at 10:02:04AM -0700, Darrick J. Wong wrote:
+> > OH.  Now I remember why -- it's to handle contiguous mixed mappings
+> > better.
+> > 
+> > Let's say that you have a 1k fsblock filesystem and 4k base pages.  You
+> > fallocate an 8G swap file and then mkswap it.  The first mapping is a 1k
+> > written mapping at offset 0 for the swap header, followed by an 8388607k
+> > unwritten mapping at offset 3k.
+> > 
+> > The PAGE_SIZE rounding code in iomap_swapfile_add_extent will round the
+> > end of that first mapping down to zero and ignore it.  The second
+> > mapping will be treated as if it were a 8388604k mapping starting at
+> > offset 4096.  Now the page counts are wrong and the swapon fails.
+> 
+> Do we care about this use case?  I guess you did as you implemented
+> his, but still?
+
+We do, because mkswap -F uses fallocate nowadays:
+
+$ mkswap -s 4194304 -F a
+Setting up swapspace version 1, size = 4 MiB (4190208 bytes)
+no label, UUID=bc9746bf-e200-4944-927c-80d83872f1cb
+$ filefrag -v a
+Filesystem type is: 58465342
+File size of a is 4194304 (1024 blocks of 4096 bytes)
+ ext:     logical_offset:        physical_offset: length:   expected: flags:
+   0:        0..       0:  411383552.. 411383552:      1:            
+   1:        1..    1023:  411383553.. 411384575:   1023:             last,unwritten,eof
+a: 1 extent found
+
+> > A more generic solution to this would be to change add_swap_extent to
+> > take sector_t addr and length values and use them to construct a bitmap
+> > representing contiguous physical space on the bdev, accounting of course
+> > for PAGE_SIZE alignment.  Except for the swap header page, every other
+> > contiguously set page-aligned region in the bitmap gets added to the
+> > swap extent map.
+> 
+> You don't even need a bitmap, just do basically the same checks as
+> the iomap code when moving to a new swap extent after moving to use
+> the sector_t.  And it really should anyway, as the current abuse of
+> sector_t to store a disk offset in PAGE_SIZE units is pretty gross.
+
+Oh, I meant this to handle the particularly gross case where the fsblock
+size is smaller than a base page, but there are a very large number of
+file mappings that point to a physically contiguous extent but are not
+in logical order:
+
+{.offset=0, .length=1k, .addr=7},
+{.offset=1, .length=1k, .addr=6},
+{.offset=2, .length=1k, .addr=5},
+{.offset=3, .length=1k, .addr=4},
+{.offset=4, .length=1k, .addr=3},
+{.offset=5, .length=1k, .addr=2},
+{.offset=6, .length=1k, .addr=1},
+{.offset=7, .length=1k, .addr=0},
+
+That's two pages of swapfile, but with the current layout accumulation
+code we "cannot" find either.
+
+--D
