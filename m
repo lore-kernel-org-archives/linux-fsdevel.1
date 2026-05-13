@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DE53A785E;
-	Wed, 13 May 2026 18:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AC53A7F59;
+	Wed, 13 May 2026 18:35:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778697031; cv=none; b=DKyPt6h7f9AK+h8mjaVfOWgocLnHvSLsvSiiVyOXzg/P20OpKXp2AThBLMyNiQ9pQ5hPh8OdNmz4OopDXRoZzT4UfjITToCn8eKfyCA/v93+B+E1SRO497DGAMT8DzcB2zmA1LVndxpLGFqPn0z4Nu4gQTXlfy2BsaB/oieVVnw=
+	t=1778697338; cv=none; b=G7n/j4ppSk4AnHeMaDeH1nKvSuZD8F+IWJDyf6Uo93jIRz9nIKuUc6Qq1QfJHmH9x2UaRalyck8Nl7PCquXBnPK8N8omyIVbVEdg9SqwDecnXkejpCzSlNr7fhWYqMUmzp1/+hm+wtS5s34pczLdCy/9WaOTMY+eBl58FDzY1ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778697031; c=relaxed/simple;
-	bh=7kjJGeBPigZQzrAbkwafJ/mIPNUgjmDzDVmNEMfDIj8=;
+	s=arc-20240116; t=1778697338; c=relaxed/simple;
+	bh=qYLu0Buk6tnMRChOdeK2zf0IRezGPCHTaNltKYW0FwM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RtiS8q20fkwVTPENxXkqTC5IbtRb8Ajmb/VrlWIDRtdVl5vh3Ur3/IYQjZNm5strGkkpLKUKzAM1uc1nYtb4OL4A3BKV2RkaOJosGhIsXY9eeOCEMXqu3APfMNQtrdOBZwRiIRySrZlZ+sgJoc+asbFhPAsuWk3q5yTIGAd7+CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQ00g9Ra; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ByPswfrQb1QrGYBXJqH8HKRYcH5wT1m0mqGePLGQvd08xFvVdS4LyS21xo2WuhDHhcDPrxbT8veF8bDCRbKbrBfR3NBhfhDzKjlOyfGD2AETvFqENF8kr+2SutAhytHDPmeOjW2NJ8knto2zPK79c04rELG4NraMw4RZAmp+efw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+89ZVDt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQ00g9Ra"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3E18C2BCC9;
-	Wed, 13 May 2026 18:30:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+89ZVDt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B09C19425;
+	Wed, 13 May 2026 18:35:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778697031;
-	bh=7kjJGeBPigZQzrAbkwafJ/mIPNUgjmDzDVmNEMfDIj8=;
+	s=k20201202; t=1778697338;
+	bh=qYLu0Buk6tnMRChOdeK2zf0IRezGPCHTaNltKYW0FwM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TQ00g9RaV+/7NiP4j3mP16DAa21xJjxSFJrJLio3b5Ausuq4I4LggZyxBwOk3PStK
-	 IdpaG70e+1P5Bilx0vFUfar2uKUfkqxQeV9BOTSx2T9EzwdUEeNCns3xmn15uZnj7k
-	 sTBUpi0ru96ul6JQNJKepbSDZg12NrhHd9UJFb+hi5Y9Rt3+y27rEx2/G1h4qOf5Jp
-	 ig/gStyWC/oABPTkHEERlkX3LU6GpReoGRgUCHUVJjN1rDanLTkliHGvZqlqhZCeiK
-	 s8SvCIvOv8NsG2r+QClRku64Ie7D3iM30WPgWSX57gxKkAMhnTzvlsgwUTY+meQW4Q
-	 42Ff/KvOEywVA==
-Date: Wed, 13 May 2026 11:30:30 -0700
+	b=H+89ZVDtAtyvIeTL/W7Qj/QsVGuPWndwRZPY8hVUhB+CO46sU7Gr2q29CXUYtBVe0
+	 BuQqy/gSplGTI37RU9K4s+PpIgojCp3qcwpTVFWLnh21cDIwSnq9rAPw0V8LRLH9e8
+	 OJFRTn64tbrTu1a/TzvykxuTTuX8MlPZqjPw289hzu4iXorC2FyuX2I6TSK8T3NKGq
+	 tsjaYTKfS7+2BYlT9wQH+88jmeG2OBL3UBt2IasEfiTYdCXSmoAqs3nOTcAPrEeZiF
+	 dx3zFJZ22msplmh2Gx8yKwbTQ27JDNwZ+VgcNDdtnp47zecQNJNC1vb/PaYXVyscAu
+	 2nuPAvH9GpW6A==
+Date: Wed, 13 May 2026 11:35:36 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: miklos@szeredi.hu
-Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 12/33] fuse: implement basic iomap reporting such as
- FIEMAP and SEEK_{DATA,HOLE}
-Message-ID: <20260513183030.GK9544@frogsfrogsfrogs>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev,
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 03/33] fuse: make debugging configurable at runtime
+Message-ID: <20260513183536.GL9544@frogsfrogsfrogs>
 References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205408.4101881.8022593459391808175.stgit@frogsfrogsfrogs>
+ <177747205214.4101881.6181001367021214200.stgit@frogsfrogsfrogs>
+ <20260513174102.GG9544@frogsfrogsfrogs>
+ <e7ef9cbb-2692-409a-b24d-998b18e74324@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,192 +45,178 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747205408.4101881.8022593459391808175.stgit@frogsfrogsfrogs>
+In-Reply-To: <e7ef9cbb-2692-409a-b24d-998b18e74324@bsbernd.com>
 
-On Wed, Apr 29, 2026 at 07:26:49AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Implement the basic file mapping reporting functions like FIEMAP, BMAP,
-> and SEEK_DATA/HOLE.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  fs/fuse/fuse_iomap.h |    8 ++++++
->  fs/fuse/dir.c        |    1 +
->  fs/fuse/file.c       |   13 ++++++++++
->  fs/fuse/fuse_iomap.c |   68 +++++++++++++++++++++++++++++++++++++++++++++++++-
->  4 files changed, 89 insertions(+), 1 deletion(-)
+On Wed, May 13, 2026 at 07:46:05PM +0200, Bernd Schubert wrote:
 > 
 > 
-> diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
-> index 34f2c75416eb62..8ba30a496545f5 100644
-> --- a/fs/fuse/fuse_iomap.h
-> +++ b/fs/fuse/fuse_iomap.h
-> @@ -33,6 +33,11 @@ static inline bool fuse_inode_has_iomap(const struct inode *inode)
->  
->  	return test_bit(FUSE_I_IOMAP, &fi->state);
->  }
-> +
-> +int fuse_iomap_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
-> +		      u64 start, u64 length);
-> +loff_t fuse_iomap_lseek(struct file *file, loff_t offset, int whence);
-> +sector_t fuse_iomap_bmap(struct address_space *mapping, sector_t block);
->  #else
->  # define fuse_iomap_enabled(...)		(false)
->  # define fuse_has_iomap(...)			(false)
-> @@ -41,6 +46,9 @@ static inline bool fuse_inode_has_iomap(const struct inode *inode)
->  # define fuse_iomap_init_inode(...)		((void)0)
->  # define fuse_iomap_evict_inode(...)		((void)0)
->  # define fuse_inode_has_iomap(...)		(false)
-> +# define fuse_iomap_fiemap			NULL
-> +# define fuse_iomap_lseek(...)			(-ENOSYS)
-> +# define fuse_iomap_bmap(...)			(-ENOSYS)
->  #endif /* CONFIG_FUSE_IOMAP */
->  
->  #endif /* _FS_FUSE_IOMAP_H */
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 1bb0302f7ce8bb..2ed19e21d90702 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -2505,6 +2505,7 @@ static const struct inode_operations fuse_common_inode_operations = {
->  	.set_acl	= fuse_set_acl,
->  	.fileattr_get	= fuse_fileattr_get,
->  	.fileattr_set	= fuse_fileattr_set,
-> +	.fiemap		= fuse_iomap_fiemap,
->  };
->  
->  static const struct inode_operations fuse_symlink_inode_operations = {
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 2a807c49792d53..67cb0844181851 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -2593,6 +2593,12 @@ static sector_t fuse_bmap(struct address_space *mapping, sector_t block)
->  	struct fuse_bmap_out outarg;
->  	int err;
->  
-> +	if (fuse_inode_has_iomap(inode)) {
-> +		sector_t alt_sec = fuse_iomap_bmap(mapping, block);
-> +		if (alt_sec > 0)
-> +			return alt_sec;
-> +	}
+> On 5/13/26 19:41, Darrick J. Wong wrote:
+> > On Wed, Apr 29, 2026 at 07:24:28AM -0700, Darrick J. Wong wrote:
+> >> From: Darrick J. Wong <djwong@kernel.org>
+> >>
+> >> Use static keys so that we can configure debugging assertions and dmesg
+> >> warnings at runtime.  By default this is turned off so the cost is
+> >> merely scanning a nop sled.  However, fuse server developers can turn
+> >> it on for their debugging systems.
+> >>
+> >> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> >> ---
+> >>  fs/fuse/fuse_iomap_i.h |   17 ++++++++++++++---
+> >>  fs/fuse/Kconfig        |   15 +++++++++++++++
+> >>  fs/fuse/fuse_iomap.c   |   43 +++++++++++++++++++++++++++++++++++++++++++
+> >>  3 files changed, 72 insertions(+), 3 deletions(-)
+> >>
+> >>
+> >> diff --git a/fs/fuse/fuse_iomap_i.h b/fs/fuse/fuse_iomap_i.h
+> >> index b9ab8ce140e8e1..c37a7c5cfc862f 100644
+> >> --- a/fs/fuse/fuse_iomap_i.h
+> >> +++ b/fs/fuse/fuse_iomap_i.h
+> >> @@ -8,17 +8,28 @@
+> >>  
+> >>  #if IS_ENABLED(CONFIG_FUSE_IOMAP)
+> >>  #if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG)
+> >> -# define ASSERT(condition) do {						\
+> >> +
+> >> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG_BY_DEFAULT)
+> >> +DECLARE_STATIC_KEY_TRUE(fuse_iomap_debug);
+> >> +#else
+> >> +DECLARE_STATIC_KEY_FALSE(fuse_iomap_debug);
+> >> +#endif /* FUSE_IOMAP_DEBUG_BY_DEFAULT */
+> >> +
+> >> +# define ASSERT(condition) \
+> >> +while (static_branch_unlikely(&fuse_iomap_debug)) {			\
+> >>  	int __cond = !!(condition);					\
+> >>  	if (unlikely(!__cond))						\
+> >>  		trace_fuse_iomap_assert(__func__, __LINE__, #condition); \
+> >>  	WARN(!__cond, "Assertion failed: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
+> >> -} while (0)
+> >> +	break;								\
+> >> +}
+> >>  # define BAD_DATA(condition) ({						\
+> >>  	int __cond = !!(condition);					\
+> >>  	if (unlikely(__cond))						\
+> >>  		trace_fuse_iomap_bad_data(__func__, __LINE__, #condition); \
+> >> -	WARN(__cond, "Bad mapping: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
+> >> +	if (static_branch_unlikely(&fuse_iomap_debug))			\
+> >> +		WARN(__cond, "Bad mapping: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
+> >> +	unlikely(__cond);								\
+> >>  })
+> >>  #else
+> >>  # define ASSERT(condition)
+> >> diff --git a/fs/fuse/Kconfig b/fs/fuse/Kconfig
+> >> index 934d48076a010c..1b8990f1c2a8f9 100644
+> >> --- a/fs/fuse/Kconfig
+> >> +++ b/fs/fuse/Kconfig
+> >> @@ -101,6 +101,21 @@ config FUSE_IOMAP_DEBUG
+> >>  	  Enable debugging assertions for the fuse iomap code paths and logging
+> >>  	  of bad iomap file mapping data being sent to the kernel.
+> >>  
+> >> +	  Say N here if you don't want any debugging code code compiled in at
+> >> +	  all.
+> >> +
+> >> +config FUSE_IOMAP_DEBUG_BY_DEFAULT
+> >> +	bool "Debug FUSE file IO over iomap at boot time"
+> >> +	default n
+> >> +	depends on FUSE_IOMAP_DEBUG
+> >> +	help
+> >> +	  At boot time, enable debugging assertions for the fuse iomap code
+> >> +	  paths and warnings about bad iomap file mapping data.  This enables
+> >> +	  fuse server authors to control debugging at runtime even on a
+> >> +	  distribution kernel while avoiding most of the overhead on production
+> >> +	  systems.  The setting can be changed at runtime via the debug_iomap
+> >> +	  module parameter.
+> >> +
+> >>  config FUSE_IO_URING
+> >>  	bool "FUSE communication over io-uring"
+> >>  	default y
+> >> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+> >> index c22c7961cc0bdc..f7a7eba8317c18 100644
+> >> --- a/fs/fuse/fuse_iomap.c
+> >> +++ b/fs/fuse/fuse_iomap.c
+> >> @@ -18,6 +18,49 @@ static bool __read_mostly enable_iomap =
+> >>  module_param(enable_iomap, bool, 0644);
+> >>  MODULE_PARM_DESC(enable_iomap, "Enable file I/O through iomap");
+> >>  
+> >> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG)
+> >> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG_BY_DEFAULT)
+> >> +DEFINE_STATIC_KEY_TRUE(fuse_iomap_debug);
+> >> +#else
+> >> +DEFINE_STATIC_KEY_FALSE(fuse_iomap_debug);
+> >> +#endif /* FUSE_IOMAP_DEBUG_BY_DEFAULT */
+> >> +
+> >> +static int iomap_debug_set(const char *val, const struct kernel_param *kp)
+> >> +{
+> >> +	bool now;
+> >> +	int ret;
+> >> +
+> >> +	if (!val)
+> >> +		return -EINVAL;
+> >> +
+> >> +	ret = kstrtobool(val, &now);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	if (now)
+> >> +		static_branch_enable(&fuse_iomap_debug);
+> >> +	else
+> >> +		static_branch_disable(&fuse_iomap_debug);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int iomap_debug_get(char *buffer, const struct kernel_param *kp)
+> >> +{
+> >> +	return sprintf(buffer, "%c\n",
+> >> +		       static_branch_unlikely(&fuse_iomap_debug) ? 'Y' : 'N');
+> >> +}
+> >> +
+> >> +static const struct kernel_param_ops iomap_debug_ops = {
+> >> +	.set = iomap_debug_set,
+> >> +	.get = iomap_debug_get,
+> > 
+> > Codex points out that if we set KERNEL_PARAM_OPS_FL_NOARG in
+> > kernel_param_ops::flags and teach iomap_debug_set to handle !val as now
+> > == true, then we can support enabling debugging with
+> > "modprobe fuse debug_iomap".  That seems reasonable to me, so I'll make
+> > this minor change.
+> > 
+> > --D
+> > 
+> >> +};
+> >> +
+> >> +module_param_cb(debug_iomap, &iomap_debug_ops, NULL, 0644);
+> >> +__MODULE_PARM_TYPE(debug_iomap, "bool");
+> >> +MODULE_PARM_DESC(debug_iomap, "Enable debugging of fuse iomap");
+> >> +#endif /* IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG) */
+> >> +
+> >>  bool fuse_iomap_enabled(void)
+> >>  {
+> >>  	/* Don't let anyone touch iomap until the end of the patchset. */
+> >>
+> >>
+> 
+> 
+> Hi Darrick,
+> 
+> would it help to just use debugfs? I will try to find time to send that
+> out tomorrow.
+> 
+> https://github.com/bsbernd/linux/commit/5f25afb42ae7bb7ead646cfa3a3683817975ccb9
+> 
+> (on this branch https://github.com/bsbernd/linux/commits/fuse-debugfs/)
 
-This should go after the s_bdev check since the bmap results are only
-defined for filesystems with s_bdev set, which means that FIBMAP can
-only be turned on for fuseblk filesystems.
-
-Also I don't think we need to have this weird fallback to FUSE_BMAP.
-iomap is 100% in charge of mapping data, so it can be 100% in charge of
-FIBMAP (non)responses.
+I'm skeptical, because debugfs is disabled in lockdown mode.  Presumably
+some $enterprise customers might want to turn on the extra logging and
+assertions even in production?  Some product groups I work with require
+secureboot even in their dev environments.
 
 --D
 
-> +
->  	if (!inode->i_sb->s_bdev || fm->fc->no_bmap)
->  		return 0;
->  
-> @@ -2628,6 +2634,13 @@ static loff_t fuse_lseek(struct file *file, loff_t offset, int whence)
->  	struct fuse_lseek_out outarg;
->  	int err;
->  
-> +	if (fuse_inode_has_iomap(inode)) {
-> +		loff_t alt_pos = fuse_iomap_lseek(file, offset, whence);
-> +
-> +		if (alt_pos != -ENOSYS)
-> +			return alt_pos;
-> +	}
-> +
->  	if (fm->fc->no_lseek)
->  		goto fallback;
->  
-> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index dccfc9a2c9847c..32ddf2fa6bdf78 100644
-> --- a/fs/fuse/fuse_iomap.c
-> +++ b/fs/fuse/fuse_iomap.c
-> @@ -4,6 +4,7 @@
->   * Author: Darrick J. Wong <djwong@kernel.org>
->   */
->  #include <linux/iomap.h>
-> +#include <linux/fiemap.h>
->  #include "fuse_i.h"
->  #include "fuse_trace.h"
->  #include "fuse_iomap.h"
-> @@ -539,7 +540,7 @@ static int fuse_iomap_end(struct inode *inode, loff_t pos, loff_t count,
->  	return 0;
->  }
->  
-> -const struct iomap_ops fuse_iomap_ops = {
-> +static const struct iomap_ops fuse_iomap_ops = {
->  	.iomap_begin		= fuse_iomap_begin,
->  	.iomap_end		= fuse_iomap_end,
->  };
-> @@ -669,3 +670,68 @@ void fuse_iomap_evict_inode(struct inode *inode)
->  
->  	fuse_inode_clear_iomap(inode);
->  }
-> +
-> +int fuse_iomap_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
-> +		      u64 start, u64 count)
-> +{
-> +	struct fuse_conn *fc = get_fuse_conn(inode);
-> +	int error;
-> +
-> +	/*
-> +	 * We are called directly from the vfs so we need to check per-inode
-> +	 * support here explicitly.
-> +	 */
-> +	if (!fuse_inode_has_iomap(inode))
-> +		return -EOPNOTSUPP;
-> +
-> +	if (fieinfo->fi_flags & FIEMAP_FLAG_XATTR)
-> +		return -EOPNOTSUPP;
-> +
-> +	if (fuse_is_bad(inode))
-> +		return -EIO;
-> +
-> +	if (!fuse_allow_current_process(fc))
-> +		return -EACCES;
-> +
-> +	inode_lock_shared(inode);
-> +	error = iomap_fiemap(inode, fieinfo, start, count, &fuse_iomap_ops);
-> +	inode_unlock_shared(inode);
-> +
-> +	return error;
-> +}
-> +
-> +sector_t fuse_iomap_bmap(struct address_space *mapping, sector_t block)
-> +{
-> +	ASSERT(fuse_inode_has_iomap(mapping->host));
-> +
-> +	return iomap_bmap(mapping, block, &fuse_iomap_ops);
-> +}
-> +
-> +loff_t fuse_iomap_lseek(struct file *file, loff_t offset, int whence)
-> +{
-> +	struct inode *inode = file->f_mapping->host;
-> +	struct fuse_conn *fc = get_fuse_conn(inode);
-> +
-> +	ASSERT(fuse_inode_has_iomap(inode));
-> +
-> +	if (fuse_is_bad(inode))
-> +		return -EIO;
-> +
-> +	if (!fuse_allow_current_process(fc))
-> +		return -EACCES;
-> +
-> +	switch (whence) {
-> +	case SEEK_HOLE:
-> +		offset = iomap_seek_hole(inode, offset, &fuse_iomap_ops);
-> +		break;
-> +	case SEEK_DATA:
-> +		offset = iomap_seek_data(inode, offset, &fuse_iomap_ops);
-> +		break;
-> +	default:
-> +		return generic_file_llseek(file, offset, whence);
-> +	}
-> +
-> +	if (offset < 0)
-> +		return offset;
-> +	return vfs_setpos(file, offset, inode->i_sb->s_maxbytes);
-> +}
+> 
+> Thanks,
+> Bernd
+> 
+> Thanks,
+> Bernd
 > 
 > 
