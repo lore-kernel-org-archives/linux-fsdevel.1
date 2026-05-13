@@ -1,135 +1,121 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC659388E64
-	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 03:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778641630; cv=none; b=i6QtdJp0df33mYb4+eR7qX8koII0hpaSzOgKBl6U/BgY9WYP8Km7WyQg0Rm3jJrSAcddbvrhEJJLpY2Oi/xTbAQgLNaxbAhese8OJVMORPLY5G/xC+UHRJa6MYmUUg60JxrGnZA7QJPnjlAZYdBSxVzxJRi/KCfkmw4pIQgdlZw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778641630; c=relaxed/simple;
-	bh=lFHjfb/iiiQv7LiZLlzYMEvqX40z619Do1ZMUYCjtwQ=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References; b=Epr77wXubSjSBBbPEn7mdNi7fDnhQC0iBPNTsEtdh56w77wb5tdGRRauJczR9uNUpKvtpuIaKB+5p4g9ZYWg1EX/YSs7FBKvSHRbv1Cpb8ftUk0yTh3kHxALuWpx+pN8GaclsnUkG/WHGETSiKqo3MweOtdmgdpYBtiX7Z/+b5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gD1MlNX4; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFD93955C0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 03:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778644261; cv=pass; b=XXeHnrjPLNm6jxUx78oFJNzLNGDcZ7JP+fySo3FOYMQgrVnDq1uy6IHbMj7L6B0LMlTl9NgkYq0xZXDYpQJQKY1uvcrHJBa/hoox2wCYfvWlk2+ogezHgLD6Aa2lwM4n1Q8nFxmQPXiXWg2uOFtBokvou644X5Gn3CTellzc7lo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778644261; c=relaxed/simple;
+	bh=ySuOWG4al6XqpgWWhWblWAhEAKrZ0xPYXy7Feh8cyFA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VfYJON3lKYY+qvljCEK8vY4MJrS6Au7Mzm5uAlL7mDfodaFoBCVnsPZTyF7dxI/RRXHqu+JsNY6gDfXtznQmatdoLGjvTgZK6CN0cI4B+iLdKCjQKHv8rmdjL3pclSRwb77z69Ntimb+6jEpbCwcjDH40MPZtGQPUP1q05GfrcI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cR71oiUk; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gD1MlNX4"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8367df48711so2910509b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 20:07:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cR71oiUk"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-671588ab0cfso42a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 12 May 2026 20:50:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778644256; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lK9z98dYEEmEWeXR/qE+027eVqIz8aQNk52P/Hsv/1OhJByWltLhdzM7GuOm8dWKWZ
+         M5S1Mwr62KHqwW8zeiZliUqpOvwQOKFvFYETaX63ufb1pe9nNTQ4WtAfW8htlnDrg10X
+         i/TjTZfiZRl4eR8HTuEVAmj35byaNum0O2QWSZfvVp4qVHkIHUHxVVHjzDNXiUQsIJ9H
+         DVEJtcuNud+quv8REwhyZgg9h7cn/UZ2K6TRv+7G0ap8oFP+LbCaFgiC0jYoTwdB860Z
+         WyGEkBTnsxexs3BnuLepEZLeFHfysFFMTfRYim97hwARW+Jt40HUEpXBcypPoc+1cYDR
+         FVAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=55D1DN5rEuWPlm48vc4v77aNlbyIDswld47F/9dkAa8=;
+        fh=RVdFqwOPl9+SGCGOkwoKBh2d9u7D0lTMT3SV8WJM+FM=;
+        b=Tdl/ueHbfoSFTzDZ3dqo/ozMMhltg/L3oEdiXhOLR0MbmDK5ZnHGUwj+omkMoiJ1Dh
+         NiK9+c3C0pE4IiB8pyjjcRGTeGmdRPYADtYV2mtqaiqKiuqtQPDs428CiDSd+n7QBD0n
+         iL2oazd/HJnkAMNBSzJXrTq5W+MZ2GEEc2Vqwg9lgleMmUwgmD4/DFWbBDxwp9nCGI4V
+         TiCo7+CHJslYHiRQ20rOyEfkWsCTbimK/8D6EwmMxxat+W36atkNcsJh99xqmMZKkaXu
+         si1VTQJpMSqP3ZU+6MuZooUIyDR/Ev6RyyqxGjEslYMgVIAACgFt0WZLZ3FnFpg1kOVA
+         myFA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778641628; x=1779246428; darn=vger.kernel.org;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mr8B54nCUqKe73fttlmYFbpBv8yytDHMFbs5Gt5TGns=;
-        b=gD1MlNX4OzLVqGRpDnYDW+bLaSTHiFyAJNdS/zfI/S1rU67Yfmoa318gequ5lMwkrR
-         ZYajs/Bt9Xh/Cu8QlWCM75ynkmM+mw+hF362ePV1z757CIw9y9hGzlDBrwQI2Zl/YA4z
-         tzd2EzVlrbF6BTkyG2qOCiSRsHV6TOgIKLiM83MOgueqQJ1KaJ8odidvLptqOWXByTBP
-         XYFN8lTCUWwYupDKvvQQH6/tBL+4DXZrhGeVWnuvtsup47HM+nvl1Qvu4OxgvKv7boY3
-         xaGUYeOD90u4IRK674tXS123h7t/dqwbwx1rEqNeS6C3nOHykBqeQ6omWWmK7WIrbckV
-         lxTA==
+        d=google.com; s=20251104; t=1778644256; x=1779249056; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=55D1DN5rEuWPlm48vc4v77aNlbyIDswld47F/9dkAa8=;
+        b=cR71oiUkwqtCrtEipaBtIFJGV0xPTbiheFEwiUrk1wJ1Yzxl8W/SyOS/D6ykWdxI+f
+         baI+bmDXnT7Dl5cV39N9MgcnG3luhSmHIUFZBBZpICReETIyTIZFQ0tuA+7ZKQwL7i3F
+         AR4fjq0JKLfS+nPsu7S04673SDtt0bmEKosWGduU4/CDvAdqf1EuZOMJlfVg+3QBDdmK
+         +GDXPd60WeJzUE8TQTy8hYu00igZp9tkrkJ7p+A1Uwx+Ol6wwOXY8LSrGdU7+v1+l4vQ
+         luTn/RGzlhhBmxIPtHW2+SomVI+os5kbM1FOdBupGafzaDw6VAvt26ho1si+7vLNXmRr
+         3lKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778641628; x=1779246428;
-        h=references:message-id:date:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mr8B54nCUqKe73fttlmYFbpBv8yytDHMFbs5Gt5TGns=;
-        b=i//k9wSO24rsSWY88n8iM0EB6mb9CqAptZSzBpnA1Aea8FKog4QOm/h/IYZR2QJflI
-         oowuy8Jv9Jd4/i/5ysl8Q5YfjCQTYB1LCtQkW7Fl6/9nELccCGzmR7YV5vukvlbapSSh
-         8JqsLPMOH85ll1v6Eni07Nqw13Q3IFMOYluqxbppVbu+3+4q7FUqv4TQ4rHb+Y5zIqmA
-         YeWQy+Q8ypSKSTw6BsJ+1/ZR5JE6U47+XdGnTCumcNYm0AlabiTU/7PHstGAMdprfmb3
-         /Zi24JQQm4vLTL1IjhQXIwZLvpm/nSbWAXMfko7rPfMxw0Eush4eMke+WRmCC//2//49
-         rYGg==
-X-Gm-Message-State: AOJu0YwCWTvuarJlximY/8PT2Z9YmkJdh/drJLh0lW4+vPAQ+Jc3MnSl
-	0GCy1IQ5Yl/MPcVOC8HtHTWIST9ChCVO6riPnRSxKbbQR5T4ek77WLEI
-X-Gm-Gg: Acq92OEvlzqGhQVuzeq2TaGXzZ1bEqZr1R4ZRgRKVXkwyy1yt85X6/IKV7Xt8FuysM+
-	BwcA17kkGyOrZ7D9Bqds72s4k9mexnngsm9yHNFMxzHZeLEBSl0kKPNCzyOCzb0rXlGcvLxKrlt
-	iooWqEukxlagjxBX+l3b8ziewEh0ZR0WQX0POyEXHEU0lDcCNwKhLqOEvGvsPfevG/0LxpmF5Ug
-	PzZvNgO/j5S4TQZEmxhJNNmquHYfOwQxml/G0gnwJrEoTZldayXx/7Ea3lRQnjdNEJnSQpTLFe8
-	VJnzQRrJy3bDZRoJ/5ehNwLQcifzWD/dmXkoxAPc+npLn3UPBdAQiRCRrpr2syo6jt70fQAlNWh
-	5qBRnwPv2a+35uK10M3D0WBdPgQWBShhKdPXbZOLeAAHunL0G9Z3YJrEypg2J1GXsJfK9Hf0jKK
-	0sSo7qJmWHjnc/l1B/UGdAImO6Ru9rc7pn
-X-Received: by 2002:a05:6a00:4146:b0:82a:17b8:1474 with SMTP id d2e1a72fcca58-83f03e92ea5mr1356854b3a.1.1778641627973;
-        Tue, 12 May 2026 20:07:07 -0700 (PDT)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839685a3187sm25369465b3a.60.2026.05.12.20.07.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 20:07:07 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Mike Snitzer <snitzer@kernel.org>, Jens Axboe <axboe@kernel.dk>, Chuck Lever <chuck.lever@oracle.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-mm@kvack.org, Jeff Layton <jlayton@kernel.org>
-Subject: Re: [PATCH v7 3/3] mm: kick writeback flusher for IOCB_DONTCACHE with targeted dirty tracking
-In-Reply-To: <20260511-dontcache-v7-3-2848ddce8090@kernel.org>
-Date: Wed, 13 May 2026 08:31:23 +0530
-Message-ID: <y0hoqags.ritesh.list@gmail.com>
-References: <20260511-dontcache-v7-0-2848ddce8090@kernel.org> <20260511-dontcache-v7-3-2848ddce8090@kernel.org>
+        d=1e100.net; s=20251104; t=1778644256; x=1779249056;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=55D1DN5rEuWPlm48vc4v77aNlbyIDswld47F/9dkAa8=;
+        b=PfBcALO7lqAIEW99/7N9a90MLR8PE/dtFnbXMEAH86uAudVh0Du6F5yOFzoWJswUGP
+         vYJGzouA8DEUAp0nmbhCgiG39IpSdY6iszB2kH7eoA+Pkc30khyoenU5aIUZju+azu9V
+         l/LXNI44e2VA/I4H20dj8t074F4Hla1xZcL9eKTRtibw3efACn+tXXIdcmYqWsIVVYjl
+         nSyxOHvhgTqPstNsdDaOKmJQi39sdRjcaA6Jnmq0E26uMoyoWAY2y8YYPS7wfoWywnX7
+         rX+IE6cVZM/OyGvPAq+ZNIUiGHHcHWvn59JwhmrnAiIshZCstBraUL8MyjIh1+KRCUC4
+         A5eQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9knq3CpO7yQNQyXaoEuPhtvJpkqqtZuc59CRPZgE1RrIQvk7ve4VMknv+qGuSCY1sl71NEUcHIXhj4HK00@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHIFvJQvSY0i+lU1I3XuTP0pQ/7MnPgyJvf5fW247AZVQXD+a+
+	S3QpwvyCuFGok70YLm2pY6A2qVqMKQJPLmK9GxpYauen/Wj/LRu1ixH7PolomO9V5GZKHGa+Ijk
+	XXRLuDoN5Pwc4rtL9DJfxrMFPqmoBasTziZnulk/+
+X-Gm-Gg: Acq92OFmQDlZ7FlVTr6jU3d3XgTs92DMCP6BFQ/Rvn4d0nQpe4XQjAjLsHmvoUJ437J
+	WsLZfpWNpHoh6JDD8w561TPlqKvDzNNeqDXUivQngcFdCFQRUTKRvF0XftZgPMT4YhaTJiEluT4
+	eoFVk5oqwQk5dVEncVcN91X71R13Tze3stIEDWFo2hJdWWpllgAiU4aqkly4sHCJQWst9mf0fTq
+	IP86hdRySi8OZr7tshRV0PCIk1vcXwKgprNIURKw2hjp2f9qsXpETMsuFWgPap6MestfRUj3D8t
+	u+yt2hLUab4QYBg6
+X-Received: by 2002:aa7:d785:0:b0:67b:6d1c:9585 with SMTP id
+ 4fb4d7f45d1cf-68214ba3045mr32613a12.8.1778644255979; Tue, 12 May 2026
+ 20:50:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260426062718.1238437-1-surenb@google.com> <20260426125941.9921d585e2c5033e68ddb9a1@linux-foundation.org>
+In-Reply-To: <20260426125941.9921d585e2c5033e68ddb9a1@linux-foundation.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 12 May 2026 20:50:42 -0700
+X-Gm-Features: AVHnY4KooogSc_WOOEscskwK_cvUJBgoIv2moaw-0M_9CqRzzIq_0iRE4kQW2m8
+Message-ID: <CAJuCfpE6L8ZRQEBUVx7j_qYQQJB+coVPUMPhOyHc3V_mBLF6cg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] use vma locks for proc/pid/{smaps|numa_maps} reads
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: liam@infradead.org, ljs@kernel.org, vbabka@kernel.org, david@redhat.com, 
+	willy@infradead.org, jannh@google.com, paulmck@kernel.org, pfalcato@suse.de, 
+	shuah@kernel.org, hsukrut3@gmail.com, richard.weiyang@gmail.com, 
+	reddybalavignesh9979@gmail.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jeff Layton <jlayton@kernel.org> writes:
+On Sun, Apr 26, 2026 at 12:59=E2=80=AFPM Andrew Morton
+<akpm@linux-foundation.org> wrote:
+>
+> On Sat, 25 Apr 2026 23:27:15 -0700 Suren Baghdasaryan <surenb@google.com>=
+ wrote:
+>
+> > Use per-vma locks when reading /proc/pid/smaps and /proc/pid/numa_maps
+> > similar to /proc/pid/maps to reduce contention on central mmap_lock.
+>
+> Was the benefit measured/measurable?
+>
+> Sashiko doesn't like your strchr():
+>         https://sashiko.dev/#/patchset/20260426062718.1238437-1-surenb@go=
+ogle.com
 
-> dontcache-bench results (same host, T6F_SKL_1920GBF, 251 GiB RAM,
-> xfs on NVMe, fio io_uring):
->
-> Buffered and direct I/O paths are unaffected by this patchset. All
-> improvements are confined to the dontcache path:
->
-> Single-stream throughput (MB/s):
->                         Before    After    Change
->   seq-write/dontcache      298      897    +201%
->   rand-write/dontcache     131      236     +80%
->
-> Tail latency improvements (seq-write/dontcache):
->   p99:    135,266 us  ->  23,986 us   (-82%)
->   p99.9: 8,925,479 us ->  28,443 us   (-99.7%)
->
-> Multi-writer (4 jobs, sequential write):
->                                 Before    After    Change
->   dontcache aggregate (MB/s)     2,529    4,532     +79%
->   dontcache p99 (us)             8,553    1,002     -88%
->   dontcache p99.9 (us)         109,314    1,057     -99%
->
->   Dontcache multi-writer throughput now matches buffered (4,532 vs
->   4,616 MB/s).
->
-> 32-file write (Axboe test):
->                                 Before    After    Change
->   dontcache aggregate (MB/s)     1,548    3,499    +126%
->   dontcache p99 (us)            10,170      602     -94%
->   Peak dirty pages (MB)          1,837      213     -88%
->
->   Dontcache now reaches 81% of buffered throughput (was 35%).
->
-> Competing writers (dontcache vs buffered, separate files):
->                                 Before    After
->   buffered writer                  868      433 MB/s
->   dontcache writer                 415      433 MB/s
->   Aggregate                      1,284      866 MB/s
->
->   Previously the buffered writer starved the dontcache writer 2:1.
->   With per-bdi_writeback tracking, both writers now receive equal
->   bandwidth. The aggregate matches the buffered-vs-buffered baseline
->   (863 MB/s), indicating fair sharing regardless of I/O mode.
->
->   The dontcache writer's p99.9 latency collapsed from 119 ms to
->   33 ms (-73%), eliminating the severe periodic stalls seen in the
->   baseline. Both writers now share identical latency profiles,
->   matching the buffered-vs-buffered pattern.
->
-> The per-bdi_writeback dirty tracking dramatically reduces peak dirty
-> pages in dontcache workloads, with the 32-file test dropping from
-> 1.8 GB to 213 MB. Dontcache sequential write throughput triples and
-> multi-writer throughput reaches parity with buffered I/O, with tail
-> latencies collapsing by 1-2 orders of magnitude.
->
-Thanks for also considering multiple request for performance numbers
-into account, this indeed is a nice improvement overall to
-RWF_DONTCACHE.
+Sorry, missed your comment earlier.
 
-With Christian simplification - the patch looks good to me.
-So, please feel free to add:
-
-Reviewed-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-
+I think strchr() is fine here and Sashiko did notice that read_page()
+always makes sure the buffer ends with a newline character, IOW
+*end_pos =3D=3D '\n'. So, once we found this last newline and moved past
+it, we terminate the loop. I guess Sashiko is being overprotective...
