@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091453A6F03;
-	Wed, 13 May 2026 18:09:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE08387345;
+	Wed, 13 May 2026 18:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778695777; cv=none; b=ELs8Xh6BB/iclRoNQervunNwRUCz2/G9q57EicxQTp+iPC0/QQ+gdkEYxyCQGgRiQC7O9HgLuV4FhKFWUtj4JFodlrWyhD8MnL3+tetYtT9qK4qnveL/SX7bOtUMIDMDON21y7Dx8bjeayGatcw5DGZ+FGL/p/9xZB/znH+/xns=
+	t=1778696334; cv=none; b=hCUidiUvrV7YnmTzSl53hL+6yuPA2rO7aCoLpol24Vf9MgtW6dkqNsT1Hzv6Faekq1ShSC2MlAngbrK9cRji+DJy/lqVBwuDKr6xrMj9fDF6p9qXhV1BlppKty0J0RMKBU2myIh1IJfXqSHb/FwWrWGbFEHM1CuK1Vxg3fAu/z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778695777; c=relaxed/simple;
-	bh=OvvU5olmF2zBYT1YZ+Tjal98wpY7ec79uhQsQNRjXcI=;
+	s=arc-20240116; t=1778696334; c=relaxed/simple;
+	bh=IhELT+Yuy76/7x1ahQ7ceXzvqtZQsS7X5OCIgoPSDFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U+xQ16vcInv01yhcuC8Ux1bRd9ooEAjVa/I/gVlKHAUyK33M6rxsD4C4MFReafKp1CwjS9QjbqxGAX/FPZTEgA3dmw9mFmK8fsqsriWdEeZMh/EPqWp1JvfpAQ83/eNIvw9hZADEpRIQ/QlSNZzSmG8yEam/bVRQiE5ijCHALIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Du9Whl9q; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VL/F+I7afACt5x6+nS8hjdTdb6QxcD0yOFxANU3Hs+nflXn++iy0EU0orfJAQLQJ3ifBz9MLZUDEttv/WY9AQrXOqR1o0Eg8ZGT+D3kUhXVGo30Gu3stqzxKF/OLHHjooa0T/4zJ4ALE9JFIkXhMB5rDkdJd6idYx5eIbM6s5Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TApJNUN3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Du9Whl9q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B055C2BCB7;
-	Wed, 13 May 2026 18:09:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TApJNUN3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42A7C2BCB7;
+	Wed, 13 May 2026 18:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778695776;
-	bh=OvvU5olmF2zBYT1YZ+Tjal98wpY7ec79uhQsQNRjXcI=;
+	s=k20201202; t=1778696333;
+	bh=IhELT+Yuy76/7x1ahQ7ceXzvqtZQsS7X5OCIgoPSDFc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Du9Whl9qtfTXD3WNe3rC3LVu0LKYepm5H+FvakvEFnv7yzugwmNcNH8E1AmU3DvpN
-	 lSrWeKh4IBzdKBke4IIApz2K7nWpP13uTG94DNGwj/aH/XAFX878e5khri6ux96sm4
-	 Jd122FupF2PhAYR2v7skBkjH2rYyggaiNpVZzFim/W16Os9AT3cmWc5eJDdmCBHTZm
-	 EA8GsSGWLYTAInzEzvngMuqZyTLKDG007NmI0j/K/DEb3dNrXSs7qFq6+5O7DNCfT0
-	 XJKoqUKwSA3yAPgAkmfDPghagHgUmAmJMJmb26vT0enFgLOaiGAuYmHlq+qSlgHv52
-	 rBK7yeXZmdWvA==
-Date: Wed, 13 May 2026 11:09:36 -0700
+	b=TApJNUN3/EYWX95QeYagdzEhTGiZvf+CcdMzD+RchxXocEOg4owsH0ubhKfmeeMfO
+	 1y4b0aq/DVKc8eyQ6MG3qJJu/NHTyuLUJE9h1EVXUocvTHMFMr+3o8frIrd6ktnzow
+	 KygtDlY7zeaWvAIowhpwyaqYO8R19mbFxsQcaZiWjTVgLTbcJZSjo+3f9S+7tiYxrC
+	 jvd2lH080X14YknMJzuvj3PvbwUVzVGtLHIrhWfU+YJJ5t7n6E7JTJaybMbFuymI4O
+	 wy7dxaRjfwlx7jEJexH4VrGLxZl+N/6Eu+qO2kR2Hai26IbAeJbh+GfqYkAqvxx6KO
+	 EBxYEBAwhKf8A==
+Date: Wed, 13 May 2026 11:18:53 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 08/33] fuse: create a per-inode flag for setting
- exclusive mode.
-Message-ID: <20260513180936.GI9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 11/33] fuse: isolate the other regular file IO paths from
+ iomap
+Message-ID: <20260513181853.GJ9544@frogsfrogsfrogs>
 References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205321.4101881.130891634127766129.stgit@frogsfrogsfrogs>
+ <177747205386.4101881.2569175274476427605.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,124 +44,195 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747205321.4101881.130891634127766129.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747205386.4101881.2569175274476427605.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:25:46AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:26:33AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Create a per-inode flag to control whether or not this inode can use
-> exclusive mode.  This enables more aggressive use of cached file
-> attributes for things such as ACL inheritance and transformations.
-> 
-> The initial user will be iomap filesystems, where we hoist the IO path
-> into the kernel and need ACLs to work for regular files and directories
-> in the manner that most local filesystems expect.
+> iomap completely takes over all regular file IO, so we don't need to
+> access any of the other mechanisms at all.  Gate them off so that we can
+> eventually overlay them with a union to save space in struct fuse_inode.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/fuse_i.h          |   17 +++++++++++++++++
->  include/uapi/linux/fuse.h |    4 ++++
->  fs/fuse/inode.c           |    5 +++++
->  3 files changed, 26 insertions(+)
+>  fs/fuse/dir.c    |   14 +++++++++-----
+>  fs/fuse/file.c   |   18 +++++++++++++-----
+>  fs/fuse/inode.c  |    3 ++-
+>  fs/fuse/iomode.c |    3 ++-
+>  4 files changed, 26 insertions(+), 12 deletions(-)
 > 
 > 
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 740589d5dc6c2d..07ad5abc48f70f 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -1116,6 +1116,23 @@ static inline bool fuse_is_bad(struct inode *inode)
->  	return unlikely(test_bit(FUSE_I_BAD, &get_fuse_inode(inode)->state));
->  }
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 996d81f263d637..1bb0302f7ce8bb 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -2200,6 +2200,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	FUSE_ARGS(args);
+>  	struct fuse_setattr_in inarg;
+>  	struct fuse_attr_out outarg;
+> +	const bool is_iomap = fuse_inode_has_iomap(inode);
+>  	bool is_truncate = false;
+>  	bool is_wb = fc->writeback_cache && S_ISREG(inode->i_mode);
+>  	loff_t oldsize;
+> @@ -2257,12 +2258,15 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		if (err)
+>  			return err;
 >  
-> +static inline void fuse_inode_set_exclusive(const struct fuse_conn *fc,
-> +					    struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +
-> +	/* This flag wasn't added until kernel API 7.99 */
-> +	if (fc->minor >= 99)
-> +		set_bit(FUSE_I_EXCLUSIVE, &fi->state);
-> +}
-> +
-> +static inline void fuse_inode_clear_exclusive(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +
-> +	clear_bit(FUSE_I_EXCLUSIVE, &fi->state);
-> +}
-> +
->  static inline bool fuse_inode_is_exclusive(const struct inode *inode)
->  {
->  	const struct fuse_inode *fi = get_fuse_inode(inode);
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 5ae6b05de623d7..2d35dcfbf8aaf5 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -244,6 +244,7 @@
->   *  7.99
->   *  - XXX magic minor revision to make experimental code really obvious
->   *  - add FUSE_IOMAP and iomap_{begin,end,ioend} for regular file operations
-> + *  - add FUSE_ATTR_EXCLUSIVE to enable exclusive mode for specific inodes
->   */
->  
->  #ifndef _LINUX_FUSE_H
-> @@ -584,9 +585,12 @@ struct fuse_file_lock {
->   *
->   * FUSE_ATTR_SUBMOUNT: Object is a submount root
->   * FUSE_ATTR_DAX: Enable DAX for this file in per inode DAX mode
-> + * FUSE_ATTR_EXCLUSIVE: This file can only be modified by this mount, so the
-> + * kernel can use cached attributes more aggressively (e.g. ACL inheritance)
->   */
->  #define FUSE_ATTR_SUBMOUNT      (1 << 0)
->  #define FUSE_ATTR_DAX		(1 << 1)
-> +#define FUSE_ATTR_EXCLUSIVE	(1 << 2)
->  
->  /**
->   * Open flags
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index bf86edbfa22d6b..36814b5de46879 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -197,6 +197,8 @@ static void fuse_evict_inode(struct inode *inode)
->  		WARN_ON(!list_empty(&fi->write_files));
->  		WARN_ON(!list_empty(&fi->queued_writes));
+> -		fuse_set_nowrite(inode);
+> -		fuse_release_nowrite(inode);
+> +		if (!is_iomap) {
+> +			fuse_set_nowrite(inode);
+> +			fuse_release_nowrite(inode);
+> +		}
 >  	}
-> +
-> +	fuse_inode_clear_exclusive(inode);
+>  
+>  	if (is_truncate) {
+> -		fuse_set_nowrite(inode);
+> +		if (!is_iomap)
+> +			fuse_set_nowrite(inode);
+>  		set_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
+>  		if (trust_local_cmtime && attr->ia_size != inode->i_size)
+>  			attr->ia_valid |= ATTR_MTIME | ATTR_CTIME;
+> @@ -2334,7 +2338,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	if (!is_wb || is_truncate)
+>  		i_size_write(inode, outarg.attr.size);
+>  
+> -	if (is_truncate) {
+> +	if (is_truncate && !is_iomap) {
+>  		/* NOTE: this may release/reacquire fi->lock */
+>  		__fuse_release_nowrite(inode);
+>  	}
+> @@ -2358,7 +2362,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	return 0;
+>  
+>  error:
+> -	if (is_truncate)
+> +	if (is_truncate && !is_iomap)
+>  		fuse_release_nowrite(inode);
+>  
+>  	clear_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 8d55d2f4dd4cc9..2a807c49792d53 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -257,6 +257,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  	struct fuse_conn *fc = fm->fc;
+>  	struct fuse_file *ff;
+>  	int err;
+> +	const bool is_iomap = fuse_inode_has_iomap(inode);
+>  	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
+>  	bool is_wb_truncate = is_truncate && fc->writeback_cache;
+>  	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
+> @@ -278,7 +279,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  			goto out_inode_unlock;
+>  	}
+>  
+> -	if (is_wb_truncate || dax_truncate)
+> +	if ((is_wb_truncate || dax_truncate) && !is_iomap)
+>  		fuse_set_nowrite(inode);
+>  
+>  	err = fuse_do_open(fm, get_node_id(inode), file, false);
+> @@ -291,7 +292,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  			fuse_truncate_update_attr(inode, file);
+>  	}
+>  
+> -	if (is_wb_truncate || dax_truncate)
+> +	if ((is_wb_truncate || dax_truncate) && !is_iomap)
+>  		fuse_release_nowrite(inode);
+>  	if (!err) {
+>  		if (is_truncate)
+> @@ -539,12 +540,14 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
+>  {
+>  	struct inode *inode = file->f_mapping->host;
+>  	struct fuse_conn *fc = get_fuse_conn(inode);
+> +	const bool need_sync_writes = !fuse_inode_has_iomap(inode);
+>  	int err;
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>  
+> -	inode_lock(inode);
+> +	if (need_sync_writes)
+> +		inode_lock(inode);
+>  
+>  	/*
+>  	 * Start writeback against all dirty pages of the inode, then
+> @@ -555,7 +558,8 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
+>  	if (err)
+>  		goto out;
+>  
+> -	fuse_sync_writes(inode);
+> +	if (need_sync_writes)
+> +		fuse_sync_writes(inode);
+>  
+>  	/*
+>  	 * Due to implementation of fuse writeback
+> @@ -579,7 +583,8 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
+>  		err = 0;
+>  	}
+>  out:
+> -	inode_unlock(inode);
+> +	if (need_sync_writes)
+> +		inode_unlock(inode);
+>  
+>  	return err;
 >  }
+> @@ -2015,6 +2020,9 @@ static struct fuse_file *__fuse_write_file_get(struct fuse_inode *fi)
+>  {
+>  	struct fuse_file *ff;
 >  
->  static int fuse_reconfigure(struct fs_context *fsc)
-> @@ -436,6 +438,9 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
->  	inode_set_mtime(inode, attr->mtime, attr->mtimensec);
->  	inode_set_ctime(inode, attr->ctime, attr->ctimensec);
->  
-> +	if (attr->flags & FUSE_ATTR_EXCLUSIVE)
-> +		fuse_inode_set_exclusive(fc, inode);
+> +	if (fuse_inode_has_iomap(&fi->inode))
+> +		return NULL;
 
-Codex points out that the root inode gets created without the exclusive
-flag being set, so a subsequent attempt by the fuse server to set it in
-a LOOKUP/GETATTR call will fail.  fuse_change_attributes_common should
-add the following snippet:
+Codex observed that fuse_finish_open and fuse_file_mmap can still add
+the file pointing to an iomap inode to the inode's write_files list if
+writeback_cache is enabled.  Since we don't use /any/ of that
+infrastructure, fuse_link_write_file should refrain from doing the
+list_add.
 
-
-	/*
-	 * The root inode is created with attr->flags == 0 at mount time prior
-	 * to FUSE_INIT, so this is the only way that the fuse server can set
-	 * the attribute on the root directory after the fact.
-	 */
-	if (get_node_id(inode) == FUSE_ROOT_ID &&
-	    (attr->flags & FUSE_ATTR_EXCLUSIVE))
-		fuse_inode_set_exclusive(fc, inode);
-
-I also realized that the uapi header should say that the exclusive flag
-must be set at in-kernel inode creation time and cannot change for the
-life of that in-kernel inode.
+That's a good catch, I didn't find that loose end when I went through
+and tried to find them all.
 
 --D
 
 > +
->  	switch (inode->i_mode & S_IFMT) {
->  	case S_IFREG:
->  		fuse_init_file_inode(inode, attr);
+>  	spin_lock(&fi->lock);
+>  	ff = list_first_entry_or_null(&fi->write_files, struct fuse_file,
+>  				      write_entry);
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index f8e5c03580e56b..3cb2ef161ef7c5 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -192,7 +192,8 @@ static void fuse_evict_inode(struct inode *inode)
+>  		if (inode->i_nlink > 0)
+>  			atomic64_inc(&fc->evict_ctr);
+>  	}
+> -	if (S_ISREG(inode->i_mode) && !fuse_is_bad(inode)) {
+> +	if (S_ISREG(inode->i_mode) && !fuse_is_bad(inode) &&
+> +	    !fuse_inode_has_iomap(inode)) {
+>  		WARN_ON(fi->iocachectr != 0);
+>  		WARN_ON(!list_empty(&fi->write_files));
+>  		WARN_ON(!list_empty(&fi->queued_writes));
+> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+> index 3728933188f307..9be9ae3520003e 100644
+> --- a/fs/fuse/iomode.c
+> +++ b/fs/fuse/iomode.c
+> @@ -6,6 +6,7 @@
+>   */
+>  
+>  #include "fuse_i.h"
+> +#include "fuse_iomap.h"
+>  
+>  #include <linux/kernel.h>
+>  #include <linux/sched.h>
+> @@ -203,7 +204,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+>  	 * io modes are not relevant with DAX and with server that does not
+>  	 * implement open.
+>  	 */
+> -	if (FUSE_IS_DAX(inode) || !ff->args)
+> +	if (fuse_inode_has_iomap(inode) || FUSE_IS_DAX(inode) || !ff->args)
+>  		return 0;
+>  
+>  	/*
 > 
 > 
