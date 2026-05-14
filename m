@@ -1,211 +1,140 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFD63C379F
-	for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 23:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778715979; cv=pass; b=kw1NLVTs3RB7Z6JNEiDJQ7RpCclmhCzkAgMP56U5SPcXEJ50zVbrP/01gBUSh9TFG5NwaXY/dw0yos9zS63KEYKWOvbVmPT3+zYNNxw/u6x91/vu41S2hFCUK2J5xzVZa8c0Au9vf9BzmagBqJW0j4sd55Ntqk4gtX/biab70vo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778715979; c=relaxed/simple;
-	bh=tyzTL3ZM/CqefmFe7D09NFTQXS+tF3E0NxC6baga120=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fK/GqK7IZmy6q4FJcgwnNX4YtFyF9wPFgKHMoRWi7KhJ416HJrBPYl+LrulFC8RgtUVtNt7vxxHb1TP2dmVBzVb2ogk1B3koUNxAROC9ml3MwJgj+Y2WMonrf2m1xHvtfYpRoPEBLwwFdraf/o1LDjTkjpnKuYkWc5R9v5j66Xk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjGP/8Zg; arc=pass smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D630430DEB0;
+	Thu, 14 May 2026 01:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778722792; cv=none; b=AdhTmQ8jDJuKfZ4p8HyeNO2DHyAgydqmdA2FJMptwyZ+HB14So7dL375rrxtUtJiopvq5BZUEY7gDTCtpED6/iEQu4hUtSymXjZZoOGaHv1dScyohLOWw5WlPPnBhXgCWByBV2RmqUEp9VcC2+GnBs/tNInGeM6saw/1jojya4Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778722792; c=relaxed/simple;
+	bh=n/SuGtXDAksDz1i+mRBzi4UfB58RtfAyuAHLLeVePPY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NNALe8ZrJkqXiW31EYidIccF3VC/JvEFeX4jsxKT9Lt/Bzt805m00EpD7xnmcaRYJzijJnQBjKMWvqbolgxOvei5cF5D+d13QfLZv0gn/GvHFjVRAdsvXTTKquknVgw7lpfxNGPon+aCxIJPpwx+oGzj27p7VnN1mMd+4aNK4zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Mope1RZU; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjGP/8Zg"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a8fbe18b1dso1035141e87.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 16:46:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778715976; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HzzrFJkaNDSfJ4ptSZrIkbk4qdJd5gS96aQEbOzUZ3rh3qhPcGac+E0g6PNXTgFkXJ
-         ZA98RUaQfRhIFF43qESbDwRq8arbFEVnv2Da/EY2z5ljCgjbJ3GYSRG8VYpT22kaMCID
-         juA2AUXoyxrVrAZX9E8czJHYQo38dQylw9EiZF2I8Q39mXTspCdAMkkF7HL+AT0scx4O
-         eZL/qjDBlrpfz2DNzGamNiRw2eiJOtB0xuEtMyf8JRy+QE75tJboEjaeYJT/y61n946o
-         WRq8hxHnvBqS2dVtB41iLBv4D+uDE8Dmlg/ybJdTdG9ZAktDSpkis/IqELHTlEkZwVxV
-         tmSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PGRwI3IduwjmmuOtswCaIsGRHyxev2XGrZfskh2LnVc=;
-        fh=OURnP0/ZAw9t3m4oYmHfFkqPacEJvKre11HBi1coPuA=;
-        b=HqJCHoE2jLuv4fgRkDw8plkdV6IyborJLvQdH6WT5UZhFVoOJzkAWwcG58mGAnsHLt
-         Ch7fasKRYDW1LgSYJIhNEFBLy0OYPVokHs4nTWy/n7LAhyCg87GEl0oEQ9lI5SBM+SqK
-         KExTLCcAPLmZoYn15ubOTudG/ZYN1MG6LhBfd6CvCR11LKJ0od4xngwv9JkWJuZvAu1K
-         Iq81gTA9a8gIY705eNd7O3SRRAurLoEJaN67KPpUwqScoi3e4DDdHwRdfEC1lgziOLZE
-         mZH1xHArlgisAU/Hnl8hcIMb6QnjWgg+S805NGDfHVgUfxCFe9yjQABUjaC225Gfv2B6
-         R7Pw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778715976; x=1779320776; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PGRwI3IduwjmmuOtswCaIsGRHyxev2XGrZfskh2LnVc=;
-        b=BjGP/8ZgTokAY2SfzlNUhEJgkaCAut0dpEwLwNkA5c9qxZTxnzCrDOMcziXtjjt6XK
-         W23eTlfJM1Y8wF9zpi+fKl6NdELTdkExeWfH5yOYXx/0zPasMJmRhVN9FzlCmJ/MO2Tv
-         7+V2kBX8BJjJG2mzM01lSFpYSfMLsWUkoKdOhv1GkKouiXr+G7PYZJYpPw2fuD9C8vlz
-         SkoVEAcpHxI9KgjRcnaC88sxonM479TWf5ijl77i9H7YPR1YFoFgnF4es5vXwlXsmnr8
-         2iSxrk2U6KhxLycqlU4NM2pZFLLLHMQr6kSXAn0JhlVZTvLMFq6D2muFfmTsY2Gyg+gs
-         QgEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778715976; x=1779320776;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PGRwI3IduwjmmuOtswCaIsGRHyxev2XGrZfskh2LnVc=;
-        b=ssFEsuzvwrws26YQZszkzXz5/UJejrJzZ3nfSWmtelEwMBarZBe8lBqxwYPmnRpEHR
-         2SrSbN/wV3IcseZok3i0TCGzhwQWozyK5h5jnPfuT/4mjmZgeP8vPYnWD/MXN8rwc1Wk
-         NmglaC3ispZ+12VXqvOyqCrM7V2irdqc+jfLAYeVhNwVODR6hWFVfuPGZdqSRYw847b4
-         4Ikr+E23Bis53iWL8POkhaZTg3qpJfXJOQFjOZUIggmolPbGaORuJiahBG4iF/jD9dna
-         CplKFQvd4RD2Aj3jL7+G0PHkmZT/eYzJFhwiqCDFmIDxhM/Tb92ATS/dZ/UiGHLAtcNb
-         5i0A==
-X-Forwarded-Encrypted: i=1; AFNElJ8+rIMpQz3hh7jGGBYZww+ELR13CdM4A3YJ8/kjNSimFdH31/hqieK3mtMukIuTw90XSUFxCPRvqDyz1LIY@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaDyqFBKO+a6JI3JlwjtkLeUEHbrXH4lbMweDrC6QpvGS/ZpC3
-	KFYeGrpANlEt3wFBgpb+2vWBp/gVaOPKCkwZyPbCwYBnszV6Kc4us9OQfNUv/Cxuxs2/2JrCgeC
-	9apLtYiKgWOt/hm3WrS1skyutNDkNTDa4Ew==
-X-Gm-Gg: Acq92OH4ARKb35OP3vXTFO9C7Uxnx8VKisDHk+kNbIBnSwGdP241Uw5c0FYaYGQJ/Re
-	YutJhEah43RlvTtQzxP9tnjU/InUVN6XBuRE1VLmJFzFTgSGbqErwo0zcFW4Zi3EdGaWpHWvJR1
-	X64hpRUu/avphowboI7W78tOFS3HXalrRLzSZLePYKCC8rrHVLiJeOzpo4EeV6S3EuZ2lFca/EU
-	dRMTGEJpDYQBY+chxM+Rdl46KIPadWGsl2fzU5YvBctrcigZfp3d6O6GNabCYksbrCP5Vy05+IX
-	aNa4gNGhgw9RXs0QZT3YMqMgzJZ+
-X-Received: by 2002:ac2:41d1:0:b0:5a8:f984:142c with SMTP id
- 2adb3069b0e04-5a8f984165bmr801198e87.12.1778715975557; Wed, 13 May 2026
- 16:46:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Mope1RZU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=g82PADP2zDcuVVEGOU18YPkJsm7ZjDaI7v6K0FO8kHQ=;
+	b=Mope1RZUaDIU19pHxe8B+eUTENItBeLA3pThfxKHB9zhBq+GOqz0v+2IDGrGDk
+	ZFmYaMoGKpMdTmsgQFu1GvEkfl7sVWIQlT7ELgK80PFwRWL7BtxriFZXlsRAU/pJ
+	dwtOtxbUVloAjS/3PZmlsd4AApKM6sEQUb+g5+xnfBjW4=
+Received: from [10.42.20.201] (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wD3X4W5JwVqeOzKBA--.25494S2;
+	Thu, 14 May 2026 09:39:06 +0800 (CST)
+Message-ID: <67ea38e7-ec7f-4ade-8962-074c60a45321@163.com>
+Date: Thu, 14 May 2026 09:39:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511160626.1268612-1-charsyam@gmail.com> <20260511160626.1268612-4-charsyam@gmail.com>
-In-Reply-To: <20260511160626.1268612-4-charsyam@gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Thu, 14 May 2026 08:46:04 +0900
-X-Gm-Features: AVHnY4Lz5Euq4h3CeE8PBjoZIg0Mv1gGxaxnOV4IJ5YdTAoMRN0yZRCc84wvlnY
-Message-ID: <CANFS6baeNEftv9Zwn7_tNxhH2B8kEhrWOT14RLyewr1_rhnrsw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ntfs: mark quotas out of date on initial rw mount
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 08/11] exfat: add iomap buffered I/O support
+To: Namjae Jeon <linkinjeon@kernel.org>, sj1557.seo@samsung.com,
+ yuezhang.mo@sony.com, brauner@kernel.org, djwong@kernel.org, hch@lst.de
+Cc: linux-fsdevel@vger.kernel.org, anmuxixixi@gmail.com, dxdt@dev.snart.me,
+ chizhiling@kylinos.cn, linux-kernel@vger.kernel.org
+References: <20260513112156.9122-1-linkinjeon@kernel.org>
+ <20260513112156.9122-9-linkinjeon@kernel.org>
+Content-Language: en-US
+From: Chi Zhiling <chizhiling@163.com>
+In-Reply-To: <20260513112156.9122-9-linkinjeon@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:_____wD3X4W5JwVqeOzKBA--.25494S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJw1DKw17Zw4xWFW7XryxKrg_yoW5Gw1Dpr
+	4qg3W3GFW3Jr1UXr48Jr98ZFySkw1DKF12qw1kWry5GF97tw18K3WDCa4Y9wnrWwnrZr4a
+	qwn5Kw47u3s7Cr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRec_fUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC+BvTcWoFJ7uXDwAA3q
 
-Hello daemyung,
-
-2026=EB=85=84 5=EC=9B=94 12=EC=9D=BC (=ED=99=94) =EC=98=A4=EC=A0=84 1:06, D=
-aeMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> The remount read-write path marks quotas out of date after emptying the
-> logfile, but initial read-write mount only loads $Quota and never calls
-> ntfs_mark_quotas_out_of_date().
-
-We set both the owner id and quota charged in $STANDARD_INFORMATION
-to 0, so it is questionable whether setting the out of date flag in $Quota/=
-$Q
-has any meaning.
-
->
-> That leaves quota tracking metadata looking up to date even though the
-> driver can modify the volume.  Call the same helper after $Quota is loade=
-d
-> during initial read-write mount.  If marking quotas out of date fails and
-> the mount policy is on_errors=3Dremount-ro, convert the mount to read-onl=
-y
-> and set the volume error state, matching the nearby $Quota load failure
-> handling.
->
-> This intentionally follows the initial mount error policy rather than the
-> remount-rw path, where a quota marking failure rejects the remount with
-> -EROFS.
->
-> Move the load/mark/policy handling into a small helper,
-> ntfs_init_quota_for_mount(), which captures each call result in a local,
-> derives the failure reason, and gates the read-only downgrade on policy
-> in one place.  This avoids calling helpers inside compound if conditions
-> and keeps ntfs_load_system_files() flat.
->
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-> ---
->  fs/ntfs/super.c | 46 +++++++++++++++++++++++++++++++++--------------
->  1 file changed, 35 insertions(+), 11 deletions(-)
->
-> diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-> index 22dc786..8fa298f 100644
-> --- a/fs/ntfs/super.c
-> +++ b/fs/ntfs/super.c
-> @@ -1221,6 +1221,39 @@ static bool load_and_init_quota(struct ntfs_volume=
- *vol)
->         return true;
->  }
->
-> +/*
-> + * ntfs_init_quota_for_mount - finish quota setup at mount time
-> + * @sb:                super block of the volume being mounted
-> + * @vol:       ntfs volume to set up
-> + *
-> + * Load $Quota and, on a read-write mount, mark quotas out of date so th=
-at
-> + * Windows rescans them on next boot.  On failure, downgrade the mount t=
-o
-> + * read-only when on_errors=3Dremount-ro, matching the volume error poli=
-cy.
-> + */
-> +static void ntfs_init_quota_for_mount(struct super_block *sb,
-> +                                     struct ntfs_volume *vol)
+On 5/13/26 19:21, Namjae Jeon wrote:
+> +static int __exfat_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+> +		unsigned int flags, struct iomap *iomap, bool may_alloc)
 > +{
-> +       bool quota_loaded, quota_marked =3D true;
-> +       const char *reason =3D NULL;
+> +	struct super_block *sb = inode->i_sb;
+> +	struct exfat_sb_info *sbi = EXFAT_SB(sb);
+> +	struct exfat_inode_info *ei = EXFAT_I(inode);
+> +	unsigned int cluster, num_clusters;
+> +	loff_t cluster_offset, cluster_length;
+> +	int err;
+> +	bool balloc = false;
 > +
-> +       quota_loaded =3D load_and_init_quota(vol);
-> +       if (quota_loaded && !sb_rdonly(sb))
-> +               quota_marked =3D ntfs_mark_quotas_out_of_date(vol);
+> +	if (!may_alloc) {
+> +		/* Completely beyond EOF. Treat as hole */
+> +		if (i_size_read(inode) <= offset) {
+> +			iomap->type = IOMAP_HOLE;
+> +			iomap->addr = IOMAP_NULL_ADDR;
+> +			iomap->offset = offset;
+> +			iomap->length = length;
+> +			return 0;
+> +		}
 > +
-> +       if (!quota_loaded)
-> +               reason =3D "Failed to load $Quota";
-> +       else if (!quota_marked)
-> +               reason =3D "Failed to mark quotas out of date";
+> +		/* Clamp length if the requested range goes beyond i_size */
+> +		if (offset + length > i_size_read(inode))
+> +			length = round_up(i_size_read(inode),
+> +					  i_blocksize(inode)) - offset;
+> +	}
 > +
-> +       if (!reason || vol->on_errors !=3D ON_ERRORS_REMOUNT_RO)
-> +               return;
+> +	num_clusters = exfat_bytes_to_cluster_round_up(sbi,
+> +			offset + length) - exfat_bytes_to_cluster(sbi, offset);
 > +
-> +       sb->s_flags |=3D SB_RDONLY;
-> +       ntfs_error(sb, "%s.  Mounting read-only.  Run chkdsk.", reason);
-> +       /* This will prevent a read-write remount. */
-> +       NVolSetErrors(vol);
-> +}
+> +	mutex_lock(&sbi->s_lock);
+> +	iomap->bdev = inode->i_sb->s_bdev;
+> +	iomap->offset = offset;
 > +
->  /*
->   * load_and_init_attrdef - load the attribute definitions table for a vo=
-lume
->   * @vol:       ntfs super block describing device whose attrdef to load
-> @@ -1638,16 +1671,7 @@ get_ctx_vol_failed:
->                 ntfs_error(sb, "Failed to load $Extend.");
->                 goto iput_sec_err_out;
->         }
-> -       /* Find the quota file, load it if present, and set it up. */
-> -       if (!load_and_init_quota(vol) &&
-> -           vol->on_errors =3D=3D ON_ERRORS_REMOUNT_RO) {
-> -               static const char *es1 =3D "Failed to load $Quota";
-> -               static const char *es2 =3D ".  Run chkdsk.";
-> -
-> -               sb->s_flags |=3D SB_RDONLY;
-> -               ntfs_error(sb, "%s.  Mounting read-only%s", es1, es2);
-> -               /* This will prevent a read-write remount. */
-> -               NVolSetErrors(vol);
-> -       }
-> +       /* Find the quota file, load it if present, and set it up. */
-> +       ntfs_init_quota_for_mount(sb, vol);
->
->         return true;
-> --
-> 2.43.0
->
+> +	err = exfat_map_cluster(inode, exfat_bytes_to_cluster(sbi, offset),
+> +			&cluster, &num_clusters, may_alloc, &balloc);
+> +	if (err)
+> +		goto out;
+> +
+> +	cluster_offset = exfat_cluster_offset(sbi, offset);
+> +	cluster_length = exfat_cluster_to_bytes(sbi, num_clusters);
+> +
+> +	iomap->length = min_t(loff_t, length, cluster_length - cluster_offset);
+> +	iomap->addr = exfat_cluster_to_phys(sbi, cluster) + cluster_offset;
+> +	iomap->type = IOMAP_MAPPED;
+> +	if (may_alloc) {
+> +		if (balloc)
+> +			iomap->flags = IOMAP_F_NEW;
+> +		else if (iomap->offset + iomap->length >= ei->valid_size) {
+> +			/*
+> +			 * This is a write that starts at or extends beyond
+> +			 * the current valid_size. The region between the old
+> +			 * valid_size and the end of this write needs to be
+> +			 * zeroed in the page cache to prevent stale data
+> +			 * exposure (see IOMAP_F_ZERO_TAIL handling in
+> +			 * __iomap_write_begin()).
+> +			 */
+> +			iomap->flags = IOMAP_F_ZERO_TAIL;
+> +		}
+> +	} else {
+> +		if (offset >= ei->valid_size)
+> +			iomap->type = IOMAP_UNWRITTEN;
+> +
+> +		if (iomap->type == IOMAP_MAPPED &&
+> +		    iomap->offset < ei->valid_size &&
+> +		    iomap->offset + iomap->length > ei->valid_size) {
+> +			iomap->length = round_up(ei->valid_size,
+> +						 i_blocksize(inode)) -
+> +							iomap->offset;
+> +		}
 
+Hi, you can write it like this:
 
---=20
+if (offset >= ei->valid_size) {
+	iomap->type = IOMAP_UNWRITTEN;
+} else if (offset + iomap->length > ei->valid_size) {
+	iomap->length = round_up(ei->valid_size,
+				 i_blocksize(inode)) -
+					iomap->offset;
+}
+
 Thanks,
-Hyunchul
+
+
