@@ -1,457 +1,331 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31076391E72
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 19:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778788126; cv=pass; b=Rt5h3vrAD6Bp5V2npuR3h9Ld5gu8mqKG60u/gKl9lo8xs074dIb1GlOaYX3HovqO0ZaVl6AfghCYOtg6RXk4s83/UaVO2G5VO4jogVSPIHHsuZEDMCvI78s9AYr6oVNI+KfyMsbbsg5QB9l8LE6yeOQC8jb2bqvuNl/2AgpZs0g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778788126; c=relaxed/simple;
-	bh=7/XrGrvTOK0IcKhL+t+NUNfdSC3cBpyVO6HHKQn3A0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JgHdHeKQik97sTifSMLnF3JwWYvQZlTKHOraUi/3bCA88ogZTOg1nWyyQKQND/RRIHNxysSi7ahLmKIOW6Vs8OZe1zKI792Bbc3KOsSy/51LjNmg5kHAlFTa6kpcdpvsw9y8j+ZsX1HuNvq7lNzPNGB+EbnYuElzL2Al/dWaewI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/1qRcHb; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10C13A63EC;
+	Thu, 14 May 2026 19:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778788369; cv=none; b=hHWQ7UJeuBhtuUht+sTtJvI0NvIxMO1nyI9nFjjC6H/lvf8lhdN+S0b6vlb6AmqUKgT+yRE3IqtPTcV4CBr2MtAhw4NMEYhu0GPnM2F4ZS26W43F0ahyZTEvstrLQC8ed9QzV9yY0IGtdM4zly8FoHJKpbZ0XfQrLE0tEPI8WK0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778788369; c=relaxed/simple;
+	bh=Eg3NSAhzRHG1iWZu2cM1NTcZbI5jYUbyAUqVVyZBPqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QLgjC5zq1x1wnVUyT+8E7ujg5ylIsUNcp/WjT8Opc+ESsTCRtTLtPsLOn5xP1RXJgaQP77avbuv/VYQR4QkbvtchKxFJKf/qLWiq0B+JUX+j24n+EhPOOEhAUquK85401pBToe2pqRJpwU0Nwz561r7jiRqLvgHXsXTk3lBkOd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QkTpNhIW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/1qRcHb"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-67c9616b4feso12313993a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 12:48:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778788123; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Ol0HrggOcOkW+WvpuCMdrIlRjPC/e0gYfY/KAhxuzC3o/EgRupsQeTb05W/TAIigTC
-         c/tF1PSZx4iAUHdFPR3VKF2DWWO3besbZdg+WReKDiHneX2U+WAcf6jflBU0t3CCtsiN
-         zDNxAoCOQYPDtAVCyy44H6CRH/yRcRTnrJLVP+vyslehkUybYWWmfmfjbOzm8eMaicXx
-         po4sSdkLBZHZa7pxTI342nK0xATKFUlOj+TIC2INfTZM4qikANbhLy0kAlkvh0lnWWJe
-         Z0SVCYwzL6xBmrBpsdVq4kQx2V1c1Xywmu3D+nfNEHkn9RVClB+j52DF6a9LpaFRisiz
-         PIFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=K5rRRjXuxlm+1rnmGU2842sYnQPIyUIwQBlcv4IKidk=;
-        fh=Tjn69CCaomfXGYF+iK2+cUGo1sB/H21wnM70sNi8vuo=;
-        b=Py3Hzrs+B19jPafDy/o2gRi2XDPpy3OseMZ2VchR7u9DUCSwOjiehk8b/u0ecpPcw1
-         z5paYArLrElXDubXHpihlPZLfbT1aHOPwoYeQ6wwBs86IQmCyh60j9+fDEV+EYano3ka
-         06OrhN0ufaXptUXqup/h45O94hAupRcqHTGJ3w/FN/tahWjCgcan6NvfbCHn7w72FRSr
-         q2JzTP5BOBWvDeuNSFfwbElpTQ6zy5n7bgiNQA9FthDCHNp3akfCbvTMdlaJADw0bE0H
-         I9IIaJ5H0/ccpcJaSKRH9RiTlGp+xgU2VXguGheia2hoBpG4Wp3fX75eJLbaGN3Q85jJ
-         UDDg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778788123; x=1779392923; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K5rRRjXuxlm+1rnmGU2842sYnQPIyUIwQBlcv4IKidk=;
-        b=k/1qRcHbGtwCEco1LnsYgW5wEJ4DLj4PlRFRb2lKUlmHiPVNcjyfjl1MNTFlUmPlpU
-         aOsc+AKPpgSJ4YMZLKp2Pd9PS39ZndHioub3GhX8uCscejnkmzm2ojzdNGusa4kpeGyI
-         g0mmEq4bIu/VctaHQTrjaVzXK8I+GjaW72dVdNHj4sfXMx798DWwriWB5GlwJP9nKqmO
-         chNad1mAXpAWNzKiWvyRiyPUHuhErCpfdtWC5CUe/fBNy51PdpSwxTLiCwXxcEWbS/mf
-         xMyHOLPHSIV3VrrRwtzgh3BwUdAIYhIVPQiVekA7G3a2MENDPN/dz+ZFsx4bX3urU19j
-         fbPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778788123; x=1779392923;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=K5rRRjXuxlm+1rnmGU2842sYnQPIyUIwQBlcv4IKidk=;
-        b=hOXMf6BA5vqSXPu/mqqiosfCVsZ231mVBEax1Z/S+uTba6eam9jjc6gaL4GjpyKnKC
-         v9hth9VubLwkGkvHgprWLYqGKleQ6WEEbSdWuMnekvZQijV/C03P9rkKRKm/Xb2Mpn/R
-         gyFYfsJ3xZnKWMoiffY4bMfd3dzUWgVQJkgBDlb6TkH2ST/SmQOHDb5Zi8XXJETMXZZg
-         5MDi0EoAMm+lc8AdYK/GJBFxh3haEnmcaj+cZhyrQ8t0xGxqe/tzsaeioqzRVeuvW+qN
-         iPvets0pKLEDA51YumfL/PsMPXqkxGlr51QoRUqcODCh6GpfaWPY4wAlHK8AbeDJCjAU
-         8sNw==
-X-Forwarded-Encrypted: i=1; AFNElJ+DC8QJVD77jJhYjjL06T0/Mv6rOBits9N6uct9r1R85p5Yi99wZh7TU9KMPspuCDerMVZbJHb+oWveSH/E@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZgCuRuPqtO7MXHlupyPL4/G/2BqRNdBH6+RWcXNso1MiNyXRV
-	BM14J7OvwAQ9gQNIutclZUoWs3SZjBYdmlqX42vXLhFwSIuPVE2By/sr7eHKqGh3fnIdHKFLMoZ
-	vjWnWaIL1PHZ3XAEqJVWVj2H3QEidr6o=
-X-Gm-Gg: Acq92OElGnfdH/LRCZMVT1a3ZH/sunfBeSUEeP9+m1i2FNHzbEAXyjcSj121gDc1cVw
-	VnHRUgD2CtOxlCDiJ9cY4j2jCtSWTT7ihfdfRVxNXHifdvFN5uMDZe8gSoCQ3KVU/H4awDNjVoP
-	sLc54h8fcz1LPqdWUGkPRt+2UftQJaN3vTQu35AzUomVRfTGXS6sgB/GGWIbHLCajYfR/R83DhF
-	ap1Tp9SvP3MKyHu1cbeUWOZ/6rvCICIo/P8HxIzCOd0/ElXi62yqMPqkAgAoDkOzHnHABq6/eFG
-	yqAUdEXVxPlNqYuNyRrQmezpKgDdaR+f39kALnsVrw==
-X-Received: by 2002:a05:6402:405c:10b0:678:f81a:76a1 with SMTP id
- 4fb4d7f45d1cf-683bc4b36f8mr282937a12.10.1778788122354; Thu, 14 May 2026
- 12:48:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QkTpNhIW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40E6DC2BCB3;
+	Thu, 14 May 2026 19:52:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778788369;
+	bh=Eg3NSAhzRHG1iWZu2cM1NTcZbI5jYUbyAUqVVyZBPqE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QkTpNhIWQyPC+c6jdKGP9LqMJKI44r8fgWmI8ZXJ5Hn7+0jTwKEyvVoCOz0wlkiQ0
+	 WmZIOc/a081+yibRWpu4z9/v9ztaHQ+sTByXqZDFpxcE8U3DdRalf45pA3vE17tuaT
+	 UYCDb8NxWAwm2k25/tmMx54WlWVSU9JL9MbFrWj0QyVGqkjPfzHfHrxecr/tA35G/R
+	 OHECoUKwznX4650tW1K6i6J2CfazXmH970jcDi1CibWuTUFBiwIxH1YHRv6n4cwB9g
+	 2+nwCLYEu0vsbaa/OqHqKTc18RQoVYErPn/Igwex9QRZ7g/zPeqMjOhJV147sOjFe/
+	 Pq6Nhc+C27vyg==
+Date: Thu, 14 May 2026 12:52:48 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: miklos@szeredi.hu
+Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 09/33] fuse: create a per-inode flag for toggling iomap
+Message-ID: <20260514195248.GD9544@frogsfrogsfrogs>
+References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
+ <177747205343.4101881.1445722009300775395.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <177747204594.4101743.18108570914300152558.stgit@frogsfrogsfrogs>
- <177747204624.4101743.10110436900437243535.stgit@frogsfrogsfrogs> <20260514183826.GB9544@frogsfrogsfrogs>
-In-Reply-To: <20260514183826.GB9544@frogsfrogsfrogs>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 14 May 2026 21:48:31 +0200
-X-Gm-Features: AVHnY4LHvD6vMXgeTiymVhIvEnq1mGsgYCWKCGa4jhhJrElp3fpX05ahCxs5uY8
-Message-ID: <CAOQ4uxjc=6cdTCuPiH8trqyHzJ1dR+oZ1Aidfos8mqgB4Bv8EA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] fuse: move the passthrough-specific code back to passthrough.c
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev, 
-	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177747205343.4101881.1445722009300775395.stgit@frogsfrogsfrogs>
 
-On Thu, May 14, 2026 at 8:40=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Wed, Apr 29, 2026 at 07:23:26AM -0700, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
-> >
-> > In preparation for iomap, move the passthrough-specific validation code
-> > back to passthrough.c and create a new Kconfig item for conditional
-> > compilation of backing.c.  In the next patch, iomap will share the
-> > backing structures.
-> >
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+On Wed, Apr 29, 2026 at 07:26:02AM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Create a per-inode flag to control whether or not this inode actually
+> uses iomap.  This is required for non-regular files because iomap
+> doesn't apply there; and enables fuse filesystems to provide some
+> non-iomap files if desired.
+> 
+> Note that more code will be added to fuse_iomap_init_inode in subsequent
+> patches.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> ---
+>  fs/fuse/fuse_i.h          |    6 ++++--
+>  fs/fuse/fuse_iomap.h      |   13 ++++++++++++
+>  include/uapi/linux/fuse.h |    3 +++
+>  fs/fuse/dir.c             |   14 +++++++++++--
+>  fs/fuse/file.c            |    3 +++
+>  fs/fuse/fuse_iomap.c      |   47 +++++++++++++++++++++++++++++++++++++++++++++
+>  fs/fuse/inode.c           |    6 ++++--
+>  7 files changed, 86 insertions(+), 6 deletions(-)
+> 
+> 
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 07ad5abc48f70f..a4d64fd2837778 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -264,6 +264,8 @@ enum {
+>  	 * or the fuse server has an exclusive "lease" on distributed fs
+>  	 */
+>  	FUSE_I_EXCLUSIVE,
+> +	/* Use iomap for this inode */
+> +	FUSE_I_IOMAP,
+>  };
+>  
+>  struct fuse_conn;
+> @@ -1256,12 +1258,12 @@ void fuse_init_common(struct inode *inode);
+>  /**
+>   * Initialize inode and file operations on a directory
+>   */
+> -void fuse_init_dir(struct inode *inode);
+> +void fuse_init_dir(struct inode *inode, struct fuse_attr *attr);
+>  
+>  /**
+>   * Initialize inode operations on a symlink
+>   */
+> -void fuse_init_symlink(struct inode *inode);
+> +void fuse_init_symlink(struct inode *inode, struct fuse_attr *attr);
+>  
+>  /**
+>   * Change attributes of an inode
+> diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
+> index 129680b056ebea..34f2c75416eb62 100644
+> --- a/fs/fuse/fuse_iomap.h
+> +++ b/fs/fuse/fuse_iomap.h
+> @@ -23,11 +23,24 @@ extern const struct fuse_backing_ops fuse_iomap_backing_ops;
+>  
+>  void fuse_iomap_mount(struct fuse_mount *fm);
+>  void fuse_iomap_unmount(struct fuse_mount *fm);
+> +
+> +void fuse_iomap_init_inode(struct inode *inode, struct fuse_attr *attr);
+> +void fuse_iomap_evict_inode(struct inode *inode);
+> +
+> +static inline bool fuse_inode_has_iomap(const struct inode *inode)
+> +{
+> +	const struct fuse_inode *fi = get_fuse_inode(inode);
+> +
+> +	return test_bit(FUSE_I_IOMAP, &fi->state);
+> +}
+>  #else
+>  # define fuse_iomap_enabled(...)		(false)
+>  # define fuse_has_iomap(...)			(false)
+>  # define fuse_iomap_mount(...)			((void)0)
+>  # define fuse_iomap_unmount(...)		((void)0)
+> +# define fuse_iomap_init_inode(...)		((void)0)
+> +# define fuse_iomap_evict_inode(...)		((void)0)
+> +# define fuse_inode_has_iomap(...)		(false)
+>  #endif /* CONFIG_FUSE_IOMAP */
+>  
+>  #endif /* _FS_FUSE_IOMAP_H */
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index 2d35dcfbf8aaf5..88f76f4be749a7 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -245,6 +245,7 @@
+>   *  - XXX magic minor revision to make experimental code really obvious
+>   *  - add FUSE_IOMAP and iomap_{begin,end,ioend} for regular file operations
+>   *  - add FUSE_ATTR_EXCLUSIVE to enable exclusive mode for specific inodes
+> + *  - add FUSE_ATTR_IOMAP to enable iomap for specific inodes
+>   */
+>  
+>  #ifndef _LINUX_FUSE_H
+> @@ -587,10 +588,12 @@ struct fuse_file_lock {
+>   * FUSE_ATTR_DAX: Enable DAX for this file in per inode DAX mode
+>   * FUSE_ATTR_EXCLUSIVE: This file can only be modified by this mount, so the
+>   * kernel can use cached attributes more aggressively (e.g. ACL inheritance)
+> + * FUSE_ATTR_IOMAP: Use iomap for this inode
+>   */
+>  #define FUSE_ATTR_SUBMOUNT      (1 << 0)
+>  #define FUSE_ATTR_DAX		(1 << 1)
+>  #define FUSE_ATTR_EXCLUSIVE	(1 << 2)
+> +#define FUSE_ATTR_IOMAP		(1 << 3)
 
-I think I RVB this on v6:
-https://lore.kernel.org/linux-fsdevel/CAOQ4uxgW4=3D6KRuR6Qh3uMQyxtdRPLwAXZ8=
-VY4yuduzTVqz7+dA@mail.gmail.com/
-does not look like this was changed?
-Hard to keep track...
+Maybe this should be:
 
-> > ---
-> >  fs/fuse/fuse_i.h          |   25 ++++++++++-
-> >  include/uapi/linux/fuse.h |    8 +++-
-> >  fs/fuse/Kconfig           |    4 ++
-> >  fs/fuse/Makefile          |    3 +
-> >  fs/fuse/backing.c         |   98 ++++++++++++++++++++++++++++++++++---=
---------
-> >  fs/fuse/dev.c             |    4 +-
-> >  fs/fuse/inode.c           |    4 +-
-> >  fs/fuse/passthrough.c     |   38 +++++++++++++++++
-> >  8 files changed, 149 insertions(+), 35 deletions(-)
-> >
-> >
-> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > index 0b9c617ee3e5be..0666e03723071b 100644
-> > --- a/fs/fuse/fuse_i.h
-> > +++ b/fs/fuse/fuse_i.h
-> > @@ -103,10 +103,23 @@ struct fuse_submount_lookup {
-> >       struct fuse_forget_link *forget;
-> >  };
-> >
-> > +struct fuse_conn;
-> > +
-> > +/** Operations for subsystems that want to use a backing file */
-> > +struct fuse_backing_ops {
-> > +     int (*may_admin)(struct fuse_conn *fc, uint32_t flags);
-> > +     int (*may_open)(struct fuse_conn *fc, struct file *file);
-> > +     int (*may_close)(struct fuse_conn *fc, struct file *file);
-> > +     unsigned int type;
-> > +     int id_start;
-> > +     int id_end;
-> > +};
-> > +
-> >  /** Container for data related to mapping to backing file */
-> >  struct fuse_backing {
-> >       struct file *file;
-> >       struct cred *cred;
-> > +     const struct fuse_backing_ops *ops;
-> >
-> >       /** refcount */
-> >       refcount_t count;
-> > @@ -980,7 +993,7 @@ struct fuse_conn {
-> >       /* New writepages go into this bucket */
-> >       struct fuse_sync_bucket __rcu *curr_bucket;
-> >
-> > -#ifdef CONFIG_FUSE_PASSTHROUGH
-> > +#ifdef CONFIG_FUSE_BACKING
-> >       /** IDR for backing files ids */
-> >       struct idr backing_files_map;
-> >  #endif
-> > @@ -1591,10 +1604,12 @@ void fuse_file_release(struct inode *inode, str=
-uct fuse_file *ff,
-> >                      unsigned int open_flags, fl_owner_t id, bool isdir=
-);
-> >
-> >  /* backing.c */
-> > -#ifdef CONFIG_FUSE_PASSTHROUGH
-> > +#ifdef CONFIG_FUSE_BACKING
-> >  struct fuse_backing *fuse_backing_get(struct fuse_backing *fb);
-> >  void fuse_backing_put(struct fuse_backing *fb);
-> > -struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int bac=
-king_id);
-> > +struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc,
-> > +                                      const struct fuse_backing_ops *o=
-ps,
-> > +                                      int backing_id);
-> >  #else
-> >
-> >  static inline struct fuse_backing *fuse_backing_get(struct fuse_backin=
-g *fb)
-> > @@ -1649,6 +1664,10 @@ static inline struct file *fuse_file_passthrough=
-(struct fuse_file *ff)
-> >  #endif
-> >  }
-> >
-> > +#ifdef CONFIG_FUSE_PASSTHROUGH
-> > +extern const struct fuse_backing_ops fuse_passthrough_backing_ops;
-> > +#endif
-> > +
-> >  ssize_t fuse_passthrough_read_iter(struct kiocb *iocb, struct iov_iter=
- *iter);
-> >  ssize_t fuse_passthrough_write_iter(struct kiocb *iocb, struct iov_ite=
-r *iter);
-> >  ssize_t fuse_passthrough_splice_read(struct file *in, loff_t *ppos,
-> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> > index c13e1f9a2f12bd..18713cfaf09171 100644
-> > --- a/include/uapi/linux/fuse.h
-> > +++ b/include/uapi/linux/fuse.h
-> > @@ -1126,9 +1126,15 @@ struct fuse_notify_prune_out {
-> >       uint64_t        spare;
-> >  };
-> >
-> > +#define FUSE_BACKING_TYPE_MASK               (0xFF)
-> > +#define FUSE_BACKING_TYPE_PASSTHROUGH        (0)
-> > +#define FUSE_BACKING_MAX_TYPE                (FUSE_BACKING_TYPE_PASSTH=
-ROUGH)
-> > +
-> > +#define FUSE_BACKING_FLAGS_ALL               (FUSE_BACKING_TYPE_MASK)
-> > +
-> >  struct fuse_backing_map {
-> >       int32_t         fd;
-> > -     uint32_t        flags;
-> > +     uint32_t        flags; /* FUSE_BACKING_* */
-> >       uint64_t        padding;
-> >  };
-> >
-> > diff --git a/fs/fuse/Kconfig b/fs/fuse/Kconfig
-> > index 3a4ae632c94aa8..290d1c09e0b924 100644
-> > --- a/fs/fuse/Kconfig
-> > +++ b/fs/fuse/Kconfig
-> > @@ -59,12 +59,16 @@ config FUSE_PASSTHROUGH
-> >       default y
-> >       depends on FUSE_FS
-> >       select FS_STACK
-> > +     select FUSE_BACKING
-> >       help
-> >         This allows bypassing FUSE server by mapping specific FUSE oper=
-ations
-> >         to be performed directly on a backing file.
-> >
-> >         If you want to allow passthrough operations, answer Y.
-> >
-> > +config FUSE_BACKING
-> > +     bool
-> > +
-> >  config FUSE_IO_URING
-> >       bool "FUSE communication over io-uring"
-> >       default y
-> > diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
-> > index 22ad9538dfc4b8..46041228e5be2c 100644
-> > --- a/fs/fuse/Makefile
-> > +++ b/fs/fuse/Makefile
-> > @@ -14,7 +14,8 @@ fuse-y :=3D trace.o   # put trace.o first so we see f=
-trace errors sooner
-> >  fuse-y +=3D dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir=
-.o ioctl.o
-> >  fuse-y +=3D iomode.o
-> >  fuse-$(CONFIG_FUSE_DAX) +=3D dax.o
-> > -fuse-$(CONFIG_FUSE_PASSTHROUGH) +=3D passthrough.o backing.o
-> > +fuse-$(CONFIG_FUSE_PASSTHROUGH) +=3D passthrough.o
-> > +fuse-$(CONFIG_FUSE_BACKING) +=3D backing.o
-> >  fuse-$(CONFIG_SYSCTL) +=3D sysctl.o
-> >  fuse-$(CONFIG_FUSE_IO_URING) +=3D dev_uring.o
-> >
-> > diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-> > index d95dfa48483f0a..adb4d2ebb21379 100644
-> > --- a/fs/fuse/backing.c
-> > +++ b/fs/fuse/backing.c
-> > @@ -6,6 +6,7 @@
-> >   */
-> >
-> >  #include "fuse_i.h"
-> > +#include "fuse_trace.h"
-> >
-> >  #include <linux/file.h>
-> >
-> > @@ -44,7 +45,8 @@ static int fuse_backing_id_alloc(struct fuse_conn *fc=
-, struct fuse_backing *fb)
-> >       idr_preload(GFP_KERNEL);
-> >       spin_lock(&fc->lock);
-> >       /* FIXME: xarray might be space inefficient */
-> > -     id =3D idr_alloc_cyclic(&fc->backing_files_map, fb, 1, 0, GFP_ATO=
-MIC);
-> > +     id =3D idr_alloc_cyclic(&fc->backing_files_map, fb, fb->ops->id_s=
-tart,
-> > +                           fb->ops->id_end, GFP_ATOMIC);
-> >       spin_unlock(&fc->lock);
-> >       idr_preload_end();
-> >
-> > @@ -69,32 +71,53 @@ static int fuse_backing_id_free(int id, void *p, vo=
-id *data)
-> >       struct fuse_backing *fb =3D p;
-> >
-> >       WARN_ON_ONCE(refcount_read(&fb->count) !=3D 1);
-> > +
-> >       fuse_backing_free(fb);
-> >       return 0;
-> >  }
-> >
-> >  void fuse_backing_files_free(struct fuse_conn *fc)
-> >  {
-> > -     idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
-> > +     idr_for_each(&fc->backing_files_map, fuse_backing_id_free, fc);
-> >       idr_destroy(&fc->backing_files_map);
-> >  }
-> >
-> > +static inline const struct fuse_backing_ops *
-> > +fuse_backing_ops_from_map(const struct fuse_backing_map *map)
-> > +{
-> > +     switch (map->flags & FUSE_BACKING_TYPE_MASK) {
-> > +#ifdef CONFIG_FUSE_PASSTHROUGH
-> > +     case FUSE_BACKING_TYPE_PASSTHROUGH:
-> > +             return &fuse_passthrough_backing_ops;
-> > +#endif
-> > +     default:
-> > +             break;
-> > +     }
-> > +
-> > +     return NULL;
-> > +}
-> > +
-> >  int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *m=
-ap)
-> >  {
-> >       struct file *file;
-> > -     struct super_block *backing_sb;
-> >       struct fuse_backing *fb =3D NULL;
-> > +     const struct fuse_backing_ops *ops =3D fuse_backing_ops_from_map(=
-map);
-> > +     uint32_t op_flags =3D map->flags & ~FUSE_BACKING_TYPE_MASK;
-> >       int res;
-> >
-> >       pr_debug("%s: fd=3D%d flags=3D0x%x\n", __func__, map->fd, map->fl=
-ags);
-> >
-> > -     /* TODO: relax CAP_SYS_ADMIN once backing files are visible to ls=
-of */
-> > -     res =3D -EPERM;
-> > -     if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
-> > +     res =3D -EOPNOTSUPP;
-> > +     if (!ops)
-> > +             goto out;
-> > +     WARN_ON(ops->type !=3D (map->flags & FUSE_BACKING_TYPE_MASK));
-> > +
-> > +     res =3D ops->may_admin ? ops->may_admin(fc, op_flags) : 0;
-> > +     if (res)
-> >               goto out;
-> >
-> >       res =3D -EINVAL;
-> > -     if (map->flags || map->padding)
-> > +     if (map->padding)
-> >               goto out;
-> >
-> >       file =3D fget_raw(map->fd);
-> > @@ -102,14 +125,8 @@ int fuse_backing_open(struct fuse_conn *fc, struct=
- fuse_backing_map *map)
-> >       if (!file)
-> >               goto out;
-> >
-> > -     /* read/write/splice/mmap passthrough only relevant for regular f=
-iles */
-> > -     res =3D d_is_dir(file->f_path.dentry) ? -EISDIR : -EINVAL;
-> > -     if (!d_is_reg(file->f_path.dentry))
-> > -             goto out_fput;
-> > -
-> > -     backing_sb =3D file_inode(file)->i_sb;
-> > -     res =3D -ELOOP;
-> > -     if (backing_sb->s_stack_depth >=3D fc->max_stack_depth)
-> > +     res =3D ops->may_open ? ops->may_open(fc, file) : 0;
-> > +     if (res)
-> >               goto out_fput;
-> >
-> >       fb =3D kmalloc_obj(struct fuse_backing);
-> > @@ -119,14 +136,15 @@ int fuse_backing_open(struct fuse_conn *fc, struc=
-t fuse_backing_map *map)
-> >
-> >       fb->file =3D file;
-> >       fb->cred =3D prepare_creds();
-> > +     fb->ops =3D ops;
-> >       refcount_set(&fb->count, 1);
-> >
-> >       res =3D fuse_backing_id_alloc(fc, fb);
-> >       if (res < 0) {
-> >               fuse_backing_free(fb);
-> >               fb =3D NULL;
-> > +             goto out;
-> >       }
-> > -
-> >  out:
-> >       pr_debug("%s: fb=3D0x%p, ret=3D%i\n", __func__, fb, res);
-> >
-> > @@ -137,41 +155,71 @@ int fuse_backing_open(struct fuse_conn *fc, struc=
-t fuse_backing_map *map)
-> >       goto out;
-> >  }
-> >
-> > +static struct fuse_backing *__fuse_backing_lookup(struct fuse_conn *fc=
-,
-> > +                                               int backing_id)
-> > +{
-> > +     struct fuse_backing *fb;
-> > +
-> > +     rcu_read_lock();
-> > +     fb =3D idr_find(&fc->backing_files_map, backing_id);
-> > +     fb =3D fuse_backing_get(fb);
-> > +     rcu_read_unlock();
-> > +
-> > +     return fb;
-> > +}
-> > +
-> >  int fuse_backing_close(struct fuse_conn *fc, int backing_id)
-> >  {
-> > -     struct fuse_backing *fb =3D NULL;
-> > +     struct fuse_backing *fb =3D NULL, *test_fb;
-> > +     const struct fuse_backing_ops *ops;
-> >       int err;
-> >
-> >       pr_debug("%s: backing_id=3D%d\n", __func__, backing_id);
-> >
-> > -     /* TODO: relax CAP_SYS_ADMIN once backing files are visible to ls=
-of */
-> > -     err =3D -EPERM;
-> > -     if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
-> > -             goto out;
-> > -
-> >       err =3D -EINVAL;
-> >       if (backing_id <=3D 0)
-> >               goto out;
-> >
-> >       err =3D -ENOENT;
-> > -     fb =3D fuse_backing_id_remove(fc, backing_id);
-> > +     fb =3D __fuse_backing_lookup(fc, backing_id);
-> >       if (!fb)
-> >               goto out;
-> > +     ops =3D fb->ops;
-> >
-> > -     fuse_backing_put(fb);
-> > +     err =3D ops->may_admin ? ops->may_admin(fc, 0) : 0;
-> > +     if (err)
-> > +             goto out_fb;
-> > +
-> > +     err =3D ops->may_close ? ops->may_close(fc, fb->file) : 0;
-> > +     if (err)
-> > +             goto out_fb;
-> > +
-> > +     err =3D -ENOENT;
-> > +     test_fb =3D fuse_backing_id_remove(fc, backing_id);
-> > +     if (!test_fb)
-> > +             goto out_fb;
-> > +
-> > +     WARN_ON(fb !=3D test_fb);
->
-> I think I should pass @fb into fuse_backing_id_remove so that it
-> performs a second lookup under fc->lock and only calls idr_remove if the
-> result of the second lookup matches the passed-in @fb.
->
+#define __FUSE_ATTR_IOMAP	(1 << 3)
+#define FUSE_ATTR_IOMAP		(FUSE_ATTR_EXCLUSIVE | __FUSE_ATTR_IOMAP)
 
-I agree. That makes sense.
+because iomap requires exclusive.
 
-Thanks,
-Amir.
+Also: Codex had some complaints about submounts.  I don't know anything
+about submounts, but AFAICT it looks like virtiofsd uses that to create
+a new super_block object (+ inode cache) for a subtree of a larger
+virtiofsd.
+
+I *think* this is incompatible with iomap, because iomap relies on the
+locks available through the struct inode object to coordinate access to
+a file.  From what I can tell, the fuse server thinks it's dealing with
+the same nodeid no matter which submount the file access is coming
+through... but they're not the same struct inode object.  Right?
+
+For now I'll paranoidally just not advertise iomap support in FUSE_INIT
+if FUSE_SUBMOUNTS are enabled.
+
+--D
+
+>  
+>  /**
+>   * Open flags
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index c5c97065984557..996d81f263d637 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -7,6 +7,7 @@
+>  */
+>  
+>  #include "fuse_i.h"
+> +#include "fuse_iomap.h"
+>  
+>  #include <linux/pagemap.h>
+>  #include <linux/file.h>
+> @@ -2514,9 +2515,10 @@ void fuse_init_common(struct inode *inode)
+>  	inode->i_op = &fuse_common_inode_operations;
+>  }
+>  
+> -void fuse_init_dir(struct inode *inode)
+> +void fuse_init_dir(struct inode *inode, struct fuse_attr *attr)
+>  {
+>  	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	struct fuse_conn *fc = get_fuse_conn(inode);
+>  
+>  	inode->i_op = &fuse_dir_inode_operations;
+>  	inode->i_fop = &fuse_dir_operations;
+> @@ -2526,6 +2528,9 @@ void fuse_init_dir(struct inode *inode)
+>  	fi->rdc.size = 0;
+>  	fi->rdc.pos = 0;
+>  	fi->rdc.version = 0;
+> +
+> +	if (fc->iomap)
+> +		fuse_iomap_init_inode(inode, attr);
+>  }
+>  
+>  static int fuse_symlink_read_folio(struct file *null, struct folio *folio)
+> @@ -2544,9 +2549,14 @@ static const struct address_space_operations fuse_symlink_aops = {
+>  	.read_folio	= fuse_symlink_read_folio,
+>  };
+>  
+> -void fuse_init_symlink(struct inode *inode)
+> +void fuse_init_symlink(struct inode *inode, struct fuse_attr *attr)
+>  {
+> +	struct fuse_conn *fc = get_fuse_conn(inode);
+> +
+>  	inode->i_op = &fuse_symlink_inode_operations;
+>  	inode->i_data.a_ops = &fuse_symlink_aops;
+>  	inode_nohighmem(inode);
+> +
+> +	if (fc->iomap)
+> +		fuse_iomap_init_inode(inode, attr);
+>  }
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 5e7fe7ef87d2e4..8d55d2f4dd4cc9 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -7,6 +7,7 @@
+>  */
+>  
+>  #include "fuse_i.h"
+> +#include "fuse_iomap.h"
+>  
+>  #include <linux/pagemap.h>
+>  #include <linux/slab.h>
+> @@ -3217,6 +3218,8 @@ void fuse_init_file_inode(struct inode *inode, struct fuse_attr *attr)
+>  	init_waitqueue_head(&fi->page_waitq);
+>  	init_waitqueue_head(&fi->direct_io_waitq);
+>  
+> +	if (fc->iomap)
+> +		fuse_iomap_init_inode(inode, attr);
+>  	if (IS_ENABLED(CONFIG_FUSE_DAX))
+>  		fuse_dax_inode_init(inode, attr->flags);
+>  }
+> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+> index 4b63bb32167877..39c9239c64435a 100644
+> --- a/fs/fuse/fuse_iomap.c
+> +++ b/fs/fuse/fuse_iomap.c
+> @@ -616,3 +616,50 @@ void fuse_iomap_unmount(struct fuse_mount *fm)
+>  	fuse_flush_requests(fc);
+>  	fuse_send_destroy(fm);
+>  }
+> +
+> +static inline void fuse_inode_set_iomap(struct inode *inode)
+> +{
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +
+> +	set_bit(FUSE_I_IOMAP, &fi->state);
+> +}
+> +
+> +static inline void fuse_inode_clear_iomap(struct inode *inode)
+> +{
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +
+> +	clear_bit(FUSE_I_IOMAP, &fi->state);
+> +}
+> +
+> +void fuse_iomap_init_inode(struct inode *inode, struct fuse_attr *attr)
+> +{
+> +	ASSERT(get_fuse_conn(inode)->iomap);
+> +
+> +	if (!(attr->flags & FUSE_ATTR_IOMAP))
+> +		return;
+> +
+> +	/*
+> +	 * Any file being used in conjunction with iomap must also have the
+> +	 * exclusive flag set because iomap requires cached file attributes to
+> +	 * be correct at any time.  This applies even to non-regular files
+> +	 * (e.g. directories) because we need to do ACL and attribute
+> +	 * inheritance the same way a local filesystem would do.  If exclusive
+> +	 * mode isn't set, then we won't use iomap.
+> +	 */
+> +	if (!fuse_inode_is_exclusive(inode)) {
+> +		ASSERT(fuse_inode_is_exclusive(inode));
+> +		return;
+> +	}
+> +
+> +	if (!S_ISREG(inode->i_mode))
+> +		return;
+> +
+> +	fuse_inode_set_iomap(inode);
+> +}
+> +
+> +void fuse_iomap_evict_inode(struct inode *inode)
+> +{
+> +	ASSERT(fuse_inode_has_iomap(inode));
+> +
+> +	fuse_inode_clear_iomap(inode);
+> +}
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index 36814b5de46879..f8e5c03580e56b 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -198,6 +198,8 @@ static void fuse_evict_inode(struct inode *inode)
+>  		WARN_ON(!list_empty(&fi->queued_writes));
+>  	}
+>  
+> +	if (fuse_inode_has_iomap(inode))
+> +		fuse_iomap_evict_inode(inode);
+>  	fuse_inode_clear_exclusive(inode);
+>  }
+>  
+> @@ -446,10 +448,10 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
+>  		fuse_init_file_inode(inode, attr);
+>  		break;
+>  	case S_IFDIR:
+> -		fuse_init_dir(inode);
+> +		fuse_init_dir(inode, attr);
+>  		break;
+>  	case S_IFLNK:
+> -		fuse_init_symlink(inode);
+> +		fuse_init_symlink(inode, attr);
+>  		break;
+>  	case S_IFCHR:
+>  	case S_IFBLK:
+> 
+> 
