@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4239291864;
-	Thu, 14 May 2026 23:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFE338F646;
+	Thu, 14 May 2026 23:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778799652; cv=none; b=LfjsDQZVO2umrxsrsgjCY+akEqAGIDUG5pQLuU8zvLMvzNvWT367N31o5xso7LsJMNNfNxgCXRi9MYsRzWEqQbj/CoKAjohBj0z7ZVLlnWUQdV7qrAJyCuTxtcA51jse/f+/OG+YmjdgZNu2GzDzw0eDUg0w+jRNaf7UkQvRZbE=
+	t=1778799916; cv=none; b=nCvh6V4g+HNvDDyaJELQqnKXHHCCv1BbBiav0aKGjOzTMzKrjwsFiOrUskQjB/m94ciASlGMQH4M81/MxAppUAzglblgZf4d8d9+vP5deZt6rN8KymreMg5sPjhZSuI5EYTALfqoBP6hh0FjoPWR2D7lT49hOScI80cpsY+lsG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778799652; c=relaxed/simple;
-	bh=cUVWykWb61R4Vtt5OhcFToulYfcJCPxuhC+/m0p1hkc=;
+	s=arc-20240116; t=1778799916; c=relaxed/simple;
+	bh=cSwkE33La5SxBMA1xFH6rKhCer/6MBN2HeDYf9tioNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DsA6Zc09j3evtoZP5J9RMIeMH74ioMuOjtw1eJjXtgp4l0OhKx22ui5D1dKsJFaiWfpbNpKztiCDkJfIjOuDGEvQXPPkmcR2+Ek7d03bFTxx4gIm8SeqQUlFreCIyZYxCiv0wD4WnOBAZBQo2N3wnWxd3WivpDndABTwIUT2+PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dU91FKcz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SBPyBAJW6+b4QNSmSCFriFTu2w0ksdUkXalj3uYoJji1XpbROAcDA6bTLrtCE3Gi7qN85wHuA9fPD184RN9XGZfgTzVQnbnslFIAbVRMPBxyeVFvz/Al+DzBqwpOm/bpT7kt5byrg4hhKrUVP4ARrgWnntomDucfVZOgnHm5CXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3inXGVn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dU91FKcz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B364C2BCB3;
-	Thu, 14 May 2026 23:00:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3inXGVn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75D6C2BCB3;
+	Thu, 14 May 2026 23:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778799651;
-	bh=cUVWykWb61R4Vtt5OhcFToulYfcJCPxuhC+/m0p1hkc=;
+	s=k20201202; t=1778799916;
+	bh=cSwkE33La5SxBMA1xFH6rKhCer/6MBN2HeDYf9tioNI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dU91FKczr+lumNyFzhhTSozUzQpG6PbQMpMla+shBrlbH7eastXIrfrWzayFpRat6
-	 XHFujje64NX3p9xrkUYglH9E+KRXm9zztGNiLxZMNmwbotqTO5oiKN+fOnedHb6JqU
-	 0eenHBvzeT9q2s9r16tmdur5x70AKtDK75GgktVVR+dbuYlN5s0LkmKF1QwLNNax/F
-	 0ta8an1M+n7Qk53mbgKPCrv/fPX1sk8CYfVcuSS3G9yBwSNJX47t2YEuC8FHLL3NE0
-	 GOdVxn88AghgcXHH5OlxF8hykoAdPWeV7qZw8nZEwxxXddvwzRDl6tQ3TpAnHERgsP
-	 54Edmp72QOZHA==
-Date: Thu, 14 May 2026 16:00:51 -0700
+	b=S3inXGVnkSiE2V4438aL3c7TA8oADeeMqteSQ6DNF3h9JKRB1/K4cKERZpe9qbG7B
+	 QpFDZ1Pks5JvcVBxmxPYxLufw9Dl2zgZkhDJxhiZ7Ia7Vcb6FTU2LSSoImG0pfroGj
+	 FWYiOVS2n5wFQInG8EOlYrDSwhl+INnynCtzKCS+oCIKIgHBSv9nb86GhlPCH60oUx
+	 nFfUeLw0MBW5QZ/KQzn4CeZUSxDrxRoAEikeen1sTOUoiRl2JwK9pRdGxS1obd9VER
+	 aFh0ekfcm2fChR6P7K/aUl615HIhps90aUixoSN3qqPXPXjoqNqT5PSRrRiVFMcmKa
+	 96ncNicevk+BQ==
+Date: Thu, 14 May 2026 16:05:15 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 10/12] fuse: constrain iomap mapping cache size
-Message-ID: <20260514230051.GR9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 11/12] fuse_trace: constrain iomap mapping cache size
+Message-ID: <20260514230515.GS9544@frogsfrogsfrogs>
 References: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
- <177747207212.4103699.2461140884653539505.stgit@frogsfrogsfrogs>
+ <177747207234.4103699.923541684990110487.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,173 +43,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747207212.4103699.2461140884653539505.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747207234.4103699.923541684990110487.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:38:02AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:38:17AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Provide a means to constrain the size of each iomap mapping cache.
-> Most files (at least on XFS) don't have more than 1000 extents, so we'll
-> set the absolute maximum to 10000 and let the fuse server set a lower
-> limit if it so desires.
+> Add tracepoints for the previous patch.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/fuse_i.h           |    3 +++
->  fs/fuse/fuse_iomap_cache.h |    8 ++++++++
->  include/uapi/linux/fuse.h  |    7 ++++++-
->  fs/fuse/fuse_iomap.c       |    9 ++++++++-
->  fs/fuse/fuse_iomap_cache.c |   24 ++++++++++++++++++++++++
->  5 files changed, 49 insertions(+), 2 deletions(-)
+>  fs/fuse/fuse_trace.h       |   31 +++++++++++++++++++++++++++++--
+>  fs/fuse/fuse_iomap_cache.c |    4 +++-
+>  2 files changed, 32 insertions(+), 3 deletions(-)
 > 
 > 
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index c6a7ca4f1df76c..91f399a7a9a990 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -685,6 +685,9 @@ struct fuse_iomap_conn {
+> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
+> index 09da9bce61b98c..aa2d5ca88c9d40 100644
+> --- a/fs/fuse/fuse_trace.h
+> +++ b/fs/fuse/fuse_trace.h
+> @@ -320,6 +320,7 @@ struct iomap_ioend;
+>  struct iomap;
+>  struct fuse_iext_cursor;
+>  struct fuse_iomap_lookup;
+> +struct fuse_iext_root;
 >  
->  	/* fuse server doesn't implement iomap_ioend */
->  	unsigned int no_ioend:1;
+>  /* tracepoint boilerplate so we don't have to keep doing this */
+>  #define FUSE_IOMAP_OPFLAGS_FIELD \
+> @@ -1157,6 +1158,8 @@ TRACE_EVENT(fuse_iomap_config,
+>  		__field(int64_t,		time_max)
+>  		__field(int64_t,		maxbytes)
+>  		__field(uint8_t,		uuid_len)
 > +
-> +	/* maximum mapping cache size */
-> +	unsigned int cache_maxbytes;
->  };
->  #endif
+> +		__field(uint32_t,		cache_maxbytes)
+>  	),
 >  
-> diff --git a/fs/fuse/fuse_iomap_cache.h b/fs/fuse/fuse_iomap_cache.h
-> index eba90d9519b8c3..cb312b0720d6b7 100644
-> --- a/fs/fuse/fuse_iomap_cache.h
-> +++ b/fs/fuse/fuse_iomap_cache.h
-> @@ -108,6 +108,14 @@ static inline int fuse_iomap_cache_invalidate(struct inode *inode,
->  	return fuse_iomap_cache_invalidate_range(inode, offset,
->  						 FUSE_IOMAP_INVAL_TO_EOF);
->  }
+>  	TP_fast_assign(
+> @@ -1170,14 +1173,15 @@ TRACE_EVENT(fuse_iomap_config,
+>  		__entry->time_max	=	outarg->s_time_max;
+>  		__entry->maxbytes	=	outarg->s_maxbytes;
+>  		__entry->uuid_len	=	outarg->s_uuid_len;
+> +		__entry->cache_maxbytes	=	outarg->cache_maxbytes;
+>  	),
+>  
+> -	TP_printk("connection %u root_ino 0x%llx flags (%s) blocksize 0x%x max_links %u time_gran %u time_min %lld time_max %lld maxbytes 0x%llx uuid_len %u",
+> +	TP_printk("connection %u root_ino 0x%llx flags (%s) blocksize 0x%x max_links %u time_gran %u time_min %lld time_max %lld maxbytes 0x%llx uuid_len %u cache_maxbytes %u",
+>  		  __entry->connection, __entry->root_nodeid,
+>  		  __print_flags(__entry->flags, "|", FUSE_IOMAP_CONFIG_STRINGS),
+>  		  __entry->blocksize, __entry->max_links, __entry->time_gran,
+>  		  __entry->time_min, __entry->time_max, __entry->maxbytes,
+> -		  __entry->uuid_len)
+> +		  __entry->uuid_len, __entry->cache_maxbytes)
+>  );
+>  
+>  TRACE_EVENT(fuse_iomap_dev_inval,
+> @@ -1395,6 +1399,29 @@ DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_del_mapping_got);
+>  DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_add_mapping_left);
+>  DEFINE_IEXT_ALT_UPDATE_EVENT(fuse_iext_add_mapping_right);
+>  
+> +TRACE_EVENT(fuse_iomap_cache_cleanup,
+> +	TP_PROTO(const struct inode *inode, unsigned int iodir,
+> +		 struct fuse_iext_root *ir),
+> +	TP_ARGS(inode, iodir, ir),
 > +
-> +/* absolute maximum memory consumption per iomap mapping cache */
-> +#define FUSE_IOMAP_CACHE_MAX_MAXBYTES		(SZ_2M)
-> +
-> +/* default maximum memory consumption per iomap mapping cache */
-> +#define FUSE_IOMAP_CACHE_DEFAULT_MAXBYTES	(SZ_256K)
-> +
-> +void fuse_iomap_cache_set_maxbytes(struct fuse_conn *fc, unsigned int maxbytes);
->  #endif /* CONFIG_FUSE_IOMAP */
->  
->  #endif /* _FS_FUSE_IOMAP_CACHE_H */
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 8c5e67731b21b8..035e1a59ce50d3 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -1512,7 +1512,9 @@ struct fuse_iomap_ioend_out {
->  struct fuse_iomap_config_in {
->  	uint64_t flags;		/* supported FUSE_IOMAP_CONFIG_* flags */
->  	int64_t maxbytes;	/* maximum supported file size */
-> -	uint64_t padding[6];	/* zero */
-> +	uint32_t cache_maxbytes; /* mapping cache maxbytes */
-> +	uint32_t zero;		/* zero */
-> +	uint64_t padding[5];	/* zero */
->  };
->  
->  /* Which fields are set in fuse_iomap_config_out? */
-> @@ -1522,6 +1524,7 @@ struct fuse_iomap_config_in {
->  #define FUSE_IOMAP_CONFIG_MAX_LINKS	(1 << 3ULL)
->  #define FUSE_IOMAP_CONFIG_TIME		(1 << 4ULL)
->  #define FUSE_IOMAP_CONFIG_MAXBYTES	(1 << 5ULL)
-> +#define FUSE_IOMAP_CONFIG_CACHE_MAXBYTES (1 << 6ULL)
->  
->  struct fuse_iomap_config_out {
->  	uint64_t flags;		/* FUSE_IOMAP_CONFIG_* */
-> @@ -1544,6 +1547,8 @@ struct fuse_iomap_config_out {
->  	int64_t s_time_max;
->  
->  	int64_t s_maxbytes;	/* max file size */
-> +
-> +	uint32_t cache_maxbytes; /* mapping cache maximum size */
->  };
->  
->  struct fuse_range {
-> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 075fa62f856495..22b23a3fa2ae2c 100644
-> --- a/fs/fuse/fuse_iomap.c
-> +++ b/fs/fuse/fuse_iomap.c
-> @@ -1147,7 +1147,8 @@ struct fuse_iomap_config_args {
->  			       FUSE_IOMAP_CONFIG_BLOCKSIZE | \
->  			       FUSE_IOMAP_CONFIG_MAX_LINKS | \
->  			       FUSE_IOMAP_CONFIG_TIME | \
-> -			       FUSE_IOMAP_CONFIG_MAXBYTES)
-> +			       FUSE_IOMAP_CONFIG_MAXBYTES | \
-> +			       FUSE_IOMAP_CONFIG_CACHE_MAXBYTES)
->  
->  static int fuse_iomap_process_config(struct fuse_mount *fm, int error,
->  				     const struct fuse_iomap_config_out *outarg)
-> @@ -1212,6 +1213,9 @@ static int fuse_iomap_process_config(struct fuse_mount *fm, int error,
->  	if (outarg->flags & FUSE_IOMAP_CONFIG_MAXBYTES)
->  		sb->s_maxbytes = outarg->s_maxbytes;
->  
-> +	if (outarg->flags & FUSE_IOMAP_CONFIG_CACHE_MAXBYTES)
-> +		fuse_iomap_cache_set_maxbytes(fm->fc, outarg->cache_maxbytes);
-> +
->  	return 0;
->  }
->  
-> @@ -1273,6 +1277,9 @@ fuse_iomap_new_mount(struct fuse_mount *fm)
->  	ia->inarg.maxbytes = MAX_LFS_FILESIZE;
->  	ia->inarg.flags = FUSE_IOMAP_CONFIG_ALL;
->  
-> +	fm->fc->iomap_conn.cache_maxbytes = FUSE_IOMAP_CACHE_DEFAULT_MAXBYTES;
-> +	ia->inarg.cache_maxbytes = fm->fc->iomap_conn.cache_maxbytes;
-> +
->  	ia->args.opcode = FUSE_IOMAP_CONFIG;
->  	ia->args.nodeid = 0;
->  	ia->args.in_numargs = 1;
-> diff --git a/fs/fuse/fuse_iomap_cache.c b/fs/fuse/fuse_iomap_cache.c
-> index 7d6944a6106f07..a8e16302ce4405 100644
-> --- a/fs/fuse/fuse_iomap_cache.c
-> +++ b/fs/fuse/fuse_iomap_cache.c
-> @@ -1654,6 +1654,28 @@ void fuse_iomap_cache_free(struct inode *inode)
->  	kfree(ic);
->  }
->  
-> +void fuse_iomap_cache_set_maxbytes(struct fuse_conn *fc, unsigned int maxbytes)
-> +{
-> +	if (!maxbytes)
-> +		return;
-> +
-> +	fc->iomap_conn.cache_maxbytes = clamp(maxbytes, NODE_SIZE,
-> +					      FUSE_IOMAP_CACHE_MAX_MAXBYTES);
-> +}
-> +
-> +static void
-> +fuse_iomap_cache_cleanup(
-> +	struct inode		*inode,
-> +	enum fuse_iomap_iodir	iodir)
-> +{
-> +	struct fuse_inode	*fi = get_fuse_inode(inode);
-> +	struct fuse_mount	*fm = get_fuse_mount(inode);
-> +	struct fuse_iext_root	*ir = fuse_iext_root_ptr(fi->cache, iodir);
-> +
-> +	if (ir && ir->ir_bytes > fm->fc->iomap_conn.cache_maxbytes)
-> +		fuse_iext_destroy(ir);
+> +	TP_STRUCT__entry(
+> +		FUSE_IO_RANGE_FIELDS()
 
-Codex noticed that we don't bump the cache sequence counter, so a flush
-due to excessive cache usage won't itself result in revalidations.  Will
-fix this.
+There's no file range here, so let's shrink the tracepoint data by only
+recording the inode fields instead of just reporting zeroes.
 
 --D
 
-> +}
+> +		FUSE_IOMAP_IODIR_FIELD
+> +		__field(unsigned long long,	bytes)
+> +	),
 > +
->  int
->  fuse_iomap_cache_upsert(
->  	struct inode			*inode,
-> @@ -1680,6 +1702,8 @@ fuse_iomap_cache_upsert(
->  	if (err)
->  		return err;
+> +	TP_fast_assign(
+> +		FUSE_INODE_ASSIGN(inode, fi, fm);
+> +		__entry->iodir		=	iodir;
+> +		__entry->bytes		=	ir->ir_bytes;
+> +	),
+> +
+> +	TP_printk(FUSE_IO_RANGE_FMT() FUSE_IOMAP_IODIR_FMT " bytes 0x%llx",
+> +		  FUSE_IO_RANGE_PRINTK_ARGS(),
+> +		  FUSE_IOMAP_IODIR_PRINTK_ARGS,
+> +		  __entry->bytes)
+> +);
+> +
+>  TRACE_EVENT(fuse_iomap_cache_remove,
+>  	TP_PROTO(const struct inode *inode, unsigned int iodir,
+>  		 loff_t offset, uint64_t length, unsigned long caller_ip),
+> diff --git a/fs/fuse/fuse_iomap_cache.c b/fs/fuse/fuse_iomap_cache.c
+> index a8e16302ce4405..66739ec59e9c8b 100644
+> --- a/fs/fuse/fuse_iomap_cache.c
+> +++ b/fs/fuse/fuse_iomap_cache.c
+> @@ -1672,8 +1672,10 @@ fuse_iomap_cache_cleanup(
+>  	struct fuse_mount	*fm = get_fuse_mount(inode);
+>  	struct fuse_iext_root	*ir = fuse_iext_root_ptr(fi->cache, iodir);
 >  
-> +	fuse_iomap_cache_cleanup(inode, iodir);
-> +
->  	return fuse_iomap_cache_add(inode, iodir, map);
+> -	if (ir && ir->ir_bytes > fm->fc->iomap_conn.cache_maxbytes)
+> +	if (ir && ir->ir_bytes > fm->fc->iomap_conn.cache_maxbytes) {
+> +		trace_fuse_iomap_cache_cleanup(inode, iodir, ir);
+>  		fuse_iext_destroy(ir);
+> +	}
 >  }
 >  
+>  int
 > 
 > 
