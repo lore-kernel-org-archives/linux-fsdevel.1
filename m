@@ -1,207 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9603DFC80;
-	Thu, 14 May 2026 14:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778769775; cv=none; b=YPMH7SgkfSsrLsMayLd8duEOfE/Kx3QcXJA8ExgvIZ3hMd0nfffnDoGm7DBqf6cX/PfDva0xZnfj3WgTq+2GUMj2HzFFq1ZD7lIuYP4RVOKtqO7B/3OS1EnwgLjtK8wJj0uxe6QkocWX5s0FXeg4wTIaL5l76fDwTVzTwispvw4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778769775; c=relaxed/simple;
-	bh=jN5uwe77yrodnI16Pup2BeCmkisZSjrnDMv4Bjh39Pw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JqvspizN/GEp/vMW3ttPB+7dn/AlXQnOjqPE0EuR4v4NZdgHG75a4fw65Rj1E/bPuqbpzOLAKNARLApjPipZ36S68Z05DbsFH7InHmwPl3QM5caTCADxeJwwUz6Au9yUDV6YvtxVKCa16KyvQUy+mi7bLq8HfIsK6zphRQ666w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bv5W254N; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697843E0251
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 15:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778771323; cv=pass; b=qt9f8MzNv/zztQy1zoTMrcFIzY+xwz6hPUtD812UAuT+XK1/LgQKFzbXIcbgVlhTkPHa2qieRfy8jKSntwSvhOMWj4JnGrElbRpQR+pqiZ8zf3PwwywuPAWg0VwpC+jI18edTXLvZrBfokDVm+ULO9yV6Hl7EWOBE6Gdz9GWsqM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778771323; c=relaxed/simple;
+	bh=Oqw0NDluenc4M9KSxSuO4kI1l37w9GHWqNHYO2kNx68=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OINDSYEo4rmRkvVwlR9okOlMojjG1i6oS10aVU5Wltlzsm40cfD5QAUgdgi1MezKh7kMwO5qZjJ256RL5RED82QBeedaQAdcLZ76Lo7BpOCWYGNrRz3D5k+K/YPuN2xsgyhuMSRDzKUWJL7Bpd/BjEL5++vPGIPV579rFNiHky8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jFPFUZyG; arc=pass smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bv5W254N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C669C2BCB3;
-	Thu, 14 May 2026 14:42:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778769775;
-	bh=jN5uwe77yrodnI16Pup2BeCmkisZSjrnDMv4Bjh39Pw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bv5W254NHJT7tCZPMGd8YBcXv2RHPoF5M4c+7Y5jfvguZ3DYFFO7V/4M0cTDu3Lqp
-	 XdIjp2hhtmzJYenXF0CUrmWBSzTDtPso9iERc7C5MzW7saqzLzVO7rMOeiIWbnC2He
-	 vPH04j9fPjrleUXcV3feHF42F83aD9CFNOXuO8Z01R8kzuGYA1CKeMbzh2V7vvrgxN
-	 Vb5jugvSSR6mVS6ez/LtxtC0OCH9RZyWkgZVMK3Mf7+lmysOSlwTGrnlmqXpGATuhb
-	 ZuEq78/zeBHCR0MEOMWgAZ2Ux1DeRQJcaXkk0x99SoK56xg9yK+s70gnsF1wklEIKZ
-	 gNrlihE4uSC9w==
-Date: Thu, 14 May 2026 07:42:54 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: miklos@szeredi.hu
-Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 32/33] fuse: enable swapfile activation on iomap
-Message-ID: <20260514144254.GW9544@frogsfrogsfrogs>
-References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205834.4101881.6028637441703823637.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jFPFUZyG"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-44c350a5b87so5032941f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 08:08:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778771314; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dShNsF/qK94q0czwBPdFHkVREAJxtsVpLYCMzduWLIXTzciCirh1/ixJae/NzNibIY
+         A0TgWCeaegVF0ULIg2BJt5IFVpYqj3Y0JPO5lD6NnIDXZSM9sH1t0r3AOPGWdEp2pAuc
+         +PJ4vg825qdoV0wKaUn6RbaGHHbCdc42DIKWNS7FJCHOim/ZbXC6theITGmm89vS2CN8
+         D31wNSbZcBS1poEmP/6NXrgurH5RuSV24PgvKmUZZEbKeBUzWNOm3w9S0rlHcevUjfrG
+         IPAwoydKCQNgL9/9jDb20fAc/YWA59pjk3WCLLALUtdP9qu6ibtanKPLryIfCrSNzgSa
+         wYVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+bdgZnAoM28ZGhdZNKKk0p4fIizw0yp98Oy054cZAiQ=;
+        fh=eCeO4M8zAu/UcelLyMyohtWAeIIW0CxDnKeNlbHeLvg=;
+        b=QN0gb0ZCUaDlX0ae/+oQuQ2B25KhxAlZVuS+xSXhcEuLOyQK1dmiKxt6O/UHYFSnie
+         GEGdN68IgOT00YKOuj/xfoKjvvC9gWg1swLJPLH9Z+cdVTHigXTw61DgXGjVcMhpxPgV
+         gaIeTFuTqG1D/Lxps70jTia5e2O4QPxA8zQlhXtFgpngnOGu//hhSD1g0hH2iy/BMjlu
+         VD0HPHwpJ3eV+j3vaOD7pTxt7lsBaX7kmv/xyWz+/KWtzKCeZpcqYXtEcrqE15yMazxb
+         ud9Zjm1maZs3be5N0AALdQ+bbEielAvufMIq7N4qlTt5RJN8M6KqaFEARWht7gIgyawh
+         EgCw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778771314; x=1779376114; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+bdgZnAoM28ZGhdZNKKk0p4fIizw0yp98Oy054cZAiQ=;
+        b=jFPFUZyGbul8cFDW3q1P3p8RLFHIlj1m8F/jtBNQTuTemT8CbQcyZBT8xxrwEoNmdx
+         dvoD/B1XdCHqWwexSKNL3GiAmxfVL27b9xO8VLbakoMzQCIlWUsOfnwuogxd2hefNitU
+         EA/47XveoOX3bQebaE5Bn7Ib1z0EBA9QLxXTki+3y3j/Ix1432ha4YtONJr2yrwRUiEJ
+         Ln2BI2WkrizjK6YQ5oQ7r21y+2JS2T8GcBqe1dKf/TMkqN3KHUqQuNnMrqOzpOgz+0Dg
+         uvbu+oXzpm0FA7jHZYsRB7qlCYMB+jrUo9yjOLaEjPixn52lGmzHwMM99fy2pZE3AbJU
+         BVSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778771314; x=1779376114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+bdgZnAoM28ZGhdZNKKk0p4fIizw0yp98Oy054cZAiQ=;
+        b=jMxQaUwRbUcS7GZygNpKjW0E9Dzlv6SU8qeyPgQCPgGEtr4jRWJ7vBaDJdnowvr5yd
+         Omo85pJZDVbOyOJd7iwzejK05345ZTaxyLaJjIN3fo+YJNsLli0zjRqx0yZDs0Ax9h4E
+         BTq+Pnf9W2nm/C8mZ79/+oHkGgK90wufFN53Hsbj/Go6DTlye3lSFzeA5dKafB+sYRbb
+         Fs+ZFFf4S7AKaDCE0M9EW8B4Q6sVDHioEUJk1mMG5EsP/r8CgDACgWL3xrndKE9GBOjE
+         dXDjDfYAM5pcZgWsBCk79DR6GddAU98QhcXlhYWLjmjMws1h8jGP/kDeD829gRC79tFC
+         wZug==
+X-Gm-Message-State: AOJu0YwhyxNSy8TAhsA1UzHHMw5+mAe1JV80wnEb7xacu1NxLmzswg9X
+	9ALJkwlcWkhTKacc3wEb3qJyEGIwvCVfk4Wdyu2re3CiAp48ECMLSxRdpgzQxiaHSCFShJ8h0fa
+	Lr7vFrxgBm5Bbt2pDN2Nm+IS3Xb6+7jtmz4/IOIM=
+X-Gm-Gg: Acq92OHfkic0miyDhrHIz084IcCnUN90n0DcO6S3aJub9q55HADsw9dctdeRZIUWckE
+	zK4b+jA0XW7P97ZzZVmbkqeQdRkhipFC1uLB/9IRtlEVRm39ifhpQS+I6lyA8nh/Ocw3IRxP0SE
+	2Fjy3Jf8EyztctJCxty9GAdWR2jf/6hpOPe8xc6aRg/CWzc8eeBQXXyPTNCo1efFx91Cpl1MR2g
+	9c9k2IG/ZvkbpGJVeZH6GRVg5UVLK3w8Gqui5OyUMk+Ke+yfTu/OClPZBXIZHnZQIvriN3QOmVc
+	BhT3tw==
+X-Received: by 2002:a05:6000:24c3:b0:448:8db5:410b with SMTP id
+ ffacd0b85a97d-45c599ebcc5mr13067532f8f.20.1778771314283; Thu, 14 May 2026
+ 08:08:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177747205834.4101881.6028637441703823637.stgit@frogsfrogsfrogs>
+References: <20260514062955.1183976-1-yi.zhang@huaweicloud.com> <20260514062955.1183976-5-yi.zhang@huaweicloud.com>
+In-Reply-To: <20260514062955.1183976-5-yi.zhang@huaweicloud.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 14 May 2026 08:08:21 -0700
+X-Gm-Features: AVHnY4JGAYta6lc0ZFFwSJBwWzibm6rBu2Rx6wdCCAM4bkR5PfJiohRCslD9kBQ
+Message-ID: <CAJnrk1bHM9aGXbk+LJYJZrfbtLvbwsqwrJgY2KkT5AyVfBjdrg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] iomap: fix out-of-bounds bitmap_set() with
+ zero-length range
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, brauner@kernel.org, djwong@kernel.org, 
+	hch@infradead.org, yi.zhang@huawei.com, yizhang089@gmail.com, 
+	yangerkun@huawei.com, yukuai@fnnas.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 29, 2026 at 07:32:02AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> It turns out that fuse supports swapfile activation, so let's enable
-> that.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+On Wed, May 13, 2026 at 11:35=E2=80=AFPM Zhang Yi <yi.zhang@huaweicloud.com=
+> wrote:
+>
+> From: Zhang Yi <yi.zhang@huawei.com>
+>
+> ifs_set_range_dirty() and ifs_set_range_uptodate() compute last_blk
+> as (off + len - 1) >> i_blkbits.  When off is 0 and len is 0, the
+> unsigned subtraction underflows to SIZE_MAX, producing a huge
+> last_blk and nr_blks value that causes bitmap_set() to write far
+> beyond the ifs->state allocation.
+>
+> Regarding ifs_set_range_uptodate(), it is temporarily safe because len
+> cannot be passed in as 0. However, for ifs_set_range_dirty() this is
+> reachable from __iomap_write_end(): when copy_folio_from_iter_atomic()
+> returns 0 (e.g. user buffer fault) and the folio is already uptodate,
+> the guard at the top of __iomap_write_end() does not trigger because
+> !folio_test_uptodate() is false, and iomap_set_range_dirty() is called
+> with copied =3D=3D 0.
+
+Is the Fixes: 4ce02c679722  ("iomap: Add per-block dirty state
+tracking to improve performance") tag needed for this?
+
+>
+> Add a !len guard to both functions before the computation, so that a
+> zero-length range is a no-op.
+>
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 > ---
->  fs/fuse/fuse_trace.h      |    1 +
->  include/uapi/linux/fuse.h |    5 ++++
->  fs/fuse/fuse_iomap.c      |   54 ++++++++++++++++++++++++++++++++++++++++++++-
->  3 files changed, 59 insertions(+), 1 deletion(-)
-> 
-> 
-> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
-> index de7d483d4b0f34..63cc1496ee5ca1 100644
-> --- a/fs/fuse/fuse_trace.h
-> +++ b/fs/fuse/fuse_trace.h
-> @@ -300,6 +300,7 @@ struct iomap;
->  	{ FUSE_IOMAP_OP_DAX,			"fsdax" }, \
->  	{ FUSE_IOMAP_OP_ATOMIC,			"atomic" }, \
->  	{ FUSE_IOMAP_OP_DONTCACHE,		"dontcache" }, \
-> +	{ FUSE_IOMAP_OP_SWAPFILE,		"swapfile" }, \
->  	{ FUSE_IOMAP_OP_WRITEBACK,		"writeback" }
->  
->  #define FUSE_IOMAP_TYPE_STRINGS \
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 9e59fba64f48d9..5f3724f36f764a 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -1406,6 +1406,9 @@ struct fuse_uring_cmd_req {
->  #define FUSE_IOMAP_OP_ATOMIC		(1U << 9)
->  #define FUSE_IOMAP_OP_DONTCACHE		(1U << 10)
->  
-> +/* swapfile config operation */
-> +#define FUSE_IOMAP_OP_SWAPFILE		(1U << 30)
-> +
->  /* pagecache writeback operation */
->  #define FUSE_IOMAP_OP_WRITEBACK		(1U << 31)
->  
-> @@ -1460,6 +1463,8 @@ struct fuse_iomap_end_in {
->  #define FUSE_IOMAP_IOEND_APPEND		(1U << 4)
->  /* is pagecache writeback */
->  #define FUSE_IOMAP_IOEND_WRITEBACK	(1U << 5)
-> +/* swapfile deactivation */
-> +#define FUSE_IOMAP_IOEND_SWAPOFF	(1U << 6)
->  
->  struct fuse_iomap_ioend_in {
->  	uint32_t flags;		/* FUSE_IOMAP_IOEND_* */
-> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 1e01e0011a412d..cf52e2747e7f7f 100644
-> --- a/fs/fuse/fuse_iomap.c
-> +++ b/fs/fuse/fuse_iomap.c
-> @@ -8,6 +8,7 @@
->  #include <linux/pagemap.h>
->  #include <linux/falloc.h>
->  #include <linux/fadvise.h>
-> +#include <linux/swap.h>
->  #include "fuse_i.h"
->  #include "fuse_trace.h"
->  #include "fuse_iomap.h"
-> @@ -202,13 +203,16 @@ static inline uint16_t fuse_iomap_flags_from_server(uint16_t fuse_f_flags)
->  #undef XMAP2
->  #undef XMAP
->  
-> +#define FUSE_IOMAP_PRIVATE_OPS	(FUSE_IOMAP_OP_WRITEBACK | \
-> +				 FUSE_IOMAP_OP_SWAPFILE)
-> +
->  /* Convert IOMAP_* operation flags to FUSE_IOMAP_OP_* */
->  #define XMAP(word) \
->  	if (iomap_op_flags & IOMAP_##word) \
->  		ret |= FUSE_IOMAP_OP_##word
->  static inline uint32_t fuse_iomap_op_to_server(unsigned iomap_op_flags)
+>  fs/iomap/buffered-io.c | 23 +++++++++++++++--------
+>  1 file changed, 15 insertions(+), 8 deletions(-)
+>
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index 27ab33edbdee..6fe5f7e998fd 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -67,11 +67,14 @@ static bool ifs_set_range_uptodate(struct folio *foli=
+o,
+>                 struct iomap_folio_state *ifs, size_t off, size_t len)
 >  {
-> -	uint32_t ret = iomap_op_flags & FUSE_IOMAP_OP_WRITEBACK;
-> +	uint32_t ret = iomap_op_flags & FUSE_IOMAP_PRIVATE_OPS;
->  
->  	XMAP(WRITE);
->  	XMAP(ZERO);
-> @@ -757,6 +761,13 @@ fuse_should_send_iomap_ioend(const struct fuse_mount *fm,
->  	if (inarg->error)
->  		return true;
->  
-> +	/*
-> +	 * Always send an ioend for swapoff to let the fuse server know the
-> +	 * long term layout "lease" is over.
-> +	 */
-> +	if (inarg->flags & FUSE_IOMAP_IOEND_SWAPOFF)
-> +		return true;
+>         struct inode *inode =3D folio->mapping->host;
+> -       unsigned int first_blk =3D off >> inode->i_blkbits;
+> -       unsigned int last_blk =3D (off + len - 1) >> inode->i_blkbits;
+> -       unsigned int nr_blks =3D last_blk - first_blk + 1;
+> +       unsigned int first_blk, last_blk;
+>
+> -       bitmap_set(ifs->state, first_blk, nr_blks);
+> +       if (!len)
+> +               return true;
+
+I think both callers of ifs_set_range_uptodate() use the return value
+to decide whether to mark the folio uptodate or not - does this still
+need to return ifs_is_fully_uptodate(folio, ifs) instead of always
+true?
+
+Thanks,
+Joanne
+
 > +
->  	/* Send an ioend if we performed an IO involving metadata changes. */
->  	return inarg->written > 0 &&
->  	       (inarg->flags & (FUSE_IOMAP_IOEND_SHARED |
-> @@ -1801,6 +1812,43 @@ static void fuse_iomap_readahead(struct readahead_control *rac)
->  	iomap_bio_readahead(rac, &fuse_iomap_ops);
+> +       first_blk =3D off >> inode->i_blkbits;
+> +       last_blk =3D (off + len - 1) >> inode->i_blkbits;
+> +       bitmap_set(ifs->state, first_blk, last_blk - first_blk + 1);
+>         return ifs_is_fully_uptodate(folio, ifs);
 >  }
->  
-> +#ifdef CONFIG_SWAP
-> +static int fuse_iomap_swapfile_begin(struct inode *inode, loff_t pos,
-> +				     loff_t count, unsigned opflags,
-> +				     struct iomap *iomap, struct iomap *srcmap)
-> +{
-> +	return fuse_iomap_begin(inode, pos, count,
-> +				FUSE_IOMAP_OP_SWAPFILE | opflags, iomap,
-> +				srcmap);
-> +}
-> +
-> +static const struct iomap_ops fuse_iomap_swapfile_ops = {
-> +	.iomap_begin		= fuse_iomap_swapfile_begin,
-> +};
-> +
-> +static int fuse_iomap_swap_activate(struct swap_info_struct *sis,
-> +				    struct file *swap_file, sector_t *span)
-> +{
-> +	int ret;
-> +
-> +	/* obtain the block device from the header iomapping */
-> +	sis->bdev = NULL;
-
-Following up from a separate discussion on fsdevel about zoned storage
-vs. swapfile activation, fuse_iomap_begin should not allow mappings to
-zoned storage for swapon.  And maybe I should refactor the fuse
-iomap_begin interface to provide the io context (pagecache io, directio,
-fiemap, swapfile activation, pagecache writeback, etc) as a distinct
-field rather than overlaying on the upper bits of the opflags.
-
---D
-
-> +	ret = iomap_swapfile_activate(sis, swap_file, span,
-> +				      &fuse_iomap_swapfile_ops);
-> +	if (ret < 0)
-> +		fuse_iomap_ioend(file_inode(swap_file), 0, 0, ret,
-> +				 FUSE_IOMAP_IOEND_SWAPOFF, NULL,
-> +				 FUSE_IOMAP_NULL_ADDR);
-> +	return ret;
-> +}
-> +
-> +static void fuse_iomap_swap_deactivate(struct file *file)
-> +{
-> +	fuse_iomap_ioend(file_inode(file), 0, 0, 0, FUSE_IOMAP_IOEND_SWAPOFF,
-> +			 NULL, FUSE_IOMAP_NULL_ADDR);
-> +}
-> +#endif
-> +
->  static const struct address_space_operations fuse_iomap_aops = {
->  	.read_folio		= fuse_iomap_read_folio,
->  	.readahead		= fuse_iomap_readahead,
-> @@ -1811,6 +1859,10 @@ static const struct address_space_operations fuse_iomap_aops = {
->  	.migrate_folio		= filemap_migrate_folio,
->  	.is_partially_uptodate  = iomap_is_partially_uptodate,
->  	.error_remove_folio	= generic_error_remove_folio,
-> +#ifdef CONFIG_SWAP
-> +	.swap_activate		= fuse_iomap_swap_activate,
-> +	.swap_deactivate	= fuse_iomap_swap_deactivate,
-> +#endif
->  
->  	/* These aren't pagecache operations per se */
->  	.bmap			= fuse_bmap,
-> 
-> 
