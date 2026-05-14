@@ -1,144 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from cvsmtppost104.wmail.worksmobile.com (cvsmtppost104.wmail.worksmobile.com [125.209.209.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4791C2BDC26;
-	Thu, 14 May 2026 18:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0C522083
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 19:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=125.209.209.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778784107; cv=none; b=tlPAvJ0ulzqE4dlzdPaeoD+dpt1OiwTZQj4KMeT1H62hn4HEsx6qjmpByiXWOMwBVbn6c1tUAgB1bwqonuEG1XGj4pREMHHNhuxJByuUPRVtx9xp2tyxwUf+C+OuqGOjba2zm1uMB1DakjaIFZ2p+mhq7lIMFE1hN4jxFBdyBAE=
+	t=1778787181; cv=none; b=QBs8ThMyYDRvSH2iOOmfLzknJjW1uH0yCJBqc76nAXz6xsDtkkuP+JQ9HZOf3+5hhJvAD91S+zBHj1dMWT84mga21enkG6aLeKUFrIFxzn3s55XVHV5Jrm6770qe34o/rXS5RHQXfLulOWgHKukHss9cSxzaS3MFSPuAGSUuOnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778784107; c=relaxed/simple;
-	bh=VVvwJ7fzoRk3WxdKVm9kGe+JnTu6EeZf8i/8YaKQavg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PkyDK+9Ok5coNyD4PiF2FYnEWVY2Awj58FanzID+TfxqwGdpa+7Yf/ESjxCfCNjmquAsjO1Wgq4Ictumxj/S1qkd7LSm5yU3BKQ+2uxnhRzfsFEap3RYQTRTRWhv08HZkSkTtjMrTGV8s1qGtoUShrARZ79xrD9fyBa9t77F7tQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L1H4dt1Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778787181; c=relaxed/simple;
+	bh=cGxWReALHu8JAhyDUsZHuquLUVgNUNj12JyXOoewDNQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=T7P2v2W7bNVHrApIPZ4eNdZF9G/REZmb6LcXscjqFpv1FfOtdyW9Gi6GgfftUUf09YhP/8/G6VMkpoqHNTmX42uy8VeBCN6pAKA3iNemGK+BWdLFOjpKhblpD8N4SZKy9HzeeD5i4m9IdKYjcLsXFronZpRBBlRURT5qUPLm/Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr; spf=pass smtp.mailfrom=korea.ac.kr; dkim=pass (2048-bit key) header.d=worksmobile.com header.i=@worksmobile.com header.b=Fe3DoZ1+; dkim=pass (1024-bit key) header.d=korea.ac.kr header.i=@korea.ac.kr header.b=R9AaSaEn; arc=none smtp.client-ip=125.209.209.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L1H4dt1Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03897C2BCB3;
-	Thu, 14 May 2026 18:41:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778784107;
-	bh=VVvwJ7fzoRk3WxdKVm9kGe+JnTu6EeZf8i/8YaKQavg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L1H4dt1ZWvGcyyoLL+GI5Y8JlXRjNvX3pTY2qRxqJ4n+nm2KkUhTj3lCoNHMhOtL5
-	 Yai2F+FwyukvUbe6/psf4j8h15GzJXYVzjLgXMJRdikAo1cyncgpZVnkyfuQpwz2tU
-	 DDD1bPLbOxAToD8Z/EXmHAXl93tR1eIAl/0H+hMWg79hTLKqvfAeWkNWZl2jPP+tCf
-	 AVvipAV4Ky1L96f2BUfvB25VqCG9nLt5ZIf5fUyNAaXTT+Q1PQGo/vuDsdRosc1a/N
-	 C4s8nKtcbX95HqBJje3Gm9pBJRvWEY9UFQjMJqGeutPyokFhxmSPncFRXndBRAEtvB
-	 1jAEA3jdgNalw==
-Date: Thu, 14 May 2026 11:41:46 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: miklos@szeredi.hu
-Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 2/2] fuse_trace: move the passthrough-specific code back
- to passthrough.c
-Message-ID: <20260514184146.GC9544@frogsfrogsfrogs>
-References: <177747204594.4101743.18108570914300152558.stgit@frogsfrogsfrogs>
- <177747204647.4101743.5488320024551450875.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=worksmobile.com header.i=@worksmobile.com header.b="Fe3DoZ1+";
+	dkim=pass (1024-bit key) header.d=korea.ac.kr header.i=@korea.ac.kr header.b="R9AaSaEn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=worksmobile.com;
+	s=s20171120; t=1778787177;
+	bh=cGxWReALHu8JAhyDUsZHuquLUVgNUNj12JyXOoewDNQ=;
+	h=From:To:Subject:Date:Message-Id:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=Fe3DoZ1+Vog2Q+VqR1zqQpUu3TXhsrSb/QOCeeUx3bVrDPIhwlfp3anBgTznb+8Ur
+	 r3mnJBsdxbw5pRP+uzhZepfZfuiMcyxHYAyI28Ta0vAVyRfRCD5XC6Z1anYOJX7aNq
+	 HTuDHNpHiOOQBp/2+xgxe0yPDGiz9zvlKwO/8tgZ/dXUmxgmKJQpftOU1StT90KT9U
+	 tir2O+GfyblKWeXb9LYQ+Ew0Z/JcPZp0XbAd2nU2B8aR4PxWs7bFgDT1I6k+sPEuW6
+	 lzW5Kms+2wvV5V5rfsyYIiVNL2gspWPvw+gcH+Wcw0S+UgPOqGGbCEof2HO//dZPAL
+	 oBqLd3beM0S+w==
+Received: from cvsendbo004.wmail ([10.113.20.173])
+  by cvsmtppost104.wmail.worksmobile.com with ESMTP id VaiWzy86Stq4LTAGJ8zSDQ
+  for <linux-fsdevel@vger.kernel.org>;
+  Thu, 14 May 2026 19:32:57 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=korea.ac.kr;
+	s=naverworks; t=1778787177;
+	bh=cGxWReALHu8JAhyDUsZHuquLUVgNUNj12JyXOoewDNQ=;
+	h=From:To:Subject:Date:Message-Id:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=R9AaSaEnR4CbCO8T+bpXCyMbJZ1YzMYdQsy4ihNzLoLDwhU4iR0EqkjnovvE2Fuga
+	 oakqetDhBO/RYkr+cCYsG1Vyb/IO65QiH8oKFvo331/7kNOWCm6WVKWI/rG7XW01fn
+	 nioY55cuRbuVLRW+eq93IP5QAIbkU/9WEWsekAWI=
+X-Session-ID: gt9NKnQJRQ+wa2C7TyESaA
+X-Works-Send-Opt: EendjAIYjHm/FqM9FqJYFxMqFNwYjAg=
+X-Works-Smtp-Source: A9b9Fq2XFqJZ+HmXFqbd+6E=
+Received: from s2lab05.. ([163.152.163.130])
+  by jvnsmtp401.gwmail.worksmobile.com with ESMTP id gt9NKnQJRQ+wa2C7TyESaA
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Thu, 14 May 2026 19:32:57 -0000
+From: Ingyu Jang <ingyujang25@korea.ac.kr>
+To: Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ufs: Handle NULL return from ufs_get_locked_folio()
+Date: Fri, 15 May 2026 04:32:56 +0900
+Message-Id: <20260514193256.2556905-1-ingyujang25@korea.ac.kr>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177747204647.4101743.5488320024551450875.stgit@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 29, 2026 at 07:23:41AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Add tracepoints for the previous patch.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  fs/fuse/fuse_trace.h |   35 +++++++++++++++++++++++++++++++++++
->  fs/fuse/backing.c    |    5 +++++
->  2 files changed, 40 insertions(+)
-> 
-> 
-> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
-> index bbe9ddd8c71696..286a0845dc0898 100644
-> --- a/fs/fuse/fuse_trace.h
-> +++ b/fs/fuse/fuse_trace.h
-> @@ -124,6 +124,41 @@ TRACE_EVENT(fuse_request_end,
->  		  __entry->unique, __entry->len, __entry->error)
->  );
->  
-> +#ifdef CONFIG_FUSE_BACKING
-> +TRACE_EVENT(fuse_backing_class,
+ufs_get_locked_folio() may return either an error pointer (when
+read_mapping_folio() fails) or NULL (when a concurrent truncate has
+detached the folio from its mapping). The current IS_ERR() check in
+ufs_alloc_lastblock() only handles the error-pointer case; a NULL
+return falls through to folio_buffers(folio), causing a NULL pointer
+dereference under the truncate race.
 
-s/TRACE_EVENT/DECLARE_EVENT_CLASS/ ; will fix in the next version.
+Use IS_ERR_OR_NULL() to cover both failure modes.
 
---D
+Signed-off-by: Ingyu Jang <ingyujang25@korea.ac.kr>
+---
+ fs/ufs/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +	TP_PROTO(const struct fuse_conn *fc, unsigned int idx,
-> +		 const struct fuse_backing *fb),
-> +
-> +	TP_ARGS(fc, idx, fb),
-> +
-> +	TP_STRUCT__entry(
-> +		__field(dev_t,			connection)
-> +		__field(unsigned int,		idx)
-> +		__field(unsigned long,		ino)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		struct inode *inode = file_inode(fb->file);
-> +
-> +		__entry->connection	=	fc->dev;
-> +		__entry->idx		=	idx;
-> +		__entry->ino		=	inode->i_ino;
-> +	),
-> +
-> +	TP_printk("connection %u idx %u ino 0x%lx",
-> +		  __entry->connection,
-> +		  __entry->idx,
-> +		  __entry->ino)
-> +);
-> +#define DEFINE_FUSE_BACKING_EVENT(name)		\
-> +DEFINE_EVENT(fuse_backing_class, name,		\
-> +	TP_PROTO(const struct fuse_conn *fc, unsigned int idx, \
-> +		 const struct fuse_backing *fb), \
-> +	TP_ARGS(fc, idx, fb))
-> +DEFINE_FUSE_BACKING_EVENT(fuse_backing_open);
-> +DEFINE_FUSE_BACKING_EVENT(fuse_backing_close);
-> +#endif /* CONFIG_FUSE_BACKING */
-> +
->  #endif /* _TRACE_FUSE_H */
->  
->  #undef TRACE_INCLUDE_PATH
-> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-> index adb4d2ebb21379..d7e074c30f46cc 100644
-> --- a/fs/fuse/backing.c
-> +++ b/fs/fuse/backing.c
-> @@ -72,6 +72,7 @@ static int fuse_backing_id_free(int id, void *p, void *data)
->  
->  	WARN_ON_ONCE(refcount_read(&fb->count) != 1);
->  
-> +	trace_fuse_backing_close((struct fuse_conn *)data, id, fb);
->  	fuse_backing_free(fb);
->  	return 0;
->  }
-> @@ -145,6 +146,8 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
->  		fb = NULL;
->  		goto out;
->  	}
-> +
-> +	trace_fuse_backing_open(fc, res, fb);
->  out:
->  	pr_debug("%s: fb=0x%p, ret=%i\n", __func__, fb, res);
->  
-> @@ -194,6 +197,8 @@ int fuse_backing_close(struct fuse_conn *fc, int backing_id)
->  	if (err)
->  		goto out_fb;
->  
-> +	trace_fuse_backing_close(fc, backing_id, fb);
-> +
->  	err = -ENOENT;
->  	test_fb = fuse_backing_id_remove(fc, backing_id);
->  	if (!test_fb)
-> 
-> 
+diff --git a/fs/ufs/inode.c b/fs/ufs/inode.c
+index 440d014cc5ed5..989ff3d3ad179 100644
+--- a/fs/ufs/inode.c
++++ b/fs/ufs/inode.c
+@@ -1051,7 +1051,7 @@ static int ufs_alloc_lastblock(struct inode *inode, loff_t size)
+ 
+ 	folio = ufs_get_locked_folio(mapping, lastfrag >>
+ 				       (PAGE_SHIFT - inode->i_blkbits));
+-	if (IS_ERR(folio)) {
++	if (IS_ERR_OR_NULL(folio)) {
+ 		err = -EIO;
+ 		goto out;
+ 	}
+-- 
+2.34.1
+
