@@ -1,72 +1,50 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D20683BA222;
-	Thu, 14 May 2026 05:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.barrensea.org (mail.barrensea.org [198.12.121.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF051EB5FD;
+	Thu, 14 May 2026 05:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.12.121.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778735306; cv=none; b=KlBVpWtRWCxMZdoRcJH4k+4AFxWWYIHq70muVZzjN8Wgx9bgQekeHevnBNxZ9VB3zJrygi2un0WulMqxxsD1wyki5OpYQBgoDBcUyGM7exH8vFv+vqAt15sU4VFc9pUDhUhD2P3rmYtj9Zi0UbpQ4qT6KrS0pJq5kDVIKfMk+0A=
+	t=1778737075; cv=none; b=MB9epN5utRXoGtJuQyk8ZFth3zaitdhmy/fZ5MNPwnN1j7i5sjH2kPBPficw1GEOOUya+csX32iCZf0d5r2/KEZvQt1OvN4WXYJisTpBvLK4HLBRK3UNqfSI5JVfDtW6ykiwg22JY2BP4ipC4eZ1nalVjLUjflSwDecuuqP4EJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778735306; c=relaxed/simple;
-	bh=pDv1PUPolI9yQCaKV1T3osAxs2BPPEuIIJYZ+6qnyXo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ueWbhY/Rr1GRwMbLA1c/HXpZiPzyXPFc7bAnQ2PK6oaqp+pPZwLrKahCNz5DVERbyRoZVcRCrVNR3z0JZ48zs+/GckvH4B9MRXjj0jYsvwi04jkgHFurNWLZSLdQ77Ei6oiaKVhyWTZjW+XKATMSgfil7s6eYmgTVSr+ew4F11k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=C0FOIuVq; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1778737075; c=relaxed/simple;
+	bh=3w8u4NQMV2+LcjwGsPevqZyUJjqBzKWPeujnD3NnYtw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=czd+Dp+THizmoHpUrsaiCyDOw4HyVoZEpGW0z+0s9FDLAbb2Ad+olcLg9z8nsLXtLAFPLUOpK7NJXPw9ORkMmIK3CdP+UJsft14AxptsI3Ff4qvYZqtTmZYxT2H4OHoyjbBR+m8LUATV26eGRqigCQN5rLss52QvSRecxVRzIJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=barrensea.org; spf=pass smtp.mailfrom=barrensea.org; dkim=pass (2048-bit key) header.d=barrensea.org header.i=@barrensea.org header.b=lZ/0Nkgx; arc=none smtp.client-ip=198.12.121.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=barrensea.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=barrensea.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="C0FOIuVq"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E208C1655;
-	Wed, 13 May 2026 22:08:16 -0700 (PDT)
-Received: from entos-yitian-01.Arm.com (unknown [10.168.197.54])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0871F3F7B4;
-	Wed, 13 May 2026 22:08:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778735302; bh=pDv1PUPolI9yQCaKV1T3osAxs2BPPEuIIJYZ+6qnyXo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C0FOIuVqM3n4lVlgYpvHk8RRPKzDD5+SduOW3q83jwCz6q2il5Md6IfZb/iTGZ+os
-	 oKQNS84VmZM5y6W3KgNvgdeqB3HnAzkFR8cCydg4B+9Xw5pvpjyQwls0oktpX798tq
-	 tl5eo8RIyC5bwHKsuNhKjV/dYBNj9pKBlY3VZbvY=
-From: Jia He <justin.he@arm.com>
-To: linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=barrensea.org header.i=@barrensea.org header.b="lZ/0Nkgx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=barrensea.org;
+	s=mail; t=1778737065;
+	bh=3w8u4NQMV2+LcjwGsPevqZyUJjqBzKWPeujnD3NnYtw=;
+	h=From:To:Cc:Subject;
+	b=lZ/0NkgxcPZqBAIrvZYk6AlBJNqZ5L5UvSJMgX8+XU7i9o2KkiZtiROqBea4luKB7
+	 k77ehaKwMu59SGKFIqZGPVh38XbvI1wJ2JlGBqDzzCx9u0jg1xmpijXKmz9U2s0E4Z
+	 1HJhPcTIkA841fPuZo735w+wezPFtt1Yy85jN2pW5y3NeTBGunvoqoTfwAcueXaRpq
+	 yIbYEAE7vsSt0XeWpZdhYz2189q8r1oP/0PqEC0Cl7ZcFD7V2XUAEbeoiMSrqwF5OQ
+	 xFynrL4lu+C7C18aE2X2u30SaSukjJQXH8+fdNGGdaRC3F/B9h3UpBMdWs9Xklw/3V
+	 Wv50DGiz9O55Q==
+From: Donjuanplatinum <donplat@barrensea.org>
+To: ojeda@kernel.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	dakr@kernel.org,
+	jack@suse.cz,
+	rust-for-linux@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>,
-	Rae Moar <raemoar63@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jia He <justin.he@arm.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Kees Cook <kees@kernel.org>,
-	David Disseldorp <ddiss@suse.de>
-Subject: [PATCH 7/7] lib/tests: test_ratelimit: fix stress test thread lifecycle and leak
-Date: Thu, 14 May 2026 05:04:55 +0000
-Message-Id: <20260514050455.2954509-8-justin.he@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260514050455.2954509-1-justin.he@arm.com>
-References: <20260514050455.2954509-1-justin.he@arm.com>
+	linux-kernel@vger.kernel.org,
+	Donjuanplatinum <donplat@barrensea.org>
+Subject: [PATCH] rust: seq_file: route seq_print! directly to seq_write
+Date: Thu, 14 May 2026 13:37:24 +0800
+Message-ID: <20260514053724.178321-1-donplat@barrensea.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,84 +53,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The kthread return value was checked against the wrong variable (sktp
-instead of sktp[i].tp), so WARN_ON_ONCE(!sktp->tp) fired at line 87.
+Currently, the `seq_print!` macro formats output by passing a Rust
+`fmt::Arguments` object to the C `seq_printf` function using the `%pA`.
+This involves crossing the FFI boundary, parsing the
+format string in C via `vsnprintf`, and triggering a callback back
+into Rust to perform the actual buffer write.
 
-Replace kthread_run() with kthread_create()+wake_up_process() so the
-return value can be validated before assigning to sktp[i].tp. On
-creation failure, jump to a common cleanup path that signals doneflag,
-stops all already-started threads, and frees sktp. This avoids leaving
-orphan kthreads and leaked memory when a mid-loop failure occurs.
+This patch implements `core::fmt::Write` for `&SeqFile` and updates
+`call_printf` to use it, routing Rust's formatting directly to
+`bindings::seq_write`. This approach leverages the bounded string
+slices naturally produced by the Rust formatting machinery and copies
+them directly into the `seq_file` buffer.
 
-Also reset doneflag before spawning threads so back-to-back test
-invocations don't race on stale state.
+By mapping to `seq_write`, we bypass the C string parsing state machine
+and the `%pA` FFI callback, streamlining the execution path. Since
+`seq_write` uses a bounded `memcpy` relying on the explicitly passed
+length, it perfectly matches Rust's `&str` semantics and operates
+safely without requiring null-termination.
 
-To: "Paul E. McKenney" <paulmck@kernel.org>
-To: Petr Mladek <pmladek@suse.com>
-To: Kees Cook <kees@kernel.org>
+Note that `fmt::Write` chunks the output into multiple `seq_write` calls.
+If an overflow occurs during a partial write, `seq_write` sets the
+overflow flag. The `seq_file` subsystem inherently handles this by
+discarding the current record and retrying with a larger buffer.
+Therefore, this optimization introduces no observable semantic change
+to user-space.
 
-Signed-off-by: Jia He <justin.he@arm.com>
+Signed-off-by: Donjuanplatinum <donplat@barrensea.org>
 ---
- lib/tests/test_ratelimit.c | 34 ++++++++++++++++++++++++++--------
- 1 file changed, 26 insertions(+), 8 deletions(-)
+ rust/kernel/seq_file.rs | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/lib/tests/test_ratelimit.c b/lib/tests/test_ratelimit.c
-index 33cea5f3d28b..64f26260c0d8 100644
---- a/lib/tests/test_ratelimit.c
-+++ b/lib/tests/test_ratelimit.c
-@@ -105,26 +105,44 @@ static void test_ratelimit_stress(struct kunit *test)
- 	const int n_stress_kthread = cpumask_weight(cpu_online_mask);
- 	struct stress_kthread skt = { 0 };
- 	struct stress_kthread *sktp = kzalloc_objs(*sktp, n_stress_kthread);
-+	int n_started = 0;
+diff --git a/rust/kernel/seq_file.rs b/rust/kernel/seq_file.rs
+index 518265558..16ba1fdd8 100644
+--- a/rust/kernel/seq_file.rs
++++ b/rust/kernel/seq_file.rs
+@@ -4,7 +4,7 @@
+ //!
+ //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.h)
  
--	KUNIT_EXPECT_NOT_NULL_MSG(test, sktp, "Memory allocation failure");
-+	KUNIT_ASSERT_NOT_NULL_MSG(test, sktp, "Memory allocation failure");
-+	WRITE_ONCE(doneflag, 0);
- 	for (i = 0; i < n_stress_kthread; i++) {
--		sktp[i].tp = kthread_run(test_ratelimit_stress_child, &sktp[i], "%s/%i",
--					 "test_ratelimit_stress_child", i);
--		KUNIT_EXPECT_NOT_NULL_MSG(test, sktp, "kthread creation failure");
-+		struct task_struct *tp;
+-use crate::{bindings, fmt, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
++use crate::{bindings, ffi::c_void, fmt, types::NotThreadSafe, types::Opaque};
+ 
+ /// A utility for generating the contents of a seq file.
+ #[repr(transparent)]
+@@ -32,14 +32,26 @@ pub unsafe fn from_raw<'a>(ptr: *mut bindings::seq_file) -> &'a SeqFile {
+     /// Used by the [`seq_print`] macro.
+     #[inline]
+     pub fn call_printf(&self, args: fmt::Arguments<'_>) {
+-        // SAFETY: Passing a void pointer to `Arguments` is valid for `%pA`.
++        let mut this = self;
++        let _ = fmt::Write::write_fmt(&mut this, args);
++    }
++}
 +
-+		tp = kthread_create(test_ratelimit_stress_child, &sktp[i],
-+				    "%s/%i", "test_ratelimit_stress_child", i);
-+		if (IS_ERR(tp)) {
-+			KUNIT_FAIL(test, "kthread_create failed: %ld", PTR_ERR(tp));
-+			goto out_stop;
-+		}
++impl fmt::Write for &SeqFile {
++    fn write_str(&mut self, s: &str) -> fmt::Result {
++        // SAFETY: `self` is a valid reference, ensuring `self.inner.get()` is a valid pointer
++        // to `struct seq_file`. `s` is a valid string slice, guaranteeing `s.as_ptr()` is
++        // readable for `s.len()` bytes. `seq_write` handles bounds checking and does not
++        // require a null-terminated string.
++        //
++        // CAST: `s.as_ptr()` (a `*const u8`) is cast to `*const c_void` because `seq_write`
++        // only reads the buffer via `memcpy` and does not care about the underlying type.
 +
-+		sktp[i].tp = tp;
-+		wake_up_process(tp);
-+		n_started++;
- 		pr_alert("Spawned test_ratelimit_stress_child %d\n", i);
- 	}
- 	schedule_timeout_idle(stress_duration);
+         unsafe {
+-            bindings::seq_printf(
+-                self.inner.get(),
+-                c"%pA".as_char_ptr(),
+-                core::ptr::from_ref(&args).cast::<crate::ffi::c_void>(),
+-            );
++            bindings::seq_write(self.inner.get(), s.as_ptr().cast::<c_void>(), s.len());
+         }
 +
-+out_stop:
- 	WRITE_ONCE(doneflag, 1);
--	for (i = 0; i < n_stress_kthread; i++) {
-+	for (i = 0; i < n_started; i++) {
- 		kthread_stop(sktp[i].tp);
- 		skt.nattempts += sktp[i].nattempts;
- 		skt.nunlimited += sktp[i].nunlimited;
- 		skt.nlimited += sktp[i].nlimited;
- 		skt.nmissed += sktp[i].nmissed;
- 	}
--	KUNIT_ASSERT_EQ_MSG(test, skt.nunlimited + skt.nlimited, skt.nattempts,
--			    "Outcomes not equal to attempts");
--	KUNIT_ASSERT_EQ_MSG(test, skt.nlimited, skt.nmissed, "Misses not equal to limits");
-+	if (n_started == n_stress_kthread) {
-+		KUNIT_ASSERT_EQ_MSG(test, skt.nunlimited + skt.nlimited, skt.nattempts,
-+				    "Outcomes not equal to attempts");
-+		KUNIT_ASSERT_EQ_MSG(test, skt.nlimited, skt.nmissed,
-+				    "Misses not equal to limits");
-+	}
-+
-+	kfree(sktp);
++        Ok(())
+     }
  }
  
- static struct kunit_case ratelimit_test_cases[] = {
 -- 
-2.34.1
+2.53.0
 
