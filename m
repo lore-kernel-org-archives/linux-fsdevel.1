@@ -1,125 +1,181 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4943E1A7264;
-	Thu, 14 May 2026 12:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778762792; cv=none; b=cqtA/YX0V2exA7CKVJppWBpCd0nNXetGkbTZrBGDDNj+mWrzEVpjSfsncLeQP93rJhsjXrCuN4n90zMhCzIlKqyn0xWd+NgmXlYwzOwQqRjoinE/CB1sxHNpEIPolgitG3c84fF8IaASMhuB+5gd/QiqoIP6FyE6uhDatD0ToVY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778762792; c=relaxed/simple;
-	bh=j4jNiw2+TbYp9y1p6APMQ2mfwNDwPg9EGXIDRJaHPfY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Oa4m2Qj51x+envKnFd1AxTnuxbVuD7ViWwLtKbtbyo0SaRkN7jUndaYbVJwQIk4qT0b8cta5fiYl0mxmyD3UjZGO++zXzdzBepVh+xVvQhnqy+4hZk2fM5lJa7xCxUw14GN2fddqz7VNTraYt6Y5S6dTivgXtLgpFgX1r+1hBoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=FI+wr1uz; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1269C282F32
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 13:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778764178; cv=pass; b=qDcxV1sbqecOGwTgZG93Sydmyk5k42UNy2k/UDia+oFdSxVEXipx/DyXH5kQaKMz8Al/qXP/1q9y5vlhcU98pJykS9pzo6ENEt/qR5PcbLYvl9pBSuxh1xsBUw5BRrFzpvISrjqUb9l679Cyjz66IcDzkbmvsP6z9S04b1dAW0s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778764178; c=relaxed/simple;
+	bh=429UQAl07phH8nlRtoA85sH+iBZiRo/Y3nskQ1kXYLM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FkERs9nfSpdXEvbIAhZuRQv8dk3CnYihIHuNg6XoIqW476OlpHbjLqAGSA+Vwl2g6SIqXQMz4xEyApQWk/6DPKG3nWbY5dEydvBdxq6S/aC2ZWzhortLi1ebH3R+Iv5ar9FdMOvQ3n4nzbqwhTroPX57C3IKHMfJ6qgTHlM+xew=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vy+Ntvnk; arc=pass smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="FI+wr1uz"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=1WbvFnMrMphGhwFMRtLVcw5b48UPe4RDSM16IiWVXOw=;
-	b=FI+wr1uzLtLbX0TTVACOvXl01vELRn2fXi+c7SLI/E9psxYc1OUO4JoOx65ySygOfafP23k5y
-	zZYw7uWtHFgoUZI3VmgvL+DyGN69nZB8/ODToOQFwnM2fISrO8FTvIksj6qiq/LEJZlsPSxNhpz
-	M+JL3gR+KrutxmrKa6nPVzo=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4gGVHk0QxVzLlXL;
-	Thu, 14 May 2026 20:38:42 +0800 (CST)
-Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
-	by mail.maildlp.com (Postfix) with ESMTPS id 65F8740563;
-	Thu, 14 May 2026 20:46:19 +0800 (CST)
-Received: from huawei.com (10.50.85.155) by kwepemk500005.china.huawei.com
- (7.202.194.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 14 May
- 2026 20:46:18 +0800
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-To: <miklos@szeredi.hu>, <djwong@kernel.org>
-CC: <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<chengzhihao1@huawei.com>, <yangerkun@huawei.com>, <yi.zhang@huawei.com>
-Subject: [PATCH] fuse: virtiofs: fix illegal inode address access in fuse_release_end
-Date: Thu, 14 May 2026 20:41:02 +0800
-Message-ID: <20260514124102.2703313-1-chengzhihao1@huawei.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vy+Ntvnk"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-67389cf78b0so13998692a12.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 06:09:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778764175; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RwhQVQA/cuhIvxTxGqT+Mod020Dy/Jgyl0KPBLe0Fubs0679amMn91+Lk8NXUL8dCL
+         ehJHFlS/prpBiop1/L5mW+QFyNeqi1ipSqq2KMA6C65upwPbD4+INhC66ReshSfUd7OM
+         RiCbE+b9EPO0UsLlKPJNbMD9tthWMCXe8FdcpRfFAW5vd0kTZn5HS7/NLndW7WumLyVx
+         Rb/uAOnpgmp56nu7iALNFFONtFgnwI8750ooPCG8HfbrFJ/egxYWVC5XQfcPK5Hb3DaB
+         LMyecg83/okHGQKpgUV3OOqH9xIgIUakPED0xPIlxqy/NOpcgZIMcufSOPK3W4FsIwug
+         EOCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lzs+KKGB6sB6D+VbuyBjxQbDGUp4kci1SR+mHxM7YjU=;
+        fh=e/1KAOaebj5wfvqfwbpxji9vSA1+AITWdpdyOz3G9N0=;
+        b=IaTh5a8eW568T7HdtVgijiQT8p7EaePs4RY8Nhkxq/LPdMtuCUSMLzA0ozTjduTo/P
+         OE5eqe5VCFekiEoAWTIo9IJys3ij4c+A9cF+e7zIgRRfiDkIt4+gNOqeC1sAOweNRBVC
+         8eliNHs+39JI4tIJZvsFKTEPzhZqtLSONH3yv0MVKQY2SOarysvTxK0tR0dsdlAwa5eH
+         ENCblJQgfEQxap2dWPxmyIa05D6lWg7dtLGTE70Fj3+z30N8cG+c7wlLGOG+/F2CTHQp
+         ElA0EnlgQkt1HomGSHeB4xWAoUuTNcvN2fnSmPOoeIMCChPtCqRHJkdvwjwlzKuNvsSK
+         fpFw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778764175; x=1779368975; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lzs+KKGB6sB6D+VbuyBjxQbDGUp4kci1SR+mHxM7YjU=;
+        b=Vy+NtvnkZtONrKjKibcl0wPlBELybMICTlPRi7RfH8SNk8xmSFtm4HWcOzrkjkPLbr
+         8jZzOEXpoOQl5sK6JZbPAyzyp4vNt//pjLv/VhTYJ08Vzt5HFpF/fs+oz13WDwyJoaEP
+         YenclKZuR2jCVPThh1yEk8carvGQdVsMxMyUPjC9B95fI3Fvpt1qQnDnqHavS08Crjr/
+         Yd89GX1Ox7b/oFlGAkF151dCtfNz4mjqjnmS10gKAN5/wsPD+nIeCgZkuDp7G1DibEui
+         DleJ35e4ynkQ58I9YfCQvHvoIt5BfTrywb8sgjTeur4Vd8J2zELnly2S6D+RUt8XQkfh
+         lPtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778764175; x=1779368975;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lzs+KKGB6sB6D+VbuyBjxQbDGUp4kci1SR+mHxM7YjU=;
+        b=tJhmGuyJv5wbBHtFuFVVGuZ+oQk9EAxspU7mo21S3ETokucE74wV4lE1ODBTlXspLz
+         9DSAaGdVDP+C+MNqvVJW1zzjmg6QtieuGy3eMQmvnbXk8XNxBuu866/zMuTiyL7CXsfd
+         hjVzRw1pf50d0F4eizeThV2M+M8pmtG9ltCawCrSJTF4TAlZT55ql/vORuz4kdCRfIBX
+         YEFGX8DJBs29f6+XedUrfvzTygLtiapr9eqVEKMOjUbFA3IPTVC4joAlKP4BZXEiQsig
+         +fhIOcrgrql/pd18o39SO3SGSNCY0IZV/y39tFAUpf6jSCKe8I8723hkLdBVa3jc5mV6
+         +6+w==
+X-Forwarded-Encrypted: i=1; AFNElJ8ErqFbuMMjRq5TD+wuaZ80TI4YYI2h0+hsOQBsnQK+JXjgXoT8bUkgGsnFvN5t4SSIc43+2ft4cdTrcyI0@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiGZs5mnUv9GPbnrNfY37dhBQYGdoAGijHBKZvEV+sOETGxl50
+	rNgpKcM4wMEWSknHi6rIUV6EcOsdDiiCv9J4cqrRD1Mb5E00+Efpz0xE7mCDHCWCahVWcbkt1hM
+	F/5tFkL67sJ9kwQOP/ZkmPym3Y1lAFRo=
+X-Gm-Gg: Acq92OFjK/13p9GXuzWKTzPeR7yWAjH3DcxwLpNWWtApm3UZZND3T9GHusyMwbtUIeq
+	H8Zh7xqpIbjx4sMqUxrgXfWgg+neiFdu3XMiX8ic7fJK9dgMpvdk7EAz3NDJYrnT/Ht15g9ZeEX
+	bb9HgpjrpFGjEoz8p9REckbnQcX0hu2yv+NDec/WisbZ4aB9n3i8f80TuI3YaPbOD6zGFkCnlyp
+	D0jbbiegVD0z6wV3dqtsSC45mj3nbEsn8mFQ89LtrLSRQy9l5sJFRmUr+gRgQth/AVFGYSs0bES
+	UWfbGEPwftG26S+ssNO0qutI9J+yQuanSqmJjDZmIw==
+X-Received: by 2002:a05:6402:2815:b0:670:8bc2:7fc with SMTP id
+ 4fb4d7f45d1cf-68255602ff7mr4834516a12.2.1778764175258; Thu, 14 May 2026
+ 06:09:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemk500005.china.huawei.com (7.202.194.90)
+References: <CAOQ4uxg+DkTuinnf9AMR6gdHqAydbD88+oBkTtQtABJfdC0vVw@mail.gmail.com>
+ <20260514121336.439565-1-nirmoyd@nvidia.com>
+In-Reply-To: <20260514121336.439565-1-nirmoyd@nvidia.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 14 May 2026 15:09:24 +0200
+X-Gm-Features: AVHnY4Jc_CUcxpTIpmBQZFX5NP9WwYxJSI85bnMXv_tsUkLcgbfi3ea1PdxwW7g
+Message-ID: <CAOQ4uxg=gONUh5QEW5KJcyXLDF15HbLnc9Ea7RKPcgtyfPasTA@mail.gmail.com>
+Subject: Re: [RFC PATCH] ovl: keep merged and impure readdir caches separate
+To: Nirmoy Das <nirmoyd@nvidia.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+a16fb0cce329a320661c@syzkaller.appspotmail.com, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When a submount (e.g. virtiofs with fc->auto_submounts=true) is umounted
-while an async RELEASE request is still pending, an illegal inode address
-accessing occurs in fuse_release_end()->iput().
+On Thu, May 14, 2026 at 2:14=E2=80=AFPM Nirmoy Das <nirmoyd@nvidia.com> wro=
+te:
+>
+> Hi Amir,
+>
+> After a lot of debug and traces I found another bug in
 
-Trigger process:
- 1. virtiofs has a submount; user opens and closes a file under it
- 2. Close calls fuse_file_put() with sync=false, sending RELEASE
-    asynchronously
- 3. fuse_release_end() is scheduled to run later via igrab() holding
-    inode ref
- 4. File is freed, mount/dentry refcounts are released
- 5. User umounts the submount; fuse connection detects remaining
-    superblock and does NOT flush the connection's requests
- 6. generic_shutdown_super() destroys the superblock and poisons busy
-    inodes' inode->i_sb = VFS_PTR_POISON
- 7. Later, fuse_request_end() calls fuse_release_end() which does
-    iput(inode)
- 8. iput() accesses inode->i_sb->s_op at the poisoned address, crash!
+Thanks for persisting on this problem!
 
-There are two solutions to fix it:
- Solution A: Hold path reference in fuse_file_put, and put path
- synchronously, which could reintroduce the issue fixed by commit
- 5a18ec176c934 ("fuse: fix hang of single threaded fuseblk filesystem").
+> ovl_iterate_merged(): err is set from PTR_ERR(cache) before the
+> IS_ERR(cache) check, so on success err holds the truncated cache
+> pointer.
+>
+> Claude generated this:
+>   getdents64
+>   =E2=94=94=E2=94=80=E2=94=80 iterate_dir(outer_overlay_file)
+>       =E2=94=94=E2=94=80=E2=94=80 ovl_iterate_merged                     =
+               [OUTER]
+>           =E2=94=82
+>           =E2=94=9C=E2=94=80=E2=94=80 cache =3D ovl_cache_get(dentry):   =
+                 [OUTER ovl_cache_get]
+>           =E2=94=82   =E2=94=82   cache_local =3D kzalloc(...)
+>           =E2=94=82   =E2=94=82   res =3D ovl_dir_read_merged(...)
+>           =E2=94=82   =E2=94=82   =E2=94=82
+>           =E2=94=82   =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 iterate_dir=
+(inner_overlay_file)
+>           =E2=94=82   =E2=94=82       =E2=94=94=E2=94=80=E2=94=80 ovl_ite=
+rate_merged                    [INNER]
+>           =E2=94=82   =E2=94=82           =E2=94=9C=E2=94=80=E2=94=80 cac=
+he_inner =3D ovl_cache_get(...)  valid 0xFFFF8881_CAC4D940
+>           =E2=94=82   =E2=94=82           =E2=94=9C=E2=94=80=E2=94=80 err=
+ =3D PTR_ERR(cache_inner)        =3D -893068992 (low32 of ptr)
+>           =E2=94=82   =E2=94=82           =E2=94=9C=E2=94=80=E2=94=80 IS_=
+ERR(cache_inner) =E2=86=92 FALSE
+>           =E2=94=82   =E2=94=82           =E2=94=94=E2=94=80=E2=94=80 ret=
+urn err;                       =E2=86=90 leaked stale int
+>           =E2=94=82   =E2=94=82
+>           =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 return ERR_PTR(res);   =
+                       res =3D -893068992 (int)
+>           =E2=94=82                                                     s=
+ign-extended =E2=86=92
+>           =E2=94=82                                                     (=
+void *)0xFFFFFFFF_CAC4D940
 
- Solution B (chosen): Use synchronous RELEASE for auto_submounts (which
- is only supported by virtiofs). The virtiofsd(fuse daemon) and virtiofs
- won't work together under one same kernel instance, so the problem fixed
- by commit 26e5c67deb2e ("fuse: fix livelock in synchronous file put from
- fuseblk workers") won't be brought back in virtiofs.
+Wow! This is demonic.
+I think we need to fortify ERR_PTR() to not accept illegal errno values.
+I'll try to write a patch.
 
-Fetch a reproducer in https://bugzilla.kernel.org/show_bug.cgi?id=221519.
+>           =E2=94=82
+>           =E2=94=9C=E2=94=80=E2=94=80 err =3D PTR_ERR(cache);            =
+                 err =3D -893068992
+>           =E2=94=9C=E2=94=80=E2=94=80 if (IS_ERR(cache))   =E2=86=90 FALS=
+E: IS_ERR only trips on top 4K
+>           =E2=94=82                                  (errno window);
+>           =E2=94=82                                  0xFFFFFFFF_CAC4D940 =
+sits below
+>           =E2=94=82       return err;                                    =
+=E2=86=90 skipped
+>           =E2=94=9C=E2=94=80=E2=94=80 od->cache =3D cache;   =E2=98=85 co=
+rrupted pointer stored
+>           =E2=94=94=E2=94=80=E2=94=80 ovl_seek_cursor(od, ctx->pos)
+>                   list_for_each(p, &od->cache->entries)
+>                   p =3D *(&od->cache->entries) on bad pointer     =E2=98=
+=85 PAGE FAULT
+>
 
-Fixes: 26e5c67deb2e ("fuse: fix livelock in synchronous file put from fuseblk workers")
-Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
----
- fs/fuse/file.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+Oh boy!
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index c59452d60b8d..a6192b96d861 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -375,13 +375,20 @@ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
- 	 * synchronous RELEASE is allowed (and desirable) in this case
- 	 * because the server can be trusted not to screw up.
- 	 *
--	 * Always use the asynchronous file put because the current thread
--	 * might be the fuse server.  This can happen if a process starts some
--	 * aio and closes the fd before the aio completes.  Since aio takes its
--	 * own ref to the file, the IO completion has to drop the ref, which is
--	 * how the fuse server can end up closing its clients' files.
-+	 * For auto_submounts (e.g. virtiofs), always use synchronous
-+	 * release to avoid illegal inode address access when umount
-+	 * happens before async release completes. The async release
-+	 * holds inode reference via igrab(), but umount can shutdown
-+	 * superblock and poison inode->i_sb before release ends,
-+	 * causing crash in fuse_release_end()->iput(). Otherwise,
-+	 * always use the asynchronous file put because the current
-+	 * thread might be the fuse server. This can happen if a
-+	 * process starts some aio and closes the fd before the aio
-+	 * completes. Since aio takes its own ref to the file, the IO
-+	 * completion has to drop the ref, which is how the fuse server
-+	 * can end up closing its clients' files.
- 	 */
--	fuse_file_put(ff, false);
-+	fuse_file_put(ff, ff->fm->fc->auto_submounts);
- }
- 
- void fuse_release_common(struct file *file, bool isdir)
--- 
-2.52.0
+> Sent it as a separate patch: "[PATCH] ovl: keep err zero after
+> successful ovl_cache_get()".
+>
+> Let me know what you think.
 
+Patch looks great - real root cause, gave you minor comments.
+
+IIUC, as far as you know, the repro never triggered the theoretic
+OVL_WHITEOUTS race?
+
+It was always just this ERR_PTR(PTR_ERR()) black magic?
+
+Thanks,
+Amir.
