@@ -1,134 +1,160 @@
-Received: from mail.barrensea.org (mail.barrensea.org [198.12.121.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF051EB5FD;
-	Thu, 14 May 2026 05:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.12.121.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CD9308F03
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 05:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778737075; cv=none; b=MB9epN5utRXoGtJuQyk8ZFth3zaitdhmy/fZ5MNPwnN1j7i5sjH2kPBPficw1GEOOUya+csX32iCZf0d5r2/KEZvQt1OvN4WXYJisTpBvLK4HLBRK3UNqfSI5JVfDtW6ykiwg22JY2BP4ipC4eZ1nalVjLUjflSwDecuuqP4EJ0=
+	t=1778738308; cv=none; b=cmSocFnAhFxXTzORYaKPjDFP2YlxgRxzKyTWHKxBBFHLQKvvdSWEB6ZQfVDyu1XHW7w1hoNq8lSvrVXQdKwT5A8BlHhTB691N01rWWoEnmJvO0ZaLgba1yYcI7OLFMyqcqHyzDj1aG+QjK8ifLirjlD2DNPc7orY8Ntt5A7Fw9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778737075; c=relaxed/simple;
-	bh=3w8u4NQMV2+LcjwGsPevqZyUJjqBzKWPeujnD3NnYtw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=czd+Dp+THizmoHpUrsaiCyDOw4HyVoZEpGW0z+0s9FDLAbb2Ad+olcLg9z8nsLXtLAFPLUOpK7NJXPw9ORkMmIK3CdP+UJsft14AxptsI3Ff4qvYZqtTmZYxT2H4OHoyjbBR+m8LUATV26eGRqigCQN5rLss52QvSRecxVRzIJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=barrensea.org; spf=pass smtp.mailfrom=barrensea.org; dkim=pass (2048-bit key) header.d=barrensea.org header.i=@barrensea.org header.b=lZ/0Nkgx; arc=none smtp.client-ip=198.12.121.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=barrensea.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=barrensea.org
+	s=arc-20240116; t=1778738308; c=relaxed/simple;
+	bh=E2mp2ooawHWSeje8s6fi7PMoWNEy+KCCOmwZ3FV3Z/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EB/r/Y1xT14ZCKb0b0qCvhkk7M39qv4MeKoW8KcAww+vR3t80uw2HWywh+7ViOrYKDXBqPLvtKLY4gAAid90BT/p0rpti4Cu+CQVu8fOpaMqOvCj6b5qFyYcIqoCUCA16KgVMVTPfJN+dPJx6w9kmmXym5RwBq1WAg3X5tKhxxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i6HFG86H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OB0HZCAy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i6HFG86H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OB0HZCAy; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=barrensea.org header.i=@barrensea.org header.b="lZ/0Nkgx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=barrensea.org;
-	s=mail; t=1778737065;
-	bh=3w8u4NQMV2+LcjwGsPevqZyUJjqBzKWPeujnD3NnYtw=;
-	h=From:To:Cc:Subject;
-	b=lZ/0NkgxcPZqBAIrvZYk6AlBJNqZ5L5UvSJMgX8+XU7i9o2KkiZtiROqBea4luKB7
-	 k77ehaKwMu59SGKFIqZGPVh38XbvI1wJ2JlGBqDzzCx9u0jg1xmpijXKmz9U2s0E4Z
-	 1HJhPcTIkA841fPuZo735w+wezPFtt1Yy85jN2pW5y3NeTBGunvoqoTfwAcueXaRpq
-	 yIbYEAE7vsSt0XeWpZdhYz2189q8r1oP/0PqEC0Cl7ZcFD7V2XUAEbeoiMSrqwF5OQ
-	 xFynrL4lu+C7C18aE2X2u30SaSukjJQXH8+fdNGGdaRC3F/B9h3UpBMdWs9Xklw/3V
-	 Wv50DGiz9O55Q==
-From: Donjuanplatinum <donplat@barrensea.org>
-To: ojeda@kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	dakr@kernel.org,
-	jack@suse.cz,
-	rust-for-linux@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Donjuanplatinum <donplat@barrensea.org>
-Subject: [PATCH] rust: seq_file: route seq_print! directly to seq_write
-Date: Thu, 14 May 2026 13:37:24 +0800
-Message-ID: <20260514053724.178321-1-donplat@barrensea.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i6HFG86H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OB0HZCAy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i6HFG86H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OB0HZCAy"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C99A5CB3C;
+	Thu, 14 May 2026 05:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778738305; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JOgWhDRcNjDz19mj/rWWcL4Q1L5v6fdJ+Xa8kqqczdo=;
+	b=i6HFG86Ho/jLEDkLruEGfg49LHBt/v3tY7G4R/HaVgxHR6EIPvlz/awbadbbpptERtNl6w
+	SWTK0Xs7fxEqB+J6shqMYArmM5VpJ/kmaRc0rKUiX2ZYZ/3MgqDUd/DgsoKn71M7F2Vn4M
+	8V2Ty09Ga3b9ALOVNwJ5RDGjB8VRxd8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778738305;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JOgWhDRcNjDz19mj/rWWcL4Q1L5v6fdJ+Xa8kqqczdo=;
+	b=OB0HZCAys4Gycg9vUT+ugtZ9b1GVIIbBg8K2FOXC6sBb/tKvv1iXNTIj33ETVQdp14y+5e
+	KD19SrvIi+/lwLAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=i6HFG86H;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OB0HZCAy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778738305; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JOgWhDRcNjDz19mj/rWWcL4Q1L5v6fdJ+Xa8kqqczdo=;
+	b=i6HFG86Ho/jLEDkLruEGfg49LHBt/v3tY7G4R/HaVgxHR6EIPvlz/awbadbbpptERtNl6w
+	SWTK0Xs7fxEqB+J6shqMYArmM5VpJ/kmaRc0rKUiX2ZYZ/3MgqDUd/DgsoKn71M7F2Vn4M
+	8V2Ty09Ga3b9ALOVNwJ5RDGjB8VRxd8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778738305;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JOgWhDRcNjDz19mj/rWWcL4Q1L5v6fdJ+Xa8kqqczdo=;
+	b=OB0HZCAys4Gycg9vUT+ugtZ9b1GVIIbBg8K2FOXC6sBb/tKvv1iXNTIj33ETVQdp14y+5e
+	KD19SrvIi+/lwLAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D61BE593A9;
+	Thu, 14 May 2026 05:58:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id L/gEInZkBWqRGAAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Thu, 14 May 2026 05:58:14 +0000
+Date: Thu, 14 May 2026 15:58:04 +1000
+From: David Disseldorp <ddiss@suse.de>
+To: Jia He <justin.he@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Peter
+ Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo
+ Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, Ian
+ Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, James
+ Clark <james.clark@linaro.org>, Brendan Higgins
+ <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, Rae Moar
+ <raemoar63@gmail.com>, Alexander Potapenko <glider@google.com>, Marco Elver
+ <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, "Paul E. McKenney" <paulmck@kernel.org>, Petr
+ Mladek <pmladek@suse.com>, Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH 1/7] init/initramfs_test: wait_for_initramfs() before
+ running
+Message-ID: <20260514155804.1fd13627.ddiss@suse.de>
+In-Reply-To: <20260514050455.2954509-2-justin.he@arm.com>
+References: <20260514050455.2954509-1-justin.he@arm.com>
+	<20260514050455.2954509-2-justin.he@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,googlegroups.com,kvack.org,arndb.de,linuxfoundation.org,zeniv.linux.org.uk,kernel.org,suse.cz,infradead.org,redhat.com,arm.com,linux.intel.com,google.com,intel.com,linaro.org,linux.dev,davidgow.net,gmail.com,linux-foundation.org,suse.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLbwzjzhmci8e35wtwpcw4zc8n)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Queue-Id: 5C99A5CB3C
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-Currently, the `seq_print!` macro formats output by passing a Rust
-`fmt::Arguments` object to the C `seq_printf` function using the `%pA`.
-This involves crossing the FFI boundary, parsing the
-format string in C via `vsnprintf`, and triggering a callback back
-into Rust to perform the actual buffer write.
+On Thu, 14 May 2026 05:04:49 +0000, Jia He wrote:
+...
+> Add a suite .init that calls wait_for_initramfs() so the async unpack
+> is quiescent before the first case runs.
+> 
+> To: Alexander Viro <viro@zeniv.linux.org.uk>
+> To: Christian Brauner <brauner@kernel.org>
+> To: Jan Kara <jack@suse.cz>
+> To: David Disseldorp <ddiss@suse.de>
+> Cc: linux-fsdevel@vger.kernel.org
+> 
+> Fixes: 83c0b27266ec ("initramfs_test: kunit tests for initramfs unpacking")
+> Signed-off-by: Jia He <justin.he@arm.com>
 
-This patch implements `core::fmt::Write` for `&SeqFile` and updates
-`call_printf` to use it, routing Rust's formatting directly to
-`bindings::seq_write`. This approach leverages the bounded string
-slices naturally produced by the Rust formatting machinery and copies
-them directly into the `seq_file` buffer.
-
-By mapping to `seq_write`, we bypass the C string parsing state machine
-and the `%pA` FFI callback, streamlining the execution path. Since
-`seq_write` uses a bounded `memcpy` relying on the explicitly passed
-length, it perfectly matches Rust's `&str` semantics and operates
-safely without requiring null-termination.
-
-Note that `fmt::Write` chunks the output into multiple `seq_write` calls.
-If an overflow occurs during a partial write, `seq_write` sets the
-overflow flag. The `seq_file` subsystem inherently handles this by
-discarding the current record and retrying with a larger buffer.
-Therefore, this optimization introduces no observable semantic change
-to user-space.
-
-Signed-off-by: Donjuanplatinum <donplat@barrensea.org>
----
- rust/kernel/seq_file.rs | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
-
-diff --git a/rust/kernel/seq_file.rs b/rust/kernel/seq_file.rs
-index 518265558..16ba1fdd8 100644
---- a/rust/kernel/seq_file.rs
-+++ b/rust/kernel/seq_file.rs
-@@ -4,7 +4,7 @@
- //!
- //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.h)
- 
--use crate::{bindings, fmt, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
-+use crate::{bindings, ffi::c_void, fmt, types::NotThreadSafe, types::Opaque};
- 
- /// A utility for generating the contents of a seq file.
- #[repr(transparent)]
-@@ -32,14 +32,26 @@ pub unsafe fn from_raw<'a>(ptr: *mut bindings::seq_file) -> &'a SeqFile {
-     /// Used by the [`seq_print`] macro.
-     #[inline]
-     pub fn call_printf(&self, args: fmt::Arguments<'_>) {
--        // SAFETY: Passing a void pointer to `Arguments` is valid for `%pA`.
-+        let mut this = self;
-+        let _ = fmt::Write::write_fmt(&mut this, args);
-+    }
-+}
-+
-+impl fmt::Write for &SeqFile {
-+    fn write_str(&mut self, s: &str) -> fmt::Result {
-+        // SAFETY: `self` is a valid reference, ensuring `self.inner.get()` is a valid pointer
-+        // to `struct seq_file`. `s` is a valid string slice, guaranteeing `s.as_ptr()` is
-+        // readable for `s.len()` bytes. `seq_write` handles bounds checking and does not
-+        // require a null-terminated string.
-+        //
-+        // CAST: `s.as_ptr()` (a `*const u8`) is cast to `*const c_void` because `seq_write`
-+        // only reads the buffer via `memcpy` and does not care about the underlying type.
-+
-         unsafe {
--            bindings::seq_printf(
--                self.inner.get(),
--                c"%pA".as_char_ptr(),
--                core::ptr::from_ref(&args).cast::<crate::ffi::c_void>(),
--            );
-+            bindings::seq_write(self.inner.get(), s.as_ptr().cast::<c_void>(), s.len());
-         }
-+
-+        Ok(())
-     }
- }
- 
--- 
-2.53.0
-
+Good catch, thanks.
+Reviewed-by: David Disseldorp <ddiss@suse.de>
