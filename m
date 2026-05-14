@@ -1,115 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE8932572F;
-	Thu, 14 May 2026 22:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976A732572F;
+	Thu, 14 May 2026 22:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778797230; cv=none; b=L8M9XADrziUNNJ62mQ5XVGYT8GB4/X0kmUNXeS8j/NpSFw+6RGuByfZp/FjUk1/jcqLEDtcTsgyBw7YzViOGc4NkeR2Q97fuGfqtkCYvNvKRa1HpUUnfua3spk+JY16aIf7hmOISOK1IftFfxnFRImaBSiTz46oa1xN4L98KXGo=
+	t=1778797320; cv=none; b=IYQ7eJfZkQbHovQ8zedyICRN3lkqBlIOAU9/cQKTc5shwpLEkix74vEH9Wx4ymRe5JMVEQ7+K3XNzslIwoZI4jXwqoUKV+8xzYWD9CtWw0J7pwhQMlHDOP/DLQ65weqAS/u4eRTMWZ7gtZFRD/Y+UVys/eN4o+y98mObHKaRLiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778797230; c=relaxed/simple;
-	bh=stJdyVRFwfUcBCEkW2hoL5BEyjVsaCFKmaBQr1SbiWo=;
+	s=arc-20240116; t=1778797320; c=relaxed/simple;
+	bh=hvptvZ6FRcltMx3J8j6jYk+c4K8SPImWEu9NVmydtmw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bXMyzsVQdu7ONcmOv+smzxej5rKfpYUOOPv2nZ+AhKH+62Mq3KFXvqTQTNVpUF2WiNP5euADBr4c6GCzVdfE0ruOhrczTD/UcMgf0pV0nhiu76YoxllHUdQJrcJ/GuSl3CvttpD1G7yegddOiCO4/FowzulpdIbrzGVEyup3eAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bmA7hclV; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jen5Rq2IX0sfp4djwINZ+R3xy8boM4hwBSL3g0CyVgVOWwehbcna9j8wRArrifJIo/SCHqIMYlJ2P8GAAfNNUBC3iy6P+U3qNOPXyF3u2iL3Dmh5hr3kDZJ+I5nO/3hqmLKz7lEu7D4Y2Ow8EbtNNCW51+1dc//UjfQkkgCN5XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Po8+qXpN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bmA7hclV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1BF9C2BCB3;
-	Thu, 14 May 2026 22:20:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Po8+qXpN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F14C2BCB3;
+	Thu, 14 May 2026 22:22:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778797229;
-	bh=stJdyVRFwfUcBCEkW2hoL5BEyjVsaCFKmaBQr1SbiWo=;
+	s=k20201202; t=1778797320;
+	bh=hvptvZ6FRcltMx3J8j6jYk+c4K8SPImWEu9NVmydtmw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bmA7hclVuPwAbQnIn4bvXXfx2YRLuMF2cDC8EQlblVE5/MVXtDqY0BzDzE0h/jKaa
-	 tzQZoUQ/E3GE8GmH/o8IRQypPOdatjz5EG60dv/zPrC1GoEUEi7WIDl0/5jV2UvrZ/
-	 u4p0t8U2hocnMGHjYybMyrfmGupzwyx6uSJyerHS7iAj3tUJVkYr0WdNpjrmSRyJzQ
-	 hcKb/cacUvlWFtdNItjs0+5S/zRrTJugnepenb5sWHbFZkB0WxEWVUNNyUPawqQKMo
-	 ko6db3CO9w0fDHYAXzAKca28WMil3rALQCLh/CSFUC3ltzw+WfWRYqSXIkw7d9NsCx
-	 L1xkUoJw4CHlQ==
-Date: Thu, 14 May 2026 15:20:29 -0700
+	b=Po8+qXpNXeVYWW9Oc068XojBc6SZNnBs/DP0TSIayOYdqzYJNkNTXgtHUcQbZ06mV
+	 OebyCoQb6im0c1bNy5GxgrqlXWckvfn3G63G3x8ZN6DXMAfq/tB1E933oaPRMKz/5E
+	 7LVkTEDSM4GkHsVjwbM2I/twRQ/vX/gCb9HQOg9ir8r7+KbF6KmEvnTKdDkx3nhnOX
+	 XHZFw+I1jy5A4Y0hW+0BJxJTXktVD+Fn7d0sQS1x2TAsaivJDQMv721nPMKTAixqFm
+	 UHlI4eV7miKzNcELk6Yt0OOBVbnkuDE44XbC0uFTtalUHC9A9ZBM0WGOKLoSgdy7SP
+	 FceiuDG/DSd7A==
+Date: Thu, 14 May 2026 15:21:59 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: miklos@szeredi.hu
-Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 8/9] fuse: update ctime when updating acls on an iomap
- inode
-Message-ID: <20260514222029.GN9544@frogsfrogsfrogs>
-References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
- <177747206659.4103309.4775738448916496995.stgit@frogsfrogsfrogs>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev,
+	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com,
+	fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 1/2] fuse: move the passthrough-specific code back to
+ passthrough.c
+Message-ID: <20260514222159.GO9544@frogsfrogsfrogs>
+References: <177747204594.4101743.18108570914300152558.stgit@frogsfrogsfrogs>
+ <177747204624.4101743.10110436900437243535.stgit@frogsfrogsfrogs>
+ <20260514183826.GB9544@frogsfrogsfrogs>
+ <CAOQ4uxjc=6cdTCuPiH8trqyHzJ1dR+oZ1Aidfos8mqgB4Bv8EA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <177747206659.4103309.4775738448916496995.stgit@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxjc=6cdTCuPiH8trqyHzJ1dR+oZ1Aidfos8mqgB4Bv8EA@mail.gmail.com>
 
-On Wed, Apr 29, 2026 at 07:35:10AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
+On Thu, May 14, 2026 at 09:48:31PM +0200, Amir Goldstein wrote:
+> On Thu, May 14, 2026 at 8:40 PM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Wed, Apr 29, 2026 at 07:23:26AM -0700, Darrick J. Wong wrote:
+> > > From: Darrick J. Wong <djwong@kernel.org>
+> > >
+> > > In preparation for iomap, move the passthrough-specific validation code
+> > > back to passthrough.c and create a new Kconfig item for conditional
+> > > compilation of backing.c.  In the next patch, iomap will share the
+> > > backing structures.
+> > >
+> > > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > 
-> In iomap mode, the fuse kernel driver is in charge of updating file
-> attributes, so we need to update ctime after an ACL change.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  fs/fuse/acl.c |   18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
-> 
-> 
-> diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
-> index 9619ac84a85886..76c46946640d44 100644
-> --- a/fs/fuse/acl.c
-> +++ b/fs/fuse/acl.c
-> @@ -7,6 +7,7 @@
->   */
->  
->  #include "fuse_i.h"
-> +#include "fuse_iomap.h"
->  
->  #include <linux/posix_acl.h>
->  #include <linux/posix_acl_xattr.h>
-> @@ -113,6 +114,7 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
->  	const char *name;
->  	umode_t mode = inode->i_mode;
->  	const bool local_acls = fuse_inode_has_local_acls(inode);
-> +	const bool is_iomap = fuse_inode_has_iomap(inode);
->  	int ret;
->  
->  	if (fuse_is_bad(inode))
-> @@ -180,10 +182,24 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct dentry *dentry,
->  			ret = 0;
->  	}
->  
-> -	/* If we scheduled a mode update above, push that to userspace now. */
->  	if (!ret) {
->  		struct iattr attr = { };
->  
-> +		/*
-> +		 * When we're running in iomap mode, we need to update mode and
-> +		 * ctime ourselves instead of letting the fuse server figure
-> +		 * that out.
-> +		 */
-> +		if (is_iomap) {
-> +			attr.ia_valid |= ATTR_CTIME;
-> +			inode_set_ctime_current(inode);
-> +			attr.ia_ctime = inode_get_ctime(inode);
+> I think I RVB this on v6:
+> https://lore.kernel.org/linux-fsdevel/CAOQ4uxgW4=6KRuR6Qh3uMQyxtdRPLwAXZ8VY4yuduzTVqz7+dA@mail.gmail.com/
+> does not look like this was changed?
+> Hard to keep track...
 
-Codex nitpicks that we bump ctime even if the removexattr didn't do
-anything, so I'll add some more state tracking to skip the setattr if we
-don't update any xattrs and don't update the mode.
+Yeah. :(
+
+<snip>
+
+> > >  int fuse_backing_close(struct fuse_conn *fc, int backing_id)
+> > >  {
+> > > -     struct fuse_backing *fb = NULL;
+> > > +     struct fuse_backing *fb = NULL, *test_fb;
+> > > +     const struct fuse_backing_ops *ops;
+> > >       int err;
+> > >
+> > >       pr_debug("%s: backing_id=%d\n", __func__, backing_id);
+> > >
+> > > -     /* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
+> > > -     err = -EPERM;
+> > > -     if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+> > > -             goto out;
+> > > -
+> > >       err = -EINVAL;
+> > >       if (backing_id <= 0)
+> > >               goto out;
+> > >
+> > >       err = -ENOENT;
+> > > -     fb = fuse_backing_id_remove(fc, backing_id);
+> > > +     fb = __fuse_backing_lookup(fc, backing_id);
+> > >       if (!fb)
+> > >               goto out;
+> > > +     ops = fb->ops;
+> > >
+> > > -     fuse_backing_put(fb);
+> > > +     err = ops->may_admin ? ops->may_admin(fc, 0) : 0;
+> > > +     if (err)
+> > > +             goto out_fb;
+> > > +
+> > > +     err = ops->may_close ? ops->may_close(fc, fb->file) : 0;
+> > > +     if (err)
+> > > +             goto out_fb;
+> > > +
+> > > +     err = -ENOENT;
+> > > +     test_fb = fuse_backing_id_remove(fc, backing_id);
+> > > +     if (!test_fb)
+> > > +             goto out_fb;
+> > > +
+> > > +     WARN_ON(fb != test_fb);
+> >
+> > I think I should pass @fb into fuse_backing_id_remove so that it
+> > performs a second lookup under fc->lock and only calls idr_remove if the
+> > result of the second lookup matches the passed-in @fb.
+> >
+> 
+> I agree. That makes sense.
+
+Thanks for the feedback!
 
 --D
-
-> +		}
-> +
-> +		/*
-> +		 * If we scheduled a mode update above, push that to userspace
-> +		 * now.
-> +		 */
->  		if (mode != inode->i_mode) {
->  			attr.ia_valid |= ATTR_MODE;
->  			attr.ia_mode = mode;
-> 
-> 
