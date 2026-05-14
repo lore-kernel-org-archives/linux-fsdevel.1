@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3AD34D4C9;
-	Thu, 14 May 2026 22:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4239291864;
+	Thu, 14 May 2026 23:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778799599; cv=none; b=jD0NAJnGogIA39g8fTIRYI+iXbrZWS5qsYRUrgqSfqXM9u3aFYDIS5kd+Id3UbYZYWSkELJKo9ylBNBjfpO8xMk2seZxwtYNHStrHv2EVQOyRrZvNYDFKHJ8ZgrC8edpqpQu1xIXDv9bTt3/sguJKOqYOlMrPfHepiEWC7E41zQ=
+	t=1778799652; cv=none; b=LfjsDQZVO2umrxsrsgjCY+akEqAGIDUG5pQLuU8zvLMvzNvWT367N31o5xso7LsJMNNfNxgCXRi9MYsRzWEqQbj/CoKAjohBj0z7ZVLlnWUQdV7qrAJyCuTxtcA51jse/f+/OG+YmjdgZNu2GzDzw0eDUg0w+jRNaf7UkQvRZbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778799599; c=relaxed/simple;
-	bh=Zh141Lr4vuoHEfF62NuY2/Yua8vjCwevSvo4M6Cb7Ds=;
+	s=arc-20240116; t=1778799652; c=relaxed/simple;
+	bh=cUVWykWb61R4Vtt5OhcFToulYfcJCPxuhC+/m0p1hkc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QREBUanoqNSRrRUVQYqIWAO7C/ro/PkXRFiHl4zdH9GLqhcWFlVymjr8YcK7FQRwvR7++P6IHjQ4X0Aps9AV+jAs/Tkck2Rj9nWXDWC6bgP9zAa1bT40hGriYhKcdO/AI9cGODbkOUFOazb8Eb5lNhmLpQMvfQ9UgVpa+SMErBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LTsVjLzs; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DsA6Zc09j3evtoZP5J9RMIeMH74ioMuOjtw1eJjXtgp4l0OhKx22ui5D1dKsJFaiWfpbNpKztiCDkJfIjOuDGEvQXPPkmcR2+Ek7d03bFTxx4gIm8SeqQUlFreCIyZYxCiv0wD4WnOBAZBQo2N3wnWxd3WivpDndABTwIUT2+PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dU91FKcz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LTsVjLzs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BB55C2BCB3;
-	Thu, 14 May 2026 22:59:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dU91FKcz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B364C2BCB3;
+	Thu, 14 May 2026 23:00:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778799598;
-	bh=Zh141Lr4vuoHEfF62NuY2/Yua8vjCwevSvo4M6Cb7Ds=;
+	s=k20201202; t=1778799651;
+	bh=cUVWykWb61R4Vtt5OhcFToulYfcJCPxuhC+/m0p1hkc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LTsVjLzsBEDGTXfZqom4Rh7kEInTnPPz5rtEItqjxPl6ukgpkEZCOIsqiI5ZlIHaW
-	 0VXLLSR1q8PNT10QNllOoMeMSK3vABImhJAZ86kISS9yvtn3sSVFqTMdvEILD46NqU
-	 wXHeyNdWhykaviRjk7+bH+dmbQCcjy4hvzW8VFZKk7+k0eb0xKyI5BLtVmGQ1NzLFo
-	 uh6nRDwkIYDlwDCkXHC6J9rdIJz0+bdFP1XxUDldy//6geblb4nH6A8HUnyGtJgWQ3
-	 GNsfyqL9tP7DN4sY4hyLgeWB/M7kDr1ke8ndkbc0PvkEFXBM4PlXDuyljgdPGw1GCK
-	 hE//5c0pXUcLg==
-Date: Thu, 14 May 2026 15:59:57 -0700
+	b=dU91FKczr+lumNyFzhhTSozUzQpG6PbQMpMla+shBrlbH7eastXIrfrWzayFpRat6
+	 XHFujje64NX3p9xrkUYglH9E+KRXm9zztGNiLxZMNmwbotqTO5oiKN+fOnedHb6JqU
+	 0eenHBvzeT9q2s9r16tmdur5x70AKtDK75GgktVVR+dbuYlN5s0LkmKF1QwLNNax/F
+	 0ta8an1M+n7Qk53mbgKPCrv/fPX1sk8CYfVcuSS3G9yBwSNJX47t2YEuC8FHLL3NE0
+	 GOdVxn88AghgcXHH5OlxF8hykoAdPWeV7qZw8nZEwxxXddvwzRDl6tQ3TpAnHERgsP
+	 54Edmp72QOZHA==
+Date: Thu, 14 May 2026 16:00:51 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 07/12] fuse: enable iomap cache management
-Message-ID: <20260514225957.GQ9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 10/12] fuse: constrain iomap mapping cache size
+Message-ID: <20260514230051.GR9544@frogsfrogsfrogs>
 References: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
- <177747207149.4103699.15223683178584774669.stgit@frogsfrogsfrogs>
+ <177747207212.4103699.2461140884653539505.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -43,494 +43,173 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747207149.4103699.15223683178584774669.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747207212.4103699.2461140884653539505.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:37:15AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:38:02AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Provide a means for the fuse server to upload iomappings to the kernel
-> and invalidate them.  This is how we enable iomap caching for better
-> performance.  This is also required for correct synchronization between
-> pagecache writes and writeback.
+> Provide a means to constrain the size of each iomap mapping cache.
+> Most files (at least on XFS) don't have more than 1000 extents, so we'll
+> set the absolute maximum to 10000 and let the fuse server set a lower
+> limit if it so desires.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/fuse_iomap.h      |    7 +
->  include/uapi/linux/fuse.h |   29 +++++
->  fs/fuse/dev.c             |   46 ++++++++
->  fs/fuse/fuse_iomap.c      |  264 ++++++++++++++++++++++++++++++++++++++++++++-
->  4 files changed, 343 insertions(+), 3 deletions(-)
+>  fs/fuse/fuse_i.h           |    3 +++
+>  fs/fuse/fuse_iomap_cache.h |    8 ++++++++
+>  include/uapi/linux/fuse.h  |    7 ++++++-
+>  fs/fuse/fuse_iomap.c       |    9 ++++++++-
+>  fs/fuse/fuse_iomap_cache.c |   24 ++++++++++++++++++++++++
+>  5 files changed, 49 insertions(+), 2 deletions(-)
 > 
 > 
-> diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
-> index 5cdf7b311dba42..79625897dded50 100644
-> --- a/fs/fuse/fuse_iomap.h
-> +++ b/fs/fuse/fuse_iomap.h
-> @@ -79,6 +79,11 @@ int fuse_iomap_dev_inval(struct fuse_conn *fc,
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index c6a7ca4f1df76c..91f399a7a9a990 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -685,6 +685,9 @@ struct fuse_iomap_conn {
 >  
->  int fuse_iomap_fadvise(struct file *file, loff_t start, loff_t end, int advice);
->  int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
+>  	/* fuse server doesn't implement iomap_ioend */
+>  	unsigned int no_ioend:1;
 > +
-> +int fuse_iomap_upsert_mappings(struct fuse_conn *fc,
-> +		      const struct fuse_iomap_upsert_mappings_out *outarg);
-> +int fuse_iomap_inval_mappings(struct fuse_conn *fc,
-> +		     const struct fuse_iomap_inval_mappings_out *outarg);
->  #else
->  # define fuse_iomap_enabled(...)		(false)
->  # define fuse_has_iomap(...)			(false)
-> @@ -108,6 +113,8 @@ int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
->  # define fuse_iomap_dev_inval(...)		(-ENOSYS)
->  # define fuse_iomap_fadvise			NULL
->  # define fuse_dev_ioctl_iomap_set_nofs(...)	(-EOPNOTSUPP)
-> +# define fuse_iomap_upsert_mappings(...)	(-ENOSYS)
-> +# define fuse_iomap_inval_mappings(...)		(-ENOSYS)
+> +	/* maximum mapping cache size */
+> +	unsigned int cache_maxbytes;
+>  };
+>  #endif
+>  
+> diff --git a/fs/fuse/fuse_iomap_cache.h b/fs/fuse/fuse_iomap_cache.h
+> index eba90d9519b8c3..cb312b0720d6b7 100644
+> --- a/fs/fuse/fuse_iomap_cache.h
+> +++ b/fs/fuse/fuse_iomap_cache.h
+> @@ -108,6 +108,14 @@ static inline int fuse_iomap_cache_invalidate(struct inode *inode,
+>  	return fuse_iomap_cache_invalidate_range(inode, offset,
+>  						 FUSE_IOMAP_INVAL_TO_EOF);
+>  }
+> +
+> +/* absolute maximum memory consumption per iomap mapping cache */
+> +#define FUSE_IOMAP_CACHE_MAX_MAXBYTES		(SZ_2M)
+> +
+> +/* default maximum memory consumption per iomap mapping cache */
+> +#define FUSE_IOMAP_CACHE_DEFAULT_MAXBYTES	(SZ_256K)
+> +
+> +void fuse_iomap_cache_set_maxbytes(struct fuse_conn *fc, unsigned int maxbytes);
 >  #endif /* CONFIG_FUSE_IOMAP */
 >  
->  #endif /* _FS_FUSE_IOMAP_H */
+>  #endif /* _FS_FUSE_IOMAP_CACHE_H */
 > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index a273838bc20f2f..8c5e67731b21b8 100644
+> index 8c5e67731b21b8..035e1a59ce50d3 100644
 > --- a/include/uapi/linux/fuse.h
 > +++ b/include/uapi/linux/fuse.h
-> @@ -251,6 +251,8 @@
->   *  - add FUSE_ATTR_ATOMIC for single-fsblock atomic write support
->   *  - add FUSE_ATTR_{SYNC,IMMUTABLE,APPEND} for VFS enforcement of file
->   *    attributes
-> + *  - add FUSE_NOTIFY_IOMAP_{UPSERT,INVAL}_MAPPINGS so fuse servers can cache
-> + *    file range mappings in the kernel for iomap
->   */
->  
->  #ifndef _LINUX_FUSE_H
-> @@ -731,6 +733,8 @@ enum fuse_notify_code {
->  	FUSE_NOTIFY_INC_EPOCH = 8,
->  	FUSE_NOTIFY_PRUNE = 9,
->  	FUSE_NOTIFY_IOMAP_DEV_INVAL = 99,
-> +	FUSE_NOTIFY_IOMAP_UPSERT_MAPPINGS = 100,
-> +	FUSE_NOTIFY_IOMAP_INVAL_MAPPINGS = 101,
->  	FUSE_NOTIFY_CODE_MAX,
+> @@ -1512,7 +1512,9 @@ struct fuse_iomap_ioend_out {
+>  struct fuse_iomap_config_in {
+>  	uint64_t flags;		/* supported FUSE_IOMAP_CONFIG_* flags */
+>  	int64_t maxbytes;	/* maximum supported file size */
+> -	uint64_t padding[6];	/* zero */
+> +	uint32_t cache_maxbytes; /* mapping cache maxbytes */
+> +	uint32_t zero;		/* zero */
+> +	uint64_t padding[5];	/* zero */
 >  };
 >  
-> @@ -1396,6 +1400,8 @@ struct fuse_uring_cmd_req {
->  #define FUSE_IOMAP_TYPE_PURE_OVERWRITE	(255)
->  /* fuse-specific mapping type saying the server has populated the cache */
->  #define FUSE_IOMAP_TYPE_RETRY_CACHE	(254)
-> +/* do not upsert this mapping */
-> +#define FUSE_IOMAP_TYPE_NOCACHE		(253)
+>  /* Which fields are set in fuse_iomap_config_out? */
+> @@ -1522,6 +1524,7 @@ struct fuse_iomap_config_in {
+>  #define FUSE_IOMAP_CONFIG_MAX_LINKS	(1 << 3ULL)
+>  #define FUSE_IOMAP_CONFIG_TIME		(1 << 4ULL)
+>  #define FUSE_IOMAP_CONFIG_MAXBYTES	(1 << 5ULL)
+> +#define FUSE_IOMAP_CONFIG_CACHE_MAXBYTES (1 << 6ULL)
 >  
->  #define FUSE_IOMAP_DEV_NULL		(0U)	/* null device cookie */
+>  struct fuse_iomap_config_out {
+>  	uint64_t flags;		/* FUSE_IOMAP_CONFIG_* */
+> @@ -1544,6 +1547,8 @@ struct fuse_iomap_config_out {
+>  	int64_t s_time_max;
 >  
-> @@ -1556,4 +1562,27 @@ struct fuse_iomap_dev_inval_out {
->  /* invalidate all cached iomap mappings up to EOF */
->  #define FUSE_IOMAP_INVAL_TO_EOF		(~0ULL)
+>  	int64_t s_maxbytes;	/* max file size */
+> +
+> +	uint32_t cache_maxbytes; /* mapping cache maximum size */
+>  };
 >  
-> +struct fuse_iomap_inval_mappings_out {
-> +	uint64_t nodeid;	/* Inode ID */
-> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
-> +
-> +	/*
-> +	 * Range of read and mappings to invalidate.  Zero length means ignore
-> +	 * the range; and FUSE_IOMAP_INVAL_TO_EOF can be used for length.
-> +	 */
-> +	struct fuse_range read;
-> +	struct fuse_range write;
-> +};
-> +
-> +struct fuse_iomap_upsert_mappings_out {
-> +	uint64_t nodeid;	/* Inode ID */
-> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
-> +
-> +	/* read file data from here */
-> +	struct fuse_iomap_io	read;
-> +
-> +	/* write file data to here, if applicable */
-> +	struct fuse_iomap_io	write;
-> +};
-> +
->  #endif /* _LINUX_FUSE_H */
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index cf4bad6ffc287b..fcee1a23375cee 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -1872,6 +1872,48 @@ static int fuse_notify_iomap_dev_inval(struct fuse_conn *fc, unsigned int size,
->  	return err;
->  }
->  
-> +static int fuse_notify_iomap_upsert_mappings(struct fuse_conn *fc,
-> +					     unsigned int size,
-> +					     struct fuse_copy_state *cs)
-> +{
-> +	struct fuse_iomap_upsert_mappings_out outarg;
-> +	int err = -EINVAL;
-> +
-> +	if (size != sizeof(outarg))
-> +		goto err;
-> +
-> +	err = fuse_copy_one(cs, &outarg, sizeof(outarg));
-> +	if (err)
-> +		goto err;
-> +	fuse_copy_finish(cs);
-> +
-> +	return fuse_iomap_upsert_mappings(fc, &outarg);
-> +err:
-> +	fuse_copy_finish(cs);
-> +	return err;
-> +}
-> +
-> +static int fuse_notify_iomap_inval_mappings(struct fuse_conn *fc,
-> +					    unsigned int size,
-> +					    struct fuse_copy_state *cs)
-> +{
-> +	struct fuse_iomap_inval_mappings_out outarg;
-> +	int err = -EINVAL;
-> +
-> +	if (size != sizeof(outarg))
-> +		goto err;
-> +
-> +	err = fuse_copy_one(cs, &outarg, sizeof(outarg));
-> +	if (err)
-> +		goto err;
-> +	fuse_copy_finish(cs);
-> +
-> +	return fuse_iomap_inval_mappings(fc, &outarg);
-> +err:
-> +	fuse_copy_finish(cs);
-> +	return err;
-> +}
-> +
->  struct fuse_retrieve_args {
->  	struct fuse_args_pages ap;
->  	struct fuse_notify_retrieve_in inarg;
-> @@ -2164,6 +2206,10 @@ static int fuse_notify(struct fuse_conn *fc, enum fuse_notify_code code,
->  
->  	case FUSE_NOTIFY_IOMAP_DEV_INVAL:
->  		return fuse_notify_iomap_dev_inval(fc, size, cs);
-> +	case FUSE_NOTIFY_IOMAP_UPSERT_MAPPINGS:
-> +		return fuse_notify_iomap_upsert_mappings(fc, size, cs);
-> +	case FUSE_NOTIFY_IOMAP_INVAL_MAPPINGS:
-> +		return fuse_notify_iomap_inval_mappings(fc, size, cs);
->  
->  	default:
->  		return -EINVAL;
+>  struct fuse_range {
 > diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 6d6c42fdaaac5b..8e747084d81b28 100644
+> index 075fa62f856495..22b23a3fa2ae2c 100644
 > --- a/fs/fuse/fuse_iomap.c
 > +++ b/fs/fuse/fuse_iomap.c
-> @@ -132,6 +132,7 @@ static inline bool fuse_iomap_check_type(uint16_t fuse_type)
->  	case FUSE_IOMAP_TYPE_INLINE:
->  	case FUSE_IOMAP_TYPE_PURE_OVERWRITE:
->  	case FUSE_IOMAP_TYPE_RETRY_CACHE:
-> +	case FUSE_IOMAP_TYPE_NOCACHE:
->  		return true;
->  	}
+> @@ -1147,7 +1147,8 @@ struct fuse_iomap_config_args {
+>  			       FUSE_IOMAP_CONFIG_BLOCKSIZE | \
+>  			       FUSE_IOMAP_CONFIG_MAX_LINKS | \
+>  			       FUSE_IOMAP_CONFIG_TIME | \
+> -			       FUSE_IOMAP_CONFIG_MAXBYTES)
+> +			       FUSE_IOMAP_CONFIG_MAXBYTES | \
+> +			       FUSE_IOMAP_CONFIG_CACHE_MAXBYTES)
 >  
-> @@ -241,8 +242,8 @@ static inline bool fuse_iomap_check_mapping(const struct inode *inode,
->  	uint64_t end;
+>  static int fuse_iomap_process_config(struct fuse_mount *fm, int error,
+>  				     const struct fuse_iomap_config_out *outarg)
+> @@ -1212,6 +1213,9 @@ static int fuse_iomap_process_config(struct fuse_mount *fm, int error,
+>  	if (outarg->flags & FUSE_IOMAP_CONFIG_MAXBYTES)
+>  		sb->s_maxbytes = outarg->s_maxbytes;
 >  
->  	/*
-> -	 * Type and flags must be known.  Mapping type "retry cache" doesn't
-> -	 * use any of the other fields.
-> +	 * Type and flags must be known.  Mapping types "retry cache" and "do
-> +	 * not insert in cache" don't use any of the other fields.
->  	 */
->  	if (BAD_DATA(!fuse_iomap_check_type(map->type)))
->  		return false;
-> @@ -255,6 +256,8 @@ static inline bool fuse_iomap_check_mapping(const struct inode *inode,
->  			return false;
->  		return true;
->  	}
-> +	if (map->type == FUSE_IOMAP_TYPE_NOCACHE)
-> +		return true;
->  	if (BAD_DATA(!fuse_iomap_check_flags(map->flags)))
->  		return false;
->  
-> @@ -299,6 +302,7 @@ static inline bool fuse_iomap_check_mapping(const struct inode *inode,
->  		if (BAD_DATA(iodir != WRITE_MAPPING))
->  			return false;
->  		break;
-> +	case FUSE_IOMAP_TYPE_NOCACHE:
->  	case FUSE_IOMAP_TYPE_RETRY_CACHE:
->  	default:
->  		/* should have been caught already */
-> @@ -373,6 +377,15 @@ fuse_iomap_begin_validate(const struct inode *inode,
->  	if (!fuse_iomap_check_mapping(inode, &outarg->write, WRITE_MAPPING))
->  		return -EFSCORRUPTED;
->  
-> +	/*
-> +	 * ->iomap_begin requires real mappings or "retry from cache"; "do not
-> +	 * add to cache" does not apply here.
-> +	 */
-> +	if (BAD_DATA(outarg->read.type == FUSE_IOMAP_TYPE_NOCACHE))
-> +		return -EFSCORRUPTED;
-> +	if (BAD_DATA(outarg->write.type == FUSE_IOMAP_TYPE_NOCACHE))
-> +		return -EFSCORRUPTED;
+> +	if (outarg->flags & FUSE_IOMAP_CONFIG_CACHE_MAXBYTES)
+> +		fuse_iomap_cache_set_maxbytes(fm->fc, outarg->cache_maxbytes);
 > +
->  	/*
->  	 * Must have returned a mapping for at least the first byte in the
->  	 * range.  The main mapping check already validated that the length
-> @@ -606,9 +619,11 @@ fuse_iomap_cached_validate(const struct inode *inode,
->  	if (!fuse_iomap_check_mapping(inode, &lmap->map, dir))
->  		return -EFSCORRUPTED;
->  
-> -	/* The cache should not be storing "retry cache" mappings */
-> +	/* The cache should not be storing cache management mappings */
->  	if (BAD_DATA(lmap->map.type == FUSE_IOMAP_TYPE_RETRY_CACHE))
->  		return -EFSCORRUPTED;
-> +	if (BAD_DATA(lmap->map.type == FUSE_IOMAP_TYPE_NOCACHE))
-> +		return -EFSCORRUPTED;
->  
 >  	return 0;
 >  }
-> @@ -2639,3 +2654,246 @@ void fuse_iomap_copied_file_range(struct inode *inode, loff_t offset,
 >  
->  	fuse_iomap_cache_invalidate_range(inode, offset, written);
+> @@ -1273,6 +1277,9 @@ fuse_iomap_new_mount(struct fuse_mount *fm)
+>  	ia->inarg.maxbytes = MAX_LFS_FILESIZE;
+>  	ia->inarg.flags = FUSE_IOMAP_CONFIG_ALL;
+>  
+> +	fm->fc->iomap_conn.cache_maxbytes = FUSE_IOMAP_CACHE_DEFAULT_MAXBYTES;
+> +	ia->inarg.cache_maxbytes = fm->fc->iomap_conn.cache_maxbytes;
+> +
+>  	ia->args.opcode = FUSE_IOMAP_CONFIG;
+>  	ia->args.nodeid = 0;
+>  	ia->args.in_numargs = 1;
+> diff --git a/fs/fuse/fuse_iomap_cache.c b/fs/fuse/fuse_iomap_cache.c
+> index 7d6944a6106f07..a8e16302ce4405 100644
+> --- a/fs/fuse/fuse_iomap_cache.c
+> +++ b/fs/fuse/fuse_iomap_cache.c
+> @@ -1654,6 +1654,28 @@ void fuse_iomap_cache_free(struct inode *inode)
+>  	kfree(ic);
 >  }
-> +
-> +static inline int
-> +fuse_iomap_upsert_validate_dev(
-> +	const struct fuse_backing	*fb,
-> +	const struct fuse_iomap_io	*map)
+>  
+> +void fuse_iomap_cache_set_maxbytes(struct fuse_conn *fc, unsigned int maxbytes)
 > +{
-> +	uint64_t			map_end;
-> +	sector_t			device_bytes;
+> +	if (!maxbytes)
+> +		return;
 > +
-> +	if (!fb) {
-> +		if (BAD_DATA(map->addr != FUSE_IOMAP_NULL_ADDR))
-> +			return -EFSCORRUPTED;
-> +
-> +		return 0;
-> +	}
-> +
-> +	if (BAD_DATA(map->addr == FUSE_IOMAP_NULL_ADDR))
-> +		return -EFSCORRUPTED;
-> +
-> +	if (BAD_DATA(check_add_overflow(map->addr, map->length, &map_end)))
-> +		return -EFSCORRUPTED;
-> +
-> +	/*
-> +	 * bdev_nr_sectors() == 0 usually means the device has gone away from
-> +	 * underneath us.  We won't cache this mapping, but we'll return
-> +	 * -EINVAL to signal a softer error to the fuse server than "your fs
-> +	 * metadata are corrupt".  If the fuse server persists anyway, then
-> +	 * the worst that happens is that the IO will fail.
-> +	 */
-> +	device_bytes = bdev_nr_sectors(fb->bdev) << SECTOR_SHIFT;
-> +	if (!device_bytes)
-> +		return -EINVAL;
-> +
-> +	if (BAD_DATA(map_end > device_bytes))
-> +		return -EFSCORRUPTED;
-> +
-> +	return 0;
+> +	fc->iomap_conn.cache_maxbytes = clamp(maxbytes, NODE_SIZE,
+> +					      FUSE_IOMAP_CACHE_MAX_MAXBYTES);
 > +}
 > +
-> +/* Validate one of the incoming upsert mappings */
-> +static inline int
-> +fuse_iomap_upsert_validate_mapping(struct inode *inode,
-> +				   enum fuse_iomap_iodir iodir,
-> +				   const struct fuse_iomap_io *map)
+> +static void
+> +fuse_iomap_cache_cleanup(
+> +	struct inode		*inode,
+> +	enum fuse_iomap_iodir	iodir)
 > +{
-> +	struct fuse_conn *fc = get_fuse_conn(inode);
-> +	struct fuse_backing *fb;
-> +	int ret;
+> +	struct fuse_inode	*fi = get_fuse_inode(inode);
+> +	struct fuse_mount	*fm = get_fuse_mount(inode);
+> +	struct fuse_iext_root	*ir = fuse_iext_root_ptr(fi->cache, iodir);
 > +
-> +	if (!fuse_iomap_check_mapping(inode, map, iodir))
-> +		return -EFSCORRUPTED;
-> +
-> +	/*
-> +	 * A "retry cache" instruction makes no sense when we're adding to
-> +	 * the mapping cache.
-> +	 */
-> +	if (BAD_DATA(map->type == FUSE_IOMAP_TYPE_RETRY_CACHE))
-> +		return -EFSCORRUPTED;
-> +
-> +	/* nocache is allowed, because we ignore it later */
-> +	if (map->type == FUSE_IOMAP_TYPE_NOCACHE)
-> +		return 0;
-> +
-> +	/* Make sure we can find the device */
-> +	fb = fuse_iomap_find_dev(fc, map);
-> +	if (BAD_DATA(IS_ERR(fb)))
-> +		return -EFSCORRUPTED;
-> +
-> +	ret = fuse_iomap_upsert_validate_dev(fb, map);
-> +	fuse_backing_put(fb);
-> +	return ret;
-> +}
-> +
-> +/* Check the incoming upsert mappings to make sure they're not nonsense */
-> +static inline int
-> +fuse_iomap_upsert_validate_mappings(struct inode *inode,
-> +		const struct fuse_iomap_upsert_mappings_out *outarg)
-> +{
-> +	int ret = fuse_iomap_upsert_validate_mapping(inode, READ_MAPPING,
-> +						     &outarg->read);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return fuse_iomap_upsert_validate_mapping(inode, WRITE_MAPPING,
-> +						  &outarg->write);
-> +}
-> +
-> +static int fuse_iomap_upsert_inode(struct inode *inode,
-> +		const struct fuse_iomap_upsert_mappings_out *outarg)
-> +{
-> +	int ret = fuse_iomap_upsert_validate_mappings(inode, outarg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!fuse_inode_caches_iomaps(inode)) {
-> +		ret = fuse_iomap_cache_alloc(inode);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	fuse_iomap_cache_lock(inode);
-> +
-> +	if (outarg->read.type != FUSE_IOMAP_TYPE_NOCACHE) {
-> +		ret = fuse_iomap_cache_upsert(inode, READ_MAPPING,
-> +					      &outarg->read);
-> +		if (ret)
-> +			goto out_unlock;
-> +	}
-> +
-> +	if (outarg->write.type != FUSE_IOMAP_TYPE_NOCACHE) {
-> +		ret = fuse_iomap_cache_upsert(inode, WRITE_MAPPING,
-> +					      &outarg->write);
-> +		if (ret)
-> +			goto out_unlock;
-> +	}
-> +
-> +out_unlock:
-> +	fuse_iomap_cache_unlock(inode);
-> +	return ret;
-> +}
-> +
-> +int fuse_iomap_upsert_mappings(struct fuse_conn *fc,
-> +		const struct fuse_iomap_upsert_mappings_out *outarg)
-> +{
-> +	struct inode *inode;
-> +	struct fuse_inode *fi;
-> +	int ret;
-> +
-> +	if (!fc->iomap)
-> +		return -EINVAL;
-> +
-> +	down_read(&fc->killsb);
-> +	inode = fuse_ilookup(fc, outarg->nodeid, NULL);
-> +	if (!inode) {
-> +		ret = -ESTALE;
-> +		goto out_sb;
-> +	}
-> +
-> +	fi = get_fuse_inode(inode);
-> +	if (BAD_DATA(fi->orig_ino != outarg->attr_ino)) {
-> +		ret = -EINVAL;
-> +		goto out_inode;
-> +	}
-> +
-> +	if (fuse_is_bad(inode)) {
-> +		ret = -EIO;
-> +		goto out_inode;
-> +	}
-> +
-> +	ret = fuse_iomap_upsert_inode(inode, outarg);
-> +out_inode:
-> +	iput(inode);
-> +out_sb:
-> +	up_read(&fc->killsb);
-> +	return ret;
-> +}
-> +
-> +static inline bool
-> +fuse_iomap_inval_validate_range(const struct inode *inode,
-> +				const struct fuse_range *range)
-> +{
-> +	const unsigned int blocksize = i_blocksize(inode);
-> +
-> +	if (range->length == 0)
-> +		return true;
-> +
-> +	/* Range can't start beyond maxbytes */
-> +	if (BAD_DATA(range->offset >= inode->i_sb->s_maxbytes))
-> +		return false;
-> +
-> +	/* File range must be aligned to blocksize */
-> +	if (BAD_DATA(!IS_ALIGNED(range->offset, blocksize)))
-> +		return false;
-> +	if (range->length != FUSE_IOMAP_INVAL_TO_EOF &&
-> +	    BAD_DATA(!IS_ALIGNED(range->length, blocksize)))
+> +	if (ir && ir->ir_bytes > fm->fc->iomap_conn.cache_maxbytes)
+> +		fuse_iext_destroy(ir);
 
-Codex points out that this needs to check_add_overflow() the range if
-the length isn't INVAL_TO_EOF.
+Codex noticed that we don't bump the cache sequence counter, so a flush
+due to excessive cache usage won't itself result in revalidations.  Will
+fix this.
 
 --D
 
-> +		return false;
-> +
-> +	return true;
 > +}
 > +
-> +static int fuse_iomap_inval_inode(struct inode *inode,
-> +		const struct fuse_iomap_inval_mappings_out *outarg)
-> +{
-> +	int ret = 0, ret2 = 0;
+>  int
+>  fuse_iomap_cache_upsert(
+>  	struct inode			*inode,
+> @@ -1680,6 +1702,8 @@ fuse_iomap_cache_upsert(
+>  	if (err)
+>  		return err;
+>  
+> +	fuse_iomap_cache_cleanup(inode, iodir);
 > +
-> +	if (!fuse_iomap_inval_validate_range(inode, &outarg->write))
-> +		return -EFSCORRUPTED;
-> +
-> +	if (!fuse_iomap_inval_validate_range(inode, &outarg->read))
-> +		return -EFSCORRUPTED;
-> +
-> +	if (!fuse_inode_caches_iomaps(inode))
-> +		return 0;
-> +
-> +	fuse_iomap_cache_lock(inode);
-> +	if (outarg->read.length)
-> +		ret2 = fuse_iomap_cache_remove(inode, READ_MAPPING,
-> +					       outarg->read.offset,
-> +					       outarg->read.length);
-> +	if (outarg->write.length)
-> +		ret = fuse_iomap_cache_remove(inode, WRITE_MAPPING,
-> +					      outarg->write.offset,
-> +					      outarg->write.length);
-> +	fuse_iomap_cache_unlock(inode);
-> +
-> +	return ret ? ret : ret2;
-> +}
-> +
-> +int fuse_iomap_inval_mappings(struct fuse_conn *fc,
-> +		const struct fuse_iomap_inval_mappings_out *outarg)
-> +{
-> +	struct inode *inode;
-> +	struct fuse_inode *fi;
-> +	int ret;
-> +
-> +	if (!fc->iomap)
-> +		return -EINVAL;
-> +
-> +	down_read(&fc->killsb);
-> +	inode = fuse_ilookup(fc, outarg->nodeid, NULL);
-> +	if (!inode) {
-> +		ret = -ESTALE;
-> +		goto out_sb;
-> +	}
-> +
-> +	fi = get_fuse_inode(inode);
-> +	if (BAD_DATA(fi->orig_ino != outarg->attr_ino)) {
-> +		ret = -EINVAL;
-> +		goto out_inode;
-> +	}
-> +
-> +	if (fuse_is_bad(inode)) {
-> +		ret = -EIO;
-> +		goto out_inode;
-> +	}
-> +
-> +	ret = fuse_iomap_inval_inode(inode, outarg);
-> +out_inode:
-> +	iput(inode);
-> +out_sb:
-> +	up_read(&fc->killsb);
-> +	return ret;
-> +}
+>  	return fuse_iomap_cache_add(inode, iodir, map);
+>  }
+>  
 > 
 > 
