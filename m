@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0673C0604;
-	Thu, 14 May 2026 22:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC2532572F;
+	Thu, 14 May 2026 22:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778797129; cv=none; b=nPAOfZBeUthVeZedKO4dFugZ1QLpgrw7VGeywMCINwcpVDmYzRhLueIaHXwpEqKFZqa/sfz/Fb/nmblgRyxK6ml8tpTkBlaWwvDep64bCch0LPDf1IwIUAoZ/uz+R5JQGFCGbs9YWffcoCcB4X0UqaexEuRUgvOYH5/Vbv973iw=
+	t=1778797176; cv=none; b=JbylJT7boJJnb6BANe2USY4zNBWUyYu9ybwsbH6EwjfHmxwzy/k/gYjZaBykpZfIG7QLC93/RTgMV684849A1v6IPTa1RiRr6ZdGiLBtL9RPG06BCNd1LsMBKycm9AslfIQfrh8ISUsBJIi2njEQ08i3wUyo3mfHGHvpl4qZOEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778797129; c=relaxed/simple;
-	bh=TtWIQYaTjtVFGkW6QswKJtPwJB2r9tBFC7UWZMl/fVc=;
+	s=arc-20240116; t=1778797176; c=relaxed/simple;
+	bh=x/F+n4/ft7ACj2BZGKK9pqFR2W/k2GLx2FMQx1Juzww=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eqX4zbS1BdXy5bUolFEmSCoHSkpL6UlO1uJxkdL3983YOuFzyOp2xwCjKpfCV3U/4IaW0Iq2RH+WUQTq0az/sBjFjLGj/oEKY5nxxLtyAI65BMIXGGU+DurzgeUrNGRzbfN6Lq2cpgCBeQEq5VHhl+/heQJrQuoi/fiN+1Yr3Og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fls9sQG3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=d/XcC2fwHyYObqoi1gruF44hL8OZNXaykRrQVpxcigsQchNInnsb0PVAKimrn6G5HLfjALOrbXhc09uG3ETXPbfeekkNoFrlnrl2MnKeHuL8x+vnLl+BSqvtNDpFhqGVnZgSH82wCgIy2GMEdrtcgiaWKpLA9v13RDIffqwvOhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C1ljLy3X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fls9sQG3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 724E5C2BCB3;
-	Thu, 14 May 2026 22:18:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C1ljLy3X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C91D2C2BCB3;
+	Thu, 14 May 2026 22:19:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778797128;
-	bh=TtWIQYaTjtVFGkW6QswKJtPwJB2r9tBFC7UWZMl/fVc=;
+	s=k20201202; t=1778797175;
+	bh=x/F+n4/ft7ACj2BZGKK9pqFR2W/k2GLx2FMQx1Juzww=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fls9sQG3u8LzNgA1vwHTJCZOcnrYzQ4VYiBsxVmsOJp6tEhGkIxhEiD1D80tYtT9F
-	 mjPipKwwXcG+6ODxL0Eupc1PxD6ZRt9Qv3vWeS7J/nbwMuplYp5WYdZRyByay+OpvA
-	 ush191b9nDh/L5eiOojJVhYbn45/b0sFtKQ4cw30bcA5RSaBGdpMF19u6XwseeWoAV
-	 SIsEaITynbcl3SNJc5nnOxMj/A5SjQZ6gGmJiwBr/TrGWblSWb8YHFoxtH4ruepMTN
-	 4n8CdKBUva3GncJJ3it3zHFmb0LIARtcJzt4GDdIVdXHA3RnQSCjWyInDcUfqFH4gx
-	 XSidtYySyyE8g==
-Date: Thu, 14 May 2026 15:18:47 -0700
+	b=C1ljLy3Xtl0126BSjH8q4inMVaALIKuSjOLthz5BdNYt630qXP3iliTe7+XupNohi
+	 kpZdCE6amvics7g+LiVUTYqzEqm+IISMg8/0+DxImOwBsVzGRHDLQhWmxJ2/KO+vGu
+	 fnrgjQfW/5yHC6ljoVgl9R3vnHvNFHcaRWC6gzW4rrIXSzroZT9cDIeyp7yppVstNy
+	 4KUFxhz+g9dm128ZcMAV1KfRpa99BYSXeMP930pM1Yk8v29crP3usPbZg8vBDs/r4/
+	 uzQgutt3EHx8ZPxfnjhlvFGoQiQSKlFfiituTbPHV3TekiUuRsLHeEpwf1QV6Qd684
+	 uVB1QvhrRc3vg==
+Date: Thu, 14 May 2026 15:19:35 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 6/9] fuse: let the kernel handle KILL_SUID/KILL_SGID for
- iomap filesystems
-Message-ID: <20260514221847.GL9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 7/9] fuse_trace: let the kernel handle
+ KILL_SUID/KILL_SGID for iomap filesystems
+Message-ID: <20260514221935.GM9544@frogsfrogsfrogs>
 References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
- <177747206617.4103309.9491664333731079107.stgit@frogsfrogsfrogs>
+ <177747206638.4103309.8411512653073787254.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,66 +44,125 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747206617.4103309.9491664333731079107.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747206638.4103309.8411512653073787254.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:34:38AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:34:54AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Let the kernel handle killing the suid/sgid bits because the
-> write/falloc/truncate/chown code already does this, and we don't have to
-> worry about external modifications that are only visible to the fuse
-> server (i.e. we're not a cluster fs).
+> Add tracepoints for the previous patch.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/dir.c |   11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
+>  fs/fuse/fuse_trace.h |   58 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  fs/fuse/dir.c        |    5 ++++
+>  2 files changed, 63 insertions(+)
 > 
 > 
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 61015e83888ee4..e664a60200ee26 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -2477,6 +2477,7 @@ static int fuse_setattr(struct mnt_idmap *idmap, struct dentry *entry,
->  	struct inode *inode = d_inode(entry);
->  	struct fuse_conn *fc = get_fuse_conn(inode);
->  	struct file *file = (attr->ia_valid & ATTR_FILE) ? attr->ia_file : NULL;
-> +	const bool is_iomap = fuse_inode_has_iomap(inode);
->  	int ret;
+> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
+> index 7136ecf25e1f2b..a6374d64a62357 100644
+> --- a/fs/fuse/fuse_trace.h
+> +++ b/fs/fuse/fuse_trace.h
+> @@ -208,6 +208,64 @@ DEFINE_EVENT(fuse_fileattr_class, name,		\
+>  DEFINE_FUSE_FILEATTR_EVENT(fuse_fileattr_update_inode);
+>  DEFINE_FUSE_FILEATTR_EVENT(fuse_fileattr_init);
 >  
->  	if (fuse_is_bad(inode))
-> @@ -2485,15 +2486,19 @@ static int fuse_setattr(struct mnt_idmap *idmap, struct dentry *entry,
->  	if (!fuse_allow_current_process(get_fuse_conn(inode)))
->  		return -EACCES;
->  
-> -	if (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID)) {
-> +	if (!is_iomap &&
-> +	    (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))) {
->  		attr->ia_valid &= ~(ATTR_KILL_SUID | ATTR_KILL_SGID |
->  				    ATTR_MODE);
->  
->  		/*
->  		 * The only sane way to reliably kill suid/sgid is to do it in
-> -		 * the userspace filesystem
-> +		 * the userspace filesystem if this isn't an iomap file.  For
-> +		 * iomap filesystems we let the kernel kill the setuid/setgid
-> +		 * bits.
->  		 *
-> -		 * This should be done on write(), truncate() and chown().
-> +		 * This should be done on write(), truncate(), chown(), and
-> +		 * fallocate().
+> +TRACE_EVENT(fuse_setattr_fill,
+> +	TP_PROTO(const struct inode *inode,
+> +		 const struct fuse_setattr_in *inarg),
+> +	TP_ARGS(inode, inarg),
+> +
+> +	TP_STRUCT__entry(
+> +		FUSE_INODE_FIELDS
+> +		__field(umode_t,		mode)
+> +		__field(uint32_t,		valid)
+> +		__field(umode_t,		new_mode)
+> +		__field(uint64_t,		new_size)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		FUSE_INODE_ASSIGN(inode, fi, fm);
+> +		__entry->mode		=	inode->i_mode;
+> +		__entry->valid		=	inarg->valid;
+> +		__entry->new_mode	=	inarg->mode;
+> +		__entry->new_size	=	inarg->size;
+> +	),
+> +
+> +	TP_printk(FUSE_INODE_FMT " mode 0%o valid 0x%x new_mode 0%o new_size 0x%llx",
+> +		  FUSE_INODE_PRINTK_ARGS,
+> +		  __entry->mode,
+> +		  __entry->valid,
+> +		  __entry->new_mode,
+> +		  __entry->new_size)
+> +);
+> +
+> +TRACE_EVENT(fuse_setattr,
+> +	TP_PROTO(const struct inode *inode,
+> +		 const struct iattr *inarg),
+> +	TP_ARGS(inode, inarg),
+> +
+> +	TP_STRUCT__entry(
+> +		FUSE_INODE_FIELDS
+> +		__field(umode_t,		mode)
+> +		__field(uint32_t,		valid)
+> +		__field(umode_t,		new_mode)
+> +		__field(uint64_t,		new_size)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		FUSE_INODE_ASSIGN(inode, fi, fm);
+> +		__entry->mode		=	inode->i_mode;
+> +		__entry->valid		=	inarg->ia_valid;
+> +		__entry->new_mode	=	inarg->ia_mode;
+> +		__entry->new_size	=	inarg->ia_size;
 
-FWIW Codex noticed that in iomap mode we still send FATTR_KILL_SUIDGID
-even though we claim the kernel is supposedly handling the mode
-stripping for us.  Granted I've been starting to suspect that some of
-these file attribute related things ought to be gated on exclusive mode
-and not iomap mode.  Will have to do a comprehensive review when I get
-through the current round of bot complaints.
+I also noticed while chasing the atime bug that the iattr fields are
+unset if the ia_valid flags aren't set, and can contain stack garbage.
+Will fix that.
 
 --D
 
->  		 */
->  		if (!fc->handle_killpriv && !fc->handle_killpriv_v2) {
->  			/*
+> +	),
+> +
+> +	TP_printk(FUSE_INODE_FMT " mode 0%o valid 0x%x new_mode 0%o new_size 0x%llx",
+> +		  FUSE_INODE_PRINTK_ARGS,
+> +		  __entry->mode,
+> +		  __entry->valid,
+> +		  __entry->new_mode,
+> +		  __entry->new_size)
+> +);
+> +
+>  #ifdef CONFIG_FUSE_BACKING
+>  #define FUSE_BACKING_FLAG_STRINGS \
+>  	{ FUSE_BACKING_TYPE_PASSTHROUGH,	"pass" }, \
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index e664a60200ee26..716f3e893dda66 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -8,6 +8,7 @@
+>  
+>  #include "fuse_i.h"
+>  #include "fuse_iomap.h"
+> +#include "fuse_trace.h"
+>  
+>  #include <linux/pagemap.h>
+>  #include <linux/file.h>
+> @@ -2205,6 +2206,8 @@ static void fuse_setattr_fill(struct fuse_conn *fc, struct fuse_args *args,
+>  			      struct fuse_setattr_in *inarg_p,
+>  			      struct fuse_attr_out *outarg_p)
+>  {
+> +	trace_fuse_setattr_fill(inode, inarg_p);
+> +
+>  	args->opcode = FUSE_SETATTR;
+>  	args->nodeid = get_node_id(inode);
+>  	args->in_numargs = 1;
+> @@ -2486,6 +2489,8 @@ static int fuse_setattr(struct mnt_idmap *idmap, struct dentry *entry,
+>  	if (!fuse_allow_current_process(get_fuse_conn(inode)))
+>  		return -EACCES;
+>  
+> +	trace_fuse_setattr(inode, attr);
+> +
+>  	if (!is_iomap &&
+>  	    (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))) {
+>  		attr->ia_valid &= ~(ATTR_KILL_SUID | ATTR_KILL_SGID |
 > 
 > 
