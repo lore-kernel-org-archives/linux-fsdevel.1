@@ -1,331 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10C13A63EC;
-	Thu, 14 May 2026 19:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7713A63EC
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 19:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778788369; cv=none; b=hHWQ7UJeuBhtuUht+sTtJvI0NvIxMO1nyI9nFjjC6H/lvf8lhdN+S0b6vlb6AmqUKgT+yRE3IqtPTcV4CBr2MtAhw4NMEYhu0GPnM2F4ZS26W43F0ahyZTEvstrLQC8ed9QzV9yY0IGtdM4zly8FoHJKpbZ0XfQrLE0tEPI8WK0=
+	t=1778788565; cv=none; b=Z8Sxp39EI3gR5ZwCF0nolUCsNi9+NvfEcsKNZOGs77liiFLicLPM6HR98LgKJRDvtqd9JmK7jEXvkWhER+UTGqs95ZK65yKprAPqQQPDPVDpePorLV9v8JLNj7kpPBF9/vvXBtybXLQ/VTZWWTIHFyFpvQN8GavMD65jltoX+As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778788369; c=relaxed/simple;
-	bh=Eg3NSAhzRHG1iWZu2cM1NTcZbI5jYUbyAUqVVyZBPqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QLgjC5zq1x1wnVUyT+8E7ujg5ylIsUNcp/WjT8Opc+ESsTCRtTLtPsLOn5xP1RXJgaQP77avbuv/VYQR4QkbvtchKxFJKf/qLWiq0B+JUX+j24n+EhPOOEhAUquK85401pBToe2pqRJpwU0Nwz561r7jiRqLvgHXsXTk3lBkOd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QkTpNhIW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778788565; c=relaxed/simple;
+	bh=8kG6UDkpQsUjb+G+QT2gaydD29/8OMk+TYhP9Jg0lpU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dY2ifq7ATUjhoQX7gylU/7ozsX7MlIbIV/g4f9RAeKM4DJkzFHil/lVq0Uafzd1kBhlfBVGuZfRDUHBrmgxtPTDlhgGp6nO+I9VVf4TxV7/BwQ5BS7p6oFcniBpLKt8sLFoZ6KXRvMsuFHodLWoG4NsP5suEQ6vv0i8/CYEYAs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=FvnD8irq; arc=none smtp.client-ip=74.125.224.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QkTpNhIW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40E6DC2BCB3;
-	Thu, 14 May 2026 19:52:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778788369;
-	bh=Eg3NSAhzRHG1iWZu2cM1NTcZbI5jYUbyAUqVVyZBPqE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QkTpNhIWQyPC+c6jdKGP9LqMJKI44r8fgWmI8ZXJ5Hn7+0jTwKEyvVoCOz0wlkiQ0
-	 WmZIOc/a081+yibRWpu4z9/v9ztaHQ+sTByXqZDFpxcE8U3DdRalf45pA3vE17tuaT
-	 UYCDb8NxWAwm2k25/tmMx54WlWVSU9JL9MbFrWj0QyVGqkjPfzHfHrxecr/tA35G/R
-	 OHECoUKwznX4650tW1K6i6J2CfazXmH970jcDi1CibWuTUFBiwIxH1YHRv6n4cwB9g
-	 2+nwCLYEu0vsbaa/OqHqKTc18RQoVYErPn/Igwex9QRZ7g/zPeqMjOhJV147sOjFe/
-	 Pq6Nhc+C27vyg==
-Date: Thu, 14 May 2026 12:52:48 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: miklos@szeredi.hu
-Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 09/33] fuse: create a per-inode flag for toggling iomap
-Message-ID: <20260514195248.GD9544@frogsfrogsfrogs>
-References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205343.4101881.1445722009300775395.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="FvnD8irq"
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-6530287803cso10212984d50.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 12:56:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1778788563; x=1779393363; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVfV/rlRY1uPbYbkz9MJ3QfT0jcJ0WTrBEhtW5gEzk8=;
+        b=FvnD8irqLIElW1co64WSp7keBWPGR0Q2Nec/9aBiHi8YVVHrSHpGy44MrOIUxaFpIB
+         L/XEjnHqZNAOyog7lSKcwfWZpPyNsxyfk9mt5dIwLhbtfAeN5DPC3aQzpYMrhODTJskp
+         GWx8par8tmvU5l18D2grf0n5cXHCAQg1vjU/f0JyFACY0fbhQ6vGnmZ4SGqyf61FuaTj
+         ryaMLMozjl/jqIbvEcCd5Pqdd1cMVbGayqZxiGb1Wvv680/fnWhPH7BPPFlQLhxjkFGh
+         Tc9QGy8Rp7bCj4CGX1b53ud2XQvP/6nTjJt+TYcPbZDDee9y8Vwqp9faK0SbJ0KVR71B
+         dRqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778788563; x=1779393363;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nVfV/rlRY1uPbYbkz9MJ3QfT0jcJ0WTrBEhtW5gEzk8=;
+        b=XXXASZRHnSwUJj8iRA2tUKMjk5Mqo+6/qjlht0PQqyd2y33Qx7xSZ7rtp+c0p64jqn
+         7mqp6dRCmNGrjrjLw/hmS0y4IrbluyAfpHueqJEX/dwSzyLvTMjCCJXeVRMRTVgOQ0dp
+         2P6pirw7c4/q+/h5Vc0I3Q6yqDjUQRi4DY/ptc0jpqZHwOknZ3JiA7rLuklQS/M5ymIF
+         YumfVb0dNMabl2NQ7c6R/A+hv3aJg+u2flg6JUQBJx7jkJ4VV3qhiFdhHsAtAgRserxc
+         8skWF4tUZE4ITFcfng7cpYA9PrATj3AH77Nnhni/XJ1u8sYWHVExRhUXjwiRb44kGpES
+         /JNg==
+X-Forwarded-Encrypted: i=1; AFNElJ+XJ2UhpxI2NSorLLAAcRhi3Sl3HeGjEE/Op6DEsTj/yvOTMd9aZnzPazQAsi3NneImwBKzMJBVbRvp+Euc@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwSajcpRcI3KOT194s29IM2jLnccGeEMPy/5x3oZ8E+j22AW0l
+	gcVrT2nhYkIotxt85lUn/4syaLAto1QuV5tgBIYdsTAUMTWkV9nxxLC+lzAHw1B5sZUb21ath2N
+	C0xHos1Q=
+X-Gm-Gg: Acq92OHxIDRT2RA3upYuFies39wKa+UIlt29R2LMwD8NoWN+ocJWvbjERGkPTWJpINp
+	bxQZu9/P9hKBtAWJ5zeYj1+scOB+jalFEgWOX3TTd1P3QnmP/g6YadF2RxnxP86Dee8ZCnlm8/z
+	7FsbpJMD01fvpKyuwWVv5dYRR1VCOZMYkhyYdoGAq8ixLUO0ZebaHW0E+yQNZrHxF0OHN0jNAhc
+	no6yxKl49uwAYLzFkc1VjsOV1PkftdU+vjOZEN/mwKrlpHxEQ/z1IQVkJnLeZxqIXvjPmbIkZ8G
+	avJi9LF+Kvz3LG4Kj5mU01Ln+CJF/zZyDvvWCp+/DIjkdfxqu6aUKX6UgU9YRGoLBJbHYIkSW65
+	PYFfhaOBQp369EuYHH+Wol8Q8Z0FdOEXgXua9LXD66OFI2DXuoRJ7zW/WUSGk0Ie133ydmBHoV7
+	fIyi0dAwB0qNUqh84X696h5ajzjvWVus98YE/MNqyJurzDGcaYbngSP+or9IyA2qZeTvyr1XiBf
+	snKjCx3Yky5iVlJAHUu9g==
+X-Received: by 2002:a05:690c:8d0c:b0:7bd:69b8:f2e5 with SMTP id 00721157ae682-7c95a56f98fmr9521497b3.3.1778788563221;
+        Thu, 14 May 2026 12:56:03 -0700 (PDT)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:1475:85f:92c5:666])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c7f5c965c8sm18837587b3.46.2026.05.14.12.56.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 12:56:02 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	linux-fsdevel@vger.kernel.org,
+	frank.li@vivo.com
+Cc: Slava.Dubeyko@ibm.com,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH] hfs: fix incorrect inode ID assignment in hfs_new_inode()
+Date: Thu, 14 May 2026 12:55:19 -0700
+Message-ID: <20260514195518.354108-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177747205343.4101881.1445722009300775395.stgit@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 29, 2026 at 07:26:02AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Create a per-inode flag to control whether or not this inode actually
-> uses iomap.  This is required for non-regular files because iomap
-> doesn't apply there; and enables fuse filesystems to provide some
-> non-iomap files if desired.
-> 
-> Note that more code will be added to fuse_iomap_init_inode in subsequent
-> patches.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  fs/fuse/fuse_i.h          |    6 ++++--
->  fs/fuse/fuse_iomap.h      |   13 ++++++++++++
->  include/uapi/linux/fuse.h |    3 +++
->  fs/fuse/dir.c             |   14 +++++++++++--
->  fs/fuse/file.c            |    3 +++
->  fs/fuse/fuse_iomap.c      |   47 +++++++++++++++++++++++++++++++++++++++++++++
->  fs/fuse/inode.c           |    6 ++++--
->  7 files changed, 86 insertions(+), 6 deletions(-)
-> 
-> 
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 07ad5abc48f70f..a4d64fd2837778 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -264,6 +264,8 @@ enum {
->  	 * or the fuse server has an exclusive "lease" on distributed fs
->  	 */
->  	FUSE_I_EXCLUSIVE,
-> +	/* Use iomap for this inode */
-> +	FUSE_I_IOMAP,
->  };
->  
->  struct fuse_conn;
-> @@ -1256,12 +1258,12 @@ void fuse_init_common(struct inode *inode);
->  /**
->   * Initialize inode and file operations on a directory
->   */
-> -void fuse_init_dir(struct inode *inode);
-> +void fuse_init_dir(struct inode *inode, struct fuse_attr *attr);
->  
->  /**
->   * Initialize inode operations on a symlink
->   */
-> -void fuse_init_symlink(struct inode *inode);
-> +void fuse_init_symlink(struct inode *inode, struct fuse_attr *attr);
->  
->  /**
->   * Change attributes of an inode
-> diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
-> index 129680b056ebea..34f2c75416eb62 100644
-> --- a/fs/fuse/fuse_iomap.h
-> +++ b/fs/fuse/fuse_iomap.h
-> @@ -23,11 +23,24 @@ extern const struct fuse_backing_ops fuse_iomap_backing_ops;
->  
->  void fuse_iomap_mount(struct fuse_mount *fm);
->  void fuse_iomap_unmount(struct fuse_mount *fm);
-> +
-> +void fuse_iomap_init_inode(struct inode *inode, struct fuse_attr *attr);
-> +void fuse_iomap_evict_inode(struct inode *inode);
-> +
-> +static inline bool fuse_inode_has_iomap(const struct inode *inode)
-> +{
-> +	const struct fuse_inode *fi = get_fuse_inode(inode);
-> +
-> +	return test_bit(FUSE_I_IOMAP, &fi->state);
-> +}
->  #else
->  # define fuse_iomap_enabled(...)		(false)
->  # define fuse_has_iomap(...)			(false)
->  # define fuse_iomap_mount(...)			((void)0)
->  # define fuse_iomap_unmount(...)		((void)0)
-> +# define fuse_iomap_init_inode(...)		((void)0)
-> +# define fuse_iomap_evict_inode(...)		((void)0)
-> +# define fuse_inode_has_iomap(...)		(false)
->  #endif /* CONFIG_FUSE_IOMAP */
->  
->  #endif /* _FS_FUSE_IOMAP_H */
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 2d35dcfbf8aaf5..88f76f4be749a7 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -245,6 +245,7 @@
->   *  - XXX magic minor revision to make experimental code really obvious
->   *  - add FUSE_IOMAP and iomap_{begin,end,ioend} for regular file operations
->   *  - add FUSE_ATTR_EXCLUSIVE to enable exclusive mode for specific inodes
-> + *  - add FUSE_ATTR_IOMAP to enable iomap for specific inodes
->   */
->  
->  #ifndef _LINUX_FUSE_H
-> @@ -587,10 +588,12 @@ struct fuse_file_lock {
->   * FUSE_ATTR_DAX: Enable DAX for this file in per inode DAX mode
->   * FUSE_ATTR_EXCLUSIVE: This file can only be modified by this mount, so the
->   * kernel can use cached attributes more aggressively (e.g. ACL inheritance)
-> + * FUSE_ATTR_IOMAP: Use iomap for this inode
->   */
->  #define FUSE_ATTR_SUBMOUNT      (1 << 0)
->  #define FUSE_ATTR_DAX		(1 << 1)
->  #define FUSE_ATTR_EXCLUSIVE	(1 << 2)
-> +#define FUSE_ATTR_IOMAP		(1 << 3)
+The xfstests' test-case generic/003 reveals the HFS volume
+corruption:
 
-Maybe this should be:
+sudo ./check generic/003
+FSTYP -- hfs
+PLATFORM -- Linux/x86_64 hfsplus-testing-0001 7.0.0-rc1+ #18 SMP PREEMPT_DYNAMIC Fri Mar 13 17:54:19 PDT 2026
+MKFS_OPTIONS -- /dev/loop51
+MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
 
-#define __FUSE_ATTR_IOMAP	(1 << 3)
-#define FUSE_ATTR_IOMAP		(FUSE_ATTR_EXCLUSIVE | __FUSE_ATTR_IOMAP)
+generic/003 51s ... _check_generic_filesystem: filesystem on /dev/loop51 is inconsistent
 
-because iomap requires exclusive.
+sudo fsck.hfs -d /dev/loop51
+** /dev/loop51
+Using cacheBlockSize=32K cacheTotalBlock=1024 cacheSize=32768K.
+Executing fsck_hfs (version 540.1-Linux).
+** Checking HFS volume.
+The volume name is untitled
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking catalog hierarchy.
+** Checking volume bitmap.
+** Checking volume information.
+invalid MDB drNxtCNID
+Master Directory Block needs minor repair
+(1, 0)
+Verify Status: VIStat = 0x8000, ABTStat = 0x0000 EBTStat = 0x0000
+CBTStat = 0x0000 CatStat = 0x00000000
+** Repairing volume.
+** Rechecking volume.
+** Checking HFS volume.
+The volume name is untitled
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking catalog hierarchy.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume untitled was repaired successfully.
 
-Also: Codex had some complaints about submounts.  I don't know anything
-about submounts, but AFAICT it looks like virtiofsd uses that to create
-a new super_block object (+ inode cache) for a subtree of a larger
-virtiofsd.
+The reason of corruption is incorrect value of drNxtCNID (next
+CNID) in the MDB or superblock. The generic/003 test-case
+creates several new inodes:
 
-I *think* this is incompatible with iomap, because iomap relies on the
-locks available through the struct inode object to coordinate access to
-a file.  From what I can tell, the fuse server thinks it's dealing with
-the same nodeid no matter which submount the file access is coming
-through... but they're not the same struct inode object.  Right?
+kernel: run fstests generic/003
+hfs: hfs_mdb_get():179 next_id 16
+hfs: hfs_mdb_get():179 next_id 16
+hfs: hfs_new_inode():208 next_id 17
+hfs: hfs_new_inode():208 next_id 18
+hfs: hfs_mdb_commit():307 next_id 18
+hfs: hfs_mdb_get():179 next_id 18
+hfs: hfs_new_inode():208 next_id 19
+hfs: hfs_new_inode():208 next_id 20
+hfs_mdb_commit():307 next_id 20
+hfs: hfs_mdb_get():179 next_id 20
+hfs: hfs_new_inode():208 next_id 21
+hfs: hfs_mdb_commit():307 next_id 21
+hfs: hfs_mdb_get():179 next_id 21
 
-For now I'll paranoidally just not advertise iomap support in FUSE_INIT
-if FUSE_SUBMOUNTS are enabled.
+The final assigned CNID was 21 but fsck correct it on 22.
+It is possible to see that the reason of the issue is
+incrementing the next_id value at first and assigning
+already incremented value to the inode->i_ino:
 
---D
+struct inode *hfs_new_inode(...)
+{
+<skipped>
 
->  
->  /**
->   * Open flags
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index c5c97065984557..996d81f263d637 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -7,6 +7,7 @@
->  */
->  
->  #include "fuse_i.h"
-> +#include "fuse_iomap.h"
->  
->  #include <linux/pagemap.h>
->  #include <linux/file.h>
-> @@ -2514,9 +2515,10 @@ void fuse_init_common(struct inode *inode)
->  	inode->i_op = &fuse_common_inode_operations;
->  }
->  
-> -void fuse_init_dir(struct inode *inode)
-> +void fuse_init_dir(struct inode *inode, struct fuse_attr *attr)
->  {
->  	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_conn *fc = get_fuse_conn(inode);
->  
->  	inode->i_op = &fuse_dir_inode_operations;
->  	inode->i_fop = &fuse_dir_operations;
-> @@ -2526,6 +2528,9 @@ void fuse_init_dir(struct inode *inode)
->  	fi->rdc.size = 0;
->  	fi->rdc.pos = 0;
->  	fi->rdc.version = 0;
-> +
-> +	if (fc->iomap)
-> +		fuse_iomap_init_inode(inode, attr);
->  }
->  
->  static int fuse_symlink_read_folio(struct file *null, struct folio *folio)
-> @@ -2544,9 +2549,14 @@ static const struct address_space_operations fuse_symlink_aops = {
->  	.read_folio	= fuse_symlink_read_folio,
->  };
->  
-> -void fuse_init_symlink(struct inode *inode)
-> +void fuse_init_symlink(struct inode *inode, struct fuse_attr *attr)
->  {
-> +	struct fuse_conn *fc = get_fuse_conn(inode);
-> +
->  	inode->i_op = &fuse_symlink_inode_operations;
->  	inode->i_data.a_ops = &fuse_symlink_aops;
->  	inode_nohighmem(inode);
-> +
-> +	if (fc->iomap)
-> +		fuse_iomap_init_inode(inode, attr);
->  }
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 5e7fe7ef87d2e4..8d55d2f4dd4cc9 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -7,6 +7,7 @@
->  */
->  
->  #include "fuse_i.h"
-> +#include "fuse_iomap.h"
->  
->  #include <linux/pagemap.h>
->  #include <linux/slab.h>
-> @@ -3217,6 +3218,8 @@ void fuse_init_file_inode(struct inode *inode, struct fuse_attr *attr)
->  	init_waitqueue_head(&fi->page_waitq);
->  	init_waitqueue_head(&fi->direct_io_waitq);
->  
-> +	if (fc->iomap)
-> +		fuse_iomap_init_inode(inode, attr);
->  	if (IS_ENABLED(CONFIG_FUSE_DAX))
->  		fuse_dax_inode_init(inode, attr->flags);
->  }
-> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 4b63bb32167877..39c9239c64435a 100644
-> --- a/fs/fuse/fuse_iomap.c
-> +++ b/fs/fuse/fuse_iomap.c
-> @@ -616,3 +616,50 @@ void fuse_iomap_unmount(struct fuse_mount *fm)
->  	fuse_flush_requests(fc);
->  	fuse_send_destroy(fm);
->  }
-> +
-> +static inline void fuse_inode_set_iomap(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +
-> +	set_bit(FUSE_I_IOMAP, &fi->state);
-> +}
-> +
-> +static inline void fuse_inode_clear_iomap(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +
-> +	clear_bit(FUSE_I_IOMAP, &fi->state);
-> +}
-> +
-> +void fuse_iomap_init_inode(struct inode *inode, struct fuse_attr *attr)
-> +{
-> +	ASSERT(get_fuse_conn(inode)->iomap);
-> +
-> +	if (!(attr->flags & FUSE_ATTR_IOMAP))
-> +		return;
-> +
-> +	/*
-> +	 * Any file being used in conjunction with iomap must also have the
-> +	 * exclusive flag set because iomap requires cached file attributes to
-> +	 * be correct at any time.  This applies even to non-regular files
-> +	 * (e.g. directories) because we need to do ACL and attribute
-> +	 * inheritance the same way a local filesystem would do.  If exclusive
-> +	 * mode isn't set, then we won't use iomap.
-> +	 */
-> +	if (!fuse_inode_is_exclusive(inode)) {
-> +		ASSERT(fuse_inode_is_exclusive(inode));
-> +		return;
-> +	}
-> +
-> +	if (!S_ISREG(inode->i_mode))
-> +		return;
-> +
-> +	fuse_inode_set_iomap(inode);
-> +}
-> +
-> +void fuse_iomap_evict_inode(struct inode *inode)
-> +{
-> +	ASSERT(fuse_inode_has_iomap(inode));
-> +
-> +	fuse_inode_clear_iomap(inode);
-> +}
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index 36814b5de46879..f8e5c03580e56b 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -198,6 +198,8 @@ static void fuse_evict_inode(struct inode *inode)
->  		WARN_ON(!list_empty(&fi->queued_writes));
->  	}
->  
-> +	if (fuse_inode_has_iomap(inode))
-> +		fuse_iomap_evict_inode(inode);
->  	fuse_inode_clear_exclusive(inode);
->  }
->  
-> @@ -446,10 +448,10 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
->  		fuse_init_file_inode(inode, attr);
->  		break;
->  	case S_IFDIR:
-> -		fuse_init_dir(inode);
-> +		fuse_init_dir(inode, attr);
->  		break;
->  	case S_IFLNK:
-> -		fuse_init_symlink(inode);
-> +		fuse_init_symlink(inode, attr);
->  		break;
->  	case S_IFCHR:
->  	case S_IFBLK:
-> 
-> 
+    next_id = atomic64_inc_return(&HFS_SB(sb)->next_id);
+<skipped>
+    inode->i_ino = (u32)next_id;
+
+<skipped>
+}
+
+This patch fixes the issue by assigning the decremented
+value to inode->i_ino.
+
+Fixes: a06ec283e125 ("hfs: add logic of correcting a next unused CNID")
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+---
+ fs/hfs/inode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
+index 89b33a9d46d5..1cbba7345038 100644
+--- a/fs/hfs/inode.c
++++ b/fs/hfs/inode.c
+@@ -204,7 +204,7 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
+ 		pr_err("cannot create new inode: next CNID exceeds limit\n");
+ 		goto out_discard;
+ 	}
+-	inode->i_ino = (u32)next_id;
++	inode->i_ino = (u32)next_id - 1;
+ 	inode->i_mode = mode;
+ 	inode->i_uid = current_fsuid();
+ 	inode->i_gid = current_fsgid();
+-- 
+2.43.0
+
