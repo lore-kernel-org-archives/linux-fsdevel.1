@@ -1,1872 +1,248 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA3B3CEB99;
-	Thu, 14 May 2026 22:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842F81519B4
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 22:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778797702; cv=none; b=ZAt4FdOIkNW2FkHw06VVfA0FxkdgpbnT2oH+zt6RorMAFxGRk1Rc5IcwwY1Iz0toPqg7jpM/RDTUxFRiTiC1dolm0E2g9MfgMnEsl4afBW1pNKF5bh0CiZGqybD8QpyN0pArdW02UaIbyNKTKG7m+DAaVtA2DfHGYB9FRQA3DcI=
+	t=1778797889; cv=none; b=e/edmlyWLvvOws0ZHEqDqIRftPbAQ5qSGHNRSs1cpao/L+H8i3OL3uBWXLers/ghBiXBvM538wiB9w+clhQNUU39QXkZ/pF1VWj9IMWVB+97haq4pHfE8zkbxdOWiYpjwKehWGm+lromnANdC5hi0JgDi+I4FLSBJl6MNHbSW1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778797702; c=relaxed/simple;
-	bh=on/HB6nXoDVuKv9ALnvDjrvohxRJSQhK6KDBBm++Dkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CaOYubdHWKEefen4mw0sxSQmGMcW4BRAg4GAXdq1T5vy72tCy3sWdsf29TeEZjtu8ezK04FmmMEZvtG1U0CXHT11njdhqmpO08LINxgOx03UNAjC96eY0LVHmG9uWFqkn8NYbPdtnNrlVxQxulCKovLtZLc7zzwPHz8HDm2yAyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Et0Ix3AB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778797889; c=relaxed/simple;
+	bh=sgXsN5ItagWIV69KxgSGg3f3EjuUoX/kFzlWwLW7XEE=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LSsvWpbOMIhRvkGQgweIh9DlMtCgIjq7jUhHjqG4GQf7gYSh/HriIYVaTfGVG+G53q37GqpZH7i7yDaJsuWeanx8k3FrRP18DpjhkKREBmDKDDc7VL3wJ41umCSVzNbPaYAKwhV0zYA2zLr5gx8ejmeLT9LB4dKuinGma4G7l6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KQI8lyIH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=URlSPQGA; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Et0Ix3AB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1204CC2BCB3;
-	Thu, 14 May 2026 22:28:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778797702;
-	bh=on/HB6nXoDVuKv9ALnvDjrvohxRJSQhK6KDBBm++Dkc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Et0Ix3ABnciZPPotNlQEjyLHp1y7L813KalvPzi2vYWzMdqd6rfvYjSY4MM6RrWhx
-	 /lj8DnecAvRlvkLVHJlPCX1z0YiDUuiB0qSAa6EFA1fpR5gS8yMmYoLEiwdx9EGjY+
-	 DDhuEgCa8fL7DHDy9kHXbb5HewVTsw3E8wtGnFfNL5kxuu5iAIyFRLEl3jL5zvOecU
-	 rmpAABhQpqXG8tQc+SVa2xUhv1Umy7iqxmfDOF+Lf7Cw+mjhQhFnweV7JEuxAhNU9N
-	 mHfSk1+0ta8Hg/iNUl3d6+Ku4pR69CLnjkCEgLJXDfvAsiQ66dG7xRZO/V1zePuqoc
-	 k7raaMpZZEwxg==
-Date: Thu, 14 May 2026 15:28:21 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: miklos@szeredi.hu
-Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 01/12] fuse: cache iomaps
-Message-ID: <20260514222821.GP9544@frogsfrogsfrogs>
-References: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
- <177747207021.4103699.5220147311086508167.stgit@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KQI8lyIH";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="URlSPQGA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778797886;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8kzTP4aRYW6VNhsi1rfhGxy4232nO7/Aa1UyVr2mM/0=;
+	b=KQI8lyIHK7XFunsqSY8DCzzbu2N95FL6ZzWs/z6Gt4/t595va+ArsdkgVbFt+lyDyOv8Rz
+	FkrKdCAdvY5nZSO0f65iRXH/P/ox5jHBtrGAxCj+rORfpbTyY8bO69DuZaKg/KX9LiW0UR
+	5SsgWtgauEvBPA90YxUR3Z4k+C3FFz0=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-246-OLVuoowIMKq81YbtU2Usdg-1; Thu, 14 May 2026 18:31:24 -0400
+X-MC-Unique: OLVuoowIMKq81YbtU2Usdg-1
+X-Mimecast-MFC-AGG-ID: OLVuoowIMKq81YbtU2Usdg_1778797884
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-65c37eafd67so16974010d50.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 15:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1778797884; x=1779402684; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8kzTP4aRYW6VNhsi1rfhGxy4232nO7/Aa1UyVr2mM/0=;
+        b=URlSPQGAXcfWebk0g5f50hGU8y5hhy0jCo/UKjUKekQWOO4w4ZctFYHetyCVPyRwLr
+         CfASgdJY++xKXaipH8LzeUfOELMOJpYRXH7w1ut0Koek10VLs6YYXsgsFxd28THGoZgt
+         MmUH7V31AGwPn6RAssf03PXD7gOERbKovl0zVymiygrNFYLUAWyTemhTTYs5sXZ2qZ7+
+         ZgFPGbo2edi45llPW618btPGmyoq7VqK5qWn42kff3mT8u3LBMwOdon5/xQIYn5/hLpM
+         gzKuMD0iIrj+oNWFwk6IfS+q++VBy4UfMu2+IG1t+EN4X8dP08MOpd4KHqu5bWhygHAb
+         Pu/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778797884; x=1779402684;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8kzTP4aRYW6VNhsi1rfhGxy4232nO7/Aa1UyVr2mM/0=;
+        b=nHBsz1vFgK3iyzgMd0aVMO1jktXcoONcVA9mTwJfs6WziTcwNJ+2CqUSJHJhuYQ6sT
+         u94euA6vdtKphxxurUKKl6oEDnLUo6/8MNjl8yLZSCfrwDKEYcM2SFYfc6Uo356Jdasj
+         nNHeGDvqzci9w3L6jTPL12sKE5DveinZkGXzodlDfvidl+Q7JMgVwfw/y4o5yUjvw3Pb
+         1RFfC/XyC0Z2lLHK2JMZkeI5ZcYGcZinEa08MGypc4I+tRgqZyEOkeCQuqMQadC9hZyH
+         JdM217kTVIncmeWDTlRYzwr+7ZvZ1mhLf0gfkjpMYJeHwlkTR7s7BoFXRvpaRJOsudKD
+         c1og==
+X-Forwarded-Encrypted: i=1; AFNElJ8hMq1PxirYNBPxoCypruy3QDiHZ1shstVlcfUPErsth2QOgZMDICq3hCyOO8tzKYqShc1k/dBm4otPB5hX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVFG5xr31HRxU/dUP6V6GudBxQjjnkefcqH7lPmiL2mSLDEo97
+	OzDjvQVr6vP6LL1z0PUKlSfe1YCKSng2M6NhumBHvMIgK8xoja6HyqM6HYSUMzJAzrWgkHJM/EF
+	n2w4przdeUNz1vvNbi37Hv5n8LqGKT6KC//YOBjtF0q9O/eoclqZMGxSXoCoTt08wf9Q=
+X-Gm-Gg: Acq92OEN86DNd1fg5zo/qEVLwCXMZqA0Rmo0mxAuuAHLa4Vz7q8VXICYh+0FElaHqcC
+	m91Eip8luACyMZiaJT1I1KE3JvFplfA56bJDiMbplz9ymRLeXCgqz9WZ64eEyH2n+zExDWgAi71
+	iWwMuePh/YRnzoc5P6uYxPld792Ee+RZ8+m5js84GpKzoZ4AjYZv1IDu/479NmX1Kl9q0/MZJNQ
+	AoJNN/C4hOl0gzlMXrnpUyI/QjPBBRtZhZ4Wf3ALoDQ/FK3vIhzUcIMmA/PU4CHjuCsXCjAcRYu
+	E8qUUAcxjcT4L/WyMZYnVCg6doCj/vZ+Y5XbrC/ua2UPXphsnrHXoXVwVJ3AnF04Kz196AMgS5z
+	5YlnFp3ixkpTIzihQ5MI/700M8kpScRQjl5dRmyAnO1VuMebd7bMn
+X-Received: by 2002:a05:690c:c4e3:b0:79e:9cc1:edf7 with SMTP id 00721157ae682-7c95ae490a8mr15455257b3.13.1778797884189;
+        Thu, 14 May 2026 15:31:24 -0700 (PDT)
+X-Received: by 2002:a05:690c:c4e3:b0:79e:9cc1:edf7 with SMTP id 00721157ae682-7c95ae490a8mr15454857b3.13.1778797883682;
+        Thu, 14 May 2026 15:31:23 -0700 (PDT)
+Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c7f5c962c2sm20644027b3.48.2026.05.14.15.31.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 15:31:23 -0700 (PDT)
+Message-ID: <1d34d7a30b5e33ab99b6bdef88297b540337395c.camel@redhat.com>
+Subject: Re: [syzbot] [hfs?] WARNING in hfs_mdb_commit
+From: Viacheslav Dubeyko <vdubeyko@redhat.com>
+To: syzbot <syzbot+c149ad75e9633be0c1ad@syzkaller.appspotmail.com>, 
+	frank.li@vivo.com, glaubitz@physik.fu-berlin.de,
+ linux-fsdevel@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ slava@dubeyko.com, syzkaller-bugs@googlegroups.com
+Date: Thu, 14 May 2026 15:31:21 -0700
+In-Reply-To: <6a05437d.170a0220.196691.0003.GAE@google.com>
+References: <6a05437d.170a0220.196691.0003.GAE@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.0 (3.60.0-1.fc44app2) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177747207021.4103699.5220147311086508167.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:35:41AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Cache iomaps to a file so that we don't have to upcall the server.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+On Wed, 2026-05-13 at 20:37 -0700, syzbot wrote:
+> Hello,
+>=20
+> syzbot found the following issue on:
+>=20
+> HEAD commit:    1bfaee9d3351 Merge tag 'fsverity-for-linus' of git://git.=
+k..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=3D12f0872658000=
+0
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D7f195f6be48c1=
+2ec
+> dashboard link: https://syzkaller.appspot.com/bug?extid=3Dc149ad75e9633be=
+0c1ad
+> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25=
+a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+>=20
+> Unfortunately, I don't have any reproducer for this issue yet.
+>=20
+
+It is really sad that we don't have a reproducer for  the issue.
+
+> Downloadable assets:
+> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d=
+900f083ada3/non_bootable_disk-1bfaee9d.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/879fc4fe312e/vmlinu=
+x-1bfaee9d.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/9e35bd667fed/b=
+zImage-1bfaee9d.xz
+>=20
+> IMPORTANT: if you fix the issue, please add the following tag to the comm=
+it:
+> Reported-by: syzbot+c149ad75e9633be0c1ad@syzkaller.appspotmail.com
+>=20
+> loop0: detected capacity change from 0 to 64
+> loop0: detected capacity change from 64 to 0
+> Buffer I/O error on dev loop0, logical block 62, lost sync page write
+> hfs: unable to read volume bitmap
+
+I assume that we have two issues here. As far as I can see, we have 64 bloc=
+ks in
+the HFS volume. And we try to read logical block 62 that expected to have
+portion of volume bitmap. Somehow, we've failed to read it:
+
+		while (size) {
+			bh =3D sb_bread(sb, block);
+			if (!bh) {
+				pr_err("unable to read volume bitmap\n");
+				break;
+			}
+<skipped>
+		}
+
+And it is not completely clear why the read has failed.
+
+> ------------[ cut here ]------------
+> !buffer_uptodate(bh)
+> WARNING: fs/buffer.c:1087 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:10=
+87, CPU#0: syz.0.0/5321
+
+But this issue took place because buffer with alternative/backup MDB has no=
+t
+been set as uptodate:
+
+void mark_buffer_dirty(struct buffer_head *bh)
+{
+	WARN_ON_ONCE(!buffer_uptodate(bh));
+<skipped>
+}
+
+if (test_and_clear_bit(HFS_FLG_ALT_MDB_DIRTY, &HFS_SB(sb)->flags) &&
+    HFS_SB(sb)->alt_mdb) {
+<skipped>
+
+		mark_buffer_dirty(HFS_SB(sb)->alt_mdb_bh);
+		sync_dirty_buffer(HFS_SB(sb)->alt_mdb_bh);
+}
+
+Thanks,
+Slava.
+
+> Modules linked in:
+> CPU: 0 UID: 0 PID: 5321 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(fu=
+ll)=20
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.=
+16.3-2 04/01/2014
+> RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:1087
+> Code: 4c 89 f7 e8 b9 5c da ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5=
+f 5d e9 b4 63 fb ff e8 3f 91 6d ff eb 8c e8 38 91 6d ff 90 <0f> 0b 90 e9 a5=
+ fd ff ff e8 2a 91 6d ff 90 0f 0b 90 e9 cf fd ff ff
+> RSP: 0018:ffffc9000ddafba8 EFLAGS: 00010283
+> RAX: ffffffff82584008 RBX: ffff888046e26658 RCX: 0000000000100000
+> RDX: ffffc9000eefa000 RSI: 0000000000001912 RDI: 0000000000001913
+> RBP: 1ffff11007a3ec01 R08: ffff888046e2665f R09: 1ffff11008dc4ccb
+> R10: dffffc0000000000 R11: ffffed1008dc4ccc R12: dffffc0000000000
+> R13: ffff88803d1f6628 R14: ffff888055813c0b R15: ffff888055831492
+> FS:  00007f2c9e9b96c0(0000) GS:ffff88808c881000(0000) knlGS:0000000000000=
+000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000200000000210 CR3: 00000000133b8000 CR4: 0000000000352ef0
+> Call Trace:
+>  <TASK>
+>  hfs_mdb_commit+0x84b/0x1150 fs/hfs/mdb.c:328
+>  hfs_sync_fs+0x1d/0x30 fs/hfs/super.c:38
+>  sync_filesystem+0x1cf/0x230 fs/sync.c:66
+>  hfs_reconfigure+0x66/0x270 fs/hfs/super.c:122
+>  reconfigure_super+0x227/0x8a0 fs/super.c:1080
+>  do_remount fs/namespace.c:3400 [inline]
+>  path_mount+0xdc5/0x10e0 fs/namespace.c:4146
+>  do_mount fs/namespace.c:4167 [inline]
+>  __do_sys_mount fs/namespace.c:4383 [inline]
+>  __se_sys_mount+0x31d/0x420 fs/namespace.c:4360
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7f2c9db9cdd9
+> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f=
+7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff=
+ ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007f2c9e9b8fe8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+> RAX: ffffffffffffffda RBX: 00007f2c9de15fa0 RCX: 00007f2c9db9cdd9
+> RDX: 0000000000000000 RSI: 00002000000002c0 RDI: 0000000000000000
+> RBP: 00007f2c9dc32d69 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000c22 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007f2c9de16038 R14: 00007f2c9de15fa0 R15: 00007fffa4666ff8
+>  </TASK>
+>=20
+>=20
 > ---
->  fs/fuse/fuse_i.h           |    3 
->  fs/fuse/fuse_iomap_cache.h |   99 +++
->  include/uapi/linux/fuse.h  |    5 
->  fs/fuse/Makefile           |    2 
->  fs/fuse/fuse_iomap.c       |    5 
->  fs/fuse/fuse_iomap_cache.c | 1695 ++++++++++++++++++++++++++++++++++++++++++++
->  fs/fuse/trace.c            |    1 
->  7 files changed, 1809 insertions(+), 1 deletion(-)
->  create mode 100644 fs/fuse/fuse_iomap_cache.h
->  create mode 100644 fs/fuse/fuse_iomap_cache.c
-> 
-> 
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 3b38b98dc0096c..1bf5dd373153e5 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -197,6 +197,9 @@ struct fuse_inode {
->  			spinlock_t ioend_lock;
->  			struct work_struct ioend_work;
->  			struct list_head ioend_list;
-> +
-> +			/* cached iomap mappings */
-> +			struct fuse_iomap_cache *cache;
->  #endif
->  		};
->  
-> diff --git a/fs/fuse/fuse_iomap_cache.h b/fs/fuse/fuse_iomap_cache.h
-> new file mode 100644
-> index 00000000000000..922ca182357aa7
-> --- /dev/null
-> +++ b/fs/fuse/fuse_iomap_cache.h
-> @@ -0,0 +1,99 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * The fuse_iext code comes from xfs_iext_tree.[ch] and is:
-> + * Copyright (c) 2017 Christoph Hellwig.
-> + *
-> + * Everything else is:
-> + * Copyright (C) 2025-2026 Oracle.  All Rights Reserved.
-> + * Author: Darrick J. Wong <djwong@kernel.org>
-> + */
-> +#ifndef _FS_FUSE_IOMAP_CACHE_H
-> +#define _FS_FUSE_IOMAP_CACHE_H
-> +
-> +#if IS_ENABLED(CONFIG_FUSE_IOMAP)
-> +/*
-> + * File incore extent information, present for read and write mappings.
-> + */
-> +struct fuse_iext_root {
-> +	/* bytes in ir_data, or -1 if it has never been used */
-> +	int64_t			ir_bytes;
-> +	void			*ir_data;	/* extent tree root */
-> +	unsigned int		ir_height;	/* height of the extent tree */
-> +};
-> +
-> +struct fuse_iomap_cache {
-> +	struct fuse_iext_root	ic_read;
-> +	struct fuse_iext_root	ic_write;
-> +	uint64_t		ic_seq;		/* validity counter */
-> +	struct rw_semaphore	ic_lock;	/* mapping lock */
-> +	struct inode		*ic_inode;
-> +};
-> +
-> +void fuse_iomap_cache_lock(struct inode *inode);
-> +void fuse_iomap_cache_unlock(struct inode *inode);
-> +void fuse_iomap_cache_lock_shared(struct inode *inode);
-> +void fuse_iomap_cache_unlock_shared(struct inode *inode);
-> +
-> +struct fuse_iext_leaf;
-> +
-> +struct fuse_iext_cursor {
-> +	struct fuse_iext_leaf	*leaf;
-> +	int			pos;
-> +};
-> +
-> +#define FUSE_IEXT_LEFT_CONTIG	(1u << 0)
-> +#define FUSE_IEXT_RIGHT_CONTIG	(1u << 1)
-> +#define FUSE_IEXT_LEFT_FILLING	(1u << 2)
-> +#define FUSE_IEXT_RIGHT_FILLING	(1u << 3)
-> +#define FUSE_IEXT_LEFT_VALID	(1u << 4)
-> +#define FUSE_IEXT_RIGHT_VALID	(1u << 5)
-> +#define FUSE_IEXT_WRITE_MAPPING	(1u << 6)
-> +
-> +bool fuse_iext_get_extent(const struct fuse_iext_root *ir,
-> +			  const struct fuse_iext_cursor *cur,
-> +			  struct fuse_iomap_io *gotp);
-> +
-> +static inline uint64_t fuse_iext_read_seq(struct fuse_iomap_cache *ic)
-> +{
-> +	return (uint64_t)READ_ONCE(ic->ic_seq);
-> +}
-> +
-> +static inline void fuse_iomap_cache_init(struct fuse_inode *fi)
-> +{
-> +	fi->cache = NULL;
-> +}
-> +
-> +static inline bool fuse_inode_caches_iomaps(const struct inode *inode)
-> +{
-> +	const struct fuse_inode *fi = get_fuse_inode(inode);
-> +
-> +	return fi->cache != NULL;
-> +}
-> +
-> +int fuse_iomap_cache_alloc(struct inode *inode);
-> +void fuse_iomap_cache_free(struct inode *inode);
-> +
-> +int fuse_iomap_cache_remove(struct inode *inode, enum fuse_iomap_iodir iodir,
-> +			    loff_t off, uint64_t len);
-> +
-> +int fuse_iomap_cache_upsert(struct inode *inode, enum fuse_iomap_iodir iodir,
-> +			    const struct fuse_iomap_io *map);
-> +
-> +enum fuse_iomap_lookup_result {
-> +	LOOKUP_HIT,
-> +	LOOKUP_MISS,
-> +	LOOKUP_NOFORK,
-> +};
-> +
-> +struct fuse_iomap_lookup {
-> +	struct fuse_iomap_io	map;		 /* cached mapping */
-> +	uint64_t		validity_cookie; /* used with .iomap_valid() */
-> +};
-> +
-> +enum fuse_iomap_lookup_result
-> +fuse_iomap_cache_lookup(struct inode *inode, enum fuse_iomap_iodir iodir,
-> +			loff_t off, uint64_t len,
-> +			struct fuse_iomap_lookup *mval);
-> +#endif /* CONFIG_FUSE_IOMAP */
-> +
-> +#endif /* _FS_FUSE_IOMAP_CACHE_H */
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index bf8514a5ee27af..a273838bc20f2f 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -1394,6 +1394,8 @@ struct fuse_uring_cmd_req {
->  
->  /* fuse-specific mapping type indicating that writes use the read mapping */
->  #define FUSE_IOMAP_TYPE_PURE_OVERWRITE	(255)
-> +/* fuse-specific mapping type saying the server has populated the cache */
-> +#define FUSE_IOMAP_TYPE_RETRY_CACHE	(254)
->  
->  #define FUSE_IOMAP_DEV_NULL		(0U)	/* null device cookie */
->  
-> @@ -1551,4 +1553,7 @@ struct fuse_iomap_dev_inval_out {
->  	struct fuse_range range;
->  };
->  
-> +/* invalidate all cached iomap mappings up to EOF */
-> +#define FUSE_IOMAP_INVAL_TO_EOF		(~0ULL)
-> +
->  #endif /* _LINUX_FUSE_H */
-> diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
-> index 2536bc6a71b898..c672503da7bcbd 100644
-> --- a/fs/fuse/Makefile
-> +++ b/fs/fuse/Makefile
-> @@ -18,6 +18,6 @@ fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o
->  fuse-$(CONFIG_FUSE_BACKING) += backing.o
->  fuse-$(CONFIG_SYSCTL) += sysctl.o
->  fuse-$(CONFIG_FUSE_IO_URING) += dev_uring.o
-> -fuse-$(CONFIG_FUSE_IOMAP) += fuse_iomap.o
-> +fuse-$(CONFIG_FUSE_IOMAP) += fuse_iomap.o fuse_iomap_cache.o
->  
->  virtiofs-y := virtio_fs.o
-> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 9278e2e399ba9b..bb47b4c7f7eabc 100644
-> --- a/fs/fuse/fuse_iomap.c
-> +++ b/fs/fuse/fuse_iomap.c
-> @@ -14,6 +14,7 @@
->  #include "fuse_iomap.h"
->  #include "fuse_iomap_i.h"
->  #include "fuse_dev_i.h"
-> +#include "fuse_iomap_cache.h"
->  
->  static bool __read_mostly enable_iomap =
->  #if IS_ENABLED(CONFIG_FUSE_IOMAP_BY_DEFAULT)
-> @@ -1184,6 +1185,8 @@ void fuse_iomap_evict_inode(struct inode *inode)
->  
->  	trace_fuse_iomap_evict_inode(inode);
->  
-> +	if (fuse_inode_caches_iomaps(inode))
-> +		fuse_iomap_cache_free(inode);
->  	fuse_inode_clear_atomic(inode);
->  	fuse_inode_clear_iomap(inode);
->  }
-> @@ -1895,6 +1898,8 @@ static inline void fuse_inode_set_iomap(struct inode *inode)
->  		min_order = inode->i_blkbits - PAGE_SHIFT;
->  
->  	mapping_set_folio_min_order(inode->i_mapping, min_order);
-> +
-> +	fuse_iomap_cache_init(fi);
->  	set_bit(FUSE_I_IOMAP, &fi->state);
->  }
->  
-> diff --git a/fs/fuse/fuse_iomap_cache.c b/fs/fuse/fuse_iomap_cache.c
-> new file mode 100644
-> index 00000000000000..35384df09b9200
-> --- /dev/null
-> +++ b/fs/fuse/fuse_iomap_cache.c
-> @@ -0,0 +1,1695 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * fuse_iext* code adapted from xfs_iext_tree.c:
-> + * Copyright (c) 2017 Christoph Hellwig.
-> + *
-> + * fuse_iomap_cache*lock* code adapted from xfs_inode.c:
-> + * Copyright (c) 2000-2006 Silicon Graphics, Inc.
-> + * All Rights Reserved.
-> + *
-> + * Copyright (C) 2025-2026 Oracle.  All Rights Reserved.
-> + * Author: Darrick J. Wong <djwong@kernel.org>
-> + */
-> +#include "fuse_i.h"
-> +#include "fuse_trace.h"
-> +#include "fuse_iomap_i.h"
-> +#include "fuse_iomap.h"
-> +#include "fuse_iomap_cache.h"
-> +#include <linux/iomap.h>
-> +
-> +void fuse_iomap_cache_lock_shared(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache *ic = fi->cache;
-> +
-> +	down_read(&ic->ic_lock);
-> +}
-> +
-> +void fuse_iomap_cache_unlock_shared(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache *ic = fi->cache;
-> +
-> +	up_read(&ic->ic_lock);
-> +}
-> +
-> +void fuse_iomap_cache_lock(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache *ic = fi->cache;
-> +
-> +	down_write(&ic->ic_lock);
-> +}
-> +
-> +void fuse_iomap_cache_unlock(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache *ic = fi->cache;
-> +
-> +	up_write(&ic->ic_lock);
-> +}
-> +
-> +static inline void assert_cache_locked_shared(struct fuse_iomap_cache *ic)
-> +{
-> +	rwsem_assert_held(&ic->ic_lock);
-> +}
-> +
-> +static inline void assert_cache_locked(struct fuse_iomap_cache *ic)
-> +{
-> +	rwsem_assert_held_write_nolockdep(&ic->ic_lock);
-> +}
-> +
-> +/*
-> + * In-core extent btree block layout:
-> + *
-> + * There are two types of blocks in the btree: leaf and inner (non-leaf) blocks.
-> + *
-> + * The leaf blocks are made up by %KEYS_PER_NODE extent records, which each
-> + * contain the startoffset, blockcount, startblock and unwritten extent flag.
-> + * See above for the exact format, followed by pointers to the previous and next
-> + * leaf blocks (if there are any).
-> + *
-> + * The inner (non-leaf) blocks first contain KEYS_PER_NODE lookup keys, followed
-> + * by an equal number of pointers to the btree blocks at the next lower level.
-> + *
-> + *		+-------+-------+-------+-------+-------+----------+----------+
-> + * Leaf:	| rec 1 | rec 2 | rec 3 | rec 4 | rec N | prev-ptr | next-ptr |
-> + *		+-------+-------+-------+-------+-------+----------+----------+
-> + *
-> + *		+-------+-------+-------+-------+-------+-------+------+-------+
-> + * Inner:	| key 1 | key 2 | key 3 | key N | ptr 1 | ptr 2 | ptr3 | ptr N |
-> + *		+-------+-------+-------+-------+-------+-------+------+-------+
-> + */
-> +typedef uint64_t fuse_iext_key_t;
-> +#define FUSE_IEXT_KEY_INVALID	(1ULL << 63)
-> +
-> +enum {
-> +	NODE_SIZE	= 256,
-> +	KEYS_PER_NODE	= NODE_SIZE / (sizeof(fuse_iext_key_t) + sizeof(void *)),
-> +	RECS_PER_LEAF	= (NODE_SIZE - (2 * sizeof(struct fuse_iext_leaf *))) /
-> +				sizeof(struct fuse_iomap_io),
-> +};
-> +
-> +/* maximum length of a mapping that we're willing to cache */
-> +#define FUSE_IOMAP_MAX_LEN	((loff_t)(1ULL << 63))
-> +
-> +struct fuse_iext_node {
-> +	fuse_iext_key_t		keys[KEYS_PER_NODE];
-> +	void			*ptrs[KEYS_PER_NODE];
-> +};
-> +
-> +struct fuse_iext_leaf {
-> +	struct fuse_iomap_io	recs[RECS_PER_LEAF];
-> +	struct fuse_iext_leaf	*prev;
-> +	struct fuse_iext_leaf	*next;
-> +};
-> +
-> +static uint32_t
-> +fuse_iomap_fork_to_state(const struct fuse_iomap_cache *ic,
-> +			 const struct fuse_iext_root *ir)
-> +{
-> +	ASSERT(ir == &ic->ic_write || ir == &ic->ic_read);
-> +
-> +	if (ir == &ic->ic_write)
-> +		return FUSE_IEXT_WRITE_MAPPING;
-> +	return 0;
-> +}
-> +
-> +/* Convert bmap state flags to an inode fork. */
-> +static struct fuse_iext_root *
-> +fuse_iext_state_to_fork(
-> +	struct fuse_iomap_cache	*ic,
-> +	uint32_t		state)
-> +{
-> +	if (state & FUSE_IEXT_WRITE_MAPPING)
-> +		return &ic->ic_write;
-> +	return &ic->ic_read;
-> +}
-> +
-> +/* The internal iext tree record is a struct fuse_iomap_io */
-> +
-> +static inline bool fuse_iext_rec_is_empty(const struct fuse_iomap_io *rec)
-> +{
-> +	return rec->length == 0;
-> +}
-> +
-> +static inline void fuse_iext_rec_clear(struct fuse_iomap_io *rec)
-> +{
-> +	memset(rec, 0, sizeof(*rec));
-> +}
-> +
-> +static inline void
-> +fuse_iext_set(
-> +	struct fuse_iomap_io		*rec,
-> +	const struct fuse_iomap_io	*irec)
-> +{
-> +	ASSERT(irec->length > 0);
-> +
-> +	*rec = *irec;
-> +}
-> +
-> +static inline void
-> +fuse_iext_get(
-> +	struct fuse_iomap_io		*irec,
-> +	const struct fuse_iomap_io	*rec)
-> +{
-> +	*irec = *rec;
-> +}
-> +
-> +static inline uint64_t fuse_iext_count(const struct fuse_iext_root *ir)
-> +{
-> +	return ir->ir_bytes / sizeof(struct fuse_iomap_io);
-> +}
-> +
-> +static inline int fuse_iext_max_recs(const struct fuse_iext_root *ir)
-> +{
-> +	if (ir->ir_height == 1)
-> +		return fuse_iext_count(ir);
-> +	return RECS_PER_LEAF;
-> +}
-> +
-> +static inline struct fuse_iomap_io *cur_rec(const struct fuse_iext_cursor *cur)
-> +{
-> +	return &cur->leaf->recs[cur->pos];
-> +}
-> +
-> +static bool fuse_iext_valid(const struct fuse_iext_root *ir,
-> +				   const struct fuse_iext_cursor *cur)
-> +{
-> +	if (!cur->leaf)
-> +		return false;
-> +	if (cur->pos < 0 || cur->pos >= fuse_iext_max_recs(ir))
-> +		return false;
-> +	if (fuse_iext_rec_is_empty(cur_rec(cur)))
-> +		return false;
-> +	return true;
-> +}
-> +
-> +static void *
-> +fuse_iext_find_first_leaf(
-> +	struct fuse_iext_root	*ir)
-> +{
-> +	struct fuse_iext_node	*node = ir->ir_data;
-> +	int			height;
-> +
-> +	if (!ir->ir_height)
-> +		return NULL;
-> +
-> +	for (height = ir->ir_height; height > 1; height--) {
-> +		node = node->ptrs[0];
-> +		ASSERT(node);
-> +	}
-> +
-> +	return node;
-> +}
-> +
-> +static void *
-> +fuse_iext_find_last_leaf(
-> +	struct fuse_iext_root	*ir)
-> +{
-> +	struct fuse_iext_node	*node = ir->ir_data;
-> +	int			height, i;
-> +
-> +	if (!ir->ir_height)
-> +		return NULL;
-> +
-> +	for (height = ir->ir_height; height > 1; height--) {
-> +		for (i = 1; i < KEYS_PER_NODE; i++)
-> +			if (!node->ptrs[i])
-> +				break;
-> +		node = node->ptrs[i - 1];
-> +		ASSERT(node);
-> +	}
-> +
-> +	return node;
-> +}
-> +
-> +static void
-> +fuse_iext_first(
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_cursor	*cur)
-> +{
-> +	cur->pos = 0;
-> +	cur->leaf = fuse_iext_find_first_leaf(ir);
-> +}
-> +
-> +static void
-> +fuse_iext_last(
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_cursor	*cur)
-> +{
-> +	int			i;
-> +
-> +	cur->leaf = fuse_iext_find_last_leaf(ir);
-> +	if (!cur->leaf) {
-> +		cur->pos = 0;
-> +		return;
-> +	}
-> +
-> +	for (i = 1; i < fuse_iext_max_recs(ir); i++) {
-> +		if (fuse_iext_rec_is_empty(&cur->leaf->recs[i]))
-> +			break;
-> +	}
-> +	cur->pos = i - 1;
-> +}
-> +
-> +static void
-> +fuse_iext_next(
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_cursor	*cur)
-> +{
-> +	if (!cur->leaf) {
-> +		ASSERT(cur->pos <= 0 || cur->pos >= RECS_PER_LEAF);
-> +		fuse_iext_first(ir, cur);
-> +		return;
-> +	}
-> +
-> +	ASSERT(cur->pos >= 0);
-> +	ASSERT(cur->pos < fuse_iext_max_recs(ir));
-> +
-> +	cur->pos++;
-> +	if (ir->ir_height > 1 && !fuse_iext_valid(ir, cur) &&
-> +	    cur->leaf->next) {
-> +		cur->leaf = cur->leaf->next;
-> +		cur->pos = 0;
-> +	}
-> +}
-> +
-> +static void
-> +fuse_iext_prev(
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_cursor	*cur)
-> +{
-> +	if (!cur->leaf) {
-> +		ASSERT(cur->pos <= 0 || cur->pos >= RECS_PER_LEAF);
-> +		fuse_iext_last(ir, cur);
-> +		return;
-> +	}
-> +
-> +	ASSERT(cur->pos >= 0);
-> +	ASSERT(cur->pos <= RECS_PER_LEAF);
-> +
-> +recurse:
-> +	do {
-> +		cur->pos--;
-> +		if (fuse_iext_valid(ir, cur))
-> +			return;
-> +	} while (cur->pos > 0);
-> +
-> +	if (ir->ir_height > 1 && cur->leaf->prev) {
-> +		cur->leaf = cur->leaf->prev;
-> +		cur->pos = RECS_PER_LEAF;
-> +		goto recurse;
-> +	}
-> +}
-> +
-> +/*
-> + * Return true if the cursor points at an extent and return the extent structure
-> + * in gotp.  Else return false.
-> + */
-> +bool
-> +fuse_iext_get_extent(
-> +	const struct fuse_iext_root	*ir,
-> +	const struct fuse_iext_cursor	*cur,
-> +	struct fuse_iomap_io		*gotp)
-> +{
-> +	if (!fuse_iext_valid(ir, cur))
-> +		return false;
-> +	fuse_iext_get(gotp, cur_rec(cur));
-> +	return true;
-> +}
-> +
-> +static inline bool fuse_iext_next_extent(struct fuse_iext_root *ir,
-> +		struct fuse_iext_cursor *cur, struct fuse_iomap_io *gotp)
-> +{
-> +	fuse_iext_next(ir, cur);
-> +	return fuse_iext_get_extent(ir, cur, gotp);
-> +}
-> +
-> +static inline bool fuse_iext_prev_extent(struct fuse_iext_root *ir,
-> +		struct fuse_iext_cursor *cur, struct fuse_iomap_io *gotp)
-> +{
-> +	fuse_iext_prev(ir, cur);
-> +	return fuse_iext_get_extent(ir, cur, gotp);
-> +}
-> +
-> +/*
-> + * Return the extent after cur in gotp without updating the cursor.
-> + */
-> +static inline bool fuse_iext_peek_next_extent(struct fuse_iext_root *ir,
-> +		struct fuse_iext_cursor *cur, struct fuse_iomap_io *gotp)
-> +{
-> +	struct fuse_iext_cursor ncur = *cur;
-> +
-> +	fuse_iext_next(ir, &ncur);
-> +	return fuse_iext_get_extent(ir, &ncur, gotp);
-> +}
-> +
-> +/*
-> + * Return the extent before cur in gotp without updating the cursor.
-> + */
-> +static inline bool fuse_iext_peek_prev_extent(struct fuse_iext_root *ir,
-> +		struct fuse_iext_cursor *cur, struct fuse_iomap_io *gotp)
-> +{
-> +	struct fuse_iext_cursor ncur = *cur;
-> +
-> +	fuse_iext_prev(ir, &ncur);
-> +	return fuse_iext_get_extent(ir, &ncur, gotp);
-> +}
-> +
-> +static inline int
-> +fuse_iext_key_cmp(
-> +	struct fuse_iext_node	*node,
-> +	int			n,
-> +	loff_t			offset)
-> +{
-> +	if (node->keys[n] > offset)
-> +		return 1;
-> +	if (node->keys[n] < offset)
-> +		return -1;
-> +	return 0;
-> +}
-> +
-> +static inline int
-> +fuse_iext_rec_cmp(
-> +	struct fuse_iomap_io	*rec,
-> +	loff_t			offset)
-> +{
-> +	if (rec->offset > offset)
-> +		return 1;
-> +	if (rec->offset + rec->length <= offset)
-> +		return -1;
-> +	return 0;
-> +}
-> +
-> +static void *
-> +fuse_iext_find_level(
-> +	struct fuse_iext_root	*ir,
-> +	loff_t			offset,
-> +	int			level)
-> +{
-> +	struct fuse_iext_node	*node = ir->ir_data;
-> +	int			height, i;
-> +
-> +	if (!ir->ir_height)
-> +		return NULL;
-> +
-> +	for (height = ir->ir_height; height > level; height--) {
-> +		for (i = 1; i < KEYS_PER_NODE; i++)
-> +			if (fuse_iext_key_cmp(node, i, offset) > 0)
-> +				break;
-> +
-> +		node = node->ptrs[i - 1];
-> +		if (!node)
-> +			break;
-> +	}
-> +
-> +	return node;
-> +}
-> +
-> +static int
-> +fuse_iext_node_pos(
-> +	struct fuse_iext_node	*node,
-> +	loff_t			offset)
-> +{
-> +	int			i;
-> +
-> +	for (i = 1; i < KEYS_PER_NODE; i++) {
-> +		if (fuse_iext_key_cmp(node, i, offset) > 0)
-> +			break;
-> +	}
-> +
-> +	return i - 1;
-> +}
-> +
-> +static int
-> +fuse_iext_node_insert_pos(
-> +	struct fuse_iext_node	*node,
-> +	loff_t			offset)
-> +{
-> +	int			i;
-> +
-> +	for (i = 0; i < KEYS_PER_NODE; i++) {
-> +		if (fuse_iext_key_cmp(node, i, offset) > 0)
-> +			return i;
-> +	}
-> +
-> +	return KEYS_PER_NODE;
-> +}
-> +
-> +static int
-> +fuse_iext_node_nr_entries(
-> +	struct fuse_iext_node	*node,
-> +	int			start)
-> +{
-> +	int			i;
-> +
-> +	for (i = start; i < KEYS_PER_NODE; i++) {
-> +		if (node->keys[i] == FUSE_IEXT_KEY_INVALID)
-> +			break;
-> +	}
-> +
-> +	return i;
-> +}
-> +
-> +static int
-> +fuse_iext_leaf_nr_entries(
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_leaf	*leaf,
-> +	int			start)
-> +{
-> +	int			i;
-> +
-> +	for (i = start; i < fuse_iext_max_recs(ir); i++) {
-> +		if (fuse_iext_rec_is_empty(&leaf->recs[i]))
-> +			break;
-> +	}
-> +
-> +	return i;
-> +}
-> +
-> +static inline fuse_iext_key_t
-> +fuse_iext_leaf_key(
-> +	struct fuse_iext_leaf	*leaf,
-> +	int			n)
-> +{
-> +	return leaf->recs[n].offset;
-> +}
-> +
-> +static inline void *
-> +fuse_iext_alloc_node(
-> +	int	size)
-> +{
-> +	return kzalloc(size, GFP_KERNEL | __GFP_NOLOCKDEP | __GFP_NOFAIL);
-> +}
-> +
-> +static void
-> +fuse_iext_grow(
-> +	struct fuse_iext_root	*ir)
-> +{
-> +	struct fuse_iext_node	*node = fuse_iext_alloc_node(NODE_SIZE);
-> +	int			i;
-> +
-> +	if (ir->ir_height == 1) {
-> +		struct fuse_iext_leaf *prev = ir->ir_data;
-> +
-> +		node->keys[0] = fuse_iext_leaf_key(prev, 0);
-> +		node->ptrs[0] = prev;
-> +	} else  {
-> +		struct fuse_iext_node *prev = ir->ir_data;
-> +
-> +		ASSERT(ir->ir_height > 1);
-> +
-> +		node->keys[0] = prev->keys[0];
-> +		node->ptrs[0] = prev;
-> +	}
-> +
-> +	for (i = 1; i < KEYS_PER_NODE; i++)
-> +		node->keys[i] = FUSE_IEXT_KEY_INVALID;
-> +
-> +	ir->ir_data = node;
-> +	ir->ir_height++;
-> +}
-> +
-> +static void
-> +fuse_iext_update_node(
-> +	struct fuse_iext_root	*ir,
-> +	loff_t			old_offset,
-> +	loff_t			new_offset,
-> +	int			level,
-> +	void			*ptr)
-> +{
-> +	struct fuse_iext_node	*node = ir->ir_data;
-> +	int			height, i;
-> +
-> +	for (height = ir->ir_height; height > level; height--) {
-> +		for (i = 0; i < KEYS_PER_NODE; i++) {
-> +			if (i > 0 && fuse_iext_key_cmp(node, i, old_offset) > 0)
-> +				break;
-> +			if (node->keys[i] == old_offset)
-> +				node->keys[i] = new_offset;
-> +		}
-> +		node = node->ptrs[i - 1];
-> +		ASSERT(node);
-> +	}
-> +
-> +	ASSERT(node == ptr);
-> +}
-> +
-> +static struct fuse_iext_node *
-> +fuse_iext_split_node(
-> +	struct fuse_iext_node	**nodep,
-> +	int			*pos,
-> +	int			*nr_entries)
-> +{
-> +	struct fuse_iext_node	*node = *nodep;
-> +	struct fuse_iext_node	*new = fuse_iext_alloc_node(NODE_SIZE);
-> +	const int		nr_move = KEYS_PER_NODE / 2;
-> +	int			nr_keep = nr_move + (KEYS_PER_NODE & 1);
-> +	int			i = 0;
-> +
-> +	/* for sequential append operations just spill over into the new node */
-> +	if (*pos == KEYS_PER_NODE) {
-> +		*nodep = new;
-> +		*pos = 0;
-> +		*nr_entries = 0;
-> +		goto done;
-> +	}
-> +
-> +
-> +	for (i = 0; i < nr_move; i++) {
-> +		new->keys[i] = node->keys[nr_keep + i];
-> +		new->ptrs[i] = node->ptrs[nr_keep + i];
-> +
-> +		node->keys[nr_keep + i] = FUSE_IEXT_KEY_INVALID;
-> +		node->ptrs[nr_keep + i] = NULL;
-> +	}
-> +
-> +	if (*pos >= nr_keep) {
-> +		*nodep = new;
-> +		*pos -= nr_keep;
-> +		*nr_entries = nr_move;
-> +	} else {
-> +		*nr_entries = nr_keep;
-> +	}
-> +done:
-> +	for (; i < KEYS_PER_NODE; i++)
-> +		new->keys[i] = FUSE_IEXT_KEY_INVALID;
-> +	return new;
-> +}
-> +
-> +static void
-> +fuse_iext_insert_node(
-> +	struct fuse_iext_root	*ir,
-> +	fuse_iext_key_t		offset,
-> +	void			*ptr,
-> +	int			level)
-> +{
-> +	struct fuse_iext_node	*node, *new;
-> +	int			i, pos, nr_entries;
-> +
-> +again:
-> +	if (ir->ir_height < level)
-> +		fuse_iext_grow(ir);
-> +
-> +	new = NULL;
-> +	node = fuse_iext_find_level(ir, offset, level);
-> +	pos = fuse_iext_node_insert_pos(node, offset);
-> +	nr_entries = fuse_iext_node_nr_entries(node, pos);
-> +
-> +	ASSERT(pos >= nr_entries || fuse_iext_key_cmp(node, pos, offset) != 0);
-> +	ASSERT(nr_entries <= KEYS_PER_NODE);
-> +
-> +	if (nr_entries == KEYS_PER_NODE)
-> +		new = fuse_iext_split_node(&node, &pos, &nr_entries);
-> +
-> +	/*
-> +	 * Update the pointers in higher levels if the first entry changes
-> +	 * in an existing node.
-> +	 */
-> +	if (node != new && pos == 0 && nr_entries > 0)
-> +		fuse_iext_update_node(ir, node->keys[0], offset, level, node);
-> +
-> +	for (i = nr_entries; i > pos; i--) {
-> +		node->keys[i] = node->keys[i - 1];
-> +		node->ptrs[i] = node->ptrs[i - 1];
-> +	}
-> +	node->keys[pos] = offset;
-> +	node->ptrs[pos] = ptr;
-> +
-> +	if (new) {
-> +		offset = new->keys[0];
-> +		ptr = new;
-> +		level++;
-> +		goto again;
-> +	}
-> +}
-> +
-> +static struct fuse_iext_leaf *
-> +fuse_iext_split_leaf(
-> +	struct fuse_iext_cursor	*cur,
-> +	int			*nr_entries)
-> +{
-> +	struct fuse_iext_leaf	*leaf = cur->leaf;
-> +	struct fuse_iext_leaf	*new = fuse_iext_alloc_node(NODE_SIZE);
-> +	const int		nr_move = RECS_PER_LEAF / 2;
-> +	int			nr_keep = nr_move + (RECS_PER_LEAF & 1);
-> +	int			i;
-> +
-> +	/* for sequential append operations just spill over into the new node */
-> +	if (cur->pos == RECS_PER_LEAF) {
-> +		cur->leaf = new;
-> +		cur->pos = 0;
-> +		*nr_entries = 0;
-> +		goto done;
-> +	}
-> +
-> +	for (i = 0; i < nr_move; i++) {
-> +		new->recs[i] = leaf->recs[nr_keep + i];
-> +		fuse_iext_rec_clear(&leaf->recs[nr_keep + i]);
-> +	}
-> +
-> +	if (cur->pos >= nr_keep) {
-> +		cur->leaf = new;
-> +		cur->pos -= nr_keep;
-> +		*nr_entries = nr_move;
-> +	} else {
-> +		*nr_entries = nr_keep;
-> +	}
-> +done:
-> +	if (leaf->next)
-> +		leaf->next->prev = new;
-> +	new->next = leaf->next;
-> +	new->prev = leaf;
-> +	leaf->next = new;
-> +	return new;
-> +}
-> +
-> +static void
-> +fuse_iext_alloc_root(
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_cursor	*cur)
-> +{
-> +	ASSERT(ir->ir_bytes == 0);
-> +
-> +	ir->ir_data = fuse_iext_alloc_node(sizeof(struct fuse_iomap_io));
-> +	ir->ir_height = 1;
-> +
-> +	/* now that we have a node step into it */
-> +	cur->leaf = ir->ir_data;
-> +	cur->pos = 0;
-> +}
-> +
-> +static void
-> +fuse_iext_realloc_root(
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_cursor	*cur)
-> +{
-> +	int64_t new_size = ir->ir_bytes + sizeof(struct fuse_iomap_io);
-> +	void *new;
-> +
-> +	/* account for the prev/next pointers */
-> +	if (new_size / sizeof(struct fuse_iomap_io) == RECS_PER_LEAF)
-> +		new_size = NODE_SIZE;
-> +
-> +	new = krealloc(ir->ir_data, new_size,
-> +			GFP_KERNEL | __GFP_NOLOCKDEP | __GFP_NOFAIL);
-> +	memset(new + ir->ir_bytes, 0, new_size - ir->ir_bytes);
-> +	ir->ir_data = new;
-> +	cur->leaf = new;
-> +}
-> +
-> +/*
-> + * Increment the sequence counter on extent tree changes. We use WRITE_ONCE
-> + * here to ensure the update to the sequence counter is seen before the
-> + * modifications to the extent tree itself take effect.
-> + */
-> +static inline void fuse_iext_inc_seq(struct fuse_iomap_cache *ic)
-> +{
-> +	WRITE_ONCE(ic->ic_seq, READ_ONCE(ic->ic_seq) + 1);
-> +}
-> +
-> +static void
-> +fuse_iext_insert_raw(
-> +	struct fuse_iomap_cache		*ic,
-> +	struct fuse_iext_root		*ir,
-> +	struct fuse_iext_cursor		*cur,
-> +	const struct fuse_iomap_io	*irec)
-> +{
-> +	loff_t				offset = irec->offset;
-> +	struct fuse_iext_leaf		*new = NULL;
-> +	int				nr_entries, i;
-> +
-> +	fuse_iext_inc_seq(ic);
-> +
-> +	if (ir->ir_height == 0)
-> +		fuse_iext_alloc_root(ir, cur);
-> +	else if (ir->ir_height == 1)
-> +		fuse_iext_realloc_root(ir, cur);
-> +
-> +	nr_entries = fuse_iext_leaf_nr_entries(ir, cur->leaf, cur->pos);
-> +	ASSERT(nr_entries <= RECS_PER_LEAF);
-> +	ASSERT(cur->pos >= nr_entries ||
-> +	       fuse_iext_rec_cmp(cur_rec(cur), irec->offset) != 0);
-> +
-> +	if (nr_entries == RECS_PER_LEAF)
-> +		new = fuse_iext_split_leaf(cur, &nr_entries);
-> +
-> +	/*
-> +	 * Update the pointers in higher levels if the first entry changes
-> +	 * in an existing node.
-> +	 */
-> +	if (cur->leaf != new && cur->pos == 0 && nr_entries > 0) {
-> +		fuse_iext_update_node(ir, fuse_iext_leaf_key(cur->leaf, 0),
-> +				offset, 1, cur->leaf);
-> +	}
-> +
-> +	for (i = nr_entries; i > cur->pos; i--)
-> +		cur->leaf->recs[i] = cur->leaf->recs[i - 1];
-> +	fuse_iext_set(cur_rec(cur), irec);
-> +	ir->ir_bytes += sizeof(struct fuse_iomap_io);
-> +
-> +	if (new)
-> +		fuse_iext_insert_node(ir, fuse_iext_leaf_key(new, 0), new, 2);
-> +}
-> +
-> +static void
-> +fuse_iext_insert(
-> +	struct fuse_iomap_cache		*ic,
-> +	struct fuse_iext_cursor		*cur,
-> +	const struct fuse_iomap_io	*irec,
-> +	uint32_t			state)
-> +{
-> +	struct fuse_iext_root		*ir = fuse_iext_state_to_fork(ic, state);
-> +
-> +	fuse_iext_insert_raw(ic, ir, cur, irec);
-> +}
-> +
-> +static struct fuse_iext_node *
-> +fuse_iext_rebalance_node(
-> +	struct fuse_iext_node	*parent,
-> +	int			*pos,
-> +	struct fuse_iext_node	*node,
-> +	int			nr_entries)
-> +{
-> +	/*
-> +	 * If the neighbouring nodes are completely full, or have different
-> +	 * parents, we might never be able to merge our node, and will only
-> +	 * delete it once the number of entries hits zero.
-> +	 */
-> +	if (nr_entries == 0)
-> +		return node;
-> +
-> +	if (*pos > 0) {
-> +		struct fuse_iext_node *prev = parent->ptrs[*pos - 1];
-> +		int nr_prev = fuse_iext_node_nr_entries(prev, 0), i;
-> +
-> +		if (nr_prev + nr_entries <= KEYS_PER_NODE) {
-> +			for (i = 0; i < nr_entries; i++) {
-> +				prev->keys[nr_prev + i] = node->keys[i];
-> +				prev->ptrs[nr_prev + i] = node->ptrs[i];
-> +			}
-> +			return node;
-> +		}
-> +	}
-> +
-> +	if (*pos + 1 < fuse_iext_node_nr_entries(parent, *pos)) {
-> +		struct fuse_iext_node *next = parent->ptrs[*pos + 1];
-> +		int nr_next = fuse_iext_node_nr_entries(next, 0), i;
-> +
-> +		if (nr_entries + nr_next <= KEYS_PER_NODE) {
-> +			/*
-> +			 * Merge the next node into this node so that we don't
-> +			 * have to do an additional update of the keys in the
-> +			 * higher levels.
-> +			 */
-> +			for (i = 0; i < nr_next; i++) {
-> +				node->keys[nr_entries + i] = next->keys[i];
-> +				node->ptrs[nr_entries + i] = next->ptrs[i];
-> +			}
-> +
-> +			++*pos;
-> +			return next;
-> +		}
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static void
-> +fuse_iext_remove_node(
-> +	struct fuse_iext_root	*ir,
-> +	loff_t			offset,
-> +	void			*victim)
-> +{
-> +	struct fuse_iext_node	*node, *parent;
-> +	int			level = 2, pos, nr_entries, i;
-> +
-> +	ASSERT(level <= ir->ir_height);
-> +	node = fuse_iext_find_level(ir, offset, level);
-> +	pos = fuse_iext_node_pos(node, offset);
-> +again:
-> +	ASSERT(node->ptrs[pos]);
-> +	ASSERT(node->ptrs[pos] == victim);
-> +	kfree(victim);
-> +
-> +	nr_entries = fuse_iext_node_nr_entries(node, pos) - 1;
-> +	offset = node->keys[0];
-> +	for (i = pos; i < nr_entries; i++) {
-> +		node->keys[i] = node->keys[i + 1];
-> +		node->ptrs[i] = node->ptrs[i + 1];
-> +	}
-> +	node->keys[nr_entries] = FUSE_IEXT_KEY_INVALID;
-> +	node->ptrs[nr_entries] = NULL;
-> +
-> +	if (pos == 0 && nr_entries > 0) {
-> +		fuse_iext_update_node(ir, offset, node->keys[0], level, node);
-> +		offset = node->keys[0];
-> +	}
-> +
-> +	if (nr_entries >= KEYS_PER_NODE / 2)
-> +		return;
-> +
-> +	if (level < ir->ir_height) {
-> +		/*
-> +		 * If we aren't at the root yet try to find a neighbour node to
-> +		 * merge with (or delete the node if it is empty), and then
-> +		 * recurse up to the next level.
-> +		 */
-> +		level++;
-> +		parent = fuse_iext_find_level(ir, offset, level);
-> +		pos = fuse_iext_node_pos(parent, offset);
-> +
-> +		ASSERT(pos != KEYS_PER_NODE);
-> +		ASSERT(parent->ptrs[pos] == node);
-> +
-> +		node = fuse_iext_rebalance_node(parent, &pos, node, nr_entries);
-> +		if (node) {
-> +			victim = node;
-> +			node = parent;
-> +			goto again;
-> +		}
-> +	} else if (nr_entries == 1) {
-> +		/*
-> +		 * If we are at the root and only one entry is left we can just
-> +		 * free this node and update the root pointer.
-> +		 */
-> +		ASSERT(node == ir->ir_data);
-> +		ir->ir_data = node->ptrs[0];
-> +		ir->ir_height--;
-> +		kfree(node);
-> +	}
-> +}
-> +
-> +static void
-> +fuse_iext_rebalance_leaf(
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_cursor	*cur,
-> +	struct fuse_iext_leaf	*leaf,
-> +	loff_t			offset,
-> +	int			nr_entries)
-> +{
-> +	/*
-> +	 * If the neighbouring nodes are completely full we might never be able
-> +	 * to merge our node, and will only delete it once the number of
-> +	 * entries hits zero.
-> +	 */
-> +	if (nr_entries == 0)
-> +		goto remove_node;
-> +
-> +	if (leaf->prev) {
-> +		int nr_prev = fuse_iext_leaf_nr_entries(ir, leaf->prev, 0), i;
-> +
-> +		if (nr_prev + nr_entries <= RECS_PER_LEAF) {
-> +			for (i = 0; i < nr_entries; i++)
-> +				leaf->prev->recs[nr_prev + i] = leaf->recs[i];
-> +
-> +			if (cur->leaf == leaf) {
-> +				cur->leaf = leaf->prev;
-> +				cur->pos += nr_prev;
-> +			}
-> +			goto remove_node;
-> +		}
-> +	}
-> +
-> +	if (leaf->next) {
-> +		int nr_next = fuse_iext_leaf_nr_entries(ir, leaf->next, 0), i;
-> +
-> +		if (nr_entries + nr_next <= RECS_PER_LEAF) {
-> +			/*
-> +			 * Merge the next node into this node so that we don't
-> +			 * have to do an additional update of the keys in the
-> +			 * higher levels.
-> +			 */
-> +			for (i = 0; i < nr_next; i++) {
-> +				leaf->recs[nr_entries + i] =
-> +					leaf->next->recs[i];
-> +			}
-> +
-> +			if (cur->leaf == leaf->next) {
-> +				cur->leaf = leaf;
-> +				cur->pos += nr_entries;
-> +			}
-> +
-> +			offset = fuse_iext_leaf_key(leaf->next, 0);
-> +			leaf = leaf->next;
-> +			goto remove_node;
-> +		}
-> +	}
-> +
-> +	return;
-> +remove_node:
-> +	if (leaf->prev)
-> +		leaf->prev->next = leaf->next;
-> +	if (leaf->next)
-> +		leaf->next->prev = leaf->prev;
-> +	fuse_iext_remove_node(ir, offset, leaf);
-> +}
-> +
-> +static void
-> +fuse_iext_free_last_leaf(
-> +	struct fuse_iext_root	*ir)
-> +{
-> +	ir->ir_height--;
-> +	kfree(ir->ir_data);
-> +	ir->ir_data = NULL;
-> +}
-> +
-> +static void
-> +fuse_iext_remove(
-> +	struct fuse_iomap_cache	*ic,
-> +	struct fuse_iext_cursor	*cur,
-> +	uint32_t		state)
-> +{
-> +	struct fuse_iext_root	*ir = fuse_iext_state_to_fork(ic, state);
-> +	struct fuse_iext_leaf	*leaf = cur->leaf;
-> +	loff_t			offset = fuse_iext_leaf_key(leaf, 0);
-> +	int			i, nr_entries;
-> +
-> +	ASSERT(ir->ir_height > 0);
-> +	ASSERT(ir->ir_data != NULL);
-> +	ASSERT(fuse_iext_valid(ir, cur));
-> +
-> +	fuse_iext_inc_seq(ic);
-> +
-> +	nr_entries = fuse_iext_leaf_nr_entries(ir, leaf, cur->pos) - 1;
-> +	for (i = cur->pos; i < nr_entries; i++)
-> +		leaf->recs[i] = leaf->recs[i + 1];
-> +	fuse_iext_rec_clear(&leaf->recs[nr_entries]);
-> +	ir->ir_bytes -= sizeof(struct fuse_iomap_io);
-> +
-> +	if (cur->pos == 0 && nr_entries > 0) {
-> +		fuse_iext_update_node(ir, offset, fuse_iext_leaf_key(leaf, 0), 1,
-> +				leaf);
-> +		offset = fuse_iext_leaf_key(leaf, 0);
-> +	} else if (cur->pos == nr_entries) {
-> +		if (ir->ir_height > 1 && leaf->next)
-> +			cur->leaf = leaf->next;
-> +		else
-> +			cur->leaf = NULL;
-> +		cur->pos = 0;
-> +	}
-> +
-> +	if (nr_entries >= RECS_PER_LEAF / 2)
-> +		return;
-> +
-> +	if (ir->ir_height > 1)
-> +		fuse_iext_rebalance_leaf(ir, cur, leaf, offset, nr_entries);
-> +	else if (nr_entries == 0)
-> +		fuse_iext_free_last_leaf(ir);
-> +}
-> +
-> +/*
-> + * Lookup the extent covering offset.
-> + *
-> + * If there is an extent covering offset return the extent index, and store the
-> + * expanded extent structure in *gotp, and the extent cursor in *cur.
-> + * If there is no extent covering offset, but there is an extent after it (e.g.
-> + * it lies in a hole) return that extent in *gotp and its cursor in *cur
-> + * instead.
-> + * If offset is beyond the last extent return false, and return an invalid
-> + * cursor value.
-> + */
-> +static bool
-> +fuse_iext_lookup_extent(
-> +	struct fuse_iomap_cache	*ic,
-> +	struct fuse_iext_root	*ir,
-> +	loff_t			offset,
-> +	struct fuse_iext_cursor	*cur,
-> +	struct fuse_iomap_io	*gotp)
-> +{
-> +	cur->leaf = fuse_iext_find_level(ir, offset, 1);
-> +	if (!cur->leaf) {
-> +		cur->pos = 0;
-> +		return false;
-> +	}
-> +
-> +	for (cur->pos = 0; cur->pos < fuse_iext_max_recs(ir); cur->pos++) {
-> +		struct fuse_iomap_io *rec = cur_rec(cur);
-> +
-> +		if (fuse_iext_rec_is_empty(rec))
-> +			break;
-> +		if (fuse_iext_rec_cmp(rec, offset) >= 0)
-> +			goto found;
-> +	}
-> +
-> +	/* Try looking in the next node for an entry > offset */
-> +	if (ir->ir_height == 1 || !cur->leaf->next)
-> +		return false;
-> +	cur->leaf = cur->leaf->next;
-> +	cur->pos = 0;
-> +	if (!fuse_iext_valid(ir, cur))
-> +		return false;
-> +found:
-> +	fuse_iext_get(gotp, cur_rec(cur));
-> +	return true;
-> +}
-> +
-> +/*
-> + * Returns the last extent before end, and if this extent doesn't cover
-> + * end, update end to the end of the extent.
-> + */
-> +static bool
-> +fuse_iext_lookup_extent_before(
-> +	struct fuse_iomap_cache	*ic,
-> +	struct fuse_iext_root	*ir,
-> +	loff_t			*end,
-> +	struct fuse_iext_cursor	*cur,
-> +	struct fuse_iomap_io	*gotp)
-> +{
-> +	/* could be optimized to not even look up the next on a match.. */
-> +	if (fuse_iext_lookup_extent(ic, ir, *end - 1, cur, gotp) &&
-> +	    gotp->offset <= *end - 1)
-> +		return true;
-> +	if (!fuse_iext_prev_extent(ir, cur, gotp))
-> +		return false;
-> +	*end = gotp->offset + gotp->length;
-> +	return true;
-> +}
-> +
-> +static void
-> +fuse_iext_update_extent(
-> +	struct fuse_iomap_cache	*ic,
-> +	uint32_t		state,
-> +	struct fuse_iext_cursor	*cur,
-> +	struct fuse_iomap_io	*new)
-> +{
-> +	struct fuse_iext_root	*ir = fuse_iext_state_to_fork(ic, state);
-> +
-> +	fuse_iext_inc_seq(ic);
-> +
-> +	if (cur->pos == 0) {
-> +		struct fuse_iomap_io	old;
-> +
-> +		fuse_iext_get(&old, cur_rec(cur));
-> +		if (new->offset != old.offset) {
-> +			fuse_iext_update_node(ir, old.offset,
-> +					new->offset, 1, cur->leaf);
-> +		}
-> +	}
-> +
-> +	fuse_iext_set(cur_rec(cur), new);
-> +}
-> +
-> +/*
-> + * This is a recursive function, because of that we need to be extremely
-> + * careful with stack usage.
-> + */
-> +static void
-> +fuse_iext_destroy_node(
-> +	struct fuse_iext_node	*node,
-> +	int			level)
-> +{
-> +	int			i;
-> +
-> +	if (level > 1) {
-> +		for (i = 0; i < KEYS_PER_NODE; i++) {
-> +			if (node->keys[i] == FUSE_IEXT_KEY_INVALID)
-> +				break;
-> +			fuse_iext_destroy_node(node->ptrs[i], level - 1);
-> +		}
-> +	}
-> +
-> +	kfree(node);
-> +}
-> +
-> +static void
-> +fuse_iext_destroy(
-> +	struct fuse_iext_root	*ir)
-> +{
-> +	fuse_iext_destroy_node(ir->ir_data, ir->ir_height);
-> +
-> +	ir->ir_bytes = 0;
-> +	ir->ir_height = 0;
-> +	ir->ir_data = NULL;
-> +}
-> +
-> +static inline struct fuse_iext_root *
-> +fuse_iext_root_ptr(
-> +	struct fuse_iomap_cache	*ic,
-> +	enum fuse_iomap_iodir	iodir)
-> +{
-> +	switch (iodir) {
-> +	case READ_MAPPING:
-> +		return &ic->ic_read;
-> +	case WRITE_MAPPING:
-> +		return &ic->ic_write;
-> +	default:
-> +		ASSERT(0);
-> +		return NULL;
-> +	}
-> +}
-> +
-> +static inline bool fuse_iomap_addrs_adjacent(const struct fuse_iomap_io *left,
-> +					     const struct fuse_iomap_io *right)
-> +{
-> +	switch (left->type) {
-> +	case FUSE_IOMAP_TYPE_MAPPED:
-> +	case FUSE_IOMAP_TYPE_UNWRITTEN:
-> +		return left->addr + left->length == right->addr;
-> +	default:
-> +		return left->addr  == FUSE_IOMAP_NULL_ADDR &&
-> +		       right->addr == FUSE_IOMAP_NULL_ADDR;
-> +	}
-> +}
-> +
-> +static inline bool fuse_iomap_can_merge(const struct fuse_iomap_io *left,
-> +					const struct fuse_iomap_io *right)
-> +{
-> +	return (left->dev == right->dev &&
-> +		left->offset + left->length == right->offset &&
-> +		left->type  == right->type &&
-> +		fuse_iomap_addrs_adjacent(left, right) &&
-> +		left->flags == right->flags &&
-> +		left->length + right->length <= FUSE_IOMAP_MAX_LEN);
-> +}
-> +
-> +static inline bool fuse_iomap_can_merge3(const struct fuse_iomap_io *left,
-> +					 const struct fuse_iomap_io *new,
-> +					 const struct fuse_iomap_io *right)
-> +{
-> +	return left->length + new->length + right->length <= FUSE_IOMAP_MAX_LEN;
-> +}
-> +
-> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG)
-> +static void fuse_iext_check_mappings(struct fuse_iomap_cache *ic,
-> +				     struct fuse_iext_root *ir)
-> +{
-> +	struct fuse_iext_cursor	icur;
-> +	struct fuse_iomap_io	prev, got;
-> +	struct inode		*inode = ic->ic_inode;
-> +	struct fuse_inode	*fi = get_fuse_inode(inode);
-> +	unsigned long long	nr = 0;
-> +
-> +	if (ir->ir_bytes < 0 || !static_branch_unlikely(&fuse_iomap_debug))
-> +		return;
-> +
-> +	fuse_iext_first(ir, &icur);
-> +	if (!fuse_iext_get_extent(ir, &icur, &prev))
-> +		return;
-> +	nr++;
-> +
-> +	fuse_iext_next(ir, &icur);
-> +	while (fuse_iext_get_extent(ir, &icur, &got)) {
-> +		if (got.length == 0 ||
-> +		    got.offset < prev.offset + prev.length ||
-> +		    fuse_iomap_can_merge(&prev, &got)) {
-> +			printk(KERN_ERR "FUSE IOMAP CORRUPTION ino=%llu nr=%llu",
-> +			       fi->orig_ino, nr);
-> +			printk(KERN_ERR "prev: offset=%llu length=%llu type=%u flags=0x%x dev=%u addr=%llu\n",
-> +			       prev.offset, prev.length, prev.type, prev.flags,
-> +			       prev.dev, prev.addr);
-> +			printk(KERN_ERR "curr: offset=%llu length=%llu type=%u flags=0x%x dev=%u addr=%llu\n",
-> +			       got.offset, got.length, got.type, got.flags,
-> +			       got.dev, got.addr);
-> +		}
-> +
-> +		prev = got;
-> +		nr++;
-> +		fuse_iext_next(ir, &icur);
-> +	}
-> +}
-> +#else
-> +# define fuse_iext_check_mappings(...)	((void)0)
-> +#endif
-> +
-> +static void
-> +fuse_iext_del_mapping(
-> +	struct fuse_iomap_cache	*ic,
-> +	struct fuse_iext_root	*ir,
-> +	struct fuse_iext_cursor	*icur,
-> +	struct fuse_iomap_io	*got,	/* current extent entry */
-> +	struct fuse_iomap_io	*del)	/* data to remove from extents */
-> +{
-> +	struct fuse_iomap_io	new;	/* new record to be inserted */
-> +	/* first addr (fsblock aligned) past del */
-> +	fuse_iext_key_t		del_endaddr;
-> +	/* first offset (fsblock aligned) past del */
-> +	fuse_iext_key_t		del_endoff = del->offset + del->length;
-> +	/* first offset (fsblock aligned) past got */
-> +	fuse_iext_key_t		got_endoff = got->offset + got->length;
-> +	uint32_t		state = fuse_iomap_fork_to_state(ic, ir);
-> +
-> +	ASSERT(del->length > 0);
-> +	ASSERT(got->offset <= del->offset);
-> +	ASSERT(got_endoff >= del_endoff);
-> +
-> +	switch (del->type) {
-> +	case FUSE_IOMAP_TYPE_MAPPED:
-> +	case FUSE_IOMAP_TYPE_UNWRITTEN:
-> +		del_endaddr = del->addr + del->length;
-> +		break;
-> +	default:
-> +		del_endaddr = FUSE_IOMAP_NULL_ADDR;
-> +		break;
-> +	}
-> +
-> +	if (got->offset == del->offset)
-> +		state |= FUSE_IEXT_LEFT_FILLING;
-> +	if (got_endoff == del_endoff)
-> +		state |= FUSE_IEXT_RIGHT_FILLING;
-> +
-> +	switch (state & (FUSE_IEXT_LEFT_FILLING | FUSE_IEXT_RIGHT_FILLING)) {
-> +	case FUSE_IEXT_LEFT_FILLING | FUSE_IEXT_RIGHT_FILLING:
-> +		/*
-> +		 * Matches the whole extent.  Delete the entry.
-> +		 */
-> +		fuse_iext_remove(ic, icur, state);
-> +		fuse_iext_prev(ir, icur);
-> +		break;
-> +	case FUSE_IEXT_LEFT_FILLING:
-> +		/*
-> +		 * Deleting the first part of the extent.
-> +		 */
-> +		got->offset = del_endoff;
-> +		got->addr = del_endaddr;
-> +		got->length -= del->length;
-> +		fuse_iext_update_extent(ic, state, icur, got);
-> +		break;
-> +	case FUSE_IEXT_RIGHT_FILLING:
-> +		/*
-> +		 * Deleting the last part of the extent.
-> +		 */
-> +		got->length -= del->length;
-> +		fuse_iext_update_extent(ic, state, icur, got);
-> +		break;
-> +	case 0:
-> +		/*
-> +		 * Deleting the middle of the extent.
-> +		 */
-> +		got->length = del->offset - got->offset;
-> +		fuse_iext_update_extent(ic, state, icur, got);
-> +
-> +		new.offset = del_endoff;
-> +		new.length = got_endoff - del_endoff;
-> +		new.type = got->type;
-> +		new.flags = got->flags;
-Co> +		new.addr = del_endaddr;
-> +		new.dev = got->dev;
-> +
-> +		fuse_iext_next(ir, icur);
-> +		fuse_iext_insert(ic, icur, &new, state);
-> +		break;
-> +	}
-> +}
-> +
-> +int
-> +fuse_iomap_cache_remove(
-> +	struct inode		*inode,
-> +	enum fuse_iomap_iodir	iodir,
-> +	loff_t			start,		/* first file offset deleted */
-> +	uint64_t		len)		/* length to unmap */
-> +{
-> +	struct fuse_iext_cursor	icur;
-> +	struct fuse_iomap_io	got;		/* current extent record */
-> +	struct fuse_iomap_io	del;		/* extent being deleted */
-> +	loff_t			end;
-> +	struct fuse_inode	*fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache	*ic = fi->cache;
-> +	struct fuse_iext_root	*ir = fuse_iext_root_ptr(ic, iodir);
-> +	bool			wasreal;
-> +	bool			done = false;
-> +	int			ret = 0;
-> +
-> +	assert_cache_locked(ic);
-> +
-> +	/* Fork is not active or has zero mappings */
-> +	if (ir->ir_bytes < 0 || fuse_iext_count(ir) == 0)
-> +		return 0;
-> +
-> +	/* Fast shortcut if the caller wants to erase everything */
-> +	if (start == 0 && len >= inode->i_sb->s_maxbytes) {
-> +		fuse_iext_destroy(ir);
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>=20
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>=20
+> If the report is already addressed, let syzbot know by replying with:
+> #syz fix: exact-commit-title
+>=20
+> If you want to overwrite report's subsystems, reply with:
+> #syz set subsystems: new-subsystem
+> (See the list of subsystem names on the web dashboard)
+>=20
+> If the report is a duplicate of another one, reply with:
+> #syz dup: exact-subject-of-another-report
+>=20
+> If you want to undo deduplication, reply with:
+> #syz undup
 
-Codex caught that I wasn't bumping the cache sequence counter here.
-Oops.
-
---D
-> +out:
-> +	fuse_iext_check_mappings(ic, ir);
-> +	return ret;
-> +}
-> +
-> +static void
-> +fuse_iext_add_mapping(
-> +	struct fuse_iomap_cache		*ic,
-> +	struct fuse_iext_root		*ir,
-> +	struct fuse_iext_cursor		*icur,
-> +	const struct fuse_iomap_io	*new)	/* new extent entry */
-> +{
-> +	struct fuse_iomap_io		left;	/* left neighbor extent entry */
-> +	struct fuse_iomap_io		right;	/* right neighbor extent entry */
-> +	uint32_t			state = fuse_iomap_fork_to_state(ic, ir);
-> +
-> +	/*
-> +	 * Check and set flags if this segment has a left neighbor.
-> +	 */
-> +	if (fuse_iext_peek_prev_extent(ir, icur, &left))
-> +		state |= FUSE_IEXT_LEFT_VALID;
-> +
-> +	/*
-> +	 * Check and set flags if this segment has a current value.
-> +	 * Not true if we're inserting into the "hole" at eof.
-> +	 */
-> +	if (fuse_iext_get_extent(ir, icur, &right))
-> +		state |= FUSE_IEXT_RIGHT_VALID;
-> +
-> +	/*
-> +	 * We're inserting a real allocation between "left" and "right".
-> +	 * Set the contiguity flags.  Don't let extents get too large.
-> +	 */
-> +	if ((state & FUSE_IEXT_LEFT_VALID) && fuse_iomap_can_merge(&left, new))
-> +		state |= FUSE_IEXT_LEFT_CONTIG;
-> +
-> +	if ((state & FUSE_IEXT_RIGHT_VALID) &&
-> +	    fuse_iomap_can_merge(new, &right) &&
-> +	    (!(state & FUSE_IEXT_LEFT_CONTIG) ||
-> +	     fuse_iomap_can_merge3(&left, new, &right)))
-> +		state |= FUSE_IEXT_RIGHT_CONTIG;
-> +
-> +	/*
-> +	 * Select which case we're in here, and implement it.
-> +	 */
-> +	switch (state & (FUSE_IEXT_LEFT_CONTIG | FUSE_IEXT_RIGHT_CONTIG)) {
-> +	case FUSE_IEXT_LEFT_CONTIG | FUSE_IEXT_RIGHT_CONTIG:
-> +		/*
-> +		 * New allocation is contiguous with real allocations on the
-> +		 * left and on the right.
-> +		 * Merge all three into a single extent record.
-> +		 */
-> +		left.length += new->length + right.length;
-> +
-> +		fuse_iext_remove(ic, icur, state);
-> +		fuse_iext_prev(ir, icur);
-> +		fuse_iext_update_extent(ic, state, icur, &left);
-> +		break;
-> +
-> +	case FUSE_IEXT_LEFT_CONTIG:
-> +		/*
-> +		 * New allocation is contiguous with a real allocation
-> +		 * on the left.
-> +		 * Merge the new allocation with the left neighbor.
-> +		 */
-> +		left.length += new->length;
-> +
-> +		fuse_iext_prev(ir, icur);
-> +		fuse_iext_update_extent(ic, state, icur, &left);
-> +		break;
-> +
-> +	case FUSE_IEXT_RIGHT_CONTIG:
-> +		/*
-> +		 * New allocation is contiguous with a real allocation
-> +		 * on the right.
-> +		 * Merge the new allocation with the right neighbor.
-> +		 */
-> +		right.offset = new->offset;
-> +		right.addr = new->addr;
-> +		right.length += new->length;
-> +		fuse_iext_update_extent(ic, state, icur, &right);
-> +		break;
-> +
-> +	case 0:
-> +		/*
-> +		 * New allocation is not contiguous with another
-> +		 * real allocation.
-> +		 * Insert a new entry.
-> +		 */
-> +		fuse_iext_insert(ic, icur, new, state);
-> +		break;
-> +	}
-> +}
-> +
-> +static int
-> +fuse_iomap_cache_add(
-> +	struct inode			*inode,
-> +	enum fuse_iomap_iodir		iodir,
-> +	const struct fuse_iomap_io	*new)
-> +{
-> +	struct fuse_iext_cursor		icur;
-> +	struct fuse_iomap_io		got;
-> +	struct fuse_inode		*fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache		*ic = fi->cache;
-> +	struct fuse_iext_root		*ir = fuse_iext_root_ptr(ic, iodir);
-> +
-> +	assert_cache_locked(ic);
-> +	ASSERT(new->length > 0);
-> +	ASSERT(new->offset < inode->i_sb->s_maxbytes);
-> +
-> +	/* Mark this fork as being in use */
-> +	if (ir->ir_bytes < 0)
-> +		ir->ir_bytes = 0;
-> +
-> +	if (fuse_iext_lookup_extent(ic, ir, new->offset, &icur, &got)) {
-> +		/* make sure we only add into a hole. */
-> +		ASSERT(got.offset > new->offset);
-> +		ASSERT(got.offset - new->offset >= new->length);
-> +
-> +		if (got.offset <= new->offset ||
-> +		    got.offset - new->offset < new->length)
-> +			return -EFSCORRUPTED;
-> +	}
-> +
-> +	fuse_iext_add_mapping(ic, ir, &icur, new);
-> +	fuse_iext_check_mappings(ic, ir);
-> +	return 0;
-> +}
-> +
-> +int fuse_iomap_cache_alloc(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache *old = NULL;
-> +	struct fuse_iomap_cache *ic;
-> +
-> +	ic = kzalloc_obj(struct fuse_iomap_cache);
-> +	if (!ic)
-> +		return -ENOMEM;
-> +
-> +	/* Only the write mapping cache can return NOFORK */
-> +	ic->ic_write.ir_bytes = -1;
-> +	ic->ic_inode = inode;
-> +	init_rwsem(&ic->ic_lock);
-> +
-> +	if (!try_cmpxchg(&fi->cache, &old, ic)) {
-> +		/* Someone created mapping cache before us? Free ours... */
-> +		kfree(ic);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void fuse_iomap_cache_purge(struct fuse_iomap_cache *ic)
-> +{
-> +	fuse_iext_destroy(&ic->ic_read);
-> +	fuse_iext_destroy(&ic->ic_write);
-> +}
-> +
-> +void fuse_iomap_cache_free(struct inode *inode)
-> +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache *ic = fi->cache;
-> +
-> +	/*
-> +	 * This is only called from eviction, so we cannot be racing to set or
-> +	 * clear the pointer.
-> +	 */
-> +	fi->cache = NULL;
-> +
-> +	fuse_iomap_cache_purge(ic);
-> +	kfree(ic);
-> +}
-> +
-> +int
-> +fuse_iomap_cache_upsert(
-> +	struct inode			*inode,
-> +	enum fuse_iomap_iodir		iodir,
-> +	const struct fuse_iomap_io	*map)
-> +{
-> +	struct fuse_inode		*fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache		*ic = fi->cache;
-> +	int				err;
-> +
-> +	ASSERT(fuse_inode_caches_iomaps(inode));
-> +
-> +	/*
-> +	 * We interpret no write fork to mean that all writes are pure
-> +	 * overwrites.  Avoid wasting memory if we're trying to upsert a
-> +	 * pure overwrite.
-> +	 */
-> +	if (iodir == WRITE_MAPPING &&
-> +	    map->type == FUSE_IOMAP_TYPE_PURE_OVERWRITE &&
-> +	    ic->ic_write.ir_bytes < 0)
-> +		return 0;
-> +
-> +	err = fuse_iomap_cache_remove(inode, iodir, map->offset, map->length);
-> +	if (err)
-> +		return err;
-> +
-> +	return fuse_iomap_cache_add(inode, iodir, map);
-> +}
-> +
-> +/*
-> + * Trim the returned map to the required bounds
-> + */
-> +static void
-> +fuse_iomap_trim(
-> +	struct fuse_inode		*fi,
-> +	struct fuse_iomap_lookup	*mval,
-> +	const struct fuse_iomap_io	*got,
-> +	loff_t				off,
-> +	loff_t				len)
-> +{
-> +	struct fuse_iomap_cache		*ic = fi->cache;
-> +
-> +	switch (got->type) {
-> +	case FUSE_IOMAP_TYPE_MAPPED:
-> +	case FUSE_IOMAP_TYPE_UNWRITTEN:
-> +		mval->map.addr = got->addr;
-> +		break;
-> +	default:
-> +		mval->map.addr = FUSE_IOMAP_NULL_ADDR;
-> +		break;
-> +	}
-> +	mval->map.offset = got->offset;
-> +	mval->map.length = got->length;
-> +
-> +	mval->map.type = got->type;
-> +	mval->map.flags = got->flags;
-> +	mval->map.dev = got->dev;
-> +	mval->validity_cookie = fuse_iext_read_seq(ic);
-> +}
-> +
-> +enum fuse_iomap_lookup_result
-> +fuse_iomap_cache_lookup(
-> +	struct inode			*inode,
-> +	enum fuse_iomap_iodir		iodir,
-> +	loff_t				off,
-> +	uint64_t			len,
-> +	struct fuse_iomap_lookup	*mval)
-> +{
-> +	struct fuse_iomap_io		got;
-> +	struct fuse_iext_cursor		icur;
-> +	struct fuse_inode		*fi = get_fuse_inode(inode);
-> +	struct fuse_iomap_cache		*ic = fi->cache;
-> +	struct fuse_iext_root		*ir = fuse_iext_root_ptr(ic, iodir);
-> +
-> +	assert_cache_locked_shared(ic);
-> +
-> +	if (ir->ir_bytes < 0) {
-> +		/*
-> +		 * No write fork at all means this filesystem doesn't do out of
-> +		 * place writes.
-> +		 */
-> +		return LOOKUP_NOFORK;
-> +	}
-> +
-> +	if (!fuse_iext_lookup_extent(ic, ir, off, &icur, &got)) {
-> +		/*
-> +		 * Does not contain a mapping at or beyond off, which is a
-> +		 * cache miss.
-> +		 */
-> +		return LOOKUP_MISS;
-> +	}
-> +
-> +	if (got.offset > off) {
-> +		/*
-> +		 * Found a mapping, but it doesn't cover the start of the
-> +		 * range, which is effectively a miss.
-> +		 */
-> +		return LOOKUP_MISS;
-> +	}
-> +
-> +	/* Found a mapping in the cache, return it */
-> +	fuse_iomap_trim(fi, mval, &got, off, len);
-> +	return LOOKUP_HIT;
-> +}
-> diff --git a/fs/fuse/trace.c b/fs/fuse/trace.c
-> index 71d444ac1e5021..69310d6f773ffa 100644
-> --- a/fs/fuse/trace.c
-> +++ b/fs/fuse/trace.c
-> @@ -8,6 +8,7 @@
->  #include "fuse_dev_i.h"
->  #include "fuse_iomap.h"
->  #include "fuse_iomap_i.h"
-> +#include "fuse_iomap_cache.h"
->  
->  #include <linux/pagemap.h>
->  #include <linux/iomap.h>
-> 
-> 
