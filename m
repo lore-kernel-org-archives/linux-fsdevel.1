@@ -1,117 +1,140 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f80.google.com (mail-ot1-f80.google.com [209.85.210.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641232E54D3;
-	Thu, 14 May 2026 02:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D91618AE2
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 03:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778727311; cv=none; b=Pm2v8KaTPbp/c6gVWc93li7/fy5Hhso7dnrlk8IWRN2SlFDKPK3TC3VQOuOgA1gZpjFjjUS+KLeod7ktrZHlT2pwEMgUDMlYJJkVAINGhzutqRJ8O2xn+0gZ4O8i7L4Yhh49Wy4Q2QvBp0mdj6Mbm854bh281PMsMWp+DEh3n+E=
+	t=1778729856; cv=none; b=VuJONaOIh65l9K8ZRSNIfCG07Ms0wjmPS40A6x6RFRD5tnk3igHdJDpuuqo49Y30PqwpwlDTEkP5Oo6AskHynaQzAgWNoTlUiIclQr/9o3c4KyJxB+Aa5z7I8wYN8UtrYrpEglyzPnES4/RCn+wEd+Homi1LLdACKsolXp0ozq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778727311; c=relaxed/simple;
-	bh=UNo72HqhYnatz0FGSRKG2T8UllilstCRRev7/LoOo70=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hk97U3Wqone23gPOaCI9ch9/AM6eDQV3RosxltE2qHzgDIt1PFnFLNOf1giu1ytd7DdL5ykSlYYhb+tQDzOjw9VL0QsdSucl2UiIiJLmeCwwc7fJN6xSsCMFoZvTizuQ0HUHZcUGQmnkT5H2oya+L57bAkHH6ucAKLNTcOecFt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Jh5yBwWw; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Jh5yBwWw"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1778727305; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=OaEJAx53nxLzrylKyOUQ3xEbRu4QwHlxhzwX5s59jCQ=;
-	b=Jh5yBwWwldGgzV5P8BoPxXp4+JNj6sbAa5Ah7CMYdJZfoTRM0hSIXiXcTeOwXUI5+e0yiFH/NvUtA67qjSEBJnR6UaU0lcdptttk8LQ+qZ+uk5XjU0LQ0pwPkwTvydO1+q17zsGwrxY3bi+Mz1EspwLlzVrjPqpESIZUb7wxJKs=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X2vLEwD_1778727304;
-Received: from 30.221.131.84(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X2vLEwD_1778727304 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 14 May 2026 10:55:04 +0800
-Message-ID: <a7f260f7-63a6-4e6f-99aa-0a4be29f740f@linux.alibaba.com>
-Date: Thu, 14 May 2026 10:55:03 +0800
+	s=arc-20240116; t=1778729856; c=relaxed/simple;
+	bh=U0QGXp0FIA67QQAMYmJNyj+LHF/TUjXMmcTUzkjimDU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=lGb/HChttlLqxFl3EDmFW/YRkREYJAbrGqXgKs/Hwkeu2eCeOZwaLQZ0RxvMI2sUVkrc/AWgLL6AXt8/ibm8t4Uof99+kxmXolnD6PTdH/+mJ6neoyaG4rBrQbtd7lKRJWw8tmemU8tibP5FFXKzz+QwhkF8EFdGjBRfmnWS8iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f80.google.com with SMTP id 46e09a7af769-7de44ba64e7so12131886a34.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 20:37:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778729853; x=1779334653;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pmwnxv7ny0LhusPUpjLEt5A9LrNyCQxseJB0LXTCdUU=;
+        b=EL+QfFPyraNfwj1Cury0uhhzfkmj8xsYNwJNsYhvOs7DLt+yIfbzgWA4D9wcIdVekE
+         kAgersHN21tIOnuXM9Wb4LZZ1bvGE2MqHXU7/55Dmw+hXnMoiBpf5PuGutDsCO8NLrnw
+         3srV2UFpMbuNi5K9u5Y4zEEXR32J4DLhxIrx70XUjnWFe+CcW5ou+36JXN63OsIrSbKY
+         fS10qzCXTa45LfDkqV/47ecLNZsI6l+sXt61Txs6Dm8AhG1teYpT1LnJkA5uYxN1yrcL
+         fHG2Gdi8YcBJbbTGyPr60/fllSf38SZqxEQIJv/yyjMnLpI4AYtVo8a4USQs/g5xjG2F
+         AEtQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9GijbqIzxFRIcDxFkngcAEjmtKd4fsqZdKBRCpe5KnjbqWtKj41g0QoA/mep0ITX6J7wtdNT+n+Khlslks@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywyf4nb//7yc3Dmaox9ncydS60xFE4NaTpC16R/dsceHPmEWo4U
+	j0fplcoImPEbx6/0urrLkxRSR8wgFeXOYf4ivmV9c1BVXpVhXrF2MSo9y7yo2mHFRtVPylYpU9n
+	MwAJkE9GqRqogrg/Ku4r5DbzsvRYLACuAdIp1KjLjyEdGe2y4UwvhIN8H3Gc=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] writeback: fix race between cgroup_writeback_umount() and
- inode_switch_wbs()
-To: Tejun Heo <tj@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
- brauner@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org,
- libaokun@linux.alibaba.com
-References: <20260513094829.867648-1-libaokun@linux.alibaba.com>
- <22cda97d61cc9d540d4e7116d5f3f08a@kernel.org>
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <22cda97d61cc9d540d4e7116d5f3f08a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:2d09:b0:696:717c:bd75 with SMTP id
+ 006d021491bc7-69b78e5f1c2mr3563944eaf.54.1778729853534; Wed, 13 May 2026
+ 20:37:33 -0700 (PDT)
+Date: Wed, 13 May 2026 20:37:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a05437d.170a0220.196691.0003.GAE@google.com>
+Subject: [syzbot] [hfs?] WARNING in hfs_mdb_commit
+From: syzbot <syzbot+c149ad75e9633be0c1ad@syzkaller.appspotmail.com>
+To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	slava@dubeyko.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-在 2026/5/14 04:36, Tejun Heo 写道:
-> Hello,
->
-> Resending - earlier send dropped the Cc list. Sorry for the noise.
->
-> How rcu_barrier() got out of sync, as best I can reconstruct:
->
-> - ec084de929e4 ("fs/writeback.c: use rcu_barrier() to wait for inflight
->   wb switches going into workqueue when umount", 2019) put the inc
->   after call_rcu(); rcu_barrier() worked from then.
->
-> - 8826ee4fe750 ("writeback, cgroup: increment isw_nr_in_flight before
->   grabbing an inode", 2021) moved the inc back ahead to cover the prep
->   window, apparently reopening this gap.
->
-> - e1b849cfa6b6 ("writeback: Avoid contention on wb->list_lock when
->   switching inodes", 2025) replaced call_rcu() with llist_add() +
->   queue_work(); rcu_barrier() looks like a no-op for this path since.
->
-> Could SRCU work instead? srcu_read_lock around the publish (atomic_inc
-> through wb_queue_isw), with cgroup_writeback_umount() keeping the
-> counter gate but swapping rcu_barrier() for synchronize_srcu():
->
->   if (atomic_read(&isw_nr_in_flight)) {
->           synchronize_srcu(&isw_srcu);
->           flush_workqueue(isw_wq);
->   }
->
-> Thoughts?
+Hello,
 
-Thanks for the detailed analysis on how rcu_barrier() got out of sync,
-that matches my understanding as well.
+syzbot found the following issue on:
 
-Regarding the SRCU idea: I considered it, but it has a key drawback.
-synchronize_srcu() waits for all read-side critical sections globally
--- it cannot distinguish which superblock a given switcher is working
-on. So if sb A is being unmounted while unrelated switchers for sb B/C/D
-hold srcu_read_lock(), umount of A gets blocked unnecessarily. The
-global isw_nr_in_flight gate makes this worse: any non-zero count from
-any sb triggers synchronize_srcu(), even when the target sb has no
-in-flight switches at all.
+HEAD commit:    1bfaee9d3351 Merge tag 'fsverity-for-linus' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12f08726580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7f195f6be48c12ec
+dashboard link: https://syzkaller.appspot.com/bug?extid=c149ad75e9633be0c1ad
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-This is especially problematic in high-density container environments,
-where many containers with separate filesystems are being created and
-destroyed concurrently. Frequent cgroup migrations across multiple
-superblocks keep the global isw_nr_in_flight perpetually non-zero,
-causing every single umount to pay the synchronize_srcu() cost even
-when the target sb has zero in-flight switches.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-The per-sb counter avoids this entirely -- cgroup_writeback_umount()
-only waits for switches belonging to its own superblock to drain, and
-returns immediately when s_isw_nr_in_flight is zero. The global counter
-is retained solely for throttling (WB_FRN_MAX_IN_FLIGHT).
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-1bfaee9d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/879fc4fe312e/vmlinux-1bfaee9d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9e35bd667fed/bzImage-1bfaee9d.xz
 
-The other trade-offs are roughly comparable: both need pairing on all
-paths, but the per-sb atomic_t gets zero-initialized by kzalloc for
-free, while SRCU needs init/cleanup lifecycle management. The per-cpu
-read lock advantage doesn't matter here since wb switching is
-infrequent.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c149ad75e9633be0c1ad@syzkaller.appspotmail.com
 
-So I went with the per-sb counter for its precision and simplicity.
-That said, if you prefer the SRCU approach, I'm happy to spin a new
-version using it.
+loop0: detected capacity change from 0 to 64
+loop0: detected capacity change from 64 to 0
+Buffer I/O error on dev loop0, logical block 62, lost sync page write
+hfs: unable to read volume bitmap
+------------[ cut here ]------------
+!buffer_uptodate(bh)
+WARNING: fs/buffer.c:1087 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:1087, CPU#0: syz.0.0/5321
+Modules linked in:
+CPU: 0 UID: 0 PID: 5321 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:1087
+Code: 4c 89 f7 e8 b9 5c da ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 b4 63 fb ff e8 3f 91 6d ff eb 8c e8 38 91 6d ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 2a 91 6d ff 90 0f 0b 90 e9 cf fd ff ff
+RSP: 0018:ffffc9000ddafba8 EFLAGS: 00010283
+RAX: ffffffff82584008 RBX: ffff888046e26658 RCX: 0000000000100000
+RDX: ffffc9000eefa000 RSI: 0000000000001912 RDI: 0000000000001913
+RBP: 1ffff11007a3ec01 R08: ffff888046e2665f R09: 1ffff11008dc4ccb
+R10: dffffc0000000000 R11: ffffed1008dc4ccc R12: dffffc0000000000
+R13: ffff88803d1f6628 R14: ffff888055813c0b R15: ffff888055831492
+FS:  00007f2c9e9b96c0(0000) GS:ffff88808c881000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000000210 CR3: 00000000133b8000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ hfs_mdb_commit+0x84b/0x1150 fs/hfs/mdb.c:328
+ hfs_sync_fs+0x1d/0x30 fs/hfs/super.c:38
+ sync_filesystem+0x1cf/0x230 fs/sync.c:66
+ hfs_reconfigure+0x66/0x270 fs/hfs/super.c:122
+ reconfigure_super+0x227/0x8a0 fs/super.c:1080
+ do_remount fs/namespace.c:3400 [inline]
+ path_mount+0xdc5/0x10e0 fs/namespace.c:4146
+ do_mount fs/namespace.c:4167 [inline]
+ __do_sys_mount fs/namespace.c:4383 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4360
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2c9db9cdd9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f2c9e9b8fe8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007f2c9de15fa0 RCX: 00007f2c9db9cdd9
+RDX: 0000000000000000 RSI: 00002000000002c0 RDI: 0000000000000000
+RBP: 00007f2c9dc32d69 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000c22 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f2c9de16038 R14: 00007f2c9de15fa0 R15: 00007fffa4666ff8
+ </TASK>
 
 
-Cheers,
-Baokun
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
