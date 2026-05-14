@@ -1,71 +1,70 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A06D3FFACE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 14:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88883FF8B0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 14:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778767718; cv=none; b=mllQRQGRj80h9yuEZiQohJRWpqeIBCTO6OxwkJK6SVjXl7fOkbTw3iheJFrsVBpAUbwJrMahYv5/m1VMuI4IsdgAnQfeDKuI6t9hCxewLdgTya1nMVJYidd0y3+JsoFs1kNp7eJvRdIDFMsmZd9oqYZkhwI3t03Vqf4S+16cgGw=
+	t=1778767715; cv=none; b=Q2Z+nBgGZLQADKrjcwUxGWfiom/BgxbC/uxhifczgDYGOJ1k1/BBjRP76dd+BU9Dpsoy2B+mLVS489qQnRuO9UlqPrJtzRHOalmhAW0Cqw5mlZ1+mhovNj8kTMJZqtMLJrvltCb4K5BP58FrWWDfQrH3XOp6kX2WVk/EALKNW4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778767718; c=relaxed/simple;
-	bh=Nc+WVvDte2mveIsO0K6wCo0rdU0u+HckbZJiXE1v2ds=;
+	s=arc-20240116; t=1778767715; c=relaxed/simple;
+	bh=klxxVnyGRED1q317T7p7fYo0Zj/3oMSRfd75h/qMGIQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IFBcIKbuccZbRkOEowoFuZwj7bZUDVv3ABWKwe9uJeXqXlPlh/kK1kklMWycXuXz63arqZVxY0aR1vMr8B5FdN0bh85DSjktSwfYmEUqXsmYLbqnglCLbGRmdOwp34tz0Yqw3MyWysqe7JSQ1r8MWPq91TuiQGIuWqv+t9Q84PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=VIpR1JYE; arc=none smtp.client-ip=209.85.167.181
+	 MIME-Version; b=alInd2z8ofEIPvAqMtL1Imvu24kFnpeS5lleFokJ5gbVh85pq3YTK3hqRgWnzh7DnWx5EaRQ15oyDP5AIWdzFCxskALeQ2EV0ktcDQq0dBYzmt5qYCmZ0a9crxTPvw9rBpj8th6/9gg2no+L/m8LvwBTbI6LtMwBIvMy2zwS7tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=lrHlo7Lc; arc=none smtp.client-ip=209.85.167.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="VIpR1JYE"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-464bba3a9easo4321457b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 07:08:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="lrHlo7Lc"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-479f7e75a6bso3338286b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 07:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1778767707; x=1779372507; darn=vger.kernel.org;
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1778767705; x=1779372505; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pe11u6t4Qq4bwvnqoZIg8PmIgRIRXQGcxkxrBifqzak=;
-        b=VIpR1JYEdqbWvSiSOIPhuU7CchI8ZbZzDY+AoRHbtCxqTn45NiAPkfK6qCCSwVkJMF
-         q3I8jh6ntoC9Rtwla6TwubzsUWSH8504VPA7cjIcnu4yKJV9ndLVByB2lGrkYFYqYNJ4
-         wQiDAe5vOLN6VGS72QsqTc+KmG/A+qvn9GJsXGVBUFpdKIlCQG22O78XRn1gZgpc3/q+
-         EuolwU4XYn2uyPOu2zdpfeIA7O1g0Dm4BVE9bRn/MXbs6ST5jVbzLh57NRnVf10UAkh+
-         0K7MtJj3dzHN6dmkSbIXUcPVi1yTpxEavd1dwZ1pZjYPrT0agkUFeTICpwGFjCmeJxjW
-         gM9Q==
+        bh=/zFTck5W930pgUh3AWU46ER/xD6QLi7A/3R3iLUIHZI=;
+        b=lrHlo7LcT8I9P/48q0SJatj1nEyw3NBKJSL7b1LOSysoQ05uY2O3co0d9igjeU4LYH
+         PefDlWuzCM8eL+1VJEwPL47Faom0bDS6KQYoaOc1Lo6CSMUrf7ksX1jCQVFHdFHKAswh
+         yJDSR8ntQFWctGvgrh+yfdqsKCi5rsm9PKW24HwRsXaZY7rti8luCMd8W9UennESnsY0
+         4uS1wgUT0x3M/NWOyb+duQkwb5ptZYvqxgg+N1xOVxp1au/APQ7dCEezGCpu9+/K9vsM
+         x682VGefEsJ5AWIia/7TW7Hq8HelayNl3IuiCGVp5CKf7VUtNXqEUF/lh3SIFy/X+cBD
+         zdrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778767707; x=1779372507;
+        d=1e100.net; s=20251104; t=1778767705; x=1779372505;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=pe11u6t4Qq4bwvnqoZIg8PmIgRIRXQGcxkxrBifqzak=;
-        b=fdK4nX4WnSmQ4as0SdCKNVtHvKpiMJlQJkyI9uKblCR96EBkdLIxN3x4RQlaCXnHjG
-         Hq8WlnepM1jCOPXrQUHxFXfWDBf090XYQBNll2o6/cHJZHUAjYo916pJ6qZpzFIyWrxE
-         vyHDBHJJIdSzttnqH2R2XqLe5gvCc/dab0XmUfJHCBmHJrradgAso+8xcr3cPX2Fk9yl
-         /kw7XkKchtsi8b/i602bM20O2u8TBqbtz4fFKxotMSfV4+jLgB4F2QuDqjoHJk86jStM
-         nfaJz3YpCORFWleKPYZ8BdA6B0S0IC867KEkbqU56hKp3RbkP9zivBqe3z0C40de/6eR
-         WKdw==
-X-Gm-Message-State: AOJu0Yz26yw+40pLP0Zesei8M+RqVxrgzgqzX4vpqIoPD1QaN0/DKdhS
-	wUNe23Uc0DOClpBDyDHsiqTq83XYyZeYhQfmMOIbRP0ppHSg7zXt3WpfuyCY7bdN+6c=
-X-Gm-Gg: Acq92OEPQLfK2P+ETUsQbyd1zlTke116FilLDe3oLJ7+8RZNxOsCFxtVUwBkosBl1wX
-	HcIiYhyruQS11elM5wrr2BkmT4V0hlEfZkEBF6KKWMfl3j2QvJuGuNu44tGTJIoSTLMh6JIkhou
-	oBucJmUcRzcUIFgZghM713dKuvzPHG52SneUDkqwOXs8UFBWffg9RsVPJVNl6EEpgUueN2kFUMP
-	csgIUI08MRoYAy59mNWBg729QZBjIdPKK0l9mBE6JIkPitm/Gs5An5P6TRd7U+8S3m7AxZbWdZw
-	LqJT6V14WLdQ4buZevMJzhWfPrjILGKsjJrSG2EF99zgVcLfZMQWyJr0jKuWkBq67/fJprPNjjA
-	a/p1w9Z1lGkJnStc78bm9z2dMZxfjcUTytWI7qmU0RW+iI0DUQH9pcuvuS1h5kmKMB3t8yFWAOZ
-	DyJKig624wl+GGEyRKc77ghBtcgP+c+xDEp/rZdBGG3euyw9OgzMMtVGvkQi01yoX71+a3UskUx
-	kfy+A==
-X-Received: by 2002:a05:6808:1816:b0:479:ffcf:52d7 with SMTP id 5614622812f47-482b2dd218bmr5026680b6e.46.1778767706744;
-        Thu, 14 May 2026 07:08:26 -0700 (PDT)
-Received: from m2max ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-482d379f062sm1394956b6e.6.2026.05.14.07.08.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=/zFTck5W930pgUh3AWU46ER/xD6QLi7A/3R3iLUIHZI=;
+        b=GivPVnr7CQSJ7K+dlrtPNop1tmSuEqLTYH9JqHPamBf4Wbt+Rh9E2qH3E7+KgVBjWG
+         r0lrVUAUjJUpyeLQFLO3wwBSe38HbR0tnnvMjHCTYDCvzaStNhGloSNJZaPqNsrIcIAj
+         1wdJp2RDALFBcGMo3A9E/b3fFF9781nFOWaEOqqlK3YmV4bVdhG7RHh+IeTOOvcCfX66
+         bjM4KnelljdQ0GYO1YGcI6iD+vVAOR9AAjvavbzGIb6mA+hCfj72s7f3GfQqN6vgM6DU
+         nD4DFzMdo/0CN8efllZOhHP1DuLzzndVG4WCjGrEYtui+xhp1Ogg1UzN5ZTLIVhlkI2V
+         bAIA==
+X-Gm-Message-State: AOJu0Yz5+GBZ9CCdcx/1yt/6xrVIcNpY70OPl6Ec7TDZ09JZxX5bef8/
+	+v6J6vI55GFdH+WWX7wt8ujoEEq0NcIU88OaF3for0SPx4zNS4Q5bPhRWUQ089Nzjy0=
+X-Gm-Gg: Acq92OEZxwrLMt1uebU08JdWX5cFZwbwMY9dt6BltSa94lnuZIOigcq3oOiKxPdCzlw
+	WgtI/3054veSmyY+/eaRskfcrndiuyhYJPNJXsrMwF+pzNpC2T6BM6prr+4JKhw7RRQAcVZUK8b
+	zfNgo2gnZYFUTFSEjCF4PrD/MSU1NQzyN9VPv8z/I5fbsXgIq+PBA1tBYwNekOkhislWkneYP8B
+	yJG4EJHlWKclG9OZ/eGYRxzM1Yyxbj4uLbst8yuata5vqYPzS87DCsp8lRrEEzWss3r+5G4GrSj
+	lG0lWc/cxVW302Eh/MXSX78LYhz4z6/xPEeUmOLySgmvehO00f/F466ou3ytuLV+chKPsmjPRCr
+	Hn6p0SSDuIWCtbmdjXydcon+yxPQlIbAnu7ytNZX/lkfR5cxm9eo+nyxdsccBA01J0ZKciSO412
+	cihDt/9vKcSd3ujzHb9WiDGEfB7jpUbde2320wdnQGctDYslTHT+/yoNu74SX4dXq9Azo=
+X-Received: by 2002:a05:6808:1783:b0:479:ed26:fbca with SMTP id 5614622812f47-482b2db4b30mr4552026b6e.37.1778767705357;
         Thu, 14 May 2026 07:08:25 -0700 (PDT)
+Received: from m2max ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-482d379f062sm1394956b6e.6.2026.05.14.07.08.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 07:08:24 -0700 (PDT)
 From: Jens Axboe <axboe@kernel.dk>
 To: io-uring@vger.kernel.org
 Cc: linux-fsdevel@vger.kernel.org,
 	brauner@kernel.org,
 	Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 3/6] eventpoll: add file based control interface
-Date: Thu, 14 May 2026 08:07:19 -0600
-Message-ID: <20260514140817.623026-4-axboe@kernel.dk>
+Subject: [PATCH 2/6] eventpoll: export is_file_epoll()
+Date: Thu, 14 May 2026 08:07:18 -0600
+Message-ID: <20260514140817.623026-3-axboe@kernel.dk>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260514140817.623026-1-axboe@kernel.dk>
 References: <20260514140817.623026-1-axboe@kernel.dk>
@@ -77,178 +76,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add do_epoll_ctl_file(), which takes a pre-resolved epoll file and a
-struct epoll_filefd for the target rather than two integer file
-descriptors. do_epoll_ctl() remains as a thin wrapper.
-
-In preparation for using the file based interface from io_uring.
+Make is_file_epoll() available outside of epoll. This is in preparation
+from using it from io_uring.
 
 Signed-off-by: Jens Axboe <axboe@kernel.dk>
 ---
- fs/eventpoll.c            | 62 ++++++++++++++++++++-------------------
- include/linux/eventpoll.h |  7 +++++
- 2 files changed, 39 insertions(+), 30 deletions(-)
+ fs/eventpoll.c            | 2 +-
+ include/linux/eventpoll.h | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 9ea6a2bd3d87..1c7001866340 100644
+index f464f2f39e0e..9ea6a2bd3d87 100644
 --- a/fs/eventpoll.c
 +++ b/fs/eventpoll.c
-@@ -99,11 +99,6 @@
+@@ -334,7 +334,7 @@ static void __init epoll_sysctls_init(void)
  
- #define EP_ITEM_COST (sizeof(struct epitem) + sizeof(struct eppoll_entry))
+ static const struct file_operations eventpoll_fops;
  
--struct epoll_filefd {
--	struct file *file;
--	int fd;
--} __packed;
--
- /* Wait structure used by the poll hooks */
- struct eppoll_entry {
- 	/* List header used to link this structure to the "struct epitem" */
-@@ -2225,30 +2220,17 @@ static inline int epoll_mutex_lock(struct mutex *mutex, int depth,
- 	return -EAGAIN;
- }
- 
--int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
--		 bool nonblock)
-+int do_epoll_ctl_file(struct file *f, int op, struct epoll_filefd *tf,
-+		      struct epoll_event *epds, bool nonblock)
+-static inline int is_file_epoll(struct file *f)
++int is_file_epoll(struct file *f)
  {
- 	int error;
- 	int full_check = 0;
- 	struct eventpoll *ep;
- 	struct epitem *epi;
- 	struct eventpoll *tep = NULL;
--	struct epoll_filefd efd;
--
--	CLASS(fd, f)(epfd);
--	if (fd_empty(f))
--		return -EBADF;
--
--	/* Get the "struct file *" for the target file */
--	CLASS(fd, tf)(fd);
--	if (fd_empty(tf))
--		return -EBADF;
--
--	efd.file = fd_file(tf);
--	efd.fd = fd;
- 
- 	/* The target file descriptor must support poll */
--	if (!file_can_poll(fd_file(tf)))
-+	if (!file_can_poll(tf->file))
- 		return -EPERM;
- 
- 	/* Check if EPOLLWAKEUP is allowed */
-@@ -2261,7 +2243,7 @@ int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 	 * adding an epoll file descriptor inside itself.
- 	 */
- 	error = -EINVAL;
--	if (fd_file(f) == fd_file(tf) || !is_file_epoll(fd_file(f)))
-+	if (f == tf->file || !is_file_epoll(f))
- 		goto error_tgt_fput;
- 
- 	/*
-@@ -2272,7 +2254,7 @@ int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 	if (ep_op_has_event(op) && (epds->events & EPOLLEXCLUSIVE)) {
- 		if (op == EPOLL_CTL_MOD)
- 			goto error_tgt_fput;
--		if (op == EPOLL_CTL_ADD && (is_file_epoll(fd_file(tf)) ||
-+		if (op == EPOLL_CTL_ADD && (is_file_epoll(tf->file) ||
- 				(epds->events & ~EPOLLEXCLUSIVE_OK_BITS)))
- 			goto error_tgt_fput;
- 	}
-@@ -2281,7 +2263,7 @@ int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 	 * At this point it is safe to assume that the "private_data" contains
- 	 * our own data structure.
- 	 */
--	ep = fd_file(f)->private_data;
-+	ep = f->private_data;
- 
- 	/*
- 	 * When we insert an epoll file descriptor inside another epoll file
-@@ -2302,16 +2284,16 @@ int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 	if (error)
- 		goto error_tgt_fput;
- 	if (op == EPOLL_CTL_ADD) {
--		if (READ_ONCE(fd_file(f)->f_ep) || ep->gen == loop_check_gen ||
--		    is_file_epoll(fd_file(tf))) {
-+		if (READ_ONCE(f->f_ep) || ep->gen == loop_check_gen ||
-+		    is_file_epoll(tf->file)) {
- 			mutex_unlock(&ep->mtx);
- 			error = epoll_mutex_lock(&epnested_mutex, 0, nonblock);
- 			if (error)
- 				goto error_tgt_fput;
- 			loop_check_gen++;
- 			full_check = 1;
--			if (is_file_epoll(fd_file(tf))) {
--				tep = fd_file(tf)->private_data;
-+			if (is_file_epoll(tf->file)) {
-+				tep = tf->file->private_data;
- 				error = -ELOOP;
- 				if (ep_loop_check(ep, tep) != 0)
- 					goto error_tgt_fput;
-@@ -2327,14 +2309,14 @@ int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 	 * above, we can be sure to be able to use the item looked up by
- 	 * ep_find() till we release the mutex.
- 	 */
--	epi = ep_find(ep, &efd);
-+	epi = ep_find(ep, tf);
- 
- 	error = -EINVAL;
- 	switch (op) {
- 	case EPOLL_CTL_ADD:
- 		if (!epi) {
- 			epds->events |= EPOLLERR | EPOLLHUP;
--			error = ep_insert(ep, epds, &efd, full_check);
-+			error = ep_insert(ep, epds, tf, full_check);
- 		} else
- 			error = -EEXIST;
- 		break;
-@@ -2369,6 +2351,26 @@ int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
- 		mutex_unlock(&epnested_mutex);
- 	}
- 	return error;
-+
-+}
-+
-+int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
-+		 bool nonblock)
-+{
-+	struct epoll_filefd efd;
-+
-+	CLASS(fd, f)(epfd);
-+	if (fd_empty(f))
-+		return -EBADF;
-+
-+	/* Get the "struct file *" for the target file */
-+	CLASS(fd, tf)(fd);
-+	if (fd_empty(tf))
-+		return -EBADF;
-+
-+	efd.file = fd_file(tf);
-+	efd.fd = fd;
-+	return do_epoll_ctl_file(fd_file(f), op, &efd, epds, nonblock);
+ 	return f->f_op == &eventpoll_fops;
  }
- 
- /*
 diff --git a/include/linux/eventpoll.h b/include/linux/eventpoll.h
-index 7bf30e9f90d7..4a6fe989810b 100644
+index 728fb5dee5ed..7bf30e9f90d7 100644
 --- a/include/linux/eventpoll.h
 +++ b/include/linux/eventpoll.h
-@@ -61,6 +61,13 @@ static inline void eventpoll_release(struct file *file)
- 	eventpoll_release_file(file);
- }
+@@ -63,6 +63,7 @@ static inline void eventpoll_release(struct file *file)
  
-+struct epoll_filefd {
-+	struct file *file;
-+	int fd;
-+} __packed;
-+
-+int do_epoll_ctl_file(struct file *f, int op, struct epoll_filefd *tf,
-+		      struct epoll_event *epds, bool nonblock);
  int do_epoll_ctl(int epfd, int op, int fd, struct epoll_event *epds,
  		 bool nonblock);
- int is_file_epoll(struct file *f);
++int is_file_epoll(struct file *f);
+ 
+ /* Tells if the epoll_ctl(2) operation needs an event copy from userspace */
+ static inline int ep_op_has_event(int op)
 -- 
 2.53.0
 
