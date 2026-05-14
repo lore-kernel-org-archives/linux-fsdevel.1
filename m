@@ -1,226 +1,106 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD28130F958
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 13:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778764189; cv=none; b=anvVd8HYSG7O/iiDEq99FbDc7a8KF+stTOVa8t/ouIfqaOWQFwOs3oOiKXEBKSLnDZ+xD2PoG8aPZsCY72acw5vgWyp1XOuch+ssNflSmb8h6v5Ei7RinW1Tftz3C9Hy3y+xhL+zBuRq3Fa0E0mwGAa66mVDDb7JUFrDUCtc1tI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778764189; c=relaxed/simple;
-	bh=slMAwfvWGpCYmvrX51E67AatDZm8mfiaLwA2d7coZQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KGedaa/mX5M2mooDGSUIsnv9HIVoiSpHLbFYOA4Q4WLV12aYynKQMsnQ7lAhC0/tUDRNTT9OKjx00El2+TLyBRSDYtfp5etlJDz4oVjcEuxFz5/ee3BEsyLZNPVqU31O1KyPLoDObSiAjbSjFcQPK3t6I0RcHB1gMcjbz8Not/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XJPXuqJO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EsOwrvKO; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XJPXuqJO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EsOwrvKO; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E6E22068D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 13:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778765134; cv=pass; b=Wf5GTZzOvXQesf+LUnkBXMyBki5aON7YgLiU4ZJzM6gKD3BWz0N2R38K+LXbplBMt2Ykg5TIXdl2jrE3BQ/xb7sygToci5xzpRDEVv0JbTANNG7kr0rHHRjZBK4wvnDODDCeP8Of5keOqtD3iPW2q2Ajz741huulcmql9GTbXCs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778765134; c=relaxed/simple;
+	bh=q1KPWtlYGJ9k4GWdbOBFBQypFO+As21L/btu0m/ovvQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lvuXNRmWS6t884Y5jwtLJU5myDZx2MpZBcoCME7woXInIIgc12X0Q9grhfuxIDToNjD7O9DbltjTU5DCIMI+DX9iJOxcBMH8f2QmYHJk6HZq8yNBwoPAgiKRjVISukEHEc6WIoW2BfYD6vNBJzKCAq2IOsW3stybLFUS5m3kvvw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mH0d6K6h; arc=pass smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XJPXuqJO";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EsOwrvKO";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XJPXuqJO";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EsOwrvKO"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 04E8D678B2;
-	Thu, 14 May 2026 13:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778764186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/05sYzqkJ1sCkKAbVhUIGvOBbX68pJDgCE0fMoXWIRw=;
-	b=XJPXuqJOvNPRgzmoSfKXOk/J8xxyA0UxjcyfkcDzkqaHK9gGSr2FDc4KptaPyKMPCmvuKO
-	79IELpDHSWfr0dC2RQXkUq2U7Njr+x3/UYaogb3PKS1D8AG+CyT9xcAi2t26lYeQyHZTAU
-	s6LqVAW25xJYopkcC7X338dTlhzQTmo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778764186;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/05sYzqkJ1sCkKAbVhUIGvOBbX68pJDgCE0fMoXWIRw=;
-	b=EsOwrvKO+xZKHoJyORrCx5zCrLy30gK07s1V5v/KG5Z8H4S3bHmd8CUc89bQSaZXWWM5Sf
-	QzXmgXNJAilVtlBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=XJPXuqJO;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=EsOwrvKO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1778764186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/05sYzqkJ1sCkKAbVhUIGvOBbX68pJDgCE0fMoXWIRw=;
-	b=XJPXuqJOvNPRgzmoSfKXOk/J8xxyA0UxjcyfkcDzkqaHK9gGSr2FDc4KptaPyKMPCmvuKO
-	79IELpDHSWfr0dC2RQXkUq2U7Njr+x3/UYaogb3PKS1D8AG+CyT9xcAi2t26lYeQyHZTAU
-	s6LqVAW25xJYopkcC7X338dTlhzQTmo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1778764186;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/05sYzqkJ1sCkKAbVhUIGvOBbX68pJDgCE0fMoXWIRw=;
-	b=EsOwrvKO+xZKHoJyORrCx5zCrLy30gK07s1V5v/KG5Z8H4S3bHmd8CUc89bQSaZXWWM5Sf
-	QzXmgXNJAilVtlBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0FC6593A9;
-	Thu, 14 May 2026 13:09:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YHLWOpnJBWq6XQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 14 May 2026 13:09:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 8C455A080D; Thu, 14 May 2026 15:09:37 +0200 (CEST)
-Date: Thu, 14 May 2026 15:09:37 +0200
-From: Jan Kara <jack@suse.cz>
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: Tejun Heo <tj@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] writeback: fix race between cgroup_writeback_umount()
- and inode_switch_wbs()
-Message-ID: <mxnjq2l6guusfchvauxr3v7c4bwjasybxlleqbbh4efloeqspz@iqylk76ohufz>
-References: <20260513094829.867648-1-libaokun@linux.alibaba.com>
- <22cda97d61cc9d540d4e7116d5f3f08a@kernel.org>
- <a7f260f7-63a6-4e6f-99aa-0a4be29f740f@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mH0d6K6h"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-65c20ffb440so1179610d50.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 06:25:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778765132; cv=none;
+        d=google.com; s=arc-20240605;
+        b=N1OgKqArDTa9TXz67G4tKHSW61nsyfqoTqjrmHIcEC2ETaJPuPI/GaD9jkklsnvKa3
+         VTFWaluq/cnX3C6XwLas0a17xF3Rf6IeDXKUKw3ky08fOrRStp8ET/S156X604f2YSuz
+         AEhlzQwJxCzgNsCysGHoVWTpYEDuHBeg06h/DmLD+XDn9LplLa87rC3k/bP6GxypRfcs
+         /YDIkoD+Zv5q1eseFtIdXUaabur5A2hv4vDw6SMZfxPIbHUiT3zOtE72dbJgLtvqvaCl
+         PFecjSpYlqsYlDmsb6TfxwhqFaod5eoTvuv/OaPVelzPvSy6FRuKHF+TH2Qz+L1FfbTB
+         ec4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=yLvPZsnvIVyr8XYjbTjvb7MHno1Iwmok22i9NYEtxQA=;
+        fh=zNbUK09E7fx+U2f9h64RC0tWsQm4uNM1cvCtYkp56xU=;
+        b=b1E3wL9gUbk/jLgJtRl9Mt3CH7poNd5+NwhEcgU+kc6k0E6xd8jyDXp02u5evG3iFw
+         OPlOKSBpL+jhEU+ok4KoZTzW6u5QxJz2tfBn/saBXhuCewPVhKEJSXEUWrqg2MIrIQum
+         99svIKNsX8LS7rdwmAW4MiUKsCaSlD5DST/reeNwaS6gnwlil8k3ZV9fbMiH0HZiu2P2
+         Jgt9PReS3jDussG6oGMb0dZDfRe4aE9O50009HWt9fGSc2o2JhIZTXV9OptGKkItOB0W
+         pLuUVtUdmmUVjJQqxREVxsgt5ig5pVEGxzfnZgFNd6MZi1GwSzpcIwK1QdBBkNK/5AHM
+         sQqw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778765132; x=1779369932; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yLvPZsnvIVyr8XYjbTjvb7MHno1Iwmok22i9NYEtxQA=;
+        b=mH0d6K6hNRXbpaOcS5ci+N9EL6c1qrUhxCJ38F2Yj1+g6JgACs+bmNYw+ncsYNuYkK
+         MIszaU/1HbJk942lEwFTrtVVrk+DMdWd/8dWh38+lMMNLC4T1DWc3eiNKg2U+aCeYT/m
+         C8pb16rOstL5yj2cvUoTd46A6+v2dKBfEUBkNbyoLtXZKU/x/HyXXjWtDSwEXrJmCgOf
+         x0kd61YlzgUOHdpbNIT70RIXsGIS2z73LZsnBNmd7/qGHPPQxFfmMhhz1AzRd2hGLCtr
+         kTCMiaU8DhzQnVIYwLjV2JgHlmO9D5IJxn4WGe9WZJnHrpADJSiyvvvrzap3EsRr1oRk
+         XcjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778765132; x=1779369932;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yLvPZsnvIVyr8XYjbTjvb7MHno1Iwmok22i9NYEtxQA=;
+        b=oJ//wW5PPKT+1mRk5o+85Wu9Tgp/ITR0U/HRyOOscdX5WCRRt3TotpPJ8KUNudS7bf
+         f6Lpqx9N+4Fm4y+630UA8kwemdF5PJ7HGdYcDIi/lzoBwCAqxG7Tm/7JwyITe8fqXDpT
+         2Zx50pSx23JFqOpY+P+x+WTR+rvdzrrxS0TvblBMX6EVaqcOnMamqc2xmWoTt7Wd/ofe
+         y1YG7dMrPUZu5qxfR6S8a+XIB+lWgJnqXMGIbTd+SdNSCiozEfnB9KiP/xXutxWQR1Rs
+         8aGuU7oOVBwwBclRd6NKyyEc4xcs2f0HfW8l/+5W6yHEVDsY1P9txrrxkUy1x8/X2fuo
+         xZjQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/tRKZ5MJ36bWa085vCrNskH4++uJM/665KSGMIlGBSDR55YOnMoXD8HBZBXmwJtsEHEGPBDIYu5S9gIWmE@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzMD1JNVpvB0Yh04GES/A4rRReLNYRC9Sx+LIU81kypxKvvnFQ
+	mP172bAc3b0kuWwtZk1tI4dkto+XCX6cJIkHCPMyi4+AZWwbsRS9Qvoc1oWur3c1wbs2plUGfK2
+	gdvQ+Zeiq4mBAkU8Qt8kl+3I4kRAymZE=
+X-Gm-Gg: Acq92OGL4Wb2XBp2HenW3imHe3FPzCeuPD8eXfvfNz4Vc8Muy0O3DZb+U/6wer/m3xy
+	yBAO0igBZnRawS6qW+Hpid/bND+p6zjqxXYo2q+iJIoFjma2EsuCREi0IdbiymUOgJfb4nH39f2
+	00gLrjQw9lEO8gqUEHKGUIB4U1kqW6v1bMJrSr5ZaDnSg5j9APdH0k886lcmBYL6dVAL8zVcJ3L
+	bUImIiRAhN3hw72d4uch9ZIjEkvs7IFYdh6ibVS2KWhLaqI27ImxgM5OyJNVUDpaXhOy8Xqarpj
+	Hcw14J86
+X-Received: by 2002:a05:690e:4411:b0:651:d0a5:ce9 with SMTP id
+ 956f58d0204a3-65df6381d9bmr3194269d50.6.1778765131957; Thu, 14 May 2026
+ 06:25:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a7f260f7-63a6-4e6f-99aa-0a4be29f740f@linux.alibaba.com>
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Queue-Id: 04E8D678B2
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+References: <20260511160626.1268612-1-charsyam@gmail.com> <20260511160626.1268612-4-charsyam@gmail.com>
+ <CANFS6baeNEftv9Zwn7_tNxhH2B8kEhrWOT14RLyewr1_rhnrsw@mail.gmail.com>
+In-Reply-To: <CANFS6baeNEftv9Zwn7_tNxhH2B8kEhrWOT14RLyewr1_rhnrsw@mail.gmail.com>
+From: CharSyam <charsyam@gmail.com>
+Date: Thu, 14 May 2026 22:25:21 +0900
+X-Gm-Features: AVHnY4I_B9-D6p52U-Oqx-i-X1_Ut1W7YC8VjOZ4ni6kIlVfLr4QhWBWmNcD5P4
+Message-ID: <CAMrLSE6ZwKd4cS0YnXuKRvYoRMfXTKz8_LH62uD7F-vVR1kGtg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ntfs: mark quotas out of date on initial rw mount
+To: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu 14-05-26 10:55:03, Baokun Li wrote:
-> 在 2026/5/14 04:36, Tejun Heo 写道:
-> > Hello,
-> >
-> > Resending - earlier send dropped the Cc list. Sorry for the noise.
-> >
-> > How rcu_barrier() got out of sync, as best I can reconstruct:
-> >
-> > - ec084de929e4 ("fs/writeback.c: use rcu_barrier() to wait for inflight
-> >   wb switches going into workqueue when umount", 2019) put the inc
-> >   after call_rcu(); rcu_barrier() worked from then.
-> >
-> > - 8826ee4fe750 ("writeback, cgroup: increment isw_nr_in_flight before
-> >   grabbing an inode", 2021) moved the inc back ahead to cover the prep
-> >   window, apparently reopening this gap.
-> >
-> > - e1b849cfa6b6 ("writeback: Avoid contention on wb->list_lock when
-> >   switching inodes", 2025) replaced call_rcu() with llist_add() +
-> >   queue_work(); rcu_barrier() looks like a no-op for this path since.
-> >
-> > Could SRCU work instead? srcu_read_lock around the publish (atomic_inc
-> > through wb_queue_isw), with cgroup_writeback_umount() keeping the
-> > counter gate but swapping rcu_barrier() for synchronize_srcu():
-> >
-> >   if (atomic_read(&isw_nr_in_flight)) {
-> >           synchronize_srcu(&isw_srcu);
-> >           flush_workqueue(isw_wq);
-> >   }
-> >
-> > Thoughts?
-> 
-> Thanks for the detailed analysis on how rcu_barrier() got out of sync,
-> that matches my understanding as well.
-> 
-> Regarding the SRCU idea: I considered it, but it has a key drawback.
-> synchronize_srcu() waits for all read-side critical sections globally
-> -- it cannot distinguish which superblock a given switcher is working
-> on. So if sb A is being unmounted while unrelated switchers for sb B/C/D
-> hold srcu_read_lock(), umount of A gets blocked unnecessarily. The
-> global isw_nr_in_flight gate makes this worse: any non-zero count from
-> any sb triggers synchronize_srcu(), even when the target sb has no
-> in-flight switches at all.
-> 
-> This is especially problematic in high-density container environments,
-> where many containers with separate filesystems are being created and
-> destroyed concurrently. Frequent cgroup migrations across multiple
-> superblocks keep the global isw_nr_in_flight perpetually non-zero,
-> causing every single umount to pay the synchronize_srcu() cost even
-> when the target sb has zero in-flight switches.
-> 
-> The per-sb counter avoids this entirely -- cgroup_writeback_umount()
-> only waits for switches belonging to its own superblock to drain, and
-> returns immediately when s_isw_nr_in_flight is zero. The global counter
-> is retained solely for throttling (WB_FRN_MAX_IN_FLIGHT).
-> 
-> The other trade-offs are roughly comparable: both need pairing on all
-> paths, but the per-sb atomic_t gets zero-initialized by kzalloc for
-> free, while SRCU needs init/cleanup lifecycle management. The per-cpu
-> read lock advantage doesn't matter here since wb switching is
-> infrequent.
-> 
-> So I went with the per-sb counter for its precision and simplicity.
-> That said, if you prefer the SRCU approach, I'm happy to spin a new
-> version using it.
+    Thanks for the review.
 
-So I don't think we need a new SRCU. What really needs protection is this
-snippet as you correctly identified in your changelog:
+    You're right that the driver does not maintain quota accounting: it
+    creates v1.2 $STANDARD_INFORMATION for new inodes, and it does not update
+    the v3 quota fields or $Quota usage accounting.
 
-        if (!inode_prepare_wbs_switch(inode, new_wb))
-                goto out_free;
+    Given that I do not have modern Windows validation for the exact quota
+    rescan behavior, I'll drop 3/3 from v3 and resend just 1/3 and 2/3.
 
-        isw->inodes[0] = inode;
-
-        trace_inode_switch_wbs_queue(inode->i_wb, new_wb, 1);
-        wb_queue_isw(new_wb, isw);
-
-So between we __iget() the inode and we queue work. The rest gets solved
-either by SB_ACTIVE check in inode_prepare_wbs_switch() or
-flush_workqueue() in cgroup_writeback_umount(). Since there's no sleep in
-this part, we can just wrap it within rcu_read_lock() (with appropriate
-comment what's protected) and that fixes the race. We could even downgrade
-rcu_barrier() in cgroup_writeback_umount() to synchronize_rcu() and it
-would still work. So I'd prefer to fix the race like this (also to ease
-backporting to older kernels).
-
-Now the performance optimization to make isw_nr_in_flight per
-superblock makes sense and I'm open to it as well. But it should be a
-separate commit with proper justification and ideally some numbers backing
-it showing the benefit.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+    Thanks,
+    DaeMyung
