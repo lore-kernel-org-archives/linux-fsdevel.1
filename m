@@ -1,74 +1,74 @@
 Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A6D3CDBA4
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 21:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DBC3CEB98
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 21:52:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778795530; cv=none; b=J+ilPVeqqkVitOxvF/g6fg5ZpJWQZ6HGBj4UP0dMxg8qlrGS3Iz2zxpLs4up6CJpzGQlUtZRNiuUsjUSvDBwHWzCIJdA6jdfDflmnl37Bs4NGNtxOWNRHlWN2InFcIv3O3uFmtR9EME5bu1qn2gsJIL09Dtx3R6n9pnKlgF1esY=
+	t=1778795531; cv=none; b=EN06oby0wEr/6TBu4HXJqx7NR2X9Ia2n+ebMl0RljjJqTL2yik+QQVan9FcPyxXiK6KRHWCo0Egvad0CrGQJYW2kDsaAKyEqjW6IIWy18qrtuEm2/EcqGLbZnZGx8LAjuNQGE69RyPlt45eYKXi0ASKQZkNKa04h2jV6aa1nCHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778795530; c=relaxed/simple;
-	bh=cKMEY2qMe+ThIRuTqPtJK/4lqWcAKsfKxgMzaSM3Nxs=;
+	s=arc-20240116; t=1778795531; c=relaxed/simple;
+	bh=oc6U7NpIca6DPcliabejSR7QvsWIVWFdwf+uh6U3Rsg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lt8PbYkEetIVHnxuTV1OOI3ZatDxx29KUka7C7ndn9xkwSwkb1zwZlQ0nSmG1ye/qwV6wtIVVgeO+K4Y8fLUe0uld4qQzt3fGSkC+xBYhCVKAEaPu0BJZNMBh9TqS1gNXzu4vSeWdtxQ7T9+UqecDQPpV+7YES66PNCfyQnQuiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=lVizpkSM; arc=none smtp.client-ip=148.163.139.74
+	 In-Reply-To:To:Cc; b=Ss77GBNv7OGnUPlU0Ssrq4P71OZLGDpgWyzZgDWYqI7rT/oJxPvKW0TrD89lMVY7AIDh82i129cCoGCvSZRud2vOKQs/FRMJYtjhBCt9tpiLeaYWtbIVlXRZ/cl9oLcpPruH1CzHTIHbT3XuU+6trDJGyFDwD7q6TE20uwpvJ50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=amptX5dC; arc=none smtp.client-ip=148.163.139.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="lVizpkSM"
-Received: from pps.filterd (m0167076.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64ELhs8L3098886
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="amptX5dC"
+Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64ELgnw3789396
 	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=KiFB
-	1XYNEx2p4p1r40wGMJ8MJmpntx+6yGMPM/Sx6+E=; b=lVizpkSMqP3/FNMIKfpJ
-	2hYHvrsvlJYHnoo3y0s5a04k3jgVNQAeOD6ig9ZVde/pTJtE5K5rxyPO4de+aDsX
-	qH34Q+J7K0T3JD5Mx1wAx0Bz1gRqXXDQtW04vtheDJmQIP/aaCX7y0Jj7pFZylPO
-	VV5rlxyWSwj/hMDAXgjPY7e+bDDxuKwJK2VaJsxOfL4PHNQf+4Z7MxCEj2VRgohx
-	x4La/cHrHDCpNTUc7iLKyDPFgO+0LerhtZA2C6OymuwDDAG2I7U6yoSzRHVYhKzp
-	MEqCS0cxojwtxF5sSKiCMmL5UMtOVIQeReQH7pNSDVe25Xcc6171h3BdIBw5LE5g
-	jQ==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4e5m24hcbf-1
+	:message-id:mime-version:references:subject:to; s=pps01; bh=ot8e
+	9s9wEWPY8e0IKULsGPR22o/8zTD5eyv3hI7CBS8=; b=amptX5dCAhpcnMGmuHLT
+	GYOn8Vyq1JSUuTaRKvpBtp4cP8ObZJDxT/CCcaLdO9j67TZKns3IqaI0gwDxMfri
+	sZ71s+48zMDhznNI5m8HKE7ePWk5fVxvvLhKPxt12xJjWv2nss7XbWFa1XgLyRi9
+	0AR6y6+jHz3Wg9TYx6OVohvAKySgnHEfrYfXp/EjQT+S3qyxvM+il3WnRtGDbqTR
+	09uaHzbDh9rC22KUjg/cc46V0pl8mR8vESanql4dUBrPmKGzKGzbzU9nqubUXNNS
+	Cz6BtlC8kk8av73Apy9e4SkRvFAgB+t3i9HIV8Ns3CfPiJApjoJggTBJSr0ZVtxD
+	kQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4e5m299h81-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:51 -0400 (EDT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-9114ffb5d86so112258885a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 14:51:51 -0700 (PDT)
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:50 -0400 (EDT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-90fdd724bf1so570998585a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 14:51:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778795511; x=1779400311;
+        d=1e100.net; s=20251104; t=1778795510; x=1779400310;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=KiFB1XYNEx2p4p1r40wGMJ8MJmpntx+6yGMPM/Sx6+E=;
-        b=ZOGYEbjoO1KnCo7cGyRW9m9NImle8WBpPEjntyXEILNpaJp4NnEa6jkpiBw1UX+BXe
-         hBOuI+5T78ZxHQOThPSc1/3maYoJfUEmCXA0U4JX65K5Gq4JY5vmXqJTYlrKYQGO0FOE
-         o98w6Zb91OO8AKgrN2rB03G0BtnIi7d6LO2jd66df9dh/oEZD/ZYUOjh2Y/GexCM13z4
-         TqtnzPymoA2k0s5JVr99GpSxEesvH3YunnTYpXO+s8pe7u1skWnqOuYalx5LBQRfHMdL
-         SshyfANtUKScREUjXnvg26MJbscI0porK1jv+hkTShBjOtYj2kieTSFHR5UNVf7uvUWq
-         Z/Vw==
-X-Forwarded-Encrypted: i=1; AFNElJ8Q8pCz8am0HivjJhOVh3UwVnYbwV6bvcPj8X8jur48BDujpYyPpNmiZCq5/xnUULGD8v73UH9tE6nQUAcW@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwOhK6vyhxBFIPqwNQRw9RZYbfHRc4biNTxfGafWVYur8d4Lku
-	4kW6koHWdt6YSceN6xw4aY2HxjeG5efeP/XpXygMuO+qSoR3Oy1e926RyW4FJytBF01yGsjkAQF
-	owH6NTK7Y4RmdCRQp3jifz+6N/ujN8MeOEsqGban3Sz7jI5lUA+Nw5/MA7E38dZ8=
-X-Gm-Gg: Acq92OEPqk1jVop3TmrhI3rhOvXgF6MRiZSEEfdgD15NPPzM6iDxsHDvnmm0/ZxwGdF
-	ugvq99EiqlFEJf6YUWd55Oo5LUMzGO3wfTJrv1xPdlDu3uBlvIy+8Qs6tr4U2GbPzniw4Fx/duX
-	G21TL6ed0+kqMC7TApdTgrK8JcWCntlOhF82o3OAnoTVCf4WhjAboruJ0nimDTblIrKJx1xo2bM
-	KmMu73lQES7e6hcXEgG96dmceKY7U5PsHA4RMXw55nKffqXS5jMTwRDFDekiRY2it/33VG32Ncw
-	RXQfY4BGc/uNgNmmi2R0FOigtRaJgWylG37T+bpMV88G8SWsNodt68JnSHAUmBP1RmrlLJ4FUyI
-	nLQxk19H7zLnSudUcrfCRFGbU1nxXatX7/U2aFc2hKWw=
-X-Received: by 2002:a05:620a:31a4:b0:904:f4a5:ab76 with SMTP id af79cd13be357-911cd8572famr230870185a.3.1778795511123;
-        Thu, 14 May 2026 14:51:51 -0700 (PDT)
-X-Received: by 2002:a05:620a:31a4:b0:904:f4a5:ab76 with SMTP id af79cd13be357-911cd8572famr230865885a.3.1778795510670;
+        bh=ot8e9s9wEWPY8e0IKULsGPR22o/8zTD5eyv3hI7CBS8=;
+        b=GWCzJdWtN5ZqUWca8E8UjeAuAZwukymcITcoTWonWBXJjpEwXdccsEiEITm8Tj9xPS
+         ySZoiaF1Q0W2ECl8clUDwsF+zGg4Bku5F8xJs5H8L8y/RFQGp40UAsQ9f9syyqTxbSgo
+         6kjW0HxEFBbRecs138foKffRjaasGHS2iQyVLHpbuoCxIqF/XnSY3pYwFcBOSkCKfhhn
+         clpXKfayB8+YGwYx6uZlbo/tBuU7QKN2nQPFfA7ygJnOAARv+Y5x+ABFihaUuEOYBLts
+         DmoSBQllzxYz+8pD1djMdRrDA6VNmVg7NvWrWkkIQLsqaIkCQ/NzcyNXJf/OETDaUp6P
+         D+dQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+sFqO9oD8DLxB++TDzxdhzx7tSmwzpGD5xKTGKoPIgzZryXDsR4sBav9FFUMu4cft19HhlzhnE47QNdjFj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4DtGCL7KO/7jTpH3Wtg3DbImVP+n7wkw8ptHjZ/9gv4smUXoF
+	pxy6JSiU7Ki9OUFHzrdnSeojuIVwlPFh+qgSNPfQjkiTnOVoQI8b7DI8WKFtoV3+uUidCMQJRid
+	+BEMb6UFqjer9v8+Iax4yvxc5I3XSN3GPXJ5rCBEdWNZv9fXfeCxQnGBj888ESpY=
+X-Gm-Gg: Acq92OH+IeckGaIlnK3yekASz3EiZ+p3cEU0hu0trgY4t4wgooUQdWBNWCMLpDz8bCi
+	BHGpKkdl2LXLsrCJR/rr2HkO8Qa1YIW8FvRkT1mjCH4rP3BOSk1TGvWMOZQevF60hHuq4CL0+FZ
+	8Djcqdkmf1YZJAL/g/vFvTXxgBCAKXF2SaxdO7tfDl8NDwYfqmXnW1oq+jf9vDR6qkY8zIMXExV
+	jHqz2HMS4ZXF3zO1Lrb8ykxIJP1MjcnNQslGOrGdUqMI2VfuSMoq2X8YsuJky88k7MahHmN5reh
+	qqjKmnkMVSvv0ehF03InrLTT2enNeyC4/AC80wlEpILSPAl27W9JJnoqWiNU6Q8caR8snbJ7z3j
+	sfuCLP6MnMsAAlEJcFxj9FQdBg3dXsnjjZNIkjjXHoQw=
+X-Received: by 2002:a05:620a:7112:b0:8f0:7516:da99 with SMTP id af79cd13be357-911ce90bc41mr243015585a.60.1778795510071;
         Thu, 14 May 2026 14:51:50 -0700 (PDT)
+X-Received: by 2002:a05:620a:7112:b0:8f0:7516:da99 with SMTP id af79cd13be357-911ce90bc41mr243010885a.60.1778795509581;
+        Thu, 14 May 2026 14:51:49 -0700 (PDT)
 Received: from [127.0.1.1] ([129.236.229.175])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba18132fsm354966085a.6.2026.05.14.14.51.49
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba18132fsm354966085a.6.2026.05.14.14.51.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 14:51:50 -0700 (PDT)
+        Thu, 14 May 2026 14:51:49 -0700 (PDT)
 From: Tal Zussman <tz2294@columbia.edu>
-Date: Thu, 14 May 2026 17:51:15 -0400
-Subject: [PATCH v6 2/4] iomap: use BIO_COMPLETE_IN_TASK for dropbehind
- writeback
+Date: Thu, 14 May 2026 17:51:14 -0400
+Subject: [PATCH v6 1/4] block: add task-context bio completion
+ infrastructure
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,7 +77,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260514-blk-dontcache-v6-2-782e2fa7477b@columbia.edu>
+Message-Id: <20260514-blk-dontcache-v6-1-782e2fa7477b@columbia.edu>
 References: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
 In-Reply-To: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
 To: Jens Axboe <axboe@kernel.dk>,
@@ -93,115 +93,322 @@ Cc: Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
         linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>,
         Tal Zussman <tz2294@columbia.edu>
 X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778795507; l=3015;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778795507; l=9111;
  i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=cKMEY2qMe+ThIRuTqPtJK/4lqWcAKsfKxgMzaSM3Nxs=;
- b=EUSRdVenMg2q2kdAIUHNovBRSRrki7XEbmF5ULdT5lQWRq5+xfggvWhH1KNRKBXyJKgw/JuBx
- lcJ9tESwNybAtxuwQcAtvSMvqi8D3Ob2J54zMF5tDxhJkwMV4Tpj6IN
+ bh=oc6U7NpIca6DPcliabejSR7QvsWIVWFdwf+uh6U3Rsg=;
+ b=at5gcGpC3+Y/wzEruMkgdaBcuT4Jo3oZWqaJdg6p+Uy1AWNOkr00RFSEU5rxarBI4k5fCGW3W
+ OHd6hHEUgR8AKdSok87SSLXOCUi+S4svySklPkFKz3mCi8gj+YE2QgR
 X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
  pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Authority-Analysis: v=2.4 cv=aPrAb79m c=1 sm=1 tr=0 ts=6a0643f7 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=nkegbr1AwBRna+m8FBH0UQ==:17
+X-Proofpoint-ORIG-GUID: sfm0d6Fw58b74n4WRzKe8heo_cPCAkF5
+X-Proofpoint-GUID: sfm0d6Fw58b74n4WRzKe8heo_cPCAkF5
+X-Authority-Analysis: v=2.4 cv=Wuob99fv c=1 sm=1 tr=0 ts=6a0643f7 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=nkegbr1AwBRna+m8FBH0UQ==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=Qm0qsxP7aFY2tkT6R2MF:22
- a=CxwgBoAeUDVvfQxjk70A:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: bahrj4Ev13zIJErs2oMYGwlbo3TCeGx6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDIxNiBTYWx0ZWRfX9/XLn8E5aDEg
- r6aoi9oS1LdTXyHse7Cgz5T42T9kLbrMLMrM0dupjCUe00SGJ/JegTTd4uV6ZKHkabmFT8+5I69
- TPVOorH1B298eZGLilI1LX+xpCYNgPqPddovURfd0MhsB8A/UZ+QlZyW+jGkztm+EFk1iVKKCyo
- nMskfrTf+2e7+e6KZOeNBK6cLmuZ3liWQbpSnKtOEKasT1jtIitArMrOckFm61fk06LhiL/Z50B
- wCndodzXcT+H1V3VrI+P3tGkOLZP78GF/a0um1bH1Ro1LCxflLpYC1w3MrCnNQVV8zHX/ncBXg8
- OHZwi+KMMa+Du3pcm+YsT0UlNJKjzV2bWmg0twfdDIjIKkCmDsIW/+ZUxB3EzQufoGTr1h2kFWX
- pOJOtGzg0t1TnTtUZ6fHE/E/lubVjSH7epQRBOpL7XLincQKTyAFXle9bT/XubSSDPfLB/XL6X9
- 451Ss03KhLUTVDGYu8g==
-X-Proofpoint-ORIG-GUID: bahrj4Ev13zIJErs2oMYGwlbo3TCeGx6
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
+ a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8 a=OwvvbMMXozzxZtH9MBEA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDIxNiBTYWx0ZWRfX50iviaCO+jf3
+ A2MHRPcImWYR44tObJwd9GOM8ptQLaQC35FPFbMJxyklLXhBV3sCcMLA7o/kmQPCF9ujXhGB7eL
+ Rx0g1soIp2jzms2CcLRcnWDFKUIBpRS9tajbrnT5Eu0qT2ERXl775lh544sf65Zx7X+fFEtjwPN
+ qhJdFvFAhvWlD+0mbfRIU2IbZ6cz4PiQ5jRiDy+aADeGRRTYlAprTcg9AD39muGixc5Vvvg0IRN
+ HmSbn/iFz7F+5jtiCSvcUJ+KtLQ8yr9d5ZQ9+jlTOOA6S3xq0hN6rZLX7BwaF9rMEnHnBxrMuob
+ 39xJE3KQssH2WAo2Q13x8xB+KU0CLDcOslJU2Np//L3gxANAOIVIXL0g5ndkoKbTgLdjSDxqTHp
+ QET98E8+tweVlDEtRTogbZvh8VfUsT/50GxNJtlsrX1zH9skY7COVGpwlSq1wD5YfzqsQMpFUUp
+ qROOl2V9NAy8qHHMNRg==
 X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11786
  signatures=596817
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 lowpriorityscore=10 spamscore=0 phishscore=0 malwarescore=0
- bulkscore=10 suspectscore=0 impostorscore=10 priorityscore=1501 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605140216
+ clxscore=1015 suspectscore=0 spamscore=0 adultscore=0 impostorscore=10
+ phishscore=0 lowpriorityscore=10 priorityscore=1501 bulkscore=10
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605140216
 
-Set BIO_COMPLETE_IN_TASK on iomap writeback bios when a dropbehind folio
-is added. This ensures that bi_end_io runs in task context, where
-folio_end_dropbehind() can safely invalidate folios.
+Some bio completion handlers need to run from preemptible task context,
+but bio_endio() may be called from IRQ context (e.g., buffer_head
+writeback). Callers need a way to ensure their callback eventually runs
+from a sleepable context. Add infrastructure for that, in two forms:
 
-With the bio layer now handling task-context deferral generically,
-IOMAP_IOEND_DONTCACHE is no longer needed, as XFS no longer needs to
-route DONTCACHE ioends through its completion workqueue. Remove the flag
-and its NOMERGE entry.
+  1. BIO_COMPLETE_IN_TASK, a bio flag the submitter sets when it knows
+     in advance that its callback needs task context (e.g., dropbehind
+     writeback). bio_endio() sees the flag and offloads completion to a
+     worker automatically.
 
-Without the NOMERGE, regular I/Os that get merged with a dropbehind
-folio will also have their completion deferred to task context.
+  2. bio_complete_in_task(), a helper that completion callbacks can
+     invoke from within bi_end_io() when the deferral decision is
+     dynamic (e.g., fserror reporting).
 
+Both share a per-CPU batch list drained by a delayed work item on a
+WQ_PERCPU workqueue. Producers push the bio onto the local CPU's batch
+and schedule the work item, which then dispatches each bio's bi_end_io()
+from task context. The delayed work item uses a 1-jiffie delay to allow
+batches of completions to accumulate before processing.
+
+Both methods are gated on bio_in_atomic(), which returns true in any
+context where a sleeping bi_end_io() is unsafe, including
+non-preemptible task context. This logic is copied from commit
+c99fab6e80b7 ("erofs: fix atomic context detection when
+!CONFIG_DEBUG_LOCK_ALLOC").
+
+Two CPU hotplug callbacks are used to drain remaining bios from the
+departing CPU's batch, while maintaining the per-CPU behavior. The
+CPUHP_AP_ONLINE_DYN callback disables the per-CPU delayed work while the
+CPU is still online, preventing it from running on an unbound worker
+later. CPUHP_BP_PREPARE_DYN then drains any bios added between disabling
+the work item and CPU offline.
+
+Link: https://lore.kernel.org/all/20260409160243.1008358-1-hch@lst.de/
+Suggested-by: Matthew Wilcox <willy@infradead.org>
+Suggested-by: Christoph Hellwig <hch@infradead.org>
 Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 ---
- fs/iomap/ioend.c      | 5 +++--
- fs/xfs/xfs_aops.c     | 4 ----
- include/linux/iomap.h | 5 +----
- 3 files changed, 4 insertions(+), 10 deletions(-)
+ block/bio.c               | 147 +++++++++++++++++++++++++++++++++++++++++++++-
+ include/linux/bio.h       |  32 ++++++++++
+ include/linux/blk_types.h |   1 +
+ 3 files changed, 179 insertions(+), 1 deletion(-)
 
-diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
-index acf3cf98b23a..892dbfc77ae9 100644
---- a/fs/iomap/ioend.c
-+++ b/fs/iomap/ioend.c
-@@ -237,8 +237,6 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
+diff --git a/block/bio.c b/block/bio.c
+index b8972dba68a0..6864ee737400 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -19,6 +19,7 @@
+ #include <linux/blk-crypto.h>
+ #include <linux/xarray.h>
+ #include <linux/kmemleak.h>
++#include <linux/local_lock.h>
  
- 	if (wpc->iomap.flags & IOMAP_F_SHARED)
- 		ioend_flags |= IOMAP_IOEND_SHARED;
--	if (folio_test_dropbehind(folio))
--		ioend_flags |= IOMAP_IOEND_DONTCACHE;
- 	if (pos == wpc->iomap.offset && (wpc->iomap.flags & IOMAP_F_BOUNDARY))
- 		ioend_flags |= IOMAP_IOEND_BOUNDARY;
- 
-@@ -255,6 +253,9 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
- 	if (!bio_add_folio(&ioend->io_bio, folio, map_len, poff))
- 		goto new_ioend;
- 
-+	if (folio_test_dropbehind(folio))
-+		bio_set_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
-+
- 	/*
- 	 * Clamp io_offset and io_size to the incore EOF so that ondisk
- 	 * file size updates in the ioend completion are byte-accurate.
-diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-index f279055fcea0..0dcf78beae8a 100644
---- a/fs/xfs/xfs_aops.c
-+++ b/fs/xfs/xfs_aops.c
-@@ -511,10 +511,6 @@ xfs_ioend_needs_wq_completion(
- 	if (ioend->io_flags & (IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_SHARED))
- 		return true;
- 
--	/* Page cache invalidation cannot be done in irq context. */
--	if (ioend->io_flags & IOMAP_IOEND_DONTCACHE)
--		return true;
--
- 	return false;
+ #include <trace/events/block.h>
+ #include "blk.h"
+@@ -1717,6 +1718,79 @@ void bio_check_pages_dirty(struct bio *bio)
  }
+ EXPORT_SYMBOL_GPL(bio_check_pages_dirty);
  
-diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-index 2c5685adf3a9..fef04e01116f 100644
---- a/include/linux/iomap.h
-+++ b/include/linux/iomap.h
-@@ -399,16 +399,13 @@ sector_t iomap_bmap(struct address_space *mapping, sector_t bno,
- #define IOMAP_IOEND_BOUNDARY		(1U << 2)
- /* is direct I/O */
- #define IOMAP_IOEND_DIRECT		(1U << 3)
--/* is DONTCACHE I/O */
--#define IOMAP_IOEND_DONTCACHE		(1U << 4)
++/*
++ * Infrastructure for deferring bio completions to task-context via a per-CPU
++ * workqueue. Triggered either by the BIO_COMPLETE_IN_TASK bio flag (static
++ * decision at submit time) or by calling bio_complete_in_task() from
++ * bi_end_io() (dynamic decision at completion time).
++ */
++
++struct bio_complete_batch {
++	local_lock_t lock;
++	struct bio_list list;
++	struct delayed_work work;
++	int cpu;
++};
++
++static DEFINE_PER_CPU(struct bio_complete_batch, bio_complete_batch) = {
++	.lock = INIT_LOCAL_LOCK(lock),
++};
++static struct workqueue_struct *bio_complete_wq;
++
++static void bio_complete_work_fn(struct work_struct *w)
++{
++	struct delayed_work *dw = to_delayed_work(w);
++	struct bio_complete_batch *batch =
++		container_of(dw, struct bio_complete_batch, work);
++
++	while (1) {
++		struct bio_list list;
++		struct bio *bio;
++
++		local_lock_irq(&bio_complete_batch.lock);
++		list = batch->list;
++		bio_list_init(&batch->list);
++		local_unlock_irq(&bio_complete_batch.lock);
++
++		if (bio_list_empty(&list))
++			break;
++
++		while ((bio = bio_list_pop(&list)))
++			bio->bi_end_io(bio);
++
++		if (need_resched()) {
++			bool is_empty;
++
++			local_lock_irq(&bio_complete_batch.lock);
++			is_empty = bio_list_empty(&batch->list);
++			local_unlock_irq(&bio_complete_batch.lock);
++			if (!is_empty)
++				mod_delayed_work_on(batch->cpu,
++						    bio_complete_wq,
++						    &batch->work, 0);
++			break;
++		}
++	}
++}
++
++void __bio_complete_in_task(struct bio *bio)
++{
++	struct bio_complete_batch *batch;
++	unsigned long flags;
++	bool was_empty;
++
++	local_lock_irqsave(&bio_complete_batch.lock, flags);
++	batch = this_cpu_ptr(&bio_complete_batch);
++	was_empty = bio_list_empty(&batch->list);
++	bio_list_add(&batch->list, bio);
++	local_unlock_irqrestore(&bio_complete_batch.lock, flags);
++
++	if (was_empty)
++		mod_delayed_work_on(batch->cpu, bio_complete_wq,
++				    &batch->work, 1);
++}
++EXPORT_SYMBOL_GPL(__bio_complete_in_task);
++
+ static inline bool bio_remaining_done(struct bio *bio)
+ {
+ 	/*
+@@ -1791,7 +1865,9 @@ void bio_endio(struct bio *bio)
+ 	}
+ #endif
  
- /*
-  * Flags that if set on either ioend prevent the merge of two ioends.
-  * (IOMAP_IOEND_BOUNDARY also prevents merges, but only one-way)
-  */
- #define IOMAP_IOEND_NOMERGE_FLAGS \
--	(IOMAP_IOEND_SHARED | IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_DIRECT | \
--	 IOMAP_IOEND_DONTCACHE)
-+	(IOMAP_IOEND_SHARED | IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_DIRECT)
+-	if (bio->bi_end_io)
++	if (bio_flagged(bio, BIO_COMPLETE_IN_TASK) && bio_in_atomic())
++		__bio_complete_in_task(bio);
++	else if (bio->bi_end_io)
+ 		bio->bi_end_io(bio);
+ }
+ EXPORT_SYMBOL(bio_endio);
+@@ -1977,6 +2053,51 @@ int bioset_init(struct bio_set *bs,
+ }
+ EXPORT_SYMBOL(bioset_init);
  
- /*
-  * Structure for writeback I/O completions.
++static int bio_complete_batch_cpu_online(unsigned int cpu)
++{
++	enable_delayed_work(&per_cpu(bio_complete_batch, cpu).work);
++	return 0;
++}
++
++/*
++ * Disable this CPU's delayed work so that it cannot run on an unbound worker
++ * after the CPU is offlined.
++ */
++static int bio_complete_batch_cpu_down_prep(unsigned int cpu)
++{
++	disable_delayed_work_sync(&per_cpu(bio_complete_batch, cpu).work);
++	return 0;
++}
++
++/*
++ * Drain a dead CPU's deferred bio completions. The CPU is dead and the worker
++ * is canceled so no locking is needed.
++ */
++static int bio_complete_batch_cpu_dead(unsigned int cpu)
++{
++	struct bio_complete_batch *batch =
++		per_cpu_ptr(&bio_complete_batch, cpu);
++	struct bio *bio;
++
++	while ((bio = bio_list_pop(&batch->list)))
++		bio->bi_end_io(bio);
++
++	return 0;
++}
++
++static void __init bio_complete_batch_init(int cpu)
++{
++	struct bio_complete_batch *batch =
++		per_cpu_ptr(&bio_complete_batch, cpu);
++
++	bio_list_init(&batch->list);
++	INIT_DELAYED_WORK(&batch->work, bio_complete_work_fn);
++	batch->cpu = cpu;
++
++	if (!cpu_online(cpu))
++		disable_delayed_work_sync(&batch->work);
++}
++
+ static int __init init_bio(void)
+ {
+ 	int i;
+@@ -1991,6 +2112,30 @@ static int __init init_bio(void)
+ 				SLAB_HWCACHE_ALIGN | SLAB_PANIC, NULL);
+ 	}
+ 
++	for_each_possible_cpu(i)
++		bio_complete_batch_init(i);
++
++	bio_complete_wq = alloc_workqueue("bio_complete",
++					   WQ_MEM_RECLAIM | WQ_PERCPU, 0);
++	if (!bio_complete_wq)
++		panic("bio: can't allocate bio_complete workqueue\n");
++
++	/*
++	 * bio task-context completion draining on hot-unplugged CPUs:
++	 *
++	 *   1. Stop the per-CPU delayed work while the CPU is still online, so
++	 *      that it cannot run on an unbound worker later.
++	 *   2. Drain leftover bios added between worker disabling and CPU
++	 *      offlining.
++	 */
++	cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN,
++				  "block/bio:complete:online",
++				  bio_complete_batch_cpu_online,
++				  bio_complete_batch_cpu_down_prep);
++	cpuhp_setup_state_nocalls(CPUHP_BP_PREPARE_DYN,
++				  "block/bio:complete:dead",
++				  NULL, bio_complete_batch_cpu_dead);
++
+ 	cpuhp_setup_state_multi(CPUHP_BIO_DEAD, "block/bio:dead", NULL,
+ 					bio_cpu_dead);
+ 
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 97d747320b35..c0214d6c28d6 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -369,6 +369,38 @@ static inline struct bio *bio_alloc(struct block_device *bdev,
+ 
+ void submit_bio(struct bio *bio);
+ 
++/**
++ * bio_in_atomic - check if the current context is unsafe for bio completion
++ *
++ * Return: %true in atomic contexts (e.g. hard/soft IRQ, preempt-disabled);
++ * %false when a bio can be safely completed in the current context.
++ */
++static inline bool bio_in_atomic(void)
++{
++	if (IS_ENABLED(CONFIG_PREEMPTION) && rcu_preempt_depth())
++		return true;
++	if (!IS_ENABLED(CONFIG_PREEMPT_COUNT))
++		return true;
++	return !preemptible();
++}
++
++void __bio_complete_in_task(struct bio *bio);
++
++/**
++ * bio_complete_in_task - ensure a bio is completed in preemptible task context
++ * @bio: bio to complete
++ *
++ * If called from non-task context, offload the bio completion to a worker
++ * thread and return %true. Else return %false and do nothing.
++ */
++static inline bool bio_complete_in_task(struct bio *bio)
++{
++	if (!bio_in_atomic())
++		return false;
++	__bio_complete_in_task(bio);
++	return true;
++}
++
+ extern void bio_endio(struct bio *);
+ 
+ static inline void bio_io_error(struct bio *bio)
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 8808ee76e73c..d49d97a050d0 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -322,6 +322,7 @@ enum {
+ 	BIO_REMAPPED,
+ 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
+ 	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
++	BIO_COMPLETE_IN_TASK, /* complete bi_end_io() in task context */
+ 	BIO_FLAG_LAST
+ };
+ 
 
 -- 
 2.39.5
