@@ -1,248 +1,536 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842F81519B4
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 22:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3AD34D4C9;
+	Thu, 14 May 2026 22:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778797889; cv=none; b=e/edmlyWLvvOws0ZHEqDqIRftPbAQ5qSGHNRSs1cpao/L+H8i3OL3uBWXLers/ghBiXBvM538wiB9w+clhQNUU39QXkZ/pF1VWj9IMWVB+97haq4pHfE8zkbxdOWiYpjwKehWGm+lromnANdC5hi0JgDi+I4FLSBJl6MNHbSW1M=
+	t=1778799599; cv=none; b=jD0NAJnGogIA39g8fTIRYI+iXbrZWS5qsYRUrgqSfqXM9u3aFYDIS5kd+Id3UbYZYWSkELJKo9ylBNBjfpO8xMk2seZxwtYNHStrHv2EVQOyRrZvNYDFKHJ8ZgrC8edpqpQu1xIXDv9bTt3/sguJKOqYOlMrPfHepiEWC7E41zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778797889; c=relaxed/simple;
-	bh=sgXsN5ItagWIV69KxgSGg3f3EjuUoX/kFzlWwLW7XEE=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LSsvWpbOMIhRvkGQgweIh9DlMtCgIjq7jUhHjqG4GQf7gYSh/HriIYVaTfGVG+G53q37GqpZH7i7yDaJsuWeanx8k3FrRP18DpjhkKREBmDKDDc7VL3wJ41umCSVzNbPaYAKwhV0zYA2zLr5gx8ejmeLT9LB4dKuinGma4G7l6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KQI8lyIH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=URlSPQGA; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1778799599; c=relaxed/simple;
+	bh=Zh141Lr4vuoHEfF62NuY2/Yua8vjCwevSvo4M6Cb7Ds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QREBUanoqNSRrRUVQYqIWAO7C/ro/PkXRFiHl4zdH9GLqhcWFlVymjr8YcK7FQRwvR7++P6IHjQ4X0Aps9AV+jAs/Tkck2Rj9nWXDWC6bgP9zAa1bT40hGriYhKcdO/AI9cGODbkOUFOazb8Eb5lNhmLpQMvfQ9UgVpa+SMErBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LTsVjLzs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KQI8lyIH";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="URlSPQGA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778797886;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8kzTP4aRYW6VNhsi1rfhGxy4232nO7/Aa1UyVr2mM/0=;
-	b=KQI8lyIHK7XFunsqSY8DCzzbu2N95FL6ZzWs/z6Gt4/t595va+ArsdkgVbFt+lyDyOv8Rz
-	FkrKdCAdvY5nZSO0f65iRXH/P/ox5jHBtrGAxCj+rORfpbTyY8bO69DuZaKg/KX9LiW0UR
-	5SsgWtgauEvBPA90YxUR3Z4k+C3FFz0=
-Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
- [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-246-OLVuoowIMKq81YbtU2Usdg-1; Thu, 14 May 2026 18:31:24 -0400
-X-MC-Unique: OLVuoowIMKq81YbtU2Usdg-1
-X-Mimecast-MFC-AGG-ID: OLVuoowIMKq81YbtU2Usdg_1778797884
-Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-65c37eafd67so16974010d50.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 15:31:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1778797884; x=1779402684; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8kzTP4aRYW6VNhsi1rfhGxy4232nO7/Aa1UyVr2mM/0=;
-        b=URlSPQGAXcfWebk0g5f50hGU8y5hhy0jCo/UKjUKekQWOO4w4ZctFYHetyCVPyRwLr
-         CfASgdJY++xKXaipH8LzeUfOELMOJpYRXH7w1ut0Koek10VLs6YYXsgsFxd28THGoZgt
-         MmUH7V31AGwPn6RAssf03PXD7gOERbKovl0zVymiygrNFYLUAWyTemhTTYs5sXZ2qZ7+
-         ZgFPGbo2edi45llPW618btPGmyoq7VqK5qWn42kff3mT8u3LBMwOdon5/xQIYn5/hLpM
-         gzKuMD0iIrj+oNWFwk6IfS+q++VBy4UfMu2+IG1t+EN4X8dP08MOpd4KHqu5bWhygHAb
-         Pu/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778797884; x=1779402684;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8kzTP4aRYW6VNhsi1rfhGxy4232nO7/Aa1UyVr2mM/0=;
-        b=nHBsz1vFgK3iyzgMd0aVMO1jktXcoONcVA9mTwJfs6WziTcwNJ+2CqUSJHJhuYQ6sT
-         u94euA6vdtKphxxurUKKl6oEDnLUo6/8MNjl8yLZSCfrwDKEYcM2SFYfc6Uo356Jdasj
-         nNHeGDvqzci9w3L6jTPL12sKE5DveinZkGXzodlDfvidl+Q7JMgVwfw/y4o5yUjvw3Pb
-         1RFfC/XyC0Z2lLHK2JMZkeI5ZcYGcZinEa08MGypc4I+tRgqZyEOkeCQuqMQadC9hZyH
-         JdM217kTVIncmeWDTlRYzwr+7ZvZ1mhLf0gfkjpMYJeHwlkTR7s7BoFXRvpaRJOsudKD
-         c1og==
-X-Forwarded-Encrypted: i=1; AFNElJ8hMq1PxirYNBPxoCypruy3QDiHZ1shstVlcfUPErsth2QOgZMDICq3hCyOO8tzKYqShc1k/dBm4otPB5hX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVFG5xr31HRxU/dUP6V6GudBxQjjnkefcqH7lPmiL2mSLDEo97
-	OzDjvQVr6vP6LL1z0PUKlSfe1YCKSng2M6NhumBHvMIgK8xoja6HyqM6HYSUMzJAzrWgkHJM/EF
-	n2w4przdeUNz1vvNbi37Hv5n8LqGKT6KC//YOBjtF0q9O/eoclqZMGxSXoCoTt08wf9Q=
-X-Gm-Gg: Acq92OEN86DNd1fg5zo/qEVLwCXMZqA0Rmo0mxAuuAHLa4Vz7q8VXICYh+0FElaHqcC
-	m91Eip8luACyMZiaJT1I1KE3JvFplfA56bJDiMbplz9ymRLeXCgqz9WZ64eEyH2n+zExDWgAi71
-	iWwMuePh/YRnzoc5P6uYxPld792Ee+RZ8+m5js84GpKzoZ4AjYZv1IDu/479NmX1Kl9q0/MZJNQ
-	AoJNN/C4hOl0gzlMXrnpUyI/QjPBBRtZhZ4Wf3ALoDQ/FK3vIhzUcIMmA/PU4CHjuCsXCjAcRYu
-	E8qUUAcxjcT4L/WyMZYnVCg6doCj/vZ+Y5XbrC/ua2UPXphsnrHXoXVwVJ3AnF04Kz196AMgS5z
-	5YlnFp3ixkpTIzihQ5MI/700M8kpScRQjl5dRmyAnO1VuMebd7bMn
-X-Received: by 2002:a05:690c:c4e3:b0:79e:9cc1:edf7 with SMTP id 00721157ae682-7c95ae490a8mr15455257b3.13.1778797884189;
-        Thu, 14 May 2026 15:31:24 -0700 (PDT)
-X-Received: by 2002:a05:690c:c4e3:b0:79e:9cc1:edf7 with SMTP id 00721157ae682-7c95ae490a8mr15454857b3.13.1778797883682;
-        Thu, 14 May 2026 15:31:23 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c7f5c962c2sm20644027b3.48.2026.05.14.15.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 15:31:23 -0700 (PDT)
-Message-ID: <1d34d7a30b5e33ab99b6bdef88297b540337395c.camel@redhat.com>
-Subject: Re: [syzbot] [hfs?] WARNING in hfs_mdb_commit
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: syzbot <syzbot+c149ad75e9633be0c1ad@syzkaller.appspotmail.com>, 
-	frank.li@vivo.com, glaubitz@physik.fu-berlin.de,
- linux-fsdevel@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- slava@dubeyko.com, syzkaller-bugs@googlegroups.com
-Date: Thu, 14 May 2026 15:31:21 -0700
-In-Reply-To: <6a05437d.170a0220.196691.0003.GAE@google.com>
-References: <6a05437d.170a0220.196691.0003.GAE@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.0 (3.60.0-1.fc44app2) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LTsVjLzs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BB55C2BCB3;
+	Thu, 14 May 2026 22:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778799598;
+	bh=Zh141Lr4vuoHEfF62NuY2/Yua8vjCwevSvo4M6Cb7Ds=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LTsVjLzsBEDGTXfZqom4Rh7kEInTnPPz5rtEItqjxPl6ukgpkEZCOIsqiI5ZlIHaW
+	 0VXLLSR1q8PNT10QNllOoMeMSK3vABImhJAZ86kISS9yvtn3sSVFqTMdvEILD46NqU
+	 wXHeyNdWhykaviRjk7+bH+dmbQCcjy4hvzW8VFZKk7+k0eb0xKyI5BLtVmGQ1NzLFo
+	 uh6nRDwkIYDlwDCkXHC6J9rdIJz0+bdFP1XxUDldy//6geblb4nH6A8HUnyGtJgWQ3
+	 GNsfyqL9tP7DN4sY4hyLgeWB/M7kDr1ke8ndkbc0PvkEFXBM4PlXDuyljgdPGw1GCK
+	 hE//5c0pXUcLg==
+Date: Thu, 14 May 2026 15:59:57 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: miklos@szeredi.hu
+Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 07/12] fuse: enable iomap cache management
+Message-ID: <20260514225957.GQ9544@frogsfrogsfrogs>
+References: <177747206929.4103699.18256961856283014867.stgit@frogsfrogsfrogs>
+ <177747207149.4103699.15223683178584774669.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177747207149.4103699.15223683178584774669.stgit@frogsfrogsfrogs>
 
-On Wed, 2026-05-13 at 20:37 -0700, syzbot wrote:
-> Hello,
->=20
-> syzbot found the following issue on:
->=20
-> HEAD commit:    1bfaee9d3351 Merge tag 'fsverity-for-linus' of git://git.=
-k..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=3D12f0872658000=
-0
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D7f195f6be48c1=
-2ec
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3Dc149ad75e9633be=
-0c1ad
-> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25=
-a-1~exp1~20251221153213.50), Debian LLD 21.1.8
->=20
-> Unfortunately, I don't have any reproducer for this issue yet.
->=20
-
-It is really sad that we don't have a reproducer for  the issue.
-
-> Downloadable assets:
-> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d=
-900f083ada3/non_bootable_disk-1bfaee9d.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/879fc4fe312e/vmlinu=
-x-1bfaee9d.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/9e35bd667fed/b=
-zImage-1bfaee9d.xz
->=20
-> IMPORTANT: if you fix the issue, please add the following tag to the comm=
-it:
-> Reported-by: syzbot+c149ad75e9633be0c1ad@syzkaller.appspotmail.com
->=20
-> loop0: detected capacity change from 0 to 64
-> loop0: detected capacity change from 64 to 0
-> Buffer I/O error on dev loop0, logical block 62, lost sync page write
-> hfs: unable to read volume bitmap
-
-I assume that we have two issues here. As far as I can see, we have 64 bloc=
-ks in
-the HFS volume. And we try to read logical block 62 that expected to have
-portion of volume bitmap. Somehow, we've failed to read it:
-
-		while (size) {
-			bh =3D sb_bread(sb, block);
-			if (!bh) {
-				pr_err("unable to read volume bitmap\n");
-				break;
-			}
-<skipped>
-		}
-
-And it is not completely clear why the read has failed.
-
-> ------------[ cut here ]------------
-> !buffer_uptodate(bh)
-> WARNING: fs/buffer.c:1087 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:10=
-87, CPU#0: syz.0.0/5321
-
-But this issue took place because buffer with alternative/backup MDB has no=
-t
-been set as uptodate:
-
-void mark_buffer_dirty(struct buffer_head *bh)
-{
-	WARN_ON_ONCE(!buffer_uptodate(bh));
-<skipped>
-}
-
-if (test_and_clear_bit(HFS_FLG_ALT_MDB_DIRTY, &HFS_SB(sb)->flags) &&
-    HFS_SB(sb)->alt_mdb) {
-<skipped>
-
-		mark_buffer_dirty(HFS_SB(sb)->alt_mdb_bh);
-		sync_dirty_buffer(HFS_SB(sb)->alt_mdb_bh);
-}
-
-Thanks,
-Slava.
-
-> Modules linked in:
-> CPU: 0 UID: 0 PID: 5321 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(fu=
-ll)=20
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.=
-16.3-2 04/01/2014
-> RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:1087
-> Code: 4c 89 f7 e8 b9 5c da ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5=
-f 5d e9 b4 63 fb ff e8 3f 91 6d ff eb 8c e8 38 91 6d ff 90 <0f> 0b 90 e9 a5=
- fd ff ff e8 2a 91 6d ff 90 0f 0b 90 e9 cf fd ff ff
-> RSP: 0018:ffffc9000ddafba8 EFLAGS: 00010283
-> RAX: ffffffff82584008 RBX: ffff888046e26658 RCX: 0000000000100000
-> RDX: ffffc9000eefa000 RSI: 0000000000001912 RDI: 0000000000001913
-> RBP: 1ffff11007a3ec01 R08: ffff888046e2665f R09: 1ffff11008dc4ccb
-> R10: dffffc0000000000 R11: ffffed1008dc4ccc R12: dffffc0000000000
-> R13: ffff88803d1f6628 R14: ffff888055813c0b R15: ffff888055831492
-> FS:  00007f2c9e9b96c0(0000) GS:ffff88808c881000(0000) knlGS:0000000000000=
-000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000200000000210 CR3: 00000000133b8000 CR4: 0000000000352ef0
-> Call Trace:
->  <TASK>
->  hfs_mdb_commit+0x84b/0x1150 fs/hfs/mdb.c:328
->  hfs_sync_fs+0x1d/0x30 fs/hfs/super.c:38
->  sync_filesystem+0x1cf/0x230 fs/sync.c:66
->  hfs_reconfigure+0x66/0x270 fs/hfs/super.c:122
->  reconfigure_super+0x227/0x8a0 fs/super.c:1080
->  do_remount fs/namespace.c:3400 [inline]
->  path_mount+0xdc5/0x10e0 fs/namespace.c:4146
->  do_mount fs/namespace.c:4167 [inline]
->  __do_sys_mount fs/namespace.c:4383 [inline]
->  __se_sys_mount+0x31d/0x420 fs/namespace.c:4360
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f2c9db9cdd9
-> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f=
-7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff=
- ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f2c9e9b8fe8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
-> RAX: ffffffffffffffda RBX: 00007f2c9de15fa0 RCX: 00007f2c9db9cdd9
-> RDX: 0000000000000000 RSI: 00002000000002c0 RDI: 0000000000000000
-> RBP: 00007f2c9dc32d69 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000c22 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007f2c9de16038 R14: 00007f2c9de15fa0 R15: 00007fffa4666ff8
->  </TASK>
->=20
->=20
+On Wed, Apr 29, 2026 at 07:37:15AM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Provide a means for the fuse server to upload iomappings to the kernel
+> and invalidate them.  This is how we enable iomap caching for better
+> performance.  This is also required for correct synchronization between
+> pagecache writes and writeback.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->=20
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->=20
-> If the report is already addressed, let syzbot know by replying with:
-> #syz fix: exact-commit-title
->=20
-> If you want to overwrite report's subsystems, reply with:
-> #syz set subsystems: new-subsystem
-> (See the list of subsystem names on the web dashboard)
->=20
-> If the report is a duplicate of another one, reply with:
-> #syz dup: exact-subject-of-another-report
->=20
-> If you want to undo deduplication, reply with:
-> #syz undup
+>  fs/fuse/fuse_iomap.h      |    7 +
+>  include/uapi/linux/fuse.h |   29 +++++
+>  fs/fuse/dev.c             |   46 ++++++++
+>  fs/fuse/fuse_iomap.c      |  264 ++++++++++++++++++++++++++++++++++++++++++++-
+>  4 files changed, 343 insertions(+), 3 deletions(-)
+> 
+> 
+> diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
+> index 5cdf7b311dba42..79625897dded50 100644
+> --- a/fs/fuse/fuse_iomap.h
+> +++ b/fs/fuse/fuse_iomap.h
+> @@ -79,6 +79,11 @@ int fuse_iomap_dev_inval(struct fuse_conn *fc,
+>  
+>  int fuse_iomap_fadvise(struct file *file, loff_t start, loff_t end, int advice);
+>  int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
+> +
+> +int fuse_iomap_upsert_mappings(struct fuse_conn *fc,
+> +		      const struct fuse_iomap_upsert_mappings_out *outarg);
+> +int fuse_iomap_inval_mappings(struct fuse_conn *fc,
+> +		     const struct fuse_iomap_inval_mappings_out *outarg);
+>  #else
+>  # define fuse_iomap_enabled(...)		(false)
+>  # define fuse_has_iomap(...)			(false)
+> @@ -108,6 +113,8 @@ int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
+>  # define fuse_iomap_dev_inval(...)		(-ENOSYS)
+>  # define fuse_iomap_fadvise			NULL
+>  # define fuse_dev_ioctl_iomap_set_nofs(...)	(-EOPNOTSUPP)
+> +# define fuse_iomap_upsert_mappings(...)	(-ENOSYS)
+> +# define fuse_iomap_inval_mappings(...)		(-ENOSYS)
+>  #endif /* CONFIG_FUSE_IOMAP */
+>  
+>  #endif /* _FS_FUSE_IOMAP_H */
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index a273838bc20f2f..8c5e67731b21b8 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -251,6 +251,8 @@
+>   *  - add FUSE_ATTR_ATOMIC for single-fsblock atomic write support
+>   *  - add FUSE_ATTR_{SYNC,IMMUTABLE,APPEND} for VFS enforcement of file
+>   *    attributes
+> + *  - add FUSE_NOTIFY_IOMAP_{UPSERT,INVAL}_MAPPINGS so fuse servers can cache
+> + *    file range mappings in the kernel for iomap
+>   */
+>  
+>  #ifndef _LINUX_FUSE_H
+> @@ -731,6 +733,8 @@ enum fuse_notify_code {
+>  	FUSE_NOTIFY_INC_EPOCH = 8,
+>  	FUSE_NOTIFY_PRUNE = 9,
+>  	FUSE_NOTIFY_IOMAP_DEV_INVAL = 99,
+> +	FUSE_NOTIFY_IOMAP_UPSERT_MAPPINGS = 100,
+> +	FUSE_NOTIFY_IOMAP_INVAL_MAPPINGS = 101,
+>  	FUSE_NOTIFY_CODE_MAX,
+>  };
+>  
+> @@ -1396,6 +1400,8 @@ struct fuse_uring_cmd_req {
+>  #define FUSE_IOMAP_TYPE_PURE_OVERWRITE	(255)
+>  /* fuse-specific mapping type saying the server has populated the cache */
+>  #define FUSE_IOMAP_TYPE_RETRY_CACHE	(254)
+> +/* do not upsert this mapping */
+> +#define FUSE_IOMAP_TYPE_NOCACHE		(253)
+>  
+>  #define FUSE_IOMAP_DEV_NULL		(0U)	/* null device cookie */
+>  
+> @@ -1556,4 +1562,27 @@ struct fuse_iomap_dev_inval_out {
+>  /* invalidate all cached iomap mappings up to EOF */
+>  #define FUSE_IOMAP_INVAL_TO_EOF		(~0ULL)
+>  
+> +struct fuse_iomap_inval_mappings_out {
+> +	uint64_t nodeid;	/* Inode ID */
+> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
+> +
+> +	/*
+> +	 * Range of read and mappings to invalidate.  Zero length means ignore
+> +	 * the range; and FUSE_IOMAP_INVAL_TO_EOF can be used for length.
+> +	 */
+> +	struct fuse_range read;
+> +	struct fuse_range write;
+> +};
+> +
+> +struct fuse_iomap_upsert_mappings_out {
+> +	uint64_t nodeid;	/* Inode ID */
+> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
+> +
+> +	/* read file data from here */
+> +	struct fuse_iomap_io	read;
+> +
+> +	/* write file data to here, if applicable */
+> +	struct fuse_iomap_io	write;
+> +};
+> +
+>  #endif /* _LINUX_FUSE_H */
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index cf4bad6ffc287b..fcee1a23375cee 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -1872,6 +1872,48 @@ static int fuse_notify_iomap_dev_inval(struct fuse_conn *fc, unsigned int size,
+>  	return err;
+>  }
+>  
+> +static int fuse_notify_iomap_upsert_mappings(struct fuse_conn *fc,
+> +					     unsigned int size,
+> +					     struct fuse_copy_state *cs)
+> +{
+> +	struct fuse_iomap_upsert_mappings_out outarg;
+> +	int err = -EINVAL;
+> +
+> +	if (size != sizeof(outarg))
+> +		goto err;
+> +
+> +	err = fuse_copy_one(cs, &outarg, sizeof(outarg));
+> +	if (err)
+> +		goto err;
+> +	fuse_copy_finish(cs);
+> +
+> +	return fuse_iomap_upsert_mappings(fc, &outarg);
+> +err:
+> +	fuse_copy_finish(cs);
+> +	return err;
+> +}
+> +
+> +static int fuse_notify_iomap_inval_mappings(struct fuse_conn *fc,
+> +					    unsigned int size,
+> +					    struct fuse_copy_state *cs)
+> +{
+> +	struct fuse_iomap_inval_mappings_out outarg;
+> +	int err = -EINVAL;
+> +
+> +	if (size != sizeof(outarg))
+> +		goto err;
+> +
+> +	err = fuse_copy_one(cs, &outarg, sizeof(outarg));
+> +	if (err)
+> +		goto err;
+> +	fuse_copy_finish(cs);
+> +
+> +	return fuse_iomap_inval_mappings(fc, &outarg);
+> +err:
+> +	fuse_copy_finish(cs);
+> +	return err;
+> +}
+> +
+>  struct fuse_retrieve_args {
+>  	struct fuse_args_pages ap;
+>  	struct fuse_notify_retrieve_in inarg;
+> @@ -2164,6 +2206,10 @@ static int fuse_notify(struct fuse_conn *fc, enum fuse_notify_code code,
+>  
+>  	case FUSE_NOTIFY_IOMAP_DEV_INVAL:
+>  		return fuse_notify_iomap_dev_inval(fc, size, cs);
+> +	case FUSE_NOTIFY_IOMAP_UPSERT_MAPPINGS:
+> +		return fuse_notify_iomap_upsert_mappings(fc, size, cs);
+> +	case FUSE_NOTIFY_IOMAP_INVAL_MAPPINGS:
+> +		return fuse_notify_iomap_inval_mappings(fc, size, cs);
+>  
+>  	default:
+>  		return -EINVAL;
+> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+> index 6d6c42fdaaac5b..8e747084d81b28 100644
+> --- a/fs/fuse/fuse_iomap.c
+> +++ b/fs/fuse/fuse_iomap.c
+> @@ -132,6 +132,7 @@ static inline bool fuse_iomap_check_type(uint16_t fuse_type)
+>  	case FUSE_IOMAP_TYPE_INLINE:
+>  	case FUSE_IOMAP_TYPE_PURE_OVERWRITE:
+>  	case FUSE_IOMAP_TYPE_RETRY_CACHE:
+> +	case FUSE_IOMAP_TYPE_NOCACHE:
+>  		return true;
+>  	}
+>  
+> @@ -241,8 +242,8 @@ static inline bool fuse_iomap_check_mapping(const struct inode *inode,
+>  	uint64_t end;
+>  
+>  	/*
+> -	 * Type and flags must be known.  Mapping type "retry cache" doesn't
+> -	 * use any of the other fields.
+> +	 * Type and flags must be known.  Mapping types "retry cache" and "do
+> +	 * not insert in cache" don't use any of the other fields.
+>  	 */
+>  	if (BAD_DATA(!fuse_iomap_check_type(map->type)))
+>  		return false;
+> @@ -255,6 +256,8 @@ static inline bool fuse_iomap_check_mapping(const struct inode *inode,
+>  			return false;
+>  		return true;
+>  	}
+> +	if (map->type == FUSE_IOMAP_TYPE_NOCACHE)
+> +		return true;
+>  	if (BAD_DATA(!fuse_iomap_check_flags(map->flags)))
+>  		return false;
+>  
+> @@ -299,6 +302,7 @@ static inline bool fuse_iomap_check_mapping(const struct inode *inode,
+>  		if (BAD_DATA(iodir != WRITE_MAPPING))
+>  			return false;
+>  		break;
+> +	case FUSE_IOMAP_TYPE_NOCACHE:
+>  	case FUSE_IOMAP_TYPE_RETRY_CACHE:
+>  	default:
+>  		/* should have been caught already */
+> @@ -373,6 +377,15 @@ fuse_iomap_begin_validate(const struct inode *inode,
+>  	if (!fuse_iomap_check_mapping(inode, &outarg->write, WRITE_MAPPING))
+>  		return -EFSCORRUPTED;
+>  
+> +	/*
+> +	 * ->iomap_begin requires real mappings or "retry from cache"; "do not
+> +	 * add to cache" does not apply here.
+> +	 */
+> +	if (BAD_DATA(outarg->read.type == FUSE_IOMAP_TYPE_NOCACHE))
+> +		return -EFSCORRUPTED;
+> +	if (BAD_DATA(outarg->write.type == FUSE_IOMAP_TYPE_NOCACHE))
+> +		return -EFSCORRUPTED;
+> +
+>  	/*
+>  	 * Must have returned a mapping for at least the first byte in the
+>  	 * range.  The main mapping check already validated that the length
+> @@ -606,9 +619,11 @@ fuse_iomap_cached_validate(const struct inode *inode,
+>  	if (!fuse_iomap_check_mapping(inode, &lmap->map, dir))
+>  		return -EFSCORRUPTED;
+>  
+> -	/* The cache should not be storing "retry cache" mappings */
+> +	/* The cache should not be storing cache management mappings */
+>  	if (BAD_DATA(lmap->map.type == FUSE_IOMAP_TYPE_RETRY_CACHE))
+>  		return -EFSCORRUPTED;
+> +	if (BAD_DATA(lmap->map.type == FUSE_IOMAP_TYPE_NOCACHE))
+> +		return -EFSCORRUPTED;
+>  
+>  	return 0;
+>  }
+> @@ -2639,3 +2654,246 @@ void fuse_iomap_copied_file_range(struct inode *inode, loff_t offset,
+>  
+>  	fuse_iomap_cache_invalidate_range(inode, offset, written);
+>  }
+> +
+> +static inline int
+> +fuse_iomap_upsert_validate_dev(
+> +	const struct fuse_backing	*fb,
+> +	const struct fuse_iomap_io	*map)
+> +{
+> +	uint64_t			map_end;
+> +	sector_t			device_bytes;
+> +
+> +	if (!fb) {
+> +		if (BAD_DATA(map->addr != FUSE_IOMAP_NULL_ADDR))
+> +			return -EFSCORRUPTED;
+> +
+> +		return 0;
+> +	}
+> +
+> +	if (BAD_DATA(map->addr == FUSE_IOMAP_NULL_ADDR))
+> +		return -EFSCORRUPTED;
+> +
+> +	if (BAD_DATA(check_add_overflow(map->addr, map->length, &map_end)))
+> +		return -EFSCORRUPTED;
+> +
+> +	/*
+> +	 * bdev_nr_sectors() == 0 usually means the device has gone away from
+> +	 * underneath us.  We won't cache this mapping, but we'll return
+> +	 * -EINVAL to signal a softer error to the fuse server than "your fs
+> +	 * metadata are corrupt".  If the fuse server persists anyway, then
+> +	 * the worst that happens is that the IO will fail.
+> +	 */
+> +	device_bytes = bdev_nr_sectors(fb->bdev) << SECTOR_SHIFT;
+> +	if (!device_bytes)
+> +		return -EINVAL;
+> +
+> +	if (BAD_DATA(map_end > device_bytes))
+> +		return -EFSCORRUPTED;
+> +
+> +	return 0;
+> +}
+> +
+> +/* Validate one of the incoming upsert mappings */
+> +static inline int
+> +fuse_iomap_upsert_validate_mapping(struct inode *inode,
+> +				   enum fuse_iomap_iodir iodir,
+> +				   const struct fuse_iomap_io *map)
+> +{
+> +	struct fuse_conn *fc = get_fuse_conn(inode);
+> +	struct fuse_backing *fb;
+> +	int ret;
+> +
+> +	if (!fuse_iomap_check_mapping(inode, map, iodir))
+> +		return -EFSCORRUPTED;
+> +
+> +	/*
+> +	 * A "retry cache" instruction makes no sense when we're adding to
+> +	 * the mapping cache.
+> +	 */
+> +	if (BAD_DATA(map->type == FUSE_IOMAP_TYPE_RETRY_CACHE))
+> +		return -EFSCORRUPTED;
+> +
+> +	/* nocache is allowed, because we ignore it later */
+> +	if (map->type == FUSE_IOMAP_TYPE_NOCACHE)
+> +		return 0;
+> +
+> +	/* Make sure we can find the device */
+> +	fb = fuse_iomap_find_dev(fc, map);
+> +	if (BAD_DATA(IS_ERR(fb)))
+> +		return -EFSCORRUPTED;
+> +
+> +	ret = fuse_iomap_upsert_validate_dev(fb, map);
+> +	fuse_backing_put(fb);
+> +	return ret;
+> +}
+> +
+> +/* Check the incoming upsert mappings to make sure they're not nonsense */
+> +static inline int
+> +fuse_iomap_upsert_validate_mappings(struct inode *inode,
+> +		const struct fuse_iomap_upsert_mappings_out *outarg)
+> +{
+> +	int ret = fuse_iomap_upsert_validate_mapping(inode, READ_MAPPING,
+> +						     &outarg->read);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return fuse_iomap_upsert_validate_mapping(inode, WRITE_MAPPING,
+> +						  &outarg->write);
+> +}
+> +
+> +static int fuse_iomap_upsert_inode(struct inode *inode,
+> +		const struct fuse_iomap_upsert_mappings_out *outarg)
+> +{
+> +	int ret = fuse_iomap_upsert_validate_mappings(inode, outarg);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!fuse_inode_caches_iomaps(inode)) {
+> +		ret = fuse_iomap_cache_alloc(inode);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	fuse_iomap_cache_lock(inode);
+> +
+> +	if (outarg->read.type != FUSE_IOMAP_TYPE_NOCACHE) {
+> +		ret = fuse_iomap_cache_upsert(inode, READ_MAPPING,
+> +					      &outarg->read);
+> +		if (ret)
+> +			goto out_unlock;
+> +	}
+> +
+> +	if (outarg->write.type != FUSE_IOMAP_TYPE_NOCACHE) {
+> +		ret = fuse_iomap_cache_upsert(inode, WRITE_MAPPING,
+> +					      &outarg->write);
+> +		if (ret)
+> +			goto out_unlock;
+> +	}
+> +
+> +out_unlock:
+> +	fuse_iomap_cache_unlock(inode);
+> +	return ret;
+> +}
+> +
+> +int fuse_iomap_upsert_mappings(struct fuse_conn *fc,
+> +		const struct fuse_iomap_upsert_mappings_out *outarg)
+> +{
+> +	struct inode *inode;
+> +	struct fuse_inode *fi;
+> +	int ret;
+> +
+> +	if (!fc->iomap)
+> +		return -EINVAL;
+> +
+> +	down_read(&fc->killsb);
+> +	inode = fuse_ilookup(fc, outarg->nodeid, NULL);
+> +	if (!inode) {
+> +		ret = -ESTALE;
+> +		goto out_sb;
+> +	}
+> +
+> +	fi = get_fuse_inode(inode);
+> +	if (BAD_DATA(fi->orig_ino != outarg->attr_ino)) {
+> +		ret = -EINVAL;
+> +		goto out_inode;
+> +	}
+> +
+> +	if (fuse_is_bad(inode)) {
+> +		ret = -EIO;
+> +		goto out_inode;
+> +	}
+> +
+> +	ret = fuse_iomap_upsert_inode(inode, outarg);
+> +out_inode:
+> +	iput(inode);
+> +out_sb:
+> +	up_read(&fc->killsb);
+> +	return ret;
+> +}
+> +
+> +static inline bool
+> +fuse_iomap_inval_validate_range(const struct inode *inode,
+> +				const struct fuse_range *range)
+> +{
+> +	const unsigned int blocksize = i_blocksize(inode);
+> +
+> +	if (range->length == 0)
+> +		return true;
+> +
+> +	/* Range can't start beyond maxbytes */
+> +	if (BAD_DATA(range->offset >= inode->i_sb->s_maxbytes))
+> +		return false;
+> +
+> +	/* File range must be aligned to blocksize */
+> +	if (BAD_DATA(!IS_ALIGNED(range->offset, blocksize)))
+> +		return false;
+> +	if (range->length != FUSE_IOMAP_INVAL_TO_EOF &&
+> +	    BAD_DATA(!IS_ALIGNED(range->length, blocksize)))
 
+Codex points out that this needs to check_add_overflow() the range if
+the length isn't INVAL_TO_EOF.
+
+--D
+
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static int fuse_iomap_inval_inode(struct inode *inode,
+> +		const struct fuse_iomap_inval_mappings_out *outarg)
+> +{
+> +	int ret = 0, ret2 = 0;
+> +
+> +	if (!fuse_iomap_inval_validate_range(inode, &outarg->write))
+> +		return -EFSCORRUPTED;
+> +
+> +	if (!fuse_iomap_inval_validate_range(inode, &outarg->read))
+> +		return -EFSCORRUPTED;
+> +
+> +	if (!fuse_inode_caches_iomaps(inode))
+> +		return 0;
+> +
+> +	fuse_iomap_cache_lock(inode);
+> +	if (outarg->read.length)
+> +		ret2 = fuse_iomap_cache_remove(inode, READ_MAPPING,
+> +					       outarg->read.offset,
+> +					       outarg->read.length);
+> +	if (outarg->write.length)
+> +		ret = fuse_iomap_cache_remove(inode, WRITE_MAPPING,
+> +					      outarg->write.offset,
+> +					      outarg->write.length);
+> +	fuse_iomap_cache_unlock(inode);
+> +
+> +	return ret ? ret : ret2;
+> +}
+> +
+> +int fuse_iomap_inval_mappings(struct fuse_conn *fc,
+> +		const struct fuse_iomap_inval_mappings_out *outarg)
+> +{
+> +	struct inode *inode;
+> +	struct fuse_inode *fi;
+> +	int ret;
+> +
+> +	if (!fc->iomap)
+> +		return -EINVAL;
+> +
+> +	down_read(&fc->killsb);
+> +	inode = fuse_ilookup(fc, outarg->nodeid, NULL);
+> +	if (!inode) {
+> +		ret = -ESTALE;
+> +		goto out_sb;
+> +	}
+> +
+> +	fi = get_fuse_inode(inode);
+> +	if (BAD_DATA(fi->orig_ino != outarg->attr_ino)) {
+> +		ret = -EINVAL;
+> +		goto out_inode;
+> +	}
+> +
+> +	if (fuse_is_bad(inode)) {
+> +		ret = -EIO;
+> +		goto out_inode;
+> +	}
+> +
+> +	ret = fuse_iomap_inval_inode(inode, outarg);
+> +out_inode:
+> +	iput(inode);
+> +out_sb:
+> +	up_read(&fc->killsb);
+> +	return ret;
+> +}
+> 
+> 
