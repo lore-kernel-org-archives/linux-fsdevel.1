@@ -1,156 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522D02FDC30
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 01:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641232E54D3;
+	Thu, 14 May 2026 02:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778723256; cv=none; b=S7coArOfj17iQPOEjIL5ti+sAF9igCH3JY1UDVOYh9YFmRYGaRotFILMIDRBK7F/LVACRYrAXUN7IcWPK8xkC5IYHhJiPXEuraoJvONFfE6JZeTFPRXXFoO1gbQfRCvnBTsbEqJgsUCQqzh4c89P+BNr8WqGcoVm+6XCbxqyQTk=
+	t=1778727311; cv=none; b=Pm2v8KaTPbp/c6gVWc93li7/fy5Hhso7dnrlk8IWRN2SlFDKPK3TC3VQOuOgA1gZpjFjjUS+KLeod7ktrZHlT2pwEMgUDMlYJJkVAINGhzutqRJ8O2xn+0gZ4O8i7L4Yhh49Wy4Q2QvBp0mdj6Mbm854bh281PMsMWp+DEh3n+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778723256; c=relaxed/simple;
-	bh=6GjOn+yVSqPQgjR7tD8rXnsM20DueX7fCF3o9OACxjA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r7JU8b825uEtUJ+5jtaWglcqLgDLtzmZo8Wal6p2nd2XuEFOloiWDDupA47BfRuGoM0ZV4wtIYh+QNwvEGlzbfmEBKxPM3f2l2oFzhL/R0LOcqOYDHJci9M47X55ne8NTDH69fOdnvguDz7kSwGwEpd+m8DHoieuupDGKagYPaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=na3E2gwU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778727311; c=relaxed/simple;
+	bh=UNo72HqhYnatz0FGSRKG2T8UllilstCRRev7/LoOo70=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hk97U3Wqone23gPOaCI9ch9/AM6eDQV3RosxltE2qHzgDIt1PFnFLNOf1giu1ytd7DdL5ykSlYYhb+tQDzOjw9VL0QsdSucl2UiIiJLmeCwwc7fJN6xSsCMFoZvTizuQ0HUHZcUGQmnkT5H2oya+L57bAkHH6ucAKLNTcOecFt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Jh5yBwWw; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="na3E2gwU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 334FFC19425
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 01:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778723256;
-	bh=6GjOn+yVSqPQgjR7tD8rXnsM20DueX7fCF3o9OACxjA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=na3E2gwUIHbI2NX9N7bFPrD3RfNe+SHCSrlJL1eVOSwxUBAVdeW4RmNANUfim7UFL
-	 9QvVJaE77B1c/RMA4jnByJnZEC/4s/O9nS1t8fwK+3CC1nWTytxchMl1cEynvz8tCQ
-	 HM88xVA/GAciOX/Cs/M8IJHPmBuqUggq4I9V7Q78M7kU79MPblIizNuoCuZpx2kEv1
-	 O8x1vVUty5rlNfkHr1Jfq0czcCl1QoKMZfJnYC0HI2W46V53r5Vu0NJU/8OywukLat
-	 OymZvmgVar92olF1K+Mhowp8EXC2PBwuano1DCf0h52R3nJhl5m2puAqKoBS9j41pG
-	 u/IPPggR2FobA==
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-67c4aaf76ecso1100971a12.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 13 May 2026 18:47:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9v1jtug76aXr/Y1UOuhbyH9nfjWU8JZrRKjIG9vHSbsIZEdKNrv/f5WAcfCleNi33bN3oyDRoGz1pl/3or@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlipzeF1cV7tFph812bL6VTm79/rkKZEq21AnRMRsjrk4txvbw
-	6Hd0Zorj7HIUMyI5xGysQIZtaEmzJE306qFkfAsBA1PNnCiJaeaLw1k9ET+7y8ES0tqLwWpUeIt
-	E+OfjHoyYYzqxT9ds/HReLd/X1xWq5rU=
-X-Received: by 2002:a05:6402:518e:b0:674:5b2c:d42c with SMTP id
- 4fb4d7f45d1cf-682a6e03765mr2760812a12.3.1778723254796; Wed, 13 May 2026
- 18:47:34 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Jh5yBwWw"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1778727305; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=OaEJAx53nxLzrylKyOUQ3xEbRu4QwHlxhzwX5s59jCQ=;
+	b=Jh5yBwWwldGgzV5P8BoPxXp4+JNj6sbAa5Ah7CMYdJZfoTRM0hSIXiXcTeOwXUI5+e0yiFH/NvUtA67qjSEBJnR6UaU0lcdptttk8LQ+qZ+uk5XjU0LQ0pwPkwTvydO1+q17zsGwrxY3bi+Mz1EspwLlzVrjPqpESIZUb7wxJKs=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X2vLEwD_1778727304;
+Received: from 30.221.131.84(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X2vLEwD_1778727304 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 14 May 2026 10:55:04 +0800
+Message-ID: <a7f260f7-63a6-4e6f-99aa-0a4be29f740f@linux.alibaba.com>
+Date: Thu, 14 May 2026 10:55:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260513112156.9122-1-linkinjeon@kernel.org> <20260513112156.9122-9-linkinjeon@kernel.org>
- <67ea38e7-ec7f-4ade-8962-074c60a45321@163.com>
-In-Reply-To: <67ea38e7-ec7f-4ade-8962-074c60a45321@163.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Thu, 14 May 2026 10:47:22 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-R799_7CE90FsSfYnksrBkpfXgk=R5B+ObhwGJySFwEg@mail.gmail.com>
-X-Gm-Features: AVHnY4LrBK83Z54JuNIrh5CKblw7Teq7orzd_sX7eetIOHmuvfysRL74XhJZ844
-Message-ID: <CAKYAXd-R799_7CE90FsSfYnksrBkpfXgk=R5B+ObhwGJySFwEg@mail.gmail.com>
-Subject: Re: [PATCH v3 08/11] exfat: add iomap buffered I/O support
-To: Chi Zhiling <chizhiling@163.com>
-Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org, 
-	djwong@kernel.org, hch@lst.de, linux-fsdevel@vger.kernel.org, 
-	anmuxixixi@gmail.com, dxdt@dev.snart.me, chizhiling@kylinos.cn, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] writeback: fix race between cgroup_writeback_umount() and
+ inode_switch_wbs()
+To: Tejun Heo <tj@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk,
+ brauner@kernel.org, jack@suse.cz, linux-kernel@vger.kernel.org,
+ libaokun@linux.alibaba.com
+References: <20260513094829.867648-1-libaokun@linux.alibaba.com>
+ <22cda97d61cc9d540d4e7116d5f3f08a@kernel.org>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <22cda97d61cc9d540d4e7116d5f3f08a@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 14, 2026 at 10:39=E2=80=AFAM Chi Zhiling <chizhiling@163.com> w=
-rote:
+在 2026/5/14 04:36, Tejun Heo 写道:
+> Hello,
 >
-> On 5/13/26 19:21, Namjae Jeon wrote:
-> > +static int __exfat_iomap_begin(struct inode *inode, loff_t offset, lof=
-f_t length,
-> > +             unsigned int flags, struct iomap *iomap, bool may_alloc)
-> > +{
-> > +     struct super_block *sb =3D inode->i_sb;
-> > +     struct exfat_sb_info *sbi =3D EXFAT_SB(sb);
-> > +     struct exfat_inode_info *ei =3D EXFAT_I(inode);
-> > +     unsigned int cluster, num_clusters;
-> > +     loff_t cluster_offset, cluster_length;
-> > +     int err;
-> > +     bool balloc =3D false;
-> > +
-> > +     if (!may_alloc) {
-> > +             /* Completely beyond EOF. Treat as hole */
-> > +             if (i_size_read(inode) <=3D offset) {
-> > +                     iomap->type =3D IOMAP_HOLE;
-> > +                     iomap->addr =3D IOMAP_NULL_ADDR;
-> > +                     iomap->offset =3D offset;
-> > +                     iomap->length =3D length;
-> > +                     return 0;
-> > +             }
-> > +
-> > +             /* Clamp length if the requested range goes beyond i_size=
- */
-> > +             if (offset + length > i_size_read(inode))
-> > +                     length =3D round_up(i_size_read(inode),
-> > +                                       i_blocksize(inode)) - offset;
-> > +     }
-> > +
-> > +     num_clusters =3D exfat_bytes_to_cluster_round_up(sbi,
-> > +                     offset + length) - exfat_bytes_to_cluster(sbi, of=
-fset);
-> > +
-> > +     mutex_lock(&sbi->s_lock);
-> > +     iomap->bdev =3D inode->i_sb->s_bdev;
-> > +     iomap->offset =3D offset;
-> > +
-> > +     err =3D exfat_map_cluster(inode, exfat_bytes_to_cluster(sbi, offs=
-et),
-> > +                     &cluster, &num_clusters, may_alloc, &balloc);
-> > +     if (err)
-> > +             goto out;
-> > +
-> > +     cluster_offset =3D exfat_cluster_offset(sbi, offset);
-> > +     cluster_length =3D exfat_cluster_to_bytes(sbi, num_clusters);
-> > +
-> > +     iomap->length =3D min_t(loff_t, length, cluster_length - cluster_=
-offset);
-> > +     iomap->addr =3D exfat_cluster_to_phys(sbi, cluster) + cluster_off=
-set;
-> > +     iomap->type =3D IOMAP_MAPPED;
-> > +     if (may_alloc) {
-> > +             if (balloc)
-> > +                     iomap->flags =3D IOMAP_F_NEW;
-> > +             else if (iomap->offset + iomap->length >=3D ei->valid_siz=
-e) {
-> > +                     /*
-> > +                      * This is a write that starts at or extends beyo=
-nd
-> > +                      * the current valid_size. The region between the=
- old
-> > +                      * valid_size and the end of this write needs to =
-be
-> > +                      * zeroed in the page cache to prevent stale data
-> > +                      * exposure (see IOMAP_F_ZERO_TAIL handling in
-> > +                      * __iomap_write_begin()).
-> > +                      */
-> > +                     iomap->flags =3D IOMAP_F_ZERO_TAIL;
-> > +             }
-> > +     } else {
-> > +             if (offset >=3D ei->valid_size)
-> > +                     iomap->type =3D IOMAP_UNWRITTEN;
-> > +
-> > +             if (iomap->type =3D=3D IOMAP_MAPPED &&
-> > +                 iomap->offset < ei->valid_size &&
-> > +                 iomap->offset + iomap->length > ei->valid_size) {
-> > +                     iomap->length =3D round_up(ei->valid_size,
-> > +                                              i_blocksize(inode)) -
-> > +                                                     iomap->offset;
-> > +             }
+> Resending - earlier send dropped the Cc list. Sorry for the noise.
 >
-> Hi, you can write it like this:
+> How rcu_barrier() got out of sync, as best I can reconstruct:
 >
-> if (offset >=3D ei->valid_size) {
->         iomap->type =3D IOMAP_UNWRITTEN;
-> } else if (offset + iomap->length > ei->valid_size) {
->         iomap->length =3D round_up(ei->valid_size,
->                                  i_blocksize(inode)) -
->                                         iomap->offset;
-> }
-Okay, Will update it.
-Thanks!
+> - ec084de929e4 ("fs/writeback.c: use rcu_barrier() to wait for inflight
+>   wb switches going into workqueue when umount", 2019) put the inc
+>   after call_rcu(); rcu_barrier() worked from then.
+>
+> - 8826ee4fe750 ("writeback, cgroup: increment isw_nr_in_flight before
+>   grabbing an inode", 2021) moved the inc back ahead to cover the prep
+>   window, apparently reopening this gap.
+>
+> - e1b849cfa6b6 ("writeback: Avoid contention on wb->list_lock when
+>   switching inodes", 2025) replaced call_rcu() with llist_add() +
+>   queue_work(); rcu_barrier() looks like a no-op for this path since.
+>
+> Could SRCU work instead? srcu_read_lock around the publish (atomic_inc
+> through wb_queue_isw), with cgroup_writeback_umount() keeping the
+> counter gate but swapping rcu_barrier() for synchronize_srcu():
+>
+>   if (atomic_read(&isw_nr_in_flight)) {
+>           synchronize_srcu(&isw_srcu);
+>           flush_workqueue(isw_wq);
+>   }
+>
+> Thoughts?
+
+Thanks for the detailed analysis on how rcu_barrier() got out of sync,
+that matches my understanding as well.
+
+Regarding the SRCU idea: I considered it, but it has a key drawback.
+synchronize_srcu() waits for all read-side critical sections globally
+-- it cannot distinguish which superblock a given switcher is working
+on. So if sb A is being unmounted while unrelated switchers for sb B/C/D
+hold srcu_read_lock(), umount of A gets blocked unnecessarily. The
+global isw_nr_in_flight gate makes this worse: any non-zero count from
+any sb triggers synchronize_srcu(), even when the target sb has no
+in-flight switches at all.
+
+This is especially problematic in high-density container environments,
+where many containers with separate filesystems are being created and
+destroyed concurrently. Frequent cgroup migrations across multiple
+superblocks keep the global isw_nr_in_flight perpetually non-zero,
+causing every single umount to pay the synchronize_srcu() cost even
+when the target sb has zero in-flight switches.
+
+The per-sb counter avoids this entirely -- cgroup_writeback_umount()
+only waits for switches belonging to its own superblock to drain, and
+returns immediately when s_isw_nr_in_flight is zero. The global counter
+is retained solely for throttling (WB_FRN_MAX_IN_FLIGHT).
+
+The other trade-offs are roughly comparable: both need pairing on all
+paths, but the per-sb atomic_t gets zero-initialized by kzalloc for
+free, while SRCU needs init/cleanup lifecycle management. The per-cpu
+read lock advantage doesn't matter here since wb switching is
+infrequent.
+
+So I went with the per-sb counter for its precision and simplicity.
+That said, if you prefer the SRCU approach, I'm happy to spin a new
+version using it.
+
+
+Cheers,
+Baokun
+
