@@ -1,74 +1,76 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48693191CA
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 20:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E430F25B094
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 20:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778788827; cv=none; b=i+eoYTdAuWa3K8aUHGqZ2+ibY4/FIggCsWJ7HMEoEvR+V98eDBtUeRe08IyCaPrmPMcKHym7+/gwjeY5uEQsLpoyqMuM7edgd7NiQd7/hUpfpbeqIIUCsf8EoVlCCdcFhN4QaiQUb6Ux9Kom+544fuIlrRik8H2x/8H6FtBoGEA=
+	t=1778788895; cv=none; b=OpNXVt4dohaoZd19us/WiBon/p/CNQrusKAJCWmVpd97oPVYwxU10vsOVaR1PxLAYlZOwHUDsOTsLUXG/e7mVvDEKFx9UKWPk7UabFoVLJXtfR0liFZ2qOccYTHx8bDmMmI4mNCOBgEP8sS6c1vYGhrWFZTVqzlMzQ3EI2Awy44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778788827; c=relaxed/simple;
-	bh=bTMlax/8913IiPWeFDZ7nqT5gax+kV3Ndhhz8UGryCs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AHNTyMFAk9uYZ/VqbUXHkKIonjmxbVHKou9E0Vmcx9uL8FRVgI0nPC7LNoT3K49NFu1VltrzDbdBxn3QVAOyTDh6E79Nd5fv/h2sixYGbUldkYi0YSByC6wibf0bUsj9fij0rF0ck/8k86urv4XjCvpKKC5eHq+5Db9XsfKFqIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=qkDUHeay; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1778788895; c=relaxed/simple;
+	bh=q35S6vEe5sWJz/fAXDoBVUlt1Ci/tEZ0lM2Dxtytn50=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k3kYOXfNTAI7COATWKY/b3XR+cn9uouldhpNiF/d6lVXV60c/h8VcXr7KMWPlcUgbDswv7SctmOYw8/kulILTVSY/RfIEz4WBPM/8DttPtwcuBd0s/Bj5gRexc67nLAI5PbWDh9/WuzIA1LDklnxBnTCRd1V1omM9WEV+2L6Pek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XABzChaA; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="qkDUHeay"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-65c24be9e4bso10844983d50.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 13:00:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XABzChaA"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-678a16429c6so326472a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 13:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1778788825; x=1779393625; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778788891; x=1779393691; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sQuoEbtw7niw9BnkPVOKSPzKXN3bjsS4Ug9OsTAfSUg=;
-        b=qkDUHeayiIkE34yYsR2VL6noFFVq+Ve/3Vv11k/kgWoALarXnwUT8FwZI7tPsc9+3L
-         vDwLsVAMHPP/5HGP2SJePy+38c2LIieDOod6YwYoy/6f8KUyiujZLISBmfWE//DoKxP7
-         NONdlSqUSXENNL53hAa/DmbB8iLh2uwpbIZwkZbX9qvJVVSdTmaBmElgaCHrzm/w0bNG
-         pLLhsLaMQh/jYWK+uiU209Uw7dycl4V7/0jru3K9pbWRQI87kyA0+R4HtQdaDmdLLmi2
-         x48jpcnwRp8j7ikCk9pl3PVnAVqUZLwVATFfuvIhOPcNpJ+kGDAK2kMVwDNLBOJ4zATI
-         ZcBw==
+        bh=vFdFq/KHYk+bjr1R3r96jxPdwyapsi1K5J19t+PAZZo=;
+        b=XABzChaAQVpSLFyso2w+W8cXPAL5yoOyF1tvB1yOUMn6WH69xLzAD/bNg22scQ0qDJ
+         /hhK1A2igjRnQGc/94A1rmg5iGdflwHYAxlwhwbIBBU1ekuhB7cZIIyTWpRyRGKISZru
+         7gieUcrZu802EqhzSKzJvwKewP/jQBGR+PNKkGMfSk/8Lx673w9sKiAH+yy8jCJyjtqI
+         RHpKh5/w4oiGQQsvt2EhGXBQ4s/MJjwn4asVGBAv6nIammN4IT3//vVZuFfj1odojTDG
+         /r2qsRL0VfYUePWND0PdRsN3+dEiuYnV30vf7yFajrS8wJlIYqL9g6G2cr4DeqH8I9ZB
+         zWeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778788825; x=1779393625;
+        d=1e100.net; s=20251104; t=1778788891; x=1779393691;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sQuoEbtw7niw9BnkPVOKSPzKXN3bjsS4Ug9OsTAfSUg=;
-        b=pLv+UmBL4uCNL02oSKRCVCgpEe31amkOsokOVTJ8gFf7pggnCAA46z3tKcrtnb7laQ
-         zU3Chb4f2UAKQNY+2gyg6/VfLHdkJXpwMGBZpgZHjAR+lCqWWjfySYUQk2jNYZnaMok5
-         edQzGytc7Fu03QYqsA5GwzJvvjKXHriVcAhsvAtAEE+TEa1Ipfg9RfdNZ5pfCMeMDPS/
-         6q4MQULVnBq3BVaDyIGCIdVjHwJjwWfsOZ59+jJIurjqyH+k56srMr+cWTYzuc3cHJxs
-         yTvmBI2XGLVBhnCXPrfGRCC1xVuvAxfKANLmQv2ilcJzoaTmUDIXhHNWQt7r0bZYdYhH
-         PfwQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8j2ZgxRylaxUm+qm5mx4ypNSjuzxA/zEpiXFBMfz5DseaBjiryq8fYTrQqiCjP1E7jHzxLols+zaJKoSGX@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtLK+bfHQwxiriYTWTZGofhPtxSip44tLsmgbPfU6uVnfPM287
-	O7pSvL1GwsxAfTMdXV8R8rPfiBATZoEfF8FmdSHB+LrgJ4sPdO6JavNxTPTyGfyjE0Q=
-X-Gm-Gg: Acq92OHeTdywDH3gOdEqCvafmwc/AVwiw4DCmKevNE3Hd3pHB65JgeGXxBwtN0UFWV+
-	c+BoWs9UWlYET4TTvhYtJSUaSOk+nuyhVpAu4V+bmpbhFO9xXHgMCaRgVIkNOulpFGb+ft7Xcpu
-	rP9VPSv+YTpv2LqFd3qvSz79WbCmSrxmPvLqgvOK+mf+jRQ4jIFarDkhMFkdpxG8uX5gY4rPFmK
-	N0jq4wZZr5mlIUrryggRQs7wcjPgpl6nCDBod5BNEmRy9g/m2xIfZR6AabJ6d2ps2fnGPzZI3kn
-	6gyx0NDbSnwXsY0mUQmU4pboDHRIufUVlFgYrLCgN761OvabjtwhcpqL01rluWQWQzIO8pe5GzR
-	v8ycmdiwv6XlUDT/tlfhmOU8HX/hwBRpvYVPMF/qiloyg7iua6990OXovwMfaLX1Zhq/7dhrUtW
-	olyRLmwm4p4Zifnx+y2uanrBskSHwnt9UFU3NBihhdmR2qeuFFciuTe6i6SSKrF7YrcYA3bvfR4
-	/WKkTJprI0HasmvPMNmVw==
-X-Received: by 2002:a05:690e:1582:10b0:651:b593:d3c9 with SMTP id 956f58d0204a3-65e226dcf85mr647551d50.17.1778788824453;
-        Thu, 14 May 2026 13:00:24 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:1475:85f:92c5:666])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65e0db0b134sm1542771d50.13.2026.05.14.13.00.22
+        bh=vFdFq/KHYk+bjr1R3r96jxPdwyapsi1K5J19t+PAZZo=;
+        b=W094iK7iG8x3P67YNR5aQSl6bwPvyr8qKWoyCiLOD/koC0kf6uOdN1L08h/SzWUxVO
+         V3oJO1+IMl4jKs2Oi8PPm/TbBdUPUEHmyRRLRtvpO1BWlQQCi33VP+InvnROfONz2QOs
+         gg+Lty6hg0QBpSVy/z5IxeumPHFPLuKvuHeSFcSd4UBWZvMFHIbT6itgcj8JrW2iz2+1
+         fsgU+NH4dZbblAmTy3uUnde20oUN4g8cq+pnSwUMnLKXy73Hs3n99Uc2VI8o+zUUgRcF
+         9O9oOiCEV80aX4rX3qUzhnm34MoMw6IKXTmPkEqwUhRG4vM6cNTTjnUdap7+8nKzxWc4
+         fRyg==
+X-Forwarded-Encrypted: i=1; AFNElJ886YhKNZkjs/ghsUIH2RzZ1o1uvrzGKVFL3gNjcBCtGmfF8tUxzN/q0AAoVUF1aM/Sw07LwBtNTxBHWveo@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQ1Obyyi9O2tM+A2hJBCHPAVvM7lwoXE5cwUlNXKS30GhqlxTz
+	E0na62ZukWZeEToqEqYKamQ6JXARX7rDMo8hL8AtudvFDu85+YGhOc4a
+X-Gm-Gg: Acq92OGPEp19qymjNcQf4VVftdCydM6jpaxrKo3GqTRqDke67YEI8EqE7dF9AfCD7vV
+	Xkag+35daQDKdKYKwyFYglkullY5rEysHHVcfmJ6lA1dhZ6wcQb3pLRnnTuhCXbvUbH9TR7TOHr
+	Vta13mcAiKL3kWZTFxqhYENWpX6t80pzZuYtVP4U5BRl4yLlHLSzz3unhcbCmdy7MW8csmaehSf
+	qvL6qQ3oem6kpJf4F2U+U2g84qTAX7TCFl+5EkaQeoMTPJxeEobdE30NkvKZV3boG2Pyxm+qOk1
+	q7uANYh1FH+12/ibuBPD5M1dlxShF68gJCTgnNnk4SaNYooniV+IuYl+xeiFg3t94DUxIFyP4Gw
+	GIllMY9Aek3ZRspACIbPOckUL9LLMS7c4Tx51lxliAAptMEyTY8FU+Q5fdD/UeojWyEwjayZnir
+	V48AExOVPUwlR6bdNVuel7sH1ebfRKN8/YCmyY0Qey89C1TI3bjXNqOC71k8IAvTI3zr7K1bL0U
+	7691gSuhTL2nTHoylq96c6u+eVd
+X-Received: by 2002:a05:6402:223c:b0:67d:bc9c:4e93 with SMTP id 4fb4d7f45d1cf-6830acd8addmr1994919a12.7.1778788890981;
+        Thu, 14 May 2026 13:01:30 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-9059-891b-e3e6-76e2.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:9059:891b:e3e6:76e2])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68311660f49sm1060139a12.15.2026.05.14.13.01.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 13:00:23 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: zlang@redhat.com,
-	fstests@vger.kernel.org
-Cc: glaubitz@physik.fu-berlin.de,
-	Slava.Dubeyko@ibm.com,
+        Thu, 14 May 2026 13:01:30 -0700 (PDT)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Nirmoy Das <nirmoyd@nvidia.com>,
+	linux-unionfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	frank.li@vivo.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH] xfstests: disable generic/003 for HFS file system
-Date: Thu, 14 May 2026 13:00:05 -0700
-Message-ID: <20260514200004.354432-2-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] err_ptr.h: introduce ERR_PTR_SAFE()
+Date: Thu, 14 May 2026 22:01:29 +0200
+Message-ID: <20260514200129.94862-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,62 +79,85 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-HFS hasn't any field in on-disk layout that can keep
-the file/folder access times (atime):
+Code using ERR_PTR() is almost certainly intending to produce a value
+which qualified as IS_ERR_OR_NULL(), but this is not the case when
+code calls ERR_PTR(err) with positive or large negative err.
 
-/* The catalog record for a file */
-struct hfs_cat_file {
-        s8 type;                        /* The type of entry */
-        u8 reserved;
-        u8 Flags;                       /* Flags such as read-only */
-        s8 Typ;                         /* file version number = 0 */
-        struct hfs_finfo UsrWds;        /* data used by the Finder */
-        __be32 FlNum;                   /* The CNID */
-        __be16 StBlk;                   /* obsolete */
-        __be32 LgLen;                   /* The logical EOF of the data fork*/
-        __be32 PyLen;                   /* The physical EOF of the data fork */
-        __be16 RStBlk;                  /* obsolete */
-        __be32 RLgLen;                  /* The logical EOF of the rsrc fork */
-        __be32 RPyLen;                  /* The physical EOF of the rsrc fork */
-        __be32 CrDat;                   /* The creation date */
-        __be32 MdDat;                   /* The modified date */
-        __be32 BkDat;                   /* The last backup date */
-        struct hfs_fxinfo FndrInfo;     /* more data for the Finder */
-        __be16 ClpSize;                 /* number of bytes to allocate
-                                           when extending files */
-        hfs_extent_rec ExtRec;          /* first extent record
-                                           for the data fork */
-        hfs_extent_rec RExtRec;         /* first extent record
-                                           for the resource fork */
-        u32 Resrv;                      /* reserved by Apple */
-} __packed;
+Introduce a fortified variant of ERR_PTR() whose return value is
+guaranteed to qualify as IS_ERR_OR_NULL().
 
-This patch disable the generic/003 test-case for
-HFS file system.
+We add this in a new header file err_ptr.h which includes bug.h
+for the build/run time assertions.
 
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
-cc: fstests@vger.kernel.org
+Subsystems may opt-in for fortified ERR_PTR() for specific call sites
+or by #define ERR_PTR(err) ERR_PTR_SAFE(err).
+
+Link: https://lore.kernel.org/r/CAOQ4uxg=gONUh5QEW5KJcyXLDF15HbLnc9Ea7RKPcgtyfPasTA@mail.gmail.com/
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- common/rc | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/common/rc b/common/rc
-index 5fe44e21..b897ef0b 100644
---- a/common/rc
-+++ b/common/rc
-@@ -4559,6 +4559,9 @@ _require_atime()
- 	ceph|ceph-fuse)
- 		_notrun "atime not maintained by $FSTYP"
- 		;;
-+	hfs)
-+		_notrun "atime not maintained by $FSTYP"
-+		;;
- 	esac
- 
- }
+Guys,
+
+Please follow the Link to see the sneaky bug that Nirmoy tracked down.
+syzbot has complained about this a while ago, but neither me nor my AI
+helpers were able to track it down from code analysis.
+
+Honestly, with AI review, this class of bugs (return a stale err value)
+should not be happening anymore, but it annoyed me that ERR_PTR() can
+return a value which is not an IS_ERR(). It messes with code flow
+analysis.
+
+What do you think about this macro?
+
+I intend to #define ERR_PTR(err) ERR_PTR_SAFE(err) in overlayfs.h
+to fortify all of the ERR_PTR() in overlayfs code.
+
+What do you think about this opt-in method?
+Any reason to make this more widespread by default?
+
+Thanks,
+Amir.
+
+
+ include/linux/err_ptr.h | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 include/linux/err_ptr.h
+
+diff --git a/include/linux/err_ptr.h b/include/linux/err_ptr.h
+new file mode 100644
+index 0000000000000..829ec5f771528
+--- /dev/null
++++ b/include/linux/err_ptr.h
+@@ -0,0 +1,29 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _LINUX_ERR_PTR_H
++#define _LINUX_ERR_PTR_H
++
++#include <linux/err.h>
++#include <linux/bug.h>
++
++/**
++ * ERR_PTR_SAFE - Create an error pointer, with validation.
++ * @error: An error code to encode as an error pointer.
++ *
++ * Like ERR_PTR(), but validates @error:
++ * - For constant @error: fails the build if the value is not a valid errno
++ *   (zero is allowed, producing NULL).
++ * - For variable @error: warns and clamps to -MAX_ERRNO if out of range.
++ *
++ * Subsystems may opt in for all ERR_PTR() call sites by adding after includes:
++ *   #undef ERR_PTR
++ *   #define ERR_PTR(err) ERR_PTR_SAFE(err)
++ */
++#define ERR_PTR_SAFE(error) ({						\
++	long __e = (error);						\
++	if (__builtin_constant_p(__e))					\
++		BUILD_BUG_ON(__e && !IS_ERR_VALUE(__e));		\
++	__builtin_constant_p(__e) ? (void *)__e :			\
++		(void *)(WARN_ON(__e && !IS_ERR_VALUE(__e)) ? -MAX_ERRNO : __e);\
++})
++
++#endif /* _LINUX_ERR_PTR_H */
 -- 
-2.43.0
+2.54.0
 
