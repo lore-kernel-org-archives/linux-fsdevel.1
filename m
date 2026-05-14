@@ -1,415 +1,220 @@
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DBC3CEB98
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 21:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABEC342524;
+	Thu, 14 May 2026 22:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778795531; cv=none; b=EN06oby0wEr/6TBu4HXJqx7NR2X9Ia2n+ebMl0RljjJqTL2yik+QQVan9FcPyxXiK6KRHWCo0Egvad0CrGQJYW2kDsaAKyEqjW6IIWy18qrtuEm2/EcqGLbZnZGx8LAjuNQGE69RyPlt45eYKXi0ASKQZkNKa04h2jV6aa1nCHM=
+	t=1778796563; cv=none; b=FvnWU6+3KO9RRp0jgTWq5AD1/sTTUWKtVxDUTg9/IkWYAVlMfNH0N0+zFNkPcriDkNIQSRMjTBs6KJ4bGeVIkThF4CFowgtArYpHo+AKlZis4zdPsFJz70byoxvw7kiN0IiGTHNRLfBv1hryETdqfuWuVaRaDs1v6/X6E1foYoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778795531; c=relaxed/simple;
-	bh=oc6U7NpIca6DPcliabejSR7QvsWIVWFdwf+uh6U3Rsg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ss77GBNv7OGnUPlU0Ssrq4P71OZLGDpgWyzZgDWYqI7rT/oJxPvKW0TrD89lMVY7AIDh82i129cCoGCvSZRud2vOKQs/FRMJYtjhBCt9tpiLeaYWtbIVlXRZ/cl9oLcpPruH1CzHTIHbT3XuU+6trDJGyFDwD7q6TE20uwpvJ50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=amptX5dC; arc=none smtp.client-ip=148.163.139.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	s=arc-20240116; t=1778796563; c=relaxed/simple;
+	bh=lKOgS3Id/uZjZP4D1y33DvQH9TPRPRihqWc5fBgixW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajpGKkidkaKCYaToWQ8l4vn8Ptxty7BPao9eyHluF4Z6Q9/a80nws/2UyNHrz91hmaaoTzFjwE47oh18xFdOGQ/MnidRMwk6Q83s9pPdFV16KwH2+0w+lgZavpYpoUmfME5E0w1os7HBEE+KMmZjvZclp5D7M2RAH4kScX41riI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P2OxZ69/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="amptX5dC"
-Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64ELgnw3789396
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=ot8e
-	9s9wEWPY8e0IKULsGPR22o/8zTD5eyv3hI7CBS8=; b=amptX5dCAhpcnMGmuHLT
-	GYOn8Vyq1JSUuTaRKvpBtp4cP8ObZJDxT/CCcaLdO9j67TZKns3IqaI0gwDxMfri
-	sZ71s+48zMDhznNI5m8HKE7ePWk5fVxvvLhKPxt12xJjWv2nss7XbWFa1XgLyRi9
-	0AR6y6+jHz3Wg9TYx6OVohvAKySgnHEfrYfXp/EjQT+S3qyxvM+il3WnRtGDbqTR
-	09uaHzbDh9rC22KUjg/cc46V0pl8mR8vESanql4dUBrPmKGzKGzbzU9nqubUXNNS
-	Cz6BtlC8kk8av73Apy9e4SkRvFAgB+t3i9HIV8Ns3CfPiJApjoJggTBJSr0ZVtxD
-	kQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4e5m299h81-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:50 -0400 (EDT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-90fdd724bf1so570998585a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 14:51:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778795510; x=1779400310;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ot8e9s9wEWPY8e0IKULsGPR22o/8zTD5eyv3hI7CBS8=;
-        b=GWCzJdWtN5ZqUWca8E8UjeAuAZwukymcITcoTWonWBXJjpEwXdccsEiEITm8Tj9xPS
-         ySZoiaF1Q0W2ECl8clUDwsF+zGg4Bku5F8xJs5H8L8y/RFQGp40UAsQ9f9syyqTxbSgo
-         6kjW0HxEFBbRecs138foKffRjaasGHS2iQyVLHpbuoCxIqF/XnSY3pYwFcBOSkCKfhhn
-         clpXKfayB8+YGwYx6uZlbo/tBuU7QKN2nQPFfA7ygJnOAARv+Y5x+ABFihaUuEOYBLts
-         DmoSBQllzxYz+8pD1djMdRrDA6VNmVg7NvWrWkkIQLsqaIkCQ/NzcyNXJf/OETDaUp6P
-         D+dQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+sFqO9oD8DLxB++TDzxdhzx7tSmwzpGD5xKTGKoPIgzZryXDsR4sBav9FFUMu4cft19HhlzhnE47QNdjFj@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4DtGCL7KO/7jTpH3Wtg3DbImVP+n7wkw8ptHjZ/9gv4smUXoF
-	pxy6JSiU7Ki9OUFHzrdnSeojuIVwlPFh+qgSNPfQjkiTnOVoQI8b7DI8WKFtoV3+uUidCMQJRid
-	+BEMb6UFqjer9v8+Iax4yvxc5I3XSN3GPXJ5rCBEdWNZv9fXfeCxQnGBj888ESpY=
-X-Gm-Gg: Acq92OH+IeckGaIlnK3yekASz3EiZ+p3cEU0hu0trgY4t4wgooUQdWBNWCMLpDz8bCi
-	BHGpKkdl2LXLsrCJR/rr2HkO8Qa1YIW8FvRkT1mjCH4rP3BOSk1TGvWMOZQevF60hHuq4CL0+FZ
-	8Djcqdkmf1YZJAL/g/vFvTXxgBCAKXF2SaxdO7tfDl8NDwYfqmXnW1oq+jf9vDR6qkY8zIMXExV
-	jHqz2HMS4ZXF3zO1Lrb8ykxIJP1MjcnNQslGOrGdUqMI2VfuSMoq2X8YsuJky88k7MahHmN5reh
-	qqjKmnkMVSvv0ehF03InrLTT2enNeyC4/AC80wlEpILSPAl27W9JJnoqWiNU6Q8caR8snbJ7z3j
-	sfuCLP6MnMsAAlEJcFxj9FQdBg3dXsnjjZNIkjjXHoQw=
-X-Received: by 2002:a05:620a:7112:b0:8f0:7516:da99 with SMTP id af79cd13be357-911ce90bc41mr243015585a.60.1778795510071;
-        Thu, 14 May 2026 14:51:50 -0700 (PDT)
-X-Received: by 2002:a05:620a:7112:b0:8f0:7516:da99 with SMTP id af79cd13be357-911ce90bc41mr243010885a.60.1778795509581;
-        Thu, 14 May 2026 14:51:49 -0700 (PDT)
-Received: from [127.0.1.1] ([129.236.229.175])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba18132fsm354966085a.6.2026.05.14.14.51.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 14:51:49 -0700 (PDT)
-From: Tal Zussman <tz2294@columbia.edu>
-Date: Thu, 14 May 2026 17:51:14 -0400
-Subject: [PATCH v6 1/4] block: add task-context bio completion
- infrastructure
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P2OxZ69/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87836C2BCB3;
+	Thu, 14 May 2026 22:09:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778796562;
+	bh=lKOgS3Id/uZjZP4D1y33DvQH9TPRPRihqWc5fBgixW8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P2OxZ69/bhI4WhYNFSGaREb/ZzxWBEUT3pWeWx/DH7jrCHSUT66fy7m3Q1EIVjwnP
+	 FjQe32BXZlBOxoo0i+gGXqt7T4CBHDGEqR3BoRFCWCx1Y3Ckcn9GINsPFLk3+oNTB0
+	 uBaSR9syrhusymAA2sASFebQDWkimleXi8k8t3PaBqfyxfoT1MI18z2cTytItvvyrS
+	 1joU8+wwc5ESu8CFmb92PMBrkLPBgs5C1kxCyCwTKf+Z77SjpUjyq6w4i42Yl/laCP
+	 A9p3SnmPevrHY1neeYKnAAIh835NQApWbXRzm8b6QhkQlNUif8HI2+hy2BknXW1hM0
+	 4TVpQ0jP1iLEw==
+Date: Thu, 14 May 2026 15:09:21 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: miklos@szeredi.hu
+Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 1/9] fuse: enable caching of timestamps
+Message-ID: <20260514220921.GI9544@frogsfrogsfrogs>
+References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
+ <177747206510.4103309.7610933581068572895.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260514-blk-dontcache-v6-1-782e2fa7477b@columbia.edu>
-References: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
-In-Reply-To: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
-To: Jens Axboe <axboe@kernel.dk>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Carlos Maiolino <cem@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-        Christoph Hellwig <hch@infradead.org>
-Cc: Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>,
-        Tal Zussman <tz2294@columbia.edu>
-X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778795507; l=9111;
- i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=oc6U7NpIca6DPcliabejSR7QvsWIVWFdwf+uh6U3Rsg=;
- b=at5gcGpC3+Y/wzEruMkgdaBcuT4Jo3oZWqaJdg6p+Uy1AWNOkr00RFSEU5rxarBI4k5fCGW3W
- OHd6hHEUgR8AKdSok87SSLXOCUi+S4svySklPkFKz3mCi8gj+YE2QgR
-X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
- pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-ORIG-GUID: sfm0d6Fw58b74n4WRzKe8heo_cPCAkF5
-X-Proofpoint-GUID: sfm0d6Fw58b74n4WRzKe8heo_cPCAkF5
-X-Authority-Analysis: v=2.4 cv=Wuob99fv c=1 sm=1 tr=0 ts=6a0643f7 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=nkegbr1AwBRna+m8FBH0UQ==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
- a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8 a=OwvvbMMXozzxZtH9MBEA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDIxNiBTYWx0ZWRfX50iviaCO+jf3
- A2MHRPcImWYR44tObJwd9GOM8ptQLaQC35FPFbMJxyklLXhBV3sCcMLA7o/kmQPCF9ujXhGB7eL
- Rx0g1soIp2jzms2CcLRcnWDFKUIBpRS9tajbrnT5Eu0qT2ERXl775lh544sf65Zx7X+fFEtjwPN
- qhJdFvFAhvWlD+0mbfRIU2IbZ6cz4PiQ5jRiDy+aADeGRRTYlAprTcg9AD39muGixc5Vvvg0IRN
- HmSbn/iFz7F+5jtiCSvcUJ+KtLQ8yr9d5ZQ9+jlTOOA6S3xq0hN6rZLX7BwaF9rMEnHnBxrMuob
- 39xJE3KQssH2WAo2Q13x8xB+KU0CLDcOslJU2Np//L3gxANAOIVIXL0g5ndkoKbTgLdjSDxqTHp
- QET98E8+tweVlDEtRTogbZvh8VfUsT/50GxNJtlsrX1zH9skY7COVGpwlSq1wD5YfzqsQMpFUUp
- qROOl2V9NAy8qHHMNRg==
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11786
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 spamscore=0 adultscore=0 impostorscore=10
- phishscore=0 lowpriorityscore=10 priorityscore=1501 bulkscore=10
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605140216
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177747206510.4103309.7610933581068572895.stgit@frogsfrogsfrogs>
 
-Some bio completion handlers need to run from preemptible task context,
-but bio_endio() may be called from IRQ context (e.g., buffer_head
-writeback). Callers need a way to ensure their callback eventually runs
-from a sleepable context. Add infrastructure for that, in two forms:
+On Wed, Apr 29, 2026 at 07:33:20AM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Cache the timestamps in the kernel so that the kernel sends FUSE_SETATTR
+> calls to the fuse server after writes, because the iomap infrastructure
+> won't do that for us.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  fs/fuse/dir.c        |    5 ++++-
+>  fs/fuse/file.c       |   18 ++++++++++++------
+>  fs/fuse/fuse_iomap.c |    6 ++++++
+>  fs/fuse/inode.c      |   13 +++++++------
+>  4 files changed, 29 insertions(+), 13 deletions(-)
+> 
+> 
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 3a76eea04c6425..11898102adefe2 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -2265,7 +2265,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	struct fuse_attr_out outarg;
+>  	const bool is_iomap = fuse_inode_has_iomap(inode);
+>  	bool is_truncate = false;
+> -	bool is_wb = fc->writeback_cache && S_ISREG(inode->i_mode);
+> +	bool is_wb = (is_iomap || fc->writeback_cache) &&
+> +		     S_ISREG(inode->i_mode);
+>  	loff_t oldsize;
+>  	int err;
+>  	bool trust_local_cmtime = is_wb;
+> @@ -2405,6 +2406,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	spin_lock(&fi->lock);
+>  	/* the kernel maintains i_mtime locally */
+>  	if (trust_local_cmtime) {
+> +		if ((attr->ia_valid & ATTR_ATIME) && is_iomap)
+> +			inode_set_atime_to_ts(inode, attr->ia_atime);
+>  		if (attr->ia_valid & ATTR_MTIME)
+>  			inode_set_mtime_to_ts(inode, attr->ia_mtime);
+>  		if (attr->ia_valid & ATTR_CTIME)
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index fa67b20f5ad3ae..eecd0610fbd3e5 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -262,7 +262,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  	int err;
+>  	const bool is_iomap = fuse_inode_has_iomap(inode);
+>  	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
+> -	bool is_wb_truncate = is_truncate && fc->writeback_cache;
+> +	bool is_wb_truncate = is_truncate && (is_iomap || fc->writeback_cache);
+>  	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
+>  
+>  	if (fuse_is_bad(inode))
+> @@ -477,12 +477,14 @@ static int fuse_flush(struct file *file, fl_owner_t id)
+>  	struct fuse_file *ff = file->private_data;
+>  	struct fuse_flush_in inarg;
+>  	FUSE_ARGS(args);
+> +	const bool is_iomap = fuse_inode_has_iomap(inode);
+>  	int err;
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>  
+> -	if (ff->open_flags & FOPEN_NOFLUSH && !fm->fc->writeback_cache)
+> +	if ((ff->open_flags & FOPEN_NOFLUSH) &&
+> +	    !fm->fc->writeback_cache && !is_iomap)
+>  		return 0;
+>  
+>  	err = write_inode_now(inode, 1);
+> @@ -518,7 +520,7 @@ static int fuse_flush(struct file *file, fl_owner_t id)
+>  	 * In memory i_blocks is not maintained by fuse, if writeback cache is
+>  	 * enabled, i_blocks from cached attr may not be accurate.
+>  	 */
+> -	if (!err && fm->fc->writeback_cache)
+> +	if (!err && (is_iomap || fm->fc->writeback_cache))
+>  		fuse_invalidate_attr_mask(inode, STATX_BLOCKS);
+>  	return err;
+>  }
+> @@ -820,8 +822,10 @@ static void fuse_short_read(struct inode *inode, u64 attr_ver, size_t num_read,
+>  	 * If writeback_cache is enabled, a short read means there's a hole in
+>  	 * the file.  Some data after the hole is in page cache, but has not
+>  	 * reached the client fs yet.  So the hole is not present there.
+> +	 * If iomap is enabled, a short read means we hit EOF so there's
+> +	 * nothing to adjust.
+>  	 */
+> -	if (!fc->writeback_cache) {
+> +	if (!fc->writeback_cache && !fuse_inode_has_iomap(inode)) {
+>  		loff_t pos = folio_pos(ap->folios[0]) + num_read;
+>  		fuse_read_update_size(inode, pos, attr_ver);
+>  	}
+> @@ -870,6 +874,8 @@ static int fuse_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+>  			    unsigned int flags, struct iomap *iomap,
+>  			    struct iomap *srcmap)
+>  {
+> +	WARN_ON(fuse_inode_has_iomap(inode));
+> +
+>  	iomap->type = IOMAP_MAPPED;
+>  	iomap->length = length;
+>  	iomap->offset = offset;
+> @@ -2021,7 +2027,7 @@ static void fuse_writepage_end(struct fuse_mount *fm, struct fuse_args *args,
+>  	 * Do this only if writeback_cache is not enabled.  If writeback_cache
+>  	 * is enabled, we trust local ctime/mtime.
+>  	 */
+> -	if (!fc->writeback_cache)
+> +	if (!fc->writeback_cache && !fuse_inode_has_iomap(inode))
+>  		fuse_invalidate_attr_mask(inode, FUSE_STATX_MODIFY);
+>  	spin_lock(&fi->lock);
+>  	fi->writectr--;
+> @@ -3114,7 +3120,7 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+>  	/* mark unstable when write-back is not used, and file_out gets
+>  	 * extended */
+>  	const bool is_iomap = fuse_inode_has_iomap(inode_out);
+> -	bool is_unstable = (!fc->writeback_cache) &&
+> +	bool is_unstable = (!fc->writeback_cache && !is_iomap) &&
+>  			   ((pos_out + len) > inode_out->i_size);
+>  
+>  	if (fc->no_copy_file_range)
+> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+> index cf52e2747e7f7f..a39370b97ca508 100644
+> --- a/fs/fuse/fuse_iomap.c
+> +++ b/fs/fuse/fuse_iomap.c
+> @@ -1873,6 +1873,12 @@ static inline void fuse_inode_set_iomap(struct inode *inode)
+>  	struct fuse_inode *fi = get_fuse_inode(inode);
+>  	unsigned int min_order = 0;
+>  
+> +	/*
+> +	 * Manage timestamps ourselves, don't make the fuse server do it.  This
+> +	 * is critical for mtime updates to work correctly with page_mkwrite.
+> +	 */
+> +	inode->i_flags &= ~S_NOCMTIME;
+> +	inode->i_flags &= ~S_NOATIME;
 
-  1. BIO_COMPLETE_IN_TASK, a bio flag the submitter sets when it knows
-     in advance that its callback needs task context (e.g., dropbehind
-     writeback). bio_endio() sees the flag and offloads completion to a
-     worker automatically.
+Looking at an unrelated regression in atime handling, I think this line
+should go in the patch that enables the kernel to manage atime.
 
-  2. bio_complete_in_task(), a helper that completion callbacks can
-     invoke from within bi_end_io() when the deferral decision is
-     dynamic (e.g., fserror reporting).
+--D
 
-Both share a per-CPU batch list drained by a delayed work item on a
-WQ_PERCPU workqueue. Producers push the bio onto the local CPU's batch
-and schedule the work item, which then dispatches each bio's bi_end_io()
-from task context. The delayed work item uses a 1-jiffie delay to allow
-batches of completions to accumulate before processing.
-
-Both methods are gated on bio_in_atomic(), which returns true in any
-context where a sleeping bi_end_io() is unsafe, including
-non-preemptible task context. This logic is copied from commit
-c99fab6e80b7 ("erofs: fix atomic context detection when
-!CONFIG_DEBUG_LOCK_ALLOC").
-
-Two CPU hotplug callbacks are used to drain remaining bios from the
-departing CPU's batch, while maintaining the per-CPU behavior. The
-CPUHP_AP_ONLINE_DYN callback disables the per-CPU delayed work while the
-CPU is still online, preventing it from running on an unbound worker
-later. CPUHP_BP_PREPARE_DYN then drains any bios added between disabling
-the work item and CPU offline.
-
-Link: https://lore.kernel.org/all/20260409160243.1008358-1-hch@lst.de/
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Suggested-by: Christoph Hellwig <hch@infradead.org>
-Signed-off-by: Tal Zussman <tz2294@columbia.edu>
----
- block/bio.c               | 147 +++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/bio.h       |  32 ++++++++++
- include/linux/blk_types.h |   1 +
- 3 files changed, 179 insertions(+), 1 deletion(-)
-
-diff --git a/block/bio.c b/block/bio.c
-index b8972dba68a0..6864ee737400 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -19,6 +19,7 @@
- #include <linux/blk-crypto.h>
- #include <linux/xarray.h>
- #include <linux/kmemleak.h>
-+#include <linux/local_lock.h>
- 
- #include <trace/events/block.h>
- #include "blk.h"
-@@ -1717,6 +1718,79 @@ void bio_check_pages_dirty(struct bio *bio)
- }
- EXPORT_SYMBOL_GPL(bio_check_pages_dirty);
- 
-+/*
-+ * Infrastructure for deferring bio completions to task-context via a per-CPU
-+ * workqueue. Triggered either by the BIO_COMPLETE_IN_TASK bio flag (static
-+ * decision at submit time) or by calling bio_complete_in_task() from
-+ * bi_end_io() (dynamic decision at completion time).
-+ */
-+
-+struct bio_complete_batch {
-+	local_lock_t lock;
-+	struct bio_list list;
-+	struct delayed_work work;
-+	int cpu;
-+};
-+
-+static DEFINE_PER_CPU(struct bio_complete_batch, bio_complete_batch) = {
-+	.lock = INIT_LOCAL_LOCK(lock),
-+};
-+static struct workqueue_struct *bio_complete_wq;
-+
-+static void bio_complete_work_fn(struct work_struct *w)
-+{
-+	struct delayed_work *dw = to_delayed_work(w);
-+	struct bio_complete_batch *batch =
-+		container_of(dw, struct bio_complete_batch, work);
-+
-+	while (1) {
-+		struct bio_list list;
-+		struct bio *bio;
-+
-+		local_lock_irq(&bio_complete_batch.lock);
-+		list = batch->list;
-+		bio_list_init(&batch->list);
-+		local_unlock_irq(&bio_complete_batch.lock);
-+
-+		if (bio_list_empty(&list))
-+			break;
-+
-+		while ((bio = bio_list_pop(&list)))
-+			bio->bi_end_io(bio);
-+
-+		if (need_resched()) {
-+			bool is_empty;
-+
-+			local_lock_irq(&bio_complete_batch.lock);
-+			is_empty = bio_list_empty(&batch->list);
-+			local_unlock_irq(&bio_complete_batch.lock);
-+			if (!is_empty)
-+				mod_delayed_work_on(batch->cpu,
-+						    bio_complete_wq,
-+						    &batch->work, 0);
-+			break;
-+		}
-+	}
-+}
-+
-+void __bio_complete_in_task(struct bio *bio)
-+{
-+	struct bio_complete_batch *batch;
-+	unsigned long flags;
-+	bool was_empty;
-+
-+	local_lock_irqsave(&bio_complete_batch.lock, flags);
-+	batch = this_cpu_ptr(&bio_complete_batch);
-+	was_empty = bio_list_empty(&batch->list);
-+	bio_list_add(&batch->list, bio);
-+	local_unlock_irqrestore(&bio_complete_batch.lock, flags);
-+
-+	if (was_empty)
-+		mod_delayed_work_on(batch->cpu, bio_complete_wq,
-+				    &batch->work, 1);
-+}
-+EXPORT_SYMBOL_GPL(__bio_complete_in_task);
-+
- static inline bool bio_remaining_done(struct bio *bio)
- {
- 	/*
-@@ -1791,7 +1865,9 @@ void bio_endio(struct bio *bio)
- 	}
- #endif
- 
--	if (bio->bi_end_io)
-+	if (bio_flagged(bio, BIO_COMPLETE_IN_TASK) && bio_in_atomic())
-+		__bio_complete_in_task(bio);
-+	else if (bio->bi_end_io)
- 		bio->bi_end_io(bio);
- }
- EXPORT_SYMBOL(bio_endio);
-@@ -1977,6 +2053,51 @@ int bioset_init(struct bio_set *bs,
- }
- EXPORT_SYMBOL(bioset_init);
- 
-+static int bio_complete_batch_cpu_online(unsigned int cpu)
-+{
-+	enable_delayed_work(&per_cpu(bio_complete_batch, cpu).work);
-+	return 0;
-+}
-+
-+/*
-+ * Disable this CPU's delayed work so that it cannot run on an unbound worker
-+ * after the CPU is offlined.
-+ */
-+static int bio_complete_batch_cpu_down_prep(unsigned int cpu)
-+{
-+	disable_delayed_work_sync(&per_cpu(bio_complete_batch, cpu).work);
-+	return 0;
-+}
-+
-+/*
-+ * Drain a dead CPU's deferred bio completions. The CPU is dead and the worker
-+ * is canceled so no locking is needed.
-+ */
-+static int bio_complete_batch_cpu_dead(unsigned int cpu)
-+{
-+	struct bio_complete_batch *batch =
-+		per_cpu_ptr(&bio_complete_batch, cpu);
-+	struct bio *bio;
-+
-+	while ((bio = bio_list_pop(&batch->list)))
-+		bio->bi_end_io(bio);
-+
-+	return 0;
-+}
-+
-+static void __init bio_complete_batch_init(int cpu)
-+{
-+	struct bio_complete_batch *batch =
-+		per_cpu_ptr(&bio_complete_batch, cpu);
-+
-+	bio_list_init(&batch->list);
-+	INIT_DELAYED_WORK(&batch->work, bio_complete_work_fn);
-+	batch->cpu = cpu;
-+
-+	if (!cpu_online(cpu))
-+		disable_delayed_work_sync(&batch->work);
-+}
-+
- static int __init init_bio(void)
- {
- 	int i;
-@@ -1991,6 +2112,30 @@ static int __init init_bio(void)
- 				SLAB_HWCACHE_ALIGN | SLAB_PANIC, NULL);
- 	}
- 
-+	for_each_possible_cpu(i)
-+		bio_complete_batch_init(i);
-+
-+	bio_complete_wq = alloc_workqueue("bio_complete",
-+					   WQ_MEM_RECLAIM | WQ_PERCPU, 0);
-+	if (!bio_complete_wq)
-+		panic("bio: can't allocate bio_complete workqueue\n");
-+
-+	/*
-+	 * bio task-context completion draining on hot-unplugged CPUs:
-+	 *
-+	 *   1. Stop the per-CPU delayed work while the CPU is still online, so
-+	 *      that it cannot run on an unbound worker later.
-+	 *   2. Drain leftover bios added between worker disabling and CPU
-+	 *      offlining.
-+	 */
-+	cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN,
-+				  "block/bio:complete:online",
-+				  bio_complete_batch_cpu_online,
-+				  bio_complete_batch_cpu_down_prep);
-+	cpuhp_setup_state_nocalls(CPUHP_BP_PREPARE_DYN,
-+				  "block/bio:complete:dead",
-+				  NULL, bio_complete_batch_cpu_dead);
-+
- 	cpuhp_setup_state_multi(CPUHP_BIO_DEAD, "block/bio:dead", NULL,
- 					bio_cpu_dead);
- 
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 97d747320b35..c0214d6c28d6 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -369,6 +369,38 @@ static inline struct bio *bio_alloc(struct block_device *bdev,
- 
- void submit_bio(struct bio *bio);
- 
-+/**
-+ * bio_in_atomic - check if the current context is unsafe for bio completion
-+ *
-+ * Return: %true in atomic contexts (e.g. hard/soft IRQ, preempt-disabled);
-+ * %false when a bio can be safely completed in the current context.
-+ */
-+static inline bool bio_in_atomic(void)
-+{
-+	if (IS_ENABLED(CONFIG_PREEMPTION) && rcu_preempt_depth())
-+		return true;
-+	if (!IS_ENABLED(CONFIG_PREEMPT_COUNT))
-+		return true;
-+	return !preemptible();
-+}
-+
-+void __bio_complete_in_task(struct bio *bio);
-+
-+/**
-+ * bio_complete_in_task - ensure a bio is completed in preemptible task context
-+ * @bio: bio to complete
-+ *
-+ * If called from non-task context, offload the bio completion to a worker
-+ * thread and return %true. Else return %false and do nothing.
-+ */
-+static inline bool bio_complete_in_task(struct bio *bio)
-+{
-+	if (!bio_in_atomic())
-+		return false;
-+	__bio_complete_in_task(bio);
-+	return true;
-+}
-+
- extern void bio_endio(struct bio *);
- 
- static inline void bio_io_error(struct bio *bio)
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 8808ee76e73c..d49d97a050d0 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -322,6 +322,7 @@ enum {
- 	BIO_REMAPPED,
- 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
- 	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
-+	BIO_COMPLETE_IN_TASK, /* complete bi_end_io() in task context */
- 	BIO_FLAG_LAST
- };
- 
-
--- 
-2.39.5
-
+>  	inode->i_data.a_ops = &fuse_iomap_aops;
+>  
+>  	INIT_WORK(&fi->ioend_work, fuse_iomap_end_io);
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index d48a76e6d17995..2513ea108ff9a8 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -331,10 +331,11 @@ u32 fuse_get_cache_mask(struct inode *inode)
+>  {
+>  	struct fuse_conn *fc = get_fuse_conn(inode);
+>  
+> -	if (!fc->writeback_cache || !S_ISREG(inode->i_mode))
+> -		return 0;
+> +	if (S_ISREG(inode->i_mode) &&
+> +	    (fuse_inode_has_iomap(inode) || fc->writeback_cache))
+> +		return STATX_MTIME | STATX_CTIME | STATX_SIZE;
+>  
+> -	return STATX_MTIME | STATX_CTIME | STATX_SIZE;
+> +	return 0;
+>  }
+>  
+>  static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr,
+> @@ -349,9 +350,9 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
+>  
+>  	spin_lock(&fi->lock);
+>  	/*
+> -	 * In case of writeback_cache enabled, writes update mtime, ctime and
+> -	 * may update i_size.  In these cases trust the cached value in the
+> -	 * inode.
+> +	 * In case of writeback_cache or iomap enabled, writes update mtime,
+> +	 * ctime and may update i_size.  In these cases trust the cached value
+> +	 * in the inode.
+>  	 */
+>  	cache_mask = fuse_get_cache_mask(inode);
+>  	fuse_iomap_set_disk_size(fi, attr->size);
+> 
+> 
