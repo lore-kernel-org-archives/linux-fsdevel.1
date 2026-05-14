@@ -1,246 +1,121 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5412D0C7E
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 16:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778777125; cv=pass; b=QaFfrIbsnpywebefgO38a/6m4JDZy8JI7McZxa1A4lbZmzFiLdQdu9AVzeHRhf2S89GO6smAgmZNbH4an1BfTHAmsKpItDwFuwWp6qCnZi5nukbcT4qaa55R5lEVLR1SyUOHH30UI8W4CbjpcaB50EtglrDuy8ZxLpy7Ypo380w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778777125; c=relaxed/simple;
-	bh=PmAIcppCWJmcGf0UnWT1GlVwFgygixvvwcZwvNaEkWE=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mpto/vFDUCXGMgu3aC/ERz2WWqwiI93qMMQY1kZfEfoHQKi2awNCOqj5BgPznCp/JRl+yXzwb5+4WsLlW3cXBvj6EkNI35PyZBvAUG47sleS/VfW4zE5nJGL6Cb9TbbpMBmz+W+LSf+N1CtB9aWCHWqHgnM7MYZwLw3yS7FL4Dw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VFtvQD1R; arc=pass smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71341EB5FD;
+	Thu, 14 May 2026 18:03:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778781802; cv=none; b=tbBbqsf3IUAg8BtmwvCiHtRU5eojOf/IqT/4tuuam/1I4hFRAwnY8kW2b4zjfVVTrmvaKth0NUz5w4mCGP+aKqnGoGwEh29mGbY25MYmxPiGqYkE/e2czO9C1BXSXp6b8gJm7i27IOkABWUgP1FJ4Z6Z+lAJTkX1cVK4eD5yuT4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778781802; c=relaxed/simple;
+	bh=J1X3BoA2Cc85d/P3PJqksp0tNJT+bYcJaDD8XZgoBtY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YvbUv2EFUiVNjq18s2wrm3yH9NtmwBY+ytp91kFJoL29UcsLSl6nssEzCl9Lqkh3zMVD5XzlAnp4H02OWR84f/CbzpCaIQJZMWFrHXk8l8eK1A/xce3f9WDXcDFPWH9xvhgM+627XPe9a+WHDyXlJTyUnVqVaKsYvug2/O27Cg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ieWJjE8X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VFtvQD1R"
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5751a9020faso4545122e0c.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 09:45:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778777122; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WAVrLfRIUh/NMFRc/Yw6rJp37FmNax3VbA/wERSEbEoL08ulhgS2VWd/bMDBgIng1M
-         jAoSWO8DOZ4g5FQhawMctijnpdkmHJVaQR1aAYoJnva/flnoNaQ1LK7TK2hPPMBCpxbz
-         92MUNGKYFb27p2NXdgXZVpvvbKK+BJXCTDRa7tf3VjapB1+V/YVs6neKn6VESbdOJqM6
-         axYReG0esu4IdEFdhazvOgPYh3TWrgvQeO5MILQSPWBicSka7fgdVXcwQS5yUcJ+xxXU
-         Vywwf2dFu/YDcP+owb8kdwKfdXj6sbJFxxrK5bGTC+KoKE66FWogzTk3GrFucckH6u1/
-         n6tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date
-         :mime-version:references:in-reply-to:from:dkim-signature;
-        bh=os0eHsZVJX0chVl1RmCC7RjaweXl8YpOUWjuIOShXWI=;
-        fh=GMyeLgJIBZawRJSnY9i3+XVqrGH0njzqPRxwgP3zQdQ=;
-        b=jvk0vStpFldQLkEsL3SXKpL/i74Y3BOlnMVYp6iSojTwJjkauSnKDL5ixm3e71faD6
-         MCOW6Yvjxk96bYN8IuS/gjANqexWWmehWAvPgjiZcDgLmVghMd0BEUzW60AkqYVXAx9N
-         Z6w0sDDQR/MXsCvLEEPYuKE/kfKVV2QPWAWAY1z5qEg2mgG6vZyUuvKBxnzNYua+CzVj
-         w2NTP/DCPe6N9011Za/LpuykBj42e5uzsQv60xfFAIJzA+diOXbrcMyq0H72AZEo/HSj
-         Ktxo55zi8vmH487ZucFwxeYyXAIXXkbevtKaVCZRiU8Ey+5ESv9f4dv3HWmsErA8Wg9w
-         tLNA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778777122; x=1779381922; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date
-         :mime-version:references:in-reply-to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=os0eHsZVJX0chVl1RmCC7RjaweXl8YpOUWjuIOShXWI=;
-        b=VFtvQD1RTdgqWEX8R7rJ5E+lG6jtu3YV71KQieo9tFcPnVu8X9ckwARGLw2zVJUmRv
-         4QnKB8BzYAXDs9qtMf8+fVr5c5p4LaTpFMbopxQuEUAbBz8WjxBGCFaJEeQUTFzqVaur
-         UvDfEH9PsiCLOC++9gsqSYnngByVIIggErBVF/tG3vYFcPIzvcw0H1fill+TMfu0EpA/
-         Z7CoXdN1wcK6GMibXBW5zW2q1rznvEEYPUBHmt1sT8DF/5UMSq8tNiNC+dKvATeBFRON
-         iAttSBSTPdQXLV1iwmET0wtHGCPj3tcDp1ikzcx9+oKlzGhMAXUazhajmAQG4TnppxAe
-         4iBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778777122; x=1779381922;
-        h=content-transfer-encoding:cc:to:subject:message-id:date
-         :mime-version:references:in-reply-to:from:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=os0eHsZVJX0chVl1RmCC7RjaweXl8YpOUWjuIOShXWI=;
-        b=Vv2hUjX1KppDWkf4A8FfOuha0fkLXp/Yk8fTQJ8RFJDAN6gIrDDK1mSqO3wsKqdbqH
-         NkfaPlkJPG3ceB2KCSFYnRLrmwVuUqN52TpBNK+B7m325UiZqgWJQqKsoKWST0uY0Y/n
-         XsImgUzm7+6hBZgepc9xCWu7cONePYutTvhfnfXVb0IgQZ2ukmDxCO7v/D4SQOAUBts4
-         GikZi58jiFcHfqr3f1jW6lx29XhNzGj4JDjlIFmqQ9is6kku/Xm85jhaMTDR9rIdb6Z9
-         8WlNbLQ1qeov8LJ9pGvfFl47KIAh1EChdAJnn8st9qJnnhbmWtAzzc7fE3hsVO1CGT4a
-         SgJw==
-X-Forwarded-Encrypted: i=1; AFNElJ/7XBjUJfDoswSsCtEd/CiEslYGT3FbG63RLgWs8tbbO33xQ7NKAyL24G4UHG4vke9xT9bLzzYevHZlpZaq@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxqeh2Xy2zPxLd3GsHzi92dzB13H+jhTLoFcwSeIOFgyxw793oU
-	wwln2ybyHRbggc6F8S5QtnlL62bcUGMcQ4dOSe598wrqlraDV6TQOH6jHpjg5jOSWGDurm1mTha
-	Fv43FsKnO8hXcsMJ60Oi18zN4gp7cl0Z1tlamA47x
-X-Gm-Gg: Acq92OGIaPxMh1ZK163bdvSD6McEnn4b7FVD9qyMU4wFvzrL3Adiff3EbqW0RtbMYyD
-	FTJZCg09QFxbYfg7W+5tlm5eTpjtIYsaAobek0L/y57Bz26z8IyxL73pWS1CFvyuAyj3Hm+SfWg
-	0/v2/1jrYRWDvMHyO0fSzplRpV7jFrUpangfLNKh70JKGbL40pcNUxU9DxIBrwl/oEEbok0AvYX
-	HZKaMyrZTTyrivtw8lPJRSZvho+9jt4OA43ULjl28JW0tC9suFFBt9k04Awd606idJwBV1iDicj
-	lh+2TXM+X/LwUALqKIQE0l6D38939NsKY+UMH2P2fFZNXE6ToLAKbWa8xO31IwNkpqmFceruQtH
-	jiov9
-X-Received: by 2002:a05:6122:1814:b0:575:178f:62d2 with SMTP id
- 71dfb90a1353d-5760c092d3cmr165926e0c.14.1778777121451; Thu, 14 May 2026
- 09:45:21 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 14 May 2026 09:45:20 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 14 May 2026 09:45:19 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260508081812.12345-1-itazur@amazon.com>
-References: <CAPTztWb67XZvfcMVnbegDNNW0LJa9UsaTGx3M898xJUJrekk0w@mail.gmail.com>
- <20260508081812.12345-1-itazur@amazon.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ieWJjE8X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7580BC2BCB3;
+	Thu, 14 May 2026 18:03:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778781801;
+	bh=J1X3BoA2Cc85d/P3PJqksp0tNJT+bYcJaDD8XZgoBtY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ieWJjE8X4LxLaw0hCjq28cvz9qmLiRnHTZgQRUCiZOeybb91Ec9B1u0xdqEISI0sU
+	 xbtoA0TSI5PazLQ1m+LvL9RGUeeBcf/qb3SHn9xEssM6jwn1WuS7u4QKPteh6slI1s
+	 EBB+nLuVfAFY16jhmwOwmrPXlBcmUzBzNwnRVvjtkapb8YFmj4PwYds1ain7KxJNqv
+	 baOBM5im1Ar7573VmjY1fYDyWcHPpOQgZbYjhQfJpVEqL+TnVDzM8FZ3NRinPLecco
+	 zoi7ZhFIMrYAGU/Q+/uoXgEFkOtkK/5+NdWqceQ97fy/Rt7/iM6zTTgSnEBLsSN1Gu
+	 /u7Oy2fd9OFfg==
+Date: Thu, 14 May 2026 11:03:20 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, brauner@kernel.org, hch@infradead.org,
+	yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com,
+	yukuai@fnnas.com
+Subject: Re: [PATCH 1/4] iomap: correct the range of a partial dirty clear
+Message-ID: <20260514180320.GA9555@frogsfrogsfrogs>
+References: <20260514062955.1183976-1-yi.zhang@huaweicloud.com>
+ <20260514062955.1183976-2-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 14 May 2026 09:45:19 -0700
-X-Gm-Features: AVHnY4JqumP2VJstFZ-DobQ0sDmpWwtOhYCl663Ih2m9TKxeTUM0glktONR3Yps
-Message-ID: <CAEvNRgG07EMrx-SpMaO3gHmdGVwOb75XNy7_RARBo0chidn7Yg@mail.gmail.com>
-Subject: Re: [PATCH v12 10/16] KVM: guest_memfd: Add flag to remove from
- direct map
-To: Takahiro Itazuri <itazur@amazon.com>, fvdl@google.com, seanjc@google.com, ljs@kernel.org
-Cc: Liam.Howlett@oracle.com, agordeev@linux.ibm.com, ajones@ventanamicro.com, 
-	akpm@linux-foundation.org, alex@ghiti.fr, andrii@kernel.org, 
-	aou@eecs.berkeley.edu, ast@kernel.org, baolu.lu@linux.intel.com, 
-	borntraeger@linux.ibm.com, bp@alien8.de, bpf@vger.kernel.org, 
-	catalin.marinas@arm.com, chenhuacai@kernel.org, corbet@lwn.net, 
-	coxu@redhat.com, daniel@iogearbox.net, dave.hansen@linux.intel.com, 
-	david@kernel.org, derekmn@amazon.com, dev.jain@arm.com, eddyz87@gmail.com, 
-	gerald.schaefer@linux.ibm.com, gor@linux.ibm.com, haoluo@google.com, 
-	hca@linux.ibm.com, hpa@zytor.com, itazur@amazon.co.uk, jackabt@amazon.co.uk, 
-	jackmanb@google.com, jannh@google.com, jgg@ziepe.ca, jgross@suse.com, 
-	jhubbard@nvidia.com, jiayuan.chen@shopee.com, jmattson@google.com, 
-	joey.gouly@arm.com, john.fastabend@gmail.com, jolsa@kernel.org, 
-	jthoughton@google.com, kalyazin@amazon.co.uk, kas@kernel.org, 
-	kernel@xen0n.name, kpsingh@kernel.org, kvm@vger.kernel.org, 
-	kvmarm@lists.linux.dev, lenb@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, loongarch@lists.linux.dev, 
-	lorenzo.stoakes@oracle.com, luto@kernel.org, maobibo@loongson.cn, 
-	martin.lau@linux.dev, maz@kernel.org, mhocko@suse.com, mingo@redhat.com, 
-	mlevitsk@redhat.com, nikita.kalyazin@linux.dev, oupton@kernel.org, 
-	palmer@dabbelt.com, patrick.roy@linux.dev, pavel@kernel.org, 
-	pbonzini@redhat.com, peterx@redhat.com, peterz@infradead.org, 
-	pfalcato@suse.de, pjw@kernel.org, prsampat@amd.com, rafael@kernel.org, 
-	riel@surriel.com, rppt@kernel.org, ryan.roberts@arm.com, sdf@fomichev.me, 
-	shijie@os.amperecomputing.com, skhan@linuxfoundation.org, song@kernel.org, 
-	surenb@google.com, suzuki.poulose@arm.com, svens@linux.ibm.com, 
-	tabba@google.com, tglx@kernel.org, thuth@redhat.com, urezki@gmail.com, 
-	vannapurve@google.com, vbabka@kernel.org, will@kernel.org, 
-	willy@infradead.org, wu.fei9@sanechips.com.cn, x86@kernel.org, 
-	yang@os.amperecomputing.com, yangyicong@hisilicon.com, 
-	yonghong.song@linux.dev, yosry@kernel.org, yu-cheng.yu@intel.com, 
-	yuzenghui@huawei.com, zhengqi.arch@bytedance.com, zulinx86@gmai.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260514062955.1183976-2-yi.zhang@huaweicloud.com>
 
-Takahiro Itazuri <itazur@amazon.com> writes:
+On Thu, May 14, 2026 at 02:29:52PM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> The block range calculation in ifs_clear_range_dirty() is incorrect when
+> partially clearing a range in a folio. We cannot clear the dirty bit of
+> the first block or the last block if the start or end offset is not
+> blocksize-aligned. This has not yet caused any issues since we always
+> clear a whole folio in iomap_writeback_folio().
+> 
+> Fix this by rounding up the first block to blocksize alignment, and
+> calculate the last block by rounding down (using truncation). Correct
+> the nr_blks calculation accordingly.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
->
-> [...snip...]
->
+Cc: <stable@vger.kernel.org> # v6.6
+Fixes: 4ce02c67972211 ("iomap: Add per-block dirty state tracking to improve performance")
 
-Brought this topic up on the guest_memfd biweekly today!
+> ---
+> This is modified from:
+>  https://lore.kernel.org/linux-fsdevel/20240812121159.3775074-2-yi.zhang@huaweicloud.com/
+> Changes:
+>  - Use round_up() instead of DIV_ROUND_UP() to prevent wasted integer
+>    division.
+> 
+>  fs/iomap/buffered-io.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index d7b648421a70..64351a448a8b 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -176,13 +176,17 @@ static void ifs_clear_range_dirty(struct folio *folio,
+>  {
+>  	struct inode *inode = folio->mapping->host;
+>  	unsigned int blks_per_folio = i_blocks_per_folio(inode, folio);
+> -	unsigned int first_blk = (off >> inode->i_blkbits);
+> -	unsigned int last_blk = (off + len - 1) >> inode->i_blkbits;
+> -	unsigned int nr_blks = last_blk - first_blk + 1;
+> +	unsigned int first_blk = round_up(off, i_blocksize(inode)) >>
+> +				 inode->i_blkbits;
 
->
-> Agreed with both of you.  I'll adopt the filemap-level approach:
->
-> - Move the zap/restore hooks from guest_memfd into filemap_add_folio()
->   / filemap_remove_folio().
-> - Tighten AS_NO_DIRECT_MAP semantics so that, for folios in such a
->   mapping, the direct map is invalid for the entire time the folio
->   resides in the page cache.
-> - Drop the per-folio KVM_GMEM_FOLIO_NO_DIRECT_MAP bookkeeping in
->   folio->private, since the existence of the folio in the mapping is
->   itself the state.
->
-> On each guest memory population path,
->
-> - memcpy-based population from userspace goes through the userspace
->   mapping of guest_memfd, not through the kernel direct map, so the
->   filemap-level invariant doesn't affect it.  But this is slow, which
->   is what motivated the write() syscall support.
->
-> - write(): meant to speed up the userspace-memcpy case above by doing
->   the copy in the kernel.  I believe Brendan's __GFP_UNMAPPED/mermap
->   work [1] would give us a low-overhead way to get temporary kernel
->   access to an AS_NO_DIRECT_MAP.  Landing mermap may take a while, but
->   this series does not introduce the write() path, so mermap is not a
->   blocker for now.
->
-> - kvm_gmem_populate(): this is a TDX/SNP-only path, and NO_DIRECT_MAP
->   is not available on those VM types =E2=80=94
->   kvm_arch_gmem_supports_no_direct_map() returns false for
->   KVM_X86_TDX_VM and KVM_X86_SNP_VM, which are its only callers
->   today.  So it doesn't interact with the filemap invariant IIUC.
->
+Ok, so now we round off up to the next fsblock to compute first_blk...
 
-I'm a little bit uncomfortable this statement since it seems to say TDX
-and SNP aren't taken care of. Would just like to discuss (for
-a line of sight to SNP and TDX support):
+> +	unsigned int last_blk = (off + len) >> inode->i_blkbits;
 
-For non-in-place population where the source physical page is different
-from the destination physical page,
+...and last_blk (which is really the next block number after the range
+that we're undirtying) is now rounded down.  Presumably off/len have to
+be aligned to fsblock granularity so we'll never have to deal with
+unaligned situations like (off=324,len=1), right?
 
-+ TDX: the TDX module does the population and works with physical
-  addresses, so no issue with populate? Other parts of TDX may have
-  trouble though, but that can be handled later.
-+ SNP: sev_gmem_post_populate() does a memcpy() after using
-  kmap_local_page()
+>  	unsigned long flags;
+>  
+> +	if (first_blk >= last_blk)
 
-Would mermap be a drop in replacement for kmap_local_page() here? Would
-guest_memfd need to force a TLB flush after mermap+memcpy?
+Do we need this check?  When would the test actually be true?
 
-> So, unless I'm missing any path, adopting the filemap-level approach in
-> this series should be fine.
->
->
-> I'd like to consult with you folks on how to proceed in advance.  In a
-> separate reply on the cover letter thread [2], Lorenzo and Sean
-> suggested that the mm pieces should go through the mm subsystem:
->
-> On Tue, Apr 21, 2026 at 04:36:00PM +0000, Sean Christopherson wrote:
->> Yeah, when the time comes, the mm pieces definitely need to go through t=
-he mm
->> tree.  Ideally, I think this would be merged in two separate parts, with=
- all mm
->> changes going through the mm tree, and then the KVM changes through the =
-KVM tree
->> using a stable topic branch/tag from Andrew.
->
-> I see two reasonable paths to get there, and would appreciate your
-> input on which you prefer:
->
-> Path A =E2=80=94 validate on KVM side first, then split:
->   - Post v13 as a single series on the KVM list, gather feedback and
->     make sure the design is acceptable to KVM reviewers.
->   - Once v13 looks good ("the time comes"), do the MM/KVM split,
->     rebase the MM part onto the appropriate MM branch, and post the
->     MM part to linux-mm to build consensus with MM maintainers.
->
-> Path B =E2=80=94 split early and seek MM consensus in parallel:
->   - With the filemap rework already in place, do the MM/KVM split
->     now and post the MM part to linux-mm directly.  The KVM part follows
->     on top of a stable topic from MM.
->
-> Which of the two would you rather see?  Happy to go either way.
->
+--D
 
-Vlastimil pointed out that there's a temporary limitation now that the
-mm-tree cannot do stable branches shared between trees now.
-
-I think it depends on how quickly you plan to refresh this series, but
-Path A wouldn't be blocked by the temporary limitation.
-
-My opinion would be to go ahead with a new revision (Path A) to fully
-address comments before splitting the series. Any Reviewed-bys can be
-carried over to the split series anyway :)
-
-Alternatively you could wait till conversion lands :P Either one of us
-will need to do more work for conversion wrt direct map removal.
-
->
-> [1] https://lore.kernel.org/all/20260320-page_alloc-unmapped-v2-0-28bf1bd=
-54f41@google.com/
-> [2] https://lore.kernel.org/all/20260506080753.14517-1-itazur@amazon.com/
->
-> Takahiro
+> +		return;
+> +
+>  	spin_lock_irqsave(&ifs->state_lock, flags);
+> -	bitmap_clear(ifs->state, first_blk + blks_per_folio, nr_blks);
+> +	bitmap_clear(ifs->state, first_blk + blks_per_folio,
+> +		     last_blk - first_blk);
+>  	spin_unlock_irqrestore(&ifs->state_lock, flags);
+>  }
+>  
+> -- 
+> 2.52.0
+> 
+> 
