@@ -1,73 +1,74 @@
 Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAD22DEA6B
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 21:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A6D3CDBA4
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 21:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.139.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778795530; cv=none; b=Vga1QCzdRtEsUfcXTk+l/sNHm1OZhyvDkQMfCzGwooBJ/mB6ZihEt8/o3mSFbaparDjRWqwV/eTP4utIFRN9NKkS9gGVvvh8Dcrruas0EupMeioNAquJPZyxY4JVLMHaqkn8/BBRuwUfPSRzPP6WxJiK32QLgclwJxbeD1sSuQM=
+	t=1778795530; cv=none; b=J+ilPVeqqkVitOxvF/g6fg5ZpJWQZ6HGBj4UP0dMxg8qlrGS3Iz2zxpLs4up6CJpzGQlUtZRNiuUsjUSvDBwHWzCIJdA6jdfDflmnl37Bs4NGNtxOWNRHlWN2InFcIv3O3uFmtR9EME5bu1qn2gsJIL09Dtx3R6n9pnKlgF1esY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778795530; c=relaxed/simple;
-	bh=4kYnZvc+owx18DdRK+b0WjIntKdQQVbjejy+2ia87ck=;
+	bh=cKMEY2qMe+ThIRuTqPtJK/4lqWcAKsfKxgMzaSM3Nxs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eJiE1AIypmC3Qo5wNMcwVCc4o3OEH6TacPASSozYvlnSj8BqLex6fCVKn1oaSCTecHS88Fl6a+4UpYX7azmruI7OzSv/r/6MEDafj6xrT+GHboT+HpZIPDhEVuFpZsWYXvbSGc9NVXAtesD7gR7z+MlVoq3O94Iz7iRHHUo56iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=eZyHj6/o; arc=none smtp.client-ip=148.163.139.74
+	 In-Reply-To:To:Cc; b=lt8PbYkEetIVHnxuTV1OOI3ZatDxx29KUka7C7ndn9xkwSwkb1zwZlQ0nSmG1ye/qwV6wtIVVgeO+K4Y8fLUe0uld4qQzt3fGSkC+xBYhCVKAEaPu0BJZNMBh9TqS1gNXzu4vSeWdtxQ7T9+UqecDQPpV+7YES66PNCfyQnQuiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=lVizpkSM; arc=none smtp.client-ip=148.163.139.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="eZyHj6/o"
-Received: from pps.filterd (m0167075.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64ELgahL1544822
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:54 -0400
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="lVizpkSM"
+Received: from pps.filterd (m0167076.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64ELhs8L3098886
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=3Hr8
-	xytd8pzj0HErDwC1OWfZgJX2Msw8AYmLwQIxWTo=; b=eZyHj6/o229FuGb6obFP
-	y01//iQN2R10GEr4qVdWRAcKfbBn39iOW7pDeiamYsItYvBz9nE/Pon62/FrHbRT
-	ca25JObOyp6I0YgF1LVja0LAoUrXTH8PN4c9FaJLVX4cocBvkgvr8P1/bXRUtYEU
-	ezdeGP/xD8FpSO71pFPt2m+7sM8WNaM3qd7Ykfu81marJvVKRJ43F9LEndWsCW/H
-	RNqSJjAMDbssaOoJUGGgGwOzvmON7E+wXPvY9wvASbmqJ2uqaCGwOtc7KTVgCX9l
-	VxxXI7XPNFK0AnLfKFz1TVkvCMAgh/s6LpNCtKUT3llAjiwNjZdOQCTCQf/Jzy6W
-	FA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4e5m25hdsm-1
+	:message-id:mime-version:references:subject:to; s=pps01; bh=KiFB
+	1XYNEx2p4p1r40wGMJ8MJmpntx+6yGMPM/Sx6+E=; b=lVizpkSMqP3/FNMIKfpJ
+	2hYHvrsvlJYHnoo3y0s5a04k3jgVNQAeOD6ig9ZVde/pTJtE5K5rxyPO4de+aDsX
+	qH34Q+J7K0T3JD5Mx1wAx0Bz1gRqXXDQtW04vtheDJmQIP/aaCX7y0Jj7pFZylPO
+	VV5rlxyWSwj/hMDAXgjPY7e+bDDxuKwJK2VaJsxOfL4PHNQf+4Z7MxCEj2VRgohx
+	x4La/cHrHDCpNTUc7iLKyDPFgO+0LerhtZA2C6OymuwDDAG2I7U6yoSzRHVYhKzp
+	MEqCS0cxojwtxF5sSKiCMmL5UMtOVIQeReQH7pNSDVe25Xcc6171h3BdIBw5LE5g
+	jQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4e5m24hcbf-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:53 -0400 (EDT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-91207972031so26390785a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 14:51:53 -0700 (PDT)
+	for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 17:51:51 -0400 (EDT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-9114ffb5d86so112258885a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 14 May 2026 14:51:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778795513; x=1779400313;
+        d=1e100.net; s=20251104; t=1778795511; x=1779400311;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=3Hr8xytd8pzj0HErDwC1OWfZgJX2Msw8AYmLwQIxWTo=;
-        b=AI+UeR8PylLcc4KVPgnoyrifXCA6EzTG4yvdW478Ukdg8vbbbrcQKoiY1Cng3eVSdW
-         OTvVdb58d/NduJxb6dR4j6F9kOEDAjrG7f8qMKgevj92KM7hHwu/ldfvQnkSnk/K/dsP
-         5Ed38K44z/Hej/cYPOKO2qNYrflWNt+Xq9g/arMk8aQaE7b3Q558jC6QfhBc1cKtpRWj
-         o2CDqjuTS/V8rm1rRBYt3RGYRt4VzuE7n4YxEEO/tjCxxyggQRr1288gwVkrqyf59CHp
-         3gV4XENWlFR0nEVLed3eCmXzdR0nAMT4sUBNnkI6ndsDc+U9Y6vvQLLy7Y9L8nLcm86i
-         Jj2Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/WUsxIubRzcmTpi/wod8VdWtot/PvymjfFL5faUeMBKbM4PsSWb9UuiAKaww5Kf3Fyqqk/58YlFUIdz5DY@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLsXTiIbsWGHC1fFta1EQfHSqHyzyfMTI2Dx+tpyvlOJfYXM8g
-	ww3A9ErutXpXo3NOyaNUjfpcT2sMFzbZi3KS1o6djAM8fet3vi2e6tHdb5B8ke75tkn3nqXYsbf
-	uRc3voPVZ44o1H+tSav3RgvD7m4lZIXUFtqCQkqAQfNVK+4E+sz8ibM+1xozH6tc=
-X-Gm-Gg: Acq92OHUcNWSRxWfVzlduJJ3lM/nL0+1lZ7aBctayK79H049cPIfNKoJrpBdngx02or
-	kUo2aET+q4Uq8YGEkBgYTim5rkARe1KYVl2LkKRuxj9j6XEYdiiFkxBtuSBu+xIyDvKasjB6akF
-	EMmp9XDGtgLPFl+RmEeymLkzRiP+sCSW5seg6Hn2A9H3yCmMOgGE9R37ki/JxfHKNhqkfh3K7/O
-	FEeuMFt474N/s/qROZyuyn75u9VdueEQx+PMwLe6nV0vTn34biXwBcCQjMaLcypVshRCY4gVfzz
-	sekqbokg9JJamC1/ug+bhCOX1j7YhhCtX2hp03lvEpom3q02YJVXEndenuddGsxt/CaSAeLSsFJ
-	3cOROcdyeoaHafW+NxqQYebqdnUYXRwZD
-X-Received: by 2002:a05:620a:2987:b0:8eb:605f:6cd6 with SMTP id af79cd13be357-911d0c5d023mr239924385a.60.1778795513399;
-        Thu, 14 May 2026 14:51:53 -0700 (PDT)
-X-Received: by 2002:a05:620a:2987:b0:8eb:605f:6cd6 with SMTP id af79cd13be357-911d0c5d023mr239919185a.60.1778795512909;
-        Thu, 14 May 2026 14:51:52 -0700 (PDT)
+        bh=KiFB1XYNEx2p4p1r40wGMJ8MJmpntx+6yGMPM/Sx6+E=;
+        b=ZOGYEbjoO1KnCo7cGyRW9m9NImle8WBpPEjntyXEILNpaJp4NnEa6jkpiBw1UX+BXe
+         hBOuI+5T78ZxHQOThPSc1/3maYoJfUEmCXA0U4JX65K5Gq4JY5vmXqJTYlrKYQGO0FOE
+         o98w6Zb91OO8AKgrN2rB03G0BtnIi7d6LO2jd66df9dh/oEZD/ZYUOjh2Y/GexCM13z4
+         TqtnzPymoA2k0s5JVr99GpSxEesvH3YunnTYpXO+s8pe7u1skWnqOuYalx5LBQRfHMdL
+         SshyfANtUKScREUjXnvg26MJbscI0porK1jv+hkTShBjOtYj2kieTSFHR5UNVf7uvUWq
+         Z/Vw==
+X-Forwarded-Encrypted: i=1; AFNElJ8Q8pCz8am0HivjJhOVh3UwVnYbwV6bvcPj8X8jur48BDujpYyPpNmiZCq5/xnUULGD8v73UH9tE6nQUAcW@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwOhK6vyhxBFIPqwNQRw9RZYbfHRc4biNTxfGafWVYur8d4Lku
+	4kW6koHWdt6YSceN6xw4aY2HxjeG5efeP/XpXygMuO+qSoR3Oy1e926RyW4FJytBF01yGsjkAQF
+	owH6NTK7Y4RmdCRQp3jifz+6N/ujN8MeOEsqGban3Sz7jI5lUA+Nw5/MA7E38dZ8=
+X-Gm-Gg: Acq92OEPqk1jVop3TmrhI3rhOvXgF6MRiZSEEfdgD15NPPzM6iDxsHDvnmm0/ZxwGdF
+	ugvq99EiqlFEJf6YUWd55Oo5LUMzGO3wfTJrv1xPdlDu3uBlvIy+8Qs6tr4U2GbPzniw4Fx/duX
+	G21TL6ed0+kqMC7TApdTgrK8JcWCntlOhF82o3OAnoTVCf4WhjAboruJ0nimDTblIrKJx1xo2bM
+	KmMu73lQES7e6hcXEgG96dmceKY7U5PsHA4RMXw55nKffqXS5jMTwRDFDekiRY2it/33VG32Ncw
+	RXQfY4BGc/uNgNmmi2R0FOigtRaJgWylG37T+bpMV88G8SWsNodt68JnSHAUmBP1RmrlLJ4FUyI
+	nLQxk19H7zLnSudUcrfCRFGbU1nxXatX7/U2aFc2hKWw=
+X-Received: by 2002:a05:620a:31a4:b0:904:f4a5:ab76 with SMTP id af79cd13be357-911cd8572famr230870185a.3.1778795511123;
+        Thu, 14 May 2026 14:51:51 -0700 (PDT)
+X-Received: by 2002:a05:620a:31a4:b0:904:f4a5:ab76 with SMTP id af79cd13be357-911cd8572famr230865885a.3.1778795510670;
+        Thu, 14 May 2026 14:51:50 -0700 (PDT)
 Received: from [127.0.1.1] ([129.236.229.175])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba18132fsm354966085a.6.2026.05.14.14.51.51
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba18132fsm354966085a.6.2026.05.14.14.51.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 14:51:52 -0700 (PDT)
+        Thu, 14 May 2026 14:51:50 -0700 (PDT)
 From: Tal Zussman <tz2294@columbia.edu>
-Date: Thu, 14 May 2026 17:51:17 -0400
-Subject: [PATCH v6 4/4] block: enable RWF_DONTCACHE for block devices
+Date: Thu, 14 May 2026 17:51:15 -0400
+Subject: [PATCH v6 2/4] iomap: use BIO_COMPLETE_IN_TASK for dropbehind
+ writeback
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,7 +77,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260514-blk-dontcache-v6-4-782e2fa7477b@columbia.edu>
+Message-Id: <20260514-blk-dontcache-v6-2-782e2fa7477b@columbia.edu>
 References: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
 In-Reply-To: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
 To: Jens Axboe <axboe@kernel.dk>,
@@ -92,80 +93,115 @@ Cc: Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
         linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>,
         Tal Zussman <tz2294@columbia.edu>
 X-Mailer: b4 0.14.3-dev-d7477
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778795507; l=1606;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778795507; l=3015;
  i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=4kYnZvc+owx18DdRK+b0WjIntKdQQVbjejy+2ia87ck=;
- b=h/wC1HCfLFItwTEGisusw9jduZm6p1jTrRpV6ed4zqtg5o3ocYnG/8kC6WqedCRsxxH5uzIMI
- xkDRAyq8KAYA0Vpg3tuCs1ya2+fmJNNoRSOmfuMYQk5UpCQHPwkaVV6
+ bh=cKMEY2qMe+ThIRuTqPtJK/4lqWcAKsfKxgMzaSM3Nxs=;
+ b=EUSRdVenMg2q2kdAIUHNovBRSRrki7XEbmF5ULdT5lQWRq5+xfggvWhH1KNRKBXyJKgw/JuBx
+ lcJ9tESwNybAtxuwQcAtvSMvqi8D3Ob2J54zMF5tDxhJkwMV4Tpj6IN
 X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
  pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Authority-Analysis: v=2.4 cv=JOcLdcKb c=1 sm=1 tr=0 ts=6a0643f9 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=nkegbr1AwBRna+m8FBH0UQ==:17
+X-Authority-Analysis: v=2.4 cv=aPrAb79m c=1 sm=1 tr=0 ts=6a0643f7 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=nkegbr1AwBRna+m8FBH0UQ==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=HpS3TJQ9O3Ob1ozEcmik:22
- a=hW3giJO2Q2g30DqAd_4A:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-GUID: KjPO4kv3DP8ayoXhwPBiS_0Ghzwp36-8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDIxNiBTYWx0ZWRfX5XVOqkaaITyK
- MP5GcF0OycdFRs9K0+OSzfACMcPRABHB/7MkpUsHFYMeYAr+OP+sS1+a7drQ8bQR5tH0CcyY/sl
- gkkbB+1mzo2iqZLzApmmM+VLRabHJzLGSga6JNF9QxXwOTD/w2SQ0b09o9xm6Bej8YDYJN90Y2M
- v9bVycegpMoWbadF+aK/2y0PAIsYK5VDFoEufm0kl7PJ7JJJjjvu776wO2Ztk6IakbpbPxkvSlE
- JM5fsSAV7FAqyt0XfQA/gvuuUa02A1j1LB18tGr2ISAJBuNLH2DDdubnJ8R0H8rFDvxvy2aofKw
- T8n7nK9q6Qq0POnM8i32sdPxgU3m/N5P4O1WkK95ozSFK3QNRsInmXRNANafpCnXkgljxuXV2vj
- 5jzbmSNbEjA+QgoBgUs/DQOZvn1CUpkSDMXlucSg14fsqrGPQc3ulPAfxMYrEBPaYwmubA78Ihc
- vhwwRbVOauheivHmJSw==
-X-Proofpoint-ORIG-GUID: KjPO4kv3DP8ayoXhwPBiS_0Ghzwp36-8
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=Qm0qsxP7aFY2tkT6R2MF:22
+ a=CxwgBoAeUDVvfQxjk70A:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: bahrj4Ev13zIJErs2oMYGwlbo3TCeGx6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDIxNiBTYWx0ZWRfX9/XLn8E5aDEg
+ r6aoi9oS1LdTXyHse7Cgz5T42T9kLbrMLMrM0dupjCUe00SGJ/JegTTd4uV6ZKHkabmFT8+5I69
+ TPVOorH1B298eZGLilI1LX+xpCYNgPqPddovURfd0MhsB8A/UZ+QlZyW+jGkztm+EFk1iVKKCyo
+ nMskfrTf+2e7+e6KZOeNBK6cLmuZ3liWQbpSnKtOEKasT1jtIitArMrOckFm61fk06LhiL/Z50B
+ wCndodzXcT+H1V3VrI+P3tGkOLZP78GF/a0um1bH1Ro1LCxflLpYC1w3MrCnNQVV8zHX/ncBXg8
+ OHZwi+KMMa+Du3pcm+YsT0UlNJKjzV2bWmg0twfdDIjIKkCmDsIW/+ZUxB3EzQufoGTr1h2kFWX
+ pOJOtGzg0t1TnTtUZ6fHE/E/lubVjSH7epQRBOpL7XLincQKTyAFXle9bT/XubSSDPfLB/XL6X9
+ 451Ss03KhLUTVDGYu8g==
+X-Proofpoint-ORIG-GUID: bahrj4Ev13zIJErs2oMYGwlbo3TCeGx6
 X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11786
  signatures=596817
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=10 priorityscore=1501 suspectscore=0
- bulkscore=10 adultscore=0 spamscore=0 clxscore=1015 lowpriorityscore=10
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605140216
+ adultscore=0 lowpriorityscore=10 spamscore=0 phishscore=0 malwarescore=0
+ bulkscore=10 suspectscore=0 impostorscore=10 priorityscore=1501 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605140216
 
-Block device buffered reads and writes already pass through
-filemap_read() and iomap_file_buffered_write() respectively, both of
-which handle IOCB_DONTCACHE. Enable RWF_DONTCACHE for block device files
-by setting FOP_DONTCACHE in def_blk_fops.
+Set BIO_COMPLETE_IN_TASK on iomap writeback bios when a dropbehind folio
+is added. This ensures that bi_end_io runs in task context, where
+folio_end_dropbehind() can safely invalidate folios.
 
-For CONFIG_BUFFER_HEAD=y paths, use block_write_begin_iocb() in
-blkdev_write_begin() to thread the kiocb through so that buffer_head
-writeback gets dropbehind support.
+With the bio layer now handling task-context deferral generically,
+IOMAP_IOEND_DONTCACHE is no longer needed, as XFS no longer needs to
+route DONTCACHE ioends through its completion workqueue. Remove the flag
+and its NOMERGE entry.
 
-CONFIG_BUFFER_HEAD=n paths are handled by the previously added iomap
-BIO_COMPLETE_IN_TASK support.
-
-This support is useful for databases that operate on raw block devices,
-among other userspace applications.
+Without the NOMERGE, regular I/Os that get merged with a dropbehind
+folio will also have their completion deferred to task context.
 
 Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 ---
- block/fops.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ fs/iomap/ioend.c      | 5 +++--
+ fs/xfs/xfs_aops.c     | 4 ----
+ include/linux/iomap.h | 5 +----
+ 3 files changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/block/fops.c b/block/fops.c
-index bb6642b45937..31b073181d87 100644
---- a/block/fops.c
-+++ b/block/fops.c
-@@ -504,7 +504,8 @@ static int blkdev_write_begin(const struct kiocb *iocb,
- 			      unsigned len, struct folio **foliop,
- 			      void **fsdata)
- {
--	return block_write_begin(mapping, pos, len, foliop, blkdev_get_block);
-+	return block_write_begin_iocb(iocb, mapping, pos, len, foliop,
-+				     blkdev_get_block);
+diff --git a/fs/iomap/ioend.c b/fs/iomap/ioend.c
+index acf3cf98b23a..892dbfc77ae9 100644
+--- a/fs/iomap/ioend.c
++++ b/fs/iomap/ioend.c
+@@ -237,8 +237,6 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
+ 
+ 	if (wpc->iomap.flags & IOMAP_F_SHARED)
+ 		ioend_flags |= IOMAP_IOEND_SHARED;
+-	if (folio_test_dropbehind(folio))
+-		ioend_flags |= IOMAP_IOEND_DONTCACHE;
+ 	if (pos == wpc->iomap.offset && (wpc->iomap.flags & IOMAP_F_BOUNDARY))
+ 		ioend_flags |= IOMAP_IOEND_BOUNDARY;
+ 
+@@ -255,6 +253,9 @@ ssize_t iomap_add_to_ioend(struct iomap_writepage_ctx *wpc, struct folio *folio,
+ 	if (!bio_add_folio(&ioend->io_bio, folio, map_len, poff))
+ 		goto new_ioend;
+ 
++	if (folio_test_dropbehind(folio))
++		bio_set_flag(&ioend->io_bio, BIO_COMPLETE_IN_TASK);
++
+ 	/*
+ 	 * Clamp io_offset and io_size to the incore EOF so that ondisk
+ 	 * file size updates in the ioend completion are byte-accurate.
+diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
+index f279055fcea0..0dcf78beae8a 100644
+--- a/fs/xfs/xfs_aops.c
++++ b/fs/xfs/xfs_aops.c
+@@ -511,10 +511,6 @@ xfs_ioend_needs_wq_completion(
+ 	if (ioend->io_flags & (IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_SHARED))
+ 		return true;
+ 
+-	/* Page cache invalidation cannot be done in irq context. */
+-	if (ioend->io_flags & IOMAP_IOEND_DONTCACHE)
+-		return true;
+-
+ 	return false;
  }
  
- static int blkdev_write_end(const struct kiocb *iocb,
-@@ -966,7 +967,7 @@ const struct file_operations def_blk_fops = {
- 	.splice_write	= iter_file_splice_write,
- 	.fallocate	= blkdev_fallocate,
- 	.uring_cmd	= blkdev_uring_cmd,
--	.fop_flags	= FOP_BUFFER_RASYNC,
-+	.fop_flags	= FOP_BUFFER_RASYNC | FOP_DONTCACHE,
- };
+diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+index 2c5685adf3a9..fef04e01116f 100644
+--- a/include/linux/iomap.h
++++ b/include/linux/iomap.h
+@@ -399,16 +399,13 @@ sector_t iomap_bmap(struct address_space *mapping, sector_t bno,
+ #define IOMAP_IOEND_BOUNDARY		(1U << 2)
+ /* is direct I/O */
+ #define IOMAP_IOEND_DIRECT		(1U << 3)
+-/* is DONTCACHE I/O */
+-#define IOMAP_IOEND_DONTCACHE		(1U << 4)
  
- static __init int blkdev_init(void)
+ /*
+  * Flags that if set on either ioend prevent the merge of two ioends.
+  * (IOMAP_IOEND_BOUNDARY also prevents merges, but only one-way)
+  */
+ #define IOMAP_IOEND_NOMERGE_FLAGS \
+-	(IOMAP_IOEND_SHARED | IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_DIRECT | \
+-	 IOMAP_IOEND_DONTCACHE)
++	(IOMAP_IOEND_SHARED | IOMAP_IOEND_UNWRITTEN | IOMAP_IOEND_DIRECT)
+ 
+ /*
+  * Structure for writeback I/O completions.
 
 -- 
 2.39.5
