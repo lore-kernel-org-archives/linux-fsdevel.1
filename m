@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53084381C4;
-	Fri, 15 May 2026 18:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF08030C15E;
+	Fri, 15 May 2026 19:02:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778871320; cv=none; b=uXpjC6tO0i2j5fzlI05PHsW5ZPm1WoTYRFc5bvPKp8ZiyvSNiixPXMOxx5ptCD+Wm4ENnjUoR/ss/kM9s7Kd4QxwJgZVTxFN6bSy/5dxWig/JF1kJr/Cp7CBivOddePb6pIoHNOhUGmChtFmk+ILEYKBr/mlW/BPF6NekXz7FDk=
+	t=1778871734; cv=none; b=Ihzrb2//8GC71B0W8q6Tw3R23XA305zqT/LMelmU/kT6FN8KKpgq8483oaSDU+trnk+bbdtpkwTLOlgpLqjwY+6Un6H6jNXAgw2/Y7JiT2LBqfDJRmutocGsPhHqgddfmJJyhpqakvxmpTlKU0YM8lfyt9SQnR3nbu/OvlzvN94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778871320; c=relaxed/simple;
-	bh=1GkJ700uL9Ucg2x3wfOaLXOZp+rlfS1fiEOmhe4obHM=;
+	s=arc-20240116; t=1778871734; c=relaxed/simple;
+	bh=XNxmO6n6XeMbowCoUMJMpm79ib7wEOn6/9JcH+ReKzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V0DwyjvbRSy5oWTyZpvW/09ckuaDQ29Gv+WwuurjoWdkjqF1wKJoWUIivz0nvCoBPX0dzCRanCuvkML2Ma+YLHRiqMVOy9XJ+o4kuTDIVZ6JwNzcfYukG+xoB6xdbSUol6rzZYvuV4u0OoFRyV7rMyyWQvYpbRw2vXLX5ji4d+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UNZwQzox; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=X9GC2UWlIPBCneFsAgKmNXtg46MLwjdMuEmb1wXxfIiBmiG2erqUxl5GRr9pqJr+9Srgr1a2SiyDDVFX8t7LjiwWLSSkAYV9iRFAkPoeXt2iRbXjLFTtKb+CqYKUuNNFZw/2JiXGikWhkoI9kdPISObIAqTm6ZwxU4L5b4wVo3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k9buQOa+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UNZwQzox"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D53C2BCB0;
-	Fri, 15 May 2026 18:55:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k9buQOa+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED2F5C2BCB0;
+	Fri, 15 May 2026 19:02:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778871320;
-	bh=1GkJ700uL9Ucg2x3wfOaLXOZp+rlfS1fiEOmhe4obHM=;
+	s=k20201202; t=1778871734;
+	bh=XNxmO6n6XeMbowCoUMJMpm79ib7wEOn6/9JcH+ReKzE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UNZwQzox4LF4VWMj9accy3yskdYWEvryuEXXow73H7rFKgwhs3JlD1QxsHWqXscVe
-	 5GTsInS85oJXiJmNC8Jgn849i17FaUDNrH3cmGhosJD1TQYP5Zrmu7PeGUNb8m6Dmh
-	 pPAnXqc+39iuM6n/hAgIEBcUAEXEVBRByzL3DYPBGg9dR9hT7+ZVImwyBuCyJVgHqf
-	 gq2jZhPuUlYa6yyX9vqp8rllG7sEndAixiTN1EMfbB008siMO6ewf7e0cYFFDFFIWD
-	 b+OG6DhGHfsokHUOCNdsUxPuiOkFH1Y6st+IcDUiaQTgWltB9YscrNLhTKZHCwCWeE
-	 j8AoiKo5o6CeQ==
-Date: Fri, 15 May 2026 11:55:19 -0700
+	b=k9buQOa+gGuJHErdcQi2yDuhZ4vB7h3p5wlfVDrcpaabs2EPGGdDO1x+GFt7bZqM0
+	 alY+P/D/2rg4Jls5qLo6n2zIKgbKxliMvfhC1dNlxmCllpR2aS4MDd2GWRyiZSbd4g
+	 ylyze54zqC1/Qex9MMmnrDmxX5O6Hzv+S47ehqMiZO2ynCO7uHL0CyV0OIclCxDTm1
+	 TLCgoV0Oco/SlWvripF+xfhHm8A/ww93A0/NmRswrR5kSJnvZqF7Rt09T8sLjbuE8A
+	 h/JIgPmm/rfZXEDxQrcMDF4cQuStFbgMhEitiFAmENNhQ7YzU6Q3glkwPVp3ihLxVB
+	 QVxaeYxnV0hfA==
+Date: Fri, 15 May 2026 12:02:12 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Subject: Re: [PATCH 16/25] libfuse: add lower level iomap_config
- implementation
-Message-ID: <20260515185519.GW9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 22/25] libfuse: create a helper to transform an open
+ regular file into an open loopdev
+Message-ID: <20260515190212.GX9544@frogsfrogsfrogs>
 References: <177747211463.4104686.1151865355399948078.stgit@frogsfrogsfrogs>
- <177747211854.4104686.11102678173277965542.stgit@frogsfrogsfrogs>
+ <177747211961.4104686.8091769616825139501.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,299 +44,459 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747211854.4104686.11102678173277965542.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747211961.4104686.8091769616825139501.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:43:15AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:44:49AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Add FUSE_IOMAP_CONFIG helpers to the low level fuse library.
+> Create a helper function to configure a loop device for an open regular
+> file fd, and then return an open fd to the loop device.  This will
+> enable the use of fuse+iomap file servers with filesystem image files.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  include/fuse_common.h   |   37 ++++++++++++++++++++
->  include/fuse_kernel.h   |   31 +++++++++++++++++
->  include/fuse_lowlevel.h |   28 +++++++++++++++
->  lib/fuse_lowlevel.c     |   85 +++++++++++++++++++++++++++++++++++++++++++++++
->  lib/fuse_versionscript  |    1 +
->  5 files changed, 182 insertions(+)
+>  include/fuse_loopdev.h |   29 +++
+>  include/meson.build    |    4 
+>  lib/fuse_loopdev.c     |  441 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  lib/fuse_versionscript |    1 
+>  lib/meson.build        |    3 
+>  meson.build            |   11 +
+>  6 files changed, 488 insertions(+), 1 deletion(-)
+>  create mode 100644 include/fuse_loopdev.h
+>  create mode 100644 lib/fuse_loopdev.c
 > 
 > 
-> diff --git a/include/fuse_common.h b/include/fuse_common.h
-> index 277a8209f09d50..2f0aff038c3ece 100644
-> --- a/include/fuse_common.h
-> +++ b/include/fuse_common.h
-> @@ -1240,6 +1240,43 @@ static inline bool fuse_iomap_need_write_allocate(unsigned int opflags,
->  /* use iomap for this inode */
->  #define FUSE_IFLAG_IOMAP		(1U << 2)
->  
-> +/* Which fields are set in fuse_iomap_config_out? */
-> +#define FUSE_IOMAP_CONFIG_SID		(1 << 0ULL)
-> +#define FUSE_IOMAP_CONFIG_UUID		(1 << 1ULL)
-> +#define FUSE_IOMAP_CONFIG_BLOCKSIZE	(1 << 2ULL)
-> +#define FUSE_IOMAP_CONFIG_MAX_LINKS	(1 << 3ULL)
-> +#define FUSE_IOMAP_CONFIG_TIME		(1 << 4ULL)
-> +#define FUSE_IOMAP_CONFIG_MAXBYTES	(1 << 5ULL)
-> +
-> +struct fuse_iomap_config_params {
-> +	uint64_t flags;		/* supported FUSE_IOMAP_CONFIG_* flags */
-> +	int64_t maxbytes;	/* max supported file size */
-> +	uint64_t padding[6];	/* zero */
-> +};
-> +
-> +struct fuse_iomap_config {
-> +	uint64_t flags;		/* FUSE_IOMAP_CONFIG_* */
-> +
-> +	char s_id[32];		/* Informational name */
-> +	char s_uuid[16];	/* UUID */
-> +
-> +	uint8_t s_uuid_len;	/* length of s_uuid */
-> +
-> +	uint8_t s_pad[3];	/* must be zeroes */
-> +
-> +	uint32_t s_blocksize;	/* fs block size */
-> +	uint32_t s_max_links;	/* max hard links */
-> +
-> +	/* Granularity of c/m/atime in ns (cannot be worse than a second) */
-> +	uint32_t s_time_gran;
-> +
-> +	/* Time limits for c/m/atime in seconds */
-> +	int64_t s_time_min;
-> +	int64_t s_time_max;
-> +
-> +	int64_t s_maxbytes;	/* max file size */
-> +};
-> +
->  /* ----------------------------------------------------------- *
->   * Compatibility stuff					       *
->   * ----------------------------------------------------------- */
-> diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
-> index 95c6c179a4398a..897d996a0ce60d 100644
-> --- a/include/fuse_kernel.h
-> +++ b/include/fuse_kernel.h
-> @@ -246,6 +246,7 @@
->   *  - add FUSE_IOMAP and iomap_{begin,end,ioend} for regular file operations
->   *  - add FUSE_ATTR_EXCLUSIVE to enable exclusive mode for specific inodes
->   *  - add FUSE_ATTR_IOMAP to enable iomap for specific inodes
-> + *  - add FUSE_IOMAP_CONFIG so the fuse server can configure more fs geometry
->   */
->  
->  #ifndef _LINUX_FUSE_H
-> @@ -677,6 +678,7 @@ enum fuse_opcode {
->  	FUSE_STATX		= 52,
->  	FUSE_COPY_FILE_RANGE_64	= 53,
->  
-> +	FUSE_IOMAP_CONFIG	= 4092,
->  	FUSE_IOMAP_IOEND	= 4093,
->  	FUSE_IOMAP_BEGIN	= 4094,
->  	FUSE_IOMAP_END		= 4095,
-> @@ -1390,4 +1392,33 @@ struct fuse_iomap_ioend_out {
->  	uint64_t newsize;	/* new ondisk size */
->  };
->  
-> +struct fuse_iomap_config_in {
-> +	uint64_t flags;		/* supported FUSE_IOMAP_CONFIG_* flags */
-> +	int64_t maxbytes;	/* max supported file size */
-> +	uint64_t padding[6];	/* zero */
-> +};
-> +
-> +struct fuse_iomap_config_out {
-> +	uint64_t flags;		/* FUSE_IOMAP_CONFIG_* */
-> +
-> +	char s_id[32];		/* Informational name */
-> +	char s_uuid[16];	/* UUID */
-> +
-> +	uint8_t s_uuid_len;	/* length of s_uuid */
-> +
-> +	uint8_t s_pad[3];	/* must be zeroes */
-> +
-> +	uint32_t s_blocksize;	/* fs block size */
-> +	uint32_t s_max_links;	/* max hard links */
-> +
-> +	/* Granularity of c/m/atime in ns (cannot be worse than a second) */
-> +	uint32_t s_time_gran;
-> +
-> +	/* Time limits for c/m/atime in seconds */
-> +	int64_t s_time_min;
-> +	int64_t s_time_max;
-> +
-> +	int64_t s_maxbytes;	/* max file size */
-> +};
-> +
->  #endif /* _LINUX_FUSE_H */
-> diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
-> index df41afee0cfbe5..e97c3df16fb466 100644
-> --- a/include/fuse_lowlevel.h
-> +++ b/include/fuse_lowlevel.h
-> @@ -1425,6 +1425,21 @@ struct fuse_lowlevel_ops {
->  			    uint64_t attr_ino, off_t pos, uint64_t written,
->  			    uint32_t ioendflags, int error, uint32_t dev,
->  			    uint64_t new_addr);
-> +
-> +	/**
-> +	 * Configure the filesystem geometry for iomap mode
-> +	 *
-> +	 * Valid replies:
-> +	 *   fuse_reply_iomap_config
-> +	 *   fuse_reply_err
-> +	 *
-> +	 * @param req request handle
-> +	 * @param p all available iomap configuration parameters
-> +	 * @param psize size of parameters structure
-> +	 */
-> +	void (*iomap_config)(fuse_req_t req,
-> +			     const struct fuse_iomap_config_params *p,
-> +			     size_t psize);
->  };
->  
->  /**
-> @@ -1928,6 +1943,19 @@ int fuse_reply_iomap_begin(fuse_req_t req, const struct fuse_file_iomap *read,
->   */
->  int fuse_reply_iomap_ioend(fuse_req_t req, off_t newsize);
->  
-> +/**
-> + * Reply with iomap configuration
+> diff --git a/include/fuse_loopdev.h b/include/fuse_loopdev.h
+> new file mode 100644
+> index 00000000000000..aa536e2a0b3964
+> --- /dev/null
+> +++ b/include/fuse_loopdev.h
+> @@ -0,0 +1,29 @@
+> +/*
+> + * FUSE: Filesystem in Userspace
+> + * Copyright (C) 2025-2026 Oracle.
+> + * Author: Darrick J. Wong <djwong@kernel.org>
 > + *
-> + * Possible requests:
-> + *   iomap_config
-> + *
-> + * @param req request handle
-> + * @param cfg iomap configuration
-> + * @return zero for success, -errno for failure to send reply
+> + * This program can be distributed under the terms of the GNU LGPLv2.
+> + * See the file LGPL2.txt.
 > + */
-> +int fuse_reply_iomap_config(fuse_req_t req,
-> +			    const struct fuse_iomap_config *cfg);
+> +#ifndef FUSE_LOOPDEV_H_
+> +#define FUSE_LOOPDEV_H_
 > +
->  /* ----------------------------------------------------------- *
->   * Notification						       *
->   * ----------------------------------------------------------- */
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index 90136408b39204..4750b39ab99137 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -2834,6 +2834,89 @@ static void do_iomap_ioend(fuse_req_t req, const fuse_ino_t nodeid,
->  	_do_iomap_ioend(req, nodeid, inarg, NULL);
->  }
+
+Codex complained about the lack of extern "C" { } wrapping in this
+header file.
+
+> +/**
+> + * If possible, set up a loop device for the given file fd.  Return the opened
+> + * loop device fd and the path to the loop device.  The loop device will be
+> + * removed when the last close() occurs.
+> + *
+> + * @param file_fd an open file
+> + * @param open_flags O_* flags that were used to open file_fd
+> + * @param path the path to the open regular file
+> + * @param timeout spend this much time waiting to lock the file
+> + * @param loop_fd set to an open fd to the new loop device or
+> + *        -1 if setting up a loop device is not possible or appropriate
+> + * @param loop_dev (optional) set to a pointer to the path to the loop device
+> + * @return 0 for success, or negative errno on failure
+> + */
+> +int fuse_loopdev_setup(int file_fd, int open_flags, const char *path,
+> +		       unsigned int timeout, int *loop_fd, char **loop_dev);
+> +
+> +#endif /* FUSE_LOOPDEV_H_ */
+> diff --git a/include/meson.build b/include/meson.build
+> index da51180f87eea2..60edd649f1784f 100644
+> --- a/include/meson.build
+> +++ b/include/meson.build
+> @@ -5,4 +5,8 @@ if private_cfg.get('HAVE_SERVICEMOUNT', false)
+>    libfuse_headers += [ 'fuse_service.h' ]
+>  endif
 >  
-> +#define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-> +#define offsetofend(TYPE, MEMBER) \
-> +	(offsetof(TYPE, MEMBER)	+ sizeof_field(TYPE, MEMBER))
+> +if private_cfg.get('FUSE_LOOPDEV_ENABLED')
+> +  libfuse_headers += [ 'fuse_loopdev.h' ]
+> +endif
 > +
-> +#define FUSE_IOMAP_CONFIG_V1 (FUSE_IOMAP_CONFIG_SID | \
-> +			      FUSE_IOMAP_CONFIG_UUID | \
-> +			      FUSE_IOMAP_CONFIG_BLOCKSIZE | \
-> +			      FUSE_IOMAP_CONFIG_MAX_LINKS | \
-> +			      FUSE_IOMAP_CONFIG_TIME | \
-> +			      FUSE_IOMAP_CONFIG_MAXBYTES)
+>  install_headers(libfuse_headers, subdir: 'fuse3')
+> diff --git a/lib/fuse_loopdev.c b/lib/fuse_loopdev.c
+> new file mode 100644
+> index 00000000000000..6d7017277d9eaf
+> --- /dev/null
+> +++ b/lib/fuse_loopdev.c
+> @@ -0,0 +1,441 @@
+> +/*
+> + * FUSE: Filesystem in Userspace
+> + * Copyright (C) 2025-2026 Oracle.
+> + * Author: Darrick J. Wong <djwong@kernel.org>
+> + *
+> + * Library functions for handling loopback devices on linux.
+> + *
+> + * This program can be distributed under the terms of the GNU LGPLv2.
+> + * See the file LGPL2.txt
+> + */
+> +#define _GNU_SOURCE
+> +#include "fuse_config.h"
+> +#include "fuse_loopdev.h"
 > +
-> +#define FUSE_IOMAP_CONFIG_ALL (FUSE_IOMAP_CONFIG_V1)
+> +#ifdef FUSE_LOOPDEV_ENABLED
+> +#include <stdint.h>
+> +#include <stdio.h>
+> +#include <fcntl.h>
+> +#include <unistd.h>
+> +#include <string.h>
+> +#include <stdlib.h>
+> +#include <limits.h>
+> +#include <stdbool.h>
+> +#include <errno.h>
+> +#include <dirent.h>
+> +#include <signal.h>
+> +#include <time.h>
+> +#include <sys/stat.h>
+> +#include <sys/ioctl.h>
+> +#include <sys/file.h>
+> +#include <sys/types.h>
+> +#include <sys/time.h>
+> +#include <linux/loop.h>
 > +
-> +static ssize_t iomap_config_reply_size(const struct fuse_iomap_config *cfg)
+> +#include "fuse_log.h"
+> +
+> +#define _PATH_LOOPCTL		"/dev/loop-control"
+> +#define _PATH_SYS_BLOCK		"/sys/block"
+> +
+> +#ifdef STATX_SUBVOL
+> +# define STATX_SUBVOL_FLAG	STATX_SUBVOL
+> +#else
+> +# define STATX_SUBVOL_FLAG	0
+> +#endif
+> +
+> +static int lock_file(int fd, const char *path)
 > +{
-> +	if (cfg->flags & ~FUSE_IOMAP_CONFIG_ALL)
-> +		return -EINVAL;
+> +	int ret;
 > +
-> +	return offsetofend(struct fuse_iomap_config_out, s_maxbytes);
+> +	ret = flock(fd, LOCK_EX);
+> +	if (ret) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path, strerror(error));
+> +		return -error;
+> +	}
+> +
+> +	return 0;
 > +}
 > +
-> +int fuse_reply_iomap_config(fuse_req_t req, const struct fuse_iomap_config *cfg)
+> +static double gettime_monotonic(void)
 > +{
-> +	struct fuse_iomap_config_out arg = {
-> +		.flags = cfg->flags,
-> +	};
-> +	const ssize_t reply_size = iomap_config_reply_size(cfg);
+> +#ifdef CLOCK_MONOTONIC
+> +	struct timespec ts;
+> +#endif
+> +	struct timeval tv;
+> +	static double fake_ret;
+> +	int ret;
 > +
-> +	if (reply_size < 0)
-> +		fuse_reply_err(req, -reply_size);
+> +#ifdef CLOCK_MONOTONIC
+> +	ret = clock_gettime(CLOCK_MONOTONIC, &ts);
+> +	if (ret == 0)
+> +		return ts.tv_sec + (ts.tv_nsec / 1000000000.0);
+> +#endif
+> +	ret = gettimeofday(&tv, NULL);
+> +	if (ret == 0)
+> +		return tv.tv_sec + (tv.tv_usec / 1000000.0);
+> +
+> +	fake_ret += 1.0;
+> +	return fake_ret;
+> +}
+> +
+> +static int lock_file_timeout(int fd, const char *path, unsigned int timeout)
+> +{
+> +	double deadline, now;
+> +	int ret;
+> +
+> +	now = gettime_monotonic();
+> +	deadline = now + timeout;
+> +
+> +	/* Use a tight sleeping loop here to avoid signal handlers */
+> +	while (now <= deadline) {
+> +		struct timespec sleepy = {
+> +			/* sleep 0.1s before trying again */
+> +			.tv_nsec = 100000000,
+> +		};
+> +		int error;
+> +
+> +		ret = flock(fd, LOCK_EX | LOCK_NB);
+> +		if (ret == 0)
+> +			return 0;
+> +
+> +		error = errno;
+> +
+> +		if (error != EWOULDBLOCK) {
+> +			fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path,
+> +				 strerror(error));
+> +			return -error;
+> +		}
+> +
+> +		nanosleep(&sleepy, NULL);
+> +
+> +		now = gettime_monotonic();
+> +	}
+> +
+> +	fuse_log(FUSE_LOG_DEBUG, "%s: could not lock file\n", path);
+> +	return -EWOULDBLOCK;
+> +}
+> +
+> +static int unlock_file(int fd, const char *path)
+> +{
+> +	int ret;
+> +
+> +	ret = flock(fd, LOCK_UN);
+> +	if (ret) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path, strerror(error));
+> +		return -error;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int want_loopdev(int file_fd, const char *path)
+> +{
+> +	struct stat stbuf;
+> +	int ret;
+> +
+> +	ret = fstat(file_fd, &stbuf);
+> +	if (ret < 0) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: fstat failed: %s\n",
+> +			 path, strerror(error));
+> +		return -error;
+> +	}
+> +
+> +	/*
+> +	 * Keep quiet about block devices, the client can probably still read
+> +	 * and write that.
+> +	 */
+> +	if (S_ISBLK(stbuf.st_mode))
+> +		return 0;
+> +
+> +	ret = S_ISREG(stbuf.st_mode) && stbuf.st_size >= 512;
+> +	if (!ret)
+> +		fuse_log(FUSE_LOG_DEBUG,
+> +			 "%s: file not compatible with loop device\n", path);
+> +	return ret;
+> +}
+> +
+> +static int same_backing_file(int dir_fd, const char *name,
+> +			     const struct statx *file_stat)
+> +{
+> +	struct statx backing_stat;
+> +	char backing_name[NAME_MAX + 18 + 1];
+> +	char path[PATH_MAX + 1];
+> +	ssize_t bytes;
+> +	int fd;
+> +	int ret;
+> +
+> +	snprintf(backing_name, sizeof(backing_name), "%s/loop/backing_file",
+> +			name);
+> +
+> +	fd = openat(dir_fd, backing_name, O_RDONLY);
+> +	if (fd < 0) {
+> +		int error = errno;
+> +
+> +		/* unconfigured loop devices don't have backing_file attr */
+> +		if (error == ENOENT)
+> +			return 0;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", backing_name,
+> +			 strerror(error));
+> +		return -error;
+> +	}
+> +
+> +	bytes = pread(fd, path, sizeof(path) - 1, 0);
+> +	if (bytes < 0) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", backing_name,
+> +			 strerror(error));
+> +		ret = -error;
+> +		goto out_backing;
+> +	} else if (bytes == 0) {
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: no path in backing file?\n",
+> +			 backing_name);
+> +		ret = -ENOENT;
+> +		goto out_backing;
+> +	}
+> +
+> +	if (path[bytes - 1] == '\n')
+> +		path[bytes - 1] = 0;
+> +
+> +	ret = statx(AT_FDCWD, path, 0, STATX_BASIC_STATS | STATX_SUBVOL_FLAG,
+> +			&backing_stat);
+> +	if (ret) {
+> +		int error = errno;
+> +
+> +		/*
+> +		 * backing file deleted, assume nobody's doing procfd
+> +		 * shenanigans
+> +		 */
+> +		if (error == ENOENT) {
+> +			ret = 0;
+> +			goto out_backing;
+> +		}
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path, strerror(error));
+> +		ret = -error;
+> +		goto out_backing;
+> +	}
+> +
+> +	/* different devices */
+> +	if (backing_stat.stx_dev_major != file_stat->stx_dev_major)
+> +		goto out_backing;
+> +	if (backing_stat.stx_dev_minor != file_stat->stx_dev_minor)
+> +		goto out_backing;
+> +
+> +	/* different inode number */
+> +	if (backing_stat.stx_ino != file_stat->stx_ino)
+> +		goto out_backing;
+> +
+> +#ifdef STATX_SUBVOL
+> +	/* different subvol (or subvol state) */
+> +	if ((backing_stat.stx_mask ^ file_stat->stx_mask) & STATX_SUBVOL)
+> +		goto out_backing;
+> +
+> +	if ((backing_stat.stx_mask & STATX_SUBVOL) &&
+> +	    backing_stat.stx_subvol != file_stat->stx_subvol)
+> +		goto out_backing;
+> +#endif
+> +
+> +	ret = 1;
+> +
+> +out_backing:
+> +	close(fd);
+> +	return ret;
+> +}
+> +
+> +static int has_existing_loopdev(int file_fd, const char *path)
+> +{
+> +	struct statx file_stat;
+> +	DIR *dir;
+> +	struct dirent *d;
+> +	int blockfd;
+> +	int ret;
+> +
+> +	ret = statx(file_fd, "", AT_EMPTY_PATH,
+> +		    STATX_BASIC_STATS | STATX_SUBVOL_FLAG, &file_stat);
+> +	if (ret) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path, strerror(error));
+> +		return -error;
+> +	}
+> +
+> +	dir = opendir(_PATH_SYS_BLOCK);
+> +	if (!dir) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", _PATH_SYS_BLOCK,
+> +			 strerror(error));
+> +		return -error;
+> +	}
+> +
+> +	blockfd = dirfd(dir);
+> +
+> +	while ((d = readdir(dir)) != NULL) {
+> +		if (strcmp(d->d_name, ".") == 0 ||
+> +		    strcmp(d->d_name, "..") == 0 ||
+> +		    strncmp(d->d_name, "loop", 4) != 0)
+> +			continue;
+> +
+> +		ret = same_backing_file(blockfd, d->d_name, &file_stat);
+> +		if (ret != 0)
+> +			break;
+> +	}
+> +
+> +	closedir(dir);
+> +	return ret;
+> +}
+> +
+> +static int open_loopdev(int file_fd, int open_flags, char *loopdev,
+> +			size_t loopdev_sz)
+> +{
+> +	struct loop_config lc = {
+> +		.info.lo_flags = LO_FLAGS_DIRECT_IO | LO_FLAGS_AUTOCLEAR,
+> +	};
+> +	int ctl_fd = -1;
+> +	int loop_fd = -1;
+> +	int loopno;
+> +	int ret;
+> +
+> +	if ((open_flags & O_ACCMODE) == O_RDONLY)
+> +		lc.info.lo_flags |= LO_FLAGS_READ_ONLY;
+> +
+> +	ctl_fd = open(_PATH_LOOPCTL, O_RDONLY);
+> +	if (ctl_fd < 0) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", _PATH_LOOPCTL,
+> +			 strerror(error));
+> +		return -error;
+> +	}
+> +
+> +	ret = ioctl(ctl_fd, LOOP_CTL_GET_FREE);
+> +	if (ret < 0) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", _PATH_LOOPCTL,
+> +			 strerror(error));
+> +		ret = -error;
+> +		goto out_ctl;
+> +	}
+> +	loopno = ret;
+> +	snprintf(loopdev, loopdev_sz, "/dev/loop%d", loopno);
+> +
+> +	loop_fd = open(loopdev, open_flags);
+> +	if (loop_fd < 0) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", loopdev, strerror(error));
+> +		ret = -error;
+> +		goto out_ctl;
+> +	}
+> +
+> +	lc.fd = file_fd;
+> +
+> +	ret = ioctl(loop_fd, LOOP_CONFIGURE, &lc);
+> +	if (ret < 0) {
+> +		int error = errno;
+> +
+> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", loopdev, strerror(error));
+> +		ret = -error;
+> +		goto out_loop;
+> +	}
+> +
+> +	close(ctl_fd);
+> +	return loop_fd;
+> +
+> +out_loop:
+> +	ioctl(ctl_fd, LOOP_CTL_REMOVE, loopno);
+> +	close(loop_fd);
+> +out_ctl:
+> +	close(ctl_fd);
+> +	return ret;
+> +}
+> +
+> +int fuse_loopdev_setup(int file_fd, int open_flags, const char *path,
+> +		       unsigned int timeout, int *loop_fd, char **loop_dev)
+> +{
+> +	char loopdev[PATH_MAX];
+> +	int loopfd = -1;
+> +	int ret;
+> +
+> +	*loop_fd = -1;
+> +	if (loop_dev)
+> +		*loop_dev = NULL;
 
-Codex noticed that this should be returning, not falling through.
-
-		return fuse_reply_err(...);
+Also we should probably filter some bad flags from open_flags, such as
+O_CREAT and O_TRUNC, since those don't make sense for an existing loop
+device and we definitely don't want to create a /dev/loop/XXX node.
 
 --D
-
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_BLOCKSIZE)
-> +		arg.s_blocksize = cfg->s_blocksize;
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_SID)
-> +		memcpy(arg.s_id, cfg->s_id, sizeof(arg.s_id));
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_UUID) {
-> +		arg.s_uuid_len = cfg->s_uuid_len;
-> +		if (arg.s_uuid_len > sizeof(arg.s_uuid))
-> +			arg.s_uuid_len = sizeof(arg.s_uuid);
-> +		memcpy(arg.s_uuid, cfg->s_uuid, arg.s_uuid_len);
-> +	}
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_MAX_LINKS)
-> +		arg.s_max_links = cfg->s_max_links;
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_TIME) {
-> +		arg.s_time_gran = cfg->s_time_gran;
-> +		arg.s_time_min = cfg->s_time_min;
-> +		arg.s_time_max = cfg->s_time_max;
-> +	}
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_MAXBYTES)
-> +		arg.s_maxbytes = cfg->s_maxbytes;
-> +
-> +	return send_reply_ok(req, &arg, reply_size);
-> +}
-> +
-> +static void _do_iomap_config(fuse_req_t req, const fuse_ino_t nodeid,
-> +		      const void *op_in, const void *in_payload)
-> +{
-> +	const struct fuse_iomap_config_in *arg = op_in;
-> +	struct fuse_iomap_config_params p = {
-> +		.flags = arg->flags & FUSE_IOMAP_CONFIG_ALL,
-> +		.maxbytes = arg->maxbytes,
-> +	};
-> +
-> +	(void)nodeid;
-> +	(void)in_payload;
-> +
-> +	if (req->se->op.iomap_config)
-> +		req->se->op.iomap_config(req, &p, sizeof(p));
-> +	else
-> +		fuse_reply_err(req, ENOSYS);
-> +}
-> +
-> +static void do_iomap_config(fuse_req_t req, const fuse_ino_t nodeid,
-> +			    const void *inarg)
-> +{
-> +	_do_iomap_config(req, nodeid, inarg, NULL);
-> +}
-> +
->  static bool want_flags_valid(uint64_t capable, uint64_t want)
->  {
->  	uint64_t unknown_flags = want & (~capable);
-> @@ -3827,6 +3910,7 @@ static struct {
->  	[FUSE_LSEEK]	   = { do_lseek,       "LSEEK"	     },
->  	[FUSE_SYNCFS]	   = { do_syncfs,      "SYNCFS"      },
->  	[FUSE_STATX]	   = { do_statx,       "STATX"	     },
-> +	[FUSE_IOMAP_CONFIG] = { do_iomap_config, "IOMAP_CONFIG" },
->  	[FUSE_IOMAP_BEGIN] = { do_iomap_begin,	"IOMAP_BEGIN" },
->  	[FUSE_IOMAP_END]   = { do_iomap_end,	"IOMAP_END" },
->  	[FUSE_IOMAP_IOEND] = { do_iomap_ioend,	"IOMAP_IOEND" },
-> @@ -3887,6 +3971,7 @@ static struct {
->  	[FUSE_LSEEK]		= { _do_lseek,		"LSEEK" },
->  	[FUSE_SYNCFS]		= { _do_syncfs,		"SYNCFS" },
->  	[FUSE_STATX]		= { _do_statx,		"STATX" },
-> +	[FUSE_IOMAP_CONFIG]	= { _do_iomap_config,	"IOMAP_CONFIG" },
->  	[FUSE_IOMAP_BEGIN]	= { _do_iomap_begin,	"IOMAP_BEGIN" },
->  	[FUSE_IOMAP_END]	= { _do_iomap_end,	"IOMAP_END" },
->  	[FUSE_IOMAP_IOEND]	= { _do_iomap_ioend,	"IOMAP_IOEND" },
-> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-> index 46465540a1f51b..f1e5cc63da18ee 100644
-> --- a/lib/fuse_versionscript
-> +++ b/lib/fuse_versionscript
-> @@ -264,6 +264,7 @@ FUSE_3.99 {
->  		fuse_fs_can_enable_iomapx;
->  		fuse_lowlevel_discover_iomap;
->  		fuse_service_discover_iomap;
-> +		fuse_reply_iomap_config;
->  } FUSE_3.19;
->  
->  # Local Variables:
-> 
-> 
