@@ -1,117 +1,177 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CE43DB633;
-	Fri, 15 May 2026 17:28:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C43403151;
+	Fri, 15 May 2026 17:30:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778866111; cv=none; b=SJJSIduqsV9jzFPfDWULgn+Z+kP/jhpVJP3sWX6ZU2aA2LiRiB9/hiR22Q0e40pQiPhlOoHImpReR8xMuSt9xTlxxwNzNvcm8qtNLRyZEY+o0kk9dF6PPy0a1GbG4DIN2G+kqj8/fju7jVzzpjnVOjHHMme37wGk7lDJyAyPebU=
+	t=1778866248; cv=none; b=q/MFJEfLI+NMK1Zj2gcqJleiWDorVVa58w2uz6T39JR+7VVd2M4izQDGy/aBy2va98ZkzVKcFy4k3pYGCQzJ39eSnva75hdsZLFjYeOXMle/9shb6Jc9P0sk6eqz7v75GIQJZP22YCumX9UwSkJ/iHJzCZAsL0umiX8xQLW6Yug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778866111; c=relaxed/simple;
-	bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hq8Vx5zhnpA+cpjeMx2rrYhd5Z4+cEgJZ5xl+S+fGBV+QXA6cQRCze+Aa6nskwiRrksb4Ri2nW2amGFDtqbOJyyIQBNtdcHjajzOr9tJo5SBrNHs4gFZ1hnbaa05qxGfnONyW/cPeULJeaOOak4KeUIBk3TUbxYq3jSmjjk/3Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4S5BGfG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778866248; c=relaxed/simple;
+	bh=5nt6EvBqOR8ML1SWq7SYKTUPIupueoHdr4o8sHmleqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNngXlJwYQ+ywOOgDHDRGD0edWFxjggA2UL6BEb1sqj6fyoO+oD5meh07pc6W4x2XOY7ohCws6lepZlIDUhjr/AX6RsYXvjxrHR0rXzhc+vGxEA3zB65Huwl2339SLScAzkEWPHAhGDP5oE+a0/TquNEjqbIOrL9OZwE1KGA3Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=omMqj2ly; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4S5BGfG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B301C2BCB3;
-	Fri, 15 May 2026 17:28:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="omMqj2ly"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BFBBC2BCB0;
+	Fri, 15 May 2026 17:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778866111;
-	bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=o4S5BGfGV7mF3EIDJqFVfk94MakVX0AwugNb0q3/oGoth3vtcR7pWTRYVgx3d0yP9
-	 5M4Frvkz0unHa+uXgYucqPkKEqQI6I4clyT74STQYalT2HH9rB2URJssdCGbGfkIaK
-	 1bUvTduab+MPdMMd1ledWI9GjvhlmIHyqf/c8/c6z87ie+pFMQH0RlGMHAwTEhccV9
-	 0Cgw0KXczy8aSYYR4Fov/HbjEfaOF0eGw+cnxPlaUrCRFtkTX7+Y6LBf8DKDjlJWNy
-	 fns+LrexF1eJQ9Ua8H0R6QpTQh0xxHhPApx1OYVEdElP4mGrE5XH+IVjYwEdDYV51k
-	 b72j2nuombsxg==
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Calum Mackay <calum.mackay@oracle.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-nfs@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in directory delegations
-Date: Fri, 15 May 2026 19:26:19 +0200
-Message-ID: <20260515-weltschmerz-folgen-68ca0db1ef84@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
-References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
+	s=k20201202; t=1778866248;
+	bh=5nt6EvBqOR8ML1SWq7SYKTUPIupueoHdr4o8sHmleqk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=omMqj2lylQEYB0UacPMXHDI3WxIzlqwrNpCe+9WJNfCdJcvbd/CoMHEVDlUhD/NPW
+	 TXwwUBu1W0bXz0gy3KRxqIUWexmOYWjzLNlBFEYb9OnxaG/SYMkJGy36Zc95hghSvL
+	 phlN1EgJ7T+LPnDSspOBnkNg3pbon3qe1Su4kDGsBmzXLUzE+5awajiUSs8fkns6Gw
+	 UKgzb0R+Pn+a6Rt8EYmHVLZ24Vn/M9NIY48J3J2/rjau1LBqMPTYFAaVIu9ihfZD5K
+	 pJWdn4y9ABMXdEouNwUWqHHahgKvk33+cNw6Y9fTB7/JeC2KLhkA1tiRXBJKDlbaxr
+	 sVC0I71Krf43A==
+Date: Fri, 15 May 2026 10:30:47 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, brauner@kernel.org, hch@infradead.org,
+	yi.zhang@huawei.com, yizhang089@gmail.com, yangerkun@huawei.com,
+	yukuai@fnnas.com
+Subject: Re: [PATCH 4/4] iomap: fix out-of-bounds bitmap_set() with
+ zero-length range
+Message-ID: <20260515173047.GC9555@frogsfrogsfrogs>
+References: <20260514062955.1183976-1-yi.zhang@huaweicloud.com>
+ <20260514062955.1183976-5-yi.zhang@huaweicloud.com>
+ <20260514181053.GB9555@frogsfrogsfrogs>
+ <827c4380-4251-40af-bc14-207111736464@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2210; i=brauner@kernel.org; h=from:subject:message-id; bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSxh2/rvV30XP8k/4WyL9XyVztMAzhc1rn5ab7aEnxde XXB46XaHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOZ9Z+R4f2SI19eTWPu+PQo ++pV5uNMG5PynwtxFX4OPTf/HlOkjw3D/wJ3sxAx1bfnbLikdqjf57MInRG8OC0kZl2e+rRD2aH M3AA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <827c4380-4251-40af-bc14-207111736464@huaweicloud.com>
 
-On Tue, 28 Apr 2026 08:09:44 +0100, Jeff Layton wrote:
-> Re-posting the set per Christian's request. The only difference in this
-> version is a small error handling fix in alloc_init_dir_deleg(). The old
-> version could crash since release_pages() can't handle an array with
-> NULL pointers in it.
+On Fri, May 15, 2026 at 09:50:08AM +0800, Zhang Yi wrote:
+> On 5/15/2026 2:10 AM, Darrick J. Wong wrote:
+> > On Thu, May 14, 2026 at 02:29:55PM +0800, Zhang Yi wrote:
+> >> From: Zhang Yi <yi.zhang@huawei.com>
+> >>
+> >> ifs_set_range_dirty() and ifs_set_range_uptodate() compute last_blk
+> >> as (off + len - 1) >> i_blkbits.  When off is 0 and len is 0, the
+> >> unsigned subtraction underflows to SIZE_MAX, producing a huge
+> >> last_blk and nr_blks value that causes bitmap_set() to write far
+> >> beyond the ifs->state allocation.
+> >>
+> >> Regarding ifs_set_range_uptodate(), it is temporarily safe because len
+> >> cannot be passed in as 0. However, for ifs_set_range_dirty() this is
+> >> reachable from __iomap_write_end(): when copy_folio_from_iter_atomic()
+> >> returns 0 (e.g. user buffer fault) and the folio is already uptodate,
+> >> the guard at the top of __iomap_write_end() does not trigger because
+> >> !folio_test_uptodate() is false, and iomap_set_range_dirty() is called
+> >> with copied == 0.
+> >>
+> >> Add a !len guard to both functions before the computation, so that a
+> >> zero-length range is a no-op.
+> >>
+> >> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> >> ---
+> >>  fs/iomap/buffered-io.c | 23 +++++++++++++++--------
+> >>  1 file changed, 15 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> >> index 27ab33edbdee..6fe5f7e998fd 100644
+> >> --- a/fs/iomap/buffered-io.c
+> >> +++ b/fs/iomap/buffered-io.c
+> >> @@ -67,11 +67,14 @@ static bool ifs_set_range_uptodate(struct folio *folio,
+> >>  		struct iomap_folio_state *ifs, size_t off, size_t len)
+> >>  {
+> >>  	struct inode *inode = folio->mapping->host;
+> >> -	unsigned int first_blk = off >> inode->i_blkbits;
+> >> -	unsigned int last_blk = (off + len - 1) >> inode->i_blkbits;
+> >> -	unsigned int nr_blks = last_blk - first_blk + 1;
+> >> +	unsigned int first_blk, last_blk;
+> >>  
+> >> -	bitmap_set(ifs->state, first_blk, nr_blks);
+> >> +	if (!len)
+> >> +		return true;
+> >> +
+> >> +	first_blk = off >> inode->i_blkbits;
+> >> +	last_blk = (off + len - 1) >> inode->i_blkbits;
+> >> +	bitmap_set(ifs->state, first_blk, last_blk - first_blk + 1);
+> >>  	return ifs_is_fully_uptodate(folio, ifs);
+> >>  }
+> >>  
+> >> @@ -203,13 +206,17 @@ static void ifs_set_range_dirty(struct folio *folio,
+> >>  {
+> >>  	struct inode *inode = folio->mapping->host;
+> >>  	unsigned int blks_per_folio = i_blocks_per_folio(inode, folio);
+> >> -	unsigned int first_blk = (off >> inode->i_blkbits);
+> >> -	unsigned int last_blk = (off + len - 1) >> inode->i_blkbits;
+> >> -	unsigned int nr_blks = last_blk - first_blk + 1;
+> >> +	unsigned int first_blk, last_blk;
+> >>  	unsigned long flags;
+> >>  
+> >> +	if (!len)
+> >> +		return;
+> >> +
+> >> +	first_blk = off >> inode->i_blkbits;
+> >> +	last_blk = (off + len - 1) >> inode->i_blkbits;
+> >>  	spin_lock_irqsave(&ifs->state_lock, flags);
+> >> -	bitmap_set(ifs->state, first_blk + blks_per_folio, nr_blks);
+> >> +	bitmap_set(ifs->state, first_blk + blks_per_folio,
+> >> +		   last_blk - first_blk + 1);
+> > 
+> > I'm curious about the inconsistency in the computations between
+> > ifs_clear_range_dirty and ifs_set_range_dirty now.  In the function that
+> > clears dirty bits, off/len are rounded inwards:
+> > 
+> > 	unsigned int first_blk = round_up(off, i_blocksize(inode)) >>
+> > 				 inode->i_blkbits;
+> > 	unsigned int last_blk = (off + len) >> inode->i_blkbits;
+> > 	unsigned long flags;
+> > 
+> > 	if (first_blk >= last_blk)
+> > 		return;
+> > 
+> > 	spin_lock_irqsave(&ifs->state_lock, flags);
+> > 	bitmap_clear(ifs->state, first_blk + blks_per_folio,
+> > 		     last_blk - first_blk);
+> > 
+> > but here we're still rounding outwards:
+> > 
+> > 	if (!len)
+> > 		return;
+> > 
+> > 	first_blk = off >> inode->i_blkbits;
+> > 	last_blk = (off + len - 1) >> inode->i_blkbits;
+> > 	spin_lock_irqsave(&ifs->state_lock, flags);
+> > 	bitmap_set(ifs->state, first_blk + blks_per_folio,
+> > 		   last_blk - first_blk + 1);
+> > 
+> > That doesn't quite sound right to me without an explanation in the code,
+> > which currently lacks one.  I *think* the reason for the discrepancy is
+> > that if we want to dirty part of an fsblock, we need to mark the whole
+> > block dirty in the ifs so that all the blocks get written out; but when
+> > we're clearing dirty bits, we want to leave an fsblock dirty if we only
+> > wrote back part of that fsblock.  Does that sound right?
+> > 
+> > --D
+> > 
 > 
-> ---------------------------------8<------------------------------------
+> Yes, that's right. The primary purpose of clearing the dirty bit is for
+> invalidating a partial folio(e.g., when punching hole). Only when a full
+> fsblock has been invalidated can its corresponding dirty bit be cleared.
+> Write-back operations never seem to write back only part of a fsblock.
 > 
-> [...]
+> I can add comments for them in my next iteration.
 
-@Chuck, @Jeff, I've only merged the vfs specific changes into a stable branch.
-You can pull it I won't touch it again. You can pull the nfsd work in in
-whatever form you like. Same procedure I use with io_uring et al.
+Sounds good, thank you.
 
-Let me know if that work for you.
+(Does this patch also need a fixes tag like Joanne asked?)
 
----
+--D
 
-Applied to the vfs-7.2.directory.delegations branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.directory.delegations branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.directory.delegations
-
-[01/28] filelock: pass current blocking lease to trace_break_lease_block() rather than "new_fl"
-        https://git.kernel.org/vfs/vfs/c/89330d3a60f7
-[02/28] filelock: add support for ignoring deleg breaks for dir change events
-        https://git.kernel.org/vfs/vfs/c/24cbf43337f4
-[03/28] filelock: add a tracepoint to start of break_lease()
-        https://git.kernel.org/vfs/vfs/c/e39026a86b48
-[04/28] filelock: add an inode_lease_ignore_mask helper
-        https://git.kernel.org/vfs/vfs/c/95825fdcc0b0
-[05/28] fsnotify: new tracepoint in fsnotify()
-        https://git.kernel.org/vfs/vfs/c/ad4489dcd08d
-[06/28] fsnotify: add fsnotify_modify_mark_mask()
-        https://git.kernel.org/vfs/vfs/c/12ffbb117b64
-[07/28] fsnotify: add FSNOTIFY_EVENT_RENAME data type
-        https://git.kernel.org/vfs/vfs/c/010043003c0c
+> Thanks,
+> Yi.
+> 
+> 
+> 
