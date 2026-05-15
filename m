@@ -1,71 +1,133 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8980A374739;
-	Fri, 15 May 2026 13:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C812D3A69;
+	Fri, 15 May 2026 13:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778851397; cv=none; b=YGwwg9LPHBY4A7xpI0LxB3JunRP33YTOBu8ppDPlLbYpkvIyyqhpKd23dqdYZr+QaABUDeX0uK+kXBf3ntgBDe47x4XmXJQOsWyydrrgALJo0na9sZ40aEgrKoMzMyla47pwjp1+1Qwjwe8zMg4SS8BV3pxudvwxK3hIwfz/vu8=
+	t=1778852964; cv=none; b=QgY5FEcCxNioqyE0M0s5ui+4m2Ml+GMnIPED7i1ro6lhcr+NXz9ufvmegXR9753k4AEjrivnSwFUKfbvaQoztPQCrWYDCPngPT49pt9g/LE78EeIh6GEMxaSL7hJdqh/19Q/20mj2lxAgIHVKpalOTkErxeaSKBURXSrJMnm51I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778851397; c=relaxed/simple;
-	bh=OUAeRmGFrKAqbEYEjKvXJL44Nuyi/LEDMyEDp0FfMaA=;
+	s=arc-20240116; t=1778852964; c=relaxed/simple;
+	bh=pb3y79JMZ+zLBzi+Ay6epkzmseeGxqZrGGdMhUWxek0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JotOCs9pWMU4XiR7L+6MKwbLBCufDHDeawplnHM4LeMa1ycz3xDOMdGv9Z2gJfM5xoOKGIGGqlyTWBwFQ5GfX5+hFRrp6JipCQtNsEBkmsq4azDloEG10PbVsQHeh29mowSMJ+vToNL3Do20xw9Jb+NGaNw4taJfQYAhwPNeRcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tiJ39MvV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=pmTA6K021DJm/ZPZOaNnTj57Wm+28PR3y23OggfhKyDyx5uLaZqCDEtEnbbTAckG3Bgs8PEzpH0W3Vhm0rtuJZNHBXdoqRUtDMQC7KAyMvS2BQW+SI2JEi9+T1xwG0eZmeY6amC13SJ93hdLfqt+v9es7N5w0MXLAhC7q/Bqh6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdJQ8sq7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tiJ39MvV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=clJs/M02D+bpYA4hUyzi57jr0yjvLDgea9w+FNfRfKU=; b=tiJ39MvVhLAZdQ5j27zAQ5DMcT
-	RShTWjEanrg80OEmROi8UfaDW3sCxIWRgBa7Wj2i/acxpbXiTczr62knQK1e3weVYNN+FMc9ywXzq
-	Ok6uylH3sYhFcNZbq8c4yY2cpjD5ozZyeyDdWWc55ir5Gggi9ZCZS5vvgsMBYL84Dc/BoFW/kqbP6
-	YdgCjDsE1Iz10yJRTEkqx0oWzdzXVQq7XraIj57n/x8/96S1Ko1yzR2VTiSyD/g4vA0pAu3/H0G9w
-	72GNA+toFOqeC/XgeaFtS7rsN2P6FIfoNvA2L2oE5t2WtKIrni7/Zi/eNARAu91pFSL0MVzPvgbXz
-	HjuzvMtA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wNsVS-00000008R2w-0O8z;
-	Fri, 15 May 2026 13:23:10 +0000
-Date: Fri, 15 May 2026 06:23:10 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Arun Rao <arun.rao.bl@gmail.com>
-Cc: hch@infradead.org, Arun <arunraobalappa@gmail.com>, lenb@kernel.org,
-	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	pavel@kernel.org, rafael@kernel.org
-Subject: Re: [PATCH] docs/power: note Btrfs limitation with FIBMAP for swap
- file offset
-Message-ID: <agcePmiiO08tVtNb@infradead.org>
-References: <CA+2hknjQ1wLjXdhZWezW=9BwcUhoXhXR1Yi=N8bhce-Qe7+RFw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cdJQ8sq7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CCD1C2BCB0;
+	Fri, 15 May 2026 13:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778852964;
+	bh=pb3y79JMZ+zLBzi+Ay6epkzmseeGxqZrGGdMhUWxek0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cdJQ8sq787lsZtodQ0VynA8X+LgZLDs4wO321slIiPTss4PW2xhgZTImJCRhanM++
+	 4/UcHmSS7/06bT9aExQfbXMvYRk0vxeAU+V8E1lNKURgO8Z0RrNiqTH/3NQA+jRkAf
+	 v4pErRIrsQywq9JIjpV1RQR3HQ0JegYVAn3NrUEzPCyo3Fn8ktZa5HeII78BgpNExC
+	 zB8fp5frszRl2RO9rU8Fh7FUtfWjq0VjNNnwMpJlTWtY87RH5YpXc7gJpEpCBur2C3
+	 a/BtbG4u02GSygAzavAIedgIDlqHVW2OjdqYKN9AdkOPYofFJ2pxiWt+bouLCfmrtw
+	 YD9QGgxldmXDg==
+Date: Fri, 15 May 2026 15:49:15 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Arnd Bergmann <arnd@arndb.de>, "H . Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
+	Peter Zijlstra <peterz@infradead.org>, Andrey Albershteyn <aalbersh@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	cmirabil@redhat.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v2 1/2] vfs: syscalls: add mkdirat2() that returns an
+ O_DIRECTORY fd
+Message-ID: <20260515-gezeugt-noten-465fda1e9df9@brauner>
+References: <20260412135434.3095416-1-jkoolstra@xs4all.nl>
+ <20260412135434.3095416-2-jkoolstra@xs4all.nl>
+ <20260427-umlegen-aufbau-ee3a97f1528a@brauner>
+ <1600596489.77018.1777916475931@kpc.webmail.kpnmail.nl>
+ <20260511-hochdekoriert-neoliberale-f7a2922bc57c@brauner>
+ <1805140959.1362290.1778842523425@kpc.webmail.kpnmail.nl>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CA+2hknjQ1wLjXdhZWezW=9BwcUhoXhXR1Yi=N8bhce-Qe7+RFw@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <1805140959.1362290.1778842523425@kpc.webmail.kpnmail.nl>
 
-On Tue, May 12, 2026 at 03:12:44PM +0530, Arun Rao wrote:
-> Understood. My intent was mainly to document the current behaviour
-> observed by users on Btrfs systems where filefrag/FIBMAP-based
-> guidance fails, and to point users toward the existing btrfs-progs
-> tooling.
+On Fri, May 15, 2026 at 12:55:23PM +0200, Jori Koolstra wrote:
+> Sorry for the double email, this keyboard is so finicky, I really need to fix it.
 > 
-> That said, I understand the concern about encouraging users to rely on
-> resume_offset-based workflows in general given the underlying
-> fragility of file block mappings on moving or CoW filesystems.
+> > Op 11-05-2026 14:00 CEST schreef Christian Brauner <brauner@kernel.org>:
+> > 
+> > mkdirat2() is objectively the worse api. It forces userspace to use a
+> > separate system call without any reason whatsoever. If you can to
+> > O_CREAT you should also be able to to O_DIRECTORY in the same system
+> > call. If we support O_DIRECTORY | O_CREAT we get all the lookup
+> > restriction niceties RESOLVE_* for free. Plus, it is supportable both in
+> > openat() and openat2() because I made that combo return an errno.
+> 
+> I don't disagree. I know that some of the UAPI feature requests are not fully
+> flashed out, but at least it gives a basis to get the discussion going.
+> 
+> In fact I already have a O_DIRECTORY | O_CREAT patch that at least passes
+> the initial tests. However, I need to sit on it a little bit to think whether
+> I am not leaving something out. Also, I understand why vfs_create() wasn't used
+> in the O_CREAT path, for instance because you cannot just make use of may_create_dentry()
+> there. But now that we are going to string another path through lookup_open() it
+> would be great if we could reuse some of the logic from vfs_create() and vfs_mkdir().
+> 
+> Perhaps we could move may_create_dentry() out of the vfs_* calls and let the caller
+> take care of that. Then again, this is the pattern for all those calls. You could also
+> just accept some redundancies with may_o_create(), or have something like
+> static vfs_mkdir/create_common() functions.
+> 
+> There are also some minor things. If i_op->mkdir is missing this is an EPERM, but with
+> i_op->create it is EACCESS (and suggesting ENOSYS). Should this not be a consistent error
 
-Yes.  Can you maybe extend the text a bit to generally warn about this?
+ENOSYS is worse because it would indicate to userspace that the whole
+system call they're using isn't available. So we can't ever use that.
 
-I also realized that filefrag uses FIEMAP by default these days and not
-just FIBMAP, which is what makes it so dangerous on btrfs.  btrfs
-smartly does not implement ->bmap, but it does implement FIEMAP in
-this weird way mapping to the logical address space.
+This is probably just historical baggage. EACCES is especially wrong
+because userspace would expect that particular error code to stem from
+an LSM.
 
+In both cases the correct error code would be EOPNOTSUPP and we should
+aim to be very consistent in such cases and only reserve this for
+missing support for a specific functionality.
 
+I would be very surprised if userspace depended on EACCES being returned
+though. So I would say let's try and see whether we can correct this and
+return EOPNOTSUPP. The amount of filesystems that have no ->create
+should be dwarved by those that do.
+
+> code? I also wonder whether there is a nicer way to handle error being returned from
+> vfs_mkdir et al. If I am reading
+> 
+> 	if (!error) {
+> 		dentry = vfs_mkdir(mnt_idmap(path.mnt), path.dentry->d_inode,
+> 				   dentry, mode, &delegated_inode);
+> 		if (IS_ERR(dentry))
+> 			error = PTR_ERR(dentry);
+> 	}
+> 	end_creating_path(&path, dentry);
+> 
+> it feels like there is a missing return inside the if (IS_ERR(dentry)) block, and I
+> have to go several function deep to see that end_creating_path correctly deals with
+> error values being passed instead of a dentry. Then again, probably not worth the
+> churn...
+
+Not without it being a major clarity win at least.
+
+> > UAPI design often is a nasty mix of performance (context switches),
+> > separation of concerns and privileges, tastefulness, and compromises you
+> > never thought or wanted to make.
+> > 
+> 
+> Yes, thanks for suggestion this back at FOSDEM. It is quite fun, and lots
+> to learn :)
+
+Thanks for working on this. It's helpful.
