@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA6D4C6F04
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 15:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3B64BC00E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 15:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778859324; cv=none; b=WYC55+3FP8SbqUGVZMTO0e8IeJ2oOtpx6KAzkn2RXJzqTi3FqNtg8ONExuMxKYsW57nb69up/qI9aFnjCHElgj903yQ5KYZ7wx4kaW5qLZSxC2ZWP178fz5bRF59c5f61W82IaCeQ8Bbsyd7i7QXSoU8PvREN+i82R888ttmkvA=
+	t=1778859326; cv=none; b=oiwKUuTF/8tPVUumRdwMtCgnlvviCdcwM/UL2L1gp5od3V4hGVCAZRAoK6W157+vtYWzeqJU7wnshSBlzx3fm7aZbz0J2W7wC/kuJjw+dcheHBElovGYGPjl+fXw4rzHr+m9zXN7HI3vApixXPteGMlcSajGD9b2Fs7Q5I4cBZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778859324; c=relaxed/simple;
-	bh=J82yT8zZ+C6IzncjehAYniSkg1/krOuNDMKGVqwZnfk=;
+	s=arc-20240116; t=1778859326; c=relaxed/simple;
+	bh=41FLwQ9O70hFKk04ES4iZspQrQekruDM+bfF8zh4fmo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TQxrnxBlyDyfUt90NASehMAdCQV9SN3hNa/7KXSIRIb8wDx/UzafQjNUQ8D9gqGJrksFPyQyjVOdNiKdzKUJArBJrVYhnxUlrkFOi3kNatfTYK2gICytjlb8WF/q0XjzgFx9DE1fYurFb59FENGfy0BDjDzfwo5Y/VrGGIcPmoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRgVCWyk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ExZS65g7rCEAo7jnLXgtEtYF/SPXbLx4gUNLatJe5ngCQRc7rlT2QzeOXOufec5CGCzaO+cCK+YXT5agShDWztTzD9Kd1asI+zS5cGitnGuEPkKHKDvH2w4/lUxdSUJGwE/z/a2VX2YPAAlhTV4lzdQgmY421/xeRVVZNUjT+MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvGZEJ1Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRgVCWyk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01637C2BCB7;
-	Fri, 15 May 2026 15:35:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DvGZEJ1Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBFDAC2BCF5;
+	Fri, 15 May 2026 15:35:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778859323;
-	bh=J82yT8zZ+C6IzncjehAYniSkg1/krOuNDMKGVqwZnfk=;
+	s=k20201202; t=1778859325;
+	bh=41FLwQ9O70hFKk04ES4iZspQrQekruDM+bfF8zh4fmo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IRgVCWykfAAZNoaGftg+yiGvt5/1YtkMwzhYWEayDjCWMLYTt34d7CKG71r26UWl7
-	 1MmkC4nwI1yPjZldZxbtWlu1/vcbKbhzKQD8YN3RpsXAlX0FKFGmtc7U7BtuRXWt9w
-	 13KYrH4aLcfj//8rVOQP18tEd+2ts2508OLuMB+XS3/Ys/6PyrQJJohQvaRmrwb5H3
-	 hk7oiNZjAWOzOW7GSiiEjRepPEPt+mydx6oa11KyeohbEAHVZTih8LQNH2T/e8hal7
-	 18IB8QraXR2LG6mLZaFMJhSKzADyBgHpwSYkjIxEzzRWVSU89fpVO+P4udA/qo0sVI
-	 /RPDtxb5Xu70g==
+	b=DvGZEJ1QuT5H+ZpnYGFrVTNr2hKDmjUq1zjP9/PZgUclyfg8ddkcU+HyydOi2zS1l
+	 AYuStkBXsPepXGYi0bC+AqF6sWeO3QCOCX77qYbdDv6S4BXal/4SJJ4vcYnhv7A1p/
+	 buaKssFMTIoq+k4NSKBfJEXPTPyurywZpF0inSOKew3mv0MdPG+Snq5yuFQoI3nkY5
+	 nD+VeEPa95M2FHu4mBOS+5jvAWeb+o7y3S+3q3Jt9GcOOKPS5hhKwheOizqzpzKB2Y
+	 kB6TppFHRGp/2EoOGZmUgPdeve9DykzOdksedS8boyvVXImpsLtmoD1XDjOwcxbQTz
+	 x06Xd/WyrqA8A==
 From: Chuck Lever <cel@kernel.org>
 To: Christian Brauner <brauner@kernel.org>
 Cc: <linux-fsdevel@vger.kernel.org>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	sashiko-bot <sashiko-bot@kernel.org>
-Subject: [PATCH 1/7] tools headers UAPI: Sync case-sensitivity flags from linux/fs.h
-Date: Fri, 15 May 2026 11:35:09 -0400
-Message-ID: <20260515153515.362266-2-cel@kernel.org>
+Subject: [PATCH 4/7] fs: Clarify FS_CASEFOLD_FL semantics in UAPI header
+Date: Fri, 15 May 2026 11:35:12 -0400
+Message-ID: <20260515153515.362266-5-cel@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260515153515.362266-1-cel@kernel.org>
 References: <20260515153515.362266-1-cel@kernel.org>
@@ -47,45 +47,47 @@ Content-Transfer-Encoding: 8bit
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-The case-sensitivity series adds FS_XFLAG_CASEFOLD and
-FS_XFLAG_CASENONPRESERVING to include/uapi/linux/fs.h, and
-tools/perf/check-headers.sh would warn about the resulting drift
-in the perf beauty copy.  Pick up only those two flags (and the
-surrounding comment block) so the series does not introduce new
-drift of its own.
+The existing one-liner "Folder is case insensitive" leaves the
+impression that FS_CASEFOLD_FL is reserved for directories.
+That impression is wrong: filesystems that derive
+case-insensitivity from mount or volume state report the bit on
+non-directory inodes via i_op->fileattr_get, so userspace
+inspecting FS_IOC_GETFLAGS can see it on any inode type.
 
-This is not a full sync.  The perf copy is also missing the
-FS_IOC_SHUTDOWN block added by commit 1f662195dbc0 ("fs: add
-generic FS_IOC_SHUTDOWN definitions").  Because
-tools/perf/check-headers.sh emits a single warning per file, that
-warning will remain active until the older drift is picked up
-too; closing it is left to a separate sync outside this series.
+Replace the one-liner with a block comment that names directories
+as the typical case, records that non-directory inodes may also
+report the bit, and notes FS_XFLAG_CASEFOLD as the read-only
+companion exposed through FS_IOC_FSGETXATTR.
 
 Reported-by: sashiko-bot <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/patchset/20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com?part=2
+Closes: https://sashiko.dev/#/patchset/20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com?part=3
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- tools/perf/trace/beauty/include/uapi/linux/fs.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/uapi/linux/fs.h | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/tools/perf/trace/beauty/include/uapi/linux/fs.h b/tools/perf/trace/beauty/include/uapi/linux/fs.h
-index 70b2b661f42c..2fa003575e8b 100644
---- a/tools/perf/trace/beauty/include/uapi/linux/fs.h
-+++ b/tools/perf/trace/beauty/include/uapi/linux/fs.h
-@@ -254,6 +254,13 @@ struct file_attr {
- #define FS_XFLAG_DAX		0x00008000	/* use DAX for IO */
- #define FS_XFLAG_COWEXTSIZE	0x00010000	/* CoW extent size allocator hint */
- #define FS_XFLAG_VERITY		0x00020000	/* fs-verity enabled */
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index 2ea4c81df08f..bd87262f2e34 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -395,7 +395,16 @@ struct file_attr {
+ #define FS_DAX_FL			0x02000000 /* Inode is DAX */
+ #define FS_INLINE_DATA_FL		0x10000000 /* Reserved for ext4 */
+ #define FS_PROJINHERIT_FL		0x20000000 /* Create with parents projid */
+-#define FS_CASEFOLD_FL			0x40000000 /* Folder is case insensitive */
 +/*
-+ * Case handling flags (read-only, cannot be set via ioctl).
-+ * Default (neither set) indicates POSIX semantics: case-sensitive
-+ * lookups and case-preserving storage.
++ * FS_CASEFOLD_FL indicates case-insensitive name lookup. The
++ * bit is most often reported on directories, where it controls
++ * lookups of entries within. Filesystems that derive
++ * case-insensitivity from mount or volume state may also report
++ * it on non-directory inodes; userspace must not assume the bit
++ * is directory-only. FS_XFLAG_CASEFOLD reports the same
++ * information read-only via FS_IOC_FSGETXATTR.
 + */
-+#define FS_XFLAG_CASEFOLD	0x00040000	/* case-insensitive lookups */
-+#define FS_XFLAG_CASENONPRESERVING 0x00080000	/* case not preserved */
- #define FS_XFLAG_HASATTR	0x80000000	/* no DIFLAG for this	*/
++#define FS_CASEFOLD_FL			0x40000000
+ #define FS_RESERVED_FL			0x80000000 /* reserved for ext2 lib */
  
- /* the read-only stuff doesn't really belong here, but any other place is
+ #define FS_FL_USER_VISIBLE		0x0003DFFF /* User visible flags */
 -- 
 2.54.0
 
