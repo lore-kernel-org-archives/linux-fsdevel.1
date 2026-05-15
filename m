@@ -1,80 +1,80 @@
 Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068883F164E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 21:14:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471E7405C37
+	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 21:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778879693; cv=pass; b=HzUTzeQHR0GMSmbptln5z7d8JjOz3JtXooA/OI44OJ2RvRtXQni0T/b/DjZ6oCqNcEMLbpEL1M/woNVe6edgYRPkjaFsO8FgfoIuu6Y7oNJx773bO99jlQnInfPEladIo2qCSUkZl+FlCYG7NSiL3CKoqyMXh0QhPCKN9KFMu9A=
+	t=1778880240; cv=pass; b=BfLq72+D/K7uCjEsWMMzfLBmKJK0MiNjY5eMsJFWhqC/y6LzTADFtbKsLND43JeWJsG2LGjcLsjqSIb+IZluxrNs0ESjriH7YJYMmNxooE95cC2YlL/zZSXihh9UaxRjCFG0HVnISDyaFMx3bPczWcrsPIJr574ZpefOMOi5bIc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778879693; c=relaxed/simple;
-	bh=DuT+nlnLaglia7ZNQ7wKTzwqTFOUk916TijZdfnB/Ug=;
+	s=arc-20240116; t=1778880240; c=relaxed/simple;
+	bh=Ciax+KscSHd+KM1eU71himblbHXGWQL8PXc1xnvj7EE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ct8FUX2MQXjGnn8IKIkiMP4RrksW1YyJsEcL75xsr1GWYWJ/+KiQd5MNCMyeLXWDe+VNLDmAEI68mI+iEJtEa+LphR/Gmw73xK8vY9JsV60v3t8oK/Czqa7DqnYK+/iXkuksROf0YqgeF0y7jLuocfAB0W5e2pg/RWvO6xPrfxc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=npgxZAqf; arc=pass smtp.client-ip=209.85.208.54
+	 To:Cc:Content-Type; b=nPmbiIaRMp27vGLMgooPJyxxqmF+Z6vEbuVQMDsIfPdJUJBakAFvSlqfuNqMQBSUxZtu/2laBZhHaKHIsoPMLy4xafwfXZpEP7FT0qW9ihzJpbbHoqw5sjkkFHYflPjjjrKc8PYK7h5gbEE9v+qaubPE8AS57DZ6wbXYlL8fbuA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LhGVSmE9; arc=pass smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="npgxZAqf"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-67c4aaf76ecso512059a12.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 14:14:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778879690; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LhGVSmE9"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so560685a12.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 14:23:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778880238; cv=none;
         d=google.com; s=arc-20240605;
-        b=FwQtSfO5ivVOcocJ5hFRjCiRQa9XQ7nFPeZKO3BigpA6efTf5YA5f1zRYkxS7BNm5O
-         YJ3uBc2lFEPQhrkDjRPM5A9oYwUG+bsc86bT5wn5YqrKaieSB2hLombJt0mCXyQvLwDL
-         v42lajxPx1oBlcaiPZLZcke9bRHQMZxt/OJj9EY8GK37y6pV1oKP+mS5wIRdMFyDLts5
-         zexhBTXa5b4iF6jW/LCqJr6TrHWoD0bmxhwwX/meJ/osN+HUFTk+cuFcuif3yccUSZ+0
-         pO9UH/ZqKfkIBRodN/0GflePaD5VFOS1GNwTFTlfHcFUAhBJLQiSclN9Ss+Ct/VVBreK
-         cObA==
+        b=B31NQjTUDijN9RUVOZfUSpfwnAC75ORaOwABHNzILljI/YAqYbsuGDo4xsLoA3+qJf
+         OvFeIDSVA3DCoZ8RfXvJ2EyX6uXJV9VPYYegFA82u/2kB96NvLDYwP9stgaV5XJ6Es6a
+         VscD2/q/waqqniIGIXwAZj8MxKqUS67pYLXzwLY95Dh55/gska9I3WeD5lFPTNgC0Px5
+         /72X534GG9fXdkyeZN4IQIif9Ok3wSmTeqUa7teGY8nWHlMWy5fpd18h2JBQeRsBVs1D
+         ljx7SQVnKuefRSVGmX8dvg531lj5UpzPj4Vuf/CUB67zSw/N8uGIxHw+7rhLdujxmoe+
+         344w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=bN2Odr3esQrA9SWUUUdwtrw2+pd4bqhfvSZwexzSm4M=;
-        fh=0ghpCQ/RTbrXAU89tXdFsk/zJx/5K6JQAixfDYKuve0=;
-        b=RoVoVRtRs9uKarDWGo8R/WZrnRv22c8ekdcrxJEUBd3l8vbGOaK4kVyFKlvYAvm7rA
-         a01PxzhvcX4lxHunG24tRNfVCz3CG+FMojJFzZVHvrLdr9eEaZ5li2AvqDsMPYTbGfCx
-         ubULAYu66y/YyNeJefX+TLWGwr/tnZxzNf5K39oMCw7AF9qHcD+SWUc6jJMCxx4NWAOh
-         HBA+ojUk2KATbbJhk8E5jpfuRtuHmTJNxvtY3mVX/3AmAPP5PlQgbB5A3KTLsq08+A5l
-         u/pTk50t2xm0aTyripAiUxYQnOCajARcKNofzbDzN4mvnqNEgCuEzS5r2TjCdyVVRZlh
-         tbUw==;
+        bh=Ciax+KscSHd+KM1eU71himblbHXGWQL8PXc1xnvj7EE=;
+        fh=5OzmEVwFWASD9/IAdyrl+yJp0xfcOvyeLpFVMTiCjWg=;
+        b=YMgf7R6JrFFQQ/sxrpk7GBGCyj92cq4h82Oco1eNB8vpKKwSjH5xjWryHaxLq1bgf7
+         snDwLo1Nu9TPWM9eQYriGJkrQnR2KH+LAUzURQEWzwiRejY6T0YO/ahUBbdtWFFqGDyO
+         tJK8Lr2QhMfHPqSXNXgl4PiZGJcHK/3Ri4B6BRxS/aMFu3cSG2CxJJtu+uxUNe525Ge/
+         jGQaR5iD5i+r3QCqB5UyuAZ+s1yLvnRgh2NSnjrrngvF4yjCL9NIVEgLcsjavMbhcoxi
+         qu6EMyQA5T5/Eekdu+BtlFu/v+p5LtDNTfJJcS0VXOVzmu3szuzjGlemWxNwyUNpdE+A
+         iWig==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778879690; x=1779484490; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778880238; x=1779485038; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bN2Odr3esQrA9SWUUUdwtrw2+pd4bqhfvSZwexzSm4M=;
-        b=npgxZAqfTOM5GnCh70rJKyrhTbaftRDDKFSla/zsUxlKuHiaz3Eiu/0gPpJJ+qowWS
-         eYNrztayvypqVwD1TcDVMBQ/z7U9F31FT1KY3BKfLRenzyYMr8Z8DD2P23llzXGQERSo
-         coFZzFCMixuTWTE1iwy7N7qYedX7Ay4xDHohktTf+aYExejaCJhjn868J1Sz35Y9crbO
-         JASXuvsDcKO3gkzIHHUU+B3187+h/j0R7GHsPzhE+qlGZl7U1DqzbVhi3pEwBu9/Q3MS
-         QfiefglaIDdqmYZJbDIXUEZJ80mYFAF9vVL4OstzG0pM2oPMYycuBf183PDYgt4zEcId
-         QAuw==
+        bh=Ciax+KscSHd+KM1eU71himblbHXGWQL8PXc1xnvj7EE=;
+        b=LhGVSmE99gS3ORgQrVmUb85v5c796nBc8jq1JY9L4Bpvd5EcuiFy+w367Wu0ND1+fZ
+         BiOzgXP/35Ebi9/ZoGi0nC9E7AJ66FlnyBtbRLo/wVWHRx48ceUM6WXc+ouZSclolsqa
+         TMg1amtLkil64HzyfResVTCsZW9+53+QhRkyYzQvOpbN18VdKde+j+sORD88wx1T2SoN
+         EtHdWHMTeNF9bQ1XPNaDEx6bnFXnp8f3n6kU4ues/U9277qEfBV93WXXNk6q19rAdltd
+         mvcvxeNZXEtcabaNtJzrWg2fG1c+Ot0XpHcYsidyK3dz6lLSuSFwT4Noap3jNnDKQVqx
+         oeiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778879690; x=1779484490;
+        d=1e100.net; s=20251104; t=1778880238; x=1779485038;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=bN2Odr3esQrA9SWUUUdwtrw2+pd4bqhfvSZwexzSm4M=;
-        b=iDpm6F8cdQk0fs76vwaY1oNqi6Q9j7TF5v+2IRodFTgkn+4rj3vSLN/PM1DX7km9yB
-         iDwOERomLk0ZoD3b2iZkMeYtkek78CUGaFxHu7GwhaeizkOqa2TCkxMnhqe1Hs1MDepf
-         X0hNSsbkdRCB50kjxAGQ1URU4uim01ySrusjgbo+sZwlceOaS4cNFFKKR2wzT4KnHFoG
-         EXPBzwPtgJJXm4k4w0SWoizb90QyVZWnkfe+AY8Bbx2JTOrq3zLfCAyCAq3rtU4QL44r
-         FKe2YI/BzB7XDJzKtN9aAtydiBKCxPadrqd0kIMzj1oXYFK1rClAUZO4x/zDqDQs/sgn
-         760A==
-X-Forwarded-Encrypted: i=1; AFNElJ+0KVTUt+fUr1vZMmQDxUhvSjfZtC5DMiy0jrs3w8KXcBcoWKWppjhfsA0ynBRDe44nmVD+crxYSEFNgcmC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl2eoIeSDfcyxAcx3sDWiyoFQeCYvYgZn+PvlZ2+307jTETprp
-	JTrfIsNXKCWO3MphZWyvGlLS5A4oNNPgIzeFFW3IKk5qd2LL8MLMqH41HjvBc18VMP4kc0BMEac
-	IZs2wAwymhaVO6pee1uUD7Idz91Ya1hY=
-X-Gm-Gg: Acq92OEeENLGug499A+WDw9E3boWdbCFHb6OQr4D/lVh2ANlNzSUWdArM4GliF5LJg2
-	ZFKn52jM0lY3HRsat4alhS38JeYSh8pNRyQOdE8EsYNCHiec48eF2shO2OhWIVQsyLROdrO0eqx
-	PgiTWd0BATyAaosyaDKu9ySe1JTd7Z7/YW/dhdKM/9fe6ZOeEdqJ87TQ9ECSYwjbJdfZjGN5i88
-	nuIFb9hsmiwzXJhEyVynfadkgOm2VxmwH2ONEag4PqqVfUzRtB5lv4VJy2JYkU24wta0WEici7L
-	A/CYIjyRRSV/2pGlrTIWLEasjE1uN2Xboml5bEbdCg==
-X-Received: by 2002:a05:6402:46d6:b0:683:1cc8:84ae with SMTP id
- 4fb4d7f45d1cf-683bc6b76e8mr3008766a12.7.1778879689943; Fri, 15 May 2026
- 14:14:49 -0700 (PDT)
+        bh=Ciax+KscSHd+KM1eU71himblbHXGWQL8PXc1xnvj7EE=;
+        b=BBRY1pDbU5aGwHJu0nVTXtTecdgZubXPMEKBxu7mkgRHa6qtIplEvmXXrk0WcRKmDh
+         bJwm4nV+DQSZVSqwtrwzVVPjnhs5HozvDxCULpNxrNupjgyqFRqCP9NGqxMD9tUC6WPU
+         lOJKV/iKU5Afwf+FvmqTM0AqDL93DzlsaNZa/q6B3iYJz2Ikoiic8AWHuUmqzZNhZAou
+         8d4c0LZ0YFBjEYY5+m4xEhrTo/EA8Uau/3yQVGvqLC0mxRc6tI+2KXe2UYCuehhwUgOi
+         VAEQW81CCrVAJzr6JYTWFZ21BNJfxDusoT6fpmFhBn0P7gz6dTvCRbk1zmGuexzjhGai
+         pXuw==
+X-Forwarded-Encrypted: i=1; AFNElJ9RSnbZi/8ZsguLoYh8uVesORPp8vQV9261YjvUlaMJEIIR7zWxqQzy7jQ0sdDOEKM4vlGmqKkmMSE4vfNk@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDKtst8GliE+M3xGNj4D/+zDXwpdfGcTpwGuKneJASdmRcm7hB
+	Ka1x6UizaEdVlyLedmfEyDiFTVrr/yBcj92ton9oIllSz1Sa/9qz8ZX1XiB89FibfxZXrdI2M8i
+	rHPo78QunB/uN65CqmQQ6uM1It7fgD4Y=
+X-Gm-Gg: Acq92OG1FUZL+UMWG67PUhFxahBdCnOyTunlS4NgkTQXQD9qQhaWA+VQq2DKgWQ+GFh
+	iDxfK8nXED8pm4jjJGQhpfR1bKHCX2xmNySgnRzgnKzevFRem2B16bMkGnTkFjVjxnkajQmomvp
+	YImXqc3K2SjYnXxjwO2A7anQsaBFeZzEw0DyOKNzg0UPRHLNDQuWfhxVPQsgLVqG2jvuOzdwn3I
+	O79k75q4OErd5zHMueWCpp0DbAkSXX1EHgc1EKyKMB+lXBo+kJxNWjkFv1rs/mrgFvP4QL4M1Yu
+	/rqbnyBMUBs2kvTVALrjony40nseHjtd5BHe6+VoGOnJ/klhjZf9
+X-Received: by 2002:a05:6402:5306:b0:66d:d0c1:f87b with SMTP id
+ 4fb4d7f45d1cf-683bc8ac52cmr2612530a12.10.1778880237485; Fri, 15 May 2026
+ 14:23:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,100 +82,35 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
- <177747206552.4103309.6736684975553576273.stgit@frogsfrogsfrogs> <20260514221439.GJ9544@frogsfrogsfrogs>
-In-Reply-To: <20260514221439.GJ9544@frogsfrogsfrogs>
+ <177747206595.4103309.11659424316192000821.stgit@frogsfrogsfrogs> <20260514221632.GK9544@frogsfrogsfrogs>
+In-Reply-To: <20260514221632.GK9544@frogsfrogsfrogs>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 15 May 2026 23:14:38 +0200
-X-Gm-Features: AVHnY4L-Ntf5QTc8e73PEBQcDqpRfuAunh2WSJB5bCVAbcLQMwr5aJfvjlmHXAA
-Message-ID: <CAOQ4uxj-JandJhCQ8VzsqqvkqCCenMFkAQxNwm9e2RRiqQqACg@mail.gmail.com>
-Subject: Re: [PATCH 3/9] fuse: allow local filesystems to set some VFS iflags
+Date: Fri, 15 May 2026 23:23:46 +0200
+X-Gm-Features: AVHnY4JvsEFYf6nuy33M9KsI0NCjzPcVO0uuSRahvxqaFc0lU0CExhl8ulhxrAs
+Message-ID: <CAOQ4uxh48-LP3pq0HmaF8DKC6rf7+F35rL_K5K0uEg+c-CHNpA@mail.gmail.com>
+Subject: Re: [PATCH 5/9] fuse: cache atime when in iomap mode
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev, 
 	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 15, 2026 at 12:14=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+On Fri, May 15, 2026 at 12:16=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
 > wrote:
 >
-> On Wed, Apr 29, 2026 at 07:33:51AM -0700, Darrick J. Wong wrote:
+> On Wed, Apr 29, 2026 at 07:34:22AM -0700, Darrick J. Wong wrote:
 > > From: Darrick J. Wong <djwong@kernel.org>
 > >
-> > There are three inode flags (immutable, append, sync) that are enforced
-> > by the VFS.  Whenever we go around setting iflags, let's update the VFS
-> > state so that they actually work.  Make it so that the fuse server can
-> > set these three inode flags at load time and have the kernel advertise
-> > and enforce them.
-> >
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  fs/fuse/fuse_i.h          |    1 +
-> >  include/uapi/linux/fuse.h |    8 +++++++
-> >  fs/fuse/dir.c             |    1 +
-> >  fs/fuse/inode.c           |    1 +
-> >  fs/fuse/ioctl.c           |   50 +++++++++++++++++++++++++++++++++++++=
-++++++++
-> >  5 files changed, 61 insertions(+)
-> >
-> >
-> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > index 95b37f4660cc1d..3b38b98dc0096c 100644
-> > --- a/fs/fuse/fuse_i.h
-> > +++ b/fs/fuse/fuse_i.h
-> > @@ -1651,6 +1651,7 @@ long fuse_file_compat_ioctl(struct file *file, un=
-signed int cmd,
-> >  int fuse_fileattr_get(struct dentry *dentry, struct file_kattr *fa);
-> >  int fuse_fileattr_set(struct mnt_idmap *idmap,
-> >                     struct dentry *dentry, struct file_kattr *fa);
-> > +void fuse_fileattr_init(struct inode *inode, const struct fuse_attr *a=
-ttr);
-> >
-> >  /* iomode.c */
-> >  int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff=
-);
-> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> > index b6fa828776b82f..bf8514a5ee27af 100644
-> > --- a/include/uapi/linux/fuse.h
-> > +++ b/include/uapi/linux/fuse.h
-> > @@ -249,6 +249,8 @@
-> >   *  - add FUSE_IOMAP_CONFIG so the fuse server can configure more fs g=
-eometry
-> >   *  - add FUSE_NOTIFY_IOMAP_DEV_INVAL to invalidate iomap bdev ranges
-> >   *  - add FUSE_ATTR_ATOMIC for single-fsblock atomic write support
-> > + *  - add FUSE_ATTR_{SYNC,IMMUTABLE,APPEND} for VFS enforcement of fil=
-e
-> > + *    attributes
-> >   */
-> >
-> >  #ifndef _LINUX_FUSE_H
-> > @@ -606,12 +608,18 @@ struct fuse_file_lock {
-> >   * kernel can use cached attributes more aggressively (e.g. ACL inheri=
-tance)
-> >   * FUSE_ATTR_IOMAP: Use iomap for this inode
-> >   * FUSE_ATTR_ATOMIC: Enable untorn writes
-> > + * FUSE_ATTR_SYNC: File writes are synchronous
-> > + * FUSE_ATTR_IMMUTABLE: File is immutable
-> > + * FUSE_ATTR_APPEND: File is append-only
-> >   */
-> >  #define FUSE_ATTR_SUBMOUNT      (1 << 0)
-> >  #define FUSE_ATTR_DAX                (1 << 1)
-> >  #define FUSE_ATTR_EXCLUSIVE  (1 << 2)
-> >  #define FUSE_ATTR_IOMAP              (1 << 3)
-> >  #define FUSE_ATTR_ATOMIC     (1 << 4)
-> > +#define FUSE_ATTR_SYNC               (1 << 5)
-> > +#define FUSE_ATTR_IMMUTABLE  (1 << 6)
-> > +#define FUSE_ATTR_APPEND     (1 << 7)
+> > When we're running in iomap mode, allow the kernel to cache the access
+> > timestamp to further reduce the number of roundtrips to the fuse server=
+.
 > >
 
-This feels like an abuse of the FUSE_ATTR_ flags.
+This sounds like an optimization that could benefit other non iomap
+servers as well.
 
-Seeing that Miklos wanted to convert LOOKUP
-response to a compound response of LOOKUP+STATX
-it would have been nicer to get those flags from fuse_statx
-only there is no STATX_ATTR_SYNC <WHY?>
-I shiver to suggest adding it to statx.
-
-Oh well, I don't know. It's up to Miklos to make this call.
+Specifically, if the server tells the kernel (who knows in which response)
+that the inode is NOATIME, then kernel could cache the atime value.
 
 Thanks,
 Amir.
