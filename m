@@ -1,164 +1,179 @@
-Received: from mail-43167.protonmail.ch (mail-43167.protonmail.ch [185.70.43.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B56403148
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 17:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544103E1692
+	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 18:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778866617; cv=none; b=LMk6sVhuIkQYxUrQ5E1OAQ3SeJlRcHh/tbw2E2fk5wC+H664v8hZeqW7Ua3iUqVEGaIdwEELVoRZGxkC/Jveq+zhM1UjstOpC3QRfOFMfkpCB3wsY0GTxwsuKUrpYuf4RJ9gbrhHG+C5tUxtQd/jX9raX2/0UEqSqy11LCAS15I=
+	t=1778869827; cv=none; b=X3jyzUZS3em2QiVavslEeTWxvyaoaFBNbG/5lQrN3EOWOZTaxcExe0QFG/tXoUmIl7MciX5otPZRfMQMzZldcZmfPeaIhTsOJ2t4hrEgA4pdA+RdkO/xmibO/LP15FE8zjynsesAxX6JLJHPHRHcq3aU7VQ5qcZN1W7BSxac/uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778866617; c=relaxed/simple;
-	bh=Yh61NuVXAuHNhb8mJhwuBLpQlNV3ivz2X9aK2VQ8e7g=;
-	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=SazHVPIPhg4CF9tRpZ/fskkEeO3MC68cNVkFnO+fz888soIcmdTBESiK5XhmAsxmRYotiNgo2KbaxbmsIdk20HfAoUsF/06UA7f5yD2fqiR/QwKlAyPO8RT3lCMVVfgf0ltn84FCimarJmeAwcyYr9pBwHqMbW2i4RWwYB1lRQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=b6vNpmxJ; arc=none smtp.client-ip=185.70.43.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1778869827; c=relaxed/simple;
+	bh=FJ1CmlQ6zsQ+MAOInKPXJ7AX6bhdHoCN86zCtwhXZnk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nU6kbYZHp/RTeav7eRAr4G7KTXytcqiUjMjT1gC1gXJsy8Flyqczsfm8nO4BufiOW/IG518BqlqQEOmSw+/K0A7uoecTCOyKRRZkJy19Cb93AcgQfCoHGYraikVzTldB/Fdlm3LkQha/qJdxKfn1xOYIEJr9Bc/O6CT02cluvE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eF8KJQqi; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="b6vNpmxJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1778866610; x=1779125810;
-	bh=Yh61NuVXAuHNhb8mJhwuBLpQlNV3ivz2X9aK2VQ8e7g=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=b6vNpmxJEIMnzvRTvHo+wyDG3Mer/auzfJ65/1jSouu/aIxsvihHlw+2gB4ZG1Bvv
-	 J5CDbVpUuBwj7GR2R3DqImmfvGV481kO05gwK8Tz9o7YutYPMUkATfRRjMHBvLws6R
-	 emg99Fbd5V6Te3iNAnT9HfF9a3H/LgPD8OYDdXfrfJ/E4fXyJapt527TbyeXI6ljGW
-	 j0dz6f7xzbIeZJryNsr7nicp6vXL8bXkY7UAV/I2BoJuhC6KulgCeRB8shEj2VkFHV
-	 76Rax9s0zcRe+kjhZx3bX5AaypIKy9W6s0RSGKVuPJZgg6YhagW5yQFcV27RE6w4Wi
-	 CZHKvvFynZdJg==
-Date: Fri, 15 May 2026 17:36:45 +0000
-To: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-From: Cyber_black <Cyberblackk@proton.me>
-Subject: [RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP exposes identical data unprivileged
-Message-ID: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
-Feedback-ID: 117998405:user:proton
-X-Pm-Message-ID: 8d368b2e39cdc5099e9caadadaad2cf5206606ea
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eF8KJQqi"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48e6db3ff7eso678345e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 11:30:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778869815; x=1779474615; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bGg9AfFIHCQMhNpGBqKuAPyLtBd2s31DOya6UeJpRsE=;
+        b=eF8KJQqibjj74DPejC5OBynfnjR13KWslNh0CwKYoHa99ltu7nt6/f4QFm/W7bms4D
+         925Z381ODL1h1aCG3XxuEcprQ5hpfVGneAzV2tEWPsbcsYgL3oEyUnDOVPWrc0hBoAOD
+         yUcTbd0+MEoVwU5ANvicxAl9V3/USqIq+3XjjuLr1hDx3gak7ny2y7P7cpVMojVz1z/9
+         3bZkb3e8dMiCsB8KkD+q2f0pU41bnPMQHoyCADztJzYfS8AAgtnfJSUCQhLMZo040Apk
+         RqlICK5NXkmB7MGbkgcLvTcl/XHghtverAuj/aByUmGrYUn5Hv51il0Smapio6Cgel0O
+         qiuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778869815; x=1779474615;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bGg9AfFIHCQMhNpGBqKuAPyLtBd2s31DOya6UeJpRsE=;
+        b=Z9IyfYukchZQWD7w9bbgNLQeOlpnXK6jArho2K6zspxxnI9zZpv+YK2O6WZpbM3Y7B
+         iOoJlQRE7lQSIb7oYIIGLiLu30IW4aLDhsILK+TnPJBCM9g/61d6GEMJHwK5Xl6IUV9y
+         t1xLdlYLMpt6VF0Nax6Cc00aF2lum9R2J+07nAmntesITNf48J8F10aLFcpx5h6YCs+1
+         jqH3ww+pnd50MymvFtbrjxUp0b9JVqFGG+t6BrayhovrIP1HJKUGtnbY8WRbqK+Hqsr5
+         t3GLDonhkdUebAa6WkocbUzkxyHjSFSefK0seYrRloLmAlnybtV79TS4uWXCLaecVDpv
+         WFtA==
+X-Forwarded-Encrypted: i=1; AFNElJ8EGYIqOSX4u2OQI3sniTS55SMu/mXUNGWysGBtO2YLznVVgeVYf86SjeXGd3C9ANY/eXU8l/Ec1M9f5gID@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxplMF92xfG4pE9Hs8lIMUVjNdwe2frMY+7L3dbMYwO7chIeQJ
+	1qtaPb7S3AjnBPw/xlVVvy5ujJz77xABx1QXhohxgZrHI6nH3Aq1DWkj
+X-Gm-Gg: Acq92OERQh6UcGOyoPHlPez25Ihr8IEPfGH4GJ7OLB3k6GdWpF6RYcROaJLS/0/R8z2
+	PJaWOUGFaEWSWZi/FmO0dU8HGqYeW4XKtVBz2eHnaL3CH7WOH0YR2qxaoSrT2MlGGoAPEj/fIa7
+	1Ys1odPn3bCIfDz9UKHxXaezFdHj9W6nLu8qhQqm5lhzUJfKaw8bPXFs6m6UY9Ix5PrnU1RRz4a
+	zMYcqS9tiVoOkpyetx7kholc7vxnLUczK3v3wiJaFJNy7t0yrO+lrg61CeIt0ek/kqABmgDgPas
+	/dZZVVW5Gj8yNYAhiPdIG/KyeEV+2hB3a8Ej5BLN5Hob69k/fd54DiTmlced05rQnSDVHGkLIu9
+	rO4J3/vzU8QIDGs0z5N5mHce7TSfAQtUFSv6jBaQkAna0yYO52aHSaCQ/G2nLsrvTfyx+v9Ppx7
+	6nxPGowYZadUueWZSKJ/DIDsC2C62AQHLENx27RTxnmNCmFI5fmyqvMlb2rOdX
+X-Received: by 2002:a05:600c:470e:b0:489:201c:dc46 with SMTP id 5b1f17b1804b1-48fe60ea590mr70278195e9.12.1778869814718;
+        Fri, 15 May 2026 11:30:14 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4862209sm78901635e9.0.2026.05.15.11.30.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 11:30:14 -0700 (PDT)
+Date: Fri, 15 May 2026 19:30:10 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Al Viro
+ <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>,
+ Nirmoy Das <nirmoyd@nvidia.com>, linux-unionfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] err_ptr.h: introduce ERR_PTR_SAFE()
+Message-ID: <20260515193010.056ef472@pumpkin>
+In-Reply-To: <20260514200129.94862-1-amir73il@gmail.com>
+References: <20260514200129.94862-1-amir73il@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 14 May 2026 22:01:29 +0200
+Amir Goldstein <amir73il@gmail.com> wrote:
 
+> Code using ERR_PTR() is almost certainly intending to produce a value
+> which qualified as IS_ERR_OR_NULL(), but this is not the case when
+> code calls ERR_PTR(err) with positive or large negative err.
+> 
+> Introduce a fortified variant of ERR_PTR() whose return value is
+> guaranteed to qualify as IS_ERR_OR_NULL().
+> 
+> We add this in a new header file err_ptr.h which includes bug.h
+> for the build/run time assertions.
+> 
+> Subsystems may opt-in for fortified ERR_PTR() for specific call sites
+> or by #define ERR_PTR(err) ERR_PTR_SAFE(err).
+> 
+> Link: https://lore.kernel.org/r/CAOQ4uxg=gONUh5QEW5KJcyXLDF15HbLnc9Ea7RKPcgtyfPasTA@mail.gmail.com/
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> ---
+> 
+> Guys,
+> 
+> Please follow the Link to see the sneaky bug that Nirmoy tracked down.
+> syzbot has complained about this a while ago, but neither me nor my AI
+> helpers were able to track it down from code analysis.
+> 
+> Honestly, with AI review, this class of bugs (return a stale err value)
+> should not be happening anymore, but it annoyed me that ERR_PTR() can
+> return a value which is not an IS_ERR(). It messes with code flow
+> analysis.
+> 
+> What do you think about this macro?
+> 
+> I intend to #define ERR_PTR(err) ERR_PTR_SAFE(err) in overlayfs.h
+> to fortify all of the ERR_PTR() in overlayfs code.
+> 
+> What do you think about this opt-in method?
+> Any reason to make this more widespread by default?
+> 
+> Thanks,
+> Amir.
+> 
+> 
+>  include/linux/err_ptr.h | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>  create mode 100644 include/linux/err_ptr.h
+> 
+> diff --git a/include/linux/err_ptr.h b/include/linux/err_ptr.h
+> new file mode 100644
+> index 0000000000000..829ec5f771528
+> --- /dev/null
+> +++ b/include/linux/err_ptr.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _LINUX_ERR_PTR_H
+> +#define _LINUX_ERR_PTR_H
+> +
+> +#include <linux/err.h>
+> +#include <linux/bug.h>
+> +
+> +/**
+> + * ERR_PTR_SAFE - Create an error pointer, with validation.
+> + * @error: An error code to encode as an error pointer.
+> + *
+> + * Like ERR_PTR(), but validates @error:
+> + * - For constant @error: fails the build if the value is not a valid errno
+> + *   (zero is allowed, producing NULL).
+> + * - For variable @error: warns and clamps to -MAX_ERRNO if out of range.
+> + *
+> + * Subsystems may opt in for all ERR_PTR() call sites by adding after includes:
+> + *   #undef ERR_PTR
+> + *   #define ERR_PTR(err) ERR_PTR_SAFE(err)
+> + */
+> +#define ERR_PTR_SAFE(error) ({						\
+> +	long __e = (error);						\
+> +	if (__builtin_constant_p(__e))					\
+> +		BUILD_BUG_ON(__e && !IS_ERR_VALUE(__e));		\
+> +	__builtin_constant_p(__e) ? (void *)__e :			\
+> +		(void *)(WARN_ON(__e && !IS_ERR_VALUE(__e)) ? -MAX_ERRNO : __e);\
 
-Hello Linux Team.
+The object code bloat would be noticeable if this were used everywhere.
+But you could make it a bit simpler:
+	if (__builtin_constant_p(__e))
+		BUILD_BUG_ON(__e && !IS_ERR_VALUE(__e));
+	else if WARN_ON(__e && !IS_ERR_VALUE(__e))
+		__e = -MAX_ERRNO; // Or maybe -EINVAL to stop and other boundary errors
+	(void *)__e;
+ 
+The check for constants may be fairly pointless.
+One of the static checkers may already detect the obvious fubar ERR_PTR(EINVAL).
 
-While reviewing fs/ioctl.c I noticed a privilege asymmetry between
-the legacy FIBMAP ioctl and the modern FS_IOC_FIEMAP ioctl. Both
-interfaces return physical block addresses of a file on disk, but
-their access controls are inconsistent.
+-- David
 
-=3D=3D The Inconsistency =3D=3D
+> +})
+> +
+> +#endif /* _LINUX_ERR_PTR_H */
 
-FIBMAP (fs/ioctl.c, ioctl_fibmap):
-
-=C2=A0 =C2=A0 static int ioctl_fibmap(struct file *filp, int __user *p)
-=C2=A0 =C2=A0 {
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!capable(CAP_SYS_RAWIO))
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EPERM;
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ...
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error =3D bmap(inode, &block);
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ...
-=C2=A0 =C2=A0 }
-
-FS_IOC_FIEMAP (fs/ioctl.c, ioctl_fiemap):
-
-=C2=A0 =C2=A0 static int ioctl_fiemap(struct file *filp, struct fiemap __us=
-er *ufiemap)
-=C2=A0 =C2=A0 {
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* No capability or permission check */
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ...
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error =3D inode->i_op->fiemap(inode, &fieinfo, =
-...);
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ...
-=C2=A0 =C2=A0 }
-
-In do_vfs_ioctl(), FS_IOC_FIEMAP is dispatched directly to
-ioctl_fiemap() with no capability check (line ~530):
-
-=C2=A0 =C2=A0 case FS_IOC_FIEMAP:
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ioctl_fiemap(filp, argp);
-
-FIBMAP is routed through file_ioctl() =E2=86=92 ioctl_fibmap() which
-enforces CAP_SYS_RAWIO.
-
-=3D=3D Practical Consequence =3D=3D
-
-An unprivileged user can retrieve full physical extent information
-via filefrag(1) (which uses FIEMAP) but is denied equivalent data
-via FIBMAP:
-
-=C2=A0 =C2=A0 $ filefrag -v test.dat =C2=A0 =C2=A0 =C2=A0 =C2=A0 # succeeds=
-, shows physical offsets
-=C2=A0 =C2=A0 $ filefrag -B -v test.dat =C2=A0 =C2=A0 =C2=A0# fails: "FIBMA=
-P requires root"
-
-FIEMAP is strictly more capable than FIBMAP: it returns byte-level
-physical offsets and extent flags in a single call, while FIBMAP
-operates block-by-block. Protecting the weaker interface while
-leaving the stronger one open does not improve security.
-
-=3D=3D History / Rationale =3D=3D
-
-FIBMAP's CAP_SYS_RAWIO requirement appears to have been added to
-guard against the information leak of physical disk addresses, which
-can assist in certain storage-layer attacks. FIEMAP was introduced
-later (2008, commit f28a61f) and was intentionally designed without
-a capability check, trusting that file permission checks on open()
-are sufficient.
-
-If that later design decision is considered correct, FIBMAP's check
-is now a dead letter -- it only creates user-visible inconsistency
-(filefrag -B vs filefrag) without any security benefit.
-
-=3D=3D Proposed Fix =3D=3D
-
-Two options are possible depending on the desired direction:
-
-Option A) Remove the now-redundant CAP_SYS_RAWIO check from
-FIBMAP, aligning it with FIEMAP. This eliminates the inconsistency
-and allows tools like filefrag -B to work for normal users.
-
-=C2=A0 =C2=A0 --- a/fs/ioctl.c
-=C2=A0 =C2=A0 +++ b/fs/ioctl.c
-=C2=A0 =C2=A0 @@ -58,10 +58,6 @@ static int ioctl_fibmap(struct file *filp,=
- int __user *p)
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct inode *inode =3D file_inode(filp);
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct super_block *sb =3D inode->i_sb;
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int error, ur_block;
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sector_t block;
-
-=C2=A0 =C2=A0 - =C2=A0 =C2=A0if (!capable(CAP_SYS_RAWIO))
-=C2=A0 =C2=A0 - =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EPERM;
-=C2=A0 =C2=A0 -
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error =3D get_user(ur_block, p);
-
-Option B) Add a capability check to ioctl_fiemap() to match FIBMAP.
-This restores the intended restriction, at the cost of breaking
-unprivileged use of FIEMAP (e.g. filefrag, btrfs tools, e2freefrag).
-This option is a larger ABI impact and likely undesirable.
-
-The preferred fix is Option A, since FIEMAP has been available
-unprivileged since 2008 with no reported security issues, and read
-access to physical block layout is already implicitly available
-through open() permission on the file.
-
-=3D=3D Test Environment =3D=3D
-
-=C2=A0 =C2=A0 Kernel: =C2=A0 =C2=A0 6.1.0 (Debian 12 / Bookworm)
-=C2=A0 =C2=A0 Filesystem: ext4
-=C2=A0 =C2=A0 Arch: =C2=A0 =C2=A0 =C2=A0 x86_64
-
-Tested by calling both ioctls directly via a small C program and
-confirming ioctl_fiemap() returns physical offsets to an unprivileged
-process while ioctl_fibmap() returns -EPERM for the same file.
-
-
-I am happy to submit a formal patch if the direction is agreed upon.
-
-Regards,
-Eneshan Erdo=C4=9Fan Karaca
-My github:https://github.com/Kisaca-Enes
