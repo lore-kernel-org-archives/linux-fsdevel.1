@@ -1,150 +1,117 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040A93FF1D8
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 16:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CE43DB633;
+	Fri, 15 May 2026 17:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778862872; cv=none; b=QMiMCg4NYwWI/2J3zrlWHjzIP3OQCnKdzfy+Q56D4ENmiiURpd0wBtZDlInBZK5k2hl+KuFTYGhojRViO6lQn2pPBndcTXBbXP77Go2UOxAGLr74Dsh60pnfMOgpGBWJ+Qiy0a7fLhw+kqoxgh/5P3rcZdrzZ+fzYYdqSS4Uch0=
+	t=1778866111; cv=none; b=SJJSIduqsV9jzFPfDWULgn+Z+kP/jhpVJP3sWX6ZU2aA2LiRiB9/hiR22Q0e40pQiPhlOoHImpReR8xMuSt9xTlxxwNzNvcm8qtNLRyZEY+o0kk9dF6PPy0a1GbG4DIN2G+kqj8/fju7jVzzpjnVOjHHMme37wGk7lDJyAyPebU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778862872; c=relaxed/simple;
-	bh=xlcAFzQ5anxdBg4vLnjX9Kl2UmzhDPu4qRy1NeSloO0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jSQTb/LJ52idvNFOyu65atakggqFsjM/X4sLA13Jek7WUoDDHIHco+zqbpNlhBICLfk5tQZg3VF92LtM+nr0+7MHi82NyrsYjrFS3lwFryHUdgBaM9IUvXgkvTSeKhZMYgotdiql14kMC/KVC81B6l7yJybMeosIefMKmZMTKJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OrzDM2/H; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778866111; c=relaxed/simple;
+	bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Hq8Vx5zhnpA+cpjeMx2rrYhd5Z4+cEgJZ5xl+S+fGBV+QXA6cQRCze+Aa6nskwiRrksb4Ri2nW2amGFDtqbOJyyIQBNtdcHjajzOr9tJo5SBrNHs4gFZ1hnbaa05qxGfnONyW/cPeULJeaOOak4KeUIBk3TUbxYq3jSmjjk/3Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4S5BGfG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OrzDM2/H"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-90ea08cc5ceso6032185a.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 09:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778862869; x=1779467669; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=N8oJHB857643S9JSuhJvdTYsAdyjAOzUqURlAvQ8IEs=;
-        b=OrzDM2/HIryf39tzUSyyw3A7J6u8yW/KezdNYqomxFdS3flS0lEEI6HuFEz5UemvnB
-         +++RKMEcoKhCh9B9KCT7BpXWb1/Vx2b4fctMyRBhQM6IYl1qDCa+VU6UHO+l1gmpWRRJ
-         ngUvXBD7e9jMC30m0jio1iO3QrRNU8jiETrRcVt5gbJNi1YJ94GNPmDXY36IAP9ZV3sT
-         vDhL6A2xhWzY2lsymd1gzykBcXm9Y46Tx5LQeUDzHyncau/JV2E/SkuMRDAoaYapS1j/
-         h8hKe4ANMyDkX3It4alrj0NantEqtCAuqgUVShHcCqa5KrHnHusl5HuoHyD+flpa2pAp
-         fuCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778862869; x=1779467669;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N8oJHB857643S9JSuhJvdTYsAdyjAOzUqURlAvQ8IEs=;
-        b=gUSVmf370vuT3pYoO24iU4txINuoHHE0Y6O8A2mMFhaz8LovdN4qPRJ6OYHtTz0NzQ
-         5XMUCd3AtNald1j8/yFmU1fHAgUId7BHonIlJGStxyiGACgYjgD40ra04/eWq4rbW3jq
-         WUmS0iouss1htisiYuJHz04Cd07pPTW6jh8SyimH7yvXPybhykqQNE51SMKexgMN5n9D
-         vPR+TH1jn8vkMRVRCzpLvJA+iaSjb4Qf308UaIoPm1b2DMfWG2ijbznfQgrgvDKiUAGM
-         bU+lj+5WYz6b5kc1E//2/iimFBFiS/5ProGEeL7rIt/5FBuZDe3xlSHaN3z/4U+a+aYP
-         gFHg==
-X-Forwarded-Encrypted: i=1; AFNElJ/Er+ScktDSdhqOf52JAWtYtZXUh15p1G8ho0JZrouVxMqHdT/9DcHUfbEJDAu1Ph6NdMX3qOz5USXnx2VG@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxw0TV2HZDqL/vckrSNljv+FnvuKcUnIztxevUDKdYGtxJyhbye
-	HHBc3um1LO43zZdHI5i1y6SBhXFLzmIjBZSkq2CjxfH8Xq4r+zdPl+4Y/hzRFGrI
-X-Gm-Gg: Acq92OEBxA4OGawD4dXtBPpgkqxdVyTAPkGg2JMOH7Edt5Xa/g5tTf3kEb4kHrfzLBr
-	B0VsWvPjNH3zOus7qRUT6YsE0YHDNKRyvAkRN4PB5W5OTC/sOD6M/3Me+OnUguzwqvCzmJgztLD
-	/aSvhr6Z13gpdqoiDSGJhrJ9QDlmOQ8VE3bLKvEp7k5CMeNurFc5tNKAphlIzlVn46LoP55kSMt
-	9+pIajXxnJJNX/XVlTubNkJQTIJPXMKYKSO1pOoIdyO6Ryf+UZUTSok4Xo6HJhu8yVDcHM0/EvX
-	eRPzh+mTCekrjRbJu45EucBjUjK52HlzUCLK+LIg1RoNKzBkNFkatUwwUPJZnbx9Z2JNWa2WBl7
-	UF86tCNbiwy/1JFqdWuSneHZcaH+yVnhzfBgSMPtUR508j4vaZk/sRLyCxGcLF/nEUhR1dxZu+P
-	69kKgP9sYsQ/Xo4bBbVqTLAI1mIcjJ50AbR/torXNVVaKvRnJSUK/xkCyJwdkaQ4ZSq7jDg4IEq
-	Sc4jT3kTzYPARk/qKjTHoNtW4nvNOisRrsImPUmqnM=
-X-Received: by 2002:a05:620a:6307:20b0:912:1:b413 with SMTP id af79cd13be357-9120001b670mr481513885a.15.1778862869007;
-        Fri, 15 May 2026 09:34:29 -0700 (PDT)
-Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba1825dcsm585339185a.2.2026.05.15.09.34.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 09:34:28 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4S5BGfG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B301C2BCB3;
+	Fri, 15 May 2026 17:28:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778866111;
+	bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=o4S5BGfGV7mF3EIDJqFVfk94MakVX0AwugNb0q3/oGoth3vtcR7pWTRYVgx3d0yP9
+	 5M4Frvkz0unHa+uXgYucqPkKEqQI6I4clyT74STQYalT2HH9rB2URJssdCGbGfkIaK
+	 1bUvTduab+MPdMMd1ledWI9GjvhlmIHyqf/c8/c6z87ie+pFMQH0RlGMHAwTEhccV9
+	 0Cgw0KXczy8aSYYR4Fov/HbjEfaOF0eGw+cnxPlaUrCRFtkTX7+Y6LBf8DKDjlJWNy
+	 fns+LrexF1eJQ9Ua8H0R6QpTQh0xxHhPApx1OYVEdElP4mGrE5XH+IVjYwEdDYV51k
+	 b72j2nuombsxg==
+From: Christian Brauner <brauner@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Calum Mackay <calum.mackay@oracle.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pavitra Jha <jhapavitra98@gmail.com>
-Subject: [PATCH] fs/ntfs3: bound NTFS_DE view.data_off in UpdateRecordData{Root,Allocation}
-Date: Fri, 15 May 2026 12:34:24 -0400
-Message-ID: <20260515163424.1575298-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-nfs@vger.kernel.org
+Subject: Re: (subset) [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in directory delegations
+Date: Fri, 15 May 2026 19:26:19 +0200
+Message-ID: <20260515-weltschmerz-folgen-68ca0db1ef84@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
+References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2210; i=brauner@kernel.org; h=from:subject:message-id; bh=PvUD325b83v1aoZjyXLETyi/+y+Vj2YZBqPuYxgSsog=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSxh2/rvV30XP8k/4WyL9XyVztMAzhc1rn5ab7aEnxde XXB46XaHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABOZ9Z+R4f2SI19eTWPu+PQo ++pV5uNMG5PynwtxFX4OPTf/HlOkjw3D/wJ3sxAx1bfnbLikdqjf57MInRG8OC0kZl2e+rRD2aH M3AA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-In do_action()'s UpdateRecordDataRoot (fslog.c:3489) and
-UpdateRecordDataAllocation (fslog.c:3697) cases, the memmove
-destination is `Add2Ptr(e, le16_to_cpu(e->view.data_off))`,
-where e->view.data_off comes from an on-disk NTFS_DE inside
-an INDEX_ROOT or INDEX_BUFFER.  Neither case validates
-view.data_off + dlen against e->size; the existing
-check_if_index_root / check_if_alloc_index helpers walk the
-entry chain and validate the entry's offset, but not its
-internal view fields.
+On Tue, 28 Apr 2026 08:09:44 +0100, Jeff Layton wrote:
+> Re-posting the set per Christian's request. The only difference in this
+> version is a small error handling fix in alloc_init_dir_deleg(). The old
+> version could crash since release_pages() can't handle an array with
+> NULL pointers in it.
+> 
+> ---------------------------------8<------------------------------------
+> 
+> [...]
 
-The neighbouring read sites (e.g., fs/ntfs3/index.c when
-iterating view entries) check view.data_off + view.data_size
-<= e->size.  Apply the same bound at the two memmove sites.
+@Chuck, @Jeff, I've only merged the vfs specific changes into a stable branch.
+You can pull it I won't touch it again. You can pull the nfsd work in in
+whatever form you like. Same procedure I use with io_uring et al.
 
-Reproduced under UML+KASAN on mainline 8d90b09e6741 via
-pr_warn-only probe instrumentation: with view.data_off forced
-to 0xFFFC, the memmove writes 32 bytes past the end of the
-NTFS_DE.
+Let me know if that work for you.
 
-This is similar in shape to Pavitra Jha's 2026-05-02 patch
-"fs/ntfs3: prevent oob in case UpdateRecordDataRoot"
-(<20260502105008.21827-1-jhapavitra98@gmail.com>) which
-proposes calling ntfs3_bad_de_range(); that helper does not
-exist in mainline.  This patch uses inline checks.
-
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-7
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 ---
- fs/ntfs3/fslog.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
 
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index acfa18b84401e..127860fd2ab50 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3497,6 +3497,18 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 
- 		e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
- 
-+		/*
-+		 * e->view.data_off and dlen come from the on-disk
-+		 * INDEX_ROOT entry / LRH.  The neighbouring read sites
-+		 * (e.g. fs/ntfs3/index.c) check that
-+		 * view.data_off + view.data_size <= e->size; mirror that
-+		 * bound here so the memmove cannot reach past the entry.
-+		 */
-+		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
-+		    le16_to_cpu(e->view.data_off) + dlen >
-+			    le16_to_cpu(e->size))
-+			goto dirty_vol;
-+
- 		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
- 
- 		mi->dirty = true;
-@@ -3689,6 +3701,12 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 			goto dirty_vol;
- 		}
- 
-+		/* See UpdateRecordDataRoot for the rationale. */
-+		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
-+		    le16_to_cpu(e->view.data_off) + dlen >
-+			    le16_to_cpu(e->size))
-+			goto dirty_vol;
-+
- 		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
- 
- 		a_dirty = true;
--- 
-2.53.0
+Applied to the vfs-7.2.directory.delegations branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.directory.delegations branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.directory.delegations
+
+[01/28] filelock: pass current blocking lease to trace_break_lease_block() rather than "new_fl"
+        https://git.kernel.org/vfs/vfs/c/89330d3a60f7
+[02/28] filelock: add support for ignoring deleg breaks for dir change events
+        https://git.kernel.org/vfs/vfs/c/24cbf43337f4
+[03/28] filelock: add a tracepoint to start of break_lease()
+        https://git.kernel.org/vfs/vfs/c/e39026a86b48
+[04/28] filelock: add an inode_lease_ignore_mask helper
+        https://git.kernel.org/vfs/vfs/c/95825fdcc0b0
+[05/28] fsnotify: new tracepoint in fsnotify()
+        https://git.kernel.org/vfs/vfs/c/ad4489dcd08d
+[06/28] fsnotify: add fsnotify_modify_mark_mask()
+        https://git.kernel.org/vfs/vfs/c/12ffbb117b64
+[07/28] fsnotify: add FSNOTIFY_EVENT_RENAME data type
+        https://git.kernel.org/vfs/vfs/c/010043003c0c
