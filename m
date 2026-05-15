@@ -1,71 +1,71 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3573B19DE
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 16:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56002949E0
+	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 16:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778862842; cv=none; b=WjBBz6nP5gqRSsVO9rEBuwqFtWFozy66bJK6Ecuu7/Qc97Ha18KutMRQ2eaqNpSD2RqVluFIyiX+mt2zHQwRm/e+Y+BU03GdtOBNRkATTXrumHgMd3NDhDIZEGCDOW0Ee4meQDfjr7RSVcOZcO8cSWiIzZtImxYc0iFusva4SfY=
+	t=1778862853; cv=none; b=T7SaVhZQQE1zWqNidWQe1pZ8/wpx3bw7NJwPdrZUF452f5JZQSnlvTZPXQ7q4egIuAA8tLzGXHz74W625CzQ6FtlJa7SWwPT76hTroLYeV790+fBUjtcPD7GU00Rh7ehN1EAj3rjl5mem23JKzj+wUJhGOAch4z29zRodE6PjJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778862842; c=relaxed/simple;
-	bh=3FlUiIkq8nNfO4gEt6qM3i6l+lwaCE8lbOgVEylPzeM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mIuAQxhX0XPUzziYPkZ51LSdtf2doQ5VttngPMp7dubsF2KMjH31lgJEVUXqK9XO8SyfpeAhAw+xcQRduXqk/8dvg9rqs4IInCXKbTbxODNTtx4dwuEqU12gGZd/rICJZbEDgThKNGg2oDpN2nvjXrgVfsNgLVFslpB5NoxOdvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMoZjGjZ; arc=none smtp.client-ip=209.85.219.42
+	s=arc-20240116; t=1778862853; c=relaxed/simple;
+	bh=7Df2gMCwHySOM5tzzLwMPrmlUXYyTp68cLZgj5pJeVo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=COzisPX/lY2Yjyk73oGnAfd7aTtVqY6LdqCHXh1ZyXUp2cM96h60rQ0fQ+IIJ2sANeV/6+FkvGlnlOYQlV3NQlqMTjz14SaQXnRECkcptrDYqLogn7mr7Wz6Ln3DZAnK9rIO1V0SwRVPyKSWG+WmTE7NshSoK5U/z878LhTqRrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MjTpkg2g; arc=none smtp.client-ip=209.85.219.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMoZjGjZ"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8b4eb1fd5d0so92353536d6.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 09:33:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MjTpkg2g"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8c92737a8d3so13836586d6.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 09:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778862839; x=1779467639; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778862851; x=1779467651; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o3vUVjM/dzC2z0GaCVAFpFXQRqsDU20UVZqnjmL8hhQ=;
-        b=hMoZjGjZIKR+vAnV60/kNb2odjlLcx062PUD6vqMepsFqnP0s0Svzr1fvtEN5iCcNA
-         KhtLf4rFs6OU4ElzNRW9aPnJUbUG+rC6BoJ0eLRVLRlqclOVWho05UxsM5ACXUK01OTi
-         QT42ZrT1PsXbQx6+m1SiRZIIJVf4VZbGmNBoUGm4c+ySKWOuwKK85jWAOQIXscjImkva
-         H49smTmcBLJU/P/HpZ4WKpOfFpnr3atlyxUdsPAx+0Z8IC4/loo66jst1xxFd8nESAUN
-         ukjk5KEFJLHhX4DHQCuu86SK7gQOZbsr8bA61Jh/Oc/JBbfOpP3bL2WA2b5fji0gEeeQ
-         Jhww==
+        bh=6NAfPYKbFnWXLt9agv/gcIEWKO0+qxbRSgNKDk/o5mk=;
+        b=MjTpkg2gLh/Syl0Q2c9bxqsa/eS5yD/E2ORxg6yeAytGfD9byfv9AN/Upk2AmSQkrC
+         f4qCxnanQFk3n7P8FgizLycRkdgSlk38jawOc5TLNDY8sixqLUE2S+LgdjRPsHiQgWk3
+         Quzi7Z1+6CqKa8BwWIOlMK4SbCEj1BQ8WeKuqvaJI9BUx1y/f6G2o3JZaJDYOthzWUqG
+         zvkCcKei190ee+akcTJs6aVS5qWddqnQfN/lFBwxCQWUjTh0t8ipZZwAtZ4yOgnYrUOR
+         aNYRaZZMbsdnWq9rCb+yHk/34ISvmUHDcC1s20VZOtk8UZmfhmITIn1Mmu6DQPyb3ZYa
+         pIAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778862839; x=1779467639;
+        d=1e100.net; s=20251104; t=1778862851; x=1779467651;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o3vUVjM/dzC2z0GaCVAFpFXQRqsDU20UVZqnjmL8hhQ=;
-        b=caRY8usvgZrWULgvsISuBE7n66r5UCWH7nXL7KnTjGmx1xfsltYnSOtUHIevji+bJf
-         8RW/RRMEUGDDx9SdnXxtAqRq0Pbh5MhIh5AhuN9yQRwRUm+GUl5lnNk4qqHsIh2Vk8p1
-         Vdu93cO/8D4iGX9lPklOraMjhIiZZjKyfdX3A3La+7jBQj8PGoaiSPLD+NyVkXnTAELv
-         7AoNs68qRl8iQUOG90Ta8edr4ehddNlq8f+4aowFma+TdrppCiNro/FwT7FHk7P8nf1E
-         uxn2/oFVKvwjSzW1KZ+8BhRQ3XAUFAbOrN5ELcQlxfpdrgCeSr+8PI7lt97wVmggxL+B
-         I2vQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8pX7YFIqLfrB095Gyk0F+u6wXTNqZ4NCD3sW0tkzIvNe0G0N6exEH6jyaEiiVHm4xpGA3j8N332ejAi44Z@vger.kernel.org
-X-Gm-Message-State: AOJu0YwExldUAjomMkahfEUp2B37pCpjcQuCFNZjC2+jHoddBdcNmvDf
-	qYayFFR8TFv24nvzs7fAePdj8sVbwkYAJGQctwQLhqOPPDQQ6Ugc46ycKtWHiJ4x
-X-Gm-Gg: Acq92OHGNk+/Z0uXUFStQ0hQP75og8w6yJ7AOtogisc0N+Bcxvb7k7VQ/MYx6k1Y6kQ
-	VeSSwoezQn//Fkk+OhSKBVFbWY8urU/fwB7Mt15cilKdwrRM+XD8D/piLNbuMfOLxfEWWsSQ/Pb
-	MhFkeFdb0opdUILc8wYfkM8v5bRjwHZYQHtc/o6PlF5TcEbxO4ASrzOGqgX1a8E9vN18C35YSxr
-	n/YxcYA8sIUCOtJKdvUNAPLs/j2V3ZCfdC5CdRW6rjL1Tn6wAaKY7A8b0A6B6vhmeEdX+4pmsIK
-	mofXL3RyJQIWCz93AOynKkbizaAkZzUhuhbYG5Dn/Vl5OA+9kopOW3azX6YO8Ng2K6a7VT6LwKo
-	Txfw/Wp6704lFtEFUkxEPeShiAHXFzYzc11hNcut7LUkw6QFb2+/y+flLVP7AbrCAYL07fDI4HB
-	pfvNBB8d4Oedj/5XQGUPWnlCrn1TLKivHjshcWqc239r03uA/zhSych0SNs6GVKq/pln0vJAWiK
-	CK075k4LUZbNhadMycT/QdfMIwSoMx8/Hko2z4s9AAAZSHZiOOH9w==
-X-Received: by 2002:a0c:f08f:0:b0:8ac:a6bd:503b with SMTP id 6a1803df08f44-8ca0f5f704fmr67820876d6.15.1778862838975;
-        Fri, 15 May 2026 09:33:58 -0700 (PDT)
+        bh=6NAfPYKbFnWXLt9agv/gcIEWKO0+qxbRSgNKDk/o5mk=;
+        b=b2Dwf5H0A4Enk9MTe14pN+BT1WoN/HpOGaHYXet/OYkkorfKrtyW9yZUjSL6ywiHkV
+         mO3Rd5IsigjSTw/EX/9fSzpxfSS/q58Knjq87NEfCISIeXvCyKu0D6Eklnesj2GoeFLL
+         QFKR83f7gpCTSCtYGgN5yCu3rTWsCto3xuokdzyk6bqom6Qe0tz0CwKwD2hEkNOrtu3f
+         QDSHekOkJyzWFLvCub71OV/HXrHiiWz8b808rF+gB29J7wqK9QAHvjYJOCXiLbutFw98
+         ybEy5woBxL5V+UYaKP9TIeCdDyCXI/R60xYbxlAwuj2We/xevmyXWVE6i3MiKGW8+8F4
+         9FHA==
+X-Forwarded-Encrypted: i=1; AFNElJ916viuJV+9vt5yJ0h0tiaxd+dAhbLlike952IXtUuf9bjfXaArLFRqjas9wpUhEHuGaUPTExpahp8Uu41c@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWTi3DieMAfRmx2kUAeAzRONf/YujoStZFYXWyzJR9F4VmN+nF
+	j/qKDsOx9aEoKtozgQQS09F5YgdeKxIUJwSglekrU9BUw6SSSFlelh2w
+X-Gm-Gg: Acq92OGh9nLx/FYh+ZxAw/gKQX61VIRd4NsU/f+vWUFP4pn77v+z1/ruWdtEviPXL4C
+	dIQ5+wrsvNIZNr5qTRzRJWfZ38NFQp5q+rYDZXXQI/Givi1BEvKb5FnZkkFjPejKBaz3RJQI7As
+	XQ3Ur6hn2rOA0E2J186DLXGceamwtqMlRyJKfRBywaBVVvIcgBoFAO3OhOw49gx6r1fSjAdJCTZ
+	1kOSfWo1yZxqoGFW0C1/x+vSNVd0XU/gmOGn7qZVLrTOQCcy3DBt6TCqH9N30FEwPgvtft9MtNR
+	PJcd1a0bu/BhlQGI6AXFQMjV9alz8csQc4ngUU3CwYrvmPqWwXzvPJem8agO+FlsbvpJrzabAY+
+	VASSkMk+UA+2UeuapoNu8H4wD0lTmWa7OIr1TEjifc4pZBLKHJfN1yne7jNOaJht+idTmLBbtna
+	LPzDDW1YCAlQNrTiBvJCwXvRkTu+LPZGGcY2hQzQ+4kjFpbAsIfa5mwFU2GfIxdYeFIoy0G30YO
+	MzGHd/NVCb370rglom/aYCrC8ZKc3ujJEIxhniNCMNNt1dD4BGMHg==
+X-Received: by 2002:a05:6214:4384:b0:8ca:174d:187a with SMTP id 6a1803df08f44-8ca174d1b42mr42827216d6.15.1778862850633;
+        Fri, 15 May 2026 09:34:10 -0700 (PDT)
 Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c90c37bc64sm54721256d6.48.2026.05.15.09.33.58
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c90874e4besm55861956d6.2.2026.05.15.09.34.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 09:33:58 -0700 (PDT)
+        Fri, 15 May 2026 09:34:10 -0700 (PDT)
 From: Michael Bommarito <michael.bommarito@gmail.com>
 To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 Cc: ntfs3@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] fs/ntfs3: bound attr_off in UpdateResidentValue against data_off
-Date: Fri, 15 May 2026 12:33:54 -0400
-Message-ID: <20260515163355.1574086-1-michael.bommarito@gmail.com>
+Subject: [PATCH] fs/ntfs3: bound copy_lcns dp->page_lcns[] index in analysis pass
+Date: Fri, 15 May 2026 12:34:05 -0400
+Message-ID: <20260515163405.1574574-1-michael.bommarito@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -75,60 +75,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-In do_action()'s UpdateResidentValue case (fslog.c:3307),
-lrh->attr_off and lrh->redo_len come from the on-disk LRH.
-When they satisfy aoff + dlen < attr->res.data_off, the
-assignment
+In log_replay()'s analysis pass, after find_dp() returns a
+valid DIR_PAGE_ENTRY for the (target_attr, target_vcn) tuple,
+the copy_lcns block walks lrh->lcns_follow further entries:
 
-	attr->res.data_size = cpu_to_le32(aoff + dlen - data_off);
+	t16 = le16_to_cpu(lrh->lcns_follow);
+	for (i = 0; i < t16; i++) {
+	    size_t j = (size_t)(le64_to_cpu(lrh->target_vcn) -
+	                        le64_to_cpu(dp->vcn));
+	    dp->page_lcns[j + i] = lrh->page_lcns[i];
+	}
 
-underflows to ~4 GiB (e.g. 0xFFFFFFF9 when aoff=0x10, dlen=1,
-data_off=0x18).  Subsequent code that reads attr->res.data_size
-to walk the resident attribute payload would then read up to
-4 GiB past the 1024-byte MFT record allocation.
+find_dp() only validates that target_vcn falls within
+[dp->vcn, dp->vcn + dp->lcns_follow), i.e., that the FIRST
+cluster is covered.  The walk through the further entries is
+not bounded against dp->lcns_follow.  For a malformed LRH
+where target_vcn = dp->vcn + dp->lcns_follow - 1 and
+lrh->lcns_follow > 1, the i > 0 writes overflow the dp's
+allocated page_lcns[] array.
 
-The existing mi_enum_attr() defense in fs/ntfs3/record.c:287
-catches the corrupted data_size on the next attribute walk
-and fails the mount, but only on the path that walks all
-attributes.  A read site that picks an attribute by name and
-reads its data_size without re-validating is not covered.
-Validate aoff against data_off and asize at the source.
+Add the missing j + lrh->lcns_follow <= dp->lcns_follow guard.
 
-Reproduced under UML+KASAN on mainline 8d90b09e6741 via
-pr_warn-only probe: with aoff=0x10 and data_off=0x18, the
-post-assignment data_size is 0xfffffff9 (mount then fails
-at -22 from mi_enum_attr).
+Reproduced under UML+KASAN on mainline 8d90b09e6741 as a
+slab-out-of-bounds write of size 8 from log_replay+0x68d4 on
+the mount path.
+
+This is distinct from Pavitra Jha's 2026-05-02 patch
+("fs/ntfs3: validate lcns_follow in log_replay conversion",
+<20260502154252.164586-1-jhapavitra98@gmail.com>) which
+addresses the separate version-0 dirty-page-table conversion
+path's memmove(&dp->vcn, ...) call.  The two fixes are
+complementary; both should land.
 
 Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
 Cc: stable@vger.kernel.org
 Assisted-by: Claude:claude-opus-4-7
 Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 ---
- fs/ntfs3/fslog.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ fs/ntfs3/fslog.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index acfa18b84401e..4977ac1f62027 100644
+index acfa18b84401e..f409611f2530d 100644
 --- a/fs/ntfs3/fslog.c
 +++ b/fs/ntfs3/fslog.c
-@@ -3325,6 +3325,17 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 		nsize = ALIGN(nsize, 8);
- 		data_off = le16_to_cpu(attr->res.data_off);
- 
+@@ -4547,6 +4547,19 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
+ 		 * whole routine a loop, case Lcns do not fit below.
+ 		 */
+ 		t16 = le16_to_cpu(lrh->lcns_follow);
 +		/*
-+		 * aoff comes from the on-disk lrh->attr_off.  Forbid
-+		 * writes that begin below the resident attribute's
-+		 * data_off (which would overwrite the resident header),
-+		 * and forbid aoff + dlen < data_off, which would make
-+		 * the data_size assignment below underflow to ~4 GiB.
++		 * find_dp() only validates that target_vcn is the first
++		 * cluster covered by dp.  The walk through lrh->lcns_follow
++		 * further entries must stay within the allocated
++		 * dp->page_lcns[] array, which is sized by dp->lcns_follow.
 +		 */
-+		if (aoff < data_off || aoff + dlen < data_off ||
-+		    aoff + dlen > asize)
-+			goto dirty_vol;
++		if (le64_to_cpu(lrh->target_vcn) - le64_to_cpu(dp->vcn) + t16 >
++		    le32_to_cpu(dp->lcns_follow)) {
++			err = -EINVAL;
++			log->set_dirty = true;
++			goto out;
++		}
 +
- 		if (nsize < asize) {
- 			memmove(Add2Ptr(attr, aoff), data, dlen);
- 			data = NULL; // To skip below memmove().
+ 		for (i = 0; i < t16; i++) {
+ 			size_t j = (size_t)(le64_to_cpu(lrh->target_vcn) -
+ 					    le64_to_cpu(dp->vcn));
 -- 
 2.53.0
 
