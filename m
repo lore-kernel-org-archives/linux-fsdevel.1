@@ -1,318 +1,153 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA7F35E1DD;
-	Fri, 15 May 2026 19:58:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F32413D70;
+	Fri, 15 May 2026 20:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778875116; cv=none; b=AcqjqE+sWvGYg15Zc8qGlgL21SnWcKsIlpK88zmFRRlVGfQYSttXowmied138ywhSSQSMcFzTF9v6k6Q4iEASNgSeeBXisYSutb+nA+l7Bhly+8lUV5moq/vupm07hn4E7tccJdl5aO3Ymp+feVCwWSgQ1EUpGhoJzNGjP3UonM=
+	t=1778875324; cv=none; b=V6Ycp/5+ijFaFB/atJGaCYfVcpB38n2Xt+Ky2l15EK7LXBE8v9E2UrYDjV4CDa2PNA7K/uc23gva4nEZlJ76misMrKqdODZgZG6dEq0zCRg14IVM+2eiw3X83vs+q73YlmGPcIfu0p5Kuto9ozWu3LQr8AyS57r8EzUrOHmVNSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778875116; c=relaxed/simple;
-	bh=gKdJYrUwgdph0X2fbZh9YjDGCjtjogu6yZDUqVx0jYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K6Dk5U/ahPmPzN+fRWkTQoQczTMn/uCjrSIoqXLn6QspzXBpbgOyBMzhe1geWv+U6kK0UWjWjJbA5Rye9xBqfXrmqLtIBJwH5AiJC7yipFrBGcF2EZZwCxGA9ufEyzeSuVwsY4VZivh5huAZXhzajPUIWlkLJSszn1orZvIJTwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrqXj5wW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778875324; c=relaxed/simple;
+	bh=H3mauhjxXzt3MNQ8wiMIz9gf//TGdRnFjHyrwfsKtKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=diUVOip1dYPMzYkJoFaeyGKPYSVBhIT9qsRG26JP9BJJp9LnEQxGwwr6nCK1lhgrniGb3xcZD6E46VZF+uFcWLSDy+yK8pzIBaV7HKlRiDG6ZqQaPjXD3jyA4+/Sp0D1XlR3U2XtwdCEyQNQwlgMEUn/Ns4m23oABXk3IaOwuKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ymr48TPh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrqXj5wW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C172BC2BCB0;
-	Fri, 15 May 2026 19:58:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ymr48TPh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ABD9C2BCB3;
+	Fri, 15 May 2026 20:02:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778875115;
-	bh=gKdJYrUwgdph0X2fbZh9YjDGCjtjogu6yZDUqVx0jYU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YrqXj5wWtVeX/YwnEvmXrZLVrQq6O/Vfu/GyhPoW2NZHrJj3BKAONe+Fh+FUJomgt
-	 hrdpyGyXCk61WoQaadYxKLuNIhHTjETKJP4KVWRWo2NihQao0vUwteGnuydxnkhJAM
-	 5ZG6A0sQMn2v4m+CznxFI3L18Xo//G8YxmDJFTzO03kNbaUulHi7pi4lJw5BJ88rE7
-	 jR0K6Ggu0cL+onDMg2a3cFIlCbVlcu40IehX9McYaHWsxtZ2TseGrGFlYwLw39LOuf
-	 IGO/858vkS1MlxGEyo7UVuU09Oluz3UK+gpvOY5KDiHNxwXOT4PSKYRvFjTGgc7gpy
-	 pCubxy4q6hnKg==
-Date: Fri, 15 May 2026 12:58:35 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Subject: Re: [PATCH 1/9] libfuse: enable iomap cache management for lowlevel
- fuse
-Message-ID: <20260515195835.GZ9544@frogsfrogsfrogs>
-References: <177747213211.4106384.5167047581302637277.stgit@frogsfrogsfrogs>
- <177747213264.4106384.4204511496835236374.stgit@frogsfrogsfrogs>
+	s=k20201202; t=1778875324;
+	bh=H3mauhjxXzt3MNQ8wiMIz9gf//TGdRnFjHyrwfsKtKk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ymr48TPha+NxkbyIp7QknXbyjmcq/HjAkmjWfswQCWmTL7/oS3qXgEI9njVSL396g
+	 WqM+TsEtwDcaHrgpzJnvYALMccS+ryprcdU+OKq+HSP0cY4Gbht/La0b9z+hRCE/Up
+	 05iI+J3jKERBWBQeEsyGCYwLM6xXdAdYO31ev1gRuo/d82Jj2e4pEniz4mj7gHB7zc
+	 khZDBQ96fro0UTs3qmo5OrgotHiUrlWK5sBWmBV6g+xXVgpmRUF5FoZkrm/gdn35kY
+	 3YgT/EtwXExE/vQBPBG1y5NONPW/iCvGx+R9wzePHgGSkmZOjv+/7yH6iCb7FPns/K
+	 vGi1+MHS0WRoA==
+From: Song Liu <song@kernel.org>
+To: linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	selinux@vger.kernel.org,
+	apparmor@lists.ubuntu.com
+Cc: paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	john.johansen@canonical.com,
+	stephen.smalley.work@gmail.com,
+	omosnace@redhat.com,
+	mic@digikod.net,
+	gnoack@google.com,
+	takedakn@nttdata.co.jp,
+	penguin-kernel@I-love.SAKURA.ne.jp,
+	herton@canonical.com,
+	kernel-team@meta.com,
+	Song Liu <song@kernel.org>
+Subject: [PATCH v4 0/7] lsm: Replace security_sb_mount with granular mount hooks
+Date: Fri, 15 May 2026 13:01:51 -0700
+Message-ID: <20260515200158.4081915-1-song@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177747213264.4106384.4204511496835236374.stgit@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 29, 2026 at 07:49:14AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Add the library methods so that fuse servers can manage an in-kernel
-> iomap cache.  This enables better performance on small IOs and is
-> required if the filesystem needs synchronization between pagecache
-> writes and writeback.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  include/fuse_common.h   |   12 +++++++
->  include/fuse_kernel.h   |   27 ++++++++++++++++
->  include/fuse_lowlevel.h |   52 ++++++++++++++++++++++++++++++++
->  lib/fuse_lowlevel.c     |   77 +++++++++++++++++++++++++++++++++++++++++++++++
->  lib/fuse_versionscript  |    2 +
->  5 files changed, 170 insertions(+)
-> 
-> 
-> diff --git a/include/fuse_common.h b/include/fuse_common.h
-> index 7b209b217b310e..76c65f7e79179e 100644
-> --- a/include/fuse_common.h
-> +++ b/include/fuse_common.h
-> @@ -1163,6 +1163,10 @@ int fuse_convert_to_conn_want_ext(struct fuse_conn_info *conn);
->  
->  /* fuse-specific mapping type indicating that writes use the read mapping */
->  #define FUSE_IOMAP_TYPE_PURE_OVERWRITE	(255)
-> +/* fuse-specific mapping type saying the server has populated the cache */
-> +#define FUSE_IOMAP_TYPE_RETRY_CACHE	(254)
-> +/* do not upsert this mapping */
-> +#define FUSE_IOMAP_TYPE_NOCACHE		(253)
->  
->  #define FUSE_IOMAP_DEV_NULL		(0U)	/* null device cookie */
->  
-> @@ -1292,6 +1296,14 @@ struct fuse_iomap_config {
->  	int64_t s_maxbytes;	/* max file size */
->  };
->  
-> +/* invalidate to end of file */
-> +#define FUSE_IOMAP_INVAL_TO_EOF		(~0ULL)
-> +
-> +struct fuse_file_range {
-> +	uint64_t offset;	/* file offset to invalidate, bytes */
-> +	uint64_t length;	/* length to invalidate, bytes */
-> +};
-> +
->  /* ----------------------------------------------------------- *
->   * Compatibility stuff					       *
->   * ----------------------------------------------------------- */
-> diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
-> index 3ed174567dc172..115c8a228e765a 100644
-> --- a/include/fuse_kernel.h
-> +++ b/include/fuse_kernel.h
-> @@ -251,6 +251,8 @@
->   *  - add FUSE_ATTR_ATOMIC for single-fsblock atomic write support
->   *  - add FUSE_ATTR_{SYNC,IMMUTABLE,APPEND} for VFS enforcement of file
->   *    attributes
-> + *  - add FUSE_NOTIFY_IOMAP_{UPSERT,INVAL}_MAPPINGS so fuse servers can cache
-> + *    file range mappings in the kernel for iomap
->   */
->  
->  #ifndef _LINUX_FUSE_H
-> @@ -718,6 +720,8 @@ enum fuse_notify_code {
->  	FUSE_NOTIFY_INC_EPOCH = 8,
->  	FUSE_NOTIFY_PRUNE = 9,
->  	FUSE_NOTIFY_IOMAP_DEV_INVAL = 99,
-> +	FUSE_NOTIFY_IOMAP_UPSERT_MAPPINGS = 100,
-> +	FUSE_NOTIFY_IOMAP_INVAL_MAPPINGS = 101,
->  };
->  
->  /* The read buffer is required to be at least 8k, but may be much larger */
-> @@ -1468,4 +1472,27 @@ struct fuse_iomap_dev_inval_out {
->  	struct fuse_range range;
->  };
->  
-> +struct fuse_iomap_inval_mappings_out {
-> +	uint64_t nodeid;	/* Inode ID */
-> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
-> +
-> +	/*
-> +	 * Range of read and mappings to invalidate.  Zero length means ignore
-> +	 * the range; and FUSE_IOMAP_INVAL_TO_EOF can be used for length.
-> +	 */
-> +	struct fuse_range read;
-> +	struct fuse_range write;
-> +};
-> +
-> +struct fuse_iomap_upsert_mappings_out {
-> +	uint64_t nodeid;	/* Inode ID */
-> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
-> +
-> +	/* read file data from here */
-> +	struct fuse_iomap_io	read;
-> +
-> +	/* write file data to here, if applicable */
-> +	struct fuse_iomap_io	write;
-> +};
-> +
->  #endif /* _LINUX_FUSE_H */
-> diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
-> index 67c9bd4b2c6cee..3e9ceae9aa4aa4 100644
-> --- a/include/fuse_lowlevel.h
-> +++ b/include/fuse_lowlevel.h
-> @@ -2261,6 +2261,58 @@ int fuse_lowlevel_iomap_device_remove(struct fuse_session *se, int device_id);
->  int fuse_lowlevel_iomap_device_invalidate(struct fuse_session *se, int dev,
->  					  off_t offset, off_t length);
->  
-> +/*
-> + * Upsert some file mapping information into the kernel.  This is necessary
-> + * for filesystems that require coordination of mapping state changes between
-> + * buffered writes and writeback, and desirable for better performance
-> + * elsewhere.
-> + *
-> + * Added in FUSE protocol version 7.99. If the kernel does not support
-> + * this (or a newer) version, the function will return -ENOSYS and do
-> + * nothing.
-> + *
-> + * @param se the session object
-> + * @param nodeid the inode number
-> + * @param attr_ino inode number as told by fuse_attr::ino
-> + * @param read mapping information for file reads
-> + * @param write mapping information for file writes
-> + * @return zero for success, -errno for failure
-> + */
-> +int fuse_lowlevel_iomap_upsert_mappings(struct fuse_session *se,
-> +					fuse_ino_t nodeid, uint64_t attr_ino,
-> +					const struct fuse_file_iomap *read,
-> +					const struct fuse_file_iomap *write);
-> +
-> +/*
-> + * Update a mapping that will be sent to the kernel as part of an iomap_begin
-> + * reply to signal that the mapping has been upserted into the cache.
-> + */
-> +static inline void fuse_file_iomap_retry_cache(struct fuse_file_iomap *map)
-> +{
-> +	map->type = FUSE_IOMAP_TYPE_RETRY_CACHE;
-> +	map->dev = FUSE_IOMAP_DEV_NULL;
-> +	map->addr = FUSE_IOMAP_NULL_ADDR;
-> +}
-> +
-> +/**
-> + * Invalidate some file mapping information in the kernel.
-> + *
-> + * Added in FUSE protocol version 7.99. If the kernel does not support
-> + * this (or a newer) version, the function will return -ENOSYS and do
-> + * nothing.
-> + *
-> + * @param se the session object
-> + * @param nodeid the inode number
-> + * @param attr_ino inode number as told by fuse_attr::ino
-> + * @param read file read mapping range to invalidate
-> + * @param write file write mapping range to invalidate
-> + * @return zero for success, -errno for failure
-> + */
-> +int fuse_lowlevel_iomap_inval_mappings(struct fuse_session *se,
-> +				       fuse_ino_t nodeid, uint64_t attr_ino,
-> +				       const struct fuse_file_range *read,
-> +				       const struct fuse_file_range *write);
-> +
->  /* ----------------------------------------------------------- *
->   * Utility functions					       *
->   * ----------------------------------------------------------- */
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index d3e2d4c698a62b..6e8d2a7d74201b 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -3777,6 +3777,83 @@ int fuse_lowlevel_iomap_device_invalidate(struct fuse_session *se, int dev,
->  	return send_notify_iov(se, FUSE_NOTIFY_IOMAP_DEV_INVAL, iov, 2);
->  }
->  
-> +int fuse_lowlevel_iomap_upsert_mappings(struct fuse_session *se,
-> +					fuse_ino_t nodeid, uint64_t attr_ino,
-> +					const struct fuse_file_iomap *read,
-> +					const struct fuse_file_iomap *write)
-> +{
-> +	struct fuse_iomap_upsert_mappings_out outarg = {
-> +		.nodeid		= nodeid,
-> +		.attr_ino	= attr_ino,
-> +		.read		= {
-> +			.type	= FUSE_IOMAP_TYPE_NOCACHE,
-> +		},
-> +		.write		= {
-> +			.type	= FUSE_IOMAP_TYPE_NOCACHE,
-> +		}
-> +	};
-> +	struct iovec iov[2];
-> +
-> +	if (!se)
-> +		return -EINVAL;
-> +
-> +	if (se->conn.proto_minor < 99)
+This series replaces the monolithic security_sb_mount() hook with
+per-operation mount hooks, addressing two main issues:
 
-Codex complains that we need to check proto_major here (and in the other
-notify function) ... but I think we should check for FUSE_CAP_IOMAP.
+1. TOCTOU: security_sb_mount() receives dev_name as a string, which
+   LSMs like AppArmor and Tomoyo re-resolve via kern_path(). The new
+   hooks pass pre-resolved struct path pointers where possible (bind
+   mount, move mount), eliminating the double-resolution.
 
---D
+2. Conflation: security_sb_mount() handles bind, new mount, remount,
+   move, propagation changes, and mount reconfiguration through a
+   single hook, requiring LSMs to dispatch on flags internally. The
+   new hooks are called at the operation level with appropriate
+   context.
 
-> +		return -ENOSYS;
-> +
-> +	if (!read && !write)
-> +		return 0;
-> +
-> +	if (read)
-> +		fuse_iomap_to_kernel(&outarg.read, read);
-> +
-> +	if (write)
-> +		fuse_iomap_to_kernel(&outarg.write, write);
-> +
-> +	iov[1].iov_base = &outarg;
-> +	iov[1].iov_len = sizeof(outarg);
-> +
-> +	return send_notify_iov(se, FUSE_NOTIFY_IOMAP_UPSERT_MAPPINGS, iov, 2);
-> +}
-> +
-> +static inline void
-> +fuse_iomap_range_to_kernel(struct fuse_range *range,
-> +			   const struct fuse_file_range *firange)
-> +{
-> +	range->offset = firange->offset;
-> +	range->length = firange->length;
-> +}
-> +
-> +int fuse_lowlevel_iomap_inval_mappings(struct fuse_session *se,
-> +				       fuse_ino_t nodeid, uint64_t attr_ino,
-> +				       const struct fuse_file_range *read,
-> +				       const struct fuse_file_range *write)
-> +{
-> +	struct fuse_iomap_inval_mappings_out outarg = {
-> +		.nodeid		= nodeid,
-> +		.attr_ino	= attr_ino,
-> +	};
-> +	struct iovec iov[2];
-> +
-> +	if (!se)
-> +		return -EINVAL;
-> +
-> +	if (se->conn.proto_minor < 99)
-> +		return -ENOSYS;
-> +
-> +	if (!read && !write)
-> +		return 0;
-> +
-> +	if (read)
-> +		fuse_iomap_range_to_kernel(&outarg.read, read);
-> +	if (write)
-> +		fuse_iomap_range_to_kernel(&outarg.write, write);
-> +
-> +	iov[1].iov_base = &outarg;
-> +	iov[1].iov_len = sizeof(outarg);
-> +
-> +	return send_notify_iov(se, FUSE_NOTIFY_IOMAP_INVAL_MAPPINGS, iov, 2);
-> +}
-> +
->  struct fuse_retrieve_req {
->  	struct fuse_notify_req nreq;
->  	void *cookie;
-> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-> index 9c9013c964488c..41e0193708e57d 100644
-> --- a/lib/fuse_versionscript
-> +++ b/lib/fuse_versionscript
-> @@ -272,6 +272,8 @@ FUSE_3.99 {
->  		fuse_lowlevel_add_iomap;
->  		fuse_service_configure_iomap;
->  		fuse_lowlevel_iomap_set_blocksize;
-> +		fuse_lowlevel_iomap_upsert_mappings;
-> +		fuse_lowlevel_iomap_inval_mappings;
->  } FUSE_3.19;
->  
->  # Local Variables:
-> 
-> 
+The new hooks are:
+  mount_bind        - bind mount (pre-resolved source path)
+  mount_new         - new filesystem mount (with fs_context)
+  mount_remount     - filesystem remount (with fs_context)
+  mount_reconfigure - mount flag reconfiguration (MS_REMOUNT|MS_BIND)
+  mount_move        - move mount (pre-resolved paths)
+  mount_change_type - propagation type changes
+
+mount_new and mount_remount are called after parse_monolithic_mount_data(),
+so LSMs have access to the fs_context with parsed mount options. They also
+receive the original mount(2) flags and data pointer for LSMs (AppArmor,
+Tomoyo) that need them for policy matching.
+
+The series also replaces security_move_mount() with the new mount_move
+hook, unifying the old mount(2) MS_MOVE path with the move_mount(2)
+syscall path.
+
+All existing LSM behaviors are preserved:
+  AppArmor: same policy matching, TOCTOU fixed for bind/move
+  SELinux:  same permission checks (FILE__MOUNTON, FILESYSTEM__REMOUNT)
+  Landlock: same deny-all for sandboxed processes
+  Tomoyo:   same policy matching, TOCTOU fixed for bind/move, unused
+            data_page parameter removed
+
+
+This work is inspired by earlier discussions:
+
+[1] https://lore.kernel.org/bpf/20251127005011.1872209-1-song@kernel.org/
+[2] https://lore.kernel.org/linux-security-module/20250708230504.3994335-1-song@kernel.org/
+
+
+Changes v3 => v4:
+1. Move LSM_HOOK_INIT(move_mount, ...) removal from patch 7/7 to each
+   per-LSM conversion patch (3/7, 4/7, 5/7). (Paul Moore)
+2. Add kdoc comments to tomoyo mount hook functions and rename
+   tomoyo_move_mount to tomoyo_mount_move in patch 6/7. (Tetsuo Handa)
+3. Add Acked-by from Tetsuo Handa to patch 6/7.
+
+v3: https://lore.kernel.org/linux-security-module/20260509015208.3853132-1-song@kernel.org/
+
+Changes v2 => v3:
+1. Rebase.
+2. Move security_mount_move() call in vfs_move_mount() from patch 7/7
+   to patch 1/7. (Paul Moore)
+
+v2: https://lore.kernel.org/linux-security-module/20260430000315.918964-1-song@kernel.org/
+
+Changes v1 => v2:
+1. Rebase.
+2. Add Reviewed-by and Tested-by from Stephen Smalley.
+
+v1: https://lore.kernel.org/linux-security-module/20260318184400.3502908-1-song@kernel.org/
+
+Song Liu (7):
+  lsm: Add granular mount hooks to replace security_sb_mount
+  apparmor: Remove redundant MS_MGC_MSK stripping in apparmor_sb_mount
+  apparmor: Convert from sb_mount to granular mount hooks
+  selinux: Convert from sb_mount to granular mount hooks
+  landlock: Convert from sb_mount to granular mount hooks
+  tomoyo: Convert from sb_mount to granular mount hooks
+  lsm: Remove security_sb_mount and security_move_mount
+
+ fs/namespace.c                    |  41 +++++++---
+ include/linux/lsm_hook_defs.h     |  14 +++-
+ include/linux/security.h          |  56 +++++++++++---
+ kernel/bpf/bpf_lsm.c              |   7 +-
+ security/apparmor/include/mount.h |   5 +-
+ security/apparmor/lsm.c           | 102 ++++++++++++++++++-------
+ security/apparmor/mount.c         |  37 ++--------
+ security/landlock/fs.c            |  41 ++++++++--
+ security/security.c               | 119 +++++++++++++++++++++++-------
+ security/selinux/hooks.c          |  49 ++++++++----
+ security/tomoyo/common.h          |   2 +-
+ security/tomoyo/mount.c           |  31 +++++---
+ security/tomoyo/tomoyo.c          | 109 ++++++++++++++++++++++++---
+ 13 files changed, 457 insertions(+), 156 deletions(-)
+
+--
+2.53.0-Meta
