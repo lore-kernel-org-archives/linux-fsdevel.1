@@ -1,59 +1,45 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8102E33BBCC
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 13:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8980A374739;
+	Fri, 15 May 2026 13:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778850971; cv=none; b=FEBHsqnLSu2i48MqxxxUqrB4mUh3naUSmpC/rWjLo9bcW3hJEPUTwsbER5Sv9Std9Z7zqEpzwKI6Ie+NFJp/FEJ35MTWuo5ebjuBMKOjMpP2hxqe/GYRKUW8DpkBF/yM3uFoVkFhxykvEjueNYmlxITv2if8myvd6msgoiCNxzg=
+	t=1778851397; cv=none; b=YGwwg9LPHBY4A7xpI0LxB3JunRP33YTOBu8ppDPlLbYpkvIyyqhpKd23dqdYZr+QaABUDeX0uK+kXBf3ntgBDe47x4XmXJQOsWyydrrgALJo0na9sZ40aEgrKoMzMyla47pwjp1+1Qwjwe8zMg4SS8BV3pxudvwxK3hIwfz/vu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778850971; c=relaxed/simple;
-	bh=gCN8P3MUhHuEAAga0c668OJad0aeblJzx49m6gKQxp4=;
+	s=arc-20240116; t=1778851397; c=relaxed/simple;
+	bh=OUAeRmGFrKAqbEYEjKvXJL44Nuyi/LEDMyEDp0FfMaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vDUqMw4fHWGkDEie+2iqtI2wBiAr8Pmo/Vcwtcyjyd/yq74VWGFE7i62logDoX+Iab6lkR3DFiFimp4Z8f4eX0cHgLAIpZ0DZTbkIPTJB0U0lCqAMiiNN25srh+1/D1ZTO7RNaXzmLkiGAg+unwPccXkvd/TSRnPA8hXlXCgPRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=i2ChIKbX; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	 Content-Type:Content-Disposition:In-Reply-To; b=JotOCs9pWMU4XiR7L+6MKwbLBCufDHDeawplnHM4LeMa1ycz3xDOMdGv9Z2gJfM5xoOKGIGGqlyTWBwFQ5GfX5+hFRrp6JipCQtNsEBkmsq4azDloEG10PbVsQHeh29mowSMJ+vToNL3Do20xw9Jb+NGaNw4taJfQYAhwPNeRcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tiJ39MvV; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="i2ChIKbX"
-X-KPN-MessageId: 36d1a624-5060-11f1-bea8-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 36d1a624-5060-11f1-bea8-005056992ed3;
-	Fri, 15 May 2026 15:15:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=YqBvR82qpMxVqnzfYcEzPa+qPxOXrNcw1h3a/uDTzLI=;
-	b=i2ChIKbXPRvOqVw5+fOKl/+mB8veAfAwqG5e0JPZNsJRi0LJFIm1QEBhPbvPEKplzjxmSmFKqcqCs
-	 +YbyfxzwuCLRTAqQCJxw3znYdp0WptBAvkAHL3yiUcShGbmNSW1STeH5Nk5rRhIJZNjSAV5KJ4iJaN
-	 djgBfDjTtOBtnOf/r1mdZ0m5WXbXjG/Rd4Sf0M8AGgNUdqt2ocQCqPp/5I6w59cdaGRcVlYwaysYfM
-	 CovS2zmZXnWqJ3wdxLuZNeYfW419R/ZkJizZ90TEdT6hon3orjYoPMz+9aC385zwzyghHXAyHB/wEx
-	 IF4vMvD0tGZv2Nhacybg4HhwDfv2AFw==
-X-KPN-MID: 33|cF02uNPZbcyFC5ZXtO1GC+lE3eB5mIyAJbtqZ/vnX40H64jt2iI7eR1p0VNdJHN
- OKIa4RduM4ZEwdPVexzDFzNWc+jXeqtXMMjG8fY734TE=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|JRUSPe5P8CHBdf1RfUK7YhPBIOZU79IKzzkabRGbatWFGj4gjZe7LXMUHSPfPgf
- 47dz4+0IvAx0VNmmyLSQ52g==
-Received: from localhost (unknown [178.226.150.234])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 36b2b2e6-5060-11f1-bffb-00505699772e;
-	Fri, 15 May 2026 15:15:59 +0200 (CEST)
-Date: Fri, 15 May 2026 15:15:53 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Nirmoy Das <nirmoyd@nvidia.com>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] err_ptr.h: introduce ERR_PTR_SAFE()
-Message-ID: <agcXkoKekkAJ1-8z@lt-jori.localdomain>
-Mail-Followup-To: Jori Koolstra <jkoolstra@xs4all.nl>, 
-	Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Nirmoy Das <nirmoyd@nvidia.com>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260514200129.94862-1-amir73il@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tiJ39MvV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=clJs/M02D+bpYA4hUyzi57jr0yjvLDgea9w+FNfRfKU=; b=tiJ39MvVhLAZdQ5j27zAQ5DMcT
+	RShTWjEanrg80OEmROi8UfaDW3sCxIWRgBa7Wj2i/acxpbXiTczr62knQK1e3weVYNN+FMc9ywXzq
+	Ok6uylH3sYhFcNZbq8c4yY2cpjD5ozZyeyDdWWc55ir5Gggi9ZCZS5vvgsMBYL84Dc/BoFW/kqbP6
+	YdgCjDsE1Iz10yJRTEkqx0oWzdzXVQq7XraIj57n/x8/96S1Ko1yzR2VTiSyD/g4vA0pAu3/H0G9w
+	72GNA+toFOqeC/XgeaFtS7rsN2P6FIfoNvA2L2oE5t2WtKIrni7/Zi/eNARAu91pFSL0MVzPvgbXz
+	HjuzvMtA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wNsVS-00000008R2w-0O8z;
+	Fri, 15 May 2026 13:23:10 +0000
+Date: Fri, 15 May 2026 06:23:10 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Arun Rao <arun.rao.bl@gmail.com>
+Cc: hch@infradead.org, Arun <arunraobalappa@gmail.com>, lenb@kernel.org,
+	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	pavel@kernel.org, rafael@kernel.org
+Subject: Re: [PATCH] docs/power: note Btrfs limitation with FIBMAP for swap
+ file offset
+Message-ID: <agcePmiiO08tVtNb@infradead.org>
+References: <CA+2hknjQ1wLjXdhZWezW=9BwcUhoXhXR1Yi=N8bhce-Qe7+RFw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,107 +48,24 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260514200129.94862-1-amir73il@gmail.com>
+In-Reply-To: <CA+2hknjQ1wLjXdhZWezW=9BwcUhoXhXR1Yi=N8bhce-Qe7+RFw@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, May 14, 2026 at 10:01:29PM +0200, Amir Goldstein wrote:
-> Code using ERR_PTR() is almost certainly intending to produce a value
-> which qualified as IS_ERR_OR_NULL(), but this is not the case when
-> code calls ERR_PTR(err) with positive or large negative err.
+On Tue, May 12, 2026 at 03:12:44PM +0530, Arun Rao wrote:
+> Understood. My intent was mainly to document the current behaviour
+> observed by users on Btrfs systems where filefrag/FIBMAP-based
+> guidance fails, and to point users toward the existing btrfs-progs
+> tooling.
 > 
-> Introduce a fortified variant of ERR_PTR() whose return value is
-> guaranteed to qualify as IS_ERR_OR_NULL().
-> 
-> We add this in a new header file err_ptr.h which includes bug.h
-> for the build/run time assertions.
-> 
-> Subsystems may opt-in for fortified ERR_PTR() for specific call sites
-> or by #define ERR_PTR(err) ERR_PTR_SAFE(err).
-> 
-> Link: https://lore.kernel.org/r/CAOQ4uxg=gONUh5QEW5KJcyXLDF15HbLnc9Ea7RKPcgtyfPasTA@mail.gmail.com/
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
-> 
+> That said, I understand the concern about encouraging users to rely on
+> resume_offset-based workflows in general given the underlying
+> fragility of file block mappings on moving or CoW filesystems.
 
-This seems like a good idea. Perhaps, we should also not pass error
-pointers as parameters. It just invites similar issues. For example,
-in
+Yes.  Can you maybe extend the text a bit to generally warn about this?
 
-	if (!error) {
-		dentry = vfs_mkdir(mnt_idmap(path.mnt), path.dentry->d_inode,
-				   dentry, mode, &delegated_inode);
-		if (IS_ERR(dentry))
-			error = PTR_ERR(dentry);
-	}
-	end_creating_path(&path, dentry);
-
-Suppose you want to make changes to end_creating_path, nothing indicates
-that dentry may hold an error here. In this case it is not too hard to
-find out, but it seems like a bad idea in general. But I might miss
-cases where this is really useful... :)
+I also realized that filefrag uses FIEMAP by default these days and not
+just FIBMAP, which is what makes it so dangerous on btrfs.  btrfs
+smartly does not implement ->bmap, but it does implement FIEMAP in
+this weird way mapping to the logical address space.
 
 
-> Guys,
-> 
-> Please follow the Link to see the sneaky bug that Nirmoy tracked down.
-> syzbot has complained about this a while ago, but neither me nor my AI
-> helpers were able to track it down from code analysis.
-> 
-> Honestly, with AI review, this class of bugs (return a stale err value)
-> should not be happening anymore, but it annoyed me that ERR_PTR() can
-> return a value which is not an IS_ERR(). It messes with code flow
-> analysis.
-> 
-> What do you think about this macro?
-> 
-> I intend to #define ERR_PTR(err) ERR_PTR_SAFE(err) in overlayfs.h
-> to fortify all of the ERR_PTR() in overlayfs code.
-> 
-> What do you think about this opt-in method?
-> Any reason to make this more widespread by default?
-> 
-> Thanks,
-> Amir.
-> 
-> 
->  include/linux/err_ptr.h | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->  create mode 100644 include/linux/err_ptr.h
-> 
-> diff --git a/include/linux/err_ptr.h b/include/linux/err_ptr.h
-> new file mode 100644
-> index 0000000000000..829ec5f771528
-> --- /dev/null
-> +++ b/include/linux/err_ptr.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _LINUX_ERR_PTR_H
-> +#define _LINUX_ERR_PTR_H
-> +
-> +#include <linux/err.h>
-> +#include <linux/bug.h>
-> +
-> +/**
-> + * ERR_PTR_SAFE - Create an error pointer, with validation.
-> + * @error: An error code to encode as an error pointer.
-> + *
-> + * Like ERR_PTR(), but validates @error:
-> + * - For constant @error: fails the build if the value is not a valid errno
-> + *   (zero is allowed, producing NULL).
-> + * - For variable @error: warns and clamps to -MAX_ERRNO if out of range.
-> + *
-> + * Subsystems may opt in for all ERR_PTR() call sites by adding after includes:
-> + *   #undef ERR_PTR
-> + *   #define ERR_PTR(err) ERR_PTR_SAFE(err)
-> + */
-> +#define ERR_PTR_SAFE(error) ({						\
-> +	long __e = (error);						\
-> +	if (__builtin_constant_p(__e))					\
-> +		BUILD_BUG_ON(__e && !IS_ERR_VALUE(__e));		\
-> +	__builtin_constant_p(__e) ? (void *)__e :			\
-> +		(void *)(WARN_ON(__e && !IS_ERR_VALUE(__e)) ? -MAX_ERRNO : __e);\
-> +})
-> +
-> +#endif /* _LINUX_ERR_PTR_H */
-> -- 
-> 2.54.0
-> 
