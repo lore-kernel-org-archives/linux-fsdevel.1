@@ -1,92 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D57448AE3E;
-	Fri, 15 May 2026 15:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169BF31F9BA;
+	Fri, 15 May 2026 15:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778857768; cv=none; b=B3lGEnmgTfUjftJhgRvsimFaLmqmUpormFPQ0WOWxcaPtHbFgQW3Mb2MInpoVc2vABtlD38Ij4pzdsh+9w2ZKjmpSgiYseKnESAYj8h9gQUJUKUUrH3t0BYYKvJEyJTCG0UC0H9FCPVVPUU2NOF0e8jWSZ6+lrRDztOrP15j43o=
+	t=1778858232; cv=none; b=jBLdTl6WdMBpelEer5m9PuJjsBoVOOUjlip336bGBvYr4VhTnTxvzoP0gcYVPrp49Q/wySnCA++0KBzNyJ28D50t9IdKlpzrBYalzpM4TKbi2ecA988ntOeXOy0R9jJ4mLUx0oDptkYoPxOMFfkGEp5cysfhCiv4v7i+SIFkc8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778857768; c=relaxed/simple;
-	bh=rF8fC0Rifkqz+kpXltmxnDtG7PRnvjHwvsNd7SFFe9A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pbZORXoILhggqpMqxJIPbsBFsB79eGjDadyQuJu2rkwCcDyu2+O/7qs49PeamYqxJO6U/a7xeW4PGOzaJcJr0RfXXZ43ID/hng7a4Pg6axSQeR+STcSz9fBObx8oUHxI5W/KdrvqMf5DL/53AWiNEeyuZ9yVWTFwQMFBkcZlGUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sg9NYjZ1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778858232; c=relaxed/simple;
+	bh=iuxKX4yA9jS3SnBKGNBWdP4pCJkdgodXaHYVrnn7UFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HfH/yEqLXvJ/q2RbdmQN5DKhhWJ4dgdiyR6oA+Y6YtU5oltCRUQT5PyTC3ZwDN66cl0dgVvJGmKUtWwazwBVe0M92JA0cFDgj8zr430K8a4DaiZ2uE+tfKz13UPo/R5sMxVzmwptgkSUXvHfGlrPJuVRZOJSQ/OvzVdz9A58p68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bi0gzgcR; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sg9NYjZ1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84302C2BCFB;
-	Fri, 15 May 2026 15:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778857768;
-	bh=rF8fC0Rifkqz+kpXltmxnDtG7PRnvjHwvsNd7SFFe9A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sg9NYjZ1kIKUngNgibfSUat16nDH+dtu09w4bNnaS+uwQsB652ooMpD30qxV8Ka5u
-	 2+jVK0p1MnPXmCerbnJuMV5n54Og1UWj7GPoRoXZN3XgtEMifwJrwY1UwSdanTsdR3
-	 cqDRT5G8KmURCJZX82aQY+IwDA8RF85dJ1xXpBUr4YU11/HHSc4QR+9VQcka0Lpb2P
-	 vp0x/CsPjTqRiSJ7H4boHdMo3vAcfzb1NmUzZFRjIUMM8pIqc1EIQRRq5NBks7Ol2/
-	 D73P2Q/lCDWIu/UxhX8LrEvwJWG7sAnsbejb9FD7pIBYJkDN07MNBbYABsesc9Vto/
-	 ATtM8KcgAeueA==
-From: Christian Brauner <brauner@kernel.org>
-To: io-uring@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: (subset) [PATCHSET v2 0/6] io_uring related epoll cleanups
-Date: Fri, 15 May 2026 17:08:11 +0200
-Message-ID: <20260515-lachnummer-havarie-c6e68d7fe5ef@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260514140817.623026-1-axboe@kernel.dk>
-References: <20260514140817.623026-1-axboe@kernel.dk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bi0gzgcR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778858230; x=1810394230;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iuxKX4yA9jS3SnBKGNBWdP4pCJkdgodXaHYVrnn7UFs=;
+  b=Bi0gzgcR2gxzgc8lgy67Ci2gQlXZ5ohcSeQfXLQFuHiK1vCygKGQ6d5Q
+   Kvy2PJMHca8g6omdSV9G7b8gJYCHA2hbUQquoXlAE5IYYR0vOJrZcsyGL
+   96jRHcRIOtSDxozVZNEnqW91OKTpGtYFapXNQrRiXmg1whomJ2IoF2qVj
+   0CF0KmuwmoFhoynmyDTU16/SPYeSEl187eAFd273kQe/8uMiiEl7wuZR5
+   KMvVMiTCoPweUV/zoogYHGE7HWQaowgY+hrstYkMnuKMPRnE6DfEo2LyH
+   lH98xraL1mG8qzbvjFiwT7KM2GPxJYjRBIBsZWaIUz/A6UVp3d3GZfNpu
+   g==;
+X-CSE-ConnectionGUID: dpLvY3CfT26vi7sfMnx+lg==
+X-CSE-MsgGUID: nOwmWk/tRyKEuwPvxJ2Wfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="67344657"
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="67344657"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 08:17:09 -0700
+X-CSE-ConnectionGUID: i7VeuLdCS+uEhRKizRAgow==
+X-CSE-MsgGUID: mVgcKwmQS3WwjRt2+bvHbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="242712643"
+Received: from lkp-server02.sh.intel.com (HELO 7a33ad3e7d27) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 15 May 2026 08:17:06 -0700
+Received: from kbuild by 7a33ad3e7d27 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNuGj-0000000023F-2RlS;
+	Fri, 15 May 2026 15:16:23 +0000
+Date: Fri, 15 May 2026 23:09:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Horst Birthelmer <horst@birthelmer.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first
+ reaper
+Message-ID: <202605152333.0pOd2zJR-lkp@intel.com>
+References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1860; i=brauner@kernel.org; h=from:subject:message-id; bh=rF8fC0Rifkqz+kpXltmxnDtG7PRnvjHwvsNd7SFFe9A=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSxmyt9PiTWUOj2pqvfJo81cU+RybS5Da4l9TW/Dtk2z +m1ejyzo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCKXyxgZOszDGW+kmr/k3qZo sCv20OUckcqKFeWCdgvnvEy2X/f9LMN/55Bq3hZmC8818jKx/7fxcy8K2zZTpOR1ubNaXe7ZFRe YAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
 
-On Thu, 14 May 2026 08:07:16 -0600, Jens Axboe wrote:
-> One of the nastier things about epoll is how it allows nesting contexts
-> inside each other, leading to the necessity of loop detection and the
-> issues that have come with that.
-> 
-> I don't believe there's any reason to support nesting on the io_uring
-> side, in fact IORING_OP_EPOLL_CTL is a historical mistake, imho. But
-> let's at least try and contain the damage and disallow nested contexts
-> from our side.
-> 
-> [...]
+Hi Horst,
 
-@Jens, I added the epoll specific change to vfs-7.2.eventpoll. There
-were quite some merge conflicts now that I had to fix up. Please take a
-look and make sure it's sane. Otherwise I'm going to push this and will
-keep the branch stable.
+kernel test robot noticed the following build errors:
 
----
+[auto build test ERROR on 5d6919055dec134de3c40167a490f33c74c12581]
 
-Applied to the vfs-7.2.eventpoll branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.eventpoll branch should appear in linux-next soon.
+url:    https://github.com/intel-lab-lkp/linux/commits/Horst-Birthelmer/dcache-add-fs-dentry-limit-sysctl-with-negative-first-reaper/20260515-154600
+base:   5d6919055dec134de3c40167a490f33c74c12581
+patch link:    https://lore.kernel.org/r/20260514-limit-dentries-cache-v1-1-431b9eb0c530%40ddn.com
+patch subject: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
+config: openrisc-randconfig-r073-20260515 (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 10.5.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/reproduce)
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605152333.0pOd2zJR-lkp@intel.com/
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+All errors (new ones prefixed by >>):
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+   fs/dcache.c: In function 'dentry_limit_worker_fn':
+>> fs/dcache.c:1474:7: error: implicit declaration of function 'get_nr_dentry'; did you mean 'retain_dentry'? [-Werror=implicit-function-declaration]
+    1474 |  nr = get_nr_dentry();
+         |       ^~~~~~~~~~~~~
+         |       retain_dentry
+   cc1: some warnings being treated as errors
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.eventpoll
 
-[1/6] eventpoll: pass struct epoll_filefd through ep_find() and ep_insert()
-      https://git.kernel.org/vfs/vfs/c/a5b8d2cc7243
-[2/6] eventpoll: export is_file_epoll()
-      https://git.kernel.org/vfs/vfs/c/1a113455c097
-[3/6] eventpoll: add file based control interface
-      https://git.kernel.org/vfs/vfs/c/f6547914f5bc
-[4/6] eventpoll: rename struct epoll_filefd to epoll_key
-      https://git.kernel.org/vfs/vfs/c/8176d6935d79
+vim +1474 fs/dcache.c
+
+  1463	
+  1464	static void dentry_limit_worker_fn(struct work_struct *work)
+  1465	{
+  1466		struct dentry_limit_ctx ctx;
+  1467		unsigned long limit = READ_ONCE(sysctl_dentry_limit);
+  1468		unsigned int ms;
+  1469		long nr;
+  1470	
+  1471		if (!limit)
+  1472			return;
+  1473	
+> 1474		nr = get_nr_dentry();
+  1475		if (nr <= (long)limit)
+  1476			return;
+  1477	
+  1478		ctx.over = nr - (long)limit;
+  1479	
+  1480		/* Phase 1: drain negative dentries across every superblock. */
+  1481		ctx.isolate = dentry_lru_isolate_negative;
+  1482		iterate_supers(dentry_limit_prune_sb, &ctx);
+  1483	
+  1484		/* Phase 2: still over? Apply the ordinary LRU policy. */
+  1485		if (ctx.over > 0) {
+  1486			ctx.isolate = dentry_lru_isolate;
+  1487			iterate_supers(dentry_limit_prune_sb, &ctx);
+  1488		}
+  1489	
+  1490		/*
+  1491		 * Re-arm while still above the limit. Re-read the sysctls in
+  1492		 * case the admin raised the cap or disabled the feature during
+  1493		 * the walk.
+  1494		 */
+  1495		limit = READ_ONCE(sysctl_dentry_limit);
+  1496		if (!limit || get_nr_dentry() <= (long)limit)
+  1497			return;
+  1498	
+  1499		ms = READ_ONCE(sysctl_dentry_limit_interval_ms);
+  1500		queue_delayed_work(system_unbound_wq, &dentry_limit_work,
+  1501				   msecs_to_jiffies(ms));
+  1502	}
+  1503	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
