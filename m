@@ -1,142 +1,266 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB49413D8C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 20:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778876275; cv=pass; b=XPtFq+pdafOnfi7VLWr4tlw5fiogKyxX2+S/cHbDss4ggPA/Q+hne6erWfQuBp2v7yd0OSgaXZNaPCSD+I37v8HjYpnjkhrM0HhRpYsSnvuBSxuhs0yYLKzl4x67wjkgD9Ejf8Bj96iHFvspc8GEXqXis6Bp7oMiLoL1zaqn8+M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778876275; c=relaxed/simple;
-	bh=2DXyIq90HL8JoEt+riYlVe6ELtsC4TBaPi6OOxXk5MY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XzQztrZ47xEyB8j4iPsy4gke+dZOJhJrOUkVIv+9ixllzAel1N/4mHVM8VXI9UkZM9RDdDHwxRZ3aYJqRYLWWc2JdmEtN37gY79U2eAldv0XW3gOayC6tEBDo3vWcS3pUMWG/zrJwqT4MyLd8y1fFvbsaIfh7VIC70YCfLGBqzY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IqN6K90g; arc=pass smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2D3413D8C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 20:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778876309; cv=none; b=YhOr1v4FJsU6IY/gzcUeg3x1p2aBkTx663ZeuLsRLtP0T0oxrpYCuXfRCuGe++1Nt0/VPa2rj8o68ylyM5iDamuJ/PG/1kL7gaMineWDTN9ndD1iqedp9IX/N0vYR4/ym6/wYRpRcdkZNgros0Y8GZfeZ21MRhzanrzubvLx7gE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778876309; c=relaxed/simple;
+	bh=1hhJhGRBnE39H1ExGWWobqPWwKhQ+nPBRdzHBrMnTcU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5NN+6QQoGT2Vt3KuNhkiNHjtXI+vR8npdeX1+QadRHc8HsUqW3zMVb8rpTll9K6gjcOPi0FaX1nq8qrBAtPwDAfZCHihOqzxoMtDd33Z6xBqeyoNII51K2LS+DMijbctYXyVAORutEbnJMwuoThKTlWEWBUC8u3C4ld41B8UkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oIovqBLR; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqN6K90g"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-67bce1840f1so432981a12.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 13:17:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778876272; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WpVTRUZf8qqNV1xaAoC0iolfo+8pw89WIoZyu13l9q5kBuyDLCkCmG1HqxoyRRIBt9
-         L539ZvJgfC9iQQA0grfq3y8XNwelKBsXALX6dSUOjOoLJCSOQipjpUpKLkILKn958xhu
-         dpANO+nHcRLLYl+iJtymbxzw1bsrcvYe3JyEn0Ds+DkhrZ5lwed9VI9x8TBIeS7GA5to
-         q2Z37Y3kfn89bqxSpVwvzl12p8kcpuy9PSlWGutvRtm/HC5K9MXZt6vZZIYqyv86Mwkd
-         nhTLcr3AlSUCxsDUXawPu8dKcsIwivS0S5molNNOlmuJ9FFsbsAg6j7S0MSSjS+iNZMF
-         hwCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2DXyIq90HL8JoEt+riYlVe6ELtsC4TBaPi6OOxXk5MY=;
-        fh=oh2mGnPPO8BZhYJfcJDkBnuKFSpEzdc1oB+pNE1ODuE=;
-        b=WyJ2IEuHwb/qX7T6pF2wvF8Kr/ejQjW6PQtX554Ds2zXlhXkw8b/ShJ6mePHAGQN2v
-         pBXndcvAuYqdSs5YcUH3BYcvDrp3l4haO4qGSYFdQcgtOrFVCZagdby5OWqk29dpdLoQ
-         voaqZa0L9Ku15L6vIJpTCvSwTR8GuQ1CPOodldaqxu8AtaEEIyFoPsHq8IQTxaRYZUfD
-         saHBlAE9dYcIm5CXgmhSClG7fOiga9dup2PRbMEWhT5mHQ/HP5HMsOcjzeTt13QIKAuk
-         tgUXh17s6ipRIDqtpJXoAd2f6r6c6s4zl5tpaoivx9NmzHBPoEcYAHRlo4jUr9nAnDw6
-         i+Tw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oIovqBLR"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-448528f4e69so92111f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 13:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778876272; x=1779481072; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2DXyIq90HL8JoEt+riYlVe6ELtsC4TBaPi6OOxXk5MY=;
-        b=IqN6K90ghYa4q6UQ6lK+FlK/+BUSI+Ygba/4XuMCTul0iwjK6K6mlaDhg3Pi7F2wfU
-         nmsZ02bZM7GthpkooT8c6BjUJTrVcITysMlQv3c8YmzV71H50Qf5VAWCAjRMom0C1WTT
-         IDRsZ5SqreUlnChmPtJLnso8m2r3NzLM3XR5+E6fy8nGNP6LUziECypgqon1fOXYhcHr
-         bog8AFKIVQkUwUf6Ds9Ar6v70F0bR7lKNgCtfCQ1JfPWJumlqgokYkdol/D5EGrd9iyF
-         KrckCg8zBOuGlOZbBv2IEDf2z0dBTAOyAHOSdxgnAk9jdoIl4BGrrGVfqnANicaMOaLD
-         ONnw==
+        d=gmail.com; s=20251104; t=1778876306; x=1779481106; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gFUMjA3Q99bNtqVvjxkvJVf5DLmJ4s9XgY1QXegt+iY=;
+        b=oIovqBLR0CtMBAyoaCqKzxXaDNJN5d76PLDqiDCIXHgoAnyMY7jQS038UCH4nrskgh
+         sahfXbgL3fpJ9GVHqGl64t5jiepC3kTOkaF35ndqhchM2Z6aGuQSDVLfsgi57CE2eBeL
+         iNJ5TVnRZs6FFdlbLtiUZydx4TbPobkBrlASKADzNE8DBGyhJKW/Uh2gS2syoFTHQmZD
+         7GlnJjgjyLQm6BYs7fZ0/DylTTpA+K3S/Prv32A9EPKLroVCz3o9cRmw1oDhV8zLgObw
+         Tfah0AwIJMZLFx5jFBFux7eyZr8Syu3N7wwH4xPBhJt734OzKp+FtDu5E+10nn5ge56L
+         XCNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778876272; x=1779481072;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2DXyIq90HL8JoEt+riYlVe6ELtsC4TBaPi6OOxXk5MY=;
-        b=QEBepDEtRBU4Nr8eix6pEP4ACDDIoKLF8d2hxZ9HM21IXITp4vPUU7Mr4vANRS+Dfj
-         0kahwvyXM/uvdl72iUXBad9OngX4JwmsV3oljOv8LRErJx3HoTP82j1xr13V+0Z0/gRP
-         TfelH9dJkPqJLLVioL5l1rlCmfYCHw2o9zr3Fb1+gUb09p0mAtLGeVMxnuCFastshGKb
-         Jf44soJhResS7D5cHr20a4TRVnlJ7/yKeYxuOnfREhuFSeoOHGLtSvBM3ZPKUkhikqjM
-         8mFah4lGT87Ib3cgjbF8+m1eU+sf7/eX4eWH2ooLsaErBLyiBVNgZWPoCJ5gGLay04Ty
-         oE4w==
-X-Forwarded-Encrypted: i=1; AFNElJ8ku1Y2kVhgT/JQM/4O83cWTLHtnGr3jG7e4M5sEiSuM53qGG4xhlIiKpR91wc1P0DlJb4cxOMJFqcexJfv@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd7/zz9L0fJ9kRBju8rl7X/KJCafF49/TC0YoZVPY4ytRkcbSJ
-	WdUNfXs1dPz4v212wjnUX7Vq7YWx6cqWc7uEQqKUAtyEwcfMb9wpYVHvKnuf6wULdCCOxNapatz
-	dYdmj+HpC6t4Im/2EF8+WqNZvtUTWWO4=
-X-Gm-Gg: Acq92OFafXkmfyWSV+xZv5sQbPEIIFKIlfHg5ryP5EjqYM4waQQsQ1+iyiIh6J9GcK8
-	LfO6Uqo8/cutgy4mEumfYgWTwG+jwyR4KilyhdvYY6x3G7PH0zAVcwll7vTrO6J/8Y2Ap+rgM0T
-	pjQSTy706IBqqkXvlwZkmZ3TNZIJiJ21InKrzfHWnhycgDmDsdfZopLYQRlkSQepvvvQKcsG165
-	uFzWWKm5bI0F+oXW6NuenkiHjWs8WkAssuV+E0VntOizKzqgH8BBu48OLqqEv8MtrL3D7rmri/Y
-	2SxPrgcD6rltN7lsNeVztvbPDs3FWF/3rkdHPNta+g==
-X-Received: by 2002:a05:6402:a553:20b0:671:ab62:765b with SMTP id
- 4fb4d7f45d1cf-683bd78c127mr2156886a12.20.1778876272200; Fri, 15 May 2026
- 13:17:52 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778876306; x=1779481106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gFUMjA3Q99bNtqVvjxkvJVf5DLmJ4s9XgY1QXegt+iY=;
+        b=J+pfPsokyur7eYkQCu7WMBQWPIUCh68tanvFMuGOHWxOioqJUOEuBaTrEC4xX+1o6s
+         G+KKRo0ot01Kgxi8q3v2nBgaro0bGnyYp1dvMxIJ4rTQ6BKRhQXmjEqewb+pbQGimPvd
+         5BkU/TanLuv9Fl47eBh7P9ulB+FeS3XYQtB2okMs8n4wrnmRvSS84V3OqwNaS5RUWvZO
+         H3RVgS74/vx5NREHybRls6onF6vuyvolaffhTrpw/Nhsfli3mCc7DEiWnwgr/XuRya+Z
+         DCd1Qtexv3SPeVQu253q9YqcalCWqDsFhNlk7sIREXnVEdlS2diRF4EG0VTHSPhz3Unl
+         DNFg==
+X-Forwarded-Encrypted: i=1; AFNElJ/H9PyI63jJ4tCxcLC/no58GiBfMSDVZzy84GAYxXr+6ZIuvpf3YUdyPb4G3DkIWgd6qul0lulHCMZOWw0p@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw13CfIp8eXNsWOwjJUEUuQKp4+j327eoKXVMb7W58csRZtq/CF
+	ZRCViKuW0rtyVmq+8ynEQ+Lzfaw6h/WWvBjYsGTj5H42qnf8+TZaCgTl
+X-Gm-Gg: Acq92OFz4TN1iBRn7b5BwDt/wofbb+wlyZBGPvg1Y3CYwc8qTz1K/kAE6vjcngFdyOQ
+	Wn8G1V3ePYuTME2eL+6e5AbmGudEtaassi6l4SrILsTQE4wPCTm7aLDPh+aoUaSrtyYQK7su5AM
+	8R+glnHhVKk9z1YgnY1WUJ2ssY1sKlEXko9OnfA79S/CSc8a1vtfAVGYgR4hlOKczSoI3BMzLf4
+	4Kj+Z/+GtgHAskYSe0Gjy6tVgGcAYkormBxyKaxNLLghEX5lTJuElrFsJJ34uipLuAsHQT80aIo
+	j896mKFSXFShLhv1Ia/I1/7g3AkwFAnP3AtalRaU5klbIRG+XeYIREKDu+Y6yZanDMmh1p3z28p
+	+OaKuMiBNqkAPkC0UgI2h6yBO7wIw4FCEzWn9s1gnBSbCyH0FEB+xK68+XYFA1TVNkroYQHMet4
+	bIB7mexTf81lQFgVa1KDkKt1UDOjApRIoJEB1fGHTeMgmHAr8qS7++ZsZxdYAyP1s4jau8dII4l
+	/qaNWrj3w==
+X-Received: by 2002:a05:6000:1ace:b0:43d:775b:c9bd with SMTP id ffacd0b85a97d-45e5c58906amr7599545f8f.10.1778876306213;
+        Fri, 15 May 2026 13:18:26 -0700 (PDT)
+Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0fe248dsm16413483f8f.30.2026.05.15.13.18.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 13:18:25 -0700 (PDT)
+Date: Fri, 15 May 2026 22:18:19 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH 1/2] fs/pipe: bulk pre-allocate pages outside pipe->mutex
+ in anon_pipe_write
+Message-ID: <q37bmptbjr2gysl2g67bqo5axxqor4lsrrnf7ajixxjdrumbup@tgu3kz6kien5>
+References: <20260515-fix_pipe-v1-0-b14c840c7555@debian.org>
+ <20260515-fix_pipe-v1-1-b14c840c7555@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260429102058.1362965-1-mszeredi@redhat.com> <CAJnrk1Z_JWtuA3UjucF9=YH63AH_-J_0hzr9jbY99Hx3O8YrAw@mail.gmail.com>
- <CAJfpegspraqMp1Z3mi_csiw6haawZPa4zWheSUN7MhBy47aYKQ@mail.gmail.com>
- <CAOQ4uxgV4_Pet0w3f+Sq4kLkvgKM6FyJwZ4AQsnvctC3w=dP6g@mail.gmail.com>
- <CAJnrk1ZvB-R3Szn-VxOZvPRgX_dXwMLouBphnT9_URCE8SxTvQ@mail.gmail.com>
- <CAOQ4uxidwSn69A08Urue7S7n8wrGQcyGuvRL387pD+rpSFP-Ew@mail.gmail.com> <CAJnrk1ZJ1pVWn21HZATRes55RJD0F0+6SHbq-8FojPutQTiW6Q@mail.gmail.com>
-In-Reply-To: <CAJnrk1ZJ1pVWn21HZATRes55RJD0F0+6SHbq-8FojPutQTiW6Q@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 15 May 2026 22:17:40 +0200
-X-Gm-Features: AVHnY4I2LLv-HfpohghtdvVbqkqJkNUSgOrPr2eYGxJXSVJpcLIcLIkS7YOTO2s
-Message-ID: <CAOQ4uxgDGuFq=Szw8G1BMuhuBhZ029kf+FrVq6y2Oq+gaQ78sA@mail.gmail.com>
-Subject: Re: [PATCH] fuse: add fusex filesystem
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260515-fix_pipe-v1-1-b14c840c7555@debian.org>
 
-On Fri, May 15, 2026 at 1:24=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-...
-> > Cool. Let's get this rolling.
-> > I need to get my test setup back in shape.
->
-> What is the test setup you are using? fstests with passthrough_hp or
+On Fri, May 15, 2026 at 03:28:44AM -0700, Breno Leitao wrote:
+> anon_pipe_write() takes pipe->mutex and then, from the per-iteration
+> anon_pipe_get_page() helper, used to call alloc_page(GFP_HIGHUSER |
+> __GFP_ACCOUNT) once per page while still holding it. That allocation
+> can sleep doing direct reclaim and/or runs memcg charging, which extends
+> the critical section and stalls a concurrent reader on the very same
+> mutex.
+> 
+> Bulk pre-allocate DIV_ROUND_UP(total_len, PAGE_SIZE) pages (up to
+> PIPE_PREALLOC_MAX (8)) pages outside the mutex when total_len >=
+> PAGE_SIZE, using alloc_pages_bulk().  (Under memcg, alloc_pages_bulk()
+> with __GFP_ACCOUNT might return less pages than requested, but, this is
+> still a win, given some pages allocation is moved outside of the
+> lock).
+> 
+> Pass the array into anon_pipe_get_page(), which now consumes from
+> tmp_page[] first, then from the prealloc array, and only as a last
+> resort falls back to alloc_page() under the mutex (reached only for
+> writes larger than 8 pages, where the prealloc cap is exhausted).
+> 
+> Doing this in one bulk call before the lock keeps the fast path's
+> mutex held for a single, write-bounded critical section -- no extra
+> mutex_unlock/_lock cycles -- so it avoids the per-page lock-handoff
+> overhead that a per-page drop-and-retake design would introduce, while
+> still moving the typical multi-page allocation off the critical
+> section. Unused prealloc pages are pushed to the pipe's tmp_page[]
+> cache (or freed) before unlock, so a subsequent write to the same
+> pipe gets a hot cached page rather than paying for an alloc again.
+> 
+> Sub-PAGE_SIZE writes are unchanged: the merge path handles them
+> without ever needing a fresh page, so it is not worth speculatively
+> allocating for them.
+> 
+> This can improve the pipe throughput up to 48% and reduce the latency in
+> 33%.
 
-Yes. *was* using while I developed the passthrough patches.
-Didn't run it for a while.
 
-> are there other tests in addition to that? If there's other tests
-> you'd like me to run besides fstests, please let me know and I'd be
-> happy to do that.
+This change is quite a hammer.
 
-Nothing beyond the libfuse test_passthrough_hp sanity test and
-fstests with passthough_hp.
+Do you have a real workload where there are multiple processes issuing
+large ops to the same pipe on both reader and writer side?
 
->
-> When I ran fstests yesterday with passthrough_hp, I saw generic 683,
-> 684, and 685 (dropping suid/sgid on fallocate, fpunch, and fzero)
-> start passing, but beyond that I didn't see any improvements (or
-> regressions).
+The only workload I'm aware of sharing the pipe between more than just
+one reader and one writer is anything with make, but that is mostly
+operating on 1-byte ops.
 
-That's the last report I have on record:
-https://lore.kernel.org/linux-fsdevel/CAOQ4uxh=3DcLySge6htd+DnJrqAKF=3DC_oJ=
-YfVrbpvQGik0wR-+iw@mail.gmail.com/
+I'm asking because this would be better implemented taking into account
+how many pages are hanging out in the tmp_page array. With only one
+writer and one reader there is no concern someone will steal the pages.
 
-It speaks of some tests that are
-"failing because of missing mtime/atime/ctime updates" and of
-"failure to strip suid/sgid bits in some cases"
+Preferably the tmp_page array would grow to accomodate more memory, but
+admittedly this runs into a problem where a pipe can linger unused
+indefinitely while hoarding several pages. As in, some shrinking
+mechanism would be needed so that's probably a no-go and preallocation
+is the way to go for now.
 
-I had imagined that the passthrough of GETATTR would fix some of those
-failing tests and to some extent, this is in line with your report.
+Even then, this can definitely be integrated much better instead of
+being open-coded.
 
-Attribute cache and passthrough is an unfinished business.
-If we could force passthrough of GETATTR when inode is
-in passthrough iomode, I wouldn't mind.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  fs/pipe.c | 40 ++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 38 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/pipe.c b/fs/pipe.c
+> index 9841648c9cf3e..7a1517d15107a 100644
+> --- a/fs/pipe.c
+> +++ b/fs/pipe.c
+> @@ -111,7 +111,11 @@ void pipe_double_lock(struct pipe_inode_info *pipe1,
+>  	pipe_lock(pipe2);
+>  }
+>  
+> -static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe)
+> +#define PIPE_PREALLOC_MAX 8
+> +
+> +static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe,
+> +				       struct page **prealloc,
+> +				       unsigned int *prealloc_n)
+>  {
+>  	for (int i = 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
+>  		if (pipe->tmp_page[i]) {
+> @@ -121,6 +125,14 @@ static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe)
+>  		}
+>  	}
+>  
+> +	if (*prealloc_n) {
+> +		unsigned int idx = --(*prealloc_n);
 
-Thanks,
-Amir.
+This is some nasty golfing.
+
+Instead, you could have something like:
+struct tmp_page_prealloc {
+	struct page *pages;
+	unsigned int count;
+};
+
+
+then...
+
+> +		struct page *page = prealloc[idx];
+> +
+> +		prealloc[idx] = NULL;
+> +		return page;
+> +	}
+> +
+>  	return alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
+>  }
+>  
+> @@ -438,6 +450,8 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
+>  	ssize_t chars;
+>  	bool was_empty = false;
+>  	bool wake_next_writer = false;
+> +	struct page *prealloc[PIPE_PREALLOC_MAX] = { NULL };
+> +	unsigned int prealloc_n = 0;
+>  
+
+	struct tmp_page_prealloc tpp = {};
+
+>  	/*
+>  	 * Reject writing to watch queue pipes before the point where we lock
+> @@ -455,6 +469,26 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
+>  	if (unlikely(total_len == 0))
+>  		return 0;
+>  
+> +	/*
+> +	 * Bulk pre-allocate up to PIPE_PREALLOC_MAX pages outside pipe->mutex
+> +	 * for writes that span at least one full page. alloc_page() with
+> +	 * GFP_HIGHUSER may sleep doing reclaim and runs memcg charging, so
+> +	 * doing it under the mutex extends the critical section and stalls
+> +	 * the reader. The merge path handles sub-PAGE_SIZE writes without
+> +	 * needing a fresh page; for writes larger than PIPE_PREALLOC_MAX
+> +	 * pages, anon_pipe_get_page() falls back to a single alloc_page()
+> +	 * under the mutex for the remainder. Unused prealloc pages are
+> +	 * returned to the pipe's tmp_page[] cache (or freed) before unlock.
+> +	 */
+> +	if (total_len >= PAGE_SIZE) {
+> +		unsigned int want = min_t(unsigned int,
+> +					  DIV_ROUND_UP(total_len, PAGE_SIZE),
+> +					  PIPE_PREALLOC_MAX);
+> +
+> +		prealloc_n = alloc_pages_bulk(GFP_HIGHUSER | __GFP_ACCOUNT,
+> +					      want, prealloc);
+> +	}
+> +
+
+This should move to a dedicated routine, perhaps:
+	anon_get_page_prealloc(pipe, &tmp_page_prealloc);
+
+then it can also easily decide how much to prealloc based on existing
+state
+
+>  	mutex_lock(&pipe->mutex);
+>  
+>  	if (!pipe->readers) {
+> @@ -512,7 +546,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
+>  			struct page *page;
+>  			int copied;
+>  
+> -			page = anon_pipe_get_page(pipe);
+> +			page = anon_pipe_get_page(pipe, prealloc, &prealloc_n);
+>  			if (unlikely(!page)) {
+>  				if (!ret)
+>  					ret = -ENOMEM;
+> @@ -576,6 +610,8 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
+>  		wake_next_writer = true;
+>  	}
+>  out:
+> +	while (prealloc_n)
+> +		anon_pipe_put_page(pipe, prealloc[--prealloc_n]);
+
+this results in put_page() calls under the mutex, still extending the hold time
+
+you could split this into 2 ops, for example:
++	anon_pipe_cache_pages(pipe, &tmp_page_prealloc);
+  	if (pipe_is_full(pipe))
+  		wake_next_writer = false;
+  	mutex_unlock(&pipe->mutex);
++	anon_pipe_free_pages(pipe, &tmp_page_prealloc);
+
+All that aside, I have no idea about performance impact on arm64, but
+there is *definitely* some throughput lost based on the fact that memory
+copy is restarted per page. I presume arm64 has an equivalent of amd64's
+SMAP which again will not be free and is paid for every time as well.
