@@ -1,30 +1,29 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C79C3C8C65;
-	Fri, 15 May 2026 09:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B6143E489;
+	Fri, 15 May 2026 09:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778838515; cv=none; b=sf1ZQybXWmWhLbUiIYaWTXLoXWc74srYuRoI5ruuRPEFOSLRg86uHiC4hK3KqSNLtepYNI4h3TX+oyXSDRnMK1LJqLCxW2XFTJMFc6Ql43SWPQtFEY34my0+mJYLCT1CFYl+Xt/qj06hMZFSIFa849uDpAxtR6fIUnKAdaYeSQU=
+	t=1778838519; cv=none; b=SEz1sMPP6cW0NQQAo5fjFgd8xBt7Kya8pVMq/CuRi89q9OTz2JlFqivoGUzmwiNnv0dPrc8B9Orhwtg8mGbyJF0GDfgZF4xqfO5B9hdV3K82eqAO9a3c153rabC7JWGqjjG4XGRikEokaz8OjHlPveJs3FPTSy+7IDtZEd34jxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778838515; c=relaxed/simple;
-	bh=TH6ahl9ulw0pL6T5JDaH6lMv268eBsUF4xzVPOcOwdI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ML+tGKHF7cQfqM9yDmNIRTKnZFOpAoskGHQ5V1n9kyOPJKjyTrjMMxnOVnLf9aPOqF4jSsPkbLKnOB6g4EqLYV9QQ+a9vRt/CngikzPTtRWKvdv+JK7m3jGWkE6gebabX3h4SPlc9idPV0YyddrxzuL3edM3pteMMSzKhMexHKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=hcz3fYBk; arc=none smtp.client-ip=117.135.210.3
+	s=arc-20240116; t=1778838519; c=relaxed/simple;
+	bh=tDf6ql0D3RBr8ZAXctd+C2GXmKGRkUn1BnE9L++6R0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HsiwNYEdubrcVyIkXxKEiibG39TdlT05mUSh0c3NSpmbynQCQHVBSMuxd70+s9gmJ9uoPIMyIZ9XTDcQmLuWaePzsRvcy9cgintrb+tlgOTTLuX+DaYUWMeVqBx2ex6c2FCtHUEoFI33jdT8D6EvTeflUO2FSjfXhaUQYPcn6QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=XHWLYlG7; arc=none smtp.client-ip=220.197.31.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="hcz3fYBk"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="XHWLYlG7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Al
-	ESWM+x9CBZx/ibVibR9kzkEAIwGUCZhksgluuowXA=; b=hcz3fYBkFNRAnwc4mg
-	6gbOq6nbAGobeo+RnyqgkioZ97HqWpMaXTrbZfUwYyQkEDrnI79hKk8BBisRqeIN
-	k7R5EQc2GsuWTgspXYc2hwjwyyDo+Szb9HVzyGPQXmMbh5g46+YM3OIG6Qbmn1Xo
-	Zgm9G7t0vBKZAXszc/2z+3kXA=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=3h
+	62kitl08ea3beBtgH0dYPBq1vKLHYc6O3MIHUEOS8=; b=XHWLYlG7+KqOBkTKp/
+	KruqlCrsicnfTiSCXpoZ9ULV2gVGB+JZgrSnGKThIvV89lD5iBAEP5QnFm9MmXFp
+	B2MuF57F7gFhmiKBLsXu4Hnp2+WD+H+s1aCWt7g20+p4fvRsJFlxLoQPrWuI7EFb
+	I9UIH1Y80mrABb9zwQ35QwkpE=
 Received: from czl-ubuntu-pc.. (unknown [])
-	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wBnVxek6wZq6RobBg--.38248S3;
-	Fri, 15 May 2026 17:47:18 +0800 (CST)
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wBnVxek6wZq6RobBg--.38248S2;
+	Fri, 15 May 2026 17:47:17 +0800 (CST)
 From: Chi Zhiling <chizhiling@163.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-mm@kvack.org,
@@ -44,12 +43,10 @@ Cc: Hugh Dickins <hughd@google.com>,
 	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
 	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [RFC PATCH 1/4] mm/shmem: add SGP_GET to get unlocked folio
-Date: Fri, 15 May 2026 17:46:59 +0800
-Message-ID: <20260515094702.1092355-2-chizhiling@163.com>
+Subject: [RFC PATCH 0/4] mm/shmem: optimize read performance with folio batching
+Date: Fri, 15 May 2026 17:46:58 +0800
+Message-ID: <20260515094702.1092355-1-chizhiling@163.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260515094702.1092355-1-chizhiling@163.com>
-References: <20260515094702.1092355-1-chizhiling@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -57,93 +54,73 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBnVxek6wZq6RobBg--.38248S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGr4DtF1ktw1kXrWxWFWkXrb_yoW5ZFWUpr
-	ZrKF97trZ5K34xCwn7Zw48Zw1ru3s3KryUK34agr1IyFn8X3Wvkr10yr1UKF18trW3G3WF
-	qw4UCa15uF1DZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jIYLkUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3AZA3WoG66bf3wAA3m
+X-CM-TRANSID:_____wBnVxek6wZq6RobBg--.38248S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AFyfGw47tF18KrW3Wr15Jwb_yoW8XFWrpF
+	yDWas3tr92q34xCasxC3yvgrWrX3y8Kr4vqrWft3Z8XF4Yyr1FyFn7Jr48W3yUCr1fJF17
+	XFyfAw129w4j93DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07ja89NUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC2wVA3WoG66XMJQAA3I
 
 From: Chi Zhiling <chizhiling@kylinos.cn>
 
-Add a new sgp_type SGP_GET which is similar to SGP_READ but returns
-the folio unlocked with an increased refcount. This eliminates the
-lock/unlock overhead for read-only operations.
+This series optimizes shmem read performance by implementing folio
+batching in the read path and eliminating unnecessary lock operations.
 
-SGP_GET skips folio lock and mapping check, suitable only for
-short-lived access. Caller must not rely on folio->mapping validity
-as it can become invalid due to concurrent truncate. Safety relies
-on refcount and uptodate flag (truncate doesn't clear content).
+Performance testing with fio:
+(--ioengine=sync --rw=read --size=1G --runtime=120)
 
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
----
- include/linux/shmem_fs.h |  3 ++-
- mm/shmem.c               | 15 ++++++++++++---
- 2 files changed, 14 insertions(+), 4 deletions(-)
+shmem (THP disabled):
+  bs=1M:   11.4 GiB/s
+  bs=64k:  11.1 GiB/s
+  bs=4k:   3814 MiB/s
 
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index 93a0ba872ebe..24698faea5a4 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -164,7 +164,8 @@ extern unsigned long shmem_partial_swap_usage(struct address_space *mapping,
- 
- /* Flag allocation requirements to shmem_get_folio */
- enum sgp_type {
--	SGP_READ,	/* don't exceed i_size, don't allocate page */
-+	SGP_GET,	/* don't exceed i_size, don't allocate page, don't lock */
-+	SGP_READ,	/* don't exceed i_size, don't allocate page, lock folio */
- 	SGP_NOALLOC,	/* similar, but fail on hole or use fallocated page */
- 	SGP_CACHE,	/* don't exceed i_size, may allocate page */
- 	SGP_WRITE,	/* may exceed i_size, may allocate !Uptodate page */
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 3b5dc21b323c..ef19968cc51c 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -2504,6 +2504,13 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
- 	}
- 
- 	if (folio) {
-+		if (sgp == SGP_GET) {
-+			if (!folio_test_uptodate(folio)) {
-+				folio_put(folio);
-+				folio = NULL;
-+			}
-+			goto out;
-+		}
- 		folio_lock(folio);
- 
- 		/* Has the folio been truncated or swapped out? */
-@@ -2524,11 +2531,11 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
- 	}
- 
- 	/*
--	 * SGP_READ: succeed on hole, with NULL folio, letting caller zero.
-+	 * SGP_READ/SGP_GET: succeed on hole, with NULL folio, letting caller zero.
- 	 * SGP_NOALLOC: fail on hole, with NULL folio, letting caller fail.
- 	 */
- 	*foliop = NULL;
--	if (sgp == SGP_READ)
-+	if (sgp == SGP_READ || sgp == SGP_GET)
- 		return 0;
- 	if (sgp == SGP_NOALLOC)
- 		return -ENOENT;
-@@ -2649,13 +2656,15 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
-  * @sgp:	SGP_* flags to control behavior
-  *
-  * Looks up the page cache entry at @inode & @index.  If a folio is
-- * present, it is returned locked with an increased refcount.
-+ * present, it is returned locked with an increased refcount, except
-+ * for SGP_GET which returns the folio unlocked with an increased refcount.
-  *
-  * If the caller modifies data in the folio, it must call folio_mark_dirty()
-  * before unlocking the folio to ensure that the folio is not reclaimed.
-  * There is no need to reserve space before calling folio_mark_dirty().
-  *
-  * When no folio is found, the behavior depends on @sgp:
-+ *  - for SGP_GET, *@foliop is %NULL and 0 is returned
-  *  - for SGP_READ, *@foliop is %NULL and 0 is returned
-  *  - for SGP_NOALLOC, *@foliop is %NULL and -ENOENT is returned
-  *  - for all other flags a new folio is allocated, inserted into the
+shmem (THP disabled) + fbatch:
+  bs=1M:   12.8 GiB/s (+12%)
+  bs=64k:  12.3 GiB/s (+11%)
+  bs=4k:   3783 MiB/s (-0.8%)
+
+shmem (THP enabled):
+  bs=1M:   13.8 GiB/s
+  bs=64k:  13.1 GiB/s
+  bs=4k:   3851 MiB/s
+
+shmem (THP enabled) + fbatch:
+  bs=1M:   14.0 GiB/s (+1%)
+  bs=64k:  13.4 GiB/s (+2%)
+  bs=4k:   3811 MiB/s (-1%)
+
+shmem preallocated via fallocate (THP disabled):
+  bs=1M:   24.0 GiB/s
+  bs=64k:  22.5 GiB/s
+  bs=4k:   4670 MiB/s
+
+shmem preallocated via fallocate (THP disabled) + fbatch:
+  bs=1M:   29.3 GiB/s (+22%)
+  bs=64k:  26.7 GiB/s (+19%)
+  bs=4k:   4654 MiB/s (-0.3%)
+
+shmem preallocated via fallocate (THP enabled):
+  bs=1M:   24.0 GiB/s
+  bs=64k:  22.9 GiB/s
+  bs=4k:   4698 MiB/s
+
+shmem preallocated via fallocate (THP enabled) + fbatch:
+  bs=1M:   34.3 GiB/s (+43%)
+  bs=64k:  31.5 GiB/s (+38%)
+  bs=4k:   4689 MiB/s (-0.2%)
+
+
+Chi Zhiling (4):
+  mm/shmem: add SGP_GET to get unlocked folio
+  mm/shmem: use SGP_GET in read operations
+  mm/shmem: optimize file read with folio batching
+  mm/shmem: make SGP_NOALLOC succeed on hole like SGP_READ
+
+ include/linux/shmem_fs.h |   5 +-
+ mm/khugepaged.c          |   2 +-
+ mm/shmem.c               | 132 ++++++++++++++++++++++++++++++++-------
+ 3 files changed, 112 insertions(+), 27 deletions(-)
+
 -- 
 2.43.0
 
