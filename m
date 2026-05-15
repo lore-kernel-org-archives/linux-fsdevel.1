@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77F230C147;
-	Fri, 15 May 2026 18:30:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA643EEACB;
+	Fri, 15 May 2026 18:33:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778869846; cv=none; b=ZH5EQLjAF7ClFx4VzWwJhZY77OgXD1A1bo7rgUqWsiYBRvJ2JBzNiYzrukghBBWZ44tyzjSfSBBJDmAceZDka4p1dX/RVr8tE2Xs64Ltcy+KLIxq115InMuu4XK85jzsEihredFMAnxWmd5MC46Bt3A6iKjs2dCgPyrO+bM72GQ=
+	t=1778869989; cv=none; b=ndRBOBPNCMSLM9YJ50pLaFKeMHtj6ejwLeHZeQaBV6TRHFlJNJhtrOiQS28LG6MqhrsIPY7zFn0sR5zk9xoOg9KQuaG9EjP00D7EyFBY7hHzCo1v7tjFrRr/tcrhkfL3LOplL6GR62Mul1cc4frYmeoAZlTEmXOQG1WP8WMT2I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778869846; c=relaxed/simple;
-	bh=VVgMBHzBmbZFR9fUtweL0fPc+KsxWnNFpYFGvzf2ork=;
+	s=arc-20240116; t=1778869989; c=relaxed/simple;
+	bh=Vq8Z2k6hvodlVnHeRDMv68ZqnClkkQns6FSC7vPwZ1s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vgs89zOUoVGtaC6LFwfvoDErjIQf6y1NInRPvXeCqyWWNVn9Gdur4vSJiAZlZIqudqYsNqfnYwXUrz1bVtP3F/DsoKtKmMXfhhblxaV6zJHwx9jyj2hgy59pGzymy/c+xTzFTsSV6g4jJb0DaCHnN6JP6ipM4ueTk6R3Sglp2kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XzG7uS3x; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1mQ33EZolFkdCD4v+MISJtT+X6z896CgNOyZVnjOIfiMKudXHIKFDRmKp3dk+v4CO3hPbGQY2Fv1zFOQFQ5bKTlspqqMKicPQmP52ErxucM/CkLDHMV7IX1v3Z7WaKLqOdcyJG6aoPT2ebNqN9G5ujYTetyzWnXMeM1kLM4KLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=udHd7hlU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XzG7uS3x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836C9C2BCB0;
-	Fri, 15 May 2026 18:30:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="udHd7hlU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48D32C2BCB0;
+	Fri, 15 May 2026 18:33:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778869845;
-	bh=VVgMBHzBmbZFR9fUtweL0fPc+KsxWnNFpYFGvzf2ork=;
+	s=k20201202; t=1778869989;
+	bh=Vq8Z2k6hvodlVnHeRDMv68ZqnClkkQns6FSC7vPwZ1s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XzG7uS3xX+am72yzWFfdfBCW50fbJIwtCulJSpc0BJKHKRXO4zYVnqyDkli5/Q5x0
-	 KUJERq9zTkW2dfjU1jVCvn/sgJwNiwQL7u70/N2dgQzcVqg5GA2y5bzsiLlhdmWQDa
-	 hciB4EOqvFjOw0NrG7uxRH9XmiEisxOmGBYUG+tC0jpVTFp1o4cN+RQ6SmQYWktV5t
-	 I4/8H25s+RZOEPxszHSVh6nRzEhWClpz6g/6XKllaVD73RdGQ/9pj6xr0VjU1/WH0j
-	 pA8z2zH8Hisgi/b/SlckrYMjlVv+hU2gnB8OzrVgtRtlLs06YbR7/rxOC1wla7xUx0
-	 WFGZZFSiibifg==
-Date: Fri, 15 May 2026 11:30:44 -0700
+	b=udHd7hlUdkqMYUGnv6doEWda3SHWRT0X98ik7GUkSuoiSE3tAQAvXun4QmW/IgGgx
+	 M8J1GAaRND9qOyy/URX+HGVFrt63JLBtvG3rB9NhrJ8hp3dywgJXNS3XHdxTwhUq2h
+	 yV4gEtD8j2xhuw6ySZ45N1FO1NnmQztT6ziSi2g4TmvJNrCvRR3kCLqXM+vM60GXI6
+	 HLob+LDUKllAhv9lIw2QW0OC2xQYwHtaWMH2CRqqRlFANglLU8MRR2F1VSkt51jZD7
+	 mhfl4aHvRmusm30sXjhuZiQX/KwA2AAmzjSOdOdYSNYPOrOomeue9W9EQXXf3+6FOt
+	 482Loz09IQ0TA==
+Date: Fri, 15 May 2026 11:33:08 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Subject: Re: [PATCH 02/25] libfuse: wait in do_destroy until all open files
- are closed
-Message-ID: <20260515183044.GT9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 04/25] libfuse: add fuse commands for iomap_begin and end
+Message-ID: <20260515183308.GU9544@frogsfrogsfrogs>
 References: <177747211463.4104686.1151865355399948078.stgit@frogsfrogsfrogs>
- <177747211602.4104686.4871515875765008225.stgit@frogsfrogsfrogs>
+ <177747211638.4104686.9463757189882373298.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,323 +43,392 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747211602.4104686.4871515875765008225.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747211638.4104686.9463757189882373298.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:39:35AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:40:07AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> This patch complements the Linux kernel patch "fuse: flush pending fuse
-> events before aborting the connection".
-> 
-> This test opens a large number of files, unlinks them (which really just
-> renames them to fuse hidden files), closes the program, unmounts the
-> filesystem, and runs fsck to check that there aren't any inconsistencies
-> in the filesystem.
-> 
-> Unfortunately, the 488.full file shows that there are a lot of hidden
-> files left over in the filesystem, with incorrect link counts.  Tracing
-> fuse_request_* shows that there are a large number of FUSE_RELEASE
-> commands that are queued up on behalf of the unlinked files at the time
-> that fuse_conn_destroy calls fuse_abort_conn.  Had the connection not
-> aborted, the fuse server would have responded to the RELEASE commands by
-> removing the hidden files; instead they stick around.
-> 
-> For upper-level fuse servers that don't use fuseblk mode this isn't a
-> problem because libfuse responds to the connection going down by pruning
-> its inode cache and calling the fuse server's ->release for any open
-> files before calling the server's ->destroy function.
-> 
-> For fuseblk servers this is a problem, however, because the kernel sends
-> FUSE_DESTROY to the fuse server, and the fuse server has to write all of
-> its pending changes to the block device before replying to the DESTROY
-> request because the kernel releases its O_EXCL hold on the block device.
-> This means that the kernel must flush all pending FUSE_RELEASE requests
-> before issuing FUSE_DESTROY.
-> 
-> For fuse-iomap servers this will also be a problem because iomap servers
-> are expected to release all exclusively-held resources before unmount
-> returns from the kernel.
-> 
-> Create a function to push all the background requests to the queue
-> before sending FUSE_DESTROY.  That way, all the pending file release
-> events are processed by the fuse server before it tears itself down, and
-> we don't end up with a corrupt filesystem.
-> 
-> Note that multithreaded fuse servers will need to track the number of
-> open files and defer a FUSE_DESTROY request until that number reaches
-> zero.  An earlier version of this patch made the kernel wait for the
-> RELEASE acknowledgements before sending DESTROY, but the kernel people
-> weren't comfortable with adding blocking waits to unmount.
-> 
-> This patch implements the deferral for the multithreaded libfuse
-> backend.  However, we must implement this deferral by starting a new
-> background thread because libfuse in io_uring mode starts up a bunch of
-> threads, each of which submit batches of SQEs to request fuse commands,
-> and then waits for the kernel to mark some CQEs to note which slots now
-> have fuse commands to process.  Each uring thread processes the fuse
-> comands in the CQE serially, which means that _do_destroy can't just
-> wait for the open file counter to hit zero; it has to start a new
-> background thread to do that, so that it can continue to process pending
-> fuse commands.
-> 
-> [Aside: is this bad for fuse command processing latency?  Suppose we get
-> two CQE completions, then the second command won't even be looked at
-> until the first one is done.]
-> 
-> Non-uring fuse by contrast reads one fuse command and processes it
-> immediately, so one command taking a long time won't stall any other
-> commands.
+> Teach the low level API how to handle iomap begin and end commands that
+> we get from the kernel.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  lib/fuse_i.h        |    4 ++
->  lib/fuse_lowlevel.c |  107 ++++++++++++++++++++++++++++++++++++++++++++++++---
->  2 files changed, 104 insertions(+), 7 deletions(-)
+>  include/fuse_common.h   |   71 +++++++++++++++++++++++++++++++++
+>  include/fuse_kernel.h   |   40 ++++++++++++++++++
+>  include/fuse_lowlevel.h |   59 +++++++++++++++++++++++++++
+>  lib/fuse_lowlevel.c     |  102 +++++++++++++++++++++++++++++++++++++++++++++++
+>  lib/fuse_versionscript  |    3 +
+>  5 files changed, 275 insertions(+)
 > 
 > 
-> diff --git a/lib/fuse_i.h b/lib/fuse_i.h
-> index 1710a872e19c72..17175e4454f90f 100644
-> --- a/lib/fuse_i.h
-> +++ b/lib/fuse_i.h
-> @@ -122,6 +122,10 @@ struct fuse_session {
->  	 */
->  	uint32_t conn_want;
->  	uint64_t conn_want_ext;
+> diff --git a/include/fuse_common.h b/include/fuse_common.h
+> index 23712fed8d64c2..d8b371b6641a6c 100644
+> --- a/include/fuse_common.h
+> +++ b/include/fuse_common.h
+> @@ -1140,7 +1140,78 @@ bool fuse_get_feature_flag(const struct fuse_conn_info *conn, uint64_t flag);
+>   */
+>  int fuse_convert_to_conn_want_ext(struct fuse_conn_info *conn);
+>  
+> +/**
+> + * iomap operations.
+> + * These APIs are introduced in version 399 (FUSE_MAKE_VERSION(3, 99)).
+> + */
+>  
+> +/* mapping types; see corresponding IOMAP_TYPE_ */
+> +#define FUSE_IOMAP_TYPE_HOLE		(0)
+> +#define FUSE_IOMAP_TYPE_DELALLOC	(1)
+> +#define FUSE_IOMAP_TYPE_MAPPED		(2)
+> +#define FUSE_IOMAP_TYPE_UNWRITTEN	(3)
+> +#define FUSE_IOMAP_TYPE_INLINE		(4)
 > +
-> +	/* destroy has to wait for all the open files to go away */
-> +	pthread_cond_t zero_open_files;
-> +	uint64_t open_files;
+> +/* fuse-specific mapping type indicating that writes use the read mapping */
+> +#define FUSE_IOMAP_TYPE_PURE_OVERWRITE	(255)
+> +
+> +#define FUSE_IOMAP_DEV_NULL		(0U)	/* null device cookie */
+> +
+> +/* mapping flags passed back from iomap_begin; see corresponding IOMAP_F_ */
+> +#define FUSE_IOMAP_F_NEW		(1U << 0)
+> +#define FUSE_IOMAP_F_DIRTY		(1U << 1)
+> +#define FUSE_IOMAP_F_SHARED		(1U << 2)
+> +#define FUSE_IOMAP_F_MERGED		(1U << 3)
+> +#define FUSE_IOMAP_F_BOUNDARY		(1U << 4)
+> +#define FUSE_IOMAP_F_ANON_WRITE		(1U << 5)
+> +#define FUSE_IOMAP_F_ATOMIC_BIO		(1U << 6)
+> +
+> +/* fuse-specific mapping flag asking for ->iomap_end call */
+> +#define FUSE_IOMAP_F_WANT_IOMAP_END	(1U << 7)
+> +
+> +/* mapping flags passed to iomap_end */
+> +#define FUSE_IOMAP_F_SIZE_CHANGED	(1U << 8)
+> +#define FUSE_IOMAP_F_STALE		(1U << 9)
+> +
+> +/* operation flags from iomap; see corresponding IOMAP_* */
+> +#define FUSE_IOMAP_OP_WRITE		(1U << 0)
+> +#define FUSE_IOMAP_OP_ZERO		(1U << 1)
+> +#define FUSE_IOMAP_OP_REPORT		(1U << 2)
+> +#define FUSE_IOMAP_OP_FAULT		(1U << 3)
+> +#define FUSE_IOMAP_OP_DIRECT		(1U << 4)
+> +#define FUSE_IOMAP_OP_NOWAIT		(1U << 5)
+> +#define FUSE_IOMAP_OP_OVERWRITE_ONLY	(1U << 6)
+> +#define FUSE_IOMAP_OP_UNSHARE		(1U << 7)
+> +#define FUSE_IOMAP_OP_DAX		(1U << 8)
+> +#define FUSE_IOMAP_OP_ATOMIC		(1U << 9)
+> +#define FUSE_IOMAP_OP_DONTCACHE		(1U << 10)
+> +
+> +/* pagecache writeback operation */
+> +#define FUSE_IOMAP_OP_WRITEBACK		(1U << 31)
+> +
+> +#define FUSE_IOMAP_NULL_ADDR		(-1ULL)	/* addr is not valid */
+> +
+> +struct fuse_file_iomap {
+> +	uint64_t offset;	/* file offset of mapping, bytes */
+> +	uint64_t length;	/* length of mapping, bytes */
+> +	uint64_t addr;		/* disk offset of mapping, bytes */
+> +	uint16_t type;		/* FUSE_IOMAP_TYPE_* */
+> +	uint16_t flags;		/* FUSE_IOMAP_F_* */
+> +	uint32_t dev;		/* device cookie */
+> +};
+> +
+> +static inline bool fuse_iomap_is_write(unsigned int opflags)
+> +{
+> +	return opflags & (FUSE_IOMAP_OP_WRITE | FUSE_IOMAP_OP_ZERO |
+> +			  FUSE_IOMAP_OP_UNSHARE | FUSE_IOMAP_OP_WRITEBACK);
+> +}
+> +
+> +static inline bool fuse_iomap_need_write_allocate(unsigned int opflags,
+> +					const struct fuse_file_iomap *map)
+> +{
+> +	return map->type == FUSE_IOMAP_TYPE_HOLE &&
+> +		!(opflags & FUSE_IOMAP_OP_ZERO);
+
+Technically speaking this should be checking fuse_iomap_is_write() as
+well, to make sure that this was any kind of write operation.
+
+> +}
+>  
+>  /* ----------------------------------------------------------- *
+>   * Compatibility stuff					       *
+> diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
+> index 354a6da01c2ecc..b3750bb6275620 100644
+> --- a/include/fuse_kernel.h
+> +++ b/include/fuse_kernel.h
+> @@ -670,6 +670,9 @@ enum fuse_opcode {
+>  	FUSE_STATX		= 52,
+>  	FUSE_COPY_FILE_RANGE_64	= 53,
+>  
+> +	FUSE_IOMAP_BEGIN	= 4094,
+> +	FUSE_IOMAP_END		= 4095,
+> +
+>  	/* CUSE specific operations */
+>  	CUSE_INIT		= 4096,
+>  
+> @@ -1313,4 +1316,41 @@ struct fuse_uring_cmd_req {
+>  	uint8_t padding[6];
 >  };
 >  
->  struct fuse_chan {
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index 7e7ad683bccb50..487fd72420cdf1 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -54,6 +54,22 @@
->  #define PARAM(inarg) (((char *)(inarg)) + sizeof(*(inarg)))
->  #define OFFSET_MAX 0x7fffffffffffffffLL
->  
-> +static inline void inc_open_files(struct fuse_session *se)
-> +{
-> +	pthread_mutex_lock(&se->lock);
-> +	se->open_files++;
-> +	pthread_mutex_unlock(&se->lock);
-> +}
+> +struct fuse_iomap_io {
+> +	uint64_t offset;	/* file offset of mapping, bytes */
+> +	uint64_t length;	/* length of mapping, bytes */
+> +	uint64_t addr;		/* disk offset of mapping, bytes */
+> +	uint16_t type;		/* FUSE_IOMAP_TYPE_* */
+> +	uint16_t flags;		/* FUSE_IOMAP_F_* */
+> +	uint32_t dev;		/* device cookie */
+> +};
 > +
-> +static inline void dec_open_files(struct fuse_session *se)
-> +{
-> +	pthread_mutex_lock(&se->lock);
-> +	se->open_files--;
-> +	if (!se->open_files)
-> +		pthread_cond_broadcast(&se->zero_open_files);
-> +	pthread_mutex_unlock(&se->lock);
-> +}
+> +struct fuse_iomap_begin_in {
+> +	uint32_t opflags;	/* FUSE_IOMAP_OP_* */
+> +	uint32_t reserved;	/* zero */
+> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
+> +	uint64_t pos;		/* file position, in bytes */
+> +	uint64_t count;		/* operation length, in bytes */
+> +};
 > +
->  struct fuse_pollhandle {
->  	uint64_t kh;
->  	struct fuse_session *se;
-> @@ -549,12 +565,17 @@ int fuse_reply_create(fuse_req_t req, const struct fuse_entry_param *e,
->  		FUSE_COMPAT_ENTRY_OUT_SIZE : sizeof(struct fuse_entry_out);
->  	struct fuse_entry_out *earg = (struct fuse_entry_out *) buf;
->  	struct fuse_open_out *oarg = (struct fuse_open_out *) (buf + entrysize);
-> +	struct fuse_session *se = req->se;
-> +	int error;
->  
->  	memset(buf, 0, sizeof(buf));
->  	fill_entry(earg, e);
->  	fill_open(oarg, f);
-> -	return send_reply_ok(req, buf,
-> +	error = send_reply_ok(req, buf,
->  			     entrysize + sizeof(struct fuse_open_out));
-> +	if (!error)
-> +		inc_open_files(se);
+> +struct fuse_iomap_begin_out {
+> +	/* read file data from here */
+> +	struct fuse_iomap_io	read;
+> +
+> +	/* write file data to here, if applicable */
+> +	struct fuse_iomap_io	write;
+> +};
+> +
+> +struct fuse_iomap_end_in {
+> +	uint32_t opflags;	/* FUSE_IOMAP_OP_* */
+> +	uint32_t reserved;	/* zero */
+> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
+> +	uint64_t pos;		/* file position, in bytes */
+> +	uint64_t count;		/* operation length, in bytes */
+> +	int64_t written;	/* bytes processed */
+> +
+> +	/* mapping that the kernel acted upon */
+> +	struct fuse_iomap_io	map;
+> +};
+> +
+>  #endif /* _LINUX_FUSE_H */
+> diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
+> index ea71130946ba21..b9a072841ef078 100644
+> --- a/include/fuse_lowlevel.h
+> +++ b/include/fuse_lowlevel.h
+> @@ -1357,6 +1357,43 @@ struct fuse_lowlevel_ops {
+>  	 * @param ino the inode number
+>  	 */
+>  	void (*syncfs)(fuse_req_t req, fuse_ino_t ino);
+> +
+> +	/**
+> +	 * Fetch file I/O mappings to begin an operation
+> +	 *
+> +	 * Valid replies:
+> +	 *   fuse_reply_iomap_begin
+> +	 *   fuse_reply_err
+> +	 *
+> +	 * @param req request handle
+> +	 * @param nodeid the inode number
+> +	 * @param attr_ino inode number as told by fuse_attr::ino
+> +	 * @param pos position in file, in bytes
+> +	 * @param count length of operation, in bytes
+> +	 * @param opflags mask of FUSE_IOMAP_OP_ flags specifying operation
+> +	 */
+> +	void (*iomap_begin)(fuse_req_t req, fuse_ino_t nodeid,
+> +			    uint64_t attr_ino, off_t pos, uint64_t count,
+> +			    uint32_t opflags);
+> +
+> +	/**
+> +	 * Complete an iomap operation
+> +	 *
+> +	 * Valid replies:
+> +	 *   fuse_reply_err
+> +	 *
+> +	 * @param req request handle
+> +	 * @param nodeid the inode number
+> +	 * @param attr_ino inode number as told by fuse_attr::ino
+> +	 * @param pos position in file, in bytes
+> +	 * @param count length of operation, in bytes
+> +	 * @param written number of bytes processed, or a negative errno
+> +	 * @param opflags mask of FUSE_IOMAP_OP_ flags specifying operation
+> +	 * @param iomap file I/O mapping that was acted upon
+> +	 */
+> +	void (*iomap_end)(fuse_req_t req, fuse_ino_t nodeid, uint64_t attr_ino,
+> +			  off_t pos, uint64_t count, uint32_t opflags,
+> +			  ssize_t written, const struct fuse_file_iomap *iomap);
 
-Codex complains that this is racy -- if this thread stalls out after
-send_reply_ok but before inc_open_files, then the open count could sit
-at zero even though there's an open file that could get FUSE_RELEASE'd.
-
-One way to fix this is to inc_open_files before the send_reply_ok, and
-decrement it if the reply fails.
-
-> +	return error;
->  }
->  
->  int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
-> @@ -605,10 +626,15 @@ int fuse_passthrough_close(fuse_req_t req, int backing_id)
->  int fuse_reply_open(fuse_req_t req, const struct fuse_file_info *f)
->  {
->  	struct fuse_open_out arg;
-> +	struct fuse_session *se = req->se;
-> +	int error;
->  
->  	memset(&arg, 0, sizeof(arg));
->  	fill_open(&arg, f);
-> -	return send_reply_ok(req, &arg, sizeof(arg));
-> +	error = send_reply_ok(req, &arg, sizeof(arg));
-> +	if (!error)
-> +		inc_open_files(se);
-> +	return error;
->  }
->  
->  static int do_fuse_reply_write(fuse_req_t req, size_t count)
-> @@ -1876,6 +1902,7 @@ static void _do_release(fuse_req_t req, const fuse_ino_t nodeid,
->  {
->  	(void)in_payload;
->  	const struct fuse_release_in *arg = op_in;
-> +	struct fuse_session *se = req->se;
->  	struct fuse_file_info fi;
->  
->  	memset(&fi, 0, sizeof(fi));
-> @@ -1894,6 +1921,7 @@ static void _do_release(fuse_req_t req, const fuse_ino_t nodeid,
->  		req->se->op.release(req, nodeid, &fi);
->  	else
->  		fuse_reply_err(req, 0);
-> +	dec_open_files(se);
-
-The other thing it complained about is that ->release isn't required to
-reply synchronously to the fuse request.  If a fuse server did this,
-then the dec_open_files could occur before the server even tries to
-reply to this message.
-
-This is a more intense fix -- it involves storing the opcode in the
-fuse_req object, and fixing fuse_reply_err to call dec_open_files if the
-request was for RELEASE or RELEASEDIR.
+Codex noticed that ssize_t can be smaller than int64_t on 32-bit
+platforms, so we mustn't squash the kernel's @written parameter.  Linux
+will never do more than 2G of IO at any time so this is a theoretical
+concern; but it's theoretically possible so we shouldn't lose data.
 
 --D
 
->  }
+>  };
 >  
->  static void do_release(fuse_req_t req, const fuse_ino_t nodeid,
-> @@ -1998,6 +2026,7 @@ static void _do_releasedir(fuse_req_t req, const fuse_ino_t nodeid,
->  {
->  	(void)in_payload;
->  	const struct fuse_release_in *arg = (const struct fuse_release_in *)op_in;
-> +	struct fuse_session *se = req->se;
->  	struct fuse_file_info fi;
+>  /**
+> @@ -1752,6 +1789,28 @@ int fuse_reply_lseek(fuse_req_t req, off_t off);
+>  int fuse_reply_statx(fuse_req_t req, int flags, const struct statx *statx,
+>  		     double attr_timeout);
 >  
->  	memset(&fi, 0, sizeof(fi));
-> @@ -2008,6 +2037,7 @@ static void _do_releasedir(fuse_req_t req, const fuse_ino_t nodeid,
->  		req->se->op.releasedir(req, nodeid, &fi);
->  	else
->  		fuse_reply_err(req, 0);
-> +	dec_open_files(se);
->  }
->  
->  static void do_releasedir(fuse_req_t req, const fuse_ino_t nodeid,
-> @@ -3030,14 +3060,20 @@ do_init(fuse_req_t req, fuse_ino_t nodeid, const void *inarg)
->  	_do_init(req, nodeid, inarg, NULL);
->  }
->  
-> -static void _do_destroy(fuse_req_t req, const fuse_ino_t nodeid,
-> -			const void *op_in, const void *in_payload)
-> +static void *__fuse_destroy_sync(void *arg)
->  {
-> +	struct fuse_req *req = arg;
->  	struct fuse_session *se = req->se;
->  
-> -	(void) nodeid;
-> -	(void)op_in;
-> -	(void)in_payload;
-> +	/*
-> +	 * Wait for all the FUSE_RELEASE requests to work their way through the
-> +	 * other worker threads, if any.
-> +	 */
-> +	pthread_mutex_lock(&se->lock);
-> +	se->open_files--;
-> +	while (se->open_files > 0)
-> +		pthread_cond_wait(&se->zero_open_files, &se->lock);
-> +	pthread_mutex_unlock(&se->lock);
->  
->  	{
->  		char *mountpoint = atomic_exchange(&se->mountpoint, NULL);
-> @@ -3051,6 +3087,54 @@ static void _do_destroy(fuse_req_t req, const fuse_ino_t nodeid,
->  		se->op.destroy(se->userdata);
->  
->  	send_reply_ok(req, NULL, 0);
-> +	return NULL;
-> +}
-> +
-> +/*
-> + * Destroy the fuse session asynchronously.
-> + *
-> + * If we have any open files, then we want to kick the actual destroy call to a
-> + * new detached background thread that can wait for the open file count to
-> + * reach zero without blocking processing of the rest of the commands that are
-> + * pending in the fuse thread's cqe.  For non-uring multithreaded mode, we also
-> + * use the detached thread to avoid blocking a fuse worker from processing
-> + * other commands.
-> + *
-> + * If the kernel sends us an explicit FUSE_DESTROY command then it won't tear
-> + * down the fuse fd until it receives the reply, so fuse_session_destroy
-> + * doesn't need to wait for this thread.
+> +/**
+> + * Set an iomap write mapping to be a pure overwrite of the read mapping.
+> + * @param write mapping for file data writes
+> + * @param read mapping for file data reads
 > + */
-> +static int __fuse_destroy_try_async(fuse_req_t req)
-> +{
-> +	pthread_t destroy_thread;
-> +	pthread_attr_t destroy_attr;
-> +	int ret;
+> +void fuse_iomap_pure_overwrite(struct fuse_file_iomap *write,
+> +			       const struct fuse_file_iomap *read);
 > +
-> +	ret = pthread_attr_init(&destroy_attr);
-> +	if (ret)
-> +		return ret;
+> +/**
+> + * Reply with iomappings for an iomap_begin operation
+> + *
+> + * Possible requests:
+> + *   iomap_begin
+> + *
+> + * @param req request handle
+> + * @param read mapping for file data reads
+> + * @param write mapping for file data writes
+> + * @return zero for success, or negative errno on failure
+> + */
+> +int fuse_reply_iomap_begin(fuse_req_t req, const struct fuse_file_iomap *read,
+> +			   const struct fuse_file_iomap *write);
 > +
-> +	ret = pthread_attr_setdetachstate(&destroy_attr,
-> +			PTHREAD_CREATE_DETACHED);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return pthread_create(&destroy_thread, &destroy_attr,
-> +			__fuse_destroy_sync, req);
-> +}
-> +
-> +static void _do_destroy(fuse_req_t req, const fuse_ino_t nodeid,
-> +			const void *op_in, const void *in_payload)
-> +{
-> +	struct fuse_session *se = req->se;
-> +
-> +	(void) nodeid;
-> +	(void)op_in;
-> +	(void)in_payload;
-> +
-> +	if (se->open_files > 0 && __fuse_destroy_try_async(req) == 0)
-> +		return;
-> +	__fuse_destroy_sync(req);
+>  /* ----------------------------------------------------------- *
+>   * Notification						       *
+>   * ----------------------------------------------------------- */
+> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+> index b8700cd786a034..df13e2f8f84add 100644
+> --- a/lib/fuse_lowlevel.c
+> +++ b/lib/fuse_lowlevel.c
+> @@ -2619,6 +2619,104 @@ static void do_syncfs(fuse_req_t req, const fuse_ino_t nodeid,
+>  	_do_syncfs(req, nodeid, inarg, NULL);
 >  }
 >  
->  static void do_destroy(fuse_req_t req, fuse_ino_t nodeid, const void *inarg)
-> @@ -3896,6 +3980,7 @@ void fuse_session_destroy(struct fuse_session *se)
->  		fuse_ll_pipe_free(llp);
->  	pthread_key_delete(se->pipe_key);
->  	sem_destroy(&se->mt_finish);
-> +	pthread_cond_destroy(&se->zero_open_files);
->  	pthread_mutex_destroy(&se->mt_lock);
->  	pthread_mutex_destroy(&se->lock);
->  	free(se->cuse_data);
-> @@ -4283,9 +4368,16 @@ fuse_session_new_versioned(struct fuse_args *args,
->  	list_init_nreq(&se->notify_list);
->  	se->notify_ctr = 1;
->  	pthread_mutex_init(&se->lock, NULL);
-> +	pthread_cond_init(&se->zero_open_files, NULL);
->  	sem_init(&se->mt_finish, 0, 0);
->  	pthread_mutex_init(&se->mt_lock, NULL);
->  
-> +	/*
-> +	 * Bias the open file counter by 1 so that we only wake the condition
-> +	 * variable once FUSE_DESTROY has been seen.
-> +	 */
-> +	se->open_files = 1;
+> +void fuse_iomap_pure_overwrite(struct fuse_file_iomap *write,
+> +			       const struct fuse_file_iomap *read)
+> +{
+> +	write->addr = FUSE_IOMAP_NULL_ADDR;
+> +	write->offset = read->offset;
+> +	write->length = read->length;
+> +	write->type = FUSE_IOMAP_TYPE_PURE_OVERWRITE;
+> +	write->flags = 0;
+> +	write->dev = FUSE_IOMAP_DEV_NULL;
+> +}
 > +
->  	err = pthread_key_create(&se->pipe_key, fuse_ll_pipe_destructor);
->  	if (err) {
->  		fuse_log(FUSE_LOG_ERR, "fuse: failed to create thread specific key: %s\n",
-> @@ -4310,6 +4402,7 @@ fuse_session_new_versioned(struct fuse_args *args,
+> +static inline void fuse_iomap_to_kernel(struct fuse_iomap_io *fmap,
+> +					const struct fuse_file_iomap *fimap)
+> +{
+> +	fmap->addr = fimap->addr;
+> +	fmap->offset = fimap->offset;
+> +	fmap->length = fimap->length;
+> +	fmap->type = fimap->type;
+> +	fmap->flags = fimap->flags;
+> +	fmap->dev = fimap->dev;
+> +}
+> +
+> +static inline void fuse_iomap_from_kernel(struct fuse_file_iomap *fimap,
+> +					  const struct fuse_iomap_io *fmap)
+> +{
+> +	fimap->addr = fmap->addr;
+> +	fimap->offset = fmap->offset;
+> +	fimap->length = fmap->length;
+> +	fimap->type = fmap->type;
+> +	fimap->flags = fmap->flags;
+> +	fimap->dev = fmap->dev;
+> +}
+> +
+> +int fuse_reply_iomap_begin(fuse_req_t req, const struct fuse_file_iomap *read,
+> +			   const struct fuse_file_iomap *write)
+> +{
+> +	struct fuse_iomap_begin_out arg = {
+> +		.write = {
+> +			.addr = FUSE_IOMAP_NULL_ADDR,
+> +			.offset = read->offset,
+> +			.length = read->length,
+> +			.type = FUSE_IOMAP_TYPE_PURE_OVERWRITE,
+> +			.flags = 0,
+> +			.dev = FUSE_IOMAP_DEV_NULL,
+> +		},
+> +	};
+> +
+> +	fuse_iomap_to_kernel(&arg.read, read);
+> +	if (write)
+> +		fuse_iomap_to_kernel(&arg.write, write);
+> +
+> +	return send_reply_ok(req, &arg, sizeof(arg));
+> +}
+> +
+> +static void _do_iomap_begin(fuse_req_t req, const fuse_ino_t nodeid,
+> +			    const void *op_in, const void *in_payload)
+> +{
+> +	const struct fuse_iomap_begin_in *arg = op_in;
+> +	(void)in_payload;
+> +	(void)nodeid;
+> +
+> +	if (req->se->op.iomap_begin)
+> +		req->se->op.iomap_begin(req, nodeid, arg->attr_ino, arg->pos,
+> +					arg->count, arg->opflags);
+> +	else
+> +		fuse_reply_err(req, ENOSYS);
+> +}
+> +
+> +static void do_iomap_begin(fuse_req_t req, const fuse_ino_t nodeid,
+> +			   const void *inarg)
+> +{
+> +	_do_iomap_begin(req, nodeid, inarg, NULL);
+> +}
+> +
+> +static void _do_iomap_end(fuse_req_t req, const fuse_ino_t nodeid,
+> +			    const void *op_in, const void *in_payload)
+> +{
+> +	const struct fuse_iomap_end_in *arg = op_in;
+> +	(void)in_payload;
+> +	(void)nodeid;
+> +
+> +	if (req->se->op.iomap_end) {
+> +		struct fuse_file_iomap fimap;
+> +
+> +		fuse_iomap_from_kernel(&fimap, &arg->map);
+> +		req->se->op.iomap_end(req, nodeid, arg->attr_ino, arg->pos,
+> +				      arg->count, arg->opflags, arg->written,
+> +				      &fimap);
+> +	} else
+> +		fuse_reply_err(req, ENOSYS);
+> +}
+> +
+> +static void do_iomap_end(fuse_req_t req, const fuse_ino_t nodeid,
+> +			   const void *inarg)
+> +{
+> +	_do_iomap_end(req, nodeid, inarg, NULL);
+> +}
+> +
+>  static bool want_flags_valid(uint64_t capable, uint64_t want)
+>  {
+>  	uint64_t unknown_flags = want & (~capable);
+> @@ -3612,6 +3710,8 @@ static struct {
+>  	[FUSE_LSEEK]	   = { do_lseek,       "LSEEK"	     },
+>  	[FUSE_SYNCFS]	   = { do_syncfs,      "SYNCFS"      },
+>  	[FUSE_STATX]	   = { do_statx,       "STATX"	     },
+> +	[FUSE_IOMAP_BEGIN] = { do_iomap_begin,	"IOMAP_BEGIN" },
+> +	[FUSE_IOMAP_END]   = { do_iomap_end,	"IOMAP_END" },
+>  	[CUSE_INIT]	   = { cuse_lowlevel_init, "CUSE_INIT"   },
+>  };
 >  
->  out5:
->  	sem_destroy(&se->mt_finish);
-> +	pthread_cond_destroy(&se->zero_open_files);
->  	pthread_mutex_destroy(&se->mt_lock);
->  	pthread_mutex_destroy(&se->lock);
->  out4:
+> @@ -3669,6 +3769,8 @@ static struct {
+>  	[FUSE_LSEEK]		= { _do_lseek,		"LSEEK" },
+>  	[FUSE_SYNCFS]		= { _do_syncfs,		"SYNCFS" },
+>  	[FUSE_STATX]		= { _do_statx,		"STATX" },
+> +	[FUSE_IOMAP_BEGIN]	= { _do_iomap_begin,	"IOMAP_BEGIN" },
+> +	[FUSE_IOMAP_END]	= { _do_iomap_end,	"IOMAP_END" },
+>  	[CUSE_INIT]		= { _cuse_lowlevel_init, "CUSE_INIT" },
+>  };
+>  
+> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
+> index af17e7ab2d7c88..260a7047c158e4 100644
+> --- a/lib/fuse_versionscript
+> +++ b/lib/fuse_versionscript
+> @@ -248,6 +248,9 @@ FUSE_3.19 {
+>  } FUSE_3.18;
+>  
+>  FUSE_3.99 {
+> +	global:
+> +		fuse_iomap_pure_overwrite;
+> +		fuse_reply_iomap_begin;
+>  } FUSE_3.19;
+>  
+>  # Local Variables:
 > 
 > 
