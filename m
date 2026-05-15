@@ -1,112 +1,91 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDF2495502
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 15:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA6D4C6F04
+	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 15:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778858728; cv=none; b=pqPtPlYx+Y6F8aC04S4rdvztTWp+O4ZUFQ73JntPJtdka44Q8+ThHC+chAFjRjA2Lphr/8dX7fcGmBh6OwsI3r8Sz0nvTJeWHrQnnNYWmfCgBVzhOuLctJ0pP54a11/v1BMq/jhOq7pXRUTKCdlu2h0IzUSMPvtt6MFGpUwkxhE=
+	t=1778859324; cv=none; b=WYC55+3FP8SbqUGVZMTO0e8IeJ2oOtpx6KAzkn2RXJzqTi3FqNtg8ONExuMxKYsW57nb69up/qI9aFnjCHElgj903yQ5KYZ7wx4kaW5qLZSxC2ZWP178fz5bRF59c5f61W82IaCeQ8Bbsyd7i7QXSoU8PvREN+i82R888ttmkvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778858728; c=relaxed/simple;
-	bh=a7Kt/m+0JnX1X8N5L6wTaDKQ2rl+hmTKrV/ONKOETJg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NjSyXdumGhu9RMw5+ijti7rqW5dxXSYh/zMH8LfJ3swGt6AD+WQ04wfHaWNqot9PMb3oq58jLL+O2z3cAmrpnUHOPYI8v3IXkUOus33Zg+OJJP+AnK7LkrqIWQHLw+OXoOr0B4yzLjbxoizRS/PVZShr+6OVZBVhla3u3hEDuO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=hFSvs7Wl; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1778859324; c=relaxed/simple;
+	bh=J82yT8zZ+C6IzncjehAYniSkg1/krOuNDMKGVqwZnfk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TQxrnxBlyDyfUt90NASehMAdCQV9SN3hNa/7KXSIRIb8wDx/UzafQjNUQ8D9gqGJrksFPyQyjVOdNiKdzKUJArBJrVYhnxUlrkFOi3kNatfTYK2gICytjlb8WF/q0XjzgFx9DE1fYurFb59FENGfy0BDjDzfwo5Y/VrGGIcPmoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRgVCWyk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="hFSvs7Wl"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7dbca22dbfeso5375989a34.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 08:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1778858725; x=1779463525; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X2dd+XUfkYHhyAA0KSTJMQh4TQprRfZ5CcOO5gIxkqo=;
-        b=hFSvs7WlB5Jm1Koll8CvH724t7AFd0kYZ+mk+/mV6UfyesI5b6IkLb/6EXGnprosDk
-         qKegzWOH5cp4AqKIbVj7CjwV987Yu0E8QT/qtK+roKO6xq+plsv70OdPTPIz/BUC+qlj
-         gxsbo1Brdq33ZrLCS0MAH07YqbkKURPkFhjMj94Y/KOduD9jSr0ohcO9G7X1BJLUBBaj
-         d1P0EfkrV9mZerMLKluQT/VMQhFn4gBkZwgvyaLyB6NZINZJ+zMCuA5/poq3eITCbx2d
-         NCW5afbebSQvnWhsIhTgA8Q22W8tI/Otvu2MYIpbT7qH6QTK0W1xU6LhVEGk8sszgyHD
-         7gSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778858725; x=1779463525;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=X2dd+XUfkYHhyAA0KSTJMQh4TQprRfZ5CcOO5gIxkqo=;
-        b=l1My/7h2zLhuPVSkanygXrTJc6UJz4bY9p+ssVwKpxBVthxHUEOPIrNHf2XoBLhnyo
-         fVeVW6ekLXY4KQeEvFciAkHqK0gX4mcRGTrDB1rMEP1jxWzF/Cvrnc/Z9dMc0RisUonm
-         dz0ovFFfYxuFdEihBzTxzZTOBEhzwoX7Cqe1yAkjTlNSGZVZH2zOTeqPhWDmwSa1IEpI
-         nf8Bdr9stm/4faUspSMyM4u35SHhufi0WKnxuMUnjlycKNNxgc/5yRMbypr83MxLvmrI
-         DiLaLbSVytBTt/eKKuSbFdDsHk30Y74VOyDqhL7CBSy1LnAqBbNdSHllrb/+YQawVaBi
-         MsYg==
-X-Gm-Message-State: AOJu0YxXPW1MJMzXwPb1bU6gJpoYOHJzHfGz7XzxG3kMBJMarphvqaH7
-	1X/ATqPVfH0hVApEL4zvr/4A39zL6wD7SayLE9MSOhNB9nC8pgI629DjDpeELkNoFbQRZITO/wa
-	mxg5b
-X-Gm-Gg: Acq92OFx6I/kFG14qiBlDRBI3066SmiL0Vks1P8swBPuaUYgII4TfdWWmG8Rz6rufHG
-	2iCu0xB9ad2E+YvK0Tf3K4XNTbjbcPHbmWGiGtrg8M7zRw7mta8Y+wOhyCnRPuUWaQXAIc/nBfj
-	yJ3RT6VlKGzqqEcFAcBI7hpbwYwUA1VYI5cucoCfVNFoiiCl13+gBKMxDWIYqUSFS7j/Fi53PBI
-	BOHcLBzZjDzXB+OUFVJO1ZAVxOKcbPVPdK5UTRHc5TmGu+S8sQPNILB1rZ96r1bTwkXmooBBiXO
-	v/g2hX0aQTJJ+5ZqRowM3j+nY6alPj4Z1AQAAdwQoPNrTUjaTQ2vzn6IB/8lAjJ5HCbMcgR6i6C
-	AL45BWQcSrRakd1GCpA8dSpwUGQT16tMYhuW2GFCMUREXVTaF0SndOFVYPqW6MwcYhDQdRw+/zf
-	vAIT5rWVzBzcLjkKi3WbbHclvZQ5qqq85xsoTE8aq4g/4FIMwlEhCC7U+/OVWzjLzr+4he5IUw6
-	VUlKztd
-X-Received: by 2002:a05:6830:6588:b0:7d7:5113:f83a with SMTP id 46e09a7af769-7e4fa090162mr2978796a34.25.1778858725212;
-        Fri, 15 May 2026 08:25:25 -0700 (PDT)
-Received: from [192.168.1.102] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e55bc4983asm1471700a34.26.2026.05.15.08.25.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2026 08:25:24 -0700 (PDT)
-Message-ID: <b2ecc3cf-12bf-470a-b30c-f89e64301629@kernel.dk>
-Date: Fri, 15 May 2026 09:25:24 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRgVCWyk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01637C2BCB7;
+	Fri, 15 May 2026 15:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778859323;
+	bh=J82yT8zZ+C6IzncjehAYniSkg1/krOuNDMKGVqwZnfk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=IRgVCWykfAAZNoaGftg+yiGvt5/1YtkMwzhYWEayDjCWMLYTt34d7CKG71r26UWl7
+	 1MmkC4nwI1yPjZldZxbtWlu1/vcbKbhzKQD8YN3RpsXAlX0FKFGmtc7U7BtuRXWt9w
+	 13KYrH4aLcfj//8rVOQP18tEd+2ts2508OLuMB+XS3/Ys/6PyrQJJohQvaRmrwb5H3
+	 hk7oiNZjAWOzOW7GSiiEjRepPEPt+mydx6oa11KyeohbEAHVZTih8LQNH2T/e8hal7
+	 18IB8QraXR2LG6mLZaFMJhSKzADyBgHpwSYkjIxEzzRWVSU89fpVO+P4udA/qo0sVI
+	 /RPDtxb5Xu70g==
+From: Chuck Lever <cel@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: <linux-fsdevel@vger.kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	sashiko-bot <sashiko-bot@kernel.org>
+Subject: [PATCH 1/7] tools headers UAPI: Sync case-sensitivity flags from linux/fs.h
+Date: Fri, 15 May 2026 11:35:09 -0400
+Message-ID: <20260515153515.362266-2-cel@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260515153515.362266-1-cel@kernel.org>
+References: <20260515153515.362266-1-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCHSET v2 0/6] io_uring related epoll cleanups
-To: Christian Brauner <brauner@kernel.org>, io-uring@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
-References: <20260514140817.623026-1-axboe@kernel.dk>
- <20260515-lachnummer-havarie-c6e68d7fe5ef@brauner>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20260515-lachnummer-havarie-c6e68d7fe5ef@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/15/26 9:08 AM, Christian Brauner wrote:
-> On Thu, 14 May 2026 08:07:16 -0600, Jens Axboe wrote:
->> One of the nastier things about epoll is how it allows nesting contexts
->> inside each other, leading to the necessity of loop detection and the
->> issues that have come with that.
->>
->> I don't believe there's any reason to support nesting on the io_uring
->> side, in fact IORING_OP_EPOLL_CTL is a historical mistake, imho. But
->> let's at least try and contain the damage and disallow nested contexts
->> from our side.
->>
->> [...]
-> 
-> @Jens, I added the epoll specific change to vfs-7.2.eventpoll. There
-> were quite some merge conflicts now that I had to fix up. Please take a
-> look and make sure it's sane. Otherwise I'm going to push this and will
-> keep the branch stable.
+From: Chuck Lever <chuck.lever@oracle.com>
 
-I think your merge commit ended up messing it up, as you have
+The case-sensitivity series adds FS_XFLAG_CASEFOLD and
+FS_XFLAG_CASENONPRESERVING to include/uapi/linux/fs.h, and
+tools/perf/check-headers.sh would warn about the resulting drift
+in the perf beauty copy.  Pick up only those two flags (and the
+surrounding comment block) so the series does not introduce new
+drift of its own.
 
-- static inline bool is_file_epoll(struct file *f)
- -int is_file_epoll(struct file *f)
-++bool is_file_epoll(struct file *f)
+This is not a full sync.  The perf copy is also missing the
+FS_IOC_SHUTDOWN block added by commit 1f662195dbc0 ("fs: add
+generic FS_IOC_SHUTDOWN definitions").  Because
+tools/perf/check-headers.sh emits a single warning per file, that
+warning will remain active until the older drift is picked up
+too; closing it is left to a separate sync outside this series.
 
-which now makes it return a bool, and the header has it as an int
-still.
+Reported-by: sashiko-bot <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/patchset/20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com?part=2
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+---
+ tools/perf/trace/beauty/include/uapi/linux/fs.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
+diff --git a/tools/perf/trace/beauty/include/uapi/linux/fs.h b/tools/perf/trace/beauty/include/uapi/linux/fs.h
+index 70b2b661f42c..2fa003575e8b 100644
+--- a/tools/perf/trace/beauty/include/uapi/linux/fs.h
++++ b/tools/perf/trace/beauty/include/uapi/linux/fs.h
+@@ -254,6 +254,13 @@ struct file_attr {
+ #define FS_XFLAG_DAX		0x00008000	/* use DAX for IO */
+ #define FS_XFLAG_COWEXTSIZE	0x00010000	/* CoW extent size allocator hint */
+ #define FS_XFLAG_VERITY		0x00020000	/* fs-verity enabled */
++/*
++ * Case handling flags (read-only, cannot be set via ioctl).
++ * Default (neither set) indicates POSIX semantics: case-sensitive
++ * lookups and case-preserving storage.
++ */
++#define FS_XFLAG_CASEFOLD	0x00040000	/* case-insensitive lookups */
++#define FS_XFLAG_CASENONPRESERVING 0x00080000	/* case not preserved */
+ #define FS_XFLAG_HASATTR	0x80000000	/* no DIFLAG for this	*/
+ 
+ /* the read-only stuff doesn't really belong here, but any other place is
 -- 
-Jens Axboe
+2.54.0
 
