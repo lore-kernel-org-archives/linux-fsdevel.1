@@ -1,266 +1,248 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2D3413D8C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 20:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778876309; cv=none; b=YhOr1v4FJsU6IY/gzcUeg3x1p2aBkTx663ZeuLsRLtP0T0oxrpYCuXfRCuGe++1Nt0/VPa2rj8o68ylyM5iDamuJ/PG/1kL7gaMineWDTN9ndD1iqedp9IX/N0vYR4/ym6/wYRpRcdkZNgros0Y8GZfeZ21MRhzanrzubvLx7gE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778876309; c=relaxed/simple;
-	bh=1hhJhGRBnE39H1ExGWWobqPWwKhQ+nPBRdzHBrMnTcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5NN+6QQoGT2Vt3KuNhkiNHjtXI+vR8npdeX1+QadRHc8HsUqW3zMVb8rpTll9K6gjcOPi0FaX1nq8qrBAtPwDAfZCHihOqzxoMtDd33Z6xBqeyoNII51K2LS+DMijbctYXyVAORutEbnJMwuoThKTlWEWBUC8u3C4ld41B8UkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oIovqBLR; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536873DF019
+	for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 20:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778877230; cv=pass; b=HklFBzeCQUKhekmLnoMBa/bGmSwp2zWJjydMw/rs+CQ2fL320M2nE6Yr7JlbCQobAgIzNjQusSrVm0uqIgx0i/4dEyBrvGexc0vliKR8V0YNd4aLxiWoh7tr8kGfmzdTKKSaiuxNNZx3PZOhljLsCCssNoJC7LrZHoiiju2sJ9U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778877230; c=relaxed/simple;
+	bh=sJ08cfxGxtMWEPXCgzYLZJMNbjtpjryi3KoiukkfceI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u62biQWNCiAmpJWyly8FDY6tvYqurZKx7qzEqv8PkG9h58TuzgBo57lwjSAGQbthj83KKd98Ujs4l4jpO24qzajorPr5zoEI/ZW9NaR6gRu9q92hx5W28RAGx0Ztf0g5y731kKf0q6KGmYN9Sn1+bSZkHeGrW1Dd1ssV5WZn/3g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K/q/+TXk; arc=pass smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oIovqBLR"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-448528f4e69so92111f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 13:18:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/q/+TXk"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so483232a12.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 13:33:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778877227; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TvJfnhdWRtzsIEX5mSbT7kZcokTwICAt6Tz8uAd06EocEf9KKLUkl8dayLHulZOtaS
+         KhJ9QYHAO7R0qbhfIHyIWEP8Mebhvb7l7QRF3xBKwLMLimbrWP1QhfIlzYs6cwqXY9el
+         g81nodCXIfhlCR1Mo9kyIrX5UZRpvP6WizVw+HriST/92mf2vhirBAGzZM8VocZwR2A1
+         lok4AqUNsgQumCnfpt+IzDjwZD8B0z//7WIu71Tm7MAh2JaHujigyrqZ9gicJ+h765Xf
+         k4d0IlEi9GhFPl6YRXMCz+7H+1PTRU5Iqj6C2Kyhe44efDaWhRWOzaA/VrS5pMK/nOQF
+         AqsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9YwlJJcvYwY8fns8m48KGL1VHm6uk+SQqlLXYhIKgz8=;
+        fh=7i2Dt8HEbakhIURiTOWNuciinz3D/mFlhftI71mx30U=;
+        b=JlNSxodAEx+5IWLMxQHVjDdSLqSyqjyeV6Zl4BIrYEpzerdA5ppSM4jtTdlXzK1OtT
+         0mHznAx/LlQWCGLxjWKHtdstkZujfyXgWkofnPJkSN8bcKtABIo5Faxl+TMBazDUCo59
+         mH+dSRbbnLPXzu71uBhYuVzNnirkpSr9EvR8bLxD1TwJkyEbtbX4PK8LZRm0DAFChWhv
+         G2QQflcylJx1grpLnkOv9ojnUdQNWB44t2GMqXOiurBr1rc7Ia0ErfBLpxtAHWoEqrD/
+         TkbgAV1MGC1nhmuon3Kb72G4PiUzj9FWvIh2ZV8Jy40Eb4Y6s1pqnGmgKmKm8E4KbsfR
+         EaBQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778876306; x=1779481106; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gFUMjA3Q99bNtqVvjxkvJVf5DLmJ4s9XgY1QXegt+iY=;
-        b=oIovqBLR0CtMBAyoaCqKzxXaDNJN5d76PLDqiDCIXHgoAnyMY7jQS038UCH4nrskgh
-         sahfXbgL3fpJ9GVHqGl64t5jiepC3kTOkaF35ndqhchM2Z6aGuQSDVLfsgi57CE2eBeL
-         iNJ5TVnRZs6FFdlbLtiUZydx4TbPobkBrlASKADzNE8DBGyhJKW/Uh2gS2syoFTHQmZD
-         7GlnJjgjyLQm6BYs7fZ0/DylTTpA+K3S/Prv32A9EPKLroVCz3o9cRmw1oDhV8zLgObw
-         Tfah0AwIJMZLFx5jFBFux7eyZr8Syu3N7wwH4xPBhJt734OzKp+FtDu5E+10nn5ge56L
-         XCNw==
+        d=gmail.com; s=20251104; t=1778877227; x=1779482027; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9YwlJJcvYwY8fns8m48KGL1VHm6uk+SQqlLXYhIKgz8=;
+        b=K/q/+TXkqRzFxSVtpb4xM/CeweHbODVoHJmIYU5p64xeeJyIzw8hPqgn323zCqxWkg
+         ruq0OdxNgVTaWacOpOfdBJ3wMd7jzkPx4/X6xcuOM/k1QstObEcDCs9kKAeyFch1/DGU
+         nl6aRIKnuhgmxMBifA27v4OBP8/B8NzH7pm9+P+FOoNWnpwFS1WfcJrrO8S+djfkPBw6
+         uizFq34pAGIPvPpq3JBB//x51HroDOp2drBDQ9iDgafH8wV48x7UrMrFixCovtG9OfMS
+         RQ2FQOSb9VYuivSBGU/aGWa4roM+py4c6BIK57IoWMwDbZK94nwWkQYVpUWoQXDPN2Hi
+         NyCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778876306; x=1779481106;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gFUMjA3Q99bNtqVvjxkvJVf5DLmJ4s9XgY1QXegt+iY=;
-        b=J+pfPsokyur7eYkQCu7WMBQWPIUCh68tanvFMuGOHWxOioqJUOEuBaTrEC4xX+1o6s
-         G+KKRo0ot01Kgxi8q3v2nBgaro0bGnyYp1dvMxIJ4rTQ6BKRhQXmjEqewb+pbQGimPvd
-         5BkU/TanLuv9Fl47eBh7P9ulB+FeS3XYQtB2okMs8n4wrnmRvSS84V3OqwNaS5RUWvZO
-         H3RVgS74/vx5NREHybRls6onF6vuyvolaffhTrpw/Nhsfli3mCc7DEiWnwgr/XuRya+Z
-         DCd1Qtexv3SPeVQu253q9YqcalCWqDsFhNlk7sIREXnVEdlS2diRF4EG0VTHSPhz3Unl
-         DNFg==
-X-Forwarded-Encrypted: i=1; AFNElJ/H9PyI63jJ4tCxcLC/no58GiBfMSDVZzy84GAYxXr+6ZIuvpf3YUdyPb4G3DkIWgd6qul0lulHCMZOWw0p@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw13CfIp8eXNsWOwjJUEUuQKp4+j327eoKXVMb7W58csRZtq/CF
-	ZRCViKuW0rtyVmq+8ynEQ+Lzfaw6h/WWvBjYsGTj5H42qnf8+TZaCgTl
-X-Gm-Gg: Acq92OFz4TN1iBRn7b5BwDt/wofbb+wlyZBGPvg1Y3CYwc8qTz1K/kAE6vjcngFdyOQ
-	Wn8G1V3ePYuTME2eL+6e5AbmGudEtaassi6l4SrILsTQE4wPCTm7aLDPh+aoUaSrtyYQK7su5AM
-	8R+glnHhVKk9z1YgnY1WUJ2ssY1sKlEXko9OnfA79S/CSc8a1vtfAVGYgR4hlOKczSoI3BMzLf4
-	4Kj+Z/+GtgHAskYSe0Gjy6tVgGcAYkormBxyKaxNLLghEX5lTJuElrFsJJ34uipLuAsHQT80aIo
-	j896mKFSXFShLhv1Ia/I1/7g3AkwFAnP3AtalRaU5klbIRG+XeYIREKDu+Y6yZanDMmh1p3z28p
-	+OaKuMiBNqkAPkC0UgI2h6yBO7wIw4FCEzWn9s1gnBSbCyH0FEB+xK68+XYFA1TVNkroYQHMet4
-	bIB7mexTf81lQFgVa1KDkKt1UDOjApRIoJEB1fGHTeMgmHAr8qS7++ZsZxdYAyP1s4jau8dII4l
-	/qaNWrj3w==
-X-Received: by 2002:a05:6000:1ace:b0:43d:775b:c9bd with SMTP id ffacd0b85a97d-45e5c58906amr7599545f8f.10.1778876306213;
-        Fri, 15 May 2026 13:18:26 -0700 (PDT)
-Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0fe248dsm16413483f8f.30.2026.05.15.13.18.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 13:18:25 -0700 (PDT)
-Date: Fri, 15 May 2026 22:18:19 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH 1/2] fs/pipe: bulk pre-allocate pages outside pipe->mutex
- in anon_pipe_write
-Message-ID: <q37bmptbjr2gysl2g67bqo5axxqor4lsrrnf7ajixxjdrumbup@tgu3kz6kien5>
-References: <20260515-fix_pipe-v1-0-b14c840c7555@debian.org>
- <20260515-fix_pipe-v1-1-b14c840c7555@debian.org>
+        d=1e100.net; s=20251104; t=1778877227; x=1779482027;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9YwlJJcvYwY8fns8m48KGL1VHm6uk+SQqlLXYhIKgz8=;
+        b=Fi3E5YWUsXrLSGxkTq4lw9KSGNCxa2kkWZOi55l+SxUZrGlgVWY0lrH8hgzK5bFBEd
+         ApxDvOeFundlKHfxQQxPZsTHQRpR2FR4h3gejEKYVgJP2gHUq0Do2kCAv/XdzQx+hl1h
+         RhKcdjStw3QnTLHRx3AlChAE2JzYF5YVUcqUYiNPvB6p7zBy01bN03IBAvVmEfX7IDcc
+         K0/OfIAMQgIGnFJqqav3oQbJS8iEgnk6fenYS/T7LN+g2LAgpeo5j2sbTQotI9t9uUSa
+         op3HfDkZb5/NsuI3W1q1eMUpsqdfskHndo/CuYrrmXlSu06lKRVc4sJETbpL43Uz9PuF
+         RutA==
+X-Forwarded-Encrypted: i=1; AFNElJ8IJU1rocxctFirVNNHrqEmn/wr9TqhiHWUPQ18e+IR0//Ch+f2aUPvhbiqeKkcwIg8X5Wfr7BbmLVVO+tt@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsvNcH5+f0q1QD61YlROI8tmc4QfiXLD2bIK7jwi+Dn/9IsBl8
+	1vhwmZZSMZuR+G8JYSNNVbFmMfWy7ajtiRJKqU1mOqJCAVEEzjhVDiHkNzQCL+WAopvddU3JSwz
+	dd/vVwq24YAxtF0MQzIJceTxvCbME1mVr2KO4
+X-Gm-Gg: Acq92OHttt9UZxvcMgiS2c7+lCj8nLZf5TBt2spiWRuxmk2eYNsAAWYMdOZZHXiIT11
+	jA//tm+xKx+0khexXlH2pgHzEUa0//g2mZkm/gY9eob/skz8CJL+zUtCYChem2tioUCnAJxv2Ki
+	kllmkhfkiiB3qCdYliEKIWIYHStkeQETXavqxcIFpqoilODn/WUpWxGFiaYNVIeags0zXt/iLmt
+	9oSqF3CAEK3aqx8ZlKBdMhBeLbmXWntxpi4nLz0F3+rQx/D46dYaikCq0InLoR3YovkuOO1q2Dh
+	B07lI/5if0WUGEiYgdekeP+PeJ58RZlLxU/IFjtMYg==
+X-Received: by 2002:a05:6402:1f45:b0:67b:7d77:14da with SMTP id
+ 4fb4d7f45d1cf-683bc8a94b8mr2651562a12.8.1778877226469; Fri, 15 May 2026
+ 13:33:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260515-fix_pipe-v1-1-b14c840c7555@debian.org>
+References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
+ <177747206510.4103309.7610933581068572895.stgit@frogsfrogsfrogs> <20260514220921.GI9544@frogsfrogsfrogs>
+In-Reply-To: <20260514220921.GI9544@frogsfrogsfrogs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 15 May 2026 22:33:34 +0200
+X-Gm-Features: AVHnY4I8kyXSTZqiDtcBeg8yln7B_x_AdIYn1XaB6rWDgusxSClx6hrtRtpnpKI
+Message-ID: <CAOQ4uxja1znK3pz3YAX2uFM-GFVS1zENHJzHBLAVrVqcz6bVhw@mail.gmail.com>
+Subject: Re: [PATCH 1/9] fuse: enable caching of timestamps
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev, 
+	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 15, 2026 at 03:28:44AM -0700, Breno Leitao wrote:
-> anon_pipe_write() takes pipe->mutex and then, from the per-iteration
-> anon_pipe_get_page() helper, used to call alloc_page(GFP_HIGHUSER |
-> __GFP_ACCOUNT) once per page while still holding it. That allocation
-> can sleep doing direct reclaim and/or runs memcg charging, which extends
-> the critical section and stalls a concurrent reader on the very same
-> mutex.
-> 
-> Bulk pre-allocate DIV_ROUND_UP(total_len, PAGE_SIZE) pages (up to
-> PIPE_PREALLOC_MAX (8)) pages outside the mutex when total_len >=
-> PAGE_SIZE, using alloc_pages_bulk().  (Under memcg, alloc_pages_bulk()
-> with __GFP_ACCOUNT might return less pages than requested, but, this is
-> still a win, given some pages allocation is moved outside of the
-> lock).
-> 
-> Pass the array into anon_pipe_get_page(), which now consumes from
-> tmp_page[] first, then from the prealloc array, and only as a last
-> resort falls back to alloc_page() under the mutex (reached only for
-> writes larger than 8 pages, where the prealloc cap is exhausted).
-> 
-> Doing this in one bulk call before the lock keeps the fast path's
-> mutex held for a single, write-bounded critical section -- no extra
-> mutex_unlock/_lock cycles -- so it avoids the per-page lock-handoff
-> overhead that a per-page drop-and-retake design would introduce, while
-> still moving the typical multi-page allocation off the critical
-> section. Unused prealloc pages are pushed to the pipe's tmp_page[]
-> cache (or freed) before unlock, so a subsequent write to the same
-> pipe gets a hot cached page rather than paying for an alloc again.
-> 
-> Sub-PAGE_SIZE writes are unchanged: the merge path handles them
-> without ever needing a fresh page, so it is not worth speculatively
-> allocating for them.
-> 
-> This can improve the pipe throughput up to 48% and reduce the latency in
-> 33%.
+Sorry I was absent from iomap review for a while.
+Using these Codex replies as opportunity to get back to it..
+
+On Fri, May 15, 2026 at 12:09=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+> wrote:
+>
+> On Wed, Apr 29, 2026 at 07:33:20AM -0700, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> >
+> > Cache the timestamps in the kernel so that the kernel sends FUSE_SETATT=
+R
+> > calls to the fuse server after writes, because the iomap infrastructure
+> > won't do that for us.
+> >
+> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> > ---
+> >  fs/fuse/dir.c        |    5 ++++-
+> >  fs/fuse/file.c       |   18 ++++++++++++------
+> >  fs/fuse/fuse_iomap.c |    6 ++++++
+> >  fs/fuse/inode.c      |   13 +++++++------
+> >  4 files changed, 29 insertions(+), 13 deletions(-)
+> >
+> >
+> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> > index 3a76eea04c6425..11898102adefe2 100644
+> > --- a/fs/fuse/dir.c
+> > +++ b/fs/fuse/dir.c
+> > @@ -2265,7 +2265,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, stru=
+ct dentry *dentry,
+> >       struct fuse_attr_out outarg;
+> >       const bool is_iomap =3D fuse_inode_has_iomap(inode);
+> >       bool is_truncate =3D false;
+> > -     bool is_wb =3D fc->writeback_cache && S_ISREG(inode->i_mode);
+> > +     bool is_wb =3D (is_iomap || fc->writeback_cache) &&
+> > +                  S_ISREG(inode->i_mode);
+> >       loff_t oldsize;
+> >       int err;
+> >       bool trust_local_cmtime =3D is_wb;
+> > @@ -2405,6 +2406,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, stru=
+ct dentry *dentry,
+> >       spin_lock(&fi->lock);
+> >       /* the kernel maintains i_mtime locally */
+> >       if (trust_local_cmtime) {
+> > +             if ((attr->ia_valid & ATTR_ATIME) && is_iomap)
+> > +                     inode_set_atime_to_ts(inode, attr->ia_atime);
+> >               if (attr->ia_valid & ATTR_MTIME)
+> >                       inode_set_mtime_to_ts(inode, attr->ia_mtime);
+> >               if (attr->ia_valid & ATTR_CTIME)
+> > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> > index fa67b20f5ad3ae..eecd0610fbd3e5 100644
+> > --- a/fs/fuse/file.c
+> > +++ b/fs/fuse/file.c
+> > @@ -262,7 +262,7 @@ static int fuse_open(struct inode *inode, struct fi=
+le *file)
+> >       int err;
+> >       const bool is_iomap =3D fuse_inode_has_iomap(inode);
+> >       bool is_truncate =3D (file->f_flags & O_TRUNC) && fc->atomic_o_tr=
+unc;
+> > -     bool is_wb_truncate =3D is_truncate && fc->writeback_cache;
+> > +     bool is_wb_truncate =3D is_truncate && (is_iomap || fc->writeback=
+_cache);
+> >       bool dax_truncate =3D is_truncate && FUSE_IS_DAX(inode);
+> >
+> >       if (fuse_is_bad(inode))
+> > @@ -477,12 +477,14 @@ static int fuse_flush(struct file *file, fl_owner=
+_t id)
+> >       struct fuse_file *ff =3D file->private_data;
+> >       struct fuse_flush_in inarg;
+> >       FUSE_ARGS(args);
+> > +     const bool is_iomap =3D fuse_inode_has_iomap(inode);
+> >       int err;
+> >
+> >       if (fuse_is_bad(inode))
+> >               return -EIO;
+> >
+> > -     if (ff->open_flags & FOPEN_NOFLUSH && !fm->fc->writeback_cache)
+> > +     if ((ff->open_flags & FOPEN_NOFLUSH) &&
+> > +         !fm->fc->writeback_cache && !is_iomap)
+> >               return 0;
+> >
+> >       err =3D write_inode_now(inode, 1);
+> > @@ -518,7 +520,7 @@ static int fuse_flush(struct file *file, fl_owner_t=
+ id)
+> >        * In memory i_blocks is not maintained by fuse, if writeback cac=
+he is
+> >        * enabled, i_blocks from cached attr may not be accurate.
+> >        */
+> > -     if (!err && fm->fc->writeback_cache)
+> > +     if (!err && (is_iomap || fm->fc->writeback_cache))
+> >               fuse_invalidate_attr_mask(inode, STATX_BLOCKS);
+> >       return err;
+> >  }
+> > @@ -820,8 +822,10 @@ static void fuse_short_read(struct inode *inode, u=
+64 attr_ver, size_t num_read,
+> >        * If writeback_cache is enabled, a short read means there's a ho=
+le in
+> >        * the file.  Some data after the hole is in page cache, but has =
+not
+> >        * reached the client fs yet.  So the hole is not present there.
+> > +      * If iomap is enabled, a short read means we hit EOF so there's
+> > +      * nothing to adjust.
+> >        */
+> > -     if (!fc->writeback_cache) {
+> > +     if (!fc->writeback_cache && !fuse_inode_has_iomap(inode)) {
+> >               loff_t pos =3D folio_pos(ap->folios[0]) + num_read;
+> >               fuse_read_update_size(inode, pos, attr_ver);
+> >       }
+> > @@ -870,6 +874,8 @@ static int fuse_iomap_begin(struct inode *inode, lo=
+ff_t offset, loff_t length,
+> >                           unsigned int flags, struct iomap *iomap,
+> >                           struct iomap *srcmap)
+> >  {
+> > +     WARN_ON(fuse_inode_has_iomap(inode));
+> > +
+> >       iomap->type =3D IOMAP_MAPPED;
+> >       iomap->length =3D length;
+> >       iomap->offset =3D offset;
+> > @@ -2021,7 +2027,7 @@ static void fuse_writepage_end(struct fuse_mount =
+*fm, struct fuse_args *args,
+> >        * Do this only if writeback_cache is not enabled.  If writeback_=
+cache
+> >        * is enabled, we trust local ctime/mtime.
+> >        */
+> > -     if (!fc->writeback_cache)
+> > +     if (!fc->writeback_cache && !fuse_inode_has_iomap(inode))
+> >               fuse_invalidate_attr_mask(inode, FUSE_STATX_MODIFY);
 
 
-This change is quite a hammer.
+It is so easy to get lost in the code handling attr cache coherency
+between kernel and server, so many little details (a.k.a maintenance
+nightmare). It's not great now, and becoming worse with iomap.
 
-Do you have a real workload where there are multiple processes issuing
-large ops to the same pipe on both reader and writer side?
+On top of existing writeback_cache special casing and now iomap
+more special casing, passthrough code also has special cases
+that may need to be handled better.
 
-The only workload I'm aware of sharing the pipe between more than just
-one reader and one writer is anything with make, but that is mostly
-operating on 1-byte ops.
+Can we maybe abstract some of these open coded checks in
+a way which is easier to review?
 
-I'm asking because this would be better implemented taking into account
-how many pages are hanging out in the tmp_page array. With only one
-writer and one reader there is no concern someone will steal the pages.
+Thinking about some attr_mask in the inode which determines for
+every attribute, who owns the authoritative copy, server or kernel.
+For example, for (writeback_cache || iomap)  kernel owns ATTR_MTIME.
 
-Preferably the tmp_page array would grow to accomodate more memory, but
-admittedly this runs into a problem where a pipe can linger unused
-indefinitely while hoarding several pages. As in, some shrinking
-mechanism would be needed so that's probably a no-go and preallocation
-is the way to go for now.
+This is very hand wavy and far from dealing with all the complexity
+in every specific case, but the bottom line is - very hard to review that
+this is all correct and nothing missing and very hard to figure out
+what's going on when looking at the code
+for humans I mean... Codex seems to be doing well ;)
 
-Even then, this can definitely be integrated much better instead of
-being open-coded.
-
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  fs/pipe.c | 40 ++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 38 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/pipe.c b/fs/pipe.c
-> index 9841648c9cf3e..7a1517d15107a 100644
-> --- a/fs/pipe.c
-> +++ b/fs/pipe.c
-> @@ -111,7 +111,11 @@ void pipe_double_lock(struct pipe_inode_info *pipe1,
->  	pipe_lock(pipe2);
->  }
->  
-> -static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe)
-> +#define PIPE_PREALLOC_MAX 8
-> +
-> +static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe,
-> +				       struct page **prealloc,
-> +				       unsigned int *prealloc_n)
->  {
->  	for (int i = 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
->  		if (pipe->tmp_page[i]) {
-> @@ -121,6 +125,14 @@ static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe)
->  		}
->  	}
->  
-> +	if (*prealloc_n) {
-> +		unsigned int idx = --(*prealloc_n);
-
-This is some nasty golfing.
-
-Instead, you could have something like:
-struct tmp_page_prealloc {
-	struct page *pages;
-	unsigned int count;
-};
-
-
-then...
-
-> +		struct page *page = prealloc[idx];
-> +
-> +		prealloc[idx] = NULL;
-> +		return page;
-> +	}
-> +
->  	return alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
->  }
->  
-> @@ -438,6 +450,8 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
->  	ssize_t chars;
->  	bool was_empty = false;
->  	bool wake_next_writer = false;
-> +	struct page *prealloc[PIPE_PREALLOC_MAX] = { NULL };
-> +	unsigned int prealloc_n = 0;
->  
-
-	struct tmp_page_prealloc tpp = {};
-
->  	/*
->  	 * Reject writing to watch queue pipes before the point where we lock
-> @@ -455,6 +469,26 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
->  	if (unlikely(total_len == 0))
->  		return 0;
->  
-> +	/*
-> +	 * Bulk pre-allocate up to PIPE_PREALLOC_MAX pages outside pipe->mutex
-> +	 * for writes that span at least one full page. alloc_page() with
-> +	 * GFP_HIGHUSER may sleep doing reclaim and runs memcg charging, so
-> +	 * doing it under the mutex extends the critical section and stalls
-> +	 * the reader. The merge path handles sub-PAGE_SIZE writes without
-> +	 * needing a fresh page; for writes larger than PIPE_PREALLOC_MAX
-> +	 * pages, anon_pipe_get_page() falls back to a single alloc_page()
-> +	 * under the mutex for the remainder. Unused prealloc pages are
-> +	 * returned to the pipe's tmp_page[] cache (or freed) before unlock.
-> +	 */
-> +	if (total_len >= PAGE_SIZE) {
-> +		unsigned int want = min_t(unsigned int,
-> +					  DIV_ROUND_UP(total_len, PAGE_SIZE),
-> +					  PIPE_PREALLOC_MAX);
-> +
-> +		prealloc_n = alloc_pages_bulk(GFP_HIGHUSER | __GFP_ACCOUNT,
-> +					      want, prealloc);
-> +	}
-> +
-
-This should move to a dedicated routine, perhaps:
-	anon_get_page_prealloc(pipe, &tmp_page_prealloc);
-
-then it can also easily decide how much to prealloc based on existing
-state
-
->  	mutex_lock(&pipe->mutex);
->  
->  	if (!pipe->readers) {
-> @@ -512,7 +546,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
->  			struct page *page;
->  			int copied;
->  
-> -			page = anon_pipe_get_page(pipe);
-> +			page = anon_pipe_get_page(pipe, prealloc, &prealloc_n);
->  			if (unlikely(!page)) {
->  				if (!ret)
->  					ret = -ENOMEM;
-> @@ -576,6 +610,8 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *from)
->  		wake_next_writer = true;
->  	}
->  out:
-> +	while (prealloc_n)
-> +		anon_pipe_put_page(pipe, prealloc[--prealloc_n]);
-
-this results in put_page() calls under the mutex, still extending the hold time
-
-you could split this into 2 ops, for example:
-+	anon_pipe_cache_pages(pipe, &tmp_page_prealloc);
-  	if (pipe_is_full(pipe))
-  		wake_next_writer = false;
-  	mutex_unlock(&pipe->mutex);
-+	anon_pipe_free_pages(pipe, &tmp_page_prealloc);
-
-All that aside, I have no idea about performance impact on arm64, but
-there is *definitely* some throughput lost based on the fact that memory
-copy is restarted per page. I presume arm64 has an equivalent of amd64's
-SMAP which again will not be free and is paid for every time as well.
+Thanks,
+Amir.
