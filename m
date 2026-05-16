@@ -1,220 +1,110 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448701A0BF1
-	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 01:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F54114A4CC
+	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 02:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778894763; cv=none; b=QkfQm+2XTjKTf/P1EJ++pOtpGsCuTkqjqrp3Uriul0PU+gEbSuPimgCP970DlMjdJxf+MwjFPp/gno3b4nAjPhda0Unpf0th1lvUKzwZVmBM/4QxkWTpF5fNxrH11VnsXkTxha3HL919EA1aK7oQZvYsyd6r6Bok0wA8HgFxOvw=
+	t=1778897941; cv=none; b=gtERssSFIiuLyKTJ+ubMgmMzwq4xfVr8YGc1wE/Y8bb5+giyA/dVO1MRbeeDr+PZz0B7FheQINCb+3/FaUwKj55YgQl8HESvswmNKE9s5EHC7qx4Nk+lvHCvWSqvFqCAVbtcPgwd2CDMAxA6zgZtnqDsm2WXr8l/DZlyGXecNCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778894763; c=relaxed/simple;
-	bh=MEZ68kwKCC8EHqZj2zj3xswrag63f6k9ANsxd/vD/BE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GjIBIub5gXOH/aRdAsH+fdDawRcdwp/lf+a+HKDeByltfljWev6ma015wYC3ub60DYeDthlOlOGYZipwjDb4DlC5Wd0/V+9V4HPxcD1gTsADQLXj3iMBPoCYSZeydD+Z8Ri+QuC7Bl0rYNfg6o0gc0+P7djH4VgOwdPDL17zaqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FHLjzJ0f; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1778897941; c=relaxed/simple;
+	bh=ybSvkoj+dVKNc8iISeOY22ZwlFdVZXOQv9R4vg6wFHw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=doeGl/dZsgpoUCbJNelvAQhPw7vLphPNf0G1a+J1UpDq91q/6x65UxjazkTzQeTcN3/LgXz1XnAsdi8p2+/DseYG8OieBcN/vFqBTcQiw3p2SS+9iK9T1VZnqwM9iOpuQMy0FfT4qzh3vniqivTVue3s9iK3H76h0dILTIrwerI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r3/I9TDo; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FHLjzJ0f"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2b458ca2296so3394425ad.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 18:26:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r3/I9TDo"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso2371745e9.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 19:19:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778894761; x=1779499561; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EFPC/Xcl2WFN8rwI0P0COPsYNbJtWPXKF5O2rhC1GJk=;
-        b=FHLjzJ0fvrQwB3SDt37Eds9Ct6zwHKv5Z+23xfBOVp8stlmCc0hPMUw7vPVMcSEijn
-         O1c4mBdP5Wonc5rPf9KIAevdNTSigi7qUYNQEfdIc/UbVlS8QeWrHrSJ+jOcT8qPyzKK
-         xL22FfHA+N2CQM+9t6lENqn4ljKzgZe1cDmHRy6fkAdx0BNd3dQ8GQryLGEx7iV7EmRX
-         MqWwMpyXO0/XjruF6BysENcWH5Z7c7CFpVFbzjn2oEilzrEiOtsyKYx0tbyfVHDCgieg
-         rP2NtX9Z6OVkyJ39l/MpmVdkxM5OQ6ItNPO6NROiCj+s/MhAzd0j5pl5xmWbA5kImmWF
-         A9kw==
+        d=gmail.com; s=20251104; t=1778897939; x=1779502739; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oi0E59u2uw0wWK/TjTMUD71Hy6BBDUT7Z+bfsXFYn3g=;
+        b=r3/I9TDo1HBUhvim1zidSV5f+vLMzIVB5SObK+iFtK5hsxsgv/ZC6r5DHQa124W841
+         kNmhOhtJ9lGD7URHfmWLxXYtPaOpalpjiKD8OiTdpdZTV4oiqvgH9iFKlf3BdRCK4Oms
+         jqUzkA/W12pwSl2/F8vetjx2IKmFHCEunUm3Pus5xIgb9yiZjxIVXdU6Yqckor1ULYTM
+         p8xszBF7jJZR2U8v1+VLWwuSK7u1w8lMAJrpnSwgf76YZD42CmCdO8/0QKBpU8RDQWL9
+         n8Uw+lYhrkpVudQWY8Sx6rw023eH8/dgPE/3v5ybcxZlmWfPqf1dueVkydz2DbuIp3UW
+         9Xyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778894761; x=1779499561;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EFPC/Xcl2WFN8rwI0P0COPsYNbJtWPXKF5O2rhC1GJk=;
-        b=UorPTzqmz8HtpLU6Y/BlQOMPYF8UZPLm4iWJyJkDocnDf5x4Efr8d0fhYkaq3ucaC3
-         OjzPH3/1jEkpzN+ZHMbVqmLEHbWk7v1ObtKl4nRtK5A5N6ggRQ97qUvHweC4Pk9zeGOq
-         5+BQI+NHy+XVm3DBGsrmNrAKqkx7vD3Jm+odtOFeNDG30duQAXf0pTfekc5KuGse2tkG
-         bfT4QcYTKwCdmbz5SClP4eAwwC2+JoYbPc+lN9IJbd/7qo6MVghsSTPC9bAcU+vci4Sf
-         zS+VAbwJRnIXNftoGsnel2ufkeV3zYAfzxc2zd6mgNQ3eCq+pGfRuXp3L7yP1zjpr8qT
-         hI+g==
-X-Gm-Message-State: AOJu0YzZFQPR4H3tuz7GNafJ9MYScL+n9CTbKyKdyagei20iuYNph7wB
-	7GG0XGkgS9J4vJe6S7wOngcJC+vSDU5F8PiUas4klEXVr3bpSYyoOIT9
-X-Gm-Gg: Acq92OGMfT5+MbvOp1KhqvKmp2qCKDKM1NFvHIxCR41XosJtkVw4WgK/1wvVbeGWJhz
-	KUAJZPuFg4qqvTyLZdTpPnlik1Ptu8To3sLvRmgaR8chvQT6Fl5e4DM0SVY3bHgo4V6JRGEZDrt
-	3hu8fJE2qRjJImJpMFdS8twaKt1yHj0qojiGfE+T4P3UVzYzNDcvdlfnZkCztD4FDaa0qHmPA3A
-	TZWN5EknwygLpcm7MMi+VG0bg1yxD7ptM1wo8tvSx+LK2xEq04BT+d9RN5mqJaZKg0KdwB5/Uzj
-	mZe1MiLD8jSpf3KxPdUQmgWIas0aUdEcb6w+pwBH782FjtDFdV7hKugsyGZ/zFV+5E0pbWye1BF
-	w/KMHM40Y3cPcFrnAHFoSuBC+xvcumSmAELFmh8VAgAZzIGjg8S06rq3kIdFn8bDVcHhiMDqqbX
-	FBClpJem7+lIkhHzlaRu6zJrSZX9/6h5R9gSO0Jf5SnMvcMYPuQqjXTFnuKDhAX4vzi1RDB4Z5l
-	m7GaggP8AuV
-X-Received: by 2002:a17:902:c406:b0:2b7:a1ff:b239 with SMTP id d9443c01a7336-2bd7e847effmr71079255ad.14.1778894761379;
-        Fri, 15 May 2026 18:26:01 -0700 (PDT)
-Received: from ?IPV6:240e:390:a90:65b1:e178:1161:7933:b819? ([240e:390:a90:65b1:e178:1161:7933:b819])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5c2631basm68606755ad.34.2026.05.15.18.25.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2026 18:26:01 -0700 (PDT)
-Message-ID: <e1baee3e-a90b-4004-9d5e-ba7b9d6791fc@gmail.com>
-Date: Sat, 16 May 2026 09:25:56 +0800
+        d=1e100.net; s=20251104; t=1778897939; x=1779502739;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oi0E59u2uw0wWK/TjTMUD71Hy6BBDUT7Z+bfsXFYn3g=;
+        b=lzazmw8SwoiQXdOvWaHvKKcq0y60vlFSY/qjXvxi3zS0XaMmFuV6BqUoJOCx53nBfN
+         m3LX5KL5HrvSSR3nqm3EE6T3V5MqklK/Oi8cYnI2yztwDgosfX+cnqWyr2dQ5jR5Rk9K
+         RrDeLhxzj8Heuqy71sgQtRNACbyCcCb1JbVxaMCjMU0XXKSovHbUVSK1HQ9DQcZFKUX8
+         zurO3Rjm2unDVFiuZdjlQc971vmnLeqE+glBeokYEg0xaPxu/9EUgOL6nV83lX6kLroC
+         1mhzxjanzdPAZYU6mQNbawYZwl7ze4nJ3LR/3d7fw87WJUwOCbr8dqBGEoh+hV1aT4iB
+         DceQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/JFJ1eTedgLJhDjX+HKOiN4livjb+oFDjWgdpRHNFjCqIMB8XnWaVuv97khUJB7nAuSlSqu8aCJGEDJbRA@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqptVRxguMJONg+BjPK5k1IWF4U+k3wdoPmr72n60dxyBaSQF+
+	woCqEtKFxYeiQb/BiDYMVyfGyG6wgqkydBpbW4cVAZdhRzlfEWUNw1PXhycCfQ==
+X-Gm-Gg: Acq92OEsgdndwsEhlrrfmu1TMUIVZIcwuHhtzgmZ2QwL6tme6sGNr8GV3Hv4JuLIa34
+	b1t51egJJYkZTsAq71l3gyxGolLSZt90iX9ujbVYidH9YhVN9VjyKB60RsRYaX5FTDtFQzgH489
+	y/YjdxjUkSAjJX3GvjWalMy8yKWfMwMxoKI4Cgxj0vdaPkeQOoJ5suOf1IkOh4mCaeIjqA2AW3W
+	HWe7UCeiSnPhCMiydHlib816eAordhxUV+RxL7PAAAfORzkuZbKQGQPEn3fDGo7k4uoIvIxRwEf
+	WKmDrmp7tx7ztl+NeKSgh+kp08iHdcE2k4Ec0jbtBjLdwU0KYdzUIY8aNRveU/g0o5ndddblc1+
+	1xuaibAPcIOqBe0EfzhS1HK5QvzEPn44/xEA0i8a6nQ6nFXrh0TuTxRNbuCG3/VyM7cBdsFByVj
+	kRwKyoR7cIrSQmKozqITZk/bXh7FCjfVIzE+r3lbtcHg+PINC3sHYQmJRi9Yat4yL5k1l5BGnyU
+	Q==
+X-Received: by 2002:a05:600c:8485:b0:486:fa35:aef2 with SMTP id 5b1f17b1804b1-48fe5fcdec2mr94918695e9.4.1778897938597;
+        Fri, 15 May 2026 19:18:58 -0700 (PDT)
+Received: from f.. (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec3ac86sm18819419f8f.14.2026.05.15.19.18.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 19:18:58 -0700 (PDT)
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: brauner@kernel.org
+Cc: viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: [MEH PATCH] fs/pipe: write to ->poll_usage only once
+Date: Sat, 16 May 2026 04:18:52 +0200
+Message-ID: <20260516021852.256932-1-mjguzik@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] iomap: fix out-of-bounds bitmap_set() with
- zero-length range
-To: "Darrick J. Wong" <djwong@kernel.org>, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, brauner@kernel.org, hch@infradead.org,
- yi.zhang@huawei.com, yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260514062955.1183976-1-yi.zhang@huaweicloud.com>
- <20260514062955.1183976-5-yi.zhang@huaweicloud.com>
- <20260514181053.GB9555@frogsfrogsfrogs>
- <827c4380-4251-40af-bc14-207111736464@huaweicloud.com>
- <20260515173047.GC9555@frogsfrogsfrogs>
-Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <20260515173047.GC9555@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/16/2026 1:30 AM, Darrick J. Wong wrote:
-> On Fri, May 15, 2026 at 09:50:08AM +0800, Zhang Yi wrote:
->> On 5/15/2026 2:10 AM, Darrick J. Wong wrote:
->>> On Thu, May 14, 2026 at 02:29:55PM +0800, Zhang Yi wrote:
->>>> From: Zhang Yi <yi.zhang@huawei.com>
->>>>
->>>> ifs_set_range_dirty() and ifs_set_range_uptodate() compute last_blk
->>>> as (off + len - 1) >> i_blkbits.  When off is 0 and len is 0, the
->>>> unsigned subtraction underflows to SIZE_MAX, producing a huge
->>>> last_blk and nr_blks value that causes bitmap_set() to write far
->>>> beyond the ifs->state allocation.
->>>>
->>>> Regarding ifs_set_range_uptodate(), it is temporarily safe because len
->>>> cannot be passed in as 0. However, for ifs_set_range_dirty() this is
->>>> reachable from __iomap_write_end(): when copy_folio_from_iter_atomic()
->>>> returns 0 (e.g. user buffer fault) and the folio is already uptodate,
->>>> the guard at the top of __iomap_write_end() does not trigger because
->>>> !folio_test_uptodate() is false, and iomap_set_range_dirty() is called
->>>> with copied == 0.
->>>>
->>>> Add a !len guard to both functions before the computation, so that a
->>>> zero-length range is a no-op.
->>>>
->>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>>> ---
->>>>   fs/iomap/buffered-io.c | 23 +++++++++++++++--------
->>>>   1 file changed, 15 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
->>>> index 27ab33edbdee..6fe5f7e998fd 100644
->>>> --- a/fs/iomap/buffered-io.c
->>>> +++ b/fs/iomap/buffered-io.c
->>>> @@ -67,11 +67,14 @@ static bool ifs_set_range_uptodate(struct folio *folio,
->>>>   		struct iomap_folio_state *ifs, size_t off, size_t len)
->>>>   {
->>>>   	struct inode *inode = folio->mapping->host;
->>>> -	unsigned int first_blk = off >> inode->i_blkbits;
->>>> -	unsigned int last_blk = (off + len - 1) >> inode->i_blkbits;
->>>> -	unsigned int nr_blks = last_blk - first_blk + 1;
->>>> +	unsigned int first_blk, last_blk;
->>>>   
->>>> -	bitmap_set(ifs->state, first_blk, nr_blks);
->>>> +	if (!len)
->>>> +		return true;
->>>> +
->>>> +	first_blk = off >> inode->i_blkbits;
->>>> +	last_blk = (off + len - 1) >> inode->i_blkbits;
->>>> +	bitmap_set(ifs->state, first_blk, last_blk - first_blk + 1);
->>>>   	return ifs_is_fully_uptodate(folio, ifs);
->>>>   }
->>>>   
->>>> @@ -203,13 +206,17 @@ static void ifs_set_range_dirty(struct folio *folio,
->>>>   {
->>>>   	struct inode *inode = folio->mapping->host;
->>>>   	unsigned int blks_per_folio = i_blocks_per_folio(inode, folio);
->>>> -	unsigned int first_blk = (off >> inode->i_blkbits);
->>>> -	unsigned int last_blk = (off + len - 1) >> inode->i_blkbits;
->>>> -	unsigned int nr_blks = last_blk - first_blk + 1;
->>>> +	unsigned int first_blk, last_blk;
->>>>   	unsigned long flags;
->>>>   
->>>> +	if (!len)
->>>> +		return;
->>>> +
->>>> +	first_blk = off >> inode->i_blkbits;
->>>> +	last_blk = (off + len - 1) >> inode->i_blkbits;
->>>>   	spin_lock_irqsave(&ifs->state_lock, flags);
->>>> -	bitmap_set(ifs->state, first_blk + blks_per_folio, nr_blks);
->>>> +	bitmap_set(ifs->state, first_blk + blks_per_folio,
->>>> +		   last_blk - first_blk + 1);
->>>
->>> I'm curious about the inconsistency in the computations between
->>> ifs_clear_range_dirty and ifs_set_range_dirty now.  In the function that
->>> clears dirty bits, off/len are rounded inwards:
->>>
->>> 	unsigned int first_blk = round_up(off, i_blocksize(inode)) >>
->>> 				 inode->i_blkbits;
->>> 	unsigned int last_blk = (off + len) >> inode->i_blkbits;
->>> 	unsigned long flags;
->>>
->>> 	if (first_blk >= last_blk)
->>> 		return;
->>>
->>> 	spin_lock_irqsave(&ifs->state_lock, flags);
->>> 	bitmap_clear(ifs->state, first_blk + blks_per_folio,
->>> 		     last_blk - first_blk);
->>>
->>> but here we're still rounding outwards:
->>>
->>> 	if (!len)
->>> 		return;
->>>
->>> 	first_blk = off >> inode->i_blkbits;
->>> 	last_blk = (off + len - 1) >> inode->i_blkbits;
->>> 	spin_lock_irqsave(&ifs->state_lock, flags);
->>> 	bitmap_set(ifs->state, first_blk + blks_per_folio,
->>> 		   last_blk - first_blk + 1);
->>>
->>> That doesn't quite sound right to me without an explanation in the code,
->>> which currently lacks one.  I *think* the reason for the discrepancy is
->>> that if we want to dirty part of an fsblock, we need to mark the whole
->>> block dirty in the ifs so that all the blocks get written out; but when
->>> we're clearing dirty bits, we want to leave an fsblock dirty if we only
->>> wrote back part of that fsblock.  Does that sound right?
->>>
->>> --D
->>>
->>
->> Yes, that's right. The primary purpose of clearing the dirty bit is for
->> invalidating a partial folio(e.g., when punching hole). Only when a full
->> fsblock has been invalidated can its corresponding dirty bit be cleared.
->> Write-back operations never seem to write back only part of a fsblock.
->>
->> I can add comments for them in my next iteration.
-> 
-> Sounds good, thank you.
-> 
-> (Does this patch also need a fixes tag like Joanne asked?)
+Both GNU and BSD makes share a "token pipe" between their instances, as
+a result a -j $BIGNUM invocation results in multicore perf problems in
+the poll handler.
 
-Yeah, I will add it as well.
+Avoiding the store will reduce it a little bit. However, the crux of the
+problem is the locked queuing up in poll_wait().
 
-Thanks,
-Yi.
+Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+---
 
-> 
-> --D
-> 
->> Thanks,
->> Yi.
->>
->>
->>
+disclaimer: could not be bothered to bench this
+
+ fs/pipe.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 9841648c9cf3..e37c79935ecb 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -664,7 +664,8 @@ pipe_poll(struct file *filp, poll_table *wait)
+ 	union pipe_index idx;
+ 
+ 	/* Epoll has some historical nasty semantics, this enables them */
+-	WRITE_ONCE(pipe->poll_usage, true);
++	if (unlikely(!READ_ONCE(pipe->poll_usage)))
++		WRITE_ONCE(pipe->poll_usage, true);
+ 
+ 	/*
+ 	 * Reading pipe state only -- no need for acquiring the semaphore.
+-- 
+2.48.1
 
