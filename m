@@ -1,177 +1,241 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAB212D21B
-	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 04:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778906674; cv=pass; b=mTjnt5UXlvgzpaXeSFaBAjZDuFh4PnC5LnBrJQxNzLdNnEZHI9VcsILLVzmp/sG+SeklOIYun/6n3Q8DkpBRYaJhVjj77trO04pxyGkfd8yqt7MXpK+TNvkqIhOFmqu9VlIOOBqOacIvqg5CFCXzlopmwEUzq7Pst/mGHzOMo0Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778906674; c=relaxed/simple;
-	bh=4QBQXNc/n+kRCp4DXOoFL6yVIhrRoM0TndDU3LEXdII=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I3rmDHnwmCUTwlFMQJvLWYuNx1YNG7aNriWwW4ULSFFL9AtqX0GW/UCkdn2e+c6Rtrbcgq5+PFNS47rzCiM5Hrvhd4e7la/qprNeBExYWeRqg85Dkz+waZb2sLkQClwHHelAr2kq6zk9kzeuYfrHpeGfjgnNHGouM4RWYpwoHbU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JAUpbl/7; arc=pass smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4CE212564
+	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 05:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778908474; cv=none; b=B+Wh1anvxDbX+2uuWAaIStn288JGmyd2K3/dyHZTlUHKUJTe2+g4ctVWuvu7uHwHTWMSfZPK/KR8r+2dxVroyf9Dqa3d1tRuA06Vy0ZfJW7kXXEmyhNX9mH4gvOHBNP25R/Pp9TsYqIqp0YEsfoV15RAuHn4knusmXpnD41TQ5o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778908474; c=relaxed/simple;
+	bh=jLtchWusixu7LfLoIUA8/jEmMHSrr8/wTXiXbZzNpW0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EgS/pEnqytWl+8Uba3kzwibSRjPWhsGKiHdxvnAK1cz5dH9qDg4p/dG04eYUyNnyYaip2LPGZ5hCEqeEU3qIWofcm+5aBpTH8msn+5uexfbbuNXfP1J/rNzQSv8rzt85/mGSwq5MxBhz+0oKq3fnw0yW1LX517gyOP03+6uIWAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIquJ28n; arc=none smtp.client-ip=74.125.82.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JAUpbl/7"
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-6312f28a760so15791137.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 21:44:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778906672; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QeSxWGugGltUxhVkwzTih4O2dvYOpMyyKZDrMGz3nfvzP6hWK6dqPJpXvyjfegliq0
-         fbsC+qNyye+3q0RD2AwSe53mO+n2J+f5oGkyi6ZuFvJP4zC6cTJR51jmTh98ng7jVMvH
-         meJf/FJX5hS8lyGQJS+Yj0l7OAFtJBc/coqBHHCTu4wnVv+xhJKQ1/7INBgpcnMz/ePi
-         UYu1fcxp1DRBihheIgtth8YPpvwFhlpx93lNaAGX3cvGSgUhCiAuOcQyYdtXLGq8nP/F
-         rF86k1TVRc60hmeMjQU2Ol0yWE+zjs4H76V0WQtJ5Izt0QYM3uGH5oKG2sjYIAeQNEtB
-         gnWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=DYDSXLhOHj1s+deQAJ+TXvpGa9Fd2DyDL2SVrwFSgpM=;
-        fh=zmk7N7c31TP3GTxqPHcpDx1KKTWpA6AxMuFKXxEhLr4=;
-        b=Q7BZ239u4nWH2QtyNbMeL1iPizyZk0M73kCB4ghUOYCPv/Pu2sbuKhfYk5m+uJ4b9j
-         e1waNhzMCYq1fTt9ojugS+df6YDpbi2+wD9WQjcpeCMgxlHlV8VVgPM/XZ7xGj91DNyw
-         kKL0DGWSNr7rUDIuPPus8i1Sr5tpZ6MnJPyl1mcSIA9x+zYIXudOAhepvq+lGzgg1pG8
-         QIan+Hkm8NIJgThG7+XyIEvjVlDDbPlCVuW5N39Q86c+JpSJI9Qlk1A22fThlEoiDZwt
-         gioGpZa9Ki1g4IkKNPLWWQ4bMPUCSN+Y0W8ixXK9BQRyQ29q4i/afErCAywLjfiau6Xz
-         F6Gw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIquJ28n"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2f0ad52830cso697010eec.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 22:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778906672; x=1779511472; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DYDSXLhOHj1s+deQAJ+TXvpGa9Fd2DyDL2SVrwFSgpM=;
-        b=JAUpbl/7SjYYqHaDjLj9F9ecmG8kbt+1LBc8oyF9bd3ZgSDZO7/DGGmc6SmASCneB3
-         3X2OwY2Lmlmn5QZmf5fT9Qt69n/CNg9zhEeLgKaRMdExDlbPtP8MJoCZhaPHrPLWKmGj
-         IuUU4BvY2LwLF25r3q7RPYINY5/e/EZaz5xmnkyUX3kSIPR/3dVMD95vokmcsSAo/usk
-         xPsAR6+fYo8jda4zG7VY9es65cRuqoLkb7pQlACWJ4nZ/ERr+cPsTcMCxY+zgiGacnYo
-         LsHIM3VUnT9wDbLkJCYqX78Zn22iTPqY3fEL5egoVZ9t7Z4AU4J+OAPiwhAEE+eVHUA6
-         rXzw==
+        d=gmail.com; s=20251104; t=1778908471; x=1779513271; darn=vger.kernel.org;
+        h=mime-version:user-agent:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mtPgGB2zU9NqHvi7GwOlYOD+kXF2nthSunwFIsncs4U=;
+        b=DIquJ28nRAiNX3e4c21epQM86Foysx7I73X/KdspPdb6dTxMdz7oamAutud+IjvUKC
+         CJkw3sPhcCWbKDbp3U+V/Fc+o4zlBx6SudifhLKSWvhAuYhVL/Y/Hb9k++SfSt/DK65o
+         APkSnk1tjOAdDlT58PbSoWsNOYsGbxZGEMav2pH0Ca0GxN9PO4rpXDv+EtH47JftI1DS
+         7EAbNUKrd85lmlHDvj9uZgXW2WWE5f1Z7nJ7b7bwyDa5ctUvtH9P52wNh3xNU8gOj319
+         idSx5HrtrkQJVcHo5dQuo9hvnVErZJI7y7lfW2wYG6CJs+i44Ahp8LNYhDEXuc0CZy7S
+         Qfjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778906672; x=1779511472;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DYDSXLhOHj1s+deQAJ+TXvpGa9Fd2DyDL2SVrwFSgpM=;
-        b=RlYxb03lSqVZkQAeNVpCEMJr+jIjPvmzzeWzmYxfYNydCIfcBfW8aDI6Dwg/2sDgtw
-         pv+SW4R3WryNpJTe8uGfKURBjv9tXUYXAbnwktATUSjjR89zRB4A0JssmU/zx4I2THLw
-         F0hM0BAnMOrXK8TrupgfsrUsYldLg3bowhICpaY3IDTbgPtdI5EfDAY6LbeFq8syYZsK
-         cNySJWEfVt9sSCr3R5AVFVARtsZSSJgVRCCel8pEkJim7heOfroZe/GlCNgCH2TxB/kb
-         unpNkrGZ015rjur7levtWWIv3TsOQvn3LVwJeRaKVtPW/faYf/pFktyK/En2b5y4C3Zi
-         CS4w==
-X-Forwarded-Encrypted: i=1; AFNElJ/gKhn4EPcT4EGTEg8Dz9fuj0bijy9h5ET0QrytcykJhKIEBPXXdlu+ZZIUcQgneBpmXhSukXBwCPQ+HaAD@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4/Im/r+0kTDtQOvQRhEl1Lvnt5QJDnSY9nXu3M+BLEUANr2OK
-	5R0q1fp+MTuIDNwS4Hctq9YKP8gb4j03QdLNBciEuJbbRxvkM4nWWLbziCo+bzor6aK3PGQTeDN
-	3+jYOczP9Ym8Qz8QXj9HFe0geBaSw4A0=
-X-Gm-Gg: Acq92OFOiVXZ3JYFQJ3earje2wnvf98aJ+Dd1xi82buQLOPIFJIx0bgODny710jIaw+
-	MiKiROBsaDKEIkqOEEyBvKwmXhv2CNDiTC9+wPg1Vu1o4yvoLuF1FcGqmb5iSq2MPnKFyegvDNV
-	gHvz7AvHh7/FHhRdwXBNFzgMbtB2WvJkprJf2CxBeGN3WMk6aXCGzW/gqeE01zj1IywMNYRSGf/
-	frfmYtkpwkfEqQpYlgpVTi+Zrw7cLfOo6m+iAUBtOx+YunBk9k4UFKoUwcAxsPk5K/PviJeS6I9
-	TFs+9tktCPirFQn3MiWVh5fkKd/msbirzdCJg/4=
-X-Received: by 2002:a05:6102:116d:b0:631:267d:157b with SMTP id
- ada2fe7eead31-63a3f58f189mr1179218137.5.1778906671586; Fri, 15 May 2026
- 21:44:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778908471; x=1779513271;
+        h=mime-version:user-agent:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mtPgGB2zU9NqHvi7GwOlYOD+kXF2nthSunwFIsncs4U=;
+        b=kBBAflr29AOEf/vcMj0CwUh4r14FBmNY/7ZEMLV9ABfXUYGWy6ubICegogWp/bfYQP
+         WO0mkqdR654OAmFVgewkbct2WEwZA+5YjjZmI4AIee3uHg1p9AZAfJWrupkHAtAzfV6a
+         bjkuTJjSsbwGCkqCuCiW3V7LrwTzIVu6XS1dDbfzKUIS8QTC2Cqa0pFlAzh5KirHFk4Q
+         1wb3CZOprDSgeCkt6Th5ZevDcUwo9b0rCPYy/sdR4yH8R5KU8DQ+zfMY67UmQKdDoRK5
+         YO2BneRiA56f32wdQNK25+DnE95mj5OeNtDUFX35sKKc8tEkGAEeivn+fzQYz2i1NY7y
+         J7bA==
+X-Forwarded-Encrypted: i=1; AFNElJ+HQC2qrhhf/MNnyLuk9l47yunHwUm67Q1W2NDs/GLEhkOcz2gBX+k3MimaJ2HH4NtqUaE3DpZCZ4CJoIT2@vger.kernel.org
+X-Gm-Message-State: AOJu0YycibSRPUMrfuzlXcOw0cU++DJVHfdXvzItAsLUn9cFnzWnrs4F
+	K51FqbvGgDd5NXu7+j2dejw0nwHqKiJlGoKyT0tyyFMYKCGuQRAP0dfG
+X-Gm-Gg: Acq92OGhnjO5k2dmb7xJNRfdukSIaZijWercAaYCrJQtVQY4qZguVmNp/qcuB+qX9Ec
+	Z1jNEa7VmTKsSWwldtyjMF9RRaj0X1pFehXLgPWWLIfqlP+CUZqBP1iifkjC/YyFaqyLIDnC+FV
+	Ho9ADBYSnpqzMg2m5kK6E9FZ4y5k7pNR64h2JLKN4VFFZsjuh7XuEqxUGSM/UQpmw6U3wNpUgHu
+	gVjAESgTknFYuSW29/T01vBhPjZzvtvYjvnVQWrmFgXhQxbibNo/IemI481OkuV9SfLW48R5Dvv
+	RzDEtoQM+J3Y4TtOEsdLjI1Xb0Pv//xjrA61aWt/qV66YUXuc0LK7OV2oQxSkaRqj0m8RClvKuy
+	hUmavs6Z3UpYi3mKF8qJ/ubkDYOC1muhTcB2sH1NCC0xpdEdRV+As2B+YxF0f8T8qbUEGsZvHIw
+	XD0AWEBstTPwRT957QAVG1AF4=
+X-Received: by 2002:a05:7301:644c:b0:2ed:e12:376b with SMTP id 5a478bee46e88-303986b14d3mr3240402eec.33.1778908470668;
+        Fri, 15 May 2026 22:14:30 -0700 (PDT)
+Received: from fedora ([2601:646:8081:3770:e6d1:d01d:99b8:802a])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30293e2ea78sm8916575eec.6.2026.05.15.22.14.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 22:14:29 -0700 (PDT)
+From: Collin Funk <collin.funk1@gmail.com>
+To: bug-gnulib@gnu.org,
+Cc: Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Jan Kara
+ <jack@suse.cz>, Christian Brauner <brauner@kernel.org>
+Subject: test-fdutimensat failures after 7.0.6-200.fc44.x86_64 kernel update
+Date: Fri, 15 May 2026 22:14:28 -0700
+Message-ID: <8733zsj5qj.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260515163424.1575298-1-michael.bommarito@gmail.com>
-In-Reply-To: <20260515163424.1575298-1-michael.bommarito@gmail.com>
-From: Pavitra Jha <jhapavitra98@gmail.com>
-Date: Sat, 16 May 2026 10:14:19 +0530
-X-Gm-Features: AVHnY4JGJwyaJDa6wW1v8xk-c24D-8fldPvZ3sXcfC8Z3PVJ2ubMA72oRNfxato
-Message-ID: <CALFbBicg4oz-MoQue-_MCYaROeWJMkDUySaMP1_Te9z5wP_1Jg@mail.gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: bound NTFS_DE view.data_off in UpdateRecordData{Root,Allocation}
-To: Michael Bommarito <michael.bommarito@gmail.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Thanks for fixing this. Since you cited my original report as the
-basis, would you mind adding:
+Hi,
 
-Reported-by: Pavitra Jha <jhapavitra98@gmail.com>
+After updating my Fedora system to kernel version 7.0.6-200.fc44.x86_64,
+I noticed that the Gnulib 'test-fdutimensat' test fails a majority of
+the time in my GNU coreutils checkout:
 
-to the patch tags?
+    $ seq 100 | xargs -n 1 sh -c '
+      ./test-fdutimensat >/dev/null 2>&1
+      echo $?
+      ' | LC_ALL=C sort | LC_ALL=C uniq -c
+         14 0
+         86 134
 
-On Fri, 15 May 2026 at 22:04, Michael Bommarito
-<michael.bommarito@gmail.com> wrote:
->
-> In do_action()'s UpdateRecordDataRoot (fslog.c:3489) and
-> UpdateRecordDataAllocation (fslog.c:3697) cases, the memmove
-> destination is `Add2Ptr(e, le16_to_cpu(e->view.data_off))`,
-> where e->view.data_off comes from an on-disk NTFS_DE inside
-> an INDEX_ROOT or INDEX_BUFFER.  Neither case validates
-> view.data_off + dlen against e->size; the existing
-> check_if_index_root / check_if_alloc_index helpers walk the
-> entry chain and validate the entry's offset, but not its
-> internal view fields.
->
-> The neighbouring read sites (e.g., fs/ntfs3/index.c when
-> iterating view entries) check view.data_off + view.data_size
-> <= e->size.  Apply the same bound at the two memmove sites.
->
-> Reproduced under UML+KASAN on mainline 8d90b09e6741 via
-> pr_warn-only probe instrumentation: with view.data_off forced
-> to 0xFFFC, the memmove writes 32 bytes past the end of the
-> NTFS_DE.
->
-> This is similar in shape to Pavitra Jha's 2026-05-02 patch
-> "fs/ntfs3: prevent oob in case UpdateRecordDataRoot"
-> (<20260502105008.21827-1-jhapavitra98@gmail.com>) which
-> proposes calling ntfs3_bad_de_range(); that helper does not
-> exist in mainline.  This patch uses inline checks.
->
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-4-7
-> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
-> ---
->  fs/ntfs3/fslog.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index acfa18b84401e..127860fd2ab50 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -3497,6 +3497,18 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
->
->                 e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
->
-> +               /*
-> +                * e->view.data_off and dlen come from the on-disk
-> +                * INDEX_ROOT entry / LRH.  The neighbouring read sites
-> +                * (e.g. fs/ntfs3/index.c) check that
-> +                * view.data_off + view.data_size <= e->size; mirror that
-> +                * bound here so the memmove cannot reach past the entry.
-> +                */
-> +               if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
-> +                   le16_to_cpu(e->view.data_off) + dlen >
-> +                           le16_to_cpu(e->size))
-> +                       goto dirty_vol;
+Here is the section of code where it fails [1]:
+
+  /* Play with UTIME_OMIT, UTIME_NOW.  */
+  {
+    struct stat st3;
+    struct timespec ts[2];
+    ts[0].tv_sec = BILLION;
+    ts[0].tv_nsec = UTIME_OMIT;
+    ts[1].tv_sec = 0;
+    ts[1].tv_nsec = UTIME_NOW;
+    nap ();
+    ASSERT (func (BASE "link", ts) == 0);
+    ASSERT (lstat (BASE "link", &st3) == 0);
+    if (check_atime_on_symlinks)
+      {
+        /* The first assertion fails.  */
+        ASSERT (st3.st_atime == Y2K);
+        ASSERT (0 <= get_stat_atime_ns (&st3));
+        ASSERT (get_stat_atime_ns (&st3) < BILLION / 2);
+      }
+
+Adding some print statements in place of the comment:
+
+        fprintf (stderr, "%jd\n", (intmax_t) st3.st_atime);
+        fprintf (stderr, "%jd\n", (intmax_t) Y2K);
+        fprintf (stderr, "----------------\n");
+
+Here is an example of what is seen when the test fails:
+
+    $ ./test-fdutimensat 
+    ----------------
+    1778905091
+    946684800
+    test-lutimens.h:192: assertion 'st3.st_atime == Y2K' failed
+
+Here is an example of what is seen when the test passes:
+
+    $ ./test-fdutimensat 
+    ----------------
+    946684800
+    946684800
+    ----------------
+    946684800
+    946684800
+    ----------------
+    946684800
+    946684800
+
+So, it looks like the atime is being updated sometimes despite the use
+of UTIME_OMIT.
+
+Interestingly, in my Gnulib checkout residing in a separate directory
+the test passes:
+
+    $ git clone https://github.com/coreutils/gnulib.git
+    $ cd gnulib
+    $ ./gnulib-tool --create-testdir --dir testdir1 fdutimensat
+    $ cd testdir1
+    $ ./configure && make -j $(nproc)
+    $ cd gltests
+    $ seq 100 | xargs -n 1 sh -c '
+          ./test-fdutimensat >/dev/null 2>&1
+          echo $?
+          ' | LC_ALL=C sort | LC_ALL=C uniq -c
+        100 0
+
+All of this testing was performed on the same BTRFS subvolume:
+
+    /dev/mapper/nvme0n1p3_encrypted on /home type btrfs (rw,relatime,seclabel,ssd,space_cache=v2,subvolid=257,subvol=/root/home)
+
+I could only find one commit since 6.19.14-300.fc44, which I never
+experienced this error on, that looked like it may be related [2]. I am
+very much unfamiliar with this code, so anything after this sentence
+should be taken with a grain of salt.
+
+Looking at the new inode_update_atime function that was added in that
+commit:
+
+> +static int inode_update_atime(struct inode *inode)
+> +{
+> +	struct timespec64 atime = inode_get_atime(inode);
+> +	struct timespec64 now = current_time(inode);
 > +
->                 memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
->
->                 mi->dirty = true;
-> @@ -3689,6 +3701,12 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
->                         goto dirty_vol;
->                 }
->
-> +               /* See UpdateRecordDataRoot for the rationale. */
-> +               if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
-> +                   le16_to_cpu(e->view.data_off) + dlen >
-> +                           le16_to_cpu(e->size))
-> +                       goto dirty_vol;
+> +	if (timespec64_equal(&now, &atime))
+> +		return 0;
 > +
->                 memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
->
->                 a_dirty = true;
-> --
-> 2.53.0
->
+> +	inode_set_atime_to_ts(inode, now);
+> +	return inode_time_dirty_flag(inode);
+> +}
+
+Compared to the old inode_update_timestamps function:
+
+> -int inode_update_timestamps(struct inode *inode, int flags)
+> +int inode_update_time(struct inode *inode, enum fs_update_time type,
+> +		unsigned int flags)
+>  {
+> -	int updated = 0;
+> -	struct timespec64 now;
+> -
+> -	if (flags & (S_MTIME|S_CTIME|S_VERSION)) {
+> -		struct timespec64 ctime = inode_get_ctime(inode);
+> -		struct timespec64 mtime = inode_get_mtime(inode);
+> -
+> -		now = inode_set_ctime_current(inode);
+> -		if (!timespec64_equal(&now, &ctime))
+> -			updated |= S_CTIME;
+> -		if (!timespec64_equal(&now, &mtime)) {
+> -			inode_set_mtime_to_ts(inode, now);
+> -			updated |= S_MTIME;
+> -		}
+> -		if (IS_I_VERSION(inode) && inode_maybe_inc_iversion(inode, updated))
+> -			updated |= S_VERSION;
+> -	} else {
+> -		now = current_time(inode);
+> -	}
+> -
+> -	if (flags & S_ATIME) {
+> -		struct timespec64 atime = inode_get_atime(inode);
+> -
+> -		if (!timespec64_equal(&now, &atime)) {
+> -			inode_set_atime_to_ts(inode, now);
+> -			updated |= S_ATIME;
+> -		}
+> +	switch (type) {
+> +	case FS_UPD_ATIME:
+> +		return inode_update_atime(inode);
+> +	case FS_UPD_CMTIME:
+> +		return inode_update_cmtime(inode);
+> +	default:
+> +		WARN_ON_ONCE(1);
+> +		return -EIO;
+>  	}
+> -	return updated;
+>  }
+
+The behavior looks a bit different in the case of flags having S_MTIME,
+S_CTIME, and S_VERSION being set. Before that commit it would use the
+following to compare to atime:
+
+    now = inode_set_ctime_current(inode);
+
+However, now it will always use:
+
+    struct timespec64 now = current_time(inode);
+
+Could that be the cause of this behavior?
+
+Let me know if there is any other useful information that I can share.
+
+Thanks,
+Collin
+
+[1] https://github.com/coreutils/gnulib/blob/master/tests/test-lutimens.h#L176-L192
+[2] https://github.com/torvalds/linux/commit/761475268fa8e322fe6b80bcf557dc65517df71e#diff-325e7194d6fde054508f3ab689c05b774e0755b85d5639dc92c19a2230bbcc2f
