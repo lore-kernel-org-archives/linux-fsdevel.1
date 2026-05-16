@@ -1,241 +1,102 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4CE212564
-	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 05:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B2C18872A;
+	Sat, 16 May 2026 06:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778908474; cv=none; b=B+Wh1anvxDbX+2uuWAaIStn288JGmyd2K3/dyHZTlUHKUJTe2+g4ctVWuvu7uHwHTWMSfZPK/KR8r+2dxVroyf9Dqa3d1tRuA06Vy0ZfJW7kXXEmyhNX9mH4gvOHBNP25R/Pp9TsYqIqp0YEsfoV15RAuHn4knusmXpnD41TQ5o=
+	t=1778912269; cv=none; b=oxpKiDacaiMKsfih6tNXY5Fh8ndCr/WQZp+OkYpTuDZRolMWo47IGRE8EBeOfYjZkkYiS7WIc8E4a47UTWU3rL7fixL0UYHxsWgxV6DHy8vDRvgHuAp0dl1ugkC0mUPRpBxoeMyAsBDyLgMfwuN9cLr295Rk9o1oQ6+ZskAr59I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778908474; c=relaxed/simple;
-	bh=jLtchWusixu7LfLoIUA8/jEmMHSrr8/wTXiXbZzNpW0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EgS/pEnqytWl+8Uba3kzwibSRjPWhsGKiHdxvnAK1cz5dH9qDg4p/dG04eYUyNnyYaip2LPGZ5hCEqeEU3qIWofcm+5aBpTH8msn+5uexfbbuNXfP1J/rNzQSv8rzt85/mGSwq5MxBhz+0oKq3fnw0yW1LX517gyOP03+6uIWAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIquJ28n; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIquJ28n"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2f0ad52830cso697010eec.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 22:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778908471; x=1779513271; darn=vger.kernel.org;
-        h=mime-version:user-agent:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mtPgGB2zU9NqHvi7GwOlYOD+kXF2nthSunwFIsncs4U=;
-        b=DIquJ28nRAiNX3e4c21epQM86Foysx7I73X/KdspPdb6dTxMdz7oamAutud+IjvUKC
-         CJkw3sPhcCWbKDbp3U+V/Fc+o4zlBx6SudifhLKSWvhAuYhVL/Y/Hb9k++SfSt/DK65o
-         APkSnk1tjOAdDlT58PbSoWsNOYsGbxZGEMav2pH0Ca0GxN9PO4rpXDv+EtH47JftI1DS
-         7EAbNUKrd85lmlHDvj9uZgXW2WWE5f1Z7nJ7b7bwyDa5ctUvtH9P52wNh3xNU8gOj319
-         idSx5HrtrkQJVcHo5dQuo9hvnVErZJI7y7lfW2wYG6CJs+i44Ahp8LNYhDEXuc0CZy7S
-         Qfjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778908471; x=1779513271;
-        h=mime-version:user-agent:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mtPgGB2zU9NqHvi7GwOlYOD+kXF2nthSunwFIsncs4U=;
-        b=kBBAflr29AOEf/vcMj0CwUh4r14FBmNY/7ZEMLV9ABfXUYGWy6ubICegogWp/bfYQP
-         WO0mkqdR654OAmFVgewkbct2WEwZA+5YjjZmI4AIee3uHg1p9AZAfJWrupkHAtAzfV6a
-         bjkuTJjSsbwGCkqCuCiW3V7LrwTzIVu6XS1dDbfzKUIS8QTC2Cqa0pFlAzh5KirHFk4Q
-         1wb3CZOprDSgeCkt6Th5ZevDcUwo9b0rCPYy/sdR4yH8R5KU8DQ+zfMY67UmQKdDoRK5
-         YO2BneRiA56f32wdQNK25+DnE95mj5OeNtDUFX35sKKc8tEkGAEeivn+fzQYz2i1NY7y
-         J7bA==
-X-Forwarded-Encrypted: i=1; AFNElJ+HQC2qrhhf/MNnyLuk9l47yunHwUm67Q1W2NDs/GLEhkOcz2gBX+k3MimaJ2HH4NtqUaE3DpZCZ4CJoIT2@vger.kernel.org
-X-Gm-Message-State: AOJu0YycibSRPUMrfuzlXcOw0cU++DJVHfdXvzItAsLUn9cFnzWnrs4F
-	K51FqbvGgDd5NXu7+j2dejw0nwHqKiJlGoKyT0tyyFMYKCGuQRAP0dfG
-X-Gm-Gg: Acq92OGhnjO5k2dmb7xJNRfdukSIaZijWercAaYCrJQtVQY4qZguVmNp/qcuB+qX9Ec
-	Z1jNEa7VmTKsSWwldtyjMF9RRaj0X1pFehXLgPWWLIfqlP+CUZqBP1iifkjC/YyFaqyLIDnC+FV
-	Ho9ADBYSnpqzMg2m5kK6E9FZ4y5k7pNR64h2JLKN4VFFZsjuh7XuEqxUGSM/UQpmw6U3wNpUgHu
-	gVjAESgTknFYuSW29/T01vBhPjZzvtvYjvnVQWrmFgXhQxbibNo/IemI481OkuV9SfLW48R5Dvv
-	RzDEtoQM+J3Y4TtOEsdLjI1Xb0Pv//xjrA61aWt/qV66YUXuc0LK7OV2oQxSkaRqj0m8RClvKuy
-	hUmavs6Z3UpYi3mKF8qJ/ubkDYOC1muhTcB2sH1NCC0xpdEdRV+As2B+YxF0f8T8qbUEGsZvHIw
-	XD0AWEBstTPwRT957QAVG1AF4=
-X-Received: by 2002:a05:7301:644c:b0:2ed:e12:376b with SMTP id 5a478bee46e88-303986b14d3mr3240402eec.33.1778908470668;
-        Fri, 15 May 2026 22:14:30 -0700 (PDT)
-Received: from fedora ([2601:646:8081:3770:e6d1:d01d:99b8:802a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30293e2ea78sm8916575eec.6.2026.05.15.22.14.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 22:14:29 -0700 (PDT)
-From: Collin Funk <collin.funk1@gmail.com>
-To: bug-gnulib@gnu.org,
-Cc: Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, Jan Kara
- <jack@suse.cz>, Christian Brauner <brauner@kernel.org>
-Subject: test-fdutimensat failures after 7.0.6-200.fc44.x86_64 kernel update
-Date: Fri, 15 May 2026 22:14:28 -0700
-Message-ID: <8733zsj5qj.fsf@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1778912269; c=relaxed/simple;
+	bh=Jy85tXngzyQqbvPMxOTGHJQI1fggE/SuVukvCwx7GXk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RHDaEaVlK6KLdZ/o2faVls58ZPy0Wkncf8Qp+RN8TJZLCYLwyrnhEUkbnd6aqnfXZPMBGzH96l6xX5pxHLLbVxNQdwvGYMg+x1/RHbUymfKxCdAf1kAnd0Rp6NLkuezj8Hd7DmRW7tpvlOxQ1dz9oR58lWxabSOPSgZHpfu7SXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64G6HGeN079887;
+	Sat, 16 May 2026 15:17:16 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64G6HGQ0079883
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 16 May 2026 15:17:16 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <7c54e697-9a96-4304-826e-8a437218f5e4@I-love.SAKURA.ne.jp>
+Date: Sat, 16 May 2026 15:17:17 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7] hfs: validate record ID against requested CNID in
+ hfs_cat_find_brec()
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+        "contact@gvernon.com" <contact@gvernon.com>
+Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
+        "frank.li@vivo.com" <frank.li@vivo.com>,
+        "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"
+ <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
+        "slava@dubeyko.com" <slava@dubeyko.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20260311211309.27856-1-contact@gvernon.com>
+ <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
+ <752d15863effadd7789431137a3feff825594cc3.camel@ibm.com>
+ <b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp>
+ <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
+ <b332e546-e93f-4b79-a11c-695058d61fb1@I-love.SAKURA.ne.jp>
+ <4f6b37028269c7c4a40a58b57cd546a93dcbd7c2.camel@ibm.com>
+ <abnzsVk9JNN3alKq@Bertha>
+ <dbacbf1c48ac5aa24f37c58bff995d7b03268db4.camel@ibm.com>
+ <absr9g7LaMEHfw47@Bertha>
+ <f84ae595-a084-4ded-9f99-964752a69f7d@I-love.SAKURA.ne.jp>
+ <070d92639460b672a174d6a11b1e7d0b099b18cb@gvernon.com>
+ <9f66743b-70e0-4886-884e-5203f5c02ed8@I-love.SAKURA.ne.jp>
+ <c80f3c36-4c66-4e51-ab3e-e83d37b60131@I-love.SAKURA.ne.jp>
+ <5ff5f107e5a8588367b3af77748369c166f16cc7.camel@ibm.com>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <5ff5f107e5a8588367b3af77748369c166f16cc7.camel@ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav103.rs.sakura.ne.jp
 
-Hi,
+On 2026/05/16 6:10, Viacheslav Dubeyko wrote:
+> On Thu, 2026-05-14 at 16:34 +0900, Tetsuo Handa wrote:
+>> syzbot is reporting that BUG() in hfs_write_inode() fires upon unmount
+>> operation when the inode number of the record retrieved as a result of
+>> hfs_cat_find_brec(HFS_ROOT_CNID) is not HFS_ROOT_CNID, for
+>> commit b905bafdea21 ("hfs: Sanity check the root record") checked
+>> the record size and the record type but did not check the inode number.
+>>
+>> Initially, Viacheslav Dubeyko was assuming that we can fix this problem
+>> by adding validation to hfs_read_inode(), and George Anthony Vernon is
+>> proposing a patch that adds validation to hfs_read_inode().
+>>
+> 
+> We can fix the problem in by adding validation to hfs_read_inode().
 
-After updating my Fedora system to kernel version 7.0.6-200.fc44.x86_64,
-I noticed that the Gnulib 'test-fdutimensat' test fails a majority of
-the time in my GNU coreutils checkout:
+No, we can't. We can't fix a logical error that hfs_fill_super() by error
+accepts an inode which is not the root inode, by adding validation to
+hfs_read_inode().
 
-    $ seq 100 | xargs -n 1 sh -c '
-      ./test-fdutimensat >/dev/null 2>&1
-      echo $?
-      ' | LC_ALL=C sort | LC_ALL=C uniq -c
-         14 0
-         86 134
+> 
+>> While I am not against adding validation to hfs_read_inode(), treating
+>> an inode which is not the root inode as if the root inode is a logical
+>> error which should be rejected regardless of whether we hit BUG() or not.
+>> And we confirmed that we can't fix this logical error by adding validation
+>> to hfs_read_inode().
+>>
+> 
+> We haven't confirmed it. The issue can be fixed by adding validation to
+> hfs_read_inode().
 
-Here is the section of code where it fails [1]:
+We already confirmed it, you forgot it.
+https://lkml.kernel.org/r/b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp
 
-  /* Play with UTIME_OMIT, UTIME_NOW.  */
-  {
-    struct stat st3;
-    struct timespec ts[2];
-    ts[0].tv_sec = BILLION;
-    ts[0].tv_nsec = UTIME_OMIT;
-    ts[1].tv_sec = 0;
-    ts[1].tv_nsec = UTIME_NOW;
-    nap ();
-    ASSERT (func (BASE "link", ts) == 0);
-    ASSERT (lstat (BASE "link", &st3) == 0);
-    if (check_atime_on_symlinks)
-      {
-        /* The first assertion fails.  */
-        ASSERT (st3.st_atime == Y2K);
-        ASSERT (0 <= get_stat_atime_ns (&st3));
-        ASSERT (get_stat_atime_ns (&st3) < BILLION / 2);
-      }
-
-Adding some print statements in place of the comment:
-
-        fprintf (stderr, "%jd\n", (intmax_t) st3.st_atime);
-        fprintf (stderr, "%jd\n", (intmax_t) Y2K);
-        fprintf (stderr, "----------------\n");
-
-Here is an example of what is seen when the test fails:
-
-    $ ./test-fdutimensat 
-    ----------------
-    1778905091
-    946684800
-    test-lutimens.h:192: assertion 'st3.st_atime == Y2K' failed
-
-Here is an example of what is seen when the test passes:
-
-    $ ./test-fdutimensat 
-    ----------------
-    946684800
-    946684800
-    ----------------
-    946684800
-    946684800
-    ----------------
-    946684800
-    946684800
-
-So, it looks like the atime is being updated sometimes despite the use
-of UTIME_OMIT.
-
-Interestingly, in my Gnulib checkout residing in a separate directory
-the test passes:
-
-    $ git clone https://github.com/coreutils/gnulib.git
-    $ cd gnulib
-    $ ./gnulib-tool --create-testdir --dir testdir1 fdutimensat
-    $ cd testdir1
-    $ ./configure && make -j $(nproc)
-    $ cd gltests
-    $ seq 100 | xargs -n 1 sh -c '
-          ./test-fdutimensat >/dev/null 2>&1
-          echo $?
-          ' | LC_ALL=C sort | LC_ALL=C uniq -c
-        100 0
-
-All of this testing was performed on the same BTRFS subvolume:
-
-    /dev/mapper/nvme0n1p3_encrypted on /home type btrfs (rw,relatime,seclabel,ssd,space_cache=v2,subvolid=257,subvol=/root/home)
-
-I could only find one commit since 6.19.14-300.fc44, which I never
-experienced this error on, that looked like it may be related [2]. I am
-very much unfamiliar with this code, so anything after this sentence
-should be taken with a grain of salt.
-
-Looking at the new inode_update_atime function that was added in that
-commit:
-
-> +static int inode_update_atime(struct inode *inode)
-> +{
-> +	struct timespec64 atime = inode_get_atime(inode);
-> +	struct timespec64 now = current_time(inode);
-> +
-> +	if (timespec64_equal(&now, &atime))
-> +		return 0;
-> +
-> +	inode_set_atime_to_ts(inode, now);
-> +	return inode_time_dirty_flag(inode);
-> +}
-
-Compared to the old inode_update_timestamps function:
-
-> -int inode_update_timestamps(struct inode *inode, int flags)
-> +int inode_update_time(struct inode *inode, enum fs_update_time type,
-> +		unsigned int flags)
->  {
-> -	int updated = 0;
-> -	struct timespec64 now;
-> -
-> -	if (flags & (S_MTIME|S_CTIME|S_VERSION)) {
-> -		struct timespec64 ctime = inode_get_ctime(inode);
-> -		struct timespec64 mtime = inode_get_mtime(inode);
-> -
-> -		now = inode_set_ctime_current(inode);
-> -		if (!timespec64_equal(&now, &ctime))
-> -			updated |= S_CTIME;
-> -		if (!timespec64_equal(&now, &mtime)) {
-> -			inode_set_mtime_to_ts(inode, now);
-> -			updated |= S_MTIME;
-> -		}
-> -		if (IS_I_VERSION(inode) && inode_maybe_inc_iversion(inode, updated))
-> -			updated |= S_VERSION;
-> -	} else {
-> -		now = current_time(inode);
-> -	}
-> -
-> -	if (flags & S_ATIME) {
-> -		struct timespec64 atime = inode_get_atime(inode);
-> -
-> -		if (!timespec64_equal(&now, &atime)) {
-> -			inode_set_atime_to_ts(inode, now);
-> -			updated |= S_ATIME;
-> -		}
-> +	switch (type) {
-> +	case FS_UPD_ATIME:
-> +		return inode_update_atime(inode);
-> +	case FS_UPD_CMTIME:
-> +		return inode_update_cmtime(inode);
-> +	default:
-> +		WARN_ON_ONCE(1);
-> +		return -EIO;
->  	}
-> -	return updated;
->  }
-
-The behavior looks a bit different in the case of flags having S_MTIME,
-S_CTIME, and S_VERSION being set. Before that commit it would use the
-following to compare to atime:
-
-    now = inode_set_ctime_current(inode);
-
-However, now it will always use:
-
-    struct timespec64 now = current_time(inode);
-
-Could that be the cause of this behavior?
-
-Let me know if there is any other useful information that I can share.
-
-Thanks,
-Collin
-
-[1] https://github.com/coreutils/gnulib/blob/master/tests/test-lutimens.h#L176-L192
-[2] https://github.com/torvalds/linux/commit/761475268fa8e322fe6b80bcf557dc65517df71e#diff-325e7194d6fde054508f3ab689c05b774e0755b85d5639dc92c19a2230bbcc2f
