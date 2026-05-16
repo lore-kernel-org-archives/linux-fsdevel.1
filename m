@@ -1,114 +1,147 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB11512D21B
-	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 10:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778925642; cv=pass; b=P2xX1RlmuzBwEabg8PY6bwVVpO6S1Ts1J3Mg23Jlzo9aC5W+hpEePNFFsANvWPIW+iuv4jfsbU9w+LVDILVaXi5cz9lT28oJxCcGXMgn0ok6IT8NZuEFSrB2BLz+k3yv9OzAypJ3TK/FeNmhjy+nCM8/HkNfiau16TgCNUgxkOU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778925642; c=relaxed/simple;
-	bh=ozFabX2+wpA1waNxoOg9swif06Ui7c36yrFFuSF2xp8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ck0QuPjhkE3zDKuZV7y46Nv/m/XCM/R2eQeMPMPx43ENdC1etVTJy/Caqfk471aqiAbXRat66gIWxd9UeauCaMyBGz1GwW00X9s74fnx5hCCKwjJ2EFVrTFOLW53+ti2yDJMHjyOMcUxNhWDpFRxIFFcMMrLGUtnUJ8vHuMduKE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvqBcgnM; arc=pass smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AF031353B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 10:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778927634; cv=none; b=GCB9DcxF3TIj3SZ32/7RZ6Ub1o9o2GATw0fCyV9irDoABS/bJLqCuCo7dg5qb09VAFzduhIkec58gUIom8SHZH6kbXHzdIZy/oTj4VgRzFsYsTkvsVzqO0L8oNwVn+QIWvXa0N6ANoYSuoHCGeGvntqI+SwgEWz5PgFq/XAvyyY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778927634; c=relaxed/simple;
+	bh=FuvtoQBugX7lKG59TCI3KMuu2qI+UzI10zjoRTYacFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=txi8Vip8RAYfM43y0dhBULp31Ty0bMe5mDI6R3JlpUYCvSSlRNGLwwiDT4qXwjL3vkLrJsqGScbnGE9YP4wFoeUdc2wJ3ulNDc6nQ6guqVBwgNZmPFG96Q9Q9d+TCoK0lQoPuW2rnYnnR1uFwiSErJfLETg54JR3d+FdPDYkZIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qz+K0+kI; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvqBcgnM"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7bd5e373d07so2552527b3.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 03:00:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778925641; cv=none;
-        d=google.com; s=arc-20240605;
-        b=THejsdOKw2RuK8lGFbdPlz+ywM4CRMUZ2hkwaTa1ptehAP8bm85b9kDadF4PmOhELX
-         g1L+WQm6Xn4Pt0uU2kruNO7bt+W2XsbEbcCtJwTEehNzQ31LDriStqIdpNAe9gxp3KgW
-         i22IvBzpsJUkstc/qfSlCY0fWXG0f59FBRRiJZJmEgjilIQe1pNO0/rlSEDpatzzbCZ/
-         3GefxdrPq+AXUHzg/rU5sDyv6CZi0y49m1uzZevb+j/6+AXHcNWvW+B8gxyXFcEF6Ic8
-         XTH/NzIyr409DDPmrEStEgPgkOstniN6aPQWk3c+jh+qhvww/OxT0tY9z4oSBcrsLUmZ
-         14Fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KfbpVW27G4iXABfVGKQoBu/iXDGvwHpAsamzbVWbpv8=;
-        fh=S85luFW4oKzSTn8kWZ4FgrhCRWWvYVTBMJb3tctTpik=;
-        b=btZuYuXUjrQqDIuX4xdDdWjC7kkK6/5QkZLFQ5Ry5+R20zom3jdOAzr8pFn1CYmcKn
-         z1t9+LsJAHuCr90bft25CNCvDGUnUEFxhnHYVGMbFh1/38rl2gTGkmXzbXQynAH6pfdV
-         SUf15qxtms/kXF2o87RE6fHg4doORVJecFWgOTAvWIY3ZH+q2V0R5/+qTvv1N1MJpIeS
-         XNQ0zz13TloG8sAY8oiVKKm0w6pd65Nb4NfmNEgvcv8KkdhpuWWtcvUxdOXOcjnREM7D
-         jzCaJg209WD3C+zTE8NlggnGlmTL02sV705am20xMYG1Pd4ay2+pke7PFLaHYCG8NTZH
-         XtOA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qz+K0+kI"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-44b330c5cc6so394339f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 03:33:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778925641; x=1779530441; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KfbpVW27G4iXABfVGKQoBu/iXDGvwHpAsamzbVWbpv8=;
-        b=DvqBcgnMmB+VexQf48jIeAYuFEsocYqnzjU13Po++XkkfhqCPNl1v3nrgMROjF8W3B
-         juvmAIDJdi8Ft3a0AVTCyJ1LURoYiliVTv88gEXZEgQOORmthpdKQeLLEx2wESl9J8O0
-         5kumISzYVaTNXOwZixgrDtTNTA5f5llBsZxUVm7ymo1B5JRhELndWiUYI5r4WYriOTJK
-         BXlUzi9J+GHAkhyVATqTTT3uEa0l1YB4UTWRRLS5T0U1CwFWnVHEOwhlk8dKqVQrd9mR
-         fM/HcZd1ite/e4fV1VZzVefiJuvGctuZft6d0k0j0srQwhUoCo/EMsRrbGORXIoYyRxT
-         QD/Q==
+        d=gmail.com; s=20251104; t=1778927631; x=1779532431; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tmDlgq0uLgD0NRXODmF5A8gxYBrdzp2qhaLJZG2Vx8s=;
+        b=Qz+K0+kIygMvtjmc6ywX+hDfV1Dleob+laDAhW2KWYfFf8FfFrhI26kl4npcgpW2TM
+         7xQfsG8VFTr0SW+i/Ei5QsPhbO4wUUYfa6EPZUi51Rt2hQqdup6Vq6zb0281J3nXsltb
+         KS7NlBw03lCIdblqiPfXu114MijE56RIQWYyx9rXRRKLrHQbw29nUgGTfTw66fsI7Cbz
+         4Yy881caXz6t15bLsf39Nc3L5eYboReG3thbzoZg3IDXy2Zus6ElLfyQZGY3IpgO8TNh
+         tq0f0mK0hXEKZRzg2SSzUZLHn57giEhliWXpRrpkk3eWR+LTNm+ZMVZCgqbWllQQCozZ
+         TLBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778925641; x=1779530441;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KfbpVW27G4iXABfVGKQoBu/iXDGvwHpAsamzbVWbpv8=;
-        b=p1uAlYIiCU13tS313RvqEGiNjiVqP04qeyYHe7szk9JLuoskdDRGub/t+ExhboL9qU
-         Jo1grahkM2u0R4ZkTbQ0mcQxFXbcc9WL7ZC8L5CYM6FlYulQ3Frx+zex7fSYmJTleBH7
-         GBAuY4fOVQXhyXerS+YjeFdtZbyBWjCLeqPZKKiahk2UK3f3r5Z2uXYOWKODJNoNpUXk
-         UqSykl4XaLfkE1YvcIRqO63pvzg1xOEig+dEOgPgX+w6OH3am3kNx4PxxKOUBHFDlYv4
-         FMQfDukArGCCKJlRD9VvpUuH7FZbzXtBp0vc5AZO6SOj0clV4xb17Uz+Z0LSDs36Zqzb
-         K3mg==
-X-Forwarded-Encrypted: i=1; AFNElJ80KWUG8LTCrB0Fuz0cTdCFOMm3m1J2Wdkobk4wwgDQFEIT2bfCZQJislTNiT67RCdLdG9kGr5R7gGqXSSW@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyZ+mOez/L28A3vTs4Ln/d/GJL/GK33O1DmYpnTRZNG4IPBgMa
-	YyB6MNQWv8U66UXeN6YY01znNJtHzl3NIc88Hwfs4isCTZfVeiaZTj0XRvUeKXpPVs66TkuCTr0
-	EeQTT5ubJ6CR4MXiIr9nAWJx79rOP3EE=
-X-Gm-Gg: Acq92OEbv84bfrbkcJv22ICiU79XFHchsOyjIJOY8XSjYxqjVLl9ds7QvZxOfzzMmt0
-	aO3M9HWzOXBcdTK9MLuv7lGkYQCWgXcw4GpZ6uvddIxNl/ERPtkVUawk5Aelu449DViNxzBZGw7
-	rpObi9E8to2n/TEYUIYxFHMY+Ofor8w6GLR00cvH1N8S+nAf5K0Pe6B1yrvRjX4398v3QuSFXe/
-	c0R54HTqIj04fD8ueh5Ohttd4LZyKHuamzNaYimMH+D2VZt+2mCjJRxqpNT8uxUa3FJ0lNvSslR
-	2D1SzRBRAFKFsfwb33MPa+AWr97TfJjD6SMZ
-X-Received: by 2002:a05:690c:c18f:b0:7b6:f4f:f05e with SMTP id
- 00721157ae682-7c95bd18f6fmr76712107b3.40.1778925640723; Sat, 16 May 2026
- 03:00:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778927631; x=1779532431;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tmDlgq0uLgD0NRXODmF5A8gxYBrdzp2qhaLJZG2Vx8s=;
+        b=TWbo0BlNzcVtpidsE4LWg5TMwDHG0nNGcphME8W7lOaBuszjbudfFAjMXtM/zYpEVg
+         Gu6HnvwNtKCy/GjMI1pje+YmWiedw8VvymHoOfORXfNtX5q3/VHgi0Wms2vyMsLbcLW4
+         HMot4FlOJOvB79RpLvA2CHzD4ucJY7ib5lm93f3dZ2CVlB4CQAU2gO24at8lyTVsy0ba
+         poxNAkvtyhcGaNH+RpQqMGVd03f+2p9tu4HdWHMzUXIbxPxWymZI5IsPrT0R79gmpNUs
+         Wq8FAVYLnG/tao9CwI0m/5RKAeLgosBtpyKT6mbOnEPX0k7/WfMLTEVNKVxYWVLx1KbZ
+         7cIQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9kUQoDg83+WBM4d5BHTshBtdgCDLjNdBLLoCC5pvc5irhMFLijm5YU1jHQX77+GxXPtpMeN47ERF0JGg+Q@vger.kernel.org
+X-Gm-Message-State: AOJu0YwR9ZT0/ptgBKQPGwUtQmPuF9FnObJu8kwm5ltp+58yw/grcYML
+	j92onje15Y9beO+GkpdQGDgFfoErgv73FoUQ33jKuM9FmcXiQFaZcrvh
+X-Gm-Gg: Acq92OFeaBi9GOs6+84BvebODtQ35yTW+fJTzvRUCQFS01KUV5aANdW29jVyUXXbyca
+	JWM8oc2mMRl+zF7DSrHPjE6UPEndHQyTtPIPSvql9GJVHV/u1etftJR9MPZqxF/+a990lelIFYU
+	YYH937CVK8UyRD86PIwcsYnYq/0Np2KwSDNEKJ2bxZ7hikia/Kwq/dVRk35MoJe1bB9OJl2YxI6
+	/4yhk6pkogWS5DfOMBIFdqGk3o9RGp7ik4/h6OWxf2DFwDWwoEPrPlciEnbYODz8Uxd7wACzQnh
+	pJ/dARnyo1OPmDMtbNvVibc49bDoapfIJXkI+czmF7IeYN5Eu06WkO3qbCSYjaPECA9Cpxm0R/L
+	pwlMIXTVctRo8AvrwGfSTifn7bVtOCHAMiJBJY1QaJhEYqgumLjCJYYCEFZ0dE/So5daTE6LBvi
+	QLrQEZ9cFsuQwZ04isduVEVIc9Si2Ea/XzBPLd8a54WRWMJarhxnho9bZ+4rc4rMXDgM9IgTZuT
+	ICA2hDOJgqKZPVf
+X-Received: by 2002:a05:6000:d90:b0:45e:5c98:c8ed with SMTP id ffacd0b85a97d-45e5c98c926mr8135017f8f.21.1778927630643;
+        Sat, 16 May 2026 03:33:50 -0700 (PDT)
+Received: from localhost (brnt-04-b2-v4wan-170138-cust2432.vm7.cable.virginm.net. [94.175.9.129])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9e767cb9sm20703655f8f.2.2026.05.16.03.33.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 03:33:49 -0700 (PDT)
+Date: Sat, 16 May 2026 11:33:48 +0100
+From: Stafford Horne <shorne@gmail.com>
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: kernel test robot <lkp@intel.com>,
+	Horst Birthelmer <horst@birthelmer.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Horst Birthelmer <hbirthelmer@ddn.com>
+Subject: Re: Re: [PATCH] dcache: add fs.dentry-limit sysctl with
+ negative-first reaper
+Message-ID: <aghIDLYW91C4fcd7@antec>
+References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
+ <202605152333.0pOd2zJR-lkp@intel.com>
+ <aggTg7OnEm175nSQ@fedora.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260515163424.1575298-1-michael.bommarito@gmail.com> <CALFbBicg4oz-MoQue-_MCYaROeWJMkDUySaMP1_Te9z5wP_1Jg@mail.gmail.com>
-In-Reply-To: <CALFbBicg4oz-MoQue-_MCYaROeWJMkDUySaMP1_Te9z5wP_1Jg@mail.gmail.com>
-From: Michael Bommarito <michael.bommarito@gmail.com>
-Date: Sat, 16 May 2026 06:00:25 -0400
-X-Gm-Features: AVHnY4IDawty-OaDG5f4M0NQEvxBkxuxcJ9qQTQ8GWtF7Xvy8dJzFgQgpGGEjBk
-Message-ID: <CAJJ9bXwZcAzfm+U8Wm11FRGSjNVro-VoAxghFCp=fJLQmnhN0w@mail.gmail.com>
-Subject: Re: [PATCH] fs/ntfs3: bound NTFS_DE view.data_off in UpdateRecordData{Root,Allocation}
-To: Pavitra Jha <jhapavitra98@gmail.com>
-Cc: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, ntfs3@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aggTg7OnEm175nSQ@fedora.fritz.box>
 
-On Sat, May 16, 2026 at 12:44=E2=80=AFAM Pavitra Jha <jhapavitra98@gmail.co=
-m> wrote:
->
-> Thanks for fixing this. Since you cited my original report as the
-> basis, would you mind adding:
->
-> Reported-by: Pavitra Jha <jhapavitra98@gmail.com>
->
-> to the patch tags?
+On Sat, May 16, 2026 at 08:55:16AM +0200, Horst Birthelmer wrote:
+> On Fri, May 15, 2026 at 11:09:54PM +0800, kernel test robot wrote:
+> > Hi Horst,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on 5d6919055dec134de3c40167a490f33c74c12581]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Horst-Birthelmer/dcache-add-fs-dentry-limit-sysctl-with-negative-first-reaper/20260515-154600
+> > base:   5d6919055dec134de3c40167a490f33c74c12581
+> > patch link:    https://lore.kernel.org/r/20260514-limit-dentries-cache-v1-1-431b9eb0c530%40ddn.com
+> > patch subject: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
+> > config: openrisc-randconfig-r073-20260515 (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/config)
+> > compiler: or1k-linux-gcc (GCC) 10.5.0
+> > smatch: v0.5.0-9185-gbcc58b9c
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202605152333.0pOd2zJR-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    fs/dcache.c: In function 'dentry_limit_worker_fn':
+> > >> fs/dcache.c:1474:7: error: implicit declaration of function 'get_nr_dentry'; did you mean 'retain_dentry'? [-Werror=implicit-function-declaration]
+> >     1474 |  nr = get_nr_dentry();
+> >          |       ^~~~~~~~~~~~~
+> >          |       retain_dentry
+> >    cc1: some warnings being treated as errors
+> > 
+> > 
+> > vim +1474 fs/dcache.c
+> > 
+> ...
+> > 
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> 
+> This is puzzling to me get_nr_dentry() is defined in line 178 in the same file and first used in line 209 
+> and has been there since 2013.
+> 
+> Builds fine applied to tag v7.1-rc3 and to the current master with gcc and clang.
 
-Yes, very sorry about that!  I switched from a 4/4 patch set to
-separate patches and missed your attribution.  I'll let Konstantin and
-others weigh in on the patch before sending v2, but definitely agree
-with you that you should be tagged here.
+Hi
 
-Thanks,
-Mike
+They are protected in:
+
+#if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
+
+With #endif on line 247.
+
+In the rand config as least I see:
+ # CONFIG_PROC_FS is not set
+
+-Stafford
+
