@@ -1,190 +1,342 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3747405C4B
-	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 15:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778947142; cv=pass; b=Z7rkujlNstj5O5cak+bmCyiYvX+U/L71TrSs78Fn+RTqjOkXlwZtNzNQk9Bre8X57BIukKRJfz4gbarrgaM3qjyA3eBRpa+dEjREMyI9RHMevsBoiNXWiEV1iOJ+3ix+XOPHuLhRbI1Yj/jKaoRY8LYuAGEIrvGiiz6w91EVLVc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778947142; c=relaxed/simple;
-	bh=rTEw6lhQEeWWRvy78R7rwNu7M9Te8VQNIHKucihppOU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=adIfidyvkKykHwVW9zg4WrFs3nEMZ94Sh5sY77vaU1XL/lEAhXr55W2P0IO//lorOTvdRSlPLaORpw7IEopPMyUgqq1rDEHun970/QZ65BBhjmSNJH6hlsmfAND3RkmBQ3MaV9+YED0Zjyl8MUAKuEpgEoWxRkgc+FhfwRtJ2tk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JVu1vtLG; arc=pass smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C65931E84C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 18:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778955706; cv=none; b=faeW1vlUb1ghararRbb81vZ9igvVV6SG6JFAigmMECyVxCE6GxzTXAY3Y0mzB+jf+MI9jLQWXf6wyAU9wENN+Bi7EoMdi8qB0rQv0McRgJ6I60pONTaXvBggAoTLNtoFjJBWIEBh3vxu+0z7u7D0Qp8UJ6asfoiMpSu9KU1c0nQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778955706; c=relaxed/simple;
+	bh=Ijmxg5vyoQ1oIfZDFIyfZb/7YUT7Jls5Cc0/UmyMsjk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D54nhVT3T3hmdhyNtChH8UDXf47zpzU3vzSSzfOETwRBgxIR8lmrzYJvP1cwFPSe093ZYRV5C3dUAM+Xf2O0JuF9kcM+9uSBXA44nv//cgVbtddnddKa3JLfT2TMXxZSkST2KxwfwUFsx5HdOA0fszz6+3psStoRVDorqnnO4YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nkt7TPGR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=x4AszcfE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nkt7TPGR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=x4AszcfE; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JVu1vtLG"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7cac99f837bso492807b3.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 08:59:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778947140; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JN5bHvRuni/819FWyXnuBsSJaKzyqrNgoUWWE0GYCFH+P2/nd6t7dD2H5kTznNZOJR
-         xpWf4Nyiu/GXvuIQ9Ad/4G5T3pKgTFQ9wc+2ZD4eVsKo8O3Bo7hbOLkfMgmfYPO0bzg+
-         6bZxKkkUtCW4c5wpfBXfBHau8Miv7j9YeFZSyAVSX2E3OMRlUCAjW16DZtbC9QIAxkxg
-         5/ayUg1bFvir+KKIUEFPk2QZkj/CsXPa6l9BEezCfOvRkHIk8m1/sEqLMxrNIP6kAwhw
-         5kNaVw39CRDa7fDUun8WNk7FP4tC5Q/dpYT1axxR2vf5bHyudFqRgEKGyD+lgX9Oc4zH
-         FhOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=T+0NnhEuPKw1NILBCeE4vjRZ31fQmwEjLwiGyKn+NFg=;
-        fh=moNTyEtuVnp2HTUxqZP1+0wu80ESplQua8hCXyWEFA0=;
-        b=PzwmNeLGQGiSvJTZinqt7GRtgQaWd2WKQ9pfJ4knMo8U6/e4OL3OG444xt4VGjxnEY
-         nIZV24HRiM+T7d7sR/AF32OORflgtm511qZHjVZR1eCwvzcuCgHWl6mqXCBqka92tpap
-         A3K0xUwFkvIKR2PKrSA+FhTzFVgw5IlL1JLURGzB6A5LKq5AMlEvHpyGQz/uVP+XaZ5k
-         hCiH/xIlBGul7axEm3zN6N1FWW5JPg4G3N4NzAH9hBtp/K0/E6bhmeaPiEd6BbvNtBR6
-         m/6eECksIYQGyQjbMIuvkXjLaGhBiF8nC+6ztsw6ohLF4kW7L6c9syhq25r4yfePSdFn
-         3iJQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778947140; x=1779551940; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T+0NnhEuPKw1NILBCeE4vjRZ31fQmwEjLwiGyKn+NFg=;
-        b=JVu1vtLGFb5CnXVkcy4zo1kC9xoWS5Y1Coei0nYboR+Qbp0QpNdh5AJVMHgXg9KLxn
-         oyK1t0N/H94xIpD9+Bm04vyxN2/bkAt1HYhwB/QGYm4YzdmhNDQcjig7bIXZTM0kf0bz
-         CKtn0uNGED47pa9NiTutV8hTZNA5w05IlF9BOzc1NGA8fCuD2Ntlg/6lbcl8IZVlVq9P
-         xP3Rusd0BpRforwbOxD51+PdEwkHZMJmG+kOFKgG35oa1EtcwXDFsVvR+78tcmi9jZfv
-         ceOrw6ReR/80T7oxx4jMp+grnS/lVmZd/9u5Q2zdXKnmd6lRqvhbBIdhzpe+JBUHRfyS
-         TG2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778947140; x=1779551940;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=T+0NnhEuPKw1NILBCeE4vjRZ31fQmwEjLwiGyKn+NFg=;
-        b=lQubSdx27GBAtJHA5dvqvpeAUaSWOWV361TJZ0xX4F/VfcBRuJu4i8Ywu5G2bX4nKn
-         EzpbxeyIA7HYw2ZKN+W5FO1AWYVrgxCMctMB3IPJ8PNuKi2Vlam8XhxMuVJS2ZZjTLUX
-         AFgbsZa+3lc4mdh4gfH+ice3kktM7shtqxOtL5EU6FHS8AjzDSUulNpufln+dqM61syU
-         Y0dWLzcT7OOPmcUH3AZvo4376KOTC4GxRmcGE7A97LMMBGA3U3Mc7US2K2SWlztslWCk
-         s94coqtB2kQsA/u0QwYjQZ2OsjrY3lMHLu1YQikreNG2JYW0h3uNnMrnBQDVEKA9B7gn
-         BM4w==
-X-Forwarded-Encrypted: i=1; AFNElJ+gCP8S0Wkd0RXNzqOT7wo00BrirQby1HzvRwCVcgZ2bsgf0S4w8nD7jCd/VJgIWacycwf2jgoAubbVjwmg@vger.kernel.org
-X-Gm-Message-State: AOJu0YwErU/rF1yNeY6TsL1PZJomCeLOiWIpNTJtzlb1+1EVpBJyzg5h
-	0tciaGkJLNSP0D6o2mH0rdxOkchIcWeTFQaP5eWBWK47kAnnM4eBU+hxcRmBaDOgdtVCbR8Tffp
-	K9BXjXMN7RXylEXLxA4/WY0q5q8hzs1s=
-X-Gm-Gg: Acq92OE8fxpuSdpHkvDJ/TfWLvqPzTNI05jFQ8TULXqCFL8CYVQ1nfAy0nOVSNvjZbL
-	RiSYgqbq/lA+3xnPRMWw6+G16/mKq9TDCvb1+lgxwz+ghN+/5PV1+fbG+z+wH+JNsNiwBD7wIH9
-	493uoJrF5yH8vw7CaQ/4XWSWOKjBzFWwemCI+UbrS4poas7vhPKW9UInDuFNblAjSMvDzFZGMPk
-	IJYLCD/rYDfLldPjuwngZT1Y6HkhpldPnXcCwFZXo1liGQcQc3G0PxnqYBSwsybid9SroOtFrDj
-	meF/1wP6
-X-Received: by 2002:a05:690e:1443:b0:651:bdff:db07 with SMTP id
- 956f58d0204a3-65e228823d9mr5335705d50.7.1778947139777; Sat, 16 May 2026
- 08:58:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nkt7TPGR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x4AszcfE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nkt7TPGR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x4AszcfE"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F0FC76BA9F;
+	Sat, 16 May 2026 18:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778955703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=I7quuES2Nnz25cpefFp6n1Jxio6jLh72B38wnS1YO2k=;
+	b=Nkt7TPGRN6tIn6Nuyva09wsTXC4GT/jptwqAEI8rJr/Q436SqJNbBOZipuPAttDtOun2dR
+	KmzRMP8ccoYzYZOh0WXZUPueO7ZgPk34r8d4iWM0CkyZpzcRikdve4jOulny+cesnS5RvQ
+	f+NX+qQOoRDSwj55DSYO7tpQnCBFiLI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778955703;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=I7quuES2Nnz25cpefFp6n1Jxio6jLh72B38wnS1YO2k=;
+	b=x4AszcfETqUNTj/9Bn2v+3bby3bLeyNFM6wgXxqe2J14wQORCx7fxfz97TmR1JgBSTPfva
+	EnIiQ5dfzwfeX3AQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Nkt7TPGR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=x4AszcfE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778955703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=I7quuES2Nnz25cpefFp6n1Jxio6jLh72B38wnS1YO2k=;
+	b=Nkt7TPGRN6tIn6Nuyva09wsTXC4GT/jptwqAEI8rJr/Q436SqJNbBOZipuPAttDtOun2dR
+	KmzRMP8ccoYzYZOh0WXZUPueO7ZgPk34r8d4iWM0CkyZpzcRikdve4jOulny+cesnS5RvQ
+	f+NX+qQOoRDSwj55DSYO7tpQnCBFiLI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778955703;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=I7quuES2Nnz25cpefFp6n1Jxio6jLh72B38wnS1YO2k=;
+	b=x4AszcfETqUNTj/9Bn2v+3bby3bLeyNFM6wgXxqe2J14wQORCx7fxfz97TmR1JgBSTPfva
+	EnIiQ5dfzwfeX3AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 385F3593A8;
+	Sat, 16 May 2026 18:21:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id U6jVCba1CGr2YQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Sat, 16 May 2026 18:21:42 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-hardening@vger.kernel.org,
+	Kees Cook <kees@kernel.org>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Pedro Falcato <pfalcato@suse.de>
+Subject: [RFC PATCH] fs/splice: allow for a way to block splice() with read-only files
+Date: Sat, 16 May 2026 19:21:26 +0100
+Message-ID: <20260516182126.530498-1-pfalcato@suse.de>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260511160626.1268612-1-charsyam@gmail.com> <20260511160626.1268612-4-charsyam@gmail.com>
- <CANFS6baeNEftv9Zwn7_tNxhH2B8kEhrWOT14RLyewr1_rhnrsw@mail.gmail.com>
- <CAMrLSE6ZwKd4cS0YnXuKRvYoRMfXTKz8_LH62uD7F-vVR1kGtg@mail.gmail.com>
- <CANFS6banT3Vc09bFNFTMP2UOjAhYK_EhHCNXPd2uZHX-dbWxNg@mail.gmail.com>
- <CAMrLSE7LpmBoLk1QBpmEZmXfbrJr5xvw20nYfbLaLpmHRWLs6g@mail.gmail.com> <CANFS6bYTzioqZjYt=51Kb9RdR3MKXaez_fh_WCLoym093VxFmg@mail.gmail.com>
-In-Reply-To: <CANFS6bYTzioqZjYt=51Kb9RdR3MKXaez_fh_WCLoym093VxFmg@mail.gmail.com>
-From: CharSyam <charsyam@gmail.com>
-Date: Sun, 17 May 2026 00:58:48 +0900
-X-Gm-Features: AVHnY4JfQlqQOUNvHifSYG9vhWj0qHQ1Hln2HVJmoGk40-9EokhFjReT08YkRTk
-Message-ID: <CAMrLSE5Jx02vOOdwsORtzhNfwuaEoE==ndNAxcqEdAG5jMdzyA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ntfs: mark quotas out of date on initial rw mount
-To: Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,vger.kernel.org,kvack.org,kernel.org,gmail.com,suse.de];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: F0FC76BA9F
+X-Spam-Level: 
 
- Thanks, I agree. I will drop this fix series and send a new standalone
-patch removing the unsupported NTFS quota handling instead.
+Since the advent of vulns like Dirty Pipe, Dirty Frag, Copy Fail
+and Fragnasia, splicing a read-only file is fundamentally unsafe.
 
-2026=EB=85=84 5=EC=9B=94 15=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 10:14, =
-Hyunchul Lee <hyc.lee@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> 2026=EB=85=84 5=EC=9B=94 15=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 9:35,=
- CharSyam <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> >
-> > Hi. Hyunchul.
-> >
-> >   I agree that the out-of-date marking path looks questionable.
-> >
-> >  After re-checking the code, the current ntfs driver does not appear to
-> >  implement quota accounting: new inodes get v1.2 $STANDARD_INFORMATION,=
- and
-> >  the driver does not maintain the v3 owner_id/quota_charged fields or $=
-Quota
-> >  usage records. So fixing ntfs_mark_quotas_out_of_date() only makes an
-> >  existing path set QUOTA_FLAG_OUT_OF_DATE, but that does not seem meani=
-ngful
-> >  without the metadata Windows would need to rescan.
-> >
-> >  Given that, I am wondering what removal scope you would prefer:
-> >
-> >  1. Drop only this patch and leave the existing broken remount-rw quota
-> >      marking path as-is for now.
-> >  2. Remove ntfs_mark_quotas_out_of_date() and its remount-rw call site.
-> >  3. Remove the broader unused quota-loading state as well ($Quota/$Q in=
-ode
-> >      loading, quota_ino/quota_q_ino, NV_QuotaOutOfDate, quota.o), while=
- keeping
-> >      the on-disk quota layout definitions.
-> >
-> > My current preference is option 3, because once the marking helper is g=
-one,
-> > the loaded $Quota inodes do not seem to have another user. But since th=
-is
-> > changes the series from a bug fix into removing unsupported quota handl=
-ing,
-> > I would like to confirm the intended direction first.
->
-> I also think option 3 is the most appropriate. I would appreciate it
-> if you could
-> prepare a patch implementing option 3.
->
-> >
-> > Thanks.
-> > DaeMyung.
-> >
-> > 2026=EB=85=84 5=EC=9B=94 15=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 8:5=
-0, Hyunchul Lee <hyc.lee@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> > >
-> > > 2026=EB=85=84 5=EC=9B=94 14=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 1=
-0:25, CharSyam <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> > > >
-> > > >     Thanks for the review.
-> > > >
-> > > >     You're right that the driver does not maintain quota accounting=
-: it
-> > > >     creates v1.2 $STANDARD_INFORMATION for new inodes, and it does =
-not update
-> > > >     the v3 quota fields or $Quota usage accounting.
-> > > >
-> > > >     Given that I do not have modern Windows validation for the exac=
-t quota
-> > > >     rescan behavior, I'll drop 3/3 from v3 and resend just 1/3 and =
-2/3.
-> > >
-> > > I think setting the out-of-date flag in patch 2/3 is also not meaning=
-ful.
-> > > How about removing ntfs_mark_quotas_out_of_date() related codes for n=
-ow?
-> > >
-> > > >
-> > > >     Thanks,
-> > > >     DaeMyung
-> > >
-> > >
-> > >
-> > >
-> > > --
-> > > Thanks,
-> > > Hyunchul
->
->
->
-> --
-> Thanks,
-> Hyunchul
+As such, as a mitigation, add a way for users to block splice() for
+files they cannot write to. This eliminates this whole class of exploits
+that use splice()+confusion in pipe/net/etc code to gain write-access to
+files they can only read.
+
+Users can simply toggle fs.splice_needs_write=1 and suddenly splice() will
+refuse perfectly legal splices() from files it can only read, but not write.
+
+For vmsplice(), make due with the address_space attached to the folio. Care
+is held to make sure the operation isn't too slowed down with locks. The check
+itself isn't entirely equivalent (the mapping's host can be the internal bdev
+inode, etc, and not the one in /dev against which permissions are checked),
+but doing it in a more correct way would require dropping from GUP-fast to
+GUP, and that would be too slow.
+
+Signed-off-by: Pedro Falcato <pfalcato@suse.de>
+---
+
+Hello,
+
+sending this out as an RFC so I can get better opinions from VFS & security
+folks upstream. I wrote this out as a way to harden against all the page
+cache attacks we've seen lately, that bottom out to splice() from a file
+they cannot write + confusion elsewhere on the net stack/pipes/etc.
+
+This is _obviously_ not perfect and not complete. My first (unsent) version
+straight up returned -EPERM on splice() for these files. This one attempts
+to retain some compatibility by only blocking the page splicing operation,
+but still issuing the operation with normal copies (kindly suggested by Jan).
+vmsplice() is a complicated issue, because gup_fast does not allow us access
+to the VMA's vm_file. I tried hacking around it but it's not perfect (e.g you
+cannot grab the mnt_idmap for the file, since we only have access to the
+address_space + its host).
+I'm also not a fan of having somewhat hairy MM code in the middle of
+fs/splice.c but that's something we can simply hoist elsewhere as this gets
+un-RFC'd. It's also missing the external-facing docs for the sysctl.
+
+My big questions are:
+1) Is this a viable way forward?
+2) How hard is it to deploy for users? Could we possibly even default to this?
+
+Lightly tested using [1], which should see (if the mitigation is enabled):
+
+$ ./a.out
+[   17.283456] splice: task a.out/275 attempted to splice a file it cannot write to.
+This is disabled by the fs.splice_needs_write sysctl. If this is truly required
+then disable the sysctl. Performance may be degraded.
+splice = 32
+
+[1] https://gist.github.com/heatd/277339eb25df57d1f750d7da757cf7ff
+
+ fs/splice.c  | 83 +++++++++++++++++++++++++++++++++++++++++++++++++++-
+ fs/sysctls.c | 11 +++++++
+ 2 files changed, 93 insertions(+), 1 deletion(-)
+
+diff --git a/fs/splice.c b/fs/splice.c
+index 9d8f63e2fd1a..624e5cbd42eb 100644
+--- a/fs/splice.c
++++ b/fs/splice.c
+@@ -39,6 +39,8 @@
+ 
+ #include "internal.h"
+ 
++int sysctl_splice_needs_write;
++
+ /*
+  * Splice doesn't support FMODE_NOWAIT. Since pipes may set this flag to
+  * indicate they support non-blocking reads or writes, we must clear it
+@@ -947,6 +949,36 @@ static void do_splice_eof(struct splice_desc *sd)
+ 		sd->splice_eof(sd);
+ }
+ 
++static bool splice_may_read(struct file *in)
++{
++	if (READ_ONCE(sysctl_splice_needs_write)) {
++		/*
++		 * Disallow splice from files we cannot in any way write to.
++		 * This serves as a trivial mitigation for page cache splice
++		 * attacks, where attackers splice a file they cannot write to,
++		 * but can read (like /etc/passwd, or /bin/su) and, through a
++		 * complex set of logic, manage to write to these page cache
++		 * pages.
++		 * The set of checks is quite simple: if we can already write
++		 * to it, if we could write to it (by reopening), or if we
++		 * could chmod it (owner of the file), then any vulnerability
++		 * coming from this is futile, as you can already write to it
++		 * normally.
++		 */
++		if (!(in->f_mode & FMODE_WRITE) &&
++		    !inode_owner_or_capable(file_mnt_idmap(in), file_inode(in)) &&
++		    file_permission(in, MAY_WRITE)) {
++			pr_warn_once("splice: task %s/%d attempted to splice"
++			" a file it cannot write to. This is disabled by the"
++			" fs.splice_needs_write sysctl. If this is truly required"
++			" then disable the sysctl. Performance may be degraded.\n",
++			current->comm, current->pid);
++			return false;
++		}
++	}
++	return true;
++}
++
+ /*
+  * Callers already called rw_verify_area() on the entire range.
+  * No need to call it for sub ranges.
+@@ -971,11 +1003,13 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
+ 
+ 	if (unlikely(!in->f_op->splice_read))
+ 		return warn_unsupported(in, "read");
++
+ 	/*
+ 	 * O_DIRECT and DAX don't deal with the pagecache, so we allocate a
+ 	 * buffer, copy into it and splice that into the pipe.
+ 	 */
+-	if ((in->f_flags & O_DIRECT) || IS_DAX(in->f_mapping->host))
++	if ((in->f_flags & O_DIRECT) || IS_DAX(in->f_mapping->host) ||
++	    !splice_may_read(in))
+ 		return copy_splice_read(in, ppos, pipe, len, flags);
+ 	return in->f_op->splice_read(in, ppos, pipe, len, flags);
+ }
+@@ -1440,10 +1474,51 @@ static ssize_t __do_splice(struct file *in, loff_t __user *off_in,
+ 	return ret;
+ }
+ 
++static bool may_write_to_page(struct page *page, struct address_space **plast)
++{
++	struct folio *folio = page_folio(page);
++	struct address_space *mapping, *last = *plast;
++	struct inode *inode;
++	bool may = false;
++
++	if (!READ_ONCE(sysctl_splice_needs_write))
++		return true;
++	/*
++	 * Always fine to write to anon folios.
++	 */
++	if (folio_test_anon(folio))
++		return true;
++
++	mapping = READ_ONCE(folio->mapping);
++	WARN_ON((unsigned long) mapping & FOLIO_MAPPING_FLAGS);
++
++	/* If it is the same (locklessly), then LGTM, proceed. */
++	if (mapping == last)
++		return true;
++	/*
++	 * Else we have to recheck with the folio lock held, for mapping
++	 * stability. TODO: killable?
++	 */
++	folio_lock(folio);
++	mapping = folio_mapping(folio);
++	/* May have been truncated, etc */
++	if (!mapping)
++		goto out_lock;
++	inode = mapping->host;
++	may = inode_owner_or_capable(&nop_mnt_idmap, inode) ||
++	      inode_permission(&nop_mnt_idmap, inode, MAY_WRITE) == 0;
++	if (likely(may))
++		*plast = mapping;
++out_lock:
++	folio_unlock(folio);
++	return may;
++}
++
+ static ssize_t iter_to_pipe(struct iov_iter *from,
+ 			    struct pipe_inode_info *pipe,
+ 			    unsigned int flags)
+ {
++	struct address_space *last = NULL;
+ 	struct pipe_buffer buf = {
+ 		.ops = &user_page_pipe_buf_ops,
+ 		.flags = flags
+@@ -1467,6 +1542,12 @@ static ssize_t iter_to_pipe(struct iov_iter *from,
+ 		for (i = 0; i < n; i++) {
+ 			int size = umin(left, PAGE_SIZE - start);
+ 
++			if (!may_write_to_page(pages[i], &last)) {
++				iov_iter_revert(from, left);
++				while (i < n)
++					put_page(pages[i++]);
++				goto out;
++			}
+ 			buf.page = pages[i];
+ 			buf.offset = start;
+ 			buf.len = size;
+diff --git a/fs/sysctls.c b/fs/sysctls.c
+index ad429dffeb4b..1fcd7c9f92d5 100644
+--- a/fs/sysctls.c
++++ b/fs/sysctls.c
+@@ -7,6 +7,8 @@
+ #include <linux/init.h>
+ #include <linux/sysctl.h>
+ 
++extern int sysctl_splice_needs_write;
++
+ static const struct ctl_table fs_shared_sysctls[] = {
+ 	{
+ 		.procname	= "overflowuid",
+@@ -26,6 +28,15 @@ static const struct ctl_table fs_shared_sysctls[] = {
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_MAXOLDUID,
+ 	},
++	{
++		.procname	= "splice_needs_write",
++		.data		= &sysctl_splice_needs_write,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
+ };
+ 
+ static int __init init_fs_sysctls(void)
+-- 
+2.54.0
+
