@@ -1,112 +1,92 @@
-Received: from smtp02-ext3.udag.de (smtp02-ext3.udag.de [62.146.106.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01678405C53;
-	Sat, 16 May 2026 14:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A0027587D;
+	Sat, 16 May 2026 14:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778941324; cv=none; b=PEpXa9kPX4jMtZlFqKNmWJdrTPtkSe/E02LAu3T/fl3PNkXFRbO5VhVFcR9dq+T7rZyOH8chwcqQoDSbXM/LmkrM7McgAokTWquqsnu6RI4hjf0+HdnXonUJ7hw6Li8o4kpMtXxiAudoABlPZT7OwVAAuwGAiqLLsW2ZAg/G/wo=
+	t=1778942893; cv=none; b=UvQCdoxRZoJ8iINDGz4FumH1YLMYkHYudXfUo9DXjHp/IWV9vUKZyWy0Je8iE6g1Q8bWJSPuZxOltN8evOOyAAnlXqKPilz8qca+NRDFEpOmvEnqLV4Ylv6AMS3ZN8OdscsNM0CDcmb8dIy0iUkKQ4VmnYhEwTg13WTQ9BOT9PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778941324; c=relaxed/simple;
-	bh=BEWCA5byu5IXhbA56f73LcHStz+2RzytfpTliKLsGbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WHYScHUVa9yK45MQIA0Sc/LIuRL3LWY+OkLB7aKNpcAuTT4V18N4h56C/hfFGSty/T9TkiuJ1kZ8QN3rmqXNQ4rfwT/bcLrURGumIGKQ8BgvprnCiOKcmgFGm0+TOs+QcLxaPMBnXAAcULL60ncurf7TEUDZRFLv+mPobeATfGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (075-132-067-156.ip-addr.inexio.net [156.67.132.75])
-	by smtp02-ext3.udag.de (Postfix) with ESMTPA id 5E05BE02E4;
-	Sat, 16 May 2026 16:15:25 +0200 (CEST)
-Authentication-Results: smtp02-ext3.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Sat, 16 May 2026 16:15:24 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Stafford Horne <shorne@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: Re: [PATCH] dcache: add fs.dentry-limit sysctl with
- negative-first reaper
-Message-ID: <agh7m6iXFMsu81AU@fedora.fritz.box>
-References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
- <202605152333.0pOd2zJR-lkp@intel.com>
- <aggTg7OnEm175nSQ@fedora.fritz.box>
- <aghIDLYW91C4fcd7@antec>
+	s=arc-20240116; t=1778942893; c=relaxed/simple;
+	bh=7VKUyExfAKl6AIwgWrTe81uA918+1Nlb2thIYy7wew0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MCPtszt6DrWtzpegljzdk8FOFytfh6YibCosjb0mcwBRAsQgcdNu6oAzMrw+vOL9U3jxLUrzylWE5q8hnc4T7PhrC8S0vgJEJ6SzT4YCpmSQAfUrJydjtlJSwqVoDoJ09p5JlQ5ydEnsSyvrxL0wEGhgeE5kC/jHvOho3BkYiU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kmCMUw2w; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kmCMUw2w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C461BC19425;
+	Sat, 16 May 2026 14:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778942893;
+	bh=7VKUyExfAKl6AIwgWrTe81uA918+1Nlb2thIYy7wew0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kmCMUw2wAu2HkSbRkoupAhLOXnjqM12FHAs2KElCaFrONYwgYk2vYb0j7YYOpHeCa
+	 N+S2jUgpYKJ6ztqopeRqYBV9zRykHAXXqdYnkQEC6acv4C0j/wwgtHGNGHQVNlWKvN
+	 dPsrPSddnFN0sDy04Zfk9ZyMhQpx3QPvmPmEInI7qq/tbj7NBnbeUQ4/s6ZEmawm4u
+	 EiP+KaZ9XpyVG6szke+fZ2+PJe+tz4U1TVDkuW3BkrdGo/VHSXd7KErOcnAP/SQG7B
+	 6lVhvYT3oJdGI/p7u6rXpzGQxf4SOtQ3g8uWA2EcFb2DAjjFgp9dRz8pFoxZyaD2KW
+	 pi+DBfaRE95TA==
+Message-ID: <bd45e387-cc11-4d19-8bd6-58a0251d7714@kernel.org>
+Date: Sat, 16 May 2026 10:48:09 -0400
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aghIDLYW91C4fcd7@antec>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 00/15] Exposing case folding behavior
+To: Cedric Blancher <cedric.blancher@gmail.com>,
+ Christian Brauner <brauner@kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, sj1557.seo@samsung.com,
+ yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com,
+ slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com,
+ tytso@mit.edu, adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org,
+ pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com,
+ trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org, chao@kernel.org,
+ hansg@kernel.org, senozhatsky@chromium.org,
+ "Darrick J. Wong" <djwong@kernel.org>,
+ Roland Mainz <roland.mainz@nrubsig.org>,
+ Steve French <stfrench@microsoft.com>
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+ <20260511-wertverlust-vorbringen-070f016f3bd4@brauner>
+ <CALXu0UdsurG-ayuYViqs0HXOfgyDw8gpNC+f=5y59cuuSPUbBA@mail.gmail.com>
+From: Chuck Lever <cel@kernel.org>
+Content-Language: en-US
+Organization: kernel.org
+In-Reply-To: <CALXu0UdsurG-ayuYViqs0HXOfgyDw8gpNC+f=5y59cuuSPUbBA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, May 16, 2026 at 11:33:48AM +0100, Stafford Horne wrote:
-> On Sat, May 16, 2026 at 08:55:16AM +0200, Horst Birthelmer wrote:
-> > On Fri, May 15, 2026 at 11:09:54PM +0800, kernel test robot wrote:
-> > > Hi Horst,
-> > > 
-> > > kernel test robot noticed the following build errors:
-> > > 
-> > > [auto build test ERROR on 5d6919055dec134de3c40167a490f33c74c12581]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Horst-Birthelmer/dcache-add-fs-dentry-limit-sysctl-with-negative-first-reaper/20260515-154600
-> > > base:   5d6919055dec134de3c40167a490f33c74c12581
-> > > patch link:    https://lore.kernel.org/r/20260514-limit-dentries-cache-v1-1-431b9eb0c530%40ddn.com
-> > > patch subject: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
-> > > config: openrisc-randconfig-r073-20260515 (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/config)
-> > > compiler: or1k-linux-gcc (GCC) 10.5.0
-> > > smatch: v0.5.0-9185-gbcc58b9c
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260515/202605152333.0pOd2zJR-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202605152333.0pOd2zJR-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    fs/dcache.c: In function 'dentry_limit_worker_fn':
-> > > >> fs/dcache.c:1474:7: error: implicit declaration of function 'get_nr_dentry'; did you mean 'retain_dentry'? [-Werror=implicit-function-declaration]
-> > >     1474 |  nr = get_nr_dentry();
-> > >          |       ^~~~~~~~~~~~~
-> > >          |       retain_dentry
-> > >    cc1: some warnings being treated as errors
-> > > 
-> > > 
-> > > vim +1474 fs/dcache.c
-> > > 
-> > ...
-> > > 
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> > 
-> > This is puzzling to me get_nr_dentry() is defined in line 178 in the same file and first used in line 209 
-> > and has been there since 2013.
-> > 
-> > Builds fine applied to tag v7.1-rc3 and to the current master with gcc and clang.
+On 5/16/26 2:43 AM, Cedric Blancher wrote:
+> On Mon, 11 May 2026 at 16:11, Christian Brauner <brauner@kernel.org> wrote:
+>>
+>> On Thu, 07 May 2026 04:52:53 -0400, Chuck Lever wrote:
+>>> Christian, let's lock this one in. I will post subsequent changes
+>>> as delta patches.
+>>>
+>>> Following on from:
+>>>
+>>> https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
+>>>
+>>> [...]
+>>
+>> Applied to the vfs-7.2.exportfs branch of the vfs/vfs.git tree.
+>> Patches in the vfs-7.2.exportfs branch should appear in linux-next soon.
 > 
-> Hi
+> @Chuck Lever Thank you!
 > 
-> They are protected in:
-> 
-> #if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
-> 
-> With #endif on line 247.
+> Does that mean the support for case-insensitive filesystems will work
+> with Linux 7.2?
 
-You are right, of course.
-Thank you!
+I don't want to make claims with 100% certainty, but we expect this
+series to get merged into 7.2. It's early days, so there are likely to
+be bugs -- there is so much subtle behavior under the covers.
 
-I will send a corrected version.
 
-> 
-> In the rand config as least I see:
->  # CONFIG_PROC_FS is not set
-> 
-> -Stafford
-> 
+-- 
+Chuck Lever
