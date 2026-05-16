@@ -1,102 +1,130 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B2C18872A;
-	Sat, 16 May 2026 06:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778912269; cv=none; b=oxpKiDacaiMKsfih6tNXY5Fh8ndCr/WQZp+OkYpTuDZRolMWo47IGRE8EBeOfYjZkkYiS7WIc8E4a47UTWU3rL7fixL0UYHxsWgxV6DHy8vDRvgHuAp0dl1ugkC0mUPRpBxoeMyAsBDyLgMfwuN9cLr295Rk9o1oQ6+ZskAr59I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778912269; c=relaxed/simple;
-	bh=Jy85tXngzyQqbvPMxOTGHJQI1fggE/SuVukvCwx7GXk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RHDaEaVlK6KLdZ/o2faVls58ZPy0Wkncf8Qp+RN8TJZLCYLwyrnhEUkbnd6aqnfXZPMBGzH96l6xX5pxHLLbVxNQdwvGYMg+x1/RHbUymfKxCdAf1kAnd0Rp6NLkuezj8Hd7DmRW7tpvlOxQ1dz9oR58lWxabSOPSgZHpfu7SXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64G6HGeN079887;
-	Sat, 16 May 2026 15:17:16 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64G6HGQ0079883
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sat, 16 May 2026 15:17:16 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <7c54e697-9a96-4304-826e-8a437218f5e4@I-love.SAKURA.ne.jp>
-Date: Sat, 16 May 2026 15:17:17 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C667731AA87
+	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 06:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778913821; cv=pass; b=dcWw8YI32pR5ugsnMmEW9sOOLFnB1rnicMX+AJkJyIYj2+oxWoQndzAbwtj8k76Xh7FqnSRRiJ7joFyg28+Vdl6B6sb9mzFKPbkEUpDaNVmTGprzizk2/FX8EW+kcFSS5T9emDjNL96JJxP+H+AkU0ZtnR1RLju2bIuzElocNlE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778913821; c=relaxed/simple;
+	bh=BOu7AkGfzBlU/bzal5lpBXqw/o4zx+y8OCCvr0FI1sY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z1arXFUwPUjb9kRyZYFqhLrYJcTkWqOjfPVXwVuJCHl/+dNSaVEzZ2EhinddvbJCt1QaFUbF9pjORyniIoC8sB3ZKNXeIffO+RmDQ2YaAavSSAbggS9nVyAuUUDDaCqOMvpP0tybf39tZK1XDXGmqNr6vPnqrXDEyLQRwKIQYIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lte6xRJp; arc=pass smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lte6xRJp"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-479d68a9063so213507b6e.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 15 May 2026 23:43:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778913819; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ICX2DkIbdo09PHuDXOh/r3Eoxo42Vu+YK68ImPwGkXz9+kyHxby+PeZtTvHTBM6D8K
+         oba9QKXJ8v1z9wskY6xrmxMfjrLdvcxNvXcGUDLdAMz2LP6PAET+IXUPXWSmHTgfX2eG
+         XptBEWIkxTyrYcyLFPuxD5JKRBx8ZgJlPcS1uhBlKgzRbcE4Cf2l+TQ5kTs+r7VhNnQf
+         fn9202Ymtnpk5OnsvZXqK6JBurBN/n8pwlOZOJPND4WhYpaGFfF2T+EKiDwyFveGaCiU
+         f9OjFRvuWEUC1DN8fBv2YvOd+dO6dCEHOZroTkhL/yF3R8eP15v0ypmvje7LjFvQ4WmW
+         Fz4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9mxy2GpAHGinIR1PnXVMvug0ztGXvMspUp7huk1TMZs=;
+        fh=rO+jgylqmkJQANbo84OJyiD+js8GAfY5ih+TTnzau6M=;
+        b=ShpeIAQjXF2j21WcMIGsAwHJ5Iyh0MImMKMhhoX7L/Tz9UZqZEDaugKHq/tjfSOhR7
+         iaE+fF4QuRmSG/EvlU6x8yE/Xt6iKbyOrutYsLuSZCLp/T4NriwDpjiAh008LnBSUV2i
+         3yR/NjI90OHqCOLosNlA/j+ffkUQLG3OOvGhuOjGVYtOjoflpcuLRJyO48cGy8VGyDpS
+         KrwtooM7/vjw8Thxg3JgmzQqcHSMMcvY00r6/WFI5p7F0Gq+p0GNE9IKqllW6p+hcGXs
+         Vn4ZMUr4yy/GpsH5eYOp4V49lVb93AfREVmwa3TB7FQqSxIakQ1Pa/wZ/KpxeJU/OvfZ
+         pAKQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778913819; x=1779518619; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9mxy2GpAHGinIR1PnXVMvug0ztGXvMspUp7huk1TMZs=;
+        b=lte6xRJplRGmp/PSskcPRMRcmRHxp/3AN6A1XynLI6uXZlluhAn8u2h7mZQg7APZLK
+         oAbu6jVFzk3P9a62b4PsoqoTNSJkE7FzjLFpOPv5Z+lsxgwuhtlVTrcbfv9MbnmVX5Py
+         k/kzYjGMlhm8+gRGJfuzaDpFjgrS5WI83cFpH15WHsjn/iy/5C/Ve0iDz9Octg/QEDrA
+         DhdqK6z9WrgQK213b5HL2plz3FNcI+orhuzLw1gTevyVgHFRj7CbGxDhPlje1LF0RZp7
+         KU79gd97VCPt1LjtMq72jZt/AsJhd9asWIZ2PtbrgPLo+/sBoYkMDD8j7+KHYkro1zzO
+         kN5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778913819; x=1779518619;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9mxy2GpAHGinIR1PnXVMvug0ztGXvMspUp7huk1TMZs=;
+        b=AQy6hTqqeeBH6+LA5wmhTQ21OfhLz2MsN/b0Fp54fOO1nNjPkgDxavKhJqh+AfWCzV
+         AbCjia5P8npwJHOdocDP8xPusTcEUxqhCq4fSw4UgSMnOwVlbArddsrTz63rydMWAkYX
+         l/yELjpeIaMb7EX0IODSaTd7wJ6VKYxQgEpf2Ge6zzJwycCXa04dOl89ab+GHAt6LdtC
+         tDkyI9bmii5FA1/gTDxgZCWZxppydzJYlh3L2m+IQapgqoODCjY8QrgXD36rGxQfbia9
+         ItKmTzUXdhWCKN/wu6K+gvsSCbVYEd2WCZ7+qk0E7cFfWnTyNgKTTHuLLkbPvubx2ulF
+         /1dQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9N+4L261+Qs+ni7go8fyvpSX6KSj518OSjcfObinjyeLIA9eCVobVQqZXHnTQmQBsthf59OmcQomIJgM0W@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqbloPIzEjXGwYc7o0UBSieB49lSneCntJ4843LmiyIUU7xHGe
+	9rKB3qp/e8EzpjmiG5WXbtsaufii84ZrIHDoaurT3/2woU3VzTMpgYC9zowOVfNuOwTaSpMr7iW
+	3xCDWYLpU4foyQPDH82aJ3MP9KuoDDII=
+X-Gm-Gg: Acq92OEZXfVAT3ekVxFeHbnsdBa2A4hF98S8m1mJP7EH+XmPUDKC5iqCxyaelwCH6VR
+	UzMKZ66r9OkwfOWOxV+dbdF63ipIlc9NTIHRfe+r2ynZ0SPnEBIeCZDHa5LVLr4uqPFRKGEUBhC
+	phy7MYvZGC0bKddmzgRINfwHbvGEs0THM31tfGwBdmLnv22lBUKIeFro0kEHSiyjiixXofMjty1
+	QsSJHJGNkWhgLy9KVcblUA1d3uFHu59MiVuuidzIeH3PCCc2JG6ojcaU1IgnEWqBxyI4DKZbNXb
+	tYy8l7snL0rz3RpUjg==
+X-Received: by 2002:a54:4e88:0:b0:46c:e542:cc3e with SMTP id
+ 5614622812f47-482e55e65a9mr3386045b6e.6.1778913818672; Fri, 15 May 2026
+ 23:43:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7] hfs: validate record ID against requested CNID in
- hfs_cat_find_brec()
-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-        "contact@gvernon.com" <contact@gvernon.com>
-Cc: "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>,
-        "frank.li@vivo.com" <frank.li@vivo.com>,
-        "syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com"
- <syzbot+97e301b4b82ae803d21b@syzkaller.appspotmail.com>,
-        "slava@dubeyko.com" <slava@dubeyko.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <20260311211309.27856-1-contact@gvernon.com>
- <93f202e6-81bc-4df7-b193-1a812094fa6f@I-love.SAKURA.ne.jp>
- <752d15863effadd7789431137a3feff825594cc3.camel@ibm.com>
- <b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp>
- <5a52755364c7ca1438e06caf8e923cea723a0498.camel@ibm.com>
- <b332e546-e93f-4b79-a11c-695058d61fb1@I-love.SAKURA.ne.jp>
- <4f6b37028269c7c4a40a58b57cd546a93dcbd7c2.camel@ibm.com>
- <abnzsVk9JNN3alKq@Bertha>
- <dbacbf1c48ac5aa24f37c58bff995d7b03268db4.camel@ibm.com>
- <absr9g7LaMEHfw47@Bertha>
- <f84ae595-a084-4ded-9f99-964752a69f7d@I-love.SAKURA.ne.jp>
- <070d92639460b672a174d6a11b1e7d0b099b18cb@gvernon.com>
- <9f66743b-70e0-4886-884e-5203f5c02ed8@I-love.SAKURA.ne.jp>
- <c80f3c36-4c66-4e51-ab3e-e83d37b60131@I-love.SAKURA.ne.jp>
- <5ff5f107e5a8588367b3af77748369c166f16cc7.camel@ibm.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <5ff5f107e5a8588367b3af77748369c166f16cc7.camel@ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav103.rs.sakura.ne.jp
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com> <20260511-wertverlust-vorbringen-070f016f3bd4@brauner>
+In-Reply-To: <20260511-wertverlust-vorbringen-070f016f3bd4@brauner>
+From: Cedric Blancher <cedric.blancher@gmail.com>
+Date: Sat, 16 May 2026 08:43:00 +0200
+X-Gm-Features: AVHnY4LulXSgBXmlt-XknhPT4FGQR5_lEWwUy9GN7jO6BYSv7kvOdT0vcpcWCyI
+Message-ID: <CALXu0UdsurG-ayuYViqs0HXOfgyDw8gpNC+f=5y59cuuSPUbBA@mail.gmail.com>
+Subject: Re: [PATCH v14 00/15] Exposing case folding behavior
+To: Christian Brauner <brauner@kernel.org>, Chuck Lever <cel@kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>, linux-fsdevel@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	hirofumi@mail.parknet.co.jp, linkinjeon@kernel.org, sj1557.seo@samsung.com, 
+	yuezhang.mo@sony.com, almaz.alexandrovich@paragon-software.com, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	tytso@mit.edu, adilger.kernel@dilger.ca, cem@kernel.org, sfrench@samba.org, 
+	pc@manguebit.org, ronniesahlberg@gmail.com, sprasad@microsoft.com, 
+	trondmy@kernel.org, anna@kernel.org, jaegeuk@kernel.org, chao@kernel.org, 
+	hansg@kernel.org, senozhatsky@chromium.org, 
+	"Darrick J. Wong" <djwong@kernel.org>, Roland Mainz <roland.mainz@nrubsig.org>, 
+	Steve French <stfrench@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026/05/16 6:10, Viacheslav Dubeyko wrote:
-> On Thu, 2026-05-14 at 16:34 +0900, Tetsuo Handa wrote:
->> syzbot is reporting that BUG() in hfs_write_inode() fires upon unmount
->> operation when the inode number of the record retrieved as a result of
->> hfs_cat_find_brec(HFS_ROOT_CNID) is not HFS_ROOT_CNID, for
->> commit b905bafdea21 ("hfs: Sanity check the root record") checked
->> the record size and the record type but did not check the inode number.
->>
->> Initially, Viacheslav Dubeyko was assuming that we can fix this problem
->> by adding validation to hfs_read_inode(), and George Anthony Vernon is
->> proposing a patch that adds validation to hfs_read_inode().
->>
-> 
-> We can fix the problem in by adding validation to hfs_read_inode().
+On Mon, 11 May 2026 at 16:11, Christian Brauner <brauner@kernel.org> wrote:
+>
+> On Thu, 07 May 2026 04:52:53 -0400, Chuck Lever wrote:
+> > Christian, let's lock this one in. I will post subsequent changes
+> > as delta patches.
+> >
+> > Following on from:
+> >
+> > https://lore.kernel.org/linux-nfs/20251021-zypressen-bazillus-545a44af57fd@brauner/T/#m0ba197d75b7921d994cf284f3cef3a62abb11aaa
+> >
+> > [...]
+>
+> Applied to the vfs-7.2.exportfs branch of the vfs/vfs.git tree.
+> Patches in the vfs-7.2.exportfs branch should appear in linux-next soon.
 
-No, we can't. We can't fix a logical error that hfs_fill_super() by error
-accepts an inode which is not the root inode, by adding validation to
-hfs_read_inode().
+@Chuck Lever Thank you!
 
-> 
->> While I am not against adding validation to hfs_read_inode(), treating
->> an inode which is not the root inode as if the root inode is a logical
->> error which should be rejected regardless of whether we hit BUG() or not.
->> And we confirmed that we can't fix this logical error by adding validation
->> to hfs_read_inode().
->>
-> 
-> We haven't confirmed it. The issue can be fixed by adding validation to
-> hfs_read_inode().
+Does that mean the support for case-insensitive filesystems will work
+with Linux 7.2?
 
-We already confirmed it, you forgot it.
-https://lkml.kernel.org/r/b7318588-33b2-4dc6-9469-e11da855f8ad@I-love.SAKURA.ne.jp
-
+Ced
+-- 
+Cedric Blancher <cedric.blancher@gmail.com>
+[https://plus.google.com/u/0/+CedricBlancher/]
+Institute Pasteur
