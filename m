@@ -1,84 +1,60 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528AD3D544;
-	Sun, 17 May 2026 01:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC717148850
+	for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 01:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778980648; cv=none; b=Mk7gl3gkQd4Af3JykhY8BfAOij0Z1mzsFMl5pH/YBxLgou1GM0sy+sx9+Wb3MGkW5ZX0ml3HPKMNX9q8LFGv3BDbc+ZXEufUp+rx7w+ZD7Bs+cxI9kan4u39NemObw1whIQjAZ5LNMIEWTDeEUbsuQfcJ17O98VppP4LTG1vGT4=
+	t=1778981674; cv=none; b=H1KkuIQYl30xasQZytyMh1Jqi8w+hoENQDeUODJ2n0KwAYa8Qlc2jqT/tg0CcgWhAPXN0eo0hc4sZOtHISh7tRtyOEcWqf4qiWMx+wZgRR4BKI1+PQ7foKud1QAy8njZ4g5KxJ0b4AspXdlmUyTNhD58hYPdZTn7koXnRhIHSNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778980648; c=relaxed/simple;
-	bh=hsjpNms4GfV/K3VFCwe1cH1ZSgVqAW+2x1s9kat+y2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szf5ZB4Z7XzXGwVYcuHR4scYbP02pOhyB+QKTGM6fkh0/R8Af0aY88/QPdbxZCTnHUhqZXVUG9fLk/NTrLiYOjFQrQZr1JS3HtwY2BYPZ4ps2A33yF7LJXwlpY8hLEquwP7t7NPKUCS1ZCW5vOLhsH+nIaeCIMHdBdjQeGLt+UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NEIkA09J; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1778981674; c=relaxed/simple;
+	bh=oIYijt7rG+B52nlKNQ8yZGkeZCCHuLQt3VVqRXkZ9cU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RtmfItvGtQhOfq3X+9CU4o5cGgvsHowHboff8eRs6zqhZIvGnJFobkeiDNfsfzCqTiW8k/QN3hFfk+fhTLBrozVi5wwaqBWErci7hbz3xWpRsEdaNG+DnSVS9uURTSVcHmTPg/iWOhlz7XMpSZNw95LON2MuFDiYq4OUVI+QkgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbXEIp4w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NEIkA09J"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=LVUG8R5Ol9Z00xWIgbyWnXRAWw9NOhAMo2nx4jxBrzs=; b=NEIkA09JHKS9iHhK0PDstOLAJO
-	4poRQS5PydOp8NktO4wEHxTzKNjRva5w8io/rxe2FsWL3YtxOghY8Oo2pdvfLxly8tPAesorhx46+
-	kBkEir8UkvP/0fZIPx5yI7PQdkxJXyWVGotQp411XAYLHBKwVJ7XYsM0ZFHteLRL0fWsXs/h9nStF
-	oFwL81QvgpeJyeNCwUNJ6leYrobO0eIZLozBayzGXHImu0V9sbp05l4yRWuGYHAPB45U24EUJhRRp
-	LD64IU0RhL5jmZLRLp5KIaVqYtCgJaPtUX4gQ/Kh7w2+Hn7UUbxe6/GpuNcZfxv9gW0dC/2hU93mc
-	47EgUjeQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOQ86-00000003OQn-1PpD;
-	Sun, 17 May 2026 01:17:18 +0000
-Date: Sun, 17 May 2026 02:17:18 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-hardening@vger.kernel.org,
-	Kees Cook <kees@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>
-Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
- read-only files
-Message-ID: <agkXHu_ON_KyWtvP@casper.infradead.org>
-References: <20260516182126.530498-1-pfalcato@suse.de>
- <agj4mXKRVW44ZJ18@casper.infradead.org>
- <agkRpj4oU8TPgmTS@pedro-suse.lan>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbXEIp4w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856F6C2BCB7
+	for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 01:34:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778981674;
+	bh=oIYijt7rG+B52nlKNQ8yZGkeZCCHuLQt3VVqRXkZ9cU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=mbXEIp4wP3CPZ0gdcZydYcIyVf1/cxNQ6RfnMywTGImfnkJGlSukmcfSsKclT3GMR
+	 DsruFhn3CVwdhCsgXQkA+7KqS9LGi4x/TRZIitK2mnirF374G44WQuIJn33LbmaPfL
+	 8NxuGR/ClRLu4gmWiJAaTefAJERbf0OPdLzvJcYxyLsaMOKOp3LunK7WHfvVjUCacK
+	 /O/rQ/MaVaqNmuDXrDUnlCYnjn0IG+ZCsgPyfzEcCeAk7d/Jq6bBrPtHSfVBcRR5aC
+	 KmJjDfLDV/9NCGTpq1uw88ZuK7fw0hbv8WFGZpQW+IHHszkWB64VuIYIVAOpm8lqI3
+	 iDLWBV9rw+shw==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-67b8d9c26bbso3103533a12.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 18:34:34 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxTdgNi1g332QOQP+JF1ZYy8FBiWy9S4wXGx/45Z6lS98DU0omy
+	6RmIGD+yBB4q26lGQMraP15/906LZZ1KExvtAQq9r+19d2/ziNzO6seE5RVzmF6lqFur0vzQRxP
+	2L5VEsgwy4+Sf1ETOXYeDdwcI+/i01xk=
+X-Received: by 2002:a05:6402:1357:b0:680:ccda:55bf with SMTP id
+ 4fb4d7f45d1cf-683bd095c51mr3025065a12.16.1778981673182; Sat, 16 May 2026
+ 18:34:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agkRpj4oU8TPgmTS@pedro-suse.lan>
+References: <CAG7tbBV--waov7XVu2FHQEc6paR92dufS=em9DW5Kzsrpu3iQg@mail.gmail.com>
+In-Reply-To: <CAG7tbBV--waov7XVu2FHQEc6paR92dufS=em9DW5Kzsrpu3iQg@mail.gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sun, 17 May 2026 10:34:21 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8z00CwRgbQbU8U15svgyOT6RK4XH-xcaq7k3dBbsRqew@mail.gmail.com>
+X-Gm-Features: AVHnY4Jqpafql9sdTwy8eERYvQfMRAz4m2Wk0X6tQy4xpXsCxmTJ3mJS_SOZZdM
+Message-ID: <CAKYAXd8z00CwRgbQbU8U15svgyOT6RK4XH-xcaq7k3dBbsRqew@mail.gmail.com>
+Subject: Re: [BUG] exfat: rename/move destroys unrecognized benign secondary entries
+To: Rochan Avlur <rochan.avlur@skydio.com>
+Cc: linux-fsdevel@vger.kernel.org, sj1557.seo@samsung.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, May 17, 2026 at 01:59:41AM +0100, Pedro Falcato wrote:
-> On Sun, May 17, 2026 at 12:07:05AM +0100, Matthew Wilcox wrote:
-> > On Sat, May 16, 2026 at 07:21:26PM +0100, Pedro Falcato wrote:
-> > > +static bool may_write_to_page(struct page *page, struct address_space **plast)
-> > > +{
-> > > +	struct folio *folio = page_folio(page);
-> > > +	struct address_space *mapping, *last = *plast;
-> > > +	struct inode *inode;
-> > > +	bool may = false;
-> > > +
-> > > +	if (!READ_ONCE(sysctl_splice_needs_write))
-> > > +		return true;
-> > > +	/*
-> > > +	 * Always fine to write to anon folios.
-> > > +	 */
-> > > +	if (folio_test_anon(folio))
-> > > +		return true;
-> > 
-> > What about KSM?  It's not something we've seen attacked yet, but it'd be
-> > pretty nasty to be able to change a KSM page in another process.
-> 
-> It's my understanding that only anon pages can be KSM'd, and KSM still keeps
-> the FOLIO_MAPPING_ANON bit set. So folio_test_anon() should still test true
-> for those.
-
-I think you misunderstood what I meant.  If we have a buggy user which
-can write to read-only file pages, then it should also be prevented from
-writing to KSM pages.
-
+> Root cause commit:
+>   8258ef28001a ("exfat: handle unreconized benign secondary entries")
+>
+> I have a fix and can send a patch.
+Please send the patch to the list.
+Thanks!
