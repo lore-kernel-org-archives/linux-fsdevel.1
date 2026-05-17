@@ -1,176 +1,139 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16335359A70
-	for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 09:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D902C3264DE;
+	Sun, 17 May 2026 09:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779009317; cv=none; b=B1om0EN8xsAbmEUkhR3qGyDLtHzZ8J8an1zwsgQsldrjjUN8SmZin5Q7tgt/w9FyMxRjQl9CTf14Fealy6Cb9yMi8oL7dg7NYca+fgeYN4cXm3T1wyrD8ThS1oWehEKb8PBX0UxsJMx2lmlPIHMiONPM7Sl1hSPswuIyPhZGcSk=
+	t=1779010706; cv=none; b=Q29p97yJc9R/TnrLE+MfT8UCb5Dr0Ix0ysLneToy3dkK6QjSHztKgjGdvNYTTfu3C9/geo1nYDXZqCzoJjAMO58qgOV6HALPa329rrq1DvMePh5nmz+X8mRGsbEyiX/U6XUrQubAiPuIO/X0/W28DtBJW2Ln18nYW2Tagzn7L/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779009317; c=relaxed/simple;
-	bh=61Z1Wd1LuFtHc0CWXwDXGlmkcFLquQFVca5tQpsQg6w=;
+	s=arc-20240116; t=1779010706; c=relaxed/simple;
+	bh=Cgjsxv7JxrS12D4J0jf4AZjqr8yJ7c3RslZlbxDMMO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LnKMyU3UcHqitEcW/qzDbxSYMehfUH5zxtWqsGRVXFcZAyyIFrrBsf7kJ+Uons5ijwkk1MtSITNToUiDHaTskE17Aow1/jh6qLeJomhCM2B0wQxTkcn7lrOXrjp62VFJeF2pJfHjGamvbC7MRdyy18Yox9r89IHwg1jnPMUgQxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuS7fwfu; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=eOOHn84W5jS4nXHhCOOyHba8Hib1XJIREzueHbjA8tu17BjSa/HY9/ynS8fRszI/ZNtorZ+OhiRG75iNh9hFsLvS2/Xi0UVnjNYHlnk628t0v5ozGYkxYrVNsnZYFnaTyRn8So7/idIee/TqCaCpmdP9bzCy1Nq1DrmfwFoqS9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rfIRemE9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuS7fwfu"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso12753375e9.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 02:15:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779009314; x=1779614114; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XN1c+TmyGX2w/UYxycY7xEq81VHA1tvYN2TkPmssO/0=;
-        b=FuS7fwfu6dkS/ipWEVMkYQKsYDcoZ2qo5nlpj5PPmgk3N8qyGJAvfusmwngdwzdy+X
-         FtlG+TLXe39qHh3pJKHTACE65y1NHicKfPHnzC9CYfJ0NstBMTiyYBCSYJDSlVOpOqCh
-         EsH2LONZE8zImsxzqkTbO05aGnabdlN3gfji+eIDukoIfgfdOiv+hfLbh0fDvEjyd1Ow
-         178VJDQ8MsUjxwXV3XCtbQ7zEOuDU/SnfXq1VmPZF4t/gmkXMMBjk4/QewfQ/JsEHz+j
-         lOrTvypH/+pM0UphjjdQvKLmkSaDpOVGAGCbl59gCeRS6Q16nNwk25gHHE2CH34oZ58r
-         rl3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779009314; x=1779614114;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XN1c+TmyGX2w/UYxycY7xEq81VHA1tvYN2TkPmssO/0=;
-        b=AD124L5eMH6cZ1WidVlHluj+S/Uz1T0PA2Hl9f5dSi7udRl17DeoOmM9q8aIlpvfNM
-         ehR6o4trBKs0u70ydB/vNdgdQAJKGvW+Qw2tJAOrV5oK9Yq9bunqgsi4lJ3UsZn4zVT6
-         XQwdKijBLfJhW1acPWXUOcahU6kRu9VgvXtulazffdK6p930qb0gFEXR+gZ3c/k5x67R
-         6IGJqHmcRYJn1jmBpcOoGCoXL72hMfQ8cQ2gh0pN6VcbNuxKozYpUKfT9mi1IvlnkIOS
-         gkEWPq+doXVzl06nz3XhQiRwJ9sg5mmtBgDvwt3zR69dxpUaJPHWUleRrmObXiV58d/F
-         GRww==
-X-Forwarded-Encrypted: i=1; AFNElJ8Rkm2qbQWaujoRYoVlYnV9zgWhiTnrvyrmgtLoUoDZ7TgbUxqPcJ9LFTf8LaYTKKI2R5Pq3vQD9rJnZD5K@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwvoF+EoHsqnD1sMnDaUIEg9ulSRv60yMasoulN8Jq1pnfBnkd
-	O/Y+neOk8a16WEoTKcRZVuhNulk0TDNJBC4/MV3DQxp+nj5sMpl5WRQC
-X-Gm-Gg: Acq92OFUvH/GqF1ZfhWOcByB4xZYWCGxIrG2a9ePbtAw9EqHBxxyVnw/5FRJ9IedZx4
-	qeCYt2iVY11dBAWz/c85Bz6/ytaL5OT66FKcLIq3zImYFAu86QDrYD2YWKd0Ngly7YMiNoCLIyZ
-	An+UYWYmvfmFceKjtl1Wqo6VzsCZfEsGZFBWZxvN+EF6V9ciqrPyuTLsZurrXjF80IkLyUphIK1
-	UVseo1btVgYhClf4aA+0dGHEme8dvgVkSFf2Bepbxh67qXc9aU3VHRD63IDPqhdZ0vpuSo6lwKm
-	Bc6oJJpL4FkgPWWpSt6Larj7RyS1Ycs88cPvaSYGfCmomCxyzU3Exdzqk8zl4/btJsNTBsxHLMz
-	mQu/5OQ8459w1lDayoBGqgzExpjc22S16la1L5hqBMPzeJBYpj0WfpFB1Ifo+AzKQ8s6W8nwuSV
-	SRITXUae3gxvBfg/46rrBs7hRm2bE0aReD1jvhGHQ1gCYEtruCFnhfBSyVP+6tev6HpmuZ7r3HW
-	0ZErPfC3Q==
-X-Received: by 2002:a05:600c:4692:b0:483:7903:c3b1 with SMTP id 5b1f17b1804b1-48fe6325978mr150764275e9.20.1779009314306;
-        Sun, 17 May 2026 02:15:14 -0700 (PDT)
-Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fffb9aac4sm98809525e9.9.2026.05.17.02.15.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 02:15:13 -0700 (PDT)
-Date: Sun, 17 May 2026 11:15:04 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: Horst Birthelmer <horst@birthelmer.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: [PATCH v2] dcache: add fs.dentry-limit sysctl with
- negative-first reaper
-Message-ID: <5afacskoalmd2u6s525dosvyrtr3j66ajd5m4p2ylymtlgytkz@excrdfpndx37>
-References: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rfIRemE9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34C7AC2BCB0;
+	Sun, 17 May 2026 09:38:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779010706;
+	bh=Cgjsxv7JxrS12D4J0jf4AZjqr8yJ7c3RslZlbxDMMO8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rfIRemE9KHvqudT2DPmooCYbrsxpfFSfc1Lz1umzbX9/1ejHXwhY0dImlQUKOaRnM
+	 oPr6dP/oXOPHkw2q0Brwfrj1Pd7I9imU05tzfl1dR5Cdodf041Lg2R0IG72boTLNRP
+	 NAPtIDOpo2qcf6RBu67Xezb5C39YHGZjt0uShxPlSdk7Bv7+RsniLxOQjI/sGe+9Wr
+	 5EcPx14BQ4gLbJ7pOpbd3MwL2FOsYMrKBsbm1R8iI1R7NmDufdC1vVHZaHjxKnjpy2
+	 +A/Wp2G20Pqi0oV7uRVP3cnEgA/8M9Vr4TWHOAfTErZNMAWxIKZ5PbeXGfpk/65N3X
+	 YYJl3vpvglKfQ==
+Date: Sun, 17 May 2026 17:38:18 +0800
+From: Zorro Lang <zlang@kernel.org>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: zlang@redhat.com, fstests@vger.kernel.org, 
+	glaubitz@physik.fu-berlin.de, Slava.Dubeyko@ibm.com, linux-fsdevel@vger.kernel.org, 
+	frank.li@vivo.com
+Subject: Re: [PATCH] xfstests: disable generic/003 for HFS file system
+Message-ID: <agmF-PIo1yRu9KHK@zlang-mailbox>
+Mail-Followup-To: Viacheslav Dubeyko <slava@dubeyko.com>, zlang@redhat.com, 
+	fstests@vger.kernel.org, glaubitz@physik.fu-berlin.de, Slava.Dubeyko@ibm.com, 
+	linux-fsdevel@vger.kernel.org, frank.li@vivo.com
+References: <20260514200004.354432-2-slava@dubeyko.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
+In-Reply-To: <20260514200004.354432-2-slava@dubeyko.com>
 
-On Sat, May 16, 2026 at 04:52:54PM +0200, Horst Birthelmer wrote:
-> From: Horst Birthelmer <hbirthelmer@ddn.com>
+On Thu, May 14, 2026 at 01:00:05PM -0700, Viacheslav Dubeyko wrote:
+> HFS hasn't any field in on-disk layout that can keep
+> the file/folder access times (atime):
 > 
-> The dcache only shrinks under memory pressure, which is rarely reached
-> on machines with ample RAM, so cached negative dentries can accumulate
-> without bound.  Give administrators a soft cap they can set,
-> and a background worker that prefers negative dentries when reclaiming.
+> /* The catalog record for a file */
+> struct hfs_cat_file {
+>         s8 type;                        /* The type of entry */
+>         u8 reserved;
+>         u8 Flags;                       /* Flags such as read-only */
+>         s8 Typ;                         /* file version number = 0 */
+>         struct hfs_finfo UsrWds;        /* data used by the Finder */
+>         __be32 FlNum;                   /* The CNID */
+>         __be16 StBlk;                   /* obsolete */
+>         __be32 LgLen;                   /* The logical EOF of the data fork*/
+>         __be32 PyLen;                   /* The physical EOF of the data fork */
+>         __be16 RStBlk;                  /* obsolete */
+>         __be32 RLgLen;                  /* The logical EOF of the rsrc fork */
+>         __be32 RPyLen;                  /* The physical EOF of the rsrc fork */
+>         __be32 CrDat;                   /* The creation date */
+>         __be32 MdDat;                   /* The modified date */
+>         __be32 BkDat;                   /* The last backup date */
+>         struct hfs_fxinfo FndrInfo;     /* more data for the Finder */
+>         __be16 ClpSize;                 /* number of bytes to allocate
+>                                            when extending files */
+>         hfs_extent_rec ExtRec;          /* first extent record
+>                                            for the data fork */
+>         hfs_extent_rec RExtRec;         /* first extent record
+>                                            for the resource fork */
+>         u32 Resrv;                      /* reserved by Apple */
+> } __packed;
 > 
-> Two new sysctls under /proc/sys/fs/:
+> This patch disable the generic/003 test-case for
+> HFS file system.
 > 
->   dentry-limit             -- soft cap on nr_dentry.  0 (default)
->                               disables the feature; behaviour is then
->                               identical to before.
->   dentry-limit-interval-ms -- pacing for the worker while still over
->                               the cap.  Default 1000, minimum 1.
-> 
-> When the cap is exceeded, a delayed_work runs in two phases:
-> 
->   1. iterate_supers() draining only negative dentries from every LRU.
->      Positive entries are rotated past so the walk makes progress.
->      DCACHE_REFERENCED is ignored here on purpose -- an admin-imposed
->      cap should evict even hot negatives before any positive entry.
->   2. If still over the cap, iterate_supers() again with the same
->      isolate callback the memory-pressure shrinker uses.
-> 
-> Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
+> Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> cc: Yangtao Li <frank.li@vivo.com>
+> cc: linux-fsdevel@vger.kernel.org
+> cc: fstests@vger.kernel.org
 > ---
-> There was a discussion at LSFMM about servers with too many cached
-> negative dentries.
-> That gave me the idea to keep the dentries in general limited
-> if the system administrator needs it to.
+>  common/rc | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
+> diff --git a/common/rc b/common/rc
+> index 5fe44e21..b897ef0b 100644
+> --- a/common/rc
+> +++ b/common/rc
+> @@ -4559,6 +4559,9 @@ _require_atime()
+>  	ceph|ceph-fuse)
+>  		_notrun "atime not maintained by $FSTYP"
+>  		;;
+> +	hfs)
+> +		_notrun "atime not maintained by $FSTYP"
 
-I wrote about the negative entries problem here:
+Good to me, thanks! But how about grouping "hfs" together with "ceph|ceph-fuse",
+since you want them to share the same _notrun output message. I can help to
+change that when I merge it if you agree. Or you can send v2 with my:
 
-https://lore.kernel.org/linux-fsdevel/f7bp3ggliqbb7adyysonxgvo6zn76mo4unroagfcuu3bfghynu@7wkgqkfb5c43/#t
+Reviewed-by: Zorro Lang <zlang@kernel.org>
 
-The mechanism as suggested here will end up evicting *useful* negative
-entries. Granted, they will be recreated soon enough so it's not a
-tragedy but it still is an avoidable perf loss.
+Currently we have two kinds of *output* in _require_atime:
 
-What is needed in the long run is a mechanism which aggressively
-recycles stale negative entries and recognizes which ones should be
-saved for the time being.
+        nfs|afs|cifs|virtiofs)
+                _notrun "atime related mount options have no effect on $FSTYP"
+                ;;
+        ceph|ceph-fuse)
+                _notrun "atime not maintained by $FSTYP"
+                ;;
 
-Below some magic threshold you just allocate a new negative entry.
+But the boundary between them seems a bit fuzzy. If the struct supports
+atime-related fields, but the mount options don't work or are highly
+discouraged, it should fall into the first category (like NFS and CIFS).
+If the struct itself doesn't have atime, it should be the second category
+(like Ceph and HFS).
 
-All new entries would get a grace period where they need to get hits and
-prove useful OR get whacked. If you are at or above the threshold and
-are allocating a new entry, you can whack the oldest negative one which
-did not make it.
+But looking at it this way, AFS's struct afs_file_status doesn't seem to
+have anything related to atime either. Haha, it's getting a bit messy here.
 
-This is just one idea, what is not up for debate is the discrepancy
-between small subset of negative entires with tons of hits vs the ones
-which get virtually no traffic at all.
+Thanks,
+Zorro
 
-Whatever the mechanism it will have to take advantage of it.
-
-> This is somewhat related to [1] where it would address the same
-> symptoms but in a more unobtrusive way, by just garbage collecting
-> the negative and then the unused cache entries.
+> +		;;
+>  	esac
+>  
+>  }
+> -- 
+> 2.43.0
 > 
-> The other effect I have seen regarding this is that FUSE
-> will not forget inodes (no FORGET call to the FUSE server)
-> even after the latest reference has been closed until much later.
 > 
-> In a FUSE server that mirrors the kernel cached inodes in user space
-> because it has to keep a lot of private data for every node
-> this puts an unnecessarry memory strain on that userspace entity
-> especially if the memory is limited for its cgroup.
-
-I don't know anything about how FUSE works. In this context I presume
-you have a mount point backed by FUSE and the problematic memory usage
-stems from inodes created against such a mount point.
-
-This would suggest you would be better served with a mechanism which
-allows userspace to cull some number of dentries for a given mount
-point, maybe even with an optional preference for negative entries if
-that's considered better for given fs. 
-
-Or to put it differently, I would look into exposing sb shrinkers to
-root instead of rolling with a global scan.
-
-> +static enum lru_status dentry_lru_isolate_negative(struct list_head *item,
-> +		struct list_lru_one *lru, void *arg)
-> +{
-> +	struct list_head *freeable = arg;
-> +	struct dentry *dentry = container_of(item, struct dentry, d_lru);
-> +
-> +	if (!spin_trylock(&dentry->d_lock))
-> +		return LRU_SKIP;
-
-If anything of the sort is to land, you definitely want to pre-check
-d_count and d_is_negative without the lock.
