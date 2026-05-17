@@ -1,139 +1,217 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFF4388393
-	for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 23:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778975493; cv=pass; b=YYZWc7iiek62BmaCNDgnfq4DkHHR5wcquUAIvxrzrx1Wwwnq2K2OS4MeKeNBUWOk6iXbg4HFRlOEMCU4otkbz3g/u6FaH7PgYWpIhjfkhNZFve28v1rtrrctxJbPUL9y9VhsEwXg3e3+ItqwGGRaIAqFRAtijmbGGVCrKvGsCsI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778975493; c=relaxed/simple;
-	bh=aEuDl9BbGL0tz01PdR2cvYCLLSzpkzQiU2vp6zLIhhY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A8a1Rg/HSewgGtMMUcyen25iEfOdGUALB4wTBxkmmQSYqkewZY9aPX6AqOzoGZyXdTWKJgdKX/b/WAKep/ZOVPWRj1fctH39tJy6vZpiCB3WmWT1fDADpvprMN2DYSQyuK5fbH14+plBgMupy2Pv/3hNcIw7CWoOIodqtfcbTH8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ehaejxoU; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A741DE8BE
+	for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 00:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778979154; cv=none; b=OUbdw4L6KW7t4b4hxr6ymlCWZxu3+kglgIx3nC0of3yGUG3kY053YOW/0pYNtLm6YyGUUCwsVMH2UfEkt1zmCeLsfhzjhsc8bq79UfQ8VICqnnV3idU6PLk5+FymEjdJOKLGp4RnaNnxdIcdO3eV8beske9XQx21R2PGCLx6poY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778979154; c=relaxed/simple;
+	bh=9n76sP5ROSAtR8XIukZpQLU0bjE6fJ25H4IxWVOU7BM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O16bz9kLgg/gVzzKk23WjxMx7BEIYZuPJGw4iiD5gxmpmm43ietT6LfPIEhqhVi2JQowmEV+zDqACOjN/EiUf01njUH/7QLOxCqWL09kGy2K/y8907zO2CAd/v2wQINRG7HlSo8h6MvmMIwXykTqPJJx57ZxFpGX9mx+p7McQPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rXTqKtS3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K8tXsDjw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rXTqKtS3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=K8tXsDjw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ehaejxoU"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-67bc8609a9bso2650842a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 16:51:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778975490; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UCSsiqPOIwCwgEon8L6AzapMC+6Ruxj6gd/DAelLObzij+L4LQgKUbER759tepBhXV
-         ueD5GVEmO1tVlPMW8odAjn+jVsGzNdqXqShRG4Ehdg+UHsdJ23jKkIT7AXz2Or0qD6Vb
-         iP3fOmNURyTqS4cwTI7+Ad4lRKjOBx6cv6SwlR/37WLj4xxSwWI8+zj3Hta4ImBIKNTg
-         TH9+JnynI13rE5xUf7zI+UgqKkSDk0ZRVnNezgEZvdqgTUZp+tujkZ8wiz62V4EGRzB9
-         iJC18dZLrnZHM7Ue5InaTVVF/vymzTpJE/C2z4a3UYUkgax2qwEfnGwLggbLTsONRwrS
-         jcSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aEuDl9BbGL0tz01PdR2cvYCLLSzpkzQiU2vp6zLIhhY=;
-        fh=Tv2bImrLM97rNRQzj9VeAm2Ry6Hbx+STy8fCTyrJNc4=;
-        b=ilqnB2MeevHuYR5GdPnDyt7bJwl+fyB3mIYa5TRM/xNdaQy5Cw6p6dn6PeKpTpaUXZ
-         ppmiW/H/rjXe/LoY1clLxeCTlxLSZB+xbhUQT6tou4QjuYAhDvJ8DlnlLFPvhyRK4yRK
-         o9+wee46/aW2PvkoEi/sjFskARvRqLB2SF3c2cmkJGPCculyG+cBdVjgw8w8uzRxxhiK
-         oMEh39Jlkq6qMdZle91U/hTy7XPJfEiVnX2ioBj3U0YZWWlhnccMbKxgLt717kMsWpWO
-         sJ8pvaekMYaoV+ZCrb+OyXDLU66JoAI524ZnOz4YuQxgcI1oUca8GkH9/WACWlQiTgEH
-         Wspw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778975490; x=1779580290; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aEuDl9BbGL0tz01PdR2cvYCLLSzpkzQiU2vp6zLIhhY=;
-        b=ehaejxoUwoQpqkf8aiu3PrPncrm3qXhiFGHq5PhObggOH7ycQsIOkmbfYRACfQ47Is
-         hV8IJ9iXBy7FE3LqaHrqx6dkZMOm+2kYAjPB0h5ea4RNgCrqim8d9IGnzQC/U/w6kWkd
-         hsDho73Skviqukg3/xqweB6E+Wz/ejsZ0Ai8ocMnb0HUBhNjgP6QN1QHfulNqeQhYTff
-         ttxI5jPi0kBPaGuDdSw8yK4ETaN0DS10+OnzBCVXFQMEvd3uNp4371U+gPvVU/cPUmEE
-         eWNuOPeUdTL41PoqosvRm8jhZJkqlj7fszXkSliavZZ/AFrEjDzC33XLxZ8qfCe0YvC3
-         /8xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778975490; x=1779580290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=aEuDl9BbGL0tz01PdR2cvYCLLSzpkzQiU2vp6zLIhhY=;
-        b=jdHczbXwf8r4duT5HrHRtFF6Ql5iHzE0Wq0KCdeUwPuDWn8RWLOPr0WW02nKQmor7g
-         QvSjtqUj04JLO8WX8W0/QstFkSpFLJbkNfVgyPG169mEh4nBuMsCdlULx/Pj6QVeT7ch
-         nAesShLaDmulPwU+fjUpx6A9e7yQyyAHtSzcXJqNZlDPA5ZoN2Reeg7IAWZY4HsPwCOy
-         2b+bZ7h9wlpJgHBk2mq/7ncNl7l6UXwevHlVz8IVvE/e7r9mE+aPlpoLbc88Bir+luvV
-         BKuC+QIsNd+33KPQgryVJqMIIlma9aJTFFGrdu2WtOmFM47VFAhDBC+ETP8PbkIXvxOT
-         Jokg==
-X-Forwarded-Encrypted: i=1; AFNElJ9L/UlxVs5fwX2BTb7++0I6RVImG8TxhlsNjU24lFXnHQtiYTC2jGLOWTLFtc0wNrGseRWsiqlBNaewdVQ0@vger.kernel.org
-X-Gm-Message-State: AOJu0YzASaT0HHpBqW7qX1VNEqi/yDwBjoqxZpIdF3WvXj2hwqTCBvG7
-	bJth1QkGaczOggZouvssLDbfXMKNlJQzLS1VBE1n2bbR2cUl2xXf3a90YII03iO3Ds/ENvCI/h/
-	1/AHi1Ptm92c07h3CVdtp86VoFp7Quxo=
-X-Gm-Gg: Acq92OHP4pL6HcNcKVv14J77GOSzkvxAvSCePFqrd3rbmfIhAw3H00beOUHJEd5BFrE
-	J061pxFOsSWgVZonWGMvf6ZnvhZJyDkUNwyRx0IYi1f4R+DoOcDzHbk57q+wVJPuX8QOxShF8L+
-	sdfPWzCtsNUfwm7uL3aNbs93Dh+SpGbkvOCd4W7VZL8u6eG0zqt5QbuZyEE088CJHtYnqeGarkS
-	jydkx7R4sKZVEpO6qQA2GhLzUAG4ELR0PFFXkUDHuHdA/YyJvzIi7mF0FA5CJSAOa8LFWUOIMEg
-	HOLHi8swPFVT3YAidXi2G+Qrm113m8M0H9HZ3LBBuZBqrwExrQ==
-X-Received: by 2002:a05:6402:11d1:b0:676:67ec:a2cf with SMTP id
- 4fb4d7f45d1cf-683bd08fad0mr4189598a12.20.1778975489646; Sat, 16 May 2026
- 16:51:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rXTqKtS3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K8tXsDjw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rXTqKtS3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="K8tXsDjw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8D36C61C52;
+	Sun, 17 May 2026 00:52:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778979150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SgNm+GHE162l/M3+rLZxQ4Q5A14XvmlbUkDNHLqiHsk=;
+	b=rXTqKtS3EuWQlJX5FG+D4OM/KwMFoVZ+RSkRRp11zIdSylOCQEMQriIsPszaT7FqPnFujv
+	SFTE6HxUKqkTwE372+ivOjpbMB9IkbtZIfLVsmPhcYfCJ+9ZGrSZZhYdDm8Psi/iHTOz/5
+	ZxvhRTbsZ4IpUMsag1wrd6hblvoNgEg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778979150;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SgNm+GHE162l/M3+rLZxQ4Q5A14XvmlbUkDNHLqiHsk=;
+	b=K8tXsDjwH8Huyie2WoWq03MC1RGXGTbzykdeii8hzxAA8CNYdyR1RUfPPE4SCc3/+tfW/I
+	pVNPU+5wvOyMJeCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rXTqKtS3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=K8tXsDjw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778979150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SgNm+GHE162l/M3+rLZxQ4Q5A14XvmlbUkDNHLqiHsk=;
+	b=rXTqKtS3EuWQlJX5FG+D4OM/KwMFoVZ+RSkRRp11zIdSylOCQEMQriIsPszaT7FqPnFujv
+	SFTE6HxUKqkTwE372+ivOjpbMB9IkbtZIfLVsmPhcYfCJ+9ZGrSZZhYdDm8Psi/iHTOz/5
+	ZxvhRTbsZ4IpUMsag1wrd6hblvoNgEg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778979150;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SgNm+GHE162l/M3+rLZxQ4Q5A14XvmlbUkDNHLqiHsk=;
+	b=K8tXsDjwH8Huyie2WoWq03MC1RGXGTbzykdeii8hzxAA8CNYdyR1RUfPPE4SCc3/+tfW/I
+	pVNPU+5wvOyMJeCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E110A593A8;
+	Sun, 17 May 2026 00:52:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PFANM00RCWrBUAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Sun, 17 May 2026 00:52:29 +0000
+Date: Sun, 17 May 2026 01:52:27 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>
+Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
+ read-only files
+Message-ID: <agkIJF5EiAYLWjA4@pedro-suse.lan>
+References: <20260516182126.530498-1-pfalcato@suse.de>
+ <CAGudoHHeYbPWQbz+vXoS-Oi4PhxX6rh5XsMUkZetyfdnJHNj=g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516182126.530498-1-pfalcato@suse.de>
-In-Reply-To: <20260516182126.530498-1-pfalcato@suse.de>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Sun, 17 May 2026 01:51:16 +0200
-X-Gm-Features: AVHnY4LQyyzXjVtPQhJb8qVVp3yQjS1Vt78uw12X8MN5Nrm3AJq0RnjAefRlP1U
-Message-ID: <CAGudoHHeYbPWQbz+vXoS-Oi4PhxX6rh5XsMUkZetyfdnJHNj=g@mail.gmail.com>
-Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
- read-only files
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGudoHHeYbPWQbz+vXoS-Oi4PhxX6rh5XsMUkZetyfdnJHNj=g@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 8D36C61C52
+X-Spam-Level: 
 
-On Sat, May 16, 2026 at 8:21=E2=80=AFPM Pedro Falcato <pfalcato@suse.de> wr=
-ote:
->
-> Since the advent of vulns like Dirty Pipe, Dirty Frag, Copy Fail
-> and Fragnasia, splicing a read-only file is fundamentally unsafe.
->
-> As such, as a mitigation, add a way for users to block splice() for
-> files they cannot write to. This eliminates this whole class of exploits
-> that use splice()+confusion in pipe/net/etc code to gain write-access to
-> files they can only read.
->
+On Sun, May 17, 2026 at 01:51:16AM +0200, Mateusz Guzik wrote:
+> On Sat, May 16, 2026 at 8:21 PM Pedro Falcato <pfalcato@suse.de> wrote:
+> >
+> > Since the advent of vulns like Dirty Pipe, Dirty Frag, Copy Fail
+> > and Fragnasia, splicing a read-only file is fundamentally unsafe.
+> >
+> > As such, as a mitigation, add a way for users to block splice() for
+> > files they cannot write to. This eliminates this whole class of exploits
+> > that use splice()+confusion in pipe/net/etc code to gain write-access to
+> > files they can only read.
+> >
+> 
+> The patch touches stuff I'm not familiar with, so no comments on that front.
+> 
+> The core idea is a half-measure which will at best buy few weeks until
+> splice bugs dry out and there will be a new attack vector du jour
+> which people point their LLMs at. Perhaps it is worth it as a bandaid
+> until a more complete solution shows up.
 
-The patch touches stuff I'm not familiar with, so no comments on that front=
-.
+I won't say you don't have a point. However, the whole idea is to attempt to
+restrict the attack vector. This is a proven source of problems. It's known
+since 2022 - now we have 3 or 4 new vulnerabilities taking advantage of this.
 
-The core idea is a half-measure which will at best buy few weeks until
-splice bugs dry out and there will be a new attack vector du jour
-which people point their LLMs at. Perhaps it is worth it as a bandaid
-until a more complete solution shows up.
+Clearly, the kernel isn't doing great passing these pages around the kernel.
+The API isn't the easiest to use (much less safely). Can those be tackled? Yes.
+Today? Definitely not. In a few years? Also doubtful.
 
-A full-measure solution would git rm these modules to
-fuck^W^W^W^W^W^Wprevent suspicious modules from being usable by
-unprivileged users to begin with, at least by default. Of the cases I
-had seen so far, your typical machine either does not have the thing
-loaded or in the worst case does not have a legitimate reason to
-expose them. Someone(tm) would have to figure out a sensible setup
-where stuff stops autoloading and there is a whitelist of modules
-allowed on the box, and even then the functionality provided is only
-usable by select people.
+Merging something like this (or equivalent, that allows for a restriction) I
+think is simply common sense. Basic hardening of interfaces so if anything
+gets discovered it's much less severe. Even if nothing else related to splice()
+gets discovered, I think it's still useful to have secure by default, minimally
+intrusive hardening in the kernel.
 
-Back in the day I wrote a LSM which learned what kind of socket
-options etc. are being used in a given workload and afterwards only
-allowed that. The code never escaped $workplace, but the idea might be
-a starting point.
+One example: do you really need to be able to send SUID binaries in a zero-copy
+super efficient way around the kernel? Not really. But if something fscks it up,
+you get the world's easiest LPE.
 
-All that aside, is someone with access to many tokens(tm) racing the
-bad guys vs splice bugs? Realistically one has to assume there are
-some more waiting (as suggested by the patch) and chances are decent
-nobody has to be caught with their pants down even without the
-aforementioned mitigation.
+(not that today they couldn't find some random UAF and attempt to exploit this,
+since all of the page cache is mapped, but there are concurrent efforts e.g ASI
+that attempt to tackle this)
+
+> 
+> A full-measure solution would git rm these modules to
+> fuck^W^W^W^W^W^Wprevent suspicious modules from being usable by
+> unprivileged users to begin with, at least by default. Of the cases I
+
+Sadly, for the networking case it's pretty important to have autoloading
+for protocol modules. Also, for the module in question (for Fragnesia it was
+ESP), that's really not that arcane. It's just a piece of code that gets
+confused as to whether or not it owns (versus "shares", like it should) the
+pages it's looking at.
+
+With fragnesia it's been found out that there are _several_ important spots
+in the networking stack that aren't getting this shared flag propagation
+correctly.
+
+> had seen so far, your typical machine either does not have the thing
+> loaded or in the worst case does not have a legitimate reason to
+> expose them. Someone(tm) would have to figure out a sensible setup
+> where stuff stops autoloading and there is a whitelist of modules
+> allowed on the box, and even then the functionality provided is only
+> usable by select people.
+> 
+> Back in the day I wrote a LSM which learned what kind of socket
+> options etc. are being used in a given workload and afterwards only
+> allowed that. The code never escaped $workplace, but the idea might be
+> a starting point.
+
+It's beyond my skillset to comment whether or not that works well in
+practice :)
+
+> 
+> All that aside, is someone with access to many tokens(tm) racing the
+> bad guys vs splice bugs? Realistically one has to assume there are
+
+I would assume it's hard to race the bad guys (the typical security problem).
+You get a great zero-day as a blackhat and (AIUI) you might be looking at
+tens-to-even-hundreds of thousands in rewards.
+
+But, again, not really my field of expertise :v
+
+> some more waiting (as suggested by the patch) and chances are decent
+> nobody has to be caught with their pants down even without the
+> aforementioned mitigation.
+
+-- 
+Pedro
