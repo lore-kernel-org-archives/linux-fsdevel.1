@@ -1,548 +1,479 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D33C263C9F
-	for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 23:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779061766; cv=pass; b=tbD+UHTgbnOfANrWVkLqlilVGJhpvzNU3t3y0P7QliCX2J+gwmArxuW+enJEavOM79JaIp/PADx0s1SHLRi2TEbG+Y7Rjq2k6W97cJo5lixq/7aG0h655p++A0ZjXHeHbttttRPIlSZ9REjI15sHhRkT4Xx0sMMUnqhDx7b49ko=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779061766; c=relaxed/simple;
-	bh=joDuZ8QmepZUjVoXbJ5ddFjFwM1tbj/p68gjDt4Jorc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SpWucoNi/dG4Ip9dUZjYG0wbifFJF6t6vRzUtSK3QFCy9JIq7NCxdzqq3epsNc6MJRGjIk3ZIJTJYseAm/TDUXgtTxdJ6FpBSXagqIVtBqiXyTDrN0q8ArZNnjwEJ3BbS1lnaelq7/dznSRBki7jCpuQ0SgTVwHunIi+sPNeOfQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IPHp5/E3; arc=pass smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2913112C0;
+	Sun, 17 May 2026 23:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779062118; cv=none; b=CijxVqQ+9OvVb3usSIZtha+/WG0BKdBNgGHMQMQL8ecS537a9Yj4UaBagRTgk8x306a999YPzv23faku453evVdKEtqrBJ3emmoxabFbJOysvrvbNcvbdVzIPUXQC26IZZU0/U8xkzs1gTEyxuR1jyyfNbvcbnqeVMJbFDpgSVc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779062118; c=relaxed/simple;
+	bh=CzXUiEvLMBWsLyxtLgr9tpYEBtT+S3JnPmrwJawVRd0=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=D+HVGT717G7kVcfA4IgxU38kapaNw7HlA60HYWGHE4amh6ceMmG6v6wA8H3SVBod2KI5j1TMtRjqFdO3MY/a3FDug005x7TSehftxNgs5H0wCRD83cOnV40bh2iRIF2Frn2TQiW1LpqnrYx0kkLtfQZTitkveFmKM3aRj8Ke3EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=cyNOXOyQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WV4rypcJ; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IPHp5/E3"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39393c1b5aaso16436351fa.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 16:49:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779061763; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lO94ZRap7lQr9G1qVESyIKAcvC4ZC1+aiIEFAEU+wdDE/MbMPEcw4OuCAmYka9N3gE
-         6xhGlq4Vfk+aHdWqqxW+mDGriHgE1b7pL9PCY38H9FKK5FmmcMKpaN6YwcdwHVuBXvOS
-         TvQbeOTSrlOmU2KshEm3iQxLsT3KNlho5ba95HpLKI5NboFegVs7t+AUqv25lCluqZze
-         eOQY/DynWWK8xXezG/jNIgVbM1q36VPFSRm3/VKuExSdGb4SkF0aPnbnBKIhcvNg9i1P
-         gznqMa0BFXq/OeM0bKUaafmHoxLvi5vHOsVMkUD4cwWRtCeQ+5jfU3NVfThJt8SrE2pR
-         BRdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RghAEEXCLBokGjHcctpPpudsSW8cd4bltv6napNVHnc=;
-        fh=DFMdo/+JVan0tsVJU1KSngynqKpomby1ynn20KVSRrM=;
-        b=P67MjRR5sE/kdudBrgOvPnbV5mdirTo3M9teaoZsOY+WuxHntO0PHuoY9Sc5hVJhCo
-         rEXUBoIyFSmVKmymsozmtg2/dnoXMZONFwZaZJGulcQiIAZsoA3IjbY0BWU8GJ0IqdsN
-         MKD5K1l6jku9NWVzkG6fMzq8WIucHw6d2F9t4nQb7qsXhoyFrl9NGSsWGRjPazgnOMQK
-         xJu16sQwYBojAro38mm8DhWCuEMTWdS9gkjJ+O3zAHhH3CVWRFKIvWy5SZtcz2bkFq0V
-         YU1jZ5wL5f1N2p+PsWL/isS9ZBEx5gyxqG63AHlE8VrbdT9EYZ6FvZSWbSokkwaB/ytb
-         MZLw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779061763; x=1779666563; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RghAEEXCLBokGjHcctpPpudsSW8cd4bltv6napNVHnc=;
-        b=IPHp5/E3mUybAQYsd76iCo48F991Xr8fpDf6RtR4ai7nYVfWH47iw3szGEss9C6XwU
-         Iy2a+jxyhiQ4Otk0RKvabPL9xafvPWGrO0ywQXtK1FJOt/LlrNhRswmJfLoQJPb7lMGB
-         g4iyD0ZsTrXQCrYkVLFoiEEMjDFEQHpQT4ZFOemE4tYpiRq4RHAZBx06Taj7EH6Q8Wa3
-         R+xpZF92Gx2bDyTfX4pTIGLJsvM8SnkzZUcF+dtpKdjgwQbAFGc0QpwVD0ulFwmXZRJ6
-         smKyAKhleXv9m48OSYgplGIIiWwTBnCmRWUISorKnNaXp8ujX2erhxW/Ci0aXmPW3Pvq
-         CyrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779061763; x=1779666563;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RghAEEXCLBokGjHcctpPpudsSW8cd4bltv6napNVHnc=;
-        b=sRhfXMQmmvJLvnFR3eaF79Ukm95vKlT8wWkAB9Ecubq7+HfEm1HOvRO32KDszX+1AF
-         yYnzuNQHAPPp+2vOJB97f2XyzGTXpr912KB8HoYERR1NC/XE175lpoqyqd7MLctZ+OeL
-         WPsos+NSdlPxqVPABXqs6SYXt1eWfwk5pEpHSfpC/70WB1uDsksSnVKwyrNbpB8Opb0B
-         g7rSVyxCmpjlKS38ZrI42tom4/jbaMqvBEzq7tn7S1Ep2+0XY7WTu5X5p2t9VqxQgkvm
-         ir/+t1trZQwksq189G7/oQ+Lf96o/ZYT58uhBrPWuxUV+6GQ2jG3NI0F1HjSIHjiXLgv
-         Cd+A==
-X-Forwarded-Encrypted: i=1; AFNElJ/pn/VCrPEtK8dO0bFRq5F6OFfif8nfbYHkgn7a8GU9UXoX0/u4X2xnVcky+kRXA/qzZNn+PoWVMuKsU2jV@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTfIJKypuJaQ1LxAnmEHHFnmcwBP+EQtQYr3RfqBrBXAgTIhj/
-	/XItmBbJvPa2GUGVg2XUJumab+OObN9RSAwiMe598xsScB41y9/iU7U+//UmwSqTpz9P6hA7hr/
-	nrWbq2s/LdCfs7+HAZed9bMWDMHLPo5g=
-X-Gm-Gg: Acq92OGnmc7H3dO6/KWa6snV/paUjP7nDjNoMZoF3NJ+PbEox59vxXqq5NpxtwAERu5
-	RlIRowEoOFRSzcsrHFsHDGr6/fyENg/fZfCLR6tC+6VW33CpYjSNkqjibWCqGegrzwsL1C0rmem
-	VXWtO5jANHPjbr5FEanEB/vQdgK57gIihm/GkqyqXOIvDzl+OkGj+arxYFoaQYFNWp++6RNfWc9
-	wEI1QczutYEtq8HrkiNb8qOK8fzLZP/P8a9JEZVAgHA8OQyD8QggRWAi73lS9rqOm0NRo1IgQaV
-	y8xeGPp7NKMGyPkM9w==
-X-Received: by 2002:a05:6512:3d07:b0:5a8:896c:8989 with SMTP id
- 2adb3069b0e04-5aa0e73c260mr3504428e87.30.1779061762583; Sun, 17 May 2026
- 16:49:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="cyNOXOyQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WV4rypcJ"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 840441400106;
+	Sun, 17 May 2026 19:55:14 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Sun, 17 May 2026 19:55:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1779062114; x=1779148514; bh=NhX75Q7H7a6IJGPuAKBEee/fROmmj9KEEje
+	uJnSfFe0=; b=cyNOXOyQiox2UoT3DFmOl4+PsknDlCAtVs5vm44nH+5kWlXXCEW
+	ymB0FKCX2H5oXSDDuAhgvBgMBDpxY+NDENqWwCJ6RADE4J9SQlB/+IaCktXsxbzO
+	vEdqyWblhjU5E9uKbPiph2HOeAX85SrdcEOhkqRQMcy3hyh/VAzvBcMPjDSmnzsN
+	vdu9HcQYWbgffFfYtKqXt+sc485Elvdwxm0pkgIfkvnWTwUVenQ/zIY5GE50xQh4
+	4OCgkxxrZlm00uCJ3lpmNS26MQGwpO6zy/3Kkrvw28b0lQ6B+j3XgP4g/MlTu0Qx
+	8xlJcq0CvixE3EikX9rvsE4Rtb/zou9jv2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779062114; x=
+	1779148514; bh=NhX75Q7H7a6IJGPuAKBEee/fROmmj9KEEjeuJnSfFe0=; b=W
+	V4rypcJziPS5eeS825daugMixS7Z2timjBaogpEh25LRI6uZQzWIwK6ZH5RA//ai
+	HZ/PQBgC3sBGA3bFNG+5VxDxyx2DzYL+EjBDGwc8zVMZjqrP3O3/Bi6N8tKLYuml
+	v7M/2/60oQItlE97/zwjHsCUVYIqb1UaN8qCadKLngrJuOie5V2mwlF23j2d8L60
+	ZHhqmx8HouWtMsfGLbwBinzwqIvCWYGjPxtx79A1vo3tb0SVmyc7WX9X9ruwf3Vq
+	DVtwiBamdHgb37n/Gqn25K8ZwNDqOWsDMfzA84lU8h0hS9Dr0KY1ww6fcMEE+B12
+	hluP/M09fTRc7idbruwNA==
+X-ME-Sender: <xms:YVUKagVLvAvTkta9wvGxU5iTGSnjSN4SvcDc9u9hrFIf_6Q0uhYcFA>
+    <xme:YVUKamKs3NuM3hRf_itnQsK6NMd7tOQnwCeVFC8D3CmdsdDez0PbNpxINEv_6Fxbi
+    TUTw5zt0sJSLNQ2XRVXhUr4UOKx6B-Fy-2KBMTBpQKn8XEtYRg>
+X-ME-Received: <xmr:YVUKajoIuAyjDGq6IEA5vZWWn7mx7p8oKk3_wAGS3Op5gytPiMG0RHZdbdnVxnsoW5yzuuOs5LGQZdcJY1mM_ANe588XK9k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeejfeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epvdeuteelkeejkeevteetvedtkeegleduieeftdeftefgtddtleejgfelgfevffeinecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
+    rhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhose
+    iivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehlihhnuhigqdhkvghr
+    nhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfsh
+    guvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidq
+    ughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshessh
+    iivghrvgguihdrhhhupdhrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthht
+    oheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepshhkhhgrnheslhhinhhugi
+    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgv
+    lhdrohhrgh
+X-ME-Proxy: <xmx:YVUKalxuNs7lIvcz7zM2-r_nhSEAPDzA4uJpDbE23dAun3_IOzIu0A>
+    <xmx:YVUKavuyvAIhu2PF7hJjGTSINnmG-dDaMJ14mU41DFXveFRN4UZjSQ>
+    <xmx:YVUKam019K4Sfr3ZNrlrgsUPdK26FFMMNqhLFFDfmhGwMWAtAyTiwQ>
+    <xmx:YVUKavDOZil0QGcWgcd25TsuhKxOYBqSIAKw6578NmjeJXCsZlqDiQ>
+    <xmx:YlUKan9suiJN1sVMbuNK3V-FN9bxUJqfoP56q-xx-4Mwabt0dRhxoeFs>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 17 May 2026 19:55:09 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260517034447.1330941-1-charsyam@gmail.com>
-In-Reply-To: <20260517034447.1330941-1-charsyam@gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Mon, 18 May 2026 08:49:10 +0900
-X-Gm-Features: AVHnY4It_Sp802lNft2hAY3M8EXDVa2Iib4keqm2C4BNJcq4h_VwVK29Xb11FZ8
-Message-ID: <CANFS6bYpgoPH=eGq5gUKZwZixUUP3UBDmbn3ifUVok5Dcvf2bw@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: remove unsupported quota handling
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Horst Birthelmer" <horst@birthelmer.com>
+Cc: "Miklos Szeredi" <miklos@szeredi.hu>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, "Horst Birthelmer" <hbirthelmer@ddn.com>
+Subject:
+ Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
+In-reply-to: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
+References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
+Date: Mon, 18 May 2026 09:55:05 +1000
+Message-id: <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-2026=EB=85=84 5=EC=9B=94 17=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 12:44, =
-DaeMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> The ntfs driver does not implement quota accounting.  It creates
-> new inodes with the NTFS 1.2 $STANDARD_INFORMATION layout and does
-> not maintain the NTFS 3.x owner_id/quota_charged fields or the
-> $Quota usage records that Windows would need for meaningful quota
-> accounting.
->
-> The only runtime quota path left in the driver is the remount-rw
-> code that tries to mark $Quota/$Q out of date, plus the mount-time
-> code that loads $Quota and its $Q index solely to support that
-> marker.
->
-> Since the driver does not maintain the per-file quota metadata,
-> setting QUOTA_FLAG_OUT_OF_DATE does not make the quota state
-> meaningful, and failures in this unsupported path can unnecessarily
-> block remount-rw or force a mount read-only.
->
-> Remove the quota marker, the $Quota/$Q loading state, and the
-> unused quota volume flag.  Keep the on-disk quota layout definitions
-> in layout.h so the documented NTFS structures remain available.
->
-> Suggested-by: Hyunchul Lee <hyc.lee@gmail.com>
-> Link: https://lore.kernel.org/all/CANFS6bYTzioqZjYt=3D51Kb9RdR3MKXaez_fh_=
-WCLoym093VxFmg@mail.gmail.com/
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+On Fri, 15 May 2026, Horst Birthelmer wrote:
+> From: Horst Birthelmer <hbirthelmer@ddn.com>
+>=20
+> The dcache only shrinks under memory pressure, which is rarely reached
+> on machines with ample RAM, so cached negative dentries can accumulate
+> without bound.  Give administrators a soft cap they can set,
+> and a background worker that prefers negative dentries when reclaiming.
+>=20
+> Two new sysctls under /proc/sys/fs/:
+>=20
+>   dentry-limit             -- soft cap on nr_dentry.  0 (default)
+>                               disables the feature; behaviour is then
+>                               identical to before.
 
-Looks good to me. Thank you for this patch.
+Is a system-wide cap really a suitable tool?  What guidance would you
+give to sysadmins who are considering setting a number?
 
-Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
+Is there a better approach?
 
+According to the email you linked, a problem arises when a directory has
+a great many negative children.  Code which walks the list of children
+(such as fsnotify) while holding a lock can suffer unpredictable delays
+and result in long lock-hold times.  So maybe a limit on negative
+dentries for any parent is what we really want.  That would be clumsy to
+implement I imagine.
+
+But what if we move dentries to the end of the list when they become
+negative, and to the start of the list when they become positive?  Then
+code which walks the child list could simply abort on the first
+negative.
+
+I doubt that would be quite as easy as it sounds, but it would at least
+be more focused on the observed symptom rather than some whole-system
+number which only vaguely correlates with the observed symptom.
+
+Maybe a completely different approach: change children-walking code to
+drop and retake the lock (with appropriate validation) periodically.
+What too would address the specific symptom.
+
+Thanks for attempting to resolve this issue, but I'm not convinced that
+you have found a good solution yet.
+
+NeilBrown
+
+
+
+>   dentry-limit-interval-ms -- pacing for the worker while still over
+>                               the cap.  Default 1000, minimum 1.
+>=20
+> When the cap is exceeded, a delayed_work runs in two phases:
+>=20
+>   1. iterate_supers() draining only negative dentries from every LRU.
+>      Positive entries are rotated past so the walk makes progress.
+>      DCACHE_REFERENCED is ignored here on purpose -- an admin-imposed
+>      cap should evict even hot negatives before any positive entry.
+>   2. If still over the cap, iterate_supers() again with the same
+>      isolate callback the memory-pressure shrinker uses.
+>=20
+> Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
 > ---
-> This is the standalone patch agreed in the discussion (see the Link:
-> above): the earlier "$Quota view-index lookup" fix series is being
-> dropped because the ntfs driver does not implement quota accounting, so
-> the unsupported quota loading/marking path is removed instead of fixed.
->
-> Tested:
-> - Applied on 5d6919055dec (Linux 7.1-rc3).
-> - Built with CONFIG_NTFS_FS=3Dy.
-> - Booted the patched kernel in QEMU with an mkfs.ntfs-created NTFS 3.1
->   image containing $Extend/$Quota.
-> - Mounted the image read-only, remounted it read-write, created a
->   directory and file, read the file back, remounted read-only, unmounted,
->   mounted read-only again, and read the file back again.
-> - Verified no remaining runtime quota references outside layout.h
->   definitions.
->
->  fs/ntfs/Makefile |   2 +-
->  fs/ntfs/quota.c  |  95 -----------------------------------------
->  fs/ntfs/quota.h  |  15 -------
->  fs/ntfs/super.c  | 109 +----------------------------------------------
->  fs/ntfs/volume.h |   7 ---
->  5 files changed, 2 insertions(+), 226 deletions(-)
->  delete mode 100644 fs/ntfs/quota.c
->  delete mode 100644 fs/ntfs/quota.h
->
-> diff --git a/fs/ntfs/Makefile b/fs/ntfs/Makefile
-> index 0ce4d9a9388a..e120c2e69862 100644
-> --- a/fs/ntfs/Makefile
-> +++ b/fs/ntfs/Makefile
-> @@ -5,6 +5,6 @@ obj-$(CONFIG_NTFS_FS) +=3D ntfs.o
->  ntfs-y :=3D aops.o attrib.o collate.o dir.o file.o index.o inode.o \
->           mft.o mst.o namei.o runlist.o super.o unistr.o attrlist.o ea.o =
-\
->           upcase.o bitmap.o lcnalloc.o logfile.o reparse.o compress.o \
-> -         iomap.o debug.o sysctl.o quota.o object_id.o bdev-io.o
-> +         iomap.o debug.o sysctl.o object_id.o bdev-io.o
->
->  ccflags-$(CONFIG_NTFS_DEBUG) +=3D -DDEBUG
-> diff --git a/fs/ntfs/quota.c b/fs/ntfs/quota.c
-> deleted file mode 100644
-> index b443243b58fb..000000000000
-> --- a/fs/ntfs/quota.c
-> +++ /dev/null
-> @@ -1,95 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-or-later
-> -/*
-> - * NTFS kernel quota ($Quota) handling.
-> - *
-> - * Copyright (c) 2004 Anton Altaparmakov
-> - */
-> -
-> -#include "index.h"
-> -#include "quota.h"
-> -#include "debug.h"
-> -#include "ntfs.h"
-> -
-> -/*
-> - * ntfs_mark_quotas_out_of_date - mark the quotas out of date on an ntfs=
- volume
-> - * @vol:       ntfs volume on which to mark the quotas out of date
-> - *
-> - * Mark the quotas out of date on the ntfs volume @vol and return 'true'=
- on
-> - * success and 'false' on error.
-> - */
-> -bool ntfs_mark_quotas_out_of_date(struct ntfs_volume *vol)
-> -{
-> -       struct ntfs_index_context *ictx;
-> -       struct quota_control_entry *qce;
-> -       const __le32 qid =3D QUOTA_DEFAULTS_ID;
-> -       int err;
-> -
-> -       ntfs_debug("Entering.");
-> -       if (NVolQuotaOutOfDate(vol))
-> -               goto done;
-> -       if (!vol->quota_ino || !vol->quota_q_ino) {
-> -               ntfs_error(vol->sb, "Quota inodes are not open.");
-> -               return false;
-> -       }
-> -       inode_lock(vol->quota_q_ino);
-> -       ictx =3D ntfs_index_ctx_get(NTFS_I(vol->quota_q_ino), I30, 4);
-> -       if (!ictx) {
-> -               ntfs_error(vol->sb, "Failed to get index context.");
-> -               goto err_out;
-> -       }
-> -       err =3D ntfs_index_lookup(&qid, sizeof(qid), ictx);
-> -       if (err) {
-> -               if (err =3D=3D -ENOENT)
-> -                       ntfs_error(vol->sb, "Quota defaults entry is not =
-present.");
-> -               else
-> -                       ntfs_error(vol->sb, "Lookup of quota defaults ent=
-ry failed.");
-> -               goto err_out;
-> -       }
-> -       if (ictx->data_len < offsetof(struct quota_control_entry, sid)) {
-> -               ntfs_error(vol->sb, "Quota defaults entry size is invalid=
-.  Run chkdsk.");
-> -               goto err_out;
-> -       }
-> -       qce =3D (struct quota_control_entry *)ictx->data;
-> -       if (le32_to_cpu(qce->version) !=3D QUOTA_VERSION) {
-> -               ntfs_error(vol->sb,
-> -                       "Quota defaults entry version 0x%x is not support=
-ed.",
-> -                       le32_to_cpu(qce->version));
-> -               goto err_out;
-> -       }
-> -       ntfs_debug("Quota defaults flags =3D 0x%x.", le32_to_cpu(qce->fla=
-gs));
-> -       /* If quotas are already marked out of date, no need to do anythi=
-ng. */
-> -       if (qce->flags & QUOTA_FLAG_OUT_OF_DATE)
-> -               goto set_done;
-> -       /*
-> -        * If quota tracking is neither requested, nor enabled and there =
-are no
-> -        * pending deletes, no need to mark the quotas out of date.
-> -        */
-> -       if (!(qce->flags & (QUOTA_FLAG_TRACKING_ENABLED |
-> -                       QUOTA_FLAG_TRACKING_REQUESTED |
-> -                       QUOTA_FLAG_PENDING_DELETES)))
-> -               goto set_done;
-> -       /*
-> -        * Set the QUOTA_FLAG_OUT_OF_DATE bit thus marking quotas out of =
-date.
-> -        * This is verified on WinXP to be sufficient to cause windows to
-> -        * rescan the volume on boot and update all quota entries.
-> -        */
-> -       qce->flags |=3D QUOTA_FLAG_OUT_OF_DATE;
-> -       /* Ensure the modified flags are written to disk. */
-> -       ntfs_index_entry_mark_dirty(ictx);
-> -set_done:
-> -       ntfs_index_ctx_put(ictx);
-> -       inode_unlock(vol->quota_q_ino);
-> -       /*
-> -        * We set the flag so we do not try to mark the quotas out of dat=
-e
-> -        * again on remount.
-> -        */
-> -       NVolSetQuotaOutOfDate(vol);
-> -done:
-> -       ntfs_debug("Done.");
-> -       return true;
-> -err_out:
-> -       if (ictx)
-> -               ntfs_index_ctx_put(ictx);
-> -       inode_unlock(vol->quota_q_ino);
-> -       return false;
-> -}
-> diff --git a/fs/ntfs/quota.h b/fs/ntfs/quota.h
-> deleted file mode 100644
-> index 4b7322661a32..000000000000
-> --- a/fs/ntfs/quota.h
-> +++ /dev/null
-> @@ -1,15 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0-or-later */
-> -/*
-> - * Defines for NTFS kernel quota ($Quota) handling.
-> - *
-> - * Copyright (c) 2004 Anton Altaparmakov
-> - */
-> -
-> -#ifndef _LINUX_NTFS_QUOTA_H
-> -#define _LINUX_NTFS_QUOTA_H
-> -
-> -#include "volume.h"
-> -
-> -bool ntfs_mark_quotas_out_of_date(struct ntfs_volume *vol);
-> -
-> -#endif /* _LINUX_NTFS_QUOTA_H */
-> diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-> index 22dc7865eca7..a518dd1802f3 100644
-> --- a/fs/ntfs/super.c
-> +++ b/fs/ntfs/super.c
-> @@ -17,7 +17,6 @@
->
->  #include "sysctl.h"
->  #include "logfile.h"
-> -#include "quota.h"
->  #include "index.h"
->  #include "ntfs.h"
->  #include "ea.h"
-> @@ -240,8 +239,7 @@ static int ntfs_reconfigure(struct fs_context *fc)
->          * flags are set.  Also, empty the logfile journal as it would be=
-come
->          * stale as soon as something is written to the volume and mark t=
-he
->          * volume dirty so that chkdsk is run if the volume is not umount=
-ed
-> -        * cleanly.  Finally, mark the quotas out of date so Windows resc=
-ans
-> -        * the volume on boot and updates them.
-> +        * cleanly.
->          *
->          * When remounting read-only, mark the volume clean if no volume =
-errors
->          * have occurred.
-> @@ -274,12 +272,6 @@ static int ntfs_reconfigure(struct fs_context *fc)
->                         NVolSetErrors(vol);
->                         return -EROFS;
->                 }
-> -               if (!ntfs_mark_quotas_out_of_date(vol)) {
-> -                       ntfs_error(sb, "Failed to mark quotas out of date=
-%s",
-> -                                       es);
-> -                       NVolSetErrors(vol);
-> -                       return -EROFS;
-> -               }
->         } else if (!sb_rdonly(sb) && (fc->sb_flags & SB_RDONLY)) {
->                 /* Remounting read-only. */
->                 if (!NVolErrors(vol)) {
-> @@ -1154,73 +1146,6 @@ static int check_windows_hibernation_status(struct=
- ntfs_volume *vol)
->         return ret;
+> There was a discussion at LSFMM about servers with too many cached
+> negative dentries.
+> That gave me the idea to keep the dentries in general limited
+> if the system administrator needs it to.
+>=20
+> This is somewhat related to [1] where it would address the same
+> symptoms but in a more unobtrusive way, by just garbage collecting
+> the negative and then the unused cache entries.
+>=20
+> The other effect I have seen regarding this is that FUSE
+> will not forget inodes (no FORGET call to the FUSE server)
+> even after the latest reference has been closed until much later.
+>=20
+> In a FUSE server that mirrors the kernel cached inodes in user space
+> because it has to keep a lot of private data for every node
+> this puts an unnecessarry memory strain on that userspace entity
+> especially if the memory is limited for its cgroup.
+>=20
+> [1]: https://lore.kernel.org/linux-fsdevel/20260331012925.74840-1-raven@the=
+maw.net/
+> ---
+>  Documentation/admin-guide/sysctl/fs.rst |  28 +++++
+>  fs/dcache.c                             | 197 ++++++++++++++++++++++++++++=
+++++
+>  2 files changed, 225 insertions(+)
+>=20
+> diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-=
+guide/sysctl/fs.rst
+> index 9b7f65c3efd8..0229aea45d85 100644
+> --- a/Documentation/admin-guide/sysctl/fs.rst
+> +++ b/Documentation/admin-guide/sysctl/fs.rst
+> @@ -38,6 +38,34 @@ requests.  ``aio-max-nr`` allows you to change the maxim=
+um value
+>  ``aio-max-nr`` does not result in the
+>  pre-allocation or re-sizing of any kernel data structures.
+> =20
+> +dentry-limit
+> +------------
+> +
+> +Soft cap on the total number of dentries allocated system-wide (i.e. on
+> +``nr_dentry`` from ``dentry-state``).  A value of ``0`` (the default)
+> +disables the feature and the dcache grows or shrinks only under memory
+> +pressure as before.
+> +
+> +When set to a non-zero value, a background worker is woken whenever
+> +the live dentry count exceeds the limit. The worker walks every
+> +superblock's LRU and prefers to evict negative dentries first; if it
+> +cannot get back under the limit using negative entries alone it falls
+> +back to the same LRU policy used by the memory-pressure shrinker.
+> +
+> +The limit is *soft*: allocations never fail because of it, and brief
+> +overshoots while the worker catches up are expected. Set the cap a
+> +comfortable margin above your steady-state working set.
+> +
+> +dentry-limit-interval-ms
+> +------------------------
+> +
+> +How often, in milliseconds, the ``dentry-limit`` worker re-runs while
+> +``nr_dentry`` is still above the cap. Defaults to ``1000`` (one
+> +second); the minimum accepted value is ``1``. Smaller values trim the
+> +cache more aggressively at the cost of more CPU spent walking LRUs;
+> +larger values let temporary spikes ride out before any work is done.
+> +Has no effect when ``dentry-limit`` is ``0``.
+> +
+>  dentry-negative
+>  ----------------------------
+> =20
+> diff --git a/fs/dcache.c b/fs/dcache.c
+> index 2c61aeea41f4..4959d2c011c0 100644
+> --- a/fs/dcache.c
+> +++ b/fs/dcache.c
+> @@ -144,6 +144,19 @@ static DEFINE_PER_CPU(long, nr_dentry_unused);
+>  static DEFINE_PER_CPU(long, nr_dentry_negative);
+>  static int dentry_negative_policy;
+> =20
+> +/*
+> + * Soft cap on the total number of dentries. When non-zero and exceeded,
+> + * a background worker prunes unused dentries (preferring negative ones)
+> + * until we are back under the limit. Zero (the default) disables the
+> + * feature entirely; the fast path in __d_alloc() only pays the cost of
+> + * a READ_ONCE and a branch in that case.
+> + */
+> +static unsigned long sysctl_dentry_limit __read_mostly;
+> +static unsigned int sysctl_dentry_limit_interval_ms __read_mostly =3D 1000;
+> +static unsigned long dentry_limit_last_kick;
+> +
+> +static void dentry_limit_kick(void);
+> +
+>  #if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
+>  /* Statistics gathering. */
+>  static struct dentry_stat_t dentry_stat =3D {
+> @@ -199,6 +212,20 @@ static int proc_nr_dentry(const struct ctl_table *tabl=
+e, int write, void *buffer
+>  	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
 >  }
->
-> -/*
-> - * load_and_init_quota - load and setup the quota file for a volume if p=
-resent
-> - * @vol:       ntfs super block describing device whose quota file to lo=
-ad
-> - *
-> - * Return 'true' on success or 'false' on error.  If $Quota is not prese=
-nt, we
-> - * leave vol->quota_ino as NULL and return success.
-> - */
-> -static bool load_and_init_quota(struct ntfs_volume *vol)
-> -{
-> -       static const __le16 Quota[7] =3D { cpu_to_le16('$'),
-> -                       cpu_to_le16('Q'), cpu_to_le16('u'),
-> -                       cpu_to_le16('o'), cpu_to_le16('t'),
-> -                       cpu_to_le16('a'), 0 };
-> -       static __le16 Q[3] =3D { cpu_to_le16('$'),
-> -                       cpu_to_le16('Q'), 0 };
-> -       struct ntfs_name *name =3D NULL;
-> -       u64 mref;
-> -       struct inode *tmp_ino;
-> -
-> -       ntfs_debug("Entering.");
-> -       /*
-> -        * Find the inode number for the quota file by looking up the fil=
-ename
-> -        * $Quota in the extended system files directory $Extend.
-> -        */
-> -       inode_lock(vol->extend_ino);
-> -       mref =3D ntfs_lookup_inode_by_name(NTFS_I(vol->extend_ino), Quota=
-, 6,
-> -                       &name);
-> -       inode_unlock(vol->extend_ino);
-> -       kfree(name);
-> -       if (IS_ERR_MREF(mref)) {
-> -               /*
-> -                * If the file does not exist, quotas are disabled and ha=
-ve
-> -                * never been enabled on this volume, just return success=
-.
-> -                */
-> -               if (MREF_ERR(mref) =3D=3D -ENOENT) {
-> -                       ntfs_debug("$Quota not present.  Volume does not =
-have quotas enabled.");
-> -                       /*
-> -                        * No need to try to set quotas out of date if th=
-ey are
-> -                        * not enabled.
-> -                        */
-> -                       NVolSetQuotaOutOfDate(vol);
-> -                       return true;
-> -               }
-> -               /* A real error occurred. */
-> -               ntfs_error(vol->sb, "Failed to find inode number for $Quo=
-ta.");
-> -               return false;
-> -       }
-> -       /* Get the inode. */
-> -       tmp_ino =3D ntfs_iget(vol->sb, MREF(mref));
-> -       if (IS_ERR(tmp_ino)) {
-> -               if (!IS_ERR(tmp_ino))
-> -                       iput(tmp_ino);
-> -               ntfs_error(vol->sb, "Failed to load $Quota.");
-> -               return false;
-> -       }
-> -       vol->quota_ino =3D tmp_ino;
-> -       /* Get the $Q index allocation attribute. */
-> -       tmp_ino =3D ntfs_index_iget(vol->quota_ino, Q, 2);
-> -       if (IS_ERR(tmp_ino)) {
-> -               ntfs_error(vol->sb, "Failed to load $Quota/$Q index.");
-> -               return false;
-> -       }
-> -       vol->quota_q_ino =3D tmp_ino;
-> -       ntfs_debug("Done.");
-> -       return true;
-> -}
-> -
->  /*
->   * load_and_init_attrdef - load the attribute definitions table for a vo=
-lume
->   * @vol:       ntfs super block describing device whose attrdef to load
-> @@ -1638,18 +1563,6 @@ static bool load_system_files(struct ntfs_volume *=
-vol)
->                 ntfs_error(sb, "Failed to load $Extend.");
->                 goto iput_sec_err_out;
->         }
-> -       /* Find the quota file, load it if present, and set it up. */
-> -       if (!load_and_init_quota(vol) &&
-> -           vol->on_errors =3D=3D ON_ERRORS_REMOUNT_RO) {
-> -               static const char *es1 =3D "Failed to load $Quota";
-> -               static const char *es2 =3D ".  Run chkdsk.";
-> -
-> -               sb->s_flags |=3D SB_RDONLY;
-> -               ntfs_error(sb, "%s.  Mounting read-only%s", es1, es2);
-> -               /* This will prevent a read-write remount. */
-> -               NVolSetErrors(vol);
-> -       }
-> -
->         return true;
->
->  iput_sec_err_out:
-> @@ -1747,10 +1660,6 @@ static void ntfs_put_super(struct super_block *sb)
->
->         /* NTFS 3.0+ specific. */
->         if (vol->major_ver >=3D 3) {
-> -               if (vol->quota_q_ino)
-> -                       ntfs_commit_inode(vol->quota_q_ino);
-> -               if (vol->quota_ino)
-> -                       ntfs_commit_inode(vol->quota_ino);
->                 if (vol->extend_ino)
->                         ntfs_commit_inode(vol->extend_ino);
->                 if (vol->secure_ino)
-> @@ -1799,14 +1708,6 @@ static void ntfs_put_super(struct super_block *sb)
->
->         /* NTFS 3.0+ specific clean up. */
->         if (vol->major_ver >=3D 3) {
-> -               if (vol->quota_q_ino) {
-> -                       iput(vol->quota_q_ino);
-> -                       vol->quota_q_ino =3D NULL;
-> -               }
-> -               if (vol->quota_ino) {
-> -                       iput(vol->quota_ino);
-> -                       vol->quota_ino =3D NULL;
-> -               }
->                 if (vol->extend_ino) {
->                         iput(vol->extend_ino);
->                         vol->extend_ino =3D NULL;
-> @@ -2455,14 +2356,6 @@ static int ntfs_fill_super(struct super_block *sb,=
- struct fs_context *fc)
->         vol->vol_ino =3D NULL;
->         /* NTFS 3.0+ specific clean up. */
->         if (vol->major_ver >=3D 3) {
-> -               if (vol->quota_q_ino) {
-> -                       iput(vol->quota_q_ino);
-> -                       vol->quota_q_ino =3D NULL;
-> -               }
-> -               if (vol->quota_ino) {
-> -                       iput(vol->quota_ino);
-> -                       vol->quota_ino =3D NULL;
-> -               }
->                 if (vol->extend_ino) {
->                         iput(vol->extend_ino);
->                         vol->extend_ino =3D NULL;
-> diff --git a/fs/ntfs/volume.h b/fs/ntfs/volume.h
-> index af41427ec622..e13e1423b2a9 100644
-> --- a/fs/ntfs/volume.h
-> +++ b/fs/ntfs/volume.h
-> @@ -76,8 +76,6 @@
->   * @root_ino: The VFS inode of the root directory.
->   * @secure_ino: The VFS inode of $Secure (NTFS3.0+ only, otherwise NULL)=
-.
->   * @extend_ino: The VFS inode of $Extend (NTFS3.0+ only, otherwise NULL)=
-.
-> - * @quota_ino: The VFS inode of $Quota.
-> - * @quota_q_ino: Attribute inode for $Quota/$Q.
->   * @nls_map: NLS (National Language Support) table.
->   * @nls_utf8: NLS table for UTF-8.
->   * @free_waitq: Wait queue for threads waiting for free clusters or MFT =
-records.
-> @@ -141,8 +139,6 @@ struct ntfs_volume {
->         struct inode *root_ino;
->         struct inode *secure_ino;
->         struct inode *extend_ino;
-> -       struct inode *quota_ino;
-> -       struct inode *quota_q_ino;
->         struct nls_table *nls_map;
->         bool nls_utf8;
->         wait_queue_head_t free_waitq;
-> @@ -165,7 +161,6 @@ struct ntfs_volume {
->   *                             Otherwise be case insensitive but still
->   *                             create file names in POSIX namespace.
->   * NV_LogFileEmpty             LogFile journal is empty.
-> - * NV_QuotaOutOfDate           Quota is out of date.
->   * NV_UsnJrnlStamped           UsnJrnl has been stamped.
->   * NV_ReadOnly                 Volume is mounted read-only.
->   * NV_Compression              Volume supports compression.
-> @@ -186,7 +181,6 @@ enum {
->         NV_ShowSystemFiles,
->         NV_CaseSensitive,
->         NV_LogFileEmpty,
-> -       NV_QuotaOutOfDate,
->         NV_UsnJrnlStamped,
->         NV_ReadOnly,
->         NV_Compression,
-> @@ -223,7 +217,6 @@ DEFINE_NVOL_BIT_OPS(Errors)
->  DEFINE_NVOL_BIT_OPS(ShowSystemFiles)
->  DEFINE_NVOL_BIT_OPS(CaseSensitive)
->  DEFINE_NVOL_BIT_OPS(LogFileEmpty)
-> -DEFINE_NVOL_BIT_OPS(QuotaOutOfDate)
->  DEFINE_NVOL_BIT_OPS(UsnJrnlStamped)
->  DEFINE_NVOL_BIT_OPS(ReadOnly)
->  DEFINE_NVOL_BIT_OPS(Compression)
->
+> =20
+> +/*
+> + * Writing fs.dentry-limit should give prompt feedback to admins
+> + * lowering the cap, so kick the worker on every successful write.
+> + */
+> +static int proc_dentry_limit(const struct ctl_table *table, int write,
+> +			     void *buffer, size_t *lenp, loff_t *ppos)
+> +{
+> +	int ret =3D proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
+> +
+> +	if (write && !ret)
+> +		dentry_limit_kick();
+> +	return ret;
+> +}
+> +
+>  static const struct ctl_table fs_dcache_sysctls[] =3D {
+>  	{
+>  		.procname	=3D "dentry-state",
+> @@ -207,6 +234,21 @@ static const struct ctl_table fs_dcache_sysctls[] =3D {
+>  		.mode		=3D 0444,
+>  		.proc_handler	=3D proc_nr_dentry,
+>  	},
+> +	{
+> +		.procname	=3D "dentry-limit",
+> +		.data		=3D &sysctl_dentry_limit,
+> +		.maxlen		=3D sizeof(sysctl_dentry_limit),
+> +		.mode		=3D 0644,
+> +		.proc_handler	=3D proc_dentry_limit,
+> +	},
+> +	{
+> +		.procname	=3D "dentry-limit-interval-ms",
+> +		.data		=3D &sysctl_dentry_limit_interval_ms,
+> +		.maxlen		=3D sizeof(sysctl_dentry_limit_interval_ms),
+> +		.mode		=3D 0644,
+> +		.proc_handler	=3D proc_douintvec_minmax,
+> +		.extra1		=3D SYSCTL_ONE,
+> +	},
+>  	{
+>  		.procname	=3D "dentry-negative",
+>  		.data		=3D &dentry_negative_policy,
+> @@ -1325,6 +1367,160 @@ static enum lru_status dentry_lru_isolate_shrink(st=
+ruct list_head *item,
+>  	return LRU_REMOVED;
+>  }
+> =20
+> +#define DENTRY_LIMIT_BATCH	1024UL
+> +
+> +static void dentry_limit_worker_fn(struct work_struct *work);
+> +static DECLARE_DELAYED_WORK(dentry_limit_work, dentry_limit_worker_fn);
+> +
+> +/*
+> + * Variant of dentry_lru_isolate() that only frees negative dentries.
+> + * DCACHE_REFERENCED is intentionally not honoured here: the whole point
+> + * of an admin-imposed cap on negatives is that even frequently-looked-up
+> + * negative entries should be evicted before any positive dentry.
+> + * Positive entries are rotated to the tail so the walk continues to
+> + * make progress without disturbing their LRU position.
+> + */
+> +static enum lru_status dentry_lru_isolate_negative(struct list_head *item,
+> +		struct list_lru_one *lru, void *arg)
+> +{
+> +	struct list_head *freeable =3D arg;
+> +	struct dentry *dentry =3D container_of(item, struct dentry, d_lru);
+> +
+> +	if (!spin_trylock(&dentry->d_lock))
+> +		return LRU_SKIP;
+> +
+> +	/* Same handling as dentry_lru_isolate() for in-use entries. */
+> +	if (dentry->d_lockref.count) {
+> +		d_lru_isolate(lru, dentry);
+> +		spin_unlock(&dentry->d_lock);
+> +		return LRU_REMOVED;
+> +	}
+> +
+> +	if (!d_is_negative(dentry)) {
+> +		spin_unlock(&dentry->d_lock);
+> +		return LRU_ROTATE;
+> +	}
+> +
+> +	d_lru_shrink_move(lru, dentry, freeable);
+> +	spin_unlock(&dentry->d_lock);
+> +	return LRU_REMOVED;
+> +}
+> +
+> +struct dentry_limit_ctx {
+> +	long over;		/* remaining dentries to evict */
+> +	list_lru_walk_cb isolate;
+> +};
+> +
+> +static void dentry_limit_prune_sb(struct super_block *sb, void *arg)
+> +{
+> +	struct dentry_limit_ctx *ctx =3D arg;
+> +	unsigned long walked =3D 0;
+> +	unsigned long budget;
+> +
+> +	if (ctx->over <=3D 0)
+> +		return;
+> +
+> +	/*
+> +	 * Walk up to one full pass of this superblock's LRU, in
+> +	 * DENTRY_LIMIT_BATCH-sized chunks. The loop matters mainly for
+> +	 * phase 1: dentry_lru_isolate_negative() returns LRU_ROTATE for
+> +	 * positive dentries, which still counts against list_lru_walk()'s
+> +	 * nr_to_walk. A single batch can therefore finish having freed
+> +	 * nothing when positives crowd the head of the LRU, and without
+> +	 * the inner loop the worker would have to wait a full
+> +	 * dentry-limit-interval-ms before retrying never reaching the
+> +	 * negatives buried behind a long run of positives.
+> +	 *
+> +	 * The budget is snapshot at entry so a filesystem allocating
+> +	 * dentries faster than we drain them can't keep us spinning here
+> +	 * forever; freshly added dentries are picked up on the next
+> +	 * worker invocation.
+> +	 *
+> +	 * Phase 2 normally exits much sooner: its isolate callback frees
+> +	 * any non-referenced dentry, so ctx->over typically hits zero
+> +	 * inside the first batch. The worst-case over-eviction is one
+> +	 * batch past the cap, which is within the soft semantics of
+> +	 * fs.dentry-limit.
+> +	 */
+> +	budget =3D list_lru_count(&sb->s_dentry_lru);
+> +
+> +	while (ctx->over > 0 && walked < budget) {
+> +		LIST_HEAD(dispose);
+> +		unsigned long nr;
+> +		long freed;
+> +
+> +		nr =3D min(DENTRY_LIMIT_BATCH, budget - walked);
+> +		freed =3D list_lru_walk(&sb->s_dentry_lru, ctx->isolate,
+> +				      &dispose, nr);
+> +		shrink_dentry_list(&dispose);
+> +
+> +		ctx->over -=3D freed;
+> +		walked +=3D nr;
+> +
+> +		cond_resched();
+> +	}
+> +}
+> +
+> +static void dentry_limit_worker_fn(struct work_struct *work)
+> +{
+> +	struct dentry_limit_ctx ctx;
+> +	unsigned long limit =3D READ_ONCE(sysctl_dentry_limit);
+> +	unsigned int ms;
+> +	long nr;
+> +
+> +	if (!limit)
+> +		return;
+> +
+> +	nr =3D get_nr_dentry();
+> +	if (nr <=3D (long)limit)
+> +		return;
+> +
+> +	ctx.over =3D nr - (long)limit;
+> +
+> +	/* Phase 1: drain negative dentries across every superblock. */
+> +	ctx.isolate =3D dentry_lru_isolate_negative;
+> +	iterate_supers(dentry_limit_prune_sb, &ctx);
+> +
+> +	/* Phase 2: still over? Apply the ordinary LRU policy. */
+> +	if (ctx.over > 0) {
+> +		ctx.isolate =3D dentry_lru_isolate;
+> +		iterate_supers(dentry_limit_prune_sb, &ctx);
+> +	}
+> +
+> +	/*
+> +	 * Re-arm while still above the limit. Re-read the sysctls in
+> +	 * case the admin raised the cap or disabled the feature during
+> +	 * the walk.
+> +	 */
+> +	limit =3D READ_ONCE(sysctl_dentry_limit);
+> +	if (!limit || get_nr_dentry() <=3D (long)limit)
+> +		return;
+> +
+> +	ms =3D READ_ONCE(sysctl_dentry_limit_interval_ms);
+> +	queue_delayed_work(system_unbound_wq, &dentry_limit_work,
+> +			   msecs_to_jiffies(ms));
+> +}
+> +
+> +static void dentry_limit_kick(void)
+> +{
+> +	unsigned long limit =3D READ_ONCE(sysctl_dentry_limit);
+> +	unsigned long now;
+> +
+> +	if (!limit)
+> +		return;
+> +	if (delayed_work_pending(&dentry_limit_work))
+> +		return;
+> +
+> +	now =3D jiffies;
+> +	if (time_before(now, READ_ONCE(dentry_limit_last_kick) + HZ / 10))
+> +		return;
+> +	WRITE_ONCE(dentry_limit_last_kick, now);
+> +
+> +	if (get_nr_dentry() <=3D (long)limit)
+> +		return;
+> +
+> +	queue_delayed_work(system_unbound_wq, &dentry_limit_work, 0);
+> +}
+> =20
+>  /**
+>   * shrink_dcache_sb - shrink dcache for a superblock
+> @@ -1868,6 +2064,7 @@ static struct dentry *__d_alloc(struct super_block *s=
+b, const struct qstr *name)
+>  	}
+> =20
+>  	this_cpu_inc(nr_dentry);
+> +	dentry_limit_kick();
+> =20
+>  	return dentry;
+>  }
+>=20
+> ---
 > base-commit: 5d6919055dec134de3c40167a490f33c74c12581
-> --
-> 2.43.0
->
+> change-id: 20260513-limit-dentries-cache-63685729672b
+>=20
+> Best regards,
+> --=20
+> Horst Birthelmer <hbirthelmer@ddn.com>
+>=20
+>=20
+>=20
 
-
---=20
-Thanks,
-Hyunchul
