@@ -1,350 +1,478 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011052.outbound.protection.outlook.com [52.101.62.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5B721770B;
-	Sun, 17 May 2026 02:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778985946; cv=fail; b=Bwx4w1n6rB5RDCaRwrw1IOJwqH53zokjMVZ/oFWqyX/PVs5po9gSKuhf+mBI9As9Nqui1kIqZpjftOMUaHpZeA8FyQANJtGjXZVNqqBBaxhxLSBCJGXp6bd3ZQTJu2R1RpLAGlUbLj/I76MMEQyOl6QK6WhLcngHZIGk/9fg7rw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778985946; c=relaxed/simple;
-	bh=fNP3d18n3ky/ztNpe2/+sVWTtzUcr9frkYWUpriIMwM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cJnXtbfKeQabR0CtHQhAj6Crl03JEOy4mtvqLzodGnkh+fF3F4X8Uf2yl2Q+bf153tf0zCW4vEZSO70MuSBVrJgPH0u6KfffdsEjhedkjIaWZo4XqDuNLYBMHlDX9TGOIFr5FyyH8RSpyzf/OTQ/8+Vcqo0PE+xRI2a8d18vdHY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GAXvvoi4; arc=fail smtp.client-ip=52.101.62.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA7E1B78F3
+	for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 03:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778989495; cv=none; b=aPYVjqNviHQN9JCEb9RTbzHe9tEwyZVOAcDJ/5yaycZNMFjTcAgiT4GXbr8CZf6HgIhZNZzdh0zF76o0rig4OpFU484gMk1hpcPnC7GZ9k9JfXVmQwt84c5kdK7hpIFCLsaPbKjYtKMjUZsiXen7/OBXI/AGAKeHRZyv0RUeKlo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778989495; c=relaxed/simple;
+	bh=OBL0hz2vORnvOvVyBfrgRjiED7HNGC7ZbNcTq/BP/iI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XE+4eBD5Gos6D85E6nTQnmKa67h1G2RFT1HF6nevr6fL/g3eb8sZOVyc1dnDlv5hbguMvFG6Fzt/bUFKKrqZOuamSs1ObliaHqheI/oj24d1z5+FiQU3kARYao4TWbBptcEj63mSQEXOh7Juxkl4nBAPiSC7ugUcZy2Tkykx9gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pybLVCpj; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GAXvvoi4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mF4exfW6UulnooaNR+uMpIBE5cLR7P/kHL3wesd2lWa2TG43tUURAmXdgfOxRoLU5Zb/5NSpycYKianUZ7gbTdrXeRPzvwhx1GNUgKNjdyinFq6O2p889iBlYDm0nPC8Kxt0FHJmDnwsK9w9RMjam98TkvzFArH41kcERBNtSNIxkvksj68p1rfAjFmqXKR7bowuPppOhHYFXbegJ8Ez9hZcKm1t5UIPtIFrXVldr03gNrMqS2V9+UV04EQME3oQhVKvHEA2iFZQM8IlYHBSqt8EGMhuCzevwITaJ6gRV0lf6CovgBzCXMBpPXo+uzYp/QX1zkNBOqg7j/XJIJOkUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UUSjQL/TvRMGryKXOEXSNRx4X9ixSr29VY99AiqdvL8=;
- b=flL/Im0dLMpLAHNGnJ/xPpeac3zURNM2HJNS3taUiB0DNkJiEs320akAhj0jCkBgOZdoTYPQkLhXM+yI/xJar49Gez+DJtdatb09FMO+j/xaW/dqIFIQugZ/+EjW0KKQkstSMdrqR+nrUXqz97WJFWek9SEDyWQ1sKvzXjSv+23rLdExMdn7BI2zwofCdsOFAn2IzhO7wxHxb7zZoq1Mj6lzOWOJ64hsrWHMQX1imdu4G0gofs+NmP/+2hzPCHVyplJm5MJjj7ZvC2d+Y9DbyY6wg/H/SIV42x/VZyPV+JS9ensPBB1TPMbjRrhbu0UxR9daiQiiTsW466tSMRLX1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UUSjQL/TvRMGryKXOEXSNRx4X9ixSr29VY99AiqdvL8=;
- b=GAXvvoi4nY2Wwz/6nUKRfbp1Ds8JF7pM5NRjpYaE/24BmsZbu/2pYJqkmAfQxHz3l8MFHesY8Ln5j/Z2oqbuR/aoFQWulFIDpEvwU0UpO9Dwk7RZNQ/UtKJHIQyTsi+MvsgREOPCqWI8jlMeQGP/Ez99fh715w+NicwKCDHU1DYpd+97r3QCG63Du27xH9a1rbgNVIuoD9JL5cPj/waWED1RLAV9yCD36EelCs21HMW6GOGQQPKmrk26G1KB4tCN4WFEAtEMdAB9ZR3a5S/gHz/8Q5de4N7diT/MlkiFA8d/UP1MPdK2G/TgPQzZpKXFQN230Rsl4Bkry8rwL+p6jw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- MW3PR12MB4473.namprd12.prod.outlook.com (2603:10b6:303:56::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.22; Sun, 17 May 2026 02:45:39 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%5]) with mapi id 15.21.0025.016; Sun, 17 May 2026
- 02:45:39 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Song Liu <songliubraving@fb.com>, Chris Mason <clm@fb.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 11/14] selftests/mm: remove READ_ONLY_THP_FOR_FS in
- khugepaged
-Date: Sun, 17 May 2026 10:45:27 +0800
-X-Mailer: MailMate (2.0r6292)
-Message-ID: <269C18BB-0E83-4DDF-A459-C41BCE2E87FC@nvidia.com>
-In-Reply-To: <959238dd-2493-4d9c-ac35-6d04460a8239@kernel.org>
-References: <20260429152924.727124-1-ziy@nvidia.com>
- <20260429153538.727855-7-ziy@nvidia.com>
- <959238dd-2493-4d9c-ac35-6d04460a8239@kernel.org>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DS0PR17CA0018.namprd17.prod.outlook.com
- (2603:10b6:8:191::18) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pybLVCpj"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2b9a18f53afso2424275ad.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 16 May 2026 20:44:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778989492; x=1779594292; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Msd/ZNvVZHJfF3onmjoSuNe5tIT8QpvjGmg4z+SRhH4=;
+        b=pybLVCpjezHVuudOQ+xlYDcPVl6QlwePLGzJRkGZj5hNZMz0Vi4dQlkF+IaiLczYsj
+         wPhTX1T7HTle5ncHFlQ+A3RuZ0kj81lKEqTiIKmx1r5UFMn5KT9zS4fljBLp0O+stfxH
+         P3aVjTwK3AUBeQf/XA3//JFRriXTR/GfTcpNp/8lM4fAEhQugKIwmS7NoRNvxeC3XM7s
+         yXLmg/Q/omLsWboZBrv0Ur1ZEw3BU14V3IkgOmgZKudVoM6ydrY4wx9w9+Ejy5ElvrB7
+         +FCFffWOAyNiqaZUGhSLkOrJAjTVAGrqC8b8El24a7i31NLKxhBzLQDmJkop1uuNpEKY
+         lFRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778989492; x=1779594292;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Msd/ZNvVZHJfF3onmjoSuNe5tIT8QpvjGmg4z+SRhH4=;
+        b=U2gn2aREPF6l6VTZ3CNUThIHB2e4n2YdSRPmx2ozV+ggTke0A5QqumycidSyQcq4cx
+         BUjspJjINLK/hWrck2y5bEGW/lw3BVzqzzQj/SviPI4QC7i8+ILa/k81LgNSxL50hD9V
+         hs+YkS+0GGT3EjHubspLFGR+Iu5IoxLwYYKAfUl5PhZGXmICG8kC3birgZNwBhuEdAA2
+         R/fZLIMK2aEJvPPiNfNlxAzvhso3JWp+1z3QKHM0Q8zf12F745Th0/TcEExMzxqkkGhP
+         uJ8bq/6T8aDrbNtDY1s4QzA4igKz3XoTm6u3Oj3RBSVz8uRwzrz2npWzmAh3D0Cvi7vd
+         zhjg==
+X-Gm-Message-State: AOJu0Yws0prDSqxZ3oruShYOT+TH4nqiCNYrj/IY1YX0Yh6OBgCTYvW4
+	ynMzqCNPhFGX/1mY5o4obEKJENdy1pVJ2w+u4ngNzYhqMfL5QJrWON6B
+X-Gm-Gg: Acq92OGmo1hyX9McLYwLtWCAG0bDGyuvfay550xwIweQiKu6Fc3zMbfcdAu7Ir3DP7y
+	Jh9xs84kGtcfemXOrq6agULdb32WBrjJQ+R/IWucRRQXiIVOxXpWmEVYIom+tFr8cPKpavOf0Qi
+	ITiS3N9tnHU9aFHpIpVordwv5q4NZZysnSLT4V/gCotMDr15CHWAEVMiyz+xwVBAcdvlV3VdbuO
+	IGduWYJ9GNxaVaziVsWfNHhIepu5d0hEjURIm0wIYtY6jBNazdxA1ZnfSqYAo0xG+6og+UG4atE
+	zQyWJqnUT0u6RHyxcds1yaIytI8mfcGH3lNMxpMLEBa6qFfHYlWLx7ipvv0y+K1SaZzi7vByC+/
+	n7bRMhVVD9rv7yiM/gXL6DE7jS46DdnT7yh0vyf4r3m9OUIxJuy/xF4u+syntaI47aqTx+0TWYZ
+	z7bsGucFA99y33KErl
+X-Received: by 2002:a17:90b:2743:b0:368:65d4:486b with SMTP id 98e67ed59e1d1-36951b8707cmr5846532a91.3.1778989492270;
+        Sat, 16 May 2026 20:44:52 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-369515895d2sm6828185a91.8.2026.05.16.20.44.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 20:44:51 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	DaeMyung Kang <charsyam@gmail.com>
+Subject: [PATCH] ntfs: remove unsupported quota handling
+Date: Sun, 17 May 2026 12:44:47 +0900
+Message-ID: <20260517034447.1330941-1-charsyam@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|MW3PR12MB4473:EE_
-X-MS-Office365-Filtering-Correlation-Id: afe77f3a-98da-4165-a0e7-08deb3be617e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|366016|1800799024|20052099010|56012099003|22082099003|18002099003|4143699003|11063799003;
-X-Microsoft-Antispam-Message-Info:
-	eqXKTtbfkStkmn6KeF2Z7xOgnHLIH+8llOtd5ITHk0HNN+bTrK0Jl9AaNBPj/+q1eggBZDbZv+zRqRzurQLaJKWXQIe4+bfL70mk9YKiNTcOEvm81jYvQiDJrI2axtHrBnKLdJAIfRCtrZQ/32VC46euTEdyhNRr+lA/OWAdBDZtOKo3bwch6eIDzA8RkL/z/8YBNiXR6V3CdXpOgHyUmm+V5Kpvn4I3JKgdeBf7MEZArCwLp/VZQOEN1xZ/70WDuMGZCKXN6Ulu4AYQX9+QE+OftFmI3PgqAc8d/YZuIeh4Pfyl1CL3NPlxBaL/1DXGYcNXi/8sITwo4RFQRPuoE0HWK9bOVJ1FT9877tM5XD2SsXlMO9MfnMiYhmtzu45//WYDNNT5TPJFDj95cB303NywzMSWFZfLzp4dydjIiRe1W67TL+MA768CH/FHnZEiINwFzhAXX++bdHV2qSQmfQ4aF8vSeCUlbtkwgaSRhTmuBBRc8KBW7k4QCo8uKmQMZxkjdds2i2LbXYMPHbz3hu0Ph3o5a0CCFbITAr5xImcOuSdLaXAA+lT/O5ToKVd5m3QrFbSXgSVRzkq81I5i2xi977zKeUVN+kuC7NpyKKhUrVSzfX8oVqMO31edVVjuvrQ9wtrcaE54EVFKYrXRyEKqCf55Q/1OKFJ0kOqR6Li/AwtkOBSBo5pxrVDK8UTV
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024)(20052099010)(56012099003)(22082099003)(18002099003)(4143699003)(11063799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XCXm7/lqWI0OS4uqMmU8BD0MuRChLFSF0HrK0jakY4Dv+1Wyso837jUX3b0S?=
- =?us-ascii?Q?ttSu8kmrZTbrfzFMZvjQTE6LkRMBoXaFTiSCyugjvb9CIUcpQHqHid/hH3LW?=
- =?us-ascii?Q?ExL4S5BZfX1Ikd7SQa6hzNEJEs7da8uDbDov3BN4IiKdudAQtii/gTFzgekD?=
- =?us-ascii?Q?kjkQZXKTPpJfptt7smXFzrVnnTWch1olqapiRrQBr2o9ZmtCm1odt3OLpsWS?=
- =?us-ascii?Q?A5BsD7en1/hggGcOvaZA/+WlHCEwgS0MJpWRBSk5mLo+atYwQjV3GiJNS7bz?=
- =?us-ascii?Q?EcvblyyGGmDczTrTUwxuAvZZ7fgpHBcjrcbQgsCC5ezVELWc2Q1OaxrBSnIs?=
- =?us-ascii?Q?NRtcj5BPgVHjGQFrespTsW/f4iKQssX9urhy/pD1yR0aoOCbfOma1Y3YkBFj?=
- =?us-ascii?Q?cRA3BboDewhuxuCkAQit1f2/xJiR6pganp+WogMrgiVfZARNaBy+pcPEvjtL?=
- =?us-ascii?Q?KXnClNqeLdNYfp8ZKfHbLLUPkFVjbMQpKRzsBGSJwYD9T/YatORQYX1GD/w+?=
- =?us-ascii?Q?m+fsPu26ISjRw+P8R+BrqN/ubvau41gHRgqRszDaYXdZMasi4h3tvDYfEmN5?=
- =?us-ascii?Q?bRmV/uS3HZO2FHMjzkt9Sl5CX/L2fNshbEjfoi2XWBspJefWhMpaPLfTi+dw?=
- =?us-ascii?Q?VAf+YP9eJ4eQb2Aui61o777/WDaAZ4CJmyqnSqOvkAb3sfBUa89UOfX30/5+?=
- =?us-ascii?Q?pEq6tUvP4ufWgZMwPegxMllMY2kgOPOCLqQpQ7sbgbusREC/NnmQUz11ntLX?=
- =?us-ascii?Q?YdpzkqcWChzx+ciP4zwk83Rm7UivpxoJjG7KPfFlLhT/qYwkx37EYQPODrJ2?=
- =?us-ascii?Q?9H8CuOTXlynknd7bDHD28Go72baDhSjJS3VqRz8PM27Puynrd0f0gpO0H8h1?=
- =?us-ascii?Q?q5G04ZPB8SwU8wD0ROxtYPJvYajqqYfNvzaihJNZmrbT/rIHBcQPyz/Z4El7?=
- =?us-ascii?Q?UoRgvaaxQuJhhnuQBzqNZwq4HbAB2gzpq5qKQJKf+vBepYasDF2tVQfjNjwm?=
- =?us-ascii?Q?pTtleLI+azMYLvsJLsYunL1yhgkhxNlgBuA2HIjwhOFpRdEB3xmmW4eyg4PF?=
- =?us-ascii?Q?tPT5invShnPiz+ZHbMfP8Oggz1JX5EWa/XRpnXigOk0MQj8RfKeGWi+Ta+X0?=
- =?us-ascii?Q?x561fTpqwswwTcbGJMKO/gfevTYZ69aP1/vSGrh83uGRlVbnTwi9DBCx3ZUL?=
- =?us-ascii?Q?32SjE9HrDY6tWgtTNuMfbOYdl72E7I8eP9B5BWpKfGfwD3feKPpBJiTBTg/s?=
- =?us-ascii?Q?Yo843GygivfkcFqhm8cFgrQYV+GZxhrIPbcApugZ7HZ6CHPrgc1I8m6dyZtQ?=
- =?us-ascii?Q?XK/fX2ZYIg7nBdMrkZJVFeu5H0km0JVO1GTtYXIyFh9VamgmyJvtJAbY7vvl?=
- =?us-ascii?Q?x0g4lyrMj959568oCdP5FdU+j59oc+fQ7UPlzp1ugOCG1tfiTnxXB56jHLtF?=
- =?us-ascii?Q?oQIxMvTjss/OpscBrCkMBlMdxi83O5fCbtkcJc1FbMV0anENW8BHb1HsURSB?=
- =?us-ascii?Q?mSdY50HgtyTPOFef0ZT8U5v8Xl9Q00FQEDCjxk4cuBBXHsEgIiK0NG7oOpTr?=
- =?us-ascii?Q?YxHJ0J71sHJYjsSx4venSOSjoZy+XTrkr7tO3DZEKcHuNBkGAft+pWBljgqX?=
- =?us-ascii?Q?LJ+gj06SYuasdLStdUX6TF/jhVBUmQkxZgo268BPIJVyUOAgQgg1It0RhwNq?=
- =?us-ascii?Q?9if4T/jcmpXA5OPR/Xk6Uc5nbFTxAnFnX7Q3mJdN3Nj344BCf4lPvNrM8fwN?=
- =?us-ascii?Q?iDJbpfG+oqP9J1L73HbBAyB86T432lQUf+8rvhfFGwL8CCV3VMdu?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: afe77f3a-98da-4165-a0e7-08deb3be617e
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2026 02:45:39.5143
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2+/RvTQxJICYdEw85M4/+S4BRJUeQJQzmuVur+4blBgErZDcP/AjXgS8ktUABmJJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4473
+Content-Transfer-Encoding: 8bit
 
-On 9 May 2026, at 4:06, David Hildenbrand (Arm) wrote:
+The ntfs driver does not implement quota accounting.  It creates
+new inodes with the NTFS 1.2 $STANDARD_INFORMATION layout and does
+not maintain the NTFS 3.x owner_id/quota_charged fields or the
+$Quota usage records that Windows would need for meaningful quota
+accounting.
 
-> On 4/29/26 17:35, Zi Yan wrote:
->> Change the requirement to a file system with large folio support and t=
-he
->> supported order needs to include PMD_ORDER.
->>
->> Also add tests of opening a file with read write permission and popula=
-ting
->> folios with writes. Reuse the XFS image from split_huge_page_test.
->>
->> Signed-off-by: Zi Yan <ziy@nvidia.com>
->> ---
->>  tools/testing/selftests/mm/khugepaged.c   | 131 +++++++++++++++------=
+The only runtime quota path left in the driver is the remount-rw
+code that tries to mark $Quota/$Q out of date, plus the mount-time
+code that loads $Quota and its $Q index solely to support that
+marker.
+
+Since the driver does not maintain the per-file quota metadata,
+setting QUOTA_FLAG_OUT_OF_DATE does not make the quota state
+meaningful, and failures in this unsupported path can unnecessarily
+block remount-rw or force a mount read-only.
+
+Remove the quota marker, the $Quota/$Q loading state, and the
+unused quota volume flag.  Keep the on-disk quota layout definitions
+in layout.h so the documented NTFS structures remain available.
+
+Suggested-by: Hyunchul Lee <hyc.lee@gmail.com>
+Link: https://lore.kernel.org/all/CANFS6bYTzioqZjYt=51Kb9RdR3MKXaez_fh_WCLoym093VxFmg@mail.gmail.com/
+Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+---
+This is the standalone patch agreed in the discussion (see the Link:
+above): the earlier "$Quota view-index lookup" fix series is being
+dropped because the ntfs driver does not implement quota accounting, so
+the unsupported quota loading/marking path is removed instead of fixed.
+
+Tested:
+- Applied on 5d6919055dec (Linux 7.1-rc3).
+- Built with CONFIG_NTFS_FS=y.
+- Booted the patched kernel in QEMU with an mkfs.ntfs-created NTFS 3.1
+  image containing $Extend/$Quota.
+- Mounted the image read-only, remounted it read-write, created a
+  directory and file, read the file back, remounted read-only, unmounted,
+  mounted read-only again, and read the file back again.
+- Verified no remaining runtime quota references outside layout.h
+  definitions.
+
+ fs/ntfs/Makefile |   2 +-
+ fs/ntfs/quota.c  |  95 -----------------------------------------
+ fs/ntfs/quota.h  |  15 -------
+ fs/ntfs/super.c  | 109 +----------------------------------------------
+ fs/ntfs/volume.h |   7 ---
+ 5 files changed, 2 insertions(+), 226 deletions(-)
+ delete mode 100644 fs/ntfs/quota.c
+ delete mode 100644 fs/ntfs/quota.h
+
+diff --git a/fs/ntfs/Makefile b/fs/ntfs/Makefile
+index 0ce4d9a9388a..e120c2e69862 100644
+--- a/fs/ntfs/Makefile
++++ b/fs/ntfs/Makefile
+@@ -5,6 +5,6 @@ obj-$(CONFIG_NTFS_FS) += ntfs.o
+ ntfs-y := aops.o attrib.o collate.o dir.o file.o index.o inode.o \
+ 	  mft.o mst.o namei.o runlist.o super.o unistr.o attrlist.o ea.o \
+ 	  upcase.o bitmap.o lcnalloc.o logfile.o reparse.o compress.o \
+-	  iomap.o debug.o sysctl.o quota.o object_id.o bdev-io.o
++	  iomap.o debug.o sysctl.o object_id.o bdev-io.o
+ 
+ ccflags-$(CONFIG_NTFS_DEBUG) += -DDEBUG
+diff --git a/fs/ntfs/quota.c b/fs/ntfs/quota.c
+deleted file mode 100644
+index b443243b58fb..000000000000
+--- a/fs/ntfs/quota.c
++++ /dev/null
+@@ -1,95 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/*
+- * NTFS kernel quota ($Quota) handling.
+- *
+- * Copyright (c) 2004 Anton Altaparmakov
+- */
 -
->>  tools/testing/selftests/mm/run_vmtests.sh |  12 +-
->>  2 files changed, 102 insertions(+), 41 deletions(-)
->>
->> diff --git a/tools/testing/selftests/mm/khugepaged.c b/tools/testing/s=
-elftests/mm/khugepaged.c
->> index a6bb9d50363d2..80b913185c643 100644
->> --- a/tools/testing/selftests/mm/khugepaged.c
->> +++ b/tools/testing/selftests/mm/khugepaged.c
->> @@ -49,7 +49,8 @@ struct mem_ops {
->>  	const char *name;
->>  };
->>
->> -static struct mem_ops *file_ops;
->> +static struct mem_ops *read_only_file_ops;
->> +static struct mem_ops *read_write_file_ops;
->>  static struct mem_ops *anon_ops;
->>  static struct mem_ops *shmem_ops;
->>
->> @@ -112,7 +113,8 @@ static void restore_settings(int sig)
->>  static void save_settings(void)
->>  {
->>  	printf("Save THP and khugepaged settings...");
->> -	if (file_ops && finfo.type =3D=3D VMA_FILE)
->> +	if ((read_only_file_ops || read_write_file_ops) &&
->> +	    finfo.type =3D=3D VMA_FILE)
->>  		thp_set_read_ahead_path(finfo.dev_queue_read_ahead_path);
->>  	thp_save_settings();
->>
->> @@ -364,11 +366,14 @@ static bool anon_check_huge(void *addr, int nr_h=
-pages)
->>  	return check_huge_anon(addr, nr_hpages, hpage_pmd_size);
->>  }
->>
->> -static void *file_setup_area(int nr_hpages)
->> +static void *file_setup_area_common(int nr_hpages, bool read_only)
->>  {
->>  	int fd;
->>  	void *p;
->>  	unsigned long size;
->> +	int open_opt =3D read_only ? O_RDONLY : O_RDWR;
->> +	int mmap_prot =3D read_only ? PROT_READ : (PROT_READ | PROT_WRITE);
->> +	int mmap_opt =3D read_only ? MAP_PRIVATE : MAP_SHARED;
->
-> Can all be const and read better at the very top of the list.
->
-> Why do we go from private->shared depending on "read_only" parameter? I=
-'d assume
-> we'd want to test MAP_SHARED for both (read-only + read-write)?
+-#include "index.h"
+-#include "quota.h"
+-#include "debug.h"
+-#include "ntfs.h"
+-
+-/*
+- * ntfs_mark_quotas_out_of_date - mark the quotas out of date on an ntfs volume
+- * @vol:	ntfs volume on which to mark the quotas out of date
+- *
+- * Mark the quotas out of date on the ntfs volume @vol and return 'true' on
+- * success and 'false' on error.
+- */
+-bool ntfs_mark_quotas_out_of_date(struct ntfs_volume *vol)
+-{
+-	struct ntfs_index_context *ictx;
+-	struct quota_control_entry *qce;
+-	const __le32 qid = QUOTA_DEFAULTS_ID;
+-	int err;
+-
+-	ntfs_debug("Entering.");
+-	if (NVolQuotaOutOfDate(vol))
+-		goto done;
+-	if (!vol->quota_ino || !vol->quota_q_ino) {
+-		ntfs_error(vol->sb, "Quota inodes are not open.");
+-		return false;
+-	}
+-	inode_lock(vol->quota_q_ino);
+-	ictx = ntfs_index_ctx_get(NTFS_I(vol->quota_q_ino), I30, 4);
+-	if (!ictx) {
+-		ntfs_error(vol->sb, "Failed to get index context.");
+-		goto err_out;
+-	}
+-	err = ntfs_index_lookup(&qid, sizeof(qid), ictx);
+-	if (err) {
+-		if (err == -ENOENT)
+-			ntfs_error(vol->sb, "Quota defaults entry is not present.");
+-		else
+-			ntfs_error(vol->sb, "Lookup of quota defaults entry failed.");
+-		goto err_out;
+-	}
+-	if (ictx->data_len < offsetof(struct quota_control_entry, sid)) {
+-		ntfs_error(vol->sb, "Quota defaults entry size is invalid.  Run chkdsk.");
+-		goto err_out;
+-	}
+-	qce = (struct quota_control_entry *)ictx->data;
+-	if (le32_to_cpu(qce->version) != QUOTA_VERSION) {
+-		ntfs_error(vol->sb,
+-			"Quota defaults entry version 0x%x is not supported.",
+-			le32_to_cpu(qce->version));
+-		goto err_out;
+-	}
+-	ntfs_debug("Quota defaults flags = 0x%x.", le32_to_cpu(qce->flags));
+-	/* If quotas are already marked out of date, no need to do anything. */
+-	if (qce->flags & QUOTA_FLAG_OUT_OF_DATE)
+-		goto set_done;
+-	/*
+-	 * If quota tracking is neither requested, nor enabled and there are no
+-	 * pending deletes, no need to mark the quotas out of date.
+-	 */
+-	if (!(qce->flags & (QUOTA_FLAG_TRACKING_ENABLED |
+-			QUOTA_FLAG_TRACKING_REQUESTED |
+-			QUOTA_FLAG_PENDING_DELETES)))
+-		goto set_done;
+-	/*
+-	 * Set the QUOTA_FLAG_OUT_OF_DATE bit thus marking quotas out of date.
+-	 * This is verified on WinXP to be sufficient to cause windows to
+-	 * rescan the volume on boot and update all quota entries.
+-	 */
+-	qce->flags |= QUOTA_FLAG_OUT_OF_DATE;
+-	/* Ensure the modified flags are written to disk. */
+-	ntfs_index_entry_mark_dirty(ictx);
+-set_done:
+-	ntfs_index_ctx_put(ictx);
+-	inode_unlock(vol->quota_q_ino);
+-	/*
+-	 * We set the flag so we do not try to mark the quotas out of date
+-	 * again on remount.
+-	 */
+-	NVolSetQuotaOutOfDate(vol);
+-done:
+-	ntfs_debug("Done.");
+-	return true;
+-err_out:
+-	if (ictx)
+-		ntfs_index_ctx_put(ictx);
+-	inode_unlock(vol->quota_q_ino);
+-	return false;
+-}
+diff --git a/fs/ntfs/quota.h b/fs/ntfs/quota.h
+deleted file mode 100644
+index 4b7322661a32..000000000000
+--- a/fs/ntfs/quota.h
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/*
+- * Defines for NTFS kernel quota ($Quota) handling.
+- *
+- * Copyright (c) 2004 Anton Altaparmakov
+- */
+-
+-#ifndef _LINUX_NTFS_QUOTA_H
+-#define _LINUX_NTFS_QUOTA_H
+-
+-#include "volume.h"
+-
+-bool ntfs_mark_quotas_out_of_date(struct ntfs_volume *vol);
+-
+-#endif /* _LINUX_NTFS_QUOTA_H */
+diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+index 22dc7865eca7..a518dd1802f3 100644
+--- a/fs/ntfs/super.c
++++ b/fs/ntfs/super.c
+@@ -17,7 +17,6 @@
+ 
+ #include "sysctl.h"
+ #include "logfile.h"
+-#include "quota.h"
+ #include "index.h"
+ #include "ntfs.h"
+ #include "ea.h"
+@@ -240,8 +239,7 @@ static int ntfs_reconfigure(struct fs_context *fc)
+ 	 * flags are set.  Also, empty the logfile journal as it would become
+ 	 * stale as soon as something is written to the volume and mark the
+ 	 * volume dirty so that chkdsk is run if the volume is not umounted
+-	 * cleanly.  Finally, mark the quotas out of date so Windows rescans
+-	 * the volume on boot and updates them.
++	 * cleanly.
+ 	 *
+ 	 * When remounting read-only, mark the volume clean if no volume errors
+ 	 * have occurred.
+@@ -274,12 +272,6 @@ static int ntfs_reconfigure(struct fs_context *fc)
+ 			NVolSetErrors(vol);
+ 			return -EROFS;
+ 		}
+-		if (!ntfs_mark_quotas_out_of_date(vol)) {
+-			ntfs_error(sb, "Failed to mark quotas out of date%s",
+-					es);
+-			NVolSetErrors(vol);
+-			return -EROFS;
+-		}
+ 	} else if (!sb_rdonly(sb) && (fc->sb_flags & SB_RDONLY)) {
+ 		/* Remounting read-only. */
+ 		if (!NVolErrors(vol)) {
+@@ -1154,73 +1146,6 @@ static int check_windows_hibernation_status(struct ntfs_volume *vol)
+ 	return ret;
+ }
+ 
+-/*
+- * load_and_init_quota - load and setup the quota file for a volume if present
+- * @vol:	ntfs super block describing device whose quota file to load
+- *
+- * Return 'true' on success or 'false' on error.  If $Quota is not present, we
+- * leave vol->quota_ino as NULL and return success.
+- */
+-static bool load_and_init_quota(struct ntfs_volume *vol)
+-{
+-	static const __le16 Quota[7] = { cpu_to_le16('$'),
+-			cpu_to_le16('Q'), cpu_to_le16('u'),
+-			cpu_to_le16('o'), cpu_to_le16('t'),
+-			cpu_to_le16('a'), 0 };
+-	static __le16 Q[3] = { cpu_to_le16('$'),
+-			cpu_to_le16('Q'), 0 };
+-	struct ntfs_name *name = NULL;
+-	u64 mref;
+-	struct inode *tmp_ino;
+-
+-	ntfs_debug("Entering.");
+-	/*
+-	 * Find the inode number for the quota file by looking up the filename
+-	 * $Quota in the extended system files directory $Extend.
+-	 */
+-	inode_lock(vol->extend_ino);
+-	mref = ntfs_lookup_inode_by_name(NTFS_I(vol->extend_ino), Quota, 6,
+-			&name);
+-	inode_unlock(vol->extend_ino);
+-	kfree(name);
+-	if (IS_ERR_MREF(mref)) {
+-		/*
+-		 * If the file does not exist, quotas are disabled and have
+-		 * never been enabled on this volume, just return success.
+-		 */
+-		if (MREF_ERR(mref) == -ENOENT) {
+-			ntfs_debug("$Quota not present.  Volume does not have quotas enabled.");
+-			/*
+-			 * No need to try to set quotas out of date if they are
+-			 * not enabled.
+-			 */
+-			NVolSetQuotaOutOfDate(vol);
+-			return true;
+-		}
+-		/* A real error occurred. */
+-		ntfs_error(vol->sb, "Failed to find inode number for $Quota.");
+-		return false;
+-	}
+-	/* Get the inode. */
+-	tmp_ino = ntfs_iget(vol->sb, MREF(mref));
+-	if (IS_ERR(tmp_ino)) {
+-		if (!IS_ERR(tmp_ino))
+-			iput(tmp_ino);
+-		ntfs_error(vol->sb, "Failed to load $Quota.");
+-		return false;
+-	}
+-	vol->quota_ino = tmp_ino;
+-	/* Get the $Q index allocation attribute. */
+-	tmp_ino = ntfs_index_iget(vol->quota_ino, Q, 2);
+-	if (IS_ERR(tmp_ino)) {
+-		ntfs_error(vol->sb, "Failed to load $Quota/$Q index.");
+-		return false;
+-	}
+-	vol->quota_q_ino = tmp_ino;
+-	ntfs_debug("Done.");
+-	return true;
+-}
+-
+ /*
+  * load_and_init_attrdef - load the attribute definitions table for a volume
+  * @vol:	ntfs super block describing device whose attrdef to load
+@@ -1638,18 +1563,6 @@ static bool load_system_files(struct ntfs_volume *vol)
+ 		ntfs_error(sb, "Failed to load $Extend.");
+ 		goto iput_sec_err_out;
+ 	}
+-	/* Find the quota file, load it if present, and set it up. */
+-	if (!load_and_init_quota(vol) &&
+-	    vol->on_errors == ON_ERRORS_REMOUNT_RO) {
+-		static const char *es1 = "Failed to load $Quota";
+-		static const char *es2 = ".  Run chkdsk.";
+-
+-		sb->s_flags |= SB_RDONLY;
+-		ntfs_error(sb, "%s.  Mounting read-only%s", es1, es2);
+-		/* This will prevent a read-write remount. */
+-		NVolSetErrors(vol);
+-	}
+-
+ 	return true;
+ 
+ iput_sec_err_out:
+@@ -1747,10 +1660,6 @@ static void ntfs_put_super(struct super_block *sb)
+ 
+ 	/* NTFS 3.0+ specific. */
+ 	if (vol->major_ver >= 3) {
+-		if (vol->quota_q_ino)
+-			ntfs_commit_inode(vol->quota_q_ino);
+-		if (vol->quota_ino)
+-			ntfs_commit_inode(vol->quota_ino);
+ 		if (vol->extend_ino)
+ 			ntfs_commit_inode(vol->extend_ino);
+ 		if (vol->secure_ino)
+@@ -1799,14 +1708,6 @@ static void ntfs_put_super(struct super_block *sb)
+ 
+ 	/* NTFS 3.0+ specific clean up. */
+ 	if (vol->major_ver >= 3) {
+-		if (vol->quota_q_ino) {
+-			iput(vol->quota_q_ino);
+-			vol->quota_q_ino = NULL;
+-		}
+-		if (vol->quota_ino) {
+-			iput(vol->quota_ino);
+-			vol->quota_ino = NULL;
+-		}
+ 		if (vol->extend_ino) {
+ 			iput(vol->extend_ino);
+ 			vol->extend_ino = NULL;
+@@ -2455,14 +2356,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	vol->vol_ino = NULL;
+ 	/* NTFS 3.0+ specific clean up. */
+ 	if (vol->major_ver >= 3) {
+-		if (vol->quota_q_ino) {
+-			iput(vol->quota_q_ino);
+-			vol->quota_q_ino = NULL;
+-		}
+-		if (vol->quota_ino) {
+-			iput(vol->quota_ino);
+-			vol->quota_ino = NULL;
+-		}
+ 		if (vol->extend_ino) {
+ 			iput(vol->extend_ino);
+ 			vol->extend_ino = NULL;
+diff --git a/fs/ntfs/volume.h b/fs/ntfs/volume.h
+index af41427ec622..e13e1423b2a9 100644
+--- a/fs/ntfs/volume.h
++++ b/fs/ntfs/volume.h
+@@ -76,8 +76,6 @@
+  * @root_ino: The VFS inode of the root directory.
+  * @secure_ino: The VFS inode of $Secure (NTFS3.0+ only, otherwise NULL).
+  * @extend_ino: The VFS inode of $Extend (NTFS3.0+ only, otherwise NULL).
+- * @quota_ino: The VFS inode of $Quota.
+- * @quota_q_ino: Attribute inode for $Quota/$Q.
+  * @nls_map: NLS (National Language Support) table.
+  * @nls_utf8: NLS table for UTF-8.
+  * @free_waitq: Wait queue for threads waiting for free clusters or MFT records.
+@@ -141,8 +139,6 @@ struct ntfs_volume {
+ 	struct inode *root_ino;
+ 	struct inode *secure_ino;
+ 	struct inode *extend_ino;
+-	struct inode *quota_ino;
+-	struct inode *quota_q_ino;
+ 	struct nls_table *nls_map;
+ 	bool nls_utf8;
+ 	wait_queue_head_t free_waitq;
+@@ -165,7 +161,6 @@ struct ntfs_volume {
+  *				Otherwise be case insensitive but still
+  *				create file names in POSIX namespace.
+  * NV_LogFileEmpty		LogFile journal is empty.
+- * NV_QuotaOutOfDate		Quota is out of date.
+  * NV_UsnJrnlStamped		UsnJrnl has been stamped.
+  * NV_ReadOnly			Volume is mounted read-only.
+  * NV_Compression		Volume supports compression.
+@@ -186,7 +181,6 @@ enum {
+ 	NV_ShowSystemFiles,
+ 	NV_CaseSensitive,
+ 	NV_LogFileEmpty,
+-	NV_QuotaOutOfDate,
+ 	NV_UsnJrnlStamped,
+ 	NV_ReadOnly,
+ 	NV_Compression,
+@@ -223,7 +217,6 @@ DEFINE_NVOL_BIT_OPS(Errors)
+ DEFINE_NVOL_BIT_OPS(ShowSystemFiles)
+ DEFINE_NVOL_BIT_OPS(CaseSensitive)
+ DEFINE_NVOL_BIT_OPS(LogFileEmpty)
+-DEFINE_NVOL_BIT_OPS(QuotaOutOfDate)
+ DEFINE_NVOL_BIT_OPS(UsnJrnlStamped)
+ DEFINE_NVOL_BIT_OPS(ReadOnly)
+ DEFINE_NVOL_BIT_OPS(Compression)
 
-The original code used MAP_PRIVATE, but I agree that MAP_SHARED works.
-Will change it.
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+-- 
+2.43.0
 
->
->
->>
->>  	unlink(finfo.path);  /* Cleanup from previous failed tests */
->>  	printf("Creating %s for collapse%s...", finfo.path,
->> @@ -399,14 +404,15 @@ static void *file_setup_area(int nr_hpages)
->>  	munmap(p, size);
->>  	success("OK");
->>
->> -	printf("Opening %s read only for collapse...", finfo.path);
->> -	finfo.fd =3D open(finfo.path, O_RDONLY, 777);
->> +	printf("Opening %s %s for collapse...", finfo.path,
->> +	       read_only ? "read only" : "read-write");
->
-> "read-only" ?
->
->> +	finfo.fd =3D open(finfo.path, open_opt, 777);
->>  	if (finfo.fd < 0) {
->>  		perror("open()");
->>  		exit(EXIT_FAILURE);
->>  	}
->> -	p =3D mmap(BASE_ADDR, size, PROT_READ,
->> -		 MAP_PRIVATE, finfo.fd, 0);
->> +	p =3D mmap(BASE_ADDR, size, mmap_prot,
->> +		 mmap_opt, finfo.fd, 0);
->
-> While at it, can fit that into a single line.
->
->>  	if (p =3D=3D MAP_FAILED || p !=3D BASE_ADDR) {
->>  		perror("mmap()");
->>  		exit(EXIT_FAILURE);
->> @@ -418,6 +424,16 @@ static void *file_setup_area(int nr_hpages)
->>  	return p;
->>  }
->>
->> +static void *file_setup_read_only_area(int nr_hpages)
->> +{
->> +	return file_setup_area_common(nr_hpages, /* read_only=3D */ true);
->> +}
->> +
->> +static void *file_setup_read_write_area(int nr_hpages)
->> +{
->> +	return file_setup_area_common(nr_hpages, /* read_only=3D */ false);
->> +}
->> +
->>  static void file_cleanup_area(void *p, unsigned long size)
->>  {
->>  	munmap(p, size);
->> @@ -425,14 +441,25 @@ static void file_cleanup_area(void *p, unsigned =
-long size)
->>  	unlink(finfo.path);
->>  }
->>
->> -static void file_fault(void *p, unsigned long start, unsigned long en=
-d)
->> +static void file_fault_common(void *p, unsigned long start, unsigned =
-long end,
->> +		int madv_ops)
->>  {
->> -	if (madvise(((char *)p) + start, end - start, MADV_POPULATE_READ)) {=
-
->> +	if (madvise(((char *)p) + start, end - start, madv_ops)) {
->>  		perror("madvise(MADV_POPULATE_READ");
->>  		exit(EXIT_FAILURE);
->>  	}
->>  }
->>
->> +static void file_fault_read(void *p, unsigned long start, unsigned lo=
-ng end)
->> +{
->> +	file_fault_common(p, start, end, MADV_POPULATE_READ);
->
-> Do we really want file_fault_common()? I'd say, just inline it. In part=
-icular
-> avoids checking the madv_ops to figure out the error message ...
->
->> +}
->> +
->> +static void file_fault_write(void *p, unsigned long start, unsigned l=
-ong end)
->> +{
->> +	file_fault_common(p, start, end, MADV_POPULATE_WRITE);
->> +}
->> +
->>  static bool file_check_huge(void *addr, int nr_hpages)
->>  {
->>  	switch (finfo.type) {
->> @@ -488,10 +515,18 @@ static struct mem_ops __anon_ops =3D {
->>  	.name =3D "anon",
->>  };
->
-> [...]
->
->>  };
->>
->> +static bool is_tmpfs(struct mem_ops *ops)
->> +{
->> +	return (ops =3D=3D &__read_only_file_ops ||
->> +		ops =3D=3D &__read_write_file_ops) &&
->
-> Can't this fit into two lines?
->
->> +	       finfo.type =3D=3D VMA_SHMEM;
->> +}
->> +
->> +static bool is_anon(struct mem_ops *ops)
->> +{
->> +	return ops =3D=3D &__anon_ops;
->> +}
->> +
->>  static void __madvise_collapse(const char *msg, char *p, int nr_hpage=
-s,
->>  			       struct mem_ops *ops, bool expect)
->>  {
->
->> -
->>  static void alloc_at_fault(void)
->>  {
->>  	struct thp_settings settings =3D *thp_current_settings();
->> @@ -1097,8 +1142,8 @@ static void usage(void)
->>  	fprintf(stderr, "\t<context>\t: [all|khugepaged|madvise]\n");
->>  	fprintf(stderr, "\t<mem_type>\t: [all|anon|file|shmem]\n");
->>  	fprintf(stderr, "\n\t\"file,all\" mem_type requires [dir] argument\n=
-");
->> -	fprintf(stderr, "\n\t\"file,all\" mem_type requires kernel built wit=
-h\n");
->> -	fprintf(stderr,	"\tCONFIG_READ_ONLY_THP_FOR_FS=3Dy\n");
->> +	fprintf(stderr, "\n\t\"file,all\" mem_type requires a file system\n"=
-);
->> +	fprintf(stderr,	"\twith large folio support (order >=3D PMD order)\n=
-");
->
-> "with PMD-sized large folio support"?
->
->>  	fprintf(stderr, "\n\tif [dir] is a (sub)directory of a tmpfs mount, =
-tmpfs must be\n");
->>  	fprintf(stderr,	"\tmounted with huge=3Dadvise option for khugepaged =
-tests to work\n");
->>  	fprintf(stderr,	"\n\tSupported Options:\n");
->> @@ -1154,20 +1199,22 @@ static void parse_test_type(int argc, char **a=
-rgv)
->>  		usage();
-
-Ack on all above.
-
-
-Best Regards,
-Yan, Zi
