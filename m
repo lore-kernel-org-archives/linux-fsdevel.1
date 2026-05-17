@@ -1,89 +1,98 @@
-Received: from mail-01.1984.is (mail-01.1984.is [185.112.145.69])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188A23B6368;
-	Sun, 17 May 2026 14:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.112.145.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2019C280037
+	for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 17:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779027909; cv=none; b=DqukRaqBGQihyyKQCs1mpIOefDINcHgGBq838eymdRWEhhXH/22HZmM44GpaOOf5xlH3ompc/v9H34U2sMwSgUNlmT/ocSAZdxdBba4NBJPIMnHNqgXEL6eXrwVUGIWK9v2HC8qSiCoktBVNZBTNjKK8Kha7fHRDkmXV5hPEYwk=
+	t=1779037309; cv=none; b=cuA4SG1sxJWfGScaeNkUxYGvIrCYFl9CPAUhF1NIK9yy86MFdpfnUA7AhCy0Hr3loDpipMeRttvlE/ywkkix4734gf79gpRBUigvwFtlKFLIt4ThLir1DWjD56KzwGtIHp1xQ+2KkEeiLgNPPmyJzVwHY+iLKRj/vD6LIhgUaL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779027909; c=relaxed/simple;
-	bh=U+oix9J6mb/0JFUGhMT+y34iygXFcWRO7nG/mfLZWiI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:
-	 Content-Type; b=SyXORkFtcq42y/C2la/LPNh8vvP53DYY7Si7Q1DA4pWnrU05d+nR1rtgs+NmHKrdZ9P0ijPEDBPItggxrf/LaUl2RqaKP6egjgYnpbeZqVQmLQ/j7ITCZk5PooGdRpMroktw4e4wvu/q1zYuw91OChFVO8ehQiEKY71yuxM5Wdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=hkitd4fd; arc=none smtp.client-ip=185.112.145.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkoc.com
+	s=arc-20240116; t=1779037309; c=relaxed/simple;
+	bh=NX9sxun1XImawaW3HNJPif9/m7BqzSn01p3yn71f0CI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SXYP3kupxFaoWLWNuXHDHeq3ONQ23DWSXNEmVvcESmyY4mqGoLe+S6oBe6Bx2KEr/rc/0+U5fhb613CsyJHFf5cPrEH0UnnykZ5OqJlykU+QQVn1dEo0oDp3UIyAuGcAcWZdjfxv/QrhD4tqoTAghFuCjCghh5XHGPW23LFxCx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=WDtAkJ3v; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="hkitd4fd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=berkoc.com;
-	s=1984; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
-	In-Reply-To:Subject:Cc:To:From:Date:Sender:Reply-To:MIME-Version:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=U+oix9J6mb/0JFUGhMT+y34iygXFcWRO7nG/mfLZWiI=; b=hkitd4fdK0QwXn4M4Ufx6FP6p2
-	So+kOfeY+7k4DQ+en/TKZRSb+WCtIwMm5uHJ2YEue9gxm5I5c12X2d6UcaGBUPIpme97oVAJkxcTa
-	bbWAcC5lPUPBs260GrNtKQZu5+LdRQIJQ0TEpj/ZQQND0n2juylCjmu0TeZPBKQixGH9LFT4gtg1N
-	sTE172j2FJ9Ju6VZb9DLd1A26erIeYtjpvk2ExqOeeVeFgEsTTmLZPle0QrNCX1+L2H3+tNjoT99x
-	c7sTboL2CeiAsqs2Ip2m6IpsYfoQD9WHRUT/iubznpk1rVjLQ9f0wvLUKB+SC7mR0/ar1HwzhWKsZ
-	LMKPoWnA==;
-Received: from localhost
-	by mail-01.1984.is with utf8esmtp (Exim 4.96)
-	(envelope-from <me@berkoc.com>)
-	id 1wOcQH-00GCAQ-2q;
-	Sun, 17 May 2026 14:24:54 +0000
-Date: Sun, 17 May 2026 16:24:48 +0200
-From: Berkant Koc <me@berkoc.com>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
- Greg KH <gregkh@linuxfoundation.org>,
- security@kernel.org,
- Joanne Koong <joannelkoong@gmail.com>,
- fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] fuse: io-uring: clear ent->fuse_req in commit_fetch error path
-In-Reply-To: <3f1567cf-218e-405b-be7f-e9e9c44205d6@bsbernd.com>
-References: <20260517-fuse-uaf-cover@berkoc.com>
- <20260517-fuse-uaf-patch1@berkoc.com>
- <3f1567cf-218e-405b-be7f-e9e9c44205d6@bsbernd.com>
-Message-ID: <20260517-fuse-uaf-patch1-withdraw@berkoc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -0.0 (/)
-X-Authenticated-User: me@berkoc.com
-X-Sender-Address: me@berkoc.com
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="WDtAkJ3v"
+X-KPN-MessageId: 10f6524d-5212-11f1-8ff5-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 10f6524d-5212-11f1-8ff5-005056999439;
+	Sun, 17 May 2026 19:01:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=ddj1lfdufowCrUnJjx1R0uoyRGQWv1F2QGbinrCyE+8=;
+	b=WDtAkJ3vUvVzP07rhnYb7PeUTd1Hefl7GYr/D8hRj5fBKN0Eqa70JkciV2ehjjRIGE6IdD228pUiw
+	 afSh5M6yZJtTgTY9OrH6NGvjg4QlxX7CqNBK7XV4Rr2nIY62ZzOkE0osNqOQFi8ReOhicSa998BCRc
+	 9xjmufGvT5m+XSEvdJj1rJgey/lsPQjfniPOhK0puRKn/pzkf65b3SVjsMfYQjlym/5fE7BUmoTcMe
+	 KT7bEctt11mRnEo05rrsu65Robrek3J2XyRp0BfaQohjOESqBT9Gbhjvzymsld8snMmPG2FmX9bdAX
+	 +Uc8mnTdRbAqAjTTMSmBsfHxsg2HNlQ==
+X-KPN-MID: 33|lLROOmM72CnLS70l6Z8OowqRjHlpI9YplwGf2UoQQLeBZJo2GDobZCbB1X5TK2s
+ VpIiU54VuLRhZJkakRzzqj8hOUyrocmMCKoYIUuA8tFg=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|XuNk1UKl5nzZtJqejfO5DPIH6Hty3P29vTXRJ233QdKWQpIc0pcNY7d6XPmFx0g
+ G7qN3lrArbNcPFWurDD4oPA==
+Received: from daedalus.home (unknown [178.227.141.161])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 0ed154c3-5212-11f1-abb2-00505699b758;
+	Sun, 17 May 2026 19:01:37 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Aleksa Sarai <cyphar@cyphar.com>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	cmirabil@redhat.com
+Subject: [RFC PATCH v3 0/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Date: Sun, 17 May 2026 19:02:42 +0200
+Message-ID: <20260517170244.1832119-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On 2026-05-17 16:11, Bernd Schubert wrote:
-> We already had a security report for that on Friday [...] I had
-> already replied to Zhenghang on Friday, I don't think it is enough.
-> [...] valid all over the copy operation (fuse_uring_prepare_send())
+This series implements new semantics for the O_CREAT|O_DIRECTORY flag
+combination for open*(2): perform a mkdir and open the resulting
+directory, and return a pinning fd (which mkdir does not).
 
-Thanks for the context. P1 is a duplicate of Zhenghang's Friday report,
-please consider it withdrawn.
+Feedback on the v2 rfc of this patch was to not introduce a new syscall
+(mkdirat2) but implement this functionality as O_CREAT|O_DIRECTORY in
+open*(2).
 
-You are right that clearing ent->fuse_req only in the commit_fetch error
-path is not sufficient. The same window is reachable across the whole
-copy path in fuse_uring_prepare_send(), so a single-point clear leaves
-the race open on the other exits. I will not push a v2 for this one and
-leave the scope call to you.
+Two comments from me upfront:
 
-P2 ([PATCH 2/2] serialize ring teardown and per-ent setup against
-ent->state writers) is a separate path: ent->state being written without
-the queue lock while teardown frees the ring. If that overlaps with what
-you are looking at today, I will hold off on P2 as well. If it is out of
-scope for your work, a short note is enough and I will keep tracking it
-independently.
+- This patch just EINVAL bans O_CREAT|O_DIRECTORY for filesystems that
+  define atomic_open(). I figure it is better to (dis)allow on a fs per
+  fs basis. So feedback per filesystem on what is the appropriate course
+  of action on receiving O_CREAT|O_DIRECTORY would be very useful.
+- If we create a regular file with mknod, before creation
+  security_path_mknod() is called, and after creation
+  security_path_post_mknod(). If we create a regular file using O_CREAT
+  (and this is also pre-patch) only security_path_mknod() is called. Is
+  this the correct behaviour?
 
-KASAN config and the repro harness (qemu + libfuse uring example with
-abort-on-mount) are set up here, happy to test your fix once it is on
-the list.
+Jori Koolstra (2):
+  vfs: add O_CREAT|O_DIRECTORY to open*(2)
+  selftest: add tests for open*(O_CREAT|O_DIRECTORY)
 
-Thanks,
-Berkant
+ fs/namei.c                                    | 186 +++++++++++-------
+ fs/open.c                                     |  23 +--
+ include/uapi/asm-generic/fcntl.h              |   2 +
+ .../testing/selftests/filesystems/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/Makefile  |   4 +-
+ tools/testing/selftests/filesystems/fclog.c   |   1 +
+ .../filesystems/open_o_creat_o_directory.c    | 147 ++++++++++++++
+ 7 files changed, 283 insertions(+), 81 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_directory.c
+
+-- 
+2.54.0
+
