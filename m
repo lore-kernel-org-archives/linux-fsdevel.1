@@ -1,38 +1,88 @@
-Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A314D2E1F06;
-	Sun, 17 May 2026 08:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77782E091B
+	for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 09:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779005212; cv=none; b=EDFoUPjIUtaqkXYgYRI76LuRXFCPigl8dhcRbPGGDc1NO9ZO/proyMgKydNk/1Q0VVQTT9k6f2BNvTSp1xFjle/H4wOVrzLjCFUZi/Jf6E6EUGRw/OGjxBNlrYqPgfkZNiOtlja3NZYDaLpAPMpcu1cJoSiyftr2RARPzbFj2BA=
+	t=1779008497; cv=none; b=YTDvhYHli6qB7tSgB+utuolUFqevMb2x5K46g7mHEV00fzKnv/k4iOino6SPtBeTuvBjn2Ofk8/cWLRD3JbSUaslk1MBa2UD3Qifu1t2HgP84WQ85r9ekq80wg4u5BvjmwFF6C6iUE8D9xfmRLta3m0eS2HWt7HR6GYwo+Qz+hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779005212; c=relaxed/simple;
-	bh=uhTrkKL4IJufye3y2imoYk/TBVB6PtQaTVwPh+9QMB8=;
+	s=arc-20240116; t=1779008497; c=relaxed/simple;
+	bh=orpVrEDVEfcVuBSm8rNitoNr+TVXqnYtkBQ9Yz+ldk8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xn1LhfR0yl0arKsuAaDQJ9Q49uV4m372tdWBOC/9ldTvin1rqr9NrY5wAHY/z0oMG5uV8WFa3kJpq/h+dVhX4s0K0yl1NHJJ4sWGn6KP0USbJ2ev0CykVtZjVh++NMcek3yr9jSX/+GTWy7xaFLsL7PrG5be6PUqvMHJ42/Na60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (075-132-067-156.ip-addr.inexio.net [156.67.132.75])
-	by smtp03-ext2.udag.de (Postfix) with ESMTPA id 4B7F9E0055;
-	Sun, 17 May 2026 09:57:42 +0200 (CEST)
-Authentication-Results: smtp03-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Sun, 17 May 2026 09:57:41 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=D65RO1yqqe5eN2X4qaqRHpwFceKRoooiCFdAfB4Ii3m1x3tO5lIly51O0YnbcD+/OlCslJQp+5foU7LdNSwCceyO0lbE8pG8mbGHIkBY8ZJY7KJFtoo6Iza2r0W9xQvKQt8bkuOZ3yPuol25IjInKu7w2cSd9LAamMq48fhIa6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IWuZ9Xp/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=x2ARWsxV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VtCVOWHt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oJ//3b3p; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IWuZ9Xp/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x2ARWsxV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VtCVOWHt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oJ//3b3p"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 006496A815;
+	Sun, 17 May 2026 09:01:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779008494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W5aby9ZwmKZPtiMHVFEb2wDmgq8fqEOg9pkZ9u1EhJM=;
+	b=IWuZ9Xp/f6xDBn7X9SLDB1EXwr3GdWXxS96ZTPbApZmQE0DYGFEwlMF5fLrHQXrmT6HoQ+
+	QjxOLcjrqKc1Gr9Bzct6/MgZYRnMoplvf4Ilzq5+zFqwBqGorRubfA13kctg2AIM6MuNk2
+	aCrZ+tZWV0OFRJcJkRREMU5xm+5sKds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779008494;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W5aby9ZwmKZPtiMHVFEb2wDmgq8fqEOg9pkZ9u1EhJM=;
+	b=x2ARWsxVZy34NTtKOHl7riHkb3hLAoNosfxwL9/MP4BNVQVv7UGtr9vrQ7o17vk/2E8yTr
+	0muntm+tAtIITPDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779008493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W5aby9ZwmKZPtiMHVFEb2wDmgq8fqEOg9pkZ9u1EhJM=;
+	b=VtCVOWHtiJCV8cgxqDBVZk5zp5a/qbIuczEeFfaIMyMgD9dVGA5sg3BuoevATGv05ZFneD
+	S64EK0MCGrgTJ8LEW2Xsk3edZSglP/vWwYHGELbzBHGbjzyMCFtQIdutYXsYXoMVcmBSNP
+	RqaQMdEfl37MJHKevkq39BbQKVAC1Fc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779008493;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W5aby9ZwmKZPtiMHVFEb2wDmgq8fqEOg9pkZ9u1EhJM=;
+	b=oJ//3b3pnchq4Yy/Pg0zF2OPn/W8actU/4Oi+SFQo+qFCiL0oKtjZQgt4tQHfoPB4CjgeD
+	390jW4t3lktHx3DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A6E9593A8;
+	Sun, 17 May 2026 09:01:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gBn0CeyDCWo/FAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Sun, 17 May 2026 09:01:32 +0000
+Date: Sun, 17 May 2026 10:01:30 +0100
+From: Pedro Falcato <pfalcato@suse.de>
 To: Matthew Wilcox <willy@infradead.org>
-Cc: Horst Birthelmer <horst@birthelmer.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: [PATCH v2] dcache: add fs.dentry-limit sysctl with
- negative-first reaper
-Message-ID: <aglh7SrXWbYgD3nA@fedora.fritz.box>
-References: <20260516-limit-dentries-cache-v2-1-c733a78e603b@ddn.com>
- <agj5JkPZ7eNbFueR@casper.infradead.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>
+Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
+ read-only files
+Message-ID: <agmDiAY-mmlvjX0m@pedro-suse.lan>
+References: <20260516182126.530498-1-pfalcato@suse.de>
+ <agj4mXKRVW44ZJ18@casper.infradead.org>
+ <agkRpj4oU8TPgmTS@pedro-suse.lan>
+ <agkXHu_ON_KyWtvP@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -41,87 +91,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <agj5JkPZ7eNbFueR@casper.infradead.org>
+In-Reply-To: <agkXHu_ON_KyWtvP@casper.infradead.org>
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,vger.kernel.org,kvack.org,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,pedro-suse.lan:mid]
+X-Spam-Level: 
 
-On Sun, May 17, 2026 at 12:09:26AM +0100, Matthew Wilcox wrote:
-> On Sat, May 16, 2026 at 04:52:54PM +0200, Horst Birthelmer wrote:
-> > There was a discussion at LSFMM about servers with too many cached
-> > negative dentries.
-> > That gave me the idea to keep the dentries in general limited
-> > if the system administrator needs it to.
+On Sun, May 17, 2026 at 02:17:18AM +0100, Matthew Wilcox wrote:
+> On Sun, May 17, 2026 at 01:59:41AM +0100, Pedro Falcato wrote:
+> > On Sun, May 17, 2026 at 12:07:05AM +0100, Matthew Wilcox wrote:
+> > > On Sat, May 16, 2026 at 07:21:26PM +0100, Pedro Falcato wrote:
+> > > > +static bool may_write_to_page(struct page *page, struct address_space **plast)
+> > > > +{
+> > > > +	struct folio *folio = page_folio(page);
+> > > > +	struct address_space *mapping, *last = *plast;
+> > > > +	struct inode *inode;
+> > > > +	bool may = false;
+> > > > +
+> > > > +	if (!READ_ONCE(sysctl_splice_needs_write))
+> > > > +		return true;
+> > > > +	/*
+> > > > +	 * Always fine to write to anon folios.
+> > > > +	 */
+> > > > +	if (folio_test_anon(folio))
+> > > > +		return true;
+> > > 
+> > > What about KSM?  It's not something we've seen attacked yet, but it'd be
+> > > pretty nasty to be able to change a KSM page in another process.
+> > 
+> > It's my understanding that only anon pages can be KSM'd, and KSM still keeps
+> > the FOLIO_MAPPING_ANON bit set. So folio_test_anon() should still test true
+> > for those.
 > 
-> I feel you should link to the dozens of previous attempts at this kind
-> of thing to show that you're aware that this has been tried before and
-> you're doing something meaningfully different.
-> 
+> I think you misunderstood what I meant.  If we have a buggy user which
+> can write to read-only file pages, then it should also be prevented from
+> writing to KSM pages.
 
-Hi Matthew,
+Hmm, I see. Are you suggesting we unshare KSM pages here? Or just straight
+up reject them?
 
-thanks for looking at this.
+Rejecting would be relatively sane if only we had access to the VMA here
+(in normal GUP), testing on folio_test_ksm() is less robust :/
 
-- The first limitation of dentries I could find was a patch for Linux 2.6.7
-which introduced the vfs_cache_pressure option. [1]
-This is still in use today but will not limit dentries as such just the
-relation of where to release the pressure but you have to get into a pressure
-situation for it to actually matter.
-For my case when we get into pressure the fuse server could already be in heavy
-trouble (we have had OOM events for the cgroup due to this)
-
-- in 2011 there was the attempt to limit dentries by container [2] [3]
-Here Dave Chinner made the point that the dentry cache is usually not the problem
-but the inode cache, which is exactly what we see as well, since the fuse server
-has to keep a lot of private data for every cached inode. However we have the
-information for LRU only for the dentries, so it is the best way we can keep this
-under control, limit the number of dentries to an acceptable amounr.
-
-- there was an entire series by Waiman Long starting at around 2017 [4] 
-Here even you were part of the discussion, and I think the ideas are very similar,
-I'm just more worried about unused dentries (I just prefer negative ones on
-reclaim) There are several of different attempts in this context.
-
-- then there was tbe one I mentioned in the cover letter [5]
-which was trying to modify the caching to limit the excessing traversing when
-there are so many entries.
-I'm trying to save the same symptoms but not with that approach at all. I don't
-worry at all about the chache structures.
-
-- there was [6] by Gautham Ananthakrishna
-Here the focus was on the memory used for the dentries. This is none of my concern
-in this patch. I'm trying to just not keep dentries and indirectly inodes 
-unnecessarily in the kernel and as a consequence in the fuse server in user space.
-
-- currently we have the possibility via /proc/sys/fs/dentry-negative to disable
-negative dentries completely
-I am completely agnostic to this. If an admin disables negative dentries I try to
-free some by freeing unused ones and make the limit, if not this is no problem.
-
-I'm sure I have probably missed some where the limitation of dentries was a 
-secodnary effect. I have searched for patches for fs/dcache.c that had anything
-to do with dentries.
-
---
-As a conclusion, I think I have an uncommon perspective on the cache entries
-since I don't usually work on vfs but argue from the perspective of a fuse server
-Where the kernel makes us waste resources. This hurts way more in the FUSE context
-than in a 'normal' file system.
-I have taken the look at the dentry cache just because people told me that this
-has to be solved in the vfs (and I agree). I actually have a somewhat hacky patch
-to do this from fuse and only for the fuse sb.
-
-This patch will start a worker when we pass the set limit and free the negative
-dentries then continue on with the unused dentries based on the LRU data.
-
-What I'm trying to achieve is keep only actually used entries in if we are over
-an arbitrary limit, and trying not to mess too much with the work that is done
-by the kernel. Then there is the point that shrink_dentry_list() is only there
-since 2019, so older approaches did not have tthe possibility.
-
-The short version: This is noothing new, just a new combination of already existing
-solutions, that could be useful.
-
-[1] https://www.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.7/2.6.7-mm1/broken-out/vfs-shrinkage-tuning.patch
-[2] https://lwn.net/Articles/441164/
-[3] https://lore.kernel.org/all/4DBFF1AD.90303@parallels.com/
-[4] https://lore.kernel.org/all/1500298773-7510-1-git-send-email-longman@redhat.com/
-[5] https://lore.kernel.org/linux-fsdevel/20260331012925.74840-1-raven@themaw.net/
-[6] https://lore.kernel.org/all/1611235185-1685-1-git-send-email-gautham.ananthakrishna@oracle.com/
+-- 
+Pedro
