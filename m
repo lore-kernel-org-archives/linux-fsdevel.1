@@ -1,479 +1,141 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2913112C0;
-	Sun, 17 May 2026 23:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E06B20E702
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 01:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779062118; cv=none; b=CijxVqQ+9OvVb3usSIZtha+/WG0BKdBNgGHMQMQL8ecS537a9Yj4UaBagRTgk8x306a999YPzv23faku453evVdKEtqrBJ3emmoxabFbJOysvrvbNcvbdVzIPUXQC26IZZU0/U8xkzs1gTEyxuR1jyyfNbvcbnqeVMJbFDpgSVc=
+	t=1779067715; cv=none; b=P14OgSEabez89vbc+F+yxTgpMOIL7ZDYl/6//wLZduMToGo/xHrkiuHcTv0gThOcGD+KFDGo8n2QD7aPMc31orffA3hiZgQbDY8AyYnv2kojCorVdrpTPwa+twfm1YqXCP+pC3I4HEUWj95JWZC76MQ4L7jGsTfDkKqcnbBdv1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779062118; c=relaxed/simple;
-	bh=CzXUiEvLMBWsLyxtLgr9tpYEBtT+S3JnPmrwJawVRd0=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=D+HVGT717G7kVcfA4IgxU38kapaNw7HlA60HYWGHE4amh6ceMmG6v6wA8H3SVBod2KI5j1TMtRjqFdO3MY/a3FDug005x7TSehftxNgs5H0wCRD83cOnV40bh2iRIF2Frn2TQiW1LpqnrYx0kkLtfQZTitkveFmKM3aRj8Ke3EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=cyNOXOyQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WV4rypcJ; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="cyNOXOyQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WV4rypcJ"
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 840441400106;
-	Sun, 17 May 2026 19:55:14 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Sun, 17 May 2026 19:55:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1779062114; x=1779148514; bh=NhX75Q7H7a6IJGPuAKBEee/fROmmj9KEEje
-	uJnSfFe0=; b=cyNOXOyQiox2UoT3DFmOl4+PsknDlCAtVs5vm44nH+5kWlXXCEW
-	ymB0FKCX2H5oXSDDuAhgvBgMBDpxY+NDENqWwCJ6RADE4J9SQlB/+IaCktXsxbzO
-	vEdqyWblhjU5E9uKbPiph2HOeAX85SrdcEOhkqRQMcy3hyh/VAzvBcMPjDSmnzsN
-	vdu9HcQYWbgffFfYtKqXt+sc485Elvdwxm0pkgIfkvnWTwUVenQ/zIY5GE50xQh4
-	4OCgkxxrZlm00uCJ3lpmNS26MQGwpO6zy/3Kkrvw28b0lQ6B+j3XgP4g/MlTu0Qx
-	8xlJcq0CvixE3EikX9rvsE4Rtb/zou9jv2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779062114; x=
-	1779148514; bh=NhX75Q7H7a6IJGPuAKBEee/fROmmj9KEEjeuJnSfFe0=; b=W
-	V4rypcJziPS5eeS825daugMixS7Z2timjBaogpEh25LRI6uZQzWIwK6ZH5RA//ai
-	HZ/PQBgC3sBGA3bFNG+5VxDxyx2DzYL+EjBDGwc8zVMZjqrP3O3/Bi6N8tKLYuml
-	v7M/2/60oQItlE97/zwjHsCUVYIqb1UaN8qCadKLngrJuOie5V2mwlF23j2d8L60
-	ZHhqmx8HouWtMsfGLbwBinzwqIvCWYGjPxtx79A1vo3tb0SVmyc7WX9X9ruwf3Vq
-	DVtwiBamdHgb37n/Gqn25K8ZwNDqOWsDMfzA84lU8h0hS9Dr0KY1ww6fcMEE+B12
-	hluP/M09fTRc7idbruwNA==
-X-ME-Sender: <xms:YVUKagVLvAvTkta9wvGxU5iTGSnjSN4SvcDc9u9hrFIf_6Q0uhYcFA>
-    <xme:YVUKamKs3NuM3hRf_itnQsK6NMd7tOQnwCeVFC8D3CmdsdDez0PbNpxINEv_6Fxbi
-    TUTw5zt0sJSLNQ2XRVXhUr4UOKx6B-Fy-2KBMTBpQKn8XEtYRg>
-X-ME-Received: <xmr:YVUKajoIuAyjDGq6IEA5vZWWn7mx7p8oKk3_wAGS3Op5gytPiMG0RHZdbdnVxnsoW5yzuuOs5LGQZdcJY1mM_ANe588XK9k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeejfeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epvdeuteelkeejkeevteetvedtkeegleduieeftdeftefgtddtleejgfelgfevffeinecu
-    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
-    rhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhose
-    iivghnihhvrdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehlihhnuhigqdhkvghr
-    nhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhfsh
-    guvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidq
-    ughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshessh
-    iivghrvgguihdrhhhupdhrtghpthhtohepjhgrtghksehsuhhsvgdrtgiipdhrtghpthht
-    oheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepshhkhhgrnheslhhinhhugi
-    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgv
-    lhdrohhrgh
-X-ME-Proxy: <xmx:YVUKalxuNs7lIvcz7zM2-r_nhSEAPDzA4uJpDbE23dAun3_IOzIu0A>
-    <xmx:YVUKavuyvAIhu2PF7hJjGTSINnmG-dDaMJ14mU41DFXveFRN4UZjSQ>
-    <xmx:YVUKam019K4Sfr3ZNrlrgsUPdK26FFMMNqhLFFDfmhGwMWAtAyTiwQ>
-    <xmx:YVUKavDOZil0QGcWgcd25TsuhKxOYBqSIAKw6578NmjeJXCsZlqDiQ>
-    <xmx:YlUKan9suiJN1sVMbuNK3V-FN9bxUJqfoP56q-xx-4Mwabt0dRhxoeFs>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 17 May 2026 19:55:09 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1779067715; c=relaxed/simple;
+	bh=OJPuwcTgG0qAlldJeYbBllV1dKuQNHf7HRiNCFCOTkY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=b9+Qb62lC/SfeOk0Ncth8+F9SfadnLZrgLZaV3bNJgjtvSCuwTAvfm0g7f5S1cGOvnnalfpoxmnRmGlSwQpngdaWWJ/qrqu8ac/T2HTWNrvT7rnefpXDCmZ7RipLcGC7rwOJHpNkzxbVTJcvSf6YzLBghq1RgFErQDvXfl7HiLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-696133ef271so3837342eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 17 May 2026 18:28:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779067713; x=1779672513;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1hZ26CcwKUUZ84CsaR3cg2pmuvgRNhJILqLKOjL1O+s=;
+        b=r22eLJkC6SVcrB3y5AzN0l2unGoTkLb3Mbwr9Odwlvo739OH2BblSkfE1QKXip2YGv
+         ShCTBXH9RqCRpLRZVh94ePzmv31C2iJI8r2myDLpgXoAdwE7WBefaY/YKil+1LfFAFKK
+         I3M3DG/VaVGx6RHfJIlEv/WswUj7nC9gEgxvyu6VXV72yszG4lTsWEKurtcoSjBtEsGV
+         +aT/7VYzf3YGuj3VnIMLn++DtBCHXqsQhFORq3vnslT81kvtrC0pUYtalw4jZVWtCEHD
+         bonYjePCiMvHce7N4iPHBxEWcfMwi/vfayyhZKXfopyQR0xARAFHLxr+SWGUfauK8U5L
+         PTCg==
+X-Forwarded-Encrypted: i=1; AFNElJ+KYBLpb7hv+d400VRgAgKbfZ8LDOZLHTzQ8BcB89r5xCWLj5Ukbu2+bLltFl1P5EM6lbf4xicGj7NVXXPt@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9Sc7tH78N4O5/Ap9kWKReoY0Givg9hxcXDl7aedMP66yfeXV0
+	uiYvOUeP0ck6r/k6z676xR8q9Kh66dbzRt6OKWCpi5UicLjfuVXeNfNckWiM9mJxK6sZYU4eyGx
+	nstJ1NSKZJCDFWL9saJBZ4d0b4/1VO7QIRe+Y0JDa8FuFaP+RnJNSnPyEif4=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Horst Birthelmer" <horst@birthelmer.com>
-Cc: "Miklos Szeredi" <miklos@szeredi.hu>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, "Horst Birthelmer" <hbirthelmer@ddn.com>
-Subject:
- Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first reaper
-In-reply-to: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
-References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
-Date: Mon, 18 May 2026 09:55:05 +1000
-Message-id: <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+X-Received: by 2002:a05:6820:221e:b0:694:8428:dfd8 with SMTP id
+ 006d021491bc7-69c9436b0c7mr7811374eaf.34.1779067713392; Sun, 17 May 2026
+ 18:28:33 -0700 (PDT)
+Date: Sun, 17 May 2026 18:28:33 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a0a6b41.170a0220.1ad1c0.0018.GAE@google.com>
+Subject: [syzbot] [hfs?] WARNING in hfs_put_super
+From: syzbot <syzbot+bd88150de9bd90c582c9@syzkaller.appspotmail.com>
+To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	slava@dubeyko.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 15 May 2026, Horst Birthelmer wrote:
-> From: Horst Birthelmer <hbirthelmer@ddn.com>
->=20
-> The dcache only shrinks under memory pressure, which is rarely reached
-> on machines with ample RAM, so cached negative dentries can accumulate
-> without bound.  Give administrators a soft cap they can set,
-> and a background worker that prefers negative dentries when reclaiming.
->=20
-> Two new sysctls under /proc/sys/fs/:
->=20
->   dentry-limit             -- soft cap on nr_dentry.  0 (default)
->                               disables the feature; behaviour is then
->                               identical to before.
+Hello,
 
-Is a system-wide cap really a suitable tool?  What guidance would you
-give to sysadmins who are considering setting a number?
+syzbot found the following issue on:
 
-Is there a better approach?
+HEAD commit:    e1914add2799 Merge tag 'for-linus' of git://git.kernel.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=100d20c8580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4caf64b1ee83dac0
+dashboard link: https://syzkaller.appspot.com/bug?extid=bd88150de9bd90c582c9
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-According to the email you linked, a problem arises when a directory has
-a great many negative children.  Code which walks the list of children
-(such as fsnotify) while holding a lock can suffer unpredictable delays
-and result in long lock-hold times.  So maybe a limit on negative
-dentries for any parent is what we really want.  That would be clumsy to
-implement I imagine.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-But what if we move dentries to the end of the list when they become
-negative, and to the start of the list when they become positive?  Then
-code which walks the child list could simply abort on the first
-negative.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/42f74029c2c3/disk-e1914add.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ecb718a7baa5/vmlinux-e1914add.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7727a995a7ce/bzImage-e1914add.xz
 
-I doubt that would be quite as easy as it sounds, but it would at least
-be more focused on the observed symptom rather than some whole-system
-number which only vaguely correlates with the observed symptom.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+bd88150de9bd90c582c9@syzkaller.appspotmail.com
 
-Maybe a completely different approach: change children-walking code to
-drop and retake the lock (with appropriate validation) periodically.
-What too would address the specific symptom.
+------------[ cut here ]------------
+!buffer_uptodate(bh)
+WARNING: fs/buffer.c:1087 at mark_buffer_dirty+0x299/0x410 fs/buffer.c:1087, CPU#1: syz-executor/17308
+Modules linked in:
+CPU: 1 UID: 0 PID: 17308 Comm: syz-executor Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+RIP: 0010:mark_buffer_dirty+0x299/0x410 fs/buffer.c:1087
+Code: 4c 89 f7 e8 b9 5c da ff 49 8b 3e be 40 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 b4 63 fb ff e8 ff 1e 6f ff eb 8c e8 f8 1e 6f ff 90 <0f> 0b 90 e9 a5 fd ff ff e8 ea 1e 6f ff 90 0f 0b 90 e9 cf fd ff ff
+RSP: 0018:ffffc900056d7b48 EFLAGS: 00010293
+RAX: ffffffff8256a2d8 RBX: ffff88807795ebc8 RCX: ffff88802633bd80
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
+RBP: 1ffff1100b807c01 R08: ffff88807795ebcf R09: 1ffff1100ef2bd79
+R10: dffffc0000000000 R11: ffffed100ef2bd7a R12: 0000000000000000
+R13: dffffc0000000000 R14: ffffffff82b1d2b0 R15: ffff88805c03e768
+FS:  0000000000000000(0000) GS:ffff88812538d000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7130976286 CR3: 000000009e053000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ hfs_put_super+0x49/0x60 fs/hfs/super.c:52
+ generic_shutdown_super+0x13d/0x2d0 fs/super.c:646
+ kill_block_super+0x44/0x90 fs/super.c:1725
+ hfs_kill_super+0x41/0x50 fs/hfs/super.c:441
+ deactivate_locked_super+0xbc/0x130 fs/super.c:476
+ cleanup_mnt+0x437/0x4d0 fs/namespace.c:1312
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x70f/0x22c0 kernel/exit.c:975
+ do_group_exit+0x21b/0x2d0 kernel/exit.c:1118
+ __do_sys_exit_group kernel/exit.c:1129 [inline]
+ __se_sys_exit_group kernel/exit.c:1127 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1127
+ x64_sys_call+0x221a/0x2240 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f62bb79ce59
+Code: Unable to access opcode bytes at 0x7f62bb79ce2f.
+RSP: 002b:00007fff29fe0d28 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f62bb83222a RCX: 00007f62bb79ce59
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000001
+RBP: 0000000000000002 R08: 0000000000000000 R09: 00007f62bb8321ca
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fff29fe1fe0
+R13: 00007f62bb8321ca R14: 0000555575c494e8 R15: 00007fff29fe30b0
+ </TASK>
 
-Thanks for attempting to resolve this issue, but I'm not convinced that
-you have found a good solution yet.
 
-NeilBrown
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
->   dentry-limit-interval-ms -- pacing for the worker while still over
->                               the cap.  Default 1000, minimum 1.
->=20
-> When the cap is exceeded, a delayed_work runs in two phases:
->=20
->   1. iterate_supers() draining only negative dentries from every LRU.
->      Positive entries are rotated past so the walk makes progress.
->      DCACHE_REFERENCED is ignored here on purpose -- an admin-imposed
->      cap should evict even hot negatives before any positive entry.
->   2. If still over the cap, iterate_supers() again with the same
->      isolate callback the memory-pressure shrinker uses.
->=20
-> Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
-> ---
-> There was a discussion at LSFMM about servers with too many cached
-> negative dentries.
-> That gave me the idea to keep the dentries in general limited
-> if the system administrator needs it to.
->=20
-> This is somewhat related to [1] where it would address the same
-> symptoms but in a more unobtrusive way, by just garbage collecting
-> the negative and then the unused cache entries.
->=20
-> The other effect I have seen regarding this is that FUSE
-> will not forget inodes (no FORGET call to the FUSE server)
-> even after the latest reference has been closed until much later.
->=20
-> In a FUSE server that mirrors the kernel cached inodes in user space
-> because it has to keep a lot of private data for every node
-> this puts an unnecessarry memory strain on that userspace entity
-> especially if the memory is limited for its cgroup.
->=20
-> [1]: https://lore.kernel.org/linux-fsdevel/20260331012925.74840-1-raven@the=
-maw.net/
-> ---
->  Documentation/admin-guide/sysctl/fs.rst |  28 +++++
->  fs/dcache.c                             | 197 ++++++++++++++++++++++++++++=
-++++
->  2 files changed, 225 insertions(+)
->=20
-> diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-=
-guide/sysctl/fs.rst
-> index 9b7f65c3efd8..0229aea45d85 100644
-> --- a/Documentation/admin-guide/sysctl/fs.rst
-> +++ b/Documentation/admin-guide/sysctl/fs.rst
-> @@ -38,6 +38,34 @@ requests.  ``aio-max-nr`` allows you to change the maxim=
-um value
->  ``aio-max-nr`` does not result in the
->  pre-allocation or re-sizing of any kernel data structures.
-> =20
-> +dentry-limit
-> +------------
-> +
-> +Soft cap on the total number of dentries allocated system-wide (i.e. on
-> +``nr_dentry`` from ``dentry-state``).  A value of ``0`` (the default)
-> +disables the feature and the dcache grows or shrinks only under memory
-> +pressure as before.
-> +
-> +When set to a non-zero value, a background worker is woken whenever
-> +the live dentry count exceeds the limit. The worker walks every
-> +superblock's LRU and prefers to evict negative dentries first; if it
-> +cannot get back under the limit using negative entries alone it falls
-> +back to the same LRU policy used by the memory-pressure shrinker.
-> +
-> +The limit is *soft*: allocations never fail because of it, and brief
-> +overshoots while the worker catches up are expected. Set the cap a
-> +comfortable margin above your steady-state working set.
-> +
-> +dentry-limit-interval-ms
-> +------------------------
-> +
-> +How often, in milliseconds, the ``dentry-limit`` worker re-runs while
-> +``nr_dentry`` is still above the cap. Defaults to ``1000`` (one
-> +second); the minimum accepted value is ``1``. Smaller values trim the
-> +cache more aggressively at the cost of more CPU spent walking LRUs;
-> +larger values let temporary spikes ride out before any work is done.
-> +Has no effect when ``dentry-limit`` is ``0``.
-> +
->  dentry-negative
->  ----------------------------
-> =20
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index 2c61aeea41f4..4959d2c011c0 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -144,6 +144,19 @@ static DEFINE_PER_CPU(long, nr_dentry_unused);
->  static DEFINE_PER_CPU(long, nr_dentry_negative);
->  static int dentry_negative_policy;
-> =20
-> +/*
-> + * Soft cap on the total number of dentries. When non-zero and exceeded,
-> + * a background worker prunes unused dentries (preferring negative ones)
-> + * until we are back under the limit. Zero (the default) disables the
-> + * feature entirely; the fast path in __d_alloc() only pays the cost of
-> + * a READ_ONCE and a branch in that case.
-> + */
-> +static unsigned long sysctl_dentry_limit __read_mostly;
-> +static unsigned int sysctl_dentry_limit_interval_ms __read_mostly =3D 1000;
-> +static unsigned long dentry_limit_last_kick;
-> +
-> +static void dentry_limit_kick(void);
-> +
->  #if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
->  /* Statistics gathering. */
->  static struct dentry_stat_t dentry_stat =3D {
-> @@ -199,6 +212,20 @@ static int proc_nr_dentry(const struct ctl_table *tabl=
-e, int write, void *buffer
->  	return proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
->  }
-> =20
-> +/*
-> + * Writing fs.dentry-limit should give prompt feedback to admins
-> + * lowering the cap, so kick the worker on every successful write.
-> + */
-> +static int proc_dentry_limit(const struct ctl_table *table, int write,
-> +			     void *buffer, size_t *lenp, loff_t *ppos)
-> +{
-> +	int ret =3D proc_doulongvec_minmax(table, write, buffer, lenp, ppos);
-> +
-> +	if (write && !ret)
-> +		dentry_limit_kick();
-> +	return ret;
-> +}
-> +
->  static const struct ctl_table fs_dcache_sysctls[] =3D {
->  	{
->  		.procname	=3D "dentry-state",
-> @@ -207,6 +234,21 @@ static const struct ctl_table fs_dcache_sysctls[] =3D {
->  		.mode		=3D 0444,
->  		.proc_handler	=3D proc_nr_dentry,
->  	},
-> +	{
-> +		.procname	=3D "dentry-limit",
-> +		.data		=3D &sysctl_dentry_limit,
-> +		.maxlen		=3D sizeof(sysctl_dentry_limit),
-> +		.mode		=3D 0644,
-> +		.proc_handler	=3D proc_dentry_limit,
-> +	},
-> +	{
-> +		.procname	=3D "dentry-limit-interval-ms",
-> +		.data		=3D &sysctl_dentry_limit_interval_ms,
-> +		.maxlen		=3D sizeof(sysctl_dentry_limit_interval_ms),
-> +		.mode		=3D 0644,
-> +		.proc_handler	=3D proc_douintvec_minmax,
-> +		.extra1		=3D SYSCTL_ONE,
-> +	},
->  	{
->  		.procname	=3D "dentry-negative",
->  		.data		=3D &dentry_negative_policy,
-> @@ -1325,6 +1367,160 @@ static enum lru_status dentry_lru_isolate_shrink(st=
-ruct list_head *item,
->  	return LRU_REMOVED;
->  }
-> =20
-> +#define DENTRY_LIMIT_BATCH	1024UL
-> +
-> +static void dentry_limit_worker_fn(struct work_struct *work);
-> +static DECLARE_DELAYED_WORK(dentry_limit_work, dentry_limit_worker_fn);
-> +
-> +/*
-> + * Variant of dentry_lru_isolate() that only frees negative dentries.
-> + * DCACHE_REFERENCED is intentionally not honoured here: the whole point
-> + * of an admin-imposed cap on negatives is that even frequently-looked-up
-> + * negative entries should be evicted before any positive dentry.
-> + * Positive entries are rotated to the tail so the walk continues to
-> + * make progress without disturbing their LRU position.
-> + */
-> +static enum lru_status dentry_lru_isolate_negative(struct list_head *item,
-> +		struct list_lru_one *lru, void *arg)
-> +{
-> +	struct list_head *freeable =3D arg;
-> +	struct dentry *dentry =3D container_of(item, struct dentry, d_lru);
-> +
-> +	if (!spin_trylock(&dentry->d_lock))
-> +		return LRU_SKIP;
-> +
-> +	/* Same handling as dentry_lru_isolate() for in-use entries. */
-> +	if (dentry->d_lockref.count) {
-> +		d_lru_isolate(lru, dentry);
-> +		spin_unlock(&dentry->d_lock);
-> +		return LRU_REMOVED;
-> +	}
-> +
-> +	if (!d_is_negative(dentry)) {
-> +		spin_unlock(&dentry->d_lock);
-> +		return LRU_ROTATE;
-> +	}
-> +
-> +	d_lru_shrink_move(lru, dentry, freeable);
-> +	spin_unlock(&dentry->d_lock);
-> +	return LRU_REMOVED;
-> +}
-> +
-> +struct dentry_limit_ctx {
-> +	long over;		/* remaining dentries to evict */
-> +	list_lru_walk_cb isolate;
-> +};
-> +
-> +static void dentry_limit_prune_sb(struct super_block *sb, void *arg)
-> +{
-> +	struct dentry_limit_ctx *ctx =3D arg;
-> +	unsigned long walked =3D 0;
-> +	unsigned long budget;
-> +
-> +	if (ctx->over <=3D 0)
-> +		return;
-> +
-> +	/*
-> +	 * Walk up to one full pass of this superblock's LRU, in
-> +	 * DENTRY_LIMIT_BATCH-sized chunks. The loop matters mainly for
-> +	 * phase 1: dentry_lru_isolate_negative() returns LRU_ROTATE for
-> +	 * positive dentries, which still counts against list_lru_walk()'s
-> +	 * nr_to_walk. A single batch can therefore finish having freed
-> +	 * nothing when positives crowd the head of the LRU, and without
-> +	 * the inner loop the worker would have to wait a full
-> +	 * dentry-limit-interval-ms before retrying never reaching the
-> +	 * negatives buried behind a long run of positives.
-> +	 *
-> +	 * The budget is snapshot at entry so a filesystem allocating
-> +	 * dentries faster than we drain them can't keep us spinning here
-> +	 * forever; freshly added dentries are picked up on the next
-> +	 * worker invocation.
-> +	 *
-> +	 * Phase 2 normally exits much sooner: its isolate callback frees
-> +	 * any non-referenced dentry, so ctx->over typically hits zero
-> +	 * inside the first batch. The worst-case over-eviction is one
-> +	 * batch past the cap, which is within the soft semantics of
-> +	 * fs.dentry-limit.
-> +	 */
-> +	budget =3D list_lru_count(&sb->s_dentry_lru);
-> +
-> +	while (ctx->over > 0 && walked < budget) {
-> +		LIST_HEAD(dispose);
-> +		unsigned long nr;
-> +		long freed;
-> +
-> +		nr =3D min(DENTRY_LIMIT_BATCH, budget - walked);
-> +		freed =3D list_lru_walk(&sb->s_dentry_lru, ctx->isolate,
-> +				      &dispose, nr);
-> +		shrink_dentry_list(&dispose);
-> +
-> +		ctx->over -=3D freed;
-> +		walked +=3D nr;
-> +
-> +		cond_resched();
-> +	}
-> +}
-> +
-> +static void dentry_limit_worker_fn(struct work_struct *work)
-> +{
-> +	struct dentry_limit_ctx ctx;
-> +	unsigned long limit =3D READ_ONCE(sysctl_dentry_limit);
-> +	unsigned int ms;
-> +	long nr;
-> +
-> +	if (!limit)
-> +		return;
-> +
-> +	nr =3D get_nr_dentry();
-> +	if (nr <=3D (long)limit)
-> +		return;
-> +
-> +	ctx.over =3D nr - (long)limit;
-> +
-> +	/* Phase 1: drain negative dentries across every superblock. */
-> +	ctx.isolate =3D dentry_lru_isolate_negative;
-> +	iterate_supers(dentry_limit_prune_sb, &ctx);
-> +
-> +	/* Phase 2: still over? Apply the ordinary LRU policy. */
-> +	if (ctx.over > 0) {
-> +		ctx.isolate =3D dentry_lru_isolate;
-> +		iterate_supers(dentry_limit_prune_sb, &ctx);
-> +	}
-> +
-> +	/*
-> +	 * Re-arm while still above the limit. Re-read the sysctls in
-> +	 * case the admin raised the cap or disabled the feature during
-> +	 * the walk.
-> +	 */
-> +	limit =3D READ_ONCE(sysctl_dentry_limit);
-> +	if (!limit || get_nr_dentry() <=3D (long)limit)
-> +		return;
-> +
-> +	ms =3D READ_ONCE(sysctl_dentry_limit_interval_ms);
-> +	queue_delayed_work(system_unbound_wq, &dentry_limit_work,
-> +			   msecs_to_jiffies(ms));
-> +}
-> +
-> +static void dentry_limit_kick(void)
-> +{
-> +	unsigned long limit =3D READ_ONCE(sysctl_dentry_limit);
-> +	unsigned long now;
-> +
-> +	if (!limit)
-> +		return;
-> +	if (delayed_work_pending(&dentry_limit_work))
-> +		return;
-> +
-> +	now =3D jiffies;
-> +	if (time_before(now, READ_ONCE(dentry_limit_last_kick) + HZ / 10))
-> +		return;
-> +	WRITE_ONCE(dentry_limit_last_kick, now);
-> +
-> +	if (get_nr_dentry() <=3D (long)limit)
-> +		return;
-> +
-> +	queue_delayed_work(system_unbound_wq, &dentry_limit_work, 0);
-> +}
-> =20
->  /**
->   * shrink_dcache_sb - shrink dcache for a superblock
-> @@ -1868,6 +2064,7 @@ static struct dentry *__d_alloc(struct super_block *s=
-b, const struct qstr *name)
->  	}
-> =20
->  	this_cpu_inc(nr_dentry);
-> +	dentry_limit_kick();
-> =20
->  	return dentry;
->  }
->=20
-> ---
-> base-commit: 5d6919055dec134de3c40167a490f33c74c12581
-> change-id: 20260513-limit-dentries-cache-63685729672b
->=20
-> Best regards,
-> --=20
-> Horst Birthelmer <hbirthelmer@ddn.com>
->=20
->=20
->=20
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
