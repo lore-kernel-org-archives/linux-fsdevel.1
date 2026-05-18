@@ -1,175 +1,139 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17BA322B87
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 09:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779097942; cv=pass; b=cxDxIdpobhujrzN4XjFFTrv7YpNYzCZcP97ThTbE9TnM8jewwYQlvOvgcWOtG85ADbCdDdj1qkUEwc3ArvWBW/eP3OPoUSR+D5xxKqdD/k6Y7U7YG8P9Je76wv0viSMtgfQmCw0/B58O2q2LOFAXSfLlB9+i2k3Eo27pHRK0dM8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779097942; c=relaxed/simple;
-	bh=KigKW26hzOXOk0DnB5iTtKWzFWSQ3TghZ6TRctLAp5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iPXIeLTSGcIn19NM7Nv01PcAd6t+meA+V9r/RZcCWcTBmYnr+YlrD/jvocE1AEC+erCskeVOEYPbTFeluTYkjVBcpDXpQpglxFWGA+yIgkvYdg1xdzNvbZZWW6KCcVgG4S2ZfoOeae6oe4FgwPyHu/v/PZewzJS83DN+s9kLPJY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G+t4bJdH; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC95325483
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 10:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779099255; cv=none; b=tIi5+J0qgqQnwhPA5t44pdd5OFGnU4P6kjA+kNrGIGlvJ44BBBFLr6eBABR8EO10nvK0mBGZ/ju/XzkKEQ1MFPrjeERyIDzpgNnE8xPznUjsMKYSF1oz5r0ufjCLc4q01DLXvUGXCCVzLLYfUv+LMQXCH7J9xDG9Q8wzlLpy4F4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779099255; c=relaxed/simple;
+	bh=3CuHTJb7a1uf/Vt2GUcQwRyWkRY1v//75zEJ72jrsaY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jAE9mAR8qBQxekIwoyy0Em4H6pQWMTwQdU6IVkRTU1oJVwX9Hq+XUHllPCvDkLpM0ZGJi67Hy+tdzWR5s7YRvPrVsXgSv0lIBUZM3xNTP+iXm2Lfl0UnnnQPH7YqV7En/GXGgvg7PzfAg+P1/cI2HxZT7tmB37UHcJa5fwyAPUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R1ZDf3kA; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+t4bJdH"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-67da63ae541so4593469a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 02:52:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779097939; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aehnbF9LRlNm9VWvyjhw14ocWanyp+Pcyh+Xe34Vhkfa6egpOq8vSGoXRV4XQiUAg6
-         K749cMfq+cKO/TDTkvIC+et+nwTXmK7pQ5ouBHV+basOrhvb2erF5h8M2y9oEi6PjirP
-         mUzRvhTGFAyK0blUsd5oEyvuAdHvTv1KFQewtZLr1JODUs5heMeX5VFdJnYgr2zSoJ63
-         bmll1s7zhrDbpNLftfOrZHEngeNS6jfCkzJLvm2PeX6bQ3Ttr3OtZpHNjShKgpGFr12x
-         rl7+0N4SGLMKZ2T4I0sE+2MQibQ53A3vppQxWprwlp2fhGnefEPdfaDA4BonYZGAJFVt
-         00qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9r9CYEpqvhF152363w7YhgQ/z6cpm6LzbBUZimMW9FE=;
-        fh=bpeAaVQ4pnxQ+JK9Vk5C2fVcwDH2ud7iCxpoTkVg2ss=;
-        b=GE8TFmCPiENUNy1K20YfTJIaLYZVOT6ybvyPRwNJY0JBlRFXw7ZrTXdIZlu3PG4EU+
-         khS9N7LAF778j8+cOGltANQ3nM3jYgoILc61Yjnq5J77dxAoI+ibW7mdndMUCciwebRH
-         j6vYS+FLj/jB5pzl4xZbJLonszNDdVxMS7x9xU1FCsQYkgXdO2O+aa/b6knaFUYMWdi7
-         XPBk1KgJM6bCIrbA6cIU9YYsMu6sYenhLrF6SoQZBWuiw0mq/IMs3aehQ+PTbR4nCEz4
-         fw/ob4mec6C+QNU7SH9DsdCpEpNw2hm7Sf+uAe4L3dhIb+IEERrnL4fG2+95uDDAxYb8
-         ezeQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R1ZDf3kA"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so31091725e9.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 03:14:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779097939; x=1779702739; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9r9CYEpqvhF152363w7YhgQ/z6cpm6LzbBUZimMW9FE=;
-        b=G+t4bJdHNIiNBmk3x6Oo2jyowWleK6jKauumuaT6c/BAMz7S7MLI2eNJj2BP7paU6d
-         9wZGCjHDp5LJuqj+hmgcTydWGS7SgVjZLY1Zvajc+L8JeIUcCbHI1wqseInJWUPSpdPs
-         +byd+1Lhic4sHk33DSSXv+eESIYu0IfLRslBQPeqMwIVXpt9c6qLUHqMb8lw29wqLbuo
-         3vZphWg9H404y0b6OzINYfPPGy2SLY06+eS0XJepCKMuF0+k1KGcZfQh3dNo744UzH6s
-         mbtfI481TZgLd8k+OY1i4wkIEvOPtJ4hUFHzQCF8mDqev+BfFgIn54rToossEBpQvWI3
-         G+9g==
+        d=gmail.com; s=20251104; t=1779099252; x=1779704052; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HqBDj90Kc3B5RL3RITDRmt05U20tIBaa43CY99Xd9RQ=;
+        b=R1ZDf3kABY32pxy0h+kPbdKnYZrzH+iwDxvK0ocrMzmv6o/u7R6jnvJNBjuqGhkdpP
+         iB1W2mKv4uHNINJ4/JHtzaDwU9PoOKCte0Dt79zh0ecxFFMPRqapHpVfQA+keKfmXxIS
+         8DayMB3M23H8ChWcpQzKj5cxBTOrA7GD1qECTci1sCGjehOqYyruEyGzahz/9HNyMIAI
+         dRpw5nxgLiUc9hrvd/73CZz3dusoKm1en3BGRDHuSHotzc8LXPnDIGRjijVTeFqz9yi6
+         qssw9j+pbQAZjKy7HRStnmeQzG53nx0zF/WhTSRPfs+mJDUbdUBlAoLY7uWrqoLow0SF
+         p8UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779097939; x=1779702739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9r9CYEpqvhF152363w7YhgQ/z6cpm6LzbBUZimMW9FE=;
-        b=DExevpJJlKHs0lwj0Tc2ndRu8CiqNChENaSd5JhmC8/q1JtI12XT1+Gf1+FeWEMN4x
-         /n5Asxd5uGnv1sV+HYRB157++/aPNZeI11w7/KhIx2M92EiU5lQxy2tAtIbM1DrGmTkC
-         RjTA3V1JxNIlFzAPhmjSQRUM9h99zNhViPp3KcD9GRcDZ23ZLsvSpoVIvgWcBqjU/wXA
-         liCLFW4jVXuMc9b/b45IhsgdAnHJu/2LogIhtBkxXmSZZuh8gxfq5HUt35lmCjWC1h5w
-         LqF8RibY6mFmS4ZvsBvt5G1cj0WNGaq2lO1pb9+WG+OueNjjhOUc5U0fxgrwvkg8ztzt
-         hsyQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/QwwwRDGmSIE2iio8ntYcNJo1QHglsS0WdSdTucJ0GXC+Elv3sNSs531GTM1XIRq/C5zrVXSZq0b/EBCwQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4gHHM8soEmglkBOn2f7dxfeSFu9jOcPG7ynfRI+E0ujqEuDG3
-	dU1cU7AmVIgMx+HyxtREvfwgxqNYMV5a25nUUwzSrfVxjEoXvQ4c5Za2FCAPIk6beZxgrU4bNc7
-	WXflBGEPlznPx3iV+8KCFVM7d7CC3CtY=
-X-Gm-Gg: Acq92OE4yRtvY72lQzbbNoMFFOkfHwYNMAaQcHmYGfW8e7X9OtkjtWcv2uk9cFmTEts
-	/oUI+HW4UxScDqSD0tBVFj6PfH1D/9W7nhTIHuAZ37+RJ3JuKHqCm0ukmOsPt9M99Luce4i6dUf
-	IDpUHSnzAf18a57MD+m4HlE7T65hjhiEQbfa5CB0rv6bD5Fx6W7y80GJImN/RNMCqFXx1ocdfPG
-	59yzkUCYJxCNShJDbj8TPmKXVdOCojCjmB38ok4j/9IzqiSjCGQ6izpVEeI/9H/1Mq9WDqUT/71
-	xJPB+Xq6u9XGTdynZ8W+VG7BaxxIdiI88O44lIap4g==
-X-Received: by 2002:a05:6402:304b:b0:678:e6a9:c39 with SMTP id
- 4fb4d7f45d1cf-683bcd9f43amr4810104a12.13.1779097938863; Mon, 18 May 2026
- 02:52:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779099252; x=1779704052;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HqBDj90Kc3B5RL3RITDRmt05U20tIBaa43CY99Xd9RQ=;
+        b=OxNBl3SobKvdtGiTBV1H9m5MMSPMY1J88cVfhqReuLUkvHk3RahEiYxoq3i1qOe5dw
+         jRTs9YGWG1MAMH87O9b57Ty5Q8xYxLicCWJM8Cx3axlirW/ZKgEvp4udt3T0JpkgkcS0
+         xh4Ep47yRBz2pLI5me47+C9dvxbqcIoQFCOnPDAUOka1jKuZJgZzMNwUXRFCUXDqw3Og
+         +06Pxst0IT/Hnt7rotPolQNOleUNMXjHe0IVVs3BOT2bX5f/DH/AUuFXyH/pikWh3cQk
+         Uqg2ciGdWIXf4hAAnZF8bvZAQX25Nbz5Vb2dyl2a4226xyHKSYx9oEydoU3XEDeh7cl5
+         OuBA==
+X-Forwarded-Encrypted: i=1; AFNElJ8T5q2N1Iy5gtDPSPwWEmWmFkjAhOeRBfoTe54zQZdgYqvngoLyBkOqUAnV7VS6dIBP2Tf4LSS26HiBKMpC@vger.kernel.org
+X-Gm-Message-State: AOJu0YzR+mELSgyqUXGvMy3Lw166TOS6IBJSvw1/nPVVsJmVnpTU4RaQ
+	faU7OFVN+ZWx+3YcOY9M1lyGNJXU3jGC8x8zQtn+c0e14p7HCeDD7cvn
+X-Gm-Gg: Acq92OFCBE7sNswe4EgdZ9H95D3u3H23GEgAWJJi6hNj7wOZMvj2FgXVvcOObTRZhlL
+	ViFiliWTX9w2sW2wikYdoKZahArLJY3J2tR4iAwuIotp48NPGRGn4cziH5b2ciC2CHYFRMkMBdS
+	rLRH3ack80ykhvCtofFUiF29gp3VyXem4dm1S/+m9jsppZXU5+q7ZpfMMfmqpdXdHWgyxKZSWUO
+	zU5T3SUYNSMKi0jLAaP4MUrtZyIIrIbfEQfXD5BXC8qUjXh+jRYVog0f/9+ZvKbUraRaQG7POvC
+	Rt9SYGlitQGhdF1lcuDs46sFBAvG3inn/3M3ZrTwpysEEQfmhIG12RAL1/xgVFXJfBH+nDNMSlr
+	CxrCcN6Sm5wCZNWH0p2yl+33Wb68tWGMRld2p1WtmfaHfnEMwoU8mJvJ8CIvTUiemnHdxH9fYgR
+	j0gR0P69V0qxmAvz/+XHc2Fj0WY3ElwW4+27LeAIGc9+ahPh/fOzca1Sj/wdYvzNxuXw3CvYa1Z
+	qxyXkaK4LVkygCam4A+dTo3qJQXFqRUC/hapMthsUC6QkKd7AKP99GpVdk=
+X-Received: by 2002:a05:600c:3b12:b0:488:b14f:b8ed with SMTP id 5b1f17b1804b1-48fe59ab80emr218398395e9.0.1779099252361;
+        Mon, 18 May 2026 03:14:12 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:6e9b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0fe0f72sm38877974f8f.25.2026.05.18.03.14.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 May 2026 03:14:11 -0700 (PDT)
+Message-ID: <ebf41920-5852-428f-b98a-e0f44c8f3315@gmail.com>
+Date: Mon, 18 May 2026 11:14:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260514200129.94862-1-amir73il@gmail.com> <20260515193010.056ef472@pumpkin>
- <CAOQ4uxjDeF3uDe=OTVZ3fK65dF148FRUvPx5fOqZpoFuGUsmJQ@mail.gmail.com>
- <20260516094242.77d20c92@pumpkin> <CAOQ4uxjX=C6WZvW1DdJ13tJj-XBWVxgE2Q9vVvHoYqiOhqW0wQ@mail.gmail.com>
- <87se7pdr7a.fsf@prevas.dk>
-In-Reply-To: <87se7pdr7a.fsf@prevas.dk>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 18 May 2026 11:52:06 +0200
-X-Gm-Features: AVHnY4KWs2vUCH6jUzS1W7hr8zsGFJwgra5DKB_XQHV-YlVobPgAcA2P4f3-R7g
-Message-ID: <CAOQ4uxj0sgB5B+1gzzq8fPuAPJxU=TfXMUaJtjB6vdfXUSOuqQ@mail.gmail.com>
-Subject: Re: [PATCH] err_ptr.h: introduce ERR_PTR_SAFE()
-To: Rasmus Villemoes <ravi@prevas.dk>
-Cc: David Laight <david.laight.linux@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Nirmoy Das <nirmoyd@nvidia.com>, 
-	linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 05/10] lib: add dmabuf token infrastructure
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+ <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com>
+ <20260513082431.GA6461@lst.de>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20260513082431.GA6461@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 18, 2026 at 11:04=E2=80=AFAM Rasmus Villemoes <ravi@prevas.dk> =
-wrote:
->
-> On Sat, May 16 2026, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> > On Sat, May 16, 2026 at 10:42=E2=80=AFAM David Laight
-> > <david.laight.linux@gmail.com> wrote:
-> >>
-> >> On Fri, 15 May 2026 21:26:04 +0200
-> >> Amir Goldstein <amir73il@gmail.com> wrote:
-> >>
-> >> > On Fri, May 15, 2026 at 8:30=E2=80=AFPM David Laight
-> >> > <david.laight.linux@gmail.com> wrote:
-> >> > >
-> >> > > On Thu, 14 May 2026 22:01:29 +0200
-> >> > > Amir Goldstein <amir73il@gmail.com> wrote:
-> >> > >
-> >> ...
-> >> > >
-> >> > > The object code bloat would be noticeable if this were used everyw=
-here.
-> >> > > But you could make it a bit simpler:
-> >> > >         if (__builtin_constant_p(__e))
-> >> > >                 BUILD_BUG_ON(__e && !IS_ERR_VALUE(__e));
-> >> > >         else if WARN_ON(__e && !IS_ERR_VALUE(__e))
-> >> > >                 __e =3D -MAX_ERRNO; // Or maybe -EINVAL to stop an=
-d other boundary errors
-> >> > >         (void *)__e;
-> >> >
-> >> > Yeh that's nicer thanks.
-> >>
-> >> Actually this might be better still (or just more succinct):
-> >>         void *__e =3D (void *)error;
-> >>         BUILD_BUG_ON(!statically_true(IS_ERR_OR_NULL(__e));
-> >
-> > This condition is wrong but also my compiler does not evaluate
-> > __builtin_constant_p(IS_ERR_OR_NULL(__e)) as true.
-> >
-> > This works
-> > BUILD_BUG_ON(statically_true(!IS_ERR_VALUE(__e)));
-> >
-> > I think it is enough to statically assert on ERR_PTR(EINVAL)
-> > and no need to bother with ERR_PTR(0)
-> >
-> >>         if (WARN_ON(!IS_ERR_OR_NULL(__e))
-> >>                 __e =3D (void *)-EINVAL;
-> >
-> > Oh, anything but EINVAL please - the most overloaded error value
-> > My choice of meaningful error value would be EFAULT
->
-> Could we have a dedicated "EBUG" that can be used to indicate "there's a
-> bug somewhere in the kernel, we can handle it somewhat gracefully here
-> by returning an error instead of BUG(). You can't do anything about it
-> but report that you got -EBUG from $this_syscall", instead of
-> overloading EIO, EFAULT, EINVAL or whatnot. Internally, EBUG could be a
-> macro that did ({ WARN_ONCE(); -__EBUG; }) or something, so there would
-> automatically be bread crumbs in dmesg if it is ever hit.
+On 5/13/26 09:24, Christoph Hellwig wrote:
+> Naming and placement:
+> 
+> This is about dma-buf based I/O.  So I'd expect it to be named dma-buf-io
+> and no io-dmabuf, and live in drivers/dma-buf and not the unrelated lib/.
+> But I'd like to hear from the dma-buf maintainers about that.
 
-How exactly would you use this EBUG() to write the graceful handling?
-A bit of overengineering if you ask me.
+Looking at what Ming is saying, it'd make more sense to keep some of the
+parts like iterator and the file op more flexible and not automatically
+imply dma-buf even if it's the main and for now the only medium. I.e.
+ublk/fuse can use a similar interface for mapping buffers to the server
+even without dma mappings.
 
->
-> Userspace code could also benefit from having EBUG to indicate that some
-> internal inconsistency has been detected.
+I don't know how the API should look like, maybe passing memfd, and dma-buf
+supports mmap, but I think it's better to call the op something like
+"register_buffer" instead and keep all it in lib/ for the same reasons.
 
-So what about
+> Config option:  as this unconditionally when DMA_SHARED_BUFFER is enabled,
+> why does it need a separate config option?
 
-#define EBUG MAX_ERRNO
+More clearly marking relevant code, easier to make optional if needed,
+and gives some introspection via /proc/config.
 
-as per my suggested patch.
+> Interface:  io_dmabuf_token_create / ->create_dmabuf_token filling
+> in a structure allocated by the caller feels odd.
 
-Thanks,
-Amir.
+It's minimising pointer chasing. "token" is mainly used by io_uring in
+the hot path, and io_uring just keeps it as a part of a larger struct.
+For the same reasons "map" is allocated by the driver.
+
+I can add an extra parameter to io_dmabuf_token_create() for how
+many extra bytes to allocate for the caller's use, if that makes
+things any better for you, but it was easier to just pass an
+already allocated struct.
+
+   My gut feeling
+> would be to move most of io_dmabuf_token_create into a helper called
+> by ->create_dmabuf_token so that the token is allocated in the
+> driver data structure and returned from create_dmabuf_token.
+
+-- 
+Pavel Begunkov
+
