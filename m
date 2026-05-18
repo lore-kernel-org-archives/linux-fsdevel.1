@@ -1,117 +1,145 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428D83EEAD7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 10:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A723D33859A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 10:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779100272; cv=none; b=UADbF5bIaaopWjJvxLHYIEYn+TGQtmVexrfj+opnUoQhHTZn3ys6VBJoOh/5oRz2Mc1DCdle/q/6qLandKFL697eMXY2E4p33jBPcWT1K+UhdbZuKB0Ep7tpkTUZ3tAl5+3LZECyd4HeD4O3oivQCjXMoToAMh9DCaXYgRZBkZc=
+	t=1779100827; cv=none; b=Ku2dbh/k4I0V6ttzTMJWJ4kPqstQ7TAxJHCLR2hjORAvsimsUTPRScDHaVbVzR47+wz67zVY9X1osLaWBnlTBvA8xeiMZqcbKPfisJb7Bwi+grzDCpSfC+s8KU6dlEFUqXOGAcqWuca0/K/hVmltbLttRKZaXbS/OvoRGsAkcT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779100272; c=relaxed/simple;
-	bh=uNvks5nLVhab845gPs8D4jnOry1W6hE6xPWWd9nU+CA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ux7bKRDwK+qWRfBKpPA0esZg83LDMdj5TvDEr3TkehfqarP4XJ+Hv3kAhMitugUQz5Sn4+cA0UoUEqWY1YNKbOub+JMU7dD2Ev6opjLQtsxdtzPA0sX8qPhHw9K15xcCuML+8oL3hDMhDAMgOZItVdF0+nJ2tC0rvP8Q4GctuFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SFtHjJDu; arc=none smtp.client-ip=209.85.208.49
+	s=arc-20240116; t=1779100827; c=relaxed/simple;
+	bh=nvWmJIaONRzVgGZxYOqc+RrJHx05ZpEkKGknRiyvoD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pvZnS8gVCMwtWoBL35q087U3Q77IEj3B6ch7pLLJzPAuFNJ37A23NMf/Y/NhKwJgi90cB48VVZD2m4pOKd3rhtazuiTDLIBY93FliiOQxciaZEH1NH1yNP5x5OV1JjYh03ZvBRzGP+GnNysu+3HbIok/kxQLw7MWigsHV81ccHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YOYYn5lU; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SFtHjJDu"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-67be871ed3fso4992134a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 03:31:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YOYYn5lU"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891b0786beso14992095e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 03:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779100257; x=1779705057; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hx27Zr2PfQkgYP6DocpvbcVC/5/Kjswu2b3jiJPzVQY=;
-        b=SFtHjJDu5+thx67ZQgSBSlnzrWP8St/IsgqvFJBv+8gm1ZrL2dyXiR9tOuiCjTHlxK
-         leC3X5LwO9ivz6GpTCXdCkORR5nUXpH3H7zydiX32uINNdws6VGv3HNPz767MpzZyFLv
-         CwtfM3jnULTNL8ABAm8hoRo8Gid93oQikbr8Xq08xamILO2ehZBd0oG56QxnAvJixFAt
-         w6azypF0dMLXHB6c7c0334C/m+OJ2yS/GGsT+E/iEqTBoTUUM1K96VkKyWLbFWOKggQK
-         i0EgO1KZSz8N0Ht7I8I199PJpHmud6anBnAwiAxTKU6aQqsnKb7fdI6vF+DEf3UPLiaQ
-         +FvA==
+        d=gmail.com; s=20251104; t=1779100813; x=1779705613; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KBUJm1g4jrVLHLARnQ410xCyIfZ2+knqUA7xvFczZVo=;
+        b=YOYYn5lUbwDpJJVHgwa+b/uqKmMzzJUm2hIehQT0RfeFic6DPTkEctu4+6yrgoTAaT
+         u9kxlBwiCUk0uHQ4MQ/QBAMPpt5K718IZ1zg5BOo0iQ4OLbx3XAXNVsWFT6PYjxqxiG3
+         oHvr3OC9nqzpeCxci5FlRGKp37b70XvyPHj0YP2cIbP8cJX6i2a3sWtAjU3noV+2X2PV
+         wkzhPFtUIxCLP4t2y+z/oBQ4ozn1vMXZ6+OkNNIHU/t1RtK8qSsYeCEvIA84yzvQhJL7
+         MTCcnZhiu8pCfSAOkym3yaNcHT8UovdrqFjblxy1DWYmyiaOdzDrXeutHhDa+t8th2oz
+         CsUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779100257; x=1779705057;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hx27Zr2PfQkgYP6DocpvbcVC/5/Kjswu2b3jiJPzVQY=;
-        b=Nq5zi2OuYJsye4fLQ7GSfgR1gv7K7wqv2l4RE77j56x5BE6xcQKElvm+ACRm27119w
-         rYXU4JRm5F4+Oho+n6oQX2/FRSCMA6FPqg55TOv47A7lrbVgPIxBVwWHNljctJVBUdRx
-         CXO4bQCpKJR44R0fkbzNr8O784SI1oc6+o9o6SxTFfBX8eHcdB1/ZeZhfpmJyKlR9CVH
-         Nj2G7ZrK6VfASaKIa5tQKwfDUhrTcZaa82fyApjODeABnhOyR9+vVEXQizcmN7/wWPbm
-         d+gaPPpj2GXg+1/s7hySgMKdB2VYfmpCHtAnMA1Yppf9Kc131dxvyXUm4tUSYfaS0+Xg
-         pnHA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Ktte1W3EXlrKSb9evGRcal0AI/DHX3Iq8f5HjyCguoLfTdA3FWn5DCgiOFO23fI/XZKDqxl/JdT7oM+Hw@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxdkw9PnoCMKDoyyEBb0WaMt9AAm7rVCKqtZJcA71g0h3KfWz64
-	0o/tm6OMzb/oxHCy0eghNw6jXACXVfuwcIr4w7i1xUpnvdUMDO9+Q30yygGv0A==
-X-Gm-Gg: Acq92OEp8rAvb75ERsyKieXoBnc0PDFo0Va91m9PdcYxYFPhKZ3fdFUNb2u71vOBU9S
-	6cF83ife2OqrYh0k/0PmegyWvriDAfXxndlV8jXT+k6Bkpbvz+1rOP7BITOOMRRCIJGW+V7PMFF
-	F+IPNTeqSol+auiukRdkbdxk+X8l+SA6obRazklgAwYInQ37lDAefisjd8ZBDtGyMw1z1CmVQ9i
-	ya5LNIy2aBqAAngecg3LA/OIMGTC5wde2x5NlX/jkD4xfacxIFzzuhpNFPxxo/4FqYcXfT5VJKF
-	TlLJEv+bDxPhGq4X7id6H/iTAmrcY6lVQBOfIDwukfB5maSSLvUM1+NCSIg3FjxThs/89Gl6WXQ
-	CCNZWd5kITIXVkJJmo/OR/m7sN01WlOwdtKDYtzh4/39q9KpA/6FgKkXtHkRvziaTdA0L3PZRyk
-	AQOs7MIkv47ZXvdaXcFVIPSflvnetbuKlMW6p6u+MDeHN2UbvOCtgUUKqmZadHCo3Ct2OzQdRRh
-	J9OzHOLuCo4mjou1ZyRhTrjVEyf+z0jy91gpB74eIdegO4AoDJeBpfgfbs=
-X-Received: by 2002:a17:907:1c0d:b0:bd2:bd3:1ef8 with SMTP id a640c23a62f3a-bd517a99797mr714341866b.35.1779100257041;
-        Mon, 18 May 2026 03:30:57 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:ec20])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4e4d54dsm542055466b.47.2026.05.18.03.30.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 03:30:56 -0700 (PDT)
-Message-ID: <574f42cf-0d72-437a-8eba-fd970011e206@gmail.com>
-Date: Mon, 18 May 2026 11:30:54 +0100
+        d=1e100.net; s=20251104; t=1779100813; x=1779705613;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KBUJm1g4jrVLHLARnQ410xCyIfZ2+knqUA7xvFczZVo=;
+        b=UG/2dzyTmrOk0a/b0GXYnLkLFM0nJZGP9X2EdY2Xjxw4oRK6GKJNqK8zlrvxTYzKWK
+         gOrRALD/D/4yBZMz+qFtXwhkRfzsoFoQtHqufoYTfkkM9BaUDBD+jkulsktIKJOHdYh4
+         6bwIPuxoVrKCxHop39soYeh3Io1P6lmiHSbBowVYhN0+L4MG6Beqz6conq0syQYzBqJZ
+         U0r+tpNKGfpPZcBkA7GEZ1tt0UN6IzwkXRQ39QoAU9MLB0ovFa9N6TqnEJelnXjop6dM
+         zJQsLuNC0QwbZgYKQs15O91uOpBSITr+bLynD7PdHIlljZj+9PizDbAfvvqbnSpim5Ss
+         Xzgg==
+X-Forwarded-Encrypted: i=1; AFNElJ9+ziUs3QqYeZnZyj1u28M/Ci2HXdritzTRN7wEHOCysja3i60JaQ5LXKeYbsfY+GAMbAklyzWZ9/HnmuDq@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywnp0yhN5QO4be5aLiSQNKwxbkMlvjS+IlFax2fKoT7VrTZ3eGB
+	2pR0p7J/Hf2OpEf03raZMBdrnZQh334ZQtBCGpRrXXWakthGqB1e8++Z
+X-Gm-Gg: Acq92OFAf+4eBE+b8WzH2AWj6a3JUR+XgLW9kdUCK3KQT312FK4MHOrVJH9Eb/8K4Oa
+	jkB6jkqQtcYUS0MIx8bT1CbTQp+HIguTHcdCsDoq+iW9g2ig56qjMkgMFiLWVE5tLnkGSQEmPJ4
+	TvfsN9Eyd63F+skJe/e2RH5R89F/fQB66/IaBRrWzqpQ0s52Ykc5YSry0Dv77l0O70lsxQVsA5X
+	hwXHDwSunQYUMQqO8JmWslNU52OHJWgtKEDPLU4qEX2h8j0B0/CoFVl8kCifNbQwyzMqAztZrK8
+	h0kjZAuf2J6Klma+l5vN+qTVJu7ZI07fmEKqogj7Ae8oMkOg8oUSNEgEfyGjbCdTXkodfnDErE1
+	Iii506lYoBzUOhbrwcQ7pR3l1PrIFs/BJo7ldWnbnoP7QiO1lvjxFC0Bj4drPGcR69OXiTy0oG6
+	QFNKX4uTNPZ4D95TJgBJDNjq0u1Ruh94p0WAPICpGNsbdBtKBskNeYFdjm4xGiJdCafvd/kpHa6
+	bVpoO37/cXL9w==
+X-Received: by 2002:a05:600c:4fc9:b0:489:1c1f:35df with SMTP id 5b1f17b1804b1-48fe60e58ecmr202920365e9.10.1779100812550;
+        Mon, 18 May 2026 03:40:12 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c90b27sm255713955e9.8.2026.05.18.03.40.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 03:40:12 -0700 (PDT)
+Date: Mon, 18 May 2026 11:40:10 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
+ Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nitesh
+ Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, Anuj
+ Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 02/10] iov_iter: add iterator type for dmabuf maps
+Message-ID: <20260518114010.6e1f7391@pumpkin>
+In-Reply-To: <4b2f74e9-3225-47f6-85fe-911720030e35@gmail.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+	<20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
+	<20260513110557.705bdeed@pumpkin>
+	<20260513142909.03ae6c2b@pumpkin>
+	<4b2f74e9-3225-47f6-85fe-911720030e35@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/10] nvme-pci: implement dma_token backed requests
-To: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>,
- Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <5cecb1157ab784f9f303a91449fdf11b03aa6002.1777475843.git.asml.silence@gmail.com>
- <20260513083817.GC6461@lst.de>
- <CGME20260518092930epcas5p30d3b49f26efa5969ddcdb15351a886f3@epcas5p3.samsung.com>
- <50ed7240-d8d3-4816-bcc9-ce8adbbbf841@gmail.com>
- <f9e04625-50c6-4fa9-8b12-76496e29f10c@samsung.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <f9e04625-50c6-4fa9-8b12-76496e29f10c@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 5/18/26 11:18, Anuj Gupta/Anuj Gupta wrote:
-> On 5/18/2026 2:59 PM, Pavel Begunkov wrote:
->>> FYI, I really want SGL support before this get merged, but ignoring that
->>> for now:
->>
->> I was hoping to let Samsung guys to send a follow up they already have,
->> but I'll ask them to have about taking it into this patch set.
-> 
-> I had done patches on top of v3 adding SGL support and PRP list reuse
-> optimization for the dmabuf path.
-> Branch: https://github.com/SamsungDS/linux/commits/rw-dmabuf-v3-nvme-opt/
-> 
-> Also pasting the SGL patch here for quick reference:
+On Mon, 18 May 2026 10:24:35 +0100
+Pavel Begunkov <asml.silence@gmail.com> wrote:
 
-Thanks Anuj!
+> On 5/13/26 14:29, David Laight wrote:
+> > On Wed, 13 May 2026 11:05:57 +0100
+> > David Laight <david.laight.linux@gmail.com> wrote:
+> > 
+> > ...  
+> >>> @@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
+> >>>   {
+> >>>   	if (unlikely(i->count < size))
+> >>>   		size = i->count;
+> >>> -	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
+> >>> +	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
+> >>> +	    unlikely(iov_iter_is_dmabuf_map(i))) {  
+> >>
+> >>
+> >> Doesn't the extra check add more code to all the non-ubuf cases?
+...
+> >> or writing an iter_is_one_of(i, ITER_xxx, ITER_yyy) define that uses
+> >> '(1 << i->iter_type) & ((1 << ITER_xxx) | ...)'  
+> > 
+> > This seems to DTRT:
+> > 
+> > #define _ITER_IS_ONE_OF(iter, t1, t2, t3, t4, t5, t6, t7, t8, ...) \
+> >      ((1u << (iter)->iter_type) & ((1u << ITER_##t1) | (1u << ITER_##t2) | \
+> >          (1u << ITER_##t3) | (1u << ITER_##t4) | (1u << ITER_##t5) | \
+> >          (1u << ITER_##t6) | (1u << ITER_##t7) | (1u << ITER_##t8)))
+> > #define ITER_IS_ONE_OF(iter, t, ...) \
+> >      _ITER_IS_ONE_OF(iter, t, ## __VA_ARGS__, t, t, t, t, t, t, t)  
+> 
+> We definitely don't want that, using them directly would've been
+> much cleaner.
+> 
+> if (get_type_mask(i) & (TYPE1 | TYPE2)) ...
 
--- 
-Pavel Begunkov
+You need to shift all the TYPEn as well.
+The above condition would become:
+	if (likely(ITER_IS_ONE_OF(i, UBUF, XARRAY, DMABUF_MAP))) {
+which reads reasonable well.
+Without the token pasting it becomes:
+	if (likely(ITER_IS_ONE_OF(i, ITER_UBUF, ITER_XARRAY, ITER_DMABUF_MAP))) {
+and the line starts getting long.
+Although that version probably needs a check that the mask is constant.
+
+-- David
+
+
+> 
 
