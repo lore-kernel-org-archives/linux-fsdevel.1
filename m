@@ -1,44 +1,47 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA61377004;
-	Mon, 18 May 2026 05:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827D737E2F9;
+	Mon, 18 May 2026 05:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779080905; cv=none; b=t6lZuL8/DA6dthLLpOsYhm6A1lEZ6T0CBKithA7Rwbc//g+LNefnyqP3zh+G5O+p7SBi1dcGIsfQHy9nXcSiheT0Z3qZG2GDYDQkQ3l4eS0AyYIsXAIljxsn+J4nxL4Q7EHz58ZVJ+DhIY+JL+igzJBOXkg5KCTbTk5Y+IiNR44=
+	t=1779082214; cv=none; b=J3QfAGgtXvqqnmQEkObDs3mekYUx7QEW6Uf9sUqyYqP3IIqXgbdQGLC7IbDJNbKWTW/lLY6o5uqg4qcAMysJeu4c9cywdan+8NeASGh5YeN75aWA94l3Ocnr8g8/dv0LoSrzbfO8WxYxebD2jDgKe6yUXfOl2/xQNSomvKBTla8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779080905; c=relaxed/simple;
-	bh=maPAoW3smVxAUqbqrJ4q4Ge7moP/mr1oPW5r/SpQC/I=;
+	s=arc-20240116; t=1779082214; c=relaxed/simple;
+	bh=GoAXwkLK2fB7oLnuO4UOL0mHLu6beDp8Zw9xvLDZuPg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oBO97+CmwGp8JLUtfVvp8Me4TjGP5XsVhEn/qB0n4RXzTN3Be/y6ByC5ZzfJBtn1vl2y50TSRCa6Bloz0nk1XARvfgtZU+TYqroxhaVRU1xdnJp6uyPo9190b4qwdegHqYnxxYhurbfN50MvUwmHBZNJFgVv1F60U4vTei9bULc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kLJMVYFj; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kLJMVYFj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=8VLXo68qsPFoCf2qo8fOLvYIOZf/Qe4Ug1wysRydhEs=; b=kLJMVYFjp5oqYK+IX5J3oU9tLh
-	+hKqv5MCr+HxIgyMgbUJjWhN+zAbU5lFQFcAaQTHuhXsKi9zYXE88ejTTpdtTHA/+aIeE/THFmf9r
-	d63SwpNgsfXDgGp/D+lljzxkBv3wUtA5nei43f6J6tcWAt3Sp8aBysCTh/XMy/OHB6Q+lKj9Ncbi/
-	pcWvh1uDh+ukneLMMlq4QQEKdaqvAQhdQpGGcG9D+S8oeopoJJMWqlrTEYY0bDqklUtTHdBeoXe2b
-	I/dZQAQqH9vc6JlPkKFxLE0k6ibppOYvMy53gMLdvmrHbVIjW3b1stxlKHI+TX9yJzi4I7P1+/+mT
-	38EQAn4Q==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOqD7-0000000EDxs-0pyw;
-	Mon, 18 May 2026 05:08:13 +0000
-Date: Sun, 17 May 2026 22:08:13 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Cyber_black <Cyberblackk@proton.me>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	Mark Fasheh <mark@fasheh.com>, Theodore Ts'o <tytso@mit.edu>,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP
- exposes identical data unprivileged
-Message-ID: <agqevS--YYBVW2Oz@infradead.org>
-References: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZBt5CqcnovJnFvP9iXlb0T+cKPMZInOm0q9CMmPdjiyztt8/FuOjI6ccD9qeVfngRPlsKrQDs66omBPLDwkS9XbloKwmML7tuLjlvtEdpYzyPoE6ZtjUQZHDRVxBqeK3WTIRcexuPptSXvgFRi9Wysw4ewH7JCjET/f2oTxQ72U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1EAAF68C4E; Mon, 18 May 2026 07:29:55 +0200 (CEST)
+Date: Mon, 18 May 2026 07:29:54 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Chris Li <chrisl@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kairui Song <kasong@tencent.com>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, David Sterba <dsterba@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Naohiro Aota <naohiro.aota@wdc.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-block@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: Re: improve the swap_activate interface
+Message-ID: <20260518052954.GA9758@lst.de>
+References: <20260512053625.2950900-1-hch@lst.de> <CACePvbUj0-fAd-gjRjxFXYz22hGQaT9upFL85KUqD=W=SWX+0Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,20 +50,16 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <CACePvbUj0-fAd-gjRjxFXYz22hGQaT9upFL85KUqD=W=SWX+0Q@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, May 15, 2026 at 05:36:45PM +0000, Cyber_black wrote:
-> Option B) Add a capability check to ioctl_fiemap() to match FIBMAP.
-> This restores the intended restriction, at the cost of breaking
-> unprivileged use of FIEMAP (e.g. filefrag, btrfs tools, e2freefrag).
-> This option is a larger ABI impact and likely undesirable.
-> 
-> The preferred fix is Option A, since FIEMAP has been available
-> unprivileged since 2008 with no reported security issues, and read
-> access to physical block layout is already implicitly available
-> through open() permission on the file.
+On Fri, May 15, 2026 at 02:40:09PM -0700, Chris Li wrote:
+> BTW, I just tried it, this series conflicts with Kairui's swap table
+> phase IV series. Might need to coordinate the merge order with Kairui.
 
-No, FIEMAP really should not be available unprivileged.  So I think B is
-the right thing.  Can you send a proper patch with a proper signoff?
+Yes.  I think the swap table should be a priority.  Next would be
+swap_ops (see my take on that from Friday) and then this series.  The
+iomap-fuse work from Darrick seems to be a bit stalled on the fuse side,
+so I hope he can wait a bit on this as well.  Especially as swapfile
+support might not be the highest priority feature for that.
 
