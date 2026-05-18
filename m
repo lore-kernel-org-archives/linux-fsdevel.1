@@ -1,41 +1,40 @@
 Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6F240584E;
-	Mon, 18 May 2026 13:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C53B48167C;
+	Mon, 18 May 2026 13:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779112446; cv=none; b=S+6vLf8djn2wFlptW6csWcgkVZq6pfd1eEwUOqQR4Xe3QEKcAniUZ7AYwmiUU23sJFmgEBCoOmHqc6tDyM+rTWkzMZYJVmU31TMCwBLX5rkaxZl50/PBt0F0edDEwh7wBXKSdrU/4dUiP97DkZwV6hslIdloK0d7YqpLQ6r6rY0=
+	t=1779112447; cv=none; b=qjO2Dasbw4jhNcqXoufSDUuI3zauFYDIkY5TdDquoaPEMGNNlO8UjtGJbPlUODSeFypmjHBGy/lSEd690lIsqeejYCc+LNvewiOb3B06Az12seTFdosrdOhj6A+Nxw/aL/RS1FKGfT0v+ofkJw+XeSQKWJgoRmc82mp9woghS5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779112446; c=relaxed/simple;
-	bh=3rcJfuxrYgXQHfgx9OasIboFgqJGybAc4F2etKUHlig=;
+	s=arc-20240116; t=1779112447; c=relaxed/simple;
+	bh=1xhjQKvSRFHt5/k6XPlJd+8sLssjifoYNFJWL++qzxA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hlURbifAPuXrl1qIyULPONSTmlr0eqBvSEsNySbTUuEbQ8FIAb0GiSAD5g1/ZzAPjdOhpkvfTOHFNR0H9e5B1zyLvcY2Gg0+KzIg2BQo+agSEyHutt8roUcPBGjcUCjWaea6oI116991mIexNx4Rcnc4mC/pY8fJG2k5/5scY+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Dpm/iF+s; arc=none smtp.client-ip=115.124.30.99
+	 MIME-Version; b=gr8aeuS7Ynfqpu6JAHJDubKOnsxcpZY3AuJ/YwUylXkHTQ4DUQz9WMrVhgx7V8bihpROWEQ0O8QsPfg0/U8kNK9ScCzQxcKVA9QVbMziv2sVxi69kTRjtLPxiQ2Kx8n0pJuJNmMbRlVruxJh5zrG5i8ZPIeYyGqEgsJfk0c+3D4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=VcuvT4DO; arc=none smtp.client-ip=115.124.30.99
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Dpm/iF+s"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="VcuvT4DO"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1779112440; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=J6ETTwMgFFcgsydN1Iah3JeGRk9qugvowEPUDsgsXn4=;
-	b=Dpm/iF+sixoayv0kH03X/ygUaSCeCPdNQOKqx7Py/5KPOBuwjlfjbcBnZA+/J9T3zgqGzdSRKAuvaTw5EVSD90LKg5wtRcTz4rT5UgANUzLAoYHKJIYAtBn8G/35A6lYniGG1ZyVtxWohe5zoYpM3Mt/dGFGteCZzx7DBVW1z5c=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R531e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0X3AU7w6_1779112438;
-Received: from x31h02109.sqa.na131.tbsite.net(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3AU7w6_1779112438 cluster:ay36)
+	t=1779112442; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=4YDxFm6IczcmVb4vGHQZOtXvG3cyQHG9FHj8D+ZYqGw=;
+	b=VcuvT4DOFoMSMf354dvwNR3s+fjT3rY9cDA6AetnSx2vhH89cXQFxTYH5FMngcGCK00J8xzpjmzwu8fdCTOHk/PiqNY6G0clyN77SKHnQmU2iivnnEuqKh2yDN17jeM0aqOPxfEXwUu/+omLXp1ByG3oYhkCpF5HMJvtpRtpCXk=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X3AU7wt_1779112440;
+Received: from x31h02109.sqa.na131.tbsite.net(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3AU7wt_1779112440 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 18 May 2026 21:53:59 +0800
+          Mon, 18 May 2026 21:54:01 +0800
 From: Baokun Li <libaokun@linux.alibaba.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: viro@zeniv.linux.org.uk,
 	brauner@kernel.org,
 	jack@suse.cz,
 	tj@kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v3 1/3] writeback: fix race between cgroup_writeback_umount() and inode_switch_wbs()
-Date: Mon, 18 May 2026 21:53:47 +0800
-Message-ID: <20260518135349.1187628-2-libaokun@linux.alibaba.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 3/3] writeback: use a per-sb counter to drain inode wb switches at umount
+Date: Mon, 18 May 2026 21:53:49 +0800
+Message-ID: <20260518135349.1187628-4-libaokun@linux.alibaba.com>
 X-Mailer: git-send-email 2.43.7
 In-Reply-To: <20260518135349.1187628-1-libaokun@linux.alibaba.com>
 References: <20260518135349.1187628-1-libaokun@linux.alibaba.com>
@@ -47,172 +46,289 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a container exits, the following BUG_ON() is occasionally triggered:
+Tracking in-flight inode wb switches with a single global counter
+(isw_nr_in_flight) plus a synchronize_rcu() based wait in
+cgroup_writeback_umount() forces every umount to take a global hit
+whenever any other superblock on the system has wb switches in flight,
+even if the superblock being unmounted has none of its own.
 
-==================================================================
- VFS: Busy inodes after unmount of sdb (ext4)
- ------------[ cut here ]------------
- kernel BUG at fs/super.c:695!
- CPU: 3 PID: 6 Comm: containerd-shim Tainted: G OE K 6.6 #1
- pstate: 63400009 (nZCv daif +PAN -UAO +TCO +DIT -SSBS BTYPE=--)
- pc : generic_shutdown_super+0xf0/0x100
- lr : generic_shutdown_super+0xf0/0x100
- Call trace:
-  generic_shutdown_super+0xf0/0x100
-  kill_block_super+0x20/0x48
-  ext4_kill_sb+0x28/0x60
-  deactivate_locked_super+0x54/0x130
-  deactivate_super+0x84/0xa0
-  cleanup_mnt+0xa4/0x140
-  __cleanup_mnt+0x18/0x28
-  task_work_run+0x78/0xe0
-  do_notify_resume+0x204/0x240
-==================================================================
+Replace the global synchronize_rcu()/flush_workqueue() pair with a
+per-sb counter, s_isw_nr_in_flight, plus three small helpers:
 
-The root cause is a race between cgroup_writeback_umount() and
-inode_switch_wbs()/cleanup_offline_cgwb(). There is a window between
-inode_prepare_wbs_switch() returning true and the subsequent
-wb_queue_isw() call. Following is the process that triggers the issue:
+  - cgroup_writeback_pin(sb)   - increment counter
+  - cgroup_writeback_unpin(sb) - decrement and wake drainer if last
+  - cgroup_writeback_drain(sb) - wait for counter to reach zero
 
-      CPU A (umount)           |          CPU B (writeback)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                 inode_switch_wbs/cleanup_offline_cgwb
-                                  atomic_inc(&isw_nr_in_flight)
-                                  inode_prepare_wbs_switch
-                                   -> passes SB_ACTIVE check
-                                   __iget(inode)
- generic_shutdown_super
-  sb->s_flags &= ~SB_ACTIVE
-  cgroup_writeback_umount(sb)
-   smp_mb()
-   atomic_read(&isw_nr_in_flight)
-   rcu_barrier()
-    -> no pending RCU callbacks
-   flush_workqueue(isw_wq)
-    -> nothing queued, returns
-  evict_inodes(sb)
-   -> Inode skipped as isw still holds a ref.
-  sop->put_super(sb)
-   /* destroys percpu counters */
-  -> VFS: Busy inodes after unmount!
-                                  wb_queue_isw()
-                                   queue_work(isw_wq, ...)
-                                  /* later in work function */
-                                  inode_switch_wbs_work_fn
-                                   process_inode_switch_wbs
-                                    iput() -> evict
-                                     percpu_counter_dec() // UAF!
+The wiring is:
 
-Fix this by extending the RCU read-side critical section in
-inode_switch_wbs() and cleanup_offline_cgwb() to cover from
-inode_prepare_wbs_switch() through wb_queue_isw().  Since there is
-no sleep in this window, rcu_read_lock() can be used.  Then add a
-synchronize_rcu() in cgroup_writeback_umount() before the existing
-rcu_barrier(), so that all in-flight switchers that have passed the
-SB_ACTIVE check have completed queue_work() before flush_workqueue()
-is called.
+  - inode_prepare_wbs_switch() pins before checking SB_ACTIVE and
+    grabbing the inode; failure paths unpin before returning.  A
+    lockless SB_ACTIVE check at the top of the function lets us skip
+    the atomic_inc/smp_mb dance once SB_ACTIVE has been cleared (it
+    is monotonic and never set back).
+  - process_inode_switch_wbs() unpins after the matching iput().
+  - cgroup_writeback_umount() drains the per-sb counter via
+    wait_var_event().
 
-The existing rcu_barrier() is intentionally retained so this fix can
-be backported unchanged to stable kernels (5.10.y, 6.6.y, ...) that
-still queue switches via queue_rcu_work(). It is a no-op on current
-mainline (since commit e1b849cfa6b6 ("writeback: Avoid contention on
-wb->list_lock when switching inodes")) and is removed in a follow-up
-patch.
+The smp_mb() pair between inode_prepare_wbs_switch() and
+cgroup_writeback_umount() keeps the SB_ACTIVE / counter ordering:
+either the umounter sees a non-zero counter and waits, or the
+switcher sees SB_ACTIVE cleared and aborts before grabbing the
+inode.
 
-Fixes: a1a0e23e4903 ("writeback: flush inode cgroup wb switches instead of pinning super_block")
-Cc: stable@vger.kernel.org
-Suggested-by: Jan Kara <jack@suse.cz>
-Link: https://lore.kernel.org/all/mxnjq2l6guusfchvauxr3v7c4bwjasybxlleqbbh4efloeqspz@iqylk76ohufz
-Reviewed-by: Jan Kara <jack@suse.cz>
+The global isw_nr_in_flight is left in place, since it is still used
+to throttle in-flight switches via WB_FRN_MAX_IN_FLIGHT.
+
+The rcu_read_lock() extension in inode_switch_wbs() and
+cleanup_offline_cgwb() that the race fix added is no longer needed
+and is reverted; the synchronize_rcu() that the race fix added to
+cgroup_writeback_umount() is dropped as well.
+
+The following numbers were measured on a 16 vCPU QEMU guest with 4
+background superblocks each churning "create memcg -> write 1 MiB ->
+rmdir memcg" to keep the global isw_nr_in_flight non-zero.  Latencies
+are wall-clock around umount(8); only the target sb's umount is
+measured.
+
+Target sb runs its own cgwb churn:
+
+                              p50      p95      p99      max
+  global synchronize_rcu()   67.6 ms  88.3 ms  88.3 ms  96.8 ms
+  per-sb counter (this)       7.9 ms  10.0 ms  10.0 ms  10.1 ms
+
+Idle target umount latency under cross-sb cgwb-switch pressure:
+
+                              p50      p95      p99      max
+  global synchronize_rcu()   62.7 ms  95.4 ms 108.1 ms 108.6 ms
+  per-sb counter (this)       5.3 ms   6.9 ms   7.4 ms   7.4 ms
+  no-pressure baseline        4.9 ms   5.9 ms   6.3 ms   6.7 ms
+
+8 concurrent umounts of idle sbs under the same pressure:
+
+                              p50      p95      max
+  global synchronize_rcu()   61.3 ms  99.5 ms 113.7 ms
+  per-sb counter (this)       8.1 ms   9.1 ms   9.5 ms
+
+In-kernel cgroup_writeback_umount() time across the same run
+(bpftrace, ~340 calls covering all scenarios):
+
+  global synchronize_rcu()    12371 ms total (~36 ms / call)
+  per-sb counter (this)        1.37 ms total ( ~4 us / call)
+
+Suggested-by: Christian Brauner <brauner@kernel.org>
+Link: https://lore.kernel.org/r/177910456953.488929.2169908940676707307.b4-review@b4
 Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
 ---
- fs/fs-writeback.c | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+ fs/fs-writeback.c              | 87 ++++++++++++++++++----------------
+ include/linux/fs/super_types.h |  8 ++++
+ 2 files changed, 54 insertions(+), 41 deletions(-)
 
 diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index a65694cbfe68..6766de9f9d75 100644
+index 325a30cc35bf..32fec4b9094e 100644
 --- a/fs/fs-writeback.c
 +++ b/fs/fs-writeback.c
-@@ -660,12 +660,19 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
+@@ -497,6 +497,23 @@ static bool inode_do_switch_wbs(struct inode *inode,
+ 	return switched;
+ }
  
- 	atomic_inc(&isw_nr_in_flight);
++static inline void cgroup_writeback_pin(struct super_block *sb)
++{
++	atomic_inc(&sb->s_isw_nr_in_flight);
++}
++
++static inline void cgroup_writeback_unpin(struct super_block *sb)
++{
++	if (atomic_dec_and_test(&sb->s_isw_nr_in_flight))
++		wake_up_var(&sb->s_isw_nr_in_flight);
++}
++
++static inline void cgroup_writeback_drain(struct super_block *sb)
++{
++	wait_var_event(&sb->s_isw_nr_in_flight,
++		       !atomic_read(&sb->s_isw_nr_in_flight));
++}
++
+ static void process_inode_switch_wbs(struct bdi_writeback *new_wb,
+ 				     struct inode_switch_wbs_context *isw)
+ {
+@@ -554,8 +571,12 @@ static void process_inode_switch_wbs(struct bdi_writeback *new_wb,
+ 		wb_put_many(old_wb, nr_switched);
+ 	}
  
--	/* find and pin the new wb */
-+	/*
-+	 * Paired with synchronize_rcu() in cgroup_writeback_umount():
-+	 * holding rcu_read_lock across inode_prepare_wbs_switch()
-+	 * (covering the SB_ACTIVE check and the inode grab) and
-+	 * wb_queue_isw() ensures synchronize_rcu() cannot return until
-+	 * the work is queued, so the subsequent flush_workqueue() will
-+	 * wait for the switch.
-+	 */
- 	rcu_read_lock();
-+	/* find and pin the new wb */
+-	for (inodep = isw->inodes; *inodep; inodep++)
++	for (inodep = isw->inodes; *inodep; inodep++) {
++		struct super_block *sb = (*inodep)->i_sb;
++
+ 		iput(*inodep);
++		cgroup_writeback_unpin(sb);
++	}
+ 	wb_put(new_wb);
+ 	kfree(isw);
+ 	atomic_dec(&isw_nr_in_flight);
+@@ -598,16 +619,19 @@ void inode_switch_wbs_work_fn(struct work_struct *work)
+ static bool inode_prepare_wbs_switch(struct inode *inode,
+ 				     struct bdi_writeback *new_wb)
+ {
++	/* Avoid the atomic_inc/smp_mb dance once SB_ACTIVE is gone. */
++	if (!(inode->i_sb->s_flags & SB_ACTIVE))
++		return false;
++
+ 	/*
+-	 * Paired with smp_mb() in cgroup_writeback_umount().
+-	 * isw_nr_in_flight must be increased before checking SB_ACTIVE and
+-	 * grabbing an inode, otherwise isw_nr_in_flight can be observed as 0
+-	 * in cgroup_writeback_umount() and the isw_wq will be not flushed.
++	 * Pairs with smp_mb() in cgroup_writeback_umount(): the umounter either
++	 * sees a non-zero counter and waits, or we see SB_ACTIVE clear below.
+ 	 */
++	cgroup_writeback_pin(inode->i_sb);
+ 	smp_mb();
+ 
+ 	if (IS_DAX(inode))
+-		return false;
++		goto out_dec;
+ 
+ 	/* while holding I_WB_SWITCH, no one else can update the association */
+ 	spin_lock(&inode->i_lock);
+@@ -615,13 +639,17 @@ static bool inode_prepare_wbs_switch(struct inode *inode,
+ 	    inode_state_read(inode) & (I_WB_SWITCH | I_FREEING | I_WILL_FREE) ||
+ 	    inode_to_wb(inode) == new_wb) {
+ 		spin_unlock(&inode->i_lock);
+-		return false;
++		goto out_dec;
+ 	}
+ 	inode_state_set(inode, I_WB_SWITCH);
+ 	__iget(inode);
+ 	spin_unlock(&inode->i_lock);
+ 
+ 	return true;
++
++out_dec:
++	cgroup_writeback_unpin(inode->i_sb);
++	return false;
+ }
+ 
+ static void wb_queue_isw(struct bdi_writeback *wb,
+@@ -673,6 +701,7 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
  	memcg_css = css_from_id(new_wb_id, &memory_cgrp_subsys);
  	if (memcg_css && !css_tryget(memcg_css))
  		memcg_css = NULL;
--	rcu_read_unlock();
++	rcu_read_unlock();
  	if (!memcg_css)
  		goto out_free;
  
-@@ -681,9 +688,11 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
+@@ -688,11 +717,9 @@ static void inode_switch_wbs(struct inode *inode, int new_wb_id)
  
  	trace_inode_switch_wbs_queue(inode->i_wb, new_wb, 1);
  	wb_queue_isw(new_wb, isw);
-+	rcu_read_unlock();
+-	rcu_read_unlock();
  	return;
  
  out_free:
-+	rcu_read_unlock();
+-	rcu_read_unlock();
  	atomic_dec(&isw_nr_in_flight);
  	if (new_wb)
  		wb_put(new_wb);
-@@ -741,6 +750,14 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+@@ -750,14 +777,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
  		new_wb = &wb->bdi->wb; /* wb_get() is noop for bdi's wb */
  
  	nr = 0;
-+	/*
-+	 * Paired with synchronize_rcu() in cgroup_writeback_umount().
-+	 * Holding rcu_read_lock across the SB_ACTIVE check, the inode grab
-+	 * and wb_queue_isw() ensures synchronize_rcu() cannot return until
-+	 * the work is queued, so the subsequent flush_workqueue() will wait
-+	 * for the switch.
-+	 */
-+	rcu_read_lock();
+-	/*
+-	 * Paired with synchronize_rcu() in cgroup_writeback_umount().
+-	 * Holding rcu_read_lock across the SB_ACTIVE check, the inode grab
+-	 * and wb_queue_isw() ensures synchronize_rcu() cannot return until
+-	 * the work is queued, so the subsequent flush_workqueue() will wait
+-	 * for the switch.
+-	 */
+-	rcu_read_lock();
  	spin_lock(&wb->list_lock);
  	/*
  	 * In addition to the inodes that have completed writeback, also switch
-@@ -758,6 +775,7 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+@@ -775,7 +794,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
  
  	/* no attached inodes? bail out */
  	if (nr == 0) {
-+		rcu_read_unlock();
+-		rcu_read_unlock();
  		atomic_dec(&isw_nr_in_flight);
  		wb_put(new_wb);
  		kfree(isw);
-@@ -766,6 +784,7 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
+@@ -784,7 +802,6 @@ bool cleanup_offline_cgwb(struct bdi_writeback *wb)
  
  	trace_inode_switch_wbs_queue(wb, new_wb, nr);
  	wb_queue_isw(new_wb, isw);
-+	rcu_read_unlock();
+-	rcu_read_unlock();
  
  	return restart;
  }
-@@ -1221,6 +1240,14 @@ void cgroup_writeback_umount(struct super_block *sb)
- 	smp_mb();
+@@ -1217,39 +1234,27 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
+ }
  
- 	if (atomic_read(&isw_nr_in_flight)) {
-+		/*
-+		 * Paired with rcu_read_lock() in inode_switch_wbs() and
-+		 * cleanup_offline_cgwb().  synchronize_rcu() waits for any
-+		 * in-flight switcher that already passed the SB_ACTIVE check
-+		 * to finish queueing its work, so flush_workqueue() below
-+		 * will then drain it.
-+		 */
-+		synchronize_rcu();
- 		/*
- 		 * Use rcu_barrier() to wait for all pending callbacks to
- 		 * ensure that all in-flight wb switches are in the workqueue.
+ /**
+- * cgroup_writeback_umount - flush inode wb switches for umount
++ * cgroup_writeback_umount - wait for in-flight inode wb switches on @sb
+  * @sb: target super_block
+  *
+- * This function is called when a super_block is about to be destroyed and
+- * flushes in-flight inode wb switches.  An inode wb switch goes through
+- * RCU and then workqueue, so the two need to be flushed in order to ensure
+- * that all previously scheduled switches are finished.  As wb switches are
+- * rare occurrences and synchronize_rcu() can take a while, perform
+- * flushing iff wb switches are in flight.
++ * Wait until every inode wb switch that already passed the SB_ACTIVE
++ * check on this superblock has been completed by the worker.  Since
++ * SB_ACTIVE is cleared before this is called, no new switches can start
++ * for @sb, so s_isw_nr_in_flight will monotonically drop to zero.
+  */
+ void cgroup_writeback_umount(struct super_block *sb)
+ {
+-
+ 	if (!(sb->s_bdi->capabilities & BDI_CAP_WRITEBACK))
+ 		return;
+ 
+ 	/*
+-	 * SB_ACTIVE should be reliably cleared before checking
+-	 * isw_nr_in_flight, see generic_shutdown_super().
++	 * Pairs with smp_mb() in inode_prepare_wbs_switch(): we either observe
++	 * a non-zero counter and wait, or the switcher sees SB_ACTIVE clear
++	 * (cleared by generic_shutdown_super()) and bails before grabbing the
++	 * inode.
+ 	 */
+ 	smp_mb();
+-
+-	if (atomic_read(&isw_nr_in_flight)) {
+-		/*
+-		 * Paired with rcu_read_lock() in inode_switch_wbs() and
+-		 * cleanup_offline_cgwb().  synchronize_rcu() waits for any
+-		 * in-flight switcher that already passed the SB_ACTIVE check
+-		 * to finish queueing its work, so flush_workqueue() below
+-		 * will then drain it.
+-		 */
+-		synchronize_rcu();
+-		flush_workqueue(isw_wq);
+-	}
++	cgroup_writeback_drain(sb);
+ }
+ 
+ static int __init cgroup_writeback_init(void)
+diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
+index 383050e7fdf5..1ab4e2265129 100644
+--- a/include/linux/fs/super_types.h
++++ b/include/linux/fs/super_types.h
+@@ -274,6 +274,14 @@ struct super_block {
+ 
+ 	/* number of fserrors that are being sent to fsnotify/filesystems */
+ 	refcount_t				s_pending_errors;
++
++#ifdef CONFIG_CGROUP_WRITEBACK
++	/*
++	 * Number of in-flight inode wb switches for this sb.  Drained by
++	 * cgroup_writeback_umount() before tear-down.
++	 */
++	atomic_t				s_isw_nr_in_flight;
++#endif
+ } __randomize_layout;
+ 
+ /*
 -- 
 2.43.7
 
