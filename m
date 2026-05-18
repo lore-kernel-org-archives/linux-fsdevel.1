@@ -1,254 +1,202 @@
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214373A1693
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 07:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5CC3D0BE5;
+	Mon, 18 May 2026 07:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779089321; cv=none; b=bIkMM7K0QsdprZ6TnKez7Whb3WUktshnuRfB7iTcEqi4AYa41W6IDcbcsbxtA2Xgw+MNKzoIwgHSXFIIa/LdsSycHy/jp0IQ2+le+VRFjL/kbJo2unhw7S1qkSHCu9nci2sX3WJgYF+AdO9M5ueAsr7u5ytMBc6SYVhS8Ps8mhY=
+	t=1779089787; cv=none; b=G6qPk38d7SGZ24iaMRe0cQ8lVYGMokL5e/A7hC6xxSZCxdXiJN5rvTnny3FAkZ4zMWAf4oOohCgJqd52nqpZ59YWp7U9WtYxpsyL9+sf/iUURCk7EVomuH+pVqFW3frbJzi2a2Gdg8kKbiJ536OkpxomYxhcZTf/0mv1zCj5/Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779089321; c=relaxed/simple;
-	bh=sNhfDqgkiS9I66WlGSznGGlZGYGMibnts3pvPljSUhs=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=NTSwsEVfVSpA9Dj0IOJbnJnXTzx5eNyqw+v/bID/7y0K3Lq2UyCi8IzdGYYTC4qAHzI3qd2ZjVHzlqAk+MjWN4c9oV+v/Zh/DNaq7oyxSoHbRTKTpleNKJQrx6kEmmJlseGm5WHTfu/uQnQ99Z66IFJmLnZUz2qZ+3/JG0Ezrtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7dcc59fe0d8so2915910a34.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 00:28:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779089319; x=1779694119;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ktv8pofV7HwC0FMo5Td8D7U6jLTeR2OKek2m+rcSdKE=;
-        b=VAXByFfkhHsSlhevY1ot3trSfSU9hRIgNSfsDuUgHfhI1ACCqmaHxgbJH22W7UUiLn
-         niE7IbUjqNbZwqJkb0Ok+nEoDmSuThcFEPs6cwrS3hNQ3aFgLBYvrurFGNOfW5Z5KNMO
-         bII5tanR3eCijOcCxLDyp2jN02R+3+ZyeWNebwzGB/atjT4dBF2zq2zV+zvTtEMCMYPZ
-         BNoqR0zVKXCHSwWZ/G327obgVxT+Rje9ua9DTtaJfVIENsk/83if4rq1c4+UjoTVMBiN
-         JPdEQdKgY7CiIzfab/WwrXnk9gsKUwmRNetjm1EdWvZ0P6S1ayxuPoP3rOI9Pk0eAq+Y
-         7RQQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9wSSJ0ogVx7txe6rzcyh2faMQNS1ofpgzWlYoUCAr1ch0ugs1diseNkL6EJ3m7EuGxs1NqE9mLXqxhGu/b@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0AQk+vLkBKDREB//j8Q/Lv03k69JflqUlJaTFLujN4vd/3jJc
-	ZN1nu/RvBHfMkf4Tv/6YwHphYs87FpUSKmvTnkT0VyrfgPwbi3Xm+GQ/j3bkNNrR1FZb8J4isW4
-	qugOKcaiyCvBIcpWivdnZRWdX/BmLK3U8qLDdnJNdPYC0n86TJs0869yuNgo=
+	s=arc-20240116; t=1779089787; c=relaxed/simple;
+	bh=xb9BlCblh67NNZ/oIEh4HPfAdBxpljrTYZquI60FKKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hz6yYqfoVEQrZJQVgrOGgm9jMEitX+vxNfu9v5cf2Bp9+XcK+rUXcZAzg2eHEiuP2VAIIFp7y7w5q3T4UwzxrnX/hHGsw8DBA5+dOrx/BFDZiBpT3p54dfqpaD+FMTc/R9U8Qgb+zsqYg7KrFz4/pZQyMyaSDADyXmTfrAY8I4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oaul3VJw; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oaul3VJw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2259AC2BCB7;
+	Mon, 18 May 2026 07:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779089787;
+	bh=xb9BlCblh67NNZ/oIEh4HPfAdBxpljrTYZquI60FKKs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oaul3VJwfF/slX/qPkEHyAFZ4d5wOA+ECaFo9CldNsEIoVeg/+9CtoWSs1gFOk+bN
+	 4M3QXIMvwcx/hz6kh9uLe20obwadTUHXFbf9YTgOTaGgif4yI1OSC6Di6kCRMiM2Qd
+	 zN+cLzrdADxFzU0nm6F0t4QbBiyKyI2SSSwqQyeBK7mZPUHZx2OH2skBRM7mLwJPwX
+	 ohDWtsPHxP7bZTwbs5L2KujJ+7Nl8/0gQ60NBcCtTtmYgcWJBKlbMZ0cDyOQrazxeO
+	 S77fQAa0YYBWzvw9DImfbvzKLpMa8o02UaKpJAwEfv53AzMQB9DWR8HJ2ysYuQmZFZ
+	 pz1EINoO6GySQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL for v7.1] vfs fixes
+Date: Mon, 18 May 2026 09:35:59 +0200
+Message-ID: <20260518-vfs-7.1-rc5.fixes-3eded3a501f4@brauner>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:6ac4:b0:67e:f8c:6bcc with SMTP id
- 006d021491bc7-69c942ef633mr9219707eaf.19.1779089319133; Mon, 18 May 2026
- 00:28:39 -0700 (PDT)
-Date: Mon, 18 May 2026 00:28:39 -0700
-In-Reply-To: <20260517170244.1832119-1-jkoolstra@xs4all.nl>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a0abfa7.170a0220.bc3c0.000c.GAE@google.com>
-Subject: [syzbot ci] Re: vfs: add O_CREAT|O_DIRECTORY to open*(2)
-From: syzbot ci <syzbot+cia4da2a1fc78a65a2@syzkaller.appspotmail.com>
-To: brauner@kernel.org, cmirabil@redhat.com, cyphar@cyphar.com, jack@suse.cz, 
-	jkoolstra@xs4all.nl, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5935; i=brauner@kernel.org; h=from:subject:message-id; bh=xb9BlCblh67NNZ/oIEh4HPfAdBxpljrTYZquI60FKKs=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRxHcxksjkfvL3gt69a7S2vt/94paqOzrlRnN8g3ON12 sTh9FeZjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInsO8HIsJC54o1LocRSn7nh BQ48t3pFbs/81dTn3Lmq9nu3+cyecEaGNz92Tj7wacmG1zUX1wovfn5g65Zn7xwYtk4qiZs3tZi /jQMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-syzbot ci has tested the following series
+Hey Linus,
 
-[v3] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-https://lore.kernel.org/all/20260517170244.1832119-1-jkoolstra@xs4all.nl
-* [RFC PATCH v3 1/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-* [RFC PATCH v3 2/2] selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+/* Summary */
 
-and found the following issues:
-* WARNING: lock held when returning to user space in filename_create
-* WARNING: lock held when returning to user space in start_creating
-* possible deadlock in mnt_want_write
+This contains a fixes for the current development cycle. Note that AI
+related review sometimes delays fixes a bit because we find more fixes
+for the fixes. I might try and send smaller but more fixes PRs if this
+trend keeps up.
 
-Full report is available here:
-https://ci.syzbot.org/series/6c2681e8-f8f3-4287-8f97-bd6ea26a767f
+- Fix various netfslib bugs
 
-***
+- Fix an out-of-bounds write when listing idmappings.
 
-WARNING: lock held when returning to user space in filename_create
+- Fix the return values in jfs_mkdir() and orangefs_mkdir().
 
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      6916d5703ddf9a38f1f6c2cc793381a24ee914c6
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/7a0474b8-fd0f-4804-8833-2232742e06e3/config
-syz repro: https://ci.syzbot.org/findings/512f2832-177b-4b65-b835-bdff3e4402bc/syz_repro
+- Fix a writeback writeback array overflow in fuse.
 
-hpfs: hpfs_map_4sectors(): unaligned read
-hpfs: hpfs_map_4sectors(): unaligned read
-hpfs: filesystem error: unable to find root dir
-================================================
-WARNING: lock held when returning to user space!
-syzkaller #0 Not tainted
-------------------------------------------------
-syz.0.17/5814 is leaving the kernel with locks still held!
-1 lock held by syz.0.17/5814:
- #0: ffff8881bab5b878 (&type->i_mutex_dir_key#8/1){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1074 [inline]
- #0: ffff8881bab5b878 (&type->i_mutex_dir_key#8/1){+.+.}-{4:4}, at: __start_dirop fs/namei.c:2919 [inline]
- #0: ffff8881bab5b878 (&type->i_mutex_dir_key#8/1){+.+.}-{4:4}, at: start_dirop fs/namei.c:2943 [inline]
- #0: ffff8881bab5b878 (&type->i_mutex_dir_key#8/1){+.+.}-{4:4}, at: filename_create+0x200/0x370 fs/namei.c:4984
+- Fix a forced iversion increment on lazytime timestamp updates
 
+- Reject a negative timeval component in kern_select().
 
-***
+- Fix error return when vfs_mkdir() fails in the cachefiles code.
 
-WARNING: lock held when returning to user space in start_creating
+- Fix wrong error code returned for pidns ioctls.
 
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      6916d5703ddf9a38f1f6c2cc793381a24ee914c6
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/7a0474b8-fd0f-4804-8833-2232742e06e3/config
-syz repro: https://ci.syzbot.org/findings/7bdf5f73-8cce-4785-aa9e-dd89622cf613/syz_repro
+/* Conflicts */
 
-overlayfs: failed to create directory ./bus/work (errno: 126); mounting read-only
-================================================
-WARNING: lock held when returning to user space!
-syzkaller #0 Not tainted
-------------------------------------------------
-syz.1.18/5833 is leaving the kernel with locks still held!
-1 lock held by syz.1.18/5833:
- #0: ffff8881ba0c4518 (&type->i_mutex_dir_key#3/1){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1074 [inline]
- #0: ffff8881ba0c4518 (&type->i_mutex_dir_key#3/1){+.+.}-{4:4}, at: __start_dirop fs/namei.c:2919 [inline]
- #0: ffff8881ba0c4518 (&type->i_mutex_dir_key#3/1){+.+.}-{4:4}, at: start_dirop fs/namei.c:2943 [inline]
- #0: ffff8881ba0c4518 (&type->i_mutex_dir_key#3/1){+.+.}-{4:4}, at: start_creating+0xbe/0x100 fs/namei.c:3412
+Merge conflicts with mainline
+=============================
 
+No known conflicts.
 
-***
+Merge conflicts with other trees
+================================
 
-possible deadlock in mnt_want_write
+No known conflicts.
 
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      6916d5703ddf9a38f1f6c2cc793381a24ee914c6
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/7a0474b8-fd0f-4804-8833-2232742e06e3/config
-syz repro: https://ci.syzbot.org/findings/6d4f386f-fb66-4862-b644-4ac19c79f6a3/syz_repro
+The following changes since commit 5d6919055dec134de3c40167a490f33c74c12581:
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.0.17/5836 is trying to acquire lock:
-ffff888118cba410
- (sb_writers#12){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
+  Linux 7.1-rc3 (2026-05-10 14:08:09 -0700)
 
-but task is already holding lock:
-ffff88811f1627e0 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1074 [inline]
-ffff88811f1627e0 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}, at: __start_dirop fs/namei.c:2919 [inline]
-ffff88811f1627e0 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}, at: start_dirop fs/namei.c:2943 [inline]
-ffff88811f1627e0 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}, at: filename_create+0x200/0x370 fs/namei.c:4984
+are available in the Git repository at:
 
-which lock already depends on the new lock.
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.1-rc5.fixes
 
+for you to fetch changes up to 8a220d1c312c66194f4a33dd52d1fba42bc2b341:
 
-the existing dependency chain (in reverse order) is:
+  cachefiles: Fix error return when vfs_mkdir() fails (2026-05-15 15:32:43 +0200)
 
--> #1 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}:
-       down_write_nested+0x9d/0x210 kernel/locking/rwsem.c:1751
-       inode_lock_nested include/linux/fs.h:1074 [inline]
-       __start_dirop fs/namei.c:2919 [inline]
-       start_dirop fs/namei.c:2943 [inline]
-       filename_unlinkat+0x2a7/0x610 fs/namei.c:5599
-       __do_sys_unlink fs/namei.c:5653 [inline]
-       __se_sys_unlink+0x2e/0x140 fs/namei.c:5650
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+----------------------------------------------------------------
+vfs-7.1-rc5.fixes
 
--> #0 (sb_writers#12){.+.+}-{0:0}:
-       check_prev_add kernel/locking/lockdep.c:3165 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain kernel/locking/lockdep.c:3908 [inline]
-       __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
-       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
-       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
-       percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
-       __sb_start_write include/linux/fs/super.h:19 [inline]
-       sb_start_write+0x4d/0x1c0 include/linux/fs/super.h:125
-       mnt_want_write+0x41/0x90 fs/namespace.c:493
-       filename_create+0x154/0x370 fs/namei.c:4977
-       filename_mkdirat+0xd2/0x510 fs/namei.c:5337
-       __do_sys_mkdirat fs/namei.c:5365 [inline]
-       __se_sys_mkdirat+0x35/0x150 fs/namei.c:5362
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Please consider pulling these changes from the signed vfs-7.1-rc5.fixes tag.
 
-other info that might help us debug this:
+Thanks!
+Christian
 
- Possible unsafe locking scenario:
+----------------------------------------------------------------
+Breno Leitao (1):
+      fs/select: reject negative timeval components in kern_select()
 
-       CPU0                    CPU1
-       ----                    ----
-  lock(&ovl_i_mutex_dir_key[depth]/1);
-                               lock(sb_writers#12);
-                               lock(&ovl_i_mutex_dir_key[depth]/1);
-  rlock(sb_writers#12);
+Christian Brauner (1):
+      Merge patch series "netfs: Miscellaneous fixes"
 
- *** DEADLOCK ***
+David Howells (22):
+      netfs: Fix cancellation of a DIO and single read subrequests
+      netfs: Fix missing locking around retry adding new subreqs
+      netfs: Fix missing barriers when accessing stream->subrequests locklessly
+      netfs: Fix netfs_read_to_pagecache() to pause on subreq failure
+      netfs: Fix potential for tearing in ->remote_i_size and ->zero_point
+      netfs: Fix zeropoint update where i_size > remote_i_size
+      netfs: Fix potential uninitialised var in netfs_extract_user_iter()
+      netfs: Fix overrun check in netfs_extract_user_iter()
+      netfs: Fix netfs_invalidate_folio() to clear dirty bit if all changes gone
+      netfs: Defer the emission of trace_netfs_folio()
+      netfs: Fix streaming write being overwritten
+      netfs: Fix potential deadlock in write-through mode
+      netfs: Fix read-gaps to remove netfs_folio from filled folio
+      netfs: Fix write streaming disablement if fd open O_RDWR
+      netfs: Fix early put of sink folio in netfs_read_gaps()
+      netfs: Fix leak of request in netfs_write_begin() error handling
+      netfs: Fix potential UAF in netfs_unlock_abandoned_read_pages()
+      netfs: Fix partial invalidation of streaming-write folio
+      netfs: Fix folio->private handling in netfs_perform_write()
+      netfs: Fix netfs_read_folio() to wait on writeback
+      netfs, afs: Fix write skipping in dir/link writepages
+      afs: Fix the locking used by afs_get_link()
 
-1 lock held by syz.0.17/5836:
- #0: ffff88811f1627e0 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}, at: inode_lock_nested include/linux/fs.h:1074 [inline]
- #0: ffff88811f1627e0 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}, at: __start_dirop fs/namei.c:2919 [inline]
- #0: ffff88811f1627e0 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}, at: start_dirop fs/namei.c:2943 [inline]
- #0: ffff88811f1627e0 (&ovl_i_mutex_dir_key[depth]/1){+.+.}-{4:4}, at: filename_create+0x200/0x370 fs/namei.c:4984
+Hongling Zeng (2):
+      fs: Fix return in jfs_mkdir and orangefs_mkdir
+      cachefiles: Fix error return when vfs_mkdir() fails
 
-stack backtrace:
-CPU: 0 UID: 0 PID: 5836 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
- check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
- check_prev_add kernel/locking/lockdep.c:3165 [inline]
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain kernel/locking/lockdep.c:3908 [inline]
- __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
- lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
- percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
- percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
- __sb_start_write include/linux/fs/super.h:19 [inline]
- sb_start_write+0x4d/0x1c0 include/linux/fs/super.h:125
- mnt_want_write+0x41/0x90 fs/namespace.c:493
- filename_create+0x154/0x370 fs/namei.c:4977
- filename_mkdirat+0xd2/0x510 fs/namei.c:5337
- __do_sys_mkdirat fs/namei.c:5365 [inline]
- __se_sys_mkdirat+0x35/0x150 fs/namei.c:5362
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2f5e99ce59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f2f5f771028 EFLAGS: 00000246 ORIG_RAX: 0000000000000102
-RAX: ffffffffffffffda RBX: 00007f2f5ec15fa0 RCX: 00007f2f5e99ce59
-RDX: 0000000000000010 RSI: 0000200000002040 RDI: ffffffffffffff9c
-RBP: 00007f2f5ea32d6f R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f2f5ec16038 R14: 00007f2f5ec15fa0 R15: 00007ffe96c961d8
- </TASK>
+Junxi Qian (1):
+      fuse: fix writeback array overflow when max_pages is one
 
+Junyoung Jang (1):
+      fs/statmount: fix slab out-of-bounds write in statmount_mnt_idmap
 
-***
+Pankaj Raghav (1):
+      fs: fix forced iversion increment on lazytime timestamp updates
 
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
+Paulo Alcantara (1):
+      netfs: fix error handling in netfs_extract_user_iter()
 
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+Viacheslav Dubeyko (1):
+      netfs: fix VM_BUG_ON_FOLIO() issue in netfs_write_begin() call
 
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
+Zhihao Cheng (1):
+      nsfs: fix wrong error code returned for pidns ioctls
 
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
+ fs/9p/v9fs_vfs.h             |  13 --
+ fs/9p/vfs_inode.c            |   6 +-
+ fs/9p/vfs_inode_dotl.c       |  12 +-
+ fs/afs/Makefile              |   1 +
+ fs/afs/dir.c                 |  79 +++++++-----
+ fs/afs/file.c                |  24 +++-
+ fs/afs/fsclient.c            |   4 +-
+ fs/afs/inode.c               | 127 ++++---------------
+ fs/afs/internal.h            |  45 ++++---
+ fs/afs/symlink.c             | 278 ++++++++++++++++++++++++++++++++++++++++
+ fs/afs/validation.c          |  14 +-
+ fs/afs/write.c               |   2 +-
+ fs/afs/yfsclient.c           |   4 +-
+ fs/cachefiles/namei.c        |   2 +
+ fs/fuse/file.c               |   5 +-
+ fs/inode.c                   |   8 +-
+ fs/jfs/namei.c               |   2 +-
+ fs/mnt_idmapping.c           |   2 +
+ fs/netfs/buffered_read.c     |  73 ++++++-----
+ fs/netfs/buffered_write.c    | 174 ++++++++++++++++---------
+ fs/netfs/direct_read.c       |  42 ++----
+ fs/netfs/direct_write.c      |   6 +-
+ fs/netfs/internal.h          |   3 +
+ fs/netfs/iterator.c          |  41 ++++--
+ fs/netfs/misc.c              |  41 ++++--
+ fs/netfs/read_collect.c      |  19 ++-
+ fs/netfs/read_retry.c        |  17 ++-
+ fs/netfs/read_single.c       |  23 ++--
+ fs/netfs/write_collect.c     |  15 ++-
+ fs/netfs/write_issue.c       |  49 ++++---
+ fs/netfs/write_retry.c       |   6 +-
+ fs/nsfs.c                    |   2 +-
+ fs/orangefs/namei.c          |   2 +-
+ fs/select.c                  |  11 ++
+ fs/smb/client/cifsfs.c       |  38 ++++--
+ fs/smb/client/cifssmb.c      |   3 +-
+ fs/smb/client/file.c         |  13 +-
+ fs/smb/client/inode.c        |  14 +-
+ fs/smb/client/readdir.c      |   3 +-
+ fs/smb/client/smb2ops.c      |  42 +++---
+ fs/smb/client/smb2pdu.c      |   3 +-
+ include/linux/list.h         |  37 ++++++
+ include/linux/netfs.h        | 295 +++++++++++++++++++++++++++++++++++++++++--
+ include/trace/events/netfs.h |   8 ++
+ 44 files changed, 1171 insertions(+), 437 deletions(-)
+ create mode 100644 fs/afs/symlink.c
