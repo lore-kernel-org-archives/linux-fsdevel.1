@@ -1,82 +1,107 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDFE15C14F;
-	Mon, 18 May 2026 06:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A59D3CCA11;
+	Mon, 18 May 2026 06:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779086035; cv=none; b=rgIIXUqyd60jJ2s72lO7YLwd9ce0mSBYuVBu2ZS/DhNlBQw+L1O81tuRVe0N1/HwEZ5RX9xG7kasGeYNUdkw1feWbc7FVpktAtyid2JHGPXmS2i38gwP0z/Qq7sPQ9PMmCKoEbnoSNKyYJ4SVHPepEY5RNcGl5QVSTdeBfsEyGw=
+	t=1779086363; cv=none; b=gQS6QlbK/+5h2ggJd4i+PGB7rvY1bdDErTR/jtOz7+QygqSu8ChbTk2pUYu+QDiXtHD2aMA9xTAtSzTBeIflP/rtKZiUZ0Ud3X1lnqJBLdW+ZIH8Yu98cM5QHumu2sg3i2/aAoExD+H1vxyiBViv9aWGkQkfOrnbuoON7u2tbYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779086035; c=relaxed/simple;
-	bh=j3QTDC8yDwPPtroAwXq3qr87mPdpW0/E6Oo2g7devGU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XpF+2xC+fQAf6b66m3CdXaH26m2vJzKGUz6fK3S7DB4o0PZLdqZYgwiiPxc2IvQyqKC7ou9Qf1HVJIkI0CEFtR2E+gNu7vogBE5g8Nyu2yji1+2i4AN2Bxw/AK3LLoV1qkJrPtAJpyP4XaeSVcfUUChxlYmD4b9QUWhMaGSDmCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qC42MBdi; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1779086363; c=relaxed/simple;
+	bh=pRx6pEweDuOf18SQO5MrVK/RTJYRzNQKJPnsOpEw0D0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lU+tTD3/vGN8u3l9CD8dBHdYDyow6/ExidYC6ZJyGa86FPROJl+Fr4lsiciyHEuQtmZ1nJdX7necR4azYH55v891fPWdfcaIcK3E20V5tDySnt/RN99B6leZw5rFK35E5c6UxvtMZYkrS0sk+yG6G9Ot7auJlCeySlwkfRBuyv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=lRTiFQOl; arc=none smtp.client-ip=115.124.30.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qC42MBdi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=ZXdlojor4eZreSZvQ2niU3VpTmSTWNa557g2Qmob984=; b=qC42MBdi/sl9Vti0QiPKRYGs60
-	KV05/8Lar1aBCkKsHkPlrVbQHUkjL57R0W8q3Y6Pi4ck0aYbUwHtXlv+p+bLS9gLOkEvhnjeD4RYa
-	KgYh6SIOHo2ahBUZgPcQTPAeOnqCpd+y6gZa6jlJfNEMFvfHRtVLisPK49kvFVP+uFsyicNwVmQHQ
-	F/pbavy9FCuYTLHGASIHYczvBude7sPzp/iDZV+PQkWz3otyepjTQC+mv1K7hBaIshUmvQCPJP6yD
-	IJvQrLTuBexzbW07Hg4SnsR98zIHfFWlOdqp8oCHgIYYwyI6ldmMxRUgR0MR/mkdPRjU3u+Pk27+F
-	3apjxxFA==;
-Received: from [2001:4bb8:2ee:fcf2:e6ad:a575:3e60:e254] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wOrXy-0000000ERIM-0iur;
-	Mon, 18 May 2026 06:33:50 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-block@vger.kernel.org
-Subject: [PATCH 2/2] block: don't set BIO_QUIET for BLK_STS_AGAIN
-Date: Mon, 18 May 2026 08:33:30 +0200
-Message-ID: <20260518063336.507369-3-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260518063336.507369-1-hch@lst.de>
-References: <20260518063336.507369-1-hch@lst.de>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="lRTiFQOl"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1779086356; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=lUBLwiSnJ+yN8ROsUfa/+tX1XkZcgIDIxGet+HC+cC0=;
+	b=lRTiFQOlmqq+ks0Jiwusy9FW4PIfkLr9WPB9dPFmuU3iiYH01Cxcp//poNQ1AxUA0NzjQs3M0NhyEInHXNBaawRWRQqaCyynWqyhBPKnogCVf5izrjoSce5YoWad6bF0PbZcI0I74iIbeY/3fk9XpGoTt4YUsI/ikMTOmA5dd0I=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X34EaX1_1779086354;
+Received: from 30.74.144.119(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X34EaX1_1779086354 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 18 May 2026 14:39:14 +0800
+Message-ID: <c0a6e4ea-3ca5-4efc-af5e-b5abc968308b@linux.alibaba.com>
+Date: Mon, 18 May 2026 14:39:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/4] mm/shmem: use SGP_GET in read operations
+To: Chi Zhiling <chizhiling@163.com>, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc: Hugh Dickins <hughd@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Chi Zhiling <chizhiling@kylinos.cn>
+References: <20260515094702.1092355-1-chizhiling@163.com>
+ <20260515094702.1092355-3-chizhiling@163.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260515094702.1092355-3-chizhiling@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Commit abb30460bda2 ("block: mark bio_wouldblock_error() bio with
-BIO_QUIET") added this to suppress buffer_head warnings, but neither
-when this commit was added nor now any buffer_head using code actually
-ever sets REQ_NOWAIT which can lead to BLK_STS_AGAIN.
 
-Remove the special handling for now.  If we ever plan to use REQ_NOWAIT
-for buffer_head based I/O we're better off handling BLK_STS_AGAIN in
-the completion handler as it actually needs to retry the I/O as well.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- include/linux/bio.h | 1 -
- 1 file changed, 1 deletion(-)
+On 5/15/26 5:47 PM, Chi Zhiling wrote:
+> From: Chi Zhiling <chizhiling@kylinos.cn>
+> 
+> Replace SGP_READ with SGP_GET in shmem_file_read_iter(),
+> shmem_file_splice_read(), and shmem_get_link(). These functions
+> immediately unlock the folio after getting it, making the lock
+> acquisition redundant.
+> 
+> Even though folio_lock can protect folio data consistency or prevent
+> truncate while holding the lock, these can still happen after unlock.
+> Since these functions continue reading data after unlocking, the lock
+> does not provide effective protection. The folio reference count is
+> what actually prevents reclamation during access, making the lock
+> unnecessary.
+> 
+> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+> ---
 
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 85463981d0f5..7597ae4dc52b 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -379,7 +379,6 @@ static inline void bio_io_error(struct bio *bio)
- 
- static inline void bio_wouldblock_error(struct bio *bio)
- {
--	bio_set_flag(bio, BIO_QUIET);
- 	bio->bi_status = BLK_STS_AGAIN;
- 	bio_endio(bio);
- }
--- 
-2.53.0
+Thanks for your patch. It would be better to squash patch 1 and patch 2 
+into a one commit, so that the usage of the newly introduced flag can be 
+easily seen.
 
+>   mm/shmem.c | 12 +++---------
+>   1 file changed, 3 insertions(+), 9 deletions(-)
+> 
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index ef19968cc51c..767610f78d0d 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -3370,15 +3370,13 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>   			break;
+>   
+>   		index = iocb->ki_pos >> PAGE_SHIFT;
+> -		error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
+> +		error = shmem_get_folio(inode, index, 0, &folio, SGP_GET);
+>   		if (error) {
+>   			if (error == -EINVAL)
+>   				error = 0;
+>   			break;
+>   		}
+>   		if (folio) {
+> -			folio_unlock(folio);
+> -
+
+This is incorrect. Since a shmem folio can still be locked if it is 
+being swapped in from the swap device.
+
+Essentially, you need to show reviewers the benefit of introducing a new 
+flag. In what scenario would you see overhead from locking the folio in 
+shmem_get_folio()? And how much performance improvement does your patch 
+bring? Data is the easiest way to convince people:)
