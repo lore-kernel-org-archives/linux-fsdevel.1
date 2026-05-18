@@ -1,359 +1,115 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4B1481FBC
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 16:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0349015665C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 16:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779122132; cv=none; b=p7H2deKDSKjPmdyAdqABaJqHokU40iK5W8MNiLXpdk8Jnzn3QGa0DfHGPEVVO0VNyrmofat5gOrZiAYZuhwrm4Cl7vcoCStu7zjozJGDfx8DkdPzzqU1d1IymKm5tquQvE8bKSj4j5pHpIwaqZzk1imYB8CcH2AapE4VIcZ5apI=
+	t=1779123172; cv=none; b=cAk6at0NmNzXw18Fn7XQVNAkfT4iVH1nrM40DpFHxqJw9kH7HpatG6kxE+TqEkAKtN3n/lBU1UUeYSusi4gAa6OquXN5niOjA06i5Lz72DTtKM/H6MfKcjdzRHM84Wk+gK+xjZhlg8uvzebRarzCsVBVOuFzC45BeghavlEODA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779122132; c=relaxed/simple;
-	bh=J6vYP+pwxqJtl3IXGpjK6NcN9iylazyz59URcLbnfuQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gR+tdX4DZEfuJ56iu6HnNXIJ5ZSso8fNXUE84OhKRD4HPAt1ihr2NKonf7uc40lnBms6VrKpdml9m8rWM37UdC40xC4KlBB7vQ0XcyyMsDn+3CswTo6+vK7hKkz4dZD3mPEtuYSut+w+uPpXoTOHd+YSwePiGoiYq781pxOsJJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ukhi34VE; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1779123172; c=relaxed/simple;
+	bh=USEKATtRMiFiwWlGwSjTTGVWkHT8xLZEblrWxgEs3TE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IoXeqOAGqGTI0wyIaIIgJA0WV8FRfFA/alfzO8WSySJQZqhZMdwa1V21WCXnhDEE8Jusgfxl+7AKWPbU0fl0I6LasGbhzmEmRoZFKmm9bbX4urYRvsgmkPGWM0IBuHnOAVuZSAFXsxgq/iiqTwD6AD8YX6HucqKM9qDcDfJmJrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=rmKeL9wF; arc=none smtp.client-ip=195.121.94.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ukhi34VE"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488940ccfa6so1415e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 09:35:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="rmKeL9wF"
+X-KPN-MessageId: d6ff70aa-52d9-11f1-b189-005056abad63
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id d6ff70aa-52d9-11f1-b189-005056abad63;
+	Mon, 18 May 2026 18:51:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779122128; x=1779726928; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9JIolJGgKb991CwNklVUCVvleyM5JMSNh06xqnYIkkE=;
-        b=ukhi34VE7hisDw8lB9rjG8v4kOMjx9/9N+vbJOg9cN2rdFS4tLh3yx3DwwwrTB1+bn
-         QyOHu0q7mDWGdRK3CGDh4oT5idAc6UoeD2P1+k9ODKsRWSTapIlF5qHx/qjiQ0RMkJVf
-         2afRtWw4YpBCeq/fAyq4DVWK8yU9UVo9KfXKHRKFI3H8d5thqlBDJxFl4n4uS4k1C9IV
-         etxsoRGc/6kve1d9hFgV4YtIhtmwFzp15rhFRyaKSnFyGQbWMbuBaakohMlKOGkxuAnK
-         mPZI7s5bUYm6GUOVvdXO1H7hVOVa/cJB5c8z4GsvUmiFRhzg1FICol5EZj3BqC+vB4zm
-         AExg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779122128; x=1779726928;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9JIolJGgKb991CwNklVUCVvleyM5JMSNh06xqnYIkkE=;
-        b=FQKhIG0q7ExJphKPCDpg/1LJ87CFtUxX/59SD26zasOoFf+0PAjs668RvQfyfaixOS
-         h9h71xjL64x4Vbpkx8KCQ7m3VKQEUEvUduNxm/fSbHbyFsj7p/+0u0a+BLXtaaC89QYs
-         TCwclZjGq08NFSBCJTtNtLq5rSN3+HGSmwXW8vF4/HZNs3PJQF5sCDz4f9rCTR0KImA6
-         p8IwfBWOlZ/b1cJs0JI5YO/7ufcVzi3lAB/J+LTMk+fhqHJYysGPyFkWEYZvtyxQ1z/G
-         yAwXZ0MDXHGGbjxYfY1ghoMkQHD8X4xqxg+lHsqUG2wMtWu0V0nAuZ7wp9dYO4rA3jLL
-         nyIw==
-X-Forwarded-Encrypted: i=1; AFNElJ/ofIrFxcfAD3srD7/pAlvdUxszm0xRyVPajcyDYFRGuSEw97WnorguNZe3POk/zHhR/pAVI7mAWonZzuH4@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl5ACRmCIzCEnSmH5fYCO96H+nw2NGasqOXgM4AkuydPMUIFLn
-	3NpOdDVAbuGSipfjtcV3VoLxyVk1DYGgDUQW185udztmuxciamUtUsg7Bvd3NgzMJQ==
-X-Gm-Gg: Acq92OFIp9tpQgs1veS27bPcfOMPsMHExoU55TUHCTW/Ni2QQ7RhLEJTtK1o5Rrn7PE
-	V3c5oYHPJpIYuJ9AbSdQRgSHOiTTiNOIUtkpbV2jWOnP5ahuS+IaNywyXwLgDYCq/1n8fd2vNTf
-	pePKlLSzA2ywUXkoxhPbYkNsLJZrCRM6Jj55x94AiXlCZyqcleKg9k/R09Qr32Can4Q/PyPUwuh
-	n9pPpvGrNWg3tHwaJyPpcNu1f0esuJ2AEvsRjnvSUGlDzsBZVbiVND4KGgDNPyD2qiPqaDsfSnB
-	fyJYjE6KGvtVPIIFLSZJLqnT1ke+rI1Y9mUssuqiublyJ7OK/KRz82bXr0Q56Y+0+Owyh6b4NRU
-	/Xn5mZFoNeeZBbTfDv7AUddQs7nHAA5AxYPYaxRTKufq01tJbrZcoc3+3h0LjiImu7D+hOrxZAd
-	SisSEu+aRD63C41RuiSxuc8GIqku3tbrwh2f5rmyxl7Xpw+K1H3vv48r9+Y2kY
-X-Received: by 2002:a05:600c:6986:b0:485:2ab4:c1f9 with SMTP id 5b1f17b1804b1-48ffa5a381fmr2897155e9.4.1779122127357;
-        Mon, 18 May 2026 09:35:27 -0700 (PDT)
-Received: from localhost ([2a00:79e0:288a:8:866a:e549:273b:bc0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a1aeafsm40394849f8f.23.2026.05.18.09.35.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 09:35:26 -0700 (PDT)
-From: Jann Horn <jannh@google.com>
-Date: Mon, 18 May 2026 18:35:16 +0200
-Subject: [PATCH 2/2] proc: protect ptrace_may_access() with
- exec_update_lock (FD links)
+	d=xs4all.nl; s=xs4all01;
+	h=mime-version:message-id:date:subject:to:from;
+	bh=M7B7kKE0eLi9GOIOi1kULGBY3rbxyElnnDLj0aVHnjQ=;
+	b=rmKeL9wFyCinC4djiCEWxhF7CrIu1pHZjZZfBMJ7UTqltJeYnYEUHQ825yBqG0ogMiTBraAliFTgi
+	 ++O/6XhildIokJX3k76jbKfYZ5vyaDxtjpeUqDq+tkj+6b9SR3eOWU/M+L+5+cnqUM8B5q+bz2nuSV
+	 zO1wK/wYa+A2sfZkYfDhHrtUqxqEWChH707xxv3y2ltme3u6INoXAUyclC3OIUpt9rebYDoYuc0hHw
+	 cDa1D/n/N3t2ZOp1rYSXzlj+5awmIoYWBK2r5XqIDZtKDehb2haeFPuchixT0WEm4yEm6D6YCdXkS1
+	 vEjhg+dIBiwB3FZ4iWFgbGCaa+vHMww==
+X-KPN-MID: 33|Pumk+v5QEMb/tWBIF4yScYnp0HwIclVNAS6v3cq7Br+82OOBMCendVRQhOvaEl7
+ RCCIulP6T4jMLFUsVfPNGOGPnLAIxSeNdLTfNhQI0pYE=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|gPwIyX8fQ2PCUud7AEkpvKL2s7DTB1mS7l8GdlEjGqjedawuOzdIHkVLL/JxpKs
+ TbiE6UkdbcD6hMmo7x5vK/g==
+Received: from daedalus.home (unknown [178.227.141.244])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id d412cc48-52d9-11f1-8011-005056ab7447;
+	Mon, 18 May 2026 18:51:39 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Aleksa Sarai <cyphar@cyphar.com>
+Cc: Jori Koolstra <jori.koolstra@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	cmirabil@redhat.com,
+	Jori Koolstra <jkoolstra@xs4all.nl>
+Subject: [RFC PATCH v4 0/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Date: Mon, 18 May 2026 18:52:35 +0200
+Message-ID: <20260518165237.2084042-1-jkoolstra@xs4all.nl>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260518-procfs-lockfix-part1-v1-2-5c3d20e0ac33@google.com>
-References: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
-In-Reply-To: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>, Arjan van de Ven <arjan@linux.intel.com>, 
- "Eric W. Biederman" <ebiederm@xmission.com>, Jake Edge <jake@lwn.net>, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Jann Horn <jannh@google.com>, stable@vger.kernel.org
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779122120; l=7748;
- i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=J6vYP+pwxqJtl3IXGpjK6NcN9iylazyz59URcLbnfuQ=;
- b=VGuWqwO60b4SF4T9W/cDNEZOqXEC7aVVevIZX9SsSb7uy7X+b/lA73E07zjsjHEDTj1bkJKC4
- Sr5mX0rxXNWBNf5FqcB4mV1qb5KBWiQZz4gXJvCc1GPzB4bRclzXhJN
-X-Developer-Key: i=jannh@google.com; a=ed25519;
- pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
+Content-Transfer-Encoding: 8bit
 
-proc_pid_get_link() and proc_pid_readlink() currently look up the task from
-the pid once, then do the ptrace access check on that task, then look up
-the task from the pid a second time to do the actual access.
-That's racy in several ways.
+This series implements new semantics for the O_CREAT|O_DIRECTORY flag
+combination for open*(2): perform a mkdir and open the resulting
+directory; return a pinning fd (which mkdir does not).
 
-To fix it, pass the task to the ->proc_get_link() handler, and instead of
-proc_fd_access_allowed(), introduce a new helper call_proc_get_link() that
-looks up and locks the task, does the access check, and calls
-->proc_get_link().
+Feedback by Christian Brauner and Aleksa Sarai on the v2 rfc of this
+patch was to not introduce a new syscall (mkdirat2) but implement this
+functionality as O_CREAT|O_DIRECTORY in open*(2). I had some very silly
+bugs that syzbot alerted me of in v3, so here is v4...
 
-Fixes: 778c1144771f ("[PATCH] proc: Use sane permission checks on the /proc/<pid>/fd/ symlinks")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jann Horn <jannh@google.com>
----
- fs/proc/base.c     | 119 +++++++++++++++++++++--------------------------------
- fs/proc/fd.c       |  27 +++++-------
- fs/proc/internal.h |   2 +-
- 3 files changed, 59 insertions(+), 89 deletions(-)
+Three comments from me upfront:
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 09b02d1621e5..ef2f59461374 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -218,33 +218,24 @@ static int get_task_root(struct task_struct *task, struct path *root)
- 	return result;
- }
- 
--static int proc_cwd_link(struct dentry *dentry, struct path *path)
-+static int proc_cwd_link(struct dentry *dentry, struct path *path,
-+			 struct task_struct *task)
- {
--	struct task_struct *task = get_proc_task(d_inode(dentry));
- 	int result = -ENOENT;
- 
--	if (task) {
--		task_lock(task);
--		if (task->fs) {
--			get_fs_pwd(task->fs, path);
--			result = 0;
--		}
--		task_unlock(task);
--		put_task_struct(task);
-+	task_lock(task);
-+	if (task->fs) {
-+		get_fs_pwd(task->fs, path);
-+		result = 0;
- 	}
-+	task_unlock(task);
- 	return result;
- }
- 
--static int proc_root_link(struct dentry *dentry, struct path *path)
-+static int proc_root_link(struct dentry *dentry, struct path *path,
-+			  struct task_struct *task)
- {
--	struct task_struct *task = get_proc_task(d_inode(dentry));
--	int result = -ENOENT;
--
--	if (task) {
--		result = get_task_root(task, path);
--		put_task_struct(task);
--	}
--	return result;
-+	return get_task_root(task, path);
- }
- 
- /*
-@@ -710,23 +701,6 @@ static int proc_pid_syscall(struct seq_file *m, struct pid_namespace *ns,
- /*                       Here the fs part begins                        */
- /************************************************************************/
- 
--/* permission checks */
--static bool proc_fd_access_allowed(struct inode *inode)
--{
--	struct task_struct *task;
--	bool allowed = false;
--	/* Allow access to a task's file descriptors if it is us or we
--	 * may use ptrace attach to the process and find out that
--	 * information.
--	 */
--	task = get_proc_task(inode);
--	if (task) {
--		allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
--		put_task_struct(task);
--	}
--	return allowed;
--}
--
- int proc_nochmod_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
- 		 struct iattr *attr)
- {
-@@ -1783,16 +1757,12 @@ static const struct file_operations proc_pid_set_comm_operations = {
- 	.release	= single_release,
- };
- 
--static int proc_exe_link(struct dentry *dentry, struct path *exe_path)
-+static int proc_exe_link(struct dentry *dentry, struct path *exe_path,
-+			 struct task_struct *task)
- {
--	struct task_struct *task;
- 	struct file *exe_file;
- 
--	task = get_proc_task(d_inode(dentry));
--	if (!task)
--		return -ENOENT;
- 	exe_file = get_task_exe_file(task);
--	put_task_struct(task);
- 	if (exe_file) {
- 		*exe_path = exe_file->f_path;
- 		path_get(&exe_file->f_path);
-@@ -1802,26 +1772,42 @@ static int proc_exe_link(struct dentry *dentry, struct path *exe_path)
- 		return -ENOENT;
- }
- 
-+static int call_proc_get_link(struct dentry *dentry, struct inode *inode, struct path *path_out)
-+{
-+	struct task_struct *task;
-+	int ret;
-+
-+	task = get_proc_task(inode);
-+	if (!task)
-+		return -ENOENT;
-+	ret = down_read_killable(&task->signal->exec_update_lock);
-+	if (ret)
-+		goto out_put_task;
-+	if (!ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS)) {
-+		ret = -EACCES;
-+		goto out;
-+	}
-+	ret = PROC_I(inode)->op.proc_get_link(dentry, path_out, task);
-+
-+out:
-+	up_read(&task->signal->exec_update_lock);
-+out_put_task:
-+	put_task_struct(task);
-+	return ret;
-+}
-+
- static const char *proc_pid_get_link(struct dentry *dentry,
- 				     struct inode *inode,
- 				     struct delayed_call *done)
- {
- 	struct path path;
--	int error = -EACCES;
-+	int error;
- 
- 	if (!dentry)
- 		return ERR_PTR(-ECHILD);
--
--	/* Are we allowed to snoop on the tasks file descriptors? */
--	if (!proc_fd_access_allowed(inode))
--		goto out;
--
--	error = PROC_I(inode)->op.proc_get_link(dentry, &path);
--	if (error)
--		goto out;
--
--	error = nd_jump_link(&path);
--out:
-+	error = call_proc_get_link(dentry, inode, &path);
-+	if (!error)
-+		error = nd_jump_link(&path);
- 	return ERR_PTR(error);
- }
- 
-@@ -1855,17 +1841,11 @@ static int proc_pid_readlink(struct dentry * dentry, char __user * buffer, int b
- 	struct inode *inode = d_inode(dentry);
- 	struct path path;
- 
--	/* Are we allowed to snoop on the tasks file descriptors? */
--	if (!proc_fd_access_allowed(inode))
--		goto out;
--
--	error = PROC_I(inode)->op.proc_get_link(dentry, &path);
--	if (error)
--		goto out;
--
--	error = do_proc_readlink(&path, buffer, buflen);
--	path_put(&path);
--out:
-+	error = call_proc_get_link(dentry, inode, &path);
-+	if (!error) {
-+		error = do_proc_readlink(&path, buffer, buflen);
-+		path_put(&path);
-+	}
- 	return error;
- }
- 
-@@ -2256,21 +2236,16 @@ static const struct dentry_operations tid_map_files_dentry_operations = {
- 	.d_delete	= pid_delete_dentry,
- };
- 
--static int map_files_get_link(struct dentry *dentry, struct path *path)
-+static int map_files_get_link(struct dentry *dentry, struct path *path,
-+			      struct task_struct *task)
- {
- 	unsigned long vm_start, vm_end;
- 	struct vm_area_struct *vma;
--	struct task_struct *task;
- 	struct mm_struct *mm;
- 	int rc;
- 
- 	rc = -ENOENT;
--	task = get_proc_task(d_inode(dentry));
--	if (!task)
--		goto out;
--
- 	mm = get_task_mm(task);
--	put_task_struct(task);
- 	if (!mm)
- 		goto out;
- 
-diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-index 05c7513e77c7..0f9a1556f2a3 100644
---- a/fs/proc/fd.c
-+++ b/fs/proc/fd.c
-@@ -171,24 +171,19 @@ static const struct dentry_operations tid_fd_dentry_operations = {
- 	.d_delete	= pid_delete_dentry,
- };
- 
--static int proc_fd_link(struct dentry *dentry, struct path *path)
-+static int proc_fd_link(struct dentry *dentry, struct path *path,
-+			struct task_struct *task)
- {
--	struct task_struct *task;
- 	int ret = -ENOENT;
--
--	task = get_proc_task(d_inode(dentry));
--	if (task) {
--		unsigned int fd = proc_fd(d_inode(dentry));
--		struct file *fd_file;
--
--		fd_file = fget_task(task, fd);
--		if (fd_file) {
--			*path = fd_file->f_path;
--			path_get(&fd_file->f_path);
--			ret = 0;
--			fput(fd_file);
--		}
--		put_task_struct(task);
-+	unsigned int fd = proc_fd(d_inode(dentry));
-+	struct file *fd_file;
-+
-+	fd_file = fget_task(task, fd);
-+	if (fd_file) {
-+		*path = fd_file->f_path;
-+		path_get(&fd_file->f_path);
-+		ret = 0;
-+		fput(fd_file);
- 	}
- 
- 	return ret;
-diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-index 64dc44832808..d31984c3c797 100644
---- a/fs/proc/internal.h
-+++ b/fs/proc/internal.h
-@@ -107,7 +107,7 @@ extern struct kmem_cache *proc_dir_entry_cache;
- void pde_free(struct proc_dir_entry *pde);
- 
- union proc_op {
--	int (*proc_get_link)(struct dentry *, struct path *);
-+	int (*proc_get_link)(struct dentry *, struct path *, struct task_struct *);
- 	int (*proc_show)(struct seq_file *m,
- 		struct pid_namespace *ns, struct pid *pid,
- 		struct task_struct *task);
+- This patch just EINVAL bans O_CREAT|O_DIRECTORY for filesystems that
+  define atomic_open(). I figure it is better to (dis)allow on a fs per
+  fs basis. So feedback per filesystem on what is the appropriate course
+  of action on receiving O_CREAT|O_DIRECTORY would be very welcome.
+
+- If we create a regular file with mknod, before creation
+  security_path_mknod() is called, and after creation
+  security_path_post_mknod(). If we create a regular file using O_CREAT
+  (and this is also pre-patch) only security_path_mknod() is called. Is
+  this the correct behaviour?
+
+- open_last_lookups() locks the parent inode like like: 
+
+		inode_lock(dir->d_inode);
+
+  should this perhaps be
+
+		inode_lock_nested(dir, I_MUTEX_PARENT);
+
+  to stay consistent with the start_dirop() path that is used by
+  filename_create() for instance in mknod(2)? I get that we are only
+  locking one inode here at most, so it does not really matter, but
+  now one regular file create path does set the lockdep and the other
+  does not.
+
+Jori Koolstra (2):
+  vfs: add O_CREAT|O_DIRECTORY to open*(2)
+  selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+
+ fs/namei.c                                    | 180 +++++++++++-----
+ fs/open.c                                     |  25 ++-
+ include/uapi/asm-generic/fcntl.h              |   2 +
+ .../testing/selftests/filesystems/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/Makefile  |   4 +-
+ tools/testing/selftests/filesystems/fclog.c   |   1 +
+ .../filesystems/open_o_creat_o_dir.c          | 200 ++++++++++++++++++
+ 7 files changed, 342 insertions(+), 71 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_dir.c
 
 -- 
-2.54.0.563.g4f69b47b94-goog
+2.54.0
 
