@@ -1,164 +1,102 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E101738B7B3
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 19:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE98A393DE0
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 20:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779133787; cv=none; b=kp3C3xSbMmIDknJ4G2C/UP4DnyHZQBIbDeH7ichOjYTN7cm/P8MQ64eQRVXosRtKhkVwqKSOfwB1jKoGrdwkx5cahzS+4WI/HP9lWs/POLFaEygbT233SFYg12CtctWbcONdIRZJudlRsbocHihEBN8lhLWw7DlTiffIno2eO14=
+	t=1779136964; cv=none; b=VoOxcD8773ZPLx/EqVvrFOU9cZt1y+izSHQv7DkoySb0QGi9/S+qGeNNChfoWNHNKJ3ETJ7GN5YUAF43XJjJyHb8qRMeY4n3lD4uoy65oPhZG0LwG669nLonaIFFz/Wf9urQyWmSJoN5CmdkMk559uOUlI3dMWDKRMZJNMKFwGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779133787; c=relaxed/simple;
-	bh=j9kmxjMEOPhqwMBlreKKTmZ9079fBm/XA7Zn+8z7jp4=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=iORX68TwIU6m/FxS1cgKx9xefUtvM32nmRZ6TomNXDsSVXAdETtoF5l958dgFe1PURiRQj1HOQ3IPeUBQCSeLapfSFiQcEDDyMhyi/mrdESsf3kTuqhZ+jB8ZB8zQI0pUPmu/2FzGF6n3xV4S2lLJNgDfLfcFipK5uTPaJcgMls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b=KY1xDIx6; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
+	s=arc-20240116; t=1779136964; c=relaxed/simple;
+	bh=nQVouHXOMCqKouN03zntvmRFb98UZvsXHIXc5Lhetxo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Yad3QLDMHTGQLdGyiTrnZQU7mnOM1EzYN86ZvOMXbGmTyISiCHfC/O1HO2r0lw5oZfu84AhwMjJRZMPRhCdJBndcizu9vfrWHPNw1a9oyfetRUGO/2dL+JIodz4nNAV9FkYBmOdNIj/Mw0x5NIQZfURiEsXHgutGrc8XjyXPg1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LaUF8OXi; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dilger-ca.20251104.gappssmtp.com header.i=@dilger-ca.20251104.gappssmtp.com header.b="KY1xDIx6"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-366139223e4so1431422a91.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 12:49:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LaUF8OXi"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2b2ecc96a9aso32320525ad.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 13:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20251104.gappssmtp.com; s=20251104; t=1779133785; x=1779738585; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jXkEizAZd7wRFvVTMvMDw5R0J5iwG2vTUc9MlXWdewk=;
-        b=KY1xDIx6CtgEhr/7KLO33NfbrdTcLWk0LBh98DY4twMALrGCX+qiUQv2Lpssn1erkr
-         KxLe1VuHkzX+favCDG4l5ISAWuUNfEdVq4uHOciyl6vMgdipdoY9JWDWIl/0ZvJzBe85
-         Zd8Cydv569KzijxWSXGznDboroZkgIkzikDjJxF08CK/P+/HVZ3bzj647OEBvVHXJkkt
-         xMzleGcgTNcwiGfrya1meg1zAz3cfteR31ZeQukZBzHNXrIvMzVdJ3k7rden/VgAcSSE
-         XhDb347nddw3p0lIA0AfOHEB/9qTLdsP3WU8FfFP/i2tciLzt6+7/My58kB4iTNpW4ln
-         HFiA==
+        d=google.com; s=20251104; t=1779136962; x=1779741762; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vEZiI2mCaxhF27MBx5FxJQ+kMagKDbcRpCU+GTF0M5o=;
+        b=LaUF8OXiun00q6G5gyzFgzqxAR8yDko5H7DIT0sHGhmHtIc43DXdUyzOheAeN5ZdKp
+         QGlspkvwP0DFmgMNoDYdeYt0yMsuM08OHkhOzQD5WDC2efW4zSPiFG/gnD71CL+N3IJr
+         8096AAP/VAcySjXMFl09Ea8sPOwNbiCVEL9au8CJ41ah0BXjXmUDBKSF9vfhsfK65dq0
+         H7JCGOMDhL0Ad6yftSQM5Lt/6G76ihixSNmyxF6B9wzFRgXHfc41Mzi9KLl7XL/aeeoF
+         prJZbNBU4czyFvBcBesF1PWCcqJ7QNoLCHHP44uoYTEJUwHu1aAUDL5QgmO8NE0Th3JB
+         r4cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779133785; x=1779738585;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jXkEizAZd7wRFvVTMvMDw5R0J5iwG2vTUc9MlXWdewk=;
-        b=o0v1Jc0Z2NZLYeE4C506Wg/fRT1WD+pUpsI+m7/oagFVWwjePfJiExd3DxwtKqofim
-         5rI34/hKwoFlllWjCxJxZ6q9fF6mocwr1Zc4pUJZgZV7+UJwUQnflu33wRuBP0dRddAl
-         3dAOiPbyaxam6TYlhF7S+MDRNhce3aY9efbinLheY9z07F0fXuWJeen5J/YUj9+FAZuf
-         4YtrrprH1dxdbb5uX0x8LKpvOPKoZZfWZ43p8tdPjtdAIqM3L4RBgofOauKWeqHkAIiS
-         mQiNlGUiAZWWkUaGoR2opKar7TTlQebLamKNF+kePLq+NlfWHabm33I1+RPM8DlDqWVq
-         NLBw==
-X-Forwarded-Encrypted: i=1; AFNElJ8l67thY8LLHk2IoIMbx/rBDwuQq0vLcN1kv/Ap2gNISR4ZFMuzbnYS1XD5f3OG1cf/lJdwTIl2kLqxz91x@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRlWAP9sOS1S6tH91Z0JhoYblEzL68BV30k7FfetYCEFyh+Xkn
-	wwZwJMvZ7pybpt/WT9QHleO2LNNMZ/UBQKMq/k7bxJP5VYG9+eYsU1AGfZN6Othr/hc=
-X-Gm-Gg: Acq92OFfvvhgg4FmDAb4rtKmsMtDr160lhfd1Je2VVWiCfqjFbtSLUPhMC+VwZChxV6
-	Qo3t1hAANjtAXHxSLc3IqeHYj6XCS7ohCEQuZc/3eUnErpw2e6lyua0mJusIWbosN5dlCmsrPu0
-	Q1wu79RW1Z45Go+nGCtj4LtnXZ01QUAQDX+XeL3IJN77I0haUDjs0eEJpVzfmAcBKJcxRltKyPw
-	Dw07VjBVlDtL3ZkCgpXjiM8wiSzvzpPU7DBBKwIOhx18pp0DaMsrAlkDNt5DxQyOzpX6Kn9R+OO
-	kNrBgDkUmxCbt16DXntQ6e57B3BARIHQektoVU9Z7pT+hzSpqej61CDH+8YV3L0lLOWL3D9MCvR
-	HE6anwOIECAWW7JbEnCn48oeY4ejSZARngxw06nb9iBcwtmUY5kqYZSkiMdC0l24UmKxiTRS3nj
-	EoTTfz0vYufbjdF9sx4ewmM2pguNqCUF83kQhLVcwbJhSFHd+dS25aAf8fOfK8Hr7SyYt+7s+dO
-	N1ApDBzDMxCQTCvJacBrV08dg==
-X-Received: by 2002:a17:90b:5904:b0:368:f179:ba07 with SMTP id 98e67ed59e1d1-36951a1cb7dmr16636204a91.9.1779133785138;
-        Mon, 18 May 2026 12:49:45 -0700 (PDT)
-Received: from smtpclient.apple (S0106a0ff70715ac6.ek.shawcable.net. [174.0.84.146])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-369515895d2sm11637092a91.8.2026.05.18.12.49.43
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 May 2026 12:49:44 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+        d=1e100.net; s=20251104; t=1779136962; x=1779741762;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vEZiI2mCaxhF27MBx5FxJQ+kMagKDbcRpCU+GTF0M5o=;
+        b=jPjeW3jhaAE/vrAmNk82mZWOTqIG2/hbfFmt/E/U5oRoDRZ7f84SpbkiPz7Eo+SzC3
+         twqQcTXvT4Xrr7arSoBauqL1IKnK84ZhLbS//FshVHrqqMvWd/QtdSFlCFFGMDzhB32c
+         ng/t/Im+NpzvGbPi8NMSrcmCsA3En82DmtQqQK/9DPcYR+Ko5NtSn5TC/ysjTsCZ9wj9
+         yu0aEhoiRTemWgsNCuqe972eLSfufsPURheQa1BsDUj/GAMzScNtG4lv9Mz5uDlodbU+
+         Ug6CFaf7tqmJdT6y7OG5XeKWWy8yglpgsBta208lapWTGaWJbj5I4KLiyUnBDTOhhU2e
+         Scpg==
+X-Forwarded-Encrypted: i=1; AFNElJ8f81aoGdQWxE1ufPBVgogER90JFagp8EiKBA5ubur6riQWzr1yEMZOBCbedv6GfQ3gRLmF18phpN/n7qwl@vger.kernel.org
+X-Gm-Message-State: AOJu0YwotEZJWuR/Fex30oOu12ZQ5FlT44nejh3ohUU19gw0dyWKh0gV
+	E5B6fg6SJOFP8DL87ttEUoa9qIX2ZHvjIG+WQM9zd+TqmLmBBGS+QzI52JjfYf3OFQ9t53/K/mD
+	M5nrwSA==
+X-Received: from plsr2.prod.google.com ([2002:a17:902:be02:b0:2b2:48d8:c695])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:3c43:b0:2bd:c310:f7c9
+ with SMTP id d9443c01a7336-2bdc310fd7fmr94710675ad.2.1779136962102; Mon, 18
+ May 2026 13:42:42 -0700 (PDT)
+Date: Mon, 18 May 2026 13:42:41 -0700
+In-Reply-To: <CAEvNRgHd4azPaMddvqnSG+Z5fmg+LWd+pz=LSB3PrJTW618dww@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
-Subject: Re: [5][RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP
- exposes identical data unprivileged
-From: Andreas Dilger <adilger@dilger.ca>
-In-Reply-To: <-nQmUF-iBsNFQ1Iz2j_cVui7DxnmpAO7z3X7qH8Xzpr7CYXE8j5x5YeFQ39U1wcMFNuVnuxu1pJf7ooiwJYK8ZFJDpjEtifFaBuWNJIi0ak=@proton.me>
-Date: Mon, 18 May 2026 13:49:30 -0600
-Cc: "luto@amacapital.net" <luto@amacapital.net>,
- "hch@infradead.org" <hch@infradead.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "tytso@mit.edu" <tytso@mit.edu>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "djwong@kernel.org" <djwong@kernel.org>,
- "mark@fasheh.com" <mark@fasheh.com>,
- "moybs027@gmail.com" <moybs027@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <7FCF68D7-331B-4E8B-9356-F361440764BB@dilger.ca>
-References: <-nQmUF-iBsNFQ1Iz2j_cVui7DxnmpAO7z3X7qH8Xzpr7CYXE8j5x5YeFQ39U1wcMFNuVnuxu1pJf7ooiwJYK8ZFJDpjEtifFaBuWNJIi0ak=@proton.me>
-To: Cyber_black <Cyberblackk@proton.me>
-X-Mailer: Apple Mail (2.3864.100.1.1.5)
+Mime-Version: 1.0
+References: <20260402041156.1377214-1-rppt@kernel.org> <20260402041156.1377214-14-rppt@kernel.org>
+ <ac7oE_1j6gxf8OKT@google.com> <CAEvNRgHd4azPaMddvqnSG+Z5fmg+LWd+pz=LSB3PrJTW618dww@mail.gmail.com>
+Message-ID: <agt5wTK5I-FvlB57@google.com>
+Subject: Re: [PATCH v4 13/15] KVM: guest_memfd: implement userfaultfd operations
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Mike Rapoport <rppt@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrea Arcangeli <aarcange@redhat.com>, Andrei Vagin <avagin@google.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	David Hildenbrand <david@kernel.org>, Harry Yoo <harry.yoo@oracle.com>, Hugh Dickins <hughd@google.com>, 
+	James Houghton <jthoughton@google.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Michal Hocko <mhocko@suse.com>, 
+	Muchun Song <muchun.song@linux.dev>, Nikita Kalyazin <kalyazin@amazon.com>, 
+	Oscar Salvador <osalvador@suse.de>, Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, 
+	Shuah Khan <shuah@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	kvm@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, tarunsahu@google.com
+Content-Type: text/plain; charset="us-ascii"
 
-On May 18, 2026, at 11:22, Cyber_black <Cyberblackk@proton.me> wrote:
->=20
-> Thank you for raising this important question, Andy. I've been =
-following the discussion as a "listening guest" and I have a thought.
->=20
-> My idea is this: Instead of forcing FIEMAP to become a root-only =
-interface (breaking existing tools), or leaving it as-is (with =
-information disclosure), what if we design a new, restricted API that is =
-not privileged but also not unprivileged in the traditional sense?
+On Fri, May 15, 2026, Ackerley Tng wrote:
+> Sean Christopherson <seanjc@google.com> writes:
+> 
+> >
+> > [...snip...]
+> >
+> >> +#ifdef CONFIG_USERFAULTFD
+> >> +static bool kvm_gmem_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags)
+> >> +{
+> >> +	struct inode *inode = file_inode(vma->vm_file);
+> >> +
+> >> +	/*
+> >> +	 * Only support userfaultfd for guest_memfd with INIT_SHARED flag.
+> >> +	 * This ensures the memory can be mapped to userspace.
+> >> +	 */
+> 
+> Is the principle here that any memory that is allowed to be mapped to
+> userspace can be userfault-ed?
 
-What is the *actual* security risk of showing block numbers to users for =
-their own files?
-
-If an attacker can access the underlying device/image, they could =
-directly use debugfs
-or other filesystem tools to get file->block mappings anyway, and could =
-modify the image
-arbitrarily.  Restricting FIEMAP to root or obscuring block numbers is =
-security through
-obscurity and provides no actual safety.
-
-Cheers, Andreas
-
->=20
-> Concretely:
->=20
-> 1.  The API would be callable by any user, but it would not expose =
-physical block addresses.
->=20
-> 2.  It would answer higher-level questions that tools actually need, =
-such as:
->=20
->    -   "Are these two file ranges reflinked (shared)?" (for =
-deduplication)
->=20
->    -   "Is this file range sparse (holes)?" (without leaking physical =
-locations)
->=20
->    -   "What is the allocation status (delayed, unwritten, etc.)?"
->=20
-> 3.  The kernel would maintain a capability or permission that is not =
-root-equivalent (e.g., a new `CAP_BLOCK_MAP_QUERY`), but the API would =
-not require full `CAP_SYS_RAWIO`.
->=20
->=20
-> This way:
->=20
-> -   Tools like `filefrag`, `cp`, and deduplication utilities can work =
-without root.
->=20
-> -   Physical block addresses remain hidden from unprivileged users, =
-closing the information leak.
->=20
-> -   We avoid forcing users to run these tools as root, which would =
-open up far more serious risks (e.g., kernel panic, accidental =
-corruption).
->=20
->=20
-> In short: we don't need to choose between "unprivileged leak" and =
-"root-only". We can design a purpose=E2=80=91limited API that answers =
-only the necessary questions, with the minimum privilege required.
->=20
-> Would this be acceptable? I'd be happy to help draft a more detailed =
-proposal or prototype.
->=20
-> This idea was developed together with my friend playerofficial19 =
-(moybs027@gmail.com) through discussion. We hope it's helpful.
->=20
-
-
-Cheers, Andreas
-
-
-
-
-
+Yes?  It's more the opposite though: memory that can't be SHARED and thus can't
+be mapped into userspace can't possibly support userfaultfd.  Six of one, half
+dozen of the other, but I think it's important to highlight that there's no
+judgment call being made, i.e. we aren't deciding to support only SHARED just
+because we're lazy, it's a hard requirement.
