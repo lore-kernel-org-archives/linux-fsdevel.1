@@ -1,173 +1,68 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4D343CEEA
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 12:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FE544D693;
+	Mon, 18 May 2026 12:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779108517; cv=none; b=QMJz6PM/SYDZJHIwOXCdZHKYDQDtq3eVl1DlvUs97amfOTROUTPmfYWOWnyxTVUFqKt1uEaLaymBcN/pd5I5+fGQH7MkEgF3MC74thIC46RdQPsmYOxwYiSvBPou6IiY5+r8QdB063a84zKf0UtyEkLLJ4t7bS4Hy5ZUKPaAPlY=
+	t=1779108674; cv=none; b=PdOHuoL3yhLcA2typb8PUNsHE73WV4ATwiLvYUE1cHT2BYmI3E2brZeB0ulB8EhfLNKhCo0yp5F7kBB9z8DZ6/sdi9hes6GTLFqoDEsGrElDJ9BchAzIX3/cTNyVYX3NaPHr3shdV5xXfKH3ID2atbE2829bmvTQFShz0YnxQy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779108517; c=relaxed/simple;
-	bh=ir9awwZE8mojdaXk33IApda6a3sA6BIp9dfWav123FI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uIKt9RlJgYP2GuxZDPWU/PPY4b2DttAhPg3XCfV3nuXeiEnV5y3vMEXWX/Tbba7HWeSmBPoS6fFS91MsPgSttJKnMZBvVVYonOiRcXpT2rGEEpiD5U1VkFIaz5mhMAW4rO72dIPaKS8z2BYGzKSEiQy3jA27rQTA3Wl5DjoyAKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzTo3F/m; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzTo3F/m"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43fe62837baso1201201f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 05:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779108514; x=1779713314; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ex8tnMi3tAlmxYwkM3DQvhatICWsapujzOUrgVSrXo0=;
-        b=LzTo3F/m2CgHqSzZ5lU0iUvsXsadJ4+azksDgNzEwn9u8hgsM1Pr/AduX7J8cBgOv7
-         sdOpsfo6VLz81fRhq062yCvjuYr9LXg43v3HL3G/d9kMyxZewWYnUxn94SZQPlG6rJGQ
-         41omWNJ9vD/8lSh2Zwyl/qT9H7wnSBa+Bq+Lonjqwf9AMMXPL0X51vDuFk5gldKdk7Od
-         cx3IduBHiLj8XMWPD30Bl2hSTbjnXP1ESANatm/PNN+SmNbWlFi3Aq6wcBurfg9jfVgz
-         Zntnw6oY6KpknKtUpG2jRRg2+SSsim1ZMvfMBBc9b+2YiPA7gVLTLyJIGRf/e6p02wZZ
-         ViHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779108514; x=1779713314;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ex8tnMi3tAlmxYwkM3DQvhatICWsapujzOUrgVSrXo0=;
-        b=G0O7cpbBsLrZo8UqRcsigH0YMytufGXrfMIsG2McdnE4S5y5dqIP+O6lrx3VR94KnU
-         TnMCHIF7kQeCnSTNxj1C1Zxb5wnLmBMBn2jOGhhzVn6ytDZPn8NAgvVYawUGPA6G/feA
-         kU4ritjBwr2BzBfWOjDsQJUYxhuTpaOyd2Esrr3gOnSWEs36oqGyF+f8nBnyN8r99S9v
-         J2Xel9xdirsZtXv1VDsfhNr8iXQpbW6fsgoW2IRK5NbPnrsz5gipS4YkFkhWWsp4cfUa
-         d3qD7XukCSjq4j734OojHf3oaf78OZOKxFZf6RooeJRrT2z50XsIyShJ2Ax7FPpWFawe
-         bw7g==
-X-Forwarded-Encrypted: i=1; AFNElJ+V7UxVnquRH3NDjkA/NsT3hvJt0FM8t6fyP/DVtvZjz+XTezQBivj33Gu5QicYYVq9OwL1bNQpzaCGIn2z@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQIbZtWWANK3i5SB8kQjMldFRevEockAffQ1sgeXOgXuKd7rDF
-	DdVvGWBRUUyHgETe0+7Pp5ALDp28IMKDWh5vKpt8I1xNBPP94H8RMZch
-X-Gm-Gg: Acq92OEeJ7+xF6EUjNld1CzWdkyNSSa54SSxYwekM32wAjj6V3N/I2SVQ9CWulGyDJ3
-	rntasB5VqEss0SOBG74bqj2DcHMptefQ/WGldPuHerPiXPJQ9giL/Cd4XvItThpNX5AJNAXBN8z
-	l3EfWlxQLSDyfu7DCI31OtgFTIl85wDTGiPA81Ls0ViAi1l4k5+m0rrm9eY3sDHpL8Xf/cuXGXg
-	rkqjf4XgRw6D5+UGQTynm+bRjL2gyuiySVmC6cjTKJeJHNsyHWw8hme0J/DoWtFcpdrCR4v0w4u
-	OMuFAnI9etZPrRzHHtQpMpdv8D5rWBkPXu1+9Yo9Fck05/b9cw2QyBm33OO19BLxrWCI4ddiJui
-	FX3c2IuN/19C1v5CfzU5amnaqm2xbAoJcPf3EEUsdgMVG3K6fg7LGww3+hfqXZFfZ1411gICAIk
-	YEHAuFlBLsNLnBtaUht/OWmQ/50DjEufevJ5LuLGj4sr1FHTp7Tl8Wv2MVxWUCemY2RLWyrLDZL
-	38=
-X-Received: by 2002:a05:6000:40df:b0:45d:b14b:2409 with SMTP id ffacd0b85a97d-45e5c35dd7bmr23470665f8f.2.1779108514308;
-        Mon, 18 May 2026 05:48:34 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ed30110sm40744268f8f.13.2026.05.18.05.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 05:48:33 -0700 (PDT)
-Date: Mon, 18 May 2026 13:48:32 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Rasmus Villemoes <ravi@prevas.dk>, Miklos Szeredi <miklos@szeredi.hu>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Al Viro
- <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>,
- Nirmoy Das <nirmoyd@nvidia.com>, linux-unionfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] err_ptr.h: introduce ERR_PTR_SAFE()
-Message-ID: <20260518134832.69853809@pumpkin>
-In-Reply-To: <CAOQ4uxj0sgB5B+1gzzq8fPuAPJxU=TfXMUaJtjB6vdfXUSOuqQ@mail.gmail.com>
-References: <20260514200129.94862-1-amir73il@gmail.com>
-	<20260515193010.056ef472@pumpkin>
-	<CAOQ4uxjDeF3uDe=OTVZ3fK65dF148FRUvPx5fOqZpoFuGUsmJQ@mail.gmail.com>
-	<20260516094242.77d20c92@pumpkin>
-	<CAOQ4uxjX=C6WZvW1DdJ13tJj-XBWVxgE2Q9vVvHoYqiOhqW0wQ@mail.gmail.com>
-	<87se7pdr7a.fsf@prevas.dk>
-	<CAOQ4uxj0sgB5B+1gzzq8fPuAPJxU=TfXMUaJtjB6vdfXUSOuqQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1779108674; c=relaxed/simple;
+	bh=KHYdDA1sZFnnFjf0sMPyWJr+Xnebj/oK20Vp8ALhK3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N7tSA2dT1n5v9my36+hXkctPaBeuMGR9QVgusi8Pr1kDTSWW5cslmksFGApYkXrT8yKNKg7j99oNKm56dFIOcZDkRonYA1ZF0Q6cHXhvmkJnj2Cq3rbAgBqzMQQ52SliLD+pCJr2ABwD28gbwEQd7ahkjfSTQZxI6W9A3sEpGU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BB2A368D05; Mon, 18 May 2026 14:51:09 +0200 (CEST)
+Date: Mon, 18 May 2026 14:51:09 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 2/2] block: don't set BIO_QUIET for BLK_STS_AGAIN
+Message-ID: <20260518125109.GA5286@lst.de>
+References: <20260518063336.507369-1-hch@lst.de> <20260518063336.507369-3-hch@lst.de> <4j3y4zm2vsbyxlpmyktz4g3sbfwucw64h7p5t3hos3bvtinax4@j5dj3aeahnwa>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4j3y4zm2vsbyxlpmyktz4g3sbfwucw64h7p5t3hos3bvtinax4@j5dj3aeahnwa>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, 18 May 2026 11:52:06 +0200
-Amir Goldstein <amir73il@gmail.com> wrote:
+On Mon, May 18, 2026 at 02:34:49PM +0200, Jan Kara wrote:
+> > Commit abb30460bda2 ("block: mark bio_wouldblock_error() bio with
+> > BIO_QUIET") added this to suppress buffer_head warnings, but neither
+> > when this commit was added nor now any buffer_head using code actually
+> > ever sets REQ_NOWAIT which can lead to BLK_STS_AGAIN.
+> > 
+> > Remove the special handling for now.  If we ever plan to use REQ_NOWAIT
+> > for buffer_head based I/O we're better off handling BLK_STS_AGAIN in
+> > the completion handler as it actually needs to retry the I/O as well.
+> > 
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> 
+> So I agree about the bh argument but bio_wouldblock_error() is not specific
+> to bh path in any way, is it? So do we expect all bi_end_io handlers to
+> check for BLK_STS_AGAIN and avoid complaining to logs in case of that? Not
+> that all of them would be currently checking for BIO_QUIET either so I'm
+> mostly trying to figure out what's the expected handling.
 
-> On Mon, May 18, 2026 at 11:04=E2=80=AFAM Rasmus Villemoes <ravi@prevas.dk=
-> wrote:
-> >
-> > On Sat, May 16 2026, Amir Goldstein <amir73il@gmail.com> wrote:
-> > =20
-> > > On Sat, May 16, 2026 at 10:42=E2=80=AFAM David Laight
-> > > <david.laight.linux@gmail.com> wrote: =20
-> > >>
-> > >> On Fri, 15 May 2026 21:26:04 +0200
-> > >> Amir Goldstein <amir73il@gmail.com> wrote:
-> > >> =20
-> > >> > On Fri, May 15, 2026 at 8:30=E2=80=AFPM David Laight
-> > >> > <david.laight.linux@gmail.com> wrote: =20
-> > >> > >
-> > >> > > On Thu, 14 May 2026 22:01:29 +0200
-> > >> > > Amir Goldstein <amir73il@gmail.com> wrote:
-> > >> > > =20
-> > >> ... =20
-> > >> > >
-> > >> > > The object code bloat would be noticeable if this were used ever=
-ywhere.
-> > >> > > But you could make it a bit simpler:
-> > >> > >         if (__builtin_constant_p(__e))
-> > >> > >                 BUILD_BUG_ON(__e && !IS_ERR_VALUE(__e));
-> > >> > >         else if WARN_ON(__e && !IS_ERR_VALUE(__e))
-> > >> > >                 __e =3D -MAX_ERRNO; // Or maybe -EINVAL to stop =
-and other boundary errors
-> > >> > >         (void *)__e; =20
-> > >> >
-> > >> > Yeh that's nicer thanks. =20
-> > >>
-> > >> Actually this might be better still (or just more succinct):
-> > >>         void *__e =3D (void *)error;
-> > >>         BUILD_BUG_ON(!statically_true(IS_ERR_OR_NULL(__e)); =20
-> > >
-> > > This condition is wrong but also my compiler does not evaluate
-> > > __builtin_constant_p(IS_ERR_OR_NULL(__e)) as true.
-> > >
-> > > This works
-> > > BUILD_BUG_ON(statically_true(!IS_ERR_VALUE(__e)));
-> > >
-> > > I think it is enough to statically assert on ERR_PTR(EINVAL)
-> > > and no need to bother with ERR_PTR(0)
-> > > =20
-> > >>         if (WARN_ON(!IS_ERR_OR_NULL(__e))
-> > >>                 __e =3D (void *)-EINVAL; =20
-> > >
-> > > Oh, anything but EINVAL please - the most overloaded error value
-> > > My choice of meaningful error value would be EFAULT =20
-> >
-> > Could we have a dedicated "EBUG" that can be used to indicate "there's a
-> > bug somewhere in the kernel, we can handle it somewhat gracefully here
-> > by returning an error instead of BUG(). You can't do anything about it
-> > but report that you got -EBUG from $this_syscall", instead of
-> > overloading EIO, EFAULT, EINVAL or whatnot. Internally, EBUG could be a
-> > macro that did ({ WARN_ONCE(); -__EBUG; }) or something, so there would
-> > automatically be bread crumbs in dmesg if it is ever hit. =20
->=20
-> How exactly would you use this EBUG() to write the graceful handling?
-> A bit of overengineering if you ask me.
->=20
-> >
-> > Userspace code could also benefit from having EBUG to indicate that some
-> > internal inconsistency has been detected. =20
->=20
-> So what about
->=20
-> #define EBUG MAX_ERRNO
->=20
-> as per my suggested patch.
+File system would need special handling for BLK_STS_AGAIN were we to wire
+it up again (in upstream we have the dead direct-io code removed in
+patch 1, and an incorrect use in iomap polled I/O I sent a separate patch
+for), because simply bubbling it up as -EAGAIN will generally do the
+wrong thing.  We ran into file system corruption last time we did it due
+to non-idempotency of writes and general locking issues with just
+retrying at a higher level.
 
-Your are relying on there being no 'off-by-one' errors.
-They happen...
-
--- David
-
->=20
-> Thanks,
-> Amir.
->=20
-
+Thus the rough consensus was that If we want to support fs-issued
+REQ_NOWAIT I/O we'd first need to add infrastructure to retry them from
+a blocking context at the bio-level, preferably in the block layer
+itself.
