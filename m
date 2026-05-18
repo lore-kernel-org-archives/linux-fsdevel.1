@@ -1,136 +1,129 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE43923C8A0
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 16:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779121377; cv=pass; b=ZscXff45Rsf5Q/uvbY9KzW1J0Oa282Q45/F6lRLkQmEYQg7mxHaT3vt5McwOyppZuqDLOojCwB0U0uS2NA1HoqGdX+kRELXb7uxVUN4AAxKkOcU+WoAxxGodBHxiTlbISs9giZGM0U7RXhAnc9sQC49JWYgSExip/rw57RdnBCU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779121377; c=relaxed/simple;
-	bh=XTFNVsqBQzn+UexOBPiyxjDehU0C6sH67ZUr5pWq79U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=McWCgfuxuudL9633e1DWQurSAoHxUNArPy6uE1K4QSUtiPfDROKEzQGFqCnyPJ9FFeF8d7pwDVXa5L8nLl/zjSe5ym8MRCtxap9qDMOUBSgw92pRr1NTM1Tzru8hhtK301ehaoKf9YtPX/jHv15c5aTfpceZP++KeK1lrIAonlQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=sDzmeIi8; arc=pass smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6447B481FDD
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 16:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779122130; cv=none; b=cN44RI6QBDQGqp4m4qIjIPR/IAMFxAhc+vsOSCIVZf0LpTZTmHx0EhLqZwVMfumcxvMCKfi0iIuw6x6LKHAq8xkdPtbCQUBWilZcjJbDC7vybtUUEbsOJmnm1/qk3KsKoc4wYOOFuBvakpshx3IeZVhr+tk0y4Whj9MaR+i8f8c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779122130; c=relaxed/simple;
+	bh=lADZGL1l+uV+dRUhIFGvk44P/1X//TbM0Q/BhApFkWk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RUqyxh5fTRZjUpBiH/f2irWqP1tV03fwdhLhyBd26FImvKwGxGBnUpg7YsOaNJ2GMJwtL4Y0NRKH09QobqJiYkFcwy+ViU0tUyU6bBoNV+Dii1b9jIRcsv6oKNxr6E1VcGec0JaRF0U8xLjgdvDkrVGa6d+pnkwy2EoeQ9naLnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=seXqiink; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="sDzmeIi8"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-39389398838so26253851fa.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 09:22:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779121374; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Rhm5l2KQ2ra0/oQ+JOCTy21ym/cve8AUS+JtC4r666oXPvYPDWOz+ICQxa4mydjIR5
-         1aSD73XSIzB+2i79kWZ/8CtCLl3t2wRVRDR19iAUV4GCIiDfe+scvSf+ods/dH+feTYc
-         eQQYK+71hFj92Vufec2z2V09mHmftJb4TLhYwj+0HU/5I9GpOb1/G6nN1doPp2RpBYaj
-         TOXjy3q+7loTg/KwGyj3i0yELg/Jgx0MwX5UdbYpZYfR0pkoI15CCO1mds3E6oxiygQ+
-         GcPVNQuzZDv7peBisFfveQIgLoraD/f6Qkke3uPAft43uR9xZvle/8J9wo/iFaPUeUmu
-         Xptg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
-        fh=qNp2h3YWY7o+85xcpd6hgVRtM7XC5/LvQmuZqoO3G0w=;
-        b=EgEuUCqVoPdWjJ6DJstqovKhm9m4iiFvH3THt3iM7skqAWcvmq8ZmVB6hUqT9vsjLp
-         a9scUIHQ67TIMr5lGzmR4EKYPttX8Rdtrp6BHiebAD+x4vGiCRvx+I4VqGxhRdOjeeXw
-         vFvUm1sPk/N9UcuWKBeuB2dmHcZNS2Jj4nwrJ07yk40hte96Z32Z5vyFR31XqxkwmTVW
-         AtoM/sfywITANETT0zZhKY4QfCppmtM79OYr1D80a7N7/JWci70E6K5Nl4RGTfOt97XR
-         LvonLUeHavUTKf8HWVrehqqnsIcrhme+EjFR/ADO8tT9QDAjSycFDqDuo+p8j98Ej6Wd
-         hFkg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="seXqiink"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4891b4934ffso995e9.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 09:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1779121374; x=1779726174; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
-        b=sDzmeIi86sejOQvOoxvX4DWMLk3RAsUAuuCOsTHhu1w08vWk2Y1buzve/Nxd/EaOpX
-         RQlGqsceYvjNqtC2SUoc396Y/EnJUmezIyWvEoSFpBk7a23Jf/hBVDB88mb1ChJf2r0X
-         OEft0J+QmQ70qyR2bH6J8vL63B8KyYOTD6XZKJzL4eDxnOMRI9xP0E57cNx2evjRKTRQ
-         TjbxfaXdei73OBPGe40uaTLvVP5ddWvT5cQc/hZLQvJG9rBED9mFYB2GZoAO8KxmOuwd
-         TE1bMb7cOltQ+tUu9kTVNG7ciUrE74SZKrLR4jhiXTh9Z6oJzZX8sgp3+thJkMsJgSP+
-         HV+g==
+        d=google.com; s=20251104; t=1779122126; x=1779726926; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n6RI1o8QPT8hiZuDRhk2bWs7AEZtLDRZKqnNbFswNzg=;
+        b=seXqiinkpUmksbB7slzxfwbJTHfuUtmJSJ+WK8sSje+0Y53vgfVPO4ny5z11hEHabh
+         HOGX/piPC074psVJNXl18wAlXSEFk2+AYZ51Lh02aaHZ6latauUCG9SoLEYRiTWaTJZ9
+         uj+N5tOC4vc7qXP4ABS3RD4NkuN3HxJjVfS45hU5pqfSihPsAH4qBUrSWZla924z+QNN
+         g4FUM+oScM6YGHlI7to/Eli9f6K1HkdKCuEojME2NUI02duaGS1iTPt975jotYzeDi5s
+         QxcPFSW+WVb3T+BCS+v1sOh2VzHw809FwNJnbWTSm5OKLHkJIRMUq1vtiqxQafqli/dz
+         +xsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779121374; x=1779726174;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GBfJSJU2PEERmOqNyTzsxNh3P380LCp5dFjg7jcTh8w=;
-        b=UjSC5JC5d47TlwLdtqRpamiVEQ+gSmKudLx4V9hMsaTfSRh5Ip3TglP62xEVhZZsjP
-         t7wUYunEAVQeN1pJwTc+IDuzr/i/05W1sY3+5v6hs7+GZ6IRrFjmI76ICnp8pYFyrDAi
-         y77SQjsl6LihbI+1IsowUokNmA93QXkJPOggNxForeee6+0A7TJFhIM7MhG00g2ywMOV
-         8u9gwzRhmllbdH8t2RpBWoSo5gT72PI/opgqNMyDOQPtKgYWl7ChwkKClnChxXnu0dKf
-         GSmGqSWazthnwShTZNhwvxf+ms/xPllqmlUEu/djaCYbgMBFwJxUvKRqm4H9mk489LhB
-         ni6A==
-X-Forwarded-Encrypted: i=1; AFNElJ9S+gwI71HXZa7GK6IQ0iQccZXt/0moaU6owNPFJj0p0KJMO+HGpZBta38ffd+R8hYTxVDLJwx6hjt0i1x3@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaZhaP/cgBPNz+RmAy9cNZK4w7fMADhT06sq3aP7HRJmRnQ90s
-	ImoGRIkLzOJF2ZOvzaD67OoNFMD7bjqzxkAhZwDWbiSDD8qSSaz6gq5Pv33jFpCM3TIBgkLdc5l
-	uU4Vf3b9zNofsq6oUnxL4yQPTtGjiPkgIq3s384Li
-X-Gm-Gg: Acq92OEOkwkY5Lh6psXIBbYVXCTUxjKOzJtcTwudYsBgApQGWxIhEIsyrwwQadhlDbJ
-	Fc1xgOlvPnVnjch7dNOpaK7fSCfhPSW/CYjrXt4NA8TvL9Ga7FzVck6rKiZyYsRueJcLDA3n2Nh
-	D0t9atcO0kCxluCo62ld3A10vjuysJXcd5nQsTTr8xofuFLpNxVbcqX4lhn/4j6FERUmvSaafiW
-	L7ebYpE2H+f+IfBGQzu3CEoLwmJHgFEixlZl/99fETIWKpa8Zmi5mI0WwxJkPbwQcq4WLA1SLdp
-	HhQa46Zv5Q3WOQg=
-X-Received: by 2002:a05:6512:401e:b0:5a4:74e:5f75 with SMTP id
- 2adb3069b0e04-5aa0e60b1bfmr4415283e87.1.1779121373933; Mon, 18 May 2026
- 09:22:53 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779122126; x=1779726926;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n6RI1o8QPT8hiZuDRhk2bWs7AEZtLDRZKqnNbFswNzg=;
+        b=LrZmf3CKqF/e5WYondBzbd1/BlB3ls/iCNlm2kiWEdDTVFineuQV6R4E6RkB8GDkJY
+         7u2yWlgsYh6AMPeg6IJjMJ76L93Rv03t3QpgfovfRq3SJsifV/VJiYw41O+hK4e9g8P/
+         X4LRsS7kpt8UhNA2sforsOrVOHZvU4NC+pbQSgGW7TtUrCvgGRF1lm4knr5wKzViPBZQ
+         L1T37fDIljtO5Hs+BfAz5uH95cbQRv4bVXnisqmQFnBEe7pfBMa6nEhbZIVg4JZzFYZP
+         KSXs0frBzRD1aPfp1tuFcGVv7FVAY3041Ji4JSM8wCLDZgFPmBQXaSBm85suD/MzDsX7
+         7Ubw==
+X-Forwarded-Encrypted: i=1; AFNElJ8FeL71fPlDrTIrOVdzMrgGHHOAQDBkyrmA1q5zg4s/yQdT82amuyz8uX7ufPoqlTI0pIfdSyw48Pobvp0h@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZKw5kFQdjGkX+xUvRQK/gOhj8KcwG8ElzX1lsJf+D6wVTEPHe
+	J75YsFdsrnPlF6z+Ijig/EvX+DhHxG+Y1edbNN63bbIETjcjMYUNa1kmQoDeNHUAqg==
+X-Gm-Gg: Acq92OHXT6QBrpEJS+uovoCmnjBLTmu9tmgus7OFQQflvu0zbLWOrxRMe6rPZ+E0W+1
+	MkzIX/xmbh583DZt704efkeNl6Trl5z7Z4CGAse03NMw1cTgZ/cuF9kpLOGJRvrtDd2Nl683VrV
+	9WoGSq5oZN6WTStT1OwxNMS/RkBwGjAkSyeH6C/j9aky8nIKGgj/qhaYQUes0mxeDmqcx9IyKt8
+	aK/guJ5uxcnrtnjLseBieR6H+iLa3V+xCOHAlVjrt4SrYgL5XiOA6csCsquqy9oHPXXpYpOwOv4
+	BJoEwGNjRfcncR7To+wrodohH1BF2TMB7iGiE3tMQydTBQdT+5nbMsFE0EKsZ54ZDoU/opajUZ8
+	51DcraOobGZODNhBsr3IXpAo0yp028Fcm7DrD5AV5SgXiaMdusKDkA8qgAi2jlk18iwKKF770/P
+	Vwsb588cYz1Q1ztYbuALc8OKVqlncu5KPoNnGP55dBDRU5jo2Xage67qYiceZx
+X-Received: by 2002:a05:600c:22d6:b0:48a:5618:b4d4 with SMTP id 5b1f17b1804b1-48ffd828d6emr1692195e9.1.1779122125101;
+        Mon, 18 May 2026 09:35:25 -0700 (PDT)
+Received: from localhost ([2a00:79e0:288a:8:866a:e549:273b:bc0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe57944c1sm288997405e9.7.2026.05.18.09.35.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 09:35:24 -0700 (PDT)
+From: Jann Horn <jannh@google.com>
+Subject: [PATCH 0/2] proc: protect ptrace_may_access() with
+ exec_update_lock
+Date: Mon, 18 May 2026 18:35:14 +0200
+Message-Id: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
- <agqevS--YYBVW2Oz@infradead.org> <20260518162048.GC9531@frogsfrogsfrogs>
-In-Reply-To: <20260518162048.GC9531@frogsfrogsfrogs>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Mon, 18 May 2026 09:22:42 -0700
-X-Gm-Features: AVHnY4LPlnFdM4Ytr497DHglr7id-JLbay6wfSP_dcQx5-R5dh4Wh_ZPGa6qlGc
-Message-ID: <CALCETrUFMFNnJ6FLd9SkzS5E1q3x+cqGvOvo5PzU2V_+moSEJw@mail.gmail.com>
-Subject: Re: [RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP
- exposes identical data unprivileged
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Cyber_black <Cyberblackk@proton.me>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Mark Fasheh <mark@fasheh.com>, 
-	"Theodore Ts'o" <tytso@mit.edu>, linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMI/C2oC/x2MQQrDIBAAvxL23AUVDE2+Unow65ouCVHWEgLBv
+ 1d6HIaZGyqrcIV5uEH5lCr56GAfA9AnHCujxM7gjBuNt08smilV3DNtSS4sQb8WfaTg4uQXsg5
+ 6WpS7/G9f79Z+wvvYyWYAAAA=
+X-Change-ID: 20260518-procfs-lockfix-part1-5dca2d95bc12
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, Arjan van de Ven <arjan@linux.intel.com>, 
+ "Eric W. Biederman" <ebiederm@xmission.com>, Jake Edge <jake@lwn.net>, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Jann Horn <jannh@google.com>, stable@vger.kernel.org
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779122120; l=1555;
+ i=jannh@google.com; s=20240730; h=from:subject:message-id;
+ bh=lADZGL1l+uV+dRUhIFGvk44P/1X//TbM0Q/BhApFkWk=;
+ b=IwpfuQofLx1OaD/Oq+E+Ekv+BwOYk72drXWLQP391fiPqwH7SfjOaqsx9Fjg87efduRYWBxLd
+ Ine6lmQsfUvC2OWy+okwbW5YXqypA2GqF7rISgDZkLkJKNNyTHDU5Np
+X-Developer-Key: i=jannh@google.com; a=ed25519;
+ pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
 
-On Mon, May 18, 2026 at 9:21=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Sun, May 17, 2026 at 10:08:13PM -0700, Christoph Hellwig wrote:
-> > On Fri, May 15, 2026 at 05:36:45PM +0000, Cyber_black wrote:
-> > > Option B) Add a capability check to ioctl_fiemap() to match FIBMAP.
-> > > This restores the intended restriction, at the cost of breaking
-> > > unprivileged use of FIEMAP (e.g. filefrag, btrfs tools, e2freefrag).
-> > > This option is a larger ABI impact and likely undesirable.
-> > >
-> > > The preferred fix is Option A, since FIEMAP has been available
-> > > unprivileged since 2008 with no reported security issues, and read
-> > > access to physical block layout is already implicitly available
-> > > through open() permission on the file.
-> >
-> > No, FIEMAP really should not be available unprivileged.  So I think B i=
-s
-> > the right thing.  Can you send a proper patch with a proper signoff?
->
-> For anyone who might be relying on FIEMAP output to find sparse regions
-> -- don't.  FIEMAP is a lowlevel fs debugging interface; it won't tell
-> you about dirty pagecache backed by unwritten disk space.  cp was burned
-> by that a decade and a half ago.
->
+My understanding is that procfs is effectively maintained by the VFS
+maintainers (though scripts/get_maintainer.pl claims that there are
+no maintainers for procfs because the VFS entry only claims files
+directly in fs/, and the procfs entry has no maintainers listed on
+it).
 
-The only way that I'm personally aware of to determine whether ranges
-in two files are reflinked to each other (and the only efficient way
-to find identical blocks to, say, archive a large directory without
-reading all the contents) is FIEMAP.  I wrote some code to do this
-awhile back (not in production use).  Yes, I realize that it might
-have issues with dirty page cache.
+In procfs, most uses of ptrace_may_access() should use
+exec_update_lock to avoid TOCTOU issues with concurrent privileged
+execve() (like setuid binary execution).
 
-Is there some other way to do this?  Could an API be added that
-efficiently answers the actual question without revealing information
-that shouldn't be revealed?
+This series doesn't fix all the remaining issues in procfs, but it fixes
+the easy cases for now; I will probably follow up with fixes for the
+gnarlier cases later unless someone else wants to do that.
 
---Andy
+I have checked that procfs files still work with these changes and that
+CONFIG_PROVE_LOCKING=y doesn't generate any warnings.
+
+(checkpatch complains about missing argument names in
+proc_op::proc_get_link, but that was already the case before my patch.)
+
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+Jann Horn (2):
+      proc: protect ptrace_may_access() with exec_update_lock (part 1)
+      proc: protect ptrace_may_access() with exec_update_lock (FD links)
+
+ fs/proc/array.c      |   6 ++
+ fs/proc/base.c       | 159 ++++++++++++++++++++++-----------------------------
+ fs/proc/fd.c         |  27 ++++-----
+ fs/proc/internal.h   |   2 +-
+ fs/proc/namespaces.c |  12 ++++
+ 5 files changed, 97 insertions(+), 109 deletions(-)
+---
+base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
+change-id: 20260518-procfs-lockfix-part1-5dca2d95bc12
+
+--  
+Jann Horn <jannh@google.com>
+
