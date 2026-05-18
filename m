@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7A63F88B6;
-	Mon, 18 May 2026 11:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99A73F7860;
+	Mon, 18 May 2026 11:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779104936; cv=none; b=t70LKW2vhjqc71r73Kf9FxyHkt5pD14BEI4/7zyHwxowCN69Lb6P9zgXeCTLBb9bCqFgtP1eraIMM0kC86vYFend+Z7RokGZgMBMJx0Us76dPQaXtnsTgKE7oygjMIYRV1mKKSd7ddJjguj4XUIM93XxMLSkxU2itZ1JPgj3g3A=
+	t=1779104939; cv=none; b=CbK/q0Wpb7m9ZNyYTB40BfsFzUCLiEWqxch0CEKSZKMlTQo8mWCh0/dlA5RZUt0t0RmwQbI9RdTPyhDPKj57kJwu2+bwbST1Z4UnZOZAjNlg8pYFdqH1b1vo9ARcfEZ48uPU5D2tIMSsKLZfrSkF0E3QGD/Pr0BaVqBT2eWZ4v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779104936; c=relaxed/simple;
-	bh=HtrVfA5bNSbExzd+ImfH9F8YbOrLboCObnFy+jSpZCk=;
+	s=arc-20240116; t=1779104939; c=relaxed/simple;
+	bh=U204ERnUanMPne1YFbGJvFhKXeqrR5VmCmE1lCpidZI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LIYRr4DnVXcUYgZ5OCYbixYcstsXmDqf4eSBJ/JJxzvpH289wTK7vyXFIkvWyodqY2B24aLuuXV5sm/BdUrNSqp8KSIO/H4PvLd2giKod7BWa15ZgZweTbc2q2vyuwSrHN0kT1d29p8wkr7c7gDpmoD1KzWisympl+wDgOSuaEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u/LbNs4a; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=E/JmVQBJA2pKTONNH2e8HYz6SsBgKcnIx3Wa/wilYBn2WKQKZFKE/U9MPZ88rAJ+Sn5hJB2Wzp00QWfKbeiiWvfMLtDq/KAceLiwqLIYUPiHwCQo/0ngpwQ4DgOuXlz/68xp3+Ayxl2LApw3C7a8FOlD18CBaAE/57AcRaBqYTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rJcBMV1o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u/LbNs4a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C5B8C2BCC6;
-	Mon, 18 May 2026 11:48:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rJcBMV1o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 943E6C2BCB8;
+	Mon, 18 May 2026 11:48:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779104936;
-	bh=HtrVfA5bNSbExzd+ImfH9F8YbOrLboCObnFy+jSpZCk=;
+	s=k20201202; t=1779104939;
+	bh=U204ERnUanMPne1YFbGJvFhKXeqrR5VmCmE1lCpidZI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=u/LbNs4aNm8385PzdNZ9veN3jI6uRyetBS0iSvyJC8xHRqB77YTOoHzOr/QnulcfR
-	 uWBPf9taWk211G+IZPCBClAqbS1G8ZxnAJKu5VKFvUe9VGhRNfkUUnj0qNSfpVec8z
-	 83V7EwipVO0HOGoFWBPaJMCjqcwgIoH5+hCTv73jSx2ePT+Ejr8vq7mkEQeaLqmPB6
-	 OHk1fesg7fAM1u5b0uy2bie2ktpiK3dMbL0PUmZl9Yxxs9L6f5TkuOQNvGsc54nxlO
-	 PWJL3iGkupTxl0kQd59NxMKa/fSm7KoyUlm3AMe1wXkgfgiat0+Cr0GrePHmItLWH1
-	 NpZr5yT7RYrUQ==
+	b=rJcBMV1oXQw5SIP+uJwSHQyxGmdaZl1X0ikMbJrzn1d/9lDOtL9slHMAfVm5iwgqh
+	 j9ORHFk8RZJtz56zAi903+BFSqJEmevkVaK/7AUWYBfJKkSHc4gjWfyieJWheFMzXN
+	 GlngS7iPMYxyBslFjg8xwdiLNTob7L0/ZAq8EfPRwN5BmbhJ1I2C98XHxeTlQGUijb
+	 fx5MCkAwmyV/Yt95B7MXgthhqm/ry4u7UO/tpgHOQ8gvueAKmIve+h6jdrsa4S3UYd
+	 8LaInOahjAgPBX52RA9hjfbQXuMydeDH/4ALjbzcswvJ7k9FvzGObCXWkPgLkBvSVX
+	 Hgh1ZOaDF+eJQ==
 From: Namjae Jeon <linkinjeon@kernel.org>
 To: sj1557.seo@samsung.com,
 	yuezhang.mo@sony.com,
@@ -40,9 +40,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	charsyam@gmail.com,
 	Namjae Jeon <linkinjeon@kernel.org>
-Subject: [PATCH v4 06/11] exfat: add data_start_bytes and exfat_cluster_to_phys_bytes() helper
-Date: Mon, 18 May 2026 20:47:00 +0900
-Message-Id: <20260518114705.9601-7-linkinjeon@kernel.org>
+Subject: [PATCH v4 07/11] exfat: fix implicit declaration of brelse()
+Date: Mon, 18 May 2026 20:47:01 +0900
+Message-Id: <20260518114705.9601-8-linkinjeon@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260518114705.9601-1-linkinjeon@kernel.org>
 References: <20260518114705.9601-1-linkinjeon@kernel.org>
@@ -52,57 +52,34 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This caches the data area start offset in bytes (data_start_bytes)
-and introduces a helper function exfat_cluster_to_phys_bytes() to compute
-the physical byte position of a given cluster.
+exfat_cluster_walk() calls brelse(bh) without including the header that
+declares the function, causing the following build error:
+
+    fs/exfat/exfat_fs.h:542:9: error: implicit declaration of function ‘brelse’ [-Werror=implicit-function-declaration]
+
+Fix this by adding the missing buffer_head.h in exfat_fs.h.
 
 Acked-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
 ---
- fs/exfat/exfat_fs.h | 8 ++++++++
- fs/exfat/super.c    | 1 +
- 2 files changed, 9 insertions(+)
+ fs/exfat/exfat_fs.h | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
-index 6e7fd6822b01..cd38e71d3e8a 100644
+index cd38e71d3e8a..08d22d2581da 100644
 --- a/fs/exfat/exfat_fs.h
 +++ b/fs/exfat/exfat_fs.h
-@@ -227,6 +227,7 @@ struct exfat_sb_info {
- 	unsigned long long FAT1_start_sector; /* FAT1 start sector */
- 	unsigned long long FAT2_start_sector; /* FAT2 start sector */
- 	unsigned long long data_start_sector; /* data area start sector */
-+	unsigned long long data_start_bytes;
- 	unsigned int num_FAT_sectors; /* num of FAT sectors */
- 	unsigned int root_dir; /* root dir cluster */
- 	unsigned int dentries_per_clu; /* num of dentries per cluster */
-@@ -400,6 +401,13 @@ static inline loff_t exfat_ondisk_size(const struct inode *inode)
- 	return ((loff_t)inode->i_blocks) << 9;
- }
+@@ -12,6 +12,7 @@
+ #include <linux/blkdev.h>
+ #include <linux/backing-dev.h>
+ #include <uapi/linux/exfat.h>
++#include <linux/buffer_head.h>
  
-+static inline loff_t exfat_cluster_to_phys_bytes(struct exfat_sb_info *sbi,
-+		unsigned int clus)
-+{
-+	return ((loff_t)(clus - EXFAT_RESERVED_CLUSTERS) << sbi->cluster_size_bits) +
-+		sbi->data_start_bytes;
-+}
-+
- /*
-  * helpers for cluster size to byte conversion.
-  */
-diff --git a/fs/exfat/super.c b/fs/exfat/super.c
-index cb2f8eefff99..388db271c6bf 100644
---- a/fs/exfat/super.c
-+++ b/fs/exfat/super.c
-@@ -499,6 +499,7 @@ static int exfat_read_boot_sector(struct super_block *sb)
- 	if (p_boot->num_fats == 2)
- 		sbi->FAT2_start_sector += sbi->num_FAT_sectors;
- 	sbi->data_start_sector = le32_to_cpu(p_boot->clu_offset);
-+	sbi->data_start_bytes = sbi->data_start_sector << p_boot->sect_size_bits;
- 	sbi->num_sectors = le64_to_cpu(p_boot->vol_length);
- 	/* because the cluster index starts with 2 */
- 	sbi->num_clusters = le32_to_cpu(p_boot->clu_count) +
+ #define EXFAT_ROOT_INO		1
+ 
 -- 
 2.25.1
 
