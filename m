@@ -1,145 +1,95 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A723D33859A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 10:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAFB3F2102
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 11:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779100827; cv=none; b=Ku2dbh/k4I0V6ttzTMJWJ4kPqstQ7TAxJHCLR2hjORAvsimsUTPRScDHaVbVzR47+wz67zVY9X1osLaWBnlTBvA8xeiMZqcbKPfisJb7Bwi+grzDCpSfC+s8KU6dlEFUqXOGAcqWuca0/K/hVmltbLttRKZaXbS/OvoRGsAkcT8=
+	t=1779102232; cv=none; b=KjbVVm5pgvXVfYvnUJbBOwDFgAhsFHnOJoSP0rIfKuLO9KReaS4RGyoOuK7A5U76qDtNtQIPKHkQVjDqxaaOhRjaOJ33z3/arY7xMzeSaSrUuTetj4QMW0pJiNz+p1+vUbQAy88NWzKVXFVPN1LYlaCWE1VVebMTDNWcRXmFNiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779100827; c=relaxed/simple;
-	bh=nvWmJIaONRzVgGZxYOqc+RrJHx05ZpEkKGknRiyvoD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pvZnS8gVCMwtWoBL35q087U3Q77IEj3B6ch7pLLJzPAuFNJ37A23NMf/Y/NhKwJgi90cB48VVZD2m4pOKd3rhtazuiTDLIBY93FliiOQxciaZEH1NH1yNP5x5OV1JjYh03ZvBRzGP+GnNysu+3HbIok/kxQLw7MWigsHV81ccHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YOYYn5lU; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779102232; c=relaxed/simple;
+	bh=UHop5yFx+Z6FYOWg9cpgi3/9XDbDin9YWGBRPdjRsG4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=upBt0T/YxmRT+7uqJiduErRlKFc6sKoDa/z4qj9T1Cbu8GVBoWaQVJL2cqbvd+Tjy99UbYkKbybyQ4SMqS6fbtEaTL+rhREmf9KDYxsKyKe5D6FjZhk2yDvPsI0fV1ElA2GG2Q/MBa5yyd2FM1Q5Ww/vU6rjrpVCr+x81L6rJzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/IQ3Q8o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YOYYn5lU"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891b0786beso14992095e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 03:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779100813; x=1779705613; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KBUJm1g4jrVLHLARnQ410xCyIfZ2+knqUA7xvFczZVo=;
-        b=YOYYn5lUbwDpJJVHgwa+b/uqKmMzzJUm2hIehQT0RfeFic6DPTkEctu4+6yrgoTAaT
-         u9kxlBwiCUk0uHQ4MQ/QBAMPpt5K718IZ1zg5BOo0iQ4OLbx3XAXNVsWFT6PYjxqxiG3
-         oHvr3OC9nqzpeCxci5FlRGKp37b70XvyPHj0YP2cIbP8cJX6i2a3sWtAjU3noV+2X2PV
-         wkzhPFtUIxCLP4t2y+z/oBQ4ozn1vMXZ6+OkNNIHU/t1RtK8qSsYeCEvIA84yzvQhJL7
-         MTCcnZhiu8pCfSAOkym3yaNcHT8UovdrqFjblxy1DWYmyiaOdzDrXeutHhDa+t8th2oz
-         CsUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779100813; x=1779705613;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KBUJm1g4jrVLHLARnQ410xCyIfZ2+knqUA7xvFczZVo=;
-        b=UG/2dzyTmrOk0a/b0GXYnLkLFM0nJZGP9X2EdY2Xjxw4oRK6GKJNqK8zlrvxTYzKWK
-         gOrRALD/D/4yBZMz+qFtXwhkRfzsoFoQtHqufoYTfkkM9BaUDBD+jkulsktIKJOHdYh4
-         6bwIPuxoVrKCxHop39soYeh3Io1P6lmiHSbBowVYhN0+L4MG6Beqz6conq0syQYzBqJZ
-         U0r+tpNKGfpPZcBkA7GEZ1tt0UN6IzwkXRQ39QoAU9MLB0ovFa9N6TqnEJelnXjop6dM
-         zJQsLuNC0QwbZgYKQs15O91uOpBSITr+bLynD7PdHIlljZj+9PizDbAfvvqbnSpim5Ss
-         Xzgg==
-X-Forwarded-Encrypted: i=1; AFNElJ9+ziUs3QqYeZnZyj1u28M/Ci2HXdritzTRN7wEHOCysja3i60JaQ5LXKeYbsfY+GAMbAklyzWZ9/HnmuDq@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywnp0yhN5QO4be5aLiSQNKwxbkMlvjS+IlFax2fKoT7VrTZ3eGB
-	2pR0p7J/Hf2OpEf03raZMBdrnZQh334ZQtBCGpRrXXWakthGqB1e8++Z
-X-Gm-Gg: Acq92OFAf+4eBE+b8WzH2AWj6a3JUR+XgLW9kdUCK3KQT312FK4MHOrVJH9Eb/8K4Oa
-	jkB6jkqQtcYUS0MIx8bT1CbTQp+HIguTHcdCsDoq+iW9g2ig56qjMkgMFiLWVE5tLnkGSQEmPJ4
-	TvfsN9Eyd63F+skJe/e2RH5R89F/fQB66/IaBRrWzqpQ0s52Ykc5YSry0Dv77l0O70lsxQVsA5X
-	hwXHDwSunQYUMQqO8JmWslNU52OHJWgtKEDPLU4qEX2h8j0B0/CoFVl8kCifNbQwyzMqAztZrK8
-	h0kjZAuf2J6Klma+l5vN+qTVJu7ZI07fmEKqogj7Ae8oMkOg8oUSNEgEfyGjbCdTXkodfnDErE1
-	Iii506lYoBzUOhbrwcQ7pR3l1PrIFs/BJo7ldWnbnoP7QiO1lvjxFC0Bj4drPGcR69OXiTy0oG6
-	QFNKX4uTNPZ4D95TJgBJDNjq0u1Ruh94p0WAPICpGNsbdBtKBskNeYFdjm4xGiJdCafvd/kpHa6
-	bVpoO37/cXL9w==
-X-Received: by 2002:a05:600c:4fc9:b0:489:1c1f:35df with SMTP id 5b1f17b1804b1-48fe60e58ecmr202920365e9.10.1779100812550;
-        Mon, 18 May 2026 03:40:12 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c90b27sm255713955e9.8.2026.05.18.03.40.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 03:40:12 -0700 (PDT)
-Date: Mon, 18 May 2026 11:40:10 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nitesh
- Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, Anuj
- Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 02/10] iov_iter: add iterator type for dmabuf maps
-Message-ID: <20260518114010.6e1f7391@pumpkin>
-In-Reply-To: <4b2f74e9-3225-47f6-85fe-911720030e35@gmail.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
-	<20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
-	<20260513110557.705bdeed@pumpkin>
-	<20260513142909.03ae6c2b@pumpkin>
-	<4b2f74e9-3225-47f6-85fe-911720030e35@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/IQ3Q8o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8D8DC2BCB7;
+	Mon, 18 May 2026 11:03:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779102231;
+	bh=UHop5yFx+Z6FYOWg9cpgi3/9XDbDin9YWGBRPdjRsG4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=q/IQ3Q8ow0sGFJLMoW/SWpilHYfKmMtljd2BonqejW5RB6JKkg+Fnfcl6H79N7IHR
+	 7yh66juqtne8m4w/ULvncp/y+PqEvrkpWy7w0ypghtSmEDIbylD9QCgMJFUtlqp+Lj
+	 eUvx6lzfAjqd0pFe2qViM/EnnqlVRquZ7nDoPljzkUI95q3ygnaQflrtBQ9D6/sIR8
+	 0AUlM1e100ifpswzOGFQxBgG0DRjPu23xlrDptthjRvtw47ykTdAmjqrOYhx+INy8L
+	 9/fouxaPJVunku1DPgvBnOcMJorBjYX9YS3QTYnlxYC9aU/FQGn0ckSUItuk/7KdN/
+	 ky/1QIiCNu4Bw==
+From: Christian Brauner <brauner@kernel.org>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 0/7] Fixes for vfs/vfs-7.2.casefold
+Date: Mon, 18 May 2026 13:03:40 +0200
+Message-ID: <20260518-gipfel-klamotten-3a79468fe213@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260515153515.362266-1-cel@kernel.org>
+References: <20260515153515.362266-1-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2136; i=brauner@kernel.org; h=from:subject:message-id; bh=UHop5yFx+Z6FYOWg9cpgi3/9XDbDin9YWGBRPdjRsG4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRxfRI891P/pWn1s7+Hsv+u0rt4MNDMx6ffpsQ0Ze+cI 4c28kx/2lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRwE2MDKePfNl/9uah2hOy Ohmvd7uH7D4lcqTnWZFBU2WCeGluThbDX8G3cz1L5+z6eOO9qFjAQ4YYu2aLdRmpkQz1u7I7d8t f5AcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Mon, 18 May 2026 10:24:35 +0100
-Pavel Begunkov <asml.silence@gmail.com> wrote:
-
-> On 5/13/26 14:29, David Laight wrote:
-> > On Wed, 13 May 2026 11:05:57 +0100
-> > David Laight <david.laight.linux@gmail.com> wrote:
-> > 
-> > ...  
-> >>> @@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
-> >>>   {
-> >>>   	if (unlikely(i->count < size))
-> >>>   		size = i->count;
-> >>> -	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
-> >>> +	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
-> >>> +	    unlikely(iov_iter_is_dmabuf_map(i))) {  
-> >>
-> >>
-> >> Doesn't the extra check add more code to all the non-ubuf cases?
-...
-> >> or writing an iter_is_one_of(i, ITER_xxx, ITER_yyy) define that uses
-> >> '(1 << i->iter_type) & ((1 << ITER_xxx) | ...)'  
-> > 
-> > This seems to DTRT:
-> > 
-> > #define _ITER_IS_ONE_OF(iter, t1, t2, t3, t4, t5, t6, t7, t8, ...) \
-> >      ((1u << (iter)->iter_type) & ((1u << ITER_##t1) | (1u << ITER_##t2) | \
-> >          (1u << ITER_##t3) | (1u << ITER_##t4) | (1u << ITER_##t5) | \
-> >          (1u << ITER_##t6) | (1u << ITER_##t7) | (1u << ITER_##t8)))
-> > #define ITER_IS_ONE_OF(iter, t, ...) \
-> >      _ITER_IS_ONE_OF(iter, t, ## __VA_ARGS__, t, t, t, t, t, t, t)  
+On Fri, 15 May 2026 11:35:08 -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> We definitely don't want that, using them directly would've been
-> much cleaner.
+> Address review comments for the series in the vfs/vfs-7.2.casefold
+> branch.
 > 
-> if (get_type_mask(i) & (TYPE1 | TYPE2)) ...
-
-You need to shift all the TYPEn as well.
-The above condition would become:
-	if (likely(ITER_IS_ONE_OF(i, UBUF, XARRAY, DMABUF_MAP))) {
-which reads reasonable well.
-Without the token pasting it becomes:
-	if (likely(ITER_IS_ONE_OF(i, ITER_UBUF, ITER_XARRAY, ITER_DMABUF_MAP))) {
-and the line starts getting long.
-Although that version probably needs a check that the mask is constant.
-
--- David
-
-
+> Chuck Lever (7):
+>   tools headers UAPI: Sync case-sensitivity flags from linux/fs.h
+>   nfs: Avoid transient zeroed case capability bits during probe
+>   nfs: Skip pathconf probe when neither field is consumed
+>   fs: Clarify FS_CASEFOLD_FL semantics in UAPI header
+>   nfsd: Use kernel credentials for case-info probe
+>   nfsd: Map -ESTALE from case probe to NFS3ERR_STALE
+>   nfsd: Cap case-folding probe cost across READDIR entries
 > 
+> [...]
 
+Applied to the vfs-7.2.casefold branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.casefold branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.casefold
+
+[1/7] tools headers UAPI: Sync case-sensitivity flags from linux/fs.h
+      https://git.kernel.org/vfs/vfs/c/2c718fccf374
+[2/7] nfs: Avoid transient zeroed case capability bits during probe
+      https://git.kernel.org/vfs/vfs/c/c6eb07d3da83
+[3/7] nfs: Skip pathconf probe when neither field is consumed
+      https://git.kernel.org/vfs/vfs/c/425294293cd1
+[4/7] fs: Clarify FS_CASEFOLD_FL semantics in UAPI header
+      https://git.kernel.org/vfs/vfs/c/45e57cfb7b10
+[5/7] nfsd: Use kernel credentials for case-info probe
+      https://git.kernel.org/vfs/vfs/c/3aa75b92e862
+[6/7] nfsd: Map -ESTALE from case probe to NFS3ERR_STALE
+      https://git.kernel.org/vfs/vfs/c/fbaee2a5c406
+[7/7] nfsd: Cap case-folding probe cost across READDIR entries
+      https://git.kernel.org/vfs/vfs/c/cfff672ffcf9
