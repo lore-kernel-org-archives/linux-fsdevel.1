@@ -1,140 +1,173 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5530841C2E1
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 12:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4D343CEEA
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 12:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779108023; cv=none; b=oN2I6b3+uo/qxmXinHjPhrmqNtnbbOfrjB0ZjnzIgl6j3PlznUR3htd7ZIVZx65koRMcArU+ai8rYn01lDS6qWLes9x3C+qb2jFE8+1NkCb4XM9LxcrisxHR9SiMDWnx4C9o3efXwZFm/Baoa1y/Ot5ofH/h3tTTjJeYBRdjO5k=
+	t=1779108517; cv=none; b=QMJz6PM/SYDZJHIwOXCdZHKYDQDtq3eVl1DlvUs97amfOTROUTPmfYWOWnyxTVUFqKt1uEaLaymBcN/pd5I5+fGQH7MkEgF3MC74thIC46RdQPsmYOxwYiSvBPou6IiY5+r8QdB063a84zKf0UtyEkLLJ4t7bS4Hy5ZUKPaAPlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779108023; c=relaxed/simple;
-	bh=Mcv0gCsXAUFhkjqy5dwsfsmky6PBnJ9/bZQl4jFqXoU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sziL8xylF2NotDyq5MSOwC3oL1QU7qkgoRxds5pCdTFLA7TmYLuffH+O8m/BhGglUYavoXrZ6wihK4qIdUYc4P79d73ske8/2FgI49b6OoQCYAygYmbwX7j0DDlsgC5g/dqPVqUvTOISMh5B76k5UdkBCQkVVWD5vLUwOwqRQOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ldE6kcPi; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1779108517; c=relaxed/simple;
+	bh=ir9awwZE8mojdaXk33IApda6a3sA6BIp9dfWav123FI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uIKt9RlJgYP2GuxZDPWU/PPY4b2DttAhPg3XCfV3nuXeiEnV5y3vMEXWX/Tbba7HWeSmBPoS6fFS91MsPgSttJKnMZBvVVYonOiRcXpT2rGEEpiD5U1VkFIaz5mhMAW4rO72dIPaKS8z2BYGzKSEiQy3jA27rQTA3Wl5DjoyAKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzTo3F/m; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ldE6kcPi"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48e56c1bf5dso10443465e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 05:40:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzTo3F/m"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43fe62837baso1201201f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 05:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779108021; x=1779712821; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QXVLM8myHSCmhmEigozDJCG9BugvlW9svyQsziHjoMk=;
-        b=ldE6kcPijQ/Hej3uTb2mO+vEIefs2sqY1NKId/V+147wlqd3oqIKkGon8DEsKZa5dk
-         T6Ix7dztbeyZ45XcmyYdewf/zIUmYooD3KWj+I7aYQaroDlRCD/Al3Nz/suqK0DJrB9n
-         hpmHIKEFi6UPyBYwKC7D4LacIPfYR3QPnxbfoKiQH5ZcA71vDhee1bs+jArrNZY8nOY/
-         2fZ/a7g7sOa9ZQtdBWmCI252Pz4WOB+qrC9s4x4nmAJ3LtQlj+uC35X9HztbaGmDWYZu
-         MSFcZajGYOABIfHqGsgYm9Tp0nsR2VcLRag533bANJQsH90f3lv2QHY5SpF3ElD9n196
-         0Gjw==
+        d=gmail.com; s=20251104; t=1779108514; x=1779713314; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ex8tnMi3tAlmxYwkM3DQvhatICWsapujzOUrgVSrXo0=;
+        b=LzTo3F/m2CgHqSzZ5lU0iUvsXsadJ4+azksDgNzEwn9u8hgsM1Pr/AduX7J8cBgOv7
+         sdOpsfo6VLz81fRhq062yCvjuYr9LXg43v3HL3G/d9kMyxZewWYnUxn94SZQPlG6rJGQ
+         41omWNJ9vD/8lSh2Zwyl/qT9H7wnSBa+Bq+Lonjqwf9AMMXPL0X51vDuFk5gldKdk7Od
+         cx3IduBHiLj8XMWPD30Bl2hSTbjnXP1ESANatm/PNN+SmNbWlFi3Aq6wcBurfg9jfVgz
+         Zntnw6oY6KpknKtUpG2jRRg2+SSsim1ZMvfMBBc9b+2YiPA7gVLTLyJIGRf/e6p02wZZ
+         ViHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779108021; x=1779712821;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QXVLM8myHSCmhmEigozDJCG9BugvlW9svyQsziHjoMk=;
-        b=lCoVsohcnOp8gw7pcntoJ/cosGYw/XgX/NItWzyb+kHvfrh+M3CF+bRHghq06e5Kpf
-         WdowEXiQwNNRjM+Mh34/5HBW0wGgsFNugTPamqF1Wr3R7qoGs6oET1iQDpxqanxUBj+i
-         NMPuivOLd7PVNb1y9ROAsJIYPfeGxlLIHYsSGyrEfGRjQGsDZTkjtZkbdiWpEFrZCAcH
-         jaib/IScZoSJy8KM93y2snTaN1sayyjULnmns7tXkTAJttCFVqPa/nDhUmwXgGFpQYlm
-         eL0Idw+JWOkt91ddG83gM2pP7h3Gp4FnoUJ+Ekfwb1sWenMtfYI7AvzG+rm4ctIYiYAI
-         DrCg==
-X-Forwarded-Encrypted: i=1; AFNElJ8pIUbAC14w/g67kwWYIQsGPpoYHO+F+H16QQk3pgpIFj4EpyER1gSNLvW7wlSQmWZW+XpNSYVTkYYojQ+F@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvujWFmENAUXPILE8unPVS/X7iwXsBMaTPcdvjaCgDS4LbldNa
-	JnMNCahIHf3NFJ/0shqEUUD1dTjAU7PX1s93rBkWZ6HYmD7Keo6J7ke3
-X-Gm-Gg: Acq92OHzys0W2BLle9kafoFfrrA657Kh/iLi5ZgJV1Cvg/+k38Zuv5AxckKy4bh+d7o
-	pr+ld8jbxXctqMjrzsWwaoz01TNfyyEXihLquuyGRG9rsEh529MsDYDTlqC2xJl2R3rB9e3Re7o
-	GWFFZqrI8xZvQ8BuLq+TmvQ+rd+6Qw9/lkUjaJnJuAoJmGkNKSMPJBoGDF7kCIMcSI6KNlLuJqk
-	55v399qo/0NWLzL3X0USbIPsNO6Oa7v1IoG6FJ9T1fq4pQ+QZDCDi+o+igqk2s4X3CmlOiWxINk
-	4/zmQn6tDoxBDjQdGHqRqUNNEFcV3UaMw/fHaLO7tgO2qKjJn4L8w6o7n/72/UO//6vJlo91C/f
-	E3/0rvTs0Tfh/TqDgosBx88GZoGfT8onwXsWBRsdA8uVdDGu9EFNcDvD3KmYyoTopGj/X7s58yQ
-	TBX/umr/rvwPbaN0lfqjly/VI7D/Sn4GHey3/eA8snSHVQUBSjIcUBL4Mi6xY0+a9WirrIQGyEU
-	zuYV9Tptn0zOQl2J+4ZSJ0BhUO5lUqdpWwFj0ll1WyCydiFFB4JPlDPU+qpvcUjbB1ehORPO3nl
-	gD90IoaUBTGh
-X-Received: by 2002:a05:600c:6592:b0:48a:557e:6b4f with SMTP id 5b1f17b1804b1-48fe62f8861mr237008575e9.23.1779108020601;
-        Mon, 18 May 2026 05:40:20 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c8d39esm256597555e9.7.2026.05.18.05.40.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 05:40:20 -0700 (PDT)
-Message-ID: <4561c621-817c-46be-8ff0-0b557f6c819d@gmail.com>
-Date: Mon, 18 May 2026 13:40:18 +0100
+        d=1e100.net; s=20251104; t=1779108514; x=1779713314;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ex8tnMi3tAlmxYwkM3DQvhatICWsapujzOUrgVSrXo0=;
+        b=G0O7cpbBsLrZo8UqRcsigH0YMytufGXrfMIsG2McdnE4S5y5dqIP+O6lrx3VR94KnU
+         TnMCHIF7kQeCnSTNxj1C1Zxb5wnLmBMBn2jOGhhzVn6ytDZPn8NAgvVYawUGPA6G/feA
+         kU4ritjBwr2BzBfWOjDsQJUYxhuTpaOyd2Esrr3gOnSWEs36oqGyF+f8nBnyN8r99S9v
+         J2Xel9xdirsZtXv1VDsfhNr8iXQpbW6fsgoW2IRK5NbPnrsz5gipS4YkFkhWWsp4cfUa
+         d3qD7XukCSjq4j734OojHf3oaf78OZOKxFZf6RooeJRrT2z50XsIyShJ2Ax7FPpWFawe
+         bw7g==
+X-Forwarded-Encrypted: i=1; AFNElJ+V7UxVnquRH3NDjkA/NsT3hvJt0FM8t6fyP/DVtvZjz+XTezQBivj33Gu5QicYYVq9OwL1bNQpzaCGIn2z@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQIbZtWWANK3i5SB8kQjMldFRevEockAffQ1sgeXOgXuKd7rDF
+	DdVvGWBRUUyHgETe0+7Pp5ALDp28IMKDWh5vKpt8I1xNBPP94H8RMZch
+X-Gm-Gg: Acq92OEeJ7+xF6EUjNld1CzWdkyNSSa54SSxYwekM32wAjj6V3N/I2SVQ9CWulGyDJ3
+	rntasB5VqEss0SOBG74bqj2DcHMptefQ/WGldPuHerPiXPJQ9giL/Cd4XvItThpNX5AJNAXBN8z
+	l3EfWlxQLSDyfu7DCI31OtgFTIl85wDTGiPA81Ls0ViAi1l4k5+m0rrm9eY3sDHpL8Xf/cuXGXg
+	rkqjf4XgRw6D5+UGQTynm+bRjL2gyuiySVmC6cjTKJeJHNsyHWw8hme0J/DoWtFcpdrCR4v0w4u
+	OMuFAnI9etZPrRzHHtQpMpdv8D5rWBkPXu1+9Yo9Fck05/b9cw2QyBm33OO19BLxrWCI4ddiJui
+	FX3c2IuN/19C1v5CfzU5amnaqm2xbAoJcPf3EEUsdgMVG3K6fg7LGww3+hfqXZFfZ1411gICAIk
+	YEHAuFlBLsNLnBtaUht/OWmQ/50DjEufevJ5LuLGj4sr1FHTp7Tl8Wv2MVxWUCemY2RLWyrLDZL
+	38=
+X-Received: by 2002:a05:6000:40df:b0:45d:b14b:2409 with SMTP id ffacd0b85a97d-45e5c35dd7bmr23470665f8f.2.1779108514308;
+        Mon, 18 May 2026 05:48:34 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ed30110sm40744268f8f.13.2026.05.18.05.48.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 05:48:33 -0700 (PDT)
+Date: Mon, 18 May 2026 13:48:32 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Rasmus Villemoes <ravi@prevas.dk>, Miklos Szeredi <miklos@szeredi.hu>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Al Viro
+ <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>,
+ Nirmoy Das <nirmoyd@nvidia.com>, linux-unionfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] err_ptr.h: introduce ERR_PTR_SAFE()
+Message-ID: <20260518134832.69853809@pumpkin>
+In-Reply-To: <CAOQ4uxj0sgB5B+1gzzq8fPuAPJxU=TfXMUaJtjB6vdfXUSOuqQ@mail.gmail.com>
+References: <20260514200129.94862-1-amir73il@gmail.com>
+	<20260515193010.056ef472@pumpkin>
+	<CAOQ4uxjDeF3uDe=OTVZ3fK65dF148FRUvPx5fOqZpoFuGUsmJQ@mail.gmail.com>
+	<20260516094242.77d20c92@pumpkin>
+	<CAOQ4uxjX=C6WZvW1DdJ13tJj-XBWVxgE2Q9vVvHoYqiOhqW0wQ@mail.gmail.com>
+	<87se7pdr7a.fsf@prevas.dk>
+	<CAOQ4uxj0sgB5B+1gzzq8fPuAPJxU=TfXMUaJtjB6vdfXUSOuqQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/10] block: introduce dma map backed bio type
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Nitesh Shetty <nj.shetty@samsung.com>,
- Kanchan Joshi <joshi.k@samsung.com>, Anuj Gupta <anuj20.g@samsung.com>,
- Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <646ecd6fde8d9e146cb051efb514deb27ce3883e.1777475843.git.asml.silence@gmail.com>
- <20260513081929.GD5477@lst.de>
- <24833f76-2289-4859-86d1-9215b11a1258@gmail.com>
- <df697a76-c700-4908-ac08-a47ad07e0796@amd.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <df697a76-c700-4908-ac08-a47ad07e0796@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/18/26 13:22, Christian König wrote:
-> On 5/18/26 12:29, Pavel Begunkov wrote:
->> On 5/13/26 09:19, Christoph Hellwig wrote:
->>>> +    if (!bio_flagged(bio_src, BIO_DMABUF_MAP)) {
->>>> +        bio->bi_io_vec = bio_src->bi_io_vec;
->>>> +    } else {
->>>> +        bio->dmabuf_map = bio_src->dmabuf_map;
->>>> +        bio_set_flag(bio, BIO_DMABUF_MAP);
->>>> +    }
->>>
->>> This is backwards, please avoid pointless negations:
->>
->> I can flip it, but compilers tend to prefer the true branch. E.g. this
->>
->> if (cond) A; else B;
->> C;
->>
->> can get compiled into:
->>
->> jmpcc cond B
->> A: ...
->> C:
->> return;
->> B: ...
->> jmp C;
-> 
-> When that is really a performance critical path then you can use the likely() and unlikely() macros to give the compiler the hint which one to prefer.
+On Mon, 18 May 2026 11:52:06 +0200
+Amir Goldstein <amir73il@gmail.com> wrote:
 
-That might be more penalising than placing them in the right order,
-and it might be fine as it's new and all that, but it's not a clear
-cut as it's definitely not created to be a slow path. TBH, not sure
-why we're bike shedding such things, is it somewhere in the code
-style?
-> What could be useful is to have the true path for the more common and the false path for the less common case for documentation purposes, but in that case I would expected some code comments as well.
-What kind of comment are you thinking about? A "this is not a likely
-path" type of comment before each mention of the flag is usually not
-very useful.
+> On Mon, May 18, 2026 at 11:04=E2=80=AFAM Rasmus Villemoes <ravi@prevas.dk=
+> wrote:
+> >
+> > On Sat, May 16 2026, Amir Goldstein <amir73il@gmail.com> wrote:
+> > =20
+> > > On Sat, May 16, 2026 at 10:42=E2=80=AFAM David Laight
+> > > <david.laight.linux@gmail.com> wrote: =20
+> > >>
+> > >> On Fri, 15 May 2026 21:26:04 +0200
+> > >> Amir Goldstein <amir73il@gmail.com> wrote:
+> > >> =20
+> > >> > On Fri, May 15, 2026 at 8:30=E2=80=AFPM David Laight
+> > >> > <david.laight.linux@gmail.com> wrote: =20
+> > >> > >
+> > >> > > On Thu, 14 May 2026 22:01:29 +0200
+> > >> > > Amir Goldstein <amir73il@gmail.com> wrote:
+> > >> > > =20
+> > >> ... =20
+> > >> > >
+> > >> > > The object code bloat would be noticeable if this were used ever=
+ywhere.
+> > >> > > But you could make it a bit simpler:
+> > >> > >         if (__builtin_constant_p(__e))
+> > >> > >                 BUILD_BUG_ON(__e && !IS_ERR_VALUE(__e));
+> > >> > >         else if WARN_ON(__e && !IS_ERR_VALUE(__e))
+> > >> > >                 __e =3D -MAX_ERRNO; // Or maybe -EINVAL to stop =
+and other boundary errors
+> > >> > >         (void *)__e; =20
+> > >> >
+> > >> > Yeh that's nicer thanks. =20
+> > >>
+> > >> Actually this might be better still (or just more succinct):
+> > >>         void *__e =3D (void *)error;
+> > >>         BUILD_BUG_ON(!statically_true(IS_ERR_OR_NULL(__e)); =20
+> > >
+> > > This condition is wrong but also my compiler does not evaluate
+> > > __builtin_constant_p(IS_ERR_OR_NULL(__e)) as true.
+> > >
+> > > This works
+> > > BUILD_BUG_ON(statically_true(!IS_ERR_VALUE(__e)));
+> > >
+> > > I think it is enough to statically assert on ERR_PTR(EINVAL)
+> > > and no need to bother with ERR_PTR(0)
+> > > =20
+> > >>         if (WARN_ON(!IS_ERR_OR_NULL(__e))
+> > >>                 __e =3D (void *)-EINVAL; =20
+> > >
+> > > Oh, anything but EINVAL please - the most overloaded error value
+> > > My choice of meaningful error value would be EFAULT =20
+> >
+> > Could we have a dedicated "EBUG" that can be used to indicate "there's a
+> > bug somewhere in the kernel, we can handle it somewhat gracefully here
+> > by returning an error instead of BUG(). You can't do anything about it
+> > but report that you got -EBUG from $this_syscall", instead of
+> > overloading EIO, EFAULT, EINVAL or whatnot. Internally, EBUG could be a
+> > macro that did ({ WARN_ONCE(); -__EBUG; }) or something, so there would
+> > automatically be bread crumbs in dmesg if it is ever hit. =20
+>=20
+> How exactly would you use this EBUG() to write the graceful handling?
+> A bit of overengineering if you ask me.
+>=20
+> >
+> > Userspace code could also benefit from having EBUG to indicate that some
+> > internal inconsistency has been detected. =20
+>=20
+> So what about
+>=20
+> #define EBUG MAX_ERRNO
+>=20
+> as per my suggested patch.
 
--- 
-Pavel Begunkov
+Your are relying on there being no 'off-by-one' errors.
+They happen...
+
+-- David
+
+>=20
+> Thanks,
+> Amir.
+>=20
 
