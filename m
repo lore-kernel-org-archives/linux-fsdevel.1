@@ -1,97 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC62035E1C7;
-	Mon, 18 May 2026 11:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ED03EDADA;
+	Mon, 18 May 2026 11:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779104575; cv=none; b=GtubOyBFrXar3SLiFwuH9kLFNdHE2L6//WVCfs8QBVFI+K4oRG87d5jTE0pLVy1Lgog3SBAQObMmxmlhprd1/uEB1ca5jcx12G/kQKwIdAk6WzTpCFiBQSTHOY0jCnQjyyZXUQJhR4z4+NJngLoQuNEhFomRe3PCSAJa9Us4S8w=
+	t=1779104702; cv=none; b=ptWmL9a98ja+359us0z+ssy7OSd8CAM+SzHZfguknh+2/V7GUT47SdDsUtPGPe03fKjkCHUJJH+IxEqgAtUFI/jazDtwtsMvjniozvIDC77cS6z9hxQNzWaymr9aes4xFLOC4ZXlY/OQp/gIHO+B5vUbcFW0MCb4cej7GoyulNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779104575; c=relaxed/simple;
-	bh=fzuOchQU3Wxc/EYI/qukVZIFcZR6K8d6oLn/uaKz89Y=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=Vd84HaMIRyy2F2fP9+nE1TDyuWs9TOACF1M40C6qYV6Otd9PQUPcbV51YEfB2fr9VwjYHXgos1qDvEphKLmReFYz7vnn0dqH28gJX6ApBxv6CromRKBIFJeCDDVeYRlRS5aGN2cmNthEfbWfkAXlxo60tHa987buqVi+9Buthxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rdr8Y2pz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779104702; c=relaxed/simple;
+	bh=KCMsmI7DxcQzs4N8ZHEtNZgXCjWeh6t4flSXexbE6g0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NWbgCq2W9oIfHTVeEeQjKt6s9zFSt+cQLNZJ7CjsKCyg6pJ4R6iXtO6C7zqydQSXLlPUH6bKUGG1RhU71GOUrc2p4hK8/YbwCM2t/HfQ+Lo+YggZapXPw10VvsIQAvIjLarcoSR85DKsMQKmzbD80ra9+2iaykbZ9HFS50QnpCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iYxjPmaU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rdr8Y2pz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2D03C2BCB7;
-	Mon, 18 May 2026 11:42:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iYxjPmaU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A0B7C2BCB7;
+	Mon, 18 May 2026 11:44:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779104575;
-	bh=fzuOchQU3Wxc/EYI/qukVZIFcZR6K8d6oLn/uaKz89Y=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=Rdr8Y2pzApd3q2amLiMF99a4J+6uK10QG5Y+o9rBYuDt9STp8xKU0y4o5/ApivX1V
-	 0+2kst3XV3Oj3ijT33WLI3K+vADwzo4jQpTmBgBSfQ2I3s8kKLwnodtqsEdcaJPp5T
-	 vXZ74N5NN/ak67f+7A/Mo4Su1f07lZQDWzX14hCuQhdkPN9CKWcdRmTCwR7IGpj8jA
-	 AAp0i9PF6mK9gyKpcCkcyfMPosZLzY8Q+n6IfJ59Hg4mb6Vw7PXMV8HQVNniFZuvIi
-	 7DJMRp2OBlE5PtXS4BNIJSAHRJN/U+ZkUMSHClAZptmCzXJucqJ5f9okW9ebWY1Zw/
-	 yqf1lt9T6TEdA==
+	s=k20201202; t=1779104702;
+	bh=KCMsmI7DxcQzs4N8ZHEtNZgXCjWeh6t4flSXexbE6g0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iYxjPmaU4QodPbr2+BG1wxZ3B51ve3CykyM5F/HCQlIkUKNaykQLZASK7R3RQy4CI
+	 L8OKUPbPXk3Pea6QlzXFG/bjTQHNNi5lxCmevmPcWwrZtDyLHmcGdrMgqdm+3g0k8N
+	 41hJRZY75xgNZu4Skr+A73mEtWu6ztjnKqNoS98ZzuD4G544FKt9Gv1hWE5N/PZThM
+	 0zikTVNCOjRuwuXkionRzQDgC7zw6TPn6h6h4ri+jOs6NybC4LmTPTU5BReyDKs+Gr
+	 Njx293XQlwk/zAziwHKCa1CDK2aGC0pkdoSIB6IlxjQkzBTjg7zhjUURJvs0kT5E0u
+	 okaqRyCOj85lg==
+Date: Mon, 18 May 2026 13:44:57 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Pedro Falcato <pfalcato@suse.de>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>
+Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
+ read-only files
+Message-ID: <20260518-pfoten-rekord-26ceab27c0ce@brauner>
+References: <20260516182126.530498-1-pfalcato@suse.de>
+ <CAGudoHHeYbPWQbz+vXoS-Oi4PhxX6rh5XsMUkZetyfdnJHNj=g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 3/3] writeback: use a per-sb counter to drain inode
- wb switches at umount
-From: Christian Brauner <brauner@kernel.org>
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
- brauner@kernel.org, jack@suse.cz, tj@kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260517142147.3354909-4-libaokun@linux.alibaba.com>
-References: <20260517142147.3354909-1-libaokun@linux.alibaba.com>
- <20260517142147.3354909-4-libaokun@linux.alibaba.com>
-Date: Mon, 18 May 2026 13:42:49 +0200
-Message-Id: <177910456953.488929.2169908940676707307.b4-review@b4>
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1275; i=brauner@kernel.org;
- h=from:subject:message-id; bh=fzuOchQU3Wxc/EYI/qukVZIFcZR6K8d6oLn/uaKz89Y=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRx/bbl27b937OGq5+tOdY1pce1CFZFH8zZM/9fvXTYG
- 49FT/KbO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbiksfwi/llVYlUStmsF2XB
- ilmlVuUWnoIiX5ZfYfZittPonPsymuG/t1ul4fWbWjXtfoJmZ1y89R8V9VwNz0wu+vr/WvEWz+u
- sAA==
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGudoHHeYbPWQbz+vXoS-Oi4PhxX6rh5XsMUkZetyfdnJHNj=g@mail.gmail.com>
 
-On Sun, 17 May 2026 22:21:32 +0800, Baokun Li <libaokun@linux.alibaba.com> wrote:
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 9ae290547eb2..4282fcfe027b 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -1215,38 +1209,30 @@ int cgroup_writeback_by_id(u64 bdi_id, int memcg_id,
-> [ ... skip 38 lines ... ]
-> -		 * in-flight switcher that already passed the SB_ACTIVE check
-> -		 * to finish queueing its work, so flush_workqueue() below
-> -		 * will then drain it.
-> -		 */
-> -		synchronize_rcu();
-> +	while (atomic_read(&sb->s_isw_nr_in_flight)) {
+On Sun, May 17, 2026 at 01:51:16AM +0200, Mateusz Guzik wrote:
+> On Sat, May 16, 2026 at 8:21 PM Pedro Falcato <pfalcato@suse.de> wrote:
+> >
+> > Since the advent of vulns like Dirty Pipe, Dirty Frag, Copy Fail
+> > and Fragnasia, splicing a read-only file is fundamentally unsafe.
+> >
+> > As such, as a mitigation, add a way for users to block splice() for
+> > files they cannot write to. This eliminates this whole class of exploits
+> > that use splice()+confusion in pipe/net/etc code to gain write-access to
+> > files they can only read.
+> >
+> 
+> The patch touches stuff I'm not familiar with, so no comments on that front.
+> 
+> The core idea is a half-measure which will at best buy few weeks until
+> splice bugs dry out and there will be a new attack vector du jour
+> which people point their LLMs at. Perhaps it is worth it as a bandaid
+> until a more complete solution shows up.
+> 
+> A full-measure solution would git rm these modules to
+> fuck^W^W^W^W^W^Wprevent suspicious modules from being usable by
+> unprivileged users to begin with, at least by default. Of the cases I
+> had seen so far, your typical machine either does not have the thing
+> loaded or in the worst case does not have a legitimate reason to
+> expose them. Someone(tm) would have to figure out a sensible setup
+> where stuff stops autoloading and there is a whitelist of modules
+> allowed on the box, and even then the functionality provided is only
+> usable by select people.
+> 
+> Back in the day I wrote a LSM which learned what kind of socket
+> options etc. are being used in a given workload and afterwards only
+> allowed that. The code never escaped $workplace, but the idea might be
+> a starting point.
 
-Would probably be a bit nicer to just wait until the count is zero?
-We have that pattern for inode_dio_wait(). So something like (untested):
-
-static bool cgroup_writeback_finished(const struct super_block *sb)
-{
-	if (atomic_read(&sb->s_isw_nr_in_flight) == 0)
-		return true;
-
-   	flush_workqueue(isw_wq);
-	return false;
-}
-
-void cgroup_writeback_wait(const struct super_block *sb)
-{
-	wait_var_event(&sb->s_isw_nr_in_flight, cgroup_writeback_finished(sb));
-}
-
-void cgroup_writeback_finish(const struct super_block *sb)
-{
-	if (atomic_dec_and_test(&sb->s_isw_nr_in_flight))
-		wake_up_var(&sb->s_isw_nr_in_flight);
-}
-
--- 
-Christian Brauner <brauner@kernel.org>
+Shouldn't be difficult with a bpf lsm tbh. Just so we don't get any
+ideas about adding yet more lsms to the kernel...
