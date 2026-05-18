@@ -1,146 +1,173 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EF448C8A9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 14:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3759A26B777
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 14:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779114242; cv=none; b=QE1O+MvzDWeh9DCcbAj1e/+eBjiln3khmWraBdPe8LUCnRu06khLtZqo3xIoptwxIikEXwppXZi0m0YNso6cLHQVfXIbVGQFTCSPu8LtIKkuh06fHnKeUz1DBxYkHH1RibTSbwz3MIPITV9IWtYMi2vRjbfl+1AM6RIoQFnazYg=
+	t=1779115910; cv=none; b=cVcu4H426XFBeyPsWI/mBCFmxkHePB1oeMD9F+TuYFgCwV2AVKuHrljbP1r5J2BhvsHKpZHc5mld/5A3nDJ+NZI9FysZTORUYf/e5L6KvGoIbkZrgOtUf9ImKSq7Bn+EiXFLKtCCqLqoE7csqY3FuttGVegAz4ora7X7sN8LYuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779114242; c=relaxed/simple;
-	bh=Ja0DTfaEYIoGmin0aywYwaWpB4UWlA4iW9ZxB9BMNMw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pxhM5PB8qnIc73isvIzuK4p1VLiMLbx9N73GWWWltNQhI8a02Lx8gmqG9f52OA6iIu6kJ9FUOKOxAt+emPXW+mQkt44vEI7khe0qV7LuQyCWV36g7ZY4TblKkhBRtvFpDizrtL98xvKQ9PP736ae6ekl/sjoGx6JA5UyWHW+Tbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jFK1UxCj; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1779115910; c=relaxed/simple;
+	bh=8YhRvGNtrOOwICxF1Gzv/WsXSxkHqfYNm1UG+B0jt08=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=upNp/c+3TwtOYtUybuyZ0ChbDGa0ObrHfC0avmctNX4Exq2YM0bBUfnkOVRmKNxam7xYHQ4aWuW51Z77GvJ9E6SHCg9rV5In84X28q8nPO+rS+KDt2WnGwi/4XL3FQtp8P5s0YuPF5yl+LAPQx+E/nTB+WayFqKWbbPnfNv6t58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWobbnmN; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jFK1UxCj"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bd11a3729e8so383703266b.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 07:23:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWobbnmN"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d75312379so2253567f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 07:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779114237; x=1779719037; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m58bYDJ543WmyZ11IWytLuY71YuFJ2Bw6ePCWpryz/I=;
-        b=jFK1UxCj/9hu/WpBG5drcZwxOWtR6cGYB4ErAsxcCoLRnUmHgxSqEAMVAolDJJrH9Z
-         1hdwdgmStI3zkbuwkOFKLgAduKUp4s7IUV0QrqjtVZyxKN2R7lpp0/keTjJeNXORBfRY
-         iKxXU0l5N5r8xvhB9XCY4w6jrNvDuJXLhYZ9wYbjP+gKbOrmICrOApzAhigvnRrrinaL
-         Gb3NRTZM32EVOdDbYX5+S47nP2KhGAiP8F7wO2/WZgTZ0Wdf97sbuXSYfnv1T9IEtqU5
-         Nv1u3gHY/kqeewKzSvB0u83tg+4FS0uxqPRyB/9oZfAlZtbMwcY0Wlc9g1oZrrMLTZS/
-         v+jA==
+        d=gmail.com; s=20251104; t=1779115907; x=1779720707; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gBS8wbHwX/vB9UcM7E4Dc7DuA8qjN/WDE+nHyY7z+Qk=;
+        b=FWobbnmNvGY0/mT28uA3BlWixHVUvaVcr/trGD5CAg/3qEQxfDtjIj8MPzx0WDOzNn
+         tGDgGZ44ryuftvezh7jHpFJ9OdxSEMrnrV40v8gEORM7YUBN0KaYDJB5GqKei9LHxMLs
+         Aar1mPbBO+6irIubvKA0T9TC0zV1EOfnw4vYAH5QfILH5PSl0VY0PSp4s3EjNmnqhpzD
+         a/xM8C2cWOo8zi6rawrQ0yTk+9KTYc1CQZIf1IrXK6uXcSRzFpqVsV/ozDg6ss/qeEVh
+         wFxM3xQOFPytz349n4r/o7HHZkxiNTBaIlURSqklHmvXqzxNWMQVrJmiGwHQxsiWg4Bf
+         RQFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779114237; x=1779719037;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m58bYDJ543WmyZ11IWytLuY71YuFJ2Bw6ePCWpryz/I=;
-        b=BNaROxJmeXRM947Z0//sVlAUcJxjXGfxR1zO/thte+PEw5PD9lWL6AqOxBDz3NQkEY
-         IAv/1bUoiB7HRnpxCrd771K5zrqSdL8u4Ote8rF+I04wBWousxuvX4eeq5uCTm3q6OaA
-         yruwuwMN1iltcUHOUVeu0LRIJmK8kfIOtXAWxTwlKJfi6km63ZQXje2oJi0deUquhBdW
-         Q6UH8/H2zK+qYIN3vok1uM1Z1q0uQrKHiZ00bPoniQM/0ZRa7+Qr7pRgY+Ojp20UIOO3
-         sx2eVDg7U4EkLXaInKXFokDWjf8f3GMrekloEdIpw80ib1Fd6G/DuPrSoYyNtX5jKGHg
-         J7pA==
-X-Forwarded-Encrypted: i=1; AFNElJ9AM5zJ2uwf8FXfnYmXJU3Kg1bCJu9iEMu7Huco5z/Oo+aBXAienDrZHV2KpDM2FOxTpHxo49I04yYZpeoU@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzkk02VF93tFLHloeblvQfUalcmU/i0p8UzaH9a7271b1vBG+kZ
-	DW8oCe24CAPX2iakQISsryltlmrC7PwhVygMdcSnCeFh5Ip5ELxLLSOt
-X-Gm-Gg: Acq92OHFB5468fpDXWz02+2wYu6tdS7xeEstARoA/US3sB60TKo+nnDOh0O7u7YValA
-	E6veGe41mteM9nobAcOPKC9YOXkgWR6hWTCN+F1BAeyshEsRGXx0lkQmyjFpb2OYyROsd5JUqOU
-	nPPClHfcm0qRvscK8Uzat0M0Ja/plUTgiREzVf02kKmb6iDB4++2tUj3uiKC7g/GAh9duJ1uJMk
-	mTvQGIYkO9PE5ofmfqnzs09sbHQLGRsYTFUJn6rL+goHr/RA43E1F3Kusg3GI8Uf5W7+VDA5Y+g
-	go8QJPL/9skN78+9XpKmgJ8Co+iRNcVvSpOY4BlPrEg5XadViqqv+ct3Chl/BL3hEcUv7MJj0Qe
-	1UJ8iABiZ6BPO295I3hTF6iZsEIYoU4EoRJiOzgI6s/Fddv/o2m+vuoCMBG+Fghv5iRf+FnBpch
-	46aIB+nUEYiX/LJZbMqPaoNlTtOqc3q+fo6ebxBG+32t5v+jjZGuIHiLxDxQ3wiMer9tHzG74ES
-	lujDZwTG6RoEd0mCKOg2Xq5wQ5KyvdkaTnFOoKdy1jhZifFmqZuhHmxj+je0JzsIhu8l7y1KxZb
-	9w==
-X-Received: by 2002:a17:907:c291:b0:bd5:7a3:a58b with SMTP id a640c23a62f3a-bd517994249mr821357066b.46.1779114237152;
-        Mon, 18 May 2026 07:23:57 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68310d58c79sm5325464a12.12.2026.05.18.07.23.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 07:23:56 -0700 (PDT)
-Message-ID: <ea47051e-697f-4017-a514-be6ef7c110e9@gmail.com>
-Date: Mon, 18 May 2026 15:23:53 +0100
+        d=1e100.net; s=20251104; t=1779115907; x=1779720707;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gBS8wbHwX/vB9UcM7E4Dc7DuA8qjN/WDE+nHyY7z+Qk=;
+        b=gx5Rf7f4RH9Qe9UV9HtSatdequXqoWMjA8mGlVg2+b02M/0lOHR3fHVxtjGj27EPk1
+         8c/RXsZ03IpUhYEWRDjBJbFzLSWVBTZ3QPl1QDzAW3+yAkBtmq5DI2ytryW4XbEHngO6
+         ng18FGKQFN+vdOZXh3rU/pEXKcrIhped1cAE4ornn37KymPU4dxSf2uN2dBFNz3QwaMT
+         0Bmh41bE6ZaqE2cZ690cmhRXg9gwu/ehsrB1d/Sr+d6aKkXDXA9Pxg47gW6EOdEWqTdp
+         3Hnqoz6Lk+NssRBC6B5lkBG6mdwuJMT2KWPoXiggk5yWenV5edUywzhkJ/VdaOMDGoCO
+         0wRw==
+X-Forwarded-Encrypted: i=1; AFNElJ/KwaJf1UGXkjwNYVUKTSoJ+aKQswP5sbKNBIEnN+2yRExQJVdTC7ldnSg/9m03hQOuqaIXZgWoScLuO9gh@vger.kernel.org
+X-Gm-Message-State: AOJu0YwawVO6UWzgm9SlEH3SRnpd5wkoMcgUYKWPIlxlBrsdyi5mDMX0
+	pJ35DCh3ooGG0X4XUMZaM4mzJDTj1CEdE7OaOJNSGoTZTjLjsNGGfQgt
+X-Gm-Gg: Acq92OHu0lM8HSFFeGDS1dAx7YaxvU9PVuWn1zJrCXMtVkQEw1sJIFu154YwKknzxd4
+	mjUa3p1Z32eT+Mrmu4qzVSOyAlNJn0iwcSMoMFzzKO3rgxYYKqYX2fCE2SnB/ipLEvdivAaM9cP
+	s2oclDLw4pTY68XfI+MOLAM7J+C+ZuazI/pPcUytexXFKKvlr6m/1tX1pnyPT1EjsVcPmGeZeud
+	0mv8PYhtDO0QF4jYBw+YqC/jIyzczGe5AkfXVNr1MeehYvsmp3nPwfvrfGdxxkYgnCWiCMy4hpN
+	GK4U16rUcGAOnygQHevNSLATOLH8wnW3lMQiLRdTImqLo1ugaUKOakBSjWbghTSCOKPHkwai7N4
+	CqkzYdfxFkkEXJGr16S9UMCo4GQV0fLPA7jcwiIC5cwmgRuv66/wHb90a/DJf23wxYqNZdbtxsS
+	JSU8FoWLyIb0A75SJ7EdVajW7d2+dT6xdCPidtenlJ1kf1pGti5qTS2URUCiXWcQteQDRpJlwc4
+	5c=
+X-Received: by 2002:a05:600c:1515:b0:48f:fe2a:107a with SMTP id 5b1f17b1804b1-48ffe2a10b7mr78609695e9.3.1779115907014;
+        Mon, 18 May 2026 07:51:47 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe5cab7c5sm272733645e9.12.2026.05.18.07.51.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 07:51:46 -0700 (PDT)
+Date: Mon, 18 May 2026 15:51:45 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi
+ <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>, Al Viro
+ <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>,
+ Nirmoy Das <nirmoyd@nvidia.com>, linux-unionfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] err_ptr.h: introduce ERR_PTR_SAFE()
+Message-ID: <20260518155145.01ef37ed@pumpkin>
+In-Reply-To: <CAOQ4uxgy5Vut5KYC4vj_wgXiyghT2B9nd1YAV-a+hdkz5j1gqQ@mail.gmail.com>
+References: <20260514200129.94862-1-amir73il@gmail.com>
+	<20260518-rundschau-rohkost-e591e2d0deb9@brauner>
+	<CAOQ4uxgy5Vut5KYC4vj_wgXiyghT2B9nd1YAV-a+hdkz5j1gqQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/10] lib: add dmabuf token infrastructure
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com>
- <20260513082431.GA6461@lst.de>
- <ebf41920-5852-428f-b98a-e0f44c8f3315@gmail.com>
- <20260518125326.GA5754@lst.de>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260518125326.GA5754@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/18/26 13:53, Christoph Hellwig wrote:
-> On Mon, May 18, 2026 at 11:14:09AM +0100, Pavel Begunkov wrote:
->>> This is about dma-buf based I/O.  So I'd expect it to be named dma-buf-io
->>> and no io-dmabuf, and live in drivers/dma-buf and not the unrelated lib/.
->>> But I'd like to hear from the dma-buf maintainers about that.
->>
->> Looking at what Ming is saying, it'd make more sense to keep some of the
->> parts like iterator and the file op more flexible and not automatically
->> imply dma-buf even if it's the main and for now the only medium. I.e.
->> ublk/fuse can use a similar interface for mapping buffers to the server
->> even without dma mappings.
->>
->> I don't know how the API should look like, maybe passing memfd, and dma-buf
->> supports mmap, but I think it's better to call the op something like
->> "register_buffer" instead and keep all it in lib/ for the same reasons.
-> 
-> Let's get the current version landed.  If we come up with some kind of
-> non-dma dmabuf in the future we can refactor it and move it around.
-> I'm a little skeptic we'll be able to share code as long as dmabuf
-> is allergic to physical addresses, though.
+On Mon, 18 May 2026 14:52:05 +0200
+Amir Goldstein <amir73il@gmail.com> wrote:
 
-To be fair, it's not that dma-buf specific. This lib/ code only
-does some resv locking, fence waiting and queuing fences, otherwise
-all the attaching is done by the driver behind callbacks. Switching
-it to some memfd could be pretty simple. But The main thing it'd
-need to share is iterator handling like forwarding in the block
-layer, and it should be fine as it's already passed as a completely
-opaque object with no knowledge about pages / dma / etc. for the
-middle layers.
+> On Mon, May 18, 2026 at 2:39=E2=80=AFPM Christian Brauner <brauner@kernel=
+.org> wrote:
+> >
+> > On Thu, May 14, 2026 at 10:01:29PM +0200, Amir Goldstein wrote: =20
+> > > Code using ERR_PTR() is almost certainly intending to produce a value
+> > > which qualified as IS_ERR_OR_NULL(), but this is not the case when
+> > > code calls ERR_PTR(err) with positive or large negative err.
+> > >
+> > > Introduce a fortified variant of ERR_PTR() whose return value is
+> > > guaranteed to qualify as IS_ERR_OR_NULL().
+> > >
+> > > We add this in a new header file err_ptr.h which includes bug.h
+> > > for the build/run time assertions.
+> > >
+> > > Subsystems may opt-in for fortified ERR_PTR() for specific call sites
+> > > or by #define ERR_PTR(err) ERR_PTR_SAFE(err).
+> > >
+> > > Link: https://lore.kernel.org/r/CAOQ4uxg=3DgONUh5QEW5KJcyXLDF15HbLnc9=
+Ea7RKPcgtyfPasTA@mail.gmail.com/
+> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > > --- =20
+> >
+> > I think this is backwards. You can of course do whatever you want in
+> > overlayfs but I think as a first-class concept in err.h it's not that
+> > great. Then we have to separate macros/inlines and almost no one will
+> > use ERR_PTR_SAFE().
+> >
+> > I think the correct thing would be to add an assert into ERR_PTR() and a
+> > debug-only one very likely at that and combine this with the static
+> > analyzer thing mentioned in the thread below.
+> >
+> > diff --git a/include/linux/err.h b/include/linux/err.h
+> > index 8c37be0620ab..6bf768adf157 100644
+> > --- a/include/linux/err.h
+> > +++ b/include/linux/err.h
+> > @@ -38,6 +38,9 @@
+> >   */
+> >  static inline void * __must_check ERR_PTR(long error)
+> >  {
+> > +#ifdef CONFIG_DEBUG_INFO
+> > +       WARN_ON_ONCE(!IS_ERR_VALUE(error));
 
-> lib/ is most certainly the wrong place for something that absolutely
-> is not library functionality but directly interacts with a few
-> subsystems.
+If you do this, you need to change the value.
+Even if just 'error | PAGE_MASK' (and check for zero).
 
-It only interacts with dma-buf, and even for dma-buf attachments
-are created by the driver. Block, nvme, io_uring are users, either
-using the helpers or implementing callbacks.
+You could just do:
+	return error ? (void *)(error | ~4095ul) : NULL;
+or (avoiding the conditional):
+	return ((error - 1) | ~4095ul) + 1;
 
-Ok. Let's assume for the argument's sake it's not dma-buf
-specific, if not lib/, where would you put it? I was also
-assuming that dma-buf being under drivers/ is rather a relic
-of the past rather than the desired location, hmm?
+That will ensure the value is treated as an error value.
 
+> > +#endif
+> >         return (void *) error;
+> >  }
+> >
+> > I'm not convinced yet about ERR_PTR_SAFE(). =20
+>=20
+> Maybe, but
+> 1. err.h does not include bug.h, hence err_ptr.h
+> 2. I think CONFIG_DEBUG_INFO is pretty common in distro kernels
+> and it means its ok to bloat the kernel object sizes
+> but it does not mean distro is willing to pay performance penalty
+> but David may be able to share more insight about the performance
+> cost of your suggested variant.
 
--- 
-Pavel Begunkov
+The check itself (on x86) should just be 'add $4095, error; jnc bad'.
+WARN_ON() and BUG_ON() are implemented using 'ud2' (undefined opcode)
+and picking up the info from the exception table.
+I can't remember about WARN_ON_ONCE() - there has to be some writable
+global data somewhere.
+But other architectures end up adding more in line code.
+In particular anything that adds a function call can badly affect
+register allocation and code generation.
+
+Not the least of the problems is the sheer number of places where
+extra code can get added - especially for something that static analysis
+ought to be able to detect.
+
+-- David
+
+>=20
+> Thanks,
+> Amir.
 
