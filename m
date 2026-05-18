@@ -1,165 +1,109 @@
-Received: from eggs.gnu.org (eggs.gnu.org [209.51.188.92])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F139C3E2769;
-	Mon, 18 May 2026 06:22:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.51.188.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9812385529;
+	Mon, 18 May 2026 06:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779085352; cv=none; b=J9ATk5/+o/eA5/JPLzFJ7AH/LMEb0upWNeCJIvwK9r2uqEQJUfDsPF4r9K6URr6K2ilKEfO5aWB8Ib/isPxMhK85aP2OlWXLGqOj4mXy7msCn+fddUU4fXM5KU96XBDMJJp3LIuby/w2EyRc7rQtw9gFNRlOWxy/j8Axa9FltKM=
+	t=1779085768; cv=none; b=AlY84lc6DSd8O3Sk8L1fDlX3VA7zwcrDw92/CK2DNkGSv1elOmApOE5afho9BCoIivKjJWzTH2bIc68Lf4hsDoIGA1tvcFa9J3RyY0kr196Gj7QMtheNC8J1O7/TqosQqBTjwKVMSlGwWTkok1OVbsolmI8WEEdIQLi8p2nCy/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779085352; c=relaxed/simple;
-	bh=zU7Ln2cwuApHTRf+nig0EHE/Ia30tFw3PHnmmBAPce8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PWBrQHC8JN93jWKZw564VsZq0E3wjeZGgei5XdR9libQO3lWuVHgZ0hmUMHHpFg/U0oO2WfEKWkdSl1JDHO7dPGwwzC2oqTPubbG+TkBb4e0a/DSzcReHb6ZYRwwwmCKmrF8jt7Xw5mOabqGD81tqhNMyzrjXk6djyDt0S4/2cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gnu.org; spf=pass smtp.mailfrom=gnu.org; dkim=pass (2048-bit key) header.d=gnu.org header.i=@gnu.org header.b=qN69ukL4; arc=none smtp.client-ip=209.51.188.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gnu.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gnu.org
+	s=arc-20240116; t=1779085768; c=relaxed/simple;
+	bh=51LhxIleCTJqt4BiWQ4sLBmpM6PrdLa7O86sRMoBezY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O+AnMTcAPJhBqAgFtgW6k+sUwS6864pw9xmCY41XSMo9bRuYsZm3ZS6CwENdPd++F93spkWFALkjNkCB/zyydabZY1zcRvFpVBeoeAvcLSDoidGqFJ08X6fJ8UZbT8N8i9eItMbfsKsvYTrQqXOibZVOfSiKu5xrQmJrihcgw8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UzWb5A8g; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gnu.org header.i=@gnu.org header.b="qN69ukL4"
-Received: from fencepost.gnu.org ([2001:470:142:3::e])
-	by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.90_1)
-	(envelope-from <janneke@gnu.org>)
-	id 1wOrMd-0004lD-GT; Mon, 18 May 2026 02:22:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gnu.org;
-	s=fencepost-gnu-org; h=MIME-Version:Date:References:In-Reply-To:Subject:To:
-	From; bh=yDbhPa2Ho+FjDBUMNwlLcEab30t5ml8asm6EXkzfelg=; b=qN69ukL4dr+BAdb9B8nL
-	zNHI0r602ltONKY6zdz0cDxL8HJVXHbkJpah7SB41SHGselmiZzb/G9qWGifysDFz5/Ytq47s89Wb
-	UL0dXe44O3c1QZalO6Q5DlVoK80UBoG8Fhff1Cb1Y1DMSYj0lc4FDXMYS3uK+m4+5menBhK/sEevn
-	FmVhPcR5CAl1tIgDNKY2pT1GSyn1tpMancY7cUbxOkKRwm/xxQAwF5WaY2KtUGmlNFsc1GVwFwynT
-	p2j7KF3HKWB7zRaQyyjvIhDY6A/lgNkK9uWHJmsTBfwmleqZmNATmTrMgR9pm2k+XMkjQE1XuGm4W
-	gPm4ZJ7O12JvxA==;
-From: Janneke Nieuwenhuizen <janneke@gnu.org>
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: linux-kernel@vger.kernel.org,  linux-mm@kvack.org,  Hugh Dickins
- <hughd@google.com>,  Ludovic =?utf-8?Q?Court=C3=A8s?= <ludo@gnu.org>,
-  Rutger van Beusekom
- <rutger@reasonable-sourcery.coop>,  linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] shmem: support xattr gnu.* namespace for the Hurd
-In-Reply-To: <d5cd1ce3-db3a-4053-8556-a52982ff4a16@linux.alibaba.com> (Baolin
-	Wang's message of "Mon, 18 May 2026 11:54:03 +0800")
-Organization: AvatarAcademy.nl
-References: <87se7stpgy.fsf@gnu.org>
-	<d5cd1ce3-db3a-4053-8556-a52982ff4a16@linux.alibaba.com>
-X-Url: https://AvatarAcademy.nl
-Date: Mon, 18 May 2026 08:22:02 +0200
-Message-ID: <87jyt1ck51.fsf@gnu.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UzWb5A8g"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=YIvcn5om5TwyAzJyMEQrEcddm3OGUNdocOTBQQR/JLQ=; b=UzWb5A8gyNlf/DWKRHYiq4krpz
+	bjkxFuQuHdK2icIStHD6sZ8Oq+jo2BY/WZcEhNExesxVTEhCrPfV32vsizME6SmwPljhRSbonfmB1
+	bRE5xUA7gLabulmCgpllUkIQ227R8KVm4zHI8/9PrBBRbfUWrXdCYrtt9mcRWY510Q6nudh65g25C
+	kwWJUb0yMEx6mPwQLW4IHAxSmyzrhcqT86oVUfemWvaFsLyf6ixRum/9xq5zwbwCP8yPWhDjtSOZZ
+	Td/2RdjxTUT/1a+d6Ym9pEcgj9yZNPiCRzfQxgZaflsulNBknpCQA8VRyPoq41WVM5sikYZPovje2
+	ZZIYTxRQ==;
+Received: from [2001:4bb8:2ee:fcf2:e6ad:a575:3e60:e254] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wOrTd-0000000EQdI-3TZc;
+	Mon, 18 May 2026 06:29:22 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: brauner@kernel.org
+Cc: djwong@kernel.org,
+	axboe@kernel.dk,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-block@vger.kernel.org
+Subject: [PATCH] iomap: don't make REQ_POLLED imply REQ_NOWAIT
+Date: Mon, 18 May 2026 08:29:13 +0200
+Message-ID: <20260518062917.506483-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-=-="
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
---=-=-=
-Content-Type: text/plain
+As described in commit 2bc057692599 ("block: don't make REQ_POLLED imply
+REQ_NOWAIT"), which fixed the same issue for the block device node, there
+are valid cases to poll for I/O completion without REQ_NOWAIT.
 
-Baolin Wang writes:
+Additionally, sing REQ_NOWAIT for file system writes is currently not
+supported as file systems writes are not idempotent and would need a
+retry of just the bio and not the entire operation to be fully supported.
 
-Hi Baolin,
+Switch iomap to set REQ_POLLED and remove the now unused bio_set_polled
+helper.
 
-> On 5/16/26 3:58 AM, Janneke Nieuwenhuizen wrote:
->>  From d8291d06b67db045033664fb440f59001d7755a1 Mon Sep 17 00:00:00 2001
->> From: Janneke Nieuwenhuizen <janneke@gnu.org>
->> Date: Fri, 15 May 2026 10:12:30 +0200
->> Subject: [PATCH] shmem: support xattr gnu.* namespace for the Hurd
-[..]
->> to setup a pipe translator, which is being used to create an
->> initial file-system image for the Hurd from GNU Guix[4].
->
-> Please add your Singed-off-by tag.
-
-Done; find a new version attached.
-
-Greetings,
-Janneke
-
-
---=-=-=
-Content-Type: text/x-patch
-Content-Disposition: inline;
- filename=0001-shmem-support-xattr-gnu.-namespace-for-the-Hurd.patch
-
-From 4ff8927bb044dab11fca9b258e7b9c0b221ac912 Mon Sep 17 00:00:00 2001
-From: Janneke Nieuwenhuizen <janneke@gnu.org>
-Date: Fri, 15 May 2026 10:12:30 +0200
-Subject: [PATCH] shmem: support xattr gnu.* namespace for the Hurd
-
-The Hurd gained[0] support for moving the translator and author
-fields out of the inode and into the "gnu.*" xattr namespace.
-
-In anticipation of that, an xattr INDEX was reserved[1].  The Hurd has
-now been brought into compliance[2] with that, and so has ext4[3].
-
-This patch adds support for reading and writing such attributes from
-a Linux tmpfs; you can now do something like
-
-    mkdir -p hurd-root
-    mount -t tmpfs -o size=2M tmpfs hurd-root
-    mkdir -p hurd-root/servers/socket
-    touch hurd-root/servers/socket/1
-    setfattr --name=gnu.translator --value='"/hurd/pflocal\0"' \
-        hurd-root/servers/socket/1
-    getfattr --name=gnu.translator hurd-root/servers/socket/1
-    # file: 1
-    gnu.translator="/hurd/pflocal"
-
-to setup a pipe translator, which is being used to create an
-initial file-system image for the Hurd from GNU Guix[4].
-
-[0] https://summerofcode.withgoogle.com/projects/#5869799859027968
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3980bd3b406addb327d858aebd19e229ea340b9a
-[2] https://git.savannah.gnu.org/cgit/hurd/hurd.git/commit/?id=a04c7bf83172faa7cb080fbe3b6c04a8415ca645
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=88ee9d571b6d8ed345f877e05f685814412e359b
-[4] https://codeberg.org/guix/guix/pulls/8632
-
-Signed-off-by: Janneke Nieuwenhuizen <janneke@gnu.org>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- mm/shmem.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ fs/iomap/direct-io.c |  2 +-
+ include/linux/bio.h  | 14 --------------
+ 2 files changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 3b5dc21b323c..5d60aa4dba92 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -15,6 +15,7 @@
-  * Extended attribute support for tmpfs:
-  * Copyright (c) 2004, Luke Kenneth Casson Leighton <lkcl@lkcl.net>
-  * Copyright (c) 2004 Red Hat, Inc., James Morris <jmorris@redhat.com>
-+ * Copyright (C) 2026 Janneke Nieuwenhuizen <janneke@gnu.org>
-  *
-  * tiny-shmem:
-  * Copyright (c) 2004, 2008 Matt Mackall <mpm@selenic.com>
-@@ -4371,10 +4372,17 @@ static const struct xattr_handler shmem_user_xattr_handler = {
- 	.set = shmem_xattr_handler_set,
- };
+diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+index b0a6549b3848..db16f21446f7 100644
+--- a/fs/iomap/direct-io.c
++++ b/fs/iomap/direct-io.c
+@@ -69,7 +69,7 @@ static void iomap_dio_submit_bio(const struct iomap_iter *iter,
  
-+static const struct xattr_handler shmem_hurd_xattr_handler = {
-+	.prefix = XATTR_HURD_PREFIX,
-+	.get = shmem_xattr_handler_get,
-+	.set = shmem_xattr_handler_set,
-+};
-+
- static const struct xattr_handler * const shmem_xattr_handlers[] = {
- 	&shmem_security_xattr_handler,
- 	&shmem_trusted_xattr_handler,
- 	&shmem_user_xattr_handler,
-+	&shmem_hurd_xattr_handler,
- 	NULL
- };
+ 	/* Sync dio can't be polled reliably */
+ 	if ((iocb->ki_flags & IOCB_HIPRI) && !is_sync_kiocb(iocb)) {
+-		bio_set_polled(bio, iocb);
++		bio->bi_opf |= REQ_POLLED;
+ 		WRITE_ONCE(iocb->private, bio);
+ 	}
  
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 85463981d0f5..6b0ad28387b8 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -695,20 +695,6 @@ static inline bool bioset_initialized(struct bio_set *bs)
+ 	return bs->bio_slab != NULL;
+ }
+ 
+-/*
+- * Mark a bio as polled. Note that for async polled IO, the caller must
+- * expect -EWOULDBLOCK if we cannot allocate a request (or other resources).
+- * We cannot block waiting for requests on polled IO, as those completions
+- * must be found by the caller. This is different than IRQ driven IO, where
+- * it's safe to wait for IO to complete.
+- */
+-static inline void bio_set_polled(struct bio *bio, struct kiocb *kiocb)
+-{
+-	bio->bi_opf |= REQ_POLLED;
+-	if (kiocb->ki_flags & IOCB_NOWAIT)
+-		bio->bi_opf |= REQ_NOWAIT;
+-}
+-
+ static inline void bio_clear_polled(struct bio *bio)
+ {
+ 	bio->bi_opf &= ~REQ_POLLED;
 -- 
-2.54.0
+2.53.0
 
-
---=-=-=
-Content-Type: text/plain
-
-
--- 
-Reasonable | Free Software for Correctness | GNU Dezyne -- https://dezyne.org
-+Sourcery+ | Correctness for Free Software | https://reasonable-sourcery.coop
-
---=-=-=--
