@@ -1,32 +1,32 @@
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB8B1E25F9;
-	Mon, 18 May 2026 01:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699311E25F9;
+	Mon, 18 May 2026 01:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779068263; cv=none; b=aEAQPvmmAFZHkyFpCr7ot4oOAP4Sj0TkwfTxbwYtGjt6Z/E94Wxsaj2hul0vt8IWNcr3M9jWVJdykXcDn/PdQ3jgKpFRMjDijSYlLpyj2ONJhGuIYVr1Zwd8RpooiN39teRw00ohC55y0hB32Tog4VjzDCHw/eblq2MPNll3eMI=
+	t=1779068323; cv=none; b=NjpwBMjYOzs9OStRnmGCR81qRe2nXBj1SfGWbHdrl/fMfY2ZjrzO5CzxsBeMLcsvo4dwcJWjY7xd56ctrU7pZJ1DVNWvCs/y4HYAmaJeVmr6weUlz9RlGCd8DY9x3OU5jxBlI6inH37qtNL0v6v+lNyGIfqPXPc8IaQwjkPcWk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779068263; c=relaxed/simple;
-	bh=e5AbEdxc74VyTtMdQ47+WaR/VFcBZJVsh3vG6A1+wT0=;
+	s=arc-20240116; t=1779068323; c=relaxed/simple;
+	bh=qg4sppiLXyw8H+8vGLaCG/p5asDVGT22b9mDjBpcKjg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I1ax7BUg8lOKehjTtmyvr+YkZHKhgXEzWAOqcs/H6g2EAphj5SUs3rop53S6RrtXeXZFXTisavborFKWOFTrg5gLmGv/Xqn10FzYFgJka79Jvw/6EoUwkbBWxI5K9jnvfgd1Aw16YnICHFrZydz1pt7Ve63lUh5SYoPMkFIQUsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=hL2APeN6; arc=none smtp.client-ip=115.124.30.131
+	 In-Reply-To:Content-Type; b=sNVpPs7Z/TmDlDZWrDRmFoXJE96Mz7ZUfjt+ipsKYMdiULZiTsgP07SMMYME+FEAPKVLs7jF9XJdQy0FjDxVnzvhA90l+ZH/svX6rlv8GcJO+HKvlB1XMSdHlmZai1Qd3lWAb2HG4oa2oeJr63L3FreWzXNHd36fSl3tBSbQkvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=jjOI1qCZ; arc=none smtp.client-ip=115.124.30.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="hL2APeN6"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="jjOI1qCZ"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1779068258; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=G2A8yq+atc45C9TkkOViHo8ROyU1Q4Q+TbyHIReW5Ys=;
-	b=hL2APeN61YctbYRkQnzud2mqSAtZZnXBsqe9IL1xhgiFmUmQnQWl2THHK44ioPsNWYZSTmF664KaIa9N0B0Y9gBIky9L4AjNjI5ALOSFmdgKyzjIaBlFKSHh2seXyWiz9dk1pv/7mexperERMvSboswoHi9FN6ooh+udD1+PoSo=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R471e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X32gD3I_1779068257;
-Received: from 30.221.129.172(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X32gD3I_1779068257 cluster:ay36)
+	t=1779068318; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=SWIDsCGcp/zWFBuC85MvM1Rgn/v9xndqii9W0FaALG8=;
+	b=jjOI1qCZQA+PBGZlrSBoQ1RFcnwROXkXz9vfUlYumJsMKZXBrgkig/bvy6Kiku7vUbONUuGWE2Q0bYJiWY5E3zJxntkTOQ0i/dk5ExuqdWEN9HkpdN+BciNsU9MRtW/5k6Ucfit8BelT+POzjAxHqkYAmINiN57CuWPQnvKzk5E=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X32hiWi_1779068317;
+Received: from 30.221.129.172(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X32hiWi_1779068317 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Mon, 18 May 2026 09:37:38 +0800
-Message-ID: <ead6ed9a-e198-48aa-bb63-03049a3b08b9@linux.alibaba.com>
-Date: Mon, 18 May 2026 09:37:37 +0800
+          Mon, 18 May 2026 09:38:38 +0800
+Message-ID: <c507ecb2-0d1f-49ab-b5b0-4d6f3216db8b@linux.alibaba.com>
+Date: Mon, 18 May 2026 09:38:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,55 +34,69 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] ocfs2: reject dinodes whose i_rdev disagrees with the
- file type
+Subject: Re: [PATCH 3/3] ocfs2: reject regular files with non-zero i_size and
+ zero i_clusters
 To: Michael Bommarito <michael.bommarito@gmail.com>,
  akpm <akpm@linux-foundation.org>
 Cc: ZhengYuan Huang <gality369@gmail.com>, ocfs2-devel@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>
 References: <20260517111015.3187935-1-michael.bommarito@gmail.com>
- <20260517111015.3187935-3-michael.bommarito@gmail.com>
+ <20260517111015.3187935-4-michael.bommarito@gmail.com>
 From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20260517111015.3187935-3-michael.bommarito@gmail.com>
+In-Reply-To: <20260517111015.3187935-4-michael.bommarito@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 5/17/26 7:10 PM, Michael Bommarito wrote:
-> id1.dev1.i_rdev is the device-number arm of the ocfs2_dinode id1
-> union and is only meaningful for character and block device
-> inodes.  For any other user-visible file type the on-disk value
-> must be zero.
+> On a volume mounted WITHOUT OCFS2_FEATURE_INCOMPAT_SPARSE_ALLOC, a
+> regular file with non-zero i_size, zero i_clusters, and no
+> OCFS2_INLINE_DATA_FL flag is structurally malformed: the extent
+> map declares no allocated clusters yet the size header claims
+> the file has content.  ocfs2_populate_inode() copies i_size into
+> the in-core inode and dispatches to ocfs2_aops; subsequent reads
+> or truncates then operate on an inconsistent extent state.
 > 
-> ocfs2_populate_inode() currently runs
+> This is the shape an attacker who keeps the rest of the extent
+> list intact (to satisfy the inline-data, refcount, chain-list,
+> and per-field validators already in this function) would produce
+> when forging only the inode header to publish a synthetic file
+> size on a victim node.  It is also the shape on-disk corruption
+> of the i_clusters field produces.  Reject early in the
+> validator.
 > 
->     inode->i_rdev = huge_decode_dev(le64_to_cpu(fe->id1.dev1.i_rdev));
+> The check is restricted to non-sparse volumes
+> (ocfs2_sparse_alloc() returns false).  On non-sparse mounts the
+> allocator path always grows clusters before i_size:
+> ocfs2_extend_file() takes the !sparse branch into
+> ocfs2_extend_no_holes(), which calls ocfs2_extend_allocation()
+> to journal new clusters first, and only then
+> ocfs2_simple_size_update() journals the larger i_size.  The
+> truncate path likewise lowers i_size in ocfs2_orphan_for_truncate()
+> and then frees clusters in ocfs2_commit_truncate(), which uses
+> ocfs2_clusters_for_bytes(new_i_size) as its new_highest_cpos:
+> when new_i_size > 0 the floor is at least one cluster, so the
+> on-disk dinode never legitimately exposes a non-inline regular
+> file with i_size > 0 and i_clusters == 0 on a non-sparse volume.
 > 
-> unconditionally, before the S_IFMT switch decides whether the
-> inode is a special file.  As a result, an i_rdev value present on
-> a non-device inode is silently published into the in-core inode.
-> A subsequent forced re-read or in-core mode mutation (cluster
-> peer with raw write access to the shared LUN, on-disk corruption,
-> or a separately forged dinode) can then expose the attacker-
-> controlled device number to init_special_inode() without ever
-> showing an unusual i_mode at validation time.
+> On sparse-alloc volumes the same shape is legitimate: an
+> ocfs2_extend_file() call goes through ocfs2_zero_extend() +
+> ocfs2_simple_size_update(), which grows i_size on its own
+> without changing i_clusters; a freshly truncate -s 1M of a
+> sparse regular file is therefore on-disk
+> (i_size = 1048576, i_clusters = 0).  The check therefore opts
+> out via ocfs2_sparse_alloc(OCFS2_SB(sb)).
 > 
-> System inodes (OCFS2_SYSTEM_FL) legitimately use the bitmap1 and
-> journal1 arms of the same union: allocator inodes encode i_used
-> / i_total in the bitmap1 arm and the journal encodes ij_flags /
-> ij_recovery_generation in the journal1 arm.  Those byte
-> sequences are not an i_rdev and a non-zero pattern there is the
-> on-disk norm, not an integrity violation.  Restrict the cross-
-> check to non-system inodes; that is the full surface where
-> i_rdev semantics apply and is also the full surface an
-> unprivileged consumer of the volume can see.
-> 
-> Following the i_mode canonicalisation in patch 1, S_ISCHR /
-> S_ISBLK covers the whole device-inode space; this check operates
-> correctly on its own, but the canonicalised i_mode makes the
-> predicate exhaustive.
+> System inodes (OCFS2_SYSTEM_FL) carry their own size and
+> cluster invariants validated by the allocator, journal, quota,
+> and truncate-log subsystems; skip them here.  The inline-data
+> fast path is filtered separately by its own dedicated branch
+> below: its well-formed case is exactly i_clusters == 0 with
+> i_size <= id_count.  Symlinks legitimately keep i_clusters ==
+> 0 with non-zero i_size (fast symlinks), so this check is
+> restricted to S_IFREG.
 > 
 > Fixes: b657c95c1108 ("ocfs2: Wrap inode block reads in a dedicated function.")
 > Cc: stable@vger.kernel.org
@@ -93,52 +107,55 @@ Looks fine.
 Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
 
 > ---
->  fs/ocfs2/inode.c | 38 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
+>  fs/ocfs2/inode.c | 41 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
 > 
 > diff --git a/fs/ocfs2/inode.c b/fs/ocfs2/inode.c
-> index fb592bf3e5f31..305e22cc9b1d9 100644
+> index 305e22cc9b1d9..c63d2ced6b338 100644
 > --- a/fs/ocfs2/inode.c
 > +++ b/fs/ocfs2/inode.c
-> @@ -1533,6 +1533,44 @@ int ocfs2_validate_inode_block(struct super_block *sb,
->  		}
+> @@ -1571,6 +1571,47 @@ int ocfs2_validate_inode_block(struct super_block *sb,
+>  		goto bail;
 >  	}
 >  
 > +	/*
-> +	 * id1.dev1.i_rdev is the device-number arm of the id1 union and
-> +	 * is only meaningful for character and block device inodes.  For
-> +	 * any other regular user-visible file type the on-disk value
-> +	 * must be zero.  ocfs2_populate_inode() currently runs
+> +	 * On a non-sparse volume, a regular file with non-zero i_size
+> +	 * and zero i_clusters that is not marked as inline data is
+> +	 * structurally malformed: the extent map declares no allocated
+> +	 * clusters yet the size header claims the file has content.
+> +	 * ocfs2_populate_inode() would still publish i_size to VFS and
+> +	 * leave the extent state inconsistent for any later read or
+> +	 * truncate.  This is the shape an attacker who keeps the rest
+> +	 * of the extent list intact (to satisfy the inline-data,
+> +	 * refcount, chain-list, and per-field validators above) would
+> +	 * produce when forging only the inode header to publish a
+> +	 * synthetic file size on a victim node.  It is also the shape
+> +	 * on-disk corruption of the i_clusters field produces.
 > +	 *
-> +	 *     inode->i_rdev = huge_decode_dev(le64_to_cpu(fe->id1.dev1.i_rdev));
+> +	 * The check opts out on sparse-alloc volumes, where the
+> +	 * extend path (ocfs2_extend_file -> ocfs2_zero_extend ->
+> +	 * ocfs2_simple_size_update) legitimately grows i_size without
+> +	 * allocating clusters.  On non-sparse volumes the equivalent
+> +	 * path (ocfs2_extend_no_holes) journals clusters first and
+> +	 * i_size second, and truncate-down floors i_clusters at
+> +	 * ocfs2_clusters_for_bytes(new_i_size) which is >= 1 whenever
+> +	 * new_i_size > 0, so the rejected shape never appears on disk.
 > +	 *
-> +	 * unconditionally, before the S_IFMT switch decides whether the
-> +	 * inode is a special file.  As a result, an i_rdev value present
-> +	 * on a non-device inode is silently published into the in-core
-> +	 * inode; a subsequent forced re-read or in-core mode mutation
-> +	 * (cluster peer with raw write access to the shared LUN,
-> +	 * on-disk corruption, or a separately forged dinode) can then
-> +	 * expose the attacker-controlled device number to
-> +	 * init_special_inode() without ever showing an unusual i_mode
-> +	 * at validation time.
-> +	 *
-> +	 * System inodes (OCFS2_SYSTEM_FL) legitimately use the bitmap1
-> +	 * and journal1 arms of the same union (allocator i_used /
-> +	 * i_total counters and the journal ij_flags /
-> +	 * ij_recovery_generation pair); those bytes are not an i_rdev
-> +	 * and must not be checked here.  Restrict the cross-check to
-> +	 * non-system inodes, which is the full attacker-controllable
-> +	 * surface.
+> +	 * Skip system inodes (OCFS2_SYSTEM_FL) and the inline-data
+> +	 * fast path (handled below).  Symlinks legitimately keep
+> +	 * i_clusters == 0 with non-zero i_size (fast symlinks), so
+> +	 * restrict to S_IFREG.
 > +	 */
-> +	if (!(le32_to_cpu(di->i_flags) & OCFS2_SYSTEM_FL) &&
-> +	    !S_ISCHR(le16_to_cpu(di->i_mode)) &&
-> +	    !S_ISBLK(le16_to_cpu(di->i_mode)) &&
-> +	    di->id1.dev1.i_rdev != 0) {
+> +	if (!ocfs2_sparse_alloc(OCFS2_SB(sb)) &&
+> +	    S_ISREG(le16_to_cpu(di->i_mode)) &&
+> +	    !(le32_to_cpu(di->i_flags) & OCFS2_SYSTEM_FL) &&
+> +	    !(le16_to_cpu(di->i_dyn_features) & OCFS2_INLINE_DATA_FL) &&
+> +	    le64_to_cpu(di->i_size) != 0 &&
+> +	    le32_to_cpu(di->i_clusters) == 0) {
 > +		rc = ocfs2_error(sb,
-> +				 "Invalid dinode #%llu: non-device mode 0%o with i_rdev %llu\n",
+> +				 "Invalid dinode #%llu: regular file i_size %llu with i_clusters 0 and no inline-data flag on non-sparse volume\n",
 > +				 (unsigned long long)bh->b_blocknr,
-> +				 le16_to_cpu(di->i_mode),
-> +				 (unsigned long long)le64_to_cpu(di->id1.dev1.i_rdev));
+> +				 (unsigned long long)le64_to_cpu(di->i_size));
 > +		goto bail;
 > +	}
 > +
