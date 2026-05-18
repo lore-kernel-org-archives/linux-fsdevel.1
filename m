@@ -1,128 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a8-40.smtp-out.amazonses.com (a8-40.smtp-out.amazonses.com [54.240.8.40])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FE82EA48F;
-	Mon, 18 May 2026 21:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C7F3002B3;
+	Mon, 18 May 2026 21:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.8.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779139980; cv=none; b=YYz8nHOCAVYawXqgK8ixn0Lugn8BL3jO9m9E3lQyBNtlABbGZFdC0Q9mE2W+M9mvJVotHJ5wQ/O3JgbPH8CPcFXqns+pZBxgmVwqYrlkt6DYtQ3X//sPjHyTD5E1AIt+2tXpb3PMTbEiLmmWQRNqjWgIWcR6iH+XvVQquf2cfX0=
+	t=1779140117; cv=none; b=uou8cU1zSAj3VMcmCG1EHvvB9VriDLhGI6vFb6ZV+uwUDe/d8L7M8wZ3kaohIhrqXEmRg7yyOu7mciRzR8byP6VaNTjclxZueuqHZmAQdGZjZIXOS3p7WerrWR0UD9HbRMjdHokkPo9XZWJWVPlOJEqy/t1rBwEaR3s+Un+qJgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779139980; c=relaxed/simple;
-	bh=jis/84+rkvHhz3eLpzRb1KQ/6cDGjSDLWK2VgQBy0nY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XuOKygyJxryKpsrcd7E10lsOrv8/WCUK8IgKn/rMw2IfxDVGywJbgG9tiOSvPEr02SaTubtrMmDIpV0vRUJplA5bvTUUZrDJ6ouEr9E4grB2ZiU2x9yBKMk+wifgN3NxxFd2DBnLnsiKVwr23HEXlTyyK6Gl6hsDMSRQzDfdLx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e4xuEb5N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779140117; c=relaxed/simple;
+	bh=pLYMabLoDdzxXBCQLb+R1SqG9wVhoGJ02VQqkwbRrMM=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:References:
+	 Message-ID; b=Cl+hgpFJQtRbb+bJe9BP8VGNDVeMdpocbtK6k1QG4iRRdOupO677GtZqd/Vve8Nr+NWep0q+kQqY4UmSs4KhU5CyiCaqu0o8v64x3QVl3VYKEB/VhoF9i1E8WJXbf+Y3O8DkdJwlLn5dgWfhFR5BhZGVtUrrQ1eLlrB6pP96w60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=SFH7TaRk; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=KHMgY8X4; arc=none smtp.client-ip=54.240.8.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e4xuEb5N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B54C2BCB7;
-	Mon, 18 May 2026 21:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779139979;
-	bh=jis/84+rkvHhz3eLpzRb1KQ/6cDGjSDLWK2VgQBy0nY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e4xuEb5N4t+ZQ32+HoppzD7dGfIv79c9G8VPYDoKw8hfLhTpasPVU5SNO3KxVkoZI
-	 zXD3sMIyxguLEgPJisL/cEKZuvcvXlmAKpQNjbdKHaWGVcM/xSpAt4knEkan2wMRQW
-	 5TPOb1aoe1qh3vPpQ9BPrARxqHazIlT+BCEknsDUEDVnX9elIBUDFwnhdsHjFO7Q6F
-	 Wq15wqXybMQj1zAhzqHGyJvNktDch/k/E8NujL3UP/iJIplJnggiGyw4EsI6s2O2Ys
-	 98ffzxZ7vTzLNS71a6Qp2GyRmlfwD5kogoGlD4TNrJS3K2tY09KD+ZTmTZCxhQZPd2
-	 tn4j2ppCHiqWw==
-Date: Mon, 18 May 2026 14:32:54 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: David Howells <dhowells@redhat.com>
-Cc: Steve French <sfrench@samba.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-cifs@vger.kernel.org, Paulo Alcantara <pc@manguebit.org>
-Subject: Re: [GIT PULL for v7.1] vfs fixes
-Message-ID: <20260518213254.GB3979157@ax162>
-References: <20260518194622.GA2914683@ax162>
- <20260518-vfs-7.1-rc5.fixes-3eded3a501f4@brauner>
- <406981.1779138300@warthog.procyon.org.uk>
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="SFH7TaRk";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="KHMgY8X4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1779140115;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id;
+	bh=pLYMabLoDdzxXBCQLb+R1SqG9wVhoGJ02VQqkwbRrMM=;
+	b=SFH7TaRk1X94VtisrJml72nfgZTjPboKo+NPeXllQGYqj3R+CRRywrK48newBt9c
+	F73ZsGsQp/5LYwoFjFqxl/U4cwhJk/S4LtXIC8QioJ7E8y/RE9YxvjED1hlBGlUNg04
+	IO9z7sMNJp3hUcYdlsAmRrclT1MbCcolmV6Plges=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1779140115;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id:Feedback-ID;
+	bh=pLYMabLoDdzxXBCQLb+R1SqG9wVhoGJ02VQqkwbRrMM=;
+	b=KHMgY8X4IEcTfV1DoWG9EKJw8ABzYCnfFDWTsyiIv9XsJVL6UFc67+6LFPz4Hdvn
+	+SihEq6MfaUVrsemNwWKchqgQ0w10GCU7KjmUAHtV0gLaIJuUotKDycxN/BPs11dSL+
+	6svgBUpUdd67ZnhT2xvn4YMquD7wK3Y6WIXVvdik=
+Subject: [PATCH 0/6] Fixes to the previously-merged drivers/dax/fsdev series
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
+	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>
+Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?Christian_Brauner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>, 
+	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
+	=?UTF-8?Q?John_Groves?= <john@groves.net>
+Date: Mon, 18 May 2026 21:35:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <406981.1779138300@warthog.procyon.org.uk>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <20260518213452.31205-1-john@jagalactic.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHc5w41mkJXxS0+R8GcNdWTTpRlkw==
+Thread-Topic: [PATCH 0/6] Fixes to the previously-merged drivers/dax/fsdev
+ series
+X-Wm-Sent-Timestamp: 1779140114
+X-Original-Mailer: git-send-email 2.52.0
+Message-ID: <0100019e3d03bba9-d27282f3-5552-4fa0-8326-981e4c13dace-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.05.18-54.240.8.40
 
-On Mon, May 18, 2026 at 10:05:00PM +0100, David Howells wrote:
-> Nathan Chancellor <nathan@kernel.org> wrote:
-> 
-> > > David Howells (22):
-> > >       netfs: Fix potential for tearing in ->remote_i_size and ->zero_point
-> > ...
-> > >  fs/smb/client/cifsfs.c       |  38 ++++--
-> > 
-> > The changes in this file from that patch breaks the build with clang:
-> > 
-> >   fs/smb/client/cifsfs.c:1390:29: error: variable 'old_size' is uninitialized when used here [-Werror,-Wuninitialized]
-> >    1390 |                 if (rc == 0 && new_size > old_size) {
-> >         |                                           ^~~~~~~~
-> >   fs/smb/client/cifsfs.c:1307:37: note: initialize the variable 'old_size' to silence this warning
-> >    1307 |         unsigned long long i_size, old_size, new_size, zero_point;
-> >         |                                            ^
-> >         |                                             = 0
-> >   fs/smb/client/cifsfs.c:1375:13: error: variable 'zero_point' is uninitialized when used here [-Werror,-Wuninitialized]
-> >    1375 |         if (fend > zero_point)
-> >         |                    ^~~~~~~~~~
-> >   fs/smb/client/cifsfs.c:1307:59: note: initialize the variable 'zero_point' to silence this warning
-> >    1307 |         unsigned long long i_size, old_size, new_size, zero_point;
-> >         |                                                                  ^
-> >         |                                                                   = 0
-> >   2 errors generated.
-> 
-> For some reason, make W=1 with gcc doesn't seem to generate uninitialised
-> variable warnings (though maybe clang does?).  Is that specifically
-> suppressed?
-> 
-> 	ifdef CONFIG_CC_IS_GCC
-> 	KBUILD_CFLAGS += -Wno-maybe-uninitialized
-> 	endif
+From: John Groves <john@groves.net>
 
-Yeah, clang's -Wuninitialized and -Wsometimes-uninitialized are on by
-default (not just at W=1) for the kernel, whereas GCC's
--Wmaybe-uninitialized has been under W=2 since 78a5255ffb6a ("Stop the
-ad-hoc games with -Wno-maybe-initialized") back in 5.7.
+This series applies bug fixes (mostly found via sashiko) to the dax/fsdev
+series. This has been soaking in the famfs CI pipeline for 2+ weeks and
+1) won't affect anything that doesn't use drivers/dax/fsdev.c, and 2)
+doesn't affect any known workloads - although the bugs would have
+manifested when multi-range DCD dax devices are a thing (soon-ish).
 
-I consider this an unfortunate difference between GCC and clang with
-regards to -Wuninitialized. If there is any control flow that would
-avoid the block that uses the variable uninitialized, GCC "downgrades"
-it to -Wmaybe-uninitialized, whereas clang keeps it as -Wuninitialized
-with a note of "when used here" to make it clear that the variable will
-be used uninitialized if the block is reached:
+John Groves (6):
+  dax: fix misleading comment about share/index union in
+    dax_folio_reset_order()
+  dax/fsdev: fix multi-range offset, vmemmap_shift leak, and probe error
+    cleanup
+  dax/fsdev: fix kaddr for multi-range and fail probe on invalid pgmap
+    offset
+  dax/fsdev: clamp direct_access return to current physical range
+  dax: fix holder_ops race in fs_put_dax()
+  dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
 
-  https://godbolt.org/z/6eb5zK76T
-
-> I guess.  Can we remove that?
-
-It would be nice for my sanity if it could be but then we are back into
-the same situation of false positives, as GCC's warnings are influenced
-by optimizations, whereas clang's warnings happen purely in the frontend
-before optimizations happen. clang's versions do not flag as many
-instances of potentially uninitialized variables (as it cannot do
-interprocedural analysis to see across function boundaries) but that
-results in much fewer false positives in my experience.
-
-> > There were no -next updates last week, so it seems like the majority of
-> > this pull request saw zero -next testing time. I see two kbuild test
-> > robot build reports but I guess they were ignored.
-> > 
-> >   https://lore.kernel.org/202605031459.eX5UbO3K-lkp@intel.com/
-> >   https://lore.kernel.org/202605021450.ca5QGqLH-lkp@intel.com/
-> 
-> Gmail labelled them as spam :-(
-
-Bummer :/
-
-> I think this should be fixed as below, but Steve needs to look it over.
-
-Thanks, I will give it a build test but it seems obvious that it will
-fix it.
+ drivers/dax/dax-private.h |  2 -
+ drivers/dax/fsdev.c       | 85 ++++++++++++++++++++++++++++-----------
+ drivers/dax/super.c       | 51 +++++++++++++++++++++--
+ fs/dax.c                  | 12 +++---
+ fs/famfs/famfs_inode.c    |  2 +-
+ fs/fuse/famfs.c           |  2 +-
+ include/linux/dax.h       |  6 ++-
+ 7 files changed, 122 insertions(+), 38 deletions(-)
 
 -- 
-Cheers,
-Nathan
+2.53.0
+
