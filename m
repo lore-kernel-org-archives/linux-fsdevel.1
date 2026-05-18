@@ -1,95 +1,333 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAFB3F2102
-	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 11:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C735F3EFFC8
+	for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 11:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779102232; cv=none; b=KjbVVm5pgvXVfYvnUJbBOwDFgAhsFHnOJoSP0rIfKuLO9KReaS4RGyoOuK7A5U76qDtNtQIPKHkQVjDqxaaOhRjaOJ33z3/arY7xMzeSaSrUuTetj4QMW0pJiNz+p1+vUbQAy88NWzKVXFVPN1LYlaCWE1VVebMTDNWcRXmFNiE=
+	t=1779102323; cv=none; b=E6PiznOlJYURRSspGrfdkhp4yX9EBz/dglWOL/pvAkmZUbfcCPUXszAruVgYsxCz8tzWAidFylmFtFv8kl179QyoguD9k7TMaj1BnSq25uXTcbuCJRc0LYa/hxy6FBXp9rSx9Bj4HOvV+ySanQoognmgR2lIuOjEkrUzir0/pfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779102232; c=relaxed/simple;
-	bh=UHop5yFx+Z6FYOWg9cpgi3/9XDbDin9YWGBRPdjRsG4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=upBt0T/YxmRT+7uqJiduErRlKFc6sKoDa/z4qj9T1Cbu8GVBoWaQVJL2cqbvd+Tjy99UbYkKbybyQ4SMqS6fbtEaTL+rhREmf9KDYxsKyKe5D6FjZhk2yDvPsI0fV1ElA2GG2Q/MBa5yyd2FM1Q5Ww/vU6rjrpVCr+x81L6rJzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/IQ3Q8o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779102323; c=relaxed/simple;
+	bh=y9IrFHxJ2X8R/utRW5u4PT3weT7dUqFYMfTJZevEJ+4=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AfOYam79jBoIPNxOR3u7B595lL2Se/2vrMl3LRiWiMPucLjwvlzf8T0cGl+biOpasNopAvA/hrgeqYj/yZ8gOle3QsqMNYQYb31BWRH6/qEMOmYkA8w6MYhsG+oTzgfb0tPvY9W6XZJOMAkvavGAyuUd4tQ6cefpjhryWRcFtro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HgcVSMxo; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/IQ3Q8o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8D8DC2BCB7;
-	Mon, 18 May 2026 11:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779102231;
-	bh=UHop5yFx+Z6FYOWg9cpgi3/9XDbDin9YWGBRPdjRsG4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q/IQ3Q8ow0sGFJLMoW/SWpilHYfKmMtljd2BonqejW5RB6JKkg+Fnfcl6H79N7IHR
-	 7yh66juqtne8m4w/ULvncp/y+PqEvrkpWy7w0ypghtSmEDIbylD9QCgMJFUtlqp+Lj
-	 eUvx6lzfAjqd0pFe2qViM/EnnqlVRquZ7nDoPljzkUI95q3ygnaQflrtBQ9D6/sIR8
-	 0AUlM1e100ifpswzOGFQxBgG0DRjPu23xlrDptthjRvtw47ykTdAmjqrOYhx+INy8L
-	 9/fouxaPJVunku1DPgvBnOcMJorBjYX9YS3QTYnlxYC9aU/FQGn0ckSUItuk/7KdN/
-	 ky/1QIiCNu4Bw==
-From: Christian Brauner <brauner@kernel.org>
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/7] Fixes for vfs/vfs-7.2.casefold
-Date: Mon, 18 May 2026 13:03:40 +0200
-Message-ID: <20260518-gipfel-klamotten-3a79468fe213@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260515153515.362266-1-cel@kernel.org>
-References: <20260515153515.362266-1-cel@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HgcVSMxo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779102316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HiWhQGjMnbplsBQRs1ms9ouzJDhPmjIwzLuFkVbLDrI=;
+	b=HgcVSMxoxzQLiW/uIwvCAJ3xmhEEAyK6NBzInILcfdobRb1bkqmcxb7yKWJvZuHGH8XcuU
+	9Lza8gFA0L+R1e080oSZfFiMeDvqt8ZKPRT18LRZGx7FBlSeTwJq5Zkb6PVGlh1ARbSoSS
+	GYPidhl9SGIWnZERyZiUoytX5X0fPHM=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-134-aYCYjZKkN4yttHuxPlRxww-1; Mon,
+ 18 May 2026 07:05:12 -0400
+X-MC-Unique: aYCYjZKkN4yttHuxPlRxww-1
+X-Mimecast-MFC-AGG-ID: aYCYjZKkN4yttHuxPlRxww_1779102311
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 08951195605B;
+	Mon, 18 May 2026 11:05:11 +0000 (UTC)
+Received: from ws (unknown [10.44.49.92])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BB1871800352;
+	Mon, 18 May 2026 11:05:08 +0000 (UTC)
+Date: Mon, 18 May 2026 13:05:05 +0200
+From: Karel Zak <kzak@redhat.com>
+To: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	util-linux@vger.kernel.org
+Subject: [ANNOUNCE] util-linux v2.42.1
+Message-ID: <dryjs4vfzzysrhuxa4khf7frezdmouv6ys5nqsx7u46nvk4mg6@z4o37akcrh6y>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2136; i=brauner@kernel.org; h=from:subject:message-id; bh=UHop5yFx+Z6FYOWg9cpgi3/9XDbDin9YWGBRPdjRsG4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRxfRI891P/pWn1s7+Hsv+u0rt4MNDMx6ffpsQ0Ze+cI 4c28kx/2lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRwE2MDKePfNl/9uah2hOy Ohmvd7uH7D4lcqTnWZFBU2WCeGluThbDX8G3cz1L5+z6eOO9qFjAQ4YYu2aLdRmpkQz1u7I7d8t f5AcA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Fri, 15 May 2026 11:35:08 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Address review comments for the series in the vfs/vfs-7.2.casefold
-> branch.
-> 
-> Chuck Lever (7):
->   tools headers UAPI: Sync case-sensitivity flags from linux/fs.h
->   nfs: Avoid transient zeroed case capability bits during probe
->   nfs: Skip pathconf probe when neither field is consumed
->   fs: Clarify FS_CASEFOLD_FL semantics in UAPI header
->   nfsd: Use kernel credentials for case-info probe
->   nfsd: Map -ESTALE from case probe to NFS3ERR_STALE
->   nfsd: Cap case-folding probe cost across READDIR entries
-> 
-> [...]
+The util-linux release v2.42.1 is now available at
+ 
+  http://www.kernel.org/pub/linux/utils/util-linux/v2.42/
+ 
+Feedback and bug reports, as always, are welcomed.
+ 
+  Karel
 
-Applied to the vfs-7.2.casefold branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.casefold branch should appear in linux-next soon.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+util-linux v2.42.1 Release Notes
+================================
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+agetty:
+    - Always call chdir after chroot (by Tobias Stoeckmann)
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+autotools:
+    - Fix setpriv build with econf (by Tobias Stoeckmann)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.casefold
+bits:
+    - use getline() to avoid stdin input truncation (by WanBingjiang)
+    - prevent unsigned integer underflow and long-lived loop (by Christian Goeschel Ndjomouo)
 
-[1/7] tools headers UAPI: Sync case-sensitivity flags from linux/fs.h
-      https://git.kernel.org/vfs/vfs/c/2c718fccf374
-[2/7] nfs: Avoid transient zeroed case capability bits during probe
-      https://git.kernel.org/vfs/vfs/c/c6eb07d3da83
-[3/7] nfs: Skip pathconf probe when neither field is consumed
-      https://git.kernel.org/vfs/vfs/c/425294293cd1
-[4/7] fs: Clarify FS_CASEFOLD_FL semantics in UAPI header
-      https://git.kernel.org/vfs/vfs/c/45e57cfb7b10
-[5/7] nfsd: Use kernel credentials for case-info probe
-      https://git.kernel.org/vfs/vfs/c/3aa75b92e862
-[6/7] nfsd: Map -ESTALE from case probe to NFS3ERR_STALE
-      https://git.kernel.org/vfs/vfs/c/fbaee2a5c406
-[7/7] nfsd: Cap case-folding probe cost across READDIR entries
-      https://git.kernel.org/vfs/vfs/c/cfff672ffcf9
+build:
+    - (copyfilerange) include syscall header check for fallback (by Christian Goeschel Ndjomouo)
+    - Fix --disable-copyfilerange (by Tobias Stoeckmann)
+
+build-sys:
+    - drop libcommon_shells from binaries that only need ul_default_shell (by Karel Zak)
+
+cfdisk:
+    - fix memory leak of original_layout table (by Karel Zak)
+
+chrt:
+    - Fix confusing error messages when priority argument is required (by Rong Zhang)
+    - Only show current scheduling policy when pid is given (by Rong Zhang)
+    - pass correct integer types to printf (by Thomas Weißschuh)
+    - (man) explain which kernel config options are needed for SCHED_EXT (by Christian Goeschel Ndjomouo)
+
+ci:
+    - use GCC 15 (by Thomas Weißschuh)
+    - run 'make checkusage' only for autotools build (by Thomas Weißschuh)
+
+CI:
+    - replace ntp with ntpsec (by Karel Zak)
+
+column:
+    - fix missing out-of-bounds check in table reordering (by Christian Goeschel Ndjomouo)
+
+copyfilerange:
+    - (man) fix swapped offsets in command example (by Štěpán Němec)
+
+dmesg:
+    - fix out-of-bounds read when parsing malformed kmsg file (by WanBingjiang)
+
+docs:
+    - clarify wipefs --force description for partition-table signatures (by AndyLau-SOC)
+
+eject:
+    - tolerate ILLEGAL REQUEST on ALLOW_MEDIUM_REMOVAL (by Alessandro Ratti)
+
+fallocate:
+    - (man) mention supported file systems for --insert-range (by Christian Goeschel Ndjomouo)
+
+fdisk:
+    - fix trailing whitespace in user reply from readline completion (by Leonid Znamenok)
+
+fincore:
+    - (tests) fix tmpfs detection for out-of-tree builds (by Leonid Znamenok)
+
+flock:
+    - re-enable the initial shell selection logic (by Christian Goeschel Ndjomouo)
+
+fsck.minix(man):
+    - Fix asciidoctor table (by Tobias Stoeckmann)
+
+hardlink:
+    - avoid format string error for dev_t (by Thomas Weißschuh)
+
+include:
+    - (fileutils.h) add fallback for the copy_file_range syscall (by Christian Goeschel Ndjomouo)
+
+ipcutils:
+    - use memset explicitly to fill bpf_attr with zero (by Masatake YAMATO)
+
+irqtop:
+    - add vw_printw() fallback for slang builds (by Karel Zak)
+
+irqtop/lsirq:
+    - Handle EOF in get_irqinfo (by Tobias Stoeckmann)
+
+last:
+    - fix phantom detection for unset loginuid and X11 sessions (by Karel Zak)
+
+lib:
+    - split ul_default_shell() from shells.c into default_shell.c (by Karel Zak)
+    - (cpuset.c) dont calculate allocation size for 0 ncpus (by Christian Goeschel Ndjomouo)
+
+libblkid:
+    - Fix typo in probe_zfs (by Tobias Stoeckmann)
+    - Fix type access in zfs_extract_guid_name (by Tobias Stoeckmann)
+    - Fix debug OOB read in zfs_process_value (by Tobias Stoeckmann)
+    - Fix parse_dev debug output (by Tobias Stoeckmann)
+    - Ignore secondary LUKS2 header in blkid_do_safeprobe() (by silentcreek)
+    - reiserfs add block size validation for reiser4 (by Karel Zak)
+    - erofs validate blkszbits before checksum calculation (by Karel Zak)
+    - exfs avoid 32-bit overflow in rextsize validation (by Karel Zak)
+    - solaris use 64-bit for partition offset calculations (by Karel Zak)
+    - bsd use 64-bit for partition offset calculations (by Karel Zak)
+    - mac use 64-bit for partition offset calculations (by Karel Zak)
+    - dos use 64-bit for partition offset calculations (by Karel Zak)
+    - udf avoid 32-bit overflow in offset calculations (by Karel Zak)
+    - vfat avoid 32-bit overflow in offset calculations (by Karel Zak)
+    - ubi fix probe return values (by Karel Zak)
+    - f2fs tighten log_blocksize validation (by Karel Zak)
+    - nilfs fix byte order and block size validation (by Karel Zak)
+    - gpt fix wiper offset to use sector size (by Karel Zak)
+    - udf cap descriptor sequence iteration count (by Karel Zak)
+    - bcache add missing NULL check (by Karel Zak)
+    - bsd read enough data to cover disklabel struct (by Karel Zak)
+    - befs improve bounds checking in B+ tree search (by Karel Zak)
+    - ntfs improve integer overflow checks (by Karel Zak)
+    - introduce sysfs_devno_is_dm_hidden() for pre-open check (by Zdenek Kabelac)
+
+libcommon:
+    - move pidfd-utils.c to Linux-only sources (by Karel Zak)
+
+liblastlog2:
+    - (tests) avoid log spam (by Thomas Weißschuh)
+    - wait on busy SQLite connections (by WanBingjiang)
+
+libmount:
+    - return btrfs rootfs from get_btrfs_fs_root() (by Karel Zak)
+    - use match_source for mountinfo comparison (by Karel Zak)
+
+lib/pidutils, lib/pidfd-utils:
+    - use _() instead of N_() in err() calls (by Karel Zak)
+
+lib/pwdutils:
+    - fix compiler warning [-Werror=maybe-uninitialized] (by Karel Zak)
+
+libsmartcols:
+    - drop superfluous call yo yylex_init() (by Thomas Weißschuh)
+    - (tests) fix failure reporting in filter test (by Thomas Weißschuh)
+    - (tests) fix filter test name (by Thomas Weißschuh)
+    - Ignore -Wsign-compare in filter-scanner.l (by Thomas Weißschuh)
+
+libuser:
+    - fix misleading error message (by Christian Goeschel Ndjomouo)
+
+login:
+    - Clean up PAM resources on error path (by Tobias Stoeckmann)
+
+login-utils/auth:
+    - Drop pam_setcred (by Tobias Stoeckmann)
+
+lsblk(man):
+    - Add COLORS section (by Tobias Stoeckmann)
+
+lsclocks:
+    - add missing newline character in option description (by Christian Goeschel Ndjomouo)
+
+lscpu(man):
+    - Move options into correct section (by Tobias Stoeckmann)
+
+lsfd:
+    - use memset explicitly to fill bpf_attr with zero (by Masatake YAMATO)
+
+meson:
+    - check slang headers only when slang library is found (by Karel Zak)
+    - rename logindefs_c to lib_common_logindefs (by Karel Zak)
+    - split shells.c out of lib_common into lib_common_shells (by Karel Zak)
+    - respect build-dmesg for test_dmesg (by Thomas Weißschuh)
+    - test for statx::stx_mnt_id in sys/stat.h (by Thomas Weißschuh)
+
+mkfs.cramfs:
+    - Consider -i only once (by Tobias Stoeckmann)
+    - Add -p padding only once (by Tobias Stoeckmann)
+    - Improve file size check (by Tobias Stoeckmann)
+
+mkswap:
+    - Fix --file chmod(2) check when file exists (by Johannes Wüller)
+
+more:
+    - align MORE_SHELL_LINES semantics with less(1) (by Karel Zak, Christian Goeschel Ndjomouo)
+
+newgrp:
+    - Correctly handle getline error (by Tobias Stoeckmann)
+
+nsenter:
+    - Fix AT_HANDLE_FID on musl (by Aleksi Hannula)
+
+pidfd-utils:
+    - Fix pidfd_get_inode declaration (by Tobias Stoeckmann)
+
+po:
+    - merge changes (by Karel Zak)
+    - update ro.po (from translationproject.org) (by Remus-Gabriel Chelu)
+    - update pt.po (from translationproject.org) (by Pedro Albuquerque)
+    - update pl.po (from translationproject.org) (by Jakub Bogusz)
+    - update ja.po (from translationproject.org) (by YOSHIDA Hideki)
+    - update et.po (from translationproject.org) (by Toomas Soome)
+    - update cs.po (from translationproject.org) (by Petr Písař)
+
+po-man:
+    - merge changes (by Karel Zak)
+    - update ro.po (from translationproject.org) (by Remus-Gabriel Chelu)
+
+po-man/po4a:
+    - Add missing manual pages (by Tobias Stoeckmann)
+
+readprofile:
+    - (man) clarify not designed for privilege-elevation use (by Karel Zak)
+
+script:
+    - fix "--" separator when used as option argument (by Karel Zak)
+    - fix command and command_norm memory leaks (by Karel Zak)
+    - fix backward compatibility for options after non-option args (by Karel Zak)
+
+scriptreplay(man):
+    - Add right arrow documentation (by koraynilay)
+
+strutils:
+    - fix printf formats (by Thomas Weißschuh)
+
+su:
+    - Clean up PAM resources on all error paths (by Tobias Stoeckmann)
+    - fix grammar on man page (by Christian Goeschel Ndjomouo)
+
+su-common:
+    - revert "su pass arguments after <user> to shell" (by Christian Goeschel Ndjomouo)
+
+terminal-colors.d:
+    - (man) re-apply improvements lost in merge (by Benno Schulenberg)
+
+tests:
+    - (lsfd/mkfds-udp*) make UDPLite related test cases skippable (by Masatake YAMATO)
+    - (lsfd/option-inet{,-udp}) make UDPLite related test case skippable (by Masatake YAMATO)
+    - (lsfd) add a function checking the availability of UDPLite socket (by Masatake YAMATO)
+    - (lsfd::mkfds-udp) fix confusion between UDP and UDPLite (by Masatake YAMATO)
+    - (test_mkfds) use memset explicitly to fill bpf_attr with zero (by Masatake YAMATO)
+    - (ipcs/limits) skip when /proc/sys/kernel is read-only (by Karel Zak)
+    - (bits) add --width tests for invalid values (by Christian Goeschel Ndjomouo)
+    - add btrfs RAID is-mounted test for libmount (by Karel Zak)
+
+tests/functions.sh:
+    - consider '+' for metadata in kernel version parsing (by Christian Goeschel Ndjomouo)
+
+tools:
+    - (compare-buildsys) suppress common lines in diff output (by Karel Zak)
+
+tools/git-tp-sync:
+    - update po4a.cfg language list on sync (by Karel Zak)
+
+write:
+    - cleanup indentation and whitespace (by Karel Zak)
+    - use mem2strcpy() for utmp strings (by Karel Zak)
+    - always use utmp as fallback (by Karel Zak)
+
+write, mesg:
+    - add S_ISCHR() check for terminal device paths (by Karel Zak)
+
+Misc:
+    - Remove obsolete comment since 2015 (by Julien Nabet)
+    - Link against libcommon_logindefs.la and libcommon_shells.la (by Stanislav Brabec)
+    - Fix build with libeconf (by Stanislav Brabec)
+    - [po-man] Add missing languages to po4a.cfg (by Mario Blättermann)
+
+
+
+-- 
+ Karel Zak  <kzak@redhat.com>
+ http://karelzak.blogspot.com
+
