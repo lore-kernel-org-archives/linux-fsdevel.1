@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6913DB30C;
-	Tue, 19 May 2026 22:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916563E9295;
+	Tue, 19 May 2026 22:25:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779229500; cv=none; b=ksx949WP5uV2MS8A80y65Um/8QXWRL8lhMZz+EH+G83m+64Wm+F2F+ImxkAgrkCLK4XvsYzmJ6sRIj2hFiwhTiKlUHdg51iJZ5ispW8tGWS7cTC5mtBpn/M6bXo4KwKM3Q810VF7nVnkMQzspLkoJKnGrplxw41ie9NZWX+vK6E=
+	t=1779229515; cv=none; b=U5IE4u6aGtJYHqTPVSIUEJsWVMJlp0QLfNHnKZ5min/Ha4jp3gKU6TG2EdKo8YpixjsXKcwvaW80i7Z6dqGaFw8IhAdYhS13xpgTOgGJoSnMsxLhrrwiVGgubw/t3gp5QmUAbdJdE4KCN6S5pJ2Fo7hazWDH77Tsbc5kOh+y8S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779229500; c=relaxed/simple;
-	bh=yc1L8lCdk00bh5nukmgHITkbl2t1ikS+vAPMI0h82LI=;
+	s=arc-20240116; t=1779229515; c=relaxed/simple;
+	bh=Ra9CmlV9BcYaCni2BzEalrE+dqYcLnTPIV1kpfc64HE=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K6/qZB0gVZ+cdc2q/oPbgAalbtIGSsCEdHh2eIKyOVfEv/QjHd8iLDrz4X16zT/sqytdIjrWguTM2lQB9gU2sShRUf+fMuSLHc4mu9YQcsNoNzCksc5hodSucK9Kd9xOVouPGvo3rW4mTLimD4gaPbYPevjd4/7jgkq4GKUGpjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Daq44B6f; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=pmU+IJcik08J/20R3wXft72U/YQcdXv9nr10tu7Yr0DUwjGH4ieHzBCSQrOjqVtUSEXCkBd+/PWLzdrVYya0SS8caQGLsog0gaH0UxWWXHhQP93pfT/7S9W0GTcRXIY0uK8ux2lJ7pUeb4t7as4VOvzsKCPNW4iustfki+Kzhkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fVYO8v+K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Daq44B6f"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id B58E51F00893;
-	Tue, 19 May 2026 22:24:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fVYO8v+K"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 470AC1F00893;
+	Tue, 19 May 2026 22:25:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779229498;
-	bh=0hr2U0gE90u3WT98kV4xf8hek57pGpOv0l67amIG+A4=;
+	s=k20260515; t=1779229514;
+	bh=VUi3RdSy3oRjLxQlacDDgo8dG6G20fMG69qGqMkZ7Fw=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=Daq44B6faa34/HS1CW5/HT9ZxF/LGBPZPOCpCCe11TVKIaVoT6N8abdbgNY2sOrR3
-	 EiKW2rvgqVRH396I1vuuUsNEti5mNx4G80Biuu25IetIW1ZALSin95SrCaI6zMvTVm
-	 QbNi3IzNhI+cYScRUYDLxjcUjha5bK1mGsXYVMTLMxgQp1EYhi+1bcRlc9Ji7X2/qb
-	 VH43VHDmUBJHBct+Cn1tdYOC1lh/dxw1uBtqIfcs/6zWT75sPs2V27OEpctrScoJon
-	 U6cAdil8XrHVSjkC/yGs1qha4aHhZm7njjWgl+OzkCn990K41Funikzd0jPxoxR8kY
-	 X8QV5+RtuGzFQ==
-Date: Tue, 19 May 2026 15:24:58 -0700
-Subject: [PATCHSET v9 2/4] fuse: basic plumbing to upload file mappings from
- servers
+	b=fVYO8v+Kn4OtSRyzEyaH0ewYiejOu0XAabAv/Mm+F2WYzhE/GvME8AbJtyB5DzQw+
+	 HL3l6fa9HJ9ax4Ud0fK7xkrfMPpW10tyOXFY4wxmW3rqMCO4PNqwyRyFKvzmDIsV81
+	 qKtF5ETJRdwz7YsbOZzRna+Hf3Xwj+oYs7wQJp2y/Uz6JE1To+HwKOEsPdG85k5XJW
+	 eiBWQMYd1NTFmgL6yM0S7rL1aqMj39qsM6tY9uFtj6xu0KZm7VlGp/CJS+I2goEu1f
+	 tWMQ520SC3wyFvzeWNpg34rNyddUPtgPzDWrku4rw0UH/qthyguWcBB9e58fU9BwAG
+	 7peNvnmEXjrzA==
+Date: Tue, 19 May 2026 15:25:13 -0700
+Subject: [PATCHSET v9 3/4] fuse: allow servers to use iomap for better file IO
+ performance
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
-Cc: joannelkoong@gmail.com, linux-fsdevel@vger.kernel.org, neal@gompa.dev,
- bernd@bsbernd.com, joannelkoong@gmail.com, fuse-devel@lists.linux.dev
-Message-ID: <177922945175.2436837.10366841596277424226.stgit@frogsfrogsfrogs>
+Cc: linux-fsdevel@vger.kernel.org, neal@gompa.dev, bernd@bsbernd.com,
+ joannelkoong@gmail.com, fuse-devel@lists.linux.dev
+Message-ID: <177922945706.2437300.14187386529698019759.stgit@frogsfrogsfrogs>
 In-Reply-To: <20260519222229.GB9544@frogsfrogsfrogs>
 References: <20260519222229.GB9544@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,16 +47,13 @@ Content-Transfer-Encoding: 7bit
 
 Hi all,
 
-It is desirable to connect fuse (the userspace filesystem layer) to
-fs-iomap to get fuse servers out of the business of handling file I/O
-themselves.  The easiest way to do this is to reuse the (newish) vfs
-iomap library that manages pagecache and direct IO.  The first part of
-this work adds the piping necessary to get a mapping from the fuse
-server and release it when work has completed.
-
-Note that although this series creates the basic plumbing for moving
-file mappings around the system, there's still a lot more that needs to
-be configured.
+Now that we've gotten the basic mapping plumbing installed, it's time to
+actually get fuse servers out of the business of handling file I/O
+themselves.  By keeping the IO path mostly within the kernel, we can
+dramatically improve the speed of disk-based filesystems.  This enables
+us to move all the filesystem metadata parsing code out of the kernel
+and into userspace, which means that we can containerize them for
+security without losing a lot of performance.
 
 If you're going to start using this code, I strongly recommend pulling
 from my git trees, which are linked below.
@@ -67,37 +64,26 @@ Comments and questions are, as always, welcome.
 --D
 
 kernel git tree:
-https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-plumbing
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-fileio
 ---
 Commits in this patchset:
- * fuse: implement the basic iomap mechanisms
- * fuse_trace: implement the basic iomap mechanisms
- * fuse: make iomap debugging configurable at runtime
- * fuse: adapt FUSE_DEV_IOC_BACKING_{OPEN,CLOSE} to add new iomap devices
- * fuse_trace: adapt FUSE_DEV_IOC_BACKING_{OPEN,CLOSE} to add new iomap devices
- * fuse: create a per-inode flag for setting exclusive mode
- * fuse: create a per-inode flag for toggling iomap
- * fuse_trace: create a per-inode flag for toggling iomap
- * fuse: isolate the other regular file IO paths from iomap
- * fuse: implement basic iomap reporting such as FIEMAP and SEEK_{DATA,HOLE}
- * fuse_trace: implement basic iomap reporting such as FIEMAP and SEEK_{DATA,HOLE}
+ * fuse: implement direct IO with iomap
+ * fuse_trace: implement direct IO with iomap
+ * fuse: implement buffered IO with iomap
+ * fuse_trace: implement buffered IO with iomap
+ * fuse: implement inline data file IO via iomap
+ * fuse_trace: implement inline data file IO via iomap
 ---
- fs/fuse/fuse_i.h          |   47 +++
- fs/fuse/fuse_iomap.h      |   49 +++
- fs/fuse/fuse_iomap_i.h    |   45 +++
- fs/fuse/fuse_trace.h      |  402 +++++++++++++++++++++++-
- include/uapi/linux/fuse.h |  120 +++++++
- fs/fuse/Kconfig           |   48 +++
- fs/fuse/Makefile          |    1 
- fs/fuse/backing.c         |   52 +++
- fs/fuse/dir.c             |   29 +-
- fs/fuse/file.c            |   40 ++
- fs/fuse/fuse_iomap.c      |  766 +++++++++++++++++++++++++++++++++++++++++++++
- fs/fuse/inode.c           |   41 ++
- fs/fuse/iomode.c          |    3 
+ fs/fuse/fuse_i.h          |   18 +
+ fs/fuse/fuse_iomap.h      |   37 +
+ fs/fuse/fuse_trace.h      |  526 ++++++++++++++++++
+ include/uapi/linux/fuse.h |   29 +
+ fs/fuse/dev.c             |   10 
+ fs/fuse/dir.c             |   36 +
+ fs/fuse/file.c            |   83 ++-
+ fs/fuse/fuse_iomap.c      | 1320 +++++++++++++++++++++++++++++++++++++++++++++
+ fs/fuse/inode.c           |    2 
+ fs/fuse/iomode.c          |    2 
  fs/fuse/trace.c           |    2 
- 14 files changed, 1620 insertions(+), 25 deletions(-)
- create mode 100644 fs/fuse/fuse_iomap.h
- create mode 100644 fs/fuse/fuse_iomap_i.h
- create mode 100644 fs/fuse/fuse_iomap.c
+ 11 files changed, 2033 insertions(+), 32 deletions(-)
 
