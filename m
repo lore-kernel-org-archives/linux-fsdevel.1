@@ -1,141 +1,112 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B7E340419
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 14:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779199225; cv=none; b=pY6lC5NtDoMDddI8depEICYlXTF3Y/B6mhccW76JrwUA/5xTxJexbolHMi4nCT2Hw64rRXUjtLDMY9aXKsSwML+E9pYS+O47iHVi24vRBZTVR0wYkyczI86N6R2tB4gdqo4tcetrl44OJoxur7mLt5sCQGmsGuiHovp9HVs/LDA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779199225; c=relaxed/simple;
-	bh=rh00+8CkvhUf5L5qQeiUYys/cEAiNnU8gZcvDzmdR6Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DzKZkIBeh6X09xxc66VFKMyLPPTcX/sgPo71kE0Wk252v10fSzM/sih5OwYj/vp2dKTn0JIenqlDB+lWSdpF7TFg7C7drcsz1E1ytFUAl3zo0n7n2UcH1kBwGPRhJAe1ttR27aXBzPktbyd43SG7czH+ngwyojZxK9GNP+9WdHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qIBsI1u1; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F73F3ED3A0
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 14:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779199679; cv=pass; b=drrIiSOxUL80r6cUFGpUYCAvTv9G+fwrEPqPCITw6U9k5rDne2lnynjB1dBzwnjjqY2oErz9XDbJWsVWOdrI0GDJ11SG8TDjXXu4GpinnEy3OfAXV/PGEDO0rDi9A2Urwot4nlD8Riy7f+9gyhA0o/cRk8l8+bX1wlfF5fFh2tY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779199679; c=relaxed/simple;
+	bh=VUN0slV2E/uvTpww7QVUeFC3SqCXZBlBGuW9mvpkZ/4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B4CbqEdM9NyjDwYcyd9M3aIDiYxIJ4kCZcB6F8snG/Eim+LLO4qdoMWNCXxBw6OX1iQODK/weANefgIQ/malEqVN610Dj48VnvqgSB+GWeAa4HSeWH1G/C7h+ZkZXgaIXmXhCwOY2FuE/qPkB+ibFjSVXTDuY+YIspZ/YgMt2OM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=QY+14O3W; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qIBsI1u1"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48d1c670255so3975e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 07:00:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="QY+14O3W"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-50e5bea4045so27739451cf.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 07:07:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779199677; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dGDGiFPzG6ugJ89ZB5W6PHz9bNYEsVQsApPVM6apiMn8YkuoHkUGPQcjrqIwOe+C8y
+         eIyanvOccvpRFgfupwtu0OTj/kRCwaILw/GqG0cp86n2YDzlunhGZxTKXyuWFTZarb/b
+         73mHYFWYQr0y9K4/DoTJBAXwfg26QyXQKJr3pBZH6lckc/whoI7y/h22klstKoZKYZ53
+         TClONpjgHNZImFOaZ2gfCq/25TPk4mxrcvPkhdb2tfWnXy/2xWGwLVjS5QZsBHnLATxp
+         iqV9wZLhTP9qYIJCMq4kn/uidvzaSUFpJzzCgwy7YCpH+rbQUFk1XdSFvdYzlNsqB6qJ
+         D6zQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jlvaaSf6hX71qoVaaZAiNP7dD67S54v9Ar0OEm1wY9U=;
+        fh=v/h1RQS8ZUaxYdm1DPPxUHdbJM1FFrwnTH+BGzXL304=;
+        b=d92a/WGTv3+WcUyCG082ScW4P93ThMH9ciaiHPjit/QKODJY5Gq90LjFY/4Equs0Rf
+         I9gjPDqoWsmw9mVHkSejmd6rpjN2WbQWiSOADwAa7F3UOOk6ikgkWKPY6/IMrnFb8U7Z
+         +k3Ba+183VexiV2wRgobkfOTqNIJqT0Hsq96oPU+rws0O8Dg0kDQNi7sNXQbbUrVl5uI
+         1aLcLqC3+sSahkhcBo98D7/7ykSGzhfKTVNpMPDl5mMSp4vDWdXeVsVrwXVYbWAJjOoe
+         2DIljECWpUsyCo4vlujTnfO4TYNkxSfRKgmovUww0CIz/zG7sX/pi1XmngsVBNIXL2Z6
+         t9Fw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779199222; x=1779804022; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qj6Q3RQDF1dvwe9sYLWhvH0vVhTSMw/WV5aqKETF4Bs=;
-        b=qIBsI1u1rWRS66GIYQG7ye4vCbtT9RaWxIGm/NQPwbz2j7/CRZOMFoTYLiegznDeqc
-         mgkCs7550vbiO19PvvLccjdCIXl2mJfIwXBOKNCdjWC5NlIjAz5FnuRPXbpWS0X3SIDn
-         s+eHrGUWiUYTNhk1vbSy4CAfczPhObYT2Vx9+lT3hoy7xJzZ4hlyPSsRLzQU4pSgqfA1
-         W8praf34GV4Tz58AOPFrjx7Wsq4gk8Jdr1/i48jIb69ODP6Lq5MuhkoVe3l3oF2Xq6EW
-         MITfyCcmoH/EBlgzYdifZm38lIY6HG2NcsT3GI/KqE/lCcVz2Cx81AXyuzm3XII5ln4V
-         oqtQ==
+        d=szeredi.hu; s=google; t=1779199677; x=1779804477; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jlvaaSf6hX71qoVaaZAiNP7dD67S54v9Ar0OEm1wY9U=;
+        b=QY+14O3WqHLYpxnM5NCUpxlMLDMB79h6LYUiv5D40RcaagKKbyn2PBsp7PeYJTGOzX
+         akdKHGF7zhjwMG6jptIxgmrQ6SqgYCYwaeAD2wRJvetJ7rquaY7Oz9XpfX9OHYLJNvp7
+         j5sFIV6D7ZUwm1u1FhQmxAIPdFeP7qMWZb0is=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779199222; x=1779804022;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1779199677; x=1779804477;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qj6Q3RQDF1dvwe9sYLWhvH0vVhTSMw/WV5aqKETF4Bs=;
-        b=TkYpKOrYlLD23pC1V6VeoJHj5+6pzqiDyTjyTOGEjG4/kK4nbBVON1Nq+9i5CX4iJf
-         IP/plvtlh5IICYcO2OmkurtbC+WYsVgANHHHU0lfhMQ0ZxVSs+O0aobXBwOZDefezOLc
-         HjJZRBEpqvw7FXDJ30Qmz/YczlxTVTJFLEGJoqOI7ZjN3bY5D+bhhiUnC1gSB4yKf2Ey
-         2OJ0Wt3yobB61FHsRW/JB/6hlrzK+eq6Y047bxHj/0RToN34Xab4ScVEM+9DE4Us6RtA
-         nqJhE4a72LuJT0Sf1MQIDlZCdSlRxETNI+VklYognkuUdf+bR6tP6BdpZ1yvvdHYO/8g
-         6jZA==
-X-Forwarded-Encrypted: i=1; AFNElJ/J5XI/k5PSCrS7Hfndps8rcOU3ribqI1XA+bl1BFYoRaogG63eRIXdWN+AoI6RJEFL0O+MRLQixL3DeLVh@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoV7MLb/u59sudIKz0LhpuYP60hsOXs85mmAlPZy7TDaNQqKW8
-	6RjX6CJpEWW0W6Z65GeRru1KF//ftncDc1YEmudCKJQ9IBOt6wVs2UueG5HpnCJd3w==
-X-Gm-Gg: Acq92OERX3lMoSoPJi2OGVnuLgzmSJWBAupq/THqs6EbLzwI9rEVnNyicUi5TjOXgGW
-	yKE/9XcLYuuBTZePJI/6i9jlCRGxA3zqjdlvTFzbbuuC4KQimAT5EkEOdoOVgJrmy9O6lrk2E5i
-	+zWtnUlCKBgcjpOmtZIVSY/bW5NOKBtAfzOqTlBNqRPZWQcx2Ds8M4TCqlXC7pOmxw/B/Xbvrn5
-	aFjAdSXfbaGKEEGda0/w/6J2YbiAwpFmVczYlTgGgNIN1anqcNFTAyfoFFRP9obQ40nKDB2R2yu
-	Y9kXMSPZ1DHs+rD/LIHZZ9D5zDRT/hs7ZfrfIyPM8TIxkx3tOIYNhkd6p/sa7cWQAxxEgg3b9gj
-	Daionzv92qM87OCztmUP9q+8/RcLm9CGXKWTKTPw9t2u/QvDbSFxZXlzmaraA8m7tqEOl0uKohF
-	m2m47YfPKgN/fC/jbcSzKI/WkrZfWdfQIlJao0yVx8V/NaIJmvq7DHeVM2gyeIS6pDc0GwWVKV
-X-Received: by 2002:a05:600c:1716:b0:477:86fd:fb49 with SMTP id 5b1f17b1804b1-48ffa5f3d4amr2992925e9.10.1779199221326;
-        Tue, 19 May 2026 07:00:21 -0700 (PDT)
-Received: from localhost ([2a00:79e0:288a:8:c208:c046:d3db:6b00])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a17a22sm46180982f8f.22.2026.05.19.07.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 07:00:20 -0700 (PDT)
-From: Jann Horn <jannh@google.com>
-Date: Tue, 19 May 2026 16:00:09 +0200
-Subject: [PATCH] fuse: reject fuse_notify() pagecache ops on directories
+        bh=jlvaaSf6hX71qoVaaZAiNP7dD67S54v9Ar0OEm1wY9U=;
+        b=Lsu+OU/N0DBDrZFcrZdqH0bvDDrHHmjBPEQCu81HxP+O5/CXZBs0f5AXQri67LVh/J
+         ayKDLPS3A4NHbhlOdI4HqrCwV3jxn8wwaRgRoYRfMOoaKUjAgJUhkWN7p1z5QZ+yNT6J
+         iPdRwZjdbFAo/4/G9QO3bEPKFzXp8f4S72gBSb0YPaayd8NEad22fwUAB5mCyM6DemyK
+         W5il/av1cIRHyj5DFunA0nu9LBAmE7uQBPKDREdXa1sR4P3x/3tL1se+eTHajFAApTUb
+         tYMjAoI+EkkRyN5jrVyU50S4dsLKS29drhmhbpztnobH+vm8XT8cmnU75bH0jOyRwh0I
+         H2xQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/cCBdkItTi6fTlU/w+mYDbWCD/11olGYDvWNCbeS8J2oFPk4MMlG/CTzgegbW7n6B8AeKpSXbNWVjAMtRJ@vger.kernel.org
+X-Gm-Message-State: AOJu0YytWgwikaQ23AXKJt4wh8kNkncaxR0hMG2NWUzUVgqTdruKtMSs
+	84fmpWLg9zW/tqG8n1JaSf8AmUwJ23m4uNVW/OlyGnCUGEXg6Vz7EA4o8TJ/XlpUcAG1fYoPTO8
+	zNUoz4SIgeDO6fLU/tG2jkoOX54e+EUZ1omenXrC52g==
+X-Gm-Gg: Acq92OFR54HxTYU5lmp+3YS7YpUa4FcX5pe+vr9450ZNI7b2pkW6VdvLjIjIsJKcgr6
+	wmdXInqDH/HCn427TvZXHYlYYi0/RNSgHknMReDj8yJwwcdyRCoJ3sFZqJTnS1AHednjBrmOq2C
+	HWjgytI2/9k3ku5yO1PqW0ToTJ5BYjEs0Pil+f5agr7R7W/19l3DVgwZO1lMxq1hJc0Uain77/O
+	moRRLr2+Q9kKYeXbePHb+/vRS7PBu/xrTCkDOpN+hEaLbByDCE5atQq/OGRcYw9bEm+WH8S5KHY
+	emqq/VXR62gSSfxE9IOuvCBqNcHNkrItw9G6el8=
+X-Received: by 2002:a05:622a:250e:b0:50d:b0f9:1a66 with SMTP id
+ d75a77b69052e-5165a20c07emr258446821cf.42.1779199677085; Tue, 19 May 2026
+ 07:07:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260519-fuse-dir-pagecache-v1-1-1f060c65930d@google.com>
-X-B4-Tracking: v=1; b=H4sIAOhsDGoC/x3MQQqAIBBA0avIrBtIU6muEi3EJptNiVIE4t2Tl
- m/xf4FMiSnDLAokejjzdTbIToA/3BkIeWsG1SvbGznhfmfCjRNGF8g7fxAOo3JGS21HZaGFMdH
- O7z9d1lo/XBar62QAAAA=
-X-Change-ID: 20260519-fuse-dir-pagecache-382a54146826
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Jann Horn <jannh@google.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779199217; l=1640;
- i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=rh00+8CkvhUf5L5qQeiUYys/cEAiNnU8gZcvDzmdR6Q=;
- b=iDn1y5baDHzNvdkad7LwoFZexvVnhokCz3wZmVRWkO3YZ/cefv06OcAjXDIHSHk5PIdC4bnRE
- j+yMRcD4jwUBgSgS0h/GxU3cJYSDlnJPBWa/Cz7HWvazYB4u/r7tRmW
-X-Developer-Key: i=jannh@google.com; a=ed25519;
- pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
+References: <20260519-fuse-dir-pagecache-v1-1-1f060c65930d@google.com>
+In-Reply-To: <20260519-fuse-dir-pagecache-v1-1-1f060c65930d@google.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 19 May 2026 16:07:45 +0200
+X-Gm-Features: AVHnY4Ju8gNxI22X-oXQbbZ3c7C6b3wtqxFhm0MkkpAJGdYIHwyAWsx7v_165KU
+Message-ID: <CAJfpegv63pO9k1mvYct_U+aSuiHHVBxCdNgsaj3FhK8ZX_m0Mg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: reject fuse_notify() pagecache ops on directories
+To: Jann Horn <jannh@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The operations FUSE_NOTIFY_STORE and FUSE_NOTIFY_RETRIEVE allow the
-FUSE daemon to actively write/read pagecache contents.
+On Tue, 19 May 2026 at 16:00, Jann Horn <jannh@google.com> wrote:
+>
+> The operations FUSE_NOTIFY_STORE and FUSE_NOTIFY_RETRIEVE allow the
+> FUSE daemon to actively write/read pagecache contents.
+>
+> For directories with FOPEN_CACHE_DIR, the pagecache is used as
+> kernel-internal cache storage, and userspace is not supposed to have
+> direct access to this cache - in particular, fuse_parse_cache() will hit
+> WARN_ON() if the cache contains bogus data.
+>
+> Reject FUSE_NOTIFY_STORE and FUSE_NOTIFY_RETRIEVE on directories with
+> -EINVAL.
 
-For directories with FOPEN_CACHE_DIR, the pagecache is used as
-kernel-internal cache storage, and userspace is not supposed to have
-direct access to this cache - in particular, fuse_parse_cache() will hit
-WARN_ON() if the cache contains bogus data.
+Good catch.
 
-Reject FUSE_NOTIFY_STORE and FUSE_NOTIFY_RETRIEVE on directories with
--EINVAL.
+Shouldn't this reject !S_ISREG()?  Symlinks also use the page cache
+and could break if overwritten by arbitrary data.
 
-Fixes: 5d7bc7e8680c ("fuse: allow using readdir cache")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jann Horn <jannh@google.com>
----
- fs/fuse/dev.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 5dda7080f4a9..7096f53d335c 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -1793,6 +1793,10 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
- 	inode = fuse_ilookup(fc, nodeid,  NULL);
- 	if (!inode)
- 		goto out_up_killsb;
-+	if (S_ISDIR(inode->i_mode)) {
-+		err = -EINVAL;
-+		goto out_iput;
-+	}
- 
- 	mapping = inode->i_mapping;
- 	file_size = i_size_read(inode);
-@@ -1966,7 +1970,10 @@ static int fuse_notify_retrieve(struct fuse_conn *fc, unsigned int size,
- 
- 	inode = fuse_ilookup(fc, nodeid, &fm);
- 	if (inode) {
--		err = fuse_retrieve(fm, inode, &outarg);
-+		if (S_ISDIR(inode->i_mode))
-+			err = -EINVAL;
-+		else
-+			err = fuse_retrieve(fm, inode, &outarg);
- 		iput(inode);
- 	}
- 	up_read(&fc->killsb);
-
----
-base-commit: ab5fce87a778cb780a05984a2ca448f2b41aafbf
-change-id: 20260519-fuse-dir-pagecache-382a54146826
-
---  
-Jann Horn <jannh@google.com>
-
+Thanks,
+Miklos
