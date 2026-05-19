@@ -1,259 +1,234 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1115A3E276D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 22:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309F03E3D96;
+	Tue, 19 May 2026 22:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779229718; cv=none; b=ELqhx4BpE6HdjotFWJ2+DxOJT55sXrjSyCRB1ZfUgBFBlx/238bfIyAtvinyO6xISHO7n5N3Aw4ZiPUjaHgl0Fc9cRryWf29ezey6hW0n5lkhnFDI4no3gDjkUlXlAIsJT4ZLhy6ufknAYHrrpq13g7VVEXujPfN7kU3IytZV/o=
+	t=1779229733; cv=none; b=qAQT1Ch2N6I4iMQqbTbvcMTCE5NK3Wel+rxGr0CSuIjPMNDT9446yZKsb3HQSQc+x57KF+195p+qTzDyYfGLuYViA7kYHzUp6QYXzwJ4jXCoRkxDO8uqeDJtEVmSmKrHTJ8P0807nzwMa4BdlKx1gBsf8YVrTp+wUusdhne2QMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779229718; c=relaxed/simple;
-	bh=KIVHt/Acn752h2cOaLugQTdQEBPTHGaFFPjZXQHUZbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hI1nwWtsEs2sdQUicer/vxW2TG1fpwM5f38jFK6pK+i2bRFJ2/9xa8zemYvSsr7oO9KbPkw5UC56yBFPLMOHquatWxQXkhxt6v0VHEJ+ZiRYINmnMnS3OtgW9o02Fmv0wKcsWvWXWBj2p6oo/RV6H8jdlveN04eZcydPXXKPz3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=mTGdCSng; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1779229733; c=relaxed/simple;
+	bh=WQnjrUHH/+I13y/zESs62XTmir0wC5LzaDb7cE0e0+Q=;
+	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YiPhu+qTjQnqIL7JgyhEpVxPIwCK2PCVVe1S5F2jdv4hPhFFwmhK4qDa4QpFdxSAGZ0B5XweDGkQ69lGWu26eJCzhddDZwguK6jewSkhes1SZQzUVZaPgSbsPHqO4dEwMThJNO4YmTsidff+UaW35Wci9RF9qlVkn265x9F0m1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PgTx1Nfm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="mTGdCSng"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7c58e6eb3edso37387537b3.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 15:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1779229716; x=1779834516; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zex7Nwrg+w3EzJgM6i+AzTmX4qAFfpfNhfflpDAV6AU=;
-        b=mTGdCSngv74uSdq/JdLE/55rfZ3CB7wezVxTqRsV40w9PvcBbv+Pk6IwcRcT38gr6J
-         vB+n8uIMLfrcODdBFWPYrwI+91eHNynW30lZDuZjsZr1NKhvxveU1xt2Q8r9n6oW+ckc
-         6IozagKMb6tKLtUhDyrrALgLv+NvQI4MVWsQ2tFpflJsaeer5dKstcNqMJGFtAbSuFnP
-         NxSt6a/58CaTzA0PT+kWShRvBOR1D/FFTuPmPzgCetJGn1BcGMoW5wIpHBfX5gJW2+F5
-         60BoD78xVUxuASYWFDsLTjS9uA5F9w/sepiVu+sCfkUqn4UxI3ZspA0tQtMwYtwUzRc0
-         kMfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779229716; x=1779834516;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zex7Nwrg+w3EzJgM6i+AzTmX4qAFfpfNhfflpDAV6AU=;
-        b=aay1KymGPy/sLr8pBbK1XxZJLjMvLolVynmH1QDO3Avx8CFisxbwXlMIhHnnpWt3Bp
-         zFMptakrO/G+tb4YdOLlxmwndGMdSlWMllVdAS0MPak6JJpEj2UiRu48DMZHmZj86FvV
-         UloJl94tYoYSLaR9XrXBtTk8Joq/5ab+cIODGTMHrHSR5vzDUEoyt5EOpEL4jSKtL7dV
-         F7psrye9/gpuhuVbDQBHz2/lrGSrjlAZC/Hm3sNWnbuC00d9w+1e16JZ50ZINDg7ViwU
-         ylyIVT23+08cSIBZIJqNs/rcmQv98InkAnxVYSAl18eCh6IuxWACdSEu3hMqstfu8zok
-         c7lg==
-X-Forwarded-Encrypted: i=1; AFNElJ/jHsxRlAUubMyHPXkihpH9rHC9EBx/5vaosXElrFZoxhppvzmMNUBEvbR8VqUFW+F5RB2+fzKmgH0m6dtZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMbyItzzhkxu6pKSl220US0rW2aHC/OUuebtjiMEeaM2468WXl
-	Asfg4Fy4NAVo3Xth2QRqiK0i2+07B7iI8/708Q17IpyDjPgPSAusvky/wX561AB5pV8=
-X-Gm-Gg: Acq92OFOTIB8S+8tmAWRCokee3fmPOjo4ieJxp6IjR/PYUuVcTos+DP4wrFOtx9qFVa
-	AHtT9d7rz/69CJGarVc9zsfcPQBF4C0Pr9BPhO7A74+HH6OCqL7BT62HEHPjPQBsVY85SQanrxp
-	ThMfimzUmzl8Tn2s0u+L7a0tPpTBQZxTdfw29jmAEXWENQsWZt+S+1B6cN91k3uppMCvTj+I8GT
-	wJtKJndB80r9b8ysabsJoJUoGc7brfwCfTjNcq+4c1nruXwrtZVto3Gef2dKRDS41WAmo96THlR
-	HGpdroJhHuVofhFvgcMvQen3EcjYeTnd7x5EiUeQrdpQr71V36azhCf9yfpvEEieTwWXoB46+if
-	vlhT2evIy66nh1S/buOkV2Eqkcv4puKlaN98NKnZ9BkoQMXNsahILL6FiyyF/Ln07EpXpxxCCsA
-	YMkBc7X9tMFUZjDCOqQlOn0yUchND+nt7PLAKYeaPZQx5xkFUo+GNrKRyho/RPI3n+kWyIeudZl
-	onNJ5p3hyUmH7HQOaszDhQ=
-X-Received: by 2002:a05:690c:9693:b0:7d0:79f:338f with SMTP id 00721157ae682-7d0079f3793mr32900097b3.33.1779229716051;
-        Tue, 19 May 2026 15:28:36 -0700 (PDT)
-Received: from pop-os.attlocal.net ([2600:1700:6476:1430:78e9:5500:c36:65ac])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc9bc0ccc4sm43720977b3.31.2026.05.19.15.28.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 15:28:35 -0700 (PDT)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: glaubitz@physik.fu-berlin.de,
-	linux-fsdevel@vger.kernel.org,
-	frank.li@vivo.com
-Cc: Slava.Dubeyko@ibm.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH] hfs: rework hfsplus_readdir() logic
-Date: Tue, 19 May 2026 15:28:12 -0700
-Message-ID: <20260519222811.1311071-2-slava@dubeyko.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PgTx1Nfm"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DDD041F000E9;
+	Tue, 19 May 2026 22:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779229732;
+	bh=OC3KqlSzN3a06rtlgCRbw+9QLGoI5ChCJShxuRYTHY0=;
+	h=Date:Subject:From:To:Cc:In-Reply-To:References;
+	b=PgTx1NfmeTXQOA+0C/0lQkPZYxLsy81M2YHfQCfhHjuv1GEhhhOn3BfvoCDStwvvz
+	 bMQBWFnz4NMmeq5yRJ2N5RCTGk0NAA9CGEKqRueONq1DvIf6nWPbpnUXnPudIIWGda
+	 dsf/QI0byrCD8bEzfOEpT3fdP6WbKFqQsvm0o72n4yloDptNfQnv4JNN7Lmf30lifw
+	 R8BmBcTmRUQaKtQ+Es5DrZxdVsZjfnUdnvfMwOCiSMdvwBJxnTEeRzf73Ys6C8/fQj
+	 dbuHbcNETC6ABip9dHPhEuE4SHpuS0wMGomymEPmgsTZ1PT/X/uEJdLOqBfL0/euVY
+	 T/5Ha+eYvyoOg==
+Date: Tue, 19 May 2026 15:28:51 -0700
+Subject: [PATCH 09/11] fuse: isolate the other regular file IO paths from
+ iomap
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: djwong@kernel.org, miklos@szeredi.hu
+Cc: linux-fsdevel@vger.kernel.org, neal@gompa.dev, bernd@bsbernd.com,
+ joannelkoong@gmail.com, fuse-devel@lists.linux.dev
+Message-ID: <177922945435.2436837.4187590963088494368.stgit@frogsfrogsfrogs>
+In-Reply-To: <177922945175.2436837.10366841596277424226.stgit@frogsfrogsfrogs>
+References: <177922945175.2436837.10366841596277424226.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The xfstests' test-case generic/637 fails with error:
+From: Darrick J. Wong <djwong@kernel.org>
 
-FSTYP -- hfs
-PLATFORM -- Linux/x86_64 kvm-xfstests 6.15.0-rc4-xfstests-g00b827f0cffa #1 SMP PREEMPT_DYNAMIC Fri May 25
-MKFS_OPTIONS -- /dev/vdc
-MOUNT_OPTIONS -- /dev/vdc /vdc
+iomap completely takes over all regular file IO, so we don't need to
+access any of the other mechanisms at all.  Gate them off so that we can
+eventually overlay them with a union to save space in struct fuse_inode.
 
-QA output created by 637
-entries 7 and 8 have duplicate d_off 8
-Found unlinked files in open dir (see xfstests-dev/results//generic/637.full for details)
-
-Likewise HFS+, currently, HFS has very complicated and
-fragile logic of rd->file->f_pos correction in hfs_delete_cat().
-This patch removes this logic and it stores the current
-pos into hfs_readdir_data. Finally, if rd->pos == ctx->pos
-then hfs_readdir() tries to find the position in
-b-tree's node by means of hfs_cat_key. This position is
-used to re-start the folder's content traversal.
-
-sudo ./check generic/637
-FSTYP         -- hfs
-PLATFORM      -- Linux/x86_64 hfsplus-testing-0001 7.1.0-rc1+ #55 SMP PREEMPT_DYNAMIC Tue May 19 15:18:02 PDT 2026
-MKFS_OPTIONS  -- /dev/loop51
-MOUNT_OPTIONS -- /dev/loop51 /mnt/scratch
-
-generic/637  32s ...  31s
-Ran: generic/637
-Passed all 1 tests
-
-Closes: https://github.com/hfs-linux-kernel/hfs-linux-kernel/issues/65
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
+Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/hfs/catalog.c |  9 ---------
- fs/hfs/dir.c     | 28 +++++++++++-----------------
- fs/hfs/hfs.h     |  3 +--
- fs/hfs/hfs_fs.h  |  2 --
- fs/hfs/inode.c   |  4 ----
- 5 files changed, 12 insertions(+), 34 deletions(-)
+ fs/fuse/dir.c    |   14 +++++++++-----
+ fs/fuse/file.c   |   22 +++++++++++++++++-----
+ fs/fuse/inode.c  |    3 ++-
+ fs/fuse/iomode.c |    3 ++-
+ 4 files changed, 30 insertions(+), 12 deletions(-)
 
-diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
-index 7f5339ee57c1..1bfa36d71e24 100644
---- a/fs/hfs/catalog.c
-+++ b/fs/hfs/catalog.c
-@@ -340,7 +340,6 @@ int hfs_cat_delete(u32 cnid, struct inode *dir, const struct qstr *str)
+
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index ca201ce3499040..1641223f76d8c6 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -2203,6 +2203,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	FUSE_ARGS(args);
+ 	struct fuse_setattr_in inarg;
+ 	struct fuse_attr_out outarg;
++	const bool is_iomap = fuse_inode_has_iomap(inode);
+ 	bool is_truncate = false;
+ 	bool is_wb = fc->writeback_cache && S_ISREG(inode->i_mode);
+ 	loff_t oldsize;
+@@ -2260,12 +2261,15 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		if (err)
+ 			return err;
+ 
+-		fuse_set_nowrite(inode);
+-		fuse_release_nowrite(inode);
++		if (!is_iomap) {
++			fuse_set_nowrite(inode);
++			fuse_release_nowrite(inode);
++		}
+ 	}
+ 
+ 	if (is_truncate) {
+-		fuse_set_nowrite(inode);
++		if (!is_iomap)
++			fuse_set_nowrite(inode);
+ 		set_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
+ 		if (trust_local_cmtime && attr->ia_size != inode->i_size)
+ 			attr->ia_valid |= ATTR_MTIME | ATTR_CTIME;
+@@ -2337,7 +2341,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	if (!is_wb || is_truncate)
+ 		i_size_write(inode, outarg.attr.size);
+ 
+-	if (is_truncate) {
++	if (is_truncate && !is_iomap) {
+ 		/* NOTE: this may release/reacquire fi->lock */
+ 		__fuse_release_nowrite(inode);
+ 	}
+@@ -2361,7 +2365,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	return 0;
+ 
+ error:
+-	if (is_truncate)
++	if (is_truncate && !is_iomap)
+ 		fuse_release_nowrite(inode);
+ 
+ 	clear_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 8d55d2f4dd4cc9..8edb2f089277a1 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -206,6 +206,10 @@ static void fuse_link_write_file(struct file *file)
+ 	struct inode *inode = file_inode(file);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+ 	struct fuse_file *ff = file->private_data;
++
++	if (fuse_inode_has_iomap(&fi->inode))
++		return;
++
+ 	/*
+ 	 * file may be written through mmap, so chain it onto the
+ 	 * inodes's write_file list
+@@ -257,6 +261,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+ 	struct fuse_conn *fc = fm->fc;
+ 	struct fuse_file *ff;
+ 	int err;
++	const bool is_iomap = fuse_inode_has_iomap(inode);
+ 	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
+ 	bool is_wb_truncate = is_truncate && fc->writeback_cache;
+ 	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
+@@ -278,7 +283,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+ 			goto out_inode_unlock;
+ 	}
+ 
+-	if (is_wb_truncate || dax_truncate)
++	if ((is_wb_truncate || dax_truncate) && !is_iomap)
+ 		fuse_set_nowrite(inode);
+ 
+ 	err = fuse_do_open(fm, get_node_id(inode), file, false);
+@@ -291,7 +296,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+ 			fuse_truncate_update_attr(inode, file);
+ 	}
+ 
+-	if (is_wb_truncate || dax_truncate)
++	if ((is_wb_truncate || dax_truncate) && !is_iomap)
+ 		fuse_release_nowrite(inode);
+ 	if (!err) {
+ 		if (is_truncate)
+@@ -539,12 +544,14 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
  {
- 	struct super_block *sb;
- 	struct hfs_find_data fd;
--	struct hfs_readdir_data *rd;
- 	int res, type;
+ 	struct inode *inode = file->f_mapping->host;
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
++	const bool need_sync_writes = !fuse_inode_has_iomap(inode);
+ 	int err;
  
- 	hfs_dbg("name %s, cnid %u\n", str ? str->name : NULL, cnid);
-@@ -366,14 +365,6 @@ int hfs_cat_delete(u32 cnid, struct inode *dir, const struct qstr *str)
- 		}
- 	}
+ 	if (fuse_is_bad(inode))
+ 		return -EIO;
  
--	/* we only need to take spinlock for exclusion with ->release() */
--	spin_lock(&HFS_I(dir)->open_dir_lock);
--	list_for_each_entry(rd, &HFS_I(dir)->open_dir_list, list) {
--		if (fd.tree->keycmp(fd.search_key, (void *)&rd->key) < 0)
--			rd->file->f_pos--;
--	}
--	spin_unlock(&HFS_I(dir)->open_dir_lock);
--
- 	res = hfs_brec_remove(&fd);
- 	if (res)
- 		goto out;
-diff --git a/fs/hfs/dir.c b/fs/hfs/dir.c
-index 702c16ea954b..509c77a99625 100644
---- a/fs/hfs/dir.c
-+++ b/fs/hfs/dir.c
-@@ -97,7 +97,15 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
- 	}
- 	if (ctx->pos >= inode->i_size)
- 		goto out;
--	err = hfs_brec_goto(&fd, ctx->pos - 1);
-+	rd = file->private_data;
-+	if (rd && rd->pos == ctx->pos) {
-+		memcpy(fd.search_key, &rd->key, sizeof(struct hfs_cat_key));
-+		err = hfs_brec_find(&fd);
-+		if (err == -ENOENT)
-+			err = hfs_brec_goto(&fd, 1);
-+	} else {
-+		err = hfs_brec_goto(&fd, ctx->pos - 1);
-+	}
+-	inode_lock(inode);
++	if (need_sync_writes)
++		inode_lock(inode);
+ 
+ 	/*
+ 	 * Start writeback against all dirty pages of the inode, then
+@@ -555,7 +562,8 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
  	if (err)
  		goto out;
  
-@@ -146,7 +154,6 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
- 		if (err)
- 			goto out;
+-	fuse_sync_writes(inode);
++	if (need_sync_writes)
++		fuse_sync_writes(inode);
+ 
+ 	/*
+ 	 * Due to implementation of fuse writeback
+@@ -579,7 +587,8 @@ static int fuse_fsync(struct file *file, loff_t start, loff_t end,
+ 		err = 0;
  	}
--	rd = file->private_data;
- 	if (!rd) {
- 		rd = kmalloc_obj(struct hfs_readdir_data);
- 		if (!rd) {
-@@ -154,15 +161,8 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
- 			goto out;
- 		}
- 		file->private_data = rd;
--		rd->file = file;
--		spin_lock(&HFS_I(inode)->open_dir_lock);
--		list_add(&rd->list, &HFS_I(inode)->open_dir_list);
--		spin_unlock(&HFS_I(inode)->open_dir_lock);
- 	}
--	/*
--	 * Can be done after the list insertion; exclusion with
--	 * hfs_delete_cat() is provided by directory lock.
--	 */
-+	rd->pos = ctx->pos;
- 	memcpy(&rd->key, &fd.key->cat, sizeof(struct hfs_cat_key));
  out:
- 	hfs_find_exit(&fd);
-@@ -171,13 +171,7 @@ static int hfs_readdir(struct file *file, struct dir_context *ctx)
+-	inode_unlock(inode);
++	if (need_sync_writes)
++		inode_unlock(inode);
  
- static int hfs_dir_release(struct inode *inode, struct file *file)
- {
--	struct hfs_readdir_data *rd = file->private_data;
--	if (rd) {
--		spin_lock(&HFS_I(inode)->open_dir_lock);
--		list_del(&rd->list);
--		spin_unlock(&HFS_I(inode)->open_dir_lock);
--		kfree(rd);
--	}
-+	kfree(file->private_data);
- 	return 0;
+ 	return err;
  }
+@@ -2015,6 +2024,9 @@ static struct fuse_file *__fuse_write_file_get(struct fuse_inode *fi)
+ {
+ 	struct fuse_file *ff;
  
-diff --git a/fs/hfs/hfs.h b/fs/hfs/hfs.h
-index 3f2293ff6fdd..2e958c46bc0a 100644
---- a/fs/hfs/hfs.h
-+++ b/fs/hfs/hfs.h
-@@ -14,8 +14,7 @@
- /*======== Data structures kept in memory ========*/
++	if (fuse_inode_has_iomap(&fi->inode))
++		return NULL;
++
+ 	spin_lock(&fi->lock);
+ 	ff = list_first_entry_or_null(&fi->write_files, struct fuse_file,
+ 				      write_entry);
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 59113da7d31f5e..98f2464389d026 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -192,7 +192,8 @@ static void fuse_evict_inode(struct inode *inode)
+ 		if (inode->i_nlink > 0)
+ 			atomic64_inc(&fc->evict_ctr);
+ 	}
+-	if (S_ISREG(inode->i_mode) && !fuse_is_bad(inode)) {
++	if (S_ISREG(inode->i_mode) && !fuse_is_bad(inode) &&
++	    !fuse_inode_has_iomap(inode)) {
+ 		WARN_ON(fi->iocachectr != 0);
+ 		WARN_ON(!list_empty(&fi->write_files));
+ 		WARN_ON(!list_empty(&fi->queued_writes));
+diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+index 3728933188f307..9be9ae3520003e 100644
+--- a/fs/fuse/iomode.c
++++ b/fs/fuse/iomode.c
+@@ -6,6 +6,7 @@
+  */
  
- struct hfs_readdir_data {
--	struct list_head list;
--	struct file *file;
-+	loff_t pos;
- 	struct hfs_cat_key key;
- };
+ #include "fuse_i.h"
++#include "fuse_iomap.h"
  
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index ac0e83f77a0f..97e8d1f96d6d 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -36,8 +36,6 @@ struct hfs_inode_info {
+ #include <linux/kernel.h>
+ #include <linux/sched.h>
+@@ -203,7 +204,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+ 	 * io modes are not relevant with DAX and with server that does not
+ 	 * implement open.
+ 	 */
+-	if (FUSE_IS_DAX(inode) || !ff->args)
++	if (fuse_inode_has_iomap(inode) || FUSE_IS_DAX(inode) || !ff->args)
+ 		return 0;
  
- 	struct hfs_cat_key cat_key;
- 
--	struct list_head open_dir_list;
--	spinlock_t open_dir_lock;
- 	struct inode *rsrc_inode;
- 
- 	struct mutex extents_lock;
-diff --git a/fs/hfs/inode.c b/fs/hfs/inode.c
-index b2329de151ec..ab52ad2d2ad8 100644
---- a/fs/hfs/inode.c
-+++ b/fs/hfs/inode.c
-@@ -195,8 +195,6 @@ struct inode *hfs_new_inode(struct inode *dir, const struct qstr *name, umode_t
- 	err = -ERANGE;
- 
- 	mutex_init(&HFS_I(inode)->extents_lock);
--	INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
--	spin_lock_init(&HFS_I(inode)->open_dir_lock);
- 	hfs_cat_build_key(sb, (btree_key *)&HFS_I(inode)->cat_key, dir->i_ino, name);
- 	next_id = atomic64_inc_return(&HFS_SB(sb)->next_id);
- 	if (next_id > U32_MAX) {
-@@ -353,8 +351,6 @@ static int hfs_read_inode(struct inode *inode, void *data)
- 	HFS_I(inode)->flags = 0;
- 	HFS_I(inode)->rsrc_inode = NULL;
- 	mutex_init(&HFS_I(inode)->extents_lock);
--	INIT_LIST_HEAD(&HFS_I(inode)->open_dir_list);
--	spin_lock_init(&HFS_I(inode)->open_dir_lock);
- 
- 	/* Initialize the inode */
- 	inode->i_uid = hsb->s_uid;
--- 
-2.43.0
+ 	/*
 
