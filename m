@@ -1,159 +1,96 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310ED3DCD8E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 08:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57823E1689;
+	Tue, 19 May 2026 08:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.36.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779178963; cv=none; b=gYnCtWTllfSFk4MqzzuKkKdQR8L3VyqWUwyLHPLU9Yzw04hrrwmezWK4cEI7XMDe0Vb7MLgYo10ZVLdv1Gqs9GnmoZQTbU4RfX1xK8POd4mgBAPRDf+SZHpZiBDPj4/pAQHSDMYruBqTrwMha3rOX+GfxPOyxz8ltcCBHcyn9qM=
+	t=1779179116; cv=none; b=hcg56Zw6fnhM63s1kNG2Nx0iIRFyofdxHcsPyZkavEOTDrZ1uJL5Cygy6qQyNH9r/TgIZxn0ELWcdXhK0LPBPVxNS2+J8YWoX5AINCBQSnYmChY1HqSmoqric8znIVkcvbaiZdMy/WAYsmvIkRBhiusv47rZHtHfLZDJ2FVpdHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779178963; c=relaxed/simple;
-	bh=cCLWHz6s/kKj066yPPUVgEVfsPtlrqWrxgWbfl+XOa4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MCBE/uNtnaG15uJBrLpSym5UyjphcHnQrxZJaDu8tORmBr/pG+Zb63Pm+oEALrWnC3FIFu+rXfUERS8cr36g8rCXD9biynAUsbXFQ587B6hu6wEmoiMBE9D4ldWdC//mIC9LjOu2O8BJOnPXE22vu1PsIdDg2DatOxI4Pag8SA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K7hXrXc4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ws3P4oX5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K7hXrXc4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ws3P4oX5; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1779179116; c=relaxed/simple;
+	bh=GczDtyA7QqyhgpCt+uS5CB8iB1mmQPJ5p+3j3+yEVDU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=fhO7yqjZlQdbeiBMGhSc9/xeA2EYuGLpkJK4KnKPnTSkbrRE+Ek0gLwQvnUz8phU5ZxuuvCn74+bwI2sl9U0tI2Jdw3d6pTHMNkl/cZbVkyMJqlqGq6N6x1ERGGVrjbPwpChNPUJ7a9tZeL7nxm+OTVOtSHPNpfGLYi8IqQa6Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=FBTVmONd; arc=none smtp.client-ip=139.138.36.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K7hXrXc4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ws3P4oX5";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K7hXrXc4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ws3P4oX5"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="FBTVmONd"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1779179115; x=1810715115;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=GczDtyA7QqyhgpCt+uS5CB8iB1mmQPJ5p+3j3+yEVDU=;
+  b=FBTVmONdkiCymQR2yswNyEmxJVSdKhlzGXSJLdC88E1bzl9sdKf4NojA
+   RdUvNOkq5c/DoRmbjIAJ4q1liuWrMUT0gdR89wbOUfKYZAxolvg7UXRls
+   ieuz3OZS8w9CdPd+6KjP3pEtng1PkVrfQqVRDll8/EDCxDEkOe6ktKDFM
+   gKe2ZBdNavlYtlwSpG6NtN6qQ+1eK3pXDz7f4k8ijQHVj7uYBHl1jq9Tf
+   NH85AbLZrAkM4IJ/sZ193VKHbjTM7Nmm52CfCGC185p4mB+RMptobG8d4
+   KWS8QryLa90j2wAqT+SKSnpJRtswy5/9r9hoVBs1cn23aa1OYh6Ggs81p
+   Q==;
+X-CSE-ConnectionGUID: UBXCnxP2R4u09n3DKVCSbg==
+X-CSE-MsgGUID: QiBQK/B8TMSKjTz4DoQaPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="228455610"
+X-IronPort-AV: E=Sophos;i="6.23,243,1770562800"; 
+   d="scan'208";a="228455610"
+Received: from gmgwnl01.global.fujitsu.com ([52.143.17.124])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 17:25:07 +0900
+Received: from az2nlsmgm1.o.css.fujitsu.com (unknown [10.150.26.203])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 44493640E0;
-	Tue, 19 May 2026 08:22:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779178960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b3G/L6XNSJ3Virpi1kuVQgznpWo59FybcDYBvi5oVS8=;
-	b=K7hXrXc4iKF15aR/W9YA3P9brLc1vHWy5acWxx4DGyE2cAlcWMzFbgnayVLsPUQaTjoBVb
-	n1grR6BufIIpIP4drcZc+XsRQQr1Dbjm5cXpZ3AdQ8lGOPo3rygcHn1v3AY5x+Z+ClbAdr
-	hO+HTjbgtBBDfYMvsQLITFb0ZSqlaM4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779178960;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b3G/L6XNSJ3Virpi1kuVQgznpWo59FybcDYBvi5oVS8=;
-	b=ws3P4oX5+LMhNzXIwJ0bwMekAEHC6K+J/7suJs2iIBda1YorDTUG1tnZqkl4Llj/biYDoq
-	j+OsS8HkHg6O/OBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779178960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b3G/L6XNSJ3Virpi1kuVQgznpWo59FybcDYBvi5oVS8=;
-	b=K7hXrXc4iKF15aR/W9YA3P9brLc1vHWy5acWxx4DGyE2cAlcWMzFbgnayVLsPUQaTjoBVb
-	n1grR6BufIIpIP4drcZc+XsRQQr1Dbjm5cXpZ3AdQ8lGOPo3rygcHn1v3AY5x+Z+ClbAdr
-	hO+HTjbgtBBDfYMvsQLITFb0ZSqlaM4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779178960;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b3G/L6XNSJ3Virpi1kuVQgznpWo59FybcDYBvi5oVS8=;
-	b=ws3P4oX5+LMhNzXIwJ0bwMekAEHC6K+J/7suJs2iIBda1YorDTUG1tnZqkl4Llj/biYDoq
-	j+OsS8HkHg6O/OBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	by gmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 5C2821000145;
+	Tue, 19 May 2026 08:25:07 +0000 (UTC)
+Received: from az2uksmom1.o.css.fujitsu.com (az2uksmom1.o.css.fujitsu.com [10.151.22.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 38D10593AB;
-	Tue, 19 May 2026 08:22:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gt7bDdAdDGo5CAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 08:22:40 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id BBAF9A0ADE; Tue, 19 May 2026 10:22:39 +0200 (CEST)
-Date: Tue, 19 May 2026 10:22:39 +0200
-From: Jan Kara <jack@suse.cz>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [MEH PATCH] fs/pipe: write to ->poll_usage only once
-Message-ID: <mzjeex2gkhgndpzhebflu4sooa7r47bmxnwdf5qtzfqmncshgg@fe5wtl47ekgv>
-References: <20260516021852.256932-1-mjguzik@gmail.com>
+	by az2nlsmgm1.o.css.fujitsu.com (Postfix) with ESMTPS id 010D8C03707;
+	Tue, 19 May 2026 08:25:07 +0000 (UTC)
+Received: from dhcp-portal (unknown [10.172.107.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmom1.o.css.fujitsu.com (Postfix) with ESMTPS id 6D5671800C07;
+	Tue, 19 May 2026 08:25:05 +0000 (UTC)
+Received: from isar2.ecs00.fujitsu.local (unknown [10.172.183.27])
+	by dhcp-portal (Postfix) with ESMTP id B25F960A84;
+	Tue, 19 May 2026 10:25:04 +0200 (CEST)
+From: Tomasz Wolski <tomasz.wolski@fujitsu.com>
+To: alison.schofield@intel.com
+Cc: ardb@kernel.org,
+	benjamin.cheatham@amd.com,
+	dan.j.williams@intel.com,
+	dave.jiang@intel.com,
+	jonathan.cameron@huawei.com,
+	linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	smita.koralahallichannabasappa@amd.com,
+	tomasz.wolski@fujitsu.com
+Subject: Re: [PATCH] dax/bus: Upgrade resource conflict message to dev_err() in alloc_dax_region()
+Date: Tue, 19 May 2026 10:25:02 +0200
+Message-Id: <20260519082502.18627-1-tomasz.wolski@fujitsu.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <agX7LCdvy38_z4Pt@aschofie-mobl2.lan>
+References: <agX7LCdvy38_z4Pt@aschofie-mobl2.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260516021852.256932-1-mjguzik@gmail.com>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-On Sat 16-05-26 04:18:52, Mateusz Guzik wrote:
-> Both GNU and BSD makes share a "token pipe" between their instances, as
-> a result a -j $BIGNUM invocation results in multicore perf problems in
-> the poll handler.
-> 
-> Avoiding the store will reduce it a little bit. However, the crux of the
-> problem is the locked queuing up in poll_wait().
-> 
-> Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
+Hello Alison,
 
-I guess doesn't harm to reduce cacheline invalidations. Feel free to add:
+>> How about using request_resource_conflict() so that we can offer
+>> more description in the error message?
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Thanks for the hint - I will add that in v2.
 
-								Honza
-
-> ---
-> 
-> disclaimer: could not be bothered to bench this
-> 
->  fs/pipe.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/pipe.c b/fs/pipe.c
-> index 9841648c9cf3..e37c79935ecb 100644
-> --- a/fs/pipe.c
-> +++ b/fs/pipe.c
-> @@ -664,7 +664,8 @@ pipe_poll(struct file *filp, poll_table *wait)
->  	union pipe_index idx;
->  
->  	/* Epoll has some historical nasty semantics, this enables them */
-> -	WRITE_ONCE(pipe->poll_usage, true);
-> +	if (unlikely(!READ_ONCE(pipe->poll_usage)))
-> +		WRITE_ONCE(pipe->poll_usage, true);
->  
->  	/*
->  	 * Reading pipe state only -- no need for acquiring the semaphore.
-> -- 
-> 2.48.1
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Best regards,
+Tomasz
