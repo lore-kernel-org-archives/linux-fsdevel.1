@@ -1,238 +1,175 @@
-Received: from mx08-001d1705.pphosted.com (mx08-001d1705.pphosted.com [185.183.30.70])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7802475E3;
-	Tue, 19 May 2026 05:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.183.30.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779168181; cv=fail; b=XZQcsMi31LOQT5SbvMIGwxVQRzXFEYiyIt3EPENFRzfU61W+0ooJXLbef6nca6x4+1uZ2A9Ydo1NsWqIn0CNbstMN1BTzemgxQIhO71qOx+chteQuSTum70KYCrJlcL2eA6fUIsV47FG1Sx4XtSmENu8cyvLNs1Rb9kkEesYp/w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779168181; c=relaxed/simple;
-	bh=db01/Zyca4+556E5Qh1RFR4iNzf2rOuEX3h9/eUaszs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qNik7O37ACBf4DCpWwTO56lsyp0knkc1RQRjwGx2cJOizbk7NqjDkFr5hfJCp/eR+/2i5EHTsU3ATIFb6XADZqR+bTTrOCcLsWyLISIGtvb6Xs3tI13w4eIHgx37y5YAPdXQWdiBndhNK1hCb5OiucSuegzeAMzNxPxy8cdsUDo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=j7mCNMum; arc=fail smtp.client-ip=185.183.30.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21FF26CE32;
+	Tue, 19 May 2026 05:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779168457; cv=none; b=gU1CsqJlQsme3OXdSuQ3XxW9qbOKDSS6En+z9F93RsZi1I9IAdmxYN3gWaeCvdi5bPq2R4vNR26GpI+U6bv8K4Q5hjjQMV/VGgN2wnDXLNL9FTg+9J0qVnzb/O+DOa3cliSCfHYwcCLzSCxuWto+PFkq7pR0qBS6zduqy9OzWxo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779168457; c=relaxed/simple;
+	bh=m/+ciBMHqRg6iC/PpzDfyMJadbRSdC62tYBUYjBN9+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VtR4i2+0MDDnWFARaXcmQaV30+2WKKFpwwxCcs03HsyZU7CYSq1Z8OaGDx8oT7pwVd9BAAimBlqFv4Ssmsyncf0YMapYHIxxo9KUbqvCQ/ygSb6Lf8gStgnwK2LMXpPSl1P0fxaj4fWKmI/QcIxZBVMn3Twb0IYoyfkWwLXewUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pPobGNCC; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="j7mCNMum"
-Received: from pps.filterd (m0209319.ppops.net [127.0.0.1])
-	by mx08-001d1705.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64IMmjuh3718154;
-	Tue, 19 May 2026 05:21:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=p1; bh=+R8roY8
-	5EAvQi2RC6R/cEBweHdvyaJbA7Qnasvdvt78=; b=j7mCNMuml/TvkgcBPrnG+uq
-	n3OEY32TVZbnVItDnXpDs1UkpRIwrhZNvwlI2dwNfUfUwchRsqrwJiMVzTWLnlLG
-	u4dUN3yb5gO93kxjjk0naJ5hivFMhwfPjgrOi1pG7J9SmKax7tZHUG5OxwVvX3Eq
-	wALu9kzO8TOVIQiUViS1q7hqMzUuDB65u4ErgBdzJihIHvfdevl+TwfkJ8RfYc4I
-	35MZnoqkW4WBalaOfrb5KqHgoKb9fsHN5jNkCGBYn1LvD/l1e8Vhr8NXHPUSpges
-	oP9vq4wvuI4BLhtb0ZvjK6TEmAGrHv1CoGJlD17rtnqH8fsVg9cWMUDUFeAwEcA=
-	=
-Received: from typpr03cu001.outbound.protection.outlook.com (mail-japaneastazon11012053.outbound.protection.outlook.com [52.101.126.53])
-	by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 4e6h362mv1-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Tue, 19 May 2026 05:21:10 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OOiYYXNvUgjgScpYho5RbJcHNyac93JX7cnXzj4zSDJXj3PLRQ8Xf+bfH/1NCS58dhve5ExLFslJbAAySlY9C5QqceO1WKN+tAE7+Yz6vdxhts4qHHp1J9UGZO5E1MSGbft3U52VB88POSvas1K90JvEDoo+i6CIA+xgEivFVV+xfAFgqxaO+Wx7cC7gt+p4iKMoKYN7u/RCcPNT7G5rwW34V317ivD2qQddA94E2fFkK52jqsVH6wbtKBHi0rOflnhpS0OH3rUcUCbluniJ7vZkyeNYQtKVXfd+P94ARR9vYLVzQnFSepFbfefdmfkQklMXquyPHM1CqRTQa3cSwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+R8roY85EAvQi2RC6R/cEBweHdvyaJbA7Qnasvdvt78=;
- b=EPdZRBfO8O+mpTIpS1oIyVJBcY7lDnLn/F0dc5qbrNKLM1q++CJ4qUA0S/jCqbJZmvDZZBNsfWjU1n/0NOeQRgGqYhdhtwwWi6YUHrMzu639b/vkYtDqoI4rwwcflCrLLtmF8jrPRHkx8fsN0d4yPBDhJqmyPItCxT1IogfqhppXJXN1l8YFRzbgA6TK69hY+1JGcvriIp4YE6jSoGeIFdHnrCRt++3C952ERpysn8V49BaTvYkfu1vl/sE+I/Hb2Abj4Y9Ej/ED/rgMlL8mVKRlLvU0qeDDpTabmn8j8rEN9CEwOci60Y69KkXwsu0bMQXuh/DxGMq1tglYotKBlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-Received: from PUZPR04MB6316.apcprd04.prod.outlook.com (2603:1096:301:fc::7)
- by TY0PR04MB6375.apcprd04.prod.outlook.com (2603:1096:400:328::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.24; Tue, 19 May
- 2026 05:21:05 +0000
-Received: from PUZPR04MB6316.apcprd04.prod.outlook.com
- ([fe80::a631:6b1a:332c:831c]) by PUZPR04MB6316.apcprd04.prod.outlook.com
- ([fe80::a631:6b1a:332c:831c%4]) with mapi id 15.21.0025.023; Tue, 19 May 2026
- 05:21:04 +0000
-From: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-        "sj1557.seo@samsung.com"
-	<sj1557.seo@samsung.com>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "djwong@kernel.org" <djwong@kernel.org>, "hch@lst.de" <hch@lst.de>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "anmuxixixi@gmail.com" <anmuxixixi@gmail.com>,
-        "dxdt@dev.snart.me"
-	<dxdt@dev.snart.me>,
-        "chizhiling@kylinos.cn" <chizhiling@kylinos.cn>,
-        "chizhiling@163.com" <chizhiling@163.com>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "charsyam@gmail.com" <charsyam@gmail.com>
-Subject: Re: [PATCH v4 08/11] exfat: add iomap buffered I/O support
-Thread-Topic: [PATCH v4 08/11] exfat: add iomap buffered I/O support
-Thread-Index: AQHc5rxcnX5CIklRYkqRI0sbJA1s/LYUzw38
-Date: Tue, 19 May 2026 05:21:04 +0000
-Message-ID:
- <PUZPR04MB63168E8C2FB92B80F9F6476581002@PUZPR04MB6316.apcprd04.prod.outlook.com>
-References: <20260518114705.9601-1-linkinjeon@kernel.org>
- <20260518114705.9601-9-linkinjeon@kernel.org>
-In-Reply-To: <20260518114705.9601-9-linkinjeon@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PUZPR04MB6316:EE_|TY0PR04MB6375:EE_
-x-ms-office365-filtering-correlation-id: e8beee1f-1986-4dd9-9523-08deb5666c90
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|10070799003|1800799024|366016|376014|7416014|38070700021|56012099003|22082099003|18002099003|4143699003|11063799003;
-x-microsoft-antispam-message-info:
- Anqi01X3Zed/khMwdB0Oev1C5Lgryh0twgiI1Nbh7wjfVj7cGMxqpDkj/2q69wOKNhHIACqSYv51tPBDnXp2thUzXGcgI7WEDkVpY7je3Iyafxi2n71p8d5jX3QIHxTsrcJd7bDz5nr1StejV0TudzjhYEL4vmfAcfUv6lioPQkjBdZ0MGPImIZ7Q29QArDGz3ou/aNDhUGxwunMFUucrSVjItKLoig3zlcbV6C4am76mb3o2pcPeHmTMXaOp3d64eUasE7kz28YW3CQT2pPGQ99JMjWbNrUHLHZqFPZPz76Yhw/ff3xAclaPdgPpOPE1VKx8hYQ5iyXaa6uEHP8uHjjrgNBU5mlJiShOv2REQ7VmHvy8E/NnjiKyCS8zGt9RlQFp3QA3C4uHowc4ufA9zZ/+6Vp3t8JmCdKSxR546R4/Eplgvgto+cUxgzjBTPVMQG3CvncmcxxG1HcYtiZmS3qXo24dnOEd8nRlzDPhEsibx+k/eqjsEhPQeC0RnyhIwnaNOWcLAMB+DRt4mR9XaCyVT3NJ8v/oL5SmLfLqVBL9kO5pjQnVTV4gZKKlTPZPyVxq65UAtz4cTjBihUrhOI5VFh0MCiF+cecQiBTcXUoESagAwSK5mEnXRfqHVsLTLWoN349gJNhGO9HZWrUNxyxmjLnwKjVJHpPnykp/hbN7WcS/6kMIKhA/AcnSlemh7GjYR/Fc19CJj99AirfaByaeeY29+hMg0qHQpAFAbdwOsns75+vQlpEykYoQXns
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB6316.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(38070700021)(56012099003)(22082099003)(18002099003)(4143699003)(11063799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?TkIH1EcG91fSPLEa56+nxB+/kJ9m35rsyxymxapGYLYOnKBHg+n4PbW+TT?=
- =?iso-8859-1?Q?iX0vHRUAZew8hXUJM0jPvftlDtjoAekzSP+3p35ZCyMTB+VKZGvU/WkJBt?=
- =?iso-8859-1?Q?gGJKnCBoC1BfwwzKNB7TbwHEPT+C24/c+jJIIntrPWxcVfWLPmUNAg45B6?=
- =?iso-8859-1?Q?vHDRRpVmu1ETAK8Wzi3lp/0O2EdVWcw62zOEedJHuEfRj5Z2VI+mwY8jQ+?=
- =?iso-8859-1?Q?/1am3CuEmAI9/N5q7r2fLoXywRB1/9YJnOHGZ5qN2hK1fy4Jiax0916ScF?=
- =?iso-8859-1?Q?ZKciYq8n0ZgM0lX8Hs3NR6KhQd/tjc6N35wPSnXLi3TErzWexsrFDxVrP/?=
- =?iso-8859-1?Q?ZRT7G1Q5opn8cfvceTGMXlw5FpLs7pRNTOb9XLZCwHv6THYtD0tbWtz1CU?=
- =?iso-8859-1?Q?Koda8BytV9Yj1qEic2cQtKkMSMZkZVSLO/EZ3HFv/aiSVlm5GoXQ78bYrt?=
- =?iso-8859-1?Q?pHSBspLSu6wqHo5jtMmYK/y3sCsFLq3LjPqhIXWB6RKTMae2mqOIVyuyCs?=
- =?iso-8859-1?Q?wAacoUEAHec2hU4ldkiOGHoMd8En/qRfRvIBLzi3ZJV8VWm/kNrxOuFURN?=
- =?iso-8859-1?Q?PMGjXWcy5X65GeHocbHTT1KwHfPJGIxm5hGYGMMxoh6GYh4o+7pqkQMQmp?=
- =?iso-8859-1?Q?tN9+8edlL5FHgysjPXMFWpQTBQwPTVPyDpSYt/0HyydPJA7OlgAysBzDfn?=
- =?iso-8859-1?Q?OsaHT67ZEZXKe9LAHh02ZL5HxqbBdHrPLlcYpgVKa6CIjpecr6yc2tmzbY?=
- =?iso-8859-1?Q?ZJ2vA0m5O6MzcHT5bhZn1/yeYBvaGi7jUB6P0fovI/aofY7tF+4EgMQGEW?=
- =?iso-8859-1?Q?KFmCzShVhzWDTZjEJ7EBHC899b5qxJXXBswOXFF56MlCeNbWd6/hVgF/g6?=
- =?iso-8859-1?Q?yfFsWuyFyBhJR5TG3MQadZWMBC37zsnI25DGDHOQp3Zg4xad8f6eVMJCoQ?=
- =?iso-8859-1?Q?7Wpa/rYFt3+jAhnQDz+LRjwYv5u8sh8WJI/gmUANM9eBN+mK5RskydkXuv?=
- =?iso-8859-1?Q?j8pxY+Tmz6bmIfY1M9gXXSvDLuX25tksgtLp8M7nVQ15ckBWxuj5HcIW98?=
- =?iso-8859-1?Q?dtSVo4YWkeYPg8KtZmjC5GyldGea9R3l1iv0SBmSpnT4VfiEdsk/PYMp3j?=
- =?iso-8859-1?Q?N2/rMrNNCVxSJaWbkQEh3iMljE5J/BGzLF8K7XISb/HDhxQxjOWjMv92/u?=
- =?iso-8859-1?Q?ciDlE0htQ2CPGFCBNeZgARVNzuyKiVMH+1GlxCCo1JZrn3k7Sz+licjZFV?=
- =?iso-8859-1?Q?QWOoIaAo8pBtR0GziO0CJvauHKCXgpqIxk6Rvzhr4bsuyLPt7LXTxjGaDP?=
- =?iso-8859-1?Q?Zsmgul3pS2jZiEN1r9mC5ljl9Ul339hZ0rzrkf00piCs5hgaSsz5zlGEPj?=
- =?iso-8859-1?Q?ZuyUkhOGiZYBUz6NX+q4gSi9JCJJqOkLpi9OYRbMY6F38/94wyACmytT+W?=
- =?iso-8859-1?Q?Y4lnx/hHhqx2J094CRvafgPWS1lC/CQ029sohnME2WNnxIAkkIppqlAZPO?=
- =?iso-8859-1?Q?nJB4ay2wfW890R4De063uhNRpT2uEymn/Z1cSfWao0Su5/vS18me6E+Z2N?=
- =?iso-8859-1?Q?XfSfv1c5Vf1I2Rio2JKGxakbRPIZL1PWC9xntx4zfn9/Xkg1kwZBuoT3LM?=
- =?iso-8859-1?Q?USQpNkPsyMBfQe5IYlQmS5gJeCrXuhz47AFYht9J0aqgXMHQukvRgaknv0?=
- =?iso-8859-1?Q?H3Sv7y6DIjP+MVOlTXOLeUqVMp9fBevSAedPaSr8sqCpXVp4t1dmk356C1?=
- =?iso-8859-1?Q?pol/npEqXjCt2DyWffqrIsZo4ONqhM1QYNoycq9eW3w7mev5R7RMwVvW43?=
- =?iso-8859-1?Q?vg4hcn8skw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pPobGNCC"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64IG4Mat3300127;
+	Tue, 19 May 2026 05:25:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=wMuFJ7YFnR4VJ5K1YoIbmpQVZEn1oM
+	v2us1dBHH22nE=; b=pPobGNCCdMJgZKXw1Ir2DFe+NIHGNkT/SU3ZI10TmViFDD
+	zPWk5UHbYR3vntc7RklxV6JAqSn1V3h3Hpos3gTdRWCE+zOHjC6yFCaUMWhPAiPq
+	uITUoFHF92u5H/GlYdNp8+13o99DlsCXUbr9k1WHmACi4Gn3X0ReIr2ldOVb9gXj
+	aLwHbJCNx8rhCq0/6t22AZWkyIIWx4V2uXDcTLlDB5mDxHMN/GnDFNDbBI2hS4v+
+	fiOYwzkLzey/1lbPCEGTzZFx9ITnIxisIbvUP00Z/rs7LwvV7+M491Mfx/nSGFuu
+	dBw4pWe6rSucCUE53ZebvVxVmFpdS8a6g87Sx+Ug==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e6h8mkaew-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 19 May 2026 05:25:51 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64J5OY2D024326;
+	Tue, 19 May 2026 05:25:50 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e739vs8kj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 19 May 2026 05:25:50 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64J5Pmfr52494840
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 19 May 2026 05:25:48 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 92DA120040;
+	Tue, 19 May 2026 05:25:48 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3754120043;
+	Tue, 19 May 2026 05:25:41 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.29.191])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 19 May 2026 05:25:40 +0000 (GMT)
+Date: Tue, 19 May 2026 10:54:34 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+        djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+        yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v4 01/23] ext4: simplify size updating in ext4_setattr()
+Message-ID: <agv0Ehrk2t7EpW6w@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-2-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	lu5Avlvk8yK+uUto1OMtr+xmpmFgk78+Hol0Z3AFc46JRnwVAUQJ57wVzwLnUp7txQBmr4y2yhNRXNZw2clZt7Yf4vCm9W6gmH3orBcAxYp1IuNu3yxurCfpEiOO07u7ZTAlabmqP1vbWvObd8FHUUbgKToVqE9zt89BRGc05+oYE8VhSl51CkWjoHRLzZRPcNfMjk2oNUimuZFIlMlMGlTsQ2N+KNvPlyRwcIJ+UNvv5Dp3yGaMS7sWCHqoqWKXXSOdddjPOxrCmk26RvwnG+0nKqdsozrrABOG0R47siutbveEC6uUjUXJ0yD1F9FdMelYgCfvnMSJW4CJYA0hCw==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	t2oE0JRkdrkDKR8SZnTNXl4jaFi7EnvpjOb0UN3Bcgwa8QFR8vsucjTXjGq2ewsaxMQPZMOf4KpdRJ3FEj2LBIKFsD/WAFeUwgYI6oqgeSNkXszGjLbDoeTRwdRFqdewWpSnI1xB9cjJCO25YwReA/APaIiq759zHOADxJTdnxT91Y4U8lLECN4JHffOZT0flzlfkcvu69BMa7PSSRUd+vKN9dbI2HnjzD1RpxW8Thz1Is/Q4TNGeF19xI5PRE6CgfN7g7z4o2b+ymTkA+IkCgYqNpPxRrd0weGtnFDW6Dny+sKAb8+i2lctAD31tLjrNBUC2QKTtH/eKN9ZhkqgOmUC0S34LiLq9jTeH/7jLL43JgzqrbzwWbDw5YPPcK6r7hjqMiFtcbLNEJBW6RVHyHoEMJCW93+i7W6iqixn3hn+Ec3k5UxEJDnc+vGJOy8zElr3Z7ix1N3uVMdh10OaWLYXq78509l5u8YVN+bp3wXgfeOfX3L1hW+ljYBqCGxqJ8hNKtBs1RTt2wN2dGhfQpD73Ku6vtlH0xGNt++d6b+o+5YJTfLo7sHfM2m8YpSI7pP75JSHwP1GYdWCGTwz7RAp1PNs8shNK9EuUvsibZwaw30xuew+r44/FCGaZAof
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB6316.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8beee1f-1986-4dd9-9523-08deb5666c90
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2026 05:21:04.5402
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3DOlVavNqYANwoddEP56Qd72EfeA3fuj3wdnJ5i4RYqvonC3a/rRgBqpXBr39J3Nqq+0+qbIPIhMu5AMWCZfZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR04MB6375
-X-Authority-Analysis: v=2.4 cv=QaBWeMbv c=1 sm=1 tr=0 ts=6a0bf346 cx=c_pps
- a=lvP0nPgiJ1xWSC4R46nbEw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=NGcC8JguVDcA:10 a=7j0FZ4iXMVMA:10 a=xR56lInIT_wA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KAb5x4SsHD3PzxGk7EmX:22 a=6Vn1QVPt8UGdu3r8PAnt:22
- a=uJefQaUuXTt4M4BVPmAA:9 a=wPNLvfGTeEIA:10
-X-Proofpoint-ORIG-GUID: ln2yR8iwjv9PyT914REaS9uW4b5rJs3I
-X-Proofpoint-GUID: ln2yR8iwjv9PyT914REaS9uW4b5rJs3I
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDA0OSBTYWx0ZWRfX6Oh/QiBAcH6D
- ON+QeN26i19YFgBvM/pm+HmGahtL6e3FDowNBav9JvSPqTsU8hN1u8VtyXZL2UIFP7UWslxfwQz
- jGhrjNpXtGPG62MLo9Y8sRUiNw6imyHG18goSXEmxBYiEW3c7GjOZa3TjOlDGAgBoZ3GW+aclba
- iyzZokRjHXsRWvWS9Ax1p5oHiAveTxtm3t4W8gg1nxIXGyMaHpaCbXTvZMttdOm5IhJ2Cfrx8Fp
- ScxzFzMTnyb6RNIWU0K6FQYIKr4Ua+q3RWU1XfkqusnH0PE5KFWob5F6+G+H68X4m94UEuhuUjO
- SItVHMLVx+TVqx5f8jFSJ7xP3qDkUCCDtsWf2wweHAvu3fP/ygx19POaUD5XlJ1PPwqAMux4sn8
- 5IkrPRMi9ivycrfkztCZHXqhYQFMXesFr0icrOlVeKtQ3daIUCtH8bM8cB/Z46X+QaMKZgeKhAT
- P4V1iQNxkWBrHRWKPvw==
-X-Sony-Outbound-GUID: ln2yR8iwjv9PyT914REaS9uW4b5rJs3I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511072344.191271-2-yi.zhang@huaweicloud.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: lKYbcljLORpBuyyU_z3S0dKXNZP838pZ
+X-Authority-Analysis: v=2.4 cv=GYMnWwXL c=1 sm=1 tr=0 ts=6a0bf460 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=i0EeH86SAAAA:8
+ a=VnNF1IyMAAAA:8 a=3NWl43M1H4cGl_gAuZsA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: JarRJJa-82URVMn6qgkqGRrGHkIEJv9Q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDA0NyBTYWx0ZWRfXyapmj49rG1gQ
+ EuhQatZbd/pggu9NReGP9HbRwavi4V9OVs4iFUsS0kdR9Ezw0c0eVuLwWe1E/5FEc/EoQKQ2w42
+ 1y47Cg8WG/Njcq2w7EWUr2AgLjO6/ZeQXew4NjdDlxj6x+SHXHo84oUKnyHNDU7Vzdeid0lzF3b
+ qLsnoCGlBLKHMLPNE34XWwmrgIcb0l1wMSWRGyjjhMr8spXBGN0/Dy3uRAF0heu3/SKjLfqWcC2
+ oCoZYMeg66pTmSliU4vMU/Tpfe7NkuY0UO5eFUCwswa2HSluBm3lMAC3lYH0egi1Qk42XvX/PX3
+ XleAth2UhIajcwHmsi5HGhJnnfR3AgLKPbzPs++pC6aTw8Z20Y4cBt3oML/9JPt7mqoLY7ioVZ2
+ mFtMvouj4g0s2K6CQmt743YM0hy7TgtD+mDxgnXpWFRsTL6/l8BpCPXZv3d0ChspqmXFfoVvrHH
+ SnUauORlrD4rUBIU8jQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-19_02,2026-05-18_01,2025-10-01_01
+ definitions=2026-05-19_01,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 suspectscore=0 spamscore=0 clxscore=1011 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605190047
 
-> @@ -749,28 +750,56 @@ static ssize_t exfat_file_read_iter(struct kiocb *i=
-ocb, struct iov_iter *iter)=0A=
-> =0A=
->  static vm_fault_t exfat_page_mkwrite(struct vm_fault *vmf)=0A=
->  {=0A=
-> -       int err;=0A=
->         struct inode *inode =3D file_inode(vmf->vma->vm_file);=0A=
->         struct exfat_inode_info *ei =3D EXFAT_I(inode);=0A=
-> -       loff_t new_valid_size;=0A=
-> +       vm_fault_t ret;=0A=
-> +       loff_t new_valid_size, mmap_valid_size;=0A=
-> =0A=
->         if (!inode_trylock(inode))=0A=
->                 return VM_FAULT_RETRY;=0A=
-> =0A=
-> -       new_valid_size =3D ((loff_t)vmf->pgoff + 1) << PAGE_SHIFT;=0A=
-> -       new_valid_size =3D min(new_valid_size, i_size_read(inode));=0A=
-> +       mmap_valid_size =3D ((loff_t)vmf->pgoff + 1) << PAGE_SHIFT;=0A=
-> +       new_valid_size =3D min(mmap_valid_size, i_size_read(inode));=0A=
-> =0A=
->         if (ei->valid_size < new_valid_size) {=0A=
-> -               err =3D exfat_extend_valid_size(inode, new_valid_size);=
-=0A=
-> -               if (err < 0) {=0A=
-> -                       inode_unlock(inode);=0A=
-> -                       return vmf_fs_error(err);=0A=
-> +               if (ei->zeroed_size < mmap_valid_size) {=0A=
-> +                       int err;=0A=
-> +=0A=
-> +                       /*=0A=
-> +                        * Only zero the range that hasn't been zeroed ye=
-t for=0A=
-> +                        * this mmap write path. zeroed_size tracks the l=
-argest=0A=
-> +                        * page-aligned offset that has already been zero=
-ed.=0A=
-> +                        *=0A=
-> +                        * This prevents unnecessarily zeroing out the en=
-tire=0A=
-> +                        * tail page on every page fault when userspace w=
-rites=0A=
-> +                        * data byte-by-byte through mmap (after a small=
-=0A=
-> +                        * fallocate). It fixes data corruption in the ta=
-il page=0A=
-> +                        * while preserving the existing valid_size seman=
-tics.=0A=
-> +                        */=0A=
-> +                       err =3D iomap_zero_range(inode, ei->zeroed_size,=
-=0A=
-> +                                       mmap_valid_size - ei->zeroed_size=
-, NULL,=0A=
-> +                                       &exfat_iomap_ops, NULL, NULL);=0A=
-=0A=
-For volumes with clusters smaller than 4K, mmap_valid_size may be greater=
-=0A=
-than exfat_on_disksize(), causing iomap_zero_range() to allocate new cluste=
-rs=0A=
-for the file. We need to ensure that mmap_valid_size is not greater than=0A=
-exfat_on_disksize() to avoid this situation.=0A=
-=0A=
-> +                       if (err < 0) {=0A=
-> +                               inode_unlock(inode);=0A=
-> +                               return vmf_fs_error(err);=0A=
-> +                       }=0A=
-> +                       ei->zeroed_size =3D mmap_valid_size;=0A=
+On Mon, May 11, 2026 at 03:23:21PM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
+> 
+> The logic for updating the file size in ext4_setattr() is currently
+> somewhat messy. By directly entering the error-handling path after
+> failing to add an orphan inode, the unnecessary recovery process
+> involving old_disksize and the file size can be avoided.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+
+Looks good, feel free to add:
+
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+
+> ---
+>  fs/ext4/inode.c | 22 +++++++++-------------
+>  1 file changed, 9 insertions(+), 13 deletions(-)
+> 
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index c2c2d6ac7f3d..0751dc55e94f 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -5953,7 +5953,6 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	if (attr->ia_valid & ATTR_SIZE) {
+>  		handle_t *handle;
+>  		loff_t oldsize = inode->i_size;
+> -		loff_t old_disksize;
+>  		int shrink = (attr->ia_size < inode->i_size);
+>  
+>  		if (!(ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))) {
+> @@ -6037,6 +6036,8 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  			if (ext4_handle_valid(handle) && shrink) {
+>  				error = ext4_orphan_add(handle, inode);
+>  				orphan = 1;
+> +				if (error)
+> +					goto out_handle;
+>  			}
+>  
+>  			if (shrink)
+> @@ -6052,23 +6053,18 @@ int ext4_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  					(attr->ia_size > 0 ? attr->ia_size - 1 : 0) >>
+>  					inode->i_sb->s_blocksize_bits);
+>  
+> -			down_write(&EXT4_I(inode)->i_data_sem);
+> -			old_disksize = EXT4_I(inode)->i_disksize;
+> -			EXT4_I(inode)->i_disksize = attr->ia_size;
+> -
+>  			/*
+>  			 * We have to update i_size under i_data_sem together
+>  			 * with i_disksize to avoid races with writeback code
+> -			 * running ext4_wb_update_i_disksize().
+> +			 * updating disksize in mpage_map_and_submit_extent().
+>  			 */
+> -			if (!error)
+> -				i_size_write(inode, attr->ia_size);
+> -			else
+> -				EXT4_I(inode)->i_disksize = old_disksize;
+> +			down_write(&EXT4_I(inode)->i_data_sem);
+> +			i_size_write(inode, attr->ia_size);
+> +			EXT4_I(inode)->i_disksize = attr->ia_size;
+>  			up_write(&EXT4_I(inode)->i_data_sem);
+> -			rc = ext4_mark_inode_dirty(handle, inode);
+> -			if (!error)
+> -				error = rc;
+> +
+> +			error = ext4_mark_inode_dirty(handle, inode);
+> +out_handle:
+>  			ext4_journal_stop(handle);
+>  			if (error)
+>  				goto out_mmap_sem;
+> -- 
+> 2.52.0
+> 
