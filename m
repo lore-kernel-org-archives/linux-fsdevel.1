@@ -1,32 +1,30 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03408233937;
-	Tue, 19 May 2026 12:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178A64DBD9E;
+	Tue, 19 May 2026 12:36:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779193364; cv=none; b=GysM+up77M4Sgj+K8XDX0YDkV1Bv59ly5vsW5hVqo1wkWl3UsZB70qe2I4HA4jpYAAY9m6CO01jjQUDu2jz1hykyRpiQVsFHz94iB5pYSeypfKo/CDUmY0cOO7t3zypvRy8v02B+9k1UGcYGAnxf1gWFtRua7QLZfmb8kJBA2nU=
+	t=1779194166; cv=none; b=thfbjH/8sJDiIuwmRAkXg0iaR94hlSCd8pr2w9yh2CYRT77pTwkyINncEKCJE/Vl8PpG3rUPchga95Eo7GIb8RRrWimLM0sqJyrZ2u4HT/az27+WZ4Y4iI4KOK+nCw01js5KXv+mK6VXZp1cw5gQDjlySXeWShq6t5MeIOTH8fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779193364; c=relaxed/simple;
-	bh=bppVxK+iLdFF3+8ha/bQX+yxiXkj8Q9V2KKG51kAD28=;
+	s=arc-20240116; t=1779194166; c=relaxed/simple;
+	bh=2+0fCTu+ajtunE6rwCSysAWvkh9irCX3iGrXOePyuNA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ugbWgjHU0coM3Arnj5lBWJPVuNt34ZNwe36z1vYPX7rzQTbLula7v058mocYEdwGAsW7Hb3NtwxWnyA6FS0Iz6evzilX609+6cp9M+ykrWGVnw1Kw6dDL2SqV32SX5xrQM9fwTP0aU8sCeaO/VAtx56JQTbi2+SHj2zi1D4Gatg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=r1VOEH4R; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="r1VOEH4R"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1779193359; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=WXf7YDCNaS97nzCGk4VOVrDTc56F+4FGwflgrKyJZd4=;
-	b=r1VOEH4R7vKmjAxleIJaSdqIVXcCzC2jQB18mT2fdENKNmdLJkpvjZ8h4sURIMx/zYWfBPFZLKXcm0sVpyvJxDR2OVtsa6D+ar6vmdFRC5tttP5I3/eP+EIpYPfD/7UtCKMiVRQBc0p4kY69Fphab7XdRrXmdQzr4i/bayXHlbg=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X3FZemA_1779193357;
-Received: from 30.221.130.5(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3FZemA_1779193357 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 19 May 2026 20:22:38 +0800
-Message-ID: <8a53297d-b498-44e3-8121-a6320e64bed5@linux.alibaba.com>
-Date: Tue, 19 May 2026 20:22:37 +0800
+	 In-Reply-To:Content-Type; b=PKCCAUN4nXqeAFqeaJJMwQLvFMwMbjqVBywWsAbzJ9neQ863uaA9L4hgCddJ2iCfErp2y3i/hSV6IZUKcUb36PB3awRO2Hsj7MqN8WPLlYpuhRTcT+r26r5AG1ZVeL2cktZ9tpF4cOVx2Yt8XVK92/PGZEbo4/9Zw4ilmRXW2Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gKZ076mWfzKHMLp;
+	Tue, 19 May 2026 20:35:51 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id C4D724058D;
+	Tue, 19 May 2026 20:35:53 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP4 (Coremail) with SMTP id gCh0CgC3f1snWQxqf2J9Cw--.49753S3;
+	Tue, 19 May 2026 20:35:53 +0800 (CST)
+Message-ID: <236657df-71f2-446d-b44b-39865219a850@huaweicloud.com>
+Date: Tue, 19 May 2026 20:35:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,141 +32,178 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] ocfs2: reject non-inline dinodes with i_size and
- zero i_clusters
-To: Michael Bommarito <michael.bommarito@gmail.com>,
- akpm <akpm@linux-foundation.org>
-Cc: ZhengYuan Huang <gality369@gmail.com>, ocfs2-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>
-References: <20260519110404.1803902-1-michael.bommarito@gmail.com>
- <20260519110404.1803902-4-michael.bommarito@gmail.com>
-From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20260519110404.1803902-4-michael.bommarito@gmail.com>
+Subject: Re: [PATCH v4 04/23] ext4: add iomap address space operations for
+ buffered I/O
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-5-yi.zhang@huaweicloud.com>
+ <agwtJq5-B2E-t7zT@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <agwtJq5-B2E-t7zT@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgC3f1snWQxqf2J9Cw--.49753S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3GFWDuFW7uF4UJr45CFyfJFb_yoW7Gw4rpF
+	98KFZ8Gr18XFy29an2qFWDZr1F93yftw4Uury3W3W3ZF98C3sFgFWUK3WYkFyUGw4kJw4I
+	q3Wj9ry7WF15CrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
+	7KsUUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
+On 5/19/2026 5:28 PM, Ojaswin Mujoo wrote:
+> On Mon, May 11, 2026 at 03:23:24PM +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> Introduce initial support for iomap in the buffered I/O path for regular
+>> files on ext4.
+>>
+>>   - Add a new inode state flag EXT4_STATE_BUFFERED_IOMAP to indicate the
+>>     inode uses iomap instead of buffer_head for buffered I/O
+>>   - Add helper ext4_inode_buffered_iomap() to check the flag
+>>   - Add new address space operations ext4_iomap_aops with callbacks that
+>>     will use generic iomap implementations
+>>   - Add ext4_iomap_aops to ext4_set_aops() when the flag is set
+>>
+>> The following callbacks(read_folio(), readahead(), writepages()) are
+>> provided as placeholders and will be implemented in later patches.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> Reviewed-by: Jan Kara <jack@suse.cz>
+> 
+> Hi Zhang, looks good to me. Just a questions below:
 
+Hi, Ojaswin! Thank you for the review of this series.
 
-On 5/19/26 7:04 PM, Michael Bommarito wrote:
-> On a volume mounted without OCFS2_FEATURE_INCOMPAT_SPARSE_ALLOC, a
-> non-inline regular file with non-zero i_size and zero i_clusters is
-> structurally malformed: the extent map declares no allocated clusters
-> yet the size header claims content exists.  Keep rejecting that shape,
-> but express it through a shared predicate so the same invariant is
-> available to normal inode reads and online filecheck.
+>> ---
+>>  fs/ext4/ext4.h  |  7 +++++++
+>>  fs/ext4/inode.c | 32 ++++++++++++++++++++++++++++++++
+>>  2 files changed, 39 insertions(+)
+>>
+>> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+>> index 94283a991e5c..1e27d73d7427 100644
+>> --- a/fs/ext4/ext4.h
+>> +++ b/fs/ext4/ext4.h
+>> @@ -1972,6 +1972,7 @@ enum {
+>>  	EXT4_STATE_FC_COMMITTING,	/* Fast commit ongoing */
+>>  	EXT4_STATE_FC_FLUSHING_DATA,	/* Fast commit flushing data */
+>>  	EXT4_STATE_ORPHAN_FILE,		/* Inode orphaned in orphan file */
+>> +	EXT4_STATE_BUFFERED_IOMAP,	/* Inode use iomap for buffered IO */
+>>  };
+>>  
+>>  #define EXT4_INODE_BIT_FNS(name, field, offset)				\
+>> @@ -2040,6 +2041,12 @@ static inline bool ext4_inode_orphan_tracked(struct inode *inode)
+>>  		!list_empty(&EXT4_I(inode)->i_orphan);
+>>  }
+>>  
+>> +/* Whether the inode pass through the iomap infrastructure for buffered I/O */
+>> +static inline bool ext4_inode_buffered_iomap(struct inode *inode)
+>> +{
+>> +	return ext4_test_inode_state(inode, EXT4_STATE_BUFFERED_IOMAP);
+>> +}
+>> +
+>>  /*
+>>   * Codes for operating systems
+>>   */
+>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>> index b1ef706987c3..178ac2be37b7 100644
+>> --- a/fs/ext4/inode.c
+>> +++ b/fs/ext4/inode.c
+>> @@ -3908,6 +3908,22 @@ const struct iomap_ops ext4_iomap_report_ops = {
+>>  	.iomap_begin = ext4_iomap_begin_report,
+>>  };
+>>  
+>> +static int ext4_iomap_read_folio(struct file *file, struct folio *folio)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +static void ext4_iomap_readahead(struct readahead_control *rac)
+>> +{
+>> +
+>> +}
+>> +
+>> +static int ext4_iomap_writepages(struct address_space *mapping,
+>> +				 struct writeback_control *wbc)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>>  /*
+>>   * For data=journal mode, folio should be marked dirty only when it was
+>>   * writeably mapped. When that happens, it was already attached to the
+>> @@ -3994,6 +4010,20 @@ static const struct address_space_operations ext4_da_aops = {
+>>  	.swap_activate		= ext4_iomap_swap_activate,
+>>  };
+>>  
+>> +static const struct address_space_operations ext4_iomap_aops = {
+>> +	.read_folio		= ext4_iomap_read_folio,
+>> +	.readahead		= ext4_iomap_readahead,
+>> +	.writepages		= ext4_iomap_writepages,
+>> +	.dirty_folio		= iomap_dirty_folio,
+>> +	.bmap			= ext4_bmap,
+>> +	.invalidate_folio	= iomap_invalidate_folio,
+>> +	.release_folio		= iomap_release_folio,
+>> +	.migrate_folio		= filemap_migrate_folio,
+>> +	.is_partially_uptodate  = iomap_is_partially_uptodate,
+>> +	.error_remove_folio	= generic_error_remove_folio,
+>> +	.swap_activate		= ext4_iomap_swap_activate,
+>> +};
 > 
-> The same zero-cluster shape is also malformed for non-inline directories.
-> ocfs2 directory growth allocates backing storage before advancing
-> i_size, and ocfs2_dir_foreach_blk_el() later walks until ctx->pos reaches
-> i_size_read(inode).  A forged directory dinode with a huge i_size and no
-> clusters would repeatedly fail on holes while advancing through the
-> claimed size.
+> So one question, for ->release_folio() we are using
+> iomap_release_folio() instead of ext4_release_folio() here which doesnt
+> make the jbd2_journal_try_to_free_bufferes() call. IIUC this function
+> seems to be trying to clean up already checkpointed buffers.
 > 
-> Sparse regular files remain exempt: on sparse-alloc volumes, truncate can
-> legitimately grow i_size without allocating clusters.  System inodes and
-> inline-data dinodes also retain their separate storage rules.
-> 
-> Mirror the check in ocfs2_filecheck_validate_inode_block() as well.
-> filecheck reports through its own error namespace, so malformed
-> size/cluster state is logged as a filecheck invalid-inode result rather
-> than via ocfs2_error(), but it must not proceed into
-> ocfs2_populate_inode().
-> 
-> Fixes: b657c95c1108 ("ocfs2: Wrap inode block reads in a dedicated function.")
-> Cc: stable@vger.kernel.org
-> Link: https://sashiko.dev/#/patchset/20260517111015.3187935-1-michael.bommarito%40gmail.com
-> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
-> Assisted-by: Claude:claude-opus-4-7
+> I wanted to check if ->release_folio() can be called for folios with
+> ext4 metadata buffers? (from my limited understanding of
+> shrink_folio_list() -> filemap_release_folio() it seems we can) And if
+> it can be called, is it okay to skip the
+> jbd2_journal_try_to_free_buffers call?
 
-Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
-> ---
->  fs/ocfs2/inode.c | 60 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
+Here, in ->release_folio(), folio->mapping points to inode->i_data (the
+file's pagecache), not the block device's pagecache. ext4 metadata
+resides in the block device's pagecache, which is at a different layer
+than this release_folio callback. So we don't need to call
+jbd2_journal_try_to_free_buffers() in the iomap path here.
+
+Thanks,
+Yi.
+
 > 
-> diff --git a/fs/ocfs2/inode.c b/fs/ocfs2/inode.c
-> index 992980ea98046..432eac01c1763 100644
-> --- a/fs/ocfs2/inode.c
-> +++ b/fs/ocfs2/inode.c
-> @@ -82,6 +82,24 @@ static bool ocfs2_dinode_has_unexpected_rdev(struct ocfs2_dinode *di)
->  	return !S_ISCHR(mode) && !S_ISBLK(mode) && di->id1.dev1.i_rdev != 0;
->  }
->  
-> +static bool ocfs2_dinode_has_size_without_clusters(struct super_block *sb,
-> +						   struct ocfs2_dinode *di)
-> +{
-> +	umode_t mode = le16_to_cpu(di->i_mode);
-> +
-> +	if (le32_to_cpu(di->i_flags) & OCFS2_SYSTEM_FL)
-> +		return false;
-> +	if (le16_to_cpu(di->i_dyn_features) & OCFS2_INLINE_DATA_FL)
-> +		return false;
-> +	if (!le64_to_cpu(di->i_size) || le32_to_cpu(di->i_clusters))
-> +		return false;
-> +
-> +	if (S_ISDIR(mode))
-> +		return true;
-> +
-> +	return !ocfs2_sparse_alloc(OCFS2_SB(sb)) && S_ISREG(mode);
-> +}
-> +
->  void ocfs2_set_inode_flags(struct inode *inode)
->  {
->  	unsigned int flags = OCFS2_I(inode)->ip_attr;
-> @@ -1563,6 +1581,33 @@ int ocfs2_validate_inode_block(struct super_block *sb,
->  		goto bail;
->  	}
->  
-> +	/*
-> +	 * Non-inline directories must not have i_size without allocated
-> +	 * clusters: directory growth adds storage before advancing i_size,
-> +	 * and readdir walks i_size block-by-block.  A forged directory
-> +	 * with zero clusters and a huge i_size would repeatedly fault on
-> +	 * holes while advancing through the claimed size.
-> +	 *
-> +	 * Non-inline regular files have the same invariant on non-sparse
-> +	 * volumes.  Sparse regular files are different: truncate can
-> +	 * legitimately grow i_size without allocating clusters, so keep
-> +	 * the sparse-alloc carveout for S_IFREG only.  System inodes and
-> +	 * inline-data dinodes have their own storage rules.
-> +	 */
-> +	if (ocfs2_dinode_has_size_without_clusters(sb, di)) {
-> +		if (S_ISDIR(le16_to_cpu(di->i_mode)))
-> +			rc = ocfs2_error(sb,
-> +					 "Invalid dinode #%llu: directory i_size %llu with i_clusters 0 and no inline-data flag\n",
-> +					 (unsigned long long)bh->b_blocknr,
-> +					 (unsigned long long)le64_to_cpu(di->i_size));
-> +		else
-> +			rc = ocfs2_error(sb,
-> +					 "Invalid dinode #%llu: regular file i_size %llu with i_clusters 0 and no inline-data flag on non-sparse volume\n",
-> +					 (unsigned long long)bh->b_blocknr,
-> +					 (unsigned long long)le64_to_cpu(di->i_size));
-> +		goto bail;
-> +	}
-> +
->  	if (le16_to_cpu(di->i_dyn_features) & OCFS2_INLINE_DATA_FL) {
->  		struct ocfs2_inline_data *data = &di->id2.i_data;
->  
-> @@ -1712,6 +1757,21 @@ static int ocfs2_filecheck_validate_inode_block(struct super_block *sb,
->  		     le16_to_cpu(di->i_mode),
->  		     (unsigned long long)le64_to_cpu(di->id1.dev1.i_rdev));
->  		rc = -OCFS2_FILECHECK_ERR_INVALIDINO;
-> +		goto bail;
-> +	}
-> +
-> +	if (ocfs2_dinode_has_size_without_clusters(sb, di)) {
-> +		if (S_ISDIR(le16_to_cpu(di->i_mode)))
-> +			mlog(ML_ERROR,
-> +			     "Filecheck: invalid dinode #%llu: directory i_size %llu with i_clusters 0 and no inline-data flag\n",
-> +			     (unsigned long long)bh->b_blocknr,
-> +			     (unsigned long long)le64_to_cpu(di->i_size));
-> +		else
-> +			mlog(ML_ERROR,
-> +			     "Filecheck: invalid dinode #%llu: regular file i_size %llu with i_clusters 0 and no inline-data flag on non-sparse volume\n",
-> +			     (unsigned long long)bh->b_blocknr,
-> +			     (unsigned long long)le64_to_cpu(di->i_size));
-> +		rc = -OCFS2_FILECHECK_ERR_INVALIDINO;
->  	}
->  
->  bail:
+> Regards,
+> ojaswin
+> 
+>> +
+>>  static const struct address_space_operations ext4_dax_aops = {
+>>  	.writepages		= ext4_dax_writepages,
+>>  	.dirty_folio		= noop_dirty_folio,
+>> @@ -4015,6 +4045,8 @@ void ext4_set_aops(struct inode *inode)
+>>  	}
+>>  	if (IS_DAX(inode))
+>>  		inode->i_mapping->a_ops = &ext4_dax_aops;
+>> +	else if (ext4_inode_buffered_iomap(inode))
+>> +		inode->i_mapping->a_ops = &ext4_iomap_aops;
+>>  	else if (test_opt(inode->i_sb, DELALLOC))
+>>  		inode->i_mapping->a_ops = &ext4_da_aops;
+>>  	else
+>> -- 
+>> 2.52.0
+>>
 
