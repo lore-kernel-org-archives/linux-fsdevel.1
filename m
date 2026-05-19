@@ -1,130 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0083DB30C;
-	Tue, 19 May 2026 22:22:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751BD3E8686;
+	Tue, 19 May 2026 22:24:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779229351; cv=none; b=WPnUgcQvlVTybTz7jeC5hWFupvpGcZJApbpsqtQuIb5XMo9k/u09Q9/0FebDeQLRtOljMULFcpFwW7kiW4xlFsSczIhZ94x3vFvo7KWKI0vPewK46U9oFCt+t2AW5r6zqNbx/UVGLV+6MM94ySPZ3J5+EsyIPQWZSi6Rst+kzqU=
+	t=1779229484; cv=none; b=rP7y4X/Suhb100mFul7XzG7dxT8XUfYi2A8J9+Y48GD8WncmxUhXNZX9kvENXAZw1AkmVJI0AXIRcXNDkW+pRjYlSf0YxD6I6VBYROvv0xPfg1JEje/JOOfVEFtLQJe7ROJBqlQupD1pn7JkFS+A3QUR8yC4zos476vK/3fR7Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779229351; c=relaxed/simple;
-	bh=xYcDZk1WsDwMNBEI0IkX1AhTrdDgiZk9faTLWLXULhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hOJK7wbFWLsf/GtNc6q2MVz84NAFofFceG4qM+g3HM1y03QYtnpo1QP3ayFNBECpyLMEbBx+InUth81qqzKDrAgnXJygM7zxZfHHgreHwvuyE0DtsnFduD6n0DjohIoN3e9Z7xCMAgtXIijiZHdv1gpjEJL+2r80lhhBG+BR4nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nOnHRXmd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779229484; c=relaxed/simple;
+	bh=CZG3Muz3K15DWrRj3KE1K8j1DlqfxMHARMbmNlAnYdU=;
+	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hZSZKXBHUvNDqMoHrYy1wI6m/vJaQI8q7WJXWOCs0vgBIhkAt2wwmxlbV0uFfuWQWHZnsAPu+aEVgw63rio/wFKzHyV8tujwwRCqLbkfbULANia+Poq3QWFyyofrGGE3z+EeMliGZtfr1nRNDY5tJhL9G9P3j7XMUqgWN34H4mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OjqSlg0t; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nOnHRXmd"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A2BF61F00893;
-	Tue, 19 May 2026 22:22:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OjqSlg0t"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 3784A1F00893;
+	Tue, 19 May 2026 22:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779229349;
-	bh=UUjnk+fAt2LpePPYpdYfCvrYStDZPTXBjWLuLoxFuI4=;
-	h=Date:From:To:Cc:Subject;
-	b=nOnHRXmdIe3aZ6XL7qTbDwUZLn+5kITC3Bi1xf46SdPvIQCEbT64vCMtiDwTv8aaG
-	 eScQCjVrmRdF0ttV/jasauS1B70qC5mqiRfJuWJnLu2J/YpHNXAnhUIS9an4ZDCe8k
-	 G/La6orrEurvSKgDhBmZ6pg7V6X2oz54Sr5XZreRYisI3JWVXeEifYBie9zJa7w3Bu
-	 0MBWGm7TDruRUKol1wevoiPpPeLBEDo8OcU1h03xIUZIYqj8mOX+Pz5wcESX5hek2/
-	 Fk+giWsjXKwDgSlpMTrWUz28nU4YqRxWkCCHleBo0FFXVbshC1nVlzFNwr7ecqHgiT
-	 qDExjUXBIEkfA==
-Date: Tue, 19 May 2026 15:22:29 -0700
+	s=k20260515; t=1779229483;
+	bh=xiqF11beL9J+4TkoqyEwbkYIVLquxE4yjJIE5aCvWUE=;
+	h=Date:Subject:From:To:Cc:In-Reply-To:References;
+	b=OjqSlg0tswGVq46lEpABPArNaGSR//pAM/ykWnnhPRGik1cc9huF6AJOcLuUTI1rz
+	 OM+NO1jCm/d44h5cYw7lRDz0No62sexoUBav3yQGghSyQZ8uAenaGP0KKkCjDwbZz3
+	 XKZSbuKHU4VQBxZmeY2hwwsctMNEqG6MN10IWJxMkGQmv+9kHzpSbFm29kylAwLDl+
+	 vber365CyIgiVYyjjfzwGUR0+TZD6MjwxxyzhECFTRSkZ9MAchDJHCMniElsa8tjG1
+	 NAAZcdObt4QudgqEK9GpqQ/9/EEfDvz37wFH+x1ghbxii2CpUF2mHV3SY9k4Asw32J
+	 zbs7cskFwtjwg==
+Date: Tue, 19 May 2026 15:24:42 -0700
+Subject: [PATCHSET v9 1/4] fuse: cleanups ahead of adding fuse support
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	linux-ext4 <linux-ext4@vger.kernel.org>,
-	fuse-devel <fuse-devel@lists.linux.dev>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Theodore Ts'o <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Christian Brauner <brauner@kernel.org>, john@groves.net
-Subject: [PATCHBOMB v9] fuse/libfuse/e2fsprogs: faster file IO for
- containerized ext4 servers
-Message-ID: <20260519222229.GB9544@frogsfrogsfrogs>
+To: djwong@kernel.org, miklos@szeredi.hu
+Cc: joannelkoong@gmail.com, linux-fsdevel@vger.kernel.org, neal@gompa.dev,
+ bernd@bsbernd.com, joannelkoong@gmail.com, fuse-devel@lists.linux.dev
+Message-ID: <177922944800.2436629.7011047808676668088.stgit@frogsfrogsfrogs>
+In-Reply-To: <20260519222229.GB9544@frogsfrogsfrogs>
+References: <20260519222229.GB9544@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Hi everyone,
+Hi all,
 
-This is the ninth public draft of a prototype to connect the Linux
-fuse driver to fs-iomap for regular file IO operations to and from files
-whose contents persist to locally attached storage devices.  With this
-release, I show that it's possible to build a fuse server for a real
-filesystem (ext4) that runs entirely in userspace yet maintains most of
-its performance.
+In preparation for making fuse use the fs/iomap code for regular file
+data IO, fix a few bugs in fuse and apply a couple of tweaks to iomap.
 
-This effort is now separate from the one to run fuse servers in a
-constrained environment via systemd.  Putting fuse servers in a
-container gets you all the blast radii reduction advantages and provides
-a pathway to removing less popular filesystem drivers to reduce
-maintenance work in the kernel; now we want trade relaxation of that
-isolation for better performance.
+If you're going to start using this code, I strongly recommend pulling
+from my git trees, which are linked below.
 
-The fuse command plumbing is very simple -- the ->iomap_begin,
-->iomap_end, and iomap ->ioend calls within iomap are turned into
-upcalls to the fuse server via a trio of new fuse commands.  Pagecache
-writeback is now a directio write.  The fuse server can upsert mappings
-into the kernel for cached access (== zero upcalls for rereads and pure
-overwrites!) and the iomap cache revalidation code works.
+With a bit of luck, this should all go splendidly.
+Comments and questions are, as always, welcome.
 
-At this stage I still get about 95% of the kernel ext4 driver's
-streaming directio performance on streaming IO, and 110% of its
-streaming buffered IO performance.  Random buffered IO is about 85% as
-fast as the kernel.  Random direct IO is about 80% as fast as the
-kernel; see the cover letter for the fuse2fs iomap changes for more
-details.  Unwritten extent conversions on random direct writes are
-especially painful for fuse+iomap (~90% more overhead) due to upcall
-overhead.  And that's with (now dynamic) debugging turned on!
+--D
 
-This series has been rebased to 7.1-rc4 since the eighth RFC, with
-the following kernel changes:
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-prep
+---
+Commits in this patchset:
+ * fuse: move the passthrough-specific code back to passthrough.c
+ * fuse: store backing id in fuse_backing objects
+ * fuse_trace: move the passthrough-specific code back to passthrough.c
+ * fuse: clean up per-file type inode initialization
+---
+ fs/fuse/fuse_i.h          |   30 +++++++++--
+ fs/fuse/fuse_trace.h      |   33 ++++++++++++
+ include/uapi/linux/fuse.h |    8 +++
+ fs/fuse/Kconfig           |    4 +
+ fs/fuse/Makefile          |    3 +
+ fs/fuse/backing.c         |  126 +++++++++++++++++++++++++++++++++++----------
+ fs/fuse/dev.c             |    4 +
+ fs/fuse/file.c            |    5 +-
+ fs/fuse/inode.c           |   40 ++++++++++----
+ fs/fuse/passthrough.c     |   38 +++++++++++++-
+ 10 files changed, 240 insertions(+), 51 deletions(-)
 
-1. The BPF stuff has been replaced with a filesystem striping mechanism.
-   This is my first attempt ever to implement raid0.
-
-2. Much tightening of the validation code based on Codex reviews so that
-   we don't expose more "ABI" than we feel like getting yelled at for
-   in 2031.
-
-3. Refactored iomap writeback mapping so that you can use the standard
-   iomap_begin functions for that.
-
-4. Better userspace helpers so that fuse server authors don't have to
-   know quite so much detail of the innards.
-
-5. The libfuse changes are based off the WIP fuse-service-container
-   branch.
-
-There are some questions remaining:
-
-a. fuse2fs doesn't support the ext4 journal.  Urk.
-
-b. I've dropped everything but the kernel patches for basic plumbing and
-   file IO paths because frankly they weren't getting looked at.
-
-c. How on earth am I going to separate out the file_operations?
-   Will it actually work to say that fuse-iomap only supports local
-   filesystems initially?  How many of the "is_iomap?" predicates are
-   actually for local filesystems and not the IO path???
-
-I would like to any part of this submission reviewed for 7.2 now that
-this has been collecting comments and tweaks in non-rfc status for 6
-months.
-
-Kernel:
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-striping
-
-libfuse:
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/log/?h=fuse-iomap-striping
-
-e2fsprogs:
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/e2fsprogs.git/log/?h=fuse4fs-memory-reclaim
-
-fstests:
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fuse2fs
-
---Darrick
