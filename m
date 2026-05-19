@@ -1,135 +1,127 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97DD3B47C4;
-	Tue, 19 May 2026 07:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC863B3BE6
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 07:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779174304; cv=none; b=Mb3neju6wf6Z4f/e9Vyzfh3D5pQxjdzteEb20KhM0MTw97LYsR3503qbSmXfvqZNZxY2AUMRp0pwD8L6juhG4A0HZaYrv7CN/6hN6NSzP9Pw5BznFXn50H+XG9DVujl7xB5qw3OHbPLPMev79DPiGLxI1FWYCncVEuIHDg6cI9A=
+	t=1779174398; cv=none; b=S98D9a6cZNJUcN2psENoK0eY9X/Sw4qMyS1A4W5XeefAOhoNjn7mlSm7t8Nx077moTy1eQoOYlZ3p6/lEjYOlzkVvJEhqmbP6XdkDLTxY7xlOYWLT6uV8gf3qlwabjPNXrlGohoVFZGRdgegS3Gb3T0uUNyGnVrGihhU8009BnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779174304; c=relaxed/simple;
-	bh=DYJt7aOK84ofo9yutfvsPNnXsMCmntpdbxMK5mLPzQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pp6OkWm7Gi6oPEp09DrC5Yhw1Gh/yJUUegCPBBoSGzDqy0FvgsVeKAeOyOy8lQYcQRr8whGyzqWCcsMNPg6Oy5nqIbajf1Y1fubVNXIWN+mUd5S5MkZchE/TqKUaa8CBGl1Yyb4saErhYBGUWBTQnFBD3Fy1YOnp8j1c0tH8D5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id A6A5668CFE; Tue, 19 May 2026 09:04:58 +0200 (CEST)
-Date: Tue, 19 May 2026 09:04:58 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org,
-	djwong@kernel.org, hch@lst.de, linux-fsdevel@vger.kernel.org,
-	anmuxixixi@gmail.com, dxdt@dev.snart.me, chizhiling@kylinos.cn,
-	chizhiling@163.com, linux-kernel@vger.kernel.org,
-	charsyam@gmail.com
-Subject: Re: [PATCH v4 00/11] exfat: convert to iomap
-Message-ID: <20260519070458.GA9109@lst.de>
-References: <20260518114705.9601-1-linkinjeon@kernel.org>
+	s=arc-20240116; t=1779174398; c=relaxed/simple;
+	bh=Dlo9W8hHOFAiWjJcTwexugcaTjJDSU9qLMUdOLHNUbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iF/z/2dyAAcoGoVV3Tz0bHcIVeURtJHvC6vQyV0Ol9R7oTr5wNvJDLc0KYtrUQ7ndFq6b5D+rqloq1NZopROswIfIed3RIMq+k9Bydlya4A+RIhQ/4A5EV+sWJKEC+zBlfLpZD+fc20CzGSQTjpWoB4LF3LiNeaz1tUyCgDyNeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=U7jzQ0es; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="U7jzQ0es"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=dutWYJqSr0aD6J9B9qhrhqPN0Tk6tTxUZ7RLJtFmY10=; b=U7jzQ0es5b8ZsycNVIci1Ha166
+	teSTE5z4FLmY2DC8T8WlXI3cA6PWtY1/faUuK7HlJ1Whz2NTnDGq5YMeHFelEvmOKegfl2tH/1yue
+	w7GlYJc0eh1+Vd2UmweydpZIDQDC1celdp72+xmBiCFtbJwEgagvSUqMwGpwbxD7Oa+ktmroe3xLl
+	TV1ZqnsWDAgP3NMrKbrIBvXNIWulBi9t3XU3sav1jrz+y3SjXE54/hSz68AKFlsZJb7pClhGGuGML
+	gtZgDT0O1Ru+91A6ipo3VwFPbdv+cjEjGcv0yAGxxz8MqBGEUM7twGuV6rrMU1+dmLJ9g10/digic
+	x+vEdWgA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wPEXB-00000008Uvd-3wqm;
+	Tue, 19 May 2026 07:06:33 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: linux-fsdevel@vger.kernel.org
+Cc: Andreas Hindborg <a.hindborg@kernel.org>,
+	Breno Leitao <leitao@debian.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Subject: [RFC PATCH 07/14] populate_group(): move cleanup on failure to the sole caller
+Date: Tue, 19 May 2026 08:06:26 +0100
+Message-ID: <20260519070633.2025485-8-viro@zeniv.linux.org.uk>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
+References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260518114705.9601-1-linkinjeon@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-So with all the reviews in we need to figure out how to merge
-this.  Does merging the iomap part through the vfs tree and
-pulling that into the exfat tree work for you?
+... where it folds with configfs_detach_item() into a call of
+configfs_detach_group().
 
-On Mon, May 18, 2026 at 08:46:54PM +0900, Namjae Jeon wrote:
-> This patch series converts the exfat filesystem to the iomap framework for
-> buffered I/O, direct I/O, and llseek (SEEK_HOLE/SEEK_DATA) support.
-> 
-> iozone benchmark results (4KB cluster size, -s1g -r64k, 1GB file, 64KB record size)
-> 
->                        1 thread                  4 threads
->                      Write      Read           Write      Read
->                      (MB/s)    (MB/s)         (MB/s)    (MB/s)
-> -----------------------------------------------------------------
-> exfat + iomap patch   332.7     418.1           78.6      82.4
-> Current exfat         278.4     415.1           42.1      38.0
-> -----------------------------------------------------------------
-> Improvement           +19.5%    +0.7%          +86.7%   +117.4%
-> 
-> 
-> Available in the Git repository at:
-> ===================================
-> git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/exfat.git iomap-work
-> 
-> v4:
->   - Declare initialized variables before uninitialized ones in
->     __iomap_write_begin.
->   - Clean up the logic for handling ei->valid_size in the non-alloc
->     iomap read path.
->   - Rename exfat_cluster_to_phys to exfat_cluster_to_phys_bytes.
->   - Use end variable in exfat_fallback_buffered_write.
-> 
-> v3:
->   - Remove extra >> 9 when adding to inode->i_blocks.
->   - Simplify exfat_file_open() by removing unnecessary err variable.
->   - Separate exfat_truncate() error return conversion from iomap changes.
->   - Fix xfstests failures with 512B cluster size.
->   - Make exfat_truncate() return error code.
->   - Use inode lock to protect valid_size in exfat_extend_valid_size().
->   - Unify num_clusters calculation regardless of may_alloc.
->   - Use min_t() to clamp iomap->length.
->   - Return early in exfat_write_iomap_end() if no data written.
->   - Remove s_lock in exfat_write_iomap_end().
->   - Split DIO fallback buffered write into helper function.
->   - Remove unnecessary goto in exfat_dio_write_iter().
-> 
-> v2:
->   - Replace macros with static inline functions.
->   - Remove noop_direct_IO.
->   - Consolidate read and write iomap_begin into __exfat_iomap_begin()
->   - Zero out stale data in straddle block beyond valid_size.
->   - Introduce IOMAP_F_ZERO_TAIL flag to remove exfat_iomap_put_folio().
->   - Select FS_IOMAP in Kconfig.
->   - Remove unnecessary alignment check in exfat_file_read_iter().
->   - Just use generic_file_llseek directly.
->   - Move exfat_extend_valid_size to exfat_file_write_iter().
->   - Use pagecache_isize_extended() to remove iomap_zero_range in
->     exfat_setattr().
->   - fix mmap write data corruption with byte-by-byte fallocate.
->   - Remove exfat_mkwrite_iomap_begin().
-> 
-> Namjae Jeon (11):
->   iomap: introduce IOMAP_F_ZERO_TAIL flag
->   exfat: replace unsafe macros with static inline functions
->   exfat: add balloc parameter to exfat_map_cluster() for iomap support
->   exfat: add exfat_file_open()
->   exfat: add support for multi-cluster allocation
->   exfat: add data_start_bytes and exfat_cluster_to_phys_bytes() helper
->   exfat: fix implicit declaration of brelse()
->   exfat: add iomap buffered I/O support
->   exfat: add iomap direct I/O support
->   exfat: add support for SEEK_HOLE and SEEK_DATA in llseek
->   exfat: make exfat_truncate() return error code
-> 
->  fs/exfat/Kconfig       |   2 +-
->  fs/exfat/Makefile      |   2 +-
->  fs/exfat/balloc.c      |   2 +-
->  fs/exfat/dir.c         |  50 +++---
->  fs/exfat/exfat_fs.h    | 140 ++++++++++++-----
->  fs/exfat/fatent.c      |  30 ++--
->  fs/exfat/file.c        | 263 +++++++++++++++++++++++--------
->  fs/exfat/inode.c       | 342 ++++++-----------------------------------
->  fs/exfat/iomap.c       | 263 +++++++++++++++++++++++++++++++
->  fs/exfat/iomap.h       |  15 ++
->  fs/exfat/namei.c       |  28 ++--
->  fs/exfat/super.c       |   5 +-
->  fs/iomap/buffered-io.c |   4 +
->  include/linux/iomap.h  |   4 +
->  14 files changed, 703 insertions(+), 447 deletions(-)
->  create mode 100644 fs/exfat/iomap.c
->  create mode 100644 fs/exfat/iomap.h
-> 
-> -- 
-> 2.25.1
----end quoted text---
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+ fs/configfs/dir.c | 28 ++++++++++++----------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
+
+diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+index 726c56d1772d..d2a60429a545 100644
+--- a/fs/configfs/dir.c
++++ b/fs/configfs/dir.c
+@@ -728,17 +728,13 @@ static int populate_groups(struct config_group *group,
+ 			   struct configfs_fragment *frag)
+ {
+ 	struct config_group *new_group;
+-	int ret = 0;
+ 
+ 	list_for_each_entry(new_group, &group->default_groups, group_entry) {
+-		ret = create_default_group(group, new_group, frag);
+-		if (ret) {
+-			detach_groups(group);
+-			break;
+-		}
++		int ret = create_default_group(group, new_group, frag);
++		if (ret)
++			return ret;
+ 	}
+-
+-	return ret;
++	return 0;
+ }
+ 
+ void configfs_remove_default_groups(struct config_group *group)
+@@ -878,6 +874,13 @@ static void configfs_detach_item(struct config_item *item)
+ 	configfs_remove_dir(item);
+ }
+ 
++/* Caller holds the mutex of the group's inode */
++static void configfs_detach_group(struct config_item *item)
++{
++	detach_groups(to_config_group(item));
++	configfs_detach_item(item);
++}
++
+ static int configfs_attach_group(struct config_item *parent_item,
+ 				 struct config_item *item,
+ 				 struct dentry *dentry,
+@@ -904,7 +907,7 @@ static int configfs_attach_group(struct config_item *parent_item,
+ 		configfs_adjust_dir_dirent_depth_before_populate(sd);
+ 		ret = populate_groups(to_config_group(item), frag);
+ 		if (ret) {
+-			configfs_detach_item(item);
++			configfs_detach_group(item);
+ 			d_inode(dentry)->i_flags |= S_DEAD;
+ 			dont_mount(dentry);
+ 		}
+@@ -917,13 +920,6 @@ static int configfs_attach_group(struct config_item *parent_item,
+ 	return ret;
+ }
+ 
+-/* Caller holds the mutex of the group's inode */
+-static void configfs_detach_group(struct config_item *item)
+-{
+-	detach_groups(to_config_group(item));
+-	configfs_detach_item(item);
+-}
+-
+ /*
+  * After the item has been detached from the filesystem view, we are
+  * ready to tear it out of the hierarchy.  Notify the client before
+-- 
+2.47.3
+
