@@ -1,122 +1,117 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D19A3E3157;
-	Tue, 19 May 2026 09:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FAC44D6A1;
+	Tue, 19 May 2026 09:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779183590; cv=none; b=WdNVl52/fPxZXGKijpStqkdnWZopl+5IXzGdQ/Bg/FFTg0eJUhSLNpavusuyYiVFsxejtz/YXdgc/xT0+tkFKB0bYmSqgXg1OeamOD223rL3oTXfCdScRosrOFXh8iYwR/k3iJXntnOcNHzRNS3tQHgSuaa74g+jvFmJObTNAMw=
+	t=1779184190; cv=none; b=SAGABCGJLWWSNxAvnJnj+Sxf2c7kMxrcHElsi/q/22yVE3RBuOylQRUHnflk2ERZ5gfDTqtuEDCC2UKW+LryDU2q89RUPcodbdL6Qc9qigz17EEg715gKwohERWHSkLhNvwVv1GxMv9m02slmvJ0hnajaPxGT7FQH4Z1juC/mpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779183590; c=relaxed/simple;
-	bh=ZNDVleXOLPu9tcQiqIDQaOVi8Y4l811lnCFsvmfNUWo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Pyz61SVrDcC0h142YESQtDx0aBHo6jCNzRfgM/S+klz2oIca2u3io174idAWn16X5h/0TenFA8W6gzIjaU5Or5PsTrxevhooUF3qT937VybV6teIDp1PJLSgbs0RB+OjYzA0u4gAdSafSJYeOqWL50kGhhTjZGTrvS84ySIjgPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pDVBFju+; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1779184190; c=relaxed/simple;
+	bh=rX/Q8oXbMSySRNyC7+NzxKvhA/QggJj+c2IzhXKHseM=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=fMUo7k9EblStcIrXkjfNehRq3YPhJqzJReoG+g1NffGu9Slss8vH7WoVnyldfRf4u8nza8dvPo0jVXKCmKQNb5FkGZ2sHK7XClfEZsF7qyww3jLUfLKZIvi83weofOqVU+CfmYTHK1byyXb2C0taDNthWELUMMzqyL5rLdPKGaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpkY4roh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pDVBFju+"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8F281CE0;
-	Tue, 19 May 2026 02:39:42 -0700 (PDT)
-Received: from entos-yitian-01.Arm.com (unknown [10.168.197.69])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9B76F3F632;
-	Tue, 19 May 2026 02:39:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1779183587; bh=ZNDVleXOLPu9tcQiqIDQaOVi8Y4l811lnCFsvmfNUWo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pDVBFju+PlUhUisiOSHZs5tQXuj33LWd2LA6b2iBT+S04yDZF4RweFO97QcW2X0Qt
-	 SFEilUFtkihIeWQ4QjpIrRnyUIEaMl1JqzS2slsKnFQX35LVhQhR+/oYnyG4eOuh63
-	 EuNLjeHlfwY2FdGd6W+6tAYvIyWVcTduAlFpa+vQ=
-From: Jia He <justin.he@arm.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	David Disseldorp <ddiss@suse.de>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jia He <justin.he@arm.com>
-Subject: [PATCH 1/1] init/initramfs_test: wait_for_initramfs() before running
-Date: Tue, 19 May 2026 09:39:37 +0000
-Message-Id: <20260519093937.1064628-1-justin.he@arm.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpkY4roh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AE68C2BCB3;
+	Tue, 19 May 2026 09:49:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779184189;
+	bh=rX/Q8oXbMSySRNyC7+NzxKvhA/QggJj+c2IzhXKHseM=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=fpkY4roh9gwMJQ/jVJi3hDMML+a3cbnvpqLaF97cSBRKOgbbXy+Y8WSlXZti3vTUB
+	 Fn9CeEIFXwKnFGMEvBdNovTOsBxF7w8nHl5hrqkWxB9yWO3MJevoYnXFESyz1vQfUl
+	 e/w3dIRwjxgFaaHxv7qVv72pXJO1k1rsXKYg2WsN4jh4lRjnjQMT5dLd7FThrViFLJ
+	 b1M+b6UZh439sr1qotZte4TNpe10x6Vb5EsonDNamCXXoTNHqqaTCp0G3ctHQb3+4U
+	 YcGcpn4r/3t1CUNcYq9kUP9R2cQHL1jhRAE66WWaNuHR8qoy3KBkXDj54mpgLkELUe
+	 2pS6uOtblXl8A==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
+ read-only files
+From: Christian Brauner <brauner@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+ Pedro Falcato <pfalcato@suse.de>, Jens Axboe <axboe@kernel.dk>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+ Kees Cook <kees@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>
+In-Reply-To: <CAG48ez0jbSUgT3ZxPKZP7Eu=K7ce2cX7k2NzHCHNMOxQjOGT9w@mail.gmail.com>
+References: <20260516182126.530498-1-pfalcato@suse.de>
+ <20260518-starten-messdaten-3b8aa670ec85@brauner>
+ <CAG48ez0jbSUgT3ZxPKZP7Eu=K7ce2cX7k2NzHCHNMOxQjOGT9w@mail.gmail.com>
+Date: Tue, 19 May 2026 11:49:44 +0200
+Message-Id: <177918418452.771415.4371785688744608623.b4-reply@b4>
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2611; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=rX/Q8oXbMSySRNyC7+NzxKvhA/QggJj+c2IzhXKHseM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTxGFklVjj2q5u83cGqNCFNpGeZ+tsoozPNx7sMnYJOu
+ TxQN0/uKGVhEONikBVTZHFoNwmXW85TsdkoUwNmDisTyBAGLk4BmAhvMCPDe7bXOz9ZvjF1ln8x
+ o0FmwZbznJwWxiHl4qlCdTsPG5gaMzL8Pa58f5fkUXHb39d+yP34Ov11fFyW+OTZO8zU7+6VmfO
+ CAwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-initramfs_test_extract() and friends call unpack_to_rootfs() from a
-kunit kthread while do_populate_rootfs() may still be running
-asynchronously from rootfs_initcall. unpack_to_rootfs() keeps its
-parser state in module-static variables (victim, byte_count, state,
-this_header, header_buf, name_buf, ...), so the two writers corrupt
-each other.
+On 2026-05-18 20:59 +0200, Jann Horn wrote:
+> On Mon, May 18, 2026 at 2:30 PM Christian Brauner <brauner@kernel.org> wrote:
+> > On Sat, May 16, 2026 at 07:21:26PM +0100, Pedro Falcato wrote:
+> > > Since the advent of vulns like Dirty Pipe, Dirty Frag, Copy Fail
+> > > and Fragnasia, splicing a read-only file is fundamentally unsafe.
+> > >
+> > > As such, as a mitigation, add a way for users to block splice() for
+> > > files they cannot write to. This eliminates this whole class of exploits
+> > > that use splice()+confusion in pipe/net/etc code to gain write-access to
+> > > files they can only read.
+> > >
+> > > Users can simply toggle fs.splice_needs_write=1 and suddenly splice() will
+> > > refuse perfectly legal splices() from files it can only read, but not write.
+> [...]
+> > At that point you can also just ENOSYS splice() and vmsplice() via
+> > seccomp and force a fallback on non-splice codepaths that userspace has
+> > to have anyway as splice() isn't supported unconditionally.
+> >
+> > It feels like a knee-jerk reaction to an exploit class originating in
+> > buggy modules that we have little control over and we would extend an
+> > API to users that is really difficult to use.
+> >
+> > What might make more sense is to add a splice specific security_*() hook
+> > into the code so that an LSM can deny usage of splice in whatever way it
+> > wants to - bpf lsm or in-tree lsm.
+> 
+> I feel like a sysctl for "disable all the splice-like interfaces and
+> zerocopy TX" would be reasonable to have? Either by blocking such
+> operations, or better, silently downgrading all such operations to
+> normal copies.
 
-On arm64 v7.0-rc5+ this oopses early in boot:
+I think blocking isn't going to be useful as it will make it harder for
+distros to turn this on. So we should degrade.
 
-  Unable to handle kernel paging request at virtual address ffff80018f9f0ffc
-  pc : do_reset+0x3c/0x98
-  Call trace:
-   do_reset
-   initramfs_test_extract
-   kunit_try_run_case
-  Initramfs unpacking failed: junk within compressed archive
+> FWIW, vmsplice() and splice() are also weird in how much memory they
+> can implicitly pin - if you call vmsplice() on a single byte in a 2M
+> THP page, I believe you'll implicitly pin 2M of memory...
 
-do_reset() faults because 'victim' was overwritten by the boot-time
-unpacker; the boot unpacker meanwhile logs the bogus "junk within
-compressed archive" on the real initrd because the test wrecked its
-state machine.
+You don't have to convince me that it's a problematic api.
 
-Add a .suite_init callback that calls wait_for_initramfs() so the async
-unpack is quiescent before the first case runs. suite_init runs once per
-suite rather than before every individual test case.
+Let's discuss the other aggressive alternative: Can we try and
+unconditionally degrade to copy. This would affect sendfile(), splice(),
+and vmsplice(). Worst-case we would have to introduce the sysctl
+retroactively.
 
-Fixes: 83c0b27266ec ("initramfs_test: kunit tests for initramfs unpacking")
-Signed-off-by: Jia He <justin.he@arm.com>
-Reviewed-by: David Disseldorp <ddiss@suse.de>
----
-v2: Hook up .suite_init for initramfs test suite (sashiko-bot)
+Thoughts?
 
- init/initramfs_test.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+> By the way, another bug a few years ago of a similar shape was this
+> one - also a bug in networking code that can lead to accidental writes
+> into spliced pages:
+> https://project-zero.issues.chromium.org/issues/42451650 ("ktls writes
+> into spliced readonly pages")
+> with fix: https://git.kernel.org/linus/c5a595000e26
 
-diff --git a/init/initramfs_test.c b/init/initramfs_test.c
-index 2ce38d9a8fd0..a4c06ec34368 100644
---- a/init/initramfs_test.c
-+++ b/init/initramfs_test.c
-@@ -3,7 +3,9 @@
- #include <linux/fcntl.h>
- #include <linux/file.h>
- #include <linux/fs.h>
-+#include <linux/init.h>
- #include <linux/init_syscalls.h>
-+#include <linux/initrd.h>
- #include <linux/stringify.h>
- #include <linux/timekeeping.h>
- #include "initramfs_internal.h"
-@@ -510,8 +512,21 @@ static struct kunit_case __refdata initramfs_test_cases[] = {
- 	{},
- };
- 
--static struct kunit_suite initramfs_test_suite = {
-+static int __init initramfs_test_init(struct kunit_suite *suite)
-+{
-+	/*
-+	 * unpack_to_rootfs() uses module-static state (victim, byte_count,
-+	 * state, ...). The boot-time async do_populate_rootfs() may still be
-+	 * running, so wait for it to finish before we call unpack_to_rootfs()
-+	 * from the test thread, otherwise the two writers race and crash.
-+	 */
-+	wait_for_initramfs();
-+	return 0;
-+}
-+
-+static struct kunit_suite __refdata initramfs_test_suite = {
- 	.name = "initramfs",
-+	.suite_init = initramfs_test_init,
- 	.test_cases = initramfs_test_cases,
- };
- kunit_test_init_section_suites(&initramfs_test_suite);
--- 
-2.34.1
 
