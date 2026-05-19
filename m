@@ -1,49 +1,45 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A913909AB;
-	Tue, 19 May 2026 06:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB98E2F7F06;
+	Tue, 19 May 2026 06:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779172762; cv=none; b=NEUjmQ1pwrNK9X/mlIMj8D1uJB8wUApupOJLXjx2VGTnFK1W6bHVzhX6l7hhtiCtPQWtK8VPxYfldoPvlXWgOt7iPDojsxvVBBKMZSpoT5oQcU7Lc0pVWZdCX9T6k0TXkbwH/xZKH7K5C9dBR3S0QmsTnGxa4+cBRCnnxz5twp0=
+	t=1779173823; cv=none; b=bFrjlxhf2xOXIxgLvcKRoZ3gAjdVgPh0kig5ZSqCDsXG3E7LR1jdrxLNjuKTQuwKpLFRTtVhF8r0DgqwY00PfalZTGbqYeEp3o1344E+obRH9kceP+NAJNplbszFrWV1oCN+EXPo04rqlmEX46QoVii15Ioye27bdhOPi1LX4Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779172762; c=relaxed/simple;
-	bh=KUZTR+SH0jixxrilW1KEm/IFWAbpQsxHtrVzuRpnmxc=;
+	s=arc-20240116; t=1779173823; c=relaxed/simple;
+	bh=DrWqQzOlBT7PBXEQ74exqA8NUZJPGXS5sd2MPD5AnkE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BZu+FqDyGa8LPyXAjP8i1LhmQGef86+0dgR9CeGZfxTgFuWl3vRgQzjkPdV1lSzt+GKuofHyCrYH3YC8sYvoXmudPjzxMyLjW0qCLPYu6NzMAdEasXTvGpJ2009TJ9Hn641lDD/eg1xAsxH49K+xAfPy4ZchvJNtGIXEpjm1+oE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1nMUS+u2; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1nMUS+u2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ekkueEbKjoJ5ZcmBfTn2kbworqdQev5OvGeeGiZpqXc=; b=1nMUS+u2ccmBib9tSNIYywxfu5
-	xRDQK/03CAPPKghXgMhuu2ZeenqK63qusqx2i4Dodb1yqzFXYDdw3lplYIlv/LU97QRefQe6AiM26
-	pgAENic7w8SIDcZYDa13uatQWoVJhaDovVrx950oVoDVibkJCQFD1IlwUKzrNnXYvl9Wu6jvBs9/L
-	Kpe38PL56s/e1ONIVxfP84EU+gVmWV37QIy2JCtg8kZh4tP2Qhi3yCh8/AY63pjWjRLzdW28+9J2w
-	geUqYQE4R8ip3C0kmm4kgNfZjBu7P/TbfnmsnqiD936ohg82DxXcJW2Li2TQazCo22+VNIWwQFfDB
-	0in/EcPg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wPE6m-00000000NAl-0lq7;
-	Tue, 19 May 2026 06:39:16 +0000
-Date: Mon, 18 May 2026 23:39:16 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jann Horn <jannh@google.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>, Jens Axboe <axboe@kernel.dk>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-hardening@vger.kernel.org,
-	Kees Cook <kees@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>
-Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
- read-only files
-Message-ID: <agwFlBKvKytjURDO@infradead.org>
-References: <20260516182126.530498-1-pfalcato@suse.de>
- <20260518-starten-messdaten-3b8aa670ec85@brauner>
- <CAG48ez0jbSUgT3ZxPKZP7Eu=K7ce2cX7k2NzHCHNMOxQjOGT9w@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hKrEQG56hFfwbHiwzyMNPcGRr6V5ATm8vzv/VGgQXOap2/finuRwria42SolTUr1ah87I/PmjA4qFHYeMQF14pxtuUwKwlcX/SKUoW81mZBcLYvN0Np5MRfmfoN/h771YfEWlBDdt/okG0XuEHe9tEsg1d9f63n3hYcs6wu5+OQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id F393168AFE; Tue, 19 May 2026 08:56:53 +0200 (CEST)
+Date: Tue, 19 May 2026 08:56:53 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Tushar Gohad <tushar.gohad@intel.com>,
+	William Power <william.power@intel.com>,
+	Phil Cayton <phil.cayton@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 05/10] lib: add dmabuf token infrastructure
+Message-ID: <20260519065653.GB8173@lst.de>
+References: <cover.1777475843.git.asml.silence@gmail.com> <c61e6d928f86f4cb253ae350272e6039faefd3a6.1777475843.git.asml.silence@gmail.com> <20260513082431.GA6461@lst.de> <ebf41920-5852-428f-b98a-e0f44c8f3315@gmail.com> <20260518125326.GA5754@lst.de> <ea47051e-697f-4017-a514-be6ef7c110e9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,29 +48,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG48ez0jbSUgT3ZxPKZP7Eu=K7ce2cX7k2NzHCHNMOxQjOGT9w@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <ea47051e-697f-4017-a514-be6ef7c110e9@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Mon, May 18, 2026 at 08:59:13PM +0200, Jann Horn wrote:
-> I feel like a sysctl for "disable all the splice-like interfaces and
-> zerocopy TX" would be reasonable to have? Either by blocking such
-> operations, or better, silently downgrading all such operations to
-> normal copies.
+On Mon, May 18, 2026 at 03:23:53PM +0100, Pavel Begunkov wrote:
+> To be fair, it's not that dma-buf specific. This lib/ code only
+> does some resv locking, fence waiting and queuing fences,
 
-Yes.
+But all the dma resv/fence stuff is pretty tied into the dma-buf
+ecosystem.  I don't think it would really apply to something not
+doing DMA at all.
 
-> FWIW, vmsplice() and splice() are also weird in how much memory they
-> can implicitly pin - if you call vmsplice() on a single byte in a 2M
-> THP page, I believe you'll implicitly pin 2M of memory...
+> otherwise
+> all the attaching is done by the driver behind callbacks. Switching
+> it to some memfd could be pretty simple. But The main thing it'd
+> need to share is iterator handling like forwarding in the block
+> layer, and it should be fine as it's already passed as a completely
+> opaque object with no knowledge about pages / dma / etc. for the
+> middle layers.
 
-vmsplice is the worst, as it is one of the few remaining places that
-can incorrectly dirty file backed pages without telling the file system
-and cause the other problems fixed by a FOLL_PIN conversion, but it is
-the only one where we do not have any idea yet how we could convert it
-to FOLL_PIN due to the unbounded pin time.
+But none of that really sits in the current lib/ code anyway?
 
-Note that we sometimes use splice underneath other operations that do
-not have these issue.  The most important one is sendfile, which has
-very clearly defined semantics avoid all these pinning problems, but
-there also are similar in-kernel users as in nfsd.
+>> lib/ is most certainly the wrong place for something that absolutely
+>> is not library functionality but directly interacts with a few
+>> subsystems.
+>
+> It only interacts with dma-buf, and even for dma-buf attachments
+> are created by the driver. Block, nvme, io_uring are users, either
+> using the helpers or implementing callbacks.
+>
+> Ok. Let's assume for the argument's sake it's not dma-buf
+> specific, if not lib/, where would you put it? I was also
+> assuming that dma-buf being under drivers/ is rather a relic
+> of the past rather than the desired location, hmm?
 
+drivers/dma-buf is a pretty natural place for it, I could not thing
+where else you'd place dma-buffers.  I'm not sure how hmm has anything
+to do with it.
+
+>
+>
+> -- 
+> Pavel Begunkov
+---end quoted text---
