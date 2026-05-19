@@ -1,62 +1,64 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D775648033C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 11:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9593480340
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 11:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779188666; cv=none; b=sFy887BSEKj+c06whKBPqHcWChp+k6K6hxmim9EN8iQ6UMjOQZrm9LBIYHGnyXjFdrojjtXshOKTBLL7WWr8SfKpxndAgGNRRhfSJeFBrbhGil+puAudRjeJ6NKOvBJXwfvG6AVkjPwBQvO7GXCcxfeHm32zIEmqRcHG9ltxJ8k=
+	t=1779188667; cv=none; b=GotSVD4ydoeTtSZpcwKBOd7D83JdFT/1GDd1DwmM9r92CwYF491Qnd7kCDsmqjg5cPwoeVuAhoV+kbGcOmfLI0pkXth9RAPqOSU8xuyNHP7FxTtLsPqB0gPNUBIDkOqucxqiIi7gz0HsUjjNfMHOrrxVc7B33RdhKdAqSPiYhk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779188666; c=relaxed/simple;
-	bh=1WIhhqyimIG6xgGwMZqPr2KBtiPQ844g/owpCXhS4vM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nqMdU4L8rbbSjeulOFKL7xBrKfF8YR5bDk6vBPCTf17s4mJS39QO6fL5ZzYonSa8HaIuOr6lRk345Y47sz0Vkito9F7qymIdraNljXw09/ahyUJRe1yqVHGShtWd5SYS5Gjd4o1NzjONsIDuXoqWlU+yo2y/LSyrQ6km2AoiQ+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VL/n9Ist; arc=none smtp.client-ip=209.85.128.170
+	s=arc-20240116; t=1779188667; c=relaxed/simple;
+	bh=q0QaQO++/PvA1DQe3ls4tZMPt5G9WPx1L4vtJDSJKXI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fMZ+bgyZJKcM3d7PySAV1IL56nXMXzkl+jAqDnHDlWeVOaVF669vjHIs3D2Enc+BWRL7MCDfqRx6hRYpkPeSfmzpM85nv2/2RtEThH7eHhlCb/5e7orq3TQWfLRxMO53Mhewad95J1z7lhADm/h2j6WWheHfgEowSpDtwx9+izY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pEYKhaYs; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VL/n9Ist"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7b41fdf9de2so20954047b3.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 04:04:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pEYKhaYs"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7c2fa14795aso23215157b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 04:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779188664; x=1779793464; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9WEPJj4wYvtkwkwfLE2DQUprbinqua7axfePI1DHQ9g=;
-        b=VL/n9IstAZRPyyUHAnTEsbBtI8YCY1VlmJp7SSnVhN5qARYEPvxSoebC5V4RcKenXZ
-         98Z5H4mAep0KHmN0zfF4blPxBRym+XPZv+1FhqL8Y916GtlGD8FjnN9CVTgrhLuyPq+B
-         SSsJ9Mu+AwMwrUalrab7dFP4Fmva6vkBtlZ9Xsxyup5I8YvXivRcLJqOkOPhiHmch3f+
-         q+ftJzbC8J8cQzfp4PGteMJePrDWT0zRq4fDP+eYGREqqTPFCqNujkBAhIC1fK2sMhll
-         GV8wo/Qz2dQwSh8vkVPrQP5IMW0EQ8lHBuCNjbg/ocBjJJdq6wZBIRXXs/AGgQHnAtQj
-         TNgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779188664; x=1779793464;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779188665; x=1779793465; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9WEPJj4wYvtkwkwfLE2DQUprbinqua7axfePI1DHQ9g=;
-        b=D8DAb75dI+MZnxskXBXR1ppW3znizoOmeJNP6L83BY0TRMV8g50eVhAF0XxjLUzVP/
-         q5rpCuJZXeeKwP486RCUpSCMFPopLYCLX31MQF1lyx0IRGUchfV2K8BZnqO9yrdN3Ac2
-         UKoEtYCXmPVS38ApfL34Fv3RswGUrQWAATA1PTVONQjU5wExUbow7KdgnOUtHh9qXZ8i
-         bjtqcL1Bt0gpyCVlKZd+97hLF86se6kCZpm68eC6NFp5JrIZdSKepu/dyhQZzqBHtb4F
-         dlIOeEdSRi2x5mgOzehSk9cIE0frDUxU65d3yhv2rOCCRZ4niQkavEgqrUyaG3Qc177b
-         wFwA==
-X-Forwarded-Encrypted: i=1; AFNElJ8k44kj2IUAPR8hqFhXahS1s6e6lH36Y1LSd1Im8m67UmFDUyiGFu32gGR8XHZ7bEuT50WPfhJxDkaKmQ4g@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMutxhKnMi/Yq4VRzQZpJD5/7YyNg8xedhhgj9f2T6bJu5ci9r
-	ML5AGo8wRYcSZZW36/v4mreO2Anc/6yey5XTuFllR54e4rZLdELKSYin
-X-Gm-Gg: Acq92OECo5A4ozwSf0TnDlFZ4+sh+1Fy3nn6JCIX9stoiqjS1mV0UE4IDptXHIDw+qH
-	MPs6BROL/fPdyqhdr3qK+fiDvgxuyqKx0jlhU3jw2i7+HoT6Dn9M2gBn+7BYkKcy0AACgFVyxxf
-	piBy9udPEqTxeJsXsUQThcdPpGPobB8KJFGi56kkf3jlLA2YdNI1w9GtMXUT1+X1fjjoFW4sVs0
-	qdT/9HL7bjmlDH1xrbDUo7whqdavIea5IhgVTMQZgBJtyPbqishyli4j6KVsjG0d377JWqXEDCC
-	FVWawzYiJexWwqtiXNNF4M028ZQqmQ3EJWszhAoH/pJhzkFC1m5fCKm7twT/ia8kEKS3E3CLHP7
-	vsqjJ2GQMZoskzVYAECEtegXWApjslahnkr53g7SZzoymSTLYR31vpiYA8ALnd9Gc7OJG5FeeRe
-	pqAuWT6aRwWihuQ2+OZIdiazndey9FptGMitto3Q7O0qUI1na8fwoWSaweEI2jirrN+/17sQV49
-	H/VTBLg0bibgq7QSSl+0Pjyk7X9UpY=
-X-Received: by 2002:a05:690c:c1a:b0:7ba:fdc5:17a3 with SMTP id 00721157ae682-7c95c6f978fmr196298607b3.43.1779188663775;
-        Tue, 19 May 2026 04:04:23 -0700 (PDT)
+        bh=6SyXZe52KMUC2ic8Hq1mf3+02KbtP8Oos7zC9gOb7ro=;
+        b=pEYKhaYsNiVrS6Uxo+j/UGT2ja2e6nG2yFksFP1d9amf3RJMXjRgR3CQ3sx5oxEj+m
+         ZQ6iw5dAlsv2pUMqI6wE09y7B2jtT322nEypKsKLTizHbEex/YBhvhtBkhSmaNL1W36a
+         Lvz/3QoTi6I0o1J77DwgH+4rDx/cXbwJybgeG0uCzMdJMViNVxqkvz05qpoHmoVagEqq
+         tigosddlt6xpJwkxy3eY+TgpfTGPgaEhoWpoS3VmMEW/ArZJaKhFFBc4p3vsqezCNJXA
+         BhceQ4h5neSKiYNGizFpsLMBVz05rb4qsZ+7KCYHRdh05xnAl+irMf7m2GTkyxrhJYwf
+         oJoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779188665; x=1779793465;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6SyXZe52KMUC2ic8Hq1mf3+02KbtP8Oos7zC9gOb7ro=;
+        b=girvxe24qdZ0ePQ9xY+2/qas+qh7urN+iawmy5L0soxeeimPjiZpHcdcIHc7jzP1Oj
+         gc+cdBKc7weVdTygJRWitQmtaA0KXxZ7Mn2F/tgwQ9BghFWMeRW3t7AdLW4+wlDWqN/2
+         2wRSWAiBJIgfKsvsaCt4HwBAs3Bj1kSn19S6O+/kuYAK2GSvaT86TDTADXOUsUyqr2xJ
+         wZmmpk6WjJKKSDsshUI6e10AveWOhyeUVntx7yBedT/q8LXL5nLP2Nll4W7+9ZSRpAfG
+         t0ns1y7SGYPxnpK3YECswMg5Uxr5tz3wN1DDKvh4Kx9PvHiUoJtct96CgT87SKLfCqFg
+         ekkw==
+X-Forwarded-Encrypted: i=1; AFNElJ/Plo8nYPYxsw3bX4s2aB+de1O3X+TgcyC8mgB9eWNPFkapA+Fd94uqjagf/ZMF/LsZNDAknu8R90QJhRh+@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZfCq7y4/fiB7Xrt6RQMsgd3Pan86yaxMXCxzGrl2IuIr3ZaH2
+	Q9MnL4In46Dl8naQPyWgr7J0czbrhTElYy9n4vXG+/UzfUboaoTpYWvD
+X-Gm-Gg: Acq92OGpBpvrFf9IYCLjjYVTFLWYEjtXNs4AMLpxJRgG37ls3LKFqmf14oYnxdElKBl
+	e8xPzvgC0F8jOx9J6/bI+NB04gclwYNkYbJSGRVjREo/ebKoUZigm5oV/eEMfiwQ/cWH38/DJNL
+	rtdPhi26Uy7ti/DhkeN1+/vrK/uCQL0AVzD+Yi5Mo3nKgdWapElBG5/MusK9SYGLTerrY08FRuq
+	LVEBkGxL7lmc3Spsg0hdnoMHJGX8HD2goVUa5Aa6RCNKZ5qusB+W5tnnROnw/BpXUVwOntBt8jQ
+	CnxKDGKYo4EbYQd9t3S1C6F7nZfdOlyC2DPLkroKpHFWPlEII5Vy+bQzUKmxUNaEoYhgU1P1lgL
+	CiRCCKE8eUnKFvbnBHWFz0OM/gNxCtvpui6I/JkO45IfdCFIkO/GeBtcsgAhOpP3DfDx3J1hkwB
+	wILn8+3AObqWbYSJZYz7v40aPJxutnrPsk5wxPD9BUJBPob5e5bllpeJh0WbG/BB73hbJ0ssAcG
+	0VXXFvVlnfmmBowAF1gf6VJZjWNpIE=
+X-Received: by 2002:a05:690c:6c10:b0:7bf:107b:f859 with SMTP id 00721157ae682-7c959f7e881mr226344557b3.16.1779188664814;
+        Tue, 19 May 2026 04:04:24 -0700 (PDT)
 Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc9bc0ccf7sm35206827b3.25.2026.05.19.04.04.22
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc9bc0ccf7sm35206827b3.25.2026.05.19.04.04.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 04:04:23 -0700 (PDT)
+        Tue, 19 May 2026 04:04:24 -0700 (PDT)
 From: Michael Bommarito <michael.bommarito@gmail.com>
 To: Joseph Qi <joseph.qi@linux.alibaba.com>,
 	Mark Fasheh <mark@fasheh.com>,
@@ -65,10 +67,12 @@ Cc: ZhengYuan Huang <gality369@gmail.com>,
 	ocfs2-devel@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/3] ocfs2: harden inode validators against forged metadata
-Date: Tue, 19 May 2026 07:04:01 -0400
-Message-ID: <20260519110404.1803902-1-michael.bommarito@gmail.com>
+Subject: [PATCH v2 1/3] ocfs2: reject dinodes with non-canonical i_mode type
+Date: Tue, 19 May 2026 07:04:02 -0400
+Message-ID: <20260519110404.1803902-2-michael.bommarito@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260519110404.1803902-1-michael.bommarito@gmail.com>
+References: <20260519110404.1803902-1-michael.bommarito@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,63 +81,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-This series adds three structural checks to OCFS2 dinode validation so
-malformed on-disk fields are rejected before ocfs2_populate_inode()
-copies them into the in-core inode.
+ocfs2_validate_inode_block() currently accepts any non-zero i_mode value.
+ocfs2_populate_inode() then copies that mode verbatim into inode->i_mode
+and dispatches on i_mode & S_IFMT to the file/dir/symlink/special_file
+iops; an unrecognised type falls through to ocfs2_special_file_iops and
+init_special_inode().
 
-The checks cover:
+Reject dinodes whose type bits do not name one of the seven canonical
+POSIX file types.  Use fs_umode_to_ftype(), the same generic file-type
+conversion helper OCFS2 already uses for directory entries, so the
+accepted inode type set matches the kernel file-type vocabulary instead
+of open-coding a local switch.
 
-  - i_mode values whose type bits do not name a canonical POSIX file
-    type;
-  - non-device dinodes whose id1.dev1.i_rdev field is non-zero; and
-  - non-inline dinodes that claim non-zero i_size while i_clusters is
-    zero, covering directories unconditionally and regular files on
-    non-sparse volumes.
+Apply the same structural check to the online filecheck read path.
+filecheck keeps its own error namespace, so it reports malformed i_mode
+through the filecheck logger and OCFS2_FILECHECK_ERR_INVALIDINO instead
+of calling ocfs2_error(), but it must not allow a malformed dinode to
+proceed into ocfs2_populate_inode().
 
-The normal read path reports these through ocfs2_error(), matching the
-existing suballoc-slot, inline-data, chain-list, and refcount checks.
-The online filecheck path uses the same structural predicates but keeps
-its own reporting contract, returning OCFS2_FILECHECK_ERR_INVALIDINO
-instead of calling ocfs2_error().
-
-Validation from v1 still applies to the unchanged reachability model.
-
+Fixes: b657c95c1108 ("ocfs2: Wrap inode block reads in a dedicated function.")
+Cc: stable@vger.kernel.org
+Link: https://sashiko.dev/#/patchset/20260517111015.3187935-1-michael.bommarito%40gmail.com
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+Assisted-by: Claude:claude-opus-4-7
 ---
+ fs/ocfs2/inode.c | 36 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 34 insertions(+), 2 deletions(-)
 
-Changes in v2:
-
-  - Patch 1 drops the tautological S_IFMT|07777 mask check and reuses
-    fs_umode_to_ftype() for the canonical file-type predicate.
-  - Patch 1 mirrors the i_mode check in the online filecheck path.
-  - Patch 2 factors the i_rdev cross-check into a shared predicate.
-  - Patch 2 mirrors the i_rdev check in the online filecheck path.
-  - Patch 3 factors the size/cluster invariant into a shared predicate.
-  - Patch 3 extends the zero-cluster rejection to non-inline
-    directories, while preserving the sparse regular-file carveout.
-  - Patch 3 mirrors the size/cluster check in the online filecheck path.
-  - Patches 1 and 3 add Link trailers to the Sashiko review Andrew
-    pointed out.
-
-Testing after v2:
-
-  - Replayed all three patches onto the original base, checked with
-    checkpatch --strict, and applied cleanly with git am.
-  - Rebuilt a fresh bzImage from the v2-applied tree.
-  - Booted that v2 kernel five times under QEMU: sparse regular-file
-    regression, non-sparse no-forge regression, forged non-canonical
-    i_mode, forged non-device i_rdev, and forged non-zero i_size with
-    zero i_clusters.
-  - The three forged dinodes were rejected by
-    ocfs2_validate_inode_block(); the two unforged regression cases
-    completed without validator errors.
-
-Michael Bommarito (3):
-  ocfs2: reject dinodes with non-canonical i_mode type
-  ocfs2: reject dinodes whose i_rdev disagrees with the file type
-  ocfs2: reject non-inline dinodes with i_size and zero i_clusters
-
- fs/ocfs2/inode.c | 151 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 149 insertions(+), 2 deletions(-)
-
+diff --git a/fs/ocfs2/inode.c b/fs/ocfs2/inode.c
+index a510a0eb1adcc..e149ccbdc03ce 100644
+--- a/fs/ocfs2/inode.c
++++ b/fs/ocfs2/inode.c
+@@ -13,6 +13,7 @@
+ #include <linux/pagemap.h>
+ #include <linux/quotaops.h>
+ #include <linux/iversion.h>
++#include <linux/fs_dirent.h>
+ 
+ #include <asm/byteorder.h>
+ 
+@@ -64,7 +65,12 @@ static int ocfs2_filecheck_read_inode_block_full(struct inode *inode,
+ static int ocfs2_filecheck_validate_inode_block(struct super_block *sb,
+ 						struct buffer_head *bh);
+ static int ocfs2_filecheck_repair_inode_block(struct super_block *sb,
+-					      struct buffer_head *bh);
++						      struct buffer_head *bh);
++
++static bool ocfs2_valid_inode_mode(umode_t mode)
++{
++	return fs_umode_to_ftype(mode) != FT_UNKNOWN;
++}
+ 
+ void ocfs2_set_inode_flags(struct inode *inode)
+ {
+@@ -1494,6 +1500,24 @@ int ocfs2_validate_inode_block(struct super_block *sb,
+ 		goto bail;
+ 	}
+ 
++	/*
++	 * Reject dinodes whose i_mode does not name one of the seven
++	 * canonical POSIX file types.  ocfs2_populate_inode() copies
++	 * i_mode verbatim into inode->i_mode and then dispatches via
++	 * switch (mode & S_IFMT) to file/dir/symlink/special_file iops;
++	 * an unrecognised type falls into ocfs2_special_file_iops with
++	 * init_special_inode(), which interprets i_rdev.  Constrain the
++	 * type here so the dispatch only ever sees a value mkfs.ocfs2 /
++	 * VFS can produce.
++	 */
++	if (!ocfs2_valid_inode_mode(le16_to_cpu(di->i_mode))) {
++		rc = ocfs2_error(sb,
++				 "Invalid dinode #%llu: mode 0%o has unknown file type\n",
++				 (unsigned long long)bh->b_blocknr,
++				 le16_to_cpu(di->i_mode));
++		goto bail;
++	}
++
+ 	if (le16_to_cpu(di->i_dyn_features) & OCFS2_INLINE_DATA_FL) {
+ 		struct ocfs2_inline_data *data = &di->id2.i_data;
+ 
+@@ -1624,6 +1648,15 @@ static int ocfs2_filecheck_validate_inode_block(struct super_block *sb,
+ 		     (unsigned long long)bh->b_blocknr,
+ 		     le32_to_cpu(di->i_fs_generation));
+ 		rc = -OCFS2_FILECHECK_ERR_GENERATION;
++		goto bail;
++	}
++
++	if (!ocfs2_valid_inode_mode(le16_to_cpu(di->i_mode))) {
++		mlog(ML_ERROR,
++		     "Filecheck: invalid dinode #%llu: mode 0%o has unknown file type\n",
++		     (unsigned long long)bh->b_blocknr,
++		     le16_to_cpu(di->i_mode));
++		rc = -OCFS2_FILECHECK_ERR_INVALIDINO;
+ 	}
+ 
+ bail:
+@@ -1812,4 +1845,3 @@ const struct ocfs2_caching_operations ocfs2_inode_caching_ops = {
+ 	.co_io_lock		= ocfs2_inode_cache_io_lock,
+ 	.co_io_unlock		= ocfs2_inode_cache_io_unlock,
+ };
+-
 -- 
 2.53.0
