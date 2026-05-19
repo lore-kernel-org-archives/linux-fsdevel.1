@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E2F352013;
-	Tue, 19 May 2026 22:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3C935C1A9;
+	Tue, 19 May 2026 22:32:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779229951; cv=none; b=Fq4a8Jg43kBu1FTYrPF0JEZiAH53nR/NQTWmePv1OzQS3/kuemHIZJGtFtuePULTorFm4hoPlO2SDsJxYjPPAuPmgs5mQTwI5mSeuc9+STjSUdPo33Ek7kgay2OH8hZdb8oSXf6CjSyVrb41Omt5vqECdfhkOvWT1BCoemHSEcA=
+	t=1779229966; cv=none; b=h+P4fhVAfTDUYOvAYpR0NU7Mu5HNPuWwCHgClfaNX6Es2Qp+S6oiq+BmSx4uuDFPb62ZvpMw7Tom9n5Y1UeM0sLttY/ti6yARPtV5nqFf+YfJ6AuL4PnPr/2RzchnCd9dJiHzh9W2zxwgEHLsov6m/XcwqovMibr+EU4/EsIYDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779229951; c=relaxed/simple;
-	bh=vRbhMpo2na24RsFtXek1pFokc4qrfai6wGCBV2w3uY0=;
+	s=arc-20240116; t=1779229966; c=relaxed/simple;
+	bh=/GdASbCvrZ6qbtS+9Xtoi8grGckpISFgaeZTMikYSOc=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TO+D9JX/rLdva6vkx1T5o8BIH7NzOtSNTzlXEBnBQDD+DZElsaW6VbG1qQd1HaxM2yVrZcxh7D9uWwq5qIbaTd3RMPSRjD/hlph9znVaiw1CRjOpRazn5keb9YbaUv41grLSEWroa3ijE4VsYjVqoHJJIB4Z5Dd1tRcyEjb9g9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g34CWLii; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=KlzzsEvhWvyQGOM2pfbh+k2J8AD0ysBlfRE7T7OeXBzHpSCJqAxZBsFX0vI2M5w8b9m3izA2tLyqoSPHaFxhTqVwvpx4E8rq/zI2yJJtSGjAr4/Ohl2jpBKr8zZpGRHE4u7nOH0WJ23nsN2EgDGknWCgH+JHvaADSTgXGr1ERPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bfPSRfhR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g34CWLii"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 673F41F000E9;
-	Tue, 19 May 2026 22:32:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bfPSRfhR"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 23FAE1F000E9;
+	Tue, 19 May 2026 22:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779229949;
-	bh=ZyHRPIvXky1NGQbVAWIgoe2opugO47LbWGvCTGbvCvc=;
+	s=k20260515; t=1779229965;
+	bh=W9xD32InSn9qXCDGGIuDqmIteGS3KSPRKIglPaGYrZk=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=g34CWLiiwIOQgqmSL+weZ6hpzTlIswyqij5j6jVmCxrcbclL+gU6mc4jYF+24i9Ux
-	 zqU7D27hxRHWfhs5HkdblRuVCRYSAWSerRygA8+GMAFfNV4F84DVymNiT8HpaIxywr
-	 Vo9EpCKgp9F0W+/TTOEW70tIrgWALGC0JRNsxpopt+L99KbfDWqB4KmS9sM16SOiQn
-	 BKfzKdtTYxGsRcIDY0bSmiligUZBOPoMM8GPojLxaX9khhJFJOvJSW8RgH2qegIGSh
-	 mo4H5qewHiYFeSvpe/PPfd1bUL2ju78UASU18OiVqD2CY6bpP+3lpbxxluFDDdRTAf
-	 yz1eeETpLIo2Q==
-Date: Tue, 19 May 2026 15:32:29 -0700
-Subject: [PATCH 6/9] fuse: allow privileged mount helpers to pre-approve iomap
- usage
+	b=bfPSRfhRvhvDAZp74RCpmSduQKRG+F6RAT7pZRtbgNXTqZwb9Y/FQbhQ638TarhyF
+	 GkiG5MQvJgyVHu9BOI+255UFpylZVEbAfRocnuY1MvNNfRO8xYz+xHbJEpgOA4aLMF
+	 05iyyPFSqO34drpl4qQgInqhZQgaMDwp0ad2OPl+kOpRlWzOwymD7SX9czEp/+fDqA
+	 Bq0xh/NU/PaR+PcCKiDWQLLbDVWMaXaM0dr+T+BQgUiGZ0P5bhiLS5vu4II2SDpn01
+	 MuIdx/d0GanhMyePvIHNjAAnr3IFpsGJ0Kvw3CNtR+UpO3ngfOIkk+ctSob2eqxCEV
+	 r7Gk5miVbXrfQ==
+Date: Tue, 19 May 2026 15:32:44 -0700
+Subject: [PATCH 7/9] fuse: invalidate ranges of backing devices being used for
+ iomap
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, miklos@szeredi.hu
 Cc: linux-fsdevel@vger.kernel.org, neal@gompa.dev, bernd@bsbernd.com,
  joannelkoong@gmail.com, fuse-devel@lists.linux.dev
-Message-ID: <177922946306.2439242.4214293518846047238.stgit@frogsfrogsfrogs>
+Message-ID: <177922946329.2439242.17189876954349215664.stgit@frogsfrogsfrogs>
 In-Reply-To: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
 References: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -47,231 +47,194 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-For the upcoming safemount functionality in libfuse, we will create a
-privileged "mount.safe" helper that starts the fuse server in a
-completely unprivileged systemd container.  The mount helper will pass
-the mount options and fds for /dev/fuse and any other files requested by
-the fuse server into the container via a Unix socket.
-
-Currently, the ability to turn on iomap for fuse depends on a module
-parameter and the process that calls mount() having the CAP_SYS_RAWIO
-capability.  However, the unprivilged fuse server might want to query
-the /dev/fuse fd for iomap capabilities before mount or FUSE_INIT so
-that it can get ready.
-
-Similar to FUSE_DEV_SYNC_INIT, add a new bit for iomap that can be
-squirreled away in file->private_data and an ioctl to set that bit.
-That way the privileged mount helper can pass its iomap privilege to the
-contained fuse server without the fuse server needing to have
-CAP_SYS_RAWIO.
+Make it easier to invalidate the page cache for a block device that is
+being used in conjunction with iomap.  This allows a fuse server to kill
+all cached data for a block that is being freed, so that block reuse
+doesn't result in file corruption.  Right now, the only way to do this
+is with fadvise, which ignores and doesn't wait for pages undergoing
+writeback.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/fuse/fuse_i.h          |   10 ++++++++++
- fs/fuse/fuse_iomap.h      |    2 ++
- include/uapi/linux/fuse.h |    1 +
- fs/fuse/dev.c             |    2 ++
- fs/fuse/fuse_iomap.c      |   44 ++++++++++++++++++++++++++++++++++++++++----
- fs/fuse/inode.c           |    7 +++++--
- 6 files changed, 60 insertions(+), 6 deletions(-)
+ fs/fuse/fuse_iomap.h      |    3 ++
+ include/uapi/linux/fuse.h |   20 ++++++++++++++++
+ fs/fuse/dev.c             |   28 +++++++++++++++++++++++
+ fs/fuse/fuse_iomap.c      |   56 +++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 107 insertions(+)
 
 
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 9e73522b8ed96e..9d6ad5b629ffdc 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -617,6 +617,9 @@ struct fuse_dev {
- 	/** Issue FUSE_INIT synchronously */
- 	bool sync_init;
- 
-+	/** Allow fuse server to ask for IOMAP */
-+	bool may_iomap;
-+
- 	/** Fuse connection for this device */
- 	struct fuse_conn *fc;
- 
-@@ -973,6 +976,13 @@ struct fuse_conn {
- 	/* Enable fs/iomap for file operations */
- 	unsigned int iomap:1;
- 
-+	/*
-+	 * Are filesystems using this connection allowed to use iomap?  This is
-+	 * determined by the privilege level of the process that initiated the
-+	 * mount() call.
-+	 */
-+	unsigned int may_iomap:1;
-+
- 	/* Use io_uring for communication */
- 	unsigned int io_uring;
- 
 diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
-index 921836cb6c9686..c4b98123072a37 100644
+index c4b98123072a37..f40d202c64c822 100644
 --- a/fs/fuse/fuse_iomap.h
 +++ b/fs/fuse/fuse_iomap.h
-@@ -63,6 +63,7 @@ int fuse_iomap_flush_unmap_range(struct inode *inode, loff_t pos,
- 				 loff_t endpos);
- int fuse_iomap_fadvise(struct file *file, loff_t start, loff_t end, int advice);
- 
-+int fuse_dev_ioctl_add_iomap(struct file *file);
+@@ -67,6 +67,8 @@ int fuse_dev_ioctl_add_iomap(struct file *file);
  int fuse_dev_ioctl_iomap_support(struct file *file,
  				 struct fuse_iomap_support __user *argp);
  int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
-@@ -90,6 +91,7 @@ int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
- # define fuse_iomap_fallocate(...)		(-ENOSYS)
- # define fuse_iomap_flush_unmap_range(...)	(-ENOSYS)
- # define fuse_iomap_fadvise			NULL
-+# define fuse_dev_ioctl_add_iomap(...)		(-EOPNOTSUPP)
++int fuse_iomap_backing_inval(struct fuse_conn *fc,
++			     const struct fuse_iomap_backing_inval_out *arg);
+ #else
+ # define fuse_iomap_enabled(...)		(false)
+ # define fuse_has_iomap(...)			(false)
+@@ -94,6 +96,7 @@ int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
+ # define fuse_dev_ioctl_add_iomap(...)		(-EOPNOTSUPP)
  # define fuse_dev_ioctl_iomap_support(...)	(-EOPNOTSUPP)
  # define fuse_dev_ioctl_iomap_set_nofs(...)	(-EOPNOTSUPP)
++# define fuse_iomap_backing_inval(...)		(-ENOSYS)
  #endif /* CONFIG_FUSE_IOMAP */
+ 
+ #endif /* _FS_FUSE_IOMAP_H */
 diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index 43a1bbcce576d5..0366101be3a321 100644
+index 0366101be3a321..899964f8d6616a 100644
 --- a/include/uapi/linux/fuse.h
 +++ b/include/uapi/linux/fuse.h
-@@ -1180,6 +1180,7 @@ struct fuse_iomap_support {
- #define FUSE_DEV_IOC_IOMAP_SUPPORT	_IOR(FUSE_DEV_IOC_MAGIC, 99, \
- 					     struct fuse_iomap_support)
- #define FUSE_DEV_IOC_SET_NOFS		_IOW(FUSE_DEV_IOC_MAGIC, 100, uint32_t)
-+#define FUSE_DEV_IOC_ADD_IOMAP		_IO(FUSE_DEV_IOC_MAGIC, 101)
+@@ -247,6 +247,7 @@
+  *  - add FUSE_ATTR_EXCLUSIVE to enable exclusive mode for specific inodes
+  *  - add FUSE_ATTR_IOMAP to enable iomap for specific inodes
+  *  - add FUSE_IOMAP_CONFIG so the fuse server can configure more fs geometry
++ *  - add FUSE_NOTIFY_IOMAP_BACKING_INVAL to invalidate iomap bdev ranges
+  */
  
- struct fuse_lseek_in {
- 	uint64_t	fh;
+ #ifndef _LINUX_FUSE_H
+@@ -706,6 +707,8 @@ enum fuse_notify_code {
+ 	FUSE_NOTIFY_RESEND = 7,
+ 	FUSE_NOTIFY_INC_EPOCH = 8,
+ 	FUSE_NOTIFY_PRUNE = 9,
++	FUSE_NOTIFY_IOMAP_BACKING_INVAL = 99,
++	FUSE_NOTIFY_CODE_MAX,
+ };
+ 
+ /* The read buffer is required to be at least 8k, but may be much larger */
+@@ -1509,4 +1512,21 @@ struct fuse_iomap_config_out {
+ 	int64_t s_maxbytes;	/* max file size */
+ };
+ 
++struct fuse_range {
++	uint64_t offset;
++	uint64_t length;
++};
++
++struct fuse_iomap_backing_inval_out {
++	uint32_t dev;		/* device cookie */
++	uint32_t reserved;	/* zero */
++
++	/*
++	 * Range of backing file pagecache to invalidate, in bytes.  After
++	 * the call completes, the range will be non-dirty and hence cannot
++	 * be written to by the bdev pagecache.
++	 */
++	struct fuse_range range;
++};
++
+ #endif /* _LINUX_FUSE_H */
 diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 3257292387e0a6..9ccf691451b609 100644
+index 9ccf691451b609..06f52114b9aef2 100644
 --- a/fs/fuse/dev.c
 +++ b/fs/fuse/dev.c
-@@ -2716,6 +2716,8 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
- 		return fuse_dev_ioctl_iomap_support(file, argp);
- 	case FUSE_DEV_IOC_SET_NOFS:
- 		return fuse_dev_ioctl_iomap_set_nofs(file, argp);
-+	case FUSE_DEV_IOC_ADD_IOMAP:
-+		return fuse_dev_ioctl_add_iomap(file);
- 
- 	default:
- 		return -ENOTTY;
-diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-index 3d9f5ecba43e28..72b530bbeb0934 100644
---- a/fs/fuse/fuse_iomap.c
-+++ b/fs/fuse/fuse_iomap.c
-@@ -10,6 +10,7 @@
- #include <linux/fadvise.h>
- #include <linux/fserror.h>
- #include "fuse_i.h"
-+#include "fuse_dev_i.h"
- #include "fuse_trace.h"
- #include "fuse_iomap.h"
- #include "fuse_iomap_i.h"
-@@ -75,12 +76,21 @@ bool fuse_iomap_enabled(void)
- 	 * There are fears that a fuse+iomap server could somehow DoS the
- 	 * system by doing things like going out to lunch during a writeback
- 	 * related iomap request.  Only allow iomap access if the fuse server
--	 * has rawio capabilities since those processes can mess things up
--	 * quite well even without our help.
-+	 * or a mount helper has rawio capabilities since those processes can
-+	 * mess things up quite well even without our help.
- 	 */
- 	return enable_iomap && has_capability_noaudit(current, CAP_SYS_RAWIO);
+@@ -1848,6 +1848,31 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
+ 	return err;
  }
  
-+static inline bool fuse_iomap_may_enable(void)
++static int fuse_notify_iomap_backing_inval(struct fuse_conn *fc,
++					   unsigned int size,
++					   struct fuse_copy_state *cs)
 +{
-+	/* Don't let anyone touch iomap until the end of the patchset. */
-+	return false;
++	struct fuse_iomap_backing_inval_out outarg;
++	int err = -EINVAL;
 +
-+	/* Same as above, but this time we log the denial in audit log */
-+	return enable_iomap && capable(CAP_SYS_RAWIO);
-+}
++	if (size != sizeof(outarg))
++		goto err;
 +
- /* Convert IOMAP_* mapping types to FUSE_IOMAP_TYPE_* */
- #define XMAP(word) \
- 	case IOMAP_##word: \
-@@ -2303,13 +2313,39 @@ int fuse_iomap_fadvise(struct file *file, loff_t start, loff_t end, int advice)
- 	return ret;
- }
- 
-+int fuse_dev_ioctl_add_iomap(struct file *file)
-+{
-+	int err;
-+	struct fuse_dev *fud = fuse_file_to_fud(file);
-+
-+	if (!fuse_iomap_may_enable())
-+		return -EPERM;
-+
-+	mutex_lock(&fuse_mutex);
-+	if (fuse_dev_fc_get(fud)) {
++	err = fuse_copy_one(cs, &outarg, sizeof(outarg));
++	if (err)
++		goto err;
++	if (outarg.reserved) {
 +		err = -EINVAL;
-+	} else {
-+		fud->may_iomap = true;
-+		err = 0;
++		goto err;
 +	}
-+	mutex_unlock(&fuse_mutex);
++	fuse_copy_finish(cs);
++
++	return fuse_iomap_backing_inval(fc, &outarg);
++err:
++	fuse_copy_finish(cs);
 +	return err;
 +}
 +
- int fuse_dev_ioctl_iomap_support(struct file *file,
- 				 struct fuse_iomap_support __user *argp)
- {
- 	struct fuse_iomap_support ios = { };
-+	struct fuse_dev *fud = fuse_file_to_fud(file);
-+	struct fuse_conn *fc;
+ struct fuse_retrieve_args {
+ 	struct fuse_args_pages ap;
+ 	struct fuse_notify_retrieve_in inarg;
+@@ -2138,6 +2163,9 @@ static int fuse_notify(struct fuse_conn *fc, enum fuse_notify_code code,
+ 	case FUSE_NOTIFY_PRUNE:
+ 		return fuse_notify_prune(fc, size, cs);
  
--	if (fuse_iomap_enabled())
-+	mutex_lock(&fuse_mutex);
-+	fc = fuse_dev_fc_get(fud);
-+	if ((fc && fc != FUSE_DEV_FC_DISCONNECTED && fc->may_iomap) ||
-+	    (!fc && fud->may_iomap) ||
-+	    fuse_iomap_enabled())
- 		ios.flags = FUSE_IOMAP_SUPPORT_FILEIO;
-+	mutex_unlock(&fuse_mutex);
- 
- 	if (copy_to_user(argp, &ios, sizeof(ios)))
- 		return -EFAULT;
-@@ -2318,7 +2354,7 @@ int fuse_dev_ioctl_iomap_support(struct file *file,
- 
- static inline bool can_set_nofs(struct fuse_dev *fud)
- {
--	if (fud && fud->fc && fud->fc->iomap)
-+	if (fud && fud->fc && (fud->fc->iomap || fud->fc->may_iomap))
- 	       return true;
- 
- 	return capable(CAP_SYS_RESOURCE);
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 781c9cd4ea014e..e87e7df2c63bdb 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1067,6 +1067,7 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
- 	fc->max_pages_limit = fuse_max_pages_limit;
- 	fc->name_max = FUSE_NAME_LOW_MAX;
- 	fc->timeout.req_timeout = 0;
-+	fc->may_iomap = fuse_iomap_enabled();
- 
- 	if (IS_ENABLED(CONFIG_FUSE_BACKING))
- 		fuse_backing_files_init(fc);
-@@ -1526,7 +1527,7 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
- 			if (flags & FUSE_REQUEST_TIMEOUT)
- 				timeout = arg->request_timeout;
- 
--			if ((flags & FUSE_IOMAP) && fuse_iomap_enabled()) {
-+			if ((flags & FUSE_IOMAP) && fc->may_iomap) {
- 				fc->iomap = 1;
- 				pr_warn(
-  "EXPERIMENTAL iomap feature enabled.  Use at your own risk!");
-@@ -1619,7 +1620,7 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
- 	 * locking works correctly.  This is not compatible with creating
- 	 * shadow inode objects for a submount.
- 	 */
--	if (fuse_iomap_enabled() && !(flags & FUSE_SUBMOUNTS))
-+	if (fm->fc->may_iomap && !(flags & FUSE_SUBMOUNTS))
- 		flags |= FUSE_IOMAP;
- 
- 	ia->in.flags = flags;
-@@ -2016,6 +2017,8 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
- 			goto err_unlock;
- 		if (fud->sync_init)
- 			fc->sync_init = 1;
-+		if (fud->may_iomap)
-+			fc->may_iomap = 1;
++	case FUSE_NOTIFY_IOMAP_BACKING_INVAL:
++		return fuse_notify_iomap_backing_inval(fc, size, cs);
++
+ 	default:
+ 		return -EINVAL;
  	}
- 
- 	err = fuse_ctl_add_conn(fc);
+diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+index 72b530bbeb0934..8d259c8d239b07 100644
+--- a/fs/fuse/fuse_iomap.c
++++ b/fs/fuse/fuse_iomap.c
+@@ -2390,3 +2390,59 @@ int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp)
+ 		return -EINVAL;
+ 	}
+ }
++
++int fuse_iomap_backing_inval(struct fuse_conn *fc,
++			     const struct fuse_iomap_backing_inval_out *arg)
++{
++	struct fuse_backing *fb;
++	struct block_device *bdev;
++	loff_t end;
++	int ret = 0;
++
++	if (!fc->iomap || arg->dev == FUSE_IOMAP_DEV_NULL)
++		return -EINVAL;
++
++	down_read(&fc->killsb);
++	fb = fuse_backing_lookup(fc, &fuse_iomap_backing_ops, arg->dev);
++	if (!fb) {
++		ret = -ENODEV;
++		goto out_killsb;
++	}
++	bdev = fb->bdev;
++
++	inode_lock(bdev->bd_mapping->host);
++	filemap_invalidate_lock(bdev->bd_mapping);
++
++	if (arg->range.offset >= bdev_nr_bytes(bdev)) {
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	if (arg->range.length == 0) {
++		ret = 0;
++		goto out_unlock;
++	}
++
++	if (check_add_overflow(arg->range.offset, arg->range.length, &end)) {
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	/*
++	 * Removes page cache for full base pages within the requested range,
++	 * and zeroes and cleans unaligned edges.  We don't care about this
++	 * distinction; all we care about is not having dirty bufferheads that
++	 * would get written out after iomap starts issuing writes directly to
++	 * the block device.
++	 */
++	end = min(end, bdev_nr_bytes(bdev)) - 1;
++	truncate_inode_pages_range(bdev->bd_mapping, arg->range.offset, end);
++
++out_unlock:
++	filemap_invalidate_unlock(bdev->bd_mapping);
++	inode_unlock(bdev->bd_mapping->host);
++	fuse_backing_put(fb);
++out_killsb:
++	up_read(&fc->killsb);
++	return ret;
++}
 
