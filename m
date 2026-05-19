@@ -1,86 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F468340401
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 13:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9979740960A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 13:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779196384; cv=none; b=SoOQeaU/0BbxZFCpIoHV8SRylx6WmgpvAFIJ0MRMTpsTsKlXH2HiUrnBOXr/jSokYLjBZHZjyxKZgABSuttX6rKQnengdXAmNLGkmnc0cW3X7yDP+/WXWNsyPZ2/fymbDsD8cM8VVXS1EntgkP4WHkX4V0Yml5ENIAi3jSYFG1I=
+	t=1779196915; cv=none; b=GuDYo21fC/+Q4/HUTvARlhfw3r+9CApuQXCqhh6cwcN98+pqEslop1dEPHL+JqADl+x4oNGEZWQtZFpNAqMXPHyHZmPuWOqeJj73xL6csQxisvR10djmkchUJ2/pSzafukE8HO3t9bR5kouHuKERkYi5lU6P7lN7JoFBvT6K1kQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779196384; c=relaxed/simple;
-	bh=uttRz8yhrN8uSRl3QOL+AoaUYikNwPQU2Uj+TvCaDGA=;
+	s=arc-20240116; t=1779196915; c=relaxed/simple;
+	bh=BKOwQlhk/XNOgNSARWw/BVPKB54BHxWS//RkeBp4S88=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=atiEEqKBNXqXg9ZoqWrbZM9CT5pF3wAidq99IWo3eqdR+wxv2nPye+jVgoPEzdPsz70xKeyzpoDPgsOteh1fd78etJJYQOytT6b0cdij0l6kqPnuE+tJYDG2IRFAq+9FGADuCTVZS2A3KGfMYRYmhxObW9dIzJW9lDVVTCRU08Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ga+wyc4h; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DQD2tS7u; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rDq6ktjJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nOLX3hdE; arc=none smtp.client-ip=195.135.223.130
+	 Content-Type:Content-Disposition:In-Reply-To; b=fiVIC2MDObFXseXJ793Aw3csdRp/vtc1lau8maIzCuOYiZsy0vaSlLdAhmPTrTH3sMkrg73qDOOTXJwLZiau8EK8SFYZuV8PwTgneQDOO3qoB11IIWEM9VRIkdgPpqkK1E6KeYjm8V8JXqDj/XUncEPE5sVFYrEVENf4XY4UtFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=N16oYhUn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vY6DtcpW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gsXhAmg3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6eKg/Ap+; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ga+wyc4h";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DQD2tS7u";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rDq6ktjJ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nOLX3hdE"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="N16oYhUn";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vY6DtcpW";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gsXhAmg3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6eKg/Ap+"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5A7015E1A1;
-	Tue, 19 May 2026 13:12:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CB7C96814A;
+	Tue, 19 May 2026 13:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779196381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779196911; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ttv9jC3aE4YTQwFj5JRk+lsHEFMSD8ObMwd5n3jrlGc=;
-	b=Ga+wyc4hMgNvHGtk4LCme2x8FC9nOsnhPWRWhMlHnfIkS7vzD6FZXglYHCMXtspyycOsoq
-	7lUegUp7FBLRea15j80Mf/n2opM4V5Kj/Ys53BeByn5UTe4ijuqWGzBnDXdkiP89YJ4IHv
-	14v0Pe5ZIPCBjTL61DPMJdcM8qW+liY=
+	bh=5AJtuKf0vK4bQut7vEuw9KdGIqfAV5UyH3eMVVOr6EU=;
+	b=N16oYhUnIoefG3CsCHE7L+jI1q8znWRvv+2HCDJMs7YVOfy0E11gN6DSw5wd/rvTCoZRkC
+	uNuberVoCCS3xHCIZmUQD/gccEYWqajUW0o34cDHgllQZt5kUO/qdIcJwA/tSl3FD+WuJc
+	JhaH954lcYR25agBI5DoFoRzAHNCXw8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779196381;
+	s=susede2_ed25519; t=1779196911;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ttv9jC3aE4YTQwFj5JRk+lsHEFMSD8ObMwd5n3jrlGc=;
-	b=DQD2tS7uCGgkq2S8jKfPm3Z6ZyZAl13Dap95qFdNuPcQk5caiuXhYMwM5wq8BEz4ykUVyD
-	LQYo4DUFknHG7LAg==
-Authentication-Results: smtp-out1.suse.de;
+	bh=5AJtuKf0vK4bQut7vEuw9KdGIqfAV5UyH3eMVVOr6EU=;
+	b=vY6DtcpWj1BTEEVm5h4St5Hg8PLEpB8Deley+iOIEuWVpkmhCHyyH8vHaVPfX/LD9ocNc4
+	Lsmrh7oPPWSTKrAg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779196377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779196907; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ttv9jC3aE4YTQwFj5JRk+lsHEFMSD8ObMwd5n3jrlGc=;
-	b=rDq6ktjJMWwL/nt+2hDGFyERQhezWk7eSl20r2hUQgMzO3IyEpnrOSfEkOzrB0xU35rJim
-	+x09NVRxi1+K2H2K6+iNgOKRFv0vNwl8R87enPSMyL7QWxNWsi8BnJfJRY7wYpk14RRChE
-	1QdiX+W7kY7LHZiIvM65krwRJvOcIEU=
+	bh=5AJtuKf0vK4bQut7vEuw9KdGIqfAV5UyH3eMVVOr6EU=;
+	b=gsXhAmg3k1rrvjwnLW9Remm7EvXSx0hkZDtdw17wl3uG/4lrjq8FVYpVSOYSsX2dMOvZM2
+	8pdceKeMwbJR3KTnfqh9vg93dioTCLOMqzo3Eq7i6r1f/PZIhI06cO7qeAn+djGbrGpaAv
+	ofcRd9nulk1tTio/uTqZF7O/xHd5sLg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779196377;
+	s=susede2_ed25519; t=1779196907;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ttv9jC3aE4YTQwFj5JRk+lsHEFMSD8ObMwd5n3jrlGc=;
-	b=nOLX3hdE4y1vJu+1+Rl9WByRDoGfxGpcx3aIdLStoUSLBsTVpvuFmjrozqFejIZP086vWf
-	9A/5BDCfQJxBTGBg==
+	bh=5AJtuKf0vK4bQut7vEuw9KdGIqfAV5UyH3eMVVOr6EU=;
+	b=6eKg/Ap+aXDaR0iAGK+yqYbQjMsh3KTwvhKtlQOyUopZRcF6Ez+TA+ABmnXCBwdG8NF4CS
+	kaA40yCYHUp232Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 529E5593A8;
-	Tue, 19 May 2026 13:12:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C3258593A8;
+	Tue, 19 May 2026 13:21:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id akopFNlhDGrSKAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 13:12:57 +0000
+	id 1bKdL+tjDGqGMQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 13:21:47 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 5BC9BA0ADE; Tue, 19 May 2026 15:12:56 +0200 (CEST)
-Date: Tue, 19 May 2026 15:12:56 +0200
+	id EDE3BA0ADE; Tue, 19 May 2026 15:21:38 +0200 (CEST)
+Date: Tue, 19 May 2026 15:21:38 +0200
 From: Jan Kara <jack@suse.cz>
 To: Al Viro <viro@zeniv.linux.org.uk>
 Cc: linux-fsdevel@vger.kernel.org, 
 	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, 
 	Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [RFC PATCH 13/14] kill configfs_drop_dentry()
-Message-ID: <ugllhpqcy62ludmg2wgc4dcsmm4z4m6pgpzdhcehkp7jvxnf4d@6mxgiskj5ct7>
+Subject: Re: [RFC PATCH 11/14] configfs: dentry refcount needs to be pinned
+ only once
+Message-ID: <roxbdqubwemwa6hk7ihyln6uk67wrjcyn5fynlfdbylh4mezim@secgpywhkfst>
 References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
- <20260519070633.2025485-14-viro@zeniv.linux.org.uk>
+ <20260519070633.2025485-12-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,7 +90,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260519070633.2025485-14-viro@zeniv.linux.org.uk>
+In-Reply-To: <20260519070633.2025485-12-viro@zeniv.linux.org.uk>
 X-Spam-Level: 
 X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
@@ -110,85 +111,96 @@ X-Spamd-Result: default: False [-3.80 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,linux.org.uk:email,suse.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.org.uk:email,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
 X-Spam-Flag: NO
 X-Spam-Score: -3.80
 
-On Tue 19-05-26 08:06:32, Al Viro wrote:
-> Fold into the only remaining user, don't bother with the timestamps
-> of parent - we are going to rmdir it shortly anyway, which will
-> override those.
+On Tue 19-05-26 08:06:30, Al Viro wrote:
+> currently we have a weird situation where
+> 	* symlinks and roots of subtrees created by mkdir are pinned once
+> 	* subdirectories of subtrees created by mkdir are pinned twice
+> 	* roots of subtrees created by register_{group,subsystem} are pinned
+> twice.
 > 
-> Fix the locking of inode, while we are at it - updating the link
-> count and timestamps ought to be done with the inode locked.
+> It makes things harder to follow for no good reason.  The goal is to
+> encapsulate the unbalanced dget/dput into d_{make,discard}_persisitent()
+> and, preferably, allow a use of simple_recursive_removal() or analogue
+> thereof.  So let's regularize that and pin things only once.
+> 
+> create_default_group() and configfs_register_subsystem() don't need to
+> keep their reference around on success - configfs_create_dir() has pinned
+> the sucker already.  So we can drop the reference passed to
+> configfs_create_dir() (via configfs_attach_group(), etc.) both on success
+> and on failure.  On the removal side we no longer have the double references,
+> so we need an explicit dget() to compensate.
 > 
 > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-...
->  	parent_sd = dentry->d_fsdata;
->  	list_for_each_entry_safe(sd, tmp, &parent_sd->s_children, s_sibling) {
-> +		struct dentry *child;
->  		if (!sd->s_element || !(sd->s_type & CONFIGFS_NOT_PINNED))
->  			continue;
->  		spin_lock(&configfs_dirent_lock);
->  		list_del_init(&sd->s_sibling);
-> +		child = sd->s_dentry;
-> +		if (child && simple_positive(child))
-> +			dget_dlock(child);
 
-Why is it safe to call dget_dlock() here? We hold only configfs_dirent_lock
-so cannot we race with somebody doing dget() on the 'child' dentry? Even if
-it is indeed safe for some reason I'm missing, it would deserve a comment I
-guess?
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
-> +		else
-> +			child = NULL;
->  		spin_unlock(&configfs_dirent_lock);
-> -		configfs_drop_dentry(sd, dentry);
-> +		if (child) {
-> +			struct inode *inode = child->d_inode;
-> +			d_drop(child);
-> +
-> +			inode_lock_nested(inode, I_MUTEX_NONDIR2);
-> +			inode_set_ctime_current(inode);
-> +			drop_nlink(inode);
-> +			inode_unlock(inode);
-> +			dput(child);
-> +		}
->  		configfs_put(sd);
+> ---
+>  fs/configfs/dir.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+> index 39a496749dc2..6d9c6a5b17ff 100644
+> --- a/fs/configfs/dir.c
+> +++ b/fs/configfs/dir.c
+> @@ -635,7 +635,7 @@ static void detach_groups(struct dentry *dentry)
+>  		    !(sd->s_type & CONFIGFS_USET_DEFAULT))
+>  			continue;
+>  
+> -		child = sd->s_dentry;
+> +		child = dget(sd->s_dentry);
+>  
+>  		inode_lock(d_inode(child));
+>  
+> @@ -683,8 +683,8 @@ static int create_default_group(struct config_group *parent_group,
+>  		} else {
+>  			BUG_ON(d_inode(child));
+>  			d_drop(child);
+> -			dput(child);
+>  		}
+> +		dput(child);
 >  	}
->  }
-> diff --git a/fs/configfs/inode.c b/fs/configfs/inode.c
-> index bc507b720a01..3c26b6c443be 100644
-> --- a/fs/configfs/inode.c
-> +++ b/fs/configfs/inode.c
-> @@ -195,25 +195,3 @@ const unsigned char * configfs_get_name(struct configfs_dirent *sd)
->  	}
->  	return NULL;
->  }
-> -
-> -
-> -/*
-> - * Unhashes the dentry corresponding to given configfs_dirent
-> - * Called with parent inode's i_mutex held.
-> - */
-> -void configfs_drop_dentry(struct configfs_dirent * sd, struct dentry * parent)
-> -{
-> -	struct dentry * dentry = sd->s_dentry;
-> -
-> -	if (dentry) {
-> -		spin_lock(&dentry->d_lock);
-> -		if (simple_positive(dentry)) {
-> -			dget_dlock(dentry);
-> -			__d_drop(dentry);
-> -			spin_unlock(&dentry->d_lock);
-> -			__simple_unlink(d_inode(parent), dentry);
+>  
+>  	return ret;
+> @@ -1754,7 +1754,7 @@ EXPORT_SYMBOL(configfs_register_group);
+>  void configfs_unregister_group(struct config_group *group)
+>  {
+>  	struct configfs_subsystem *subsys = group->cg_subsys;
+> -	struct dentry *dentry = group->cg_item.ci_dentry;
+> +	struct dentry *dentry = dget(group->cg_item.ci_dentry);
+>  	struct dentry *parent = group->cg_item.ci_parent->ci_dentry;
+>  	struct configfs_dirent *sd = dentry->d_fsdata;
+>  	struct configfs_fragment *frag = sd->s_frag;
+> @@ -1869,12 +1869,12 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+>  		if (err) {
+>  			BUG_ON(d_inode(dentry));
+>  			d_drop(dentry);
 > -			dput(dentry);
-> -		} else
-> -			spin_unlock(&dentry->d_lock);
-> -	}
-> -}
+>  		} else {
+>  			spin_lock(&configfs_dirent_lock);
+>  			configfs_dir_set_ready(dentry->d_fsdata);
+>  			spin_unlock(&configfs_dirent_lock);
+>  		}
+> +		dput(dentry);
+>  	}
+>  
+>  	inode_unlock(d_inode(root));
+> @@ -1893,7 +1893,7 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+>  void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
+>  {
+>  	struct config_group *group = &subsys->su_group;
+> -	struct dentry *dentry = group->cg_item.ci_dentry;
+> +	struct dentry *dentry = dget(group->cg_item.ci_dentry);
+>  	struct dentry *root = dentry->d_sb->s_root;
+>  	struct configfs_dirent *sd = dentry->d_fsdata;
+>  	struct configfs_fragment *frag = sd->s_frag;
 > -- 
 > 2.47.3
 > 
