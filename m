@@ -1,133 +1,251 @@
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A874502A;
-	Tue, 19 May 2026 03:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB1F223DFB;
+	Tue, 19 May 2026 03:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779160005; cv=none; b=TJv8+Q2iAGLLxY2heR8Fb4GEUL4YOyPHQykdmoxeQ6pQi+fKXciCBFF8Qe3Io3rW1lBIt/G8uZvp8CfjU1ZBLDPAqMx4dazeKj5Yc58yFh5xCKH2KZDotCfcAlHI7cbwM1SeECnRMdmEo8Vm96ns326mJ/tD1Jbfn7Ggxmk+JS8=
+	t=1779160787; cv=none; b=leFh7MwrdDBt6IsaT3PW85MtEMfmv7jJPLB+wCGOvAzMIx4HVnqWGbl5EHqeK+QzS+cpz6bSaLzDSx+UTkDpBZ2gV4eMbzUrjoe3O2Cjj8ZjJRm4KuLg9tpoO9R5r4zpWYHDK2QVekxGMqRa/5oj39r5KNrAY3rkZ0D2y4J5wtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779160005; c=relaxed/simple;
-	bh=eIhmUnNwKy6HvW+m0XchQwOsQOAlr/HTOA+UFnNoeDs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=axmVAV0mfl9NCUTLNzShBkVeEf8LHskbr85wFcfDHB8Dn6oF104fCKqgUSoFPFTDWv7m3eFyhTj0DomdV7fFHRgFgZqVBCN1bGXaz09br9aGmaMR/bl72na56bk+DjJiDsS2K+J47T3rzE7tI2tJHHDz+EnTCOCpK8DjMByMajI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=gHckrrI3; arc=none smtp.client-ip=115.124.30.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1779160787; c=relaxed/simple;
+	bh=KBn7PosK3uRD/1vuWm+YCbMzlGZ3pP0omt8Cx3r05kE=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=qh3kbIP4h8cTQAJvssDTVb79ZVq+MwPjuBkt6fOXsj6nPn4roMoHgxYEZPlgryWEB6Z589K/yJuoJnFsidF7XdRTndDlWEqhljQku8Ab5rfjkophwlaFt3UXi/FbpZdoHkY1WJc/kXjrTg/oa/vYgT7lvocDxC8mDkBL2mW0z0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=kwdU0qq3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=O7NM0QHT; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="gHckrrI3"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1779159995; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=nQvrIQXtNeMkklqeqloILPseAkEANFqz6VFL0VVNri0=;
-	b=gHckrrI3P5LA614uu37+IiIz2sm4gwU/S0PB5VfiVrqJ66OeqWjXObH4ffwVGfWTsKi3LsAKcwee6q4vHIBmuchQzpZbIhRJVfQkchEUCmncsGLhaRJkf5pfmm7v0I1+0A3HjfPNLbhPbMJp582+ujFUZCijuOB1CkMGH85cQQQ=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R571e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X3E892L_1779159993;
-Received: from 30.74.112.128(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X3E892L_1779159993 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 19 May 2026 11:06:33 +0800
-Message-ID: <7db5253f-7cb7-45a7-91b6-8869ab9beb34@linux.alibaba.com>
-Date: Tue, 19 May 2026 11:06:33 +0800
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="kwdU0qq3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="O7NM0QHT"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 81B381D00104;
+	Mon, 18 May 2026 23:19:44 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 18 May 2026 23:19:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1779160784; x=1779247184; bh=v4ZFc8FwJLJO4YU+gW5JvtMEa1pwI0kSyYh
+	/+5NSWKk=; b=kwdU0qq3E8dV6CneWz89Gmx9JSGImOVcb8sCRk+2ms4oRVUyEEq
+	IXYL2Yogr53GG2AhbUmojmbUuKRQG9Rpdv1pIGlwS9YO+x9s1Rfb3AdWpj/Av9mz
+	TV82rqIVobwIQMDZ+N0RMG8DlNxEacAtHs3lkVCXQy85cB6vd21Yist3ve3WFsiv
+	Y5lSE/tX5S7X0DVnX1YRq5TAl9Ob8cbJwKuV0Vs4qYeVxyJ/73U2RrE+3UkL9NDc
+	rmPZeyjcA0uyQBtdq00cA9/x6F8JurdTlmCrfmnVnkECAl/uT9+nDemAYZ4kUo8S
+	xvWit/ZizcNCmaN/RBoZgkJ0rYanXUThVuA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779160784; x=
+	1779247184; bh=v4ZFc8FwJLJO4YU+gW5JvtMEa1pwI0kSyYh/+5NSWKk=; b=O
+	7NM0QHT96XCroNpmqsoghAGZLM9k3YWnuCaxY4vE0h8TYi5OUL01XqKcJnCsjWdG
+	uzIKW0WMefE4UUiSksgKaYhk/0EQiN/9J0ALn/VXir1WgCMvikiEMNDGsiSn8p5U
+	Q1j2niMQk9xmCQNmEQdG0ZqL3Wvk6RwV+apm7nGPp+MToSskvEy+IqeYA88gYXkh
+	yKdjzLTKk/53CkTbOsj4SmlDEqfO3uYXJG004/ZFIuV7M+DTgmDTPdmxuRwDNJS/
+	oSxSYuCESa4VUTH86355sme2mbmIdHId040jbBjC5TJ6HK/B5EIGFx/vjjqpCRzP
+	K4pQcpgYFNQfSDG1VbsXg==
+X-ME-Sender: <xms:0NYLarEQTLoyvHnpPeQZi0uzyt1__utB7nLd6AR8Gg0wdf5E_0Z7mw>
+    <xme:0NYLagGlWHML9IHakZhbcAGYFBTFqbG8ptwSwAFAYq9Pl81uS5YNs82-L4pqcdREb
+    C5VVZIvQtjBWUfhLs2iFKa8VdmlWgefvZ_4HP8qA9O45rq0wA>
+X-ME-Received: <xmr:0NYLagOjSiY1stydYpv9vgX7VUoMghFaK3Wo6T9Z8tYy_JjOOyL2ILrFTBivuBIIWX6e089NNy3YadYEaZU8vY7d7I49KlQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugedtieeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurheptgfgggfhvfevufgjfhffkfhrsehtjeertddttdejnecuhfhrohhmpefpvghilheu
+    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epgeehfeevheehteetudehjeduiefhueehieevvdejkeeufeevkeelieffffduhfevnecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggp
+    rhgtphhtthhopeefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqd
+    hnfhhssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqfhhs
+    uggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhihtoh
+    hnsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:0NYLanGbkUfd6v8qseZesU9nKhzm8sJ6qHIkTmzogjWIGib_aevrTg>
+    <xmx:0NYLavO-pQIQF0lXQc2A3KQ6cP4LfgMRzC5P7E4sQp65gJxMwURGNw>
+    <xmx:0NYLag9gUy9Fv5Lo2FEhuy-FbLJq2c1dxeIiZrwDZ4_VwJk1alN3bw>
+    <xmx:0NYLajRuiwzMhkFzsh4XxTV6bL3jUWw7xzjKNQW21xGFrgeKc7nwMg>
+    <xmx:0NYLanUJBZzd7eWCfo7VXWJ9mhOTehXdDDEyrJPMfFVFUAzevj059PjJ>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 18 May 2026 23:19:42 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/4] mm/shmem: optimize file read with folio batching
-To: Chi Zhiling <chizhiling@163.com>, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Cc: Hugh Dickins <hughd@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
- "Liam R. Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Chi Zhiling <chizhiling@kylinos.cn>
-References: <20260515094702.1092355-1-chizhiling@163.com>
- <20260515094702.1092355-4-chizhiling@163.com>
- <d1808e75-ccc2-486c-8844-4038e7b707c2@linux.alibaba.com>
- <402906ba-4080-45a6-88c0-4cb8f88e2fa6@163.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <402906ba-4080-45a6-88c0-4cb8f88e2fa6@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Jeff Layton" <jlayton@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: try_break_deleg() and atomic_open()
+In-reply-to: <a278be1fa50f3c52af869233ce34d3139c33b653.camel@kernel.org>
+References: <177853810078.2788210.11836979435758859096@noble.neil.brown.name>
+  <72c8e1e9c9212aeb8a0cb9f5321dd576685a4f7e.camel@kernel.org>
+  <177855793113.2788210.10945921479429705266@noble.neil.brown.name>
+  <a278be1fa50f3c52af869233ce34d3139c33b653.camel@kernel.org>
+Date: Tue, 19 May 2026 13:19:38 +1000
+Message-id: <177916077874.3947082.12776465344029937479@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-
-
-On 5/19/26 10:15 AM, Chi Zhiling wrote:
-> On 5/18/26 14:57, Baolin Wang wrote:
->>
->>
->> On 5/15/26 5:47 PM, Chi Zhiling wrote:
->>> From: Chi Zhiling <chizhiling@kylinos.cn>
->>>
->>> Optimize shmem file read by implementing folio batching in the read
->>> iteration path. Only uptodate folios are added to the batch, ensuring
->>> all folios in the batch are valid and ready for use without additional
->>> checking.
->>>
->>> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
->>> ---
->>>   mm/shmem.c | 102 ++++++++++++++++++++++++++++++++++++++++++++++++-----
->>>   1 file changed, 93 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/mm/shmem.c b/mm/shmem.c
->>> index 767610f78d0d..4bc4e463ca97 100644
->>> --- a/mm/shmem.c
->>> +++ b/mm/shmem.c
->>> @@ -3348,16 +3348,100 @@ shmem_write_end(const struct kiocb *iocb, 
->>> struct address_space *mapping,
->>>       return copied;
->>>   }
->>> +static pgoff_t shmem_get_read_batch(struct address_space *mapping,
->>> +        pgoff_t index, pgoff_t max, struct folio_batch *fbatch)
->>> +{
->>> +    XA_STATE(xas, &mapping->i_pages, index);
->>> +    struct folio *folio;
->>> +    pgoff_t end = max;
->>> +
->>> +    rcu_read_lock();
->>> +    xas_for_each(&xas, folio, max) {
->>> +        if (xas_retry(&xas, folio))
->>> +            continue;
->>> +        if (xa_is_value(folio)) {
->>> +            end = xas.xa_index;
->>> +            break;
->>> +        }
->>> +        if (!folio_try_get(folio))
->>> +            goto retry;
->>> +
->>> +        if (unlikely(folio != xas_reload(&xas)))
->>> +            goto put_folio;
->>> +
->>> +        end = folio_next_index(folio);
->>> +
->>> +        if (!folio_test_uptodate(folio)) {
->>> +            xas_advance(&xas, end - 1);
->>> +            folio_put(folio);
->>> +            continue;
->>> +        }
->>> +        if (!folio_batch_add(fbatch, folio))
->>> +            break;
->>> +        xas_advance(&xas, end - 1);
->>> +        continue;
->>> +put_folio:
->>> +        folio_put(folio);
->>> +retry:
->>> +        xas_reset(&xas);
->>> +    }
->>> +    rcu_read_unlock();
->>> +
->>> +    return end;
->>> +}
->>
->> I haven't looked at this patch in detail yet, but I feel this part 
->> should belong in mm/filemap.c, or perhaps mm/filemap.c already has a 
->> similar function implemented? Let's wait for Matthew's comments on this.
+On Tue, 12 May 2026, Jeff Layton wrote:
+> On Tue, 2026-05-12 at 13:52 +1000, NeilBrown wrote:
+> > On Tue, 12 May 2026, Jeff Layton wrote:
+> > > On Tue, 2026-05-12 at 08:21 +1000, NeilBrown wrote:
+> > > > Hi Jeff,
+> > > >  quick question (I hope).
+> > > > Should atomic_open() call try_break_deleg() on the directory
+> > > > when a create is pending?
+> > > > 
+> > > > This seems a bit iffy because the VFS doesn't necessarily know if a
+> > > > create will happen before it calls ->atomic_open, so it cannot know
+> > > > if it needs to break the deleg or not.
+> > > 
+> > > Agreed, so I'm thinking no to doing that in generic code.
+> > > 
+> > > > So maybe the individual ->atomic_open functions should do it?
+> > > > 
+> > > 
+> > > I think that's probably what has to happen:
+> > > 
+> > > atomic_open() is there to handle the non-trivial open cases (mostly
+> > > network and clustered filesystems). Those, in general, also require
+> > > non-trivial delegation/lease handling. I think we sort of need to leave
+> > > it to the underlying fs in those cases since the kernel doesn't have
+> > > enough info to do it.
+> > 
+> > I had a look and could only find gfs2/nolocks and NFSv4 as filesystems
+> > which support leases on directories and use ->atomic_open.
+> > 
 > 
-> You are right. The existing filemap_get_folios_contig can handle this 
-> with clearer code, nice!
+> Maybe also smb/client? Ceph also supports clustered leases, but the
+> kernel client never got support for it.
 
-Good.
+Yes, those both *could* possible support directory leases, but neither
+actually do at present.
+
+>  
+> > I wonder if gfs2/nolocks should not advertise ->atomic_open.  The
+> > implication of nolocks is (I assume) that there is only the one active
+> > client, and in that case no special handling is needed for exclusive
+> > create.
+> > 
+> 
+> Yeah, I don't see the point of GFS2's ->atomic_open in the case of a
+> single-client filesystem.
+> 
+> > NFSv4 uses delegations to provide leases.  So the ->atomic_open
+> > handler does have work to do to cancel any lease while keeping the
+> > delegation.
+> > We would need to either allow ->atomic_open to return the deleg_inode
+> > somehow, or have ->atomic_open drop the parent lock so that it can
+> > safely wait.
+> > 
+> > Or we could just ignore the issue until I manage to land my changed to
+> > push locking down into the filesystem, and then locking/waiting becomes
+> > much easier.
+> > 
+> 
+> To make sure I understand the scenario: the NFS client has a directory
+> delegation on the parent directory and an application has taken out a
+> lease on that directory. We now want to issue an open(..., O_CREAT) on
+> a file in that directory for which we don't yet have a dentry?
+
+Yes, that is the scenario when ->atomic_open will be called and could
+created a file without first breaking the lease that some application
+holds on the directory.
+
+> 
+> FWIW, the current NFSv4 client code won't hand out leases on a
+> directory, as struct nfs_dir_operations doesn't set the ->setlease
+> operation, so this situation shouldn't arise. Ditto for CIFS.
+
+Oh.... I had thought that I saw that it did.  Clearly I was wrong.
+So at present the only filesystem which supports directory leases and
+->atomic_open is gfs2 when "nolocks" is active and we both agree that is
+an odd configuration.  But it likely doesn't work as expected and maybe
+we should discuss fixing it with the gfs2 devs.
+
+> 
+> But, let's pretend that it's possible: Ideally we'd just leave it up to
+> the server to recall the deleg if a create happens, but most servers
+> won't revoke the deleg of the client making the change. So I think if
+> we ever did want to support this, then the NFSv4 client would need to
+> revoke the (local application's) lease on its own.
+
+Yes.  One approach is to decide that ->atomic_open needs to handle any
+lease breaking that might be needed.  In that case we should document
+this requirement for atomic_open.
+
+The other approach is to have the VFS proactively break the lease if a
+create is expected.
+
+> 
+> > 
+> > > 
+> > > > I'm looking at dentry_create() which calls atomic_open() is quite a
+> > > > different way to how lookup_open() calls it.  I'd like to change
+> > > > nfsd4 so it calls something a lot more like lookup_open() and in
+> > > > looking at what I would need to change, delegated_inode stood out.
+> > > > 
+> > > 
+> > > Understood. I wish that were a bit less klunky, but I don't see a great
+> > > way to make it so.
+> > 
+> > We could check for a lease and if one is present then do the lookup
+> > separately from ->atomic_open.  If that finds a match then no create is
+> > needed.  If it doesn't then there is justification to break the lease
+> > before calling ->atomic_open.
+> > 
+> > This means that when there is a lease on an NFS directory, other apps
+> > have to do a LOOKUP for uncached names before sending a creating OPEN.
+> > Maybe that is an acceptable cost.
+> > 
+> > Should an O_CREAT open *always* break a directory lease, even if the
+> > name happens to exist?
+> > I note that man/man2const/F_GETLEASE.2const in man-pages.git doesn't
+> > mention directories.
+> > 
+> 
+> There is a coming update to the manpage, but it may not have trickled
+> out to the distros yet. My thinking at this point is that this would
+> have to be handled inside of the NFS (or CIFS) client.
+
+Where can I see the manpage update?  It isn't in
+   https://git.kernel.org/pub/scm/docs/man-pages/man-pages/
+
+> 
+> Now though I'm wondering if the NFSv4 client-side lease implementation
+> is actually broken:
+> 
+> Suppose an application takes out a read lease on a fd1 for a file and
+> then another application on the same client opens fd2 on the file for
+> write. I don't think a lease break will happen today since the activity
+> comes from the same client.
+> 
+> OTOH, maybe it does work since the v4 client does set a local lease on
+> the file? I think we'll need to test this to see how that works.
+
+I think the local lease handling is enough to break the lease.
+As long as the NFS client only gives out leases when it holds a
+delegation, and break them when it loses the delegation (and this is
+what the code appears to do) then it should all work properly.  Testing
+wouldn't hurt of course.
+
+So the short answer to my original question is that something should
+break leases when ->atomic_create is called, but it doesn't actually
+matter for any filesystem at present so we can delay having a firm
+opinion until someone wants to implement directory leases combined with
+atomic_open.
+
+Thanks,
+NeilBrown
+
+
+> -- 
+> Jeff Layton <jlayton@kernel.org>
+> 
+
