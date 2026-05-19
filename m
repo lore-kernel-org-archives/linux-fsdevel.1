@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FD33B47C9
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 07:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD2D3B3C11
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 07:06:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779174399; cv=none; b=oycBogz1BuF0cU2SnrpoVKAUV1a/SM8wI8xPtTNLv6UZZ8GU2kg8k3po+2LGP3KHyZlrbPEZ3VFmJKfpDcZk0/DoG2hRgahrQKhcJbfLlm5MEhhCzx5EwnAQKb36NFOsPxDHXFq1DeSYtSdOk5VK5RK6Qb7K0QhGUBwr0LImkoA=
+	t=1779174399; cv=none; b=VXn6CxAcat3f5HW+JE+cm5k3n8phgWo322bluZxrLqLXrGxwSM2ib3O1uyKl96zNmvyOcbaN9anyFcRiLn6ksiF3ZE3Dli+s/c8e3l12fkZekLPNSBAe+w3ecnvLiA/oayUntvwREOwzL0ZV0LgDZcqVQ1oibinJ7hzfmZptQqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779174399; c=relaxed/simple;
-	bh=vGpS3hyPPHhTuP8Q2DhwTW7wBe9IKHEwbda9Wo7yreY=;
+	bh=C9tE1McR3hdlbO+2LghdLfX/fkSejKzPgYdy8Im7lSc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hpX4jtRsTGy3lHzGJWeOIg2Hh2BHRJX9yEYTWuOhypIhWJ/L2s37X5Op/E0qXYfeFDGIrIkGqdyZSbrPXRlByUuGwAwfU0/N1l33AdG7YUCpQa/02kpj5SAKIn7XUerk7oyQnQNXM8BHDtXDTbZG1bopIGL7zdT0biym0C7gFnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=UCrLxc6T; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=e2SUNs4ZPxgZK99y4KubNQX6CDh3x7rm6155VnDpkkzXNy/QelGndb1gr6izOYpALGtN5PZnacYGZY0wAxbfZamWHTEDb03bcNeUk4w4RV+1O+IxKcp5+B05XY3XLnMvuRqFW3Fx1o2nlbS5+OMFjUHQjCzlkUZ7Vb6JPIdEhK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=XuBo2TTu; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="UCrLxc6T"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="XuBo2TTu"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=8PfwJlkx65b9Q2l8Ccu550i8jkhkA7fTs63i5iMBsAw=; b=UCrLxc6TfdNYWWrSfJvlJxp7Le
-	xvKTPUJP+snMWTyt4pDqhxKSHrS52WIQJu0A5WL516rKnrBQCZrTbeY7nyUp0v9y92gYNKsV0lslX
-	31zKrBBG8FEhTxDVQ26CbusW7Yc8bX6DWhHe9iBPDIcs1McMU9jLtPMIq26fRHiCOQeD+9fNK68cx
-	F1Inu9BpenNdpt9o3ilo5Mh4fmjgBd2peopA+gPkB6dF15kVlM1ei3KXkFuKT6uWfWWpeYc4t9UkG
-	lzarmZ/zGNWkgqmfMI4KzZStHgeZedU1w6A2hKK3lbogehP9ptypzoRbCwW1j5Ln/eWYOp2baNVPM
-	FAdrboqQ==;
+	bh=vOQHUmMVJW57nHTkQluAttkz0xKoWABQ/Iogtyjbz18=; b=XuBo2TTuWpuQgqUorHeAPgq5Sn
+	LTYA9ZwAJ/bqkkCWyMMtFTfO/N+plyiHmLSowKARz2CtjJOzkXHh1P1TnLKNC1ON/F/FjL1wMWwju
+	S24AlgHG9Qf9GUOir2GFG5Wp6RSWAXWJWIUaxlgETbFJ7nYRS8DJr/FX5lFxX/zWjwKdp2EeAEKrs
+	AafmouZkCj3mnzn+bIIyLIXqG1pHuEBl+zRRHha2XUWRTM0n9RDgQMl+nQif4FSRlW7vtCLShkQ80
+	iBZ7GFpG6V5YVgovjgQgBBIFvkfOEGAvgE0fTSaZ/1fLQYmeeQ0QjpilrVbJLoj0bKsywNl03I07k
+	YTX79QaQ==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wPEXB-00000008UvT-2dQF;
-	Tue, 19 May 2026 07:06:33 +0000
+	id 1wPEXC-00000008Uwo-3BYM;
+	Tue, 19 May 2026 07:06:34 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: Andreas Hindborg <a.hindborg@kernel.org>,
@@ -36,9 +36,9 @@ Cc: Andreas Hindborg <a.hindborg@kernel.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [RFC PATCH 04/14] configfs_depend_prep(): pass configfs_dirent instead of dentry
-Date: Tue, 19 May 2026 08:06:23 +0100
-Message-ID: <20260519070633.2025485-5-viro@zeniv.linux.org.uk>
+Subject: [RFC PATCH 14/14] configfs_create(): lift parent timestamp updates into callers
+Date: Tue, 19 May 2026 08:06:33 +0100
+Message-ID: <20260519070633.2025485-15-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
 References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
@@ -51,56 +51,74 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Again, the only thing it uses dentry for is dentry->d_fsdata; for the
-recursive call the situation is the same as with configfs_detach_prep()
-and the same observation about ->s_dentry->d_fsdata applies.
+... and do *not* do it in ->lookup() case.  stat foo/bar
+should not update mtime of foo, TYVM...
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/configfs/dir.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ fs/configfs/dir.c   | 6 +++++-
+ fs/configfs/inode.c | 3 ---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index 0c071252c9d4..5219c4fd527e 100644
+index a2bb602fb38c..4da2fec2b64e 100644
 --- a/fs/configfs/dir.c
 +++ b/fs/configfs/dir.c
-@@ -1067,15 +1067,12 @@ static int configfs_dump(struct configfs_dirent *sd, int level)
-  * much on the stack, though, so folks that need this function - be careful
-  * about your stack!  Patches will be accepted to make it iterative.
-  */
--static int configfs_depend_prep(struct dentry *origin,
-+static int configfs_depend_prep(struct configfs_dirent *sd,
- 				struct config_item *target)
+@@ -295,6 +295,7 @@ static int configfs_create_dir(struct config_item *item, struct dentry *dentry,
+ 	int error;
+ 	umode_t mode = S_IFDIR| S_IRWXU | S_IRUGO | S_IXUGO;
+ 	struct dentry *p = dentry->d_parent;
++	struct inode *p_inode = d_inode(p);
+ 	struct inode *inode;
+ 
+ 	BUG_ON(!item);
+@@ -315,7 +316,8 @@ static int configfs_create_dir(struct config_item *item, struct dentry *dentry,
+ 	/* directory inodes start off with i_nlink == 2 (for "." entry) */
+ 	inc_nlink(inode);
+ 	d_make_persistent(dentry, inode);
+-	inc_nlink(d_inode(p));
++	inc_nlink(p_inode);
++	inode_set_mtime_to_ts(p_inode, inode_set_ctime_current(p_inode));
+ 	item->ci_dentry = dentry;
+ 	return 0;
+ 
+@@ -369,6 +371,7 @@ int configfs_create_link(struct configfs_dirent *target, struct dentry *parent,
+ 	int err = 0;
+ 	umode_t mode = S_IFLNK | S_IRWXUGO;
+ 	struct configfs_dirent *p = parent->d_fsdata;
++	struct inode *p_inode = d_inode(parent);
+ 	struct inode *inode;
+ 
+ 	err = configfs_make_dirent(p, dentry, target, mode, CONFIGFS_ITEM_LINK,
+@@ -383,6 +386,7 @@ int configfs_create_link(struct configfs_dirent *target, struct dentry *parent,
+ 	inode->i_link = body;
+ 	inode->i_op = &configfs_symlink_inode_operations;
+ 	d_make_persistent(dentry, inode);
++	inode_set_mtime_to_ts(p_inode, inode_set_ctime_current(p_inode));
+ 	return 0;
+ 
+ out_remove:
+diff --git a/fs/configfs/inode.c b/fs/configfs/inode.c
+index 3c26b6c443be..68290fe0e374 100644
+--- a/fs/configfs/inode.c
++++ b/fs/configfs/inode.c
+@@ -157,7 +157,6 @@ struct inode *configfs_create(struct dentry *dentry, umode_t mode)
  {
--	struct configfs_dirent *child_sd, *sd;
-+	struct configfs_dirent *child_sd;
- 	int ret = 0;
+ 	struct inode *inode = NULL;
+ 	struct configfs_dirent *sd;
+-	struct inode *p_inode;
  
--	BUG_ON(!origin || !origin->d_fsdata);
--	sd = origin->d_fsdata;
--
- 	if (sd->s_element == target)  /* Boo-yah */
- 		goto out;
+ 	if (!dentry)
+ 		return ERR_PTR(-ENOENT);
+@@ -170,8 +169,6 @@ struct inode *configfs_create(struct dentry *dentry, umode_t mode)
+ 	if (!inode)
+ 		return ERR_PTR(-ENOMEM);
  
-@@ -1083,8 +1080,7 @@ static int configfs_depend_prep(struct dentry *origin,
- 		if ((child_sd->s_type & CONFIGFS_DIR) &&
- 		    !(child_sd->s_type & CONFIGFS_USET_DROPPING) &&
- 		    !(child_sd->s_type & CONFIGFS_USET_CREATING)) {
--			ret = configfs_depend_prep(child_sd->s_dentry,
--						   target);
-+			ret = configfs_depend_prep(child_sd, target);
- 			if (!ret)
- 				goto out;  /* Child path boo-yah */
- 		}
-@@ -1105,7 +1101,7 @@ static int configfs_do_depend_item(struct dentry *subsys_dentry,
- 
- 	spin_lock(&configfs_dirent_lock);
- 	/* Scan the tree, return 0 if found */
--	ret = configfs_depend_prep(subsys_dentry, target);
-+	ret = configfs_depend_prep(subsys_dentry->d_fsdata, target);
- 	if (ret)
- 		goto out_unlock_dirent_lock;
- 
+-	p_inode = d_inode(dentry->d_parent);
+-	inode_set_mtime_to_ts(p_inode, inode_set_ctime_current(p_inode));
+ 	configfs_set_inode_lock_class(sd, inode);
+ 	return inode;
+ }
 -- 
 2.47.3
 
