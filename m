@@ -1,246 +1,133 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406383EFFB6
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 09:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7A23F1676
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 09:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779181969; cv=none; b=F9iqB4krlSiv35XNZsuKZDkuS1COFtPQUf1qISV4449OF9+DZYsGVPinaxzmhu3AB7Wq4KcsHUGQRQRNLB5y8gkCsCDv8syX3cp43YDaFwMizktXU17x6WOHwXX89K2gMT2CoXE0VEOnkfoDoou6FfbTRl3BYgm0hWKBYKLGW5A=
+	t=1779182515; cv=none; b=A0cjO0Igl6NvPO3UdoyhSkhU0LSqe3QiYbWOFSWL9vgBjxQ9K1UjXFXQ1ZDIYYYQ//hkNezd8ok1X2ZRwJBok4437JtuxHWCf/BLm3ZC8bJwXGYnNIJW1TxLg7pqlCRdcOeeFtHrm1SUvpFtRrb5DclM0PvP33uPrwPnl2JSoMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779181969; c=relaxed/simple;
-	bh=onFQ4v+FSFK2UXSilq7yV/sB/D4Z8/XdOpqBb9Xk3E0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P2YcebOxEhamVigr6n5W5mWzv1eaKAd3jHuUaOOiKOWeWcLVuFavWJ960pNnqq0jMjszn6am0TS9s+iVdVyi3PW03SL8bT4HTdaZ5ZLMUe8jM5GbagtlJ7+vnBjeft3Zj3/YJvtL1EZUQDafqdmCdSFmzQ9AwREJ3l45y39chKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XbGAhXBI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X6ZgIe8/; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=XbGAhXBI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X6ZgIe8/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1779182515; c=relaxed/simple;
+	bh=wSz4n6ZHAULGvzhTDNuqX4TTX95Vfl31WZE4J82fus8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JmT8DeipMUczlXGB8Ft60sJ0nO/ecgySLTb94ZS/z8d3OzFxoewA2E/Mvv/uuBU2UAE8OHU3kbVAbJpDxUVWKdsWSDIVoJuId2Kq+gs0gP/oAgQX9XJ7KD56JroynwbEqg9A5wOGOOjrJuDsArnowH9EsSNrDdR5TkQqHmPmngk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TXpWbKTo; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XbGAhXBI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X6ZgIe8/";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="XbGAhXBI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X6ZgIe8/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 43A9B67F29;
-	Tue, 19 May 2026 09:12:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779181965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OapOTgqeeMhqW6YJcFJ+j8t6Yq/X2hHrIATznFjjbVc=;
-	b=XbGAhXBI/QiMYRG8U49S3i/aUHqHv9uVX6HFUqDB3MwrdQEyfg9DiS6Zy2mPlItAJT2zMn
-	lu7gGfHHr7C5r9r76uzaFqckqahM1Cy2hkxxW2E0ez5/OjQWOPpttSzKyEe0ZmEQuXZzUH
-	0ntBxWkoYL/lk5HYq46I0Jgzz1Qp1J0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779181965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OapOTgqeeMhqW6YJcFJ+j8t6Yq/X2hHrIATznFjjbVc=;
-	b=X6ZgIe8/BF2YcZiNuiESI0iJepoaOwNhOBat0Ui8p3LR/d7mzitu7tICbisOUxdEcJ5NLg
-	jrE9VxN/n0AccJCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=XbGAhXBI;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="X6ZgIe8/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779181965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OapOTgqeeMhqW6YJcFJ+j8t6Yq/X2hHrIATznFjjbVc=;
-	b=XbGAhXBI/QiMYRG8U49S3i/aUHqHv9uVX6HFUqDB3MwrdQEyfg9DiS6Zy2mPlItAJT2zMn
-	lu7gGfHHr7C5r9r76uzaFqckqahM1Cy2hkxxW2E0ez5/OjQWOPpttSzKyEe0ZmEQuXZzUH
-	0ntBxWkoYL/lk5HYq46I0Jgzz1Qp1J0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779181965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OapOTgqeeMhqW6YJcFJ+j8t6Yq/X2hHrIATznFjjbVc=;
-	b=X6ZgIe8/BF2YcZiNuiESI0iJepoaOwNhOBat0Ui8p3LR/d7mzitu7tICbisOUxdEcJ5NLg
-	jrE9VxN/n0AccJCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 391C2593A8;
-	Tue, 19 May 2026 09:12:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DrDsDY0pDGq/OQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 09:12:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 69844A0ADE; Tue, 19 May 2026 11:12:44 +0200 (CEST)
-Date: Tue, 19 May 2026 11:12:44 +0200
-From: Jan Kara <jack@suse.cz>
-To: Ian Kent <raven@themaw.net>
-Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	Horst Birthelmer <horst@birthelmer.com>, Amir Goldstein <amir73il@gmail.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first
- reaper
-Message-ID: <fglq7n2brxwdsu7and6nt6xpgdziua754yzgxkmd33pmk6tor4@noxa5ajva7wg>
-References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
- <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
- <bc359831-e653-4269-9d57-742b48d56d9f@themaw.net>
- <yk2hem4zwinm4glenpc74to7sm5kyriksgwn6mxh7t4saotiba@7zik7jcnbs5m>
- <b320ff9a-7f6f-44c3-940f-33f79cc5569f@themaw.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXpWbKTo"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48d146705b4so35847505e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 02:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779182511; x=1779787311; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QoHvwM4p61ukSgPZjfDBcRJdrzaBcrrvLVu02xCIKiI=;
+        b=TXpWbKTojEsG/x9DQwsk/0H+XskySEyrX0rBufagIM5coaGZbN4GMMyWHMx4wOTKnO
+         6nM1l2EQGpvGlehe2RC3T4ZBB1WXsj5Rf1E3MrufZxH1mcHQuV2DAjr18FBVYOUqYjgc
+         +6y1OM/nUF90Z8+DA5+FZSGWcJgji8lL/IivBQGcVB2VBugHWaXZs3DvHHfOHbKVJOLc
+         vV+FsJBSqOSx/H3aGa+CQ0UCZvTUjL0to9I1RZpRrMVSq0L1BHC0/CMKYJEwpHBcmjhf
+         OXkr4+d8/+ve/13fJL8u6Pr2sBaon2BIZEsoQmRkPYR4psV5RmARGkuLDY7jOuB2fCFu
+         Dd5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779182511; x=1779787311;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QoHvwM4p61ukSgPZjfDBcRJdrzaBcrrvLVu02xCIKiI=;
+        b=qqDRXZG3r6U/OsnRczZbd6+lRtVyWqTS2opG2ecrJhY+LWHnvaWoVoapoh9qJqkxrp
+         OMxUs26Y92nFMq/mi8f+i51yzcu5vg00CvEp1USWus5goNf64nZiN/a5NFchv4NYXtjG
+         LqVWhsCKL9xndiTZuzKMXe4YjGULX/rI+rWNCDvQyDZLNYGfsP7fg7Ngvbd7WbVtMLcY
+         Cujp8+RTHjMVpNAF8kBJvkvOqLBaIM+2sJt7n0Fg7fmXfRU+6INct/hxoRlCfcX+MFov
+         2kPD+M3eAnMl/ax2mtyjXT11Q777KDQ2tGGXmMCYQKeGmtiI++IKbh9aHkDksYtBBaFm
+         mc8Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/svU213GmBgAjElL1e9HL7uUGSihMgKhGdbIRwx2QYTerD12r5xD5TIaIZgCBcRiWzDurjkJqIeBGOybKX@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKH3KQuTnwZFSH1D5eEDzoMY6abAdAloy2qUYMMdMhEXP5fN/S
+	wpvrjTq4dctKIu8ekcoX2e31ebYwcZu9STbzG/i6qYMkE1UzMgHa1UIK
+X-Gm-Gg: Acq92OHOFAocMqEiZLHUwsqylKLPB7nGeurZ0ZeOfgwiSGiGXYAKCe3EFrhpwh2Bnae
+	5mrjQDPfVUg0M+faPNJbgjU2j+ZSEB9B1+9JnWhRX+J5MLVENAepI+kCzW7N15x1HiS8q02Hc9h
+	J2AAITjGOv1ZysG7lqMB52n+2TxPsCVOG8iixxZZubH7HcB+IxDUseA1pRVfcxgIq9cPdFmCMu2
+	l2KWbUUfznr6OFOTH3LuRs6lC5Mt8qGhDl9qPGDiLkTUhV0fsFYNTqULDkMZ/KSs/ep5EkKxKQI
+	RS4cgX6h96F5srwDBLJBcxtMvuGOCiOpIx8wBxF3i6s8Gw5kaZOwicCJHFQd1BB53bdHOyV9FKs
+	aYg828QaTpGyJVGEpN0avXei7PaLIWL99p35ElKtrmdsqL85EPZpT60AP8eOts+uB1k0583zPMw
+	LO/aLCfIZ/kOLFIsLIbfO2NLeG0BcpVoBLCxOVYY4ILD3sX1+DeELypdft6BHcWOLyL13Ph3Jle
+	1A=
+X-Received: by 2002:a05:600c:4f13:b0:485:30d4:6b9e with SMTP id 5b1f17b1804b1-48fe6328bb7mr321111245e9.21.1779182510799;
+        Tue, 19 May 2026 02:21:50 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48feab2a23dsm102576065e9.5.2026.05.19.02.21.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 02:21:50 -0700 (PDT)
+Date: Tue, 19 May 2026 10:21:48 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Keith
+ Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nitesh
+ Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, Anuj
+ Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 04/10] block: introduce dma map backed bio type
+Message-ID: <20260519102148.21d42afc@pumpkin>
+In-Reply-To: <24833f76-2289-4859-86d1-9215b11a1258@gmail.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+	<646ecd6fde8d9e146cb051efb514deb27ce3883e.1777475843.git.asml.silence@gmail.com>
+	<20260513081929.GD5477@lst.de>
+	<24833f76-2289-4859-86d1-9215b11a1258@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b320ff9a-7f6f-44c3-940f-33f79cc5569f@themaw.net>
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,brown.name,birthelmer.com,gmail.com,szeredi.hu,lwn.net,linuxfoundation.org,zeniv.linux.org.uk,kernel.org,vger.kernel.org,ddn.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 43A9B67F29
-X-Spam-Level: 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon 18-05-26 21:39:13, Ian Kent wrote:
-> On 18/5/26 16:19, Jan Kara wrote:
-> > Hi Ian,
+On Mon, 18 May 2026 11:29:54 +0100
+Pavel Begunkov <asml.silence@gmail.com> wrote:
+
+> On 5/13/26 09:19, Christoph Hellwig wrote:
+> >> +	if (!bio_flagged(bio_src, BIO_DMABUF_MAP)) {
+> >> +		bio->bi_io_vec = bio_src->bi_io_vec;
+> >> +	} else {
+> >> +		bio->dmabuf_map = bio_src->dmabuf_map;
+> >> +		bio_set_flag(bio, BIO_DMABUF_MAP);
+> >> +	}  
 > > 
-> > On Mon 18-05-26 10:55:43, Ian Kent wrote:
-> > > On 18/5/26 07:55, NeilBrown wrote:
-> > > > On Fri, 15 May 2026, Horst Birthelmer wrote:
-> > > > According to the email you linked, a problem arises when a directory has
-> > > > a great many negative children.  Code which walks the list of children
-> > > > (such as fsnotify) while holding a lock can suffer unpredictable delays
-> > > > and result in long lock-hold times.  So maybe a limit on negative
-> > > > dentries for any parent is what we really want.  That would be clumsy to
-> > > > implement I imagine.
-> > > But the notion of dropping the dentry in ->d_delete() on last dput() is
-> > > simple enough but did see regressions (the only other place in the VFS
-> > > besides dentry_kill() that the inode is unlinked from the dentry on
-> > > dput()). I wonder if the regression was related to the test itself
-> > > deliberately recreating deleted files and if that really is normal
-> > > behaviour. By itself that should prevent almost all negative dentries
-> > > being retained. Although file systems could do this as well (think XFS
-> > > inode recycling) it should be reasonable to require it be left to the
-> > > VFS.
-> > > 
-> > > But even that's not enough given that, in my case, there would still be
-> > > around 4 million dentries in the LRU cache and in fsnotify there are
-> > > directory child traversals holding the parent i_lock "spinlock" that are
-> > > going to cause problems.
-> > Do you mean there are very many positive children of a directory?
+> > This is backwards, please avoid pointless negations:  
 > 
-> Didn't quantify that.
+> I can flip it, but compilers tend to prefer the true branch. E.g. this
 > 
-> The symptom is the "Spinlock held for more than ... seconds" occurring in
-> the log. So there are certainly a lot of children in the list, but it's
-> an assumption the ratio of positive to negative entries is roughly the
-> same as the overall ratio in the dcache.
-
-OK, but that's not necessarily true. I have seen these complaints from the
-kernel but in all the cases I remember it was due to negative dentries
-accumultating in a particular directory. There are certain apps such as
-ElasticSearch which really do like creating huge amounts of negative
-dentries in one directory - they use hashes as filenames and use directory
-lookup instead of a DB table lookup and lookup lots of non-existent keys...
-
-> > > so why is this traversal even retained in fsnotify?
-> > Not sure which traversal you mean but if you set watch on a parent, you
-> > have to walk all children to set PARENT_WATCHED flag so that you don't miss
-> > events on children...
+> if (cond) A; else B;
+> C;
 > 
-> Yes, that traversal is what I'm questioning ... again thanks.
+> can get compiled into:
 > 
-> I think the function name is still fsnotify_set_children_dentry_flags()
-> in recent kernels, the subject of commit 172e422ffea2 I mentioned above.
+> jmpcc cond B
+> A: ...
+> C:
+> return;
+> B: ...
+> jmp C;
 
-OK, thanks.
+I'm pretty sure gcc completely ignores the order.
+Some very old compilers didn't - to the extreme of generating a short
+conditional branch around a long unconditional branch to get past a
+large 'true' code block.
 
-> When you say miss events are you saying that accessing the parent dentry to
-> work out if the child needs to respond to an event is quite expensive in the
-> overall event processing context, that might make more sense to me ... or do
-> I completely not yet understand the reasoning behind the need for the flag?
+likely() and unlikely() can change things, they are definitely useful
+comments to a human (or Human) reader.
 
-Close but not quite. The cost is the overhead of dget_parent() in
-fsnotify_parent() which is often a couple of cache cold loads and atomic
-instructions to find out we don't need to send any event for the current
-write(2) or read(2) call. It gets worse if there are many IOs happening to
-dentries in the same directory from multiple CPUs because instead of
-cache-cold loads you get a cacheline contention on the parent.
+I'm not sure you can rely on the branch predictor to do anything sensible
+outside of a loop.
 
-> > > > But what if we move dentries to the end of the list when they become
-> > > > negative, and to the start of the list when they become positive?  Then
-> > > > code which walks the child list could simply abort on the first
-> > > > negative.
-> > > > 
-> > > > I doubt that would be quite as easy as it sounds, but it would at least
-> > > > be more focused on the observed symptom rather than some whole-system
-> > > > number which only vaguely correlates with the observed symptom.
-> > > > 
-> > > > Maybe a completely different approach: change children-walking code to
-> > > > drop and retake the lock (with appropriate validation) periodically.
-> > > > What too would address the specific symptom.
-> > > Another good question.
-> > > 
-> > > I have assumed that dropping and re-taking the lock cannot be done but
-> > > this is a question I would like answered as well. Dropping and re-taking
-> > > lock would require, as Miklos pointed out to me off-list, recording the
-> > > list position with say a cursor, introducing unwanted complexity when it
-> > > would be better to accept the cost of a single extra access to the parent
-> > > flags (which I assume is one reason to set the flag in the child).
-> > The parent access is actually more expensive than you might think. Based on
-> > experience with past fsnotify related performance regression I expect some
-> > 20% performance hit for small tmpfs writes if you add unconditional parent
-> > access to the write path.
-> 
-> That sounds like a lot for what should be a memory access of an already in
-> memory structure since the parent must be accessed to traverse the list of
-> child entries. I clearly don't fully understand the implications of what
-> I'm saying but there has been mention of another context ...
-
-Parent dentry is of course in memory but often cache cold - you don't need
-the parent to do e.g. write(2) to an already open file. You seem to be
-somewhat confused about the child dentry list traversal (or maybe I'm
-misunderstanding) - that happens only when placing the notification mark
-but definitely not for each IO operation.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+-- David
