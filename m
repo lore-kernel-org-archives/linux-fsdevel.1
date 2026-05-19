@@ -1,110 +1,213 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A66C28000F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 15:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779205333; cv=pass; b=CK9GVdwYuSjQKwcomQX4El02SYzmAW86oNhgdqVEWzjpzGIN2lJOIZy7BadLAeNMSyUOR2hgWY5BgdafxGtgR5VrQcHMbd5ksXxj4Nzjniha+EkvT0moVY2pZuPwui1BjqrrqY7VzEdkFLSwbOSDdqozDJYGwQJ4EuxKlcJDpOI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779205333; c=relaxed/simple;
-	bh=IGhdNMGmhqiwDqIsGMKMjYg4siHGnTWYXEgLbA3AK5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qvyWm9OGWy3GF1FqnkCZnjWsnBfYf+7Zw386bc8QoiR2ctl3A/ChzCaq2aT3CarEk3o85jZvhApUUCH6hH2C/JzEkO8DS1YUrcknxjhu7DuoAEnz+Ur3e1J5qYsSkr0mMqPEpmqrLrRl6ZufTAFtrwvMJhagnYKxbL7w6fmwmdA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=fzU10xQg; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E814F5E0
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 15:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779206104; cv=none; b=c2k1b3MXbUXb1FPsh3o2lrr5OjSy2Ku8QoNlysqMgMkF9GzSsuzX2OQxwzf/QcQjYVqNMrrY5f1UCUmK01cCha5nOe8cX7rfsvsh36A+2ghEB3qrJlJMJyVr+vNm0WqzxYS8gsFbuVZ5AGPl9VqjzzQ2gyAKkLyGPeqe5PLeSBY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779206104; c=relaxed/simple;
+	bh=II6nGZnqD5Wz9Pr9pcfjglW7AianpPNji6dJy8YAI54=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nOMZZvTbKYR9nl6hx94K/Avis/GH4vmPj/0xnjuBzeXuNJjdr29ftMjOk0WXVmuYkNCc87Ta9h5mqSxzlLobf6eEcYfOVBXnFH5xCSpRYd649a2p6C2xvwFbdU1eaCyxU4E7KTWo/NFQAnR2dyk+KQjjRSlrIRarXu2fE60fkpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A7JdiWiJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9nAi5bFA; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=A7JdiWiJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9nAi5bFA; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="fzU10xQg"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-512f750d4b2so46142981cf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 08:42:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779205331; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GsgQ3JmflZcWfBEqThov+GiDsBaiEiWyveLuw8nSPk1guTE2NnU8AEc0Gb8B70zIiH
-         0IvwjreMQCEBuxFAMXT/MJfqH2jElSVP/vJdRv+HFGctBFBXGlJ1LKZB1neg6o0Gqd5h
-         14B4Z7oi9fy5mQNWAqfjucs+CXMkSZy+PUxMauElMl3Ie61FxEj04mnrTDLVVhkCJfPV
-         UAj09dSVX4lm022WgFOu718B2v6eneQqFkUBxrDe7hBAPkxCA4s94C6gAl6yrFh+VEUb
-         gavp+Pt6AomPgCNKU4mc4veAFAx/74BzLJAMJgGCbo7nga0J4pGXWCyBZHm5gkznZRXm
-         6Xcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0DthtS1U1pZ4Fbe0dWrF5fFOKxVek98WD7TwcKkU6hc=;
-        fh=TDUyx5p39Cu7wVUMXNS779fJxPwCMb5ERbAAeK1rZCU=;
-        b=J9I0HmsQnwJiKeu4aHe0Tee3a6BmfZEXWMk6LDr+yPIfwSCvlZpRSAk+7VZ7XEEX0x
-         Vr82r6JLFRO4H8vmzKdwaZ/oH834iwFW8qogKnBZSbfy/YKLxOUz7S5Jec0IVsDNpmcn
-         n+jlilNPncQtsSgmG2FXtcYMkd8nE6Pxelzrlg5teJYyMLseuLWIU0WOyC6IupHiEIav
-         jqx/0DIAMpyNVhZKEzMshu2RVAZOaYwT0Jv51miUSJ54Sct4/ZZofthwTJMR+cUpVJWE
-         ZEwwGQ/Zbj9mP3DYDi75YUx1gNUc3ZUV8pjUz6FUMEBTnmktJ/6DEQC2hVrAxjrnWFGT
-         6eqw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1779205331; x=1779810131; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0DthtS1U1pZ4Fbe0dWrF5fFOKxVek98WD7TwcKkU6hc=;
-        b=fzU10xQg5bzlmWQx8Q3C9G4eXRlo3UQV+1Aa+Y6CPaQr8YmNSYATd5UMS5EbnpC7mr
-         aDHixamBc8Xs7lTZxUfdraBiNH6WdQ4PW0hKsoBJ1O28d/1BYbRPlgUZj+YgIUYlhYEl
-         vPkNpvO0htxj0FeXSFDvMDYaecYTwaxXqzTpk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779205331; x=1779810131;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0DthtS1U1pZ4Fbe0dWrF5fFOKxVek98WD7TwcKkU6hc=;
-        b=peLhCOJ90ELEmI41HCMu8zM/A0FMBWeqnOknrsO36CHCJiYUoKkG5iPt+O7h06BaRZ
-         ig9rzSlrBjmQur165StemD2Ydp6tkzlYCM5P0aZnu6nfwOKn4m6nPNhT+HJ6oKKi1Px8
-         +1xesIVcMeNUdzwjKffzrwxIbA9lsnJK27oQHlfE+SIa+VZk6T1Yh2NBk9pB8MimkGdD
-         M+txE8iXqXMjrqXz+4B+0t9h46uczOm0fnzTLeIoCzvi02w21TW3pn13EnlH4fok57M4
-         NGSCC8o3u7aK0o9YBtg6WOkhmVncb0VOMg9G5sToGRnG0ig+ujdrI3GZhsP8ITu0pEqk
-         sX5w==
-X-Forwarded-Encrypted: i=1; AFNElJ8FJpVLAB3BJf2LUIV6/kviVA/bdF1XmIKWvF5SRYM2Yb6rba2QKy+aUjp1xgvMvdey0RAizGkmVo4gP9hu@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1O/PjuP8j2VCyyYtJkX9DMYWuvafp/6hlAp7z2kalZVVAqZEm
-	wyWNvmfhzQpEYw1b4492JHQQuEWcvAER77SHb3esYcFIVsj17eDY/Gavullc9Y6OL/g5GXy3ioz
-	mG9BLo7QSvRgzO/Vrc1nwPVqpdRdKERSbwmW45y2TZQ==
-X-Gm-Gg: Acq92OExvfsZL1kM+bc0TwLZxMQcwcN7jjTQaAlBpna3KfpWqGEwGXIKpeAn9WlkNR2
-	0nb/NaBwnAGMG0AtRPFeVm7Ro3n8ZIdZWQw9fxgrr3JOrC5OFAL3s7mxn8srFFdiEZJ1zYHQEWE
-	9s3AGrYB2WXxH70OJlOK8JeC7XYHEQS9IUAJ/zZw0wtbNDGcblQ/ifZlTff44SlPVnFGUuFn1Po
-	XZSgeikZRRlUxO30uCnSDy3nNBRlK3c6zJhIGCX+gSMvrB6YxKIj9nFBbtzw32djMb7z2FU3pYd
-	nh4/YagXD5GpzEOF+dbFQm6jdYnhLUozlQLvJRc=
-X-Received: by 2002:a05:622a:2614:b0:50f:135d:9508 with SMTP id
- d75a77b69052e-5165a30cc40mr246584771cf.55.1779205331232; Tue, 19 May 2026
- 08:42:11 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A7JdiWiJ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9nAi5bFA";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="A7JdiWiJ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9nAi5bFA"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E2136C26C;
+	Tue, 19 May 2026 15:55:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779206100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VHAtODtFkPYHRR4uSbkvHUnF9tCWKnzqhWzH2RpAmyE=;
+	b=A7JdiWiJxFMMwcNG/7HttzJA+hq2rbilUEqbXT0hn6eyRlyqnqKoGXCfc0eB5Dj48vaH1a
+	rsAfHUycJB2/RkvwToMSfTTQQsy8eqAnpIDC9DQuK2aETZlVhmcef/jOrqjGQhBPWZfM8i
+	5ep8t+1iU03JjeTUfVX7SaSMqdTmWa0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779206100;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VHAtODtFkPYHRR4uSbkvHUnF9tCWKnzqhWzH2RpAmyE=;
+	b=9nAi5bFA+pR2/FVGUHhht4EgiWAMmSdbYNLXtz0AgM6Am7MhMuV9/eLUF/xGEf8G2WHeFn
+	hoT/2hc4hyFduHAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779206100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VHAtODtFkPYHRR4uSbkvHUnF9tCWKnzqhWzH2RpAmyE=;
+	b=A7JdiWiJxFMMwcNG/7HttzJA+hq2rbilUEqbXT0hn6eyRlyqnqKoGXCfc0eB5Dj48vaH1a
+	rsAfHUycJB2/RkvwToMSfTTQQsy8eqAnpIDC9DQuK2aETZlVhmcef/jOrqjGQhBPWZfM8i
+	5ep8t+1iU03JjeTUfVX7SaSMqdTmWa0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779206100;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VHAtODtFkPYHRR4uSbkvHUnF9tCWKnzqhWzH2RpAmyE=;
+	b=9nAi5bFA+pR2/FVGUHhht4EgiWAMmSdbYNLXtz0AgM6Am7MhMuV9/eLUF/xGEf8G2WHeFn
+	hoT/2hc4hyFduHAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 26AE9593A8;
+	Tue, 19 May 2026 15:55:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fqBbCdSHDGqyRgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 15:55:00 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id B0658A088B; Tue, 19 May 2026 17:54:59 +0200 (CEST)
+Date: Tue, 19 May 2026 17:54:59 +0200
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 02/10] fsnotify: introduce fsnotify group types
+Message-ID: <b5xolvjlm3xnx3dzdbvyc7nqgaejjatnrrwint6gleirdy6czi@vtj2m2qpayj6>
+References: <20260424170503.2096847-1-amir73il@gmail.com>
+ <20260424170503.2096847-3-amir73il@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519004746.3203156-1-mochs@nvidia.com> <CAJfpegsTsKqq+QQKyBexQFP1=EGd8YiMT=rbaCOPeTBvLsY_JQ@mail.gmail.com>
- <F3BA075C-8E63-4077-B701-63269703155E@nvidia.com>
-In-Reply-To: <F3BA075C-8E63-4077-B701-63269703155E@nvidia.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 19 May 2026 17:41:59 +0200
-X-Gm-Features: AVHnY4KcsTJrIRXcU7-IPyEiVnSNZcnyE9sN6B_1CphQIDbfkZs7nyMEQjPcuJw
-Message-ID: <CAJfpegsJ+ZQW_WteMypErq31hggYsMMkBOPd0o+vifhAS6dPvQ@mail.gmail.com>
-Subject: Re: [PATCH v3] fuse: back uncached readdir buffers with pages
-To: Matt Ochs <mochs@nvidia.com>
-Cc: Bernd Schubert <bschubert@ddn.com>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424170503.2096847-3-amir73il@gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4]
+X-Spam-Level: 
 
-On Tue, 19 May 2026 at 17:34, Matt Ochs <mochs@nvidia.com> wrote:
+On Fri 24-04-26 19:04:55, Amir Goldstein wrote:
+> Currently an fanotify group can subscribe to events FAN_MNT_ATTACH/DETACH
+> only on mark type FAN_MARK_MNTNS and IFF the group was initialized with
+> FAN_REPORT_MNT.
+> 
+> Hence, mount events can not be mixed on the same group with filesystem
+> events and mntns marks cannot be mixed with filesystem type marks.
+> 
+> Define a new property for an fsnotify group called fsnotify_group_type
+> which describes the category of events and mark types and use a distinct
+> category FSNOTIFY_GROUP_TYPE_NS for the mount event groups.
+> 
+> Create helpers fsnotify_is_{fs,ns}_watcher() and the macro
+> FANOTIFY_NS_INIT_FLAGS and use them to generalize some code that was
+> checking the FAN_REPORT_MNT flag.
+> 
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 
-> With out_pages but without the byte-size cap, fuse_simple_request()
-> still returned -ENOMEM. Capping the request to 1048576 bytes / 16 pages
-> made the same test pass.
+...
 
-Can you tell why is it failing now?
+> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
+> index 38290b9c07f7b..e768c25262e27 100644
+> --- a/fs/notify/fanotify/fanotify.c
+> +++ b/fs/notify/fanotify/fanotify.c
+> @@ -314,9 +314,11 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
+>  	pr_debug("%s: report_mask=%x mask=%x data=%p data_type=%d\n",
+>  		 __func__, iter_info->report_mask, event_mask, data, data_type);
+>  
+> -	if (FAN_GROUP_FLAG(group, FAN_REPORT_MNT)) {
+> +	if (fsnotify_is_ns_watcher(group)) {
+>  		if (data_type != FSNOTIFY_EVENT_MNT)
+>  			return 0;
+> +	} else if (WARN_ON_ONCE(!fsnotify_is_fs_watcher(group))) {
+> +		return 0;
 
-> I can rework the commit message to make that distinction clear.
+ns_watcher and fs_watcher names are really very similar. I was staring at
+that for a while trying to understand what you're doing here before I
+noticed that single letter difference. I'm struggling to find better names.
+Maybe fsnotify_namespace_watcher() and fsnotify_filesystem_watcher() and
+correspondingly FSNOTIFY_GROUP_TYPE_FILESYSTEM / NAMESPACE?
 
-Please remove the request size cap from this patch.   We need to
-discuss fixing that properly: limiting by max_write, while might seem
-to make the failure go away,  is conceptually wrong.
+> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> index 49531a4fe71de..95e7c24c70249 100644
+> --- a/fs/notify/fanotify/fanotify_user.c
+> +++ b/fs/notify/fanotify/fanotify_user.c
+> @@ -1586,8 +1586,11 @@ static struct hlist_head *fanotify_alloc_merge_hash(void)
+>  DEFINE_CLASS(fsnotify_group,
+>  	     struct fsnotify_group *,
+>  	     if (!IS_ERR_OR_NULL(_T)) fsnotify_destroy_group(_T),
+> -	     fsnotify_alloc_group(ops, flags),
+> -	     const struct fsnotify_ops *ops, int flags)
+> +	     __fsnotify_alloc_group(ops, type,
+> +				    FSNOTIFY_GROUP_FLAG_USER,
+> +				    GFP_KERNEL_ACCOUNT),
+> +	     const struct fsnotify_ops *ops,
+> +	     enum fsnotify_group_type type)
 
-Thanks,
-Miklos
+I don't like this much. It's a bit of a catch that
+FSNOTIFY_GROUP_FLAG_USER is now always set (although I see that that's what
+the only user is doing). I'd keep this as is.
+
+> @@ -2005,14 +2022,15 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
+>  		return -EINVAL;
+>  
+>  	/*
+> -	 * Events that do not carry enough information to report
+> +	 * Filesystem events that do not carry enough information to report
+>  	 * event->fd require a group that supports reporting fid.  Those
+>  	 * events are not supported on a mount mark, because they do not
+>  	 * carry enough information (i.e. path) to be filtered by mount
+>  	 * point.
+>  	 */
+>  	fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
+> -	if (mask & ~(FANOTIFY_FD_EVENTS|FANOTIFY_MOUNT_EVENTS|FANOTIFY_EVENT_FLAGS) &&
+> +	if (fsnotify_is_fs_watcher(group) &&
+> +	    mask & ~(FANOTIFY_FD_EVENTS|FANOTIFY_EVENT_FLAGS) &&
+>  	    (!fid_mode || mark_type == FAN_MARK_MOUNT))
+>  		return -EINVAL;
+
+I guess it would look more obvious here to switch on mark_type and validate
+that the set event bits match the mark_type (and fid_mode).
+
+> -static struct fsnotify_group *__fsnotify_alloc_group(
+> -				const struct fsnotify_ops *ops,
+> -				int flags, gfp_t gfp)
+> +struct fsnotify_group *__fsnotify_alloc_group(const struct fsnotify_ops *ops,
+> +					      enum fsnotify_group_type type,
+> +					      int flags, gfp_t gfp)
+>  {
+
+Can't we just derive the group type from flags in this function? I don't
+see a huge reason to duplicate that info in flags argument.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
