@@ -1,32 +1,32 @@
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE484DB568;
-	Tue, 19 May 2026 12:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B53233937;
+	Tue, 19 May 2026 12:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779193297; cv=none; b=ocOQO/QiE1EGQBIyfG8nwyINcQAUPPz8mlZdbZYr4C+bGkz0c5RyUyVtGdY9HJlBscEqyxcbZsvLf8NAstckiXxsfGu3EnZ66Pw9zlS1coT4BaVJ3xOdphV2NqvAuVzJ7nHPX9cSZSK5kAzdvogElV4rBAT21wjE+yHos7LRhb0=
+	t=1779193324; cv=none; b=KpzNdmdHdbN6POSULVXzmckb55Vkf4iCo16aeM3vZM8segpLe6KA+jgDvC7hzuSbohYBpkSLRkJUq2q31go+UXcsqzqbug2SOW9BqHREBCneGN9hPQeGlEXgSxFQX9HuPnQuCEMdqYXPnmujlm/FtGDBRkjwOG1teQd0KURbAfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779193297; c=relaxed/simple;
-	bh=807Jcb6zYWVlN2DM30ZCBg2Qm7A4EcnfvqEMJ+k6gkw=;
+	s=arc-20240116; t=1779193324; c=relaxed/simple;
+	bh=/Q93K/C4W6YYklmiqCJ8k1DD2vn2A5uj5vydRSqg74c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=koWYrzoQInxwBybkmLzDjMWpfmZD+eAXbbGZVjupV0ezPeGzSaTeKRSGVQaTlYs6X22JU77etq29R4U0G0XrSeePSnTDd0ajE31KHBjLQB63lKWZ/8nJuCrfOuC4QnAl4UWWXnZ8OvEhdJK/jZvEkFLob+3+bORkqigb9PkZkm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=iN2UwzGI; arc=none smtp.client-ip=115.124.30.118
+	 In-Reply-To:Content-Type; b=Z/tNyzBZ8IJUWCkFwRdferMOUr4YTGBF6kK7DKjPHPdsKNPk88nAOaBUIn8sWuiWbvj+K+Zluzz917FqN9C6zK2rq09iQ0wiSIesuVxH/+kTjVto8Jv+QrZhviKbFFDB6pNz3RBzTNGGVMKVUoqr4JxFZwNyiLG3bFPPaCkEaKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=NLZLlzXN; arc=none smtp.client-ip=115.124.30.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="iN2UwzGI"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="NLZLlzXN"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1779193288; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=BATmymOnLliC4uVwt3uqvmHjyteI7eUKaXu8pSyYJMY=;
-	b=iN2UwzGIIHWOePmB+jrSCri1QEjgntaVjnNSdIh/9L+Ane560sQvTp8Ocku5OVxrQqqv12bx9nu1PLgMJg3VaLwG0JXH4v0+gSwq0VwZDADSywukQQ8d1gj/vmBuLUYrg3/a/RfnlcLLXw4cxe4KjDO6bzYaB03e8U7AChR+nHk=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X3FZeUM_1779193287;
-Received: from 30.221.130.5(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3FZeUM_1779193287 cluster:ay36)
+	t=1779193313; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=0/0ijCf8EjrOXK9FgkE/9DEL5egLfJzCMGZkxQEE4sU=;
+	b=NLZLlzXNWb9q4DAx7KC+spPEVaG+GsyYsSoNyFUrP9zJqljUNOsPBYylJMrHyKVSmB9LwJbJ+e8OQoKO1mzB47qvK038GrwSzD3wMXRhIu85vTZdFx5QBip0L9j6dQvb1jP+lkyIO0vTOCBy5iT4FVPnxUVGZac7sQh/QSCtXOY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X3FV9sf_1779193312;
+Received: from 30.221.130.5(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3FV9sf_1779193312 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Tue, 19 May 2026 20:21:27 +0800
-Message-ID: <2d3d2fca-460d-47ff-a91e-a06720ad1420@linux.alibaba.com>
-Date: Tue, 19 May 2026 20:21:26 +0800
+          Tue, 19 May 2026 20:21:52 +0800
+Message-ID: <846077d4-e0de-4434-a41c-565c3ffbc5ec@linux.alibaba.com>
+Date: Tue, 19 May 2026 20:21:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,122 +34,126 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] ocfs2: reject dinodes with non-canonical i_mode
- type
+Subject: Re: [PATCH v2 2/3] ocfs2: reject dinodes whose i_rdev disagrees with
+ the file type
 To: Michael Bommarito <michael.bommarito@gmail.com>,
  akpm <akpm@linux-foundation.org>
 Cc: ZhengYuan Huang <gality369@gmail.com>, ocfs2-devel@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>
 References: <20260519110404.1803902-1-michael.bommarito@gmail.com>
- <20260519110404.1803902-2-michael.bommarito@gmail.com>
+ <20260519110404.1803902-3-michael.bommarito@gmail.com>
 From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20260519110404.1803902-2-michael.bommarito@gmail.com>
+In-Reply-To: <20260519110404.1803902-3-michael.bommarito@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 5/19/26 7:04 PM, Michael Bommarito wrote:
-> ocfs2_validate_inode_block() currently accepts any non-zero i_mode value.
-> ocfs2_populate_inode() then copies that mode verbatim into inode->i_mode
-> and dispatches on i_mode & S_IFMT to the file/dir/symlink/special_file
-> iops; an unrecognised type falls through to ocfs2_special_file_iops and
-> init_special_inode().
+> id1.dev1.i_rdev is the device-number arm of the ocfs2_dinode id1 union.
+> It is only meaningful for character and block device inodes. For any
+> other user-visible file type the on-disk value must be zero.
 > 
-> Reject dinodes whose type bits do not name one of the seven canonical
-> POSIX file types.  Use fs_umode_to_ftype(), the same generic file-type
-> conversion helper OCFS2 already uses for directory entries, so the
-> accepted inode type set matches the kernel file-type vocabulary instead
-> of open-coding a local switch.
+> ocfs2_populate_inode() currently copies id1.dev1.i_rdev into
+> inode->i_rdev before the S_IFMT switch decides whether the inode is a
+> special file. A non-device inode with a non-zero i_rdev can therefore
+> publish stale or attacker-controlled device state into the in-core inode.
 > 
-> Apply the same structural check to the online filecheck read path.
-> filecheck keeps its own error namespace, so it reports malformed i_mode
-> through the filecheck logger and OCFS2_FILECHECK_ERR_INVALIDINO instead
-> of calling ocfs2_error(), but it must not allow a malformed dinode to
-> proceed into ocfs2_populate_inode().
+> System inodes legitimately use other arms of the same union, so keep
+> the cross-check restricted to non-system inodes. Factor that predicate
+> into a helper and use it in both the normal validator and online
+> filecheck path; filecheck reports the malformed dinode through
+> OCFS2_FILECHECK_ERR_INVALIDINO instead of ocfs2_error().
 > 
 > Fixes: b657c95c1108 ("ocfs2: Wrap inode block reads in a dedicated function.")
 > Cc: stable@vger.kernel.org
-> Link: https://sashiko.dev/#/patchset/20260517111015.3187935-1-michael.bommarito%40gmail.com
 > Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 > Assisted-by: Claude:claude-opus-4-7
 
 Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
 > ---
->  fs/ocfs2/inode.c | 36 ++++++++++++++++++++++++++++++++++--
->  1 file changed, 34 insertions(+), 2 deletions(-)
+>  fs/ocfs2/inode.c | 55 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
 > 
 > diff --git a/fs/ocfs2/inode.c b/fs/ocfs2/inode.c
-> index a510a0eb1adcc..e149ccbdc03ce 100644
+> index e149ccbdc03ce..992980ea98046 100644
 > --- a/fs/ocfs2/inode.c
 > +++ b/fs/ocfs2/inode.c
-> @@ -13,6 +13,7 @@
->  #include <linux/pagemap.h>
->  #include <linux/quotaops.h>
->  #include <linux/iversion.h>
-> +#include <linux/fs_dirent.h>
+> @@ -72,6 +72,16 @@ static bool ocfs2_valid_inode_mode(umode_t mode)
+>  	return fs_umode_to_ftype(mode) != FT_UNKNOWN;
+>  }
 >  
->  #include <asm/byteorder.h>
->  
-> @@ -64,7 +65,12 @@ static int ocfs2_filecheck_read_inode_block_full(struct inode *inode,
->  static int ocfs2_filecheck_validate_inode_block(struct super_block *sb,
->  						struct buffer_head *bh);
->  static int ocfs2_filecheck_repair_inode_block(struct super_block *sb,
-> -					      struct buffer_head *bh);
-> +						      struct buffer_head *bh);
-> +
-> +static bool ocfs2_valid_inode_mode(umode_t mode)
+> +static bool ocfs2_dinode_has_unexpected_rdev(struct ocfs2_dinode *di)
 > +{
-> +	return fs_umode_to_ftype(mode) != FT_UNKNOWN;
+> +	umode_t mode = le16_to_cpu(di->i_mode);
+> +
+> +	if (le32_to_cpu(di->i_flags) & OCFS2_SYSTEM_FL)
+> +		return false;
+> +
+> +	return !S_ISCHR(mode) && !S_ISBLK(mode) && di->id1.dev1.i_rdev != 0;
 > +}
->  
+> +
 >  void ocfs2_set_inode_flags(struct inode *inode)
 >  {
-> @@ -1494,6 +1500,24 @@ int ocfs2_validate_inode_block(struct super_block *sb,
+>  	unsigned int flags = OCFS2_I(inode)->ip_attr;
+> @@ -1518,6 +1528,41 @@ int ocfs2_validate_inode_block(struct super_block *sb,
 >  		goto bail;
 >  	}
 >  
 > +	/*
-> +	 * Reject dinodes whose i_mode does not name one of the seven
-> +	 * canonical POSIX file types.  ocfs2_populate_inode() copies
-> +	 * i_mode verbatim into inode->i_mode and then dispatches via
-> +	 * switch (mode & S_IFMT) to file/dir/symlink/special_file iops;
-> +	 * an unrecognised type falls into ocfs2_special_file_iops with
-> +	 * init_special_inode(), which interprets i_rdev.  Constrain the
-> +	 * type here so the dispatch only ever sees a value mkfs.ocfs2 /
-> +	 * VFS can produce.
+> +	 * id1.dev1.i_rdev is the device-number arm of the id1 union and
+> +	 * is only meaningful for character and block device inodes.  For
+> +	 * any other regular user-visible file type the on-disk value
+> +	 * must be zero.  ocfs2_populate_inode() currently runs
+> +	 *
+> +	 *     inode->i_rdev = huge_decode_dev(le64_to_cpu(fe->id1.dev1.i_rdev));
+> +	 *
+> +	 * unconditionally, before the S_IFMT switch decides whether the
+> +	 * inode is a special file.  As a result, an i_rdev value present
+> +	 * on a non-device inode is silently published into the in-core
+> +	 * inode; a subsequent forced re-read or in-core mode mutation
+> +	 * (cluster peer with raw write access to the shared LUN,
+> +	 * on-disk corruption, or a separately forged dinode) can then
+> +	 * expose the attacker-controlled device number to
+> +	 * init_special_inode() without ever showing an unusual i_mode
+> +	 * at validation time.
+> +	 *
+> +	 * System inodes (OCFS2_SYSTEM_FL) legitimately use the bitmap1
+> +	 * and journal1 arms of the same union (allocator i_used /
+> +	 * i_total counters and the journal ij_flags /
+> +	 * ij_recovery_generation pair); those bytes are not an i_rdev
+> +	 * and must not be checked here.  Restrict the cross-check to
+> +	 * non-system inodes, which is the full attacker-controllable
+> +	 * surface.
 > +	 */
-> +	if (!ocfs2_valid_inode_mode(le16_to_cpu(di->i_mode))) {
+> +	if (ocfs2_dinode_has_unexpected_rdev(di)) {
 > +		rc = ocfs2_error(sb,
-> +				 "Invalid dinode #%llu: mode 0%o has unknown file type\n",
+> +				 "Invalid dinode #%llu: non-device mode 0%o with i_rdev %llu\n",
 > +				 (unsigned long long)bh->b_blocknr,
-> +				 le16_to_cpu(di->i_mode));
+> +				 le16_to_cpu(di->i_mode),
+> +				 (unsigned long long)le64_to_cpu(di->id1.dev1.i_rdev));
 > +		goto bail;
 > +	}
 > +
 >  	if (le16_to_cpu(di->i_dyn_features) & OCFS2_INLINE_DATA_FL) {
 >  		struct ocfs2_inline_data *data = &di->id2.i_data;
 >  
-> @@ -1624,6 +1648,15 @@ static int ocfs2_filecheck_validate_inode_block(struct super_block *sb,
+> @@ -1657,6 +1702,16 @@ static int ocfs2_filecheck_validate_inode_block(struct super_block *sb,
 >  		     (unsigned long long)bh->b_blocknr,
->  		     le32_to_cpu(di->i_fs_generation));
->  		rc = -OCFS2_FILECHECK_ERR_GENERATION;
+>  		     le16_to_cpu(di->i_mode));
+>  		rc = -OCFS2_FILECHECK_ERR_INVALIDINO;
 > +		goto bail;
 > +	}
 > +
-> +	if (!ocfs2_valid_inode_mode(le16_to_cpu(di->i_mode))) {
+> +	if (ocfs2_dinode_has_unexpected_rdev(di)) {
 > +		mlog(ML_ERROR,
-> +		     "Filecheck: invalid dinode #%llu: mode 0%o has unknown file type\n",
+> +		     "Filecheck: invalid dinode #%llu: non-device mode 0%o with i_rdev %llu\n",
 > +		     (unsigned long long)bh->b_blocknr,
-> +		     le16_to_cpu(di->i_mode));
+> +		     le16_to_cpu(di->i_mode),
+> +		     (unsigned long long)le64_to_cpu(di->id1.dev1.i_rdev));
 > +		rc = -OCFS2_FILECHECK_ERR_INVALIDINO;
 >  	}
 >  
 >  bail:
-> @@ -1812,4 +1845,3 @@ const struct ocfs2_caching_operations ocfs2_inode_caching_ops = {
->  	.co_io_lock		= ocfs2_inode_cache_io_lock,
->  	.co_io_unlock		= ocfs2_inode_cache_io_unlock,
->  };
-> -
 
