@@ -1,167 +1,150 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B0778F2B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 03:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A1E34AB0B;
+	Tue, 19 May 2026 03:40:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779161553; cv=none; b=dxlmJodtqQ3uwS3XOvdrpFsMeO+e8QK8M8ZZVFKJMEsd0eCv6RUeKFyAc+TjmTVqV/bQLRlCVBMd2EKzbu+PD+7cAT/3NmwMELUmKsgjEfBh05TefmICpt3r49ba0B51OSW4T6JtPODYCLS2t37gKBS8qBXPYJBKJ+Waec6czjY=
+	t=1779162024; cv=none; b=nXsTxQoxNr3TAxfnkhw5GA4xivqWYmaj79ERlAmkGq0vTBBzEf7VFK/0JUKyokDQrov3Tetk0kPQj74F9JxeZMAsabgALOdqHVf2vY5WfmTIfyq3QDcs4bvsWDeAxjJctx7tNLlKm2jFZayoU5IN/3BDjJke7ezFFRsbm0hy3Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779161553; c=relaxed/simple;
-	bh=1zsfdLqtNGzvEfmwuecnTT6eI44g4LTMKPx8+ip/Ik4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eC2/DOBYXjVY4sw24owofThyC7afhd8DNenmIA8WnGR3jkVXjFkgbwUzTFMubziwkcfT8325xw/GySlH41dH2kENPL8E2D9iR2/Kqp38FdRXPsK4QyhNo8aZDN64nP18p2KzTHealhtBd4FW27U1o71NTjs5mrGqn02kAf7vbls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uqGN3/Vz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779162024; c=relaxed/simple;
+	bh=P0unB8uVUKmOByzi2WkKwlIdwV8c7L38QlIpBwbHSLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EkBYsCCHGXgaKtFau/f+PDLaWD/k4RgdwrSs3RAypQFvG4JBjxuhrYAMEKEWLPgjERJAjj/UYh9RX/Del25V+LPS2gFE2F9nhcfsk0sWRpWGpoCHXOVpXCgpLSHxE5C/BA80yjQEfGi0QUYBSxif+UnXgI5Wt2uzLOh4iRGY+5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DTDggKqy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uqGN3/Vz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBE88C2BCFC
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 03:32:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DTDggKqy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A65C2BCB3;
+	Tue, 19 May 2026 03:40:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779161553;
-	bh=1zsfdLqtNGzvEfmwuecnTT6eI44g4LTMKPx8+ip/Ik4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=uqGN3/Vzwd0RbeJTrJmP0Wco/9/iEo3a9asgMYWoygFrSo06OgKHPo9eEbw/I3hQJ
-	 SymmqeceNlpY9buyJDEi6nUNZC0LZ3hzWxP1wXWZkkhSly9vsMQtBGNGHjixT4EhWx
-	 UU56nqeVImaT1M+xOwnRdHeEkgcX8rbKlmjLlbggm1/0JEsmkFP9bHLddcvPCrYIPm
-	 eSR4ctMnEryVwbr4X/eIjdcPuL+KZ0ePnbFNLm1Oau9fmFYFYiPnF3K58j2mz1CYRA
-	 qN8McCiZ4LeYT3N+8V4PpReTdThqKi72rk682R8a9k2mZwf56uYlwtCTVvC3Qt2w+n
-	 YaZ5lrWTWkqaw==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so5312297a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 20:32:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9XffKQ2k7yafIEn9ipya/sjrAPDaYAAB4dkX8wqYThwBRDhGnLrHRYlV96sbq/GoSiuYfurKbUNk+sVkH1@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5YIX9Tti/nK2CY1XjtlKPOx/KNoVCz+J4duAtY4H5rBIoMG39
-	2FUphogh/PtOvPYa961KGYO2V4Fhzy9BZTeNuKRlEy2ESLkzw9JsQfoBXVCyQKBPOMETmrhyyk5
-	/kgSp0dNj/AENzm8eZ3c0Pdr/icowwD8=
-X-Received: by 2002:a05:6402:5255:b0:67e:441c:831c with SMTP id
- 4fb4d7f45d1cf-683bd779ec3mr9080046a12.22.1779161551503; Mon, 18 May 2026
- 20:32:31 -0700 (PDT)
+	s=k20201202; t=1779162024;
+	bh=P0unB8uVUKmOByzi2WkKwlIdwV8c7L38QlIpBwbHSLs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DTDggKqyPFCixNsbXshTdNzWin5poNPnoCnGCy89CqeGOfX4K4EIig4pqzbHDImwU
+	 o3IayreKyutY/OZphkM911UavySFH0HR16dA6WfL40I/Lcn1Jq8NIK4LM/kNvClY21
+	 cc3dMkAIBmURe83bboVXWgdNOOyQyf5LVa+3BOhYmMwDL4vyOOY/DM7Xuq1x6yxson
+	 jnxoWd84fTmSykse1GrtKY/YZG2v7m55xnQg+31ALdVQLbrreRL9gr9qfe/UtJjsaA
+	 F7qyjeslRBsKBQ3CZa7+wuQ/Hvib3aXIxIw9CuAcy2zGeEg2DwigNud0rChmXSvH7h
+	 hchAG0G5hCH+A==
+Date: Mon, 18 May 2026 20:40:23 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org,
+	hch@lst.de, linux-fsdevel@vger.kernel.org, anmuxixixi@gmail.com,
+	dxdt@dev.snart.me, chizhiling@kylinos.cn, chizhiling@163.com,
+	linux-kernel@vger.kernel.org, charsyam@gmail.com
+Subject: Re: [PATCH v4 00/11] exfat: convert to iomap
+Message-ID: <20260519034023.GE9531@frogsfrogsfrogs>
+References: <20260518114705.9601-1-linkinjeon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260518114705.9601-1-linkinjeon@kernel.org> <20260518114705.9601-2-linkinjeon@kernel.org>
- <20260518160356.GH9568@frogsfrogsfrogs>
-In-Reply-To: <20260518160356.GH9568@frogsfrogsfrogs>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 19 May 2026 12:32:19 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_SVqEC09j7pfZB=e194uvrO9F3pRmkLrQoELj=84AtFQ@mail.gmail.com>
-X-Gm-Features: AVHnY4Iq_olzY58A4wJ72qfQU3CsWXbTLIKwDv-kb_v4iEoAJdicSXF06gAvk5I
-Message-ID: <CAKYAXd_SVqEC09j7pfZB=e194uvrO9F3pRmkLrQoELj=84AtFQ@mail.gmail.com>
-Subject: Re: [PATCH v4 01/11] iomap: introduce IOMAP_F_ZERO_TAIL flag
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org, 
-	hch@lst.de, linux-fsdevel@vger.kernel.org, anmuxixixi@gmail.com, 
-	dxdt@dev.snart.me, chizhiling@kylinos.cn, chizhiling@163.com, 
-	linux-kernel@vger.kernel.org, charsyam@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260518114705.9601-1-linkinjeon@kernel.org>
 
-On Tue, May 19, 2026 at 1:03=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Mon, May 18, 2026 at 08:46:55PM +0900, Namjae Jeon wrote:
-> > In filesystems that maintain a separate Valid Data Length, such as exFA=
-T
-> > and NTFS, a partial write may start at or beyond the current valid_size=
- and
-> > extend it. In this case, the region after the previous valid_size but
-> > within the same filesystem block is considered unwritten.
-> >
-> > This patch introduces IOMAP_F_ZERO_TAIL. When this flag is set in iomap=
-,
-> > __iomap_write_begin() will zero only the tail portion while preserving =
-any
-> > valid data before it in the same block.
-> >
-> > Without this tail zeroing, stale data in the unwritten portion of the b=
-lock
-> > can remain in the page cache. Subsequent reads can then return incorrec=
-t
-> > contents from that region.
-> >
-> > Acked-by: Christoph Hellwig <hch@lst.de>
-> > Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
->
-> AFAICT, the "valid size" means "all space between valid_size and i_size
-> is unwritten", and that's why you need the tail of the block to be
-> zeroed, right?
-Exactly.
->
-> So if, say, the fsblock size is 4k and valid_size is 80k; and I initiate
-> a pwrite of 300 bytes at 121k, exfat will do its own zeroing to bump
-> valid_size up to 121k, right?  Then the actual iomap_write call will
-> copy the 300 bytes into the pagecache, and now it needs ZERO_TAIL to
-> zero the rest of the pagecache from (121k + 300) to 124k, correct?
-Yes, that's correct.
->
-> (What I'm probing for is, there's no need for a ZERO_HEAD at this time
-> because exfat has to take care of that, right?)
-Right.
->
-> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-Thanks for the review!
+On Mon, May 18, 2026 at 08:46:54PM +0900, Namjae Jeon wrote:
+> This patch series converts the exfat filesystem to the iomap framework for
+> buffered I/O, direct I/O, and llseek (SEEK_HOLE/SEEK_DATA) support.
+> 
+> iozone benchmark results (4KB cluster size, -s1g -r64k, 1GB file, 64KB record size)
+> 
+>                        1 thread                  4 threads
+>                      Write      Read           Write      Read
+>                      (MB/s)    (MB/s)         (MB/s)    (MB/s)
+> -----------------------------------------------------------------
+> exfat + iomap patch   332.7     418.1           78.6      82.4
+> Current exfat         278.4     415.1           42.1      38.0
+> -----------------------------------------------------------------
+> Improvement           +19.5%    +0.7%          +86.7%   +117.4%
 
->
-> --D
->
-> > ---
-> >  fs/iomap/buffered-io.c | 4 ++++
-> >  include/linux/iomap.h  | 4 ++++
-> >  2 files changed, 8 insertions(+)
-> >
-> > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> > index d7b648421a70..44046c648df4 100644
-> > --- a/fs/iomap/buffered-io.c
-> > +++ b/fs/iomap/buffered-io.c
-> > @@ -836,6 +836,7 @@ static int __iomap_write_begin(const struct iomap_i=
-ter *iter,
-> >                               return -EIO;
-> >                       folio_zero_segments(folio, poff, from, to, poff +=
- plen);
-> >               } else {
-> > +                     const struct iomap *iomap =3D iomap_iter_srcmap(i=
-ter);
-> >                       int status;
-> >
-> >                       if (iter->flags & IOMAP_NOWAIT)
-> > @@ -853,6 +854,9 @@ static int __iomap_write_begin(const struct iomap_i=
-ter *iter,
-> >                                                 len, status, GFP_NOFS);
-> >                       if (status)
-> >                               return status;
-> > +
-> > +                     if (iomap->flags & IOMAP_F_ZERO_TAIL)
-> > +                             folio_zero_segment(folio, to, poff + plen=
-);
-> >               }
-> >               iomap_set_range_uptodate(folio, poff, plen);
-> >       } while ((block_start +=3D plen) < block_end);
-> > diff --git a/include/linux/iomap.h b/include/linux/iomap.h
-> > index 2c5685adf3a9..750602e18750 100644
-> > --- a/include/linux/iomap.h
-> > +++ b/include/linux/iomap.h
-> > @@ -67,6 +67,9 @@ struct vm_fault;
-> >   * bio, i.e. set REQ_ATOMIC.
-> >   *
-> >   * IOMAP_F_INTEGRITY indicates that the filesystems handles integrity =
-metadata.
-> > + *
-> > + * IOMAP_F_ZERO_TAIL indicates the remainder of the block after the da=
-ta
-> > + * written should be zeroed.
-> >   */
-> >  #define IOMAP_F_NEW          (1U << 0)
-> >  #define IOMAP_F_DIRTY                (1U << 1)
-> > @@ -86,6 +89,7 @@ struct vm_fault;
-> >  #else
-> >  #define IOMAP_F_INTEGRITY    0
-> >  #endif /* CONFIG_BLK_DEV_INTEGRITY */
-> > +#define IOMAP_F_ZERO_TAIL    (1U << 10)
-> >
-> >  /*
-> >   * Flag reserved for file system specific usage
-> > --
-> > 2.25.1
-> >
+FWIW I scanned over the other patches in the series.  Nothing stood out
+as scream-worthy, though as the maintainer I'm assuming you're watching
+them closely for the kinds of QA problems that only an exfat expert
+would know. ;)
+
+Acked-by: "Darrick J. Wong" <djwong@kernel.org>
+
+--D
+
+
+> 
+> Available in the Git repository at:
+> ===================================
+> git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/exfat.git iomap-work
+> 
+> v4:
+>   - Declare initialized variables before uninitialized ones in
+>     __iomap_write_begin.
+>   - Clean up the logic for handling ei->valid_size in the non-alloc
+>     iomap read path.
+>   - Rename exfat_cluster_to_phys to exfat_cluster_to_phys_bytes.
+>   - Use end variable in exfat_fallback_buffered_write.
+> 
+> v3:
+>   - Remove extra >> 9 when adding to inode->i_blocks.
+>   - Simplify exfat_file_open() by removing unnecessary err variable.
+>   - Separate exfat_truncate() error return conversion from iomap changes.
+>   - Fix xfstests failures with 512B cluster size.
+>   - Make exfat_truncate() return error code.
+>   - Use inode lock to protect valid_size in exfat_extend_valid_size().
+>   - Unify num_clusters calculation regardless of may_alloc.
+>   - Use min_t() to clamp iomap->length.
+>   - Return early in exfat_write_iomap_end() if no data written.
+>   - Remove s_lock in exfat_write_iomap_end().
+>   - Split DIO fallback buffered write into helper function.
+>   - Remove unnecessary goto in exfat_dio_write_iter().
+> 
+> v2:
+>   - Replace macros with static inline functions.
+>   - Remove noop_direct_IO.
+>   - Consolidate read and write iomap_begin into __exfat_iomap_begin()
+>   - Zero out stale data in straddle block beyond valid_size.
+>   - Introduce IOMAP_F_ZERO_TAIL flag to remove exfat_iomap_put_folio().
+>   - Select FS_IOMAP in Kconfig.
+>   - Remove unnecessary alignment check in exfat_file_read_iter().
+>   - Just use generic_file_llseek directly.
+>   - Move exfat_extend_valid_size to exfat_file_write_iter().
+>   - Use pagecache_isize_extended() to remove iomap_zero_range in
+>     exfat_setattr().
+>   - fix mmap write data corruption with byte-by-byte fallocate.
+>   - Remove exfat_mkwrite_iomap_begin().
+> 
+> Namjae Jeon (11):
+>   iomap: introduce IOMAP_F_ZERO_TAIL flag
+>   exfat: replace unsafe macros with static inline functions
+>   exfat: add balloc parameter to exfat_map_cluster() for iomap support
+>   exfat: add exfat_file_open()
+>   exfat: add support for multi-cluster allocation
+>   exfat: add data_start_bytes and exfat_cluster_to_phys_bytes() helper
+>   exfat: fix implicit declaration of brelse()
+>   exfat: add iomap buffered I/O support
+>   exfat: add iomap direct I/O support
+>   exfat: add support for SEEK_HOLE and SEEK_DATA in llseek
+>   exfat: make exfat_truncate() return error code
+> 
+>  fs/exfat/Kconfig       |   2 +-
+>  fs/exfat/Makefile      |   2 +-
+>  fs/exfat/balloc.c      |   2 +-
+>  fs/exfat/dir.c         |  50 +++---
+>  fs/exfat/exfat_fs.h    | 140 ++++++++++++-----
+>  fs/exfat/fatent.c      |  30 ++--
+>  fs/exfat/file.c        | 263 +++++++++++++++++++++++--------
+>  fs/exfat/inode.c       | 342 ++++++-----------------------------------
+>  fs/exfat/iomap.c       | 263 +++++++++++++++++++++++++++++++
+>  fs/exfat/iomap.h       |  15 ++
+>  fs/exfat/namei.c       |  28 ++--
+>  fs/exfat/super.c       |   5 +-
+>  fs/iomap/buffered-io.c |   4 +
+>  include/linux/iomap.h  |   4 +
+>  14 files changed, 703 insertions(+), 447 deletions(-)
+>  create mode 100644 fs/exfat/iomap.c
+>  create mode 100644 fs/exfat/iomap.h
+> 
+> -- 
+> 2.25.1
+> 
+> 
