@@ -1,101 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D848D1DDC33;
-	Tue, 19 May 2026 03:31:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B0778F2B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 03:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779161487; cv=none; b=Y3XVvIUz7BIHNdqsMVFDr8FiwaQm+SEyJXsEO3harvmd49/O7qy9aA+CcEzFoUj6cif3DPFtFz4K66ZpvBSMfvsovmP+MvBCL4emZrTQawrRSogHgd4cu8zs/UeMEKj2TEx2E6LeuDcT+OAJsrkEE3s6Tv57bYRRMet59xTG7H0=
+	t=1779161553; cv=none; b=dxlmJodtqQ3uwS3XOvdrpFsMeO+e8QK8M8ZZVFKJMEsd0eCv6RUeKFyAc+TjmTVqV/bQLRlCVBMd2EKzbu+PD+7cAT/3NmwMELUmKsgjEfBh05TefmICpt3r49ba0B51OSW4T6JtPODYCLS2t37gKBS8qBXPYJBKJ+Waec6czjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779161487; c=relaxed/simple;
-	bh=kTGkqRB+Z94KPJ1zIV7OK1I5KYQG4zg5zfpxDcqli+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SnwMEEbT+TfVzIDfy67ZuKGMFcOdZwscvkI7X/qTXTXP4jgLMrJJyOeL9sKGNstFusITiDv9S+jWpsIi8OwcpxToqPrjNlHlZ/m45JdtRYETXjgpHmXahMHYgNVwiAswQaxxAXDv1ZOPBEKIuVuG2LtOfk2h10Nh3fNj0KXdW9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T0+gOaCU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779161553; c=relaxed/simple;
+	bh=1zsfdLqtNGzvEfmwuecnTT6eI44g4LTMKPx8+ip/Ik4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eC2/DOBYXjVY4sw24owofThyC7afhd8DNenmIA8WnGR3jkVXjFkgbwUzTFMubziwkcfT8325xw/GySlH41dH2kENPL8E2D9iR2/Kqp38FdRXPsK4QyhNo8aZDN64nP18p2KzTHealhtBd4FW27U1o71NTjs5mrGqn02kAf7vbls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uqGN3/Vz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T0+gOaCU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEBAC2BCB3;
-	Tue, 19 May 2026 03:31:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uqGN3/Vz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBE88C2BCFC
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 03:32:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779161487;
-	bh=kTGkqRB+Z94KPJ1zIV7OK1I5KYQG4zg5zfpxDcqli+I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T0+gOaCUl3celfwf6kjRbKJEdd7td1jV7euSKvE6vvIQ4TxjtEoq3/GN0mPM5EX8l
-	 hlhhb0/mEQa5sIk9Oi6K5egOLS1rhqsftD3XLbFOf3cOLtC8ZpWMLpkLSRsOde7PO+
-	 9mTC+tjw2RATs2ZpXC45vQRYiGiLAr0VWDQd/7wnhgusID/VZ1VEhg0LRCyJTFdgV8
-	 4eMwwLhtv1g5knqoNjOwvOgiH3gu5MPk8PLoreNX3npP4iA5YfEY1yV4/k6Nom9kpg
-	 VvqXeJshszeqcYIKRptVg1WHHBrPhGUpkMtGsPnEdRg0L0gL7obbKDqv5cgNaiDZGE
-	 BEc5zWW9Whbmg==
-Date: Mon, 18 May 2026 20:31:26 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Cyber_black <Cyberblackk@proton.me>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	Mark Fasheh <mark@fasheh.com>, Theodore Ts'o <tytso@mit.edu>,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP
- exposes identical data unprivileged
-Message-ID: <20260519033126.GD9531@frogsfrogsfrogs>
-References: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
- <agqevS--YYBVW2Oz@infradead.org>
- <20260518162048.GC9531@frogsfrogsfrogs>
- <CALCETrUFMFNnJ6FLd9SkzS5E1q3x+cqGvOvo5PzU2V_+moSEJw@mail.gmail.com>
+	s=k20201202; t=1779161553;
+	bh=1zsfdLqtNGzvEfmwuecnTT6eI44g4LTMKPx8+ip/Ik4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uqGN3/Vzwd0RbeJTrJmP0Wco/9/iEo3a9asgMYWoygFrSo06OgKHPo9eEbw/I3hQJ
+	 SymmqeceNlpY9buyJDEi6nUNZC0LZ3hzWxP1wXWZkkhSly9vsMQtBGNGHjixT4EhWx
+	 UU56nqeVImaT1M+xOwnRdHeEkgcX8rbKlmjLlbggm1/0JEsmkFP9bHLddcvPCrYIPm
+	 eSR4ctMnEryVwbr4X/eIjdcPuL+KZ0ePnbFNLm1Oau9fmFYFYiPnF3K58j2mz1CYRA
+	 qN8McCiZ4LeYT3N+8V4PpReTdThqKi72rk682R8a9k2mZwf56uYlwtCTVvC3Qt2w+n
+	 YaZ5lrWTWkqaw==
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so5312297a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 18 May 2026 20:32:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9XffKQ2k7yafIEn9ipya/sjrAPDaYAAB4dkX8wqYThwBRDhGnLrHRYlV96sbq/GoSiuYfurKbUNk+sVkH1@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5YIX9Tti/nK2CY1XjtlKPOx/KNoVCz+J4duAtY4H5rBIoMG39
+	2FUphogh/PtOvPYa961KGYO2V4Fhzy9BZTeNuKRlEy2ESLkzw9JsQfoBXVCyQKBPOMETmrhyyk5
+	/kgSp0dNj/AENzm8eZ3c0Pdr/icowwD8=
+X-Received: by 2002:a05:6402:5255:b0:67e:441c:831c with SMTP id
+ 4fb4d7f45d1cf-683bd779ec3mr9080046a12.22.1779161551503; Mon, 18 May 2026
+ 20:32:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrUFMFNnJ6FLd9SkzS5E1q3x+cqGvOvo5PzU2V_+moSEJw@mail.gmail.com>
+References: <20260518114705.9601-1-linkinjeon@kernel.org> <20260518114705.9601-2-linkinjeon@kernel.org>
+ <20260518160356.GH9568@frogsfrogsfrogs>
+In-Reply-To: <20260518160356.GH9568@frogsfrogsfrogs>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 19 May 2026 12:32:19 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_SVqEC09j7pfZB=e194uvrO9F3pRmkLrQoELj=84AtFQ@mail.gmail.com>
+X-Gm-Features: AVHnY4Iq_olzY58A4wJ72qfQU3CsWXbTLIKwDv-kb_v4iEoAJdicSXF06gAvk5I
+Message-ID: <CAKYAXd_SVqEC09j7pfZB=e194uvrO9F3pRmkLrQoELj=84AtFQ@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] iomap: introduce IOMAP_F_ZERO_TAIL flag
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, brauner@kernel.org, 
+	hch@lst.de, linux-fsdevel@vger.kernel.org, anmuxixixi@gmail.com, 
+	dxdt@dev.snart.me, chizhiling@kylinos.cn, chizhiling@163.com, 
+	linux-kernel@vger.kernel.org, charsyam@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 18, 2026 at 09:22:42AM -0700, Andy Lutomirski wrote:
-> On Mon, May 18, 2026 at 9:21 AM Darrick J. Wong <djwong@kernel.org> wrote:
+On Tue, May 19, 2026 at 1:03=E2=80=AFAM Darrick J. Wong <djwong@kernel.org>=
+ wrote:
+>
+> On Mon, May 18, 2026 at 08:46:55PM +0900, Namjae Jeon wrote:
+> > In filesystems that maintain a separate Valid Data Length, such as exFA=
+T
+> > and NTFS, a partial write may start at or beyond the current valid_size=
+ and
+> > extend it. In this case, the region after the previous valid_size but
+> > within the same filesystem block is considered unwritten.
 > >
-> > On Sun, May 17, 2026 at 10:08:13PM -0700, Christoph Hellwig wrote:
-> > > On Fri, May 15, 2026 at 05:36:45PM +0000, Cyber_black wrote:
-> > > > Option B) Add a capability check to ioctl_fiemap() to match FIBMAP.
-> > > > This restores the intended restriction, at the cost of breaking
-> > > > unprivileged use of FIEMAP (e.g. filefrag, btrfs tools, e2freefrag).
-> > > > This option is a larger ABI impact and likely undesirable.
-> > > >
-> > > > The preferred fix is Option A, since FIEMAP has been available
-> > > > unprivileged since 2008 with no reported security issues, and read
-> > > > access to physical block layout is already implicitly available
-> > > > through open() permission on the file.
-> > >
-> > > No, FIEMAP really should not be available unprivileged.  So I think B is
-> > > the right thing.  Can you send a proper patch with a proper signoff?
+> > This patch introduces IOMAP_F_ZERO_TAIL. When this flag is set in iomap=
+,
+> > __iomap_write_begin() will zero only the tail portion while preserving =
+any
+> > valid data before it in the same block.
 > >
-> > For anyone who might be relying on FIEMAP output to find sparse regions
-> > -- don't.  FIEMAP is a lowlevel fs debugging interface; it won't tell
-> > you about dirty pagecache backed by unwritten disk space.  cp was burned
-> > by that a decade and a half ago.
+> > Without this tail zeroing, stale data in the unwritten portion of the b=
+lock
+> > can remain in the page cache. Subsequent reads can then return incorrec=
+t
+> > contents from that region.
 > >
-> 
-> The only way that I'm personally aware of to determine whether ranges
-> in two files are reflinked to each other (and the only efficient way
-> to find identical blocks to, say, archive a large directory without
-> reading all the contents) is FIEMAP.  I wrote some code to do this
-> awhile back (not in production use).  Yes, I realize that it might
-> have issues with dirty page cache.
-> 
-> Is there some other way to do this?  Could an API be added that
-> efficiently answers the actual question without revealing information
-> that shouldn't be revealed?
+> > Acked-by: Christoph Hellwig <hch@lst.de>
+> > Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+>
+> AFAICT, the "valid size" means "all space between valid_size and i_size
+> is unwritten", and that's why you need the tail of the block to be
+> zeroed, right?
+Exactly.
+>
+> So if, say, the fsblock size is 4k and valid_size is 80k; and I initiate
+> a pwrite of 300 bytes at 121k, exfat will do its own zeroing to bump
+> valid_size up to 121k, right?  Then the actual iomap_write call will
+> copy the 300 bytes into the pagecache, and now it needs ZERO_TAIL to
+> zero the rest of the pagecache from (121k + 300) to 124k, correct?
+Yes, that's correct.
+>
+> (What I'm probing for is, there's no need for a ZERO_HEAD at this time
+> because exfat has to take care of that, right?)
+Right.
+>
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Thanks for the review!
 
-Well, yes, we *could* make yet another ioctl, but we could also just run
-fe_physical through a one-way u64 hash function and set
-FIEMAP_EXTENT_UNKNOWN if (say) you don't have CAP_SYS_RAWIO or
-something.  Then your comparison function might still work... maybe?
-
-OTOH nobody really wants Linus roaring at them, so we might all just do
-absolutely nothing.
-
-Also note that FIEMAP still doesn't report devices, so you're still
-playing with fire on multi-device reflink-aware filesystems like XFS.
-
---D
+>
+> --D
+>
+> > ---
+> >  fs/iomap/buffered-io.c | 4 ++++
+> >  include/linux/iomap.h  | 4 ++++
+> >  2 files changed, 8 insertions(+)
+> >
+> > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> > index d7b648421a70..44046c648df4 100644
+> > --- a/fs/iomap/buffered-io.c
+> > +++ b/fs/iomap/buffered-io.c
+> > @@ -836,6 +836,7 @@ static int __iomap_write_begin(const struct iomap_i=
+ter *iter,
+> >                               return -EIO;
+> >                       folio_zero_segments(folio, poff, from, to, poff +=
+ plen);
+> >               } else {
+> > +                     const struct iomap *iomap =3D iomap_iter_srcmap(i=
+ter);
+> >                       int status;
+> >
+> >                       if (iter->flags & IOMAP_NOWAIT)
+> > @@ -853,6 +854,9 @@ static int __iomap_write_begin(const struct iomap_i=
+ter *iter,
+> >                                                 len, status, GFP_NOFS);
+> >                       if (status)
+> >                               return status;
+> > +
+> > +                     if (iomap->flags & IOMAP_F_ZERO_TAIL)
+> > +                             folio_zero_segment(folio, to, poff + plen=
+);
+> >               }
+> >               iomap_set_range_uptodate(folio, poff, plen);
+> >       } while ((block_start +=3D plen) < block_end);
+> > diff --git a/include/linux/iomap.h b/include/linux/iomap.h
+> > index 2c5685adf3a9..750602e18750 100644
+> > --- a/include/linux/iomap.h
+> > +++ b/include/linux/iomap.h
+> > @@ -67,6 +67,9 @@ struct vm_fault;
+> >   * bio, i.e. set REQ_ATOMIC.
+> >   *
+> >   * IOMAP_F_INTEGRITY indicates that the filesystems handles integrity =
+metadata.
+> > + *
+> > + * IOMAP_F_ZERO_TAIL indicates the remainder of the block after the da=
+ta
+> > + * written should be zeroed.
+> >   */
+> >  #define IOMAP_F_NEW          (1U << 0)
+> >  #define IOMAP_F_DIRTY                (1U << 1)
+> > @@ -86,6 +89,7 @@ struct vm_fault;
+> >  #else
+> >  #define IOMAP_F_INTEGRITY    0
+> >  #endif /* CONFIG_BLK_DEV_INTEGRITY */
+> > +#define IOMAP_F_ZERO_TAIL    (1U << 10)
+> >
+> >  /*
+> >   * Flag reserved for file system specific usage
+> > --
+> > 2.25.1
+> >
