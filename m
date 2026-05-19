@@ -1,113 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3597A233952;
-	Tue, 19 May 2026 11:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372AC495523;
+	Tue, 19 May 2026 11:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779190487; cv=none; b=ewbFCcyBbghqjbKP3PqnZAOpfV50W6/xwVf9ZJe3v8At0+aCtbEks2J41Y3Q0pUKjakLAy8o+XeA1ZSUd7u/BI5qbHChnvQQR8QI1UH+pb6q6kipIuPXcIhkUjzAabPyJxgZkQLJucbDvpbqFfYWnDeLt+KBZTY/XgZLEtUjYY0=
+	t=1779190935; cv=none; b=oWKlbrRHrljxkY9L3V+PwvSn2Jx2Wzan+O5moyoIO5qbpW3ryJbvnbaXpZPQoAfwnFg4YVOvsT/SS2Xxp0iTslIPpCgvx/PyMyrWptIboNYoPN7VP9hmH05QULaM8w6zu/lJ6IrnYteLU5ncrVoUgXLk5UayJOkmzSJg3WfUuuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779190487; c=relaxed/simple;
-	bh=dYBNK9BCQHghU8qmFx2G1DFK6xWsL7Iok1FhcvW19I0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h1P66NEtZvzKDrtm+h76KAxFkWDb/JlRmXlXeMwu7BBQDWA04fzGZT4DGf50HyP1iuyREYB9V/M9Qzv+fegwZ8+/h3RFhYakgHc2OrG6R8/Qgmfzoo+UgmUxM05cCVMt7eB5KS33iydz60Cw50YUEk6mNM5sAJpnhYyC4Cdmr2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lVK3PoUj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779190935; c=relaxed/simple;
+	bh=Ki3Rp5yJ4v5ubO48sMHC83oQZh7+CgA8I0IigrUtArc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ldrqJ6G54DvwrMrqWCZruaMTpgkKhK6WvILy+fWioTGlz5jR45gdV7P0RjIkUoXQnWNw6mUTxASibOgaAjOY0xLZ1/VdOqwRuYNZpddWl53eKvflzlnXpiAC8WrYQWVTJVVeF18JkhMUypN6eG+tqQKv/RHxJNBrjPZy88jc8yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Qm1jxd9e; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lVK3PoUj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD529C2BCB3;
-	Tue, 19 May 2026 11:34:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779190486;
-	bh=dYBNK9BCQHghU8qmFx2G1DFK6xWsL7Iok1FhcvW19I0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lVK3PoUjecLuQGRwNciRDGnvHK3OFM9sFfzxfhCh827wo4PFrNFuTUCiyx1tEwZBR
-	 osT4eHCNV+Iwz9oq0HLUG0CoNim7bV1DEcRTHP2W1YDwWaqu8GrGUOKJWDLqKpXWBJ
-	 gTAoG2il0N6+U8YMZ8BrzPzeLfYuO6FylpXVfWwQaRH4jWZf6gSyouQh/atzZdOOTc
-	 joe8pU3HvgW30owFH7D7eJge2Hoq3vWXVq8tj4zIHV0tvlvpnCRHLLoXa6CicWPNU6
-	 4V5OxiI+Jqr0wSfy82jESPbbFR/c3iX5AeC4Lvx94fVS4FLJIttICH/Sr67OtSDWkE
-	 +vuUxu06E9Xrg==
-Date: Tue, 19 May 2026 12:34:36 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: John Groves <john@jagalactic.com>
-Cc: John Groves <John@Groves.net>, Dan Williams <djbw@kernel.org>, John
- Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Alison
- Schofield <alison.schofield@intel.com>, Ira Weiny <iweiny@kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 1/6] dax: fix misleading comment about share/index union
- in dax_folio_reset_order()
-Message-ID: <20260519123436.04aa1891@jic23-huawei>
-In-Reply-To: <0100019e3d045be0-088bc509-0545-4e5a-b532-507045af78d0-000000@email.amazonses.com>
-References: <0100019e3d03bba9-d27282f3-5552-4fa0-8326-981e4c13dace-000000@email.amazonses.com>
-	<20260518213549.31246-1-john@jagalactic.com>
-	<0100019e3d045be0-088bc509-0545-4e5a-b532-507045af78d0-000000@email.amazonses.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Qm1jxd9e"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+3KzmSz2CfeRwzjYKPwW110AYgzmgb84Yz0zPyKDkrM=; b=Qm1jxd9e9RTY3FAb7tHsHmDMKY
+	0Vbv7Q4XlfkkdVnsAK6NL1vVJxXz58AEVWXvbD7u/KXsfutyLO4A2qGwh0gOLEM9PjAeklLlrj7va
+	ynY/YnOSgWrwUmfy5b9LQMKKAZOKEwer3YMpjQfT54NOeKqORruybmc7oc194zN1reCZhRMWGip5V
+	pobEbM052fKBMM2RqvzY01MHtxY6LjJhGYbkmq9dvewaBbsLBtUeleTe5AMMAq9AzWpjBuXT/wzrg
+	bIzOYNyfNfPq7yHLIXQjuvJvVuAuXOkmkx5Mu/VjC/4unoQjAy18B2jUs9cScAGMQr5g5F3AMshoS
+	whA8AMVQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wPIpt-00000001MYS-0LjC;
+	Tue, 19 May 2026 11:42:09 +0000
+Date: Tue, 19 May 2026 04:42:09 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Theodore Tso <tytso@mit.edu>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Cyber_black <Cyberblackk@proton.me>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	Mark Fasheh <mark@fasheh.com>, linux-api@vger.kernel.org
+Subject: Re: [RFC] fs/ioctl.c: FIBMAP requires CAP_SYS_RAWIO while FIEMAP
+ exposes identical data unprivileged
+Message-ID: <agxMkaEMMbQGzqsk@infradead.org>
+References: <_fcorj7Aa0YnzUmrPnqdEbTjLqS6S7t84HKrzsswvKm71LC0uVmTD2cthCwpgeI-296unEpzPZYBNdFFDXjsQvZRtGfTaQlKmcRkiSI4wiQ=@proton.me>
+ <agqevS--YYBVW2Oz@infradead.org>
+ <20260519022327.GA11894@macsyma-wired.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519022327.GA11894@macsyma-wired.lan>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, 18 May 2026 21:35:56 +0000
-John Groves <john@jagalactic.com> wrote:
+On Mon, May 18, 2026 at 10:23:27PM -0400, Theodore Tso wrote:
+> I disagree.  As I recall, we discussed whether or not FIEMAP needed to
+> be unprivileged many years ago, and it was a conscious choice not to
+> require root privs.  I don't believe it is a security issue to allow
+> users to see the logical -> physical block mappings for inodes.
 
-> From: John Groves <John@Groves.net>
-> 
-> The comment in dax_folio_reset_order() claims that DAX maintains an
-> invariant where folio->share != 0 only when folio->mapping == NULL,
-> implying folio->share is zero whenever mapping is non-NULL. This is
-> misleading because folio->share and folio->index are a union -- for
-> non-shared folios with mapping != NULL, reading folio->share returns
-
-Maybe for consistency refer to that as folio->mapping != NULL
-
-> the file page offset (folio->index), which is typically non-zero.
-> 
-> Reword the comment to accurately describe the union aliasing: the
-> assignment clears whichever interpretation of the union word is active
-> (index for non-shared folios, share for shared folios), which is correct
-> because the folio is being released in either case.
-> 
-> No functional change -- the code was already correct, only the
-> justification was wrong.
-> 
-> Fixes: 59eb73b98ae0b ("dax: Factor out dax_folio_reset_order() helper")
-> Signed-off-by: John Groves <john@groves.net>
-Reviewed-by: Jonathan Cameron <jic23@kernel.org>
-
-> ---
->  fs/dax.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 6d175cd47a99b..df19c9317d10e 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -392,12 +392,12 @@ int dax_folio_reset_order(struct folio *folio)
->  	int order = folio_order(folio);
->  
->  	/*
-> -	 * DAX maintains the invariant that folio->share != 0 only when
-> -	 * folio->mapping == NULL (enforced by dax_folio_make_shared()).
-> -	 * Equivalently: folio->mapping != NULL implies folio->share == 0.
-> -	 * Callers ensure share has been decremented to zero before
-> -	 * calling here, so unconditionally clearing both fields is
-> -	 * correct.
-> +	 * Clear the mapping and the index/share union word. folio->share
-> +	 * and folio->index occupy the same union in struct folio. For
-> +	 * non-shared folios (mapping != NULL), the union holds folio->index
-> +	 * (file page offset); for shared folios (mapping == NULL), it holds
-> +	 * folio->share (reference count). Either way, we are releasing the
-> +	 * folio and both fields should be zeroed.
->  	 */
->  	folio->mapping = NULL;
->  	folio->share = 0;
+Users have no business even known it.  It is a side channel that can
+easily leak information for attackers that know allocation policies.
+And as the reported state it also is inconsistent with how FIBMAP has
+behaved since the damn of time.
 
