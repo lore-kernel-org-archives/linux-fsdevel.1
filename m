@@ -1,240 +1,159 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEF8233949
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 10:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779187344; cv=none; b=XWrj2+FzzaW6XVKNOillybKmXSwThPjkFPY9bUNs2E2eJ9fRirqEe7m9etSzUI4UwsgT/6MuukQJnhOhoUbhbu8qid0+tGpULU8tDv6T6f69lfSNq2ekuo0JPA+EwRUwpiCfgbv1cIyEvhvhxx1+psizp+g3NJlU16uHfeyEWPM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779187344; c=relaxed/simple;
-	bh=4xVDGSL1SqEz7ols5WV1Sr1QItUuXL0kK59av/l866A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJfqC0pePKY6jbFopnrc1pTbNEtSJzIMap+AkUZjw82WtLrrG6Ru1K+A64myEE4sRRD5pmo9qV/230gVbrAzrqHnVoVyG6M85hakDJmYy+ft0P7T6hP6oegy6qNUMusLvJtCoWqd1zEitk+ceCel+GMy0vn8rGU7C879KGBxtdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=b+jCItpd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tm8SQO+E; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=b+jCItpd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tm8SQO+E; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533A4370AD9
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 10:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779187905; cv=pass; b=RAuq4gmSPrzE3iT1yW/9qcVsdS9f5/nurudVFCSPr3fg3Ee5wGx9aXr9lzaeAx5jSW3JoM5GRdZOmeiKYczDsEE7fHALndgqZwmqMpCRm5/QAF3bucxB40IOSmcIJiaV3zg4/wKRwkgq84Ll35QAZXbEpMaqV2/YUpvLk6J6ePA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779187905; c=relaxed/simple;
+	bh=D09mIwXGgfWvJMWKI8G3+s17RZoSvUCDdrOthBfqo6s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q1mW2OxPbK2PIFf9YmDqthOCvTPs4CdUBxSDAUuCwF3B56w0a/HAQ3XC44BTGTUhdiLJ4Vt9aogHMr3q23u8HtqJmL8NEc0y5dPmig4cRo2nk+PkXokIPCzT8MXEL36/m413jKcQ4qDEVbO+g8vcZJK7YopdRMUvadHTfPyhdwk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rNfQG1Cf; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="b+jCItpd";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tm8SQO+E";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="b+jCItpd";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tm8SQO+E"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AC48D67FDD;
-	Tue, 19 May 2026 10:42:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779187340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kasJYge5Cpr2AOGK48Xaz95dYSLNLSWjfJ48f6kA05c=;
-	b=b+jCItpdw3HrWE6mc7NP4Diw5aF8PjtGAthWnrRXsKuaVz2w5RGegqOS0+ImB14RfIpAyO
-	hJ1dkUelvsXwwaV0qVSxXi1n9kj0dJdh+8eAvyvmg9hW5nqEN7XODhGOjJehC8mC8+9SOS
-	gnwZDRhcaBse3G55i/SWxXZd74VoZ+U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779187340;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kasJYge5Cpr2AOGK48Xaz95dYSLNLSWjfJ48f6kA05c=;
-	b=tm8SQO+EccI9LJH+8lxFIw6xhs6w7p/Kk4jCh6LaiDJ3Br6h6dQqyEkgLTp3O4n1E9hiDt
-	gEmTjTmQJJRIT8Bg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779187340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kasJYge5Cpr2AOGK48Xaz95dYSLNLSWjfJ48f6kA05c=;
-	b=b+jCItpdw3HrWE6mc7NP4Diw5aF8PjtGAthWnrRXsKuaVz2w5RGegqOS0+ImB14RfIpAyO
-	hJ1dkUelvsXwwaV0qVSxXi1n9kj0dJdh+8eAvyvmg9hW5nqEN7XODhGOjJehC8mC8+9SOS
-	gnwZDRhcaBse3G55i/SWxXZd74VoZ+U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779187340;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kasJYge5Cpr2AOGK48Xaz95dYSLNLSWjfJ48f6kA05c=;
-	b=tm8SQO+EccI9LJH+8lxFIw6xhs6w7p/Kk4jCh6LaiDJ3Br6h6dQqyEkgLTp3O4n1E9hiDt
-	gEmTjTmQJJRIT8Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A32B7593A8;
-	Tue, 19 May 2026 10:42:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id D+rNJ4w+DGq4EQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 10:42:20 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7880CA0ADE; Tue, 19 May 2026 12:42:19 +0200 (CEST)
-Date: Tue, 19 May 2026 12:42:19 +0200
-From: Jan Kara <jack@suse.cz>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Subject: Re: [RFC PATCH 09/14] configfs_remove_dir(), detach_attrs(): switch
- to passing dentry
-Message-ID: <wvxfefy3ope7co3qh5q3x337vekky5qaehjsbtomyw5oljdpvw@46fq3zzcyyvm>
-References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
- <20260519070633.2025485-10-viro@zeniv.linux.org.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rNfQG1Cf"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-678a16429c6so6217222a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 03:51:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779187894; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Sw+AZM7vhzVRrKI9cy4QFO5jX8X3whcItzSE8pE73yLob2el0LxcXKTP/BbAWj2Jr+
+         vVPAVl7PUXTVtTQFXlyfb7rxEAMQ4v9yf84P+IgJP6Po38e7AWcmBtscZJ9oLjcYkdCF
+         1dU2q4w1uXcpcZPxoOhRnjfXUnGDmjtmXD6EDusD3ZN+gJC1ZR2O+M2H9Q/4EikPDJS0
+         1JRDkaDTpzkj1jvO4VaWmrifahR28I7oSW1ESGv+6RgJeazbGer1h7RT7rbPSonb6GfI
+         olaFkyksAmCK9ytV2KYDZxa+XoQsUqmRfcgeVFnkb16ljXjxpspUkyXADzhi3wp+Hubm
+         Opxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=D09mIwXGgfWvJMWKI8G3+s17RZoSvUCDdrOthBfqo6s=;
+        fh=9uPO1yV1/xOGbSWiZh747ud/xkbsZqck6KAELJY2j8I=;
+        b=UkIBXuo0Tomt4qUjg9XHP7noSJBPkTyAi7AqXOMj0kLlrVlIM4kqEPA+2NpWVADAHq
+         BIktgA8BYczncyWfgqtZlp+ETAUkNJISQdkVfjB+12AFwAzTkoJUFfQ7SuBg0+OppJsV
+         zRWPN+H0sEBfyua06VKZKTLUQUAUD7uMqctcVxEJDcqnVdbO5lXnr+ecEHwxN4AkK1UF
+         rSLJHIUH/irbyrBAeACPiIK78D80TQITRYMFEfnX0hzcPxf/wtOkSuyD5pLpB5JsOmV+
+         py1ywkZMkMtOVe77GFFwDc3K5mPUL1hE8GKtwCx0nGRW+ZP8FYQqyQ2LqxXcKl7m3vcb
+         uEJw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779187894; x=1779792694; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D09mIwXGgfWvJMWKI8G3+s17RZoSvUCDdrOthBfqo6s=;
+        b=rNfQG1CfgT5ban+PDibQ/+W7/d6mR2Om21tfqvBf3dm44wDQcKOr7K+QaqoqcDjdBY
+         e9j3qEg2ZqJaK6PhuC8CE6+n6UhKkLRgjtJ4On8iAoEFa84vpggEAY758ReZDD1v6+Gp
+         JSwCMepiaeIXEZtekUiVZEyMRyj/ad15gWuZRcr/ZM0w+53R7Vf9K3B7S3fS8AvzxNA1
+         3ihd7DkiAx6GBRasJU4xyDkbyZx/07aZxowePOC3bfEW3tiT5jFZ8gUU5XnhQvD3agrS
+         dcWsVbkxooeKuC8rjufMu+RfVaQBNistzUqQnm5h/7uRermXsVvPpc0+2c38gLfwlWbv
+         0O/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779187894; x=1779792694;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=D09mIwXGgfWvJMWKI8G3+s17RZoSvUCDdrOthBfqo6s=;
+        b=n//q5lURR1lm/uaAROluO1GBwFD6jYNFz+1NKrf+5SAIQr0EhllLLqjDFVQWzU/dRt
+         Ab0+aGDWunmTscLn0eK7urvS5H1pm2Chx71j7bat8+SA5dSaKu/9XuhGeFsFRtTtNgJJ
+         gvK2niM1QJCh8cloh9xDSomwnLngVNRwl/RzbXecPPv6hOUkHDQ3x6tXLrgJrfCS3MnE
+         xHUrH8WNeIFICSszA2Vo4ih0kkVTxNSXAy9wi6knQ+t84SSYxNlWU/SdcYvQC4+6ofKn
+         qlAV4eVr16EtqXHRhWNUUhz3uZkRqfyY0ChOr9HI1VhX7ZWE3v78TGCzRYxgcr5Qc9jA
+         UAGA==
+X-Forwarded-Encrypted: i=1; AFNElJ+OT7J1dOQPSFHXMQwwUNDpFX6B/2/+HWGnEzxGaens2Pz3/Wp4W5oCfeuvTkcIIOj0NSOc3uNff/Uni8i3@vger.kernel.org
+X-Gm-Message-State: AOJu0YxICYLx90aimo1G4OfOqsXrHBEJZDrf8mGHioN11PEczAkTFH+O
+	1D0dghZQiaOTE7XaeVKecYhoNradvdf88sK/dsDTwR7lWW67ubB26suvLRASG16ZgboigV2tMHQ
+	FlAYsHVuXEyWDSYdeaKVNHa7ucrdlp0A=
+X-Gm-Gg: Acq92OHXMD0cwlhbwohqGnpZF7W8ek6X8/eBvIpMQbBkxvo0WA1Zy0i/Yuog8fdhklP
+	tmVbLgsRpW+BZkAFsxKZCCMIHRbuhy3wkwU+DIQTZ1u6SLOaOLmtrCVamjxRBk9YUQv5no2eaqK
+	VjuyxVVuZ/Ffe8+HQktZrhKMw8dmB72XlKd3FFFJSlKSCk7uzfv8IweqJX6ytiVRvB7mDygoJ5k
+	ZkIY4JIakqxUS8xKVpWVf7Ydu++UbZY4WYuJ/HxQsj153iiWlRVq6Ng6zBL3Qr9lHkjyus2KHxu
+	xSj73WH2TJcb+XpzfMQwzmQUeui4Tqai5OHJZ4Q=
+X-Received: by 2002:a05:6402:22e5:b0:67c:1c12:3ee6 with SMTP id
+ 4fb4d7f45d1cf-6830abcc48fmr7158004a12.5.1779187894290; Tue, 19 May 2026
+ 03:51:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260519070633.2025485-10-viro@zeniv.linux.org.uk>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo,linux.org.uk:email]
-X-Spam-Level: 
+References: <20260516182126.530498-1-pfalcato@suse.de> <20260518-starten-messdaten-3b8aa670ec85@brauner>
+ <CAG48ez0jbSUgT3ZxPKZP7Eu=K7ce2cX7k2NzHCHNMOxQjOGT9w@mail.gmail.com> <177918418452.771415.4371785688744608623.b4-reply@b4>
+In-Reply-To: <177918418452.771415.4371785688744608623.b4-reply@b4>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Tue, 19 May 2026 12:51:22 +0200
+X-Gm-Features: AVHnY4KxwAsZR24cEVgsWChCgk4fjPFWjAc3-R7St5PMsRGg6TL6NPpS0u-UI6M
+Message-ID: <CAGudoHFtecdkcYpFrtM5RAAPSU11eL_ALPGp_jhtHW=WxyHE4Q@mail.gmail.com>
+Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
+ read-only files
+To: Christian Brauner <brauner@kernel.org>
+Cc: Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, Jens Axboe <axboe@kernel.dk>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-hardening@vger.kernel.org, Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue 19-05-26 08:06:28, Al Viro wrote:
-> ... and deal with grabbing/dropping it in the sole caller.
-> After that configfs_remove_dir() becomes an unconditional call of remove_dir(),
-> so we can fold them together.
-> 
-> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+On Tue, May 19, 2026 at 11:49=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
+>
+> On 2026-05-18 20:59 +0200, Jann Horn wrote:
+> > I feel like a sysctl for "disable all the splice-like interfaces and
+> > zerocopy TX" would be reasonable to have? Either by blocking such
+> > operations, or better, silently downgrading all such operations to
+> > normal copies.
+>
+[..]
+> I think blocking isn't going to be useful as it will make it harder for
+> distros to turn this on. So we should degrade.
+>
+[..]
+> Let's discuss the other aggressive alternative: Can we try and
+> unconditionally degrade to copy. This would affect sendfile(), splice(),
+> and vmsplice(). Worst-case we would have to introduce the sysctl
+> retroactively.
+>
 
-Looks good. Feel free to add:
+I know at least nginx uses sendfile, but I never benchmarked how much it bu=
+ys.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+The original patch as proposed filters by rw perms on the file, which
+I expect to exclude nginx.
 
-								Honza
+While kernel-internal copy is still going to beat a userspace-based
+read/write loop, this is still going to be a hit and I expect people
+are going to complain. Afterwards you may end up with tutorials how to
+re-enable pre-patch behavior, partially defeating the point.
 
-> ---
->  fs/configfs/dir.c | 57 ++++++++++++++++-------------------------------
->  1 file changed, 19 insertions(+), 38 deletions(-)
-> 
-> diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-> index 395270cc3710..deb18689aa0a 100644
-> --- a/fs/configfs/dir.c
-> +++ b/fs/configfs/dir.c
-> @@ -394,7 +394,18 @@ int configfs_create_link(struct configfs_dirent *target, struct dentry *parent,
->  	return PTR_ERR(inode);
->  }
->  
-> -static void remove_dir(struct dentry * d)
-> +/**
-> + * configfs_remove_dir - remove an config_item's directory.
-> + * @d:	dentry we're removing.
-> + *
-> + * The only thing special about this is that we remove any files in
-> + * the directory before we remove the directory, and we've inlined
-> + * what used to be configfs_rmdir() below, instead of calling separately.
-> + *
-> + * Caller holds the mutex of the item's inode
-> + */
-> +
-> +static void configfs_remove_dir(struct dentry *d)
->  {
->  	struct dentry * parent = dget(d->d_parent);
->  
-> @@ -414,31 +425,6 @@ static void remove_dir(struct dentry * d)
->  	dput(parent);
->  }
->  
-> -/**
-> - * configfs_remove_dir - remove an config_item's directory.
-> - * @item:	config_item we're removing.
-> - *
-> - * The only thing special about this is that we remove any files in
-> - * the directory before we remove the directory, and we've inlined
-> - * what used to be configfs_rmdir() below, instead of calling separately.
-> - *
-> - * Caller holds the mutex of the item's inode
-> - */
-> -
-> -static void configfs_remove_dir(struct config_item * item)
-> -{
-> -	struct dentry * dentry = dget(item->ci_dentry);
-> -
-> -	if (!dentry)
-> -		return;
-> -
-> -	remove_dir(dentry);
-> -	/**
-> -	 * Drop reference from dget() on entrance.
-> -	 */
-> -	dput(dentry);
-> -}
-> -
->  static struct dentry * configfs_lookup(struct inode *dir,
->  				       struct dentry *dentry,
->  				       unsigned int flags)
-> @@ -573,15 +559,11 @@ static void configfs_detach_rollback(struct configfs_dirent *parent_sd)
->  			configfs_detach_rollback(sd);
->  }
->  
-> -static void detach_attrs(struct config_item * item)
-> +static void detach_attrs(struct dentry *dentry)
->  {
-> -	struct dentry * dentry = dget(item->ci_dentry);
->  	struct configfs_dirent * parent_sd;
->  	struct configfs_dirent * sd, * tmp;
->  
-> -	if (!dentry)
-> -		return;
-> -
->  	pr_debug("configfs %s: dropping attrs for  dir\n",
->  		 dentry->d_name.name);
->  
-> @@ -595,11 +577,6 @@ static void detach_attrs(struct config_item * item)
->  		configfs_drop_dentry(sd, dentry);
->  		configfs_put(sd);
->  	}
-> -
-> -	/**
-> -	 * Drop reference from dget() on entrance.
-> -	 */
-> -	dput(dentry);
->  }
->  
->  static int populate_attrs(struct config_item *item)
-> @@ -825,8 +802,12 @@ static void link_group(struct config_group *parent_group, struct config_group *g
->  /* Caller holds the mutex of the item's inode */
->  static void configfs_detach_item(struct config_item *item)
->  {
-> -	detach_attrs(item);
-> -	configfs_remove_dir(item);
-> +	struct dentry *dentry = dget(item->ci_dentry);
-> +	if (dentry) {
-> +		detach_attrs(dentry);
-> +		configfs_remove_dir(dentry);
-> +		dput(dentry);
-> +	}
->  }
->  
->  /*
-> -- 
-> 2.47.3
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+How about denial of splice usage or degradation to copy are still on
+the table, but based on a different criterion: whether code involved
+is "known good" for lack of a better description. iow the kernel would
+maintain a whitelist of "safe" cases. Random-ass AF_NOBODYEVERHEARDOF
+does not make the cut.
+
+Common-case usage would have to be audited of course, but this sounds
+rather actionable and would provide hardening without much friction.
+
+I can't stress enough that mucking around splice (even if worthwhile)
+is merely addressing the currently popular attack vector and not the
+general problem.
+
+The general problem is that the kernel is expected to be able to run
+with untrusted unprivileged users, while it avoidably exposes a huge
+attack surface. Of course there is no way around providing a bunch of
+syscalls to users, so *some* danger will always be there and one has
+to expect that even core code has bugs which will be discovered by
+LLMs in the coming months. Even then, there is tons of code which is
+currently being audited by third parties and which has no use in most
+setups. Instead it gets autoloaded in response to an exploit wishing
+to take advantage of its bugs.
+
+The huge attack surface was always a problematic position to be in,
+but with the advent lf LLMs any unskilled person can drop a 0day and
+the position is straight up untenable. In the long run there is no way
+around blocking access to code by default, way beyond the current
+splice proposal.
