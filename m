@@ -1,159 +1,174 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D979A46AEE4
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 09:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719253D3D06
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 09:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779184337; cv=none; b=EAJRM9LrkQBtiAq+lNTIKhC5DoqeFTaXxszUKnqB3aZ052/LkKj6YYlcsWcdLXXcF3TeTdkh5pYo/mC84qYnEN3lfZ7iFrpR8Zndtcg99pH4cESG2srbObTNEcAMrLiIUNl9NiR986qZjof6GQ2yBzI3x0F7+SAqvY4yu1t15BU=
+	t=1779184660; cv=none; b=BtMwvpobWi7PmBPWkRsCjSvLUAS8wNKO6MgZFzobdF3WdXJC/VISmUKAeSQjz13sS9iE3btQ4NGV1/DJCce0tveGKDPeYCAXyR8db/dBBQQZt7k7Xt3RuKl11tbMc094C8VdylWbfgpqHVpb05T4mJWKfh3alC1jpna2mexYIck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779184337; c=relaxed/simple;
-	bh=oj+KFARW3atpzddg8zMv78o7rWNm5zu9UJAVmegL0XA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aCiNjc8T3MGVCgWkfRCmEqD2nXjNPnV4rDXvji9cEm2+1okqiMepxTOVvPPbYk92z2uoeqXBnK6wVOx8mDcmYwLX0qrVmuYl+anMLzdolfKhdL2/udCcL/peiRg47aHOGGbQFXOpxhlRPLLq2tIFYYAbNba9Gqj1C2UoEVOvGes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CHZleOm/; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779184660; c=relaxed/simple;
+	bh=Bp1WDnDSWY/gMr1G0ULzhs1u3Y2vpC8H4yzJMBMNUjc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pOg+jJWWLuzTB2ET0X5W/uLPARlWwFKTMdXgWflAh/kvgTdefGG5iz6wG6/KH0zJ16NdrA6za+ORX5lnbRReH1eZ1YTssPCrlxy7D7/ROJ2SfY2oNaLvbsZm8MPvviXe2tmF6u1kfv1MsL9dUDbaHTKHiDQ4xk1QEbISc0SZwGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NH/57F/a; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PEvqXPfh; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NH/57F/a; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PEvqXPfh; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHZleOm/"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8ca12973e15so49123826d6.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 02:52:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779184335; x=1779789135; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cRCR11qUHaj3Qg7MbFr/xCdePGzcx00slw0JQNYdwuQ=;
-        b=CHZleOm/JM2oZlAx/Yz1dXBxriKZ7D+ctjN5+ZKaYuOP2oUDIEMcTHDoSCWNBZ8sT4
-         aa73cDa/zOdoqDwUsBedfimfcjIL9Dwn3psFXZ9gdGmo2cHPYAvtUyAeAlf5oKjaAa+B
-         kK9YcZ1LGGu8A6udFnFSzQCFzR9fycH54bv66r1z2VOto28z/sTyq61aspZQ4iDr9F7B
-         8xfCjaENdgQbpTLK29gRcH6uV+6D6LrGbt7deQJK/LI1Jj+3aKXauUxwQrjdF2jI1O/J
-         5fP16bxkvGGl12+JfY0FT18Jmib9Yv9Fn58bUih16YIOxGQB0Qu0iEgS0jpuHq/TNCAo
-         998Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779184335; x=1779789135;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cRCR11qUHaj3Qg7MbFr/xCdePGzcx00slw0JQNYdwuQ=;
-        b=BGRtyiT4LI2VrzNP4sCOD9Eiz1y/AFDEpG4VWGTdTRbtDocfuLY6OtNwev6hNIRBmC
-         pgsASWhVFGDE97sckcVpy52G2RGlnpG0fMF2/1vdj5vPfiA5Eouq6ru41cNeMwTPCvCl
-         hY1C2cUjMYdX4oPpt9TKjw2NAiwENfoKMzatsdXaPtl/qOV6Ev+HJ3gFyQOlV6aWYCVG
-         UCqSuqVFYRCWSpnLa2SLDvsrYmsTaGLSLP+4SwMJhD91IKa2/RTJTE8blimj5hsSZ2Dg
-         bsVrCycEjODEmHIg4VdOJv23cAOSpysKng4tutQXtLk1Dpx411cymb8EX6lq6LflVfkw
-         JL/w==
-X-Forwarded-Encrypted: i=1; AFNElJ83lLQXeTg0iUXRE+9eQbJBWrbwbrNjkV3FkOr9/fIkLSdHSE+a3/vqakkjQxgzCTQd6EfII4qHGyxDuFcy@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOEMwaf+U1wytysGEMxjf55uCjc8PVwx7tsagJr2WxdHsiB/GR
-	jrZkgzeVpIqEA+40LQWaAxnYT1oCeIAV4m0o83gx5RAe8kXCv9PdhrX1
-X-Gm-Gg: Acq92OHGWq49wYfOcZ6a7LIKLYPgeK69CJS9fBHYeRxN3U3Aq/k05JAfJgvRWeBG5uQ
-	BLRaNe787ofkPaREP7I6E/2Rr0ylZVoEuB8WOjZBADIlw7tx5UU+sG90YONX2J6KqCjz/V9g+wE
-	r4UIcKhfRn3x/d0PLqX8JhYD4fSs+nwGBBOcOpUBmCjxa0hFdY7AUCxmQcpE2imjWHQFg9EryIy
-	lmQQEO8Qu4eJcrDHDtWmkdfb3cjvFOw42zYfT7/BGAU/PY4Qrj9pl9h0Biux4OQMFlKwVL145sF
-	paP07m+u2qtpg/9XVpaHn/IHQVrG/SCn+1WC77+AWEcbkej10KEczWqHu0YXCFJQIeEPNk6KoWx
-	FWwqpvtuXo0V0RBgGQeQmzUlt6zs2PocxAdTZiH9s3SX9sROaLynz9WOUNNqI76prgCZMzWb2td
-	cHkqpsKo76H7wMRO2bT7R23IcqNgQrr13YdXV75FMAdvlVrUwJDS6AFq0SsfiUYU0MDj29tIUft
-	bzZZj6OlTdPdnPBGoeX
-X-Received: by 2002:a05:6214:4e06:b0:8ca:1dd8:10c with SMTP id 6a1803df08f44-8ca1dd803bemr234592946d6.30.1779184334701;
-        Tue, 19 May 2026 02:52:14 -0700 (PDT)
-Received: from server0 (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ca3619c7d9sm84697036d6.36.2026.05.19.02.52.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 02:52:14 -0700 (PDT)
-From: Michael Bommarito <michael.bommarito@gmail.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pavitra Jha <jhapavitra98@gmail.com>
-Subject: [PATCH v2] fs/ntfs3: bound NTFS_DE view.data_off in UpdateRecordData{Root,Allocation}
-Date: Tue, 19 May 2026 05:51:35 -0400
-Message-ID: <20260519095135.1609973-1-michael.bommarito@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260515163424.1575298-1-michael.bommarito@gmail.com>
-References: <20260515163424.1575298-1-michael.bommarito@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NH/57F/a";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PEvqXPfh";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NH/57F/a";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PEvqXPfh"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 94BB367F93;
+	Tue, 19 May 2026 09:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779184656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UE8DXlk4lq+cg4H9QaA33AaA2uxtpYpiWAT+mHKTZio=;
+	b=NH/57F/ax4gEZA6WHG5Qdyo2VLOd222cRIUSIQwekfswNrFIkEYiTi50K0eZXH+Tlus1ir
+	3fERvLSaRIywqp8FnKixCB0K41soxtYySnWJ2ynuLkeBwcWkGwzVQSdHfSioTDjz1k7GlE
+	hXjG/RuKFug9Ml0jubNH1Y5szZ8d5rg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779184656;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UE8DXlk4lq+cg4H9QaA33AaA2uxtpYpiWAT+mHKTZio=;
+	b=PEvqXPfhJktpQi27/EQ5a0a3qGSC9E2Bpa+2wj0mgMAjyWCD4lZw2u48d5sPhCogspd+s4
+	6GQTbURv9GoCYECw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779184656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UE8DXlk4lq+cg4H9QaA33AaA2uxtpYpiWAT+mHKTZio=;
+	b=NH/57F/ax4gEZA6WHG5Qdyo2VLOd222cRIUSIQwekfswNrFIkEYiTi50K0eZXH+Tlus1ir
+	3fERvLSaRIywqp8FnKixCB0K41soxtYySnWJ2ynuLkeBwcWkGwzVQSdHfSioTDjz1k7GlE
+	hXjG/RuKFug9Ml0jubNH1Y5szZ8d5rg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779184656;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UE8DXlk4lq+cg4H9QaA33AaA2uxtpYpiWAT+mHKTZio=;
+	b=PEvqXPfhJktpQi27/EQ5a0a3qGSC9E2Bpa+2wj0mgMAjyWCD4lZw2u48d5sPhCogspd+s4
+	6GQTbURv9GoCYECw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D487593AA;
+	Tue, 19 May 2026 09:57:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3kJ6IhA0DGqzZAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 19 May 2026 09:57:36 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id D4268A0ADE; Tue, 19 May 2026 11:57:31 +0200 (CEST)
+Date: Tue, 19 May 2026 11:57:31 +0200
+From: Jan Kara <jack@suse.cz>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: Re: [RFC PATCH 01/14] configfs_lookup(): don't leave ->s_dentry
+ dangling on failure
+Message-ID: <qb74bxgjgjl5gxdaaucvgn77s2jfr4vyoi675qs3zvip524kjy@m4uktzzd54df>
+References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
+ <20260519070633.2025485-2-viro@zeniv.linux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519070633.2025485-2-viro@zeniv.linux.org.uk>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Level: 
 
-In do_action()'s UpdateRecordDataRoot (fslog.c:3489) and
-UpdateRecordDataAllocation (fslog.c:3697) cases, the memmove
-destination is `Add2Ptr(e, le16_to_cpu(e->view.data_off))`,
-where e->view.data_off comes from an on-disk NTFS_DE inside
-an INDEX_ROOT or INDEX_BUFFER.  Neither case validates
-view.data_off + dlen against e->size; the existing
-check_if_index_root / check_if_alloc_index helpers walk the
-entry chain and validate the entry's offset, but not its
-internal view fields.
+On Tue 19-05-26 08:06:20, Al Viro wrote:
+> Normally ->s_dentry is cleared when dentry it's pointing to becomes
+> negative (on eviction, realistically).  However, that only happens
+> if dentry gets to be positive in the first place; in case of inode
+> allocation failure dentry never becomes positive, so ->d_iput()
+> is not called at all.
+> 
+> We do part of what normally would've been done by configfs_d_iput()
+> (dropping the reference to configfs_dirent) manually, but we do
+> not clear ->s_dentry there.  Sloppy as it is, it does not matter in
+> case of configfs_create_{dir,link}() - there configfs_dirent does
+> not survive dropping the sole reference to it.
+> 
+> However, for configfs_lookup() it *does* survive, with a dangling
+> pointer to soon to be freed dentry sitting it its ->s_dentry.
+> 
+> Subsequent getdents(2) in that directory will end up dereferencing
+> that pointer in order to pick the inode number.  Use after free...
+> 
+> This is the minimal fix; the right approach is to set the linkage
+> between dentry and configfs_dirent only after we know that we have
+> an inode, but that takes more surgery and the bug had been there
+> since 2006, so...
+> 
+> Fixes: 3d0f89bb1694 ("configfs: Add permission and ownership to configfs objects") # 2.6.16-rc3
+> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 
-The neighbouring read sites (e.g., fs/ntfs3/index.c when
-iterating view entries) check view.data_off + view.data_size
-<= e->size.  Apply the same bound at the two memmove sites.
+Looks good. Feel free to add:
 
-Reproduced under UML+KASAN on mainline 8d90b09e6741 via
-pr_warn-only probe instrumentation: with view.data_off forced
-to 0xFFFC, the memmove writes 32 bytes past the end of the
-NTFS_DE.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-This is similar in shape to Pavitra Jha's 2026-05-02 patch
-"fs/ntfs3: prevent oob in case UpdateRecordDataRoot"
-(<20260502105008.21827-1-jhapavitra98@gmail.com>) which
-proposes calling ntfs3_bad_de_range(); that helper does not
-exist in mainline.  This patch uses inline checks.
+								Honza
 
-Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-Cc: stable@vger.kernel.org
-Reported-by: Pavitra Jha <jhapavitra98@gmail.com>
-Closes: https://lore.kernel.org/ntfs3/20260502105008.21827-1-jhapavitra98@gmail.com/
-Assisted-by: Claude:claude-opus-4-7
-Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
----
-v2:
-  - Add Pavitra Jha's Reported-by trailer and a Closes tag for
-    the original public report, as requested in review.
-
- fs/ntfs3/fslog.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-index acfa18b84401e..127860fd2ab50 100644
---- a/fs/ntfs3/fslog.c
-+++ b/fs/ntfs3/fslog.c
-@@ -3497,6 +3497,18 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 
- 		e = Add2Ptr(attr, le16_to_cpu(lrh->attr_off));
- 
-+		/*
-+		 * e->view.data_off and dlen come from the on-disk
-+		 * INDEX_ROOT entry / LRH.  The neighbouring read sites
-+		 * (e.g. fs/ntfs3/index.c) check that
-+		 * view.data_off + view.data_size <= e->size; mirror that
-+		 * bound here so the memmove cannot reach past the entry.
-+		 */
-+		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
-+		    le16_to_cpu(e->view.data_off) + dlen >
-+			    le16_to_cpu(e->size))
-+			goto dirty_vol;
-+
- 		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
- 
- 		mi->dirty = true;
-@@ -3689,6 +3701,12 @@ static int do_action(struct ntfs_log *log, struct OPEN_ATTR_ENRTY *oe,
- 			goto dirty_vol;
- 		}
- 
-+		/* See UpdateRecordDataRoot for the rationale. */
-+		if (le16_to_cpu(e->view.data_off) > le16_to_cpu(e->size) ||
-+		    le16_to_cpu(e->view.data_off) + dlen >
-+			    le16_to_cpu(e->size))
-+			goto dirty_vol;
-+
- 		memmove(Add2Ptr(e, le16_to_cpu(e->view.data_off)), data, dlen);
- 
- 		a_dirty = true;
+> ---
+>  fs/configfs/dir.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+> index 362b6ff9b908..e84483a0836d 100644
+> --- a/fs/configfs/dir.c
+> +++ b/fs/configfs/dir.c
+> @@ -486,6 +486,9 @@ static struct dentry * configfs_lookup(struct inode *dir,
+>  
+>  			inode = configfs_create(dentry, mode);
+>  			if (IS_ERR(inode)) {
+> +				spin_lock(&configfs_dirent_lock);
+> +				sd->s_dentry = NULL;
+> +				spin_unlock(&configfs_dirent_lock);
+>  				configfs_put(sd);
+>  				return ERR_CAST(inode);
+>  			}
+> -- 
+> 2.47.3
+> 
 -- 
-2.53.0
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
