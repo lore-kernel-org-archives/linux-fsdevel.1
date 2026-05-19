@@ -1,156 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DCF35C1A9;
-	Tue, 19 May 2026 22:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB058372EE3;
+	Tue, 19 May 2026 22:42:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779230001; cv=none; b=Fz7noupIqQv/CLSYVQ0MjqVr2L+8v8FHIhYAQKRIbB4yVuLXvCXKdcHORig0r/fqJVE0bZoLPIixmWpkYrHBaedmAx8rmiF4+4b7hkOYbLPH5Wy5FLc5qQqn9T1+V2mlc/ep3IiaJTSUpEb2XFqS+mni4dxTEDp1OtGav+RYCv0=
+	t=1779230569; cv=none; b=tPM1Hc82hST1leoU7i720bXHOmvu05bA+v5UCTDIzKXNRMwbim03z5mhTIm62VW7GxKmrQtN7ecz3wJUwX8qXKsWdDBQIIW8QVyNaes6NKFwANSAcRGLS96iTVYNGHiebiPfVLFPsV8CHJs/fLX6IicPkFgsvSTmjq2vQep2gKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779230001; c=relaxed/simple;
-	bh=8LWE+lWUS9powpoIxvF5fLW10gdYzOFtjXj66HaIwUk=;
-	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZmZKa/zpyXBUMLjvyZ+ejzXRi2C3nShDSq880Idp48AvHGbLy53fqNY2inZ13jHwAAMeqFuNoZtl0RCPZtDL4NnhEEaH6k79fuwL+5F3s03/bpX/ct3XGKOSyCZ31rD7soJL4e1zDXEGH7tG6JD4eTtLlaZ8hbx6MyC7k2GclqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RrWj7+Kc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779230569; c=relaxed/simple;
+	bh=92Z2KQZNMxQjkoGeChAaj5TLY7geqGbfWyzHAMnftVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MpSbUQUy0o/N2d3+JZhIRKIgMYKdN/GrE6KhS4uT4vqIF2r8JQsvOyQ8MByWebMO/Q4MZSmEmCS9pKM1HLpnHaeLr1HAuYrDXaycMAdojm1xhGa4J+H53wCF7ksuNMacPcFzeEhALzqOpyNFIJ+4Gx1UizERoDHATHEZwX+dUDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0S9I5/J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RrWj7+Kc"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1D4671F00899;
-	Tue, 19 May 2026 22:33:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0S9I5/J"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7ED0A1F000E9;
+	Tue, 19 May 2026 22:42:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779229996;
-	bh=3O7+rEQFMzx5GYzX6h+431+W4es+VodHQGLSfgFFSdI=;
-	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=RrWj7+Kc749ynMDJd2fsnIun4hiT0TNccRfGR+9Dm1+LHKt7w3DOHf4cChN2cLaBe
-	 oWwG9dymPPFUKZmL7Fz5TUpCYmwstawU6wRBYb0rC9/gxYSuxcedVng+PxoFxZaD/I
-	 6EITmpn+41hxOzmf9e9Ccn050TBCkjCSX9fpGZECTglc2jvZJTgE9X8MWCrEkIttcs
-	 PdAlO6MV46cXKerTisav8f6kx5ilsiWpM9EHJj2F/wsU8Me1EJakqL+merhk8IHjR2
-	 EuumCOvr7bUpBcc8thMl9Q/Kuy9nz8nB/79m0k9Cey4fJkY8q4atQWJKA3avcJuX1V
-	 QK+Y+P/AFJGUg==
-Date: Tue, 19 May 2026 15:33:15 -0700
-Subject: [PATCH 9/9] fuse: set iomap backing device block size
+	s=k20260515; t=1779230567;
+	bh=MuFRKRc6T6nkge9ZU6jD9F0z77s0s4kLag7ah/XwJCw=;
+	h=Date:From:To:Cc:Subject;
+	b=N0S9I5/J961ExApcTtATbxwGHLQ60lujiBA3TksaagyMixi5rOWmwAA537PVM/sTW
+	 5TSkDzbuuL8ork+YJQ7LDeR/ve2Qu4knbXCsRT3jywWJbJn/4KVsBK8URfN0nJU+dN
+	 ITUVoJxPPVFyHLANm6fcpBep3UK9XycdTC9Z13VgVOs4h31cZMh2LjJLC8+P4zjY0T
+	 z/pdbl0Iu+04aOnczl5QIPFvs5tRUEipSCL23RJx8te/Dicx/HX3lbYZLBtakIIfOs
+	 IwvH/fZjX74OH24jR4hnUwz0J8J04IokjhJMUrKMG/xIa/7GqEc/nyzS2T1SZ32Oa0
+	 doAJdX9jztd3A==
+Date: Tue, 19 May 2026 15:42:47 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: djwong@kernel.org, miklos@szeredi.hu
-Cc: linux-fsdevel@vger.kernel.org, neal@gompa.dev, bernd@bsbernd.com,
- joannelkoong@gmail.com, fuse-devel@lists.linux.dev
-Message-ID: <177922946372.2439242.13829037107289830266.stgit@frogsfrogsfrogs>
-In-Reply-To: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
-References: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: fuse-devel <fuse-devel@lists.linux.dev>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: [PATCH] libfuse: fix cppcheck warnings in the new mount service code
+Message-ID: <20260519224247.GC9544@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Add a new ioctl so that an unprivileged fuse server can set the block
-size of a bdev that's opened for iomap usage.
+Fix some cppcheck warnings.  No functional changes.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- fs/fuse/fuse_iomap.h      |    3 +++
- include/uapi/linux/fuse.h |    8 ++++++++
- fs/fuse/dev.c             |    2 ++
- fs/fuse/fuse_iomap.c      |   27 +++++++++++++++++++++++++++
- 4 files changed, 40 insertions(+)
+Hopefully this clears up the last of the static checker errors with the
+fuse service container branch?
+---
+ util/mount_service.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
-diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
-index f40d202c64c822..3cfef073cbe5aa 100644
---- a/fs/fuse/fuse_iomap.h
-+++ b/fs/fuse/fuse_iomap.h
-@@ -69,6 +69,8 @@ int fuse_dev_ioctl_iomap_support(struct file *file,
- int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
- int fuse_iomap_backing_inval(struct fuse_conn *fc,
- 			     const struct fuse_iomap_backing_inval_out *arg);
-+int fuse_iomap_backing_set_blocksize(struct file *file,
-+				     struct fuse_iomap_backing_info __user *argp);
- #else
- # define fuse_iomap_enabled(...)		(false)
- # define fuse_has_iomap(...)			(false)
-@@ -97,6 +99,7 @@ int fuse_iomap_backing_inval(struct fuse_conn *fc,
- # define fuse_dev_ioctl_iomap_support(...)	(-EOPNOTSUPP)
- # define fuse_dev_ioctl_iomap_set_nofs(...)	(-EOPNOTSUPP)
- # define fuse_iomap_backing_inval(...)		(-ENOSYS)
-+# define fuse_iomap_backing_set_blocksize(...)	(-EOPNOTSUPP)
- #endif /* CONFIG_FUSE_IOMAP */
+diff --git a/util/mount_service.c b/util/mount_service.c
+index afb345e8b91dfc..8b0eecf5b00ab2 100644
+--- a/util/mount_service.c
++++ b/util/mount_service.c
+@@ -882,7 +882,7 @@ static int mount_service_handle_source_cmd(struct mount_service *mo,
+ 					   const struct fuse_service_packet *p,
+ 					   size_t psz)
+ {
+-	struct fuse_service_string_command *oc =
++	const struct fuse_service_string_command *oc =
+ 			container_of(p, struct fuse_service_string_command, p);
+ 	char *source;
  
- #endif /* _FS_FUSE_IOMAP_H */
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index 899964f8d6616a..0b67938bb7baf0 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -1173,6 +1173,11 @@ struct fuse_iomap_support {
- 	uint64_t	padding;
- };
+@@ -935,7 +935,8 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+ 	struct fuse_service_string_command *oc =
+ 			container_of(p, struct fuse_service_string_command, p);
+ 	char *tokstr = oc->value;
+-	char *tok, *savetok;
++	const char *tok;
++	char *savetok;
+ 	char *mntopts;
  
-+struct fuse_iomap_backing_info {
-+	uint32_t	backing_id;
-+	uint32_t	blocksize;
-+};
-+
- /* Device ioctls: */
- #define FUSE_DEV_IOC_MAGIC		229
- #define FUSE_DEV_IOC_CLONE		_IOR(FUSE_DEV_IOC_MAGIC, 0, uint32_t)
-@@ -1184,6 +1189,9 @@ struct fuse_iomap_support {
- 					     struct fuse_iomap_support)
- #define FUSE_DEV_IOC_SET_NOFS		_IOW(FUSE_DEV_IOC_MAGIC, 100, uint32_t)
- #define FUSE_DEV_IOC_ADD_IOMAP		_IO(FUSE_DEV_IOC_MAGIC, 101)
-+#define FUSE_DEV_IOC_IOMAP_BACKING_SET_BLOCKSIZE \
-+					_IOW(FUSE_DEV_IOC_MAGIC, 102, \
-+					     struct fuse_iomap_backing_info)
- 
- struct fuse_lseek_in {
- 	uint64_t	fh;
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 06f52114b9aef2..d6ba8d6b1a8875 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -2746,6 +2746,8 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
- 		return fuse_dev_ioctl_iomap_set_nofs(file, argp);
- 	case FUSE_DEV_IOC_ADD_IOMAP:
- 		return fuse_dev_ioctl_add_iomap(file);
-+	case FUSE_DEV_IOC_IOMAP_BACKING_SET_BLOCKSIZE:
-+		return fuse_iomap_backing_set_blocksize(file, argp);
- 
- 	default:
- 		return -ENOTTY;
-diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-index ba54eb694dbbac..2deed4749738cb 100644
---- a/fs/fuse/fuse_iomap.c
-+++ b/fs/fuse/fuse_iomap.c
-@@ -2448,3 +2448,30 @@ int fuse_iomap_backing_inval(struct fuse_conn *fc,
- 	up_read(&fc->killsb);
- 	return ret;
- }
-+
-+int fuse_iomap_backing_set_blocksize(struct file *file,
-+				     struct fuse_iomap_backing_info __user *argp)
-+{
-+	struct fuse_iomap_backing_info fbi;
-+	struct fuse_dev *fud = fuse_get_dev(file);
-+	struct fuse_backing *fb;
-+	int ret;
-+
-+	if (IS_ERR(fud))
-+		return PTR_ERR(fud);
-+
-+	if (!fud->fc->iomap)
-+		return -EOPNOTSUPP;
-+
-+	if (copy_from_user(&fbi, argp, sizeof(fbi)))
-+		return -EFAULT;
-+
-+	fb = fuse_backing_lookup(fud->fc, &fuse_iomap_backing_ops,
-+				 fbi.backing_id);
-+	if (!fb)
-+		return -ENOENT;
-+
-+	ret = set_blocksize(fb->file, fbi.blocksize);
-+	fuse_backing_put(fb);
-+	return ret;
-+}
-
+ 	if (psz < sizeof_fuse_service_string_command(1)) {
