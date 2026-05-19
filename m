@@ -1,115 +1,97 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531DD327C13
-	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 14:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779201297; cv=pass; b=C9yb8+H5/T/Rln9oXqxexVpzlrka4YXRVP5crlge9QsZpLxEzujKfApwnWHTz9pU3cyi09Id3VDpoTlQokPwy2WM8ncPTm/ZzDzlKBUutg4wtnqPaW4kFoy+63UNqpOOnANCPoQLc+d0YDznkrWZ7XPlo3S5qdGi4D2xwDc5V1c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779201297; c=relaxed/simple;
-	bh=jzuXZgF3Qrmd6JYQPtb9iWDbLS1sA1jibvcsjdBphjc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE193546E7
+	for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 14:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779201902; cv=none; b=rRppm3bSPEvg9blbqmEd76H+Ue9c/Uz9aeFdQHNv4ZkhXBaU1cviO0aIGCSUmGeW+ZjYzujqDUNz9w3euKKyUh+Y4LarNEhI/OQktzFRBHvGCEC20IjOksdud7RzLqZRTAz8kdU5OjQkgHLYP6bxlli5St0QRlJrZY6vgiXXcfw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779201902; c=relaxed/simple;
+	bh=2M8X3UYsESqQk+OXaR183ix8xQFEz8VYHxnC1HTOa4w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DWkWEn/J5r6oQ7I+1tj0e8qpubpCDlM6XEGJEQU012+4P9zA1U0V7K7y+4CqIensGJWfAm6KC4OsTRUN69RL4Q8XGAgO8ost1Mn72sHNDIn7grzl0k883VfTJu6QpIjVmrmSxEdBGLuys/g2q5ELqZ75289MkVctQJo+aKs2kZ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=MW76B4vU; arc=pass smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	 To:Cc:Content-Type; b=H3SC/OuftWim0o3PFJ3/H5CtQP3elJHZqyi1/jB4NPHUY3HZ+zZ9ZIXVdH2RjcTu/yQOCYRy03XnKBG3Ad/XdETS8PUdUEp85w3lLb3hpFkXfQscbzILxTMuMIiRh1gUOu5pqhtFMvzH8vt5/RfhsRpyapT8nNjn+T7uJeBYG/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=XQYNE7Qv; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="MW76B4vU"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-50fb8e9a4edso47500661cf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 07:34:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779201294; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PGlG0mrVqWGEEyDOkhaVYb7y3gG2pyzMADURiW5VkkBtuJlFCCgjDk2NIe2L/dbgpe
-         ZyJG7Lm2YJzF8GoUzhmTeBf027nf4jnbUw1KUXcXayeo08gMYFCux/TAcDr2SIPtradg
-         /sUTQ9S8SfakGch80PDtVjcw1fReNG/nuMXA1drNQ14YrH/iTBLA+8OlgkthbAJ6HPYO
-         /6As8ZmNZcKe3F03LpSyrW30zHNsOV/s7kXwQo5631nykMfx/0N+CvPa881Xw0Pbabaj
-         uwn6oAbTjhUtMNc2Nte2MxtMeQNlOC3Gr/jWZPr3RVJnfnw2E8X8dLmxVQGmTrfkI+Bg
-         cv7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=jzuXZgF3Qrmd6JYQPtb9iWDbLS1sA1jibvcsjdBphjc=;
-        fh=AZjerB2oAsgsF8mXCblUU0b/3GwMx5K2mqDxHQmAsQ4=;
-        b=aCJH2ldTFL+WEqdf+2vlQAqEIAQUJu3f97h8Q+t29uRCz9N1fYIRLi4iRAeiOEyl/4
-         acHK6fSiXGF8cCeij8XdUWP3GmCWdCROYjddxrbDJlbIeGI9jxjsL0y3ss9IqLBXTC7x
-         5gwIGdozZj9o0APc0IABpFSm0PHeADfX+A9xBoXPp9hrtFHzfTxOh5qxEtbC/2NZ6OU5
-         OhxcRQ1eYfO7di2bd7f8DG/T+Df7tHTBakoHI+Vg7bPWbF53xi3sI/x43Fv7vMJT5ADY
-         Pv80951Yl6++h0s4HlFKACZTve6Zqi3YoAFpWCvgypLDFOLDB3sossPlHFFmK0uP86sI
-         OkSQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="XQYNE7Qv"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67f94c078e8so6412728a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 07:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1779201294; x=1779806094; darn=vger.kernel.org;
+        d=linux-foundation.org; s=google; t=1779201887; x=1779806687; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jzuXZgF3Qrmd6JYQPtb9iWDbLS1sA1jibvcsjdBphjc=;
-        b=MW76B4vUG4iqUZQ630WpZkiaA4gJqJey4Fnx9+gRE5L9EccKfsm6dzz4TUPTKPIKVm
-         p0ViacrAmApl6FM3WElFBiVdlC3QowyfKcWq98O48L/U4mztBv5L/DFrCoT38a9rtvnf
-         teUA75DMizMtElaAuLdabVlmFR5O+SI4zH7d8=
+        bh=CoD4NnbWMh64fe1BLJuTuIvlCvqlrty8SggihEAdv6w=;
+        b=XQYNE7Qv2qID23WFoRduDYL4E19ApdlKeVX6DMK1j5ActoY85QitdBxh4nV7P/Ee3z
+         9UdZ0jH52XCppZBcI0JLzm5z6MX8bCRp1QZrE4B0gieHemGqGwdHTahs0omVf/oKryJx
+         oxagLX1ppGjUgjnxMKEv7+31jL9fZswoQr/Yw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779201294; x=1779806094;
+        d=1e100.net; s=20251104; t=1779201887; x=1779806687;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jzuXZgF3Qrmd6JYQPtb9iWDbLS1sA1jibvcsjdBphjc=;
-        b=kLxbdZGTN5IpO/p/ICSGAKTl75ROf+b1h3BFz6thXbk29Ue9Ijtk9a6Qx/DeNRdQ9C
-         sn5CvfF6hTlF57cxBgFJCezDVL+KQjFbfhd1HcYyM1y6J1BvPI9Ydocu2LNAoPI+CLGq
-         EHmtSs0FsJWtLidexj+GlXdQxDe2kdysC9Bi3ussn5elI6G8X8+0nPBbEEUI5ds9UUf7
-         qqOq5txZR2SVN+KxA1HaUGK5yZo1rUN0Sg0YJMgdgLbfYtMI2RDxGk+AZnJ+61OyLoal
-         pu/zxyJCZ+6ed8BE2b+iRz0vOvJ8mH2r895VjNqmGrS6yRyJX47EQJpqQSNT5zKxoLsz
-         QEjg==
-X-Forwarded-Encrypted: i=1; AFNElJ+4bC0EMT5+gUofUq0g08Txc9LuTBHXqro854bdrwXcI844Kz8phst9OLXETFB/BLI2JkvsaB4PW1oLBMpy@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBvNU/FXjTT/dZc0mHBUxeAvPsX1CqKVgz6y3adI0Y8lVsimgX
-	8wjkNYnR/OsXsyR/N8IulijRIJNambWHoB9sVZi/JLPBIlra/I4drN/4AswY4EmjIIPsnyj2+7y
-	Y15YUipask4vvjzb+lyOX9I+9wgJhMovh2cYSl6SP5g==
-X-Gm-Gg: Acq92OF0EOYDSAXrWWa1oWuPiKPg7Ap0xOP6rn7nTTOXBs2/FkCcly8RVZ7jEZSEKrT
-	nCQ/RTPCNmdWF1bbB8T6kApcDJPfXWHbT3CusBqS31cGjR2bt1O/UnIzok4A2shR1w3UdR6Y91b
-	szxDwT2bh9wHYnH0R41Ut6EBGjQGYtG2t2pUp9vP13T54AqvTVgkGNrnl4Y99N19EGqXD8NlXIq
-	GZvRSf7hpEyEf4W5qYxxAsWdYrHWPebdsQ2+rlvpJhHSE9mEWNuJZUuLmz8np0zDwy4blzWrbPU
-	FDaezguy2H7+6OAJ7hj9lV0Aa/VseXAQJmg5qkk=
-X-Received: by 2002:a05:622a:d1:b0:509:1b76:e9b2 with SMTP id
- d75a77b69052e-5165a276812mr277461251cf.55.1779201294168; Tue, 19 May 2026
- 07:34:54 -0700 (PDT)
+        bh=CoD4NnbWMh64fe1BLJuTuIvlCvqlrty8SggihEAdv6w=;
+        b=e03QBISWCnhzwMT1IWTvZbVW8zMs2cze+c3L2N1g8uT46+QtddkeQHs4OLIzBMISnM
+         FTGVj8EFhsJC2yWXHEA4nTDD0sxZp6qmuzg44wohzEVrNnOaIJhufvuQc0EZuEN0X/my
+         9N4RlONmPC6/5z+4ixENqvim+/QwmlX5XD7X7YD9yySujFX58uxa4Q+PFuBWfxm7Xg30
+         qA/mG4Q5uXMbKDgu+y9QixWySZyFktN2AGbLt/8C/CE/qX2M2SdbenIcS/5HXG97tqBV
+         Bl7clrp/hPQ1IIjo1BnJbRxExRhKpnubcBW0RF92EJ/U7eWHYstkb1lqJy4S7hJUZa/y
+         TBzg==
+X-Forwarded-Encrypted: i=1; AFNElJ93JF5jjFpFnqwikC0L3avR+CT9ymHkcu3WYUAO0QyJ+X99uqjPln31yLZhZSWP9qoIUHa1IhmJ/IWT10NS@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxn0sHpQ+OCjG3PNKQXl3xcySFBxxei2x+JOwJUUck3gxSYIQhg
+	whTObRnd2Od9kEvJhamlhbUm0p2efjkC2kR5C1swRI6LI5zxePsF3GWpRPAE4rpJvZpCBoG1jff
+	DrO9rnCI=
+X-Gm-Gg: Acq92OEgQOs4E/Vs/GRD7qRZea67mVVJmMPSY2IhmWs8y3kFGrNCQ8pRBuo4Q643M5x
+	DN9qVI+s+6stpg6NPjU+AFZy0+kmtJ/gu+Tqo5Gb78gbhFPNLP1Pm9doWqDpDckEgUJPHhwQEjd
+	BEDyZ69DEwthDBH5oodEdb/9zhlyBIMG+tb/Vnjlyj5NIEs64iaBo2VffRyt9Q05kLS1ThkkYzj
+	9RvlQr4ivkzwz2xj5HIj7O/TOhIkLHBjk6d+B2BxgSt/zOnaMNsD3ZcfjtByFrxw2ncrKFBzuvd
+	txi+u+luTWz86EG/cWlYcK7Yc4GY+BmXWowMZWskI9SNkeMyxm36ibEKyr//nRpPPvNIF7NYipf
+	DduElx6GrGdf4OnqW1I9GhhYbnOg9nGkdnBot/9++3e2JgiMiCHzfZ0PjEHwClsIerUMg2n938Q
+	XAdCc+6Nx1faeGgmlq8NesSPV2uc7CXRMOGSCom88FPh2n/nGyMy+AQZ+/SjS3ieBDah0IByG7
+X-Received: by 2002:a17:907:3890:b0:bd3:1f67:1e10 with SMTP id a640c23a62f3a-bd51793130dmr1215894266b.40.1779201887180;
+        Tue, 19 May 2026 07:44:47 -0700 (PDT)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4bd0a40sm707486866b.12.2026.05.19.07.44.46
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2026 07:44:47 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-67bb5ad91bfso8311480a12.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 07:44:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/AeAYCWJGaF6c1LWHMpfOp0IOKswkxNo7KzlngeL+BfTYyqFyCBs/lvbjrF/V3F1zeF6LfIGWtBbipeBwV@vger.kernel.org
+X-Received: by 2002:a05:6402:4342:b0:672:bdaa:3e75 with SMTP id
+ 4fb4d7f45d1cf-683bcc9e48fmr12574873a12.9.1779201886399; Tue, 19 May 2026
+ 07:44:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260519-fuse-dir-pagecache-v2-1-5428fa48e175@google.com>
-In-Reply-To: <20260519-fuse-dir-pagecache-v2-1-5428fa48e175@google.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 19 May 2026 16:34:43 +0200
-X-Gm-Features: AVHnY4Jg59xybOxPkwhz_VWfCMVL-W4M2Tqu4DnxVX0f0TXClapA1CEdciRZeWo
-Message-ID: <CAJfpegtf1nujj8N4S_QSa+zPFTvCypj_aWEdUqyz2nUJgUh_KQ@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: reject fuse_notify() pagecache ops on directories
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jann Horn <jannh@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
+References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
+ <20260519070633.2025485-14-viro@zeniv.linux.org.uk> <ugllhpqcy62ludmg2wgc4dcsmm4z4m6pgpzdhcehkp7jvxnf4d@6mxgiskj5ct7>
+In-Reply-To: <ugllhpqcy62ludmg2wgc4dcsmm4z4m6pgpzdhcehkp7jvxnf4d@6mxgiskj5ct7>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 19 May 2026 07:44:29 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgZ1pQYvN2a8qqJ-5dTGR-uSguB4mOENUuSnfNgaMCMdg@mail.gmail.com>
+X-Gm-Features: AVHnY4K0-XR0d_6RPSGfPveh3LDe2Sd03GuZoLVwV1s2DX5I1vjMJMTaKMAZ1ZM
+Message-ID: <CAHk-=wgZ1pQYvN2a8qqJ-5dTGR-uSguB4mOENUuSnfNgaMCMdg@mail.gmail.com>
+Subject: Re: [RFC PATCH 13/14] kill configfs_drop_dentry()
+To: Jan Kara <jack@suse.cz>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, 
+	Christian Brauner <brauner@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 19 May 2026 at 16:29, Jann Horn <jannh@google.com> wrote:
+On Tue, 19 May 2026 at 06:13, Jan Kara <jack@suse.cz> wrote:
 >
-> The operations FUSE_NOTIFY_STORE and FUSE_NOTIFY_RETRIEVE allow the
-> FUSE daemon to actively write/read pagecache contents.
->
-> For directories with FOPEN_CACHE_DIR, the pagecache is used as
-> kernel-internal cache storage, and userspace is not supposed to have
-> direct access to this cache - in particular, fuse_parse_cache() will hit
-> WARN_ON() if the cache contains bogus data.
->
-> Reject FUSE_NOTIFY_STORE and FUSE_NOTIFY_RETRIEVE on anything other than
-> regular files with -EINVAL.
->
-> Fixes: 5d7bc7e8680c ("fuse: allow using readdir cache")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jann Horn <jannh@google.com>
+> Why is it safe to call dget_dlock() here?
 
-Acked-by: Miklos Szeredi <mszeredi@redhat.com>
+That does indeed look very buggy. Even if there is some reason why the
+child dentry hasn't been seen by anybody else - and I don't see such a
+reason - it seems a bogus optimization to try to avoid the proper
+locking of the refcount.
 
-Christian, can you please apply this to vfs.fixes?
+Was there some lock order reason for not just locking the child dentry?
 
-Thanks,
-Miklos
+              Linus
