@@ -1,29 +1,30 @@
 Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4953436CE1C;
-	Wed, 20 May 2026 10:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28B6369D68;
+	Wed, 20 May 2026 10:19:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779272386; cv=none; b=NK66Y5xD+bA0U4b+8gSPkKhVoQ/Wvcp4SVQtOLgkNPqZiCxwMC/Kznr9m4g33vuKCJrKgpoJHGhYWjKUDiurFPvYQ1yUR4KqM7L4U/O0u6tUtdWQ7lLo34WrxzUNCcry9tPDhyHPht4eHwCPdENR8l+J9B+JBlWJQ+SEO9L9h+Q=
+	t=1779272391; cv=none; b=Wwe86pRpftOsQLj5fYI06yMb67Y+3QuDO3uwjEPGa6BOzcw+pDsRJiCPb4qopjsmgwDmRKQmu1YSqmTGs7r020+NO6nQ7WwwinMtUjGthD5TgcY18iw7hl9jhf/fUnXsqmXGYf6MTxwVkhvhmikPZanSUd9ji5eQ43Mjxuod9bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779272386; c=relaxed/simple;
-	bh=hJDkNgEzc3qALFl7zRoMYGHp66xfCIICzufpSN4uDgk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IGRO8leCKeo8Yrzi0/wIyIlpjycBeJSzCRXHrvqkKMHNMXQvq+oQdZcxYivpdkShmqZjpeR5wVNgJCLdk9YITrYfnb6Y4l8iy/dZbZC9fl7AWIEG9UDTLkeG/uxxQcpNqC7VLpy8gAv5UV8ZU8TLj1xybTXw2RbvyUE9dAvQUvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TqmLjHTT; arc=none smtp.client-ip=220.197.31.2
+	s=arc-20240116; t=1779272391; c=relaxed/simple;
+	bh=p8Ki2orvcNd7P/MQkjn4RdNRgzdigcU4LQDNFRtpKFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=H7D64tiLaJdnCfkldnNg914YjtKThSaW1r/nq9dfSxsOa/lduayByyGL/0x20/BSj8FnW/ydAJeg/LLRQ1J1LIHJocJIyKOLOe0bU5L8yCU8BfwL/IhQVllpWi28gvk2ID9V9ypuuCRFhKGd3RqiodfhoL7JhzLkNSIkjt6CTKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=V/5qubSD; arc=none smtp.client-ip=220.197.31.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TqmLjHTT"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="V/5qubSD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=cI
-	UPCew6mQzUD6Ph4xpmn+i5FaQUMTux+sdvb39UKTw=; b=TqmLjHTTAk1/HjRCvH
-	33x3kviaHSPjmPKeON4XnoRA8HscZG65ZRpq0YtNHIJi49X3C0tMVvz/dxBWel/f
-	KjsloJO1oBCL7KaomlKTe2I/N5uuPPCN6F4aLwy9QtKcS8nYTR5yAG1h4y8wh/f2
-	pEFmQdHbYEvTImKBRt82QKVvI=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=hK
+	/M4mH8Af7RP/R8Z/X9FqFJJChjz35upJb+IeYgpMA=; b=V/5qubSDLft5TwdJtV
+	ji/UPnm6o8HUMhqxwbmT67iJuxFHpfcZP5qyyF6H40TTnmtfUxWlLAwYaMvVlUYX
+	KvCkiSUNznp6I8G0qB2lrlumzeg7mkGMy90uKxfybGcrJEagKkxViXGlyj9EuiEK
+	qE5pyR6+iAk31H6TCbfM6L3bM=
 Received: from czl-ubuntu-pc.. (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXbbprig1qQK31EQ--.641S2;
-	Wed, 20 May 2026 18:18:22 +0800 (CST)
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXbbprig1qQK31EQ--.641S5;
+	Wed, 20 May 2026 18:18:25 +0800 (CST)
 From: Chi Zhiling <chizhiling@163.com>
 To: linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
@@ -43,10 +44,12 @@ Cc: Hugh Dickins <hughd@google.com>,
 	Barry Song <baohua@kernel.org>,
 	Lance Yang <lance.yang@linux.dev>,
 	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v1 0/5] mm/shmem: optimize read with reduced xarray lookups and folio batching
-Date: Wed, 20 May 2026 18:15:33 +0800
-Message-ID: <20260520101538.58745-1-chizhiling@163.com>
+Subject: [PATCH v1 3/5] mm/shmem: make SGP_NOALLOC succeed on hole like SGP_READ
+Date: Wed, 20 May 2026 18:15:36 +0800
+Message-ID: <20260520101538.58745-4-chizhiling@163.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260520101538.58745-1-chizhiling@163.com>
+References: <20260520101538.58745-1-chizhiling@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -54,88 +57,91 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgDXbbprig1qQK31EQ--.641S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ur1UtFWrCFW7CrWxJrWfAFb_yoW8Kr13pr
-	nxGF93CrykJ3yfJr93Gw4jqFyrXr18JF1xJr1xKFy8Xr1Fyr4jyF1xXryrXrWUCr9rZr1U
-	JrW7JwnFkw1UGrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j-nYrUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3BCcOmoNinBzpQAA3h
+X-CM-TRANSID:QCgvCgDXbbprig1qQK31EQ--.641S5
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXFW5Xr1rAry5Kr1UGry8Zrb_yoW5CrW3pr
+	9rG3s7GrWYg348Cr1DZws7Zr1UXan3tryUKryIg34qvF98AF10k347Aw1j9F18ArW8Ca1F
+	qFWjkws8uF1UX3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jpApnUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC2xKcOmoNinJltQAA3g
 
 From: Chi Zhiling <chizhiling@kylinos.cn>
 
-This series improves shmem read performance by implementing folio
-batching in the read path and reducing unnecessary xarray lookups.
+Change SGP_NOALLOC to return 0 with NULL folio on hole, matching
+SGP_READ behavior. This simplifies the sgp_type handling by unifying
+hole semantics across these types.
 
+Previously, SGP_NOALLOC returned -ENOENT on hole, while SGP_READ
+returned 0. This inconsistency required special handling in callers
+like khugepaged and userfaultfd.
 
-Changes since RFC
-=================
+After this change:
+- khugepaged: behavior unchanged (checks both error and NULL folio)
+- userfaultfd: behavior unchanged (both -ENOENT and NULL are converted
+  to -EFAULT before returning to userspace)
 
-The RFC version used xas_for_each() in shmem_get_read_batch(), which
-introduced about a 1% regression for 4K read workloads.
+Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+---
+ include/linux/shmem_fs.h | 2 +-
+ mm/khugepaged.c          | 2 +-
+ mm/shmem.c               | 9 +++------
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
-This v1 addresses the regression in patch 2 by switching to
-filemap_get_folios_contig() and optimizing it to avoid the extra
-xarray traversal overhead.
-
-
-Performance Results
-===================
-
-Testing was performed with fio sequential read workloads:
-
-  fio --ioengine=sync --rw=read --size=1G --runtime=180
-
-
-### THP Disabled - Normal Files ###
-
-| Block Size | Baseline  | v1        | Improvement |
-| ---------- | --------- | --------- | ----------- |
-| 1M         | 11.4GiB/s | 12.7GiB/s | +11.4%      |
-| 64k        | 11.2GiB/s | 12.2GiB/s | +8.9%       |
-| 4k         | 3809MiB/s | 3838MiB/s | +0.8%       |
-
-### THP Disabled - Fallocated Files ###
-
-| Block Size | Baseline  | v1        | Improvement |
-| ---------- | --------- | --------- | ----------- |
-| 1M         | 23.7GiB/s | 28.7GiB/s | +21.1%      |
-| 64k        | 22.6GiB/s | 27.0GiB/s | +19.5%      |
-| 4k         | 4668MiB/s | 4678MiB/s | +0.2%       |
-
-### THP Enabled - Normal Files ###
-
-| Block Size | Baseline  | v1        | Improvement |
-| ---------- | --------- | --------- | ----------- |
-| 1M         | 13.9GiB/s | 13.9GiB/s | 0%          |
-| 64k        | 13.4GiB/s | 13.4GiB/s | 0%          |
-| 4k         | 3818MiB/s | 3836MiB/s | +0.5%       |
-
-### THP Enabled - Fallocated Files ###
-
-| Block Size | Baseline  | v1        | Improvement |
-| ---------- | --------- | --------- | ----------- |
-| 1M         | 24.1GiB/s | 34.9GiB/s | +44.8%      |
-| 64k        | 22.9GiB/s | 31.3GiB/s | +36.7%      |
-| 4k         | 4721MiB/s | 4708MiB/s | -0.3%       |
-
-
-rfc:
-https://lore.kernel.org/linux-fsdevel/20260515094702.1092355-1-chizhiling@163.com/
-
-
-Chi Zhiling (5):
-  mm/filemap: reduce unnecessary xarray lookups when read cached pages
-  mm/filemap: reduce xarray lookups in filemap_get_folios_contig()
-  mm/shmem: make SGP_NOALLOC succeed on hole like SGP_READ
-  mm/shmem: introduce copy_zero_to_iter() for large zeroing
-  mm/shmem: optimize file read with folio batching
-
- include/linux/shmem_fs.h |  2 +-
- mm/filemap.c             | 34 ++++++++++++------
- mm/khugepaged.c          |  2 +-
- mm/shmem.c               | 75 +++++++++++++++++++++++++++++-----------
- 4 files changed, 79 insertions(+), 34 deletions(-)
-
+diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+index 93a0ba872ebe..d461713c095b 100644
+--- a/include/linux/shmem_fs.h
++++ b/include/linux/shmem_fs.h
+@@ -165,7 +165,7 @@ extern unsigned long shmem_partial_swap_usage(struct address_space *mapping,
+ /* Flag allocation requirements to shmem_get_folio */
+ enum sgp_type {
+ 	SGP_READ,	/* don't exceed i_size, don't allocate page */
+-	SGP_NOALLOC,	/* similar, but fail on hole or use fallocated page */
++	SGP_NOALLOC,	/* like SGP_READ, but accept fallocated page */
+ 	SGP_CACHE,	/* don't exceed i_size, may allocate page */
+ 	SGP_WRITE,	/* may exceed i_size, may allocate !Uptodate page */
+ 	SGP_FALLOC,	/* like SGP_WRITE, but make existing page Uptodate */
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index b8452dbdb043..3309d1c094df 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -1950,7 +1950,7 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
+ 				xas_unlock_irq(&xas);
+ 				/* swap in or instantiate fallocated page */
+ 				if (shmem_get_folio(mapping->host, index, 0,
+-						&folio, SGP_NOALLOC)) {
++						&folio, SGP_NOALLOC) || !folio) {
+ 					result = SCAN_FAIL;
+ 					goto xa_unlocked;
+ 				}
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 3b5dc21b323c..458853c506ea 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -2524,14 +2524,11 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
+ 	}
+ 
+ 	/*
+-	 * SGP_READ: succeed on hole, with NULL folio, letting caller zero.
+-	 * SGP_NOALLOC: fail on hole, with NULL folio, letting caller fail.
++	 * SGP_READ/SGP_NOALLOC: succeed on hole, with NULL folio.
+ 	 */
+ 	*foliop = NULL;
+-	if (sgp == SGP_READ)
++	if (sgp <= SGP_NOALLOC)
+ 		return 0;
+-	if (sgp == SGP_NOALLOC)
+-		return -ENOENT;
+ 
+ 	/*
+ 	 * Fast cache lookup and swap lookup did not find it: allocate.
+@@ -2657,7 +2654,7 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
+  *
+  * When no folio is found, the behavior depends on @sgp:
+  *  - for SGP_READ, *@foliop is %NULL and 0 is returned
+- *  - for SGP_NOALLOC, *@foliop is %NULL and -ENOENT is returned
++ *  - for SGP_NOALLOC, *@foliop is %NULL and 0 is returned
+  *  - for all other flags a new folio is allocated, inserted into the
+  *    page cache and returned locked in @foliop.
+  *
 -- 
 2.43.0
 
