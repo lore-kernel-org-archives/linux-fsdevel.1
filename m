@@ -1,202 +1,283 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0676175A5;
-	Wed, 20 May 2026 02:49:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779245354; cv=fail; b=rKMSDKOWQsV2DxNaQeD0Otr8rIPivvXN5mJTLhINTZnQy7jjadDvYReWTpAGGcCdEDeR0tN0QKH/jV1QsWNzx7Fkq+N6yfkO++9PdzMHBaRBDwGw9WgDuq0vlAGLU1k58pu4edx76RCStNET9n8FI4U+pxkgMwpDQXW7MDhjFcM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779245354; c=relaxed/simple;
-	bh=9j3dqES1g3F8f3HLBeSZu7rtz3hSFMOeTPcM78tcrjY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=RySWyBSiVmwcyebuYeVCZ3s2R9KHO0OL7D44lQtrwm9lipYtpkKokgOHzjnMjFxz5bhq6LhZCT/bScbJFvqjtmSxX+UtmijCIpbvNOU4ds1fTjvwvXSjWep+pWEHOFTHOFXwTeaO7ns9cRbUueUHifi5Jw2kzAtfaH2/ZYUBqws=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y3zBIyVj; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F92526461F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 02:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779245423; cv=none; b=V1gSq1kwYDX98muV5T8KUKjtHE/lrl4deWm8E7qZXQsq6A9joPvdZonUUYmNpTUwpc0WRkykOowA5PFG9XLsZInfPdHCT53SA0mFalGLjEjF3MeJC2AyMs2fa8VLs6N0P3e8PWQ2IQtOz5jvLwEcND2GGKeuzGLL1D+CBnKTsWA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779245423; c=relaxed/simple;
+	bh=rIf1BZePprDazzVrrY4G6yrBhMlczOfEyID6WJd6pD0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eIRoR9zMc8xQOABqNLcxCB7p27bhc1QWLzl+AJ1UtBAy+fJ0hv1iFFrpJcrJbugU92KwypJ+fNiXigSZUzNx4hSrdCK8u6w0VPG0WB7efr/QHB4fpkx3yD+g2wvfoKloDRIwRP0Oz7T61M+zBNXfiGCWjJ0wDF1KdVKYRSb3ao4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jDYyqVv3; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y3zBIyVj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779245353; x=1810781353;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=9j3dqES1g3F8f3HLBeSZu7rtz3hSFMOeTPcM78tcrjY=;
-  b=Y3zBIyVjHYOfmvQRzIhuQSesVCQoakYPFpAZYG6dRhW1qWKVhgN6sIhc
-   PAHSiLfeLVcMHZYFg6s2ROhqsHEpQr+nF8X/GxAS1kdHOt6uc6YS3nWmS
-   da54BrffefUl/ls3S1taCKGz97PgvH0A45Nmj0f61JB2ZvYD2TI58uzeU
-   gN851wkXAppQ6/KTSY9lklK5BmU4SWM4REvBABpb11n1php5veupIz02D
-   /Sxz/EVONE1lIxg2Nn2pAdfcHeqMJuxKb0fpzn5VDb0MqlR7eAKizGXEm
-   tioQNtANGBxl88HTZYo1fYEjm0Wa7ToBC02bpIDcalyOdmuqbjeawhWhN
-   A==;
-X-CSE-ConnectionGUID: aopobKG8TOqJnfjr7K5fzQ==
-X-CSE-MsgGUID: qc366ARKQu+U0BBqUQgQRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80170885"
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="80170885"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 19:49:12 -0700
-X-CSE-ConnectionGUID: z/nX6x2xTy2mZOw8M4FYVQ==
-X-CSE-MsgGUID: xD9dhpPDS6yXuhKynUyOcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="244957943"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 19:49:12 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 19 May 2026 19:49:11 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 19 May 2026 19:49:11 -0700
-Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.41) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 19 May 2026 19:49:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VCYYi74Dd2e6nwO1/NaLWIA2WSFCuC+Bcxt9j0yRoDclKN+AojB2QFHRuI23KiqMeN6v1gWOnPF2GHBCzqf/R815f1RGFVdZaj81AkLgFVUkrxa8g84QrpCcHzxEyV6zQ30vuU2N6bSAxlGJ9PhlTSbg8RwPn14MBziT9yeKRak10gMqBN03MFETbmuqWM+UicF4qc+vcu3MxMuK4kZHbs/xkkjhal2NDHlFRwbj7GNt6H4ngVS5J+7+z2h3Np2INN6WIw82P7Rc+S4kM4jnO5/CgVEYvdEndXQyjIKi8EHpynyMITi+HXUjvR80iwGneAMCWH5gLGXdysIlGuUmLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A3+EWjofD/Uc+FTmo/8We56xe1hRWY49TcqIJ01I9gA=;
- b=dsxjJ9YSBpbD7PZTDAm7WxubLdvtWq7EnEDgjqFwB1jgX6QzD7QpPy4iFH9brhWgJIeW3pKgM2IMrJaq0whjpb71jnXjYr0oIvb2MLBuFCbNWGOXKKMbjCR40CXWw9o9uz6Xj2gNMMLDIKBLzEzIYFpHh4z40R8gmIJZWAc+KsD/MjRYuEREnLgxIpmGXu4DdlfnJdQVB6bJe2LKqXePnrnIJYVso9+KP6C5XwMOFLZc9bub7OVxadAZpDJIASEnw3U1E3BoYraTJq97hBuraU4Uqzim1yfi35l8ZmJF6XHdsEc5wT7BSBePr2gVjy+5BxuTchi/THp6PupiS1iEqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by CY5PR11MB6341.namprd11.prod.outlook.com (2603:10b6:930:3e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.24; Wed, 20 May
- 2026 02:49:07 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891%8]) with mapi id 15.20.9891.021; Wed, 20 May 2026
- 02:49:07 +0000
-Date: Tue, 19 May 2026 19:48:59 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Tomasz Wolski <tomasz.wolski@fujitsu.com>
-CC: Tomasz Wolski <tomasz.wolski@fujitsu.com>,
-	<smita.koralahallichannabasappa@amd.com>, <oe-kbuild-all@lists.linux.dev>,
-	<icheng@nvidia.com>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, <nvdimm@lists.linux.dev>, <ardb@kernel.org>,
-	<benjamin.cheatham@amd.com>, <dave.jiang@intel.com>,
-	<jonathan.cameron@huawei.com>
-Subject: Re: [PATCH v2] dax/bus: Upgrade resource conflict message to
- dev_err() in alloc_dax_region()
-Message-ID: <ag0hG3she2ZRNGyX@aschofie-mobl2.lan>
-References: <20260519101832.31988-1-tomasz.wolski@fujitsu.com>
- <202605200842.i0s39151-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202605200842.i0s39151-lkp@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0156.namprd05.prod.outlook.com
- (2603:10b6:a03:339::11) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDYyqVv3"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-837dfccd950so1984027b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 19 May 2026 19:50:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779245421; x=1779850221; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jX5g9eYxBvGu4vyTxEUAFz7H4bpv/vUCrQniZV0N4y8=;
+        b=jDYyqVv36GShWovpNQtobgKCNZTBpiMGLVc+2A+8Qj2W4+l4SAXMwLijbr+xuRhhzj
+         vLS6npSlVNVDvtpxdLvKQOSDPoqKvKMX+sys5+ZQCnpMTISsLknbUGiOJwXJ8qvZ1MiU
+         rqI1WI60xGkmXRAh4OX+ZRF8J4Cni9VPCtEc/98PfW4bhGJEeOiK+MRrQCgOzc1N2g5i
+         Ileds2WF0sNrFfvV/Vb9icOAPtLKxqT01eLrHZs7Sz9NCc+8Iy7pL+zdzMRoCic9okbx
+         z5WRdPOI8nyNI6fjq9/OfdrOrvLovqoZewlmAbIm8IeOPnIZn9lFA7l7gg9N0mVj/JY5
+         DxCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779245421; x=1779850221;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jX5g9eYxBvGu4vyTxEUAFz7H4bpv/vUCrQniZV0N4y8=;
+        b=n8qgftytOeypdYakj49QtknLsGUAiHxDHhgPekmfrnnSdDMUsnxFHFh9POFX1UzDM+
+         yoUdBDYClwNH8/q6O3DmzelSPMebQUwisIdg/olDe1N6P1eKpMe4kP+YsCI5u2Qys0sJ
+         IeZl+hNfdwzwhq3Pj6mfQTFjR34NEMmIUiATcPWSLtH0lB9LJv6TKY0io9cwKUklsP6V
+         ws3dgOlbdbAbzmQD+uxhhtTSCHhQeHzqES2Xhptu8qL+5E6dfoYuezbMvOUhADtNo8Am
+         wtA5yNlSScu6i65A7O/gcCpXWx8vZ6J9eG3EnXdGm23RkPxPYxBbK7+PRCTJViEtGjnp
+         EA1w==
+X-Forwarded-Encrypted: i=1; AFNElJ+UMe/muXvnU0x2brRaG0JZHdf8JK1hJHvm5NOgOlIl1dxgwcGEzhvFCwqZxFgpnsdL/S2DUz35g6+H6CkK@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoyWPJpK6anT19VJSc6AdZHNzDdryQaqZHKeBAEXYFPlEoh9FQ
+	/dKiSEkBMSn/gU5zY21Gqo2lrUTeTSTAZ3ZKLFOuVNDHbUgEbQ6PDQIr
+X-Gm-Gg: Acq92OFDUoUJIKjqLeo6zMiChl2gqj0WZcCZpfQgvPCdPkVmz7RZXobMArMKTTEFk40
+	D/sQlxhHMhSoY1JH+veXxpEUCczxshf1nWONWtaJmtPRdop4TbIoRcVMZbOkzQ4i/Ev+pXwSWOm
+	oSa6zOqVHNA/QCtq6GcCuQv3uUnaBu6Lsb1AWi3MCQzcdCJMN3s2NwCLcveOAeJ+iBMgOEJINwL
+	TwSrgDn2idrJBfDXwsL8SDAcIRVsY4330n6dIHXHr5E/9/B19gCSD/2DFD2cyKLlukYGyNrYpbO
+	wMP75zx7vc0golByOn7PQ8acW386rjy+CgXSs4rvFrdBsZkDNFdPSvChy1kCUUFS/PplmkpDlHW
+	fNNIJiJj14TCJMXW9V9FHn2zbt1N7SgICZCPKLMRU6beYY+mstXdTgzRIWSLv1uEWiQr/XV9pbx
+	Q+aTtXSlvrJ+2BkbEdqsQ8ko75cTO4eTHZtDb6tD1o9sg=
+X-Received: by 2002:a05:6a00:4ac2:b0:82c:66f2:1226 with SMTP id d2e1a72fcca58-83f33d5494bmr21377555b3a.38.1779245421287;
+        Tue, 19 May 2026 19:50:21 -0700 (PDT)
+Received: from [100.125.248.95] ([124.70.231.46])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8413ac7b2b2sm35462b3a.14.2026.05.19.19.50.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2026 19:50:20 -0700 (PDT)
+Message-ID: <51b3f8d5-b90f-49fe-b93e-171268db9ff8@gmail.com>
+Date: Wed, 20 May 2026 10:49:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|CY5PR11MB6341:EE_
-X-MS-Office365-Filtering-Correlation-Id: c908bfbc-7f03-4f72-f5e0-08deb61a5ca4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|11063799006|22082099003|56012099003|4143699003|18002099003;
-X-Microsoft-Antispam-Message-Info: rbgCPdCuJTENaQOXIYHt1MNqPhz9KMOLOG4isiZUHSFhTXNidU06HEIXOtUxPOPubNfX5SiR/o1QCo7+85gCNPDmJ2qbNAX50E2zn0LikOf/8LJzmmb4X9/Y1qwATUd9sG2/W9doSRXyu0f3Qp2FXQBDf2SwduF5bTRIR0vmJJfRRhGn05PReiRgsX4v/plWelso/RiSwcBlXIteNVhc4xnAXlxaz/b+tBJIshy+xgswcXkwOAjC4SijrJ/WKApXQhHu0hEtU3zLAz2pqa4bDPVICDe7eDrsi5UKW9bF52kOMmYSTQ56rsKsHgNycvB/+Gk9wzBxOVfckRrbFVVV1ZeFkspRIDOh/gerrEfQK+pwnvCrEgDMjAwVQOdj2th2DpPljsZb3ZX++UC8SFKqweKW+jt/5XFUUieF8ZXLSAsBP7q5OoRpWDWAyisOIRpvQ2hJ+TKIxS1nYmWhJGhZ7OPpVtjFyz8OnX4pXTiiCg1HYDiQvQKzpryk+NN3eBYFO8D07fY6AELoIrDoesdNCWCKFS1iqcInjqgal4oQR4JRukIJo1aDEUWlIs5Bb/YRz3ej1Zt7lnhWTUTe5QIz4v5UBEGXgs8pFGcW/MSKB05EbYkLKrfFMU44O72I5ZTP5DpHw8dBwvGpdS/ss3cxgA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(11063799006)(22082099003)(56012099003)(4143699003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TcyHiZLG2j0YSnIoGj60kO4OVPy6e+lk68CfqS4YPlBrnmYy87icuUGVD2Aq?=
- =?us-ascii?Q?hsyOwZH116PAMSBaVQbYqkEaQVPH+I2W5nWHHxzuiLH9GhXqozSg/PuPes7y?=
- =?us-ascii?Q?NSV5ttJjUX91mmfezFd6MLInnCbSCOMQokAsJOmsW4FGqjQF3DclbItSD7nN?=
- =?us-ascii?Q?1FhR1+AYU5cPaIdfXBNA9M2sdRnFnd2P7a+Hj7RyyvWkNa7uEdWOpmNVbK/0?=
- =?us-ascii?Q?i0stTUarZXRaknj4cyIybhXmGnY4taRUhzkfBfnxfc+ziahjEU0zrH8s6Gt1?=
- =?us-ascii?Q?SBQhZOq3fiBVYC3gUcEio+7nTu3uW4ivYEArxK6/bQrU9ahHK8l3JxLpo852?=
- =?us-ascii?Q?VduiCYjTOriMUv+ljFDjfimI5yXBJS/RN6UbdKExFb2lO4CoebVo4W9HpO+y?=
- =?us-ascii?Q?N4UIyWnKOBhO7Lxj8EOzaKVc6lRb7POvZekProTqHnYWBpRSIYerL9sMfIVn?=
- =?us-ascii?Q?S/eVF3fqV8N/d2K7V7n5s91mhLkOYaQL69oS5k2n5EeI/jERp6f9vUVyav+W?=
- =?us-ascii?Q?WEwe9W/HmS7LQxIKocH6jRsorkfvZTQtG4LdS5dbrm/TOhxXib1Snp4r64Ko?=
- =?us-ascii?Q?3MWQH6I/Y4I55Nd7H2eL+tamw7aTz4nGoyhlvQZuThWgwqUsQz7XTKVMgSu+?=
- =?us-ascii?Q?ZVdEW1fyk8wgFUrHPeKVz6vQYjqYT5XdjBtLou4sUaaX+6HBao8feAOL30UK?=
- =?us-ascii?Q?St9g3MaVK6tmSuG6HQ8sdD09EdyQNpQ3oTn7ONMyTGEBIz+pH8tTRC8t7zOz?=
- =?us-ascii?Q?Yh82vYMqCFzQH6ElZqDu2PAmZfsJduf4e25FToOAAHoGfj6aNSDTswr53MkN?=
- =?us-ascii?Q?+l/cbE8cRgGi3JDn5EwTIciz8A9v9t3w4eoKWIXowYaGqIM1akCeWq6MOh/E?=
- =?us-ascii?Q?dWxVPJlwOutSYOdv6yBt2NVcQBirinz7PaO3ajyCz1/0UJ1fgDQxtHsHMt5h?=
- =?us-ascii?Q?gyLAwhEh39Dzufkj9X7qgn1aLoomXkcRhvwVfjrcs6uQct4Hh3UoI4uR0JB2?=
- =?us-ascii?Q?wr9uyUrmi1L+wv7FNaM/ruPyeto4wqZ4zmvFPX8jmlMo7rwD0W82DqwXhfWI?=
- =?us-ascii?Q?DUeGWDnf2uw4W0k+kC6Nxt65Ji9/fStDPCx1aEuiqYkwxfd38DV/WKT+ZpiM?=
- =?us-ascii?Q?XYyxAq/2PdGfk6EPh2oXwbfTlOkjckHWurKN1hEmRaRAJ4quJ/DkBzeSjbHe?=
- =?us-ascii?Q?dhY6wMWcl3dKvmlbwaHAGN10waPMsmvxp//F5k+Q+ttp8abacejfgYfpTH2C?=
- =?us-ascii?Q?je8TUIfcHhUDZvxMFRh3u0HI5Z0AqlyoK5dSf6ljlSHaJ9NXv4h7v2aACkL4?=
- =?us-ascii?Q?TudjP5hrfUGUUmEfUainECI7/JUZcdgeB0tyEGF7AXCP8UBJLginDDB6nOu5?=
- =?us-ascii?Q?dIXVAUYBuJmfKBjJo8/e3HsSSQzezNnDX+YXcHp78U78JzvPn6GKhuvEMjWQ?=
- =?us-ascii?Q?76jU6aAOBABuNr+QYEPs6L9TpKpk9n0zq95ObuQEEmgbFbfLpujmMHyFj8P2?=
- =?us-ascii?Q?SluCRnhMuYOtAQn8VO/MOi0pdRJN8SCMPHn6onr/wwatYKHGC9Vn0w+79bDJ?=
- =?us-ascii?Q?uSRS+5KTGb95GDx51aEczM8zzi1d1FFiOeMooJEj00Ed0zpMYOdI1cM91cYp?=
- =?us-ascii?Q?gjguu6Wej6VSJraQyM6vATANPdCoAfHq5NQZogzy4bDoCv3nmAN7NlLFwSp/?=
- =?us-ascii?Q?Nv9ASsHptoThE620cR8d7aR36yCk0WVVSd1YqPUabHTSrj+dpILP5uYO9euv?=
- =?us-ascii?Q?MkSQXCnpn2ozZwvnx1dLOEpNH3ZW0rE=3D?=
-X-Exchange-RoutingPolicyChecked: VDjb3yIXbIQZ2tYO4qrRBFqIRee6zo26u9NAjh8CRSdgjGa5XnBDywlBtmExgDvCktNRz5p2Uw1V6sZrESOtcIfJn5uJ6ypeXAr3OJwer1H/RWhbdvtOTrhDV4j4HMl7RQlG8HRNTM79FU2vUhi2uBjlF4GUVmIjJ5lPxshGEyQxzEtQ8N3jG22OPWykqPhuGwikdzG6t36X/1BkMeqFaqKqROZetpQc7sxElU0rJ5WjQHmS2IXouviSTKTFWu4kFjLBQTRDaBIofkWDyKbPgkg8q9YTyXMyPmJXKzko9y4RnLp5YGLmPXPax4G29cnYOj2ROBDYhDiFkQhg7PdvEQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: c908bfbc-7f03-4f72-f5e0-08deb61a5ca4
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 02:49:07.4267
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +0jc1sfTnFhDYR1qDB/r+ctBtBw1h5+GBxOVB/MIagOyZxHRJ07m06qKTrdMxTxaRnDtejKSyx3My/2UGW7mMdLFh2U3R2LB8gZm71xU/sk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6341
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 04/23] ext4: add iomap address space operations for
+ buffered I/O
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>, Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-5-yi.zhang@huaweicloud.com>
+ <agwtJq5-B2E-t7zT@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <236657df-71f2-446d-b44b-39865219a850@huaweicloud.com>
+ <agyVb1U0US8PVgqo@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Zhang Yi <yizhang089@gmail.com>
+In-Reply-To: <agyVb1U0US8PVgqo@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 20, 2026 at 08:14:43AM +0800, kernel test robot wrote:
-> Hi Tomasz,
+On 5/20/2026 12:53 AM, Ojaswin Mujoo wrote:
+> On Tue, May 19, 2026 at 08:35:51PM +0800, Zhang Yi wrote:
+>> On 5/19/2026 5:28 PM, Ojaswin Mujoo wrote:
+>>> On Mon, May 11, 2026 at 03:23:24PM +0800, Zhang Yi wrote:
+>>>> From: Zhang Yi <yi.zhang@huawei.com>
+>>>>
+>>>> Introduce initial support for iomap in the buffered I/O path for regular
+>>>> files on ext4.
+>>>>
+>>>>    - Add a new inode state flag EXT4_STATE_BUFFERED_IOMAP to indicate the
+>>>>      inode uses iomap instead of buffer_head for buffered I/O
+>>>>    - Add helper ext4_inode_buffered_iomap() to check the flag
+>>>>    - Add new address space operations ext4_iomap_aops with callbacks that
+>>>>      will use generic iomap implementations
+>>>>    - Add ext4_iomap_aops to ext4_set_aops() when the flag is set
+>>>>
+>>>> The following callbacks(read_folio(), readahead(), writepages()) are
+>>>> provided as placeholders and will be implemented in later patches.
+>>>>
+>>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>>>> Reviewed-by: Jan Kara <jack@suse.cz>
+>>>
+>>> Hi Zhang, looks good to me. Just a questions below:
+>>
+>> Hi, Ojaswin! Thank you for the review of this series.
+>>
+>>>> ---
+>>>>   fs/ext4/ext4.h  |  7 +++++++
+>>>>   fs/ext4/inode.c | 32 ++++++++++++++++++++++++++++++++
+>>>>   2 files changed, 39 insertions(+)
+>>>>
+>>>> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+>>>> index 94283a991e5c..1e27d73d7427 100644
+>>>> --- a/fs/ext4/ext4.h
+>>>> +++ b/fs/ext4/ext4.h
+>>>> @@ -1972,6 +1972,7 @@ enum {
+>>>>   	EXT4_STATE_FC_COMMITTING,	/* Fast commit ongoing */
+>>>>   	EXT4_STATE_FC_FLUSHING_DATA,	/* Fast commit flushing data */
+>>>>   	EXT4_STATE_ORPHAN_FILE,		/* Inode orphaned in orphan file */
+>>>> +	EXT4_STATE_BUFFERED_IOMAP,	/* Inode use iomap for buffered IO */
+>>>>   };
+>>>>   
+>>>>   #define EXT4_INODE_BIT_FNS(name, field, offset)				\
+>>>> @@ -2040,6 +2041,12 @@ static inline bool ext4_inode_orphan_tracked(struct inode *inode)
+>>>>   		!list_empty(&EXT4_I(inode)->i_orphan);
+>>>>   }
+>>>>   
+>>>> +/* Whether the inode pass through the iomap infrastructure for buffered I/O */
+>>>> +static inline bool ext4_inode_buffered_iomap(struct inode *inode)
+>>>> +{
+>>>> +	return ext4_test_inode_state(inode, EXT4_STATE_BUFFERED_IOMAP);
+>>>> +}
+>>>> +
+>>>>   /*
+>>>>    * Codes for operating systems
+>>>>    */
+>>>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>>>> index b1ef706987c3..178ac2be37b7 100644
+>>>> --- a/fs/ext4/inode.c
+>>>> +++ b/fs/ext4/inode.c
+>>>> @@ -3908,6 +3908,22 @@ const struct iomap_ops ext4_iomap_report_ops = {
+>>>>   	.iomap_begin = ext4_iomap_begin_report,
+>>>>   };
+>>>>   
+>>>> +static int ext4_iomap_read_folio(struct file *file, struct folio *folio)
+>>>> +{
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static void ext4_iomap_readahead(struct readahead_control *rac)
+>>>> +{
+>>>> +
+>>>> +}
+>>>> +
+>>>> +static int ext4_iomap_writepages(struct address_space *mapping,
+>>>> +				 struct writeback_control *wbc)
+>>>> +{
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>>   /*
+>>>>    * For data=journal mode, folio should be marked dirty only when it was
+>>>>    * writeably mapped. When that happens, it was already attached to the
+>>>> @@ -3994,6 +4010,20 @@ static const struct address_space_operations ext4_da_aops = {
+>>>>   	.swap_activate		= ext4_iomap_swap_activate,
+>>>>   };
+>>>>   
+>>>> +static const struct address_space_operations ext4_iomap_aops = {
+>>>> +	.read_folio		= ext4_iomap_read_folio,
+>>>> +	.readahead		= ext4_iomap_readahead,
+>>>> +	.writepages		= ext4_iomap_writepages,
+>>>> +	.dirty_folio		= iomap_dirty_folio,
+>>>> +	.bmap			= ext4_bmap,
+>>>> +	.invalidate_folio	= iomap_invalidate_folio,
+>>>> +	.release_folio		= iomap_release_folio,
+>>>> +	.migrate_folio		= filemap_migrate_folio,
+>>>> +	.is_partially_uptodate  = iomap_is_partially_uptodate,
+>>>> +	.error_remove_folio	= generic_error_remove_folio,
+>>>> +	.swap_activate		= ext4_iomap_swap_activate,
+>>>> +};
+>>>
+>>> So one question, for ->release_folio() we are using
+>>> iomap_release_folio() instead of ext4_release_folio() here which doesnt
+>>> make the jbd2_journal_try_to_free_bufferes() call. IIUC this function
+>>> seems to be trying to clean up already checkpointed buffers.
+>>>
+>>> I wanted to check if ->release_folio() can be called for folios with
+>>> ext4 metadata buffers? (from my limited understanding of
+>>> shrink_folio_list() -> filemap_release_folio() it seems we can) And if
+>>> it can be called, is it okay to skip the
+>>> jbd2_journal_try_to_free_buffers call?
+>>
+>> Here, in ->release_folio(), folio->mapping points to inode->i_data (the
+>> file's pagecache), not the block device's pagecache. ext4 metadata
+>> resides in the block device's pagecache, which is at a different layer
+>> than this release_folio callback. So we don't need to call
+>> jbd2_journal_try_to_free_buffers() in the iomap path here.
 > 
-> kernel test robot noticed the following build errors:
+> Hi Yi,
 > 
-> [auto build test ERROR on cxl/next]
-> [also build test ERROR on linus/master v7.1-rc4 next-20260519]
-> [cannot apply to cxl/pending]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Wolski/dax-bus-Upgrade-resource-conflict-message-to-dev_err-in-alloc_dax_region/20260519-182401
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-> patch link:    https://lore.kernel.org/r/20260519101832.31988-1-tomasz.wolski%40fujitsu.com
-> patch subject: [PATCH v2] dax/bus: Upgrade resource conflict message to dev_err() in alloc_dax_region()
-> config: s390-randconfig-r072-20260520 (https://download.01.org/0day-ci/archive/20260520/202605200842.i0s39151-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 9.5.0
-> smatch: v0.5.0-9185-gbcc58b9c
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200842.i0s39151-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202605200842.i0s39151-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> >> ERROR: modpost: "request_resource_conflict" [drivers/dax/dax.ko] undefined!
-> 
+> Thanks for clarify and yes, thats what I was missing! So this
+> ->release_folio() is only for data folios. So I guess the
+> jbd2_journal_try_to_free_buffers() is mostly to handle data=journal
+> case?
 
-Sorry Tomasz - I thought request_resource_conflict() looked sweet, but
-apparently it's only available to built-in kernel code and not to
-modules. I'd probably try a prep patch exporting it, based on looking
-at its kernel doc comment and neighbots in kernel/resource.c that are
-exported.
+Yes, that's my understanding as well. Meanwhile, the comment for the
+jbd2_journal_try_to_free_buffers() function looks quite outdated and
+needs to be updated.
 
--- Alison
+diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
+index 4885903bbd10..239bcf88ed1c 100644
+--- a/fs/jbd2/transaction.c
++++ b/fs/jbd2/transaction.c
+@@ -2139,38 +2139,23 @@ static void __jbd2_journal_unfile_buffer(struct 
+journal_head *jh)
+  }
+
+  /**
+- * jbd2_journal_try_to_free_buffers() - try to free page buffers.
++ * jbd2_journal_try_to_free_buffers() - try to free folio buffers.
+   * @journal: journal for operation
+   * @folio: Folio to detach data from.
+   *
+- * For all the buffers on this page,
+- * if they are fully written out ordered data, move them onto BUF_CLEAN
+- * so try_to_free_buffers() can reap them.
++ * For each buffer_head on @folio, if the buffer has a journal_head but
++ * is not attached to a running or committing transaction, try to remove
++ * it from the checkpoint list.  This is needed for data=journal mode
++ * where data buffers are journaled: once they are checkpointed, the
++ * journal_head can be detached and the buffer freed.  If any buffer is
++ * still attached to a transaction, the folio cannot be released and we
++ * bail out.  Otherwise we call try_to_free_buffers() to detach all
++ * buffer_heads from the folio.
+   *
+- * This function returns non-zero if we wish try_to_free_buffers()
+- * to be called. We do this if the page is releasable by 
+try_to_free_buffers().
+- * We also do it if the page has locked or dirty buffers and the caller 
+wants
+- * us to perform sync or async writeout.
++ * For data=ordered and writeback modes, data buffers never have
++ * journal_heads, so this degenerates to a plain try_to_free_buffers().
+   *
+- * This complicates JBD locking somewhat.  We aren't protected by the
+- * BKL here.  We wish to remove the buffer from its committing or
+- * running transaction's ->t_datalist via __jbd2_journal_unfile_buffer.
+- *
+- * This may *change* the value of transaction_t->t_datalist, so anyone
+- * who looks at t_datalist needs to lock against this function.
+- *
+- * Even worse, someone may be doing a jbd2_journal_dirty_data on this
+- * buffer.  So we need to lock against that.  jbd2_journal_dirty_data()
+- * will come out of the lock with the buffer dirty, which makes it
+- * ineligible for release here.
+- *
+- * Who else is affected by this?  hmm...  Really the only contender
+- * is do_get_write_access() - it could be looking at the buffer while
+- * journal_try_to_free_buffer() is changing its state.  But that
+- * cannot happen because we never reallocate freed data as metadata
+- * while the data is part of a transaction.  Yes?
+- *
+- * Return false on failure, true on success
++ * Return: true if the folio's buffers were freed, false otherwise
+   */
+  bool jbd2_journal_try_to_free_buffers(journal_t *journal, struct folio 
+*folio)
+  {
+
+Thanks,
+Yi.
 
 
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
