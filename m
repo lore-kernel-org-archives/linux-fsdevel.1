@@ -1,30 +1,30 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAFF3D75CF;
-	Wed, 20 May 2026 10:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590B23D6CDA;
+	Wed, 20 May 2026 10:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779272395; cv=none; b=VOhel/qj0qXRPHH6fYrKwFnHoHsxImHiOLaKgW8eeGcTC5ynOC+3Fhl1CkPOMkRW5H6X2yV8/R254KhBo+DGr1k9QMWt2Kc3PzKdb6maWi42MvrhrOpW2rUdTN20zuDUmovregJH8lDXWKsMkKGg3PptbBkJy3PoTYcasfwsoQ4=
+	t=1779272401; cv=none; b=qaREBkPFPXMse9o8RuZCpdxOQPDcbVOXqRGLocaKVOoyh6RNcrddTaiXl4w+I4rgGhk0Gf94rtzEO4r93k9qx74rYYVpgZSGTzt6hisupCQlbH+wfmQxk2n9RLzJdLMzkpE6w0GBwtJ7hY22iIATH4YtcMrPojvDfPWUn52UCu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779272395; c=relaxed/simple;
-	bh=j1SC3CWyTpLRoSsCegCksqPOhFsaSmPh/3cUQzXMzDI=;
+	s=arc-20240116; t=1779272401; c=relaxed/simple;
+	bh=f9J+IhisTdLnLgXR7JSjhUN2PwnfX+gYzer2vCIsUE0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OF2Ttj98jzNlS/T8MWZB2wFga58kVAChUQPztBQnfel7vinqgHCIS50GvGAsGPstANpAuDBfLWz14KFoTjuOZ+Z1khAfy0DNaYNLCTiM1kurBayKQRHAeHpgWdBXecEQKUUrta0i+KKcV2TwrCMqZIKHZmjMLDLuaa9S0804wfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bjPI6Jhy; arc=none smtp.client-ip=117.135.210.3
+	 MIME-Version; b=amCHhSHHi8Oggegs3fFZ6cngsHB8qSm2eg3pTbyUqwvQA1sfJblF0KApzeLnL65r3CkSE3MdFHv3wiRGQ1S0bWFOev53Mpo4DmcDT5SrjFtdmtRnshoXYsAA6tHbvBkPMpwm9R3T6ahXLqUWKM05xDzN8GWmeIA3MWebDAP9f2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=OBC51bwB; arc=none smtp.client-ip=117.135.210.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bjPI6Jhy"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="OBC51bwB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=PO
-	Y07p4j3GPNthuCu4k23r6LNTlq73DDrD9MKLgmiwk=; b=bjPI6JhyYxNG7cJPhz
-	OGjxgBVi3zkiNRH/3i+lshSHVTH24MxKIYauZD+5SBvgzQWsezV4h2+64cYie76f
-	uv28g+XqDwsRzDUgD8bim6RipQNFx138Z1I96Ei5JAfgWRtda+9IeqorWlpieuP3
-	7n9R9gbRlPYJVkReKTkh5exwg=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=9B
+	VjTk8nQGGmUxI8PCEpxJWmL7Kaf4Qp03cf8IYb8qA=; b=OBC51bwB+qfYf08FyI
+	e7P8qz+PHuCddXwTbn7uKjr4zqkZU0fNQ3zSbi6dn1aUAPqtA7YCBEow+TVMt7p9
+	lgTaW14EdA7BkCwq3S7lUnZykKo4W1Um4BYx0mKHKXPTXseMEG9nn+PZrYEez25h
+	qfZ4rCsR5z/5lXO9nRS5Toi2w=
 Received: from czl-ubuntu-pc.. (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXbbprig1qQK31EQ--.641S7;
-	Wed, 20 May 2026 18:18:26 +0800 (CST)
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXbbprig1qQK31EQ--.641S3;
+	Wed, 20 May 2026 18:18:25 +0800 (CST)
 From: Chi Zhiling <chizhiling@163.com>
 To: linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
@@ -44,9 +44,9 @@ Cc: Hugh Dickins <hughd@google.com>,
 	Barry Song <baohua@kernel.org>,
 	Lance Yang <lance.yang@linux.dev>,
 	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v1 5/5] mm/shmem: optimize file read with folio batching
-Date: Wed, 20 May 2026 18:15:38 +0800
-Message-ID: <20260520101538.58745-6-chizhiling@163.com>
+Subject: [PATCH v1 1/5] mm/filemap: reduce unnecessary xarray lookups when read cached pages
+Date: Wed, 20 May 2026 18:15:34 +0800
+Message-ID: <20260520101538.58745-2-chizhiling@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260520101538.58745-1-chizhiling@163.com>
 References: <20260520101538.58745-1-chizhiling@163.com>
@@ -57,140 +57,100 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgDXbbprig1qQK31EQ--.641S7
-X-Coremail-Antispam: 1Uf129KBjvJXoWxuF13ur1kJF4UXr4fKryfZwb_yoWrXrWxpF
-	W3KwnxWrWxGw43Wr4fJF48Za4rK3s3tFW5JFyxG3W3Z3W5J3s8KF18t34Y9FW5Jry7C3WI
-	gw1vkr18X3Wjvr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jISoJUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9xKcOmoNinIMpwAA33
+X-CM-TRANSID:QCgvCgDXbbprig1qQK31EQ--.641S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCw4Dtw48ZFyDCF4fur4kJFb_yoW5CFW3pr
+	1rG3WkGrsrJw1YkrnxJay2ga4rW3s7XF45JFySg3WSvFn8Arn0kayxKF15KFyDZFy3ZF1f
+	XF18Ja4vgF1Yq3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jso7tUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3BGcOmoNinFzrgAA3q
 
 From: Chi Zhiling <chizhiling@kylinos.cn>
 
-Optimize shmem file read by using filemap_get_folios_contig() to
-batch fetch contiguous folios from the page cache, reducing the
-overhead of repeated shmem_get_folio() calls.
+When reading small amounts of data from the page cache, only a single
+folio is typically returned from filemap_read_get_batch(). In this case,
+calling xas_advance() or xas_next() after adding the folio to the batch
+is unnecessary and only introduces extra branches.
 
-When the folio batch is exhausted, attempt to refill it with
-filemap_get_folios_contig(). If no folios are found (hole or swapped
-out pages), fall back to shmem_get_folio() to handle these cases
-individually.
+The same issue exists for large reads, where one additional xarray walk
+is always performed before termination.
 
-Additionally:
-- Defer folio_put() until the batch is exhausted or on exit
-- Add folio_test_uptodate() check before copying to ensure data
-  validity
+Move the boundary check to after the folio is added to the batch so the
+final redundant xarray advancement can be avoided. This significantly
+reduces the branch count in the read path.
+
+xas_next() does not update xa_index when xas->xa_node is set to
+XAS_RESTART, so checking the boundary before updating xa_index is
+sufficient to keep the folio within range. The warning should therefore
+never trigger.
+
+The branch count:
+654.198 M/sec -> 646.444 M/sec
+
+Performance counter stats for 'fio --ioengine=sync --rw=read --bs=4k --size=1G
+--runtime=300 --time_based --group_reporting --name=seq_read_test --filename=file':
+
+before:
+READ: bw=2697MiB/s (2828MB/s), 2697MiB/s-2697MiB/s (2828MB/s-2828MB/s), io=790GiB (848GB), run=300001-300001msec
+      245602051556      task-clock                       #    0.821 CPUs utilized
+             78467      context-switches                 #  319.488 /sec
+                40      cpu-migrations                   #    0.163 /sec
+              3388      page-faults                      #   13.795 /sec
+      758312319204      instructions                     #    0.74  insn per cycle
+     1025881497502      cycles                           #    4.177 GHz
+      160672383734      branches                         #  654.198 M/sec
+         361904512      branch-misses                    #    0.23% of all branches
+
+after:
+READ: bw=2709MiB/s (2841MB/s), 2709MiB/s-2709MiB/s (2841MB/s-2841MB/s), io=794GiB (852GB), run=300000-300000msec
+      243985503670      task-clock                       #    0.812 CPUs utilized
+             79004      context-switches                 #  323.806 /sec
+                30      cpu-migrations                   #    0.123 /sec
+              3355      page-faults                      #   13.751 /sec
+      747830935069      instructions                     #    0.73  insn per cycle
+     1019609333322      cycles                           #    4.179 GHz
+      157722976668      branches                         #  646.444 M/sec
+         348984893      branch-misses                    #    0.22% of all branches
 
 Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
 ---
- mm/shmem.c | 50 ++++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 36 insertions(+), 14 deletions(-)
+ mm/filemap.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 96ea5a4c0aff..e0eacc23cccd 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -3355,11 +3355,14 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 	struct file *file = iocb->ki_filp;
- 	struct inode *inode = file_inode(file);
- 	struct address_space *mapping = inode->i_mapping;
-+	struct folio_batch fbatch;
- 	pgoff_t index;
- 	unsigned long offset;
- 	int error = 0;
- 	ssize_t retval = 0;
- 
-+	folio_batch_init(&fbatch);
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 4e636647100c..d54450e529bd 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -2458,12 +2458,16 @@ static void filemap_get_read_batch(struct address_space *mapping,
+ {
+ 	XA_STATE(xas, &mapping->i_pages, index);
+ 	struct folio *folio;
++	pgoff_t next;
 +
- 	for (;;) {
- 		struct folio *folio = NULL;
- 		struct page *page = NULL;
-@@ -3372,18 +3375,38 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
++	if (unlikely(index > max))
++		return;
+ 
+ 	rcu_read_lock();
+ 	for (folio = xas_load(&xas); folio; folio = xas_next(&xas)) {
+ 		if (xas_retry(&xas, folio))
+ 			continue;
+-		if (xas.xa_index > max || xa_is_value(folio))
++		if (xa_is_value(folio) || WARN_ON(xas.xa_index > max))
  			break;
- 
- 		index = iocb->ki_pos >> PAGE_SHIFT;
--		error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
--		if (error) {
--			if (error == -EINVAL)
--				error = 0;
--			break;
-+fetch:
-+		folio = folio_batch_next(&fbatch);
-+		if (!folio) {
-+			pgoff_t start = index;
-+			pgoff_t end = (iocb->ki_pos + to->count - 1) >> PAGE_SHIFT;
-+
-+			if (folio_batch_count(&fbatch)) {
-+				for (int i = 0; i < folio_batch_count(&fbatch); i++)
-+					folio_put(fbatch.folios[i]);
-+				folio_batch_reinit(&fbatch);
-+			}
-+
-+			filemap_get_folios_contig(inode->i_mapping, &start, end, &fbatch);
-+			if (folio_batch_count(&fbatch))
-+				goto fetch;
-+
-+			error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
-+			if (unlikely(error)) {
-+				if (error == -EINVAL)
-+					error = 0;
-+				break;
-+			}
-+			if (folio) {
-+				folio_unlock(folio);
-+				folio_batch_add(&fbatch, folio);
-+				fbatch.i++;
-+			}
- 		}
--		if (folio) {
--			folio_unlock(folio);
- 
-+		if (folio) {
- 			page = folio_file_page(folio, index);
- 			if (PageHWPoison(page)) {
--				folio_put(folio);
- 				error = -EIO;
- 				break;
- 			}
-@@ -3398,11 +3421,9 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 		 * are called without i_rwsem protection against truncate
- 		 */
- 		i_size = i_size_read(inode);
--		if (unlikely(iocb->ki_pos >= i_size)) {
--			if (folio)
--				folio_put(folio);
-+		if (unlikely(iocb->ki_pos >= i_size))
+ 		if (xa_is_sibling(folio))
  			break;
--		}
+@@ -2479,7 +2483,11 @@ static void filemap_get_read_batch(struct address_space *mapping,
+ 			break;
+ 		if (folio_test_readahead(folio))
+ 			break;
+-		xas_advance(&xas, folio_next_index(folio) - 1);
 +
- 		end_offset = min_t(loff_t, i_size, iocb->ki_pos + to->count);
- 		if (folio && likely(!fallback_page_copy))
- 			fsize = folio_size(folio);
-@@ -3411,7 +3432,7 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 		offset = iocb->ki_pos & (fsize - 1);
- 		nr = min_t(loff_t, end_offset - iocb->ki_pos, fsize - offset);
- 
--		if (folio) {
-+		if (folio && folio_test_uptodate(folio)) {
- 			/*
- 			 * If users can be writing to this page using arbitrary
- 			 * virtual addresses, take care about potential aliasing
-@@ -3437,7 +3458,6 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 				ret = copy_folio_to_iter(folio, offset, nr, to);
- 			else
- 				ret = copy_page_to_iter(page, offset, nr, to);
--			folio_put(folio);
- 		} else if (user_backed_iter(to)) {
- 			/*
- 			 * Copy to user tends to be so well optimized, but
-@@ -3466,6 +3486,8 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 		cond_resched();
- 	}
- 
-+	for (int i = 0; i < folio_batch_count(&fbatch); i++)
-+		folio_put(fbatch.folios[i]);
- 	file_accessed(file);
- 	return retval ? retval : error;
- }
++		next = folio_next_index(folio);
++		if (next > max)
++			break;
++		xas_advance(&xas, next - 1);
+ 		continue;
+ put_folio:
+ 		folio_put(folio);
 -- 
 2.43.0
 
