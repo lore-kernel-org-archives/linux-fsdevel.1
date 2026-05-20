@@ -1,72 +1,71 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16913F20FF
-	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 17:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4EEF3EF647
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 17:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779296521; cv=none; b=DtFczAUCkRICR6Zz34Ns5ECzFWI8Z7oor/eg1bwstSbBuPin3i0fdZG0nIQH0ZYeUIljjxS9hylLXnAVZiITZmBZvlyWo3IZymLDbfimKFvXLJQ/zx5cUtbvhGXkjXvBmqBXFZvxvz9ux8ECTH64csrI3/feq86zyGGDat3NIDg=
+	t=1779296525; cv=none; b=jQxLZYXWXGUY1L3M9pC+S4JLYnbfa/1yfdTR3g12d832i+S5jx8zLXrcwZvOn5IVVnmlGruHGeAKJM0SjSraLwRdoewggeCuoNIbmPJEHGMM+GP4Uag7rj7CK2dxoZyobK8LOc+DHKJQ3ITGf/OAYIajo8OdlOYndNalLJCYxkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779296521; c=relaxed/simple;
-	bh=/ueMGJeV3M+6NahfGnGox48rRXqZcRqd6BgSiC2a7hc=;
+	s=arc-20240116; t=1779296525; c=relaxed/simple;
+	bh=8URWsIbc9eMr1h4MiC2gKQRQm01Rp5RlLgLSqJKTM78=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M0Q05Lu58Z/xI5Mjyj88044GKt9rNxroCri3qluIZzJbIfe6q5tL2toU0tX+8PYgv38FAuloMBhRB8uOv42OhzsYMT49aPiWnQmXIBnXr8lCtHAGZCU7HtM2Kzg5pw6ofh/Wxd8CrX+Ss2gbOmAWcVXd6VnxnrZ1BFrCEyOaLE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DtmaWfQZ; arc=none smtp.client-ip=209.85.210.174
+	 MIME-Version; b=aVmbA6ugtyXJ5bOAImkwMnHcFkguCY1esYH9LdU9GffEq6i4Kg8IMelU68Z4jvyDaEgg8ClS6iIvyL9/apJ0DH/sxwuLhWTzmLfQUiYP7TnprruVG3nNv8/WEBZZj3Ee5RXRsxaHcB4hfnp5gVrHcarzW8xekHcLDFVJsOe7d0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MDI+46cj; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DtmaWfQZ"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-83f4991ac51so201252b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 10:01:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDI+46cj"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-83aea7d1fffso198020b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 10:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779296519; x=1779901319; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779296524; x=1779901324; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jJ22iTBZ4sCbgDlyf2sEL0oOtpVHxxbzLq25uqVdqz4=;
-        b=DtmaWfQZaFEhYr840qTQN0WrHYRG6GizccDaku3qnglVi5lqFHN8v81D5dom2bITq6
-         JPqG/gylF69XE2MqqOE1aqFtpQksUAHIkEsspugi8V4l6UzJU/J+C/j6Gey/0dlbcbGO
-         CtRUSh9dnNgNRbuweM8+8oRVlRabprrRXNcX2DjzhUf5YfQAKKAC++VkfxPmPPUwGd2u
-         OT3FbHTk4Nt3/FeK3Df3ieyCOtcFy3BFHiT3o010S+7bKwwCMkSaHKKgAj2zHDLVoWHv
-         wCNgIPt5hZDnrXtQji7p8ov0H+d8WHz9eapasJBTOh07C8JyJxYznQpXrCRejlIyoD7q
-         Woqw==
+        bh=AEkJeL9Z8UZWA2zeOFYFIhYl2cIC1COc0WCjFwNppF0=;
+        b=MDI+46cjm0xUQLUTD31Yw9vAqLrN4oydWqn1sgeQbleQuQKvSHDh7L2zjRMK9C2qiD
+         9PB2Ki3hZOKnlV8IUH2+gyvoawkJBXej8DhAFaTIWT92PkEew4QVFJKmdMLuKfaJwBMm
+         gXq6AbGF4914iO7UGdOI2eHmyhLgN5kt8I/ReIDUhLfeBNZXN8zvoySdbIYFFD7tqrgY
+         GM90586Rjx5qsCwSedIxgqO5dvce/mt6Tx9/7tSq23hALs+o1WwG4IH00KWm+4lIKa/l
+         nKNvmmTred1PTRk1l3pCvI5haDjBV2B0I0zHnmRjGeUNCM7mKXhFEcATtULDlyaFAp0r
+         gG2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779296519; x=1779901319;
+        d=1e100.net; s=20251104; t=1779296524; x=1779901324;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=jJ22iTBZ4sCbgDlyf2sEL0oOtpVHxxbzLq25uqVdqz4=;
-        b=ikNS1YMkvkSks5QrCguk78HnhK475Q4HgMmdzp/DOJtN/fI9g75uaA88qfftu5sK/+
-         5HB1oFT3V1Fwzz6AHbfVcJ9vuYyPLVnFYyaUy7rgqvUGlEgdmqsSetE8NhjwATHrDurS
-         hnPc76N5384oGgYfo5IqICo8esEv9U/KfMSCEEacdX35EkIE5aAT1WKwJIvhn0fnxznf
-         gUOPg/h8c/ZGw8TqDzEEiKaa5rkEM74Wx7cgQGVQ5SxliF9m0UpSzdYvPV31WVvS6E9H
-         KmYSiODfNx8iPslUmQlnBgSK6SEMNzzMS8XvgWOESyfHPgTklGyD7AuZU+1Wsnk5/Yo/
-         XMRQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/8oGFYElAPjAQFl1JMdiGpIxsOPQJSaBO/twm4Z39QhB6we2ZiCxbGDRT7LX/AhsT5cjyUTOmgZ8hNPjYh@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6YxzYJnoKQ8ANJuNJeGY+Ds3p/D1phfIWc9He/69ZH/mwTB4m
-	0/nVvnsExjr49nereDjBLKlNZtIW6nB25G1KaiXbVckA8jg+D6CeQXTc
-X-Gm-Gg: Acq92OH2DV2a7JI0yjN6GuXWs3I0m/hb4lnxxwzQGSVG+xo/0R9zieRl1G1QQNh/41m
-	mnSpwrKrl8ebfopjx7JwWY7ho52eJnTBxN6gj4wHmMemnXOVKpMpnJvkgtqNc+4223TBmYJO6H5
-	qAdTlWujn9NsLIIo3ZmnsaFoci+6NAllEF/uoK+4mr30lo6I+xyhxzQ2QPYCN4egDd6YaChhMoo
-	CRdUSA8nBANqu8J8UKrBYCCKWatsYVKhFMEttGOm3TjH2Gg/NlRGa2weKq/7TX4kvWcXDF8CkGO
-	lAYWh3lZU1IplViDXdwuw430JFdhTxZppwgMQ8CjsYF43FRJKZxBYLI8S8tW1T7GgYfM8AU90hv
-	aFZ5fyNrfizPt7fCRlcHxjSxjc6GDC8OnsHbGMBtZRcJUGgpkgVLD253EVGT3Wiq4wr8ahH0eha
-	Dxe/Ydfetpl8evS9x0o0A74/vOZts=
-X-Received: by 2002:a05:6a00:4c94:b0:834:e09b:de73 with SMTP id d2e1a72fcca58-83f33dda422mr13141557b3a.7.1779296518692;
-        Wed, 20 May 2026 10:01:58 -0700 (PDT)
+        bh=AEkJeL9Z8UZWA2zeOFYFIhYl2cIC1COc0WCjFwNppF0=;
+        b=JYitriEyBSg7CiY5Z6jgtnHeKIhzA1v1abOfVrkz1zkTnicTCcRVIkJRc8T2f7LBPr
+         T6+31kOmDW1TQoBYMmHbDPDFHmCFDy4xIzDPmaCEgEfAYTN8kLRr1zhwzi1p8IHOsara
+         wihGZfbS5fBOVX7iyjgF4o5U1ZyxATwJMo1Sgb2kWkLHeoQ76mzu0R4zB541zETYuDqW
+         tQTs8kYp+Wf2nS3WUK7JX3Ih6tzTse+4GRzrKECgV9tmoFVTi6m2camLMjBbJ9qv++bz
+         BvEVohxGgEMiCt1lWI5H6MqtK41iabMe46rH6rXUf2K3hqB4Q8GjnUBncaPGX/pOolVm
+         gyxQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8+PTGghXyBvxL2xoRnYanbFnPPplXH6+4Iuz37FrMDvBqbW32zAbLQDhZ2mM+VTxJMQlLrp0rM5xE+B4rL@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeRWw2Qery3hVgwycgNARxho3V5DaOBTEBqr3BNJhAFufFFl5O
+	Mi8dRdhMTnJupwfff5T062HkRRYpMsERCC/vhCtNGl4ICd+5nOq/z7fX
+X-Gm-Gg: Acq92OEC8GNECi7NqYBnXx2X2u2Wqmr5NX8UIUnq1WXNDnLeQwUAUl7KSY2cGzJq6hw
+	+hlGJ4xyxrPE0Y3auYHQIOGzIWEA9OIy4jKzcAlHX/R25LBu1+hudnjbM8ShoXx12evxlc+s6Cn
+	dEKhW5iKSYbnu6nlP6WAl86ySMbRAwghgTxw4slaLUThMDSzUj6PSkvNiOIdJuXUTceEzqW4Dep
+	XjEc5gqhrBZqdWECtNglJdVl5jTzTdSUZJT0znZ0FJydgNWAHSeWEbEhc63l+bkFL8D3dH0QrO7
+	VibksH1eru8nLR0JeSowaHNaqixk/kAJqnB24d4WB6CgEoT7lpafwoaPthgBsnHBnez3Uhmka7a
+	eMDUh1qWhByTU5JtivCjiD8fJpifpu1g2RTa8mW9bklFGcS9UH5I7423ppcs4
+X-Received: by 2002:a05:6a00:2d95:b0:839:6474:c69f with SMTP id d2e1a72fcca58-83f33dd90e5mr13115560b3a.7.1779296523693;
+        Wed, 20 May 2026 10:02:03 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f1942a83fsm22125954b3a.0.2026.05.20.10.01.57
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f1942a83fsm22125954b3a.0.2026.05.20.10.02.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 10:01:58 -0700 (PDT)
+        Wed, 20 May 2026 10:02:03 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>
 Cc: Hyunchul Lee <hyc.lee@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH 1/3] ntfs: free volume-wide resources on fill_super failure
-Date: Thu, 21 May 2026 02:01:49 +0900
-Message-ID: <20260520170151.4115308-2-charsyam@gmail.com>
+Subject: [PATCH 2/3] ntfs: wake free-cluster waiters when precalc allocation fails
+Date: Thu, 21 May 2026 02:01:50 +0900
+Message-ID: <20260520170151.4115308-3-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260520170151.4115308-1-charsyam@gmail.com>
 References: <20260520170151.4115308-1-charsyam@gmail.com>
@@ -78,48 +77,55 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ntfs_fill_super()'s err_out_now path frees only the volume struct via
-kfree(vol), leaving several vol-owned allocations behind on mount
-failure.
+get_nr_free_clusters() is run from the precalc_free_clusters() worker
+queued at the end of ntfs_fill_super().  It is also the only place that
+publishes the result by atomic64_set(&vol->free_clusters, ...), sets
+NVolSetFreeClusterKnown(), and wakes vol->free_waitq.
 
-vol->nls_map is loaded by ntfs_init_fs_context() via load_nls_default()
-or replaced by an explicit nls= option in ntfs_parse_param().
-vol->volume_label is allocated by load_system_files() once the $Volume
-name attribute has been parsed.  vol->lcn_empty_bits_per_page is
-allocated before load_system_files() and was freed only from the upper
-error label.
+The initial kzalloc(sizeof(*ra), ...) can fail before that publication
+happens.  Callers that need the free count wait on NVolFreeClusterKnown(),
+so this failure can leave statfs, write, and allocation paths blocked
+forever.
 
-Move these per-volume frees to err_out_now so every failure path
-releases them exactly once.
+On the OOM path, publish a conservative free count of zero, initialize
+the per-bitmap-page free counters to zero, set NVolFreeClusterKnown, and
+wake the wait queue so callers fail with -ENOSPC rather than block
+forever.
 
 Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 ---
- super.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ super.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/super.c b/super.c
-index f93f0f8bcc45..6cf09bbe017d 100644
+index 6cf09bbe017d..c90cb5673f98 100644
 --- a/super.c
 +++ b/super.c
-@@ -2638,8 +2638,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
- 	}
- 	/* Error exit code path. */
- unl_upcase_iput_tmp_ino_err_out_now:
--	if (vol->lcn_empty_bits_per_page)
--		kvfree(vol->lcn_empty_bits_per_page);
- 	/*
- 	 * Decrease the number of upcase users and destroy the global default
- 	 * upcase table if necessary.
-@@ -2659,6 +2657,9 @@ iput_tmp_ino_err_out_now:
- 	/* Errors at this stage are irrelevant. */
- err_out_now:
- 	sb->s_fs_info = NULL;
-+	kvfree(vol->lcn_empty_bits_per_page);
-+	kfree(vol->volume_label);
-+	unload_nls(vol->nls_map);
- 	kfree(vol);
- 	ntfs_debug("Failed, returning -EINVAL.");
- 	lockdep_on();
+@@ -1980,8 +1980,23 @@ s64 get_nr_free_clusters(struct ntfs_volume *vol)
+ 		return atomic64_read(&vol->free_clusters);
+ 
+ 	ra = kzalloc(sizeof(*ra), GFP_NOFS);
+-	if (!ra)
++	if (!ra) {
++		max_index = (((vol->nr_clusters + 7) >> 3) +
++				PAGE_SIZE - 1) >> PAGE_SHIFT;
++
++		/*
++		 * Publish a conservative free count and wake any waiters; the
++		 * NVolFreeClusterKnown flag is the sole signal the wait_event
++		 * loops in statfs/allocation paths use, so failing to set it
++		 * here would leave those callers blocked forever.
++		 */
++		memset(vol->lcn_empty_bits_per_page, 0,
++		       max_index * sizeof(*vol->lcn_empty_bits_per_page));
++		atomic64_set(&vol->free_clusters, 0);
++		NVolSetFreeClusterKnown(vol);
++		wake_up_all(&vol->free_waitq);
+ 		return 0;
++	}
+ 
+ 	file_ra_state_init(ra, mapping);
+ 
 -- 
 2.43.0
 
