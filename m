@@ -1,120 +1,188 @@
-Received: from relay1-r.mailbaby.net (relay1-r.mailbaby.net [67.217.63.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6189835B137
-	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 20:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.217.63.252
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613F2372EFF
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 20:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779307885; cv=none; b=AEiYhSfhbyHpy2F8iBwPgvIngUbQYTPiNCJ6IHo+ot7eW+ewPOgizhhr509VXRMwlU0F/XbdH7XLj2Md7KRLeiZVKQtE9i3zG0B7zZSdUQLEVdNA5aqb0xGHMo3RHFqQcRsh9BK81+tXfLrJ/dZRRgF8IFsUk/pJEOvYpCmlc+E=
+	t=1779310240; cv=none; b=Rb3ZrY/byt4L0zFHVz/FCvFLUHErPOy9bKJSUaO9QhxfyAXI4kXzrhrZ40/pAQpJO2Ot8Ds17KGCVXKeGxz9kK379l4sVnjBUUNx8+MpZaofBwRnLUBuKnbyGL6hP0AAIa1ygr1BykKhR3koytgZ2Xe70FEX6U/qHCHJgDyh5lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779307885; c=relaxed/simple;
-	bh=UG4fMxcJprcmV8L1IVQKviv71mkF1wXGhMe1zEm49eY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=COeQK495Tnr7BPGE1fBWzp4vzCGPDsKI+p6CXdaldxAUxNVUjZ18zHKVqKsYDvrZDnGQwHYBUR/jc6KzworBRpPPg9U+OScFGINNAmhno/jDdoMdKykWpB/SKFhGZeyKBWOmaUdojSFIlawEyc4m6YVoSb/BtontUK7/GW1bgcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev; spf=pass smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=E+YoXaJL; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=si3jXy0b; arc=none smtp.client-ip=67.217.63.252
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=agatha.dev
+	s=arc-20240116; t=1779310240; c=relaxed/simple;
+	bh=0hEAxH6OSygPLgsPWvuM0zul/qd7ww1B3y3E3CXvzOo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OubE6cgCc6OWSMxluVUrQZ2vAwSkdWVw+XmlVIdxz1CuZjT2KeOtbFMhv6m95k/xFfn8RPZZBLbK7xBmE1AHd6Qc9pXc003raQKfRoJKqEfiTwBbCMVsF7ixcB/8Gv1zCx7wzmEkGGeAwgPIEEn5k9Sejf3Q3q+kSlJ6JDSKHO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=XGeFG2dq; arc=none smtp.client-ip=148.163.135.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="E+YoXaJL";
-	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="si3jXy0b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
- q=dns/txt; s=key2; bh=IMgDpI0lU3RJ1xH2yJAbd7vfjY7nVe4F2t+I1+L1jQQ=;
- h=from:subject:date:message-id:to:mime-version:content-type:in-reply-to:feedback-id;
- b=E+YoXaJLSCpY4sBq2bvA2Wg6/d8hbi514KnHGTp61XbGI/I+20lh0h+GxBaiLXqjQnlVgKo0j
- TOZkkDT9Ilgbyq0nBOx1mB9urjkNzn/2IRzY5VYOa79GjtsevUEL3Uh5O3TNjQYtU2wc+cbe485
- Y9YezXPIbI9k4qR+1TdY9/8=
-Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
- (Authenticated sender: mb6724)
- by relay1-r.mailbaby.net (MailBabyMTA) with ESMTPSA id 19e46fea7d2000babb.003
- for <linux-fsdevel@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Wed, 20 May 2026 20:05:54 +0000
-X-Zone-Loop: 8bcd3396112d2ea6e48d6d31fb98a6910eb3b7f5f3fd
-X-MB-ID: mb6724|me@agatha.dev
-X-SPF: pass
-Feedback-ID: mb6724:19e46f:507c5a5c5e5d585f7d5a5951:mbaby
-X-NS-SCAN: PASS
-X-MAILBABY-ORIGIN: PASS
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
-	s=default; h=In-Reply-To:Content-Type:MIME-Version:Message-ID:Subject:To:From
-	:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=IMgDpI0lU3RJ1xH2yJAbd7vfjY7nVe4F2t+I1+L1jQQ=; b=si3jXy0bT923QKsOGn/R38nWIA
-	so+4WYin8UWU4XvULZHo6buUIgD0eltutC6BQamZBkQO9d5pLlSmlNzklVb+aA/su4SHskMEt6F5D
-	WXFuMQnIPDp92ex6if1z2fxvKp4HFSsWTENoeHUebdYDrYm37L6v0DzWtezAqc8Ya3eCaiplresyW
-	aqLmbCk3CEblhRnAb4EdYvoa9hYTatqrCndl/qxSfZAcEIuxkjqflWVOWRGWyFF7di+V+u1YVl5T0
-	Mm2E0uXjR5mCc3h4mffVK3HQn1HkLRdrtK+VJp2kWfHRjUGxTGKJsLdPWuSmpOCmvrXp+rz4uSutJ
-	FIn+SmyA==;
-Received: from [170.254.153.136] (port=33942 helo=guidai)
-	by nyc3000-r.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.2)
-	(envelope-from <code@agatha.dev>)
-	id 1wPnAy-0000000FeZT-3Ups;
-	Wed, 20 May 2026 16:05:54 -0400
-Date: Wed, 20 May 2026 17:05:46 -0300
-From: Agatha Isabelle Moreira <code@agatha.dev>
-To: linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.com>, 
-	shuo chen <1289151713@qq.com>, linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, 
-	patch-reply@agatha.dev
-Subject: [PATCH 2/2] fs: jbd2: use clear_and_wake_up_bit() in
- journal_end_buffer_io_sync()
-Message-ID: <ag4SrrOl7R2DcLLi@guidai>
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="XGeFG2dq"
+Received: from pps.filterd (m0167071.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64KKOGRT1521285
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 16:50:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pps01; bh=vWEqqBLqiHXKQCYkt4eI7nkTUL
+	jtzTI1duVNgJdotDw=; b=XGeFG2dqy2N3gbIr20V1uslI7BA0Xd7pIYogyLnBlz
+	qkv1ZoJ51iFNeUnZQ28voJfms3i4J/xG9Tvp1XEbqtuozNf5FBh3YiYb6elAwEOO
+	+hCbUDddgCRJ/VR3ZMK5N43M8+5idUDk6gx4qOh8gFKwk8POVXOLDeSdcerGQURV
+	FE/WTX+yuXoQMuVKi6wNqn11InNK3e2fr2M5xf3AXOmFjJQlgZmue0e4cGHQ2UIU
+	5D2xKBrlIa6jswsRFLypsF5wkuPt20fND3ldlwfWHeQy84NvgjOjIpXsQMC9/se+
+	N8MYZoxnljImx5MDYxvXHPblaSdThVHR1funfYxh9DXg==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4e9avn4t51-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 16:50:31 -0400 (EDT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-90d7b3406b2so1288373785a.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 13:50:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779310231; x=1779915031;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vWEqqBLqiHXKQCYkt4eI7nkTULjtzTI1duVNgJdotDw=;
+        b=aJDS6yXFMDz3erK60CBNo5szh+cMTGGnzVO8d6dFNl07BdgB3UNVqn0wdI2J1i6RyT
+         2AefA9t4tMMYavM/6ozdLf2IT7+3KTad7dleKyeN0estafPrrz6ZkMY9u2JCOVQuC2DA
+         iG9BzcvOwaSic4xalxEPSEGnQAPZiIbOgRERi79wxVMSJxzX7rSh5gBMhJaA2oEmD2Kd
+         JbRSbN9Ez0F160EtS0FX1aeBwbMlZLEU/N+oP0NcbmJv1HckinEDGjsc1t9O7QaNqmsp
+         2ReP1h9l8SBWwGrhnWZDmpiSd5fIgD9H02hkCE1HAdPUb3HympeYSGrhZapOt7yFmeF7
+         s0MQ==
+X-Gm-Message-State: AOJu0Ywx1HjI2GG3p7VPwHzC+x3R8nGIlqW+4u7Bonx2LBSkux2hgIWF
+	ROoTnFcVq3NhW7C+Gu/qzcw2UjloUtl4WQU/xyx17rNocsMYy9gbvvPEC4hx3k7zvpoTjWzFhOk
+	qijxl/32DMncOGCZbteSUnioVL2HzGklgYKikrrR1owgnzLpgruAZgcyyEdSN9fg=
+X-Gm-Gg: Acq92OHsTldbbhblb8Vo4JhWIEyxXIyulFFsJsvqjZODRSLot5T6Q7CuHjbMFU/zXSN
+	e9ffuHX0hZrxRZ7Q8VKCziBZNxfMuI0aALn40DY8Z/U/6rgOZAENhmh3ciP1+TAk1fj2WVWAt9B
+	2+0pFG/0MLRvzKermFVY8JpHkWMhY+djENKuRev2Iu6fPi641pSOIZugNM7VaVSWbQ9gNLByQoZ
+	njK9MrbeiWxFd4vFV2v4LkseZyR8J69mPxPaBOPzaat3GIw2KRZ55nv8PJIg1sa8TlOIXZ0hhLe
+	u4tEtOK6kpI37cQknhTO+x+RlzVqNUgUooB87mu+jJqxxZUDYuzIZ0xAnkco9/m1aoQkxlkiNvl
+	uByA+appe4ykew0TBK6g+AxrS5wp2rCwFWqebuTKvrrgQR1N0cKAEiH5zwcGnONRU1M8=
+X-Received: by 2002:a05:620a:1994:b0:90f:9cde:9781 with SMTP id af79cd13be357-911cdf4e848mr3838243785a.14.1779310230861;
+        Wed, 20 May 2026 13:50:30 -0700 (PDT)
+X-Received: by 2002:a05:620a:1994:b0:90f:9cde:9781 with SMTP id af79cd13be357-911cdf4e848mr3838238585a.14.1779310230349;
+        Wed, 20 May 2026 13:50:30 -0700 (PDT)
+Received: from [127.0.1.1] (dyn-160-39-33-242.dyn.columbia.edu. [160.39.33.242])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-910bcf37274sm2232692085a.37.2026.05.20.13.50.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 13:50:29 -0700 (PDT)
+From: Tal Zussman <tz2294@columbia.edu>
+Subject: [PATCH RFC 00/11] mm/filemap: split out folio wait and VFS code
+Date: Wed, 20 May 2026 16:48:51 -0400
+Message-Id: <20260520-filemap-split-v1-0-c36ddc2b6cf2@columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ag4PEP52c8rxrYPc@guidai>
-X-AuthUser: me@agatha.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADMeDmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDU0ND3bTMnNTcxALd4oKczBJdC3PDJNNkQ4tUS4tkJaCegqLUtMwKsHn
+ RSkFuzkqxtbUAjO/UHWQAAAA=
+X-Change-ID: 20260511-filemap-split-871b5c18e98c
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+        Tal Zussman <tz2294@columbia.edu>
+X-Mailer: b4 0.14.3-dev-d7477
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779310229; l=3123;
+ i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
+ bh=0hEAxH6OSygPLgsPWvuM0zul/qd7ww1B3y3E3CXvzOo=;
+ b=NI+xM1sj15FzhmwcsYKgafgGq17ATxKLg9pL8kkBXvje15rDxNOFgGPrNNnyq8u4PLDHh0Ztz
+ uvcMqRkQw3SDEKwQl4Xi/ayhWnIis5Q4rM7dUmjykLQ6nMy3iE8z/p8
+X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
+ pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
+X-Authority-Analysis: v=2.4 cv=S6TpBosP c=1 sm=1 tr=0 ts=6a0e1e97 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=79PYxaXUQd1wl-QFWJnA:22
+ a=5qPNtsZOevHdRsu6XPgA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: 0kayF1lOU6jQTQuOACEyMqKE2-GFO2UZ
+X-Proofpoint-GUID: 0kayF1lOU6jQTQuOACEyMqKE2-GFO2UZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDIwMyBTYWx0ZWRfX64Om0bqJ4W+i
+ Yfw0vg+PD6RaNBJasp3Ekn1k80PtTsb5KyZ6U1B2kDZBk2qvhcnojeHjb2qvjCRKu0d32DpLFT0
+ tGG3k3dX+cuK2Zl/Bs9n9dUIgWjq+pcfHBBdOsOHzKuECug2poaqysNQrJwf57eWyauZAaoeSmi
+ edyFVCXqmEdsCDVrC4YbidT427vcs8yHqs6t4swqFPeDN5cib5qi/J7RRkW2CLH52t7U/WfhhgV
+ Czk40PctBKJ7Ye8MrhHlANfTjUHwWfCpAvLX/q6MMyHEIlSCeV8LkNTmPOqCZm3NsHfexVYsZCi
+ Xbpd1Aucg9sp75IaCxoMpI2BCcj2n+5hvVg8hRtaJSzXCTIKAI1nRxFfYagVIpQeShYDLFTfgYj
+ ftNHl+MHMb+w1MC8tHHViJPHkTWA8MnCsgjMBWo4gvM8raWHs4f0WceXluXWZq+vLVO1EFKvtoh
+ S9J/H9I32cqsdwvqLjw==
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11792
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=10 spamscore=0 suspectscore=0 phishscore=0
+ priorityscore=1501 clxscore=1015 adultscore=0 impostorscore=10 malwarescore=0
+ bulkscore=10 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605200203
 
-Use `clear_and_wake_up_bit()` in `journal_end_buffer_io_sync()`, since
-the helper was introduced in 'commit 8236b0ae31c83 ("bdi: wake up
-concurrent wb_shutdown() callers.")' as a generic way of doing the same
-sequence of operations:
-	clear_bit_unlock();
-	smp_mb__after_atomic();
-	wake_up_bit();
+mm/filemap.c has accumulated additional infrastructure over the years
+that is not directly related to the page cache. It is currently nearly
+5000 lines long. This series splits out the folio bit-lock and wait
+queue code into separate files, and moves the VFS-level
+generic_file_{read,write}_iter() family of files to fs/read_write.c, in
+order to provide better separation of concerns. This also slims down
+mm/filemap.c by ~1000 lines.
 
-The helper was first implemented to avoid bugs caused by forgetting to
-call `wake_up_bit()` after `clear_bit_unlock()`.
+The folio wait infrastructure is centralized in mm/folio_wait.c and
+include/linux/folio_wait.h, with functions moved from mm/filemap.c,
+mm/page-writeback.c, and include/linux/pagemap.h. Afterwards, the code
+is cleaned up a little, with functions and data types renamed to refer
+to folios rather than pages.
 
-Since `journal_end_buffer_io_sync()` was first introduced by 'commit
-470decc613ab2 ("jbd2: initial copy of files from jbd")' and last
-modified in this operation by 'commit 4e857c58efeb9 ("arch: Mass
-conversion of smp_mb__*()")', years before `clear_and_wake_up_bit()`, it
-still uses the open-coded sequence.
+generic_file_{read,write}_iter() implement the VFS-level read/write path
+for filesystems, including support for direct I/O. These functions and
+their helpers are moved to fs/read_write.c, along with other VFS-level
+read/write functions. dir_pages() is also moved to include/linux/fs.h.
+i_blocks_per_folio() is not moved from include/linux/pagemap.h, as it
+requires folio_size(), which is not currently available in
+include/linux/fs.h.
 
-Replace the open-coded sequence with the helper to avoid duplicate code
-and reduce code paths to maintain.
+No functional change is intended.
 
-Suggested-by: shuo chen <1289151713@qq.com>
-Link: https://lore.kernel.org/kernelnewbies/agzoqV835-co4kAN@guidai/T/#t
-Signed-off-by: Agatha Isabelle Moreira <code@agatha.dev>
+Note: I have additional cleanups to mm/filemap.c ready to go, foremost
+among them centralizing on the filemap_*() naming convention and making
+the exposed page cache API clearer and more consistent, but I've split
+these patches off from that in order to avoid sending these logically
+separate patches to ~60 maintainers.
+
 ---
- fs/jbd2/commit.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Tal Zussman (11):
+      mm: add folio_wake_writeback() helper
+      folio_wait: move folio bit-lock and wait implementation to mm/folio_wait.c
+      folio_wait: move folio bit-lock and wait declarations to include/linux/folio_wait.h
+      folio_wait: move folio_wait_writeback() family to mm/folio_wait.c
+      folio_wait: reformat comments and fix alignment
+      folio_wait: rename wait_page_* infrastructure to wait_folio_*
+      folio_wait: convert VM_BUG_ON_FOLIO() to VM_WARN_ON_ONCE_FOLIO()
+      MAINTAINERS: add folio_wait files to MEMORY MANAGEMENT - CORE
+      fs: move dir_pages() from <linux/pagemap.h> to <linux/fs.h>
+      fs: move generic_file_read_iter() to fs/read_write.c
+      fs: move generic_file_write_iter() family to fs/read_write.c
 
-diff --git a/fs/jbd2/commit.c b/fs/jbd2/commit.c
-index 8cf61e7185c4..b647fde76e49 100644
---- a/fs/jbd2/commit.c
-+++ b/fs/jbd2/commit.c
-@@ -39,9 +39,7 @@ static void journal_end_buffer_io_sync(struct buffer_head *bh, int uptodate)
- 	else
- 		clear_buffer_uptodate(bh);
- 	if (orig_bh) {
--		clear_bit_unlock(BH_Shadow, &orig_bh->b_state);
--		smp_mb__after_atomic();
--		wake_up_bit(&orig_bh->b_state, BH_Shadow);
-+		clear_and_wake_up_bit(BH_Shadow, &orig_bh->b_state);
- 	}
- 	unlock_buffer(bh);
- }
+ MAINTAINERS                |   2 +
+ fs/read_write.c            | 358 ++++++++++++++++
+ include/linux/folio_wait.h | 183 +++++++++
+ include/linux/fs.h         |  19 +-
+ include/linux/pagemap.h    | 184 +--------
+ io_uring/rw.c              |  14 +-
+ io_uring/rw.h              |   6 +-
+ mm/Makefile                |   2 +-
+ mm/filemap.c               | 993 +--------------------------------------------
+ mm/folio_wait.c            | 710 ++++++++++++++++++++++++++++++++
+ mm/internal.h              |   4 +
+ mm/page-writeback.c        |  66 ---
+ 12 files changed, 1285 insertions(+), 1256 deletions(-)
+---
+base-commit: e9add7501ad3297dad9b90ce201266830a68ab47
+change-id: 20260511-filemap-split-871b5c18e98c
+
+Best regards,
 -- 
-2.53.0
+Tal Zussman <tz2294@columbia.edu>
 
