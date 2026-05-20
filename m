@@ -1,80 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from relay2-h-f.mailbaby.net (relay2-h-f.mailbaby.net [67.217.53.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4539434753B;
-	Wed, 20 May 2026 20:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779307298; cv=none; b=onPbgkLandrltccCHgABOWQ9Tu+VhbY9yP3FtW3Cb5RPNO61tFsHTRlVNrT3TVgPcbVpKsFXR+sPJRmX/ZH5oudOD+G4VYaocfSMOOvtTwh0AvAO3ANLivINc0Pj5IZ78tjtEF+q0hq+tyvP8L+d+7oJPYg8P2epWMRB9zUtgDQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779307298; c=relaxed/simple;
-	bh=lnTTto9b95RAfXXRj4UiwuMSpSCWZc8w/JjRRQrNMCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fBct1+xbgZ8ylSFzC1UlH/fOZCFDUpcbtNIMD5HG/Rq0oyuYdCQAyMEgXhq31vAAEG0zq7a0wLa0Xnr7xq33UQUAf5tkVMWBAiZSoVLJ75QQx8xJ2i90O7cjnQ65Jg+vFjb2roqWvJ7vkwKBzxbxJXV+R/gGzCiikpxlymSIDBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cV4UAzh3; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A3D352026
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 20:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=67.217.53.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779307434; cv=pass; b=VoJjWdfP/hitWEincVx/RtgUEYmie30RwMt0XwaD4+pVKM3uRGKY/V/PZkHPHsSyglMUZjUXkk5X7ckoLaZoxOOYpp6qF4SIdx88gRr2YgAGkikliqHJiPxdIgQYopcMIbnDGL/ny/RjjTxgOmkXwriS8ZumWSnnjO6Gd/8bblc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779307434; c=relaxed/simple;
+	bh=p7B650ZV7SDGBRdDKR85IzRtxe/rcdUFYPh7t80Usg4=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=KUE8qTBue7aFKDDV2r5yU/epUQ0lMA3l4lW7R6+0rV/fDDDwp/TVIUHn1EhvIutkKyd+Rx4lHKnP+gNOizbhm55WLZabVgJYMaEQOoN9Rn/sE7AJYxwm2a4gM6CyZstcFkfcE/Hr8tG5sYeZkqix7pD9NfdSR4XrO3w4t5tYRB8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev; spf=pass smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=Ck0zHkkt; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=syRX7Xi9; arc=pass smtp.client-ip=67.217.53.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=agatha.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cV4UAzh3"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C68EB1F000E9;
-	Wed, 20 May 2026 20:01:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779307296;
-	bh=rqBtiSF3LveVOrhxuPy3DxyEPbf3FnzHm4Qi4Adenxk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cV4UAzh34o4sncm+ieeXolmOnL89aAr7T6nepDD+zPsiufsGUHyJlOje0Ohugrb2t
-	 6yWcg+KRBczM0BNP8lUr+hLP+SkOYs/joRKeOZrweFlHwg1zSw/tlC9cK+BElq/sLs
-	 WebkTjEOvqFHOpbN5xPNvYt9xk6zQJyi2Xc92qt+MUjH5Xv88UCYC7CCEcgEiY0v20
-	 smMGFDLUpiZn4aMb0y2rmRe/MnmUJVfK9xbqU/T/4olg7U+NYuXSeQSASQyqFFnnGC
-	 iGWOgGhwSQzwr107UF4q1GodjpMVkm98yL5AroAC9cwkpvq1YARqcqyRFHze3WzAgy
-	 cs3spSCgrk+Pw==
-Date: Wed, 20 May 2026 13:01:36 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev,
-	bernd@bsbernd.com, joannelkoong@gmail.com,
-	fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 2/4] fuse: store backing id in fuse_backing objects
-Message-ID: <20260520200136.GM9568@frogsfrogsfrogs>
-References: <177922944800.2436629.7011047808676668088.stgit@frogsfrogsfrogs>
- <177922944866.2436629.1081840703046716342.stgit@frogsfrogsfrogs>
- <CAOQ4uxgnJbbTBup7UDh4R0AStx5hL0DYY09Fk7g9ETJehopMmA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="Ck0zHkkt";
+	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="syRX7Xi9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
+ q=dns/txt; s=key2; bh=EzGI7B5wsZbXljwXdvO8xwWkL16dR1z7IoYBQ4KdGK8=;
+ h=from:subject:date:message-id:to:mime-version:content-type:in-reply-to:feedback-id;
+ b=Ck0zHkktAiE1OUs8HHWe/Rtio1A4pg+dyW16RjHW7jUR7mbCMHH/ga1iop/8s4Hw/7kcQQ3Vw
+ ngmii7FZyoz6DAxiC96PvQK3gTX4OZxOU+FCqJcV0DDzBYkmP7enulgbppUOiejmz5Voj8zRVHB
+ kci3CsFy5R4TgaIAwn87NeU=
+Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
+ (Authenticated sender: mb6724)
+ by relay2-h-f.mailbaby.net (MailBabyMTA) with ESMTPSA id 19e46f7ca7d000c7f0.001
+ for <linux-fsdevel@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Wed, 20 May 2026 19:58:24 +0000
+X-Zone-Loop: e8039e140d66681d2ba0da29d908be80b8447a1a9b87
+ARC-Authentication-Results: i=1;	rspamdcluster7.mailbaby.net;	auth=pass
+ smtp.auth=mb6724 smtp.mailfrom=code@agatha.dev
+ARC-Seal: i=1; a=rsa-sha256; d=mailbaby.net; s=detka; cv=none;
+ t=1779307106;
+	b=fzoDkqwNi3VOV9ECFUJ/GAKyJ9dW9L+dKmWhRn7z3I4GjYMPXAgTuiIWV+iI85gWHeQQKW
+	iDZoMNfa3Z78qyKDCQ/1R6xJ3bBR3/AsrCYJeHsYQ1FwyWd1GPvUFqfAfEoEYIN0Vyh06o
+	RCsHyyKdZywufJU7G5x3GL5kl7kmFuu6kXAa0QkXzgbGVOfe9CMdMWhkCGoj+l91iWKXn6
+	Bs3SZ8qKkyj/0bG1vOevZJg999hfSFvdoAeTfUxpp3KhmINy2pEx6EGL7Opz1Kgtt4AfYY
+	flsBCpT4YisqcDDyFU8ekMcmIgRpGbCRFllqHZs81ORCTvEQQelIO3JA2MSzLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailbaby.net;	s=detka; t=1779307106;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:dkim-signature;
+	bh=EzGI7B5wsZbXljwXdvO8xwWkL16dR1z7IoYBQ4KdGK8=;
+	b=f8H9AuU9xn5ZCvZCSCKmuJ7HQKRVQhbdBsayiV+uhBsWZ4HUIFxh5acWj6gk9XgaotPD9Y
+	uADzrv3dmurB0fN2anDfsYjz5GQiBXvDdidc6+hjZfksSKpA/K8UkLkjEJyNTDwsvL60nN
+	x/tKHDezys7YzJyJOm1dfHCH96n6DnU64W4O1CSYFWtOPRAA0JvI8z2holWK0HiJTbhfPA
+	1QIZg10wy2H4TOCp7Gtrc8/EfIDrErtioxg4cq/hE1IgKWlscsoOr6NFRAjI6al5GnrZkb
+	eL222ak3x8mEWAkIIGfP1YkxBzH0t0Fy4MnOS867jkuFMDybFsJEw9BXpRX/zQ==
+X-MB-ID: mb6724|me@agatha.dev
+X-SPF: pass
+Feedback-ID: mb6724:19e46f:507c5a5c5e5d585f7d5a5951:mbaby
+X-NS-SCAN: PASS
+X-MAILBABY-ORIGIN: PASS
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
+	s=default; h=In-Reply-To:Content-Type:MIME-Version:Message-ID:Subject:To:From
+	:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=EzGI7B5wsZbXljwXdvO8xwWkL16dR1z7IoYBQ4KdGK8=; b=syRX7Xi9ISjnjXKEMvYxVofPdB
+	tzsf4+dSwrbXA8NBfL4rlfYjHlZC7mhd9iJUH7nCZEsE/ds87G9rRJBmiUvgIRN3lY3kh+Z+Y4Xnl
+	fJEPPocnK3RgAtlqxBzAGg0eHZ1gnutnA41i/v44tHE+jJbqwmIsAXD6UjzeLmPyZKpSKrB97ZQXJ
+	8NN8TLnMmr0hERPnGpHmn6XeGyD0NajEBdK8ywTpsH2RSWYsZnAS50/oVeihmLO0cztyH/gEWTMxe
+	nU4Y3DW0QZtlZNGjlzgrdQZwLhiVsVxianizFb0Z06CgVGYYvzZp2nrG19PXUhwUoKPJ3vDgCZyII
+	V9kwhIKg==;
+Received: from [170.254.153.136] (port=34812 helo=guidai)
+	by nyc3000-r.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.2)
+	(envelope-from <code@agatha.dev>)
+	id 1wPn3i-0000000FBOq-2s3O;
+	Wed, 20 May 2026 15:58:24 -0400
+Date: Wed, 20 May 2026 16:58:16 -0300
+From: Agatha Isabelle Moreira <code@agatha.dev>
+To: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, shuo chen <1289151713@qq.com>, 
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, patch-reply@agatha.dev
+Subject: [PATCH 1/2] fs: buffer: use clear_and_wake_up_bit() in
+ unlock_buffer()
+Message-ID: <ag4SD-mkmn5IbuN7@guidai>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxgnJbbTBup7UDh4R0AStx5hL0DYY09Fk7g9ETJehopMmA@mail.gmail.com>
+In-Reply-To: <ag4PEP52c8rxrYPc@guidai>
+X-AuthUser: me@agatha.dev
 
-On Wed, May 20, 2026 at 09:55:24PM +0200, Amir Goldstein wrote:
-> On Wed, May 20, 2026 at 12:28 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > From: Darrick J. Wong <djwong@kernel.org>
-> >
-> > Make fuse_backing objects know their own id, it'll make tracing and
-> > recovery of backing ids easier later on.
-> 
-> The problem is that in the context of fuse passthrough
-> backing_id is just a temporary integer name of a fuse_backing object,
-> but fuse_backing may outlive its backing_id (e.g. in fuse_inode_backing()
-> and in extreme recycle situation a backing_id can be reassigned a new
-> fuse_backing while the old fuse_backing object is still alive.
-> 
-> This only makes sense if backing devs ids are never closed, so maybe
-> only if FUSE_IOMAP and FUSE_PASSTHROUGH are mutually
-> exclusive (did we do that??) and FUSE_IOMAP never closes backing ids.
+Use `clear_and_wake_up_bit()` in `unlock_buffer()`, since the helper was
+introduced in 'commit 8236b0ae31c83 ("bdi: wake up concurrent
+wb_shutdown() callers.")' as a generic way of doing the same sequence of
+operations:
+       	clear_bit_unlock();
+	smp_mb__after_atomic();
+	wake_up_bit();
 
-In iomap they're *nearly* uncloseable because we have no idea how many
-iomaps might be floating around (either in response to a
-FUSE_IOMAP_BEGIN; or in the mapping cache) the system.
+The helper was implemented to avoid bugs caused by forgetting to call
+`wake_up_bit()` after `clear_bit_unlock()`.
 
-However, if you can knock the number of iomap inodes down to zero, then
-you can close them.
+Since `unlock_buffer()` predates git and was last modified in
+'commit 4e857c58efeb9 ("arch: Mass conversion of smp_mb__*()")', years
+before `clear_and_wake_up_bit()`, it still uses the open-coded sequence.
 
-<shrug> The self-contained id could be set to 0 on idr_free, so at least
-you'd see in the trace data that you were using an un-indexed
-fuse_backing.
+Replace the open-coded sequence with the helper to avoid duplicate code
+and reduce code paths to maintain.
 
---D
+Suggested-by: shuo chen <1289151713@qq.com>
+Link: https://lore.kernel.org/kernelnewbies/agzoqV835-co4kAN@guidai/T/#t
+Signed-off-by: Agatha Isabelle Moreira <code@agatha.dev>
+---
+ fs/buffer.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/fs/buffer.c b/fs/buffer.c
+index b0b3792b1496..4348b240bd97 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -74,9 +74,7 @@ EXPORT_SYMBOL(__lock_buffer);
+ 
+ void unlock_buffer(struct buffer_head *bh)
+ {
+-	clear_bit_unlock(BH_Lock, &bh->b_state);
+-	smp_mb__after_atomic();
+-	wake_up_bit(&bh->b_state, BH_Lock);
++	clear_and_wake_up_bit(BH_Lock, &bh->b_state);
+ }
+ EXPORT_SYMBOL(unlock_buffer);
+ 
+-- 
+2.53.0
+
