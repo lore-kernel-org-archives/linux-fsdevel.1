@@ -1,72 +1,89 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F9F3A6EFC;
-	Wed, 20 May 2026 08:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779265854; cv=none; b=J9vdqMDCowwt+vIwc7wgx2wsKa4k6kFMUwlJqfJ/16+pz1qk/Oeov6Qgwg2vplPlxjn9GBWrb81eY/reoIzguhjKDYSEtAdOlc/uvXpKXG6qOuJHtVthyXATHvkiRRFygzUAF4BSR8C8JXOR7cG47NE/WATzM97SIX3syZt1XMY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779265854; c=relaxed/simple;
-	bh=jygiFH8g59vaOuCLT8rxUUXIp0l6xQbMECWG10ie+QU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kfyYutS3C08qXtEMdiZpf2EykwjmAE+c5YPd8KPA8SDn3a0UORHSATWT6MahoFNvfDWX7u0xhY6qJsZeHRkFCEmde/+T9yj23IMFzcngp5eR1cuX29BVF4PJYbiuZjUerFcqdE/GOwya3PeU0b44QwgBnkGN+Oj+av0uJAWZ7EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id A580068BFE; Wed, 20 May 2026 10:30:44 +0200 (CEST)
-Date: Wed, 20 May 2026 10:30:43 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Tushar Gohad <tushar.gohad@intel.com>,
-	William Power <william.power@intel.com>,
-	Phil Cayton <phil.cayton@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 04/10] block: introduce dma map backed bio type
-Message-ID: <20260520083043.GA18893@lst.de>
-References: <cover.1777475843.git.asml.silence@gmail.com> <646ecd6fde8d9e146cb051efb514deb27ce3883e.1777475843.git.asml.silence@gmail.com> <20260513081929.GD5477@lst.de> <24833f76-2289-4859-86d1-9215b11a1258@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487BD3947A4
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 08:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779266012; cv=pass; b=AOpAjo5GK1u/HTepzdTBdYmYGtD8laYIbE6bfPd09HwRUc4KYRoGewiO5iirMrOLB/0AeXJpeIwl7quX5O3OG+yXg7hT0QBgeeHUyAe5MOgATK9OR+nDb7etkdpDiyFUtvT9khEAa7vdev8p7RSNj23pUq4UcLGcBkzV2bmkhqs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779266012; c=relaxed/simple;
+	bh=yj7nKyFrj7zU2yYnwm4/LaF7qhH6Xk4MypSMzLI7D08=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=p0w0RPQ8IQ2EZZdzFCS2ugNVjySyAumtJ0UtOBlHwqP1rK1pvHDA3D7U95FHYxU7fIEPEKxr18F7lT2MAK7EmLDWWlIdcrOiGzxzPrTyh5kHUNj0NNPRaXFY+h6dW7evlSwfNBIncJIlFcuHYbAa8hNAXOuOKOunV1mFjLXun+s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cjCs5eCE; arc=pass smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjCs5eCE"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38be5e86918so60325361fa.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 01:33:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779266009; cv=none;
+        d=google.com; s=arc-20240605;
+        b=i+iDc41rlULBwCdfDvzWLShf7FN6/wrWtjCgrtKWaT7SAvcMFrDNkLHK4r3DEhE2iK
+         lfxYa7WAHw2dtMaO/ywFugalMa+NGUFq0jI44Dja+U+kZmRcxIB2VF/ChkS4gIdiwlgo
+         ekPqS7DxkjL5GSim8zFbAmEmK4QrX/mmHLA9yMtCJYZu68ZxlK/4E/xCJwiRioTTAg/U
+         rnRAxyWUSquBsrTTIfZKr9f1Qo3ISsGGHqdsKifcVSZ+5ONwicaovOKfaHC8gbfxmf8P
+         bEPxmgV0fD8hJFlVf0FlLsyiS1Np63m4DQSz8OP9nfIS2jjzj90n6aujrXkVsnBdVvcx
+         3kuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=yj7nKyFrj7zU2yYnwm4/LaF7qhH6Xk4MypSMzLI7D08=;
+        fh=on5so1iZ1tYm751VXv8x5u+l+XerJy9A4qWb/XOx/D0=;
+        b=P6kuz+aaY/zSUK/nCpl9dNpJ3hBdNZTkC37c0tHji9lNyHuOObwBtuiDapFJK2ZkUZ
+         ERpeLm7Edc/yC661ytb3p+59FMoA9WJY8RwMsRBhC2eRVUgsYootDeqVJ/jgU96Ozv9O
+         X0aQxD1H9fa3vg1miJmvlZ+6EbCM9Ojn+zkTn9Ui2IXhYUqGwvdOW1/nq8kEyGhIEAk2
+         SybIJR5NKAziWW1qcp19+VD5fRshbPlIGCnStUZAz6NfY0Tfy8ufTVEgnxqLAtAyhmy7
+         a/GCrRV2yLk5ROt24+sMeXvlTAemHO1OPX4QM7IzThrRW7VThrC2455NIAbKNzK4Lhw/
+         +fqg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779266009; x=1779870809; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yj7nKyFrj7zU2yYnwm4/LaF7qhH6Xk4MypSMzLI7D08=;
+        b=cjCs5eCEJgrcADq8HOh9AxTBkd7Rp6VtFc4IpooUpePDSHSanE+9a5Lx/Z1OmK9wYh
+         F/9zFWqrfVk3BZ+2NSGeTBeM33PekIsGdkQi+Y1ZEtYOJKQM5V3+ewXINn0O1p/Oc4RJ
+         D2p9Peoza6q1wZh8WpaauFRj+ZVuHpoqyYKzZQqpn/yLBKTsArrFT+70lVZhkGu3c+mm
+         tOW5A0O2kXw2NrCn2oGjMlD753wFbG8KB8GiMYGlch50L2BxOYUCciDdqH6E46yUCI1c
+         C/hTV0cqDwq5UngerxU3msaDUodYzP8U4oIQE4/yfnd4GvlFssFzWrZCjYcb48Jc6YtA
+         IHtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779266009; x=1779870809;
+        h=to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yj7nKyFrj7zU2yYnwm4/LaF7qhH6Xk4MypSMzLI7D08=;
+        b=WQnCmGxR6bJrF9zpyIyuANKN2QdLK2Tin4oZIqacXKvhb8KTdh703g/e4oNhXE/vE7
+         Ng7uZIqo8YfK+Vd3adIhGFR7jeNMYP/9uYTsC2jVCHP0pHoPOnys3GALM7Ty1VHGngIu
+         wch3mT9fsLpe021XQYLnCHZ/Zvy53L7AgRc70772mIiJIDsLb0yxwhnK/VIKZNpN1nSh
+         ZTSDIkvFBLDZob8nnVLJzdjS5FAi+AW+KTZBWHnlcYpjDlu7c6lALokFicafHat85hb4
+         cJaxdpN2RXI4Vcg6aoX8X+V2npQQLSK+d8t4oGsGnWqTCbunxAP/iT/5I0Qdh5ncF+N4
+         dYgA==
+X-Gm-Message-State: AOJu0YwtrjYFzM9PpwHU3ijuLEx81m/ESOeqkEndRrSmmXz0sCrgBQ6t
+	PIvRQvn8F0TUiuhwx+GylGAmBX4zH7bmeaZGzWC2Z++gqlMQlPpl4kodFEJvEWceyYR887O5n0D
+	mjzL4HUnf5GBLvLaT6w91yTFaHhpphwOXMvNO
+X-Gm-Gg: Acq92OEVHcOGMTs4IgzWVgWJF+WGBgIk8I+7bNmuqMBMtkFNfmWBwmFGn9EaDISpnO3
+	QoGJewqOEZ8PT93CH5MncDSdb5ffZB6UTa/XNLYNBQRGCPe/4jQZrPmxPw6sOhgNy0j2pHTPA2r
+	SKqH533YHm4v7yGXt6t6PNm8JUnRxs5VO+M+gEwcLgSDcw8gLT8zMMgLTcHN+SROKiYS6BGmfLc
+	eV9AingLcjIFSW56xIGuNGU0WIgY1MJgd8sEJCyR4hgE0zE1o5K/x1Zp84OrNnNdFnif7PkgQNt
+	xEk/q8J9
+X-Received: by 2002:a05:651c:885:b0:395:b670:71ce with SMTP id
+ 38308e7fff4ca-395b67075e9mr12239001fa.2.1779266009258; Wed, 20 May 2026
+ 01:33:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <24833f76-2289-4859-86d1-9215b11a1258@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Reply-To: sedat.dilek@gmail.com
+From: Sedat Dilek <sedat.dilek@gmail.com>
+Date: Wed, 20 May 2026 10:32:53 +0200
+X-Gm-Features: AVHnY4KyREv1yCQ7RQ6D4YzFTHPAISpM1OIGE9ooYJPmgaRPPy1lI6j505yG6HY
+Message-ID: <CA+icZUVRSX6QSVFw7zoT3abFThtMkaSmf0e=Odop79QKu67=Rg@mail.gmail.com>
+Subject: unsubscribe linux-fsdevel
+To: linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 18, 2026 at 11:29:54AM +0100, Pavel Begunkov wrote:
->>>   	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
->>>   	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
->>> +	BIO_DMABUF_MAP, /* Using premmaped dma buffers */
->>
->> Shouldn't this be a REQ_ flag as we should never mix and match bios with
->> and without this flag in a single request?
->
-> Do you mean adding both and propagating it from bio to req? submit_bio()
-> takes a bio, so we still need to set it there before it reaches blk-mq.
-> And there might be bio-based drivers using it in the future.
-
-I think I forgot to reply to this, so let's do this now.
-
-REQ_ is actually used by both bios and requests, so if you set it in
-bio->bi_opf it will automatically get propagated to the request, but
-it can also always be tested on the bio, including by bio-based
-drivers.
-
+unsubscribe linux-fsdevel
