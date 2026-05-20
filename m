@@ -1,143 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED29371889;
-	Wed, 20 May 2026 03:56:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C6730DEAC;
+	Wed, 20 May 2026 06:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779249395; cv=none; b=Ot5vBkY64vhVQlIvC1aTf11r5gBY+Jr2cLqzSx47XKCzaQUJQElHglWG2x6j0ledi/IFPHkGtTX9Fu1diEcupXpZ7go6fDYWS/Kcg3qveJFerNWpJrkVPA0aDYXI6/V4BqGVBJvarHGwcBQrlSEl+zsuT6U7wzpa0pO1fT9sukQ=
+	t=1779257722; cv=none; b=OH/NpmcpISXqY1WymAIXBh2n975JOHZi27yvKoeyZMSlsaRwWk/VhX5cYuYdQFdOmYBFMU4VVpYfamfVY3rvQeh9P/9bQE4gwcCfRYg8BLsnD1YHrKhcNh3id+Vg7tO28rqchsm0aLtiW8/h5IwmiejuUHtky9VZyei7nq4Isss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779249395; c=relaxed/simple;
-	bh=OYwWmGW4VJ45HybR3KWpW+Ex8/FpANhlftj9FMzMwWE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=pHz67XEU3TCGdj2ZW4JdEwGkcdIZrRChOflofogItuPQ5d6SBkAzJZF1PUN25Gqs9kC9fETDPWOiLoSzE8S+huMutEtymgnkyoj/4QBeOmLiT+58kvVwMo57wU46g0rRee/thQPiQblG8VoDIUvFVUfg5Rvd8eJv1qrtwIHDv14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yi5WmgT9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779257722; c=relaxed/simple;
+	bh=QfxKedq0lzsIHKqxqKAfKgyhObgG6aovxjJg80dmPDM=;
+	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZdpXC/MTJF5/1Ma/6jLKyuQf+u/1oppIuQ7Q8RUrSArOVwd/6EotfztxFr9vBRNjHZ4q3MVxf/vtkp23lLaTD4iZCxHoLJ3hlHc9OLpRXwIcCpXhWJB53HA8XjSZDLcfXFQJQHJOziju+jdetRTS+Ju0aq3u0g58CEhHnRVjK2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1FBDbxD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yi5WmgT9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A66B1F000E9;
-	Wed, 20 May 2026 03:56:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1FBDbxD"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CADF91F000E9;
+	Wed, 20 May 2026 06:15:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779249391;
-	bh=Lf4BSX3FaLVLxFUZXG4X89++fzsTeeUiOreKare3NAE=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=Yi5WmgT9qNmzIgl56d/8FR7Zec2qjm/QGuwMJJVK/eiZ+iHrkP+HTlejkd27p2kMs
-	 DgRek713kzBYXkFUfqP7Jel+kY3sGBrncvmxsixNR9U5P/LCYZ3sXQprVSU/Mngp1E
-	 ajBqr+C/NOFBlMlWtjS5VsbgJ+1sCQELS67yBdY+gLcFMx5dONa2l/arBIveDdJyG4
-	 ltUJzugmZROiOzyn8SO0XGE70UjwmnzjoJkR6WAK92GGycDY9b+qRwyhUnxD4c2jIq
-	 IoL5HB0CBtL6ZIK1RjNQXGqX5VItFd4xKyeLgH6ADIXSLXGtTST5sSwBklLZUV1DX8
-	 lWUP2/lYIyb1g==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id B4533F40088;
-	Tue, 19 May 2026 23:56:30 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-02.internal (MEProxy); Tue, 19 May 2026 23:56:30 -0400
-X-ME-Sender: <xms:7jANagnWq9yfpj9HU2UuHzAfR7RJZP1GNX34AMbOM3A4JVdf6PZC7g>
-    <xme:7jANaqoLUVFcEpaXUlGrNV5q5fiZf9Y40Jxh1ROH0D4n0h7yrMiIrsLgeQSfwLUDP
-    CxKJBDizbi0-KYnDIviUwzNKVCIh_hhT6dreG457Gkmj8GTX_G6YLV5>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeefiedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfffgrnhcu
-    hghilhhlihgrmhhsfdcuoegujhgsfieskhgvrhhnvghlrdhorhhgqeenucggtffrrghtth
-    gvrhhnpeegueekjeehudehheduffekgfehvddtgfeutdeukeeihefhleeuieeuuedtteeh
-    ieenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepughjsgifodhmvghsmhhtphgruhhthhhpvghr
-    shhonhgrlhhithihqddujeejvdeftdegheehqdeffeefleegtdegjedqughjsgifpeepkh
-    gvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohepudeg
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsvghnjhgrmhhinhdrtghhvggrth
-    hhrghmsegrmhgurdgtohhmpdhrtghpthhtohepshhmihhtrgdrkhhorhgrlhgrhhgrlhhl
-    ihgthhgrnhhnrggsrghsrghpphgrsegrmhgurdgtohhmpdhrtghpthhtohepthhomhgrsh
-    iirdifohhlshhkihesfhhujhhithhsuhdrtghomhdprhgtphhtthhopehjohhnrghthhgr
-    nhdrtggrmhgvrhhonheshhhurgifvghirdgtohhmpdhrtghpthhtoheprghlihhsohhnrd
-    hstghhohhfihgvlhgusehinhhtvghlrdgtohhmpdhrtghpthhtohepuggrnhdrjhdrfihi
-    lhhlihgrmhhssehinhhtvghlrdgtohhmpdhrtghpthhtohepuggrvhgvrdhjihgrnhhgse
-    hinhhtvghlrdgtohhmpdhrtghpthhtoheprghruggssehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehnvhguihhmmheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:7jANakhaQIct7-HcyDQh8Uys7wpXa4e7QFzi4zl6DeyKCBJ-bmeG2A>
-    <xmx:7jANasdESi0dWC1NCP28lLBSKgUX_GtnbBZAOSfMx-slJWtoeyob7Q>
-    <xmx:7jANatIXCZBblrz8LlnkrOwQ6a-nq_tzhE7gzrH2cBpeXFRjo7a8Nw>
-    <xmx:7jANaplDiMSFS8x-QBz0m3L-tG-9XWYTw3KXvWpQ88susceytl1ibg>
-    <xmx:7jANaleur3pSS5wx0W7GXKSDYWCwv4zBOLV7VZDQlkebo4W8TlDyGTgd>
-Feedback-ID: i67ae4b3e:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9341A2CC0083; Tue, 19 May 2026 23:56:30 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1779257720;
+	bh=RRQ5NrQlBDEI+yHYxqEQQjeyuU5p7LL1W+nO9oeKGm4=;
+	h=Date:Subject:From:To:Cc:In-Reply-To:References;
+	b=Z1FBDbxDsebOMATTxnquLuhYXgm6WAgQAy2bjgVKVPpJvCi0XAcwnon4nqyfjvfxr
+	 t18UVwjQQeLFCfShJ0OV5i0UEISkXe2CAw5ZomDOA0qvwlCosq/qcc89AWbSyQWC1t
+	 7nMfQJUJPvJPZ05m2UstL9fs8IJyFaJd/ETl1bK6xWILfcbTPuPtCElsh+3F8prp7l
+	 e6PzxQkGcMxmkXKChdNej4sfXz7UMAQgeM6NiEYxO/TqNldrrp2Q5hsDvebFsv/lv7
+	 IPXyzBJGrMM36ctGlxS2Ysi4ukDHlTpUhYeU7FkSYuyGok+nnrLLwCe2UuJzmRKwxa
+	 dh8PGGU6e4g+Q==
+Date: Tue, 19 May 2026 23:15:20 -0700
+Subject: [PATCHSET RFC] fuse: allow fuse servers to upload iomap stripe
+ information
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: miklos@szeredi.hu, djwong@kernel.org
+Cc: fuse-devel@lists.linux.dev, bernd@bsbernd.com, neal@gompa.dev,
+ linux-fsdevel@vger.kernel.org, hch@infradead.org, joannelkoong@gmail.com,
+ john@groves.net
+Message-ID: <177925767662.2711065.15846161331592459171.stgit@frogsfrogsfrogs>
+In-Reply-To: <20260519222229.GB9544@frogsfrogsfrogs>
+References: <20260519222229.GB9544@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 19 May 2026 20:56:11 -0700
-From: "Dan Williams" <djbw@kernel.org>
-To: "Tomasz Wolski" <tomasz.wolski@fujitsu.com>,
- smita.koralahallichannabasappa@amd.com,
- "Alison Schofield" <alison.schofield@intel.com>,
- "Dan J Williams" <dan.j.williams@intel.com>
-Cc: icheng@nvidia.com, linux-cxl@vger.kernel.org,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- nvdimm@lists.linux.dev, ardb@kernel.org, benjamin.cheatham@amd.com,
- "Dave Jiang" <dave.jiang@intel.com>,
- "Jonathan Cameron" <jonathan.cameron@huawei.com>
-Message-Id: <ec26d3de-d556-4ab9-a333-d69d1e6cdda7@app.fastmail.com>
-In-Reply-To: <20260519101832.31988-1-tomasz.wolski@fujitsu.com>
-References: <20260519101832.31988-1-tomasz.wolski@fujitsu.com>
-Subject: Re: [PATCH v2] dax/bus: Upgrade resource conflict message to dev_err() in
- alloc_dax_region()
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
+Hi all,
 
+There are certain fuse servers that might benefit from the ability to
+upload storage device striping information into the kernel to assist in
+responding to ->iomap_begin requests.  In other words, this is
+filesystem striping for fuse iomap, implemented in fuse.
 
-On Tue, May 19, 2026, at 3:18 AM, Tomasz Wolski wrote:
-> The dax_region resource conflict in alloc_dax_region() indicates a
-> serious configuration problem =E2=80=94 two subsystems (e.g. dax_hmem =
-and
-> dax_cxl) are attempting to register overlapping address ranges. This is
-> not a transient or debug-level condition; it represents a genuine
-> resource conflict that an administrator needs to be aware of.
->
-> Switch from request_resource() + dev_dbg() to
-> request_resource_conflict() + dev_err() so that the conflict is visible
-> by default and the colliding resource is identified in the message.
->
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Link:=20
-> https://lore.kernel.org/linux-cxl/69c1a8d1c0fa9_7ee3100a1@dwillia2-mob=
-l4.notmuch/
-> Signed-off-by: Tomasz Wolski <tomasz.wolski@fujitsu.com>
-> ---
->  drivers/dax/bus.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> index 68437c05e21d..66413c6c2ba0 100644
-> --- a/drivers/dax/bus.c
-> +++ b/drivers/dax/bus.c
-> @@ -637,7 +637,7 @@ struct dax_region *alloc_dax_region(struct device=20
-> *parent, int region_id,
->  		unsigned long flags)
->  {
->  	struct dax_region *dax_region;
-> -	int rc;
-> +	struct resource *conflict;
->=20
->  	/*
->  	 * The DAX core assumes that it can store its private data in
-> @@ -670,10 +670,11 @@ struct dax_region *alloc_dax_region(struct devic=
-e=20
-> *parent, int region_id,
->  		.flags =3D IORESOURCE_MEM | flags,
->  	};
->=20
-> -	rc =3D request_resource(&dax_regions, &dax_region->res);
-> -	if (rc) {
-> -		dev_dbg(parent, "dax_region resource conflict for %pR\n",
-> -			&dax_region->res);
-> +	conflict =3D request_resource_conflict(&dax_regions, &dax_region->re=
-s);
+For example, consider a fuse server that abstracts a large amount of
+storage for use as intermediate storage by programs.  If the storage is
+striped across hardware devices (e.g. RAID0 or interleaved memory
+controllers) then the iomapping pattern will be completely regular but
+the mappings themselves might be very small.
 
-Just report the request_resource() failure. This case does not warrant e=
-xporting request_resource _conflict(). Historically one driver can not m=
-ess with another driver's resource beyond conflict detection.
+Performance for large IOs will suck if it is necessary to upcall the
+fuse server every time we cross a mapping boundary.  The fuse server can
+try to mitigate that hit by upserting mappings ahead of time, but
+there's a solution that does not involve BPF that can provide this
+usecase: uploading device striping information into the kernel.
+
+In this case, the fuse server upload a stripe map into the /dev/fuse
+device and receives a "backing" file id.  That id can be combined with a
+new mapping type (FUSE_IOMAP_TYPE_STRIPE) that will load the stripe
+information and adjust the mapping to point to a real block device.
+
+If you're going to start using this code, I strongly recommend pulling
+from my git trees, which are linked below.
+
+With a bit of luck, this should all go splendidly.
+Comments and questions are, as always, welcome.
+
+--D
+
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-striping
+---
+Commits in this patchset:
+ * fuse: allow fuse servers to upload stripe maps
+ * fuse_trace: allow fuse servers to upload stripe maps
+ * fuse: implement striping for iomap
+ * fuse_trace: implement striping for iomap
+---
+ fs/fuse/fuse_i.h           |   30 ++++
+ fs/fuse/fuse_iomap.h       |    8 +
+ fs/fuse/fuse_trace.h       |   57 +++++++-
+ include/uapi/linux/fuse.h  |   24 +++
+ fs/fuse/backing.c          |   85 +++++++++++
+ fs/fuse/dev.c              |    2 
+ fs/fuse/fuse_iomap.c       |  328 +++++++++++++++++++++++++++++++++++++++++++-
+ fs/fuse/fuse_iomap_cache.c |    8 +
+ fs/fuse/inode.c            |    1 
+ 9 files changed, 533 insertions(+), 10 deletions(-)
+
