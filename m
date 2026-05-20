@@ -1,30 +1,30 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590B23D6CDA;
-	Wed, 20 May 2026 10:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001D63D8914;
+	Wed, 20 May 2026 10:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779272401; cv=none; b=qaREBkPFPXMse9o8RuZCpdxOQPDcbVOXqRGLocaKVOoyh6RNcrddTaiXl4w+I4rgGhk0Gf94rtzEO4r93k9qx74rYYVpgZSGTzt6hisupCQlbH+wfmQxk2n9RLzJdLMzkpE6w0GBwtJ7hY22iIATH4YtcMrPojvDfPWUn52UCu0=
+	t=1779272407; cv=none; b=Jg9Am5ftQo2y8tJvhOV5xTEA5DuhB2Z9v+rgownaZeyzAvScpMFzEHbVtPjfLosGT8C/c93zv3wkU5Cnu+smAly55zyehQu/rhTcFSXlCp/d3MggLkATyLqCbAfpGSxzv7HXaAgOJWOuaNl4jR//Os/8Ca7ZWemTyJZabe2NaEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779272401; c=relaxed/simple;
-	bh=f9J+IhisTdLnLgXR7JSjhUN2PwnfX+gYzer2vCIsUE0=;
+	s=arc-20240116; t=1779272407; c=relaxed/simple;
+	bh=nlOvajUKQD2BdgpVjY1kpIMhzz4fKhzvO5HvrkmpJ+g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=amCHhSHHi8Oggegs3fFZ6cngsHB8qSm2eg3pTbyUqwvQA1sfJblF0KApzeLnL65r3CkSE3MdFHv3wiRGQ1S0bWFOev53Mpo4DmcDT5SrjFtdmtRnshoXYsAA6tHbvBkPMpwm9R3T6ahXLqUWKM05xDzN8GWmeIA3MWebDAP9f2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=OBC51bwB; arc=none smtp.client-ip=117.135.210.4
+	 MIME-Version; b=Ts93Jqvey7R2NMXHg25jJwrxF0nOVmAYB/mQXh7lNczQnTpvdMP0nTt1Q15AYCQvJxSoEi3gaiOzjIsE4u58TEVJpesxK8+xmbSm2Fa0uyMtKIRzfARGW4pAL6S6me6o6OK/e/Nq2U2sI5eY+IsxbEM6oW4LmiNwD5nB9puCxCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AuLw0WFb; arc=none smtp.client-ip=220.197.31.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="OBC51bwB"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AuLw0WFb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=9B
-	VjTk8nQGGmUxI8PCEpxJWmL7Kaf4Qp03cf8IYb8qA=; b=OBC51bwB+qfYf08FyI
-	e7P8qz+PHuCddXwTbn7uKjr4zqkZU0fNQ3zSbi6dn1aUAPqtA7YCBEow+TVMt7p9
-	lgTaW14EdA7BkCwq3S7lUnZykKo4W1Um4BYx0mKHKXPTXseMEG9nn+PZrYEez25h
-	qfZ4rCsR5z/5lXO9nRS5Toi2w=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=th
+	5U1L5vmkhODOQbkCC1ck4kSZkOj2dVnpqhVaNU8Qs=; b=AuLw0WFbsvQEJCokO1
+	Yp3PrR43mnNKiQroLSUV6P0BDgy0E1XKXhERkECG0XxbAuXsuiH8pwsyEVyDP/ub
+	xKkUmmJRSPbRJl6EWXabBLOkqpdR4LEhpERQ0p3TbmRrawwbo8AH+6Zv8lUOivZZ
+	qt2H6lhmk3kJ4Ha6m2pWwH10k=
 Received: from czl-ubuntu-pc.. (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXbbprig1qQK31EQ--.641S3;
-	Wed, 20 May 2026 18:18:25 +0800 (CST)
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXbbprig1qQK31EQ--.641S6;
+	Wed, 20 May 2026 18:18:26 +0800 (CST)
 From: Chi Zhiling <chizhiling@163.com>
 To: linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
@@ -44,9 +44,9 @@ Cc: Hugh Dickins <hughd@google.com>,
 	Barry Song <baohua@kernel.org>,
 	Lance Yang <lance.yang@linux.dev>,
 	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v1 1/5] mm/filemap: reduce unnecessary xarray lookups when read cached pages
-Date: Wed, 20 May 2026 18:15:34 +0800
-Message-ID: <20260520101538.58745-2-chizhiling@163.com>
+Subject: [PATCH v1 4/5] mm/shmem: introduce copy_zero_to_iter() for large zeroing
+Date: Wed, 20 May 2026 18:15:37 +0800
+Message-ID: <20260520101538.58745-5-chizhiling@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260520101538.58745-1-chizhiling@163.com>
 References: <20260520101538.58745-1-chizhiling@163.com>
@@ -57,100 +57,62 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgDXbbprig1qQK31EQ--.641S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCw4Dtw48ZFyDCF4fur4kJFb_yoW5CFW3pr
-	1rG3WkGrsrJw1YkrnxJay2ga4rW3s7XF45JFySg3WSvFn8Arn0kayxKF15KFyDZFy3ZF1f
-	XF18Ja4vgF1Yq3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jso7tUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3BGcOmoNinFzrgAA3q
+X-CM-TRANSID:QCgvCgDXbbprig1qQK31EQ--.641S6
+X-Coremail-Antispam: 1Uf129KBjvJXoW7CF4kZr13Kw18Kry8CryxuFg_yoW8WFyxpF
+	y3G3Z8Ar4kJayfWr4fXF4rur1Fvr93J3yUGFWxGF4YvFn0qr98KFyrKFyYkFWfAryUCw1I
+	qa10yryYka10yrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j1-erUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9xKcOmoNinIMnAAA3M
 
 From: Chi Zhiling <chizhiling@kylinos.cn>
 
-When reading small amounts of data from the page cache, only a single
-folio is typically returned from filemap_read_get_batch(). In this case,
-calling xas_advance() or xas_next() after adding the folio to the batch
-is unnecessary and only introduces extra branches.
+This is a prep patch for shmem folio batching in the read path, where
+non-uptodate folios need to be handled in the main iteration loop. A
+large non-uptodate folio should be treated as a hole.
 
-The same issue exists for large reads, where one additional xarray walk
-is always performed before termination.
-
-Move the boundary check to after the folio is added to the batch so the
-final redundant xarray advancement can be avoided. This significantly
-reduces the branch count in the read path.
-
-xas_next() does not update xa_index when xas->xa_node is set to
-XAS_RESTART, so checking the boundary before updating xa_index is
-sufficient to keep the folio within range. The warning should therefore
-never trigger.
-
-The branch count:
-654.198 M/sec -> 646.444 M/sec
-
-Performance counter stats for 'fio --ioengine=sync --rw=read --bs=4k --size=1G
---runtime=300 --time_based --group_reporting --name=seq_read_test --filename=file':
-
-before:
-READ: bw=2697MiB/s (2828MB/s), 2697MiB/s-2697MiB/s (2828MB/s-2828MB/s), io=790GiB (848GB), run=300001-300001msec
-      245602051556      task-clock                       #    0.821 CPUs utilized
-             78467      context-switches                 #  319.488 /sec
-                40      cpu-migrations                   #    0.163 /sec
-              3388      page-faults                      #   13.795 /sec
-      758312319204      instructions                     #    0.74  insn per cycle
-     1025881497502      cycles                           #    4.177 GHz
-      160672383734      branches                         #  654.198 M/sec
-         361904512      branch-misses                    #    0.23% of all branches
-
-after:
-READ: bw=2709MiB/s (2841MB/s), 2709MiB/s-2709MiB/s (2841MB/s-2841MB/s), io=794GiB (852GB), run=300000-300000msec
-      243985503670      task-clock                       #    0.812 CPUs utilized
-             79004      context-switches                 #  323.806 /sec
-                30      cpu-migrations                   #    0.123 /sec
-              3355      page-faults                      #   13.751 /sec
-      747830935069      instructions                     #    0.73  insn per cycle
-     1019609333322      cycles                           #    4.179 GHz
-      157722976668      branches                         #  646.444 M/sec
-         348984893      branch-misses                    #    0.22% of all branches
+Currently, holes larger than PAGE_SIZE cannot be handled because
+ZERO_PAGE is limited to a single page. Add copy_zero_to_iter() as a
+wrapper to support copying larger zero ranges to the iterator.
 
 Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
 ---
- mm/filemap.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ mm/shmem.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 4e636647100c..d54450e529bd 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2458,12 +2458,16 @@ static void filemap_get_read_batch(struct address_space *mapping,
- {
- 	XA_STATE(xas, &mapping->i_pages, index);
- 	struct folio *folio;
-+	pgoff_t next;
-+
-+	if (unlikely(index > max))
-+		return;
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 458853c506ea..96ea5a4c0aff 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3336,6 +3336,20 @@ shmem_write_end(const struct kiocb *iocb, struct address_space *mapping,
+ 	return copied;
+ }
  
- 	rcu_read_lock();
- 	for (folio = xas_load(&xas); folio; folio = xas_next(&xas)) {
- 		if (xas_retry(&xas, folio))
- 			continue;
--		if (xas.xa_index > max || xa_is_value(folio))
-+		if (xa_is_value(folio) || WARN_ON(xas.xa_index > max))
- 			break;
- 		if (xa_is_sibling(folio))
- 			break;
-@@ -2479,7 +2483,11 @@ static void filemap_get_read_batch(struct address_space *mapping,
- 			break;
- 		if (folio_test_readahead(folio))
- 			break;
--		xas_advance(&xas, folio_next_index(folio) - 1);
++static size_t copy_zero_to_iter(size_t bytes, struct iov_iter *i)
++{
++	struct folio *zero = largest_zero_folio();
++	unsigned long nr, ret, written = 0;
 +
-+		next = folio_next_index(folio);
-+		if (next > max)
-+			break;
-+		xas_advance(&xas, next - 1);
- 		continue;
- put_folio:
- 		folio_put(folio);
++	do {
++		nr = min(bytes - written, folio_size(zero));
++		ret = copy_folio_to_iter(zero, 0, nr, i);
++		written += ret;
++	} while (written < bytes && ret == nr);
++
++	return written;
++}
++
+ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ {
+ 	struct file *file = iocb->ki_filp;
+@@ -3430,7 +3444,7 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 			 * clear_user() not so much, that it is noticeably
+ 			 * faster to copy the zero page instead of clearing.
+ 			 */
+-			ret = copy_page_to_iter(ZERO_PAGE(0), offset, nr, to);
++			ret = copy_zero_to_iter(nr, to);
+ 		} else {
+ 			/*
+ 			 * But submitting the same page twice in a row to
 -- 
 2.43.0
 
