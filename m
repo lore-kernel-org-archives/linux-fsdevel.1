@@ -1,171 +1,291 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E343B6C05;
-	Wed, 20 May 2026 08:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2728D3AC0EF;
+	Wed, 20 May 2026 08:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779265024; cv=none; b=ZhQrCc09lscBUiUJmFlrnI5RPK1CJYPd5EhWJouJVnOaM7FnBNU710NcypZ3DcXYp9WsZIuz6+3WM6NzCmcFgdtlg5cXJ9ZlLAsyAVkPajHqK3AMXE3poUdPaAV8aM7NTi0WoyRhG+hlDTVs6qQ2a75Y9VzW+AW0Tmqv/l+65X0=
+	t=1779265145; cv=none; b=X/SnF5S3vEYD0IDNCxrxuxU4usZvpmZ4WuDc8diZC69xNYrthO3JPBs/IlcOfyJByqg+yazSJV8DLmMkifGlWti8w+lCvBYxfMaehLutmKxVc+lAA+os4DBjQUZ2wjV8ThKinKkG/ffAO4sKFOkNh7ishZKTW9cwWfARHD7eJcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779265024; c=relaxed/simple;
-	bh=hEOV+xLBzps7dK3nmv8ZLA62uaADwLGePclh0jyux6c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=T60Hm6jmLoeBBtzXHGg+/XTu0KDh5wLO/1lbO6gVAJGN+BtWfVYXrXMGffM5z5D5U9mGPfd87f+ptoJ90XIc3On7CNqkrCuNWU4qq2dAQfpeojtKCMbgNl7760G2OBQfr5rTmK126ssOFQX3H4/lwlsanIXnUwu5cGJuiRL+RV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UqzKajWH; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UqzKajWH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D81EC1F000E9;
-	Wed, 20 May 2026 08:17:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779265022;
-	bh=B/xV4OqGJtER2rnDgnxjP8aamK2J2sLdEwWrq99mTmY=;
-	h=From:Date:Subject:To:Cc;
-	b=UqzKajWHqb+6PNHvtRHuQeSe8iOoOZzqLEdnXrPTAqA3hGUeymQaHg0i5K5u0go9p
-	 zbIjI/a6QEmNpZgB5cNrIU4YFQSM8+O/npiPsiDCqudjuHZ4XwhB3hLu30SW7dWf90
-	 d3XUT1/DvDA0p1BHHZBqLb7BKcQqIcrZ1UpUy9+eR3m5ylvYXJWu//dKzbujmLli84
-	 m1rG6gVNRi3KYtbqSLX9FK4TdPCTKdIbAZQq7WQoc9fWoqhxvwXHG5Gyz2Ajqvwuc3
-	 24NMAL1wu6N2MmAP5nfg0eMFhP8u+z15BEtGUFxxAhaVggOqgWds2GT9frkLX7ZWcC
-	 YffZu/xlBm2uw==
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Date: Wed, 20 May 2026 11:16:51 +0300
-Subject: [PATCH] init: do_mounts: use kmalloc() for allocations of
- temporary buffers
+	s=arc-20240116; t=1779265145; c=relaxed/simple;
+	bh=qlUJuifKyPHNyGOFggkzyJz0MoHxT+iKVvcrH2y9yqg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bsHfjL0KOsM5ndTAWN0FlJxH1tROPEq6Aqv7OLi8tjsrQi+cLrGIeoV7dRsrhqlh+gziVlds3aWoVMQHwGZNAij+wJRfhGWbPNxFGCP2Qie7gnH1EypxU4Lo3FYYaYqYXDZWWlkAIERh13zg0rd6Az2BTzcwX0Xz3d4Nq4/8P20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gL4DG4Gt9zYQtwD;
+	Wed, 20 May 2026 16:18:06 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id A502440578;
+	Wed, 20 May 2026 16:18:50 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP4 (Coremail) with SMTP id gCh0CgAHz1pobg1qDNjhCw--.5139S3;
+	Wed, 20 May 2026 16:18:50 +0800 (CST)
+Message-ID: <a1e84c7e-c241-44bd-8289-b8909c17b3b9@huaweicloud.com>
+Date: Wed, 20 May 2026 16:18:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/23] ext4: do not use data=ordered mode for inodes
+ using buffered iomap path
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-8-yi.zhang@huaweicloud.com>
+ <agw-Wt4c4Fwevezk@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <agxmG0MhIywySPaA@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <agxmG0MhIywySPaA@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260520-init-v1-1-aaf2ebac5ad9@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAPJtDWoC/yWMQQ6CMBBFr0JmTWOZtCR4FcOiU0cZNcV0gJgQ7
- m6ry/fz3t9BOQsrnJsdMm+iMqcCXdtAnEK6s5FrYUCLvfVojSRZTOcxDG5wPaOHor4z3+Tzu7m
- Mf9aVHhyX2laDgrKhHFKc6kTuRK85PuE4vpBa+waDAAAA
-X-Change-ID: 20260520-init-152a94946e25
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Mike Rapoport <rppt@kernel.org>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3243; i=rppt@kernel.org;
- h=from:subject:message-id; bh=hEOV+xLBzps7dK3nmv8ZLA62uaADwLGePclh0jyux6c=;
- b=owEBbQGS/pANAwAKATkDhibLDv2RAcsmYgBqDW35bx0+sRUhpBsEehlgNGBwsmYfYqIoq3ABv
- O4XWrYEypeJATMEAAEKAB0WIQR45VhVpZkvn3TRr+k5A4Ymyw79kQUCag1t+QAKCRA5A4Ymyw79
- kbGbB/4olTVytxkGtnPOlA/z35C0vEnA3naWGyc2qN34UaPtYTSoLiSwyrtQtQTMq/MK8A/rQ1N
- nX0NIRc/DnbSHUPwcvZLQQ2LGDCljYAYCwi4eag5gZ8W3Mhhvlei3BkUfTZLEzR/wVvbiE4Llyj
- gSA15MND7ShHWLKMgHjpGaocJlKQhnP93ZThTCI8mWZXIijk1Nd0hDIdWHo0praoy/oku5dnTnu
- gFzZAqi4oGBKOC+//pCQBFP9/hAzX1Q+T5edvKZOelDcHejrU6a9SnzWrLbsdtaM1zqoHO/SQxY
- 2IONtVb9Xex0o2D94jZsrG7q0wOA46yjFppAogstvdNEN0vr
-X-Developer-Key: i=rppt@kernel.org; a=openpgp;
- fpr=B8E96E880C4A40C3C1255AA8C532392DE6DA7CE9
+X-CM-TRANSID:gCh0CgAHz1pobg1qDNjhCw--.5139S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3Aw1Utw1DtrWrKFW5Ar43Jrb_yoW3GFW8pr
+	WrKas8Kr4kZry7urn29FW0qr10vw45Jr47Wr17WFsFga90yF1xKFW7K3Wa9FyUtrn3G34I
+	qF40y3s7uFs0yrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
+	v3UUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-Several places in init/do_mounts.c allocate temporary buffers for
-filesystem names or options using __get_free_page() or alloc_page().
+On 5/19/2026 9:31 PM, Ojaswin Mujoo wrote:
+> On Tue, May 19, 2026 at 04:11:30PM +0530, Ojaswin Mujoo wrote:
+>> On Mon, May 11, 2026 at 03:23:27PM +0800, Zhang Yi wrote:
+>>> From: Zhang Yi <yi.zhang@huawei.com>
+>>>
+>>> The data=ordered mode introduces two fundamental conflicts with the
+>>> iomap buffered write path, leading to potential deadlocks.
+>>>
+>>> 1) Lock ordering conflict
+>>>    In the iomap writeback path, each folio is processed sequentially:
+>>>    the folio lock is acquired first, followed by starting a transaction
+>>>    to create block mappings. In data=ordered mode, writeback triggered
+>>>    by the journal commit process may attempt to acquire a folio lock
+>>>    that is already held by iomap. Meanwhile, iomap, under that same
+>>>    folio lock, may start a new transaction and wait for the currently
+>>>    committing transaction to finish, resulting in a deadlock.
+>>
+>> Right, makes sense.
+>>>
+>>> 2) Partial folio submission not supported
+>>>    When block size is smaller than folio size, a folio may contain both
+>>>    mapped and unmapped blocks. In data=ordered mode, if the journal
+>>>    waits for such a folio to be written back while the regular writeback
+>>>    process has already started committing it (with the writeback flag
+>>>    set), mapping the remaining unmapped blocks can deadlock. This is
+>>>    because the writeback flag is cleared only after the entire folio is
+>>>    processed and committed.
+>>
+>> Okay so IIUC, if we do end up using iomap with ordered data, there are 2
+>> codepaths with issues here:
+>>
+>> txn_commit
+>>   ordered data writeback (say it goes via iomap)
+>> 	  folio_lock
+>> 		iomap_writeback_folio
+>> 			folio_start_writeback
+>> 			  iomap_writeback_range
+>> 				  ext4_map_block
+>> 					  txn_start
+>> 						  wait for tnx commit - DEADLOCK
+>>
+>> Currently we avoid this by having ext4_normal_submit_inode_buffers()
+>> pass can_map = 0 so journal flush makese sure not to start any txn.
+>>
+>> Then we have
+>>
+>> txn_commit                          background writeback (via iomap)
+>>
+>>                                     folio_lock()
+>>   ordered data writeback
+>> 	  folio_lock
+>> 			  
+>>                                 		iomap_writeback_folio
+>>                                 			folio_start_writeback
+>>                                 			  iomap_writeback_range
+>>                                 				  ext4_map_block
+>>                                 					  txn_start
+>> 																						  wait for txn commit - DEADLOCK
+> 
+> Sorry I forget to remove tabs
+> 
+> this is what I meant:
+> 
+> txn_commit
+>   ordered data writeback (say it goes via iomap)
+>     folio_lock
+>     iomap_writeback_folio
+>       folio_start_writeback
+>         iomap_writeback_range
+>           ext4_map_block
+>             txn_start
+>               wait for tnx commit - DEADLOCK
+> 
+> Currently we avoid this by having ext4_normal_submit_inode_buffers()
+> pass can_map = 0 so journal flush makese sure not to start any txn.
 
-Usage of alloc_page() APIs is not required there and only creates
-unnecessary noise with castings or conversion from struct page to void *.
+Yeah, but we can also solve this problem by adding similar tags. This
+is not the most difficult part.
 
-kmalloc() is a better API for these uses and it also provides better
-scalability and more debugging possibilities.
+> 
+> Then we have
+> 
+> txn_commit                          background writeback (via iomap)
+> 
+>                                     folio_lock()
+>   ordered data writeback
+>     folio_lock
+> 
+>                                     iomap_writeback_folio
+>                                       folio_start_writeback
+>                                         iomap_writeback_range
+>                                           ext4_map_block
+>                                             txn_start
+>                                               wait for txn commit - DEADLOCK
+> 
+> 
+>> 	  
+>> Currently, this is taken care because we try to start the txn before
+>> taking any folio locks/starting writeback, and hence we cannot deadlock.
 
-Replace use of __get_free_page() and alloc_page() with kmalloc().
+Yeah. You are right! Actually, this deadlock scenario should essentially
+belong to the first category: "Lock ordering conflict". This is not the
+scenario I want to describe here. The problematic scenario is as
+follows:
 
-While on it, add a check for -ENOMEM condition in mount_root_generic().
+T0: Assume we have a folio contains four blocks, from front to back,
+    they are A, B, C, D. The last block D is written in delalloc mode
+    (the block is not allocated yet).
 
-Link: https://lore.kernel.org/all/635405e4-9423-4a25-a6e7-e03c8ea0bcbe@redhat.com
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
-This is a (tiny) part of larger work of replacing page allocator calls
-with kmalloc:
+T1: The writeback process starts to write back data, set writeback flag
+    on the folio, allocates block D, and adds it to transaction N's
+    order list of jbd2 in JI_WAIT_DATA mode.
 
-Also in git:
-https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/init
----
- init/do_mounts.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+T2: This folio completes the writeback and clears the writeback flag.
 
-diff --git a/init/do_mounts.c b/init/do_mounts.c
-index 55ed3ac0b70f..95e0b3a0f711 100644
---- a/init/do_mounts.c
-+++ b/init/do_mounts.c
-@@ -143,16 +143,14 @@ static int __init do_mount_root(const char *name, const char *fs,
- 				 const int flags, const void *data)
- {
- 	struct super_block *s;
--	struct page *p = NULL;
- 	char *data_page = NULL;
- 	int ret;
- 
- 	if (data) {
- 		/* init_mount() requires a full page as fifth argument */
--		p = alloc_page(GFP_KERNEL);
--		if (!p)
-+		data_page = kmalloc(PAGE_SIZE, GFP_KERNEL);
-+		if (!data_page)
- 			return -ENOMEM;
--		data_page = page_address(p);
- 		strscpy_pad(data_page, data, PAGE_SIZE);
- 	}
- 
-@@ -170,19 +168,20 @@ static int __init do_mount_root(const char *name, const char *fs,
- 	       MAJOR(ROOT_DEV), MINOR(ROOT_DEV));
- 
- out:
--	if (p)
--		put_page(p);
-+	kfree(data_page);
- 	return ret;
- }
- 
- void __init mount_root_generic(char *name, char *pretty_name, int flags)
- {
--	struct page *page = alloc_page(GFP_KERNEL);
--	char *fs_names = page_address(page);
-+	char *fs_names = kmalloc(PAGE_SIZE, GFP_KERNEL);
- 	char *p;
- 	char b[BDEVNAME_SIZE];
- 	int num_fs, i;
- 
-+	if (!fs_names)
-+		panic("VFS: Unable to mount root fs: not enough memory");
-+
- 	scnprintf(b, BDEVNAME_SIZE, "unknown-block(%u,%u)",
- 		  MAJOR(ROOT_DEV), MINOR(ROOT_DEV));
- 	if (root_fs_names)
-@@ -242,7 +241,7 @@ void __init mount_root_generic(char *name, char *pretty_name, int flags)
- 	printk("\n");
- 	panic("VFS: Unable to mount root fs on \"%s\" or %s", pretty_name, b);
- out:
--	put_page(page);
-+	kfree(fs_names);
- }
-  
- #ifdef CONFIG_ROOT_NFS
-@@ -343,7 +342,7 @@ static int __init mount_nodev_root(char *root_device_name)
- 	int err = -EINVAL;
- 	int num_fs, i;
- 
--	fs_names = (void *)__get_free_page(GFP_KERNEL);
-+	fs_names = kmalloc(PAGE_SIZE, GFP_KERNEL);
- 	if (!fs_names)
- 		return -EINVAL;
- 	num_fs = split_fs_names(fs_names, PAGE_SIZE);
-@@ -360,7 +359,7 @@ static int __init mount_nodev_root(char *root_device_name)
- 			break;
- 	}
- 
--	free_page((unsigned long)fs_names);
-+	kfree(fs_names);
- 	return err;
- }
- 
+T3: Before transaction N commit, we punch block B and C, and overwrite
+    A-C,
 
----
-base-commit: 5d6919055dec134de3c40167a490f33c74c12581
-change-id: 20260520-init-152a94946e25
+T4: Transaction N commit and folio writeback are running concurrently.
 
-Best regards,
---  
-Sincerely yours,
-Mike.
+Transaction N commit        folio writeback(iomap)
+
+                            iomap_writeback_folio()
+                             folio_start_writeback()  -- set writeback
+
+jbd2_journal_finish_inode_data_buffers()
+ __filemap_fdatawait_range()
+  -- wait writeback flag to clear
+                               iomap_writeback_range()
+                                ext4_map_block() -- map block B and C
+                                 start handle
+                                  wait for transaction N commit
+                                   - DEADLOCK
+
+IOMAP does not support submitting partial folios during writeback.
+Therefore, the writeback flag is cleared only after the entire folio
+has been submitted. As a result, the commit of transaction N would never
+wait for this flag to be cleared if we need to map some blocks in this
+folio.
+
+Currently, this is handled by ext4_bio_write_folio(), which supports
+writing back partial folios. The writeback flag is only set after the
+block has been mapped and before the bio is actually issued. There are
+no other limitations that would block this flag from being cleared
+after the I/O is completed.
+
+>>
+>> If the above description makes sense, do you think it'd be good to add
+>> them to the commit message. The reason is that although these paths seem
+>> obvious when we look at them a lot, it took me a good bit of time to
+>> understand what deadlocks you are talking about here :p
+>>
+>> Having the code traces like above makes it very clear.
+
+Indeed, these problematic cases are complicated and subtle. I also spent
+some time recalling this scene. I can add these code traces in my next
+iteration.
+
+Thanks,
+Yi.
+
+>>>
+>>> To support data=ordered mode, the iomap core would need two invasive
+>>> changes:
+>>>  - Acquire the transaction handle before locking any folio for
+>>>    writeback.
+>>>  - Support partial folio submission.
+>>>
+>>> Both changes are complicated and risk performance regressions.
+>>> Therefore, we must avoid using data=ordered mode when converting to the
+>>> iomap path.
+>>>
+>>> Currently, data=ordered mode is used in three scenarios:
+>>>  - Append write
+>>>  - Post-EOF partial block truncate-up followed by append write
+>>>  - Online defragmentation
+>>>
+>>> We can address the first two without data=ordered mode:
+>>>  - For append write: always allocate unwritten blocks (i.e. always
+>>>    enable dioread_nolock), preserving the behavior of current
+>>>    extent-type inodes.
+>>>  - For post-EOF truncate-up + append write: postpone updating i_disksize
+>>>    until after the zeroed partial block has been written back.
+>>
+>> I'm still going through how we are addressing no data=ordered so will
+>> get back on this in some time.
+>>
+>> Thanks,
+>> Ojaswin
+>>
+>>>
+>>> Online defragmentation does not yet support iomap; this can be resolved
+>>> separately in the future.
+>>>
+>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>>> ---
+>>>  fs/ext4/ext4_jbd2.h | 7 ++++++-
+>>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/fs/ext4/ext4_jbd2.h b/fs/ext4/ext4_jbd2.h
+>>> index 63d17c5201b5..26999f173870 100644
+>>> --- a/fs/ext4/ext4_jbd2.h
+>>> +++ b/fs/ext4/ext4_jbd2.h
+>>> @@ -383,7 +383,12 @@ static inline int ext4_should_journal_data(struct inode *inode)
+>>>  
+>>>  static inline int ext4_should_order_data(struct inode *inode)
+>>>  {
+>>> -	return ext4_inode_journal_mode(inode) & EXT4_INODE_ORDERED_DATA_MODE;
+>>> +	/*
+>>> +	 * inodes using the iomap buffered I/O path do not use the
+>>> +	 * data=ordered mode.
+>>> +	 */
+>>> +	return !ext4_inode_buffered_iomap(inode) &&
+>>> +		(ext4_inode_journal_mode(inode) & EXT4_INODE_ORDERED_DATA_MODE);
+>>>  }
+>>>  
+>>>  static inline int ext4_should_writeback_data(struct inode *inode)
+>>> -- 
+>>> 2.52.0
+>>>
 
