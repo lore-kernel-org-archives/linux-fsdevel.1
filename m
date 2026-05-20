@@ -1,198 +1,127 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from relay3-g-c.mailbaby.net (relay3-g-c.mailbaby.net [67.217.53.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B963403E6
-	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 19:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F7C352026
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 19:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=67.217.53.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779305060; cv=pass; b=UA7DxmkvT9+2zIPmbA8K4Z786/y/bhSVi4erXMWOUQsYjz9LyyUKba/qyOq3hb9kmx6gaQERkabs3o6BoCRKhNddgOMAJrhq82eq5KIY+vtokT9ECzmV8KHHTpR4ekOgBzCNDfoJKPGb7BEo8SLZ/6T7vLJ6C5+esWzNJvvrXHU=
+	t=1779306676; cv=pass; b=F+OqiXHyPxhphyIJQs0GhO8buBeXUc+JeVJjq+x0ue+9ZnJlXUItAiDb57lssBTOJoCm6WMP4hRBlUwdPj1HW0YmuP8VijK/pelY+OrSfviXXyzfkaPatMx7a31RwsSS0reG4pttwvbBtI+2y6+4ySF8EIISvnbuqCOu57X1f6I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779305060; c=relaxed/simple;
-	bh=RYQhR4/pwAjfTBfaUV6x4DC9DCiz845tJhWNEUuUUmU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bRljOA9VYsFUMaYL9mY1Im1C9mnb2apJy2pWphMcxQ3GJWEuoln1votKZvpzmjI5wY3U7M4IEw9T2l9FuGKPEyrrYixaGOK/PU6RiGYazE8pvnTr3MvwEJCz2UYym6Ie4e0/OQer/ZTA3OSUAdBL/ZE+zIw1Rzeg2h9iroXboVs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TL/15FJJ; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779306676; c=relaxed/simple;
+	bh=Dnv70gKF+9iqSmEfvo/HWBaqzsm6hs/SkCywC5me2to=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=d8I04nw2UeHuUnBcnkfdUL/z+X8648gg/Q598ZzQ8jy+9l8fJUD0PkItHegV2lmesZMhG5QGAK+hCYFQppVGOjmYZUxyM6dwLl/5jI2dH9Z1MAF25UyrAzGCLEElEmownFXhyMb2P6EA8Xlp2Mj5DsDV0CPhKHmvbiX8aU9CLEk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev; spf=pass smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=qFI9FEQU; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=h5G10O/h; arc=pass smtp.client-ip=67.217.53.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=agatha.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TL/15FJJ"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-687ed9aabb3so400184a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 12:24:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779305057; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EUmAHRBrjlZ+VA3JNoMl7ovrlEJfUhYEaa+FlNhS1g4XN+dJ7meAmVcJ7HhQbu2sBd
-         gz19EL5l1ZHin2h0+FMOvkCocv3q28pZbCx4HeZ4g66lZya+WZeJ3lXYaOMq6VZen2vb
-         vI3k/lFTBtSUoeXasnqFEROOuOt3HJ0wL6OYlinnDXWnkX3WK/4ztum7g3CF0IYTbKIP
-         MaRJDxeqq04Z9e5WsNrYpPMt77y7SxrStLnPuCNoK9pRThdZWr8N8gT67wvW38dd/xDa
-         +ipGhjvpjVZAL8nbTH2sVAyR3hq91alOypIGwHt9CIT7v8IhJIrzpJRwjphWqkB7OE1E
-         /aVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MywtOlXewxjrYMqMQj5KpULsLy3W5gueIKRBIijwzkA=;
-        fh=MH2hv5zL7nXr/RbxC1NCjrzO8q5djU+khJfTfZNZOnE=;
-        b=cnAt98kT0BTFtR635CbV6UtenQWzmdQSvtCHXrU71tKBDB12QKwRft+HJ0ztf6i3uc
-         9Wu9oANaNFTXrY+MZ4zewQeqk9vtCf62KCSQnhRy48KAgjA/L4mtF8T4ZRMBKCW6LFc1
-         3nw/sM5fK6YJbIyYIqbbErmvAG0ZT9ZY09doNDsiV91uFSMhgqQf1XJkIeH9wJo4tINz
-         LYsRD3LTg9lDK88zqak5/vC4xkADfyYy231w1WVgKWFnP8XJKtp7ZtSabcsojxkvJJNV
-         PDwAUSrN3onMiXc7dG9JaB7tZ3o0L32OGepJJhv8DJaXQWnzWtTvTT0sqoBHsOgeGHGi
-         P9Tg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779305057; x=1779909857; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MywtOlXewxjrYMqMQj5KpULsLy3W5gueIKRBIijwzkA=;
-        b=TL/15FJJ+4F1He32HhQGsa6hkdepo98vMs6kq2x0J6jmyDzlR1LBcN/PXcdSwJDVrQ
-         e7RNOSwnHJuUvgSO0Fo2x035ICPMna+9lGlcCKNZlW4XcTjHur18Rn3RgLQ4VQQdCEiP
-         y8iUgl8OKjtHWvz8Xt5cWDWaKmorVgeHYUFzIimq4Uj3I7NesYJkvH/0LsOYIWg3U5cZ
-         sY3xAR5kgZ68MKnz+2ENZfsWKg4vw0fHZIBhWkBj6MckzY/xnb20yB1EilGaTMfvM+Vp
-         Z8735igb9EKTiWmOcj5tVvKx6VCjsFOUE+ZoWtUpi6IYMrcik+hdY7LgrK+hRH6ZdMxI
-         OCvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779305057; x=1779909857;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MywtOlXewxjrYMqMQj5KpULsLy3W5gueIKRBIijwzkA=;
-        b=P2ECUytX7cqQHrhE8vLCxD3IuXNmR65Xh0Js6OGJJ2mz99urJ/QY/GrQHHXPYjc2kX
-         5SQlUAqZIi+nw1yHSKvzriXHiOKWOeW0di97Z7mthd31Om2WEY73+Yae7oqVsAWUdxt0
-         ikOlEpuadzpdUE6BgItUQQ2cpIGOCxRDT5LxyRzrQHei0IMKTUsncwpa6pTPqXWagV07
-         A51UH0FNdzKbBzjmzpuu16znqkfEsDZasCZmOIPymMskJqnGpEQrBwaLj8+I4u1qLytv
-         oYPOZ7crPnZM054OrbNedzWCNdMckHzZgzkj5ZlqdgmwZG4bD+X+4XVhJ38DpqTDS2x8
-         rFsA==
-X-Forwarded-Encrypted: i=1; AFNElJ8X+MwhkIKQcaQh46mUTwtfAhJV3Yhe3JNOP/ivbzAYVdM7UOtdLf8r+XlH7HMnTJ/3zFQZZ/rlU6BKcEdB@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywr2Iwa/lrQLfTO4g+cNVLGoyKLzMFsUKTEsFdt/0Lp7egdaucX
-	RfLIoYWHc+0+s3iDEkeY+nYh4jfAefdy3tAPm8otfq/5rchJKLV1xET+crlekxeFqYOcIRxHpQl
-	VWNA5I3DIKpeuPCYf+BgoQZPgbclQpT8=
-X-Gm-Gg: Acq92OEJggO4HkfudykHehhjFwwYij/8SuD1xqNxCF5pNswLnMDe8GLXZh7c9KMAc9O
-	dDNndjj44w24lK7JdYt4+9vSPklBml1XAEwVX04qUdvu4UPdmxn6xERiCOSS0NUcspG1BJz7U91
-	icmrxNPR0h3lv2gFg68Fgh6Er+r5tFnBWXp2+30H1foNabmjpn3lJ/YfE/RH7yxC2cyt1TPPf7p
-	jM0Aw7jQRj8FtqTp5ZtJuw8ksdI8nwz8YvoVAczG+Ga3a3luSWIOEDFEOEOMy4Tita/vMt9NfLC
-	OCMWc7HbuzxHV0zdufQAuY4sPSzPyChvGF8dhRlPTg==
-X-Received: by 2002:a05:6402:450a:b0:687:325e:748d with SMTP id
- 4fb4d7f45d1cf-687325e7618mr1999814a12.17.1779305057158; Wed, 20 May 2026
- 12:24:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="qFI9FEQU";
+	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="h5G10O/h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
+ q=dns/txt; s=key2; bh=2w6HGaO36EDcrY4et/DG50qbmUBZzcp9XzaDSNrVQos=;
+ h=from:subject:date:message-id:to:mime-version:content-type:feedback-id;
+ b=qFI9FEQU039pbzkJ2FDAtbJjrLpQQoUDscC70JvkVwYxRhufGqfbLtS8TjW7s5ztXGrjTN/Dc
+ X+vZD426UiBSH1zo18+C1vzSmFfwJNjEcGzlGpxkWngggPbzXiRfukwpxvsBV6/00EwS0LLOm5d
+ cTHZS1FrkMnoW+kXRi/+/7A=
+Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
+ (Authenticated sender: mb6724)
+ by relay3-g-c.mailbaby.net (MailBabyMTA) with ESMTPSA id 19e46ec330900071cb.001
+ for <linux-fsdevel@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Wed, 20 May 2026 19:45:45 +0000
+X-Zone-Loop: 1856c4dbb7f4f43b9f81603cbb4c7d47f8829805935f
+ARC-Authentication-Results: i=1;	rspamd-cluster22.mailbaby.net;	auth=pass
+ smtp.auth=mb6724 smtp.mailfrom=code@agatha.dev
+ARC-Seal: i=1; a=rsa-sha256; d=mailbaby.net; s=detka; cv=none;
+ t=1779306345;
+	b=IyFQ5WPp3F62cIGeTe3MWoESMyFeEVHoWr/SJ8n0DmR21hRkFOds6VLwiM+5BREc7m7wL3
+	fIv+RUHmK5kXApuC2UmTiv34SAsFjFxOSH4K1gv6eRdvocOXdqoXUJxVuq0fz8gALD6fIZ
+	HE4ZCeOaQs+P6F7GHbAdwn3oQB3qqgaxTPlqsTfZcInvOzT1ZVPlbRzj9ZkzPySfEuPtsw
+	OSEx7qr2VSHCeUXORkj2Ib4XfPjwLeTLvUpBTAl6qfOsSwRmDvISm+XrnP05b3k8cz/DAW
+	SzmYmElS9T0k65RrZbEPAB3ham+ZaZe/m+vjEXpHoT3Qy0HMrYZecT4f4pY+3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailbaby.net;	s=detka; t=1779306345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 dkim-signature; bh=2w6HGaO36EDcrY4et/DG50qbmUBZzcp9XzaDSNrVQos=;
+	b=g1eweTUe6KDFteHXQ6Q0ufvVes0OV3G5ejBuYgSGaPPpj2i/UfDUgSMZStI5b2rzpilflk
+	o6iNCORUflgrLDyzPAJjXF2Sj0TFqZGzZcnHZE/JRUI1thVGkn5qRkSsvUEh76dyXNmF8l
+	hnbeczQn3PsmvBYnsRbOKnVblCRibjT4+kYJPLQixUVLAVsbUxj0z/KK7FQX1lxzJgOcMg
+	iuNiOJdi5BDSqKUYNd+KuPuT5db+6hnmPVwEjOLaGOSLbt8NjSyncpJgPBDVtGPbc7nTgu
+	nIIPiMr0aCOVnkKCJ20pvM10lPPZcEkXhd4Q5b+8nkWXPnMhW/VJbm6AQp5HZA==
+X-MB-ID: mb6724|me@agatha.dev
+X-SPF: pass
+Feedback-ID: mb6724:19e46e:507c5a5c5e5d585f7d5a5951:mbaby
+X-MAILBABY-ORIGIN: PASS
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
+	s=default; h=Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender
+	:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=2w6HGaO36EDcrY4et/DG50qbmUBZzcp9XzaDSNrVQos=; b=h5G10O/hhxlIR1Z3KTPrS6ytDI
+	Xpe77E/Emg5Zi0Cg6r7rL7n8MZ+reUDkb+mkQBPnzg1pjJ08uBk6l0ypwUkQFHx7yhIAcCXkRijRl
+	Y7+L3JWB9ol8wOZ+3ZaDzPlE0cV6xltYH+b+IvTYmk374VYUyT5vv8puKoJBN6f05an+d0HKZUkAp
+	uFwZs1NJjk52/Yup2/B8VI2KL6CdAUERapE5Rt5M9gc+Lk0UJ9oA9oe6fE/IKRIO+GU+8hh/vbWvb
+	O53TRhyfOcgWTAd0qhh0ebi+R+GeyJSVRzwsJX8gC6Vag7x+qCNVIPe9aswEctwJ59JvKoU6qU7tG
+	m1ETnpGA==;
+Received: from [170.254.153.136] (port=34429 helo=guidai)
+	by nyc3000-r.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.2)
+	(envelope-from <code@agatha.dev>)
+	id 1wPmrT-0000000EPaQ-0erX;
+	Wed, 20 May 2026 15:45:44 -0400
+Date: Wed, 20 May 2026 16:45:35 -0300
+From: Agatha Isabelle Moreira <code@agatha.dev>
+To: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	shuo chen <1289151713@qq.com>, Theodore Ts'o <tytso@mit.edu>, 
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, patch-reply@agatha.dev
+Subject: [PATCH 0/2] fs: refactor code to use clear_and_wake_up_bit()
+Message-ID: <ag4PEP52c8rxrYPc@guidai>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
- <20260512202336.GC9544@frogsfrogsfrogs> <CAJfpegsPqja+MzfmvCE5054y9pv1_cwPRH2uGmFws-wwxJmrZQ@mail.gmail.com>
- <20260519220359.GJ9568@frogsfrogsfrogs>
-In-Reply-To: <20260519220359.GJ9568@frogsfrogsfrogs>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 20 May 2026 21:24:05 +0200
-X-Gm-Features: AVHnY4Ln7lY5nmU0TWl6gzR2CNOIIBxLScEwRHXkKG8ot2v33vyDrK87LvFUFUM
-Message-ID: <CAOQ4uxg7mkmE+Y+2rrYodwng1ZZZ6PycbwaBufATH4KLOcRnXw@mail.gmail.com>
-Subject: Re: [post LSFMM summary] where is fuse going?
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel <fuse-devel@lists.linux.dev>, 
-	linux-fsdevel@vger.kernel.org, John Groves <John@groves.net>, 
-	Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
-	Horst Birthelmer <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-AuthUser: me@agatha.dev
 
-On Wed, May 20, 2026 at 12:04=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
-> wrote:
->
-> On Tue, May 19, 2026 at 11:01:18AM +0200, Miklos Szeredi wrote:
-> > On Tue, 12 May 2026 at 22:23, Darrick J. Wong <djwong@kernel.org> wrote=
-:
-> >
-> > > As for fuse-iomap I'm not sure how to proceed
-> >
-> > I will try to dedicate this week to reviewing fuse-iomap, hopefully
-> > without too many distractions.
->
-> Well gosh I had better get going on posting v9 then.
->
-> Since 30 April I've:
->
-> * Ripped out the BPF stuff after all the shouting
-> * Added a simplistic iomap filesystem striping mechanism
-> * Tightened some of the checking of the iomaps being given to the kernel
-> * Made it so that you can remove backing devices
-> * Actually check read/write access with the iomap bdevs
-> * Improved inline data write handling to be less flakey
-> * Amended iomap writeback so that you can run a standard ->iomap_begin
->   to collect mappings
-> * Banned freeze except on iomap filesystems
->
-> * Fixed some integer truncation issues
-> * Add some iomap helpers to libfuse to make it easier for fuse server
->   authors
->
-> > >  -- in the long run I think
-> > > it would be cleaner if each file IO path (virtiofs dax, passthrough,
-> > > writeback_cache, iomap, and whatever we call the original one) had it=
-s
-> > > own file_operations.  But that would require us to refactor the commo=
-n
-> > > code chunks from each file operation function into a bunch of smaller
-> > > functions, which I think would sharply increase the review backlog.
-> >
-> > And so the plan is rather to basically start from scratch and do that
-> > form the beginning in fusex code.
->
-> Heh.  In reading through the fuse code to figure out how I'd get that
-> done, I came to a few realizations:
->
-> 1. It really *is* easier if the server can set FUSE_CAP_IOMAP and from
-> then on every file on the filesystem does things the iomap way.
->
-> 2. Many of the random weird callers of fuse_inode_has_iomap() outside of
-> the regular file IO path are *actually* looking for "is this an
-> exclusive-mode inode"?  That's pretty much all of the file attribute and
-> ACL handling code.
->
+Refactor code to use `clear_and_wake_up_bit()` instead of manual calls
+to:
+       	clear_bit_unlock();
+	smp_mb__after_atomic();
+	wake_up_bit();
 
-When you use the term "exclusive mode" you mean the same thing as
-"local" filesystem as opposed to "remote" (or clustered) filesystem that
-can have attribute changes on the server and needs to implement revalidate.
-Is that right?
+The helper function `clear_and_wake_up_bit()` was introduced in
+'commit 8236b0ae31c83 ("bdi: wake up concurrent wb_shutdown()
+callers.")' as a generic way of doing the same sequence of operations,
+but several pieces of code still remain.
 
-Can we maybe stick to the "local"/"remote" terminology?
-Or am I missing something subtle?
+Replace manual calls to the operations by a single call to
+`clear_and_wake_up_bit()` to deduplicate code and standardize pathways.
 
-> 3. iomap and exclusive mode are mostly orthogonal concepts.  One deals
-> with plumbing, the other deals with attributes.
->
->    3a: iomap without exclusive: This is a clustered filesystem client.
->    The client grabs a file layout lease from the server, and uses that
->    to populate the iomappings.  Timestamp updates are forced out after
->    each write, but otherwise it's the same attr cache and timeout that
->    regular fuse uses
->
->    3b: iomap with exclusive: This is basically fuse4fs and all the other
->    local filesystems.  The kernel knows that the fuse server isn't going
->    to change the file attrs out from underneath it, so it can cache
->    timestamp updates in the kernel and only flush them periodically.
->
-> 4. Figure out how all the attribute handling works in fuse is really
-> really complicated.
->
-> But there are questions here -- I'd like it if the fuse server could set
-> FUSE_CAP_IOMAP and all files are iomap.  All the weird userspace inode
-> flags setup setup code goes away.  It'd be even nicer for 3b if you
-> could declare at mount time (or FUSE_IOMAP_CONFIG time) whether you want
-> exclusive mode or not, at which point all files *also* become exclusive
-> files.
->
-> The problem with 3a is that I don't have a client or any way to test
-> that.  If I just don't allow iomap && !exclusive, how sad would anyone
-> be?
->
+TESTING
+=======
+Boot-tested on an x86_64 QEMU virtual machine. Basic filesystem
+operations (create, delete, sync) were performed on an ext4 filesystem
+with `data=journal` modes. No issues were observed.
 
-My view is that as long as you keep the design sufficiently extensible
-to support iomap && !exclusive in the future,
-let those who care enough about iomap && !exclusive step forward
-to code and review and test it if they care enough.
+Suggested-by: shuo chen <1289151713@qq.com>
+Link: https://lore.kernel.org/kernelnewbies/agzoqV835-co4kAN@guidai/T/#t
+Signed-off-by: Agatha Isabelle Moreira <code@agatha.dev>
+---
 
-Thanks,
-Amir.
+Agatha Isabelle Moreira (2):
+  fs: buffer: use clear_and_wake_up_bit() in unlock_buffer()
+  fs: jbd2: use clear_and_wake_up_bit() in journal_end_buffer_io_sync()
+
+ fs/buffer.c      | 4 +---
+ fs/jbd2/commit.c | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+-- 
+2.53.0
+
