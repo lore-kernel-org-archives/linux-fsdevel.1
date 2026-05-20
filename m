@@ -1,160 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D873B6349
-	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 16:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC6F3F1AB9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 17:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779296325; cv=none; b=Z+9I6jIL2p72uZI7MBeSR64REhUHEXGyTEzK1V8UYAU7pHc29MIW3rMHmjE1HAFNy9SKP6E0LI16ih2cEVfF9tHaNzr0xVBR0Hjc/tF8vb0eDHFZpoyz5npRlIdorKCgg0WP3FrMUPliohM3DjtjWlff52pro0NF7cz3vLctwoQ=
+	t=1779296518; cv=none; b=QBRP65KrmneYwra7Q/k9C3K2pZueQOAcI6VQJ1HWm08EUX79IqhkeStMYYAAPY8+zVOcghNw2nsieLE1iLKRkBBK7VjkbgFmIARzJOJzFw9cVS5MkFmlLyXWbq907W413t2z1Rc1huuyFBKixsbB9+SAaiUORpR+KpsspcXIOlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779296325; c=relaxed/simple;
-	bh=HuRpGc2PUG4TKGlMk6ECKCEenG1oz34paklJhSdTDJs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Y5jFSPY5CTAWkfIJAV8F/0JMkSGvj+sdEYUHYAnQvQOUjvOdar20CKWl5gR8rx3HT3kCO8gvk6eAvdGDIb+dJcC6ga21H4mv70ywMkoQJ+BrFMFrFO+jrhFSTgDgW1WFKf7ex5auZahiSCTxrE069lHUID3OD4WnUARQ/QV9m9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XwOvrcCe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779296518; c=relaxed/simple;
+	bh=0uWX7BrhR8lyTmN8swbIV475LYsBo3E8Z7VRB2i+bvU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nBk06SW/SJduO7hlU9xTGN/k9qfHoxBOI5san4sfWzJ/fKpALxcRWBeOZTkjA3xisrj8maSIKjaiAfAatBK39d+swyYdt3rX7jhXX8tSZRndK0sIqow9z6lNiwEiSUZ6isv4p9D9ED+5tK5ruy08gF+sR6xBeuaLcp4jwPBH174=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rECNGLYR; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XwOvrcCe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41AF71F00894;
-	Wed, 20 May 2026 16:58:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779296323;
-	bh=3HYCTjUKnMgOBwx9QLeP6Mvnf90VdQqX6Kq1eV2MzLM=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=XwOvrcCeT+IGfxHzzR9arXlB/PmYyPmCRpPscCt4GEREzCsEX2CSRyxCtcp53p2yO
-	 wze5I5B2txsKEOX2rF3IrZfrgTsTKxBL1qWJXXHxjAjWGQrB7emvleEBi9U9CqHs40
-	 NAoG+vxON4BhMchASKo5y9afXerG+G/awQUQ0mxCCpU7ltJDjCApVtOFCg50stStur
-	 WKmyWYhkRjbRhGqNyTSTgpHtHMfq+YcV5xTyVUFuPU8WfCMpB9KX/MORK7WVFt6Pz4
-	 KnW2EkU+pJGdMeMcMwBwpFTDgEvy9n9dWxV2zPUYFSavjmn/P1bQivoxWN98WPhZy5
-	 dLHS+GF71eLJg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 653BFF4007D;
-	Wed, 20 May 2026 12:58:42 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 20 May 2026 12:58:42 -0400
-X-ME-Sender: <xms:QugNavyinx7bKrqL4HPeQunpcXbIaluZN7wF9StWTZXgR2qve6JZ-g>
-    <xme:QugNaiGhRRos_yOLWfm-5tiI1PIm-uXq5yDDMT3oiNGBSfN1wx_UeyhKOJHGIa_bo
-    cQ9rqE22bExtjIDyUHyrxhoLANTG9qDp37GvGe2tAPk0XVFu3TxC64>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeehudejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
-    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
-    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
-    hilhdrtghomhdpnhgspghrtghpthhtohepfeegpdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehsvghnohiihhgrthhskhihsegthhhrohhmihhumhdrohhrghdprhgtphhtth
-    hopegrughilhhgvghrrdhkvghrnhgvlhesughilhhgvghrrdgtrgdprhgtphhtthhopehs
-    lhgrvhgrseguuhgsvgihkhhordgtohhmpdhrtghpthhtoheprhhonhhnihgvshgrhhhlsg
-    gvrhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    gsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtvghmsehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopegthhgroheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:QugNamfaq2UpdXiWnPnay5nQ_rQckvm_41kR8NgaI4_lDDqQ4Yiy8A>
-    <xmx:QugNamv95ErjE6pb8okHjc44uM5BHK6ky05NPxz2-vrTiBeWgMpiJw>
-    <xmx:QugNaqupzmbSbdKQTrJcjN0dK0NknGvcRa4HhfzOtsthEH7eWtONFQ>
-    <xmx:QugNat90cmRSntFhphxoUhXn78eiEA_yq5VNO1np6BiZmUQI6kUYVw>
-    <xmx:QugNar9VQVV9Crz_mdTjuEL665Y3HC3jfH6afIH-rv2ZfQMjW6d6XLfr>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 33FD9780076; Wed, 20 May 2026 12:58:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rECNGLYR"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-83aea7d1fffso198009b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 10:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779296517; x=1779901317; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9S0q1fXPQGKCNPYBpd55OELJCxoFX0UBX1J/3iB/9UI=;
+        b=rECNGLYR+fsxargJ2lSG++amjIcbpDYRugNTUWhaSFjMJCHnlItyaoTIn5BHmXTh6F
+         l0i/33Hbe/NSwl3fRORu8vu1GIi6f96waCGqt7ei1Ic/BflmqxR2LR5eTKg+f+1b/aKY
+         /2C/t4pBGuoC7KzPK5FBvdoeaPhaHGUWvUGlI9j/tjG5jXSVvkvNK1e3r57Wgle2oX3n
+         THq48gxNbUykX3U+9fRMy4WG//R6+mjwdfyA7Z9o63qR5BcVmDJMysO0O+f+diC0WTKJ
+         FtYaYn9xYDAj6xFzQ2jU6jev27kOy8NkET9HSuiU4YfD/p/DkzZTjGzvpirAR7zcrK4O
+         KJFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779296517; x=1779901317;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9S0q1fXPQGKCNPYBpd55OELJCxoFX0UBX1J/3iB/9UI=;
+        b=mx3TRS8qSA+iGoHYuci/2TRsIXHht56UdO+SOBkPi1lUxfwZpS3SSwSCxYX+h+t4Wy
+         4jDA2K0STM7elaOPvvbqIX2qFQ3q6BokYfk/6xV0u4pnl0195X0toihuSeCqKE2Vw/sy
+         rn8vmpO7kNK5IrFUFOEAjNW2zhGm+F8oAMnlvRA2SvtyrKw9hGCdr6wPhSL0tl+eC653
+         /fFLJp5W1q2KyVtXIxAYAI91/TGGVWG9KL6DKfO8x2MzW3KfFyBpFCbZ2PBoCN+iJovO
+         W1HaIotBjxB94AYEUuk+S62UMlACX8DfADiduIowccEfLmuiilinFh4Vu5dUb0GEaB5d
+         kIbQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8Secx5KLmRUJIO0w0JSSXxdhqIMkwi6K1lbHX8/ehwdm+Dt7vgDIAcytD4vGwy3nTxrMPlQtQ6o8wccRcB@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAFMnXHP107XClJwu23ywTJVY0+C3dLlfx/doXHjTaP0w9huYv
+	Zznxjv0UYFOoDblPH/Mx+pRGN63spz03eJiBfuz6BZ1gL66Gzp9nb7ax
+X-Gm-Gg: Acq92OF8UbWIzwUHCop7gODEh+TQGSpc+AFNxm+c2B8BWUE1Q8AbcMexxB5F1LEqMSb
+	3fyfUA2KPElrcRWCLCgfDUQpbdfP9Dz9CKOL4XTFUTr1Z5ajAn9l5gfvFCyt42HUg0nau9QGs9N
+	nLkY9jxfmASzZ0g+VVeVVs7p6DMoLj9O9O2sXu0miV/zedtOKFTU8oJRwECrUZ79X9APgXU4Lwq
+	hdSyb9ZppbjxCZWHLTx1NNNMa/p1xTW4OXHWOhJJnmXgLS9dgFALNAG7+qhlBcaYLLh8020xIUH
+	qpgoKp5pwD2hBfGNGHCy3WVbgW6TJAjXpduPoOCoZd8HFf0kDPJ4e6FgUGTxcmjNhK+cQJrrOpU
+	4iKyj77AWwUWR2bPtfWPjniCEh7J7pDz6nnQDYDbjw91tbrI9x1kxqHvMypYKQeliAFdM5SwU5j
+	deHWTTKYjIHb0TCXR1tDDRV1BTnyQ=
+X-Received: by 2002:a05:6a00:e16:b0:82f:1da:9781 with SMTP id d2e1a72fcca58-83f339b4397mr13360803b3a.0.1779296516256;
+        Wed, 20 May 2026 10:01:56 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f1942a83fsm22125954b3a.0.2026.05.20.10.01.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 10:01:55 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	DaeMyung Kang <charsyam@gmail.com>
+Subject: [PATCH 0/3] ntfs: fix mount failure cleanup and free-count setup
+Date: Thu, 21 May 2026 02:01:48 +0900
+Message-ID: <20260520170151.4115308-1-charsyam@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AuvJ25pICu_N
-Date: Wed, 20 May 2026 12:58:22 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Mark Brown" <broonie@kernel.org>
-Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net,
- "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Sungjong Seo" <sj1557.seo@samsung.com>,
- "Yuezhang Mo" <yuezhang.mo@sony.com>,
- almaz.alexandrovich@paragon-software.com,
- "Viacheslav Dubeyko" <slava@dubeyko.com>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- frank.li@vivo.com, "Theodore Tso" <tytso@mit.edu>,
- adilger.kernel@dilger.ca, "Carlos Maiolino" <cem@kernel.org>,
- "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
- "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
- "Shyam Prasad N" <sprasad@microsoft.com>,
- "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Jaegeuk Kim" <jaegeuk@kernel.org>,
- "Chao Yu" <chao@kernel.org>, "Hans de Goede" <hansg@kernel.org>,
- senozhatsky@chromium.org, "Chuck Lever" <chuck.lever@oracle.com>,
- "Roland Mainz" <roland.mainz@nrubsig.org>
-Message-Id: <858d7233-1d9c-48f4-aa4f-c5a9f6e1f5dc@app.fastmail.com>
-In-Reply-To: <3a347b64-f91b-450f-b27d-26ea6810b960@sirena.org.uk>
-References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
- <20260507-case-sensitivity-v14-3-e62cc8200435@oracle.com>
- <dc69224d-9926-4414-8c6e-4c15ae98705b@sirena.org.uk>
- <04302551-3628-4036-9a3f-596cb782f5b7@app.fastmail.com>
- <a366645c-364d-4588-8a15-4cd446f64366@sirena.org.uk>
- <8b750b3f-4d73-41f3-84fb-6e387fd24168@app.fastmail.com>
- <3a347b64-f91b-450f-b27d-26ea6810b960@sirena.org.uk>
-Subject: Re: [PATCH v14 03/15] fat: Implement fileattr_get for case sensitivity
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Hi Namjae,
+
+This small series is based on current ntfs-next commit d8756162c6ca
+("ntfs: remove unsupported quota handling").
+
+The previous quota_ino reference leak fix is intentionally dropped
+because that commit removes load_and_init_quota(), the $Quota/$Q state,
+and the quota out-of-date marker path.
+
+The remaining fixes cover mount failure cleanup, a free-cluster precalc
+OOM path that can otherwise leave waiters blocked forever, and the
+$UpCase default-table alias check.  The free-cluster patch also clears
+the per-bitmap-page free counters on the conservative zero-free-count
+path so later allocation heuristics stay conservative after the known
+flag is published.
+
+Testing:
+- For patch 1, I built a DEBUG_KMEMLEAK/DEBUG_FS kernel and injected an
+  ntfs_fill_super() failure immediately after load_system_files().  Before
+  the fix, kmemleak reported the leaked volume label allocated from
+  ntfs_ucstonls(); after the fix, the same failure path produced no
+  kmemleak report.
+- For patch 2, I used QEMU with a debug injection that forces the initial
+  precalc readahead-state allocation to fail.  Before the fix, statfs
+  remained blocked in D state in ntfs_statfs(); after the fix, the waiter
+  woke up and statfs returned with the conservative zero free-cluster
+  count.
+
+DaeMyung Kang (3):
+  ntfs: free volume-wide resources on fill_super failure
+  ntfs: wake free-cluster waiters when precalc allocation fails
+  ntfs: only alias volume $UpCase to default on exact match
+
+ super.c | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
 
-On Wed, May 20, 2026, at 11:19 AM, Mark Brown wrote:
-> On Wed, May 20, 2026 at 11:12:51AM -0400, Chuck Lever wrote:
->> On Wed, May 20, 2026, at 10:54 AM, Mark Brown wrote:
->
->> > It's not testing tmpfs (well, it does but that passed), as the log above
->> > shows it is making a vfat filesystem on a loop device backed by a file
->> > that happens to be in a tmpfs and then testing that.  There's a bunch of
->> > filesystems covered in this manner:
->
->> OK. Is vfat the only failure in LTP statx04 ?
->
-> Yes, it's the only one showing as failing - there are four failures
-> correspoding to the four tests done for vfat.
-
-03/15 adds .fileattr_get = fat_fileattr_get for both
-fat_file_inode_operations and vfat_dir_inode_operations. LTP
-opens a directory (SAFE_OPEN(TESTDIR, O_RDONLY|O_DIRECTORY)),
-so FS_IOC_GETFLAGS on the dir now succeeds, and statx04
-proceeds where it was previously skipped.
-
-AFAICS, 03/15 did not change pre-existing kernel behavior of
-stx_attributes_mask on vfat. It merely converted a "skipped"
-LTP outcome into an "executed but failed" outcome.
-
-Fix options:
-
-* fat_getattr() could call generic_fill_statx_attr(inode, stat),
-  which advertises KSTAT_ATTR_VFS_FLAGS (IMMUTABLE + APPEND).
-  That clears 2 of 4 TFAILs but not COMPRESSED/NODUMP, which
-  FAT genuinely does not back.
-
-* Set stat->attributes_mask |= KSTAT_ATTR_FS_IOC_FLAGS in
-  fat_getattr(). Honest only to the extent that FAT now exposes
-  some FS_*_FL bits via fileattr. This would silence the test
-  failures, but advertises capabilities (COMPRESSED, NODUMP)
-  FAT doesn't track.
-
-* Admit the LTP statx04 test needs to be updated.
-  FS_IOC_GETFLAGS succeeding does not logically imply all four
-  FS_IOC_FLAGS-mapped STATX_ATTR_* bits are supported. The
-  test's gate is too coarse for filesystems that gained a
-  narrowly-scoped fileattr_get (just casefold/immutable). The
-  test's tag list pins it to filesystems that do support the
-  full set, but vfat was tacitly excluded by the prior ENOTTY.
-
-The first option is the narrowest kernel-side change, and
-matches what other minimal-fileattr filesystems do.
-
-
+base-commit: d8756162c6cab1ad4478539d33da6cab413af1ee
 -- 
-Chuck Lever
+2.43.0
