@@ -1,140 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B433EEAFC;
-	Wed, 20 May 2026 14:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779288869; cv=none; b=DJF/yK+KwfC5m70AKXmeow85hMCdI2Ch4BNw5zhAHLLZSnWIEkvB9VeSPgJqAqcQ7UNvAZdQbKNOzengmaAHpVxF8MydFw+30c2Zs8DuUsMyR2YoOrNf0Jek92ZfVO2Kw7cKFFXBTgPDeOXq5NDVbg5f7IjGcrzxF70xBoVkdRk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779288869; c=relaxed/simple;
-	bh=0WleoVsSF6DIQ4jURo//cebjzvzH0LIBjYk+UIV2ExU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NrE5zFNBDNNCnh8/w5H2XgwlcXfs0MSlIqdeqFnPacWtU37MjPciA96U/SUaWUHCxoLSf3tEw/9DSsVGa7kp0AyKtiWXqgQCyEbyCF5rlkw7lwtmMe286XZqi/F72oYA+DyP333M2rpl8yYBI6+mkOqXYtxO4BKrRvRzV2HXWXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7BUquWM; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4463F1AA2
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 15:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779289821; cv=pass; b=D3Tiph3pB0trj1VUkaimCCV6cQohBJoRpEoLeClC3uI3APXhuc8Spoek96QPtRh8M35AHg4Et2+Goc8tNQbiribBeFx+XVlaLQc1l0LivOrWtpLfHoJPJELnlknAO67QExacXapXu4ReLx2wdPDKzg3kFNpluSlB4gWtFWBdXMw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779289821; c=relaxed/simple;
+	bh=OAaWFz+TsGAnH6xUI8XNHHJOVMUgnRQNUGTfqeeoGlQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nEIRzaMZgp+Rur2QJOaOYH2BXPRyCOW/5UeXKevdh0bDherQYdOymq/lD6MIg8QzL1kfu/k8VTsztcejklHryuy2chK3CnKQXWLgqk7oPsB+dUiPZTlrF8OtcqJZc0BdFpPkrsSGG4IBmcCTCEdrfXFLH58olBdmIg3aP7rQlAY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dRZUTszu; arc=pass smtp.client-ip=74.125.224.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7BUquWM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DB7C1F000E9;
-	Wed, 20 May 2026 14:54:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779288868;
-	bh=EF/z1JMTovCoIkUK08MjfWLNJEF3oJnTiZ8s4BwI6WM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=i7BUquWM+GzT5Loj4HImvGnslZN5O8M76hxF3P2O8VdMkBcjjYYsc9lxCiB32ChOY
-	 QTiXALcqjDaCzvkzU/TWUOt3ohN9IsADHPmSsfwrWoFYzew+zdoaogT9fcWPNJ4J0t
-	 eQG2BymH3ar4vNyD7Gc10sgJd3MCnoDXgE9K+EwvALN9IJ4NfcMR6P51pVJKqWJfTi
-	 YhUBFq7+6R6pmhANAI984Nq0GT5/gNr7d7kwojANpWIRN+qBGa9+lXENqEColGqqpe
-	 SG9mMiVgXdhV4lrnhixs3HZXMU4xqXQjnPs9tBfxcYfBLdfakIuU4msHVIp3V5N/mI
-	 ZIxBIGAwC8SUw==
-Date: Wed, 20 May 2026 15:54:19 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	almaz.alexandrovich@paragon-software.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	frank.li@vivo.com, Theodore Tso <tytso@mit.edu>,
-	adilger.kernel@dilger.ca, Carlos Maiolino <cem@kernel.org>,
-	Steve French <sfrench@samba.org>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	senozhatsky@chromium.org, Chuck Lever <chuck.lever@oracle.com>,
-	Roland Mainz <roland.mainz@nrubsig.org>
-Subject: Re: [PATCH v14 03/15] fat: Implement fileattr_get for case
- sensitivity
-Message-ID: <a366645c-364d-4588-8a15-4cd446f64366@sirena.org.uk>
-References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
- <20260507-case-sensitivity-v14-3-e62cc8200435@oracle.com>
- <dc69224d-9926-4414-8c6e-4c15ae98705b@sirena.org.uk>
- <04302551-3628-4036-9a3f-596cb782f5b7@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dRZUTszu"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-65e81d623bbso132052d50.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 08:10:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779289819; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hu3bfax5LGBZG8b4s/ZK5/Ifc6cJhnNkCi2mktoxZdlir3vJJn5bvoDmhioRP88iNL
+         FelT2OHpq5Tjhz0KojUjaMF4zfBwxQruNPrq2BbQVIOFJS/6kx9nVyPR5sA6tgFR2f1w
+         ComxJlNxDo2/7NCrcMFvxfjfeX2nLsxKNjyFmkSdOPVdmbW1AfGxGksZeTUdoNPUvn5P
+         h8+qqtbohDFxzBH79atTe64dp9M160MztowBQxQFRfq3ehiS4tiF1arNWm5Yno6L7GVk
+         HQAT2suoZ1VZMhfae05tNtZ9aPokT9JLqqlRVnqQ98Zp04f9SUhAETRkHR74pzGK06qX
+         T9sQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SQ+qa2N+Xnvw5eZa8sMj4BZiW+dajk5hgBKqXhkpx2I=;
+        fh=+pOz2Ew0885TDGBrRboKcr4nXy2ciVrSBJl0gh+9Wz8=;
+        b=aL20eowqe4/fLFJ01dDUa1TWaJ7r2jW7EqZSqnYoJYP3gn8H55Wx5Udzhl/BdJ1AWa
+         oTSL5v0f1h5py00W0LfF/DExZHQjEirEYkSJoJFYREVS3nBxq/6MKpXHlLLCN7gqmKAV
+         wg9KuNIAyf5XckaIAo9qOFnrN0uradHbI9hipNgQw9cde/i11RnElLSYouWdR3NC9Xhq
+         iQPv3ozI4gTwflzokZE0FL2D8Dbaa7MwvDzJmG4RjiMGRwrj8z6IIBMAhoxBv7ernBxX
+         9zTY2PCrly474bT0mlP5QuD3qO3RJucQwKgKDheXYuqCu9nv4UW52VUURyXkLx0SSlrz
+         jvVA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779289819; x=1779894619; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SQ+qa2N+Xnvw5eZa8sMj4BZiW+dajk5hgBKqXhkpx2I=;
+        b=dRZUTszuJEuBlCe0+T8u2kMgiWc70K5xXz9eZ6zDn8NrmFvcImupWX5nJVNN4FfICa
+         vk7s0l/i07eX/9RXfMuCIezEFD7nyQ7CeCFJbB6QAxbuVdMt4kkqgUu7M9WfZj1gNTT8
+         y8WQN4Vx68Nn6yR/dfbcqgMsKL2thBEhJeIA9w+dCrvfTazibOxFw3oUoFyu//iWhNpx
+         SkVIWNrlQo8/qas02TBkRft882Oi1zqwgm4C7Ij65Z6OPysWLSPyvLNMCgTLKHQP2Mb1
+         xyIn7NMH9oUmqCwzRj9vfzQGbAUhnenHPPSn/OAYarW/e5azeC+Qf6AbND3S3wlpgCdF
+         hgxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779289819; x=1779894619;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SQ+qa2N+Xnvw5eZa8sMj4BZiW+dajk5hgBKqXhkpx2I=;
+        b=QLNYSeTU0tm41G3p74YT3oVjnuXm1jrvbEONgqXnA9PnJKn/MmelKzDLxJPsopUi1h
+         ekhRe3p0VItC1ffs1BvGsaehGg4NWrBuZWDtod0SuHn8O3CjcOBBxGeNjJHlAmcDzzKJ
+         VOzUQPFQRI4xs/Vm4ptObprjPAnfSiYFyYvOoK//lrEO5CdyXVLceZQkPtHdu3jlhSxv
+         qNu8UkOSR35PHkvJS3FM1sMX/uurdO+J+bFKBlwjQLxQcaM/nqdPXJYM6BRxb+T8yDZ9
+         +tO9uwPv0ozhupPuEqI2kLtulEVwnlhIEx7pqBIE/yqRSDrCVbcPAwGdxA+rcGq2kT6r
+         Ackw==
+X-Forwarded-Encrypted: i=1; AFNElJ/dlacdNDuzJb/Fcjz8uDVYzHnyEAs/nWxPe3M2tUyFwBWq3tKi+V/U5oZ7Hikp+iRiy/Nfy1HFVo/n3GP6@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDCwgbkQMCP9T9oVHenyNTaE5u4nQvGcn77U0uVs7kN3BaioIf
+	FQcwdnpNA+O5TyKiQLJ8AcUhfMRk6lnUDel09GE9Gh2pY2Lifbn3OgTr/ZSYp84WXmRVXKZNl3l
+	MN1QlGBZfbHFd/1fcjO9/Ad8OpJtQ4Fw=
+X-Gm-Gg: Acq92OFKmtgvyipC9blJHJj7dnI3rkf49F8V9Cfcb8DKbI6NQMNIO8C65EoExXVR//p
+	5o+ip2OoR3h2mITdjvPV3uxTVAdf+tbrCqGnop3SOEuVRYWG/qyNj/ndgosIzgNfWtkQP3Op5yF
+	oMW1tXiikkb0wkvSH2wTTzIatetED2UUCveggmLGiWZbDIcmkL1d8txxGx+QaPFbDOXVOX09iMR
+	nG17jG4eSYOSNj1VKRPCrhf7VWuc6849wZTKxj2FAssaBNy++4TNqPhYKC3K8zU6xXQgAYXN/4P
+	7+5+PcLpBg==
+X-Received: by 2002:a05:690e:b44:b0:654:a4fd:ebdb with SMTP id
+ 956f58d0204a3-65e227c0234mr15555366d50.3.1779289818836; Wed, 20 May 2026
+ 08:10:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pU7PWqZY3LH4C5oJ"
-Content-Disposition: inline
-In-Reply-To: <04302551-3628-4036-9a3f-596cb782f5b7@app.fastmail.com>
-X-Cookie: Natural laws have no pity.
-
-
---pU7PWqZY3LH4C5oJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260520111555.79902-1-zenghongling@kylinos.cn>
+In-Reply-To: <20260520111555.79902-1-zenghongling@kylinos.cn>
+From: CharSyam <charsyam@gmail.com>
+Date: Thu, 21 May 2026 00:10:08 +0900
+X-Gm-Features: AVHnY4ItFOmpb2uplEl_-_Z-u0LA_AIxWcOtIQRE3zNWsscT669CFuKA_CBnjvY
+Message-ID: <CAMrLSE5LM1Okkh8zhBH1Pch=JF2U3e+B2H6ZqWo_NRaBcP_uYg@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: Validate error in ntfs_lookup()
+To: Hongling Zeng <zenghongling@kylinos.cn>
+Cc: linkinjeon@kernel.org, hyc.lee@gmail.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, zhongling0719@126.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 20, 2026 at 10:39:16AM -0400, Chuck Lever wrote:
-> On Wed, May 20, 2026, at 10:31 AM, Mark Brown wrote:
-> > On Thu, May 07, 2026 at 04:52:56AM -0400, Chuck Lever wrote:
+Hi, Hongling.
 
-> > I'm seeing a regression in -next with the LTP statx04 test which bisects
-> > to this commit:
+ I don't think returning NULL is the right fallback here. This branch is
+already the IS_ERR_MREF(mref) path, and -ENOENT has been handled above as
+the negative-dentry case. If MREF_ERR(mref) ever decodes to 0 here, it
+should probably remain an error, e.g. -EIO, rather than being converted
+to a successful lookup return.
 
-> > tst_tmpdir.c:316: TINFO: Using /tmp/LTP_sta8hUyB4 as tmpdir (tmpfs=20
-> > filesystem)
-> > tst_device.c:98: TINFO: Found free device 0 '/dev/loop0'
-> > tst_test.c:2047: TINFO: LTP version: 20260130
-> > tst_test.c:2050: TINFO: Tested kernel: 7.1.0-rc4-next-20260520 #1 SMP=
-=20
-> > PREEMPT @1779279361 aarch64
+  Also, I do not see a current producer for MREF_ERR(mref) =3D=3D 0:
+ntfs_lookup_inode_by_name() normalizes zero err to -EIO before
+ERR_MREF(err).
 
-> > ...
+The Fixes tag also seems wrong, since the same return is
+already present in af0db57d4293^.
 
-> > tst_test.c:1985: TINFO: =3D=3D=3D Testing on vfat =3D=3D=3D
-> > tst_test.c:1290: TINFO: Formatting /dev/loop0 with vfat opts=3D'' extra=
-=20
-> > opts=3D''
-> > tst_test.c:1302: TINFO: Mounting /dev/loop0 to=20
-> > /tmp/LTP_sta8hUyB4/mntpoint fstyp=3Dvfat flags=3D0
-> > statx04.c:121: TFAIL: STATX_ATTR_COMPRESSED not supported
-> > statx04.c:121: TFAIL: STATX_ATTR_APPEND not supported
-> > statx04.c:121: TFAIL: STATX_ATTR_IMMUTABLE not supported
-> > statx04.c:121: TFAIL: STATX_ATTR_NODUMP not supported
+Thanks.
+DaeMyung.
 
-> At first blush, that does not seem like a plausible bisect
-> result. This commit shouldn't affect the behavior of tmpfs
-> in any way.
-
-It's not testing tmpfs (well, it does but that passed), as the log above
-shows it is making a vfat filesystem on a loop device backed by a file
-that happens to be in a tmpfs and then testing that.  There's a bunch of
-filesystems covered in this manner:
-
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on ext2 =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on ext3 =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on ext4 =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on btrfs =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on vfat =3D=3D=3D
-tst_test.c:1985: TINFO: =3D=3D=3D Testing on tmpfs =3D=3D=3D
-
---pU7PWqZY3LH4C5oJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoNyxoACgkQJNaLcl1U
-h9Bf5Af+J1m8FmGWQ4pg6JZgINs95lrmSIR+IAB+cWXhFfdVSNEDGOAuLHfZv+MG
-SaPG/eW8tXyaC89iw3nCRtUSa8YdsvqtsHSfSjaMKADpqQWTNJXPDhuDUEVdnpHv
-uSomYh27BJ3pHYuyjntZzSmA1ivMxF7WlODibQ4x+I51sFeOdBzk12V52swZUEpI
-fFKR5JU6/v/dswn9lBdjXZ16wA+O1xgaEPJrsVA+KqNWwMawWAFloGsFbr7KNQIX
-M87fQWJHn7S4o29asvaYlNpPIFdhYA3n9xKJln1PCGEDzBv1ICL6pHWifp4XRRlt
-MTWwdW7SI6ptcJI5ML0CRUOPLAwWSA==
-=dGWS
------END PGP SIGNATURE-----
-
---pU7PWqZY3LH4C5oJ--
+2026=EB=85=84 5=EC=9B=94 20=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 8:16, H=
+ongling Zeng <zenghongling@kylinos.cn>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1=
+:
+>
+> Check that MREF_ERR returns non-zero before using as error pointer.
+> This prevents potential ERR_PTR(0) when error code is zero
+>
+> Fixes: af0db57d4293 ("ntfs: update inode operations")
+> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+> ---
+>  fs/ntfs/namei.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+> index 10894de519c3..bb075aa97b53 100644
+> --- a/fs/ntfs/namei.c
+> +++ b/fs/ntfs/namei.c
+> @@ -236,7 +236,7 @@ static struct dentry *ntfs_lookup(struct inode *dir_i=
+no, struct dentry *dent,
+>         }
+>         ntfs_error(vol->sb, "ntfs_lookup_ino_by_name() failed with error =
+code %i.",
+>                         -MREF_ERR(mref));
+> -       return ERR_PTR(MREF_ERR(mref));
+> +       return MREF_ERR(mref) ? ERR_PTR(MREF_ERR(mref)) : NULL;
+>  handle_name:
+>         {
+>                 struct mft_record *m;
+> --
+> 2.25.1
+>
+>
