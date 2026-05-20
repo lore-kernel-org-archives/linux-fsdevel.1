@@ -1,146 +1,155 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4463F1AA2
-	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 15:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779289821; cv=pass; b=D3Tiph3pB0trj1VUkaimCCV6cQohBJoRpEoLeClC3uI3APXhuc8Spoek96QPtRh8M35AHg4Et2+Goc8tNQbiribBeFx+XVlaLQc1l0LivOrWtpLfHoJPJELnlknAO67QExacXapXu4ReLx2wdPDKzg3kFNpluSlB4gWtFWBdXMw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779289821; c=relaxed/simple;
-	bh=OAaWFz+TsGAnH6xUI8XNHHJOVMUgnRQNUGTfqeeoGlQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nEIRzaMZgp+Rur2QJOaOYH2BXPRyCOW/5UeXKevdh0bDherQYdOymq/lD6MIg8QzL1kfu/k8VTsztcejklHryuy2chK3CnKQXWLgqk7oPsB+dUiPZTlrF8OtcqJZc0BdFpPkrsSGG4IBmcCTCEdrfXFLH58olBdmIg3aP7rQlAY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dRZUTszu; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E0E3F1AB2;
+	Wed, 20 May 2026 15:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779289994; cv=none; b=OjmbEoayyf2MN/uBdryxTLjynk8fb/temhYIs8R/iZ+SpdZcvHRZ+af3T+bbmG0MHMmKD3fzSaKR1AdQY204ENBtVRde7uWBCVKpODeL8o6emakwc9TLUWwpvP4eg5KsRr0xrVFYjFLCcJ/K2sfLRvbRN/mhyrLe+EHmXDAIrSk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779289994; c=relaxed/simple;
+	bh=3I5bJDpziI90OiiRYA9ZyJO0ozA3nkV+qtWlUumpJz0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bkjPgzGWNwGPJJv59vVF6LsMtRViG3m5uz1O8gxxV2+yhfElJWWFIwcW88LuDpl61k2CK0n/vlULByzPy4S06nRATUSNgYzsFg4OVlk7sSvP6ruF6iZLJIAjTebQO0IqEYMDOdeptGzBCKO9Pk4Axxivw8DME2LS3KTU2xHf7pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bDcrDxgL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dRZUTszu"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-65e81d623bbso132052d50.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 08:10:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779289819; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hu3bfax5LGBZG8b4s/ZK5/Ifc6cJhnNkCi2mktoxZdlir3vJJn5bvoDmhioRP88iNL
-         FelT2OHpq5Tjhz0KojUjaMF4zfBwxQruNPrq2BbQVIOFJS/6kx9nVyPR5sA6tgFR2f1w
-         ComxJlNxDo2/7NCrcMFvxfjfeX2nLsxKNjyFmkSdOPVdmbW1AfGxGksZeTUdoNPUvn5P
-         h8+qqtbohDFxzBH79atTe64dp9M160MztowBQxQFRfq3ehiS4tiF1arNWm5Yno6L7GVk
-         HQAT2suoZ1VZMhfae05tNtZ9aPokT9JLqqlRVnqQ98Zp04f9SUhAETRkHR74pzGK06qX
-         T9sQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SQ+qa2N+Xnvw5eZa8sMj4BZiW+dajk5hgBKqXhkpx2I=;
-        fh=+pOz2Ew0885TDGBrRboKcr4nXy2ciVrSBJl0gh+9Wz8=;
-        b=aL20eowqe4/fLFJ01dDUa1TWaJ7r2jW7EqZSqnYoJYP3gn8H55Wx5Udzhl/BdJ1AWa
-         oTSL5v0f1h5py00W0LfF/DExZHQjEirEYkSJoJFYREVS3nBxq/6MKpXHlLLCN7gqmKAV
-         wg9KuNIAyf5XckaIAo9qOFnrN0uradHbI9hipNgQw9cde/i11RnElLSYouWdR3NC9Xhq
-         iQPv3ozI4gTwflzokZE0FL2D8Dbaa7MwvDzJmG4RjiMGRwrj8z6IIBMAhoxBv7ernBxX
-         9zTY2PCrly474bT0mlP5QuD3qO3RJucQwKgKDheXYuqCu9nv4UW52VUURyXkLx0SSlrz
-         jvVA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779289819; x=1779894619; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SQ+qa2N+Xnvw5eZa8sMj4BZiW+dajk5hgBKqXhkpx2I=;
-        b=dRZUTszuJEuBlCe0+T8u2kMgiWc70K5xXz9eZ6zDn8NrmFvcImupWX5nJVNN4FfICa
-         vk7s0l/i07eX/9RXfMuCIezEFD7nyQ7CeCFJbB6QAxbuVdMt4kkqgUu7M9WfZj1gNTT8
-         y8WQN4Vx68Nn6yR/dfbcqgMsKL2thBEhJeIA9w+dCrvfTazibOxFw3oUoFyu//iWhNpx
-         SkVIWNrlQo8/qas02TBkRft882Oi1zqwgm4C7Ij65Z6OPysWLSPyvLNMCgTLKHQP2Mb1
-         xyIn7NMH9oUmqCwzRj9vfzQGbAUhnenHPPSn/OAYarW/e5azeC+Qf6AbND3S3wlpgCdF
-         hgxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779289819; x=1779894619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SQ+qa2N+Xnvw5eZa8sMj4BZiW+dajk5hgBKqXhkpx2I=;
-        b=QLNYSeTU0tm41G3p74YT3oVjnuXm1jrvbEONgqXnA9PnJKn/MmelKzDLxJPsopUi1h
-         ekhRe3p0VItC1ffs1BvGsaehGg4NWrBuZWDtod0SuHn8O3CjcOBBxGeNjJHlAmcDzzKJ
-         VOzUQPFQRI4xs/Vm4ptObprjPAnfSiYFyYvOoK//lrEO5CdyXVLceZQkPtHdu3jlhSxv
-         qNu8UkOSR35PHkvJS3FM1sMX/uurdO+J+bFKBlwjQLxQcaM/nqdPXJYM6BRxb+T8yDZ9
-         +tO9uwPv0ozhupPuEqI2kLtulEVwnlhIEx7pqBIE/yqRSDrCVbcPAwGdxA+rcGq2kT6r
-         Ackw==
-X-Forwarded-Encrypted: i=1; AFNElJ/dlacdNDuzJb/Fcjz8uDVYzHnyEAs/nWxPe3M2tUyFwBWq3tKi+V/U5oZ7Hikp+iRiy/Nfy1HFVo/n3GP6@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDCwgbkQMCP9T9oVHenyNTaE5u4nQvGcn77U0uVs7kN3BaioIf
-	FQcwdnpNA+O5TyKiQLJ8AcUhfMRk6lnUDel09GE9Gh2pY2Lifbn3OgTr/ZSYp84WXmRVXKZNl3l
-	MN1QlGBZfbHFd/1fcjO9/Ad8OpJtQ4Fw=
-X-Gm-Gg: Acq92OFKmtgvyipC9blJHJj7dnI3rkf49F8V9Cfcb8DKbI6NQMNIO8C65EoExXVR//p
-	5o+ip2OoR3h2mITdjvPV3uxTVAdf+tbrCqGnop3SOEuVRYWG/qyNj/ndgosIzgNfWtkQP3Op5yF
-	oMW1tXiikkb0wkvSH2wTTzIatetED2UUCveggmLGiWZbDIcmkL1d8txxGx+QaPFbDOXVOX09iMR
-	nG17jG4eSYOSNj1VKRPCrhf7VWuc6849wZTKxj2FAssaBNy++4TNqPhYKC3K8zU6xXQgAYXN/4P
-	7+5+PcLpBg==
-X-Received: by 2002:a05:690e:b44:b0:654:a4fd:ebdb with SMTP id
- 956f58d0204a3-65e227c0234mr15555366d50.3.1779289818836; Wed, 20 May 2026
- 08:10:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bDcrDxgL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A4FB1F00894;
+	Wed, 20 May 2026 15:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779289993;
+	bh=8dqhKrp9QxPmbHdOhtinaRS5mItxrPIhA1DLRkJPMuw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=bDcrDxgLBXqFd7oQ0wZU622SnF/gVCHQtBI0GrLMzkntsFVzv52Agrt4HYg93JO7A
+	 ZRtgunV6IZDaK3zNaRtWQAfTHpld/8PkX2dKFnPtNP0fto38nrZzC3OBRp2yoyX4lt
+	 pdxubsyu3DFOIEl6f6uUAYV+5pMxBJXxw1b9PCHnBREQtbZQjDysNanhWnNIT3v0W6
+	 LBY0asiOPMnAaC3I5Bm5u2q7q1ZaBbA3QHBUiQGm47FzbfQrzdd8khWWPigXOoPxdW
+	 kwNjXUqUVfGG+L0Wz+G9dz3/LSru4bFBxQBQjPEEdB4cTbPpoo5ZkXNPDVQAn3YdSH
+	 LDkDpyrlXc0jQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id B4FCDF4007F;
+	Wed, 20 May 2026 11:13:11 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 20 May 2026 11:13:11 -0400
+X-ME-Sender: <xms:h88NanPZoAh6fJjERdRUPNJd7ginhDUpVvORLEtlIC_A8ozAhyCpFQ>
+    <xme:h88Nasy7bDtAU5vDFUlrjierZTX9I8ObWJN3rLJrTM7gqlgzW5xwL2g0JP9qabEKX
+    t7dDK5dS8m65gV5RY5e9uQhs3cCsXLyvhlu7YbrM_qObXjl8lEY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeegleeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohepfeegpdhmohguvgepshhmthhpohhuthdprhgt
+    phhtthhopehsvghnohiihhgrthhskhihsegthhhrohhmihhumhdrohhrghdprhgtphhtth
+    hopegrughilhhgvghrrdhkvghrnhgvlhesughilhhgvghrrdgtrgdprhgtphhtthhopehs
+    lhgrvhgrseguuhgsvgihkhhordgtohhmpdhrtghpthhtoheprhhonhhnihgvshgrhhhlsg
+    gvrhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    gsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtvghmsehkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopegthhgroheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:h88NakEks2rfD9OalS8ngqxS5q8fCYyxdhjAoTCi9Vc61b5QWwMZQA>
+    <xmx:h88NajoeLr4Pi6ussVLVJN2t71CEoSYKC8sec503wHX9CcpLAx8DVQ>
+    <xmx:h88NakJwz4NpVTdqRErBae-kslldix6kZFVhiV6VR5i8YzddCZZ-cA>
+    <xmx:h88Naja5ApYgknkBh5zV-M4CtPMIi2SvPkUorF9SPDyxLjrWu5ne_A>
+    <xmx:h88Nag71tyG97Kc5muYomSB72JP-pdJnkr01SeEceG5QQqDJlzWdPW56>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 83D25780070; Wed, 20 May 2026 11:13:11 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260520111555.79902-1-zenghongling@kylinos.cn>
-In-Reply-To: <20260520111555.79902-1-zenghongling@kylinos.cn>
-From: CharSyam <charsyam@gmail.com>
-Date: Thu, 21 May 2026 00:10:08 +0900
-X-Gm-Features: AVHnY4ItFOmpb2uplEl_-_Z-u0LA_AIxWcOtIQRE3zNWsscT669CFuKA_CBnjvY
-Message-ID: <CAMrLSE5LM1Okkh8zhBH1Pch=JF2U3e+B2H6ZqWo_NRaBcP_uYg@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: Validate error in ntfs_lookup()
-To: Hongling Zeng <zenghongling@kylinos.cn>
-Cc: linkinjeon@kernel.org, hyc.lee@gmail.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, zhongling0719@126.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: AuvJ25pICu_N
+Date: Wed, 20 May 2026 11:12:51 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Mark Brown" <broonie@kernel.org>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net,
+ "OGAWA Hirofumi" <hirofumi@mail.parknet.co.jp>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Yuezhang Mo" <yuezhang.mo@sony.com>,
+ almaz.alexandrovich@paragon-software.com,
+ "Viacheslav Dubeyko" <slava@dubeyko.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ frank.li@vivo.com, "Theodore Tso" <tytso@mit.edu>,
+ adilger.kernel@dilger.ca, "Carlos Maiolino" <cem@kernel.org>,
+ "Steve French" <sfrench@samba.org>, "Paulo Alcantara" <pc@manguebit.org>,
+ "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "Jaegeuk Kim" <jaegeuk@kernel.org>,
+ "Chao Yu" <chao@kernel.org>, "Hans de Goede" <hansg@kernel.org>,
+ senozhatsky@chromium.org, "Chuck Lever" <chuck.lever@oracle.com>,
+ "Roland Mainz" <roland.mainz@nrubsig.org>
+Message-Id: <8b750b3f-4d73-41f3-84fb-6e387fd24168@app.fastmail.com>
+In-Reply-To: <a366645c-364d-4588-8a15-4cd446f64366@sirena.org.uk>
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+ <20260507-case-sensitivity-v14-3-e62cc8200435@oracle.com>
+ <dc69224d-9926-4414-8c6e-4c15ae98705b@sirena.org.uk>
+ <04302551-3628-4036-9a3f-596cb782f5b7@app.fastmail.com>
+ <a366645c-364d-4588-8a15-4cd446f64366@sirena.org.uk>
+Subject: Re: [PATCH v14 03/15] fat: Implement fileattr_get for case sensitivity
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi, Hongling.
 
- I don't think returning NULL is the right fallback here. This branch is
-already the IS_ERR_MREF(mref) path, and -ENOENT has been handled above as
-the negative-dentry case. If MREF_ERR(mref) ever decodes to 0 here, it
-should probably remain an error, e.g. -EIO, rather than being converted
-to a successful lookup return.
 
-  Also, I do not see a current producer for MREF_ERR(mref) =3D=3D 0:
-ntfs_lookup_inode_by_name() normalizes zero err to -EIO before
-ERR_MREF(err).
-
-The Fixes tag also seems wrong, since the same return is
-already present in af0db57d4293^.
-
-Thanks.
-DaeMyung.
-
-2026=EB=85=84 5=EC=9B=94 20=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 8:16, H=
-ongling Zeng <zenghongling@kylinos.cn>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1=
-:
+On Wed, May 20, 2026, at 10:54 AM, Mark Brown wrote:
+> On Wed, May 20, 2026 at 10:39:16AM -0400, Chuck Lever wrote:
+>> On Wed, May 20, 2026, at 10:31 AM, Mark Brown wrote:
+>> > On Thu, May 07, 2026 at 04:52:56AM -0400, Chuck Lever wrote:
 >
-> Check that MREF_ERR returns non-zero before using as error pointer.
-> This prevents potential ERR_PTR(0) when error code is zero
+>> > I'm seeing a regression in -next with the LTP statx04 test which bisects
+>> > to this commit:
 >
-> Fixes: af0db57d4293 ("ntfs: update inode operations")
-> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
-> ---
->  fs/ntfs/namei.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>> > tst_tmpdir.c:316: TINFO: Using /tmp/LTP_sta8hUyB4 as tmpdir (tmpfs 
+>> > filesystem)
+>> > tst_device.c:98: TINFO: Found free device 0 '/dev/loop0'
+>> > tst_test.c:2047: TINFO: LTP version: 20260130
+>> > tst_test.c:2050: TINFO: Tested kernel: 7.1.0-rc4-next-20260520 #1 SMP 
+>> > PREEMPT @1779279361 aarch64
 >
-> diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
-> index 10894de519c3..bb075aa97b53 100644
-> --- a/fs/ntfs/namei.c
-> +++ b/fs/ntfs/namei.c
-> @@ -236,7 +236,7 @@ static struct dentry *ntfs_lookup(struct inode *dir_i=
-no, struct dentry *dent,
->         }
->         ntfs_error(vol->sb, "ntfs_lookup_ino_by_name() failed with error =
-code %i.",
->                         -MREF_ERR(mref));
-> -       return ERR_PTR(MREF_ERR(mref));
-> +       return MREF_ERR(mref) ? ERR_PTR(MREF_ERR(mref)) : NULL;
->  handle_name:
->         {
->                 struct mft_record *m;
-> --
-> 2.25.1
+>> > ...
 >
+>> > tst_test.c:1985: TINFO: === Testing on vfat ===
+>> > tst_test.c:1290: TINFO: Formatting /dev/loop0 with vfat opts='' extra 
+>> > opts=''
+>> > tst_test.c:1302: TINFO: Mounting /dev/loop0 to 
+>> > /tmp/LTP_sta8hUyB4/mntpoint fstyp=vfat flags=0
+>> > statx04.c:121: TFAIL: STATX_ATTR_COMPRESSED not supported
+>> > statx04.c:121: TFAIL: STATX_ATTR_APPEND not supported
+>> > statx04.c:121: TFAIL: STATX_ATTR_IMMUTABLE not supported
+>> > statx04.c:121: TFAIL: STATX_ATTR_NODUMP not supported
 >
+>> At first blush, that does not seem like a plausible bisect
+>> result. This commit shouldn't affect the behavior of tmpfs
+>> in any way.
+>
+> It's not testing tmpfs (well, it does but that passed), as the log above
+> shows it is making a vfat filesystem on a loop device backed by a file
+> that happens to be in a tmpfs and then testing that.  There's a bunch of
+> filesystems covered in this manner:
+>
+> tst_test.c:1985: TINFO: === Testing on ext2 ===
+> tst_test.c:1985: TINFO: === Testing on ext3 ===
+> tst_test.c:1985: TINFO: === Testing on ext4 ===
+> tst_test.c:1985: TINFO: === Testing on btrfs ===
+> tst_test.c:1985: TINFO: === Testing on vfat ===
+> tst_test.c:1985: TINFO: === Testing on tmpfs ===
+
+OK. Is vfat the only failure in LTP statx04 ?
+
+-- 
+Chuck Lever
