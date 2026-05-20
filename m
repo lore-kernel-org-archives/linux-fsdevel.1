@@ -1,206 +1,147 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E53C364EB0;
-	Wed, 20 May 2026 17:09:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724BD3A4526;
+	Wed, 20 May 2026 17:11:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779296957; cv=none; b=XrUeXMAnFFaPbVfU0xn0F+Rl1Pg5SrLmQtPBTLUb4tkxOOSCg2Z05vavQkaMnV889wbsH7P2r++HR+M899aUE6hsr1qvdP/OECI1FATwRmE6zHDpeTTWxPk8bBcvNARTt09xT9lYEc768iDPwFSdq2w3eQwBjBXgo8+FBPRaExM=
+	t=1779297101; cv=none; b=T1QmHbarIKjV1XUrMOXEBYR+zvYDvyurc6N4u7xkGJim7Hm3/28aWArSCNkriZXAKHMvxPCnk6xRn2R0Oa6mhFq/lfB24JKEQxHQxBasN9szEqDdU3hJ/IpySOgDFoMAewAUefCJ+ROVIp5FyTgjynIhM/Gd7oapf3RElZVGoZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779296957; c=relaxed/simple;
-	bh=gtls1X2Rs9kKonLOXi9NdQFIdY9my6iOmOGcZmJtvA4=;
+	s=arc-20240116; t=1779297101; c=relaxed/simple;
+	bh=O39Zt+/o25NInUTLPnA7MwAek+VGYIDTKbUnfn6XGAw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RKgevMn+8DZVV/Sf/ehdro2yyj4s7FcyTNyq+v59GfA0DuxZmskZHm/XK4jJ0U88Dk1c8jcwfR43l2S7nhWrEVVLn9b0ajBSVwHRXAZFJd26QuHq/oexLD5rGhKM9NCwbOohK40e5Nq1UXuSVkHrDI+uZS3k2Eul2KV3qh24Bcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=gu/wDQDQ; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=bphyJpLLKndVG8LRMB0+YAk2nmBbNkH99vgNG6WpRiomNFgo1lI9011F/wyr6gIRpU/DqegKJXJcysbkfJn9bFLZcMbCRmDzox7CHXOD5w4J1PZ0gIF20g9+H0zjaeqvSaxse/uwsP//6hAHPhkf7V9LVJ+veiIGXgLqXm7mi24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWTGBYDv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="gu/wDQDQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=nMieEGrEA39u1aFDAtD9lpPrEieW9TGT3AQb5KNw4rs=; b=gu/wDQDQVoTSB4Xvxdhbs9Du75
-	6Q4uxTURqnnkanXxB6hxBKxdAMu0dbpYUy6AHl43/ZDtGEA8VocNMFeFhRwZu151GWN1oqYoOnGiV
-	dzcPTAVwbFnytYyMhzdyMC40ZTcn37sUcbyWPxg1vfzVVlJidbneZl0J6DDZ21fzB0cBp+tg1hjLt
-	smEqvpu1B4VMXXuGqccBOPLfPrTknzcFeNXpN1VRwsf2laGjZNKz0CuY6QO4PwL3eY5ir2q7WnM1d
-	aysNaxUZaDzpRaw3Kap4hZOaJRmWTFL3JLdCg6Js9xa4riwcprZARAgn0vHaHiMiT8tYiCwq2enRd
-	qExNKXWw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wPkPo-003FzR-1k;
-	Wed, 20 May 2026 17:09:04 +0000
-Date: Wed, 20 May 2026 10:09:00 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH 1/2] fs/pipe: bulk pre-allocate pages outside pipe->mutex
- in anon_pipe_write
-Message-ID: <ag3Ty3T24wjn1aFw@gmail.com>
-References: <20260515-fix_pipe-v1-0-b14c840c7555@debian.org>
- <20260515-fix_pipe-v1-1-b14c840c7555@debian.org>
- <q37bmptbjr2gysl2g67bqo5axxqor4lsrrnf7ajixxjdrumbup@tgu3kz6kien5>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWTGBYDv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CBD61F00893;
+	Wed, 20 May 2026 17:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779297100;
+	bh=nJlxEr28p9Wrfysl46M6wxmwbXDBzLidj8JAZWRJLZk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VWTGBYDvx8dsrBdS7lq52/gOILFGnDV58m3XW1Q+mCYG+6Y/8FxRytZtar5qPxeY1
+	 L7CkoB/m0HcvUyZqystgSu3ejRQHzlf6FBNJUSoAXSAc2UB4z/C/i1FyAPCmuyttq4
+	 Gqapls6L2zXkkW6DBFuOjsLZ5xUUBTJSJH9yYyXZHyqidt29cfIy9ORcBBfh6OQCSW
+	 fgRoiQ/AQPXO14Knyiq0Ye+EmqtYGfP5t1Tu7RNtdmi3NRO1OK0p6VvzEGBXbmJ1mj
+	 e3ZbvKmeCLypR/EKw0FpHpXU1SXR0EcTcTUvrSp5V45EYolbGjuOcJJNWhNUWW9YRq
+	 Sd/JI/+GCcThg==
+Date: Wed, 20 May 2026 18:11:31 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	almaz.alexandrovich@paragon-software.com,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	frank.li@vivo.com, Theodore Tso <tytso@mit.edu>,
+	adilger.kernel@dilger.ca, Carlos Maiolino <cem@kernel.org>,
+	Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	senozhatsky@chromium.org, Chuck Lever <chuck.lever@oracle.com>,
+	Roland Mainz <roland.mainz@nrubsig.org>
+Subject: Re: [PATCH v14 03/15] fat: Implement fileattr_get for case
+ sensitivity
+Message-ID: <cdeaab82-06bf-47c1-8f6c-4e40dbec2344@sirena.org.uk>
+References: <20260507-case-sensitivity-v14-0-e62cc8200435@oracle.com>
+ <20260507-case-sensitivity-v14-3-e62cc8200435@oracle.com>
+ <dc69224d-9926-4414-8c6e-4c15ae98705b@sirena.org.uk>
+ <04302551-3628-4036-9a3f-596cb782f5b7@app.fastmail.com>
+ <a366645c-364d-4588-8a15-4cd446f64366@sirena.org.uk>
+ <8b750b3f-4d73-41f3-84fb-6e387fd24168@app.fastmail.com>
+ <3a347b64-f91b-450f-b27d-26ea6810b960@sirena.org.uk>
+ <858d7233-1d9c-48f4-aa4f-c5a9f6e1f5dc@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tQln6iCYcf5rHuVo"
+Content-Disposition: inline
+In-Reply-To: <858d7233-1d9c-48f4-aa4f-c5a9f6e1f5dc@app.fastmail.com>
+X-Cookie: Natural laws have no pity.
+
+
+--tQln6iCYcf5rHuVo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <q37bmptbjr2gysl2g67bqo5axxqor4lsrrnf7ajixxjdrumbup@tgu3kz6kien5>
-X-Debian-User: leitao
 
+On Wed, May 20, 2026 at 12:58:22PM -0400, Chuck Lever wrote:
+> On Wed, May 20, 2026, at 11:19 AM, Mark Brown wrote:
 
-Hello Mateusz,
+> > Yes, it's the only one showing as failing - there are four failures
+> > correspoding to the four tests done for vfat.
 
-Thanks for the careful review. Let me address the points inline,
-with data I collected on three Meta production hosts: two aarch64 NVIDIA Grace
-and one x86_64 Bergamo / EPYC 9D64, using bpftrace and perf lock contention.
+> 03/15 adds .fileattr_get = fat_fileattr_get for both
+> fat_file_inode_operations and vfat_dir_inode_operations. LTP
+> opens a directory (SAFE_OPEN(TESTDIR, O_RDONLY|O_DIRECTORY)),
+> so FS_IOC_GETFLAGS on the dir now succeeds, and statx04
+> proceeds where it was previously skipped.
 
-On Fri, May 15, 2026 at 10:18:19PM +0200, Mateusz Guzik wrote:
-> This change is quite a hammer.
+> AFAICS, 03/15 did not change pre-existing kernel behavior of
+> stx_attributes_mask on vfat. It merely converted a "skipped"
+> LTP outcome into an "executed but failed" outcome.
 
-Are you seeing any downside/trade-off with this current approach?
+Ah, that's an interesting issue with the way the test reports.  LTP
+could use nested reports a la TAP here so we're not just seeing the top
+level failure from the test case in automation.
 
->
-> Do you have a real workload where there are multiple processes issuing
-> large ops to the same pipe on both reader and writer side?
->
-> The only workload I'm aware of sharing the pipe between more than just
-> one reader and one writer is anything with make, but that is mostly
-> operating on 1-byte ops.
+> Fix options:
 
-You're right -- most pipe writes really are tiny. On Bergamo, 120s sample of
-anon_pipe_write, 299629 calls bucketed by iov_iter_count(from):
+> * fat_getattr() could call generic_fill_statx_attr(inode, stat),
+>   which advertises KSTAT_ATTR_VFS_FLAGS (IMMUTABLE + APPEND).
+>   That clears 2 of 4 TFAILs but not COMPRESSED/NODUMP, which
+>   FAT genuinely does not back.
 
-    size                writes      %
-    <128 B              293602    98.0    (merge path, no alloc)
-    128 B - 4 KB          1108     0.4
-    4 - 8 KB              2149     0.72   <-- patch start helps from here
-    8 - 16 KB                3
-    16 - 32 KB               0
-    32 - 64 KB               5
-    64 - 128 KB              2            <-- up to 72KB writes
+...
 
-So only ~0.72% of writes are >= PAGE_SIZE. The dominant comm by
-contention count is a Meta fleet workload spraying sub-128-byte
-metric strings -- it does *zero* writes >= PAGE_SIZE itself; it
-just hits the mutex very often.
+> * Admit the LTP statx04 test needs to be updated.
+>   FS_IOC_GETFLAGS succeeding does not logically imply all four
+>   FS_IOC_FLAGS-mapped STATX_ATTR_* bits are supported. The
+>   test's gate is too coarse for filesystems that gained a
+>   narrowly-scoped fileattr_get (just casefold/immutable). The
+>   test's tag list pins it to filesystems that do support the
+>   full set, but vfat was tacitly excluded by the prior ENOTTY.
 
-But the writers that *do* take the alloc-under-mutex path are
-real. Lock-wait data confirms it shows up:
+I think this is needed, it's hardly the first LTP test to make
+unwarranted assumptions about the kernel APIs.  I'll try to look into
+it.
 
-  perf lock contention -ab (30s, anon_pipe_* only):
+> The first option is the narrowest kernel-side change, and
+> matches what other minimal-fileattr filesystems do.
 
-                                contentions  total wait  max wait
-    arm64 (NVIDIA Grace)
-      anon_pipe_write                 7660    4.39 ms     50 us
-      anon_pipe_read                     7   55.78 us     17 us
-    x86_64 (Bergamo)
-      anon_pipe_write                 3154    4.53 ms     79 us
-      anon_pipe_read                   817    1.72 ms     82 us
+That sounds like a good idea regardless of what we do with the test?
 
-The reader side stands out on x86 (817 vs ~7 on arm64) -- that's
-the symptom the patch targets: a multi-page writer holding
-pipe->mutex across alloc_page() stalls the concurrent reader on
-the same mutex.
+Thanks for looking into this so quickly and thoroughly.
 
-  bpftrace, mutex_lock duration inside anon_pipe_write, 300s:
+--tQln6iCYcf5rHuVo
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                  Grace-A  Grace-B  Bergamo
-    [4K,  8K)      1090     2799      980
-    [8K, 16K)      1785     1353      953
-    [16K,32K)       755      623      530
-    [32K,64K)       153      172      184
-    [64K,128K)       13        8       59
-    [128K,256K)      -         -        4
-    [256K,512K)      -         -        1    <-- ~500us blocked
+-----BEGIN PGP SIGNATURE-----
 
-So the patch's value is shortening the long critical sections that
-the 99% of small writers are blocked on -- the contention everyone
-sees drops because the few multi-page writers do their alloc work
-outside the lock.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoN60IACgkQJNaLcl1U
+h9CRlAf/RMdeVyBWIjD0QRVGjs6tYvEJEKs335pQHCWWjb8FC3Vy8ne6rai11oqb
+qw3/Wa/DWeIpW9MohgelAnKgTWOV8FEvkOlbxIvB6XfmUDjSZynj+zXg/N32H/yP
+22NwSpZdTC5HrvEOmH1/Kkiy/b0BBiUp5uUilSt9ZELtuG0OOp7QJuZ56owy+wAm
+nBP+frSPGJ6AVK9zNGyGv2fAq9g+cZcCwx1mtjCkMcLPW6DJPjxu4N/AYFPIV9cN
+yCnVDs2+7k84oDrHVUHURQyh6FykW/LQ69gUEWe+bfIicS+6/o/AhjA9UAW3x7Nc
+duMMi6oG+fXnqrV6pqGDUSQPf5A47A==
+=8ivj
+-----END PGP SIGNATURE-----
 
->= 64KB, which are not common but existent.
-
-> I'm asking because this would be better implemented taking into account
-> how many pages are hanging out in the tmp_page array. With only one
-> writer and one reader there is no concern someone will steal the pages.
->
-> Preferably the tmp_page array would grow to accomodate more memory, but
-> admittedly this runs into a problem where a pipe can linger unused
-> indefinitely while hoarding several pages. As in, some shrinking
-> mechanism would be needed so that's probably a no-go and preallocation
-> is the way to go for now.
->
-> Even then, this can definitely be integrated much better instead of
-> being open-coded.
-
-> This is some nasty golfing.
->
-> Instead, you could have something like:
-> struct tmp_page_prealloc {
-> 	struct page *pages;
-> 	unsigned int count;
-> };
-
-Agreed -- v2 will wrap the array+counter in
-struct tmp_page_prealloc and drop the open-coded indexing.
-
-> 	struct tmp_page_prealloc tpp = {};
-> [...]
-> This should move to a dedicated routine, perhaps:
-> 	anon_get_page_prealloc(pipe, &tmp_page_prealloc);
->
-> then it can also easily decide how much to prealloc based on existing
-> state
-
-Yes. v2 will have anon_get_page_prealloc(pipe, &tpp) doing both:
-top up to PIPE_PREALLOC_MAX based on tmp_page[] occupancy, and
-keep the policy in one place.
-
-> > +	while (prealloc_n)
-> > +		anon_pipe_put_page(pipe, prealloc[--prealloc_n]);
->
-> this results in put_page() calls under the mutex, still extending the hold time
->
-> you could split this into 2 ops, for example:
-> +	anon_pipe_cache_pages(pipe, &tmp_page_prealloc);
->   	if (pipe_is_full(pipe))
->   		wake_next_writer = false;
->   	mutex_unlock(&pipe->mutex);
-> +	anon_pipe_free_pages(pipe, &tmp_page_prealloc);
-
-Well spotted!
-
-
-> All that aside, I have no idea about performance impact on arm64, but
-> there is *definitely* some throughput lost based on the fact that memory
-> copy is restarted per page. I presume arm64 has an equivalent of amd64's
-> SMAP which again will not be free and is paid for every time as well.
-
-Can you say a bit more about what you'd want to see here? I want to make sure
-I'm reading the suggestion the same way you are.
-
-My understanding: anon_pipe_write loops once per page calling
-copy_page_from_iter(), and each call re-enters the iov_iter
-machinery and pays a STAC/CLAC pair on x86 (PAN toggle on arm64).
-
-So an N-page write pays the user-access bracket N times instead of
-once, on top of resetting the per-page memcpy and losing the
-hardware prefetch streak.
-
-The way I see it, is opening a single user_read_access_begin() region around
-the page loop and use unsafe_copy_from_user() inside, with a labeled
-fault-fallback path that closes the region and finishes via the slow path.
-
-Is this what you meant?
-
-Really thanks for your review,
---breno
+--tQln6iCYcf5rHuVo--
