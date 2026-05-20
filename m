@@ -1,76 +1,76 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487BD3947A4
-	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 08:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CACC285050
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 08:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779266012; cv=pass; b=AOpAjo5GK1u/HTepzdTBdYmYGtD8laYIbE6bfPd09HwRUc4KYRoGewiO5iirMrOLB/0AeXJpeIwl7quX5O3OG+yXg7hT0QBgeeHUyAe5MOgATK9OR+nDb7etkdpDiyFUtvT9khEAa7vdev8p7RSNj23pUq4UcLGcBkzV2bmkhqs=
+	t=1779266543; cv=pass; b=WsL89GBpk28ktN+FfzFDDrq2ggy/i5uiQ3f80XUQAtuBFkwb+LEZ6qouBoR6GzJAPlwEfdRc5LwuTCCF2LN3vPzrD9Y2CzENhGQwmdTVShmDjuyALw4vSWAnfcqUCT0zrzaS3PXjLcbJCG0YbldDIYqQOiaOr+8EDAljJBXdVQs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779266012; c=relaxed/simple;
-	bh=yj7nKyFrj7zU2yYnwm4/LaF7qhH6Xk4MypSMzLI7D08=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=p0w0RPQ8IQ2EZZdzFCS2ugNVjySyAumtJ0UtOBlHwqP1rK1pvHDA3D7U95FHYxU7fIEPEKxr18F7lT2MAK7EmLDWWlIdcrOiGzxzPrTyh5kHUNj0NNPRaXFY+h6dW7evlSwfNBIncJIlFcuHYbAa8hNAXOuOKOunV1mFjLXun+s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cjCs5eCE; arc=pass smtp.client-ip=209.85.208.179
+	s=arc-20240116; t=1779266543; c=relaxed/simple;
+	bh=1hS0PDSrIk78t1eXCsL5SyXcGby/9NID8KVnMHtzils=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=pZTXEAPFnCyf+11Fv/ZoTWecnwXrsbew2OyUXF20BQLimCIeI3ZmYkuWoy2UOdyAyK7VP2SA7/ctHJXnIEp6c/SzKmP2Q0bYR52zvXZ6PLdehC0gLZ0cbNckKhX8UyHBa7ndLegW1D+4yq4bCX/K4WQBWGSTeIgFrr7KgN3nlm4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LKBFVNWW; arc=pass smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjCs5eCE"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38be5e86918so60325361fa.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 01:33:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779266009; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LKBFVNWW"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38e7d983f79so45841301fa.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 01:42:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779266540; cv=none;
         d=google.com; s=arc-20240605;
-        b=i+iDc41rlULBwCdfDvzWLShf7FN6/wrWtjCgrtKWaT7SAvcMFrDNkLHK4r3DEhE2iK
-         lfxYa7WAHw2dtMaO/ywFugalMa+NGUFq0jI44Dja+U+kZmRcxIB2VF/ChkS4gIdiwlgo
-         ekPqS7DxkjL5GSim8zFbAmEmK4QrX/mmHLA9yMtCJYZu68ZxlK/4E/xCJwiRioTTAg/U
-         rnRAxyWUSquBsrTTIfZKr9f1Qo3ISsGGHqdsKifcVSZ+5ONwicaovOKfaHC8gbfxmf8P
-         bEPxmgV0fD8hJFlVf0FlLsyiS1Np63m4DQSz8OP9nfIS2jjzj90n6aujrXkVsnBdVvcx
-         3kuQ==
+        b=TQkcONpGc3uChHj8wZApEvSECv8hB0FNp1XgOd3GE6gd+7G5F3xsq+fqRWWEQK765f
+         8K7+S1QNz2QQAnp7rAm5WW1mkWObAhxTX4Lz8IyRcviGCzM7Add87Cd+k7z09p261qUf
+         Eo0/XolU8PH7dfWNd7x2No+LHy9CGWVicmMOo4+v8sqdy7bGBc4unygR6zwUwbztJvrJ
+         f54BUuCe7HTY8iupFTcIrNa0XHR1krkkWTICIxZqSu7n+hhwkOSpqiHY9T4sBs+whbbY
+         6PNYemd6n0NKGkX7aMuAvOAq89Ljn+sepejqsMPrGYN1EwXVH+dwMu/XBWQkVUEj6But
+         mxsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=to:subject:message-id:date:from:reply-to:mime-version
          :dkim-signature;
-        bh=yj7nKyFrj7zU2yYnwm4/LaF7qhH6Xk4MypSMzLI7D08=;
+        bh=1hS0PDSrIk78t1eXCsL5SyXcGby/9NID8KVnMHtzils=;
         fh=on5so1iZ1tYm751VXv8x5u+l+XerJy9A4qWb/XOx/D0=;
-        b=P6kuz+aaY/zSUK/nCpl9dNpJ3hBdNZTkC37c0tHji9lNyHuOObwBtuiDapFJK2ZkUZ
-         ERpeLm7Edc/yC661ytb3p+59FMoA9WJY8RwMsRBhC2eRVUgsYootDeqVJ/jgU96Ozv9O
-         X0aQxD1H9fa3vg1miJmvlZ+6EbCM9Ojn+zkTn9Ui2IXhYUqGwvdOW1/nq8kEyGhIEAk2
-         SybIJR5NKAziWW1qcp19+VD5fRshbPlIGCnStUZAz6NfY0Tfy8ufTVEgnxqLAtAyhmy7
-         a/GCrRV2yLk5ROt24+sMeXvlTAemHO1OPX4QM7IzThrRW7VThrC2455NIAbKNzK4Lhw/
-         +fqg==;
+        b=bg3v4urVrZPTqBoHfV2NDfYm3+NihXPL5BeULpm3xESq2HsxwJZNyXJSHk8Cc41SZI
+         Pz4sd/+vIRcKUZvipzOp6ZETHAzzLLoZDS9JWJ6788pcol+50mAapb26eXa59j1ONLeE
+         g9jxd8/wpsKBmjIy3KgMKGg3ez4iIgCefPC9ZZIgASpRpFY6q5Ip1ZIesW6xcvcwzQ/R
+         6509cDLXwldnVyBiJrKB24aSy+tQLi16YM1jKlfbAxJcP3Pow3wfkaGFNtIDxHhnlqzN
+         Y8cjmjqVGyJljZPtGntTWci9Ibyr7xfK6aWcWmn988gTPitsIdsz1+l/ypCglQVEqE+c
+         2RRA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779266009; x=1779870809; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779266540; x=1779871340; darn=vger.kernel.org;
         h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yj7nKyFrj7zU2yYnwm4/LaF7qhH6Xk4MypSMzLI7D08=;
-        b=cjCs5eCEJgrcADq8HOh9AxTBkd7Rp6VtFc4IpooUpePDSHSanE+9a5Lx/Z1OmK9wYh
-         F/9zFWqrfVk3BZ+2NSGeTBeM33PekIsGdkQi+Y1ZEtYOJKQM5V3+ewXINn0O1p/Oc4RJ
-         D2p9Peoza6q1wZh8WpaauFRj+ZVuHpoqyYKzZQqpn/yLBKTsArrFT+70lVZhkGu3c+mm
-         tOW5A0O2kXw2NrCn2oGjMlD753wFbG8KB8GiMYGlch50L2BxOYUCciDdqH6E46yUCI1c
-         C/hTV0cqDwq5UngerxU3msaDUodYzP8U4oIQE4/yfnd4GvlFssFzWrZCjYcb48Jc6YtA
-         IHtQ==
+        bh=1hS0PDSrIk78t1eXCsL5SyXcGby/9NID8KVnMHtzils=;
+        b=LKBFVNWW6UaLZjr7vC7He7FaDJnA9I6qKr5LqiT+I7URiMDjcRSWFt5TiE0AZZL8Vb
+         W+rKHZ8F3e/2CpVeP+vB0x7leXlWAogqTY6lmoFgKHIa1Dzq4HPTYDr2S1XdQKIkAvzr
+         Yg2mmBKoxtJ7fzqBAeNBNiXYfaZP/DitlfsafAWcDqzKIZ+jStKFGvLtUWSJNQAmKT8/
+         WHEoHAOQZyrE3rdRSZTRajs4cR8BJTeK0dhK8qiXDp8SgEFlUX0IvbdddBz+/Xx36Z8K
+         DrTnU6W/5RS8Lwyk2qmo8dKxWpu4RzkOajJGax/haOvKB67shfxKhE55dpd02NLGkTKZ
+         hyzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779266009; x=1779870809;
+        d=1e100.net; s=20251104; t=1779266540; x=1779871340;
         h=to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yj7nKyFrj7zU2yYnwm4/LaF7qhH6Xk4MypSMzLI7D08=;
-        b=WQnCmGxR6bJrF9zpyIyuANKN2QdLK2Tin4oZIqacXKvhb8KTdh703g/e4oNhXE/vE7
-         Ng7uZIqo8YfK+Vd3adIhGFR7jeNMYP/9uYTsC2jVCHP0pHoPOnys3GALM7Ty1VHGngIu
-         wch3mT9fsLpe021XQYLnCHZ/Zvy53L7AgRc70772mIiJIDsLb0yxwhnK/VIKZNpN1nSh
-         ZTSDIkvFBLDZob8nnVLJzdjS5FAi+AW+KTZBWHnlcYpjDlu7c6lALokFicafHat85hb4
-         cJaxdpN2RXI4Vcg6aoX8X+V2npQQLSK+d8t4oGsGnWqTCbunxAP/iT/5I0Qdh5ncF+N4
-         dYgA==
-X-Gm-Message-State: AOJu0YwtrjYFzM9PpwHU3ijuLEx81m/ESOeqkEndRrSmmXz0sCrgBQ6t
-	PIvRQvn8F0TUiuhwx+GylGAmBX4zH7bmeaZGzWC2Z++gqlMQlPpl4kodFEJvEWceyYR887O5n0D
-	mjzL4HUnf5GBLvLaT6w91yTFaHhpphwOXMvNO
-X-Gm-Gg: Acq92OEVHcOGMTs4IgzWVgWJF+WGBgIk8I+7bNmuqMBMtkFNfmWBwmFGn9EaDISpnO3
-	QoGJewqOEZ8PT93CH5MncDSdb5ffZB6UTa/XNLYNBQRGCPe/4jQZrPmxPw6sOhgNy0j2pHTPA2r
-	SKqH533YHm4v7yGXt6t6PNm8JUnRxs5VO+M+gEwcLgSDcw8gLT8zMMgLTcHN+SROKiYS6BGmfLc
-	eV9AingLcjIFSW56xIGuNGU0WIgY1MJgd8sEJCyR4hgE0zE1o5K/x1Zp84OrNnNdFnif7PkgQNt
-	xEk/q8J9
-X-Received: by 2002:a05:651c:885:b0:395:b670:71ce with SMTP id
- 38308e7fff4ca-395b67075e9mr12239001fa.2.1779266009258; Wed, 20 May 2026
- 01:33:29 -0700 (PDT)
+        bh=1hS0PDSrIk78t1eXCsL5SyXcGby/9NID8KVnMHtzils=;
+        b=EpPyVVYyS3w8Zi+TfDwgRqBIiVR7DZFUgrzaoJrNf+64BiVHzhUO/rnzv/5ZV5FpWy
+         +uB/E8yDumueh4YGKskBWQxM0F8GyO4bGdcwoX77/UJ+FysomQLwRO5h26/Iki8w4F2T
+         t+BfbW6nDEbQX601seH65B5tmq9Yx51NfQAcRLowLm5c83Vv5FPrzFdM9jPowgelU+MR
+         jYb2QRJNlcVO6sS2R0HLefAgh4JpPI1VyWXaBwLntdgUyUhmqlnLMOTig0UUsJA4ZGYI
+         aY/lL73Rd4ButsMU8vDThrROMhRX8CdVIvgvMo9SxRo5gw12npbhIxb+wKLr2hawlB64
+         YTYQ==
+X-Gm-Message-State: AOJu0Yyqow+9JbNhp5O9v4vBK2779QnXGk6XFUTUXblnB3T/cDOVHIj1
+	73khBoCaWESUhbHGx9qNhSH+V1gCv8BUcg4PPWGR1si8eTkslX4N2Z6mh+AUEtbAs2UjWjI79at
+	Ii/MiAwoQAlzC6FQX1dRWRL3PhETrPGmLboHH
+X-Gm-Gg: Acq92OEtb3OylwIdQcg6YpIh3K3JTDP9sWvHpoVeUZxiAlgA3j5diliNMLwWlIXedJj
+	O2Zho8ruWjkd/XXgkP3QaqgALS319zWhB/2Lf6yNlWivOuvwbn7hLA83OO4HKHKPBM1ildbuch/
+	0aF+iKU7QgLweEQciWEBYGwbewDknQsaDTUart8jtbeGLCNW/T4W/d1LqtzROzza9yh2DiDihXm
+	RojFr3SMtL3g33jtbbRUxvlMUs94JCjLl23hX3o6LH5meV9bV6KNdetbQGs1f2k7sl6wxpPJvaJ
+	hY127mpW
+X-Received: by 2002:a05:651c:144a:b0:394:8fc:8c44 with SMTP id
+ 38308e7fff4ca-39561861991mr68862021fa.0.1779266539527; Wed, 20 May 2026
+ 01:42:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -79,11 +79,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Reply-To: sedat.dilek@gmail.com
 From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Wed, 20 May 2026 10:32:53 +0200
-X-Gm-Features: AVHnY4KyREv1yCQ7RQ6D4YzFTHPAISpM1OIGE9ooYJPmgaRPPy1lI6j505yG6HY
-Message-ID: <CA+icZUVRSX6QSVFw7zoT3abFThtMkaSmf0e=Odop79QKu67=Rg@mail.gmail.com>
-Subject: unsubscribe linux-fsdevel
+Date: Wed, 20 May 2026 10:41:43 +0200
+X-Gm-Features: AVHnY4KPPOdiSf3D9owJh82CawH7n6nLYG5RZwzmpSRfk9afuoR5KxuAhVsAfLs
+Message-ID: <CA+icZUV3EJDQ1eo05YrMJsrc021G6T9YTd__DGKEKgpNa4Gz1Q@mail.gmail.com>
+Subject: How to unsubscribe from linux-fsdevel mailing list?
 To: linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-unsubscribe linux-fsdevel
+Hi,
+
+I tried ...
+
+To: majordomo@vger.kernel.org
+Subject: (Can be left blank)
+Body text: unsubscribe linux-fsdevel
+
+But did not get a confirmation.
+
+Help is much appreciated.
+
+Best thanks.
+
+Best regards,
+-Sedat-
