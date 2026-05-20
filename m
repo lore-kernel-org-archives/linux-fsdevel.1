@@ -1,104 +1,168 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CACC285050
-	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 08:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779266543; cv=pass; b=WsL89GBpk28ktN+FfzFDDrq2ggy/i5uiQ3f80XUQAtuBFkwb+LEZ6qouBoR6GzJAPlwEfdRc5LwuTCCF2LN3vPzrD9Y2CzENhGQwmdTVShmDjuyALw4vSWAnfcqUCT0zrzaS3PXjLcbJCG0YbldDIYqQOiaOr+8EDAljJBXdVQs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779266543; c=relaxed/simple;
-	bh=1hS0PDSrIk78t1eXCsL5SyXcGby/9NID8KVnMHtzils=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=pZTXEAPFnCyf+11Fv/ZoTWecnwXrsbew2OyUXF20BQLimCIeI3ZmYkuWoy2UOdyAyK7VP2SA7/ctHJXnIEp6c/SzKmP2Q0bYR52zvXZ6PLdehC0gLZ0cbNckKhX8UyHBa7ndLegW1D+4yq4bCX/K4WQBWGSTeIgFrr7KgN3nlm4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LKBFVNWW; arc=pass smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305CA285050
+	for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 08:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779266796; cv=none; b=Q59byyagxWzzSj81tsbDgNpSNvIGGRB9rfOu4Hl15G1YCPNOa9agr1pwFJcEbmHcCI0lKQhwtEiBQm3o4LypFYwUeBgVKCMs5glDvpt8FnetXTaDJ/4JMsIRsOeHhze66hwpHSFvNoN+bmNPa8+nAJTpOyf1+GMeG1SOHiAe8d8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779266796; c=relaxed/simple;
+	bh=8fGuXds/UHP1xxosO/rQnv56M8u803tj+KVlfZ2Mehs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UgtPZcKl/gbJGTRQ9rlQ62K+bGOm35oI6agn1Ag0OqQVsWrWFQjix+SfodJfGIK/2NE9vHdH27dFf+3dDxaSzBzxFU/X/MvnW7O5UBCpzJgQHdXavv7K6I6pUsxjgnWCj4EQ2igZED4uWmbqbSxNh3PSxctX3PeD9CUl1T3NV/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TclAen9k; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fM4mbwXn; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TclAen9k; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fM4mbwXn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LKBFVNWW"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38e7d983f79so45841301fa.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 01:42:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779266540; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TQkcONpGc3uChHj8wZApEvSECv8hB0FNp1XgOd3GE6gd+7G5F3xsq+fqRWWEQK765f
-         8K7+S1QNz2QQAnp7rAm5WW1mkWObAhxTX4Lz8IyRcviGCzM7Add87Cd+k7z09p261qUf
-         Eo0/XolU8PH7dfWNd7x2No+LHy9CGWVicmMOo4+v8sqdy7bGBc4unygR6zwUwbztJvrJ
-         f54BUuCe7HTY8iupFTcIrNa0XHR1krkkWTICIxZqSu7n+hhwkOSpqiHY9T4sBs+whbbY
-         6PNYemd6n0NKGkX7aMuAvOAq89Ljn+sepejqsMPrGYN1EwXVH+dwMu/XBWQkVUEj6But
-         mxsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :dkim-signature;
-        bh=1hS0PDSrIk78t1eXCsL5SyXcGby/9NID8KVnMHtzils=;
-        fh=on5so1iZ1tYm751VXv8x5u+l+XerJy9A4qWb/XOx/D0=;
-        b=bg3v4urVrZPTqBoHfV2NDfYm3+NihXPL5BeULpm3xESq2HsxwJZNyXJSHk8Cc41SZI
-         Pz4sd/+vIRcKUZvipzOp6ZETHAzzLLoZDS9JWJ6788pcol+50mAapb26eXa59j1ONLeE
-         g9jxd8/wpsKBmjIy3KgMKGg3ez4iIgCefPC9ZZIgASpRpFY6q5Ip1ZIesW6xcvcwzQ/R
-         6509cDLXwldnVyBiJrKB24aSy+tQLi16YM1jKlfbAxJcP3Pow3wfkaGFNtIDxHhnlqzN
-         Y8cjmjqVGyJljZPtGntTWci9Ibyr7xfK6aWcWmn988gTPitsIdsz1+l/ypCglQVEqE+c
-         2RRA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779266540; x=1779871340; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1hS0PDSrIk78t1eXCsL5SyXcGby/9NID8KVnMHtzils=;
-        b=LKBFVNWW6UaLZjr7vC7He7FaDJnA9I6qKr5LqiT+I7URiMDjcRSWFt5TiE0AZZL8Vb
-         W+rKHZ8F3e/2CpVeP+vB0x7leXlWAogqTY6lmoFgKHIa1Dzq4HPTYDr2S1XdQKIkAvzr
-         Yg2mmBKoxtJ7fzqBAeNBNiXYfaZP/DitlfsafAWcDqzKIZ+jStKFGvLtUWSJNQAmKT8/
-         WHEoHAOQZyrE3rdRSZTRajs4cR8BJTeK0dhK8qiXDp8SgEFlUX0IvbdddBz+/Xx36Z8K
-         DrTnU6W/5RS8Lwyk2qmo8dKxWpu4RzkOajJGax/haOvKB67shfxKhE55dpd02NLGkTKZ
-         hyzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779266540; x=1779871340;
-        h=to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1hS0PDSrIk78t1eXCsL5SyXcGby/9NID8KVnMHtzils=;
-        b=EpPyVVYyS3w8Zi+TfDwgRqBIiVR7DZFUgrzaoJrNf+64BiVHzhUO/rnzv/5ZV5FpWy
-         +uB/E8yDumueh4YGKskBWQxM0F8GyO4bGdcwoX77/UJ+FysomQLwRO5h26/Iki8w4F2T
-         t+BfbW6nDEbQX601seH65B5tmq9Yx51NfQAcRLowLm5c83Vv5FPrzFdM9jPowgelU+MR
-         jYb2QRJNlcVO6sS2R0HLefAgh4JpPI1VyWXaBwLntdgUyUhmqlnLMOTig0UUsJA4ZGYI
-         aY/lL73Rd4ButsMU8vDThrROMhRX8CdVIvgvMo9SxRo5gw12npbhIxb+wKLr2hawlB64
-         YTYQ==
-X-Gm-Message-State: AOJu0Yyqow+9JbNhp5O9v4vBK2779QnXGk6XFUTUXblnB3T/cDOVHIj1
-	73khBoCaWESUhbHGx9qNhSH+V1gCv8BUcg4PPWGR1si8eTkslX4N2Z6mh+AUEtbAs2UjWjI79at
-	Ii/MiAwoQAlzC6FQX1dRWRL3PhETrPGmLboHH
-X-Gm-Gg: Acq92OEtb3OylwIdQcg6YpIh3K3JTDP9sWvHpoVeUZxiAlgA3j5diliNMLwWlIXedJj
-	O2Zho8ruWjkd/XXgkP3QaqgALS319zWhB/2Lf6yNlWivOuvwbn7hLA83OO4HKHKPBM1ildbuch/
-	0aF+iKU7QgLweEQciWEBYGwbewDknQsaDTUart8jtbeGLCNW/T4W/d1LqtzROzza9yh2DiDihXm
-	RojFr3SMtL3g33jtbbRUxvlMUs94JCjLl23hX3o6LH5meV9bV6KNdetbQGs1f2k7sl6wxpPJvaJ
-	hY127mpW
-X-Received: by 2002:a05:651c:144a:b0:394:8fc:8c44 with SMTP id
- 38308e7fff4ca-39561861991mr68862021fa.0.1779266539527; Wed, 20 May 2026
- 01:42:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TclAen9k";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fM4mbwXn";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TclAen9k";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fM4mbwXn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 50F4E6B2F6;
+	Wed, 20 May 2026 08:46:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779266793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QkdL5YjN3sDjMQCBr87DeBFbfeszYwOCPVpvYvv4Y5M=;
+	b=TclAen9k9eojvvrkFB5yNgWFChVNWitgkcv3sW/GoWC9wZfeUEKxnWyJIH794CX2+4QzWo
+	Buy2apT5J6DQlOus4LtLBIDVgdSvQkBr2pS6T35fqFfa6TmF94Wa6kxLlkwwwRMoQWyLrF
+	d/uqkyxdvd2bFtBQA/itcdqlMnnkQOg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779266793;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QkdL5YjN3sDjMQCBr87DeBFbfeszYwOCPVpvYvv4Y5M=;
+	b=fM4mbwXnXfm8up5Fb+j59hojWE2IZm+ZFiJV73s3xMPW9rT3WrdJSEre6cdZ4Px6ArL+Ko
+	YI3o6f7/FmswvqCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=TclAen9k;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=fM4mbwXn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779266793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QkdL5YjN3sDjMQCBr87DeBFbfeszYwOCPVpvYvv4Y5M=;
+	b=TclAen9k9eojvvrkFB5yNgWFChVNWitgkcv3sW/GoWC9wZfeUEKxnWyJIH794CX2+4QzWo
+	Buy2apT5J6DQlOus4LtLBIDVgdSvQkBr2pS6T35fqFfa6TmF94Wa6kxLlkwwwRMoQWyLrF
+	d/uqkyxdvd2bFtBQA/itcdqlMnnkQOg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779266793;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QkdL5YjN3sDjMQCBr87DeBFbfeszYwOCPVpvYvv4Y5M=;
+	b=fM4mbwXnXfm8up5Fb+j59hojWE2IZm+ZFiJV73s3xMPW9rT3WrdJSEre6cdZ4Px6ArL+Ko
+	YI3o6f7/FmswvqCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4A087593AA;
+	Wed, 20 May 2026 08:46:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xLsMEul0DWoaLQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 20 May 2026 08:46:33 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 62A8BA08D7; Wed, 20 May 2026 10:46:28 +0200 (CEST)
+Date: Wed, 20 May 2026 10:46:28 +0200
+From: Jan Kara <jack@suse.cz>
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, jack@suse.cz, tj@kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] writeback: drop now-unnecessary rcu_barrier() in
+ cgroup_writeback_umount()
+Message-ID: <loqxahkvp7givyu2uyngsah3blxegywjbslj7cay27nnut3z7s@zybn6vft6az7>
+References: <20260518135349.1187628-1-libaokun@linux.alibaba.com>
+ <20260518135349.1187628-3-libaokun@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Reply-To: sedat.dilek@gmail.com
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Wed, 20 May 2026 10:41:43 +0200
-X-Gm-Features: AVHnY4KPPOdiSf3D9owJh82CawH7n6nLYG5RZwzmpSRfk9afuoR5KxuAhVsAfLs
-Message-ID: <CA+icZUV3EJDQ1eo05YrMJsrc021G6T9YTd__DGKEKgpNa4Gz1Q@mail.gmail.com>
-Subject: How to unsubscribe from linux-fsdevel mailing list?
-To: linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260518135349.1187628-3-libaokun@linux.alibaba.com>
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.com:email,alibaba.com:email];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 50F4E6B2F6
+X-Spam-Level: 
 
-Hi,
+On Mon 18-05-26 21:53:48, Baokun Li wrote:
+> Commit e1b849cfa6b6 ("writeback: Avoid contention on wb->list_lock when
+> switching inodes") replaced the queue_rcu_work() based scheduling of
+> inode wb switches with a plain queue_work().  Since then no switcher
+> goes through call_rcu(), so rcu_barrier() in cgroup_writeback_umount()
+> has no callbacks of its own to wait for.  It still drains unrelated
+> call_rcu() callbacks from other subsystems on busy systems, which
+> incidentally slows umount down; drop it.
+> 
+> Fixes: e1b849cfa6b6 ("writeback: Avoid contention on wb->list_lock when switching inodes")
+> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
 
-I tried ...
+I've already replied to previous version but anyway: feel free to add:
 
-To: majordomo@vger.kernel.org
-Subject: (Can be left blank)
-Body text: unsubscribe linux-fsdevel
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-But did not get a confirmation.
+								Honza
 
-Help is much appreciated.
-
-Best thanks.
-
-Best regards,
--Sedat-
+> ---
+>  fs/fs-writeback.c | 5 -----
+>  1 file changed, 5 deletions(-)
+> 
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index 6766de9f9d75..325a30cc35bf 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -1248,11 +1248,6 @@ void cgroup_writeback_umount(struct super_block *sb)
+>  		 * will then drain it.
+>  		 */
+>  		synchronize_rcu();
+> -		/*
+> -		 * Use rcu_barrier() to wait for all pending callbacks to
+> -		 * ensure that all in-flight wb switches are in the workqueue.
+> -		 */
+> -		rcu_barrier();
+>  		flush_workqueue(isw_wq);
+>  	}
+>  }
+> -- 
+> 2.43.7
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
