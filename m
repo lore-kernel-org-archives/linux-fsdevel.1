@@ -1,118 +1,152 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001D63D8914;
-	Wed, 20 May 2026 10:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9683D6CDE;
+	Wed, 20 May 2026 10:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779272407; cv=none; b=Jg9Am5ftQo2y8tJvhOV5xTEA5DuhB2Z9v+rgownaZeyzAvScpMFzEHbVtPjfLosGT8C/c93zv3wkU5Cnu+smAly55zyehQu/rhTcFSXlCp/d3MggLkATyLqCbAfpGSxzv7HXaAgOJWOuaNl4jR//Os/8Ca7ZWemTyJZabe2NaEs=
+	t=1779273376; cv=none; b=DickfvuGo5TY8tMT5du2kbWqgIbyh/vF61aTXVT3lRPMLOCum09IBp1rU3e9GPDk104tg9+QA2Y1GC0F5mEWIQ8IaCzJSwHVWAALxzKR+yn6OiXxAn9cg+v7oZLmBvxVmHghJFvG/1erZr5sCsu07G6aUA8mAd0SMGyXkOIrdWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779272407; c=relaxed/simple;
-	bh=nlOvajUKQD2BdgpVjY1kpIMhzz4fKhzvO5HvrkmpJ+g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ts93Jqvey7R2NMXHg25jJwrxF0nOVmAYB/mQXh7lNczQnTpvdMP0nTt1Q15AYCQvJxSoEi3gaiOzjIsE4u58TEVJpesxK8+xmbSm2Fa0uyMtKIRzfARGW4pAL6S6me6o6OK/e/Nq2U2sI5eY+IsxbEM6oW4LmiNwD5nB9puCxCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AuLw0WFb; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1779273376; c=relaxed/simple;
+	bh=L1Wb3zEfNNkdT7zV2PzG8/2wJqS2ao5C3LY8S+tZhKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QJ8Rx2Ze91hrEnE8+aOGS34YP05tQUR1lG04SAh6Cdfug533195M1l34lMKXioX/qIq8AXWIzXQB1jqgvSsUOzInR23xQ5fxJYvzdltjwwnsk2103eRJcscC+tKfcsgJ2rnFoyauLUbOoCBW1ko5PL1GQjjlQo9gN6vYwPKZDJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fjsfbsXw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AuLw0WFb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=th
-	5U1L5vmkhODOQbkCC1ck4kSZkOj2dVnpqhVaNU8Qs=; b=AuLw0WFbsvQEJCokO1
-	Yp3PrR43mnNKiQroLSUV6P0BDgy0E1XKXhERkECG0XxbAuXsuiH8pwsyEVyDP/ub
-	xKkUmmJRSPbRJl6EWXabBLOkqpdR4LEhpERQ0p3TbmRrawwbo8AH+6Zv8lUOivZZ
-	qt2H6lhmk3kJ4Ha6m2pWwH10k=
-Received: from czl-ubuntu-pc.. (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgDXbbprig1qQK31EQ--.641S6;
-	Wed, 20 May 2026 18:18:26 +0800 (CST)
-From: Chi Zhiling <chizhiling@163.com>
-To: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Zi Yan <ziy@nvidia.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Nico Pache <npache@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v1 4/5] mm/shmem: introduce copy_zero_to_iter() for large zeroing
-Date: Wed, 20 May 2026 18:15:37 +0800
-Message-ID: <20260520101538.58745-5-chizhiling@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260520101538.58745-1-chizhiling@163.com>
-References: <20260520101538.58745-1-chizhiling@163.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fjsfbsXw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A81CC1F00893;
+	Wed, 20 May 2026 10:36:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779273373;
+	bh=cwX7WMzB3XSP5JCBGi4fhXM6QoPkrhKmDcY5/WNc3m0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fjsfbsXwGP3a+plBAu7Vs6pRl7q9akjfcia77L9Tggc11hjUGSy/Vtzq6Elhty6OZ
+	 TI15+RB0PKAmIZtobwOtZxi0z85nerMFSDUkDnkj4El9aSZpMq9GFbOlxZA/1tuuka
+	 bpZtC01gsW52Fd7yX0pKgMeK8FyYZ8sdOJBBZhq+sYQiDbMZoAutMAsI5c0HztIRb+
+	 qnpnOmBcbLI/XQzeI7v3196AaO4EHmrobrFkLK5fouzwtL+GFn6idWk9EgM54t/RFy
+	 dUmtSeT9kwczYUP5uRBDRb/ebMznpS5VLeCH01JTbhB3NDJxhpA8EoG7UmRz2ca77r
+	 vKm0tCitpuAzQ==
+Date: Wed, 20 May 2026 18:36:07 +0800
+From: Zorro Lang <zlang@kernel.org>
+To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Cc: "fstests@vger.kernel.org" <fstests@vger.kernel.org>, 
+	"glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>, "frank.li@vivo.com" <frank.li@vivo.com>, 
+	"slava@dubeyko.com" <slava@dubeyko.com>, Zirong Lang <zlang@redhat.com>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH] xfstests: disable generic/003 for HFS file system
+Message-ID: <ag2M-ndyIT4Fk5bv@zlang-mailbox>
+Mail-Followup-To: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>, 
+	"fstests@vger.kernel.org" <fstests@vger.kernel.org>, "glaubitz@physik.fu-berlin.de" <glaubitz@physik.fu-berlin.de>, 
+	"frank.li@vivo.com" <frank.li@vivo.com>, "slava@dubeyko.com" <slava@dubeyko.com>, 
+	Zirong Lang <zlang@redhat.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20260514200004.354432-2-slava@dubeyko.com>
+ <agmF-PIo1yRu9KHK@zlang-mailbox>
+ <3ed32501c3b9af0370cb749a0a7888c4c68d745a.camel@ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgDXbbprig1qQK31EQ--.641S6
-X-Coremail-Antispam: 1Uf129KBjvJXoW7CF4kZr13Kw18Kry8CryxuFg_yoW8WFyxpF
-	y3G3Z8Ar4kJayfWr4fXF4rur1Fvr93J3yUGFWxGF4YvFn0qr98KFyrKFyYkFWfAryUCw1I
-	qa10yryYka10yrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j1-erUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9xKcOmoNinIMnAAA3M
+In-Reply-To: <3ed32501c3b9af0370cb749a0a7888c4c68d745a.camel@ibm.com>
 
-From: Chi Zhiling <chizhiling@kylinos.cn>
+On Mon, May 18, 2026 at 06:27:52PM +0000, Viacheslav Dubeyko wrote:
+> On Sun, 2026-05-17 at 17:38 +0800, Zorro Lang wrote:
+> > On Thu, May 14, 2026 at 01:00:05PM -0700, Viacheslav Dubeyko wrote:
+> > > HFS hasn't any field in on-disk layout that can keep
+> > > the file/folder access times (atime):
+> > > 
+> > > /* The catalog record for a file */
+> > > struct hfs_cat_file {
+> > >         s8 type;                        /* The type of entry */
+> > >         u8 reserved;
+> > >         u8 Flags;                       /* Flags such as read-only */
+> > >         s8 Typ;                         /* file version number = 0 */
+> > >         struct hfs_finfo UsrWds;        /* data used by the Finder */
+> > >         __be32 FlNum;                   /* The CNID */
+> > >         __be16 StBlk;                   /* obsolete */
+> > >         __be32 LgLen;                   /* The logical EOF of the data fork*/
+> > >         __be32 PyLen;                   /* The physical EOF of the data fork */
+> > >         __be16 RStBlk;                  /* obsolete */
+> > >         __be32 RLgLen;                  /* The logical EOF of the rsrc fork */
+> > >         __be32 RPyLen;                  /* The physical EOF of the rsrc fork */
+> > >         __be32 CrDat;                   /* The creation date */
+> > >         __be32 MdDat;                   /* The modified date */
+> > >         __be32 BkDat;                   /* The last backup date */
+> > >         struct hfs_fxinfo FndrInfo;     /* more data for the Finder */
+> > >         __be16 ClpSize;                 /* number of bytes to allocate
+> > >                                            when extending files */
+> > >         hfs_extent_rec ExtRec;          /* first extent record
+> > >                                            for the data fork */
+> > >         hfs_extent_rec RExtRec;         /* first extent record
+> > >                                            for the resource fork */
+> > >         u32 Resrv;                      /* reserved by Apple */
+> > > } __packed;
+> > > 
+> > > This patch disable the generic/003 test-case for
+> > > HFS file system.
+> > > 
+> > > Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> > > cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> > > cc: Yangtao Li <frank.li@vivo.com>
+> > > cc: linux-fsdevel@vger.kernel.org
+> > > cc: fstests@vger.kernel.org
+> > > ---
+> > >  common/rc | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/common/rc b/common/rc
+> > > index 5fe44e21..b897ef0b 100644
+> > > --- a/common/rc
+> > > +++ b/common/rc
+> > > @@ -4559,6 +4559,9 @@ _require_atime()
+> > >  	ceph|ceph-fuse)
+> > >  		_notrun "atime not maintained by $FSTYP"
+> > >  		;;
+> > > +	hfs)
+> > > +		_notrun "atime not maintained by $FSTYP"
+> > 
+> > Good to me, thanks! But how about grouping "hfs" together with "ceph|ceph-fuse",
+> > since you want them to share the same _notrun output message. I can help to
+> > change that when I merge it if you agree. Or you can send v2 with my:
+> > 
+> > Reviewed-by: Zorro Lang <zlang@kernel.org>
+> > 
+> > Currently we have two kinds of *output* in _require_atime:
+> > 
+> >         nfs|afs|cifs|virtiofs)
+> >                 _notrun "atime related mount options have no effect on $FSTYP"
+> >                 ;;
+> >         ceph|ceph-fuse)
+> >                 _notrun "atime not maintained by $FSTYP"
+> >                 ;;
+> > 
+> > But the boundary between them seems a bit fuzzy. If the struct supports
+> > atime-related fields, but the mount options don't work or are highly
+> > discouraged, it should fall into the first category (like NFS and CIFS).
+> > If the struct itself doesn't have atime, it should be the second category
+> > (like Ceph and HFS).
+> > 
+> > But looking at it this way, AFS's struct afs_file_status doesn't seem to
+> > have anything related to atime either. Haha, it's getting a bit messy here.
+> > 
+> 
+> I completely trust to your way of changing the patch. But if you need a reworked
+> version of the patch, then I am ready to rework it. But, I slightly lost the
+> point which modification should be done, finally. :)
 
-This is a prep patch for shmem folio batching in the read path, where
-non-uptodate folios need to be handled in the main iteration loop. A
-large non-uptodate folio should be treated as a hole.
+No worries at all, I might have caused some confusion. I have already Acked this
+patch. For this patch itself, you don’t need to rework anything, I will handle a
+minor clean-up during merge, to group hfs and ceph|ceph-fuse together :-D
 
-Currently, holes larger than PAGE_SIZE cannot be handled because
-ZERO_PAGE is limited to a single page. Add copy_zero_to_iter() as a
-wrapper to support copying larger zero ranges to the iterator.
+As for my question about AFS, I was just curious and wanted to have a quick side
+discussion; it has nothing to do with this patch and we can discuss it separately.
 
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
----
- mm/shmem.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Thanks for your patch!
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 458853c506ea..96ea5a4c0aff 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -3336,6 +3336,20 @@ shmem_write_end(const struct kiocb *iocb, struct address_space *mapping,
- 	return copied;
- }
- 
-+static size_t copy_zero_to_iter(size_t bytes, struct iov_iter *i)
-+{
-+	struct folio *zero = largest_zero_folio();
-+	unsigned long nr, ret, written = 0;
-+
-+	do {
-+		nr = min(bytes - written, folio_size(zero));
-+		ret = copy_folio_to_iter(zero, 0, nr, i);
-+		written += ret;
-+	} while (written < bytes && ret == nr);
-+
-+	return written;
-+}
-+
- static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- {
- 	struct file *file = iocb->ki_filp;
-@@ -3430,7 +3444,7 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 			 * clear_user() not so much, that it is noticeably
- 			 * faster to copy the zero page instead of clearing.
- 			 */
--			ret = copy_page_to_iter(ZERO_PAGE(0), offset, nr, to);
-+			ret = copy_zero_to_iter(nr, to);
- 		} else {
- 			/*
- 			 * But submitting the same page twice in a row to
--- 
-2.43.0
-
+> 
+> Thanks,
+> Slava.
