@@ -1,119 +1,143 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78843233942;
-	Wed, 20 May 2026 03:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED29371889;
+	Wed, 20 May 2026 03:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779246548; cv=none; b=k6LZs4YwHtS1QjyxeZgNhBV7YMDf9iCFX2O2NIapasGLImzZ0bOg7dDeqbXdv6QbDmXa02OOXCOy8Kf5bEKm6dEoJIMUaHFLWXv4qPGdFDHKxzgQkKGLqUqy/lrejpcVxNgNG7HqM1Qj4ZKqNFVCAdGIajN0owxg9Ph3Ulp3Wr0=
+	t=1779249395; cv=none; b=Ot5vBkY64vhVQlIvC1aTf11r5gBY+Jr2cLqzSx47XKCzaQUJQElHglWG2x6j0ledi/IFPHkGtTX9Fu1diEcupXpZ7go6fDYWS/Kcg3qveJFerNWpJrkVPA0aDYXI6/V4BqGVBJvarHGwcBQrlSEl+zsuT6U7wzpa0pO1fT9sukQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779246548; c=relaxed/simple;
-	bh=AuomIMdvwAp3waardOeuebP3zFKHJ8Pv4PdUGs1HphE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FVClGN8g8UHdYuceCcoj5pS2cOEfDG8W19zIA4xAtuip8BVJGjq35yJfO+PhtDwVUpcJg0ta7LZ+VIlmr9rK23UPCds75MvwdQOrrLjiBiF28HW0n1j6s6PrbLMSP7kdLxdaFw0E+3P1cWIPbcC4jXZxCINSE58w+Wg+2z0hlJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gKxMY6rQzzKHMZn;
-	Wed, 20 May 2026 11:08:57 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id BEF8740572;
-	Wed, 20 May 2026 11:09:00 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP4 (Coremail) with SMTP id gCh0CgCnb1vGJQ1qn37HCw--.64508S5;
-	Wed, 20 May 2026 11:09:00 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-fsdevel@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Cc: linux-ext4@vger.kernel.org,
-	brauner@kernel.org,
-	djwong@kernel.org,
-	hch@infradead.org,
-	joannelkoong@gmail.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH v2 1/5] iomap: correct the range of a partial dirty clear
-Date: Wed, 20 May 2026 11:03:53 +0800
-Message-ID: <20260520030357.679687-2-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260520030357.679687-1-yi.zhang@huaweicloud.com>
-References: <20260520030357.679687-1-yi.zhang@huaweicloud.com>
+	s=arc-20240116; t=1779249395; c=relaxed/simple;
+	bh=OYwWmGW4VJ45HybR3KWpW+Ex8/FpANhlftj9FMzMwWE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=pHz67XEU3TCGdj2ZW4JdEwGkcdIZrRChOflofogItuPQ5d6SBkAzJZF1PUN25Gqs9kC9fETDPWOiLoSzE8S+huMutEtymgnkyoj/4QBeOmLiT+58kvVwMo57wU46g0rRee/thQPiQblG8VoDIUvFVUfg5Rvd8eJv1qrtwIHDv14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yi5WmgT9; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yi5WmgT9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A66B1F000E9;
+	Wed, 20 May 2026 03:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779249391;
+	bh=Lf4BSX3FaLVLxFUZXG4X89++fzsTeeUiOreKare3NAE=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=Yi5WmgT9qNmzIgl56d/8FR7Zec2qjm/QGuwMJJVK/eiZ+iHrkP+HTlejkd27p2kMs
+	 DgRek713kzBYXkFUfqP7Jel+kY3sGBrncvmxsixNR9U5P/LCYZ3sXQprVSU/Mngp1E
+	 ajBqr+C/NOFBlMlWtjS5VsbgJ+1sCQELS67yBdY+gLcFMx5dONa2l/arBIveDdJyG4
+	 ltUJzugmZROiOzyn8SO0XGE70UjwmnzjoJkR6WAK92GGycDY9b+qRwyhUnxD4c2jIq
+	 IoL5HB0CBtL6ZIK1RjNQXGqX5VItFd4xKyeLgH6ADIXSLXGtTST5sSwBklLZUV1DX8
+	 lWUP2/lYIyb1g==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id B4533F40088;
+	Tue, 19 May 2026 23:56:30 -0400 (EDT)
+Received: from phl-imap-16 ([10.202.2.88])
+  by phl-compute-02.internal (MEProxy); Tue, 19 May 2026 23:56:30 -0400
+X-ME-Sender: <xms:7jANagnWq9yfpj9HU2UuHzAfR7RJZP1GNX34AMbOM3A4JVdf6PZC7g>
+    <xme:7jANaqoLUVFcEpaXUlGrNV5q5fiZf9Y40Jxh1ROH0D4n0h7yrMiIrsLgeQSfwLUDP
+    CxKJBDizbi0-KYnDIviUwzNKVCIh_hhT6dreG457Gkmj8GTX_G6YLV5>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeefiedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfffgrnhcu
+    hghilhhlihgrmhhsfdcuoegujhgsfieskhgvrhhnvghlrdhorhhgqeenucggtffrrghtth
+    gvrhhnpeegueekjeehudehheduffekgfehvddtgfeutdeukeeihefhleeuieeuuedtteeh
+    ieenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepughjsgifodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqddujeejvdeftdegheehqdeffeefleegtdegjedqughjsgifpeepkh
+    gvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohepudeg
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsvghnjhgrmhhinhdrtghhvggrth
+    hhrghmsegrmhgurdgtohhmpdhrtghpthhtohepshhmihhtrgdrkhhorhgrlhgrhhgrlhhl
+    ihgthhgrnhhnrggsrghsrghpphgrsegrmhgurdgtohhmpdhrtghpthhtohepthhomhgrsh
+    iirdifohhlshhkihesfhhujhhithhsuhdrtghomhdprhgtphhtthhopehjohhnrghthhgr
+    nhdrtggrmhgvrhhonheshhhurgifvghirdgtohhmpdhrtghpthhtoheprghlihhsohhnrd
+    hstghhohhfihgvlhgusehinhhtvghlrdgtohhmpdhrtghpthhtohepuggrnhdrjhdrfihi
+    lhhlihgrmhhssehinhhtvghlrdgtohhmpdhrtghpthhtohepuggrvhgvrdhjihgrnhhgse
+    hinhhtvghlrdgtohhmpdhrtghpthhtoheprghruggssehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehnvhguihhmmheslhhishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:7jANakhaQIct7-HcyDQh8Uys7wpXa4e7QFzi4zl6DeyKCBJ-bmeG2A>
+    <xmx:7jANasdESi0dWC1NCP28lLBSKgUX_GtnbBZAOSfMx-slJWtoeyob7Q>
+    <xmx:7jANatIXCZBblrz8LlnkrOwQ6a-nq_tzhE7gzrH2cBpeXFRjo7a8Nw>
+    <xmx:7jANaplDiMSFS8x-QBz0m3L-tG-9XWYTw3KXvWpQ88susceytl1ibg>
+    <xmx:7jANaleur3pSS5wx0W7GXKSDYWCwv4zBOLV7VZDQlkebo4W8TlDyGTgd>
+Feedback-ID: i67ae4b3e:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9341A2CC0083; Tue, 19 May 2026 23:56:30 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgCnb1vGJQ1qn37HCw--.64508S5
-X-Coremail-Antispam: 1UD129KBjvJXoW7ury5ArW5Wr4DKF1xuryDJrb_yoW8CF1xpF
-	43KFs8KrWDX348u3WkZFWrXF1Fka9rWF48JrW3Wwn3Wa15JFyFgF1kuay5uFyUKr47AF10
-	vF13Kry7Cr4kArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
-	x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-	Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
-	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
-	IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
-	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
-	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x0JUIiiDUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Date: Tue, 19 May 2026 20:56:11 -0700
+From: "Dan Williams" <djbw@kernel.org>
+To: "Tomasz Wolski" <tomasz.wolski@fujitsu.com>,
+ smita.koralahallichannabasappa@amd.com,
+ "Alison Schofield" <alison.schofield@intel.com>,
+ "Dan J Williams" <dan.j.williams@intel.com>
+Cc: icheng@nvidia.com, linux-cxl@vger.kernel.org,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ nvdimm@lists.linux.dev, ardb@kernel.org, benjamin.cheatham@amd.com,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Jonathan Cameron" <jonathan.cameron@huawei.com>
+Message-Id: <ec26d3de-d556-4ab9-a333-d69d1e6cdda7@app.fastmail.com>
+In-Reply-To: <20260519101832.31988-1-tomasz.wolski@fujitsu.com>
+References: <20260519101832.31988-1-tomasz.wolski@fujitsu.com>
+Subject: Re: [PATCH v2] dax/bus: Upgrade resource conflict message to dev_err() in
+ alloc_dax_region()
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhang Yi <yi.zhang@huawei.com>
 
-The block range calculation in ifs_clear_range_dirty() is incorrect when
-partially clearing a range in a folio. We cannot clear the dirty bit of
-the first block or the last block if the start or end offset is not
-blocksize-aligned. This has not yet caused any issues since we always
-clear a whole folio in iomap_writeback_folio().
 
-Fix this by rounding up the first block to blocksize alignment, and
-calculate the last block by rounding down (using truncation). Correct
-the nr_blks calculation accordingly.
+On Tue, May 19, 2026, at 3:18 AM, Tomasz Wolski wrote:
+> The dax_region resource conflict in alloc_dax_region() indicates a
+> serious configuration problem =E2=80=94 two subsystems (e.g. dax_hmem =
+and
+> dax_cxl) are attempting to register overlapping address ranges. This is
+> not a transient or debug-level condition; it represents a genuine
+> resource conflict that an administrator needs to be aware of.
+>
+> Switch from request_resource() + dev_dbg() to
+> request_resource_conflict() + dev_err() so that the conflict is visible
+> by default and the colliding resource is identified in the message.
+>
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Link:=20
+> https://lore.kernel.org/linux-cxl/69c1a8d1c0fa9_7ee3100a1@dwillia2-mob=
+l4.notmuch/
+> Signed-off-by: Tomasz Wolski <tomasz.wolski@fujitsu.com>
+> ---
+>  drivers/dax/bus.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index 68437c05e21d..66413c6c2ba0 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -637,7 +637,7 @@ struct dax_region *alloc_dax_region(struct device=20
+> *parent, int region_id,
+>  		unsigned long flags)
+>  {
+>  	struct dax_region *dax_region;
+> -	int rc;
+> +	struct resource *conflict;
+>=20
+>  	/*
+>  	 * The DAX core assumes that it can store its private data in
+> @@ -670,10 +670,11 @@ struct dax_region *alloc_dax_region(struct devic=
+e=20
+> *parent, int region_id,
+>  		.flags =3D IORESOURCE_MEM | flags,
+>  	};
+>=20
+> -	rc =3D request_resource(&dax_regions, &dax_region->res);
+> -	if (rc) {
+> -		dev_dbg(parent, "dax_region resource conflict for %pR\n",
+> -			&dax_region->res);
+> +	conflict =3D request_resource_conflict(&dax_regions, &dax_region->re=
+s);
 
-Fixes: 4ce02c679722 ("iomap: Add per-block dirty state tracking to improve performance")
-Cc: <stable@vger.kernel.org> # v6.6
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/iomap/buffered-io.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index d7b648421a70..64351a448a8b 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -176,13 +176,17 @@ static void ifs_clear_range_dirty(struct folio *folio,
- {
- 	struct inode *inode = folio->mapping->host;
- 	unsigned int blks_per_folio = i_blocks_per_folio(inode, folio);
--	unsigned int first_blk = (off >> inode->i_blkbits);
--	unsigned int last_blk = (off + len - 1) >> inode->i_blkbits;
--	unsigned int nr_blks = last_blk - first_blk + 1;
-+	unsigned int first_blk = round_up(off, i_blocksize(inode)) >>
-+				 inode->i_blkbits;
-+	unsigned int last_blk = (off + len) >> inode->i_blkbits;
- 	unsigned long flags;
- 
-+	if (first_blk >= last_blk)
-+		return;
-+
- 	spin_lock_irqsave(&ifs->state_lock, flags);
--	bitmap_clear(ifs->state, first_blk + blks_per_folio, nr_blks);
-+	bitmap_clear(ifs->state, first_blk + blks_per_folio,
-+		     last_blk - first_blk);
- 	spin_unlock_irqrestore(&ifs->state_lock, flags);
- }
- 
--- 
-2.52.0
-
+Just report the request_resource() failure. This case does not warrant e=
+xporting request_resource _conflict(). Historically one driver can not m=
+ess with another driver's resource beyond conflict detection.
