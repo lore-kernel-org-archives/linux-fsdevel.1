@@ -1,217 +1,145 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4303D8100
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 12:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B913F37FF42
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 12:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779367143; cv=pass; b=nAwnZc5yaO57bzfaurO0wDoVa97328jMWrwaQHr2jIN/wEpaInGTOAUJkci42k1HEBo9aVCICHGusRXcONFIA503t3+CYHfgqx0k8HfZpu7que2dAppkGwpfMmvJ4ftgoGDCxbUNYGVqND9JSYAYoX294k6dvCBa0oMZ7yZ32WE=
+	t=1779367716; cv=pass; b=Cs+90IUewUzcBR+xQla1/NedYRQmV9D+t32mhSQQBrDnxdkcJc8BHrK2Tp7osO5mXPZfTZwRHQWUGIctgPVkrLJAb9VlkpPjX8fe+9Mmm7g5TDPUeHvZilu/+CSlgkgOJoXXXDDa/sTKkpvdEtzooBZer6pGKgsyeRRIjUDgZts=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779367143; c=relaxed/simple;
-	bh=RiahDbEJAc+a6SEUc46bDIXeBBSM67xZIAhPJO19bM4=;
+	s=arc-20240116; t=1779367716; c=relaxed/simple;
+	bh=wXgFJ0QEwOAX606VR2Z3OAxNnPPTK3/ujlGfL1Shfns=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FIXxeBYjTaJs1QgJ+292nI25g0+swRuN00dZU3Eb0iBdM9EO5mLNqv5n32Uwf4AWZqCrLtZSs/yYGzXY/HE85rRxsR7zvREmGDLAtq00wmfW+wm2mxksd+Ag0aPb6JpInodQQnKqi0x0UABZMw/sbM9Qt78tu7L+eAMrA5GtFNM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G6t7CYjH; arc=pass smtp.client-ip=209.85.208.49
+	 To:Cc:Content-Type; b=Rsvtou2l33obm7DPnZBdk6YVYxobqPHPV7kY5PvIKNrIPNH5HnvkA0scdDj1PWwS+sRrdC6aHt/umKq+txCm9cljDQ7/V85/ocY2UePyOZYWW7CTQ4dAP3LXw+rM5F4qBnUD75hrVbtBi/wfmyembqetKtSdGlivCuqmJg8FcXk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iKwBuzgZ; arc=pass smtp.client-ip=74.125.224.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G6t7CYjH"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6877c719cb0so2243643a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 05:39:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779367140; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iKwBuzgZ"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-651ce87d785so566706d50.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 05:48:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779367714; cv=none;
         d=google.com; s=arc-20240605;
-        b=D+ETbwPlHnUWp5g58IDaemG/tly8pz5vq1xzbievdT3kGxLVFurpor/UsHANAFizmA
-         Dv85pEQEjC7Gfx6qrjXxaJox3chELI60mI3J3fEZXLBh02A1vB7jKz8Q9WD42Ud7nBke
-         TQc/qWMbeYmo+GPQc2mjCTGf3vbJz3FRnmaZQLdwbxZpg23SB/JkndojXU+E+bl1sS44
-         IMxKSkWMWdjqPRVFQSWeEYqCFxmqZxkxIN8/2gSwxPUDAkRqTg5znRUgk0VOQjLuQPLk
-         AJkOUgoMW1UgHJ7l1ViXQQic/T8Y79rbKFuZjcFcpilmgJW2s9k0n0xjzDLj8Vw72uYi
-         7oYg==
+        b=UYE3ZBSYh/iF7C4g9Uz8T586i3RNk2RHtegSAMyHGtpvD16dJWIX7dNwUFjJLv/M4A
+         oMKf4hZ0s9XzqqguLkZOwsOe7+tcFNxhmn/98kHSNj29h8ez5UVSoMJPh2im5/UwB48L
+         hoKU3hrbzcz/r8hlxGRRkk2lOGpUfkL/XoY6ugwE09kQ2kqFkR0q2XNYrCQOfJsoCOIU
+         0rVf0KbXu+KCqowKiCKS6hmUxZwJETJWefuozyNdprG4jvFgq2UNRr+2FZm1vORzfOKR
+         7P4Nbo9V2dwjESa87VzccIvbt+A5xokjKzFaYCUeabLOnY9K0mVEXSufGzV+PANEl3TH
+         tf0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=dopi5lqgBCxQSuAudmyQPmhNkwArDVQ9G92RMimBsT4=;
-        fh=DS0TROp2jKYzqPSJgZpz7zj0c73uf1je9yOJYjo8RPc=;
-        b=Jq+IzXDO3pZHtJll4udsva+2u2ohug/7luwZIdyK7moQly4J4avjVbjFDAxhJKXchW
-         o9ehlihxyiKDkPg7P/cFvs5Apw8u7QvwTh/WvPidaEuLBEpU1dID6aP+K66HGzteSgGs
-         4aUFu+pdg9zfFXFt3lJJ0SBrsUDdYN4kuHRGlrb/DxRa7TXOBjeiaWJsDl2F41OcLkzM
-         TLjsF7hPmVrXtPrrIFVmudcE3D/z4NIBRy4jER3Ue1Yn94TlBMW8shYRzxdFURvkWh2z
-         rKgFjO8Dp+G+Iywov06dXA0asR3hh03xKkGm/Ncz4ieTY+4tXdHTtJYfoRbcx2ez7/7Q
-         15BA==;
+        bh=bhH64AcohOQ97D3Lp/oawtZDe5Yax58Imt0i4CtV51M=;
+        fh=vSunDo7OycykUVtY2iNLqn1dg6c3v2+09N4gR1b58PQ=;
+        b=DF0bZ3Tixq/L/ZuJb9IWoVxT4M+wKY4VNr4vx+u2B5+yca2rWgz53HK9IemJyVtQCm
+         /DFwEnKcoFe4cb7hyBXaAwddTT5MW6XFeix7cgMe6ShAkUqgSwsFikZW1vU0PeiKdYuL
+         F5oX3sKOJHJLJM1Adn7xswOisraBEG98MC1bH3BO73ossicnHZ/uBmlJtMV1h+Tlyj0Q
+         BD4XYUrhQ9uB9AvB11uWOsUkr6e5CepMVVLZBwpGpMVBwypcfHsJm5C457yM+8FrFJBK
+         Lz8iCSvWSXvRkf7GkX8YPovjN+bwvLSSD0cI1BHAyV4pBrEqvQBVeFnwDzKeNuKUIWer
+         xvyQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779367140; x=1779971940; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779367714; x=1779972514; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dopi5lqgBCxQSuAudmyQPmhNkwArDVQ9G92RMimBsT4=;
-        b=G6t7CYjHbyGZ7gGKlWqvPx9K0P/fFJ1Yqfdyz4G0HNiGlffzFndo64mp63NwSqJTBs
-         5/EgLXZKHLt5OuPTzoEAPq/uRKMBsnEMzi10+Klv7VPdMV1p8B+iu6Zsi2Kf6LcjXMaO
-         8Vn975La2iMumihnbYDIMZMktwezlaw3Wf1lIQHwBGv/KqG6He1OCCqm2DCbL+ggDEih
-         U6rU9CJi2kMMRWX2nl4t1kz/1UuKerQ2BbVyvl4HOIoITmEqIPFWA3DO/sdDAefa70+E
-         OSg/pK1DEnvCQ0hixSsoZC4H3OwbT+apMMiy70vnUEaHoINx4fHGb+XztwlbqhUmreKG
-         dIDQ==
+        bh=bhH64AcohOQ97D3Lp/oawtZDe5Yax58Imt0i4CtV51M=;
+        b=iKwBuzgZb0TVDFIMoUDKlizn4mZA13sLxlFDDWzQHyFfHhEQs1WolYLCx/Bii0sr1J
+         jACIKHsR/yAn3K6fMNNvCIibAxHKsOd10UnlioWdRgJIyPnE4DXAla5AVNmkKFzpprni
+         e8rX8fcylHxZKMm7LYeTu4WSTJglFc/CwatQ4NcGFE5pgWLw2nexB7+5wGf6ZPU6grJF
+         K+/RN+Iw9x3OneniDe/yuUlRTKCmR2BMzw77ZH568qy1nS4Va9Bl0K3ZyiTbRoDEk+WB
+         MN9MGFbpf9gESiJvIrcL5jl2KzrR9TCpc2xWoQ5+z6oqqE7A1pVT2gYZcwrXH1G8wNCK
+         T+AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779367140; x=1779971940;
+        d=1e100.net; s=20251104; t=1779367714; x=1779972514;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=dopi5lqgBCxQSuAudmyQPmhNkwArDVQ9G92RMimBsT4=;
-        b=UX2aHHCJdF1/Ul/qZUe5fRY9NrnUbxlPrWL9JC9IHw3DIGo3PwxTkHGUjnzzC4Za03
-         DnKFQyezXOcaZWgal2ow96FSlmbvuCduQlvAunXBUlIjAzoGGW8ZwIbbujeITrDVcPIT
-         Kx35bAggetT0yzIy6zfJBfeQuXXFS7eRcjqv6IVAGQ5E5lXkf2fFEWChgymASFz8U9wY
-         nymeofr6K3+kNdke88CSOWIPAtVGufGK6FnASL/M1j2htT9QgGXPC+OJ3JdEzUF6wyyS
-         3v0n++whK7Bfdezh/UKUT1ZAeifJ8MpjzHRb3qzNFApuIu2o/qGyj1aQeqeREFN9PI6Y
-         U3Bw==
-X-Forwarded-Encrypted: i=1; AFNElJ/w/pB0t68LNsC33oykhfqmwXHz2A905IsvRB2vn81qp5fc8BFkqybeHER+SQBSkVs3k8qyfM3+BvWSmp+E@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDBBsu2FXUZF3wgxx4Cw9JdWbHRIwF4tkfRuMf4GF4B5xtzgvf
-	ywiJ9yxKe29iT5OE2hWLW6a34DgZsc/nrAJ2cZRo8tQ1Whe4MrIZy+1CNK9sXfRMjM2I1iGj3jq
-	Z328X04Q/UDO4tfX/m9akkNjTWjX2XsU=
-X-Gm-Gg: Acq92OFplyq/NDN+5i0+oQmLxbGpLEMFWh4oDA4K6jCujCoL40mKyLoWCpnVQ0YDnO6
-	IIgcJa4lTEcGKPTJAVCPYWYErrVKXFDHiTsDJSoRbPQA4rghUPlLbgOTfEwqoHK54r3P6CLGaQe
-	JCjo1MPdU1zjJqpx4b+biUwG559EyFCoeyRxBBylTgQIljCFh9bZC+YJX9rPdQPcVf+2YM+IshX
-	4PUFRcTiDLhcBMTmIkwDgA0A0DeZcwVq2A4NilNbtsKGIlBxS+6x798QpoHfep55U/VvgmC4fDq
-	dw19T3sY4svg4wTlWzH3gAEIm7Qvh3VIr+gkUa0ZHRcp2OVZew==
-X-Received: by 2002:a05:6402:34c4:b0:683:1cc8:84ae with SMTP id
- 4fb4d7f45d1cf-688356291damr1244493a12.7.1779367140215; Thu, 21 May 2026
- 05:39:00 -0700 (PDT)
+        bh=bhH64AcohOQ97D3Lp/oawtZDe5Yax58Imt0i4CtV51M=;
+        b=Aieb3KrgaG5X45kRRwNeUbTPVnit/BpJY07zFuh7UDNlsznJ8v8natG2dUUEiNxp5k
+         IlzqOjjxlL1pzTc/Z8M1LX0yzbXrTSawD9kfw17zcumicDomhxFP2OG/8q64N2N/a4Rw
+         ERSKvJNR5czlJlIqD6tw7Rgg3wVijno6pTirZ8FDnf6QlNEMBhAEna11Qyq4D54n4eJX
+         luqOfJewoukQjv5a++ppWdOrcdhgV1ZHDhMpDMNhfmef9Ttjdxm89uM/XHL8g3IaXQD3
+         8BuCr04Ht9wf+0Cguy+m5GmxYNxC5NYOVIWs7xSDLjhuFLqroQR6Dc6Fo1XJCvV7Jbpj
+         6ylA==
+X-Forwarded-Encrypted: i=1; AFNElJ82BqPJXRck4Je4zvqrVCqligCe9+/9XvjWBkvseywg8Lw+eFFJEORlQrSYJ8kN57yrzqXFh6ON9BGTNmze@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8lZ+9nlOPjasBys+JVH0NtPyWKDPIP8A+EXkOaHJTz7AV4FWa
+	1j0KpB5pMgGK4dams92tvMXuwQb3q+ZxjjKrOVmw9HYU0J/+hDXOqw7NV5Af8Kd+UyQzsMcFLdX
+	DwTqyVKvWLEmnHjXkHjiwNt31HSp98gM=
+X-Gm-Gg: Acq92OGDSjQxsT04V782XGAQDHxaDpT360lTk9PxGbU5O2shKnf6hlCWGgM6PWenjia
+	I2SBa7OM42ElRmL+8zRZ0Il3nMzro3RZkx2M/evIW6vqNzj6z5hX20KbSZ4QFm10SMhDtH9Iguq
+	fwn9biB/7omj9TQehNPJyribavB/OLvTB7Q3dEhg7matF/+2LkOVaTePiOFamdMwoo4sVIRI0cT
+	kZIe+L4Rs48APsdITWgi8I1dMIGEt2VOt5cTR2pNaslVvbMx6E8dSUVQOPnx43xNU1XEuz0zTuE
+	R1W/SN6c9ZVI6kGA8ufq
+X-Received: by 2002:a05:690e:120d:b0:651:b163:fc88 with SMTP id
+ 956f58d0204a3-65eae30cc3bmr1597919d50.5.1779367713703; Thu, 21 May 2026
+ 05:48:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1752824628.git.namcao@linutronix.de> <43d64ad765e2c47e958f01246320359b11379466.1752824628.git.namcao@linutronix.de>
- <CACSApvZT5F4F36jLWEc5v_AbqZVQpmH1W7UK21tB9nPu=OtmBA@mail.gmail.com>
- <20250718085948.3xXGcxeQ@linutronix.de> <20260429-november-speisen-3084d769d316@brauner>
- <87340exm2o.fsf@yellow.woof> <xbotidrmois5ygxtqtwqzczkt76wcc7uw5cz5lptda53coaavj@pzvxcpe534cu>
- <87cxzc62yp.fsf@yellow.woof>
-In-Reply-To: <87cxzc62yp.fsf@yellow.woof>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Thu, 21 May 2026 14:38:47 +0200
-X-Gm-Features: AVHnY4L3kuzvNft9YsihiRD6AmCZerhnkTxoTD2mo1YBA8rn2fL0bTYmJkGq3-c
-Message-ID: <CAGudoHFGHsuGUXmefSrGfOkdcoPJnC5a1qbjc9_G4guC4LvJgQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] eventpoll: Fix epoll_wait() report false negative
-To: Nam Cao <namcao@linutronix.de>
-Cc: Christian Brauner <brauner@kernel.org>, Soheil Hassas Yeganeh <soheil@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Khazhismel Kumykov <khazhy@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Eric Dumazet <edumazet@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, stable@vger.kernel.org
+References: <20260520170151.4115308-1-charsyam@gmail.com> <20260521101751.591345-1-charsyam@gmail.com>
+ <20260521101751.591345-3-charsyam@gmail.com> <CAKYAXd_usY7yTjFt92r5V4HGn_RTR2mhu7JFbVxSjttYivzrSQ@mail.gmail.com>
+In-Reply-To: <CAKYAXd_usY7yTjFt92r5V4HGn_RTR2mhu7JFbVxSjttYivzrSQ@mail.gmail.com>
+From: CharSyam <charsyam@gmail.com>
+Date: Thu, 21 May 2026 21:48:21 +0900
+X-Gm-Features: AVHnY4JsLfLt_Ed9u4SRAGlLkO9rPOIWM9TzEbTeYwVv0Svs4Hf9rxS3DH-rx3I
+Message-ID: <CAMrLSE7npNDECFg3qnX6NKXUoXYps326GN=BnBjKxoUPciuDzg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ntfs: avoid heap allocation for free-cluster
+ readahead state
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 3, 2026 at 3:24=E2=80=AFPM Nam Cao <namcao@linutronix.de> wrote=
-:
->
-> Mateusz Guzik <mjguzik@gmail.com> writes:
-> > Strictly speaking more error prone than the seq approach, but should be
-> > faster on weaker-ordered archs thanks to avoided fences.
-> >
-> > I'm definitely not going to protest the seqc route.
->
-> Linus probably wouldn't be thrilled if I break epoll again, so let's
-> stay with the simpler seqcount route.
->
-> Nam
->
-> diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-> index a3090b446af1..22c3f0186476 100644
-> --- a/fs/eventpoll.c
-> +++ b/fs/eventpoll.c
-> @@ -38,6 +38,7 @@
->  #include <linux/compat.h>
->  #include <linux/rculist.h>
->  #include <linux/capability.h>
-> +#include <linux/seqlock.h>
->  #include <net/busy_poll.h>
->
->  /*
-> @@ -190,6 +191,9 @@ struct eventpoll {
->         /* Lock which protects rdllist and ovflist */
->         spinlock_t lock;
->
-> +       /* Protect switching between rdllist and ovflist */
-> +       seqcount_spinlock_t seq;
-> +
->         /* RB tree root used to store monitored fd structs */
->         struct rb_root_cached rbr;
->
-> @@ -382,8 +386,17 @@ static inline struct epitem *ep_item_from_wait(wait_=
-queue_entry_t *p)
->   */
->  static inline int ep_events_available(struct eventpoll *ep)
->  {
-> -       return !list_empty_careful(&ep->rdllist) ||
-> -               READ_ONCE(ep->ovflist) !=3D EP_UNACTIVE_PTR;
-> +       bool events_available;
-> +       unsigned int seq;
-> +
-> +       do {
-> +               seq =3D read_seqcount_begin(&ep->seq);
-> +
-> +               events_available =3D !list_empty_careful(&ep->rdllist) ||
-> +                                  READ_ONCE(ep->ovflist) !=3D EP_UNACTIV=
-E_PTR;
-> +       } while (read_seqcount_retry(&ep->seq, seq));
-> +
-> +       return events_available;
->  }
->
->  #ifdef CONFIG_NET_RX_BUSY_POLL
-> @@ -735,8 +748,12 @@ static void ep_start_scan(struct eventpoll *ep, stru=
-ct list_head *txlist)
->          */
->         lockdep_assert_irqs_enabled();
->         spin_lock_irq(&ep->lock);
-> +       write_seqcount_begin(&ep->seq);
-> +
->         list_splice_init(&ep->rdllist, txlist);
->         WRITE_ONCE(ep->ovflist, NULL);
-> +
-> +       write_seqcount_end(&ep->seq);
->         spin_unlock_irq(&ep->lock);
->  }
->
-> @@ -768,6 +785,9 @@ static void ep_done_scan(struct eventpoll *ep,
->                         ep_pm_stay_awake(epi);
->                 }
->         }
-> +
-> +       write_seqcount_begin(&ep->seq);
-> +
->         /*
->          * We need to set back ep->ovflist to EP_UNACTIVE_PTR, so that af=
-ter
->          * releasing the lock, events will be queued in the normal way in=
-side
-> @@ -779,6 +799,9 @@ static void ep_done_scan(struct eventpoll *ep,
->          * Quickly re-inject items left on "txlist".
->          */
->         list_splice(txlist, &ep->rdllist);
-> +
-> +       write_seqcount_end(&ep->seq);
-> +
->         __pm_relax(ep->ws);
->
->         if (!list_empty(&ep->rdllist)) {
-> @@ -1155,6 +1178,7 @@ static int ep_alloc(struct eventpoll **pep)
->
->         mutex_init(&ep->mtx);
->         spin_lock_init(&ep->lock);
-> +       seqcount_spinlock_init(&ep->seq, &ep->lock);
->         init_waitqueue_head(&ep->wq);
->         init_waitqueue_head(&ep->poll_wait);
->         INIT_LIST_HEAD(&ep->rdllist);
+Hi Namjae,
 
-Apologies for late reply.
+Thanks for testing it.
 
-The diff reads ok to me, but I would consider not looping in case of
-seq mismatch.
+It built successfully on my local setup with gcc 13.3.0
+(gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0).  I tested it on top of
+mainline commit 8bc67e4db64a with CONFIG_NTFS_FS=3Dm using:
 
-So does it solve the problem?
+make O=3D/tmp/linux-ntfs-mainline-v2-build fs/ntfs/super.o
+make O=3D/tmp/linux-ntfs-mainline-v2-build fs/ntfs/ntfs.ko
 
-I think a somewhat of a blocker here would be to bench the thing -- I
-would expect some slowdown compared to stock kernel, but should be
-still be faster than the previously proposed patch.
+However, I found a portability issue in patch 2.  I used:
+
+struct file_ra_state ra =3D {};
+
+which gcc accepted here, but this can be rejected by stricter builds as
+an empty initializer.  I changed it to:
+
+struct file_ra_state ra =3D { 0 };
+
+and re-tested patch 2 alone and patches 1-2 on a clean mainline tree;
+both build fs/ntfs/super.o successfully.  The full series also builds
+fs/ntfs/ntfs.ko.
+
+I will send v3 with this fix.  If your build error is different from the
+empty-initializer issue, could you please share the exact error log?
+
+Thanks,
+DaeMyung
+
+2026=EB=85=84 5=EC=9B=94 21=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 9:19, N=
+amjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> >         /*
+> >          * Convert the number of bits into bytes rounded up, then conve=
+rt into
+> > @@ -1985,7 +1981,7 @@ s64 get_nr_free_clusters(struct ntfs_volume *vol)
+> >                  * Get folio from page cache, getting it from backing s=
+tore
+> >                  * if necessary, and increment the use count.
+> >                  */
+> > -               folio =3D ntfs_get_locked_folio(mapping, index, max_ind=
+ex, ra);
+> > +               folio =3D ntfs_get_locked_folio(mapping, index, max_ind=
+ex, &ra);
+> This patch causes a build error when applied. Does it build
+> successfully for you?
