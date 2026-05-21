@@ -1,256 +1,112 @@
-Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B0F28C037
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 05:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.23.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994F21FC7C5
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 07:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779342014; cv=none; b=JIG5JRQJ9xKy6YMppE/68JL35IE7IEM4WoL3k0pcQtxT57Bsu4g2NpIAtSI9GBoJrgBLlG1LpBPTgU2B6ajjWjJ/ECv3+Ax0oURsEv9ThyPevVZzRekm4x2QdpIuJzwZHfkWacettdZ/Fr27Ql5COT33DcPMAODRP68iOIriXEQ=
+	t=1779347401; cv=none; b=XVZpkcg13T4ZvdekagildtCP5K9S3imOLR3sUN4JZ5njA+M82Xo1mdD5AC4S48n3OzmoNnguxorzwmcEP0smUmf/VjhfdBlptWI+dFplQxpgpZo/iHZ/A4g/MlgpSiNA+/3l3ehztDnieQ7JMEc0LSiix/J1xyrOAL5rQ+yq6gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779342014; c=relaxed/simple;
-	bh=JSLkpKAdLvFcHZV/9f1vzh8b+F/CplWu9ekxAsBp3qA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SUZlpiRN+QDtwW5pwz/cy14gPZjcizUgKCxYQjeqB5l+3CYejnAaMyyazRqBcn5XnQ+dG64qUg74Fm1nrJAvbDUqveL2N3uP+ouHUMv9YZoqpY+IptgflY0bfLYdBzu7LyS9LzaWH4Gdm0zLCShjUw4YFLTMDCiIFiEMci8IkvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=156.147.23.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
-	by 156.147.23.53 with ESMTP; 21 May 2026 14:37:08 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: hyc.lee@gmail.com
-Received: from unknown (HELO hyunchul-PC02.lge.net) (10.177.111.62)
-	by 156.147.1.125 with ESMTP; 21 May 2026 14:37:08 +0900
-X-Original-SENDERIP: 10.177.111.62
-X-Original-MAILFROM: hyc.lee@gmail.com
-From: Hyunchul Lee <hyc.lee@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	cheol.lee@lge.com
-Subject: [PATCH] ntfs: skip extent mft records in writeback to prevent deadlock
-Date: Thu, 21 May 2026 14:37:03 +0900
-Message-ID: <20260521053703.1850487-1-hyc.lee@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1779347401; c=relaxed/simple;
+	bh=Zogt1jCIr4qEoO9km/Mm+1+Fn6o+4tqZwyDn4ARLzd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dq2HW2La4Bgj11GOOoXT9tEc+HJoE5RYtkBouIA0dbx97najOXLjjnM32HnK5QwJ1t1zYvg2GDs7V8hwsyjtST2zOXZsk03yQX4u78RizRqz43jPQQRB21Upjo+/nf0NQmauIB7mpZS15kkp5CnQl4OwTaIIct9WbEczylse6eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=odRON+2I; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="odRON+2I"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43fe608cb92so3545423f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 00:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779347398; x=1779952198; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q3/xpxUO6thsRAszOIsZ6+lXY5oUjTLCyWKPqe1vTLg=;
+        b=odRON+2IYVLpUCef8LWId8feSvulapM4W3Nn3xS4LhQFbfv7JXXsVw4lYlSRjXMQVa
+         +n0H+AIaDQd3Tb7U2xIhxpSTG1qGeOP7sEKZY4Fc9OehNFHMj+vDhu0aIMSFIJxLqvtv
+         3HzRQ/UmP2cOVLiTpT2RkFaVLaSGwRcs6bOjfPsc1FpPhf70+iicm1v+GLzd0BxphueS
+         OTFiUHPMuZKJ+RAwH3QgH0r30F4HF7q8ed/JE8FdsEiTPwnxniHitIC/6NzaFWNjhXPr
+         oyXYuNWkZz7VUr3GdyJCPjU3HjpESRwmtCgKcLhmz7LwenAdUsnAptikD2eKwEH5RpMy
+         9FtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779347398; x=1779952198;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q3/xpxUO6thsRAszOIsZ6+lXY5oUjTLCyWKPqe1vTLg=;
+        b=QKeM72p8IJ+KJGZC0vZa0eA6Hlpfrw9sDsFkg67EgFASqcISn8NnrR3WtgX0eYJiiB
+         BDduXcTaaiAbeHefKin6+cKFewi4Zcqlbp5Gi7JVIM64YVbneksl33p0G0pbKWESOXIo
+         Nh0PhsddT4i7NXLdqRGGGV8em+fgoPhEbaHJXd7teu5eshF33TJmPuIh7sKMAWxHevd9
+         nbvnI1bgcdjdXoKImsVe4Yzkjkgyi8UeCiAO5pI36Z08etABtUJqDRH5r5OiqFEo5Z8i
+         TgRvzRAJnox2hoPER6SV10X/5449W1/XnLkyMB3nB9M9k2h9AMxgzN0K4uwb++r+rEG/
+         s2Yg==
+X-Gm-Message-State: AOJu0YwA4ttm9tU0BEua9p1OjJxSRMbyPHKUvPxSTRkWPRhFZxDgUfMy
+	GQpVVxMUEii8Dnpp02Ji2RB8ERGkBvQ1g/uJbdDpTzY88ZTabMMQbMJBibMXRA==
+X-Gm-Gg: Acq92OEj8bmBfnqj8bxhjdx56HuVaPqYAS2qVRfV1G9X9c67vyVg7bCsK4szXkga5w7
+	jpmdqFQpCVP0bnRfsN3XYKE3lTrZt1oWigVw9ggwhGw6jvR7dhouocw73nYSFyjdy4Tu4/UWFK3
+	/1iX4me8DoPXLn3pX7UHcQmPPbkucT716rBtWqRaSnEUihHt43dQl6GeKRxTbYLmslWNvRGeOZ/
+	/dribQTY+1F9KPhlXi4ypGrsWH7Zmz3wgqszG5bdqBgAyvYP8CgzqIvISJ37uK+VO6MFVWSv7vs
+	0o9oRimrVrFFiQ+DEeeKqKDzIl5GLW8/98UwXjiL323Olnfao+Osip3HChe8dJLwgEklGsDsngC
+	gFWbhe07jSIBVwwg0TbUwNV5Sx44CzI13405G+MBXuPVWeJOlvCO5kGuFgaK/rbrtR2nNYM44Py
+	puiG33PY+VA9oyJyghFKojzYE=
+X-Received: by 2002:a05:6000:1ac7:b0:454:a41f:d082 with SMTP id ffacd0b85a97d-45ea3ae5fdfmr2355942f8f.3.1779347397866;
+        Thu, 21 May 2026 00:09:57 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa7cf58fsm850498f8f.3.2026.05.21.00.09.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2026 00:09:57 -0700 (PDT)
+Date: Thu, 21 May 2026 10:09:54 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: linux-fsdevel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Christian Brauner <brauner@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Subject: FOP_UNSIGNED_OFFSET abuse
+Message-ID: <ag6vwpcCBN_VC1dm@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This patch fixes the ABBA deadlock between extent_lock and extent
-mrec_lock triggered by xfstests generic/113, that occurs since the commit
-6994acf33bae ("ntfs: use base mft_no when looking up base inode for
-		extent record").
+Is there a point to FOP_UNSIGNED_OFFSET now that everyone is on 64bit?
+I thought the flag was for back in the day where we it was a huge deal
+to access 4GB instead of 2GB.
 
-Path A (inode writeback):
-  VFS writeback
-    -> ntfs_write_inode()
-      -> __ntfs_write_inode()
-        -> mutex_lock(&ni->extent_lock)
-        -> mutex_lock(&tni->mrec_lock)
+It's mostly used in DRM.  drm_open_helper() forces you to set the flag
+but drm_read() ignores the offset so I don't understand the point of
+this.
 
-Path B (MFT folio writeback):
-  VFS writeback of $MFT dirty folios
-    -> ntfs_mft_writepages()
-      -> ntfs_write_mft_block()
-        -> ntfs_may_write_mft_record()
-          -> holds one extent mrec_lock from a previous iteration
-          -> tries to acquire another base inode extent_lock
+regards,
+dan carpenter
 
-By removing all extent_lock and extent mrec_lock acquisition from the MFT
-folio writeback path, the ABBA lock ordering is eliminated:
+$ git grep FOP_UNSIGNED_OFFSET
+drivers/accel/amdxdna/amdxdna_pci_drv.c:        .fop_flags      = FOP_UNSIGNED_OFFSET,
+drivers/char/adi.c:     .fop_flags      = FOP_UNSIGNED_OFFSET,
+drivers/char/mem.c:     .fop_flags      = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/adp/adp_drv.c:  .fop_flags      = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:        .fop_flags = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/drm_file.c:     if (WARN_ON_ONCE(!(filp->f_op->fop_flags & FOP_UNSIGNED_OFFSET)))
+drivers/gpu/drm/gma500/psb_drv.c:       .fop_flags = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/i915/i915_driver.c:     .fop_flags = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/nouveau/nouveau_drm.c:  .fop_flags = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/panthor/panthor_drv.c:  .fop_flags = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/radeon/radeon_drv.c:    .fop_flags = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/tegra/drm.c:    .fop_flags = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:    .fop_flags = FOP_UNSIGNED_OFFSET,
+drivers/gpu/drm/xe/xe_device.c: .fop_flags = FOP_UNSIGNED_OFFSET,
+fs/proc/base.c: if (WARN_ON_ONCE(!(file->f_op->fop_flags & FOP_UNSIGNED_OFFSET)))
+fs/proc/base.c: .fop_flags      = FOP_UNSIGNED_OFFSET,
+fs/read_write.c:        return file->f_op->fop_flags & FOP_UNSIGNED_OFFSET;
+include/drm/drm_accel.h:        .fop_flags      = FOP_UNSIGNED_OFFSET
+include/drm/drm_gem.h:  .fop_flags      = FOP_UNSIGNED_OFFSET
+include/drm/drm_gem_dma_helper.h:               .fop_flags = FOP_UNSIGNED_OFFSET, \
+include/linux/fs.h:#define FOP_UNSIGNED_OFFSET  ((__force fop_flags_t)(1 << 5))
+mm/mmap.c:      if (file->f_op->fop_flags & FOP_UNSIGNED_OFFSET)
+rust/bindings/bindings_helper.h:const fop_flags_t RUST_CONST_HELPER_FOP_UNSIGNED_OFFSET = FOP_UNSIGNED_OFFSET;
+rust/kernel/drm/gem/mod.rs:    fops.fop_flags = bindings::FOP_UNSIGNED_OFFSET;
 
-Path A: __ntfs_write_inode(): extent_lock -> mrec_lock
-Path B (removed): ntfs_write_mft_block(): mrec_lock -> extent_lock
-
-Path B is always redundant for extent records because:
-
-1. mark_mft_record_dirty(ext_ni) does NOT dirty the MFT folio.
-   It only sets NInoDirty(ext_ni) and marks the base VFS inode dirty
-   via __mark_inode_dirty(I_DIRTY_DATASYNC), which triggers Path A.
-   Therefore, normal extent modifications never create a situation where
-   the MFT folio is dirty and Path B is not scheduled.
-
-2. The MFT folio only gets dirtied via ntfs_mft_mark_dirty() inside
-   ntfs_mft_record_alloc(). But all identified callers in attrib.c
-   (ntfs_attr_add, ntfs_attr_record_move_away,
-   ntfs_attr_make_non_resident, ntfs_attr_record_resize) follow through
-   with mark_mft_record_dirty(), which triggers Path A to write the
-   complete record.
-
-3. ntfs_evict_big_inode() calls ntfs_commit_inode() before freeing extent
-   inodes, ensuring all dirty extents are flushed via Path A before the
-   base inode leaves the icache.
-
-Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
----
- fs/ntfs/mft.c | 129 ++------------------------------------------------
- 1 file changed, 4 insertions(+), 125 deletions(-)
-
-diff --git a/fs/ntfs/mft.c b/fs/ntfs/mft.c
-index a7d10ee41b34..a5019e80951b 100644
---- a/fs/ntfs/mft.c
-+++ b/fs/ntfs/mft.c
-@@ -743,23 +743,6 @@ static int ntfs_test_inode_wb(struct inode *vi, u64 ino, void *data)
-  *
-  * If the mft record is not a FILE record or it is a base mft record, we can
-  * safely write it and return 'true'.
-- *
-- * We now know the mft record is an extent mft record.  We check if the inode
-- * corresponding to its base mft record is in icache. If it is not, we cannot
-- * safely determine the state of the extent inode, so we return 'false'.
-- *
-- * We now have the base inode for the extent mft record.  We check if it has an
-- * ntfs inode for the extent mft record attached. If not, it is safe to write
-- * the extent mft record and we return 'true'.
-- *
-- * If the extent inode is attached, we check if it is dirty. If so, we return
-- * 'false' (letting the standard write_inode path handle it).
-- *
-- * If it is not dirty, we attempt to lock the extent mft record. If the lock
-- * was already taken, it is not safe to write and we return 'false'.
-- *
-- * If we manage to obtain the lock we have exclusive access to the extent mft
-- * record. We set @locked_ni to the now locked ntfs inode and return 'true'.
-  */
- static bool ntfs_may_write_mft_record(struct ntfs_volume *vol, const u64 mft_no,
- 		const struct mft_record *m, struct ntfs_inode **locked_ni,
-@@ -768,8 +751,7 @@ static bool ntfs_may_write_mft_record(struct ntfs_volume *vol, const u64 mft_no,
- 	struct super_block *sb = vol->sb;
- 	struct inode *mft_vi = vol->mft_ino;
- 	struct inode *vi;
--	struct ntfs_inode *ni, *eni, **extent_nis;
--	int i;
-+	struct ntfs_inode *ni;
- 	struct ntfs_attr na = {0};
- 
- 	ntfs_debug("Entering for inode 0x%llx.", mft_no);
-@@ -849,100 +831,10 @@ static bool ntfs_may_write_mft_record(struct ntfs_volume *vol, const u64 mft_no,
- 				mft_no);
- 		return true;
- 	}
--	/*
--	 * This is an extent mft record.  Check if the inode corresponding to
--	 * its base mft record is in icache and obtain a reference to it if it
--	 * is.
--	 */
--	na.mft_no = MREF_LE(m->base_mft_record);
--	na.state = 0;
--	ntfs_debug("Mft record 0x%llx is an extent record.  Looking for base inode 0x%llx in icache.",
--			mft_no, na.mft_no);
--	if (!na.mft_no) {
--		/* Balance the below iput(). */
--		vi = igrab(mft_vi);
--		WARN_ON(vi != mft_vi);
--	} else {
--		vi = find_inode_nowait(sb, na.mft_no, ntfs_test_inode_wb, &na);
--		if (na.state == NI_BeingDeleted || na.state == NI_BeingCreated)
--			return false;
--	}
- 
--	if (!vi)
--		return false;
--	ntfs_debug("Base inode 0x%llx is in icache.", na.mft_no);
--	/*
--	 * The base inode is in icache.  Check if it has the extent inode
--	 * corresponding to this extent mft record attached.
--	 */
--	ni = NTFS_I(vi);
--	mutex_lock(&ni->extent_lock);
--	if (ni->nr_extents <= 0) {
--		/*
--		 * The base inode has no attached extent inodes, write this
--		 * extent mft record.
--		 */
--		mutex_unlock(&ni->extent_lock);
--		*ref_vi = vi;
--		ntfs_debug("Base inode 0x%llx has no attached extent inodes, write the extent record.",
--				na.mft_no);
--		return true;
--	}
--	/* Iterate over the attached extent inodes. */
--	extent_nis = ni->ext.extent_ntfs_inos;
--	for (eni = NULL, i = 0; i < ni->nr_extents; ++i) {
--		if (mft_no == extent_nis[i]->mft_no) {
--			/*
--			 * Found the extent inode corresponding to this extent
--			 * mft record.
--			 */
--			eni = extent_nis[i];
--			break;
--		}
--	}
--	/*
--	 * If the extent inode was not attached to the base inode, write this
--	 * extent mft record.
--	 */
--	if (!eni) {
--		mutex_unlock(&ni->extent_lock);
--		*ref_vi = vi;
--		ntfs_debug("Extent inode 0x%llx is not attached to its base inode 0x%llx, write the extent record.",
--				mft_no, na.mft_no);
--		return true;
--	}
--	ntfs_debug("Extent inode 0x%llx is attached to its base inode 0x%llx.",
--			mft_no, na.mft_no);
--	/* Take a reference to the extent ntfs inode. */
--	atomic_inc(&eni->count);
--	mutex_unlock(&ni->extent_lock);
--
--	/* if extent inode is dirty, write_inode will write it */
--	if (NInoDirty(eni)) {
--		atomic_dec(&eni->count);
--		*ref_vi = vi;
--		return false;
--	}
--
--	/*
--	 * Found the extent inode coresponding to this extent mft record.
--	 * Try to take the mft record lock.
--	 */
--	if (unlikely(!mutex_trylock(&eni->mrec_lock))) {
--		atomic_dec(&eni->count);
--		*ref_vi = vi;
--		ntfs_debug("Extent mft record 0x%llx is already locked, do not write it.",
--				mft_no);
--		return false;
--	}
--	ntfs_debug("Managed to lock extent mft record 0x%llx, write it.",
--			mft_no);
--	/*
--	 * The write has to occur while we hold the mft record lock so return
--	 * the locked extent ntfs inode.
--	 */
--	*locked_ni = eni;
--	return true;
-+	ntfs_debug("Mft record 0x%llx is an extent record, skip it.",
-+		   mft_no);
-+	return false;
- }
- 
- static const char *es = "  Leaving inconsistent metadata.  Unmount and run chkdsk.";
-@@ -2791,19 +2683,6 @@ static int ntfs_write_mft_block(struct folio *folio, struct writeback_control *w
- 			unsigned int mft_record_off = 0;
- 			s64 vcn_off = vcn;
- 
--			/*
--			 * Skip $MFT extent mft records and let them being written
--			 * by writeback to avioid deadlocks. the $MFT runlist
--			 * lock must be taken before $MFT extent mrec_lock is taken.
--			 */
--			if (tni && tni->nr_extents < 0 &&
--				tni->ext.base_ntfs_ino == NTFS_I(vol->mft_ino)) {
--				mutex_unlock(&tni->mrec_lock);
--				atomic_dec(&tni->count);
--				iput(vol->mft_ino);
--				continue;
--			}
--
- 			/*
- 			 * The record should be written.  If a locked ntfs
- 			 * inode was returned, add it to the array of locked
--- 
-2.43.0
 
