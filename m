@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD1314A619;
-	Thu, 21 May 2026 03:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDEF31ED81;
+	Thu, 21 May 2026 03:07:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779332827; cv=none; b=Msr5vOLiFKU9MX0Fj6ewv5t4oAF5DUcQovOWeYYW46AqyOpANb7kkjuNfCvfTNn0iMAooy3rliDIfKgIt8Hc+xUT0hZFVM62/jjoudEBKxeUkuOkJz+nZv20I3anUJGith2ymBemKtv/r9usarJg2pOlcVfI4NFLSyvLdJ715aA=
+	t=1779332842; cv=none; b=INCD4vlCE0shcIFdXHaO6gck3l02z/4Am6zyjjGIsnWfRmnSGwQDuSIjTch0WPuOdlVdPDTvGKUnER54Mnd5gJQ77yBI6zK2uRqUy7uWM3pCM4RUH80cJdZ1vjZ66X9mGpO+8/BdCjUYr2QCZpcRofxlrXKMrkovn82LWqlQtN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779332827; c=relaxed/simple;
-	bh=uAuu9uWlnmLgOJIIGwblRMleinLL9oNzYzE0DBcxOYI=;
+	s=arc-20240116; t=1779332842; c=relaxed/simple;
+	bh=Ub78cEUAC4vatY21EATgjp3IfC8Up+/oclwlWaEldo0=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cJvz5UTLClEQxNcAz6RGOKeafpC4shHwop63jojcfZUn+x+l0agjcJjJHVy+qubQf9+U3SBI+kdMa+qcB9EnLP8DFavXrT9KaXRl2qerKhElYHudV86zExFojcwHDRhX/BaQIpXKogyu42KR60hUfd8w5gcJQ36tiXloRWPoAno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PuCOnoKM; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=dYsm6owi4jhErWmpnGjEXSVzxzNMuJdhvAOfOLFFo7cjErgH3NfBJQkLyYowfCcRUmB9zbeepFlxFykFaLFd7t0C7R1T9XduL1xQtURkMyrjuqqqoobsl4hh+/kK/4qZ5vkzk5Gb9iEz6gnIKwEFyAGrTkYXQ/GGhF1vpypoieA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nyjoa7ph; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PuCOnoKM"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9DD4D1F000E9;
-	Thu, 21 May 2026 03:07:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nyjoa7ph"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1FD3B1F000E9;
+	Thu, 21 May 2026 03:07:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779332825;
-	bh=41YE+GFoJt+CHIoa2n9oljYcEuI+p3otOE/Fs0Y29+s=;
+	s=k20260515; t=1779332841;
+	bh=Zvj4V4b+LLKwCiUj/5Fw5HKxPV8fOS7U26ViGG2K5/M=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=PuCOnoKMZhEYxRJNol3OR9fNtHftO+dOhA3+pPSy91MZRHSlWutStdJAbMA0ZQ7ky
-	 +2yff6Z5c9ZTttCF9XNNYIWD9/Q0Kci1qo66UEPbXILiO7kIU9qIeWGdJeyxnP6S2Y
-	 RCl/YzgcmumSHoiqYUBsS7L0sOn2+dJpE9Iwm8waeVvAoVaE7VTFfOTAwqBIU62Rxk
-	 SkRUXIIclUY1bvAC1iYcKBWcxNLeBUFfS64/PfsPVwwfx9UYexSG9z4u67FwNSCGqr
-	 e4eYtRtNTXk2nfV/20IjVz/fnrMDtFXUs0KnVz4mtjr3xd4jDT46z7qn+P06qvSyR7
-	 P7O+G9stt2vpQ==
-Date: Wed, 20 May 2026 20:07:05 -0700
-Subject: [PATCH 3/4] mount_service: fix some pointer handling
+	b=Nyjoa7phFoQ+leGn9s3nJL5sXQoinoNuRlcl8krT0+oNs6shgzg2p41kAgBU4D9Oe
+	 1m6b0LkKMwgFXAGOWdUtwwSzYCT35ffK+JJN4CtzXiwTkD8B8zOmo9EfAQxD6QGO0E
+	 f2/0SZkfQ47d0+IiQmzIzoCbOrDIEZFuKgckaGPwCXt2FxC+20Nyp/GADCs1FKCw6O
+	 JBSQPCjTHXVdEGyf0C1ORq6rpG6eudg8/qYCk7aT7Hpm7IuRtnZu9H26MHsrewEFwk
+	 wJmoF+gA9P4EJkisH+tvroTSVU98BTrXkevdg4SnEgxvxnpHWTqzYZhLiT5K5IA8bu
+	 hvKBByNtz6VNw==
+Date: Wed, 20 May 2026 20:07:20 -0700
+Subject: [PATCH 4/4] fuse_service: fix uninitialized variable
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com, djwong@kernel.org
 Cc: joannelkoong@gmail.com, neal@gompa.dev, miklos@szeredi.hu,
  linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Message-ID: <177933241501.3536631.17487472051183408289.stgit@frogsfrogsfrogs>
+Message-ID: <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
 In-Reply-To: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
 References: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,35 +46,26 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Don't leak memory or try to free static data.  Pointed out by
-clang-check.
+Initialize the sockaddr_un variable so that subsequent comparisons won't
+fail in weird ways if getsockname doesn't fill out the object.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- util/mount_service.c |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ lib/fuse_service.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 
-diff --git a/util/mount_service.c b/util/mount_service.c
-index 8b0eecf5b00ab2..a86a53c6fff40e 100644
---- a/util/mount_service.c
-+++ b/util/mount_service.c
-@@ -974,6 +974,7 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
- 				fprintf(stderr,
- 	"%s: option %s only allowed if 'user_allow_other' is set in %s\n",
- 					mo->msgtag, tok, FUSE_CONF);
-+				free(mntopts);
- 				return mount_service_send_reply(mo, EPERM);
- 			}
- 
-@@ -1036,7 +1037,8 @@ static int mount_service_handle_mtabopts_cmd(struct mount_service *mo,
- 	/* strtok_r mutates tokstr aka oc->value */
- 	while ((tok = strtok_r(tokstr, ",", &savetok)) != NULL) {
- 		if (!strcmp(tok, "-n")) {
--			free(mo->mtabopts);
-+			if (mo->mtabopts != &IGNORE_MTAB)
-+				free(mo->mtabopts);
- 			mo->mtabopts = &IGNORE_MTAB;
- 		}
+diff --git a/lib/fuse_service.c b/lib/fuse_service.c
+index d14aced29e8268..4340304eaf57b9 100644
+--- a/lib/fuse_service.c
++++ b/lib/fuse_service.c
+@@ -388,7 +388,7 @@ static int check_sendbuf_size(int sockfd)
+ static int find_socket_fd(int nr_fds)
+ {
+ 	struct stat stbuf;
+-	struct sockaddr_un urk;
++	struct sockaddr_un urk = { };
+ 	socklen_t urklen = sizeof(urk);
+ 	int ret;
  
 
