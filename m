@@ -1,40 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDEF31ED81;
-	Thu, 21 May 2026 03:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB0B360ED5;
+	Thu, 21 May 2026 03:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779332842; cv=none; b=INCD4vlCE0shcIFdXHaO6gck3l02z/4Am6zyjjGIsnWfRmnSGwQDuSIjTch0WPuOdlVdPDTvGKUnER54Mnd5gJQ77yBI6zK2uRqUy7uWM3pCM4RUH80cJdZ1vjZ66X9mGpO+8/BdCjUYr2QCZpcRofxlrXKMrkovn82LWqlQtN4=
+	t=1779332859; cv=none; b=NUezExeGLzduom4BN+pfy/MO/poQr+3TUsvvOvd7y5AEmnC6IWryodIWzG6hOOJGi9j+PwBzJ5Yi4cXSGPY5ROn/KonLyUTZuQ4WsA3plmEpM+ZRw3eABIFUfHO5ygvh51Sp23cMpKiV+7ks8aA3CNSGHk4lsk1/08H63EKJHGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779332842; c=relaxed/simple;
-	bh=Ub78cEUAC4vatY21EATgjp3IfC8Up+/oclwlWaEldo0=;
-	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dYsm6owi4jhErWmpnGjEXSVzxzNMuJdhvAOfOLFFo7cjErgH3NfBJQkLyYowfCcRUmB9zbeepFlxFykFaLFd7t0C7R1T9XduL1xQtURkMyrjuqqqoobsl4hh+/kK/4qZ5vkzk5Gb9iEz6gnIKwEFyAGrTkYXQ/GGhF1vpypoieA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nyjoa7ph; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779332859; c=relaxed/simple;
+	bh=SP8yZ67v2hmThS9gI2f7oNfW6Y0GtZImkZ2fPPoeHUA=;
+	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=R1Urglc/tgEAgX7CyL4TqMjWVYtdIF42FqLSk6XMOGVyOUAz9vR/YtAlC2E8WhBM0bAr3XCBEFUPAAuR2CCIkBURqLEHCxgF1JnaFRlIT4/A/6B00SuZQsMgiz194pc3LPAZJtUlL82gZlT/DUOuSFO/AHcG8JylBPwspZwL9lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MUAuvoGT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nyjoa7ph"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1FD3B1F000E9;
-	Thu, 21 May 2026 03:07:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MUAuvoGT"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9C6171F000E9;
+	Thu, 21 May 2026 03:07:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779332841;
-	bh=Zvj4V4b+LLKwCiUj/5Fw5HKxPV8fOS7U26ViGG2K5/M=;
-	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=Nyjoa7phFoQ+leGn9s3nJL5sXQoinoNuRlcl8krT0+oNs6shgzg2p41kAgBU4D9Oe
-	 1m6b0LkKMwgFXAGOWdUtwwSzYCT35ffK+JJN4CtzXiwTkD8B8zOmo9EfAQxD6QGO0E
-	 f2/0SZkfQ47d0+IiQmzIzoCbOrDIEZFuKgckaGPwCXt2FxC+20Nyp/GADCs1FKCw6O
-	 JBSQPCjTHXVdEGyf0C1ORq6rpG6eudg8/qYCk7aT7Hpm7IuRtnZu9H26MHsrewEFwk
-	 wJmoF+gA9P4EJkisH+tvroTSVU98BTrXkevdg4SnEgxvxnpHWTqzYZhLiT5K5IA8bu
-	 hvKBByNtz6VNw==
-Date: Wed, 20 May 2026 20:07:20 -0700
-Subject: [PATCH 4/4] fuse_service: fix uninitialized variable
+	s=k20260515; t=1779332856;
+	bh=5hSkCkDcUGquuknP0YBNXRi8VgqLxM7BWkLef930gnY=;
+	h=Date:Subject:From:To:Cc;
+	b=MUAuvoGTxekl8d2fzFD7whg3fZ80EwMQ3vWHYLvpMDrh5CffS0/yIPr+sTDrG8wXc
+	 hah3WaCmco9VDhHAGlsnVKXJL4MmTBSjbRJHK7YCkFsvsh5qbjc4gWdgyeHSyAUDZ6
+	 FoWQS0EpZmnT/SuSElNNqcKjupiaX9n3MAcnuYqET5FPcIhEe8lUpNYaaORWs/CJEi
+	 mCeAsOwx9KyaVpeJ6vflbH9TUTI9+zN5mzebVm3if4TTeQEgN99ZRrxgPedf9f5RXo
+	 aiTeT88C9BygXAIRiQeRl585cRmPvu1DwqF6I4tqJPlPYtEJimEMqbpwY+0D57yvH+
+	 K/8BCzghkZRnA==
+Date: Wed, 20 May 2026 20:07:36 -0700
+Subject: [GIT PULL] libfuse: new mount service container fixes
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com, djwong@kernel.org
-Cc: joannelkoong@gmail.com, neal@gompa.dev, miklos@szeredi.hu,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Message-ID: <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
-In-Reply-To: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
-References: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
+Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com, linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev
+Message-ID: <177933241816.3536811.12585235323301633919.stg-ugh@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -44,28 +40,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-From: Darrick J. Wong <djwong@kernel.org>
+Hi Bernd,
 
-Initialize the sockaddr_un variable so that subsequent comparisons won't
-fail in weird ways if getsockname doesn't fill out the object.
+Please pull this branch with changes for bsbernd/fuse-service-container.
+
+As usual, I did a test-merge with the main upstream branch as of a few
+minutes ago, and didn't see any conflicts.  Please let me know if you
+encounter any problems.
+
+--D
+
+The following changes since commit 93892e469ddb9f5bd3b0923d95410a9d5dba65f7:
+
+libfuse: fix cppcheck warnings in the new mount service code (2026-05-19 15:04:54 -0700)
+
+are available in the Git repository at:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container-fixes_2026-05-20
+
+for you to fetch changes up to cc9f7792afe2cb3df4c5cc71ab2ff5ba270acd8d:
+
+fuse_service: fix uninitialized variable (2026-05-20 19:57:57 -0700)
+
+----------------------------------------------------------------
+libfuse: new mount service container fixes [01/12]
+
+This is a collection of bug fixes, codechecker, cppcheck cleanups for
+the new fuse service container code.
+
+With a bit of luck, this should all go splendidly.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
----
- lib/fuse_service.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
+----------------------------------------------------------------
+Darrick J. Wong (4):
+fuse: use fuse_args in try_service_main instead of opencoding it
+mount_i_linux.h: fix whitespace error
+mount_service: fix some pointer handling
+fuse_service: fix uninitialized variable
 
-diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-index d14aced29e8268..4340304eaf57b9 100644
---- a/lib/fuse_service.c
-+++ b/lib/fuse_service.c
-@@ -388,7 +388,7 @@ static int check_sendbuf_size(int sockfd)
- static int find_socket_fd(int nr_fds)
- {
- 	struct stat stbuf;
--	struct sockaddr_un urk;
-+	struct sockaddr_un urk = { };
- 	socklen_t urklen = sizeof(urk);
- 	int ret;
- 
+lib/mount_i_linux.h  |  2 +-
+lib/fuse_service.c   |  2 +-
+util/mount.fuse.c    | 71 +++++++++++++++++++++++++---------------------------
+util/mount_service.c |  4 ++-
+4 files changed, 39 insertions(+), 40 deletions(-)
 
