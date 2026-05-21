@@ -1,168 +1,123 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DF8299927
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 01:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779325476; cv=pass; b=do4CHWSq4Uhvo1DDspBzIFwsfZjI4bD67m6+a33aj7k+N3NYwcxWYNo6MDt6MeueWwYjqhXbvBbG8s72zq+LzZowFfL/hzWiqLiaKvh3S3e6sWHxfwov8NfR+DndOu0sPUu4awWpM112vhbwWnlsEZFP58io1ainnv6mhSYoBD0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779325476; c=relaxed/simple;
-	bh=0IyN594IgNEvO0uwMW0lto9//FYSt1+uJj/xFF2jT8k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=igBJa+/99zfZTz+c6j+7GqT/DchnBPkbcZu0v1FILVsflfv45AaoL0D1Iwbf41QmuSJ7cu+kt9owKl5Xl/h7EJMq8iEJ8hhdT4QoFonqGcd2UtiyaRYFhVkD1EKkumAA2B/BzwgeIz4YrexbPYh42m+d0RJPGh+OPnI+wkO1Bcc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4yOhPil; arc=pass smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C678429993D;
+	Thu, 21 May 2026 01:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779327055; cv=none; b=QkeVJGNJZC8Rj0v7f7pL3HXejiPqWSko1Coi78ir6MYWlrcp2/x8muqv+E+2LIF/2h4cYi2ll45LBa994Em2TG/WMiGxZs+vtn4BKNXlYvxgIDCzqsEhWMFTpR0aYWfc+Qy7+GzULJMPoWl7kCPTZw9oWvWHYtGt6XVvACK4WJg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779327055; c=relaxed/simple;
+	bh=o92EDX/iRk3EPRk7mqdefPDx7IHasvyN2cNWnI9t7ow=;
+	h=Message-ID:Date:From:MIME-Version:To:CC:Subject:References:
+	 In-Reply-To:Content-Type; b=ssbwAh45781kzrr1JngjNDtCqdhUliTmF4/gLZQz2xWyf+Qa5uumVOZ3gWCZn7yGRTmHWpUrSQZaf0yO8XVbMHGye+0kckWg4MZee801KM08aWAgkne4h+FGr2Hohydn0a4TOumeBBA7khW/i19M4bK0qaR6Wu7QYKEsmlk8PiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=OUIU2Djh; arc=none smtp.client-ip=220.197.31.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4yOhPil"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a8e33556c0so7121560e87.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 18:04:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779325473; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Vj7wcJWL3tUhsGTgvE/DryPoqt5Wp1M5KHyF/LxtM7V1tuRCn6046U5b4+GTOZj8vp
-         hooJEP2z8HfKzYuqNip0ThhQBnVvGcop46TOa7AZ0tSe1kVa+JI4wgPJsUe2xfPByd3j
-         wmMSv0KCGFTTmQ9YQohtcdp6c3F9ZMyOf9wm0I29QwnPjyZCyrzuyS0oBvQhrTNr1q4E
-         HIJJlec1IOWJClC/06y4hF1xg1J3KMQrqcKDH14aquTNbVZ5XHJUOnK6Vh87FNHwxzRB
-         d2AnYR/2d0diuyZ1JzMblamJfL5XakBFXk6qY7IlIMLOr/53eQhfxYtBTfUtDMxM5iNe
-         W6pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vrqhXrgKE1Au02/NkSyM6XFs/nQFlGHaQH6Z5V/fgkc=;
-        fh=bhLh3BKjE5dAaKyec5fdp9KR3nmDQV/zFRDm7NDwCkg=;
-        b=gdktfmPchYpKlC+DjmcisMhTLb7Pm9bRmIZvQ46vRSvP1vfpIoxWv+4EyEDGFJG2F1
-         5DYAl4oJmDBYXvLe/sHeEPY52N2VjtWkfCZy5DB0h5ye3lVhGOrM02du0ePZKfmSc7pk
-         1fGwlbUBUy1RqZGtPtQsZUmqlr8rKxvXWsaPzfV8YLkw46o7aluJU8CFR+vhf02FW4Z4
-         /fPBAwI029fO1ChjBid7c7ksRofk2HRL8KM9j9OAKih+jM6V5G++NtITE4KfKGMfm+TC
-         wFKwlWuzriMLVxg6r6GrHzoEFAkfpjNQRc6sBN1oXgscXD/ZWx22ivm9JwDZCzbeScTu
-         xwtg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779325473; x=1779930273; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vrqhXrgKE1Au02/NkSyM6XFs/nQFlGHaQH6Z5V/fgkc=;
-        b=K4yOhPilikXUaRk6uKdioRvOfKM5bx9S/nOwUS8ZHc5yLpveoEg57MXqgmxCsztEAs
-         PKjxSt5yyflLzCONaHPAER0FU0wwGQiL61E5vDjBHFJhT99tjj9eiUu/VRfzYDLzamj6
-         L5J0LWfso2MWnV54eII+xmPQW7h0VeS8wi2CKeD3TSaPkwNM9U+OvX9VziwbUg3aHpvR
-         rlEB3fqK5HAYQg5a+WnU4eGHf7MZcJp8a6cEitmlbbuLrhH1yfKyIAEBvDzOLcGI+zGw
-         Kjz3PHX9vVfHaMMBlpG3EDV2curKUhiMFqK7WkLPCYjk/OrMJ8YGSL1CGW7yXQs5HzzH
-         NI+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779325473; x=1779930273;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vrqhXrgKE1Au02/NkSyM6XFs/nQFlGHaQH6Z5V/fgkc=;
-        b=dYMCIlvx8Q0AOjYZdAGhTIM/ckV+d2SetnAHPOTADAsXzxDvtGyc/NDCuRAONDeRt5
-         wVyy7SvNoCwatAQetNg6m2ja3McD6QyGseX5a3viaoeU5aIPAtNvLGpk0u67rNC82NOg
-         B2CxR4pCfRSWZbxavUf5ESy4Skk2LI9ytemjNMtQi/uFiCusXDoncys60jxsAvTkGTXT
-         s4VD5CRshIiX+hphaNGSEvVU8tkSQwZCmTQSMDbpK6Rmq9EU6CWwcduE8gQl5M5UyH+D
-         BACLZWNIiqPI0nlMfwoWPLaD4LcoHZ5I7aaZ5SK9NtK2mqHOXSNVNg09j1NvGIYCKX1e
-         ol0A==
-X-Forwarded-Encrypted: i=1; AFNElJ9PYE8dTq7jtkLSb/8bbq5C7NvkAGCkHOpMsM7nWWEIG7ep5JJF5hOQNlOLJK4PjVtgaqcy7odL44ZcIo/9@vger.kernel.org
-X-Gm-Message-State: AOJu0Yws3yaWsSYDEHCl/w8gOuQ+O6zouSvFAehIN14qmbU1uIMIHsQm
-	qtZsgDoHeyDfYxsbWXnHvyj9kQRfJt60D7F2DHmHJmGNr49nKBVZvEBhgs6KqKdJDJ5KI89XtyT
-	Cex/ZDHSFB1BOp5THMUJF/OghA5dLAic=
-X-Gm-Gg: Acq92OFRMUTOMa14C9CevHrOW+8fYK24lFtB9vGLg5ElxSqEpld3NqP3OWAbii69PsP
-	5BH4tlMIJpUmm8nQ3qy5vClGI/314KhymqnYt4FgQquzMUQTHga2o5Ezb4rov1oryrfSors8ffq
-	Z9aefFYW4BtgxAZ3/dpaVsAVqF8QR4cc+3aaVJcBZ98odC2qWxpK1Pu0Q+ec+ku4mIKFKnNabe0
-	6mFg0yjcJWwjBA3+JmnymeWzQBWF/WU1zWdp+cqWE+Zy4RsL+hMINiieBxIgNRz8rC+e2Ky5e2q
-	xsTT0Vy85GMWDek2zw==
-X-Received: by 2002:ac2:5205:0:b0:5a8:73c2:c90b with SMTP id
- 2adb3069b0e04-5aa2bcdbc37mr121574e87.20.1779325473306; Wed, 20 May 2026
- 18:04:33 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="OUIU2Djh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Message-ID:Date:From:MIME-Version:To:Subject:
+	Content-Type; bh=kelPoP0Tsa1ZGNFsr8A4EIw5TDiskzOGm6nwAwH0AvA=;
+	b=OUIU2DjhhiytT9d3gm4NKLYc3ruwIJqQEAyehFqlsuWbgYGpcz8VLzjZwD2F2F
+	sGK+1rzN0VoFUgzO+s8CWoUGhdnnbnPnVrg/Qiy8nrz1MeP64KhWGtiYEJ7458Qv
+	WfffTcarxPj6tFNPu94xrW8Dsg8vrleVI4bdx8MCkx6T4=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDXj14yYA5qecgOBw--.57027S2;
+	Thu, 21 May 2026 09:30:27 +0800 (CST)
+Message-ID: <6A0E603B.7080603@126.com>
+Date: Thu, 21 May 2026 09:30:35 +0800
+From: Hongling Zeng <zhongling0719@126.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260520170151.4115308-1-charsyam@gmail.com> <20260520170151.4115308-4-charsyam@gmail.com>
-In-Reply-To: <20260520170151.4115308-4-charsyam@gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Thu, 21 May 2026 10:04:21 +0900
-X-Gm-Features: AVHnY4L_zRW0LrPuP4XXRtc2SPVfLHg0KJeHtzDVFUUyVdZ2DM60NTLp5zttLRc
-Message-ID: <CANFS6bbf960Cr=ebqk6HHx4fL8Zev85Jb756sh0-2NpbJiqweQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ntfs: only alias volume $UpCase to default on exact match
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: CharSyam <charsyam@gmail.com>, 
+ Hongling Zeng <zenghongling@kylinos.cn>
+CC: linkinjeon@kernel.org, hyc.lee@gmail.com, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ntfs: Validate error in ntfs_lookup()
+References: <20260520111555.79902-1-zenghongling@kylinos.cn> <CAMrLSE5LM1Okkh8zhBH1Pch=JF2U3e+B2H6ZqWo_NRaBcP_uYg@mail.gmail.com>
+In-Reply-To: <CAMrLSE5LM1Okkh8zhBH1Pch=JF2U3e+B2H6ZqWo_NRaBcP_uYg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXj14yYA5qecgOBw--.57027S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WF13GF4rurWkXF1xGw47XFb_yoW8Kr1fpF
+	n3AFnYkr4Ygr10y3s2yF4jqw1fZw1kKr4UCr98GrsrArZ8Kr1UtF4aq3W09F1FkrWDWw4F
+	qa1jqry5uFyrZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUfHUUUUUU=
+X-CM-SenderInfo: x2kr0wpolqwiqxrzqiyswou0bp/xtbBoRNCE2oOYDPXFAAA3X
 
-2026=EB=85=84 5=EC=9B=94 21=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 2:02, D=
-aeMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+   Hi, DaeMyung.
+   Thank you for the detailed review. You are absolutely right.
+
+   After looking at the code more carefully, I agree that:
+   1. ntfs_lookup_inode_by_name() already normalizes zero err to -EIO
+      before ERR_MREF(err), so MREF_ERR(mref) will never be 0 here.
+   2. Even if it were 0, returning NULL would be incorrect since this
+      is an error path.
+
+   The correct fix would be:
+       int err = MREF_ERR(mref);
+       return ERR_PTR(err ?: -EIO);
+
+   This ensures we return a proper error code instead of masking
+   the bug as success.
+   Should I submit a new version with this fix, or just drop this
+   patch entirely since the issue doesn't actually exist in practice?
+
+   Thanks for catching this.
+   Best regards,
+Hongling
+
+
+在 2026年05月20日 23:10, CharSyam 写道:
+> Hi, Hongling.
 >
-> load_and_init_upcase() currently aliases vol->upcase to the global
-> default upcase whenever the shared prefix matches, and then truncates
-> vol->upcase_len to that shorter prefix.  The result is correct only by
-> accident: upcase[] accesses in name collation are gated by upcase_len,
-> so the prefix-equality alias produces the same fold output as keeping
-> the volume's own shorter table.
+>   I don't think returning NULL is the right fallback here. This branch is
+> already the IS_ERR_MREF(mref) path, and -ENOENT has been handled above as
+> the negative-dentry case. If MREF_ERR(mref) ever decodes to 0 here, it
+> should probably remain an error, e.g. -EIO, rather than being converted
+> to a successful lookup return.
 >
-> Still, prefix equality is not equality: the volume table is logically
-> distinct from the default and should not be replaced by it unless they
-> are byte-for-byte identical.  Use memcmp() to compare the complete table
-> in one expression and drop the now-redundant upcase_len rewrite.
+>    Also, I do not see a current producer for MREF_ERR(mref) == 0:
+> ntfs_lookup_inode_by_name() normalizes zero err to -EIO before
+> ERR_MREF(err).
 >
-> No user-visible change is expected for compliant volumes whose $UpCase
-> has exactly default_upcase_len entries; shorter volume tables are no
-> longer aliased to the default.
+> The Fixes tag also seems wrong, since the same return is
+> already present in af0db57d4293^.
 >
-> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-
-Looks good to me.
-
-Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
-
-> ---
->  super.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
+> Thanks.
+> DaeMyung.
 >
-> diff --git a/super.c b/super.c
-> index c90cb5673f98..811640cf5669 100644
-> --- a/super.c
-> +++ b/super.c
-> @@ -1344,7 +1344,6 @@ static bool load_and_init_upcase(struct ntfs_volume=
- *vol)
->  #endif
->         pgoff_t index, max_index;
->         unsigned int size;
-> -       int i, max;
->
->         ntfs_debug("Entering.");
->         /* Read upcase table and setup vol->upcase and vol->upcase_len. *=
-/
-> @@ -1405,16 +1404,11 @@ read_partial_upcase_page:
->                 mutex_unlock(&ntfs_lock);
->                 return true;
->         }
-> -       max =3D default_upcase_len;
-> -       if (max > vol->upcase_len)
-> -               max =3D vol->upcase_len;
-> -       for (i =3D 0; i < max; i++)
-> -               if (vol->upcase[i] !=3D default_upcase[i])
-> -                       break;
-> -       if (i =3D=3D max) {
-> +       if (default_upcase_len =3D=3D vol->upcase_len &&
-> +           !memcmp(vol->upcase, default_upcase,
-> +                   default_upcase_len * sizeof(*default_upcase))) {
->                 kvfree(vol->upcase);
->                 vol->upcase =3D default_upcase;
-> -               vol->upcase_len =3D max;
->                 ntfs_nr_upcase_users++;
->                 mutex_unlock(&ntfs_lock);
->                 ntfs_debug("Volume specified $UpCase matches default. Usi=
-ng default.");
-> --
-> 2.43.0
+> 2026년 5월 20일 (수) 오후 8:16, Hongling Zeng <zenghongling@kylinos.cn>님이 작성:
+>> Check that MREF_ERR returns non-zero before using as error pointer.
+>> This prevents potential ERR_PTR(0) when error code is zero
+>>
+>> Fixes: af0db57d4293 ("ntfs: update inode operations")
+>> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+>> ---
+>>   fs/ntfs/namei.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+>> index 10894de519c3..bb075aa97b53 100644
+>> --- a/fs/ntfs/namei.c
+>> +++ b/fs/ntfs/namei.c
+>> @@ -236,7 +236,7 @@ static struct dentry *ntfs_lookup(struct inode *dir_ino, struct dentry *dent,
+>>          }
+>>          ntfs_error(vol->sb, "ntfs_lookup_ino_by_name() failed with error code %i.",
+>>                          -MREF_ERR(mref));
+>> -       return ERR_PTR(MREF_ERR(mref));
+>> +       return MREF_ERR(mref) ? ERR_PTR(MREF_ERR(mref)) : NULL;
+>>   handle_name:
+>>          {
+>>                  struct mft_record *m;
+>> --
+>> 2.25.1
+>>
+>>
 
-
-
---=20
-Thanks,
-Hyunchul
