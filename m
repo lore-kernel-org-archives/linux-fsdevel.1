@@ -1,308 +1,230 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from mx08-001d1705.pphosted.com (mx08-001d1705.pphosted.com [185.183.30.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C058D395DAA;
-	Thu, 21 May 2026 10:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779358930; cv=none; b=jWa8AbREWjX8gUzq/AWCxwM/7+T+oWFqEwglQkAQoUAiw7YlQykbOv4jMSAhafh4MHVVPO6RjLMXkvduvVbZYYhp21Fmu9XN45D83wqMWbLXXetIQz/3+b6y2T60PeHjAlFLJPKIr6mVThnRhvhdg6xZJmsFm+MQI64reDvpeFU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779358930; c=relaxed/simple;
-	bh=wLBV9dHx2IIFJVLTTy6QNLmeWEIdf3Qkdd4z4qJrUtI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NakvmOGnFjMKtLz88FiDlvBLPbd4OB8BKOjfRXc21N4lZe1brjVH/4LXMBA8d+rPn4wlLTIxYwwdsRjoDQMBEZPeX42ae2ljOTy8tmXtJHaTLFv49iA8IZcugfzL/kkFDPb/fCg1RMpaELpWwCY8spzKRYgTLF/Q73ONd0ZT/qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=ONZ5zvJv; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56C7395DAA;
+	Thu, 21 May 2026 10:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.183.30.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779359101; cv=fail; b=ZhbfKcZT4ax+4uvCKij47vo4UNBKIx/qcC0zobnjn8xjKz9gd+bLFVIIyZb1Xiptb5AQinOH6bCp5+4TNh9U7RzHAC2ostlHAeeBBch+4Oy+mkcbPhExta3ZIoogM0hw7H8dC8kqoOpTQcrk8hoe2yVGdiNQ4v3rVCIAbCK/eEQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779359101; c=relaxed/simple;
+	bh=+sRlv+WQQD/9kuqkEUByOi739aYgQS3eklaId+NOYXk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PBeIPU2/tKGWqkMN6J2nfDIHPkG2G7GGQ7GWQZC3GoDE8Q6rTxUEAvZAFqgGQ9y1vOOw3LkiozoNgJF69Ts8i3Y0/9XHuvDmY6+495JnxqgoJcfa//h5Fy949fcKdXCghWpWiO31VUT8hXsgcvKr37TkEmLojr8j5N3gXB9v7IY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=IYfXS6RC; arc=fail smtp.client-ip=185.183.30.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="ONZ5zvJv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1779358914; x=1779963714; i=spasswolf@web.de;
-	bh=4FoIHMcOrI635YiW+HyzjAWHWLQFgvtUGIwIwRoN2Fk=;
-	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ONZ5zvJvim4JAr5zCS15qVg/vuq1/VN5O2/tDzF/N2BD7hFBmskdumdE+bygOhMB
-	 Xbzy1x31ZhXkNkeuM4SXfhlJAY7BaRskuqtD7TWdTJXBpOHjKr2x40mrE0eF3J8PC
-	 urM1MecCv2ou8R9QD+hnGcvXMJpuSVGth3Eeor/KMKo+nUUaL4vZuBtKNTmRVk7S4
-	 xg3D/2Ovhb3GAP1972smk8dpY8rpDVqWjKRa7F6TI+nOurxJw+BI/Te8q0eyLOKfc
-	 MKLcPyqqZUWC/WrUBGS5IpUsCE+CZh0IlHi4h1KlHWwRVCNpTs2taP+lvIFUFUPCf
-	 XhA9TvUtqpYuwDKFoQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MA4bO-1wW5M00zc2-002ew9; Thu, 21
- May 2026 12:21:54 +0200
-Message-ID: <50e5e76bc13256e3f5b3301e92f159957c3d6762.camel@web.de>
-Subject: Re: context switch within RCU read-side critical section in
- next-20260518+ with PREEMPT_RT
-From: Bert Karwatzki <spasswolf@web.de>
-To: Thomas Gleixner <tglx@linutronix.de>, Mateusz Guzik <mjguzik@gmail.com>,
-  Christian Brauner	 <brauner@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	adobriyan@gmail.com, jack@suse.cz, viro@zeniv.linux.org.uk, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>, spasswolf@web.de, Alex Deucher
- <alexander.deucher@amd.com>, 	amd-gfx@lists.freedesktop.org
-Date: Thu, 21 May 2026 12:21:52 +0200
-In-Reply-To: <878q9dvzh0.ffs@tglx>
-References: <20260520225245.2962-1-spasswolf@web.de>
-	 <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
-	 <s7cu3dpioidx6mepmai6eyj2pxjs4skbw7v534zbzs6g2fwcis@cvokidcxy3xa>
-	 <4f548d61b2dd12e01f401ce4b8c865f238f7b23c.camel@web.de>
-	 <878q9dvzh0.ffs@tglx>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="IYfXS6RC"
+Received: from pps.filterd (m0209318.ppops.net [127.0.0.1])
+	by mx08-001d1705.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64L5mrQt306072;
+	Thu, 21 May 2026 10:24:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=p1; bh=pT2AsDn
+	EUo5ywsTbALbEy6GCT05CknpsNWXleB+HTFY=; b=IYfXS6RCy6kk54ENXMOMRHo
+	IF4cI09a08Rd59LEJoT31amL6bRzkYipa2jXmgEuNPnElAcwsNmc25BQ4lSRRXkS
+	rJM24JKZCy4ZHseB4UzL1N+zyQN0sKLdtWv9wE1pR752rAGrzHHMe1thoRAnOMUF
+	ygqA8z/uov5ZVR31/HqKqQvjQZEUh5bG2asivoPKBdLGLs/wnR7Rs6ltnOXkT4rm
+	uvQGydhd/NXGvcEfSjSr4/NcXJ7hBSvrD0XTlvCBeJNewbZFCNFuX7Zzoib76xON
+	mCDPUHe5k7iTNZJMSgiH0B+i118KdYUYSMDkXZOtUXGVGrdEg3+UNJ6SULgqCJA=
+	=
+Received: from typpr03cu001.outbound.protection.outlook.com (mail-japaneastazon11012013.outbound.protection.outlook.com [52.101.126.13])
+	by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 4e6h4rwdqf-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Thu, 21 May 2026 10:24:42 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f5miOcuSfM5bkNAvcWka5vv1RBNiMcbvxXbLTaqbZ9unQsx7ivI0xFfM8zyGTrXhqC4XGLYeiTe3iQaOGtkeH/Dk2Smrhb6IuxkWHeN6aCqSGvxuWxizJev9+xQJWgk0759B9123QxvI0Rk6m8DrkwMqwt0xjSzTGk8aDZ0mIyVSBF3r3pJkO6ff50thq2ngKhdfzUJ8jYG8Tq8zWZDpz6/xG17P13+NMEBZWQ4MBlyAHMp5qcvr6zvKSlXFLh5Y+5KoQ9+/a2YVytV54S2wnyFYGpWaVvS9uZyfyIbWRhYczKGicaAydM0Uux22gtV0nyMu2W5dpPCq/XO/urVe4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pT2AsDnEUo5ywsTbALbEy6GCT05CknpsNWXleB+HTFY=;
+ b=QRuBuyfGlWF9AiKwC3/+Sc/XMM3i3gjGwLHmvYFO7/i3nI1Gqitx8x2O36ZgLEnWwMh5p6/JHTqeqL8lt5Qi34dlGbEEeSLvQY+NFpLEnSseayET1grL/QN47AFMcjVHDrXwaXLyEw2eEPT9R9L39yEMrL58N5F6sojF09B2tCvss5HI6ifVU+gHrMbM7d7r2GBpXKdYyghy1Hts5e6+H3KXp/dSvbBN98N7sj0oPoKVEYHCXkLUvfjybvy78wbwChamovBDEJdM5nyLAz1Z8xQpnh4JKXxw4+d61FYdCoU0zUIGdctKFbO4aJNyKeGOycvRnrQ1ePcB3SYRUWX7VQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
+ dkim=pass header.d=sony.com; arc=none
+Received: from PUZPR04MB6316.apcprd04.prod.outlook.com (2603:1096:301:fc::7)
+ by TYQPR04MB8939.apcprd04.prod.outlook.com (2603:1096:405:2fe::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Thu, 21 May
+ 2026 10:24:33 +0000
+Received: from PUZPR04MB6316.apcprd04.prod.outlook.com
+ ([fe80::a631:6b1a:332c:831c]) by PUZPR04MB6316.apcprd04.prod.outlook.com
+ ([fe80::a631:6b1a:332c:831c%4]) with mapi id 15.21.0048.016; Thu, 21 May 2026
+ 10:24:32 +0000
+From: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>
+To: Rochan Avlur <rochan.avlur@gmail.com>,
+        "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>
+CC: "linkinjeon@kernel.org" <linkinjeon@kernel.org>,
+        "rochan.avlur@skydio.com"
+	<rochan.avlur@skydio.com>,
+        "sj1557.seo@samsung.com" <sj1557.seo@samsung.com>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v3] exfat: preserve benign secondary entries during rename
+ and move
+Thread-Topic: [PATCH v3] exfat: preserve benign secondary entries during
+ rename and move
+Thread-Index: AQHc5uCwthTHNHYzfE23LSyfpFcNPLYYOYzI
+Date: Thu, 21 May 2026 10:24:32 +0000
+Message-ID:
+ <PUZPR04MB6316B8342BA4AFD993DB8D7E810E2@PUZPR04MB6316.apcprd04.prod.outlook.com>
+References:
+ <CAKYAXd-1P-bPV5PuUa-cePaObUzmQ+9qTA48mriivEeFeRcvWw@mail.gmail.com>
+ <20260518160836.29876-1-rochan.avlur@gmail.com>
+In-Reply-To: <20260518160836.29876-1-rochan.avlur@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PUZPR04MB6316:EE_|TYQPR04MB8939:EE_
+x-ms-office365-filtering-correlation-id: d0f8c4d4-2bba-410d-6f72-08deb7232641
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|10070799003|366016|1800799024|38070700021|56012099003|22082099003|18002099003|4143699003|11063799006;
+x-microsoft-antispam-message-info:
+ 2yNObXfFnZ/8cFHM8RR2IQjMjLEqR8/Nj7pRdPBU1otf9V4lo1OENgUqGdOFfA1O1mDQI6m/1WWLMlZ0Bjr3Leoyb9q1IUJAQNC/RvolGT6ecgX6XOcissjnxHQxaqjX4lCGvrllPVjlKjrwl+iOf4jK/dI62FqBk0IuFUPUu5F8aylAJsYb7nWEz9p7DrkfI29l7Xom3Bv0bus59/bCA4DBlBDR3HyDehm7tTCw8/kdMj1bcGZ+MYPovMPche2r3nm7ZJxNGMU6pbf/3F6wfAw0bC+k58RYP5NRDfZDULda5gHcCLrBnTlCIZrnHrwElIu9feKDFf/h71rVvt07dWxv1+1exGPW7brfHoQmqxVTHEgpFjtKENUpz+Pa1LCxRY75dV5DpbXTIN2EtNIKjyn410ufvLu0n/mEJhY6Yfiz0e9kvkNG7EijmxZyK++aTW6lAYFdzmKc1b9RH2gUsev0X1Dw60N/PbGLzMM6ollg5mNwWGt2OzBUnj4evNy06Lcp+tllL8LYIEyKSuTfLmZG1Jg1VBsNPnWeA/4HIkEy44fk8/zC9Mxn5wydLipjpYFV1vDVN2E2zAHXGr/WOB66E9Alb8EI9qNSCu7tUc3CdUXVQf34KqdHLRHqYlIXwwbf53QalFRpb9IefGThKLThbyWSeh8DcVL/a++sDb5QbUNAOo0rHyENGQcBTCK3lHz5ai7wb6E5kX9U9rCMtJx5O6HlXXrO09Mox6n9LrS6gGYOSGCHpo/AzWzz9iS/
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB6316.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(366016)(1800799024)(38070700021)(56012099003)(22082099003)(18002099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?AokqtSikUEevPOEpLf8apyYBjbD11lP2c2BzDh5FfDsA9+oJ9NzKWkl91B?=
+ =?iso-8859-1?Q?DnFN8VbcL/EDe5ifEXCyZujg1De/rdHIGnZqEBfNo37AG1MM29z4LvxRNk?=
+ =?iso-8859-1?Q?NreaT6fpbl7+5XfYtqdt29Ui+Kk1MrVq4iI99mDK0zEaqGKwHbXvYJ3Egd?=
+ =?iso-8859-1?Q?iHx0yfztQD5tP8JnF54Gr8uLgvDoLjgGPlecgQrs4oJXMi/fZo31Ycp2HM?=
+ =?iso-8859-1?Q?BehbUE0+vGXUf3S3ZQzb6s2xw5eCdNSahshYoJ4rjhzoeiss8B44865gjG?=
+ =?iso-8859-1?Q?M8vEdisGseCZbwSmqPruBr8NQYP0qXH9sb32GQfLRIifdl+YzceEZ4YIC9?=
+ =?iso-8859-1?Q?Fsbb7ulcdM8vxwTOGzjgSs7eAULeYtKaen3cVmlwBoaqggBVZytvRJv4tB?=
+ =?iso-8859-1?Q?SBgBWri5wIKfrSMApzjI3GUVKggsUaP5QEWHWV487kfGysEsDZZCm7VAuk?=
+ =?iso-8859-1?Q?g5yPCbu/pF5jIxBQng44HiRX/08nWeV5o726GKF9/dtLZzvy08B4cVqIc4?=
+ =?iso-8859-1?Q?qZKamYvgvIzl8/eU5vbqggPrvD9sYXev7572eeTaGBriXBWdIMbhXqTpxU?=
+ =?iso-8859-1?Q?92cwi3tAxDMGyGCJRx++VsEI/Yz7bN0eXyBha/fTsDQEs5Si/l42sJF0S7?=
+ =?iso-8859-1?Q?0Z2kPRhYqg9jhi8OuhE5iYdeC3wn51thDm6b8XlTErzbRAHsB8+h9h+IGn?=
+ =?iso-8859-1?Q?1Bn3u3wYlGer/QcULao5NoMPCxknVD5WbqX0QGIb1GS7vyjo1OU7olEplg?=
+ =?iso-8859-1?Q?RbP9qsax+sPJ6n/s9PfR8ooEtR5tg9hlUkzV4zInbGJAEQMEYoDV2xBO1R?=
+ =?iso-8859-1?Q?HxFOQkrTlbqWe945WncZkOg6V45Iftclx7qlm6FRud5Fb09c0ZefoEUDKj?=
+ =?iso-8859-1?Q?pluN6k3l1/dG3ZGnk7RgKFaY6/9XdjUonCofcbzAuY+dSYZibf1lC3cucL?=
+ =?iso-8859-1?Q?HYqy1FENsAZtT/GMZhzDhUjmxykczN4w15CoO5JEjbUg82KiZxBv80kmuw?=
+ =?iso-8859-1?Q?eZYDydAIR9nWv8ssQTw9EVlrtniR4diL4F8/RMC2A/OtmhB/0qEjXjl+3d?=
+ =?iso-8859-1?Q?rcMEW/yoh4KkF+TKOCtGxL5RRfkc1a4CYm8yszKL14WuSmPZ7pwAq1Df+t?=
+ =?iso-8859-1?Q?h7A2ID46UzldSOqmVsX6df3nytGh7OknGYtjaKSYww4USGdKDumYBGzUGS?=
+ =?iso-8859-1?Q?IrGYkbMkQQxYltd60axD+OOBKoyW9HmOoHqVy2kY27qIU4R/VR5IyK1zLw?=
+ =?iso-8859-1?Q?aqJsZxdII/jy6wtQ7vrslxy1HojiOd8cz7s8hLCO3PaLkGf9CVM/6mBNjI?=
+ =?iso-8859-1?Q?i21owHpKRuxocBWIHdqtNU0atZj0PbA07eeECkAyivI3cFCr3vhmy7qUs9?=
+ =?iso-8859-1?Q?nV5OGfgd+AtXNLyRCCBMrVUzuEabz4VNCH45JnQfuc7bWjrJA8rNXB6a9V?=
+ =?iso-8859-1?Q?GE5p73qZlTXpW1v+32/6ysZnHPYJHthYWV0b0RnersKqCjuSk3Z8RYO7Lw?=
+ =?iso-8859-1?Q?haZfHw0OyPOGon6R+6m+YAM6w7S5R7v8uE/eh/fRVRMXY4detPV+IT/niC?=
+ =?iso-8859-1?Q?cdv65Ufm27+WWpmU7zCciQBOfZB2XBrdhFZ5PKW0sWTgWMLdKqTV4YLP+7?=
+ =?iso-8859-1?Q?Yix7/8KcDoKs0GL/2Bo8KQUXG/FqqmWmExt2rU/LOUjba/5CMzFd00y5rp?=
+ =?iso-8859-1?Q?OgbgXU0JG5rEB33OJ10D6l83RLv6kTYEy0r8z1OIqA4A3uGa645MJLZNuz?=
+ =?iso-8859-1?Q?MbjTY3coPcIByW5m5hPbs0ToabmwC28HiBbkXuJZhwcnt+VVZaOKxT0oG6?=
+ =?iso-8859-1?Q?XTxUwFsK6a7bzv/rUgD8napUWohLF1w=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:4iP9zOnKni3WV6YMmhQUFkbEWic3hGUhYQhXDwRDRWq2hYiJY0W
- eFPLypcpDfmDZuyJA+BbYai2x0AK8VP0xiYEfA5/+D70TIcVJUeh9AhafsOVb3FgUFxudsz
- 4p9x2Ai8OVNMdG+3AJdfltptywJGyyun1KT2d1e1zUkHbE3KjNkB5uOAwPv3/QNg1l/wYVN
- 6S6GhXbshw4V8jbL+vjLA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/dO5PnXFxJ8=;m8CgoCPxMhMrm26C+D+/GoAngAS
- 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
+X-Exchange-RoutingPolicyChecked:
+	qCfRhWXY97/LsX5ZtpamUTZtRLztKBrPeWMwKH/mgZw0HELx0sk+ZccuKjjGTZb5GTxR/V4jKkh/B45K+7tbXPbAz0/Wge1+CDtTFKVBtczFJo0PlCRAcR4jK68UYomXCUXNUIlrL1jBAn3ErAF2AXG4zZrJ2W0Uzbih9z2kyzbIxt/+nuWoaranKYgF1deLSWeJRoPQRT9VVbXL4NZWITaRiwyeMatvWImZA1sWD0qg4moJupSA7p0T6Qj8p+0XHuDRPVpC8ElqTCCsUeqs1khhPBsokUHha03VptI6PU6ChQya6AKYlraaRudIJEVR4jwizl8sRV71sLo0DVXbyw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	UOwldqsDpy1+0e/+L4kJMxn2ywtSLsZv0Tpxu4H1Yc60fp0RwV7FyaPh5+cFk499vFCJyusLgJTd2+UyCydqnujvTCMikQJlXKlSkd/thbjzA6m82vvwaU7WaMvScPXynHX/mLmIl5iX00fFRB7sFF2vmPU0TMOK/SA65O+8skXAk0WYzadCCehjD8eaUoIlynYDUHWvTNRsWgwCs2jxFKsNUoas6aNKMal91rJmB+jFRK3dUWrhIKh49p9a2BpHCJYN7LNHRbr2AIZQyQ9BA6Rv2sTNBJ6VnsoqChMqmOr08k5wOu4IlOlCsx41+12+kXyJrIiWFgy7d6BaGcjShaYBGNWjESKB19YnniMH/ohyRv7calPt5AgoSpwO59B0+2r67Tw9VO4CEb1uHZhAcm1hQqbe3/5oXK3sp6GYtrXELey5+mvWFwWJgW/u53GLoivZC8isNts0a4iz8ybfvRSffoBGIsMyGGhSj9i4+F/jDrqyMzUSU5AP5fqH2ZJuFu4qY/i75aVeM4o/lsg4qLgZhVf54lIsNDzDptTHJO0smTR0ifVgMDKu3o5wxtzNlGPVfCxds8T6g+T0W7b6TOVG6SMkH51Jk+EZbNu7pFxFwC1RN12XQbXzqXy8sfO1
+X-OriginatorOrg: sony.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB6316.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0f8c4d4-2bba-410d-6f72-08deb7232641
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2026 10:24:32.6109
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DEOyqKnazbwjuzb6C2j5HPYPKeQEQ4ACW+Hmr5SdvMSlxEM/IFO9zTQTs6Y9M9ru9AUWsKYcSQHaYw0aYxV8Fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYQPR04MB8939
+X-Proofpoint-GUID: xlsaogH6Bl7ofzJsipBNpLNwpi_4srPV
+X-Authority-Analysis: v=2.4 cv=TeKmcxQh c=1 sm=1 tr=0 ts=6a0edd6a cx=c_pps
+ a=R5E0JZfuZuOkO2CZe4yZoQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=NGcC8JguVDcA:10 a=7j0FZ4iXMVMA:10 a=xR56lInIT_wA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=KAb5x4SsHD3PzxGk7EmX:22 a=XGr2FpfLDd2dUKU_94WB:22
+ a=oV265rIn68nUDKU2M7cA:9 a=wPNLvfGTeEIA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDEwMyBTYWx0ZWRfX3a3wK3AT7SLS
+ KXqBixaBKjgjQtUVsR9tq9Zo13KT7rME1HLYuCQImIQCTrzzOZQB7P1pX6f/VEL6Tyj/X2nbEh7
+ Xp2hj33aKUBjIFpiudPkXVwZLQmOs6CKGDjDF6oRjUUl3zvN985ooDo+WikHcCSOhO503pbfMW7
+ RPiZ3hjEA6CYSXdxOthLy1IhwahYVg7B+ge6ykQ9sArM04Yki8+yqU1kQE61A7MVKwi6scFHypP
+ yKpLgO4CSCMHS8HqR5FJZphBohuMNzqlZ5laxXt8YSF4tuy2h4VrKaJW3T7EhwV/Vf7F7E3FPkX
+ RCi0+FpMqXr7qTvsS88blNBdxXMjcvhx12+U3w2M4LxhJqZc80rIzuA/rUuZc5iMWf955zEsNtm
+ 2wnX5DqK/eaD7bt8ydA5tzMqZZyoLo8SArYl5diI8HrgK9l8K6Yjwti2pVpq9V4kSgQijT/P9xv
+ xK1IL5F5g94aZ51rotQ==
+X-Proofpoint-ORIG-GUID: xlsaogH6Bl7ofzJsipBNpLNwpi_4srPV
+X-Sony-Outbound-GUID: xlsaogH6Bl7ofzJsipBNpLNwpi_4srPV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-21_01,2026-05-18_01,2025-10-01_01
 
-Am Donnerstag, dem 21.05.2026 um 12:17 +0200 schrieb Thomas Gleixner:
-> On Thu, May 21 2026 at 11:20, Bert Karwatzki wrote:
-> > Am Donnerstag, dem 21.05.2026 um 11:09 +0200 schrieb Mateusz Guzik:
-> >=20
-> > with next-20260519 (no RT, no LOCKDEP) and got no crash so far (4 boot=
-s only though (next-20260619
-> > crashed in 2 out of 3 boots without RT)) but I get this warning on eve=
-ry boot:
-> >=20
-> > [    2.793416] [    T331] ------------[ cut here ]------------
-> > [    2.793433] [    T331] DEBUG_LOCKS_WARN_ON(lock->magic !=3D lock)
-> > [    2.793434] [    T331] WARNING: kernel/locking/mutex.c:625 at __mut=
-ex_lock+0x586/0x10c0, CPU#17: (udev-worker)/331
->=20
-> So either the mutex is corrupted or was never initialized.
->=20
-> > [    2.793463] [    T331] Modules linked in: amdgpu(+) hid_generic usb=
-hid drm_client_lib i2c_algo_bit drm_buddy hid drm_ttm_helper ttm drm_exec
-> > drm_suballoc_helper mfd_core drm_panel_backlight_quirks gpu_sched amdx=
-cp drm_display_helper drm_kms_helper ahci libahci xhci_pci libata xhci_hcd=
- drm nvme
-> > scsi_mod igc usbcore nvme_core scsi_common video nvme_keyring i2c_piix=
-4 cec nvme_auth usb_common crc16 i2c_smbus wmi gpio_amdpt gpio_generic
-> > [    2.793518] [    T331] CPU: 17 UID: 0 PID: 331 Comm: (udev-worker) =
-Not tainted 7.1.0-rc4-next-20260519-rcunortlockdep-dirty #465 PREEMPT=20
-> > [    2.793534] [    T331] Hardware name: ASUS System Product Name/ROG =
-STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-> > [    2.793547] [    T331] RIP: 0010:__mutex_lock+0x58d/0x10c0
-> > [    2.793555] [    T331] Code: 4c 8b 4d 88 85 c0 0f 84 f8 fa ff ff 44=
- 8b 15 ca 9b 81 00 45 85 d2 0f 85 e8 fa ff ff 48 8d 3d 1a 57 82 00 48 c7 c=
-6 a6 51 9e 83
-> > <67> 48 0f b9 3a 4c 8b 4d 88 e9 cc fa ff ff 48 8b bd 78 ff ff ff e8
-> > [    2.793579] [    T331] RSP: 0018:ffffa497016c3510 EFLAGS: 00010246
-> > [    2.793588] [    T331] RAX: 0000000000000001 RBX: ffff88c33a4c2ad8 =
-RCX: 0000000000000000
-> > [    2.793598] [    T331] RDX: 0000000000000001 RSI: ffffffff839e51a6 =
-RDI: ffffffff83de3c00
-> > [    2.793609] [    T331] RBP: ffffa497016c35c0 R08: ffffffffc0a55d92 =
-R09: 0000000000000000
-> > [    2.793619] [    T331] R10: 0000000000000000 R11: 0000000000000000 =
-R12: 0000000000000000
-> > [    2.793629] [    T331] R13: 0000000000000002 R14: ffffa497016c3550 =
-R15: 0000000000268000
-> > [    2.793641] [    T331] FS:  00007f1f32e5b9c0(0000) GS:ffff88d23b2ca=
-000(0000) knlGS:0000000000000000
-> > [    2.793653] [    T331] CS:  0010 DS: 0000 ES: 0000 CR0: 00000000800=
-50033
-> > [    2.793662] [    T331] CR2: 000055cdfa28f588 CR3: 0000000112e73000 =
-CR4: 0000000000f50ef0
-> > [    2.793673] [    T331] PKRU: 55555554
-> > [    2.793678] [    T331] Call Trace:
-> > [    2.793683] [    T331]  <TASK>
-> > [    2.793687] [    T331]  ? lock_acquire+0xbe/0x2d0
-> > [    2.793696] [    T331]  ? init_mqd+0x122/0x190 [amdgpu]
-> > [    2.793809] [    T331]  ? lock_release+0xc6/0x2a0
-> > [    2.793816] [    T331]  ? init_mqd+0x122/0x190 [amdgpu]
-> > [    2.793902] [    T331]  init_mqd+0x122/0x190 [amdgpu]
-> > [    2.793961] [    T331]  init_mqd_hiq+0xd/0x20 [amdgpu]
-> > [    2.794015] [    T331]  kq_initialize.constprop.0+0x2b8/0x370 [amdg=
-pu]
-> > [    2.794071] [    T331]  kernel_queue_init+0x3f/0x60 [amdgpu]
-> > [    2.794125] [    T331]  pm_init+0x6b/0x100 [amdgpu]
-> > [    2.794178] [    T331]  start_cpsch+0x1d6/0x270 [amdgpu]
-> > [    2.794234] [    T331]  kgd2kfd_device_init.cold+0x7b9/0xa1a [amdgp=
-u]
-> > [    2.794365] [    T331]  amdgpu_amdkfd_device_init+0x190/0x260 [amdg=
-pu]
->=20
-> amdgpu_amdkfd_device_init()
->   kgd2kfd_device_init() {
->       ....
->         init_mqd()
->           mutex_lock(... profiler_lock); <- FAIL
->=20
->       mutex_init(...profiler_lock);
->   }
->=20
-> Seems the famous graphics CI failed to catch this...
->=20
-> Thanks,
->=20
->         tglx
-> ---
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-> @@ -744,6 +744,9 @@ bool kgd2kfd_device_init(struct kfd_dev
->  			KGD_ENGINE_SDMA1);
->  	kfd->shared_resources =3D *gpu_resources;
-> =20
-> +	kfd->profiler_process =3D NULL;
-> +	mutex_init(&kfd->profiler_lock);
-> +
->  	kfd->num_nodes =3D amdgpu_xcp_get_num_xcp(kfd->adev->xcp_mgr);
-> =20
->  	if (kfd->num_nodes =3D=3D 0) {
-> @@ -936,9 +939,6 @@ bool kgd2kfd_device_init(struct kfd_dev
-> =20
->  	svm_range_set_max_pages(kfd->adev);
-> =20
-> -	kfd->profiler_process =3D NULL;
-> -	mutex_init(&kfd->profiler_lock);
-> -
->  	kfd->init_complete =3D true;
->  	dev_info(kfd_device, "added device %x:%x\n", kfd->adev->pdev->vendor,
->  		 kfd->adev->pdev->device);
-
-Actually, when I test next-20260519 with the improved fix, I do not see
-the warning from amdgpu.
-
-diff --git a/fs/filesystems.c b/fs/filesystems.c
-index 771fc31a69b8..712316a1e3e0 100644
-=2D-- a/fs/filesystems.c
-+++ b/fs/filesystems.c
-@@ -269,7 +269,7 @@ static __cold noinline int regen_filesystems_string(vo=
-id)
- 	hlist_for_each_entry_rcu(p, &file_systems, list) {
- 		if (!(p->fs_flags & FS_REQUIRES_DEV))
- 			newlen +=3D strlen("nodev");
--		newlen +=3D strlen("\t") + strlen(p->name) +  strlen("\n");
-+		newlen +=3D strlen("\t") + strlen(p->name) + strlen("\n");
- 	}
- 	spin_unlock(&file_systems_lock);
-=20
-@@ -289,6 +289,7 @@ static __cold noinline int regen_filesystems_string(vo=
-id)
- 	 * Did someone beat us to it?
- 	 */
- 	if (old && old->gen =3D=3D file_systems_gen) {
-+		spin_unlock(&file_systems_lock);
- 		kfree(new);
- 		return 0;
- 	}
-@@ -297,6 +298,7 @@ static __cold noinline int regen_filesystems_string(vo=
-id)
- 	 * Did the list change in the meantime?
- 	 */
- 	if (gen !=3D file_systems_gen) {
-+		spin_unlock(&file_systems_lock);
- 		kfree(new);
- 		goto retry;
- 	}
-@@ -321,13 +323,12 @@ static __cold noinline int regen_filesystems_string(=
-void)
- 		 * generation above and messes it up.
- 		 */
- 		spin_unlock(&file_systems_lock);
--		if (old)
--			kfree_rcu(old, rcu);
-+		kfree(new);
- 		return -EINVAL;
- 	}
-=20
- 	/*
--	 * Paired with consume fence in READ_ONCE() in filesystems_proc_show()
-+	 * Paired with consume fence in rcu_dereference() in filesystems_proc_sh=
-ow()
- 	 */
- 	smp_store_release(&file_systems_string, new);
- 	spin_unlock(&file_systems_lock);
-
-Bert Karwatzki
+> +/*=0A=
+> + * Copy benign secondary entries from @src_es to @dst_es, placing them a=
+fter=0A=
+> + * the new filename entries.  Updates num_ext and the directory checksum=
+.=0A=
+> + */=0A=
+> +static int exfat_copy_trailing_entries(struct exfat_entry_set_cache *src=
+_es,=0A=
+> +               struct exfat_entry_set_cache *dst_es)=0A=
+> +{=0A=
+> +       struct exfat_dentry *ep;=0A=
+> +       int extra =3D exfat_count_extra_entries(src_es);=0A=
+> +       int new_entries, src_start, i;=0A=
+> +=0A=
+> +       if (extra <=3D 0)=0A=
+> +               return extra < 0 ? extra : 0;=0A=
+> +=0A=
+> +       new_entries =3D dst_es->num_entries - extra;=0A=
+> +       src_start =3D src_es->num_entries - extra;=0A=
+> +=0A=
+> +       if (new_entries < ES_IDX_FIRST_FILENAME ||=0A=
+> +           src_start < ES_IDX_FIRST_FILENAME)=0A=
+> +               return -EIO;=0A=
+> +=0A=
+> +       for (i =3D 0; i < extra; i++) {=0A=
+> +               *exfat_get_dentry_cached(dst_es, new_entries + i) =3D=0A=
+> +                       *exfat_get_dentry_cached(src_es, src_start + i);=
+=0A=
+> +       }=0A=
+> +=0A=
+> +       ep =3D exfat_get_dentry_cached(dst_es, ES_IDX_FILE);=0A=
+> +       ep->dentry.file.num_ext +=3D extra;=0A=
+> +       exfat_update_dir_chksum(dst_es);=0A=
+> +       return 0;=0A=
+> +}=0A=
+> +=0A=
+=0A=
+I think we can do this by passing old_es and num_extra_entries to=0A=
+exfat_init_ext_entry() and set new_es in the following order.=0A=
+=0A=
+exfat_init_ext_entry()=0A=
+{=0A=
+	// 1. set file entry=0A=
+	// 2. set stream extension entry=0A=
+	// 3. New step: copy benign secondary entries to the tail of new_es=0A=
+	// 4. set name entries=0A=
+}=0A=
+=0A=
+> +       /*=0A=
+> +        * Relocate when the old slot is too small, or when extra=0A=
+> +        * entries exist and the name entry count changes.=0A=
+> +        */=0A=
+> +       if (old_es.num_entries < num_total_entries ||=0A=
+> +           (num_extra_entries && num_old_name_entries !=3D num_new_name_=
+entries)) {=0A=
+=0A=
+If the above implementation is followed, this change is not needed.=0A=
+=0A=
+This change will cause the rename operation to fail due to no space, even i=
+f=0A=
+filename is shortened, when the partition is full.=
