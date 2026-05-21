@@ -1,89 +1,176 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877053859FA;
-	Thu, 21 May 2026 10:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E4C3B1014
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 10:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779360849; cv=none; b=AiwPHxNfR/8E5vElKjlBZ+GtAytjkb01jMwdufSnxogVZBeepLEtATAMLG/jfuCVp7aPVUjZQikAk/t6jgrFqz4c85kMnJ37P7yPwbPqmT4L+2Uc8uT8cVMfX0cviwFkvmrlAAlw4qnwWvH5/r7g3jM3Ql4EZ8UOUKVgk9Tl1Rk=
+	t=1779360949; cv=none; b=OLSIE3GE1GTxDJRWmG4s/1dXQ1KfSWtQhUES7Wfr9kRtZZzlhlG3iXK3oehQkJFicokpctcSx9tibQr5V7oBcvUnqVGbx4COLq8oIB+KkX7gdyVzithWYLUw7ww3vyWmVNnGUp969HS7+0fbKgSmVuJ7A7p7Aej1TYEvJhts48w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779360849; c=relaxed/simple;
-	bh=tMnuYwHgo7w7gPx8laBi+vh4biK3BacbRE3N0c3HULA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=axyV6XOy9rnkopkiUzgQlJzH80gVIDis2YjiL0TxlZ1Qp4eHJW1LIkHtHJryI8ClKe3bnE3Cz3unmbpFCQHkLT/Pdga2LsI2dusfEBreHSGtAr5Ei3dDbuFilLNoud3ks+MyKqltDJJcq+n141622JrR513e4K86hYo44V33nfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8rOS1cG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779360949; c=relaxed/simple;
+	bh=/Pis0C74gccGwF0o4rxjKZU6DPoH5celZ5U9jMEsdX4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FQOPoEHLsXRmB2BxP9+YHUWuU+Pl50/pJENeTlTw5OKtxzNUy3PlzRYxYExVmZOuen8LT/PuQpQTXO9wCtqyn49cFSjAkqX7RGyueWdsG8sxhNtv28pvzx4fsRgSE4TG2zKKKw+f4Dve835wcV49LehqZ/8t0q2ioo+hWIcyXF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVCL/w8l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8rOS1cG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 284D11F000E9;
-	Thu, 21 May 2026 10:53:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVCL/w8l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CCA11F000E9;
+	Thu, 21 May 2026 10:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779360848;
-	bh=hReAb/JnSiPheNetMpN9KuPDi9ArATr3SUITGa4P4hY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=A8rOS1cGqyEFWheeZg7Gevs8sfK5NeBIFPOWaiaMtEpuax0stwjgnfBRYXfe42fw+
-	 PkNdqWpTczhnsT+5zzafbfYYvZnE4lsb8LCl3MbH4SiEBUzeWbsTW/TwyEUH0EIWI7
-	 rXjTEEae4IQY/alXlNlwPRciBuM89DudZ/0g8hE6byUVFb4DnQ8vNmVB3OHZAvQaOL
-	 XbhBeyiBJWf6wy9ijtvnhwfR525PNDcFDIE5KN6Tbtkp0Pynq0S6/Wx6IaNQC4z55O
-	 nUvMijOU4uSW0CyHmDv2UcBnjr0lOBq1iiL/FkAZ6Ns5OmsYyneoVPjm5n+3fraI/R
-	 kde4w0nv6lkqw==
-Date: Thu, 21 May 2026 12:53:56 +0200
+	s=k20260515; t=1779360947;
+	bh=wK2S2kGgvHRiCRxXlwKpHXFHm85IERZZyBC/UJvlMcI=;
+	h=From:To:Cc:Subject:Date;
+	b=DVCL/w8lHOKGA3n5xY4G2d9vTflYqYYA5O947NBfszOHsYF47YG/ObBBoB++Qbe15
+	 bTW3S6MY5SOdztXoGgDv3Mq/V87ADEbLK/11Go3JY5NYRJSd4xPm6EqqP4MOlBD4GQ
+	 SYcMTS7b4L5tbVDTRz48BRKi8GYNoNW0xlYciAOdoCtWqlx8CbllGuyPokAzPaGM3X
+	 TIadR3m7w1IYhYCjd8xpAOmhhiAV3IZxhbyj0TXun/OTFHU8U/7dq80qf1bZs2OVC/
+	 HtTxAD4EsOPu2p8godYRTcA0Aom0KyoJlksT4bdUn6bei+c+WC/e5ikVfcuYVAmj1R
+	 U8P6W0IGWfupA==
 From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org, 
-	Dorjoy Chowdhury <dorjoychy111@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, jlayton@kernel.org, chuck.lever@oracle.com, 
-	alex.aring@gmail.com, arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, 
-	smfrench@gmail.com, richard.henderson@linaro.org, mattst88@gmail.com, 
-	linmag7@gmail.com, tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
-	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
-	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, trondmy@kernel.org, 
-	anna@kernel.org, sfrench@samba.org, pc@manguebit.org, ronniesahlberg@gmail.com, 
-	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com, shuah@kernel.org, 
-	miklos@szeredi.hu, hansg@kernel.org
-Subject: Re: [PATCH v6 0/4] OPENAT2_REGULAR flag support for openat2
-Message-ID: <20260521-grube-leitfaden-0e5420c9bedc@brauner>
-References: <20260328172314.45807-1-dorjoychy111@gmail.com>
- <20260416-abgraben-seeweg-a44ce660957f@brauner>
+To: Jori Koolstra <jkoolstra@xs4all.nl>,
+	Aleksa Sarai <cyphar@cyphar.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] selftests: openat2: port emptypath_test to kselftest harness
+Date: Thu, 21 May 2026 12:55:39 +0200
+Message-ID: <20260521-wettstreit-meinen-46271dede480@brauner>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260416-abgraben-seeweg-a44ce660957f@brauner>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3638; i=brauner@kernel.org; h=from:subject:message-id; bh=/Pis0C74gccGwF0o4rxjKZU6DPoH5celZ5U9jMEsdX4=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTxPVl755z4nmVOJ7+fX2EtmPnAhe9FxNeQkjlG+/a53 Ny6nVNnRUcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEXrEwMtzktHA0NPDbxrSi zLWCyWDffxt1X18Dk51Hlza9y1FeysnIMMljx+Ky4G81sY2qdd1TLnR1nd4jc/pli2qLuULq3dQ cbgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 16, 2026 at 03:07:12PM +0200, Christian Brauner wrote:
-> On Sat, 28 Mar 2026 23:22:21 +0600, Dorjoy Chowdhury wrote:
-> > I came upon this "Ability to only open regular files" uapi feature suggestion
-> > from https://uapi-group.org/kernel-features/#ability-to-only-open-regular-files
-> > and thought it would be something I could do as a first patch and get to
-> > know the kernel code a bit better.
-> > 
-> > The following filesystems have been tested by building and booting the kernel
-> > x86 bzImage in a Fedora 43 VM in QEMU. I have tested with OPENAT2_REGULAR that
-> > regular files can be successfully opened and non-regular files (directory, fifo etc)
-> > return -EFTYPE.
-> > - btrfs
-> > - NFS (loopback)
-> > - SMB (loopback)
-> > 
-> > [...]
-> 
-> - I've added an explanation why OPENAT2_REGULAR is only needed for some
->   ->atomic_open() implementers but not others. What I don't like is that
->   we need all that custom handling in there but it's managable.
-> 
-> - I dropped the topmost style conversions. They really don't belong
->   there and if we switch to something better we should use (1 << <nr>).
-> 
-> - I split the EFTYPE errno introduction into a separate patch.
+Convert the emptypath selftests to the
+FIXTURE_SETUP()/FIXTURE_TEARDOWN() and the two checks become TEST_F()s.
+No change in coverage.
 
-So I've massaged this series a bit in that I moved OPENAT2_REGULAR into
-the upper 64-bit and internally use a __O_REGULAR bit. After having
-thought about it makes a lot more sense to move the openat2() only
-features into the upper 32-bit for the uapi space. I also ported the
-selftests to the TEST* framework to fit with Aleksa's recent rework.
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ .../filesystems/openat2/emptypath_test.c      | 92 ++++++++++++-------
+ 1 file changed, 57 insertions(+), 35 deletions(-)
+
+diff --git a/tools/testing/selftests/filesystems/openat2/emptypath_test.c b/tools/testing/selftests/filesystems/openat2/emptypath_test.c
+index d75b5e998ff9..be37ccba57ec 100644
+--- a/tools/testing/selftests/filesystems/openat2/emptypath_test.c
++++ b/tools/testing/selftests/filesystems/openat2/emptypath_test.c
+@@ -1,55 +1,77 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ 
++#define _GNU_SOURCE
+ #define __SANE_USERSPACE_TYPES__
+ #include <fcntl.h>
+ #include <unistd.h>
+ #include <errno.h>
++#include <string.h>
++#include <sys/stat.h>
+ 
+-#include "kselftest.h"
++#include "kselftest_harness.h"
+ 
+ #ifndef O_EMPTYPATH
+ #define O_EMPTYPATH	(1 << 26)
+ #endif
+ 
+-int main(void)
++#define EMPTYPATH_TEST_FILE "/tmp/emptypath_test"
++
++FIXTURE(emptypath) {
++	int opath_fd;
++};
++
++FIXTURE_SETUP(emptypath)
+ {
+-	int opath_fd, reopen_fd;
+-	const char *path = "/tmp/emptypath_test";
+-
+-	ksft_print_header();
+-	ksft_set_plan(2);
+-
+-	opath_fd = open(path, O_CREAT | O_WRONLY, S_IRWXU);
+-	if (opath_fd < 0)
+-		ksft_exit_fail_msg("create %s: %m\n", path);
+-	close(opath_fd);
+-
+-	opath_fd = open(path, O_PATH);
+-	if (opath_fd < 0)
+-		ksft_exit_fail_msg("open %s O_PATH: %m\n", path);
+-
+-	reopen_fd = openat(opath_fd, "", O_RDONLY);
+-	if (reopen_fd < 0 && errno == ENOENT)
+-		ksft_test_result_pass("empty path without O_EMPTYPATH returns ENOENT\n");
+-	else if (reopen_fd >= 0) {
+-		ksft_test_result_fail("empty path without O_EMPTYPATH unexpectedly succeeded\n");
+-		close(reopen_fd);
+-	} else {
+-		ksft_test_result_fail("empty path without O_EMPTYPATH: expected ENOENT, got %m\n");
++	int fd;
++
++	self->opath_fd = -1;
++
++	fd = open(EMPTYPATH_TEST_FILE, O_CREAT | O_WRONLY, S_IRWXU);
++	ASSERT_GE(fd, 0) {
++		TH_LOG("create %s: %s", EMPTYPATH_TEST_FILE, strerror(errno));
+ 	}
++	close(fd);
+ 
+-	reopen_fd = openat(opath_fd, "", O_RDONLY | O_EMPTYPATH);
++	self->opath_fd = open(EMPTYPATH_TEST_FILE, O_PATH);
++	ASSERT_GE(self->opath_fd, 0) {
++		TH_LOG("open %s O_PATH: %s", EMPTYPATH_TEST_FILE, strerror(errno));
++	}
++}
+ 
+-	if (reopen_fd < 0 && errno == EINVAL)
+-		ksft_exit_skip("O_EMPTYPATH not supported\n");
++FIXTURE_TEARDOWN(emptypath)
++{
++	if (self->opath_fd >= 0)
++		close(self->opath_fd);
++	unlink(EMPTYPATH_TEST_FILE);
++}
+ 
+-	if (reopen_fd >= 0) {
+-		ksft_test_result_pass("O_EMPTYPATH reopens O_PATH fd\n");
+-		close(reopen_fd);
+-	} else {
+-		ksft_test_result_fail("O_EMPTYPATH failed: %m\n");
++/* An empty path is rejected with ENOENT unless O_EMPTYPATH is set. */
++TEST_F(emptypath, without_flag_returns_enoent)
++{
++	int fd = openat(self->opath_fd, "", O_RDONLY);
++
++	if (fd >= 0)
++		close(fd);
++	ASSERT_LT(fd, 0) {
++		TH_LOG("empty path without O_EMPTYPATH unexpectedly succeeded");
++	}
++	EXPECT_EQ(errno, ENOENT) {
++		TH_LOG("expected ENOENT, got %s", strerror(errno));
+ 	}
++}
++
++/* O_EMPTYPATH reopens the O_PATH fd through an empty path. */
++TEST_F(emptypath, reopens_opath_fd)
++{
++	int fd = openat(self->opath_fd, "", O_RDONLY | O_EMPTYPATH);
++
++	if (fd < 0 && errno == EINVAL)
++		SKIP(return, "O_EMPTYPATH not supported");
+ 
+-	unlink(path);
+-	ksft_finished();
++	ASSERT_GE(fd, 0) {
++		TH_LOG("O_EMPTYPATH failed: %s", strerror(errno));
++	}
++	close(fd);
+ }
++
++TEST_HARNESS_MAIN
+-- 
+2.47.3
+
