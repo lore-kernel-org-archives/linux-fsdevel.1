@@ -1,132 +1,153 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9E9368D5A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 09:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779354943; cv=none; b=Q2jCtxBccSOPSqCvpEDuIWnjESkuVNmi84gC/MTDaHdzCwusj5kVgLOICHUPZLXobgG3ErS2EreRj02JhkBl0AaaAaKQ6NkbIChDvKu/N7f5kHVztHaiVhSarVOkEjaw+ZlJ8QcbUuor8HIZNNGWKfDISxUFSjsTtBCmTSChjc4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779354943; c=relaxed/simple;
-	bh=NME2wg+8LeL6k4Ln27qfnBCaPKML1EwO42d7Byy3Lb4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g6gMT3nT/YHBkj9ihgdPo0fFr1dwJ5WdkNJBa+gB2OkQL+hyCnLKOZpEcnC/I9ufEGXGvGjcWY8CZ6AuRAoG2WeoA99sxSVw7CcftjWJyJujx+eZg5CmqRhPrVZM1LvQSCLCqEVSCB+Dimcq2b0xuwWEdwJay1vQLr1WIOAWln4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=MMhiu7d1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Iwdp5ux2; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D01636405C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 09:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779355085; cv=pass; b=rqRY/ynj/dQ70JCj9Khy6sjeXsF5qtSDZAqgSmQasgXPUYOWseG1ewWqs7go7EusPNxoLSsJg/KUXJ92dF5BF2HZh5Ay4QaI7u4lfPXDOeZcECQwWRBO/5lLRcDgG8ryxXv8k5DfsOQuM0OHXRuAwg07Eopu1OVsgJbUY9yviV0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779355085; c=relaxed/simple;
+	bh=vwnfSdJLdKaz9ZvYKHUKW6o9hMPAY38OWs/+ezdVxbA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O7C3LAIZKEHCkqHMCv/vXL2pJpZMKrmY0UgWX0E71cJNKcm17QXxWirVRZG4/9hcAwo2i17tsmYEDltGoSqkobdDLIu+XpC6AFBvty1igtoqz9OXMnXIsjvsDqzw9rj4Yal2qCECgqyclG+VdpWXi8giW9fsMCCMVcb3Bad7whM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W38zozNq; arc=pass smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="MMhiu7d1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Iwdp5ux2"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 042B97A003E;
-	Thu, 21 May 2026 05:15:40 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 21 May 2026 05:15:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779354940;
-	 x=1779441340; bh=TU5901KgKhH4jL7QNn74nNfgljFNJDTLXdqCNfAIiZU=; b=
-	MMhiu7d1r/Kjr4CttPb7vw1gv5LEMiaYahnxdLuibnA1UPDI99mP3FyaqJOxbCIr
-	G+YjzltgUxhVkjglpijhZD1qO63WR9aaEuta+vdEJcs3lopXRBhOb+AjylaSlg86
-	fk5skt4CXSI0hr0zGG9vvgaT6QdH2+A9PLlQpmdNQ0a90Zbol/l7kGIAPcNrTMmL
-	LTW5ncEWQ8TMIOHcImzExtE69puX9+08+B+1xgjabioSm9JSX2iCFvyfixFHZlEI
-	kcNtXVB87jS1YTuAgVxF+Q5NZX8qZrLo3ReP0XLLPNo2B6+XojknHlxUDFqvlqxB
-	LD+h9wW8riW6LCqjOTqsFg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779354940; x=
-	1779441340; bh=TU5901KgKhH4jL7QNn74nNfgljFNJDTLXdqCNfAIiZU=; b=I
-	wdp5ux26ektO5PQfkAgmqV0fZMeq82GpskuDpyzoUENdAkjy5buV/cI63v2+ftHO
-	2QxO7QC4GlQnsv7uf5cnf84F6AWkA6uI1o8jNeZ54qe3qJNMHGw/jyjFX5IvgXVM
-	oH8p2yn5OIC6IObaP6n52gcC3PPn88bIqX5P0nUpXuAd95/FADwRo6x0EcrRaCf2
-	4KWYUtDP/bQMirpY4QC4Zik6kvvpNSI99IUqr509mL/6Ky1/GK3fpPJ6tOKSSxvV
-	+Ju1CVPFTfdVmFET2bMWTtrsphbB6BlS+1Y1PRW0FLuX91vlObZxSnJfT6UXCvOE
-	y7MpseOcVpb4JIobkseNQ==
-X-ME-Sender: <xms:PM0OankATeLAigqpQyEWpYx4IG4UYCsU54CTtPxk-_Hl1cjot4Pl8w>
-    <xme:PM0OakJZr8qcMVlwqP9hmBkhB6IanmD3Wn2UJr1_8csRP0dRfElVHFizkQreWv83p
-    eNUDrqZWggDzV7_rULKI37M845T_MeyF4VfBZfX0nvdSmMI3zKt>
-X-ME-Received: <xmr:PM0Oak4cKMKxqzEypLWsxffJcgA0lNOGhFqJo2jWfe0pqaAzlHK5M6SJa2kHSKlZ7Gf3vLAkIBhHQ14ujrHledXrIIct2oX8rS9bUlMhUMXt0JuqCQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejuddvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvug
-    hirdhhuhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuh
-    igrdguvghv
-X-ME-Proxy: <xmx:PM0Oag1Amv9srQxD_haVCojZgJIbWvJgLlPHxE5-afnQh8Gwisva6g>
-    <xmx:PM0OaidqPcoO7WCIeVHpDYRTQRTCDqF3FML0_LZiHUMu0QqV6KUUsA>
-    <xmx:PM0OaudAR_ZLhe_Nwg0pWzUvW9pBZwbIdmf8RX9vFZKLLGhRFcJhRw>
-    <xmx:PM0OalwI3vJfPVrJscuw35jfeu75pEY2OmjKH31jjanw0IwXQeODHQ>
-    <xmx:PM0OalunrlCoFotUqNusNDay8P3rexhNnkH0IW-dDfHbkyxx2LrFU5nx>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 May 2026 05:15:39 -0400 (EDT)
-Message-ID: <9954c0ab-3d5e-4318-9b04-4d636520d6ce@bsbernd.com>
-Date: Thu, 21 May 2026 11:15:38 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W38zozNq"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bda62f13d90so372335666b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 02:17:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779355075; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KjdNUsIxMvhZ4BaLyWr4r6bCo8S21mQEeJ3wLE98Z7B32FqA/bx7IjRCWMqXdTs60M
+         BMVAdSW92J1k9q9kyrZh6DfXSJo1jkQYS74Qy8WH+B0aw0EtkJTIvhSeEUfPqIYassnQ
+         KM3zS+klkjnvGkvYR8mh6IDbgn+BNcFtt7i/vlXK3Stdj42DRWCM1rKvl7mb7iI1Kr9u
+         NRwgDXtjYRiVODvwwAYGgz7WqO2xlpqV9sCtx6rECB5Z/IwbVRb6YbCeUckbNZhKatSK
+         7lOrCdk8kHwLluojSX4DonhJjIHCJ9hT80tpHL8/KrC9/IreA4sZ25McyCqRyq/nR5wZ
+         5iFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dz3+FDOFPvj/C8tgF4g8dO7NJ50HOG7kSmIeflMib8c=;
+        fh=GWCkUYOwv/pRNcqkv+HWLO+67if7TLpcsOqlaMmUa6U=;
+        b=lKsjWVz8ObB9sbsBjMXyhCiWatCak67NQe+ALGItO2Lcoj8+ybehsgimnsz5aVzSVC
+         eu6QWI/zgMTHi+uHr0217dZ6FxUtGAsCr9E6xEJC7IIxdT4pTUE0ZDin68xFPrbfUmSI
+         E0bRg52bLA9Ov06NX+4qjIaEbr/2IzcPYKYOYOJST3T86xjEuH58Nt6QwJ+at/L0/Xe+
+         erKhrVDeCbUmJcHF9o3qv4Mfu5U4YuUjJcckG98h4hdC0lRugIKzC5wtQV/mgC5WCh6j
+         b5La5kQpvaEqpX0JWAF2AV+q3mzEzGB/4PLMWtxO2r4ZW+fakTJnxG2VirCzZXyQzOSi
+         LPvg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779355075; x=1779959875; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dz3+FDOFPvj/C8tgF4g8dO7NJ50HOG7kSmIeflMib8c=;
+        b=W38zozNqryrQLJ38gOwf/d0E780psCsJOvIl9E5WXWCDipJqX5W16rdQBmdLQrBJmN
+         0jIDMBrzaG4gP7SMBbJyd3IKKebaHo9sUm2c1nxdO1jmAATIgNFH2xam6+7UGFj6Osir
+         /XRD4uw/oaBWaQ4EFDbSETcDga4Zcdk5DH8lf6GemUJF9Toaf2iFjiSAEJutnDkj52hI
+         QzlPtMJsVH7AZeeD7xlvFvBasUMsnHNBx2xtNIU5XKNSIo0gKibYCuHUwEBD5w/x7gb1
+         Xl6AW7/GTXXal4ATgzEkSKqASEQ5iraRHqxSgzT/67NzCn2sv9Bl977gz4fLwjygum+c
+         Rchg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779355075; x=1779959875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dz3+FDOFPvj/C8tgF4g8dO7NJ50HOG7kSmIeflMib8c=;
+        b=dHzedUOP9Qj1NvzC9narIMvoX/yJyupnzug0i0IZt2+T5x5Gt7W5QDEVavzjpYi+Z+
+         Hkv3pw9Pnf/dx3pKIUwcmr8GW6Tp0tmSePnFNzhkAMIKDeRtRt7VZup6PI/qWhqw4L2p
+         LCmdM/kPLwzMgBi9dCDOlhX54Hqb5jtFQnSGFVDWdsqXOBRhCQOSK1e6HpcMa88ZSf73
+         DdGomNDneYhXP5IXAFrJshBtYUT2qYzbGuPNPX16hL5bNuC5nZiqGUMP0DncqqUrRylR
+         V8nF3YS3uZZCGurzaK+nzssLiy5SeWJ7Uhb0o0c0x3kFhkaly9ofIQUYFgufCXRabhy5
+         QQHw==
+X-Forwarded-Encrypted: i=1; AFNElJ+5fc+YKzs+/m9n+8bXcuJ1rulJUzpleLDOkiAePUau2YMhf7DnTAFLJj9eepQwqGKvSQ1bz31gpjy/Y6G2@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx39ZTJfxH4CivTdE5ZgHxZ3l0P6LnlbIevF/M6z30d89bh7nbW
+	owxQdCcu2Bz5bFaLLhGRM8ON0pJ9AfsXcFi1GVHL1S/3pGeN6wnhr+7vK84cGDHW2c/oKPlpv59
+	XpMuAgeWjzyfwuEoVQWx6cw4u0urU0H8=
+X-Gm-Gg: Acq92OEjywNiQWut4WTBeqnHVjJn+PMrY2UYbmCcD/AcuHCfGsBifgRvYaYRFfkS/hK
+	fZOts8FlyXbT0o4Xv/voocfvNpe07ywQs3e0Mor6Fx724fx/CvLkaFTue70xiAQqMcqdZ8bgsOE
+	MR/Sp5wgv7wdROjrJ8GKFeZFKPYGcpqOW6eNP1aUoDR8am4u82+cDD40BQJ8qEKZ0NqcE5uA9Ve
+	WJaEIGQcS3UUq5Xof5R/jyV0aBfUE1Ak+g9PpKue3qXHVge6OTm64WJth6+quqOzYNRULc4oxRq
+	+FEdJzxf4eG6Vku23+hvUIgyhXmJfdkj5npBIio=
+X-Received: by 2002:a17:907:c706:b0:bd6:6f5e:ea6f with SMTP id
+ a640c23a62f3a-bdc12f8ce8bmr110244466b.19.1779355074839; Thu, 21 May 2026
+ 02:17:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] fuse_service: fix uninitialized variable
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: joannelkoong@gmail.com, neal@gompa.dev, miklos@szeredi.hu,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-References: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
- <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260520225245.2962-1-spasswolf@web.de> <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
+ <20260521090835.hz0aIRaQ@linutronix.de>
+In-Reply-To: <20260521090835.hz0aIRaQ@linutronix.de>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 21 May 2026 11:17:43 +0200
+X-Gm-Features: AVHnY4KUqUzhgX_BVVTF4RDqMYY98JVjveuj779cZ0EwzI7KynJ8upkWRPUw0Ic
+Message-ID: <CAGudoHH0UHvLapX-DhLR=UGv+E6LwjPA28mdSgZydrnsqQw3wA@mail.gmail.com>
+Subject: Re: context switch within RCU read-side critical section in
+ next-20260518+ with PREEMPT_RT
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Bert Karwatzki <spasswolf@web.de>, Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, adobriyan@gmail.com, jack@suse.cz, 
+	viro@zeniv.linux.org.uk, Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 21, 2026 at 11:08=E2=80=AFAM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> On 2026-05-21 10:53:03 [+0200], Mateusz Guzik wrote:
+> > them in place, but when I was rebasing on top of the RCU-ifing commit I
+> > figured I'm going to do guard/scoped_guard in there as well. Later it
+> > started failing as the compiler did not like goto retry out of a scoped
+> > guard area and the unlocks did not come back.
+>
+> futex_hash_allocate() has a scoped_guard a goto to again. In case it
+> helps.
+>
 
+Huh, now I slapped the following for testing purposes and it compiles:
+diff --git a/fs/filesystems.c b/fs/filesystems.c
+index 771fc31a69b8..d21d264672c5 100644
+--- a/fs/filesystems.c
++++ b/fs/filesystems.c
+@@ -282,7 +282,7 @@ static __cold noinline int regen_filesystems_string(voi=
+d)
+        new->len =3D newlen;
+        new->string[newlen] =3D '\0';
 
-On 5/21/26 05:07, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Initialize the sockaddr_un variable so that subsequent comparisons won't
-> fail in weird ways if getsockname doesn't fill out the object.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  lib/fuse_service.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> 
-> diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-> index d14aced29e8268..4340304eaf57b9 100644
-> --- a/lib/fuse_service.c
-> +++ b/lib/fuse_service.c
-> @@ -388,7 +388,7 @@ static int check_sendbuf_size(int sockfd)
->  static int find_socket_fd(int nr_fds)
->  {
->  	struct stat stbuf;
-> -	struct sockaddr_un urk;
-> +	struct sockaddr_un urk = { };
->  	socklen_t urklen = sizeof(urk);
->  	int ret;
->  
-> 
-> 
+-       spin_lock(&file_systems_lock);
++       scoped_guard(spinlock, &file_systems_lock) {
+        old =3D file_systems_string;
 
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+        /*
+@@ -320,7 +320,6 @@ static __cold noinline int regen_filesystems_string(voi=
+d)
+                 * Should never happen of course, keep this in case
+someone changes string
+                 * generation above and messes it up.
+                 */
+-               spin_unlock(&file_systems_lock);
+                if (old)
+                        kfree_rcu(old, rcu);
+                return -EINVAL;
+@@ -330,7 +329,7 @@ static __cold noinline int regen_filesystems_string(voi=
+d)
+         * Paired with consume fence in READ_ONCE() in filesystems_proc_sho=
+w()
+         */
+        smp_store_release(&file_systems_string, new);
+-       spin_unlock(&file_systems_lock);
++       }
+        if (old)
+                kfree_rcu(old, rcu);
+        return 0;
 
-And hmm, we kind of have a test issue - they passed. Uninitialized
-memory is the only reason why there is still valgrind.
-
-Thanks,
-Bernd
+curious, but ultimately does not matter. I think the current code is a
+little better without the guard stuff in this particular place due to
+kfree calls.
