@@ -1,151 +1,154 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DE7366054
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 15:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779378438; cv=none; b=D5agAIUsddieixtVBuroZpr9ewhficMj++wGY/Qn59nmP31C50f6ioo6cNuU+KJOGZEhcZt6aX6s8y3vv+g9kxY1tTES4ECaYDHhiCT4H3lUTzWZtw5eaFvu0qX6JngcUqLsJkjW+BEDmniaCresqEfCj7p2Spdk09wZwERpZKQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779378438; c=relaxed/simple;
-	bh=9sieAvGfiYhJohor+xl5LUjdDcgb1gdJ02VmCNMJQjM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qa8OBL0vOiqLdbuqs2qoU/p2JH1glr4yMGI4X6ZEawFA024SfIDk8TbEuIesJ6EkMD6aTK2GgmMkh2OoaV8lAOE7nRkY4q362gnuNy9kW5cGuzXiWVnUVxpl+MNGBdLMwzACRmFtJH+jAQQIuAXjpvIuxkuu057ADkUmsB/grj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=mrztRsuY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OKhSidOD; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA1A3672A8
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 15:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779378578; cv=pass; b=tIkthuM5SwFHQT5tMaGt8neDoMts8WIso7IUEJsx7qYV6ri98Nq4p77G+aKIf5w0tNG/FfQnx6cykC/6F48Pjd87UyXuanR31DDoY1XPS99cC6hkCY96rE0DP4pLO7z9iEkvGeukwrC+X9UdCtNOUoALu3vgumwev7huuzngdw0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779378578; c=relaxed/simple;
+	bh=oTJGeDYTACLQP4b7lcnYS7MF/F8SkeHi472hQfd2CPw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gnoed14J5rO2QVUiQu2qylOOQv+fUAo63srtZYhmNFy0rBhCeFYd60eMd3OfWrngvV44bCub6YHyaewELgi/WZ+WLvsuWGjyljDIHTFqXttVRPAAn7Ug/DjMPAhK/ipPAy4GkU7LwwrOVF3ycgid2jRO2C1wkDEs3ULosAPeBl4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lL1NHx9I; arc=pass smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="mrztRsuY";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OKhSidOD"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id 36B56EC019C;
-	Thu, 21 May 2026 11:47:16 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Thu, 21 May 2026 11:47:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779378436;
-	 x=1779464836; bh=JsuZBPHcrrw7tRXH8rx7yBoCDbJ2YtUCtxhb3cU1wQ4=; b=
-	mrztRsuY/+Ede2heD6QRTYroAOcpTKjorTtczCYs1slNdsRN+CCaqJjLtkSqbcxQ
-	g6YrEZvBOphOwSZuQJ+0CX8iSrT7KSRMhi2YP4iCd/LTMujTz5dya51QCOGWNLFB
-	AS/Iq5W7f4zdCf7an6ubca6MSLvRPt8rgAMhe+vBc1ZoSVT1f55Fl1k1Ypx+/bN9
-	hjQl9SlRUrL0q6FSvS0RYlUD7OoIHXHDJvUxYKqCRvuhVC+mUTvTGb/pCEb/7o++
-	HAuV+vMXA51hnlF5UMMLWhtEcukD4Y3Q+2m0O6wv34NJIuKQzcW8BHj7dydomDF5
-	wpImMDYosPy3VWQ97dDskw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779378436; x=
-	1779464836; bh=JsuZBPHcrrw7tRXH8rx7yBoCDbJ2YtUCtxhb3cU1wQ4=; b=O
-	KhSidODxrQBWwV4g9nRyeShxtoyefHoLLiJIUB1D543+vttjsOsxsAaC/TPTtoiW
-	0CRz7JGAvH0byvp9U1IkoKG59RzgfWfW869wT6yUiD5HRK05xAAcE1MtWlrVSulz
-	02TJSY8UzXiLuYKnHSpdcSU/O+GSpK9lFQYUg8tdNov1YDlJgrwpMauGSI0QJnwB
-	2qcP+1mzKrHk89p6GyB1J6w15nT9oJevXYwA7HDpP8B1EFrjcyb+TorF0Xymv4Yi
-	+gi1RnucHwGu8AVcYLZAOKBCKXxY257V1Tkk+JmVvR/1rfq94CQv79Qw8iNjq50m
-	/4ilLdScA7Z6FEY6nc5Lw==
-X-ME-Sender: <xms:AykPaovSo34ah2Z01xgjoenW9rI4iWBVvs8ZU-O9BzVSiBc7h00psQ>
-    <xme:AykPauz2-qCQptqVLFPLPkwaFbIIRQskG5sCyRZd4UwLuE8pyGqQjziqq5YD6jN32
-    zZjAxCzp2eYLER_uEy-d_zhthTqpY6JDmEQ0FR-oPobsS4s5no>
-X-ME-Received: <xmr:AykParD5uLT9c6hR5DH4HoovmF9yV7bfyGvVR9hZ17cyGYVv4GcUtWgiMT1nmD6e9I9Uw4S4TdWBtNWXZaxIPJDnAd3b4amJCjZnIKFKRu7MZdrItg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejleduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvug
-    hirdhhuhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuh
-    igrdguvghv
-X-ME-Proxy: <xmx:AykPaseOhoD08Y2gbVqVraQmYvrVn_JFcHrJovNDGihMrmhRU_X9Ew>
-    <xmx:AykPalkLDt01rYE-hAcYvJEf2GzCk9x9gSySiw_CJ_UFcGyqWRrjZQ>
-    <xmx:AykPajHPBmDWlNHbAS1t13EkFSh8ERQzCbux6_ToQ0UHXqPROMi5vQ>
-    <xmx:AykPat4ZfGs9GAcp3ZE7kWhsHH_-towsi-L5DaDMEYyoEgcaLPFrKA>
-    <xmx:BCkPauW1MOMNKFjRcZxuD9E2IEIIcTihqu9KtRBZOxb0cljmsqhBkfxh>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 May 2026 11:47:14 -0400 (EDT)
-Message-ID: <cf4e5b0f-eee2-442d-9e91-3df516b84d2c@bsbernd.com>
-Date: Thu, 21 May 2026 17:47:12 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lL1NHx9I"
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-628086439b6so5689506137.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 08:49:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779378575; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UaEmsq4h/jRAOs0o4PPpZJBXq0mcqT8uMvRt+gmxc05atSbW4KeN9MXPdBf51T5ZVX
+         GbK80OL8CV+d8Fad4B+GUFO1DPE6e6MTHt84giX2SVPFTKMdMk6LgtoS0b/tr3XIjs4z
+         7QQK9tCXh5uZI21RAy6nrkrp2QZ+nZkCFq5NHmywR9Yr7MsnAJsHCjKm9Pjh8k1ti6BF
+         cFfxWOxUJLhY2RHY41wdcEfKMjRSSummFbBKZ4But9lbCBkfNqzVTKIrRMyuhWSp7rDs
+         gn59nmjDPFBSx7eT2jC++sgUNvBe4pPE/pzN8ycc28aDGb3lhJrtfC0N3m4eimH4VldU
+         GzGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BTiKHHtH6isAoh5+/ntoHPqjIgkFbjjbM7Qgllx7bcY=;
+        fh=16QCpnoWFQJydsl7MQ6PjFeapC9IrJm5Fc4/0icnWKw=;
+        b=aPwjP/7Uwrxoo16Cq09X9K7pHf25qaJv97PAn6adv/jbn4NLgbflAaSycAsUvrYLpS
+         av+363ZtDF7V0dYkSRjUHhKsg/1kmhl0HRZc/4mqvX/8q4XY2HCkmoLetII6NkPiKD9E
+         iJ5M2gRorF2TBG9tEOmcORXw2adBzDI9qUqfzri3LQFMJYQmR5G+7K4NyM9u9dojyNOa
+         wwDs7yb3q8ShbcE/JB1Ulcv7F10Wye+BzwAn7QaN+MKVcxshcK7tiU8LpfKZpy8xrTjd
+         qkW6gJhBEdq+eLOXOZ/TG4A7z5uWSFwbZpHCyTJ76CgIAAJF8QdJN9HTZH9Krv1YHN1e
+         XsNg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779378575; x=1779983375; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BTiKHHtH6isAoh5+/ntoHPqjIgkFbjjbM7Qgllx7bcY=;
+        b=lL1NHx9IIKtcx4n399OipzLHTG7xOmxIhzXqniZ5H/PlWZnBHPquJmbnT+WXpW8VGl
+         gD5K7nwalvqc4Jt0om+M7KYYupeksRrANY4jRunce7CrRXOXxqnPI7tkmKyFagBaXwF0
+         8hbAFX6ZrBAhSIQxY+fV56hM0QhsKH/3w0jYikbW8LAIDNiMade6YzJVU1Efx90sVY3x
+         4RhbDvS072Slf7nSGxLx08t5GZTGyaCT39m+CpTwAhqunSH3Y9mmA6I+HSghd2xMwMha
+         PQ0O8KzBHHVN1VIStAFdCi0DV3GfXQMWyTqCZkVW0qbXHgDdJtycc4DpHzSHcGvAFvB1
+         f1xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779378575; x=1779983375;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BTiKHHtH6isAoh5+/ntoHPqjIgkFbjjbM7Qgllx7bcY=;
+        b=lIF6VEmFbvKq3g1WfToHTk2wND4RgqMxKqTiQWRO3nAPyg0HBNweBKgLwzpv9a3NTr
+         MPpriwiPKOufZLcSpczpdGf+cGeQNp1rm04T3HZXtN9bPJ0Zs57jxvYHayO9WTtJ7lUT
+         HEMqsE/iZ7zfKHE5uAJWdQ2h95w31zlkoPza7lI/1P0/GBJvST9nQjLxr1DUUHC59xB+
+         0JdgZLziR8nsWKNis80+4UZ8mMQl26s4opACGWyAH6MxzmwsYqAnpYicHliPZWypWisW
+         xAxQyiwNPufEtv8NaZRab58TYpxBU9FkW3clADbvhjzm12cXgJY6QOH2h+krpwiQTgQQ
+         S2Gw==
+X-Gm-Message-State: AOJu0Yx+6ztgbznE4U/BcQDR5cLbFtDdLQ3mCKt1h0D3NF4tyEKwKNYc
+	3AQpv41OMphfqWETCm+knKOIwMYtHf0gjuoBBlyMb9MT/Pj2IdcxeeTYRL2K2BvNS3Kz7uxvjor
+	5SDfRE1nMYoiMkoEJEhdvfKCqmUtW1rU=
+X-Gm-Gg: Acq92OHetfPjWSLc/pKXHl4oQU3u4/EpWMmYEzyQn96n8cGGnO+BMxfyuHUDV9Wzjkw
+	rdu59+VRC1/QpLVSOUgsQnJ0IUJ+PeS+9oD/pi3g8FFTWz4sLASyJoD7h8zJEndUspFWcKCZI1U
+	dvr1itsrSo+Q2/iHTXRRTTWmocvkGw4/Haixek6lCXCAWs93vulQxFNHbdn/e43MLc0OEFIhBRb
+	XufeZkCXRoK3POcoiVzt/nqd0tVyWzVBznByqlh1Gjp6Dvhh6WWIoUf4k/hLGh8Am6vnUbawpD+
+	cFUmdNj1OGFBaGZRNuPveLs9j/C225M6GsFeaus5UaV7f6m/DxhC05o=
+X-Received: by 2002:a05:6102:1591:b0:650:a9f6:4d29 with SMTP id
+ ada2fe7eead31-67390b66b29mr2592164137.13.1779378575543; Thu, 21 May 2026
+ 08:49:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] fuse_service: fix uninitialized variable
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: joannelkoong@gmail.com, neal@gompa.dev, miklos@szeredi.hu,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-References: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
- <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
- <9954c0ab-3d5e-4318-9b04-4d636520d6ce@bsbernd.com>
- <20260521143116.GP9568@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260521143116.GP9568@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260328172314.45807-1-dorjoychy111@gmail.com>
+ <20260416-abgraben-seeweg-a44ce660957f@brauner> <20260521-grube-leitfaden-0e5420c9bedc@brauner>
+In-Reply-To: <20260521-grube-leitfaden-0e5420c9bedc@brauner>
+From: Dorjoy Chowdhury <dorjoychy111@gmail.com>
+Date: Thu, 21 May 2026 21:49:23 +0600
+X-Gm-Features: AVHnY4JMLUcx8yOSfS2Q9vtP8tvb48vFjP_vPMN644Wd5G5CD5CLlCbq3u4DVJI
+Message-ID: <CAFfO_h4Em26Hfbv-DWF+9dNS8TBuGpfWjWFBUhLr7jYCKzj3_Q@mail.gmail.com>
+Subject: Re: [PATCH v6 0/4] OPENAT2_REGULAR flag support for openat2
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, ceph-devel@vger.kernel.org, gfs2@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, v9fs@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	jlayton@kernel.org, chuck.lever@oracle.com, alex.aring@gmail.com, 
+	arnd@arndb.de, adilger@dilger.ca, mjguzik@gmail.com, smfrench@gmail.com, 
+	richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com, 
+	tsbogend@alpha.franken.de, James.Bottomley@hansenpartnership.com, 
+	deller@gmx.de, davem@davemloft.net, andreas@gaisler.com, idryomov@gmail.com, 
+	amarkuze@redhat.com, slava@dubeyko.com, agruenba@redhat.com, 
+	trondmy@kernel.org, anna@kernel.org, sfrench@samba.org, pc@manguebit.org, 
+	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com, 
+	bharathsm@microsoft.com, shuah@kernel.org, miklos@szeredi.hu, 
+	hansg@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 21, 2026 at 4:54=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> On Thu, Apr 16, 2026 at 03:07:12PM +0200, Christian Brauner wrote:
+> > On Sat, 28 Mar 2026 23:22:21 +0600, Dorjoy Chowdhury wrote:
+> > > I came upon this "Ability to only open regular files" uapi feature su=
+ggestion
+> > > from https://uapi-group.org/kernel-features/#ability-to-only-open-reg=
+ular-files
+> > > and thought it would be something I could do as a first patch and get=
+ to
+> > > know the kernel code a bit better.
+> > >
+> > > The following filesystems have been tested by building and booting th=
+e kernel
+> > > x86 bzImage in a Fedora 43 VM in QEMU. I have tested with OPENAT2_REG=
+ULAR that
+> > > regular files can be successfully opened and non-regular files (direc=
+tory, fifo etc)
+> > > return -EFTYPE.
+> > > - btrfs
+> > > - NFS (loopback)
+> > > - SMB (loopback)
+> > >
+> > > [...]
+> >
+> > - I've added an explanation why OPENAT2_REGULAR is only needed for some
+> >   ->atomic_open() implementers but not others. What I don't like is tha=
+t
+> >   we need all that custom handling in there but it's managable.
+> >
+> > - I dropped the topmost style conversions. They really don't belong
+> >   there and if we switch to something better we should use (1 << <nr>).
+> >
+> > - I split the EFTYPE errno introduction into a separate patch.
+>
+> So I've massaged this series a bit in that I moved OPENAT2_REGULAR into
+> the upper 64-bit and internally use a __O_REGULAR bit. After having
+> thought about it makes a lot more sense to move the openat2() only
+> features into the upper 32-bit for the uapi space. I also ported the
+> selftests to the TEST* framework to fit with Aleksa's recent rework.
 
+Thanks for fixing up!
 
-On 5/21/26 16:31, Darrick J. Wong wrote:
-> On Thu, May 21, 2026 at 11:15:38AM +0200, Bernd Schubert wrote:
->>
->>
->> On 5/21/26 05:07, Darrick J. Wong wrote:
->>> From: Darrick J. Wong <djwong@kernel.org>
->>>
->>> Initialize the sockaddr_un variable so that subsequent comparisons won't
->>> fail in weird ways if getsockname doesn't fill out the object.
->>>
->>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
->>> ---
->>>  lib/fuse_service.c |    2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>>
->>> diff --git a/lib/fuse_service.c b/lib/fuse_service.c
->>> index d14aced29e8268..4340304eaf57b9 100644
->>> --- a/lib/fuse_service.c
->>> +++ b/lib/fuse_service.c
->>> @@ -388,7 +388,7 @@ static int check_sendbuf_size(int sockfd)
->>>  static int find_socket_fd(int nr_fds)
->>>  {
->>>  	struct stat stbuf;
->>> -	struct sockaddr_un urk;
->>> +	struct sockaddr_un urk = { };
->>>  	socklen_t urklen = sizeof(urk);
->>>  	int ret;
->>>  
->>>
->>>
->>
->> Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
->>
->> And hmm, we kind of have a test issue - they passed. Uninitialized
->> memory is the only reason why there is still valgrind.
-> 
-> In theory it's unnecessary because accept() will initialize the relevant
-> fields, but it's easier to add the explicit initializer than to spelunk
-> every C library in existence to make sure it actually does.
-> 
-> I wonder, do we want -ftrivial-auto-var-init=zero ?
-> 
-> Downside: only gcc>=12 and clang>=16 support it, and it adds overhead.
-
-
-I don't like initialization to 0 too much because it is often not right.
-Simple example is "int fd".
-
-
-Thanks,
-Bernd
+Regards,
+Dorjoy
