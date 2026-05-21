@@ -1,175 +1,330 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E525E366067
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 17:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779384082; cv=none; b=JVsOl0b4hO50vro7JenELmh6Mzqa1T7JpAsDpwceH43D3K3w4az4kCWxkb96Ej3TaEL0EYYrqI7IyglxshdfeBC9R3aTMv0zimc9KgK46VhtJO7/yxrdpmsI2utdvwTtZax2wGifGNlqw7ynhhSXAKURDA7kHUjmnWNtiaqCwfM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779384082; c=relaxed/simple;
-	bh=x27Cn5ayT5fe1CxPdz2u22XzMo1DJKlFv1D1TLB6NZo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=I15t28qxD6zfnWhvf3ZAiQcLxABVDcVoPJeRsI6/kat+CW/Q8j/9kHa1mkLl24jIezQ7zF86atyg6lFaGxdDJu6POuO4T6oOK4wb4MC9KRxPUDXMxuWw4V7QX6TOCpUWc8+uGbUU7DAjzNX4q8TuoZfpoWRl0hAyJMx/f3Jjrr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=0wnOfCZP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UHVkk7VJ; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027F750276
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 17:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779384425; cv=pass; b=i32FFJWWA6RQhoC+aasu2GD4QLS9xEt1HNbNfYLjQ7wVRMKM0ltqyyW9k6BlPG1Y4EberO7B4M1mOI7+ExVDldHj/KhLbTVlbahREQfB7t73X8aeZs6f0ka97kmV5rB5ur0hgWzY4sLLwR0oTLgntqIfVhWslwF2CPwHEGUxdMg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779384425; c=relaxed/simple;
+	bh=7i6+5x+bhz/ruv7bQgQFGPukfPmpvKb2CdKoNo5gNWg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eRkjhp5G4jL8iZvEGrDaNvObIGUI0w4vhF/M/CHaKktWrgcPbT18FG+7WTJAB3UjOrHQdCfRgovBscp1XVQtgoakPm5GN+DkP/h89AHABbbJsusEe5xdzad+zPhAw/gkAWPy58/eFvr6jCoRHZa5m2xJmM8a2948jhXdUf8VAAM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T5tSAsVN; arc=pass smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="0wnOfCZP";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UHVkk7VJ"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 122511400041;
-	Thu, 21 May 2026 13:21:20 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Thu, 21 May 2026 13:21:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779384080;
-	 x=1779470480; bh=zNE1It4yf/xuMam/Cs2Z4WwClwyD1XaC70SnEu3CCyE=; b=
-	0wnOfCZPT4Ogmq1Q24FWsrB8zOYl8VSzYCJ3kaV8Apms9mKcmds0uz3/9vUJSB1h
-	CwQABKt5kNbVhdp6RIj5Ha2Eulhl7Ew3UlKW1rYPDRJJz/d2k1MrQQXkc1Z08fan
-	jseHLQP56q9mQ08skUx1CsKIiUUTBf2WHeZECdfoLWpuFW3iJBQULk3NbccwDHlv
-	PIhdtnHhf8JDH4h/971uBpU4hoYowVCEycl6KRFLmk1tKvOjWuUXW7jxa1gAwiXX
-	rkvsnWQrKz3NREtnI7/irT8fXurEBCIpeQi6KWn26HN7Oy7SwmbraIIgdEO/twkc
-	Gcqz2NgHsNiffyBSYlCu5w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1779384080; x=1779470480; bh=z
-	NE1It4yf/xuMam/Cs2Z4WwClwyD1XaC70SnEu3CCyE=; b=UHVkk7VJNVCcLO/qA
-	nygZ8QY1vR3aNF6hq+Wbqe0IrNekmiDwwPa+zpb6boBrXpiauDz+s5b80Enxnjq/
-	A0LciPLn0iRxyFmWI+AEiRjnXoEVfLh+wYyBKjvnlMqE7nVZOcpuzQ6VzD24gLrZ
-	ajSvq+f9/kqPMEM1Q9nkrNZpm2KTfHFk1DAD6+GS2J0SUrqXL7mk6Tt9DruO7JqX
-	PhMqPE+MsBwI5tJdNQoyZKxl/P75HD4qKeBEM9iYAQvcZHPo9hMDpkXckMbGdiOR
-	+Tgtx48smonuTyq0zi8175mlmwxlJssS/FKR0B/FAd6DEfhHWqggiNg+M8rxQ9el
-	zsdQw==
-X-ME-Sender: <xms:Dz8ParCQUdvGW-SBx78sEopbfFzq2qJTOSeIlErwQReTBiqlei78Yw>
-    <xme:Dz8PapQ-w5Tx3FdcQnsnLCZPmV6-AQFQhoVUyEcFsrA6TEDItz8IN8ylcBPMPHsGC
-    Uem1wcQUPVDSgF0_AdlzeK-N-LVAmotYqAdqNYubWHPPUa8MXM>
-X-ME-Received: <xmr:Dz8PapoYLDSjr3mcmvgbD7a0k9Bg7SvYs4OU81LBjE6E-WPNVjZbVzkbot22Oo9-7nHiSjBVf7Q-Z7wndacKAKY9Sy8hSX8ZJubgjIy8SW3CBm2tZg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeekuddtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhepvdellefhuefghedugfefteeuffejgfethfeuleegueethfegffegueffteeh
-    geetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
-    gvrhhnugessghssggvrhhnugdrtghomhdpnhgspghrtghpthhtohepfedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtohepmhhsiigvrhgvughisehrvgguhhgrthdrtghomhdprh
-    gtphhtthhopehfuhhsvgdquggvvhgvlheslhhishhtshdrlhhinhhugidruggvvhdprhgt
-    phhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:Dz8ParxWahnhMZfZcGjZrDftRi28_IS9-ch__mE2hWgBN8QL-S4YJw>
-    <xmx:Dz8PauLfVsfkNK0e5j-jWGpj1ITEKhdNsroOpaoKZY6EP0IUr1A6iw>
-    <xmx:Dz8PatIfqbDfrnPqayTvzzs4RklpHEmzAHwNpFxkW7GRsCDlVf9U9A>
-    <xmx:Dz8PajtGGwoU8pM0m8CIZZO7U5QHw8Gr77QqYL-E9LQu6SATeVbEjw>
-    <xmx:ED8Pat0SK4ndugfqT4rYPW0T8ymyjl9bAvn-3VIzi-A7tjeUXydx46CK>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 May 2026 13:21:19 -0400 (EDT)
-Message-ID: <a8aa3a49-7491-4085-80f2-19f89da00489@bsbernd.com>
-Date: Thu, 21 May 2026 19:21:18 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T5tSAsVN"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bd2087858c4so1310255566b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 10:27:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779384421; cv=none;
+        d=google.com; s=arc-20240605;
+        b=X4A7PwZIjslte4GXBVicp3cy11LnpNB9GVa1w+y+O5I5poiX/GZzZ11CbOvjdxtIuf
+         UQnH97BUEHIo2IRmrKvdW1Cp2gy0UklOh9RMGfny9JBAyvZnY1h5I1wajwOduUPCMUk9
+         5n/0u05yxV8odkk21gZwgHVv80c2TzmkG2wYh1d7hqFq6QYMPMNjkZ52yslcHjmtfV72
+         vVfRXbfIK7fA+mY14x1oM4ma0JbxHAP6yONwX4M8IIfXAdk3njqTMazQlUKDW8gM438f
+         JalUiwrgVf+nzOsq4ca9rRkIzJ4Mb4bO2x7gRw2c8jq4Mf1MgmaYZAYWtpqB79mF+fGO
+         6cJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=THyCE4kTFreTcsT0e/BAYNeKb4rm5MW+ojTvAPyfOvQ=;
+        fh=iGOPtzqUWZxeanhL5/Vf02ZPaDOf9gHalBxfN6DZsQE=;
+        b=ABiYdT8xqC4l/z2H1iBe3zVaufGhU8DezEsEj1BWwud3n+a16flW2Ulnz+VlY9yrS4
+         CPyT5I1uYUtGMOHPNpXr7w6GkAcqnYIUOs0I+m+RB0zQItVcS5pq1sSS1+0G8SzXSAKN
+         /ZKnN7l9wIpTaETAtil249pedLmN7yvjhcCcoNDfeEaiSoAnBl+57v2hoeX2n9WQvlnU
+         WK+asCog08xUCuzI8TWBF9Rzg4xSLWJ7zIlczRCm/h24cSALcDH7zKhigDYDclRbEIy2
+         8FtiVkufKe54ck1n5eJLrKhcnPlfGYsezHha22mXC0f0nzyZjp6GPOcxFT+ghSVpNAJH
+         CJJw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779384421; x=1779989221; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=THyCE4kTFreTcsT0e/BAYNeKb4rm5MW+ojTvAPyfOvQ=;
+        b=T5tSAsVNmtG43zaypZEUgD8N4LGh1Irw2BHaoH73NByuJFR6bsIEzDg3ZojDuXe4oa
+         lUMg2yQAbYk2EjVD1E3Vd3vJtFFHW94EwVvGrM2CMsroqyhOZ8TRjcMG1+TAvXDCLR6d
+         a864bjpIcFLdr/05cV3u+gQfpKSZjNUJRT5pYyii5DLYdbqfjoJNyWrkAbPBVzGmTQc/
+         B0clNw9gS0+0TSogSbNJacWP9EXtKHT6WZHtZJf6JLool+oXVJjhKR1r1vUWkEXnVrVZ
+         v0E6QZs1R3IMyVVOTi0x364Oq8yPZ26SxCA+7kKGulpXQCN6PKUNcq5/w+FC1L74lopw
+         Wtkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779384421; x=1779989221;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=THyCE4kTFreTcsT0e/BAYNeKb4rm5MW+ojTvAPyfOvQ=;
+        b=GCh12H7gU27aGb/9V9DyhdCWlmIFk2oCcKSRmyVODedbsjgttavAzratW2dgKrzs2s
+         Vx4WCMahAyqzBHD80S4Smb46FWtoNcSC9xSkah6rHOGqzdVkQnNnxIhx70hgnQTExLlz
+         aBnaDVAFcFXqVoXVDPEi+8pGQsOsSGtqoppvndm32X3y/w3Sq9LRKk3Qj2OUdncBLn1o
+         k8UIUhRmSIiRzPr+QQa0wlBxNFtIJFJ/GF/Z9d8CkI2hIU321eo7sxlAwNKEwGwZrTt4
+         Q2nZ91IBAIWvzIhPcsqiPiBIAbqR4njtjacVyp6Mz4wrNGCMPGMr/MIkOEDfrIWQjH4L
+         jNVg==
+X-Forwarded-Encrypted: i=1; AFNElJ99wZYHcLQejnw7j0jKLnIhE+AQotnYx38nLQnOT4JsDMpG6S6z32zYh5Mbomqfi36VNxvB9MqJWFzz0DwI@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUrihaOKmpSALNZzvjFPi9FmOlzAuOgZP8AzhDWo1/Qab8lgLR
+	79N+/uc5NQwk58iyilzxGAYmaSoExUvp/Ex020xt5bTpwkEH3Xvx41HdgWWcSvbWMgqyIbK6d1m
+	EGmmhgPVaS49AgcYNLKXPOySq63uD/zk=
+X-Gm-Gg: Acq92OG6P6jla5jeZdYVqRIRFlymz7MKppiMIK1cVmNK89zHxTcKliP/mJdHg57COkR
+	UVt6EOwKibK0R1pv0u1cNRzzRWS1Q79VS+CZ0vJqHvGObWCzLFMotHVMXWnJ6x86OyH1fnqqN+k
+	NY9jLC6e1V85OH2EOfo8ySBVN+NjknDTmCEsWzWMRL/6fvxgQkDQKIdWN6jv7DsYBunjFb6GEwL
+	qoegv6mBB28G5nR4GeuaCRPeUY5QXrXidgv5D+/KzvFoMls3xN49e1JGc+S9/HShUauaactv34M
+	m7RsZKzqriUwBZqLZhaULNgf1Rmrog4bo3P16YM=
+X-Received: by 2002:a17:907:2d29:b0:bd8:f776:6980 with SMTP id
+ a640c23a62f3a-bdd25138390mr17544066b.10.1779384421135; Thu, 21 May 2026
+ 10:27:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: add fusex filesystem
-To: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
-References: <20260429102058.1362965-1-mszeredi@redhat.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260429102058.1362965-1-mszeredi@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260515-fix_pipe-v1-0-b14c840c7555@debian.org>
+ <20260515-fix_pipe-v1-1-b14c840c7555@debian.org> <q37bmptbjr2gysl2g67bqo5axxqor4lsrrnf7ajixxjdrumbup@tgu3kz6kien5>
+ <ag3Ty3T24wjn1aFw@gmail.com> <CAGudoHGT+8FW9HsN+ymQ2QECVjmwkx=xNQ9=WnjYWirXcA6u4w@mail.gmail.com>
+ <ag8lIqhAmJtW4Rtv@gmail.com>
+In-Reply-To: <ag8lIqhAmJtW4Rtv@gmail.com>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 21 May 2026 19:26:48 +0200
+X-Gm-Features: AVHnY4KU_xMWhlEHSlaLjTiAK0klSyvl5qfkNVZeAKELkRInHGtOqN8RPU6YoQs
+Message-ID: <CAGudoHGMVQTU-5bh5csvZDgXv_aXun5-eSSGRoONxgSZAcF6Rg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fs/pipe: bulk pre-allocate pages outside pipe->mutex
+ in anon_pipe_write
+To: Breno Leitao <leitao@debian.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	usama.arif@linux.dev, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 21, 2026 at 5:38=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
+ote:
+>
+> Also, I am not reusing the leftover pages back to pipe->tmp_page, given
+> I really don't expect to have much leftovers, but, I am happy to do so,
+> in case you think this would be useful.
+>
 
+Since on the allocation side you do take from tmp_page, a big write
+ends up depleting it, afterwards you free up whatever preallocated
+pages.
 
-On 4/29/26 12:20, Miklos Szeredi wrote:
-> This stands for "fuse extended/experimental".
-> 
-> The purpose is to provide a clean base for big features like the FUSE_IOMAP
-> api.
-> 
-> It's also a good way to try new stuff like file handles and compound
-> requests without the risk of breaking something in the large and complex
-> fuse codebase.
-> 
-> Whether these features will be migrated back into the main fuse codebase,
-> or fusex is going to end up as a major version update is still up in the
-> air.
-> 
-[...]
+If this is followed by a small write, that small write now has to
+suffer allocation *with* the lock held, bringing the original problem.
+Easiest way out is to take from preallocated pages before looking at
+tmp_page.
 
-> +#define ADD_IN_ARG_ZERO(args) \
-> +	ADD_IN_ARG(args, 0, NULL)
+I do suspect the best way forward in the long run is repopulate the
+tmp_page array if you have pages to do so.
 
-Hi Miklos,
+> commit 2394068de8ee0ab9e582ce9776990ed695397553
+> Author: Breno Leitao <leitao@debian.org>
+> Date:   Fri May 15 01:35:13 2026 -0700
+>
+>     fs/pipe: bulk pre-allocate pages outside pipe->mutex in anon_pipe_wri=
+te
+>
+>     anon_pipe_write() takes pipe->mutex and then, from the per-iteration
+>     anon_pipe_get_page() helper, used to call alloc_page(GFP_HIGHUSER |
+>     __GFP_ACCOUNT) once per page while still holding it. That allocation
+>     can sleep doing direct reclaim and/or runs memcg charging, which exte=
+nds
+>     the critical section and stalls a concurrent reader on the very same
+>     mutex.
+>
+>     For writes that span more than one full page, bulk pre-allocate up to
+>     PIPE_PREALLOC_MAX (8) pages with alloc_pages_bulk() before taking
+>     pipe->mutex. anon_pipe_get_page() consumes from pipe->tmp_page[] firs=
+t,
+>     then from the prealloc array, and only falls back to alloc_page() und=
+er
+>     the mutex for writes larger than PIPE_PREALLOC_MAX pages (rare) or fo=
+r
+>     single-page writes. Sub-PAGE_SIZE writes are unchanged: the merge pat=
+h
+>     handles them without needing a fresh page.
+>
+>     The prealloc array, its count, and the helpers operating on it live i=
+n
+>     struct anon_pipe_prealloc:
+>
+>       - anon_pipe_get_page_prealloc() issues a single alloc_pages_bulk()
+>         call before the mutex is taken.
+>       - anon_pipe_free_pages() runs after mutex_unlock() and put_page()s
+>         any leftover prealloc pages, keeping put_page() off the critical
+>         section. Leftovers happen when the per-pipe tmp_page[] cache or t=
+he
+>         merge path covered some of what we preallocated, or when the writ=
+e
+>         exits early.
+>
+>     This can improve the pipe throughput up to 48% and reduce the latency=
+ in
+>     33%.
+>
+>     Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
 
-could we avoid that? If we don't want to change existing op codes, could
-we avoid it at least for any new op code?
+I have not suggested preallocation, so this credit is not warranted.
 
-DDN currently has a problem with
-
-LOOKUP
-STATX
-
-and fuse_permission() calling into getattr.
-
-Issues come from DLM and distributed metadata operations. It is
-relatively simple to handle a total dentry/inode invalidation when a
-file gets removed or moved to another dir. The really hard part are time
-stamps and file size. I.e. most of the time fuse-client attributes are
-just in state invalid. But then for single client access it also makes
-sense to have attributes cached for ininity. So DLM invalidates
-attributes if things change on a remote system.
-
-Issue are now file creations of multiple clients in the same dir - the
-parent does not have updated file attributes and actually does not need
-to have them either for plain revalidate or permission attribute fetch.
-
-For perm getattr it is relatively straight forward to use statx and add
-in sx_flags that the server has to fetch. It can respond with more and
-then cache time stamp gets updated. If some attr missing, time stamp is
-not changed (detable it should be set to invalid)
-
-Revalidate is harder, in the range to impossible with the curent
-FUSE_LOOKUP call. There is no header, where a flag could get passed in
-that it is a revalidate and not all attribtes are needed.
-
-From my point of view, every single op code should have their own u32
-feature flags field, so that an op code is easy to extend and without
-the need to update the global flags.
-
-
-[...]
-
+>     Signed-off-by: Breno Leitao <leitao@debian.org>
+>
+> diff --git a/fs/pipe.c b/fs/pipe.c
+> index 9841648c9cf3e..a6441c44f1e3f 100644
+> --- a/fs/pipe.c
+> +++ b/fs/pipe.c
+> @@ -111,7 +111,32 @@ void pipe_double_lock(struct pipe_inode_info *pipe1,
+>         pipe_lock(pipe2);
+>  }
+>
+> -static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe)
+> +#define PIPE_PREALLOC_MAX 8
 > +
-> +static struct inode *fusex_do_lookup(struct inode *base, const struct qstr *name)
+> +struct anon_pipe_prealloc {
+> +       struct page *pages[PIPE_PREALLOC_MAX];
+> +       unsigned int count;
+> +};
+> +
+> +/*
+> + * Bulk pre-allocate pages outside pipe->mutex. Callers must gate on
+> + * total_len > PAGE_SIZE; single-page writes are handled by the in-lock
+> + * alloc_page() fallback. Any pages not consumed by the write loop are
+> + * freed by anon_pipe_free_pages() after the mutex is dropped.
+> + */
+> +static void anon_pipe_get_page_prealloc(struct anon_pipe_prealloc *preal=
+loc,
+> +                                       size_t total_len)
 > +{
-> +	FUSE_ARGS(args);
-> +	struct fuse_entryx_out outarg;
-> +	struct fusex_id id;
-> +	int err;
+> +       unsigned int want =3D min_t(unsigned int,
+> +                                 DIV_ROUND_UP(total_len, PAGE_SIZE),
+> +                                 PIPE_PREALLOC_MAX);
 > +
-> +	args.opcode = FUSE_LOOKUPX;
-> +	ADD_IN_ARG_ZERO(args);
+> +       prealloc->count =3D alloc_pages_bulk(GFP_HIGHUSER | __GFP_ACCOUNT=
+,
+> +                                          want, prealloc->pages);
+> +}
+> +
+> +static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe,
+> +                                      struct anon_pipe_prealloc *preallo=
+c)
+>  {
+>         for (int i =3D 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
+>                 if (pipe->tmp_page[i]) {
+> @@ -121,6 +146,15 @@ static struct page *anon_pipe_get_page(struct pipe_i=
+node_info *pipe)
+>                 }
+>         }
+>
+> +       if (prealloc->count) {
+> +               unsigned int idx =3D prealloc->count - 1;
+> +               struct page *page =3D prealloc->pages[idx];
+> +
+> +               prealloc->pages[idx] =3D NULL;
+> +               prealloc->count =3D idx;
+> +               return page;
+> +       }
 
-Here is would be good to have something like
+I would drop the idx var.
 
-#define FUSE_LOOKUPX_IN_IS_REVALIDATE (1u << )
+*maybe* swap macro can help here
 
-struct fuse_lookupx_in {
-      int32_t op_flags; /* op code feature flags */
-      int32_t lookup_flags; /* so far FUSE_LOOKUPX_IN_IS_REVALIDATE */
-};
+> +
+>         return alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
+>  }
+>
+> @@ -139,6 +173,17 @@ static void anon_pipe_put_page(struct pipe_inode_inf=
+o *pipe,
+>         put_page(page);
+>  }
+>
+> +/* Called after pipe->mutex is dropped, to keep put_page() off the criti=
+cal section. */
+> +static void anon_pipe_free_pages(struct anon_pipe_prealloc *prealloc)
+> +{
+> +       while (prealloc->count) {
+> +               unsigned int idx =3D prealloc->count - 1;
+> +
+> +               put_page(prealloc->pages[idx]);
+> +               prealloc->count =3D idx;
+> +       }
+> +}
+> +
+>  static void anon_pipe_buf_release(struct pipe_inode_info *pipe,
+>                                   struct pipe_buffer *buf)
+>  {
+> @@ -438,6 +483,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
+from)
+>         ssize_t chars;
+>         bool was_empty =3D false;
+>         bool wake_next_writer =3D false;
+> +       struct anon_pipe_prealloc prealloc =3D {};
+>
 
+I forgot this bit is going to be a problem with gcc. I verified it
+emits rep stosq in place, which is going to completely unnecessarily
+slow things down especially on older uarchs. This is a known bug with
+gcc doing terrible job optimizing this.
 
+The problem will be avoided by merely initializing the count to 0.
+which looks kind of ugly if done here, but see below.
 
-Thanks,
-Bernd
+>         /*
+>          * Reject writing to watch queue pipes before the point where we =
+lock
+> @@ -455,6 +501,18 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter =
+*from)
+>         if (unlikely(total_len =3D=3D 0))
+>                 return 0;
+>
+> +       /*
+> +        * Bulk pre-allocate pages outside pipe->mutex for writes that sp=
+an more
+> +        * than one full page. alloc_page() with GFP_HIGHUSER may sleep d=
+oing
+> +        * reclaim and runs memcg charging, so doing it under the mutex
+> +        * extends the critical section and stalls the reader. The merge =
+path
+> +        * handles sub-PAGE_SIZE writes without a fresh page; single-page=
+ and
+> +        * >PIPE_PREALLOC_MAX-page writes fall back to alloc_page() under=
+ the
+> +        * mutex for the remainder.
+> +        */
+> +       if (total_len > PAGE_SIZE)
+> +               anon_pipe_get_page_prealloc(&prealloc, total_len);
+> +
+
+I don't think this comment belongs here, it should move above the
+prealloc routine.
+
+How about this: anon_pipe_get_page_prealloc gets called
+unconditionally and expects an uninitialized prealloc struct. For
+total_len > PAGE_SIZE you roll with the current code. Otherwise you
+just set ->count to 0, which prevents the ->pages array from being
+looked at. You can even pre-set to 0 on entry, just don't memset the
+entire obj.
+
+>         mutex_lock(&pipe->mutex);
+>
+>         if (!pipe->readers) {
+> @@ -512,7 +570,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
+from)
+>                         struct page *page;
+>                         int copied;
+>
+> -                       page =3D anon_pipe_get_page(pipe);
+> +                       page =3D anon_pipe_get_page(pipe, &prealloc);
+>                         if (unlikely(!page)) {
+>                                 if (!ret)
+>                                         ret =3D -ENOMEM;
+> @@ -579,6 +637,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
+from)
+>         if (pipe_is_full(pipe))
+>                 wake_next_writer =3D false;
+>         mutex_unlock(&pipe->mutex);
+> +       anon_pipe_free_pages(&prealloc);
+>
+>         /*
+>          * If we do do a wakeup event, we do a 'sync' wakeup, because we
