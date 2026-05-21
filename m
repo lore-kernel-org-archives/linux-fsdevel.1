@@ -1,145 +1,128 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5615638239A;
-	Thu, 21 May 2026 10:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF5D37E310
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 10:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779358640; cv=none; b=hWSBWF4WKDIt7YzhrmqYbpdnM+U5ERwlgkfJV+8yLy+CImjBBqvqnRQ13rto7Uo3fvW46afuKCi0o88jE0OvfxSHposYzfPy9nCYOOzem8hWSawWviTuVGpHq/8Ff8susshAgVupfgXhvc0DsvxgMwTxvUBRsgiFMS6TO+k3yb0=
+	t=1779358677; cv=none; b=lo8A6aprr+8p0jFlbJPHHyO1XyVqB3ULLa6jdVItVM7cnfPpToEHFqAQnVTYU4r07HDrw311/RpaKXsWda0iUfz58XeX5mfpdJmltkUM9gc3QQLeOGyoRhyViYHi+rb7Ux6Cis/9sTt5C6PS5aupFOCVH6aXALYRlDbANSsrzH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779358640; c=relaxed/simple;
-	bh=mD3J/wrJlQBpJSLK1+OqzANAyjKJc4lP3+bdss5zTFo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AxDJ52SaTMP6+2I0ywSmwEIDGh88mXOuD7Ny1FAcrAjFg4Gs2EXLpVO86aCMOwOKACZxnef4U73M/Wkoj0oIbTgii/+tQgtjkMpL5ycTyduolbC0jzV5vFxMfcoDI9e2yMchiAETwZWRgRus1I28J2A4iAn+n78iGZAwbdtpcsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wCmBEW1c; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=B69uRIZi; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1779358677; c=relaxed/simple;
+	bh=Q9VydSV+XdrtmFQ92ahtHUfrgLbJCnGhDjV29GYwgO4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WcARLvOnip7D4UQwn+sDe1YULKz4DKqqxcPZAdBg/AEKRDhTEXT/m/uzBNs3bN4JDv60HK5oMLUmWQDOnqS9IxjYvlRr80gVxTLm/a9N4fUPaC0KaoRSoTqKHnlMQ/Kb0BSr/pIwjM/mWJTVO4uafIAqNsARAUSdNIdpinopNvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WQZ8wrAD; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wCmBEW1c";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="B69uRIZi"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1779358636;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1jaC8pjc2z4shGVJq80mW2Jzm/K/JIWXN2kFb0V3uLE=;
-	b=wCmBEW1csGgo6syobkpdDxC06y1HG3kmdpdwRa7DPH6YN3kLFOKcXzONgSjBXgCy6yROAt
-	qlctch6ry6QKTLAheqPRS7R9uedTa0jbPO48CqBpT3sabRfDooKu7/UuzNPCWLzFMBF1/n
-	gJwYwKVqdGCHUNAikWnpQ+LmdBbrwzk2YEQX7zZGx8TG2TT7nRa5eS5DrJE3k9lhOqhsj3
-	ZWHhh4Ypbp6x/NNZPav7ErpZJYYsWtt40ZCemDfwP59b2RtE1EnM1vcke1c6FIDVepvx7L
-	HXfRYznstV7o8y43sAB+FbqSXIeVh2ToV8lhAv7PjtT+Cz93UlyF1gtVaYm6RA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1779358636;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1jaC8pjc2z4shGVJq80mW2Jzm/K/JIWXN2kFb0V3uLE=;
-	b=B69uRIZih19kZU6rGQuO8trjDRjaUnObUsVeWvr8Dpgj+TIqFZqKqasDfd7vrhcGgcVlf5
-	5+3QMR9ik045RyBA==
-To: Bert Karwatzki <spasswolf@web.de>, Mateusz Guzik <mjguzik@gmail.com>,
- Christian Brauner <brauner@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- adobriyan@gmail.com, jack@suse.cz, viro@zeniv.linux.org.uk, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>, spasswolf@web.de, Alex Deucher
- <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
-Subject: Re: context switch within RCU read-side critical section in
- next-20260518+ with PREEMPT_RT
-In-Reply-To: <4f548d61b2dd12e01f401ce4b8c865f238f7b23c.camel@web.de>
-References: <20260520225245.2962-1-spasswolf@web.de>
- <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
- <s7cu3dpioidx6mepmai6eyj2pxjs4skbw7v534zbzs6g2fwcis@cvokidcxy3xa>
- <4f548d61b2dd12e01f401ce4b8c865f238f7b23c.camel@web.de>
-Date: Thu, 21 May 2026 12:17:15 +0200
-Message-ID: <878q9dvzh0.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WQZ8wrAD"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c830268c37cso264336a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 03:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779358676; x=1779963476; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VUq/VZ0EvZ3mOtr2Ff9TemlHUvqeWnmfG6EoGwdn/9g=;
+        b=WQZ8wrADBYH2PKit9RWSUfy9GTKz0VL5ICElcSuilR+90h4nwdZSiII+m3d2v1qsk+
+         KmmLNz7j1Zl747VTGaqPNTr9s8qB47ihhmkymjG7blf+PfS8bPO4mqG6r7bLpeJaPIf1
+         64ugZFBqpzMEuUpkWjIrx1hc5500LQRqTSi2jQsTGltvd02BLBAep+XDrvBMly3koxci
+         gDzFQyMDox4kg8AyOSPwBivSFOYOfoDsosU3lVXyJpLFfkV10cEnTt4vfOASmUhRRrHk
+         jo0DLZjywBtq02qFvd9pB9UyOxyKmetuwoDjgoBNMFJKx911TqNa3ImGrD6J9jstHWJR
+         KFkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779358676; x=1779963476;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VUq/VZ0EvZ3mOtr2Ff9TemlHUvqeWnmfG6EoGwdn/9g=;
+        b=kiDtCdkUpb5oTVY7Tv0Sgj/FFEuMo2uclcfRuSeuBuV/5jKRJgzc/Fg2Y69wdsJqrN
+         lM2qSYtvCBO7ASReiPnaG8FMmRZSqIU5IXlZTX94XwDMgIZIUYOZg42xaoesEW5h/MzX
+         HW3V3BFgrwu7472VcL9u4FJK4JwTs8tF6m0Uy+vHyPcXzu+9J1qU5ZfQjee8ExLS9h94
+         855k6qObpxqHc6dkjHv9Ln+YRkw4sdLJ9HHJWn2rByo1qbk19nGyNhgvpGfjmH/RYr10
+         H0jwHIOB+WrBGxDMeNEeUP0/OngMyiKPF//R73m/X9XXJ//XWnRKSbSUIRL7sb71jOaN
+         /FYQ==
+X-Gm-Message-State: AOJu0YzGqn8vUxRDQNVDY5yWF+8b17D4jRTC7Ywfs2no571qh3z5gn5y
+	Ht4Y0+GaVyElLJlzOOzO1vERFhkCHM8UvWNcGYmlDuul3NwpMbvUPZ8/HlzSRA==
+X-Gm-Gg: Acq92OFSLfgBG7vpyGVa28qTspNdC/51aLHR99Vzvlk6K5OJQ/VlQOaumEmCBYfd9tT
+	DuCqiTfjtZORyOr4QgQx31rK8P9KApuQev6wtFxCScbLAhjNTDid+sUw5x9PTuQQg0954cS8Nlr
+	4o0nkbjTCHeOABhMFHIRY2ND8Fx+xpg0qDjELpWQO8ixwpB6xJtJjFZIhgw8MgCqb1BjctcXbR/
+	FGEen2lxFwWWjw/4Al6ZO5oOy+At8nTf7H6XOqL9DOAAXieSEuxh5pEJ4XK5AQ426M153FPeUEL
+	cvnYg3+Dij//5b1ted59gM+nEFDFKu3mtCbOjgEZJzPCboXSx/Lp04JrwU8cShTEncZmP/sKhp8
+	IwSl8JRTNnu+NJs7NxEUnCyjlqIF3K2hvC75RniaZBMDQJd967o1hqGEyGHTbmwpmCjKux3KJ/3
+	6iV/VNUBkDR0bw+xKBVDyY31UqhrI=
+X-Received: by 2002:a05:6a00:3986:b0:82f:99c5:868d with SMTP id d2e1a72fcca58-8414af17c74mr1214787b3a.4.1779358675797;
+        Thu, 21 May 2026 03:17:55 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84154e1fc86sm1197799b3a.44.2026.05.21.03.17.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2026 03:17:55 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	DaeMyung Kang <charsyam@gmail.com>
+Subject: [PATCH v2 0/3] ntfs: fix mount failure cleanup and free-count setup
+Date: Thu, 21 May 2026 19:17:48 +0900
+Message-ID: <20260521101751.591345-1-charsyam@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260520170151.4115308-1-charsyam@gmail.com>
+References: <20260520170151.4115308-1-charsyam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 21 2026 at 11:20, Bert Karwatzki wrote:
-> Am Donnerstag, dem 21.05.2026 um 11:09 +0200 schrieb Mateusz Guzik:
->
-> with next-20260519 (no RT, no LOCKDEP) and got no crash so far (4 boots only though (next-20260619
-> crashed in 2 out of 3 boots without RT)) but I get this warning on every boot:
->
-> [    2.793416] [    T331] ------------[ cut here ]------------
-> [    2.793433] [    T331] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-> [    2.793434] [    T331] WARNING: kernel/locking/mutex.c:625 at __mutex_lock+0x586/0x10c0, CPU#17: (udev-worker)/331
+Hi Namjae,
 
-So either the mutex is corrupted or was never initialized.
+This v2 is ported to the Linux kernel tree and is based on current
+mainline commit 8bc67e4db64a ("Merge tag 'erofs-for-7.1-rc5-fixes' of
+git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs").  The
+patches now modify fs/ntfs/super.c rather than the out-of-tree Github
+layout.
 
-> [    2.793463] [    T331] Modules linked in: amdgpu(+) hid_generic usbhid drm_client_lib i2c_algo_bit drm_buddy hid drm_ttm_helper ttm drm_exec
-> drm_suballoc_helper mfd_core drm_panel_backlight_quirks gpu_sched amdxcp drm_display_helper drm_kms_helper ahci libahci xhci_pci libata xhci_hcd drm nvme
-> scsi_mod igc usbcore nvme_core scsi_common video nvme_keyring i2c_piix4 cec nvme_auth usb_common crc16 i2c_smbus wmi gpio_amdpt gpio_generic
-> [    2.793518] [    T331] CPU: 17 UID: 0 PID: 331 Comm: (udev-worker) Not tainted 7.1.0-rc4-next-20260519-rcunortlockdep-dirty #465 PREEMPT 
-> [    2.793534] [    T331] Hardware name: ASUS System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-> [    2.793547] [    T331] RIP: 0010:__mutex_lock+0x58d/0x10c0
-> [    2.793555] [    T331] Code: 4c 8b 4d 88 85 c0 0f 84 f8 fa ff ff 44 8b 15 ca 9b 81 00 45 85 d2 0f 85 e8 fa ff ff 48 8d 3d 1a 57 82 00 48 c7 c6 a6 51 9e 83
-> <67> 48 0f b9 3a 4c 8b 4d 88 e9 cc fa ff ff 48 8b bd 78 ff ff ff e8
-> [    2.793579] [    T331] RSP: 0018:ffffa497016c3510 EFLAGS: 00010246
-> [    2.793588] [    T331] RAX: 0000000000000001 RBX: ffff88c33a4c2ad8 RCX: 0000000000000000
-> [    2.793598] [    T331] RDX: 0000000000000001 RSI: ffffffff839e51a6 RDI: ffffffff83de3c00
-> [    2.793609] [    T331] RBP: ffffa497016c35c0 R08: ffffffffc0a55d92 R09: 0000000000000000
-> [    2.793619] [    T331] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> [    2.793629] [    T331] R13: 0000000000000002 R14: ffffa497016c3550 R15: 0000000000268000
-> [    2.793641] [    T331] FS:  00007f1f32e5b9c0(0000) GS:ffff88d23b2ca000(0000) knlGS:0000000000000000
-> [    2.793653] [    T331] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    2.793662] [    T331] CR2: 000055cdfa28f588 CR3: 0000000112e73000 CR4: 0000000000f50ef0
-> [    2.793673] [    T331] PKRU: 55555554
-> [    2.793678] [    T331] Call Trace:
-> [    2.793683] [    T331]  <TASK>
-> [    2.793687] [    T331]  ? lock_acquire+0xbe/0x2d0
-> [    2.793696] [    T331]  ? init_mqd+0x122/0x190 [amdgpu]
-> [    2.793809] [    T331]  ? lock_release+0xc6/0x2a0
-> [    2.793816] [    T331]  ? init_mqd+0x122/0x190 [amdgpu]
-> [    2.793902] [    T331]  init_mqd+0x122/0x190 [amdgpu]
-> [    2.793961] [    T331]  init_mqd_hiq+0xd/0x20 [amdgpu]
-> [    2.794015] [    T331]  kq_initialize.constprop.0+0x2b8/0x370 [amdgpu]
-> [    2.794071] [    T331]  kernel_queue_init+0x3f/0x60 [amdgpu]
-> [    2.794125] [    T331]  pm_init+0x6b/0x100 [amdgpu]
-> [    2.794178] [    T331]  start_cpsch+0x1d6/0x270 [amdgpu]
-> [    2.794234] [    T331]  kgd2kfd_device_init.cold+0x7b9/0xa1a [amdgpu]
-> [    2.794365] [    T331]  amdgpu_amdkfd_device_init+0x190/0x260 [amdgpu]
+The fixes cover mount failure cleanup, a free-cluster precalc allocation
+failure path that can otherwise leave waiters blocked forever, and the
+$UpCase default-table alias check.  Per review, the free-cluster patch
+now avoids the temporary file_ra_state heap allocation entirely by using
+a stack variable for the synchronous bitmap scan.
 
-amdgpu_amdkfd_device_init()
-  kgd2kfd_device_init() {
-      ....
-        init_mqd()
-          mutex_lock(... profiler_lock); <- FAIL
+Testing:
+- For patch 1, I built a DEBUG_KMEMLEAK/DEBUG_FS kernel and injected an
+  ntfs_fill_super() failure immediately after load_system_files().  Before
+  the fix, kmemleak reported the leaked volume label allocated from
+  ntfs_ucstonls(); after the fix, the same failure path produced no
+  kmemleak report.
+- For patch 2, I used QEMU with a debug injection that forces the initial
+  precalc readahead-state allocation to fail.  Before the fix, statfs
+  remained blocked in D state in ntfs_statfs().  This version removes
+  that heap allocation and therefore removes the injected failure point.
+  I also mounted a fresh NTFS image with the stack-backed state and
+  verified statfs reported the same free count as ntfsinfo -m.
 
-      mutex_init(...profiler_lock);
-  }
+Changes since v1:
+- Rebased and regenerated the series for the Linux kernel tree
+  (fs/ntfs/super.c), instead of the Github out-of-tree layout.
+- Changed patch 2 to declare the temporary file_ra_state on the stack,
+  as suggested by Hyunchul Lee, instead of adding an OOM fallback path.
+- Zero-initialized patch 2's on-stack file_ra_state because
+  file_ra_state_init() only initializes ra_pages and prev_pos.
+- Reworded patch 3 to avoid overstating user-visible name comparison
+  effects, and used memcmp() for the exact $UpCase table comparison.
 
-Seems the famous graphics CI failed to catch this...
+DaeMyung Kang (3):
+  ntfs: free volume-wide resources on fill_super failure
+  ntfs: avoid heap allocation for free-cluster readahead state
+  ntfs: only alias volume $UpCase to default on exact match
 
-Thanks,
+ fs/ntfs/super.c | 28 +++++++++-------------------
+ 1 file changed, 9 insertions(+), 19 deletions(-)
 
-        tglx
----
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-@@ -744,6 +744,9 @@ bool kgd2kfd_device_init(struct kfd_dev
- 			KGD_ENGINE_SDMA1);
- 	kfd->shared_resources = *gpu_resources;
- 
-+	kfd->profiler_process = NULL;
-+	mutex_init(&kfd->profiler_lock);
-+
- 	kfd->num_nodes = amdgpu_xcp_get_num_xcp(kfd->adev->xcp_mgr);
- 
- 	if (kfd->num_nodes == 0) {
-@@ -936,9 +939,6 @@ bool kgd2kfd_device_init(struct kfd_dev
- 
- 	svm_range_set_max_pages(kfd->adev);
- 
--	kfd->profiler_process = NULL;
--	mutex_init(&kfd->profiler_lock);
--
- 	kfd->init_complete = true;
- 	dev_info(kfd_device, "added device %x:%x\n", kfd->adev->pdev->vendor,
- 		 kfd->adev->pdev->device);
+
+base-commit: 8bc67e4db64aa72732c474b44ea8622062c903f0
+-- 
+2.43.0
