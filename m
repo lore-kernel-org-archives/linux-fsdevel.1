@@ -1,153 +1,134 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D01636405C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 09:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779355085; cv=pass; b=rqRY/ynj/dQ70JCj9Khy6sjeXsF5qtSDZAqgSmQasgXPUYOWseG1ewWqs7go7EusPNxoLSsJg/KUXJ92dF5BF2HZh5Ay4QaI7u4lfPXDOeZcECQwWRBO/5lLRcDgG8ryxXv8k5DfsOQuM0OHXRuAwg07Eopu1OVsgJbUY9yviV0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779355085; c=relaxed/simple;
-	bh=vwnfSdJLdKaz9ZvYKHUKW6o9hMPAY38OWs/+ezdVxbA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O7C3LAIZKEHCkqHMCv/vXL2pJpZMKrmY0UgWX0E71cJNKcm17QXxWirVRZG4/9hcAwo2i17tsmYEDltGoSqkobdDLIu+XpC6AFBvty1igtoqz9OXMnXIsjvsDqzw9rj4Yal2qCECgqyclG+VdpWXi8giW9fsMCCMVcb3Bad7whM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W38zozNq; arc=pass smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BFF377EA1
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 09:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779355128; cv=none; b=KFI/Y1MJlw0ntrdRTUQV7JayOeW7FWYT+zYpnr8m34ue1BFEavFkozIEz++eLL+AtDYQEbtLnmHWIYGivXk/HoBXYZW6IoGocgE4Y63NX0qb5zj7dtP543btY0n8v0RXMd2XMaaSm75vwiD+trfPYZWq+6djvGxdquVcHzkhxRk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779355128; c=relaxed/simple;
+	bh=OngPMQkfo3ei1/VP9NszoGptuPyt2v5m/e4/k2jjxbI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QHpeqzL3rcE237U1aorOSNPVwhP+6hUqxSWbiwNqd1Flq9DUWGA0nw91UzCDSmp1g117eXv9Nj2VKqDLDAI6ZvDs/dcLDEcpnBU0LUc132yCHm194a5kRZKku1k5yFLf6Wd0h0gVe3ZX4AYlwLRXHQEM3CMnaM3D/yaEgkq9C+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=ZS8vQ3br; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EGZ3W+dd; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W38zozNq"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bda62f13d90so372335666b.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 02:17:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779355075; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KjdNUsIxMvhZ4BaLyWr4r6bCo8S21mQEeJ3wLE98Z7B32FqA/bx7IjRCWMqXdTs60M
-         BMVAdSW92J1k9q9kyrZh6DfXSJo1jkQYS74Qy8WH+B0aw0EtkJTIvhSeEUfPqIYassnQ
-         KM3zS+klkjnvGkvYR8mh6IDbgn+BNcFtt7i/vlXK3Stdj42DRWCM1rKvl7mb7iI1Kr9u
-         NRwgDXtjYRiVODvwwAYGgz7WqO2xlpqV9sCtx6rECB5Z/IwbVRb6YbCeUckbNZhKatSK
-         7lOrCdk8kHwLluojSX4DonhJjIHCJ9hT80tpHL8/KrC9/IreA4sZ25McyCqRyq/nR5wZ
-         5iFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dz3+FDOFPvj/C8tgF4g8dO7NJ50HOG7kSmIeflMib8c=;
-        fh=GWCkUYOwv/pRNcqkv+HWLO+67if7TLpcsOqlaMmUa6U=;
-        b=lKsjWVz8ObB9sbsBjMXyhCiWatCak67NQe+ALGItO2Lcoj8+ybehsgimnsz5aVzSVC
-         eu6QWI/zgMTHi+uHr0217dZ6FxUtGAsCr9E6xEJC7IIxdT4pTUE0ZDin68xFPrbfUmSI
-         E0bRg52bLA9Ov06NX+4qjIaEbr/2IzcPYKYOYOJST3T86xjEuH58Nt6QwJ+at/L0/Xe+
-         erKhrVDeCbUmJcHF9o3qv4Mfu5U4YuUjJcckG98h4hdC0lRugIKzC5wtQV/mgC5WCh6j
-         b5La5kQpvaEqpX0JWAF2AV+q3mzEzGB/4PLMWtxO2r4ZW+fakTJnxG2VirCzZXyQzOSi
-         LPvg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779355075; x=1779959875; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dz3+FDOFPvj/C8tgF4g8dO7NJ50HOG7kSmIeflMib8c=;
-        b=W38zozNqryrQLJ38gOwf/d0E780psCsJOvIl9E5WXWCDipJqX5W16rdQBmdLQrBJmN
-         0jIDMBrzaG4gP7SMBbJyd3IKKebaHo9sUm2c1nxdO1jmAATIgNFH2xam6+7UGFj6Osir
-         /XRD4uw/oaBWaQ4EFDbSETcDga4Zcdk5DH8lf6GemUJF9Toaf2iFjiSAEJutnDkj52hI
-         QzlPtMJsVH7AZeeD7xlvFvBasUMsnHNBx2xtNIU5XKNSIo0gKibYCuHUwEBD5w/x7gb1
-         Xl6AW7/GTXXal4ATgzEkSKqASEQ5iraRHqxSgzT/67NzCn2sv9Bl977gz4fLwjygum+c
-         Rchg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779355075; x=1779959875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dz3+FDOFPvj/C8tgF4g8dO7NJ50HOG7kSmIeflMib8c=;
-        b=dHzedUOP9Qj1NvzC9narIMvoX/yJyupnzug0i0IZt2+T5x5Gt7W5QDEVavzjpYi+Z+
-         Hkv3pw9Pnf/dx3pKIUwcmr8GW6Tp0tmSePnFNzhkAMIKDeRtRt7VZup6PI/qWhqw4L2p
-         LCmdM/kPLwzMgBi9dCDOlhX54Hqb5jtFQnSGFVDWdsqXOBRhCQOSK1e6HpcMa88ZSf73
-         DdGomNDneYhXP5IXAFrJshBtYUT2qYzbGuPNPX16hL5bNuC5nZiqGUMP0DncqqUrRylR
-         V8nF3YS3uZZCGurzaK+nzssLiy5SeWJ7Uhb0o0c0x3kFhkaly9ofIQUYFgufCXRabhy5
-         QQHw==
-X-Forwarded-Encrypted: i=1; AFNElJ+5fc+YKzs+/m9n+8bXcuJ1rulJUzpleLDOkiAePUau2YMhf7DnTAFLJj9eepQwqGKvSQ1bz31gpjy/Y6G2@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx39ZTJfxH4CivTdE5ZgHxZ3l0P6LnlbIevF/M6z30d89bh7nbW
-	owxQdCcu2Bz5bFaLLhGRM8ON0pJ9AfsXcFi1GVHL1S/3pGeN6wnhr+7vK84cGDHW2c/oKPlpv59
-	XpMuAgeWjzyfwuEoVQWx6cw4u0urU0H8=
-X-Gm-Gg: Acq92OEjywNiQWut4WTBeqnHVjJn+PMrY2UYbmCcD/AcuHCfGsBifgRvYaYRFfkS/hK
-	fZOts8FlyXbT0o4Xv/voocfvNpe07ywQs3e0Mor6Fx724fx/CvLkaFTue70xiAQqMcqdZ8bgsOE
-	MR/Sp5wgv7wdROjrJ8GKFeZFKPYGcpqOW6eNP1aUoDR8am4u82+cDD40BQJ8qEKZ0NqcE5uA9Ve
-	WJaEIGQcS3UUq5Xof5R/jyV0aBfUE1Ak+g9PpKue3qXHVge6OTm64WJth6+quqOzYNRULc4oxRq
-	+FEdJzxf4eG6Vku23+hvUIgyhXmJfdkj5npBIio=
-X-Received: by 2002:a17:907:c706:b0:bd6:6f5e:ea6f with SMTP id
- a640c23a62f3a-bdc12f8ce8bmr110244466b.19.1779355074839; Thu, 21 May 2026
- 02:17:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="ZS8vQ3br";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EGZ3W+dd"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5BBAC1D00050;
+	Thu, 21 May 2026 05:18:45 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Thu, 21 May 2026 05:18:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779355125;
+	 x=1779441525; bh=6JSTUGbU0EQbmrZZLTGRFVjV4A9LwG+ds5dNjSSCmkY=; b=
+	ZS8vQ3brph8R09KZ21wOjHXNN3WDS/ph/2csA83iyRLH0iBtuCtIez5Zqt7b/rTf
+	YtOI1O5o+I9opSv62LpKNcGTAHRyGStexceOlN20UtEBrpgu4X2nT6IoFyvDDbzW
+	tCudJsgpxeKzi8xR/IqW7lGBLx02Cn7yErMlXDQNfTsjeP5CdIHy/bAYcTQbr+bq
+	qwMxAYK7x1M6U/6htvR1RrETZRgzDUC4qYHUjX8a6LOVPUw4wBdBYdxVSxR/MeMX
+	uIBhcr0DhCiZZHF3ElCKjJf5dEiJmmWtwaMCNe7hDvHUsDaBkaeh/KzgqXNHmS0R
+	Zlgni8OMF+jnok7O7A5vSQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779355125; x=
+	1779441525; bh=6JSTUGbU0EQbmrZZLTGRFVjV4A9LwG+ds5dNjSSCmkY=; b=E
+	GZ3W+dd79U5bTnQSMqGN1jBKP4F4xAIPEq0WSSPWVJOgLDkmfj9qrq3NgWKNvzIW
+	RuIg0EvEvmd0EkMMPVpdtv1C998nYPBO3zEbJD6JOc7Osc4octMwaXLz3KyMJfj/
+	zNtMlXBIMWV2weGs8OQuIrvhfhs7WfVxieTNAiiFphkW8cktxRIso+64Q3OT3DU7
+	IENWj+VBpQHc4zKI1MB/8MnHawoWePLbCghteWsLYr8U7LeToaciZCUusangJpWA
+	At1H3INHPU6kgTyRVaY46hDDNx5YG4jizDFzbCZCKPq57KFOKGFZCaKYyxri7Oyt
+	VmMGDydocDs8HbZsYnvpA==
+X-ME-Sender: <xms:9M0OauyEkDgunsFj6FtdsbEPsnAEVogSVqah8d14qIdqC87Kte2A4g>
+    <xme:9M0OajkQcgI7l8YE2ZFcYIDEyu9FybyIk57deiBVdHv6SSTkHcnYZghOdavbtX2Ph
+    O6OtKH0H8AYEK0ce-qQRSjkVkvdvtpC1pUF0hnCAOj2wogldYor>
+X-ME-Received: <xmr:9M0OanntJU4rR9V4aQMoSQ1ics28rA8IeDAkQ3LjC2RXWJpAYPO1nDm0VRJEw99RPx9cTT42f72yVtaZJ6H5-YRxJ4Lb3fMw5ma-7vPQdGKiIyGmNA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejudefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeejgfeljeeuffehhfeukedvudfhteethedtheefjefhveduteehhfdttedv
+    keekveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
+    mhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
+    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehfuhhsvgdquggvvhgvlhes
+    lhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehjohgrnhhnvghlkhhoohhngh
+    esghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgv
+    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughird
+    hhuhdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvh
+X-ME-Proxy: <xmx:9M0OalzxPMKS857R6NvXjo8IgLlEA7vA480iPG61-yy9hNmYKpad1g>
+    <xmx:9c0Oasrio8ut96ombZEYkwK3Quya8QtCg-JjYu3UKLjV9-KPxx6q4A>
+    <xmx:9c0Oak4Qjy_v9WtC7JaiRIZJmMGp3hc_mKfXraPe4hL4-4stzzagRA>
+    <xmx:9c0Oajfhu1-r7zCGmU48CoCWttVpU8VRnOn5d6to1rG8uEwhgOzyyw>
+    <xmx:9c0OaqBX93D7K8fbw5cHZvSkLgxkcI9JdUKW0e9WfL0Gq_pt3B0DLoWX>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 May 2026 05:18:44 -0400 (EDT)
+Message-ID: <24f4f09e-be03-4743-8732-21631c01cedf@bsbernd.com>
+Date: Thu, 21 May 2026 11:18:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260520225245.2962-1-spasswolf@web.de> <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
- <20260521090835.hz0aIRaQ@linutronix.de>
-In-Reply-To: <20260521090835.hz0aIRaQ@linutronix.de>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Thu, 21 May 2026 11:17:43 +0200
-X-Gm-Features: AVHnY4KUqUzhgX_BVVTF4RDqMYY98JVjveuj779cZ0EwzI7KynJ8upkWRPUw0Ic
-Message-ID: <CAGudoHH0UHvLapX-DhLR=UGv+E6LwjPA28mdSgZydrnsqQw3wA@mail.gmail.com>
-Subject: Re: context switch within RCU read-side critical section in
- next-20260518+ with PREEMPT_RT
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Bert Karwatzki <spasswolf@web.de>, Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, adobriyan@gmail.com, jack@suse.cz, 
-	viro@zeniv.linux.org.uk, Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] libfuse: new mount service container fixes
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com,
+ linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev
+References: <177933241816.3536811.12585235323301633919.stg-ugh@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <177933241816.3536811.12585235323301633919.stg-ugh@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 21, 2026 at 11:08=E2=80=AFAM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2026-05-21 10:53:03 [+0200], Mateusz Guzik wrote:
-> > them in place, but when I was rebasing on top of the RCU-ifing commit I
-> > figured I'm going to do guard/scoped_guard in there as well. Later it
-> > started failing as the compiler did not like goto retry out of a scoped
-> > guard area and the unlocks did not come back.
->
-> futex_hash_allocate() has a scoped_guard a goto to again. In case it
-> helps.
->
 
-Huh, now I slapped the following for testing purposes and it compiles:
-diff --git a/fs/filesystems.c b/fs/filesystems.c
-index 771fc31a69b8..d21d264672c5 100644
---- a/fs/filesystems.c
-+++ b/fs/filesystems.c
-@@ -282,7 +282,7 @@ static __cold noinline int regen_filesystems_string(voi=
-d)
-        new->len =3D newlen;
-        new->string[newlen] =3D '\0';
 
--       spin_lock(&file_systems_lock);
-+       scoped_guard(spinlock, &file_systems_lock) {
-        old =3D file_systems_string;
+On 5/21/26 05:07, Darrick J. Wong wrote:
+> Hi Bernd,
+> 
+> Please pull this branch with changes for bsbernd/fuse-service-container.
+> 
+> As usual, I did a test-merge with the main upstream branch as of a few
+> minutes ago, and didn't see any conflicts.  Please let me know if you
+> encounter any problems.
+> 
+> --D
+> 
+> The following changes since commit 93892e469ddb9f5bd3b0923d95410a9d5dba65f7:
+> 
+> libfuse: fix cppcheck warnings in the new mount service code (2026-05-19 15:04:54 -0700)
+> 
+> are available in the Git repository at:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container-fixes_2026-05-20
+> 
+> for you to fetch changes up to cc9f7792afe2cb3df4c5cc71ab2ff5ba270acd8d:
+> 
+> fuse_service: fix uninitialized variable (2026-05-20 19:57:57 -0700)
+> 
+> ----------------------------------------------------------------
+> libfuse: new mount service container fixes [01/12]
+> 
+> This is a collection of bug fixes, codechecker, cppcheck cleanups for
+> the new fuse service container code.
+> 
+> With a bit of luck, this should all go splendidly.
 
-        /*
-@@ -320,7 +320,6 @@ static __cold noinline int regen_filesystems_string(voi=
-d)
-                 * Should never happen of course, keep this in case
-someone changes string
-                 * generation above and messes it up.
-                 */
--               spin_unlock(&file_systems_lock);
-                if (old)
-                        kfree_rcu(old, rcu);
-                return -EINVAL;
-@@ -330,7 +329,7 @@ static __cold noinline int regen_filesystems_string(voi=
-d)
-         * Paired with consume fence in READ_ONCE() in filesystems_proc_sho=
-w()
-         */
-        smp_store_release(&file_systems_string, new);
--       spin_unlock(&file_systems_lock);
-+       }
-        if (old)
-                kfree_rcu(old, rcu);
-        return 0;
+Thanks for all the updates!
+Before I can merge, there are still cppcheck warnings, had forwarded the
+mail I got from the tests.
 
-curious, but ultimately does not matter. I think the current code is a
-little better without the guard stuff in this particular place due to
-kfree calls.
+
+Thanks,
+Bernd
