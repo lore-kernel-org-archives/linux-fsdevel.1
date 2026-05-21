@@ -1,314 +1,357 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AB0376A14
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 16:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779380150; cv=none; b=UJ+U8KKv0K/PV0EQkmO2sRrbe2hvsQRe5NriSuvGP2mYrA2llKhck6c9+8a433Alm/RC/s70+ZKTe8E3HxHdhPOKAcXkSq2rUW/dc7ABjTdW4QvVfrLx9D7oY4mhlKcETuMVtwj2nIHu2J1IHUmiXPv6leZlz4r3B+Ti52Q1K74=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779380150; c=relaxed/simple;
-	bh=INuVMXyAgm+OAWVypcpNWU0M6h0gMSC3YO01wi/CPW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gaXoszd5WtwuaIN4cERkzqMMYgMZC7Oa61RiuG6a2fSP56ZQc5yu6W+952J8FlxttBaDj3YGtAOX5+zWN2zG2dkv8qa2EAA0TrgNc9zAyg5aGZKtTGN7Yo57tmSp0kATpMYMVuvjS1ao4FgdNz6fd/gKu7SXZkK0dnYqHcDQW6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gXD/mmAr; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uA6HI9c2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iJf373cz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=COUz9AX0; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373A1374E67
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 16:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779380714; cv=pass; b=nDsoPSsFyNUnsI1t7qfTj8BQYAYB+IT7a54DDCGQX608gnLFQmiYq1MM91XI9UYMuh45RXVSucU3jiUigVNJChYvSby01DbQOM7g1RfeTX8ikbqNKR1Brf8VnAzV3fOdBj08EhqaI7bFAbsx32it1z+3fyZyga4xL5yoZbdp4E4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779380714; c=relaxed/simple;
+	bh=3+81ZsrNLXQJ9DUPEmuG9xZigh5fkfhJooRWa3gEQzM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ASTTKNEHxq36dxLsntkqr+MY6CPuBjpFk12K6oGbhgptmTiYUdRpXNutseEZj5mBNE6hhzKpe31SM87nExdMN+fVDOoAlvwC9Kihv50ld2I2xDpcweecZF+MvI1/6ntTgg91VfomcVrOS284AIKM4PfZtIpuhE4UCIqHxrGT2JA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=IWpYAdsM; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gXD/mmAr";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uA6HI9c2";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iJf373cz";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="COUz9AX0"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 68DA967148;
-	Thu, 21 May 2026 16:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779380141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fYpg4/1aTqCxke2j9SjtyDWm5ikndGzivpoQoJE/DoE=;
-	b=gXD/mmAr4WbN9CnBwzYLwlXCHn8TWnMrRBLMaq36HDLyzhYatOvB2T+sJNnDuLIXo/va8L
-	ruuh+en6XoXQm8qSRN0p+dSwTYQsGSqhAsUlkVQHFRM51W0G2TBJjCF2UR/9J11hq2oQV0
-	E70GemJfZFFQgPnGjlc8dIRztyywETY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779380141;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fYpg4/1aTqCxke2j9SjtyDWm5ikndGzivpoQoJE/DoE=;
-	b=uA6HI9c2IWtL9qQKqZLuuT5+3loIivmhu3FC1YB+o7KUMCa38iKwZhGpc3Xfn9gyu9mgoG
-	51Iaa4ZFO1M4muDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=iJf373cz;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=COUz9AX0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779380139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fYpg4/1aTqCxke2j9SjtyDWm5ikndGzivpoQoJE/DoE=;
-	b=iJf373czDtXv/B676mw+JjiP78CaZlFudPFAk8dGwYy976uOGcAmuBmrYznALIaoM4UTzY
-	LdWGs7+G47CcDgh5p/9jANrIo5NaOVLWyAmUtgJ/EaQz0lWg6j5HBj3PgSaBtC++5kuld/
-	fjlqoFBKCvQJa23lbJOOr5/0pHo3dCI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779380139;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fYpg4/1aTqCxke2j9SjtyDWm5ikndGzivpoQoJE/DoE=;
-	b=COUz9AX0iDafxbbm6tjrSd76x6OWWVsc6wJH4zuYK35HJvr9/LNkHimTYpBMbWp52zJJ60
-	EYACk1t7A/jYHWAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 30E3F593AC;
-	Thu, 21 May 2026 16:15:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id q+vjC6svD2qkNgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 21 May 2026 16:15:39 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 7C52CA08F3; Thu, 21 May 2026 18:15:30 +0200 (CEST)
-Date: Thu, 21 May 2026 18:15:30 +0200
-From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 03/10] fsnotify: separate the events bitmask macros by
- group type
-Message-ID: <pnpqweynr6u4jtc67orwdqcelj4yo4c4ydeiw2td7777dzxl7j@xmo22qzv3yp4>
-References: <20260424170503.2096847-1-amir73il@gmail.com>
- <20260424170503.2096847-4-amir73il@gmail.com>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="IWpYAdsM"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-516d15ed2bcso2304671cf.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 09:25:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779380710; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FLaBKof9eQCLW8sqZSTFa9BMAglcHj9Wky53tObKWE024FL4bbbxledDq1aKRi8HeL
+         808TYfK5ON3XPDYXtbnptK1Btw0/8TQxuE+CD8EnQPTtgWKjZtnsJDYzTuxZYWGqSmKR
+         zbB+oMkeXXMP2KuPouJyN1fHO/cFsCYEBnnOGCWYR0R/PfXormvD2oP0n7w5cfrSy/9R
+         CXRdfbGIN/Mf8A+9zQF0EvjpHvw8X0lTjYoRzQcw9SLO6KVhC4jaVgEBs0iyOqKinrzO
+         C5aRR5K1ieiJPDIF//0AFWogBjoY/dbwCzMHAfQAEOAAnymQg3yTii3gmfPZo4w6yy7n
+         GI7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/LTCGjUcQUdvT8rvxs/zI7FC7JwU4McChqmewlp+Uyg=;
+        fh=Li7TFldRScaf7c8HnzaNvAckI9eX5hs0w83Wjfwoyn4=;
+        b=dflkaNKVOR8E9HJIDo8cC9rXyVTxzB4aZFV3gK//2XJpW06I05JpruVyhZbLhiCQ0M
+         amYXQtDMvHSw9Wg2RqG1Ir/cgFZk7XtHKyPhWxmzjlbu4UAzkVkOZpMGkC6b+vjuISyo
+         bORSX0JkNHB9oKkrVEYaRTQThFWjnTUfZnN16oqqvrAwl5OrAcQkK4f4xRw8cTpjBQVe
+         0X/ol26/1pUwjGGn0fKtXOF3s82dTv8kjITt0hWwIe7xV7qqxMl5kwPwQa+CjWZBDDhf
+         /Gnf7BMQZGf0YKXTtcyj4ReyjOQ732MsDNyKDDgJEkik8w04I17l52xQFH91+IZ1BSIV
+         f0fg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1779380710; x=1779985510; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/LTCGjUcQUdvT8rvxs/zI7FC7JwU4McChqmewlp+Uyg=;
+        b=IWpYAdsMCZ95Wsxl4qxbtsM7em7mmaaxU10Es3xk578XIveCHFqSbr011qu9nRoPv4
+         mE7epnXZkPHU3LiZYAijFxHBdyr4PVtgjhBl85rViPhwJWLrFKGOzGJm1AUavOETVifz
+         cMN1cOt1OJpKStwiJAaM0EQq0XJIdqxCuMwOQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779380710; x=1779985510;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/LTCGjUcQUdvT8rvxs/zI7FC7JwU4McChqmewlp+Uyg=;
+        b=UYDvuuEolIJAMjGoKRHIV+o6rZC2AKGGW+jSKuGP6Ls8bnKu8uU8xscTIX2ewflA1D
+         iDrHeC2+/gpklorkTyqnv5ktbpQbwzXOJVD2eqfcLPG0BBhiFzR3c1vCsKKwO3g2j1qR
+         fF12s4GeBSjB4WyTghzQqJ9rK7BhRXkROX8GaG+yXbdJ8HlVGpXaQOhDcN/ubVgvkf7R
+         GnVHMVqdXeBPiDVqDeme5g6B3Bmdd932xoA5px+zWhATuad4pkpN0B039e577cX2ba4+
+         LAOJp2LkZ33wn1tNNUDanhpCxJyxAdgpal6A/yAZGrbqtb7+XOMuacE/TfNqWh9qYIBF
+         YWaw==
+X-Gm-Message-State: AOJu0YzgYblaO3FmxBlYvRLddg2ylxTOQmn45nJ4ajvBhkCnMXaY+khG
+	Yw8XfA5J9YuRK80WyZJ5KqUEAoIyqNakzb4yRST8+OOcmq0bFu4oXXhiDmsn1XVvOk4Q/tDSifd
+	dU3LGTtNVZLlaJgNWIIPCRFRV4uhdpWZPF3mgJB9s5A==
+X-Gm-Gg: Acq92OFM7eFKlgMmPmDFyogjQOrLfmfZULAVVLw3FuSTDrzF2JXVygeVjcjk1Np530m
+	ll7MPEiUBh5BOsXOLjkp6fgpxUe20G5wxXDzqVcnYRVEwjr9tHR3HeLFkjf5ABGLeQ7OL3oY/vQ
+	fJsxEa0c9eeE12unqsp31fl4HRxFRo3x1p+jKzmCTTtC7KxxrS8wXIDhDp+0zKD6fsvP5fJKw2J
+	oih6BOAqv706UaTUSmxHmJObkb6+Cvv19We0y8sZl96ZbPjvhogmoMFrK1Xh9lvapPsS3GsUZGf
+	PcZ0mmMk/yMutwX7VvwInYyXf+EbKazecc4C
+X-Received: by 2002:a05:622a:5c89:b0:50d:6fd3:421 with SMTP id
+ d75a77b69052e-516c5847b1emr45515351cf.6.1779380709850; Thu, 21 May 2026
+ 09:25:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260424170503.2096847-4-amir73il@gmail.com>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: 68DA967148
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	MISSING_XM_UA(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+References: <177922945175.2436837.10366841596277424226.stgit@frogsfrogsfrogs> <177922945262.2436837.15780670312601539883.stgit@frogsfrogsfrogs>
+In-Reply-To: <177922945262.2436837.15780670312601539883.stgit@frogsfrogsfrogs>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 21 May 2026 18:24:58 +0200
+X-Gm-Features: AVHnY4JHDkP8LojUlU7pXgsLzon3eXride3IivgsgbZT2iv0KMFhFNrym3zbEv8
+Message-ID: <CAJfpegt=ex3B4mAF6xL5m-BZCtVBYWsP130WEVoSO_BrYibXmA@mail.gmail.com>
+Subject: Re: [PATCH 01/11] fuse: implement the basic iomap mechanisms
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, neal@gompa.dev, bernd@bsbernd.com, 
+	joannelkoong@gmail.com, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri 24-04-26 19:04:56, Amir Goldstein wrote:
-> Fork the macros ALL_FSNOTIFY_EVENTS and FANOTIFY_EVENTS to
-> *_EVENTS_ON_{FS,NS} and use them to determine the valid mask for
-> fanotify_mark() and the outgoing mask by the group type.
-> 
-> Use the fanotify_is_valid_mask() helepr to simplifies the check for
-> reporting mount events IFF group was initialized with FAN_REPORT_MNT
-> and IFF watching an mntns object.
-> 
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> diff --git a/fs/notify/fanotify/fanotify.c b/fs/notify/fanotify/fanotify.c
-> index e768c25262e27..494bba49634e1 100644
-> --- a/fs/notify/fanotify/fanotify.c
-> +++ b/fs/notify/fanotify/fanotify.c
-> @@ -303,7 +303,7 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
->  				     struct inode *dir)
->  {
->  	__u32 marks_mask = 0, marks_ignore_mask = 0;
-> -	__u32 test_mask, user_mask = FANOTIFY_OUTGOING_EVENTS |
-> +	__u32 test_mask, user_mask = FANOTIFY_OUTGOING_FS_EVENTS |
->  				     FANOTIFY_EVENT_FLAGS;
->  	const struct path *path = fsnotify_data_path(data, data_type);
->  	unsigned int fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
-> @@ -315,6 +315,7 @@ static u32 fanotify_group_event_mask(struct fsnotify_group *group,
->  		 __func__, iter_info->report_mask, event_mask, data, data_type);
->  
->  	if (fsnotify_is_ns_watcher(group)) {
-> +		user_mask = FANOTIFY_OUTGOING_NS_EVENTS;
+On Wed, 20 May 2026 at 00:26, Darrick J. Wong <djwong@kernel.org> wrote:
+>
+> From: Darrick J. Wong <djwong@kernel.org>
+>
+> Implement functions to enable upcalling of iomap_begin and iomap_end to
+> userspace fuse servers.
 
-I'd use the helper function you define in fanotify_user.c for this so that
-we have the logic in one place.
+iomap_begin - fetch a mapping for an I/O
+iomap_end - submitted I/O, done with the mapping
 
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> index 95e7c24c70249..7afb017d40f50 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -830,6 +830,19 @@ static int copy_info_records_to_user(struct fanotify_event *event,
->  	return total_bytes;
->  }
->  
-> +static __u64 fanotify_event_mask(struct fsnotify_group *group,
-> +				 struct fanotify_event *event)
+Seems like the latter is more an internal implementation detail, not
+an interface to be exported to the fs server.  Can you explain why
+filesystem servers would or should care?
 
-I'd call this fanotify_group_outgoing_events(). Your name is too similar to
-fanotify_group_event_mask() - it's unclear what's what from the name. Also
-I'd let it just take the mask as an argument instead of event.
+> +/* mapping types; see corresponding IOMAP_TYPE_ */
 
-> +{
-> +	switch (group->type) {
-> +	case FSNOTIFY_GROUP_TYPE_FS:
-> +		return event->mask & FANOTIFY_OUTGOING_FS_EVENTS;
-> +	case FSNOTIFY_GROUP_TYPE_NS:
-> +		return event->mask & FANOTIFY_OUTGOING_NS_EVENTS;
+I think we should not reference the kernel implementation of iomap.
+kAPI is not guaranteed to be stable, while this one must be.  So this
+interface has to make sense without relying on the iomap kAPI
+definition.
 
-Here I'd also go for FILESYSTEM / NAMESPACE in constant names to increase
-distinction.
+[Occurs to me that I made the same mistake for the fuse API, so I
+should definitely try to properly document the interface now.  That
+should also help with getting something saner for fusex]
 
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static ssize_t copy_event_to_user(struct fsnotify_group *group,
->  				  struct fanotify_event *event,
->  				  char __user *buf, size_t count)
-> @@ -848,7 +861,7 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
->  	metadata.metadata_len = FAN_EVENT_METADATA_LEN;
->  	metadata.vers = FANOTIFY_METADATA_VERSION;
->  	metadata.reserved = 0;
-> -	metadata.mask = event->mask & FANOTIFY_OUTGOING_EVENTS;
-> +	metadata.mask = fanotify_event_mask(group, event);
->  	metadata.pid = pid_vnr(event->pid);
->  	/*
->  	 * For an unprivileged listener, event->pid can be used to identify the
-> @@ -1881,6 +1894,35 @@ static int fanotify_events_supported(struct fsnotify_group *group,
->  	return 0;
->  }
->  
-> +static bool fanotify_is_valid_mask(struct fsnotify_group *group, int mark_type,
-> +				   __u64 mask)
-> +{
-> +	u32 valid_mask = 0;
-> +
-> +	/*
-> +	 * Event bits for different group type may be overloaded but event
-> +	 * flags are common to all group types.
-> +	 */
-> +	BUILD_BUG_ON(FANOTIFY_EVENTS_ON_FS & FANOTIFY_EVENT_FLAGS);
-> +	BUILD_BUG_ON(FANOTIFY_EVENTS_ON_NS & FANOTIFY_EVENT_FLAGS);
+I'm adding short definitions, yell if I got something wrong.
 
-I'm a bit curious what's your rationale for this? It isn't like EVENT_FLAGS
-can be sensibly used with namespace notifications, they are kind of fs
-specific as well...
+> +#define FUSE_IOMAP_TYPE_HOLE           (0)
+
+"unallocated, zeros returned"
+
+> +#define FUSE_IOMAP_TYPE_DELALLOC       (1)
+
+"unallocated, zeroes returned, space is reserved"
+
+> +#define FUSE_IOMAP_TYPE_MAPPED         (2)
+
+"allocated, data is valid"
+
+> +#define FUSE_IOMAP_TYPE_UNWRITTEN      (3)
+
+"allocated, data is invalid, zeroes returned"
+
+> +#define FUSE_IOMAP_TYPE_INLINE         (4)
+
+"cannot be mapped"
+
+I'm not clearly seeing the difference between HOLE and DELALLOC in
+terms of how the iomap code deals with them.  We really want
+description of semantic details, and I'm not finding those except in
+the code.
+
+I also have a slightly bad feeling about IOMAP_BEGIN being used twice
+in the buffered write case for different purposes:
+
+ 1) write to cache - AFAICS this is two functions rolled into one:
+
+   - space reservation: doesn't need the mapping, just returns
+ACK/NACK, may need undoing on partial or failed I/O.  May not be
+needed
+   - read-modify-write: mapping to initialize cache.  Should be rare,
+most writes are not this type
+
+ 2) write to device - maybe allocate space, needs destination mapping
+
+> +/* fuse-specific mapping type indicating that writes use the read mapping */
+> +#define FUSE_IOMAP_TYPE_PURE_OVERWRITE (65535)
+
+Does this need to be special cased?  Based on the above, read and
+write mappings are never both used.  The write mapping is only used
+when data is written to the device (DIO write or writeback) and in
+that case the read mapping is ignored.
 
 > +
-> +	switch (group->type) {
-> +	case FSNOTIFY_GROUP_TYPE_FS:
-> +		valid_mask = FANOTIFY_EVENTS_ON_FS | FANOTIFY_EVENT_FLAGS;
-> +		if (!IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS))
-> +			valid_mask &= ~FANOTIFY_PERM_EVENTS;
-> +		break;
-> +	case FSNOTIFY_GROUP_TYPE_NS:
-> +		/* Only report mount events on mntns mark */
-> +		if (mark_type == FAN_MARK_MNTNS &&
-> +		    FAN_GROUP_FLAG(group, FAN_REPORT_MNT))
-> +			valid_mask = FANOTIFY_MOUNT_EVENTS;
-> +		break;
-> +	}
+> +#define FUSE_IOMAP_DEV_NULL            (0U)    /* null device cookie */
 
-Shouldn't this also check that the mark type matches the group type? The
-condition you replace with this call did that...
+This is for unallocated mappings?  Not sure that it needs an explicit
+constant.  Unused fields are always assumed to be zeroed.
 
 > +
-> +	return !(mask & ~valid_mask);
-> +}
+> +/* mapping flags passed back from iomap_begin; see corresponding IOMAP_F_ */
+> +#define FUSE_IOMAP_F_NEW               (1U << 0)
+
+Definition in iomap.h implies this is about the need to zero blocks,
+but isn't that exactly the same as UNWRITTEN vs MAPPED?
+
+Looking at iomap code: IOMAP_UNWRITTEN does imply zeroing, so
+FUSE_IOMAP_F_NEW is only useful for IOMAP_MAPPED.  Confused.
+
+> +#define FUSE_IOMAP_F_DIRTY             (1U << 1)
+
+The only affect this seems to have is to prevent FUA write in DIO
+write path.   FUA writes are an optimization?  Or lack of FUA write is
+an optimization?
+
+> +#define FUSE_IOMAP_F_SHARED            (1U << 2)
+
+This is passed onto fiemap, it's useful to userspace but does not
+change iomap semantics.  I note that while BTRFS obviously does use
+shared extents, it does not set this (or any other) iomap flag.
+
+> +#define FUSE_IOMAP_F_MERGED            (1U << 3)
+
+Same as above.  Only applies to fs which have block mappings instead
+of extent mappings.
+
+> +#define FUSE_IOMAP_F_BOUNDARY          (1U << 4)
+
+Prevent merging of ioend calls.  Fringe functionality, used by xfs for
+request trace group separation.
+
+> +#define FUSE_IOMAP_F_ANON_WRITE                (1U << 5)
+
+Write mapping has a target device but no address. Only used by XFS.
+Don't really see if/how this applies to fuse-iomap.
+
+> +#define FUSE_IOMAP_F_ATOMIC_BIO                (1U << 6)
+
+Filesystems (ext4, xfs) just turn IOMAP_ATOMIC request into
+IOMAP_F_ATOMIC_BIO.   Not quite sure why a trip through the filesystem
+is needed.
+
 > +
->  static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
->  			    int dfd, const char  __user *pathname)
->  {
-> @@ -1890,7 +1932,6 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
->  	struct fan_fsid __fsid, *fsid = NULL;
->  	struct user_namespace *user_ns = NULL;
->  	struct mnt_namespace *mntns;
-> -	u32 valid_mask = FANOTIFY_EVENTS | FANOTIFY_EVENT_FLAGS;
->  	unsigned int mark_type = flags & FANOTIFY_MARK_TYPE_BITS;
->  	unsigned int mark_cmd = flags & FANOTIFY_MARK_CMD_BITS;
->  	unsigned int ignore = flags & FANOTIFY_MARK_IGNORE_BITS;
-> @@ -1945,13 +1986,6 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
->  		return -EINVAL;
->  	}
->  
-> -	if (IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS))
-> -		valid_mask |= FANOTIFY_PERM_EVENTS;
-> -
-> -	if (mask & ~valid_mask)
-> -		return -EINVAL;
-> -
-> -
->  	/* We don't allow FAN_MARK_IGNORE & FAN_MARK_IGNORED_MASK together */
->  	if (ignore == (FAN_MARK_IGNORE | FAN_MARK_IGNORED_MASK))
->  		return -EINVAL;
-> @@ -1974,22 +2008,10 @@ static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
->  		return -EINVAL;
->  	group = fd_file(f)->private_data;
->  
-> -	if (group->type != group_type)
-> +	if (group->type != group_type ||
-> +	    !fanotify_is_valid_mask(group, mark_type, mask))
->  		return -EINVAL;
->  
-> -	/* Only report mount events on mnt namespace */
-> -	if (FAN_GROUP_FLAG(group, FAN_REPORT_MNT)) {
-> -		if (mask & ~FANOTIFY_MOUNT_EVENTS)
-> -			return -EINVAL;
-> -		if (mark_type != FAN_MARK_MNTNS)
-> -			return -EINVAL;
-> -	} else {
-> -		if (mask & FANOTIFY_MOUNT_EVENTS)
-> -			return -EINVAL;
-> -		if (mark_type == FAN_MARK_MNTNS)
-> -			return -EINVAL;
-> -	}
-> -
->  	/*
->  	 * A user is allowed to setup sb/mount/mntns marks only if it is
->  	 * capable in the user ns where the group was created.
-> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
-> index b646a861a84c6..429ce614233ce 100644
-> --- a/fs/notify/fsnotify.c
-> +++ b/fs/notify/fsnotify.c
-> @@ -149,7 +149,7 @@ static inline __u32 fsnotify_object_watched(struct inode *inode, __u32 mnt_mask,
->  	__u32 marks_mask = READ_ONCE(inode->i_fsnotify_mask) | mnt_mask |
->  			   READ_ONCE(inode->i_sb->s_fsnotify_mask);
->  
-> -	return mask & marks_mask & ALL_FSNOTIFY_EVENTS;
-> +	return mask & marks_mask & FSNOTIFY_EVENTS_ON_FS;
->  }
+> +/* fuse-specific mapping flag asking for ->iomap_end call */
+> +#define FUSE_IOMAP_F_WANT_IOMAP_END    (1U << 7)
 
-With this change it becomes kind of obvious that fsnotify_object_watched()
-is a misnomer after mntns events were added. And it is ok only because the
-callers of this are really specific to fs events. Can you please fix the
-name - perhaps to fsnotify_fs_object_watched()?
+AFAICS, nothing actually uses this at this point.  Can be dropped?
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> +
+> +/* mapping flags passed to iomap_end */
+> +#define FUSE_IOMAP_F_SIZE_CHANGED      (1U << 8)
+
+This is used in fuse[24]fs, but with an XXX.  It'd be really nice to
+be able to just drop FUSE_IOMAP_END, especially since it's easily
+confused with FUSE_IOMAP_IOEND, which does something very similar (and
+which I'd rename FUSE_IOEND, but let's save bikeshedding for later...)
+
+> +#define FUSE_IOMAP_F_STALE             (1U << 9)
+
+Unused.
+
+> +
+> +/* operation flags from iomap; see corresponding IOMAP_* */
+> +#define FUSE_IOMAP_OP_WRITE            (1U << 0)
+
+This is where it becomes really confusing.  IOMAP_WRITE is used by
+buffered write and DIO write, but not for writeback. While DIO write
+and writeback has much more in common: actual write to device, needs
+write mapping.
+
+> +#define FUSE_IOMAP_OP_ZERO             (1U << 1)
+
+Unused.  FUSE_FALLOCATE already did this, no?
+
+> +#define FUSE_IOMAP_OP_REPORT           (1U << 2)
+
+In all examples the code for READ and REPORT are identical.  This
+seems to just add confusion and complexity at this point.
+
+> +#define FUSE_IOMAP_OP_FAULT            (1U << 3)
+
+Unused.
+
+> +#define FUSE_IOMAP_OP_DIRECT           (1U << 4)
+
+Is this just  part of the IOMAP_WRITE / IOMAP_WRITEBACK confusion, or
+is it useful for something else as well?
+
+> +#define FUSE_IOMAP_OP_NOWAIT           (1U << 5)
+
+Unused.  If it's NOWAIT, it probably has no business in userspace.
+
+> +#define FUSE_IOMAP_OP_OVERWRITE_ONLY   (1U << 6)
+
+Unused.  Used by XFS for optimization purposes.
+
+> +#define FUSE_IOMAP_OP_UNSHARE          (1U << 7)
+
+Fuse doesn't yet support reflinks.
+
+> +#define FUSE_IOMAP_OP_DAX              (1U << 8)
+
+Unused.
+
+> +#define FUSE_IOMAP_OP_ATOMIC           (1U << 9)
+
+Examples just do the FUSE_IOMAP_OP_ATOMIC -> FUSE_IOMAP_F_ATOMIC_BIO,
+exactly like in the kernel.  A feature flag would allow getting rid of
+both flags.
+
+> +#define FUSE_IOMAP_OP_DONTCACHE                (1U << 10)
+
+Unused.
+
+> +#define FUSE_IOMAP_OP_WRITEBACK                (1U << 11)
+> +
+> +/* file write operations */
+> +#define FUSE_IOMAP_OP_WRITE_MASK       (FUSE_IOMAP_OP_WRITE | \
+> +                                        FUSE_IOMAP_OP_ZERO | \
+> +                                        FUSE_IOMAP_OP_UNSHARE | \
+> +                                        FUSE_IOMAP_OP_WRITEBACK)
+
+So this should instead be just FUSE_IOMAP_OP_WRITE: a single flag
+indicating that this is a request for a write mapping.
+
+> +
+> +#define FUSE_IOMAP_NULL_ADDR           (-1ULL) /* addr is not valid */
+
+Hmm.
+
+> +
+> +struct fuse_iomap_io {
+> +       uint64_t offset;        /* file offset of mapping, bytes */
+> +       uint64_t length;        /* length of mapping, bytes */
+> +       uint64_t addr;          /* disk offset of mapping, bytes */
+> +       uint16_t type;          /* FUSE_IOMAP_TYPE_* */
+> +       uint16_t flags;         /* FUSE_IOMAP_F_* */
+> +       uint32_t dev;           /* device cookie */
+> +};
+> +
+> +struct fuse_iomap_begin_in {
+> +       uint32_t opflags;       /* FUSE_IOMAP_OP_* */
+> +       uint32_t reserved;      /* zero */
+> +       uint64_t attr_ino;      /* matches fuse_attr:ino */
+
+Ugh, what is this for?
+
+> +       uint64_t pos;           /* file position, in bytes */
+> +       uint64_t count;         /* operation length, in bytes */
+> +};
+> +
+> +struct fuse_iomap_begin_out {
+> +       /*
+> +        * Read file data from here.  This must be set even for a write
+> +        * operation due to the possibility of a read-modify-write.
+> +        */
+> +       struct fuse_iomap_io    read;
+> +
+> +       /*
+> +        * Write file data to here.  This must be set even for a read
+> +        * operation.  If writes are not allowed, reply to the IOMAP_BEGIN
+> +        * command with EIO or EROFS.
+> +        */
+> +       struct fuse_iomap_io    write;
+> +};
+
+So this is definitely an improvement over the kABI iomap/srcmap, but I
+do wonder if we could get away with a single map, OP_WRITE indicating
+which direction it should referring to.
+
+> +
+> +struct fuse_iomap_end_in {
+> +       uint32_t opflags;       /* FUSE_IOMAP_OP_* */
+> +       uint32_t reserved;      /* zero */
+> +       uint64_t attr_ino;      /* matches fuse_attr:ino */
+> +       uint64_t pos;           /* file position, in bytes */
+> +       uint64_t count;         /* operation length, in bytes */
+> +       int64_t written;        /* bytes processed, or a negative errno */
+> +
+> +       /* mapping that the kernel acted upon */
+> +       struct fuse_iomap_io    map;
+
+If we do end up with this being needed, I wonder if we just need to
+save the needed state in the server and reference it with a cookie?
+
+Thanks,
+Miklos
