@@ -1,145 +1,256 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B913F37FF42
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 12:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BFD35674C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 12:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779367716; cv=pass; b=Cs+90IUewUzcBR+xQla1/NedYRQmV9D+t32mhSQQBrDnxdkcJc8BHrK2Tp7osO5mXPZfTZwRHQWUGIctgPVkrLJAb9VlkpPjX8fe+9Mmm7g5TDPUeHvZilu/+CSlgkgOJoXXXDDa/sTKkpvdEtzooBZer6pGKgsyeRRIjUDgZts=
+	t=1779368344; cv=pass; b=fuEDPEzhN2SLM31JwYYjyDFEnVW1VwhhvPtsoSiOnrGho7/7Z1YcC1r9b7Dub3ePEneaLRvV2xplhofCOgjF+XviyJ7/sKvcZI0YW9kYixwe281I9eZ4qBJf/5kOLYJv8uvfBh2aaD3xK4AneccwIISxOcCgBNHZ5BNbEIEgFS0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779367716; c=relaxed/simple;
-	bh=wXgFJ0QEwOAX606VR2Z3OAxNnPPTK3/ujlGfL1Shfns=;
+	s=arc-20240116; t=1779368344; c=relaxed/simple;
+	bh=zh13oULehEKlvsZJPC18x7nrtMGI7N/Dari4L0S90kc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rsvtou2l33obm7DPnZBdk6YVYxobqPHPV7kY5PvIKNrIPNH5HnvkA0scdDj1PWwS+sRrdC6aHt/umKq+txCm9cljDQ7/V85/ocY2UePyOZYWW7CTQ4dAP3LXw+rM5F4qBnUD75hrVbtBi/wfmyembqetKtSdGlivCuqmJg8FcXk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iKwBuzgZ; arc=pass smtp.client-ip=74.125.224.52
+	 To:Cc:Content-Type; b=RoOow5xXGnszAGZADeGpkavj3rWwxZyy6nh0qhm8g6Amuqn7U0JdQSHjw76OthVTYmyqcFBnvwXl587JFbF6FJDE+vzDAA1UJo6dvxPvryyglQh4CA8XUP2MzUqO+pXgw/4AEcPf2FqzlUYuYEzhyX2nVqISia5Wx8ykLRvL5Ts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kq2dy0Nv; arc=pass smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iKwBuzgZ"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-651ce87d785so566706d50.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 05:48:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779367714; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kq2dy0Nv"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6886be3d39bso409367a12.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 05:59:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779368341; cv=none;
         d=google.com; s=arc-20240605;
-        b=UYE3ZBSYh/iF7C4g9Uz8T586i3RNk2RHtegSAMyHGtpvD16dJWIX7dNwUFjJLv/M4A
-         oMKf4hZ0s9XzqqguLkZOwsOe7+tcFNxhmn/98kHSNj29h8ez5UVSoMJPh2im5/UwB48L
-         hoKU3hrbzcz/r8hlxGRRkk2lOGpUfkL/XoY6ugwE09kQ2kqFkR0q2XNYrCQOfJsoCOIU
-         0rVf0KbXu+KCqowKiCKS6hmUxZwJETJWefuozyNdprG4jvFgq2UNRr+2FZm1vORzfOKR
-         7P4Nbo9V2dwjESa87VzccIvbt+A5xokjKzFaYCUeabLOnY9K0mVEXSufGzV+PANEl3TH
-         tf0Q==
+        b=IrNAYIBjFx91+BA3KUIU5PmLjsoT1zFvHJhCUIG5z9goxX+2TEeUKJJoX5dQZ17ASw
+         5xXOT+Ees+Io5BMN2NEvh/xPqP2iapgPerGvfZs75PHAHtugGNkm2LEWaf9/d9SoNP2P
+         H2akjeNMKhoa2nrsdismb/HiBjirGfrSfN0qGrwvGxm97hlEuzUKPVzVdFAfzjHZJqeE
+         emZr7BMXhCsEXNiNCoUdJPRRM6dLb4s6qJcmD0uzZKLu3yycPR5wV0anQEQmJObk1OnP
+         ZCpoZxZVyofQiJ6G5H6FvK32lqHBBJg1domPMQPXMdmRm39WSYfv05j4oXwE2VKZOgHl
+         yg1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=bhH64AcohOQ97D3Lp/oawtZDe5Yax58Imt0i4CtV51M=;
-        fh=vSunDo7OycykUVtY2iNLqn1dg6c3v2+09N4gR1b58PQ=;
-        b=DF0bZ3Tixq/L/ZuJb9IWoVxT4M+wKY4VNr4vx+u2B5+yca2rWgz53HK9IemJyVtQCm
-         /DFwEnKcoFe4cb7hyBXaAwddTT5MW6XFeix7cgMe6ShAkUqgSwsFikZW1vU0PeiKdYuL
-         F5oX3sKOJHJLJM1Adn7xswOisraBEG98MC1bH3BO73ossicnHZ/uBmlJtMV1h+Tlyj0Q
-         BD4XYUrhQ9uB9AvB11uWOsUkr6e5CepMVVLZBwpGpMVBwypcfHsJm5C457yM+8FrFJBK
-         Lz8iCSvWSXvRkf7GkX8YPovjN+bwvLSSD0cI1BHAyV4pBrEqvQBVeFnwDzKeNuKUIWer
-         xvyQ==;
+        bh=9sUFcSFNkiSL5JHdhtInnQL8eMCsOXkVXUtF+3t4Qns=;
+        fh=xhdjjizhjcg8zo5M+asw2FHNbbFzDFqRBVmSBbRe1Lc=;
+        b=XJhLSQ8sZI0jTfSw9XzQGL/2StNXjtqzXqgwT8Cnm7ihCMwiaDymRSutzOgbqPg59h
+         aUGYccXMShY/Rt7HOgepH55Pfm7L6ETOjbD4MSlLmamrJeh8zxUhzD8LISaQt5/EJVl2
+         hFxeRc7hgu5d3lhsqruBmNpPPBgUxjED8X8wDPSmHzk2m3MSGAy7XSE9Z2srJ0qCO+9O
+         ScHkUR8uOccZGO4mf5np9WSSNm4+uM2xY607Tv4PuXyEuPVawEUw22+LErtbsj3Agqea
+         PypO/8gsmkXq1bt6FA6XzJ8NENzQ/uU23oWmmLUsgGqCrmlpbxjZeCF/6cDmqiOGZrHP
+         0UIw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779367714; x=1779972514; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779368341; x=1779973141; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bhH64AcohOQ97D3Lp/oawtZDe5Yax58Imt0i4CtV51M=;
-        b=iKwBuzgZb0TVDFIMoUDKlizn4mZA13sLxlFDDWzQHyFfHhEQs1WolYLCx/Bii0sr1J
-         jACIKHsR/yAn3K6fMNNvCIibAxHKsOd10UnlioWdRgJIyPnE4DXAla5AVNmkKFzpprni
-         e8rX8fcylHxZKMm7LYeTu4WSTJglFc/CwatQ4NcGFE5pgWLw2nexB7+5wGf6ZPU6grJF
-         K+/RN+Iw9x3OneniDe/yuUlRTKCmR2BMzw77ZH568qy1nS4Va9Bl0K3ZyiTbRoDEk+WB
-         MN9MGFbpf9gESiJvIrcL5jl2KzrR9TCpc2xWoQ5+z6oqqE7A1pVT2gYZcwrXH1G8wNCK
-         T+AA==
+        bh=9sUFcSFNkiSL5JHdhtInnQL8eMCsOXkVXUtF+3t4Qns=;
+        b=kq2dy0NvQQQ43x9+vgo8d/oiAT0X14JuOGbhSHuoYQleApo2hZuPEZWosOuLTZCVbP
+         28+1sEgCPqk4KFQ66n/yj7n2PbkVLmHZRqoDXRl45NsqinGSdVmeQf5uKX/3HmG0shjk
+         kida7vSgzeHrqiKXxpyWhbhSpj/9B8iV/BE89H4SumsYVBWFWqFreiPIpxBcR4a5JerJ
+         f/MkzX59+vKzljesoQCsw26+/h+qXxCg1ZbeoOOuJseXE8c0LNF9nybxOQoXGfW8dWsk
+         8uZopV3mpdzt2vKs7CO0ykPe20ZpTg+lKEDYJ53qOwNwCqwjxptEbUyYlWkDXaNGgz+0
+         6BFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779367714; x=1779972514;
+        d=1e100.net; s=20251104; t=1779368341; x=1779973141;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=bhH64AcohOQ97D3Lp/oawtZDe5Yax58Imt0i4CtV51M=;
-        b=Aieb3KrgaG5X45kRRwNeUbTPVnit/BpJY07zFuh7UDNlsznJ8v8natG2dUUEiNxp5k
-         IlzqOjjxlL1pzTc/Z8M1LX0yzbXrTSawD9kfw17zcumicDomhxFP2OG/8q64N2N/a4Rw
-         ERSKvJNR5czlJlIqD6tw7Rgg3wVijno6pTirZ8FDnf6QlNEMBhAEna11Qyq4D54n4eJX
-         luqOfJewoukQjv5a++ppWdOrcdhgV1ZHDhMpDMNhfmef9Ttjdxm89uM/XHL8g3IaXQD3
-         8BuCr04Ht9wf+0Cguy+m5GmxYNxC5NYOVIWs7xSDLjhuFLqroQR6Dc6Fo1XJCvV7Jbpj
-         6ylA==
-X-Forwarded-Encrypted: i=1; AFNElJ82BqPJXRck4Je4zvqrVCqligCe9+/9XvjWBkvseywg8Lw+eFFJEORlQrSYJ8kN57yrzqXFh6ON9BGTNmze@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8lZ+9nlOPjasBys+JVH0NtPyWKDPIP8A+EXkOaHJTz7AV4FWa
-	1j0KpB5pMgGK4dams92tvMXuwQb3q+ZxjjKrOVmw9HYU0J/+hDXOqw7NV5Af8Kd+UyQzsMcFLdX
-	DwTqyVKvWLEmnHjXkHjiwNt31HSp98gM=
-X-Gm-Gg: Acq92OGDSjQxsT04V782XGAQDHxaDpT360lTk9PxGbU5O2shKnf6hlCWGgM6PWenjia
-	I2SBa7OM42ElRmL+8zRZ0Il3nMzro3RZkx2M/evIW6vqNzj6z5hX20KbSZ4QFm10SMhDtH9Iguq
-	fwn9biB/7omj9TQehNPJyribavB/OLvTB7Q3dEhg7matF/+2LkOVaTePiOFamdMwoo4sVIRI0cT
-	kZIe+L4Rs48APsdITWgi8I1dMIGEt2VOt5cTR2pNaslVvbMx6E8dSUVQOPnx43xNU1XEuz0zTuE
-	R1W/SN6c9ZVI6kGA8ufq
-X-Received: by 2002:a05:690e:120d:b0:651:b163:fc88 with SMTP id
- 956f58d0204a3-65eae30cc3bmr1597919d50.5.1779367713703; Thu, 21 May 2026
- 05:48:33 -0700 (PDT)
+        bh=9sUFcSFNkiSL5JHdhtInnQL8eMCsOXkVXUtF+3t4Qns=;
+        b=PnpnvOsG5SlU12lybjIcGIOUqSKgOH8MYvjCtTliR6YjGu14L9hm/YgYTFjgqtQPCO
+         sj+gH5H2shPhbrD0E55bN4t/DCr7GGAFllmzWq9SI4nk+975sGqYpXJ1vlhnPIEakclw
+         1zEhXPrr4JeLHC+PFT6JjWmCJwRsnrOExSNkhepfpyEn3PVNokii6YcHNC9NxoIKy4QF
+         FFpVQQsPmYWo1syXytdajC+4IYCDmwgGgGH5lBtgyhc6UbCoXXXh1citYAQZ/0tN0Ejt
+         TI31H4+g9+6V8J79UBDNFL5n/EPnApSQlzPIaHcx/0tPEC9IWXhLlsxoJauDu1JiEXBE
+         697w==
+X-Forwarded-Encrypted: i=1; AFNElJ/2yyjdfW1EQ0U5TAnYjWZ6KCzqGU7eLCXw/PRRny+/czbIz/JmdSS9BWTJKcy2xSDt/r6Y7qjKIPMseD2/@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6GbvEOdaPpX8zwv2iG8fUiLpNtd4Gs4pWwjiKrHpFclIcLXNa
+	JB1IPgmG2UQAbYHqvqlTW/NaOuM5sDatXR19iSH2Q+XDx0Cvyr4VRQWDM7ZPj78VsJThf33KkQL
+	RsgkZm1P88TCSlQQ1N2VWxNGL4rPeUO4=
+X-Gm-Gg: Acq92OF2oz/Mg7+L4q8Wpr8/0FdDbxtBgqV0z6b4cWHPnBbVLS6mQQb+MNUBL2fd2kE
+	wchM3X0evjZD8xo0GiCo7sfpv56MKxPVUV4qRQ7YIIhCWzIiBuPiKbNPaDoEtPozu5UzZy3zSSc
+	S/OKpJ2Ovx3TFoAPYi652GsSMmRjc5OcTb8U3jtU3eFrrEvvOvScQ/6m6sb/Lcle0W2kSXXo8Nt
+	PAwNIPprk/tzsIuMjHaqOvC5OGwYERDY9KwvBABSRtDPFfWmcmUeHIzITBF83A9YpWSSjwHLI30
+	muMn72T4kiHha29lAS3/fUDN5MhV1wtKZz0RhIE=
+X-Received: by 2002:a05:6402:5209:b0:67b:4aab:1f10 with SMTP id
+ 4fb4d7f45d1cf-68835ef31ffmr1480400a12.5.1779368341070; Thu, 21 May 2026
+ 05:59:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260520170151.4115308-1-charsyam@gmail.com> <20260521101751.591345-1-charsyam@gmail.com>
- <20260521101751.591345-3-charsyam@gmail.com> <CAKYAXd_usY7yTjFt92r5V4HGn_RTR2mhu7JFbVxSjttYivzrSQ@mail.gmail.com>
-In-Reply-To: <CAKYAXd_usY7yTjFt92r5V4HGn_RTR2mhu7JFbVxSjttYivzrSQ@mail.gmail.com>
-From: CharSyam <charsyam@gmail.com>
-Date: Thu, 21 May 2026 21:48:21 +0900
-X-Gm-Features: AVHnY4JsLfLt_Ed9u4SRAGlLkO9rPOIWM9TzEbTeYwVv0Svs4Hf9rxS3DH-rx3I
-Message-ID: <CAMrLSE7npNDECFg3qnX6NKXUoXYps326GN=BnBjKxoUPciuDzg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] ntfs: avoid heap allocation for free-cluster
- readahead state
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20260515-fix_pipe-v1-0-b14c840c7555@debian.org>
+ <20260515-fix_pipe-v1-1-b14c840c7555@debian.org> <q37bmptbjr2gysl2g67bqo5axxqor4lsrrnf7ajixxjdrumbup@tgu3kz6kien5>
+ <ag3Ty3T24wjn1aFw@gmail.com>
+In-Reply-To: <ag3Ty3T24wjn1aFw@gmail.com>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 21 May 2026 14:58:48 +0200
+X-Gm-Features: AVHnY4IyXaaWqBhs6IESJo2_GnTxog12lj-M9bDsqmzguKJQgj3SLCFzEJItOAo
+Message-ID: <CAGudoHGT+8FW9HsN+ymQ2QECVjmwkx=xNQ9=WnjYWirXcA6u4w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fs/pipe: bulk pre-allocate pages outside pipe->mutex
+ in anon_pipe_write
+To: Breno Leitao <leitao@debian.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	usama.arif@linux.dev, kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Namjae,
-
-Thanks for testing it.
-
-It built successfully on my local setup with gcc 13.3.0
-(gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0).  I tested it on top of
-mainline commit 8bc67e4db64a with CONFIG_NTFS_FS=3Dm using:
-
-make O=3D/tmp/linux-ntfs-mainline-v2-build fs/ntfs/super.o
-make O=3D/tmp/linux-ntfs-mainline-v2-build fs/ntfs/ntfs.ko
-
-However, I found a portability issue in patch 2.  I used:
-
-struct file_ra_state ra =3D {};
-
-which gcc accepted here, but this can be rejected by stricter builds as
-an empty initializer.  I changed it to:
-
-struct file_ra_state ra =3D { 0 };
-
-and re-tested patch 2 alone and patches 1-2 on a clean mainline tree;
-both build fs/ntfs/super.o successfully.  The full series also builds
-fs/ntfs/ntfs.ko.
-
-I will send v3 with this fix.  If your build error is different from the
-empty-initializer issue, could you please share the exact error log?
-
-Thanks,
-DaeMyung
-
-2026=EB=85=84 5=EC=9B=94 21=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 9:19, N=
-amjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+On Wed, May 20, 2026 at 7:09=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
+ote:
+> On Fri, May 15, 2026 at 10:18:19PM +0200, Mateusz Guzik wrote:
+> > This change is quite a hammer.
 >
-> >         /*
-> >          * Convert the number of bits into bytes rounded up, then conve=
-rt into
-> > @@ -1985,7 +1981,7 @@ s64 get_nr_free_clusters(struct ntfs_volume *vol)
-> >                  * Get folio from page cache, getting it from backing s=
-tore
-> >                  * if necessary, and increment the use count.
-> >                  */
-> > -               folio =3D ntfs_get_locked_folio(mapping, index, max_ind=
-ex, ra);
-> > +               folio =3D ntfs_get_locked_folio(mapping, index, max_ind=
-ex, &ra);
-> This patch causes a build error when applied. Does it build
-> successfully for you?
+> Are you seeing any downside/trade-off with this current approach?
+>
+
+Well there is a lot to say about the current code to begin with, I'm
+going to refrain from writing long rants here as that's of no use in
+this thread.
+
+The idea behind the patch has a lot of merit and I'm definitely not
+protesting it or denying there is a problem.
+> >
+> > Do you have a real workload where there are multiple processes issuing
+> > large ops to the same pipe on both reader and writer side?
+> >
+> > The only workload I'm aware of sharing the pipe between more than just
+> > one reader and one writer is anything with make, but that is mostly
+> > operating on 1-byte ops.
+>
+> You're right -- most pipe writes really are tiny. On Bergamo, 120s sample=
+ of
+> anon_pipe_write, 299629 calls bucketed by iov_iter_count(from):
+>
+>     size                writes      %
+>     <128 B              293602    98.0    (merge path, no alloc)
+>     128 B - 4 KB          1108     0.4
+>     4 - 8 KB              2149     0.72   <-- patch start helps from here
+>     8 - 16 KB                3
+>     16 - 32 KB               0
+>     32 - 64 KB               5
+>     64 - 128 KB              2            <-- up to 72KB writes
+>
+> So only ~0.72% of writes are >=3D PAGE_SIZE. The dominant comm by
+> contention count is a Meta fleet workload spraying sub-128-byte
+> metric strings -- it does *zero* writes >=3D PAGE_SIZE itself; it
+> just hits the mutex very often.
+>
+> But the writers that *do* take the alloc-under-mutex path are
+> real. Lock-wait data confirms it shows up:
+>
+>   perf lock contention -ab (30s, anon_pipe_* only):
+>
+>                                 contentions  total wait  max wait
+>     arm64 (NVIDIA Grace)
+>       anon_pipe_write                 7660    4.39 ms     50 us
+>       anon_pipe_read                     7   55.78 us     17 us
+>     x86_64 (Bergamo)
+>       anon_pipe_write                 3154    4.53 ms     79 us
+>       anon_pipe_read                   817    1.72 ms     82 us
+>
+> The reader side stands out on x86 (817 vs ~7 on arm64) -- that's
+> the symptom the patch targets: a multi-page writer holding
+> pipe->mutex across alloc_page() stalls the concurrent reader on
+> the same mutex.
+>
+>   bpftrace, mutex_lock duration inside anon_pipe_write, 300s:
+>
+>                   Grace-A  Grace-B  Bergamo
+>     [4K,  8K)      1090     2799      980
+>     [8K, 16K)      1785     1353      953
+>     [16K,32K)       755      623      530
+>     [32K,64K)       153      172      184
+>     [64K,128K)       13        8       59
+>     [128K,256K)      -         -        4
+>     [256K,512K)      -         -        1    <-- ~500us blocked
+>
+> So the patch's value is shortening the long critical sections that
+> the 99% of small writers are blocked on -- the contention everyone
+> sees drops because the few multi-page writers do their alloc work
+> outside the lock.
+>
+> >=3D 64KB, which are not common but existent.
+>
+
+Ye this makes sense to me.
+
+> > This should move to a dedicated routine, perhaps:
+> >       anon_get_page_prealloc(pipe, &tmp_page_prealloc);
+> >
+> > then it can also easily decide how much to prealloc based on existing
+> > state
+>
+> Yes. v2 will have anon_get_page_prealloc(pipe, &tpp) doing both:
+> top up to PIPE_PREALLOC_MAX based on tmp_page[] occupancy, and
+> keep the policy in one place.
+>
+
+Note I lost the 'pipe' word. This definitely needs to be anon_pipe_-prefixe=
+d.
+
+> > All that aside, I have no idea about performance impact on arm64, but
+> > there is *definitely* some throughput lost based on the fact that memor=
+y
+> > copy is restarted per page. I presume arm64 has an equivalent of amd64'=
+s
+> > SMAP which again will not be free and is paid for every time as well.
+>
+> Can you say a bit more about what you'd want to see here? I want to make =
+sure
+> I'm reading the suggestion the same way you are.
+>
+> My understanding: anon_pipe_write loops once per page calling
+> copy_page_from_iter(), and each call re-enters the iov_iter
+> machinery and pays a STAC/CLAC pair on x86 (PAN toggle on arm64).
+
+I was told arm64 has an explicit instruction set to deal with user
+memory, so it might be this is implemented differently there and
+fixing the problem might happen to not alter perf on that arch. It
+will definitely help on amd64.
+
+> So an N-page write pays the user-access bracket N times instead of
+> once, on top of resetting the per-page memcpy and losing the
+> hardware prefetch streak.
+>
+
+This bit is unavoidable with the current implementation as backing
+pages are not guaranteed to be even virtually contiguous.
+
+The extra SMAP trips however can be avoided.
+
+> The way I see it, is opening a single user_read_access_begin() region aro=
+und
+> the page loop and use unsafe_copy_from_user() inside, with a labeled
+> fault-fallback path that closes the region and finishes via the slow path=
+.
+>
+> Is this what you meant?
+>
+
+Yes indeed. This is however optional and even if implemented it should
+be a separate patch.
+
+As a nit you could sprinkle some predicts in a separate commit,  for
+example "if (!pipe->readers) {" definitely warrants an unlikely().
+
+The real deal is the following: the wakeup policy is to *always*
+wakeup *all* readers if any data is available and *all* writers if any
+space is available. In case of heavily shared usage this leads to the
+thundering herd problem (and it is causing performance issues with the
+BSD and GNU makes). While this cannot be changed by default, I was
+thinking about an opt-in fcntl which changes to policy to only wake up
+one waiter.
+
+In case of a microbenchmark like the one your provided here such a
+policy might end up reducing throughput as there will be more time
+spent off cpu by the benchmark. However, in case of real workloads
+which presumably have stuff to do, it should be a win.
+
+That is to say, if you have 1 reader and 1 writer, this is irrelevant.
+But if you have multiple and they block on the pipe, there might be a
+win hiding here for your actual workload by utilizing the above.
+Something to consider.
