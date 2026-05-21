@@ -1,140 +1,185 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748AD41C307
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 14:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37851421A18
+	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 14:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779459120; cv=none; b=asFL2uIYQ8HV4/gWKDOUPQPcapXvtRfNDL4V/4YMOXOu7dJz6NOqwOLt6YpsLz7vIwhRtEZtNvO9zgscBJDtkxYy3JRRplRnnwKGT8VP4woIFEIlbzitcGmkcKFiy0vo7vHwH2fitewiAnQ/9RUu+AUVYmM6aqV1KV4LknQ/YnU=
+	t=1779459442; cv=none; b=R1Q6CYJrXF0IJmTK2f+hgD+xNIdmTJWIVehI7G1vuEKtIWRK479im870TzpcrBr+sJLLyCUoGAOE0J3xToSXX6H0yyz/zykDRW1Te9mQ7RhX+U0n0+/t/rW0ykodNSMmePufrWkVLTOwXS35XkPojYlrc7jSnuC+1Ve8mBof158=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779459120; c=relaxed/simple;
-	bh=Z1KFUy7yFmT8phE2o51kuK/KVyikMTp1njUQtH61aiQ=;
+	s=arc-20240116; t=1779459442; c=relaxed/simple;
+	bh=VR3Z6NiIbl5pnmjCCnBJH6ZnBA3/aDWVWOXMFiW8hlU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OWMkP6Yp8J/aTP7D/jRps72NNYIgE4JGGFAj1541+MpgpnC652OSJNVh9Y9XGhlwCLv+5Wbf4skwmUF3S7uqowU9Sm748Icf/aFNiODGvORuJJcHhV1LeSEVdwMkaV/oySuhnIX7QftWvvEZnY9TBTVwRUDCAl9XZz1xUSuJ/gY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=lpmCqZgx; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=s8aRB0Kk13nFY1071QpBVVkJ4amxzEmcdSIeYN8+kfBVCbIWCvbJjLfPdOqw5DdVDVaF5Qklv2kwCEYiClF+nAHGt6sLmINBPmCp2M0GRsCcyIg47maCXctECS6dxNziUW1J6OUb+qk8D8MYEnOp1jrppqjHn1eDCbzr+y2p28A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pfq2tel9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4Xt3tCAS; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pfq2tel9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4Xt3tCAS; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="lpmCqZgx"
-Received: from macsyma.thunk.org (pool-173-48-115-85.bstnma.fios.verizon.net [173.48.115.85])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64MEBFMM009434
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 May 2026 10:11:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1779459078; bh=mHoK9Kgu4Ukogk/OuX5oJ2mC+IXl+XVKkhhR9Ymm7QI=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=lpmCqZgxMgz6LXGThL+FgpU/gHZm2q7cb9GG7Hmbw1HF0AaE+gTLZhx9dJOwJ0nAa
-	 2x/e4DVdk6Mue88+of/m4/ffVBkjFqZKlQf1pjyNfEHE3qjYAT5bb4AA+yS6hK29dF
-	 tpcNUTkTnuKZKnGb2yNXM1Xpq2G56JRBZFxvMjxungbdw4ZnXHfC9aHoYGP1zgzpe9
-	 rCykZkCrU7T2G0hk7TF/PTaBZd6uVu1liAacXiKKP6Mtbrh5RAchLbF0HPslHhm0PS
-	 hlvO2wQHeMa+U19lqVyv1mhCKetcXnea+xjcMVpqrI/U8nWD/W6aAO3aYuPE2RV/Mq
-	 Mp2pkRBJcpAFA==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 38EDE69D5323; Fri, 22 May 2026 10:11:15 -0400 (EDT)
-Date: Fri, 22 May 2026 10:11:15 -0400
-From: "Theodore Tso" <tytso@mit.edu>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, Akilesh Kailash <akailash@google.com>,
-        Christian Brauner <christian@brauner.io>
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-Message-ID: <20260522141115.GA8258@macsyma-wired.lan>
-References: <20260409134538.3692605-1-jaegeuk@kernel.org>
- <adhPZxtbZxgU-37v@google.com>
- <ad30g9xMs9wNJhFb@infradead.org>
- <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org>
- <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan>
- <ag_OVwPF49LSZ7rz@google.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pfq2tel9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4Xt3tCAS";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pfq2tel9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4Xt3tCAS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9DE776739F;
+	Fri, 22 May 2026 14:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779459430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UODpLeBpNT8RTXpwjpkfntCTTqUj13DI7O0VKmavHKI=;
+	b=pfq2tel9A2SVWcIP+zGTHnReMa21gXZEc87mlobNlJilGpb9Kpm16jJfKPVxP65dYBaU19
+	fKHKedh+asaQcA5Tv2Wq0Xmwgd/lU9+6GKHeWO51G2eMAOpgCxRv0J6k9esAwBnt0ANOUv
+	pqgHNzXATpU5sFDMG3dS/ccVpv3SQkA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779459430;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UODpLeBpNT8RTXpwjpkfntCTTqUj13DI7O0VKmavHKI=;
+	b=4Xt3tCASkGk3ZKyufr4dKnwBFNupjd34nYbcaulvTEXy0iCMKvGyWFDoKJOdeEZsLwZBOa
+	Bgum9tNA+mBDIyAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=pfq2tel9;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=4Xt3tCAS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779459430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UODpLeBpNT8RTXpwjpkfntCTTqUj13DI7O0VKmavHKI=;
+	b=pfq2tel9A2SVWcIP+zGTHnReMa21gXZEc87mlobNlJilGpb9Kpm16jJfKPVxP65dYBaU19
+	fKHKedh+asaQcA5Tv2Wq0Xmwgd/lU9+6GKHeWO51G2eMAOpgCxRv0J6k9esAwBnt0ANOUv
+	pqgHNzXATpU5sFDMG3dS/ccVpv3SQkA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779459430;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UODpLeBpNT8RTXpwjpkfntCTTqUj13DI7O0VKmavHKI=;
+	b=4Xt3tCASkGk3ZKyufr4dKnwBFNupjd34nYbcaulvTEXy0iCMKvGyWFDoKJOdeEZsLwZBOa
+	Bgum9tNA+mBDIyAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95E2D593A8;
+	Fri, 22 May 2026 14:17:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CkKSJGZlEGrJYAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 22 May 2026 14:17:10 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 26F4EA08F3; Thu, 21 May 2026 19:42:17 +0200 (CEST)
+Date: Thu, 21 May 2026 19:42:17 +0200
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 06/10] fanotify: gate fs event classification by group
+ type
+Message-ID: <73bt7rkn3djl3yzih7z75ekv3k7lnpfmbmarfooclm2lvpxetw@rop2aob4qyod>
+References: <20260424170503.2096847-1-amir73il@gmail.com>
+ <20260424170503.2096847-7-amir73il@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ag_OVwPF49LSZ7rz@google.com>
+In-Reply-To: <20260424170503.2096847-7-amir73il@gmail.com>
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: 9DE776739F
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
 
-On Fri, May 22, 2026 at 03:32:39AM +0000, Jaegeuk Kim wrote:
-> I went this route because Android heavily restricts ioctl() permissions
-> and we needed broader access for this to work within the framework. It’s
-> definitely a pragmatic choice just to get it running in production.
+On Fri 24-04-26 19:04:59, Amir Goldstein wrote:
+> fanotify decides on how to allocate events based on the event mask.
+> The event mask bits that correspond to filesystem watchers are only
+> meaningful in the context of filesystem group type.
 > 
-> If ioctl() is a right way for upstream, I'm happy to change this patch. By
-> the way, I really don't understand why all the messages are so offensive,
-> even without trying to understand the problem or guiding right directions.
+> Hence, before checking if event is a specific fs event (e.g. FS_RENAME)
+> need to first check the group type is filesystem.
+> 
+> Separate fanotify_alloc_event() into an allocator per group type, so
+> that all the fs events check inside fanotify_alloc_fs_watcher_event()
+> are already properly gated.
+> 
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 
-The reason why some people were getting annoyed was because as a Linux
-file system maintainer, there was an assumption that you would
-understand that extended attributes --- especially in the user.*
-namespace --- have an intended use case of storing a user-chosen small
-piece of metadata that would be stored in the file system.
+...
 
-Hijacking user.fadvise such that it no longer persistent stores an
-extended attribute for one specific file system --- such that if a
-hypothetical user application might decide to store a piece of
-application data in the extended attribute named "fadvise" would do
-something completely different on a single mainline file system is in
-such poor taste that I would have *hoped* that any Linux file system
-maintainer would know that this a Really Bad Thing, such that if
-someone in your development community suggested such an idea, you
-would reject it.
+> +static struct fanotify_event *fanotify_alloc_event(
+> +				struct fsnotify_group *group, u64 mask,
+> +				const void *data, int data_type,
+> +				struct inode *dir, const struct qstr *name,
+> +				__kernel_fsid_t *fsid, u32 match_mask)
+> +{
+> +	struct fanotify_event *event;
+> +	unsigned int hash = 0;
+> +	bool ondir = mask & FAN_ONDIR;
+> +	struct pid *pid;
+> +
+> +	if (fsnotify_is_ns_watcher(group)) {
+> +		event = fanotify_alloc_ns_watcher_event(group, mask, data,
+> +							data_type);
+> +	} else {
+> +		event = fanotify_alloc_fs_watcher_event(group, mask, data,
+> +						data_type, dir, name, fsid,
+> +						match_mask, &hash);
+> +	}
+>  	if (!event)
+> -		goto out;
+> +		return NULL;
+>  
+>  	if (FAN_GROUP_FLAG(group, FAN_REPORT_TID))
+>  		pid = get_pid(task_pid(current));
+> @@ -875,8 +920,6 @@ static struct fanotify_event *fanotify_alloc_event(
+>  	fanotify_init_event(event, hash, mask);
+>  	event->pid = pid;
+>  
+> -out:
+> -	set_active_memcg(old_memcg);
+>  	return event;
+>  }
 
-And then, when people complained that it was a bad idea, and you
-decided to put in the f2fs branch, such that it would show up in
-linux-next, and there was no way for other file system developers to
-object (short of appealing to Linus) --- well, that's basically you
-taking advantage of your file system maintainer privileges.  And this
-is why I started proposing whether we needed to appeal this to Linus
-so he could make the call to reject something that the community had
-already told you was in terrible, terrible taste.
+Looks good. Just I'd keep the memcg & gfp dance in the shared code in
+fanotify_alloc_event() and just pass the gfp mask into the
+group-type-specific allocation functions.
 
-As far as trying to understand why you were doing this --- I have to
-turn that question around.  Why didn't *you* explain why you needed to
-do this thing?  I went through the e-mail history, and I couldn't find
-an explanation of why you decided to do this thing.  
-
-Perhaps we need to add an explanation the Documentation directory
-explaining what the intended use of the extended attribute case, and
-perhaps referencing past cases were people tried to use this to bypass
-the linux-api review process (f2fs's user.fadvise is not the first
-time someone has tried to do this) thing), so that automated review
-bots like Sashiko can explain why it's in such terrible taste to patch
-authors, perhaps we need to do this.  Up until now, I think the
-assumption is that file system maintainers would know something this
-self-evident, and if not, if it was pointed out, they wouldn't try to
-force such an ill-advised interface to Linus.
-
-						- Ted
-
-P.S.  As an exmaple of how I hanlded a somewhat similar scenario in
-the past, my employer's cluster file system needed
-FALLOC_FL_NO_HIDE_STALE to save $$$$ in TCO storage costs.  But the
-concern was this would be an attractive nuisance for enterprise distro
-users, who would see the massive performance increase, not realize
-that this would leak stale data, which could result in user PII being
-exposed, thus making life hard for Enterprise Linux's reputation.
-(This wasn't an issue at $WORK because we enrypt all data at rest, and
-the cluster file system daemon was a privileged server who (a) knew
-what it was doing, and (b) only it would have access to set
-FALLOC_FL_NO_HIDE_STALE.)
-
-I disclosed *why* $WORK needed such a thing (it made a huge difference
-to storage TCO costss for Google's Cluster Filesystem), and after
-discussion and negotiation, we came to a compromise which involved my
-keeping the (very small) patch out of tree, but reserving the code
-point upstream to avoid future bitfield collisions.  They key here was
-that I *knew* it was controversial, and I understood what problems it
-might cause in the rest of the ecosystem.  That's part of the job of a
-maintainer, and it's also why a company might want to hire a
-maintainer.  They can represent the needs of multiple stakeholders ---
-the upstream community, upstream users and the greater Linux
-ecosystem, as well as their employer.
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
