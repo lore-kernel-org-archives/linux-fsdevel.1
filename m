@@ -1,91 +1,136 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A60E32F748;
-	Thu, 21 May 2026 07:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A94363C55
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 08:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779349796; cv=none; b=WdwvdbMo9WYFi7rc99Z616EXO/CiOavSrKm9SnWMHgBV53zxwisXpRTbiONiMdKNJiQrV69Rh0eEsbzjN5Uq341PEwTQZtE1vUnA2/sRJf6Izz/gKy9fWzbWUBUeLzvC+5/du4SDi80JLmf9hLG1olfqJ4xHXwLPJDDgssE7vS8=
+	t=1779352636; cv=none; b=LDbtL+vVaylyQdFiRkWpy3gbpBJ1hpysF9bR9eCfjGMa/5c+75KLSlpeXHTGnCoMS+temIU5/B8ryFhxb5OCvY+FHqC+orq6ouMyAt8yniEodLZS2g2YG1IwmAZLAVb016y1PKZvAxwjb8utmbtfUvsNcEEPArIXUbVqHngMqlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779349796; c=relaxed/simple;
-	bh=PicYSaJ/qBBNG0nwnN5yBf7cuvcJTD9f+P4T2OeYfPM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F2CKEkr7UQmb9b8rkf8tAWjxuG8iHb/vQBC7Il/E4ygVpVawUdhwlIZVDGYD0WMkYrl9rWCOte055MNdGhQvvPd/B2yzrmllZDmMImsX6jSQobEtwq/0jXYmkZ71gFlZDZfkiCPNq4kBlGnGY8o2/BFdC6CU0SWUVKsty5iwUDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 9e46e66254e911f1aa26b74ffac11d73-20260521
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:c49ba0f4-8279-482d-b201-1e1a9eab771c,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:95a0b5a71b1439e7c2a113c3a87243ee,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
-	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 9e46e66254e911f1aa26b74ffac11d73-20260521
-X-User: zenghongling@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zenghongling@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1010667280; Thu, 21 May 2026 15:49:38 +0800
-From: Hongling Zeng <zenghongling@kylinos.cn>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	thomas.weissschuh@linutronix.de
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zhongling0719@126.com,
-	Hongling Zeng <zenghongling@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] fs: Fix lock leak in replace_fd()
-Date: Thu, 21 May 2026 15:49:34 +0800
-Message-Id: <20260521074934.49256-1-zenghongling@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1779352636; c=relaxed/simple;
+	bh=XO7s3PogGSqAtiohDJKPSrMK6XckUenkjIrSK4nw42U=;
+	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=JrHSmz/6a8Mlo0gE2wVEelpW7bR1EffD2+TBE2UdpH8uzi/h/TPpdff/Ye6C1u24SJI6094NhJJuBZAXs/nyJSVq97OrN9CoZD9L3tY4oL7tOY6SbGF3tScN1fx1peLj9xqXAgSMNmVEgxmZhw6c6bHAQNORjW/LDXGBfPsmzOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=NaJGIJ5R; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RCNRQz/f; arc=none smtp.client-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="NaJGIJ5R";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RCNRQz/f"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 5CF0F7A00DD;
+	Thu, 21 May 2026 04:37:13 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Thu, 21 May 2026 04:37:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779352633;
+	 x=1779439033; bh=KoXfksjtOuPpWflfbfNiTBgddSHnoYBcPCXTP9uDtV4=; b=
+	NaJGIJ5R4ZFNjpy4Ysa0nIy/ayo6O4DLvlvpRmwNpwvW37LA3wn5LiTpRWdgSAYW
+	mNOKRm90DrN8PXM+KlXeg5hOpie52Dxd8vGMYpPMd2zgH4oVPgNbcEPTjcLbtO6c
+	sxhC2o3N+YtdQJunKLjEBK3SMh+NBNpi95fsLs9QGGfpkFMrwHO5EiW3US3QJNGw
+	MAc89/0966xcttBv44GP80m3hczFj8Zg9l507/E7Kv9hWsPKyrIPTeX3j3Jv1lhR
+	d5h7jM0mtacPFD8FBQeDExUZtwuElZ2TIzr6qtvG2OutgEEhUVHry1I92R/dvhEC
+	mxsIVyJh+us9iuz6L2hqRw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1779352633; x=1779439033; bh=K
+	oXfksjtOuPpWflfbfNiTBgddSHnoYBcPCXTP9uDtV4=; b=RCNRQz/fDmC5peiWe
+	BSOv39qMRsz+8c3FjTVVuXfImD8LXPl3TRj51QQePETtZSxGZQNal2cQFDSnHOaj
+	kQIl8QH038UyLPwij0FVdHG6iSSYJNSw5B98NwBaRWZ9ARzB39uvg4WmyXOI02+Y
+	MEZdQbT0N230DCvLNS9LzvJsj42QmnlcQcfA60C+Wcu9Z/2r0aMvpUsoTff55Drk
+	QDqbKT/sgL6agYpWHe3EWt4cxCdLRwcSGTtJ+tKyDUTeYJIcl0JydBFey9M3quNy
+	IHi4BxVk4O4nkE+4iz/SQwtqUCNykHUO9dPvwvRbm4JZyY1Fd4lm58zxVUoktNX6
+	biAbw==
+X-ME-Sender: <xms:OcQOaiZ4ke0SUmMzOOwXWzuj3v5b2G4trNwKMKGlnHIJW4VduhrYbA>
+    <xme:OcQOagMgeWtc3ORyNpQCNSlDXnEa64gfkr_yxszftITHLbbvhecaIzJy9fw1Qisr7
+    TidICY-YHjfCvVuM7nBw4VLH4M1nIxizAwjnRW5bk2D-YXVHqgLBiA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejtdehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvffkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhkeeltdfffefhgffhteetheeuhffgteeghfdtueefudeuleetgfehtdejieffhfen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopegvrhhrohhrvdejsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrrg
+    hunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhi
+    shhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehlihhnuhigqdhfsh
+    guvghvvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:OcQOatCb_KvCsp1JNvodEgD1S4SU5ccdMD2VcwIxoyt1_CetIS1JmA>
+    <xmx:OcQOam-F4YDHluzfP2tPLDLbONCTKQ1nk7ayx2UvvmX3mIREAQSKZQ>
+    <xmx:OcQOasGdJkoajx8bcBjdgdkRqEYLUjvVUNpLbgvdAFPMIYmH9ier5g>
+    <xmx:OcQOasN3RSuARrxHN8jwmjcOG2LjVkhXqgJEuo2pI9vCVlvbOtSKcA>
+    <xmx:OcQOalw21y-8nNCID-81TwSOgh5bnDYj1FHc5pdPOQT98i7P_bP14-z5>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id EBB59182007A; Thu, 21 May 2026 04:37:12 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: Aw18F5Y_n0hN
+Date: Thu, 21 May 2026 10:36:52 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Dan Carpenter" <error27@gmail.com>, linux-fsdevel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Christian Brauner" <brauner@kernel.org>
+Message-Id: <d82abcde-91e8-4eba-83a3-1e86bd6d80b1@app.fastmail.com>
+In-Reply-To: <ag6vwpcCBN_VC1dm@stanley.mountain>
+References: <ag6vwpcCBN_VC1dm@stanley.mountain>
+Subject: Re: FOP_UNSIGNED_OFFSET abuse
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-In replace_fd(), the function acquires files->file_lock but then has
-two return paths that don't release the lock:
-- When do_dup2() fails (returns negative error)
-- When do_dup2() succeeds (returns 0)
+On Thu, May 21, 2026, at 09:09, Dan Carpenter wrote:
+> Is there a point to FOP_UNSIGNED_OFFSET now that everyone is on 64bit?
+> I thought the flag was for back in the day where we it was a huge deal
+> to access 4GB instead of 2GB.
+>
+> It's mostly used in DRM.  drm_open_helper() forces you to set the flag
+> but drm_read() ignores the offset so I don't understand the point of
+> this.
 
-Both of these paths return directly without unlocking files->file_lock,
-causing a lock leak and potential deadlock.
+As far as I understand it, this is needed specifically for
+character devices with an mmap() file operation that encodes
+information in the high offset bits, see be83bbf80682 ("mmap:
+introduce sane default mmap limits").
 
-Fix this by making both error and success paths go through the
-out_unlock label to ensure the lock is always released.
+For /dev/kmem, this is is needed to access the actual kernel
+memory on architectures that map it to negative addresses,
+and this one actually does llseek/read/write up to U64_MAX,
+which would be useful on 32-bit compat tasks reading 64-bit
+kernel memory, and we could probably just not do that.
 
-Fixes: 708c04a5c2b7 ("fs: always return zero on success from replace_fd()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
----
- fs/file.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+For the mmap() interface, I see that things are a bit messy
+in multiple ways:
 
-diff --git a/fs/file.c b/fs/file.c
-index 2c81c0b162d0..d0f019fb0568 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -1361,8 +1361,7 @@ int replace_fd(unsigned fd, struct file *file, unsigned flags)
- 		goto out_unlock;
- 	err = do_dup2(files, file, fd, flags);
- 	if (err < 0)
--		return err;
--	return 0;
-+		goto out_unlock;
- 
- out_unlock:
- 	spin_unlock(&files->file_lock);
--- 
-2.25.1
+- DRM drivers on 32-bit kernels need this to mmap() GEM
+  buffer objects that have a file offset just above
+  ULONG_MAX, which is the limit in file_mmap_size_max()
+  for character devices. 
+  As you pointed out, llseek/read/write does not have this
+  limit.
 
+- mmap2() can never map up to ULLONG_MAX even with the flag,
+  but is in practice limited to 2^44 (ULONG_MAX << 12)
+  when FOP_UNSIGNED_OFFSET is set.
+
+- compat_mmap() checks against the 64-bit MAX_LFS_FILESIZE
+  and ULONG_MAX in file_mmap_ok(), so it's actually able
+  to map beyond these limits. I suppose this is not a
+  bug itself, but is unexpected.
+
+- MAX_LFS_FILESIZE itself is defined as
+  "((loff_t)ULONG_MAX << PAGE_SHIFT)" on 32-bit systems,
+  but mmap2() actually uses a fixed 12 bit shift
+  rather than PAGE_SHIFT on most architectures with
+  a compile-time page size choice.
+
+       Arnd
