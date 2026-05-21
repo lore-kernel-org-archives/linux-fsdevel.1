@@ -1,363 +1,153 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A8A156661;
-	Thu, 21 May 2026 00:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779324920; cv=none; b=nQ8o3h/uY/w3YMke1LInDXXIqddCZ72grEAkOT82o53so3/nbyZoIoxaIgTkkuGaeXQYjSfUG6qAZl8tGpRD0R+Om6iag8xXxHZtJlEYX5SRrAC4R/myeeH456Tj9l5SwUEYoaRt7IBFtR85wnukNwClF8kXIPGXL+yq/ayOgPg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779324920; c=relaxed/simple;
-	bh=bjmEflaZ/4mWa+GRntV7vVAMgmQWfigdQp7L7IM5o7A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RFfNU9B6BSq8iZNVgIs/dx1ppAjnrlDpMSSBQVel9AtI8K2+N0ppXq0+fSFTI+DipGMpARPGGYeGYUhdF+SSJ8IdNT+IQfx4Yyih1gAMAUUdWtP7VH4XV4VS4WYt/ppK6iMzAbLMj7q50Mjg7Y2iIcEyexBZkjgnak0mFMiNoLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net; spf=pass smtp.mailfrom=themaw.net; dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b=JzGPkHUx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mz+Dw3om; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=themaw.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE98299927
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 01:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779325368; cv=pass; b=Fndo8iZk8kVU1tarGExf/WMJcENeCO2qlTJbQ2OriI8ehA+rYvjMXF6NF6yDWnyEl6yWw9QPqyl6cEif4kH0sfuuZMbFL9Euvh7j1Fh+40TPduHHZeysEBgYsnCGHAKHRmLRrbLDOQpIYVSnbHzEcL72/qfe2M06j57CA4/VO4M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779325368; c=relaxed/simple;
+	bh=w2M4njWribFv5DWMxOVdr8Fj/WFnmlk7WeJiR8SYqsc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SAZ4iTwcukqfAwV+Xs8pwWzcNVa75hWWkJ/V6gLp/ODoQ6BIRM1EzeGOOp4fZfMoUAH5JAo60yHzhjsJtTWnLnqj8Okp5G9GlhSJ1oQtbdvlhrG1cRfVy+uRfve6FJOtg8GETsOcsjLmr5IzqBSsT2XahQqx90r2HrjzaTETQco=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rufryD0T; arc=pass smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=themaw.net header.i=@themaw.net header.b="JzGPkHUx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mz+Dw3om"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 07BFA14000A9;
-	Wed, 20 May 2026 20:55:17 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Wed, 20 May 2026 20:55:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779324917;
-	 x=1779411317; bh=44MW/rOj+MFrSGBt+EzsxsPYNMCU8m6kMxuoxevzaRs=; b=
-	JzGPkHUxPTb9JwXWH9bSsY8j8FFyzwxK9l6mZKrCDGX70rNoIyx4Senu4ugrD+xi
-	9PSCZNe+0q/siF7ZQ2ani7rP0scgmCNrVGhoaXDG80AJ3DQwwFXTLbsBVXw1EEJc
-	0V6D7J0VIfIUf1fUOjbisMyLTFwvZjCbaxZrecHoGTdXR0N8/sq25kfwCPd/kEZl
-	mKo+7ub41WU2jgkuJ8hweQY9twUwj/PL9X9BP3AGR00bMSMp2qBwbu39EnHIKqZR
-	TQ3EnG8ig3wZ7QNgq08aGLuYcmzrbVvK/3mkFE5Q9JqsSdPlx8W5iU5Y7JN7HNfy
-	nsCPeRJ1QwRzTD6ebaYjfg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779324917; x=
-	1779411317; bh=44MW/rOj+MFrSGBt+EzsxsPYNMCU8m6kMxuoxevzaRs=; b=m
-	z+Dw3om5JfZfrIeUcEBhl1ORKGyGjjvZXhlVp8rqV5T8kYsJz7q0LACVeLOsD9CZ
-	301PdCFFmjeA74YhYJMF4JFJ2XtnipXsf2iYKsOylrq/a1lQe+O1Y2ESTjJcTIBF
-	q/CcMuNnW234F6Q/rZo91nPvXxNCa7rV2slrqVmtDKgJHo9CmCF//StDtOkzQau1
-	atpoCY7ja7fZg7IGS81dfR9VYENZW/H7NveWx5AiKa3RojTH7c8n8fatEuJHC1XV
-	RdM1HaCicCo/1M+pZJEyz0ZChWOJaw/MATNYui1DQOMnrjHlG3vuaJNtpQ5jkrfm
-	RV4/w9E4xtSmEeHZu/2yg==
-X-ME-Sender: <xms:9FcOajZpgIZNuwgof8698inl44K89_XmbQcxtu1AybHfxguVvOAnLQ>
-    <xme:9FcOanmXe6XEuZ44xGCrM18ZyvNnA_YO9Q6TFO9PVo1Ll1Pq5GQrjWQoxHwBuiAgs
-    nlHGlW2X8aHo-5PFHqxxSoEIymhVJ9qp3lpr76GBmAdNnmz>
-X-ME-Received: <xmr:9FcOapW8rDDHBdNUGx4w5vmHuCOQS_avLan3T96o8AXx72Cbu0z6ZDRAFfE8rTZ2FnDQXU-4WUSo8AgJ22ryLvcAxpUMYMVM2z-0hkuZvN5oaCw0eVcAjtE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeeiuddvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefkrghnucfm
-    vghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqnecuggftrfgrthhtvghrnheptd
-    dugfehtddugfefgfdtjeeguddttdevfeehtedvfeeufefggffgvdeileetffegnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhgrvhgvnhesth
-    hhvghmrgifrdhnvghtpdhnsggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjh
-    grtghksehsuhhsvgdrtgiipdhrtghpthhtohepnhgvihhlsegsrhhofihnrdhnrghmvgdp
-    rhgtphhtthhopehhohhrshhtsegsihhrthhhvghlmhgvrhdrtghomhdprhgtphhtthhope
-    hmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtoheptghorhgsvghtsehlfihn
-    rdhnvghtpdhrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdroh
-    hrghdprhgtphhtthhopehvihhrohesiigvnhhivhdrlhhinhhugidrohhrghdruhhkpdhr
-    tghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:9FcOapJodJjyKCJ6xE1-t4pTzPgbMIIN92OlaOLnghw_m_aCE6hwfw>
-    <xmx:9FcOaptFl2QRJkiBJu-6pWYixXRhw7mX9qRQkA7ltLd5ltilTRyCGQ>
-    <xmx:9FcOau1ktpKeYykc0HwhbMQfU84q0IK1YiryrxH4Fe9fkcaXvreusg>
-    <xmx:9FcOahN4jSkl969C2RO7PLwBr_u0FkAKBccg3wLnk0XoRpOGh4E3uw>
-    <xmx:9VcOahV4iboYScAVmwU6Ljd2mUUQEoL7F0ayNHDxd0hme9kYFpHQfCuH>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 May 2026 20:55:11 -0400 (EDT)
-Message-ID: <0c8fc005-e485-494a-8598-07b617c87b62@themaw.net>
-Date: Thu, 21 May 2026 08:55:06 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rufryD0T"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-393da8f389bso51377701fa.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 20 May 2026 18:02:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779325365; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XbMag/7xqGljwyVbUfU8rQdqu5whqkNGk4BckKWaaLgWRPadmp43aBN0a/9K4AZ84R
+         47nLq2jwldLacODT3ldt+yk0mv1RUtVupVDuiikPHTg+lar1hbqI9V2nAA5ZWURRjblO
+         90RFIg0iOoSmTdSHDdK+4wBjQvlzwOSlTl0GFBUJ193T2JSFQd6hcwxzawsCqAxpoJuT
+         1S91iQguPZXjQHgVm78opa4bRd2w6mAHk9ZW/G/r1lPH29rWC0PO7iofbSxvV/xFAiFL
+         leGLLAYGSkkXprpDqP6X2BouJci9aeuMfjBvQ1TFEbvDAILpwaAYv9vOQyglUqVsAGvh
+         WzrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kBQ7Nb3HOlDAOP6h7RXwpx3JllFrV2ianaHBvCKd3MQ=;
+        fh=9LdbyneTgtTdRjU6HYZZ2VzsMZJCoTBsYFK5SqxXAQc=;
+        b=YYdpF0TxlQVAqM/vaQ6Yv24MUK+Xm0pYHQbnSkZAm0ebWRHw2dk2PO5KyHvgyY2Fsl
+         LiyOqAAxNBwNM3ActfpBjn3LUk8SMBwryk3eBvzQwhmHfON6c9lftr1BofbfGb1Vqxdf
+         /Re35Gh99w5KN8igAlbj2HbnlJ2e//fUrb6aMcqOYbJBSb+kI0Ibd/xs03HfEIqfpwW2
+         5ewRbAuozsTBUD8KKnYRNzIGKx+Ft7LsDmgdJwATm25N+PMl+CM8sgP5HGiKvWZFLmaY
+         ehn0EfoZ93Imqd2yaXg3bUHwhyJiT0S3pvA2D6Fazjf5LiX+tv7hkDQLXfEQKZHGSuWW
+         FERA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779325365; x=1779930165; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kBQ7Nb3HOlDAOP6h7RXwpx3JllFrV2ianaHBvCKd3MQ=;
+        b=rufryD0TtaKtzzE2ThUPio9TtN1Fb6O6INL2yxN2eR7x0WX+bcmWS/0Oxhr/1q6pDi
+         Xf93+TlTotuqjYBvVGB+e9LVwbOxNT/jj2EWnysU60DKiW6OWnW+To36RXOOhEM7bQ36
+         xVKv/G3O9KQVW+dj64TjK4DsI0lEwCVvRX/Yxe5ez0QMI0cNNsqE5sNGcN1scj/EKI8Q
+         C7iurUGenBbGCtkWFMNrIlQFtMAHWvMUtt3FcuTD2C2kmt8VuyEn8q9wVgQCBrcm2hGn
+         zVkECcKnE0knSKJrkF8wRvWwxvDtXt7q8YDAcf6tsG2BoOCqydQa2VIgLVH9nev6cW2Y
+         0LTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779325365; x=1779930165;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kBQ7Nb3HOlDAOP6h7RXwpx3JllFrV2ianaHBvCKd3MQ=;
+        b=bqp8feLBkBvCN/Rqw8QF6FL5FXnqFZegZ4zqZhE3iOFeUT5/AwkBcxLl4GawPi+/tg
+         Zm8Z/oafoiBro9nfkZ8h6+eC0gz43UtvSKL53peN0RBEMCBdKR4jHkpTr5wim3P23zEm
+         mdv3DGgSRNuTJszpQr6s6G3edkp0USS7MAZG8v3kHrbsu9lRuR86UT1IO1h8IaxmUgVu
+         Y7QKnJq5lqWTz6lSdUNd6hwKDnygy38aNDq4m/GBWcqM6y1GSQEYNJjX/Zrs10FxP99W
+         Lsc8qhQC6mgOBVQfO8u1gYPd8OIZ4NPDWjTBlvDZ55RTUW7W+4XmF37M7xM148b2tL/s
+         44/g==
+X-Forwarded-Encrypted: i=1; AFNElJ9oKJJROP5Q9tjIhdlp/2VTftlY3/Dy8eWUfaM7hjDOPStz174rBv6Q/ZIL2pFVPXfhI8Znw2EYkgOe+R8S@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPqdT2OpxkxisWS3vzfOW2K3HrIo9D/lK2ocx7Y8JaX5wyf0yW
+	krPbAjqrGj7z5mIMUT+XkAz/qISur0LPo6t2dVKQIW8A6I+P5aUqHk8E9chVQqrDzn60vHcwspL
+	eJoM3yyTql9IEitIspREkQk9qhpTxXZM=
+X-Gm-Gg: Acq92OEDKsWO0ywpEJddb1rbkbjpfVjmD6cgg0NE96mApBqbLIetzXduSoEog1LvX5s
+	WN+D68vQhnsggrYyIrKhOT0gUxZyj4K4IXGWd23NKJ3PteiBRH1tewKBirinocjmzTxlZpvkMkE
+	FziRCDo7vBBxdtIbDxlqUlPSSvqUqucZXkWbJxore8v2AGR3ZOyIi91RlWpd1xFpMilcSn64emH
+	v1VDdEFRZaXUnHjgbiG39ArdnJ8MT+zbodQfb3eQHhw0MxqPtl2bqabmAHQqy6L2RG5dgBF4vwD
+	eHoV7yI=
+X-Received: by 2002:a05:6512:607:10b0:5a8:8eda:bed5 with SMTP id
+ 2adb3069b0e04-5aa2ba9abacmr170292e87.32.1779325365276; Wed, 20 May 2026
+ 18:02:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dcache: add fs.dentry-limit sysctl with negative-first
- reaper
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>,
- Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Horst Birthelmer <hbirthelmer@ddn.com>
-References: <20260514-limit-dentries-cache-v1-1-431b9eb0c530@ddn.com>
- <177906210551.3947082.4313294634549021141@noble.neil.brown.name>
- <bc359831-e653-4269-9d57-742b48d56d9f@themaw.net>
- <yk2hem4zwinm4glenpc74to7sm5kyriksgwn6mxh7t4saotiba@7zik7jcnbs5m>
- <b320ff9a-7f6f-44c3-940f-33f79cc5569f@themaw.net>
- <fglq7n2brxwdsu7and6nt6xpgdziua754yzgxkmd33pmk6tor4@noxa5ajva7wg>
- <27a5593e-ffb8-4471-996f-7983bac0b1ab@themaw.net>
- <CAOQ4uxg-7Tsb0GWF4LN3iFBaY7uGxR5_7PwBF+GfMWtCdfi4xw@mail.gmail.com>
-Content-Language: en-AU
-From: Ian Kent <raven@themaw.net>
-Autocrypt: addr=raven@themaw.net;
- keydata= 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
-In-Reply-To: <CAOQ4uxg-7Tsb0GWF4LN3iFBaY7uGxR5_7PwBF+GfMWtCdfi4xw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260520170151.4115308-1-charsyam@gmail.com>
+In-Reply-To: <20260520170151.4115308-1-charsyam@gmail.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Thu, 21 May 2026 10:02:33 +0900
+X-Gm-Features: AVHnY4I6pR2j6tqZCpGp9YVDnZoflcj_TehSGZPEWapZhvz9XYvX2PqSMn_BlYk
+Message-ID: <CANFS6bayB2QGpov6e4OxK89pi5DJ8X2OFub9qBzK5DNDcb0o_w@mail.gmail.com>
+Subject: Re: [PATCH 0/3] ntfs: fix mount failure cleanup and free-count setup
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi DaeMyung,
 
-On 20/5/26 17:43, Amir Goldstein wrote:
-> On Wed, May 20, 2026 at 9:16 AM Ian Kent <raven@themaw.net> wrote:
->> On 19/5/26 17:12, Jan Kara wrote:
->>> On Mon 18-05-26 21:39:13, Ian Kent wrote:
->>>> On 18/5/26 16:19, Jan Kara wrote:
->>>>> Hi Ian,
->>>>>
->>>>> On Mon 18-05-26 10:55:43, Ian Kent wrote:
->>>>>> On 18/5/26 07:55, NeilBrown wrote:
->>>>>>> On Fri, 15 May 2026, Horst Birthelmer wrote:
->>>>>>> According to the email you linked, a problem arises when a directory has
->>>>>>> a great many negative children.  Code which walks the list of children
->>>>>>> (such as fsnotify) while holding a lock can suffer unpredictable delays
->>>>>>> and result in long lock-hold times.  So maybe a limit on negative
->>>>>>> dentries for any parent is what we really want.  That would be clumsy to
->>>>>>> implement I imagine.
->>>>>> But the notion of dropping the dentry in ->d_delete() on last dput() is
->>>>>> simple enough but did see regressions (the only other place in the VFS
->>>>>> besides dentry_kill() that the inode is unlinked from the dentry on
->>>>>> dput()). I wonder if the regression was related to the test itself
->>>>>> deliberately recreating deleted files and if that really is normal
->>>>>> behaviour. By itself that should prevent almost all negative dentries
->>>>>> being retained. Although file systems could do this as well (think XFS
->>>>>> inode recycling) it should be reasonable to require it be left to the
->>>>>> VFS.
->>>>>>
->>>>>> But even that's not enough given that, in my case, there would still be
->>>>>> around 4 million dentries in the LRU cache and in fsnotify there are
->>>>>> directory child traversals holding the parent i_lock "spinlock" that are
->>>>>> going to cause problems.
->>>>> Do you mean there are very many positive children of a directory?
->>>> Didn't quantify that.
->>>>
->>>> The symptom is the "Spinlock held for more than ... seconds" occurring in
->>>> the log. So there are certainly a lot of children in the list, but it's
->>>> an assumption the ratio of positive to negative entries is roughly the
->>>> same as the overall ratio in the dcache.
->>> OK, but that's not necessarily true. I have seen these complaints from the
->>> kernel but in all the cases I remember it was due to negative dentries
->>> accumultating in a particular directory. There are certain apps such as
->>> ElasticSearch which really do like creating huge amounts of negative
->>> dentries in one directory - they use hashes as filenames and use directory
->>> lookup instead of a DB table lookup and lookup lots of non-existent keys...
->> Umm ... that's a good point, I hadn't paid much attention to ENOENT result
->>
->> lookups, I'll need to check on the like cycle of those, I think they do get
->>
->> hashed. That has to be the other source of negative dentries that I've
->>
->> neglected ...
->>
-> Yes, it has been claimed that some real life workloads create a lot of those.
+2026=EB=85=84 5=EC=9B=94 21=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 2:01, D=
+aeMyung Kang <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> If we can keep those at the tail of the children list, it will be best
-> for the fsnotify
-> iteration, which only cares about positive dentries.
+> Hi Namjae,
 >
->>>>>> so why is this traversal even retained in fsnotify?
->>>>> Not sure which traversal you mean but if you set watch on a parent, you
->>>>> have to walk all children to set PARENT_WATCHED flag so that you don't miss
->>>>> events on children...
->>>> Yes, that traversal is what I'm questioning ... again thanks.
->>>>
->>>> I think the function name is still fsnotify_set_children_dentry_flags()
->>>> in recent kernels, the subject of commit 172e422ffea2 I mentioned above.
->>> OK, thanks.
->>>
->>>> When you say miss events are you saying that accessing the parent dentry to
->>>> work out if the child needs to respond to an event is quite expensive in the
->>>> overall event processing context, that might make more sense to me ... or do
->>>> I completely not yet understand the reasoning behind the need for the flag?
->>> Close but not quite. The cost is the overhead of dget_parent() in
->>> fsnotify_parent() which is often a couple of cache cold loads and atomic
->>> instructions to find out we don't need to send any event for the current
->>> write(2) or read(2) call. It gets worse if there are many IOs happening to
->>> dentries in the same directory from multiple CPUs because instead of
->>> cache-cold loads you get a cacheline contention on the parent.
->>>
->>>>>>> But what if we move dentries to the end of the list when they become
->>>>>>> negative, and to the start of the list when they become positive?  Then
->>>>>>> code which walks the child list could simply abort on the first
->>>>>>> negative.
->>>>>>>
->>>>>>> I doubt that would be quite as easy as it sounds, but it would at least
->>>>>>> be more focused on the observed symptom rather than some whole-system
->>>>>>> number which only vaguely correlates with the observed symptom.
->>>>>>>
->>>>>>> Maybe a completely different approach: change children-walking code to
->>>>>>> drop and retake the lock (with appropriate validation) periodically.
->>>>>>> What too would address the specific symptom.
->>>>>> Another good question.
->>>>>>
->>>>>> I have assumed that dropping and re-taking the lock cannot be done but
->>>>>> this is a question I would like answered as well. Dropping and re-taking
->>>>>> lock would require, as Miklos pointed out to me off-list, recording the
->>>>>> list position with say a cursor, introducing unwanted complexity when it
->>>>>> would be better to accept the cost of a single extra access to the parent
->>>>>> flags (which I assume is one reason to set the flag in the child).
->>>>> The parent access is actually more expensive than you might think. Based on
->>>>> experience with past fsnotify related performance regression I expect some
->>>>> 20% performance hit for small tmpfs writes if you add unconditional parent
->>>>> access to the write path.
->>>> That sounds like a lot for what should be a memory access of an already in
->>>> memory structure since the parent must be accessed to traverse the list of
->>>> child entries. I clearly don't fully understand the implications of what
->>>> I'm saying but there has been mention of another context ...
->>> Parent dentry is of course in memory but often cache cold - you don't need
->>> the parent to do e.g. write(2) to an already open file. You seem to be
->>> somewhat confused about the child dentry list traversal (or maybe I'm
->>> misunderstanding) - that happens only when placing the notification mark
->>> but definitely not for each IO operation.
->> LOL, confusion is a pretty common state of mind for me!
->>
->>
->> I do get your point though and I am confusing the traversal with other
->>
->> operations. I think this answers the question I've been asking (maybe
->>
->> that wasn't obvious) about the reason for the traversal (ie. the reason
->>
->> to maintain a flag in the child).
->>
->>
->> While I have looked at the code here I haven't absorbed it and I
->>
->> definitely don't understand it, your continued patience is appreciated
->>
->> and will be beneficial when I get time to look at it a bit closer. I
->>
->> do still need to use a notifications mechanism to match up with Miklos's
->>
->> statmount implementation to get the full benefit of that in user space,
->>
->> if I ever get a chance to work on that again.
->>
->>
->> So it sounds like it would be worth while considering a traversal that's
->>
->> based on taking a reference on each dentry rather than a spinlock for
->>
->> the duration. It would be tricky though, for obvious reasons, like
->>
->> children added during the traversal, added overhead of getting the next
->>
->> entry reference, etc.
-> Didn't look closely, but it feels like RCU traversal should be
-> possible if entries are added to the tail, or to the END_OF_POSITIVE
-> location.
->
-> When we discussed the "negavites at tail" at LSFMM
-> it was said that managing the transitions positive<->negative
-> would be challenging, but I don't know that anyone tried to look closer at this.
+> This small series is based on current ntfs-next commit d8756162c6ca
+> ("ntfs: remove unsupported quota handling").
 
-I guess that should be straight forward as long as it's done at the point of
-
-transition except if it's done by a filesystem instead of the VFS (maybe 
-require
-
-a helper be used ...). Might be a bit harder for dentries that don't 
-transition
-
-(ie. ENOENT lookups that start out and stay negative) might escape the 
-needed
-
-handling.
+These patches appear to be intended for an out of tree version on Github.
+They need to be ported for the Linux kernel.
 
 
 >
-> At least for fsnotify, positive->negative transition is not a problem
-> w.r.t skipping entry and observing entry twice during positive iteration.
+> The previous quota_ino reference leak fix is intentionally dropped
+> because that commit removes load_and_init_quota(), the $Quota/$Q state,
+> and the quota out-of-date marker path.
 >
-> If negative->positive transitions inserts at END_OF_POSITIVE
-> location, then should be fine as well?
+> The remaining fixes cover mount failure cleanup, a free-cluster precalc
+> OOM path that can otherwise leave waiters blocked forever, and the
+> $UpCase default-table alias check.  The free-cluster patch also clears
+> the per-bitmap-page free counters on the conservative zero-free-count
+> path so later allocation heuristics stay conservative after the known
+> flag is published.
 >
-> Iterators that need to iterate all children can do this under lock.
-
-Only catch there is the number of positive children might be large as well.
-
-
+> Testing:
+> - For patch 1, I built a DEBUG_KMEMLEAK/DEBUG_FS kernel and injected an
+>   ntfs_fill_super() failure immediately after load_system_files().  Befor=
+e
+>   the fix, kmemleak reported the leaked volume label allocated from
+>   ntfs_ucstonls(); after the fix, the same failure path produced no
+>   kmemleak report.
+> - For patch 2, I used QEMU with a debug injection that forces the initial
+>   precalc readahead-state allocation to fail.  Before the fix, statfs
+>   remained blocked in D state in ntfs_statfs(); after the fix, the waiter
+>   woke up and statfs returned with the conservative zero free-cluster
+>   count.
 >
-> Does that make sense?
-
-Yep, the notion of a cursor is a good idea.
-
-
-Nevertheless the challenge is to identify dentries that should be discarded
-
-rather than kept at final dput() in addition to what we already have in 
-dout()
-
-but there doesn't seem to be anything sensible to add to those checks.
-
-
-On a different note another possibility to identify candidates to discard on
-
-traversals might be a ttl, basically an extension of the referenced 
-flag. The
-
-dentry d_time field could be used for that but only for negative 
-dentries since,
-
-IIRC, nfs uses that dentry field.
+> DaeMyung Kang (3):
+>   ntfs: free volume-wide resources on fill_super failure
+>   ntfs: wake free-cluster waiters when precalc allocation fails
+>   ntfs: only alias volume $UpCase to default on exact match
+>
+>  super.c | 34 ++++++++++++++++++++++------------
+>  1 file changed, 22 insertions(+), 12 deletions(-)
+>
+>
+> base-commit: d8756162c6cab1ad4478539d33da6cab413af1ee
+> --
+> 2.43.0
 
 
-But now I'm not sure I'm making sense as a couple of your comments sound 
-like
 
-they refer to a discussion I'm not aware of, ;)
-
-
-Ian
-
+--
+Thanks,
+Hyunchul
