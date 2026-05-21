@@ -1,136 +1,216 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22E13CE0B7
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 13:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3773D7D80;
+	Thu, 21 May 2026 13:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779368441; cv=none; b=Zd55t+mhtoWUwfMxudPQSUKk7pKQ/ah9Htfcv0UpNvO1OKSDwWlJmFoaaQFoTecLLwAsY+TEzr9FnEWm9RrUdBbfFIPlv9uO8GuCpAQ3+5lJGDegqu4LMtAHnPjZGySKhy6ywwn45KA6PBYwErd5iKhCKWbzY0Ls4KJUTuLL3XE=
+	t=1779370408; cv=none; b=hKW9kln1PLK9mSTd0Ce7XrTssVlcSMyJCXs6/9mt9jzIiFvGUCdN49g9onMb9QgkjHqLgWd4AUcqIIjNQdb5fO1mJWX6ZPf9VkJiaQFkNsx+TZ8/QPqUcGZ0txesFbL+TqH3POBRYF+dEoOzvQeytL6IWm/rKyF4MetdB1W1ii0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779368441; c=relaxed/simple;
-	bh=/DWc/21g9inXKmvGrguCVoASZnB9td6j3vz+VAB4B/M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D0XUPUAtO7bDp33hvdSqJ6pcwXsx9duo4/zEYSkLypviU2DNWbNx4hwuAMidWkD+1vUNnI/6TZJXNDJr/h+cFuHkmY5/XO3bpOS+QtFBZz6k/d954S5WAtTtxgDFpLNKUPS3Xey/IhDDa+4YG+MTXQJsVuin0u0PUSc8544IoOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TQClNk0C; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779370408; c=relaxed/simple;
+	bh=5uv+CTbn8AcIcVue/GiaGr9BSc0U2Of/hQLri15LfLg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=j0thK6dLeDJ7ZgeB1y2FqTzEs33VjwJL8PzvLZBZQjdECQNPRI5QxRhmQn6yzv7Jk6LuoYKoPPiaTTiJvlpGprjysEn7NmDNZATRN19IbexzGsrVvaIv9J81CfQkvvm/5wcX9MDldl5wKCgscIIW9hkAyvmvP+M/jEqCKJfKJJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j4CDviTd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TQClNk0C"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c8015bdf1b5so479592a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 06:00:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779368439; x=1779973239; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pO6x8dH77Fth79N5r1T9JUIJlEWo1Lrxw0QlFm833hg=;
-        b=TQClNk0CmoD1dJ3ZD+EktTNkfFCbDcSHom3n3lYSwXV72aXHPJ7HreWUFncTBYk//y
-         55ZgWT5KUuZq6NKl0rZGOs8OBUBu3zgsdWHNcqsnu0y8EYuDBe7O6SfiaIaJqC/oFk+7
-         bMmJcOz4pbGwZpJamg47dBjlBF/RDlcyfTGmy+KglmQtQOmXV9PEb5TYwXaaL2/o6Y+Y
-         zvNvGi8IsrLSZw54NrC18e+sYTJ96w07rvxdvI7t45+wjYgYscYUfGX5Hkkff1PfXb06
-         je0j6oekCWz2P+pRWVL1TWlpztEfRdxfpILLpeVTAkfZj8PXiTJOOWAA3hM68hKuJpM8
-         RQrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779368439; x=1779973239;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pO6x8dH77Fth79N5r1T9JUIJlEWo1Lrxw0QlFm833hg=;
-        b=WNprxMjW2F/JCWEX0LknX0BLBO/G8gsFQFfm3hEb1AJOELVkT7bBBUpm190+J/gYDY
-         NcH+X7qpXTGhyM7pPbza3kZztlTj3XIoRXYhFkKMY6CRcC2vQNtRgrrbK7CIIiobyXMM
-         vJ4bFTdAlDmXE42w1vQ4IJwAY5QHbg+RFWxJoBi6rTFDyEj7I24I1FnEtvgQwlKqdGBy
-         PxJfTtnmUh0HCvGeTN5dkqJXbsU0DkU7n3nf4hg5pHYFf+qKDt0iMwRl+oJyVuNWJWAQ
-         d+CIbn7IfdlB5chWz2Q4xB8NLWqWq++q7tKr+ZyQMFr8GvbWZ6gpK4sM7IKfTxPLynhy
-         lxYg==
-X-Gm-Message-State: AOJu0Yxljikf3PqwLc0qp2xRFaeT7gGzBtw6B8r1BdJod7et1s5eWyiQ
-	jAOsEimUgQiDe0ULJaF7GhqWnE8Otaxf6Q7YhH0B4nPiYO4OAV8cu+rDd2M4Lw==
-X-Gm-Gg: Acq92OFp+So9aeiEuoNkakfHspG6DxHWCmIb78/7xwCl6rqjBlN0+xNGef3OtcSJIm0
-	iwWVplC28UjnmkKk4tCvbb5OAj4Syib1zQLAWWP7jW3Sl8mFrCo9ppQyyJOhiulR3bQQAyWjDpm
-	3zKLcs9krgSOURe6kYaRERxjM1YbxHU48GRdbyCjoIJLypCk/1XcLo+4ZV0Uuv5VzTKxpYXmu5D
-	6KBhv1wpIn1ph9O0Glme57+xV8R+8uvqfBzvikgpwyfd4uYI0A5L6cdEQsBxI0oUcOXD7c5acqy
-	NAXkkSBdzNPVfEQcvC7gJsCYErz8JJSTH4I9tP8KUj06nJwahys8jV193fU5GzDgErYvlof8hvt
-	jhX7tgglMtzH04DhaHsiK7kyp1Gk+LNve9K+OJ6JUlqi6c8a8SGx+ttTFSqenhh30Edeyo0dHe/
-	w2+RsGJ1UsJy5r+ncm8wMLU6OJlnc=
-X-Received: by 2002:a05:6a20:7484:b0:3a0:b812:3a84 with SMTP id adf61e73a8af0-3b308530a6bmr1862508637.1.1779368439012;
-        Thu, 21 May 2026 06:00:39 -0700 (PDT)
-Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c851993d8a7sm284340a12.27.2026.05.21.06.00.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 06:00:38 -0700 (PDT)
-From: DaeMyung Kang <charsyam@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j4CDviTd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 664AA1F00A3C;
+	Thu, 21 May 2026 13:33:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779370406;
+	bh=ezV5ICAM2va0jVjd8iAniGdLxBSb69xxnF1gv2JwpSY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=j4CDviTd6M6LDTj5r6sQRqgJ6ESa9aWMu37zRV8mtOcXrJiE1zLL6x/OVHUw7taNB
+	 jl6ETIYiu8JAkRBqc4Wuv2aB534ln8Hu69MX1fb2GFClu2Mmurr/zb532bCHmICyRT
+	 bW4gGDuRH21kbO4Mt3QzAC1BgrPy+si2Rjb35ZfN4nboZAY9y9toARiousj3e/bp3M
+	 OhVS9wgD8OvUpe6jIOQ+pq818okRHEEM5Lah2/H+GkNEe7+pCkBUV/HEs3jXEYS4f4
+	 MtCRjjIGdmkPubfqUsmmCsve0nsahQ5jfKPmPGh0P3LHoWU280OP0E1I4NEEZgAN1h
+	 MDV3MyE2qhaxQ==
+From: Kees Cook <kees@kernel.org>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	stable@vger.kernel.org,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Corey Minyard <corey@minyard.net>,
+	Gabriel Somlo <somlo@cmu.edu>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Jason Baron <jbaron@akamai.com>,
+	Jim Cromie <jim.cromie@gmail.com>,
+	Tiwei Bie <tiwei.btw@antgroup.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"David E. Box" <david.e.box@linux.intel.com>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	John Johansen <john.johansen@canonical.com>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Georgia Garcia <georgia.garcia@canonical.com>,
+	kvm@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	apparmor@lists.ubuntu.com,
+	linux-security-module@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-acpi@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	qemu-devel@nongnu.org,
+	intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	virtualization@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v3 3/3] ntfs: only alias volume $UpCase to default on exact match
-Date: Thu, 21 May 2026 22:00:17 +0900
-Message-ID: <20260521130017.713848-4-charsyam@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260521130017.713848-1-charsyam@gmail.com>
-References: <20260520170151.4115308-1-charsyam@gmail.com>
- <20260521130017.713848-1-charsyam@gmail.com>
+	linux-arch@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH 01/11] params: bound array element output to the caller's page buffer
+Date: Thu, 21 May 2026 06:33:14 -0700
+Message-Id: <20260521133326.2465264-1-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260521133315.work.845-kees@kernel.org>
+References: <20260521133315.work.845-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2143; i=kees@kernel.org; h=from:subject; bh=3eO38ZdE0rbljlF5l/QfEOapKDQ3GxlJmKbxHXugskI=; b=owGbwMvMwCVmps19z/KJym7G02pJDFn8nAtqmS7cf3B//69jZ5rrq6va9p3fNOGM7h2Jd74Pn JTCV6u3dZSyMIhxMciKKbIE2bnHuXi8bQ93n6sIM4eVCWQIAxenAEzEYiojw//ne8uu9YZ9+sWp mJ7czDyrP2Afv+2f21+/99yL9Jp+OI2RYVNeQ9witS6BzPe55aerW/eveRmS81ixc8XMVftPpj7 OZQAA
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-load_and_init_upcase() currently aliases vol->upcase to the global
-default upcase whenever the shared prefix matches, and then truncates
-vol->upcase_len to that shorter prefix.  The result is correct only by
-accident: upcase[] accesses in name collation are gated by upcase_len,
-so the prefix-equality alias produces the same fold output as keeping
-the volume's own shorter table.
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-Still, prefix equality is not equality: the volume table is logically
-distinct from the default and should not be replaced by it unless they
-are byte-for-byte identical.  Use memcmp() to compare the complete table
-in one expression and drop the now-redundant upcase_len rewrite.
+param_array_get() appends each element's string representation into the
+shared sysfs page buffer by passing buffer + off to the element getter.
 
-No user-visible change is expected for compliant volumes whose $UpCase
-has exactly default_upcase_len entries; shorter volume tables are no
-longer aliased to the default.
+That works for getters that only write a small bounded string, but
+param_get_charp() and similar helpers format against PAGE_SIZE from the
+pointer they receive. Once off is non-zero, an element getter can
+therefore write past the end of the original sysfs page buffer.
 
-Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+Collect each element into a temporary PAGE_SIZE buffer first and then
+copy only the remaining space into the caller's page buffer.
+
+Cc: stable@vger.kernel.org
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Signed-off-by: Kees Cook <kees@kernel.org>
 ---
- fs/ntfs/super.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ kernel/params.c | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index d2c4fb6ea0d4..876e978370ba 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -1323,7 +1323,6 @@ static bool load_and_init_upcase(struct ntfs_volume *vol)
- 	u8 *addr;
- 	pgoff_t index, max_index;
- 	unsigned int size;
--	int i, max;
+diff --git a/kernel/params.c b/kernel/params.c
+index 74d620bc2521..752721922a15 100644
+--- a/kernel/params.c
++++ b/kernel/params.c
+@@ -475,22 +475,36 @@ static int param_array_set(const char *val, const struct kernel_param *kp)
+ static int param_array_get(char *buffer, const struct kernel_param *kp)
+ {
+ 	int i, off, ret;
++	char *elem_buf;
+ 	const struct kparam_array *arr = kp->arr;
+ 	struct kernel_param p = *kp;
  
- 	ntfs_debug("Entering.");
- 	/* Read upcase table and setup vol->upcase and vol->upcase_len. */
-@@ -1374,16 +1373,11 @@ static bool load_and_init_upcase(struct ntfs_volume *vol)
- 		mutex_unlock(&ntfs_lock);
- 		return true;
++	elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);
++	if (!elem_buf)
++		return -ENOMEM;
++
+ 	for (i = off = 0; i < (arr->num ? *arr->num : arr->max); i++) {
+-		/* Replace \n with comma */
+-		if (i)
+-			buffer[off - 1] = ',';
+ 		p.arg = arr->elem + arr->elemsize * i;
+ 		check_kparam_locked(p.mod);
+-		ret = arr->ops->get(buffer + off, &p);
++		ret = arr->ops->get(elem_buf, &p);
+ 		if (ret < 0)
+-			return ret;
++			goto out;
++		ret = min(ret, (int)(PAGE_SIZE - 1 - off));
++		if (!ret)
++			break;
++		/* Replace the previous element's trailing newline with a comma. */
++		if (i)
++			buffer[off - 1] = ',';
++		memcpy(buffer + off, elem_buf, ret);
+ 		off += ret;
++		if (off == PAGE_SIZE - 1)
++			break;
  	}
--	max = default_upcase_len;
--	if (max > vol->upcase_len)
--		max = vol->upcase_len;
--	for (i = 0; i < max; i++)
--		if (vol->upcase[i] != default_upcase[i])
--			break;
--	if (i == max) {
-+	if (default_upcase_len == vol->upcase_len &&
-+	    !memcmp(vol->upcase, default_upcase,
-+		    default_upcase_len * sizeof(*default_upcase))) {
- 		kvfree(vol->upcase);
- 		vol->upcase = default_upcase;
--		vol->upcase_len = max;
- 		ntfs_nr_upcase_users++;
- 		mutex_unlock(&ntfs_lock);
- 		ntfs_debug("Volume specified $UpCase matches default. Using default.");
+ 	buffer[off] = '\0';
+-	return off;
++	ret = off;
++out:
++	kfree(elem_buf);
++	return ret;
+ }
+ 
+ static void param_array_free(void *arg)
 -- 
-2.43.0
+2.34.1
 
