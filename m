@@ -1,74 +1,75 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3902989B0
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 13:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C853D6CA5
+	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 13:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779368425; cv=none; b=FnyTcn7Ek1xfRdIKVFv7cJkuHrv4DIbD0PUBABM/Ql5XxVyv64gL9hZY4J/fc0ruuyMdjlKCVkg4BnLacS8jlAlBKgTmJ3NGEzoBkOM/21lVRoFbPY2W+dwti1z+b7IN/Wa0Q+f/9Jpqf0pm7oXCeZdiYSC01RnGgQWj6j0MNb4=
+	t=1779368428; cv=none; b=hUze7FAeb0SfI1f/eaPMt30PkoccFv5XdRXRGc1mZ5J4JEAlYNxT9DR3MeWK0pIxan1p/qBcbABr9vDKLqtY12NgHt2LW0IcWqFL17+FsWyvCj42VkrDryAvBkS2Xj4o6nOpFAWGnrKbb/BLjZaJQLcKRARvDnhGFghHd8QTj5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779368425; c=relaxed/simple;
-	bh=LhD75nHZEknel0Wtc1hUU+oGbQEDH64D5mahZjdeVZk=;
+	s=arc-20240116; t=1779368428; c=relaxed/simple;
+	bh=akiy8XbXXAmzoEjb5CTW4EvpRBclQq/yv9STTM4bqds=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G3v8iBKC6NoURSMcx6XD0q6XnLRgyV4E0K8o/VQllqGM2D2BUIxdeG0D1Onbjgm3yd/XNBMBxvH3Jwy+hAhv5SH/VkwKRwbDNGwXvG3QqDg2zThUlT60Hf8uhqE6RgGRxJ42FtFWWBVcicujAskD0L1/3XMkJYEjLVXNTEoqB4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oxozSqQn; arc=none smtp.client-ip=209.85.210.173
+	 MIME-Version; b=LSHotb1fV7bcS51a73iS2WGytZy7ZjWpUmw/24sQEkrsmkqTLm0R3A/TfGmyjZHLMzBfK10zEibYFph1l18Kj6EBIDDTQc3KAQc7JJmw0oiysTCnJP5lTFUHoOvS8p/eRwTMaAJ9xOREVkyh1ttIqyPKYcNriznaOGtAeL/dF8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YUWcenCm; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oxozSqQn"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-83f8f377876so407552b3a.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 06:00:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YUWcenCm"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c826abde7d6so464467a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 06:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779368423; x=1779973223; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779368426; x=1779973226; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jysZaOsjDwX5f/p00tbuFB9BJf63zxKVw0gwxzAqdmk=;
-        b=oxozSqQn/xaOisMzPFUVLhV+6saSCo7xO1ZHCcvDAgWT09NU1//aMPuFGAe3bKpXSR
-         ikpRz2NGqTITeZeyTn/Z1bnc0q9erFeeo6XpEYV3XTdlMdUY5ZYNNcZ99NMGQKYMiDdP
-         hWEdlHbkTMz7MWZumZDYXIYamgqUGE42TUc7lDhq1OLu8CtfI3E7R5kDkIMf6DhDKKqD
-         OyysgoKoJA79yYBGswgmdRM2Yntx9uSZO50B9bl7/FwmIfyjmeTHp3wsmQGsusOfF3e2
-         i4d4GzI735RQMIF/kCD/XEa8HCZL3LwXzDIs8T1kRiJiSWl8781QHOI+DfHiuK3nTOQD
-         4vKg==
+        bh=IZYoe5azvMeyE1oweizu90sYcZTKsPgj4BdyeNWmQpc=;
+        b=YUWcenCm7I1RyO25qeVbe/xBMFq212XlxCxdtws6MInIi+GDiMznJcqVf9C/AjpWfa
+         iTi/h0YOUv/h04hSYVbeeQFVWahpOzcSluzmr0QQn2Mi7oUvPO1DygaqH+Fs/QWKHz9u
+         I4aBoXjTOc9U+n95NfOXYylMcgKo3meO1iBCTQLhNNQd3Gjtkdgjohuz4HwXDCAs4Miu
+         aX7y1a1q3M7cMEh0crr2zbMezS+9Yb8JCRTwx6ztBXLIquTpf2fH15I+KChUT4wylnb4
+         thGyh62PYZ3GcLrtsQ9zE9AtRiUNc/FAauMYwVhO/e9CZXgqj2Ons0qJojj8LfU9ls6Y
+         /ugw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779368423; x=1779973223;
+        d=1e100.net; s=20251104; t=1779368426; x=1779973226;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=jysZaOsjDwX5f/p00tbuFB9BJf63zxKVw0gwxzAqdmk=;
-        b=EsUyqmJldzCtvLJNFrQXNcX882kk6SdY82f9ckaiqODvznG8LFJjpKAnO3423rXXaR
-         811Ad4VkI7fA42mry+FtiRLAIMybQEXupC/qQdTVOnwDMx4f8T/Qvuwt/B7wx4eXEkkM
-         76pFSmEppLfpjZEs17s/8u0sw9CAeDgTdjpJKju9a/UL/rYTmhwY/L9oUaX2oG9bCpt7
-         MDZ9d9GENFCqqnnJ/TIeDKWPk6M+CVTZ6SK/PswxH5uZJhe5y31aI4FL7fVkrSTrkan1
-         n6RbTq45TwRlZiZvf5oBDBs2CH0lWToaCvuYcMVTs7Xx3wMng+EmSsMrQgM/x+1eUkCH
-         /L2w==
-X-Gm-Message-State: AOJu0Yz/GgsJJ2BranCCZHb9Ho7jKdJ/onA1+GYgX9CB8KjHKAxTLaE+
-	T6GJGt+VtATNxUpAABcV9q1Be0pu0rOMuaTiu7lUY2zwnmikW4WwE4ew
-X-Gm-Gg: Acq92OF0wypTFOJd4QUolV4BCgwHGl92WBHgJcLZaKC24uouSlD+VArDlBGnOrfn2Q4
-	PR93O93fPxNMgwUkcNcawicmV5TQNsD1YsyBoxcbQKyL4e61M7c8pgds56WefEnP6OHJaeE7HIZ
-	9IJIyZLH2TKHzpmxOPoyL9V3vIZvbzlByIcTxA+f+9UFCtR0sFoBP0HAsGWyTLeDluifxPNurRv
-	/Fpmux6xacPlvY9+YACQrfIDwAA9RIKNrZ46Mb82keOu5YXv6pbk8qXN7N1s+QQxNAOSWkJYPiH
-	1Vj+wqFWDGvyhOtm9saNyu3ZpKesqYfnF4dsXPW9mPGvlBtYDB05r3dpZ4ar4SfFHcMEUfAg3gI
-	O1thmO/ElpVOougJKQjl9zcMkHYGkMXW+wrjn5QObALmBfY7YR7AAq5Zdv95NYiDrFB9Q+u2TFF
-	o497++mBDshbIDblky+A+qZNpupRM=
-X-Received: by 2002:a05:6a20:2448:b0:39e:df5e:edc2 with SMTP id adf61e73a8af0-3b308702bc7mr1814981637.2.1779368422903;
-        Thu, 21 May 2026 06:00:22 -0700 (PDT)
+        bh=IZYoe5azvMeyE1oweizu90sYcZTKsPgj4BdyeNWmQpc=;
+        b=aWorAzNHnyn0bKkQSsOXVXZFEr7jn6wOZPn2AhwljQQB8TjzkAtyQ8Fuhjb8U95M+G
+         ZM4uCkPOo7JS2XSujJ/bbekFs8ooL3Ly+CeV/kIVrH9DnQFRlvvcb4zMp9AtLCwQkQ+t
+         /1FiofFqC3m6AlCgFF1+LjdihgzMRXYbUxekoiIHsykQaVcDY+mdA60GLvAtjpzgZkl3
+         Q79pXkUT84Rw2E20zS8K1JsHGmTDbQf2N1lC2h/jtAYPGd1pvSEMEBuVCjY4uNSEPw3c
+         PYfkS09hOHrs4GOLBgFuTB6m9oDaI7q37cv3qbj6FbkAHdtU1zkxowlwgYmxrFPS2/Di
+         kjag==
+X-Gm-Message-State: AOJu0YxTxt5bqwrWSW/nBjKuD+OFgmhPzblOof/YzR1Jm0YhC9f0wnO2
+	4d3aKnAWIJuAuUDh3r/7DUWc8dSZqRW8tYHcoHbMpmuwk1SWKKIM92ug
+X-Gm-Gg: Acq92OFXlwIiKWqBYLRknKy5pB89TYTiUlbgGYHU+KoKN5QQc97IgWlXLIncQadiPTS
+	sR6gk5TBxoPbnSmn95bHQvXrsBIhJPjszhHPr0T4UoWYBGMMGHI6SxvOEDKMv4EB/VOr6x5nCmu
+	M4N06S3skrb81E1QH3+rQ128JiOioOxifJL4ujpaPBU3LrF/r1Sa7NgweefORMCS4Lm2W6zkBiV
+	u26vC8T149p1b5OTpCR2YvWSNDw6Vf+yFw02uDghjnQ77Q5TBBKcfaSK+utIxn72ZEX9CuEYrrd
+	Oi4dbmc4wQp697rXZtml70OQy08kr7yznKs4YU+LymAcVMEN8qEN2lZdKJYWgrsNx+VVXHKDhr6
+	P4ULEAvA3kyLSebuG+JMZJK0XepvdEZ2UA1iflDOC58yIvEagQrt5KXN7pim3+W6eKpWOUsMyzP
+	A2oES07ROm4fHARtE1
+X-Received: by 2002:a05:6a21:4c03:b0:3a1:6a7c:dba5 with SMTP id adf61e73a8af0-3b308789ba5mr1883422637.6.1779368426032;
+        Thu, 21 May 2026 06:00:26 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c851993d8a7sm284340a12.27.2026.05.21.06.00.21
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c851993d8a7sm284340a12.27.2026.05.21.06.00.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 06:00:22 -0700 (PDT)
+        Thu, 21 May 2026 06:00:25 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v3 0/3] ntfs: fix mount failure cleanup and free-count setup
-Date: Thu, 21 May 2026 22:00:14 +0900
-Message-ID: <20260521130017.713848-1-charsyam@gmail.com>
+Subject: [PATCH v3 1/3] ntfs: free volume-wide resources on fill_super failure
+Date: Thu, 21 May 2026 22:00:15 +0900
+Message-ID: <20260521130017.713848-2-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260520170151.4115308-1-charsyam@gmail.com>
+In-Reply-To: <20260521130017.713848-1-charsyam@gmail.com>
 References: <20260520170151.4115308-1-charsyam@gmail.com>
+ <20260521130017.713848-1-charsyam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -77,55 +78,68 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Namjae,
+ntfs_fill_super()'s err_out_now path frees only the volume struct via
+kfree(vol), leaving several vol-owned allocations behind on every mount
+failure:
 
-This v3 is based on current mainline at 8bc67e4db64a.  The patches
-modify fs/ntfs/super.c in the Linux kernel tree.
+  - vol->nls_map, loaded by ntfs_init_fs_context() via
+    load_nls_default() (or replaced by an explicit nls= option in
+    ntfs_parse_param()), is never unload_nls()'d.
 
-The fixes cover mount failure cleanup, a free-cluster precalc allocation
-failure path that can otherwise leave waiters blocked forever, and the
-$UpCase default-table alias check.  Per review, the free-cluster patch
-now avoids the temporary file_ra_state heap allocation entirely by using
-a stack variable for the synchronous bitmap scan.
+  - vol->volume_label, allocated by load_system_files() through
+    ntfs_ucstonls() once the $Volume name attribute has been parsed, is
+    not released by load_system_files()'s own error labels nor by the
+    fill_super() inline cleanup that only runs on d_make_root()
+    failure.  Any later failure inside load_system_files() leaks it.
 
-Testing:
-- Built fs/ntfs/super.o and fs/ntfs/ntfs.ko with gcc 13.3.0.
-- For patch 1, I built a DEBUG_KMEMLEAK/DEBUG_FS kernel and injected an
-  ntfs_fill_super() failure immediately after load_system_files().  Before
-  the fix, kmemleak reported the leaked volume label allocated from
-  ntfs_ucstonls(); after the fix, the same failure path produced no
-  kmemleak report.
-- For patch 2, I used QEMU with a debug injection that forces the initial
-  precalc readahead-state allocation to fail.  Before the fix, statfs
-  remained blocked in D state in ntfs_statfs().  This version removes
-  that heap allocation and therefore removes the injected failure point.
-  I also mounted a fresh NTFS image with the stack-backed state and
-  verified statfs reported the same free count as ntfsinfo -m.
+  - vol->lcn_empty_bits_per_page was kvfree()'d in
+    unl_upcase_iput_tmp_ino_err_out_now without clearing the pointer,
+    so it could not be folded into a single common cleanup.
 
-Changes since v2:
-- Changed patch 2's on-stack file_ra_state initializer from the empty
-  initializer to { 0 } to avoid build failures with stricter compilers.
-- Re-tested patch 2 alone and patches 1-2 on a clean mainline tree.
+Because the failure paths never call ntfs_volume_free() and never reach
+the d_make_root() inline cleanup block (it sits above the label and is
+jumped over by the load_system_files() / kvmalloc failure gotos), these
+resources accumulate per failed mount attempt with no chance of
+recovery short of unloading the module.  This is a silent leak: the
+inodes loaded prior to failure remain hashed but generic_shutdown_super()
+skips evict_inodes() when sb->s_root is unset, so no CHECK_DATA_CORRUPTION
+warning is emitted either.
 
-Changes since v1:
-- Rebased and regenerated the series for the Linux kernel tree
-  (fs/ntfs/super.c), instead of the Github out-of-tree layout.
-- Changed patch 2 to declare the temporary file_ra_state on the stack,
-  as suggested by Hyunchul Lee, instead of adding an OOM fallback path.
-- Zero-initialized patch 2's on-stack file_ra_state because
-  file_ra_state_init() only initializes ra_pages and prev_pos.
-- Reworded patch 3 to avoid overstating user-visible name comparison
-  effects, and used memcmp() for the exact $UpCase table comparison.
+Move the per-volume frees down to err_out_now and drop the
+lcn_empty_bits_per_page kvfree() from the upper label so the cleanup is
+performed exactly once on every failure path.  Using unconditional
+kvfree() / kfree() / unload_nls() is safe because they all accept NULL
+and the upper labels that previously freed nls_map (the d_make_root()
+inline cleanup) already clear the pointer.
 
-DaeMyung Kang (3):
-  ntfs: free volume-wide resources on fill_super failure
-  ntfs: avoid heap allocation for free-cluster readahead state
-  ntfs: only alias volume $UpCase to default on exact match
+Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+---
+ fs/ntfs/super.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- fs/ntfs/super.c | 28 +++++++++-------------------
- 1 file changed, 9 insertions(+), 19 deletions(-)
-
-
-base-commit: 8bc67e4db64aa72732c474b44ea8622062c903f0
+diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+index 9e321cc2febe..7e3561265b47 100644
+--- a/fs/ntfs/super.c
++++ b/fs/ntfs/super.c
+@@ -2530,8 +2530,6 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	}
+ 	/* Error exit code path. */
+ unl_upcase_iput_tmp_ino_err_out_now:
+-	if (vol->lcn_empty_bits_per_page)
+-		kvfree(vol->lcn_empty_bits_per_page);
+ 	/*
+ 	 * Decrease the number of upcase users and destroy the global default
+ 	 * upcase table if necessary.
+@@ -2551,6 +2549,9 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	/* Errors at this stage are irrelevant. */
+ err_out_now:
+ 	sb->s_fs_info = NULL;
++	kvfree(vol->lcn_empty_bits_per_page);
++	kfree(vol->volume_label);
++	unload_nls(vol->nls_map);
+ 	kfree(vol);
+ 	ntfs_debug("Failed, returning -EINVAL.");
+ 	lockdep_on();
 -- 
 2.43.0
+
