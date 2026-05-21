@@ -1,132 +1,198 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE983D75B6
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 13:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9E834CDD;
+	Thu, 21 May 2026 14:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779371978; cv=none; b=HyNoxc6Bn+fhOtA9/awy0qtuwUR0fN4/7x40O9rZtZLm2b6WEv1/Qx7Eoqv4f/GP833Qf0Yh3ZkTFgGYrX3XzBJwdHs+Jql+ogZmaTatlULzob5zkc/YiQy0HL27JLc1/W/8mGXMj70gVjQvT7QY3dYE3YcggetdA0VFRnNCDzc=
+	t=1779373495; cv=none; b=fUdxVdlunfzuZlo2j8cK/V3TEzaz9zxIQMPbT2+9oaxn3Dk7fYjwpePtUPCoebg5v97J+XEEVBd2bzryzXG/chMFPLe6cCPFdo7ev5Wuphe6ojIc8h4C5F40dBlJMsrJZqiEteBoKX181OZqnfznNVM5ApUHpN/ZVnJNrXHomSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779371978; c=relaxed/simple;
-	bh=h+4NVJo3wpAjspHwkhwsyzZn+zEl2CEEOehXzRGNdBY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=EoxfIGRzz36W2jApkK06MMxYSNbnEQzDLGpPHFCS438yPnrljADBHpIcBMDT0Nnvh++rKIWmMtkSX2JoIW1Tu0jEyC0z5YHyfaMGRtxXF8Tlju6lYbXFHBe/c1QM8vgRO8AlaZHuc4fOu2QfubS6Tmw0NNa29hAe+HlJlv+mk5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jodHEZLM; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1779373495; c=relaxed/simple;
+	bh=Yx9cz7eVx4G5yzulKSEt1dZN2OSSxEpuZLKqPmDLvaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eI1mcM/Fp0kB4jo32MMJQ4KejMTQfOxFY75gWdhxDnzXjA2mJgp32nAYqYzjhWUz58RzI1wPu22PVIm7g6a70pTeovF1yTUCVgaeDawy0ASL6YXr8taTbvx+W6rqN2TixoCZ67sM2sbCtrtGzHlrw3j8swM1vCenLC2XEJjC6yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTQmjD4K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jodHEZLM"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c709551ec08so9438516a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 06:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779371975; x=1779976775; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tqeEG6FXEKElqAGUt/Z2qfbIbuB++N7b4Fh1Zt6D5dk=;
-        b=jodHEZLMnrXvcr0U+8aiQ3+8HMthO764B3RtgzEf+7ztkCNfkmkIlQBTfUmc0CO1Gm
-         znKHCX5+9bAECaG80vh/IPP806tKIqZE2l7HZLe1YU0HCE1c+TVzdByotFkWkoU+YEws
-         qLgdufxQuD2gsyG2s9NK2v18HBYBS1w+SMsS+Qi6jr0LEmhA4R7O7tZpYus8VaPMyFeG
-         15VYXBj+eYi7/OswJ5AioWab2qhZVYFRjyf4SpApvc+UkSyiNxbsaWg55EmuzRTPh+T9
-         X183BhHSUrQrVCzdTIOykwkJ84D445JXsSdEAvmO37Cr/WfIjw3mclOhGc8OX4c80G1x
-         Di8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779371975; x=1779976775;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tqeEG6FXEKElqAGUt/Z2qfbIbuB++N7b4Fh1Zt6D5dk=;
-        b=cW32UAA+jhLNlhRlrDar+aNAwMfFUdbKhdMZH9v3mid8BT5ZUbthBX2imUrr8Hjfhe
-         72wLGVVex1Vuaz09bzoEW3ySkJbAoXiPiZbLR3atP+zpevtLpdA3UCps51bIf2u2fSTA
-         afoyJcjssXmVQCAPZsMFuB/SRXpvsgC4gdn6945ULe0bIlQcytcSBNgO4tbidL8Hsi+E
-         L0q8EKkicdk5KqcHmZ7M7ihMJICX3o7REsd+hxOzGkP6eMbn4qUp8iAIweRcn7TwuOuU
-         XM8FlQpupUuWVqYWjfrIAYrj3fnx9j0paUiSdgJkBxggmbOiDUv65yj5DzkYERZP13Fk
-         do8w==
-X-Forwarded-Encrypted: i=1; AFNElJ+YbtDBe6wGKiqO3PZRgwXLJsBV7Hj9ph7YWwQ3/su4YKeAXkduEYvZKr5aBgqJSPaJPal/REmnQmstMAbE@vger.kernel.org
-X-Gm-Message-State: AOJu0YyObUoGZkizbtlihLM6DDdyCMMCmmcnctwqEwpi08W5B6HvRWTf
-	70BOGURhFa3n1T+U6cVOu88qc8CMQhXX7lNnXl268E5v5aspwgp+BlwoSnxqA97CBh3EVCakJMf
-	pBqrC0Q==
-X-Received: from pge1.prod.google.com ([2002:a05:6a02:2d01:b0:c79:83b3:cdf8])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:431a:b0:39c:a78e:dba9
- with SMTP id adf61e73a8af0-3b308ac1b14mr3725831637.40.1779371973881; Thu, 21
- May 2026 06:59:33 -0700 (PDT)
-Date: Thu, 21 May 2026 06:59:33 -0700
-In-Reply-To: <20260521133326.2465264-4-kees@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTQmjD4K"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 38B051F000E9;
+	Thu, 21 May 2026 14:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779373494;
+	bh=2nIcEpRj9qm69QCEM/16j+LMdKfA7oxGAEiJD8SoYnc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cTQmjD4KXgt6k8rICveQBgR29OChQVEzhDLFJhTBQGmUCcOXhiQ9cJsalEcsFXJUB
+	 dhNI94XIUvMLErO9nytDCpP/4+oKokE+ctlM3/Yka4beCPUPgsKPeEP450ezgHyQT8
+	 c90p4TtO16ffeLHeNs3P8IBz6I7Q17JkJgcU4pYYeq1tWrKvSFZwVwXoU7CQqL7jIJ
+	 uA+E1lIG/ExhdkdUo3QIagIVrLkI17C4IRfBBy8H4SgNBU5pNnfyRPUJ6UUZHH0WFn
+	 eQFnq+SpcJ3DyCwsigiqF0fpeAzrGMqEcVrBLDbP70WD0sS+YGDMxft/xs5b+PUx8e
+	 w9XWny07aa6HA==
+Date: Thu, 21 May 2026 07:24:53 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: joannelkoong@gmail.com, neal@gompa.dev, miklos@szeredi.hu,
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 1/4] fuse: use fuse_args in try_service_main instead of
+ opencoding it
+Message-ID: <20260521142453.GN9568@frogsfrogsfrogs>
+References: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
+ <177933241466.3536631.2548927904330465445.stgit@frogsfrogsfrogs>
+ <567436e2-46d2-4e23-9647-b9af9670a4ea@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260521133315.work.845-kees@kernel.org> <20260521133326.2465264-4-kees@kernel.org>
-Message-ID: <ag8PxTTi5NxT51EW@google.com>
-Subject: Re: [PATCH 04/11] treewide: Convert struct kernel_param_ops
- initializers to DEFINE_KERNEL_PARAM_OPS
-From: Sean Christopherson <seanjc@google.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Pengpeng Hou <pengpeng@iscas.ac.cn>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Corey Minyard <corey@minyard.net>, 
-	Gabriel Somlo <somlo@cmu.edu>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Hannes Reinecke <hare@suse.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	"Eugenio =?utf-8?B?UMOpcmV6?=" <eperezma@redhat.com>, Jason Baron <jbaron@akamai.com>, 
-	Jim Cromie <jim.cromie@gmail.com>, Tiwei Bie <tiwei.btw@antgroup.com>, 
-	Benjamin Berg <benjamin.berg@intel.com>, 
-	"Ilpo =?utf-8?B?SsOkcnZpbmVu?=" <ilpo.jarvinen@linux.intel.com>, 
-	"David E. Box" <david.e.box@linux.intel.com>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-modules@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-um@lists.infradead.org, 
-	linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
-	qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org, 
-	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, 
-	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <567436e2-46d2-4e23-9647-b9af9670a4ea@bsbernd.com>
 
-On Thu, May 21, 2026, Kees Cook wrote:
-> Using Coccinelle, rewrite every struct kernel_param_ops initializer that
-> sets .get into a DEFINE_KERNEL_PARAM_OPS-family macro invocation,
-> for example:
+On Thu, May 21, 2026 at 10:40:11AM +0200, Bernd Schubert wrote:
 > 
-> @@
-> declarer name DEFINE_KERNEL_PARAM_OPS;
-> identifier OPS;
-> expression SET, GET;
-> @@
-> - const struct kernel_param_ops OPS = {
-> -       .set = SET,
-> -       .get = GET,
-> - };
-> + DEFINE_KERNEL_PARAM_OPS(OPS, SET, GET);
+> 
+> On 5/21/26 05:06, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> > 
+> > Don't open-code the argument array, just use the existing helpers.
+> > 
+> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> > ---
+> >  util/mount.fuse.c |   71 +++++++++++++++++++++++++----------------------------
+> >  1 file changed, 34 insertions(+), 37 deletions(-)
+> > 
+> > 
+> > diff --git a/util/mount.fuse.c b/util/mount.fuse.c
+> > index 00b133e6234489..bbfd8355dc7f48 100644
+> > --- a/util/mount.fuse.c
+> > +++ b/util/mount.fuse.c
+> > @@ -286,12 +286,7 @@ static int mount_service_child(char **argv)
+> >  static int try_service_main(char *argv0, char *fstype, char *source,
+> >  			    const char *mountpoint, char *options)
+> >  {
+> > -	char **argv;
+> > -	char dash_o[] = "-o";
+> > -	char dash_t[] = "-t";
+> > -	char *mntpt;
+> > -	int argc = 5; /* argv[0], -t type, mountpoint, and trailing NULL */
+> > -	int i = 0;
+> > +	struct fuse_args args = FUSE_ARGS_INIT(0, NULL);
+> >  	int ret;
+> >  
+> >  	if (!mount_service_present(fstype))
+> > @@ -301,44 +296,46 @@ static int try_service_main(char *argv0, char *fstype, char *source,
+> >  	if (source && source[0] == 0)
+> >  		source = NULL;
+> >  
+> > -	mntpt = strdup(mountpoint);
+> > -	if (!mntpt) {
+> > -		perror("mountpoint allocation");
+> > -		return -1;
+> > +	ret = fuse_opt_add_arg(&args, argv0);
+> > +	if (ret)
+> > +		goto out;
+> > +
+> > +	if (source) {
+> > +		ret = fuse_opt_add_arg(&args, source);
+> > +		if (ret)
+> > +			goto out;
+> >  	}
+> >  
+> > -	if (source)
+> > -		argc++;
+> > -	if (options)
+> > -		argc += 2;
+> > +	ret = fuse_opt_add_arg(&args, mountpoint);
+> > +	if (ret)
+> > +		goto out;
+> >  
+> > -	argv = calloc(argc, sizeof(char *));
+> > -	if (!argv) {
+> > -		perror("argv allocation");
+> > -		free(mntpt);
+> > -		return -1;
+> > -	}
+> > +	ret = fuse_opt_add_arg(&args, "-t");
+> > +	if (ret)
+> > +		goto out;
+> > +
+> > +	ret = fuse_opt_add_arg(&args, fstype);
+> > +	if (ret)
+> > +		goto out;
+> >  
+> > -	argv[i++] = argv0;
+> > -	if (source)
+> > -		argv[i++] = source;
+> > -	argv[i++] = mntpt;
+> > -	argv[i++] = dash_t;
+> > -	argv[i++] = fstype;
+> >  	if (options) {
+> > -		argv[i++] = dash_o;
+> > -		argv[i++] = options;
+> > -	}
+> > -	argv[i] = 0;
+> > +		ret = fuse_opt_add_arg(&args, "-o");
+> > +		if (ret)
+> > +			goto out;
+> >  
+> > -	if (getuid() != 0) {
+> > -		ret = mount_service_child(argv);
+> > -	} else {
+> > -		/* We're root, just do the mount directly. */
+> > -		ret = mount_service_main(argc - 1, argv);
+> > +		ret = fuse_opt_add_arg(&args, options);
+> > +		if (ret)
+> > +			goto out;
+> >  	}
+> > -	free(argv);
+> > -	free(mntpt);
+> > +
+> > +	/* If we're root, just do the mount directly. */
+> > +	if (getuid() != 0)
+> > +		ret = mount_service_child(args.argv);
+> > +	else
+> > +		ret = mount_service_main(args.argc, args.argv);
+> > +
+> > +out:
+> > +	fuse_opt_free_args(&args);
+> >  	return ret;
+> >  }
+> >  #endif
+> > 
+> 
+> 
+> Thanks a lot much better!
+> I think we need something like
+> fuse_opt_add_arg(struct fuse_args *args, ...)
+> Easy enough to convert to that once libfuse has it.
 
-IMO, "OPS, GET, SET" is more intuitive, especially since that's the order used
-by DEFINE_SIMPLE_ATTRIBUTE and DEFINE_DEBUGFS_ATTRIBUTE.
+Oh, you mean like a va_args version of it?  Yeah, that would be useful,
+but iirc the va_args user has to know the length of the args array
+beforehand, and it's not so ergonomic to let people do:
+
+	fuse_opt_add_args(&args, 3, "-o", "monkeys");	/* oh no */
+
+There are some horrible cpp macro tricks you can play in C++20 to call
+fuse_add_opt_arg() recursively until you run out of arguments:
+
+#define PARENS ()
+
+#define FOR_EACH_HELPER(func, base, arg, ...) \
+  func(base, arg);                            \
+  __VA_OPT__(FOR_EACH_AGAIN PARENS (func, base, __VA_ARGS__))
+
+#define FOR_EACH_AGAIN() FOR_EACH_HELPER
+
+#define FOR_EACH(func, base, ...) \
+  __VA_OPT__(FOR_EACH_HELPER(func, base, __VA_ARGS__))
+
+#define fuse_opt_add_args(args, ...) \
+  FOR_EACH(fuse_opt_add_arg, args, __VA_ARGS__)
+
+But now that I've broken my brain I'm going to go do something else for
+a bit. ;)
+
+> Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+
+Thanks!
+
+--D
