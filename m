@@ -1,112 +1,91 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994F21FC7C5
-	for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 07:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A60E32F748;
+	Thu, 21 May 2026 07:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779347401; cv=none; b=XVZpkcg13T4ZvdekagildtCP5K9S3imOLR3sUN4JZ5njA+M82Xo1mdD5AC4S48n3OzmoNnguxorzwmcEP0smUmf/VjhfdBlptWI+dFplQxpgpZo/iHZ/A4g/MlgpSiNA+/3l3ehztDnieQ7JMEc0LSiix/J1xyrOAL5rQ+yq6gc=
+	t=1779349796; cv=none; b=WdwvdbMo9WYFi7rc99Z616EXO/CiOavSrKm9SnWMHgBV53zxwisXpRTbiONiMdKNJiQrV69Rh0eEsbzjN5Uq341PEwTQZtE1vUnA2/sRJf6Izz/gKy9fWzbWUBUeLzvC+5/du4SDi80JLmf9hLG1olfqJ4xHXwLPJDDgssE7vS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779347401; c=relaxed/simple;
-	bh=Zogt1jCIr4qEoO9km/Mm+1+Fn6o+4tqZwyDn4ARLzd0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dq2HW2La4Bgj11GOOoXT9tEc+HJoE5RYtkBouIA0dbx97najOXLjjnM32HnK5QwJ1t1zYvg2GDs7V8hwsyjtST2zOXZsk03yQX4u78RizRqz43jPQQRB21Upjo+/nf0NQmauIB7mpZS15kkp5CnQl4OwTaIIct9WbEczylse6eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=odRON+2I; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="odRON+2I"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43fe608cb92so3545423f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 00:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779347398; x=1779952198; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=q3/xpxUO6thsRAszOIsZ6+lXY5oUjTLCyWKPqe1vTLg=;
-        b=odRON+2IYVLpUCef8LWId8feSvulapM4W3Nn3xS4LhQFbfv7JXXsVw4lYlSRjXMQVa
-         +n0H+AIaDQd3Tb7U2xIhxpSTG1qGeOP7sEKZY4Fc9OehNFHMj+vDhu0aIMSFIJxLqvtv
-         3HzRQ/UmP2cOVLiTpT2RkFaVLaSGwRcs6bOjfPsc1FpPhf70+iicm1v+GLzd0BxphueS
-         OTFiUHPMuZKJ+RAwH3QgH0r30F4HF7q8ed/JE8FdsEiTPwnxniHitIC/6NzaFWNjhXPr
-         oyXYuNWkZz7VUr3GdyJCPjU3HjpESRwmtCgKcLhmz7LwenAdUsnAptikD2eKwEH5RpMy
-         9FtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779347398; x=1779952198;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q3/xpxUO6thsRAszOIsZ6+lXY5oUjTLCyWKPqe1vTLg=;
-        b=QKeM72p8IJ+KJGZC0vZa0eA6Hlpfrw9sDsFkg67EgFASqcISn8NnrR3WtgX0eYJiiB
-         BDduXcTaaiAbeHefKin6+cKFewi4Zcqlbp5Gi7JVIM64YVbneksl33p0G0pbKWESOXIo
-         Nh0PhsddT4i7NXLdqRGGGV8em+fgoPhEbaHJXd7teu5eshF33TJmPuIh7sKMAWxHevd9
-         nbvnI1bgcdjdXoKImsVe4Yzkjkgyi8UeCiAO5pI36Z08etABtUJqDRH5r5OiqFEo5Z8i
-         TgRvzRAJnox2hoPER6SV10X/5449W1/XnLkyMB3nB9M9k2h9AMxgzN0K4uwb++r+rEG/
-         s2Yg==
-X-Gm-Message-State: AOJu0YwA4ttm9tU0BEua9p1OjJxSRMbyPHKUvPxSTRkWPRhFZxDgUfMy
-	GQpVVxMUEii8Dnpp02Ji2RB8ERGkBvQ1g/uJbdDpTzY88ZTabMMQbMJBibMXRA==
-X-Gm-Gg: Acq92OEj8bmBfnqj8bxhjdx56HuVaPqYAS2qVRfV1G9X9c67vyVg7bCsK4szXkga5w7
-	jpmdqFQpCVP0bnRfsN3XYKE3lTrZt1oWigVw9ggwhGw6jvR7dhouocw73nYSFyjdy4Tu4/UWFK3
-	/1iX4me8DoPXLn3pX7UHcQmPPbkucT716rBtWqRaSnEUihHt43dQl6GeKRxTbYLmslWNvRGeOZ/
-	/dribQTY+1F9KPhlXi4ypGrsWH7Zmz3wgqszG5bdqBgAyvYP8CgzqIvISJ37uK+VO6MFVWSv7vs
-	0o9oRimrVrFFiQ+DEeeKqKDzIl5GLW8/98UwXjiL323Olnfao+Osip3HChe8dJLwgEklGsDsngC
-	gFWbhe07jSIBVwwg0TbUwNV5Sx44CzI13405G+MBXuPVWeJOlvCO5kGuFgaK/rbrtR2nNYM44Py
-	puiG33PY+VA9oyJyghFKojzYE=
-X-Received: by 2002:a05:6000:1ac7:b0:454:a41f:d082 with SMTP id ffacd0b85a97d-45ea3ae5fdfmr2355942f8f.3.1779347397866;
-        Thu, 21 May 2026 00:09:57 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa7cf58fsm850498f8f.3.2026.05.21.00.09.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 00:09:57 -0700 (PDT)
-Date: Thu, 21 May 2026 10:09:54 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: linux-fsdevel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Christian Brauner <brauner@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Subject: FOP_UNSIGNED_OFFSET abuse
-Message-ID: <ag6vwpcCBN_VC1dm@stanley.mountain>
+	s=arc-20240116; t=1779349796; c=relaxed/simple;
+	bh=PicYSaJ/qBBNG0nwnN5yBf7cuvcJTD9f+P4T2OeYfPM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F2CKEkr7UQmb9b8rkf8tAWjxuG8iHb/vQBC7Il/E4ygVpVawUdhwlIZVDGYD0WMkYrl9rWCOte055MNdGhQvvPd/B2yzrmllZDmMImsX6jSQobEtwq/0jXYmkZ71gFlZDZfkiCPNq4kBlGnGY8o2/BFdC6CU0SWUVKsty5iwUDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 9e46e66254e911f1aa26b74ffac11d73-20260521
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:c49ba0f4-8279-482d-b201-1e1a9eab771c,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:95a0b5a71b1439e7c2a113c3a87243ee,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 9e46e66254e911f1aa26b74ffac11d73-20260521
+X-User: zenghongling@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zenghongling@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1010667280; Thu, 21 May 2026 15:49:38 +0800
+From: Hongling Zeng <zenghongling@kylinos.cn>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	thomas.weissschuh@linutronix.de
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zhongling0719@126.com,
+	Hongling Zeng <zenghongling@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] fs: Fix lock leak in replace_fd()
+Date: Thu, 21 May 2026 15:49:34 +0800
+Message-Id: <20260521074934.49256-1-zenghongling@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Is there a point to FOP_UNSIGNED_OFFSET now that everyone is on 64bit?
-I thought the flag was for back in the day where we it was a huge deal
-to access 4GB instead of 2GB.
+In replace_fd(), the function acquires files->file_lock but then has
+two return paths that don't release the lock:
+- When do_dup2() fails (returns negative error)
+- When do_dup2() succeeds (returns 0)
 
-It's mostly used in DRM.  drm_open_helper() forces you to set the flag
-but drm_read() ignores the offset so I don't understand the point of
-this.
+Both of these paths return directly without unlocking files->file_lock,
+causing a lock leak and potential deadlock.
 
-regards,
-dan carpenter
+Fix this by making both error and success paths go through the
+out_unlock label to ensure the lock is always released.
 
-$ git grep FOP_UNSIGNED_OFFSET
-drivers/accel/amdxdna/amdxdna_pci_drv.c:        .fop_flags      = FOP_UNSIGNED_OFFSET,
-drivers/char/adi.c:     .fop_flags      = FOP_UNSIGNED_OFFSET,
-drivers/char/mem.c:     .fop_flags      = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/adp/adp_drv.c:  .fop_flags      = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:        .fop_flags = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/drm_file.c:     if (WARN_ON_ONCE(!(filp->f_op->fop_flags & FOP_UNSIGNED_OFFSET)))
-drivers/gpu/drm/gma500/psb_drv.c:       .fop_flags = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/i915/i915_driver.c:     .fop_flags = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/nouveau/nouveau_drm.c:  .fop_flags = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/panthor/panthor_drv.c:  .fop_flags = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/radeon/radeon_drv.c:    .fop_flags = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/tegra/drm.c:    .fop_flags = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:    .fop_flags = FOP_UNSIGNED_OFFSET,
-drivers/gpu/drm/xe/xe_device.c: .fop_flags = FOP_UNSIGNED_OFFSET,
-fs/proc/base.c: if (WARN_ON_ONCE(!(file->f_op->fop_flags & FOP_UNSIGNED_OFFSET)))
-fs/proc/base.c: .fop_flags      = FOP_UNSIGNED_OFFSET,
-fs/read_write.c:        return file->f_op->fop_flags & FOP_UNSIGNED_OFFSET;
-include/drm/drm_accel.h:        .fop_flags      = FOP_UNSIGNED_OFFSET
-include/drm/drm_gem.h:  .fop_flags      = FOP_UNSIGNED_OFFSET
-include/drm/drm_gem_dma_helper.h:               .fop_flags = FOP_UNSIGNED_OFFSET, \
-include/linux/fs.h:#define FOP_UNSIGNED_OFFSET  ((__force fop_flags_t)(1 << 5))
-mm/mmap.c:      if (file->f_op->fop_flags & FOP_UNSIGNED_OFFSET)
-rust/bindings/bindings_helper.h:const fop_flags_t RUST_CONST_HELPER_FOP_UNSIGNED_OFFSET = FOP_UNSIGNED_OFFSET;
-rust/kernel/drm/gem/mod.rs:    fops.fop_flags = bindings::FOP_UNSIGNED_OFFSET;
+Fixes: 708c04a5c2b7 ("fs: always return zero on success from replace_fd()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+---
+ fs/file.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/fs/file.c b/fs/file.c
+index 2c81c0b162d0..d0f019fb0568 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -1361,8 +1361,7 @@ int replace_fd(unsigned fd, struct file *file, unsigned flags)
+ 		goto out_unlock;
+ 	err = do_dup2(files, file, fd, flags);
+ 	if (err < 0)
+-		return err;
+-	return 0;
++		goto out_unlock;
+ 
+ out_unlock:
+ 	spin_unlock(&files->file_lock);
+-- 
+2.25.1
 
