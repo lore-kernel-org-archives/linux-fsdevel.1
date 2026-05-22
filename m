@@ -1,185 +1,183 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37851421A18
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 14:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D009F45BD60
+	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 14:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779459442; cv=none; b=R1Q6CYJrXF0IJmTK2f+hgD+xNIdmTJWIVehI7G1vuEKtIWRK479im870TzpcrBr+sJLLyCUoGAOE0J3xToSXX6H0yyz/zykDRW1Te9mQ7RhX+U0n0+/t/rW0ykodNSMmePufrWkVLTOwXS35XkPojYlrc7jSnuC+1Ve8mBof158=
+	t=1779459678; cv=none; b=YoLznTtkgTaFxafYrkQf7JmA5HPKOMlT7Qy0pcgxEFGjM6nrhNnWyhQMmU6EkP+2CdGFBYH2WoZ5Z2Psw5wesmN9LqzKi4pUINMP7FXdqVF8yZwpP3rfu6mcHkrmo5jseml0vXPK15ERwCLRtkEnQ5PaOJ9UgQFJ4v/1GJ3B9tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779459442; c=relaxed/simple;
-	bh=VR3Z6NiIbl5pnmjCCnBJH6ZnBA3/aDWVWOXMFiW8hlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s8aRB0Kk13nFY1071QpBVVkJ4amxzEmcdSIeYN8+kfBVCbIWCvbJjLfPdOqw5DdVDVaF5Qklv2kwCEYiClF+nAHGt6sLmINBPmCp2M0GRsCcyIg47maCXctECS6dxNziUW1J6OUb+qk8D8MYEnOp1jrppqjHn1eDCbzr+y2p28A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pfq2tel9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4Xt3tCAS; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pfq2tel9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4Xt3tCAS; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1779459678; c=relaxed/simple;
+	bh=e/XQ6di4Qf/V7YJFDfeInjZPqQMrEo1MHXIHSm37VgE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VFIQsyHDsD3maAw8gFRRR+U6yzMyi+8OIgokNwQu37mvyM1GTUrWXc9SjBk1fa6akctyCNV6rx/h8lKTfIqh1T6Tq6lc7NLhb6k4SUAFz18vF+cUqyUyeO3A2U5PpHVvyU98NxuDrq3OvbkMkzFwAKrCJ5tzSg9/+xF8wLQeaa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctrBJ9ef; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pfq2tel9";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4Xt3tCAS";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pfq2tel9";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4Xt3tCAS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9DE776739F;
-	Fri, 22 May 2026 14:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779459430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UODpLeBpNT8RTXpwjpkfntCTTqUj13DI7O0VKmavHKI=;
-	b=pfq2tel9A2SVWcIP+zGTHnReMa21gXZEc87mlobNlJilGpb9Kpm16jJfKPVxP65dYBaU19
-	fKHKedh+asaQcA5Tv2Wq0Xmwgd/lU9+6GKHeWO51G2eMAOpgCxRv0J6k9esAwBnt0ANOUv
-	pqgHNzXATpU5sFDMG3dS/ccVpv3SQkA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779459430;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UODpLeBpNT8RTXpwjpkfntCTTqUj13DI7O0VKmavHKI=;
-	b=4Xt3tCASkGk3ZKyufr4dKnwBFNupjd34nYbcaulvTEXy0iCMKvGyWFDoKJOdeEZsLwZBOa
-	Bgum9tNA+mBDIyAA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=pfq2tel9;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=4Xt3tCAS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779459430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UODpLeBpNT8RTXpwjpkfntCTTqUj13DI7O0VKmavHKI=;
-	b=pfq2tel9A2SVWcIP+zGTHnReMa21gXZEc87mlobNlJilGpb9Kpm16jJfKPVxP65dYBaU19
-	fKHKedh+asaQcA5Tv2Wq0Xmwgd/lU9+6GKHeWO51G2eMAOpgCxRv0J6k9esAwBnt0ANOUv
-	pqgHNzXATpU5sFDMG3dS/ccVpv3SQkA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779459430;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UODpLeBpNT8RTXpwjpkfntCTTqUj13DI7O0VKmavHKI=;
-	b=4Xt3tCASkGk3ZKyufr4dKnwBFNupjd34nYbcaulvTEXy0iCMKvGyWFDoKJOdeEZsLwZBOa
-	Bgum9tNA+mBDIyAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95E2D593A8;
-	Fri, 22 May 2026 14:17:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CkKSJGZlEGrJYAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 22 May 2026 14:17:10 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 26F4EA08F3; Thu, 21 May 2026 19:42:17 +0200 (CEST)
-Date: Thu, 21 May 2026 19:42:17 +0200
-From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 06/10] fanotify: gate fs event classification by group
- type
-Message-ID: <73bt7rkn3djl3yzih7z75ekv3k7lnpfmbmarfooclm2lvpxetw@rop2aob4qyod>
-References: <20260424170503.2096847-1-amir73il@gmail.com>
- <20260424170503.2096847-7-amir73il@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctrBJ9ef"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-369c4bb4baeso990030a91.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 07:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779459653; x=1780064453; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LUYTSun9nFl805qwarsJbDtTWjRMthsch5tO/uUnULI=;
+        b=ctrBJ9efkJPXFQ8HFkUslk0XtGvCI4Exlt9xYbt/gxbn6L/cA8RVx5KeZIhtiLFO9K
+         oayzhhqrzfBF9EYflSM7dZgJApNxTeXtbsUVPtuI2zxbqfsKdYojQHn3p5kbwUX81rfe
+         cZdtI0wdXQtmZEPOttgTjfucG2PKCmKXrquhC3SVigoYUuNuDog7fAX7Y12Ji24O27kr
+         4cG/M8ukkYmwTjcVkQImH8e1BmUs1DgEkCwpFzPQ5kHV1OQv2Cq0Awt6addqgny/DWu0
+         lLEvA+QCrduKe6uCFGJtiYicHwnc50nqwheS7x9dN+e46RFs2RhK/GuUWbeSLPeE28FK
+         l4Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779459653; x=1780064453;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LUYTSun9nFl805qwarsJbDtTWjRMthsch5tO/uUnULI=;
+        b=ZFPmOo7gpghAI26dsaS06Irb3Jn1mE49ZFFWeGlE3+AbZBlJkyZhrKhEG4En+pc2Si
+         4EWsILbRi+EiqR5r2rc4IpETWGCCc+GAbt5iAki9kqIemF2IdDNMuGY08ZWWmixEWP1L
+         ELRhHGea0N3dV9r/5MR3nC0Mpu2++6v64bGYhRF/BUq8k1xecez+4/fQQnBVSZtMgVqq
+         w8eezyg8pGgKniVSJo/Sj0NPlr6f0etT3x+fdP0Sv/MJY+7FjYULlJ2lCEvtxckwjJvG
+         YzUiv1GsmcIs2ylHQUznkeuy7acVrDsPNHLNX1lPyTnvw7nOm9OEjEagEcS9iOSAU57i
+         Wrqg==
+X-Gm-Message-State: AOJu0Yy4PCvqHqAcuNQ71tqns+iDW8BDxCkxayXXAU6AABJVhINOpL2q
+	eWa26lEssDWKcygXR9igWk0eFpGjBRyCxXabIpR7i5e2mBvJLtm1ysBAA+x+Yg==
+X-Gm-Gg: Acq92OFkAGcid3ODY8Ux0ha0alFBncCgoR4S9EYc/6qGR91e6Gr4xAzEqVHcQcuHaDP
+	Qbgbw2Hb+3eXHjxLOPKJwliwDZfT4eLoeqCxRfjD9JK+64cnPaYc0Cqe2VR5fxz0k+6s94Db1h7
+	9aCXv9JDvnU6GVfu1MlpcNCKimBfA/ALqSDP3t+qVKcaBq6iq0tyaymfnDT9HF5zrx/dpi9VO+g
+	lUB9IHXXX6fF66y5ck6gh0zY++7YWtTn4t18lNwYFltcjlfIJFb+Y/BGVAQJhU5EjNh9OW6usy2
+	Px2bLXM+XhbNc1MxOChYdyaom92VvTN7iUQV6DlA9k8mUTG3Q1SGxuPXycYlWp9HnPRiwCznbpO
+	RfqjCDNSX4pJ0ApCWBMZS8KAGPKqXxIBkSuZi8OFAxim3tB3QfpzLUvNVXoRHCKEN7n4XNWn03K
+	EoJOxP00L+Eyo/NPaMkVolEQgmgZw=
+X-Received: by 2002:a17:90b:3bc6:b0:364:b4e7:6706 with SMTP id 98e67ed59e1d1-36a6741a7ffmr2544742a91.1.1779459652845;
+        Fri, 22 May 2026 07:20:52 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c852028ff19sm1735120a12.5.2026.05.22.07.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2026 07:20:52 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	DaeMyung Kang <charsyam@gmail.com>
+Subject: [PATCH v4] ntfs: avoid heap allocation for free-cluster readahead state
+Date: Fri, 22 May 2026 23:20:48 +0900
+Message-ID: <20260522142048.1666937-1-charsyam@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260424170503.2096847-7-amir73il@gmail.com>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: 9DE776739F
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	MISSING_XM_UA(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On Fri 24-04-26 19:04:59, Amir Goldstein wrote:
-> fanotify decides on how to allocate events based on the event mask.
-> The event mask bits that correspond to filesystem watchers are only
-> meaningful in the context of filesystem group type.
-> 
-> Hence, before checking if event is a specific fs event (e.g. FS_RENAME)
-> need to first check the group type is filesystem.
-> 
-> Separate fanotify_alloc_event() into an allocator per group type, so
-> that all the fs events check inside fanotify_alloc_fs_watcher_event()
-> are already properly gated.
-> 
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+get_nr_free_clusters() allocates a temporary file_ra_state before it
+publishes the precomputed free cluster count, sets NVolFreeClusterKnown(),
+and wakes vol->free_waitq. If that allocation fails, the worker returns
+without setting the flag or waking waiters, so callers waiting for the free
+count can block indefinitely.
 
-...
+The readahead state is only used synchronously while scanning the bitmap.
+Keep it on the stack and pass it by address to the readahead helper. This
+eliminates the early allocation failure path instead of adding a special
+case that publishes a conservative count and wakes the waitqueue.
+Zero-initialize the on-stack state because file_ra_state_init() only sets
+ra_pages and prev_pos.
 
-> +static struct fanotify_event *fanotify_alloc_event(
-> +				struct fsnotify_group *group, u64 mask,
-> +				const void *data, int data_type,
-> +				struct inode *dir, const struct qstr *name,
-> +				__kernel_fsid_t *fsid, u32 match_mask)
-> +{
-> +	struct fanotify_event *event;
-> +	unsigned int hash = 0;
-> +	bool ondir = mask & FAN_ONDIR;
-> +	struct pid *pid;
-> +
-> +	if (fsnotify_is_ns_watcher(group)) {
-> +		event = fanotify_alloc_ns_watcher_event(group, mask, data,
-> +							data_type);
-> +	} else {
-> +		event = fanotify_alloc_fs_watcher_event(group, mask, data,
-> +						data_type, dir, name, fsid,
-> +						match_mask, &hash);
-> +	}
->  	if (!event)
-> -		goto out;
-> +		return NULL;
->  
->  	if (FAN_GROUP_FLAG(group, FAN_REPORT_TID))
->  		pid = get_pid(task_pid(current));
-> @@ -875,8 +920,6 @@ static struct fanotify_event *fanotify_alloc_event(
->  	fanotify_init_event(event, hash, mask);
->  	event->pid = pid;
->  
-> -out:
-> -	set_active_memcg(old_memcg);
->  	return event;
->  }
+Apply the same treatment to __get_nr_free_mft_records(), which scans the
+MFT bitmap with the same short-lived readahead state.
 
-Looks good. Just I'd keep the memcg & gfp dance in the shared code in
-fanotify_alloc_event() and just pass the gfp mask into the
-group-type-specific allocation functions.
+Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+---
+Changes in v4:
+- Rebase onto ntfs-next.
+- Convert __get_nr_free_mft_records() in the same way as
+  get_nr_free_clusters().
 
-								Honza
+ fs/ntfs/super.c | 22 ++++++----------------
+ 1 file changed, 6 insertions(+), 16 deletions(-)
+
+diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+index 9ebd13d1613b..2a5ad7d56bc2 100644
+--- a/fs/ntfs/super.c
++++ b/fs/ntfs/super.c
+@@ -1848,7 +1848,7 @@ s64 get_nr_free_clusters(struct ntfs_volume *vol)
+ 	struct address_space *mapping = vol->lcnbmp_ino->i_mapping;
+ 	struct folio *folio;
+ 	pgoff_t index, max_index;
+-	struct file_ra_state *ra;
++	struct file_ra_state ra = { 0 };
+ 
+ 	ntfs_debug("Entering.");
+ 	/* Serialize accesses to the cluster bitmap. */
+@@ -1856,11 +1856,7 @@ s64 get_nr_free_clusters(struct ntfs_volume *vol)
+ 	if (NVolFreeClusterKnown(vol))
+ 		return atomic64_read(&vol->free_clusters);
+ 
+-	ra = kzalloc(sizeof(*ra), GFP_NOFS);
+-	if (!ra)
+-		return 0;
+-
+-	file_ra_state_init(ra, mapping);
++	file_ra_state_init(&ra, mapping);
+ 
+ 	/*
+ 	 * Convert the number of bits into bytes rounded up, then convert into
+@@ -1879,7 +1875,7 @@ s64 get_nr_free_clusters(struct ntfs_volume *vol)
+ 		 * Get folio from page cache, getting it from backing store
+ 		 * if necessary, and increment the use count.
+ 		 */
+-		folio = ntfs_get_locked_folio(mapping, index, max_index, ra);
++		folio = ntfs_get_locked_folio(mapping, index, max_index, &ra);
+ 
+ 		/* Ignore pages which errored synchronously. */
+ 		if (IS_ERR(folio)) {
+@@ -1918,7 +1914,6 @@ s64 get_nr_free_clusters(struct ntfs_volume *vol)
+ 	else
+ 		atomic64_set(&vol->free_clusters, nr_free);
+ 
+-	kfree(ra);
+ 	NVolSetFreeClusterKnown(vol);
+ 	wake_up_all(&vol->free_waitq);
+ 	ntfs_debug("Exiting.");
+@@ -1973,15 +1968,11 @@ static unsigned long __get_nr_free_mft_records(struct ntfs_volume *vol,
+ 	struct address_space *mapping = vol->mftbmp_ino->i_mapping;
+ 	struct folio *folio;
+ 	pgoff_t index;
+-	struct file_ra_state *ra;
++	struct file_ra_state ra = { 0 };
+ 
+ 	ntfs_debug("Entering.");
+ 
+-	ra = kzalloc(sizeof(*ra), GFP_NOFS);
+-	if (!ra)
+-		return 0;
+-
+-	file_ra_state_init(ra, mapping);
++	file_ra_state_init(&ra, mapping);
+ 
+ 	/* Use multiples of 4 bytes, thus max_size is PAGE_SIZE / 4. */
+ 	ntfs_debug("Reading $MFT/$BITMAP, max_index = 0x%lx, max_size = 0x%lx.",
+@@ -1993,7 +1984,7 @@ static unsigned long __get_nr_free_mft_records(struct ntfs_volume *vol,
+ 		 * Get folio from page cache, getting it from backing store
+ 		 * if necessary, and increment the use count.
+ 		 */
+-		folio = ntfs_get_locked_folio(mapping, index, max_index, ra);
++		folio = ntfs_get_locked_folio(mapping, index, max_index, &ra);
+ 
+ 		/* Ignore pages which errored synchronously. */
+ 		if (IS_ERR(folio)) {
+@@ -2025,7 +2016,6 @@ static unsigned long __get_nr_free_mft_records(struct ntfs_volume *vol,
+ 	else
+ 		atomic64_set(&vol->free_mft_records, nr_free);
+ 
+-	kfree(ra);
+ 	ntfs_debug("Exiting.");
+ 	return nr_free;
+ }
+
+base-commit: 5a717e8c387c2a3ccd372a1b34005c1dcedee297
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.43.0
