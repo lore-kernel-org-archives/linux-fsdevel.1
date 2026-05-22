@@ -1,101 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9323BED61;
-	Fri, 22 May 2026 10:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115963C4B92;
+	Fri, 22 May 2026 10:03:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779444094; cv=none; b=oYVOyCI+2qLP83XdMfeiL0+Xgb3++qWT6ryOiAScrIq/z+xBeUOzEI0julY6cXyGWKHZWCNbWZ9VRLdy9mhpYbqfXrYUYL1JPfpj8+UCwGil8jwM3ljMnkrYbUCevz/7L4YWvllY6Ct0VG+In7ethjx8X5elNmA2SM2Wmpl7KLs=
+	t=1779444207; cv=none; b=VaIhXF+H2hxP2y+/T53QnyNFukLexT5EjI0/J2s0sP7NRceQz77v0IJbhWa7FNmcPYNILi/mkA7ZySi7TWqKjfwzUtCIGu0TOXz+oP2bYQyz1HSmT6/sXnm3IaTRohmqWiBEn0f1XBxutaTiq5TtLKxhvWiA4N2FL0nEfEAve/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779444094; c=relaxed/simple;
-	bh=1DLZ37kHhU1rHpEQEUMqDeqagX+iutwlVMzplz9dpLo=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=FmORhYC03B6Esa/zyrE8KSe9C5DATKun7SJQyPZTP+Ub+i3OTiyU62jKHxFefRamnryeMGM6rEWQPX6uWj9q8N67hTP3o5onRo5W1hpJiIqp5VOZF91XtLVDHejnqERgQcWgfd1lvDRtJylHSOd3nLCfp87si2f8mZAOyU5SD5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DuTE1gQM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779444207; c=relaxed/simple;
+	bh=Ew3wynC+4lQS88L8QM5VENAs5LeiSwNwOnhVs98s4U4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J3T0tQT98r46OfDN5XRQsAlqbX9vkGdIYhOcC2mVwbHx8cZPhaUKiY1ffq89ds/vipZwRrNTFwAMGKJEbx7WA2/MaN5rl47dbLZFSSttb/NoTxhSwGbZjQBpoqHknaJR3I+kQK89x8G5Yhta9HKxVYoLVzyzn8a+mUqv1deQj4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fXc8/bqE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DuTE1gQM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F9161F000E9;
-	Fri, 22 May 2026 10:01:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fXc8/bqE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A1E01F000E9;
+	Fri, 22 May 2026 10:03:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779444093;
-	bh=ZUJJoHYpPqVRUhbcG+UWt+HVEM6K0BEVeHttssE5XbE=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=DuTE1gQME7Jx//aKkceOJJnFYFECfnCnzPz6WQ0+Dp1jSLdzAgLScIoL2da/3pkoS
-	 0A6vEGBqorCPVj6OCamZ8Tfap/3bnyQX+QmtZGZYeab5qlRw2+vKDqPID9QGVpxLq7
-	 fAkTaGwnH25Eid1nQdCkxa0+qwbaG9XTztNh48zJNgAVodlmZKw3AJPnuoto5YaBSi
-	 as7U27VbiP6G7JIBlfB9UHDpgqrmCMlnWiimFah3MEIvnkTcLPk+KFFH3eIUn6YIM2
-	 yMbsk5vo9eYS0GYxc+yq2QBSOhiM0zrahxQlsLXfMFeVAsL+oJMd1SzAOMET+BPVGu
-	 4g0lyvd0Kh0cg==
+	s=k20260515; t=1779444205;
+	bh=EE7jglkWc5b02EajD9Hq94MBW3TL9+QMd/i5HrD5hLk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fXc8/bqE5m2G9NEvKfhSpZy/CbTM6but4CMy/iSqgF60B3nrQyz8f0utXEFOxdil+
+	 P9+L7Vg7+dL5oU8/pe9hR00UqggP/TKnh7bcf8hQ8CElz45jdgnQOF+MSkRupA7pqw
+	 hAGDNvrzV1oUbeupPtwVTRgRtRqanW5BnOcvIHbDFddqfJIP3Uelyv+1ZK+4vo9PU2
+	 aVUAeDPJCBGQmlexODZiwr7nRZVfBGPaTuWdp+0wT2xRA8ggKinrOyEtXZ/Ntdii+l
+	 r5zKxDnskkUwp2l9kiezcdJjtq6/xnqDFIbp2onQkt0qvdZQy/1IjZ5C9PQDFGaBh/
+	 1UHtSubvYuffQ==
+Date: Fri, 22 May 2026 12:03:20 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Carlos Maiolino <cem@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>, 
+	Christoph Hellwig <hch@lst.de>, Andrey Albershteyn <aalbersh@kernel.org>, 
+	linux-xfs@vger.kernel.org, fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	ebiggers@kernel.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	djwong@kernel.org, david@fromorbit.com
+Subject: Re: [PATCH v10 00/22] fs-verity support for XFS with post EOF merkle
+ tree
+Message-ID: <20260522-unbehagen-baumethode-erlesen-811a4065eeac@brauner>
+References: <20260520123722.405752-1-aalbersh@kernel.org>
+ <20260521090705.GA14254@lst.de>
+ <gcw7zcg6p4s2egpufwizfig72g6ren7jfmuz5mqskkpb7xepww@e3v35j7bk7dc>
+ <ag7uW7KQ5mVyCGEv@nidhogg.toxiclabs.cc>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-From: Christian Brauner <brauner@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Jaegeuk Kim <jaegeuk@kernel.org>, Theodore Tso <tytso@mit.edu>, 
- Christoph Hellwig <hch@infradead.org>, linux-api@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>, 
- linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, Akilesh Kailash <akailash@google.com>, 
- Christian Brauner <christian@brauner.io>
-In-Reply-To: <20260522035331.GE5937@quark>
-References: <20260409134538.3692605-1-jaegeuk@kernel.org>
- <adhPZxtbZxgU-37v@google.com> <ad30g9xMs9wNJhFb@infradead.org>
- <ad_AVHe7RMnGrGTb@google.com> <ad_HwhzlNPUEKQi6@casper.infradead.org>
- <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan> <ag_OVwPF49LSZ7rz@google.com>
- <20260522035331.GE5937@quark>
-Date: Fri, 22 May 2026 12:01:29 +0200
-Message-Id: <20260522-popkultur-spagat-beziffern-00f57ebc8fca@brauner>
-X-Mailer: b4 0.16-dev-05c9c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1901; i=brauner@kernel.org;
- h=from:subject:message-id; bh=1DLZ37kHhU1rHpEQEUMqDeqagX+iutwlVMzplz9dpLo=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJaFa9032xQZB1ooTgrtQMj6mneF33Vt/Y9yTNLOL2p
- qCTQa1fO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbir8bI8LJK6YxQ3bHfec9e
- ue9dfSWkodnjwV+3YsOzy9zq2uxnnmZkuDmb/9RHxd64GRJ/ebK9ktU0E/gn7vSzNhBZq2mq05j
- PDwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ag7uW7KQ5mVyCGEv@nidhogg.toxiclabs.cc>
 
-On 2026-05-21 22:53 -0500, Eric Biggers wrote:
-> On Fri, May 22, 2026 at 03:32:39AM +0000, Jaegeuk Kim wrote:
-> > On 05/21, Theodore Tso wrote:
-> > > On Thu, May 21, 2026 at 01:51:08AM -0700, Christoph Hellwig wrote:
-> > > > > You haven't sent a proposal.  This is a reply to a reply to a reply of a
-> > > > > patch.  There's no justification for why f2fs is so special that it
-> > > > > needs this.  What the hell is going on?  You know this is not the way to
-> > > > > get code merged into Linux.
-> > > > 
-> > > > None of this got properly answers, and this broken interface now landed
-> > > > in linux-next. IT is offloading a user.* xattr which is free-form
-> > > > user data with semantics that are weird to say it very nicely.
-> > > > 
-> > > > All this was done against the advice in the mailing list discussion.
+On Thu, May 21, 2026 at 01:38:38PM +0200, Carlos Maiolino wrote:
+> On Thu, May 21, 2026 at 11:42:13AM +0200, Andrey Albershteyn wrote:
+> > On 2026-05-21 11:07:05, Christoph Hellwig wrote:
+> > > On Wed, May 20, 2026 at 02:36:58PM +0200, Andrey Albershteyn wrote:
+> > > > This series based on v7.1-rc4.
 > > > 
-> > > So let me get this straight.  This is a magic xattr interface which is
-> > > not even persisted in the file system, but instead sets a 32-bit
-> > > bitmask in the struct inode which disappears once the inode gets
-> > > flushed from the inode stack.  And it uses a generic xattr name,
-> > > "user.fadvise".
-> > > 
-> > > There's no way in *hell* any other file system is likely to adopt such
-> > > a broken interface, so why didn't you just use an ioctl to set this
-> > > magic f2fs-specific flag?
+> > > How are we going to merge this?  It touches at three subsystem trees
+> > > (fsverity, vfs/iomap, xfs) so some coordination will be needed.
 > > 
-> > I went this route because Android heavily restricts ioctl() permissions
-> > and we needed broader access for this to work within the framework.
+> > As most of the patches are xfs, it's probably make sense to go
+> > through xfs tree
+> > 
+> > Carlos, what do you think?
 > 
-> It's straightforward (2 lines I think) to update Android's SELinux
-> policy to allow an ioctl in all domains.  So that doesn't seem like a
-> reason to not use an ioctl.  In fact this is actually a reason *to* use
-> an ioctl, as it shows that ioctls can be allowed/denied independently as
-> needed, whereas xattrs just use the file write permission.
+> I was expecting this to come through xfs tree too if Eric and Christian
+> agree.
 
-Thank you, I very much agree.
-
+You may take it through the xfs tree if there are no conflicts with
+vfs-7.2.iomap. If there are I want to add the iomap changes into
+vfs-7.2.iomap that you can pull in.
