@@ -1,372 +1,197 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C6F26D4C3
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 03:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D958349CE7;
+	Fri, 22 May 2026 03:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779419785; cv=pass; b=kGzjfl+goS3NBrNeqO2uxZ/kMStqgL1Y1YUYKXvOAMHHvMIRni2wWyKnrCrz+4nvMBuKnWM2QypSEOsFGay7vpA+Ah1hYknE47C0ImtkXm57qXuPK9V0wxkh9vLbX6gDjuZXBOcK945CggZAIn9GvNiwqwPJWSAGngXUmF0AVTA=
+	t=1779420623; cv=fail; b=oyYFDO5L6/q34Z3Ru+VIvtRAHwtjt9SxSd6sOenbMpqLUIf+HYfVQkd5XavjWxjF0lnAKBhyS3kLWxEUVN4pvygCrjttm8hb1lynXKHeFARu5xA9C0Dn82upYa51ilFCbHdzz9Cjm6I56LIc+l6ClkfeNaFF8O4UK193F5MfiQg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779419785; c=relaxed/simple;
-	bh=2Q0PcH6UmqiLE1B7fhpi8re4VEgW9tqj2ga0KJ+U/ZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O1U5pQLIEfAzGDY9WV1xNd1lWsHRdq+AGygOL1KntWeL3XLN+hbUMEAWy5y9GBRGGBDJ6I4sqPDpg4roKB8tYIMRGdSXOpInRYdYwJOPUOrQzcAOp1QGbsNPKIUp3Oo8XS+gNSPuX2+FRllVGdveLiMoKHTES6oHYcVWOtSHS5k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XiZAsgqk; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779420623; c=relaxed/simple;
+	bh=YtjHY7v885otDJTliaZ1SJf7yjRYEoXYmnSLYgNq/QA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=glO82mwV8y87Ck1CB+X73Vr8fJ1GU81z6tgC4eGcRXiyGurK4SRh9nNRnDT+yi1TPZQ0mw+RC8VJy1U7NGSCCgYC2QwmaV01kvm6uy+OqNiEDVQQbRmBL8XmBydk0CVE1bg8Q/rwisO+JmlMOSBG48GJqLk9FFKcYd75GQTxy0Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csjNOjcu; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XiZAsgqk"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-65e81d623bbso359898d50.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 20:16:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779419783; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iKQvu3wGVCYtxXMJqxCxZ8Bu4oM3BB8YSxgcNFcdrXPUt2JrwzDvWdprbkHQGxqh6+
-         LluAEI4dAxGNY1SglSgDrcnousw63Pbjf7xIm5KYLXjZaudNYBfMM0rbmXaFABcxYJuo
-         FiSqX+kBMMbCGalKa0I2byhMeQc0Igj960uRB537DpmB1PdkgI+A01IxipxDHZcLVhys
-         vYGLg3fNHoI+JiQgbQPABMT+ILeB3RYKqVWVCxnCoeShvKkRajqumygHK7Km4YOO8f0y
-         tasU8hujrk7M1pDWpogBORxawEJwlX1Wdx0TbjAUNdy/2Hd99KHvnKDji0Txv+Qveg6Z
-         t88A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=robsLewux4vBHKDttIjt09yfXrWmGYjitlpcRHvjuX8=;
-        fh=D//4vXVrOrwp/nB5p34LbfUVsfGya+MYkFlZfF09jcs=;
-        b=ZLYiMQKs/hdfrQQ18uNxjHLy4jUxB/TnEMdJef60//D4P3ytTYYaaFQBOkjg6tDlYg
-         5nLSY6yOJRJl8k8z5soeeEZS+QbEk9POzXgZ3bNI1pQBoT0gFMZMSweZA4wPliGsRDJF
-         d0n4qm3uqv7c2/XUgKINx72PM++ORhzfC+KYjj+T4RgbwMF6ni13E3cNAqUuwgZx/w3V
-         qL3j2aiQ1c/gApzuQp/7VUjryLWbo+o70k2sCOZtLMy2GCpD+A0w9rcz+ObVxrf/PfS7
-         VZPTUHsyJjEn0jku1CzPAMRGp6Hyd3F3M4e8N6pjb8VnmS2G6tC7XtJHrwEuVpPKF63o
-         jFFw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779419783; x=1780024583; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=robsLewux4vBHKDttIjt09yfXrWmGYjitlpcRHvjuX8=;
-        b=XiZAsgqk2r8PuzfoTYUfkUlsWe24zEyekCfoaQusNPI1cwmtjmiCtTWj92umL27uIp
-         uz19X8EaqlwVIl27JwGpgNSnCX0gE2GCqR9ddPoZxAkSpPrf6P1vSz3s8+qV9seQWGur
-         Yt/oGKyfIpBZAhsQxFcYf208HHaUhrRGDutZG0OM6Q3HLbqr2s1OSuvfYcWGQScTQ/Vy
-         DsdsYXnX2GGO5WZWrdTcuuqHNScdnYl0WRPXzX3I6/SsltbF0Z3zgKZCDdcwheKDTF1h
-         ixEFoG7PvKELEKVb+LyvwkiJDX0eNz8cS9NJxU8R/2hpkL1wbSNV4ZgC1MONd/HSSP+x
-         hqQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779419783; x=1780024583;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=robsLewux4vBHKDttIjt09yfXrWmGYjitlpcRHvjuX8=;
-        b=sZWlSIER7oA18vUN2AOLJrBHLF2hwJWBkg99m1bNLYeYcOBU7FNhhCVy9Ev7NUmpaF
-         agK1N2wgvvRk7dBB5EYSJOKrvqe6ca0ximHPzggkdEUKD3rjo47zZx7bzEEFclY7tXQk
-         eidCTydX6yGOofXigclyRpFl3MgvHkKMfc10YDyhRfRHHveq0Iwjf2IgUZ4gkOQHqoL0
-         UF06a/9Vmv3thHWbeYEk58zHPs0s3LdsTPoWsn8QRZbD019B3Xt3haA3LkWwgTgX69xh
-         qdpHwm1XAwQ1mD19jdVfWBdUSUaVQlabSty7xzrPCBsHLxgzdMApw2KWOgAF7MvBxXig
-         mBdA==
-X-Forwarded-Encrypted: i=1; AFNElJ8YH5AlwH86EELx7KLTjRPv4UbmUV3aLvSIfO7IPeZ7Kn+YDaikdlvulMEELCXKDjKqxw3Uw8XAWuTh/VyX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbZ/Gu4l6c3K6i19X7yS8tLgUOqVexyEQl2GbaJ8NF+1P+hQfe
-	kNcaPVD1xzQkXQJn+RwFlKhAeajrtlL8Dp/8GG1DnzOWG56nJUVPAY7mdKFh1eXugofjXrBH4h7
-	lFue2EDsr0sYK3xOtMaXb4nox9k4Pufw=
-X-Gm-Gg: Acq92OE6RuPX9/C9lliX1S0eRsPMasgMDqsCrJB/bRR5sjnALLlu+YqSXh9+OifjlkE
-	Gl3U2DDBH5YJXH6RMNLY6AnhO3/b50UJuTAYav/mK4cviHtXBoTnkQt4HUys94ikEHI3e+WD2G5
-	E/GuDiVym5KbHdAfDejMo2pwYLN32GQWTpjfTPXfFP4/tF/2iltgusEGgR0ocXOmop1BZPRYYpz
-	JTdMYjJJjet7dIzl7Jvu7GITJrXGmf7dd6LgOyThjyOCYuB2+7Fj5HexfW1m3yAUYy60gcuxpL2
-	n5nnr6tKXHxEjLsjDn0=
-X-Received: by 2002:a05:690e:12cd:b0:65d:6f14:9070 with SMTP id
- 956f58d0204a3-65ec98c900bmr1434517d50.4.1779419782516; Thu, 21 May 2026
- 20:16:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csjNOjcu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779420622; x=1810956622;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=YtjHY7v885otDJTliaZ1SJf7yjRYEoXYmnSLYgNq/QA=;
+  b=csjNOjcuN+qBQkdAI7D3jMb1dQT21Ajne2BsobfaPB3bJUElj7+MLP//
+   S6NWLc3LIf3/UJUKrYYk1aAJBFJPs9OCMewZCYhuWpHjr4JLXaznSqQX4
+   PoKQ4+S+hlQqv7BF2PyohZgroDsfocQYOytx9Ni6Q/+c5i6ZHm4x54IyI
+   m580P3jZMtHGf4rSuiKSkf+cOLcygEt+OcEMgb3Xu1j7nu24sabqD6CH7
+   api1CHGT+J+6spnMoiL423LRdbH/UCTMGVEXvJQMQRJu2/HHRyQ9b+3Z/
+   dxRgXJgeSpuRDxwcNHpgcRW4xgU2NoVUur8m+nGjiW3y0dT1DEiVEzLPO
+   w==;
+X-CSE-ConnectionGUID: kckCDwc7QRCMqusJNg+lWQ==
+X-CSE-MsgGUID: EgpHzR7tQy+36d1xhtxgbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="80077152"
+X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
+   d="scan'208";a="80077152"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 20:30:21 -0700
+X-CSE-ConnectionGUID: DwUZuEb9RzWyAmqyHymIGQ==
+X-CSE-MsgGUID: qqkMvfGUTd+XkX9ilUYMUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
+   d="scan'208";a="245818748"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 20:30:21 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 21 May 2026 20:30:20 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 21 May 2026 20:30:20 -0700
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.31)
+ by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 21 May 2026 20:30:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iwGh/IV54mshwG5olO8XVqRZ34UgKhRPsKJRfccba9bGBq8egozrtiARCnMImNA4KytHcUpjFHCpIUGQMdafdswTHqxh3plkyZBO+/XMp/0Gyg/nzEeThBmCVx+4PxTbKzrMHE/xxdAyP60yn1mbKMsj0mQYUUSEhKSabPdhYsOIR5bD6onzoq19rYXiTTDyUGSeGEM9ePhH3ofyahqs4GuxQtLDfEeNzDzI/Bp1XqINQimOKNd3aNLA7cD8lcZS9CnqLwXxQIxBvkrb9BJizeZsURmQD9klTlYeeW0vijBf7W86KrHz2ucnpD1r/LqJaDT9DXFyqpVIML86rO+DEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=klkUWLZcUlGvc5OMyEmecwpUl1G0QP5HH+19bSXNxIo=;
+ b=TzTbIgSrqj4EKJqW+VSliYN6JTT42az5xvhPFkiND272gtqTlZrCd41lt7+SoX84nc1yV/dbAHyYZ5xPDN34/oo5vEZTkoAwp5rGmlsA40FH6G+id5FacgnfwbMiWWsA0zY33hNSdGl8I0y7u385j3SaLIC96QyyMFRPe21EFwQJQYQzBAyDx0KuECah5/3b6CrJVtxT8uYUfFUUNataK14KagQWOwoNSpTOJ4xFTO/WSUtUsZLVyMSTBlBjIjzK3i6eWyUsMOh4gQOJrjauDS80OpsrV6BB61hP/eYy7xQ8Z7qGulnMHTKmp3Waz3ZYJdtp9lTPLk6N0YFjv1/QJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
+ by PH3PPF2CAD058EC.namprd11.prod.outlook.com (2603:10b6:518:1::d12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Fri, 22 May
+ 2026 03:30:12 +0000
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::a195:49d4:38c5:3891]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::a195:49d4:38c5:3891%4]) with mapi id 15.21.0048.016; Fri, 22 May 2026
+ 03:30:11 +0000
+Date: Thu, 21 May 2026 20:30:07 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: John Groves <john@jagalactic.com>
+CC: John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, John Groves
+	<jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang
+	<dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara
+	<jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+	<brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Ira Weiny
+	<iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH 0/6] Fixes to the previously-merged drivers/dax/fsdev
+ series
+Message-ID: <ag_Nv0QwWPBg6bfk@aschofie-mobl2.lan>
+References: <20260518213452.31205-1-john@jagalactic.com>
+ <0100019e3d03bba9-d27282f3-5552-4fa0-8326-981e4c13dace-000000@email.amazonses.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <0100019e3d03bba9-d27282f3-5552-4fa0-8326-981e4c13dace-000000@email.amazonses.com>
+X-ClientProxiedBy: BY3PR10CA0020.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::25) To DS4PPF0BAC23327.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::9)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522-t-fix-oob-v2-v1-0-0bea6582a361@gmail.com> <20260522-t-fix-oob-v2-v1-1-0bea6582a361@gmail.com>
-In-Reply-To: <20260522-t-fix-oob-v2-v1-1-0bea6582a361@gmail.com>
-From: CharSyam <charsyam@gmail.com>
-Date: Fri, 22 May 2026 12:16:11 +0900
-X-Gm-Features: AVHnY4KZoBluaEbi5Vwoddc33ip6icp0RrXFNHfcULjZQmVuc1qTtAefzySj3fk
-Message-ID: <CAMrLSE6Zw4hzX_rXG3u5+1=WPj9G012ZL1XFc2ygwMGR-XpYVw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] ntfs: validate index block header more strictly
-To: Hyunchul Lee <hyc.lee@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|PH3PPF2CAD058EC:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0bc2566c-5c87-4397-eef0-08deb7b26e49
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|4143699003|18002099003|11063799006|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: szytIPHDJXIbCpRBo7Laq07BEmQqewZqQ9uJfPvEtLZ8VEKeBCd4Z7VPBQjJo8jyYWa2MBM7xX+9LUOqB+VqG/M+TdDcfc56L3qvbQcNaOyPiSTsHp7722aT/Spyx2s7Z7DBSPDZwzWlEk6olVA8jRprADyzC55qKTy7nzy9nImN8W5yAPL+sM2C5wM63S69+h/7Lv7rWeV8u0il0516JGoNuNHpNsKeX5uWnnRY6NKTRlmwpUU11c5cePTqXiEXYgfHKT2wFGI1xtZQNg1LiK73vswkt6+kpjnhpKrZ50m1206oJB6SZasFY/u2E8NYwr2d4Ol3W+DaSsD63Przrs4G74V+7S0DqzsJfcnTXp/FUTGMpTNVsKSfr9m4PG7dxRMwaeMRtPYb91emGF5Hqf8vOdutpdloPSDXT+jcUrjSuyA0uS/fIElOLzGgUskwXRbE/q7S1Uzl92Rjwjrq044GP8OBmoK4Bja6tSG13mXQ4RX/qTfyMbYoDjLj9mmgEfwLS5GZcgwa0CjLaUZEgRjWGrHFide4ZUXBbQqPFv/uaATMkz62KgZ3S/DDSsi6QgfEoSdJVMAeMAM3Gd6TCMMxYZbecbichp8fPgdX6lgLGRVvBWTOmrEnutSJC1LnxrLHUqa+i0mzObF5uuZ3M7FC0AmnbcHrp35bH9ALRdp2Upe4a0MUdVd6P/8xUTZn
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(4143699003)(18002099003)(11063799006)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HFZkLfVViEtp0gHxSf6mbIADPRFaUdd00zUbg2yKiNpvKP4tw+vug7CevxCH?=
+ =?us-ascii?Q?YNZuvy8UZCqDysZMFVH3trPzO07DqkIvbLpYf6wGkwUz7YxODd9+vf56HRR0?=
+ =?us-ascii?Q?TEfcTwC3FzhMAnjzPC8vGnr+S+EYhJfPp8zYkhtG6O1FZ0oOgNuQC9sOiHMS?=
+ =?us-ascii?Q?y09C/NRWGGwi35+r/LvJt/tAZ81eIGSFcwp8tTdFdcIuOhdYAwneiHLme6cS?=
+ =?us-ascii?Q?ZeYY7oK0yL9PVowHoXmUxQ3fGj8s9hKH/Tb9J6ED+PnKh2zUftNbJj/9l5gA?=
+ =?us-ascii?Q?Sk6zP3Ash/yMaGjwIUIrh4IZv4t9Vow5mQTd/+Q8i3jAwwOHkM4FfCqb9gTg?=
+ =?us-ascii?Q?0uccLBWW9Y+Mla3sb+9GSfvTyh18bgP/5rNQkvRfdLKueF6dkbrsP0PXTxYU?=
+ =?us-ascii?Q?DUGlCKDVCa2cUVRW7Oxat0Z/Nso/LuGXoLQvM+osioB6vUExr1TUjImRDAut?=
+ =?us-ascii?Q?zZNGqTENiJLDUY4DFT54eD+UunItUey7iA5E7MZ/BG76xl157UuRnBKsd4Pt?=
+ =?us-ascii?Q?2AYCkbrxi1Pillfewfaj6aw265rh/ZtXtdv6B3BMjq+T8eeyIFRgLIqXU6ao?=
+ =?us-ascii?Q?CSqlwjExzpm43Gwu8haSbCn1O8UgswMndzkhGpryO3keDr81Hz0a8cRIie/x?=
+ =?us-ascii?Q?kpcyIks4leeBGA+GMOfD0xTGEGfq0l4SsVSXDd2LHIv83xbcvgYV4FjxzQhD?=
+ =?us-ascii?Q?nmu4A9Cx3EmUQgBUFuJPiVBwgFljLsSxNTk86lI0W9UTy6dEm8+t8iRD9Y4X?=
+ =?us-ascii?Q?Z1RZeYcYUjxzNx1p5Egb8SErWL5Hdxkrkt1XRn1/lleW6R5T6JCZ8xODBngM?=
+ =?us-ascii?Q?wBOPWAWxRXHKLX3Unkjt3zrX/0/Nvjr0Wu3UIuI5NB2y6LDvNT5o0Qx0k8vx?=
+ =?us-ascii?Q?PzRYzsGl4MFO/ToYAA+fYwiDWj0f4sIhbBkaqT9vnC02C1QsK70TUmZFR05m?=
+ =?us-ascii?Q?XTeGa4gDZ9PcKXadO4+yGDENXmDdCp/oO2LM7CwyYxczbK7oVy4KOSyzTtH2?=
+ =?us-ascii?Q?FhYiejzktM6E6aK30v5dP9Lok6WZs3RywkueeCyHvK15noahbxKFt08kRaYp?=
+ =?us-ascii?Q?o2fv/6DbxFNtOJNchL8D8iv/DVD3AIrZsuvc8CliMVMo8v5TA3COUQgK+WE0?=
+ =?us-ascii?Q?cdk+rSFI0TtH8+sVzdsAxgIPn/+I/30O8XfpSkg/H7KaBJHi6OTyReu5Ip3o?=
+ =?us-ascii?Q?QtvCeW5RJLhGOtDO6OsWN7svMuhpAop4EpGzjYP7b7zNxF6Mbv+zew/5c20s?=
+ =?us-ascii?Q?fgJz4x4i0xtHhs37vpvRejICYRHgoyv1h+jz9pSwyANcIdBnCgSpCQdA2YTm?=
+ =?us-ascii?Q?pEr1+uOBZv0CAIESi+LndbRi/DUpCrk1k7N+sjEqFD0aLYqzhuKhiqy/jsmx?=
+ =?us-ascii?Q?38sT4gujzSMeWptD/H10d0lw4SVHB5ZcAGaIXAMJQHWNk+Le1ZYvsYhXnMcp?=
+ =?us-ascii?Q?KK3qoEI4VPQ9bpK1cG2ooHWQ+fOLZbAxMA25oEP5iIU63GDYxqkZ3WFaH/dT?=
+ =?us-ascii?Q?40sB+fajWitseJZIVe6ttTlvuhCb4KXSS54BbJzIBO/rBaHAfgjhRYZ9FI9e?=
+ =?us-ascii?Q?hL7hvw8PZi1Ahz45N4BzpYhXQkWk7LJiP2JpOGxe2RMgwTwWYooM/IM/v+RY?=
+ =?us-ascii?Q?Zm3Y+0mpFZXtsDtgQ9CeuNIE77+ZSkCWa+AT26P+W5nP2DS99UoaT3Yk+8pO?=
+ =?us-ascii?Q?9/wavu6NM5j0Kh/2w3fep0AWciEIIs9Gr2D0Kx3OCDS94R/d1NWHGVy80Thx?=
+ =?us-ascii?Q?SHoCnpzX677hCr54fwzoQS9izIlPSgo=3D?=
+X-Exchange-RoutingPolicyChecked: o1rUWzdBFe9N1p5Fsht2mzWaXp/xSSOFKol0lNR5aqhNTL9/KUGOLFs7Z9apq1G/mLF4Xq8zlON9VtF0zL7Vy+YbMCa1mhjlo0jirfUaRraKsHuqD2tgbqoCsA3Le1aukovqAHNFtbqZcsOL40K+IXb5RMiS+eYBFKPyOnMN5Q6reBhOKzZq+9GnyTmY/Mv+zlIRS3RNKXtz+mY5XC+fVaa5bIIRSaKwF3orvhvwDISSf1OWPGoWQMffLEQ4XGISySvHsui7MQjkhnuCSlz9OGEX62whjPOmxmEQjOuDMo2ayF/ap3ShirGQuzAJPfvuuIFxT9Jo4QkRaIMB6iv2vw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bc2566c-5c87-4397-eef0-08deb7b26e49
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2026 03:30:11.7913
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7ynRmFEurpLw5gwDWoxoGKvNS1TVwPuYHzSotzCB2vAs+fs5lMfFYECyCKU9eLhLU14pCtlYChbR2lycPw3qSii4Kh+LKeL0Gvld9Hkp9Dg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF2CAD058EC
+X-OriginatorOrg: intel.com
 
-Hi, Hyunchul.
+On Mon, May 18, 2026 at 09:35:15PM +0000, John Groves wrote:
+> From: John Groves <john@groves.net>
+> 
+> This series applies bug fixes (mostly found via sashiko) to the dax/fsdev
+> series. This has been soaking in the famfs CI pipeline for 2+ weeks and
 
- err =3D ntfs_index_block_inconsistent(...) now stores the helper's -1.
-Previously err was still
-0 at this point, so the common exit path normalized corruption errors
-to -EIO via if (!err)
-err =3D -EIO;. With this patch, the -1 skips that normalization and is
-exposed to callers as
--EPERM.
+I am not able to apply the set to any of 7.1-rc1 through rc4.
 
- Was that intended? If not, this path should set err =3D -EIO before
-jumping to unm_err_out, or
-ntfs_index_block_inconsistent() should be converted to return real
-errno values. The latter
-may be cleaner, since ntfs_index_header_inconsistent() already returns
--EIO but the caller
-currently collapses it back to -1.
 
-Thanks.
-DaeMyung.
-
-2026=EB=85=84 5=EC=9B=94 22=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 9:48, H=
-yunchul Lee <hyc.lee@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Modify ntfs_index_block_inconsisent() to perform stricter validation of
-> INDEX_HEADER geometry in INDX blocks, and update
-> ntfs_lookup_inode_by_name() to use that function to validate INDX
-> blocks.
->
-> Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
-> ---
->  fs/ntfs/dir.c   | 38 +++++---------------------
->  fs/ntfs/index.c | 85 +++++++++++++++++++++++++++++++++++++++++----------=
-------
->  fs/ntfs/index.h |  3 ++
->  3 files changed, 72 insertions(+), 54 deletions(-)
->
-> diff --git a/fs/ntfs/dir.c b/fs/ntfs/dir.c
-> index 20f5c7074bdd..6745a0e6e3e7 100644
-> --- a/fs/ntfs/dir.c
-> +++ b/fs/ntfs/dir.c
-> @@ -342,43 +342,19 @@ u64 ntfs_lookup_inode_by_name(struct ntfs_inode *di=
-r_ni, const __le16 *uname,
->                         dir_ni->mft_no);
->                 goto unm_err_out;
->         }
-> -       /* Catch multi sector transfer fixup errors. */
-> -       if (unlikely(!ntfs_is_indx_record(ia->magic))) {
-> -               ntfs_error(sb,
-> -                       "Directory index record with vcn 0x%llx is corrup=
-t.  Corrupt inode 0x%llx.  Run chkdsk.",
-> -                       vcn, dir_ni->mft_no);
-> -               goto unm_err_out;
-> -       }
-> -       if (le64_to_cpu(ia->index_block_vcn) !=3D vcn) {
-> -               ntfs_error(sb,
-> -                       "Actual VCN (0x%llx) of index buffer is different=
- from expected VCN (0x%llx). Directory inode 0x%llx is corrupt or driver bu=
-g.",
-> -                       le64_to_cpu(ia->index_block_vcn),
-> -                       vcn, dir_ni->mft_no);
-> -               goto unm_err_out;
-> -       }
-> -       if (le32_to_cpu(ia->index.allocated_size) + 0x18 !=3D
-> -                       dir_ni->itype.index.block_size) {
-> -               ntfs_error(sb,
-> -                       "Index buffer (VCN 0x%llx) of directory inode 0x%=
-llx has a size (%u) differing from the directory specified size (%u). Direc=
-tory inode is corrupt or driver bug.",
-> -                       vcn, dir_ni->mft_no,
-> -                       le32_to_cpu(ia->index.allocated_size) + 0x18,
-> -                       dir_ni->itype.index.block_size);
-> -               goto unm_err_out;
-> -       }
->         index_end =3D (u8 *)ia + dir_ni->itype.index.block_size;
->         if (index_end > kaddr + PAGE_SIZE) {
->                 ntfs_error(sb,
-> -                       "Index buffer (VCN 0x%llx) of directory inode 0x%=
-llx crosses page boundary. Impossible! Cannot access! This is probably a bu=
-g in the driver.",
-> -                       vcn, dir_ni->mft_no);
-> +                          "Index buffer (VCN 0x%llx) of directory inode =
-0x%llx crosses page boundary. Impossible! Cannot access! This is probably a=
- bug in the driver.",
-> +                          vcn, dir_ni->mft_no);
->                 goto unm_err_out;
->         }
-> -       index_end =3D (u8 *)&ia->index + le32_to_cpu(ia->index.index_leng=
-th);
-> -       if (index_end > (u8 *)ia + dir_ni->itype.index.block_size) {
-> -               ntfs_error(sb,
-> -                       "Size of index buffer (VCN 0x%llx) of directory i=
-node 0x%llx exceeds maximum size.",
-> -                       vcn, dir_ni->mft_no);
-> +       err =3D ntfs_index_block_inconsistent(vol, ia,
-> +                                           dir_ni->itype.index.block_siz=
-e,
-> +                                           vcn, dir_ni->mft_no);
-> +       if (err)
->                 goto unm_err_out;
-> -       }
-> +       index_end =3D (u8 *)&ia->index + le32_to_cpu(ia->index.index_leng=
-th);
->         /* The first index entry. */
->         ie =3D (struct index_entry *)((u8 *)&ia->index +
->                         le32_to_cpu(ia->index.entries_offset));
-> diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
-> index 146e011c1a41..c203a5ad47b6 100644
-> --- a/fs/ntfs/index.c
-> +++ b/fs/ntfs/index.c
-> @@ -303,6 +303,53 @@ static int ntfs_ie_end(struct index_entry *ie)
->         return ie->flags & INDEX_ENTRY_END || !ie->length;
->  }
->
-> +static int ntfs_index_header_inconsistent(struct ntfs_volume *vol,
-> +                                         const struct index_header *ih,
-> +                                         u32 bytes_available, u64 inum)
-> +{
-> +       u32 entries_offset =3D le32_to_cpu(ih->entries_offset);
-> +       u32 index_length =3D le32_to_cpu(ih->index_length);
-> +       u32 allocated_size =3D le32_to_cpu(ih->allocated_size);
-> +
-> +       if (bytes_available < sizeof(struct index_header)) {
-> +               ntfs_error(vol->sb,
-> +                          "index block in inode %llu is smaller than an =
-index header.",
-> +                          (unsigned long long)inum);
-> +               return -EIO;
-> +       }
-> +
-> +       if (entries_offset < sizeof(struct index_header) ||
-> +           entries_offset > bytes_available) {
-> +               ntfs_error(vol->sb,
-> +                          "Invalid index entry offset in inode %llu.",
-> +                          (unsigned long long)inum);
-> +               return -EIO;
-> +       }
-> +
-> +       if (index_length <=3D entries_offset) {
-> +               ntfs_error(vol->sb,
-> +                          "No space for index entries in inode %llu.",
-> +                          (unsigned long long)inum);
-> +               return -EIO;
-> +       }
-> +
-> +       if (allocated_size < index_length) {
-> +               ntfs_error(vol->sb,
-> +                          "Index entries overflow in inode %llu.",
-> +                          (unsigned long long)inum);
-> +               return -EIO;
-> +       }
-> +
-> +       if (allocated_size > bytes_available || index_length > bytes_avai=
-lable) {
-> +               ntfs_error(vol->sb,
-> +                          "Index entries in inode %llu exceed the availa=
-ble buffer.",
-> +                          (unsigned long long)inum);
-> +               return -EIO;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  /*
->   *  Find the last entry in the index block
->   */
-> @@ -452,20 +499,19 @@ static struct index_entry *ntfs_ie_dup_novcn(struct=
- index_entry *ie)
->   *
->   * size(struct index_header) <=3D ent_offset < ind_length <=3D alloc_siz=
-e < bk_size
->   */
-> -static int ntfs_index_block_inconsistent(struct ntfs_index_context *icx,
-> -               struct index_block *ib, s64 vcn)
-> +int ntfs_index_block_inconsistent(struct ntfs_volume *vol,
-> +                                 const struct index_block *ib,
-> +                                 u32 block_size, s64 vcn, u64 inum)
->  {
->         u32 ib_size =3D (unsigned int)le32_to_cpu(ib->index.allocated_siz=
-e) +
->                 offsetof(struct index_block, index);
-> -       struct super_block *sb =3D icx->idx_ni->vol->sb;
-> -       unsigned long long inum =3D icx->idx_ni->mft_no;
-> +       struct super_block *sb =3D vol->sb;
->
->         ntfs_debug("Entering\n");
->
->         if (!ntfs_is_indx_record(ib->magic)) {
-> -
->                 ntfs_error(sb, "Corrupt index block signature: vcn %lld i=
-node %llu\n",
-> -                               vcn, (unsigned long long)icx->idx_ni->mft=
-_no);
-> +                          vcn, (unsigned long long)inum);
->                 return -1;
->         }
->
-> @@ -477,27 +523,18 @@ static int ntfs_index_block_inconsistent(struct ntf=
-s_index_context *icx,
->                 return -1;
->         }
->
-> -       if (ib_size !=3D icx->block_size) {
-> +       if (ib_size !=3D block_size) {
->                 ntfs_error(sb,
-> -                       "Corrupt index block : s64 (%lld) of inode %llu h=
-as a size (%u) differing from the index specified size (%u)\n",
-> -                       vcn, inum, ib_size, icx->block_size);
-> +                          "Corrupt index block : s64 (%lld) of inode %ll=
-u has a size (%u) differing from the index specified size (%u)\n",
-> +                          vcn, inum, ib_size, block_size);
->                 return -1;
->         }
->
-> -       if (le32_to_cpu(ib->index.entries_offset) < sizeof(struct index_h=
-eader)) {
-> -               ntfs_error(sb, "Invalid index entry offset in inode %lld\=
-n", inum);
-> -               return -1;
-> -       }
-> -       if (le32_to_cpu(ib->index.index_length) <=3D
-> -           le32_to_cpu(ib->index.entries_offset)) {
-> -               ntfs_error(sb, "No space for index entries in inode %lld\=
-n", inum);
-> +       if (ntfs_index_header_inconsistent(vol, &ib->index,
-> +                                          block_size -
-> +                                          offsetof(struct index_block, i=
-ndex),
-> +                                          inum))
->                 return -1;
-> -       }
-> -       if (le32_to_cpu(ib->index.allocated_size) <
-> -           le32_to_cpu(ib->index.index_length)) {
-> -               ntfs_error(sb, "Index entries overflow in inode %lld\n", =
-inum);
-> -               return -1;
-> -       }
->
->         return 0;
->  }
-> @@ -669,7 +706,9 @@ static int ntfs_ib_read(struct ntfs_index_context *ic=
-x, s64 vcn, struct index_bl
->         }
->
->         post_read_mst_fixup((struct ntfs_record *)((u8 *)dst), icx->block=
-_size);
-> -       if (ntfs_index_block_inconsistent(icx, dst, vcn))
-> +       if (ntfs_index_block_inconsistent(icx->idx_ni->vol, dst,
-> +                                         icx->block_size, vcn,
-> +                                         icx->idx_ni->mft_no))
->                 return -1;
->
->         return 0;
-> diff --git a/fs/ntfs/index.h b/fs/ntfs/index.h
-> index e68d6fabaf9f..3451ec8a1c4e 100644
-> --- a/fs/ntfs/index.h
-> +++ b/fs/ntfs/index.h
-> @@ -89,6 +89,9 @@ struct ntfs_index_context {
->         bool sync_write;
->  };
->
-> +int ntfs_index_block_inconsistent(struct ntfs_volume *vol,
-> +                                 const struct index_block *ib,
-> +                                 u32 block_size, s64 vcn, u64 inum);
->  int ntfs_index_entry_inconsistent(struct ntfs_index_context *icx, struct=
- ntfs_volume *vol,
->                 const struct index_entry *ie, __le32 collation_rule, u64 =
-inum);
->  struct ntfs_index_context *ntfs_index_ctx_get(struct ntfs_inode *ni, __l=
-e16 *name,
->
-> --
-> 2.43.0
->
->
+> 1) won't affect anything that doesn't use drivers/dax/fsdev.c, and 2)
+> doesn't affect any known workloads - although the bugs would have
+> manifested when multi-range DCD dax devices are a thing (soon-ish).
+> 
+> John Groves (6):
+>   dax: fix misleading comment about share/index union in
+>     dax_folio_reset_order()
+>   dax/fsdev: fix multi-range offset, vmemmap_shift leak, and probe error
+>     cleanup
+>   dax/fsdev: fix kaddr for multi-range and fail probe on invalid pgmap
+>     offset
+>   dax/fsdev: clamp direct_access return to current physical range
+>   dax: fix holder_ops race in fs_put_dax()
+>   dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
+> 
+>  drivers/dax/dax-private.h |  2 -
+>  drivers/dax/fsdev.c       | 85 ++++++++++++++++++++++++++++-----------
+>  drivers/dax/super.c       | 51 +++++++++++++++++++++--
+>  fs/dax.c                  | 12 +++---
+>  fs/famfs/famfs_inode.c    |  2 +-
+>  fs/fuse/famfs.c           |  2 +-
+>  include/linux/dax.h       |  6 ++-
+>  7 files changed, 122 insertions(+), 38 deletions(-)
+> 
+> -- 
+> 2.53.0
+> 
