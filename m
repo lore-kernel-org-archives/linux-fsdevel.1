@@ -1,324 +1,301 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2910937C934
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 19:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7C934CFAB;
+	Fri, 22 May 2026 20:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779479331; cv=pass; b=mcRJ3+R3LFJH96OedqmnAtMxsR2suQPAebUeePv6xerwB2rA35ZXMlOfNdoCSNo5/thEwW+wBxiBTstXu9hAbHzL4KBKqVQIKquMqG/vNCDfCBj0okQCxDYzcu95i5wIDtMmt+Mq2H5HgOoDwpHTSKHKPGMxpgf7PdD/jmaz7UQ=
+	t=1779481435; cv=fail; b=ZqUkcqq2L+4OKvB0jdK2w14vJHny+ARTKqMuy0M/lPn/ucShyTSjY1GTAAMoUIh34zC+/McpFEPeVXx5bhfl43GiMJidnnct5AC3e9PXCRXVS/hwjtUbAJoixA+UB8FY3tP8DCYk16Z8GIQd82fCQWLLgIt/5ZHXHKbhU0kUV6M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779479331; c=relaxed/simple;
-	bh=/UoHjOlN3xawNIf1F5ryX11h4JGww68rYrXSIAkZJRk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZagEVrRpZ7gp9PmbeD4s8w7EhfZ1U2sDWpwLoxp3CxPtULPcG5XfqCzYsjRa6NN1SbDoRM8uk/rXo12qw/wo4T4QxyAC9WpdlILrRn58jFW6ae6UN9k+VS9ADE1yFzMvnm7vZR+4OiIGvNMy6KwU3kLHmfq2thsnqNXNrHjY2g0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g4SqXnXV; arc=pass smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779481435; c=relaxed/simple;
+	bh=3B2R85IuKmg1+hi0V0yMNqz6PwIMFpbPdquyJOtVACU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ujFu3zeKPD98JXEAfqgKe3PekOXxwdKm5Pc6PqHZh2fsmqdbTJBoSO/pycp0P2vcK6MsTdnsBHx/xBoEbC2C4w/vu/4hx24ww1Rsg6TIaL556cjHks71yYiiBD89Q4r0OWl3PZNnX6yqMNc18NifnVyp8OnE/ZEKSTKSkRx+c+8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=UFFZ4vGi; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=beEFEdw4; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g4SqXnXV"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-bd2087858c4so1500560666b.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 12:48:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779479327; cv=none;
-        d=google.com; s=arc-20240605;
-        b=POoNAL34t5K0Ivlnb8EAFM0RK5Y9pcd8qsn/c9FM6uN+8OXb4SoKYTkEPhSUZ+/o51
-         yzhh13HQbayIoGRo1Z+lAuhnzzf7YByhcBKwwD3buL6kuJsXkGZXuxiafEJ88/2q/uCa
-         lDyBLfxIlehUecH9lFYavH4o45bMcB79f46Nql+WVAo2kMsN3j2/cnAvv/n+pMFjtlew
-         +gUULDeqSzf4uUEsGjJ4km9mF92Ab9OBwiPOQdc+P7hudMDWu/THo2oZgJlstbBFePd4
-         O0LGXya5vWTLW4fHA1SKxP0gl6CNilbF17+gwMtG3uJsQe4dmX7RhIr2xlE25L3PCP0w
-         7cow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SjTamPpbto/HfM8byrwNWfIswXwrk9jmy9Vl3IViybw=;
-        fh=6IYkJSOLF+X66/pVj4NzDRu3gGLxqlIxaaBB9G+yOb8=;
-        b=lPYg3aQNPI3q9Rj3XPwsmKfb8QBMAsi49uB7g/siZYcl5uHPCvSdGR7Nzotzpb47I3
-         VXzIYZaPDAjehrTVKNdfjlp3X1id7FU31UPbjLI+KW2DPU1bHa+4WPe0cKu/vYWR7Un+
-         el0C8KisneVdfsihInjVlQ9aWw0+S8kgKTkJA47QPtH1VXmtzZRUNKZPs9UeOgZpvm/S
-         FDqvsRMIVQgBk2lnFBomDZTrE9vWWBJZRrsCfbSeCmArdICsUbrw5mlM0Mot/MUp9Z56
-         lYk2ebp9ELmmSyULHODFyNr8A3j/FAzLqof3b0TexgWKUFifOI3Bw7u3O5LSgoIRKTBz
-         5jxQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="UFFZ4vGi";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="beEFEdw4"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64MD7Qa71808735;
+	Fri, 22 May 2026 20:23:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=vW5EnLK0CDM8MyyNM/abwOp9FtRoNlrxzp+utCGw4sk=; b=
+	UFFZ4vGi2oEB2Gzy0RS+pMB8m0x7sH0p9JRTP0PlmXSAHoy0C/xwICBZ9eDRf6x+
+	i7Ny6Ry03NVrly5lfTk6aantGqwEhCMaH3cMu4A866XLxIjjLpLW9iZyPGzkEO2C
+	Em1YjABp+UTod1Y1VzETRuqUcVXJe0iEG1F7M7veqMPMI0fW6fWjvensnoQLxgQq
+	8n28dUZTrajWmLow+nNbfAE4Zl8AqkfKz3YcrYTv5lWcnrMXaSe6n2xhhGEXZ9HK
+	Artj1/IIaiGePSqiL51LmVZ7Q4B7lxWa3nfMq7Ylqa18vjB8f/aleIkeuFjrC8v4
+	e42TG1TBRcQoSUjS0Uqy8w==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4e6h1t3rs3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 22 May 2026 20:23:27 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 64MKEh34018582;
+	Fri, 22 May 2026 20:23:26 GMT
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010066.outbound.protection.outlook.com [52.101.61.66])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4e6f1fcsy8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 22 May 2026 20:23:26 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XV8XSVxKfdGEme7WaecYCIbXiGL+mLMU5IonoA303S+setK/zeo6BGP1wYd99RxSnST23b5zfMuTjZGa3iKfp8MFL5pxLLZrai+k97CBvGSKfAL74oGzEOmgdXY+6JbN4vSZeKsjoBkp7jIWx2ns05DUX6KtwiFuyrC5keN+3riqBTvvE/8HpWprJUQeKMysqx3cyw28Bbkotk/3qwsXWUoki4XLH/jaSX1zjEhfS6Is0T2I8bAVTelQnrcIHo2s+W8LaVJ7WBFt9ojJcZfREbPYz534/1o8f0uKpARav3rixUjD5VUFs9530bRz6iP63TcHPuS/N/IHdEC6vJD8xA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vW5EnLK0CDM8MyyNM/abwOp9FtRoNlrxzp+utCGw4sk=;
+ b=anRL6jRATJ+/x83b/lLG5FELit19kAY5h4KvP5ze7LGy/PY32gA908b4gyQ7yskZ9odYirDuCx+A/21ykNbZI+zwIdCmSC1bLekZqfgZWYjwJpA0FQqwVKLkYsh+ZhtcRpVvCsOzp3vHsQsGkoBil+3jfhT2jDRHulKHgNgcXEP02zyKlsUGC/aGfSaA3ZyfXKcTiZ0TgRUPCQR944JQ4zzpp3+mf5LnJd5VnnPPDXGOykLeGhHQZGmS3swVRl0gYUFxW5CAlDXy23/xHOIVSIdKZFRPSTmtr/rLN74+qQ8SJWXdAav8rFyAIB3mHSh5UXzkFOEQIJ2u4Elg98FITw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779479327; x=1780084127; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SjTamPpbto/HfM8byrwNWfIswXwrk9jmy9Vl3IViybw=;
-        b=g4SqXnXVLIrx0YRIQZzxbpACbqKJG8UEXPSJk8nEq8QQiERvrj47BM//x/jMoKuTps
-         zW0ZKZW++GqETNxxNb+tPTYFZWQc6h/iqxB17JTLHkztEdNZJhshMEEylcHBgFwNg6P6
-         Q2Kp9aURgZpApLwN8qR995VZpJKp0E1sqJOISSOs772PTD0aSXxQT9ov3ergNetA6Uz+
-         /PAfLp4vWgwr5zKBsRy4IHu0XMAGFcRRYZzy2eqXarEfge0SNwQsF3yU9+vqGaEAyn1D
-         JZ7/aXtdZfjLf9wpeD4hbPi/+FXD8nN2IdowVPqZqTvtSPs2UoMjR8avfUnJ1etQgZ/D
-         dzag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779479327; x=1780084127;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SjTamPpbto/HfM8byrwNWfIswXwrk9jmy9Vl3IViybw=;
-        b=O9I339VNHKif3dMRLWvFgUu6Woq76CkRemWwn9qytYnJfTSVVxFnvAmzGCrev1SWX2
-         Od1B2epl/hE2mckr4UP2VdVA+QjAH0SQyfAfiwu4MHYYNuvNyzY1R4lE3h5fYvexq1cp
-         FdScGVUQY6V0KJyqhSf4dBczaH0eu+D4ZJAEgyAGxMlPHM+KpheNOQ1fv1wAWkYjGNFV
-         2fIG16wCRV2PPHuznEgn2Aez3LuwnL8CxxcsM1n7r6HaEg7iWNqyDfuZd12PbNQo6kNM
-         fwipfs8kGAU2JAH215wNeJAGIy7zF1jE09M2XQUtgSvypJqsi1ehc0hJ6mJI+yD8M0VY
-         hkqw==
-X-Forwarded-Encrypted: i=1; AFNElJ9abzeeGOj6F9WA24BSp/dlWkBU8+8npw7odPjYCcH+sjiFyqgRpp9B0srlZ78HxxnIKuY/xG2qmLK/joht@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCzmTAyP76HXpWQ+C3MJdXF7Rf+j4v4Ff7/hPvwBk6X8pSCQ46
-	RgU9csdhUQAirLULRFUDjlN0lSHtWg5sXd/H8Oaj5CReuSvJOI3iO01RMoA7S9nC/6x+snNYr8g
-	GAATAeMn70zdU2jdzQZvO0xxg8Tb/Eys=
-X-Gm-Gg: Acq92OFVie9lqbj0zMgyNREvMXGA//1joHdsQhTMQa9I6RKk3WzXdnDv7qVmHIJQW1q
-	Kr3pvpzeF/VXD/C/5Xdtxj+hNV5SIUPNOsM44ow3NggfeYETwrdJFP+WAUczfpQ0OqgR730hchj
-	Fc4XswjGoxQU5hQKwFavVzmd881LArirwsyMIVf8TAd/tjkDJpeAkMG+NIOAC+oauJeMxYwrKiT
-	Fi7qD0Nn4FGm5KqDQEi0m3ouRkluGDjLhbUJcxzGcj7/1gdp+zzsbLGa6+t3xJrGQWYAhJL1yw1
-	ZlBfpxW+qUDLQdLWW6KnMtDKSgNKCqppiwrHN4s=
-X-Received: by 2002:a17:907:cf8c:b0:bd4:8bb6:3d52 with SMTP id
- a640c23a62f3a-bdd279d1b3bmr310255666b.36.1779479327364; Fri, 22 May 2026
- 12:48:47 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vW5EnLK0CDM8MyyNM/abwOp9FtRoNlrxzp+utCGw4sk=;
+ b=beEFEdw4o9yFvfMOUhQSGy2optWHoglIdwShNsHRcc8gBIvV8YVfmVfgiqS+z6J2HvxX69Te7382P0XfBp3BdKQNh8+IiV7sz7fDnQpTXihVrhM/7hbQMmghb/znjl7KAaSv+W1CrD7XlVCr7EajshUelGHjYxe2HkMzRz+B+/w=
+Received: from DS3PR10MB997700.namprd10.prod.outlook.com (2603:10b6:8:347::19)
+ by DS4PPFFE8543B68.namprd10.prod.outlook.com (2603:10b6:f:fc00::d5b) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Fri, 22 May
+ 2026 20:23:22 +0000
+Received: from DS3PR10MB997700.namprd10.prod.outlook.com
+ ([fe80::4c1c:3bb:c4c9:8e7a]) by DS3PR10MB997700.namprd10.prod.outlook.com
+ ([fe80::4c1c:3bb:c4c9:8e7a%7]) with mapi id 15.21.0048.016; Fri, 22 May 2026
+ 20:23:22 +0000
+Message-ID: <7ed573be-1df9-43ee-bfef-4499af0767b4@oracle.com>
+Date: Sat, 23 May 2026 01:53:15 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6.12 634/666] netfs: fix error handling in
+ netfs_extract_user_iter()
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org
+Cc: patches@lists.linux.dev, Xiaoli Feng <xifeng@redhat.com>,
+        "Paulo Alcantara (Red Hat)" <pc@manguebit.org>,
+        David Howells <dhowells@redhat.com>, netfs@lists.linux.dev,
+        linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Christian Brauner <brauner@kernel.org>
+References: <20260520162111.222830634@linuxfoundation.org>
+ <20260520162125.016902019@linuxfoundation.org>
+Content-Language: en-US
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+In-Reply-To: <20260520162125.016902019@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BMXPR01CA0091.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:54::31) To DS3PR10MB997700.namprd10.prod.outlook.com
+ (2603:10b6:8:347::19)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522-fix_pipe-v2-0-a8b35a78244e@debian.org> <20260522-fix_pipe-v2-1-a8b35a78244e@debian.org>
-In-Reply-To: <20260522-fix_pipe-v2-1-a8b35a78244e@debian.org>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Fri, 22 May 2026 21:48:34 +0200
-X-Gm-Features: AVHnY4KgBXvyBNU6QbNL7Mc36DJq7cwJqPP3Ok4mTlxAnVRZmoYkpIZkIWkzn94
-Message-ID: <CAGudoHFZkzXjzYcTxzmaMbLg0Sfh49sTcqiCoMVh9KU-d3eP4A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] fs/pipe: pre-allocate pages outside pipe->mutex in anon_pipe_write
-To: Breno Leitao <leitao@debian.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	shakeel.butt@linux.dev, jlayton@kernel.org, oleg@redhat.com, axboe@kernel.dk, 
-	kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PR10MB997700:EE_|DS4PPFFE8543B68:EE_
+X-MS-Office365-Filtering-Correlation-Id: f1d0071f-5f3d-4310-19cf-08deb83ff873
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|4143699003|5023799004|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	LEiXEkW8Wu4rTvUTBLX+VlWoWka4ILSnYte1UAlW3B3X6dQmA6sxF3hj1YYcOqQd638z8jel4juSPimKyqSj8E93Y54N80gJOkC5DtmnV7KJ7So4PsQNs03Dq7pR4K6Ufe2Xx0LshTKyrFKN9fpxWFM5S5NOBkb5yuiOWHOVAtusc4QpIuy7a7+L6DzYDdo6aBWioPBNQywOImJ+vggY95uOdF2vR071yfbiO7Ai+caN4tFrdNOKOvFnggfi35LdX4eMLr3HHr8CxFbPjzW0mkkRYaBUIsgKT+2nIsn4QCD9o08H+DAN3YMwnArTxO2nZZr0NY14lvZ1ctAhs8F/guRXQ999SdUKlp+XaebQLThQSqC7X+a+KqomNYTAuZEsuNHUwTX041KUEACRG9p5xTwPYm9nE6GSlhFw24DLPs/YEbt2LwnyJyFEi78emP46begTa2tgDdPA2UmjKdKMjaHPGkglDF2y7h2Ke+muT3UruhzTJRWKsiJ701CD4DfebfVgJ0nDbU17ad2KjR2ePSXQP74deuCUcW9QddJk11olWBgbqxN2v6oYYiNC9WcUfDWbP1VMe2bmoO8t11PaxpbqPM9zfkTGitQp5FkfuR84BmMUg1GInPN5jzz51Fp3h0/1JW0IngyvvVKmYDNt3g==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS3PR10MB997700.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(4143699003)(5023799004)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TUJMMDNTbHZ2SDRMaURYT2lNc2VINmhKNnBGR0h1RiswUHdBRm5qRG55NTBD?=
+ =?utf-8?B?aGhicG1iRDA2bFlibUJlZ3pjVDBBaDV0N25ISVZVWVpCSWJOUVh2TjVIakI1?=
+ =?utf-8?B?NUROelNPN3AyOWFNQXF2RldtTEtGWXVLOXF1REk2b2dNM2dsY2RqLy9McGEv?=
+ =?utf-8?B?SXpCZHBBNUg0K1NmekxtYzZKa0dQb1k5Mkg2L0xOSkFOUTNKWDE1eFNaNkNS?=
+ =?utf-8?B?MllyQ295a2NBYkdmakhjUzlVZkhhdGZaOEJWSENQc0swSkIzMUt1eFhYcXlu?=
+ =?utf-8?B?VzQ5aWU4TURNMlJGNU9SM0ttWk0xWUZScEVJK3Zrd3ZOWnAvMGlGRndYV25C?=
+ =?utf-8?B?NGpRd0pUeW9lQWUyQlNDbHIvMTJFdWdEQmFoWkVTU2ZUY3YxQnNLbGY3Y0ZS?=
+ =?utf-8?B?bjl1bURoRUFGZFJkUXZlNFNBbjJvZnVYanNKSjBGckVtNU9mTGNzbmVRZTQ0?=
+ =?utf-8?B?cFFQMHNlVVU1V1l5eXdIZlhNVGdlNEE3UXAxRjJuRFVRSWFtWFBSWC9KdUZu?=
+ =?utf-8?B?VnRuWGJBdEZpMXdvcUFlQWhKVlQySlQxQ2xtc0p3VXhXY1JvRXBZOW9OUmtq?=
+ =?utf-8?B?TTNzTUdOZjBwTVpGcDN1M1BoTHpnRWhPUFcvTEF3Nmoza25TMitWdS9GWlFh?=
+ =?utf-8?B?dFh1VzZrdmI5aHhiSnpEWUZqMHpGOW13RXVyZ3dielpma0NaNHdWVCtsU0lB?=
+ =?utf-8?B?cmRWSE1PZWFsZ1Q5VkJ3TDlLSkxwTVkybWlBVDMzSlk2WkRjRUhya294WXRj?=
+ =?utf-8?B?cG1iQUdMUlVJOWhra3hCWTZNWmpLRHB4RUZCZzBUQWJLa2QwN21jYzRoWXp2?=
+ =?utf-8?B?ZVQ4Q1ovTGhVbnJLYWZFSzJQL0FFYUF5Nnl1VzRyRDlNMCtZVTlOd2MrM05x?=
+ =?utf-8?B?UXg2bHlocU1sWGFqZ1luV1o5aGxVdDRlYVAxYTVMMUY1RDhHa2ZlZ0tUME9q?=
+ =?utf-8?B?SEtWbCtpY3ppaHlIYU9sV3ZnVE0rZTdtUDRWSExiUnpOZUZ1L1AzbytsUTZN?=
+ =?utf-8?B?OXZvcnBOeFVHcnNkc2JuNDJPUmxWdmIwczZUY0puODVaNlVLeDhBa05FSGRF?=
+ =?utf-8?B?ZzdtUVhwR0hGMHZJdDNSS1poYjJOSVZnY29WemQ3T2c1UDBCaWppYlFKend6?=
+ =?utf-8?B?Q0ZUOTdPSFNJSy9nR3Y0b3o4aGhyWEJ1Z1c3RHpDZUROdHg5eVA1TTJqK204?=
+ =?utf-8?B?OUtMcWpzazZXNVZNNkZDaW5lTVN2UFRqZnRpcHZDRkJYdTdXeUNZdjA2cVN0?=
+ =?utf-8?B?ZE9mUm1OeUo3eHZmRlYyelI4alU1dERkZHBETXdqd1k1T0s3YmFUTlpZMERD?=
+ =?utf-8?B?OGllaXN3SHFEWVlZOHdTVUpMREpjMzd0SWJoSk9FajBWY0lzLzBRUDBGMkpO?=
+ =?utf-8?B?N1F2NmRob2lDdldlay9xVmVhWTVqUzAwaDlkdEt1Snp1TWl2TlAzeHRzRjJZ?=
+ =?utf-8?B?UWhYMGM0RjJTT0w5UnFWSDJDb0tWaGRvQi9tbHFiemExR0pCeDlhWmx1T2N1?=
+ =?utf-8?B?WDBaS3VqbUdOMFNkU0V4WnJpQXUrNW1RdGxTUEF6OUowV205N2dFVWlXUC9u?=
+ =?utf-8?B?eXluM1BEc2JQSnRCYXRnSlA3Yjc5alI2K3JGVHdLVVNESWdDZnp3OWhyVVk3?=
+ =?utf-8?B?QzRqRWJhRmFLY2FtSzdQbE92SUxxTUEyTkVpaXlPeEJtS0pBU0xLWFhHRTZq?=
+ =?utf-8?B?bHNVMGZIWFlWUnEyUE50VHRWam1hdGtxZDF3VUl1SFg3VlFGZUJuQ3cvM1Bw?=
+ =?utf-8?B?U3hmNHRLQ1ltSmZNOWRFU3U4R1hIR21kbHFLOG1vaGlxMkF6b0I5azRFNUZv?=
+ =?utf-8?B?MlF5U3NSZ25USmlnWE9hM1NORW9kWFZVMFk0WGRJOE5za0NySnhQS1hDUjJE?=
+ =?utf-8?B?b3ZIOGpCNVZaYnI0M1B3dFY0Q3kyMVQ4YWJnM2d3TVRlNFdYVFlYL1puaWpS?=
+ =?utf-8?B?TFB3dTExamNqaERDeDlHMi9IZDJKOGpMd0VuVXB6V2pLY0RIbWp4TmJ0bzlt?=
+ =?utf-8?B?MHpYb0t1c3RndGF4QXlZU3BvNFVoc2hpRnFmMG1ONnM4TzBOQmk4b2NMWHE0?=
+ =?utf-8?B?SDBPb2RoMnJBZFBKaXVCK0srZlRleGVrVjBhUjhBeHdMTHVWREd4enF5R1o5?=
+ =?utf-8?B?UzN3SVYvNXExazJ1V21USEw4QWJNektSY0ZFbWY4VE5FczlneGdEei9jNm5W?=
+ =?utf-8?B?Rm5HanNnOGVpc3R6Q3kwd3pjaVNSNy9WUjV0ZlRhUko3SWhvdjZqWnlOdDYx?=
+ =?utf-8?B?SDgzbUhWK0VoK2lncU8rL0FKOXVSZWJXd01WTDJyaDZBWnAwT0pFZXlwTHJF?=
+ =?utf-8?B?ek1TR21zZ3RkR3l2SERPbmluVWhsVEp5TnFOT25sdWZKOXBiQ1R0MEN0clVS?=
+ =?utf-8?Q?RnSdfLFCzv6RXO2ZO71bTOIcwLGErUV4VyI1v?=
+X-Exchange-RoutingPolicyChecked:
+	d/efc80us4yey490STJYY4D16pFfSm2Ebsz9sR6A3B5Ym4ulJQWOau6QykHQrmZpcI1ZuU+2u697j21YLU434Kxau9vOS1u18Okd/0NOLDRgRgHSbCC07SFDz7ZyZwdIw70F8iMeAJrmTt3UpXM/OLKdnvwMIxhU6MDnj4JngGccOBh5GgUv4IEv+ihE6j6E5+TNXcjuWxkzDBB0dRiyzTS8R17ZeAWaTJnshByk6wNMQLGGTEq0J2GUkZ+sBJbwSg42trcSN7iE2IrV1F26U95lfo/szyVwoGas6NB4/V0SGFFFNIBjdTe/ZuBLgASzylqsUOHmc2FpOxmEwx6PHg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	hh3EtgHtq4IU8YMveWUiwYrUIgLJQXn83bazJHm27QIFptigakFY+OPFymkBCbYM4t08d5Ob7TqBXumH3KPcIC1XtBkR6olldV/ghgJmn2J0fgiO+B1oIjQjN+xh2wOtWcKKcb2LPSDo9I9jrehWmJiU3Jumx1g0GmV/9saV1+td+4w/aILZOjYIQmD9KQfHDug8axLjQRkRVq+JH4M5uIV5TOMrKp7MsnNIfou2TYLUREd71eiCsHkP55mA4n3j89GTpptmRcmgIJ78oHK65nqryRmrlfkcW2awQUuIMvYMZfaD54YzGRs88NdeDuKcq9nDZCoJEvVXCfAmGJDXJINtm8qLPOGqosGe3FJmMe8jnZETlRDcp/kSGA+6PDhHa5ARra9pCCU0hDUxC/0y8l8xl+P4AF163MNr1XKCoOWyoayoSlbGLI/L8f6pn20gbNQZC8y5uzk8m9VLd8Qom6xFJRdva0zlTdZ0GXe0CafKJkrHBXYyuDhA3H9P5QrBWMWpXn0YzNiF2fyL9xKtBGfwPqmuHpO2qgh4eOpCsass/ZCiXqSQluPWMxQdkqqjzK4lCuiHQfsibzlYQUtlArX0BaCflulmbXVFVSLeqeA=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1d0071f-5f3d-4310-19cf-08deb83ff873
+X-MS-Exchange-CrossTenant-AuthSource: DS3PR10MB997700.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2026 20:23:22.7165
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uWiTgUWHUYko+fjElL+U2X96qDnUfhz47IbeKTZw4+5Fr2PCj6c9WFCWb+yp3nzc3RhlqQE0r2PD6KiqahAT+AV4TRbH8sdcL/ijx+dxfhQvts7zMGXX+4WAQuu5un9r
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFFE8543B68
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-22_05,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ malwarescore=0 mlxlogscore=999 adultscore=0 mlxscore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2605130000 definitions=main-2605220202
+X-Proofpoint-GUID: rX7zauaEEzFDHaRyDp9pgXuMXU9B_MaP
+X-Authority-Analysis: v=2.4 cv=d9jFDxjE c=1 sm=1 tr=0 ts=6a10bb3f cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=NGcC8JguVDcA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=BqU2WV_vvsyTyxaotp0D:22 a=bC-a23v3AAAA:8
+ a=20KFwNOVAAAA:8 a=tAGQbYHnAAAA:8 a=VwQbUJbxAAAA:8 a=ag1SF4gXAAAA:8
+ a=k5tvX0q1aSgfgFQQrR4A:9 a=QEXdDO2ut3YA:10 a=FO4_E8m0qiDe52t0p3_H:22
+ a=lXWXidlrYx5KKt6n-8sY:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-ORIG-GUID: rX7zauaEEzFDHaRyDp9pgXuMXU9B_MaP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIyMDIwMiBTYWx0ZWRfX3uBCCKFVsxJa
+ KoQyWKuIJ4tG/7DSEGdCUZ4w8hwv4RO0+N5Xn6idzWVX/pTDPl3MsXbOR1jNdmZq1ABXBKKdqCS
+ IayoPBCSIQq/Q6mvi+Bsc3I/8dWZXs/Aw9Y8psgwqj8VRAjxf0zQxNH0yAPVXR2tyhl1yeSJ6UC
+ FDObEFgNtixVR9qFLiI5CCqUUSFZJaoVXyW19XGpZLMbLnrCLiyFlta4VDbdJaPVMqrgNR5/FIz
+ bKZpgMdLUMRbrmI0MOtpErJPXh5oPdS+rRTwbwWL8ELdi2Lr/R43zJZuBbGg80NmgSkqwwcgD0/
+ ZVCT1SIhw0PbDVIN4aQD8HqXy7lTH0CMSq7iN7xCe7b2006fi0m0P/f1sGrF5u+MfoV0skLzexe
+ llqlYeu7xRlqpwERFat6b8ZUC17DiZDiESgw7Y/julGORQiDHnVDznGKe9KHlP9ojlOM8VGUf8s
+ y0Crm+OU36mvpMhx37A==
 
-On Fri, May 22, 2026 at 6:44=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
-ote:
->
-> anon_pipe_write() takes pipe->mutex (aka "mutex protecting the whole
-> thing") and then, from the per-iteration anon_pipe_get_page() helper,
-> used to call alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT) once per page
-> while still holding it.
->
-> That allocation can sleep doing direct reclaim and/or runs memcg
-> charging, which extends the critical section and stalls a concurrent
-> reader on the very same mutex.
->
-> Just pre-alloc the required pages before the lock in an array and just po=
-p
-> them inside the lock.
->
-> This can improve the pipe throughput up to 48% and reduce the
-> latency in 33%, easily seen when there is memory pressure and direct
-> reclaim.
->
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+Hi Greg/Sasha,
+
+On 20/05/26 21:54, Greg Kroah-Hartman wrote:
+> 6.12-stable review patch.  If anyone has any objections, please let me know.
+> 
+> ------------------
+> 
+> From: Paulo Alcantara <pc@manguebit.org>
+> 
+> commit 0aad5704c6b4d14007d4eab15883e8524e4310f4 upstream.
+> 
+> In netfs_extract_user_iter(), if iov_iter_extract_pages() failed to
+> extract user pages, bail out on -ENOMEM, otherwise return the error
+> code only if @npages == 0, allowing short DIO reads and writes to be
+> issued.
+> 
+> This fixes mmapstress02 from LTP tests against CIFS.
+> 
+> Fixes: 85dd2c8ff368 ("netfs: Add a function to extract a UBUF or IOVEC into a BVEC iterator")
+> Reported-by: Xiaoli Feng <xifeng@redhat.com>
+> Signed-off-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> Link: https://patch.msgid.link/20260512123404.719402-10-dhowells@redhat.com
+> Cc: netfs@lists.linux.dev
+> Cc: stable@vger.kernel.org
+> Cc: linux-cifs@vger.kernel.org
+> Cc: linux-fsdevel@vger.kernel.org
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > ---
->  fs/pipe.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++--
->  1 file changed, 102 insertions(+), 3 deletions(-)
->
-> diff --git a/fs/pipe.c b/fs/pipe.c
-> index 9841648c9cf3e..cff255217bbfe 100644
-> --- a/fs/pipe.c
-> +++ b/fs/pipe.c
-> @@ -111,16 +111,76 @@ void pipe_double_lock(struct pipe_inode_info *pipe1=
-,
->         pipe_lock(pipe2);
->  }
->
-> -static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe)
-> +#define PIPE_PREALLOC_MAX 8
+>   fs/netfs/iterator.c |   13 ++++++++++---
+>   1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> --- a/fs/netfs/iterator.c
+> +++ b/fs/netfs/iterator.c
+> @@ -22,7 +22,7 @@
+>    *
+>    * Extract the page fragments from the given amount of the source iterator and
+>    * build up a second iterator that refers to all of those bits.  This allows
+> - * the original iterator to disposed of.
+> + * the original iterator to be disposed of.
+>    *
+>    * @extraction_flags can have ITER_ALLOW_P2PDMA set to request peer-to-peer DMA be
+>    * allowed on the pages extracted.
+> @@ -67,8 +67,8 @@ ssize_t netfs_extract_user_iter(struct i
+>   		ret = iov_iter_extract_pages(orig, &pages, count,
+>   					     max_pages - npages, extraction_flags,
+>   					     &offset);
+> -		if (ret < 0) {
+> -			pr_err("Couldn't get user pages (rc=%zd)\n", ret);
+> +		if (unlikely(ret <= 0)) {
+> +			ret = ret ?: -EIO;
+>   			break;
+>   		}
+>   
+> @@ -97,6 +97,13 @@ ssize_t netfs_extract_user_iter(struct i
+>   		npages += cur_npages;
+>   	}
+>   
+> +	if (ret < 0 && (ret == -ENOMEM || npages == 0)) {
+> +		for (i = 0; i < npages; i++)
+> +			unpin_user_page(bv[i].bv_page);
+> +		kvfree(bv);
+> +		return ret;
+> +	}
 > +
-> +struct anon_pipe_prealloc {
-> +       struct page *pages[PIPE_PREALLOC_MAX];
-> +       unsigned int count;
-> +};
-> +
-> +/*
-> + * Pre-allocate pages outside pipe->mutex for multi-page writes.
-> + * alloc_page() with GFP_HIGHUSER can sleep in reclaim and runs memcg
-> + * charging; doing it under the mutex stalls a concurrent reader.
-> + *
-> + * Loop alloc_page() instead of alloc_pages_bulk_*(): the bulk path refu=
-ses
-> + * __GFP_ACCOUNT under memcg (see commit 8dcb3060d81d "memcg: page_alloc=
-:
-> + * skip bulk allocator for __GFP_ACCOUNT") and silently degrades to a si=
-ngle
-> + * page. A per-page loop keeps memcg accounting and the task NUMA mempol=
-icy
-> + * honoured for every page; the per-call overhead is small compared to t=
-he
-> + * pipe->mutex hold-time being shrunk. Any shortfall is covered by the
-> + * in-lock alloc_page() fallback in anon_pipe_get_page().
-> + */
-> +static void anon_pipe_get_page_prealloc(struct anon_pipe_prealloc *preal=
-loc,
-> +                                       size_t total_len)
-> +{
-> +       unsigned int want, i;
-> +       struct page *page;
-> +
-> +       prealloc->count =3D 0;
-> +       if (total_len <=3D PAGE_SIZE)
-> +               return;
-> +
-> +       want =3D min_t(unsigned int, DIV_ROUND_UP(total_len, PAGE_SIZE),
-> +                    PIPE_PREALLOC_MAX);
-> +
-> +       for (i =3D 0; i < want; i++) {
-> +               page =3D alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
-> +               if (!page)
-> +                       break;
-> +               prealloc->pages[prealloc->count++] =3D page;
-> +       }
-> +}
-> +
-> +static struct page *anon_pipe_prealloc_pop(struct anon_pipe_prealloc *pr=
-ealloc)
-> +{
-> +       if (!prealloc->count)
-> +               return NULL;
-> +
-> +       prealloc->count--;
-> +
-> +       return prealloc->pages[prealloc->count];
-> +}
-> +
-> +static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe,
-> +                                      struct anon_pipe_prealloc *preallo=
-c)
->  {
-> +       struct page *page;
-> +
-> +       /* Drain prealloc first to keep tmp_page[] hot for later small wr=
-ites. */
-> +       page =3D anon_pipe_prealloc_pop(prealloc);
-> +       if (page)
-> +               return page;
-> +
->         for (int i =3D 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
->                 if (pipe->tmp_page[i]) {
-> -                       struct page *page =3D pipe->tmp_page[i];
-> +                       page =3D pipe->tmp_page[i];
->                         pipe->tmp_page[i] =3D NULL;
->                         return page;
->                 }
->         }
->
-> +       /* FWIW: This is called with pipe->mutex held */
->         return alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
->  }
->
-> @@ -139,6 +199,38 @@ static void anon_pipe_put_page(struct pipe_inode_inf=
-o *pipe,
->         put_page(page);
->  }
->
-> +/*
-> + * Stash leftover prealloc pages in tmp_page[] so the next write to this
-> + * pipe gets a hot page without entering the allocator.
-> + */
-> +static void anon_pipe_refill_tmp_pages(struct pipe_inode_info *pipe,
-> +                                      struct anon_pipe_prealloc *preallo=
-c)
-> +{
-> +       int i, idx;
-> +
-> +       if (!prealloc->count)
-> +               return;
-> +
-> +       for (i =3D 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
-> +               if (pipe->tmp_page[i])
-> +                       continue;
-> +               if (!prealloc->count)
-> +                       return;
-> +               idx =3D --prealloc->count;
-> +               pipe->tmp_page[i] =3D prealloc->pages[idx];
-> +               prealloc->pages[idx] =3D NULL;
-> +       }
-> +}
-> +
-> +/* Runs after mutex_unlock() to keep put_page() out of the critical sect=
-ion. */
-> +static void anon_pipe_free_pages(struct anon_pipe_prealloc *prealloc)
-> +{
-> +       while (prealloc->count) {
-> +               prealloc->count--;
-> +               put_page(prealloc->pages[prealloc->count]);
-> +       }
-> +}
-> +
->  static void anon_pipe_buf_release(struct pipe_inode_info *pipe,
->                                   struct pipe_buffer *buf)
->  {
-> @@ -432,6 +524,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
-from)
->  {
->         struct file *filp =3D iocb->ki_filp;
->         struct pipe_inode_info *pipe =3D filp->private_data;
-> +       struct anon_pipe_prealloc prealloc;
->         unsigned int head;
->         ssize_t ret =3D 0;
->         size_t total_len =3D iov_iter_count(from);
-> @@ -455,6 +548,8 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
-from)
->         if (unlikely(total_len =3D=3D 0))
->                 return 0;
->
-> +       anon_pipe_get_page_prealloc(&prealloc, total_len);
-> +
->         mutex_lock(&pipe->mutex);
->
->         if (!pipe->readers) {
-> @@ -512,7 +607,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
-from)
->                         struct page *page;
->                         int copied;
->
-> -                       page =3D anon_pipe_get_page(pipe);
-> +                       page =3D anon_pipe_get_page(pipe, &prealloc);
->                         if (unlikely(!page)) {
->                                 if (!ret)
->                                         ret =3D -ENOMEM;
-> @@ -566,7 +661,9 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
-from)
->                  * after waiting we need to re-check whether the pipe
->                  * become empty while we dropped the lock.
->                  */
-> +               anon_pipe_refill_tmp_pages(pipe, &prealloc);
->                 mutex_unlock(&pipe->mutex);
-> +               anon_pipe_free_pages(&prealloc);
->                 if (was_empty)
->                         wake_up_interruptible_sync_poll(&pipe->rd_wait, E=
-POLLIN | EPOLLRDNORM);
->                 kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
-> @@ -576,9 +673,11 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter =
-*from)
->                 wake_next_writer =3D true;
->         }
->  out:
-> +       anon_pipe_refill_tmp_pages(pipe, &prealloc);
->         if (pipe_is_full(pipe))
->                 wake_next_writer =3D false;
 
-maybe the new call would be nicer moved below pipe_is_full, but that's
-just cosmetics
+I have run an AI assisted backport review and it spotted an issue: I
+have taken a look and the issues goes like:
 
->         mutex_unlock(&pipe->mutex);
-> +       anon_pipe_free_pages(&prealloc);
->
->         /*
->          * If we do do a wakeup event, we do a 'sync' wakeup, because we
->
-> --
-> 2.54.0
->
+Upstream has:
 
-Reviewed-by: Mateusz Guzik <mjguzik@gmail.com>
+
+
+ssize_t ret = 0;
+
+...
+if (ret < 0 && (ret == -ENOMEM || npages == 0)) {
+         for (i = 0; i < npages; i++)
+                 unpin_user_page(bv[i].bv_page);
+         kvfree(bv);
+         return ret;
+}
+
+6.12.y has:
+
+ssize_t ret;
+
+...
+if (ret < 0 && (ret == -ENOMEM || npages == 0)) {
+         for (i = 0; i < npages; i++)
+                 unpin_user_page(bv[i].bv_page);
+         kvfree(bv);
+         return ret;
+}
+
+I think 6.12.y misses commit: 7e3d8db899d5 ("netfs: Fix potential 
+uninitialised var in netfs_extract_user_iter()") so backport might not 
+be complete, thoughts ?
+
+thanks,
+Harshit
+
+
+>   	iov_iter_bvec(new, orig->data_source, bv, npages, orig_len - count);
+>   	return npages;
+>   }
+> 
+> 
+> 
+
