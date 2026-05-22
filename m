@@ -1,134 +1,124 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35708233924
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 00:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779410915; cv=none; b=tiMuVqfxdOp6VDGtjcNJCsoSGx2jBM+J75lNJQpyVZNi+oDwJmxXdueslHv/TMl+pnRdCb3dX///QMpiXM++t6qnsNzt1Y/xQ4NxG2IWcSUHQgowzkM/qILAs0/9kABFajvCdadveyHYAmxcv/ITZqEXyNzI8QI2TZga9L6XbPg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779410915; c=relaxed/simple;
-	bh=3Z7DGIxd99r47inav3ntEvoXxx75MHxcbUAHkNmIls0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TtTTFAGzppmKcmKR7WlT4waqT9Eq1Yr+Zek1Rk0d8wtLMJNrDYXt75P4ecko3HQ0eODRlwjRvN2L2kybgd/eYjHSkcPIHSsubYM5Ldg0aXDqmdcyvkt04SsIdNVa3fM7nidqbDxD0hxqIn0ybLXPBgLHSWziQlX+/priFkZgC2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iFVkqLoL; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA3E23D281
+	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 01:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779412963; cv=pass; b=WJoQfeBdM8p2QXsSc79fKHOJeDyWUinx9SmuuBqEGRshkg8Ssf1uWyhrvAr8hwvtBN9jd+N770fX9EC+IgSB7HuT5oK7xUlzjezucmpjBicu+ez/MZMHOkNf4GvdB3KhCCG0sgKNaGWY4VL+JTM2oQyTMa38qq7SyDATBRImz+c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779412963; c=relaxed/simple;
+	bh=hf8aD+CTNM5WaJGZYxWH0QhWtVHrzHkL2z+jbOQkmRE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JlGQOPR/8DWor1nMr2sY4uaiUaaYsVR4uBgTiXEpSKUmZxwd2NNaT5I6THaer7ZX+DtYvCmVXl9XBtV2s4Fe2604S1lIx/blPCHKkrnPTYTjXjCsEG34lZjtnAhJTwsz+C8m8KCF/luG44FnmiWMX6pt/FjGSIfhU7tbH+Rz5mM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K3D1hIki; arc=pass smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iFVkqLoL"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-83f674f978fso2361470b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 17:48:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K3D1hIki"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-65e4f6103cbso423809d50.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 18:22:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779412961; cv=none;
+        d=google.com; s=arc-20240605;
+        b=feniIt1Vu6prJKkv7YuJzwikzHw4aZIAWGgZpjmBCNJBQC/LsNFcIcs1SKE7XfCQ91
+         2C6UR2stbZd/UuEA5/YXvS6jRuroSuqqUi/SAfFL6lw30bPLW5FAhOx6nKmtYOYIQMDY
+         ocSoFiCX3vwleVBbAT/DxEqOsQHN4AUoj7Pfn/CSY8BotF04rnReU1uwlAOr4wocoNOy
+         cfiMBLaa2WL3LFMkyY9XK2ysagKE1hh2dImoiIySBa+6L20DbNxHaUTG7dBPXa+whuqC
+         rhfUFRM6ibJvxPINTZik20m/d1fCqTPLpO2oxGo9ZNpMrCA+eFglqua/VF3IKdgnbiRg
+         xerA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yTrKm0i2sPrOyuruFAbMa66ajkPaWi46kgfWjrtyQXg=;
+        fh=XSLonaludvZ4gsNMlPDM50QbLhat5/F831mlE+2iBO0=;
+        b=kSbqCGhnwxBGWGSjwU8/VypplTdNLackmnFl2EvqwVjTPpo1ikA/7kDd8Bjwh40USe
+         PNBIOLGkTes/BNsCL7xHcGL6YMBvPAo3XzS7txqXs3OQtbw+n5s0tWrwwuGG6O5rObuX
+         BwWM8K8E34igLmB3nD6mbwIMF+eS6dxTGcY4T1qeL16o9Sf0NpyNg1H+KAUNqg8Ohx86
+         Ijk7UcZCDHH2N7pyC9szU7kgf8eitjVx9u30aiOpGlVDizApdfcagx8He2oWiR3TTlOc
+         iLry5UT0YA4Qsa1k4FmRAz/+PiX/Kn/N7lajC2eot/p9XRbwyoaUfsY0mOBcOO4PcZw5
+         G5cQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779410913; x=1780015713; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779412961; x=1780017761; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v6ToQuIOvYiLinMKHYAl5XCRT3szRUzaMC8NZZn/8eg=;
-        b=iFVkqLoLLHjIdvee32+iZpYGQd43WGCjzXkMZaFH7r3Nkjs5q07FqM/5qCUlCEyiy7
-         Y9HU/tk4erLLlBFn3dJJA49KOIID2EaF+JzpH7w9d0Zf6GxPyLm0UvA4WOy8Iz9jmyAa
-         eODaubHzNDYBNO3PrEorIk2tNuk+tNr8SD9hhGa1lv4cN/kZc2MPUDn6T1ly82Grjfbe
-         JATgQ02jjyEN3vDnZ6fuCuoOYirspEejMKNgDL59hTgjrOgLjT0o3cIIT9EXmTFH0LXb
-         u9wkbkwqecypsgMWgANLydFZA1xZ10PNERQrDoiAIxwbf5NmOMH7GRPSFh1J4S5ofCWY
-         scuA==
+        bh=yTrKm0i2sPrOyuruFAbMa66ajkPaWi46kgfWjrtyQXg=;
+        b=K3D1hIkifzLocgugxKn6XJOPHWhuYR4Y06CwQTSVJxJG+Vj57/GKs6gAx7lYQe85vP
+         ISniJdpgXT8uNZl1TvDPol30EMqXnLUrtflqdErM/bvtsj/+AtBLVnbtDsdaKuEh7uEK
+         6WhvYfefMz8pyPU5augrqNjXXdfExuhw8y92x/pvbWeuOsxjzXG8BHxt1QRzu8epWX/A
+         BHpWVCXyrOWiv7Sp+1dFUAyVda2jb7pLHZd2LGBzDCxPLETCl06ct0i+K9F95zOZdsix
+         7iv9LU27uZ8yEd6ia93qQd97Dk66skZX+/rXA+ckMwOH/JWT92unDyAnfvD29cavUhO4
+         GSoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779410913; x=1780015713;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1779412961; x=1780017761;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=v6ToQuIOvYiLinMKHYAl5XCRT3szRUzaMC8NZZn/8eg=;
-        b=evUB9NSQGAMV2OmduwhFbmROxrCs2El6DE4XeA/+MZgVt9u0E2qenj0+jDq4YqJvOC
-         SPIjvc/FUfxzlRmtmYqYnNXxwJNEA32MjsmSZA2VMzkwGSpQDX5dRXUMleOC0aYQAVjU
-         o1DzdCuEyyKIga/SdAhqgTIlT1YHwQ+sAuXbkX+gGHH0MLKXjBMyrvo5ZOwFYOnN3jK0
-         ADYmSKvzTZ8Vffysc/3bvqTwDRLoBMAkEFuw6KJGjAnwQV44vPiTtaud/bmtJVGwmuQ0
-         zw8MHS9MY1Bc59cjzwAln7zrHTBLeW4a/7Iw5Ryj1XguKOIJsoEVodkkFSor9mnHRQc5
-         CpPA==
-X-Forwarded-Encrypted: i=1; AFNElJ//W3tGnYHxl5CDIGpacKKRhFm1N0anZ3gZbQU1Z2eLBPPVIWdXkwkdA1b9sVCO9LbVWyNCqDEABw7y0QiZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpG6CH3rR3AqeVLO9wSEhYf7OiC+IgF5SiEnnXn4L9eFBA7Amn
-	fTiLgu6UTh7PUdTuCntqnyywJTD2HlfVxcQFSnFnane6wno36gh/pvMK
-X-Gm-Gg: Acq92OFug5UhzTEWUCYUmaoOzOIvfyBUh+OuF/Xd77NnNzSsL9l1gSdTcClyx71/hL2
-	eYimKlxmDBs0tqk0vJOIzQ2JEnGbg84TJ1AW2d6loir2dYviYShwHIeEPsKnGGRCPSnafVsIMqc
-	DRQ4gatl+Q+NuG0Om16EcyfWM2qxhDFBE6qGAacTs/Algk7VOHY3lUGS9r+7fypSUpL6+QAHUJ/
-	O7y4L6/hpPKBWfwVo2LldljKBE6hItSHpIO5kGPmukEPrdAnfJMpSllynFmYn7Hm5mLOW4aYhfj
-	fbYectyqRzxdI568s6BGN+9CklARBBsCmEUBllF2yWeWWtlExRwABMkQ9iiGzNtfGSz21WDYbRH
-	/w0xtf50wyN9h//hy8xHQxj2aUu48v/5XEw9MgtL1LhupU829ypq3vhKkfeG/x/YEf9eqAB/T/5
-	S2+Msn2Gfsncp1WpoInzCNkQU4xiDO2g==
-X-Received: by 2002:a05:6a00:240b:b0:83e:c8fb:54dc with SMTP id d2e1a72fcca58-8415f371ed1mr1374745b3a.19.1779410913282;
-        Thu, 21 May 2026 17:48:33 -0700 (PDT)
-Received: from hyunchul-PC02.lge.net ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164ac99b0sm78484b3a.4.2026.05.21.17.48.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 17:48:32 -0700 (PDT)
-From: Hyunchul Lee <hyc.lee@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] ntfs: add bounds check before accessing EA entries
-Date: Fri, 22 May 2026 09:47:47 +0900
-Message-ID: <20260522-t-fix-oob-v2-v1-4-0bea6582a361@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260522-t-fix-oob-v2-v1-0-0bea6582a361@gmail.com>
-References: <20260522-t-fix-oob-v2-v1-0-0bea6582a361@gmail.com>
+        bh=yTrKm0i2sPrOyuruFAbMa66ajkPaWi46kgfWjrtyQXg=;
+        b=kDmJCh1f+0wf+jXqBnLQd+cjfchFutwZPivY8nVt2zfilCEl49GZV0bAMUxEoOaU5s
+         cg9Ua2/8yFIeI+QQvUM3BzINFm1uEDpj49YVo/ZDfRkf8MCWMSQ6SzlDnSWmk1w6bexC
+         N83dbDkJl1asRO9X7bnUiEL6nRRIFZ6rxGHUBT7jrYV3ewl1xZ5OBQYCcKGEbD2X6/UR
+         5zmk2pfWFFz5Bccrxnd7xfS2IQ0EBjFgncqoQHepNIfOvttu8vUpyGl5cdAV+U5emWjM
+         tF3rFbNckKX7Ej4xklKlycxYWanTVUqmrSJnmapfqTp7DiMvnP8CAso1rrOYkPhJlNac
+         a3zw==
+X-Forwarded-Encrypted: i=1; AFNElJ/Kq9kDXb01pBmCQtSY0bbfP99itTMP+yPwGBSqwOqu7MSXEMfbqcugczFa4/sWIjH2/WYG6C9778LKo7xg@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBvdhCej8v0CohJSSbkaF0PN7TM5PozXnnrF0C+fn6bsDmz+ga
+	Onq/6ibq/s8bBXgRpi40+j5kGJM9o+2zI6fmQdIKQZf9J3w44/LXHz7xqpWA0KEWdIf+r0y/MV0
+	VtzjP3ExvjDYsZzmgsOBr1h0W3Rx4HZU=
+X-Gm-Gg: Acq92OEOvaH4V6JTaSWBx+ErTORUpK8BXoftJ/Z5NsmncxYPcIEMnxNd6wtabIMfXMh
+	tHdWgYKLf8ud3KPJ4/6MAQSowTSVOPd6Wy93zknvumw6HDt/UDPG5t8mgieUTPBccBAlSYUVaq5
+	RMLgYvIUuQtz8PUkiUKCuw1/0SuIDu0dpBZ+CwYUMkL10QhXCHpLwhBeuVSU3DeL6++U03JusvS
+	lwl1bukMtNQGs7Myo/PJ5guAxb0bTnrZ/ZmV9Hwup6fYgBwOOKw27BM3eklrYcSE+3RTAo8kyyA
+	TJ8JyXvgnFF7niEyhn37ZiVxZzkFZSPd9IHt5/cq
+X-Received: by 2002:a53:ac9b:0:b0:651:bdff:db07 with SMTP id
+ 956f58d0204a3-65ec99ca005mr1256274d50.7.1779412961468; Thu, 21 May 2026
+ 18:22:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1139; i=hyc.lee@gmail.com;
- h=from:subject:message-id; bh=3Z7DGIxd99r47inav3ntEvoXxx75MHxcbUAHkNmIls0=;
- b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqD6Z+cFDBjuledse+5nJbmJnJj56LafD+i8u0y
- veIqKVWyBCJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCag+mfgAKCRA08jD6945I
- 0w9AEACkKBX81TnC4SSljMrZpJ8gTh/HttJMfT7jCTgPMinnt0reiSs2h7lPcPdoo+b5gySYeSB
- 5F61Wl3s48tpbCzzpUeuJtdMALZ5REplplKXV0/qgkigf2/7KZsp9DQagJhwbMqf2ONv7asIFlT
- 1gbK5Qy3cFuWb/hNJVIBHRBJPM6p2gk14un3adqGeg1UFJqPJGteLmGVvaCwyl12tF9+zznyCns
- eOW4Gzsn9tgOw7YBz5HhvJR6XMBXWdYlF4/SRVhJDKcWEJFePUcemMZ3gmnb0NmO+bZCUZrEX69
- v2oTYGi1nrh99/Lthu50XQFJ85PPWvP+s2oMw8lEvUmGjVPDypDUu1Gf7FwD1q5pXoPLV5BSc3r
- K3MM29FP0Jlksp/I2MyXf+Irt0gFUvPNvL2/wuBA4Fb8UqB03+GEzRvht1RsbUQ4fcfm7bYSqVc
- I8wKFCpHEUkxi22fDbXcrG4jmVnpto3t09zfqwgoowJ0mioP2ZbQ5bkzWxCyyTrxaSe/BARkmdF
- v9KTR63W1TNCx99u+i6VXG0kc3OwsKSAY5m3RB9VN27u49v9sqVO50t5M3+zIK+LLXwdfYX/awC
- t7r7vQp3G8K5fqVWFjSFZgPckzNBBkAv11L4EpGz7PQflBHDOHcknrZ3GEDkqiaU8Jp2cPfxAuv 7DARDS62pTxVY/w==
-X-Developer-Key: i=hyc.lee@gmail.com; a=openpgp; fpr=D58529CC5376E36D6E1E6F6234F230FAF78E48D3
-Content-Transfer-Encoding: 8bit
+References: <20260520170151.4115308-1-charsyam@gmail.com> <20260521101751.591345-1-charsyam@gmail.com>
+ <20260521101751.591345-3-charsyam@gmail.com> <CANFS6bYVMzKP2uBV=-XMJ4JHyoBNfzqHDAteZ_8gj4t_C3e7xg@mail.gmail.com>
+ <CAKYAXd8QvChDOkXobpo+1iA4TW9jpLW1sCw8zOFaqS2UsFWLkg@mail.gmail.com>
+In-Reply-To: <CAKYAXd8QvChDOkXobpo+1iA4TW9jpLW1sCw8zOFaqS2UsFWLkg@mail.gmail.com>
+From: CharSyam <charsyam@gmail.com>
+Date: Fri, 22 May 2026 10:22:29 +0900
+X-Gm-Features: AVHnY4JuyBVcepl4CcwMjZ-nbmxp5-c0THc311rBPLcrspV6wY60s4DEOoPok1U
+Message-ID: <CAMrLSE49sUi=BodYybCJ4rvzf--9VLF8N__ESZwE2hUGHT31Rg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ntfs: avoid heap allocation for free-cluster
+ readahead state
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-in ntfs_ea_lookup and ntfs_listxattr, this verifies that there is enough
-space in the EA entry before accessing the next_entry_offset field of
-the EA entry.
+Thanks for the clarification.
+I will rebase it onto ntfs-next and resend.
 
-Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
----
- fs/ntfs/ea.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/fs/ntfs/ea.c b/fs/ntfs/ea.c
-index c4a4a3e3e599..323caced77ea 100644
---- a/fs/ntfs/ea.c
-+++ b/fs/ntfs/ea.c
-@@ -58,6 +58,9 @@ static int ntfs_ea_lookup(char *ea_buf, s64 ea_buf_size, const char *name,
- 
- 	offset = 0;
- 	do {
-+		if (ea_buf_size - offset < sizeof(struct ea_attr))
-+			break;
-+
- 		p_ea = (const struct ea_attr *)&ea_buf[offset];
- 		next = le32_to_cpu(p_ea->next_entry_offset);
- 		p_ea_size = next ? next : (ea_buf_size - offset);
-@@ -486,6 +489,11 @@ ssize_t ntfs_listxattr(struct dentry *dentry, char *buffer, size_t size)
- 
- 	offset = 0;
- 	do {
-+		if (ea_info_qsize - offset < sizeof(struct ea_attr)) {
-+			err = -EIO;
-+			goto out;
-+		}
-+
- 		p_ea = (const struct ea_attr *)&ea_buf[offset];
- 		next = le32_to_cpu(p_ea->next_entry_offset);
- 		ea_size = next ? next : (ea_info_qsize - offset);
-
--- 
-2.43.0
-
+2026=EB=85=84 5=EC=9B=94 22=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 9:28, N=
+amjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> > >          * Convert the number of bits into bytes rounded up, then con=
+vert into
+> > > @@ -1985,7 +1981,7 @@ s64 get_nr_free_clusters(struct ntfs_volume *vo=
+l)
+> > >                  * Get folio from page cache, getting it from backing=
+ store
+> > >                  * if necessary, and increment the use count.
+> > >                  */
+> > > -               folio =3D ntfs_get_locked_folio(mapping, index, max_i=
+ndex, ra);
+> > > +               folio =3D ntfs_get_locked_folio(mapping, index, max_i=
+ndex, &ra);
+> >
+> > This line modifies the __get_nr_free_mft_records function, not the
+> > get_nr_free_clusters function.
+> > Therefore the patch needs to be rebased on ntfs-next branch at
+> > git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git.
+> We can change__get_nr_free_mft_records() in the same way as
+> get_nr_free_clusters().
