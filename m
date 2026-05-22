@@ -1,118 +1,82 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34603376A00;
-	Fri, 22 May 2026 12:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50309367B64;
+	Fri, 22 May 2026 12:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779451848; cv=none; b=A8qVr2xwp/9lIWiq0/Tl5SQNQTibDvHiyTjQc9MjzNW5aag1mg6/GPvN4RTRtjlYsX7EHqB0jCdABZ41BV+IiK+melBzEXS0bpuxKyNis92Erqqvh0giZDVVsabiU0EdLBnP0Y2Mr6uAf1xrDyc/X03ROQzkMUrX1QcqosYNkg8=
+	t=1779452418; cv=none; b=IHSbmZgy8RwznEUwmW6ZcTbGdF7+emlOVTPT4B5vLhl8hapcyXjStcUoa26dtVuegK4/rQnhgtMiG73PwkdUwXnUcif5dAkU0BKCgOVNvrLJBv5TLPb6Kk6Nmr988WiiZyr9fCwvtdjfD44SryBNsf1F2AcIFVPYwkZzvq6v4Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779451848; c=relaxed/simple;
-	bh=6P8Jlg4l2029b1V02C7uBOwgKbUtHLKhaiFg6hqUIUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UscZMDmIByoWVHY9Hp9Z2M4ge5WtcVGkI+ZVAnu+BqElaJL10vIYveR0PoYlPvACpFSuLPJhOmzv9fD/UAEs6RLDVxyG5HERDmF+iBq+wGTnJFA3cx1bhnUTNmuMaXeGzZw0YoLV7FsoRpKEV52OiVkiupRslAvBWlj5PksikGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=wBZjr/d+; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1779452418; c=relaxed/simple;
+	bh=pqcfrVKMzW7pHPbmJHUK6Mwi+lUai8sMn3jmozwKCNk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jqh2WsQOJjJICBa8jCxBsidUH9yoOlgZP9hTyT+Lws3IIog1Rkm4BUFLJ04hY6ofRvwvUehi3fDTpAMamlfO1Z+wCryDzaZ1dr184EJ3PjrlC1kBaCkN1L2dF07bdL6isxGLU2vXvDlbNN1FAjHt04HEoHSC0FHOk9ePlp9KIhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KzyFUw3d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="wBZjr/d+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=bjzkfHAR73gVyHESRaD3e1Go0DB+NgJ32dG4wk2RzRU=; b=wBZjr/d+oDy/t1Xt/t2ZuC6dHv
-	+1DoqcruMqlpft9jIatKplxQucQqMZCMNUt3ZUyyjkneZXoe45vKzJeQBMr3P1cUotLqCTT4UP46C
-	u74BuAwK+rpUfB9RtQKGh+gMTp4RulcfoTrPI3WZF3vXMSy/Ns+Z62TSjDJfGTwSuQZxWconA8zp5
-	EwFu8Z+xdfhNyhXo1qmdVly9zPYEef6jxlzHiBWCwsJzvZFKU/pdeoolSsiRdqxXwT5tOxjtwbvVw
-	95TTkfmhKu+ckdcx2DLMp4dcovoh7sq8oUwI6rtYHTSpXH6oZM+yswzch0z45sCchyQjcM74gQYKL
-	RYcpDNdg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wQOi4-004eZK-1q;
-	Fri, 22 May 2026 12:10:36 +0000
-Date: Fri, 22 May 2026 05:10:31 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH 1/2] fs/pipe: bulk pre-allocate pages outside pipe->mutex
- in anon_pipe_write
-Message-ID: <ahBGd-VwsZN7BGYm@gmail.com>
-References: <20260515-fix_pipe-v1-0-b14c840c7555@debian.org>
- <20260515-fix_pipe-v1-1-b14c840c7555@debian.org>
- <q37bmptbjr2gysl2g67bqo5axxqor4lsrrnf7ajixxjdrumbup@tgu3kz6kien5>
- <ag3Ty3T24wjn1aFw@gmail.com>
- <CAGudoHGT+8FW9HsN+ymQ2QECVjmwkx=xNQ9=WnjYWirXcA6u4w@mail.gmail.com>
- <ag8lIqhAmJtW4Rtv@gmail.com>
- <CAGudoHGMVQTU-5bh5csvZDgXv_aXun5-eSSGRoONxgSZAcF6Rg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KzyFUw3d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F28891F000E9;
+	Fri, 22 May 2026 12:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779452416;
+	bh=43QoGzg3aGL+idkapD3qwjyb2kx8u7eSqGNKjfPfxuw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=KzyFUw3dL2/EfRR35139lzTeamCyAbJz0ej0XYhD3E4mHBt5jIYlc12reQLZuZcfq
+	 v/vb2O0C1somsTIuJ4lLcob/RzTFIA27820CKsuelm+rZZ8vWBf3gvKnrdLbl5prLw
+	 t1jPv8hHRDWaLLhciIX+owIz4QQkZMohYbCu7EqfoO1W9AAPgYlY4oBY+VTX5iDZA1
+	 6Qqrri8QEeTNUOQA3Veq1ruyiFUjG5mFE2WInkswX2+1hEqVwZBmGGVKz+o7mT+5EA
+	 ntMVG3pOO6doqJwsnD76F7G5SOwYpvpr2MprdzxrTi62fPM5n8bwiFKv7y6yOjapTh
+	 sDH7vK6x1BUPg==
+From: Christian Brauner <brauner@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>,
+	Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] fuse: reject fuse_notify() pagecache ops on directories
+Date: Fri, 22 May 2026 14:20:10 +0200
+Message-ID: <20260522-dickdarm-mischen-vielmehr-e2019651bc10@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260519-fuse-dir-pagecache-v2-1-5428fa48e175@google.com>
+References: <20260519-fuse-dir-pagecache-v2-1-5428fa48e175@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1231; i=brauner@kernel.org; h=from:subject:message-id; bh=pqcfrVKMzW7pHPbmJHUK6Mwi+lUai8sMn3jmozwKCNk=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJeP4J+PrYRzXlSXQg9/nW86dL3R28lXce+FhwfYLGx bQD0nv9O0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbCV87IsLj162km0WfLrV2O zQvhVPzdoMNX11Vjf1Hv51aGpuv2wYwMSyN+/nY4Wa5ZudHIh2fWBNYtOta7zh/6rHfjiOCv1CN 5PAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHGMVQTU-5bh5csvZDgXv_aXun5-eSSGRoONxgSZAcF6Rg@mail.gmail.com>
-X-Debian-User: leitao
 
-On Thu, May 21, 2026 at 07:26:48PM +0200, Mateusz Guzik wrote:
-> On Thu, May 21, 2026 at 5:38 PM Breno Leitao <leitao@debian.org> wrote:
->
-> I do suspect the best way forward in the long run is repopulate the
-> tmp_page array if you have pages to do so.
-
-Ack!
-
-> > +       struct anon_pipe_prealloc prealloc = {};
-> >
+On Tue, 19 May 2026 16:29:38 +0200, Jann Horn wrote:
+> The operations FUSE_NOTIFY_STORE and FUSE_NOTIFY_RETRIEVE allow the
+> FUSE daemon to actively write/read pagecache contents.
 > 
-> I forgot this bit is going to be a problem with gcc. I verified it
-> emits rep stosq in place, which is going to completely unnecessarily
-> slow things down especially on older uarchs. This is a known bug with
-> gcc doing terrible job optimizing this.
+> For directories with FOPEN_CACHE_DIR, the pagecache is used as
+> kernel-internal cache storage, and userspace is not supposed to have
+> direct access to this cache - in particular, fuse_parse_cache() will hit
+> WARN_ON() if the cache contains bogus data.
 > 
-> The problem will be avoided by merely initializing the count to 0.
-> which looks kind of ugly if done here, but see below.
+> [...]
 
-Ack, I can do it inside anon_pipe_get_page_prealloc()
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-	static void anon_pipe_get_page_prealloc(struct anon_pipe_prealloc *prealloc,
-						size_t total_len)
-	{
-		prealloc->count = 0;
-		if (total_len <= PAGE_SIZE)
-			return;
-			...
-	}
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-> > +       /*
-> > +        * Bulk pre-allocate pages outside pipe->mutex for writes that span more
-> > +        * than one full page. alloc_page() with GFP_HIGHUSER may sleep doing
-> > +        * reclaim and runs memcg charging, so doing it under the mutex
-> > +        * extends the critical section and stalls the reader. The merge path
-> > +        * handles sub-PAGE_SIZE writes without a fresh page; single-page and
-> > +        * >PIPE_PREALLOC_MAX-page writes fall back to alloc_page() under the
-> > +        * mutex for the remainder.
-> > +        */
-> > +       if (total_len > PAGE_SIZE)
-> > +               anon_pipe_get_page_prealloc(&prealloc, total_len);
-> > +
-> 
-> I don't think this comment belongs here, it should move above the
-> prealloc routine.
-> 
-> How about this: anon_pipe_get_page_prealloc gets called
-> unconditionally and expects an uninitialized prealloc struct. For
-> total_len > PAGE_SIZE you roll with the current code. Otherwise you
-> just set ->count to 0, which prevents the ->pages array from being
-> looked at. You can even pre-set to 0 on entry, just don't memset the
-> entire obj.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Thanks, let me respin a v2.
---breno
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] fuse: reject fuse_notify() pagecache ops on directories
+      https://git.kernel.org/vfs/vfs/c/ef5728148f16
