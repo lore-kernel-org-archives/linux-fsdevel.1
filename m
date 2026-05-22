@@ -1,85 +1,80 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E4421FF21;
-	Fri, 22 May 2026 12:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B6F1A6839;
+	Fri, 22 May 2026 12:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779454567; cv=none; b=F1kzdv9fPYIS5dCsUa3FBGUsl3AJLGu0gNbBVp8YnsaOwyR+q16mPcbUHNgqnZDHUM7e0CiZTWkH78kVucI3dwo4LTaLHgbCRL6h8ZA7Yc4xJAHVL+jLTfMzuOHAelDdVd0vtwXaSj1RNUy4/A5eZG3iSy9odv6euotFvTc8mEc=
+	t=1779454610; cv=none; b=HuR4REOl0cFrk1Ttd839Ys+h26HX3IbEwrM4Kw5ud3puPJhGJgmjYQjMkR227UGZS0GkbSYEgn65RM+BFvepYmn0wOgQ2PSpWhfKWBKgEc3DaixmuBqPU0LybyX3igLzBtSdjsglpFct4KEI96nhdy0/AdnkiMZoqfziYjSmMxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779454567; c=relaxed/simple;
-	bh=ZSlCvPZVKNxqzgWvJnxr4N8aDQHNCqnKL5aCO++lLA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pYkTkWfmtaP5kr/DfmQUUO7wQu5miPzKhJt82FvfMPsLn5dFqUVh1FMIa9LkMskDpXDKBlrMpRrljWjF5+ANjx8QYMCiqTf7YdYXmUnL4ORSNIW/MZGasJDcT8kdxX5G98YS7+uljYeC+0vhLK6SzrZ03U0mHAepnYRopv3ARiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XvONFtj/; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1779454610; c=relaxed/simple;
+	bh=gNY4pi0AnH7uN3LbxfsuCEH3n2CQKYhqwCZ1F7P1eus=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Y0JAR6C+tkSHC7Mj5KG4GqPpDwV+q7UC0+zdJa+BeMqBfISHG4T5tdxQAY1e8+mTI0x6qUa2hqot9wo+zwSTtWcDO+GlmEhQuAd3Nk+zyoJpny4E7D4EfyuoBYrcCruvF61vSDYiUebCQFeXJacoz0O7YYwE5SUMtcjWetxcNyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ne0UtThP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XvONFtj/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=GJRt9Lpuwesly2s9mn+jBQgZQVuZWSioljyp5VarGsg=; b=XvONFtj/OYXrdj+0CGgw20dTEG
-	RY2jeN/WZcKK38rmHxiRjUt+SntpeA8EPhwp2eWQWftIp/acL8AUxIddJ+0Qpiy+TLiwpATROeCSo
-	Fs8dFNF5pwkTnR8BnpYnT1ogZ2D4SQiq/XJ/cQlURwpKK+ui/LLoaO9oOVEQE/K2K3XuLXS3K9dTC
-	Zw4aVVXiNdo4g11gW8T3dKmIDul5g8DUK/ZAhtr+ArwedNMhdliuq3YawrBCctxlDVIeoH478fdCF
-	3c5teZhzX197GPxz/qNKg4LapdHnk4Ok9Nta/gHolWI0GTNkbg16dMhpolPgBSuplVd/zsQQPhcqZ
-	hutvFDhg==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wQPPz-0000000A6hF-37gM;
-	Fri, 22 May 2026 12:55:59 +0000
-Date: Fri, 22 May 2026 13:55:59 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: Theodore Tso <tytso@mit.edu>, Christoph Hellwig <hch@infradead.org>,
-	linux-kernel@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Akilesh Kailash <akailash@google.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-api@vger.kernel.org, Christian Brauner <christian@brauner.io>
-Subject: Re: [PATCH v2] f2fs: another way to set large folio by remembering
- inode number
-Message-ID: <ahBSXyOi9b1jxNkX@casper.infradead.org>
-References: <20260409134538.3692605-1-jaegeuk@kernel.org>
- <adhPZxtbZxgU-37v@google.com>
- <ad30g9xMs9wNJhFb@infradead.org>
- <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org>
- <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan>
- <ag9D6_7dttbDGHZ6@casper.infradead.org>
- <ag_UsW_OrlXD9dWX@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ne0UtThP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00CF81F000E9;
+	Fri, 22 May 2026 12:56:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779454608;
+	bh=hiC8aF4eMlUu29WVYFgIsocdgY7kB9iU0pYbEnymTNM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Ne0UtThPFBS8EE5jf2vp08WWmPUr4QyVWLKQK4qH6o4s8vV27hkt8jRsaCmnPxGY7
+	 RXDsZXkcRlkvciZ8wfaR0lV5wEo3fcggAnot+f1mLi9f4c/yBRHfLODu7pjsw3C9mt
+	 h/Keu4VAhmN797hjxrXiZP0hEc2HHIW39eJ9i+0tOJ6AaK+sCZyQfUu5Si+nq1mfa0
+	 miyBJ3uQH0WFQ3++f8bgeq3srcMRbDiKiLZtD3BtbGckh0M2YbTgQNnEK/XhURqD2X
+	 onp/d4zSWBhz4ipmZ5pj6r1R/LZeE2tI27kr14M0h6/QHE6yOo9dw2G4ChAaF43uKB
+	 ASPa4wR2GTv0w==
+From: Christian Brauner <brauner@kernel.org>
+To: Jia He <justin.he@arm.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	David Disseldorp <ddiss@suse.de>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] init/initramfs_test: wait_for_initramfs() before running
+Date: Fri, 22 May 2026 14:56:36 +0200
+Message-ID: <20260522-ausgaben-vielsagend-zinspolitik-f55d04026ef3@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260519093937.1064628-1-justin.he@arm.com>
+References: <20260519093937.1064628-1-justin.he@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ag_UsW_OrlXD9dWX@google.com>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1206; i=brauner@kernel.org; h=from:subject:message-id; bh=gNY4pi0AnH7uN3LbxfsuCEH3n2CQKYhqwCZ1F7P1eus=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJBPX8lF88+4KehGhCsnad2eV92T0nH1w97BA2v9PDa 0fGBi+hjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImw3GZk6DeeU/kui9Wj85hQ uPM5E7sLZ//zeWsrxq7W2Lbb6nx8IMP/sm7bznaW8E2eewM3dN3QFU71XydTPcH0+LsJh1V5T0e yAQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 22, 2026 at 03:59:45AM +0000, Jaegeuk Kim wrote:
-> On 05/21, Matthew Wilcox wrote:
-> > On Thu, May 21, 2026 at 11:57:48AM -0400, Theodore Tso wrote:
-> > > So let me get this straight.  This is a magic xattr interface which is
-> > > not even persisted in the file system, but instead sets a 32-bit
-> > > bitmask in the struct inode which disappears once the inode gets
-> > > flushed from the inode stack.  And it uses a generic xattr name,
-> > > "user.fadvise".
-> > > 
-> > > There's no way in *hell* any other file system is likely to adopt such
-> > > a broken interface, so why didn't you just use an ioctl to set this
-> > > magic f2fs-specific flag?
-> > 
-> > I mean, yes, this API is horrendous.  But it's just another example of
-> > f2fs thinking it's somehow special and not just enabling large folios
-> > like other filesystems do.  This hurts everyone, not just people who use
-> > f2fs.
+On Tue, 19 May 2026 09:39:37 +0000, Jia He wrote:
+> initramfs_test_extract() and friends call unpack_to_rootfs() from a
+> kunit kthread while do_populate_rootfs() may still be running
+> asynchronously from rootfs_initcall. unpack_to_rootfs() keeps its
+> parser state in module-static variables (victim, byte_count, state,
+> this_header, header_buf, name_buf, ...), so the two writers corrupt
+> each other.
 > 
-> >From the production viewpoint, I raised a concern on setting large folio by
-> default, since that exhausts lots of high-order pages, which were needed for
-> essential system services and critical apps.
+> [...]
 
-Random fears or actual data?
+Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.misc
+
+[1/1] init/initramfs_test: wait_for_initramfs() before running
+      https://git.kernel.org/vfs/vfs/c/c876fe9797d8
