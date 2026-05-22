@@ -1,153 +1,372 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E2B84039;
-	Fri, 22 May 2026 03:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779419466; cv=none; b=LUGW3V2ipytSV69ZzA6VTImEVPSDY+V6kwG55u+Qk5YSaq6v9ygTEpaW720ck7DvGsAvwYVt/PL1lvGyIXTYyZbeeSEmhgm7elr5qzHm9J4fFXxMzA+rUnphmJeY1sI9ItYRPUwGUnIGM14FAahdIx4EyhkGGnZHfvRJY8klzjk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779419466; c=relaxed/simple;
-	bh=gddCX5NQZJhwugZAz+qwpWzQR5BNUgJ25WVlANHLWbQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q2s7s0I4Th2taET6gwdkiqYgFNHvPNdl8vU+NZZje3F1L/jqXS70T7ZHQ+4ArucTdDXtmsOLs+a+fc0ADiZfDU+pkYPMvVgGjOn0M5BLF9N+OOUCjKRLag1qWQRsTG/WBwpijOglUkBuxM9o6emF1TiSrFhO2PSR+LFdLye+E5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gM9Hv3YTVzYQttp;
-	Fri, 22 May 2026 11:10:03 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 993DF4056E;
-	Fri, 22 May 2026 11:10:50 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP4 (Coremail) with SMTP id gCh0CgBHD1szyQ9qrrG7DA--.47182S4;
-	Fri, 22 May 2026 11:10:50 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-ext4@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH] jbd2: update outdated comment for jbd2_journal_try_to_free_buffers()
-Date: Fri, 22 May 2026 11:05:40 +0800
-Message-ID: <20260522030540.3896201-1-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C6F26D4C3
+	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 03:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779419785; cv=pass; b=kGzjfl+goS3NBrNeqO2uxZ/kMStqgL1Y1YUYKXvOAMHHvMIRni2wWyKnrCrz+4nvMBuKnWM2QypSEOsFGay7vpA+Ah1hYknE47C0ImtkXm57qXuPK9V0wxkh9vLbX6gDjuZXBOcK945CggZAIn9GvNiwqwPJWSAGngXUmF0AVTA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779419785; c=relaxed/simple;
+	bh=2Q0PcH6UmqiLE1B7fhpi8re4VEgW9tqj2ga0KJ+U/ZE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O1U5pQLIEfAzGDY9WV1xNd1lWsHRdq+AGygOL1KntWeL3XLN+hbUMEAWy5y9GBRGGBDJ6I4sqPDpg4roKB8tYIMRGdSXOpInRYdYwJOPUOrQzcAOp1QGbsNPKIUp3Oo8XS+gNSPuX2+FRllVGdveLiMoKHTES6oHYcVWOtSHS5k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XiZAsgqk; arc=pass smtp.client-ip=74.125.224.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XiZAsgqk"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-65e81d623bbso359898d50.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 20:16:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779419783; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iKQvu3wGVCYtxXMJqxCxZ8Bu4oM3BB8YSxgcNFcdrXPUt2JrwzDvWdprbkHQGxqh6+
+         LluAEI4dAxGNY1SglSgDrcnousw63Pbjf7xIm5KYLXjZaudNYBfMM0rbmXaFABcxYJuo
+         FiSqX+kBMMbCGalKa0I2byhMeQc0Igj960uRB537DpmB1PdkgI+A01IxipxDHZcLVhys
+         vYGLg3fNHoI+JiQgbQPABMT+ILeB3RYKqVWVCxnCoeShvKkRajqumygHK7Km4YOO8f0y
+         tasU8hujrk7M1pDWpogBORxawEJwlX1Wdx0TbjAUNdy/2Hd99KHvnKDji0Txv+Qveg6Z
+         t88A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=robsLewux4vBHKDttIjt09yfXrWmGYjitlpcRHvjuX8=;
+        fh=D//4vXVrOrwp/nB5p34LbfUVsfGya+MYkFlZfF09jcs=;
+        b=ZLYiMQKs/hdfrQQ18uNxjHLy4jUxB/TnEMdJef60//D4P3ytTYYaaFQBOkjg6tDlYg
+         5nLSY6yOJRJl8k8z5soeeEZS+QbEk9POzXgZ3bNI1pQBoT0gFMZMSweZA4wPliGsRDJF
+         d0n4qm3uqv7c2/XUgKINx72PM++ORhzfC+KYjj+T4RgbwMF6ni13E3cNAqUuwgZx/w3V
+         qL3j2aiQ1c/gApzuQp/7VUjryLWbo+o70k2sCOZtLMy2GCpD+A0w9rcz+ObVxrf/PfS7
+         VZPTUHsyJjEn0jku1CzPAMRGp6Hyd3F3M4e8N6pjb8VnmS2G6tC7XtJHrwEuVpPKF63o
+         jFFw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779419783; x=1780024583; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=robsLewux4vBHKDttIjt09yfXrWmGYjitlpcRHvjuX8=;
+        b=XiZAsgqk2r8PuzfoTYUfkUlsWe24zEyekCfoaQusNPI1cwmtjmiCtTWj92umL27uIp
+         uz19X8EaqlwVIl27JwGpgNSnCX0gE2GCqR9ddPoZxAkSpPrf6P1vSz3s8+qV9seQWGur
+         Yt/oGKyfIpBZAhsQxFcYf208HHaUhrRGDutZG0OM6Q3HLbqr2s1OSuvfYcWGQScTQ/Vy
+         DsdsYXnX2GGO5WZWrdTcuuqHNScdnYl0WRPXzX3I6/SsltbF0Z3zgKZCDdcwheKDTF1h
+         ixEFoG7PvKELEKVb+LyvwkiJDX0eNz8cS9NJxU8R/2hpkL1wbSNV4ZgC1MONd/HSSP+x
+         hqQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779419783; x=1780024583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=robsLewux4vBHKDttIjt09yfXrWmGYjitlpcRHvjuX8=;
+        b=sZWlSIER7oA18vUN2AOLJrBHLF2hwJWBkg99m1bNLYeYcOBU7FNhhCVy9Ev7NUmpaF
+         agK1N2wgvvRk7dBB5EYSJOKrvqe6ca0ximHPzggkdEUKD3rjo47zZx7bzEEFclY7tXQk
+         eidCTydX6yGOofXigclyRpFl3MgvHkKMfc10YDyhRfRHHveq0Iwjf2IgUZ4gkOQHqoL0
+         UF06a/9Vmv3thHWbeYEk58zHPs0s3LdsTPoWsn8QRZbD019B3Xt3haA3LkWwgTgX69xh
+         qdpHwm1XAwQ1mD19jdVfWBdUSUaVQlabSty7xzrPCBsHLxgzdMApw2KWOgAF7MvBxXig
+         mBdA==
+X-Forwarded-Encrypted: i=1; AFNElJ8YH5AlwH86EELx7KLTjRPv4UbmUV3aLvSIfO7IPeZ7Kn+YDaikdlvulMEELCXKDjKqxw3Uw8XAWuTh/VyX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbZ/Gu4l6c3K6i19X7yS8tLgUOqVexyEQl2GbaJ8NF+1P+hQfe
+	kNcaPVD1xzQkXQJn+RwFlKhAeajrtlL8Dp/8GG1DnzOWG56nJUVPAY7mdKFh1eXugofjXrBH4h7
+	lFue2EDsr0sYK3xOtMaXb4nox9k4Pufw=
+X-Gm-Gg: Acq92OE6RuPX9/C9lliX1S0eRsPMasgMDqsCrJB/bRR5sjnALLlu+YqSXh9+OifjlkE
+	Gl3U2DDBH5YJXH6RMNLY6AnhO3/b50UJuTAYav/mK4cviHtXBoTnkQt4HUys94ikEHI3e+WD2G5
+	E/GuDiVym5KbHdAfDejMo2pwYLN32GQWTpjfTPXfFP4/tF/2iltgusEGgR0ocXOmop1BZPRYYpz
+	JTdMYjJJjet7dIzl7Jvu7GITJrXGmf7dd6LgOyThjyOCYuB2+7Fj5HexfW1m3yAUYy60gcuxpL2
+	n5nnr6tKXHxEjLsjDn0=
+X-Received: by 2002:a05:690e:12cd:b0:65d:6f14:9070 with SMTP id
+ 956f58d0204a3-65ec98c900bmr1434517d50.4.1779419782516; Thu, 21 May 2026
+ 20:16:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgBHD1szyQ9qrrG7DA--.47182S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFykGrW7Xw4UJF45Gry7GFg_yoWrXF1Upr
-	ZIk3y7XrWqvry8Ar1kZF4rArWYvanrZryUGayUWr93Aa15Cw1vqFy7tw1IyryDCr97Kw4U
-	Xr1UGr95Wr4qyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
-	nIWIevJa73UjIFyTuYvjfUFg4SDUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+References: <20260522-t-fix-oob-v2-v1-0-0bea6582a361@gmail.com> <20260522-t-fix-oob-v2-v1-1-0bea6582a361@gmail.com>
+In-Reply-To: <20260522-t-fix-oob-v2-v1-1-0bea6582a361@gmail.com>
+From: CharSyam <charsyam@gmail.com>
+Date: Fri, 22 May 2026 12:16:11 +0900
+X-Gm-Features: AVHnY4KZoBluaEbi5Vwoddc33ip6icp0RrXFNHfcULjZQmVuc1qTtAefzySj3fk
+Message-ID: <CAMrLSE6Zw4hzX_rXG3u5+1=WPj9G012ZL1XFc2ygwMGR-XpYVw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] ntfs: validate index block header more strictly
+To: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhang Yi <yi.zhang@huawei.com>
+Hi, Hyunchul.
 
-jbd2_journal_try_to_free_buffers() currently only tries to remove
-checkpointed data buffers from the checkpoint list for data=journal
-mode, and bails out if any buffer is still attached to a transaction.
-For data=ordered and writeback modes, data buffers never have
-journal_heads, so the function degenerates to a plain
-try_to_free_buffers() call.
+ err =3D ntfs_index_block_inconsistent(...) now stores the helper's -1.
+Previously err was still
+0 at this point, so the common exit path normalized corruption errors
+to -EIO via if (!err)
+err =3D -EIO;. With this patch, the -1 skips that normalization and is
+exposed to callers as
+-EPERM.
 
-Besides, The release of metadata buffers has been delegated to the jbd2
-journal shrinker in commit 4ba3fcdde7e3 ("jbd2,ext4: add a shrinker to
-release checkpointed buffers"). jbd2_journal_try_to_free_buffers() is
-not used for handling metadata buffers now.
+ Was that intended? If not, this path should set err =3D -EIO before
+jumping to unm_err_out, or
+ntfs_index_block_inconsistent() should be converted to return real
+errno values. The latter
+may be cleaner, since ntfs_index_header_inconsistent() already returns
+-EIO but the caller
+currently collapses it back to -1.
 
-However, the comment above the function still references
-jbd2_journal_dirty_data(), __jbd2_journal_unfile_buffer(), t_datalist,
-BKL, and BUF_CLEAN, all of which were removed in commit 87c89c232c8f
-("jbd2: Remove data=ordered mode support using jbd buffer heads").
+Thanks.
+DaeMyung.
 
-Replace it with a description of what the function actually does now.
-
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/jbd2/transaction.c | 39 ++++++++++++---------------------------
- 1 file changed, 12 insertions(+), 27 deletions(-)
-
-diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
-index 4885903bbd10..239bcf88ed1c 100644
---- a/fs/jbd2/transaction.c
-+++ b/fs/jbd2/transaction.c
-@@ -2139,38 +2139,23 @@ static void __jbd2_journal_unfile_buffer(struct journal_head *jh)
- }
- 
- /**
-- * jbd2_journal_try_to_free_buffers() - try to free page buffers.
-+ * jbd2_journal_try_to_free_buffers() - try to free folio buffers.
-  * @journal: journal for operation
-  * @folio: Folio to detach data from.
-  *
-- * For all the buffers on this page,
-- * if they are fully written out ordered data, move them onto BUF_CLEAN
-- * so try_to_free_buffers() can reap them.
-+ * For each buffer_head on @folio, if the buffer has a journal_head but
-+ * is not attached to a running or committing transaction, try to remove
-+ * it from the checkpoint list.  This is needed for data=journal mode
-+ * where data buffers are journaled: once they are checkpointed, the
-+ * journal_head can be detached and the buffer freed.  If any buffer is
-+ * still attached to a transaction, the folio cannot be released and we
-+ * bail out.  Otherwise we call try_to_free_buffers() to detach all
-+ * buffer_heads from the folio.
-  *
-- * This function returns non-zero if we wish try_to_free_buffers()
-- * to be called. We do this if the page is releasable by try_to_free_buffers().
-- * We also do it if the page has locked or dirty buffers and the caller wants
-- * us to perform sync or async writeout.
-+ * For data=ordered and writeback modes, data buffers never have
-+ * journal_heads, so this degenerates to a plain try_to_free_buffers().
-  *
-- * This complicates JBD locking somewhat.  We aren't protected by the
-- * BKL here.  We wish to remove the buffer from its committing or
-- * running transaction's ->t_datalist via __jbd2_journal_unfile_buffer.
-- *
-- * This may *change* the value of transaction_t->t_datalist, so anyone
-- * who looks at t_datalist needs to lock against this function.
-- *
-- * Even worse, someone may be doing a jbd2_journal_dirty_data on this
-- * buffer.  So we need to lock against that.  jbd2_journal_dirty_data()
-- * will come out of the lock with the buffer dirty, which makes it
-- * ineligible for release here.
-- *
-- * Who else is affected by this?  hmm...  Really the only contender
-- * is do_get_write_access() - it could be looking at the buffer while
-- * journal_try_to_free_buffer() is changing its state.  But that
-- * cannot happen because we never reallocate freed data as metadata
-- * while the data is part of a transaction.  Yes?
-- *
-- * Return false on failure, true on success
-+ * Return: true if the folio's buffers were freed, false otherwise
-  */
- bool jbd2_journal_try_to_free_buffers(journal_t *journal, struct folio *folio)
- {
--- 
-2.52.0
-
+2026=EB=85=84 5=EC=9B=94 22=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 9:48, H=
+yunchul Lee <hyc.lee@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> Modify ntfs_index_block_inconsisent() to perform stricter validation of
+> INDEX_HEADER geometry in INDX blocks, and update
+> ntfs_lookup_inode_by_name() to use that function to validate INDX
+> blocks.
+>
+> Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
+> ---
+>  fs/ntfs/dir.c   | 38 +++++---------------------
+>  fs/ntfs/index.c | 85 +++++++++++++++++++++++++++++++++++++++++----------=
+------
+>  fs/ntfs/index.h |  3 ++
+>  3 files changed, 72 insertions(+), 54 deletions(-)
+>
+> diff --git a/fs/ntfs/dir.c b/fs/ntfs/dir.c
+> index 20f5c7074bdd..6745a0e6e3e7 100644
+> --- a/fs/ntfs/dir.c
+> +++ b/fs/ntfs/dir.c
+> @@ -342,43 +342,19 @@ u64 ntfs_lookup_inode_by_name(struct ntfs_inode *di=
+r_ni, const __le16 *uname,
+>                         dir_ni->mft_no);
+>                 goto unm_err_out;
+>         }
+> -       /* Catch multi sector transfer fixup errors. */
+> -       if (unlikely(!ntfs_is_indx_record(ia->magic))) {
+> -               ntfs_error(sb,
+> -                       "Directory index record with vcn 0x%llx is corrup=
+t.  Corrupt inode 0x%llx.  Run chkdsk.",
+> -                       vcn, dir_ni->mft_no);
+> -               goto unm_err_out;
+> -       }
+> -       if (le64_to_cpu(ia->index_block_vcn) !=3D vcn) {
+> -               ntfs_error(sb,
+> -                       "Actual VCN (0x%llx) of index buffer is different=
+ from expected VCN (0x%llx). Directory inode 0x%llx is corrupt or driver bu=
+g.",
+> -                       le64_to_cpu(ia->index_block_vcn),
+> -                       vcn, dir_ni->mft_no);
+> -               goto unm_err_out;
+> -       }
+> -       if (le32_to_cpu(ia->index.allocated_size) + 0x18 !=3D
+> -                       dir_ni->itype.index.block_size) {
+> -               ntfs_error(sb,
+> -                       "Index buffer (VCN 0x%llx) of directory inode 0x%=
+llx has a size (%u) differing from the directory specified size (%u). Direc=
+tory inode is corrupt or driver bug.",
+> -                       vcn, dir_ni->mft_no,
+> -                       le32_to_cpu(ia->index.allocated_size) + 0x18,
+> -                       dir_ni->itype.index.block_size);
+> -               goto unm_err_out;
+> -       }
+>         index_end =3D (u8 *)ia + dir_ni->itype.index.block_size;
+>         if (index_end > kaddr + PAGE_SIZE) {
+>                 ntfs_error(sb,
+> -                       "Index buffer (VCN 0x%llx) of directory inode 0x%=
+llx crosses page boundary. Impossible! Cannot access! This is probably a bu=
+g in the driver.",
+> -                       vcn, dir_ni->mft_no);
+> +                          "Index buffer (VCN 0x%llx) of directory inode =
+0x%llx crosses page boundary. Impossible! Cannot access! This is probably a=
+ bug in the driver.",
+> +                          vcn, dir_ni->mft_no);
+>                 goto unm_err_out;
+>         }
+> -       index_end =3D (u8 *)&ia->index + le32_to_cpu(ia->index.index_leng=
+th);
+> -       if (index_end > (u8 *)ia + dir_ni->itype.index.block_size) {
+> -               ntfs_error(sb,
+> -                       "Size of index buffer (VCN 0x%llx) of directory i=
+node 0x%llx exceeds maximum size.",
+> -                       vcn, dir_ni->mft_no);
+> +       err =3D ntfs_index_block_inconsistent(vol, ia,
+> +                                           dir_ni->itype.index.block_siz=
+e,
+> +                                           vcn, dir_ni->mft_no);
+> +       if (err)
+>                 goto unm_err_out;
+> -       }
+> +       index_end =3D (u8 *)&ia->index + le32_to_cpu(ia->index.index_leng=
+th);
+>         /* The first index entry. */
+>         ie =3D (struct index_entry *)((u8 *)&ia->index +
+>                         le32_to_cpu(ia->index.entries_offset));
+> diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
+> index 146e011c1a41..c203a5ad47b6 100644
+> --- a/fs/ntfs/index.c
+> +++ b/fs/ntfs/index.c
+> @@ -303,6 +303,53 @@ static int ntfs_ie_end(struct index_entry *ie)
+>         return ie->flags & INDEX_ENTRY_END || !ie->length;
+>  }
+>
+> +static int ntfs_index_header_inconsistent(struct ntfs_volume *vol,
+> +                                         const struct index_header *ih,
+> +                                         u32 bytes_available, u64 inum)
+> +{
+> +       u32 entries_offset =3D le32_to_cpu(ih->entries_offset);
+> +       u32 index_length =3D le32_to_cpu(ih->index_length);
+> +       u32 allocated_size =3D le32_to_cpu(ih->allocated_size);
+> +
+> +       if (bytes_available < sizeof(struct index_header)) {
+> +               ntfs_error(vol->sb,
+> +                          "index block in inode %llu is smaller than an =
+index header.",
+> +                          (unsigned long long)inum);
+> +               return -EIO;
+> +       }
+> +
+> +       if (entries_offset < sizeof(struct index_header) ||
+> +           entries_offset > bytes_available) {
+> +               ntfs_error(vol->sb,
+> +                          "Invalid index entry offset in inode %llu.",
+> +                          (unsigned long long)inum);
+> +               return -EIO;
+> +       }
+> +
+> +       if (index_length <=3D entries_offset) {
+> +               ntfs_error(vol->sb,
+> +                          "No space for index entries in inode %llu.",
+> +                          (unsigned long long)inum);
+> +               return -EIO;
+> +       }
+> +
+> +       if (allocated_size < index_length) {
+> +               ntfs_error(vol->sb,
+> +                          "Index entries overflow in inode %llu.",
+> +                          (unsigned long long)inum);
+> +               return -EIO;
+> +       }
+> +
+> +       if (allocated_size > bytes_available || index_length > bytes_avai=
+lable) {
+> +               ntfs_error(vol->sb,
+> +                          "Index entries in inode %llu exceed the availa=
+ble buffer.",
+> +                          (unsigned long long)inum);
+> +               return -EIO;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+>  /*
+>   *  Find the last entry in the index block
+>   */
+> @@ -452,20 +499,19 @@ static struct index_entry *ntfs_ie_dup_novcn(struct=
+ index_entry *ie)
+>   *
+>   * size(struct index_header) <=3D ent_offset < ind_length <=3D alloc_siz=
+e < bk_size
+>   */
+> -static int ntfs_index_block_inconsistent(struct ntfs_index_context *icx,
+> -               struct index_block *ib, s64 vcn)
+> +int ntfs_index_block_inconsistent(struct ntfs_volume *vol,
+> +                                 const struct index_block *ib,
+> +                                 u32 block_size, s64 vcn, u64 inum)
+>  {
+>         u32 ib_size =3D (unsigned int)le32_to_cpu(ib->index.allocated_siz=
+e) +
+>                 offsetof(struct index_block, index);
+> -       struct super_block *sb =3D icx->idx_ni->vol->sb;
+> -       unsigned long long inum =3D icx->idx_ni->mft_no;
+> +       struct super_block *sb =3D vol->sb;
+>
+>         ntfs_debug("Entering\n");
+>
+>         if (!ntfs_is_indx_record(ib->magic)) {
+> -
+>                 ntfs_error(sb, "Corrupt index block signature: vcn %lld i=
+node %llu\n",
+> -                               vcn, (unsigned long long)icx->idx_ni->mft=
+_no);
+> +                          vcn, (unsigned long long)inum);
+>                 return -1;
+>         }
+>
+> @@ -477,27 +523,18 @@ static int ntfs_index_block_inconsistent(struct ntf=
+s_index_context *icx,
+>                 return -1;
+>         }
+>
+> -       if (ib_size !=3D icx->block_size) {
+> +       if (ib_size !=3D block_size) {
+>                 ntfs_error(sb,
+> -                       "Corrupt index block : s64 (%lld) of inode %llu h=
+as a size (%u) differing from the index specified size (%u)\n",
+> -                       vcn, inum, ib_size, icx->block_size);
+> +                          "Corrupt index block : s64 (%lld) of inode %ll=
+u has a size (%u) differing from the index specified size (%u)\n",
+> +                          vcn, inum, ib_size, block_size);
+>                 return -1;
+>         }
+>
+> -       if (le32_to_cpu(ib->index.entries_offset) < sizeof(struct index_h=
+eader)) {
+> -               ntfs_error(sb, "Invalid index entry offset in inode %lld\=
+n", inum);
+> -               return -1;
+> -       }
+> -       if (le32_to_cpu(ib->index.index_length) <=3D
+> -           le32_to_cpu(ib->index.entries_offset)) {
+> -               ntfs_error(sb, "No space for index entries in inode %lld\=
+n", inum);
+> +       if (ntfs_index_header_inconsistent(vol, &ib->index,
+> +                                          block_size -
+> +                                          offsetof(struct index_block, i=
+ndex),
+> +                                          inum))
+>                 return -1;
+> -       }
+> -       if (le32_to_cpu(ib->index.allocated_size) <
+> -           le32_to_cpu(ib->index.index_length)) {
+> -               ntfs_error(sb, "Index entries overflow in inode %lld\n", =
+inum);
+> -               return -1;
+> -       }
+>
+>         return 0;
+>  }
+> @@ -669,7 +706,9 @@ static int ntfs_ib_read(struct ntfs_index_context *ic=
+x, s64 vcn, struct index_bl
+>         }
+>
+>         post_read_mst_fixup((struct ntfs_record *)((u8 *)dst), icx->block=
+_size);
+> -       if (ntfs_index_block_inconsistent(icx, dst, vcn))
+> +       if (ntfs_index_block_inconsistent(icx->idx_ni->vol, dst,
+> +                                         icx->block_size, vcn,
+> +                                         icx->idx_ni->mft_no))
+>                 return -1;
+>
+>         return 0;
+> diff --git a/fs/ntfs/index.h b/fs/ntfs/index.h
+> index e68d6fabaf9f..3451ec8a1c4e 100644
+> --- a/fs/ntfs/index.h
+> +++ b/fs/ntfs/index.h
+> @@ -89,6 +89,9 @@ struct ntfs_index_context {
+>         bool sync_write;
+>  };
+>
+> +int ntfs_index_block_inconsistent(struct ntfs_volume *vol,
+> +                                 const struct index_block *ib,
+> +                                 u32 block_size, s64 vcn, u64 inum);
+>  int ntfs_index_entry_inconsistent(struct ntfs_index_context *icx, struct=
+ ntfs_volume *vol,
+>                 const struct index_entry *ie, __le32 collation_rule, u64 =
+inum);
+>  struct ntfs_index_context *ntfs_index_ctx_get(struct ntfs_inode *ni, __l=
+e16 *name,
+>
+> --
+> 2.43.0
+>
+>
