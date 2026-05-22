@@ -1,170 +1,197 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A10425CED
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 16:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300D43AF643;
+	Fri, 22 May 2026 16:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779467089; cv=none; b=RKiukXiN4V8hGB27rwTjNOnQ9YmhzCjiTCTqcpWpiQzXcLVXDwplbcjpe6dyF5J1cnPUeP/LMUHUJuKzL5V2wQWovZC1Fre8YiAAnC0x4a6ATXTYwftJFEPvdjZGWKJisQVNHPX0h5Q8WCVZ3VfFRPjjFQExilOGgyE+pWVYmyM=
+	t=1779468281; cv=none; b=oOwTdFBTIH+kicD4cKMkweUCdfFal0SxJauLY0Bd4E4Bnz+aIwJT98fbiBn83IqLYx6L0LUXMQ5M27suPUHDVX8MiJNJc9Y3rF1ACXoK1x2tH3Io5Q2WEZeEKAbo+HOfZORWb7+gsoMYJHfybXlT5SA71Xmiw/K6rC6opQ3XG8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779467089; c=relaxed/simple;
-	bh=ENFdwFzwYK4H1Gi0MXb2MaLiq1k0TD1SbF6GrUxaDpc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J8EL7WlcVWafibnGyesbfeLt+FZgFVE7D9qJoDC5dRQsko6BoFF0voso84LBJWM1Uve9uFPBDtsRr2HZWF+wPNEX6lXqO+4MILMHGrLTRreoEuDcMjgZeN87VbXkPy8kX55R/SgNC9rksP8UE+I9R+CjFCPf0xppUCjpS21wi74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ibg5Vx7A; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779468281; c=relaxed/simple;
+	bh=2MGhO16qcgSYowhdkwytld7oWexxQ3nOy1X62h62Da0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fz6KWDHj4/iCfDuh2F+ky1DGUN1EvvrmMxlO+85ZKDpbzo0KPJtRKOmig1IF2q/fz5u34lInrlYjGyUny3Z3Uz75SSKFizwYSRPOzWUryG0knLLDlI/3P3ezInFe28htJtKHz4gwfmjraQGdMnAQcPEpyj1n35bC9RFTE3cbPHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=M/xGGbww; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ibg5Vx7A"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779467085;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PicG0VGaxNfqAf+Vsr+MRf2Lg77IxoCYcktKo6m1Qck=;
-	b=ibg5Vx7A+wVts3v0jvELrcgu35RAsfd9NMBDgdHVI2I4/3psC/DFKMs3uVXAeo8KquzM+C
-	nx5ARqZbgApa9UptBR7iV3upH3Z43LfvtMI68/Pdozxl84IsBvqwCoQSWYDOgg+Xccwa0C
-	8LNgGzd8ZjTQt+8DYDpl683S3yYyUwg=
-From: Usama Arif <usama.arif@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	david@kernel.org,
-	willy@infradead.org,
-	ryan.roberts@arm.com,
-	linux-mm@kvack.org
-Cc: r@hev.cc,
-	jack@suse.cz,
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	brauner@kernel.org,
-	catalin.marinas@arm.com,
-	dev.jain@arm.com,
-	kees@kernel.org,
-	kevin.brodsky@arm.com,
-	lance.yang@linux.dev,
-	Liam R. Howlett <liam@infradead.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	npache@redhat.com,
-	pasha.tatashin@soleen.com,
-	rmclure@linux.ibm.com,
-	rppt@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	wilts.infradead.org,
-	linux-fsdevel@vger.kernel.l@kernel.org,
-	ziy@nvidia.com,
-	hannes@cmpxchg.org,
-	kas@kernel.org,
-	shakeel.butt@linux.dev,
-	kernel-team@meta.com,
-	Usama Arif <usama.arif@linux.dev>
-Subject: [PATCH v5 2/2] mm: use mapping_max_folio_order() for force_thp_readahead order
-Date: Fri, 22 May 2026 09:23:48 -0700
-Message-ID: <20260522162422.3856502-3-usama.arif@linux.dev>
-In-Reply-To: <20260522162422.3856502-1-usama.arif@linux.dev>
-References: <20260522162422.3856502-1-usama.arif@linux.dev>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="M/xGGbww"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=c29kdE19tOEPt5DpIR0KQ3KOlYiiGZGY4Ypk2R7P/ag=; b=M/xGGbwwSxvHXUuJJwZHTqXsfV
+	cW0jlPmTajThmEPqZYAJGrkSs8LxDN3Myj/iu5oQG80Tv6WwW08ajpUG8UbuFNFeV1b3eyBxpBg8v
+	ETLsFuVVfUbjLiVUz0hi1De/VDxul28+RynHrpjok7ibsWxsIzyvfHpK2qvkX6yQKUvPQrZv+xOwN
+	24GDtvQZKRLxEX3HfUoLiU2HQU+ne5kPd30uznp4YLD/etvOxObJ/nUvvi6H8IPa5IprxTblh1sf/
+	wjJRm1ygTo9i5Rzpk2tIsWIspD5o8C87o9lPUIpI96Ds3zsl/7sKPi2cA4TuDQlaS1VpaofAioJMV
+	p/hNJygw==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wQSz6-004nmQ-3A;
+	Fri, 22 May 2026 16:44:31 +0000
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH v2 0/2] fs/pipe: reduce pipe->mutex contention by
+ pre-allocating outside the lock
+Date: Fri, 22 May 2026 09:44:20 -0700
+Message-Id: <20260522-fix_pipe-v2-0-a8b35a78244e@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOSHEGoC/22NwQ6DIBAFf4XsWRogIpaT/9GYRnDV7UEJWGNj+
+ PdGe+3xJfNmDkgYCRNYdkDEjRItM1imCgZ+6uYROfVgGSihKqGl5gPtz0ABub/Lyhgva4MGCgY
+ h4kD7pXq0v53e7oV+Pf8nMVFal/i5Wps8uT/aTXLBnSx9XQpvtNZNj466+bbEEdqc8xfix1pes
+ wAAAA==
+X-Change-ID: 20260515-fix_pipe-c91677c187e7
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Shuah Khan <shuah@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, shakeel.butt@linux.dev, jlayton@kernel.org, 
+ oleg@redhat.com, axboe@kernel.dk, Breno Leitao <leitao@debian.org>, 
+ kernel-team@meta.com
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5844; i=leitao@debian.org;
+ h=from:subject:message-id; bh=2MGhO16qcgSYowhdkwytld7oWexxQ3nOy1X62h62Da0=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqEIfo8zzfhr7McHv3LZTjikR36X7cx1Dna3zRy
+ ZXko4o3zu6JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCahCH6AAKCRA1o5Of/Hh3
+ bSPSD/9Ul9BFfp1Qg6QngDUoc2/386KkuFkN5Pj3tLuuuzx/zsEzRhEehLFW4tC7CrmCBS2Do7z
+ Y9cp+6tz4a6TGOPVl6HglhZ831urrc99CnPv4B14MsMkbteo7AjcG3ZYLNJh7PJj5rNawTkQtFR
+ jEtG3MEXDC1+RfHboDi0vbW7GNK03n+rRum/vi4UEzDsGGoUUMY5tDnuPFk0GSxAIoL1Ab/eDk+
+ U4wXezxp+igQ4SU+Z4D84nEVDlVwb9WaeEXpCT58atx2na22PtLcyzYgoadcMwHwH4qkuiv/IE8
+ J24CvVLbNLHfp2lVI8xAErS6chok0auF50rsKhgzsqT5UjQ4Scoi0fSn1P2/pGfp6JTRKTaCxg2
+ 1+aerPkqxnqn/Th7+eOp3f/co1SvbNA6FED67aYYjV8gcmPRforaaR6tEdBwvia7ZBJwVCTxqbm
+ 3YqDJaEovkVHX2ritc5EXg4wzxHcFmIBPQz39Mk7/EAnfj6s2iKrsc9pPNcd0142WQLACM73jFW
+ NlsKFh6hc6knxzVCqSwwhsiTcUySMUtVH0Cb/piGhtEoOfWKtfeZvu9+C89u6Cw/DDa2wmgwK9r
+ h3aWLz8Efc7ve0bA/JZgdsHao29ZHiuP5JaWoxvTPqxiu6w0sNh6O+a0qgJPHG4QJ3XKqvUtoUQ
+ 6yVwWgaaxuzfgOg==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-The force_thp_readahead path in do_sync_mmap_readahead() was gated on
-the compile-time check HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER and
-always drove the readahead at HPAGE_PMD_ORDER / HPAGE_PMD_NR. On
-configurations where HPAGE_PMD_ORDER exceeds MAX_PAGECACHE_ORDER --
-notably arm64 with a 64K base page size, where HPAGE_PMD_ORDER is 13
-(512MB) -- VM_HUGEPAGE mappings could never reach this path and fell
-back to base-page readahead, even when the mapping itself could serve
-usefully large folios well below the cap.
+While profiling Meta's caching code[1], I found pipe->mutex contention
+on the hot path. anon_pipe_write() currently calls alloc_page() once
+per page while holding pipe->mutex. The allocation can sleep doing
+direct reclaim and runs memcg charging, which extends the critical
+section and stalls any concurrent reader on the same mutex.
 
-Widen the gate to
+This series pre-allocates pages outside pipe->mutex in
+anon_pipe_write(): for writes that span more than one full page, up
+to PIPE_PREALLOC_MAX (8) pages are allocated via a per-page
+alloc_page() loop before the mutex is taken. anon_pipe_get_page()
+then drains the prealloc array first, falls back to the per-pipe
+tmp_page[] cache, and only enters the allocator under the mutex for
+the leftover pages (writes larger than PIPE_PREALLOC_MAX, single-page
+writes that skip prealloc, or shortfalls when the prealloc loop
+fails). Leftover prealloc pages are recycled into tmp_page[] before
+unlock and any remainder is put_page()'d after unlock, keeping the
+allocator out of the critical section on both sides.
 
-  min(HPAGE_PMD_ORDER, mapping_max_folio_order(mapping))
-      <= MAX_PAGECACHE_ORDER
+alloc_pages_bulk_mempolicy() looked tempting but the bulk allocator
+refuses __GFP_ACCOUNT under memcg -- it returns at most one page
+when memcg_kmem_online() && (gfp & __GFP_ACCOUNT), see commit
+8dcb3060d81d ("memcg: page_alloc: skip bulk allocator for
+__GFP_ACCOUNT"). A per-page loop keeps memcg accounting and the
+task NUMA mempolicy honoured uniformly without open-coding the
+charge.
 
-so force_thp_readahead engages whenever either order fits, and pick
-ra->order accordingly:
+I also vibe-coded a microbenchmark to validate the change. It sweeps
+writers x readers over {1,2,5} x {1,5,10} with 64KB writes against a
+1 MB pipe and prints throughput + latency percentiles per config.
 
-  - HPAGE_PMD_ORDER when it fits (existing behaviour);
-  - otherwise min(mapping_max_folio_order(mapping), get_order(SZ_2M)),
-    capping the readahead folio at 2MB regardless of what the mapping
-    advertises.
+Measured on arm64 and also on x86 using virtme-ng (16 vCPUs, 64KB
+writes, 1 MB pipe). The numbers below were collected on v1
+(alloc_pages_bulk()); v2's per-page loop preserves the dominant
+"allocation outside the mutex" win and is expected to land in the same
+range.
 
-Size and align the readahead window from (1UL << ra->order) instead
-of the hardcoded HPAGE_PMD_NR / HPAGE_PMD_ORDER so the chosen order
-is honoured end-to-end.
+== No memory pressure (10s per config) ==
 
-On arm64 with a 64K base page size this lets VM_HUGEPAGE mappings get
-large-folio readahead at the mapping's supported order (capped at
-2MB) rather than dropping back to base pages. 2MB is also the size of
-an arm64 contiguous-PTE (contpte) block on a 64K base, so the
-resulting folios coalesce into a single TLB entry and reduce TLB
-pressure on the readahead path.
+  Throughput in MB/s (baseline -> patched, delta):
+    writers   readers=1              readers=5               readers=10
+          1   1119 -> 1354  (+21%)   1132 -> 1195   (+6%)   1060 -> 1240  (+17%)
+          2   1162 -> 1487  (+28%)   1034 -> 1285  (+24%)   1069 -> 1213  (+14%)
+          5   1152 -> 1357  (+18%)   1021 -> 1164  (+14%)    997 -> 1239  (+24%)
 
-Signed-off-by: Usama Arif <usama.arif@linux.dev>
+  Avg write latency in ns (baseline -> patched, delta):
+    writers   readers=1                 readers=5                readers=10
+          1    55786 ->  46103 (-17%)   55164 ->  52260  (-5%)   58906 ->  50370 (-14%)
+          2   107546 ->  84011 (-22%)  120837 ->  97206 (-20%)  116860 -> 103036 (-12%)
+          5   271293 -> 230170 (-15%)  306089 -> 268429 (-12%)  313300 -> 252232 (-19%)
+
+Throughput improves +6% to +28% and average write latency drops 5%
+to 22% across every configuration.
+
+== Under memory pressure (--memory-pressure, 6s per config) ==
+
+stress-ng --vm 2 --vm-bytes 50% --vm-keep is forked alongside the
+sweep so the alloc_page() calls inside anon_pipe_write() routinely
+hit direct reclaim -- exactly the regime the patch targets.
+
+  Throughput in MB/s (baseline -> patched, delta):
+    writers   readers=1            readers=5            readers=10
+          1   1088 -> 1438  (+32%)   996  -> 1477  (+48%)   989  -> 1194  (+21%)
+          2   1076 -> 1378  (+28%)   1007 -> 1269  (+26%)   1018 -> 1234  (+21%)
+          5   1052 -> 1311  (+25%)   986  -> 1225  (+24%)   972  -> 1249  (+29%)
+
+  Avg write latency in ns (baseline -> patched, delta):
+    writers   readers=1              readers=5              readers=10
+          1    57397 ->  43406 (-24%)   62690 ->  42272 (-33%)   63136 ->  52272 (-17%)
+          2   116121 ->  90700 (-22%)  124098 ->  98481 (-21%)  122754 -> 101217 (-18%)
+          5   297122 -> 238322 (-20%)  316836 -> 255095 (-19%)  321496 -> 250189 (-22%)
+
+Throughput improves +21% to +48% and average write latency drops
+17% to 33% -- a noticeably bigger win than the no-pressure run.
+
+That tracks: when alloc_page() has to dip into reclaim, the cost
+of holding pipe->mutex across it is highest, and pulling the
+allocation out of the critical section pays the most.
+
+Link: https://www.usenix.org/system/files/conference/atc13/atc13-bronson.pdf [1]
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- mm/filemap.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+Changes in v2:
+- Switch the prealloc path from alloc_pages_bulk_mempolicy() to a
+  per-page alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT) loop.
+- Split the prealloc work out of anon_pipe_write() into dedicated
+  helpers (anon_pipe_get_page_prealloc / anon_pipe_prealloc_pop /
+  anon_pipe_refill_tmp_pages / anon_pipe_free_pages) gathered in
+  struct anon_pipe_prealloc, so the write path stays readable.
+- Recycle leftover prealloc pages into pipe->tmp_page[] before
+  unlocking
+- Link to v1: https://patch.msgid.link/20260515-fix_pipe-v1-0-b14c840c7555@debian.org
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index f45a1b74870d..56fa715d66cd 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3317,9 +3317,16 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 	ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
- 
- 	/* Use the readahead code, even if readahead is disabled */
--	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
--	    (vm_flags & VM_HUGEPAGE) && HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER)
-+	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && (vm_flags & VM_HUGEPAGE) &&
-+	    min(HPAGE_PMD_ORDER, mapping_max_folio_order(mapping)) <= MAX_PAGECACHE_ORDER) {
- 		force_thp_readahead = true;
-+		if (HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER)
-+			ra->order = HPAGE_PMD_ORDER;
-+		else
-+			ra->order = min_t(unsigned int,
-+					  mapping_max_folio_order(mapping),
-+					  get_order(SZ_2M));
-+	}
- 
- 	if (!force_thp_readahead) {
- 		/*
-@@ -3354,17 +3361,18 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 	}
- 
- 	if (force_thp_readahead) {
-+		unsigned long folio_nr_pages = 1UL << ra->order;
-+
- 		fpin = maybe_unlock_mmap_for_io(vmf, fpin);
--		ractl._index &= ~((unsigned long)HPAGE_PMD_NR - 1);
--		ra->size = HPAGE_PMD_NR;
-+		ractl._index &= ~(folio_nr_pages - 1);
-+		ra->size = folio_nr_pages;
- 		/*
--		 * Fetch two PMD folios, so we get the chance to actually
-+		 * Fetch two folios so we get the chance to actually
- 		 * readahead, unless we've been told not to.
- 		 */
- 		if (!(vm_flags & VM_RAND_READ))
- 			ra->size *= 2;
--		ra->async_size = HPAGE_PMD_NR;
--		ra->order = HPAGE_PMD_ORDER;
-+		ra->async_size = folio_nr_pages;
- 		page_cache_ra_order(&ractl, ra);
- 		return fpin;
- 	}
--- 
-2.52.0
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+To: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+To: Shuah Khan <shuah@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+
+---
+Breno Leitao (2):
+      fs/pipe: pre-allocate pages outside pipe->mutex in anon_pipe_write
+      selftests/pipe: add pipe_bench microbenchmark
+
+ fs/pipe.c                                 | 105 ++++-
+ tools/testing/selftests/Makefile          |   1 +
+ tools/testing/selftests/pipe/.gitignore   |   1 +
+ tools/testing/selftests/pipe/Makefile     |   9 +
+ tools/testing/selftests/pipe/pipe_bench.c | 616 ++++++++++++++++++++++++++++++
+ 5 files changed, 729 insertions(+), 3 deletions(-)
+---
+base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
+change-id: 20260515-fix_pipe-c91677c187e7
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
