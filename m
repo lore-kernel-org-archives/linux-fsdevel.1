@@ -1,81 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.126.com (m16.mail.126.com [117.135.210.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA813905E6;
-	Fri, 22 May 2026 09:16:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A65D3C583E;
+	Fri, 22 May 2026 09:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779441365; cv=none; b=trzyAF9TS4lTPKBoucuhscdkmU/NslNTv5si8CqNrsDh9WOkYazd1lhf8OAnNbz/o+ujt4JPavTcf4VTr56wWhBqMudX+pP835MxqV/Mgc5yLKP2eHvAr3a8WLLd5kcjrJzVObCmD7aocGfZQGVp2prnCuvFxFJCWGeGqksSEz4=
+	t=1779441880; cv=none; b=hvpfKwyimqSKNAvgdeD+2aQ68m1gSMfCx0GpJ+5mbx7b2oKp2huyCcIAGMhewcQCd8kUxOvD/z78M0EUxyTVkWXRCpLA4JJOCtMb1TUD0zC/Yov9mxadw2uDKYzrRDM4wZdE5/8eG4UopSgUe15ulTTVWv9FSYf4s9fCiCWcx24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779441365; c=relaxed/simple;
-	bh=wimK3YS/52teb0Dnz8suCnTWMoQ9EYzTBw/6Snk1ELE=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=EekTMTAGEMqtAuDXgfx58ISGc+ErXe1YW4N8bYKUenTJSwhkmKrcWm4XbelkvVJ+oe6Vr2VeiyDHlT55ORHRCJeiYvxpRH6NzQyVPLdpcFn9ESL1Nyq0T+pgl5aUEU/ZcWwNZ/gZ2llGd+DHF3ZgxNdIetkZ+n+mx7BkS1K8Ed8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ky/I9Eyb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779441880; c=relaxed/simple;
+	bh=IlIT09SoPl+Nbv6R7Drfam2i2Sx2BotaTLGM67AHgfU=;
+	h=Message-ID:Date:From:MIME-Version:To:CC:Subject:References:
+	 In-Reply-To:Content-Type; b=kgcRvgvTGspCM11DySfDc+nXMj6M+dlQk1KNixcgS6o9ntrzIMuH49BQJfQ/3gQ6uZu8dcjQBAE+G9vXQypmskUlIMVqDJH2VidvEldEamoPR0g/KEGLs+NcxOXwXrow2/QuZtZJLJ8xtnNcTgjmshc99kKL6nC2VDpwnOxsTOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=iCYWYN5l; arc=none smtp.client-ip=117.135.210.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ky/I9Eyb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A35CB1F000E9;
-	Fri, 22 May 2026 09:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779441363;
-	bh=vDitLrccOg+8Y67zSEKhE4vdC5DZGltvxlodqtaG9d4=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=Ky/I9EybMxXHvCGCIiRwsLutfv3NkZ4d2ICIyEXVxawCvINuc/21zdGrA3ZVtWUV7
-	 f2WoX/B4NIUEyo0TJSjVwiySuwm6I9TMXEQA0TnStdvcrIjX8yXMTJ6dF4agpXnIdM
-	 ytzFl8MModW6xmD8v6YoXSVvLKD162jMYqAT2M17FjkHKJAQwJWkm4mXlgZjcS16R3
-	 7u1AcyY30VgE3dQcPkYeQgZm2o83ScCTGZadxcR8x55u8rq8yynB43xafl6yivtzv4
-	 7ZzJ/1EfaH/0qE0zn4LqX/GV/Gx2HswlD8k8yZtHASQPG5Y7bcEh6eXbBDOMkrGq1v
-	 yDRCfcyMMEKPQ==
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="iCYWYN5l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Message-ID:Date:From:MIME-Version:To:Subject:
+	Content-Type; bh=Yvz3W8qeDJQgLOm+dd/eWz+WbU65vy7qaLT2vCMPAXU=;
+	b=iCYWYN5lR0jexGLxqsVqBYZdfRd+zfafKN7tINhrq1uC8PDedc6yC2bNKeHZ2A
+	CNB4t+gzSXe9vlVTbOv4tIVQTQvedR6p0m0S+XxzZgaBNNejn8JWz9pAEWu4hqtZ
+	6FFm4gj7WUwbqipoWIHtkrpu4Jg/KuzPyNN5k3PBsWhJk=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3F4iXIBBqe8hBAA--.15141S2;
+	Fri, 22 May 2026 17:23:36 +0800 (CST)
+Message-ID: <6A10209C.9000602@126.com>
+Date: Fri, 22 May 2026 17:23:40 +0800
+From: Hongling Zeng <zhongling0719@126.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Thunderbird/31.2.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v4 1/7] lsm: Add granular mount hooks to replace
- security_sb_mount
-From: Christian Brauner <brauner@kernel.org>
-To: Song Liu <song@kernel.org>
-Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- selinux@vger.kernel.org, apparmor@lists.ubuntu.com, paul@paul-moore.com, 
- jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, 
- brauner@kernel.org, jack@suse.cz, john.johansen@canonical.com, 
- stephen.smalley.work@gmail.com, omosnace@redhat.com, mic@digikod.net, 
- gnoack@google.com, takedakn@nttdata.co.jp, 
- penguin-kernel@I-love.SAKURA.ne.jp, herton@canonical.com, 
- kernel-team@meta.com
-In-Reply-To: <20260515200158.4081915-2-song@kernel.org>
-References: <20260515200158.4081915-1-song@kernel.org>
- <20260515200158.4081915-2-song@kernel.org>
-Date: Fri, 22 May 2026 11:15:52 +0200
-Message-Id: <177944135249.2871055.11361892114499566606.b4-review@b4>
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=674; i=brauner@kernel.org;
- h=from:subject:message-id; bh=wimK3YS/52teb0Dnz8suCnTWMoQ9EYzTBw/6Snk1ELE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJyJ2/ZBpXcuDDe+X784pWOTkby7a6vVD3n3dt0g+h4
- /F3X4Yv6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIIQcjw3xLjeI7e7tcAiuW
- HwxRXJnE8PTh//TuhBcbGzkE+S9eM2H4wx/GcTuqwKwuoLh471HH7dN4F03RDXL9Hbs+KUpgX+1
- GfgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+To: Mateusz Guzik <mjguzik@gmail.com>, 
+ Hongling Zeng <zenghongling@kylinos.cn>
+CC: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+ thomas.weissschuh@linutronix.de, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] fs: Fix lock leak in replace_fd()
+References: <20260521074934.49256-1-zenghongling@kylinos.cn> <m3xus4s4xup32v7ijjolq6p3tlrj3bpwettldpqwxcwxanfvyt@5ihbtgch7liv>
+In-Reply-To: <m3xus4s4xup32v7ijjolq6p3tlrj3bpwettldpqwxcwxanfvyt@5ihbtgch7liv>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3F4iXIBBqe8hBAA--.15141S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tw1kJF13JF1DWrW3XFyrZwb_yoW8Ww43pr
+	yFgayvkr4UK39rXwnru3W5X3WFv3sxJr45Xr1Fq3WrCFyrurnYgFW5Krn09ryIqrn7CFWF
+	qr4qqFW3ZryDZw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j4Q6LUUUUU=
+X-CM-SenderInfo: x2kr0wpolqwiqxrzqiyswou0bp/xtbBrxjMnWoQIJjxmQAA3M
 
-On Fri, 15 May 2026 13:01:52 -0700, Song Liu <song@kernel.org> wrote:
-> [...]
-> 
-> Reviewed-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-> Tested-by: Stephen Smalley <stephen.smalley.work@gmail.com> # for selinux only
-> Signed-off-by: Song Liu <song@kernel.org>
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+   You're right - I missed the __releases(&files->file_lock) annotation
+   on do_dup2(). My patch would cause a double-unlock bug.
 
-Please cleanly separate the preparatory work for introducing the new
-hooks from any changes to fs/namespace.c
+   Thanks for the correction. I'll verify warnings more carefully next
+time.
 
-Once you have all of the new machinery in place, switch fs/namespace.c
-over to the new hooks.
+   Sorry for the noise.
 
-This will make it way easier to review and easier to distribute the
+   Hongling
+在 2026年05月21日 22:45, Mateusz Guzik 写道:
+> On Thu, May 21, 2026 at 03:49:34PM +0800, Hongling Zeng wrote:
+>> In replace_fd(), the function acquires files->file_lock but then has
+>> two return paths that don't release the lock:
+>> - When do_dup2() fails (returns negative error)
+>> - When do_dup2() succeeds (returns 0)
+>>
+>> Both of these paths return directly without unlocking files->file_lock,
+>> causing a lock leak and potential deadlock.
+>>
+>> Fix this by making both error and success paths go through the
+>> out_unlock label to ensure the lock is always released.
+> do_dup2 always releases the lock regardless of return value, so this
+> patch cannot be correct.
+>
+> that aside, there is another consumer which would also need patching if
+> the issue was real
+>
+>> Fixes: 708c04a5c2b7 ("fs: always return zero on success from replace_fd()")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Hongling Zeng <zenghongling@kylinos.cn>
+>> ---
+>>   fs/file.c | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/fs/file.c b/fs/file.c
+>> index 2c81c0b162d0..d0f019fb0568 100644
+>> --- a/fs/file.c
+>> +++ b/fs/file.c
+>> @@ -1361,8 +1361,7 @@ int replace_fd(unsigned fd, struct file *file, unsigned flags)
+>>   		goto out_unlock;
+>>   	err = do_dup2(files, file, fd, flags);
+>>   	if (err < 0)
+>> -		return err;
+>> -	return 0;
+>> +		goto out_unlock;
+>>   
+>>   out_unlock:
+>>   	spin_unlock(&files->file_lock);
+>> -- 
+>> 2.25.1
+>>
 
--- 
-Christian Brauner <brauner@kernel.org>
