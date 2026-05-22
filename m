@@ -1,173 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7220E47799E;
-	Fri, 22 May 2026 17:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DDF356775;
+	Fri, 22 May 2026 17:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779469724; cv=none; b=ukA5EmLDkJ91ptgnAMFZzAPZ4WTh8tx7xZpeaRcylGYdJ/u9uJdzEgAEB4LRcdkcZflmUGdTs5r+9F4Xshex5lZFB5RyYx9WrwJzeJVkP8uZQvujhVX7z+WrKh4VSgyS+r8Z3zH103uWOxCZ1OTHdLaHXvTUNA57w7M8feVfavs=
+	t=1779472531; cv=none; b=os7HVeGDVwsEMz4qckUAxn9R6I0Jm95RTIzJ5xCmIgiKirEJuJq2dkWipIr8pR+hq1P+wAytcIN0SgXLsslsIubnRH76TLtRfwAF5uZn7VGnMcrOtRKal1MDn5FfYbDIORU1WvemTRdfPzqAS0VTjDIgy8BAGep0O5HEdlBxtIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779469724; c=relaxed/simple;
-	bh=6hF6rqEwrJD4s9VY7thyzGJ4hqC11lqcEw2MCFgUj1Y=;
+	s=arc-20240116; t=1779472531; c=relaxed/simple;
+	bh=FbGlXdsHLt/17ZuhYpJxIcwjQOXhPiZ+BXktx4vTI58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VsvHEz1XSFFFMIcbL6hb17Pzo/r42gUr8DTtCKFJxe4IMcngpo9Es0KclyIXOrAcMvQtLRjB5B5/sIUvO9rFWaNvofU5KmcvP9/7eqW1yxAE7KGGX1ompSwuzncZLfvv+2CWJe8M/uV0oTwOM7aTyZGiwlnQEYAowr7Ic1LwfK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzJ6y0n+; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=t1lSSbws9iIDM/qg/2mWmap/8LAnE8Wms4adJ1RVoOwZKD5+cNsK6O9kOh15c7kTbBtzJLQV1axIEUdneQS5Z+9BmYnjGJf12opNkPmAEKnkRue0KitxBm+xwUcqvsVOh3wulPDDnCEPmBKrRTHyAUBUnrZ+AjoMIlf+4hUaBN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=vMY4mfIH; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzJ6y0n+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E79BE1F000E9;
-	Fri, 22 May 2026 17:08:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779469723;
-	bh=c23yxkM0+/60YQOR3FKGtI6McR78Ee+YJUODTCKTIss=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OzJ6y0n+zfW4+8WQGFFIbfwbnhp6Kv+qBK9H1sgDjZOELbUwkG34A+MtzYhcyghwQ
-	 nrfe+NcdHemO7jYCA7aV3PfT7SaOud7n/OQycUYBIhSL7CO9++tBPbXgcl/QS+69gf
-	 n1cGbOPUqj2ZCfDoZbf4ImCy2xQSS3pyLRuKeOepf+0jBS3SPuTYdt2JZ1UV6wtj5o
-	 Em/8yk5bmWeLIV1wWHSEaNiqviQ3BwSC+MLhXk2Fs44SXHCFCatdF9dA6hgWDbxiyE
-	 fDpSnQbBwhWWCGTzo/yjjKcytOvjcNcAP1TEV5yc7GuI0KKFJ2ZEd+gvk++fOksqEZ
-	 Uzp89DIhXWvGQ==
-Date: Fri, 22 May 2026 17:08:41 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Theodore Tso <tytso@mit.edu>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	Akilesh Kailash <akailash@google.com>,
-	Christian Brauner <christian@brauner.io>
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-Message-ID: <ahCNmWbcd_2lAJyk@google.com>
-References: <20260409134538.3692605-1-jaegeuk@kernel.org>
- <adhPZxtbZxgU-37v@google.com>
- <ad30g9xMs9wNJhFb@infradead.org>
- <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org>
- <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan>
- <ag_OVwPF49LSZ7rz@google.com>
- <20260522141115.GA8258@macsyma-wired.lan>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="vMY4mfIH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=R4TDQynBhD9geROEnW7skk79FDDsBfSrq/gB2Hv8zSM=; b=vMY4mfIHxeZzT+V/BWCqC1mpsM
+	gfr1ORDBytlvoJOejNL0+bZ2dxODJQIjDySWo/9/MIRwirPWuLI25sLr/IAUB9T/W9zloML6oC+cN
+	dODY72dCHy6gm49xc43WhBvCyVNGz2+9IAXbLKWK8d2JTyOxz1Cb78GdDUQtTYm4g5QFjqdQohZ5h
+	Jm4B/MriVs93R+4zYA/luZxw5Mo9mhYpCINbHvTF5gQLljN1K+M0u8NkUUHdIejbkW+onZmdj+CPX
+	WTbwIdAngO3Wc0OCOJTsX3nZViRETucuWygchPnlJB8Z4tBgDzMVEXVXYYNZJp+L9ekBIIbvqzBZa
+	RwrFqu5Q==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wQU5i-004q32-00;
+	Fri, 22 May 2026 17:55:22 +0000
+Date: Fri, 22 May 2026 10:55:15 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Shuah Khan <shuah@kernel.org>, 
+	Mateusz Guzik <mjguzik@gmail.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, shakeel.butt@linux.dev, oleg@redhat.com, axboe@kernel.dk, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v2 1/2] fs/pipe: pre-allocate pages outside pipe->mutex
+ in anon_pipe_write
+Message-ID: <ahCX3oPphW9QGySQ@gmail.com>
+References: <20260522-fix_pipe-v2-0-a8b35a78244e@debian.org>
+ <20260522-fix_pipe-v2-1-a8b35a78244e@debian.org>
+ <024fd2e28a2b9bce470178b8c510ed014b9bb039.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260522141115.GA8258@macsyma-wired.lan>
+In-Reply-To: <024fd2e28a2b9bce470178b8c510ed014b9bb039.camel@kernel.org>
+X-Debian-User: leitao
 
-On 05/22, Theodore Tso wrote:
-> On Fri, May 22, 2026 at 03:32:39AM +0000, Jaegeuk Kim wrote:
-> > I went this route because Android heavily restricts ioctl() permissions
-> > and we needed broader access for this to work within the framework. It’s
-> > definitely a pragmatic choice just to get it running in production.
-> > 
-> > If ioctl() is a right way for upstream, I'm happy to change this patch. By
-> > the way, I really don't understand why all the messages are so offensive,
-> > even without trying to understand the problem or guiding right directions.
+On Fri, May 22, 2026 at 12:51:40PM -0400, Jeff Layton wrote:
+> On Fri, 2026-05-22 at 09:44 -0700, Breno Leitao wrote:
+> > +/*
+> > + * Pre-allocate pages outside pipe->mutex for multi-page writes.
+> > + * alloc_page() with GFP_HIGHUSER can sleep in reclaim and runs memcg
+> > + * charging; doing it under the mutex stalls a concurrent reader.
+> > + *
+> > + * Loop alloc_page() instead of alloc_pages_bulk_*(): the bulk path refuses
+> > + * __GFP_ACCOUNT under memcg (see commit 8dcb3060d81d "memcg: page_alloc:
+> > + * skip bulk allocator for __GFP_ACCOUNT") and silently degrades to a single
+> > + * page. A per-page loop keeps memcg accounting and the task NUMA mempolicy
+> > + * honoured for every page; the per-call overhead is small compared to the
+> > + * pipe->mutex hold-time being shrunk. Any shortfall is covered by the
+> > + * in-lock alloc_page() fallback in anon_pipe_get_page().
+> > + */
+> > +static void anon_pipe_get_page_prealloc(struct anon_pipe_prealloc *prealloc,
+> > +					size_t total_len)
+> > +{
+> > +	unsigned int want, i;
+> > +	struct page *page;
+> > +
+> > +	prealloc->count = 0;
+> > +	if (total_len <= PAGE_SIZE)
+> > +		return;
+> > +
+> > +	want = min_t(unsigned int, DIV_ROUND_UP(total_len, PAGE_SIZE),
+> > +		     PIPE_PREALLOC_MAX);
+> > +
+> > +	for (i = 0; i < want; i++) {
+> > +		page = alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
+> > +		if (!page)
+> > +			break;
+> > +		prealloc->pages[prealloc->count++] = page;
+> > +	}
 > 
-> The reason why some people were getting annoyed was because as a Linux
-> file system maintainer, there was an assumption that you would
-> understand that extended attributes --- especially in the user.*
-> namespace --- have an intended use case of storing a user-chosen small
-> piece of metadata that would be stored in the file system.
-> 
-> Hijacking user.fadvise such that it no longer persistent stores an
-> extended attribute for one specific file system --- such that if a
-> hypothetical user application might decide to store a piece of
-> application data in the extended attribute named "fadvise" would do
-> something completely different on a single mainline file system is in
-> such poor taste that I would have *hoped* that any Linux file system
-> maintainer would know that this a Really Bad Thing, such that if
-> someone in your development community suggested such an idea, you
-> would reject it.
+> I believe alloc_pages_bulk() is supposed to be more efficient when
+> allocating several pages at once like this.
 
-Thank you for the explanation. It seems I made a wrong assumption on the
-usage of "user." prefix where each filesystem can support in different
-ways.
+Thanks Jeff. I understand bulk allocators refuses __GFP_ACCOUNT under memcg.
+(That is the reason I've CCed Shakeel in this patchset).
 
-> 
-> And then, when people complained that it was a bad idea, and you
-> decided to put in the f2fs branch, such that it would show up in
-> linux-next, and there was no way for other file system developers to
-> object (short of appealing to Linus) --- well, that's basically you
-> taking advantage of your file system maintainer privileges.  And this
-> is why I started proposing whether we needed to appeal this to Linus
-> so he could make the call to reject something that the community had
-> already told you was in terrible, terrible taste.
+Anyway, reading the code it shows me:
 
-To be fair, I hadn't queued it in linux-next for weeks since the first
-post, and was waiting for more feedbacks. If I was able to hear "user."
-is a generic prefix used for all filesystems and use ioctl from the beginning,
-I'd just drop and be able to start arguing with security folks back. Since
-my employer is funding for production mainly, not much upstream work, I
-couldn't sit and wait for the response for months. :(
+  unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
+                          nodemask_t *nodemask, int nr_pages,
+                          struct page **page_array)
+  {
 
-> 
-> As far as trying to understand why you were doing this --- I have to
-> turn that question around.  Why didn't *you* explain why you needed to
-> do this thing?  I went through the e-mail history, and I couldn't find
-> an explanation of why you decided to do this thing.  
+	...
+        /* Bulk allocator does not support memcg accounting. */
+        if (memcg_kmem_online() && (gfp & __GFP_ACCOUNT))
+                goto failed;
 
-I shared some motivation when replying to Darrick's feedback [1], but yes,
-it was not enough for all heads-up. The problem started that some speicific
-application needs as many high-order pages as possible mostly for reads. So,
-I thought we can turn on large folio on the specific files per hints. One way
-for the hints was using immutable bit, but it turned out it's very hard to
-manage disabling the bit whenever deleting the files. Along with limited
-ioctl() and requiring inode eviction to manage large folio activation, I had
-to implement this path.
 
-[1] https://lore.kernel.org/lkml/aeA5C8byIpXWla7f@google.com/
-
-> 
-> Perhaps we need to add an explanation the Documentation directory
-> explaining what the intended use of the extended attribute case, and
-> perhaps referencing past cases were people tried to use this to bypass
-> the linux-api review process (f2fs's user.fadvise is not the first
-> time someone has tried to do this) thing), so that automated review
-> bots like Sashiko can explain why it's in such terrible taste to patch
-> authors, perhaps we need to do this.  Up until now, I think the
-> assumption is that file system maintainers would know something this
-> self-evident, and if not, if it was pointed out, they wouldn't try to
-> force such an ill-advised interface to Linus.
-
-I believe this helps a lot to all newbies like me.
-
-I really appreciate your feedback.
-
-> 
-> 						- Ted
-> 
-> P.S.  As an exmaple of how I hanlded a somewhat similar scenario in
-> the past, my employer's cluster file system needed
-> FALLOC_FL_NO_HIDE_STALE to save $$$$ in TCO storage costs.  But the
-> concern was this would be an attractive nuisance for enterprise distro
-> users, who would see the massive performance increase, not realize
-> that this would leak stale data, which could result in user PII being
-> exposed, thus making life hard for Enterprise Linux's reputation.
-> (This wasn't an issue at $WORK because we enrypt all data at rest, and
-> the cluster file system daemon was a privileged server who (a) knew
-> what it was doing, and (b) only it would have access to set
-> FALLOC_FL_NO_HIDE_STALE.)
-> 
-> I disclosed *why* $WORK needed such a thing (it made a huge difference
-> to storage TCO costss for Google's Cluster Filesystem), and after
-> discussion and negotiation, we came to a compromise which involved my
-> keeping the (very small) patch out of tree, but reserving the code
-> point upstream to avoid future bitfield collisions.  They key here was
-> that I *knew* it was controversial, and I understood what problems it
-> might cause in the rest of the ecosystem.  That's part of the job of a
-> maintainer, and it's also why a company might want to hire a
-> maintainer.  They can represent the needs of multiple stakeholders ---
-> the upstream community, upstream users and the greater Linux
-> ecosystem, as well as their employer.
-> 
-> 
-> _______________________________________________
-> Linux-f2fs-devel mailing list
-> Linux-f2fs-devel@lists.sourceforge.net
-> https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel
+Thanks for the review,
+--breno
