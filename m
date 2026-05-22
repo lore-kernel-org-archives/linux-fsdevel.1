@@ -1,71 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740DB3CAE95
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 10:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445266; cv=none; b=QRqtTBvwXxDFMveBnLc+TgDPpepA5hlBxEq8/z8gZz+J4hZOH+vH2j5QdWYse25fvpiiVNIcuUAd8LTjyb7W6NpL11wceTzjcnW9dk1LZblNYBHEXTdYn3D31dSveIBdo1+OWwSL28mle19PxQQQXz1Zq+Kf5YCi5NUgdGWsKBU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445266; c=relaxed/simple;
-	bh=/YCv9Nx7VzBApomziiH/saMuJoQUiqs1eIoxwoJkd9w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FOuQ/fu7ILnJBqMoLRA+xY456ZdCBSy0nHu+hm2VENJDF8hg28X+uNzZf0LTR4FgxHHeBK7YIxVu6/Z9vlWOO0ZVdGwi3qTNcTJSmuR9ZZA7p8Y6bXq6ET8bBOmmeaDBqsTZMaVNL1I/zCwBX0w09m80JUeMlXjh0o/Syznncas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mGyTnem2; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2194A3CAA52
+	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 10:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779446013; cv=pass; b=WqErqh5rWPmALNYiJjUV6WlDSDe1+E9++Pbe5XFzFqdoAtj4hGfx86/99sDbKzjlSZskfhwT5DmvP7U/9L+YWBDXYVylbiLLXEVkqBTqGr7b/LCvjwwjGWEbW0j1KrKJGqBvQ2/zRDZDko7ud/YOFNbj4GSS6/FgxC1q/kogyMU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779446013; c=relaxed/simple;
+	bh=p/VdSGVbFrqiXAlT5Xg8uLbC62tLXxc2Jw0ObH3UOdY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iEVmii7nWrvmQ3JchsgrTkf1ucjiUrVNSUPpdm74VG8cZ+QW/4siAf9Yy0KDqurl0GJLMj5gdld8lmgJw5aAFnhfoi7b1FgWXPzZTATjLSQESlQAcXlGnLDI2E2r0M87sbiQhPrMsHSKDo+9i4KExLmetwReNFbMzkuX3+AYlVQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=iJGwgMHS; arc=pass smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mGyTnem2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AE3F1F000E9;
-	Fri, 22 May 2026 10:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445265;
-	bh=c+P1bJG/MAnnSEZjJ81P3L6nA5SKZie2QXTWcaXddIo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=mGyTnem2lu7UedsfYl9lXHpiWSub40Hof87tADzXFkL0b7zB9liRZtkMTyJf+jE/q
-	 uoCrh6p4/Mxr4/eq4x27x/eOns5W/o9p7u6XIVgEppsR2gHmUedQv8xmotJhE2fd1/
-	 Yrkt9YdL65wqO066ogDavDKF5snh4GxbDgUI+wudflEhsvmok9COJ+BXGESeoVQI6u
-	 EXNVrRe5sYaEyZjbAI2ByGseRVrwXaBP/BCJCt/3bIQt+FyclKgVQeG+TCcgloPQwO
-	 0q8xrB1ukKGP4EiOxp3tf9OA/LPAkLErFKgNnF/wU9JuiHPpSx34+VifSCJI5/VoT3
-	 XHrtLJDXIsj5w==
-From: Christian Brauner <brauner@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH] minix: release the sb buffer_head when setting the v3 block size fails
-Date: Fri, 22 May 2026 12:21:00 +0200
-Message-ID: <20260522-zaungast-weitreichend-herkommen-9e6549634e9a@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260518130330.529085-1-hch@lst.de>
-References: <20260518130330.529085-1-hch@lst.de>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="iJGwgMHS"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-512f750d4b2so80756751cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 03:33:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779446011; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kH9tP4I3Ex6YIu4CxVuhS1KJW+B9xa0CgrscQ0gPUMHuzAhlflZleFoaTJUYGc97jq
+         YAF1Vyg0NojclS1rzcwAU8O6OCxCTdOEEu9uWyvZ/88MSU4Q4GJvuEBURNjpnmp3SExc
+         z+qDdCYIIEAs0SyVW9JEFHtmflLQ1kXV4jbI1E5ty/7gW7tGUCt5sCrot+WvpGIqNnrw
+         UDnoCVYFR+jKqzDq/G5IzGdy39YELW0NMRgq5jU9N1tpj2d6h1naQeHuTsgHmaMCoYRT
+         LM7fb5gveBdjXdxaBFQuMpgtkIVG+1Sh9SEyFLlqg9gW+3O+PZwAdOEcPdVfMTw3vrVp
+         4SAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=z14oYsmaJGUy2giC8LHYGQR/U/5uLW2ju6hEqc58FVM=;
+        fh=Li7TFldRScaf7c8HnzaNvAckI9eX5hs0w83Wjfwoyn4=;
+        b=d/254yu9EXLJav/mo6X+ByPImYBwBpIBxDdiNb0ivfEHstqAQ9jskTg0mL40xS5lb0
+         ToZIsILSkKBfbootUqf0j/WG4U7s5pMTxi84Ld4dEGHBbeml6YZC6fH9a9o0b/esMBcB
+         To4eGw6oLG3FI4NxkS5McySC4trRC51jXDxqaIUlBbRuJqNEpck6uCF7zMbLL+14Oqrx
+         nPwvwAwSmh4tnzDVjDWm8H56UmY+JwbRLbsM4LLFrjsNxvDlR52WHhcEQhF/8THBO8D5
+         8w5dsHAlk7up0UMbbj5OhoQP9h9pLpmgwoiZwbAh58LGhOBtQJSRQli8WspkwsA+itGw
+         rScw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1779446011; x=1780050811; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=z14oYsmaJGUy2giC8LHYGQR/U/5uLW2ju6hEqc58FVM=;
+        b=iJGwgMHSgpNNEgFfUq0dnquBZaUOS+GLgGFZDi2zid77RefPOGzNGy3bw0EJiEH7rR
+         NWUmVQDBuKrRBnPz/JbczRMUXmBP/rYJ8gxP3xlvN4PgFWxZX+pCUm23NA+TuQTq+POC
+         eNlNNxRboK4otPE1UFM1PWIP5/k8Z4kUk6SfE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779446011; x=1780050811;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z14oYsmaJGUy2giC8LHYGQR/U/5uLW2ju6hEqc58FVM=;
+        b=kGk7dJe4wcDiSRkJ9hbO1v6JE0rvCHT0dEMLkpLNdDkP4Hr6He47XdIDXHdwh7saC2
+         fu5bLnTnHVcJybcQw6ivwsWLrYNuhul0lOHS1XXcyZ+jU9To0DyffY/8DAu2SEvOY23K
+         tYoDsOdigrZ6P7A+KGUTDBZGbk7V8qpzkB3JobjCulPS7XKW4Q+439UR48gngF9fABeD
+         BeaYNHs6051f54psUk8dVIp5ItR2m/XjgHrJg7vaRXP1F4eOo3EeZNZpG9NR6hfMwdyH
+         iP+bb4l4Txw8vhhPCS0TzP47/m/p6qYlirehrdrA9XO8CWIXxZrdUMDM4L2PQsdVkOta
+         6JTg==
+X-Gm-Message-State: AOJu0YzO/QAfAAw8ZLvgqZSgRCUI+/T7/MMKMSj7l8hq5OA0Mzumm7qa
+	CaPZIF3+EYpKGgbXw7Oxy6UMdx8GcnZ9HWPbUSE9bNamAlUwhSvYBQTv/4jb7J1y6EPZgO5F4zD
+	RKl0xGF5z9n52x3w5uCP+A3gBOq5vSK9wEqWXQEHMkWk1NmA18wyiTN8=
+X-Gm-Gg: Acq92OGHYnU9wY+BPSvq7D4N0Hz81adIyvKzU++ZI8I+BNckEqg0bG2KkC1BzK1SC18
+	by9ZvR2a9P8BQZE11BJoGuTZgiVdBg9Qobnd+WBtM53nR0C3QgknVawPHToTGJSCJm6stjlQuQq
+	PenE02RokNaIcURYVULx75+X28AR6Tkdgk+xMWWSnPOEoclfWJfJrtnbn4oWOAeGDE4B3lcEfRO
+	9hm5o2W3dw39+Ml4zLcPEAk0xpI/dIm9Yob6Z16YCWsbYWYJ4kJ+s1bIIyclCdvipMK4wqihhrg
+	gCZRMhRN21WuJhPsu0/A1kmhneTMMZRyfdNYl2Y=
+X-Received: by 2002:a05:622a:1a81:b0:516:3183:c1fc with SMTP id
+ d75a77b69052e-516d43b30camr41920731cf.50.1779446011222; Fri, 22 May 2026
+ 03:33:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=967; i=brauner@kernel.org; h=from:subject:message-id; bh=/YCv9Nx7VzBApomziiH/saMuJoQUiqs1eIoxwoJkd9w=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJ6PGG9YanF+QX366/Y3nlbbFL/K1XYckx6RbqN45+N KlO3WTfUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMJErkxn+StwWmXvu37Fn83OU GT9EBnF/+/+m8Fz8rsMWKVpTZ1f1LWX4HxWiHW69sHjZg0Cr75V56ywWF2bN3fombImARt7c2ft WcAMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+References: <177922944800.2436629.7011047808676668088.stgit@frogsfrogsfrogs> <177922944844.2436629.11205124993260163523.stgit@frogsfrogsfrogs>
+In-Reply-To: <177922944844.2436629.11205124993260163523.stgit@frogsfrogsfrogs>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 22 May 2026 12:33:20 +0200
+X-Gm-Features: AVHnY4L7xM_lm5a7sVX1WwSJTsMcU54KLYfEIl-hzIah71ML5fCtCjdZE6197HA
+Message-ID: <CAJfpegtZ17FOj0QB2aJCiqt8Bx=CeA+i8Tvx1BhuPJFDVyUegQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] fuse: move the passthrough-specific code back to passthrough.c
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, neal@gompa.dev, bernd@bsbernd.com, 
+	joannelkoong@gmail.com, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 18 May 2026 15:03:30 +0200, Christoph Hellwig wrote:
-> At this point the superblock is already read, so jump to the label that
-> releases the buffer_head for it.
+On Wed, 20 May 2026 at 00:25, Darrick J. Wong <djwong@kernel.org> wrote:
 
-Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.misc branch should appear in linux-next soon.
+> +#define FUSE_BACKING_TYPE_MASK         (0xFF)
+> +#define FUSE_BACKING_TYPE_PASSTHROUGH  (0)
+> +#define FUSE_BACKING_MAX_TYPE          (FUSE_BACKING_TYPE_PASSTHROUGH)
+> +
+> +#define FUSE_BACKING_FLAGS_ALL         (FUSE_BACKING_TYPE_MASK)
+> +
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Please drop the last two defines.  The _MAX and _ALL style
+non-constants are essentially an automatic API breaker.  There's no
+sane use for them, and insane ones WILL get broken when they change.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.misc
-
-[1/1] minix: release the sb buffer_head when setting the v3 block size fails
-      https://git.kernel.org/vfs/vfs/c/988c918b812e
+Thanks,
+Miklos
