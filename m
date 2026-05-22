@@ -1,124 +1,83 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAB8246788;
-	Fri, 22 May 2026 01:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC2819004A;
+	Fri, 22 May 2026 02:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779413907; cv=none; b=cwTZIk5yZcg8GlRw5j77sq3ecrSmx65E5I3nNvIkOm6CiNdPQk0euNBquT/EKDZnPBn2nF0AXOcXgFOGkeHgeoSwYeQ1OHVDzIr3YsOGQs10XLk/S9OhqUVqLMwsMjQ4czW/Bxhu+ncFHW7mvYHe7rj2wIrp66Juji8iaSZjKR8=
+	t=1779415604; cv=none; b=ILugu3AVo+ZF3/OnaC/zaPft0XRrSpFQDPV/uQAe+T/YG1f69sbSemJ3ZtZkTteUm2apfEVmvnXDbBBis0Oc2V5d+lDmRiw5JVM06AaES3MdCYEte9ZBdqSuCIN54VFNjlCORFClbTGheta7WgcULWGojm1vwc6gvDtiykVCE80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779413907; c=relaxed/simple;
-	bh=hVFowz43V7+Za1j/MsbEgZkbPdgZy1dJ4ZPvHUK8hyM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C31G6s2GWQWlLhgdGw+3AXZ+WOQEcIG0MffK43sIZWS/iNhsXzWWJt6cF3xFmyKOX0upFNuXQHNrXtuOSVo9zj3Tgm0vYspy7jeCXhYXallMwbVaoKLtOT+we1UqXNXZkQYLQnBlspFQHzDtDB0Dcrx+IJDELUAKdhzO6xga9P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BEzZ4sXf; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1779415604; c=relaxed/simple;
+	bh=07hz+naxzFTXSzGaVDJJiD1tGK+Lr7PvamFXV2fNi5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lSPBMG2BcV6Iz4//aAR/rqogiiWU5lmsOa3zf+kKrP2f32JvMc/CyLO3sJl5tcaNE5tVCpa2VQICAr4uDJY+6WEcBX8iuKwJohbG0uQllJtM3x5mDM9kHkmyVFuLhcEHB17tsCY3j5wrryqCYRBie6BieeMYX2OTyKhv9jcf91U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cn0DKNiC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BEzZ4sXf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=fvA2acxT+PUWoFnhiyQnKqpADcf34Gxxo2YPPgOhPzY=;
-	b=BEzZ4sXfJTbJc8wV5opq/0kxCCuhgFfztRK+kjCmsogsHHPFoBaITAxHXFEihd
-	q63CWIPKpgxrlgD2X0+LmfDpoAvyiY5DG/qsoI5GyMMlvwV1/WA6s5ejIkJK9oA3
-	qDhf9r/tlDaYp04ycnTXNLhBKvNyzMaUGxAi+aCTO8lgI=
-Received: from [192.168.3.148] (unknown [])
-	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wAn09g3sw9qVK6RCg--.8337S2;
-	Fri, 22 May 2026 09:36:57 +0800 (CST)
-Message-ID: <ecf092ec-80d6-4851-b0bd-e05ba11074f7@163.com>
-Date: Fri, 22 May 2026 09:36:54 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cn0DKNiC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6199D1F000E9;
+	Fri, 22 May 2026 02:06:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779415603;
+	bh=knPovaapjTuiFoAWUIpqfkz2sUYqGeJ9DVY/g4v9D24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cn0DKNiCX/B+AgeNdmnyOgzXcfSja9kfVGiETJSyy6g56tH9akiqD2DunRITdulvg
+	 qEIdHQTjAE9qmBkXUaJmwuAzJrUGXAt4MFPU2/GjTTlFoDTVA+ixjUjrt/Oz6+Vhtv
+	 8R+6eSEfs99o8wkRYf+MXs53sLi6E2hvukJgWQ0esSvPrPvyY3D/gsOs/08VOaTzDv
+	 BAlCN6chLZXijVQIvk2MFyuElcw/WUZ0ePo7YEeExQ3QcQcxaou5md2JYMlTiO8RiC
+	 29RoX4/OGh9CKMAYExLWC+0Nh7F1+O6QiOcBz+qYsUHgUyZO56xnQcmxA49v09OEuZ
+	 QKaCNkLB6alNg==
+Date: Thu, 21 May 2026 21:06:40 -0500
+From: Eric Biggers <ebiggers@kernel.org>
+To: Carlos Maiolino <cem@kernel.org>
+Cc: Andrey Albershteyn <aalbersh@redhat.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	djwong@kernel.org, david@fromorbit.com, brauner@kernel.org,
+	amir73il@gmail.com, miklos@szeredi.hu
+Subject: Re: [PATCH v10 00/22] fs-verity support for XFS with post EOF merkle
+ tree
+Message-ID: <20260522020640.GB5937@quark>
+References: <20260520123722.405752-1-aalbersh@kernel.org>
+ <20260521090705.GA14254@lst.de>
+ <gcw7zcg6p4s2egpufwizfig72g6ren7jfmuz5mqskkpb7xepww@e3v35j7bk7dc>
+ <ag7uW7KQ5mVyCGEv@nidhogg.toxiclabs.cc>
+ <ag7vc9gaHo3XtsBJ@nidhogg.toxiclabs.cc>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/5] mm/shmem: optimize read with reduced xarray
- lookups and folio batching
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Chi Zhiling <chizhiling@kylinos.cn>
-References: <20260520101538.58745-1-chizhiling@163.com>
- <20260521171454.02e35e71f999672518087037@linux-foundation.org>
-Content-Language: en-US
-From: Chi Zhiling <chizhiling@163.com>
-In-Reply-To: <20260521171454.02e35e71f999672518087037@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_____wAn09g3sw9qVK6RCg--.8337S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Ar45Gw13CrWDtw4xZFy5Jwb_yoW8Aw1kpa
-	43GFyfAr4xG3y3G3s7trWjqr1xtrn7tr18XFn5JFs2qw1FyF1UtFyxXrW8X39FkryDAr1U
-	JrW7Jwn2yr1UKw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UZJ5wUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9xtZ9moPszsYUQAA3n
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ag7vc9gaHo3XtsBJ@nidhogg.toxiclabs.cc>
 
-On 5/22/26 08:14, Andrew Morton wrote:
-> On Wed, 20 May 2026 18:15:33 +0800 Chi Zhiling <chizhiling@163.com> wrote:
+On Thu, May 21, 2026 at 01:42:42PM +0200, Carlos Maiolino wrote:
+> On Thu, May 21, 2026 at 01:38:45PM +0200, Carlos Maiolino wrote:
+> > On Thu, May 21, 2026 at 11:42:13AM +0200, Andrey Albershteyn wrote:
+> > > On 2026-05-21 11:07:05, Christoph Hellwig wrote:
+> > > > On Wed, May 20, 2026 at 02:36:58PM +0200, Andrey Albershteyn wrote:
+> > > > > This series based on v7.1-rc4.
+> > > > 
+> > > > How are we going to merge this?  It touches at three subsystem trees
+> > > > (fsverity, vfs/iomap, xfs) so some coordination will be needed.
+> > > 
+> > > As most of the patches are xfs, it's probably make sense to go
+> > > through xfs tree
+> > > 
+> > > Carlos, what do you think?
+> > 
+> > I was expecting this to come through xfs tree too if Eric and Christian
+> > agree.
+> > FWIW I'm adding Christian to the Cc
 > 
->> From: Chi Zhiling <chizhiling@kylinos.cn>
->>
->> This series improves shmem read performance by implementing folio
->> batching in the read path and reducing unnecessary xarray lookups.
->>
-> 
-> Thanks.
-> 
->> Performance Results
->> ===================
->>
->> Testing was performed with fio sequential read workloads:
->>
->>    fio --ioengine=sync --rw=read --size=1G --runtime=180
->>
->>
->> ### THP Disabled - Normal Files ###
->>
->> | Block Size | Baseline  | v1        | Improvement |
->> | ---------- | --------- | --------- | ----------- |
->> | 1M         | 11.4GiB/s | 12.7GiB/s | +11.4%      |
->> | 64k        | 11.2GiB/s | 12.2GiB/s | +8.9%       |
->> | 4k         | 3809MiB/s | 3838MiB/s | +0.8%       |
->>
->> ### THP Disabled - Fallocated Files ###
->>
->> | Block Size | Baseline  | v1        | Improvement |
->> | ---------- | --------- | --------- | ----------- |
->> | 1M         | 23.7GiB/s | 28.7GiB/s | +21.1%      |
->> | 64k        | 22.6GiB/s | 27.0GiB/s | +19.5%      |
->> | 4k         | 4668MiB/s | 4678MiB/s | +0.2%       |
->>
->> ### THP Enabled - Normal Files ###
->>
->> | Block Size | Baseline  | v1        | Improvement |
->> | ---------- | --------- | --------- | ----------- |
->> | 1M         | 13.9GiB/s | 13.9GiB/s | 0%          |
->> | 64k        | 13.4GiB/s | 13.4GiB/s | 0%          |
->> | 4k         | 3818MiB/s | 3836MiB/s | +0.5%       |
->>
->> ### THP Enabled - Fallocated Files ###
->>
->> | Block Size | Baseline  | v1        | Improvement |
->> | ---------- | --------- | --------- | ----------- |
->> | 1M         | 24.1GiB/s | 34.9GiB/s | +44.8%      |
->> | 64k        | 22.9GiB/s | 31.3GiB/s | +36.7%      |
->> | 4k         | 4721MiB/s | 4708MiB/s | -0.3%       |
-> 
-> That looks nice.
-> 
-> AI review might have found a few things:
-> 	https://sashiko.dev/#/patchset/20260520101538.58745-1-chizhiling@163.com
-> 
-> I'll skip the patchset for now (unreviewed v1!).
+> Woops... Also Adding Amir and Miklos to the Cc list due the overlayfs
+> patch:
 
-Okay, I will fix those issues in v2.
+Please go ahead and take it through the XFS tree for 7.2 if you think
+it's ready.
 
-Thanks!
-
+- Eric
