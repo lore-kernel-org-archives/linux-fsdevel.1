@@ -1,224 +1,324 @@
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED07337D11D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 19:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779479310; cv=none; b=MvvRc6PRMBLVwQAWEUPKHmrwvV8a9Sum2+WM2FecZHJyV1pbpBln39cdRtlGVxfemeAFLfWxMG2T/qcFvZWDAp7qOP1HghqUgEKkBXbiFBJ2dNaqN6R3FGlMTtLL2nryUkV/TrPlGiZuqNq1yTlZaWts+Sxnb1Q1j1FkaEZZG10=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779479310; c=relaxed/simple;
-	bh=K1QJPH6hcqdQ5aXTWd1AntEI8d/ebwx3snazPL1qmYk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=TVxQeXMV7qlAAd+4f2ILjue5A0Rwq0svrdm5RLP69K7CephQ5G9Rwt6daJrzV9bDbsei7SIiXi87DkceaINino4PD+at+jiRePi84Zdjlmc5XSvbbcPjkn9Z6+mG83fE7WlAmE7DRfaJASEppXjt3k485i4WDzGsCdobPVKCa1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-69d6b83bec7so3011324eaf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 12:48:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2910937C934
+	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 19:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779479331; cv=pass; b=mcRJ3+R3LFJH96OedqmnAtMxsR2suQPAebUeePv6xerwB2rA35ZXMlOfNdoCSNo5/thEwW+wBxiBTstXu9hAbHzL4KBKqVQIKquMqG/vNCDfCBj0okQCxDYzcu95i5wIDtMmt+Mq2H5HgOoDwpHTSKHKPGMxpgf7PdD/jmaz7UQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779479331; c=relaxed/simple;
+	bh=/UoHjOlN3xawNIf1F5ryX11h4JGww68rYrXSIAkZJRk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZagEVrRpZ7gp9PmbeD4s8w7EhfZ1U2sDWpwLoxp3CxPtULPcG5XfqCzYsjRa6NN1SbDoRM8uk/rXo12qw/wo4T4QxyAC9WpdlILrRn58jFW6ae6UN9k+VS9ADE1yFzMvnm7vZR+4OiIGvNMy6KwU3kLHmfq2thsnqNXNrHjY2g0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g4SqXnXV; arc=pass smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g4SqXnXV"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-bd2087858c4so1500560666b.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 12:48:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779479327; cv=none;
+        d=google.com; s=arc-20240605;
+        b=POoNAL34t5K0Ivlnb8EAFM0RK5Y9pcd8qsn/c9FM6uN+8OXb4SoKYTkEPhSUZ+/o51
+         yzhh13HQbayIoGRo1Z+lAuhnzzf7YByhcBKwwD3buL6kuJsXkGZXuxiafEJ88/2q/uCa
+         lDyBLfxIlehUecH9lFYavH4o45bMcB79f46Nql+WVAo2kMsN3j2/cnAvv/n+pMFjtlew
+         +gUULDeqSzf4uUEsGjJ4km9mF92Ab9OBwiPOQdc+P7hudMDWu/THo2oZgJlstbBFePd4
+         O0LGXya5vWTLW4fHA1SKxP0gl6CNilbF17+gwMtG3uJsQe4dmX7RhIr2xlE25L3PCP0w
+         7cow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SjTamPpbto/HfM8byrwNWfIswXwrk9jmy9Vl3IViybw=;
+        fh=6IYkJSOLF+X66/pVj4NzDRu3gGLxqlIxaaBB9G+yOb8=;
+        b=lPYg3aQNPI3q9Rj3XPwsmKfb8QBMAsi49uB7g/siZYcl5uHPCvSdGR7Nzotzpb47I3
+         VXzIYZaPDAjehrTVKNdfjlp3X1id7FU31UPbjLI+KW2DPU1bHa+4WPe0cKu/vYWR7Un+
+         el0C8KisneVdfsihInjVlQ9aWw0+S8kgKTkJA47QPtH1VXmtzZRUNKZPs9UeOgZpvm/S
+         FDqvsRMIVQgBk2lnFBomDZTrE9vWWBJZRrsCfbSeCmArdICsUbrw5mlM0Mot/MUp9Z56
+         lYk2ebp9ELmmSyULHODFyNr8A3j/FAzLqof3b0TexgWKUFifOI3Bw7u3O5LSgoIRKTBz
+         5jxQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779479327; x=1780084127; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SjTamPpbto/HfM8byrwNWfIswXwrk9jmy9Vl3IViybw=;
+        b=g4SqXnXVLIrx0YRIQZzxbpACbqKJG8UEXPSJk8nEq8QQiERvrj47BM//x/jMoKuTps
+         zW0ZKZW++GqETNxxNb+tPTYFZWQc6h/iqxB17JTLHkztEdNZJhshMEEylcHBgFwNg6P6
+         Q2Kp9aURgZpApLwN8qR995VZpJKp0E1sqJOISSOs772PTD0aSXxQT9ov3ergNetA6Uz+
+         /PAfLp4vWgwr5zKBsRy4IHu0XMAGFcRRYZzy2eqXarEfge0SNwQsF3yU9+vqGaEAyn1D
+         JZ7/aXtdZfjLf9wpeD4hbPi/+FXD8nN2IdowVPqZqTvtSPs2UoMjR8avfUnJ1etQgZ/D
+         dzag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779479308; x=1780084108;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qP5huJ0PDdYYGJkpRgGhCP5+QCYCVzv2WG0wvbiYHgA=;
-        b=jrP7fZMTRqSgyVNwYh1MEnhxRTjr+OtunAvZEvjMCMS+ZlYCBBXR1Qdga1bzRrQaZp
-         qlKwwTU7K0mWQFLl7tLZX9wubtnkBkusPW+7Wsz+BJurZPZmTiVZqL+w/JaAiGpxh75z
-         3NJ6YcdkOk3F78328rvrNldYuTNEJezK0keDiPUYGrgnREsjSWyJnrcS6QlXkfviu85E
-         N/wyUaPoyc/Dntx/2NJydGLaV/ngO84zxSWwt3/BCT1GOX/Mfmn/r64wS+m326WwtdqO
-         KNvClg91y0kZbfXFLerXtabGEUD5I1iF6a5y+9UPz8lztwGGMOmf1h6l3TC/2Q7NujCp
-         6c/g==
-X-Forwarded-Encrypted: i=1; AFNElJ9Ow9KR9EVbKv+Ld04w2cvTU4sJR4O6vbDyX+fuz8KDR2WBjll12vSjFs+gMecoCoSCKQQEtLD/wXQJelGK@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUUQgnjXyD3FWs36/5EXstiCXPtnjk5xabBLXRzOwh667AxUEm
-	ncPwbkHk1pRoT8FW9B6n4D7bJE6nCWdnmFi2/a42DkLgaAzvAoD+VGK03QteeNUG50f5PPZqrKQ
-	x0VTnlJLbREcowZtSlQn/mKsa0Z9Pzl7FCac0yL+zBBJF10eiaCO1d28ijec=
+        d=1e100.net; s=20251104; t=1779479327; x=1780084127;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SjTamPpbto/HfM8byrwNWfIswXwrk9jmy9Vl3IViybw=;
+        b=O9I339VNHKif3dMRLWvFgUu6Woq76CkRemWwn9qytYnJfTSVVxFnvAmzGCrev1SWX2
+         Od1B2epl/hE2mckr4UP2VdVA+QjAH0SQyfAfiwu4MHYYNuvNyzY1R4lE3h5fYvexq1cp
+         FdScGVUQY6V0KJyqhSf4dBczaH0eu+D4ZJAEgyAGxMlPHM+KpheNOQ1fv1wAWkYjGNFV
+         2fIG16wCRV2PPHuznEgn2Aez3LuwnL8CxxcsM1n7r6HaEg7iWNqyDfuZd12PbNQo6kNM
+         fwipfs8kGAU2JAH215wNeJAGIy7zF1jE09M2XQUtgSvypJqsi1ehc0hJ6mJI+yD8M0VY
+         hkqw==
+X-Forwarded-Encrypted: i=1; AFNElJ9abzeeGOj6F9WA24BSp/dlWkBU8+8npw7odPjYCcH+sjiFyqgRpp9B0srlZ78HxxnIKuY/xG2qmLK/joht@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCzmTAyP76HXpWQ+C3MJdXF7Rf+j4v4Ff7/hPvwBk6X8pSCQ46
+	RgU9csdhUQAirLULRFUDjlN0lSHtWg5sXd/H8Oaj5CReuSvJOI3iO01RMoA7S9nC/6x+snNYr8g
+	GAATAeMn70zdU2jdzQZvO0xxg8Tb/Eys=
+X-Gm-Gg: Acq92OFVie9lqbj0zMgyNREvMXGA//1joHdsQhTMQa9I6RKk3WzXdnDv7qVmHIJQW1q
+	Kr3pvpzeF/VXD/C/5Xdtxj+hNV5SIUPNOsM44ow3NggfeYETwrdJFP+WAUczfpQ0OqgR730hchj
+	Fc4XswjGoxQU5hQKwFavVzmd881LArirwsyMIVf8TAd/tjkDJpeAkMG+NIOAC+oauJeMxYwrKiT
+	Fi7qD0Nn4FGm5KqDQEi0m3ouRkluGDjLhbUJcxzGcj7/1gdp+zzsbLGa6+t3xJrGQWYAhJL1yw1
+	ZlBfpxW+qUDLQdLWW6KnMtDKSgNKCqppiwrHN4s=
+X-Received: by 2002:a17:907:cf8c:b0:bd4:8bb6:3d52 with SMTP id
+ a640c23a62f3a-bdd279d1b3bmr310255666b.36.1779479327364; Fri, 22 May 2026
+ 12:48:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:160b:b0:694:8cb0:4efb with SMTP id
- 006d021491bc7-69d7eb32e3fmr2493446eaf.8.1779479307848; Fri, 22 May 2026
- 12:48:27 -0700 (PDT)
-Date: Fri, 22 May 2026 12:48:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a10b30b.050a0220.19f61f.0003.GAE@google.com>
-Subject: [syzbot] [fs?] KASAN: slab-use-after-free Read in reverse_path_check_proc
-From: syzbot <syzbot+e70e1b6cba8714543f7c@syzkaller.appspotmail.com>
-To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
-	viro@zeniv.linux.org.uk
+References: <20260522-fix_pipe-v2-0-a8b35a78244e@debian.org> <20260522-fix_pipe-v2-1-a8b35a78244e@debian.org>
+In-Reply-To: <20260522-fix_pipe-v2-1-a8b35a78244e@debian.org>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Fri, 22 May 2026 21:48:34 +0200
+X-Gm-Features: AVHnY4KgBXvyBNU6QbNL7Mc36DJq7cwJqPP3Ok4mTlxAnVRZmoYkpIZkIWkzn94
+Message-ID: <CAGudoHFZkzXjzYcTxzmaMbLg0Sfh49sTcqiCoMVh9KU-d3eP4A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] fs/pipe: pre-allocate pages outside pipe->mutex in anon_pipe_write
+To: Breno Leitao <leitao@debian.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	shakeel.butt@linux.dev, jlayton@kernel.org, oleg@redhat.com, axboe@kernel.dk, 
+	kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Fri, May 22, 2026 at 6:44=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
+ote:
+>
+> anon_pipe_write() takes pipe->mutex (aka "mutex protecting the whole
+> thing") and then, from the per-iteration anon_pipe_get_page() helper,
+> used to call alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT) once per page
+> while still holding it.
+>
+> That allocation can sleep doing direct reclaim and/or runs memcg
+> charging, which extends the critical section and stalls a concurrent
+> reader on the very same mutex.
+>
+> Just pre-alloc the required pages before the lock in an array and just po=
+p
+> them inside the lock.
+>
+> This can improve the pipe throughput up to 48% and reduce the
+> latency in 33%, easily seen when there is memory pressure and direct
+> reclaim.
+>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  fs/pipe.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++--
+>  1 file changed, 102 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/pipe.c b/fs/pipe.c
+> index 9841648c9cf3e..cff255217bbfe 100644
+> --- a/fs/pipe.c
+> +++ b/fs/pipe.c
+> @@ -111,16 +111,76 @@ void pipe_double_lock(struct pipe_inode_info *pipe1=
+,
+>         pipe_lock(pipe2);
+>  }
+>
+> -static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe)
+> +#define PIPE_PREALLOC_MAX 8
+> +
+> +struct anon_pipe_prealloc {
+> +       struct page *pages[PIPE_PREALLOC_MAX];
+> +       unsigned int count;
+> +};
+> +
+> +/*
+> + * Pre-allocate pages outside pipe->mutex for multi-page writes.
+> + * alloc_page() with GFP_HIGHUSER can sleep in reclaim and runs memcg
+> + * charging; doing it under the mutex stalls a concurrent reader.
+> + *
+> + * Loop alloc_page() instead of alloc_pages_bulk_*(): the bulk path refu=
+ses
+> + * __GFP_ACCOUNT under memcg (see commit 8dcb3060d81d "memcg: page_alloc=
+:
+> + * skip bulk allocator for __GFP_ACCOUNT") and silently degrades to a si=
+ngle
+> + * page. A per-page loop keeps memcg accounting and the task NUMA mempol=
+icy
+> + * honoured for every page; the per-call overhead is small compared to t=
+he
+> + * pipe->mutex hold-time being shrunk. Any shortfall is covered by the
+> + * in-lock alloc_page() fallback in anon_pipe_get_page().
+> + */
+> +static void anon_pipe_get_page_prealloc(struct anon_pipe_prealloc *preal=
+loc,
+> +                                       size_t total_len)
+> +{
+> +       unsigned int want, i;
+> +       struct page *page;
+> +
+> +       prealloc->count =3D 0;
+> +       if (total_len <=3D PAGE_SIZE)
+> +               return;
+> +
+> +       want =3D min_t(unsigned int, DIV_ROUND_UP(total_len, PAGE_SIZE),
+> +                    PIPE_PREALLOC_MAX);
+> +
+> +       for (i =3D 0; i < want; i++) {
+> +               page =3D alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
+> +               if (!page)
+> +                       break;
+> +               prealloc->pages[prealloc->count++] =3D page;
+> +       }
+> +}
+> +
+> +static struct page *anon_pipe_prealloc_pop(struct anon_pipe_prealloc *pr=
+ealloc)
+> +{
+> +       if (!prealloc->count)
+> +               return NULL;
+> +
+> +       prealloc->count--;
+> +
+> +       return prealloc->pages[prealloc->count];
+> +}
+> +
+> +static struct page *anon_pipe_get_page(struct pipe_inode_info *pipe,
+> +                                      struct anon_pipe_prealloc *preallo=
+c)
+>  {
+> +       struct page *page;
+> +
+> +       /* Drain prealloc first to keep tmp_page[] hot for later small wr=
+ites. */
+> +       page =3D anon_pipe_prealloc_pop(prealloc);
+> +       if (page)
+> +               return page;
+> +
+>         for (int i =3D 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
+>                 if (pipe->tmp_page[i]) {
+> -                       struct page *page =3D pipe->tmp_page[i];
+> +                       page =3D pipe->tmp_page[i];
+>                         pipe->tmp_page[i] =3D NULL;
+>                         return page;
+>                 }
+>         }
+>
+> +       /* FWIW: This is called with pipe->mutex held */
+>         return alloc_page(GFP_HIGHUSER | __GFP_ACCOUNT);
+>  }
+>
+> @@ -139,6 +199,38 @@ static void anon_pipe_put_page(struct pipe_inode_inf=
+o *pipe,
+>         put_page(page);
+>  }
+>
+> +/*
+> + * Stash leftover prealloc pages in tmp_page[] so the next write to this
+> + * pipe gets a hot page without entering the allocator.
+> + */
+> +static void anon_pipe_refill_tmp_pages(struct pipe_inode_info *pipe,
+> +                                      struct anon_pipe_prealloc *preallo=
+c)
+> +{
+> +       int i, idx;
+> +
+> +       if (!prealloc->count)
+> +               return;
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(pipe->tmp_page); i++) {
+> +               if (pipe->tmp_page[i])
+> +                       continue;
+> +               if (!prealloc->count)
+> +                       return;
+> +               idx =3D --prealloc->count;
+> +               pipe->tmp_page[i] =3D prealloc->pages[idx];
+> +               prealloc->pages[idx] =3D NULL;
+> +       }
+> +}
+> +
+> +/* Runs after mutex_unlock() to keep put_page() out of the critical sect=
+ion. */
+> +static void anon_pipe_free_pages(struct anon_pipe_prealloc *prealloc)
+> +{
+> +       while (prealloc->count) {
+> +               prealloc->count--;
+> +               put_page(prealloc->pages[prealloc->count]);
+> +       }
+> +}
+> +
+>  static void anon_pipe_buf_release(struct pipe_inode_info *pipe,
+>                                   struct pipe_buffer *buf)
+>  {
+> @@ -432,6 +524,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
+from)
+>  {
+>         struct file *filp =3D iocb->ki_filp;
+>         struct pipe_inode_info *pipe =3D filp->private_data;
+> +       struct anon_pipe_prealloc prealloc;
+>         unsigned int head;
+>         ssize_t ret =3D 0;
+>         size_t total_len =3D iov_iter_count(from);
+> @@ -455,6 +548,8 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
+from)
+>         if (unlikely(total_len =3D=3D 0))
+>                 return 0;
+>
+> +       anon_pipe_get_page_prealloc(&prealloc, total_len);
+> +
+>         mutex_lock(&pipe->mutex);
+>
+>         if (!pipe->readers) {
+> @@ -512,7 +607,7 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
+from)
+>                         struct page *page;
+>                         int copied;
+>
+> -                       page =3D anon_pipe_get_page(pipe);
+> +                       page =3D anon_pipe_get_page(pipe, &prealloc);
+>                         if (unlikely(!page)) {
+>                                 if (!ret)
+>                                         ret =3D -ENOMEM;
+> @@ -566,7 +661,9 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter *=
+from)
+>                  * after waiting we need to re-check whether the pipe
+>                  * become empty while we dropped the lock.
+>                  */
+> +               anon_pipe_refill_tmp_pages(pipe, &prealloc);
+>                 mutex_unlock(&pipe->mutex);
+> +               anon_pipe_free_pages(&prealloc);
+>                 if (was_empty)
+>                         wake_up_interruptible_sync_poll(&pipe->rd_wait, E=
+POLLIN | EPOLLRDNORM);
+>                 kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
+> @@ -576,9 +673,11 @@ anon_pipe_write(struct kiocb *iocb, struct iov_iter =
+*from)
+>                 wake_next_writer =3D true;
+>         }
+>  out:
+> +       anon_pipe_refill_tmp_pages(pipe, &prealloc);
+>         if (pipe_is_full(pipe))
+>                 wake_next_writer =3D false;
 
-syzbot found the following issue on:
+maybe the new call would be nicer moved below pipe_is_full, but that's
+just cosmetics
 
-HEAD commit:    80dd246accce Add linux-next specific files for 20260518
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=113cba73980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2a0b5969e136a632
-dashboard link: https://syzkaller.appspot.com/bug?extid=e70e1b6cba8714543f7c
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14dc9fba580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10bffcc8580000
+>         mutex_unlock(&pipe->mutex);
+> +       anon_pipe_free_pages(&prealloc);
+>
+>         /*
+>          * If we do do a wakeup event, we do a 'sync' wakeup, because we
+>
+> --
+> 2.54.0
+>
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/5e187606d6dc/disk-80dd246a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/96a72e613393/vmlinux-80dd246a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c2905548782c/bzImage-80dd246a.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e70e1b6cba8714543f7c@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in reverse_path_check_proc+0x5b/0x240 fs/eventpoll.c:1663
-Read of size 8 at addr ffff88803777f7e0 by task syz.3.20/6001
-
-
-CPU: 0 UID: 0 PID: 6001 Comm: syz.3.20 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- reverse_path_check_proc+0x5b/0x240 fs/eventpoll.c:1663
- reverse_path_check fs/eventpoll.c:1692 [inline]
- ep_insert+0xc6c/0x1820 fs/eventpoll.c:1881
- do_epoll_ctl_file+0x8bb/0xed0 fs/eventpoll.c:2651
- do_epoll_ctl fs/eventpoll.c:2698 [inline]
- __do_sys_epoll_ctl fs/eventpoll.c:2715 [inline]
- __se_sys_epoll_ctl+0x14e/0x210 fs/eventpoll.c:2706
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f96281fce59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f962783d028 EFLAGS: 00000246 ORIG_RAX: 00000000000000e9
-RAX: ffffffffffffffda RBX: 00007f9628476090 RCX: 00007f96281fce59
-RDX: 0000000000000003 RSI: 0000000000000001 RDI: 0000000000000006
-RBP: 00007f9628292d6f R08: 0000000000000000 R09: 0000000000000000
-R10: 0000200000000600 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f9628476128 R14: 00007f9628476090 R15: 00007ffcab0f8478
- </TASK>
-
-Allocated by task 5997:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- unpoison_slab_object mm/kasan/common.c:340 [inline]
- __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:366
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4583 [inline]
- slab_alloc_node mm/slub.c:4912 [inline]
- kmem_cache_alloc_noprof+0x33b/0x680 mm/slub.c:4919
- ep_attach_file fs/eventpoll.c:1751 [inline]
- ep_register_epitem fs/eventpoll.c:1833 [inline]
- ep_insert+0x512/0x1820 fs/eventpoll.c:1876
- do_epoll_ctl_file+0x8bb/0xed0 fs/eventpoll.c:2651
- do_epoll_ctl fs/eventpoll.c:2698 [inline]
- __do_sys_epoll_ctl fs/eventpoll.c:2715 [inline]
- __se_sys_epoll_ctl+0x14e/0x210 fs/eventpoll.c:2706
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 5997:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2700 [inline]
- slab_free mm/slub.c:6284 [inline]
- kmem_cache_free+0x187/0x6c0 mm/slub.c:6411
- eventpoll_release_file+0xc2/0x240 fs/eventpoll.c:1386
- eventpoll_release include/linux/eventpoll.h:61 [inline]
- __fput+0x83c/0xa70 fs/file_table.c:501
- task_work_run+0x1d9/0x270 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
- exit_to_user_mode_loop+0xf3/0x4d0 kernel/entry/common.c:98
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
- do_syscall_64+0x33e/0xf80 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff88803777f7e0
- which belongs to the cache ep_head of size 16
-The buggy address is located 0 bytes inside of
- freed 16-byte region [ffff88803777f7e0, ffff88803777f7f0)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff88803777f280 pfn:0x3777f
-memcg:ffff88802b46c801
-flags: 0x80000000000200(workingset|node=0|zone=1)
-page_type: f5(slab)
-raw: 0080000000000200 ffff888140ae73c0 ffffea0000e3c510 ffffea0000d70e90
-raw: ffff88803777f280 0000000800800024 00000000f5000000 ffff88802b46c801
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 4987, tgid 4987 (udevd), ts 71313648267, free_ts 0
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1873
- prep_new_page mm/page_alloc.c:1881 [inline]
- get_page_from_freelist+0x27d6/0x2850 mm/page_alloc.c:3954
- __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5297
- alloc_slab_page mm/slub.c:3289 [inline]
- allocate_slab+0x74/0x5e0 mm/slub.c:3404
- new_slab mm/slub.c:3447 [inline]
- refill_objects+0x33c/0x3d0 mm/slub.c:7226
- refill_sheaf mm/slub.c:2827 [inline]
- __pcs_replace_empty_main+0x373/0x720 mm/slub.c:4665
- alloc_from_pcs mm/slub.c:4763 [inline]
- slab_alloc_node mm/slub.c:4897 [inline]
- kmem_cache_alloc_noprof+0x433/0x680 mm/slub.c:4919
- ep_attach_file fs/eventpoll.c:1751 [inline]
- ep_register_epitem fs/eventpoll.c:1833 [inline]
- ep_insert+0x512/0x1820 fs/eventpoll.c:1876
- do_epoll_ctl_file+0x8bb/0xed0 fs/eventpoll.c:2651
- do_epoll_ctl fs/eventpoll.c:2698 [inline]
- __do_sys_epoll_ctl fs/eventpoll.c:2715 [inline]
- __se_sys_epoll_ctl+0x14e/0x210 fs/eventpoll.c:2706
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff88803777f680: fa fb fc fc fa fb fc fc fa fb fc fc 00 00 fc fc
- ffff88803777f700: 00 00 fc fc 00 00 fc fc 00 00 fc fc 00 00 fc fc
->ffff88803777f780: 00 00 fc fc fa fb fc fc 00 00 fc fc fa fb fc fc
-                                                       ^
- ffff88803777f800: fa fb fc fc fa fb fc fc fa fb fc fc fa fb fc fc
- ffff88803777f880: fa fb fc fc fa fb fc fc fa fb fc fc fa fb fc fc
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Reviewed-by: Mateusz Guzik <mjguzik@gmail.com>
