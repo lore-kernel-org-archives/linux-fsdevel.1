@@ -1,105 +1,76 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2194A3CAA52
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 10:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779446013; cv=pass; b=WqErqh5rWPmALNYiJjUV6WlDSDe1+E9++Pbe5XFzFqdoAtj4hGfx86/99sDbKzjlSZskfhwT5DmvP7U/9L+YWBDXYVylbiLLXEVkqBTqGr7b/LCvjwwjGWEbW0j1KrKJGqBvQ2/zRDZDko7ud/YOFNbj4GSS6/FgxC1q/kogyMU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779446013; c=relaxed/simple;
-	bh=p/VdSGVbFrqiXAlT5Xg8uLbC62tLXxc2Jw0ObH3UOdY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iEVmii7nWrvmQ3JchsgrTkf1ucjiUrVNSUPpdm74VG8cZ+QW/4siAf9Yy0KDqurl0GJLMj5gdld8lmgJw5aAFnhfoi7b1FgWXPzZTATjLSQESlQAcXlGnLDI2E2r0M87sbiQhPrMsHSKDo+9i4KExLmetwReNFbMzkuX3+AYlVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=iJGwgMHS; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434303ED3BE;
+	Fri, 22 May 2026 11:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779450466; cv=none; b=eK/jjxd/BaRGlsQQFAj4sIocEh1qHpU4SJXLFgX/TYZI0gf10FYMKFoXpjA2hrdP7cRrmB762GtJgr8Q1s2w+JALHYVY63UDmbtz5Xa7HJNJbkGThrNJbLEhg/C09CgEngmuVtGWQmZEUy/bn3S6pxGSLrC6qiACIGhxFNfuYa0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779450466; c=relaxed/simple;
+	bh=LCiQtFsq830moWFz71Ju8TmAiMfKY7/ZuV9tNFhCwXE=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=lv4/IJs4EOM+G82d5WTR5Zjq1frr+p438wwkahuw/7brieT93EY8Zt6nz8BCx1IBFfa4GfBE+InzYSwQBMjStPiJdCTnuNmStX8/+5Vhb14M0YPrcO4WCkz2pvvB2d/XOLIHUUidsCNa2UUfBGdM7PrARPLC1/Qkq23NfYZrsMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QD1hruH/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="iJGwgMHS"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-512f750d4b2so80756751cf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 03:33:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779446011; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kH9tP4I3Ex6YIu4CxVuhS1KJW+B9xa0CgrscQ0gPUMHuzAhlflZleFoaTJUYGc97jq
-         YAF1Vyg0NojclS1rzcwAU8O6OCxCTdOEEu9uWyvZ/88MSU4Q4GJvuEBURNjpnmp3SExc
-         z+qDdCYIIEAs0SyVW9JEFHtmflLQ1kXV4jbI1E5ty/7gW7tGUCt5sCrot+WvpGIqNnrw
-         UDnoCVYFR+jKqzDq/G5IzGdy39YELW0NMRgq5jU9N1tpj2d6h1naQeHuTsgHmaMCoYRT
-         LM7fb5gveBdjXdxaBFQuMpgtkIVG+1Sh9SEyFLlqg9gW+3O+PZwAdOEcPdVfMTw3vrVp
-         4SAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=z14oYsmaJGUy2giC8LHYGQR/U/5uLW2ju6hEqc58FVM=;
-        fh=Li7TFldRScaf7c8HnzaNvAckI9eX5hs0w83Wjfwoyn4=;
-        b=d/254yu9EXLJav/mo6X+ByPImYBwBpIBxDdiNb0ivfEHstqAQ9jskTg0mL40xS5lb0
-         ToZIsILSkKBfbootUqf0j/WG4U7s5pMTxi84Ld4dEGHBbeml6YZC6fH9a9o0b/esMBcB
-         To4eGw6oLG3FI4NxkS5McySC4trRC51jXDxqaIUlBbRuJqNEpck6uCF7zMbLL+14Oqrx
-         nPwvwAwSmh4tnzDVjDWm8H56UmY+JwbRLbsM4LLFrjsNxvDlR52WHhcEQhF/8THBO8D5
-         8w5dsHAlk7up0UMbbj5OhoQP9h9pLpmgwoiZwbAh58LGhOBtQJSRQli8WspkwsA+itGw
-         rScw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1779446011; x=1780050811; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=z14oYsmaJGUy2giC8LHYGQR/U/5uLW2ju6hEqc58FVM=;
-        b=iJGwgMHSgpNNEgFfUq0dnquBZaUOS+GLgGFZDi2zid77RefPOGzNGy3bw0EJiEH7rR
-         NWUmVQDBuKrRBnPz/JbczRMUXmBP/rYJ8gxP3xlvN4PgFWxZX+pCUm23NA+TuQTq+POC
-         eNlNNxRboK4otPE1UFM1PWIP5/k8Z4kUk6SfE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779446011; x=1780050811;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z14oYsmaJGUy2giC8LHYGQR/U/5uLW2ju6hEqc58FVM=;
-        b=kGk7dJe4wcDiSRkJ9hbO1v6JE0rvCHT0dEMLkpLNdDkP4Hr6He47XdIDXHdwh7saC2
-         fu5bLnTnHVcJybcQw6ivwsWLrYNuhul0lOHS1XXcyZ+jU9To0DyffY/8DAu2SEvOY23K
-         tYoDsOdigrZ6P7A+KGUTDBZGbk7V8qpzkB3JobjCulPS7XKW4Q+439UR48gngF9fABeD
-         BeaYNHs6051f54psUk8dVIp5ItR2m/XjgHrJg7vaRXP1F4eOo3EeZNZpG9NR6hfMwdyH
-         iP+bb4l4Txw8vhhPCS0TzP47/m/p6qYlirehrdrA9XO8CWIXxZrdUMDM4L2PQsdVkOta
-         6JTg==
-X-Gm-Message-State: AOJu0YzO/QAfAAw8ZLvgqZSgRCUI+/T7/MMKMSj7l8hq5OA0Mzumm7qa
-	CaPZIF3+EYpKGgbXw7Oxy6UMdx8GcnZ9HWPbUSE9bNamAlUwhSvYBQTv/4jb7J1y6EPZgO5F4zD
-	RKl0xGF5z9n52x3w5uCP+A3gBOq5vSK9wEqWXQEHMkWk1NmA18wyiTN8=
-X-Gm-Gg: Acq92OGHYnU9wY+BPSvq7D4N0Hz81adIyvKzU++ZI8I+BNckEqg0bG2KkC1BzK1SC18
-	by9ZvR2a9P8BQZE11BJoGuTZgiVdBg9Qobnd+WBtM53nR0C3QgknVawPHToTGJSCJm6stjlQuQq
-	PenE02RokNaIcURYVULx75+X28AR6Tkdgk+xMWWSnPOEoclfWJfJrtnbn4oWOAeGDE4B3lcEfRO
-	9hm5o2W3dw39+Ml4zLcPEAk0xpI/dIm9Yob6Z16YCWsbYWYJ4kJ+s1bIIyclCdvipMK4wqihhrg
-	gCZRMhRN21WuJhPsu0/A1kmhneTMMZRyfdNYl2Y=
-X-Received: by 2002:a05:622a:1a81:b0:516:3183:c1fc with SMTP id
- d75a77b69052e-516d43b30camr41920731cf.50.1779446011222; Fri, 22 May 2026
- 03:33:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QD1hruH/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AAC71F000E9;
+	Fri, 22 May 2026 11:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779450462;
+	bh=mzVF0vs8iiYIeaThyf1CmLIQ1h8alW1VxekVPuhjlwo=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=QD1hruH/0jz+/CunTYJaRVA284mGdAHPG+xwSjT+SQEanXrCSccGSULZjn6+w84f6
+	 CJJ2/vbBPJj4kRE8MCjgAue9oL7dVouyccoD3APLXjyxYq/EXiRe4ONwYCbzjttt4K
+	 XM+Gb8YLiEy4zCKzvOykuJOYXkVtzSCu5TGMHl3XjbPBXv/jZ4r3AOH8s42ejEZ4iB
+	 X5FZGMHS7XbcTL/jGCXL4AGtuwQrDERPvMZPpCDxip0EtQMCLzRgGebJa/Lx796iy0
+	 9R+VOu9X7OQpnRxK+RQu6zq9pcMWL34OQcHUeURD3naUjG4uyC0EzKrYzk10JwvK49
+	 DnSwSY/WuyEvQ==
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <177922944800.2436629.7011047808676668088.stgit@frogsfrogsfrogs> <177922944844.2436629.11205124993260163523.stgit@frogsfrogsfrogs>
-In-Reply-To: <177922944844.2436629.11205124993260163523.stgit@frogsfrogsfrogs>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 22 May 2026 12:33:20 +0200
-X-Gm-Features: AVHnY4L7xM_lm5a7sVX1WwSJTsMcU54KLYfEIl-hzIah71ML5fCtCjdZE6197HA
-Message-ID: <CAJfpegtZ17FOj0QB2aJCiqt8Bx=CeA+i8Tvx1BhuPJFDVyUegQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] fuse: move the passthrough-specific code back to passthrough.c
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, neal@gompa.dev, bernd@bsbernd.com, 
-	joannelkoong@gmail.com, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 0/2] proc: protect ptrace_may_access() with
+ exec_update_lock
+From: Christian Brauner <brauner@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Arjan van de Ven <arjan@linux.intel.com>, 
+ "Eric W. Biederman" <ebiederm@xmission.com>, Jake Edge <jake@lwn.net>, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
+References: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
+Date: Fri, 22 May 2026 13:47:35 +0200
+Message-Id: <20260522-herzrasen-beflissen-geachtet-80b74e882307@brauner>
+X-Mailer: b4 0.16-dev-05c9c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=609; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=LCiQtFsq830moWFz71Ju8TmAiMfKY7/ZuV9tNFhCwXE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJOEVX981knDfBvuf8oq7O297f9xfd0jm0zMApPc/9o
+ dYWlr2xHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpADc5keGf8he3594yxu/kmi/9
+ cYv12GV354FPWYy12oKbzGsOqx/9yciwYt2KGRvqeg1MF6zWab/Bd/nxQv7/wjvk9839Jdse3V/
+ NCgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Wed, 20 May 2026 at 00:25, Darrick J. Wong <djwong@kernel.org> wrote:
+On Mon, 18 May 2026 18:35:14 +0200, Jann Horn <jannh@google.com> wrote:
+> [...]
+> 
+> (checkpatch complains about missing argument names in
+> proc_op::proc_get_link, but that was already the case before my patch.)
+> 
+> Signed-off-by: Jann Horn <jannh@google.com>
+> ---
 
-> +#define FUSE_BACKING_TYPE_MASK         (0xFF)
-> +#define FUSE_BACKING_TYPE_PASSTHROUGH  (0)
-> +#define FUSE_BACKING_MAX_TYPE          (FUSE_BACKING_TYPE_PASSTHROUGH)
-> +
-> +#define FUSE_BACKING_FLAGS_ALL         (FUSE_BACKING_TYPE_MASK)
-> +
+Hm, not super nice as this may cause performance regressions but I think
+you're right otherwise. While mostly info leaks - as you mentioned
+elsewhere - it would still be nice to try and fix them. So if we can do
+it without anyone noticing perf regressions it's probably worth it.
 
-Please drop the last two defines.  The _MAX and _ALL style
-non-constants are essentially an automatic API breaker.  There's no
-sane use for them, and insane ones WILL get broken when they change.
-
-Thanks,
-Miklos
+-- 
+Christian Brauner <brauner@kernel.org>
