@@ -1,55 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042443C4B84
-	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 10:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515F43B7B7A;
+	Fri, 22 May 2026 10:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779444670; cv=none; b=JV+uIRccoKJc6WriLMqe3y+KgARPnvNVufsBUdjvWfsxQFXL5YqiRm//ORjpxZDpnh8fDvVFz+rAuYco+wdqtOd54rXtcrY8XNE7n/T/gvT557NPsUe4Ei5M8RZBbYim3w87ADWKFo+leOolJvsUE4AMV7du0ZkIegnyh1XYXi0=
+	t=1779444828; cv=none; b=BFkd++7R4vn6UA4uHDx6lXuHv5IscZLfK5b4/elZXp7hq2A7UZh8KSuuB/z7k5jfWmNmzehS8MJcma4cwOnVUdhR0sMFf4LJ43cuZtzJqkxO4XYXMooa4eFwuRM4F11VY34i4qo1N9pnF4tB6Fc7XbNUabe3Zms4k019BIyfQxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779444670; c=relaxed/simple;
-	bh=uyPwp9wIlF1sm4uOpT935qhJmj2N5Ft/PLgAl5AR19o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FzeRim658e/f1FGOttIhwL/FwrkYOEko9LA36lBh5jBM8w5UM9aICx7CDK6LlcGbLK5a6c24JztjeFRvOl1f12QiHemgUvCP0SpGZNo3PAK/W648+SivOyOkVcmyaSDPcT/wYz+JP2oVCwHf0YOGEQ581nG73ASdW+unWY8sEIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKAb3vzQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779444828; c=relaxed/simple;
+	bh=lhbV15gqFVYmCMZEvg1uU1m1PBLfa07qcuf2ui7Zz+Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JT7cP8+xZHUwQS6GCK+P+OTxXn4pFoN+GK1gVPnAUKceQCuBKhTbwLYyUbfkRAautx7jLqwZm7ztN+ADDgTQvsBwcrITzada4C9+xTj6jrCn6Aza04GGyHT2+UbER2opg2bagUV1Q/x8l19ODjh+h8k+msLs9HfLZYWzwEBO8HE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WCL+e0mr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKAb3vzQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EC2C1F000E9;
-	Fri, 22 May 2026 10:11:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WCL+e0mr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E4101F000E9;
+	Fri, 22 May 2026 10:13:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779444669;
-	bh=K6z8ytLmY7+zCQKWRdYVqAzNYEpmKKdacF+F3I+3rpI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HKAb3vzQZpaGQplNDU6423lEk0EP3+7N4wDDhicTCvp5xHqSb8BXRdb4solJMV+9w
-	 XrNXln11AvW+mV1ycggrylqce0/GqWDKHnc3aJRSP89C16ZDTWOcVanHcLTzG1GzEY
-	 FhiLsqET3kICQ8r492dfTWWwkfX+Pfxlo1PeLsCgT6rVV2vhbFZzntT/eiPMRBVDAk
-	 4/R89BtnSlbIYAxqHoVy+yYzwOahOI7Pw4bQvPcj9OGOfr+PBOUqg4RImnebLaIOts
-	 jvCw4DnayUzXEBbXZIZ3S0DFT9OFc0RsWu64rKSWLV4nEyY28rx47CdvJl7dV2Dgkh
-	 G3+G3imDapmSQ==
-Date: Fri, 22 May 2026 12:11:06 +0200
+	s=k20260515; t=1779444827;
+	bh=yep+MmzsVlWADDSUqsV9kVJgBjttfHFqU4R3V6EEppA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=WCL+e0mr9bpdkDzdJgE2Jq9HRvbi/JIjrTQVzlJ4/ka9xAlhgW2vP0XfvwcveFaNV
+	 4xqTJH3Y2fdiEV4bbr1ijWk3+xX2WnBK5GcX+kIT/wqS4tTQ3EqZ14IjV9CEXg/nDF
+	 TJ03j5Wzk3Zst1RNElnY5VLzd2LojuCcf4bYPkTQ4whWhYTk2CM1BjpTwTQ7iZHuLG
+	 V+WHzSflVOXJh2Mm9XdbGS0ghZ+kW8aFG2u+EtiXym1t3WbHUj+uhn1NVjHMGIJp84
+	 9xMMCwBQwcCmsACH69DB/pwpOmFpGGsPAzeiRON0aKG2YNGzMRF2FFTWamKGol5c3z
+	 wGxWzKFLY6hLw==
 From: Christian Brauner <brauner@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] selftests: openat2: port emptypath_test to kselftest
- harness
-Message-ID: <20260522-reorganisation-altstadt-nehmen-e1c1d17cd445@brauner>
-References: <20260521-wettstreit-meinen-46271dede480@brauner>
- <1947081210.2128972.1779371780097@kpc.webmail.kpnmail.nl>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH] init: do_mounts: use kmalloc() for allocations of temporary buffers
+Date: Fri, 22 May 2026 12:13:31 +0200
+Message-ID: <20260522-gefressen-bahnverbindung-inzwischen-e2af1ef5fcaf@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260520-init-v1-1-aaf2ebac5ad9@kernel.org>
+References: <20260520-init-v1-1-aaf2ebac5ad9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1947081210.2128972.1779371780097@kpc.webmail.kpnmail.nl>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1290; i=brauner@kernel.org; h=from:subject:message-id; bh=lhbV15gqFVYmCMZEvg1uU1m1PBLfa07qcuf2ui7Zz+Q=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQJ6ITtNvj7uGL2xfyp8pc9Dabutq8pjIjnblFRsp02R WqN2pnYjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlYfGX4H5kZ/7b+vcC7Ukff sw6/Vy76fr/P4iZ39qTpOtMFO9XFGxj+RzH8/7rrPLc1j6WbMnuUwMRdat9EjHw+P755wOhE+cY QDgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 21, 2026 at 03:56:20PM +0200, Jori Koolstra wrote:
-> Hi Christian,
+On Wed, 20 May 2026 11:16:51 +0300, Mike Rapoport (Microsoft) wrote:
+> Several places in init/do_mounts.c allocate temporary buffers for
+> filesystem names or options using __get_free_page() or alloc_page().
 > 
-> Sorry I didn't yet get to this. Had a busy "my actual job" week and was also
+> Usage of alloc_page() APIs is not required there and only creates
+> unnecessary noise with castings or conversion from struct page to void *.
+> 
+> kmalloc() is a better API for these uses and it also provides better
+> scalability and more debugging possibilities.
+> 
+> [...]
 
-Sorry, I honestly forgot that I asked you to do this. :)
-I just did it because I was assembling vfs-7.2.openat2.
+Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.misc
+
+[1/1] init: do_mounts: use kmalloc() for allocations of temporary buffers
+      https://git.kernel.org/vfs/vfs/c/3fb2d124b647
