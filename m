@@ -1,112 +1,106 @@
-Received: from a11-79.smtp-out.amazonses.com (a11-79.smtp-out.amazonses.com [54.240.11.79])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EF4382283;
-	Fri, 22 May 2026 19:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D123644CB;
+	Fri, 22 May 2026 19:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779477587; cv=none; b=qzYerDN3JtVp7AuefCUbPgr/RFXA0eeurfibx4drUEzLuRUyRxYqbMJQ5FhfUp9eirW1TpSpfRAqo03/2JDHJ9n+8kIXajSXwjZMHYyo8dLBA8lMNDvHLFhhTNViGHKVGXu9J5DFVNuzA+/YF1g5IjozLGBwnQ+/JpH8nYIjmnQ=
+	t=1779477655; cv=none; b=GWjZwNTf7X7M9jjX9FiIPXRyENlF4s7moi1YYbTXsxzQqlEMXAKy3BsyKKOXXf2bGSe9WwQeJGKGGb9DLNgBl42x32MO0RrCgaU/DYkne2fHolp5fIaAHOroA9QXqq3pMbzqVymd3/9Mbglubaq5vROKCqYRKwKINkThzQav9XQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779477587; c=relaxed/simple;
-	bh=tu4UxLvc/sX88yWSCNCjqG5f+79wuYtCVrBLE5YzpsA=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=fU9bNXirF/Jr+OX1jSq+CFgfuuho/8xP3VnDyVooT5MfqviEuW/B7SFoPRrXkGP5ESNUAHxo3axAwp1Tg7k7T1ygfgpmKm/NHvkLjIElx1XPe6EsMHC7XUmnxOh+BN6uA3M5gVZdQYV4on1zba+8NwZbOSice4Nh72H6um/3P0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=kED1lgXP; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=sAOqeUb0; arc=none smtp.client-ip=54.240.11.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1779477655; c=relaxed/simple;
+	bh=t0EwoAB284gGQAoxBmuj5j4Ytn6ePtIyxiRxcYBrzKc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=Gc6FgQcjHHQuadVf2Sj+ZEbPdVLqECl1WvLYablC0JKZAz6pnLID0gLzibzqg4MJ6/mU2DDbKAGBc7Nh2+apLxVoBuCmDrsJsjVEUL5iVyJ2FLELVVv2PmoifWDv5z3BW3FCZLgask4/VwN5eUskVKMwHr4lw7qYRZK3tDidMhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=A/Xjgqyk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="kED1lgXP";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="sAOqeUb0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1779477584;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=tu4UxLvc/sX88yWSCNCjqG5f+79wuYtCVrBLE5YzpsA=;
-	b=kED1lgXPlJTY7/crAwpr7k767A3gJ5aMjJ+7Rj6Mk8c5nKIXwassGeLkb9Wn/CGW
-	W3ERAdGbVqRnUHcYq++K+p7Ahj27ZXg6O0lR2VtupXeVlVaH0pB1nAkY+64Fk0iqLat
-	udTh/r9/b29t3TdBz0djGOYozPPZubC0mVL2fGLs=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1779477584;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=tu4UxLvc/sX88yWSCNCjqG5f+79wuYtCVrBLE5YzpsA=;
-	b=sAOqeUb08ZdiS8uGMFxjMwsPlirfskMIOel9VLwJqrYfyG+oFzHsqWXydw90i7Gy
-	oWQaOtbMpX0Y++pyLdzbavdDSHne4AjruBfJdq4yo5OzMbzK0FD+Diq8IXxuhzdaqHL
-	H1metyQlAV3JWrXe4s31587F6vh9Lpi3VXLRaBx4=
-Subject: [PATCH V2 7/7] dax: fsdev.c minor formatting cleanup
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?Christian_Brauner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>, 
-	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
-	=?UTF-8?Q?John_Groves?= <john@groves.net>
-Date: Fri, 22 May 2026 19:19:43 +0000
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="A/Xjgqyk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E196D1F000E9;
+	Fri, 22 May 2026 19:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1779477654;
+	bh=t41QCwdiqyuL/UKBS3u23I5KZlwdlxk/ylC/Jp2AbcY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=A/Xjgqyk1TMDW6V1BLTgayE9RCsWIE9yAV8Ahj5igvqc76Y0csCoxRzu3JoPPg0lp
+	 yZfvgJZZwy96Mlp4rZuIhW+34vQHUx/TiYBJvlzF4SF1yStcC2+jglAgfkotNCoWgg
+	 VVERfOMw5o65zBF/g7at8k/EeS+l8Lmn6oI5XxCY=
+Date: Fri, 22 May 2026 12:20:52 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: david@kernel.org, willy@infradead.org, ryan.roberts@arm.com,
+ linux-mm@kvack.org, r@hev.cc, jack@suse.cz, Andrew Donnellan
+ <andrew+kernel@donnellan.id.au>, apopple@nvidia.com, baohua@kernel.org,
+ baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com,
+ dev.jain@arm.com, kees@kernel.org, kevin.brodsky@arm.com,
+ lance.yang@linux.dev, Liam R.Howlett <liam@infradead.org>,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ljs@kernel.org, mhocko@suse.com,
+ npache@redhat.com, pasha.tatashin@soleen.com, rmclure@linux.ibm.com,
+ rppt@kernel.org, surenb@google.com, vbabka@kernel.org, Al Viro
+ <viro@zeniv.linux.org.uk>, wilts.infradead.org@hp2.hsd1.ca.comcast.net,
+ "linux-fsdevel@vger.kernel.l"@kernel.org, ziy@nvidia.com,
+ hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev,
+ kernel-team@meta.com
+Subject: Re: [PATCH v5 0/2] mm: improve large folio readahead for exec
+ memory
+Message-Id: <20260522122052.7b4ad7c482a0e4826296e392@linux-foundation.org>
+In-Reply-To: <20260522162422.3856502-1-usama.arif@linux.dev>
+References: <20260522162422.3856502-1-usama.arif@linux.dev>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: 
- <0100019e511fb82e-1a444df3-8310-40ed-8380-72e1373d5da9-000000@email.amazonses.com>
-References: 
- <0100019e511fb82e-1a444df3-8310-40ed-8380-72e1373d5da9-000000@email.amazonses.com> 
- <20260522191937.79247-1-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHc6h+7e4zSojcNRQ2wV9eJQr6w4gAADXpr
-Thread-Topic: [PATCH V2 7/7] dax: fsdev.c minor formatting cleanup
-X-Wm-Sent-Timestamp: 1779477582
-X-Original-Mailer: git-send-email 2.52.0
-Message-ID: <0100019e512117cd-2a9b3b34-6f2c-42e3-9110-71aef0463358-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.05.22-54.240.11.79
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: John Groves <John@Groves.net>=0D=0A=0D=0AAddress some comments from=
- Jonathan that were missed in the merged=0D=0Aseries. Fix line wrapping i=
-n fsdev_dax_recovery_write() and=0D=0Afsdev_dax_zero_page_range() signatu=
-res.=0D=0A=0D=0AFixes: 099c81a1f0ab ("dax: Add dax_operations for use by =
-fs-dax on fsdev dax")=0D=0ASigned-off-by: John Groves <john@groves.net>=0D=
-=0A---=0D=0A drivers/dax/fsdev.c | 15 ++++++++-------=0D=0A 1 file change=
-d, 8 insertions(+), 7 deletions(-)=0D=0A=0D=0Adiff --git a/drivers/dax/fs=
-dev.c b/drivers/dax/fsdev.c=0D=0Aindex f74fd1bb7f4c5..dafa24761e8ff 10064=
-4=0D=0A--- a/drivers/dax/fsdev.c=0D=0A+++ b/drivers/dax/fsdev.c=0D=0A@@ -=
-45,8 +45,8 @@ static void fsdev_write_dax(void *addr, struct page *page,=0D=
-=0A }=0D=0A=20=0D=0A static long __fsdev_dax_direct_access(struct dax_dev=
-ice *dax_dev, pgoff_t pgoff,=0D=0A-=09=09=09long nr_pages, enum dax_acces=
-s_mode mode, void **kaddr,=0D=0A-=09=09=09unsigned long *pfn)=0D=0A+=09=09=
-long nr_pages, enum dax_access_mode mode, void **kaddr,=0D=0A+=09=09unsig=
-ned long *pfn)=0D=0A {=0D=0A =09struct dev_dax *dev_dax =3D dax_get_priva=
-te(dax_dev);=0D=0A =09size_t size =3D nr_pages << PAGE_SHIFT;=0D=0A@@ -90=
-,7 +90,8 @@ static int fsdev_dax_zero_page_range(struct dax_device *dax_d=
-ev,=0D=0A =09long rc;=0D=0A=20=0D=0A =09WARN_ONCE(nr_pages > 1, "%s: nr_p=
-ages > 1\n", __func__);=0D=0A-=09rc =3D __fsdev_dax_direct_access(dax_dev=
-, pgoff, 1, DAX_ACCESS, &kaddr, NULL);=0D=0A+=09rc =3D __fsdev_dax_direct=
-_access(dax_dev, pgoff, 1, DAX_ACCESS,=0D=0A+=09=09=09=09       &kaddr, N=
-ULL);=0D=0A =09if (rc < 0)=0D=0A =09=09return rc;=0D=0A =09fsdev_write_da=
-x(kaddr, ZERO_PAGE(0), 0, PAGE_SIZE);=0D=0A@@ -98,15 +99,15 @@ static int=
- fsdev_dax_zero_page_range(struct dax_device *dax_dev,=0D=0A }=0D=0A=20=0D=
-=0A static long fsdev_dax_direct_access(struct dax_device *dax_dev,=0D=0A=
--=09=09  pgoff_t pgoff, long nr_pages, enum dax_access_mode mode,=0D=0A-=09=
-=09  void **kaddr, unsigned long *pfn)=0D=0A+=09=09pgoff_t pgoff, long nr=
-_pages, enum dax_access_mode mode,=0D=0A+=09=09void **kaddr, unsigned lon=
-g *pfn)=0D=0A {=0D=0A =09return __fsdev_dax_direct_access(dax_dev, pgoff,=
- nr_pages, mode,=0D=0A =09=09=09=09=09 kaddr, pfn);=0D=0A }=0D=0A=20=0D=0A=
--static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev, pgoff=
-_t pgoff,=0D=0A-=09=09void *addr, size_t bytes, struct iov_iter *i)=0D=0A=
-+static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev,=0D=0A=
-+=09=09pgoff_t pgoff, void *addr, size_t bytes, struct iov_iter *i)=0D=0A=
- {=0D=0A =09return _copy_from_iter_flushcache(addr, bytes, i);=0D=0A }=0D=
-=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
+On Fri, 22 May 2026 09:23:46 -0700 Usama Arif <usama.arif@linux.dev> wrote:
+
+> Two checks in do_sync_mmap_readahead() limit large-folio readahead:
+> 
+>   1. The mmap_miss heuristic is meant to throttle wasteful speculative
+>      readahead. It is currently also applied to the VM_EXEC readahead
+>      path, which is targeted rather than speculative. Once mmap_miss exceeds
+>      MMAP_LOTSAMISS, exec readahead - including the large-folio
+>      order requested by exec_folio_order() - is disabled. On
+>      configurations where the mmap_miss decrement paths are not
+>      active (see patch 1) the counter only grows, so exec readahead
+>      is permanently disabled after the first 100 faults.
+> 
+>   2. The force_thp_readahead path is gated only on
+>      HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER and always drives the
+>      readahead at HPAGE_PMD_ORDER. Configurations where
+>      HPAGE_PMD_ORDER exceeds MAX_PAGECACHE_ORDER never reach this
+>      path, even when the mapping itself supports usefully large
+>      folios well below the cap.
+> 
+> Both issues are most visible on arm64 with a 64K base page size,
+> where HPAGE_PMD_ORDER is 13 (512MB) -- above MAX_PAGECACHE_ORDER
+> (11) -- and where fault_around_pages collapses to 1 disabling
+> should_fault_around() (one of the two mmap_miss decrement sites).
+> However the fixes are architecture-agnostic: patch 1 reflects the
+> nature of VM_EXEC readahead regardless of base page size, and
+> patch 2 generalises the gate so any mapping advertising a usefully
+> large maximum folio order can benefit.
+> 
+> I created a benchmark that mmaps a large executable file and calls
+> RET-stub functions at PAGE_SIZE offsets across it. "Cold" measures
+> fault + readahead cost. "Random" first faults in all pages with a
+> sequential sweep (not measured), then measures time for calling random
+> offsets, isolating iTLB miss cost for scattered execution.
+> 
+> The benchmark results on Neoverse V2 (Grace), arm64 with 64K base pages,
+> 512MB executable file on ext4, averaged over 3 runs:
+> 
+>   Phase      | Baseline     | Patched      | Improvement
+>   -----------|--------------|--------------|------------------
+>   Cold fault | 83.4 ms      | 41.3 ms      | 50% faster
+>   Random     | 76.0 ms      | 58.3 ms      | 23% faster
+
+Well that's nice.
+
+AI review might have found a few things:
+	https://sashiko.dev/#/patchset/20260522162422.3856502-1-usama.arif@linux.dev
+
+
