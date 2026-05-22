@@ -1,109 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A801A681B;
-	Fri, 22 May 2026 00:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320321C68F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 00:28:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779408897; cv=none; b=hPBZJSGlWOdcHj48yqFUD0mIYpaZqCI6GLj5nH25gVnMPNx7Y7TaDqoqFqUcO4/rovYei2Bkn7M4ZjBxoF4B6CHbs+jjmXiolTp5BPpSVwUuva6R6Yw23DuSYVk74bCxK0ro4WYONmLhreZpRE41uOPdunAwmSn9onYgCdDP8v8=
+	t=1779409735; cv=none; b=CMTNLHmbOxSQ0jNSXkDM0H8KN9YiRSG/teVYLGAXmsGUPpmvm0j5Iwlp1fZJYogro9P3XYHptgcoFDd8vB6XRsgH23JCBaNOf4Yrs0B2RDYPeh8N2QquVJLoz/zCXrZQqmySW7kTRCh1bK7t5prpiCdfPmqwrbkiesLXjuHbCMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779408897; c=relaxed/simple;
-	bh=x4BC34HQRJ0b4ItlCvvJErsju5hLl/trdJ24IzaYuGQ=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=l5AFA7JLDiv+kzQyCzF5Tn8kaLC4DjdNfXfiegkZKhNX/SjsqaB/+S/2vx/LOU68wiCQGIuIPRrezNTWu4Qq735zvwYEuyLIRyoAFaT4dH6gXBg+LnrOCs1SWEcM4mN+7DPDnh4hDIpc+XinfeRZeBN+ZhdzBdAi6/r0ftd8U4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PpUMZHIp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779409735; c=relaxed/simple;
+	bh=v45xTb8/aStDMBNnUGLg8nAp3pHY61cbT3pW7CEmL08=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qXO/eYECMRHrKozedOyRYyZ3u+W7NttIywsKZ9SNm2eqm42sj54gD5YJgKxjmD1pATLRN4DTCFUZSxh8TGkLm3ABy/1hyyl1rOS7COmcuPdKTPMzJaC9+fAXtSlouhUBtx25EVRf4R5qIfYsMJeHjOpsHvjMuHqZO1YgqZSxh/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QymsBPaK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PpUMZHIp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E77CB1F000E9;
-	Fri, 22 May 2026 00:14:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1779408895;
-	bh=E58V6pPlsJLWcNEF4SeWKytMRUR3ac3u30rtpH9EvgM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=PpUMZHIp4iHxmimKHo6fhve6bJMUqOFPIGWZw6k30OUBljIH2D2Yo6K9StgdreHBS
-	 +uGCZ2QmP04gZdn98kAx9CQE4qM8gBgORSWlBASmtZDHJPfveUiwq4I0rIVTNdUVF+
-	 Ev5hUkweZqg+0w3EB4oZZdsQuo+O3vYtgbfV+c9Q=
-Date: Thu, 21 May 2026 17:14:54 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Chi Zhiling <chizhiling@163.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>, David Hildenbrand
- <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Zi Yan
- <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>, Nico Pache
- <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain
- <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Lance Yang
- <lance.yang@linux.dev>, Chi Zhiling <chizhiling@kylinos.cn>
-Subject: Re: [PATCH v1 0/5] mm/shmem: optimize read with reduced xarray
- lookups and folio batching
-Message-Id: <20260521171454.02e35e71f999672518087037@linux-foundation.org>
-In-Reply-To: <20260520101538.58745-1-chizhiling@163.com>
-References: <20260520101538.58745-1-chizhiling@163.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QymsBPaK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6101F00A3D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 00:28:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779409734;
+	bh=PO84rh97RCtIYlbOKDCozCawo2PCfzOjAE6XlsqxTg0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=QymsBPaK0KL7Ur8tXOjqALjapep1YuNQ3FQPP0IDTXx+9uSIYbs4F1jN7ICcKmyyK
+	 7ST3Uy03Zi+lUaLeLOPpXCm5L0G1gAqN+81yCoeGHbjUtL2PhmhNvonHghF5UzFnJ2
+	 OJs6w7Rmm5ICBIqqIjP4DZjsGD8qWRd5mTAEeC0dCugVGvZeU0gv82aL5J7uAPCsVW
+	 sDxAMeOCfdtfwdmFHbcP2xggszszSGahpeYuC4htkTM0pSpcA9So0FKvFjnRwasUqL
+	 /VmobZLp2ECEXykcn9LGjnvw31xe7hRVo05urFKZEm6E+H7gDkGWVp2OoF0QfLhv/o
+	 mEyTJ4y26MCdw==
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bcc9fdc959cso1257186366b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 21 May 2026 17:28:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ80RBrI1ERKpco/5w6glCmPmGZ6Q+WZ3SItyO3llmfaHc7TwIg4f5itfYR39OvfQL6y/5h4gNuo1kcaSxwI@vger.kernel.org
+X-Gm-Message-State: AOJu0YwS8wcehWyGMxRzFiEAvMGjdF9FRk2IIKQU+RlAv0TPcCebwM+/
+	R146OIPnaHdyvvth2nWYGb39p9znmp6S2f/BAJ+96yISwy9bGDKAJ48ma7F9NVFitAeLcv9Ah3o
+	ciSlj/itR3IRB2GAZtXYxdzjZHFqkIys=
+X-Received: by 2002:a17:906:9f84:b0:bdb:4d42:e7cb with SMTP id
+ a640c23a62f3a-bdd22939697mr76575966b.3.1779409732716; Thu, 21 May 2026
+ 17:28:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20260520170151.4115308-1-charsyam@gmail.com> <20260521101751.591345-1-charsyam@gmail.com>
+ <20260521101751.591345-3-charsyam@gmail.com> <CANFS6bYVMzKP2uBV=-XMJ4JHyoBNfzqHDAteZ_8gj4t_C3e7xg@mail.gmail.com>
+In-Reply-To: <CANFS6bYVMzKP2uBV=-XMJ4JHyoBNfzqHDAteZ_8gj4t_C3e7xg@mail.gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Fri, 22 May 2026 09:28:40 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8QvChDOkXobpo+1iA4TW9jpLW1sCw8zOFaqS2UsFWLkg@mail.gmail.com>
+X-Gm-Features: AVHnY4JVevqDW_ij-wxoQSEy_N9WbLthRP26odQByYlcIKAegfNZdoDJ8vPnGZU
+Message-ID: <CAKYAXd8QvChDOkXobpo+1iA4TW9jpLW1sCw8zOFaqS2UsFWLkg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ntfs: avoid heap allocation for free-cluster
+ readahead state
+To: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: DaeMyung Kang <charsyam@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 20 May 2026 18:15:33 +0800 Chi Zhiling <chizhiling@163.com> wrote:
-
-> From: Chi Zhiling <chizhiling@kylinos.cn>
-> 
-> This series improves shmem read performance by implementing folio
-> batching in the read path and reducing unnecessary xarray lookups.
-> 
-
-Thanks.
-
-> Performance Results
-> ===================
-> 
-> Testing was performed with fio sequential read workloads:
-> 
->   fio --ioengine=sync --rw=read --size=1G --runtime=180
-> 
-> 
-> ### THP Disabled - Normal Files ###
-> 
-> | Block Size | Baseline  | v1        | Improvement |
-> | ---------- | --------- | --------- | ----------- |
-> | 1M         | 11.4GiB/s | 12.7GiB/s | +11.4%      |
-> | 64k        | 11.2GiB/s | 12.2GiB/s | +8.9%       |
-> | 4k         | 3809MiB/s | 3838MiB/s | +0.8%       |
-> 
-> ### THP Disabled - Fallocated Files ###
-> 
-> | Block Size | Baseline  | v1        | Improvement |
-> | ---------- | --------- | --------- | ----------- |
-> | 1M         | 23.7GiB/s | 28.7GiB/s | +21.1%      |
-> | 64k        | 22.6GiB/s | 27.0GiB/s | +19.5%      |
-> | 4k         | 4668MiB/s | 4678MiB/s | +0.2%       |
-> 
-> ### THP Enabled - Normal Files ###
-> 
-> | Block Size | Baseline  | v1        | Improvement |
-> | ---------- | --------- | --------- | ----------- |
-> | 1M         | 13.9GiB/s | 13.9GiB/s | 0%          |
-> | 64k        | 13.4GiB/s | 13.4GiB/s | 0%          |
-> | 4k         | 3818MiB/s | 3836MiB/s | +0.5%       |
-> 
-> ### THP Enabled - Fallocated Files ###
-> 
-> | Block Size | Baseline  | v1        | Improvement |
-> | ---------- | --------- | --------- | ----------- |
-> | 1M         | 24.1GiB/s | 34.9GiB/s | +44.8%      |
-> | 64k        | 22.9GiB/s | 31.3GiB/s | +36.7%      |
-> | 4k         | 4721MiB/s | 4708MiB/s | -0.3%       |
-
-That looks nice.
-
-AI review might have found a few things:
-	https://sashiko.dev/#/patchset/20260520101538.58745-1-chizhiling@163.com
-
-I'll skip the patchset for now (unreviewed v1!).
-
+> >          * Convert the number of bits into bytes rounded up, then convert into
+> > @@ -1985,7 +1981,7 @@ s64 get_nr_free_clusters(struct ntfs_volume *vol)
+> >                  * Get folio from page cache, getting it from backing store
+> >                  * if necessary, and increment the use count.
+> >                  */
+> > -               folio = ntfs_get_locked_folio(mapping, index, max_index, ra);
+> > +               folio = ntfs_get_locked_folio(mapping, index, max_index, &ra);
+>
+> This line modifies the __get_nr_free_mft_records function, not the
+> get_nr_free_clusters function.
+> Therefore the patch needs to be rebased on ntfs-next branch at
+> git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/ntfs.git.
+We can change__get_nr_free_mft_records() in the same way as
+get_nr_free_clusters().
