@@ -1,107 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488ED39C624
-	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 14:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA292D1F44;
+	Sat, 23 May 2026 14:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779545493; cv=none; b=fSTpwY0uTsG8sxLoxY7pO5qZoeq9ojbSHTcSiITba9xnawY+XSD2RJmM8CVYwIE7sBI0HnrInbi7VHbTZTVb/yUfjjH0XhAnbUt+MqQcOaZVj0WJB4a1/e+n2ntfFo/6IUUFjxt7hXIGAEms+86a2i6vGZtA20LN41SxhlLwbcc=
+	t=1779546882; cv=none; b=TZ28NaEJ21p2r2wEl0juj4JNAlfa0d8Zk55q3vw7GwSNIYb4ny73SBa8VDce7Sm1gItueIC5iUmZI5I70dVYnGAtWpYdPkKGMTndtCTviXLmlKATldJVWqAq4C2Iw2qGKKBUHi7kbXssbqvUIYEnCNdLMR+kpIS8ImQuwgjcqk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779545493; c=relaxed/simple;
-	bh=MILBUonuQ/wsxj9ePj1tEHVhxrKe7ayxnkU1ahxewbA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HRub8NyttUSyXi0jimGlNycqsMLdyeUem6SC00Eq648YrzztPU+VwLEociZ/XB4EgMOUwWFd/wCalyS6RsGVOQ19s93UcbToKayENMIFkd3hJ1Yp1OoCzYQJEFxxl693wNCStQiC00VMR2icdFjlrF75pGJFvKhR0TaXb4vW0+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ARnv6+Qp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779546882; c=relaxed/simple;
+	bh=wRmeeDFW9aLsG7APMHX0/TFOJPnEO5M+u+iIvZF5X3s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UfAoYqkfVo+nb8j2/4qJ/YJ6fCncSjThRH+dMzrhqaA1uu/dFkKeJdPOIlRdKOQk0eaMZtHFXJk2A4GWh6zxI/09flg334G8L8AyjUFYIvpideJGtfSrvL1PfocBhAInOUGCApiQcaUQX+5TTMehfeqSvI7QXvxSNNqbKMkmxEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fRuMNnEn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ARnv6+Qp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF06F1F00A3A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 14:11:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fRuMNnEn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15A8F1F000E9;
+	Sat, 23 May 2026 14:34:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779545491;
-	bh=5W2hPzRfv2zBY7wnLkq9rUxeFMucgyWPf3pFW26nkHs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ARnv6+QpVlLtwBuHa15v29UtIb3zkJ3ru6cilmwuTDNMbR9Yeod/dm6Tuevpleks2
-	 JdEUYl3dbUUf+mwClGuW/t3vPiF3mVzRU4MeFjtWt3OzZ7/RL33AT92JqT1WPl4O+4
-	 52wjJKAlX2qDuSMlQa1HxA9fq5jVKBt4/VD1LtdMfTEg7IVnNfr7kSAM+3Uit9YkB4
-	 b22HS3RqAvUrN1yyKWfwch3y8pKushX3v6ZF/ST4bIh+1MyU4Ld9CVTuxnU/n2nDf1
-	 +8L2QLmLsAAAJbdfFu1aNg2m+i+253kOsu/Wt56jfkXOp+/ANY3Sx5ASePD5haJKgq
-	 ehnNrBJb1CPgg==
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-67cac5ece75so15562310a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 07:11:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8OyE5exjtvz/NPWhVnDezGKIVLQJM79JnnmOheQm1+Yx+Q5tNROrPHHjSA4SDxq7890hSo/6O9QlGqzeE3@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6wGeeGorlHfyCHJsIeS6oKWMLIQDD2rsNuGbJjnYO3TXLEvoN
-	1LXgTvqyUKMqqda4D7x/V9PHTJM7Tgg4qy/SMa3p2WFoh7ljg3ds/88XpV3r5pAhhOqd6HLyZlP
-	MaegZbDYEbzPsz/xIYYy2T2NPZ3smJ7g=
-X-Received: by 2002:a17:907:3f04:b0:bde:2f9b:bea1 with SMTP id
- a640c23a62f3a-bde2f9bcda6mr265483866b.24.1779545490640; Sat, 23 May 2026
- 07:11:30 -0700 (PDT)
+	s=k20260515; t=1779546881;
+	bh=m0RMW+vUTF/Kw0EclT9JxUQS8BolCI+Rfe/P5jHnTs0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fRuMNnEnaU3pUZeCti0/1FjuF1JXjZLBPgmMnv61LrJySZ6X8EFw4h2BCpGe3W364
+	 f+9TH0AgdXEX9X7yLx0+VKbn0qgcbuAO51gJuiY2p1d+A/K6NqWlqTun1KP2N5Qd1u
+	 9/yPoL0gp7BNmbXkMwnk20TdBUFwagzYOSTEaD2Ww0In+zde2qnzcSAcBA5S4vFz/1
+	 i1k+D0fxc9jwqqB0D96e1yuj5vzgO3x0eJY8B8QPTXwXDcHwhvQHiQfJ3SyX3YnzuA
+	 8cpCjfk1Cu/tjjhiI9kllFtuwCkOTVqsyDsk/+ZQ4bT+UY/+1Q+KXZm0s45qWVf0FB
+	 XkiIfM2Ewr0dw==
+Message-ID: <0592b09b-a084-4d9d-bcbf-1b77e45226cf@kernel.org>
+Date: Sat, 23 May 2026 23:34:07 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260520170151.4115308-1-charsyam@gmail.com> <20260521130017.713848-1-charsyam@gmail.com>
-In-Reply-To: <20260521130017.713848-1-charsyam@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Sat, 23 May 2026 23:11:17 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd9OeV-TOVfwZqBqbHdx-e22k2CFzUNuX9929bHMYN5THA@mail.gmail.com>
-X-Gm-Features: AVHnY4I5B2j_tMsCeKFbaBope1hz7h2OictU8Abe7ujwpPtq96gE6pbKw6eXhWQ
-Message-ID: <CAKYAXd9OeV-TOVfwZqBqbHdx-e22k2CFzUNuX9929bHMYN5THA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] ntfs: fix mount failure cleanup and free-count setup
-To: DaeMyung Kang <charsyam@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: DEPT (the dependency tracker) as AI review prompt?
+To: Yunseong Kim <ysk@kzalloc.com>
+Cc: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
+ kernel_team@skhynix.com, torvalds@linux-foundation.org,
+ damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
+ peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
+ rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
+ daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
+ tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+ jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+ djwong@kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com, chris.p.wilson@intel.com,
+ gwan-gyeong.mun@intel.com, max.byungchul.park@gmail.com,
+ boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
+ yeoreum.yun@arm.com, netdev@vger.kernel.org, matthew.brost@intel.com,
+ her0gyugyu@gmail.com, corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de,
+ x86@kernel.org, hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+ gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
+ arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
+ da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
+ frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+ josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
+ jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
+ neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
+ trondmy@kernel.org, anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
+ kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
+ ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
+ baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+ joel.granados@kernel.org, richard.weiyang@gmail.com,
+ geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
+ link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
+ brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
+ mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, rcu@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
+ neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+ dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org, Chris Mason
+ <clm@meta.com>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Josef Bacik <josef@toxicpanda.com>, Yunseong Kim <yunseong.kim@est.tech>
+References: <20251205071855.72743-1-byungchul@sk.com>
+ <6b2a816f-eb3b-4e0c-a024-ee2e3743eb04@kernel.org>
+ <CA+7O06GxeDLR9RcKDN2i-Rgc4kgzz6BfF4b0XAH4tFx=A723Nw@mail.gmail.com>
+Content-Language: en-US
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <CA+7O06GxeDLR9RcKDN2i-Rgc4kgzz6BfF4b0XAH4tFx=A723Nw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 21, 2026 at 10:00=E2=80=AFPM DaeMyung Kang <charsyam@gmail.com>=
- wrote:
->
-> Hi Namjae,
->
-> This v3 is based on current mainline at 8bc67e4db64a.  The patches
-> modify fs/ntfs/super.c in the Linux kernel tree.
->
-> The fixes cover mount failure cleanup, a free-cluster precalc allocation
-> failure path that can otherwise leave waiters blocked forever, and the
-> $UpCase default-table alias check.  Per review, the free-cluster patch
-> now avoids the temporary file_ra_state heap allocation entirely by using
-> a stack variable for the synchronous bitmap scan.
->
-> Testing:
-> - Built fs/ntfs/super.o and fs/ntfs/ntfs.ko with gcc 13.3.0.
-> - For patch 1, I built a DEBUG_KMEMLEAK/DEBUG_FS kernel and injected an
->   ntfs_fill_super() failure immediately after load_system_files().  Befor=
-e
->   the fix, kmemleak reported the leaked volume label allocated from
->   ntfs_ucstonls(); after the fix, the same failure path produced no
->   kmemleak report.
-> - For patch 2, I used QEMU with a debug injection that forces the initial
->   precalc readahead-state allocation to fail.  Before the fix, statfs
->   remained blocked in D state in ntfs_statfs().  This version removes
->   that heap allocation and therefore removes the injected failure point.
->   I also mounted a fresh NTFS image with the stack-backed state and
->   verified statfs reported the same free count as ntfsinfo -m.
->
-> Changes since v2:
-> - Changed patch 2's on-stack file_ra_state initializer from the empty
->   initializer to { 0 } to avoid build failures with stricter compilers.
-> - Re-tested patch 2 alone and patches 1-2 on a clean mainline tree.
->
-> Changes since v1:
-> - Rebased and regenerated the series for the Linux kernel tree
->   (fs/ntfs/super.c), instead of the Github out-of-tree layout.
-> - Changed patch 2 to declare the temporary file_ra_state on the stack,
->   as suggested by Hyunchul Lee, instead of adding an OOM fallback path.
-> - Zero-initialized patch 2's on-stack file_ra_state because
->   file_ra_state_init() only initializes ra_pages and prev_pos.
-> - Reworded patch 3 to avoid overstating user-visible name comparison
->   effects, and used memcmp() for the exact $UpCase table comparison.
->
-> DaeMyung Kang (3):
->   ntfs: free volume-wide resources on fill_super failure
->   ntfs: avoid heap allocation for free-cluster readahead state
->   ntfs: only alias volume $UpCase to default on exact match
-Applied them to #ntfs-next.
-Thanks!
+
+
+On 5/23/26 11:00 PM, Yunseong Kim wrote:
+> I've previously experimented with running DEPT alongside syzkaller fuzzing,
+> and many hung tasks missed by lockdep are caught by DEPT, but the resulting
+> high volume of reports makes it easy for issues to get lost in the massive
+> log output. Sorting through that output manually is a huge bottleneck, so
+> leveraging a well-crafted AI prompt to triage the warnings and filter out
+> the false positives would be incredibly valuable.
+
+I mean both 1) detection of deadlock issues AND 2) false positive 
+elimination with AI.
+
+If the review prompt is only used to eliminate DEPT's false positives, I 
+think that would be quite hard to get broad use.
+
+Someone would have to build out-of-tree DEPT, collect the reports, and 
+then feed those back into the AI. I don't think building that kind of 
+pipeline would actually work well in practice.
+
+-- 
+Cheers,
+Harry / Hyeonggon
+
