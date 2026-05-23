@@ -1,175 +1,115 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C1C30E0EC
-	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 02:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779502409; cv=pass; b=V3T8H3DSv4K0I922QF3RyN30pXKYaY5srVQerTzakMoPnzQ9TfYFPBxyEmHWd7S/ZtKg3EkT0aRzCpnb7+C/6xGqdVAwwT55OIsMZEnZclRLzD/yWRmsivF0OYbw5x/F4kOigZecPrXFSLlHa0GboXBLi0+lfbm6Zf725y2e5aQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779502409; c=relaxed/simple;
-	bh=K6zOyPbMHrzbswO+DzCLOtmuWWnKUgiPInGkXEL+YyE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Om5dIhCu5Wkg2Ex3OgwPzHPk8uVqnqekmbap3euROqUh+mcq/hcJJoACuM83CWtUwfEXeBoNPUkhMZ4hAs3u4B8rVACpxUd1UcZCdbUe7ts+/1P67ZzCYyqUPQXpaOGJUvjO4wwnaA3GPdiDyaGEDNnSIiQ1pV23moHByfFUO8M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zi9EidBq; arc=pass smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAB62D3EF2
+	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 04:14:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779509691; cv=none; b=bv46cGE4CQtWvZdVkMECH970Emou6V0W7o4T3u6oEU3cB/NSO8EUHpO44kK6DElANZd/UDk9Wjq8FMicWpAjFbF5Qe9P6WAtLOnBQLqORB6sYFBQQzDFlrZs0TskORp3wi3LueN29Tpi0ZgbDLA4kgPzg8AFXdDPBBARboeACro=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779509691; c=relaxed/simple;
+	bh=f+azTK6QXMqtmyRQTS3y8fuUyrnaRmJnLJzr9mzdhjY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dk1mdYN9xaRRgS15EORai5SVV1SIi7D09MflLPIed+wqK/g/v/Cd1U99fNcozkYEO53Q3rgdy9xxnj2OBNS+UHuMvjjzLT06HTSMD5tIr+QtZvSrLXRFq5f1VvSYnXLQEv+S4Yx7b8GESUe+Ht1EpDbojyrKA3e3jU8aJfE6rh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JN2pi2WZ; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zi9EidBq"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a746f9c092so11502916e87.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 19:13:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779502405; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Xu5AywM5Hjo7B1G/zN9DcpXvID0bbMqu+7t2/KUnfR20B9hNzFrqOlg1GWul1bI0S7
-         sRIqRsCV+HKRY/7h35di6bXltDNMGDne1vFV4xvQePSZNWip853GY+zku/C+Uw8624v9
-         xfGHejb4t4wFGu3H74TeGDtvBZE63NJDin4Bsxop34re1sYI1BjtlvHlREsQf4jfjxaC
-         gTrXxqp2DrBC9uYL0fYkf/8utFSwiQj0QOXDXRJLG6mnQtJn6eTkftEhkBy63cXhYWul
-         3yOKBzCZdqzD/gpc7QMEt3X17m8aZ5UYWqqc0H7FOUMw8KK16SfkX8c/SnRPlsPtGJgh
-         q4mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jaFVPAg2ctBS4C12z/JiOmG9FCxZWWE9UzTSIYLty0A=;
-        fh=a1NJmGW2are8f5Rr/Yzzoc+iG7ylek1MqWCctytF0nU=;
-        b=Rtotqk/A9v3j7qjvqXMOGdugJLPEWnT3BHdl4NENkO+3ca/tJHaaCKp1gea8RfymJA
-         dSKxdVVRy3ezFSxp18pIkSz2XW1VFzLDJRAJMo7mAEy1HeWGULH4ZQ801lRr10QAMjWu
-         xxvYzhOri5e8uQLqTCzhQqIccjfHxMTQwjFuFjnpbTQVYA9TTEJ9klbxMqKb4rhkcN8J
-         BvC2fLdNCPE2EqZbpVK0ytHyo3tzwwbVFMDbUkRd4fdsZvVvy5Ewc3jqnMBiSz/VCJcI
-         n/iWufHygn8ttiPQfA1IqhmP2Aom5hzRg23EWE0utNwM7xUQuzWlZdud53v7XeBItHko
-         RBhA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JN2pi2WZ"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3697c35eab7so4802098a91.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 22 May 2026 21:14:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779502405; x=1780107205; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jaFVPAg2ctBS4C12z/JiOmG9FCxZWWE9UzTSIYLty0A=;
-        b=Zi9EidBqarKxzNogzZsVqI3RxJVxFzjkzXzme2HpjhYXT5hUa9UHQTYHhgSHzPcu4D
-         lLCFP5L+/JpwNsKISQurcQIWHYTPa5F1lJZ1DJUVeHxqk5ek2sjuAdSBBYtgivsrSNxK
-         Cu4RGaETJ8clhlPXLGcRK2+hgK+bwkWA6pWsQXn4tgRPGweOmI994MOUiSGFWadBPY59
-         YhbEyvpOGKN6Vd0KFvgmRPStJX/nFW6L8J9bTrhZykErqdnc9nSubdj4f6TzySvR9Fmi
-         ELbPWuG/hXg5x/sO2qozdVAeSCRiQHS+0LiAK8NZkqO/rAtRpkE1m7NdcoKmatboEL9C
-         pUjQ==
+        d=gmail.com; s=20251104; t=1779509690; x=1780114490; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+sM2ABwWONuJIwpZXzmEyG7dDsY6RptZTNrjOe2u9CI=;
+        b=JN2pi2WZbL45E/rLc+PHxjv+a660Qt1cMAe9Zx6S9raDe3esHmFLgeP9kjOy1s2FZb
+         LjDuWVCDw0TFzLTFCRJ+FugRGzdWkLPvXmt+d50rmDXd0nLpTnFBqbXjnVQSGuroFXq7
+         5CwFvRzP1KtW/0EQZnAyqOjTrFp6aE/X2K/jcofym99145KsKPSgsDfAwUEOzZ2/oKEG
+         7Os6JzKU0TyeSnIkgR0o0BXeGJpmB8HB3a2XZsuV0ERA+TYOc0WU0FhmNZpPj9YG/TBR
+         ENAm+5k+wLj84CH0KrLdwftpc9O4/0J6qdwEiTycGoGdqbnZg04MOI6/4Gny9RaqcC0X
+         U6wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779502405; x=1780107205;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jaFVPAg2ctBS4C12z/JiOmG9FCxZWWE9UzTSIYLty0A=;
-        b=EZcdor/oYjxvqLlFMNrm21jSpVwkqaroCXYq3jkXvWUuYmoGa3nctTa7kpot8znoe0
-         DxXnd4Q/7XALfL36Tq7paWaL5k0EJmUt1BQ6yNREuEawdoPn8zTnS4MbtUCcktc5HU+3
-         yoTxoLj+CKNkecfbH2ryvzdn0+nOuV/1OVI0hF+Dyce+TSi8CT6HWRtKM39BoY4nWIPt
-         4by5OIhQAma3lHDSYDVCKtExUvg6SqCjcmszpbzwpjshl1sckB6zEEUjwJzx8alAvli3
-         v+kjkvp0zZfIWo6u5rg/IvPN0nMRRNfr4/RxwovPqJN4FMUkNc5ZwSCuiLKV8wcCR8Jq
-         4udw==
-X-Forwarded-Encrypted: i=1; AFNElJ9VW8IDvQepO9VcM0iZoORyTEYx2vYck6RK+ORpc55RMgg9ysTfndo89qZZ+XQXPBz5ikg8j8uUe4otZgbw@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyFh5xJOWEOr3mLv89YOjQ8dN2vfYfUgZJHRPOmxFihh9iBScf
-	FxUyDyuYrItVaTgw45FBwtPzQB9/CZeCdj+EGLSJrw83TtAiYKkSu4hYANOVHaOm2FgTyUH4PnR
-	WOzYju/fGYdCmvcPI1OQQMUy31CV1G5I=
-X-Gm-Gg: Acq92OG70C1zb7+De7+V6mZtebpBHPsesHB9xpPyHiunaERgONoqRsWytAvizTbs3i9
-	maUb1hxgbSfdplTepvqhFSRbR6GkNoPDM1U+ubeiZfzgSWZCany5pdZ91yeoM/JWUmo68HZImKR
-	RFE6F9aYDMz8u8c+Mn1rkmcj33mVv7iIUGmoDtrAUlY2BWGboR3t1PIDCiePKXM8CFiwGb7C/yr
-	bOw9dve/+8yfC0Jz8ZLvLsMRBID//GA4+N6Fkme5tn6Nsk3T00L9wn5flOMBx9bB38QMFbGsr+z
-	CuX70sU7uQ==
-X-Received: by 2002:ac2:5606:0:b0:5a8:6ee0:ff40 with SMTP id
- 2adb3069b0e04-5aa322c9b4fmr1094669e87.7.1779502404509; Fri, 22 May 2026
- 19:13:24 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779509690; x=1780114490;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+sM2ABwWONuJIwpZXzmEyG7dDsY6RptZTNrjOe2u9CI=;
+        b=BMmAOUToA3eI9lf805MplkffJfmrO0HcTxNCJklAFEt0E4t6xsA5IQDUYR3IX9M7Lh
+         sE/vx0TKK5t+HvEf3u0/g11yoA7JU+QFAqiFYBvrfTYOFFTnwSsUmEp2Nj146Lh/8Mgc
+         8a2ybfAiqFcr0X51d17tjiMZVq1ngZ5Ho5uAZwBOdWgZbTSh4o3liyTne7Lj5JriL8uD
+         2w1SKSoMSNSkj6b/luhMrLfIeMHle9qPr/XyDyCBtPhfzyM6XCXrUO34fnV9dYWo2s2A
+         3DCkl1rKTJykfLO72KX40YJiX+K9hFjQmCOu/r3IibvDkykTtqDIi/Pckyf062OLRnQN
+         wycw==
+X-Forwarded-Encrypted: i=1; AFNElJ/cW+0q73ivKEW53nkDu/9982SmppOfFaOggm/zpLxb4jghbMeg7rqtOG/e1CSgY2TfCjyFFsLMZkuUYO+K@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcFI3ZorjRs1ZFKZajh61QvgRxkTM8Xms6PzNQK4tQv0qhA0ir
+	5RDrRH6J47ZyL01geRb8BDE49n+a0ykc1jNPug2SZwURjt1V5j9DurRf
+X-Gm-Gg: Acq92OFa8r8Sx3HnaBrehk12R5ldvcZYk16aQ1DXmwhtUqVkrqAkfHFFZvxwI8zlYYD
+	q5/or1YYpV5nzlR9zggtCZDU6w22wZ81TAaDIh55SMeDD0IgAFzv44sve/w3ej1v8S9XslfJpmr
+	CJKaIzPFEjiNwznRRe3iypx7D6AlJCu2wOkPjPOayeF/L6akrAntEy2deEw/PaXlMPo8UQpm08M
+	nwEwKLDV7KMHotgOWau3gpUgGZWzA6YvECWyy0NfMUn3cerSwKE/qRGCES0+AVEoKg32XCWDvLS
+	5yAol+F2B9WZm/KC3Iz2FbUqIF/rb6Qi/bF2cV68TCIe7lIB9I1tcI95gBBKzUmCbnZqZ3kuows
+	KI75cwR/w1YXh7qz02I9pdKtfh22KOn5PwzASWmZUYoMWAqUL7PT2xtXjVoQyqVdVIvtiWEWJ7C
+	fNjnDYEeNpDDPDOtoP5GpQCvLNOGutgw==
+X-Received: by 2002:a17:902:e88b:b0:2ba:5e44:ce8f with SMTP id d9443c01a7336-2beb02460fcmr63880165ad.0.1779509689515;
+        Fri, 22 May 2026 21:14:49 -0700 (PDT)
+Received: from hyunchul-PC02.lge.net ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb591a277sm31887675ad.80.2026.05.22.21.14.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2026 21:14:48 -0700 (PDT)
+From: Hyunchul Lee <hyc.lee@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	charsyam@gmail.com
+Subject: [PATCH v2 0/4] ntfs: tighten EA and index metadata validation
+Date: Sat, 23 May 2026 13:14:19 +0900
+Message-ID: <20260523041423.2726275-1-hyc.lee@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522-t-fix-oob-v2-v1-0-0bea6582a361@gmail.com>
- <20260522-t-fix-oob-v2-v1-4-0bea6582a361@gmail.com> <CAMrLSE5RmLD0c7dgOmHRCRhhekV7U-2V_r0QgX2Q+MH0hy0SMA@mail.gmail.com>
-In-Reply-To: <CAMrLSE5RmLD0c7dgOmHRCRhhekV7U-2V_r0QgX2Q+MH0hy0SMA@mail.gmail.com>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Sat, 23 May 2026 11:13:12 +0900
-X-Gm-Features: AVHnY4LjcmnBQ3KQ8GbFtSWJZB7MSPmV-a2_gMZ6_ufA4fCKIC3OAmHn_CpQ6uI
-Message-ID: <CANFS6bYqijN2mf4kBnvAKi3uoVFGzaTvk5PEH1ceV0Zy3=X=oQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] ntfs: add bounds check before accessing EA entries
-To: CharSyam <charsyam@gmail.com>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-2026=EB=85=84 5=EC=9B=94 22=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 10:16, =
-CharSyam <charsyam@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Hi, Hyunchul.
->
->  Since the new in-loop check makes the pre-loop guard a duplicate
-> condition, dropping it
-> would be cleaner:
->
->   - ntfs_ea_lookup(): if (ea_buf_size < sizeof(struct ea_attr)) goto out;
->   - ntfs_listxattr(): if (ea_info_qsize < sizeof(struct ea_attr)) {
-> err =3D -EIO; goto out; }
->
->  On the first iteration offset =3D=3D 0, so the new check evaluates the
-> same condition and
-> returns the same value =E2=80=94 the pre-loop guard is now redundant. The=
- OOB
-> read fix itself looks
-> good to me.
->
+This series tightens validation of on-disk NTFS metadata in the read path.
 
-Okay, I will remove these conditions.
+The first four patches move index validation closer to the point
+where index metadata is read and tighten the structural checks for both
+$INDEX_ROOT and INDX block headers. The last patch adds a missing bounds
+check before accessing fields in an EA entry.
 
-> Thanks.
-> DaeMyung.
->
-> 2026=EB=85=84 5=EC=9B=94 22=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 9:51,=
- Hyunchul Lee <hyc.lee@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> >
-> > in ntfs_ea_lookup and ntfs_listxattr, this verifies that there is enoug=
-h
-> > space in the EA entry before accessing the next_entry_offset field of
-> > the EA entry.
-> >
-> > Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
-> > ---
-> >  fs/ntfs/ea.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/fs/ntfs/ea.c b/fs/ntfs/ea.c
-> > index c4a4a3e3e599..323caced77ea 100644
-> > --- a/fs/ntfs/ea.c
-> > +++ b/fs/ntfs/ea.c
-> > @@ -58,6 +58,9 @@ static int ntfs_ea_lookup(char *ea_buf, s64 ea_buf_si=
-ze, const char *name,
-> >
-> >         offset =3D 0;
-> >         do {
-> > +               if (ea_buf_size - offset < sizeof(struct ea_attr))
-> > +                       break;
-> > +
-> >                 p_ea =3D (const struct ea_attr *)&ea_buf[offset];
-> >                 next =3D le32_to_cpu(p_ea->next_entry_offset);
-> >                 p_ea_size =3D next ? next : (ea_buf_size - offset);
-> > @@ -486,6 +489,11 @@ ssize_t ntfs_listxattr(struct dentry *dentry, char=
- *buffer, size_t size)
-> >
-> >         offset =3D 0;
-> >         do {
-> > +               if (ea_info_qsize - offset < sizeof(struct ea_attr)) {
-> > +                       err =3D -EIO;
-> > +                       goto out;
-> > +               }
-> > +
-> >                 p_ea =3D (const struct ea_attr *)&ea_buf[offset];
-> >                 next =3D le32_to_cpu(p_ea->next_entry_offset);
-> >                 ea_size =3D next ? next : (ea_info_qsize - offset);
-> >
-> > --
-> > 2.43.0
-> >
-> >
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: charsyam@gmail.com
+Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
 
+Hyunchul Lee (4):
+  ntfs: validate index block header more strictly
+  ntfs: centalize $INDEX_ROOT header validation
+  ntfs: validate index entries on reading
+  ntfs: add bounds check before accessing EA entries
 
+---
+Changes in v2:
+  - Added a Tested-by tag.
+  - Addressed comments by DeaMyung Kang.
+    * Patch 1: Moved changes to make make ntfs_index_block_inconsistent()
+      return -EIO from patch 3.
+    * Patch 1: Made ntfs_index_header_inconsistent() verify the remaining
+      space before accessing index_header fields.
+    * Patch 4: Removed a redundant pre-loop check.
 
---=20
-Thanks,
-Hyunchul
+ fs/ntfs/dir.c   |  64 +++-------------
+ fs/ntfs/ea.c    |  16 ++--
+ fs/ntfs/index.c | 197 ++++++++++++++++++++++++++++++++----------------
+ fs/ntfs/index.h |  12 ++-
+ fs/ntfs/inode.c |  15 ++--
+ 5 files changed, 165 insertions(+), 139 deletions(-)
+
+-- 
+2.43.0
+
