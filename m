@@ -1,203 +1,194 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A402A19E839;
-	Sat, 23 May 2026 11:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E225F399361;
+	Sat, 23 May 2026 12:33:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779534539; cv=none; b=Ba0zbSN96778rM4WdEXACHeEEuHA7PgQBatRkB4GKfqWKQaykrsSDlj6jjwMUwZmv5RFFwy9xay+sT5yXx2ElMPCjVmIdk0whSZXoHfv5blfUKDcrQEnRl38DqXbBU5v7nqYUcK6BFmzeZHjHalT67r2Z360yh5axKiPJ8fz1m8=
+	t=1779539612; cv=none; b=Ltp3L6yeDsT8DqAoOpzTvnS4fy9MKT2pFdwHMBXxx7CAZkNIlubZEZ66I9J9ZpnUAY6ypK9dmgyAOcytkLhltiGK8I9uiS+yZStHelfQe2uJhUSa6OKhinYRx+auzuf2Cftb9FnnrrmpFI0H2G2t7kXj6UC6JAUrgY9d8qKWyKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779534539; c=relaxed/simple;
-	bh=/rATDfuzA3+uloN3KuIMCipks2T2AhZNulKR+fu/INU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=brqpLlq3iYBV9w0cf9Ft7VpgBFm+qb2XjNyynRpRvfenHUJK2g9I7C5HCc6nqEp316uTRSO7XVJ2V3yiLKC1w24VnO0vug2QbFYvSH/7YtIL/2fa/hvEJy68wQP0UV7ROlu/JccwBfIMqSUmiYU2H2tF5GM39eM9qqsokWyFM00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUAoMIFX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779539612; c=relaxed/simple;
+	bh=56rtl5yWcqt/qvv0kT1QPxahxvD5Oep41kV/zQgRNLw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BCBnco9lLzAqCsjkIiC7wbyZX3Q4mfMVkxvqxXpgQrvRmhg0qZ2NOzxerEygdnY3GXO7fNot+h+qFF5Zv6rOwU5dgvnhtgOxNS5qC3rE0c3uzLlScf/RF8st/cbv4uHbApJRTsxyjhIodZV3tQouEDxHluvJ7QMRurRVFIfuMPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jW3+XESk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUAoMIFX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64EC61F000E9;
-	Sat, 23 May 2026 11:08:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jW3+XESk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D033D1F000E9;
+	Sat, 23 May 2026 12:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779534537;
-	bh=c1nhiYP+DkWIoRSGmfrDDu8S2cz6zN1sSX/qW4ZjiIY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=GUAoMIFXOhY3PB1FrKGcnaXf8UR503rTPPYe3+R3i3JoCjSWhOaua36pmGeoov/Y8
-	 JeyGYxnct96bGrW3x+2haypldCgudrri/Ey5PrpJiAYbja+NN4aw4J/2edB/hcWMJa
-	 y+dPXjTLIoMtESYvbN3tLhp3wKKgOMvVsyo4k1woppXE1xyKs5aWgEwCLUI6S+SLw/
-	 RBAw93Mn6H4UA2bBdFsZlOrwMeBrjrKuX4cxDhn77q1/V8dewh8dJ5bhHEnQVYQvDv
-	 ip6KWAOfSLtGbCdS4koMFNuuj1vsPnZsQihf0HWT07z6XRiqFqX+I8YINq7BZsRgyh
-	 PgFAo+4GliLrw==
-Message-ID: <d15a25fe784b5d4449c7ce4e56f1428d7ff28885.camel@kernel.org>
-Subject: Re: [PATCH] fs/fcntl: fix SOFTIRQ-unsafe lock order in send_sigio()
-From: Jeff Layton <jlayton@kernel.org>
-To: w15303746062@163.com, chuck.lever@oracle.com, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org
-Cc: alex.aring@gmail.com, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Mingyu Wang <25181214217@stu.xidian.edu.cn>
-Date: Sat, 23 May 2026 07:08:54 -0400
-In-Reply-To: <20260523080255.585201-1-w15303746062@163.com>
-References: <20260523080255.585201-1-w15303746062@163.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	s=k20260515; t=1779539609;
+	bh=feRzGMWHkALLA8SyrU6RJ1+Ne9lKt9MuXcA+HfB5g6s=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=jW3+XESk7IvEcBU+bpy8yPJAU/0IVwlShO9v6KZOWX/ll0bKB5YUpHGA74CScGkib
+	 h61p7Ii11ojyLl4zWD9zC9jbGza8+08D0KF1Xyx9eBM6rLRsPBrMoOJWaYv4k5Vx5f
+	 b+ou7eQ1gREOxWOzgW+VN7myFXCmEhBFTQ9Sdu659LX8/GPVkRUMTXMWimv/FjEczf
+	 bG24n4N8iuPU4UnGW4T49bADfkhY2K1I2wXkGRyHTK9qH1ARUHqANTaWPkqp1iRNQ2
+	 wp7jB+4PxO00QxNwhLHhUxRt7tl3Y/eymRjs0Aul1vvTeTOYwlxBhdLtHlabRl0oG/
+	 MVc5rNjQJ3rsg==
+Message-ID: <6b2a816f-eb3b-4e0c-a024-ee2e3743eb04@kernel.org>
+Date: Sat, 23 May 2026 21:32:41 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Harry Yoo <harry@kernel.org>
+Subject: DEPT (the dependency tracker) as AI review prompt? (was: DEPT v18)
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
+Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
+ damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
+ peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
+ rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
+ daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
+ tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
+ linux-block@vger.kernel.org, josef@toxicpanda.com,
+ linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
+ dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
+ yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
+ netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
+ corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+ hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+ gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
+ arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
+ da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
+ frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+ josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
+ jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
+ neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
+ trondmy@kernel.org, anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
+ kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
+ ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
+ baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+ joel.granados@kernel.org, richard.weiyang@gmail.com,
+ geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
+ link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
+ brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
+ mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, rcu@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
+ neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+ dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org, Chris Mason
+ <clm@meta.com>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Josef Bacik <josef@toxicpanda.com>
+References: <20251205071855.72743-1-byungchul@sk.com>
+Content-Language: en-US
+In-Reply-To: <20251205071855.72743-1-byungchul@sk.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-05-23 at 16:02 +0800, w15303746062@163.com wrote:
-> From: Mingyu Wang <25181214217@stu.xidian.edu.cn>
->=20
-> A SOFTIRQ-safe to SOFTIRQ-unsafe lock order deadlock can occur in
-> send_sigio() when a process group receives a SIGIO.
->=20
-> When FASYNC is configured for a process group (PIDTYPE_PGID),
-> send_sigio() uses read_lock(&tasklist_lock) to traverse the task
-> list. However, send_sigio() is often called from softirq context
-> (e.g., input_inject_event -> kill_fasync), where it already holds
-> SOFTIRQ-safe locks like &dev->event_lock and &f_owner->lock.
->=20
-> The deadlock is caused by the rwlock writer fairness mechanism:
-> 1. CPU 0 (process context) holds read_lock(&tasklist_lock) in do_wait().
-> 2. CPU 1 (process context) attempts write_lock(&tasklist_lock) in
->    fork() or exit() and spins, which blocks all new readers.
-> 3. CPU 0 is interrupted by a softirq (e.g., keyboard input event).
-> 4. The softirq calls send_sigio() and attempts to acquire
->    read_lock(&tasklist_lock), deadlocking because CPU 1 is waiting.
->=20
-> Since PID hashing and do_each_pid_task() traversals are already
-> RCU-protected, the read_lock on tasklist_lock is no longer strictly
-> required for safe traversal. Fix this by replacing tasklist_lock with
-> rcu_read_lock(), aligning the process group signaling path with the
-> single-PID path.
->=20
-> Lockdep splat:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> WARNING: SOFTIRQ-safe -> SOFTIRQ-unsafe lock order detected
-> [...]
-> Chain exists of:
->   &dev->event_lock --> &f_owner->lock --> tasklist_lock
->=20
-> Possible interrupt unsafe locking scenario:
->        CPU0                    CPU1
->        ----                    ----
->   lock(tasklist_lock);
->                            local_irq_disable();
->                            lock(&dev->event_lock);
->                            lock(&f_owner->lock);
->   <Interrupt>
->     lock(&dev->event_lock);
->=20
-> *** DEADLOCK ***
->=20
-> Signed-off-by: Mingyu Wang <25181214217@stu.xidian.edu.cn>
+Can we start DEPT as an AI review prompt, by documenting DEPT's 
+dependency tracking model and false positive elimination rules as a 
+carefully crafted prompt?
+
+While DEPT can identify deadlock issues beyond lockdep's capabilities, 
+it is hard to enable in automated testing; without fine-grained 
+annotations it can produce a high rate of false positives, and verifying 
+them requires significant human effort.
+
+The open source AI Review Prompt has locking.md file [1] that teaches 
+the AI how to review locks and detect misuse.
+
+If we can write a review prompt for DEPT in a similar manner and have 
+the AI do the deadlock detection and false positive elimination, I think 
+we could identify those problems more effectively with much less human 
+effort.
+
+[1] 
+https://github.com/masoncl/review-prompts/blob/main/kernel/subsystem/locking.md
+
+-- 
+Cheers,
+Harry / Hyeonggon
+
+On 12/5/25 4:18 PM, Byungchul Park wrote:
+> I'm happy to see that DEPT reported real problems in practice:
+> 
+>     https://lore.kernel.org/lkml/6383cde5-cf4b-facf-6e07-1378a485657d@I-love.SAKURA.ne.jp/
+>     https://lore.kernel.org/lkml/1674268856-31807-1-git-send-email-byungchul.park@lge.com/
+>     https://lore.kernel.org/all/b6e00e77-4a8c-4e05-ab79-266bf05fcc2d@igalia.com/
+> 
+> I’ve added documentation describing DEPT — this should help you
+> understand what DEPT is and how it works.  You can use DEPT simply by
+> enabling CONFIG_DEPT and checking dmesg at runtime.
 > ---
->  fs/fcntl.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/fs/fcntl.c b/fs/fcntl.c
-> index beab8080badf..a6c764ede282 100644
-> --- a/fs/fcntl.c
-> +++ b/fs/fcntl.c
-> @@ -929,11 +929,11 @@ void send_sigio(struct fown_struct *fown, int fd, i=
-nt band)
->  			send_sigio_to_task(p, fown, fd, band, type);
->  		rcu_read_unlock();
->  	} else {
-> -		read_lock(&tasklist_lock);
-> +		rcu_read_lock();
->  		do_each_pid_task(pid, type, p) {
->  			send_sigio_to_task(p, fown, fd, band, type);
->  		} while_each_pid_task(pid, type, p);
-> -		read_unlock(&tasklist_lock);
-> +		rcu_read_unlock();
->  	}
->   out_unlock_fown:
->  	read_unlock_irqrestore(&fown->lock, flags);
+> 
+> Hi Linus and folks,
+> 
+> I’ve been developing a tool to detect deadlock possibilities by tracking
+> waits/events — rather than lock acquisition order — to cover all the
+> synchronization mechanisms.  To summarize the design rationale, starting
+> from the problem statement, through analysis, to the solution:
+> 
+>     CURRENT STATUS
+>     --------------
+>     Lockdep tracks lock acquisition order to identify deadlock conditions.
+>     Additionally, it tracks IRQ state changes — via {en,dis}able — to
+>     detect cases where locks are acquired unintentionally during
+>     interrupt handling.
+>     
+>     PROBLEM
+>     -------
+>     Waits and their associated events that are never reachable can
+>     eventually lead to deadlocks.  However, since Lockdep focuses solely
+>     on lock acquisition order, it has inherent limitations when handling
+>     waits and events.
+>     
+>     Moreover, by tracking only lock acquisition order, Lockdep cannot
+>     properly handle read locks or cross-event scenarios — such as
+>     wait_for_completion() and complete() — making it increasingly
+>     inadequate as a general-purpose deadlock detection tool.
+>     
+>     SOLUTION
+>     --------
+>     Once again, waits and their associated events that are never
+>     reachable can eventually lead to deadlocks.  The new solution, DEPT,
+>     focuses directly on waits and events.  DEPT monitors waits and events,
+>     and reports them when any become unreachable.
+> 
+> DEPT provides:
+> 
+>     * Correct handling of read locks.
+>     * Support for general waits and events.
+>     * Continuous operation, even after multiple reports.
+>     * Simple, intuitive annotation APIs.
+> 
+> There are still false positives, and some are already being worked on
+> for suppression.  Especially splitting the folio class into several
+> appropriate classes e.g. block device mapping class and regular file
+> mapping class, is currently under active development by me and Yeoreum
+> Yun.
+>> Anyway, these efforts will need to continue for a while, as we’ve seen
+> with lockdep over two decades.  DEPT is tagged as EXPERIMENTAL in
+> Kconfig — meaning it’s not yet suitable for use as an automation tool.
+> 
+> However, for those who are interested in using DEPT to analyze complex
+> synchronization patterns and extract dependency insights, DEPT would be
+> a great tool for the purpose.
 
-This looks good to me. Sashiko seems to think that send_sigurg has the
-same problem though. Care to look into fixing that one too?
-
-https://sashiko.dev/#/patchset/20260523080255.585201-1-w15303746062%40163.c=
-om
-
-You can add:
-
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
