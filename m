@@ -1,222 +1,158 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010022.outbound.protection.outlook.com [52.101.69.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3A8218EBA;
-	Sat, 23 May 2026 15:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779548717; cv=fail; b=FCBt7Y6S7PzmuU00TDbI9pp2/lP5L21fY4E/bNzUpg8GLy0mNf8oiZB2i0y8E1BXmrKJubOINHEsc/f1Zhc/zANogOsU6QEJAZOYE2ilEB2vreO0TmxR5u20RdhYG+4w5M76XfB3xu616j6Artj2pk5emmRgcsZYAgLQZ6LSysk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779548717; c=relaxed/simple;
-	bh=xEiz8BkJgp7MUVncezwjJ6jv190l78ar/eyWMIOtBzM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cQLRJuOF45ZDI4au5+W0Q3YTdqAMpN4LO0mb53U5miCRb7FXVT5lcHbJaON6FCb4QEJkLS7vf9wPYzSy1NOVSPVrnDa7fcYSjFC5OqkcPrVggn4UxD2SyEhNtes9RexiDEIZpI0ZgltumCMF87V5Qk50fVLyoswMLiSUKBcN2Yk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=OnOUk4qM; arc=fail smtp.client-ip=52.101.69.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D5523EA84
+	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 15:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779549983; cv=none; b=Z+i+a4IprTMlJRunJHRy7LSAzQuhMqP/gG34i9FTNAd9vo33UsrMUj88v1jfItZjivHni2vpY/f2fG+wDjCrSFC4AzMn8DSJLP/goIYhzKy74LYs+r6tdesO3YHu3kIkyVdwXOTyg8RClc1wmLLe+qt0kq32TKPeC2BQeNo2Ac4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779549983; c=relaxed/simple;
+	bh=NgotHrQQbm8sNGxojUDNvnnGViittoPeFV5xGybD9EM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nb+vG+CF6uUI/J4FrpqAk0Lw3qA7eTqZtctG1KSiCrwM42uJtR4tLrOyZVC6ustvSD8BpCtOzCwiXfjMi/4GTDJCfR68KFEYIklmi0mvU6Nc2oFQaX9GdyU/hLlHQZtESgnVPGbUcsJ1RUlppX1R/hr4GVavp70Z8PcsLQRdsUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=i+HqVWVF; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8r5qKrkF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Cb5keoz3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YqPfOxiK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="OnOUk4qM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QGgRBn0+oopOLmbzX07jyao9yJjCcSmyo5rHsN/Ci1NbjcgNzt1UDBz/8tH3HqyuENjDbauCCZQiUs1ePkAOV2UcBiqG1Ao2r0Uh+LwoyUvcvWuoiiQsj3hwjYy+7VTLE4yx6HO9U4DQepUVhybMkPJRhLc5cHQ/AQ8kH3y/su9L/BYQlF6FlW3FjujL2xukkocXgQTACGXGtXDlT4xlnK3wpdFLu5TZUPR/yBUbSPDzPbnUZQEjTTUBr4GC1cl1Y5EMFK1LLVLzeeql5pLjl9Z8Vhs9A7FXt0MDeYjPUzd24NFTZdbdLJqgNwBl6l/np/EqlyxLvNAoCdnmJOTRSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7lM6XFgBnDQRzF0g/lsSy0OTrlpdiocTQ5Zg3wGe3+A=;
- b=jy8nmdu3DwNCUE7zt2T6NHuSq0L5MiSD84E0MZRcpfWaAgm3bjJv7hBHDNmZGbuV1hLv6Ij/4ULuAG+evZsW4+5+AKTiIMCpbt4FgT4n9E+Eqwizx0O1+HyBuBzxHXQ5eWAZ5lbRTN/VkQX68T+R3PXo5v6HJQQAanJmWuixHA9+sR6FvxDWWwd2OWc8gf4JUlxteoq1OiLZDRP0TrhHC3UGVdzMRFJT+rsP0eRtJJPuVjbRCeRsQItPYAOT6VXdx0WNxw/llNWU9VMKrVEiy30NfLS57rhid1vn321gMrOYRoVegaRHriNee9h06rG7PEqtR+yMzUKcpDh9umjKWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7lM6XFgBnDQRzF0g/lsSy0OTrlpdiocTQ5Zg3wGe3+A=;
- b=OnOUk4qMxB8y3g0u4QTxSnBrB92umovY1ZOtNevgFN1fn/UIFy5uMAE2mO8wA9HAxrkzgoz/YxAGHIAJ+OWfbumwkhWpqC2cgmS3gVVl0/sIdp/pMZ+5E6xcawGz2YuJ3EtFmPmYb3wduwGqdDESVilkIeJcMhuBeqIfU1Hjzzf+onkVZJtwNqajKlpyvm3Lj5uTDGi+lKR1xfX3nyLlvhyh1ihYW5BXCpf0LeN/a20OzPAcRSsfn7gi6/3cou0BjNdkHCpGtZTd4zrw1s1qfakSk05LhyZfkKHozXeEoPzm6VLnC5cBKOUe7ZkSkOVKNnmbojT815KNg21wkMGufg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
- by AM0P189MB0754.EURP189.PROD.OUTLOOK.COM (2603:10a6:208:1a2::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.18; Sat, 23 May
- 2026 15:05:11 +0000
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.21.0048.016; Sat, 23 May 2026
- 15:05:10 +0000
-Message-ID: <c2a74857-d043-4e8e-a9cc-2ca3cde52b25@est.tech>
-Date: Sat, 23 May 2026 17:04:57 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: DEPT (the dependency tracker) as AI review prompt?
-To: Harry Yoo <harry@kernel.org>, Yunseong Kim <ysk@kzalloc.com>
-Cc: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
- kernel_team@skhynix.com, torvalds@linux-foundation.org,
- damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
- adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
- peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
- rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
- daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
- tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jack@suse.cz,
- jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
- djwong@kernel.org, dri-devel@lists.freedesktop.org,
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, harry.yoo@oracle.com, chris.p.wilson@intel.com,
- gwan-gyeong.mun@intel.com, max.byungchul.park@gmail.com,
- boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
- yeoreum.yun@arm.com, netdev@vger.kernel.org, matthew.brost@intel.com,
- her0gyugyu@gmail.com, corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de,
- x86@kernel.org, hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
- gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
- arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
- da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
- frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
- neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
- trondmy@kernel.org, anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
- kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
- ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
- baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
- joel.granados@kernel.org, richard.weiyang@gmail.com,
- geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
- neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
- dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
- alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, rust-for-linux@vger.kernel.org, Chris Mason
- <clm@meta.com>, Roman Gushchin <roman.gushchin@linux.dev>,
- Josef Bacik <josef@toxicpanda.com>
-References: <20251205071855.72743-1-byungchul@sk.com>
- <6b2a816f-eb3b-4e0c-a024-ee2e3743eb04@kernel.org>
- <CA+7O06GxeDLR9RcKDN2i-Rgc4kgzz6BfF4b0XAH4tFx=A723Nw@mail.gmail.com>
- <0592b09b-a084-4d9d-bcbf-1b77e45226cf@kernel.org>
-Content-Language: en-US
-From: Yunseong Kim <yunseong.kim@est.tech>
-In-Reply-To: <0592b09b-a084-4d9d-bcbf-1b77e45226cf@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GV2PEPF000239C4.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::1b4) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:39b::19)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="i+HqVWVF";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8r5qKrkF";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Cb5keoz3";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YqPfOxiK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E025A63C80;
+	Sat, 23 May 2026 15:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779549978;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/H2AquFydWxc/VlH/uT2dGIPVr1AoG9TSE18J5/LjYM=;
+	b=i+HqVWVFyJwcbY3VgfU2SoU9uR22D9pOoWmf8CEbf6Y1M3puhVFxm2FEr6q8UiQql55eBh
+	O6oeTzJwxLJ3oNwF6plF1jgGLn95SG0jIpLhkwA7RNKhgRs7ym8ICnyNapmIevkR0ns1QJ
+	XM+TC4HZPRBRhz4SB2zzS77/dsV0M8o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779549978;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/H2AquFydWxc/VlH/uT2dGIPVr1AoG9TSE18J5/LjYM=;
+	b=8r5qKrkFtoep7oNnYiMp7zq73MA+gypelvn8CfIxE0pp8x3H0sFaKbzn10RSkQWArfXRRs
+	NqfIOGalM+Ts5jAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779549976;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/H2AquFydWxc/VlH/uT2dGIPVr1AoG9TSE18J5/LjYM=;
+	b=Cb5keoz31AAOgIbGdCsQjt+Wz+rq2iv/FpSw4PxfNFviR1nZ2cQCf0tvaBl0GiLkZ+kmRg
+	Q3hww9NREf4BBcUOTRFNXDhBkgLahTAi8UQRor9EyzcC++Jw7LChzeO8dc7bPHJjyOBuMd
+	S+vxxM25Rl0kKt2gG89UUewucXg0JVI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779549976;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/H2AquFydWxc/VlH/uT2dGIPVr1AoG9TSE18J5/LjYM=;
+	b=YqPfOxiKsDcY8MLGLWoobeSVd9ky4Im9Q/Snnc8qUZKyAA0GbTpMMorWKdL65O9qzd10Vk
+	3hDGN5T5+0RAqbAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD3F4593A8;
+	Sat, 23 May 2026 15:26:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hdxwLRjHEWqhZgAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Sat, 23 May 2026 15:26:16 +0000
+Date: Sat, 23 May 2026 17:26:15 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Michal Hocko <mhocko@suse.com>, David Sterba <dsterba@suse.com>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [RFC PATCH 6/6] affs: Move long delayed work on
+ system_dfl_long_wq
+Message-ID: <20260523152615.GD183694@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <20260508134541.282073-1-marco.crivellari@suse.com>
+ <20260508134541.282073-7-marco.crivellari@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|AM0P189MB0754:EE_
-X-MS-Office365-Filtering-Correlation-Id: 58a0a403-31dd-4280-da47-08deb8dcaf58
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|10070799003|56012099003|22082099003|18002099003|4143699003|5023799004|3023799007|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	x/DVjpp8rtpbyaki9kKmHFQT0z01TB0w3CS11/gMcbjXd4P9xLMnPzBpFoR1Mdx0t000S/ax8P6a84EgohJdSp9rJUD0lxYnko7IB9BPIEr2pvXL8IOlPpEHM8B/Z/5UR5M4VHNRdXcMw3bsjyJrbVhyIl94yBpscZCZHshuiwJcPoXie7NzkipKn7dG6sOldFuR0RQN8/z0Aimvr/D3BYLbT3TPFuWIAfI+gI9OL1pFtQ0fHD5z7l2hLyWB140jpX3/10Cv6IaF2UhZ3pv+SL3uG7a3joZvob4eVSQwhWBh5waBLl1MiB60oom9tYFo4axpxBaL1nDxtEfkRQ5nI2rrJg7ULQRRBNQphR2anqmWbWm2KAHd/wcpnNm617DW2cf2w1m4HOf5Ga6Mm4kYhi+S4o7nVkvc2TAaCmtxwf5qeClZ3V1ETn1/vrur8PmwbMfxVRsZ6wDq+RWpvJMnQ1sVwm1k+FN0uzvvB3ykTOWUWqSib7hmjQu5HbYGF5J1gsMkuHmKA8JFdGpVhtye/GbIrSnm6/YXt/i0pNr/vtfySAhn+2UkXNY5zCuPvInKbz8wBfvzucRnKLCVUBhKNV0kUdT69RV2iI72rpKPG1s3DjgRYtpvB62/7lrUBH4whCzzt9rTSWDk17qrgf/V4o/FWRhJDczaQYKCYM5H1isbCuQjY7apqbqwfzn/+N8y
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(10070799003)(56012099003)(22082099003)(18002099003)(4143699003)(5023799004)(3023799007)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SGVLOTRLNE91QXFJOUZqeWs3WVVwb2xML2RNaHBEd21qRXpoaFRzcXJkS3V4?=
- =?utf-8?B?OU4yUVJLcW51dUozZjVLYkhpMElQc0dDT3EwWTIyYlZhRUpHVkkyNEhIWmEv?=
- =?utf-8?B?dFQvb0ZMRXI2elV6RE9xN21YVUd6N1RVT1lFY0cxN3hoaEtMZlBZYTJYSXVN?=
- =?utf-8?B?bWVkN3h2ejl5RXEzQndFM0NTNklmK3FjbUhxekNtQmE2RWlBM2FqMC8vQkNL?=
- =?utf-8?B?d3RKbE9qMW5ITXZWWW9CR3Q3VDN4WHFMYklvaW8xVGV3RU5hZmVXSDA3M0tG?=
- =?utf-8?B?SnI5Tzl1aGhMak41THI4NFVYMzA3YzB5Z3pHanJEK2pUdVY0cXZwaEhPVHdy?=
- =?utf-8?B?bHBUTzlHZnMrd1JwdldOUmZwMnlPUnpQdDBiNkY1ZWwyMndWRmN0NmRvVko1?=
- =?utf-8?B?ckxwWEgvcHlVRFhVejZGakxQZGsyeXRpQkZRSVJaNVBrb0lIcHdzUy94aXpW?=
- =?utf-8?B?Q2RidGQxMUQzc21URFkzQ3Z4cUo3RE9uKzg1WDk5MVZSVW5JSGVEYXVMUTRW?=
- =?utf-8?B?TDVoMFBNbjhYZ0RnUW1tWWl1NjVnazBGMEdXUTY4ZWhFR3c2RzNzM2t5L3dm?=
- =?utf-8?B?R09TN2dzc1ZtT3l6WHNTNG9nTDlUN3pObmxUa3BUdjc1UFBqdnUyMXB0ZU9V?=
- =?utf-8?B?dml1elBTbG1TOXpFTlptVlh5bVVydGFqNi9BTXdQck1ocWFlb1E4WDNGZ0dV?=
- =?utf-8?B?em93citoZDl4aWVjQXJQWmFoSFU3b29kbjFYNDYyTm5FN1lrbURYa1JKVmJM?=
- =?utf-8?B?OUVlUGJpWFhNNW1PN216SHhpTVVyc0U3NDVwTEE4MU1rZ1JiYy9oTVhJQVBm?=
- =?utf-8?B?S3FIVWRSSlRkV3JFUnVKUmFuQjZMSGdVYVZqYzh6b2RrRCttaXhvZTl0Zmk3?=
- =?utf-8?B?OHJSWnlIYUVDcGk5bEpnRXJseWFQVjdXQU9XTmpwOTRlZHJqOHZSQTNveVp6?=
- =?utf-8?B?UnNWeHlJREs3cUp6ZHpTcHBVTFAza1A2U2wyNUFLMFNWNWRleU8vMmdJN1Bq?=
- =?utf-8?B?NCttRUlLSXYyWlZuc09mMWdXakxtWHRMdXBhT3lybmhxWEx1MTVuMzcvdFU1?=
- =?utf-8?B?bVREaXRHczM4WjNKcjNZZHBSMC9vbnh2aDhlT3FwaTFETnd5TDhIWk9yNEpZ?=
- =?utf-8?B?VEs4RHhNdGpzM0d4cVVLTEdwdG1UdEhyK2djaEJ1MTI4ZDdabzlXVmJsKytV?=
- =?utf-8?B?VVAzOElOOUNyWXJUYWtaTnZvRDJuRkNIa3ZWVW5EYnVKemk3dWgrZ2hRU0NV?=
- =?utf-8?B?UG1aNHQ3MmhLZ2hZOUJUY2lIN1RwZlU3WDlGaTg4elVyOEdmdFc1NU5LMGRK?=
- =?utf-8?B?NFN4YVUyUGNCU0IrZUpUYTViZ3phMXcwYy94MWEwUlg4WTBObjNHai9KQkY2?=
- =?utf-8?B?WWVzNGc1TzFKL3BJVGNHU1FNcExhRDZrMXRKZ3RRWUwrVER1d3RIWUFqWklm?=
- =?utf-8?B?cURhQmVkQ2M2R213OXhDcWtCVWpzelBMRFI2N1FLd045WlVndU9mZXUzdVF0?=
- =?utf-8?B?UzI5M3d0UU5zL2RiejhZMjdZV0l1c2VTaXJjVVBMNFhpbTcvSzlVbXlNdnMy?=
- =?utf-8?B?TEphaW1JZlBJa21ybW0ydGtyRm1ZdTNhbVczcll3UThRMUpqNVZtSUNlQ0h5?=
- =?utf-8?B?ZWZtSkhmWW1NR2xYTnZiVm1qMTVpTm4rUkpxL0tjaFoyRlNaYVgwWWtPV29s?=
- =?utf-8?B?YnJTMG16Lyt5TzJXN1VCa2w5Q05aRnVQNGlxTFhDalJPcDdPTEpQMjV0dmFO?=
- =?utf-8?B?aDY1UEY1UlFjelNxeENDaVBRSlRlcUNvclR6Ym5xNVZIVzAxbGZnRHRlNEZn?=
- =?utf-8?B?OFkxbXF4TkpOQ0YrajFkVVEzbnNHSFJEc01wMlEycTN2SFA4RjBpcjl4a1RZ?=
- =?utf-8?B?ZFBNYWl4cHFTVXNNSk5pMk5CUU9LZmxveE1yc3FCU2Qybm5lYUhDeENxUWF5?=
- =?utf-8?B?RkNaVVBiWFkydnd5a2ZFUE8rTDllVjkvcU8waDZwWGdjSkhYclAySWVFNzVj?=
- =?utf-8?B?SUlub0JTNWsrc29JZWxXekMrYjlLNlA2OXg4cjN3b256eWkvOFFFS242cnZm?=
- =?utf-8?B?MEdVRlRTQWEwTTQxc0hTSzBjOFUrNU9pVFllMWdORk9pdWhudHZlOU4yWkVs?=
- =?utf-8?B?Q3ZxWEYwbkxYd0FOWHlrcm84OEJ5aHJPVVcvdmt6S2QwWmdJNzlaK0VHNG5w?=
- =?utf-8?B?Ym9XVDZvWXlvRFBYU3I0azVBRkk5RnBQTFZ2TUV4TzdYbFgySVU0Nk9QVmxU?=
- =?utf-8?B?OVB2V203Z3J4UFFnMXQzczBTcHd4VG1xRnM5R3pPRGNPcm1qK29DYWlZTGMr?=
- =?utf-8?B?SjJjSWpIUmJJWFQ5TU9iL3I1M3BpWGNBOFc3R29DWGJtS2FXR0RiRzM0dW5N?=
- =?utf-8?Q?Y+efjEiK1ZEK9iNOUdlou6KPpQHVBL7wmcUwypPCRUlv3?=
-X-MS-Exchange-AntiSpam-MessageData-1: kmHxRz7M3Cgu8w==
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58a0a403-31dd-4280-da47-08deb8dcaf58
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2026 15:05:10.8667
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rQ5kN/58gQ1jgrudkYmbd+zET7SkQ4tFrNNXgheVNoMqOtWqn0gt9JkAl0vGc08x26U7BPVik0akB84pg8IUWQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0P189MB0754
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260508134541.282073-7-marco.crivellari@suse.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Score: -4.00
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linutronix.de,suse.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:replyto,suse.cz:mid];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hi Harry,
-
-On 5/23/26 16:34, Harry Yoo wrote:
+On Fri, May 08, 2026 at 03:45:34PM +0200, Marco Crivellari wrote:
+> Currently the code enqueue work items using {queue|mod}_delayed_work(),
+> using system_long_wq. This workqueue should be used when long works are
+> expected and it is a per-cpu workqueue.
 > 
+> The function(s) end up calling __queue_delayed_work(), which set a global
+> timer that could fire anywhere, enqueuing the work where the timer fired.
 > 
-> On 5/23/26 11:00 PM, Yunseong Kim wrote:
->> I've previously experimented with running DEPT alongside syzkaller fuzzing,
->> and many hung tasks missed by lockdep are caught by DEPT, but the resulting
->> high volume of reports makes it easy for issues to get lost in the massive
->> log output. Sorting through that output manually is a huge bottleneck, so
->> leveraging a well-crafted AI prompt to triage the warnings and filter out
->> the false positives would be incredibly valuable.
+> Unbound works could benefit from scheduler task placement, to optimize
+> performance and power consumption. Long work shouldn't stick to a single
+> CPU.
 > 
-> I mean both 1) detection of deadlock issues AND 2) false positive elimination with AI.
-
-I completely agree.  Implanting DEPT's model into an AI review prompt
-is a great idea. As you suggested, the patterns we develop for the AI
-could provide valuable feedback to enhance DEPT's itself.
-
-> If the review prompt is only used to eliminate DEPT's false positives, I think that would be quite hard to get broad use.
+> Recently, a new unbound workqueue specific for long running work has
+> been added:
 > 
-> Someone would have to build out-of-tree DEPT, collect the reports, and then feed those back into the AI. I don't think building that kind of pipeline would actually work well in practice.
+>     c116737e972e ("workqueue: Add system_dfl_long_wq for long unbound works")
+> 
+> Since the workqueue work doesn't rely on per-cpu variables, there is no
+> obvious reason that justify the use of a per-cpu workqueue. So change
+> system_long_wq with system_dfl_long_wq so that the work may benefit from
+> scheduler task placement.
+> 
+> Cc: David Sterba <dsterba@suse.com>
+> Cc: linux-fsdevel@vger.kernel.org
+> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 
-I also have a huge dept report of DEPT reports, and manually
-reviewing all of them is makes me sigh. The constant kernel rebuilds
-required for lockup testing every time are also quite expensive.
-
-Thanks for the summary!
-
-Best Regards,
-Yunseong
+Acked-by: David Sterba <dsterba@suse.com>
