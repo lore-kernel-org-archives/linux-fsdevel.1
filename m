@@ -1,182 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF24038332B;
-	Sat, 23 May 2026 18:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E432EBB8D
+	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 20:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779561907; cv=none; b=tizpeiumBSd/q0HvoBwXJfSTqJYbAQFQ4Zs4QPSinbql+418lSgw8LucBtHEb1H84Ir+ki2isV/yH1ydNKVSOUGw+iFHidrIdOigcrC3HXcvUy51pWIBBBuphzHCDyerdKHKAiMPs1jyyFLogX+qD8CTr6xBPL+RRXma3tEXAiY=
+	t=1779568902; cv=none; b=awWaI9D/4X88Cm+R8nweBDMogEr1n5TkWLNKi+jUYC4UC75Rxe0vO8QbKO8VGal4kvpFd6hr2lZ9LBfbsicfH193M6dTwkoXELzY6LuLSn3vQ68MzqK1MuFmcQOkWg7lejwgpo+b+yOoLwdVww8w6DEShWnpiRCP1EZpvmzEEHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779561907; c=relaxed/simple;
-	bh=0ivV9swcxQOE/E1jT3VgeiDHh0Guqzt2MvXKgSGoCAo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DT6YLDwEb+Fp8HQawxAJd0DttoarYlFvPOgfTFvDVYqiLF+wNWezfbfp61LNKqxbbH/qsI6PZgVUl41pYMKnkKgfkl5YwUQIT6hXqp9a6LL0WCnHLHXZJ+dyqhWGOKSFPZiyxenLLpb73Ay1WDRE3DAsHFge2Ed+DFzyv5/bXog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nE2vwrlP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779568902; c=relaxed/simple;
+	bh=ZDowhp0fPqZxjLyKA6nsScPxx0UPG3aBQPVBz7pM13k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=e/rLOfBftlS8S97oTGuUem1tVh8dRclN3oSkojuOF/QSgFAl03qVpT7zTe6g/Lia/KtzW3ZvkS0dhLIcCVPqmdNwCtNpNfF0pfEyfkdubhnYIgCcU8/uRn57XNtQVdg2sBsm6h5TkOU4AeRl2a7kj8u6OSjUGMmfoNYNAdZ1jCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEey0zje; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nE2vwrlP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F701F000E9;
-	Sat, 23 May 2026 18:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779561906;
-	bh=4dh8K34LhG53aOEAOW/tsKAjsIUkIq+EMsW/9iJuH2I=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=nE2vwrlPxRNPg5A8eCpfSlphnLWQfLvCcucuioz9piqQBl3LijnUwavPZbdK0byIH
-	 CA+rkdXQ00jMwFvj5DNVq4BTmhp+N+LiDCEoABq/qeiNoAIVmbw+n98zbOrj1XiEiW
-	 loO+oVYZWDN2VNsvW/pPG9LyaRLDOcYuKOzTpAJ8IKzKcfgO9YC1JhX1omhBja3Xuk
-	 jbH0qshIgnqFaDMhYBbEP/OMyD3MlTKR954P4ijq5QEJgfafK88HrcHwc9qqSLyBn/
-	 dTmbzhU2gR6KNo+FbHpuAGQ/l7Z9BpcJJ1KVMMJl5b19QHl/TDy5etWsTdKdEwUOdE
-	 EujK2bIZeShXQ==
-Message-ID: <c5cc403d7c4403bb55254922ae5385034394552d.camel@kernel.org>
-Subject: Re: [PATCH 07/17] NFSD: replace __get_free_page() with kmalloc() in
- nfsd_buffered_readdir()
-From: Jeff Layton <jlayton@kernel.org>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>, Jan Kara <jack@suse.com>,
-  Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
- <joseph.qi@linux.alibaba.com>,  Ryusuke Konishi
- <konishi.ryusuke@gmail.com>, Viacheslav Dubeyko <slava@dubeyko.com>, Trond
- Myklebust	 <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck
- Lever	 <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, Olga
- Kornievskaia	 <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom
- Talpey <tom@talpey.com>,  Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,  Dave
- Kleikamp <shaggy@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Miklos Szeredi
- <miklos@szeredi.hu>,  Andreas Hindborg <a.hindborg@kernel.org>, Breno
- Leitao <leitao@debian.org>, Kees Cook <kees@kernel.org>, "Tigran A.
- Aivazian" <aivazian.tigran@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	ocfs2-devel@lists.linux.dev, linux-nilfs@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
-	linux-ext4@vger.kernel.org, linux-mm@kvack.org
-Date: Sat, 23 May 2026 14:45:01 -0400
-In-Reply-To: <20260523-b4-fs-v1-7-275e36a83f0e@kernel.org>
-References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
-	 <20260523-b4-fs-v1-7-275e36a83f0e@kernel.org>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEey0zje"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49041e84237so16023495e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 13:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779568899; x=1780173699; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bNf7CFkgwF1rfbyNmnV/eQce4TyQWDhVxKWrw1dKd7E=;
+        b=cEey0zjeHiEJzJmAYhGDpVwRE5q4kPPUsLVkgR+gb5HIAY7YTDnR8EOfdfWjWIMtUQ
+         FhY5jOJK1L3/mnitQ3IzLdA7RvX5+17Zlx/kHH3xtynr5ML9IbvuleVjeI6joM98bCOC
+         yWhKdy1XqWQDU/7zrBZ3nSm6LPNplC4VgU4eMGfi5OBmQpP1dXzvkIMg6qmJHijSIg+F
+         qkWWbs9bg6YpAicPmjuntX6Aewg5mO6vVT/wmB2JlUxOS/ARIKG1zK71BWq17es4DkUZ
+         nTQ5MOErJYtHq4o2s7U1eDedJkREZfiZJLDg9BiRMD+ecA6urwu8c7t9HSyx5t64c2Lo
+         2FNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779568899; x=1780173699;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bNf7CFkgwF1rfbyNmnV/eQce4TyQWDhVxKWrw1dKd7E=;
+        b=qMHnq0G1a6EpapoYZt8CWrdg+oPnhEhUw9V1bpnfC2Q2RxQRfDc+4Nx25lS3zhN81S
+         PVGq0jy1q2WGLUa/zv0Yqw4XzNEVHPx95+nWeznbTmn0NQ3gWy53jdWjj87OLREFeoUa
+         012WvoWfJBAILqwDsBoEyR7ArjfGspgdpmUtIspZ7+RIteKAQlXxXFMBUbeYDYZ7D5j9
+         SQJh2h/KbiEB+VZXxZBARhuZm2EV90luCV84oqRMSOl4fzigBFGfcPGerzR+X5v6J3Sx
+         ++8rHyua82Nneh4nWRz/lWqmoPIqnBdWydFrMAczr2ySC7dUUjjhJufdRLhWW3pu0hPi
+         FWoA==
+X-Forwarded-Encrypted: i=1; AFNElJ9yYlwSLMEJe/tB2db78Ly2SfUYqSURWfdkQQD9s2jyKdG6XZz7VvlSSiC2wd4RTSSFAqWiNBAVIG55VNvg@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcwJ4zIAp25T5fic6k8klbo1pTzER27llE8HQ0TbFFuJbFf3yj
+	FTdfvDPpTedM9F8KkjyZcKv30c49V5wlBGUyPbMwtqfQdhpgrg+jTvp/
+X-Gm-Gg: Acq92OFDSFhWdRXIAm3gp/dXBMZ3iYgjW+3yIuSns1mA0rvidSysww+l0y7JPX65r7k
+	pqo4iqqeRWVSEjKVms9Z330dy71qby6jCg6HKI16ZI6t9zVLRIIBXnsGRZzdSKwrRxvNrCUMJ1J
+	3Oy/J6dd2pgUzRC4vmPH07kJsMHXZBVVU5I7n0oIarTIp4NTsg412YuKsbLF0I2bIzRdy/4Ioyv
+	mpKGNRrpat66rjZ98IWIHEtghyN2EvIJmNqLoo8kCnqDg62zk9niBjBpQ2fP2PS0j73yvbZezO2
+	SLLb9a3GZOhMW+q317OzVf4x/g0pfGrfCbQyHHlq7rYyt/lGnWOrtuvvqGe8m0xfgI5Om4Ryuc0
+	ROSX1zRZKjNzXzUlx/9ErWQ3U0Q79wKhtHQNdEA0ntCHPcURnpPKn+yaLfaDvRimgFs1k7q0MJV
+	CRhx5oNZQT83e3DNMrhLRrPEHd/bljezB8Os9H9/rq
+X-Received: by 2002:a05:600c:4746:b0:490:3d48:6cb9 with SMTP id 5b1f17b1804b1-4904225f7efmr126899095e9.3.1779568898911;
+        Sat, 23 May 2026 13:41:38 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49059fb42dasm16015385e9.7.2026.05.23.13.41.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 May 2026 13:41:38 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: brauner@kernel.org
+Cc: axboe@kernel.dk,
+	jack@suse.cz,
+	jannh@google.com,
+	kees@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	mjguzik@gmail.com,
+	pfalcato@suse.de,
+	viro@zeniv.linux.org.uk,
+	David Howells <dhowells@redhat.com>
+Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with read-only files
+Date: Sat, 23 May 2026 23:41:00 +0300
+Message-ID: <20260523204100.553125-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <177918418452.771415.4371785688744608623.b4-reply@b4>
+References: <177918418452.771415.4371785688744608623.b4-reply@b4>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-05-23 at 20:54 +0300, Mike Rapoport (Microsoft) wrote:
-> nfsd_buffered_readdir() allocates a staging buffer with __get_free_page()=
-.
->=20
-> kmalloc() is a better API for such use and it also provides better
-> scalability and more debugging possibilities.
->=20
-> Replace use of __get_free_page() with kmalloc().
->=20
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->  fs/nfsd/vfs.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
-> index eafdf7b7890f..c99e54b23cd9 100644
-> --- a/fs/nfsd/vfs.c
-> +++ b/fs/nfsd/vfs.c
-> @@ -2407,7 +2407,7 @@ static __be32 nfsd_buffered_readdir(struct file *fi=
-le, struct svc_fh *fhp,
->  	loff_t offset;
->  	struct readdir_data buf =3D {
->  		.ctx.actor =3D nfsd_buffered_filldir,
-> -		.dirent =3D (void *)__get_free_page(GFP_KERNEL)
-> +		.dirent =3D kmalloc(PAGE_SIZE, GFP_KERNEL)
->  	};
-> =20
->  	if (!buf.dirent)
-> @@ -2458,7 +2458,7 @@ static __be32 nfsd_buffered_readdir(struct file *fi=
-le, struct svc_fh *fhp,
->  		offset =3D vfs_llseek(file, 0, SEEK_CUR);
->  	}
-> =20
-> -	free_page((unsigned long)(buf.dirent));
-> +	kfree((buf.dirent));
+Christian Brauner <brauner@kernel.org>:
+> Let's discuss the other aggressive alternative: Can we try and
+> unconditionally degrade to copy. This would affect sendfile(), splice(),
+> and vmsplice(). Worst-case we would have to introduce the sysctl
+> retroactively.
+> 
+> Thoughts?
 
-nit: Don't need double parenthesis here
+I think as a first step we should make vmsplice unconditionally equivalent
+to readv/writev.
 
-> =20
->  	if (host_err)
->  		return nfserrno(host_err);
+vmsplice already was problematic from security point of view long time
+ago. I mean CVE-2020-29374 (see https://lwn.net/Articles/849638/ ).
 
-The rest seems ok though.
+David Howells also doesn't like vmsplice:
+https://lore.kernel.org/all/1763225.1769180226@warthog.procyon.org.uk/
 
-Acked-by: Jeff Layton <jlayton@kernel.org>
+Linus said in 2023:
+> So I'd personally be perfectly ok with just making vmsplice() be
+> exactly the same as write, and turn all of vmsplice() into just "it's
+> a read() if the pipe is open for read, and a write if it's open for
+> writing".
+https://lore.kernel.org/all/CAHk-=wgG_2cmHgZwKjydi7=iimyHyN8aessnbM9XQ9ufbaUz9g@mail.gmail.com/
+
+Even experts get vmsplice wrong, as can be seen in this thread:
+https://lore.kernel.org/all/CAAUqJDvFuvms55Td1c=XKv6epfRnnP78438nZQ-JKyuCptGBiQ@mail.gmail.com/T/#u
+As you can see in that thread, it is very hard to understand what vmsplice
+man page supposed to mean. And you can also see that vmsplice is very
+fragile.
+
+-- 
+Askar Safin
