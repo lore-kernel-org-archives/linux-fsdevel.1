@@ -1,151 +1,203 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2E73876BF
-	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 10:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779533940; cv=pass; b=Ryc9wFbQnULxTrVC2pOReepyS0IgG226kWvGKBOIWhgjzPDNb801HvE07qPY9O6wrHH2hFqKHc67c9NiPTDKMjzhZYe3b7Jf/njubVP3BmwKRWGzayu9vqxTzZhhBJgkmeHIKsvouTr5mCYXZHOt9f2miLhfO/QNLv1N0X9NEU0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779533940; c=relaxed/simple;
-	bh=nCmMwkBwUImlkzxWG3Un8vb2R7F6fTAERklhG+Bd4Lg=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=s9nBeWqQhCjTLlEoS8YRe08MTLE0mIOeClpiAe1RqXAD2t22pTsJEPdDBgJym4WNtmnaU40fUUS37bsMyN1hxpMp+5mYYEKdHGalQ6axyAiTEgYI/RI1okj0qOarTiJVv+vm5BzpgG2woIUDeRFTpZ8bcU2oWmj+Y61UUdu7BYI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IjXZvTyz; arc=pass smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A402A19E839;
+	Sat, 23 May 2026 11:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779534539; cv=none; b=Ba0zbSN96778rM4WdEXACHeEEuHA7PgQBatRkB4GKfqWKQaykrsSDlj6jjwMUwZmv5RFFwy9xay+sT5yXx2ElMPCjVmIdk0whSZXoHfv5blfUKDcrQEnRl38DqXbBU5v7nqYUcK6BFmzeZHjHalT67r2Z360yh5axKiPJ8fz1m8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779534539; c=relaxed/simple;
+	bh=/rATDfuzA3+uloN3KuIMCipks2T2AhZNulKR+fu/INU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=brqpLlq3iYBV9w0cf9Ft7VpgBFm+qb2XjNyynRpRvfenHUJK2g9I7C5HCc6nqEp316uTRSO7XVJ2V3yiLKC1w24VnO0vug2QbFYvSH/7YtIL/2fa/hvEJy68wQP0UV7ROlu/JccwBfIMqSUmiYU2H2tF5GM39eM9qqsokWyFM00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUAoMIFX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IjXZvTyz"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8bb4e8a5240so105466256d6.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 03:58:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779533938; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SDjARk+oHu+BJH4SM/8KktjPPl9J3v21hOTM29zUzhaMlxKza9kRF7dFn5QOKFQaFx
-         VCjpGfVpWgm+Gg4pAJc9/PnCDOV1RPp53ViRM3wpSbw7LRhS5Im+mf3qcvunqQYgjsHh
-         0/HaoW39X2n5vVSJNzy7WyfQaoSDP7kdB9FK1EZ22CKZTjOgZ8FGrdHLnDYbKVY/0Lsg
-         kBxXpJarvQRjR5WMrOXCUf3qSbaZQIduE8dGdix44Yl3Njq3Mepi3zesvx2qq48juiix
-         gTFXqBcMdmxNl7TV4AQFFjHNVxfx9l963GBvYEMDKHTN2pDVqefLV2uYvVMhqFAqRmSB
-         uXKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=nCmMwkBwUImlkzxWG3Un8vb2R7F6fTAERklhG+Bd4Lg=;
-        fh=LUSPE6zGLraboG/hhhhBJ6UdLDvVWfxSDUj1F20U/NA=;
-        b=dFm0GxKxvnqi7wOSa2XySCRuqleWPFqnhdTDitSBq0HnIS/IPT4tPilrFA6S0PgDJk
-         UblcOduVKgxP+vTmRGszFi+0HZhjveljSiL7xHz7iy0kMy0u1iyq7BR5XLlpJt1OkOF5
-         ox9ijTQOaxfDJ7YP7oD7fH5F4HVAejb8sZOI2gycXkLJ69bt5wfVwFf8MvHwH6auxGsO
-         KZck4znuHcmwbHg33Mqx/8bFeJA1Zzpsr0dBKpsGRWoi2falHrQOaC/rt2/t17BmWasK
-         LJQSafeBefwluRYqDCB2cSVeeMC0U5YtJuXivoYkVoeKTzlK1/Be3cpbFtpP5cjA6aje
-         w0cg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779533938; x=1780138738; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nCmMwkBwUImlkzxWG3Un8vb2R7F6fTAERklhG+Bd4Lg=;
-        b=IjXZvTyzZQ4sSnWU8Euii8yvJVIElpELWNS+QFkAWbqLsfCQ/br2ykrDpktyDV7Wnv
-         zP6TPisEgR9ksHJBQONvyxep/w5ndliB6kHQR6LLrML8ph1B74Dwzwby+ijrcpMQILjB
-         /WdEy3he30XQ1T1u/GufosWYHXaHg3MlCDkh8UqhpkNjKLECv64SxWDQ2XDij9MFmSpa
-         pZvyZNtqZo3Hreyxh8lOr2cFkS4rF4wi+/Y8rfVm93mEWG1PYuQwvAurleWeUWc960A2
-         DKG6gROBolet3gg4g7VhcVd7hP9OkUAVVtZOe2LegQwfhWrgGSVbklPU/jTXY9u+WcYc
-         fDDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779533938; x=1780138738;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nCmMwkBwUImlkzxWG3Un8vb2R7F6fTAERklhG+Bd4Lg=;
-        b=NjQ2o2zf4m/bEF1yIr7vCZ3t3Rb1c/nYoQ3PeOLuvGoHoBOH5vQQxxBp80DKIPKyrt
-         N8OuxZ3ZGn0gLwcJHJALObQMr0H0BPCbxaZiidmiXo1cahxQx3QznQKI2tVlRzseWDr1
-         FvidEoUY03nbKLy6t02TY8CNVqUc8qtb/KrGIaRg5ihlIJn8KzJT5lbppDZnHs7UYaE5
-         65aF02hupeDCxPsooI7QUyZTFj51SqAqDIc1RK+406P2RxHV634MTpIHhz4/takfPGdg
-         SUUgIFdEzARoEIVoWPYhgc2cKP86rkZmrCOF+X9HmYImLYlIJLv16nV/hsLwym7hUf9R
-         hgPg==
-X-Forwarded-Encrypted: i=1; AFNElJ/0xQs1OV4AEJyNfMIsew/04iVbr3baUBjAFfVETZyKbB5Wfcu93MZLaVArMzHmxayqTY+lkaL3qOHDzBNb@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQE7hoEWW3BDMUwQOVyD+S0SQjfe4jh3/PoJP8yrDd8KNZYWE2
-	n8wILjpc75ljjdTWbBGhsST3VT6edTZpYQhJLGRfsDW9BhTD4/rcYck03djNzg2K5pPat4zrqlg
-	YGMFraYu3DiMuld/9hlovfSBwSGjf0u8=
-X-Gm-Gg: Acq92OGhCjIX3YT+GbmE+etyJco1copJ7FT9XyXExTEUAxhWuIB6+3fn9SuUrbAAS48
-	ZfoIpAFz1zgYeavJg7rsCLi6fJA48BO/xHqRQwhh2wAtTrpOGfmwo7hh5QZE1rat79ccGisFOHW
-	RikddoD99zeDjq3SpsahK5q/TBO+naugxndCiRUCYu1SD5pdwRjWRQCTxhm/nHeNFwQWi5o27b1
-	CnjVvZBuQr24ZO4Vd50zO7lviiTeKalrCh6HmC+fyS57+zqJ5cO5V4RJovdH1HgkyHpgVaMnEII
-	eR89mgF/xHvMd7ojPv9D9ln8Ks9QzQ==
-X-Received: by 2002:a05:6214:2dc7:b0:8bd:de6d:c336 with SMTP id
- 6a1803df08f44-8cc7b618aa7mr109111426d6.18.1779533937855; Sat, 23 May 2026
- 03:58:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUAoMIFX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64EC61F000E9;
+	Sat, 23 May 2026 11:08:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779534537;
+	bh=c1nhiYP+DkWIoRSGmfrDDu8S2cz6zN1sSX/qW4ZjiIY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=GUAoMIFXOhY3PB1FrKGcnaXf8UR503rTPPYe3+R3i3JoCjSWhOaua36pmGeoov/Y8
+	 JeyGYxnct96bGrW3x+2haypldCgudrri/Ey5PrpJiAYbja+NN4aw4J/2edB/hcWMJa
+	 y+dPXjTLIoMtESYvbN3tLhp3wKKgOMvVsyo4k1woppXE1xyKs5aWgEwCLUI6S+SLw/
+	 RBAw93Mn6H4UA2bBdFsZlOrwMeBrjrKuX4cxDhn77q1/V8dewh8dJ5bhHEnQVYQvDv
+	 ip6KWAOfSLtGbCdS4koMFNuuj1vsPnZsQihf0HWT07z6XRiqFqX+I8YINq7BZsRgyh
+	 PgFAo+4GliLrw==
+Message-ID: <d15a25fe784b5d4449c7ce4e56f1428d7ff28885.camel@kernel.org>
+Subject: Re: [PATCH] fs/fcntl: fix SOFTIRQ-unsafe lock order in send_sigio()
+From: Jeff Layton <jlayton@kernel.org>
+To: w15303746062@163.com, chuck.lever@oracle.com, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org
+Cc: alex.aring@gmail.com, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Mingyu Wang <25181214217@stu.xidian.edu.cn>
+Date: Sat, 23 May 2026 07:08:54 -0400
+In-Reply-To: <20260523080255.585201-1-w15303746062@163.com>
+References: <20260523080255.585201-1-w15303746062@163.com>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Sam Sun <samsun1006219@gmail.com>
-Date: Sat, 23 May 2026 18:58:46 +0800
-X-Gm-Features: AVHnY4IqQEf0ebjnvb9KBwhTvsLOAOAAl8rdT96fCM2j6_dXNlD1krgnGP2bRPE
-Message-ID: <CAEkJfYPhWdd59RKmuNLJg-bkypHz7xiOwaWyNVu3A8CUqQCnvg@mail.gmail.com>
-Subject: [BUG] iomap: NULL dereference in iomap_finish_folio_read after
- deferred failed read
-To: brauner@kernel.org, "Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: syzkaller@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Dear developers and maintainers,
+On Sat, 2026-05-23 at 16:02 +0800, w15303746062@163.com wrote:
+> From: Mingyu Wang <25181214217@stu.xidian.edu.cn>
+>=20
+> A SOFTIRQ-safe to SOFTIRQ-unsafe lock order deadlock can occur in
+> send_sigio() when a process group receives a SIGIO.
+>=20
+> When FASYNC is configured for a process group (PIDTYPE_PGID),
+> send_sigio() uses read_lock(&tasklist_lock) to traverse the task
+> list. However, send_sigio() is often called from softirq context
+> (e.g., input_inject_event -> kill_fasync), where it already holds
+> SOFTIRQ-safe locks like &dev->event_lock and &f_owner->lock.
+>=20
+> The deadlock is caused by the rwlock writer fairness mechanism:
+> 1. CPU 0 (process context) holds read_lock(&tasklist_lock) in do_wait().
+> 2. CPU 1 (process context) attempts write_lock(&tasklist_lock) in
+>    fork() or exit() and spins, which blocks all new readers.
+> 3. CPU 0 is interrupted by a softirq (e.g., keyboard input event).
+> 4. The softirq calls send_sigio() and attempts to acquire
+>    read_lock(&tasklist_lock), deadlocking because CPU 1 is waiting.
+>=20
+> Since PID hashing and do_each_pid_task() traversals are already
+> RCU-protected, the read_lock on tasklist_lock is no longer strictly
+> required for safe traversal. Fix this by replacing tasklist_lock with
+> rcu_read_lock(), aligning the process group signaling path with the
+> single-PID path.
+>=20
+> Lockdep splat:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> WARNING: SOFTIRQ-safe -> SOFTIRQ-unsafe lock order detected
+> [...]
+> Chain exists of:
+>   &dev->event_lock --> &f_owner->lock --> tasklist_lock
+>=20
+> Possible interrupt unsafe locking scenario:
+>        CPU0                    CPU1
+>        ----                    ----
+>   lock(tasklist_lock);
+>                            local_irq_disable();
+>                            lock(&dev->event_lock);
+>                            lock(&f_owner->lock);
+>   <Interrupt>
+>     lock(&dev->event_lock);
+>=20
+> *** DEADLOCK ***
+>=20
+> Signed-off-by: Mingyu Wang <25181214217@stu.xidian.edu.cn>
+> ---
+>  fs/fcntl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/fs/fcntl.c b/fs/fcntl.c
+> index beab8080badf..a6c764ede282 100644
+> --- a/fs/fcntl.c
+> +++ b/fs/fcntl.c
+> @@ -929,11 +929,11 @@ void send_sigio(struct fown_struct *fown, int fd, i=
+nt band)
+>  			send_sigio_to_task(p, fown, fd, band, type);
+>  		rcu_read_unlock();
+>  	} else {
+> -		read_lock(&tasklist_lock);
+> +		rcu_read_lock();
+>  		do_each_pid_task(pid, type, p) {
+>  			send_sigio_to_task(p, fown, fd, band, type);
+>  		} while_each_pid_task(pid, type, p);
+> -		read_unlock(&tasklist_lock);
+> +		rcu_read_unlock();
+>  	}
+>   out_unlock_fown:
+>  	read_unlock_irqrestore(&fown->lock, flags);
 
-We encountered a NULL pointer dereference in the deferred buffered
-read failure path. Unfortunately, no reproducer is available yet.
+This looks good to me. Sashiko seems to think that send_sigurg has the
+same problem though. Care to look into fixing that one too?
 
-```
-Oops: general protection fault, probably for non-canonical address
-0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 0 UID: 0 PID: 10774 Comm: kworker/0:9 Tainted: G L
-7.1.0-rc2-g70390501d194-dirty #33 PREEMPT(full)
-Tainted: [L]=SOFTLOCKUP
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-Workqueue: events iomap_fail_reads
-RIP: 0010:iomap_finish_folio_read+0x12c/0x2c0 fs/iomap/buffered-io.c:415
-Code: 48 c1 e1 0c 48 c1 ea 03 4c 01 e9 80 3c 02 00 0f 85 6f 01 00 00
-48 b8 00 00 00 00 00 fc ff df 4c 8b 6d 18 4c 89 ea 48 c1 ea 03 <80> 3c
-02 00 0f 85 39 01 00 00 48 b8 00 00 00 00 00 fc ff df 49 8b
-RSP: 0018:ffa00000058ffb50 EFLAGS: 00010246
-RAX: dffffc0000000000 RBX: 00000000fffffffb RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff8263bc9e RDI: ffd40000023aab58
-RBP: ffd40000023aab40 R08: 0000000000000001 R09: 0000000000000001
-R10: ffffffff90b5ee97 R11: 00000000000009d8 R12: 0000000000000800
-R13: 0000000000000000 R14: ff11000076809e80 R15: 0000000000000800
-FS: 0000000000000000(0000) GS:ff11000183bb2000(0000) knlGS:0000000000000000
-CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f6637788c38 CR3: 0000000036ca9000 CR4: 0000000000753ef0
-DR0: 000000000000007f DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-PKRU: 55555554
-Call Trace:
-<TASK>
-__iomap_read_end_io+0x478/0x940 fs/iomap/bio.c:21
-iomap_fail_reads+0xa4/0xe0 fs/iomap/bio.c:43
-process_one_work+0xbe6/0x2030 kernel/workqueue.c:3467
-process_scheduled_works kernel/workqueue.c:3576 [inline]
-worker_thread+0x693/0xeb0 kernel/workqueue.c:3657
-kthread+0x38d/0x4a0 kernel/kthread.c:436
-ret_from_fork+0xb09/0xdb0 arch/x86/kernel/process.c:158
-ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-</TASK>
-```
+https://sashiko.dev/#/patchset/20260523080255.585201-1-w15303746062%40163.c=
+om
 
-We analyzed the cause of this report. It seems that failed buffered
-read bios are deferred to a global work item "failed_read_work". The
-deferred worker still owns the bio/folio, but by the time it calls
-`iomap_finish_folio_read()`, the folio may have been truncated,
-invalidated, or otherwise detached from its mapping. In that case,
-`folio->mapping` is NULL, but the error reporting path unconditionally
-dereferences `folio->mapping->host`. This pattern still exists on the
-latest kernel commit.
+You can add:
 
-A possible fix could be avoiding the `folio->mapping->host`
-dereference in the deferred failure worker, including storing a stable
-inode/address_space reference when the read bio is submitted or
-completed, or using `folio_mapping(folio)` in
-`iomap_finish_folio_read()` and skipping `fserror_report_io()` if the
-folio has been detached.
-
-Best regards,
-Yue
+Reviewed-by: Jeff Layton <jlayton@kernel.org>
