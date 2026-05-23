@@ -1,148 +1,81 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1654725B0AA;
-	Sat, 23 May 2026 13:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E1139A7F9
+	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 13:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779544535; cv=none; b=UKV4neDmH9ZFI9KT4eTvQl7mzxcz45RaLJligGM2s7kswxXPYZmA4mh3ps+L8ajnZU+w03W0fNOU6r6srAcFGYLYgLjRzyYJKx3awlAIrzQY6xSHc5y21KI47ro0h5C+YTClNRLzhLN9rNWqR1S3Zjbkbo6uxb/OlvCVNUVN4iw=
+	t=1779544747; cv=none; b=IUtHyAi4lWZTn7ugrgmPNCE39PUDpGrd/S5t62e+V5yvim9YyMbYjDALDbi7dFamJLO1TDb143CqJONlULNABjc4hZTpzg7hVP/npEajaGCDtkYiH31Apdjc+4Cif0fmbpoQswMggvv0SZWRIXxXbqrLQzpeatcfGY5zlJV6Ero=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779544535; c=relaxed/simple;
-	bh=b0zlhsmx70J9HgL76q2WWXdx5Fkz++Tgp2VJIR9jSJo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=izYDnyv9xwjEVSuaTqGV2YVDKWNCf0AyLqv/pmtAi61AYlo3e763/mOFrVrZeW8dFcwZke/+obUoZwBMh8yMpXP+lyarbRKX6ZJjikaJ6PT2qtDPMFu4tZms/vadjHdnLAWdaIqeV43E7jfkV6NGpUks5uobdLY+jpT1n+M/B6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Yz3V9keK; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1779544747; c=relaxed/simple;
+	bh=TRlkh5uSVY6VnHdPQSRiBM4K09lH8L0nypdvwRDatkQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lMXxLUmLyXgFtDUgj+hBcr6gij0kS/zW/QeJE5YQCmpzQmHbgoQkYBZDCdBPB8O6MQgHUmLDjfqR6liQbBFV2ZQeima2QbAAIjvV7li4irRxpdXTfC0KFf8Hu8EDtbFJzS55RHA1n9jrNKEdhwhlr4RWujHzbMp0ha8BDS/PsRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mk8SLCpv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Yz3V9keK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=RW
-	O4O1Ij6XyY86YLn/lnnVslMvDSevfaW0ukpTwXCKU=; b=Yz3V9keKc8R5Ng0DC0
-	dYZ04nH8fmu2e5b2V1b/W+YuBCIYuezcVlV1HABQDJ2ZFUd0VXE1VRyv8q/Pe5kw
-	/tzwc5tysouWgNGxsdiJ8QW22GIjXAC14Znw9Wn588CPNWLeAXBFibiZG+eR8zxD
-	1VXFbinrIzcSZfQgbIYYzc8jo=
-Received: from 163.com (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgDn1_gLsRFqCr25Eg--.39320S2;
-	Sat, 23 May 2026 21:52:23 +0800 (CST)
-From: w15303746062@163.com
-To: jlayton@kernel.org,
-	chuck.lever@oracle.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: alex.aring@gmail.com,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mingyu Wang <25181214217@stu.xidian.edu.cn>
-Subject: [PATCH v2] fs/fcntl: fix SOFTIRQ-unsafe lock order in fasync signaling
-Date: Sat, 23 May 2026 21:52:10 +0800
-Message-Id: <20260523135210.590928-1-w15303746062@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <d15a25fe784b5d4449c7ce4e56f1428d7ff28885.camel@kernel.org>
-References: <d15a25fe784b5d4449c7ce4e56f1428d7ff28885.camel@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mk8SLCpv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40BD21F00A3C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 13:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779544746;
+	bh=TRlkh5uSVY6VnHdPQSRiBM4K09lH8L0nypdvwRDatkQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Mk8SLCpvtz4ynktlkYx3ukqir4sONSIBmCf8FMqt1Gtet1hY/FR+N+A5XV8nOshxq
+	 j28J5Pux2d7Zi02MRReX5jzADGcOBlhnsqJZBIAAcH3n//93zuXzcHyyQaluCVoEED
+	 Lr0zrnChNwMGV7siYcgakv4n5iENYrR7NMeqvm5Sp9Xkv9/JaUvLH3RwlDWos861u5
+	 igsAUmwcNtwMxBSmmXkwY1xtJdFiFVEf+K3XQqrlvVNY9bRmb3vinXmoXhYMe7l1H8
+	 v20+DY9lVdbGELuBa0uFAg6lJGcXETJ7nXcWgzaG3FfiQokmbm+u9/9xsK7lTMNhPX
+	 8w1l+vZw+tMEg==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-687e7edaafeso1983615a12.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 06:59:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9g+TIDFL7GmI0MTJ45xYOhza2Hg9YzfMCxbMxFWVh0x1CxCnEm2NRFEurs/e+rR8SpcbAYjOKIpl8liu31@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQTaeInoA2M2WiQcz51ezxgLhpqdDfWhD2S/P3WNBftRSmQLca
+	TmpHOdCPcdbsvh2kNqEzcAczXw0U91UVhuePhvnMOc7H4LDjb9yckN9nQlSjfTP/hw7hlBRMX/K
+	g1IZBFuS6El38t2rwFYiFU7w9+ahzW/4=
+X-Received: by 2002:a05:6402:458e:b0:683:f485:c63c with SMTP id
+ 4fb4d7f45d1cf-6889c4321c4mr3926209a12.1.1779544744900; Sat, 23 May 2026
+ 06:59:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgDn1_gLsRFqCr25Eg--.39320S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCF4fWw48KrW7Ww43uw47twb_yoW5ZFW5pF
-	9Fgr9akr18Zry09r1UAay8ur1rWwn7WrWUXry0q3yS9ryDXr13Xry7tryfWry5K39rAFs8
-	Xa1UJr4kCw4DZFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j5VyxUUUUU=
-X-CM-SenderInfo: jzrvjiatxuliiws6il2tof0z/xtbDABdQNGoRsRelVQAA3e
+References: <20260522142048.1666937-1-charsyam@gmail.com>
+In-Reply-To: <20260522142048.1666937-1-charsyam@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sat, 23 May 2026 22:58:52 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8kN27RN9GS3-9VeTSeqON2A94yYDksOUf0JmR=s6KhHw@mail.gmail.com>
+X-Gm-Features: AVHnY4Ks6hsRZheM7VZDWBcqy-hkRWbCz9uX63PceZ3Aji4T2w_i1MzyP6TLtz4
+Message-ID: <CAKYAXd8kN27RN9GS3-9VeTSeqON2A94yYDksOUf0JmR=s6KhHw@mail.gmail.com>
+Subject: Re: [PATCH v4] ntfs: avoid heap allocation for free-cluster readahead state
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mingyu Wang <25181214217@stu.xidian.edu.cn>
-
-A SOFTIRQ-safe to SOFTIRQ-unsafe lock order deadlock can occur in
-send_sigio() and send_sigurg() when a process group receives a signal.
-
-When FASYNC is configured for a process group (PIDTYPE_PGID), both
-functions use read_lock(&tasklist_lock) to traverse the task list.
-However, they are frequently called from softirq context:
-- send_sigio() via input_inject_event -> kill_fasync
-- send_sigurg() via tcp_check_urg -> sk_send_sigurg (NET_RX_SOFTIRQ)
-
-The deadlock is caused by the rwlock writer fairness mechanism:
-1. CPU 0 (process context) holds read_lock(&tasklist_lock) in do_wait().
-2. CPU 1 (process context) attempts write_lock(&tasklist_lock) in
-   fork() or exit() and spins, which blocks all new readers.
-3. CPU 0 is interrupted by a softirq (e.g., TCP URG packet reception).
-4. The softirq calls send_sigurg() and attempts to acquire
-   read_lock(&tasklist_lock), deadlocking because CPU 1 is waiting.
-
-Since PID hashing and do_each_pid_task() traversals are already
-RCU-protected, the read_lock on tasklist_lock is no longer strictly
-required for safe traversal. Fix this by replacing tasklist_lock with
-rcu_read_lock(), aligning the process group signaling path with the
-single-PID path. This also mitigates a potential remote denial of
-service vector via TCP URG packets.
-
-Lockdep splat:
-=====================================================
-WARNING: SOFTIRQ-safe -> SOFTIRQ-unsafe lock order detected
-[...]
-Chain exists of:
-  &dev->event_lock --> &f_owner->lock --> tasklist_lock
-
-Possible interrupt unsafe locking scenario:
-       CPU0                    CPU1
-       ----                    ----
-  lock(tasklist_lock);
-                           local_irq_disable();
-                           lock(&dev->event_lock);
-                           lock(&f_owner->lock);
-  <Interrupt>
-    lock(&dev->event_lock);
-
-*** DEADLOCK ***
-
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
-Signed-off-by: Mingyu Wang <25181214217@stu.xidian.edu.cn>
----
-Changes in v2:
-- Also apply the RCU replacement to send_sigurg() to fix an identical
-  deadlock vector triggered by TCP URG packets.
-- Add Reviewed-by tag from Jeff Layton.
-
- fs/fcntl.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/fs/fcntl.c b/fs/fcntl.c
-index beab8080badf..92d643a14196 100644
---- a/fs/fcntl.c
-+++ b/fs/fcntl.c
-@@ -929,11 +929,11 @@ void send_sigio(struct fown_struct *fown, int fd, int band)
- 			send_sigio_to_task(p, fown, fd, band, type);
- 		rcu_read_unlock();
- 	} else {
--		read_lock(&tasklist_lock);
-+		rcu_read_lock();
- 		do_each_pid_task(pid, type, p) {
- 			send_sigio_to_task(p, fown, fd, band, type);
- 		} while_each_pid_task(pid, type, p);
--		read_unlock(&tasklist_lock);
-+		rcu_read_unlock();
- 	}
-  out_unlock_fown:
- 	read_unlock_irqrestore(&fown->lock, flags);
-@@ -975,11 +975,11 @@ int send_sigurg(struct file *file)
- 			send_sigurg_to_task(p, fown, type);
- 		rcu_read_unlock();
- 	} else {
--		read_lock(&tasklist_lock);
-+		rcu_read_lock();
- 		do_each_pid_task(pid, type, p) {
- 			send_sigurg_to_task(p, fown, type);
- 		} while_each_pid_task(pid, type, p);
--		read_unlock(&tasklist_lock);
-+		rcu_read_unlock();
- 	}
-  out_unlock_fown:
- 	read_unlock_irqrestore(&fown->lock, flags);
--- 
-2.34.1
-
+On Fri, May 22, 2026 at 11:20=E2=80=AFPM DaeMyung Kang <charsyam@gmail.com>=
+ wrote:
+>
+> get_nr_free_clusters() allocates a temporary file_ra_state before it
+> publishes the precomputed free cluster count, sets NVolFreeClusterKnown()=
+,
+> and wakes vol->free_waitq. If that allocation fails, the worker returns
+> without setting the flag or waking waiters, so callers waiting for the fr=
+ee
+> count can block indefinitely.
+>
+> The readahead state is only used synchronously while scanning the bitmap.
+> Keep it on the stack and pass it by address to the readahead helper. This
+> eliminates the early allocation failure path instead of adding a special
+> case that publishes a conservative count and wakes the waitqueue.
+> Zero-initialize the on-stack state because file_ra_state_init() only sets
+> ra_pages and prev_pos.
+>
+> Apply the same treatment to __get_nr_free_mft_records(), which scans the
+> MFT bitmap with the same short-lived readahead state.
+>
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
