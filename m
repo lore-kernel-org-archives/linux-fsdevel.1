@@ -1,70 +1,74 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7407E38C43A
-	for <linux-fsdevel@vger.kernel.org>; Sun, 24 May 2026 05:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B81438D017
+	for <linux-fsdevel@vger.kernel.org>; Sun, 24 May 2026 05:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779601364; cv=none; b=eXf+dATpGYuES5bR6NskiVgGms62e/YWecucdw2j4XKz7mR2HDa9Mhrptkpr1uCBAx8+xMgWbKDLg+Vch7gWeKAKiRsXvpe7u8N/36GO32EdEKLeRyWDOG4r+75Oiw2JuNSutbzag3hMy03nDGlQHDLze99wCG+ANoZaQIcaDOQ=
+	t=1779601368; cv=none; b=aaQ4Jx3zYuy7bkK3vofj5C7ZbAH5b/zvkIBBrjNldOUsMoKOexEushkfqXyxlMnhj8pgTKgRp/AyPwnZffNAlaJ6Xoi+PSHMqL0JIpMXTfG+lZbx20H59mLy9V1oSmAYTokP34IESN3sGCwm5rpHPtQpaE5ibAmu/Zj1X9+nYkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779601364; c=relaxed/simple;
-	bh=Ti5GvbkYwaAffhoeYiZD73NE7JcXjbytKkqymnbnNQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ommmiYH4jhPjcImytuF0f+B+iIViyWV5FETxLAUoBJ/rclkeyZg36Sz9Qibmo4jgGYIa96EQz/zoYGvFq1C4flC9ey01S96FZhK1plVyxX22UVIcXLKcAilG9NsMPmu1ol0FXXZuuxoka6fG4sYl0+j/wlVhMyvn/iAvVBE3qOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gqh/Fwtd; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1779601368; c=relaxed/simple;
+	bh=G9Y04Vr5T7wG0e0exZw7O24VZHQbDNIe+7kN4TkOKKE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lRQneowNuRR2wSxrPeKcLHMf916S5UDE+RYVXFz1pomySXLM2mF2hTprWMvZDVg09gSNvPoli7lsOZ+axJSTW9PetbINp5jZthPjb5WHzcU20KEpgdxPIXNZlQ7VTw1vN/YpGsNIPkkfIL0YDVrhoQZ1ny+rGzhfo3qXONairWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQQI7+Ou; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gqh/Fwtd"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-83d53f307fdso275998b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 22:42:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQQI7+Ou"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c8239019aa5so439065a12.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 22:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779601363; x=1780206163; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zKOJKUVJqikD8CWHHN1/XXpyj4T5Xht33Le352Q8zWg=;
-        b=gqh/FwtdZU/s05fMmIIjYYkWK6m+Cm1uiYsdrhWs8axqb4/nvsG6zZI4Qg0VRmKpmB
-         49O7aZdHVA+B/qjTCTuqc6RT+s18GjaMnkReORInUCA+Mjg9Jy+k5CGSdaBz+l7jAZ4q
-         qQrKuU0Xi606Xg5qxot9lBTrIKgzbbJ73c8ERYozLI8S0qEBkbMNr3A34umtkLSNyiH4
-         2ArHvSOmIgYGTaFGFgtx/Nz8cncyqGqQSZ2Ngs9MdfPEoUs0yqYxWIFXq5h7ffOlDkbR
-         hLHMWDw7WL9MMfeC2CYjmIEExrxf3VmkNxY5dOxa/J9WqABJo85fisSvXTKBxtg/PHfc
-         hR3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779601363; x=1780206163;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779601366; x=1780206166; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zKOJKUVJqikD8CWHHN1/XXpyj4T5Xht33Le352Q8zWg=;
-        b=Nf1LA/iYcs1DxyAdlApoJmd4wxWvwOnd/hgEaccve5ORvRG1mTBgnsJMXEz+uTVI/e
-         o7R16eVJBTV/AVVzect6FwwYI1uiv/I5porO+24rtBA/E9Eyxe2aWRfqwli9CDJOkyEu
-         K56vzmy+n7Mis7PvgKAUxtg0jKre0NRbsa8G2jLW+mXgO83aF8b/6Fmw9wohU7/R3Wed
-         QyK9AA1QnVGnXSzyGNTcta+bknEzJWbMv+Ff2Yg6Nz76PfCPy27dE8gdKtOB98XUaUNN
-         ANRaAdzftMfd1bexTIQk9xMNLDpOj62WZII1QlXYpOvbPhxiCwz5RktADRGexoum3FDF
-         1ukg==
-X-Gm-Message-State: AOJu0YzaFGa8eHoJQVFvI0DuX02IY5zC8/BUkjj8RYCTPee2d2LNvFth
-	X/qNFiOb8ceZWJuG7I6d0G5LUlRekUEGcApIFrWsSibKb+I4R7BYjyQK
-X-Gm-Gg: Acq92OGgS00HHVvXHgy3VfxMwJuxtt2YJdrdehosSfXcNUu89kB67V2DSiC+IFIu5VP
-	aBuOzlrcvo0jUEvVfjNbormy/I+vAAzpNIKycozYvyQOSHnVBISFst324CXfRssDBklczR0/ghV
-	+Iqjf5bqaf6pai3WPN7mDX8pLJxMBab98DMyHOhh0n3sr8e8W7Y9mHWATaJ1D9e4BoQpxbSI9qL
-	IsdczU3fYBmqKQOwM1InrX2lPT094fVHAo2kshyFuWww5lhpSgpSapUlSWViWgiir//Skrj3tIV
-	dU6K9LhaXzTmRRrSfcLStwTGeh9NCxIgFavszQZI17mr8DYaWqWai8uSHnmdDo7KD7h+BDRFX9j
-	mjKGE7/bfK/sqNNG6eDYzYnA+47HitpaY1/F596uvOb/cS8+0bL9Z8n1m/vIQVs1i6xvn9BcFPw
-	WrzacPvWTbWPuskLNm
-X-Received: by 2002:a05:6a00:2d07:b0:835:443e:4be5 with SMTP id d2e1a72fcca58-8415f40ccf0mr5094708b3a.1.1779601362790;
-        Sat, 23 May 2026 22:42:42 -0700 (PDT)
+        bh=meZqVzUjollE5pQHgO4NuBh2AucH33iC2AvQiTWocGU=;
+        b=XQQI7+OudhC48bK0xUwCBtW/fRfD6gU4g5iD8YVP3xzUsyYP0Cfl7jxCjpnPFCvr/Q
+         66ctAcynCaBoS5FleM4a1FsBke6/FtuVsh6jgZXxFuJJaf+QwSS9YaqnynNQWCZP43z9
+         oNaNI1lqajSjOh56CYhx/ap6yrjuAy/hcY0xMIrDpx611RXGDV6FkkipkOKoY6qBEgEA
+         sQCHdGntFbb8Bz5gabvE3tUeM/4IjdCp8/kyTzTp0FrZ9MmBQEuujUnbi906RTTuPH5S
+         ep7TAtiT+2JjkvPz+kabzPgYwI1LPyv00GosD7GLqlANw2fFg3fU9rdtViJy88aJOPHZ
+         v+aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779601366; x=1780206166;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=meZqVzUjollE5pQHgO4NuBh2AucH33iC2AvQiTWocGU=;
+        b=E0eUqyr6eDsLCIOrATC+NrcOvc0ey2P9HOvgCEldsvG4RVJf9Z4JjxP52ISb/MgmDe
+         n+po9TzNvu0CvNxbJUPSNPNQexH861LWePlbf047L3Bqmk36F4QkiqxMVHDeN8o1OoBC
+         VhZlVLOjIKARkhFRPPwamBP+/y75Ap0BZDfIJSISIEPP8YQ7q5IMv49BAiXL6AHr5rx6
+         aV5sWz9/ZgGZNpNLkgl11UxMOuxPlYEgC/htI8ze8GVfpkzx/2QAQxyl5sm/Y3jiI20G
+         H4BeRp/Nzva937Ry8JzuiaO8yDeyEtKtpqI+dVMH97ZgjHKWE96vRiRGbeVESGBqQEcW
+         Qhig==
+X-Gm-Message-State: AOJu0YxO7qvEWBThSuzSEtcRV5eiEEeE9HfVNcQY8AkmLaCuxk/FTYt0
+	EOtiH9n8Os/deOGxe/RJMsSksQzWOYqs/cBF9iEgIKw23blAoOgH+UrY
+X-Gm-Gg: Acq92OEzfmIWgBhmQk/Nv9psmXhxj6KUIIW2hWNkswKnSZPjb+y8qJLstLQVZMgSsn3
+	3+faYvZmfzHc39iDSACz3zBo97T3jiWtwES9sjgWjFj/0aZq5kEXnD9E7/Lzb/BEpwihrZP+e/4
+	U/J2yBxZnyuYJzNl89l3yMUKjzECm9PcAZJvonf7LB/rl8eEn10bscz0Qh/HgRG+6rCSjGh6L97
+	qDGQ16cgcU9mifJByG05ed1aNy1kEawoC/XlH+f8uXuukzMFQ0w8wCi0shrazDiw+RJDJGhx2R8
+	ObBbwjbnEo38a4aya5LNY/kWTT9MI/Z1EtN5el0YAmFXkwRijTMaVxkRIiVqrLyJ+ZeXsYl8y3h
+	3lpAXL763pAo+MZXZchw81kOL+zxcF+PZfGVVbJe5wYfwBOyKfvNSHWJOsvGcBoaHiVRHDffTLF
+	YLy1VWhxterjP7AHAg
+X-Received: by 2002:a05:6a00:2d83:b0:835:36f2:7332 with SMTP id d2e1a72fcca58-8415f0d7b2dmr5242919b3a.2.1779601366503;
+        Sat, 23 May 2026 22:42:46 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164ff7d80sm6726848b3a.56.2026.05.23.22.42.41
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164ff7d80sm6726848b3a.56.2026.05.23.22.42.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 22:42:42 -0700 (PDT)
+        Sat, 23 May 2026 22:42:45 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH 0/2] ntfs: fix link name free and $FILE_NAME validation
-Date: Sun, 24 May 2026 14:42:36 +0900
-Message-ID: <20260524054238.3129288-1-charsyam@gmail.com>
+Subject: [PATCH 1/2] ntfs: free link name from ntfs_name_cache
+Date: Sun, 24 May 2026 14:42:37 +0900
+Message-ID: <20260524054238.3129288-2-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260524054238.3129288-1-charsyam@gmail.com>
+References: <20260524054238.3129288-1-charsyam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,33 +77,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series contains two independent fixes for fs/ntfs.
+ntfs_link() converts the new link name with ntfs_nlstoucs() using
+NTFS_MAX_NAME_LEN. In this case ntfs_nlstoucs() allocates the result
+from ntfs_name_cache, and its contract requires callers to release the
+buffer with kmem_cache_free(ntfs_name_cache, ...).
 
-Patch 1 corrects ntfs_link()'s release of the new link name.
-ntfs_nlstoucs() returns a buffer allocated from ntfs_name_cache, and
-every other namei.c caller releases it with kmem_cache_free(); only
-ntfs_link() used kfree(). The conversion failure path is also adjusted
-so the common out label is not reached with a NULL pointer that would
-hit kmem_cache_free().
+All other ntfs_nlstoucs() callers in namei.c do that, but ntfs_link()
+uses kfree(), which mismatches the allocator for successfully converted
+names.
 
-Patch 2 validates that a resident $FILE_NAME attribute can actually
-hold the variable-length UTF-16 name implied by file_name_length.
-A crafted image was reproduced under KASAN as a slab-out-of-bounds
-read from a kmalloc-1k MFT record copy through ntfs_attr_name_get().
-The validation is added before ntfs_attr_find() and
-ntfs_external_attr_find() return the attribute, covering both the
-AT_FILE_NAME and AT_UNUSED enumeration lookup paths.
+The conversion failure path reaches the common out label with uname ==
+NULL. That was harmless for kfree(), but kmem_cache_free() does not
+provide the same NULL contract. Return directly on conversion failure
+and free successful conversions with ntfs_name_cache.
 
-The two patches are independent and can be applied in either order.
+Fixes: af0db57d4293 ("ntfs: update inode operations")
+Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+---
+ fs/ntfs/namei.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-DaeMyung Kang (2):
-  ntfs: free link name from ntfs_name_cache
-  ntfs: validate resident file name attribute length
-
- fs/ntfs/attrib.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- fs/ntfs/namei.c  |  5 ++---
- 2 files changed, 48 insertions(+), 3 deletions(-)
-
+diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
+index c4f82846c58c..9c1c36acfad2 100644
+--- a/fs/ntfs/namei.c
++++ b/fs/ntfs/namei.c
+@@ -1532,8 +1532,7 @@ static int ntfs_link(struct dentry *old_dentry, struct inode *dir,
+ 	if (uname_len < 0) {
+ 		if (uname_len != -ENAMETOOLONG)
+ 			ntfs_error(sb, "Failed to convert name to unicode.");
+-		err = -ENOMEM;
+-		goto out;
++		return -ENOMEM;
+ 	}
+ 
+ 	if (!(vol->vol_flags & VOLUME_IS_DIRTY))
+@@ -1563,7 +1562,7 @@ static int ntfs_link(struct dentry *old_dentry, struct inode *dir,
+ 	mutex_unlock(&ni->mrec_lock);
+ 
+ out:
+-	kfree(uname);
++	kmem_cache_free(ntfs_name_cache, uname);
+ 	return err;
+ }
+ 
 -- 
 2.43.0
 
