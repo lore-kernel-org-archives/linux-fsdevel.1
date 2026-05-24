@@ -1,83 +1,70 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E432EBB8D
-	for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 20:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7407E38C43A
+	for <linux-fsdevel@vger.kernel.org>; Sun, 24 May 2026 05:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779568902; cv=none; b=awWaI9D/4X88Cm+R8nweBDMogEr1n5TkWLNKi+jUYC4UC75Rxe0vO8QbKO8VGal4kvpFd6hr2lZ9LBfbsicfH193M6dTwkoXELzY6LuLSn3vQ68MzqK1MuFmcQOkWg7lejwgpo+b+yOoLwdVww8w6DEShWnpiRCP1EZpvmzEEHc=
+	t=1779601364; cv=none; b=eXf+dATpGYuES5bR6NskiVgGms62e/YWecucdw2j4XKz7mR2HDa9Mhrptkpr1uCBAx8+xMgWbKDLg+Vch7gWeKAKiRsXvpe7u8N/36GO32EdEKLeRyWDOG4r+75Oiw2JuNSutbzag3hMy03nDGlQHDLze99wCG+ANoZaQIcaDOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779568902; c=relaxed/simple;
-	bh=ZDowhp0fPqZxjLyKA6nsScPxx0UPG3aBQPVBz7pM13k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e/rLOfBftlS8S97oTGuUem1tVh8dRclN3oSkojuOF/QSgFAl03qVpT7zTe6g/Lia/KtzW3ZvkS0dhLIcCVPqmdNwCtNpNfF0pfEyfkdubhnYIgCcU8/uRn57XNtQVdg2sBsm6h5TkOU4AeRl2a7kj8u6OSjUGMmfoNYNAdZ1jCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEey0zje; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1779601364; c=relaxed/simple;
+	bh=Ti5GvbkYwaAffhoeYiZD73NE7JcXjbytKkqymnbnNQM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ommmiYH4jhPjcImytuF0f+B+iIViyWV5FETxLAUoBJ/rclkeyZg36Sz9Qibmo4jgGYIa96EQz/zoYGvFq1C4flC9ey01S96FZhK1plVyxX22UVIcXLKcAilG9NsMPmu1ol0FXXZuuxoka6fG4sYl0+j/wlVhMyvn/iAvVBE3qOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gqh/Fwtd; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEey0zje"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49041e84237so16023495e9.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 13:41:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gqh/Fwtd"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-83d53f307fdso275998b3a.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 23 May 2026 22:42:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779568899; x=1780173699; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bNf7CFkgwF1rfbyNmnV/eQce4TyQWDhVxKWrw1dKd7E=;
-        b=cEey0zjeHiEJzJmAYhGDpVwRE5q4kPPUsLVkgR+gb5HIAY7YTDnR8EOfdfWjWIMtUQ
-         FhY5jOJK1L3/mnitQ3IzLdA7RvX5+17Zlx/kHH3xtynr5ML9IbvuleVjeI6joM98bCOC
-         yWhKdy1XqWQDU/7zrBZ3nSm6LPNplC4VgU4eMGfi5OBmQpP1dXzvkIMg6qmJHijSIg+F
-         qkWWbs9bg6YpAicPmjuntX6Aewg5mO6vVT/wmB2JlUxOS/ARIKG1zK71BWq17es4DkUZ
-         nTQ5MOErJYtHq4o2s7U1eDedJkREZfiZJLDg9BiRMD+ecA6urwu8c7t9HSyx5t64c2Lo
-         2FNQ==
+        d=gmail.com; s=20251104; t=1779601363; x=1780206163; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zKOJKUVJqikD8CWHHN1/XXpyj4T5Xht33Le352Q8zWg=;
+        b=gqh/FwtdZU/s05fMmIIjYYkWK6m+Cm1uiYsdrhWs8axqb4/nvsG6zZI4Qg0VRmKpmB
+         49O7aZdHVA+B/qjTCTuqc6RT+s18GjaMnkReORInUCA+Mjg9Jy+k5CGSdaBz+l7jAZ4q
+         qQrKuU0Xi606Xg5qxot9lBTrIKgzbbJ73c8ERYozLI8S0qEBkbMNr3A34umtkLSNyiH4
+         2ArHvSOmIgYGTaFGFgtx/Nz8cncyqGqQSZ2Ngs9MdfPEoUs0yqYxWIFXq5h7ffOlDkbR
+         hLHMWDw7WL9MMfeC2CYjmIEExrxf3VmkNxY5dOxa/J9WqABJo85fisSvXTKBxtg/PHfc
+         hR3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779568899; x=1780173699;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bNf7CFkgwF1rfbyNmnV/eQce4TyQWDhVxKWrw1dKd7E=;
-        b=qMHnq0G1a6EpapoYZt8CWrdg+oPnhEhUw9V1bpnfC2Q2RxQRfDc+4Nx25lS3zhN81S
-         PVGq0jy1q2WGLUa/zv0Yqw4XzNEVHPx95+nWeznbTmn0NQ3gWy53jdWjj87OLREFeoUa
-         012WvoWfJBAILqwDsBoEyR7ArjfGspgdpmUtIspZ7+RIteKAQlXxXFMBUbeYDYZ7D5j9
-         SQJh2h/KbiEB+VZXxZBARhuZm2EV90luCV84oqRMSOl4fzigBFGfcPGerzR+X5v6J3Sx
-         ++8rHyua82Nneh4nWRz/lWqmoPIqnBdWydFrMAczr2ySC7dUUjjhJufdRLhWW3pu0hPi
-         FWoA==
-X-Forwarded-Encrypted: i=1; AFNElJ9yYlwSLMEJe/tB2db78Ly2SfUYqSURWfdkQQD9s2jyKdG6XZz7VvlSSiC2wd4RTSSFAqWiNBAVIG55VNvg@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcwJ4zIAp25T5fic6k8klbo1pTzER27llE8HQ0TbFFuJbFf3yj
-	FTdfvDPpTedM9F8KkjyZcKv30c49V5wlBGUyPbMwtqfQdhpgrg+jTvp/
-X-Gm-Gg: Acq92OFDSFhWdRXIAm3gp/dXBMZ3iYgjW+3yIuSns1mA0rvidSysww+l0y7JPX65r7k
-	pqo4iqqeRWVSEjKVms9Z330dy71qby6jCg6HKI16ZI6t9zVLRIIBXnsGRZzdSKwrRxvNrCUMJ1J
-	3Oy/J6dd2pgUzRC4vmPH07kJsMHXZBVVU5I7n0oIarTIp4NTsg412YuKsbLF0I2bIzRdy/4Ioyv
-	mpKGNRrpat66rjZ98IWIHEtghyN2EvIJmNqLoo8kCnqDg62zk9niBjBpQ2fP2PS0j73yvbZezO2
-	SLLb9a3GZOhMW+q317OzVf4x/g0pfGrfCbQyHHlq7rYyt/lGnWOrtuvvqGe8m0xfgI5Om4Ryuc0
-	ROSX1zRZKjNzXzUlx/9ErWQ3U0Q79wKhtHQNdEA0ntCHPcURnpPKn+yaLfaDvRimgFs1k7q0MJV
-	CRhx5oNZQT83e3DNMrhLRrPEHd/bljezB8Os9H9/rq
-X-Received: by 2002:a05:600c:4746:b0:490:3d48:6cb9 with SMTP id 5b1f17b1804b1-4904225f7efmr126899095e9.3.1779568898911;
-        Sat, 23 May 2026 13:41:38 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49059fb42dasm16015385e9.7.2026.05.23.13.41.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 May 2026 13:41:38 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: brauner@kernel.org
-Cc: axboe@kernel.dk,
-	jack@suse.cz,
-	jannh@google.com,
-	kees@kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
+        d=1e100.net; s=20251104; t=1779601363; x=1780206163;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zKOJKUVJqikD8CWHHN1/XXpyj4T5Xht33Le352Q8zWg=;
+        b=Nf1LA/iYcs1DxyAdlApoJmd4wxWvwOnd/hgEaccve5ORvRG1mTBgnsJMXEz+uTVI/e
+         o7R16eVJBTV/AVVzect6FwwYI1uiv/I5porO+24rtBA/E9Eyxe2aWRfqwli9CDJOkyEu
+         K56vzmy+n7Mis7PvgKAUxtg0jKre0NRbsa8G2jLW+mXgO83aF8b/6Fmw9wohU7/R3Wed
+         QyK9AA1QnVGnXSzyGNTcta+bknEzJWbMv+Ff2Yg6Nz76PfCPy27dE8gdKtOB98XUaUNN
+         ANRaAdzftMfd1bexTIQk9xMNLDpOj62WZII1QlXYpOvbPhxiCwz5RktADRGexoum3FDF
+         1ukg==
+X-Gm-Message-State: AOJu0YzaFGa8eHoJQVFvI0DuX02IY5zC8/BUkjj8RYCTPee2d2LNvFth
+	X/qNFiOb8ceZWJuG7I6d0G5LUlRekUEGcApIFrWsSibKb+I4R7BYjyQK
+X-Gm-Gg: Acq92OGgS00HHVvXHgy3VfxMwJuxtt2YJdrdehosSfXcNUu89kB67V2DSiC+IFIu5VP
+	aBuOzlrcvo0jUEvVfjNbormy/I+vAAzpNIKycozYvyQOSHnVBISFst324CXfRssDBklczR0/ghV
+	+Iqjf5bqaf6pai3WPN7mDX8pLJxMBab98DMyHOhh0n3sr8e8W7Y9mHWATaJ1D9e4BoQpxbSI9qL
+	IsdczU3fYBmqKQOwM1InrX2lPT094fVHAo2kshyFuWww5lhpSgpSapUlSWViWgiir//Skrj3tIV
+	dU6K9LhaXzTmRRrSfcLStwTGeh9NCxIgFavszQZI17mr8DYaWqWai8uSHnmdDo7KD7h+BDRFX9j
+	mjKGE7/bfK/sqNNG6eDYzYnA+47HitpaY1/F596uvOb/cS8+0bL9Z8n1m/vIQVs1i6xvn9BcFPw
+	WrzacPvWTbWPuskLNm
+X-Received: by 2002:a05:6a00:2d07:b0:835:443e:4be5 with SMTP id d2e1a72fcca58-8415f40ccf0mr5094708b3a.1.1779601362790;
+        Sat, 23 May 2026 22:42:42 -0700 (PDT)
+Received: from ser8.. ([221.156.231.192])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164ff7d80sm6726848b3a.56.2026.05.23.22.42.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 May 2026 22:42:42 -0700 (PDT)
+From: DaeMyung Kang <charsyam@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	mjguzik@gmail.com,
-	pfalcato@suse.de,
-	viro@zeniv.linux.org.uk,
-	David Howells <dhowells@redhat.com>
-Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with read-only files
-Date: Sat, 23 May 2026 23:41:00 +0300
-Message-ID: <20260523204100.553125-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <177918418452.771415.4371785688744608623.b4-reply@b4>
-References: <177918418452.771415.4371785688744608623.b4-reply@b4>
+	DaeMyung Kang <charsyam@gmail.com>
+Subject: [PATCH 0/2] ntfs: fix link name free and $FILE_NAME validation
+Date: Sun, 24 May 2026 14:42:36 +0900
+Message-ID: <20260524054238.3129288-1-charsyam@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -86,35 +73,33 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Christian Brauner <brauner@kernel.org>:
-> Let's discuss the other aggressive alternative: Can we try and
-> unconditionally degrade to copy. This would affect sendfile(), splice(),
-> and vmsplice(). Worst-case we would have to introduce the sysctl
-> retroactively.
-> 
-> Thoughts?
+This series contains two independent fixes for fs/ntfs.
 
-I think as a first step we should make vmsplice unconditionally equivalent
-to readv/writev.
+Patch 1 corrects ntfs_link()'s release of the new link name.
+ntfs_nlstoucs() returns a buffer allocated from ntfs_name_cache, and
+every other namei.c caller releases it with kmem_cache_free(); only
+ntfs_link() used kfree(). The conversion failure path is also adjusted
+so the common out label is not reached with a NULL pointer that would
+hit kmem_cache_free().
 
-vmsplice already was problematic from security point of view long time
-ago. I mean CVE-2020-29374 (see https://lwn.net/Articles/849638/ ).
+Patch 2 validates that a resident $FILE_NAME attribute can actually
+hold the variable-length UTF-16 name implied by file_name_length.
+A crafted image was reproduced under KASAN as a slab-out-of-bounds
+read from a kmalloc-1k MFT record copy through ntfs_attr_name_get().
+The validation is added before ntfs_attr_find() and
+ntfs_external_attr_find() return the attribute, covering both the
+AT_FILE_NAME and AT_UNUSED enumeration lookup paths.
 
-David Howells also doesn't like vmsplice:
-https://lore.kernel.org/all/1763225.1769180226@warthog.procyon.org.uk/
+The two patches are independent and can be applied in either order.
 
-Linus said in 2023:
-> So I'd personally be perfectly ok with just making vmsplice() be
-> exactly the same as write, and turn all of vmsplice() into just "it's
-> a read() if the pipe is open for read, and a write if it's open for
-> writing".
-https://lore.kernel.org/all/CAHk-=wgG_2cmHgZwKjydi7=iimyHyN8aessnbM9XQ9ufbaUz9g@mail.gmail.com/
+DaeMyung Kang (2):
+  ntfs: free link name from ntfs_name_cache
+  ntfs: validate resident file name attribute length
 
-Even experts get vmsplice wrong, as can be seen in this thread:
-https://lore.kernel.org/all/CAAUqJDvFuvms55Td1c=XKv6epfRnnP78438nZQ-JKyuCptGBiQ@mail.gmail.com/T/#u
-As you can see in that thread, it is very hard to understand what vmsplice
-man page supposed to mean. And you can also see that vmsplice is very
-fragile.
+ fs/ntfs/attrib.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ fs/ntfs/namei.c  |  5 ++---
+ 2 files changed, 48 insertions(+), 3 deletions(-)
 
 -- 
-Askar Safin
+2.43.0
+
