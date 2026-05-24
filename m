@@ -1,72 +1,62 @@
-Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A726F1FB1
-	for <linux-fsdevel@vger.kernel.org>; Sun, 24 May 2026 10:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5031E1FB1;
+	Sun, 24 May 2026 10:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779618344; cv=none; b=JtcLLSMZQKaDcVt7C2jl7CdILniXdKUmswGlh6QJF0UQrCAEeEK6q7ux/V9ph/PE0QxgQs2blFcT22gV4wPk76psF0pjOf8SnMurwCAS6OZGfLz/IN+C2UTmeADUUOiDkrS0pT2Vu/pyLYph6jDHco89I8Rt5ButQ7bTj4tX6Ww=
+	t=1779618496; cv=none; b=B8pUxhldnBSt7OXPSHswfQ8pUJJVWlpLW7/Wzvt7m6tANyjQItbjXZjXBziyA6BeBI0DNU7X83j0M1nWJ8iyK1mrSZzFUXO6StMW9ODxujL2hGF28TNiBg8fWM5YPbTfLIbhL7yi5+zyI3He4G0V9avAeHmicvTArVOO3LRXC7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779618344; c=relaxed/simple;
-	bh=Zkwe+FHjTnwCvOOjOCEzpofz4/XYgwXRVgWyjO2nKVk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z2T7e1lesBJh5aBzgJDq4SDqsCdMPhMyJSrbpifoMvkBE7jpFVtNpqRHosxpD9XCgse94X/oS03E8iuYbdTDqsj0JaUxo5eauD2dbnb8tD+e6WdTQkbns2lZjM2TAvSH1STxkU/+36vqH8+AUq60EGRU7wiKlFoyCRgJX62o8Fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DFDzvWhY; arc=none smtp.client-ip=74.125.82.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779618496; c=relaxed/simple;
+	bh=Xb3AIuA6w17BTO2YqXiZP2hbyLk641gzWXXjki+KnKY=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=nZNLsYghHHii8QLQO4Pde3RDVFdk146V/b9pxOEct7E6r003fnPt6an7XWZLPAgcaHFV5LcGr1LMyKQSLk3wloMhBpvnkciTbCGBujQdy4u1XsdIDYbPSUo1zQvOdQsYREUKYqleR1DIr7AKNoL3H5hUUi8ZR/8/iciQctQSI7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=ZuiE4kSk; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFDzvWhY"
-Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-13621cca8f5so6424459c88.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 24 May 2026 03:25:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779618343; x=1780223143; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yt4h7VRnlzFq8oh7lDYohLF9u5YnnKlteE8zE4IEGK4=;
-        b=DFDzvWhYpsETc1F/mjRXzw2yPBo5ZSdkqimCKnMJOkveMvNnMAk2bVonsxANO7MSac
-         3loo223Q1gHZgDDu9AzesTCx9FgakTaMdd4oOtXsYsbbENBfqbPvcHq5Zl0Jm5POlzY8
-         kekoUIDk+3GR1/QCVvKPSE65gb3wv356SsjX9h/wK1vEn8PiveK7/6lJ6zZTuaR7nO5B
-         PVEBhJKlWoWh9N7712l6a+CSyK5sOgfCzH3Nq1JPyebX39ZIK9XgA3sx4iQ9GWMpUumi
-         +OLZwCHuajfLTyjQ8eHTz1mSkHr5r6xk+pc7YfjIzsZdTUlvBIHdeymIYY+RBVeooapY
-         BdlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779618343; x=1780223143;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Yt4h7VRnlzFq8oh7lDYohLF9u5YnnKlteE8zE4IEGK4=;
-        b=jXz/haZf0sILaL5ti3eR0vPRnqf09GR18Y/HDCVLXoA+ACL8ga+ihFglJxqqokzojw
-         o/cG+EXSy8639p2aFzw2Sw6a0RLbiJCPlet6B+Cb2TPEUgRozQTDfC5C3SdBSKSZki5k
-         d6iWawQ5wQkALBGLIoQ0JW36tLa05hL1acZUprA5VBJWibzKgEXeP8SAIvblV5uaslZ5
-         ESO1heqOzS/cLiHkF3khUE5RoZzWX0NiaVcabXFFW8JuYM/ajRl0IXBgXfN68/PLNKv8
-         I1Od621kdt11j4CAy9lg4wYvddHo8eeWfD8N9P1lMw0zVRPHL2MIiuSf2P+eFrWWQ9ZF
-         vpWw==
-X-Forwarded-Encrypted: i=1; AFNElJ/EocMeRUFSzZPmFBcJckHn0YfMAgeNY7wOMmjBVwRGMWa59uYcwtkBnP2/UClaJq772o1nkWeYw2w1mGCl@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmeVtCzzkTWBQIGAxlZX/7OpT/rRZvkbgmrM84MCuHQlqJgswz
-	4+L5uF722nhScRjNhrLW7yCEuR/KgboAO2Y87edDnyt73sPP7RaKE2eD
-X-Gm-Gg: Acq92OGdm+shnKPbn2745OScpvHJ9yHkD619babFht0jqP3wgLBpT18RTt9cDegim5J
-	BKy2VVzQg4m+RlbMDTEf2RfjEkY8K0XkUcriyFG2vYoqdtNz7031JzU2I5Cugde9IrQE5sGBsX4
-	0dY5dHINNRRADc8Dnjl2L7Cw47vEdM+rbUwifv5bz0Bkm4z0lCL29fzu/NiMWz8PdA0TeG4TrJN
-	1S0UWeioCOsn1Vo9RtG66sukj9rMjV6XWojk5jBYHtDzD9nkAO3rkpEhSRa2zpFULGGSAG5eNNI
-	/ENSOrcKlcNTHHBJPNU9KFnXF90LdycCSR1HHCXXggZb9LTEvHx1oUM0g5Dk2F279skzZiHG7bC
-	0zqPjZf7xJD2XYm80SGVngQ2IIXLDYk1dmCaOboJzVKE7Re6dDtdpjB9eHcTvMZue3ZMhoINOGy
-	qR3wnesoy5DoVoj0UnxLE=
-X-Received: by 2002:a05:7022:6726:b0:133:1ba6:f42d with SMTP id a92af1059eb24-1365f812ee4mr4507328c88.3.1779618342713;
-        Sun, 24 May 2026 03:25:42 -0700 (PDT)
-Received: from anonyme ([2605:52c0:2:2f27:be24:11ff:fe89:6f0f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1366aa88cffsm3847216c88.11.2026.05.24.03.25.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2026 03:25:42 -0700 (PDT)
-From: AnonymeMeow <anonymemeow@gmail.com>
-To: jack@suse.cz
-Cc: amir73il@gmail.com,
-	repnop@google.com,
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ZuiE4kSk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1779618482; bh=9PnlQJZqYOeJVAOHUkjCwwX3UOWTdgUchO08xYvFH3Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ZuiE4kSkBQi4hh65fHWGXiTNZTD25UpU4ld4Hg1kMsEJ3dVSl81NjJMz6d28mloPu
+	 qg28oXyoGnrt5uRvvgkt1cTm9l0HO3Y8ui1UanxBcnRYFTA5qbq3EfD4mYWFK5NBO2
+	 d9WAOC1+ZKYst5nxbyMqP4mZXO7iZi7mXIi/K5FI=
+Received: from lxu-ped-host.. ([111.198.231.89])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id 6FB2382F; Sun, 24 May 2026 18:27:59 +0800
+X-QQ-mid: xmsmtpt1779618479t8d9aawwh
+Message-ID: <tencent_C65896BCE9C2EEE2CCF078666E102DC56D0A@qq.com>
+X-QQ-XMAILINFO: N/WmRbclY25G2uGFb4f/iol6kckihl2viM6jNMoyzLNTaOlfS1ufgrtXdMGKNQ
+	 bXTlTpiPOw6BaQqhudgjoL1pCU0VFEeXxgGKvrmJNLe9zLUmESIwiUw5nfmIrEdqs6+IRBQjWPLF
+	 N1bp2l3e0yapKXY5VWAMrQYr6dbskSfOAyK9dFiJBdBh0gp3Lwpctb0hW4bumiZctmbwbsf0O7CY
+	 UxXlcphRK27ycHf1qAebuQal83+RA56SSuXtS6KKOeTqjbj0ztvOzi1hLJTlxHfVZEdsVIuZSVm3
+	 GzE0iy3c1ypPLfEfY5goJF/YHSl8qpIeQUGKQg1b1R0QMeJLjN3we8Dn8Iwa7bgSzCGMjQ44ALbk
+	 0apYi2oxnieaG1dMRsSl5N9wX594UVSnD4QzxosNxODByN6VcsfN1TEVfGa0MtrZqFo2PGR4VeG7
+	 hNp3Ut/ISUYn2Fd2LTGUM3o901RoEJSk55Z9CUuB0QEdRgWH8eRqzCP0amsQy9YI/ol+wMtZ1ogc
+	 ZQ+tXBRUA3KKg03u85nhS1/pt7HwlMkWOYjQ7E2xSrGes8X8xpnCH3fe4dGa266ZxDlAHRi2xr0R
+	 8VKZn/TALLd1eE1rxAhAwoQ6QlprcmhadbFtgoPlWMNddLQJT5pIdi0hHQ0JUGsvjaqo2kn9V4yo
+	 9dQ8yHKwaBjzephr5FQdXlLNCfVGld9Fcwa2zPlFJJi7/J480Iit2Rm+/fsxQXXiEuC15QOujXpi
+	 TCzDxLEwJjoosfM9LSBfHk40zYG0CN1jsKJfcNey/PYSL0ZMRls4uAzZf4xb46LWaOASbRX8MIMU
+	 ie/yla8/lFC3J7Cm1oqKKp6bb1aNlAtOvn2JbFGsfg0yMoToc2VnKHJrq1rfzAjOe223TF4g8eTR
+	 rewoJAGnydZN4U4U90wm/+Zi7zMcowndgBZd48Ji0uHZBFhS49Dtq9Qa3+ZopV9JAeZV8/Nz30dU
+	 953w2Xs4Q09qwiz8s9OT5PUh9FoVxkZllTVYLU8c00MVF0KqR7yEwmR5IYTkzvdvQ5Df38r8uX1h
+	 84563giaw0oWhw9drI
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+69a3d7738ad3aa175caf@syzkaller.appspotmail.com
+Cc: brauner@kernel.org,
+	jack@suse.cz,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	AnonymeMeow <anonymemeow@gmail.com>
-Subject: [PATCH] fanotify: report thread pidfds for FAN_REPORT_TID
-Date: Sun, 24 May 2026 18:24:39 +0800
-Message-ID: <20260524102439.44642-1-anonymemeow@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	syzkaller-bugs@googlegroups.com,
+	viro@zeniv.linux.org.uk
+Subject: [PATCH next] eventpoll: delay file list memory deallocation until unlisting
+Date: Sun, 24 May 2026 18:27:59 +0800
+X-OQ-MSGID: <20260524102758.105414-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <6a10a5e1.050a0220.66ea1.0008.GAE@google.com>
+References: <6a10a5e1.050a0220.66ea1.0008.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -75,81 +65,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
-exclusive because by the time the pidfd support was introduced to
-fanotify, pidfds could only be created for thread group leaders. Now
-that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
-this restriction can be lifted.
+Commit e09c77d94003 implicitly sets the head->next value within list_file()
+to NULL; this occurs because ctx->tfile_check_list which resides on the stack
+is initialized to NULL. This introduces a potential risk to ep_remove_file(),
+as the decision to reclaim epitems_head depends solely on whether the next
+pointer is NULL. Prior to the introduction of e09c77d94003, the presence of
+the sentinel value EP_UNACTIVE_PTR prevented the next pointer from becoming
+NULL prematurely; the next value would only be updated to NULL during the
+execution of unlist_file(). 
+However, following the introduction of e09c77d94003, list_file() also updates
+the next value to NULL, which ultimately led to the uaf reported in [1].
 
-This patch allows listeners using FAN_REPORT_PIDFD | FAN_REPORT_TID
-to receive the pidfd referring to the thread that triggered the
-event.
+To mitigate the risk posed by the potentially NULL next pointer, the memory
+reclamation for the file list originally performed within ep_remove_file()
+has been deferred to unlist_file().
 
-Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+[1]
+BUG: KASAN: slab-use-after-free in clear_tfile_check_list+0x114/0x380 fs/eventpoll.c:2443
+Read of size 8 at addr ffff88803f021568 by task syz.0.74/5985
+Call Trace:
+ clear_tfile_check_list+0x114/0x380 fs/eventpoll.c:2443
+ do_epoll_ctl_file+0x8fd/0xed0 fs/eventpoll.c:-1
+ 
+Allocated by task 5985:
+ ep_attach_file fs/eventpoll.c:1751 [inline]
+ ep_register_epitem fs/eventpoll.c:1833 [inline]
+ ep_insert+0x512/0x1820 fs/eventpoll.c:1876
+ do_epoll_ctl_file+0x8bb/0xed0 fs/eventpoll.c:2651
+ 
+Freed by task 5985:
+ kmem_cache_free+0x187/0x6c0 mm/slub.c:6411
+ ep_remove+0x155/0x2a0 fs/eventpoll.c:1135
+ ep_insert+0x1372/0x1820 fs/eventpoll.c:-1
+ do_epoll_ctl_file+0x8bb/0xed0 fs/eventpoll.c:2651
+
+Fixes: e09c77d94003 ("eventpoll: hoist CTL_ADD scratch state into struct ep_ctl_ctx")
+Reported-by: syzbot+69a3d7738ad3aa175caf@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=69a3d7738ad3aa175caf
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
 ---
- fs/notify/fanotify/fanotify_user.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+ fs/eventpoll.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-index ae904451dfc0..ebdd48942029 100644
---- a/fs/notify/fanotify/fanotify_user.c
-+++ b/fs/notify/fanotify/fanotify_user.c
-@@ -19,6 +19,7 @@
- #include <linux/memcontrol.h>
- #include <linux/statfs.h>
- #include <linux/exportfs.h>
-+#include <linux/pidfd.h>
- 
- #include <asm/ioctls.h>
- 
-@@ -903,25 +904,21 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
- 		metadata.fd = fd >= 0 ? fd : FAN_NOFD;
- 
- 	if (pidfd_mode) {
--		/*
--		 * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mutual
--		 * exclusion is ever lifted. At the time of incoporating pidfd
--		 * support within fanotify, the pidfd API only supported the
--		 * creation of pidfds for thread-group leaders.
--		 */
--		WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-+		unsigned int tid_mode = FAN_GROUP_FLAG(group, FAN_REPORT_TID);
-+		enum pid_type pidtype = tid_mode ? PIDTYPE_PID : PIDTYPE_TGID;
-+		unsigned int pidfd_flags = tid_mode ? PIDFD_THREAD : 0;
- 
- 		/*
--		 * The PIDTYPE_TGID check for an event->pid is performed
-+		 * The pid_has_task() check for an event->pid is performed
- 		 * preemptively in an attempt to catch out cases where the event
--		 * listener reads events after the event generating process has
-+		 * listener reads events after the event generating task has
- 		 * already terminated.  Depending on flag FAN_REPORT_FD_ERROR,
- 		 * report either -ESRCH or FAN_NOPIDFD to the event listener in
- 		 * those cases with all other pidfd creation errors reported as
- 		 * the error code itself or as FAN_EPIDFD.
- 		 */
--		if (metadata.pid && pid_has_task(event->pid, PIDTYPE_TGID))
--			pidfd = pidfd_prepare(event->pid, 0, &pidfd_file);
-+		if (metadata.pid && pid_has_task(event->pid, pidtype))
-+			pidfd = pidfd_prepare(event->pid, pidfd_flags, &pidfd_file);
- 
- 		if (!FAN_GROUP_FLAG(group, FAN_REPORT_FD_ERROR) && pidfd < 0)
- 			pidfd = pidfd == -ESRCH ? FAN_NOPIDFD : FAN_EPIDFD;
-@@ -1628,14 +1625,6 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
- #endif
- 		return -EINVAL;
- 
--	/*
--	 * A pidfd can only be returned for a thread-group leader; thus
--	 * FAN_REPORT_PIDFD and FAN_REPORT_TID need to remain mutually
--	 * exclusive.
--	 */
--	if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
--		return -EINVAL;
--
- 	/* Don't allow mixing mnt events with inode events for now */
- 	if (flags & FAN_REPORT_MNT) {
- 		if (class != FAN_CLASS_NOTIF)
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index a569e98d4a99..66aa4f200909 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -1080,6 +1080,8 @@ static void ep_remove_file(struct eventpoll *ep, struct epitem *epi,
+ 			v = container_of(head, struct epitems_head, epitems);
+ 			if (!smp_load_acquire(&v->next))
+ 				to_free = v;
++			if (!hlist_empty(&v->epitems))
++				to_free = NULL;
+ 		}
+ 	}
+ 	hlist_del_rcu(&epi->fllink);
 -- 
-2.54.0
+2.43.0
 
