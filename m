@@ -1,235 +1,80 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FB42C375A;
-	Mon, 25 May 2026 02:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1AB2D1907
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 02:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779677775; cv=none; b=I5WfuaZ+oVCREixnoRe6jOOXV7a/DINDgmI4H2MHxvcZ6oPbiQGDoTw/KUsVieYnrMAHlvXmM73YKzPcMHTfA3+LnLWFykEz3b5VnHhyuRcrI+VZXTRQ/2PgWVLAoJ1v6NHRVyI8No90cf09y+uVsbhpTDJz8yY1Qr0kjUKYQOA=
+	t=1779677803; cv=none; b=mNiyAKrR02+rP3Yn2yY/b4u/eGj1z+ZaX3Ombj2JUGJnQlvEuBy0fZz3O4b5feTAxvWIpB87nVL9/g+mE94KrASY41ukYh0jH3/wGDflkF5PBiXZlV3BAHy9p6Ps7OQUCAbPNNaLWnYMZrNNexY4cLYoW2zYhbWi+Kdw7jYY9wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779677775; c=relaxed/simple;
-	bh=i7jqF7KB60rAj2AodsD9VTYn7Kz2HqOFrxwajLcDu48=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SIqaMcAtkfUU3tPMKGRzUMGH/t9onAOdxjGoWPkubZwVofAQ5WYN1WD1QF4r+V4o6yVqhJLzsoX0YoDPf7xZe9kNNdCXqL2hjvptlcnWYD7Z4R4R4+J6MLxIBSdP8vwL5NGGFZ4odirXXTdT9h9ynPM5uIbeRB7+FFfSuqvaRQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=q//9YEFE; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1779677803; c=relaxed/simple;
+	bh=Lm89h2MJxccPvYk1YGke2jFsEfvNuvjOON9UnBc+W+s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EZ9JuEWWxI4Gk3eUnc3BPFHSmvOx9wuf93Dxa2CNppmfAbeUq+/b6P0ZgTtSyzE4jBOm7AsocYJVfCvmeUIl9Rj3ZSojCRbFatG4X5Q477tWwfFi27ztrOhQrp1/vi8d3iGEz1trtI6qyVRXFscNqntWjE+f5FjoXHm+3Jlg7s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/0sCV/8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="q//9YEFE"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1779677768; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=uKSeg2Nza4neRSzanFebtUm6bwcAHZPjsw3+MJtuG0c=;
-	b=q//9YEFEH8b+fCC/C8Kuas4QyBxwuuj/03udbzWbkC+LVfvrYtfxT6siAQd+jr+l7tF046Ajl2mjD/HNR6R8S/RurZ54sUsGc1c8sdUz5PcRLFkmWe7Lm2F1r8u8HvBHq3Z/Y6SCygvwCoeqsmMbxYPRWzkIVGIllayfdXfMe98=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0X3Ty9G._1779677440;
-Received: from 30.221.145.59(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3Ty9G._1779677440 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 25 May 2026 10:50:42 +0800
-Message-ID: <a5756f39-31c8-4e8b-939f-f498726c7d8a@linux.alibaba.com>
-Date: Mon, 25 May 2026 10:50:40 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/0sCV/8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 541DD1F00A3C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 02:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779677800;
+	bh=5U+MPnKlyCvcR79bv9eJdVnfUr7FpUVnaM+rwcdB708=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=h/0sCV/8NWuNJrS6gGQG2WwUqiOzZmfLeMh3+FnuzkgjYKrvbF1XXUCx4B2Rrb9So
+	 /QxC6DFKIOdv1cQpjplq4NiKRnojbwSj37oL3xbjdAkJ3W2Z5So09Qn28CvsQYlbGi
+	 lgCw1B4m6v2IgRrkkkxO+2/ybibv0cAXG8k/FQhGQF74z2Kk51FKMsCasMZJ6dKoEa
+	 5FzKBPaNNmTDSFeXs7LbEm1mPouhqCRIQ4UCRwgGKR1vvDLGgpSeD9vZ+DgjfJRnxo
+	 gjQAz+0ceYBhpzRQzbGovxeXWfUDDbZH8GXALUjJUJUERmVaL+LP93jHnrZT6qqI0n
+	 ihizbt54+inlA==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-67be41d5eeeso14152011a12.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 24 May 2026 19:56:40 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy05BC/nD+Z25q5MN+80DrMKz15QHHwmHqlreau+0C+pvd1KZ/4
+	LHtpXyJjbDe+QZXKkg9n1Cf3fZtIyKBZ5O5bvpqoh+4fAI4F0hMWTSl+4hwQhBtLbSMttMvVZ1I
+	POEXWsghL5ITySa15gn6BzEPG1t3gw4U=
+X-Received: by 2002:a17:907:3c86:b0:bd8:f51f:c91 with SMTP id
+ a640c23a62f3a-bdd25ce92c0mr683351466b.30.1779677799041; Sun, 24 May 2026
+ 19:56:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/17] ocfs2/dlm: replace __get_free_page() with kmalloc()
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
- akpm <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, linux-nilfs@vger.kernel.org,
- linux-nfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
- linux-ext4@vger.kernel.org, linux-mm@kvack.org
-References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
- <20260523-b4-fs-v1-3-275e36a83f0e@kernel.org>
-From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20260523-b4-fs-v1-3-275e36a83f0e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260523041423.2726275-1-hyc.lee@gmail.com>
+In-Reply-To: <20260523041423.2726275-1-hyc.lee@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Mon, 25 May 2026 11:56:26 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd96fX4k0cZvveNaHuDnBtKkzKSYcVpijgQ0hT4HySVbWg@mail.gmail.com>
+X-Gm-Features: AVHnY4Jp0i97CUyhmKWZkX6s5z6u5JtX3emms5ZKfCMsbTTMnQhtAZq2XP8pfG4
+Message-ID: <CAKYAXd96fX4k0cZvveNaHuDnBtKkzKSYcVpijgQ0hT4HySVbWg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] ntfs: tighten EA and index metadata validation
+To: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	charsyam@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 5/24/26 1:54 AM, Mike Rapoport (Microsoft) wrote:
-> A few places in ocsfs2 allocate temporary buffers with __get_free_page() or
-> get_zeroed_page().
-> 
-> kmalloc() is a better API for such use and it also provides better
-> scalability and more debugging possibilities.
-> 
-> Replace use of __get_free_page() and get_zeroed_page() with kmalloc() and
-> kzalloc() respectively.
-> 
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-
-Looks fine.
-Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
-
-> ---
->  fs/ocfs2/dlm/dlmdebug.c    | 24 +++++++++---------------
->  fs/ocfs2/dlm/dlmdomain.c   |  8 +++++---
->  fs/ocfs2/dlm/dlmmaster.c   |  5 ++---
->  fs/ocfs2/dlm/dlmrecovery.c |  4 ++--
->  4 files changed, 18 insertions(+), 23 deletions(-)
-> 
-> diff --git a/fs/ocfs2/dlm/dlmdebug.c b/fs/ocfs2/dlm/dlmdebug.c
-> index fe4fdd09bae3..6ca8b3b68eef 100644
-> --- a/fs/ocfs2/dlm/dlmdebug.c
-> +++ b/fs/ocfs2/dlm/dlmdebug.c
-> @@ -260,10 +260,10 @@ void dlm_print_one_mle(struct dlm_master_list_entry *mle)
->  {
->  	char *buf;
->  
-> -	buf = (char *) get_zeroed_page(GFP_ATOMIC);
-> +	buf = kzalloc(PAGE_SIZE, GFP_ATOMIC);
->  	if (buf) {
->  		dump_mle(mle, buf, PAGE_SIZE - 1);
-> -		free_page((unsigned long)buf);
-> +		kfree(buf);
->  	}
->  }
->  
-> @@ -280,7 +280,7 @@ static struct dentry *dlm_debugfs_root;
->  /* begin - utils funcs */
->  static int debug_release(struct inode *inode, struct file *file)
->  {
-> -	free_page((unsigned long)file->private_data);
-> +	kfree(file->private_data);
->  	return 0;
->  }
->  
-> @@ -327,17 +327,15 @@ static int debug_purgelist_open(struct inode *inode, struct file *file)
->  	struct dlm_ctxt *dlm = inode->i_private;
->  	char *buf = NULL;
->  
-> -	buf = (char *) get_zeroed_page(GFP_NOFS);
-> +	buf = kzalloc(PAGE_SIZE, GFP_NOFS);
->  	if (!buf)
-> -		goto bail;
-> +		return -ENOMEM;
->  
->  	i_size_write(inode, debug_purgelist_print(dlm, buf, PAGE_SIZE - 1));
->  
->  	file->private_data = buf;
->  
->  	return 0;
-> -bail:
-> -	return -ENOMEM;
->  }
->  
->  static const struct file_operations debug_purgelist_fops = {
-> @@ -384,17 +382,15 @@ static int debug_mle_open(struct inode *inode, struct file *file)
->  	struct dlm_ctxt *dlm = inode->i_private;
->  	char *buf = NULL;
->  
-> -	buf = (char *) get_zeroed_page(GFP_NOFS);
-> +	buf = kzalloc(PAGE_SIZE, GFP_NOFS);
->  	if (!buf)
-> -		goto bail;
-> +		return -ENOMEM;
->  
->  	i_size_write(inode, debug_mle_print(dlm, buf, PAGE_SIZE - 1));
->  
->  	file->private_data = buf;
->  
->  	return 0;
-> -bail:
-> -	return -ENOMEM;
->  }
->  
->  static const struct file_operations debug_mle_fops = {
-> @@ -775,17 +771,15 @@ static int debug_state_open(struct inode *inode, struct file *file)
->  	struct dlm_ctxt *dlm = inode->i_private;
->  	char *buf = NULL;
->  
-> -	buf = (char *) get_zeroed_page(GFP_NOFS);
-> +	buf = kzalloc(PAGE_SIZE, GFP_NOFS);
->  	if (!buf)
-> -		goto bail;
-> +		return -ENOMEM;
->  
->  	i_size_write(inode, debug_state_print(dlm, buf, PAGE_SIZE - 1));
->  
->  	file->private_data = buf;
->  
->  	return 0;
-> -bail:
-> -	return -ENOMEM;
->  }
->  
->  static const struct file_operations debug_state_fops = {
-> diff --git a/fs/ocfs2/dlm/dlmdomain.c b/fs/ocfs2/dlm/dlmdomain.c
-> index dc9da9133c8e..97bb9400e24b 100644
-> --- a/fs/ocfs2/dlm/dlmdomain.c
-> +++ b/fs/ocfs2/dlm/dlmdomain.c
-> @@ -63,7 +63,7 @@ static inline void byte_copymap(u8 dmap[], unsigned long smap[],
->  static void dlm_free_pagevec(void **vec, int pages)
->  {
->  	while (pages--)
-> -		free_page((unsigned long)vec[pages]);
-> +		kfree(vec[pages]);
->  	kfree(vec);
->  }
->  
-> @@ -75,9 +75,11 @@ static void **dlm_alloc_pagevec(int pages)
->  	if (!vec)
->  		return NULL;
->  
-> -	for (i = 0; i < pages; i++)
-> -		if (!(vec[i] = (void *)__get_free_page(GFP_KERNEL)))
-> +	for (i = 0; i < pages; i++) {
-> +		vec[i] = kmalloc(PAGE_SIZE, GFP_KERNEL);
-> +		if (!vec[i])
->  			goto out_free;
-> +	}
->  
->  	mlog(0, "Allocated DLM hash pagevec; %d pages (%lu expected), %lu buckets per page\n",
->  	     pages, (unsigned long)DLM_HASH_PAGES,
-> diff --git a/fs/ocfs2/dlm/dlmmaster.c b/fs/ocfs2/dlm/dlmmaster.c
-> index 93eff38fdadd..aee3b4c56dcc 100644
-> --- a/fs/ocfs2/dlm/dlmmaster.c
-> +++ b/fs/ocfs2/dlm/dlmmaster.c
-> @@ -2548,7 +2548,7 @@ static int dlm_migrate_lockres(struct dlm_ctxt *dlm,
->  
->  	/* preallocate up front. if this fails, abort */
->  	ret = -ENOMEM;
-> -	mres = (struct dlm_migratable_lockres *) __get_free_page(GFP_NOFS);
-> +	mres = kmalloc(PAGE_SIZE, GFP_NOFS);
->  	if (!mres) {
->  		mlog_errno(ret);
->  		goto leave;
-> @@ -2725,8 +2725,7 @@ static int dlm_migrate_lockres(struct dlm_ctxt *dlm,
->  	if (wake)
->  		wake_up(&res->wq);
->  
-> -	if (mres)
-> -		free_page((unsigned long)mres);
-> +	kfree(mres);
->  
->  	dlm_put(dlm);
->  
-> diff --git a/fs/ocfs2/dlm/dlmrecovery.c b/fs/ocfs2/dlm/dlmrecovery.c
-> index 128872bd945d..9b97bf73df22 100644
-> --- a/fs/ocfs2/dlm/dlmrecovery.c
-> +++ b/fs/ocfs2/dlm/dlmrecovery.c
-> @@ -837,7 +837,7 @@ int dlm_request_all_locks_handler(struct o2net_msg *msg, u32 len, void *data,
->  	}
->  
->  	/* this will get freed by dlm_request_all_locks_worker */
-> -	buf = (char *) __get_free_page(GFP_NOFS);
-> +	buf = kmalloc(PAGE_SIZE, GFP_NOFS);
->  	if (!buf) {
->  		kfree(item);
->  		dlm_put(dlm);
-> @@ -933,7 +933,7 @@ static void dlm_request_all_locks_worker(struct dlm_work_item *item, void *data)
->  		}
->  	}
->  leave:
-> -	free_page((unsigned long)data);
-> +	kfree(data);
->  }
->  
->  
-> 
-
+On Sat, May 23, 2026 at 1:14=E2=80=AFPM Hyunchul Lee <hyc.lee@gmail.com> wr=
+ote:
+>
+> This series tightens validation of on-disk NTFS metadata in the read path=
+.
+>
+> The first four patches move index validation closer to the point
+> where index metadata is read and tighten the structural checks for both
+> $INDEX_ROOT and INDX block headers. The last patch adds a missing bounds
+> check before accessing fields in an EA entry.
+>
+> To: Namjae Jeon <linkinjeon@kernel.org>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: charsyam@gmail.com
+> Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
+>
+> Hyunchul Lee (4):
+>   ntfs: validate index block header more strictly
+>   ntfs: centalize $INDEX_ROOT header validation
+>   ntfs: validate index entries on reading
+>   ntfs: add bounds check before accessing EA entries
+Applied them to #ntfs-next.
+Thanks!
