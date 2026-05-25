@@ -1,159 +1,262 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7B3296BD2
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425B03F7861
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779728864; cv=none; b=l6JmIVweFoCV36QMX5bOLGGrDxNDyZI/P8JjwgEG4UVfUwe/o17nkk2L4A5DwwitiK/vz4/zbq6cvegGgQxXfAIxfvdmUYJbBkjPd8fTfgVE+mwrs+H2c5VPQLm4+um00d1UNxl5pxIUsk6MntFp70xnt2x8hPu/rr9Xv97NGhM=
+	t=1779729012; cv=none; b=KIkz0JqRKZbINBDngbuLcPcA0IUR7tBnOjUVa5gj+/ET21RtADlA6JHlV8IO1t82hiqtdPI8uewPDdz6OUyOOHyWZrRnASu3ZLrZV1a/EslQg4Sxrxj+hgr4pXZd/WvAb0MvkXSscY1/Q7eB2jGQUnWXmKJewX097Tt/Lwibgtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779728864; c=relaxed/simple;
-	bh=EGS2JGmyeWkbOCbREIX2qtEvE51ujoNsVgCL48xBWXI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DRyQZZv1aY7a0zZF3aHThVtaG5uIp32DRCPD7PoaqXTi2NrtXBpXqCvpOMsH1R/NcpKJzwCPS1PI9xtvqbDYN+OL2nKDaxTvkSYZv4FLBhtUG2bQGbQVBeWkH2g3+P12zIN6njPhKA93MHXRAPb8hZq3q2DqDxc1NlRB6ITDgoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dhioHvSU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=B4IY6GkQ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1779729012; c=relaxed/simple;
+	bh=PTNg3RyBjtWL4NnI8O0q7hXUoY8uPF4RaVnZMbEInR0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Pt5Vimhru+oCr2PqElf24QZt053RiHn/tAESZYVQNh/elPA8DdnPQvAYeYRLzjcIZ7MXCucuL5UyoyJOObhlHYowmlTCoh4BVIjhY3+3zVVA3AmJCCFtnjl/adT9lX/efI18xmw79j3fFVPtWLB4J/9QrpsBzCdk1a0tBg5fwAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GQr1PYm1; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dhioHvSU";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="B4IY6GkQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779728861;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QQ8f0KL2cvJbeqS1wq3el83kZ9Z8vH79ZAL6r1+vgks=;
-	b=dhioHvSUW0LXwpL2ye6gY9aEtrH575Eode9Y3bZkyFDeYpbbTkYBTB9MM0JZkKtl1AeGiF
-	GoG47VJHDsbLzrDndbsVcyDWtVD5D/9ES7k8HW9uIoQQ0Csb5CtsMlQ7xRiKMN1+vUvum+
-	IwbtAkSnwz5Aia90ZNw4ZnOg9+/OCig=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-212-mawVIXjCM2SYMWxh4sRO6A-1; Mon, 25 May 2026 13:07:40 -0400
-X-MC-Unique: mawVIXjCM2SYMWxh4sRO6A-1
-X-Mimecast-MFC-AGG-ID: mawVIXjCM2SYMWxh4sRO6A_1779728859
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-7cb345d0591so64575357b3.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 10:07:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GQr1PYm1"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490388fd0dbso41525825e9.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 10:10:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779728859; x=1780333659; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QQ8f0KL2cvJbeqS1wq3el83kZ9Z8vH79ZAL6r1+vgks=;
-        b=B4IY6GkQoeA6mxx8zFvjIHv1rw5Br7ObA6BH4M64VQ4WU6Hqk1GAUiuxBN81Ysi8fR
-         ZwDRoKuZnH2y3aD88NE7jRHEBpMqrXc8vy5r5h3UTA+HgtWjx4fq5ehhF5VbbP+7movw
-         CLTuGQqyAkdTSdUBZyjv7Emf0tHIBhS00MOl7s7WeYGyoWn2jsXYdpP66s0MrFJJG4ea
-         3IivF1Xp8tUen58bukrpcQRp3jpeOEkaWT7Hw7p7lyR6GpmYkqVAJNcuLG/MJacz00Y6
-         tRDq2BUx5w3dsFFV76OzIuQ2jHxDC7lL0r/GBonXJnS4WDQun1sK6026uV0PscSu56e+
-         ohsQ==
+        d=suse.com; s=google; t=1779729007; x=1780333807; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=izugkSqOYsBmSyQ8jfD9m1SVj73YG14U78pRBc6Lai0=;
+        b=GQr1PYm1QRIrfgBC/EILAtR9O17tFRT933ldDJCayUjXIyRMiDnumrFP9i4iPLQuP/
+         bWYj6u/50hd5AlTl8fnNFXZxscNWQsfvT08lWT2g7USA76CFTeDeB9CAGnGBLt+Jk5Kd
+         lX3x9dDR55Y2wg8pVl8cBGmVyZoFj8APvHLhilXEkRN6z7J5HsqQkRDuiJpcpmZ76bBE
+         nunnNO0efpqrh3Mg+srvekhGI13bTspzjyxHMZeoT7BQvRd6lyijtBc2rfmKjAaENr6C
+         i+8SY1MRgNki/ClY1lWgGG4FXSsH+ZhGYZ0VK7FSfIVhFbKqAWGdmu0VyhcviooSpQ7X
+         9jYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779728859; x=1780333659;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QQ8f0KL2cvJbeqS1wq3el83kZ9Z8vH79ZAL6r1+vgks=;
-        b=JqXFSEGOcqPn8Ehnoyis41lktSeMCho0wFMZZOdXTeeUtlZqxbanI/+AFRfpPbseF3
-         kMVcRPx6A4XL2x6osT/6Hf5oIX9k5/je9o7M8Q9TO5ud/38gTY8F/XvW7WoLojxP+d9H
-         4WAQw7qzY1AH76MVpvt1ZdnhCha80+USwO+Xr9RH4mTSHQRsocIQhErEMD1rlsDEVzmW
-         L07/bJnd5MDbykqpz7fuBiMYBzknlNuk2tKXvajhjC/1Zb4Q4kyXlLGqnebOBw2Wu/8K
-         CjYiCLiLpIRxrlRc9Dpy15cyXTotniVNIn5xRVjwK6k5ABZIUPNXwTycBGbBpx7V87pL
-         z0eA==
-X-Forwarded-Encrypted: i=1; AFNElJ+S52WpGCCAhrX71iz62tyK5GUMiKCjzBUNOwy0EgsfJWRoLRrR7daEzjhST2uVtJoijT7Yq9W//3e6gaSQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNmQyB8vwXuRwkDXWAdgEd/1ecd9TG06XVhDkUXGjSs+M3yL1p
-	gmVTssVPpVOJFmSgiGbzZ53eOe467smdVDw4Lfmj/CI9g8mSWBe7lhCnI6PHpGl5dzFZBVdKsl4
-	KMTsJy5UFvPdq+ZhU3loqqy+4wMdC2fx54YZ5RJHw13y3sNemWvMMQJyQDOjKClz9a7k=
-X-Gm-Gg: Acq92OGDafbEy27hlWbSlS6iwHaWwRDCKh9hJOBkzd3v5FW21H0FiQYFnOZRJoJlqiM
-	kS4sUVwuDGU9J9e9oJMakbWzuubVFdiLeMQI5xDIui9oapfA+mvDwIoLt7srWKK91tZH0hVC48B
-	b2Xa5puvslW84XLtC8nhFjHnlO6Ybc0wCUH5ayXSqB51KY0Gd6DN5HkDpSb/fUJTZo4cG99KCRO
-	6aGd4oZGCtW78DHdD06+zSvug+ovCHVpje51VaPatICNk2BkI+mWQ/v4tmdj6tw1hdfwsiYWFNS
-	/SpZLiAt1DFrnvPvsQ9Ey9MfsrBAOaVoA2QsHwvAAydje9+5phxQcySL1ShJTXPZ0HCqQFmis4b
-	9EeRM1gMV6LxDxW4El0lws3JXD9XqV6Mw1C1+WKtz2sDsZLDI0Ij6
-X-Received: by 2002:a05:690c:3708:b0:7bf:9648:8c5c with SMTP id 00721157ae682-7d3345da2e5mr155237567b3.18.1779728859423;
-        Mon, 25 May 2026 10:07:39 -0700 (PDT)
-X-Received: by 2002:a05:690c:3708:b0:7bf:9648:8c5c with SMTP id 00721157ae682-7d3345da2e5mr155237227b3.18.1779728858828;
-        Mon, 25 May 2026 10:07:38 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7d389813ea8sm48480087b3.4.2026.05.25.10.07.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 10:07:38 -0700 (PDT)
-Message-ID: <1bb537f6dc36b00788b613fb8f71579478418457.camel@redhat.com>
-Subject: Re: [PATCH 04/17] nilfs2: replace get_zeroed_page() with kzalloc()
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>, Jan Kara <jack@suse.com>,
-  Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
- <joseph.qi@linux.alibaba.com>,  Ryusuke Konishi
- <konishi.ryusuke@gmail.com>, Viacheslav Dubeyko <slava@dubeyko.com>, Trond
- Myklebust	 <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck
- Lever	 <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>,
- NeilBrown	 <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai
- Ngo	 <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Alexander Viro	
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	 <jack@suse.cz>, Dave Kleikamp <shaggy@kernel.org>, Theodore Ts'o
- <tytso@mit.edu>,  Miklos Szeredi <miklos@szeredi.hu>, Andreas Hindborg
- <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>,  Kees Cook
- <kees@kernel.org>, "Tigran A. Aivazian" <aivazian.tigran@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	ocfs2-devel@lists.linux.dev, linux-nilfs@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
-	linux-ext4@vger.kernel.org, linux-mm@kvack.org
-Date: Mon, 25 May 2026 10:07:34 -0700
-In-Reply-To: <20260523-b4-fs-v1-4-275e36a83f0e@kernel.org>
-References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
-	 <20260523-b4-fs-v1-4-275e36a83f0e@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.0 (3.60.0-1.fc44app2) 
+        d=1e100.net; s=20251104; t=1779729007; x=1780333807;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=izugkSqOYsBmSyQ8jfD9m1SVj73YG14U78pRBc6Lai0=;
+        b=IZoyh8b8ylqG6eMMxiQv4o5lHLC8JiRidNz7BlEN2SktDsmi2shVVIW6Lkdbew2hJA
+         9w9yp1zwm6ClmLHJ+hV1OPBriJ/S0aBSp2VaF/Za41EZFdP7lONeu8jzBKshzWfhzumV
+         4szCSDLMfBgIHSXPLz6RumFBSXNekn6wqXeagp+0Mi+B1nHCG4jmhRRXYGMlXTo+/gsV
+         CIafaiQDLfAOj+m+MwBFZtJZzwOKzRHE98OLrTVvU/1QnupXmhStBitc+IHEsfzIfSgr
+         Z8Xra5bVtaPVvOGT+tDicr71UPJOR8UaLgf5aNHjZoUmQHRidEfzaH5FBTd85IkP85Cx
+         Ws8g==
+X-Forwarded-Encrypted: i=1; AFNElJ/wM1zzQh7b9eax2A54HQA4LqxyTcdeHf8wEseNa0+dgRpVWPwsFWbYwA3EZ6WEWZ9y1StD2qa/LzYF6Fah@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH/HP+CP1jHGKF0UZjt975lVxz0dCo2Niq8mKHJXQzBmmH7ZES
+	E3EinaOE0UycWIYPHVe1E/jQctf3oyDXcCepeUdgwYSrpr6Hy8UfoTAhNSLIQhF3K60=
+X-Gm-Gg: Acq92OFkhs2+jY7FeXAGl+vsGiBsGBck+b3ymyJLzrZXW2/sqjuonRqeuG1QxHK14fs
+	nV4gXFFIzhzJJ/750obLeLwYCJk646yvyp2c/OX1ygnQYAl+bA4uOwzZR/Q3M9NvGbwrZKIvF8u
+	ZoqnS1zLGRBiz/khWvZTVCDlSYPpJhiMLLGCEHleOnuoHeZpcN4/kyqJlYqP68QXtY8okbAwd1A
+	gyZCfhL8TJuKtjwADKbUEJ2sM+aRzokA9gu8+Y+9G9QmVUWdkY++57f/v+g5EmV5BYFxGleS83k
+	tWHH/pfTVKHnEjLAwT6Uzas62RTWkurX3h0lTGqKw6agBG3nAGLgN4IqF26pS7aaifS1f1lHE7O
+	7dGdmQ7AHHDoap9Dcb315Sf+dXxKgo6hwBdlk/Qd5LQAEElkNCS4sxXT75npZ/4iu+BTqvTga0t
+	b01KoGyFN4PKPNFYQNscRE1rJWkZZvRur7zHi/y2Jle3yJHrxhyqWpLmKM4WVKntwtjEjF7/t7f
+	rWlE4xzeEkfZYVkj9pTzbgQkwYGvvxxC/BQl9MWmHScZE6Lis1RGJOuDB8e6vG12eLGLhyT4etI
+	gS+uBZrj0d7Sfgo=
+X-Received: by 2002:a05:600c:35cf:b0:490:44eb:c1e5 with SMTP id 5b1f17b1804b1-49044ebc257mr277307095e9.31.1779729006482;
+        Mon, 25 May 2026 10:10:06 -0700 (PDT)
+Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904526c926sm456877405e9.1.2026.05.25.10.10.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 May 2026 10:10:06 -0700 (PDT)
+Message-ID: <a192eb5c-5d16-483d-862e-d937fa1b8269@suse.com>
+Date: Mon, 25 May 2026 19:10:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/11] params: Convert generic kernel_param_ops .get
+ helpers to seq_buf
+To: Kees Cook <kees@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Pengpeng Hou
+ <pengpeng@iscas.ac.cn>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ Corey Minyard <corey@minyard.net>, Gabriel Somlo <somlo@cmu.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Hannes Reinecke <hare@suse.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
+ Tiwei Bie <tiwei.btw@antgroup.com>, Benjamin Berg <benjamin.berg@intel.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "David E. Box" <david.e.box@linux.intel.com>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>,
+ Frank Li <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, John Johansen <john.johansen@canonical.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-modules@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org,
+ linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, netdev@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20260521133315.work.845-kees@kernel.org>
+ <20260521133326.2465264-8-kees@kernel.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260521133326.2465264-8-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-05-23 at 20:54 +0300, Mike Rapoport (Microsoft) wrote:
-> nilfs_ioctl_wrap_copy() allocates a temporary buffer with
-> get_zeroed_page().
->=20
-> kzalloc() is a better API for such use and it also provides better
-> scalability and more debugging possibilities.
->=20
-> Replace use of get_zeroed_page() with kzalloc().
->=20
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+On 5/21/26 3:33 PM, Kees Cook wrote:
+> Convert the generic struct kernel_param_ops .get helpers in
+> kernel/params.c directly to the seq_buf signature, drop their legacy
+> "char *" form, and refresh prototypes in <linux/moduleparam.h>:
+> 
+>   param_get_byte/short/ushort/int/uint/long/ulong/ullong/hexint
+>   param_get_charp/bool/invbool/string
+>   param_array_get
+> 
+> The STANDARD_PARAM_DEF() macro expands to a seq_buf body for every
+> numeric helper. param_array_get() now writes element output directly
+> into the parent seq_buf when the element ops provide .get; it only
+> allocates the per-call PAGE_SIZE bounce buffer when the element ops
+> still use the legacy .get_str path. The common "rewrite the prior
+> element's trailing newline as a comma" step lives outside both
+> branches so the two paths share it.
+> 
+> The non-core changes in this commit (arch/x86/kvm, mm/kfence,
+> drivers/dma/dmatest, security/apparmor) are the small set of callers that
+> directly invoke one of the converted generic helpers from their own .get
+> callback (e.g. an apparmor wrapper that adds a capability check and then
+> delegates to param_get_bool()). Because the helpers' signature changes
+> here, these wrappers must move in lockstep. Each of them is updated
+> to take "struct seq_buf *" and pass it through; param_get_debug() in
+> apparmor also pulls aa_print_debug_params() (and its val_mask_to_str()
+> helper, in security/apparmor/lib.c) over to seq_buf, since that is the
+> only consumer. No other behavioural change is intended.
+> 
+> Custom .get callbacks that do not delegate to a generic helper (and
+> therefore still match the .get_str signature) are routed automatically
+> to the .get_str field by the DEFINE_KERNEL_PARAM_OPS _Generic dispatcher
+> and are deliberately left alone here, to be changed separately within
+> their respective subsystems.
+> 
+> Signed-off-by: Kees Cook <kees@kernel.org>
 > ---
->  fs/nilfs2/ioctl.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/fs/nilfs2/ioctl.c b/fs/nilfs2/ioctl.c
-> index e0a606643e87..b73f2c5d10f0 100644
-> --- a/fs/nilfs2/ioctl.c
-> +++ b/fs/nilfs2/ioctl.c
-> @@ -69,7 +69,7 @@ static int nilfs_ioctl_wrap_copy(struct the_nilfs *nilf=
-s,
->  	if (argv->v_index > ~(__u64)0 - argv->v_nmembs)
->  		return -EINVAL;
-> =20
-> -	buf =3D (void *)get_zeroed_page(GFP_NOFS);
-> +	buf =3D kzalloc(PAGE_SIZE, GFP_NOFS);
->  	if (unlikely(!buf))
->  		return -ENOMEM;
->  	maxmembs =3D PAGE_SIZE / argv->v_size;
-> @@ -107,7 +107,7 @@ static int nilfs_ioctl_wrap_copy(struct the_nilfs *ni=
-lfs,
->  	}
->  	argv->v_nmembs =3D total;
-> =20
-> -	free_pages((unsigned long)buf, 0);
-> +	kfree(buf);
->  	return ret;
+> [...]
+> @@ -453,36 +457,46 @@ static int param_array_set(const char *val, const struct kernel_param *kp)
+>  			   arr->num ?: &temp_num);
 >  }
-> =20
+>  
+> -static int param_array_get(char *buffer, const struct kernel_param *kp)
+> +static int param_array_get(struct seq_buf *s, const struct kernel_param *kp)
+>  {
+> -	int i, off, ret;
+> -	char *elem_buf;
+>  	const struct kparam_array *arr = kp->arr;
+>  	struct kernel_param p = *kp;
+> +	char *elem_buf = NULL;
+> +	int i, ret = 0;
+>  
+> -	elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);
+> -	if (!elem_buf)
+> -		return -ENOMEM;
+> +	for (i = 0; i < (arr->num ? *arr->num : arr->max); i++) {
+> +		size_t before = s->len;
+>  
+> -	for (i = off = 0; i < (arr->num ? *arr->num : arr->max); i++) {
+>  		p.arg = arr->elem + arr->elemsize * i;
+>  		check_kparam_locked(p.mod);
+> -		ret = arr->ops->get_str(elem_buf, &p);
+> -		if (ret < 0)
+> -			goto out;
+> -		ret = min(ret, (int)(PAGE_SIZE - 1 - off));
+> -		if (!ret)
+> +
+> +		if (arr->ops->get) {
+> +			ret = arr->ops->get(s, &p);
+> +			if (ret < 0)
+> +				goto out;
+> +		} else {
+> +			if (!elem_buf) {
+> +				elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);
+> +				if (!elem_buf) {
+> +					ret = -ENOMEM;
+> +					goto out;
+> +				}
+> +			}
+> +			ret = arr->ops->get_str(elem_buf, &p);
+> +			if (ret < 0)
+> +				goto out;
+> +			seq_buf_putmem(s, elem_buf, ret);
+> +		}
+> +
+> +		/* Nothing got written (e.g. overflow) — stop. */
+> +		if (s->len == before)
+>  			break;
+> +
+>  		/* Replace the previous element's trailing newline with a comma. */
+> -		if (i)
+> -			buffer[off - 1] = ',';
+> -		memcpy(buffer + off, elem_buf, ret);
+> -		off += ret;
+> -		if (off == PAGE_SIZE - 1)
+> -			break;
+> +		if (i && s->buffer[before - 1] == '\n')
+> +			s->buffer[before - 1] = ',';
+>  	}
+> -	buffer[off] = '\0';
+> -	ret = off;
+> +	ret = 0;
+>  out:
+>  	kfree(elem_buf);
+>  	return ret;
 
-Makes sense to me.
+Since you're almost completely rewriting the logic in param_array_get(),
+I suggest tightening it up a bit. The function could warn or return an
+error when a kernel_param_ops::get/get_str() call adds a string that
+doesn't terminate with '\n', specifically, when the call adds either
+a zero-length string or a non-zero-length string that ends with
+a different character (unless an overflow occurred).
 
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+The updated code silently stops the loop when a get call returns
+a zero-length string. Similarly, handling of a string not terminated by
+'\n' is halfway there because of the added check
+"s->buffer[before - 1] == '\n'".
 
+-- 
 Thanks,
-Slava.
-
+Petr
