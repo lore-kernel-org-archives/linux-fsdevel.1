@@ -1,129 +1,210 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47A1395AE7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 20:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1144246778;
+	Mon, 25 May 2026 21:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.70.13.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779740991; cv=none; b=trYCHi9Sr3bIGS12ypmfzvgrulX2e5bHma3cMoAaYlqBZGp7CK8kA2ml4ptbEOYp1A502E2YWOyJCmIGE76qJEx0PcPpsysR5/m8KLXWmGQ7+hASjB/euMzZZiyYl3qIHe9fN9MhzvscSZ5HOlEttc7rIwwiEb5f1Bchb5SE96M=
+	t=1779743186; cv=none; b=qdyOyUt2zo/OnenKG+gfmBZAVWygjjqo4cn5QWYDN03+F4sip8fecvn7DkSw8Rt81BbtilSu64i5GqxrUqETTj14ocFpQ8OacBIcEoy57VvsZlOrisQZicihguoIRs+6SoEg69iLS19evwa5BkA3dOE+onWl/+RC9Dm63rnMLYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779740991; c=relaxed/simple;
-	bh=MbWp3pk3tt2wd79k8v84WRdKJdh154IaLoYxj+yBtjk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KP0pk1HKqq6WTysW5HyhyMcZby2WmRbKRenqgYg+SzmFwnSJ9uxgerzY2qKeLDZtK+VOcXp5hdFRLidbC40OWk/heF0f4gtWQ8f776Mpk8N25oSyQneNIiIpy8Ax799Bh1u8Qi+63OLc9Yq+LBheulEqfi3UinvVxraSqglukRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=Ok7XH7tv; arc=none smtp.client-ip=195.121.94.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1779743186; c=relaxed/simple;
+	bh=4Fko27QxyQJ3iwZmvSIB8DFp161HDuumBHTwdRH4Vz0=;
+	h=From:To:Cc:In-Reply-To:References:Date:Message-ID:MIME-Version:
+	 Content-Type:Subject; b=UiPeEcvWVKrdkXTEVScP+f6zSC6r9rNFyA8F4aPOcLVXUCxzmZKU4y5BHPHbB1Y94AN3epHr6zHFHUiAs40BB0rgoxJWAHmDlMfa2+mBH2RWDBJocpmr6K+PNAkLfzNGEeTVCWw7DcCZ2oQMUDBCSvBsQLuPP8dBkPCH+d5V90U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com; spf=pass smtp.mailfrom=xmission.com; dkim=pass (1024-bit key) header.d=xmission.com header.i=@xmission.com header.b=mJPc4NnU; arc=none smtp.client-ip=166.70.13.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xmission.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Ok7XH7tv"
-X-KPN-MessageId: 50b227af-5878-11f1-afe2-005056994fde
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 50b227af-5878-11f1-afe2-005056994fde;
-	Mon, 25 May 2026 22:28:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=KU+a/g+SjpGRWZ83YGxQf44xP5ttht7BWpA9Us9/BGc=;
-	b=Ok7XH7tvKQHtXDnSehtjT0aFTvMPSonP9jaElKUgeNnniwppoBh2qWol8uipSTezmrmtrk1GWjou3
-	 +VRH5lZ0b385aY1IhiafaO3NWj8FOaTHAGWIR0Mq3EpufTEtc8fqu1Ylkdo/NandNO/dpXawImcdGU
-	 kfcv8iBZsJKqJfcZWrOxir08cOiPkVlKC52cEWRwRjqAlPk+ULzd+xA+Wd3/oyzS0UO/I0LjT0RmjY
-	 bKtPyRE/cHArtOdBkO7XzTdfYnGcCjxWGN00DsaV+qpxgXrj7xttjJVo7TiQZ+fGOat2yTl0hK54VL
-	 jpPb7CltJxFfOkus1H1/ml4ngUTXtqg==
-X-KPN-MID: 33|ujxsS43zemqptwyl4hbXrvX3baYAaoHkpzKvGgn7Uo0pabzxyTMjgbPi+FOQbTp
- QsBClOPNYAgk1rt1yYURYqHpBGA7/zYyqkNcZ+EO69Hg=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|g6ZLSgGsNYGXJgi3vMw6cmNZMdhMrOAv8CyKUhLUx2e/e69OkJHRCyamfevMoT6
- vaQeITU983E53OkmaMtj+Iw==
-Received: from daedalus.home (unknown [178.227.141.192])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 4de7c953-5878-11f1-bffc-00505699772e;
-	Mon, 25 May 2026 22:28:39 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Aleksa Sarai <cyphar@cyphar.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	cmirabil@redhat.com
-Subject: [RFC PATCH v5 0/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-Date: Mon, 25 May 2026 22:29:35 +0200
-Message-ID: <20260525202937.466497-1-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=xmission.com header.i=@xmission.com header.b="mJPc4NnU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=xmission.com;
+	 s=xmission; h=Subject:Content-Type:MIME-Version:Message-ID:Date:References:
+	In-Reply-To:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=4Fko27QxyQJ3iwZmvSIB8DFp161HDuumBHTwdRH4Vz0=; b=mJPc4NnUdJJ8GOVIJNcLABA0gC
+	Bi0i+5tapKMaA+U3KUVSwVYFHzf32I0jKnXpODV322bCSBcljtXJZWLNBurKvc4JHEHSBxAtLx2G3
+	VhGeZxns/7su4xdDnYOMXKGbnS4r9YqqMJJIjgmtlC4CH4IwOwGb0DgLnYaFH2tWEQI0=;
+Received: from in01.mta.xmission.com ([166.70.13.51]:32914)
+	by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1wRbPV-00Cfdy-CP; Mon, 25 May 2026 13:56:25 -0600
+Received: from ip72-198-198-28.om.om.cox.net ([72.198.198.28]:49450 helo=email.froward.int.ebiederm.org.xmission.com)
+	by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1wRbPU-003d4d-2B; Mon, 25 May 2026 13:56:25 -0600
+From: "Eric W. Biederman" <ebiederm@xmission.com>
+To: Jann Horn <jannh@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,  Jan Kara <jack@suse.cz>,
+ Arjan van de Ven <arjan@linux.intel.com>,  Jake Edge <jake@lwn.net>,
+ linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+ stable@vger.kernel.org, Kees Cook <keescook@chromium.org> ,
+ Oleg Nesterov <oleg@redhat.com> 
+In-Reply-To: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
+	(Jann Horn's message of "Mon, 18 May 2026 18:35:14 +0200")
+References: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
+Date: Mon, 25 May 2026 14:56:19 -0500
+Message-ID: <87ik8b2rh8.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-XM-SPF: eid=1wRbPU-003d4d-2B;;;mid=<87ik8b2rh8.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=72.198.198.28;;;frm=ebiederm@xmission.com;;;spf=pass
+X-XM-AID: U2FsdGVkX1/uJCaudyMDocTlnS+yEEa12ZejkOKFcZo=
+X-Spam-Level: *******
+X-Spam-Virus: No
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	*  0.1 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+	*      [score: 0.5000]
+	*  0.7 XMSubLong Long Subject
+	*  1.5 XMNoVowels Alpha-numberic number with no vowels
+	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+	*      [sa01 1397; Body=1 Fuz1=1 Fuz2=1]
+	*  1.0 T_XMDrugObfuBody_08 obfuscated drug references
+	*  0.0 T_TooManySym_03 6+ unique symbols in subject
+	*  0.0 T_TooManySym_01 4+ unique symbols in subject
+	*  1.5 XMSubPhish11 Phishy Language Subject
+	*  0.0 T_TooManySym_02 5+ unique symbols in subject
+	*  1.0 XM_Body_Dirty_Words Contains a dirty word
+	*  0.2 XM_B_SpammyWords One or more commonly used spammy words
+	*  1.0 XM_B_SpammyTLD Contains uncommon/spammy TLD
+	*  0.0 TR_XM_SB_Phish Phishing flag in subject of message
+	*  1.5 XM_B_SpammyTLD3 Phishing rule with uncommon/spammy TLD Combo
+X-Spam-DCC: XMission; sa01 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: *******;Jann Horn <jannh@google.com>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 830 ms - load_scoreonly_sql: 0.03 (0.0%),
+	signal_user_changed: 4.4 (0.5%), b_tie_ro: 3.1 (0.4%), parse: 1.23
+	(0.1%), extract_message_metadata: 13 (1.5%), get_uri_detail_list: 2.8
+	(0.3%), tests_pri_-2000: 3.7 (0.5%), tests_pri_-1000: 1.98 (0.2%),
+	tests_pri_-950: 0.97 (0.1%), tests_pri_-900: 0.78 (0.1%),
+	tests_pri_-90: 76 (9.1%), check_bayes: 75 (9.0%), b_tokenize: 7 (0.9%),
+	 b_tok_get_all: 10 (1.2%), b_comp_prob: 2.4 (0.3%), b_tok_touch_all:
+	52 (6.3%), b_finish: 0.71 (0.1%), tests_pri_0: 426 (51.3%),
+	check_dkim_signature: 0.65 (0.1%), check_dkim_adsp: 2.6 (0.3%),
+	poll_dns_idle: 287 (34.6%), tests_pri_10: 1.64 (0.2%), tests_pri_500:
+	298 (35.9%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: [PATCH 0/2] proc: protect ptrace_may_access() with
+ exec_update_lock
+X-SA-Exim-Connect-IP: 166.70.13.51
+X-SA-Exim-Rcpt-To: oleg@redhat.com, keescook@chromium.org, stable@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, jake@lwn.net, arjan@linux.intel.com, jack@suse.cz, brauner@kernel.org, viro@zeniv.linux.org.uk, jannh@google.com
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-SA-Exim-Scanned: No (on out01.mta.xmission.com); SAEximRunCond expanded to false
 
-This series implements new semantics for the O_CREAT|O_DIRECTORY flag
-combination for open*(2): perform a mkdir and open the resulting
-directory; return a pinning fd (which mkdir does not).
 
-Three comments from me upfront:
+I have added a couple more people who might be interested.
 
-- This patch EINVAL bans O_CREAT|O_DIRECTORY in each individual
-  atomic_open implementation. An argument to do it in the generic
-  atomic_open() in fs/namei.c instead is to give out of tree
-  filesystems more time to implement (or block) O_CREAT|O_DIRECTORY.
+Kees Cook because as you have structured this it is an exec problem.
 
-- If we create a regular file with mknod, before creation
-  security_path_mknod() is called, and after creation
-  security_path_post_mknod(). If we create a regular file using O_CREAT
-  (and this is also pre-patch) only security_path_mknod() is called. Is
-  this the correct behaviour?
+Oleg Nesterov as he is knowledgable about ptrace.
 
-- open_last_lookups() locks the parent inode like like: 
+Jann Horn <jannh@google.com> writes:
 
-		inode_lock(dir->d_inode);
+> My understanding is that procfs is effectively maintained by the VFS
+> maintainers (though scripts/get_maintainer.pl claims that there are
+> no maintainers for procfs because the VFS entry only claims files
+> directly in fs/, and the procfs entry has no maintainers listed on
+> it).
+>
+> In procfs, most uses of ptrace_may_access() should use
+> exec_update_lock to avoid TOCTOU issues with concurrent privileged
+> execve() (like setuid binary execution).
+>
+> This series doesn't fix all the remaining issues in procfs, but it fixes
+> the easy cases for now; I will probably follow up with fixes for the
+> gnarlier cases later unless someone else wants to do that.
+>
+> I have checked that procfs files still work with these changes and that
+> CONFIG_PROVE_LOCKING=y doesn't generate any warnings.
+>
+> (checkpatch complains about missing argument names in
+> proc_op::proc_get_link, but that was already the case before my
+> patch.)
 
-  should this perhaps be
 
-		inode_lock_nested(dir, I_MUTEX_PARENT);
+I think I finally have my context paged back in so I can intelligently
+say something about this series.
 
-  to stay consistent with the start_dirop() path that is used by
-  filename_create() for instance in mknod(2)? I get that we are only
-  locking one inode here at most, so it does not really matter, but
-  now one regular file create path does set the lockdep and the other
-  does not.
+The scenario you are worried about is when exec gains privileges,
+and we read through proc and authenticate with the old credentials
+instead of the new credentials.
 
-Changes:
-v5: fixed Sashiko reported issues [1]. Moved to EINVAL banning
-O_CREAT|O_DIRECTORY in each individual atomic_open implementation
-instead of in the generic atomic_open() in fs/namei.c.
-v3/4: fixed syzbot reported bugs
-v2: don't introduce a new syscall (mkdirat2) but implement this
-functionality as O_CREAT|O_DIRECTORY in open*(2).
+Question 1.
 
-[1]: 
-https://sashiko.dev/#/patchset/20260518165237.2084042-1-jkoolstra%40xs4all.nl
+Assuming the executable is world readable (which they generally are)
+is there anything that becomes accessible in that race that was
+not already accessible?
 
-Jori Koolstra (2):
-  vfs: add O_CREAT|O_DIRECTORY to open*(2)
-  selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+Question 2.
 
- fs/9p/vfs_inode.c                             |   3 +
- fs/9p/vfs_inode_dotl.c                        |   3 +
- fs/ceph/file.c                                |   3 +
- fs/fuse/dir.c                                 |   3 +
- fs/gfs2/inode.c                               |   3 +
- fs/namei.c                                    | 177 ++++++++++------
- fs/nfs/dir.c                                  |   3 +
- fs/nfs/file.c                                 |   3 +
- fs/open.c                                     |  25 ++-
- fs/smb/client/dir.c                           |   3 +
- fs/vboxsf/dir.c                               |   3 +
- include/linux/fcntl.h                         |   2 +
- .../testing/selftests/filesystems/.gitignore  |   1 +
- tools/testing/selftests/filesystems/Makefile  |   4 +-
- tools/testing/selftests/filesystems/fclog.c   |   1 +
- .../filesystems/open_o_creat_o_dir.c          | 197 ++++++++++++++++++
- 16 files changed, 362 insertions(+), 72 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_dir.c
+How does this race compare to racing with setresuid?
+Do we need to fix the setresuid case as well?
 
--- 
-2.54.0
+Question 3.
+Do we care about the case when a privileged process calls a setuid
+process and drops privileges?
 
+Question 4.
+Is it possible to use a seq_lock instead of reader writer semaphore?
+Or is that only for non-sleeping readers?
+
+There have been a number of nasty cases lurking in the background
+involving seccomp filters, PTRACE_EVENT_EXIT, de_thread and the like.
+
+Blocking locks, especially ones that get widely used, just scare me in
+this area.  Being able to see that something happened between start and
+finish and say -EAGAIN or retrying internally seems like it would be
+much less prone to weirdness.
+
+The ugly with PTRACE_EVENT_EXIT as I recall is that if ptrace stops one
+of the threads (not the one calling exec) at PTRACE_EVENT_EXIT it can
+block de_thread, which blocks the rest of exec.  But there is something
+in there where the ptracer hangs waiting for the exec to complete.  So
+everything just stalls.  The ptracer waiting for exec the exec waiting
+for the ptracer.  SIGKILL can get you out of that mess last I looked.
+Still it is an ugly mess.
+
+Getting everything away from that mess is why we have exec_update_lock
+instead of just cred_guard_mutex.
+
+
+I would really appreciate hearing the scenarios you are aiming to fix
+and how this fixes them.  There are enough races and special cases
+I don't feel comfortable reading that we just need exec_update_lock
+around ptrace_may_access.  It is not clear to me that is sufficient
+to close the small races we are worried about here.
+
+If I could trace through someone else's logic I could be convinced
+and the next people to deal with the code could look at it and see
+ah.  That is the detail that was missed when it has to be fixed again.
+
+Eric
+
+
+> Signed-off-by: Jann Horn <jannh@google.com>
+> ---
+> Jann Horn (2):
+>       proc: protect ptrace_may_access() with exec_update_lock (part 1)
+>       proc: protect ptrace_may_access() with exec_update_lock (FD links)
+>
+>  fs/proc/array.c      |   6 ++
+>  fs/proc/base.c       | 159 ++++++++++++++++++++++-----------------------------
+>  fs/proc/fd.c         |  27 ++++-----
+>  fs/proc/internal.h   |   2 +-
+>  fs/proc/namespaces.c |  12 ++++
+>  5 files changed, 97 insertions(+), 109 deletions(-)
+> ---
+> base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
+> change-id: 20260518-procfs-lockfix-part1-5dca2d95bc12
+>
+> --  
+> Jann Horn <jannh@google.com>
