@@ -1,44 +1,44 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2FD3F54A0;
-	Mon, 25 May 2026 17:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1963F8EC7;
+	Mon, 25 May 2026 17:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729589; cv=none; b=CH+SCkHYBK8MAeqE4Blmb5muB6WKMy2P1n8kpChPrxJKlE1kue5RTkhjJfudySja+k6kDob2fsAxF3xhN5KIbu13JwEl8iexTgMQqk2gPcVYbAR0HaE2akuJr11uoPx6AIqnkv6ke9t11ROKlmXZgBrcpWjmHX8nQxfdwc1uero=
+	t=1779729590; cv=none; b=Nrk/ThGZ1BeoTxPXWRqWwjB/uedS4UXJAF+pQL9ne6W/KD5fW1MAvoxzyRd6u0OBbY6k6fbpGSd4gqyegJ51M5OPx//H65mYYKczGk07fZbJpI4mZ4v14dO0Pk5c1geQEgeEsLSouW8taS54NtQHQGaBSg0clG6wD3DeJC/8fkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729589; c=relaxed/simple;
-	bh=rWadORZhLsvM+wikz3Wxes9C/I5JTkcDQFGng+DWUHU=;
+	s=arc-20240116; t=1779729590; c=relaxed/simple;
+	bh=850MaLvS6lqq/nqImrkb7lCtr8xr/sS+O41HQ2eQI5w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZCufqO5WjT9paqPllHitDgmXMY9z6y5YajgEhsC9FOSj4JnM+XHzoqoiqf77FZY9W1/uhS9YK+v2x+rt06vop34gYsWMJ3z7bHvF8qJMT0Lb0z0aHLp/NKTaILt9ADaEv9jtlgpllkbea/6mvJsiBsmKbHm45Y7zte4xwqSo4wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vRTgEas/; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=PQsstmoqrDcS4vqOBom7otenptncp2etGGIPDe+9fFvFxEeyNsLr9vvQj6Tu9sauXtKk+XfiTBhznV5HD75ngqgb262sMMdS/slPCW289VcmwDHvhaIu2lKk4kqgFwjtxgRHo7mMfwFxZksc+0YQDHExdL1GNOLvhYOFXwxZRKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mWMPZ/Dh; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vRTgEas/"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mWMPZ/Dh"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=JklQE8IRoUKzlm70SkCQnzk7XT11rcF40aSTWvCNSj0=; b=vRTgEas/uPtO8OSx8xgJFhE4TZ
-	LGKAASbLttbwe9kwNuccTEd2Ew6v401ro25I9xhyieyUe1T1ufjhVh32e9KXE1vfSksC3XLPICJnS
-	J6Rzg/H4vtWEBnYocCasq/cmUrSSM5UrvGDR+lpBwaQa+VwQ/sfRPUzURxs37UFhqL385ChDU7yCW
-	9UZkb20YO9PTfJgAFQ+0C7BZ/LnJmVYLhWbiPfng5M4Sg0RmVUaaW/Q6N0397p8AQxK25nnmOUCgx
-	nKr/NkNFM9siN2U0zg87FHQvv1pqyZaNPEZnPYhvwCSSfvfq/aDMtGXgviDqyYt3jDoR4CSGzZLgq
-	jH4omSSA==;
+	bh=FoJuu0JZoCze6AxjTAKfuI9Ll3XB2e4mHDDyVDRKF44=; b=mWMPZ/DhNtbY7gq0ybCXzi5QBT
+	zfXRpbRXzdLULBtlyE9kU1TZvRMojp9jeIQxvie0BEgPLTzS4U1l5oXKlM+8VVyebRgsLIoMbDwJI
+	YNKJN9AYvD977Z0un6e6s37czm3njUGBxZZdfVyDAxEUtZRW3V/YwHt0jC2z9OaPV/kFXr01evffd
+	/tvAa/ei7UNEJaMQo6yeE3AEaqMdDk36Sp19ZDKJMPD0+iJQKoQbcvD9C3pDnFYzMuRRlQjMiCGdV
+	0hORi34IT6Fm9p3SwPTFjb9lQn0WCO8VdsXIM5EBpxyLGaKzYzcEjK6H4O0SK3LEduaH5/XoNy1aK
+	zUCwRjkg==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRYxs-0000000HOCX-1ibo;
-	Mon, 25 May 2026 17:19:44 +0000
+	id 1wRYxt-0000000HODJ-2nTa;
+	Mon, 25 May 2026 17:19:45 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-fsdevel@vger.kernel.org,
-	gfs2@lists.linux.dev
-Subject: [PATCH 24/34] gfs2: Remove use of b_end_io in gfs2_meta_read_endio()
-Date: Mon, 25 May 2026 18:19:17 +0100
-Message-ID: <20260525171931.4144395-25-willy@infradead.org>
+	linux-raid@vger.kernel.org
+Subject: [PATCH 30/34] md-bitmap: Convert read_file_page and write_file_page to bh_submit()
+Date: Mon, 25 May 2026 18:19:23 +0100
+Message-ID: <20260525171931.4144395-31-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260525171931.4144395-1-willy@infradead.org>
 References: <20260525171931.4144395-1-willy@infradead.org>
@@ -50,44 +50,78 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All buffer heads submitted by gfs2_submit_bhs() use
-end_buffer_read_sync() so we can call it directly.
+Avoid an extra indirect function call by using bh_submit() instead of
+submit_bh().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: gfs2@lists.linux.dev
+Cc: linux-raid@vger.kernel.org
 ---
- fs/gfs2/meta_io.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/md/md-bitmap.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/fs/gfs2/meta_io.c b/fs/gfs2/meta_io.c
-index d407dd476e72..df5f05054f6e 100644
---- a/fs/gfs2/meta_io.c
-+++ b/fs/gfs2/meta_io.c
-@@ -212,7 +212,7 @@ static void gfs2_meta_read_endio(struct bio *bio)
- 		do {
- 			struct buffer_head *next = bh->b_this_page;
- 			len -= bh->b_size;
--			bh->b_end_io(bh, !bio->bi_status);
-+			end_buffer_read_sync(bh, bio->bi_status == BLK_STS_OK);
- 			bh = next;
- 		} while (bh && len);
+diff --git a/drivers/md/md-bitmap.c b/drivers/md/md-bitmap.c
+index 028b9ca8ce52..c0a4559186e2 100644
+--- a/drivers/md/md-bitmap.c
++++ b/drivers/md/md-bitmap.c
+@@ -502,6 +502,18 @@ static void write_sb_page(struct bitmap *bitmap, unsigned long pg_index,
+ static void md_bitmap_file_kick(struct bitmap *bitmap);
+ 
+ #ifdef CONFIG_MD_BITMAP_FILE
++static void end_bitmap_write(struct bio *bio)
++{
++	bool uptodate = bio->bi_status == BLK_STS_OK;
++	struct buffer_head *bh = bio_endio_bh(bio);
++	struct bitmap *bitmap = bh->b_private;
++
++	if (!uptodate)
++		set_bit(BITMAP_WRITE_ERROR, &bitmap->flags);
++	if (atomic_dec_and_test(&bitmap->pending_writes))
++		wake_up(&bitmap->write_wait);
++}
++
+ static void write_file_page(struct bitmap *bitmap, struct page *page, int wait)
+ {
+ 	struct buffer_head *bh = page_buffers(page);
+@@ -510,7 +522,7 @@ static void write_file_page(struct bitmap *bitmap, struct page *page, int wait)
+ 		atomic_inc(&bitmap->pending_writes);
+ 		set_buffer_locked(bh);
+ 		set_buffer_mapped(bh);
+-		submit_bh(REQ_OP_WRITE | REQ_SYNC, bh);
++		bh_submit(bh, REQ_OP_WRITE | REQ_SYNC, end_bitmap_write);
+ 		bh = bh->b_this_page;
  	}
-@@ -275,7 +275,6 @@ int gfs2_meta_read(struct gfs2_glock *gl, u64 blkno, int flags,
- 		unlock_buffer(bh);
- 		flags &= ~DIO_WAIT;
- 	} else {
--		bh->b_end_io = end_buffer_read_sync;
- 		get_bh(bh);
- 		bhs[num++] = bh;
- 	}
-@@ -288,7 +287,6 @@ int gfs2_meta_read(struct gfs2_glock *gl, u64 blkno, int flags,
- 			unlock_buffer(bh);
- 			brelse(bh);
- 		} else {
--			bh->b_end_io = end_buffer_read_sync;
- 			bhs[num++] = bh;
+ 
+@@ -519,16 +531,6 @@ static void write_file_page(struct bitmap *bitmap, struct page *page, int wait)
+ 			   atomic_read(&bitmap->pending_writes) == 0);
+ }
+ 
+-static void end_bitmap_write(struct buffer_head *bh, int uptodate)
+-{
+-	struct bitmap *bitmap = bh->b_private;
+-
+-	if (!uptodate)
+-		set_bit(BITMAP_WRITE_ERROR, &bitmap->flags);
+-	if (atomic_dec_and_test(&bitmap->pending_writes))
+-		wake_up(&bitmap->write_wait);
+-}
+-
+ static void free_buffers(struct page *page)
+ {
+ 	struct buffer_head *bh;
+@@ -592,12 +594,11 @@ static int read_file_page(struct file *file, unsigned long index,
+ 			else
+ 				count -= blocksize;
+ 
+-			bh->b_end_io = end_bitmap_write;
+ 			bh->b_private = bitmap;
+ 			atomic_inc(&bitmap->pending_writes);
+ 			set_buffer_locked(bh);
+ 			set_buffer_mapped(bh);
+-			submit_bh(REQ_OP_READ, bh);
++			bh_submit(bh, REQ_OP_READ, end_bitmap_write);
  		}
- 	}
+ 		blk_cur++;
+ 		bh = bh->b_this_page;
 -- 
 2.47.3
 
