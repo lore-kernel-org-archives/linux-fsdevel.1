@@ -1,32 +1,68 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798053C060C;
-	Mon, 25 May 2026 07:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A0C3D1CD0
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 07:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779693038; cv=none; b=GdYjOFQfjnLmjum6rduMWq5TPolrBgosp9wx0eWDv+Oi3NV1QsAcJQGfvQ3/dUK3xdiqcAdE8/8gFcsh6/I8Tjl6ERTy6OI3lGHftLvfX5DfxP0E+iCBrPY5D1bo5PPdaCLE9+p5Y5mBh7NLOY+0GaN2deTP9OJLU2BtJWQ1Mw4=
+	t=1779694155; cv=none; b=kVhNtTHE2gTaJd0hTRmUg8qUqb9fFrX4L2H1RVb0Aje/uD2vVwm7hkx4hOkbOlgyB/gSZjZqhUxyv2OdBB1rwCR1X1NjYDL+eus72PES7lXlRgraZEIOJaRk8oKeApiSp4wOxh7XXxDetbiykkNPCw+Ap3R2XHTh1FyYcCFHjuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779693038; c=relaxed/simple;
-	bh=g8N5+ESzlEtm5aWlUEDrKwz4n+WCzRmKGtK07gvgp+A=;
+	s=arc-20240116; t=1779694155; c=relaxed/simple;
+	bh=Dg6xOhAfC8nAS8w2UlP1hkcGBI6/eEQ9ST3cagLZT4s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KMu0j2aWfxUyWvP7gqlA46hfXrkxMhpyZgvnqBxlJhGHDcZRo2aIzFbz9SHzV+qIXhGKoMwj6m7ZEq6gv6YqpEPDXbArQoiYdTgSPLJjuSy7EI26gLsPveHmE59RteNv37oinCmY3/t7cHqSQplEgloXuUZGPMerckbaQ8Rx5Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=OR6dMVB3; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	 In-Reply-To:Content-Type; b=ctC3O7jwkQc8idlSuR+KXtMTrUZ6J8H+F05p/LLJIY+pwzuypjHvYU7BWakoPO90GaNtL51oamVmAVRJ5jNKuoZ1H/tQLAE5dt1WM3/rmEuA/SogcakOVSYVAAkzEUAywODFz7sgmUQupGbD0YTmFC5Xt0YPcenz9evroVp+aAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UlHC2Qlk; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="OR6dMVB3"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1779693030; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=q0TGY7Tvs4qtdmNexGx+wDHmFYHVm6o5kSYPELpBcuk=;
-	b=OR6dMVB3T1BTP+S6tpgL1PKwZPRzvtxjuLRoIAHs3N8m91HR+eAgJiUuj+G6s13AfJchNyymAwzOoiRS10cSyQKUgmCkxWnQ3VfWZ9dVKxJiAwSCFoewPGbetyn7Qkd59yPSFkPp7gdlFYz62XW/PjogEMLW0UmfTSPg6Q3vCWQ=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R811e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X3VfnFW_1779693026;
-Received: from 30.74.144.135(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X3VfnFW_1779693026 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 25 May 2026 15:10:27 +0800
-Message-ID: <772f7bcb-eb78-4439-b94b-1a096a01dc51@linux.alibaba.com>
-Date: Mon, 25 May 2026 15:10:26 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UlHC2Qlk"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4904127c32cso18242445e9.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 00:29:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779694152; x=1780298952; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=m+/CremarURMLXbq9HZsozt2//0CtuRcgdYp3OMzrIs=;
+        b=UlHC2QlkIb4XLnXGJy7wJ9WEAIolGMLkGZ4XYlME8S5AEhdyWcsYCae0wgtAz5uZ6+
+         wDxbJJc9Qcy9N4zpjKC7zI5pmqbWBoSZDbWXiLTEehoIUXCaj34l+WX6RaOvip1EfiRN
+         BWYI+Lt8tA7PBSZL/Rc7fB0gydpI+H2O6cCgLPmW57JUpG8J7z0/QgZ2aUm1B9SPftOE
+         Rp+dcu5/00PDGT9i0OHnPZ0cYSSdG0yV5Eq+2sDJGN61sVIoGEdfy28aIcecT3IQko+W
+         ZWSGztFHDohN0gSU1UiEHLFPN28TmZTWsrNkupph4hd+MoKIvQjrfq5Tc9IWiVAk6hog
+         kHhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779694152; x=1780298952;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m+/CremarURMLXbq9HZsozt2//0CtuRcgdYp3OMzrIs=;
+        b=c5D1c8+rJyxPjgNIATwsd/Lccqy66x3RC9G65oAZaChyGCAkRlQ3co3vrWl7nWG25F
+         Z/kIaVYNmwohCz793Ac0jt2SkDbh83xWqmUvcJ/u9FL8PmRYQhA5mvDAqdFju0gakjED
+         zGxlEPr5yYweAXxpgMDpa6tJ6+WviQtkgEmjnm4amgQOtU2gEw1tl+k+GJYjo7Qfw0gI
+         nkafqdzLSBUSkgZf5SlSoGb8mBFBmNYgBgjPKPeM6ZeSUqNUjXNaEznqdWuYM/HaPnRt
+         LyQT1qa0vYxsbbafojbkmwC4xsvrgCcdGLBxv8GmdWwG6RlQg3Iy5WDgQ0K13ycXW2/w
+         Vu7A==
+X-Forwarded-Encrypted: i=1; AFNElJ9RZjprq4o98lzymXc1kanQJDlWjq9ufW2KE5yXfp8rv0SDkSHle4f3Y4ASeaW4qdEjXZ1YwTZtOVp2b0Ws@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEK/acNrEG+YtmZDM/3bax8lpzFzZDSMFB97HQBu6kD3BW/L0Y
+	Ne85KBhnqiQG01s4xNBlfP77dPIyH8MiWzqIyBAulgFBqithJyo7r1Pq
+X-Gm-Gg: Acq92OGuFN5E1sCYpuluD5hiZMKh6uXyFrkJSRcuCF5Ub4bphVtBY3mKp3f0R92IFcL
+	3CQeAWejMKKg76CwcqJBtjIU4nkYYL6UhuIKBuJYirL5BuCztgFQ1Ee86gksyyZGGwQz8FynFAZ
+	fifzfI00esm5hCqGxAc7kjfFGQH4c5E8FIKPA/K6hz+Bfh5FYr/c1S5eLvpq40aqhXZyiB9YvEA
+	ma0kn1KAYzKt57v7ur5D9HyXEy9kvOzTtoY/8LF3wCTejK8jeLkNDto43RDswtDBLueMtPvulBD
+	Y72akAemxewr+NGshEEFI7V18k4314AftlAQKRjsg6jw/pNrD2rH6r5lLWmNIyt1Zl++ttbtuJM
+	wf6u4fEpTYx0s74p2ECOTBC4tCZykH9xG3Tpq6KARKJ4lgQHc+v1eAcaeO6Wv/i83G5PkmHf95c
+	Ut0nt842hkJhE1L54DOJDJxt6qRXEqRKKE5/wzvssY/GWO7QdhZq74juI4mg4hb1ofX3JDY5no7
+	CAvDvBrNVwVq5l03YrF/Wt+OQgTe8w2JrwxqwxU1EauKp7zNlQNgthUoMwn0srBXXeeKe2BUrqo
+	FBhPJPO2KS2ZSztfjBlLR2w=
+X-Received: by 2002:a05:600c:c4a1:b0:490:1640:8269 with SMTP id 5b1f17b1804b1-490426d1a16mr227253215e9.18.1779694151663;
+        Mon, 25 May 2026 00:29:11 -0700 (PDT)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490428d4cefsm81771025e9.14.2026.05.25.00.29.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 May 2026 00:29:10 -0700 (PDT)
+Message-ID: <57ae2e2f-8523-4cba-ad77-920535edd236@gmail.com>
+Date: Mon, 25 May 2026 08:29:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,127 +70,55 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/5] mm/shmem: make SGP_NOALLOC succeed on hole like
- SGP_READ
-To: Chi Zhiling <chizhiling@163.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Cc: Hugh Dickins <hughd@google.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+Subject: Re: [PATCH v3 04/10] block: introduce dma map backed bio type
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Chi Zhiling <chizhiling@kylinos.cn>
-References: <20260520101538.58745-1-chizhiling@163.com>
- <20260520101538.58745-4-chizhiling@163.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20260520101538.58745-4-chizhiling@163.com>
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ io-uring@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
+ Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
+ William Power <william.power@intel.com>, Phil Cayton
+ <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1777475843.git.asml.silence@gmail.com>
+ <646ecd6fde8d9e146cb051efb514deb27ce3883e.1777475843.git.asml.silence@gmail.com>
+ <20260513081929.GD5477@lst.de>
+ <24833f76-2289-4859-86d1-9215b11a1258@gmail.com>
+ <20260520083043.GA18893@lst.de>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20260520083043.GA18893@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 5/20/26 6:15 PM, Chi Zhiling wrote:
-> From: Chi Zhiling <chizhiling@kylinos.cn>
+On 5/20/26 09:30, Christoph Hellwig wrote:
+> On Mon, May 18, 2026 at 11:29:54AM +0100, Pavel Begunkov wrote:
+>>>>    	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
+>>>>    	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
+>>>> +	BIO_DMABUF_MAP, /* Using premmaped dma buffers */
+>>>
+>>> Shouldn't this be a REQ_ flag as we should never mix and match bios with
+>>> and without this flag in a single request?
+>>
+>> Do you mean adding both and propagating it from bio to req? submit_bio()
+>> takes a bio, so we still need to set it there before it reaches blk-mq.
+>> And there might be bio-based drivers using it in the future.
 > 
-> Change SGP_NOALLOC to return 0 with NULL folio on hole, matching
-> SGP_READ behavior. This simplifies the sgp_type handling by unifying
-> hole semantics across these types.
+> I think I forgot to reply to this, so let's do this now.
 > 
-> Previously, SGP_NOALLOC returned -ENOENT on hole, while SGP_READ
-> returned 0. This inconsistency required special handling in callers
-> like khugepaged and userfaultfd.
+> REQ_ is actually used by both bios and requests, so if you set it in
+> bio->bi_opf it will automatically get propagated to the request, but
+> it can also always be tested on the bio, including by bio-based
+> drivers.
 
-This patch doesn't seem to be a performance optimization, and I'm not 
-convinced.
+Ah yes, good point, thanks
 
-> After this change:
-> - khugepaged: behavior unchanged (checks both error and NULL folio)
-
-But this adds an extra check to khugepaged, and I'm not sure it's worth it.
-
-> - userfaultfd: behavior unchanged (both -ENOENT and NULL are converted
->    to -EFAULT before returning to userspace)
-
-No, this will break userfaultfd, cause userfaultfd currently returns an 
-error code directly in this case (please update to the latest 
-codebase.). See:
-
-static struct folio *shmem_get_folio_noalloc(struct inode *inode, 
-pgoff_t pgoff)
-{
-	struct folio *folio;
-	int err;
-
-	err = shmem_get_folio(inode, pgoff, 0, &folio, SGP_NOALLOC);
-	if (err)
-		return ERR_PTR(err);
-
-	return folio;
-}
-
-> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
-> ---
->   include/linux/shmem_fs.h | 2 +-
->   mm/khugepaged.c          | 2 +-
->   mm/shmem.c               | 9 +++------
->   3 files changed, 5 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> index 93a0ba872ebe..d461713c095b 100644
-> --- a/include/linux/shmem_fs.h
-> +++ b/include/linux/shmem_fs.h
-> @@ -165,7 +165,7 @@ extern unsigned long shmem_partial_swap_usage(struct address_space *mapping,
->   /* Flag allocation requirements to shmem_get_folio */
->   enum sgp_type {
->   	SGP_READ,	/* don't exceed i_size, don't allocate page */
-> -	SGP_NOALLOC,	/* similar, but fail on hole or use fallocated page */
-> +	SGP_NOALLOC,	/* like SGP_READ, but accept fallocated page */
->   	SGP_CACHE,	/* don't exceed i_size, may allocate page */
->   	SGP_WRITE,	/* may exceed i_size, may allocate !Uptodate page */
->   	SGP_FALLOC,	/* like SGP_WRITE, but make existing page Uptodate */
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index b8452dbdb043..3309d1c094df 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -1950,7 +1950,7 @@ static enum scan_result collapse_file(struct mm_struct *mm, unsigned long addr,
->   				xas_unlock_irq(&xas);
->   				/* swap in or instantiate fallocated page */
->   				if (shmem_get_folio(mapping->host, index, 0,
-> -						&folio, SGP_NOALLOC)) {
-> +						&folio, SGP_NOALLOC) || !folio) {
->   					result = SCAN_FAIL;
->   					goto xa_unlocked;
->   				}
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 3b5dc21b323c..458853c506ea 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -2524,14 +2524,11 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
->   	}
->   
->   	/*
-> -	 * SGP_READ: succeed on hole, with NULL folio, letting caller zero.
-> -	 * SGP_NOALLOC: fail on hole, with NULL folio, letting caller fail.
-> +	 * SGP_READ/SGP_NOALLOC: succeed on hole, with NULL folio.
->   	 */
->   	*foliop = NULL;
-> -	if (sgp == SGP_READ)
-> +	if (sgp <= SGP_NOALLOC)
->   		return 0;
-> -	if (sgp == SGP_NOALLOC)
-> -		return -ENOENT;
->   
->   	/*
->   	 * Fast cache lookup and swap lookup did not find it: allocate.
-> @@ -2657,7 +2654,7 @@ static int shmem_get_folio_gfp(struct inode *inode, pgoff_t index,
->    *
->    * When no folio is found, the behavior depends on @sgp:
->    *  - for SGP_READ, *@foliop is %NULL and 0 is returned
-> - *  - for SGP_NOALLOC, *@foliop is %NULL and -ENOENT is returned
-> + *  - for SGP_NOALLOC, *@foliop is %NULL and 0 is returned
->    *  - for all other flags a new folio is allocated, inserted into the
->    *    page cache and returned locked in @foliop.
->    *
+-- 
+Pavel Begunkov
 
