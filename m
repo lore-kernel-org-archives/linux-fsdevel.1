@@ -1,43 +1,43 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415FE314A84
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB28C2EDD6B
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729586; cv=none; b=H4Zztwor5dpRrMqjYgMp6rjqAjArowpDwVUoEzldlqqEZEn++6mszLs1a48bkDHF2o4Acjt4hLP+TJe/4PTpE3k75hYPBxFSdBlCnWNS6iyYJcMhP8sCsXYVp4EvB8xr4Byu5AvnDnJOKvhEVaHEFDTAXnf0mPKPQA0RoSJSPQA=
+	t=1779729587; cv=none; b=GABeFeHq+MdeebVqMn4OUn2BBTx8q5an7ZaTHXTwN17t+PT4g8WeDlDxKi5UtVXql3WEaqIesmdRwa0Z7a/VSlVt6lA/knsjnNJi+xrxfYTOLcsIO9uWCO/qUsF9jpIQ/CiSP8roY/QA20+a23V0YJh+0aJ3cBHoujxWzlU7ryc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729586; c=relaxed/simple;
-	bh=ha1npjCodJio4uh6CMsmYrjdeuDD3COWbHayMuE/n/g=;
+	s=arc-20240116; t=1779729587; c=relaxed/simple;
+	bh=1ZXmRPOrGMxazAPrP3imtoNNSpyT3q64/BrthjxnffI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rugaxvLe2OplrzEQoLEYOVbtPt+ZNvdb1Oejk6IlnYVGT+EVCK1dL9mRuxR+sOvhNfnxosw73uW3XQsX2CTxuWz2k3cXmiRLPrJjiQ0KbP5g2St5K1HRg02leS7Y5iOU48cJQ+JzNdfp22YNduKfcAZ16NlIV+oTj0g5UNrESko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iuBXruot; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=Acd2hPnRPNehwOWLfN+XGxo7KWy9Rbq5KLmhPARoa9ni9F+CUzXbkAx9RRzRrYNoSS4WRGrhztO6uGP0PFYAFeX+U0qi/7zqE1HIGzwUZKfT2yekPmRkIEdWmBZhze/FfpItJBQ9qHP5FDfmzgXBDUtsg4HLACh4/2mx6yW3Uzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gD4u307g; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iuBXruot"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gD4u307g"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=jThy3QyIlL3lKjy2B/YjDrTJruICMqTKSxU2J52rLTo=; b=iuBXruot2Bvuv/f7jrmvL/V3k7
-	//4qaePJ6NvQhizXVZcVIZfHAZxbn7L/hdSb1Xcstn+sjl0Izq/1ftXbtwdah1gP/aw309TME0yfl
-	cEjCNS9kIQ04sxn8W0QDNLOpZJzUmNaRLtiwBeM/+6LUpRekMxs58Jow12lN8cJ2wHKHXbgVzmohS
-	KdTNSOUb35mk6qOx02BXCLe9zHrRyuYkVQUj4M1G4k1PrKwtLBWWAWzn0q9QjSD5wE7DgQD5E3amI
-	EngQ9aQR7NxT+ZAtG1l5u9Ka+mqKW7RmSCDzwFyxZUTrKjd0dL58MoUAMt56r/aRiAnHKrp50r6dE
-	KO/EM/bQ==;
+	bh=73TaKEpy/fLOwfF8qq3b4YfJViHaEHaiyKUeXHw3U/o=; b=gD4u307gfd/MTEV2Ps6x9LoXQd
+	+W8/MPo3K07beMj6ejChO9YsrT4zOOmWI9cy3v0sXA/nNy0uEMl97lx1xzMdaP3bLXs1ePq82yoxa
+	OM9n/t7lt0qOmPCkKg0qHphsCkrPuKbMGusmwFO7gGuADCQA5cQZ7hslG0HaLBCzLPjy//GGxkl6b
+	O8nA22NSOdQYwl5DzveCOomtXvbDF+ZYMlsf8+Gn0rbA3yc5C3PUUtoF/KuGC4DrS9GOkdiIDVg8D
+	8Z7bblMLf6ootEx33KFRuNN4i8VZDVipeacGgCi8KUlXUaILFBBXig/7vgzQsK39EfH9cBXnd1LUj
+	PSiPyLqQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRYxn-0000000HO9X-2nBt;
-	Mon, 25 May 2026 17:19:39 +0000
+	id 1wRYxo-0000000HO9y-1CUE;
+	Mon, 25 May 2026 17:19:40 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 01/34] buffer: Remove forward declaration of submit_bh_wbc()
-Date: Mon, 25 May 2026 18:18:54 +0100
-Message-ID: <20260525171931.4144395-2-willy@infradead.org>
+Subject: [PATCH 05/34] buffer: Convert write_dirty_buffer to bh_submit()
+Date: Mon, 25 May 2026 18:18:58 +0100
+Message-ID: <20260525171931.4144395-6-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260525171931.4144395-1-willy@infradead.org>
 References: <20260525171931.4144395-1-willy@infradead.org>
@@ -49,188 +49,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rearrange functions to avoid this forward declaration.
+Avoid an extra indirect function call by using bh_submit() instead of
+submit_bh().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- fs/buffer.c | 150 +++++++++++++++++++++++++---------------------------
- 1 file changed, 73 insertions(+), 77 deletions(-)
+ fs/buffer.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/fs/buffer.c b/fs/buffer.c
-index b0b3792b1496..d4e9a10d2a26 100644
+index 84ba0d892267..3bad3f4edd54 100644
 --- a/fs/buffer.c
 +++ b/fs/buffer.c
-@@ -54,9 +54,6 @@
- 
- #include "internal.h"
- 
--static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
--			  enum rw_hint hint, struct writeback_control *wbc);
--
- #define BH_ENTRY(list) list_entry((list), struct buffer_head, b_assoc_buffers)
- 
- inline void touch_buffer(struct buffer_head *bh)
-@@ -1157,6 +1154,79 @@ void __bforget(struct buffer_head *bh)
+@@ -2826,9 +2826,8 @@ void write_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags)
+ 		unlock_buffer(bh);
+ 		return;
+ 	}
+-	bh->b_end_io = end_buffer_write_sync;
+ 	get_bh(bh);
+-	submit_bh(REQ_OP_WRITE | op_flags, bh);
++	bh_submit(bh, REQ_OP_WRITE | op_flags, bh_end_write);
  }
- EXPORT_SYMBOL(__bforget);
+ EXPORT_SYMBOL(write_dirty_buffer);
  
-+static void end_bio_bh_io_sync(struct bio *bio)
-+{
-+	struct buffer_head *bh = bio->bi_private;
-+
-+	if (unlikely(bio_flagged(bio, BIO_QUIET)))
-+		set_bit(BH_Quiet, &bh->b_state);
-+
-+	bh->b_end_io(bh, !bio->bi_status);
-+	bio_put(bio);
-+}
-+
-+static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
-+				  gfp_t gfp_mask)
-+{
-+	const struct address_space *mapping = folio_mapping(bh->b_folio);
-+
-+	/*
-+	 * The ext4 journal (jbd2) can submit a buffer_head it directly created
-+	 * for a non-pagecache page.  fscrypt doesn't care about these.
-+	 */
-+	if (!mapping)
-+		return;
-+	fscrypt_set_bio_crypt_ctx(bio, mapping->host,
-+			folio_pos(bh->b_folio) + bh_offset(bh), gfp_mask);
-+}
-+
-+static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
-+		enum rw_hint write_hint, struct writeback_control *wbc)
-+{
-+	const enum req_op op = opf & REQ_OP_MASK;
-+	struct bio *bio;
-+
-+	BUG_ON(!buffer_locked(bh));
-+	BUG_ON(!buffer_mapped(bh));
-+	BUG_ON(!bh->b_end_io);
-+	BUG_ON(buffer_delay(bh));
-+	BUG_ON(buffer_unwritten(bh));
-+
-+	/*
-+	 * Only clear out a write error when rewriting
-+	 */
-+	if (test_set_buffer_req(bh) && (op == REQ_OP_WRITE))
-+		clear_buffer_write_io_error(bh);
-+
-+	if (buffer_meta(bh))
-+		opf |= REQ_META;
-+	if (buffer_prio(bh))
-+		opf |= REQ_PRIO;
-+
-+	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
-+
-+	if (IS_ENABLED(CONFIG_FS_ENCRYPTION))
-+		buffer_set_crypto_ctx(bio, bh, GFP_NOIO);
-+
-+	bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
-+	bio->bi_write_hint = write_hint;
-+
-+	bio_add_folio_nofail(bio, bh->b_folio, bh->b_size, bh_offset(bh));
-+
-+	bio->bi_end_io = end_bio_bh_io_sync;
-+	bio->bi_private = bh;
-+
-+	/* Take care of bh's that straddle the end of the device */
-+	guard_bio_eod(bio);
-+
-+	if (wbc) {
-+		wbc_init_bio(wbc, bio);
-+		wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_size);
-+	}
-+
-+	blk_crypto_submit_bio(bio);
-+}
-+
- static struct buffer_head *__bread_slow(struct buffer_head *bh)
- {
- 	lock_buffer(bh);
-@@ -2663,80 +2733,6 @@ sector_t generic_block_bmap(struct address_space *mapping, sector_t block,
- }
- EXPORT_SYMBOL(generic_block_bmap);
- 
--static void end_bio_bh_io_sync(struct bio *bio)
--{
--	struct buffer_head *bh = bio->bi_private;
--
--	if (unlikely(bio_flagged(bio, BIO_QUIET)))
--		set_bit(BH_Quiet, &bh->b_state);
--
--	bh->b_end_io(bh, !bio->bi_status);
--	bio_put(bio);
--}
--
--static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
--				  gfp_t gfp_mask)
--{
--	const struct address_space *mapping = folio_mapping(bh->b_folio);
--
--	/*
--	 * The ext4 journal (jbd2) can submit a buffer_head it directly created
--	 * for a non-pagecache page.  fscrypt doesn't care about these.
--	 */
--	if (!mapping)
--		return;
--	fscrypt_set_bio_crypt_ctx(bio, mapping->host,
--			folio_pos(bh->b_folio) + bh_offset(bh), gfp_mask);
--}
--
--static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
--			  enum rw_hint write_hint,
--			  struct writeback_control *wbc)
--{
--	const enum req_op op = opf & REQ_OP_MASK;
--	struct bio *bio;
--
--	BUG_ON(!buffer_locked(bh));
--	BUG_ON(!buffer_mapped(bh));
--	BUG_ON(!bh->b_end_io);
--	BUG_ON(buffer_delay(bh));
--	BUG_ON(buffer_unwritten(bh));
--
--	/*
--	 * Only clear out a write error when rewriting
--	 */
--	if (test_set_buffer_req(bh) && (op == REQ_OP_WRITE))
--		clear_buffer_write_io_error(bh);
--
--	if (buffer_meta(bh))
--		opf |= REQ_META;
--	if (buffer_prio(bh))
--		opf |= REQ_PRIO;
--
--	bio = bio_alloc(bh->b_bdev, 1, opf, GFP_NOIO);
--
--	if (IS_ENABLED(CONFIG_FS_ENCRYPTION))
--		buffer_set_crypto_ctx(bio, bh, GFP_NOIO);
--
--	bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
--	bio->bi_write_hint = write_hint;
--
--	bio_add_folio_nofail(bio, bh->b_folio, bh->b_size, bh_offset(bh));
--
--	bio->bi_end_io = end_bio_bh_io_sync;
--	bio->bi_private = bh;
--
--	/* Take care of bh's that straddle the end of the device */
--	guard_bio_eod(bio);
--
--	if (wbc) {
--		wbc_init_bio(wbc, bio);
--		wbc_account_cgroup_owner(wbc, bh->b_folio, bh->b_size);
--	}
--
--	blk_crypto_submit_bio(bio);
--}
--
- void submit_bh(blk_opf_t opf, struct buffer_head *bh)
- {
- 	submit_bh_wbc(opf, bh, WRITE_LIFE_NOT_SET, NULL);
 -- 
 2.47.3
 
