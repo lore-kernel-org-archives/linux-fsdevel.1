@@ -1,90 +1,44 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52B2299931
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAC432B128;
+	Mon, 25 May 2026 17:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729699; cv=none; b=hFIrAgQZ34zO9LLXalYJjX7PrFffCLpL+COCmhEFgcFiCsjNeCC0PL1Y6cr/BiCDAzroaIUJ26AlRE46QWnoCnstj0xfeaWX2kXwTM0YqtQIonVcASRqm7cqOtfKzeMRrzbsyUuHw0f5UuOZmgY72l+rBrWNgcBHjTbOgtO9B/M=
+	t=1779731702; cv=none; b=BzOZM2Xwj6JePFPK6dWzEDZKRIO4u8O9N3esqli2LrQ1NGqhpzvzBlnXPVt9Zu7bFNG82DUTALLRXaSwvhA7Nh6o72yqo/uach/umX4KAxsSKutPf6swzwZl+/Jgzm/MeNOeYGjKwM1BF6sGuCTv3uIB5lAirSB1w0eNpq3Ndjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729699; c=relaxed/simple;
-	bh=VCEFYOA8bvBB0He6GPuue1J5cPggJ9r83oKY1RULIeM=;
+	s=arc-20240116; t=1779731702; c=relaxed/simple;
+	bh=dSxlyObc+C0UptMww3e1YvrtNpTonTJ4UTyos4bl4pg=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jh3+loVD6uKCQcH1SJbmdbrnUhGEM1oU4u6rxHK+NDh4LzX5HRoU5SBh44rJGzLnFt1A8B1ggp7aeuatgmMyuXyK+RjJiMLu6tTtX7WPQVX2YeSauKZ9ZW22Xt4q+JYllxBIUez5LOw6CKBVX1aiGyrF6lRcUUSFcjJyUTjlq4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nFLYqe1t; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version:Content-Type; b=uhUSI8y9iiXjwX8v73WygNiDfuiGoLA3o3T4cJgNs4RV4m1hybc7AIlzftjoeYrPE4AkCsPW/ZgajIgTTwB+BPOrrW26pDpNvadDLEnlFJYTWe/4UpkN0cAixVYp+o0t1ChiTeu/dp20JDn9iBUad1g2ab5tqgSV0L7lyjM4Als=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HdXstT5G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nFLYqe1t"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so102272695e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 10:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779729696; x=1780334496; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sNWXusXZo+ITDqzjd8lv9UPW26DbKQzVTY3kSMXJqIc=;
-        b=nFLYqe1tk7qwCxZBvuRvWqGDl/PP1t56e6sHt9JBmmmYmlbOXU8xnMDPX+8rPndMNa
-         2zgBc7yUrnJOp9pyEBh4d/26MNx5cn3UNMTWA5ijw8O2EKGD44exJ9D+89Ul/Qc1Pt+R
-         /EOZDji4aBNJqur9ul7T5t00BS5di3PrdKi2XezOB//+KK/86ne/3D2AmRBY6ANpdjCb
-         ThvzY2xpYZ+2BNNBxmDNt1N/CaZP22TNh0pp4Q7X428uuzBIbbBges+roGw8JwlrYKUn
-         xPu/34xris6plMkYf5LQoMtInpdT2hWsLdOTyXxGzT9tEeMg/Y98J2QfxTtUdj6zOITs
-         b2cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779729696; x=1780334496;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sNWXusXZo+ITDqzjd8lv9UPW26DbKQzVTY3kSMXJqIc=;
-        b=W+zoQLiMTKHH64ClSbMmWoaGfYRq7Ko6ZiDoru/1eCzDqJNaeJtJJdaVzamgwFafex
-         5nRbw0g8xs2Qx5y0PdkobOUFQgrX6piUIGUPAc8KqCjsOeLgsjSwc1bxEnjrRNw5e7eU
-         TlgOSUsA78y8Mc9PMu+zUt/pvM+bCzNgWGmfX++Irvn5JTzXrpI/EEX3EJX8rWIh4Eag
-         uliEFRFLTHkthxTNJnDUhSr/gQ2E9taHCIOQsQlPcp9tYecf3MvcIDBsWgyIcmnT0L5z
-         mAXUe5Z8HkGmjR6Z+aMsH22nY1b8EsvHei9OnraxUjovR5pZiCXr/4kx3SJQqXjgajmX
-         EK4A==
-X-Forwarded-Encrypted: i=1; AFNElJ8xtFRzWHJiaBp30qV1ifkzmv0H42tJqpF9Q6zZJEqmAp/bDvCtuJwUwbn5FHjCEMhlRLuj2VXU/xjDPXSk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYJAtgktxPgXp4egj9f+Cc7tYF9H3I/eU7e5wqdvn32T1A7bvN
-	OWNQpS2sZskHyyfYoOMbY4U3fMHjp94ibqJzprb7pLx0WPJunD4+vKmh
-X-Gm-Gg: Acq92OFCyHyVF6SHJ6VDyuYMw3GAc5LZyKKkgW/HYFBysK3Z7vejB4AuUvQ2XO0C0DR
-	Yd9FnwVW4HpU64Qa4e5SIkdc+qG2KvJFOJCK/PQaLqfvsSBTWnC+yflizi5U+wb4P5h75szv4Y1
-	vB9bJEiwAuHgq5fqHIbChZ6zEHHXN7DbXXNc9Tr+m1d/aJZBDdkAh07yP7jGQDbnjaqATZETSBL
-	FxY+iFwIkU7nIaflpFQceEqThNmONtwGhjmsZyLTO6GeQCbYzvib59hZelfnvcSilIZ+AR3x3eu
-	VTYgCyMLP3j1ecKRWTpg/BwWo9fdmfzNFFjgxhKCb2H9ACECPSiD+CIv+rLdcbQV16TAucn8JBR
-	KvmaBT/Tjm/+iCBtYCZ8uPVS8ePqINcQjUoLWxx7CFQH/HDsziep2UX/X9/X1DgAxdcrLn7nopG
-	bvtD86La2+0Et1taUVytRJSWh0auDWKRcs5AszCBHAB6le08VE6KXiUeAEyOHUpE3d
-X-Received: by 2002:a05:600c:83c6:b0:490:5872:e641 with SMTP id 5b1f17b1804b1-4905872e758mr158057335e9.18.1779729696288;
-        Mon, 25 May 2026 10:21:36 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490428d63f8sm88577605e9.18.2026.05.25.10.21.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 10:21:35 -0700 (PDT)
-Date: Mon, 25 May 2026 18:21:34 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Jan Kara <jack@suse.cz>
-Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>, Jan Kara <jack@suse.com>,
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
- <joseph.qi@linux.alibaba.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>,
- Viacheslav Dubeyko <slava@dubeyko.com>, Trond Myklebust
- <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever
- <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, NeilBrown
- <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
- <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Dave
- Kleikamp <shaggy@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Miklos Szeredi
- <miklos@szeredi.hu>, Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao
- <leitao@debian.org>, Kees Cook <kees@kernel.org>, "Tigran A. Aivazian"
- <aivazian.tigran@gmail.com>, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, ocfs2-devel@lists.linux.dev,
- linux-nilfs@vger.kernel.org, linux-nfs@vger.kernel.org,
- jfs-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
- linux-mm@kvack.org
-Subject: Re: [PATCH 10/17] jbd2: replace __get_free_pages() with kmalloc()
-Message-ID: <20260525182134.04045610@pumpkin>
-In-Reply-To: <2omm5gmnv2khshoxkrag5rusd3qzrsqyjgsef2syxgryrtg6vq@ao7oabqwebgo>
-References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
-	<20260523-b4-fs-v1-10-275e36a83f0e@kernel.org>
-	<2omm5gmnv2khshoxkrag5rusd3qzrsqyjgsef2syxgryrtg6vq@ao7oabqwebgo>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HdXstT5G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F6451F000E9;
+	Mon, 25 May 2026 17:55:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779731701;
+	bh=i3awmoKb3g0un6o2OqMNnbAwu1xN9Id/3mZAgRhVXds=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=HdXstT5G4xedlaNW4Qkr+Imx0xeT8ldZmtqwX2u5G0Lzi7409/tibkTUkY7ziTDLp
+	 L9JUpvSeDrsspQkkEp6WV6YiJN9EPFshjYPelaUEOYfLwksAd90qRqfu/CtPK4/TSe
+	 Yz+vKpke0m0h8YLfJvbSHLfsoQ6UET2L4LHBge+zHpPJP+ja+eko88aaCIIIIX4Vmm
+	 dyyaciNfHXSCNHpiCRC6aTdgvUjTWMdLQoCaGjQV/yZ/Uae4XTQmIatBnHV0k1Vi1d
+	 sUhHd++mTFzgk2BRl9JCUSkyxNFms3rl/mPqatXzikhgR2fHY93Elmv703jMRb70W4
+	 QV3WaaBc9ojDw==
+Date: Mon, 25 May 2026 10:54:59 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Yeonju Bae <iwasbaeyz@gmail.com>, netdev@vger.kernel.org,
+ gregkh@linuxfoundation.org, security@kernel.org, john.fastabend@gmail.com,
+ sd@queasysnail.net, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, horms@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH net] tls: avoid zc receive for file-backed pages
+Message-ID: <20260525105459.5ae73c2b@kernel.org>
+In-Reply-To: <20260521165328.16112-1-iwasbaeyz@gmail.com>
+References: <2026052150-stylus-germicide-780e@gregkh>
+	<20260521165328.16112-1-iwasbaeyz@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -94,67 +48,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 25 May 2026 18:17:04 +0200
-Jan Kara <jack@suse.cz> wrote:
+On Fri, 22 May 2026 01:53:28 +0900 Yeonju Bae wrote:
+> kTLS RX zc decrypt writes unauthenticated AEAD output directly into
+> pages pinned from the recvmsg iterator via tls_setup_from_iter().
+> For MAP_SHARED, PROT_WRITE file-backed destinations, those pages are
+> live page-cache pages rather than anonymous copies: MAP_SHARED does not
+> trigger copy-on-write, so FOLL_WRITE returns the actual page-cache page.
+> 
+> crypto_aead_decrypt() writes CTR-mode decryption output into the
+> scatter-gather list before the authentication tag is verified.  If the
+> tag check fails (-EBADMSG), the plaintext-like output is already
+> resident in the page-cache page.  exit_free_pages() calls put_page()
+> without any content cleanup, so the modification persists through the
+> backing file.  An independent open(O_RDONLY)/read() of the same file
+> returns different content and its SHA-256 changes.  MAP_PRIVATE is safe
+> via COW; PROT_READ-only destinations fail at iov_iter_get_pages2()
+> before any decryption occurs.
+> 
+> Avoid zc receive for file-backed destination pages.  In
+> tls_setup_from_iter(), after iov_iter_get_pages2() pins pages, check
+> each page with folio_mapping(page_folio(page)).  If any pinned page is
+> file-backed (mapping != NULL), release the pinned pages and return
+> -EOPNOTSUPP.  Handle -EOPNOTSUPP in tls_decrypt_sw() by clearing
+> darg->zc and retrying, which causes tls_decrypt_sg() to allocate a
+> kernel bounce buffer instead.  Decryption output never reaches the
+> file-backed page; on tag failure the bounce buffer is discarded.
+> 
+> This follows the existing opportunistic zc retry pattern already used
+> for TLS 1.3 record type mismatches in tls_decrypt_sw().
+> 
+> Verified on linux-7.0-rc3 QEMU (x86-64), four destination types:
+>   MAP_SHARED+RW:   file_changed=0  (was 4077/4096 bytes before patch)
+>   MAP_PRIVATE+RW:  file_changed=0  (COW isolation; unchanged)
+>   anonymous heap:  no file backing  (unchanged)
+>   PROT_READ only:  file_changed=0  (EFAULT before decrypt; unchanged)
 
-> On Sat 23-05-26 20:54:22, Mike Rapoport (Microsoft) wrote:
-> > jbd2_alloc() falls back from kmem_cache_alloc() to __get_free_pages() for
-> > allocations larger than PAGE_SIZE.
-> > But kmalloc() can handle such cases with essentially the same fallback.
-> > 
-> > Replace use of __get_free_pages() with kmalloc() and simplify
-> > jbd2_free() as both kmem_cache_alloc() and kmalloc() allocations can be
-> > freed with kfree().
-> > 
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>  
-> 
-> Looks good. Feel free to add:
-> 
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> 
-> I'll just note that we allocate here fs block size large buffer so the same
-> kind of allocator as we use for folios would be even better. But that's a
-> different cleanup I guess.
+I'm not seeing anything unusual here from high level API use size. 
+We feed the iov_iter constructed by recvmsg in socket code into 
+iov_iter_get_pages2(). Either:
+ - the way we construct the iov_iter is wrong; or
+ - iov_iter_get_pages2() should be return an error; or
+ - we should use a different iov_* API; or
+ - the current behavior you describe is expected / correct.
 
-Would kvalloc() be more appropriate here?
-Does __get_free_pages() return physically contiguous memory?
+I don't think that TLS open-coding page checks is the right move.
 
--- David
+Al, would you mind glancing over this?
+I have no idea what's the expect page cache behavior in this scenario.
 
-> 
-> 								Honza
-> 
-> > ---
-> >  fs/jbd2/journal.c | 7 ++-----
-> >  1 file changed, 2 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
-> > index 4f397fcdb13c..1137b471e490 100644
-> > --- a/fs/jbd2/journal.c
-> > +++ b/fs/jbd2/journal.c
-> > @@ -2784,7 +2784,7 @@ void *jbd2_alloc(size_t size, gfp_t flags)
-> >  	if (size < PAGE_SIZE)
-> >  		ptr = kmem_cache_alloc(get_slab(size), flags);
-> >  	else
-> > -		ptr = (void *)__get_free_pages(flags, get_order(size));
-> > +		ptr = kmalloc(size, flags);
-> >  
-> >  	/* Check alignment; SLUB has gotten this wrong in the past,
-> >  	 * and this can lead to user data corruption! */
-> > @@ -2795,10 +2795,7 @@ void *jbd2_alloc(size_t size, gfp_t flags)
-> >  
-> >  void jbd2_free(void *ptr, size_t size)
-> >  {
-> > -	if (size < PAGE_SIZE)
-> > -		kmem_cache_free(get_slab(size), ptr);
-> > -	else
-> > -		free_pages((unsigned long)ptr, get_order(size));
-> > +	kfree(ptr);
-> >  };
-> >  
-> >  /*
-> > 
-> > -- 
-> > 2.53.0
-> >   
+> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+> index a977b0434..c312a83b4 100644
+> --- a/net/tls/tls_sw.c
+> +++ b/net/tls/tls_sw.c
+> @@ -36,6 +36,7 @@
+>   */
+>  
+>  #include <linux/bug.h>
+> +#include <linux/pagemap.h>
+>  #include <linux/sched/signal.h>
+>  #include <linux/module.h>
+>  #include <linux/kernel.h>
+> @@ -1443,6 +1444,34 @@ static int tls_setup_from_iter(struct iov_iter *from,
+>  
+>  		length -= copied;
+>  		size += copied;
+> +		/* Reject file-backed destination pages.  Writing unauthenticated
+> +		 * AEAD output into a page-cache page before tag verification
+> +		 * leaves the backing file modified even when recvmsg() returns
+> +		 * -EBADMSG.  Return -EOPNOTSUPP so the caller retries via the
+> +		 * non-ZC bounce-buffer path.
+> +		 */
+> +		{
+> +			ssize_t remain = copied;
+> +			size_t  off    = offset;
+> +			int     np = 0, j;
+> +
+> +			while (remain > 0) {
+> +				remain -= min_t(ssize_t, remain,
+> +						(ssize_t)(PAGE_SIZE - off));
+> +				off = 0;
+> +				np++;
+> +			}
+> +			for (j = 0; j < np; j++) {
+> +				if (folio_mapping(page_folio(pages[j]))) {
+> +					int k;
+> +
+> +					for (k = 0; k < np; k++)
+> +						put_page(pages[k]);
+> +					rc = -EOPNOTSUPP;
+> +					goto out;
+> +				}
+> +			}
+> +		}
+>  		while (copied) {
+>  			use = min_t(int, copied, PAGE_SIZE - offset);
+>  
+> @@ -1699,6 +1728,14 @@ tls_decrypt_sw(struct sock *sk, struct tls_context *tls_ctx,
+>  	if (err < 0) {
+>  		if (err == -EBADMSG)
+>  			TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSDECRYPTERROR);
+> +		if (err == -EOPNOTSUPP && darg->zc) {
+> +			/* tls_setup_from_iter detected file-backed destination
+> +			 * pages; retry without ZC via the bounce-buffer path.
+> +			 */
+> +			darg->zc = false;
+> +			TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSDECRYPTRETRY);
+> +			return tls_decrypt_sw(sk, tls_ctx, msg, darg);
+> +		}
+>  		return err;
+>  	}
+>  	/* keep going even for ->async, the code below is TLS 1.3 */
 
