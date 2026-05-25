@@ -1,33 +1,33 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52F8305663
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:19:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1E32D9787
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729585; cv=none; b=au3ScIEVUaS7INLL7pYNHLE5Zuf4SPYihTevH6eTNxSLma8cMJykTvguaAuwAwWzUfXRid9Oy1vjcCu9UKp1r9T3exmYL6fSGHHs4DNKupSGHeISI9nQ6uliTxexYgIygChgt/rwkMjmtqjx04cEhI0ctRW1JH2LGRrT1l2jyh0=
+	t=1779729584; cv=none; b=i900sc3Q65Po/NZ0BXtVWPXt8L25u692+Yzq9XPggZx+qGr8TcMDw1I2W1U3jMIM7wwIJ6p/UpbkhSRTbCdSML108maQBpeAZzUPU3xR8s80hLLA2URYPrcWv6+oY2b+K7IPptxYGkO2ykMCYsKsreAtp7C7WcWmEc+PvcjHhcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729585; c=relaxed/simple;
-	bh=GV5NO9mNCCW6yaNzNPWnlY2dVacvKlQolmUdmk7UGQE=;
+	s=arc-20240116; t=1779729584; c=relaxed/simple;
+	bh=aQiKgCbuloVxcamqM+fo7o+qXkAAyR7/QdYj239Rw1I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gwGfKgkwm7MxQvQxJPwfc4ghM9IQhJ3+8Zua2ScQA4+TRvYyxch5FpxU43BsHzuEq11Jk0n7vKDNK1+0cJhajMux/gUeWUUSGK09H1o9yjZUuas2wfd9MKlO43kVnXeVY9qPeUFn26tIUw/EeW6Wf9mXAoJLECK8sPITHBM3wxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tS/R3f5B; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=uTv+tMzE0FcqgTCk1EwM5t6nh8lyruWO2hUAsmhRU9rKfbMk0syrrOvn07jh8GY3uZAb6RnkrKvNOc+VTBD1eHnD6wi+zaZcJP5Fyc4/fiMDLEdBEbCdIoIoaL/gxil1Ue/njnXbfOyEoe1tE6yzizOfOlPevnmamGKx2Rx1piE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IBAUj/wD; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tS/R3f5B"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IBAUj/wD"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=XWSArlKsVclKnt3KlOAWrGWaIY9SqI4A4hzKuCynKXg=; b=tS/R3f5B7ICnE54ofimRdZ1919
-	mvOVorIfYZ7Vb5j4RhWnxLPB/UTd4Fv8JQNJhf7hXXIEJQViWPM6+OfUppg+88ddZWPZYrRhzzUTm
-	SS9PNdewLmNAvFmpIHmi/UyTsNlSV7lRJJ5QuPlqGi4xBhF3OTQ1DFLN0083pTnmizdnb+B1PYoEG
-	/CB2fwRZuavRvK2V02HgLD2BzafzjX1nabVJVqKQcVt8C5Hpwj/ox1ECP6VGtqS1MI9yWnw1b7PQi
-	HEftqwkEOKgyQypYX0QvBEhNpM2Io2EnFbmTBgXcRX4NHWwPAEx48cuY3W+xQ7jeJVG5IG2sCEcHA
-	MhyGivAw==;
+	bh=eUjq74PHa7h6yuj+NJyoccO0FPLq1blYNj9lPyQz3UY=; b=IBAUj/wDkJTXpM1qgVp035PlKB
+	RF35QN7WSze0/D8+f3cEzrl5X9HfjA4NrqXxks3K24lXzh14Wg68Ew1pYqGWR8RqjzLrFWb2seLVt
+	1C014orEkKmrGC28SJ98PggEtRM0oHKnJaGyyVc9E+eY3SkoYGjNeb9ozO4HQUok+pEhNWzxZJbw5
+	dAUJu/SW2c2ELCdw9jkuo0TZ/nOKtcGi9QD+2H/S7YXcg89E3xi2J2ualDqjVbeJTEW9HzRjgRfHi
+	Kvx1HkEuvv3/l3qpjVkFe03fR7UJzbZAhQu5H3yYxXZm+PgtxauKDykQj+Ly9t9wAFAtm9nHskdUw
+	L6JojyVg==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRYxo-0000000HOAU-3sRm;
+	id 1wRYxn-0000000HO9i-3qjM;
 	Mon, 25 May 2026 17:19:40 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
@@ -35,9 +35,9 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 09/34] buffer: Convert __bh_read_batch to bh_submit()
-Date: Mon, 25 May 2026 18:19:02 +0100
-Message-ID: <20260525171931.4144395-10-willy@infradead.org>
+Subject: [PATCH 03/34] buffer: Remove mark_buffer_async_write_endio()
+Date: Mon, 25 May 2026 18:18:56 +0100
+Message-ID: <20260525171931.4144395-4-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260525171931.4144395-1-willy@infradead.org>
 References: <20260525171931.4144395-1-willy@infradead.org>
@@ -49,29 +49,58 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Avoid an extra indirect function call by using bh_submit() instead of
-submit_bh().
+All callers of mark_buffer_async_write_endio() pass
+end_buffer_async_write, so we can inline mark_buffer_async_write_endio()
+into mark_buffer_async_write() and just call that instead.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- fs/buffer.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ fs/buffer.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
 diff --git a/fs/buffer.c b/fs/buffer.c
-index 48b4480e9915..44b14f0642f4 100644
+index ea926963529e..4dcce64ef006 100644
 --- a/fs/buffer.c
 +++ b/fs/buffer.c
-@@ -3125,9 +3125,8 @@ void __bh_read_batch(int nr, struct buffer_head *bhs[],
+@@ -443,16 +443,10 @@ static void mark_buffer_async_read(struct buffer_head *bh)
+ 	set_buffer_async_read(bh);
+ }
+ 
+-static void mark_buffer_async_write_endio(struct buffer_head *bh,
+-					  bh_end_io_t *handler)
+-{
+-	bh->b_end_io = handler;
+-	set_buffer_async_write(bh);
+-}
+-
+ void mark_buffer_async_write(struct buffer_head *bh)
+ {
+-	mark_buffer_async_write_endio(bh, end_buffer_async_write);
++	bh->b_end_io = end_buffer_async_write;
++	set_buffer_async_write(bh);
+ }
+ EXPORT_SYMBOL(mark_buffer_async_write);
+ 
+@@ -1903,8 +1897,7 @@ int __block_write_full_folio(struct inode *inode, struct folio *folio,
  			continue;
  		}
- 
--		bh->b_end_io = end_buffer_read_sync;
- 		get_bh(bh);
--		submit_bh(REQ_OP_READ | op_flags, bh);
-+		bh_submit(bh, REQ_OP_READ | op_flags, bh_end_read);
- 	}
- }
- EXPORT_SYMBOL(__bh_read_batch);
+ 		if (test_clear_buffer_dirty(bh)) {
+-			mark_buffer_async_write_endio(bh,
+-				end_buffer_async_write);
++			mark_buffer_async_write(bh);
+ 		} else {
+ 			unlock_buffer(bh);
+ 		}
+@@ -1958,8 +1951,7 @@ int __block_write_full_folio(struct inode *inode, struct folio *folio,
+ 		if (buffer_mapped(bh) && buffer_dirty(bh) &&
+ 		    !buffer_delay(bh)) {
+ 			lock_buffer(bh);
+-			mark_buffer_async_write_endio(bh,
+-				end_buffer_async_write);
++			mark_buffer_async_write(bh);
+ 		} else {
+ 			/*
+ 			 * The buffer may have been set dirty during
 -- 
 2.47.3
 
