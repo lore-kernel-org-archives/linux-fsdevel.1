@@ -1,237 +1,188 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1883B2F7EE7
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 10:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779703488; cv=pass; b=KGbVYMjcyliiPcpJdn9MdYS52c3daQKEFWEqPTsTfpvpenlqrf71KGnB5Bq8Ru5joWr0Bj45yCSmROKOUocpKc4e64mMXGPEzGHVm9flfSYZhqw2naNqczXh/Oi1uEqHLqg53JCIfsQvxc66IaNakNTFYZhAnoZs2PQLwtJMhVY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779703488; c=relaxed/simple;
-	bh=GuRFkLMKRGGIm3nOOkwhbQ4AYFZiNt8I3a1kzTv3/qA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J5iKTkRsLDVDVurIdXpquBbmW4PrTF65B0LoPwBfqJm0vnAXEJ2yMGG0hXN2qAAVJV44baNIw10mTAdSg4BlrKU9CK+F0asi8JVnOsMFu0xN2sfhqf0ovwsFkNrzkG3X9+hB2rAXOwgC9nqwpNG1BcuiLWbezKWXcEx4G48vlvI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SUtM3PDI; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1162F7EE7
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 10:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779703519; cv=none; b=JNYnp+Qgc7l4lJuGNjOiyeHWI3sf/+bl5ljIoe5lkxkfQs30WWjtU7MVdYpNq8pBiRmBWpjFtD3UdWW0qiPdd3ZtEySURGr9qd5ChPWYHEEib9y1itivqTrFVkpYUfMB7hWaaFYGOf6wiLcPOQ/sAYdLnRrKuRVH8VBzxKvjJno=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779703519; c=relaxed/simple;
+	bh=buRbykSgUgyNb0r5exBi8pX4DEffa5mGGoFU2f07ggU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rxAGrMZAuzl9e6gFvMtFNoqGa5BaClt6GQ7ATKp8gsyNokiPu8yQ8PagZzOs8HmcBS7sdpvpmvYZM4cuNetSEYGYmEVIn15NTzTDOsXsNmmD8QgLpXH9RNU5dlwR4lrUHuX5CeiSWWHC/BP6xQp6IFSDfEvytdzJXvdlzMhaN3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KMAUfRqB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=buLmxyhk; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KMAUfRqB; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=buLmxyhk; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SUtM3PDI"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-67da63ae541so3586121a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 03:04:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779703485; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BHqAeMap3T/ZpVIuKIwLhxBIx3gEQUii/lrCgMQdGlLOrKXpE6106VpSc9mLjCI3xL
-         wAonmwidvxx7A4uam3T8+Ow9sX/G8Wo/aUCR/0+rbksZcCfIzOGXnP2rnnDYIzC9i8aa
-         dNiH1KNc9/x5CZFotfuLVZcNo046MU11zhrsyqvXl5y75p+2NLfdv6MbCqjXQSrIGbqu
-         YDtIyrPaOSrNjNjVJrL4O+CTZayDZ+jvBrY0292p6Tnh3vWwaMDl75LEHarflVKI2YHF
-         EucuNrNyK1Hwq0bBLbyvyXVh4K3oQzVVfmM/IsJkjCW8Ptj2jN8pzwqWOy99vvwG0Gmh
-         BA6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Y+DPf6nUP3VD6Nm1csnNgDtZaiH2AYVonALNdC1dCW8=;
-        fh=nYgeRz6ErXEybtCyAGiezQgaJFv97bn2TAblm3Ha0Qk=;
-        b=RtP1BvKbdwfyUqvYJ7Yh2cTH/OIO7xFw1VwlvM/RyuA0qXw6v4/l15jjXdLo8RtT6l
-         qvkvJm7pKSW9L7mwrimx117ii+tkv0VYPfRrIqjYAR1OGmaLp45CBBVsmlT+uPNkU9Ha
-         7MHFI6afGZu9h5XoymxQiL6c2+acdlfM+obYfGiXFtu8+d/QgE2hZk8ipLv14RtUGoT5
-         VQ16mDYHOtGh88i3yFiftstoDBSl07GfEFs1STv3ijaNG3VHq7bHVqFDzg0lYTaOAHfZ
-         Jj9thXNREBFe2hRMnDk6E6LJS5vQfadmwUv1QRjjAX89dKN9EydgDRbs6PurHOERQgv8
-         74lw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779703485; x=1780308285; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y+DPf6nUP3VD6Nm1csnNgDtZaiH2AYVonALNdC1dCW8=;
-        b=SUtM3PDIgFNkd08IigfFIlLPTI3mPCj6fU6Ex7reevvj+uYtdTutJj4WXA/Bk6dpPE
-         T/zQmqEKT1Xn0LuCZHNAtOJKoem+PDbWVRYNPrn5EpGJTBO6RXRsOQTrKOixmcSwVc1V
-         Q23KDIIEK4k0uTBYBq550qMys4RE0q8x/F7HCSbIR227+R/qlEd20OY0AIazQJliewMx
-         HuKlBLKY9WfHM/CBdO4o/j70HjXFa5slWWPCOMsIjNSeK/w76pqL9RJ+frlOZ56YkfIh
-         rahRAAtUfFuDDTRE1Px2g9JRdosp1onHzuMdoH2BFQl9VgxZaFuG1d46vhmtxstES89e
-         QGUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779703485; x=1780308285;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y+DPf6nUP3VD6Nm1csnNgDtZaiH2AYVonALNdC1dCW8=;
-        b=L4QfIdVlBqnUdBHlnG6kaSXI6oqQ4k25gyHJAo++0bW1SU3ISwFaDu5ooguoW1gk79
-         O7+1mSL0qyothBtsjZI6Yqo64Pnb3nAuYFjK7mKm6Gg4NWZISxO/EiE5BIF6Us4T1+QJ
-         RPP28XVhcUaAFz1Osb4yXTopMHKuEZZ/6uLuSZA9tQ0HSeD3XIl3qBIc0GuGv8OfoksY
-         GhQVh+zyO6p/G/ReZCNqIP9DCVCbgfjbg8rtwPPBgIxPv4x+LgvOgd+Vnl4WTSV4bVl6
-         QbjtTuccAvSAUdy1hkNGPPKjYjj3h5NKUHcbjU0yKAXCQhK6kQ6/UPNpF6vYAFzx7aSA
-         vwDA==
-X-Forwarded-Encrypted: i=1; AFNElJ87azlTUl8CuYoLvti2KIxdc3eJpLUpYD6EEbla9I/oXQ/C1CgqmR6+WHL33oK3781SwW/2QNhXYx7zuExX@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtWYGavzLj2yrcQiguuzU4/hXrtliHGg+TqvxRTI2Te+SwMCWS
-	oz6KZfvvRLVUz33GCEOcWzl6nEoCFRx0QsKwzcX7orZRCfcjGEHiDHltKGYVvkRPT5g5c3FSDam
-	BIpfvyDjoc2i+h89QqSZahPUFTOJ4j+c=
-X-Gm-Gg: Acq92OE7wMMZlim00JVDgAbBD9YNfcI0l2R7H8eePrDbNZcw8vDO7S0tGi6DDL+k3Dn
-	h5ZwGZbBRz4+nib7PG/WNKNaR7Jrki+0Q6NE2ox6XVE5zh1cyR7lCuTrAH4EV1PvK1ilAxdzuZ9
-	pWRvG1F7Z/nvKeQziBSSETpGYyxViEiqv/T3qAUvRvGOEUpNfITVeIeFWNfSERycmEWfERM2jF/
-	9QEi7ffXsq+Om0c0RUe77+q3oF0qdmGyh2bU6cdkdJ9jwOu9vmw8+nm6wXiL4YGgN79dY1/U505
-	MlQZI1JkE5NQcfWzYkbHOSUiup9KFr74SpiJHuWeBiUMpuwW
-X-Received: by 2002:a05:6402:159a:b0:687:5157:1d4f with SMTP id
- 4fb4d7f45d1cf-6889cc7d497mr7040848a12.26.1779703485281; Mon, 25 May 2026
- 03:04:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KMAUfRqB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="buLmxyhk";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KMAUfRqB";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="buLmxyhk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9D4016B041;
+	Mon, 25 May 2026 10:05:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779703516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JUEiK6uTrRxaAG74FyiomvpK1M3Pvg5PKLh9THfc7HE=;
+	b=KMAUfRqBAEEt6SeodMBgl9dMPE9QqBBgpa9zl9uZDC61IxVHmMiiNVKlMLcLu+L0dEmE+U
+	9u6jPwT09T4WzBgwrAwE//hhJP5PCdCXH+Dpx6HxfhAcfKqxx8GV6x64wyLz8aMdCtCAAk
+	KozYRk0G7MNYiHoG51qpYyoMJC16Cx4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779703516;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JUEiK6uTrRxaAG74FyiomvpK1M3Pvg5PKLh9THfc7HE=;
+	b=buLmxyhkJtYb7OCQDdGOI1W6nnu75Fj3NnMFFY/Nh+uAgf27EFM+J+OHMjw1Rx686v9oDH
+	CVdLbwkA/KQcf+Aw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=KMAUfRqB;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=buLmxyhk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779703516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JUEiK6uTrRxaAG74FyiomvpK1M3Pvg5PKLh9THfc7HE=;
+	b=KMAUfRqBAEEt6SeodMBgl9dMPE9QqBBgpa9zl9uZDC61IxVHmMiiNVKlMLcLu+L0dEmE+U
+	9u6jPwT09T4WzBgwrAwE//hhJP5PCdCXH+Dpx6HxfhAcfKqxx8GV6x64wyLz8aMdCtCAAk
+	KozYRk0G7MNYiHoG51qpYyoMJC16Cx4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779703516;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JUEiK6uTrRxaAG74FyiomvpK1M3Pvg5PKLh9THfc7HE=;
+	b=buLmxyhkJtYb7OCQDdGOI1W6nnu75Fj3NnMFFY/Nh+uAgf27EFM+J+OHMjw1Rx686v9oDH
+	CVdLbwkA/KQcf+Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93FD959BB1;
+	Mon, 25 May 2026 10:05:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id s8YeJNweFGp3LwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 25 May 2026 10:05:16 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 3DB38A08D7; Mon, 25 May 2026 12:05:12 +0200 (CEST)
+Date: Mon, 25 May 2026 12:05:12 +0200
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 04/10] fanotify: test event->type instead of event
+ mask when possible
+Message-ID: <2ao6rhm3oa3lz53wvlgzw3xi7wxhaifffl5nmglqrli66myhyy@jx3tplb6gqs6>
+References: <20260424170503.2096847-1-amir73il@gmail.com>
+ <20260424170503.2096847-5-amir73il@gmail.com>
+ <a4kh65jinwm2tyk57xhmqemmirbxr756cj3rkjlatlnsef335h@nex47pw2wvt4>
+ <CAOQ4uxgj+3pzzaFpBFaJ6FuFPe2bEskixESKX5kqR6KdmRvABg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260524102439.44642-1-anonymemeow@gmail.com>
-In-Reply-To: <20260524102439.44642-1-anonymemeow@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 25 May 2026 12:04:32 +0200
-X-Gm-Features: AVHnY4IbXxRs9SxS79EgIPpcdjG47RUIOeYhLs3T4DNg1rDHwbirCGGEABljIEM
-Message-ID: <CAOQ4uxgrLEJDskC8Ku8evT21un=AMnMgrKJwAN5ceUFDrJY=GA@mail.gmail.com>
-Subject: Re: [PATCH] fanotify: report thread pidfds for FAN_REPORT_TID
-To: AnonymeMeow <anonymemeow@gmail.com>
-Cc: jack@suse.cz, repnop@google.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Petr Vorel <pvorel@suse.cz>, 
-	LTP List <ltp@lists.linux.it>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxgj+3pzzaFpBFaJ6FuFPe2bEskixESKX5kqR6KdmRvABg@mail.gmail.com>
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 9D4016B041
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	URIBL_BLOCKED(0.00)[suse.cz:email,suse.cz:dkim,suse.com:email];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	internal_greylist_whitelist(0.00)[2a07:de40:b281:104:10:150:64:97];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Sun, May 24, 2026 at 12:25=E2=80=AFPM AnonymeMeow <anonymemeow@gmail.com=
-> wrote:
->
-> The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
-> exclusive because by the time the pidfd support was introduced to
-> fanotify, pidfds could only be created for thread group leaders. Now
-> that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
-> this restriction can be lifted.
->
-> This patch allows listeners using FAN_REPORT_PIDFD | FAN_REPORT_TID
-> to receive the pidfd referring to the thread that triggered the
-> event.
->
-> Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+On Thu 21-05-26 19:10:34, Amir Goldstein wrote:
+> On Thu, May 21, 2026 at 6:34 PM Jan Kara <jack@suse.cz> wrote:
+> >
+> > On Fri 24-04-26 19:04:57, Amir Goldstein wrote:
+> > > The fanotify_event already has a type field, so tests like
+> > > fanotify_is_mnt_event() should check the type and not the mask.
+> > >
+> > > In fanotify_alloc_event() determine the mnt and fs_error event
+> > > types by data_type, which uniquely identifies those events.
+> > >
+> > > The helper for classifying an fs permission event is renamed to
+> > > fanotify_is_fs_perm_event() and takes the group argument to verify
+> > > that this is a filesystem group type.
+> > >
+> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > ...
+> > > @@ -845,11 +845,10 @@ static struct fanotify_event *fanotify_alloc_event(
+> > >       /* Whoever is interested in the event, pays for the allocation. */
+> > >       old_memcg = set_active_memcg(group->memcg);
+> > >
+> > > -     if (fanotify_is_perm_event(mask)) {
+> > > +     if (fanotify_is_fs_perm_event(group, mask)) {
+> >
+> > Instead of creating this fanotify_is_fs_perm_event() helper func along with
+> > similar fanotify_is_perm_event(), I'd just opencode the mask checks in the
+> > two places where we don't have the event yet. Things will be IMHO more
+> > obvious that way. BTW I don't think we need anything besides the mask
+> > check. fanotify_group_event_mask() check should have taken care of the
+> > rest...
+> >
+> 
+> Not sure about this.
+> They have to be gated with fsnotify_is_fs_watcher(), but anyway
 
-Regarding the legal standpoint, as far as I can tell, commit d4563201f33a0
-("Documentation: simplify and clarify DCO contribution example language")
-explicitly allowed pseudonyms, so although unorthodox, this seems to be leg=
-it.
+Well, the two places where the mask checks happen are already sure we have
+a filesystem event watching group (i.e., they have effectively checked
+fsnotify_is_fs_watcher() earlier).
 
-In any case, the contributing itself seems legit to me, so
+> a later patch introduces fanotify_test_fs_watcher_event() helper
+> and then it will be easy to drop fanotify_is_fs_perm_event() and
+> open code it as
+> fanotify_test_fs_watcher_event(group, mask,
+>                                               FANOTIFY_PERM_EVENTS);
+> 
+> Not sure if that end results addresses your concern.
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+But yes, if we can get rid of this helper later, that addresses my concern
+as well.
 
-But before merging this, AnonymeMeow, since it is your first contribution
-to the Linux kernel (right?) as well as a "I am not a robot" challenge
-I would like to first see that the tests have been dealt with.
-
-The LTP test fanotify20 explicitly checks that this flag combination is not
-allowed. Need to discuss an acceptable solution with LTP developers -
-remove this check depending on kernel version or whatever they choose.
-
-The LTP test fanotify21 tests the FAN_REPORT_PIDFD functionality.
-Please add two new variants for REPORT_TID:
-        .test_variants =3D 4,
-
-#define TST_VARIANT_FD_ERROR (tst_variant & 1)
-#define TST_VARIANT_PIDFD_THREAD (tst_variant & 2)
-
-The existing checks if (tst_variant) become if (TST_VARIANT_FD_ERROR)
-so bit 0 represents the FAN_REPORT_FD_ERROR variation.
-
-in do_setup() need to use if (TST_VARIANT_PIDFD_THREAD)
-to add FAN_REPORT_TID and to use PIDFD_THREAD for pidfd.
-
-Follow the footsteps of fd_error_unsupported to skip the
-TST_VARIANT_PIDFD_THREAD variants on kernels where the flag
-combination is not supported.
-
-Good luck,
-Amir.
-
-
-> ---
->  fs/notify/fanotify/fanotify_user.c | 27 ++++++++-------------------
->  1 file changed, 8 insertions(+), 19 deletions(-)
->
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fano=
-tify_user.c
-> index ae904451dfc0..ebdd48942029 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -19,6 +19,7 @@
->  #include <linux/memcontrol.h>
->  #include <linux/statfs.h>
->  #include <linux/exportfs.h>
-> +#include <linux/pidfd.h>
->
->  #include <asm/ioctls.h>
->
-> @@ -903,25 +904,21 @@ static ssize_t copy_event_to_user(struct fsnotify_g=
-roup *group,
->                 metadata.fd =3D fd >=3D 0 ? fd : FAN_NOFD;
->
->         if (pidfd_mode) {
-> -               /*
-> -                * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mu=
-tual
-> -                * exclusion is ever lifted. At the time of incoporating =
-pidfd
-> -                * support within fanotify, the pidfd API only supported =
-the
-> -                * creation of pidfds for thread-group leaders.
-> -                */
-> -               WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-> +               unsigned int tid_mode =3D FAN_GROUP_FLAG(group, FAN_REPOR=
-T_TID);
-> +               enum pid_type pidtype =3D tid_mode ? PIDTYPE_PID : PIDTYP=
-E_TGID;
-> +               unsigned int pidfd_flags =3D tid_mode ? PIDFD_THREAD : 0;
->
->                 /*
-> -                * The PIDTYPE_TGID check for an event->pid is performed
-> +                * The pid_has_task() check for an event->pid is performe=
-d
->                  * preemptively in an attempt to catch out cases where th=
-e event
-> -                * listener reads events after the event generating proce=
-ss has
-> +                * listener reads events after the event generating task =
-has
->                  * already terminated.  Depending on flag FAN_REPORT_FD_E=
-RROR,
->                  * report either -ESRCH or FAN_NOPIDFD to the event liste=
-ner in
->                  * those cases with all other pidfd creation errors repor=
-ted as
->                  * the error code itself or as FAN_EPIDFD.
->                  */
-> -               if (metadata.pid && pid_has_task(event->pid, PIDTYPE_TGID=
-))
-> -                       pidfd =3D pidfd_prepare(event->pid, 0, &pidfd_fil=
-e);
-> +               if (metadata.pid && pid_has_task(event->pid, pidtype))
-> +                       pidfd =3D pidfd_prepare(event->pid, pidfd_flags, =
-&pidfd_file);
->
->                 if (!FAN_GROUP_FLAG(group, FAN_REPORT_FD_ERROR) && pidfd =
-< 0)
->                         pidfd =3D pidfd =3D=3D -ESRCH ? FAN_NOPIDFD : FAN=
-_EPIDFD;
-> @@ -1628,14 +1625,6 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags=
-, unsigned int, event_f_flags)
->  #endif
->                 return -EINVAL;
->
-> -       /*
-> -        * A pidfd can only be returned for a thread-group leader; thus
-> -        * FAN_REPORT_PIDFD and FAN_REPORT_TID need to remain mutually
-> -        * exclusive.
-> -        */
-> -       if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
-> -               return -EINVAL;
-> -
->         /* Don't allow mixing mnt events with inode events for now */
->         if (flags & FAN_REPORT_MNT) {
->                 if (class !=3D FAN_CLASS_NOTIF)
-> --
-> 2.54.0
->
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
