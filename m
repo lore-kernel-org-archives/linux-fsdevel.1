@@ -1,267 +1,79 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44B03603D1
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 12:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D542E424F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 12:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779711610; cv=none; b=ecIgdnPxC3ktRCXWMOVbh72WLQJpXSeBEOkX15Zodwl579coH3UMwa6RgJUOLfLILEd/02/8FOPBrnWI4hlJ0/yiA6U7Kgya17MqZO0sHzTbfRqxEvooGS0y6H9z3QuVjSRGPETimTPbQM3267hkxzt/SBK4CfF0U4J6Y8TvKDg=
+	t=1779713502; cv=none; b=mxmFVoKC02OH8TAeVJ+hizPl8O6lne9WFdlRMUOPcgOhmCUxiE009MBB9biBcGRsa3aoLI7drWpvpmZh9lZMa0DXuYneGG0VE4SX81Ubtgp1rVmyCfxYa/mUCWEKQ3WwCfJ+YZV7n5PzyiJpjpB2wRFGMVA+VSbmgK26Rvb7JgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779711610; c=relaxed/simple;
-	bh=yCMoCLCrLXaiLf5t0kz+NiL3iaEmN33yjEtznzG5zkA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dlQSff1pBlJTSjD3DHgWtXWg/gFDzJnrtbb7xnpK7sZ2t/Jp1Jj0PP6GkHmvuvA8hscUze9Jg6dAZW5qoHEYr6OFDRI8Wwmqj9b7DZu8w4ohksN5JusnpBQZRen5mhsqCKHygN66tMfRShoad/wUPJh8O0osHCVpSmpKaz+sQAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gOr+SW++; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/bf8OI2J; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t+oCC0Pj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mYLjb8mt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1779713502; c=relaxed/simple;
+	bh=dVWjT8lXSlHpZbgobFE0J0uVpfDEeFE3TGrURuS5Fr4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aalG357HtyoX90Uk/zMGmuf/5ZNRDTSfnvejBKw9TH0rVHMT6FUuYPIUsYhICDiYPb5DI/+5NW5sw7cTQA9i1ecoCMkJVxT9QJWOu1HFhQvnUFW+ubafdaasIKhYUmCexKpP2UrOF0cJuYrlaa23K3DvLvoMUT20I8H1IbojbB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IhEeV23g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gOr+SW++";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/bf8OI2J";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t+oCC0Pj";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mYLjb8mt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CFF946B5B7;
-	Mon, 25 May 2026 12:20:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779711607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PqfB1Kr5g6SVxfd6pFjgYACkSulPuOJ/RrprUx1Yf9c=;
-	b=gOr+SW++IhoWNq+bc9l1riY+T8Wadxyds+6bj1YX70wZVq5R4QSVT6cNXpFU4s5/Ewhawd
-	uNHapk5+qf1mX1NY7OrsheeAbjnXvI+a7gXFDlMFKHmgYJ5Lug5NoQiuNKaBSmzoYZUT7B
-	e8P1SIMFpNHLAUQA5bl/8AJPv+tzlSU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779711607;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PqfB1Kr5g6SVxfd6pFjgYACkSulPuOJ/RrprUx1Yf9c=;
-	b=/bf8OI2J/6hCTJRH9OTL1lruS6RVcmzeMZuwn/6utearl8bvbi2q30/u4xKdZpImlkGx9O
-	LPlm29Uk0MSHUVBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=t+oCC0Pj;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=mYLjb8mt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779711606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PqfB1Kr5g6SVxfd6pFjgYACkSulPuOJ/RrprUx1Yf9c=;
-	b=t+oCC0Pj85PX857Tcq2heOdieSU4kQkjH208IQ9o/Tnl3bKKEYCzQS5fUMG30GAJYrU7pL
-	Yo1++iRFd1svys0ynUa2Y8uAxjXY4k6O4wgjERYXlxNhHpsK+pYUnT8HhT+ngmsJ4cUAPc
-	zYrIuGRP0992kwCVCASVd9NHCOABzNA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779711606;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PqfB1Kr5g6SVxfd6pFjgYACkSulPuOJ/RrprUx1Yf9c=;
-	b=mYLjb8mt/iNKz7nrEUZnakkFvcTWxl8UQERt0rFy8anZHDkLwAiDOnsrUojcVCg3pq93gx
-	+XCqusQEQ4VoLdDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B13E759C37;
-	Mon, 25 May 2026 12:20:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CBfcKnY+FGogMwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 25 May 2026 12:20:06 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 55552A08D7; Mon, 25 May 2026 14:20:06 +0200 (CEST)
-Date: Mon, 25 May 2026 14:20:06 +0200
-From: Jan Kara <jack@suse.cz>
-To: Alireza Haghdoost <haghdoost@uber.com>
-Cc: Jan Kara <jack@suse.cz>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Kshitij Doshi <kshitijd@uber.com>
-Subject: Re: [PATCH RFC] memcg: add per-cgroup dirty page controls
- (dirty_ratio, dirty_min)
-Message-ID: <u2ckfxudxhp6xjljlpext3m3dc3fbx3ebatyz7tbfhk2v7am5b@mn3ye7xstiqf>
-References: <20260501-rfc-memcg-dirty-v1-v1-1-9a8c80036ec1@uber.com>
- <pbwzmyglpz33d3k63aopi5vlghz4jmur2k2g4res6mhktuujhh@rmqooz6bqaao>
- <CA+w=M=RkewNB0Fc=KNXTrOnt-YABFy+7ZALLmp1wQOP5k_=13Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IhEeV23g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64C4D1F00A3C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 12:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779713501;
+	bh=dVWjT8lXSlHpZbgobFE0J0uVpfDEeFE3TGrURuS5Fr4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=IhEeV23gufY9bFO4CanzNGRS2CW8TRSqMljMbagXp+lHijNQfwBz1c+dJ1bRJMD37
+	 hocxBWVtqBSGAYA+CP2SUXFb0l/xj9+es63QnbiUyL1uU6Us0waPfuzx5NCdDsp+QP
+	 dX9McVCCNunVJzj853c3bncgRh+1cJmCgIKP2J+EtfS2CzAmwndYmJ4UHonoOXlnUe
+	 8QuGmtlfQP5+gVNLSN1CuODIAGSj+LrpKXGxa38anx3EFZdGkPU0gqHbI3jqfaS6Zr
+	 /G1p6ZXjNh2zkZRySQIlZ4rKDwev//UTr43PAmG0m+L7ou/xbULXExmSSKYRNVpF97
+	 nFjF7JOrhR63w==
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-bd3d7c29b4dso1371026266b.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 05:51:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8Waq4mLRTaVvzOR5hulQqCe/3B4SYVLdSVF+lS+U9jpAAv3Jnf62R9UY1ebPmX7315R5aqnCdYrhn/6PW2@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCyoxew3pXF7sVslEqB4F66KbnrBiXvZQ/3A3x0YBKhA9EPjXo
+	CzhChuzVRY4kPxAppjBxWulUKF9g3QSDt2QWnbAYNCbfoocftPsdhU3vxlogtwbw37vJTmreNTk
+	RnIcrrGjJdbAeA7IqiKlCmOOAgSTZ2Lo=
+X-Received: by 2002:a17:907:9729:b0:bda:56f5:a27e with SMTP id
+ a640c23a62f3a-bdd229447damr796993766b.6.1779713500060; Mon, 25 May 2026
+ 05:51:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+w=M=RkewNB0Fc=KNXTrOnt-YABFy+7ZALLmp1wQOP5k_=13Q@mail.gmail.com>
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: CFF946B5B7
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+References: <20260524054238.3129288-1-charsyam@gmail.com> <20260524054238.3129288-2-charsyam@gmail.com>
+In-Reply-To: <20260524054238.3129288-2-charsyam@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Mon, 25 May 2026 21:51:28 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd9L4=OXHqPkroga==P-EX5xM9uJJ=MPY3NW6pEsJf6ouw@mail.gmail.com>
+X-Gm-Features: AVHnY4IzvZG3hsdqQt88oqpPZgFuWVyD_ZL-5Q_dCMBBmFn_VDYjak7GXHRCEJY
+Message-ID: <CAKYAXd9L4=OXHqPkroga==P-EX5xM9uJJ=MPY3NW6pEsJf6ouw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ntfs: free link name from ntfs_name_cache
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the details and sorry for a delayed reply. I had two conferences
-lately...
-
-On Wed 13-05-26 21:10:10, Alireza Haghdoost wrote:
-> On Wed 06-05-26 16:21:00, Jan Kara wrote:
-> > Things like motivation actually belong to the changelog itself, measured
-> > results how the patch helps as well. On the other hand stuff like history
-> > is largely irrelevant here, frankly I don't have a bandwidth to carefully
-> > read the huge amount of text LLM has generated below so please try to make
-> > it more concise for next time.
-> 
-> Understood. Will trim for the non-RFC posting; apologies for the
-> volume.
-> 
-> > ... I quite don't see how a multisecond stalls you are describing would
-> > happen [...] If we are below freerun in the memcg, the task dirtying
-> > folios from that memcg shouldn't be throttled at all, once we get above
-> > freerun we throttle by maximum of throttling delay decided from global
-> > and memcg situation [...]
-> 
-> The stall is reachable even with the victim's memcg well below its
-> own freerun. The freerun shortcut in balance_dirty_pages() is an AND,
-> not OR:
-> 
->   if (gdtc->freerun && (!mdtc || mdtc->freerun))
->           goto free_running;
-
-True but this is mostly a performance optimization.
-
-> Once gdtc is over freerun (because the noisy neighbour pushed it
-> there) the shortcut does not fire, even when mdtc->freerun is true.
-
-Below in balance_dirty_pages() we also have:
-
-                /*
-                 * Calculate global domain's pos_ratio and select the
-                 * global dtc by default.
-                 */
-                balance_wb_limits(gdtc, strictlimit);
-                if (gdtc->freerun)
-                        goto free_running;
-                sdtc = gdtc;
-
-                if (mdtc) {
-                        /*
-                         * If memcg domain is in effect, calculate its
-                         * pos_ratio.  @wb should satisfy constraints from
-                         * both global and memcg domains.  Choose the one
-                         * w/ lower pos_ratio.
-                         */
-                        balance_wb_limits(mdtc, strictlimit);
-                        if (mdtc->freerun)
-                                goto free_running;
-
-which is the key logic. So unless you have strictlimit enabled (which you
-didn't mention you'd have), being under freerun limit in your memcg is
-enough to protect you from a noisy neighbor.
-
-> After the shortcut fails, the per-task pause is computed from the
-> dtc with the smaller pos_ratio:
-> 
->   if (mdtc->pos_ratio < gdtc->pos_ratio)
->           sdtc = mdtc;
-> 
-> When global is the worse domain, the victim sleeps against global
-> state, not memcg state.
-
-*If* you are above freerun in your memcg (or have strictlimit enabled) then
-yes, I agree.
-
-> > So can you perhaps share more details about the configuration where
-> > you observe these delays to innocent tasks due to another task
-> > dirtying a lot of memory? How many page cache in total and dirty
-> > pages are there in each memcg [...]? Is the delayed task really
-> > throttled in balance_dirty_pages()?
-> 
-> Yes. Re-ran the reproducer: stock 7.0-rc5, ext4 on virtio-blk
-> throttled to 256 KB/s, dirty_bytes=32M, dirty_background_bytes=16M
-> (freerun = 24 MB), noisy = single fio job doing unlimited buffered
-> randwrite, victim = single fio job doing 4 KiB sequential write
-> rate-limited to 500 KB/s.
-> 
-> Per-memcg snapshot during the contended phase, ~10 s into the run:
-> 
->                        noisy memcg     victim memcg     global
->   memory.current        47 MB            21 MB           --
->   file (cache)          38 MB            14 MB           --
->   file_dirty            26 MB           1.7 MB           27 MB
->   file_writeback       1.5 MB           4.0 MB          5.3 MB
-> 
-> Victim memcg holds 1.7 MB dirty, far below any reasonable per-memcg
-> freerun. Global dirty (NR_FILE_DIRTY + NR_WRITEBACK ~ 32 MB) is over
-> the 24 MB freerun ceiling, driven entirely by noisy.
-
-Ah, OK. I think I see what's going on. How much page cache does the machine
-have in total and what are memory limits for the noisy and victim memcgs?
-Because there's this somewhat surprising behavior when you configure dirty
-limits in bytes in domain_dirty_limits() - the memcg dirty limit will
-roughly be dirty_bytes / global_available_memory * memcg_available (where
-memcg_available is memcg page cache size + how much memcg can grow from the
-current size until it hits memory limit). Since you set dirty_bytes to 32M,
-your machine presumably has gigabytes of memory, then it's possible victim
-memcg dirty limits end up really low.
-
-> The victim writer (fio with psync) is in fact sleeping in
-> balance_dirty_pages(). One stack snapshot during a stall:
-> 
->   [<0>] balance_dirty_pages+0x5c5/0xac0
->   [<0>] balance_dirty_pages_ratelimited_flags+0x2a1/0x380
->   [<0>] generic_perform_write+0x194/0x280
->   [<0>] ext4_buffered_write_iter+0x63/0x110
->   [<0>] vfs_write+0x28d/0x450
->   [<0>] __x64_sys_pwrite64+0x8c/0xc0
->   [<0>] do_syscall_64+0xfa/0x520
->   [<0>] entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> 
-> Sampling /proc/<pid>/wchan at 100 Hz across the contended phase
-> yields the histogram:
-> 
->   104  balance_dirty_pages
->    88  hrtimer_nanosleep    (the fio rate-limit sleep between writes)
->    12  RUNNING
->     4  p9_client_rpc        (virtfs, host-guest filesystem RPC)
->     3  d_alloc_parallel
-> 
-> The vast majority of non-rate-limit samples have the writer parked
-> in balance_dirty_pages(). Victim per-IO clat in this run reaches a
-> 3 s tail (worst single 4 KiB pwrite blocked ~3.0 s) while its own
-> memcg holds < 2 MB dirty.
-
-If dirty limits for the victim memcg end up really low, then yes, this is
-what I'd expect.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+On Sun, May 24, 2026 at 2:42=E2=80=AFPM DaeMyung Kang <charsyam@gmail.com> =
+wrote:
+>
+> ntfs_link() converts the new link name with ntfs_nlstoucs() using
+> NTFS_MAX_NAME_LEN. In this case ntfs_nlstoucs() allocates the result
+> from ntfs_name_cache, and its contract requires callers to release the
+> buffer with kmem_cache_free(ntfs_name_cache, ...).
+>
+> All other ntfs_nlstoucs() callers in namei.c do that, but ntfs_link()
+> uses kfree(), which mismatches the allocator for successfully converted
+> names.
+>
+> The conversion failure path reaches the common out label with uname =3D=
+=3D
+> NULL. That was harmless for kfree(), but kmem_cache_free() does not
+> provide the same NULL contract. Return directly on conversion failure
+> and free successful conversions with ntfs_name_cache.
+>
+> Fixes: af0db57d4293 ("ntfs: update inode operations")
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
