@@ -1,157 +1,160 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6983F8ED9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52B2299931
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 17:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729591; cv=none; b=IiDDkaKnKaLz3ZiDbdCDqhN6Wi3BTyuSNmImN5s6wzD4h1fFxBIQjxA5BZavfrcMznh6IJJjavOswt6pjHtZCbAUIDdViO4acXtxSyZ9LnqIgSCati/Xn6zZ0zkn/a5P4GcW1vlVyXXCc9HKpEUSyRsMRypfQ2FdCzOjb9SyET4=
+	t=1779729699; cv=none; b=hFIrAgQZ34zO9LLXalYJjX7PrFffCLpL+COCmhEFgcFiCsjNeCC0PL1Y6cr/BiCDAzroaIUJ26AlRE46QWnoCnstj0xfeaWX2kXwTM0YqtQIonVcASRqm7cqOtfKzeMRrzbsyUuHw0f5UuOZmgY72l+rBrWNgcBHjTbOgtO9B/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729591; c=relaxed/simple;
-	bh=LE5UIFD/MXfENlB3JVA3QqxRts625zGi+CP0DevJfJI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q2OPqwjpkBzbcILV6RXDW//T7ifnJxtzbXM3l7tmWvKFCpiUPLfInaqKOSBzoVtMuGICOTTqxAVLTB1gp06fNs+qvlnRCpnwaTLDhhxElvAs2GOhlo4q7Fdl4DhQaM8GJ3h4pPqe7CQF83peOazDm+D87vHoZfQK7ezPDW2Sxqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HimZDZ7k; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1779729699; c=relaxed/simple;
+	bh=VCEFYOA8bvBB0He6GPuue1J5cPggJ9r83oKY1RULIeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jh3+loVD6uKCQcH1SJbmdbrnUhGEM1oU4u6rxHK+NDh4LzX5HRoU5SBh44rJGzLnFt1A8B1ggp7aeuatgmMyuXyK+RjJiMLu6tTtX7WPQVX2YeSauKZ9ZW22Xt4q+JYllxBIUez5LOw6CKBVX1aiGyrF6lRcUUSFcjJyUTjlq4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nFLYqe1t; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HimZDZ7k"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=sluvMVx5bgy2v2/TBIj0C4AIzYBXNAkYC+cSTSZqR7Y=; b=HimZDZ7kjVZ9P4Asx1aVmqIphg
-	TV18sB+MKJPkx3lCle5tFOg4LbiaZli8J/A7NA2PQlOfxVwOzKWihMaUPVR5as6Lg/ETaQjwBKDnY
-	KOrtFFIX6pTbxNYuSSwyO4mjlkR3mz9MqjGkJPaAmHBYomCvyyhvXY/Q0UYImSmdFjBigSdwWOW3E
-	HNJMawx1q9ZnzAEAdxxuDLbx0LXlCDJSESzhRHb/Yf+kjWGWfSPd6dGUAwFbNwoWHrM02mA6J/qgN
-	oojyqkRMkvcJ3Nta8cQ0/xCFtoXv+z8Tbq7srsfiF5J+6QP1z4s50+S2f8iDQUSbKufQmpBxNN35T
-	9I3sdwoA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRYxu-0000000HODa-0Dtb;
-	Mon, 25 May 2026 17:19:46 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nFLYqe1t"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so102272695e9.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 10:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779729696; x=1780334496; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sNWXusXZo+ITDqzjd8lv9UPW26DbKQzVTY3kSMXJqIc=;
+        b=nFLYqe1tk7qwCxZBvuRvWqGDl/PP1t56e6sHt9JBmmmYmlbOXU8xnMDPX+8rPndMNa
+         2zgBc7yUrnJOp9pyEBh4d/26MNx5cn3UNMTWA5ijw8O2EKGD44exJ9D+89Ul/Qc1Pt+R
+         /EOZDji4aBNJqur9ul7T5t00BS5di3PrdKi2XezOB//+KK/86ne/3D2AmRBY6ANpdjCb
+         ThvzY2xpYZ+2BNNBxmDNt1N/CaZP22TNh0pp4Q7X428uuzBIbbBges+roGw8JwlrYKUn
+         xPu/34xris6plMkYf5LQoMtInpdT2hWsLdOTyXxGzT9tEeMg/Y98J2QfxTtUdj6zOITs
+         b2cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779729696; x=1780334496;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sNWXusXZo+ITDqzjd8lv9UPW26DbKQzVTY3kSMXJqIc=;
+        b=W+zoQLiMTKHH64ClSbMmWoaGfYRq7Ko6ZiDoru/1eCzDqJNaeJtJJdaVzamgwFafex
+         5nRbw0g8xs2Qx5y0PdkobOUFQgrX6piUIGUPAc8KqCjsOeLgsjSwc1bxEnjrRNw5e7eU
+         TlgOSUsA78y8Mc9PMu+zUt/pvM+bCzNgWGmfX++Irvn5JTzXrpI/EEX3EJX8rWIh4Eag
+         uliEFRFLTHkthxTNJnDUhSr/gQ2E9taHCIOQsQlPcp9tYecf3MvcIDBsWgyIcmnT0L5z
+         mAXUe5Z8HkGmjR6Z+aMsH22nY1b8EsvHei9OnraxUjovR5pZiCXr/4kx3SJQqXjgajmX
+         EK4A==
+X-Forwarded-Encrypted: i=1; AFNElJ8xtFRzWHJiaBp30qV1ifkzmv0H42tJqpF9Q6zZJEqmAp/bDvCtuJwUwbn5FHjCEMhlRLuj2VXU/xjDPXSk@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYJAtgktxPgXp4egj9f+Cc7tYF9H3I/eU7e5wqdvn32T1A7bvN
+	OWNQpS2sZskHyyfYoOMbY4U3fMHjp94ibqJzprb7pLx0WPJunD4+vKmh
+X-Gm-Gg: Acq92OFCyHyVF6SHJ6VDyuYMw3GAc5LZyKKkgW/HYFBysK3Z7vejB4AuUvQ2XO0C0DR
+	Yd9FnwVW4HpU64Qa4e5SIkdc+qG2KvJFOJCK/PQaLqfvsSBTWnC+yflizi5U+wb4P5h75szv4Y1
+	vB9bJEiwAuHgq5fqHIbChZ6zEHHXN7DbXXNc9Tr+m1d/aJZBDdkAh07yP7jGQDbnjaqATZETSBL
+	FxY+iFwIkU7nIaflpFQceEqThNmONtwGhjmsZyLTO6GeQCbYzvib59hZelfnvcSilIZ+AR3x3eu
+	VTYgCyMLP3j1ecKRWTpg/BwWo9fdmfzNFFjgxhKCb2H9ACECPSiD+CIv+rLdcbQV16TAucn8JBR
+	KvmaBT/Tjm/+iCBtYCZ8uPVS8ePqINcQjUoLWxx7CFQH/HDsziep2UX/X9/X1DgAxdcrLn7nopG
+	bvtD86La2+0Et1taUVytRJSWh0auDWKRcs5AszCBHAB6le08VE6KXiUeAEyOHUpE3d
+X-Received: by 2002:a05:600c:83c6:b0:490:5872:e641 with SMTP id 5b1f17b1804b1-4905872e758mr158057335e9.18.1779729696288;
+        Mon, 25 May 2026 10:21:36 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490428d63f8sm88577605e9.18.2026.05.25.10.21.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 May 2026 10:21:35 -0700 (PDT)
+Date: Mon, 25 May 2026 18:21:34 +0100
+From: David Laight <david.laight.linux@gmail.com>
 To: Jan Kara <jack@suse.cz>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 32/34] buffer: Remove b_end_io
-Date: Mon, 25 May 2026 18:19:25 +0100
-Message-ID: <20260525171931.4144395-33-willy@infradead.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260525171931.4144395-1-willy@infradead.org>
-References: <20260525171931.4144395-1-willy@infradead.org>
+Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>, Jan Kara <jack@suse.com>,
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
+ <joseph.qi@linux.alibaba.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever
+ <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, NeilBrown
+ <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
+ <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Dave
+ Kleikamp <shaggy@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Miklos Szeredi
+ <miklos@szeredi.hu>, Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao
+ <leitao@debian.org>, Kees Cook <kees@kernel.org>, "Tigran A. Aivazian"
+ <aivazian.tigran@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ linux-nilfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ jfs-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+ linux-mm@kvack.org
+Subject: Re: [PATCH 10/17] jbd2: replace __get_free_pages() with kmalloc()
+Message-ID: <20260525182134.04045610@pumpkin>
+In-Reply-To: <2omm5gmnv2khshoxkrag5rusd3qzrsqyjgsef2syxgryrtg6vq@ao7oabqwebgo>
+References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
+	<20260523-b4-fs-v1-10-275e36a83f0e@kernel.org>
+	<2omm5gmnv2khshoxkrag5rusd3qzrsqyjgsef2syxgryrtg6vq@ao7oabqwebgo>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This shrinks buffer_head by 8 bytes, letting us pack more buffer heads
-per slab.  With a Debian config, it shrinks from 104 bytes to 96 bytes
-which is 42 objects per 4KiB page rather than 39, a 7% reduction in the
-amount of memory used.
+On Mon, 25 May 2026 18:17:04 +0200
+Jan Kara <jack@suse.cz> wrote:
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- Documentation/filesystems/locking.rst | 14 --------------
- drivers/md/raid5.h                    |  6 +++---
- fs/buffer.c                           |  1 -
- include/linux/buffer_head.h           |  4 +---
- 4 files changed, 4 insertions(+), 21 deletions(-)
+> On Sat 23-05-26 20:54:22, Mike Rapoport (Microsoft) wrote:
+> > jbd2_alloc() falls back from kmem_cache_alloc() to __get_free_pages() for
+> > allocations larger than PAGE_SIZE.
+> > But kmalloc() can handle such cases with essentially the same fallback.
+> > 
+> > Replace use of __get_free_pages() with kmalloc() and simplify
+> > jbd2_free() as both kmem_cache_alloc() and kmalloc() allocations can be
+> > freed with kfree().
+> > 
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>  
+> 
+> Looks good. Feel free to add:
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> 
+> I'll just note that we allocate here fs block size large buffer so the same
+> kind of allocator as we use for folios would be even better. But that's a
+> different cleanup I guess.
 
-diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
-index 8421ea21bd35..a27aca42fd85 100644
---- a/Documentation/filesystems/locking.rst
-+++ b/Documentation/filesystems/locking.rst
-@@ -416,20 +416,6 @@ lm_open_conflict	yes		no			no
- lm_breaker_timedout     yes             no                      no
- ======================	=============	=================	=========
- 
--buffer_head
--===========
--
--prototypes::
--
--	void (*b_end_io)(struct buffer_head *bh, int uptodate);
--
--locking rules:
--
--called from interrupts. In other words, extreme care is needed here.
--bh is locked, but that's all warranties we have here. Currently only RAID1,
--highmem, fs/buffer.c, and fs/ntfs/aops.c are providing these. Block devices
--call this method upon the IO completion.
--
- block_device_operations
- =======================
- prototypes::
-diff --git a/drivers/md/raid5.h b/drivers/md/raid5.h
-index 1c7b710fc9c1..1dfa60a41d91 100644
---- a/drivers/md/raid5.h
-+++ b/drivers/md/raid5.h
-@@ -38,7 +38,7 @@
-  *  Clean -> Dirty  - on compute_parity to satisfy write/sync (RECONSTRUCT or RMW)
-  *
-  * The Want->Empty, Want->Clean, Dirty->Clean, transitions
-- * all happen in b_end_io at interrupt time.
-+ * all happen in end_io at interrupt time.
-  * Each sets the Uptodate bit before releasing the Lock bit.
-  * This leaves one multi-stage transition:
-  *    Want->Dirty->Clean
-@@ -64,7 +64,7 @@
-  * together, but we are not guaranteed of that so we allow for more.
-  *
-  * If a buffer is on the read list when the associated cache buffer is
-- * Uptodate, the data is copied into the read buffer and it's b_end_io
-+ * Uptodate, the data is copied into the read buffer and it's end_io
-  * routine is called.  This may happen in the end_request routine only
-  * if the buffer has just successfully been read.  end_request should
-  * remove the buffers from the list and then set the Uptodate bit on
-@@ -76,7 +76,7 @@
-  * into the cache buffer, which is then marked dirty, and moved onto a
-  * third list, the written list (bh_written).  Once both the parity
-  * block and the cached buffer are successfully written, any buffer on
-- * a written list can be returned with b_end_io.
-+ * a written list can be returned with end_io.
-  *
-  * The write list and read list both act as fifos.  The read list,
-  * write list and written list are protected by the device_lock.
-diff --git a/fs/buffer.c b/fs/buffer.c
-index dc16900455eb..f057d354b353 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -936,7 +936,6 @@ static sector_t folio_init_buffers(struct folio *folio,
- 
- 	do {
- 		if (!buffer_mapped(bh)) {
--			bh->b_end_io = NULL;
- 			bh->b_private = NULL;
- 			bh->b_bdev = bdev;
- 			bh->b_blocknr = block;
-diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-index 0aa81fa768a6..634b0035d40a 100644
---- a/include/linux/buffer_head.h
-+++ b/include/linux/buffer_head.h
-@@ -46,7 +46,6 @@ enum bh_state_bits {
- struct page;
- struct buffer_head;
- struct address_space;
--typedef void (bh_end_io_t)(struct buffer_head *bh, int uptodate);
- 
- /*
-  * Historically, a buffer_head was used to map a single block
-@@ -70,8 +69,7 @@ struct buffer_head {
- 	char *b_data;			/* pointer to data within the page */
- 
- 	struct block_device *b_bdev;
--	bh_end_io_t *b_end_io;		/* I/O completion */
-- 	void *b_private;		/* reserved for b_end_io */
-+	void *b_private;		/* reserved for bio_end_io */
- 	struct list_head b_assoc_buffers; /* associated with another mapping */
- 	struct mapping_metadata_bhs *b_mmb; /* head of the list of metadata bhs
- 					     * this buffer is associated with */
--- 
-2.47.3
+Would kvalloc() be more appropriate here?
+Does __get_free_pages() return physically contiguous memory?
+
+-- David
+
+> 
+> 								Honza
+> 
+> > ---
+> >  fs/jbd2/journal.c | 7 ++-----
+> >  1 file changed, 2 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
+> > index 4f397fcdb13c..1137b471e490 100644
+> > --- a/fs/jbd2/journal.c
+> > +++ b/fs/jbd2/journal.c
+> > @@ -2784,7 +2784,7 @@ void *jbd2_alloc(size_t size, gfp_t flags)
+> >  	if (size < PAGE_SIZE)
+> >  		ptr = kmem_cache_alloc(get_slab(size), flags);
+> >  	else
+> > -		ptr = (void *)__get_free_pages(flags, get_order(size));
+> > +		ptr = kmalloc(size, flags);
+> >  
+> >  	/* Check alignment; SLUB has gotten this wrong in the past,
+> >  	 * and this can lead to user data corruption! */
+> > @@ -2795,10 +2795,7 @@ void *jbd2_alloc(size_t size, gfp_t flags)
+> >  
+> >  void jbd2_free(void *ptr, size_t size)
+> >  {
+> > -	if (size < PAGE_SIZE)
+> > -		kmem_cache_free(get_slab(size), ptr);
+> > -	else
+> > -		free_pages((unsigned long)ptr, get_order(size));
+> > +	kfree(ptr);
+> >  };
+> >  
+> >  /*
+> > 
+> > -- 
+> > 2.53.0
+> >   
 
