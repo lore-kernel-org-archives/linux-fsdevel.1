@@ -1,32 +1,32 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715A13E16B4;
-	Mon, 25 May 2026 08:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533E23E0259;
+	Mon, 25 May 2026 08:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779697000; cv=none; b=WE0iRDdx1OC9OuQfrloIoZ+S6YdovGE7hqEY6fX60WWg6qzBcn8ACT00vjEjZDHiMQYkEJTTyw2b9HNgD6EplNPcMJtjtcSK9jpBIeClbUYb+SG2+00mPXdJH3LN6ujI9oFHoFL7GgYmk9oQdjnO6AlUhGv7k1mLrlklB6kY7mU=
+	t=1779698260; cv=none; b=gWJ9JDEAHJxjT2O5rXYQBiSNUlo7Gj50max2MVeQu9dkXH4w1/mPjy1QEMCYNUKsANRIELhp8/GUGOw+Pe5n5wrJ4CnD3shminTh3m4Bun6Vy5fnL6TXBgE96bJcH59JNJEZT60ROdXvNWKE02tRxlkzUSrk1SLHOPh7KeIcVTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779697000; c=relaxed/simple;
-	bh=DOHJCSZnyNciLCpzfoaIXVazO/NB/Tdq3+3Aa+zFmHE=;
+	s=arc-20240116; t=1779698260; c=relaxed/simple;
+	bh=oZHVznUHASE/81rlNO149FJUAjI13HL0tDiKpaGhpbM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KVmAgGSAWWKJK2b1chr1tBkthnXhjzie4+BcuxiPncsGoIE0KN8n5C/1u5ZETjk+8UyQUErracfXAOmIe/KqJkDfd9LJH9Ox0Xre9vHg623MjWqK2uNKhen8vhOM055x3nXkbbjYk4bxO/FjCrY1T3m9pcz8OBAnHpX66d7GJrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ORW8XnXQ; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	 In-Reply-To:Content-Type; b=Z2KO3iEAoHeaEBBs/uXFyy4tpZHmGnvwpkTa8/otCuSx17E8jvEYXklbqghlYxuldGOKuEd6jlCV1Wttz36vjaY/00YfaY7PuBd69fF1WKMyasVROuANIHd0Aq2I0AVIPi66qpgvd0BtYMGeotUn5iFEM8W8UeJTTttm/sO0E/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=QFV+reBt; arc=none smtp.client-ip=115.124.30.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ORW8XnXQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=mZcOAXzhq3cI3XWIfG5s5cOD4qHUIgWC2naRLxKB3PY=;
-	b=ORW8XnXQ78h6t1ovXEQmoqHsib1bGONWt9cvu5j3gV3DFlhSJf7GjpCuumaLuh
-	Qv/5xuoPvDkljMvGXprfJdCiU9LtpP3DLFY5CjfrpDNrF4j5QhIjB3gqCwTNnnyH
-	3VVyyVw80c59aOk8B22Q+rVCMfDK9ewnMv5A+hZp0wwhk=
-Received: from [10.42.0.218] (unknown [])
-	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wBXh6_0BBRqVw7SDA--.11722S2;
-	Mon, 25 May 2026 16:14:46 +0800 (CST)
-Message-ID: <87efc5ef-9fef-4cfb-a129-bf8ca373683d@163.com>
-Date: Mon, 25 May 2026 16:14:44 +0800
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="QFV+reBt"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1779698255; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=fM5SE1333rF5XvXXkmPILOtV+9GPvTKGJed+D55Hqho=;
+	b=QFV+reBtAs02OImrfPF2iqvsZRC2xefqHCcos5+2cZq/iOEBZfwsTZgCyTqJ9iCuqeVakZlneADBe2d8fb5Ax1PpvzoLLu8kjKOPFi1OBpclVU6H8+CzHLmHbKk2Wr7GuxXaqocZdTJuLKA9gUP5tnTtL6RYx2RXvQFdYZRRiNM=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X3WrLhT_1779698252;
+Received: from 30.74.144.135(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X3WrLhT_1779698252 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 25 May 2026 16:37:33 +0800
+Message-ID: <1d8c7c24-b273-4826-9a9e-37fdb0767f2f@linux.alibaba.com>
+Date: Mon, 25 May 2026 16:37:32 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,9 +34,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/5] mm/shmem: make SGP_NOALLOC succeed on hole like
- SGP_READ
-To: Baolin Wang <baolin.wang@linux.alibaba.com>, linux-mm@kvack.org,
+Subject: Re: [PATCH v1 5/5] mm/shmem: optimize file read with folio batching
+To: Chi Zhiling <chizhiling@163.com>, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
 Cc: Hugh Dickins <hughd@google.com>,
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
@@ -47,153 +46,105 @@ Cc: Hugh Dickins <hughd@google.com>,
  Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
  Lance Yang <lance.yang@linux.dev>, Chi Zhiling <chizhiling@kylinos.cn>
 References: <20260520101538.58745-1-chizhiling@163.com>
- <20260520101538.58745-4-chizhiling@163.com>
- <772f7bcb-eb78-4439-b94b-1a096a01dc51@linux.alibaba.com>
-From: Chi Zhiling <chizhiling@163.com>
-In-Reply-To: <772f7bcb-eb78-4439-b94b-1a096a01dc51@linux.alibaba.com>
+ <20260520101538.58745-6-chizhiling@163.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260520101538.58745-6-chizhiling@163.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBXh6_0BBRqVw7SDA--.11722S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZw1kuw18ZFWkWFWxKryrXrb_yoWruw43pF
-	WxGas7KrZYgryUCFnrZws7ZF15Wws5KryUKFySq34YvFn0yF1vkr17Aw1j9F1rArW8Ca1F
-	qF4qka9xua1DX3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UZNVgUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3Bbde2oUBPZJ-gAA3X
+Content-Transfer-Encoding: 7bit
 
-On 5/25/26 3:10 PM, Baolin Wang wrote:
-> On 5/20/26 6:15 PM, Chi Zhiling wrote:
->> From: Chi Zhiling <chizhiling@kylinos.cn>
->>
->> Change SGP_NOALLOC to return 0 with NULL folio on hole, matching
->> SGP_READ behavior. This simplifies the sgp_type handling by unifying
->> hole semantics across these types.
->>
->> Previously, SGP_NOALLOC returned -ENOENT on hole, while SGP_READ
->> returned 0. This inconsistency required special handling in callers
->> like khugepaged and userfaultfd.
+
+
+On 5/20/26 6:15 PM, Chi Zhiling wrote:
+> From: Chi Zhiling <chizhiling@kylinos.cn>
 > 
-> This patch doesn't seem to be a performance optimization, and I'm not 
-> convinced.
-
-Hi, baolin
-
-This is not an optimization patch, and it is not related to this patch 
-series either.
-
+> Optimize shmem file read by using filemap_get_folios_contig() to
+> batch fetch contiguous folios from the page cache, reducing the
+> overhead of repeated shmem_get_folio() calls.
 > 
->> After this change:
->> - khugepaged: behavior unchanged (checks both error and NULL folio)
+> When the folio batch is exhausted, attempt to refill it with
+> filemap_get_folios_contig(). If no folios are found (hole or swapped
+> out pages), fall back to shmem_get_folio() to handle these cases
+> individually.
 > 
-> But this adds an extra check to khugepaged, and I'm not sure it's worth it.
-
-You are right, I will drop this patch in v2.
-
+> Additionally:
+> - Defer folio_put() until the batch is exhausted or on exit
+> - Add folio_test_uptodate() check before copying to ensure data
+>    validity
 > 
->> - userfaultfd: behavior unchanged (both -ENOENT and NULL are converted
->>    to -EFAULT before returning to userspace)
+> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+> ---
+>   mm/shmem.c | 50 ++++++++++++++++++++++++++++++++++++--------------
+>   1 file changed, 36 insertions(+), 14 deletions(-)
 > 
-> No, this will break userfaultfd, cause userfaultfd currently returns an 
-> error code directly in this case (please update to the latest 
-> codebase.). See:
-> 
-> static struct folio *shmem_get_folio_noalloc(struct inode *inode, 
-> pgoff_t pgoff)
-> {
->      struct folio *folio;
->      int err;
-> 
->      err = shmem_get_folio(inode, pgoff, 0, &folio, SGP_NOALLOC);
->      if (err)
->          return ERR_PTR(err);
-> 
->      return folio;
-> }
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 96ea5a4c0aff..e0eacc23cccd 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -3355,11 +3355,14 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>   	struct file *file = iocb->ki_filp;
+>   	struct inode *inode = file_inode(file);
+>   	struct address_space *mapping = inode->i_mapping;
+> +	struct folio_batch fbatch;
+>   	pgoff_t index;
+>   	unsigned long offset;
+>   	int error = 0;
+>   	ssize_t retval = 0;
+>   
+> +	folio_batch_init(&fbatch);
+> +
+>   	for (;;) {
+>   		struct folio *folio = NULL;
+>   		struct page *page = NULL;
+> @@ -3372,18 +3375,38 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>   			break;
+>   
+>   		index = iocb->ki_pos >> PAGE_SHIFT;
+> -		error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
+> -		if (error) {
+> -			if (error == -EINVAL)
+> -				error = 0;
+> -			break;
+> +fetch:
+> +		folio = folio_batch_next(&fbatch);
+> +		if (!folio) {
+> +			pgoff_t start = index;
+> +			pgoff_t end = (iocb->ki_pos + to->count - 1) >> PAGE_SHIFT;
+> +
+> +			if (folio_batch_count(&fbatch)) {
+> +				for (int i = 0; i < folio_batch_count(&fbatch); i++)
+> +					folio_put(fbatch.folios[i]);
+> +				folio_batch_reinit(&fbatch);
+> +			}
+> +
+> +			filemap_get_folios_contig(inode->i_mapping, &start, end, &fbatch);
+> +			if (folio_batch_count(&fbatch))
+> +				goto fetch;
+> +
+> +			error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
+> +			if (unlikely(error)) {
+> +				if (error == -EINVAL)
+> +					error = 0;
+> +				break;
+> +			}
+> +			if (folio) {
+> +				folio_unlock(folio);
+> +				folio_batch_add(&fbatch, folio);
+> +				fbatch.i++;
+> +			}
+>   		}
+> -		if (folio) {
+> -			folio_unlock(folio);
+>   
+> +		if (folio) {
+>   			page = folio_file_page(folio, index);
+>   			if (PageHWPoison(page)) {
+> -				folio_put(folio);
+>   				error = -EIO;
+>   				break;
+>   			}
 
-The return value of shmem_get_folio_noalloc() will change, but it seems 
-this does not affect the logic in mfill_atomic_pte_continue().
+I haven't tested it yet, but I'm sure this will break the 
+fallback_page_copy mode.
 
-```
-	folio = ops->get_folio_noalloc(inode, pgoff);
-	/* Our caller expects us to return -EFAULT if we failed to find folio */
-	if (IS_ERR_OR_NULL(folio))
-		return -EFAULT;
-```
-
-No matter whether get_folio_noalloc() returns an error or NULL, the 
-error code is converted to -EFAULT here, and mfill_atomic_pte_continue() 
-is currently the only caller of get_folio_noalloc().
-
-Did I miss something?
-
-
-Thanks,
-
-> 
->> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
->> ---
->>   include/linux/shmem_fs.h | 2 +-
->>   mm/khugepaged.c          | 2 +-
->>   mm/shmem.c               | 9 +++------
->>   3 files changed, 5 insertions(+), 8 deletions(-)
->>
->> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
->> index 93a0ba872ebe..d461713c095b 100644
->> --- a/include/linux/shmem_fs.h
->> +++ b/include/linux/shmem_fs.h
->> @@ -165,7 +165,7 @@ extern unsigned long 
->> shmem_partial_swap_usage(struct address_space *mapping,
->>   /* Flag allocation requirements to shmem_get_folio */
->>   enum sgp_type {
->>       SGP_READ,    /* don't exceed i_size, don't allocate page */
->> -    SGP_NOALLOC,    /* similar, but fail on hole or use fallocated 
->> page */
->> +    SGP_NOALLOC,    /* like SGP_READ, but accept fallocated page */
->>       SGP_CACHE,    /* don't exceed i_size, may allocate page */
->>       SGP_WRITE,    /* may exceed i_size, may allocate !Uptodate page */
->>       SGP_FALLOC,    /* like SGP_WRITE, but make existing page 
->> Uptodate */
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index b8452dbdb043..3309d1c094df 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -1950,7 +1950,7 @@ static enum scan_result collapse_file(struct 
->> mm_struct *mm, unsigned long addr,
->>                   xas_unlock_irq(&xas);
->>                   /* swap in or instantiate fallocated page */
->>                   if (shmem_get_folio(mapping->host, index, 0,
->> -                        &folio, SGP_NOALLOC)) {
->> +                        &folio, SGP_NOALLOC) || !folio) {
->>                       result = SCAN_FAIL;
->>                       goto xa_unlocked;
->>                   }
->> diff --git a/mm/shmem.c b/mm/shmem.c
->> index 3b5dc21b323c..458853c506ea 100644
->> --- a/mm/shmem.c
->> +++ b/mm/shmem.c
->> @@ -2524,14 +2524,11 @@ static int shmem_get_folio_gfp(struct inode 
->> *inode, pgoff_t index,
->>       }
->>       /*
->> -     * SGP_READ: succeed on hole, with NULL folio, letting caller zero.
->> -     * SGP_NOALLOC: fail on hole, with NULL folio, letting caller fail.
->> +     * SGP_READ/SGP_NOALLOC: succeed on hole, with NULL folio.
->>        */
->>       *foliop = NULL;
->> -    if (sgp == SGP_READ)
->> +    if (sgp <= SGP_NOALLOC)
->>           return 0;
->> -    if (sgp == SGP_NOALLOC)
->> -        return -ENOENT;
->>       /*
->>        * Fast cache lookup and swap lookup did not find it: allocate.
->> @@ -2657,7 +2654,7 @@ static int shmem_get_folio_gfp(struct inode 
->> *inode, pgoff_t index,
->>    *
->>    * When no folio is found, the behavior depends on @sgp:
->>    *  - for SGP_READ, *@foliop is %NULL and 0 is returned
->> - *  - for SGP_NOALLOC, *@foliop is %NULL and -ENOENT is returned
->> + *  - for SGP_NOALLOC, *@foliop is %NULL and 0 is returned
->>    *  - for all other flags a new folio is allocated, inserted into the
->>    *    page cache and returned locked in @foliop.
->>    *
-
+You're fetching from the batch at folio granularity here, but in 
+fallback_page_copy mode, we still copy the data at page granularity.
