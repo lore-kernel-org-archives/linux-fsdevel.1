@@ -1,120 +1,267 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8D937DAA0
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 12:19:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44B03603D1
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 12:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779711576; cv=none; b=sIm0qLworwRJS3lcrLg1WMyp/4uGH/zir747FE9V+xkLD8GxP+yIYPByITl9aX/CLd/Sq7OsxNkVv7CewLm73B+QVp+rtRMo9mOnIg5KY8se4YxBoJaqgYceZ7QQ1qagciIjidrGpAg1QGHUhq9WyS956B7KFsL5ty6caWyaNzM=
+	t=1779711610; cv=none; b=ecIgdnPxC3ktRCXWMOVbh72WLQJpXSeBEOkX15Zodwl579coH3UMwa6RgJUOLfLILEd/02/8FOPBrnWI4hlJ0/yiA6U7Kgya17MqZO0sHzTbfRqxEvooGS0y6H9z3QuVjSRGPETimTPbQM3267hkxzt/SBK4CfF0U4J6Y8TvKDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779711576; c=relaxed/simple;
-	bh=WzPCO9gLDcbBMU5BoJ7zMH9AIATN2YIHyfy5SWW7xUs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IzoJLK3smB3AlLDWQYaN7F0tE6PPGiBsBWiYEaV/U912Ct3dDlWyMCI598+JsEQaiPiu+nm7P/ZK0EZKTVSIgNLqaRFXgSMOXCCrRfVUIJPfahU6vkT9WMbMcZ6iboLPlYOzthRvUJqCf1fhCb+Nurz1d4LyiflQbRCNOhCxtIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com; spf=fail smtp.mailfrom=hammerspace.com; dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b=Tq9To+KB; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammerspace.com
+	s=arc-20240116; t=1779711610; c=relaxed/simple;
+	bh=yCMoCLCrLXaiLf5t0kz+NiL3iaEmN33yjEtznzG5zkA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dlQSff1pBlJTSjD3DHgWtXWg/gFDzJnrtbb7xnpK7sZ2t/Jp1Jj0PP6GkHmvuvA8hscUze9Jg6dAZW5qoHEYr6OFDRI8Wwmqj9b7DZu8w4ohksN5JusnpBQZRen5mhsqCKHygN66tMfRShoad/wUPJh8O0osHCVpSmpKaz+sQAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=gOr+SW++; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/bf8OI2J; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t+oCC0Pj; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=mYLjb8mt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b="Tq9To+KB"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-516df7b256bso11339731cf.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 05:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1779711572; x=1780316372; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PsSjlGTpZWL/2k9lFtJdhUdlf8UBtg09lUhGCMelAgA=;
-        b=Tq9To+KB8YfL8kI8Q1HazS16sWFGf91j1TU5OwQJDq2l5iUEPsYYCZ0nWFmzgSoYuq
-         jSzkLe8zsTLlOBv6K8omote5iyn3PcZu52TnaxcnVuTSyiTGkOEAgSoox2Xg2TcU5efd
-         Da9xEBhlmIVWtEezPoTzB2Vh+nKQEJ6zPTeJLktEV8f96iicz1hf4HjRuAUR/3a9H8kj
-         B+LB/dqZEyECCkz1VjfK35AQrQcFPDXoCyNmqKDYfHUSCMsMSrFthyQ+tU9wqHVEX2lV
-         6YkFqFCFklE1VXrx7IsC7iaK09kkpg62GGeFsfW0GBKaKa737H44mBUCXsT60fUfl6To
-         Jcsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779711572; x=1780316372;
-        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PsSjlGTpZWL/2k9lFtJdhUdlf8UBtg09lUhGCMelAgA=;
-        b=c90qnNWvt6uVSK/W/ykXfrQSoHwfMHS2RxyM0+57S8cOKvNiqcr2ixApP9oJJJ7sql
-         7dnjlAkjhybNYAZNrQi/7vcoTCLJWq9ub8IaN17/dk35HuC+eWIdsWm7/+HqINbw4/sZ
-         vonrvFlERym6QxupORH9XO3EKPIBfo7ncCENwwlUAbHZE1K/sv8TwrFSeBBgjPu4/tql
-         l63Gcf98IW/KkM8G3am4rzde5KrI838kYSNEeEL708WiYp0NOwoO3dusrh8jq234Uo9T
-         k9gpXSqLhdIjx0L77t5mv7YZTRzBIQFus9BAHW/t5dwDyG9eq3HNrDjHJttgU8577j7a
-         Jjdg==
-X-Forwarded-Encrypted: i=1; AFNElJ+LtkriBSVNAdF2bYJKIcCJ/iRJBsxtQ1ha8fxkdLrY+trGV/9BIF7kuPqI1WJA8/YAnaMRGzTwgm0Zk1NU@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVn/se+U9U0AMTFo/mEAC1Hn6tCxoB3eyCD+WsPtxHMkfM2Dus
-	hdNM4kSr/23faJN5TmMmsc+8xom+yqDILcuV6Jx/npq/UNRsus+B6TlPChFT6aQX5j4=
-X-Gm-Gg: Acq92OHf6w73u596trDe5+9SYe4ZkkaZxHn2dhdWa+qidgeY7xBvE/myD9AhyDi7zvI
-	elQKxZw91apFHfm63SVkvJbxP1N8IH651WK5yPVTEljp1Sxp0E4gUnOV+Y5b/xEisWE213o6QMC
-	t9b0fmLWyL1wg2K73vmdwvmBASilozBSbOnAaBSc3Oo1t6rq8PVvKPrl3SDTXGORUdTjhRe3HLE
-	HeD2LiB1SqtaX8N6kd1cpIJKP8QT6ZIMI8v+b3oFDdhC6rG5n7yYe/X1vxVorThlzn6+CaLy1DW
-	5Vt6NF/odrUszktUu4s/33qyWIHkq+/ezN/AzldEHCFxN3aXqnyM8vVynfdqo6j7FHCZv6YQPZj
-	gUwW4Lv41SaweTxr4vmbOVbXq1hS+rW4HKt9BmRJ/kdT8tCjItGf0YVOR9R0kmfd41nS209s3Ny
-	mRcr+lllgaevlE5HHtOkQqw0A15nxNKHT5kgu/lrF3
-X-Received: by 2002:a05:622a:9011:b0:50d:6b13:bb14 with SMTP id d75a77b69052e-516d436db29mr157358021cf.34.1779711571902;
-        Mon, 25 May 2026 05:19:31 -0700 (PDT)
-Received: from [192.168.37.1] ([66.97.168.37])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc81316d44sm107456886d6.42.2026.05.25.05.19.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 05:19:31 -0700 (PDT)
-From: Benjamin Coddington <ben.coddington@hammerspace.com>
-X-Google-Original-From: Benjamin Coddington <bcodding@hammerspace.com>
-To: NeilBrown <neil@brown.name>
-Cc: Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>,
- Benjamin Coddington <bcodding@redhat.com>, linux-nfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] VFS: fix possible failure to unlock in
- nfsd4_create_file()
-Date: Mon, 25 May 2026 08:19:30 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <D21CFD27-5D06-4CB2-AC48-B79F3C6A287A@hammerspace.com>
-In-Reply-To: <177969022571.3379282.16448744624428323496@noble.neil.brown.name>
-References: <177969022571.3379282.16448744624428323496@noble.neil.brown.name>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="gOr+SW++";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/bf8OI2J";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t+oCC0Pj";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="mYLjb8mt"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CFF946B5B7;
+	Mon, 25 May 2026 12:20:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779711607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PqfB1Kr5g6SVxfd6pFjgYACkSulPuOJ/RrprUx1Yf9c=;
+	b=gOr+SW++IhoWNq+bc9l1riY+T8Wadxyds+6bj1YX70wZVq5R4QSVT6cNXpFU4s5/Ewhawd
+	uNHapk5+qf1mX1NY7OrsheeAbjnXvI+a7gXFDlMFKHmgYJ5Lug5NoQiuNKaBSmzoYZUT7B
+	e8P1SIMFpNHLAUQA5bl/8AJPv+tzlSU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779711607;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PqfB1Kr5g6SVxfd6pFjgYACkSulPuOJ/RrprUx1Yf9c=;
+	b=/bf8OI2J/6hCTJRH9OTL1lruS6RVcmzeMZuwn/6utearl8bvbi2q30/u4xKdZpImlkGx9O
+	LPlm29Uk0MSHUVBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=t+oCC0Pj;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=mYLjb8mt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779711606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PqfB1Kr5g6SVxfd6pFjgYACkSulPuOJ/RrprUx1Yf9c=;
+	b=t+oCC0Pj85PX857Tcq2heOdieSU4kQkjH208IQ9o/Tnl3bKKEYCzQS5fUMG30GAJYrU7pL
+	Yo1++iRFd1svys0ynUa2Y8uAxjXY4k6O4wgjERYXlxNhHpsK+pYUnT8HhT+ngmsJ4cUAPc
+	zYrIuGRP0992kwCVCASVd9NHCOABzNA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779711606;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PqfB1Kr5g6SVxfd6pFjgYACkSulPuOJ/RrprUx1Yf9c=;
+	b=mYLjb8mt/iNKz7nrEUZnakkFvcTWxl8UQERt0rFy8anZHDkLwAiDOnsrUojcVCg3pq93gx
+	+XCqusQEQ4VoLdDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B13E759C37;
+	Mon, 25 May 2026 12:20:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CBfcKnY+FGogMwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 25 May 2026 12:20:06 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 55552A08D7; Mon, 25 May 2026 14:20:06 +0200 (CEST)
+Date: Mon, 25 May 2026 14:20:06 +0200
+From: Jan Kara <jack@suse.cz>
+To: Alireza Haghdoost <haghdoost@uber.com>
+Cc: Jan Kara <jack@suse.cz>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Kshitij Doshi <kshitijd@uber.com>
+Subject: Re: [PATCH RFC] memcg: add per-cgroup dirty page controls
+ (dirty_ratio, dirty_min)
+Message-ID: <u2ckfxudxhp6xjljlpext3m3dc3fbx3ebatyz7tbfhk2v7am5b@mn3ye7xstiqf>
+References: <20260501-rfc-memcg-dirty-v1-v1-1-9a8c80036ec1@uber.com>
+ <pbwzmyglpz33d3k63aopi5vlghz4jmur2k2g4res6mhktuujhh@rmqooz6bqaao>
+ <CA+w=M=RkewNB0Fc=KNXTrOnt-YABFy+7ZALLmp1wQOP5k_=13Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+w=M=RkewNB0Fc=KNXTrOnt-YABFy+7ZALLmp1wQOP5k_=13Q@mail.gmail.com>
+X-Spam-Score: -4.01
+X-Rspamd-Queue-Id: CFF946B5B7
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
 
-On 25 May 2026, at 2:23, NeilBrown wrote:
+Thanks for the details and sorry for a delayed reply. I had two conferences
+lately...
 
-> atomic_create() in fs/namei.c drops the reference to the dentry
-> when it returns an error.
-> This behaviour was imported into dentry_create() so that it
-> will drop the reference if an error is returned from atomic_create(),
-> though not if vfs_create() returns an error (in the case where
-> ->atomic_create is not supported).
->
-> The caller - nfsd4_create_file() - is made aware of this by checking
-> path->dentry, which will either be a counted reference to a dentry, or
-> an error pointer.
->
-> However the change to use start_creating()/end_creating() (which landed
-> shortly before the dentry_create() change landed, though was likely
-> developed around the same time) means that nfsd4_create_file() *needs* a
-> valid dentry so that it can unlock the parent.
->
-> The net result is that if NFSD exports a filesystem which uses
-> ->atomic_create, and if a call to ->atomic_create returns an error, then
-> nfsd4_create_file() will pass an error pointer to end_creating()
-> and the parent will not be unlocked.
->
-> Fix this by changing dentry_create() to make sure path->dentry is always
-> a valid dentry, never an error-pointer.  The actual error is already
-> returned a different way.
->
-> Note that if ->atomic_create() returns a different dentry (which may not
-> be possible in practice) we are guaranteed (because it is only ever
-> provided by d_spliace_alias()) that it will have the same d_parent and
-> so it will have the same effect when passed to end_creating().
->
-> Fixes: 64a989dbd144 ("VFS/knfsd: Teach dentry_create() to use atomic_open()")
-> Signed-off-by: NeilBrown <neil@brown.name>
+On Wed 13-05-26 21:10:10, Alireza Haghdoost wrote:
+> On Wed 06-05-26 16:21:00, Jan Kara wrote:
+> > Things like motivation actually belong to the changelog itself, measured
+> > results how the patch helps as well. On the other hand stuff like history
+> > is largely irrelevant here, frankly I don't have a bandwidth to carefully
+> > read the huge amount of text LLM has generated below so please try to make
+> > it more concise for next time.
+> 
+> Understood. Will trim for the non-RFC posting; apologies for the
+> volume.
+> 
+> > ... I quite don't see how a multisecond stalls you are describing would
+> > happen [...] If we are below freerun in the memcg, the task dirtying
+> > folios from that memcg shouldn't be throttled at all, once we get above
+> > freerun we throttle by maximum of throttling delay decided from global
+> > and memcg situation [...]
+> 
+> The stall is reachable even with the victim's memcg well below its
+> own freerun. The freerun shortcut in balance_dirty_pages() is an AND,
+> not OR:
+> 
+>   if (gdtc->freerun && (!mdtc || mdtc->freerun))
+>           goto free_running;
 
-Reviewed-by: Benjamin Coddington <bcodding@hammerspace.com>
+True but this is mostly a performance optimization.
 
-Ben
+> Once gdtc is over freerun (because the noisy neighbour pushed it
+> there) the shortcut does not fire, even when mdtc->freerun is true.
+
+Below in balance_dirty_pages() we also have:
+
+                /*
+                 * Calculate global domain's pos_ratio and select the
+                 * global dtc by default.
+                 */
+                balance_wb_limits(gdtc, strictlimit);
+                if (gdtc->freerun)
+                        goto free_running;
+                sdtc = gdtc;
+
+                if (mdtc) {
+                        /*
+                         * If memcg domain is in effect, calculate its
+                         * pos_ratio.  @wb should satisfy constraints from
+                         * both global and memcg domains.  Choose the one
+                         * w/ lower pos_ratio.
+                         */
+                        balance_wb_limits(mdtc, strictlimit);
+                        if (mdtc->freerun)
+                                goto free_running;
+
+which is the key logic. So unless you have strictlimit enabled (which you
+didn't mention you'd have), being under freerun limit in your memcg is
+enough to protect you from a noisy neighbor.
+
+> After the shortcut fails, the per-task pause is computed from the
+> dtc with the smaller pos_ratio:
+> 
+>   if (mdtc->pos_ratio < gdtc->pos_ratio)
+>           sdtc = mdtc;
+> 
+> When global is the worse domain, the victim sleeps against global
+> state, not memcg state.
+
+*If* you are above freerun in your memcg (or have strictlimit enabled) then
+yes, I agree.
+
+> > So can you perhaps share more details about the configuration where
+> > you observe these delays to innocent tasks due to another task
+> > dirtying a lot of memory? How many page cache in total and dirty
+> > pages are there in each memcg [...]? Is the delayed task really
+> > throttled in balance_dirty_pages()?
+> 
+> Yes. Re-ran the reproducer: stock 7.0-rc5, ext4 on virtio-blk
+> throttled to 256 KB/s, dirty_bytes=32M, dirty_background_bytes=16M
+> (freerun = 24 MB), noisy = single fio job doing unlimited buffered
+> randwrite, victim = single fio job doing 4 KiB sequential write
+> rate-limited to 500 KB/s.
+> 
+> Per-memcg snapshot during the contended phase, ~10 s into the run:
+> 
+>                        noisy memcg     victim memcg     global
+>   memory.current        47 MB            21 MB           --
+>   file (cache)          38 MB            14 MB           --
+>   file_dirty            26 MB           1.7 MB           27 MB
+>   file_writeback       1.5 MB           4.0 MB          5.3 MB
+> 
+> Victim memcg holds 1.7 MB dirty, far below any reasonable per-memcg
+> freerun. Global dirty (NR_FILE_DIRTY + NR_WRITEBACK ~ 32 MB) is over
+> the 24 MB freerun ceiling, driven entirely by noisy.
+
+Ah, OK. I think I see what's going on. How much page cache does the machine
+have in total and what are memory limits for the noisy and victim memcgs?
+Because there's this somewhat surprising behavior when you configure dirty
+limits in bytes in domain_dirty_limits() - the memcg dirty limit will
+roughly be dirty_bytes / global_available_memory * memcg_available (where
+memcg_available is memcg page cache size + how much memcg can grow from the
+current size until it hits memory limit). Since you set dirty_bytes to 32M,
+your machine presumably has gigabytes of memory, then it's possible victim
+memcg dirty limits end up really low.
+
+> The victim writer (fio with psync) is in fact sleeping in
+> balance_dirty_pages(). One stack snapshot during a stall:
+> 
+>   [<0>] balance_dirty_pages+0x5c5/0xac0
+>   [<0>] balance_dirty_pages_ratelimited_flags+0x2a1/0x380
+>   [<0>] generic_perform_write+0x194/0x280
+>   [<0>] ext4_buffered_write_iter+0x63/0x110
+>   [<0>] vfs_write+0x28d/0x450
+>   [<0>] __x64_sys_pwrite64+0x8c/0xc0
+>   [<0>] do_syscall_64+0xfa/0x520
+>   [<0>] entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> Sampling /proc/<pid>/wchan at 100 Hz across the contended phase
+> yields the histogram:
+> 
+>   104  balance_dirty_pages
+>    88  hrtimer_nanosleep    (the fio rate-limit sleep between writes)
+>    12  RUNNING
+>     4  p9_client_rpc        (virtfs, host-guest filesystem RPC)
+>     3  d_alloc_parallel
+> 
+> The vast majority of non-rate-limit samples have the writer parked
+> in balance_dirty_pages(). Victim per-IO clat in this run reaches a
+> 3 s tail (worst single 4 KiB pwrite blocked ~3.0 s) while its own
+> memcg holds < 2 MB dirty.
+
+If dirty limits for the victim memcg end up really low, then yes, this is
+what I'd expect.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
