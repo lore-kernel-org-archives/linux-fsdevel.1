@@ -1,39 +1,80 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2644F3E16B9
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 08:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2163E16B9
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 08:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779699528; cv=none; b=WgcOnUKlfSlLCWJBSLYLsJkI2snRnBTuo0Tubu1tc87pbZW6BKwV3RTnbaCpAXakH9tRJUtadnlNpPViIDz3iWxqZwWQJBt1PQgj1yxcQkQRotSgamlJZNbuKInLGy+N74Lidl6r4+DRq9EnHQAyCLhnBG7mFH3ucfyNAurPqLY=
+	t=1779699533; cv=none; b=IGNkna4tTnrkJSkG7T1/IV+3Fks1nFctLW3Jtuqfcz6bM28Y0DzKrTRF0iYr9IzdgtU96NlzGpG94THjOKyypu632WZHe3zWWbiy2TwGKfGIW4nbcW/uSMX9zQ455K07qL5afsjQbdY0SUnCiPZXDsXTLoQn/yOtJ8UWUsVvtDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779699528; c=relaxed/simple;
-	bh=y/Yh2rI2ILcFNVagCjqbgSoT0wCD+uFAViLSLkYT0Ac=;
+	s=arc-20240116; t=1779699533; c=relaxed/simple;
+	bh=KHDTSSKOTWhA7TMyqMOL96sXwMhLS33QY11aTNlYK/g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dYAnFIaC3x0ibkD2vx0Em3Jx8R3RZyp4KjL36f/0LmrjkkP0CjDifdQTHIwPbNhnqLd2wwlrJ5VM12fzBmKGoZx6aSCv7St+j8SKajw8Kviy32nazF5Msk8sSwM9bD6KnVIu6yTwv29y6JkPgiCwVXn3JS/gg2fH6mTHe8ytqio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=pmtuYAjp00ZR9AcpAhnp+5UGjit8SQH7OgdpH37eGrZRi5JHAqOmcPEaVZmxqyh8+kr97AMtNWWzKcicUoe+EPNrBqNyc+Ea64WlTNpvsOvMngt8ABPyuxOfcGj+uROtHlhv7gFzz9Br00P7MU7VzdzUkMowaN8eHXF9xWYAsRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PP9cs0Cw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=eLNvwRXe; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PP9cs0Cw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=eLNvwRXe; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PP9cs0Cw";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="eLNvwRXe";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PP9cs0Cw";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="eLNvwRXe"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 813F364B6E;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7CC8B64AF1;
 	Mon, 25 May 2026 08:58:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779699517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVzmCOn0ueKOe0tSOFrRNfYBjWpBLazUnpXJEUHvxsI=;
+	b=PP9cs0CwIU+ThTUpg4GevqlnYi/BkfD+4ouRsT2+3pekYCHqQ+RWUeLXBuuVZBxtOH4bKx
+	6KhyOYRbBQfNZqS1Zpvu35L+Im4HcWM/Q+nwcE5pbYCd1qO0vFgqVoZZxXwxk/OFEAe7wS
+	CrQnv499r5NSYkLPWsjYbjHkUwkb4HQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779699517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVzmCOn0ueKOe0tSOFrRNfYBjWpBLazUnpXJEUHvxsI=;
+	b=eLNvwRXes41Yv4rMvjSTyzKattFKMDQsOovCGSGTZiGm2dL80BjguZEOQsKSUcM9zSz0mZ
+	DEA8HbnYhQ7n0JBA==
 Authentication-Results: smtp-out1.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779699517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVzmCOn0ueKOe0tSOFrRNfYBjWpBLazUnpXJEUHvxsI=;
+	b=PP9cs0CwIU+ThTUpg4GevqlnYi/BkfD+4ouRsT2+3pekYCHqQ+RWUeLXBuuVZBxtOH4bKx
+	6KhyOYRbBQfNZqS1Zpvu35L+Im4HcWM/Q+nwcE5pbYCd1qO0vFgqVoZZxXwxk/OFEAe7wS
+	CrQnv499r5NSYkLPWsjYbjHkUwkb4HQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779699517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVzmCOn0ueKOe0tSOFrRNfYBjWpBLazUnpXJEUHvxsI=;
+	b=eLNvwRXes41Yv4rMvjSTyzKattFKMDQsOovCGSGTZiGm2dL80BjguZEOQsKSUcM9zSz0mZ
+	DEA8HbnYhQ7n0JBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7914959B70;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 754F459B6E;
 	Mon, 25 May 2026 08:58:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qgVQHT0PFGrJbQAAD6G6ig
+	id XY6iHD0PFGrIbQAAD6G6ig
 	(envelope-from <jack@suse.cz>); Mon, 25 May 2026 08:58:37 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id C84C3A0A01; Mon, 25 May 2026 10:58:32 +0200 (CEST)
+	id C3A1BA09C2; Mon, 25 May 2026 10:58:32 +0200 (CEST)
 From: Jan Kara <jack@suse.cz>
 To: <linux-fsdevel@vger.kernel.org>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -42,9 +83,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	<linux-ext4@vger.kernel.org>,
 	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2 06/10] fat: Fix possibly missing inode write on fsync(2)
-Date: Mon, 25 May 2026 10:58:12 +0200
-Message-ID: <20260525085821.769119-16-jack@suse.cz>
+Subject: [PATCH v2 05/10] udf: Fix possibly missing inode write on fsync(2)
+Date: Mon, 25 May 2026 10:58:11 +0200
+Message-ID: <20260525085821.769119-15-jack@suse.cz>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260525085035.12891-1-jack@suse.cz>
 References: <20260525085035.12891-1-jack@suse.cz>
@@ -54,65 +95,67 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1396; i=jack@suse.cz; h=from:subject; bh=y/Yh2rI2ILcFNVagCjqbgSoT0wCD+uFAViLSLkYT0Ac=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqFA8ydvdxYfHwhIzR6Ohw6vT3OoShv3KsjqI04 1pgbKBlk6iJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCahQPMgAKCRCcnaoHP2RA 2bQRCACwXH91mn8xNPgxqrtYWKIpAIO5Q5DU40sm9tylX1H3tLTT1nuIhDiHeSjIDO/X5wsdUKu qqj0m471TXcwj0GDcofTs92oHVD4m4UoEXiez74uE+dS/9+S2pDdmS0pVJ78W8SLVo1nBtBACBF EdgERpIUMAmdJ2ZMQqqrsyQK41I+xBoz11d49/iaV94DDUeXuaOer5qAKv1rBJEWEv5UfpVzUm2 gXsViSvdF6AHF6BR/7DaqtslbAZft60JGSRHjkKgbAZ7bwyWElHtVP+UDiMV0IQWe94ah5QyK0+ R8sY1KKTNqe2PXdAIX863Rv+ApK8y7e5IzNHilxN8AAZy1p4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1001; i=jack@suse.cz; h=from:subject; bh=KHDTSSKOTWhA7TMyqMOL96sXwMhLS33QY11aTNlYK/g=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBqFA8xAJEGHsnW8EZfHzTTDO0+bf+a6k2e0bLtT Lmx0izgREWJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCahQPMQAKCRCcnaoHP2RA 2TaqB/49o8bBVpEiNIzafu4jQqfMnlhEvykJNPFxv8EqGQ19SHdL3sXlgrx36euCcol9DE2W5Ec b5ffniCHTEb4ZPdXeS8TZ6GwUM/6co6EfYLpnaMIU2xQojbqLn+/ZJPQzDBcA6tFDQQ56mH5L+/ vP0cJKeg+2zwC7deXAemFaiLE2MMPdRCL7VnszlN2T/WyRKHvPf55QZZdYwo84yO3WQOZyW3KcN m1FFaKezw1PFBYt3tPvJA4st3rVvnWecWs4zycTL0LeIM2VoiUF9BQDGG1Pr/aawf3wWzyFNj7s e4SAyCFa6/W1my6+yoigXno0Vefg/MHL8VTqYNYKw8YGsLEM
 X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
+X-Spam-Score: -5.30
+X-Spamd-Result: default: False [-5.30 / 50.00];
 	REPLY(-4.00)[];
-	TAGGED_RCPT(0.00)[]
-X-Rspamd-Queue-Id: 813F364B6E
-X-Spam-Score: -4.00
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,mit.edu,vger.kernel.org,mail.parknet.co.jp,suse.cz];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
 X-Spam-Level: 
+X-Spam-Flag: NO
 
 Use mmb inode buffer writeout infrastructure to reliably write out
-inode's buffer on fsync(2).
+inode's block on fsync(2).
 
 Signed-off-by: Jan Kara <jack@suse.cz>
 ---
- fs/fat/inode.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ fs/udf/inode.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-index 28f78df086ef..1ffbfee1a9ad 100644
---- a/fs/fat/inode.c
-+++ b/fs/fat/inode.c
-@@ -431,6 +431,9 @@ EXPORT_SYMBOL_GPL(fat_attach);
- void fat_detach(struct inode *inode)
- {
- 	struct msdos_sb_info *sbi = MSDOS_SB(inode->i_sb);
-+
-+	/* The block isn't associated with the inode anymore... */
-+	mmb_clear_inode_blk(&MSDOS_I(inode)->i_metadata_bhs);
- 	spin_lock(&sbi->inode_hash_lock);
- 	MSDOS_I(inode)->i_pos = 0;
- 	hlist_del_init(&MSDOS_I(inode)->i_fat_hash);
-@@ -906,7 +909,7 @@ static int __fat_write_inode(struct inode *inode, int wait)
- 				  &raw_entry->cdate, &raw_entry->ctime_cs);
- 	}
- 	spin_unlock(&sbi->inode_hash_lock);
--	mark_buffer_dirty(bh);
-+	mmb_mark_inode_buffer_dirty(bh, &MSDOS_I(inode)->i_metadata_bhs);
- 	err = 0;
- 	if (wait)
- 		err = sync_dirty_buffer(bh);
-@@ -925,7 +928,7 @@ static int fat_write_inode(struct inode *inode, struct writeback_control *wbc)
- 		err = fat_clusters_flush(sb);
- 		mutex_unlock(&MSDOS_SB(sb)->s_lock);
- 	} else
--		err = __fat_write_inode(inode, wbc->sync_mode == WB_SYNC_ALL);
-+		err = __fat_write_inode(inode, 0);
+diff --git a/fs/udf/inode.c b/fs/udf/inode.c
+index 67bcf83758c8..861400152261 100644
+--- a/fs/udf/inode.c
++++ b/fs/udf/inode.c
+@@ -1707,7 +1707,7 @@ void udf_update_extra_perms(struct inode *inode, umode_t mode)
  
- 	return err;
+ int udf_write_inode(struct inode *inode, struct writeback_control *wbc)
+ {
+-	return udf_update_inode(inode, wbc->sync_mode == WB_SYNC_ALL);
++	return udf_update_inode(inode, 0);
  }
+ 
+ static int udf_sync_inode(struct inode *inode)
+@@ -1936,7 +1936,7 @@ static int udf_update_inode(struct inode *inode, int do_sync)
+ 	unlock_buffer(bh);
+ 
+ 	/* write the data blocks */
+-	mark_buffer_dirty(bh);
++	mmb_mark_inode_buffer_dirty(bh, &iinfo->i_metadata_bhs);
+ 	if (do_sync) {
+ 		sync_dirty_buffer(bh);
+ 		if (buffer_write_io_error(bh)) {
 -- 
 2.51.0
 
