@@ -1,71 +1,63 @@
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3158462
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 19:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E8013E02A
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 20:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779735760; cv=none; b=AtVVphzCW7fB120yqRq0Jbag7wWMTVjWNE4h/CVPGCXeR5chWDXyctBWkzn1Z6aiUVLasTgAKJK0g+mhl+EvlfUDWZyLCohUKxwlyo2+Edh+Hr4eexV5ge7mIFSz9CVSy9UqEKHvDwLX4KfB55Jf3QlKA1DRMsANJZ39mxNn940=
+	t=1779739382; cv=none; b=fSd1eRvszWqbG8wuKTBlYQKakIYoZ7xr0Suqd7MPXHyOSIwYUOw7+p1BVde4cmDGdlYYPDrV+qgLK14bjK1PU5FIaU/ehcJdOGvD4nEtnoSLoEjlKzhNLp+KrCHqWzxRxrSL8HEyKDLBcMN2x5cALiPtyfR+kKTIHmkga3eI+YQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779735760; c=relaxed/simple;
-	bh=e7nsEgnox/zgFJHzwiqd84hYWbNcCTe1kwlhiN8WVwU=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=XGRWxpBHl0Ii0t65jgquUHR+gCDFMaBuiXQXEBAeD5/UWi8D0b/y84ryS7jrsnaVEQXIHxGnH4yfbz/cofCCjEX01ClbqpAdbhy/p7R8gmuwf7rEL/TXhq48v+z+sVlFsDAtUhhtt+oP66H1dmhAQwyFqBCBk1Z7dFh9phCoVVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-69d932fb253so2940997eaf.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 12:02:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779735758; x=1780340558;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=e7nsEgnox/zgFJHzwiqd84hYWbNcCTe1kwlhiN8WVwU=;
-        b=cgvcey7pGSlEnjYeP1LFtYLtbDBFk7UpLqakn0BKvi0Y5TftgmgplSWLsw3MtPQ35l
-         SJBbCxsBkvRyivfPXTsEKudppAVpILH/RYfdvQ2hQoSBip5kTyscaVQtaV+g+FibXd7D
-         tm9LuRKTLr/snGpaF630fKPoj67acNH0Iai9oUU17TtcdHUvtCJ9p7k92T+nIUbRCId5
-         +A3ILL81xt9jMSCxKGrGRIsN0LoBQDL5vqCdsMZtjvAqeUgeZ7gDEczZBQxAgCnHhJV/
-         kcyp4GtOJ6y3uM0c4wEpJ0M3R0QNWJUcjXDqpdBhaEYNl2qxbELJP20rhGCjqhCASprU
-         VQ8Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/JwhThktqPE4fjQvTcZVxvinrTAVHyc5idaJJElLahVGSoDLnyTGXDxw2hna2BiwzMiIVMJ36G+HxkfN7h@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOUJOHUVBVRZ0ufIaSw62VoowHplQ9khfGJotx7aaMAZqGaset
-	KIuuqxUC2JtpfjL4xkSJ5Ii8BGg3aRqw6KOu6RAHY0CoSaoUzgj2FKN9twVqLdk5C1Usa28Ia+c
-	iNbr7aHcqGvpCLpoZanQiJ6uybONVsVLgrws69s2KcsTuAWmhnDYMpy0lqJY=
+	s=arc-20240116; t=1779739382; c=relaxed/simple;
+	bh=VpqkGiW2It2wU4h7uqD87rC1takwoiB/pfrUAEZHQKQ=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=s1JugV0TFdPnbx/VsfeqgYQTuMx5O+7QgjYzi1Ngh3l1Yjgcj8HnnMsaW1E1cVSjJdk8e32z81qhzXYvUAEhUlZiQbWDpovg+WVOggy952TrszG6zTnUxM/DZaw16m5hhkPwd2yJrGEv+PdXUDNTvFa33APVvc/gDdSh+Zc3A5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlmJi0O7; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlmJi0O7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EBD41F000E9;
+	Mon, 25 May 2026 20:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779739381;
+	bh=GvJrej6bR1cLAfjmc/I8AJZAJb2VAjHEFAtzyk7G52g=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=IlmJi0O7DKV10VcbYLMt4TZiFgyrkkNVKXhIaMMBH6Zm+8n9ZKgiF35OANutULU8n
+	 qtjmmM1WrXqq8FzIx60UUjJ4SFM7+S4Zb7fZchnkMnqWZocY+DDJk0NyPGB16/qu33
+	 CMSCsqMr5kMjG/7p7yoGDBReDH/zgk71ucKl2ez3T4yxeozLIs/gqh+UcEEaTISE2p
+	 BsHFzCLpxmz5IPEShkc18/sAVo/L6Dq/SlKHxYvaUfedSnkL5+DTV57aCjFLichOw4
+	 z7xWKUeVUg7RdxKyp3XqjCz/oirMDjlIn83Omri4rs7AvWc/8xw1yWta8IV2S8giZ4
+	 nVD5CXEgL2mHw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56CD0380AA76;
+	Mon, 25 May 2026 20:03:09 +0000 (UTC)
+Subject: Re: [git pull] HPFS fixes for 7.1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <c28d3045-a040-d66d-7ceb-702a071d7621@redhat.com>
+References: <c28d3045-a040-d66d-7ceb-702a071d7621@redhat.com>
+X-PR-Tracked-List-Id: <linux-fsdevel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <c28d3045-a040-d66d-7ceb-702a071d7621@redhat.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git tags/for-7.1/hpfs-fixes
+X-PR-Tracked-Commit-Id: 974820a59efde7c1a7e1260bcfe9bb81f833cc9f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7
+Message-Id: <177973938782.3099881.7270298030506005136.pr-tracker-bot@kernel.org>
+Date: Mon, 25 May 2026 20:03:07 +0000
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-fsdevel@vger.kernel.org, Farhad Alemi <farhad.alemi@berkeley.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6820:98e:b0:69d:c6ca:2b25 with SMTP id
- 006d021491bc7-69dc6ca3216mr1155021eaf.34.1779735758437; Mon, 25 May 2026
- 12:02:38 -0700 (PDT)
-Date: Mon, 25 May 2026 12:02:38 -0700
-In-Reply-To: <1099786842.2498324.1779733830064@kpc.webmail.kpnmail.nl>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a149cce.050a0220.7dd1.0002.GAE@google.com>
-Subject: [syzbot ci] Re: vfs: add O_CREAT|O_DIRECTORY to open*(2)
-From: syzbot ci <syzbot+cic273d9ddc963be97@syzkaller.appspotmail.com>
-To: jkoolstra@xs4all.nl, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzbot@lists.linux.dev, 
-	syzkaller-bugs@googlegroups.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-syzbot ci has tested the suggested fix patch on top of the following series:
+The pull request you sent on Mon, 25 May 2026 15:03:49 +0200 (CEST):
 
-[v4] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-https://lore.kernel.org/all/20260518165237.2084042-1-jkoolstra@xs4all.nl
+> git://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git tags/for-7.1/hpfs-fixes
 
-Patch: https://ci.syzbot.org/jobs/68cbe984-dc74-4a04-8f7f-f01909cf81f3/patch
-Testing results:
-* [build 0] Build Patched: passed
-* [build 0] Boot test: Patched: passed
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7
 
-Full report is available here:
-https://ci.syzbot.org/session/3fd6614e-84f5-4903-b882-4f8cd45eeebc
+Thank you!
 
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
