@@ -1,126 +1,184 @@
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51393806B0
-	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 15:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360402BEC23
+	for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 15:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779721317; cv=none; b=qZJXImB5TVexLCEv0wOH1DHHczx3Ar45cyHePaarEfZ9n8nNOk8hgjZqY4rlUxP70ZhTJUScDw23eDFiXV/3FR3z2uYVrNi0z4h9ekIzhaQYFKug5YUtzyFID80cbSXL4hf9ru0jFLkgwV9Fq3AewI33+V6euJhUFdTPb4czQBI=
+	t=1779721379; cv=none; b=out40Lt5rBwnNNn0fGg4luM84x3YZXObqv2JB4LNsi8rQF9GqnI16a7pUlg35mw5g2QdMdV1dmShGl+lnt2xftNbjvZbQQoAlkHUmWc2FtGLaLS3s/rSo7MPdPEDfzo3jojm/FyulBc0wuscxjo/HIo/66k01D/tS7SuSlfrT8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779721317; c=relaxed/simple;
-	bh=HFbkS0uEydiczYh7P5tXmXKuDdgk9/k4vID1HeaNMOs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MTjMHWhpaAguh1ny3iONSnDB9wVFpYz9a9iBBF7F2hbUTt0sAYxrNgT5tSYPolJTzw/3/h0byRwW+naxv+NOiBHWMjQUkDbLp2X7nmyPRPuXjtbqMpjXwl2b2UAX2xZBRO28GZ0IUXwwIlu9o9/Z+hIXmTlxBT5yIvanSKNoHyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fsSvL3R+; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779721379; c=relaxed/simple;
+	bh=OwQiGUDagKcJXA2tnx9BkOpHeaJ3GAc7XAF/dvNzS9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jz9gXbzk7n+YFoK/0qeq9bU2fIZ+v+3ev5KirAxREuuY7n5/kd43kATAvzlzGUM0pVprvqnip6tOmqaPWDXYiylPR9MyBdhBsJPR9ixeRqWMCNaUXgNbltM42jhp6Fu+o9WOkAr9xfnYkww/uOLa2zkki7vI+Rl+iImj0HKXhrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FConrK9K; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YlAuOqw/; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FConrK9K; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=YlAuOqw/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fsSvL3R+"
-Message-ID: <8edc8cd0-f65c-4456-9b3f-362e744c9a96@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779721303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FConrK9K";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YlAuOqw/";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FConrK9K";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="YlAuOqw/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7D5096B0EC;
+	Mon, 25 May 2026 15:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779721375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AzwE9k9QJF7DUyRnk+qmGDQkXJ2+kA/q8Ntjxx3//vI=;
-	b=fsSvL3R+HyOLiJBlzetIGjmPzu1GfueYA9lAtGy2Z8SL3+P0kPz1vyGsKd+ewF7+yPqqfC
-	/iuy4xlG2sBfvGWm8UGvpe2AWMCyGuQUPrUGljCAmlQ3kSIJHpayjMw01YvtZ7vJP62/sE
-	FqH9kKksxanHmBQ196JOJTJSIlyErtA=
-Date: Mon, 25 May 2026 16:01:19 +0100
+	bh=wusWv0olDbyqI60LHMTLPKVbmFvXdoD70gUShfgNg2M=;
+	b=FConrK9KDVXU1Dtf/62xag+gKCwUilapl9ci/NY2aqpBj4wKwdJwMMgPHheZKDfbt+sRas
+	Tp3Fp231qXpIzWKCDQYEUlma6VMpUXb2jr9d6D3QLvavmU+/FOIzS0mkQqOeN0hETfdLca
+	upSTG3FtZiNWuO9Z3i6tqSu4PRlABa8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779721375;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wusWv0olDbyqI60LHMTLPKVbmFvXdoD70gUShfgNg2M=;
+	b=YlAuOqw/nT9K4SkboA0o+AY7HSTnOMvOIrE/aXmGV834IGVhVPiza5tibMlVegcsXDtagp
+	92smHg0kaVXkiMBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=FConrK9K;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="YlAuOqw/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779721375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wusWv0olDbyqI60LHMTLPKVbmFvXdoD70gUShfgNg2M=;
+	b=FConrK9KDVXU1Dtf/62xag+gKCwUilapl9ci/NY2aqpBj4wKwdJwMMgPHheZKDfbt+sRas
+	Tp3Fp231qXpIzWKCDQYEUlma6VMpUXb2jr9d6D3QLvavmU+/FOIzS0mkQqOeN0hETfdLca
+	upSTG3FtZiNWuO9Z3i6tqSu4PRlABa8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779721375;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wusWv0olDbyqI60LHMTLPKVbmFvXdoD70gUShfgNg2M=;
+	b=YlAuOqw/nT9K4SkboA0o+AY7HSTnOMvOIrE/aXmGV834IGVhVPiza5tibMlVegcsXDtagp
+	92smHg0kaVXkiMBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6877559CDA;
+	Mon, 25 May 2026 15:02:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id CBBqGJ9kFGprVAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 25 May 2026 15:02:55 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id E6AADA08D7; Mon, 25 May 2026 17:02:54 +0200 (CEST)
+Date: Mon, 25 May 2026 17:02:54 +0200
+From: Jan Kara <jack@suse.cz>
+To: Agatha Isabelle Moreira <code@agatha.dev>
+Cc: linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, shuo chen <1289151713@qq.com>, 
+	linux-kernel-mentees@lists.linux.dev, shuah@kernel.org, patch-reply@agatha.dev
+Subject: Re: [PATCH 1/2] fs: buffer: use clear_and_wake_up_bit() in
+ unlock_buffer()
+Message-ID: <3otuior2majsj6r4w4tybpdx5tahs5h227ryouwb726pgyt7ik@g5hoctqjkxxb>
+References: <ag4PEP52c8rxrYPc@guidai>
+ <ag4SD-mkmn5IbuN7@guidai>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 0/2] mm: improve large folio readahead for exec memory
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: david@kernel.org, willy@infradead.org, ryan.roberts@arm.com,
- linux-mm@kvack.org, r@hev.cc, jack@suse.cz,
- Andrew Donnellan <andrew+kernel@donnellan.id.au>, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, brauner@kernel.org,
- catalin.marinas@arm.com, dev.jain@arm.com, kees@kernel.org,
- kevin.brodsky@arm.com, lance.yang@linux.dev,
- "Liam R.Howlett" <liam@infradead.org>, linux-arm-kernel@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, ljs@kernel.org,
- mhocko@suse.com, npache@redhat.com, pasha.tatashin@soleen.com,
- rmclure@linux.ibm.com, rppt@kernel.org, surenb@google.com,
- vbabka@kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
- wilts.infradead.org@hp2.hsd1.ca.comcast.net, ziy@nvidia.com,
- hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev,
- kernel-team@meta.com
-References: <20260522162422.3856502-1-usama.arif@linux.dev>
- <20260522122052.7b4ad7c482a0e4826296e392@linux-foundation.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20260522122052.7b4ad7c482a0e4826296e392@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ag4SD-mkmn5IbuN7@guidai>
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 7D5096B0EC
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[qq.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,zeniv.linux.org.uk,kernel.org,suse.cz,qq.com,lists.linux.dev,agatha.dev];
+	internal_greylist_whitelist(0.00)[2a07:de40:b281:104:10:150:64:97];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-
-
-On 22/05/2026 20:20, Andrew Morton wrote:
-> On Fri, 22 May 2026 09:23:46 -0700 Usama Arif <usama.arif@linux.dev> wrote:
+On Wed 20-05-26 16:58:16, Agatha Isabelle Moreira wrote:
+> Use `clear_and_wake_up_bit()` in `unlock_buffer()`, since the helper was
+> introduced in 'commit 8236b0ae31c83 ("bdi: wake up concurrent
+> wb_shutdown() callers.")' as a generic way of doing the same sequence of
+> operations:
+>        	clear_bit_unlock();
+> 	smp_mb__after_atomic();
+> 	wake_up_bit();
 > 
->> Two checks in do_sync_mmap_readahead() limit large-folio readahead:
->>
->>   1. The mmap_miss heuristic is meant to throttle wasteful speculative
->>      readahead. It is currently also applied to the VM_EXEC readahead
->>      path, which is targeted rather than speculative. Once mmap_miss exceeds
->>      MMAP_LOTSAMISS, exec readahead - including the large-folio
->>      order requested by exec_folio_order() - is disabled. On
->>      configurations where the mmap_miss decrement paths are not
->>      active (see patch 1) the counter only grows, so exec readahead
->>      is permanently disabled after the first 100 faults.
->>
->>   2. The force_thp_readahead path is gated only on
->>      HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER and always drives the
->>      readahead at HPAGE_PMD_ORDER. Configurations where
->>      HPAGE_PMD_ORDER exceeds MAX_PAGECACHE_ORDER never reach this
->>      path, even when the mapping itself supports usefully large
->>      folios well below the cap.
->>
->> Both issues are most visible on arm64 with a 64K base page size,
->> where HPAGE_PMD_ORDER is 13 (512MB) -- above MAX_PAGECACHE_ORDER
->> (11) -- and where fault_around_pages collapses to 1 disabling
->> should_fault_around() (one of the two mmap_miss decrement sites).
->> However the fixes are architecture-agnostic: patch 1 reflects the
->> nature of VM_EXEC readahead regardless of base page size, and
->> patch 2 generalises the gate so any mapping advertising a usefully
->> large maximum folio order can benefit.
->>
->> I created a benchmark that mmaps a large executable file and calls
->> RET-stub functions at PAGE_SIZE offsets across it. "Cold" measures
->> fault + readahead cost. "Random" first faults in all pages with a
->> sequential sweep (not measured), then measures time for calling random
->> offsets, isolating iTLB miss cost for scattered execution.
->>
->> The benchmark results on Neoverse V2 (Grace), arm64 with 64K base pages,
->> 512MB executable file on ext4, averaged over 3 runs:
->>
->>   Phase      | Baseline     | Patched      | Improvement
->>   -----------|--------------|--------------|------------------
->>   Cold fault | 83.4 ms      | 41.3 ms      | 50% faster
->>   Random     | 76.0 ms      | 58.3 ms      | 23% faster
+> The helper was implemented to avoid bugs caused by forgetting to call
+> `wake_up_bit()` after `clear_bit_unlock()`.
 > 
-> Well that's nice.
+> Since `unlock_buffer()` predates git and was last modified in
+> 'commit 4e857c58efeb9 ("arch: Mass conversion of smp_mb__*()")', years
+> before `clear_and_wake_up_bit()`, it still uses the open-coded sequence.
 > 
-> AI review might have found a few things:
-> 	https://sashiko.dev/#/patchset/20260522162422.3856502-1-usama.arif@linux.dev
+> Replace the open-coded sequence with the helper to avoid duplicate code
+> and reduce code paths to maintain.
 > 
+> Suggested-by: shuo chen <1289151713@qq.com>
+> Link: https://lore.kernel.org/kernelnewbies/agzoqV835-co4kAN@guidai/T/#t
+> Signed-off-by: Agatha Isabelle Moreira <code@agatha.dev>
 
-Thanks Andrew! So sashiko seems to have brought out some interesting problems,
-some of which are pre-existing. For example, the decrement sites for mmap_miss
-in do_async_mmap_readahead() and filemap_map_pages() dont skip for VM_SEQ_READ.
+Looks good. Feel free to add:
 
-I have sent this as an independent patch in [1].
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-I will send the next version of this series on top of [1] in a few days
-addressing the rest of the issues raised by sashiko.
+								Honza
 
-[1] https://lore.kernel.org/all/20260525145751.2671248-1-usama.arif@linux.dev/
-
-
+> ---
+>  fs/buffer.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index b0b3792b1496..4348b240bd97 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -74,9 +74,7 @@ EXPORT_SYMBOL(__lock_buffer);
+>  
+>  void unlock_buffer(struct buffer_head *bh)
+>  {
+> -	clear_bit_unlock(BH_Lock, &bh->b_state);
+> -	smp_mb__after_atomic();
+> -	wake_up_bit(&bh->b_state, BH_Lock);
+> +	clear_and_wake_up_bit(BH_Lock, &bh->b_state);
+>  }
+>  EXPORT_SYMBOL(unlock_buffer);
+>  
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
