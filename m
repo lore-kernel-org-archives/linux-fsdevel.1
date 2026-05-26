@@ -1,198 +1,129 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3B43B5826;
-	Tue, 26 May 2026 07:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E95F3BE17E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 07:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779779641; cv=none; b=XFD+pETJdbfAlMEvjQ2Xeij8r4gKiVwZEi0gp2PZ7Ntgw/lzZa3ZWYx6WtWhR6GqFhPHiYASuNLv7X/SuNwDMTaieuOJ4MoY87d8h2EFuCkCgBSDmjfTmTOxKpSELgkO7EVSafrJm/DJWZJ9jZBKTsQbGTUgcxGhm30oRyvStNo=
+	t=1779779655; cv=none; b=G/KIHYO4Dfdxc1lLCCAHi0CZfjqjc8S8uCvVVQT14qhg93RET5iAt7yOWi2Rp68PsHATfHdygajxsxQtiAP4xm+9myZj7paYbgS99O1ZbQcsMuZ9IDu/NZkrfk13sD7WhdNXpDadG/GvKmn+I7u865rtZWg8BfoC89u8q6rPHAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779779641; c=relaxed/simple;
-	bh=ObIkP57M4lIOY7lXGae9io5Tlfngtb8Bqes2/5/lRHw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yo6YDWxDk7Fdu/ebrgCsYrQVRuW1ZJ7U4/G7w1HamAH0zSMPsY15xEnwcxq2jz237yZuZt27yLPpBtVneP/qgDH8Tf/YHyjA7MrcB7bHTqTcrEZhtW0lUhWk1+vLzT2KVOvJW+uh1AYlSVG7aXlLK5+3axaggLZ93/0wR+MCEDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=OTW337En; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1779779655; c=relaxed/simple;
+	bh=66qizlrtCwOvYCskc9Z4D9GEOxk4juRD1CgGxs7OKeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m0pFvwqpKhDuemcQmRnziIcJlUuI0bLhVMIJMDQYRfHn/7tL8Fscu98ljHuK9PyQythnVK3bOu6L/UfNwnvxxibJgegXaXmh2N4vk+Y3ITyjQr0vgOkZolI9h6Ls/DwC563FQDCJZQtnaG6KX3VaDIbaomQD+N8JX9uuTK/NucY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EE+3QAot; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="OTW337En"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=OsrxvTynmtU2f3TXx1zK/ZSLAbOC+Ly6ZdLq2+fEK+8=;
-	b=OTW337EnCAtXlkpIeJ8xfNJpeemySjNDOND9jWwTXcCBuxr/g6Ff/rV/9k3z0K
-	njjzwpOpMtUizhmxpY8P5DWkWz4SwEuk7+9yMl4xwLwjWNFFuWmeV3z+jURVk2GG
-	oHTrYJd4XhKvqqBF5leXC+w/cf1coNNS575j8idzMZmyg=
-Received: from [10.42.0.216] (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDnP2LNRxVql9VVDw--.30187S2;
-	Tue, 26 May 2026 15:12:15 +0800 (CST)
-Message-ID: <5f1a3e69-c090-42ac-913e-1e8ce2702e9a@163.com>
-Date: Tue, 26 May 2026 15:12:13 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EE+3QAot"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49048e043e5so26634995e9.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 00:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779779652; x=1780384452; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dj+eE+RlTPGlS54IS4RQITRV1ozUmgsawvGomWzpqKc=;
+        b=EE+3QAotCYI9UYfOJl2vpzmReX9EcSclOxkBFtklY4GiEgvV38DuvZ7FNTfNKybyLP
+         2Y2H9UdWn1coLehfXcMyPHqSii8afHze9LYFA55tJ+cPVTTMGoyEX6GyPhPVIuj6KwQM
+         DRGg+1TxiX1EnG7UuEFcuhVsZxWutUAIDhEM2VXnQRCXYoGbIGno5Xyqo2zciT5mCDS7
+         5xwXVrGysxQ/M6SN6gQLBPeeR+rKgDTtV2oIZD9r03EVwSXCRxFOQ6/rAOa+c9hCmjhn
+         6HhmKoZf66Ac4KPSxn0hFh+nFnM5XwpeXHaHq6frCFaMBtmZ9PtIxm62izAYu6DKr6ob
+         zk0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779779652; x=1780384452;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dj+eE+RlTPGlS54IS4RQITRV1ozUmgsawvGomWzpqKc=;
+        b=D5LdhSfGWlTYnJdy0abYYaDw5yOsZTaOZ5kySiWltn07j4L0K74pWUulmRRHBDaaaF
+         qyKqz2cnbLmen8cawMMmxBKXgz9L7xP25etCKoegMzFzDxG2oVRfc3MGa/cJpB+TV/LQ
+         s1ziKtJ+USQtDdpjKFhNa4A6c72sik1/XtOGnfgxSLdEw7hY9S8+xlTZD1xubaW8Y2ag
+         eDcKGQ4MrRBVWgITqCQODGXBdgr5KjXfsBWzzTvwtadSEW0G2MO3ayTE3C9IDUnexFe6
+         bgURhqGw42pZiXfsEqQ8PVwzKWxluAlzExLqXFRaPK3LNzercduzIB0quy4nGy0Bbg7n
+         YEsQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/FPi2NhIk1MHEMnPpS7f3lad5tzd9ERozR6o22j6VMKdC2mYFBKeiGzxH4YqXxT5I95mKYne9a0JZEU+dY@vger.kernel.org
+X-Gm-Message-State: AOJu0YymmZOt1cn6bsfmn9f9HXZ9zg1170hLmbjt/usPKocn4LwA+WEi
+	XPCB/ZxpBig/PEhRrYGZODY0CDwdp50ewzunpseqPJnDUy7Til2mAaqZt8xMdw==
+X-Gm-Gg: Acq92OFMYzJGezh9EqNfbk0g7Dssmj9naIfX1Qgpzq30cibGNfniZsEuT4zpq+9o3WE
+	BVKPGDOWn0URPnMpr5HdIqbSZZzqWPpGx0glpBgKBllJKD9tWOVDeSn2G44SYV9Vfas01M3SwlE
+	rocoXooFiENKJjFieX9SpaFb/lsNMRCHfj0XRpjcdIX3be2Z77oGPtuvv65o/dLNhLl+P64mlhW
+	Dna3hKuIv59ifuI7QOC6sUVgRO0eyFbggWMhM4hPHtMS6s+wmzjZtTpXr5MrlnKIP1SCZKT76xz
+	YVs7bsZH6T1LLgtfmWk8Jl8jYOz3gRGUQ5DrmgcbOz3sDLxDZQBbNQkt48+S7RW7BTVvQ5z5qe7
+	gHxPs/LLry//Vz+at3uqutuf0DIjqfDJT/MtyUB9VqrQQklGDZKEsr02Jy8YnnUJ9nRtaKLjUm9
+	ONXOL5uTlnH1ZPfNE0zdnrYyuHg/1Ya1fXbfpjWVk6Hi2SoDEPyuGNiVGw8wDSwSa+PmF4ghs=
+X-Received: by 2002:a05:600c:4591:b0:490:6869:46c6 with SMTP id 5b1f17b1804b1-490686947a8mr90576555e9.31.1779779652251;
+        Tue, 26 May 2026 00:14:12 -0700 (PDT)
+Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490418b27b5sm104970705e9.11.2026.05.26.00.14.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 00:14:11 -0700 (PDT)
+Date: Tue, 26 May 2026 09:13:28 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: NeilBrown <neil@brown.name>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
+	Jeff Layton <jlayton@kernel.org>, Benjamin Coddington <bcodding@redhat.com>, 
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] VFS: fix possible failure to unlock in
+ nfsd4_create_file()
+Message-ID: <36bvv2anew3cegsd374uzwdgue2txpgnzo2357ye5pldqi4by6@lafavyjgevqo>
+References: <177969022571.3379282.16448744624428323496@noble.neil.brown.name>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/5] mm/shmem: optimize file read with folio batching
-To: Baolin Wang <baolin.wang@linux.alibaba.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Cc: Hugh Dickins <hughd@google.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Chi Zhiling <chizhiling@kylinos.cn>
-References: <20260520101538.58745-1-chizhiling@163.com>
- <20260520101538.58745-6-chizhiling@163.com>
- <1d8c7c24-b273-4826-9a9e-37fdb0767f2f@linux.alibaba.com>
- <1fd099de-97d9-4a54-a97f-062fbae1d88e@163.com>
- <6881f92c-972a-4b7a-b3c0-93a91ff38b88@linux.alibaba.com>
-From: Chi Zhiling <chizhiling@163.com>
-In-Reply-To: <6881f92c-972a-4b7a-b3c0-93a91ff38b88@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnP2LNRxVql9VVDw--.30187S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXr47Kry7Gr13GrWkJw4fZrb_yoWrtFWUpr
-	WrG3ZxKrWkWrW7Ar1Sqw1FvFn3t34xtF4rXa4fG3W7AFn0vFn3Kr15tw15uFWrAr4rGr10
-	qr10krW7WF1jyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRU5rcUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9w-kgmoVR88KPwAA3c
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <177969022571.3379282.16448744624428323496@noble.neil.brown.name>
 
-On 5/26/26 11:11 AM, Baolin Wang wrote:
+On Mon, May 25, 2026 at 04:23:45PM +1000, NeilBrown wrote:
 > 
+> atomic_create() in fs/namei.c drops the reference to the dentry
+> when it returns an error.
+> This behaviour was imported into dentry_create() so that it
+> will drop the reference if an error is returned from atomic_create(),
+> though not if vfs_create() returns an error (in the case where
+> ->atomic_create is not supported).
 > 
-> On 5/25/26 5:47 PM, Chi Zhiling wrote:
->> On 5/25/26 4:37 PM, Baolin Wang wrote:
->>>
->>>
->>> On 5/20/26 6:15 PM, Chi Zhiling wrote:
->>>> From: Chi Zhiling <chizhiling@kylinos.cn>
->>>>
->>>> Optimize shmem file read by using filemap_get_folios_contig() to
->>>> batch fetch contiguous folios from the page cache, reducing the
->>>> overhead of repeated shmem_get_folio() calls.
->>>>
->>>> When the folio batch is exhausted, attempt to refill it with
->>>> filemap_get_folios_contig(). If no folios are found (hole or swapped
->>>> out pages), fall back to shmem_get_folio() to handle these cases
->>>> individually.
->>>>
->>>> Additionally:
->>>> - Defer folio_put() until the batch is exhausted or on exit
->>>> - Add folio_test_uptodate() check before copying to ensure data
->>>>    validity
->>>>
->>>> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
->>>> ---
->>>>   mm/shmem.c | 50 ++++++++++++++++++++++++++++++++++++--------------
->>>>   1 file changed, 36 insertions(+), 14 deletions(-)
->>>>
->>>> diff --git a/mm/shmem.c b/mm/shmem.c
->>>> index 96ea5a4c0aff..e0eacc23cccd 100644
->>>> --- a/mm/shmem.c
->>>> +++ b/mm/shmem.c
->>>> @@ -3355,11 +3355,14 @@ static ssize_t shmem_file_read_iter(struct 
->>>> kiocb *iocb, struct iov_iter *to)
->>>>       struct file *file = iocb->ki_filp;
->>>>       struct inode *inode = file_inode(file);
->>>>       struct address_space *mapping = inode->i_mapping;
->>>> +    struct folio_batch fbatch;
->>>>       pgoff_t index;
->>>>       unsigned long offset;
->>>>       int error = 0;
->>>>       ssize_t retval = 0;
->>>> +    folio_batch_init(&fbatch);
->>>> +
->>>>       for (;;) {
->>>>           struct folio *folio = NULL;
->>>>           struct page *page = NULL;
->>>> @@ -3372,18 +3375,38 @@ static ssize_t shmem_file_read_iter(struct 
->>>> kiocb *iocb, struct iov_iter *to)
->>>>               break;
->>>>           index = iocb->ki_pos >> PAGE_SHIFT;
->>>> -        error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
->>>> -        if (error) {
->>>> -            if (error == -EINVAL)
->>>> -                error = 0;
->>>> -            break;
->>>> +fetch:
->>>> +        folio = folio_batch_next(&fbatch);
->>>> +        if (!folio) {
->>>> +            pgoff_t start = index;
->>>> +            pgoff_t end = (iocb->ki_pos + to->count - 1) >> 
->>>> PAGE_SHIFT;
->>>> +
->>>> +            if (folio_batch_count(&fbatch)) {
->>>> +                for (int i = 0; i < folio_batch_count(&fbatch); i++)
->>>> +                    folio_put(fbatch.folios[i]);
->>>> +                folio_batch_reinit(&fbatch);
->>>> +            }
->>>> +
->>>> +            filemap_get_folios_contig(inode->i_mapping, &start, 
->>>> end, &fbatch);
->>>> +            if (folio_batch_count(&fbatch))
->>>> +                goto fetch;
->>>> +
->>>> +            error = shmem_get_folio(inode, index, 0, &folio, 
->>>> SGP_READ);
->>>> +            if (unlikely(error)) {
->>>> +                if (error == -EINVAL)
->>>> +                    error = 0;
->>>> +                break;
->>>> +            }
->>>> +            if (folio) {
->>>> +                folio_unlock(folio);
->>>> +                folio_batch_add(&fbatch, folio);
->>>> +                fbatch.i++;
->>>> +            }
->>>>           }
->>>> -        if (folio) {
->>>> -            folio_unlock(folio);
->>>> +        if (folio) {
->>>>               page = folio_file_page(folio, index);
->>>>               if (PageHWPoison(page)) {
->>>> -                folio_put(folio);
->>>>                   error = -EIO;
->>>>                   break;
->>>>               }
->>>
->>> I haven't tested it yet, but I'm sure this will break the 
->>> fallback_page_copy mode.
->>>
->>> You're fetching from the batch at folio granularity here, but in 
->>> fallback_page_copy mode, we still copy the data at page granularity.
->>
->> Yes, that's a bug, Sashika has already reported it. I’ll fix it in the 
->> next version.
+> The caller - nfsd4_create_file() - is made aware of this by checking
+> path->dentry, which will either be a counted reference to a dentry, or
+> an error pointer.
 > 
-> Good.
+> However the change to use start_creating()/end_creating() (which landed
+> shortly before the dentry_create() change landed, though was likely
+> developed around the same time) means that nfsd4_create_file() *needs* a
+> valid dentry so that it can unlock the parent.
 > 
->> Sashika also reported another potential issue below, but I think that 
->> is a misunderstanding, because a folio fetched from the swap cache is 
->> already marked Uptodate before being added to the page cache. What do 
->> you think?
+> The net result is that if NFSD exports a filesystem which uses
+> ->atomic_create, and if a call to ->atomic_create returns an error, then
+> nfsd4_create_file() will pass an error pointer to end_creating()
+> and the parent will not be unlocked.
 > 
-> I'm not concerned about swap-in folios, since we already ensure the 
-> folio is uptodate when swapping out.
+> Fix this by changing dentry_create() to make sure path->dentry is always
+> a valid dentry, never an error-pointer.  The actual error is already
+> returned a different way.
 > 
-> What I'm worried about is that this change moves the 
-> folio_test_uptodate() check outside of the folio lock, which could 
-> introduce some race? Of course, with the original logic, the folio state 
-> could also transition from !uptodate to uptodate after the folio
-> is unlocked (I need more thought).
-> 
-> Another race condition that needs to be addressed is, when getting the 
-> folio locklessly via filemap_get_folios_contig(), there could be a 
-> concurrent race with swap-out (because you removed the folio->mapping 
-> check under folio lock). This could result in reading zero data when it 
-> shouldn't (the folio actually needs to be swapped in).
+[..]
+> +		/* atomic_open will dput(dentry) on error */
+> +		dget(orig_dentry);
+>  		dentry = atomic_open(path, dentry, file, flags, mode);
+>  		error = PTR_ERR_OR_ZERO(dentry);
+>  
+> +		if (IS_ERR(dentry))
+> +			/* keep the original */
+> +			dentry = orig_dentry;
+> +		else
+> +			/* Drop the extra reference */
+> +			dput(orig_dentry);
+> +
 
-Sorry, I don't fully understand what you mean. It seems that swap-out 
-does not clear the uptodate flag, and the folio cannot be freed during 
-the read operation because its reference count is held. So a swapped-out 
-folio should not be mistaken for a zero-filled folio. Right?
+atomic_open() is a static func with only 2 callers. perhaps it would be
+better to change its semantics instead?
 
+I'm asking because the vfs layer is very slow single-threaded and this
+here just adds even more slowdown due to avoidable 2 rmw atomics.
 
+Granted the affected routine is only used by overlayfs and nfs, but even
+then this should not be necessary.
