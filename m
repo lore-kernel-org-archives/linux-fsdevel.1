@@ -1,172 +1,113 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05303B637A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 13:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16A73FAE0A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 13:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779802997; cv=none; b=rruNAn0TE8xCBhJEMqavFYDMFMuN4eAk6gtQ8vbYyQDkYNGAc/4DR4HJPDIaPLvTncPhqjXxM4Nn8Dfl6JKrPbz/mYkS1L4GFEF9T9qzAO6ix27isbvf8vDB27MD1pf33GjMzvKOQTnAYyiUGOVIEyFPw675mVxYl23HKIZOu1U=
+	t=1779803008; cv=none; b=UvfpF3Y7Bx1IhiC4Bylupj/Fup6+Fwy7mGdgc71XdXV3LzVRnWffYi0JV65yrBwmS8gI/9QxDpv86j11nX9JZ50k0AXJuwF0IbHxH6xjZiEvV133CEjMSqNiV+7Xu7xJafeGyv4Zyr/XBuGwI3MpvSoI32CgQs7mmZSzIAYe/Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779802997; c=relaxed/simple;
-	bh=jsX56txrjgQIZ0fr7cEDTrpi3QveEJSs5gg+iLcN8YY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BcB3RSTSiU7peDrVicDrCJc9DTAVx+cXbg2cwa/Ga7duJVgFVcKyGhmBYFCogKv1zBcMBljTzwwxGULhtc4yMgCl3ylgOgaMT/dxHycPXvOpYPbOtcOpkfDyXWz8FRcLiGub+jxYfUIGticrSuuKw7IRhhD8DTX+bp1JlWqHCYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=ejesU+18; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1779803008; c=relaxed/simple;
+	bh=8j4J6xvlAhpVrOG+E4BYywLjoOctEvwdCxpFwaPq8+U=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=bzeRansHPMJS6580bxvn+oU+zdzx/dqnttGXD0u85FmGuusfvvUgTjAI72nqt7lUw9W9kD/SSkGtiL+UmDyKeLroEYJhAFGKU4k6Bb5mBYgqqJJ/5ha+CVwJuGznV3fsvgJrmVoL4JiMXY3d1GaVS7xA+seL5gtIKsbT3LLqaDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=buOleBEt; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="ejesU+18"
-Received: from macsyma.thunk.org (c-73-9-28-129.hsd1.il.comcast.net [73.9.28.129])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64QDgKbw016888
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 May 2026 09:42:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1779802946; bh=03Ae6RWKd6EnbPpHHfvNMfYhJeKoYpqPfXah8lU8jAo=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=ejesU+18AVFFIEgBaVKUv1hsYDQbQOg6W/J3OH9yYwjHCIb+jpqlrXpt7KIGFvPSr
-	 2ht/krbvYSvIBKP5sZEAjbhEuE7NL0QJt0YgO2g1S4v3XDL1RR7qoft1xNr7FQPzka
-	 Hwo8LpmDOwrc3SQGOlv+wHY1Wps6J/GMV8xeaovvUDIbVbEF4UWSI1igFd+XnkAldn
-	 PfbQ90HPxiIGNmRMH+x0KVLVvGWyDA3vJG8EknOdtJikYP3UixBrFiteufTcdEKT9w
-	 wD4NduZ5RLVuaoFmZzDQYDwHkVZ/sYNwLAIREliUiPZLApHgIQO7Bf54STmkIdX8Zw
-	 hZdbOvYuIOKBA==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 137D16B282ED; Tue, 26 May 2026 08:42:20 -0500 (CDT)
-Date: Tue, 26 May 2026 08:42:19 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
-        Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, Akilesh Kailash <akailash@google.com>,
-        Christian Brauner <christian@brauner.io>
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-Message-ID: <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
-References: <ad30g9xMs9wNJhFb@infradead.org>
- <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org>
- <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan>
- <ag_OVwPF49LSZ7rz@google.com>
- <20260522141115.GA8258@macsyma-wired.lan>
- <ahCNmWbcd_2lAJyk@google.com>
- <20260522224108.GA18663@macsyma-wired.lan>
- <ahTzHyHBL8t0iNBR@google.com>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="buOleBEt"
+X-KPN-MessageId: dca9501c-5908-11f1-8ff5-005056999439
+Received: from mta.kpnmail.nl (unknown [10.31.161.189])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id dca9501c-5908-11f1-8ff5-005056999439;
+	Tue, 26 May 2026 15:43:22 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id dcaae02b-5908-11f1-b5d4-0050569981f5;
+	Tue, 26 May 2026 15:43:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=GvpQVK7RatjG4ryuyEnD73CiD8zHOCrC5D5YhywbG9Q=;
+	b=buOleBEthf4vUocsd3ghJ7p2om8pt+5/ioBhmuRYG1WUmpKHiNrobstVttxThEtQaRFvbHgIpBuU0
+	 EZveXP/Xn0w8JkxXTcXtk4ZFqazRkDiPd1USA8+XNIizO1knDHXUbr02J8A6s6Tczk+Im185SLcGUW
+	 meT4MlIInjwDiDhSYskLFVcNGVag2WQQ8NkscAoH6aksZkZ7de2MAUdNXCWAa2VngEdsQ1AN1GnWCq
+	 8gd3WW1nZHMJ2crrjiwaXtil6a4KdyDFk7zIrGDfFcnD6iVZ12uAGGF+aSIb3wNaAzMb2nlDdIPh8t
+	 J7hLE5pGiwipo5ffPmmj0TDdZVs844Q==
+X-KPN-MID: 33|dqhfT8jeRlQzBoXW/bzllYBmBnsrgpqLadwptsnaC7WNBUQD9EHJsdwXkanRUYI
+ /tsmYuoBAzrL0n17gGkBo7RyUvEggpo4d/rb+6C9cCI8=
+X-CMASSUN: 33|uM02s+TRMEJ0UH3gphz8Nnf9ZxHz3o7/6xXkh8Inyi5Iqvctrp/nFDcse2Wftiz
+ StkAO8PegZn7bqWNqOfPUVQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id dc97aadb-5908-11f1-b8d7-005056995d6c;
+	Tue, 26 May 2026 15:43:22 +0200 (CEST)
+Date: Tue, 26 May 2026 15:43:22 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>
+Cc: Mateusz Guzik <mjguzik@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Benjamin Coddington <bcodding@redhat.com>, linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Message-ID: <1393975057.2602302.1779803002070@kpc.webmail.kpnmail.nl>
+In-Reply-To: <177979585120.3379282.15888962273037831904@noble.neil.brown.name>
+References: <177969022571.3379282.16448744624428323496@noble.neil.brown.name>
+ <36bvv2anew3cegsd374uzwdgue2txpgnzo2357ye5pldqi4by6@lafavyjgevqo>
+ <ahVXG28wpqDwZpFT@lt-jori.localdomain>
+ <177979585120.3379282.15888962273037831904@noble.neil.brown.name>
+Subject: Re: [PATCH] VFS: fix possible failure to unlock in
+ nfsd4_create_file()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ahTzHyHBL8t0iNBR@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Tue, May 26, 2026 at 01:10:55AM +0000, Jaegeuk Kim wrote:
-> Background
-> ----------
-> The primary use case is accelerating AI model loading, which demands
-> exceptionally high sequential read speeds. In our benchmarks on embedded
-> systems:
->  - Using high-order page allocations allows the system to saturate the
->    Universal Flash Storage (UFS) bandwidth, reaching 4 GB/s even at
->    medium-to-low CPU frequencies.
->  - In contrast, standard small folios cap performance at 2 GB/s.
 
-So you're interested in optimizing the I/O speeds.  And apparenty, on
-your hardware, the UFS controller has limits on scatter-gather entries
---- UFS seems to call this Physical Region Description (PRD) table
-entries.  Per Gemini:
-
-    1. PRD Segment & Length Limits
-	
-	Maximum PRD Entries: Hardware limits typically cap the number
-	    of PRD entries (or segments) to 255 or 256 per transfer
-	    request.
-	
-	Maximum Transfer Length: Each individual PRD entry typically
-	    allows a maximum transfer size of (65,535 bytes) per segment.
-
-    2. Host Controller Hardware Limits (UFSHCI)
-    
-	Transfer Queue Depth: A UFS controller supports a predefined
-	    number of outstanding task request entries. This is often
-	    hard-capped at 32 concurrent transfer requests (slots) by the
-	    doorbell register array.
-	
-	Descriptor Pre-fetch: Some UFS host controllers are
-	   pre-configured to pre-fetch multiple PRD entries sequentially
-	   before requiring main memory reads.
-
-Is this an accurate description of the limits that you are trying to
-work with?  How much data are you trying to read?  Looking at Gemma 4
-models, E2B is about 10GB or 3GB for the 4-bit quantized version.  E4B
-is 15GB, or 5GB for the 4-bit quantized version.  Is that about right?
-
-It seems... surprising that the additional I/O operations are actually
-throttloing UFS device bandwidth by 2x (4GB/s vs 2GB/s).  Have you dug
-into why this is happening, and whether there is anything that can be
-optimized below the file system?
-
-> Problem Statement
-> -----------------
-> High-order pages become heavily fragmented and scarce shortly after
-> device boot.  We cannot afford to deplete these limited resources on
-> default filesystem operations using large folios. Instead, we need a
-> mechanism to strictly prioritize and reserve high-order allocations
-> for specific, critical payloads—specifically, large AI model files.
-
-There's a fundamental assumption here, which is that the only use of
-high order pages is the page cache.  This doesn't take into account
-anonymous pages used by programs that isn't backed by files.  Nor does
-it take into account kernel memory allocations.
-
-But that being said, you seem to be assuming that you can reduce the
-pressure on high order pages by only using large folios for these AI
-model files.
-
-But the problem with using small folios is that if you want to
-actually *use* the memory, unless you want to segment out the memory
-so it can't be used for anything other than the AI models (e.g., by
-using somthing like hugetlbfs) it's just going to break up the memory
-into smaller folios.  So that's not actually going to *help* in actual
-real life use cases.  It might help for your artificial benchmarks /
-experiments, but in the real life case where Android applications are
-running and fragmenting all of the device memory, the large folios
-won't be available *anyway*.
-
+> Op 26-05-2026 13:44 CEST schreef NeilBrown <neilb@ownmail.net>:
 > 
-> Q: Why is deregistering the inode number linked to inode deletion?
-> A: We need the high-order allocation hint to persist even if the inode is
->  temporarily evicted from the VFS cache. To achieve this, we maintain a tracking
->  list of hinted inode numbers. When a file is permanently deleted, its hint
->  becomes obsolete, requiring us to deregister it from the list to prevent memory
->  leaks or identifier reuse conflicts.
+>  
+> On Tue, 26 May 2026, Jori Koolstra wrote:
+> > 
+> > I only notice Neil's patch now. I found this same bug and submitted a
+> > patch on the same day :) [1]. I think it is awkward that atomic_open()
+> > dputs the dentry on failure, so that is the approach I chose. But
+> > perhaps there are good reasons for it, although vfs_create() does not do
+> > this for instance.
+> > 
+> > There are also some other things going on, including a stale docstring,
+> > perhaps I should have separated that out.
+> > 
+> > [1]: https://lore.kernel.org/linux-fsdevel/20260525101544.195832-1-jkoolstra@xs4all.nl/T/#u
+> > 
+> 
+> I would rather no big changes to atomic_open just now.  I'm about to
+> post patches to rearrange lookup_open.  I'll include you and would value
+> your review.
+> 
+> Thanks,
+> NeilBrown
 
-Assuming that the high-order allocation hint is a good thing, why not
-just make it persistent?  e.g., just a *real* extended attribute
-(which is more wateful of space), or grab a flag in the on-disk f2fs
-inode?  Then you don't need to have an in-memory list of hinted
-inodes; instead, you can just have the Android package manager set
-that flag indicating that you want that special treatment.  This is
-all assuming that we need an explicit hint, though....
+Of course. Happy to review!
 
-> Massive AI model loading is a long-term architectural
-> paradigm. Providing a targeted VFS/filesystem hint to optimize read
-> bandwidth for specific large datasets is a highly practical,
-> repeatable pattern that addresses a systemic bottleneck in embedded
-> AI deployments.
+My current proposal for O_CREAT|O_DIRECTORY touches lookup_open() as well [1], but
+depending on your changes it should not be too hard to rework that. If you have time
+I would always appreciate feedback :).
 
-It's really too bad you didn't propose this as a LSF/MM topic, and
-presented this at a session at Zagreb two weeks ago.  That would have
-been a much more upstream-friendly way of collaborating, and it might
-have allowed the mm experts to give you some more dynamic, real-time
-feedback.
+As for this patch, you can also add:
 
-Cheers,
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
 
-					- Ted
+Best,
+Jori.
+
+[1]: https://lore.kernel.org/linux-fsdevel/20260525202937.466497-1-jkoolstra@xs4all.nl/T/#m8b203bb3ebe259f78652d7e9def9451a619daa5c
