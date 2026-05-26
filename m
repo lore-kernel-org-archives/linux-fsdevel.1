@@ -1,200 +1,171 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDBD17745;
-	Tue, 26 May 2026 05:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024BE3C37AC
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 06:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779772768; cv=none; b=BOVY+05JOOCOiP5k5+eOJt78tb+4vMAzVXJJssWid7/LInXj87PmeXIbCaZvKyVF3cNzkWung8E4rhiRuN5OZHPe/C0KyJy8AysX1kCaNoTDrHVBn7ibBT4wqaZS/MxyTCf0mzQf4z54EUW8OJbP4SMkqFJ6NeK86V2s6zXUOws=
+	t=1779778392; cv=none; b=D+eHudQ3CE1Qd+Drdn50migwZKDNwT9IIeAsw7wHneQ9eLpEoqDlYP7C+eIr7y15z8ec7PZBqIDrfrb8bEjdtxvZ7FL+z3bWnQTbNyPO7j+amSWrjbZALwrASJrBtAbMU+MZZZ+Jj+6Z+w8RoBBUQMwOCOGhVeSpPj4XGTiJpdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779772768; c=relaxed/simple;
-	bh=QjUv+HzolMXKljm0GRDOxOKgqTTSYCxMbkwAQkhauYg=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=AEWLLtUPlbuvIvJGIFoDwePfcjWIvYxGnHWcBKmdN3p1zty+OC23YwBqcXSXHqpWwK66UzDvLYtcMS1XHExggctowiRZlvqaNkknpM34Nh0VtmaCR9gObYuBkfZUKsJlXM84oSzo1ymxMqcNxAEBRladgwMA16HQbNe3fFN60e4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=aBB/Q88m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RaoF4Lkf; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1779778392; c=relaxed/simple;
+	bh=lI94k3K5Kcc20pekEfGAOaAomJ1QgkYtP6G74MUe9gk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qL4nPjTahSBlCGIPQPKY45S1zc1rOpB/eP3ffYlgMB+FLd5rorolpqm2U0tsjrACPJAnV3Ytiar3Ape7VJ0Hy/hf6PHaduPPDm5NQ4h14YAQ+9IhGR13asN5KBtSjox0CJoVYa7N5bIElw41UzohiAs/uZvsi71NEVp9s1BYgpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TR/s+dSF; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="aBB/Q88m";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RaoF4Lkf"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0B44514000A4;
-	Tue, 26 May 2026 01:19:25 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Tue, 26 May 2026 01:19:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1779772765; x=1779859165; bh=BJiHFKAFrF0Y8ns3Td/pbX3OSPmQsn2+eSY
-	ZVXfmBxQ=; b=aBB/Q88mS+xvhmG/cfdjuZ2AoofXfvfupJ60ygbrEakZKwDNtzk
-	mnm+Ajf0+CfM2Vo3KXTESL7C9ORCd8veYVBI5bTSOkndPPC/dZHQWR6S2lyoOBKD
-	VUS44RocBTHK9sjTRLSs9WlsrD6rZAieq94ByeZtecZvlcS9s3pUxk4v/XFFVEBV
-	OwRqUI9dcJWP6NMLqGna9y8juqQ0dZ7XZs8i01tn3KtcZHKcc1PtKmA66fU7qiUz
-	gxv/qHh4DiDbj2O1GKQYnI5750Lm6m9qpZLLyszNKd0icGn0w4swYybtLstzc5kJ
-	M0m2FNE7gR5x24cT0E/13QZkiyX5vxBUaKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779772765; x=
-	1779859165; bh=BJiHFKAFrF0Y8ns3Td/pbX3OSPmQsn2+eSYZVXfmBxQ=; b=R
-	aoF4Lkflz4LgV80WWpYc6Z9AHq1XEI+wad+6qMgTO/0ZmlvK5uBowbhJaLoX5Vbw
-	2z3o33lppDgweMNMhytzfhHmZls8UV5//jbjlsR8tNCiylUQ1wdCa7u+Mdyx8cAS
-	FkEI7cVzdZ7ojgWE1MRJib2iml9AKWedAJ80bSyub/k3l56DYIEQCCpa3VyiFqAo
-	QmhQWgMdszIDFyP0B+YzsnoyGoJV8uIksAIzFTq/s4QFa8HUolGG9YmoO+A9yx9e
-	osIz2xxQGVXjeZUD1dyQxBy8QrerbFkWIddSy6RXNCyOOY6hv+2YYSQS7CNQkc4S
-	mZRfO9sLGgnOYAgKmQ92g==
-X-ME-Sender: <xms:XC0Vakf55VNum050PRvcWSO1tCrTQ4JuRxqDLbtuJwFk71OK0s22WQ>
-    <xme:XC0VaozNCOlqD_5GcyVXijAZpeILEj-vctmJMUqTdmwoBzN2Y7oqeaFhM_pUTinwF
-    VnGFYc3LlpIXY-RbCzsz-mKZGxgtpbnjsx91-6MOCmZmDE0>
-X-ME-Received: <xmr:XC0VapIhmY1G-JzL1_a4b03-uINH2rUcQ34dGkCOMB0AN3dzg4aDEtBjPBKnMpHnlI6E7HIi4sox6pxu39kfT53m2BZd0QY>
-X-ME-Proxy-Cause: dmFkZTE/Cyo9wS+jgMyDuurJqwCnXrYFSqFIoZsch3B5BS1YEY6uphbhG0EZlc7qXf/vpS
-    mf3hPu6H5aD1KV10d8e3KdC285H2EyC7a7qZ4B9fiawZh7diSR0rJiKFGYSSBxq20GCy71
-    d3yulhZjlXzu48ejBf/QsBBADIeZMNYuYKr7UByCakxQdMuVdPo6Uycz1fjx7L4lbg7M0y
-    Px8FqKFIt+bxdne/gMkx1Q2TQCrigdqSOvSu4WNJEyyC27jm0b/+jdEznc4eTlqYZZzjvm
-    AYi4lncnZCh8zwKhSXhOGw4dQO5NTfdVK151TgLnWVOFKQmS6POhCCUxIdh3uL555LSjfG
-    xzdOJwh2O5j/Qq0YVVg8++q3lfcbcKJVb6sjFfIFd6suVABOAXnIkEk1j/iWZXrqzSbHdl
-    dylyUia4mTRAVsZgWfjqXi8nHhY/J/p2L7Ud0ctfvMR3VFL2gZdPjRPVDrwmdOg3Mklzkw
-    uNZhv8eTLJPKTQjNj/M7yYBs7PhMgEtanPL5TwQ0yO0rVerzaOCZRE1P2SVKyvq03klTwm
-    CUXSZ/pdRgiVNlI2FzF3s5krq2vF+Kzz6DlIZcXZQBxty6faMsiGKpyT9NycsoD3+AsXzD
-    fjTVcieNgNkTZbNIw14zlf3h0qDb4BM8Gc337rs/szF4HQq+qXNIQFbhAzUg
-X-ME-Proxy: <xmx:XC0VaqEsgXquTugoW3IZmyDIlztIWBLogpd-gE5uPETM6v0Hex2trw>
-    <xmx:XC0Val_WBHtsGtJxKhJaU9xv5fRLOkJYvTiLW39EYghoWYAC-KTNqw>
-    <xmx:XC0VaqJW3sxLh4yFW797CMxtYn5rtYYdOQ3KAd1RQA-c3hiEolMMsw>
-    <xmx:XC0Vajtr3x7nBbXS9rF-uUqkshwae911oCzoc_Mikn44iJLGyfRMQw>
-    <xmx:XS0VaktzDuSckgUAqI-B29wgJYJpKa_udBmo4WiF5Iow66HV-11lOZae>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 May 2026 01:19:21 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TR/s+dSF"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43fe608cb92so6170156f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 23:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1779778389; x=1780383189; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yXWASYjT/jE4WzpKhE8nVhHkzGwmPlTITkkcMF0D8BI=;
+        b=TR/s+dSFI2Vk05JY9oKvhTkUPLyGjERphtpAPMGuiQxvuv3fbFSbN1th4lK+bttysm
+         cFb/iWCpkNb08kRUbTcn9WjfJUaB3xcjwa8CXEuHNu8ztYYWGwWQbD8loHo0HuyuciOC
+         0TwcL+CxgU01vXU93n3aCg4f5dmgC1/3cis8o9d493p1B0tb+ArlTCB5LaW6RVOHuZSe
+         xFgNBY2Ddet/gPdHUxjFVULwbZSkZetwjzSKlyv7KFRavsith7RHUAc5uHnKUJqDu/G4
+         H3+i6q7GH893mbCE8FjnHXqiv6/6t+5ocWoYo60XT6575r8A+rywJ8KG4tumaLrCo8Ff
+         W8Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779778389; x=1780383189;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yXWASYjT/jE4WzpKhE8nVhHkzGwmPlTITkkcMF0D8BI=;
+        b=n7h37e1mZGkKWdAAStPUZLCQohuTOKGBVoKfwfuV41CWMR/6YFbmqGZA/GySiKipDt
+         cPsiRohkazfjfLIdvzv88jxf5aK9qk1g5LnxWFg+9mU9DCQvMuCK0Nj+zONmbj9wa36T
+         HwU1+vTBPszBE9T+QZ7/7RwJ4mC5RYQOROwUDIBmGTiUVd2SbM3lvDNttfCmqggG6xK9
+         slhFxvMFYT9ZGQk6syNASUxKqRWWg0ALZov3iPmwuf5s/vRz0ef4/CgIaqB7TTzm40xA
+         0tctt2tkR/sezCklBt64wOFghAoGcFU1Js7BFk2b9rPSRdTotkjJ+UUb8melRCgCON5S
+         SZ0w==
+X-Forwarded-Encrypted: i=1; AFNElJ9LyNKsr18j2LneueVWfXJAAY0Z35k1egx8+Kq6gm8lB5dzxTXiQDzxMgj/Pyg2ZM7QHddC676NzAcHHC1Q@vger.kernel.org
+X-Gm-Message-State: AOJu0YykmPzri8CusBjBO8wQLRlq9DcqtnhFvnmvwFKx7SeA1z3rXZqe
+	RCzPMnvL4IPSdfpqfoo86vAKYUfW6bgE5UgA4LWHdpVJz+abkU4zwzjdVCIN5mZK6xg=
+X-Gm-Gg: Acq92OHkuJJIyqpo6PLj8S9YFqrqSs+NLJwvLRVyh82lhEagLhUIlCdhTaUowAQxzEl
+	KV4UUYvA34wKuaOkzMGXMiC/85zzkpwuTLhTkaYKoXxFer0/Ij6BMuH81UAVq1pZCbpaRXi9KYJ
+	oLiQMebVdV652qO6UfXtA/DxtnhmFCPFqSJUT/MZNwdG/MuHKBORETfcPTNyQl8ugctx0DIIE9i
+	DSoamK6gpDXNdwi3G+SdsQV8RPlDcPSXcxBG6lmDwmBS+VGN2U6hTd6JtRTzQrTo9GPH4Blgb62
+	Imh5BoY+odFOHjqc0Z8ywwl9uwD/krx8zEqK+rv3/iXpP656Trfce7aC3c2e8jxudhCyXOzwC3N
+	4IsiOwvp4uduWWyVyAvmXT7HKy28q6ZCQbwJWcmZLsfDu4QIe8il3iHmBqefPDKiL6qkUgDblnO
+	SpV9xnS91sytv/e4mKkuhgzHNf6PfDol0cu9Jv/klBxDAiNaVkskPVlUXZSIS8NJuSWo9NYYvk8
+	qtw6hYBxzIeULpu1oTsBDyRS7K2Qq9JoIiabzqUdpSRV5fcekjqdOzCbF8plnrLBRLz7so9ftTt
+	ZiP+
+X-Received: by 2002:a05:6000:2003:b0:43b:4136:1e6f with SMTP id ffacd0b85a97d-45eb38e4b46mr29516257f8f.38.1779778389230;
+        Mon, 25 May 2026 23:53:09 -0700 (PDT)
+Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6c9ba2esm33848641f8f.8.2026.05.25.23.53.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 May 2026 23:53:08 -0700 (PDT)
+Message-ID: <88c5ca1d-eeda-4023-bc7a-397b92780db9@suse.com>
+Date: Tue, 26 May 2026 08:53:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jeff Layton" <jlayton@kernel.org>
-Cc: "Christian Brauner" <brauner@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Benjamin Coddington" <bcodding@redhat.com>, linux-nfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-Subject:
- Re: [PATCH] VFS: fix possible failure to unlock in nfsd4_create_file()
-In-reply-to: <0a9fd2bb1cb7b1190d177034832277169d8d1359.camel@kernel.org>
-References: <177969022571.3379282.16448744624428323496@noble.neil.brown.name>
-  <0a9fd2bb1cb7b1190d177034832277169d8d1359.camel@kernel.org>
-Date: Tue, 26 May 2026 15:19:17 +1000
-Message-id: <177977275746.3379282.16167323157026052413@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/11] Convert moduleparams to seq_buf
+To: Kees Cook <kees@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Pengpeng Hou
+ <pengpeng@iscas.ac.cn>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ Corey Minyard <corey@minyard.net>, Gabriel Somlo <somlo@cmu.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Hannes Reinecke <hare@suse.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
+ Tiwei Bie <tiwei.btw@antgroup.com>, Benjamin Berg <benjamin.berg@intel.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "David E. Box" <david.e.box@linux.intel.com>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>,
+ Frank Li <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, John Johansen <john.johansen@canonical.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-modules@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org,
+ linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, netdev@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20260521133315.work.845-kees@kernel.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260521133315.work.845-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 25 May 2026, Jeff Layton wrote:
-> On Mon, 2026-05-25 at 16:23 +1000, NeilBrown wrote:
-> > atomic_create() in fs/namei.c drops the reference to the dentry
-> > when it returns an error.
-> > This behaviour was imported into dentry_create() so that it
-> > will drop the reference if an error is returned from atomic_create(),
-> > though not if vfs_create() returns an error (in the case where
-> > ->atomic_create is not supported).
-> >=20
-> > The caller - nfsd4_create_file() - is made aware of this by checking
-> > path->dentry, which will either be a counted reference to a dentry, or
-> > an error pointer.
-> >=20
-> > However the change to use start_creating()/end_creating() (which landed
-> > shortly before the dentry_create() change landed, though was likely
-> > developed around the same time) means that nfsd4_create_file() *needs* a
-> > valid dentry so that it can unlock the parent.
-> >=20
-> > The net result is that if NFSD exports a filesystem which uses
-> > ->atomic_create, and if a call to ->atomic_create returns an error, then
-> > nfsd4_create_file() will pass an error pointer to end_creating()
-> > and the parent will not be unlocked.
-> >=20
-> > Fix this by changing dentry_create() to make sure path->dentry is always
-> > a valid dentry, never an error-pointer.  The actual error is already
-> > returned a different way.
-> >=20
-> > Note that if ->atomic_create() returns a different dentry (which may not
-> > be possible in practice) we are guaranteed (because it is only ever
-> > provided by d_spliace_alias()) that it will have the same d_parent and
-> > so it will have the same effect when passed to end_creating().
-> >=20
-> > Fixes: 64a989dbd144 ("VFS/knfsd: Teach dentry_create() to use atomic_open=
-()")
-> > Signed-off-by: NeilBrown <neil@brown.name>
-> > ---
-> >  fs/namei.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >=20
-> > diff --git a/fs/namei.c b/fs/namei.c
-> > index c7fac83c9a85..4787244ca4a7 100644
-> > --- a/fs/namei.c
-> > +++ b/fs/namei.c
-> > @@ -5024,6 +5024,7 @@ struct file *dentry_create(struct path *path, int f=
-lags, umode_t mode,
-> >  {
-> >  	struct file *file __free(fput) =3D NULL;
-> >  	struct dentry *dentry =3D path->dentry;
-> > +	struct dentry *orig_dentry =3D dentry;
-> >  	struct dentry *dir =3D dentry->d_parent;
-> >  	struct inode *dir_inode =3D d_inode(dir);
-> >  	struct mnt_idmap *idmap;
-> > @@ -5043,9 +5044,18 @@ struct file *dentry_create(struct path *path, int =
-flags, umode_t mode,
-> >  		if (create_error)
-> >  			flags &=3D ~O_CREAT;
-> > =20
-> > +		/* atomic_open will dput(dentry) on error */
-> > +		dget(orig_dentry);
-> >  		dentry =3D atomic_open(path, dentry, file, flags, mode);
-> >  		error =3D PTR_ERR_OR_ZERO(dentry);
-> > =20
-> > +		if (IS_ERR(dentry))
-> > +			/* keep the original */
-> > +			dentry =3D orig_dentry;
-> > +		else
-> > +			/* Drop the extra reference */
-> > +			dput(orig_dentry);
-> > +
-> >  		if (unlikely(create_error) && error =3D=3D -ENOENT)
-> >  			error =3D create_error;
-> > =20
->=20
-> Sashiko noticed a couple of problems in nearby code that you may want
-> to take a look at:
->=20
->     https://sashiko.dev/#/patchset/177969022571.3379282.1644874462442832349=
-6@noble.neil.brown.name?part=3D1
->=20
-> ...but the patch itself looks correct.
->=20
-> Reviewed-by: Jeff Layton <jlayton@kernel.org>
->=20
+On 5/21/26 3:33 PM, Kees Cook wrote:
+> Hi,
+> 
+> I tried to trim the CC list here, but it's still pretty huge...
+> 
+> We've had a long-standing issue with "write to a string pointer" callbacks
+> that don't bounds check the destination (and for which the bounds is
+> also not part of the callback prototype, even if it is "known" to be
+> PAGE_SIZE, which sysfs_emit() depends on). Both moduleparams and sysfs
+> use this pattern. As a first step, and to test the migration method,
+> migrate moduleparams first.
+> 
+> There are 2 "mechanical" treewide patches that are handled by Coccinelle:
+> - treewide: Convert struct kernel_param_ops initializers to DEFINE_KERNEL_PARAM_OPS
+> - treewide: Convert custom kernel_param_ops .get callbacks to seq_buf via cocci
+> 
+> The last treewide patch is manual, and may need to be broken up into
+> per-subsystem patches, though I'd prefer to avoid this, as it would
+> extend the migration from 1 relase to at least 2 releases. (1 to
+> release the migration infrastructure, then 1 release to collect all the
+> subsystem changes, and possibly 1 more release to remove the migration
+> infrastructure.)
+> 
+> Thoughts, questions?
 
-Thanks for forwarding that review.
-It identifies two possible problems.  Both of them are hypothetically
-possible based on the APIs.  One (involving atomic_open returning a
-different dentry) would, I think, require a remote server that is
-seriously misbehaving.  When asked to OPEN a file it would need to
-return a filehandle for a directory that is already in the dcache.
-The other (atomic_open doesn't actually open the file) appears to be
-impossible with in-kernel filesystems as they only do that when the
-dentry is already positive, and as nfsd has done a lookup while holding
-the parent lock, that shouldn't be possible.  I haven't done a thorough
-audit though and I may have missed a case.
+This looks reasonable to me. I added a few minor comments on the patches
+but they already look solid.
 
-The fixes are quite straight forward so I'll post patches to fix these
-issues in nfsd.
-
-I'm working on a rewrite of nfsd4_create_file and lookup_open() so that
-nfsd can use a better interface which will improve the code and fix some
-minor edge-case behavioural issues.  So I'm just focusing on simple
-fixes at this stage, not necessarily best fixes.
-
+-- 
 Thanks,
-NeilBrown
+Petr
