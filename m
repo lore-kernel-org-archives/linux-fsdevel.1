@@ -1,147 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286653A6B8D;
-	Tue, 26 May 2026 04:12:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3E61A9F96
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 04:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779768762; cv=none; b=O4CEUmap1Xyyr2WZIhRPbPpuPQ3H9f62Bc//zImFA2KEQhJ7BWnrQoZHh5qHhMvGQxDqOfCGo6qSiv7+8yjOame20nQEDVXU/xw1yW6RZQHxsXOhreArgqEZ3eSKIsnu1BRzE8ND9ZMTSMZtWWnrfZ3+3smmcPTfIDnz5bJunlk=
+	t=1779771012; cv=none; b=IIrPwKyQdGVU7WdWOuGuP92vE/YXNJWaTyE04dVewAyh/MjixLWehMlPOW6UcT7nrH71WGy6bfnN5aBqXZlLIAAkrSxqWSoNxUPCzmJ2Jko7Eoa6FzHzyL7eAweNDcBlgGLnxsXkYG/fZoEg2ImO5oozudSrGHpNfI0nkeK/Iao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779768762; c=relaxed/simple;
-	bh=35aK1wtYELp/8cf46gTXnv8C1nRq1YD5vjk/UW6vuD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hwx8yC8sftQtzy8fe18BUtnhebxUvHBy/J5TF6JqKsvJMk0P7e7FJquGuTYCNd3O8PexnUiw/+sVmmLy+UjsokIOWkJMyKunOHf3P8g8hQu+7O8ZnlQE1lOjTX2YvffS5XzIH1+WF7VO67P9dCKWIzN3G86ngSbhhOgAI5jmuxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNuGG/JC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779771012; c=relaxed/simple;
+	bh=BM8f+UAvgC6ZJFsexAhcbhWYsQ7uQjqxHxmQnEI5s0o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CPCWpVBU/PjbW+cASSgh0ajKWSEEpscYlI/JjnY1IrnpnhHoShV7U2CzrW+/fmLiC19UrQkWhQs8zJCCLLGgiDK0Li2ltiCFUYc/0YHVIBl+0u0N2FtrtNSolq/IG1NYiDJ49wwI3JzevjyFQdap2+xa98tdW06pJFsLbaGq90M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ei37P3Hi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNuGG/JC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E571F000E9;
-	Tue, 26 May 2026 04:12:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ei37P3Hi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB2041F00A3E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 04:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779768753;
-	bh=zolLXtUNuGgMGvntuicSbuzfsAN933tYyy3XaR95l44=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lNuGG/JCaQFXm9DDXJufxSObLd3mxQYXUbJx58IGDqgyqXUXLdPw6Qum8nbATPHWY
-	 5y2VYItqqlemNRDU4RYHDFJSue2sXB7QuSOk6n2bmNNK5t60yWIf2XVPU2xvz9XOqB
-	 4tDOcHHdsg2zavU9J43B7Yf+uT1eeJgDZ5jMnzX/6kLtcAXzSv4gUknm8/CDjiFRtU
-	 DbMMr04HINTanf9VBY8VWy2BPeuTqj+LeaBQhVBfYlXUceVNqK2M1f81lxUHFzgjIU
-	 a2cniHjQE9QBikxhPJG6GvI7LUSdZmwi7xavsdN/6CaDs5RblpvPwwl+i3h6rFOHOs
-	 WtFijc6Mq4nMg==
-Date: Tue, 26 May 2026 04:12:32 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Theodore Tso <tytso@mit.edu>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	Akilesh Kailash <akailash@google.com>,
-	Christian Brauner <christian@brauner.io>
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-Message-ID: <ahUdsKSVV65qSvDm@google.com>
-References: <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org>
- <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan>
- <ag_OVwPF49LSZ7rz@google.com>
- <20260522141115.GA8258@macsyma-wired.lan>
- <ahCNmWbcd_2lAJyk@google.com>
- <20260522224108.GA18663@macsyma-wired.lan>
- <ahTzHyHBL8t0iNBR@google.com>
- <8a42abed-8289-44ec-a144-dfe531a4af71@infradead.org>
+	s=k20260515; t=1779771010;
+	bh=BM8f+UAvgC6ZJFsexAhcbhWYsQ7uQjqxHxmQnEI5s0o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ei37P3Hi0sDGy34uQrLOma6fZoto5ZTHf275LQDyoB16vdoD09xjWm3JdF2rV3/cn
+	 bgYt3cWIKkwJsU3Rp/sXdmxEVAwSTKHdK0vQzokuWkZlHPpAi/Iz/Zk4P8kUiC1jxl
+	 +7xesvvXciZAEff7SZdCdjnxyZF0ZpUdJJz8STFtFZ+5TNPY7WhdisgzRer6kgbISC
+	 2DADVSeaxlF30jsx5jL649/46P6W3figpHdeMDyJ8/9vwTGFiM31iiLG7TpcQHbIcX
+	 5I137sb+Qh7PHiJXGSuYukjOreBowmjG9hQ7cGwTijGpvRJpq+n69ookfzFgmpUJi7
+	 xUZSvnEhAuyRQ==
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-689be822f34so2144671a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 21:50:10 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yw1HPIob5dLX86LrIJ8ntXHZr9WLgWdftN70gevVmQpKzLrX/P7
+	gQ4YqDC93c4DIHBbT2vjzu+C3okFq7JJVU6CIwYnaRg6vRrapv6gGmuYiD+z93tD9JLdvCAQaS3
+	pv+SETXwsusU0LTy6RzJMcYw8f7t8K6U=
+X-Received: by 2002:a17:906:8a62:b0:bd2:149b:1f99 with SMTP id
+ a640c23a62f3a-bdd25aef15emr687578866b.14.1779771009388; Mon, 25 May 2026
+ 21:50:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8a42abed-8289-44ec-a144-dfe531a4af71@infradead.org>
+References: <CAG7tbBV--waov7XVu2FHQEc6paR92dufS=em9DW5Kzsrpu3iQg@mail.gmail.com>
+ <CAKYAXd8z00CwRgbQbU8U15svgyOT6RK4XH-xcaq7k3dBbsRqew@mail.gmail.com> <CAG7tbBWWw5pN8OtXyD4f=OYTZqXzOsm4fnj=S-sZW2tuG_FqRg@mail.gmail.com>
+In-Reply-To: <CAG7tbBWWw5pN8OtXyD4f=OYTZqXzOsm4fnj=S-sZW2tuG_FqRg@mail.gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 26 May 2026 13:49:57 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_nGc4G9gQ8jLP05hjJG=MUmmKS=nBSUTrB8GFbYWHO=w@mail.gmail.com>
+X-Gm-Features: AVHnY4K2jTovIxQ8pDSHxo2ujO5KjK8OjbyMI5cyvfxAhVHpywmsah9HCw71ACI
+Message-ID: <CAKYAXd_nGc4G9gQ8jLP05hjJG=MUmmKS=nBSUTrB8GFbYWHO=w@mail.gmail.com>
+Subject: Re: [PATCH] exfat: preserve benign secondary entries during rename
+ and move
+To: Rochan Avlur <rochan.avlur@skydio.com>
+Cc: linux-fsdevel@vger.kernel.org, sj1557.seo@samsung.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 05/25, Randy Dunlap wrote:
-> 
-> 
-> On 5/25/26 6:10 PM, Jaegeuk Kim wrote:
-> > On 05/22, Theodore Tso wrote:
-> >> On Fri, May 22, 2026 at 05:08:41PM +0000, Jaegeuk Kim wrote:
-> >>>
-> >>> Thank you for the explanation. It seems I made a wrong assumption on the
-> >>> usage of "user." prefix where each filesystem can support in different
-> >>> ways.
-> >>
-> >> The "user." prefix is used by all userspace applications that wish to
-> >> store extended attributes.  For example, user.mime_type,
-> >> user.xdg.origin_url, user.charset, user.appache_handler, etc
-> >>
-> >> For more information, see:
-> >>
-> >>     https://www.freedesktop.org/wiki/CommonExtendedAttribute
-> >>     https://wiki.archlinux.org/title/Extended_attributes
-> >>
-> >> I certainly assumed this was common knowledge across all file system
-> >> maintainers, but this was apparently not true in your case.  I don't
-> >> know how this could be the case given that f2fs implements extended
-> >> attributes, and I would have thought you would have known that when
-> >> testing that feature.
-> >>
-> >>> I shared some motivation when replying to Darrick's feedback [1], but yes,
-> >>> it was not enough for all heads-up. The problem started that some speicific
-> >>> application needs as many high-order pages as possible mostly for reads. So,
-> >>> I thought we can turn on large folio on the specific files per hints. One way
-> >>> for the hints was using immutable bit, but it turned out it's very hard to
-> >>> manage disabling the bit whenever deleting the files. Along with limited
-> >>> ioctl() and requiring inode eviction to manage large folio activation, I had
-> >>> to implement this path.
-> >>>
-> >>> [1] https://lore.kernel.org/lkml/aeA5C8byIpXWla7f@google.com/
-> >>
-> >> Actually, you still haven't explained your use case, at least, not
-> >> well enough for me to understand what you are trying to do.
-> >>
-> >> So an application wants a particular file to use as many high-order
-> >> pages as possible.  Why?  What sort of guarantees do you need to
-> >> provide?  What happens if they can't be provided?  What happens if a
-> >> possibly malicious, or at least gready, application uses this
-> >> interface to grab a lot of high-order pages?
-> >>
-> >> >From your patch:
-> >>
-> >> 1. setxattr(file, "user.fadvise", &value, sizeof(unsigned int), 0)
-> >>  -> register the inode number for large folio
-> >> 2. chmod(0400, file)
-> >>  -> make Read-Only
-> >> 3. open()
-> >>  -> f2fs_iget() with large folio
-> >> 4. open(WRITE), mkwrite on mmap, chmod(WRITE)
-> >>  -> return error
-> >> 5. iput() and open()
-> >>  -> goto #3
-> >> 6. unlink
-> >>  -> deregister the inode number
-> >>
-> >> Why should making the file read-only matter?  And when you say
-> >> "derigster the inode number", why should this be related to deleting
-> >> the inode?
-> >>
-> >> This is an interface which seems to be very specific to your use case.
-> >> What if those requirements change over time?  What if you want pull in
-> >> a file without making it be read-only?  And what if you want to
-> >> release the large-order pages without deleting the file?
-> > 
-> > Let me try to write more details, helped with Gemini.
-> 
-> [as an interested reader:]
-> 
-> If this idea is so good, why shouldn't it be done in the VFS/MM so that
-> other filesystems could do the same thing instead of just in f2fs?
-
-Thanks for the feedback. I'm really open, but just trying to understand it's
-good or not. If it's so bad at all, I'd be really ready to drop it even the
-ioctl approach, even though I already prepared its implementation.
-
->
-> 
-> -- 
-> ~Randy
-> 
+> +void exfat_remove_entries_nofree(struct exfat_entry_set_cache *es, int order)
+> +{
+> + int i;
+> + struct exfat_dentry *ep;
+> +
+> + for (i = order; i < es->num_entries; i++) {
+> + ep = exfat_get_dentry_cached(es, i);
+> + exfat_set_entry_type(ep, TYPE_DELETED);
+> + }
+the tabs and spaces are broken. Please send the patch using git
+send-email, or attach the patch file instead of pasting it directly
+into the email body.
+Thanks.
