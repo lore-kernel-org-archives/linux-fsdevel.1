@@ -1,171 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158E33A7593;
-	Tue, 26 May 2026 13:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779803761; cv=none; b=CvxfbLLH/Y660V6J8fEd40tIOuVu7YfcSfpOTjxeM2E2DxzQ23dWbTfBJTdnuz60zohi0wBbgRt1g347zm2BnNJOBmqFZTgqWDWXGwoINXA/Bx5Jy/egO8FjwuZZHav1TUqrlEDhKo3z6of6H8BJSapJqDZRxNzk/EwEsqKuqQI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779803761; c=relaxed/simple;
-	bh=vnnWi8dQWB6l6Nohl4NkH7BA9KxtqRwgLLtVy1y56UE=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=ZPxj41/k/cDOtPKhLa22bNWZlg3E/ihW8cBGgHI6QZ1nyg2a9d1USf7ZMgcX3UDoEwj772IyGQL1WJrn0V19sMIoN7JYiQ8jJ7gc6mm5D3OdN1a9ARlhYF6DDR5uMxyqIOuNPOJl4QyqMJyOCzleJNEhKXCePOnDu/+aB7Kdv3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hpYL4+vd; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECB03FDBF1
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 14:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779804208; cv=pass; b=ijX9ugZ5vn/1H749jditWhl1GKg4wDf+N2FfzjIFsAo0dRfvuceHGybtvd3e2Qbipl2Li0wIoiFVKyICrmsyx/le/dRZvRzZ14/dYeBt2feazvWGF7enxZT2mmveaSEyPyQoZ6DWGgibZnaN+ZsQNZsA4dhTMb+kpKlgDjQK9D0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779804208; c=relaxed/simple;
+	bh=j1GKwUDpWvhOZBhkaO+rpncrchzuft3RI84XNRPNJsU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lkRfgR5tnWiGnmp8KQt7gYJBcOBOxUuHPIIfcBMKsaqtgg59V4ttP/mieSgctb37Byd2uIT+hyeEufkkr/f/7NWYzCU97HwyWC5N3QQWECth8FF+Jy5pPG7l2Bv52JAql15l3oz2yCjyyFQsY68th5s46714FIXdXhavVHRTSH0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N+i3Dc2l; arc=pass smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hpYL4+vd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74E101F000E9;
-	Tue, 26 May 2026 13:55:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779803759;
-	bh=JrULAy9Gw7dTgt2CJtfRApgaaTOMPseygZFxD/MyYIc=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=hpYL4+vdLIvxzm4niRZbcwUQmOfWQKSCxGGGerPKb5a0oewhWWBG8CqeRfwdDEXbG
-	 yegqQzLLyw/9J5+v9sqzryZnTCqlOADSCFq7MNoZERdQOGEjLoTJJSkrQnLtRueeVc
-	 FNbvehqYXTpwDR88AlqPDoRirz6HPdGiWLWpT7//N4oPfuRTjvGYV9lf+xP5oK7B0E
-	 dq2Gc4xNO8Jb03sYKC4W7EfKGYOHk29nPvx5GE+zQRLhtDEgKY3syHFCR5uiq64ChO
-	 fKaqkFIxmPbuinhNTdpoCUbFufv5wV+T+yVOBxsEWiiAOEutfGVqz31YBKw2Kugw5S
-	 3Dlr7Gs3flskA==
-Content-Type: multipart/mixed; boundary="===============1624879100367785041=="
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N+i3Dc2l"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-68719234fd8so4028628a12.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 07:03:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779804205; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YdaZX+PADvAC+q/8X9MWaeROQh/Hf+7ZgJp8QknqMk8p3g86wfC8XkUyhkyZh1wgGI
+         FhyHDupdZwSg7e47Iq4BP1PqZg5H1N455bUTNlqe1vU7rzLri+cOZt3uDFHhNI2MbI5D
+         ZGozFcgh2Sp3QrOOiZOQsF8GLOXDhyVt5Ko0+h/MZCh2hoQSjwKK6TGKqzAGeku+RGlj
+         ua7Bgq3E4RlmidlkNxMa3S5EGp92O6x2BcqqVdF2/svsyhy/ydeRsUPmOx8T+kmFmqEv
+         plR22yUFm2eSaKv+2XyrYZceFLOIRjmDrf0ucI/N5tUlOLg2BIl7apWRhYeRa1zxvnK0
+         JF7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9XDZuMXc2hNe1igpILUdvrH8nE+95WDHTRv7db2FxhA=;
+        fh=o7ds5aSrdtBJy4CTy9NwAc331E0viM6BmgIEMBGzE3A=;
+        b=l3UWMV8vacDFgg63XvGBpuHEI/b3kbSknQfBFG3//7gk/1m2BqERv0QGCLBdHJDY8k
+         PABXoOwRD2w6UEVbc3Vo79/kUiuFl5MDP7MEWTbTreBszAc1OUcHSbNxF/hYHyQ0h4vy
+         5aZHAcMOxhRMDIgGc7apyHfyaofoPIH/dyJWA2H/Gm29nPpB+jSFISJAkAXVBO+KSA6D
+         eFgzq43rJV0TuhELiIghRnaJkECdqCwIY1ajnPM22XB79uJzAeLoonQssgWsl7uR/0yj
+         7WhKQ3VC5bVv3wsNdcQ6QfM/JlsgooRK+y1Bvq952/gLJ4N9Qbop2GyghpqVRYDkLrBA
+         ReIg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779804205; x=1780409005; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9XDZuMXc2hNe1igpILUdvrH8nE+95WDHTRv7db2FxhA=;
+        b=N+i3Dc2lep5K6Vg2xRkndhF54piZR1D92s/ceOdvMaBFKuHaI5iY3uD57/915aHbq2
+         NFxrSUry1sQZL2nxxj+osdTrCS0XjzTuIkMpP/t247TiaFpUoJJr6IXU9kWwmzCB+sb/
+         qGmRiq3LKVR8q1pGMsmT/QIek/KUF7gGuNfYa2zXrdPRGX9pknJRcMu8mVEZ0jl0sOhs
+         pBt+OVqNBMAK7Z/xPkRGE5MXcwkJmFA/ruXDvbDU/Wk8YCq3OYq7mymVoEPm4dAIom2X
+         q8E2Wuw1ffRZXCt+EH9iWLutoxpp/BNNPWMiuYr0/TfoFZGxQ+HUOTRWKbwMylTxyTa4
+         iicQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779804205; x=1780409005;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9XDZuMXc2hNe1igpILUdvrH8nE+95WDHTRv7db2FxhA=;
+        b=fGHH1JOPDfNqHgyMWxyl49vZwnWKoKPAukMezCLHJ1KdBim3rwMp5x1JJRIDCPONW7
+         +QgUU5PDGtrHyt5ODwCeVOZgxPktklXUtsrOUCNHC9HDdhPCiKGAWDI9jhoJSCwqDqIs
+         IWOASsxHGCRMJuwYGX5aAt5uhCKAcgcgUafRvAR2pWkgYM8KP9OVd/2ADD1UP/mfZWaw
+         vnQxZFZvfeUtNkTvhBHEceGne1kxY+hwU0nQuEtQCg8Js1SPmOz1COGEVrO0OhyVWwcr
+         wtjrLSpAW0RPeH6Jh0bsDaiVzgyJQLRMfzdbJSUrf3Gjnn2sZhx2RLjWZhZPsF8qARSG
+         QU+A==
+X-Gm-Message-State: AOJu0YyV8NnbiisS1U7PYMlrzTZbPUTP/tTxXLl7tOJJGXh3/cw/v/Qm
+	4flRF+z829dZQ2dalVNFZUiXissx6YuirVhyMy7EL4P/shLYj0yVhNZr24jTGiu4ZRv2FZBks84
+	yW+nYMrxe4zcYUCmLj2S7fr5XKebs3Yw=
+X-Gm-Gg: Acq92OE2hQ7zqs/g2D6CvqLkp3Pex4O3of0817zr9x5i+bEYM+dbv4Le3KcqtT6Ct/w
+	p4K8HWOSp3JnmBPW0249RBbU9OAD4N1L3tzpI+9DmGz/kcqefsq8VVwGCHDrcOYBZQs26UZNyf6
+	UmTg/reUwxbl4VT7L0zIrMnQK9Eyl7XSE+l86CNeScLKlmSdUTZ0WN6KD/sBeUvTzjRDB39bWAe
+	jzYReQJq50qDMoXcP3tMZY3Laa2XO4SQSnoNVgHE8zxWyV94vz0M7VrDEygNLsrfYN5B+3Wl6k4
+	jjl7cRQVlqSDTPSdUxZygQ9BJvb4VSpXEHl7qxXSB8x6CWmfSvc=
+X-Received: by 2002:a05:6402:f1d:b0:689:5b3d:6271 with SMTP id
+ 4fb4d7f45d1cf-6895b3d667fmr4391044a12.25.1779804204973; Tue, 26 May 2026
+ 07:03:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <2f53799c49f16b688b2780733a6175235b730b0edbe15747309771e5a84130a7@mail.kernel.org>
-In-Reply-To: <20260526131035.1312864-2-dawei.feng@seu.edu.cn>
-References: <20260526131035.1312864-2-dawei.feng@seu.edu.cn>
-Subject: Re: [PATCH 1/2] bpf: cgroup: fix sysctl new value replacement
-From: bot+bpf-ci@kernel.org
-To: dawei.feng@seu.edu.cn,martin.lau@linux.dev
-Cc: ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,kees@kernel.org,joel.granados@kernel.org,bpf@vger.kernel.org,linux-kernel@vger.kernel.org,linux-fsdevel@vger.kernel.org,jianhao.xu@seu.edu.cn,dawei.feng@seu.edu.cn,stable@vger.kernel.org,zilin@seu.edu.cn,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Tue, 26 May 2026 13:55:59 +0000 (UTC)
+References: <20260526-work-bpf-verity-v2-1-cd0b1850d31b@kernel.org>
+In-Reply-To: <20260526-work-bpf-verity-v2-1-cd0b1850d31b@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 26 May 2026 16:03:13 +0200
+X-Gm-Features: AVHnY4IFVP6dOFBmyLUEMMTjP_A2wIhTbvkrPjBzeZTBVJavqwOPIBXZ03drNDw
+Message-ID: <CAOQ4uxgz0O+iC8rB_PrsA-zSJDXwMMNk9ND556HueedsUOzRzQ@mail.gmail.com>
+Subject: Re: [PATCH v2] bpf: add bpf_real_inode() kfunc
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, 
+	bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---===============1624879100367785041==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index 876f6a81a9b6..8715a014c21d 100644
-> --- a/kernel/bpf/cgroup.c
-> +++ b/kernel/bpf/cgroup.c
-
-[ ... ]
-
-> @@ -1878,7 +1878,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table_header *head,
->   * to provided by user buffer, so that next BPF program in the chain
->   * can treat it as a replacement.
->   *
-> - * This function will return %-EPERM if an attached program is found and
-> - * returned value != 1 during execution. In all other cases 0 is returned.
-> + * This function will return %-EPERM if an attached program is found and
-> + * returned value != 1 during execution. In all other cases 0 is returned.
->   */
-
-Should the function documentation be updated to reflect the actual return
-value convention?
-
-After commit 4e63acdff864, bpf_prog_run_array_cg() returns 0 on success,
-not 1. The comment still states "returned value != 1 during execution" but
-the code now checks for '!ret' (i.e., ret == 0). The documentation should
-say "returned value != 0" to match the actual behavior.
-
-> @@ -1935,7 +1935,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table_header *head,
+On Tue, May 26, 2026 at 2:02=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
->  	kfree(ctx.cur_val);
+> Add a sleepable BPF kfunc that resolves the real inode backing a dentry
+> via d_real_inode(). On overlay/union filesystems the inode attached to
+> the dentry is the overlay inode which does not carry the underlying
+> device information. d_real_inode() resolves through the overlay and
+> returns the inode from the lower, real filesystem.
 >
-> -	if (ret == 1 && ctx.new_updated) {
-> +	if (!ret && ctx.new_updated) {
->  		kfree(*buf);
->  		*buf = ctx.new_val;
->  		*pcount = ctx.new_len;
-
-Can this cause memory corruption?
-
-The caller proc_sys_call_handler() allocates the buffer with kvzalloc():
-
-fs/proc/proc_sysctl.c:proc_sys_call_handler() {
-    ...
-    kbuf = kvzalloc(count + 1, GFP_KERNEL);
-    ...
-}
-
-kvzalloc() may fall back to vmalloc() for large allocations, but this
-code uses kfree() instead of kvfree() to free *buf. Using kfree() on
-vmalloc memory corrupts memory.
-
-This is fixed in a later commit 155dfbd42ab8 ("bpf: cgroup: Use kvfree
-instead of kfree in __cgroup_bpf_run_filter_sysctl") which includes a
-KASAN crash report demonstrating the bug.
-
-Should this patch use kvfree() instead of kfree()?
-
-
-Also, Martin KaFai Lau raised a concern about the null terminator handling
-during the May 2024 review of a similar fix.
-
-In the discussion at:
-https://lore.kernel.org/bpf/ca8136e0-5d2a-402b-ad03-cc8a218affd4@linux.dev/
-
-Martin requested that the patch adjust *pcount to exclude the null
-terminator if present. The concern is that proc_sys_call_handler may reject
-the value with EINVAL if the null terminator is included in the count.
-
-The suggested fix from that discussion was:
-
-    if (!(*buf)[ctx.new_len])
-        *pcount = ctx.new_len - 1;
-    else
-        *pcount = ctx.new_len;
-
-Should this patch include the null terminator handling improvement?
-
-
-> commit f089fd0540601290c72ecfd2ff3f0c817952970a
-> Author: Dawei Feng <dawei.feng@seu.edu.cn>
+> This is used in the RestrictFilesytemAccess bpf program that has been
+> merged into systemd a little while ago.
 >
->     bpf: cgroup: fix sysctl new value replacement
+> Link: https://github.com/systemd/systemd/pull/41340 [1]
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+> Changes in v2:
+> - Tag bpf_real_inode() with KF_RET_NULL and document that it returns
+>   NULL for negative dentries; LSM hooks such as security_inode_create()
+>   pass negative dentries, and without the flag the verifier marks the
+>   return as PTR_TRUSTED and skips the NULL check.
+> - Link to v1: https://patch.msgid.link/20260326-work-bpf-verity-v1-1-efe9=
+edc46ddc@kernel.org
+> ---
+>  fs/bpf_fs_kfuncs.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 >
->     Commit 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value
->     helpers") changed the success return value to 0, but failed to update the
->     corresponding check in __cgroup_bpf_run_filter_sysctl(). Since
->     bpf_prog_run_array_cg() now returns 0 on success, the legacy ret == 1
->     condition is never satisfied. As a result, the modified value is ignored,
->     and bpf_sysctl_set_new_value() fails to replace the write buffer.
+> diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
+> index e4e51a1d0de2..761fbe0fec5d 100644
+> --- a/fs/bpf_fs_kfuncs.c
+> +++ b/fs/bpf_fs_kfuncs.c
+> @@ -353,6 +353,21 @@ __bpf_kfunc int bpf_cgroup_read_xattr(struct cgroup =
+*cgroup, const char *name__s
+>  }
+>  #endif /* CONFIG_CGROUPS */
 >
->     Fix this by checking for a return value of 0 instead, so cgroup/sysctl
->     programs can correctly replace the pending sysctl buffer.
->
->     This bug was discovered during a manual code review. Tested via a
->     cgroup/sysctl BPF reproducer overriding writes to a target sysctl.
->     Pre-fix, bpf_sysctl_set_new_value("foo") was silently ignored: the write
->     returned 8192 and the value remained "600". Post-fix, the BPF replacement
->     buffer properly propagates: the write returns 3 and the value updates to
->     "foo".
->
->     Fixes: 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value helpers")
+> +/**
+> + * bpf_real_inode - get the real inode backing a dentry
+> + * @dentry: dentry to resolve
+> + *
+> + * If the dentry is on a union/overlay filesystem, return the underlying=
+, real
+> + * inode that hosts the data.  Otherwise return the inode attached to th=
+e
+> + * dentry itself.
+> + *
+> + * Return: The real inode backing the dentry, or NULL for a negative den=
+try.
+> + */
+> +__bpf_kfunc struct inode *bpf_real_inode(struct dentry *dentry)
+> +{
+> +       return d_real_inode(dentry);
+> +}
+> +
 
-Is the Fixes: tag pointing to the correct commit?
+Sorry for noticing late, but pause to consider.
 
-Commit 4e63acdff864 (2019) originally used 'ret == 1' correctly, as
-BPF_PROG_RUN_ARRAY_CG returned 1 on success at that time.
+I see that both EVM and IMA open code the would be helper
+d_real_metadata_inode()
+while for d_real_inode(), d_real_data_inode() would have been a more
+descriptive name.
 
-However, commit f10d05966196 ("bpf: Make BPF_PROG_RUN_ARRAY return -err
-instead of allow boolean") from 2022 changed BPF_PROG_RUN_ARRAY_CG to
-return 0 on success instead of 1. That commit updated the final return
-statement from 'return ret == 1 ? 0 : -EPERM;' to 'return ret;', but
-forgot to update the 'if (ret == 1 && ctx.new_updated)' check.
+The name d_real_inode() is from before the introduction of the D_REAL_
+types.
 
-Should the Fixes: tag be:
+Perhaps for the kfunc we want to use the more descriptive name
+bpf_real_data_inode().
+Could also add d_real_data_inode() wrapper or rename all the vfs call sites=
+.
 
-  Fixes: f10d05966196 ("bpf: Make BPF_PROG_RUN_ARRAY return -err instead of allow boolean")
+Up to you. Anyway feel free to add:
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/26451027650
---===============1624879100367785041==--
+Thanks,
+Amir.
