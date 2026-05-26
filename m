@@ -1,305 +1,196 @@
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B783FFAA2;
-	Tue, 26 May 2026 17:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779815572; cv=none; b=onMSJfjNn+9bTq+fqiTaR7AbX/485qW4/vp483Lj77rO7O9N6ivAAo3s3wbtfw5VeTmESL6IJBLnZlPokWgWLU6i9KO+78XTrPRJRr5+SvyC5gJ+j0PaklZnYHIZb/80VROYrhfHBwIL9Vz45AHwKzETFhEY3YEyzDZTFXOPSNk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779815572; c=relaxed/simple;
-	bh=5DQAm7sw3AgE1fMdxJJnxVbZ6OJi1pO1+0w4oVEXiuQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sUMoh4xQWy27hBju5nv1oGq/Wy4JDIA8TanQbmYDVi+LXs6pLilflmER5mnHwyOw5JruopEVEm3D10+yBqFHxbL/uvdG2BywK0NYJ/O+S+7H48P/9TomyOOwF7RwMnGvdYjvoGcWXwF5gQwOgDUM0yWtV4p2riq1vonhJW1ynIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ZN9St+2y; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4843413245;
+	Tue, 26 May 2026 17:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.158.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779817917; cv=fail; b=NOUdXzImwMsqAEO8DWzbhIYjfBZCaT5apiaL+2nktBPXmO4vs9omDsMwPeC/1RXryG3I0UjOXBOo/Tp1KPAvOQotig1Zekx0MJPoxchoZOOEVYmioqQGaynF7zSZVdmUr17mz4YUcvz1s+pBLC3iZO7o1TC9CinrKB4dLHT+Puk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779817917; c=relaxed/simple;
+	bh=sd7DmWZSMPXryPglITnlcA6YzLleVxL7OQKd/8GP8t8=;
+	h=From:To:CC:Date:Message-ID:References:In-Reply-To:Content-Type:
+	 MIME-Version:Subject; b=XZhN1QG7LWMvVKWRR9G1RArpV0nLmLtxC+UQT+sAXgLpeyC/RkN2slm54N+lvNhdg3rxxG/wGpazPSnaHK1oUsr4fmn+/BNlusaonIoma+3Cgx1K2oPlLYTbIYy3L6DsKCc/AyXs69PqSw4dWljj4Gl7BbNNmS4NTStvH9X4d+A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ibm.com; spf=pass smtp.mailfrom=ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Rng05oH9; arc=fail smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ZN9St+2y"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64QDV6Ei4180069;
-	Tue, 26 May 2026 17:12:14 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Rng05oH9"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64Q9eFdo3032008;
+	Tue, 26 May 2026 17:51:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=plOwnj7k8i0tZuoMDZ4j5rsVTAHqHQ
-	sA2ZvADMgQ+Dw=; b=ZN9St+2y11H2yz8/9TvPxxYEqkjKsXizXc18fjHYCyTnpj
-	N6s8S/BLuq/NFnpIsE2POoqpjBGQBl8ZS9HEMp/ugD/ZD170W66bT+p8+/hn0cs9
-	7KfiCYMDrOW30hYne2w4LVeaP0ShzQpFcW3ENqZNgqFVlPZdEwLDfRAZroX62IVe
-	u/XNGfi568spwL9k+y58MR/nhkgqGYT+lCkT+p5OA7DlM0aQvocIqdEQymKRzH6q
-	x74iOG/7RA+bUBJyjj15jiHT4hVF//seXBdHROw8oyUofXiSiolWe6HFoPZRO78b
-	Zj26y+szeCQDWW6kgO/x04G2d13adLjlICT1Xsgw==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eb4pdcdbp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 May 2026 17:12:14 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64QH98E7004216;
-	Tue, 26 May 2026 17:12:13 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ebrsga73b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 May 2026 17:12:13 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64QHCBJ740829210
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 26 May 2026 17:12:11 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8149320043;
-	Tue, 26 May 2026 17:12:11 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8EAFD20040;
-	Tue, 26 May 2026 17:12:06 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.18.153])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue, 26 May 2026 17:12:06 +0000 (GMT)
-Date: Tue, 26 May 2026 22:41:23 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Zhang Yi <yizhang089@gmail.com>
-Cc: Zhang Yi <yi.zhang@huaweicloud.com>, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tytso@mit.edu, adilger.kernel@dilger.ca, libaokun@linux.alibaba.com,
-        jack@suse.cz, ritesh.list@gmail.com, djwong@kernel.org,
-        hch@infradead.org, yi.zhang@huawei.com, yangerkun@huawei.com,
-        yukuai@fnnas.com
-Subject: Re: [PATCH v4 04/23] ext4: add iomap address space operations for
- buffered I/O
-Message-ID: <ahXUO0pZgRS59Icn@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-5-yi.zhang@huaweicloud.com>
- <agwtJq5-B2E-t7zT@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
- <236657df-71f2-446d-b44b-39865219a850@huaweicloud.com>
- <agyVb1U0US8PVgqo@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
- <51b3f8d5-b90f-49fe-b93e-171268db9ff8@gmail.com>
+	:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	pp1; bh=sd7DmWZSMPXryPglITnlcA6YzLleVxL7OQKd/8GP8t8=; b=Rng05oH9
+	LbaMZiXhPQ8iRABYrQ7iDOIp3gkIruRpo8YBf7PcF5Bnygzn+ebTExs6riW3kSPA
+	4ccBlU6BJ81pmOK1f3XzoU53naXsG8xhabc20qK05pGh6x8i2BcxQHz/xmATBJ1j
+	fpNnJXM0qUTobFkLFE9MeugNjajL/AtLhTj4GL/8NgIYBSqaq0Ql9sWo5vE4DS/K
+	TCGs6cV0eziUoBvqn9n/85MQQIOa/ps25Ugp+HsiS7rwiCWkGMkycRYTjCkIgy3m
+	GVjm1nzI9p9LvdgUEe8PHEQtCj1BdZM1QGow7V2ym6rO7t5BvJy1Nlhe4muk5I+o
+	Z3BD2pnP85P/XQ==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11010017.outbound.protection.outlook.com [52.101.193.17])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eb4nc4gqy-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 26 May 2026 17:51:37 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VvSeo24CjApcbpQrxxsAADAuE0VATr8t2S18eTxWU0tojbBHcO4lDPxcsWKuRSyNnUPHx/hNOI7kvABvLPW9khiabzNaCSmXvOblse1G4mzRDSkRcHi0g3Bz6ryAYI6k5ygqT53cc3eQwTk1M3BU2Ai3U/viiEGeE2BIQpnck2n7JDC7+SPOpjlh57n7IgaPG1guko0UtRn9mqiqMbuU6Tq7/7RZ8x2qvlx8Lz3os+06jfqrb7zPLs5VnyV/+/odVnZ6USj5aZjVJX56O9280ETUFx1a8/yEdNo1rMXLiYN1Dn6iixFD+fGpLREuYUhXoEqAAXiVwRqtzOi83T8gQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sd7DmWZSMPXryPglITnlcA6YzLleVxL7OQKd/8GP8t8=;
+ b=gUVywJbjpCpb42gbxN0D3QD07Y0j3LoAQz3SBvuSiRlfcSqcKNHCDjYR4Q3Ed4sA121YrWFI7MfDMvLYyLHZ5DGWb2Z7W7wQMALlJbKYg5EtOEZvEAlMezaxjOP6B2Q/4PX5UM97iZ+9V99Yy+plMYtSpBfXunDGTidvLKhdiZyAK9XTaG95eL1ov3cLFvRgr/PA7D34C8GAu/r2SeCifdwkGhgJXIv8mW4EseEWarSJYEtu0aAmmIU4BrgGbo1wRME8jjnRcQ2WGGnX877o7Rnr4FdAFz7QJfPPcNsf6vtLKIb2/W75+kZgI86ICMw2FgCvVP/RKkIlZFUsQqh7Kg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ibm.com; dmarc=pass action=none header.from=ibm.com; dkim=pass
+ header.d=ibm.com; arc=none
+Received: from SA1PR15MB5819.namprd15.prod.outlook.com (2603:10b6:806:338::8)
+ by SA1PR15MB4593.namprd15.prod.outlook.com (2603:10b6:806:19c::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
+ 2026 17:51:34 +0000
+Received: from SA1PR15MB5819.namprd15.prod.outlook.com
+ ([fe80::920c:d2ba:5432:b539]) by SA1PR15MB5819.namprd15.prod.outlook.com
+ ([fe80::920c:d2ba:5432:b539%7]) with mapi id 15.21.0071.011; Tue, 26 May 2026
+ 17:51:34 +0000
+From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+To: "jack@suse.cz" <jack@suse.cz>, "willy@infradead.org" <willy@infradead.org>
+CC: "linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
+        "brauner@kernel.org" <brauner@kernel.org>,
+        "hch@infradead.org"
+	<hch@infradead.org>,
+        "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>
+Thread-Topic: [EXTERNAL] [PATCH 27/34] nilfs2: Convert
+ nilfs_btnode_submit_block to bh_submit()
+Thread-Index: AQHc7Gs480AkG1nSEUusk1T7n8pgFLYgl7wA
+Date: Tue, 26 May 2026 17:51:33 +0000
+Message-ID: <e078ab852f15f720e609b3691c1e61bd1eaeccc5.camel@ibm.com>
+References: <20260525171931.4144395-1-willy@infradead.org>
+	 <20260525171931.4144395-28-willy@infradead.org>
+In-Reply-To: <20260525171931.4144395-28-willy@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR15MB5819:EE_|SA1PR15MB4593:EE_
+x-ms-office365-filtering-correlation-id: 99130605-76d1-47a5-ab33-08debb4f6d02
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|10070799003|376014|18002099003|22082099003|56012099006|38070700021|4143699003|11063799006;
+x-microsoft-antispam-message-info:
+ nuLpUhZqdis2mIHSYkbWverdkaaEeFhdHtTOg/qiOuL7ku1ubMHKIS+nEUrnyl3UmPBRIpwt2PCASLLjj9VxfBb/zvQBKKLnA7RHVWpPbX0qEE8/Rqcjv1/3zleJFuvMGRyc/whxm6TybVm5gRpkJKLoTZEwcONo/3dr8Fp28RRcowQ6zvq8oXOt8HZ4FpH0aFtXmvpyVUK+7drzwjKSWXOLptnLS9krIzB0GNGjdUY0HVD/+0yikFEXqaS9ZCKH7FpWQC66BqG2Smdr4uLTEKiJHOC+NBl1Oq1NbeRS4O7xFs6OetuVZh/uKLIF6W/XeAT1XoRDJ+kohtsGiBbXdm5jbT3kZxKq6Kaum/jXmvIeO/feqmjfAE8w/DWfx7hoBPjxNSDNHHSV6MvVhw3UsD3S0ojRJ/NzbYMESXPDbm3l9/xRljoWtB9eh76TbPtfMyU2FxpdQ/8WGiDVbk359IuqTCtdGCWsgTRZzI+MCDRq9V+/cpPDmCERNdNFgZNHIwEttWiqaGG1NBen9BTScTi1wyh45p+6xMt5okrgGFdknXhj0XMDiVHgZNSY3aU7og4FlGmfZjFm5LdB+vdV0hbS+tBligqyA2N2b2BJQOh6C+15JlnYiudn08RdmUv6kkfCZ7atJwJoHeAiGHA+peLh5XU8r5NGY8WL42ra1NSiJSScUQE38MbwFPyLjgwSdPuViwkiiLIz4d5rxoeHHiAHQ49UFwQpoq0LcGNv6xtooZkjlDj8VG459PGHKeLp
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR15MB5819.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(18002099003)(22082099003)(56012099006)(38070700021)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?aDRxWWwwaVkvbHFJbDJpMzZkYVRjT3h3SlhqWlFLeitrQUE2SWJXVTZna3RT?=
+ =?utf-8?B?enZYT052aW1EcmhMRHJoWDd5bmlTc21OTlErNElGcHlISWlSV1k5WUpOWE56?=
+ =?utf-8?B?UzYyN0F0WTMvMWxna2xBdnJCSFdUeG5YWmNKQlZDSWoxWUw2Z0h5QWhwYW9D?=
+ =?utf-8?B?VTFSY0NYclRhZFBoZUFWUmFFbUNJU1lPUTJrS0ZsMmFRTVV1ZDVjRGQvL05R?=
+ =?utf-8?B?RFd5M1FKS2tUa2Uxc1lTQlc5SUk4c3EyNm9oZVdRUko3S1RKa1kyYUMwNGFZ?=
+ =?utf-8?B?TlpFc2Nsbk1TL1BZRWg0c0Fjd0FKblJRVW53eFVueDhvVWxJWkxuQVVUbjRz?=
+ =?utf-8?B?ZHh5NUVSeUltakIzTEIyaFo5MFBUK0FCeFJ4cEpRY2c0eVg3bVJFMnRDVm1m?=
+ =?utf-8?B?U0pDU3RHMEhlRGQ0cXpHNlg1bG1DQ2d1a0t2eE5TSGJvdERxQ3BWKzlOR1BT?=
+ =?utf-8?B?SENpUnhyTkRkRldPRjR4bEtpRWVKakhIL1hLbEUraURhWnlLb3F3c0lJc3F4?=
+ =?utf-8?B?ckI1RlcwSWJYWHViQUZ3YWlwTmEza3lieVZZc1FXSHlqQzg5OXBicERrSGdX?=
+ =?utf-8?B?UmtVZXZIcnFDdGp0eXRWdndBM2NFK2xoWjVkL3VCNkMrdzNBVkhOT1JmNGVq?=
+ =?utf-8?B?bmx1RTZZdDFZQzFZdFB5aFYwMkwrUW1kaU1VUzA4cFZPRE5YQWtrYlR2Z3RG?=
+ =?utf-8?B?bXdHMCtLaHE1ZGtqNVVScU9Zd3BJY0YrUmlWc2dST0hNQzQ3VmduVWlXc1Bk?=
+ =?utf-8?B?S3ZienZHMW1NeC9sTW1aczNmcXdWUXZDaWFvb0l6aU0rUkdnTk1oZmtzVUNO?=
+ =?utf-8?B?Z0tvL0RqMjNhckUvYTc5cHVVK2FTV2Zta2kxL0tvNkJJeEdtclBvQXg1cG5l?=
+ =?utf-8?B?bURqUlZFek42eVJDb2lzRmdReGx2ZjZLZG0ydmNDdHBmZkllcTZmYmIwOVll?=
+ =?utf-8?B?SURlRGJsVWptTWkzekJWak55WWRxM09CYlc4dmllYWMycVJKb3pnc1ZTZzlY?=
+ =?utf-8?B?YnozSjlUR0JMTmFDV1NLby9yN3YrcHlqOS92WElSUHB6TDZocmVXUDlSS1dh?=
+ =?utf-8?B?a2hnN1RGSU1wWnhlR0VJYVcvL3QraHl5RVFTbU1meVpBVTBqUlU3QVpDR0tH?=
+ =?utf-8?B?cndSbmJFYWl0NmtiMHpwNjlnMGt0ck04dEcwamhPU05aMEQ1ZVpuc1prR0NQ?=
+ =?utf-8?B?SGsvNENWSHFYMlNINnNtODlES1IxYnNSQUQ1OUxHQ1FwTWYvV3ZZeFdmbDln?=
+ =?utf-8?B?WEZWWFZFZnlPN0NPMzZWditTd1MrRm5oUXZoaFNNeXBIQjdhNFFPL2tsUFRs?=
+ =?utf-8?B?TjF3aGZScjRUZDFmSUJUUSthWFFiZ0poYXF3Vk85bHJGVm1IUW1DcTZ0TkF6?=
+ =?utf-8?B?ZkZYKzl3UDBYRVh5aERNSG1rOEVpSHZ2Ukx4K25HVm1RSUk3ODkzekF1dE9a?=
+ =?utf-8?B?Kzc4dCsvVi9Ha1lCVzFsQ1cxMEt2SkFCOWdLTFUxNXpjcS9RUFFNNVZJT2xG?=
+ =?utf-8?B?ZVkxU1FrdFEwK0p5a08rMmZ1VC9OZVkvd1dkQWZ4UTNlSi9uRzNSS1hpYUNJ?=
+ =?utf-8?B?eXU1TTZBcjNNbDlnNXNuQUhhb0t4d1lSc2xtVDNHYUc3RWdjUlhsKzFxK2tl?=
+ =?utf-8?B?LzVVRXlVSmVCbGdWSUkrdGVrZ2kzUmprSGRWZXdBVGpEMDdjRDhyYzVoeW9o?=
+ =?utf-8?B?NEF4azU1SVQxOEV0aGFCR3dxQlJ4QUZGQ1BaVENsN0d1Z1BpbWZNbXlZUngr?=
+ =?utf-8?B?bGE1RzZOeW9NVWxZek5LZXhrNEVnUHcwMEhNNnJmTC9DYXlhSHRWVXRDTjMw?=
+ =?utf-8?B?M1p6TkRHaStxcGNBSFRSRm1iZE1aQnVISHpZWUg4a3FqZVBSUU11ZStBdWZ5?=
+ =?utf-8?B?dlBzZDNmYktFRWg2U0s4N3FPR3JHNXdpTTA2TU9qTHFIemF3VmdBeWs2NU5s?=
+ =?utf-8?B?OUpseE91dDN4a3pUQVZVc2x4TUkxTVA0d253ZWtTK2Qxd2ZHR05TUGhvMzJT?=
+ =?utf-8?B?MURKWGRlWG05SW1vOVhZUDNYcFFrbW1paGYxWVNiWWY5ZVhCOUtBcVZBNHRu?=
+ =?utf-8?B?TTY2OExYeXN3SGYxTWJ4eGtPbE9iSkhlOWJOK0NpalZlT2ZzTTlCSTUxeS85?=
+ =?utf-8?B?Z05hNXoxRXgxbGNmN0lrbFQ2b3VSVFJ5dzFDK3dMYk9WUWswZ09HV3FMQmFm?=
+ =?utf-8?B?TkJudlNQbCtxcDNVcmppZG9qNlEwVGdrY0ZCcjVwbXBJb0pEN25wOHRqTHNB?=
+ =?utf-8?B?YWZub293YW16NXNaSUJFRGh0anowL3UxbVhWSzgvNU1xNjF2bkJJdmFyOUdK?=
+ =?utf-8?B?SmlHNnd2endEUENNY1JuMkZpSXZkQlgxdE8yMnJ1NTQ1TUJNamNDbWt3S0xh?=
+ =?utf-8?Q?ubbrkua1W25L0MdWk0DgQBO+vnUybNF6vCbHo?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CEAE281AC89FF94AB7E825B168193588@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51b3f8d5-b90f-49fe-b93e-171268db9ff8@gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=OdqoyBTY c=1 sm=1 tr=0 ts=6a15d46e cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=i0EeH86SAAAA:8
- a=UqtRoQCeoNweiAdQEEsA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: cT9kEXNmp5A7jj6dMbO0IAC1gBQB_xGG
-X-Proofpoint-ORIG-GUID: 0XSqh8rCIWWoFDaj_xVkudpcUzH9z_ZQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI2MDE0OSBTYWx0ZWRfX1X9UVXyJIciZ
- Xgmi3wCiHWPxpol6wqvPEL1Yvd+5i7nxx5eBTaMfhOR99AeynRym++aJm6utiUnnpfoZXEL8Up8
- 1lGm6ArlLPpCDwPYYrRzAxsuPIT//0OIZPidh/c2OXuoUl4d8j36AbxBX5QVdVbl4C8Z1UgLr6d
- pPKZ9FPsXu+z4vAaHRYzdrh1xeTjJVUw/DDsr3QfU/BoZvGRjvwQ9snP8LCBgDK0mTYdq6IyOeO
- 6kcmgnot8sIED7dBQhK46V5fJIS74Sp3mz8WXCdB6y3Uc2Z+NdBjUV897/Veeux1kiVjtNLDXHr
- UlQlp0oEeo7WM5NbIQp7BzLLbjG6qUaT32op6RJclN9zrybByUntCvtcZi5A0FxGjbsQvRk1dWz
- AtiYot9pyU9YhxDMhKD1lwfT52CJFIHCgOBrVg3FVW+/wgKe5a3HBPmkXKnNJPSE5UAO4QHDoRO
- 2Kdq5FWHvJ3L3IzL3lg==
+X-Exchange-RoutingPolicyChecked:
+	tC52tSA8cyhbVcKEpLx6bsbSHjupJo/yDWbBTRaQJ5nMsb2zs6enSPnSF+5f0o5kufFgEhiYBUyOJfqEbVj4HZhlhe3DbuiFXrlKRmbGtCVqhl05v5yppm4ErwGTPCmdDDk4AjA21IBlkYasyZk7Ogadr31Sx6Y4GHC4hlsKREreemwHjKPUTN9HH7NXiwA+tiEDNKdeZbdk6LpzYzR2cjvixxuvnrnjbD0W/DCodpkuOSC47hMk0wmvxQ0AvVkbXbI7G7Qji19ZVfuL8xSGV3c8xKSFO/JLg4U52DW7v/asMlW45T3Lex59KE8VJlzVsr65fIRIdWSM+COt1qg3bw==
+X-OriginatorOrg: ibm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR15MB5819.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99130605-76d1-47a5-ab33-08debb4f6d02
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2026 17:51:33.8659
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: fcf67057-50c9-4ad4-98f3-ffca64add9e9
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: d3EPs+e+vwaJewYBeJAGE+8xhqmtGArWbwQiRQ9XqDMBpJCDBgemQlqK2aotByr/tKwGAdr4UTpSuNEy7SVySA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR15MB4593
+X-Authority-Analysis: v=2.4 cv=VvYTxe2n c=1 sm=1 tr=0 ts=6a15dda9 cx=c_pps
+ a=ZlG836pX3zBvGR9gn4UHEQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=V8glGbnc2Ofi9Qvn3v5h:22 a=JfrnYn6hAAAA:8 a=VwQbUJbxAAAA:8 a=wCmvBT1CAAAA:8
+ a=SGsk9EF5dZxvQdXcexAA:9 a=QEXdDO2ut3YA:10 a=1CNFftbPRP8L7MoqJWF3:22
+ a=6z96SAwNL0f8klobD5od:22
+X-Proofpoint-ORIG-GUID: aQSAEewdzE-ETNkwy-1KvfJQl2_SLQnu
+X-Proofpoint-GUID: aQSAEewdzE-ETNkwy-1KvfJQl2_SLQnu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI2MDE1MyBTYWx0ZWRfX9ZkyvLXFY4Po
+ oNgOAyDdp8K9lMF+x/dHh7ZqRSabYFVvn9ZIq8XcKknASTGUBlYgSqKpzhvJoMDV938zAujGIvj
+ c46Z6KDvRiCjAE+afUPRKxSkYX72vA/sOloe8GA+xPc5mNz1TZYT1T6OL4+Fp+YWBMLUCOFyrxd
+ r/iIKLYTAj1EfKRaI11j0HnU4EM4pQya6zK0DoC3ikqeLA4ux53rQI2jAG9nveaS3+rxQ7nTymP
+ 4tuRu8FOgt5TPewWSCFRYfyvqLtpwIPTl3bemM71sFUAsQLNATarHEHXamrRO/jKv5C5h41kuAz
+ kBRoyCzqk+33BWybxRJdogXddXM1ReMNU9TZ2dM2rq6wv+kxuZZntfMq3639x819QchYy5zerES
+ 4x76wBJ+nAY1NJdrIJTjhCpvwqmAvuq1JhoXqTIzdxuw3ShoPYkSUs3FTaJy+N32I8GCch+RMkW
+ 8qTwRi+4wOWDFqCrbVQ==
+Subject: Re:  [PATCH 27/34] nilfs2: Convert nilfs_btnode_submit_block to
+ bh_submit()
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-05-26_04,2026-05-26_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 clxscore=1015 malwarescore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0 spamscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605260149
+ suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 clxscore=1015 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605260153
 
-On Wed, May 20, 2026 at 10:49:50AM +0800, Zhang Yi wrote:
-> On 5/20/2026 12:53 AM, Ojaswin Mujoo wrote:
-> > On Tue, May 19, 2026 at 08:35:51PM +0800, Zhang Yi wrote:
-> > > On 5/19/2026 5:28 PM, Ojaswin Mujoo wrote:
-> > > > On Mon, May 11, 2026 at 03:23:24PM +0800, Zhang Yi wrote:
-> > > > > From: Zhang Yi <yi.zhang@huawei.com>
-> > > > > 
-> > > > > Introduce initial support for iomap in the buffered I/O path for regular
-> > > > > files on ext4.
-> > > > > 
-> > > > >    - Add a new inode state flag EXT4_STATE_BUFFERED_IOMAP to indicate the
-> > > > >      inode uses iomap instead of buffer_head for buffered I/O
-> > > > >    - Add helper ext4_inode_buffered_iomap() to check the flag
-> > > > >    - Add new address space operations ext4_iomap_aops with callbacks that
-> > > > >      will use generic iomap implementations
-> > > > >    - Add ext4_iomap_aops to ext4_set_aops() when the flag is set
-> > > > > 
-> > > > > The following callbacks(read_folio(), readahead(), writepages()) are
-> > > > > provided as placeholders and will be implemented in later patches.
-> > > > > 
-> > > > > Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> > > > > Reviewed-by: Jan Kara <jack@suse.cz>
-> > > > 
-> > > > Hi Zhang, looks good to me. Just a questions below:
-> > > 
-> > > Hi, Ojaswin! Thank you for the review of this series.
-> > > 
-> > > > > ---
-> > > > >   fs/ext4/ext4.h  |  7 +++++++
-> > > > >   fs/ext4/inode.c | 32 ++++++++++++++++++++++++++++++++
-> > > > >   2 files changed, 39 insertions(+)
-> > > > > 
-> > > > > diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-> > > > > index 94283a991e5c..1e27d73d7427 100644
-> > > > > --- a/fs/ext4/ext4.h
-> > > > > +++ b/fs/ext4/ext4.h
-> > > > > @@ -1972,6 +1972,7 @@ enum {
-> > > > >   	EXT4_STATE_FC_COMMITTING,	/* Fast commit ongoing */
-> > > > >   	EXT4_STATE_FC_FLUSHING_DATA,	/* Fast commit flushing data */
-> > > > >   	EXT4_STATE_ORPHAN_FILE,		/* Inode orphaned in orphan file */
-> > > > > +	EXT4_STATE_BUFFERED_IOMAP,	/* Inode use iomap for buffered IO */
-> > > > >   };
-> > > > >   #define EXT4_INODE_BIT_FNS(name, field, offset)				\
-> > > > > @@ -2040,6 +2041,12 @@ static inline bool ext4_inode_orphan_tracked(struct inode *inode)
-> > > > >   		!list_empty(&EXT4_I(inode)->i_orphan);
-> > > > >   }
-> > > > > +/* Whether the inode pass through the iomap infrastructure for buffered I/O */
-> > > > > +static inline bool ext4_inode_buffered_iomap(struct inode *inode)
-> > > > > +{
-> > > > > +	return ext4_test_inode_state(inode, EXT4_STATE_BUFFERED_IOMAP);
-> > > > > +}
-> > > > > +
-> > > > >   /*
-> > > > >    * Codes for operating systems
-> > > > >    */
-> > > > > diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> > > > > index b1ef706987c3..178ac2be37b7 100644
-> > > > > --- a/fs/ext4/inode.c
-> > > > > +++ b/fs/ext4/inode.c
-> > > > > @@ -3908,6 +3908,22 @@ const struct iomap_ops ext4_iomap_report_ops = {
-> > > > >   	.iomap_begin = ext4_iomap_begin_report,
-> > > > >   };
-> > > > > +static int ext4_iomap_read_folio(struct file *file, struct folio *folio)
-> > > > > +{
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > > +static void ext4_iomap_readahead(struct readahead_control *rac)
-> > > > > +{
-> > > > > +
-> > > > > +}
-> > > > > +
-> > > > > +static int ext4_iomap_writepages(struct address_space *mapping,
-> > > > > +				 struct writeback_control *wbc)
-> > > > > +{
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > >   /*
-> > > > >    * For data=journal mode, folio should be marked dirty only when it was
-> > > > >    * writeably mapped. When that happens, it was already attached to the
-> > > > > @@ -3994,6 +4010,20 @@ static const struct address_space_operations ext4_da_aops = {
-> > > > >   	.swap_activate		= ext4_iomap_swap_activate,
-> > > > >   };
-> > > > > +static const struct address_space_operations ext4_iomap_aops = {
-> > > > > +	.read_folio		= ext4_iomap_read_folio,
-> > > > > +	.readahead		= ext4_iomap_readahead,
-> > > > > +	.writepages		= ext4_iomap_writepages,
-> > > > > +	.dirty_folio		= iomap_dirty_folio,
-> > > > > +	.bmap			= ext4_bmap,
-> > > > > +	.invalidate_folio	= iomap_invalidate_folio,
-> > > > > +	.release_folio		= iomap_release_folio,
-> > > > > +	.migrate_folio		= filemap_migrate_folio,
-> > > > > +	.is_partially_uptodate  = iomap_is_partially_uptodate,
-> > > > > +	.error_remove_folio	= generic_error_remove_folio,
-> > > > > +	.swap_activate		= ext4_iomap_swap_activate,
-> > > > > +};
-> > > > 
-> > > > So one question, for ->release_folio() we are using
-> > > > iomap_release_folio() instead of ext4_release_folio() here which doesnt
-> > > > make the jbd2_journal_try_to_free_bufferes() call. IIUC this function
-> > > > seems to be trying to clean up already checkpointed buffers.
-> > > > 
-> > > > I wanted to check if ->release_folio() can be called for folios with
-> > > > ext4 metadata buffers? (from my limited understanding of
-> > > > shrink_folio_list() -> filemap_release_folio() it seems we can) And if
-> > > > it can be called, is it okay to skip the
-> > > > jbd2_journal_try_to_free_buffers call?
-> > > 
-> > > Here, in ->release_folio(), folio->mapping points to inode->i_data (the
-> > > file's pagecache), not the block device's pagecache. ext4 metadata
-> > > resides in the block device's pagecache, which is at a different layer
-> > > than this release_folio callback. So we don't need to call
-> > > jbd2_journal_try_to_free_buffers() in the iomap path here.
-> > 
-> > Hi Yi,
-> > 
-> > Thanks for clarify and yes, thats what I was missing! So this
-> > ->release_folio() is only for data folios. So I guess the
-> > jbd2_journal_try_to_free_buffers() is mostly to handle data=journal
-> > case?
-> 
-> Yes, that's my understanding as well. Meanwhile, the comment for the
-> jbd2_journal_try_to_free_buffers() function looks quite outdated and
-> needs to be updated.
-
-Looks good, thanks for explanation and fixing it.
-
-Regards,
-ojaswin
-
-> 
-> diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
-> index 4885903bbd10..239bcf88ed1c 100644
-> --- a/fs/jbd2/transaction.c
-> +++ b/fs/jbd2/transaction.c
-> @@ -2139,38 +2139,23 @@ static void __jbd2_journal_unfile_buffer(struct
-> journal_head *jh)
->  }
-> 
->  /**
-> - * jbd2_journal_try_to_free_buffers() - try to free page buffers.
-> + * jbd2_journal_try_to_free_buffers() - try to free folio buffers.
->   * @journal: journal for operation
->   * @folio: Folio to detach data from.
->   *
-> - * For all the buffers on this page,
-> - * if they are fully written out ordered data, move them onto BUF_CLEAN
-> - * so try_to_free_buffers() can reap them.
-> + * For each buffer_head on @folio, if the buffer has a journal_head but
-> + * is not attached to a running or committing transaction, try to remove
-> + * it from the checkpoint list.  This is needed for data=journal mode
-> + * where data buffers are journaled: once they are checkpointed, the
-> + * journal_head can be detached and the buffer freed.  If any buffer is
-> + * still attached to a transaction, the folio cannot be released and we
-> + * bail out.  Otherwise we call try_to_free_buffers() to detach all
-> + * buffer_heads from the folio.
->   *
-> - * This function returns non-zero if we wish try_to_free_buffers()
-> - * to be called. We do this if the page is releasable by
-> try_to_free_buffers().
-> - * We also do it if the page has locked or dirty buffers and the caller
-> wants
-> - * us to perform sync or async writeout.
-> + * For data=ordered and writeback modes, data buffers never have
-> + * journal_heads, so this degenerates to a plain try_to_free_buffers().
->   *
-> - * This complicates JBD locking somewhat.  We aren't protected by the
-> - * BKL here.  We wish to remove the buffer from its committing or
-> - * running transaction's ->t_datalist via __jbd2_journal_unfile_buffer.
-> - *
-> - * This may *change* the value of transaction_t->t_datalist, so anyone
-> - * who looks at t_datalist needs to lock against this function.
-> - *
-> - * Even worse, someone may be doing a jbd2_journal_dirty_data on this
-> - * buffer.  So we need to lock against that.  jbd2_journal_dirty_data()
-> - * will come out of the lock with the buffer dirty, which makes it
-> - * ineligible for release here.
-> - *
-> - * Who else is affected by this?  hmm...  Really the only contender
-> - * is do_get_write_access() - it could be looking at the buffer while
-> - * journal_try_to_free_buffer() is changing its state.  But that
-> - * cannot happen because we never reallocate freed data as metadata
-> - * while the data is part of a transaction.  Yes?
-> - *
-> - * Return false on failure, true on success
-> + * Return: true if the folio's buffers were freed, false otherwise
->   */
->  bool jbd2_journal_try_to_free_buffers(journal_t *journal, struct folio
-> *folio)
->  {
-> 
-> Thanks,
-> Yi.
-> 
-> 
-> 
+T24gTW9uLCAyMDI2LTA1LTI1IGF0IDE4OjE5ICswMTAwLCBNYXR0aGV3IFdpbGNveCAoT3JhY2xl
+KSB3cm90ZToNCj4gQXZvaWQgYW4gZXh0cmEgaW5kaXJlY3QgZnVuY3Rpb24gY2FsbCBieSB1c2lu
+ZyBiaF9zdWJtaXQoKSBpbnN0ZWFkIG9mDQo+IHN1Ym1pdF9iaCgpLg0KPiANCj4gU2lnbmVkLW9m
+Zi1ieTogTWF0dGhldyBXaWxjb3ggKE9yYWNsZSkgPHdpbGx5QGluZnJhZGVhZC5vcmc+DQo+IENj
+OiBsaW51eC1uaWxmc0B2Z2VyLmtlcm5lbC5vcmcNCj4gLS0tDQo+ICBmcy9uaWxmczIvYnRub2Rl
+LmMgfCAzICstLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9u
+cygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2ZzL25pbGZzMi9idG5vZGUuYyBiL2ZzL25pbGZzMi9i
+dG5vZGUuYw0KPiBpbmRleCAyZTU1M2Q2OThkMGYuLjBhNGI2MTQ5OGVmZiAxMDA2NDQNCj4gLS0t
+IGEvZnMvbmlsZnMyL2J0bm9kZS5jDQo+ICsrKyBiL2ZzL25pbGZzMi9idG5vZGUuYw0KPiBAQCAt
+MTM0LDkgKzEzNCw4IEBAIGludCBuaWxmc19idG5vZGVfc3VibWl0X2Jsb2NrKHN0cnVjdCBhZGRy
+ZXNzX3NwYWNlICpidG5jLCBfX3U2NCBibG9ja25yLA0KPiAgCX0NCj4gIAlzZXRfYnVmZmVyX21h
+cHBlZChiaCk7DQo+ICAJYmgtPmJfYmxvY2tuciA9IHBibG9ja25yOyAvKiBzZXQgYmxvY2sgYWRk
+cmVzcyBmb3IgcmVhZCAqLw0KPiAtCWJoLT5iX2VuZF9pbyA9IGVuZF9idWZmZXJfcmVhZF9zeW5j
+Ow0KPiAgCWdldF9iaChiaCk7DQo+IC0Jc3VibWl0X2JoKG9wZiwgYmgpOw0KPiArCWJoX3N1Ym1p
+dChiaCwgb3BmLCBiaF9lbmRfcmVhZCk7DQo+ICAJYmgtPmJfYmxvY2tuciA9IGJsb2NrbnI7IC8q
+IHNldCBiYWNrIHRvIHRoZSBnaXZlbiBibG9jayBhZGRyZXNzICovDQo+ICAJKnN1Ym1pdF9wdHIg
+PSBwYmxvY2tucjsNCj4gIAllcnIgPSAwOw0KDQpMb29rcyBnb29kLg0KDQpSZXZpZXdlZC1ieTog
+VmlhY2hlc2xhdiBEdWJleWtvIDxzbGF2YUBkdWJleWtvLmNvbT4NCg0KVGhhbmtzLA0KU2xhdmEu
+DQo=
