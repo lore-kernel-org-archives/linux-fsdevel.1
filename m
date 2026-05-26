@@ -1,195 +1,218 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42DC29E117
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 22:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779834463; cv=pass; b=ZhFMesJNWFoJsk0pyxX2Ovn7GnZxA6FXpt9VOSe1LfarBneeekRooXajjO7ZG89mdC3LB6CKMy2dhB/YezW8E+7Nvgq5qHxlADL+sS6AVpyKZxLDbTaKhaCstbbYNHaVsz94EmPwP/eK2meILHeEHO5jxSj8q/zLIH2br72SR+8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779834463; c=relaxed/simple;
-	bh=maV0I1NP1jCCX5+dedi7fheJJXGKqM11o/zLxwZPxsc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HtZzaOI75tTLiPMcg5AJHKgOqosOjExW7nUH5EB1SMHU/f4h0YlvGQvKYmyI6+QfD2fwNYGnrzNxJzeVtMcD3cEuvXly8OXKVBgVgSblPhlLXJidyv9qOUonxE/7Yc6lm8pOLhZZoKXREeSMdt5ndGzyNs+VMiSELzbrNaEATic=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NsdD7vGH; arc=pass smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7893C98B3
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 22:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779835130; cv=none; b=fNbCU1+F0eNrLhXlun1B6tLdDjU8Zpy0/et1UrGF/3M/oMuO0DN6k9vFruH6oCnEUmdfd6altz8dAJuMELX+lQ1GzFUnazq773MpZsE5oMjSNGsKrj3ZZVlD+o9k5pnAsQ/Hb1gC9hzhu6MdSmF7co16syhtRDebglWig41G7dM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779835130; c=relaxed/simple;
+	bh=PEOnU1euQksNTBNEpTVO434Z1jfRAyw8+p3ekYQ4Oqg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gtyyaoALiye2IL2vi2XrEz8GyIE62aMTtnfhectel+S8zguCgqIerc04T7lHDktd8/i0nIzU3G+SCicuu9gAbtzGR/9taLQbIg1/7ucaZ2LjVfVSYYUtgobcEqfi/1Lml0CENrV4AugGCTJUg9c7fCSONtTzKbDzkfGm2yqtG20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=PWmWm9wE; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsdD7vGH"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-69d79fc48d2so3556696eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 15:27:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779834461; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bvzK22qsScujxPaBcWNvpjv8wDWVJ8MX32dw0IJvfjvcGO5gXy5i+Qw6eh64u0ctI9
-         2NU75Aan3rF8Z2hj90DZWgLqPNnV9Wa+Q+W8ruWYMDzpF6tzmaGwlJ+3IL/2Qb5dd5wb
-         ZgPEPkJWCiTEakhBKnzvxg/iBaxlMsZJ4droHrseewSB/TevBOUlyO1UmcEAsSmLe4gE
-         8+DcDGnHmsj769u8wHw0m4fiKKer4GQcdeCL+MCykSmOYQ9KJS1oGRC0BZ/hodjxc84k
-         kd1Xvv9Gt3dEGp/Ulo3k4CdgqCwYfpZtyU8PCTfSC8nT0xviQl5IwYK4T0UXjbkp9jrY
-         MRtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=wNoZs0zJdjzOYeBqS2/JyRw3os+7in3fs8BDVUaB6YY=;
-        fh=CGpOe2swFKxRzgtGF/SZQMqT8VELxlu6FIHQG9O+H00=;
-        b=VktK9YipAEixbr5bMHpfDEUPwK/AeAaj4/hh6iKzWu5sAUfjnQdEGwqxAfsh2uMVLc
-         DgVxRAsIfUY4C2BDjwj31dVLjhb5KrZViaiw2JfM/wZyeMIDTUuGAllnNqfi0BnV3Xyx
-         RBqiAAmfAhRkWrl08iEtbt84X4gaFzFQU0lE6ms4N3zXBxKM/tkma1/kX0Z9KGZeo1gj
-         PU23dfi3rVWRs0n9BvYjOmf7sx97wD1/78HG1BzZEqMnFjHa1usECygDMKEB/kyGL8ol
-         Fzq7IAxrvzqMQTRSwEvDqEXqesQ60THH7o5YscGrD55OLAPnMOewJFHzqom7T9zO+VI7
-         gxEA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="PWmWm9wE"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7dcdaf06498so7233174a34.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 15:38:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779834461; x=1780439261; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wNoZs0zJdjzOYeBqS2/JyRw3os+7in3fs8BDVUaB6YY=;
-        b=NsdD7vGHzCStiMDHXI++Y/dwJxjIp+QVIrBPyHBaieLWFCbCiTTH+PGZwE6o+lP+Df
-         TEP8qOWcUWYdC6/t8trrjPyy1wp5gg4Ez8Vc01gbE9YsO57nZYKef3+tIO+gcFegM7+6
-         RF5pqaRK+rtZkBeheKquVmhb3QjdTOwrjXQVaZN+Gm5gdaqF95nh9O0iF4Z/4/UYoICk
-         pWLf7Lm27c5FEfgith6MgkC79MRx6p5O9NzXV9p/1yHV+AMSXk74izIsF+GhioAeq3ZM
-         /IimCy5r3ONnZX7M8JCwKIHEbr7QpvjTlnYVPuU9vAbIiyi2vazdoswR/oO1DF0uZPOw
-         MPJw==
+        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1779835128; x=1780439928; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NAedWjqG73p0z+Bcksz0PqqemyZWbohHadUN5qn1TcQ=;
+        b=PWmWm9wEoVFsdRQPQCkctiZEsCgafhee+yu4qVk0vCj8tw0aps0E8AWmTKytSV2fOC
+         W3nvQjPm2ZynWyL2LPPoqk3faf3rzsNi41m7EgpUxPkFQAPr2PCbNgdNE4IAzxsS6DjH
+         US6A2lq2zF35p1SvlbbMsKV1SOKt2wiLuHAXOiLGmIDvdsrZam5R7BylE19lcI+5LFeI
+         4/ZL/7CwGeth3BLto8SHnoHfKfT0EBXIinPrKmcEF1VuV9bCUJ0xHQRgWxIgt6vKMx7C
+         0sqtcR21kgO1C6Qxk9qNZ3Sn39pmh7otZ5P/3+qFdc+8yUkVeRx6dBr3L27JgZQ/GRdF
+         GjBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779834461; x=1780439261;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1779835128; x=1780439928;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wNoZs0zJdjzOYeBqS2/JyRw3os+7in3fs8BDVUaB6YY=;
-        b=PrV7HooE7GCLW2upjGGBEsQC6FepKO8FoQeUktltSh73UoG/WZxVYZOG1fIHb11s/m
-         yAPtAbetsIFelHp5h0jWP2QF1Rn85yeB+2hnYvWPubBXEJvPLFTecTvs4f15/YY3vSGX
-         sBS/32pNHlMvDiTQFiDLJpp4Gpp1dsvB4T/prs2NfxPCib682a5yCBg+mTVfi3Ap45Mw
-         2hdWFNaPmdpZYBzgerfaRo+WoL51VBRZZR0xTSGilxzTofmSZ91F9n5v/uDklstwjgkf
-         p2sUCjrgINYJCUFNNK+QX3SOdG9UQP92faf7NLJFbGtU8hkwsMGnq/QdKUf0O+jmRB4J
-         equw==
-X-Forwarded-Encrypted: i=1; AFNElJ/RcZZGMmmcaONhJr/iiVa71dVC9I5e4H7+VKdGrIgiZT+9rJU9OzU8+dNFeKmOnD6tTFA6sTy1gTUFWK0S@vger.kernel.org
-X-Gm-Message-State: AOJu0YzokTZGgUFAqY0Yp5CRbUhEYXaUFWqERC/YeI6VzU0sCPzaOpg0
-	F6vikxdxIuHDcO+yJjrtiDxnyNOsfqxoUb52bNFN7wVdPNdrmcqu3HOuijTjJmJwUzromBkJ+3C
-	Gb2t8sqkrjGIyFF0Sl59zCx9PsdXoI5aiGIRc
-X-Gm-Gg: Acq92OHrgzeoq6YXYIRW4sitZWZPgiPjXczYZXzGy67M4LrZt98JE0imr7WYU7nVLzS
-	UeHMdAM5PCwSXAm5YgVZtYN8IUgLnh1PTiGTqnz80TBhhqunHUpE8kFLyA6sJlgtupuu0YpE6p6
-	u/SvweIEYFoaNs2k4a+iKNtBaQgkqHWVtFJc2k6VulpR2lsSAMQdyA0NRmflWBGdHaX4Yil3m+7
-	wdy4FuwvsNdzjJ6FJEzR0TsOsD+MTm6FFM8vI1R/vw2OIuGs2Yt+KZJk9wDZyo+ky/j0aZ+vl1Y
-	elz0118uryYsfbVR
-X-Received: by 2002:a05:6820:1612:b0:696:982b:1c24 with SMTP id
- 006d021491bc7-69d7ece2e97mr10610014eaf.57.1779834460731; Tue, 26 May 2026
- 15:27:40 -0700 (PDT)
+        bh=NAedWjqG73p0z+Bcksz0PqqemyZWbohHadUN5qn1TcQ=;
+        b=JI2hYwFjvZAaf+U62SkOQt7feZdFLrAaqKpRzOvKPV1jJkcX6X5yat8S0fBYhr+v9H
+         KDEEwARynB8sHm6rlke4QlBvaU0h09vPDHzb50XSCjhdElG4EbVr33B2Cohb9i/zEjM6
+         I5E0tEefbcmJzmHrRyFyHaOoScN1e20Dt19/qwQabPErW2VDmsZTJxA3da/SgJQfAjHI
+         O8U9KHGy5RnVGKGwI7foVb3HkVH9nzzKLt92BN5lWt+0//Mxxap/srvNkyF5zFMsaPc2
+         rtgbOnq3F4kcISksCjntBEsF9HEZYWhg74+KGZmlkq1I5X7d4Ffi5ysg/ZxrQg9IQNbJ
+         Prog==
+X-Forwarded-Encrypted: i=1; AFNElJ9qeITKCe8pY0K1L5V+PLyQzvk9cOxvC06YNaFmOtTrM4Oy7DUS173btBuNBTML2dtfyDJQWrAXrjdDCrgZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YycW9bB8Qn6dEifhc2XuOk4yGWiuamz1R/n6TWKOzZqRkCHVD8c
+	QIdyp/YebLM2OW+AHDrV9PyhoHLJKTC+wIgZd3HeaiZH7IW3KUA4DOMmFP6/BMASglM=
+X-Gm-Gg: Acq92OHpDTmYbdP28DA1n6gYVZ4ZB0xsQftu2wue8cGg5OXBV3b3w9o4qw6+k3XFnKo
+	kVJrqswNF7pE2YkUcqsqhcUk5n+3l4ECIw2O5s7Vahxo3hE+PHGOrPN3CouCdBQbSspibcyDxAT
+	LAVm2TdSEneDtdCtUogVFo8IVEXT6feCfDPRwq+aHYFHwfs/g4RdNkxNDKEB8F0bLEBC1Z80rfJ
+	zsSLr5GboA9kmrXRTHHjzYqnsHVb5TBVCeXLHOT7hJD8ZNylnL1mz/Cxo80ZM6a4adbs2bcfiyf
+	6fBm0AkEfok/r9r+o/RB8U0qAMhZSbunKv0g4Fob81//RUYrt9g2dNbRM7+RWEacp3CHsOWbqNP
+	sj4kf1eozQdasFQ5PnwBNRIUZMEOGWEYQUqD8PtJcGPmWGE9dFw6IGkpZjouZSj9WZGghS4Zq7t
+	viY1DmjLN6sDmCmMBIc8eGdYXL2O4Plns6ya2MYiXLbmzjsot6Oy3THJXybt6oi8fsfzf0j6hQZ
+	kSN9FIUwGEfcdy2K4lmcXvu8j3qQHY=
+X-Received: by 2002:a05:6830:6482:b0:7dc:d587:af3 with SMTP id 46e09a7af769-7e5ff08ccf4mr12142890a34.23.1779835127937;
+        Tue, 26 May 2026 15:38:47 -0700 (PDT)
+Received: from system76-pc.attlocal.net ([2600:1700:6476:1430:c597:e624:3ba8:752c])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e6065e5ed1sm11150345a34.14.2026.05.26.15.38.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 15:38:47 -0700 (PDT)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: ceph-devel@vger.kernel.org
+Cc: idryomov@gmail.com,
+	linux-fsdevel@vger.kernel.org,
+	pdonnell@redhat.com,
+	amarkuze@redhat.com,
+	Slava.Dubeyko@ibm.com,
+	slava@dubeyko.com,
+	sagemct@ibm.com
+Subject: [PATCH] libceph: rework behavior for not recognized tag codes
+Date: Tue, 26 May 2026 15:38:30 -0700
+Message-ID: <20260526223829.1385751-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260525171931.4144395-1-willy@infradead.org>
-In-Reply-To: <20260525171931.4144395-1-willy@infradead.org>
-From: =?UTF-8?Q?Andreas_Gr=C3=BCnbacher?= <andreas.gruenbacher@gmail.com>
-Date: Wed, 27 May 2026 00:27:29 +0200
-X-Gm-Features: AVHnY4LmuYpZHB23ToMLo1n7WZk_snTqqB948WU5CJiroL1sdwP-ZA6HSyOYucc
-Message-ID: <CAHpGcMJX+6qctmM6TRJ-0cin_nOiFM4GM8BNeF=TzKfM8BP8XQ@mail.gmail.com>
-Subject: Re: [PATCH 00/34] Remove b_end_io from struct buffer_head
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Am Mo., 25. Mai 2026 um 19:18 Uhr schrieb Matthew Wilcox (Oracle)
-<willy@infradead.org>:
-> There are three benefits to this patchset.  First, it removes an
-> indirect function call from the completion path.  Instead of setting
-> bio->bi_end_io to end_bio_bh_io_sync() which then calls bh->b_end_io(),
-> we set bio->bi_end_io to the appropriate completion handler, replacing
-> two indirect function calls with one.
->
-> Second, there is a slight security advantage to this.  It is one fewer
-> function pointer in the middle of a writable data structure that can
-> be corrupted.  Third, it shrinks struct buffer_head from 104 bytes to 96
-> bytes, allowing for appropriximately 7% reduction in the amount of memory
-> used by buffer_heads (or, alternatively, allows 7% more buffer_heads to
-> be cached in the same amount of memory).
->
-> I've run ext4 through its paces, and everything seems OK.  I've only
-> compiled ocfs2/gfs2/nilfs/md-bitmap.  Hopefully the maintainers can give
-> this series a try.  I'm sending the entire series to linux-fsdevel
-> and cc'ing the fs-specific mailing lists for the fs-specific patches.
->
-> I have some unresolved thoughts while working on this:
->  - Should gfs2_aspace_write_folio() be passing its wbc into __bh_submit()?
+From: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
 
-gfs2 doesn't support cgroups, so I don't think it would make a difference.
+[  196.609307] WARNING: net/ceph/messenger_v1.c:901 at ceph_con_v1_try_read+0x4e0f/0x6020, CPU#6: kworker/6:0/49
+[  196.612062] Modules linked in:
+[  196.613111] CPU: 6 UID: 0 PID: 49 Comm: kworker/6:0 Not tainted 6.19.0-g990dca9c3b7a-dirty #47 PREEMPT(lazy)
+[  196.615707] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
+[  196.618102] Workqueue: ceph-msgr ceph_con_workfn
+[  196.619417] RIP: 0010:ceph_con_v1_try_read+0x4e0f/0x6020
+[  196.620919] Code: 85 a9 fc 90 0f 0b e8 c0 85 a9 fc 90 0f 0b 90 e9 c4 e0 ff ff e8 b2 85 a9 fc 90 0f 0b e8 aa 85 a9 fc 90 0f 0b e8 a2 85 a9 fc 90 <0f> 0b 90 e9 2b e2 ff ff e8 94 85 a9 fc 90 0f 0b 48 8b 3c 24 e8 68
+[  196.625686] RSP: 0018:ff11000100e4fa30 EFLAGS: 00010293
+[  196.627142] RAX: 0000000000000000 RBX: 000000000000001d RCX: ffffffff9eb8ba8e
+[  196.629041] RDX: ff11000100e04480 RSI: 000000000000001d RDI: 0000000000000004
+[  196.630938] RBP: 0000000075184a6c R08: 0000000000000001 R09: 0000000000000001
+[  196.632874] R10: 0000000075184a6c R11: ff11000100e04480 R12: 000000000000000d
+[  196.634763] R13: ff1100012698a533 R14: ff1100012698a0b8 R15: 0000000000000000
+[  196.636667] FS:  0000000000000000(0000) GS:ff1100040bc00000(0000) knlGS:0000000000000000
+[  196.638807] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  196.640390] CR2: 00007f3f19a5f3b0 CR3: 00000003408a8006 CR4: 0000000000771ef0
+[  196.642293] PKRU: 55555554
+[  196.643105] Call Trace:
+[  196.643782]  <TASK>
+[  196.644481]  ? register_lock_class+0x41/0x760
+[  196.645739]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  196.647303]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  196.648896]  ? __pfx___mutex_lock+0x10/0x10
+[  196.649986]  ? __lock_acquire+0x466/0x2260
+[  196.650770]  ? __pfx_ceph_con_v1_try_read+0x10/0x10
+[  196.651784]  ceph_con_workfn+0xa26/0x1340
+[  196.652617]  process_one_work+0x8fc/0x1990
+[  196.653496]  ? __pfx_process_one_work+0x10/0x10
+[  196.654430]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  196.655393]  ? lock_is_held_type+0x8f/0x100
+[  196.656260]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  196.657229]  worker_thread+0x6d3/0xf20
+[  196.658062]  ? __pfx_worker_thread+0x10/0x10
+[  196.658904]  kthread+0x37d/0x490
+[  196.659590]  ? lockdep_hardirqs_on_prepare+0xea/0x1a0
+[  196.660573]  ? __pfx_kthread+0x10/0x10
+[  196.661370]  ret_from_fork+0x67b/0xad0
+[  196.662167]  ? __pfx_ret_from_fork+0x10/0x10
+[  196.663059]  ? srso_alias_return_thunk+0x5/0xfbef5
+[  196.664008]  ? __switch_to+0x7a0/0x10c0
+[  196.664751]  ? __pfx_kthread+0x10/0x10
+[  196.665547]  ret_from_fork_asm+0x1a/0x30
+[  196.666389]  </TASK>
+[  196.666822] irq event stamp: 9881
+[  196.667490] hardirqs last  enabled at (9891): [<ffffffff9b40a7db>] __up_console_sem+0x7b/0x90
+[  196.669088] hardirqs last disabled at (9900): [<ffffffff9b40a7c0>] __up_console_sem+0x60/0x90
+[  196.670667] softirqs last  enabled at (9664): [<ffffffff9b267a34>] __irq_exit_rcu+0xc4/0x100
+[  196.672258] softirqs last disabled at (9641): [<ffffffff9b267a34>] __irq_exit_rcu+0xc4/0x100
+[  196.673711] ---[ end trace 0000000000000000 ]---
+[  197.154025] libceph: mon0 (1)10.0.0.2:6789 socket closed (con state OPEN)
+[  197.155329] libceph: mon0 (1)10.0.0.2:6789 session lost, hunting for new mon
+[  197.158745] libceph: mon0 (1)10.0.0.2:6789 socket closed (con state V1_BANNER)
 
->  - Should we allow callers of bh_submit() to pass in NULL instead of
->    bh_end_read / bh_end_write and infer which one to use from the opf
->    being REQ_OP_READ or REQ_OP_WRITE?
->  - Should some of these callers of bh_submit() be calling higher level
->    functions in buffer.c insteaad?  eg nilfs_mdt_submit_block() could
->    call __bh_read().
+First issue:
 
-- The only caller of end_buffer_read_sync() outside of fs/buffer.c
-left at the end of his patch queue is gfs2_meta_read_endio(), so I
-wonder if end_buffer_read_sync() should be inlined into its remaining
-two callers and removed.
+After the client and server complete the v1 handshake and the server's reply
+tag is CEPH_MSGR_TAG_READY or CEPH_MSGR_TAG_SEQ, the client increments its
+own connect_seq and then checks that the server echoed back the same value.
+The con->v1.in_reply.connect_seq comes directly from the network —
+the server's connect reply message. A MITM who corrupts even one byte of
+that field produces a mismatch.
 
-> Matthew Wilcox (Oracle) (34):
->   buffer: Remove forward declaration of submit_bh_wbc()
->   buffer: Add bh_submit()
->   buffer: Remove mark_buffer_async_write_endio()
->   buffer: Add bh_end_read(), bh_end_write() and bh_end_async_write()
->   buffer: Convert write_dirty_buffer to bh_submit()
->   buffer: Convert __bread_slow to bh_submit()
->   buffer: Convert __sync_dirty_buffer to bh_submit()
->   buffer: Convert __bh_read to bh_submit()
->   buffer: Convert __bh_read_batch to bh_submit()
->   buffer: Convert block_read_full_folio to bh_submit()
->   buffer: Convert __block_write_full_folio to __bh_submit()
->   ext4; Convert __ext4_read_bh() to bh_submit()
->   ext4: Convert ext4_fc_submit_bh() to bh_submit()
->   ext4: Convert write_mmp_block_thawed() to bh_submit()
->   ext4: Convert ext4_commit_super() to bh_submit()
->   jbd2: Convert journal commit to bh_submit()
->   jbd2: Convert jbd2_write_superblock() to bh_submit()
->   ocfs2: Convert ocfs2_write_block to bh_submit()
->   ocfs2: Convert ocfs2_read_block to bh_submit()
->   ocfs2: Convert ocfs2_read_blocks to bh_submit()
->   ocfs2: Convert ocfs2_write_super_or_backup to bh_submit()
->   gfs2: Convert gfs2_metapath_ra to bh_submit()
->   gfs2: Convert gfs2_dir_readahead to bh_submit()
->   gfs2: Remove use of b_end_io in gfs2_meta_read_endio()
->   gfs2: Convert gfs2_aspace_write_folio to bh_submit()
->   buffer: Remove mark_buffer_async_write()
->   nilfs2: Convert nilfs_btnode_submit_block to bh_submit()
->   nilfs2: Convert nilfs_gccache_submit_read_data to bh_submit()
->   nilfs2: Convert nilfs_mdt_submit_block to bh_submit()
->   md-bitmap: Convert read_file_page and write_file_page to bh_submit()
->   buffer: Remove submit_bh()
->   buffer: Remove b_end_io
->   buffer: Remove __end_buffer_read_notouch()
->   buffer: Remove end_buffer_write_sync()
->
->  Documentation/filesystems/locking.rst |  14 -
->  Documentation/trace/ftrace.rst        |   4 +-
->  drivers/md/md-bitmap.c                |  27 +-
->  drivers/md/raid5.h                    |   6 +-
->  fs/buffer.c                           | 372 ++++++++++++++------------
->  fs/ext4/ext4.h                        |  10 +-
->  fs/ext4/fast_commit.c                 |   8 +-
->  fs/ext4/ialloc.c                      |   5 +-
->  fs/ext4/mmp.c                         |   4 +-
->  fs/ext4/super.c                       |  16 +-
->  fs/gfs2/bmap.c                        |   7 +-
->  fs/gfs2/dir.c                         |   6 +-
->  fs/gfs2/meta_io.c                     |  11 +-
->  fs/jbd2/commit.c                      |  13 +-
->  fs/jbd2/journal.c                     |   3 +-
->  fs/nilfs2/btnode.c                    |   3 +-
->  fs/nilfs2/gcinode.c                   |   3 +-
->  fs/nilfs2/mdt.c                       |   3 +-
->  fs/ocfs2/buffer_head_io.c             |  20 +-
->  include/linux/buffer_head.h           |  16 +-
->  mm/vmscan.c                           |   2 +-
->  21 files changed, 280 insertions(+), 273 deletions(-)
->
-> --
-> 2.47.3
+Using WARN_ON() on a value that comes from the wire means an attacker controls
+whether the kernel warning fires, giving them the ability to permanently taint
+the kernel (TAINT_WARN). WARN_ON() does not affect control flow — after the
+warning, the code continues and opens the connection as if everything were fine,
+with an inconsistent connect_seq.
 
-Thanks,
-Andreas
+The second issue:
+
+The bad_tag is reached when the first byte of a new msgr-v1 frame is not one of
+the four recognised tag values (CEPH_MSGR_TAG_MSG, ACK, KEEPALIVE2_ACK, CLOSE).
+Any single-byte value 0–255 except those four reaches bad_tag. An attacker who
+can flood system log with error messages.
+
+This patch compares con->v1.connect_seq and con->v1.in_reply.connect_seq.
+If they are not the same, then pr_err_ratelimited() will be called
+instead of WARN_ON(). The second fix exchanges pr_err() on
+pr_err_ratelimited() for the case of bad tag in ceph_con_v1_try_read().
+
+Fixes: a56dd9bf4722 ("libceph: move msgr1 protocol specific fields to its own struct")
+Signed-off-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+cc: Alex Markuze <amarkuze@redhat.com>
+cc: Ilya Dryomov <idryomov@gmail.com>
+cc: Patrick Donnelly <pdonnell@redhat.com>
+cc: Ceph Development <ceph-devel@vger.kernel.org>
+---
+ net/ceph/messenger_v1.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/net/ceph/messenger_v1.c b/net/ceph/messenger_v1.c
+index c9e002d96319..5b2b68220e88 100644
+--- a/net/ceph/messenger_v1.c
++++ b/net/ceph/messenger_v1.c
+@@ -742,6 +742,7 @@ static int process_connect(struct ceph_connection *con)
+ 	u64 sup_feat = from_msgr(con->msgr)->supported_features;
+ 	u64 req_feat = from_msgr(con->msgr)->required_features;
+ 	u64 server_feat = le64_to_cpu(con->v1.in_reply.features);
++	u32 connect_seq;
+ 	int ret;
+ 
+ 	dout("process_connect on %p tag %d\n", con, con->v1.in_tag);
+@@ -894,12 +895,15 @@ static int process_connect(struct ceph_connection *con)
+ 			le32_to_cpu(con->v1.in_reply.global_seq);
+ 		con->v1.connect_seq++;
+ 		con->peer_features = server_feat;
++		connect_seq = le32_to_cpu(con->v1.in_reply.connect_seq);
+ 		dout("process_connect got READY gseq %d cseq %d (%d)\n",
+-		     con->v1.peer_global_seq,
+-		     le32_to_cpu(con->v1.in_reply.connect_seq),
+-		     con->v1.connect_seq);
+-		WARN_ON(con->v1.connect_seq !=
+-			le32_to_cpu(con->v1.in_reply.connect_seq));
++		     con->v1.peer_global_seq, connect_seq, con->v1.connect_seq);
++		if (con->v1.connect_seq != connect_seq) {
++			pr_err_ratelimited("connect_seq mismatch: my %u peer %u\n",
++					   con->v1.connect_seq, connect_seq);
++			con->error_msg = "protocol error, connect_seq mismatch";
++			return -1;
++		}
+ 
+ 		if (con->v1.in_reply.flags & CEPH_MSG_CONNECT_LOSSY)
+ 			ceph_con_flag_set(con, CEPH_CON_F_LOSSYTX);
+@@ -1456,7 +1460,7 @@ int ceph_con_v1_try_read(struct ceph_connection *con)
+ 	return ret;
+ 
+ bad_tag:
+-	pr_err("try_read bad tag %d\n", con->v1.in_tag);
++	pr_err_ratelimited("try_read bad tag %d\n", con->v1.in_tag);
+ 	con->error_msg = "protocol error, garbage tag";
+ 	ret = -1;
+ 	goto out;
+-- 
+2.54.0
+
