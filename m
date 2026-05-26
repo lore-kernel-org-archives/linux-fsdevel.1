@@ -1,152 +1,171 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB4E3D904C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 13:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779803666; cv=pass; b=G/Yfb23ImUgK3VhhBKsAXJK69is5CvgHCpwttOFK4XgussPruoa1ruEnZcnfWY69v5e5cbNzfLjlWGbYEjuydYyOJrbICg9476PzRQH7CIdjMo/v9SqQGejEKn+NLZp71mitxOQFBLHX+moknsDrGnlf4hj0wPxHrfbIXcrNjnc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779803666; c=relaxed/simple;
-	bh=2TU/HPcEgwxzGQTeQxAZwmkkDFE6M0PF19H0oFnmVzU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fmwmFavadq6494X7fu7nSq2abitoIY3U5oJGSv4ES86lxDK6aqBYMDj43POJ4uP0c/OBJu7q5ogO9laKbo4CvcdK2Sdq9PgE+GXCKv+EyTAdQ+wByXgZzKDxlQPdAP3hl2ePrADKCtyynXNKtOMrnjlviTwdtF7NMjZX4KzhkRU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T4Y2/jTR; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158E33A7593;
+	Tue, 26 May 2026 13:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779803761; cv=none; b=CvxfbLLH/Y660V6J8fEd40tIOuVu7YfcSfpOTjxeM2E2DxzQ23dWbTfBJTdnuz60zohi0wBbgRt1g347zm2BnNJOBmqFZTgqWDWXGwoINXA/Bx5Jy/egO8FjwuZZHav1TUqrlEDhKo3z6of6H8BJSapJqDZRxNzk/EwEsqKuqQI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779803761; c=relaxed/simple;
+	bh=vnnWi8dQWB6l6Nohl4NkH7BA9KxtqRwgLLtVy1y56UE=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=ZPxj41/k/cDOtPKhLa22bNWZlg3E/ihW8cBGgHI6QZ1nyg2a9d1USf7ZMgcX3UDoEwj772IyGQL1WJrn0V19sMIoN7JYiQ8jJ7gc6mm5D3OdN1a9ARlhYF6DDR5uMxyqIOuNPOJl4QyqMJyOCzleJNEhKXCePOnDu/+aB7Kdv3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hpYL4+vd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T4Y2/jTR"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-68852a4fc68so5890737a12.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 06:54:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779803663; cv=none;
-        d=google.com; s=arc-20240605;
-        b=c8SNgDkE5ciiuxIkvgEYASwNP3vXZeVHPdCNu67k6u5J92UlT6/w04VbKpoqrjNfz4
-         uK+BBoLKDXrHyUnFml13BbdgIqmupJcnLzMJcQkx5p38ul22bKvDwMi8i3yBmjz0M3qg
-         BpY38IpnmbxpTWyjB/h1Ojg/z5XJEDL07ZqCJvauZRBk4XhHgI4njTTJ+etpHNir7ZQZ
-         1rUJSENGid7T3UqVVXdlk62SJZF+iSrRT6dOh7M7lL/4tvboOzUM5ET4k/p28oIVwGNr
-         WDv+ZlqZuLRnZ4N0sbIN/tIK0UDR4DmypSZbQCUqfCYtmnDjLxqYtl+JkDRhspXaTqwA
-         epAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BEx7uN02jNK0071tFe2UGZXPwPcQj21lMaC8f8ui6K0=;
-        fh=XiNSbgtaTx6IYZHsr11ZW5ShFmm6g0cDC2F5DJrD3P4=;
-        b=k0jlQDzyFUTa533WkkFbFYPqydKxVJUyjM1zyvme/EFl5MH5VnQFmtYQ3CgUWP23og
-         FRYcpTrlekm8+Tx85jLYg1Wco3G5UbE36wVH4Wwv34tYnhntNrNXsAxN9cVD3jkK+k1+
-         T4Y5PlVDJ7k6s9jDt/IqJmXCVSmHZWRLEqknis23BDIJAIc/NNMzqiMjENaYrAgy86eT
-         RZXCObrIolmNg/s4vuAp7C17q+hCcD7pII/+1k8edue+pMrOuva6oE/JlgrD1thNIAQu
-         PGhEvAEe09wu8VqQmMQhqOKcxc/RlkEQ1YnA+rPVQIT3C4aoHXHCDa/fs9X6r8DB77re
-         hLuQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779803663; x=1780408463; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BEx7uN02jNK0071tFe2UGZXPwPcQj21lMaC8f8ui6K0=;
-        b=T4Y2/jTRyylmo9wqgpwlNbyboNQ2KXdcGEhN9X3P+RmcXKY1ZPCmL5+g+n7h1awslR
-         XTWCH1VcCZDnJdtM84xWClR73PguD4RYJt2zf0D/upQYnz43swiT2/g/lchhLsr2OyGW
-         E60QRzuh9T0oMFwEpXyWbWYx0l8yS1DHXwQ9Hi6JzGC+jA7w5lpRw+2Xo98rA1WFAPMS
-         LNPrIIXWIxvYJGygvOfQ01yZZUvI/XraXHdZVF92GlnPKDop5SeMVhcqc75s8Hpm/f+T
-         62rermOWRy1vxtMZHX9rZvJMiSFZsaTpgiGqWWaAnoBUhggXVaCB9vWGVsCd0KamBFEk
-         1PKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779803663; x=1780408463;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BEx7uN02jNK0071tFe2UGZXPwPcQj21lMaC8f8ui6K0=;
-        b=VjwD7IXl7by7jjwxb7A1QYv2cvVYa5pnfXWyBJno1JedR8SuKBFpydnGoEDs1FBBcT
-         Gg5bPTnKFqbfnoaC8NRrCYBsALIwfnc++k4VfTweoLSvYCbmU2pcsFZmWhT31thywrHD
-         3ZGmtI8Vj180PndGIr3xxay1o260ZdIscCjwng0kjH5hJxSTManMUAkXdSrUOyM/9AAP
-         fE6S7V6/1r0Kh185BXSb/W8Du5pzYByWtqM0oRfbHJLPKxGUd4dh87fOQq81RGkf0Lb7
-         wZJZ9RRj5UhAuXmM1VKEQmOq7lMVKDedRClzP8pWVOxJbzBJ6xOj013i9HEHfkPFzILI
-         jE/Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9pKDCm/V21wQSXJ8mxxFjpzsaDpfIVdgTVcE2nre5RlBMsgWzMgXfFfJWdMGU+gsozNFoIcdzn2KPfYJhY@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjcmGG7MZsYHoWq1lKePZoM2ec0kpNwY8MmJJNIfNq6NhUuyg2
-	xDCLaUnn2rkVVaj+3qwJVEBwbu0VEtjahuRLZ/sUXqbS6FBWh/4f85Kbj/ES1KrBmGTiArwbTpg
-	STNWI+dFDkYLA79TJVIUOEPK83vYm8tI=
-X-Gm-Gg: Acq92OF0nmu8xoYjYxunWIIkjAXHEMnb3UpQmUOlAKwiPJBoFdJyvHHRWJka7M+66u7
-	sLlglpJGawpv/ZGq8XZbUc4VVKRp91Wd+WBwme6y+cprkeUUyHGV0XHC/wGi2RDFRSZc+hHTA3a
-	YLD4Q3A1Buqevgr368t+IdX4BgzicK6DGQMZPhWBKJu8libBou2I25RVpI+TIRX+ly3y6SwPKig
-	WlrjlNQtVV+BAZxsknpGk73TZYYVdwJBgxLb6K5NP1eL0WflWTIWUJv6V/czkdtdggT01JTm7qJ
-	PSzl3uhiZgr+Ko2h/pEC7Mip9oQXKxWfeXtN4/6lsPaP9EiHl2I=
-X-Received: by 2002:a50:c8cb:0:b0:689:9706:cef6 with SMTP id
- 4fb4d7f45d1cf-6899706d66bmr3424863a12.4.1779803663440; Tue, 26 May 2026
- 06:54:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hpYL4+vd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74E101F000E9;
+	Tue, 26 May 2026 13:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779803759;
+	bh=JrULAy9Gw7dTgt2CJtfRApgaaTOMPseygZFxD/MyYIc=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=hpYL4+vdLIvxzm4niRZbcwUQmOfWQKSCxGGGerPKb5a0oewhWWBG8CqeRfwdDEXbG
+	 yegqQzLLyw/9J5+v9sqzryZnTCqlOADSCFq7MNoZERdQOGEjLoTJJSkrQnLtRueeVc
+	 FNbvehqYXTpwDR88AlqPDoRirz6HPdGiWLWpT7//N4oPfuRTjvGYV9lf+xP5oK7B0E
+	 dq2Gc4xNO8Jb03sYKC4W7EfKGYOHk29nPvx5GE+zQRLhtDEgKY3syHFCR5uiq64ChO
+	 fKaqkFIxmPbuinhNTdpoCUbFufv5wV+T+yVOBxsEWiiAOEutfGVqz31YBKw2Kugw5S
+	 3Dlr7Gs3flskA==
+Content-Type: multipart/mixed; boundary="===============1624879100367785041=="
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260526085801.81187-1-liwang@kylinos.cn>
-In-Reply-To: <20260526085801.81187-1-liwang@kylinos.cn>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 26 May 2026 15:54:12 +0200
-X-Gm-Features: AVHnY4L62fcz3pAXF35UOsshoYtTDxjRAro6GJAMnrkVCJ_cwC0OIGhuqi7h6GM
-Message-ID: <CAOQ4uxg_ODc1NLU95L4EAD5MT7ZqYfsFKKhgJ+YXud_zZZJCwg@mail.gmail.com>
-Subject: Re: [PATCH] backing-file: fix backing_file_open() kerneldoc parameter
-To: Li Wang <liwang@kylinos.cn>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Joanne Koong <joannelkoong@gmail.com>, 
-	Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-Id: <2f53799c49f16b688b2780733a6175235b730b0edbe15747309771e5a84130a7@mail.kernel.org>
+In-Reply-To: <20260526131035.1312864-2-dawei.feng@seu.edu.cn>
+References: <20260526131035.1312864-2-dawei.feng@seu.edu.cn>
+Subject: Re: [PATCH 1/2] bpf: cgroup: fix sysctl new value replacement
+From: bot+bpf-ci@kernel.org
+To: dawei.feng@seu.edu.cn,martin.lau@linux.dev
+Cc: ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,kees@kernel.org,joel.granados@kernel.org,bpf@vger.kernel.org,linux-kernel@vger.kernel.org,linux-fsdevel@vger.kernel.org,jianhao.xu@seu.edu.cn,dawei.feng@seu.edu.cn,stable@vger.kernel.org,zilin@seu.edu.cn,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Tue, 26 May 2026 13:55:59 +0000 (UTC)
 
-On Tue, May 26, 2026 at 10:58=E2=80=AFAM Li Wang <liwang@kylinos.cn> wrote:
->
-> The kerneldoc for backing_file_open() documented a @user_path argument,
-> but the function takes const struct file *user_file. The user
-> path is derived as &user_file->f_path.
->
-> Update the @-tag to @user_file and adjust the description accordingly.
-> Also fix the "reuqested" typo in the old comment.
+--===============1624879100367785041==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-typo: requested
+> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
+> index 876f6a81a9b6..8715a014c21d 100644
+> --- a/kernel/bpf/cgroup.c
+> +++ b/kernel/bpf/cgroup.c
 
->
-> Signed-off-by: Li Wang <liwang@kylinos.cn>
+[ ... ]
 
-> ---
->  fs/backing-file.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/backing-file.c b/fs/backing-file.c
-> index 1f3bbfc75882..a530c2d19d20 100644
-> --- a/fs/backing-file.c
-> +++ b/fs/backing-file.c
-> @@ -18,13 +18,14 @@
->
->  /**
->   * backing_file_open - open a backing file for kernel internal use
-> - * @user_path: path that the user reuqested to open
-> + * @user_file: file the user opened on the stackable filesystem
-
-@user_file: file the user requested to open
-
-(It is not open yet)
-
->   * @flags:     open flags
->   * @real_path: path of the backing file
->   * @cred:      credentials for open
+> @@ -1878,7 +1878,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table_header *head,
+>   * to provided by user buffer, so that next BPF program in the chain
+>   * can treat it as a replacement.
 >   *
->   * Open a backing file for a stackable filesystem (e.g., overlayfs).
-> - * @user_path may be on the stackable filesystem and @real_path on the
-> + * The user_path (taken from @user_file->f_path) may be
+> - * This function will return %-EPERM if an attached program is found and
+> - * returned value != 1 during execution. In all other cases 0 is returned.
+> + * This function will return %-EPERM if an attached program is found and
+> + * returned value != 1 during execution. In all other cases 0 is returned.
+>   */
 
-@user_file->f_path may be on the stackable filesystem and...
+Should the function documentation be updated to reflect the actual return
+value convention?
 
-> + * on the stackable filesystem and @real_path on the
->   * underlying filesystem.  In this case, we want to be able to return th=
-e
->   * @user_path of the stackable filesystem. This is done by embedding the
+After commit 4e63acdff864, bpf_prog_run_array_cg() returns 0 on success,
+not 1. The comment still states "returned value != 1 during execution" but
+the code now checks for '!ret' (i.e., ret == 0). The documentation should
+say "returned value != 0" to match the actual behavior.
 
-the path of the stackable filesystem...
+> @@ -1935,7 +1935,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table_header *head,
+>
+>  	kfree(ctx.cur_val);
+>
+> -	if (ret == 1 && ctx.new_updated) {
+> +	if (!ret && ctx.new_updated) {
+>  		kfree(*buf);
+>  		*buf = ctx.new_val;
+>  		*pcount = ctx.new_len;
 
->   * returned file into a container structure that also stores the stacked
+Can this cause memory corruption?
 
-Thanks,
-Amir.
+The caller proc_sys_call_handler() allocates the buffer with kvzalloc():
+
+fs/proc/proc_sysctl.c:proc_sys_call_handler() {
+    ...
+    kbuf = kvzalloc(count + 1, GFP_KERNEL);
+    ...
+}
+
+kvzalloc() may fall back to vmalloc() for large allocations, but this
+code uses kfree() instead of kvfree() to free *buf. Using kfree() on
+vmalloc memory corrupts memory.
+
+This is fixed in a later commit 155dfbd42ab8 ("bpf: cgroup: Use kvfree
+instead of kfree in __cgroup_bpf_run_filter_sysctl") which includes a
+KASAN crash report demonstrating the bug.
+
+Should this patch use kvfree() instead of kfree()?
+
+
+Also, Martin KaFai Lau raised a concern about the null terminator handling
+during the May 2024 review of a similar fix.
+
+In the discussion at:
+https://lore.kernel.org/bpf/ca8136e0-5d2a-402b-ad03-cc8a218affd4@linux.dev/
+
+Martin requested that the patch adjust *pcount to exclude the null
+terminator if present. The concern is that proc_sys_call_handler may reject
+the value with EINVAL if the null terminator is included in the count.
+
+The suggested fix from that discussion was:
+
+    if (!(*buf)[ctx.new_len])
+        *pcount = ctx.new_len - 1;
+    else
+        *pcount = ctx.new_len;
+
+Should this patch include the null terminator handling improvement?
+
+
+> commit f089fd0540601290c72ecfd2ff3f0c817952970a
+> Author: Dawei Feng <dawei.feng@seu.edu.cn>
+>
+>     bpf: cgroup: fix sysctl new value replacement
+>
+>     Commit 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value
+>     helpers") changed the success return value to 0, but failed to update the
+>     corresponding check in __cgroup_bpf_run_filter_sysctl(). Since
+>     bpf_prog_run_array_cg() now returns 0 on success, the legacy ret == 1
+>     condition is never satisfied. As a result, the modified value is ignored,
+>     and bpf_sysctl_set_new_value() fails to replace the write buffer.
+>
+>     Fix this by checking for a return value of 0 instead, so cgroup/sysctl
+>     programs can correctly replace the pending sysctl buffer.
+>
+>     This bug was discovered during a manual code review. Tested via a
+>     cgroup/sysctl BPF reproducer overriding writes to a target sysctl.
+>     Pre-fix, bpf_sysctl_set_new_value("foo") was silently ignored: the write
+>     returned 8192 and the value remained "600". Post-fix, the BPF replacement
+>     buffer properly propagates: the write returns 3 and the value updates to
+>     "foo".
+>
+>     Fixes: 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value helpers")
+
+Is the Fixes: tag pointing to the correct commit?
+
+Commit 4e63acdff864 (2019) originally used 'ret == 1' correctly, as
+BPF_PROG_RUN_ARRAY_CG returned 1 on success at that time.
+
+However, commit f10d05966196 ("bpf: Make BPF_PROG_RUN_ARRAY return -err
+instead of allow boolean") from 2022 changed BPF_PROG_RUN_ARRAY_CG to
+return 0 on success instead of 1. That commit updated the final return
+statement from 'return ret == 1 ? 0 : -EPERM;' to 'return ret;', but
+forgot to update the 'if (ret == 1 && ctx.new_updated)' check.
+
+Should the Fixes: tag be:
+
+  Fixes: f10d05966196 ("bpf: Make BPF_PROG_RUN_ARRAY return -err instead of allow boolean")
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/26451027650
+--===============1624879100367785041==--
