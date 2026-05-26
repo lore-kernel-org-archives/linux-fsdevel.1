@@ -1,187 +1,155 @@
-Received: from mx08-001d1705.pphosted.com (mx08-001d1705.pphosted.com [185.183.30.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E991DFDE;
-	Tue, 26 May 2026 01:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.183.30.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6252269CE7
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 02:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779760053; cv=fail; b=mO13BYV587oD2K0+ry3rraOx+yOHxQxLRZ7n4RXxkQSIGKd/TwO8hf/96VV6gjTNBklccJTM1vPP0Homcdg/8cfn4Ft0qBrBOhhR9cE1W3/d4ee1OzBN4F/CoKIkWsj/lJbrDVfIv5oqF8HY5Fq8W4VQp3EnC6N0Pg2A2CCrnok=
+	t=1779761809; cv=pass; b=Z8778nDx5FMp9/NydO0yOWmEBosr0T8gV6hf8qAF6BMuP9CshqgqJqzlU5QyRAaM3Ial0E6WfG85ar67ws8+/FelR2cf63yY+6utvCASgtRcNbHUM7uTxSFlppgUHDZBIrVCmnVf1Q0yNWOEPJsN4iGX2JGVpacdvZ3fHOQpt1Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779760053; c=relaxed/simple;
-	bh=FwRFqbSSIy1V7vhmaJBu0FGeUFX3QRaDNTF95lLg+Ek=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jyDtcqFu6/TK6HciZuUdVHHA1sHz3PpizM92sF2WbNycn6y76f8Y0i78zliTkPuZMfbmJMbVC+xrvnWTNLXtvCwtKBIbLe2AVRPidOJBlQ+LPD6k+dzY4lIjvYbamLbhXTwO6TMa9d2a603nA6HgIglLrlyXbwFUI0mW7x3cEC8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=lRUVBt8O; arc=fail smtp.client-ip=185.183.30.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	s=arc-20240116; t=1779761809; c=relaxed/simple;
+	bh=DoILNNeqxH41jedfRaAeiSUgjh4yN7lclTcGJYuQcEQ=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=XNtrlDncXUt0erIwgxbSqZ9pvrGiQM677905ljeAN7B7lY+nvXytl0RRTuVwuRPI4rJ9sykXP1QvQ3ZjvY7afYLKJlRxp9vgXkuDhymfeHYQ6lfCs9/GJgwFIPCFYC/PA8Y18R/royVzgXNhIQHNVXAVdiZP6uSOTM62+6+n4us=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=ppEuKyhd; arc=pass smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="lRUVBt8O"
-Received: from pps.filterd (m0209322.ppops.net [127.0.0.1])
-	by mx08-001d1705.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64PN0Bcw1169297;
-	Tue, 26 May 2026 01:47:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=p1; bh=ZqkTOeK
-	S2piisI1Ipo29cfJ0jrXYiPOTPI4yQc67q8c=; b=lRUVBt8O+xH/z5nxrMfeiwI
-	GfjALpLvrbLeNLd1YbwJO+ZQhMyVX3EbzyvdYjpQYfKwOphT8GQVOcXdyP5tilFH
-	BX3k/qRid6tkS+wPEnjttl/oQq2QJzQcOiMU3r6wh4QzO46+kspnsJCfy3X8n2Zo
-	clLgncumPPl17p4y1N81Ax1DfpXHNzVJMBNJLaHjn0EOQHo6l3UchZJd2kjkxNjn
-	HVXwRu79O+JLnQoelPWqx5DH69w5hY1HUJ86+P0fwj/dGZSzi9cub61Ygcur4HOv
-	5R5ka6pK7olrophz/2b4HAjfOWJomS+mOGlA8vkvXQQzYdmtxO2sShWAY7GfDsA=
-	=
-Received: from typpr03cu001.outbound.protection.outlook.com (mail-japaneastazon11012070.outbound.protection.outlook.com [52.101.126.70])
-	by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 4eb4a9ajf1-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Tue, 26 May 2026 01:47:06 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D1Yx51vN6dEDGzIDYGSHokZVzZAmqV1qD6l8iHaxvILEbFi0JBErUlK9caqHC9TXbKTuKY9Ha2l99hhwlf8IZEgVKkRGfZj+a8LGgRE6iH9JQjGOfZo8z6AwA1cZsgB2rCbev+Hzm3SJvp/do+D4w5Ij4dMNqBNBWNcJoO8tPKCGjTCBv35wkCgNwyHmzwjwE32UqIorpDEiDndiwNV6Ya+AFnwsktBXppgTL885J0lFE2tdNIYIkHT1uJJuMoDhWHFij+fRJOi76YR3PDbDGs0aksQutMSaw6rsqCN5w+2fL/7Y7PnxM7UMwoZxpEKBe6UCnW8eCY9BfvUEMfqcSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZqkTOeKS2piisI1Ipo29cfJ0jrXYiPOTPI4yQc67q8c=;
- b=kKMakCkz6MB9rSV7Gm2BRMrxWsRITExvaNTXJlKuArRoghKJ6k10uWNYpFaSPKrE1DIYdJedHBm7E6ttOX6R+yFjX1s2llpp2XqTizLWBVTNVVWHgg5nMf/yyYlPZwU24u3iJojWIXXa9mUKMq5buycoUqtKexqTO1Z8PRjdorayLXRFhRRinui60WdpDxek6SwtSUbxxsxuWvhpX0t0lEPE37gvHxM1vNl7dSJwY+0dRtLv5tfxKOZkBUPFUH6mMeFl0MrjM1Ulr1wQvWITJ2QkilZKLeaT2bCShyJFlKeaRteM0P4ypNZO3m4fSnIoAFRWZHWGtN5gGc1OolAztg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-Received: from PUZPR04MB6316.apcprd04.prod.outlook.com (2603:1096:301:fc::7)
- by TYPPR04MB9014.apcprd04.prod.outlook.com (2603:1096:405:31b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
- 2026 01:47:02 +0000
-Received: from PUZPR04MB6316.apcprd04.prod.outlook.com
- ([fe80::a631:6b1a:332c:831c]) by PUZPR04MB6316.apcprd04.prod.outlook.com
- ([fe80::a631:6b1a:332c:831c%4]) with mapi id 15.21.0048.019; Tue, 26 May 2026
- 01:47:02 +0000
-From: "Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>
-To: Rochan Avlur <rochan.avlur@gmail.com>
-CC: "linkinjeon@kernel.org" <linkinjeon@kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "rochan.avlur@skydio.com" <rochan.avlur@skydio.com>,
-        "sj1557.seo@samsung.com"
-	<sj1557.seo@samsung.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH v4] exfat: preserve benign secondary entries during rename
- and move
-Thread-Topic: [PATCH v4] exfat: preserve benign secondary entries during
- rename and move
-Thread-Index: AQHc6b79qMQ7hXyGQESKmsuap81s27YfjUQs
-Date: Tue, 26 May 2026 01:47:02 +0000
-Message-ID:
- <PUZPR04MB63162D8FEE0B2F486C14888E810B2@PUZPR04MB6316.apcprd04.prod.outlook.com>
-References:
- <PUZPR04MB6316B8342BA4AFD993DB8D7E810E2@PUZPR04MB6316.apcprd04.prod.outlook.com>
- <20260522074441.24645-1-rochan.avlur@gmail.com>
-In-Reply-To: <20260522074441.24645-1-rochan.avlur@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PUZPR04MB6316:EE_|TYPPR04MB9014:EE_
-x-ms-office365-filtering-correlation-id: a4c0cc7a-32d9-4495-8cbd-08debac8aeb7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|10070799003|1800799024|366016|38070700021|11063799006|4143699003|56012099003|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- mt1X14JXK3cS+fzPk72DQfwrcgpXunQIdiiNmMIcQDJa0YZcDW9FWronYtNsiSKcyxlz8aBFlPJ0jYoysv5wTYGkqnX0qG5evV2AjX99xpZgZp2AjGKFdD0Z3TVT5DOU34EmoN6pMXT3ADVUvrjHwpuCwKjUB3u8AQ+bv+FVwFJ4x3SvtwP/AkPm+8yIYVZDb2UE7J1ZmmdKmH0thEBQ3dEIbTnSrcoDCYeUCCIyj7HetgGZSEnmM01vhH5c9S+NGuYs9vFU13G5OaF33xqKLoecHn1hm/hAItPDZi5K/EeCjnmNXBmvoudlbyK5y4k2Mmf24dsJikH0c9MkTVR3aSl+W03agmZxzLPscJp6kl5Dve6QpwFkEWfY1bZZwCS84h0VV3hF7ltG133ZUWwc2GxceCl+79YPKPfRo6bQpC997xDG7UkdM2ht1N7kYw9CyPXrkgEOJCS8JK2dN5tt1Wi3xxvk3tuvo22krwoRQCQk1Sy5IaKLFgGYDGNfLDRSRO9PKAdIjFh1DAnDOOZf9T8GuNQCRpdTKs8DAMQ31B/NBuQQp0im7+QVZ8BhP4HfLPRwZ3P2oOR/Re+Ham9DfwpZRy+VoXBWxCEqDnzN4k/6ov31P1EKf/31C0FxWLWY4BEERFKHT3QvDRLUbSag3iqrdQhKJV+YY+YHafg6nBQAvMq4ub32jxXdJi7eljpYEnjO/W48UECIUMRk5yM6uib6DCjXrqkri5BvbtKWVQRsDyrqwEUVQt8ktqWlr7dm
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR04MB6316.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(1800799024)(366016)(38070700021)(11063799006)(4143699003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?hwz9giBqLh9tMWvdEGnEQKpoqvfHnjI+bDTElx0dSluE0rqpnkqxwsz7VJ?=
- =?iso-8859-1?Q?mRmg33Hp7UOhJvr+6Ry1rC8P1gT+fjcNDhuAy3NixnJ/4eldtYDfGhwuPQ?=
- =?iso-8859-1?Q?1wT7K7Qh+izkhi9HVceOWnWcP1TgZeiwFY0KgJ2pbm+pFJbAJdYE+arVlu?=
- =?iso-8859-1?Q?is7W/UunuiFu8e3vE6ySGnXcPdabmhtvA/9UHB+NBvLpn4zOdqu0nhFRH6?=
- =?iso-8859-1?Q?SVtaoVDXjbfN5EKh6Yj3krblQtljG0/e7U5MOEY8gmBgxgztnZ5NTo6u+1?=
- =?iso-8859-1?Q?1NpZRul1iwlr8HHNKapJq8wDWv4q1sSojlgrtWUrY/ObvrKrpbnBO83Uj6?=
- =?iso-8859-1?Q?ZKCx9/HY9uf0nKJag5xWCP4Ua0ZVU0KotqHBB9UQWd5IHBoJpepUgrdE7c?=
- =?iso-8859-1?Q?rqlWmO5v3kBb6I4xQiD2pQAOkdr9vsOpu69JeZTO6BNIacx+3FhwV1CjPm?=
- =?iso-8859-1?Q?qFPwcVzEZ2XvovIeLLx3ntUxw4qtOiT7O/ZCLgkCJ3nB+NZ2beeo96frO3?=
- =?iso-8859-1?Q?5yF6Rn1n9Jr7LO8BvxveILd0vGC41Whc3IKFM0bH895U523ro2Ux3xlOpz?=
- =?iso-8859-1?Q?I0iZ0Y518kg+xHmaKmTdX0fSrIexmYNHinFmQtfI5O8eM57bg+CyvIUV31?=
- =?iso-8859-1?Q?PeabqhSvSr85nQByy75V2wssIrIPLw5IHBIFlcFsaCz5AUxuMpH8q78W96?=
- =?iso-8859-1?Q?MT12gmtdHzXVUrpxyPiFybPPB3oHMx9uyfnXyNsiwGT/ERFS905g2su+Dd?=
- =?iso-8859-1?Q?bb58GH1nNfckC6Nkj/SU9nAZH/AgFAZuh620W8d95FrsG9ybN4R9fDZHjm?=
- =?iso-8859-1?Q?1FH7kFQoaD+NjKS9uh35eb0yFQPe82Y+fISrc8h+P9QsdckMowhTniU5kj?=
- =?iso-8859-1?Q?clDk/QDefc6JTC4U5+movvJFFrNBxIry002EGyVYfeE45T2Wc8zjLsvjF9?=
- =?iso-8859-1?Q?rsSRdLSoyrWVKIFieOfd3HdJkucJPovdX3s4Fg6GStT4vOgnisceLK/we8?=
- =?iso-8859-1?Q?YnxSF4aSlDoWFLEVdHCxTTeEKzZu/OfCPqb/YzVzV8A2y6yxomFHLGseGb?=
- =?iso-8859-1?Q?sFD3XNsQB2RVcb2DUVEQ/V68l4vY+tFEYO+xrhK/ai7nAnp/BdWnHuLXRe?=
- =?iso-8859-1?Q?pQRCBFse4jECL1vrz112nWh6LfDIAYAFCwcIGkP23xo+AYVvN6jhZZyycy?=
- =?iso-8859-1?Q?smG1AaV2s0EMJJpTZ6AoYdwPz05KOAtlUBYIs/4pGEzhtqcJNZS6x3RcZI?=
- =?iso-8859-1?Q?ezW2mNi6OHSw9fI6omzvy6bjLVKo9yhUi+u7knN/dIckkGvTN0gQZK0ukB?=
- =?iso-8859-1?Q?vImp8hlBcnyd6hB/9gLXtBTvLf3PfeqllMnS/zg3DHZutoYj9S75oCZFVF?=
- =?iso-8859-1?Q?WoAtq6VxMQGktabtOUaaxGlo2xmL1bX+ORqK/sHRa+eRcrz/HMeaxgPyMO?=
- =?iso-8859-1?Q?hPZxlOVbrqCnSGoiJGoJk0D8533gjcebxmxRB//ugCKSwjpnpDnuG0hIXG?=
- =?iso-8859-1?Q?aEz6TtLovNBHLlI0KNpdRghg2SAyCcSyvQ4Gg8iK3qvqe7BN5Pdc9E9fs0?=
- =?iso-8859-1?Q?j441ADaIQ/hXt7sizg9TC12IayARFIdPFp2egK/FA8FQfKRvi0SJ3Nd6ct?=
- =?iso-8859-1?Q?IYI4TtbCS6+l+V87/MN45i6OU9TSwp14X2HsXw3MhpMqmqCZHwokiGTIvn?=
- =?iso-8859-1?Q?sUdnhzmDqXfCIQMriGFzZwTJ0BAq5uvScFhF50vaM8gIgodv54xpS3VDEy?=
- =?iso-8859-1?Q?GNoHHgDKdV3VGNQEEbYrWhLvcQzuA4LricCkSksx0MClPL3FI925tzZdsH?=
- =?iso-8859-1?Q?fn0V/tHFmg=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="ppEuKyhd"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7c0dea734b8so94673727b3.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 19:16:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779761807; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aezxrNe2WP4+lQhFzzTp+syxMYLyZTFDE44tBHa0xMngwROnVieY7+jLxAeXPPE5dV
+         xcCvoAt60KQwDSSpe8KsKlEWlqj6wrzt9G+Ow7VB9Cn5r9wVufzqItc4k3AXXRnahPVR
+         IypaO192SJKoZMA/eDjBvb5WqAHLAHXUOP27riIo38JhBkFQAX5hjM32rOYvwJuXio7K
+         uWymYcwlSOnAfuyE4NhBbS+4B9bhI15hK07NosutIMNFblN4+UpX0hA71fk0ccZrAZFN
+         ibmiU6WE3ssPeuIujyi+o3qm4khIuzF0/DxJPx2yISxA9oYrOIxMqPOc2hwE/o4WZEeW
+         puRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=HjGgQCJb397/AHaa//BegFfCtj5XxpuSW9IyLiumWuU=;
+        fh=HHj+wSInrr+OCFBtXzTBu/xS3PF20oa0QqUATFV5TVk=;
+        b=H8a4GvdxTWNc+5WP99UQACxIo0Bp18+T+qFFHg9xm28Sw7nZMqGRf3J82eV84Qpaag
+         QdLu7bcAGuS/DAIpXB9X+G9CcxQCih6O/lbqirVbeNcXfZ6SfPHTLOi10kDPO4vX6arn
+         b+WF9lo9ewo/CfT8bBB3beW1dTgLhM6jDJIXV9MQHRunGK/hP9zXeSCBaxjhZdLHWMGH
+         RNz8/1lRV+qhvTnTZymlOXChpwMCUO0X+mkunlHLlAdLoHR58saLxZ1a76aPCYPfHJml
+         Xt7LILA+XAP+504gMhnSar71YIb+qtdbTnfIgEy+NUrkxmLT1w8LZLDcVczLguEeh5c1
+         K0PQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=berkeley.edu; s=google; t=1779761807; x=1780366607; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HjGgQCJb397/AHaa//BegFfCtj5XxpuSW9IyLiumWuU=;
+        b=ppEuKyhdtP+z5niDQpqQzTRuA6Q1pLkijq27bPeSJpjzJIY0z5h5FkjpxN8ptxhGBr
+         d8l+rHQWduQGucEOXInThMftQtPlujyCsOzVZGQvSuATt7EMYIj5T2Ea6yF3t4dDQeZ7
+         RaF75faWwcvhLMehN32Z13v0mxCCY8LWEKqGvAaIKXQAeCLACXx5pefWQyBTGTbli4YK
+         +g2P49hKsXhYVIbI0MCsRSW0iF+lkZFXNPIoN9wU9o3Z6KZsPpnG63sko3/zRVCVndXd
+         MQGfP8YCYnHWO4YNJoWCpbHLu2+/StnlTfZpBcNM8BeGKar5+CKy/rQeua4Ns2MO1ctY
+         yXDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779761807; x=1780366607;
+        h=cc:to:subject:message-id:date:mime-version:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HjGgQCJb397/AHaa//BegFfCtj5XxpuSW9IyLiumWuU=;
+        b=UkUVfo59WpQ3OToucGcfwfr52PZq+YlVQN/RYuD5VwBM32139iCcFNyIS0Jjd780PV
+         j80hIN4AQAiA1kdfQMj1UY0s9PQ+V/FxY2zc5zXUs0BcrHLkK1pIuYg2aMC/yjCl59mS
+         I26MJ+p3lSVLzAgZA3jnORXMHaeYkQyZ9MXMCm1+RUlNU5tCOVt1OYWVX+urkpxAc05q
+         UMQvqeUaPpsKfU8x3vCxm8agWHyy/ZBltl2wj9Qs9+m0UcZR0lSgBR0J9pSiet9xljht
+         wRISvvKr07wDbzZNhSHZXn4S0QBliKAV3nDVBWbfN7lWdevNo3AQEBwjFJAsQqlHwNZU
+         HcAA==
+X-Forwarded-Encrypted: i=1; AFNElJ/kuly2llh+WOnUIrieXKWyP/teGybhDSGx2OUnucglGLrftV36RCfLOybul5JKlIn0zbFL952aBIgC1I0A@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLxDY+tYai8m+djOtzzbdI30IbnSEGgZMRKvWD9fOrqArvExU0
+	lnsiGCUxYw00g9uur6SxXowaA3o7S7HbSuGrNKR+35GtR8DLsSV4StzBU53QCjnujArLPGpAdhD
+	IZT2qbnsSTOT14kyxbRAfVrbKIVJjdTmxjxwvHQTc
+X-Gm-Gg: Acq92OEOBrPFsLRATAUz/pPa34Y99sLRCHmbsPlD5wiPKwqIDRVpXOeELoHxvfzrG/u
+	DOm1M0K2QyRUgrYt5wfmrCm7kLXC9paqeVRCsauppuwIAbbGGyr85b7ypbEeOsAo4MDBhe30CRD
+	iRcjHYTu75Sez3XkzHGNP7bgX5DGIJ58H5o3EaXniajhwXlJ3bCW0gKI05P32hWxpMIEomdldKF
+	DcEBuNdHY5Doe3D2XvHbvs90grtibdOFjz/2xUFzNV/h8M2s6f5EcyH9VG9K74AWeeBY+jxL88K
+	dCCgYVUAsA==
+X-Received: by 2002:a05:690c:4486:b0:7d0:ef8:6898 with SMTP id
+ 00721157ae682-7d333dcd235mr172828517b3.14.1779761804763; Mon, 25 May 2026
+ 19:16:44 -0700 (PDT)
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 25 May 2026 19:16:44 -0700
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 25 May 2026 19:16:44 -0700
+From: Farhad Alemi <farhad.alemi@berkeley.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	VTD7TrPND6KY3i4dfYKX9Gjr7QA7E80wd6nA+X0ivlSKyNWkXMgfd3h/KiYZpy8+VmPgymf8HslP+YNC+6U9OJX/MZKonJuvIbmQHB6rmNwfzim3a67hgVqAR7xbgvliZboBqzUQFT7AlIsA7P62JIV/J+8yXDRWXwbg+JHDzQjIDnCWvzHAYSPVi8gB2an2pYlfAC0rY0DsK1dnwh+hAYZPhqq2mKR7w9l75FPfZfOoJLAmIklRV+wCA9CkUFNmnq9ToUZmjzyiXhG0N+dn8CFAgCNTF3nJPwYdeUSwNwO7saXch1i7C7dv40dB5FjEh6lvmWkZhF1kNppqt69wjQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	aGtbK4wMX+3SFeMYCTV6DT2M3z2c9ZyxonnJ6viR3Y2JXIUM1Cjuz5dV+AjYXrztkoyG81/ymOpzQj8eT/W3mN0g6thZvLhIdje/o084LYRV1tWH1SbQ2NW48ZrUX0kLyul+ICLs//8kqCuSxkNcpAV5/cz52EDl1LGCbP1Aw2H8CqztFS5axmyftInWAdM97hso+nQiTrPkN0zNzldPDzg5JkyYHOmTq4E1xITlOl0sGHMRpQbgm5VDNfPgiKm6z0KC070Dz5y8GnsRFuhRR+VGo3rctSyHqgv/Y/p2F92uL+IU605gJRECDBmu8zgXBxcTs+9s/dkY1MFQEVNpE73gMWZOmYVmiMbErZcbyufKKQZBoXiDVJ3Ns4dOmb6pBmMih6HW/DO7lTjtVlM3F7VQx1GG0spKmHK+RNpKxTx5/fhKPj0vFC6WXDI1Amih0YOiJLUJlQoN1EdELtUIPhqb9datxWvVz4NGoN/MCHKdeLblJu2viAz5MfmbJDHGz7z/qQOHm5afBKyBMDac2k3/tt+pCsnFJRv5BREQO+fckGh0++jc69TEH9HWew5oQP+BD6u5nxYx0Xv+z6q3XXJFo6AG2a0SC3MyyPTixtxQX6I3c5vcz8CBlFrXfsMc
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR04MB6316.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4c0cc7a-32d9-4495-8cbd-08debac8aeb7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2026 01:47:02.0650
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: S5lLoMQ+lz90GrguHW/PvFSEqhCb3LAbN554tfOHBSHLek+df1TcEEMdLasg3rhmjoetBTVjTDANcjAEq7bcLQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYPPR04MB9014
-X-Authority-Analysis: v=2.4 cv=DvdmPm/+ c=1 sm=1 tr=0 ts=6a14fb9a cx=c_pps
- a=pfqXIXi+oXeZ2rkBTVRc7Q==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=NGcC8JguVDcA:10 a=7j0FZ4iXMVMA:10 a=xR56lInIT_wA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KAb5x4SsHD3PzxGk7EmX:22 a=cIyGuqrkuvkXWOl_fzuj:22
- a=z6gsHLkEAAAA:8 a=TSVp5swo6LpNLtneyT4A:9 a=wPNLvfGTeEIA:10
-X-Proofpoint-ORIG-GUID: XaZKrtD1Tj2BS-B3292ATF-pGwds7Sm_
-X-Proofpoint-GUID: XaZKrtD1Tj2BS-B3292ATF-pGwds7Sm_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI2MDAxNCBTYWx0ZWRfX+NfjB15TFTGD
- bSJcUstLvyVBqvhN0BJylHuaPxpdTeNnR+Fdq2NQnmcRGgsBMkn94wk1yE4rIyPePe22GEoVL2h
- JIVGssmKc6MJSXqYhKoVEa/olT4nfTu30/XGeTyG1VOLyDGM/haUQK2N5l7aKBOk/QSgfL03QN/
- /uUB4Y5bA+9oooozP2Dd4E3vWmxBbF6/tiLMn95+m2CAZj4V7CyepHEt2VvZFoCEx/UJMtvQgRr
- 9ca0P1IL8/EG5LkYrsrQ5rCsvj6Qq9QZEYu/2hwsTa9wFt4m96rBBESEsy0F6U+Tp5pBO4ny0Ps
- gImIe0JTzWrZb9aejvLNGm4/dlcX7TR/CSisy4X2wyOAefAqlA3kOnHxssApSzrxczQmZJdBcYE
- pmmRENR0Ldvl8Azjp4CiGz7Nk3MJnkBKYMmXshSflUAMF/8hVldl3OYj0oqUQEsFg8aHIpIe4yK
- k/afDlQRLUeD3xQw0sA==
-X-Sony-Outbound-GUID: XaZKrtD1Tj2BS-B3292ATF-pGwds7Sm_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-25_07,2026-05-18_01,2025-10-01_01
+Date: Mon, 25 May 2026 19:16:44 -0700
+X-Gm-Features: AVHnY4LnOz-Lj7DewSLB5aGb-AiJI5KmyXtvU8-Qu1OXQtqAo7qOklRH_EqvdpI
+Message-ID: <CA+0ovCjJwMoTa8=PEiYGXEhqC5Af7h5guqEnAs5kv95M295N3g@mail.gmail.com>
+Subject: [PATCH] affs: don't instantiate dentry if affs_insert_hash failed
+To: David Sterba <dsterba@suse.com>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
->         ep =3D exfat_get_dentry_cached(es, ES_IDX_STREAM);=0A=
->         ep->dentry.stream.name_len =3D p_uniname->name_len;=0A=
->         ep->dentry.stream.name_hash =3D cpu_to_le16(p_uniname->name_hash)=
-;=0A=
-> =0A=
-> +       if (old_es && num_extra > 0) {=0A=
-> +               for (i =3D 0; i < num_extra; i++)=0A=
-> +                       *exfat_get_dentry_cached(es, num_entries + i) =3D=
-=0A=
-> +                               *exfat_get_dentry_cached(old_es, src_star=
-t + i);=0A=
-> +       }=0A=
- =0A=
-In-place renaming will only be performed if the number of directory entries=
- does=0A=
-not increase; only sequential copying of benign secondary entries is requir=
-ed.=0A=
-=0A=
-Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>=
+affs_add_entry() calls d_instantiate() unconditionally after
+affs_insert_hash() returns, even when the hash insert failed. When the
+parent directory's block cannot be read (e.g. -EIO from affs_bread on a
+crafted image), affs_insert_hash() returns the error, but the dentry
+has already been bound to the freshly-created inode by d_instantiate().
+The callers (affs_create / affs_mkdir / affs_symlink) then run iput()
+on the inode in their error path, dropping its refcount to zero and
+evicting it through affs_evict_inode().
+
+The dentry still holds a pointer to that now-evicted inode. On umount,
+shrink_dcache_for_umount() walks the dentry and __dentry_kill() calls
+iput() on an inode already in I_FREEING|I_CLEAR, hitting the
+VFS_BUG_ON_INODE() at fs/inode.c:1980:
+
+  VFS_BUG_ON_INODE(inode_state_read_once(inode) & (I_FREEING | I_CLEAR))
+    inode:... fs:affs mode:120777 ... state:0x300 count:0
+  kernel BUG at fs/inode.c:1980!
+  Call Trace:
+   iput+0xe29/0xe80 fs/inode.c:1980
+   __dentry_kill+0x20e/0x710 fs/dcache.c:718
+   shrink_kill+0xa9/0x2c0 fs/dcache.c:1195
+   shrink_dentry_list+0x2e5/0x5f0 fs/dcache.c:1222
+   shrink_dcache_for_umount+0xa5/0x170 fs/dcache.c:1738
+   generic_shutdown_super+0x74/0x2d0 fs/super.c:624
+   kill_block_super+0x49/0xa0 fs/super.c:1725
+   affs_kill_sb+0x4c/0x160 fs/affs/super.c:590
+
+Reproduced by mounting a crafted AFFS image whose root-directory header
+block is unreadable, calling symlinkat() to create an entry under it
+(which reaches affs_add_entry() with retval != 0 from
+affs_insert_hash()), and letting the mount tear down. Trigger requires
+the ability to mount a crafted image (CAP_SYS_ADMIN or equivalent).
+
+Only call d_instantiate() when affs_insert_hash() succeeded. On the
+error path the dentry remains negative, so the caller's iput() correctly
+disposes of the unbound inode and no stale dentry-to-evicted-inode
+binding survives into umount.
+
+Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+Signed-off-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+---
+ fs/affs/inode.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/fs/affs/inode.c b/fs/affs/inode.c
+index 5dd1b016bcb0..517d40c6c7df 100644
+--- a/fs/affs/inode.c
++++ b/fs/affs/inode.c
+@@ -407,7 +407,8 @@ affs_add_entry(struct inode *dir, struct inode
+*inode, struct dentry *dentry, s3
+ 	affs_unlock_dir(dir);
+ 	affs_unlock_link(inode);
+
+-	d_instantiate(dentry, inode);
++	if (!retval)
++		d_instantiate(dentry, inode);
+ done:
+ 	affs_brelse(inode_bh);
+ 	affs_brelse(bh);
+-- 
+2.43.0
