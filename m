@@ -1,198 +1,346 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDC52868A7
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 20:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779827284; cv=pass; b=RBqnKZnRmjNsdGvzCPne2Dw5e7MHSGUPaYZt57h4j5dUoL/fIengHVkvg4UAQGL2K+SSvLMKTOVpXpZueH42IVRIveU1dYDIpOc66hFuo1teyKs4B6syuGohsvmNGsV4BOHqwFMF0+fL1yfyzvaDBBSG4UtSiFjwi2kb89YXpKY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779827284; c=relaxed/simple;
-	bh=8fQ8BWZmPSwh4bdtpg/8kD7kvYVzxB1dS+aP5ybbNxg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pjYfGkd1gIzSduDU+fsnnmAfXwvFKS3MB3C5+itayxTIqBTKUFK132/gryjCDk9ZLZUsBog0eDD9dEQKEK7bdmbjCc1zcT9IQkiKzLrl+J5k3s3/aMpFMS3VHT+xI78J8ZFXFfEN2SazQWQ7JIWUoOFMJaBAGEYzyFpMbg5gJ+U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/L7LfNt; arc=pass smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777B53C061E
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 21:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779831305; cv=none; b=DOiMWdLAMQ9l7dsxQH/eBbAudBDT0F23lDcjibbHPKknRjwUw03mHtdgO+/E7GfuSL8nbENx5BxDD2Uzug2S/PEL+7bUAcxmLjG9/HuNQhpxgjvx7HV97dOu9p3KJJ1OBjmr0YLKzWwdSdKe4WXYBm8AS2H0SkUVr0bskN+9xHI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779831305; c=relaxed/simple;
+	bh=4ul+x3iYzWjC5uGKrrxbeCrsBFxwzzRDAx8mz6g/TPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KDQmn0P+S6eHH3lgkK0EBu3LW+0rn1vkSwtnmWgMsS8d4QCaC2QEy3hM5UFzOfHrkDvsA9NZJuYqjJQ7NjQIFCVZFb1B5slJvTjGh+5MpC8r/Ws9qdtz3p/Wj5SD9AMiUKzZM0JQswT1q40UFVc/WQI7ReBAhkG6UF3GyqBx0h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MMn7PAG/; arc=none smtp.client-ip=209.85.160.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/L7LfNt"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso59534715e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 13:28:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779827281; cv=none;
-        d=google.com; s=arc-20240605;
-        b=l0pjcXJSPF81740+o3Cnd0vpZNYljBx+TD6zKmz8D6oJrDQ7H8khVVHo4XlJPDVEoI
-         9gIlVUDulWBCq0bgefZAbmJ14oTiRVxUo8PjcEmynS5h8Iuuq2vpsDVYIs5wJGVM1ndO
-         DDXl/ATcG7A+HyPrFwSVVgz28oszGBp5i7Y1QFyg3GYeDLDdhpUJTV3Jenx2QsjIUOzR
-         cU9D90ZnB5s5MuP76J16Oi9eq0NWXu+LQLQZ9grtKso/2uO2nP/D9g6VijNaOkFhkMN1
-         j4le5Hr5qWPu2kxIakmQvh1ESwxv05GnNN8gpe6nEJQLE/olE2Xbl2c9YTmM7t9uLHJk
-         RW2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0m8wCs3SjzJ/LtZeyVBgjUAWvRbr6Lt/h1FRuHrIfm0=;
-        fh=ZeoS6nYw7rcli4sy9GS7kWMjo7OPFbkik5gRLSCTgkg=;
-        b=lsH6oHuBZTNcYuf4h5EHrja+wxm/Ul0DfDbY6TgwJltCU5RJKeAsOWDoqTwOMv1Ov+
-         FgaY7692AJi4vgi85PihuAxBIQtrCAcU+l0o2HUc4miPLTkG/ueLb8Yc9Uj1b3V6EfMT
-         kV8VsRi2jUtMO69xQZftEk0yODCeeziQO41L8yV1bsPXtZxWIqyzs9z6OH8muklDv6//
-         CW07ac7n6TMgC5chjLXU55nTKBrwgNzg1pqqUyJoA3/X/c6HkcBdqBQ7pendn5je1yRN
-         uc2LTIm7CqC3EddA6qoqm7qMyluIbv2hIjoSdCIg2bK15yHzfqQWxnreK8AX17qmIyXr
-         9kdw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MMn7PAG/"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-43496e6a964so7981248fac.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 14:35:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779827281; x=1780432081; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0m8wCs3SjzJ/LtZeyVBgjUAWvRbr6Lt/h1FRuHrIfm0=;
-        b=M/L7LfNtiYNYZzh7+o3pvPqQrUMlYaO8CF4eoy07odwzOWibeVmi6xEbAn7Lk/eDOl
-         1V/3/F+Oury/TiD5GhnUj46XC6DsIYpvGjKBl4CCeafrN9eZ2kJcsSoWQdhZroL0+kPT
-         3Cou6dNxmw7hQM1BoaLYNhY/f/4iAoW7jpG+vN/tf2Bk9Z+IP0DErQoa/0iv7P0qqXcb
-         8CDg3scTitKx0oYGqQQWOa3QhLHzcDqJv4Q9UohBJzx9fcNH9TuQBX/CTe3+0DVbaVRg
-         b8h4gMEr5kirEQj3OB6oL/t5D4lSaqZYWq1Jw+lDNycKVH4gc/0LD6TsJX+0yfipHR6Q
-         EepQ==
+        d=gmail.com; s=20251104; t=1779831302; x=1780436102; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9RmoLJIZdhkPvUS0ZmRFmyljS9yxdSd+DHvK0Ww0jpg=;
+        b=MMn7PAG/JQkRUoFtuz+nPasMDEob1o4YKE3BW6TCnVQtAl9/YPdSQCpXN1wTObttAC
+         +eqEs4S4PumlR5urJzszUfTh9EhcpV8MDVV/wBeUTYSIyjswj/XMg9rzPAVa0UpBJeEc
+         ejKzNXmQKnUY90QqBCvUHsl47KfBj4DLjnsmpnFi0CfXWIBjmhOueSFPUCJuk/97ThNS
+         tb+2/PFvZtmTPZIgeYtWOVokUVEBuV+Rch3GKVY9tuN1p9frhnHGQ9xgtMnTuozF5VEt
+         uJvwEulcov7tgX79ez56xG0UmyzzpkFOPXzWyWj6It8/cpEqP2euwhiK+hpnpPi1RRpv
+         t/Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779827281; x=1780432081;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0m8wCs3SjzJ/LtZeyVBgjUAWvRbr6Lt/h1FRuHrIfm0=;
-        b=VvUo8HM8hy3J97PgRL1sx+N/YvY0B8k5QiBhhCQP1c2MRQnCFgf+Kz6ad7qd6qa5KO
-         eHIGIGb2VjoDNEfMiql29dRvK5lB68J616r7KEJlXmOOuhiZHWWOR+d4xx+9z8Km+Lp+
-         k65qQwixJMX6E3qrBOwE5WujI+8KRGRPDR82p35ZJmFO63NWFb3rwTWmff6Tj7vxT98J
-         XYVhwFfX1uLYgqBjf2lrWWM4xttKVy/gXxNyksjJSeW2WpoPToNB2Wf6xkVCkx2Uhq85
-         U5TWZ2eQnNv7G4Rh5vAqu9UBBiKnEj1C8aO2phGhGg+S/6723/tDLwL5PE4IvG7BOaqq
-         GYBA==
-X-Forwarded-Encrypted: i=1; AFNElJ+CHLSyaozXTGZk8tDYxo2tPUZjTjuZaseLAu1TVD/ojdrmYyDufBmx9L3HOE9QjZzQLhvTvlMAG8ibgSzQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YybuPOO+bj/pZAiIFgIrVu2EU4UCPVH9F16FpzMpI6X1YHnF5c8
-	cGdKDDcEwUN2hs1zWhSEPLZaQWP1nUJC5FuHXlzvDf17pnj7YhxZ45lR6KtVQeD1Y3ZZluOY0fP
-	LbRj7riNdLZahFleoAU4YwAAnt1bKoW4=
-X-Gm-Gg: Acq92OEP0wR0gkveAOcuzujm00x8lrKYK+t5lIfSGaYAD2iMPAGkFYIlbUBpdYfc362
-	LfI38DlERXHGqK2sfxfrkkIONnoBja1oP/LcfE8FkSm15Ncy+YK/gcsdzROOPPEaPc1/obfyW3H
-	HIhcX2n36ZhsnbGGPG1b/YJP6vFus+g2ZYOXTu6t8hSQ1Sy6pnG2ZErRnxF8aaaj/XGUjT1zNaH
-	wmkSM2vl/Lxgc05p8thORCN3ZExSUQhNrfkcQ0rnpQCV7bcOOZXOlvsd5oGKNiNkHAFuzuhwNKq
-	hZkE9g==
-X-Received: by 2002:a05:600c:6207:b0:490:538a:9c0b with SMTP id
- 5b1f17b1804b1-4907dae371fmr29302855e9.2.1779827281038; Tue, 26 May 2026
- 13:28:01 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779831302; x=1780436102;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9RmoLJIZdhkPvUS0ZmRFmyljS9yxdSd+DHvK0Ww0jpg=;
+        b=O70dh/EcItm+KBQSi2z52NXpzbRUUHGYLtABpQA8dAGgQn/MXkvjucF5Ekmlldjvwh
+         R0EbtLy2t5OPzBjdDRzT1Vt4TdQoPGAHIV3v+wa5whyZy6i0SSU7fKjVJYDbbM2QntOl
+         m+XHwIrapJz6rwFIzc4Wx2J7cAMMapnLat19EF0vGG3i8KBb0WUMu+htnprjTWHh4TT9
+         I/0h1PjZ38+yNnCMT668O4A5HF0EzQ5plvGX52wckWColvbSS+3ReVlhqIHOfrPwcl8g
+         WnzgdIhkt0uVAld4bLWpGjzUrSA/AvLRfu3USL1bWSywZTvX5exQ0uH7eCjXb2dxSQum
+         2paw==
+X-Forwarded-Encrypted: i=1; AFNElJ/0b/YSyK9Vvtwl0K68gATXSlhy9dTjOeSLSM7lI/qwEzgNRXsg9m/ayQbfcoC0ZhwYWddl54M7+xnqOqju@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjUPoM27CIPGNdw3bpXFOWOgIhWP9Q/J4sxo6uXuaXwrGNcat+
+	b+Qb7bxUz+DY4fpx4aCo52ExzFrXeF+uC4YVmWq/pTxZr6Srz9VjAUH7
+X-Gm-Gg: Acq92OEDQBmXoANj8U4lAV3tJOVH2dWt/u8BBNoMI1yp7HQt1bqJsFL2iyy3Yu27VRy
+	TdvhTAG85UUoZjB7k0N4fX7u6dWCQzoCbA9stchL025jwSL2ESPHlIZU/TpZ2albQbSblvLAuco
+	XZR00A6kPHkL+4SO4sgIwyU3xijQNb2AiUIFX7L6fNEcVfJiFMRPwgAdg6c/BaoLC7e92rEkcZa
+	im1knkku0l5pnrUxSs4R923lrwcIGNzyJ22u5adSlAQ/Imtth19m5kEZQbfSRqEWffQ7JmON5d/
+	P3OFk7rsxNHey5YG0kPABnztz5vbVPRtHygahps0Kb/Qh+WsKz+y2A4LghCHV6aGzcgQBqKxjVd
+	mtVkSgRUKj6kY62e+HyT0Ydqb9w8DDg8R9nLhXF95A6KvngTuJGRQfXDhk75zUC7oTEKLLz3NSn
+	shvPmZTywwh05dw1cnL4AwEoQGLFDgWpPSyv2qy17oVIA4goZbf6rUBorv4tAjK8lmW2xO1Lpb4
+	A==
+X-Received: by 2002:a05:6808:1719:b0:482:c65c:457e with SMTP id 5614622812f47-4854a0ead12mr11762348b6e.11.1779831302231;
+        Tue, 26 May 2026 14:35:02 -0700 (PDT)
+Received: from suesslenovo ([2601:281:c981:d860:dd1e:c83d:3b04:e26b])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43b6350ad6bsm14691088fac.4.2026.05.26.14.35.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 14:35:01 -0700 (PDT)
+Date: Tue, 26 May 2026 17:34:59 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Jann Horn <jannh@google.com>, Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Matthieu Buffet <matthieu@buffet.re>, Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+	Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 06/17] landlock: Add create_ruleset and free_ruleset
+ tracepoints
+Message-ID: <ahYOJwpiEI-gGx1Z@suesslenovo>
+References: <20260406143717.1815792-1-mic@digikod.net>
+ <20260406143717.1815792-7-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260413-reduced-nr-ring-queues_3-v4-0-982b6414b723@bsbernd.com> <CAJnrk1ZVdWtGAiXLM+ax49jh6JOq5j0nvs8gQoS6HCV78hVGiA@mail.gmail.com>
-In-Reply-To: <CAJnrk1ZVdWtGAiXLM+ax49jh6JOq5j0nvs8gQoS6HCV78hVGiA@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 26 May 2026 13:27:49 -0700
-X-Gm-Features: AVHnY4LSemBC4GOtgWwOGOUJLSd9037LXAhDMaYC4a1mhXH7hAwFuVLzkbsLElI
-Message-ID: <CAJnrk1ZjHMBY3g08aEffp6h4KuK=Du=8GKVKuq=g3nrYTonyCg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] fuse: {io-uring} Allow to reduce the number of
- queues and request distribution
-To: bernd@bsbernd.com
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	Luis Henriques <luis@igalia.com>, Gang He <dchg2000@gmail.com>, Bernd Schubert <bschubert@ddn.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260406143717.1815792-7-mic@digikod.net>
 
-On Wed, Apr 29, 2026 at 9:15=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> On Mon, Apr 13, 2026 at 10:41=E2=80=AFAM Bernd Schubert via B4 Relay
-> <devnull+bernd.bsbernd.com@kernel.org> wrote:
-> >
-> > This adds bitmaps that track which queues are registered and which queu=
-es
-> > do not have queued requests.
-> > These bitmaps are then used to map from request core to queue
-> > and also allow load distribution. NUMA affinity is handled and
-> > fuse client/server protocol does not need changes, all is handled
-> > in fuse client internally.
-> >
-> > Signed-off-by: Bernd Schubert <bschubert@ddn.com>
-> > ---
-> > Changes in v4:
-> > - Fix leak of ring->numa_q_map
-> > - Fix q-imbalance due to an issue in static cpu->qid mapping
-> > - Performance tunings, like preferring the current cpu
-> > - Removal of distribution among queues, Joanne had concerns about it.
-> >   As it is an optimization, it can be added later again. At least
-> >   most of it was removed, some light distribution is still left in.
-> > - Link to v3: https://lore.kernel.org/r/20251013-reduced-nr-ring-queues=
-_3-v3-0-6d87c8aa31ae@ddn.com
-> >
-> > Changes in v3:
-> > - removed FUSE_URING_QUEUE_THRESHOLD (Luis)
-> > - Fixed accidentaly early return of queue1 in fuse_uring_best_queue()
-> > - Fixed similar early return 'best_global'
-> > - Added sanity checks for cpu_to_node()
-> > - Removed retry loops in fuse_uring_best_queue() for code simplicity
-> > - Reduced local numa retries in fuse_uring_get_queue
-> > - Added 'FUSE_URING_REDUCED_Q' FUSE_INIT flag to inform userspace
-> >   about the possibility to reduced queues
-> > - Link to v2: https://lore.kernel.org/r/20251003-reduced-nr-ring-queues=
-_3-v2-0-742ff1a8fc58@ddn.com
-> > - Removed wake-on-same cpu patch from this series,
-> >   it will be send out independently
-> > - Used READ_ONCE(queue->nr_reqs) as the value is updated (with a lock b=
-eing
-> >   hold) by other threads and possibly cpus.
-> >
-> > ---
-> > Bernd Schubert (8):
-> >       fuse: {io-uring} Add queue length counters
-> >       fuse: {io-uring} Rename ring->nr_queues to max_nr_queues
-> >       fuse: {io-uring} Use bitmaps to track registered queues
-> >       fuse: Fetch a queued fuse request on command registration
-> >       fuse: {io-uring} Allow reduced number of ring queues
-> >       fuse: {io-uring} Queue background requests on a different core
-> >       fuse: Add retry attempts for numa local queues for load distribut=
-ion
-> >       fuse: {io-uring} Prefer the current core over mapping
->
-> Thank you for your work and time on this series, Bernd. Our internal
-> customers will definitely be using this feature.
->
-> I left a few comments on your patches but they could all be deferred
-> to the future as follow-ups. The only thing I think that needs to be
-> figured out now is whether userspace passes in queue count upfront at
-> registration time and requests are gated until the queues have
-> completed set up.
+On Mon, Apr 06, 2026 at 04:37:04PM +0200, Mickaël Salaün wrote:
+> Add tracepoints for ruleset lifecycle events: landlock_create_ruleset
+> fires from the landlock_create_ruleset() syscall handler, logging the
+> ruleset Landlock ID and handled access masks; landlock_free_ruleset
+> fires in free_ruleset() before the ruleset is freed, so eBPF programs
+> can access the full ruleset state via BTF.
+> 
+> The create_ruleset TP_PROTO takes only the ruleset pointer.  The handled
+> access masks are read from the ruleset in TP_fast_assign rather than
+> passed as scalar arguments, so eBPF programs can access the full ruleset
+> state (rules, access masks) via BTF on a single pointer.  No lock is
+> needed because the ruleset is not yet shared (the file descriptor has
+> not been installed).
+> 
+> Create the trace header with a DOC comment documenting the consistency
+> guarantees, locking conventions, TP_PROTO safety, and security
+> considerations shared by all Landlock tracepoints.  Add
+> CREATE_TRACE_POINTS in log.c to generate the tracepoint implementations.
+> 
+> Add an id field to struct landlock_ruleset, assigned from
+> landlock_get_id_range() at creation time.  Extend the CONFIG guard on
+> landlock_get_id_range() from CONFIG_AUDIT to
+> CONFIG_SECURITY_LANDLOCK_LOG so that IDs are available for tracing even
+> without audit support.
+> 
+> The deallocation events use the "free_" prefix (rather than "drop_")
+> because they fire when the object is actually freed.  There is no need
+> for allocated/deallocated symmetry because ruleset creation happens with
+> the landlock_create_ruleset tracepoint.
+> 
+> landlock_create_ruleset tracepoint.
+> 
+> Unlike audit records which share a record type and need a "status="
+> field to distinguish allocation from deallocation, tracepoints provide
+> one event type per lifecycle transition, each with a type-safe TP_PROTO
+> matching the specific transition.  This enables type-safe eBPF BTF
+> access and precise ftrace filtering by event name.
+> 
+> Cc: Günther Noack <gnoack@google.com>
+> Cc: Justin Suess <utilityemal77@gmail.com>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Tingmao Wang <m@maowtm.org>
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> ---
+> 
+> Changes since v1:
+> - New patch (split from the v1 add_rule_fs tracepoint patch).
+> ---
+>  MAINTAINERS                     |  1 +
+>  include/trace/events/landlock.h | 94 +++++++++++++++++++++++++++++++++
+>  security/landlock/id.h          |  6 +--
+>  security/landlock/log.c         |  5 ++
+>  security/landlock/ruleset.c     |  8 +++
+>  security/landlock/ruleset.h     |  9 ++++
+>  security/landlock/syscalls.c    |  5 ++
+>  7 files changed, 125 insertions(+), 3 deletions(-)
+>  create mode 100644 include/trace/events/landlock.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c3fe46d7c4bc..51104faa3951 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14389,6 +14389,7 @@ F:	Documentation/admin-guide/LSM/landlock.rst
+>  F:	Documentation/security/landlock.rst
+>  F:	Documentation/userspace-api/landlock.rst
+>  F:	fs/ioctl.c
+> +F:	include/trace/events/landlock.h
+>  F:	include/uapi/linux/landlock.h
+>  F:	samples/landlock/
+>  F:	security/landlock/
+> diff --git a/include/trace/events/landlock.h b/include/trace/events/landlock.h
+> new file mode 100644
+> index 000000000000..5e847844fbf7
+> --- /dev/null
+> +++ b/include/trace/events/landlock.h
+> @@ -0,0 +1,94 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright © 2025 Microsoft Corporation
+> + * Copyright © 2026 Cloudflare
+> + */
+> +
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM landlock
+> +
+> +#if !defined(_TRACE_LANDLOCK_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_LANDLOCK_H
+> +
+> +#include <linux/tracepoint.h>
+> +
+> +struct landlock_ruleset;
+> +
+> +/**
+> + * DOC: Landlock trace events
+> + *
+> + * Consistency guarantee: every trace event corresponds to an operation
+> + * that has irrevocably succeeded.  Lifecycle events fire only after
+> + * the point of no return; denial events fire only for denials that
+> + * actually happen.  This guarantees that eBPF programs observing the
+> + * trace stream can build a faithful model of Landlock state without
+> + * reconciliation logic.
+> + *
+> + * Mutable object pointers in TP_PROTO (e.g., struct landlock_ruleset
+> + * for add_rule events) are passed while the caller holds the object's
+> + * lock, so that TP_fast_assign and eBPF programs reading via BTF see a
+> + * consistent snapshot.  For objects that are immutable at the emission
+> + * site (e.g., a domain after creation), no lock is needed.
+> + *
+> + * All pointer arguments in TP_PROTO are guaranteed non-NULL by the
+> + * caller.  eBPF programs can access these pointers via BTF for richer
+> + * introspection than the TP_STRUCT__entry fields provide.
+> + *
+> + * TP_STRUCT__entry fields serve TP_printk display only.  eBPF programs
+> + * access the raw TP_PROTO arguments directly.
+> + *
+> + * Security: as for audit, Landlock trace events may expose sensitive
+> + * information about all sandboxed processes on the system.  See
+> + * Documentation/admin-guide/LSM/landlock.rst for security considerations
+> + * and privilege requirements.
+> + */
+> +
+> +/**
+> + * landlock_create_ruleset - new ruleset created
+> + * @ruleset: Newly created ruleset (never NULL); not yet shared via an fd,
+> + *           so no lock is needed.  eBPF programs can read the full ruleset
+> + *           state via BTF.
+> + */
+> +TRACE_EVENT(
+> +	landlock_create_ruleset,
+> +
+> +	TP_PROTO(const struct landlock_ruleset *ruleset),
+> +
+> +	TP_ARGS(ruleset),
+> +
+> +	TP_STRUCT__entry(__field(__u64, ruleset_id) __field(access_mask_t,
+> +							    handled_fs)
+> +				 __field(access_mask_t, handled_net)
+> +					 __field(access_mask_t, scoped)),
+> +
+> +	TP_fast_assign(__entry->ruleset_id = ruleset->id;
+> +		       __entry->handled_fs = ruleset->layer.fs;
+> +		       __entry->handled_net = ruleset->layer.net;
+> +		       __entry->scoped = ruleset->layer.scope;),
+> +
+> +	TP_printk("ruleset=%llx handled_fs=0x%x handled_net=0x%x scoped=0x%x",
+> +		  __entry->ruleset_id, __entry->handled_fs,
+> +		  __entry->handled_net, __entry->scoped));
+> +
+> +/**
+> + * landlock_free_ruleset - Ruleset freed
+> + *
+> + * Emitted when a ruleset's last reference is dropped (typically when
+> + * the creating process closes the ruleset file descriptor).
+> + */
+> +TRACE_EVENT(landlock_free_ruleset,
+> +
+> +	    TP_PROTO(const struct landlock_ruleset *ruleset),
+> +
+> +	    TP_ARGS(ruleset),
+> +
+> +	    TP_STRUCT__entry(__field(__u64, ruleset_id)),
+> +
+> +	    TP_fast_assign(__entry->ruleset_id = ruleset->id;),
+> +
+> +	    TP_printk("ruleset=%llx", __entry->ruleset_id));
+> +
+> +#endif /* _TRACE_LANDLOCK_H */
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+> diff --git a/security/landlock/id.h b/security/landlock/id.h
+> index 45dcfb9e9a8b..2a43c2b523a8 100644
+> --- a/security/landlock/id.h
+> +++ b/security/landlock/id.h
+> @@ -8,18 +8,18 @@
+>  #ifndef _SECURITY_LANDLOCK_ID_H
+>  #define _SECURITY_LANDLOCK_ID_H
+>  
+> -#ifdef CONFIG_AUDIT
+> +#ifdef CONFIG_SECURITY_LANDLOCK_LOG
+>  
+>  void __init landlock_init_id(void);
+>  
+>  u64 landlock_get_id_range(size_t number_of_ids);
+>  
+> -#else /* CONFIG_AUDIT */
+> +#else /* CONFIG_SECURITY_LANDLOCK_LOG */
+>  
+>  static inline void __init landlock_init_id(void)
+>  {
+>  }
+>  
+> -#endif /* CONFIG_AUDIT */
+> +#endif /* CONFIG_SECURITY_LANDLOCK_LOG */
+>  
+>  #endif /* _SECURITY_LANDLOCK_ID_H */
+> diff --git a/security/landlock/log.c b/security/landlock/log.c
+> index c9b506707af0..ef79e4ed0037 100644
+> --- a/security/landlock/log.c
+> +++ b/security/landlock/log.c
+> @@ -174,6 +174,11 @@ static void audit_denial(const struct landlock_cred_security *const subject,
+>  
+>  #endif /* CONFIG_AUDIT */
+>  
+> +#ifdef CONFIG_TRACEPOINTS
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/landlock.h>
+> +#endif /* CONFIG_TRACEPOINTS */
+> +
+>  static struct landlock_hierarchy *
+>  get_hierarchy(const struct landlock_domain *const domain, const size_t layer)
+>  {
+> diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
+> index c220e0f9cf5f..0d1e3dadb318 100644
+> --- a/security/landlock/ruleset.c
+> +++ b/security/landlock/ruleset.c
+> @@ -22,10 +22,13 @@
+>  #include <linux/spinlock.h>
+>  
+>  #include "access.h"
+> +#include "id.h"
+>  #include "limits.h"
+>  #include "object.h"
+>  #include "ruleset.h"
+>  
+> +#include <trace/events/landlock.h>
+> +
+>  struct landlock_ruleset *
+>  landlock_create_ruleset(const access_mask_t fs_access_mask,
+>  			const access_mask_t net_access_mask,
+> @@ -49,6 +52,10 @@ landlock_create_ruleset(const access_mask_t fs_access_mask,
+>  	new_ruleset->rules.root_net_port = RB_ROOT;
+>  #endif /* IS_ENABLED(CONFIG_INET) */
+>  
+> +#ifdef CONFIG_SECURITY_LANDLOCK_LOG
+> +	new_ruleset->id = landlock_get_id_range(1);
+> +#endif /* CONFIG_SECURITY_LANDLOCK_LOG */
+The addition of IDs to rulesets for logging makes sense.
 
-Hi Bernd,
+But it is limited in usefulness without some form of introspection to be
+able to correlate it to a specific userspace ruleset.
 
-Do you have an ETA for when you'll be sending out the next version? If
-it takes too much time/bandwidth for some of the changes, I'm happy if
-this series just makes the upai-facing change for userspace to pass in
-the number of queues upfront at registration time as per the
-conversation in [1], and everything else gets landed as-is. I can
-submit the follow-up changes after that. Our internal users have been
-waiting for this since v1 from last year and we're hoping this gets
-unblocked as soon as possible.
+If a program creates multiple Landlock rulesets, and wishes to trace and
+correlate which ruleset FD corresponds to the log/tracepoint, it is
+difficult when no form of introspection exists.
 
-Thanks,
-Joanne
+Maybe a syscall flag or ioctl to retrieve the identifier for correlation
+would be useful?
 
-[1] https://lore.kernel.org/linux-fsdevel/CAJnrk1by9O1JBH5W9jvkgYcBZK_t7nxz=
-eSsmxm65jb4=3Dwv-ikQ@mail.gmail.com/#t
-
->
-> Thanks,
-> Joanne
->
-> >
-> >  fs/fuse/dev_uring.c       | 303 ++++++++++++++++++++++++++++++++++----=
---------
-> >  fs/fuse/dev_uring_i.h     |  25 +++-
-> >  fs/fuse/inode.c           |   2 +-
-> >  include/uapi/linux/fuse.h |   3 +
-> >  4 files changed, 252 insertions(+), 81 deletions(-)
-> > ---
-> > base-commit: 028ef9c96e96197026887c0f092424679298aae8
-> > change-id: 20250722-reduced-nr-ring-queues_3-6acb79dad978
-> >
-> > Best regards,
-> > --
-> > Bernd Schubert <bernd@bsbernd.com>
-> >
-> >
+Justin
+> +
+>  	/* Should already be checked in sys_landlock_create_ruleset(). */
+>  	if (fs_access_mask) {
+>  		WARN_ON_ONCE(fs_access_mask !=
+> @@ -312,6 +319,7 @@ void landlock_free_rules(struct landlock_rules *const rules)
+>  static void free_ruleset(struct landlock_ruleset *const ruleset)
+> [...]
