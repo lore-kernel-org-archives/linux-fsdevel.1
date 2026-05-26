@@ -1,63 +1,63 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3851C3C2772
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 22:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06C23C65FE
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 22:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779833793; cv=none; b=Rux9Ym68vavoVbrjqeDCjZpRKY4Oyu+F2kEH887ghDjXdRhrhFji0dM6gXKBZ9yj6MGoRCiFyxqvSs8ztwNfXQTPh5kOI+YDY7/b8bWVAboUG5ohvbvx1dNPRRcyXGr1LaeCuNlIiywGwv0gUQxSCfl+1qdHb/x+FsJHIbcSMKk=
+	t=1779834287; cv=none; b=DCXTGIh9qq/uo+L+JtRBT1z+4uoE1gq6RffHqVIQIBjjeBy3+EAOSaHBTcFrfCpOFZJ3C1/ZrW0a2KCFnUFCbmvOH0OvHwAvPQLIqC97iAYDini5bm4kONGUcPBepaOqURFA1fB2toO5kJ0dpZu1H5cEWYtV0W4x+jhfFW0QpfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779833793; c=relaxed/simple;
-	bh=8XRM4wiJ5jNXpJetksnmAVa5jpDVg6ilKLOp4qDmY8U=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=Hb8Hvy9Nm8qnHSrPi9vsGYczEGg4PsF+arhECR5gmh+8W1QZ6tpo+A65xRdVRm56XaWhyESBYkTMps4FjCPi7ZElq1rvIJcP/5dwy7xFfTX52Q+DY1nO6ZNMNlfOgimgSLREHKhpro0H1eKOMYWVr3ZIW2Lp9mCYieZ/gwF7GlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=aNk6PVhn; arc=none smtp.client-ip=209.85.210.174
+	s=arc-20240116; t=1779834287; c=relaxed/simple;
+	bh=GxbQ8NIk4mgl61gh8KFDsnH5jMKPJyjLI5wJFoJcLLE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=jzBRTu3H5ftx790VL2J4N2ccZues+enjazCQdlEDG9s1YQvqiaxumaQjr/Hk5Pii0W+8pEC4XHUuta4ixJ23mNqPrJmxrb/jr6qbnHXTpBw9L+NzQaGuCFMJGIBLLXr4xss1exB10haTmAwAXThDDjBt309wZ3i2nSSYhAJHHRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=MZq1bC5t; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="aNk6PVhn"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-82fa8d6425bso5052468b3a.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 15:16:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="MZq1bC5t"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c8021c8c42fso4468139a12.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 15:24:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1779833791; x=1780438591; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1779834285; x=1780439085; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QXPmI5+ogRi0iUoso0vRs88WKRO67ENSRqzfnBRQpWM=;
-        b=aNk6PVhnuElr7GD/d1bCzglzRHDgnYvgxdXWI8BTY2pnaPi1k6DdjC/pAPoGbKChu+
-         vK2mAphY3VfSLhdQsl6J93iW4ZW5TIZhMI3agK4FlafYg5sefRWplcB/BnjSom/m53KX
-         IW9jvIB90u8Wp70NrxnyAEtfYsnPT1z4Ur+goyQmG+/oy8b/mc/UGleOdkNeo+KW328H
-         N7FwFfcTXSzBe25UKiwrwGItDd/Ba7zegdHXcIRjzZbXU3KaPApDME6xfATIXRY8LQci
-         Wi55ec5nLN8Hidb9sKKBZ6UkzVstDyRlH/LBPwl8n6UaQJZjZ3PjwUIJyHxT/gGpoAiA
-         zYUw==
+        bh=qZg3/Nrp/XSikTx+0njY7ovlfnqPSA3h4CFSyjzLU5Y=;
+        b=MZq1bC5tNXiGp3TbIA/cWPITDW7PrEBMxLE7q4RVQ3mjdRpAVHQtt9zxUgx2OkPsvo
+         XSjeqcPHo3Qwkszs7uUPxfCEuMykpHX0hbfxP82EqAWmQJIYsBEFY4HM5c44LptDLb56
+         23muriERM/yN8y9I5HfCBd8vsiev6txgivViGRntYepgXbIucmSeihpJsN7uEH/rxqHs
+         Wpj3p4eSv8cvx0SFv/T10SteGyGLZVVnquZ59NKfUWuxJisW3b+WLgztZofvWLNy8OZg
+         lwy+RAbU/rYgGGXBECIJ5myD1l68YgTqDJJKU6dxTMYl/pILFMNAqBhxw6TLH5zIx3nB
+         0YlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779833791; x=1780438591;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=1e100.net; s=20251104; t=1779834285; x=1780439085;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=QXPmI5+ogRi0iUoso0vRs88WKRO67ENSRqzfnBRQpWM=;
-        b=IHi0UaP3U7V6GULEchT4bVgKM1uDKgJ1gRtmH9cs80HlN/nZRcyoTfGyxO/AancHF6
-         sApFrYWwkz8TNJCXJF90tI+4n8Sk7J4b1h6gW383Bl3lpQjoTsXQ548dJ+vFmi8AOefE
-         wTFS84pjlqy/daBzy+3YklHy1U1vTLvgmTDGzGyRSih6rKyNblUmFqdfwWi5kYALdkFX
-         xwma8rqDnSkbjBLvCCRI16K9JXqJxSO6IBD3atUbAQ7yQSdmAc2kpSKVdDvkHhq5VYLQ
-         j33Y0F3KxFBegO5vhj8g5ipoG7oA35I3XILtyuRZAiNE9rAGz7kV/ylo/n+Mvf8ClEOi
-         CRIw==
-X-Forwarded-Encrypted: i=1; AFNElJ8MPgYT9YXcKJleXXkPPvNIwlx0jKUqyUty6YvcSFhvf3EoIG6myaUIOIrgBOCXYBky9QafT5IL93qki9oe@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzne+uNTwe9tbvH/DVgqeCT5VFEGQbh9BAX0P/gwY/NNEruBnTg
-	13Q14smRxV1lT5PKegXNgU10Bg6+36HYYk2jgnqA2UViMueuxYLmEpOaQsxs8hzsd7Q=
-X-Gm-Gg: Acq92OEwm7vSTkOMyMyMx8zA7f71gc5hcGRygoP0GoKafPMVI2m3y3jJg8XQ0aT5kXO
-	B1WXfagxEuNqa6Vv3c73YTHN9vNT4dyv58Y0g52kyBMrIpbfw6ELeyQQHexluWCJ/0U/5JyxwGt
-	1Yr1Qkmkh4eNh7tq/i3V22RyKnhGYMVc7Mn433JmAWQ/uonp4tOkH5iaHgwQMzFTHzEiOUaXDzk
-	mvpDkTSO87hLkv326Q1Tzi3WxWQ5Ms0meRzAsYrJ5k8+l6ezyLQs0heo2qt9LRS0199al7ysk/J
-	lVgBS46d/p0/H4QiX/VcowDGy6o+bWKVFZkMTsEOyN6O+TA/x6FNuPul418YzaCy71z1VJe808W
-	IAsiKm5OQl6/BtJPcwPvFKaNfNanTGk+Fvpf1FPIFATdNO2Af1a4tTmdIJrJCrMUGAEwmrKCTtR
-	Q+WkSHUJhMXdbg+EZDSosmVlV8eL4MfiN+YN8=
-X-Received: by 2002:a05:6a00:f03:b0:82a:6f69:7f72 with SMTP id d2e1a72fcca58-8415f588372mr19630265b3a.47.1779833791493;
-        Tue, 26 May 2026 15:16:31 -0700 (PDT)
+        bh=qZg3/Nrp/XSikTx+0njY7ovlfnqPSA3h4CFSyjzLU5Y=;
+        b=G3Xf0c9i6RyDZtJE8Wx1kdeELVxDNfSit9M0pcsiq1mjX56VZeVf+hmIDWIlrfHg87
+         pn8rFynzJH1plrBl81EVlzjDLkzuOcmk/YiXjlKpP9K6VRNQrJN1pvz4WekdDXy0m7EV
+         0RTwWBDCSXcPvhdiWZM1EhslEcctQ+8qNxV+20xx+aS9i67TVefF0teXRlJsGNmno4Qy
+         pUpCtsclMmdML1Ihzq5YAky6bV3c1ANYhOx6FBbmfI8YTJvueY42rIAlSSRNYLjNxpou
+         LjmshjR9NqeiTx2Xs8cKnw+Hm93/04kqM+m2EAkeF2NEdREXPdFNcM0R+dFVtKJ5rg2N
+         S87g==
+X-Forwarded-Encrypted: i=1; AFNElJ9+bfpX7hnMFHLmvykh75wZpDSn9KfhlV0O2WHuNdt5bnSXaVk2t3rbXTTp/kt6I9kWs3LKDBpsJPu4xYTj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyn+ryHouFh7JCdhRlGjwkspX6EC5Us0pV1emroL18zym1jstva
+	XCI0fJxzkooi48FqTB1suXut1wx+1KfEwjdP5Z5xY7MqsMZrCOeC027GG4ci56XfBdI=
+X-Gm-Gg: Acq92OEUT+er+aQLfEp6xPMM9FuJpp7vfLjiclwKXQW2IpaH6UYYYk1NgnlsG/fyjJx
+	RyRBgK4Ub0icSUW1NLn/snQzXX0ovam8HtZ7CI/DATqFJBQMIDXIJLuQO/ZNvhXJn9XfBBRF5IB
+	iZNNz31Vht7MfQKSs5lBXn9VrNwaI/0WvKLs19jxmQ9f4BEuYNLIraQTpSGrBpixhCLDC9V0rUQ
+	KutNAB9IW4U4EXBSS9jusVefKRKQqpl0sCjrE2FUchbyYuE8j+3xRMN5z7vvHlr26Ec0PuXf6R2
+	jJvpZpI4MLWnZGUFOvcLvqDaSKFPSWOH6mPBZI4W0F0jYl/QnS5SuEHBxbT6xiTxk780S791/PR
+	CTLC6sG//jPu2uhvbKAzoX/UATnBM8GLY6yZtnm/FWqKushmeZfges8jPbDYq4ymaMJ/4twmNjK
+	gEQWnk0Et5gGB21HjUAE3elMWc
+X-Received: by 2002:a05:6a20:2449:b0:398:b346:b13 with SMTP id adf61e73a8af0-3b328cfe3ffmr19991485637.16.1779834285148;
+        Tue, 26 May 2026 15:24:45 -0700 (PDT)
 Received: from localhost ([2001:569:58a0:da00:a5c8:c4ce:f7c1:40c1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-841d70bb18bsm305464b3a.34.2026.05.26.15.16.30
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c852028fe99sm11268978a12.4.2026.05.26.15.24.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2026 15:16:31 -0700 (PDT)
+        Tue, 26 May 2026 15:24:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -66,9 +66,8 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 26 May 2026 18:16:30 -0400
-Message-Id: <DISYF7LAA8C0.55I0KJ1R3Z2L@etsalapatis.com>
-Subject: Re: [PATCH 1/2] bpf: cgroup: fix sysctl new value replacement
+Date: Tue, 26 May 2026 18:24:44 -0400
+Message-Id: <DISYLID6QGFY.1HTQOMHVLTRWS@etsalapatis.com>
 From: "Emil Tsalapatis" <emil@etsalapatis.com>
 To: "Dawei Feng" <dawei.feng@seu.edu.cn>, <martin.lau@linux.dev>
 Cc: <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
@@ -78,56 +77,123 @@ Cc: <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
  <jianhao.xu@seu.edu.cn>, <stable@vger.kernel.org>, "Zilin Guan"
  <zilin@seu.edu.cn>
+Subject: Re: [PATCH 2/2] bpf: cgroup: Use kvfree instead of kfree in
+ __cgroup_bpf_run_filter_sysctl
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20260526131035.1312864-1-dawei.feng@seu.edu.cn>
- <20260526131035.1312864-2-dawei.feng@seu.edu.cn>
-In-Reply-To: <20260526131035.1312864-2-dawei.feng@seu.edu.cn>
+ <20260526131035.1312864-3-dawei.feng@seu.edu.cn>
+In-Reply-To: <20260526131035.1312864-3-dawei.feng@seu.edu.cn>
 
 On Tue May 26, 2026 at 9:10 AM EDT, Dawei Feng wrote:
-> Commit 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value
-> helpers") changed the success return value to 0, but failed to update the
-> corresponding check in __cgroup_bpf_run_filter_sysctl(). Since
-> bpf_prog_run_array_cg() now returns 0 on success, the legacy ret =3D=3D 1
-> condition is never satisfied. As a result, the modified value is ignored,
-> and bpf_sysctl_set_new_value() fails to replace the write buffer.
+> proc_sys_call_handler() allocates its temporary sysctl buffer with
+> kvzalloc() and passes it to __cgroup_bpf_run_filter_sysctl(). Since
+> kvzalloc() may fall back to vmalloc() for large allocations, freeing
+> that buffer with kfree() is wrong and can corrupt memory.
 >
-> Fix this by checking for a return value of 0 instead, so cgroup/sysctl
-> programs can correctly replace the pending sysctl buffer.
+> Use kvfree() to safely handle both kmalloc and kvzalloc()/vmalloc
+> allocations.
 >
-> This bug was discovered during a manual code review. Tested via a
-> cgroup/sysctl BPF reproducer overriding writes to a target sysctl.
-> Pre-fix, bpf_sysctl_set_new_value("foo") was silently ignored: the write
-> returned 8192 and the value remained "600". Post-fix, the BPF replacement
-> buffer properly propagates: the write returns 3 and the value updates to
-> "foo".
+> The bug was first flagged by an experimental analysis tool we are
+> developing for kernel memory-management bugs while analyzing
+> v6.13-rc1. The tool is still under development and is not yet publicly
+> available. Manual inspection confirms that the bug is still
+> present in v7.1-rc5.
 >
-> Fixes: 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value helpe=
-rs")
+> Reproduced the bug based on v7.1-rc4 in a QEMU x86_64 guest booted with
+> KASAN and CONFIG_FAILSLAB enabled. The reproducer confines failslab
+> injections to the proc_sys_call_handler() range, uses
+> stacktrace-depth=3D32, and injects fail-nth=3D1 while writing 8191 bytes =
+to
+> /proc/sys/kernel/domainname from a task in the target cgroup. On the
+> patch1-only kernel, fail-nth=3D1 triggered the fault:
+>
+>   BUG: unable to handle page fault for address: ffffeb0200024d48
+>   #PF: supervisor read access in kernel mode
+>   #PF: error_code(0x0000) - not-present page
+>   PGD 0 P4D 0
+>   Oops: Oops: 0000  SMP KASAN NOPTI
+>   CPU: 2 UID: 0 PID: 209 Comm: repro_proc_sys_ Not tainted 7.1.0-rc4-0068=
+6-g97625979a5d4  PREEMPT(lazy)
+>   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01=
+/2014
+>   RIP: 0010:kfree+0x6e/0x510
+>   Code: 80 48 01 ef 0f 82 ae 04 00 00 48 c7 c0 00 00 00 80 48 2b 05 04 1b=
+ 23 04 48 01 c7 48 c1 ef 0c 48 c1 e7 06 48 03 3d e2 1a 23 04 <4c> 8b 57 08 =
+4c 89 d0 83 e0 01 48 83 e8 01 49 09 c2 49 >
+>   RSP: 0018:ffff888108de7ab8 EFLAGS: 00010282
+>   RAX: 0000777f80000000 RBX: ffff88815af398c0 RCX: 0000000000000080
+>   RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffeb0200024d40
+>   RBP: ffffc90000935000 R08: 0000000000000001 R09: 0000000000000001
+>   R10: ffffffff86b4b297 R11: 0000000000000000 R12: ffffffff819b71fd
+>   R13: 0000000000000001 R14: ffff888108de7cc0 R15: 0000000000000000
+>   FS:  00007f8988cc2b80(0000) GS:ffff8881d3256000(0000) knlGS:00000000000=
+00000
+>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>   CR2: ffffeb0200024d48 CR3: 0000000101d6b000 CR4: 0000000000350ef0
+>   Call Trace:
+>    <TASK>
+>    ? __cgroup_bpf_run_filter_sysctl+0x626/0xc30
+>    __cgroup_bpf_run_filter_sysctl+0x74d/0xc30
+>    ? __pfx___cgroup_bpf_run_filter_sysctl+0x10/0x10
+>    ? srso_return_thunk+0x5/0x5f
+>    ? __kvmalloc_node_noprof+0x345/0x870
+>    ? proc_sys_call_handler+0x250/0x480
+>    ? srso_return_thunk+0x5/0x5f
+>    proc_sys_call_handler+0x3a2/0x480
+>    ? __pfx_proc_sys_call_handler+0x10/0x10
+>    ? srso_return_thunk+0x5/0x5f
+>    ? selinux_file_permission+0x39f/0x500
+>    ? srso_return_thunk+0x5/0x5f
+>    ? lock_is_held_type+0x9e/0x120
+>    vfs_write+0x98e/0x1000
+>    ? srso_return_thunk+0x5/0x5f
+>    ? kmem_cache_free+0x308/0x550
+>    ? __pfx_vfs_write+0x10/0x10
+>    ? __pfx_do_sys_openat2+0x10/0x10
+>    ksys_write+0xf2/0x1d0
+>    ? __pfx_ksys_write+0x10/0x10
+>    ? srso_return_thunk+0x5/0x5f
+>    ? trace_irq_enable.constprop.0+0x110/0x140
+>    do_syscall_64+0x115/0x690
+>    entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>    RIP: 0033:0x7f8988dd8907
+>    Code: 10 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1=
+e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8  01 00 00 00 0f 05 <48> 3d 00 f=
+0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 >
+>    RSP: 002b:00007fff4069b878 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+>    RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f8988dd8907
+>    RDX: 0000000000001fff RSI: 0000564f97ef46b0 RDI: 0000000000000005
+>    RBP: 0000564f97ef46b0 R08: 0000000000000000 R09: 0000564f97ef46b0
+>    R10: 0000000000000004 R11: 0000000000000246 R12: 0000000000000000
+>    R13: 0000000000001fff R14: 0000000000000005 R15: 0000000000000001
+>    </TASK>
+> With this fix applied, rerunning the reproducer with the same
+> fail-nth=3D1 setup yields no corresponding Oops reports.
+>
+> Fixes: 4508943794ef ("proc: use kvzalloc for our kernel buffer")
 > Cc: stable@vger.kernel.org
 >
 > Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
 > Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
 > ---
 
-The bot makes a similar point, but can you swap the order of the
-patches? Patch 1/2 makes the invalid kfree more easily triggerable,
-and patch 2/2 fixes it. Swapping them avoids the issue entirely.
+Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
 
 >  kernel/bpf/cgroup.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index 876f6a81a9b6..8715a014c21d 100644
+> index 8715a014c21d..f4eefdacd453 100644
 > --- a/kernel/bpf/cgroup.c
 > +++ b/kernel/bpf/cgroup.c
-> @@ -1935,7 +1935,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table=
+> @@ -1936,7 +1936,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table=
 _header *head,
-> =20
 >  	kfree(ctx.cur_val);
 > =20
-> -	if (ret =3D=3D 1 && ctx.new_updated) {
-> +	if (!ret && ctx.new_updated) {
->  		kfree(*buf);
+>  	if (!ret && ctx.new_updated) {
+> -		kfree(*buf);
+> +		kvfree(*buf);
 >  		*buf =3D ctx.new_val;
 >  		*pcount =3D ctx.new_len;
+>  	} else {
 
