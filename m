@@ -1,165 +1,192 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022116.outbound.protection.outlook.com [52.101.96.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B023A8739;
-	Tue, 26 May 2026 19:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052FA3AB27F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 20:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779825249; cv=fail; b=OtTaoRAdqhVw1nmN0uWcPhe8INeN3KUXATbERah5mVDecsMFv/fTdELBY2zn1Gq3TMy6hGHw2v5UUUW9GSkskLhqCvB93JgWgdqE5rARY2vi4yevQj1A2XhwW22hSkvVxNkaY+sQFHtRn3vyggjPtApX2xAB8yZ8zvpFRUQBT3I=
+	t=1779826108; cv=pass; b=ZgKfOJWOcdtaudOj2qvcOl6WNrplFcLSkMWyEtXn9f6U9LJgseKR9e6kdNciGLC+jpgpxNL5PPugMmVmEk5wL6ao3K1WDjjWNgNjkGS9OK9zgjf/5vxR6M8IPsV9ESNjxMGi+NBpGI5RjTDvrIg9fBTB82a++vDgwNYri4KQyMI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779825249; c=relaxed/simple;
-	bh=F04yg50kkwW5Z04Jn7RhChGbff16mHs7D/aLlMY6xnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rlNKS3G8UeFIIhnXY0HG45uEcz4HxXXxl4JWJGNVf10QfIcn+YavafbODJMYeplhHZiwzafiTl2TynWwXlzAqs5eSV3D13lsd06y8J+uikjDQAanoVjzOK0e3A8bYpqJ0H6bFC619eeQUSO5DL0t5wqtBogRvV45T41NYJr2OoE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.96.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oKgRl4fxvXF6RTTOV/esHj1vhUk4VpDX15UrQ63FVe8ze6LB0OcdNaRDDtI02zT+6xYkN17+5amuDHRMpzYMgl8j8gsCizU+x64jEBge91Jfx97T9FB/2OLn+Exeq1sSIq00JBXn1BAAbrzLjXjwmabOKJE/SjgKcqf2DW1vFydgECH1Ay4Q2hDc5JmKd9oeg1mvkuldVSLGzbcx3JuABKeOr9zOCfxzTlMscXfFKBT36aAxiHPpZ5aZ5tBXIes4AlesGvt1djJAZ5FjxFneRAzEZVoiwZc2gObXNjTM49hr4hD5D16HigsfpPhIXkn+vKUYTgKb3atiPEEEanc8tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=h4yEGomEertXpe0CX0e4veY5Abj3uCdyn95vK31y4cg=;
- b=xaWscIOkvDviCNpYWFrwRhhNi4COsPOB6DiqjWYjYJJdPzS9FTh2zD6Th0OOfKh9oyrNYGJDM6LUUcNnu+cfjD/PppakDOu2avfgV9ferSIjwQ6+CQ6JDioNzZAtlUEHqmr6Vizd0nsKYs580rCYk5vqjS7QnHKu+tgWvay617RnmOiU2+FK24HfBuwcWvwdOrJFky5I/9leR+wuG+dzHXksUAnNcYvCX8pzHFvUB1AWqjKK+BoWOV4tpKsxkKa7mjKt3VwpQKJpkBT9wODY8QdNen4QRMm5fwioJQZnA64Hrt2eN3re3/tQ+imNo/l2TPCVUUEHT7N1fZMRYVC6FQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by CW1P123MB8017.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:24b::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
- 2026 19:54:04 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0071.011; Tue, 26 May 2026
- 19:54:04 +0000
-Date: Tue, 26 May 2026 15:53:59 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: tsbogend@alpha.franken.de, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, stephen.smalley.work@gmail.com, casey@schaufler-ca.com, 
-	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com
-Cc: chenridong@huaweicloud.com, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, 
-	kprateek.nayak@amd.com, omosnace@redhat.com, kees@kernel.org, neelx@suse.com, 
-	sean@ashe.io, chjohnst@gmail.com, steve@abita.co, mproche@gmail.com, 
-	nick.lange@gmail.com, cgroups@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] security: Expand task_setscheduler LSM hook to
- include CPU affinity mask
-Message-ID: <5adzrz2gwuyihwcxksok2ix3k64qxhczpbxefl35lohkdt7whs@jclqteh3yr2b>
-References: <20260526142838.774711-1-atomlin@atomlin.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260526142838.774711-1-atomlin@atomlin.com>
-X-ClientProxiedBy: MN2PR18CA0002.namprd18.prod.outlook.com
- (2603:10b6:208:23c::7) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+	s=arc-20240116; t=1779826108; c=relaxed/simple;
+	bh=Rlp7ptvGdOPEvwH1H0sCx96syeuaJe0NnVj/weJyjpU=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lFH11ERhyhUKdCokac0Xh79+934buJWyCbft4Oo/XNeRQHmy1kdgELycOMkcOeTIRo9p+d4Ic/My4o8JAZlrFWImu1V9B48tnCmz6lccIoLQ37j24dFsugZ7OFZVLPgYB57BEDq4mHfSuki1MN8KGWDLyl9L8ZtjkaD72rKaHlI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=I7BD/ihd; arc=pass smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="I7BD/ihd"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7bde9d73678so112727697b3.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 13:08:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779826106; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kOHeHOYCUi4OZ3STXed9NCqisT2qVAn0/dnEKtJGFUvjpbVvWzegcPmVghRzi0mH2y
+         rl3JXsKEn7donEDTY/wNZygo+SCsKnzF2qWIkpOJ+papao4BuC42POr0Z1qmQo7UmqVd
+         adxP4I9XzudeUBiq1vVRoCiCdXt9IshDn3WQyKmJj+cNfZ7utbT8WOWCee0u07PoiFNl
+         2BJ9Qw/t58IYOJjPDODPDKPZo8bL5xcd/u4GRiA2MB+exdRWsP7adx7ZS03TgbQu4Rvk
+         MjIVlOYxf7qGLqA87VxAL/9yWyn+jMXT/va0p8jdHu/DDVB7Xt2KysoGiRGDmxTCbABf
+         6qJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=UAr1plF6602l9mOlJseQlxt0GW0eM2OrV/U6+hqix/0=;
+        fh=WN/3YJabA9d9poNPa5axj+oIMiO4Osd+2MIx5vWkyB0=;
+        b=IQ1GumVd6V1FFMRD5GT/LSO3DI51YPJWlrT8AQdA5Exc9J4iVBO+/5GhFiqcTDNhkV
+         mHiIwO0cdpaEszPgkq6wZe1oB+bl/V10oRyXU4mLDlyAEkpEEsvxnZ8oHXOkyHurC365
+         39manLVrG1YVXmMx/NLeMmG2Nwb11rf+a1XKzj384zC8XPIWz8jX03D7wQClM7H6OqZ0
+         tMqepotY+WvdeO0IoNUxStGsNrYsPra/WPSBXtGXm80/NT4GiN2eFCXBpBsH2KgzkwaO
+         +DCjSB+lZjXjh0xucvua6fgF15Krc7Q7yYc4Uzdsh6DOYMxmw7LQB+3/GDjosxdiuyXp
+         F6DA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=berkeley.edu; s=google; t=1779826106; x=1780430906; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UAr1plF6602l9mOlJseQlxt0GW0eM2OrV/U6+hqix/0=;
+        b=I7BD/ihdFrPfk84YAHWmctOCM0s+Rag7QcZX5haRj9QhvXuxXJ/lwIIKuTSQ3ZJnzB
+         HpOtobR2qs3WMDrFO4SCmxZ8742Oh2ZnQTHyTf7Fgkz9EK/Q1u4OBmOj7nOw7m7umTk7
+         O/F54xrvNb3JvrqafZAr0FehwO2dEYogrzxHLBp1qdECZUQX2WfAZefwaFOTKMkruOom
+         HDapWWufeTuVni8HYZ1iJG7TJgAnKCm8WHNPbq/TjYFntfOnEwgQ8c4qdCjXKlpj+Nix
+         vlrOz48O+NjASMI7LJaG0eYkGzUWLX8R8hQv+EtwgrJxnhcVUqoAr/lX/Ua+t/Zd/w3x
+         oy6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779826106; x=1780430906;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UAr1plF6602l9mOlJseQlxt0GW0eM2OrV/U6+hqix/0=;
+        b=P9tyA4+OKDqPIY6cc0ZsLIKtRIPYx1RGq4oAc0WrejghIjwEByQZAtuwP1htN037Rf
+         eW6q91Cx/xShBWuepsSdGW+eQDb3z3/e1H2JfIPBj8Jea+mydAK8XO1LQO2xiJlspIk9
+         VF6D1TQmCgs8JuIhu2LHEf2JYXlELrWcFJVypgYjRNb5qd0CDUvo9qmdMB6JzTc2stQU
+         aX7BR09Y5IooL0YN/FI7zJrBQSjTbIegYOAetNJu+yufM5yQ9+Ag+zBnwfR5AR6CgfjR
+         E1PLv7eYrGXB+pWoeH7cIKqQiTqLK4NqsmLhcLhQLSsvc79c/oxqxbDYPpVZp2/v0Mwa
+         Liww==
+X-Forwarded-Encrypted: i=1; AFNElJ+wlkJj3N6PxbM8mEdpOBH72rp2g1kh4bWEXce+X82N8v32KWnkN5dV1SGesW+XBRmoPyQAJc/Z6/66m5sd@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfNZyQbPbyUKGkn4YerkYOgkwbX0boEYw06iA4VTl9vdCYGf9m
+	QHRpaIYKKdfYie9iB4aRgdhEADbNJI0BGyb3Vpewq0XFQ3H8O/XjCUeOb3k8HoU3gVEGRapbZXo
+	ke2gTBnDcWob58CCP0eSRgSf+907CS481NjAU78Sm
+X-Gm-Gg: Acq92OG4cLAei/abNIawdT2oYQg+YOHP5GWo4XL6kWHEbm4AuOE1SbBk1s9wq2zzTrK
+	rsub4wQLvv5Ag+uQwIhBIoYHtOyUzyy6kIgzF/F7qz6gnK6Lzltbi9uH6BvgBl1JujeT1y0gNsy
+	vWYpj4BYCNJHY/UNyWfuG1ffYBpT+W4pz4Xy3lp1BNk7aSlG8Gd3HofJqBt1K+URWxkT1G3uesP
+	QKuVg0fRBQ8ESQ7pusqvNqFO6BytOYV1Q7kdXENZ83Vp5CxmX0sl6VhifvlRoe5JbcBOyDMcaQy
+	okU4pJKe7Q==
+X-Received: by 2002:a05:690c:46c1:b0:79a:b49a:cb4e with SMTP id
+ 00721157ae682-7d355e31731mr165356687b3.6.1779826104834; Tue, 26 May 2026
+ 13:08:24 -0700 (PDT)
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 26 May 2026 16:08:23 -0400
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 26 May 2026 16:08:23 -0400
+From: Farhad Alemi <farhad.alemi@berkeley.edu>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CA+0ovCiA7huMwMxvWgC8km2P+gJwd-jax+ACo=EbGrJ6FVp55A@mail.gmail.com>
+References: <CA+0ovCiA7huMwMxvWgC8km2P+gJwd-jax+ACo=EbGrJ6FVp55A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|CW1P123MB8017:EE_
-X-MS-Office365-Filtering-Correlation-Id: d2d94856-5663-45c6-cc58-08debb6089be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|22082099003|18002099003|921020|56012099006|5023799004|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	JELgg8RCiylCfEeTlfop5PEOC+g6gY5tC/iE4AiB8iPoRaLLh611qr8ihzBupPqYjHBRktPxXGSibKETJStGwpk/u3glaFR74TLT2qHFgARHcFYXjirQNHmQ09sJmvUIWCo2LRgxjSc5gzjCjfkNTjFw9/Blf/blEWE+7qxjANMxJ7QNQOLsF2qKWhRB1+iYLEcEc6uDEgMk1vMVEAjbJ2GbFyP/civ5bP6fuyQGLNSWpIQ9mAX73I2FeAv+xhlIN0bI3Nuc7Qgx2LbyHPFLQcYrAd//RtUYg7rg04MM+JwOWOaE4wTZ53ZYB45kGp4UL01gT19+Tc7BGYdYSe1BgOdE9NFv8hOLLzBPfMUyUxMDEo1gx5uwpDW7TXh/QfIlZerhOvyj9RYonU52tTSYZWMH0mtRNDa4yNQxuO1ZwlMRhkrLoZt15IdHPsU18ymAkczQDLVBTLCF20iSE0e4RHtms60DmkYsS0TwO8bgh/6ExescqLEariN40Eci8c6HqceJB1hFNzgF17QgpKFwV/p87i4ceq0TP03nSYzs8L/VpiFNzP3XAf7XFSnwHkUoeCWdZc0IDHC3xIQsRKuHLngkeOyikLJxbWdMhiLn3FBLG51/lTkH5GxIH+7axIt5Cz2+Fz19k7AQKmoBUIxoyT3aCnNXlJ+Dg8BOjJlbkyoPaC9w6ZUyoZqaHc6lSd0GcbpOuTw5hFgFp3TC+kHuqBuT8IlJqtfTUYIlGcjCdao=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(22082099003)(18002099003)(921020)(56012099006)(5023799004)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dnVZT1dyRzZucmNiRUkyeStXY2xBc2lTNDdyZUhvVGx3RnN3TXBhVXBIVEw2?=
- =?utf-8?B?QkF0YVd4NS85dWVYY3loUEJkNlUyTEp4U3RuL1I4bGtHcUtWSTB0am04SENk?=
- =?utf-8?B?QkppSHdpNWM1bm5jRmpYanFYMmcxNUZocHN1cTJrMjlOQ2hJbHpWRytBN3Zw?=
- =?utf-8?B?SEFPTVZDMExRajlEdFR5Yy9tUWo1RjhVTmVxampHYWZsVkExZGlHVFNTWWR1?=
- =?utf-8?B?NThrWGFMaHVKbkJtTkVIK0lHcENNU1pmZktsWlhWUnA3TU81eHFNSUowSlBQ?=
- =?utf-8?B?SThYcHJmUzdLUjdGZlI3dCtGSzlKVU1vajVVRzU0clBUTFFuY0VOL2hGNHl6?=
- =?utf-8?B?aEtzbEZ4THkxTExDL3YvTlU0RzdNU01CNUpkR1NJa2E4TzdwYXNGTENtS2No?=
- =?utf-8?B?NFRmYVVuSi9McStVSjJvOVI3MDVhOU8vWDVxWWhuOFU5ZXhBcDdhYkxxaFk0?=
- =?utf-8?B?RnBsZ2FlYXFHeWFmb3RRaHN4ellmVXNzMk8vZVdJUUl0N216UzRVWDNLR0FG?=
- =?utf-8?B?MCtUcTMxSFB5MFBEZzhGUGQ5OTNjRWRiTTkzeXN2VFRXSXQ3bERyTHdGT1Nm?=
- =?utf-8?B?d0ZqRDY1aHFwM0J5ZXVQYmI1bXpUbDI3WmQ5Mm5pYllKZDBXbC96QUFGMXpi?=
- =?utf-8?B?MThhV2RubklGRUxhN0dNTEkxYjBVREF4dC9VdGI1TUJNVTkzenY3RFFnbkdi?=
- =?utf-8?B?aDhyV09EWUlXckpyR1VrMmlxRitmZWFseHVIdVFaSkk5eVpxVUtUb1lkUVZr?=
- =?utf-8?B?QVRkeHRvOUZBOWRKY21iQnhROW5sdm5kYTNwU0VPUG44NTlzdThxNkVSTGFX?=
- =?utf-8?B?R01HT1dwZE9uQ05hVU45aFl0SEdpVmN1Vmp4RGE2RGN2blBLNWNoUDk5dVox?=
- =?utf-8?B?QnFtTzV4QW8zOGh6dEl4c2JibFZLYlhxdktWL0luUklKbjU4RHpDNUJMa3FI?=
- =?utf-8?B?SkpqbDZldDRsMWltRmVxSFFrejRNWGJPeWRtdEd1c2N5M2R3dTBvVGxBbFNt?=
- =?utf-8?B?L2toaXF0d1pHb0FyZlBOaHZaK2FkV1BpMlloVkRHRXpUbnp5d1JDZWc3d3dj?=
- =?utf-8?B?d2NxZWFlc0hSdDJ6WTVpMnZaVUFuc0JIUHFtS2FmL1pQZVIvQW9ncC80dlNE?=
- =?utf-8?B?M3hLdlZSQmFaZHA0dWxDcm5PaTd1L3YyTjNyN0JqV1hCZUpuQnZUSkw4Qzcz?=
- =?utf-8?B?R3MvQ3plTnQ1a3VrZTlkbDFicUxVSGNFYTQvSlpXa3FpU1hsYitNcHVDUmZG?=
- =?utf-8?B?SGY2QjZhdUNJd2JreUpab25WSFNQWHVic0hQT1pCcGFpV2p3WEc5d1Bzb21D?=
- =?utf-8?B?cDIwQ1ExL0tRZVpTaVlBNWQweEN1TXRJZHBXaDk3YUFmZ3hvWVJsSjBKYlhn?=
- =?utf-8?B?d3IvdjBSRWNzSEY1U2ZLcE1kTUFHaVhyYlFQcFVZbWh2WW5OUE9nZ1ZLMURN?=
- =?utf-8?B?ZkFBNy9rYnlaa0gvTWpHUUV0cXd5RXFjOHZlZTVIMldLOWNuRHRuRTdOdWlJ?=
- =?utf-8?B?VXFzdWtGZkVPbWh0WWNQcmJqcm9IL21sUnNpYWwzL1BrcGJrOXFxU1pKV0cw?=
- =?utf-8?B?TEVDV3VYc0l6NWxKaTRZcTNSSzFTSzdrU1kyOE5OdGxDSTJ6WjRkMVZ5N2ll?=
- =?utf-8?B?ZUV6OVhVZXQxM1Z1UWE0RGFMZEpVTDVBZWxVRGtMSVhTL1N5aVFpSzFJQzRS?=
- =?utf-8?B?WTQyM0V3ZlBjM0czcW9JaFN5NFBKVE5xd2V4VnNNZ1BvVUErNG9xcjFQS3FJ?=
- =?utf-8?B?UnhaT3FtLzIvNlI2OE1EYTZBTkVJenBkd05oNjFUalM4U1lQMnlldWxnVzZU?=
- =?utf-8?B?T3UvbmJ3NnpvQ2tCTFNLOC9lRm51VW0zanpWWThZV25XZnRKSG8vRFZwWWlB?=
- =?utf-8?B?WWxzM0srQUtDTFNrSTVYU2N3bGNnOE51V28zcUloU0Rjd1g1WWUwbmMvYUM3?=
- =?utf-8?B?c3dBaGJGSzNmckVIVGpjcEVtZEM3Q0lYS0N3U2c2Mng5Q0xOcDV1RkZSaEli?=
- =?utf-8?B?N1hXYTlMVE0vTVhzT2N4VUFJME41T2U4a1RscWFxYVF6L2FWVmQ1SlRtZDN6?=
- =?utf-8?B?K3RnWnNzUlBIVXFCcmtDL3c0RlVtc0hPLzl4TFFuOFViYXN4UTgzTVM3Ujhk?=
- =?utf-8?B?bjJyRGhHMHl6WnFFMklEWTFMOGU3amNaTktLLzc1Q0NyVHlDMUV6WGFmNnAv?=
- =?utf-8?B?TTByR21XK1RHcUVLMHJuc2F2YlR0MVdQUG42Qmh2Y2hZUkRZQldOZDJydVM0?=
- =?utf-8?B?Y2Ztd0dZckxjRkRvWWVPZC90OGdTeWdSTHVUZEg3aEd4ZHg1NjA5K0pyWkJy?=
- =?utf-8?B?WmJHUVNwMk50eXljQW1UanFRbU9WYzcyaXRuR2dLMkl4QWk1MDNPUT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2d94856-5663-45c6-cc58-08debb6089be
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 19:54:03.9615
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7oGWu3ngG5NzxDfIhcPKf6kRnyrffM0ngMiuCKrJqZYnkSiOckQFIePA4WFskt3nqqNTLqPIdqV9Gd2lqAPhSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P123MB8017
+Date: Tue, 26 May 2026 16:08:23 -0400
+X-Gm-Features: AVHnY4Lznba3h-1sWnAHg7p6Ba1LoCTNt8ov451l1mLyC8_T4wgN1wSwBMgq_fw
+Message-ID: <CA+0ovCgDzWA0w83WsW0r1eUKKejt7NTHK+c-=r1GkzJD0__6sg@mail.gmail.com>
+Subject: [PATCH] affs: split hash-lock subclass and reject self-referencing
+ dir entry
+To: David Sterba <dsterba@suse.com>
+Cc: Christian Brauner <christian@brauner.io>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 26, 2026 at 10:28:38AM -0400, Aaron Tomlin wrote:
-> At present, the task_setscheduler LSM hook provides security modules
-> with the opportunity to mediate changes to a task's scheduling policy.
-> However, when invoked via sched_setaffinity(), the hook lacks
-> visibility into the actual CPU affinity mask being requested.
-> Consequently, BPF-based security modules are entirely blind to the
-> target CPUs and cannot make granular access control decisions based on
-> spatial isolation.
-> 
-> In modern multi-tenant and real-time environments, CPU isolation is a
-> critical boundary. The inability to audit or restrict specific CPU
-> pinning requests limits the effectiveness of eBPF-driven security
-> policies, particularly when attempting to shield isolated or
-> cryptographic cores from unprivileged or compromised tasks.
-> 
-> This patch expands the security_task_setscheduler() hook signature to
-> include a pointer to the requested cpumask. Because this is a shared
-> hook used for multiple scheduling attribute changes, call sites that do
-> not modify CPU affinity are updated to safely pass NULL.
-> To protect against unverified dereferences, the parameter is annotated
-> with __nullable in the LSM hook definition, ensuring the BPF verifier
-> mandates explicit NULL checks for attached eBPF programs.
-> 
-> This change updates all in-tree security modules (SELinux and Smack) to
-> accommodate the new parameter mechanically, whilst providing BPF LSMs
-> with the necessary context to enforce strict affinity policies.
+affs_remove_header() acquires i_hash_lock on the parent directory at the
+top of the function and again on the child inode inside the ST_USERDIR
+arm, both via affs_lock_dir() which uses SINGLE_DEPTH_NESTING. Lockdep
+sees two acquisitions of the same lock class in the same task at the
+same subclass and warns:
 
+  WARNING: possible recursive locking detected
+  syz.2.17/3573 is trying to acquire lock:
+  ffff888123db0778 (&ei->i_ext_lock/1){+.+.}-{4:4}, at: affs_lock_dir
 
-Adding BPF Core to review the use of annotation "__nullable" in the LSM
-hook definition.
+affs_remove_header+0x72f fs/affs/amigaffs.c:296
+  but task is already holding lock:
+  ffff888123db0100 (&ei->i_ext_lock/1){+.+.}-{4:4}, at: affs_lock_dir
 
+affs_remove_header+0x261 fs/affs/amigaffs.c:289
+  Call Trace:
+   affs_lock_dir fs/affs/affs.h:311 [inline]
+   affs_remove_header+0x72f/0x1ab0 fs/affs/amigaffs.c:296
+   vfs_rmdir+0x20b/0x6a0 fs/namei.c:4446
+   do_rmdir+0x2ed/0x3c0 fs/namei.c:4524
+   __x64_sys_unlinkat+0xf4/0x140 fs/namei.c:4692
 
+With panic_on_warn this terminates the kernel. The two lock instances in
+the report are distinct inodes (db0778 vs db0100), so what lockdep is
+reporting is two acquisitions of the same lock class at the same
+subclass -- a missing subclass distinction in the annotation. Trigger
+requires the ability to mount a crafted image (CAP_SYS_ADMIN or
+equivalent) and is reproduced by rmdir() of a subdirectory under a
+crafted AFFS image.
 
-Kind regards,
+The same locking pattern is also vulnerable to a strict self-deadlock
+on a crafted image whose on-disk hash table contains an entry with i_ino
+equal to its containing directory's own block number: affs_iget() would
+return the same in-memory inode for both d_inode(dentry) and
+d_inode(dentry->d_parent), and the two affs_lock_dir() calls would take
+the same mutex twice. No lockdep distinction would prevent this since
+the same lock instance is acquired twice.
+
+Address both by:
+
+  1. Adding affs_lock_subdir() that uses SINGLE_DEPTH_NESTING + 1, so
+     lockdep can prove the nested parent->child acquisition is safe.
+
+  2. Rejecting the case where the parsed child inode coincides with the
+     parent before taking the second lock, returning -EIO under the
+     existing done_unlock path so all previously-acquired locks are
+     released cleanly.
+
+Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+Closes: https://lore.kernel.org/lkml/CA+0ovCiA7huMwMxvWgC8km2P+gJwd-jax+ACo=EbGrJ6FVp55A@mail.gmail.com/
+Signed-off-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+---
+ fs/affs/affs.h     | 6 ++++++
+ fs/affs/amigaffs.c | 6 +++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/fs/affs/affs.h b/fs/affs/affs.h
+index a0caf6ace860..c4af169294ed 100644
+--- a/fs/affs/affs.h
++++ b/fs/affs/affs.h
+@@ -313,6 +313,12 @@ affs_lock_dir(struct inode *inode)
+ 	mutex_lock_nested(&AFFS_I(inode)->i_hash_lock, SINGLE_DEPTH_NESTING);
+ }
+ static inline void
++affs_lock_subdir(struct inode *inode)
++{
++	mutex_lock_nested(&AFFS_I(inode)->i_hash_lock,
++			  SINGLE_DEPTH_NESTING + 1);
++}
++static inline void
+ affs_unlock_dir(struct inode *inode)
+ {
+ 	mutex_unlock(&AFFS_I(inode)->i_hash_lock);
+diff --git a/fs/affs/amigaffs.c b/fs/affs/amigaffs.c
+index bed4fc805e8e..fefc2bb11d43 100644
+--- a/fs/affs/amigaffs.c
++++ b/fs/affs/amigaffs.c
+@@ -293,7 +293,11 @@ affs_remove_header(struct dentry *dentry)
+ 		 * i_hash_lock of the inode must only be
+ 		 * taken after some checks
+ 		 */
+-		affs_lock_dir(inode);
++		if (inode == dir) {
++			retval = -EIO;
++			goto done_unlock;
++		}
++		affs_lock_subdir(inode);
+ 		retval = affs_empty_dir(inode);
+ 		affs_unlock_dir(inode);
+ 		if (retval)
 -- 
-Aaron Tomlin
+2.43.0
