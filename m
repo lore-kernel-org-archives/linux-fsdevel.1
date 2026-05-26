@@ -1,171 +1,87 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024BE3C37AC
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 06:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91A3380FFA;
+	Tue, 26 May 2026 07:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779778392; cv=none; b=D+eHudQ3CE1Qd+Drdn50migwZKDNwT9IIeAsw7wHneQ9eLpEoqDlYP7C+eIr7y15z8ec7PZBqIDrfrb8bEjdtxvZ7FL+z3bWnQTbNyPO7j+amSWrjbZALwrASJrBtAbMU+MZZZ+Jj+6Z+w8RoBBUQMwOCOGhVeSpPj4XGTiJpdM=
+	t=1779779127; cv=none; b=rRjed+KHczlPE4VK0R60ioCS+OWW3yc7Y4qOoPkjebZ6FtQWqYBX1gBXY5DXtOOzEj8YL23Fz61SmUHXJWpHtyNi4nDV3wQjRifNywYeHrc8DgcjwDB8imoKzbTxmXT1vuskCQZwdBQcb/ZzgEYwyIOg/avKgXktpnX+w3mnlKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779778392; c=relaxed/simple;
-	bh=lI94k3K5Kcc20pekEfGAOaAomJ1QgkYtP6G74MUe9gk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qL4nPjTahSBlCGIPQPKY45S1zc1rOpB/eP3ffYlgMB+FLd5rorolpqm2U0tsjrACPJAnV3Ytiar3Ape7VJ0Hy/hf6PHaduPPDm5NQ4h14YAQ+9IhGR13asN5KBtSjox0CJoVYa7N5bIElw41UzohiAs/uZvsi71NEVp9s1BYgpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TR/s+dSF; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1779779127; c=relaxed/simple;
+	bh=f8DAXXyWti0by9Cv8DO/3OvZeHRksUoTa8mEZPQtEtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k2UF2YruV6wMoNCUwH5lTcJLBGLOO94PPHkww7UtQpWwDReLUklKhkfB5hreTYaEmyzIEAUzOnzew02UyIytEuYRhnVdywfvkig8mrdHLjAiUgZHwbol26U2+LQKTnDB06BxS8fYrrRgziu0zmcCvvffpJzizLWzkL7HNue/+GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HbEFYb+B; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TR/s+dSF"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43fe608cb92so6170156f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 23:53:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1779778389; x=1780383189; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yXWASYjT/jE4WzpKhE8nVhHkzGwmPlTITkkcMF0D8BI=;
-        b=TR/s+dSFI2Vk05JY9oKvhTkUPLyGjERphtpAPMGuiQxvuv3fbFSbN1th4lK+bttysm
-         cFb/iWCpkNb08kRUbTcn9WjfJUaB3xcjwa8CXEuHNu8ztYYWGwWQbD8loHo0HuyuciOC
-         0TwcL+CxgU01vXU93n3aCg4f5dmgC1/3cis8o9d493p1B0tb+ArlTCB5LaW6RVOHuZSe
-         xFgNBY2Ddet/gPdHUxjFVULwbZSkZetwjzSKlyv7KFRavsith7RHUAc5uHnKUJqDu/G4
-         H3+i6q7GH893mbCE8FjnHXqiv6/6t+5ocWoYo60XT6575r8A+rywJ8KG4tumaLrCo8Ff
-         W8Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779778389; x=1780383189;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yXWASYjT/jE4WzpKhE8nVhHkzGwmPlTITkkcMF0D8BI=;
-        b=n7h37e1mZGkKWdAAStPUZLCQohuTOKGBVoKfwfuV41CWMR/6YFbmqGZA/GySiKipDt
-         cPsiRohkazfjfLIdvzv88jxf5aK9qk1g5LnxWFg+9mU9DCQvMuCK0Nj+zONmbj9wa36T
-         HwU1+vTBPszBE9T+QZ7/7RwJ4mC5RYQOROwUDIBmGTiUVd2SbM3lvDNttfCmqggG6xK9
-         slhFxvMFYT9ZGQk6syNASUxKqRWWg0ALZov3iPmwuf5s/vRz0ef4/CgIaqB7TTzm40xA
-         0tctt2tkR/sezCklBt64wOFghAoGcFU1Js7BFk2b9rPSRdTotkjJ+UUb8melRCgCON5S
-         SZ0w==
-X-Forwarded-Encrypted: i=1; AFNElJ9LyNKsr18j2LneueVWfXJAAY0Z35k1egx8+Kq6gm8lB5dzxTXiQDzxMgj/Pyg2ZM7QHddC676NzAcHHC1Q@vger.kernel.org
-X-Gm-Message-State: AOJu0YykmPzri8CusBjBO8wQLRlq9DcqtnhFvnmvwFKx7SeA1z3rXZqe
-	RCzPMnvL4IPSdfpqfoo86vAKYUfW6bgE5UgA4LWHdpVJz+abkU4zwzjdVCIN5mZK6xg=
-X-Gm-Gg: Acq92OHkuJJIyqpo6PLj8S9YFqrqSs+NLJwvLRVyh82lhEagLhUIlCdhTaUowAQxzEl
-	KV4UUYvA34wKuaOkzMGXMiC/85zzkpwuTLhTkaYKoXxFer0/Ij6BMuH81UAVq1pZCbpaRXi9KYJ
-	oLiQMebVdV652qO6UfXtA/DxtnhmFCPFqSJUT/MZNwdG/MuHKBORETfcPTNyQl8ugctx0DIIE9i
-	DSoamK6gpDXNdwi3G+SdsQV8RPlDcPSXcxBG6lmDwmBS+VGN2U6hTd6JtRTzQrTo9GPH4Blgb62
-	Imh5BoY+odFOHjqc0Z8ywwl9uwD/krx8zEqK+rv3/iXpP656Trfce7aC3c2e8jxudhCyXOzwC3N
-	4IsiOwvp4uduWWyVyAvmXT7HKy28q6ZCQbwJWcmZLsfDu4QIe8il3iHmBqefPDKiL6qkUgDblnO
-	SpV9xnS91sytv/e4mKkuhgzHNf6PfDol0cu9Jv/klBxDAiNaVkskPVlUXZSIS8NJuSWo9NYYvk8
-	qtw6hYBxzIeULpu1oTsBDyRS7K2Qq9JoIiabzqUdpSRV5fcekjqdOzCbF8plnrLBRLz7so9ftTt
-	ZiP+
-X-Received: by 2002:a05:6000:2003:b0:43b:4136:1e6f with SMTP id ffacd0b85a97d-45eb38e4b46mr29516257f8f.38.1779778389230;
-        Mon, 25 May 2026 23:53:09 -0700 (PDT)
-Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6c9ba2esm33848641f8f.8.2026.05.25.23.53.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 May 2026 23:53:08 -0700 (PDT)
-Message-ID: <88c5ca1d-eeda-4023-bc7a-397b92780db9@suse.com>
-Date: Tue, 26 May 2026 08:53:06 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HbEFYb+B"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3h4K0TLKBXuTZOqjfG5ALM/iez32lKAxf/EnmrS4GuQ=; b=HbEFYb+BQED2m5cwh4Qfezy2uu
+	RHdVurecujysFtkOIUjSWShhrA6u+r2GnXZRN8HkJvdFRP0la/7ylZY3CZPWxR1wxxV2BCDSYozE+
+	gegJgRFBhaaMyQZAMF7Wa31Xs7DuK1TQE7G4GOraq5XXQi+H9sUleRgAo6J94vchPIdNiP4TVp6vR
+	BVlKGM1Cv+i2wIxNkpPXYoqjgmEcPrxEltsKPrnvRtaJcV8ncDQQmhmYpPNmzjqNLoK6Fb6uqzw/D
+	zs99xAqjmkwAEOVj0OMVJF6+I5QRrq1pe45/9tMaVYDTFMf2edMfG36JjLQEsGuT3EQviKZWlDHCB
+	GzC7LYmg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wRlqv-00000001ECT-0Lij;
+	Tue, 26 May 2026 07:05:25 +0000
+Date: Tue, 26 May 2026 00:05:25 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Yeonju Bae <iwasbaeyz@gmail.com>, netdev@vger.kernel.org,
+	gregkh@linuxfoundation.org, security@kernel.org,
+	john.fastabend@gmail.com, sd@queasysnail.net, davem@davemloft.net,
+	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH net] tls: avoid zc receive for file-backed pages
+Message-ID: <ahVGNWX0j5D-ZEbc@infradead.org>
+References: <2026052150-stylus-germicide-780e@gregkh>
+ <20260521165328.16112-1-iwasbaeyz@gmail.com>
+ <20260525105459.5ae73c2b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] Convert moduleparams to seq_buf
-To: Kees Cook <kees@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Pengpeng Hou
- <pengpeng@iscas.ac.cn>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Corey Minyard <corey@minyard.net>, Gabriel Somlo <somlo@cmu.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Hannes Reinecke <hare@suse.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
- Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
- Tiwei Bie <tiwei.btw@antgroup.com>, Benjamin Berg <benjamin.berg@intel.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "David E. Box" <david.e.box@linux.intel.com>,
- "Maciej W. Rozycki" <macro@orcam.me.uk>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Peter Zijlstra <peterz@infradead.org>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>,
- Frank Li <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, John Johansen <john.johansen@canonical.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-modules@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org, linux-um@lists.infradead.org,
- linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20260521133315.work.845-kees@kernel.org>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260521133315.work.845-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260525105459.5ae73c2b@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On 5/21/26 3:33 PM, Kees Cook wrote:
-> Hi,
-> 
-> I tried to trim the CC list here, but it's still pretty huge...
-> 
-> We've had a long-standing issue with "write to a string pointer" callbacks
-> that don't bounds check the destination (and for which the bounds is
-> also not part of the callback prototype, even if it is "known" to be
-> PAGE_SIZE, which sysfs_emit() depends on). Both moduleparams and sysfs
-> use this pattern. As a first step, and to test the migration method,
-> migrate moduleparams first.
-> 
-> There are 2 "mechanical" treewide patches that are handled by Coccinelle:
-> - treewide: Convert struct kernel_param_ops initializers to DEFINE_KERNEL_PARAM_OPS
-> - treewide: Convert custom kernel_param_ops .get callbacks to seq_buf via cocci
-> 
-> The last treewide patch is manual, and may need to be broken up into
-> per-subsystem patches, though I'd prefer to avoid this, as it would
-> extend the migration from 1 relase to at least 2 releases. (1 to
-> release the migration infrastructure, then 1 release to collect all the
-> subsystem changes, and possibly 1 more release to remove the migration
-> infrastructure.)
-> 
-> Thoughts, questions?
+On Mon, May 25, 2026 at 10:54:59AM -0700, Jakub Kicinski wrote:
+> > kTLS RX zc decrypt writes unauthenticated AEAD output directly into
+> > pages pinned from the recvmsg iterator via tls_setup_from_iter().
+> > For MAP_SHARED, PROT_WRITE file-backed destinations, those pages are
+> > live page-cache pages rather than anonymous copies: MAP_SHARED does not
+> > trigger copy-on-write, so FOLL_WRITE returns the actual page-cache page.
 
-This looks reasonable to me. I added a few minor comments on the patches
-but they already look solid.
+As does MAP_SHARED for any other mapping.
 
--- 
-Thanks,
-Petr
+> > via COW; PROT_READ-only destinations fail at iov_iter_get_pages2()
+> > before any decryption occurs.
+
+Btw, this really needs to stop using iov_iter_get_pages2 and switch to
+iov_iter_extract_pages / iov_iter_extract_bvecs.  This does not fix
+your probleb, but other potentially exploitable races.
+
+iov_iter_get_pages2 and friends must never be used for writing,
+and preferably should go away entirely.
+
+> > Avoid zc receive for file-backed destination pages.  In
+> > tls_setup_from_iter(), after iov_iter_get_pages2() pins pages, check
+> > each page with folio_mapping(page_folio(page)).  If any pinned page is
+> > file-backed (mapping != NULL), release the pinned pages and return
+> > -EOPNOTSUPP.  Handle -EOPNOTSUPP in tls_decrypt_sw() by clearing
+> > darg->zc and retrying, which causes tls_decrypt_sg() to allocate a
+> > kernel bounce buffer instead.  Decryption output never reaches the
+> > file-backed page; on tag failure the bounce buffer is discarded.
+
+I can't see how this is not a problem for non-file backed shared
+mappings.
+
