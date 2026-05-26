@@ -1,199 +1,195 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06C23C65FE
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 22:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779834287; cv=none; b=DCXTGIh9qq/uo+L+JtRBT1z+4uoE1gq6RffHqVIQIBjjeBy3+EAOSaHBTcFrfCpOFZJ3C1/ZrW0a2KCFnUFCbmvOH0OvHwAvPQLIqC97iAYDini5bm4kONGUcPBepaOqURFA1fB2toO5kJ0dpZu1H5cEWYtV0W4x+jhfFW0QpfY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779834287; c=relaxed/simple;
-	bh=GxbQ8NIk4mgl61gh8KFDsnH5jMKPJyjLI5wJFoJcLLE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=jzBRTu3H5ftx790VL2J4N2ccZues+enjazCQdlEDG9s1YQvqiaxumaQjr/Hk5Pii0W+8pEC4XHUuta4ixJ23mNqPrJmxrb/jr6qbnHXTpBw9L+NzQaGuCFMJGIBLLXr4xss1exB10haTmAwAXThDDjBt309wZ3i2nSSYhAJHHRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=MZq1bC5t; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42DC29E117
+	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 22:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779834463; cv=pass; b=ZhFMesJNWFoJsk0pyxX2Ovn7GnZxA6FXpt9VOSe1LfarBneeekRooXajjO7ZG89mdC3LB6CKMy2dhB/YezW8E+7Nvgq5qHxlADL+sS6AVpyKZxLDbTaKhaCstbbYNHaVsz94EmPwP/eK2meILHeEHO5jxSj8q/zLIH2br72SR+8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779834463; c=relaxed/simple;
+	bh=maV0I1NP1jCCX5+dedi7fheJJXGKqM11o/zLxwZPxsc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HtZzaOI75tTLiPMcg5AJHKgOqosOjExW7nUH5EB1SMHU/f4h0YlvGQvKYmyI6+QfD2fwNYGnrzNxJzeVtMcD3cEuvXly8OXKVBgVgSblPhlLXJidyv9qOUonxE/7Yc6lm8pOLhZZoKXREeSMdt5ndGzyNs+VMiSELzbrNaEATic=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NsdD7vGH; arc=pass smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="MZq1bC5t"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c8021c8c42fso4468139a12.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 15:24:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NsdD7vGH"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-69d79fc48d2so3556696eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 15:27:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779834461; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bvzK22qsScujxPaBcWNvpjv8wDWVJ8MX32dw0IJvfjvcGO5gXy5i+Qw6eh64u0ctI9
+         2NU75Aan3rF8Z2hj90DZWgLqPNnV9Wa+Q+W8ruWYMDzpF6tzmaGwlJ+3IL/2Qb5dd5wb
+         ZgPEPkJWCiTEakhBKnzvxg/iBaxlMsZJ4droHrseewSB/TevBOUlyO1UmcEAsSmLe4gE
+         8+DcDGnHmsj769u8wHw0m4fiKKer4GQcdeCL+MCykSmOYQ9KJS1oGRC0BZ/hodjxc84k
+         kd1Xvv9Gt3dEGp/Ulo3k4CdgqCwYfpZtyU8PCTfSC8nT0xviQl5IwYK4T0UXjbkp9jrY
+         MRtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=wNoZs0zJdjzOYeBqS2/JyRw3os+7in3fs8BDVUaB6YY=;
+        fh=CGpOe2swFKxRzgtGF/SZQMqT8VELxlu6FIHQG9O+H00=;
+        b=VktK9YipAEixbr5bMHpfDEUPwK/AeAaj4/hh6iKzWu5sAUfjnQdEGwqxAfsh2uMVLc
+         DgVxRAsIfUY4C2BDjwj31dVLjhb5KrZViaiw2JfM/wZyeMIDTUuGAllnNqfi0BnV3Xyx
+         RBqiAAmfAhRkWrl08iEtbt84X4gaFzFQU0lE6ms4N3zXBxKM/tkma1/kX0Z9KGZeo1gj
+         PU23dfi3rVWRs0n9BvYjOmf7sx97wD1/78HG1BzZEqMnFjHa1usECygDMKEB/kyGL8ol
+         Fzq7IAxrvzqMQTRSwEvDqEXqesQ60THH7o5YscGrD55OLAPnMOewJFHzqom7T9zO+VI7
+         gxEA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1779834285; x=1780439085; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qZg3/Nrp/XSikTx+0njY7ovlfnqPSA3h4CFSyjzLU5Y=;
-        b=MZq1bC5tNXiGp3TbIA/cWPITDW7PrEBMxLE7q4RVQ3mjdRpAVHQtt9zxUgx2OkPsvo
-         XSjeqcPHo3Qwkszs7uUPxfCEuMykpHX0hbfxP82EqAWmQJIYsBEFY4HM5c44LptDLb56
-         23muriERM/yN8y9I5HfCBd8vsiev6txgivViGRntYepgXbIucmSeihpJsN7uEH/rxqHs
-         Wpj3p4eSv8cvx0SFv/T10SteGyGLZVVnquZ59NKfUWuxJisW3b+WLgztZofvWLNy8OZg
-         lwy+RAbU/rYgGGXBECIJ5myD1l68YgTqDJJKU6dxTMYl/pILFMNAqBhxw6TLH5zIx3nB
-         0YlA==
+        d=gmail.com; s=20251104; t=1779834461; x=1780439261; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wNoZs0zJdjzOYeBqS2/JyRw3os+7in3fs8BDVUaB6YY=;
+        b=NsdD7vGHzCStiMDHXI++Y/dwJxjIp+QVIrBPyHBaieLWFCbCiTTH+PGZwE6o+lP+Df
+         TEP8qOWcUWYdC6/t8trrjPyy1wp5gg4Ez8Vc01gbE9YsO57nZYKef3+tIO+gcFegM7+6
+         RF5pqaRK+rtZkBeheKquVmhb3QjdTOwrjXQVaZN+Gm5gdaqF95nh9O0iF4Z/4/UYoICk
+         pWLf7Lm27c5FEfgith6MgkC79MRx6p5O9NzXV9p/1yHV+AMSXk74izIsF+GhioAeq3ZM
+         /IimCy5r3ONnZX7M8JCwKIHEbr7QpvjTlnYVPuU9vAbIiyi2vazdoswR/oO1DF0uZPOw
+         MPJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779834285; x=1780439085;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qZg3/Nrp/XSikTx+0njY7ovlfnqPSA3h4CFSyjzLU5Y=;
-        b=G3Xf0c9i6RyDZtJE8Wx1kdeELVxDNfSit9M0pcsiq1mjX56VZeVf+hmIDWIlrfHg87
-         pn8rFynzJH1plrBl81EVlzjDLkzuOcmk/YiXjlKpP9K6VRNQrJN1pvz4WekdDXy0m7EV
-         0RTwWBDCSXcPvhdiWZM1EhslEcctQ+8qNxV+20xx+aS9i67TVefF0teXRlJsGNmno4Qy
-         pUpCtsclMmdML1Ihzq5YAky6bV3c1ANYhOx6FBbmfI8YTJvueY42rIAlSSRNYLjNxpou
-         LjmshjR9NqeiTx2Xs8cKnw+Hm93/04kqM+m2EAkeF2NEdREXPdFNcM0R+dFVtKJ5rg2N
-         S87g==
-X-Forwarded-Encrypted: i=1; AFNElJ9+bfpX7hnMFHLmvykh75wZpDSn9KfhlV0O2WHuNdt5bnSXaVk2t3rbXTTp/kt6I9kWs3LKDBpsJPu4xYTj@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn+ryHouFh7JCdhRlGjwkspX6EC5Us0pV1emroL18zym1jstva
-	XCI0fJxzkooi48FqTB1suXut1wx+1KfEwjdP5Z5xY7MqsMZrCOeC027GG4ci56XfBdI=
-X-Gm-Gg: Acq92OEUT+er+aQLfEp6xPMM9FuJpp7vfLjiclwKXQW2IpaH6UYYYk1NgnlsG/fyjJx
-	RyRBgK4Ub0icSUW1NLn/snQzXX0ovam8HtZ7CI/DATqFJBQMIDXIJLuQO/ZNvhXJn9XfBBRF5IB
-	iZNNz31Vht7MfQKSs5lBXn9VrNwaI/0WvKLs19jxmQ9f4BEuYNLIraQTpSGrBpixhCLDC9V0rUQ
-	KutNAB9IW4U4EXBSS9jusVefKRKQqpl0sCjrE2FUchbyYuE8j+3xRMN5z7vvHlr26Ec0PuXf6R2
-	jJvpZpI4MLWnZGUFOvcLvqDaSKFPSWOH6mPBZI4W0F0jYl/QnS5SuEHBxbT6xiTxk780S791/PR
-	CTLC6sG//jPu2uhvbKAzoX/UATnBM8GLY6yZtnm/FWqKushmeZfges8jPbDYq4ymaMJ/4twmNjK
-	gEQWnk0Et5gGB21HjUAE3elMWc
-X-Received: by 2002:a05:6a20:2449:b0:398:b346:b13 with SMTP id adf61e73a8af0-3b328cfe3ffmr19991485637.16.1779834285148;
-        Tue, 26 May 2026 15:24:45 -0700 (PDT)
-Received: from localhost ([2001:569:58a0:da00:a5c8:c4ce:f7c1:40c1])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c852028fe99sm11268978a12.4.2026.05.26.15.24.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2026 15:24:44 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779834461; x=1780439261;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wNoZs0zJdjzOYeBqS2/JyRw3os+7in3fs8BDVUaB6YY=;
+        b=PrV7HooE7GCLW2upjGGBEsQC6FepKO8FoQeUktltSh73UoG/WZxVYZOG1fIHb11s/m
+         yAPtAbetsIFelHp5h0jWP2QF1Rn85yeB+2hnYvWPubBXEJvPLFTecTvs4f15/YY3vSGX
+         sBS/32pNHlMvDiTQFiDLJpp4Gpp1dsvB4T/prs2NfxPCib682a5yCBg+mTVfi3Ap45Mw
+         2hdWFNaPmdpZYBzgerfaRo+WoL51VBRZZR0xTSGilxzTofmSZ91F9n5v/uDklstwjgkf
+         p2sUCjrgINYJCUFNNK+QX3SOdG9UQP92faf7NLJFbGtU8hkwsMGnq/QdKUf0O+jmRB4J
+         equw==
+X-Forwarded-Encrypted: i=1; AFNElJ/RcZZGMmmcaONhJr/iiVa71dVC9I5e4H7+VKdGrIgiZT+9rJU9OzU8+dNFeKmOnD6tTFA6sTy1gTUFWK0S@vger.kernel.org
+X-Gm-Message-State: AOJu0YzokTZGgUFAqY0Yp5CRbUhEYXaUFWqERC/YeI6VzU0sCPzaOpg0
+	F6vikxdxIuHDcO+yJjrtiDxnyNOsfqxoUb52bNFN7wVdPNdrmcqu3HOuijTjJmJwUzromBkJ+3C
+	Gb2t8sqkrjGIyFF0Sl59zCx9PsdXoI5aiGIRc
+X-Gm-Gg: Acq92OHrgzeoq6YXYIRW4sitZWZPgiPjXczYZXzGy67M4LrZt98JE0imr7WYU7nVLzS
+	UeHMdAM5PCwSXAm5YgVZtYN8IUgLnh1PTiGTqnz80TBhhqunHUpE8kFLyA6sJlgtupuu0YpE6p6
+	u/SvweIEYFoaNs2k4a+iKNtBaQgkqHWVtFJc2k6VulpR2lsSAMQdyA0NRmflWBGdHaX4Yil3m+7
+	wdy4FuwvsNdzjJ6FJEzR0TsOsD+MTm6FFM8vI1R/vw2OIuGs2Yt+KZJk9wDZyo+ky/j0aZ+vl1Y
+	elz0118uryYsfbVR
+X-Received: by 2002:a05:6820:1612:b0:696:982b:1c24 with SMTP id
+ 006d021491bc7-69d7ece2e97mr10610014eaf.57.1779834460731; Tue, 26 May 2026
+ 15:27:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 26 May 2026 18:24:44 -0400
-Message-Id: <DISYLID6QGFY.1HTQOMHVLTRWS@etsalapatis.com>
-From: "Emil Tsalapatis" <emil@etsalapatis.com>
-To: "Dawei Feng" <dawei.feng@seu.edu.cn>, <martin.lau@linux.dev>
-Cc: <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
- <eddyz87@gmail.com>, <memxor@gmail.com>, <song@kernel.org>,
- <yonghong.song@linux.dev>, <jolsa@kernel.org>, <kees@kernel.org>,
- <joel.granados@kernel.org>, <bpf@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <jianhao.xu@seu.edu.cn>, <stable@vger.kernel.org>, "Zilin Guan"
- <zilin@seu.edu.cn>
-Subject: Re: [PATCH 2/2] bpf: cgroup: Use kvfree instead of kfree in
- __cgroup_bpf_run_filter_sysctl
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260526131035.1312864-1-dawei.feng@seu.edu.cn>
- <20260526131035.1312864-3-dawei.feng@seu.edu.cn>
-In-Reply-To: <20260526131035.1312864-3-dawei.feng@seu.edu.cn>
+MIME-Version: 1.0
+References: <20260525171931.4144395-1-willy@infradead.org>
+In-Reply-To: <20260525171931.4144395-1-willy@infradead.org>
+From: =?UTF-8?Q?Andreas_Gr=C3=BCnbacher?= <andreas.gruenbacher@gmail.com>
+Date: Wed, 27 May 2026 00:27:29 +0200
+X-Gm-Features: AVHnY4LmuYpZHB23ToMLo1n7WZk_snTqqB948WU5CJiroL1sdwP-ZA6HSyOYucc
+Message-ID: <CAHpGcMJX+6qctmM6TRJ-0cin_nOiFM4GM8BNeF=TzKfM8BP8XQ@mail.gmail.com>
+Subject: Re: [PATCH 00/34] Remove b_end_io from struct buffer_head
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue May 26, 2026 at 9:10 AM EDT, Dawei Feng wrote:
-> proc_sys_call_handler() allocates its temporary sysctl buffer with
-> kvzalloc() and passes it to __cgroup_bpf_run_filter_sysctl(). Since
-> kvzalloc() may fall back to vmalloc() for large allocations, freeing
-> that buffer with kfree() is wrong and can corrupt memory.
+Am Mo., 25. Mai 2026 um 19:18 Uhr schrieb Matthew Wilcox (Oracle)
+<willy@infradead.org>:
+> There are three benefits to this patchset.  First, it removes an
+> indirect function call from the completion path.  Instead of setting
+> bio->bi_end_io to end_bio_bh_io_sync() which then calls bh->b_end_io(),
+> we set bio->bi_end_io to the appropriate completion handler, replacing
+> two indirect function calls with one.
 >
-> Use kvfree() to safely handle both kmalloc and kvzalloc()/vmalloc
-> allocations.
+> Second, there is a slight security advantage to this.  It is one fewer
+> function pointer in the middle of a writable data structure that can
+> be corrupted.  Third, it shrinks struct buffer_head from 104 bytes to 96
+> bytes, allowing for appropriximately 7% reduction in the amount of memory
+> used by buffer_heads (or, alternatively, allows 7% more buffer_heads to
+> be cached in the same amount of memory).
 >
-> The bug was first flagged by an experimental analysis tool we are
-> developing for kernel memory-management bugs while analyzing
-> v6.13-rc1. The tool is still under development and is not yet publicly
-> available. Manual inspection confirms that the bug is still
-> present in v7.1-rc5.
+> I've run ext4 through its paces, and everything seems OK.  I've only
+> compiled ocfs2/gfs2/nilfs/md-bitmap.  Hopefully the maintainers can give
+> this series a try.  I'm sending the entire series to linux-fsdevel
+> and cc'ing the fs-specific mailing lists for the fs-specific patches.
 >
-> Reproduced the bug based on v7.1-rc4 in a QEMU x86_64 guest booted with
-> KASAN and CONFIG_FAILSLAB enabled. The reproducer confines failslab
-> injections to the proc_sys_call_handler() range, uses
-> stacktrace-depth=3D32, and injects fail-nth=3D1 while writing 8191 bytes =
-to
-> /proc/sys/kernel/domainname from a task in the target cgroup. On the
-> patch1-only kernel, fail-nth=3D1 triggered the fault:
->
->   BUG: unable to handle page fault for address: ffffeb0200024d48
->   #PF: supervisor read access in kernel mode
->   #PF: error_code(0x0000) - not-present page
->   PGD 0 P4D 0
->   Oops: Oops: 0000  SMP KASAN NOPTI
->   CPU: 2 UID: 0 PID: 209 Comm: repro_proc_sys_ Not tainted 7.1.0-rc4-0068=
-6-g97625979a5d4  PREEMPT(lazy)
->   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01=
-/2014
->   RIP: 0010:kfree+0x6e/0x510
->   Code: 80 48 01 ef 0f 82 ae 04 00 00 48 c7 c0 00 00 00 80 48 2b 05 04 1b=
- 23 04 48 01 c7 48 c1 ef 0c 48 c1 e7 06 48 03 3d e2 1a 23 04 <4c> 8b 57 08 =
-4c 89 d0 83 e0 01 48 83 e8 01 49 09 c2 49 >
->   RSP: 0018:ffff888108de7ab8 EFLAGS: 00010282
->   RAX: 0000777f80000000 RBX: ffff88815af398c0 RCX: 0000000000000080
->   RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffeb0200024d40
->   RBP: ffffc90000935000 R08: 0000000000000001 R09: 0000000000000001
->   R10: ffffffff86b4b297 R11: 0000000000000000 R12: ffffffff819b71fd
->   R13: 0000000000000001 R14: ffff888108de7cc0 R15: 0000000000000000
->   FS:  00007f8988cc2b80(0000) GS:ffff8881d3256000(0000) knlGS:00000000000=
-00000
->   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->   CR2: ffffeb0200024d48 CR3: 0000000101d6b000 CR4: 0000000000350ef0
->   Call Trace:
->    <TASK>
->    ? __cgroup_bpf_run_filter_sysctl+0x626/0xc30
->    __cgroup_bpf_run_filter_sysctl+0x74d/0xc30
->    ? __pfx___cgroup_bpf_run_filter_sysctl+0x10/0x10
->    ? srso_return_thunk+0x5/0x5f
->    ? __kvmalloc_node_noprof+0x345/0x870
->    ? proc_sys_call_handler+0x250/0x480
->    ? srso_return_thunk+0x5/0x5f
->    proc_sys_call_handler+0x3a2/0x480
->    ? __pfx_proc_sys_call_handler+0x10/0x10
->    ? srso_return_thunk+0x5/0x5f
->    ? selinux_file_permission+0x39f/0x500
->    ? srso_return_thunk+0x5/0x5f
->    ? lock_is_held_type+0x9e/0x120
->    vfs_write+0x98e/0x1000
->    ? srso_return_thunk+0x5/0x5f
->    ? kmem_cache_free+0x308/0x550
->    ? __pfx_vfs_write+0x10/0x10
->    ? __pfx_do_sys_openat2+0x10/0x10
->    ksys_write+0xf2/0x1d0
->    ? __pfx_ksys_write+0x10/0x10
->    ? srso_return_thunk+0x5/0x5f
->    ? trace_irq_enable.constprop.0+0x110/0x140
->    do_syscall_64+0x115/0x690
->    entry_SYSCALL_64_after_hwframe+0x77/0x7f
->    RIP: 0033:0x7f8988dd8907
->    Code: 10 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1=
-e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8  01 00 00 00 0f 05 <48> 3d 00 f=
-0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 >
->    RSP: 002b:00007fff4069b878 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
->    RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f8988dd8907
->    RDX: 0000000000001fff RSI: 0000564f97ef46b0 RDI: 0000000000000005
->    RBP: 0000564f97ef46b0 R08: 0000000000000000 R09: 0000564f97ef46b0
->    R10: 0000000000000004 R11: 0000000000000246 R12: 0000000000000000
->    R13: 0000000000001fff R14: 0000000000000005 R15: 0000000000000001
->    </TASK>
-> With this fix applied, rerunning the reproducer with the same
-> fail-nth=3D1 setup yields no corresponding Oops reports.
->
-> Fixes: 4508943794ef ("proc: use kvzalloc for our kernel buffer")
-> Cc: stable@vger.kernel.org
->
-> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> ---
+> I have some unresolved thoughts while working on this:
+>  - Should gfs2_aspace_write_folio() be passing its wbc into __bh_submit()?
 
-Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
+gfs2 doesn't support cgroups, so I don't think it would make a difference.
 
->  kernel/bpf/cgroup.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  - Should we allow callers of bh_submit() to pass in NULL instead of
+>    bh_end_read / bh_end_write and infer which one to use from the opf
+>    being REQ_OP_READ or REQ_OP_WRITE?
+>  - Should some of these callers of bh_submit() be calling higher level
+>    functions in buffer.c insteaad?  eg nilfs_mdt_submit_block() could
+>    call __bh_read().
+
+- The only caller of end_buffer_read_sync() outside of fs/buffer.c
+left at the end of his patch queue is gfs2_meta_read_endio(), so I
+wonder if end_buffer_read_sync() should be inlined into its remaining
+two callers and removed.
+
+> Matthew Wilcox (Oracle) (34):
+>   buffer: Remove forward declaration of submit_bh_wbc()
+>   buffer: Add bh_submit()
+>   buffer: Remove mark_buffer_async_write_endio()
+>   buffer: Add bh_end_read(), bh_end_write() and bh_end_async_write()
+>   buffer: Convert write_dirty_buffer to bh_submit()
+>   buffer: Convert __bread_slow to bh_submit()
+>   buffer: Convert __sync_dirty_buffer to bh_submit()
+>   buffer: Convert __bh_read to bh_submit()
+>   buffer: Convert __bh_read_batch to bh_submit()
+>   buffer: Convert block_read_full_folio to bh_submit()
+>   buffer: Convert __block_write_full_folio to __bh_submit()
+>   ext4; Convert __ext4_read_bh() to bh_submit()
+>   ext4: Convert ext4_fc_submit_bh() to bh_submit()
+>   ext4: Convert write_mmp_block_thawed() to bh_submit()
+>   ext4: Convert ext4_commit_super() to bh_submit()
+>   jbd2: Convert journal commit to bh_submit()
+>   jbd2: Convert jbd2_write_superblock() to bh_submit()
+>   ocfs2: Convert ocfs2_write_block to bh_submit()
+>   ocfs2: Convert ocfs2_read_block to bh_submit()
+>   ocfs2: Convert ocfs2_read_blocks to bh_submit()
+>   ocfs2: Convert ocfs2_write_super_or_backup to bh_submit()
+>   gfs2: Convert gfs2_metapath_ra to bh_submit()
+>   gfs2: Convert gfs2_dir_readahead to bh_submit()
+>   gfs2: Remove use of b_end_io in gfs2_meta_read_endio()
+>   gfs2: Convert gfs2_aspace_write_folio to bh_submit()
+>   buffer: Remove mark_buffer_async_write()
+>   nilfs2: Convert nilfs_btnode_submit_block to bh_submit()
+>   nilfs2: Convert nilfs_gccache_submit_read_data to bh_submit()
+>   nilfs2: Convert nilfs_mdt_submit_block to bh_submit()
+>   md-bitmap: Convert read_file_page and write_file_page to bh_submit()
+>   buffer: Remove submit_bh()
+>   buffer: Remove b_end_io
+>   buffer: Remove __end_buffer_read_notouch()
+>   buffer: Remove end_buffer_write_sync()
 >
-> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index 8715a014c21d..f4eefdacd453 100644
-> --- a/kernel/bpf/cgroup.c
-> +++ b/kernel/bpf/cgroup.c
-> @@ -1936,7 +1936,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table=
-_header *head,
->  	kfree(ctx.cur_val);
-> =20
->  	if (!ret && ctx.new_updated) {
-> -		kfree(*buf);
-> +		kvfree(*buf);
->  		*buf =3D ctx.new_val;
->  		*pcount =3D ctx.new_len;
->  	} else {
+>  Documentation/filesystems/locking.rst |  14 -
+>  Documentation/trace/ftrace.rst        |   4 +-
+>  drivers/md/md-bitmap.c                |  27 +-
+>  drivers/md/raid5.h                    |   6 +-
+>  fs/buffer.c                           | 372 ++++++++++++++------------
+>  fs/ext4/ext4.h                        |  10 +-
+>  fs/ext4/fast_commit.c                 |   8 +-
+>  fs/ext4/ialloc.c                      |   5 +-
+>  fs/ext4/mmp.c                         |   4 +-
+>  fs/ext4/super.c                       |  16 +-
+>  fs/gfs2/bmap.c                        |   7 +-
+>  fs/gfs2/dir.c                         |   6 +-
+>  fs/gfs2/meta_io.c                     |  11 +-
+>  fs/jbd2/commit.c                      |  13 +-
+>  fs/jbd2/journal.c                     |   3 +-
+>  fs/nilfs2/btnode.c                    |   3 +-
+>  fs/nilfs2/gcinode.c                   |   3 +-
+>  fs/nilfs2/mdt.c                       |   3 +-
+>  fs/ocfs2/buffer_head_io.c             |  20 +-
+>  include/linux/buffer_head.h           |  16 +-
+>  mm/vmscan.c                           |   2 +-
+>  21 files changed, 280 insertions(+), 273 deletions(-)
+>
+> --
+> 2.47.3
 
+Thanks,
+Andreas
