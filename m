@@ -1,112 +1,133 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC21352C52
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 23:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779836572; cv=pass; b=Z08K9cx8wBSBwoxBbaU2oSkcuIz0AoQSKxVVJItVNIcPfND4zTjKIVRMrwUPNXzlOtwgHbYrYBPGs0af7nn8oWuNwHsxmDcFHAIK4ktjttFUSolpAws78ZRq4eJ9FT2Na0HfJ2upFe02R9S3s5UxxbL1EhVLJZZOskjt1UfmPxw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779836572; c=relaxed/simple;
-	bh=s8kEYiZm/hmtAIvQwNbKn/Wg0qAsNeUH0ZP7UDqtVe8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nBq12wekweRRHQi3dxoNKH4nl28rVBjQKRDU3j8iAWbovOe8zkbvqL+6V+Bvji76/w2BU0gqyKKMubBlPXfXoFOQN1YjRE7NSkpNruduWOLDyN1OOWR9K3Ede//Ozpc/MF3moA9Thv2AaWvNQTNxRjzk6C82Y1og4HWckH0kUqE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=RMxZRS6A; arc=pass smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F232D3BB661;
+	Tue, 26 May 2026 23:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779836852; cv=none; b=PlerDbkkJr57xsCrEerqu5gkeRfwmouVX7FRCeWT0Lhq0SwR2PfN66hjsdgEUVrhfgLa+vgXyO/SUp55YXL4FJN2Y3pCdch3Rs5Cy8ykdp4Sq8iWmU76m1hGq6lWpjlNeeXabBV3QIV0KMQe/dq5fvBIJ7L/tI8fuPsunZjHlIg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779836852; c=relaxed/simple;
+	bh=SxOUOxWnasaThRanXaxXY2WB3R8Bb6abXQavsMC9H4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iJKojo2FJ29/fvwSkcYCf/pWYiaQVQs70awRIfExFHkbN7lqZdonlzDvsfxgP6d2gLWDqJGUBSzqTAyjdea7UaPOLUYBoayJOzDqBxho5UwV8BuNDZrcepWTCSuNs7yvX2MYKExp0h2Pd7UviVtUmO1qYC2SYYeBx0oJ/ul9i6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IR66NLB5; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="RMxZRS6A"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7b4ee3a88e1so106230087b3.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 16:02:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779836569; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AQ/9NE13vp9bR9XmKpVghbTFSePmayrutBhsJ55qbMSFLGA/bkUreO/tTAyitQp4ze
-         nDbpUvqSomvvWY7WcMW0xhhQPDPmm1FKXRTj0XbskyxmKHsDE0WGmpte0Kw9J5mFMWLg
-         ZdrDuU2wM5yz7vBGb7VPdC61J6UUSe2tzRDXliwXQTiZ6oB77oGamkOURr7h7KcWyZGs
-         6V1Hfz+lsdHLRALxwKUKCMEkjWUhBfrra4lwC9ZiG6RsBzVYiS66n8h4mz50/q17uDJY
-         Y3PIICjnIKvV1kVUeV11GJDnMHpjJnrE+KBbipohqo2t2+0Y+irsTZwwc2/H+GKynDAz
-         narA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6XyOTzumBLhN7AaNcowHTDfalRU1Y9Pn1vzjroVkGII=;
-        fh=76XSOg/+O8LilTE1gSx03caUd1COkQy8RuclYA2ftoc=;
-        b=AZRrOSn4G/WU5aSPeK6GpxqpZ2ZR9aNpgnFs4qDTpjaWiGBBJG66n4UveJ6HMDoVZl
-         /DTKKHep5KU8bFjZLTIWgSGxRZSoolCf8Fq67SFZbCmvqOhtkShTxN1GiNJP/kYy1IwL
-         sKnPYNVE53q2IXVF/xlneg3zPpYPFTme19lK/H9vjThwJLT2iCLYoEX5U9mdmvgLFUTt
-         QgPb071flbCOE73HeOdX/IiKsO/VKeJCLWwJ6kL7StpIRYK5o3OFfWhTiohjTex1mxiV
-         rXKUvgf+GeR5wSaI6ZSB58kYTo8CcaFkReX4Hi+t8RWrvPEsoxqvfXJ1/jCM3ThB1vM/
-         k4/A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1779836569; x=1780441369; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6XyOTzumBLhN7AaNcowHTDfalRU1Y9Pn1vzjroVkGII=;
-        b=RMxZRS6Ayl7vo4mqcWudjxyfoCYOfROsipJSX8jBJ7EK13mKwdhqB+hrO1ga7MYgHh
-         uW7dY4GS1OUQbMnFlWMAg8UdTeLj7+jAxKnbDYiI7f/XbeCAdv0+zmeLHW/3HCoHJUJl
-         Dao+fB9PYJwMPjzC0vghW9RpfIrkV0xzMbADkzNs4oSnY3f0/z23a4GF80mXM8+rUSg0
-         r22hkoCAwobXGDcnJrEOkJZfdT2AKtyR0+tsYHICZX5TGQFVGHGRHW22zxihu3fyfErI
-         yzSkOx4OMxweDu9oZPMpoX7iOR9+X6IC5fwRXuvzIAV+aK+wQ4PAnMFzsns4+vS2GYxA
-         Jupw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779836569; x=1780441369;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6XyOTzumBLhN7AaNcowHTDfalRU1Y9Pn1vzjroVkGII=;
-        b=h6XHlqEDDmAjgkmvkRvnpRFGye6oSpOSTwOnmKjp57bTNOXY7CR3YiH2FMx5+rNYIx
-         hIOFQuAdSjI7YjW+5oQ6gvCAHE8STP0OPT4lKjwX+kTP3EEeMLl6SzFd5k8xrte8rXM2
-         ootRCxXqtcz8pGDD+QxlvASTXKmWiOu6b1kNNXsH7Ylg78RmYOaNGiPV1b5PAWTSzoiC
-         v8BXVu39mPqPWC3FSVQiX+oCqmcei2wQ/OPz147bXtHBKqao9jpi3PN4L8Ndxo29uXCj
-         AqcHl1w7Kkyy7Ue1YzFf3WFioZbEh6Afd2aVAiGclYblpXoP72T+wSdlTtPvcNEabQjK
-         AlGQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+dVvSCYR7DooD5D0NoCv76OJS7yd6FBj0hMS9NR8mUBg6e+fdtxq/dWQyiV7VYca/lWZWKxnBgz8wbCg5V@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuOZgP2AhZ5xL69Fxi+0035owSnnSeKGKqKM5IRxTx6pThZ6hf
-	Q1/atMgrUlOFz8I7snxwkSwkHK6eJpjM7bylO0skDbhWIrujx9ujQPNQhjnUg9pIxQp+ZHz8ZAh
-	9anXgVhgz/Q9ykgdIy82K5MFd7h9JtmTFNujbOXau
-X-Gm-Gg: Acq92OFTXqOjzqHozmosKrbzIWDBekrGF3nNxKJXr+WFwjn7xiqg1Yj6SdA4uPx9uNk
-	3Vy7HyB3Fagysq6Gsn8ydm1GnIFZTkW/+GZ6bAUljye3pG4+S43fU4IYXF5b5lQk/IJLI80jdNY
-	+Cd4R/IL8xhI2MksFYlszxPlh0s99DyjdS4eWbLWARbFwUjF71x03Sg+C9oOeIwPCTt/PIWi27l
-	74+kuF/+nFREYO35bTwzoLcVUbktP4NmzThNeYNX/hL/lIoNm85jD1WPsOYD7NUYT7dWR0hugXI
-	l5Q48BCQIzuiQWMnh2BlYQcHuOnnXEGrVeTQS2Qbd/ADGNeUsSCo
-X-Received: by 2002:a05:690c:3502:b0:7ba:eefe:9fa1 with SMTP id
- 00721157ae682-7d333ad9b03mr226944547b3.6.1779836568170; Tue, 26 May 2026
- 16:02:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IR66NLB5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779836851; x=1811372851;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=SxOUOxWnasaThRanXaxXY2WB3R8Bb6abXQavsMC9H4I=;
+  b=IR66NLB5qH7iWd452fMRXn1jBhhA8DCMTMbMvn1xoya79u+rkz2mCah6
+   Xcv7qQIsc1OF+lvOoNstAIQ7RJPhxevpk3NqahL5kiiTcOLQdfGG14O6/
+   hjvUcWkcceaaUTDyVIF9LtKWoU3mPLxFL9bvxSs6xu+Apq2XOxkhKK/Yw
+   6QTvdWgyvxXlZwcEAQfu9cEEVwI/KusQGesWsWWJqj4X405ENmevH4Qjq
+   /ts1k/9fasRLX1HqiClB8bWeZ32sxlVDZIjCw5+DK2nrC4cD6gkuyIasf
+   nJKWRUfI/RBaSz1sRp0WxFlyxnoqIpX6b//ql/Z+XwgQ0erJ8fjiSG4t/
+   A==;
+X-CSE-ConnectionGUID: 3uITgRHcShC0n07VPnQlHQ==
+X-CSE-MsgGUID: k7FNOJM9RTCJ2UvSsBB5PA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80775641"
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="80775641"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 16:07:31 -0700
+X-CSE-ConnectionGUID: 7XP1E8DiSJOTMBH7QV9eNA==
+X-CSE-MsgGUID: Z1AjfBgCT4OEv6eIOeDicg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="241223378"
+Received: from aduenasd-mobl5.amr.corp.intel.com (HELO [10.125.110.201]) ([10.125.110.201])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 16:07:29 -0700
+Message-ID: <53fe6abc-00c4-449f-ab94-2632b2aa2928@intel.com>
+Date: Tue, 26 May 2026 16:07:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+0ovCg9e3_2jyM7x67A2rp8E=BR2gLX1FBZHyXdctFAhcG+qg@mail.gmail.com>
- <20260526224956.GF2636677@ZenIV>
-In-Reply-To: <20260526224956.GF2636677@ZenIV>
-From: Farhad Alemi <farhad.alemi@berkeley.edu>
-Date: Tue, 26 May 2026 16:02:36 -0700
-X-Gm-Features: AVHnY4Imm4NOQ19K_H3mIQWwmPrDL3-6AMNOZH_PiHopiSzygYmNsZ-PEfT0K-k
-Message-ID: <CA+0ovCip_OYAW5u2PDr+DPtFgxMXanvYm1UV_NyPrLXH6eM2jA@mail.gmail.com>
-Subject: Re: [BUG] ufs: UBSAN shift-out-of-bounds in ufs_fill_super() at fs/ufs/super.c:1181
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Kees Cook <kees@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/7] dax: fix misleading comment about share/index
+ union in dax_folio_reset_order()
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Dan Williams <djbw@kernel.org>
+Cc: John Groves <jgroves@micron.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Alison Schofield <alison.schofield@intel.com>, Ira Weiny
+ <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019e511fb82e-1a444df3-8310-40ed-8380-72e1373d5da9-000000@email.amazonses.com>
+ <20260522191843.79132-1-john@jagalactic.com>
+ <0100019e512043a6-62e6e881-6d31-48e2-86f0-bb2c32248f0a-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019e512043a6-62e6e881-6d31-48e2-86f0-bb2c32248f0a-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Sounds good, Al--thanks. Happy to test the series when you post it.
 
-On Tue, May 26, 2026 at 3:49=E2=80=AFPM Al Viro <viro@zeniv.linux.org.uk> w=
-rote:
->
-> On Tue, May 26, 2026 at 02:47:30PM -0700, Farhad Alemi wrote:
-> > Hello Al and the linux-fsdevel team,
-> >
-> > I am reporting a UFS crash found by syzkaller. fs/ufs has no named
-> > M: entry in MAINTAINERS, so I'm routing by commit-history affinity.
->
-> Same comment as for your previous report, really.  I'll resurrect
-> an old patch adding sanity checks to ufs_fill_super() (rejecting the
-> same things BSD does), will Cc you when it's posted.  Might be a week
-> or so, though - plenty of shit on my platter at the moment.
+
+On 5/22/26 12:18 PM, John Groves wrote:
+> From: John Groves <John@Groves.net>
+> 
+> The comment in dax_folio_reset_order() claims that DAX maintains an
+> invariant where folio->share != 0 only when folio->mapping == NULL,
+> implying folio->share is zero whenever mapping is non-NULL. This is
+> misleading because folio->share and folio->index are a union -- for
+> non-shared folios with mapping != NULL, reading folio->share returns
+> the file page offset (folio->index), which is typically non-zero.
+> 
+> Reword the comment to accurately describe the union aliasing: the
+> assignment clears whichever interpretation of the union word is active
+> (index for non-shared folios, share for shared folios), which is correct
+> because the folio is being released in either case.
+> 
+> No functional change -- the code was already correct, only the
+> justification was wrong.
+> 
+> Fixes: 59eb73b98ae0b ("dax: Factor out dax_folio_reset_order() helper")
+> 
+> Reviewed-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: John Groves <john@groves.net>
+> ---
+>  fs/dax.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/fs/dax.c b/fs/dax.c
+> index 6d175cd47a99b..df19c9317d10e 100644
+> --- a/fs/dax.c
+> +++ b/fs/dax.c
+> @@ -392,12 +392,12 @@ int dax_folio_reset_order(struct folio *folio)
+>  	int order = folio_order(folio);
+>  
+>  	/*
+> -	 * DAX maintains the invariant that folio->share != 0 only when
+> -	 * folio->mapping == NULL (enforced by dax_folio_make_shared()).
+> -	 * Equivalently: folio->mapping != NULL implies folio->share == 0.
+> -	 * Callers ensure share has been decremented to zero before
+> -	 * calling here, so unconditionally clearing both fields is
+> -	 * correct.
+> +	 * Clear the mapping and the index/share union word. folio->share
+> +	 * and folio->index occupy the same union in struct folio. For
+> +	 * non-shared folios (mapping != NULL), the union holds folio->index
+> +	 * (file page offset); for shared folios (mapping == NULL), it holds
+> +	 * folio->share (reference count). Either way, we are releasing the
+> +	 * folio and both fields should be zeroed.
+
+In the old comments, there is the pre-condition that "callers ensure share has been decremented to zero before calling here." Is this precondition remain true? Maybe should leave that comment in if that is the case?
+
+ 
+>  	 */
+>  	folio->mapping = NULL;
+>  	folio->share = 0;
+
