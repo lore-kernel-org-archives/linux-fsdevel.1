@@ -1,69 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3E61A9F96
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 04:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDBD17745;
+	Tue, 26 May 2026 05:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779771012; cv=none; b=IIrPwKyQdGVU7WdWOuGuP92vE/YXNJWaTyE04dVewAyh/MjixLWehMlPOW6UcT7nrH71WGy6bfnN5aBqXZlLIAAkrSxqWSoNxUPCzmJ2Jko7Eoa6FzHzyL7eAweNDcBlgGLnxsXkYG/fZoEg2ImO5oozudSrGHpNfI0nkeK/Iao=
+	t=1779772768; cv=none; b=BOVY+05JOOCOiP5k5+eOJt78tb+4vMAzVXJJssWid7/LInXj87PmeXIbCaZvKyVF3cNzkWung8E4rhiRuN5OZHPe/C0KyJy8AysX1kCaNoTDrHVBn7ibBT4wqaZS/MxyTCf0mzQf4z54EUW8OJbP4SMkqFJ6NeK86V2s6zXUOws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779771012; c=relaxed/simple;
-	bh=BM8f+UAvgC6ZJFsexAhcbhWYsQ7uQjqxHxmQnEI5s0o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CPCWpVBU/PjbW+cASSgh0ajKWSEEpscYlI/JjnY1IrnpnhHoShV7U2CzrW+/fmLiC19UrQkWhQs8zJCCLLGgiDK0Li2ltiCFUYc/0YHVIBl+0u0N2FtrtNSolq/IG1NYiDJ49wwI3JzevjyFQdap2+xa98tdW06pJFsLbaGq90M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ei37P3Hi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779772768; c=relaxed/simple;
+	bh=QjUv+HzolMXKljm0GRDOxOKgqTTSYCxMbkwAQkhauYg=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=AEWLLtUPlbuvIvJGIFoDwePfcjWIvYxGnHWcBKmdN3p1zty+OC23YwBqcXSXHqpWwK66UzDvLYtcMS1XHExggctowiRZlvqaNkknpM34Nh0VtmaCR9gObYuBkfZUKsJlXM84oSzo1ymxMqcNxAEBRladgwMA16HQbNe3fFN60e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=aBB/Q88m; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RaoF4Lkf; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ei37P3Hi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB2041F00A3E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 04:50:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779771010;
-	bh=BM8f+UAvgC6ZJFsexAhcbhWYsQ7uQjqxHxmQnEI5s0o=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ei37P3Hi0sDGy34uQrLOma6fZoto5ZTHf275LQDyoB16vdoD09xjWm3JdF2rV3/cn
-	 bgYt3cWIKkwJsU3Rp/sXdmxEVAwSTKHdK0vQzokuWkZlHPpAi/Iz/Zk4P8kUiC1jxl
-	 +7xesvvXciZAEff7SZdCdjnxyZF0ZpUdJJz8STFtFZ+5TNPY7WhdisgzRer6kgbISC
-	 2DADVSeaxlF30jsx5jL649/46P6W3figpHdeMDyJ8/9vwTGFiM31iiLG7TpcQHbIcX
-	 5I137sb+Qh7PHiJXGSuYukjOreBowmjG9hQ7cGwTijGpvRJpq+n69ookfzFgmpUJi7
-	 xUZSvnEhAuyRQ==
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-689be822f34so2144671a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 25 May 2026 21:50:10 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yw1HPIob5dLX86LrIJ8ntXHZr9WLgWdftN70gevVmQpKzLrX/P7
-	gQ4YqDC93c4DIHBbT2vjzu+C3okFq7JJVU6CIwYnaRg6vRrapv6gGmuYiD+z93tD9JLdvCAQaS3
-	pv+SETXwsusU0LTy6RzJMcYw8f7t8K6U=
-X-Received: by 2002:a17:906:8a62:b0:bd2:149b:1f99 with SMTP id
- a640c23a62f3a-bdd25aef15emr687578866b.14.1779771009388; Mon, 25 May 2026
- 21:50:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="aBB/Q88m";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RaoF4Lkf"
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0B44514000A4;
+	Tue, 26 May 2026 01:19:25 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Tue, 26 May 2026 01:19:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1779772765; x=1779859165; bh=BJiHFKAFrF0Y8ns3Td/pbX3OSPmQsn2+eSY
+	ZVXfmBxQ=; b=aBB/Q88mS+xvhmG/cfdjuZ2AoofXfvfupJ60ygbrEakZKwDNtzk
+	mnm+Ajf0+CfM2Vo3KXTESL7C9ORCd8veYVBI5bTSOkndPPC/dZHQWR6S2lyoOBKD
+	VUS44RocBTHK9sjTRLSs9WlsrD6rZAieq94ByeZtecZvlcS9s3pUxk4v/XFFVEBV
+	OwRqUI9dcJWP6NMLqGna9y8juqQ0dZ7XZs8i01tn3KtcZHKcc1PtKmA66fU7qiUz
+	gxv/qHh4DiDbj2O1GKQYnI5750Lm6m9qpZLLyszNKd0icGn0w4swYybtLstzc5kJ
+	M0m2FNE7gR5x24cT0E/13QZkiyX5vxBUaKQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779772765; x=
+	1779859165; bh=BJiHFKAFrF0Y8ns3Td/pbX3OSPmQsn2+eSYZVXfmBxQ=; b=R
+	aoF4Lkflz4LgV80WWpYc6Z9AHq1XEI+wad+6qMgTO/0ZmlvK5uBowbhJaLoX5Vbw
+	2z3o33lppDgweMNMhytzfhHmZls8UV5//jbjlsR8tNCiylUQ1wdCa7u+Mdyx8cAS
+	FkEI7cVzdZ7ojgWE1MRJib2iml9AKWedAJ80bSyub/k3l56DYIEQCCpa3VyiFqAo
+	QmhQWgMdszIDFyP0B+YzsnoyGoJV8uIksAIzFTq/s4QFa8HUolGG9YmoO+A9yx9e
+	osIz2xxQGVXjeZUD1dyQxBy8QrerbFkWIddSy6RXNCyOOY6hv+2YYSQS7CNQkc4S
+	mZRfO9sLGgnOYAgKmQ92g==
+X-ME-Sender: <xms:XC0Vakf55VNum050PRvcWSO1tCrTQ4JuRxqDLbtuJwFk71OK0s22WQ>
+    <xme:XC0VaozNCOlqD_5GcyVXijAZpeILEj-vctmJMUqTdmwoBzN2Y7oqeaFhM_pUTinwF
+    VnGFYc3LlpIXY-RbCzsz-mKZGxgtpbnjsx91-6MOCmZmDE0>
+X-ME-Received: <xmr:XC0VapIhmY1G-JzL1_a4b03-uINH2rUcQ34dGkCOMB0AN3dzg4aDEtBjPBKnMpHnlI6E7HIi4sox6pxu39kfT53m2BZd0QY>
+X-ME-Proxy-Cause: dmFkZTE/Cyo9wS+jgMyDuurJqwCnXrYFSqFIoZsch3B5BS1YEY6uphbhG0EZlc7qXf/vpS
+    mf3hPu6H5aD1KV10d8e3KdC285H2EyC7a7qZ4B9fiawZh7diSR0rJiKFGYSSBxq20GCy71
+    d3yulhZjlXzu48ejBf/QsBBADIeZMNYuYKr7UByCakxQdMuVdPo6Uycz1fjx7L4lbg7M0y
+    Px8FqKFIt+bxdne/gMkx1Q2TQCrigdqSOvSu4WNJEyyC27jm0b/+jdEznc4eTlqYZZzjvm
+    AYi4lncnZCh8zwKhSXhOGw4dQO5NTfdVK151TgLnWVOFKQmS6POhCCUxIdh3uL555LSjfG
+    xzdOJwh2O5j/Qq0YVVg8++q3lfcbcKJVb6sjFfIFd6suVABOAXnIkEk1j/iWZXrqzSbHdl
+    dylyUia4mTRAVsZgWfjqXi8nHhY/J/p2L7Ud0ctfvMR3VFL2gZdPjRPVDrwmdOg3Mklzkw
+    uNZhv8eTLJPKTQjNj/M7yYBs7PhMgEtanPL5TwQ0yO0rVerzaOCZRE1P2SVKyvq03klTwm
+    CUXSZ/pdRgiVNlI2FzF3s5krq2vF+Kzz6DlIZcXZQBxty6faMsiGKpyT9NycsoD3+AsXzD
+    fjTVcieNgNkTZbNIw14zlf3h0qDb4BM8Gc337rs/szF4HQq+qXNIQFbhAzUg
+X-ME-Proxy: <xmx:XC0VaqEsgXquTugoW3IZmyDIlztIWBLogpd-gE5uPETM6v0Hex2trw>
+    <xmx:XC0Val_WBHtsGtJxKhJaU9xv5fRLOkJYvTiLW39EYghoWYAC-KTNqw>
+    <xmx:XC0VaqJW3sxLh4yFW797CMxtYn5rtYYdOQ3KAd1RQA-c3hiEolMMsw>
+    <xmx:XC0Vajtr3x7nBbXS9rF-uUqkshwae911oCzoc_Mikn44iJLGyfRMQw>
+    <xmx:XS0VaktzDuSckgUAqI-B29wgJYJpKa_udBmo4WiF5Iow66HV-11lOZae>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 May 2026 01:19:21 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAG7tbBV--waov7XVu2FHQEc6paR92dufS=em9DW5Kzsrpu3iQg@mail.gmail.com>
- <CAKYAXd8z00CwRgbQbU8U15svgyOT6RK4XH-xcaq7k3dBbsRqew@mail.gmail.com> <CAG7tbBWWw5pN8OtXyD4f=OYTZqXzOsm4fnj=S-sZW2tuG_FqRg@mail.gmail.com>
-In-Reply-To: <CAG7tbBWWw5pN8OtXyD4f=OYTZqXzOsm4fnj=S-sZW2tuG_FqRg@mail.gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 26 May 2026 13:49:57 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_nGc4G9gQ8jLP05hjJG=MUmmKS=nBSUTrB8GFbYWHO=w@mail.gmail.com>
-X-Gm-Features: AVHnY4K2jTovIxQ8pDSHxo2ujO5KjK8OjbyMI5cyvfxAhVHpywmsah9HCw71ACI
-Message-ID: <CAKYAXd_nGc4G9gQ8jLP05hjJG=MUmmKS=nBSUTrB8GFbYWHO=w@mail.gmail.com>
-Subject: Re: [PATCH] exfat: preserve benign secondary entries during rename
- and move
-To: Rochan Avlur <rochan.avlur@skydio.com>
-Cc: linux-fsdevel@vger.kernel.org, sj1557.seo@samsung.com
-Content-Type: text/plain; charset="UTF-8"
+From: NeilBrown <neilb@ownmail.net>
+To: "Jeff Layton" <jlayton@kernel.org>
+Cc: "Christian Brauner" <brauner@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Benjamin Coddington" <bcodding@redhat.com>, linux-nfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Subject:
+ Re: [PATCH] VFS: fix possible failure to unlock in nfsd4_create_file()
+In-reply-to: <0a9fd2bb1cb7b1190d177034832277169d8d1359.camel@kernel.org>
+References: <177969022571.3379282.16448744624428323496@noble.neil.brown.name>
+  <0a9fd2bb1cb7b1190d177034832277169d8d1359.camel@kernel.org>
+Date: Tue, 26 May 2026 15:19:17 +1000
+Message-id: <177977275746.3379282.16167323157026052413@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-> +void exfat_remove_entries_nofree(struct exfat_entry_set_cache *es, int order)
-> +{
-> + int i;
-> + struct exfat_dentry *ep;
-> +
-> + for (i = order; i < es->num_entries; i++) {
-> + ep = exfat_get_dentry_cached(es, i);
-> + exfat_set_entry_type(ep, TYPE_DELETED);
-> + }
-the tabs and spaces are broken. Please send the patch using git
-send-email, or attach the patch file instead of pasting it directly
-into the email body.
-Thanks.
+On Mon, 25 May 2026, Jeff Layton wrote:
+> On Mon, 2026-05-25 at 16:23 +1000, NeilBrown wrote:
+> > atomic_create() in fs/namei.c drops the reference to the dentry
+> > when it returns an error.
+> > This behaviour was imported into dentry_create() so that it
+> > will drop the reference if an error is returned from atomic_create(),
+> > though not if vfs_create() returns an error (in the case where
+> > ->atomic_create is not supported).
+> >=20
+> > The caller - nfsd4_create_file() - is made aware of this by checking
+> > path->dentry, which will either be a counted reference to a dentry, or
+> > an error pointer.
+> >=20
+> > However the change to use start_creating()/end_creating() (which landed
+> > shortly before the dentry_create() change landed, though was likely
+> > developed around the same time) means that nfsd4_create_file() *needs* a
+> > valid dentry so that it can unlock the parent.
+> >=20
+> > The net result is that if NFSD exports a filesystem which uses
+> > ->atomic_create, and if a call to ->atomic_create returns an error, then
+> > nfsd4_create_file() will pass an error pointer to end_creating()
+> > and the parent will not be unlocked.
+> >=20
+> > Fix this by changing dentry_create() to make sure path->dentry is always
+> > a valid dentry, never an error-pointer.  The actual error is already
+> > returned a different way.
+> >=20
+> > Note that if ->atomic_create() returns a different dentry (which may not
+> > be possible in practice) we are guaranteed (because it is only ever
+> > provided by d_spliace_alias()) that it will have the same d_parent and
+> > so it will have the same effect when passed to end_creating().
+> >=20
+> > Fixes: 64a989dbd144 ("VFS/knfsd: Teach dentry_create() to use atomic_open=
+()")
+> > Signed-off-by: NeilBrown <neil@brown.name>
+> > ---
+> >  fs/namei.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >=20
+> > diff --git a/fs/namei.c b/fs/namei.c
+> > index c7fac83c9a85..4787244ca4a7 100644
+> > --- a/fs/namei.c
+> > +++ b/fs/namei.c
+> > @@ -5024,6 +5024,7 @@ struct file *dentry_create(struct path *path, int f=
+lags, umode_t mode,
+> >  {
+> >  	struct file *file __free(fput) =3D NULL;
+> >  	struct dentry *dentry =3D path->dentry;
+> > +	struct dentry *orig_dentry =3D dentry;
+> >  	struct dentry *dir =3D dentry->d_parent;
+> >  	struct inode *dir_inode =3D d_inode(dir);
+> >  	struct mnt_idmap *idmap;
+> > @@ -5043,9 +5044,18 @@ struct file *dentry_create(struct path *path, int =
+flags, umode_t mode,
+> >  		if (create_error)
+> >  			flags &=3D ~O_CREAT;
+> > =20
+> > +		/* atomic_open will dput(dentry) on error */
+> > +		dget(orig_dentry);
+> >  		dentry =3D atomic_open(path, dentry, file, flags, mode);
+> >  		error =3D PTR_ERR_OR_ZERO(dentry);
+> > =20
+> > +		if (IS_ERR(dentry))
+> > +			/* keep the original */
+> > +			dentry =3D orig_dentry;
+> > +		else
+> > +			/* Drop the extra reference */
+> > +			dput(orig_dentry);
+> > +
+> >  		if (unlikely(create_error) && error =3D=3D -ENOENT)
+> >  			error =3D create_error;
+> > =20
+>=20
+> Sashiko noticed a couple of problems in nearby code that you may want
+> to take a look at:
+>=20
+>     https://sashiko.dev/#/patchset/177969022571.3379282.1644874462442832349=
+6@noble.neil.brown.name?part=3D1
+>=20
+> ...but the patch itself looks correct.
+>=20
+> Reviewed-by: Jeff Layton <jlayton@kernel.org>
+>=20
+
+Thanks for forwarding that review.
+It identifies two possible problems.  Both of them are hypothetically
+possible based on the APIs.  One (involving atomic_open returning a
+different dentry) would, I think, require a remote server that is
+seriously misbehaving.  When asked to OPEN a file it would need to
+return a filehandle for a directory that is already in the dcache.
+The other (atomic_open doesn't actually open the file) appears to be
+impossible with in-kernel filesystems as they only do that when the
+dentry is already positive, and as nfsd has done a lookup while holding
+the parent lock, that shouldn't be possible.  I haven't done a thorough
+audit though and I may have missed a case.
+
+The fixes are quite straight forward so I'll post patches to fix these
+issues in nfsd.
+
+I'm working on a rewrite of nfsd4_create_file and lookup_open() so that
+nfsd can use a better interface which will improve the code and fix some
+minor edge-case behavioural issues.  So I'm just focusing on simple
+fixes at this stage, not necessarily best fixes.
+
+Thanks,
+NeilBrown
