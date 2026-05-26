@@ -1,87 +1,94 @@
-Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8013AF643;
-	Tue, 26 May 2026 16:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411D73AFD04;
+	Tue, 26 May 2026 16:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779812103; cv=none; b=odPmSGHXgl+kEscvHlNU5Qzi8V/X6LSyKpC0rUAofa22HP7FiFzkysQl13e1KsgG+mPf3ZOpjywzQBC0ffiflfbLvfKRCoMkHtWoH0bZzvsYTt211vsZ2wauD0qLEwF/Pxcess9FuOPSh8tFtRPaThedAIzpQUq1wO44SzG4uZk=
+	t=1779812162; cv=none; b=kIFwBOrceL0NzQFq/CTzEbQa07vc2tIKCWzeJjt//avoe/ODwfLtUZlHhRix+Ju9GFpeTc6iBQ8mwAuTqoCFLa8nmAy1NMzNQ6DmvqetEfaa8vWtrt0rVOcoVjM3fGz7tFpZ+i4BH4TbcF93GfGb2rvMMg8xbm4TYwBQ/QIPI1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779812103; c=relaxed/simple;
-	bh=WPbX4Pya39Go2QYFfMt8pFd9wdKpwRyohHZi0oibzRg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VrvdHvoGHwAHbqqt8d964A5211YzGJxu6o9AuVhhPyBOPzx2ZqKwAwP79vr9VRDEuIQL9G9YHQFpjn/n9ykWc9Ut+Fk0580ky4OmadZzFCLuq1XWiAKlqteioYaumV60D1ulYqQnlyuL2OhjKI4knTerzSbu2Dz93kQ360mSuNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=AwiokLBm; arc=none smtp.client-ip=199.89.1.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1779812162; c=relaxed/simple;
+	bh=AU5W7YCm8SZxyBiqddzqQ0xr8L2My1HGCDYV50ol5T4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=skQcjtHIH7aDm1bXnnlAB+2ekJszUPtGPqqTPl/+2NwTyJKUvl6RWRcFTFhD67WBuuZQia1j+goWFlBGs2hQFKGVQiK1Ii55VCtCF46bMm7NSRZXfy5oVA98dvzr0Kw8tU7JC7JpWihcSm8olpx4hHHEWzMWP9GcIEGdyesZrA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Q6cRBbjw; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="AwiokLBm"
-Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4gPyWn3BVxz1XM6JN;
-	Tue, 26 May 2026 16:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1779812096; x=1782404097; bh=Anhq5FjNw5ss6qMVPZ01kvuQ
-	c5NdyWfGRn2xYsjiF0E=; b=AwiokLBmkPXRDvxv4gU5Q8BxVUMZRQTyw3y+Qzdh
-	Z784kR81SRXa82sIkwXcsNyi3LSlK1dqku6rTPoMoPVmLytdqkrK3Yk8LKaof1z5
-	IUvPNNPc/Q6S7kOjZkbSrACPm7bjIjgzu1IxxbKBQSlK4tuv38BU7fvs8dD3euDA
-	Tw4fggBiI1+wbtfQf2lxAk1Mu/LOduAx3pQdID/Ykhu4h1DH/J12zN1DDyjiiSdq
-	XX0cpwgKDWTwyPidFJSdYB7dm+oZ0m3I2dTqtBYofc2bGINuwLNf+Ojxd6k3KQ2K
-	xZpeQClWswqs2VOXACuw4RtpJCE1iU/Qha8dSaZmA5A3hg==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id zKWCJmXtLFCk; Tue, 26 May 2026 16:14:56 +0000 (UTC)
-Received: from [100.119.48.131] (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4gPyWd3bBJz1XM5jn;
-	Tue, 26 May 2026 16:14:53 +0000 (UTC)
-Message-ID: <f4e521ac-2381-49ca-8dcc-3cb3cf3ffaea@acm.org>
-Date: Tue, 26 May 2026 09:14:52 -0700
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Q6cRBbjw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=gkfx1feHM/Syhm7ZE4JCj12pIfIcNwyIct1CVIONKGE=; b=Q6cRBbjw0rbFxQmf+kKtxiItWn
+	Tgt8cZNkZqmb58PXlK4E0aQREoFqv4ohymWA2jTZK5I+mxJptNQKS0kwq1ZaSVpLsN+yRGSYj0zzY
+	v55LwyO/6O7u4mg0MDQUiT7H5F401tvQhq3GBKw3dkE/N9dpv1vIyA+b922DedVvDcqx7QciMARCz
+	8EDY9beEdh1p6J+bprMSaNBxIoqGBAgc97i+PKYBCyUfYuYLy5Gbn6IM1Sgq02sK63cJj4Cu5OIZy
+	31HrKVyTbAZeba0iFDJkU7lCRsaBJRx/wJs+2wWypKTRSSwugM2SohuXqE0h7IEp/ePqcwKvYo4qm
+	CzCKrgBA==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wRuRh-008Vnp-UP; Tue, 26 May 2026 18:15:57 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev,  linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fuse: add fusex filesystem
+In-Reply-To: <20260429102058.1362965-1-mszeredi@redhat.com> (Miklos Szeredi's
+	message of "Wed, 29 Apr 2026 12:20:57 +0200")
+References: <20260429102058.1362965-1-mszeredi@redhat.com>
+Date: Tue, 26 May 2026 17:15:52 +0100
+Message-ID: <878q96kuyv.fsf@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-To: Theodore Tso <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>,
- linux-f2fs-devel@lists.sourceforge.net, Christoph Hellwig
- <hch@infradead.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- Akilesh Kailash <akailash@google.com>,
- Christian Brauner <christian@brauner.io>
-References: <ad30g9xMs9wNJhFb@infradead.org> <ad_AVHe7RMnGrGTb@google.com>
- <ad_HwhzlNPUEKQi6@casper.infradead.org> <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan> <ag_OVwPF49LSZ7rz@google.com>
- <20260522141115.GA8258@macsyma-wired.lan> <ahCNmWbcd_2lAJyk@google.com>
- <20260522224108.GA18663@macsyma-wired.lan> <ahTzHyHBL8t0iNBR@google.com>
- <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/26/26 6:42 AM, Theodore Tso wrote:
-> It seems... surprising that the additional I/O operations are actually
-> throttloing UFS device bandwidth by 2x (4GB/s vs 2GB/s).  Have you dug
-> into why this is happening, and whether there is anything that can be
-> optimized below the file system?
-The layers below the filesystem (block, SCSI, UFS) is what I'm
-responsible for in the Pixel team and I can assure you that these are
-highly optimized.
+Hi Miklos!
 
-Since the transfer size used in Jaegeuk's tests is much larger than 4
-KiB, how many CPU cycles are used per IO by the layers below the
-filesystem is not limiting the transfer bandwidth.
+I'm not sure if you have a more up-to-date version of your patch (or
+patchset, as you mentioned you'd be splitting it).  But here's a small
+issue I have fixed locally a while back, when I started playing with
+fusex:
 
-Bart.
+On Wed, Apr 29 2026, Miklos Szeredi wrote:
+
+<snip>
+
+> +static struct inode *fusex_get_inode(struct super_block *sb, struct fuse=
+x_id *id)
+> +{
+> +	struct inode *inode =3D fusex_iget(sb, id);
+> +	struct fuse_statx_out statx;
+> +	int err;
+> +
+> +	if (!inode)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	if (inode_state_read_once(inode) & I_NEW) {
+> +		inode_state_set(inode, I_DONTCACHE);
+
+inode_state_set() assumes the caller holds inode->i_lock, so we will see a
+kernel splat from a lockdep assertion.
+
+Cheers,
+--=20
+Lu=C3=ADs
+
+> +		err =3D fusex_send_statx(inode, &statx);
+> +		if (err) {
+> +			discard_new_inode(inode);
+> +			return ERR_PTR(err);
+> +		}
+> +		fusex_set_attr(inode, &statx.stat);
+> +		fusex_init_inode(inode);
+> +		unlock_new_inode(inode);
+> +	}
+> +	return inode;
+> +}
