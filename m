@@ -1,58 +1,86 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41F83EFFBD
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 10:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5AF3F1665
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 10:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779877684; cv=none; b=Yi0L/ciomgngYxUpyFj90WCmgHwLsGMTASC9pkRfLINix/VuAjWwPE5WT5m6kAin/vIegZDzewbFN113C57/Vaz3bDADe5QMq8AqYlJOCngsUKDrDEUmnZRfF4k60/rS/unpAYxiFnpQIe5Amc/Mh17BLA1fn9G/QN/c7DcdgRQ=
+	t=1779878076; cv=none; b=MHPN66f2RYoUZ3O0GrMDH9XgqZa8JwddIpbXZ0SwlgbhsSAt2Qfkdym9ufZckX3fkFNTtF9B8BM+rx7OXCodz7svCXGM6i9mMD9UbMnMxQ0/LJ+87U0zvdPoxGZsFom38cTYAhpvs8ESl6Yv6CncQEb2DD0DFGhq3tWQFKMDdmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779877684; c=relaxed/simple;
-	bh=qKoShBmc+gDmPE3GgeVHAj77czNTJiRsMf19IzVPZcU=;
+	s=arc-20240116; t=1779878076; c=relaxed/simple;
+	bh=7DcSZEtHPTrqjcyxzSyFlkaM/Sk2wF10EZRNTmHXOs4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tIJ5zIMyy9uMAsIADWJZKpnp767rdxdimoazd6V4JXXn9g/F8XbIw3w4xNLVbOUnC/sH+XObFYMCZLWF5803JsU4agENFa3mWb7KA59LqpMBpqqJeQRZPispeUDbLdvL6gZWvSXl79O9zyVxlra2ZJcmHo5tSndIR2BqnPaf7GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4906869f0cbso31236575e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 03:28:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779877679; x=1780482479;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GwGh4zf7B3gPFyimak7aCa+Z+XbFwJnS3td6dMioopc=;
-        b=CKOOFerJ9SuKhyxTX78zHajHalW/CZ//oJCc4fs66R1JeROCzMCGW7PSQdIanTqG9p
-         b8fS0g+3NvPeM+MunIk19jbNCmds2mXEOuMLSsz21vcnN6Ar++pdOXpgrqg1dukdJdMz
-         YAm4SJ9d3B75rm13Tuy1KqarS+LP0flDsSbhJevc84BvUWVW33nA+gSthAqwpt0JAbF1
-         wqYW5+WoNYqQ9mPOF8AYXzUx4LdkMQvBSNv/scffYbPlxxLBoAFvTTf+t2ZvAglMV70S
-         rfdWYMnB0O+1yibupPzxwD2iw0zFvAR6siHtgWXgbzVBJ6MPEHk8OgOjivZc3abwqKnl
-         Z6Cw==
-X-Forwarded-Encrypted: i=1; AFNElJ9UhBwjgAThflJ5/OcAnrjDN7PtCVVTzNVGTd5TIJ4x6UF3S9yp1VXAYe0+UudT3jpJtsl1jC1cnMrckMxC@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZts/EXmwHCos3s0Oh2vT3I9t85fawlkZu1k9oVtJ8WFhpKq5/
-	zxjSdWx6RIQRTw1zaZT/LrqZztjm7Hf/jsjVoW67gGRMbcDKIqUfJvi8
-X-Gm-Gg: Acq92OHG2mb2ftD+9zEeu2jO7Z8VRKJQ9ls1KaZLwzYZxXNf3CXYU0GOGPmE72p7PnC
-	j+Uzjs27SjR5mYbEbAvO8B33HZBchCPLgWfZNUFzZqswSW3wPpH8v2XBOs6VRnq0d8aP3o88fgU
-	UyeL2v/uRQuuJ22BHqmfmU936NnvvoqeCsCVs54nSSsVZ+dQNujkARusUBgfLsJNOfien3pN20H
-	zCasJKkqT8HpZ4xTM8Y8A5oIn+r50N81rIOr4iMWr1O8zRKlMEVkcAUd/HTG6DzoQDTtZUOUwh9
-	GdgaoR3Pg/lZ1Svl+t8Yi+W0oUvQlcnn65Zyv6dhOL2y1wVQ6SGd1RqNMg30p6xYojHdPFEKQoU
-	9YiW6OKlmxD+tP3vGFxqR1cxDswRGOi1lmm2s79Vffi4QsgWZrjRMGEbh2MCUxR4y+srlJiv3QG
-	P+qPyG5BHjtVh8AjYdEGjYxHdICos6O2vPBGR1
-X-Received: by 2002:a05:600c:6995:b0:490:482c:4384 with SMTP id 5b1f17b1804b1-490482c44ddmr371830255e9.24.1779877678707;
-        Wed, 27 May 2026 03:27:58 -0700 (PDT)
-Received: from gmail.com ([62.197.47.167])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904561f682sm410082785e9.13.2026.05.27.03.27.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 03:27:58 -0700 (PDT)
-Date: Wed, 27 May 2026 11:27:57 +0100
-From: Breno Leitao <leitao@debian.org>
-To: Farhad Alemi <farhad.alemi@berkeley.edu>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] configfs: slab-use-after-free in configfs_drop_dentry() on
- rmdir
-Message-ID: <ahbG94EFLD5ntnYr@gmail.com>
-References: <CA+0ovCjv-VYvn-4jUj3wDn+DuP9FSv-GL+yPAHbR=ZGKU0wmGg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KSPgsfpVPVfItIzn6LOm8wqRGia1OCQKElHloSFgvpBTrjYffChrppJRzXJX7okA5bYUE9C1+6P5M5CL21GLLNq05oELcqeRmvkpOzi78jGoP4zFYJOsPZ4iL+TY4YCC5Td++wqfJnvkCgc/4iIGzd3u/Za2k9iDP0z7Bek++UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cvBiccp1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HaOrq1/M; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t1OvPNs6; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uiD2N/vq; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cvBiccp1";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HaOrq1/M";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t1OvPNs6";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uiD2N/vq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 81D256A843;
+	Wed, 27 May 2026 10:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779878072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MdjeoOtuMvdZL0moZvjEAeNBYHF+20j9n/jEe8bMxf4=;
+	b=cvBiccp1ZbAAi1hx0MjDwL7XgXLqnmdKhirAgXN3Cp35GzumqrIdcs/mCrMTkn5oHGgj6k
+	Uz1W8ys81ImvS/Ug/o6CyHIFLYzhPi0s30cH/nbHuDeMG7mVoW+RdTfHsLJrTAdYOoCP+V
+	DpfX/l3Gpqs/7Rzp4u5d+GXxvm9huOY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779878072;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MdjeoOtuMvdZL0moZvjEAeNBYHF+20j9n/jEe8bMxf4=;
+	b=HaOrq1/MOJyzH5IPhawpxBM5euIlFsNdgSdnPgxWwkQh06xSyDtpEGlc7ikX3r0AOA4ToR
+	12/ymL2Y9Q782HAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779878071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MdjeoOtuMvdZL0moZvjEAeNBYHF+20j9n/jEe8bMxf4=;
+	b=t1OvPNs63CbYgDEHmdjhAc9CbkH6c7pRbXVX0DsYqrk9Q4dCKD77gY3gB3FEGA59k5SlpG
+	uUtmlPuRdCSlM24POpXWN8ZW6tTkYnRIF2GlIvVWlMBFQnJTtaDGF2ylI6yaUR/x6rGEzG
+	64oeNYySPN6hCxa2bPAZe/+MVJnYdiY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779878071;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MdjeoOtuMvdZL0moZvjEAeNBYHF+20j9n/jEe8bMxf4=;
+	b=uiD2N/vqtkIfpljrH7+WEqffKDc5WkOYkgocHhlMpRTGibVYwJ4Wvo18i66e+oTePjPVkg
+	wwqcNmzHZQCFbZAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 789D55A7AE;
+	Wed, 27 May 2026 10:34:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +FVzHbfIFmpMcgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 27 May 2026 10:34:31 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 1BC17A0EB5; Wed, 27 May 2026 12:34:31 +0200 (CEST)
+Date: Wed, 27 May 2026 12:34:31 +0200
+From: Jan Kara <jack@suse.cz>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 10/34] buffer: Convert block_read_full_folio to
+ bh_submit()
+Message-ID: <hbs3yhyjxomwvzxtm7ul4vtqczvhopne27izsofr2emqribuot@o5etet4a4syt>
+References: <20260525171931.4144395-1-willy@infradead.org>
+ <20260525171931.4144395-11-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -61,108 +89,161 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+0ovCjv-VYvn-4jUj3wDn+DuP9FSv-GL+yPAHbR=ZGKU0wmGg@mail.gmail.com>
+In-Reply-To: <20260525171931.4144395-11-willy@infradead.org>
+X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email,infradead.org:email]
 
-On Tue, May 26, 2026 at 08:42:00PM +0000, Farhad Alemi wrote:
-> Hello Andreas and the configfs team,
+On Mon 25-05-26 18:19:03, Matthew Wilcox (Oracle) wrote:
+> Avoid an extra indirect function call by using bh_submit() instead of
+> submit_bh().  Since mark_buffer_async_read() would collapse to a single
+> function call, inline it into block_read_full_folio() along with its
+> extensive comment.  Convert end_buffer_async_read_io() to
+> bh_end_async_read().
 > 
-> I am reporting a configfs use-after-free found by syzkaller.
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+
+Looks good! Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/buffer.c | 65 ++++++++++++++++++++++++++---------------------------
+>  1 file changed, 32 insertions(+), 33 deletions(-)
 > 
-> Summary:
-> A configfs config-item rmdir(2) can land in configfs_drop_dentry() with
-> sd->s_dentry pointing at a dentry whose RCU grace period has not yet
-> elapsed. The spin_lock(&dentry->d_lock) at fs/configfs/inode.c:209 then
-> reads freed slab memory and KASAN reports a slab-use-after-free.
-
-Thanks for the report. I was able to reproduce it on linus' upstream
-tree. 
-
-I've came up with the following fix, would you mind trying it, please?
-
-
-commit d78c04736ef0ede76093c780a188560b6baed3c3
-Author: Breno Leitao <leitao@debian.org>
-Date:   Wed May 27 06:25:49 2026 -0400
-
-    configfs: fix UAF in configfs_drop_dentry() after failed attribute lookup
-    
-    When configfs_lookup() matches an attribute it publishes the new dentry
-    into sd->s_dentry (and dentry->d_fsdata) before calling
-    configfs_create() to allocate the inode:
-    
-            dentry->d_fsdata = configfs_get(sd);
-            sd->s_dentry = dentry;
-            spin_unlock(&configfs_dirent_lock);
-    
-            inode = configfs_create(dentry, mode);
-            if (IS_ERR(inode)) {
-                    configfs_put(sd);
-                    return ERR_CAST(inode);
-            }
-    
-    If configfs_create() fails (e.g. new_inode() returns NULL under memory
-    pressure or fault injection), the lookup returns an error and the
-    caller dputs the now-negative dentry, which goes through
-    __dentry_kill() and is freed via call_rcu().
-    
-    Because the dentry never gained an inode it does not go through the
-    .d_iput op (configfs_d_iput), which is the only place that clears
-    sd->s_dentry.  sd therefore keeps a stale pointer to the freed dentry.
-    A subsequent rmdir of the parent item walks the parent's s_children
-    list in detach_attrs() and configfs_drop_dentry() does
-    spin_lock(&sd->s_dentry->d_lock) on freed memory:
-    
-      BUG: KASAN: slab-use-after-free in _raw_spin_lock+0xac/0x110
-      Read of size 1 at addr ffff00012bacd028 by task repro/2440
-       _raw_spin_lock+0xac/0x110
-       configfs_drop_dentry+0x48/0x158 [configfs]
-       detach_attrs.isra.0+0x18c/0x494 [configfs]
-       configfs_rmdir+0x450/0x71c [configfs]
-       vfs_rmdir+0x170/0x620
-       ...
-      Freed by task 0:
-       __d_free+0x28/0x34
-       rcu_do_batch+0x37c/0x1bd0
-       ...
-      Last potentially related work creation:
-       call_rcu+0x34/0x68
-       dentry_free+0xe8/0x3e0
-       __dentry_kill+0x404/0x604
-       dput+0x14/0x30
-       lookup_open.isra.0+0x6ac/0xc00
-       path_openat+0xd18/0x2588
-    
-    Fix this by tearing down the sd<->dentry linkage in the
-    configfs_create() error path, under configfs_dirent_lock, mirroring
-    what configfs_d_iput() would have done for a positive dentry.
-    
-    Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
-    Signed-off-by: Breno Leitao <leitao@debian.org>
-
-diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index 362b6ff9b908..68d857dcb2d9 100644
---- a/fs/configfs/dir.c
-+++ b/fs/configfs/dir.c
-@@ -486,6 +486,22 @@ static struct dentry * configfs_lookup(struct inode *dir,
- 
- 			inode = configfs_create(dentry, mode);
- 			if (IS_ERR(inode)) {
-+				/*
-+				 * configfs_create() failed (e.g. -ENOMEM
-+				 * from new_inode()).  The dentry will be
-+				 * dput()ed by the caller and freed via RCU;
-+				 * because it never gained an inode,
-+				 * configfs_d_iput() will not run to clear
-+				 * sd->s_dentry.  Drop the linkage here so a
-+				 * later detach_attrs() walking the parent's
-+				 * s_children list does not dereference a
-+				 * freed dentry in configfs_drop_dentry().
-+				 */
-+				spin_lock(&configfs_dirent_lock);
-+				if (sd->s_dentry == dentry)
-+					sd->s_dentry = NULL;
-+				dentry->d_fsdata = NULL;
-+				spin_unlock(&configfs_dirent_lock);
- 				configfs_put(sd);
- 				return ERR_CAST(inode);
- 			}
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 44b14f0642f4..92500060d834 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -392,11 +392,13 @@ static void decrypt_bh(struct work_struct *work)
+>  }
+>  
+>  /*
+> - * I/O completion handler for block_read_full_folio() - pages
+> + * I/O completion handler for block_read_full_folio() - folios
+>   * which come unlocked at the end of I/O.
+>   */
+> -static void end_buffer_async_read_io(struct buffer_head *bh, int uptodate)
+> +static void bh_end_async_read(struct bio *bio)
+>  {
+> +	bool uptodate = bio->bi_status == BLK_STS_OK;
+> +	struct buffer_head *bh = bio_endio_bh(bio);
+>  	struct inode *inode = bh->b_folio->mapping->host;
+>  	bool decrypt = fscrypt_inode_uses_fs_layer_crypto(inode);
+>  	struct fsverity_info *vi = NULL;
+> @@ -421,7 +423,7 @@ static void end_buffer_async_read_io(struct buffer_head *bh, int uptodate)
+>  			}
+>  			return;
+>  		}
+> -		uptodate = 0;
+> +		uptodate = false;
+>  	}
+>  	end_buffer_async_read(bh, uptodate);
+>  }
+> @@ -484,33 +486,6 @@ void bh_end_async_write(struct bio *bio)
+>  }
+>  EXPORT_SYMBOL(bh_end_async_write);
+>  
+> -/*
+> - * If a page's buffers are under async readin (end_buffer_async_read
+> - * completion) then there is a possibility that another thread of
+> - * control could lock one of the buffers after it has completed
+> - * but while some of the other buffers have not completed.  This
+> - * locked buffer would confuse end_buffer_async_read() into not unlocking
+> - * the page.  So the absence of BH_Async_Read tells end_buffer_async_read()
+> - * that this buffer is not under async I/O.
+> - *
+> - * The page comes unlocked when it has no locked buffer_async buffers
+> - * left.
+> - *
+> - * PageLocked prevents anyone starting new async I/O reads any of
+> - * the buffers.
+> - *
+> - * PageWriteback is used to prevent simultaneous writeout of the same
+> - * page.
+> - *
+> - * PageLocked prevents anyone from starting writeback of a page which is
+> - * under read I/O (PageWriteback is only ever set against a locked page).
+> - */
+> -static void mark_buffer_async_read(struct buffer_head *bh)
+> -{
+> -	bh->b_end_io = end_buffer_async_read_io;
+> -	set_buffer_async_read(bh);
+> -}
+> -
+>  void mark_buffer_async_write(struct buffer_head *bh)
+>  {
+>  	bh->b_end_io = end_buffer_async_write;
+> @@ -2488,9 +2463,33 @@ int block_read_full_folio(struct folio *folio, get_block_t *get_block)
+>  			continue;
+>  		}
+>  
+> -		mark_buffer_async_read(bh);
+> +		/*
+> +		 * If a folio's buffers are under async readin
+> +		 * (end_buffer_async_read completion) then there is a
+> +		 * possibility that another thread of control could lock
+> +		 * one of the buffers after it has completed but while
+> +		 * some of the other buffers have not completed.  This
+> +		 * locked buffer would confuse end_buffer_async_read()
+> +		 * into not unlocking the folio.  So the absence of
+> +		 * BH_Async_Read tells end_buffer_async_read() that this
+> +		 * buffer is not under async I/O.
+> +		 *
+> +		 * The folio comes unlocked when it has no locked
+> +		 * buffer_async buffers left.
+> +		 *
+> +		 * The folio lock prevents anyone starting new async
+> +		 * I/O reads any of the buffers.
+> +		 *
+> +		 * The writeback flag is used to prevent simultaneous
+> +		 * writeout of the same folio.
+> +		 *
+> +		 * The folio lock prevents anyone from starting writeback
+> +		 * of a folio which is under read I/O (the writeback
+> +		 * flag is only ever set on a locked folio).
+> +		 */
+> +		set_buffer_async_read(bh);
+>  		if (prev)
+> -			submit_bh(REQ_OP_READ, prev);
+> +			bh_submit(prev, REQ_OP_READ, bh_end_async_read);
+>  		prev = bh;
+>  	} while (iblock++, (bh = bh->b_this_page) != head);
+>  
+> @@ -2504,7 +2503,7 @@ int block_read_full_folio(struct folio *folio, get_block_t *get_block)
+>  	 * in this folio.
+>  	 */
+>  	if (prev)
+> -		submit_bh(REQ_OP_READ, prev);
+> +		bh_submit(prev, REQ_OP_READ, bh_end_async_read);
+>  	else
+>  		folio_end_read(folio, !page_error);
+>  
+> -- 
+> 2.47.3
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
