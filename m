@@ -1,115 +1,90 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C783363C5A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 03:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8FF33B6ED;
+	Wed, 27 May 2026 03:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779850860; cv=none; b=uZfo6avCXAaVp1yLR2GnR2GtHzsipzHyDu4RvHofOup+2cEUsOx97kv2ah9+G7xBTj/Go1A9IXQzq9UyjXSWJZ4v6d/Gtt5idQtRsD0w2Ee8tjd11I2N5iGmH2WdgOqoM/LZwRQ9XqV09SLXwx4KMuWjVtypkGQUW+E2nob5o4U=
+	t=1779851741; cv=none; b=EGRkoy19DhvV7Lo6GPyBqIni2Sv00VGZCrxxsPmnMiUelIOUXbxg+zBJKTkcM8/dmjG28aQs9ufoYnDiUk/l5dpvzjbjyogBsdIX5nmG9ObP70zt8j3t+Yo5I6AAIXEM0klu/JRphPUP2I72Vlf8WWtj9Nzj+TeVXxTIDaeLSKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779850860; c=relaxed/simple;
-	bh=l24Cx1MrKrvp4Q2cUKmT1CDQC1RwyjfAflDdCsjh3ng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VZV97ZQPifMUC6VDbHBKwg8mE8+srS79wQLXklb6mhh2t6z2YUwGpKyIxfB+1ZIYwjyVeEM9PiXaKUOuuXZvvuUBOQOBfPeUoUlIjH9bHThxGTVJbZqKeVq0eNysyBV+/odOdnTRAaN299eQZ3uLoO5tgSlsEzAEHP19x67AX98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=otPOjawa; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779851741; c=relaxed/simple;
+	bh=x90YdPh07u2vD1VUJH0xQ2onWclbg2UGF4pv81vNu4c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=jkpWZosD3eLH6XI1+wUFhjoZ3CojYdKhNxgd220VX1Nak0/oxqz7N+4vBR2hQzHdbdqRBTCk9dscwzJVUnXE22X84zS9UNCHWzyI982Gy/LH+EX5izM9V0AvVSxhr6jKL3+Tb0iYrgoS+1BTaSssT0g1h5n6hcB+KB3EqZHde38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=UD8xJtlk; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="otPOjawa"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8b5de17382cso87353446d6.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 20:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779850858; x=1780455658; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LW74ifQIEMw9K0LJrVq6jLhT79y6ZRMrtmCmy57465k=;
-        b=otPOjawas0BUAfr7T7mWO/WO2cE9MqQwXaLT1vnDh7uBqVDWlQ2LzgkXovUMs3I5xK
-         hI3emTeseBOhS4+I7/IBi8+P4GZ0RxFZKb/a5WvujLn5k6v/34AmyenTjzCeCdJbg32T
-         mlHQ0xigGqGFb8VGAkB6pHqB0l7XbFEqw+ETuaIqQHKYCvP6DXRofuaFs4/aeANIvPDH
-         de33rYv4z2KOJcLwuM6+TeylcJmBEaD5T08oFieNjlNn494zPrLIe8rGNP/N6tPOtPG5
-         2WE2mrnc6zEJy8CYtxH4udIJGEDa4kVLTsM7U9McNlfe95D/MytXxo5sO4VPh+4uVCiD
-         eLEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779850858; x=1780455658;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LW74ifQIEMw9K0LJrVq6jLhT79y6ZRMrtmCmy57465k=;
-        b=garoPi6pPHHg6MUgAK/6yqj7yU8CZrV01oBOnHNISNle/O3tglKEuNGkEomAjP4hmL
-         uRUMthw1Z5JfYDjXYZjKzmWwyr9kwmiV0RekKq23zsUW0KX/C7nGyKw7JWKlqqbA7Zpy
-         u0MpZC32Xmy4xg13shGQzrSLUQFbqZ+acnv0MXJqwNw9dVdDK2mZOAI+lvvmZMToh1an
-         LsDaZEZBnVgZfptg8kub6C1w2odmSNS2EuB04ZJFGM+iBWNTpvrb8EI7UJLCQBaWW758
-         dijsRG0l44OBalDdM8+2lkJuBWrogGgxxhVep4mQwckuxamlN1e2wi85nIXlOm1W+R0y
-         rvkg==
-X-Forwarded-Encrypted: i=1; AFNElJ8Z85gt+JFsqiu05qCUi16mknTVs0sLGXK8Z4I9P6Yc/V6Xwm+V+CXrGki3I5jFvBiJp/WxfIyr+s332WOI@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnB59vLjwhx6v2bkC7+OwuuoWdcZzIyxEHYyYvBYb99ZRNZRy+
-	X6X3MxATsYLJmU9QtahNOmWZJKXnGVqf683eSHe10OEB+R9gjDp6TJH0
-X-Gm-Gg: Acq92OHp+LH386NFqXs0Bc0bAAFsUsH+h1v8MWZIgzD6e4LycyqUCCa3WKERgcwiK1D
-	m5vwy2YOpZwwm68fh9YdkXrV0pWv1QDukrHMwwe+xiubqxswZgVqfUyUj2l2tVooo/0wmhZk3pp
-	r83y+TYWzfJ+8+9qsAtkz3sMG2FaUiTA01yh1GWhG/dh+W8IgxtgWF5PE0XaKyT9vZLSQYwVK+G
-	N3DwNSkh5KgDOpRs2fuUtV0ziSnW2XwFX9y0pe9iXMJI7tEvwBgRkyr3Xt5lNJBtMPHkRYMtOnb
-	7613/o/NtPd53EW/1vgXOhm9SfO3JMYSir1Lt+fATcbk+Iz93lz4zeIeUp0HU11TyY2A+TnksgG
-	U0YfRMuHQPVV5vcLkXzjJnC+iPMDEhpt6/2La2W2/e0X06BOS/b1JUO6uKfT5kdtV5DfWWrty8q
-	ldo2MgKHY4BCE6+EyRLTvOtcq6bnINHD83sKm5PrdL5ksGin66D2SV1Q2ch1TYOk3yAVGGWBLpx
-	YEzA2I0FDtvQu2R3GYtYA==
-X-Received: by 2002:a05:6214:5093:b0:8a0:3bd8:5950 with SMTP id 6a1803df08f44-8cc7b5c0bb4mr338124896d6.23.1779850858174;
-        Tue, 26 May 2026 20:00:58 -0700 (PDT)
-Received: from fedora ([172.245.82.59])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc81302a98sm153788216d6.33.2026.05.26.20.00.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 20:00:57 -0700 (PDT)
-Date: Tue, 26 May 2026 22:00:49 -0500
-From: Ming Lei <tom.leiming@gmail.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>,
-	linux-block <linux-block@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="UD8xJtlk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version:
+	Content-Type; bh=fDPXYPrvtsxNVZLx14/RP0AMdVMjMF3pl+xDYAo5Jc0=;
+	b=UD8xJtlkV/uoGvKENbjnHfnawakn0wpcQYD1tFbcVg6vvlYay/5SGOpL6g5EE/
+	4bw0OhEZS5xpQcYIYFgDMMJ9WqQauf+fC/fKkCIOb+/Txsk1DZbqEcoeqPyx/QBs
+	iLHyTNp2lON+mCr+qRz1uKeU73mIET5UU51e/SS5PAoNw=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wC3Xaq_YRZqznkDEA--.33607S2;
+	Wed, 27 May 2026 11:15:12 +0800 (CST)
+From: fffsqian@163.com
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: jack@suse.cz,
 	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
-Message-ID: <ahZeYQ0cLE1i8TGs@fedora>
-References: <ag0lS_CbKO9R5CV8@fedora>
- <94076bc9-2c09-4bb6-8468-b6b8af419cb9@I-love.SAKURA.ne.jp>
- <ag1nfIFcykmQHbkk@fedora>
- <1ab8c579-eb76-4227-8a72-6ec819135219@I-love.SAKURA.ne.jp>
- <ag1223nAa0wZ8ALC@fedora>
- <fda8abc8-6aa2-463b-bf72-865f6b838034@I-love.SAKURA.ne.jp>
- <ahRocb0Vs_m6RF_O@fedora>
- <1a9f53d4-6f48-4df8-a3d8-2b0e442a163a@I-love.SAKURA.ne.jp>
- <ahZGxoI6oHQ_vSrx@fedora>
- <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp>
+	linux-kernel@vger.kernel.org,
+	Qingshuang Fu <fuqingshuang@kylinos.cn>
+Subject: [PATCH v1] fs: fix spelling mistakes in comment
+Date: Wed, 27 May 2026 11:15:08 +0800
+Message-Id: <20260527031508.820423-1-fffsqian@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wC3Xaq_YRZqznkDEA--.33607S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uw4xGryUWF4rJr4DWryfJFb_yoW8Jw48p3
+	93K3s5tFsagw17u347CF409a4Sg392yr47Wr98Zw1Yvr1kGrnIgF40vF1UuayfC3yxXw12
+	gw4jgryYv34UAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ptQ6PUUUUUU=
+X-CM-SenderInfo: 5iii21xldqqiywtou0bp/xtbC6gCoc2oWYcDjAAAA3P
 
-On Wed, May 27, 2026 at 10:35:56AM +0900, Tetsuo Handa wrote:
-> On 2026/05/27 10:20, Ming Lei wrote:
-> >> Of course we should try to figure out the root cause first, but how can we do?
-> > 
-> > Definitely unexpected write IO(after umount & loop closed) from btrfs is more serious,
-> > which may cause data loss, so CC btrfs list and maintainer.
-> 
-> Why do you assume that the culprit is btrfs?
-> 
-> https://syzkaller.appspot.com/bug?extid=bc273027d5643e48e5b3 indicated that
-> this similar race is also happening with jfs.
+From: Qingshuang Fu <fuqingshuang@kylinos.cn>
 
-I just didn't see the above report on jfs.
+Fix three spelling errors in the comment for an internal file structure
+allocation function:
+- happend  →  happened
+- over     →  exceed (grammatical fix)
+- int      →  in
 
-It doesn't change anything, the same question still stands: unexpected write IO is issued
-or crosses umount & last closing of loop disk.
+Signed-off-by: Qingshuang Fu <fuqingshuang@kylinos.cn>
+---
+ fs/file_table.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/fs/file_table.c b/fs/file_table.c
+index 16e52e7fc2ac..fa06b660f116 100644
+--- a/fs/file_table.c
++++ b/fs/file_table.c
+@@ -231,13 +231,13 @@ static int init_file(struct file *f, int flags, const struct cred *cred)
+ }
+ 
+ /* Find an unused file structure and return a pointer to it.
+- * Returns an error pointer if some error happend e.g. we over file
++ * Returns an error pointer if some error happened e.g. we exceed the file
+  * structures limit, run out of memory or operation is not permitted.
+  *
+  * Be very careful using this.  You are responsible for
+  * getting write access to any mount that you might assign
+  * to this filp, if it is opened for write.  If this is not
+- * done, you will imbalance int the mount's writer count
++ * done, you will imbalance in the mount's writer count
+  * and a warning at __fput() time.
+  */
+ struct file *alloc_empty_file(int flags, const struct cred *cred)
 
+base-commit: eb3f4b7426cfd2b79d65b7d37155480b32259a11
+-- 
+2.25.1
 
-Thanks,
-Ming
