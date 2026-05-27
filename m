@@ -1,32 +1,32 @@
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6E73CCFC9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 07:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44113C8700
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 07:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779868507; cv=none; b=TfumxwhxuK24IbLKpVSE7hX2u+yWXnXRqnvdb+aNg6tX68zNZlNxzGkxxShuS6kxJkk5zvLYz8vzgqjdULfvOIxm6SJKf90VvG27GRb0ZPfx6zkWMIPBRp6Pyuy8CVIkS5hUYuTVZhfCMJbDofEHMYnfbGz1b1M7eKnAk3MS4Hs=
+	t=1779868529; cv=none; b=qW29Z3ijfwETb4BC1VuRoZsfV+ExW7Jh9MYvnA0EC3Qt8dZwDAwUclUHkK7roztaLKW/u0WfkGvf1fbh0dnT5Dv6XTDelV3was5GPmd6Ym3iYeu+Md5Ym3IO5P/Hp1JRM+oE8YP92/IFrtK757jkI9fcz8lvLuSEEbAg4Le4RLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779868507; c=relaxed/simple;
-	bh=45Q9YGNqKlndlbrypMmr6IHOx2sHhcz8jwRRWL/CQHg=;
+	s=arc-20240116; t=1779868529; c=relaxed/simple;
+	bh=kNKnRUj/qmc+iS0euH+So18tOdbUbYE8PJbrFOxptes=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xwm4BF8jDWWph25/fLcBdjwGeUfb5IpRfbT6jCGQ2VOtMX5ZeARImru4UcGgpd6rEd5LKmVVwNgLt/f0hjrs6CCOk1l8k7klqHCYtXxA9EkPcRgri74zxQU9ehFAwH4A7lwSoZsdkw15dtWgz0esYMDgBuw3F0gvV4mPtssI4oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=nxg5QSHR; arc=none smtp.client-ip=115.124.30.99
+	 In-Reply-To:Content-Type; b=obRlwaex8jwa12jcxJKhOHuchoOgdpXtA/024wjHfGC7JPLlXPGHSOnmcdutJGYj0ifBZhueG0bYj0fCbUsHKvTnhnaPvAgC0fs0jDvcawmjM2tqy+I5w0qjF+33Tsvg692BBpcohmuN/L8M5JmXAb5BBn5uxKi31SVNt9Uddt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=rLWMfWnX; arc=none smtp.client-ip=115.124.30.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="nxg5QSHR"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="rLWMfWnX"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1779868502; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=jn33czpJjH+yDDStgIUN/hEBu6vy8j0GmyHRxQMkSgc=;
-	b=nxg5QSHRdi0KoESDXsVXmc8tmYsBjVSJuZOqBmVwJICtXyP5xV6+WqO3PqEXj0NVdpHXzRxnKQozaQU2WoqAHxdOGSnntlfdqem/3/CcHwUvgRPkJyfxYIwY3949YUnQRbQdkXvu4T0yFxRkY1WM4XP22xzlCgGxqSTMx+wegXE=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X3ioSwI_1779868501;
-Received: from 30.221.145.39(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3ioSwI_1779868501 cluster:ay36)
+	t=1779868525; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=kxK9ak3kS1f+m6OltbJntLRNfyX+Ys2dJ/fXYTcJn9c=;
+	b=rLWMfWnX74h0FgJBxIhjTODKufRuGnFpyfTB37HEza9+H8PqPI07EXLDA/U4ywCdvOG0h9rRz4w+sE1fO9+EprZuV2TLtFOIbI7BbX9eXiHAPg327EbHXzYuc2VzB/eMNjdr8W6V6aJ6AxR8bdX4s5r5RuABRObBlc35QT0rUOw=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X3irpX9_1779868524;
+Received: from 30.221.145.39(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3irpX9_1779868524 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Wed, 27 May 2026 15:55:01 +0800
-Message-ID: <22dd2ff9-35d1-4a83-be75-6a89b19014d4@linux.alibaba.com>
-Date: Wed, 27 May 2026 15:55:01 +0800
+          Wed, 27 May 2026 15:55:24 +0800
+Message-ID: <3863dc00-0b8d-43cf-8e68-cbc9c9bc8665@linux.alibaba.com>
+Date: Wed, 27 May 2026 15:55:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,15 +34,15 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/34] ocfs2: Convert ocfs2_read_block to bh_submit()
+Subject: Re: [PATCH 20/34] ocfs2: Convert ocfs2_read_blocks to bh_submit()
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
 Cc: Christian Brauner <brauner@kernel.org>,
  Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
  ocfs2-devel@lists.linux.dev
 References: <20260525171931.4144395-1-willy@infradead.org>
- <20260525171931.4144395-20-willy@infradead.org>
+ <20260525171931.4144395-21-willy@infradead.org>
 From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20260525171931.4144395-20-willy@infradead.org>
+In-Reply-To: <20260525171931.4144395-21-willy@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -62,19 +62,21 @@ Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
 >  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
 > diff --git a/fs/ocfs2/buffer_head_io.c b/fs/ocfs2/buffer_head_io.c
-> index 3e42ca700db0..44a4fa3dfbc0 100644
+> index 44a4fa3dfbc0..4d3f03f99a8a 100644
 > --- a/fs/ocfs2/buffer_head_io.c
 > +++ b/fs/ocfs2/buffer_head_io.c
-> @@ -144,9 +144,8 @@ int ocfs2_read_blocks_sync(struct ocfs2_super *osb, u64 block,
->  #endif
+> @@ -321,11 +321,10 @@ int ocfs2_read_blocks(struct ocfs2_caching_info *ci, u64 block, int nr,
+>  				continue;
+>  			}
+>  
+> -			get_bh(bh); /* for end_buffer_read_sync() */
+> +			get_bh(bh); /* for bh_end_read() */
+>  			if (validate)
+>  				set_buffer_needs_validate(bh);
+> -			bh->b_end_io = end_buffer_read_sync;
+> -			submit_bh(REQ_OP_READ, bh);
+> +			bh_submit(bh, REQ_OP_READ, bh_end_read);
+>  			continue;
 >  		}
->  
-> -		get_bh(bh); /* for end_buffer_read_sync() */
-> -		bh->b_end_io = end_buffer_read_sync;
-> -		submit_bh(REQ_OP_READ, bh);
-> +		get_bh(bh); /* for bh_end_read() */
-> +		bh_submit(bh, REQ_OP_READ, bh_end_read);
 >  	}
->  
->  read_failure:
 
