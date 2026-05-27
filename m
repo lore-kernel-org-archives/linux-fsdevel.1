@@ -1,144 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B135B208D0;
-	Wed, 27 May 2026 00:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938CA288D0
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 00:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779841905; cv=none; b=KsAO/swZL5hQeGnJsOpfDF8eVNXeJousu13vI0HJRckzJWDk4VaTk7fG4cP7+hb4prVwUThwzF6CJzLQB7NQuvs7RV+jcaP+pO6fZHNhcWpy4aa2lr4aN8oXmZ9JxU1/SPus+mAPdABvD9lk2EMPG+X0Af39aC1Uh9WYLs8SHZk=
+	t=1779842874; cv=none; b=pMLKi+ytlGHLRs6AbzDmW2DAXXiHS32HbACpo6n6rU+l7JtEG3BGWpOnkHXPuzbKsnmNX6wYh9OrTqb0AgELI7XqdLJouYwwItg4BnbK5MHjcBJhHm6DgkTKu8SDElzekecSUdkCeUY3DmFv/24mAkij/HSPcDvcZ4hjaoifrrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779841905; c=relaxed/simple;
-	bh=UCEpl2ldoOyCARtje0cO8ROZGrkrKkIhM58jOkVtcD0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PRrbzxK9GS5VHj/eN6psDs2LEmfk+z+fgGau23bRfZ8kQsjYJc54yfonszOdqq0ng/xM9MYR4kKhXUHKZ12cq/mOxtICyLNduYegO8dAUt89fAafZ5Y0lKUCrJX7am/svTWKxopfqYgE+8fm0OTMfaIH6CZM2FujSqPV80vAphE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hncho/c+; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779842874; c=relaxed/simple;
+	bh=lcCYuCGfSd0zDWahzwyqLMc/PYaKx0zgtnyYe4rufcc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ebSGDhJWxSIvM1lGAlTa4E0L513S1+8HCzLw7/N5zfJ8i2QXjGx8cMitke60bTUnZ4Qz0wmON4DW94vWcIxQa8x//tlb+sJdhwR/b3o8Cfjj/IY1+plVX/7zBB5mPoHoZZPi1Myj+Ibd5J1yXFwxJe8T0atbSkc+fTB/vDMJTRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Wc4SmC6U; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hncho/c+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779841904; x=1811377904;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=UCEpl2ldoOyCARtje0cO8ROZGrkrKkIhM58jOkVtcD0=;
-  b=Hncho/c+IaQyLpS8mI513y78vyv8UhLlHnTrQ4nvwlJqBiNCRfUoS+Me
-   6MES7cPUHB8O8tFdBmqF+Bhm9wQIHmiIhP68mc2DsqAFapaCnCFR/yd/J
-   I2o0P1xlIADTTYLvkwEbc3bl8bS5/AQKDcWlTiOv55wY9adDhBSWRR8um
-   CqSBH6qfLJdtmuuujM2CWkrFOZxte6xkxMLLc7EbwBDyhximpgUmEQdLO
-   uA2YJc3d56IdU3TIKAs6EoABwLrKmcZhOpxqJBvZ47RESecAF7mv17kk3
-   iKM9typqcHFRhXDapiLOM7OGIFSsoJEzKUO9hNfksU1c6SpTq1c6j46+u
-   g==;
-X-CSE-ConnectionGUID: fPH2PnZsSaiaCP3QsNhnGg==
-X-CSE-MsgGUID: TJU6Vd6pTeOWZ/TzG8bUdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91357952"
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="91357952"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 17:31:43 -0700
-X-CSE-ConnectionGUID: CxrNtg1MTceJ35zGdIKHRQ==
-X-CSE-MsgGUID: x3w93BQ3RjSI3HXoz85gqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="246336693"
-Received: from aduenasd-mobl5.amr.corp.intel.com (HELO [10.125.110.201]) ([10.125.110.201])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 17:31:42 -0700
-Message-ID: <eb4212d1-bea2-452a-a7f6-886d325301a5@intel.com>
-Date: Tue, 26 May 2026 17:31:41 -0700
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Wc4SmC6U"
+Received: from macsyma.thunk.org (c-73-9-28-129.hsd1.il.comcast.net [73.9.28.129])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64R0lRgD009634
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 May 2026 20:47:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1779842858; bh=S8Y5sSAKASdTWIXSNaX1pRYH062Cce7Ozy6HzdK3LIM=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=Wc4SmC6URMEMoiiHTJR4NK8tO+i08XLudUqhelcPMb7dZIUr39PuTmbmUB6yxiPbn
+	 Op5zAVCtruc1LKUX2BNO10TBDYfWjLc/vgXLYEs3JPEqWIf/pzpnzm2nd8cv9BUC5w
+	 KR6i40cICZakpU+3NRyeMob3/xlL2GIS6cbV9DmJ3yPu7C31W1K5qyLSLmFN3JuG3z
+	 44rWBcTcw1ezDQYw52qPiwaZuAiYR8jgneHReVWYmSFXDtIk99QCb4n1Rppq8rlrAO
+	 Bn3QrMyEmi2gO9u9OS9xcjRCXU4rN9nVpeBfL1xWVeeNfMMLOLbX8jATWxZ4VX68yn
+	 wnvCyEtnKjM5w==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 6CDE96B367C1; Tue, 26 May 2026 19:47:27 -0500 (CDT)
+Date: Tue, 26 May 2026 19:47:27 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jan Kara <jack@suse.cz>,
+        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+        linux-ext4@vger.kernel.org, linux-cifs@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 2/8] ext4: convert mballoc KUnit test to sget_fc()
+Message-ID: <ny6ggedljk3celsnnaaczpehmgll6hqrglqc44ku53cmxrclx5@w4qby54x6mff>
+References: <20260526-work-sget-v1-0-263f7025cedd@kernel.org>
+ <20260526-work-sget-v1-2-263f7025cedd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 7/7] dax: fsdev.c minor formatting cleanup
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Dan Williams <djbw@kernel.org>
-Cc: John Groves <jgroves@micron.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Alison Schofield <alison.schofield@intel.com>, Ira Weiny
- <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019e511fb82e-1a444df3-8310-40ed-8380-72e1373d5da9-000000@email.amazonses.com>
- <20260522191937.79247-1-john@jagalactic.com>
- <0100019e512117cd-2a9b3b34-6f2c-42e3-9110-71aef0463358-000000@email.amazonses.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019e512117cd-2a9b3b34-6f2c-42e3-9110-71aef0463358-000000@email.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526-work-sget-v1-2-263f7025cedd@kernel.org>
 
+On Tue, May 26, 2026 at 05:09:04PM +0200, Christian Brauner wrote:
+> Add a no-op mbt_init_fs_context() so fs_context_for_mount() has
+> something to call on the fake fs_type....
 
+I was trying to figure out what needed to be in an init_fs_context()
+functrion, and I came accross this in
+Documentation/filesystems/mount_api.rst:
 
-On 5/22/26 12:19 PM, John Groves wrote:
-> From: John Groves <John@Groves.net>
-> 
-> Address some comments from Jonathan that were missed in the merged
-> series. Fix line wrapping in fsdev_dax_recovery_write() and
-> fsdev_dax_zero_page_range() signatures.
-> 
-> Fixes: 099c81a1f0ab ("dax: Add dax_operations for use by fs-dax on fsdev dax")
+       const struct fs_context_operations *ops
 
-No need for fixes tag when addressing white space and text formatting issues. Not a bug fix.
+     These are operations that can be done on a filesystem context (see
+     below).  This must be set by the ->init_fs_context() file_system_type
+     operation.    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-> Signed-off-by: John Groves <john@groves.net>
+So is it safe to just have an init_fs_context() function which doesn't
+do this?
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> +static int mbt_init_fs_context(struct fs_context *fc)
+> +{
+> +	return 0;
+> +}
+> +
 
+I see in fs/fs_context.c that in some places the code protects against
+a NULL ops pointer:
 
-> ---
->  drivers/dax/fsdev.c | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> index f74fd1bb7f4c5..dafa24761e8ff 100644
-> --- a/drivers/dax/fsdev.c
-> +++ b/drivers/dax/fsdev.c
-> @@ -45,8 +45,8 @@ static void fsdev_write_dax(void *addr, struct page *page,
->  }
->  
->  static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
-> -			long nr_pages, enum dax_access_mode mode, void **kaddr,
-> -			unsigned long *pfn)
-> +		long nr_pages, enum dax_access_mode mode, void **kaddr,
-> +		unsigned long *pfn)
->  {
->  	struct dev_dax *dev_dax = dax_get_private(dax_dev);
->  	size_t size = nr_pages << PAGE_SHIFT;
-> @@ -90,7 +90,8 @@ static int fsdev_dax_zero_page_range(struct dax_device *dax_dev,
->  	long rc;
->  
->  	WARN_ONCE(nr_pages > 1, "%s: nr_pages > 1\n", __func__);
-> -	rc = __fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS, &kaddr, NULL);
-> +	rc = __fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS,
-> +				       &kaddr, NULL);
->  	if (rc < 0)
->  		return rc;
->  	fsdev_write_dax(kaddr, ZERO_PAGE(0), 0, PAGE_SIZE);
-> @@ -98,15 +99,15 @@ static int fsdev_dax_zero_page_range(struct dax_device *dax_dev,
->  }
->  
->  static long fsdev_dax_direct_access(struct dax_device *dax_dev,
-> -		  pgoff_t pgoff, long nr_pages, enum dax_access_mode mode,
-> -		  void **kaddr, unsigned long *pfn)
-> +		pgoff_t pgoff, long nr_pages, enum dax_access_mode mode,
-> +		void **kaddr, unsigned long *pfn)
->  {
->  	return __fsdev_dax_direct_access(dax_dev, pgoff, nr_pages, mode,
->  					 kaddr, pfn);
->  }
->  
-> -static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
-> -		void *addr, size_t bytes, struct iov_iter *i)
-> +static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev,
-> +		pgoff_t pgoff, void *addr, size_t bytes, struct iov_iter *i)
->  {
->  	return _copy_from_iter_flushcache(addr, bytes, i);
->  }
+        if (fc->need_free && fc->ops && fc->ops->free)
+		fc->ops->free(fc);
 
+But in other places, it doesn't and we'll end up derefrencing a null
+pointer:
+
+        if (fc->ops->parse_param) {
+		ret = fc->ops->parse_param(fc, param);
+
+	....
+
+So it's unclear to me --- when is it safe (and not safe) to not bother
+to fill in the ops pointer?
+
+						- Ted
