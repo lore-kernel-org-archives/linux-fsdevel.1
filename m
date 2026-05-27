@@ -1,281 +1,265 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta22.hihonor.com (mta22.honor.com [81.70.192.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813353939B2
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 11:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61233F7A98;
+	Wed, 27 May 2026 11:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779879760; cv=none; b=uR7jG6TvfdlRYVhkuPmn0tu95wNIDggwUrYvzw6jnrId4wSFLj4ynNNN489ACmTUG/r94L8Bp7A8lpRT1K8g6b85TRbs9Mv+NpRlKNFXCzs1StjHDr55NWtHbs8rY5JdaVERAuSOLJi6cfAgBTEi/jz1hFlwuEjttcqSzLYvz8U=
+	t=1779880081; cv=none; b=rSwZDNJeSnqIXV4MZV+6nZGjqCmEd0yeyTe4NwBN48jYfH6DsBzf0aUFbr+lF5HFW63QPKj9ygxGaXQYG88hv/Dd3/cV2xS/hQ0NDEgzs5hOelgm94FGJWCGT4kCYoiE0vMx+CNF5ZzUc0YlsnGm2DuNbEHOzevE6O1gAtHqHOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779879760; c=relaxed/simple;
-	bh=Ps9vhLbyzBi5huMqCaF9kZBGp+NmKMOJvL1QVKRRPvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PFR1xw4Cb8bIW9gHbJDYzckz5s9pqRaaXXWY/MfGckR8tK/69P98UCLtH9RKFuSDj/3NV61xz3pnSH7IrH1D8y5KaIvDXz89kSFdiT7hT9bQmhD4yCrpzRidEWPEvBXBAzLb/lV3oPSF2D59xOnK6WKu4laMvqTOqpbdpQgCo3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZzOPTsdY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qnYlv6Ry; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZzOPTsdY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qnYlv6Ry; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1779880081; c=relaxed/simple;
+	bh=epyrz07nrx8yM7rwux7VThuOkAeqUmdOo+DgLUvKfB8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r/FnTMO3a26PT27GHrnj2THdeRNH2KOqzd/auGbjd+GPGdZr3XrEhrwDitliwHHN04h9IoONdcZy1VWj+wsAlH36pE1I1R5k7jsg4ZRdJTMlGyqXcljp3x1J+M6eC5JHd34diXcfKCbx+vbK7EYFGzmyPHvQMXVtmUpDh18m2xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b=HV/NdIPY; arc=none smtp.client-ip=81.70.192.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZzOPTsdY";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qnYlv6Ry";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZzOPTsdY";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qnYlv6Ry"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9FD0E6701A;
-	Wed, 27 May 2026 11:02:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779879756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1f0NT1S0LDNkC0OQ1I5DisWCaCuyyFdWkJewNBodFdc=;
-	b=ZzOPTsdYdd5diKavPd6hdcMKGURX87j6O7kAgJ52DWcA7ppjJ/RuxKO6Vk0hUnB3gW343q
-	MDTyk8IG6SXMLw2sSZccTEQ2b557pw2qAKRgrBKODb2M1dOmO+qqTUus/fC0+g4aCCsRkV
-	M4OA/9uHVfJtP9YOsjvzjyAD3NTFgFw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779879756;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1f0NT1S0LDNkC0OQ1I5DisWCaCuyyFdWkJewNBodFdc=;
-	b=qnYlv6RycTHc3rrv+Zw/FSbwPpGrNvXT3ZDL6RritYlOMIPDbhllA8WXRYlLj6UxtPctS9
-	VdpE5BIQnE8e4FCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779879756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1f0NT1S0LDNkC0OQ1I5DisWCaCuyyFdWkJewNBodFdc=;
-	b=ZzOPTsdYdd5diKavPd6hdcMKGURX87j6O7kAgJ52DWcA7ppjJ/RuxKO6Vk0hUnB3gW343q
-	MDTyk8IG6SXMLw2sSZccTEQ2b557pw2qAKRgrBKODb2M1dOmO+qqTUus/fC0+g4aCCsRkV
-	M4OA/9uHVfJtP9YOsjvzjyAD3NTFgFw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779879756;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1f0NT1S0LDNkC0OQ1I5DisWCaCuyyFdWkJewNBodFdc=;
-	b=qnYlv6RycTHc3rrv+Zw/FSbwPpGrNvXT3ZDL6RritYlOMIPDbhllA8WXRYlLj6UxtPctS9
-	VdpE5BIQnE8e4FCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81C405A7C9;
-	Wed, 27 May 2026 11:02:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id l8k9H0zPFmoLEAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 27 May 2026 11:02:36 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 23B70A0EB5; Wed, 27 May 2026 13:02:36 +0200 (CEST)
-Date: Wed, 27 May 2026 13:02:36 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 04/34] buffer: Add bh_end_read(), bh_end_write() and
- bh_end_async_write()
-Message-ID: <zkgzhy6i5tfkxxijrusi36tu6uxibwfh5vcbmo4f3tzsnbo4qf@vsz5ep3lcxpr>
-References: <20260525171931.4144395-1-willy@infradead.org>
- <20260525171931.4144395-5-willy@infradead.org>
+	dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b="HV/NdIPY"
+dkim-signature: v=1; a=rsa-sha256; d=honor.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=To:From;
+	bh=4K1pyVwRMRi3Tdr5Z8KBrwSA1NH7W9DE8pnYNwT+wLc=;
+	b=HV/NdIPYYiqXFPYqUUK1wrPzxBTWY0GpF9z3107mXb1Gim0j7Zzn+iqUoW4YHQqZCn32kLQsG
+	iEV14jXbmsDMlpKJoeP8BOSnu0H1NblvE3u+XZa0p1VjmUfcJm62M3lFRKZIpnS7kCaxyVQjmB7
+	Tq+TS9O2SsSJwwZtL7X8Vnk=
+Received: from TW006-1.hihonor.com (unknown [10.77.215.153])
+	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4gQRdX5CZ7zYkxX9;
+	Wed, 27 May 2026 19:06:40 +0800 (CST)
+Received: from TA003.hihonor.com (10.72.0.43) by TW006-1.hihonor.com
+ (10.77.215.153) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 27 May
+ 2026 19:07:55 +0800
+Received: from localhost.localdomain (10.144.18.117) by TA003.hihonor.com
+ (10.72.0.43) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 27 May
+ 2026 19:07:55 +0800
+From: tao <tao.wangtao@honor.com>
+To: <catalin.marinas@arm.com>, <will@kernel.org>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>, <akpm@linux-foundation.org>, <david@kernel.org>,
+	<willy@infradead.org>, <sj@kernel.org>, <kees@kernel.org>,
+	<luizcap@redhat.com>, <zhangjiao2@cmss.chinamobile.com>,
+	<tao.wangtao@honor.com>, <kas@kernel.org>, <ljs@kernel.org>
+CC: <hpa@zytor.com>, <liam@infradead.org>, <vbabka@kernel.org>,
+	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>, <jack@suse.cz>,
+	<riel@surriel.com>, <harry@kernel.org>, <jannh@google.com>, <jgg@ziepe.ca>,
+	<jhubbard@nvidia.com>, <peterx@redhat.com>, <ziy@nvidia.com>,
+	<baolin.wang@linux.alibaba.com>, <npache@redhat.com>, <ryan.roberts@arm.com>,
+	<dev.jain@arm.com>, <baohua@kernel.org>, <lance.yang@linux.dev>,
+	<xu.xin16@zte.com.cn>, <chengming.zhou@linux.dev>, <nao.horiguchi@gmail.com>,
+	<matthew.brost@intel.com>, <joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>,
+	<byungchul@sk.com>, <gourry@gourry.net>, <ying.huang@linux.alibaba.com>,
+	<apopple@nvidia.com>, <pfalcato@suse.de>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+	<damon@lists.linux.dev>, <shakeel.butt@linux.dev>, <ryncsn@gmail.com>,
+	<21cnbao@gmail.com>, <jparsana@google.com>, <dvander@google.com>,
+	<zhangji1@honor.com>, <wangzicheng@honor.com>
+Subject: [PATCH 01/15] mm/rmap: introduce anon_rmap APIs for anonymous folios
+Date: Wed, 27 May 2026 19:01:33 +0800
+Message-ID: <20260527110147.17815-2-tao.wangtao@honor.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260527110147.17815-1-tao.wangtao@honor.com>
+References: <20260527110147.17815-1-tao.wangtao@honor.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260525171931.4144395-5-willy@infradead.org>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,infradead.org:email,suse.com:email]
+Content-Type: text/plain
+X-ClientProxiedBy: TW006-1.hihonor.com (10.77.215.153) To TA003.hihonor.com
+ (10.72.0.43)
 
-On Mon 25-05-26 18:18:57, Matthew Wilcox (Oracle) wrote:
-> These are the bio versions of end_buffer_read_sync(),
-> end_buffer_write_sync() and end_buffer_async_write().
-> Also add the helper function bio_endio_bh().
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Add a set of anon_rmap APIs to operate on the reverse mappings of
+anonymous folios.
 
-One more suggestion for further cleanup that actually would make sense as
-part of this series: end_buffer_read_sync() and end_buffer_write_sync()
-drop bh reference which is acquired before submit_bh(). Holding this bh
-reference is a remnant from the old times where buffer lock bitlock was not
-a safe primitive to use to protect a structure from freeing. These days
-bitlocks are implemented in a way that they don't touch the lock after
-unlocking and so they are safe to be used to protect against freeing. So
-when touching all the places using end_buffer_read_sync() and
-end_buffer_write_sync() anyway, it would be nice to clean this up and
-remove these pointless refcount manipulations.
+Introduce anon_rmap_for_each_vma() as a wrapper around
+vma_interval_tree_foreach(), so callers no longer access the
+interval tree directly.
 
-								Honza
+This prepares the rmap code for upcoming ANON_VMA_LAZY support and
+RCU-based lockless rmap traversal.
 
-> ---
->  fs/buffer.c                 | 77 ++++++++++++++++++++++++++++++++++---
->  include/linux/buffer_head.h |  6 +++
->  2 files changed, 77 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 4dcce64ef006..84ba0d892267 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -129,6 +129,29 @@ static void buffer_io_error(struct buffer_head *bh, char *msg)
->  			bh->b_bdev, (unsigned long long)bh->b_blocknr, msg);
->  }
->  
-> +/**
-> + * bio_endio_bh - Return the bh for a bio
-> + * @bio: The bio
-> + *
-> + * Call this in your bio_end_io handler to retrieve the buffer_head
-> + * submitted in bh_submit().  If you did not call bh_submit(), do not
-> + * call this function; it will return garbage.
-> + *
-> + * This function consumes the bio refcount which will probably free the
-> + * bio.  You should retrieve the bi_status before calling this.
-> + */
-> +struct buffer_head *bio_endio_bh(struct bio *bio)
-> +{
-> +	struct buffer_head *bh = bio->bi_private;
-> +
-> +	if (unlikely(bio_flagged(bio, BIO_QUIET)))
-> +		set_bit(BH_Quiet, &bh->b_state);
-> +	bio_put(bio);
-> +
-> +	return bh;
-> +}
-> +EXPORT_SYMBOL(bio_endio_bh);
-> +
->  /*
->   * End-of-IO handler helper function which does not touch the bh after
->   * unlocking it.
-> @@ -159,6 +182,21 @@ void end_buffer_read_sync(struct buffer_head *bh, int uptodate)
->  }
->  EXPORT_SYMBOL(end_buffer_read_sync);
->  
-> +/**
-> + * bh_end_read - I/O end handler for reads
-> + * @bio: The bio being completed.
-> + *
-> + * Pass this function to bh_submit() if you're reading to the buffer,
-> + * unless you need your own special I/O end handler.
-> + */
-> +void bh_end_read(struct bio *bio)
-> +{
-> +	bool uptodate = bio->bi_status == BLK_STS_OK;
-> +	struct buffer_head *bh = bio_endio_bh(bio);
-> +	end_buffer_read_sync(bh, uptodate);
-> +}
-> +EXPORT_SYMBOL(bh_end_read);
-> +
->  void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
->  {
->  	if (uptodate) {
-> @@ -173,6 +211,21 @@ void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
->  }
->  EXPORT_SYMBOL(end_buffer_write_sync);
->  
-> +/**
-> + * bh_end_write - I/O end handler for writes
-> + * @bio: The bio being completed.
-> + *
-> + * Pass this function to bh_submit() if you're writing from the buffer,
-> + * unless you need your own special I/O end handler.
-> + */
-> +void bh_end_write(struct bio *bio)
-> +{
-> +	bool success = bio->bi_status == BLK_STS_OK;
-> +	struct buffer_head *bh = bio_endio_bh(bio);
-> +	end_buffer_write_sync(bh, success);
-> +}
-> +EXPORT_SYMBOL(bh_end_write);
-> +
->  static struct buffer_head *
->  __find_get_block_slow(struct block_device *bdev, sector_t block, bool atomic)
->  {
-> @@ -416,6 +469,21 @@ static void end_buffer_async_write(struct buffer_head *bh, int uptodate)
->  	spin_unlock_irqrestore(&first->b_uptodate_lock, flags);
->  }
->  
-> +/**
-> + * bh_end_async_write - I/O end handler for async folio writes
-> + * @bio: The bio being completed.
-> + *
-> + * Pass this function to bh_submit() if you're doing the equivalent of
-> + * block_write_full_folio().
-> + */
-> +void bh_end_async_write(struct bio *bio)
-> +{
-> +	bool success = bio->bi_status == BLK_STS_OK;
-> +	struct buffer_head *bh = bio_endio_bh(bio);
-> +	end_buffer_async_write(bh, success);
-> +}
-> +EXPORT_SYMBOL(bh_end_async_write);
-> +
->  /*
->   * If a page's buffers are under async readin (end_buffer_async_read
->   * completion) then there is a possibility that another thread of
-> @@ -1150,13 +1218,10 @@ EXPORT_SYMBOL(__bforget);
->  
->  static void end_bio_bh_io_sync(struct bio *bio)
->  {
-> -	struct buffer_head *bh = bio->bi_private;
-> +	bool uptodate = bio->bi_status == BLK_STS_OK;
-> +	struct buffer_head *bh = bio_endio_bh(bio);
->  
-> -	if (unlikely(bio_flagged(bio, BIO_QUIET)))
-> -		set_bit(BH_Quiet, &bh->b_state);
-> -
-> -	bh->b_end_io(bh, !bio->bi_status);
-> -	bio_put(bio);
-> +	bh->b_end_io(bh, uptodate);
->  }
->  
->  static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
-> diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-> index d59980e4adda..e1594d30639b 100644
-> --- a/include/linux/buffer_head.h
-> +++ b/include/linux/buffer_head.h
-> @@ -204,6 +204,12 @@ struct buffer_head *create_empty_buffers(struct folio *folio,
->  		unsigned long blocksize, unsigned long b_state);
->  void end_buffer_read_sync(struct buffer_head *bh, int uptodate);
->  void end_buffer_write_sync(struct buffer_head *bh, int uptodate);
-> +struct buffer_head *bio_endio_bh(struct bio *bio);
-> +
-> +/* Completion routines suitable for passing to bh_submit() */
-> +void bh_end_read(struct bio *bio);
-> +void bh_end_write(struct bio *bio);
-> +void bh_end_async_write(struct bio *bio);
->  
->  /* Things to do with metadata buffers list */
->  void mmb_mark_buffer_dirty(struct buffer_head *bh, struct mapping_metadata_bhs *mmb);
-> -- 
-> 2.47.3
-> 
+No functional change intended.
+
+Signed-off-by: tao <tao.wangtao@honor.com>
+---
+ include/linux/rmap.h | 68 +++++++++++++++++++++++++++++++++++++++++
+ mm/rmap.c            | 73 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 141 insertions(+)
+
+diff --git a/include/linux/rmap.h b/include/linux/rmap.h
+index 8dc0871e5f00..c42314ea4362 100644
+--- a/include/linux/rmap.h
++++ b/include/linux/rmap.h
+@@ -937,6 +937,44 @@ int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages, pgoff_t pgoff,
+ void remove_migration_ptes(struct folio *src, struct folio *dst,
+ 		enum ttu_flags flags);
+ 
++/* Reverse mapping handle for anonymous folio rmap helpers. */
++typedef struct anon_rmap {
++	unsigned long rmap;
++} anon_rmap_t;
++
++#define ANON_RMAP_NULL make_anon_rmap(0)
++
++static inline anon_rmap_t make_anon_rmap(const void *anon_mapping)
++{
++	return (anon_rmap_t){ .rmap = (unsigned long)anon_mapping, };
++}
++
++static inline unsigned long anon_rmap_value(anon_rmap_t anon_rmap)
++{
++	return anon_rmap.rmap;
++}
++
++static inline anon_rmap_t anon_vma_to_anon_rmap(const struct anon_vma *anon_vma)
++{
++	return make_anon_rmap(anon_vma);
++}
++
++static inline struct anon_vma *anon_rmap_to_anon_vma(anon_rmap_t anon_rmap)
++{
++	unsigned long rmap = anon_rmap_value(anon_rmap);
++
++	return (struct anon_vma *)rmap;
++}
++
++anon_rmap_t vma_get_anon_rmap(struct vm_area_struct *vma);
++void put_anon_rmap(anon_rmap_t anon_rmap);
++void anon_rmap_lock_write(anon_rmap_t anon_rmap);
++int anon_rmap_trylock_write(anon_rmap_t anon_rmap);
++void anon_rmap_unlock_write(anon_rmap_t anon_rmap);
++void anon_rmap_lock_read(anon_rmap_t anon_rmap);
++int anon_rmap_trylock_read(anon_rmap_t anon_rmap);
++void anon_rmap_unlock_read(anon_rmap_t anon_rmap);
++
+ /*
+  * rmap_walk_control: To control rmap traversing for specific needs
+  *
+@@ -969,6 +1007,36 @@ void rmap_walk_locked(struct folio *folio, struct rmap_walk_control *rwc);
+ struct anon_vma *folio_lock_anon_vma_read(const struct folio *folio,
+ 					  struct rmap_walk_control *rwc);
+ 
++bool folio_maybe_same_anon_vma(const struct folio *folio,
++	const struct vm_area_struct *vma);
++anon_rmap_t folio_get_anon_rmap(const struct folio *folio);
++anon_rmap_t folio_lock_anon_rmap_read(const struct folio *folio,
++	struct rmap_walk_control *rwc);
++
++static inline struct vm_area_struct *anon_rmap_iter_first_vma(
++	anon_rmap_t anon_rmap, unsigned long start, unsigned long last,
++	struct anon_vma_chain **avc)
++{
++	struct anon_vma *anon_vma = anon_rmap_to_anon_vma(anon_rmap);
++
++	*avc = anon_vma_interval_tree_iter_first(&anon_vma->rb_root, start, last);
++	return *avc ? (*avc)->vma : NULL;
++}
++
++static inline struct vm_area_struct *anon_rmap_iter_next_vma(
++	anon_rmap_t anon_rmap, unsigned long start, unsigned long last,
++	struct anon_vma_chain **avc)
++{
++	if (!*avc)
++		return NULL;
++	*avc = anon_vma_interval_tree_iter_next(*avc, start, last);
++	return *avc ? (*avc)->vma : NULL;
++}
++
++#define anon_rmap_foreach_vma(vma, avc, anon_rmap, start, last) 	   \
++	for (vma = anon_rmap_iter_first_vma(anon_rmap, start, last, &avc); \
++	     vma; vma = anon_rmap_iter_next_vma(anon_rmap, start, last, &avc))
++
+ #else	/* !CONFIG_MMU */
+ 
+ #define anon_vma_init()		do {} while (0)
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 78b7fb5f367c..1b2dada71778 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -701,6 +701,79 @@ struct anon_vma *folio_lock_anon_vma_read(const struct folio *folio,
+ 	return anon_vma;
+ }
+ 
++anon_rmap_t vma_get_anon_rmap(struct vm_area_struct *vma)
++{
++	mmap_assert_locked(vma->vm_mm);
++	VM_BUG_ON(!vma->anon_vma);
++	get_anon_vma(vma->anon_vma);
++	return anon_vma_to_anon_rmap(vma->anon_vma);
++}
++
++void put_anon_rmap(anon_rmap_t anon_rmap)
++{
++	put_anon_vma(anon_rmap_to_anon_vma(anon_rmap));
++}
++
++void anon_rmap_lock_write(anon_rmap_t anon_rmap)
++{
++	anon_vma_lock_write(anon_rmap_to_anon_vma(anon_rmap));
++}
++
++int anon_rmap_trylock_write(anon_rmap_t anon_rmap)
++{
++	return anon_vma_trylock_write(anon_rmap_to_anon_vma(anon_rmap));
++}
++
++void anon_rmap_unlock_write(anon_rmap_t anon_rmap)
++{
++	anon_vma_unlock_write(anon_rmap_to_anon_vma(anon_rmap));
++}
++
++void anon_rmap_lock_read(anon_rmap_t anon_rmap)
++{
++	anon_vma_lock_read(anon_rmap_to_anon_vma(anon_rmap));
++}
++
++int anon_rmap_trylock_read(anon_rmap_t anon_rmap)
++{
++	return anon_vma_trylock_read(anon_rmap_to_anon_vma(anon_rmap));
++}
++
++void anon_rmap_unlock_read(anon_rmap_t anon_rmap)
++{
++	anon_vma_unlock_read(anon_rmap_to_anon_vma(anon_rmap));
++}
++
++bool folio_maybe_same_anon_vma(const struct folio *folio,
++	const struct vm_area_struct *vma)
++{
++	struct anon_vma *anon_vma;
++	struct anon_vma *tgt_anon_vma = vma->anon_vma;
++	bool same = false;
++
++	rcu_read_lock();
++	anon_vma = folio_anon_vma(folio);
++	if (anon_vma && tgt_anon_vma)
++		same = anon_vma->root == tgt_anon_vma->root;
++	rcu_read_unlock();
++	return same;
++}
++
++anon_rmap_t folio_get_anon_rmap(const struct folio *folio)
++{
++	struct anon_vma *anon_vma = folio_get_anon_vma(folio);
++
++	return anon_vma ? anon_vma_to_anon_rmap(anon_vma) : ANON_RMAP_NULL;
++}
++
++anon_rmap_t folio_lock_anon_rmap_read(const struct folio *folio,
++				      struct rmap_walk_control *rwc)
++{
++	struct anon_vma *anon_vma = folio_lock_anon_vma_read(folio, rwc);
++
++	return anon_vma ? anon_vma_to_anon_rmap(anon_vma) : ANON_RMAP_NULL;
++}
++
+ #ifdef CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+ /*
+  * Flush TLB entries for recently unmapped pages from remote CPUs. It is
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.17.1
+
