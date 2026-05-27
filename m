@@ -1,32 +1,32 @@
 Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CB43CD8AA
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 07:54:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6E73CCFC9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 07:55:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779868486; cv=none; b=Hy2vjJID5j7EXJFFZ3zelMuJLqeTZKu6LO7N3Nqdtu9bdgq12EQ81pKCAdLu892lxECuIsnjGIlNGqcdQYcY/LwVdaL8XOzbahfPfIoIBC1IM6vQoBfXIY3UZM/bDYu+cUM/f+UMvfTnXMPl9/V0D4hKD8poVaDYCNH/QZiUatw=
+	t=1779868507; cv=none; b=TfumxwhxuK24IbLKpVSE7hX2u+yWXnXRqnvdb+aNg6tX68zNZlNxzGkxxShuS6kxJkk5zvLYz8vzgqjdULfvOIxm6SJKf90VvG27GRb0ZPfx6zkWMIPBRp6Pyuy8CVIkS5hUYuTVZhfCMJbDofEHMYnfbGz1b1M7eKnAk3MS4Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779868486; c=relaxed/simple;
-	bh=babPemdtRbs/YFH6/6i8Wf5xeR/Xwm5FUjnFOVeOYts=;
+	s=arc-20240116; t=1779868507; c=relaxed/simple;
+	bh=45Q9YGNqKlndlbrypMmr6IHOx2sHhcz8jwRRWL/CQHg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jrsuOkFiCZCA5OoCb0WWwwgmkbbfVZFR4zjvgDUmy1jcHqD+FwJlJ38lLYetg59YBA6maPBDo+7UeI5AiIStGNVD6EGFMb0m9ta2J3J/PGaC+9yOeWdixvPyUmVGTzIZUF0TImM0G3WSwPhJkCTNw5AGloX07+dZqWGy0IEYAp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=YsTdfw09; arc=none smtp.client-ip=115.124.30.99
+	 In-Reply-To:Content-Type; b=Xwm4BF8jDWWph25/fLcBdjwGeUfb5IpRfbT6jCGQ2VOtMX5ZeARImru4UcGgpd6rEd5LKmVVwNgLt/f0hjrs6CCOk1l8k7klqHCYtXxA9EkPcRgri74zxQU9ehFAwH4A7lwSoZsdkw15dtWgz0esYMDgBuw3F0gvV4mPtssI4oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=nxg5QSHR; arc=none smtp.client-ip=115.124.30.99
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="YsTdfw09"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="nxg5QSHR"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1779868481; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=IHYNoIg2n66NIMX7y6DAVNRBVr43HOJ/Woi8RnHmmBM=;
-	b=YsTdfw09joMhRdgcr9EW7GMljmx6JEQSFYmSEm5L0pAtMBiTPIr7krpbGasOwhbu2JDAvbN1dCUp1qvQqZXvr0n/7KGGcBnKrGgBB6Y7RykwNdaNKf88/B+G8Oclocq/xU9kCrAKz39hqNLBVL5+GsMwhOB5NwUV1e7svYit9LQ=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X3ipCuR_1779868480;
-Received: from 30.221.147.201(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3ipCuR_1779868480 cluster:ay36)
+	t=1779868502; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=jn33czpJjH+yDDStgIUN/hEBu6vy8j0GmyHRxQMkSgc=;
+	b=nxg5QSHRdi0KoESDXsVXmc8tmYsBjVSJuZOqBmVwJICtXyP5xV6+WqO3PqEXj0NVdpHXzRxnKQozaQU2WoqAHxdOGSnntlfdqem/3/CcHwUvgRPkJyfxYIwY3949YUnQRbQdkXvu4T0yFxRkY1WM4XP22xzlCgGxqSTMx+wegXE=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X3ioSwI_1779868501;
+Received: from 30.221.145.39(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3ioSwI_1779868501 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Wed, 27 May 2026 15:54:40 +0800
-Message-ID: <768a888f-6e3b-449c-8f39-c6032973b229@linux.alibaba.com>
-Date: Wed, 27 May 2026 15:54:38 +0800
+          Wed, 27 May 2026 15:55:01 +0800
+Message-ID: <22dd2ff9-35d1-4a83-be75-6a89b19014d4@linux.alibaba.com>
+Date: Wed, 27 May 2026 15:55:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,99 +34,47 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/14] fuse: refactor setting up copy state for payload
- copying
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, bernd@bsbernd.com, axboe@kernel.dk,
- linux-fsdevel@vger.kernel.org, Bernd Schubert <bschubert@ddn.com>
-References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-6-joannelkoong@gmail.com>
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <20260402162840.2989717-6-joannelkoong@gmail.com>
+Subject: Re: [PATCH 19/34] ocfs2: Convert ocfs2_read_block to bh_submit()
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
+ ocfs2-devel@lists.linux.dev
+References: <20260525171931.4144395-1-willy@infradead.org>
+ <20260525171931.4144395-20-willy@infradead.org>
+From: Joseph Qi <joseph.qi@linux.alibaba.com>
+In-Reply-To: <20260525171931.4144395-20-willy@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2026/4/3 00:28, Joanne Koong wrote:
-> Add a new helper function setup_fuse_copy_state() to contain the logic
-> for setting up the copy state for payload copying.
->
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> Reviewed-by: Bernd Schubert <bschubert@ddn.com>
 
-Looks good to me.
 
-Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
+On 5/26/26 1:19 AM, Matthew Wilcox (Oracle) wrote:
+> Avoid an extra indirect function call by using bh_submit() instead of
+> submit_bh().
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: ocfs2-devel@lists.linux.dev
 
+Looks fine.
+Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
 > ---
->  fs/fuse/dev_uring.c | 38 ++++++++++++++++++++++++--------------
->  1 file changed, 24 insertions(+), 14 deletions(-)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index cca795dd72e1..045394a7ae41 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -639,6 +639,27 @@ static int copy_header_from_ring(struct fuse_ring_ent *ent,
->  	return 0;
->  }
+>  fs/ocfs2/buffer_head_io.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/ocfs2/buffer_head_io.c b/fs/ocfs2/buffer_head_io.c
+> index 3e42ca700db0..44a4fa3dfbc0 100644
+> --- a/fs/ocfs2/buffer_head_io.c
+> +++ b/fs/ocfs2/buffer_head_io.c
+> @@ -144,9 +144,8 @@ int ocfs2_read_blocks_sync(struct ocfs2_super *osb, u64 block,
+>  #endif
+>  		}
 >  
-> +static int setup_fuse_copy_state(struct fuse_copy_state *cs,
-> +				 struct fuse_ring *ring, struct fuse_req *req,
-> +				 struct fuse_ring_ent *ent, int dir,
-> +				 struct iov_iter *iter)
-> +{
-> +	int err;
-> +
-> +	err = import_ubuf(dir, ent->payload, ring->max_payload_sz, iter);
-> +	if (err) {
-> +		pr_info_ratelimited("fuse: Import of user buffer failed\n");
-> +		return err;
-> +	}
-> +
-> +	fuse_copy_init(cs, dir == ITER_DEST, iter);
-> +
-> +	cs->is_uring = true;
-> +	cs->req = req;
-> +
-> +	return 0;
-> +}
-> +
->  static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
->  				     struct fuse_req *req,
->  				     struct fuse_ring_ent *ent)
-> @@ -654,15 +675,10 @@ static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
->  	if (err)
->  		return err;
+> -		get_bh(bh); /* for end_buffer_read_sync() */
+> -		bh->b_end_io = end_buffer_read_sync;
+> -		submit_bh(REQ_OP_READ, bh);
+> +		get_bh(bh); /* for bh_end_read() */
+> +		bh_submit(bh, REQ_OP_READ, bh_end_read);
+>  	}
 >  
-> -	err = import_ubuf(ITER_SOURCE, ent->payload, ring->max_payload_sz,
-> -			  &iter);
-> +	err = setup_fuse_copy_state(&cs, ring, req, ent, ITER_SOURCE, &iter);
->  	if (err)
->  		return err;
->  
-> -	fuse_copy_init(&cs, false, &iter);
-> -	cs.is_uring = true;
-> -	cs.req = req;
-> -
->  	err = fuse_copy_out_args(&cs, args, ring_in_out.payload_sz);
->  	fuse_copy_finish(&cs);
->  	return err;
-> @@ -685,15 +701,9 @@ static int fuse_uring_args_to_ring(struct fuse_ring *ring, struct fuse_req *req,
->  		.commit_id = req->in.h.unique,
->  	};
->  
-> -	err = import_ubuf(ITER_DEST, ent->payload, ring->max_payload_sz, &iter);
-> -	if (err) {
-> -		pr_info_ratelimited("fuse: Import of user buffer failed\n");
-> +	err = setup_fuse_copy_state(&cs, ring, req, ent, ITER_DEST, &iter);
-> +	if (err)
->  		return err;
-> -	}
-> -
-> -	fuse_copy_init(&cs, true, &iter);
-> -	cs.is_uring = true;
-> -	cs.req = req;
->  
->  	if (num_args > 0) {
->  		/*
-
+>  read_failure:
 
