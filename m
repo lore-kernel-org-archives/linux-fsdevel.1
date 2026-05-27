@@ -1,86 +1,85 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C883446C0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 09:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69B135F19B
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 09:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779875216; cv=none; b=V4Ehi8jlSeZ3I8sy6RL5OxopGViNx1YbO3RktYe8FxN0VS/ymfkMgMWgF70H1BYlyWPtWSvXrJpMZoqTOQubC9Enr1osqpAkLDnIOD3dwHocQSZukHJ/P8OxMSk/+8n0SCezTTCkbm/QvVDUDSk8hlZudloD8BtmQJHbcJD2/QM=
+	t=1779875287; cv=none; b=m2NaqVx6kMobeXG4HKz/j2cxorNyjG3nGB2y880vxHu3ystbWzLiCV8EjO3EZeY/ZD8bEZmUg7Mx3j8dtbDJj0rhWg54itxl+TTRV33xf7UaxqRDvkNphQjKp3JIIfmgsyZXaKjNjYxFMp6uxzO72q7vAzCIGHO+OFzpL2LuTmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779875216; c=relaxed/simple;
-	bh=xYsfcRBtGwUMqY0RwirVm3v6uzIJadRC/R4i9RETCOI=;
+	s=arc-20240116; t=1779875287; c=relaxed/simple;
+	bh=Lqlv2Edmru4GhBoo31Ln5bt3BlOTJHjrJ7TMHkrdSOk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qJ0PSD0INteg8xGvsHqPfj0HYybYmMwGll6iajyRAeKrWlgaOckORySIrn53MUe1VwkA4aVL/aN/b0ERSLDEWxpMRG+RlGRNlQXthpv3BFLzu1JR+c6PHM1RkQCB67PS7vU8iGhvu1kFwTVsAmKB8gbRbsMChzXG+/D9Wbtlszg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mr1ksssL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4bm4i2Ig; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mr1ksssL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=4bm4i2Ig; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=nkx1Cwe8L/3Pds0VYYEUllQoGZPfN4bm5n+vucrK4zXFo2hcuTOrzOEDJmvWkpXzMuIgMOcuKrMcqJDYgAAImwLnRmXz3c33Yx2L9MuOLKDEWenfoB7nbLV0L+UDXBs4snS6Gl5QQlBh8ap9SMuzIw9h4iN2Ap4Fhw84vUnHXDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pzr5rgcD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=J+PLNE7N; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=PIIMQK6Y; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Kojvnz0/; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mr1ksssL";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4bm4i2Ig";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mr1ksssL";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="4bm4i2Ig"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pzr5rgcD";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="J+PLNE7N";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="PIIMQK6Y";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Kojvnz0/"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BF09466DA9;
-	Wed, 27 May 2026 09:46:52 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E56D567064;
+	Wed, 27 May 2026 09:48:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779875212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779875284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KRMd7/gdXhffeZqbj7DnSodcaa0MCfMtAhljHBkKqXM=;
-	b=Mr1ksssLc8mlD6pAFIjDGmRU/H2phuV8Pdz0J9q65jm+qO1LCE/OKGADVIjV1WyNmYL1IR
-	tzWY4RqDjwLuMmjyQWb7va+Fa4vmWl8GzAGAnLQci03xumjftKwI3PIlxWZS7ITQA6Drv7
-	8ixaIBpqdOS+z3kHPBTRfvsUVKijHD4=
+	bh=gFwe6O6RXMS+9WJqRNE+5MWkuZDWiEgNs94SyoHMGGU=;
+	b=pzr5rgcDfTU1My/lSIbR5zID6bhXD4p4nTqmIAdlVYibKpc/P9d2/9E7GqilukyyWi9h0I
+	NAJEyIghivGx6lSjn9FQB1SX049vwiYXjElFYXTEioAj+8VT/1Qo9liswfmP2a1Cbx3wGo
+	Nw33pP5D3b3DQ2QE8jzOEzISJcNGPKY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779875212;
+	s=susede2_ed25519; t=1779875284;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KRMd7/gdXhffeZqbj7DnSodcaa0MCfMtAhljHBkKqXM=;
-	b=4bm4i2IgOOf6WMk8nt9dKd+YWhjj/tmYzWLczwMOZhl+FPgfGD3J55tbP42is/W0XDzUnI
-	tdnvedaAbm37KyDA==
+	bh=gFwe6O6RXMS+9WJqRNE+5MWkuZDWiEgNs94SyoHMGGU=;
+	b=J+PLNE7N4kkjsuSLq8ehyLgbXoki61KKU4MjBO7uX4/zIlpPYy6fFVLKWqRTSs+C/4Lq6I
+	q0g42olcyeEcp6BQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Mr1ksssL;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=4bm4i2Ig
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779875212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779875283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KRMd7/gdXhffeZqbj7DnSodcaa0MCfMtAhljHBkKqXM=;
-	b=Mr1ksssLc8mlD6pAFIjDGmRU/H2phuV8Pdz0J9q65jm+qO1LCE/OKGADVIjV1WyNmYL1IR
-	tzWY4RqDjwLuMmjyQWb7va+Fa4vmWl8GzAGAnLQci03xumjftKwI3PIlxWZS7ITQA6Drv7
-	8ixaIBpqdOS+z3kHPBTRfvsUVKijHD4=
+	bh=gFwe6O6RXMS+9WJqRNE+5MWkuZDWiEgNs94SyoHMGGU=;
+	b=PIIMQK6YtDmVPBd6FtEMTmRtO/EpFtpHRkRSS4orQmvKphu5XClX9saMyE2EUmRm8ADxik
+	Zu+uZHMuSHLkeeUDonVyXipcO9CypFNRG7fA4DIGJlTD0w+957T4ucz5JfbdXosxGPLTXU
+	//EJAS9ndNHUT6pNhYCyPWzxu4J3VTc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779875212;
+	s=susede2_ed25519; t=1779875283;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KRMd7/gdXhffeZqbj7DnSodcaa0MCfMtAhljHBkKqXM=;
-	b=4bm4i2IgOOf6WMk8nt9dKd+YWhjj/tmYzWLczwMOZhl+FPgfGD3J55tbP42is/W0XDzUnI
-	tdnvedaAbm37KyDA==
+	bh=gFwe6O6RXMS+9WJqRNE+5MWkuZDWiEgNs94SyoHMGGU=;
+	b=Kojvnz0/W3soAyeBIaNAIe66IYTA326WRHcRrr7Uh5C8fhP/s1OeUPYt1IiGsaJtuLa3LR
+	xzLcUyIOMiPPguAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B600D5A77E;
-	Wed, 27 May 2026 09:46:52 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DCE2C5A77F;
+	Wed, 27 May 2026 09:48:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id G/htLIy9FmqHQgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 27 May 2026 09:46:52 +0000
+	id Em7rNdO9Fmp3QwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 27 May 2026 09:48:03 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6190DA0EB5; Wed, 27 May 2026 11:46:52 +0200 (CEST)
-Date: Wed, 27 May 2026 11:46:52 +0200
+	id 8D784A0EB5; Wed, 27 May 2026 11:48:03 +0200 (CEST)
+Date: Wed, 27 May 2026 11:48:03 +0200
 From: Jan Kara <jack@suse.cz>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
 	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 02/34] buffer: Add bh_submit()
-Message-ID: <hbtte53iavzjxvaquuiedv4pxw6kr4eh36wsh6pr5fbhrmvshc@untju6b3msyd>
+Subject: Re: [PATCH 03/34] buffer: Remove mark_buffer_async_write_endio()
+Message-ID: <isskqvbqtgegjarkfbtcrho4mkdeavx5gmdltxj4ggaieycybi@qmiqzgctwmnp>
 References: <20260525171931.4144395-1-willy@infradead.org>
- <20260525171931.4144395-3-willy@infradead.org>
+ <20260525171931.4144395-4-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -89,42 +88,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260525171931.4144395-3-willy@infradead.org>
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: BF09466DA9
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+In-Reply-To: <20260525171931.4144395-4-willy@infradead.org>
 X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,infradead.org:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-On Mon 25-05-26 18:18:55, Matthew Wilcox (Oracle) wrote:
-> bh_submit() takes a bio_end_io allowing users to avoid the indirect
-> function call through bh->b_end_io, and eventually allowing us to remove
-> bh->b_end_io.
+On Mon 25-05-26 18:18:56, Matthew Wilcox (Oracle) wrote:
+> All callers of mark_buffer_async_write_endio() pass
+> end_buffer_async_write, so we can inline mark_buffer_async_write_endio()
+> into mark_buffer_async_write() and just call that instead.
 > 
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
@@ -135,84 +127,52 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  fs/buffer.c                 | 31 +++++++++++++++++++++++++++----
->  include/linux/buffer_head.h |  1 +
->  2 files changed, 28 insertions(+), 4 deletions(-)
+>  fs/buffer.c | 16 ++++------------
+>  1 file changed, 4 insertions(+), 12 deletions(-)
 > 
 > diff --git a/fs/buffer.c b/fs/buffer.c
-> index d4e9a10d2a26..ea926963529e 100644
+> index ea926963529e..4dcce64ef006 100644
 > --- a/fs/buffer.c
 > +++ b/fs/buffer.c
-> @@ -1180,15 +1180,15 @@ static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
->  			folio_pos(bh->b_folio) + bh_offset(bh), gfp_mask);
+> @@ -443,16 +443,10 @@ static void mark_buffer_async_read(struct buffer_head *bh)
+>  	set_buffer_async_read(bh);
 >  }
 >  
-> -static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
-> -		enum rw_hint write_hint, struct writeback_control *wbc)
-> +static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
-> +		enum rw_hint write_hint, struct writeback_control *wbc,
-> +		bio_end_io_t end_bio)
+> -static void mark_buffer_async_write_endio(struct buffer_head *bh,
+> -					  bh_end_io_t *handler)
+> -{
+> -	bh->b_end_io = handler;
+> -	set_buffer_async_write(bh);
+> -}
+> -
+>  void mark_buffer_async_write(struct buffer_head *bh)
 >  {
->  	const enum req_op op = opf & REQ_OP_MASK;
->  	struct bio *bio;
->  
->  	BUG_ON(!buffer_locked(bh));
->  	BUG_ON(!buffer_mapped(bh));
-> -	BUG_ON(!bh->b_end_io);
->  	BUG_ON(buffer_delay(bh));
->  	BUG_ON(buffer_unwritten(bh));
->  
-> @@ -1213,7 +1213,7 @@ static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
->  
->  	bio_add_folio_nofail(bio, bh->b_folio, bh->b_size, bh_offset(bh));
->  
-> -	bio->bi_end_io = end_bio_bh_io_sync;
-> +	bio->bi_end_io = end_bio;
->  	bio->bi_private = bh;
->  
->  	/* Take care of bh's that straddle the end of the device */
-> @@ -1227,6 +1227,29 @@ static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
->  	blk_crypto_submit_bio(bio);
+> -	mark_buffer_async_write_endio(bh, end_buffer_async_write);
+> +	bh->b_end_io = end_buffer_async_write;
+> +	set_buffer_async_write(bh);
 >  }
+>  EXPORT_SYMBOL(mark_buffer_async_write);
 >  
-> +static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
-> +			  enum rw_hint write_hint,
-> +			  struct writeback_control *wbc)
-> +{
-> +	BUG_ON(!bh->b_end_io);
-> +	__bh_submit(bh, opf, write_hint, wbc, end_bio_bh_io_sync);
-> +}
-> +
-> +/**
-> + * bh_submit - Start I/O against a buffer head
-> + * @bh: The buffer head to perform I/O on.
-> + * @opf: Operation and flags for bio.
-> + * @end_io: The routine to call when I/O has completed.
-> + *
-> + * If you need to do I/O on an individual bh (instead of allowing the
-> + * page cache to do I/O on the folio that it is in), call this function.
-> + */
-> +void bh_submit(struct buffer_head *bh, blk_opf_t opf, bio_end_io_t end_io)
-> +{
-> +	__bh_submit(bh, opf, WRITE_LIFE_NOT_SET, NULL, end_io);
-> +}
-> +EXPORT_SYMBOL(bh_submit);
-> +
->  static struct buffer_head *__bread_slow(struct buffer_head *bh)
->  {
->  	lock_buffer(bh);
-> diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-> index e4939e33b4b5..d59980e4adda 100644
-> --- a/include/linux/buffer_head.h
-> +++ b/include/linux/buffer_head.h
-> @@ -240,6 +240,7 @@ int sync_dirty_buffer(struct buffer_head *bh);
->  int __sync_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags);
->  void write_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags);
->  void submit_bh(blk_opf_t, struct buffer_head *);
-> +void bh_submit(struct buffer_head *, blk_opf_t, bio_end_io_t);
->  void write_boundary_block(struct block_device *bdev,
->  			sector_t bblock, unsigned blocksize);
->  int bh_uptodate_or_lock(struct buffer_head *bh);
+> @@ -1903,8 +1897,7 @@ int __block_write_full_folio(struct inode *inode, struct folio *folio,
+>  			continue;
+>  		}
+>  		if (test_clear_buffer_dirty(bh)) {
+> -			mark_buffer_async_write_endio(bh,
+> -				end_buffer_async_write);
+> +			mark_buffer_async_write(bh);
+>  		} else {
+>  			unlock_buffer(bh);
+>  		}
+> @@ -1958,8 +1951,7 @@ int __block_write_full_folio(struct inode *inode, struct folio *folio,
+>  		if (buffer_mapped(bh) && buffer_dirty(bh) &&
+>  		    !buffer_delay(bh)) {
+>  			lock_buffer(bh);
+> -			mark_buffer_async_write_endio(bh,
+> -				end_buffer_async_write);
+> +			mark_buffer_async_write(bh);
+>  		} else {
+>  			/*
+>  			 * The buffer may have been set dirty during
 > -- 
 > 2.47.3
 > 
