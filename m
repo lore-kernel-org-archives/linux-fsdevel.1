@@ -1,100 +1,132 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033F83CCFC9
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 07:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CB43CD8AA
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 07:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779868273; cv=none; b=gP9EE6mfsFTU+/fmKUlZ+6zOAwQkRR+mcUXlEY9v1I7YYLwiBngpj60+4EjB+qa02A4riLj0I8VxFuV4dB1Dp6dJJzoCcbnb6uewKmiQg+Kg+g2OoJ5fsRm1+5LmHlElyW2s16nd+BYR6t2EnykXZwivoAaO71vlbiPUpBUywGU=
+	t=1779868486; cv=none; b=Hy2vjJID5j7EXJFFZ3zelMuJLqeTZKu6LO7N3Nqdtu9bdgq12EQ81pKCAdLu892lxECuIsnjGIlNGqcdQYcY/LwVdaL8XOzbahfPfIoIBC1IM6vQoBfXIY3UZM/bDYu+cUM/f+UMvfTnXMPl9/V0D4hKD8poVaDYCNH/QZiUatw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779868273; c=relaxed/simple;
-	bh=MFJ7p0ek93ocdXzcV2D0uW/LP/j6s/gdUJMtK3WCwlI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SFC1Qp2zNtLzv/VaobaN9PIEfRJQ0SSyvHzUs6U/YVEhO+xQO7ilEHUS3hJo5ClzqMAm8fpf8kRiiYRhM3J0TqWORbs/+jm0sQYs9GMc/Mvkp86UKJ+ESOYVl1yF8H+6lvevzhY6iKgy6vV6yn0HWsOESqaa/nVaKSUaksHCH7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dG0qNuEM; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779868486; c=relaxed/simple;
+	bh=babPemdtRbs/YFH6/6i8Wf5xeR/Xwm5FUjnFOVeOYts=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jrsuOkFiCZCA5OoCb0WWwwgmkbbfVZFR4zjvgDUmy1jcHqD+FwJlJ38lLYetg59YBA6maPBDo+7UeI5AiIStGNVD6EGFMb0m9ta2J3J/PGaC+9yOeWdixvPyUmVGTzIZUF0TImM0G3WSwPhJkCTNw5AGloX07+dZqWGy0IEYAp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=YsTdfw09; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dG0qNuEM"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d7645adbdso7026413f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 00:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779868270; x=1780473070; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h7OwHHgSk6i3h5lpw50D8kABzoCUKVGoS97ipLWF/eE=;
-        b=dG0qNuEML6b0aWLyHaKa8/rpphJmiWEOcv19PURrj3jPau8DU1beMtEA0790KTdpX0
-         SoXpYrU+fPJxsGPffeM+aurAz1c0iqYK0K5vRefGNl2V+y79rt15Nuf/yCX2WF2OwHI5
-         wUr7DRQht8+WrWG0nUwr73pxo5Y2Eh5jwTlarWlcMTHDHjpllFkM74ZaUm9ivhN3BGi7
-         Belo7cnLbDrZvcHDompKXziGPiyAy/01doWd0kNyOdynZeOVpUpjHwe2ehgM2cPFJb8i
-         oBfum/LXFe4/0EQxH19cXZEaaV5sC7+KQP++8WDKn2bckAJ8g0fH2qbsUj3f2UgvE+5Q
-         PHSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779868270; x=1780473070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h7OwHHgSk6i3h5lpw50D8kABzoCUKVGoS97ipLWF/eE=;
-        b=OSywPwDvb18ZlEZJ0yCuAlxUBPl1eRjFvZlDpE0PPlyeID2WtEaT4bAYOuCi7Wl7A+
-         EMVCp4HXPSgnV5G3EliACsfvSouQvPLXiD3GVIrGTvV6f2Nw0bQGk1OurfY2yit28L3F
-         ljiaOcMUCZf2UEOGSqiHhy9q9sqlbUAEkCwsoRPQYUq2U5QePiN40ExykE2nIbCpEVTO
-         HQWCHYIj2ZdbUDELYvKYEklrla4wwIa218nTLPZrORG+30mxmauIbvxc8BDNab1oVXyM
-         6KfwAOkEXQd5Xu+xqpUQsHu2hs7pV1Ioco1nYI6+r3gDwjV40lvO6hRROdkE7g5teAjH
-         927Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8SXUjCJYGL84MRn5t+xEdaJcQOhw/c7yLe2gmO0eU2qnuRAMhW+keAHvnUTv4p8rLNaY1SlEEB1qAXvzCP@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnUlIPx7ncDHAMpL9MKFd9iLo/kcxGFaCJTU52tGCw84+U7eih
-	jKOisnTMoCpypvj1R3ZRnWM+s+QlpPUw0T85gmpXU35N9sAsd6/wDaNZ/q0jr+dp
-X-Gm-Gg: Acq92OFO3Z1Tuopblc6SDoImLreTHRx4AAMxgzmJcXHDUpyRD9CUr+0l4w0xMUoy4PF
-	So0xdQozImin3evuRuVZgdZoBgJuItGsbGbX+Hb8ssHNPDg9KAutPIPzunFYfBTj6PNaGBmbuOb
-	mRze7tygB5U3TuoYIACnvXmigdhIBXBfMV38GLqh3i7qIANhkwS96367zrlwYo4/qRxPmS1YIOs
-	CGNDbpzf+sL1d2ZlWcLWjXQUzLHHhrMSEM9jIwDPn4gRNCXK0j06b6ZCKXCkaReeNZ7QcKIpVdS
-	VKTl3D8P7oQKik8F0uRWCxQ+gN17Pp51g/Z10g5o0SBldFApCmwdYG3FpZyNyaZwphF0OVGnGLk
-	4rYEN4Tkm5LuFngULyjWn4lNes2jq4ry2Gisb0LWyglI8p8+mHCY8f3bVIkkH55Qf/K1WlWteJ/
-	cbd+Odc9YnDQ+PokH11S2yXPrf30HuJxfh
-X-Received: by 2002:a5d:5d02:0:b0:43e:b0f8:66f1 with SMTP id ffacd0b85a97d-45eb3afd371mr36058575f8f.43.1779868270259;
-        Wed, 27 May 2026 00:51:10 -0700 (PDT)
-Received: from localhost ([87.254.0.141])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5b28absm4145652f8f.27.2026.05.27.00.51.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 00:51:09 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	linux-fsdevel@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ntfs: Fix spelling mistake "etnry" -> "entry"
-Date: Wed, 27 May 2026 08:49:41 +0100
-Message-ID: <20260527074942.17393-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="YsTdfw09"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1779868481; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=IHYNoIg2n66NIMX7y6DAVNRBVr43HOJ/Woi8RnHmmBM=;
+	b=YsTdfw09joMhRdgcr9EW7GMljmx6JEQSFYmSEm5L0pAtMBiTPIr7krpbGasOwhbu2JDAvbN1dCUp1qvQqZXvr0n/7KGGcBnKrGgBB6Y7RykwNdaNKf88/B+G8Oclocq/xU9kCrAKz39hqNLBVL5+GsMwhOB5NwUV1e7svYit9LQ=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X3ipCuR_1779868480;
+Received: from 30.221.147.201(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3ipCuR_1779868480 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 27 May 2026 15:54:40 +0800
+Message-ID: <768a888f-6e3b-449c-8f39-c6032973b229@linux.alibaba.com>
+Date: Wed, 27 May 2026 15:54:38 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/14] fuse: refactor setting up copy state for payload
+ copying
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, bernd@bsbernd.com, axboe@kernel.dk,
+ linux-fsdevel@vger.kernel.org, Bernd Schubert <bschubert@ddn.com>
+References: <20260402162840.2989717-1-joannelkoong@gmail.com>
+ <20260402162840.2989717-6-joannelkoong@gmail.com>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <20260402162840.2989717-6-joannelkoong@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-There is a spelling mistake in a ntfs_error message. Fix it.
+On 2026/4/3 00:28, Joanne Koong wrote:
+> Add a new helper function setup_fuse_copy_state() to contain the logic
+> for setting up the copy state for payload copying.
+>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> Reviewed-by: Bernd Schubert <bschubert@ddn.com>
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- fs/ntfs/index.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Looks good to me.
 
-diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
-index 00e17637f771..8371ff4303e7 100644
---- a/fs/ntfs/index.c
-+++ b/fs/ntfs/index.c
-@@ -340,7 +340,7 @@ int ntfs_index_entries_inconsistent(const struct ntfs_volume *vol,
- 
- 		if (le16_to_cpu(ie->length) < sizeof(struct index_entry_header)) {
- 			ntfs_error(vol->sb,
--				   "Index etnry too small in inode %llu.",
-+				   "Index entry too small in inode %llu.",
- 				   inum);
- 			return -EIO;
- 		}
--- 
-2.53.0
+Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
+
+> ---
+>  fs/fuse/dev_uring.c | 38 ++++++++++++++++++++++++--------------
+>  1 file changed, 24 insertions(+), 14 deletions(-)
+>
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index cca795dd72e1..045394a7ae41 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -639,6 +639,27 @@ static int copy_header_from_ring(struct fuse_ring_ent *ent,
+>  	return 0;
+>  }
+>  
+> +static int setup_fuse_copy_state(struct fuse_copy_state *cs,
+> +				 struct fuse_ring *ring, struct fuse_req *req,
+> +				 struct fuse_ring_ent *ent, int dir,
+> +				 struct iov_iter *iter)
+> +{
+> +	int err;
+> +
+> +	err = import_ubuf(dir, ent->payload, ring->max_payload_sz, iter);
+> +	if (err) {
+> +		pr_info_ratelimited("fuse: Import of user buffer failed\n");
+> +		return err;
+> +	}
+> +
+> +	fuse_copy_init(cs, dir == ITER_DEST, iter);
+> +
+> +	cs->is_uring = true;
+> +	cs->req = req;
+> +
+> +	return 0;
+> +}
+> +
+>  static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
+>  				     struct fuse_req *req,
+>  				     struct fuse_ring_ent *ent)
+> @@ -654,15 +675,10 @@ static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
+>  	if (err)
+>  		return err;
+>  
+> -	err = import_ubuf(ITER_SOURCE, ent->payload, ring->max_payload_sz,
+> -			  &iter);
+> +	err = setup_fuse_copy_state(&cs, ring, req, ent, ITER_SOURCE, &iter);
+>  	if (err)
+>  		return err;
+>  
+> -	fuse_copy_init(&cs, false, &iter);
+> -	cs.is_uring = true;
+> -	cs.req = req;
+> -
+>  	err = fuse_copy_out_args(&cs, args, ring_in_out.payload_sz);
+>  	fuse_copy_finish(&cs);
+>  	return err;
+> @@ -685,15 +701,9 @@ static int fuse_uring_args_to_ring(struct fuse_ring *ring, struct fuse_req *req,
+>  		.commit_id = req->in.h.unique,
+>  	};
+>  
+> -	err = import_ubuf(ITER_DEST, ent->payload, ring->max_payload_sz, &iter);
+> -	if (err) {
+> -		pr_info_ratelimited("fuse: Import of user buffer failed\n");
+> +	err = setup_fuse_copy_state(&cs, ring, req, ent, ITER_DEST, &iter);
+> +	if (err)
+>  		return err;
+> -	}
+> -
+> -	fuse_copy_init(&cs, true, &iter);
+> -	cs.is_uring = true;
+> -	cs.req = req;
+>  
+>  	if (num_args > 0) {
+>  		/*
+
 
