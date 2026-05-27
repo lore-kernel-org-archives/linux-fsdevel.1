@@ -1,139 +1,145 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191D627A462
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 17:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779903995; cv=pass; b=Rkr2bpD8wICOK9jucmxpE/Va+lb69knPNRkSiYXa+PHBbu7vBaSPw8b0S09ka/vL+RY6fSktijd7FKdwCxk2rvuzddbvFl1pfjbgLGGNb+IacUkc+R5g0HuGlxVxpP4FFtjnPzhuZXSJj3zjqSgXIclcDV+32AxznF3xbzuADZA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779903995; c=relaxed/simple;
-	bh=XR4W/++OHzgxJ1Ro/Ym0DhhScRtBbBgvnIqClrFK9Lc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g7oPIF6Cv1PX3VM8dd02znVpo3TIuI8aJrbp97ew3Qu2IxCyqfd2RI86DbwOLlHNDUQToGSoAddGSAon8joh2l0ovvlTC3o+8YJkBphnPF/caF44hVijYSeIUk88Nd1dCq/0G++X9kuiddoc3RgeOHfLT5zKiesPDa/Q4Ll0FAQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ndQOjsX5; arc=pass smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD93545BD60;
+	Wed, 27 May 2026 18:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779905470; cv=none; b=SnuiISOVk6hoZG3uvEYIjNFvyc+W1EqNAKwNCxFRFRU/lvgqu2SoMfVBkn55H730ahGSzahH9QAWVjOXdJj0eCVs3th459iwEKL75hnh0J3eBeLLZnJeXh4ny8M0V7tOIbhePWrd12wBn4oHM4jQnokO6PojS2V7tcc2/9BSrcs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779905470; c=relaxed/simple;
+	bh=FR3flEeJqppiUYRlGx6vob2K/t2fe/ABpe9P4OUT3rg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WUbBMbW8noktmS4gfeEkwSprFNyY5H4vO3TCc/8/N1MDHlhLJTHzzf+R/jYLTmoOFnrdC1ebQ/FLKmcDkE3i3VFasMAcq2x5fQJAsOkOT4eelfUz51mYgdqO1WYybgX+aL5gBKeW4MhemZFlFQzEvR6zl46XaC1xw9tWm5uvkVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMBqLHic; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ndQOjsX5"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38e97e73234so9593021fa.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 10:46:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779903992; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SegYeW4pDWEydwvx5thNWF9MGeicA80Dg07i2w8zRnYr6o3U6Sy3a/wXFVgyYe3IqL
-         v1aqDeP7mz/1If2/c4Y5C9E8PwZreVcOJ7/6woz6FM9xwktOJOhqvWQFJDc0qodJdgwy
-         q09+o5ckSDf2vdeG6YYp7nGB9liKqi9OY6LU1eGbldKa/tuOW19q6hVH2WFP3ZIA4Huk
-         x6PuMS6VTOn0xIUrK07/KPXhV0SWVzYAq4Wr4IdMyDQdcX7YTuCgy47wozBPlbWoe9du
-         1DcqsmNrAfLEKtarX1UHk4Fz6Azm+Smznp7MBOxGOer1p/cZ/SaM3DjlRHTUmaGR6Wa+
-         azfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VfE2G1C+qjhJUVcaQFjp7sQ3IUHnwp36WKLMQ0jJzsE=;
-        fh=QC3k88L9FXVvshFtIb3JaRR23s46IPE/+49ubID0AzY=;
-        b=KnEEWz358Wts/V50/09Dyay/Qhh3cIp4WaYuXXpzXOBfeUP1T58OAXRtGwveds1JZM
-         To4wRzkrVlRl8SLtjKhj2zkg7yLuBSlLP/IS2eBB/pLONYzVGjut8w5fpQ1tOqD7nxFu
-         DULJ0pDxk1mp877OlQ2u+XQanD+0ZxVLmMebP9VmiVk5CrKijBI4Zh436aQJEFfyHog1
-         QTkTEL8O9vDkFx3AkxN8wrGq0UaD8pUb0YBBcjb5SLQcwf77xWxXKTK0HU2bUWKEr696
-         xTxSekNf6qPNfxoIPRZhxcMScsVpEGRIctelGBpreQtOciFZ4bEWQsAYLV4U7DKxRvNI
-         leTw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779903992; x=1780508792; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VfE2G1C+qjhJUVcaQFjp7sQ3IUHnwp36WKLMQ0jJzsE=;
-        b=ndQOjsX5ZHqonvENjWPugH8OJSEUhcsLZSRCQwsSUvAozXIEV/qbf23/cIIUopeIT/
-         vmeeAmDYDssT4xUrPxyqJfLLlJmnNJULOiwYqkmbMZtIzGp950eyGfIOkGJJLvlnVjEL
-         lmcbP1g+DZbmgvqINy+jjur0v8OkGZyq02sdZqAeps+E1jRHygQxvDZW/X9Y4G+HYB73
-         o27g+fvzBGFwf9c7dvlf3KK5RJlBQ8Gs7eCmf7SEn4Hxl28jc9n0k51/ARm/6PPNVxG5
-         BWoKBIxB7K6vAoErvEqDLJ+a8W/OH5qvwk5rA2WQ06GOmO/obZIOIHWWCfZFLJI3JFnF
-         XlqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779903992; x=1780508792;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VfE2G1C+qjhJUVcaQFjp7sQ3IUHnwp36WKLMQ0jJzsE=;
-        b=VMp/uZgeiM+Pvmqrruz30nAXKfrR4zY3M/UNynkOQidxM6Mnw26ugeKlBrkUHgBmPV
-         BypWiNVz/PKCbDOYN8+M9cEXLePSbRsZ+yYYq6DKpN5sU4GjiBtct5JUNFDiA9dPw7ry
-         SXaH9/HghJG/ZqRk2i5LA3QbX0Pdvb+YG4Dffyqm6OyG6DwiD+FFAVOJ5VJk5C8u4VEY
-         mNOI+8G4Guix2BlQQlRdERmnucG2trPgLzggc6bLY+00GtsvuzOSUDiD6lP8zsyxQmiB
-         k8gApkQen6WMl/psqTNfLtYIS8d3QB32lf0L52LgQO7AwbNB4OBfzmHkd61AhknrzZKA
-         p49A==
-X-Forwarded-Encrypted: i=1; AFNElJ/YRjyqcUb0Vb/RpRwqOXY03k3TvFFMQcOw+TRQDjlEmPPtbzs5ygtAhwU5Q4vPdWpqsxTYlFg4xtzo5lRz@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSZcI8E5nY7UHuws/wpnpfqedgB54pl2mzYquYOvO7HJVEyEyu
-	V2WKkPSQfDUWF79JTNYkUnuVOLrouMd1sBmGv1nUB1lt4Y55gpatNuju3Q9rbcVFMHroPer28Ed
-	Oo0L+8L7OdxDryR4qUwFaO08ysJJpKF8=
-X-Gm-Gg: Acq92OHZvHDtsxodyB1aZhEGM1hp0DSbkr+I1lkxH/BvpLXOZN5JddjBAMufPy20UpP
-	cjzyTjRXtMASV+JFtnxlQ8jTUguKP9gV8qCKnMYvJi2fUvZP0CIr0IiTHSIz+UXTkaSL0EnC5Ew
-	3XmCSkfgsXgJiWr03dfVRmVUeuM8fqwf1e8sa1yfpFu5Er51P0AABfa3AUfxHIwDOTEhz4KLfVT
-	i06a8nLyTN1YWJQCUkgsz9EGx7ACA36eOFlzrSSdwHldEzTcGRZlKljMUATIecPNv2PanAk9flf
-	+UG62dia
-X-Received: by 2002:a05:6512:388f:b0:5a8:6eb1:2b6d with SMTP id
- 2adb3069b0e04-5aa32314263mr5170397e87.9.1779903991981; Wed, 27 May 2026
- 10:46:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMBqLHic"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCEA11F000E9;
+	Wed, 27 May 2026 18:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779905468;
+	bh=LFIe2Cvhhffxlia7PRRhk6Oq1yPn74HcL0RzVeZsFu0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=PMBqLHicoHnSY8YX/dhlwcV+sVEjR5MIKwC5zESQKIZ4/3mqZw5Jl4lrMHPyLfkX7
+	 +vQN7B/4NDpvX2y6E08p6QsFCJTes+Uv16U8Ld07P8JMtbjxzHw+8fmHc3fvUbDl7D
+	 idoR6xpJGi1XpDfcr37hty2sGNKh3EEj/8VR61FEMDKqSCCIQElHLsfautttCsSx4x
+	 ewQUJHtnsRJvONyGqwFIksan8pFjNtwmLyXKFQdTOVTolFYpFYF4g1++c+O3yXcxk2
+	 KpPQTeZz16EjzOdCOtb2cjvdrrlO3N38Rf+mueMCMu6sO6CSXqO/UlPb+IGFWLYdpD
+	 e6FVA4SGEuMsg==
+Message-ID: <ab5492b6-a053-4e3b-8c59-2e836ae85bc4@kernel.org>
+Date: Thu, 28 May 2026 03:11:05 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260525171931.4144395-1-willy@infradead.org> <20260525171931.4144395-30-willy@infradead.org>
- <19e4371075163ffa2168cb0ec934da1911e057d7.camel@ibm.com>
-In-Reply-To: <19e4371075163ffa2168cb0ec934da1911e057d7.camel@ibm.com>
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Thu, 28 May 2026 02:46:15 +0900
-X-Gm-Features: AVHnY4KZNAmHInimcKr_ZQ-hmiqBOBejcKTpW8nKTepeMYPSX-ClbOEtsiDc-9o
-Message-ID: <CAKFNMonfZ+VKyhKSWa6=0+hpKy+HtNmch2LV7KezhAgXAa2oDA@mail.gmail.com>
-Subject: Re: [PATCH 29/34] nilfs2: Convert nilfs_mdt_submit_block to bh_submit()
-To: "willy@infradead.org" <willy@infradead.org>
-Cc: Viacheslav Dubeyko <slava.dubeyko@ibm.com>, "jack@suse.cz" <jack@suse.cz>, 
-	"linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>, "brauner@kernel.org" <brauner@kernel.org>, 
-	"hch@infradead.org" <hch@infradead.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Ming Lei <tom.leiming@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+ Christoph Hellwig <hch@lst.de>, linux-block <linux-block@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-btrfs@vger.kernel.org,
+ David Sterba <dsterba@suse.com>, linux-fsdevel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>
+References: <ag0lS_CbKO9R5CV8@fedora>
+ <94076bc9-2c09-4bb6-8468-b6b8af419cb9@I-love.SAKURA.ne.jp>
+ <ag1nfIFcykmQHbkk@fedora>
+ <1ab8c579-eb76-4227-8a72-6ec819135219@I-love.SAKURA.ne.jp>
+ <ag1223nAa0wZ8ALC@fedora>
+ <fda8abc8-6aa2-463b-bf72-865f6b838034@I-love.SAKURA.ne.jp>
+ <ahRocb0Vs_m6RF_O@fedora>
+ <1a9f53d4-6f48-4df8-a3d8-2b0e442a163a@I-love.SAKURA.ne.jp>
+ <ahZGxoI6oHQ_vSrx@fedora>
+ <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp>
+ <ahZeYQ0cLE1i8TGs@fedora>
+ <fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 27, 2026 at 2:53=E2=80=AFAM Viacheslav Dubeyko wrote:
->
-> On Mon, 2026-05-25 at 18:19 +0100, Matthew Wilcox (Oracle) wrote:
-> > Avoid an extra indirect function call by using bh_submit() instead of
-> > submit_bh().
-> >
-> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > Cc: linux-nilfs@vger.kernel.org
-> > ---
-> >  fs/nilfs2/mdt.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/fs/nilfs2/mdt.c b/fs/nilfs2/mdt.c
-> > index 09adb40c65e5..26043db677cd 100644
-> > --- a/fs/nilfs2/mdt.c
-> > +++ b/fs/nilfs2/mdt.c
-> > @@ -148,9 +148,8 @@ nilfs_mdt_submit_block(struct inode *inode, unsigne=
-d long blkoff, blk_opf_t opf,
-> >       }
-> >       map_bh(bh, inode->i_sb, (sector_t)blknum);
-> >
-> > -     bh->b_end_io =3D end_buffer_read_sync;
-> >       get_bh(bh);
-> > -     submit_bh(opf, bh);
-> > +     bh_submit(bh, opf, bh_end_read);
-> >       ret =3D 0;
-> >
-> >       trace_nilfs2_mdt_submit_block(inode, inode->i_ino, blkoff,
->
-> Looks good.
->
-> Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
->
-> Thanks,
-> Slava.
+On 2026/05/27 20:29, Tetsuo Handa wrote:
+> On 2026/05/27 12:00, Ming Lei wrote:
+>> On Wed, May 27, 2026 at 10:35:56AM +0900, Tetsuo Handa wrote:
+>>> On 2026/05/27 10:20, Ming Lei wrote:
+>>>>> Of course we should try to figure out the root cause first, but how can we do?
+>>>>
+>>>> Definitely unexpected write IO(after umount & loop closed) from btrfs is more serious,
+>>>> which may cause data loss, so CC btrfs list and maintainer.
+>>>
+> 
+> I had a conversation with Google AI mode, and received the following response.
+> 
+> --------------------------------------------------------------------------------
+> Technical Analysis: lo_rw_aio Null Pointer Dereference / UAF since v7.1-rc1
+> 
+> 
+> 1. The Root Cause of the Timing Shift
+> 
+> This regression was introduced during the v7.1-rc1 merge window, primarily exposed by
+> Commit 65565ca5f99b ("block: unify the synchronous bi_end_io callbacks"), along with
+> helper refactorings like Commit 92c3737a2473 ("block: add a bio_submit_or_kill helper").
+> 
+> Prior to v7.0, the synchronous I/O completion path inherently contained execution lags (due
+> to serialized completion handling and context switches) before notifying upper layers. This
+> latency accidentally acted as a natural safety barrier. It ensured that by the time a file
+> system completed its final sync_filesystem() and initiated umount, the loop driver's internal
+> workqueue (lo_rw_aio) had already finished processing everything.
+> 
+> In v7.1, the unification and optimization of bi_end_io significantly minimized this latency.
+> The filesystem now learns of "I/O completion" much faster. Consequently, highly-concurrent
+> execution pipelines like btrfs or jfs proceed rapidly through kill_sb() and blkdev_put(),
+> ultimately invoking lo_release() -> __loop_clr_fd() while the loop driver's backend kworker
+> is still in the middle of executing the last sub-millisecond asynchronous file-backed I/O
+> request.
+> 
+> 
+> 2. Why the Block Layer's Built-in Quiesce/Freeze Fails
+> 
+> There is an implicit assumption that standard block layer freeze mechanisms (blk_mq_freeze_queue())
+> protect the device lifetime during release. However, the v7.1 BIO helper refactoring introduced
+> a synchronization gap:
+> 
+>   1. The filesystem triggers its final metadata or journal updates (e.g., txCommit in jfs or
+>      delayed refcount updates in btrfs) right during the unmount/close boundary.
+>   2. Due to the optimized execution path, these requests bypass the block layer's active
+>      request-tracking metrics at the exact moment blk_mq_freeze_queue() or state validation
+>      checks evaluated them as zero.
+>   3. The block layer assumes the queue is safe and silent, allowing __loop_clr_fd() to
+>      progress and nullify lo->lo_backing_file (or trigger fput()).
+>   4. The leaked asynchronous kworker wakes up a fraction of a millisecond too late, attempts
+>      to access lo->lo_backing_file or invokes kiocb_end_write() -> file_inode(), leading to
+>      either a general protection fault (Null pointer dereference) or a Use-After-Free (UAF).
+> 
+> 
+> 3. Why This Isn't Just an "Unexpected FS Bug"
+> 
+> While the write I/O originates from file systems like btrfs and jfs post-close, blaming the
+> file systems entirely ignores the underlying infrastructure change. The core issue is that the
+> block layer altered its synchronization behavior, breaking the barrier contract that
+> VFS and file systems historically relied on during the device release path.
+> 
+> Papering over this inside individual file systems would require adding heavy, duplicated
+> barriers inside every single filesystem's unmount path.
 
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+It sounds like the VFS unmount call needs to have something that waits for
+sync() to complete. Though, it really feels very strange that an FS can complete
+unmount without itself ensuring that there are no more IOs in flight. The
+generic VFS layer cannot know what the FS needs to flush on unmount, so waiting
+on a generic sync might not be enough.
 
-Thanks,
-Ryusuke Konishi
+It really feels like this is a btrfs and jfs issue, unless the same can be
+reproduced with any file system (XFS, ext4, f2fs, ...).
+
+Just my 2 cents.
+
+
+-- 
+Damien Le Moal
+Western Digital Research
