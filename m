@@ -1,195 +1,127 @@
-Received: from mta21.hihonor.com (mta21.honor.com [81.70.160.142])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9553F44D4;
-	Wed, 27 May 2026 11:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3319F3F6C2F;
+	Wed, 27 May 2026 11:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779881214; cv=none; b=tQsL5oOipriT0Ot5uX9O6FjH3MmKuUh0rFV1M2ddMICsJxDhQsqoU3JcnODFsHZdyE5lOBu+x/i1oxgarCACv7HBakA1zwNRpeUgodSyf4ljjkgQ6c0fFx0JsqQr7cMmQObpDzxOqPpl33qR3960mo9fDZ0IsJD3nISAszknPVc=
+	t=1779881387; cv=none; b=dzww7r8nYAW/vs3NX1k/Fe5IR0pVyQJS46yj0ftDOb6pQ25Owe+4JSt4zexGIE3ohwp+VQGzCmvoC4AOlRjg6cyI30rsV70nRAUGkn8iqFEKNeXXfOk4UfwUzJFstfYWwG1bhZG5C1F6o3hvRpyliR8B5qU1A5+QRCxZ24xN6Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779881214; c=relaxed/simple;
-	bh=qIYNFJAPjU9ghkiPO1zZBGrcxFbZhjCPI2Kl4xfIX8M=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ET616xzoANcWzD+LKYlg7XsiV4heyG3E81W93y3MIQMOoviGIaJDkLTEp+EWE1587pEU2iimbYG3pTuSzp5D0UkKa5hZMjZ37jaO/l+9Z8v3ZRBmCTkGJxegevFPipE3MpFGHFPkV6fq+dISE6eoxj9yZqiDCNJwpTroE7maALs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from TW006-1.hihonor.com (unknown [10.77.215.153])
-	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4gQRdH25mSzYlBHf;
-	Wed, 27 May 2026 19:06:27 +0800 (CST)
-Received: from TA003.hihonor.com (10.72.0.43) by TW006-1.hihonor.com
- (10.77.215.153) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 27 May
- 2026 19:08:03 +0800
-Received: from localhost.localdomain (10.144.18.117) by TA003.hihonor.com
- (10.72.0.43) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 27 May
- 2026 19:08:02 +0800
-From: tao <tao.wangtao@honor.com>
-To: <catalin.marinas@arm.com>, <will@kernel.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, <akpm@linux-foundation.org>, <david@kernel.org>,
-	<willy@infradead.org>, <sj@kernel.org>, <kees@kernel.org>,
-	<luizcap@redhat.com>, <zhangjiao2@cmss.chinamobile.com>,
-	<tao.wangtao@honor.com>, <kas@kernel.org>, <ljs@kernel.org>
-CC: <hpa@zytor.com>, <liam@infradead.org>, <vbabka@kernel.org>,
-	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>, <jack@suse.cz>,
-	<riel@surriel.com>, <harry@kernel.org>, <jannh@google.com>, <jgg@ziepe.ca>,
-	<jhubbard@nvidia.com>, <peterx@redhat.com>, <ziy@nvidia.com>,
-	<baolin.wang@linux.alibaba.com>, <npache@redhat.com>, <ryan.roberts@arm.com>,
-	<dev.jain@arm.com>, <baohua@kernel.org>, <lance.yang@linux.dev>,
-	<xu.xin16@zte.com.cn>, <chengming.zhou@linux.dev>, <nao.horiguchi@gmail.com>,
-	<matthew.brost@intel.com>, <joshua.hahnjy@gmail.com>, <rakie.kim@sk.com>,
-	<byungchul@sk.com>, <gourry@gourry.net>, <ying.huang@linux.alibaba.com>,
-	<apopple@nvidia.com>, <pfalcato@suse.de>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<damon@lists.linux.dev>, <shakeel.butt@linux.dev>, <ryncsn@gmail.com>,
-	<21cnbao@gmail.com>, <jparsana@google.com>, <dvander@google.com>,
-	<zhangji1@honor.com>, <wangzicheng@honor.com>
-Subject: [PATCH 13/15] mm: support setup and upgrade of ANON_VMA_LAZY folios
-Date: Wed, 27 May 2026 19:01:45 +0800
-Message-ID: <20260527110147.17815-14-tao.wangtao@honor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260527110147.17815-1-tao.wangtao@honor.com>
-References: <20260527110147.17815-1-tao.wangtao@honor.com>
+	s=arc-20240116; t=1779881387; c=relaxed/simple;
+	bh=gjd5Ecbxu73S1VB9qC+BevRWugDsa4OmNrABVCIE0eA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RV++E6C3JRwJVIz4g+LK2s1DUGwg2I+5eZcDuWS28W2/i/RE69iLas2INjQlJ6czQT5ZNV70dYabNjqr6sqJW2trjMMZ7cF0Vp+Cep3HovU6ITarK6s2MZSvt1dw9xXQ5WITlXxtXlnuWiGY8ggJlMxi8NXF67ogtk0HXr4oTF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64RBT3Qa085513;
+	Wed, 27 May 2026 20:29:03 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64RBT31x085509
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 27 May 2026 20:29:03 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp>
+Date: Wed, 27 May 2026 20:29:02 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: TW006-1.hihonor.com (10.77.215.153) To TA003.hihonor.com
- (10.72.0.43)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+        Christoph Hellwig <hch@lst.de>, Damien Le Moal <dlemoal@kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
+        linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
+References: <ag0lS_CbKO9R5CV8@fedora>
+ <94076bc9-2c09-4bb6-8468-b6b8af419cb9@I-love.SAKURA.ne.jp>
+ <ag1nfIFcykmQHbkk@fedora>
+ <1ab8c579-eb76-4227-8a72-6ec819135219@I-love.SAKURA.ne.jp>
+ <ag1223nAa0wZ8ALC@fedora>
+ <fda8abc8-6aa2-463b-bf72-865f6b838034@I-love.SAKURA.ne.jp>
+ <ahRocb0Vs_m6RF_O@fedora>
+ <1a9f53d4-6f48-4df8-a3d8-2b0e442a163a@I-love.SAKURA.ne.jp>
+ <ahZGxoI6oHQ_vSrx@fedora>
+ <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp>
+ <ahZeYQ0cLE1i8TGs@fedora>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <ahZeYQ0cLE1i8TGs@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav403.rs.sakura.ne.jp
 
-new_anon_rmap() and move_anon_rmap() decide whether to set
-PAGE_MAPPING_ANON_VMA_LAZY.
+On 2026/05/27 12:00, Ming Lei wrote:
+> On Wed, May 27, 2026 at 10:35:56AM +0900, Tetsuo Handa wrote:
+>> On 2026/05/27 10:20, Ming Lei wrote:
+>>>> Of course we should try to figure out the root cause first, but how can we do?
+>>>
+>>> Definitely unexpected write IO(after umount & loop closed) from btrfs is more serious,
+>>> which may cause data loss, so CC btrfs list and maintainer.
+>>
 
-try_dup_anon_rmap() upgrades the folio to PAGE_MAPPING_ANON
-during fork() when required.
+I had a conversation with Google AI mode, and received the following response.
 
-rmap_walk_anon() detects ANON_VMA_LAZY upgrades and retries
-the walk to ensure the mapping is handled correctly.
+--------------------------------------------------------------------------------
+Technical Analysis: lo_rw_aio Null Pointer Dereference / UAF since v7.1-rc1
 
-remove_rmap() needs no special handling since folio_mapped()
-is checked before use.
 
-Signed-off-by: tao <tao.wangtao@honor.com>
----
- include/linux/rmap.h | 38 ++++++++++++++++++++++++++++++++++++++
- mm/rmap.c            | 21 ++++++++++++++++++++-
- 2 files changed, 58 insertions(+), 1 deletion(-)
+1. The Root Cause of the Timing Shift
 
-diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-index 59244481a8c1..9b1970698204 100644
---- a/include/linux/rmap.h
-+++ b/include/linux/rmap.h
-@@ -392,6 +392,14 @@ static __always_inline void __folio_rmap_sanity_checks(const struct folio *folio
- 		unsigned long mapping = (unsigned long)folio->mapping;
- 		struct anon_vma *anon_vma;
- 
-+		if (folio_test_anon_vma_lazy(folio)) {
-+			struct vm_area_struct *root_vma =
-+				(void *)(mapping - FOLIO_MAPPING_ANON_VMA_LAZY);
-+
-+			VM_WARN_ON_FOLIO(!rcuref_read(&root_vma->vm_rcuref), folio);
-+			return;
-+		}
-+
- 		anon_vma = (void *)(mapping - FOLIO_MAPPING_ANON);
- 		VM_WARN_ON_FOLIO(atomic_read(&anon_vma->refcount) == 0, folio);
- 	}
-@@ -431,6 +439,31 @@ void hugetlb_add_anon_rmap(struct folio *, struct vm_area_struct *,
- void hugetlb_add_new_anon_rmap(struct folio *, struct vm_area_struct *,
- 		unsigned long address);
- 
-+/**
-+ * folio_upgrade_anon_vma_lazy - upgrade folio->mapping from ANON_VMA_LAZY to
-+ *                               an anon_vma
-+ * @folio: The folio to upgrade
-+ * @vma:   The VMA the folio currently belongs to
-+ *
-+ * Upgrade folio->mapping from ANON_VMA_LAZY to an anon_vma.
-+ * This transition is strictly one-way and never reverts back to a lazy
-+ * mapping.
-+ *
-+ * Called during fork() while holding the mmap lock and the VMA write lock,
-+ * but without taking the folio lock. Concurrent readers may briefly observe
-+ * the old lazy mapping. Migration relies on folio_trylock_get_anon_rmap()
-+ * to ensure atomicity, while other rmap operations remain unaffected.
-+ */
-+static inline void folio_upgrade_anon_vma_lazy(struct folio *folio,
-+					       struct vm_area_struct *vma)
-+{
-+	unsigned long anon_tree = (unsigned long)vma->anon_vma;
-+
-+	VM_BUG_ON_VMA(!anon_tree || !IS_ALIGNED(anon_tree, sizeof(long)), vma);
-+	anon_tree = anon_tree + FOLIO_MAPPING_ANON;
-+	WRITE_ONCE(folio->mapping, (struct address_space *)anon_tree);
-+}
-+
- /* See folio_try_dup_anon_rmap_*() */
- static inline int hugetlb_try_dup_anon_rmap(struct folio *folio,
- 		struct vm_area_struct *vma)
-@@ -438,6 +471,9 @@ static inline int hugetlb_try_dup_anon_rmap(struct folio *folio,
- 	VM_WARN_ON_FOLIO(!folio_test_hugetlb(folio), folio);
- 	VM_WARN_ON_FOLIO(!folio_test_anon(folio), folio);
- 
-+	if (folio_test_anon_vma_lazy(folio))
-+		folio_upgrade_anon_vma_lazy(folio, vma);
-+
- 	if (PageAnonExclusive(&folio->page)) {
- 		if (unlikely(folio_needs_cow_for_dma(vma, folio)))
- 			return -EBUSY;
-@@ -573,6 +609,8 @@ static __always_inline int __folio_try_dup_anon_rmap(struct folio *folio,
- 	int i;
- 
- 	VM_WARN_ON_FOLIO(!folio_test_anon(folio), folio);
-+	if (folio_test_anon_vma_lazy(folio))
-+		folio_upgrade_anon_vma_lazy(folio, src_vma);
- 	__folio_rmap_sanity_checks(folio, page, nr_pages, level);
- 
- 	/*
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 46876b3dbfbc..e14509b47412 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -2002,6 +2002,16 @@ void folio_move_anon_rmap(struct folio *folio, struct vm_area_struct *vma)
- 	void *anon_vma = vma_anon_vma(vma);
- 
- 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
-+
-+	if (!anon_vma) {
-+		const struct vm_area_struct *root_vma = vma_anon_vma_lazy_root(vma);
-+
-+		VM_BUG_ON_VMA(!root_vma, vma);
-+		root_vma = (void *)root_vma + FOLIO_MAPPING_ANON_VMA_LAZY;
-+		WRITE_ONCE(folio->mapping, (struct address_space *)root_vma);
-+		return;
-+	}
-+
- 	VM_BUG_ON_VMA(!anon_vma, vma);
- 
- 	anon_vma += FOLIO_MAPPING_ANON;
-@@ -2023,7 +2033,16 @@ void folio_move_anon_rmap(struct folio *folio, struct vm_area_struct *vma)
- static void __folio_set_anon(struct folio *folio, struct vm_area_struct *vma,
- 			     unsigned long address, bool exclusive)
- {
--	struct anon_vma *anon_vma = vma_anon_vma(vma);
-+	anon_vma_tree_t anon_tree = vma->anon_vma;
-+	const struct vm_area_struct *root_vma = vma_anon_vma_lazy_root(vma);
-+	struct anon_vma *anon_vma = anon_vma_tree_anon_vma(anon_tree);
-+
-+	if (root_vma && (anon_vma_tree_is_vma(anon_tree) || exclusive)) {
-+		root_vma = (void *)root_vma + FOLIO_MAPPING_ANON_VMA_LAZY;
-+		WRITE_ONCE(folio->mapping, (struct address_space *)root_vma);
-+		folio->index = linear_page_index(vma, address);
-+		return;
-+	}
- 
- 	BUG_ON(!anon_vma);
- 
--- 
-2.17.1
+This regression was introduced during the v7.1-rc1 merge window, primarily exposed by
+Commit 65565ca5f99b ("block: unify the synchronous bi_end_io callbacks"), along with
+helper refactorings like Commit 92c3737a2473 ("block: add a bio_submit_or_kill helper").
+
+Prior to v7.0, the synchronous I/O completion path inherently contained execution lags (due
+to serialized completion handling and context switches) before notifying upper layers. This
+latency accidentally acted as a natural safety barrier. It ensured that by the time a file
+system completed its final sync_filesystem() and initiated umount, the loop driver's internal
+workqueue (lo_rw_aio) had already finished processing everything.
+
+In v7.1, the unification and optimization of bi_end_io significantly minimized this latency.
+The filesystem now learns of "I/O completion" much faster. Consequently, highly-concurrent
+execution pipelines like btrfs or jfs proceed rapidly through kill_sb() and blkdev_put(),
+ultimately invoking lo_release() -> __loop_clr_fd() while the loop driver's backend kworker
+is still in the middle of executing the last sub-millisecond asynchronous file-backed I/O
+request.
+
+
+2. Why the Block Layer's Built-in Quiesce/Freeze Fails
+
+There is an implicit assumption that standard block layer freeze mechanisms (blk_mq_freeze_queue())
+protect the device lifetime during release. However, the v7.1 BIO helper refactoring introduced
+a synchronization gap:
+
+  1. The filesystem triggers its final metadata or journal updates (e.g., txCommit in jfs or
+     delayed refcount updates in btrfs) right during the unmount/close boundary.
+  2. Due to the optimized execution path, these requests bypass the block layer's active
+     request-tracking metrics at the exact moment blk_mq_freeze_queue() or state validation
+     checks evaluated them as zero.
+  3. The block layer assumes the queue is safe and silent, allowing __loop_clr_fd() to
+     progress and nullify lo->lo_backing_file (or trigger fput()).
+  4. The leaked asynchronous kworker wakes up a fraction of a millisecond too late, attempts
+     to access lo->lo_backing_file or invokes kiocb_end_write() -> file_inode(), leading to
+     either a general protection fault (Null pointer dereference) or a Use-After-Free (UAF).
+
+
+3. Why This Isn't Just an "Unexpected FS Bug"
+
+While the write I/O originates from file systems like btrfs and jfs post-close, blaming the
+file systems entirely ignores the underlying infrastructure change. The core issue is that the
+block layer altered its synchronization behavior, breaking the barrier contract that
+VFS and file systems historically relied on during the device release path.
+
+Papering over this inside individual file systems would require adding heavy, duplicated
+barriers inside every single filesystem's unmount path.
 
