@@ -1,131 +1,269 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061033E9C0F;
-	Wed, 27 May 2026 13:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15C1403150;
+	Wed, 27 May 2026 13:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779886807; cv=none; b=UNxGueAL2ozg5zLp7D/Pij1HGi2stuJccxyrCcLDFrGny0Y7lBAzgiZdaGcGTP+HcBPjDErzIVP+NgjH2wQlh9g7+F/GwxwrSsOwgdZfQ+VKKFbJRdIf/Bxt7l/J6o4AWwpkGiAzJMiyH9vzLmvpIL687OUyoUkMirfZnbb4jAg=
+	t=1779887649; cv=none; b=eg5huHOgzAu56c6yiXyDAioEk0PBFQgGitTEuNlEq29QPThHGlk76qoc9r3J6pQoCUcA/tCKK5wtm6F3zUkOyfyTFJcM1IeCDwr8VDkaGZCfBl2vr1NANeX1vNbURIYmu2kZPQgD6Lf5JVfFudSb3DN4tcYIgzZGtrJBhE3XjA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779886807; c=relaxed/simple;
-	bh=EBaps+i7LpVAFfaa4b8PPUb3GdkIkGVY4AM8X9+iX4A=;
+	s=arc-20240116; t=1779887649; c=relaxed/simple;
+	bh=fSwacII4LV4lGpI2BBhlDyZAyiiQ8kssXJNHHHZtKAQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ee5rcvS1pphvcD2se/pX8NpkVGnMe5j+6IZ3S1XyMnmLi9HDfQZMKX/UbCO1IzablVXPk99JKF9AM/vG3OojEH0GrQhaBUr6Z6cxl46AISZlTtoEx9tWJyveqkpT/aOjfOwDhTwmgxQy/5k5mrdwlbieam/OhCGeiLWKY7Ne0X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KRj0xV6x; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=px9DsN8xtodI9tDYikrdrQPEFKYkKMfX/Cur+DlEi5g53vZKOY//kAsJ3knd6uYLGK09cXroFzr6CH4NExqXnTUzzwnSU75ms/iuT4Qn8/XKFY/GDZFKBWbHCjA1A040SnObz+t7zD5d7rh/AitD80zERitIu6Dicv7dNFDuQnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=hRHYr3Mv; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KRj0xV6x"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=XSOTEpS6jnOnkKRCoQQoSeSU8dByk24sxPymLSbbGcE=; b=KRj0xV6xgukBl9D4xsqK6bZu1w
-	dlb6+dENOCzrPokyPEyMx/A/gnulxCC8Nx++F+gqtsSfg9ClXRpm31kYxour0RKhesUZlRvTUFuRd
-	19M6/F7BZYFc/d/YQVXxi2aRol6wjk4whwR16kRtSjpvF/JEF8P62hjtbSKs9ZYaGGLhnDdLMw5mL
-	/0fgeUmYAN+QGS97ENVQi4jvijWsfdJq5nO4yD9dVYRbOLO39dr4iA5+ulp8Sq/8WtiFXraw/grNl
-	j061BWxTakH+C5qFKHLDH5NrEG+CE7bdtola8Vdwh9FhPMYYePVoT2Ta0OQURkR/NFiZZXlYWpP79
-	cs+2kb4A==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSDrd-000000048vG-0eXC;
-	Wed, 27 May 2026 13:00:01 +0000
-Date: Wed, 27 May 2026 06:00:01 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Tal Zussman <tz2294@columbia.edu>,
-	Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Carlos Maiolino <cem@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>
-Subject: Re: [PATCH v6 1/4] block: add task-context bio completion
- infrastructure
-Message-ID: <ahbq0RdUyLIPiItB@infradead.org>
-References: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
- <20260514-blk-dontcache-v6-1-782e2fa7477b@columbia.edu>
- <agq2KRd8RkP1TAf5@infradead.org>
- <ea1fa305-3ba2-4cfd-b7cb-86875032a300@columbia.edu>
- <ahPbaSEoNA755Nt3@infradead.org>
- <f1b8eeb6-2397-4f48-a21a-a023eb0c80ab@columbia.edu>
- <rkb5oei6cx2erbyininczz6ukbnquqheexhu7tznn5rslkkdn7@b4kpdyhdwdb6>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="hRHYr3Mv"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64RCaUCY346638;
+	Wed, 27 May 2026 13:13:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=HPtUAn3oyaLbsXkqO3IWjEuukx+mZn
+	nYDyFXU2OjSRM=; b=hRHYr3MvlCtFXPsNh+fa6c/Sz3w66l21dLV6zJB4lbapzH
+	ck24SsaQRzoalgooTCBn8O+oYoS/cfL/EI25CoCNqsS3rA4tlxZr33Yxy6XIu3UH
+	eNYHLgU+KnFLohaC1zFd5aFRLChiwZ4+9udIpy21Zd0014zYAjczC9mEklUOnEI2
+	b6TF/6FUw6AMqTZE8l5i/f8e540Sf/RhxtWpL9wBfKK2jmeUtqhxwtwZyEsLMzcz
+	95yvnVC0COACUxYaPlqwkFs9lLAJJ+mic+879+5qwD9rE3HRylcWATTTcgMzrvyS
+	ULdkwViNc7WC54Zb4vvz9x5RmHjVzT2zQj9IKC9A==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eb4nush89-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 May 2026 13:13:37 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64RD9Dp6021991;
+	Wed, 27 May 2026 13:13:36 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4edjrbk49y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 May 2026 13:13:36 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64RDDYY830015986
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 27 May 2026 13:13:34 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2BE7B20043;
+	Wed, 27 May 2026 13:13:34 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 654C720040;
+	Wed, 27 May 2026 13:13:29 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.21.79])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 27 May 2026 13:13:29 +0000 (GMT)
+Date: Wed, 27 May 2026 18:43:26 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+        djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+        yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+Subject: Re: [PATCH v4 14/23] ext4: implement partial block zero range path
+ using iomap
+Message-ID: <ahbt9lyB5M7u8RNY@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-15-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <rkb5oei6cx2erbyininczz6ukbnquqheexhu7tznn5rslkkdn7@b4kpdyhdwdb6>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20260511072344.191271-15-yi.zhang@huaweicloud.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDEyOCBTYWx0ZWRfXwE9UVIsqNjFF
+ 71ss0P9X+6nRaz+PbWSeU5xCCotRbilszFFev0ziI1L6RadrYW7EdEQ/gmkoNHExiv9ZkRsl4L4
+ dblYuz9pQ8rbkVbChJHWGjt1XKuxaUZCMskFNnRPnRV8oMWqRKp1jWVsD4fWTEFNpvN1dI2pm1a
+ 12xQ5rHa5r4O+h9PkcCaETh6t96/JmMFzTaeumofFwQbUv/sff0VgWpagi0MDqFZehWyFIudYPG
+ Elm+a4d72jo2sGmcDimM+RVFttQx4sQJ/qtb1NgwbBHFvBSvDgVVqgTpLX1/TyUC8fEYlzu9LTD
+ EptZtLoqgB+/RFko3yJtUV0D/rR+sX6AHm+XBa88dgVUeGRO37bMGK+Dr9m5BlkX4AlLCTMc/x1
+ x/j43dnLAGYlGgmhLoFy/jp7KZGAAo7UESobpCOz377Yhv7yMp6SmgiRS6wgrgo9X9svjkSEveO
+ UxDYafNqqiNkTm8GEcw==
+X-Authority-Analysis: v=2.4 cv=UtJT8ewB c=1 sm=1 tr=0 ts=6a16ee01 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=i0EeH86SAAAA:8
+ a=VnNF1IyMAAAA:8 a=LB5iw6Uj1Savdfimc_AA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: wg6cTRaSSlu4hnG_RhUJhN1q8IwoW6Zj
+X-Proofpoint-GUID: mUMkRHj3hz4zuO0M7EWNgIyfD6t9yu14
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-05-27_02,2026-05-26_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0
+ phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605270128
 
-On Wed, May 27, 2026 at 11:42:28AM +0200, Jan Kara wrote:
-> > I ran some experiments with fio on both XFS and a raw block device. Five
-> > iterations each for 60s. Results below.
-> > 
-> > TLDR: Removing the delay doesn't significantly decrease user-visible
-> > latency or otherwise improve performance, but does significantly reduce
-> > throughput and increase context switches in some workloads (e.g. C).
-> > I think it makes sense to leave the delay as-is. Thoughts?
+On Mon, May 11, 2026 at 03:23:34PM +0800, Zhang Yi wrote:
+> From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> Thanks for the test! One question below:
-
-Thanks from me as well!
-
+> Introduce a new iomap_ops instance, ext4_iomap_zero_ops, along with
+> ext4_iomap_block_zero_range() to implement block zeroing via the iomap
+> infrastructure for ext4.
 > 
-> > Results:
-> > 
-> > Workloads (all `uncached=1`):
-> >   A: rw=write     bs=128k iodepth=1   ioengine=pvsync2     # XFS
-> >   B: rw=write     bs=128k iodepth=128 ioengine=io_uring    # XFS
-> >   C: rw=randwrite bs=4k   iodepth=32  ioengine=io_uring    # XFS
-> >   D: rw=rw 50/50  bs=64k  iodepth=32  ioengine=io_uring    # XFS
-> >   E: rw=write     bs=128k iodepth=128 ioengine=io_uring    # raw /dev/nvmeXn1
-> >   F: rw=write     bs=128k iodepth=128 numjobs=4
-> >      + vm.dirty_bytes=64MB, vm.dirty_background_bytes=32MB # XFS
-> > 
-> > Mean ± stddev across 5 iterations:
-> > 
-> >     metric                     delay=1           delay=0     delta
-> >     --------------------------------------------------------------
-> > 
-> >   A seq 128k qd1
-> >     BW (MB/s)                4333 ± 27         4374 ± 34     +0.9%
-> >     p99   (us)              36.2 ± 0.8        35.8 ± 0.4     -1.1%
-> >     p999  (us)               3260 ± 75         3228 ± 29     -1.0%
-> >     ctx-switches          184 k ± 59 k     3.68 M ± 65 k    +1903%
-> >     cs / io                0.09 ± 0.03       1.86 ± 0.03    +1888%
-> >     avg bios/run            80.4 ± 0.6         1.1 ± 0.0    -98.7%
+> ext4_iomap_block_zero_range() calls iomap_zero_range() with
+> ext4_iomap_zero_begin() as the callback. The callback locates and zeros
+> out either a mapped partial block or a dirty, unwritten partial block.
 > 
-> So 1 jiffie delay is (with default HZ=1000) 1ms. That means for this load
-> the completion latency should be at least 1000us but your results show p99
-> latency of 36. What am I missing?
-
-Yes, this looks a bit odd.  Unless there's multiple threads submitting
-and somehow the completions get batched this should complete one
-bio at a time and be the worst case for the delay scheme.
-
-> >   C rand 4k qd32
-> >     BW (MB/s)               66.2 ± 0.8        44.6 ± 7.4    -32.7%
-> >     p99   (us)              8002 ± 174      17990 ± 6800   +124.8%
-> >     p999  (us)             11390 ± 554     31890 ± 11076   +180.0%
-> >     ctx-switches         3.67 M ± 45 k    3.59 M ± 106 k     -2.2%
-> >     cs / io                3.78 ± 0.04       5.62 ± 0.83    +48.7%
-> >     avg bios/run            32.3 ± 1.0         3.1 ± 0.3    -90.5%
+> Important constraints:
 > 
-> I'm somewhat surprised how larger is the completion latency is here without
-> the delay. Is that due to a contention on local lock between the IO completion
-> interrupt and the worker? Or why is the completion latency so big here when
-> the case B with more IOs in flight, less bios per run, still had significantly
-> lower latency in the delay=0 case?
+> Zeroing out under an active journal handle can cause deadlock, because
+> the order of acquiring the folio lock and starting a handle is
+> inconsistent with the iomap writeback path.
+> 
+> Therefore, ext4_iomap_block_zero_range():
+> - Must NOT be called under an active handle.
+> - Cannot rely on data=ordered mode to ensure zeroed data persistence
+>   before updating i_disksize (for the cases of post-EOF append write,
+>   post-EOF fallocate, and truncate up). In subsequent patches, we will
+>   address this by synchronizing commit I/O but doesn't waiting for
+>   completion, and updating i_disksize to i_size only after the zeroed
+>   data has been written back.
+> 
+> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-Note that in the past we had major problems with workqueue scheduling
-latency.  At some point these got mitigated a lot, but if they are back
-for this workload that might be one reason.
+Looks good in itself. Feel free to add:
 
+Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+
+Regards,
+Ojaswin
+
+> ---
+>  fs/ext4/inode.c | 92 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+> 
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index c6fe42d012fc..e0dae2501292 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -4101,6 +4101,51 @@ static int ext4_iomap_buffered_da_write_end(struct inode *inode, loff_t offset,
+>  	return 0;
+>  }
+>  
+> +static int ext4_iomap_zero_begin(struct inode *inode,
+> +		loff_t offset, loff_t length, unsigned int flags,
+> +		struct iomap *iomap, struct iomap *srcmap)
+> +{
+> +	struct iomap_iter *iter = container_of(iomap, struct iomap_iter, iomap);
+> +	struct ext4_map_blocks map;
+> +	u8 blkbits = inode->i_blkbits;
+> +	unsigned int iomap_flags = 0;
+> +	int ret;
+> +
+> +	ret = ext4_emergency_state(inode->i_sb);
+> +	if (unlikely(ret))
+> +		return ret;
+> +
+> +	if (WARN_ON_ONCE(!(flags & IOMAP_ZERO)))
+> +		return -EINVAL;
+> +
+> +	ret = ext4_iomap_map_blocks(inode, offset, length, NULL, &map);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/*
+> +	 * Look up dirty folios for unwritten mappings within EOF. Providing
+> +	 * this bypasses the flush iomap uses to trigger extent conversion
+> +	 * when unwritten mappings have dirty pagecache in need of zeroing.
+> +	 */
+> +	if (map.m_flags & EXT4_MAP_UNWRITTEN) {
+> +		loff_t start = ((loff_t)map.m_lblk) << blkbits;
+> +		loff_t end = ((loff_t)map.m_lblk + map.m_len) << blkbits;
+> +
+> +		iomap_fill_dirty_folios(iter, &start, end, &iomap_flags);
+> +		if ((start >> blkbits) < map.m_lblk + map.m_len)
+> +			map.m_len = (start >> blkbits) - map.m_lblk;
+> +	}
+> +
+> +	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
+> +	iomap->flags |= iomap_flags;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct iomap_ops ext4_iomap_zero_ops = {
+> +	.iomap_begin = ext4_iomap_zero_begin,
+> +};
+> +
+>  /*
+>   * Since we always allocate unwritten extents, there is no need for
+>   * iomap_end to clean up allocated blocks on a short write.
+> @@ -4616,6 +4661,47 @@ static int ext4_block_journalled_zero_range(struct inode *inode, loff_t from,
+>  	return err;
+>  }
+>  
+> +static int ext4_block_iomap_zero_range(struct inode *inode, loff_t from,
+> +				       loff_t length, bool *did_zero,
+> +				       bool *zero_written)
+> +{
+> +	int ret;
+> +
+> +	/*
+> +	 * Zeroing out under an active handle can cause deadlock since
+> +	 * the order of acquiring the folio lock and starting a handle is
+> +	 * inconsistent with the iomap writeback procedure.
+> +	 */
+> +	if (WARN_ON_ONCE(ext4_handle_valid(journal_current_handle())))
+> +		return -EINVAL;
+> +
+> +	/* The zeroing scope should not extend across a block. */
+> +	if (WARN_ON_ONCE((from >> inode->i_blkbits) !=
+> +			 ((from + length - 1) >> inode->i_blkbits)))
+> +		return -EINVAL;
+> +
+> +	if (!(EXT4_SB(inode->i_sb)->s_mount_state & EXT4_ORPHAN_FS) &&
+> +	    !(inode_state_read_once(inode) & (I_NEW | I_FREEING)))
+> +		WARN_ON_ONCE(!inode_is_locked(inode) &&
+> +			!rwsem_is_locked(&inode->i_mapping->invalidate_lock));
+> +
+> +	ret = iomap_zero_range(inode, from, length, did_zero,
+> +			       &ext4_iomap_zero_ops, &ext4_iomap_write_ops,
+> +			       NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * TODO: The iomap does not distinguish between different types of
+> +	 * zeroing and always sets zero_written if a zeroing operation is
+> +	 * performed, which may result in unnecessary order operations.
+> +	 */
+> +	if (did_zero && zero_written)
+> +		*zero_written = *did_zero;
+> +
+> +	return 0;
+> +}
+> +
+>  /*
+>   * Zeros out a mapping of length 'length' starting from file offset
+>   * 'from'.  The range to be zero'd must be contained with in one block.
+> @@ -4642,6 +4728,9 @@ static int ext4_block_zero_range(struct inode *inode,
+>  	} else if (ext4_should_journal_data(inode)) {
+>  		return ext4_block_journalled_zero_range(inode, from, length,
+>  							did_zero);
+> +	} else if (ext4_inode_buffered_iomap(inode)) {
+> +		return ext4_block_iomap_zero_range(inode, from, length,
+> +						   did_zero, zero_written);
+>  	}
+>  	return ext4_block_do_zero_range(inode, from, length, did_zero,
+>  					zero_written);
+> @@ -4682,6 +4771,9 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
+>  	 * truncating up or performing an append write, because there might be
+>  	 * exposing stale on-disk data which may caused by concurrent post-EOF
+>  	 * mmap write during folio writeback.
+> +	 *
+> +	 * TODO: In the iomap path, handle this by updating i_disksize to
+> +	 * i_size after the zeroed data has been written back.
+>  	 */
+>  	if (ext4_should_order_data(inode) &&
+>  	    did_zero && zero_written && !IS_DAX(inode)) {
+> -- 
+> 2.52.0
+> 
