@@ -1,166 +1,733 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013035.outbound.protection.outlook.com [40.107.44.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF663B5847;
-	Wed, 27 May 2026 06:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779864687; cv=fail; b=TR39JRlgzXzlGVnlEalZ/s+JhhI/K4P1LTGWryp14WlbZMkTi7QDQuciheOzu9s/ohAOtoBhHWtqB9OG3qZGj/2RtCl+c8vbZRI90kJbi4sSJ744uvjFYzh3S6h93KuBY/i35LIT9odRyCE0ehQIhijvBz8LxU1qVetbwwon//o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779864687; c=relaxed/simple;
-	bh=MS9o8mKqrzoeCWd76HpQWZL769+uFvIcRFa4Jdqb8Rc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uG/ngdVp+cWxmeIRkif7hGrY4Z0e4WEDUfaQdaozgXkHi0aXVJfTI5PUaS6Pgg5cB2c01C6EiXw2uqzPJCmAZFpBlVsyL+TnmWV5DZR+IogXKomESsn3HaRN1vM2Xn6QGQVN1cd4Pp4q5RjtbxjGHqZ6oYqyQWV1UrP+GMjQo6M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=PrqPdoET; arc=fail smtp.client-ip=40.107.44.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9615D390CB7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 07:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779866602; cv=none; b=V7f19WNM3H6ILtxSdVYhVQNSo+mQ4KTd2v5NH+stDvg7DoCSVxIp925IK70t5FWkaKcPFnS0xoSQJxDaJBp8ku+QnH+OOeXfNfzBmfBp4JOz+cExHKc94RopjAOhKjYNpFuW8eqN9AAlFoXQrrjjs8O+DZtiqJAmc0z86+yyP4E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779866602; c=relaxed/simple;
+	bh=savCm8GmVnTnsfyA3O39Qenmxhbd89Ouj1x6bvNfgjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ShWqHXjNgsU+oVbR8BMY+Hby2TUGqlxUsaxZl1BSCxng9mDqbvVuv9GKJvp5S1Cc5ZWzF+EaF4jtqhFKpbxm9AbGMLd1zo52utQwNtc3puvlNyGdjfeQGyYiBU8CHYJYUCcVvlDl5savmsz5M66QBu4NqkCDo1e6/LL/oos2G80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=micIOXXd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fzPQ2hL2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=micIOXXd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fzPQ2hL2; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="PrqPdoET"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rW4aSPlJSHdRrFLQuNmrCmcIeg2u51FiuDYlSk6D1cAQWUZNLb0Bds37h/cCxSE490fUpjtCqpRSfWGzgLwA6bvhtYVjUtrjnwyppQIFusyCMN4hjF7uOPwN2zMktt3htSu0TNBSd3w1IfWWJ3c+3Asw1DBvDQ5zYDFPsfnk56P9Yxp2E6zQ3KjRlKNPa09rz6b7bdcnjo7Pxlx1jCalzQXnf0Yw7hVhGhbkwLVH387aPvSn92P1xgBYJTzaewKZ4DgzmKD5P7S3cntdMMjdEHaJvdAgUDzhtHDswBLE3j2oYU/HNHVhvAVebkzXtPvaD0FJ2FQwKM0lwvYgeFhiLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/RRMWAAfpolngd6+rdMSMtZj7lkvSVVXT/zFplYNfYg=;
- b=c6t/HDh7bf/DCKjgAnC0y7zORqYeVbOw6i6UGfXtKeKztUDCz5/XLzSMSLZFZr7crTxqYw7UVowmRqcqHnY/sOj4petzDGPoGeP5KXWjobTHi4CiRNKmHXNrxvxPdQ0zuRJNh8VHEnP/ThacZEJx+EFdCvPx4TgwW5VunutUe3vQ6xlDuOtQ/Q9APtJTkOx7KQHcJ4OhkBz3SL4KJx95aYfKCUwXEfzaMpcy8yWPxpU+Mq7JssjJMKWpim2960dNYprOIhnaTRdUs9wyfEkAc0/ym4IUz/fjnKdAEzuwmfmgDCN8P8bRr9KtuWD0SYDs/O48uNXiO0KqURYrmrltDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/RRMWAAfpolngd6+rdMSMtZj7lkvSVVXT/zFplYNfYg=;
- b=PrqPdoETZfgNP3JxwxfcMjvQscUbtAH9sycR2Rr9yTQ1GE8dnvX+fslCGoGja/kpWNZ5kiBUYrz5rqtnv3Nx8Rny04+YwFGIz1LBSSpMZADP9a8eSPY9neLVoNNlGrsULK12uI+njw1qpMXRovAoygczw/dT/jZlGHM9c3bEoWiII00z42UrOoJmkHMlogDP05v4A8iSG7rXg3VAIN0avo8IXiJ6eTaD6y7CZ1Wx/X/uh40nWslclTHyfOG355YKKh8xrAy+1iYLqH5G4wa26cmiAsvtYsEnCGCEMVWVZA6VybdptACC2ZNVuFlLrXquplILdMKJtlcjJwnpXADaxQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TYSPR06MB6921.apcprd06.prod.outlook.com (2603:1096:400:468::6)
- by KUYPR06MB8650.apcprd06.prod.outlook.com (2603:1096:d10:94::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Wed, 27 May
- 2026 06:51:23 +0000
-Received: from TYSPR06MB6921.apcprd06.prod.outlook.com
- ([fe80::ee5b:12c7:2366:cd1e]) by TYSPR06MB6921.apcprd06.prod.outlook.com
- ([fe80::ee5b:12c7:2366:cd1e%6]) with mapi id 15.21.0071.011; Wed, 27 May 2026
- 06:51:23 +0000
-From: Dai Junbing <daijunbing@vivo.com>
-To: linux-fsdevel@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	tytso@mit.edu,
-	jack@suse.com,
-	linux-ext4@vger.kernel.org
-Cc: jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	Dai Junbing <daijunbing@vivo.com>
-Subject: [PATCH 4/4] select: make select() and poll() waits freezable
-Date: Wed, 27 May 2026 14:49:12 +0800
-Message-Id: <20260527064912.1038-5-daijunbing@vivo.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260527064912.1038-1-daijunbing@vivo.com>
-References: <20260527064912.1038-1-daijunbing@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0014.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::17) To TYSPR06MB6921.apcprd06.prod.outlook.com
- (2603:1096:400:468::6)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="micIOXXd";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fzPQ2hL2";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="micIOXXd";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fzPQ2hL2"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C33466D0C;
+	Wed, 27 May 2026 07:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779866598;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Td8RXPM9V9f1P0v6ts+FzdhgpkFEnwA+21BfJp+w69A=;
+	b=micIOXXdvgC3C13fzs7qmLTw1NFdalF/AnUHpGyAiQwc4golH8SdmJJrfiO0lOfcttvR3T
+	TtLxqSnmNixvn1pbahP7x3VBKll1J6yaHxV46ijhg8qcJAex/79XSXKSB2Pz7oOFv2U9Dj
+	b9NeH4MWOFUvpyJM8qiF7yauHu8ELac=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779866598;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Td8RXPM9V9f1P0v6ts+FzdhgpkFEnwA+21BfJp+w69A=;
+	b=fzPQ2hL2ET8hxB28N/yXjX7J9glMcQdl6t9WiA4/KkBD+PvEG1EoK9W3IwwjkzqUQ4WmFT
+	8PouVyY1jF1d54AA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=micIOXXd;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=fzPQ2hL2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779866598;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Td8RXPM9V9f1P0v6ts+FzdhgpkFEnwA+21BfJp+w69A=;
+	b=micIOXXdvgC3C13fzs7qmLTw1NFdalF/AnUHpGyAiQwc4golH8SdmJJrfiO0lOfcttvR3T
+	TtLxqSnmNixvn1pbahP7x3VBKll1J6yaHxV46ijhg8qcJAex/79XSXKSB2Pz7oOFv2U9Dj
+	b9NeH4MWOFUvpyJM8qiF7yauHu8ELac=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779866598;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Td8RXPM9V9f1P0v6ts+FzdhgpkFEnwA+21BfJp+w69A=;
+	b=fzPQ2hL2ET8hxB28N/yXjX7J9glMcQdl6t9WiA4/KkBD+PvEG1EoK9W3IwwjkzqUQ4WmFT
+	8PouVyY1jF1d54AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 259BD5A6EC;
+	Wed, 27 May 2026 07:23:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lKoUCOabFmqKMAAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Wed, 27 May 2026 07:23:18 +0000
+Date: Wed, 27 May 2026 09:23:12 +0200
+From: Petr Vorel <pvorel@suse.cz>
+To: AnonymeMeow <anonymemeow@gmail.com>
+Cc: amir73il@gmail.com, ltp@lists.linux.it, jack@suse.cz, repnop@google.com,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fanotify: prepare tests for thread pidfd reporting
+Message-ID: <20260527072312.GA231966@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <CAOQ4uxgrLEJDskC8Ku8evT21un=AMnMgrKJwAN5ceUFDrJY=GA@mail.gmail.com>
+ <20260527064041.50443-1-anonymemeow@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYSPR06MB6921:EE_|KUYPR06MB8650:EE_
-X-MS-Office365-Filtering-Correlation-Id: 45f992d1-5a56-48b9-ae06-08debbbc5d6e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014|56012099006|11063799006|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	M3rBHC7rCpRwpBD5fL7vFo1IZ3XBhBjgdBEUolVV7p+KD0C6pcFOIyIpeipgr6oA7lLZvB5Bmx1B1NxlyJCKtGMI/bcHve8JTpCr86OCyGzvkJlP+8HStv9g/d2rqu1KsfnPwpUlHSwUsuRPfjvSeBV7Huzm6p88XzZ1b+7fkj5HMHpIEYK6fZUkDFm0UfJ5/g1umwVkMxAAKRaO/a8KccoMjCzff/RjDXNXa1vEcvb0THlC88HvHvq9iQuYWxpg4lsc+/Yj15RUm6vmoRrJyTTRQWDFQgXc/KR1xkz3d0Xmvcn/jAhPWt9ppBcxSOHp7QaxUXATq/GP1oOsT81ChDuzifKPmxTJ0bpd3Nnwk609KToIEEx8uJ+jSZL2oXe82FQCFY0CjX4paUPmJ8xMTp+XTd/w/IvUWTYilXE96OidlqsgWAcnq9NJut9o/9biCHeH0xnh16VRhYD7CQCACqnllN/zivAyNNEbBxYFniD7t0phBaS0e/2bhIl61EZdE9+o85UKCcAAgA9Vnwy+85moRCYN9e2AeUKnAjfvxbw4iC4/tx0Gcd9TKjrTIUD8JIFwRoggjC4iXuq2Tx4Oi5NyKrpb2OcvZE1ua1RfMYIKVeqfe3+trwK9hnVsu+BvurniWm+9iZTb/nC8c0BvMwz8vM57Uy5LB92qVlWlZoyirmXs84+ZxurD5vVPBN7Di6Qqgi57gy44EbJmwaWDpIzPUZH1qnJMT06Cp5a28glsxiicb1bwoGIDs8uHgMnl
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYSPR06MB6921.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014)(56012099006)(11063799006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?r4m53Br+aVzDe4d3bRYx/TqSlbug46VxfUcMCKb3QhV5h5HEzaOoYy3djQ7M?=
- =?us-ascii?Q?KEbzKNjRLqJI7OQUG+NTdXxYFA0CZqGCEFXHj4VGkwdBeAh3ovSjEiEsScUV?=
- =?us-ascii?Q?CJX7mUSjseHHNSasg48DBsHnzgOY29TmbCxRCOSBIUXH1vgupSAqpue97CkS?=
- =?us-ascii?Q?qetkDJDmt1X8x/vYFwp/PZUB7DoM+puWPgrp/XkQZGLNFTaxFcOBZgHoa+bT?=
- =?us-ascii?Q?80JVr0H+8CaITEnvgLgG+TiMqjA5JNDF6j8kgaq3JJHF67qnvb/1DPIXRmXT?=
- =?us-ascii?Q?ZNO6KPlyVv1HP+IpP6gkd7EDRyKegeKpIqm6NkfQgGXY7vKBWUteB0Wjafpq?=
- =?us-ascii?Q?M6/p8ySw+tobX7yjvAgLV1TqxUaeLyvkIelSAaTAq1e1vsE8wmwHgLgji8hB?=
- =?us-ascii?Q?fnZvf3Ki8HZVGDaoKJhLuD+r2c0So4qzER5p5EvRg0vNbAXJzwSsav5SBzdL?=
- =?us-ascii?Q?31op0UJx5c7QNFZ+HwCMXRNj+9W4MiuyB9vtq25zL15xyshx3/2XOysZjGwu?=
- =?us-ascii?Q?yIinPufpGhTpPu2iRR9EDM2wh7HoI0dimlGbtIyFZJmuKMATzuhhXigu4a7g?=
- =?us-ascii?Q?uT34Xv5Cwl9DcBChQWuHZprVbLXruwL8OGxnV3fzjvfoRc/aVaHGl8rT/MrY?=
- =?us-ascii?Q?PDD9+cPn9kp+W1k0pfIOGqxKJ39q+j0TkdIWPmuEZ3pf7tYG06GETUGDB5xr?=
- =?us-ascii?Q?y5J1v+e48IEy69MG4YBRdYP2Uc+o6bFJ9RTSPrAUTVCDXPXNoZlVASIL27da?=
- =?us-ascii?Q?blfWOcs0et1gFVx75zPNsLOC/ZIuPaRa8RyOqkhWO948CBo2vEY9afTQZer9?=
- =?us-ascii?Q?b4BgvpkUJTTM1QdRiz1THjvUcJ/B/4ljOXwF8kCjiyGpxtY06EpXJXA/2xM+?=
- =?us-ascii?Q?rrO/3VKpV69tbA/Eloe6aiw1gEIm+VM++XMxZHCdF9ugWVhFj1X42DuoWSK8?=
- =?us-ascii?Q?lzNozrFkybYuhVFLQc07y6fqQokfIPzbHC/x73zDbsDXLy4/wugIrGX1NOtK?=
- =?us-ascii?Q?UnLtaaS0LSqq6WrujYWAFVrt0vPiqn8OSLDDujWaYSxyFTupsMd48izKzWLV?=
- =?us-ascii?Q?2o312Bu1gHNANFxOaOx17Ka09/Hm6FFjtztDNEUynAidIbjzhWritPYx7u5+?=
- =?us-ascii?Q?sbwHTEblxSB7enxGPkq4UXyG4GxnaFAuUB0aHfC+FImSvf2getiPFkRP7/uf?=
- =?us-ascii?Q?PN7bAfu3Iy3b14uvArokivY0KT3gj7KbrvGpBZV3iyvozc+mbDqMYsR0iWUV?=
- =?us-ascii?Q?hmXeQZGX6nWSahP0lDxD0VFc10+7l38WXVuaLX7XfJ3x596ZIuhEnMIj4iAN?=
- =?us-ascii?Q?sWzuZ0hL2o1IWOM2lz5W7WesoRHWctzlrA3CPl5+goxp+1aTeMHPLvDN8bXM?=
- =?us-ascii?Q?vs4YXHL6kPjX77zHGSQzr+tHh7Zfw/vPzGdaUk3hxvrU993nFJbJpEY9tsiQ?=
- =?us-ascii?Q?BaaN3hdIruL2n+2+Jh7sKYgZ5vhXQ3OSEshIgwDRE5MbkkDe4wZw+tIj9LDG?=
- =?us-ascii?Q?MjJ2ZL5W7/gHQ/WM/KdmKMy63Qw04R8jEX89fw3eiBAt6O37bnu76ICHraf5?=
- =?us-ascii?Q?zsOqOR6BUgEth1effcRnyKmqH08BT3fcv0WhTp7DrgLuUfxaks6D+IFE9CA3?=
- =?us-ascii?Q?QJFvvqPkMkaHD7xTAiHaS3wLd5pNd12ZB+F3fGnNj7IASvW3Y81DJZMk3C9s?=
- =?us-ascii?Q?Yimg3WChaYUDZM96k/81EifvaN7U4AVpY7C+nQPhDguryMem8SBTrQmCktQe?=
- =?us-ascii?Q?9N0SP973gw=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45f992d1-5a56-48b9-ae06-08debbbc5d6e
-X-MS-Exchange-CrossTenant-AuthSource: TYSPR06MB6921.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 06:51:23.1563
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D2sdfyzlyPyJhrDvKneI5+CzUBtkN/wGVq9seYaPTC16uqkBbNt5blNdoF91W+debB8ljLC4jeDa2Fc1NPhj/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUYPR06MB8650
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260527064041.50443-1-anonymemeow@gmail.com>
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 5C33466D0C
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.71 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,lists.linux.it,suse.cz,google.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.cz:replyto];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -3.71
 
-Tasks blocked in select() or poll() may be woken during suspend and
-resume due to freezer state transitions. This can cause avoidable
-activity in the suspend/resume path and add unnecessary overhead.
+Hi AnonymeMeow, Amir,
 
-Mark the waits in do_select() and do_poll() as freezable so these tasks
-are not unnecessarily woken by the freezer.
+[ Cc Cyril ]
 
-Both functions are only used from their respective system call paths,
-where the task sleeps without holding locks that would make freezing
-unsafe.
+> On 2026-05-25 12:04:32+02:00, Amir Goldstein wrote:
+> > On Sun, May 24, 2026 at 12:25 PM AnonymeMeow <anonymemeow@gmail.com> wrote:
+@AnonymeMeow nit: if you put whole conversation after --- (below), it will not
+be part of the commit message when one applies the patch. And here should be a
+proper commit message.
 
-Signed-off-by: Dai Junbing <daijunbing@vivo.com>
----
- fs/select.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+FYI We have just 2 days before releasing new LTP version, this will not get in
+anyway.  At least I'm not sure if we want to risk regression in the release for
+functionality which is not yet even in the next tree.
 
-diff --git a/fs/select.c b/fs/select.c
-index bf71c9838dfe..b0b279748355 100644
---- a/fs/select.c
-+++ b/fs/select.c
-@@ -600,7 +600,7 @@ static noinline_for_stack int do_select(int n, fd_set_bits *fds, struct timespec
- 			to = &expire;
- 		}
- 
--		if (!poll_schedule_timeout(&table, TASK_INTERRUPTIBLE,
-+		if (!poll_schedule_timeout(&table, TASK_INTERRUPTIBLE|TASK_FREEZABLE,
- 					   to, slack))
- 			timed_out = 1;
- 	}
-@@ -962,7 +962,7 @@ static int do_poll(struct poll_list *list, struct poll_wqueues *wait,
- 			to = &expire;
- 		}
- 
--		if (!poll_schedule_timeout(wait, TASK_INTERRUPTIBLE, to, slack))
-+		if (!poll_schedule_timeout(wait, TASK_INTERRUPTIBLE|TASK_FREEZABLE, to, slack))
- 			timed_out = 1;
- 	}
- 	return count;
--- 
-2.25.1
+Also I found that fanotify21.c on the current master fails when running more
+than 1 iteration:
 
+# ./fanotify21 -i2
+...
+tst_test.c:1980: TINFO: === Testing on ext2 ===
+tst_test.c:1291: TINFO: Formatting /dev/loop0 with ext2 opts='' extra opts=''
+mke2fs 1.47.4 (6-Mar-2025)
+tst_test.c:1303: TINFO: Mounting /dev/loop0 to /tmp/LTP_fanWZr7p3/fs_mnt fstyp=ext2 flags=0
+fanotify21.c:238: TINFO: Test #0.0: return a valid pidfd for event created by self
+fanotify21.c:340: TPASS: event->fd 4 is valid as expected
+fanotify21.c:415: TPASS: got an event with a valid pidfd info record, mask: 32, pid: 234527, fd: 4, pidfd: 5, info_type: 4, info_len: 8
+fanotify21.c:238: TINFO: Test #1.0: return a valid pidfd for event created by child
+fanotify21.c:340: TPASS: event->fd 4 is valid as expected
+fanotify21.c:415: TPASS: got an event with a valid pidfd info record, mask: 32, pid: 234528, fd: 4, pidfd: 5, info_type: 4, info_len: 8
+fanotify21.c:238: TINFO: Test #2.0: return invalid pidfd for event created by terminated child
+fanotify21.c:340: TPASS: event->fd 4 is valid as expected
+fanotify21.c:375: TPASS: pid: 234529 terminated before pidfd was created, pidfd set to the value of: -1, as expected
+fanotify21.c:238: TINFO: Test #3.0: fail to open rw fd for event created on read-only mount
+fanotify21.c:297: TPASS: cannot read event with rw fd from a ro fs
+fanotify21.c:238: TINFO: Test #0.0: return a valid pidfd for event created by self
+fanotify21.c:300: TBROK: reading fanotify events failed: EROFS (30)
+
+Summary:
+passed   7
+failed   0
+broken   1
+skipped  0
+warnings 0
+
+That should be fixed. It might be worth to fix that before the release.
+
+Kind regards,
+Petr
+
+> > > The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
+> > > exclusive because by the time the pidfd support was introduced to
+> > > fanotify, pidfds could only be created for thread group leaders. Now
+> > > that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
+> > > this restriction can be lifted.
+
+> > > This patch allows listeners using FAN_REPORT_PIDFD | FAN_REPORT_TID
+> > > to receive the pidfd referring to the thread that triggered the
+> > > event.
+
+> > > Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+
+> > Regarding the legal standpoint, as far as I can tell, commit d4563201f33a0
+> > ("Documentation: simplify and clarify DCO contribution example language")
+> > explicitly allowed pseudonyms, so although unorthodox, this seems to be legit.
+
+> > In any case, the contributing itself seems legit to me, so
+
+> > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+
+> > But before merging this, AnonymeMeow, since it is your first contribution
+> > to the Linux kernel (right?) as well as a "I am not a robot" challenge
+> > I would like to first see that the tests have been dealt with.
+
+> > The LTP test fanotify20 explicitly checks that this flag combination is not
+> > allowed. Need to discuss an acceptable solution with LTP developers -
+> > remove this check depending on kernel version or whatever they choose.
+
+> > The LTP test fanotify21 tests the FAN_REPORT_PIDFD functionality.
+> > Please add two new variants for REPORT_TID:
+> >         .test_variants = 4,
+
+> > #define TST_VARIANT_FD_ERROR (tst_variant & 1)
+> > #define TST_VARIANT_PIDFD_THREAD (tst_variant & 2)
+
+> > The existing checks if (tst_variant) become if (TST_VARIANT_FD_ERROR)
+> > so bit 0 represents the FAN_REPORT_FD_ERROR variation.
+
+> > in do_setup() need to use if (TST_VARIANT_PIDFD_THREAD)
+> > to add FAN_REPORT_TID and to use PIDFD_THREAD for pidfd.
+
+> > Follow the footsteps of fd_error_unsupported to skip the
+> > TST_VARIANT_PIDFD_THREAD variants on kernels where the flag
+> > combination is not supported.
+
+> > Good luck,
+> > Amir.
+
+> Thanks for the helpful and detailed guidance on how to extend the tests!
+> I've updated the test cases according to your suggestions.
+
+> After applying my previous patch, the LTP fanotify20 test needs to probe
+> whether the running kernel supports thread pidfd reporting. I didn't use
+> kernel version check because the LTP documentation notes that kernel
+> versions do not always correspond to a well-defined feature set due to
+> distribution backports, and recommends runtime feature checks. I probe
+> whether fanotify_init() succeeds with FAN_REPORT_PIDFD | FAN_REPORT_TID
+> as a workaround. The first test case uses exactly the same flags, but it
+> still verifies the return value and errno, so I am not sure whether this
+> should be considered duplicate logic. I also added one test case that
+> passes all relevant FAN_REPORT_* flags and verifies whether
+> fanotify_init() behaves as expected. The expected result depends on the
+> previous probe result.
+
+> Also, I added one test case and two test variants to LTP test
+> fanotify21. The new test case verifies that fanotify reports the correct
+> pidfd for the event generated by a child process or a worker thread
+> created by the main thread. This is especially useful for the thread
+> pidfd test variants, because it checks that the pidfd reported by
+> fanotify really refers to the event-generating thread rather than to
+> the thread-group leader. The two new test variants extend the existing
+> ones by adding the thread pidfd mode, as you suggested.
+
+> I ran all fanotify-related LTP tests on both a vanilla Linux 7.1-rc5
+> kernel and a Linux 7.1-rc5 kernel with my patch applied. Both kernels
+> passed all the tests. They were both built with the config file from the
+> official Arch Linux package repo. More specifically, both kernels passed
+> all three test cases in fanotify20, with no skips. The test cases expect
+> different results from the two kernels, which is the expected behavior.
+> For fanotify21, the patched kernel passed all test cases in all test
+> variants. On the unpatched kernel, all test cases passed for variants
+> without TST_VARIANT_PIDFD_THREAD, while all test cases in variants with
+> TST_VARIANT_PIDFD_THREAD were skipped, which is also the expected
+> behavior.
+
+> Again, thanks for the detailed guidance on this!
+
+> With Best Regards,
+> AnonymeMeow
+
+> Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+> ---
+>  testcases/kernel/syscalls/fanotify/Makefile   |   2 +-
+>  .../kernel/syscalls/fanotify/fanotify20.c     |  24 +-
+>  .../kernel/syscalls/fanotify/fanotify21.c     | 224 +++++++++++++-----
+>  3 files changed, 184 insertions(+), 66 deletions(-)
+
+> diff --git a/testcases/kernel/syscalls/fanotify/Makefile b/testcases/kernel/syscalls/fanotify/Makefile
+> index 3628094ba..b20bb50e9 100644
+> --- a/testcases/kernel/syscalls/fanotify/Makefile
+> +++ b/testcases/kernel/syscalls/fanotify/Makefile
+> @@ -2,7 +2,7 @@
+>  #  Copyright (c) Jan Kara <jack@suse.cz>, 2013
+
+>  top_srcdir		?= ../../../..
+> -fanotify11: CFLAGS+=-pthread
+> +fanotify11 fanotify21: CFLAGS+=-pthread
+>  include $(top_srcdir)/include/mk/testcases.mk
+
+>  include $(top_srcdir)/include/mk/generic_leaf_target.mk
+> diff --git a/testcases/kernel/syscalls/fanotify/fanotify20.c b/testcases/kernel/syscalls/fanotify/fanotify20.c
+> index b32ecf6aa..5d77b485c 100644
+> --- a/testcases/kernel/syscalls/fanotify/fanotify20.c
+> +++ b/testcases/kernel/syscalls/fanotify/fanotify20.c
+> @@ -28,19 +28,27 @@
+>  #define FLAGS_DESC(x) .flags = x, .desc = #x
+
+>  static int fd;
+> +static int thread_pidfd_unsupported;
+
+>  static struct test_case_t {
+>  	unsigned int flags;
+>  	char *desc;
+>  	int exp_errno;
+> +	unsigned int needs_thread_pidfd;
+>  } test_cases[] = {
+>  	{
+>  		FLAGS_DESC(FAN_REPORT_PIDFD | FAN_REPORT_TID),
+>  		.exp_errno = EINVAL,
+> +		.needs_thread_pidfd = 1,
+>  	},
+>  	{
+>  		FLAGS_DESC(FAN_REPORT_PIDFD | FAN_REPORT_FID | FAN_REPORT_DFID_NAME),
+>  	},
+> +	{
+> +		FLAGS_DESC(FAN_REPORT_PIDFD | FAN_REPORT_TID | FAN_REPORT_FID | FAN_REPORT_DFID_NAME),
+> +		.exp_errno = EINVAL,
+> +		.needs_thread_pidfd = 1,
+> +	},
+>  };
+
+>  static void do_setup(void)
+> @@ -51,17 +59,29 @@ static void do_setup(void)
+>  	 */
+>  	REQUIRE_FANOTIFY_INIT_FLAGS_SUPPORTED_ON_FS(FAN_REPORT_PIDFD,
+>  						    MOUNT_PATH);
+> +
+> +	/*
+> +	 * Check whether the kernel supports FAN_REPORT_PIDFD in combination
+> +	 * with FAN_REPORT_TID. Test cases with the needs_thread_pidfd field
+> +	 * set expect different errno values depending on whether this
+> +	 * combination is supported.
+> +	 */
+> +	thread_pidfd_unsupported = fanotify_init_flags_supported_on_fs(
+> +		FAN_REPORT_PIDFD | FAN_REPORT_TID, MOUNT_PATH);
+>  }
+
+>  static void do_test(unsigned int i)
+>  {
+>  	struct test_case_t *tc = &test_cases[i];
+
+> -	tst_res(TINFO, "Test %s on %s", tc->exp_errno ? "fail" : "pass",
+> +	int exp_errno = tc->needs_thread_pidfd && !thread_pidfd_unsupported ?
+> +		0 : tc->exp_errno;
+> +
+> +	tst_res(TINFO, "Test %s on %s", exp_errno ? "fail" : "pass",
+>  		tc->desc);
+
+>  	TST_EXP_FD_OR_FAIL(fd = fanotify_init(tc->flags, O_RDONLY),
+> -			   tc->exp_errno);
+> +			   exp_errno);
+
+>  	if (fd > 0)
+>  		SAFE_CLOSE(fd);
+> diff --git a/testcases/kernel/syscalls/fanotify/fanotify21.c b/testcases/kernel/syscalls/fanotify/fanotify21.c
+> index 340fb0018..4629860da 100644
+> --- a/testcases/kernel/syscalls/fanotify/fanotify21.c
+> +++ b/testcases/kernel/syscalls/fanotify/fanotify21.c
+> @@ -20,9 +20,11 @@
+>  #include <stdlib.h>
+>  #include <string.h>
+>  #include <sys/mount.h>
+> +#include <pthread.h>
+>  #include "tst_test.h"
+>  #include "tst_safe_stdio.h"
+>  #include "tst_safe_macros.h"
+> +#include "tst_safe_pthread.h"
+>  #include "lapi/pidfd.h"
+
+>  #ifdef HAVE_SYS_FANOTIFY_H
+> @@ -42,7 +44,7 @@ struct pidfd_fdinfo_t {
+
+>  static struct test_case_t {
+>  	char *name;
+> -	int fork;
+> +	int trigger_in_child;
+>  	int want_pidfd_err;
+>  	int remount_ro;
+>  } test_cases[] = {
+> @@ -52,6 +54,12 @@ static struct test_case_t {
+>  		0,
+>  		0,
+>  	},
+> +	{
+> +		"return a valid pidfd for event created by child",
+> +		1,
+> +		0,
+> +		0,
+> +	},
+>  	{
+>  		"return invalid pidfd for event created by terminated child",
+>  		1,
+> @@ -68,16 +76,17 @@ static struct test_case_t {
+
+>  static int fanotify_fd;
+>  static char event_buf[BUF_SZ];
+> -static struct pidfd_fdinfo_t *self_pidfd_fdinfo;
+> +static struct pidfd_fdinfo_t expected_pidfd_fdinfo;
+
+>  static int fd_error_unsupported;
+> +static int thread_pidfd_unsupported;
+> +
+> +#define TST_VARIANT_FD_ERROR (tst_variant & 1)
+> +#define TST_VARIANT_PIDFD_THREAD (tst_variant & 2)
+
+> -static struct pidfd_fdinfo_t *read_pidfd_fdinfo(int pidfd)
+> +static void read_pidfd_fdinfo(int pidfd, struct pidfd_fdinfo_t *pidfd_fdinfo)
+>  {
+>  	char *fdinfo_path;
+> -	struct pidfd_fdinfo_t *pidfd_fdinfo;
+> -
+> -	pidfd_fdinfo = SAFE_MALLOC(sizeof(struct pidfd_fdinfo_t));
+
+>  	SAFE_ASPRINTF(&fdinfo_path, "/proc/self/fdinfo/%d", pidfd);
+>  	SAFE_FILE_LINES_SCANF(fdinfo_path, "pos: %d", &pidfd_fdinfo->pos);
+> @@ -87,8 +96,6 @@ static struct pidfd_fdinfo_t *read_pidfd_fdinfo(int pidfd)
+>  	SAFE_FILE_LINES_SCANF(fdinfo_path, "NSpid: %d", &pidfd_fdinfo->ns_pid);
+
+>  	free(fdinfo_path);
+> -
+> -	return pidfd_fdinfo;
+>  }
+
+>  static void generate_event(void)
+> @@ -100,30 +107,91 @@ static void generate_event(void)
+>  	SAFE_CLOSE(fd);
+>  }
+
+> -static void do_fork(void)
+> +static pid_t do_fork(int want_pidfd_err)
+>  {
+> -	int status;
+> +	int pidfd;
+>  	pid_t child;
+
+>  	child = SAFE_FORK();
+>  	if (child == 0) {
+>  		SAFE_CLOSE(fanotify_fd);
+>  		generate_event();
+> +		TST_CHECKPOINT_WAIT(0);
+>  		exit(EXIT_SUCCESS);
+>  	}
+
+> -	SAFE_WAITPID(child, &status, 0);
+> -	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+> -		tst_brk(TBROK,
+> -			"child process terminated incorrectly");
+> +	pidfd = SAFE_PIDFD_OPEN(child, 0);
+> +	read_pidfd_fdinfo(pidfd, &expected_pidfd_fdinfo);
+> +	SAFE_CLOSE(pidfd);
+> +
+> +	if (want_pidfd_err) {
+> +		int status;
+> +		TST_CHECKPOINT_WAKE(0);
+> +		SAFE_WAITPID(child, &status, 0);
+> +		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+> +			tst_brk(TBROK, "child process terminated incorrectly");
+> +		
+> +		return -1;
+> +	}
+> +
+> +	return child;
+>  }
+
+> -static void do_setup(void)
+> +static void *thread_generate_event(void *arg)
+> +{
+> +	*(int *)arg = SAFE_PIDFD_OPEN(gettid(), PIDFD_THREAD);
+> +	TST_CHECKPOINT_WAKE(0);
+> +
+> +	generate_event();
+> +	TST_CHECKPOINT_WAIT(0);
+> +	pthread_exit(0);
+> +}
+> +
+> +static pthread_t do_pthread_create(int want_pidfd_err)
+>  {
+>  	int pidfd;
+> +	pthread_t worker;
+> +
+> +	SAFE_PTHREAD_CREATE(&worker, NULL, thread_generate_event, &pidfd);
+> +
+> +	TST_CHECKPOINT_WAIT(0);
+> +	read_pidfd_fdinfo(pidfd, &expected_pidfd_fdinfo);
+> +
+> +	if (want_pidfd_err) {
+> +		int status;
+> +		struct pidfd_fdinfo_t thread_pidfd_fdinfo;
+> +		TST_CHECKPOINT_WAKE(0);
+> +		SAFE_PTHREAD_JOIN(worker, (void **)&status);
+> +		if (status != 0)
+> +			tst_brk(TBROK, "worker thread terminated incorrectly");
+> +
+> +		/*
+> +		 * Unlike waitpid(), pthread_join() only waits until the worker thread
+> +		 * has exited from the pthread point of view. The thread may still be
+> +		 * visible through its pidfd for a short time afterwards, and fanotify
+> +		 * creates the event pidfd when the event is read. Wait until the
+> +		 * worker pidfd fdinfo reports Pid: -1 before reading the event so
+> +		 * that fanotify reports ESRCH/FAN_NOPIDFD instead of a pidfd.
+> +		 */
+> +		do {
+> +			read_pidfd_fdinfo(pidfd, &thread_pidfd_fdinfo);
+> +		} while (thread_pidfd_fdinfo.pid != -1);
+> +
+> +		SAFE_CLOSE(pidfd);
+> +
+> +		return -1;
+> +	}
+> +
+> +	SAFE_CLOSE(pidfd);
+> +
+> +	return worker;
+> +}
+> +
+> +static void do_setup(void)
+> +{
+>  	int init_flags = FAN_REPORT_PIDFD;
+
+> -	if (tst_variant) {
+> +	if (TST_VARIANT_FD_ERROR) {
+>  		fanotify_fd = -1;
+>  		fd_error_unsupported = fanotify_init_flags_supported_on_fs(FAN_REPORT_FD_ERROR, ".");
+>  		if (fd_error_unsupported)
+> @@ -131,6 +199,15 @@ static void do_setup(void)
+>  		init_flags |= FAN_REPORT_FD_ERROR;
+>  	}
+
+> +	if (TST_VARIANT_PIDFD_THREAD) {
+> +		fanotify_fd = -1;
+> +		thread_pidfd_unsupported = fanotify_init_flags_supported_on_fs(
+> +			FAN_REPORT_PIDFD | FAN_REPORT_TID, ".");
+> +		if (thread_pidfd_unsupported)
+> +			return;
+> +		init_flags |= FAN_REPORT_TID;
+> +	}
+> +
+>  	SAFE_TOUCH(TEST_FILE, 0666, NULL);
+
+>  	/*
+> @@ -144,15 +221,6 @@ static void do_setup(void)
+>  	fanotify_fd = SAFE_FANOTIFY_INIT(init_flags, O_RDWR);
+>  	SAFE_FANOTIFY_MARK(fanotify_fd, FAN_MARK_ADD, FAN_OPEN, AT_FDCWD,
+>  			   TEST_FILE);
+> -
+> -	pidfd = SAFE_PIDFD_OPEN(getpid(), 0);
+> -
+> -	self_pidfd_fdinfo = read_pidfd_fdinfo(pidfd);
+> -	if (self_pidfd_fdinfo == NULL) {
+> -		tst_brk(TBROK,
+> -			"pidfd=%d, failed to read pidfd fdinfo",
+> -			pidfd);
+> -	}
+>  }
+
+>  static void do_test(unsigned int num)
+> @@ -160,17 +228,29 @@ static void do_test(unsigned int num)
+>  	int i = 0, len;
+>  	struct test_case_t *tc = &test_cases[num];
+>  	int nopidfd_err = tc->want_pidfd_err ?
+> -			  (tst_variant ? -ESRCH : FAN_NOPIDFD) : 0;
+> -	int fd_err = (tc->remount_ro && tst_variant) ? -EROFS : 0;
+> +			  (TST_VARIANT_FD_ERROR ? -ESRCH : FAN_NOPIDFD) : 0;
+> +	int fd_err = (tc->remount_ro && TST_VARIANT_FD_ERROR) ? -EROFS : 0;
+> +	union {
+> +		pid_t pid;
+> +		pthread_t pthread_id;
+> +	} worker_id;
+
+>  	tst_res(TINFO, "Test #%d.%d: %s %s", num, tst_variant, tc->name,
+> -			tst_variant ? "(FAN_REPORT_FD_ERROR)" : "");
+> +		TST_VARIANT_FD_ERROR ? (TST_VARIANT_PIDFD_THREAD ?
+> +			"(FAN_REPORT_FD_ERROR, FAN_REPORT_TID)" : "(FAN_REPORT_FD_ERROR)") :
+> +			(TST_VARIANT_PIDFD_THREAD ? "(FAN_REPORT_TID)" : ""));
+
+> -	if (fd_error_unsupported && tst_variant) {
+> +	if (fd_error_unsupported && TST_VARIANT_FD_ERROR) {
+>  		FANOTIFY_INIT_FLAGS_ERR_MSG(FAN_REPORT_FD_ERROR, fd_error_unsupported);
+>  		return;
+>  	}
+
+> +	if (thread_pidfd_unsupported && TST_VARIANT_PIDFD_THREAD) {
+> +		FANOTIFY_INIT_FLAGS_ERR_MSG(FAN_REPORT_PIDFD | FAN_REPORT_TID,
+> +				thread_pidfd_unsupported);
+> +		return;
+> +	}
+> +
+>  	if (tc->remount_ro) {
+>  		/* SAFE_MOUNT fails to remount FUSE */
+>  		if (mount(tst_device->dev, MOUNT_PATH, tst_device->fs_type,
+> @@ -182,14 +262,30 @@ static void do_test(unsigned int num)
+>  	}
+
+>  	/*
+> -	 * Generate the event in either self or a child process. Event
+> -	 * generation in a child process is done so that the FAN_NOPIDFD case
+> -	 * can be verified.
+> +	 * Generate the event either in the current task or in another task.
+> +	 * When trigger_in_child is set, the event can be generated by either
+> +	 * a child process or a worker thread depending on the test variant.
+> +	 * The want_pidfd_err field determines whether the event-generating
+> +	 * task is still valid when the event is read.
+>  	 */
+> -	if (tc->fork)
+> -		do_fork();
+> -	else
+> +	if (tc->trigger_in_child) {
+> +		if (TST_VARIANT_PIDFD_THREAD)
+> +			worker_id.pthread_id = do_pthread_create(tc->want_pidfd_err);
+> +		else
+> +			worker_id.pid = do_fork(tc->want_pidfd_err);
+> +	} else {
+> +		/*
+> +		 * Although the expected pid and the pid reported by fanotify are
+> +		 * the same in this case, pidfds created with and without PIDFD_THREAD
+> +		 * flag have different fdinfo flags. Use PIDFD_THREAD for the expected
+> +		 * pidfd fdinfo so that the fdinfo can be compared bitwise.
+> +		 */
+> +		int pidfd = SAFE_PIDFD_OPEN(gettid(), TST_VARIANT_PIDFD_THREAD ? PIDFD_THREAD : 0);
+> +		read_pidfd_fdinfo(pidfd, &expected_pidfd_fdinfo);
+> +		SAFE_CLOSE(pidfd);
+> +
+>  		generate_event();
+> +	}
+
+>  	/*
+>  	 * Read all of the queued events into the provided event
+> @@ -208,7 +304,7 @@ static void do_test(unsigned int num)
+>  	while (i < len) {
+>  		struct fanotify_event_metadata *event;
+>  		struct fanotify_event_info_pidfd *info;
+> -		struct pidfd_fdinfo_t *event_pidfd_fdinfo = NULL;
+> +		struct pidfd_fdinfo_t event_pidfd_fdinfo;
+
+>  		event = (struct fanotify_event_metadata *)&event_buf[i];
+>  		info = (struct fanotify_event_info_pidfd *)(event + 1);
+> @@ -288,39 +384,32 @@ static void do_test(unsigned int num)
+>  		 * No pidfd errors occurred, continue with verifying pidfd
+>  		 * fdinfo validity.
+>  		 */
+> -		event_pidfd_fdinfo = read_pidfd_fdinfo(info->pidfd);
+> -		if (event_pidfd_fdinfo == NULL) {
+> -			tst_brk(TBROK,
+> -				"reading fdinfo for pidfd: %d "
+> -				"describing pid: %u failed",
+> -				info->pidfd,
+> -				(unsigned int)event->pid);
+> -			goto next_event;
+> -		} else if (event_pidfd_fdinfo->pid != event->pid) {
+> +		read_pidfd_fdinfo(info->pidfd, &event_pidfd_fdinfo);
+> +		if (event_pidfd_fdinfo.pid != event->pid) {
+>  			tst_res(TFAIL,
+>  				"pidfd provided for incorrect pid "
+>  				"(expected pidfd for pid: %u, got pidfd for "
+>  				"pid: %u)",
+>  				(unsigned int)event->pid,
+> -				(unsigned int)event_pidfd_fdinfo->pid);
+> +				(unsigned int)event_pidfd_fdinfo.pid);
+>  			goto next_event;
+> -		} else if (memcmp(event_pidfd_fdinfo, self_pidfd_fdinfo,
+> +		} else if (memcmp(&event_pidfd_fdinfo, &expected_pidfd_fdinfo,
+>  				  sizeof(struct pidfd_fdinfo_t))) {
+>  			tst_res(TFAIL,
+>  				"pidfd fdinfo values for self and event differ "
+>  				"(expected pos: %d, flags: %x, mnt_id: %d, "
+>  				"pid: %d, ns_pid: %d, got pos: %d, "
+>  				"flags: %x, mnt_id: %d, pid: %d, ns_pid: %d",
+> -				self_pidfd_fdinfo->pos,
+> -				self_pidfd_fdinfo->flags,
+> -				self_pidfd_fdinfo->mnt_id,
+> -				self_pidfd_fdinfo->pid,
+> -				self_pidfd_fdinfo->ns_pid,
+> -				event_pidfd_fdinfo->pos,
+> -				event_pidfd_fdinfo->flags,
+> -				event_pidfd_fdinfo->mnt_id,
+> -				event_pidfd_fdinfo->pid,
+> -				event_pidfd_fdinfo->ns_pid);
+> +				expected_pidfd_fdinfo.pos,
+> +				expected_pidfd_fdinfo.flags,
+> +				expected_pidfd_fdinfo.mnt_id,
+> +				expected_pidfd_fdinfo.pid,
+> +				expected_pidfd_fdinfo.ns_pid,
+> +				event_pidfd_fdinfo.pos,
+> +				event_pidfd_fdinfo.flags,
+> +				event_pidfd_fdinfo.mnt_id,
+> +				event_pidfd_fdinfo.pid,
+> +				event_pidfd_fdinfo.ns_pid);
+>  			goto next_event;
+>  		} else {
+>  			tst_res(TPASS,
+> @@ -342,9 +431,20 @@ next_event:
+
+>  		if (info && info->pidfd >= 0)
+>  			SAFE_CLOSE(info->pidfd);
+> +	}
+
+> -		if (event_pidfd_fdinfo)
+> -			free(event_pidfd_fdinfo);
+> +	if (tc->trigger_in_child && !tc->want_pidfd_err) {
+> +		int status;
+> +		TST_CHECKPOINT_WAKE(0);
+> +		if (TST_VARIANT_PIDFD_THREAD) {
+> +			SAFE_PTHREAD_JOIN(worker_id.pthread_id, (void **)&status);
+> +			if (status != 0)
+> +				tst_brk(TBROK, "worker thread terminated incorrectly");
+> +		} else {
+> +			SAFE_WAITPID(worker_id.pid, &status, 0);
+> +			if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+> +				tst_brk(TBROK, "child process terminated incorrectly");
+> +		}
+>  	}
+>  }
+
+> @@ -352,19 +452,17 @@ static void do_cleanup(void)
+>  {
+>  	if (fanotify_fd >= 0)
+>  		SAFE_CLOSE(fanotify_fd);
+> -
+> -	if (self_pidfd_fdinfo)
+> -		free(self_pidfd_fdinfo);
+>  }
+
+>  static struct tst_test test = {
+>  	.setup = do_setup,
+>  	.test = do_test,
+>  	.tcnt = ARRAY_SIZE(test_cases),
+> -	.test_variants = 2,
+> +	.test_variants = 4,
+>  	.cleanup = do_cleanup,
+>  	.all_filesystems = 1,
+>  	.needs_root = 1,
+> +	.needs_checkpoints = 1,
+>  	.mount_device = 1,
+>  	.mntpoint = MOUNT_PATH,
+>  	.forks_child = 1,
