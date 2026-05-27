@@ -1,32 +1,32 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BE43B9933
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 08:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF4A2E718F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 08:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779870528; cv=none; b=I/v8oM2Dr4J7Sy/eeMAvvamAsNd9gLkWhSjczd86OJSVcLYnhYVnlitgnuHzEtfrCGh62yMWVGYcR2CAKWyqLCsDBWkxIMVFFxaSflpBz7YPesYnZN2e8LeXs4LeTUb0ibjwWv2g0nEcO/5tGvpalOLmQNNyo6xz4KU25h4zF+M=
+	t=1779871249; cv=none; b=cPirgvoHygtHI+onxJehW+xfWwEfKB3l08Rftgay2rkrvoK0lhhVaLh/mfmfIxfDQ3z/WOnpojAFhRytnUPKWIn9fZLGMQ7lHw4AqqalXR8ZJVpTwUp6Q6sExuL02XYu4wxk3GecG+YJUDRY85Qy7Hujf/NBO07Rur16m9WpI10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779870528; c=relaxed/simple;
-	bh=biUuqa6zZHkHgYG38Bmz54ce3FPSro8XA/9nNBq52PM=;
+	s=arc-20240116; t=1779871249; c=relaxed/simple;
+	bh=rM8ojsb+AhMZ4pHl81A5AQ+/0yEd/96Rza7L0hdxLK4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FpDUezIjRKp8rR7leE8xfl8abk0O2c+wDQ0m8SjFTyUlfd8nA9bRlX+t7ySUaEAaXaUWqRfbfFwCGflAIa+wVvTkEvJlbFMPyKSb8q3i4b6NV56LQdGqGIIriWDSLsriIGrj3XwCJt+B5s+kFZ0eXVnSMT+IcCbjQ+7/yMmPkaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ZChWmF38; arc=none smtp.client-ip=115.124.30.101
+	 In-Reply-To:Content-Type; b=k+2J38+HTkIw47FE+bMxRj8EC286I1Xy3tRbix8ZvLnpPFzHZRhreQkS8opqtKiSG4Y4oKOAwEwbOrPXQZLa5k07JSy3OHNDds4/7joKlaXOkW6tHs3PzmaJ8nwb8mYGIl4/YiAmLkQ+On/DXdrHQN+OcNoEkD5Wyl3JAZMr78U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=gVSHoqnf; arc=none smtp.client-ip=115.124.30.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ZChWmF38"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="gVSHoqnf"
 DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux.alibaba.com; s=default;
-	t=1779870523; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=aDTiceTkc6A+YbV9dkL3LhOQFyFRx2IcfSB9xG53D7A=;
-	b=ZChWmF38xU8T9JcwKKbWF2GvxEz1pV2IiIKf6x7uudYA44hkMeWkSa84zfep7k7mP1YBF7uIc1Hr7lpPBUcAYHfKf1JJp3MJAk8+L6jNjCQkHLAUDoKijXnym4VAnfhgt3QOw102YgQE5ndqTWycQ313Z9CVcOs1J+BHv2TuI3U=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R951e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X3j8PPC_1779870521;
-Received: from 30.221.147.201(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3j8PPC_1779870521 cluster:ay36)
+	t=1779871245; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=voreuBlVXEz00PuIDXmHDVpO2UN+uL6CphUqhH/13Sw=;
+	b=gVSHoqnfC7aIeUhwQq1ZZn/B2fgy0cocITiJ6u05aAlVXDHIiRXbFR+BEl2/inXLR04L9NENn/Yyp3subzxhzZSASPFSHYMBiGwC90M0EDJcb9k3h+TxyYnDD3UYfbKgD+iFUPXUERZ3ZvApmCMTViHzL8+tA8cbdaK8a+REJTw=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X3j8T30_1779871243;
+Received: from 30.221.147.201(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3j8T30_1779871243 cluster:ay36)
           by smtp.aliyun-inc.com;
-          Wed, 27 May 2026 16:28:42 +0800
-Message-ID: <276f3e66-967c-4c91-bb0d-94fe8dee3e57@linux.alibaba.com>
-Date: Wed, 27 May 2026 16:28:40 +0800
+          Wed, 27 May 2026 16:40:44 +0800
+Message-ID: <9d0057dc-7d73-4033-8a96-9f4566f7c0f9@linux.alibaba.com>
+Date: Wed, 27 May 2026 16:40:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,114 +34,101 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/14] fuse: support buffer copying for kernel
- addresses
+Subject: Re: [PATCH v2 07/14] fuse: use named constants for io-uring iovec
+ indices
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: miklos@szeredi.hu, bernd@bsbernd.com, axboe@kernel.dk,
  linux-fsdevel@vger.kernel.org
 References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-7-joannelkoong@gmail.com>
+ <20260402162840.2989717-8-joannelkoong@gmail.com>
 From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <20260402162840.2989717-7-joannelkoong@gmail.com>
+In-Reply-To: <20260402162840.2989717-8-joannelkoong@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 2026/4/3 00:28, Joanne Koong wrote:
-> This is a preparatory patch needed to support pinned buffers in
-> fuse-over-io-uring. For pinned buffers, we get the vmapped address of
-> the buffer, which we can directly use with memcpy.
->
-> Currently, buffer copying in fuse only supports extracting underlying
-> pages from an iov iter and kmapping them. This commit allows buffer
-> copying to work directly on a kaddr.
+> Replace magic indices 0 and 1 for the iovec array with named constants
+> FUSE_URING_IOV_HEADERS and FUSE_URING_IOV_PAYLOAD. This makes the usages
+> self-documenting and prepares for buffer ring support which will also
+> reference these iovec slots by index.
 >
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
 
-Looks good to me.
+Looks good!
 
 Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
 
 > ---
->  fs/fuse/dev.c        | 23 +++++++++++++++++++----
->  fs/fuse/fuse_dev_i.h |  7 ++++++-
->  2 files changed, 25 insertions(+), 5 deletions(-)
+>  fs/fuse/dev_uring.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
 >
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 0b0241f47170..a87939eaa103 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -848,6 +848,9 @@ void fuse_copy_init(struct fuse_copy_state *cs, bool write,
->  /* Unmap and put previous page of userspace buffer */
->  void fuse_copy_finish(struct fuse_copy_state *cs)
->  {
-> +	if (cs->is_kaddr)
-> +		return;
-> +
->  	if (cs->currbuf) {
->  		struct pipe_buffer *buf = cs->currbuf;
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index 045394a7ae41..a85acd9c2b71 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -18,7 +18,8 @@ MODULE_PARM_DESC(enable_uring,
+>  		 "Enable userspace communication through io-uring");
 >  
-> @@ -873,6 +876,12 @@ static int fuse_copy_fill(struct fuse_copy_state *cs)
->  	struct page *page;
+>  #define FUSE_URING_IOV_SEGS 2 /* header and payload */
+> -
+> +#define FUSE_URING_IOV_HEADERS 0
+> +#define FUSE_URING_IOV_PAYLOAD 1
+>  
+>  bool fuse_uring_enabled(void)
+>  {
+> @@ -1063,8 +1064,8 @@ static void fuse_uring_do_register(struct fuse_ring_ent *ent,
+>  }
+>  
+>  /*
+> - * sqe->addr is a ptr to an iovec array, iov[0] has the headers, iov[1]
+> - * the payload
+> + * sqe->addr is a ptr to an iovec array, iov[FUSE_URING_IOV_HEADERS] has the
+> + * headers, iov[FUSE_URING_IOV_PAYLOAD] the payload
+>   */
+>  static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
+>  					 struct iovec iov[FUSE_URING_IOV_SEGS])
+> @@ -1094,8 +1095,8 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+>  {
+>  	struct fuse_ring *ring = queue->ring;
+>  	struct fuse_ring_ent *ent;
+> -	size_t payload_size;
+>  	struct iovec iov[FUSE_URING_IOV_SEGS];
+> +	struct iovec *headers, *payload;
 >  	int err;
 >  
-> +	if (cs->is_kaddr) {
-> +		if (!cs->len)
-> +			return -ENOBUFS;
-> +		return 0;
-> +	}
-> +
->  	err = unlock_request(cs->req);
->  	if (err)
->  		return err;
-> @@ -931,15 +940,21 @@ static int fuse_copy_do(struct fuse_copy_state *cs, void **val, unsigned *size)
->  {
->  	unsigned ncpy = min(*size, cs->len);
->  	if (val) {
-> -		void *pgaddr = kmap_local_page(cs->pg);
-> -		void *buf = pgaddr + cs->offset;
-> +		void *pgaddr, *buf;
-> +
-> +		if (!cs->is_kaddr) {
-> +			pgaddr = kmap_local_page(cs->pg);
-> +			buf = pgaddr + cs->offset;
-> +		} else {
-> +			buf = cs->kaddr + cs->offset;
-> +		}
->  
->  		if (cs->write)
->  			memcpy(buf, *val, ncpy);
->  		else
->  			memcpy(*val, buf, ncpy);
-> -
-> -		kunmap_local(pgaddr);
-> +		if (!cs->is_kaddr)
-> +			kunmap_local(pgaddr);
->  		*val += ncpy;
+>  	err = fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
+> @@ -1106,15 +1107,16 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
 >  	}
->  	*size -= ncpy;
-> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-> index 134bf44aff0d..aa1d25421054 100644
-> --- a/fs/fuse/fuse_dev_i.h
-> +++ b/fs/fuse/fuse_dev_i.h
-> @@ -28,12 +28,17 @@ struct fuse_copy_state {
->  	struct pipe_buffer *currbuf;
->  	struct pipe_inode_info *pipe;
->  	unsigned long nr_segs;
-> -	struct page *pg;
-> +	union {
-> +		struct page *pg;
-> +		void *kaddr;
-> +	};
->  	unsigned int len;
->  	unsigned int offset;
->  	bool write:1;
->  	bool move_folios:1;
->  	bool is_uring:1;
-> +	/* if set, use kaddr; otherwise use pg */
-> +	bool is_kaddr:1;
->  	struct {
->  		unsigned int copied_sz; /* copied size into the user buffer */
->  	} ring;
+>  
+>  	err = -EINVAL;
+> -	if (iov[0].iov_len < sizeof(struct fuse_uring_req_header)) {
+> -		pr_info_ratelimited("Invalid header len %zu\n", iov[0].iov_len);
+> +	headers = &iov[FUSE_URING_IOV_HEADERS];
+> +	if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
+> +		pr_info_ratelimited("Invalid header len %zu\n", headers->iov_len);
+>  		return ERR_PTR(err);
+>  	}
+>  
+> -	payload_size = iov[1].iov_len;
+> -	if (payload_size < ring->max_payload_sz) {
+> +	payload = &iov[FUSE_URING_IOV_PAYLOAD];
+> +	if (payload->iov_len < ring->max_payload_sz) {
+>  		pr_info_ratelimited("Invalid req payload len %zu\n",
+> -				    payload_size);
+> +				    payload->iov_len);
+>  		return ERR_PTR(err);
+>  	}
+>  
+> @@ -1126,8 +1128,8 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+>  	INIT_LIST_HEAD(&ent->list);
+>  
+>  	ent->queue = queue;
+> -	ent->headers = iov[0].iov_base;
+> -	ent->payload = iov[1].iov_base;
+> +	ent->headers = headers->iov_base;
+> +	ent->payload = payload->iov_base;
+>  
+>  	atomic_inc(&ring->queue_refs);
+>  	return ent;
 
 
