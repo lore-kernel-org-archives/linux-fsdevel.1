@@ -1,43 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B572E30DD2A;
-	Wed, 27 May 2026 08:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1325A3E2768;
+	Wed, 27 May 2026 08:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779871852; cv=none; b=CPfOeJSvDV3rHO2SG9r/YkT6jjBoVHV8VsrRrPil+epLvsgQnJRAFSJkEfcwWNArudBbZgGE5UtAAByspoS9chQyto/olof+me29//mBNBaz/iJUC9U/Y65JQIoGo4rDbZkX8azsqnS4C51fIvcmopCjNObdYSucNVkky+B2OhA=
+	t=1779871972; cv=none; b=V73Laogp+s0b/jFzzaIiw/E/Tj4Ro5QMUigwk3ytir0usa41Vivau5F9+81afdG9Kl/LAfQfEilwVsxzS6NByWSuH3yIJdmJ+hl4DfZpyBGwUz2WxpMMBHHFxI1t+rtMsVsjalKK5D2Gs76gsYTHyTsZ9lRYeptb9lI68CndHj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779871852; c=relaxed/simple;
-	bh=Pos1LKDGnxjII6zvTEyXjuDDOkcVRQtqhKZywYNQGSo=;
+	s=arc-20240116; t=1779871972; c=relaxed/simple;
+	bh=0vP6dAM0qtYEDeOo7lT2iXRxIT57lFamfuJ6xdotRDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TNJ/uGIS/OYubOFJ++o7mA2ZI4c/KAePvpFIgS5y9g40wz3wr7nNbRZ1PKP2aS+8IELkmldALwltmyIb0FLiCjaYmaQoRF4O3KGhVWViryHXHkAhNMo0ix8Uy665s/Z/1i2XWqyGkn+n3RBq4Ipmh5C9JxX7IxvMjJ5Pdi1ZRAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=K+Lei1i2; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kugm2MBQJeIktBoecjw/ASngDlElxhJ21P7jpULhIZUTwaSk+5qOtrePcNqJdx6LnSsywnD+ZZTSsnVig/6YJfFVJcfaVQGui09c4/kbwOr7TDFeD4K7TbtCKbRjRYtz8uNLqUzgmGbzi414e7DvnNevJrEQObj7q8HihbKpzRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sF9XrJaE; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="K+Lei1i2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ABA61F000E9;
-	Wed, 27 May 2026 08:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779871851;
-	bh=wP+eaBcEtoPp/7xKAXoJ6JjcJom+Mzp3XCjO/gK0Apo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K+Lei1i2RUOAYTYZkiOXopxCLHTDTPRpVpJstm6pInlnJQ9qHLOOfWasbnBLkZMM4
-	 vXrvnSHqTkxkPy32XlFCSWRCO+yFrXKUrdY4aMgE9d85RXMYr3h2xH3T4VcqEIKQUO
-	 gQ/YspVihJ62O1jZUNYdLwkGVyeyuVL/8FBWqxI8=
-Date: Wed, 27 May 2026 10:49:58 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Calum Mackay <calum.mackay@oracle.com>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, Miklos Szeredi <mszeredi@redhat.com>,
-	linux-mm@kvack.org,
-	Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH 1/3] tmpfs: simplify constructing "security.foo" xattr
- names
-Message-ID: <2026052722-garlic-worry-03b2@gregkh>
-References: <177945382308.2991556.1256192774754909984.b4-ty@b4>
- <5386153f-9112-4971-98fc-de90d7aae2c6@oracle.com>
- <CAJfpegu3PawBxwOPEO-+at-B9zRTJOzY+z4qeV7xOwOQb3Fr7w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sF9XrJaE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=5SrhJd8D5kdySamJgDjj4vcaR6oJNFYx6iGp8z9Ljdo=; b=sF9XrJaEIa3q2QUrVJVXpFkrkJ
+	+VEb7zw04rbo+YGauRNWAGaqofL2ZmjQkNVqLfDFRE/slMRdhN7woW1SGlwXk7RrrhN8jgM5kSNcD
+	U1KuBHgMP9JOihHIWcqbZXXaTi2gZJxhz4fI+OVLKxtibDYeUTB/GGm2t48P967isrtfDSNfe6Ir9
+	sfT0oOmpU7rltytq+hA5xXy6cHFCk2TmwrPy3/66VFIxTJTl8EianR0qwL29d8o8aNx45atJrDI25
+	DIpbgBaFSEA7wjVCBACAAgm0/ckup9yvsEF5IsmxQCgeXedwymdEntAHQW8KGIBNJB427Cunfovzi
+	0wDVOKRg==;
+Received: from 2001-1c00-8d85-4b00-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:4b00:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wS9zy-000000028Ul-0UWa;
+	Wed, 27 May 2026 08:52:22 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 7BB34300673; Wed, 27 May 2026 10:52:21 +0200 (CEST)
+Date: Wed, 27 May 2026 10:52:21 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Aaron Tomlin <atomlin@atomlin.com>
+Cc: tsbogend@alpha.franken.de, paul@paul-moore.com, jmorris@namei.org,
+	serge@hallyn.com, mingo@redhat.com, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, stephen.smalley.work@gmail.com,
+	casey@schaufler-ca.com, longman@redhat.com, tj@kernel.org,
+	hannes@cmpxchg.org, mkoutny@suse.com, chenridong@huaweicloud.com,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
+	omosnace@redhat.com, kees@kernel.org, neelx@suse.com, sean@ashe.io,
+	chjohnst@gmail.com, steve@abita.co, mproche@gmail.com,
+	nick.lange@gmail.com, cgroups@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] security: Expand task_setscheduler LSM hook to
+ include CPU affinity mask
+Message-ID: <20260527085221.GQ3126523@noisy.programming.kicks-ass.net>
+References: <20260526142838.774711-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,71 +60,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJfpegu3PawBxwOPEO-+at-B9zRTJOzY+z4qeV7xOwOQb3Fr7w@mail.gmail.com>
+In-Reply-To: <20260526142838.774711-1-atomlin@atomlin.com>
 
-On Tue, May 26, 2026 at 10:46:12AM +0200, Miklos Szeredi wrote:
-> [Cc: Greg KH]
+On Tue, May 26, 2026 at 10:28:38AM -0400, Aaron Tomlin wrote:
+> At present, the task_setscheduler LSM hook provides security modules
+> with the opportunity to mediate changes to a task's scheduling policy.
+> However, when invoked via sched_setaffinity(), the hook lacks
+> visibility into the actual CPU affinity mask being requested.
+> Consequently, BPF-based security modules are entirely blind to the
+> target CPUs and cannot make granular access control decisions based on
+> spatial isolation.
 > 
-> On Mon, 25 May 2026 at 05:59, Calum Mackay <calum.mackay@oracle.com> wrote:
-> >
-> > hi Christian, Miklos,
-> >
-> > https://lore.kernel.org/all/177945382308.2991556.1256192774754909984.b4-ty@b4/
-> >
-> > > Date: Fri, 22 May 2026 14:43:43 +0200> On Tue, 19 May 2026 10:13:21 +0200, Miklos Szeredi wrote:
-> > >> tmpfs: simplify constructing "security.foo" xattr names
-> > >
-> > > Thanks, this looks great!
-> > >
-> > > ---
-> > >
-> > > Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-> > > Patches in the vfs-7.2.misc branch should appear in linux-next soon.
-> > >
-> > > Please report any outstanding bugs that were missed during review in a
-> > > new review to the original patch series allowing us to drop it.
-> > >
-> > > It's encouraged to provide Acked-bys and Reviewed-bys even though the
-> > > patch has now been applied. If possible patch trailers will be updated.
-> > >
-> > > Note that commit hashes shown below are subject to change due to rebase,
-> > > trailer updates or similar. If in doubt, please check the listed branch.
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-> > > branch: vfs-7.2.misc
-> > >
-> > > [1/3] tmpfs: simplify constructing "security.foo" xattr names
-> > >       https://git.kernel.org/vfs/vfs/c/aba5853b137b
-> > > [2/3] simple_xattr: change interface to pass struct simple_xattrs **
-> > >       https://git.kernel.org/vfs/vfs/c/1cd9d2387c05
-> > > [3/3] simpe_xattr: use per-sb cache
-> > >       https://git.kernel.org/vfs/vfs/c/12e9e3cd03b5
-> >
-> >
-> > I have been doing some testing of Chuck's nfsd-testing tree, which
-> > includes some vfs changes.
-> >
-> > The test systems are reliably crashing, in what looks like it might
-> > possibly be something related to these three patches.
+> In modern multi-tenant and real-time environments, CPU isolation is a
+> critical boundary. The inability to audit or restrict specific CPU
+> pinning requests limits the effectiveness of eBPF-driven security
+> policies, particularly when attempting to shield isolated or
+> cryptographic cores from unprivileged or compromised tasks.
 > 
-> Calum, thanks for the report.
+> This patch expands the security_task_setscheduler() hook signature to
+> include a pointer to the requested cpumask. Because this is a shared
+> hook used for multiple scheduling attribute changes, call sites that do
+> not modify CPU affinity are updated to safely pass NULL.
+> To protect against unverified dereferences, the parameter is annotated
+> with __nullable in the LSM hook definition, ensuring the BPF verifier
+> mandates explicit NULL checks for attached eBPF programs.
 > 
-> Relevant part of call trace is:
-> 
-> kernfs_new_node
->   __kernfs_new_node
->     security_kernfs_init_security
->       selinux_kernfs_init_security
->         kernfs_xattr_set
->           kernfs_root
-> 
-> Since __parent is assigned after security_kernfs_init_security() gets
-> called, kernfs_root() will return NULL.
-> 
-> Greg, any idea about dealing with this?
+> This change updates all in-tree security modules (SELinux and Smack) to
+> accommodate the new parameter mechanically, whilst providing BPF LSMs
+> with the necessary context to enforce strict affinity policies.
 
-Don't call this so early?  :)
+I'm not sure I really buy the Real-Time argument here; that really feels
+like a straw man. Real-Time will need to account for the shared resource
+usage inherent in using a single kernel image across the CPUs, affinity
+alone does not Real-Time make in any way shape or form.
 
-I really don't know, sorry.
+And the compromised task vs crypto thing feels like it wants sandboxing,
+but wasn't that what seccomp is for, rather than lsm?
 
-greg k-h
+So while I don't think I object very much to the patch, I do find the
+whole Changelog to be utterly questionable. Which makes me very
+suspicious as to wtf this is actually for.
