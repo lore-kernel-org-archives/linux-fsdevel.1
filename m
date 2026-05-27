@@ -1,90 +1,390 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f195.google.com (mail-yw1-f195.google.com [209.85.128.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D976126B08F;
-	Wed, 27 May 2026 03:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779852838; cv=none; b=Yw+vd3BVNA29lQBPD4iQ2OYdjlHDZsrv8FowlgUElsSErVNy2f5iFyDSNpfuL1PVSiAy3fpKRlhD4yERwLSIx5x14CXhJtZe7iFXDwFADMGufGxqynuOay1N849e+XVxoI1+sN8Bv5XhGa9wqEHZccE/Wz52WhI8ED7O/EwZ1fY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779852838; c=relaxed/simple;
-	bh=uUVuvf3LDJbDKjmz5mAMEAyg1jeHjgH+PFss7lhB8zU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ms90q9T7NXmbrc5xnhlfmN2tgNX+swSGY5NVpuQ9kGO9xmTgtN6MpW2mZT+M1+kSd0Lu5pUR0yQCu8x5fOc/JjI1ulwcyTv2fKT6HZW6eXIadL26M1ScmF8KydJ8RHBE8WDKhmxHGpD/ruACT0pB8yLnvZ8p/mfZUEDQ1E8+ppA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JzmqN+zK; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586983859D7
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 03:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.195
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779853337; cv=pass; b=PnPTkioNd6I7/dAOI20Qemjf8RjwoYLLZLleoeFpUXVGuViQxACYoJhJ+EQuXEAC5TfO7F3qjOaeiK81r083ew8GSiv8coL9R+ye4WJbi2d214RUJHUmVKGZpHhEAdk02vBKeNdpKbyB1FgI136qpWxG1BN+GMelMyB8rvivPVc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779853337; c=relaxed/simple;
+	bh=e/hWHzreahzo9fxvk9H8aKyEd88ScpaAbHQ7IITBPxQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=SFJKDWsGfSM+oKsRcHGMQpfSG+/QRjOJgU2/NaActuTyI4grBWkizc7yEVgimTYE3mwHB2KaexuLNv5syz3vjRjReN/aVUJIlpKgdbG3hFfUZWnivJvVAopLWXq9TPf0s/bvEadg8jdp7CmDnQsyshPNvexDtFqZBKCeZhtoWik=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=MccocJUi; arc=pass smtp.client-ip=209.85.128.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JzmqN+zK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version:
-	Content-Type; bh=qySVp7X/0tLGUOnH0TYcSbLP11IQHIoW6GquRNdGB+c=;
-	b=JzmqN+zK+Cc0OseDA5hBLyIKUxHfSxM8i1KRbAnRqhwd4CGiaVwrT6Avyj4KtX
-	jhDwgIwKXSl27HUamyRIFPuyM1h+xTmBL4sMWAmiokd1EkzkooruTjyKEGrp8luS
-	A98AYIrb49cxRKl+4kgOT01V+X1BB20a5I0iOrepxMmmg=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wA360N4ZRZq+ceuDg--.62176S2;
-	Wed, 27 May 2026 11:31:06 +0800 (CST)
-From: fffsqian@163.com
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org
-Cc: jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Qingshuang Fu <fuqingshuang@kylinos.cn>
-Subject: [PATCH v1] fs: fix two spelling mistakes in comments
-Date: Wed, 27 May 2026 11:31:02 +0800
-Message-Id: <20260527033102.824028-1-fffsqian@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="MccocJUi"
+Received: by mail-yw1-f195.google.com with SMTP id 00721157ae682-7bf1eaba464so104921517b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 26 May 2026 20:42:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779853333; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IrJ51SnDBXDTJTEUn/PHfGg6tkOszJgZvFJzN5Q2qAFRgA+Pcwn7+rO6fj7XRqVhUJ
+         Rxxsf14wpTxAtagXwmVvFQRetRraaHXmoBnvMhnWlCplGuZLKc/IAOQwYfgJVqYQK0fZ
+         8DdWPqkQ8nKG4cqOFRGKR2srraZlbGQGiEXsjaXAolF1FI8SV+oMooE/T82iAof+3AF0
+         rzFp4zyxUMgDCKswBh+gbEcAPcisikwe71ZMLkWTex/agSjoQTnVHccn5GehelmO1pBZ
+         UMhZgJpsK2ttzdyiRFUdxdGjXCP/QlAzCvFo3ciZRx6rpt3CZF6fUA1iKMZUMQra2MyI
+         zIbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=RbwD9xw/J0vd6Nh7dgLfcLbhzmbeh554AofSxabug8U=;
+        fh=Lob6C/KJw0xlImN1qa2qPp6eWU5f33qG5onLpV19HtQ=;
+        b=SxGKmbN81Au05EYu2Iw3xgvBwYCPwsf/vdRaJhVQcdmoBvXrSqy3WSLe0gJB92GkFe
+         4s48RKN/vM3BEpxssZOMIo5EjFGiULOyO5x7hLLOALmv6o/Lh2Jcpn91hHIyp8h2q3ZE
+         c5WI5ssky3CwSWNELYB8aFI9qDS5e+Ro7nJKYKhexHM0GwATTU2HRdVs1r99+u/+jyRK
+         rOzV/re93jHWKn4AEpLO/fkFKxppCqgu4mp/0frDTbSIMc8qGS2W5ZIXWK2BjEBREBBy
+         eScit3+kvIuPbx1i6y0oTk84oeU6Eyx8wu6afmhty0BAnMUzCWdCWJNaGGy/9G+mofJH
+         2v6g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=berkeley.edu; s=google; t=1779853333; x=1780458133; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RbwD9xw/J0vd6Nh7dgLfcLbhzmbeh554AofSxabug8U=;
+        b=MccocJUiG4ljZIi7yTpb83LRppGiV7vwjKtJQPMQ3lCtQ0Y5towahiqatqkWvZKRin
+         MjH33yuQFbESyjzTBVxI1auSTTA7uKMnfvExeYpD6ixxPXXcphPuUNcSC/uDYsAMzsZA
+         YaqmwhaPB+9NQfkK3pkMzj5cBXNzHrAJhApvpA+tiKx3WDFyLl8AWeuWDKl3dcLYyo8A
+         V8jShaOvkys8KbQGJJ323Cc/Z1VDxPYnECDpXnzrAcSc9G9UONeJPBwDwR/cRVKWPiCq
+         LN8cDb0Y7/XACNFWo5IVvpj/FenzFmo7Cuq9g7hNYrwPGfto0WCMjgi+j5pI81Gn6MXe
+         IyoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779853333; x=1780458133;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RbwD9xw/J0vd6Nh7dgLfcLbhzmbeh554AofSxabug8U=;
+        b=I2Isy1kUjq8q2TwGUjk/66WR/N+L/c06o/1g+N2hayZ6qKxqjV9X4lorMBpWY6Tn+T
+         BG8+ctyMlSuNuheXOmpJxBtmnGk9t5fT57CChy89DUX7xDWXi9gbwPklqmiAsA/9Q5zE
+         G41rIZfaeICmsxhh8HgV8ssMt3fV03phj5kGlCobBarAP66WUnOo6eLJJhgLWAMPDT9K
+         r1yStN97U0KOxv6d9kGqo2gqFgLYUoMHlFRriyDN6mZY+8uqFnGoApLyvZBOQrT56v3r
+         B4UYmYo1bBFsbQRp37B7EXEwVCUCY6X+OHWa8HyKe9OE8iufY9zgJRX2wfqLwbh91/hs
+         dq7w==
+X-Forwarded-Encrypted: i=1; AFNElJ/svGL35wsrNLsqc9STP9nqqgZ5eX9nlFkip3a86x3Rvk2kQLPIwmhqkNaXymR2ypZdc2FvCsnCnG3k1bj7@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEx66c1BqlxrCMm5Y+S9STOSQoUAzfLwyci+TZ1l81ouNzoVM6
+	kuV16a41/ASpcIVMzclozJh36QlKrRf//ueNHkQoK6+/lh7YPKh06PDbUkLrDtQYrYcig7kYzli
+	ST6F7gzOsz5UalAItrDAdz0STDO0vKp7y/3AiVd02
+X-Gm-Gg: Acq92OFRfN2Xi7Zoo61blbSA0v2Psj23haDjby9NE0jUh+Bd5vnRGBb9qCKLJWkaXYW
+	5BaEVg+PHvEi7oDoRLLGgB+tkh2Oz4w11iVZ4h+DMmRtIjy0pgFKa1JK9myb/dx+BtcI2JWicmi
+	m6rEY5QwQsidqRHztYqxL9+nQAP2fWkQBcr8RoSPp8+ThtVo90s6+22olqjTO712jqfxmDRRRn4
+	5BxqXnYbrlbfPPRvOEkNa5/+LcKPuYHMR8pBHF5TxFs2UnGhOdMGpmaKovplCJRm44I8r4FNYwI
+	ORGpLMDMHX6/mf8TT3C03ThTqjAHPeo0laRscPd2dQ==
+X-Received: by 2002:a05:690c:4d84:b0:798:5cdd:f1c9 with SMTP id
+ 00721157ae682-7d3341e052fmr246068187b3.12.1779853331584; Tue, 26 May 2026
+ 20:42:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wA360N4ZRZq+ceuDg--.62176S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrtry5tr1xXFW3Ww4UCFW3ZFb_yoWkKrc_Gw
-	1S9a93GF4I9F1Iyr4UuFWYvr4Yqr4DAFy3Xrs3KFyavay3J3ZxJ34DJr9Yv34DWrs0yry3
-	AasaqryS9FsFkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8LqXPUUUUU==
-X-CM-SenderInfo: 5iii21xldqqiywtou0bp/xtbCwRqXYmoWZXoHQgAA3I
+From: Farhad Alemi <farhad.alemi@berkeley.edu>
+Date: Tue, 26 May 2026 20:42:00 -0700
+X-Gm-Features: AVHnY4IL9Chat1vsWQfHSETP1cnbBLrRDRxJs1imrFAx4P-BqZ_70pIA7h_RblE
+Message-ID: <CA+0ovCjv-VYvn-4jUj3wDn+DuP9FSv-GL+yPAHbR=ZGKU0wmGg@mail.gmail.com>
+Subject: [BUG] configfs: slab-use-after-free in configfs_drop_dentry() on rmdir
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Breno Leitao <leitao@debian.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000966bb00652c4650f"
 
-From: Qingshuang Fu <fuqingshuang@kylinos.cn>
+--000000000000966bb00652c4650f
+Content-Type: text/plain; charset="UTF-8"
 
-Fix two spelling errors in fs/:
-- childen  →  children
-- postion → position
+Hello Andreas and the configfs team,
 
-Signed-off-by: Qingshuang Fu <fuqingshuang@kylinos.cn>
----
- fs/coredump.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I am reporting a configfs use-after-free found by syzkaller.
 
-diff --git a/fs/coredump.c b/fs/coredump.c
-index bb6fdb1f458e..f82f6dc4f773 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -637,7 +637,7 @@ static int umh_coredump_setup(struct subprocess_info *info, struct cred *new)
- 		pidfs_coredump(cp);
- 
- 		/*
--		 * Usermode helpers are childen of either
-+		 * Usermode helpers are children of either
- 		 * system_dfl_wq or of kthreadd. So we know that
- 		 * we're starting off with a clean file descriptor
- 		 * table. So we should always be able to use
-@@ -1053,7 +1053,7 @@ static bool coredump_write(struct core_name *cn,
- 	cn->core_dumped = binfmt->core_dump(cprm);
- 	/*
- 	 * Ensures that file size is big enough to contain the current
--	 * file postion. This prevents gdb from complaining about
-+	 * file position. This prevents gdb from complaining about
- 	 * a truncated file if the last "write" to the file was
- 	 * dump_skip.
- 	 */
+Summary:
+A configfs config-item rmdir(2) can land in configfs_drop_dentry() with
+sd->s_dentry pointing at a dentry whose RCU grace period has not yet
+elapsed. The spin_lock(&dentry->d_lock) at fs/configfs/inode.c:209 then
+reads freed slab memory and KASAN reports a slab-use-after-free.
 
-base-commit: eb3f4b7426cfd2b79d65b7d37155480b32259a11
--- 
-2.25.1
+The race is between an earlier openat path (via lookup_open ->
+d_alloc_parallel) that allocates a child dentry, hits an error and
+takes the dput()/__dentry_kill()/call_rcu() free path, and a later
+rmdir on the same config item that walks the children via
+detach_attrs() and grabs &dentry->d_lock before the RCU grace period
+elapses.
 
+Observed on:
+- Linux v6.17.8 x86_64, QEMU Q35
+- KASAN enabled; panic_on_warn set
+- The only local dirty file in my tree is drivers/tty/serial/serial_core.c,
+  containing a local ttyS0 console guard for the fuzzing harness. It is
+  unrelated to fs/configfs/.
+- Trigger does not require a crafted on-disk state; configfs is in-memory.
+  However, the syz reproducer uses fault injection (CONFIG_FAULT_INJECTION)
+  to force the openat error path on the Nth allocation. Without fault
+  injection the race is plausibly still reachable but timing-dependent.
+
+Impact:
+A configfs config-item rmdir races with a still-pending dentry RCU free
+and KASAN reports a UAF read in the spin_lock:
+
+  BUG: KASAN: slab-use-after-free in __raw_spin_lock
+include/linux/spinlock_api_smp.h:133 [inline]
+  BUG: KASAN: slab-use-after-free in _raw_spin_lock+0x33/0x40
+kernel/locking/spinlock.c:154
+  Read of size 1 at addr ffff888133d5a538 by task syz.2.275/4076
+
+Allocator (openat path):
+
+  __d_alloc+0x3b/0x7b0 fs/dcache.c:1690
+  d_alloc_parallel+0xeb/0x1620 fs/dcache.c:2549
+  lookup_open fs/namei.c:3638 [inline]
+  open_last_lookups fs/namei.c:3815 [inline]
+  path_openat+0xa6b/0x3890 fs/namei.c:4051
+  do_filp_open+0x232/0x490 fs/namei.c:4081
+  do_sys_openat2+0x134/0x1e0 fs/open.c:1437
+  __x64_sys_openat+0x13d/0x170 fs/open.c:1463
+
+Free path (RCU dput, softirq):
+
+  kmem_cache_free+0x18f/0x3f0 mm/slub.c:4812
+  rcu_do_batch kernel/rcu/tree.c:2605 [inline]
+  rcu_core+0xd1e/0x1800 kernel/rcu/tree.c:2861
+
+Crashing path (rmdir):
+
+  _raw_spin_lock+0x33/0x40 kernel/locking/spinlock.c:154
+  configfs_drop_dentry+0x5c/0x150 fs/configfs/inode.c:209
+  detach_attrs+0x22b/0x2f0 fs/configfs/dir.c:588
+  configfs_detach_item fs/configfs/dir.c:870 [inline]
+  configfs_detach_group fs/configfs/dir.c:917 [inline]
+  configfs_rmdir+0x652/0x9f0 fs/configfs/dir.c:1551
+  vfs_rmdir+0x3c2/0x530 fs/namei.c:4469
+  do_rmdir+0x275/0x540 fs/namei.c:4524
+  __x64_sys_rmdir+0x4c/0x60 fs/namei.c:4541
+
+Expected behavior:
+configfs_drop_dentry()'s read of sd->s_dentry and the subsequent
+spin_lock(&dentry->d_lock) need to be safe against a concurrent
+RCU-deferred dentry free. Plausible directions: hold the parent's
+i_lock around the sd->s_dentry read + spin_lock; rcu_read_lock() to
+keep the slab from being recycled while we attempt to lock; or have
+configfs hold an explicit reference on sd->s_dentry while it lives in
+the children list.
+
+Reproducer:
+A generated C reproducer was not produced for this seed. The syz
+program is attached as reproducer.syz; the salient operation sequence
+is:
+
+  1. mkdir + mount configfs
+  2. openat the null_blk backend ("nullb")
+  3. mkdirat a new config item under nullb
+  4. openat one of its attributes with fault injection (fail_nth=7),
+     which takes the dput()/RCU-free path on the freshly-allocated
+     dentry
+  5. additional openat + write syscalls (incidental to the race)
+  6. rmdir the config item, which reaches configfs_drop_dentry()
+     before the RCU grace period for step 4's freed dentry has
+     elapsed
+
+The console report is attached as crash-report.txt.
+
+Novelty check:
+I searched syzbot dashboard data across upstream, fixed, invalid, stable,
+and Android namespaces, and searched lore.kernel.org for
+"configfs_drop_dentry", "detach_attrs" + "UAF", and "configfs_rmdir" +
+"KASAN". I did not find an exact match. There are unrelated configfs
+default-group / PCI-endpoint race reports, but those have different
+code paths and free sites.
+
+I appreciate your time and consideration, and I'm grateful for your
+work on this subsystem. I'd be glad to test any candidate patches.
+
+Regards,
+
+--000000000000966bb00652c4650f
+Content-Type: text/plain; charset="US-ASCII"; name="crash-report.txt"
+Content-Disposition: attachment; filename="crash-report.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mpnioc5l0>
+X-Attachment-Id: f_mpnioc5l0
+
+UjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDAwMDAw
+MDAwMDAwMDEKUjEzOiAwMDAwN2Y0OGZkMDA1ZmEwIFIxNDogMDAwMDdmNDhmZDAwNWZhMCBSMTU6
+IDAwMDAwMDAwMDAwMDExODUKIDwvVEFTSz4KPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CkJVRzogS0FTQU46IHNsYWItdXNl
+LWFmdGVyLWZyZWUgaW4gX19yYXdfc3Bpbl9sb2NrIGluY2x1ZGUvbGludXgvc3BpbmxvY2tfYXBp
+X3NtcC5oOjEzMyBbaW5saW5lXQpCVUc6IEtBU0FOOiBzbGFiLXVzZS1hZnRlci1mcmVlIGluIF9y
+YXdfc3Bpbl9sb2NrKzB4MzMvMHg0MCBrZXJuZWwvbG9ja2luZy9zcGlubG9jay5jOjE1NApSZWFk
+IG9mIHNpemUgMSBhdCBhZGRyIGZmZmY4ODgxMzNkNWE1MzggYnkgdGFzayBzeXouMi4yNzUvNDA3
+NgoKQ1BVOiAxIFVJRDogMCBQSUQ6IDQwNzYgQ29tbTogc3l6LjIuMjc1IE5vdCB0YWludGVkIDYu
+MTcuOCAjMSBQUkVFTVBUKGZ1bGwpIApIYXJkd2FyZSBuYW1lOiBRRU1VIFN0YW5kYXJkIFBDIChR
+MzUgKyBJQ0g5LCAyMDA5KSwgQklPUyAxLjE2LjMtZGViaWFuLTEuMTYuMy0yIDA0LzAxLzIwMTQK
+Q2FsbCBUcmFjZToKIDxUQVNLPgogZHVtcF9zdGFja19sdmwrMHgxYTkvMHgyODAgbGliL2R1bXBf
+c3RhY2suYzoxMjAKIHByaW50X2FkZHJlc3NfZGVzY3JpcHRpb24gbW0va2FzYW4vcmVwb3J0LmM6
+Mzc4IFtpbmxpbmVdCiBwcmludF9yZXBvcnQrMHhiYS8weDIzMCBtbS9rYXNhbi9yZXBvcnQuYzo0
+ODIKIGthc2FuX3JlcG9ydCsweDExNy8weDE1MCBtbS9rYXNhbi9yZXBvcnQuYzo1OTUKIF9fa2Fz
+YW5fY2hlY2tfYnl0ZSsweDJhLzB4NDAgbW0va2FzYW4vY29tbW9uLmM6NTY4CiBrYXNhbl9jaGVj
+a19ieXRlIGluY2x1ZGUvbGludXgva2FzYW4uaDozOTkgW2lubGluZV0KIGxvY2tfYWNxdWlyZSsw
+eDhkLzB4MzUwIGtlcm5lbC9sb2NraW5nL2xvY2tkZXAuYzo1ODQyCiBfX3Jhd19zcGluX2xvY2sg
+aW5jbHVkZS9saW51eC9zcGlubG9ja19hcGlfc21wLmg6MTMzIFtpbmxpbmVdCiBfcmF3X3NwaW5f
+bG9jaysweDMzLzB4NDAga2VybmVsL2xvY2tpbmcvc3BpbmxvY2suYzoxNTQKIHNwaW5fbG9jayBp
+bmNsdWRlL2xpbnV4L3NwaW5sb2NrLmg6MzUxIFtpbmxpbmVdCiBjb25maWdmc19kcm9wX2RlbnRy
+eSsweDVjLzB4MTUwIGZzL2NvbmZpZ2ZzL2lub2RlLmM6MjA5CiBkZXRhY2hfYXR0cnMrMHgyMmIv
+MHgyZjAgZnMvY29uZmlnZnMvZGlyLmM6NTg4CiBjb25maWdmc19kZXRhY2hfaXRlbSBmcy9jb25m
+aWdmcy9kaXIuYzo4NzAgW2lubGluZV0KIGNvbmZpZ2ZzX2RldGFjaF9ncm91cCBmcy9jb25maWdm
+cy9kaXIuYzo5MTcgW2lubGluZV0KIGNvbmZpZ2ZzX3JtZGlyKzB4NjUyLzB4OWYwIGZzL2NvbmZp
+Z2ZzL2Rpci5jOjE1NTEKIHZmc19ybWRpcisweDNjMi8weDUzMCBmcy9uYW1laS5jOjQ0NjkKIGRv
+X3JtZGlyKzB4Mjc1LzB4NTQwIGZzL25hbWVpLmM6NDUyNAogX19kb19zeXNfcm1kaXIgZnMvbmFt
+ZWkuYzo0NTQzIFtpbmxpbmVdCiBfX3NlX3N5c19ybWRpciBmcy9uYW1laS5jOjQ1NDEgW2lubGlu
+ZV0KIF9feDY0X3N5c19ybWRpcisweDRjLzB4NjAgZnMvbmFtZWkuYzo0NTQxCiBkb19zeXNjYWxs
+X3g2NCBhcmNoL3g4Ni9lbnRyeS9zeXNjYWxsXzY0LmM6NjMgW2lubGluZV0KIGRvX3N5c2NhbGxf
+NjQrMHhmMC8weDM5MCBhcmNoL3g4Ni9lbnRyeS9zeXNjYWxsXzY0LmM6OTQKIGVudHJ5X1NZU0NB
+TExfNjRfYWZ0ZXJfaHdmcmFtZSsweDc3LzB4N2YKUklQOiAwMDMzOjB4N2Y0OGZjZDc3NzhkCkNv
+ZGU6IGZmIGMzIDY2IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAwIDAwIDkwIGYzIDBmIDFlIGZhIDQ4
+IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5IGQ2IDQ4IDg5IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhi
+IDRjIDI0IDA4IDBmIDA1IDw0OD4gM2QgMDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggYzcgYzEgYjAg
+ZmYgZmYgZmYgZjcgZDggNjQgODkgMDEgNDgKUlNQOiAwMDJiOjAwMDA3ZmZmYmNlYWI3YTggRUZM
+QUdTOiAwMDAwMDI0NiBPUklHX1JBWDogMDAwMDAwMDAwMDAwMDA1NApSQVg6IGZmZmZmZmZmZmZm
+ZmZmZGEgUkJYOiAwMDAwN2Y0OGZkMDA1ZmEwIFJDWDogMDAwMDdmNDhmY2Q3Nzc4ZApSRFg6IDAw
+MDAwMDAwMDAwMDAwMDAgUlNJOiAwMDAwMDAwMDAwMDAwMDAwIFJESTogMDAwMDIwMDAwMDAwMDJj
+MApSQlA6IDAwMDA3ZjQ4ZmNlMWViM2QgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAw
+MDAwMDAwMDAwMApSMTA6IDAwMDAwMDAwMDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIx
+MjogMDAwMDAwMDAwMDAwMDAwMApSMTM6IDAwMDA3ZjQ4ZmQwMDVmYTAgUjE0OiAwMDAwN2Y0OGZk
+MDA1ZmEwIFIxNTogMDAwMDAwMDAwMDAwMTY3NwogPC9UQVNLPgoKQWxsb2NhdGVkIGJ5IHRhc2sg
+NDA3NjoKIGthc2FuX3NhdmVfc3RhY2sgbW0va2FzYW4vY29tbW9uLmM6NDcgW2lubGluZV0KIGth
+c2FuX3NhdmVfdHJhY2srMHgzZS8weDgwIG1tL2thc2FuL2NvbW1vbi5jOjY4CiB1bnBvaXNvbl9z
+bGFiX29iamVjdCBtbS9rYXNhbi9jb21tb24uYzozMzAgW2lubGluZV0KIF9fa2FzYW5fc2xhYl9h
+bGxvYysweDZjLzB4ODAgbW0va2FzYW4vY29tbW9uLmM6MzU2CiBrYXNhbl9zbGFiX2FsbG9jIGlu
+Y2x1ZGUvbGludXgva2FzYW4uaDoyNTAgW2lubGluZV0KIHNsYWJfcG9zdF9hbGxvY19ob29rIG1t
+L3NsdWIuYzo0MjA2IFtpbmxpbmVdCiBzbGFiX2FsbG9jX25vZGUgbW0vc2x1Yi5jOjQyNTUgW2lu
+bGluZV0KIGttZW1fY2FjaGVfYWxsb2NfbHJ1X25vcHJvZisweDFjMi8weDNiMCBtbS9zbHViLmM6
+NDI3NAogX19kX2FsbG9jKzB4M2IvMHg3YjAgZnMvZGNhY2hlLmM6MTY5MAogZF9hbGxvY19wYXJh
+bGxlbCsweGViLzB4MTYyMCBmcy9kY2FjaGUuYzoyNTQ5CiBsb29rdXBfb3BlbiBmcy9uYW1laS5j
+OjM2MzggW2lubGluZV0KIG9wZW5fbGFzdF9sb29rdXBzIGZzL25hbWVpLmM6MzgxNSBbaW5saW5l
+XQogcGF0aF9vcGVuYXQrMHhhNmIvMHgzODkwIGZzL25hbWVpLmM6NDA1MQogZG9fZmlscF9vcGVu
+KzB4MjMyLzB4NDkwIGZzL25hbWVpLmM6NDA4MQogZG9fc3lzX29wZW5hdDIrMHgxMzQvMHgxZTAg
+ZnMvb3Blbi5jOjE0MzcKIGRvX3N5c19vcGVuIGZzL29wZW4uYzoxNDUyIFtpbmxpbmVdCiBfX2Rv
+X3N5c19vcGVuYXQgZnMvb3Blbi5jOjE0NjggW2lubGluZV0KIF9fc2Vfc3lzX29wZW5hdCBmcy9v
+cGVuLmM6MTQ2MyBbaW5saW5lXQogX194NjRfc3lzX29wZW5hdCsweDEzZC8weDE3MCBmcy9vcGVu
+LmM6MTQ2MwogZG9fc3lzY2FsbF94NjQgYXJjaC94ODYvZW50cnkvc3lzY2FsbF82NC5jOjYzIFtp
+bmxpbmVdCiBkb19zeXNjYWxsXzY0KzB4ZjAvMHgzOTAgYXJjaC94ODYvZW50cnkvc3lzY2FsbF82
+NC5jOjk0CiBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg3Ny8weDdmCgpGcmVlZCBi
+eSB0YXNrIDE1Ogoga2FzYW5fc2F2ZV9zdGFjayBtbS9rYXNhbi9jb21tb24uYzo0NyBbaW5saW5l
+XQoga2FzYW5fc2F2ZV90cmFjaysweDNlLzB4ODAgbW0va2FzYW4vY29tbW9uLmM6NjgKIGthc2Fu
+X3NhdmVfZnJlZV9pbmZvKzB4NDYvMHg1MCBtbS9rYXNhbi9nZW5lcmljLmM6NTc2CiBwb2lzb25f
+c2xhYl9vYmplY3QgbW0va2FzYW4vY29tbW9uLmM6MjQzIFtpbmxpbmVdCiBfX2thc2FuX3NsYWJf
+ZnJlZSsweDViLzB4ODAgbW0va2FzYW4vY29tbW9uLmM6Mjc1CiBrYXNhbl9zbGFiX2ZyZWUgaW5j
+bHVkZS9saW51eC9rYXNhbi5oOjIzMyBbaW5saW5lXQogc2xhYl9mcmVlX2hvb2sgbW0vc2x1Yi5j
+OjI0MzcgW2lubGluZV0KIHNsYWJfZnJlZSBtbS9zbHViLmM6NDcxMCBbaW5saW5lXQoga21lbV9j
+YWNoZV9mcmVlKzB4MThmLzB4M2YwIG1tL3NsdWIuYzo0ODEyCiByY3VfZG9fYmF0Y2gga2VybmVs
+L3JjdS90cmVlLmM6MjYwNSBbaW5saW5lXQogcmN1X2NvcmUrMHhkMWUvMHgxODAwIGtlcm5lbC9y
+Y3UvdHJlZS5jOjI4NjEKIGhhbmRsZV9zb2Z0aXJxcysweDI3OC8weDg3MCBrZXJuZWwvc29mdGly
+cS5jOjU3OQogcnVuX2tzb2Z0aXJxZCsweGFjLzB4MTEwIGtlcm5lbC9zb2Z0aXJxLmM6OTY4CiBz
+bXBib290X3RocmVhZF9mbisweDU0Ni8weGE1MCBrZXJuZWwvc21wYm9vdC5jOjE2MAoga3RocmVh
+ZCsweDcyOC8weDhiMCBrZXJuZWwva3RocmVhZC5jOjQ2MwogcmV0X2Zyb21fZm9yaysweDQ1Mi8w
+eDdkMCBhcmNoL3g4Ni9rZXJuZWwvcHJvY2Vzcy5jOjE0OAogcmV0X2Zyb21fZm9ya19hc20rMHgx
+YS8weDMwIGFyY2gveDg2L2VudHJ5L2VudHJ5XzY0LlM6MjQ1CgpMYXN0IHBvdGVudGlhbGx5IHJl
+bGF0ZWQgd29yayBjcmVhdGlvbjoKIGthc2FuX3NhdmVfc3RhY2srMHgzZS8weDYwIG1tL2thc2Fu
+L2NvbW1vbi5jOjQ3CiBrYXNhbl9yZWNvcmRfYXV4X3N0YWNrKzB4YmQvMHhkMCBtbS9rYXNhbi9n
+ZW5lcmljLmM6NTQ4CiBfX2NhbGxfcmN1X2NvbW1vbiBrZXJuZWwvcmN1L3RyZWUuYzozMTIzIFtp
+bmxpbmVdCiBjYWxsX3JjdSsweDE1Ny8weDllMCBrZXJuZWwvcmN1L3RyZWUuYzozMjQzCiBfX2Rl
+bnRyeV9raWxsKzB4NGQ3LzB4NjYwIGZzL2RjYWNoZS5jOjY4OAogZHB1dCsweDFhNC8weDJiMCBm
+cy9kY2FjaGUuYzo5MTEKIGxvb2t1cF9vcGVuIGZzL25hbWVpLmM6MzcyOCBbaW5saW5lXQogb3Bl
+bl9sYXN0X2xvb2t1cHMgZnMvbmFtZWkuYzozODE1IFtpbmxpbmVdCiBwYXRoX29wZW5hdCsweDE1
+MzYvMHgzODkwIGZzL25hbWVpLmM6NDA1MQogZG9fZmlscF9vcGVuKzB4MjMyLzB4NDkwIGZzL25h
+bWVpLmM6NDA4MQogZG9fc3lzX29wZW5hdDIrMHgxMzQvMHgxZTAgZnMvb3Blbi5jOjE0MzcKIGRv
+X3N5c19vcGVuIGZzL29wZW4uYzoxNDUyIFtpbmxpbmVdCiBfX2RvX3N5c19vcGVuYXQgZnMvb3Bl
+bi5jOjE0NjggW2lubGluZV0KIF9fc2Vfc3lzX29wZW5hdCBmcy9vcGVuLmM6MTQ2MyBbaW5saW5l
+XQogX194NjRfc3lzX29wZW5hdCsweDEzZC8weDE3MCBmcy9vcGVuLmM6MTQ2MwogZG9fc3lzY2Fs
+bF94NjQgYXJjaC94ODYvZW50cnkvc3lzY2FsbF82NC5jOjYzIFtpbmxpbmVdCiBkb19zeXNjYWxs
+XzY0KzB4ZjAvMHgzOTAgYXJjaC94ODYvZW50cnkvc3lzY2FsbF82NC5jOjk0CiBlbnRyeV9TWVND
+QUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg3Ny8weDdmCgpUaGUgYnVnZ3kgYWRkcmVzcyBiZWxvbmdz
+IHRvIHRoZSBvYmplY3QgYXQgZmZmZjg4ODEzM2Q1YTQ2OAogd2hpY2ggYmVsb25ncyB0byB0aGUg
+Y2FjaGUgZGVudHJ5IG9mIHNpemUgMzEyClRoZSBidWdneSBhZGRyZXNzIGlzIGxvY2F0ZWQgMjA4
+IGJ5dGVzIGluc2lkZSBvZgogZnJlZWQgMzEyLWJ5dGUgcmVnaW9uIFtmZmZmODg4MTMzZDVhNDY4
+LCBmZmZmODg4MTMzZDVhNWEwKQoKVGhlIGJ1Z2d5IGFkZHJlc3MgYmVsb25ncyB0byB0aGUgcGh5
+c2ljYWwgcGFnZToKcGFnZTogcmVmY291bnQ6MCBtYXBjb3VudDowIG1hcHBpbmc6MDAwMDAwMDAw
+MDAwMDAwMCBpbmRleDoweDAgcGZuOjB4MTMzZDVhCmhlYWQ6IG9yZGVyOjEgbWFwY291bnQ6MCBl
+bnRpcmVfbWFwY291bnQ6MCBucl9wYWdlc19tYXBwZWQ6MCBwaW5jb3VudDowCm1lbWNnOmZmZmY4
+ODgxMzdjNDQ5MDEKZmxhZ3M6IDB4MjAwMDAwMDAwMDAwMDQwKGhlYWR8bm9kZT0wfHpvbmU9MikK
+cGFnZV90eXBlOiBmNShzbGFiKQpyYXc6IDAyMDAwMDAwMDAwMDAwNDAgZmZmZjg4ODEwMTZhNjY0
+MCBmZmZmZWEwMDA0OTU1NTAwIGRlYWQwMDAwMDAwMDAwMDIKcmF3OiAwMDAwMDAwMDAwMDAwMDAw
+IDAwMDAwMDAwODAxNTAwMTUgMDAwMDAwMDBmNTAwMDAwMCBmZmZmODg4MTM3YzQ0OTAxCmhlYWQ6
+IDAyMDAwMDAwMDAwMDAwNDAgZmZmZjg4ODEwMTZhNjY0MCBmZmZmZWEwMDA0OTU1NTAwIGRlYWQw
+MDAwMDAwMDAwMDIKaGVhZDogMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDgwMTUwMDE1IDAwMDAw
+MDAwZjUwMDAwMDAgZmZmZjg4ODEzN2M0NDkwMQpoZWFkOiAwMjAwMDAwMDAwMDAwMDAxIGZmZmZl
+YTAwMDRjZjU2ODEgMDAwMDAwMDBmZmZmZmZmZiAwMDAwMDAwMGZmZmZmZmZmCmhlYWQ6IDAwMDAw
+MDA3ZjAxNGFhYTkgMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMGZmZmZmZmZmIDAwMDAwMDAwMDAw
+MDAwMDIKcGFnZSBkdW1wZWQgYmVjYXVzZToga2FzYW46IGJhZCBhY2Nlc3MgZGV0ZWN0ZWQKcGFn
+ZV9vd25lciB0cmFja3MgdGhlIHBhZ2UgYXMgYWxsb2NhdGVkCnBhZ2UgbGFzdCBhbGxvY2F0ZWQg
+dmlhIG9yZGVyIDEsIG1pZ3JhdGV0eXBlIFJlY2xhaW1hYmxlLCBnZnBfbWFzayAweGQyMGQwKF9f
+R0ZQX1JFQ0xBSU1BQkxFfF9fR0ZQX0lPfF9fR0ZQX0ZTfF9fR0ZQX05PV0FSTnxfX0dGUF9OT1JF
+VFJZfF9fR0ZQX0NPTVB8X19HRlBfTk9NRU1BTExPQyksIHBpZCAzMjYzLCB0Z2lkIDMyNjMgKCh1
+ZGV2LXdvcmtlcikpLCB0cyA2NjM4MzYyNzMwOCwgZnJlZV90cyA1OTY5MDY2MTU2NAogc2V0X3Bh
+Z2Vfb3duZXIgaW5jbHVkZS9saW51eC9wYWdlX293bmVyLmg6MzIgW2lubGluZV0KIHBvc3RfYWxs
+b2NfaG9vaysweDIzNC8weDI4MCBtbS9wYWdlX2FsbG9jLmM6MTg1MQogcHJlcF9uZXdfcGFnZSBt
+bS9wYWdlX2FsbG9jLmM6MTg1OSBbaW5saW5lXQogZ2V0X3BhZ2VfZnJvbV9mcmVlbGlzdCsweDIx
+MjQvMHgyMjkwIG1tL3BhZ2VfYWxsb2MuYzozODU4CiBfX2FsbG9jX2Zyb3plbl9wYWdlc19ub3By
+b2YrMHgxOTIvMHgzODAgbW0vcGFnZV9hbGxvYy5jOjUxNDgKIGFsbG9jX3BhZ2VzX21wb2wrMHhk
+Ni8weDMzMCBtbS9tZW1wb2xpY3kuYzoyNDE2CiBhbGxvY19zbGFiX3BhZ2UgbW0vc2x1Yi5jOjI1
+MDcgW2lubGluZV0KIGFsbG9jYXRlX3NsYWIrMHg4Zi8weDMyMCBtbS9zbHViLmM6MjY3NQogbmV3
+X3NsYWIgbW0vc2x1Yi5jOjI3MjkgW2lubGluZV0KIF9fX3NsYWJfYWxsb2MrMHhiZGMvMHgxNDAw
+IG1tL3NsdWIuYzozOTE2CiBfX3NsYWJfYWxsb2MgbW0vc2x1Yi5jOjQwMDcgW2lubGluZV0KIF9f
+c2xhYl9hbGxvY19ub2RlIG1tL3NsdWIuYzo0MDgyIFtpbmxpbmVdCiBzbGFiX2FsbG9jX25vZGUg
+bW0vc2x1Yi5jOjQyNDMgW2lubGluZV0KIGttZW1fY2FjaGVfYWxsb2NfbHJ1X25vcHJvZisweDI4
+MC8weDNiMCBtbS9zbHViLmM6NDI3NAogX19kX2FsbG9jKzB4M2IvMHg3YjAgZnMvZGNhY2hlLmM6
+MTY5MAogZF9hbGxvY19wYXJhbGxlbCsweGViLzB4MTYyMCBmcy9kY2FjaGUuYzoyNTQ5CiBfX2xv
+b2t1cF9zbG93KzB4MTNjLzB4NDIwIGZzL25hbWVpLmM6MTgwMQogbG9va3VwX3Nsb3crMHg1OC8w
+eDgwIGZzL25hbWVpLmM6MTgzMwogd2Fsa19jb21wb25lbnQrMHgyZDcvMHg0MTAgZnMvbmFtZWku
+YzoyMTM3CiBsb29rdXBfbGFzdCBmcy9uYW1laS5jOjI2MzggW2lubGluZV0KIHBhdGhfbG9va3Vw
+YXQrMHgxNjgvMHg0NDAgZnMvbmFtZWkuYzoyNjYyCiBmaWxlbmFtZV9sb29rdXArMHgyNWIvMHg1
+ZDAgZnMvbmFtZWkuYzoyNjkxCiB2ZnNfc3RhdHgrMHgxMWEvMHg1NzAgZnMvc3RhdC5jOjM1Mwog
+dmZzX2ZzdGF0YXQrMHgxMWQvMHgxNzAgZnMvc3RhdC5jOjM3NQpwYWdlIGxhc3QgZnJlZSBwaWQg
+MjU0NiB0Z2lkIDI1NDYgc3RhY2sgdHJhY2U6CiByZXNldF9wYWdlX293bmVyIGluY2x1ZGUvbGlu
+dXgvcGFnZV9vd25lci5oOjI1IFtpbmxpbmVdCiBmcmVlX3BhZ2VzX3ByZXBhcmUgbW0vcGFnZV9h
+bGxvYy5jOjEzOTUgW2lubGluZV0KIGZyZWVfdW5yZWZfZm9saW9zKzB4Y2ExLzB4MTM5MCBtbS9w
+YWdlX2FsbG9jLmM6Mjk1MgogZm9saW9zX3B1dF9yZWZzKzB4NDZmLzB4NTYwIG1tL3N3YXAuYzo5
+OTkKIGZyZWVfcGFnZXNfYW5kX3N3YXBfY2FjaGUrMHgyZWMvMHg1YjAgbW0vc3dhcF9zdGF0ZS5j
+OjI2NAogX190bGJfYmF0Y2hfZnJlZV9lbmNvZGVkX3BhZ2VzIG1tL21tdV9nYXRoZXIuYzoxMzYg
+W2lubGluZV0KIHRsYl9iYXRjaF9wYWdlc19mbHVzaCBtbS9tbXVfZ2F0aGVyLmM6MTQ5IFtpbmxp
+bmVdCiB0bGJfZmx1c2hfbW11X2ZyZWUgbW0vbW11X2dhdGhlci5jOjM5NyBbaW5saW5lXQogdGxi
+X2ZsdXNoX21tdSsweDNhYi8weDY5MCBtbS9tbXVfZ2F0aGVyLmM6NDA0CiB0bGJfZmluaXNoX21t
+dSsweGM4LzB4MWQwIG1tL21tdV9nYXRoZXIuYzo0OTcKIHZtc19jbGVhcl9wdGVzKzB4NDVhLzB4
+NTgwIG1tL3ZtYS5jOjEyMzUKIHZtc19jb21wbGV0ZV9tdW5tYXBfdm1hcysweDIwYS8weDg5MCBt
+bS92bWEuYzoxMjc3CiBkb192bWlfYWxpZ25fbXVubWFwKzB4M2E3LzB4NDkwIG1tL3ZtYS5jOjE1
+MzYKIGRvX3ZtaV9tdW5tYXArMHgyNTcvMHgyZTAgbW0vdm1hLmM6MTU4NAogX192bV9tdW5tYXAr
+MHgyNzAvMHg0MDAgbW0vdm1hLmM6MzE1NQogX19kb19zeXNfbXVubWFwIG1tL21tYXAuYzoxMDgw
+IFtpbmxpbmVdCiBfX3NlX3N5c19tdW5tYXAgbW0vbW1hcC5jOjEwNzcgW2lubGluZV0KIF9feDY0
+X3N5c19tdW5tYXArMHg2NS8weDgwIG1tL21tYXAuYzoxMDc3CiBkb19zeXNjYWxsX3g2NCBhcmNo
+L3g4Ni9lbnRyeS9zeXNjYWxsXzY0LmM6NjMgW2lubGluZV0KIGRvX3N5c2NhbGxfNjQrMHhmMC8w
+eDM5MCBhcmNoL3g4Ni9lbnRyeS9zeXNjYWxsXzY0LmM6OTQKIGVudHJ5X1NZU0NBTExfNjRfYWZ0
+ZXJfaHdmcmFtZSsweDc3LzB4N2YKCk1lbW9yeSBzdGF0ZSBhcm91bmQgdGhlIGJ1Z2d5IGFkZHJl
+c3M6CiBmZmZmODg4MTMzZDVhNDAwOiAwMCAwMCAwMCAwMCAwMCBmYyBmYyBmYyBmYyBmYyBmYyBm
+YyBmYyBmYSBmYiBmYgogZmZmZjg4ODEzM2Q1YTQ4MDogZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIg
+ZmIgZmIgZmIgZmIgZmIgZmIgZmIgZmIKPmZmZmY4ODgxMzNkNWE1MDA6IGZiIGZiIGZiIGZiIGZi
+IGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBeCiBmZmZmODg4MTMzZDVhNTgwOiBmYiBmYiBmYiBmYiBmYyBmYyBm
+YyBmYyBmYyBmYyBmYyBmYyAwMCAwMCAwMCAwMAogZmZmZjg4ODEzM2Q1YTYwMDogMDAgMDAgMDAg
+MDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAgMDAKPT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cg==
+--000000000000966bb00652c4650f
+Content-Type: application/octet-stream; name="reproducer.syz"
+Content-Disposition: attachment; filename="reproducer.syz"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mpnioc5s1>
+X-Attachment-Id: f_mpnioc5s1
+
+IyB7VGhyZWFkZWQ6ZmFsc2UgUmVwZWF0OnRydWUgUmVwZWF0VGltZXM6MCBQcm9jczoxIFNsb3dk
+b3duOjEgU2FuZGJveDpub25lIFNhbmRib3hBcmc6MCBMZWFrOmZhbHNlIE5ldEluamVjdGlvbjp0
+cnVlIE5ldERldmljZXM6dHJ1ZSBOZXRSZXNldDp0cnVlIENncm91cHM6dHJ1ZSBCaW5mbXRNaXNj
+OnRydWUgQ2xvc2VGRHM6dHJ1ZSBLQ1NBTjpmYWxzZSBEZXZsaW5rUENJOmZhbHNlIE5pY1ZGOmZh
+bHNlIFVTQjpmYWxzZSBWaGNpSW5qZWN0aW9uOmZhbHNlIFdpZmk6ZmFsc2UgSUVFRTgwMjE1NDpm
+YWxzZSBTeXNjdGw6dHJ1ZSBTd2FwOnRydWUgVXNlVG1wRGlyOnRydWUgSGFuZGxlU2Vndjp0cnVl
+IFRyYWNlOmZhbHNlIENhbGxDb21tZW50czp0cnVlIExlZ2FjeU9wdGlvbnM6e0NvbGxpZGU6ZmFs
+c2UgRmF1bHQ6ZmFsc2UgRmF1bHRDYWxsOjAgRmF1bHROdGg6MH19Cm1rZGlyKCYoMHg3ZjAwMDAw
+MDAwNDApPScuL3BtMjQyY2ZnXHgwMCcsIDB4MCkKbW91bnQoMHgwLCAmKDB4N2YwMDAwMDAwMDgw
+KT0nLi9wbTI0MmNmZ1x4MDAnLCAmKDB4N2YwMDAwMDAwMGMwKT0nY29uZmlnZnNceDAwJywgMHgw
+LCAweDApCnIwID0gb3BlbmF0JGRpcigweGZmZmZmZmZmZmZmZmZmOWMsICYoMHg3ZjAwMDAwMDAx
+MDApPScuL3BtMjQyY2ZnL251bGxiXHgwMCcsIDB4MCwgMHgwKQpta2RpcmF0KHIwLCAmKDB4N2Yw
+MDAwMDAwMTQwKT0ncG0yNDJyZWxceDAwJywgMHgwKQpvcGVuYXQocjAsICYoMHg3ZjAwMDAwMDAx
+YzApPSdwbTI0MnJlbC9tZW1vcnlfYmFja2VkXHgwMCcsIDB4MSwgMHgwKSAoZmFpbF9udGg6IDcp
+CnIxID0gb3BlbmF0KHIwLCAweDAsIDB4MSwgMHgwKQp3cml0ZShyMSwgJigweDdmMDAwMDAwMDI4
+MCk9JzFcbicsIDB4MikKcm1kaXIoJigweDdmMDAwMDAwMDJjMCk9Jy4vcG0yNDJjZmcvbnVsbGIv
+cG0yNDJyZWwnKQo=
+--000000000000966bb00652c4650f--
