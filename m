@@ -1,180 +1,106 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2531731E850
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 23:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779924774; cv=pass; b=Da8LkDvg75NdPWBXId/ClloJEKxNmO3P27yFnYi1LhNjaW0XIp5T/+lqCLasm5d/eiyO34/I9J3ZT7DWNY4JnQ+roKF0bqT390hLdtQW4wPWc19xc4EGMBhVXHDa1jv08S5Q3bn3EI2dwwkXVbv9D0dXg5UQMaycS2XuMqIY1rA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779924774; c=relaxed/simple;
-	bh=56FsBBxj2wHEtfC8vJ9Jj2zhlxt2kWSIwg5xmvU8nJU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A155330337
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 23:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779925707; cv=none; b=LJN3mPG2cEEgjwgS+XxvIi2vE/i2fQZVJK/iG0XNcDzJgvaOtprtE1y9Ug0TlgCho01MCt2wUt8D6/Ua8eM43S0edTxNl79yOxGhugLIXb0vZ359hpyzkhDwseo58Kr0nzyoEUzH6CrzxnD9DI8lisQw3H0GIE/MuuxELg/W0Gw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779925707; c=relaxed/simple;
+	bh=09Lva0gnpEcxLA8oADqQJpsXrmXuWVxQk7f4dLX8Vvk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ux7o0KL0z8MoGuXpPzi2M8QGlXxaSbQrqEDYzbkLxbJoXFXrnf7zR+zRR82kYm0WgRv+W3muxaaz7+nTPolXMh742L8vJk+xexsqJBAsYA5fy/bd995NvdcJ+oDDbcn8lXDC3H0caawLI58wafL3D/O4bx0y7DGFDY1mgqXwDkM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C+pmOTt8; arc=pass smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=EY2NzT7JhQkNVFw5hgTScsDIx+akZHHcFh24qf05IWSSUsyRY/uU13VCI8UhwFCHdirIYfiI/6gW+sYtJjS9c1Q4FkLYf/6aU9GkAaYbYsQR4ehmD1md9RZHrVrjHl6JUMzEzSv10UuKTJWh8uh24Pnqq7Fuoae8tHOBBWyAb0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hEQyVUzS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C+pmOTt8"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45ea19f412aso4041368f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 16:32:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779924771; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AhJxuSLRZzYQefwF8nmCsrpIcpyfAdFjzSBA3zfkUJ/RxTWguFDrDQwE/1niHTtdKV
-         YBHDkbkBswCzHfe7h2zz20PjuENfGZlnfblg06IPb5cgYrqWFIU2UMeJVsm52l5VM/8w
-         q4iKysLUjrvyEPHAKz98Ukel/SxwTZG9nFu0iUYQYct5UW5+O4KJTMD8wULNJXM0SGXw
-         sjfqJaeF2YWA7q3XZdodFRoZkfHCVqxdUv4wSe21pVf7WIsNJofJOkrYz6Lx0ncDGM0X
-         RvAT99dfiUl6WEDjS9tyrn2WISjArOJyNElifiZ6JO1+VeFJR1LQ48Vwubwik/mqFTpa
-         KADA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DAbDwK2EPqXTD8KIUGi5JLsN5K4f21oPBpM/bqaPFNI=;
-        fh=DjSRsVzZGroN6nYbZuyaspgU3HQo6RiA0Z27aOL1BKw=;
-        b=jWoBpiB58aJEjiMVLdCq6J0nNm0569SNX+9LL2QghZc2ZJFdydmP3oCHiCJ7XAMPse
-         hVLjriW+J2B9ujs8nTWy23X65oxat2d/smGS6Baq9/nCp1lf/L/b/QMsJXFGKBVlWAId
-         RV2xgY/lPINfM1KfB4QGLYOcbzaM02MNy/lWvr+E6mDKOdf+GNZCQu5GjNqRXgPag3tr
-         qSZNo1R76LaAzfIbAwW66Cw2/ShBuMu0BijyOqfXwm+JoDDvt1RVS0tCPrn3eCSvf4rf
-         Hmst42pn8knLPXuacwmL8BHkeuJ/laiSVYh2/fywUink8lyz1eTtrY14aG47UAe6pF4n
-         PTbg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779924771; x=1780529571; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DAbDwK2EPqXTD8KIUGi5JLsN5K4f21oPBpM/bqaPFNI=;
-        b=C+pmOTt8UyANNXK2nZYZB8FAGrEGhhdE1Cq6qdVBnIgPKI4f/E2ZbvL9tqy5NKAKEJ
-         ZyAWHfrnbH8x4lRwmgRsktWUaoa3/LLs0Z3GupdspCRyrW29V9jGQV2zb/nl2ZHmt2Xf
-         7tYJlM9HIdkLc8GQih2RrrcQK5VC7FCUIs+lTZkw/7yO2o0lvggZexh/0/6I9hcbvN/d
-         VtabBYY6qy+ITZzv78rkHXABh1Cg9hUR7zXQzxVXg4D/aT19nsDAV8v2JyxB4Ar/0UOz
-         S4xqHShlUGN0DzGA7O8NlZbukrmRx7MPbmvGaca2veFo5KULe3bFPSThvxJNneEjEuS+
-         idFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779924771; x=1780529571;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DAbDwK2EPqXTD8KIUGi5JLsN5K4f21oPBpM/bqaPFNI=;
-        b=bU7bgrk8fCdaLf+4oXSiHUgif7KmOAA2godSaM1A0VWE9uNn66fqSmQOFJBmZX9aWH
-         9qz4j379XH5DbPIEM8p/clUveR8QdDtCFizvxembAg1Drlrr6Bnj/xR92i9EgWOP/xUS
-         IUbidWtN38DIgPP37zGm9Ix/W1pziyPd1QTFzNQVjrr4rKWkIFkJSAlTejlad8vLSKGQ
-         5vsUl1WdN+h4eG2Nji+ryctdivg2DgKbecOQv5XbaNEerWwsOGNvz2mR/rpCCwlenKLZ
-         kiXGd5ibzn31+NFHnqPpTPoRfnEiBNebZ5LvqslJ521nZRLHhRCLClBUvrecTwsScrZJ
-         6RwA==
-X-Gm-Message-State: AOJu0YzYh7m7tFGrBf0MBriJvd6gC07LOm2MyUDvssSghp2/mPVB7YjL
-	Ac35+zZ/ytFtOcL7GEFvsn1KZpMtmXx6tmhwLbT1s9JFYt/fNkUJWg/QYletbkcedXJWEixxzho
-	3EMU3zCPAYl0Ff+a1CH78Cysav9b+PDY=
-X-Gm-Gg: Acq92OERKGhMEOGV3NpDbPuwQd/xnxyt1wRvSU9HLtIKdrFjOfP+JfMPRA5Dr3v77cJ
-	4Ymkv9fcfKLxkhkBoKdOuAVI3T+7jbB+8QpY4P3L65bae+Ga4YTUbaBbcxUYscwpOi3+eniaES6
-	Nc2zOGWdhjSZr2dRsCEy1/6S+5NKOBdL3xqHim4CyqY8YXMlajnRI7fZdMyw6Ej+mKswyK5HRfo
-	BaeYxcxuIjtst2tFX9LGiBPtY0+czFS0VX13tUcILsSRjKnTQ3z2W5utaRG2sass80/P/ucfi0V
-	emUWiEyRMkiIP1D10BLwzFe+xv43YXH5Xg==
-X-Received: by 2002:a05:6000:430b:b0:44b:ad5a:cd33 with SMTP id
- ffacd0b85a97d-45eb38e4b24mr40128497f8f.40.1779924771483; Wed, 27 May 2026
- 16:32:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hEQyVUzS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6B031F00A3D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 23:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779925705;
+	bh=sTujvP5ma1kjzMbf1xHQzckZSAV/C9+6cbGhO9rvGc4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=hEQyVUzSJIsI6+RVupWX5R/HKuBY0A8+4PjU1ZKxqDqkdtc0/6UKj2KaH5cEPpIjo
+	 aKulz0Qy5wZ8tO0EFNBoIph7HDJMdttzYR3v+zG+fPRFxtr0dMkTvuJFfYNYmMvCv/
+	 PT+QTQmnhDR4E3944P7XeHggU1fgk+Ez7YIjNQfnf0X0EL6KWQEg5svTs4p9yFV/gA
+	 wkOY/6qPdhQSKj77DyZRld5FlMDfCCbX3L0Q4uXt3GZHpqgZbcDJxiK0oaPjfZNWKe
+	 Qghn1RdIYx+Nue75TpJzKSHFkEVbZ9LX6S55KiqDsapuKa1/ieG9WBhXvusiFPSM2R
+	 G48Lh947szqnQ==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-68acf0a15b3so642093a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 16:48:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+cb5oKeYwkDM9MlQHA0jlXBaAsTZXZ/ebiLfuleEhUJkwfHVlCOpm2BPzIZhB+N9StQIT29U5ZLk/UH9SW@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRH3yAJ0OuQM+APukDLXOU3QTqcgL9orJINDS/KLUYKQ2jNw5J
+	QWAx7AQS4FIC3pJCCLMOsiTLLOBF+gJpCt87NKBbBhAHONhImnuj5OMfSHPGKS6PcVFiHiYqfYT
+	LxyVAzdGgczJcCBrsWQmxFusVh1vp2Vw=
+X-Received: by 2002:a05:6402:3550:b0:688:3188:f4a4 with SMTP id
+ 4fb4d7f45d1cf-6889c4393demr13460887a12.11.1779925704589; Wed, 27 May 2026
+ 16:48:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251008204133.2781356-1-joannelkoong@gmail.com>
- <CAJfpegsyHmSAYP04ot8neu_QtsCkTA2-qc2vvvLrsNLQt1aJCg@mail.gmail.com>
- <CAJnrk1anOVeNyzEe37p5H-z5UoKeccVMGBCUL_4pqzc=e2J7Ug@mail.gmail.com>
- <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
- <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
- <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
- <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com> <CAJfpeguAvw=GTkWhMsjSAyDx5oXXfMLNOPGDUg8HuPRxjppxkA@mail.gmail.com>
-In-Reply-To: <CAJfpeguAvw=GTkWhMsjSAyDx5oXXfMLNOPGDUg8HuPRxjppxkA@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 27 May 2026 16:32:38 -0700
-X-Gm-Features: AVHnY4JQDr20gCLRHfYTawrZU6FF5EriZ3mf-jFlylo811faLWmZlWe_-2xZUD4
-Message-ID: <CAJnrk1YJcJJOvZYwzR99DsJyh3dgMffEMQ-A9Rfkg2CGOUTziw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jan Kara <jack@suse.cz>, 
-	Jingbo Xu <jefflexu@linux.alibaba.com>
+References: <CAMrLSE5izyWrP=t3_7UWjKJTd296fBrdoHZBW3DMMCzwPY9v-Q@mail.gmail.com>
+ <20260526133152.1205929-1-charsyam@gmail.com>
+In-Reply-To: <20260526133152.1205929-1-charsyam@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Thu, 28 May 2026 08:48:12 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-yPx66ZgeH-NO6tK1svi20UO5XOjSiN9WU27b=Y+RBvg@mail.gmail.com>
+X-Gm-Features: AVHnY4I4cjVbTBQEnPLDrG0rR-r_s3GGRF9NnqTcpEmYwvowiBMbwxbeDIHePd0
+Message-ID: <CAKYAXd-yPx66ZgeH-NO6tK1svi20UO5XOjSiN9WU27b=Y+RBvg@mail.gmail.com>
+Subject: Re: [PATCH v3] ntfs: validate resident attribute values on lookup
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 27, 2026 at 5:25=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
-wrote:
->
-> On Wed, 27 May 2026 at 03:42, Joanne Koong <joannelkoong@gmail.com> wrote=
-:
->
-> > On a 8GB machine (with assuming vm.dirty_ratio=3D20% and
-> > vm.dirty_background_ratio=3D10%), we get 12 MB of freerun, 4 MB of
-> > proportional throttling, and then full throtttling starts at 16 MB.
-> > With 2MB folios, the 4MB zone between freerun and f ull throttling
-> > doesn't leave that much room for the balance_dirty_pages() logic to
-> > adjust the dirtier's speed, which I think causes the writes to
-> > oscillate between freerunning and then being fully (overly) throttled.
->
-> Some handwaving: would it be possible for the folio alloc logic to
-> modulate the folio size based on how close are we to the dirty
-> threshold?
->
-> E.g. if the number of folios to reach the dirty limit is less than 10,
-> then start allocating smaller folios.
-
-I don't think this would help for the case where the writes are to
-existing large folios already resident in the page cache, but I can do
-some experimentation with this.
+> Type-specific format validation for $VOLUME_NAME is intentionally not
+> added to this helper, even though $VOLUME_NAME is a variable-length
+> resident attribute. Existing callers such as ntfs_write_volume_label()
+> treat a failed AT_VOLUME_NAME lookup as an absent label and
+> unconditionally add a new record afterwards. If the helper rejected
+> odd-length labels at lookup time, the corrupt record would stay in
+> place and the caller would append a new record next to it, producing
+> two $VOLUME_NAME attributes on disk. Caller-side cleanup must precede
+> any lookup-time rejection of malformed $VOLUME_NAME payloads, so the
+> type-specific check is left for a follow-up patch. The generic resident
+> bounds checks (value_offset / value_length / attr_len) still apply to
+> $VOLUME_NAME, and its entry in the type-name table is kept so that
+> those failures log with the attribute name.
+We can make ntfs_attr_find() return -EIO instead of -ENOENT when it
+detects a corrupted resident attribute value. And callers should check
+errno not to add duplicated $VOLUME_NAME.
 
 >
-> > I think this problem gets untenable for random writes with large
-> > folios, since dirtying just a few bytes will charge the whole folio
-> > size to the dirty budget. I have a patchset from last year for adding
-> > more granular dirty/writeback tracking [3], I'm going to pick this
-> > series back up. I think it will be useful generically, not just for
-> > fuse.
->
-> Tracking partial dirty is not going to help free up those large
-> folios, unless the dirty part is migrated to a smaller folio.  Not
-> sure if it's worth the added complexity, maybe...
+> Do not add $INDEX_ROOT-specific value validation in this change. Testing
+> with stricter checks showed an existing ntfs_ir_truncate() shrink
+> ordering bug: the resident value_length is shrunk before the root index
+> allocated_size is updated, so a relookup can observe allocated_size
+> beyond the now-smaller resident value and fail. Fix that ordering before
+> adding the $INDEX_ROOT-specific minimum-size and structural checks.
+please provide patch series including ntfs_ir_truncate bug, index root
+validation, volume name, and this patch.
 
-That's a good point... the whole point of throttling is to cap the
-number of pages pinned in RAM...
-
->
-> > For getting this to work on fuse servers with strictlimiting, I think
-> > the next steps are to
-> > a) as Jan had suggested in [1], come up with some heuristic to
-> > constrain the max order supported for large folios for these fuse
-> > servers if they're running with the writeback cache enabled
-> > b) benchmark ^ and if there are still regressions, then we should
-> > probably just turn large folios off for these servers
->
-> Definitely worth exploring the characteristics of the current system.
->
-> > c) add the granular writeback/dirty accounting for large folios
-> > d) look into improving the balance_dirty_pages() throttling logic to
-> > handle narrow gaps between the freerun and full throttling zones
-> > better and reduce over-throttling
-> >
-> > Does this sound like a reasonable way forward?
->
-> Yeah, makes sense.
->
-> > For privileged servers, I still think it makes sense to remove the
-> > strictlimiting requirement or at the least, let admins opt out of that
-> > if they are confident their server is well-behaved.
->
-> This is already possible via the /sys/class/bdi interface.
-
-Nice, I think in that case we can just have libfuse disable this on
-behalf of the privileged server.
-
-Thanks,
-Joanne
-
->
-> I'm fine with introducing a config option / module option to turn it
-> off by default.
->
-> Thanks,
-> Miklos
+> +static const char *ntfs_attr_type_name(const __le32 type)
+> +{
+> +       switch (type) {
+> +       case AT_STANDARD_INFORMATION:
+> +               return "$STANDARD_INFORMATION";
+> +       case AT_FILE_NAME:
+> +               return "$FILE_NAME";
+> +       case AT_VOLUME_NAME:
+> +               return "$VOLUME_NAME";
+> +       case AT_VOLUME_INFORMATION:
+> +               return "$VOLUME_INFORMATION";
+> +       case AT_INDEX_ROOT:
+> +               return "$INDEX_ROOT";
+> +       case AT_EA_INFORMATION:
+> +               return "$EA_INFORMATION";
+> +       default:
+> +               return NULL;
+> +       }
+> +}
+We can identify the attribute just by printing its type, without
+needing to print the attribute name.
+Thanks!
