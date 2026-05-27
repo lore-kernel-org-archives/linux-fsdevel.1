@@ -1,665 +1,178 @@
-Received: from smtp-42af.mail.infomaniak.ch (smtp-42af.mail.infomaniak.ch [84.16.66.175])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A763DEFFA
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 18:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779907007; cv=none; b=hXa2GuCEZD5QFDk3u26ZeVUkIYjGtpzSr13QPBcjTXBGORXRKm+lugzoHbVcrdAMjRvyXoncEmUsm4dpzOyuxFR/0WXbekDH+fKGVnUfG8p/K2dgHUVlP7qKPrpxVnZiBwJKJnOyu9f1NERM7LTbIvWisLvyzVzoOOl8kxlkT5M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779907007; c=relaxed/simple;
-	bh=69nelvqBs9xl3XU3ey+d++mh8hWR3aUOzxld/bX/ywQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n3gDvrErCJieHMz1UWmKPJ3pKzlDo9j+bigDD0VFmVpfXMaqDzzgqss4mvVH2Z4U3fqc2Whl7TzxPM4l6++towS4mpQEKfHq3RjSF6r6R23ZbtqvXqB0s1DW3xfgCYA5k6oH/DISLEvViNaeqMTYHlX2gvXKo9/i4BCHv7Sy10o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=1oi8iM7x; arc=none smtp.client-ip=84.16.66.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726293839A5;
+	Wed, 27 May 2026 18:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779907474; cv=fail; b=R9V2FaCA2b6crXcSpOzffwv1/FVpqwN9yc2qUunHxUDZbEwBFYpYagELK11ugGmEV1pL8Jx8G6Go+R7/eeCbQnlxNdAysNwJHEVDBtYF/TpqPgJQ6PUGKypNY/5tDVEGCztEGaVBmg351jo+qu8SgRrC8ShUTdPlerX+Nyt0avA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779907474; c=relaxed/simple;
+	bh=r3lQrr8F77qy7Vbqigw3fu6XiTe0t2B0GawLfyA1vaQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qFAQmlVTbL83KBMD8i3QMpfzVjd4rgoF0G1dLgBBBOt13XbYfGIC7v2DLNek3BXLMlN4Zz/PfQ/IDfqQZYrKsJf9oh3p7DbV1uCGBIfDdB3Qd3MWozCyyLH29+rBf3l5X6vbunGK4hpgH4HAcwvisDcRI92n4lrglkjl/dXeR7s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kGFe+VXh; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="1oi8iM7x"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gQd4528kTzYH4;
-	Wed, 27 May 2026 20:11:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1779905509;
-	bh=TGICSQ0W8VYMSHSqymUjNSPyMy0evYHr1yPIbEeCnZo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=1oi8iM7xOmi9qW4JKktzdPVFZAmcpbDTzksQ2QNWulQwJnRRi2hS8E0Pz2CS2kESr
-	 wR1lgQI8mHyXfOrulvBqXOdWEVkXsoTTCuP6Js4QUfJytB9Onvzo9ZURMx5NnawNvO
-	 wPfJ66vihjiaaaYwWAXaQYqvrvf9AhsKwDvvPFDw=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gQd443K25zGcK;
-	Wed, 27 May 2026 20:11:48 +0200 (CEST)
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: Christian Brauner <brauner@kernel.org>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	"Serge E . Hallyn" <serge@hallyn.com>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Daniel Durning <danieldurning.work@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Justin Suess <utilityemal77@gmail.com>,
-	Lennart Poettering <lennart@poettering.net>,
-	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Shervin Oloumi <enlightened@google.com>,
-	Tingmao Wang <m@maowtm.org>,
-	kernel-team@cloudflare.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v2 5/9] landlock: Enforce capability restrictions
-Date: Wed, 27 May 2026 20:11:18 +0200
-Message-ID: <20260527181127.879771-6-mic@digikod.net>
-In-Reply-To: <20260527181127.879771-1-mic@digikod.net>
-References: <20260527181127.879771-1-mic@digikod.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kGFe+VXh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779907472; x=1811443472;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=r3lQrr8F77qy7Vbqigw3fu6XiTe0t2B0GawLfyA1vaQ=;
+  b=kGFe+VXh4UCbmZ+83HEPbdvI4lBNo13tJxMoFwFmQ85/gMKWIMo4OTY3
+   tVGE12n/4j9w9hI+pgds62MImVhLJ6DqLKzDmLgDfQU0KiBoDx4tbiOfJ
+   EUKoMq34UOr5SNPe6WytwqAdGCd1yCT9VUeIJCS8tZdBDu3polwzTU/mS
+   qj0gRvskkOXPwjGW9Xmu5ejatRLedIUjJ8uvaWwM2LNlNEsgof7yiXLot
+   so+bSAtj72yBgchvXKccOVgybND9PLGNVs9k79oenX/nREqbOt/wkZvK0
+   UbbM+k6sSCW1R+RYiEgKKWJPN2YZW93hilaE6F1/naDnzq3Ctcu6Svo66
+   Q==;
+X-CSE-ConnectionGUID: wMx2vJJdRwqPjsNeDX1T7Q==
+X-CSE-MsgGUID: KsHoEDrbT22w6j+e7v1tsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="106202077"
+X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
+   d="scan'208";a="106202077"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 11:44:31 -0700
+X-CSE-ConnectionGUID: dbw1ft2US2yD8IWuMeQjzQ==
+X-CSE-MsgGUID: f/RP2bZ8SDuPLDMnNM0Bnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,172,1774335600"; 
+   d="scan'208";a="246604289"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 11:44:32 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 27 May 2026 11:44:30 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Wed, 27 May 2026 11:44:30 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.32) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 27 May 2026 11:44:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sDoy45dI2z6IyKUYe60TgUACU9ZqxJwZgPbI0bDh/1bFFdQapvzFDGKZ8c+okpaWk6g8SrAHHdrWqsuQi0MD1XQK0avLGF5NEPCft6Cmxr9T1FlDD+eOG5eMAa2jAyQvhivdtqI22Pt99OyASGgMpatu+0KDQAPiILqNYXSHUPOgZg0J73djM+BDeneZG0NyKMq9JaNM2nMmusIeWs04k1Ts0n2/N4LlguiKRw8Yl77HzdupR38ULrfKFJLPA7YPsDcucz5qVNC96G/KJPgMJpAC7l/9G0WiGwJsmfElWyGwnQkq7wlKT2RUDdzg3/tYIdR5sj02QHksmKGjjRk9Fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=43zQD9mpEXRL8+s8jKmkjmymawNNnGx+h+v7g4lVZ1s=;
+ b=ZyUjGSTdeT7w1+tYkoLwDg6HGmmCR4N7t0zenCRuiaIBuGHsTIHfmhHOY6Dn8nLyFa3N965LkM+VxekrobDq+0r/Zchc5pZTu6cnbgZEXB2lFLASf45V8+X8K4v4xTcvh/s9WaKNLOKbJS+dZCAvC3kwdYP/Xx9T+ioVCn+bn1QCR6UVf3Q5oLEBP66XTzAh9ovzcOoZfWUbevXvlZeGxARXjHFj4+Y0+he0vCZFMhlbYjYpIxeNwhcwJvAF4uEwc1ydYoQ5uD/ugvkukSPUAfL4/sw9lyv1gK/rfhUfV34OPcfjgIaa8db6A7aBFjAUNMX5cdiWKo6WYM2yWvfndw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
+ by PH8PR11MB9829.namprd11.prod.outlook.com (2603:10b6:510:3c3::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Wed, 27 May
+ 2026 18:44:28 +0000
+Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::a195:49d4:38c5:3891]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
+ ([fe80::a195:49d4:38c5:3891%4]) with mapi id 15.21.0071.010; Wed, 27 May 2026
+ 18:44:28 +0000
+Date: Wed, 27 May 2026 11:44:23 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Tomasz Wolski <tomasz.wolski@fujitsu.com>
+CC: <djbw@kernel.org>, <ardb@kernel.org>, <benjamin.cheatham@amd.com>,
+	<dan.j.williams@intel.com>, <dave.jiang@intel.com>, <icheng@nvidia.com>,
+	<jonathan.cameron@huawei.com>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<smita.koralahallichannabasappa@amd.com>
+Subject: Re: [PATCH v2] dax/bus: Upgrade resource conflict message to
+ dev_err() in alloc_dax_region()
+Message-ID: <ahc7h8zMaTW2XUMU@aschofie-mobl2.lan>
+References: <ec26d3de-d556-4ab9-a333-d69d1e6cdda7@app.fastmail.com>
+ <20260527080328.12171-1-tomasz.wolski@fujitsu.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260527080328.12171-1-tomasz.wolski@fujitsu.com>
+X-ClientProxiedBy: SJ0PR05CA0048.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f::23) To DS4PPF0BAC23327.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::9)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|PH8PR11MB9829:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac2bb3ae-8ba5-4be6-b9df-08debc1ffbaa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|18002099003|56012099006|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info: 5IV9y0Oe8TGLc9rzF4P9A05eLA1SZYcbwQVhm439eYF6hlPVekPQNwuGhXJA/jD4d/788a2yyi3yEa/3xDTSafw9Tspzk3sprmKBUR0sCUSKASTbBGD3d27U3z7o6tK//GsN9emJgifnSRffWD5mh+RjZrPjNKaIV1psXLenw/ywf/lqQUKkeuyM3SvPLZXmRM0reejPA5iV5TPQW7bEO/qzpi9B0sWK523VZ8KVi97GNx4pg6bc2O+6aGdKnK/z9Zqk+zCW8kK9CZR3aoVak5goHjTr1UiJG40EL7zRQSSRTZIGYrQbJRrfOpUQp05rBRKv0V3Bj6CNyq2wgh5D/lhzMj+zJXmv5VJmMblzWih0kJtkCCO5/WJ67GdXKBgxZwIlq2va7Vb9pw2Z1SZMuGCJ+d18CC6uzBsR+wNJJeIGHKZKmwWRE16Edj/V0vAPv4oZgjpHlwMVDR5HxjmIs/9r0t31mUKYhaWg4sfBAVmSHSqKxx20jMKvu6b+GLml880GEyMSnYTk+ms4XOsnHofxtQlCvij8V+R6wQXX4+SCJsKcGB1oRToCIOKKx5H7ZeFzZe4oTI37d1kGu0GLPd/ggLNLIVH4HxOgTSxnVBsPJbCBLLWccoKZ9SXbflN4SMZrKxgSZS0mtPARLGyDcfejQKLeN5AVoIAr080JvlYObucZstpOOjrN4WfCL/9j
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(18002099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?R5rNAMPqV57SEKliwDbH7zh+RMQSULlw+8iIGAx4/108jSpCgbp94g6FRJ/9?=
+ =?us-ascii?Q?GoFU2+Gb7CMVA1PDy0aOgPRprbeyIGSJGeGl42CWfujulCpvBD+TEMDZ6OHK?=
+ =?us-ascii?Q?2NstXjRwEohkCVJpYXXJLBYxYI68rxrOK2e0oYrQ3gDm+YX3dXCDic7ftAIY?=
+ =?us-ascii?Q?/hXBC+x86PAZFQnd2J/rhvnZblEEZtCMPJ3yKY5EE1DpUmiDDqwYEJWvvUP3?=
+ =?us-ascii?Q?8Ojq+zi7hV1/azILSdA2DUHeO02vGPI47UWCUwtJXrR6o1DVNq1YhVlJqLj9?=
+ =?us-ascii?Q?IlYxQ0LZOaykUFu+2N+M17f0T5quPowwL0iBNPEOIuNlC+O+OdbwIoXjFj3a?=
+ =?us-ascii?Q?kz3Uud6zSlBpr9PTRYg3qetjZspxmzdqBnHW+0x4g07ci/bJQuhphjHIzvCQ?=
+ =?us-ascii?Q?ow3qbFjPbhIqh0qNrZah/k+8RrM/U/ng5+ZlYJQk0CLN/FAgnQbSgcA+4V/a?=
+ =?us-ascii?Q?weTOpN+WnNRRW+TWLirlmrSnyJ/2kw5jb2BxcWJNs686+ubwuRXOlTsTlWaP?=
+ =?us-ascii?Q?jnqwgl04px5HHea2LGEEpF2RmTlNTc+3y+RkxqRZVng/N1sYU48XLLJsqYx4?=
+ =?us-ascii?Q?+hFvXYj+qLiUiWHkd0oK0oLNEKawkJO27zq6O/ViTJIthkwXrr3whuqIKwAN?=
+ =?us-ascii?Q?HQ2WNrhRQojfXGS52iLM3WPpDnpILoa1KTBedUGMrxHOlVNl+bv2JeQf2Yn2?=
+ =?us-ascii?Q?LPyhK4qEVyL+98nLq/7eV1QQGNgVoDPp+Em/iJblmCibFPbrp3CO1+myQnIV?=
+ =?us-ascii?Q?hmjC+uJ4FnIQiAMd4vY/WjPov0RayLFzx7wTnK9SDoakC6JAKo46jhCGeEQd?=
+ =?us-ascii?Q?17YqTGnHDe3PuKP6VIXNdbjB3UwLTZ2MdOA7FCAkkXFjpIz0Sm7HNEKu0bZd?=
+ =?us-ascii?Q?VytO5oZnicczq1yS0wuogqw4hwdpZJy+YxLb9H1Yhc1fjmmo9bih6ZF+RACU?=
+ =?us-ascii?Q?CEZJL7Oaq92Brz2c4P946v+xDu1jEMnSxuy9khZiqChYKWubP8B76vf0r09w?=
+ =?us-ascii?Q?jVbiApZJG6KaP6piZrtabih4sTHAMHj3Kmlq9uvOmPb+G9OlZA0Ma1Guidtd?=
+ =?us-ascii?Q?ReFl9g1sGqz7jo8EN5vMnuUwKieWQSN0QSxyVdH8B8qy2m3aX/BtZjb4+ZTg?=
+ =?us-ascii?Q?ulq6Z9M+OcFxX/iZcv1jP5No401MqpUfna9p1DqMHBvGbVwHcLwQPEi8JV7Y?=
+ =?us-ascii?Q?CXTG2PHPHkPeyRsDQJ2IRpjrX+cHUX49X5jA/+cxMZ4wKoJeXH7PItre9ttJ?=
+ =?us-ascii?Q?SbFOQ8As33s84kGRsRczySVym+rhAH1rdWAiJRV1WEmJ+vrWQWBe4sj2oUfq?=
+ =?us-ascii?Q?DfHh/XbfEJZMi72I+3+FoYIEZL+1czYqvXDuBYRNRZ48O+Ee2Jr14rEbmAtF?=
+ =?us-ascii?Q?cqk6aWIczdEyzklpl0y+ksFMFCbLmOjCiNgHbvorimOfYVAP73qepho7KFNs?=
+ =?us-ascii?Q?CjImBwWazRq81wPv7Xw3rlKbYV3/R4Z3vlT5xGfY+QcG7jQv4JFjPF4ZcNwj?=
+ =?us-ascii?Q?KVdRX5KvsTp0p0iHTl8xPKIkiG6qd3lCrDLUe3aPnFCp/xG64Gx9Z9/OYa9C?=
+ =?us-ascii?Q?/txuGSTDRY6mx/ueSXe4g4EAVbDYVAdnY3voqnUzAy0wny1ewewzG+g3Dg5A?=
+ =?us-ascii?Q?w+gO39H0V3q/c884yxJXOCA5Xwk5sq0GF4aQQe6gbHpjNFZaOpxlYoPv0Nak?=
+ =?us-ascii?Q?qarMZraoZ3jSjQ/I2Igs9kDj+rc0/VobdM66/d6qcbOEcpSjk/wvOyf2mjee?=
+ =?us-ascii?Q?HQDkwQp8Mpe42BXWEuji4pBOcm9Kkww=3D?=
+X-Exchange-RoutingPolicyChecked: FUvUWEKFfrYqkMylbTXUHYQp8e1CC4hNPZ3H/NY7irGiXH6rvRHbhZg9WIU8a/bwg2Zw2x/rBb8EO/NCX5uniafvRcfJGXgfL/1/Ihkh+aIj94y+hH/ElbeHUpMD5qp1cGEXe6xmLJWQCdHUucJ23gGs8kT1vdRjoYgjGIsySDVky+j7Tc4+/Lk30WI6P0lnzpqE3iz0DweU6s6ecH+nzi1tbqrJtpImc1GXJtRIhaUoM7JrbWWExD+wro7CbtNbV15W0KwlyN0qLEx3/AifrjJN0ERScvSdwYw+oyimXc8E5cg2MUgKaS/c83A7O/XM6yxL1yPZ6X13psqeBAZiAA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac2bb3ae-8ba5-4be6-b9df-08debc1ffbaa
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 18:44:28.7624
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Upwq+GMKI+A8lz6o7VXbk8Zdo0Jmgz62goU13MmaTu+IEhmiWM5h4mdXe+3Sj1OLQaFi+xo5LewadU5zapUkRxqWL8Jp2cofwiE0Fe32PXM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB9829
+X-OriginatorOrg: intel.com
 
-Add Landlock enforcement for capability use via the LSM capable hook.
-This lets a sandboxed process restrict which Linux capabilities it can
-exercise, using LANDLOCK_PERM_CAPABILITY_USE and per-capability rules.
+On Wed, May 27, 2026 at 10:03:28AM +0200, Tomasz Wolski wrote:
+> Hello Dan & Alison,
+> 
+> Thanks for your remarks
+> 
+> >> Just report the request_resource() failure. This case does not warrant exporting request_resource _conflict(). Historically one driver can not mess with another driver's resource beyond conflict detection.
+> Do you think v1 of the patch is good enough or v3 is needed? (which in fact would be the same as v1)
 
-The capable hook is purely restrictive: commoncap is registered with
-LSM_ORDER_FIRST so cap_capable() always runs first, which means Landlock
-can deny capabilities that commoncap would allow but never grant
-capabilities that commoncap denied.
+Hi Tomasz,
 
-Add hook_capable() that uses landlock_perm_is_denied() to perform a pure
-bitmask check: if the capability is not in the layer's allowed set, the
-check is denied.  No domain ancestry bypass, no cross-namespace
-discriminant, just a flat per-layer allowed-caps bitmask, matching the
-same pattern used by LANDLOCK_PERM_NAMESPACE_USE.
+As the person who caused the churn, I sympathize w you, but
+as the person who will likely merge this, please send a v3 that
+removes the Fixes tag, which was the other change in v2.
 
-Adding the 41-bit capability bitfield to struct perm_masks brings it to
-49 out of 64 bits used (41 caps + 8 namespace types, 15 bits padding),
-keeping struct layer_config at 16 bytes (8 bytes perm_masks + 4 bytes
-access_masks + 4 bytes tail padding) and the layers[] array at 256 bytes
-maximum.  The caps bitfield is placed first in struct perm_masks (before
-the ns bitfield) because capabilities use a direct BIT_ULL(cap) mapping
-that benefits from starting at bit 0 of the storage unit.  An explicit
-static_assert documents the LANDLOCK_NUM_PERM_CAP + LANDLOCK_NUM_PERM_NS
-<= BITS_PER_TYPE(u64) invariant alongside the existing sizeof guard.
+It'll keep the history cleaner.
 
-Non-user namespace operations require both LANDLOCK_PERM_NAMESPACE_USE
-(type allowed) and LANDLOCK_PERM_CAPABILITY_USE (CAP_SYS_ADMIN allowed)
-when both permissions are handled.  This follows naturally from the
-kernel calling capable(CAP_SYS_ADMIN) before namespace operations: both
-hooks fire independently and audit logs identify which permission was
-denied.
+Thanks!
+Alison
 
-The enforcement is purely at exercise time via the capable hook, not by
-modifying the credential's capability sets.  Stripping denied
-capabilities would give processes an accurate capget(2) view of their
-usable capabilities, but no LSM other than commoncap modifies capability
-sets; Landlock follows this convention and restricts use without
-altering what the process holds.  A sandboxed process inside a user
-namespace will see all capabilities via capget(2) but will receive
--EPERM when attempting to use any denied capability.
-
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Günther Noack <gnoack@google.com>
-Cc: Paul Moore <paul@paul-moore.com>
-Cc: Serge E. Hallyn <serge@hallyn.com>
-Reviewed-by: Günther Noack <gnoack@google.com>
-Reviewed-by: Tingmao Wang <m@maowtm.org>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
----
-
-Changes since v1:
-https://lore.kernel.org/r/20260312100444.2609563-7-mic@digikod.net
-- Add Reviewed-by: Tingmao Wang.
-- Rename internal struct perm_rules to perm_masks (companion change
-  to the preceding commit).
-- Rename LANDLOCK_PERM_NAMESPACE_ENTER references to
-  LANDLOCK_PERM_NAMESPACE_USE (companion change to the introducing
-  commit).
-- Rename struct layer_rights to struct layer_config (companion
-  change to the introducing commit).
-- Clarify in the commit body and hook_capable() kdoc that commoncap
-  (not Landlock) is registered with LSM_ORDER_FIRST.
-- Surface the empty-check semantics in the
-  landlock_capability_attr.capabilities kdoc: a rule that sets only
-  bits unknown to the running kernel (above CAP_LAST_CAP) succeeds
-  but has no runtime effect.
-- Add explicit static_assert that LANDLOCK_NUM_PERM_CAP +
-  LANDLOCK_NUM_PERM_NS fits in a u64, complementing the existing
-  implicit sizeof guard on struct perm_masks.
-- Add Reviewed-by: Günther Noack.
----
- include/uapi/linux/landlock.h |  35 +++++++++
- security/landlock/Makefile    |   3 +-
- security/landlock/access.h    |  18 ++++-
- security/landlock/audit.c     |   4 +
- security/landlock/audit.h     |   1 +
- security/landlock/cap.c       | 141 ++++++++++++++++++++++++++++++++++
- security/landlock/cap.h       |  49 ++++++++++++
- security/landlock/cred.h      |   3 +
- security/landlock/limits.h    |   4 +-
- security/landlock/setup.c     |   2 +
- security/landlock/syscalls.c  |  58 +++++++++++++-
- 11 files changed, 309 insertions(+), 9 deletions(-)
- create mode 100644 security/landlock/cap.c
- create mode 100644 security/landlock/cap.h
-
-diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-index 233594482aa5..93fea9f0c5e2 100644
---- a/include/uapi/linux/landlock.h
-+++ b/include/uapi/linux/landlock.h
-@@ -168,6 +168,11 @@ enum landlock_rule_type {
- 	 * @LANDLOCK_RULE_NAMESPACE: Type of a &struct landlock_namespace_attr .
- 	 */
- 	LANDLOCK_RULE_NAMESPACE,
-+	/**
-+	 * @LANDLOCK_RULE_CAPABILITY: Type of a &struct
-+	 * landlock_capability_attr .
-+	 */
-+	LANDLOCK_RULE_CAPABILITY,
- };
- 
- /**
-@@ -242,6 +247,28 @@ struct landlock_namespace_attr {
- 	__u64 namespace_types;
- };
- 
-+/**
-+ * struct landlock_capability_attr - Capability definition
-+ *
-+ * Argument of sys_landlock_add_rule() with %LANDLOCK_RULE_CAPABILITY.
-+ */
-+struct landlock_capability_attr {
-+	/**
-+	 * @allowed_perm: Must be set to %LANDLOCK_PERM_CAPABILITY_USE.
-+	 */
-+	__u64 allowed_perm;
-+	/**
-+	 * @capabilities: Bitmask of capabilities (``1ULL << CAP_*``) to allow
-+	 * under this rule.  Must be non-zero (otherwise the call returns
-+	 * ``-ENOMSG``); the non-zero check runs on the raw input before
-+	 * unknown-bit masking, so a rule that sets only bits unknown to the
-+	 * running kernel (above ``CAP_LAST_CAP``) succeeds but has no runtime
-+	 * effect.  Bits above ``CAP_LAST_CAP`` are silently ignored for forward
-+	 * compatibility.
-+	 */
-+	__u64 capabilities;
-+};
-+
- /**
-  * DOC: fs_access
-  *
-@@ -488,9 +515,17 @@ struct landlock_namespace_attr {
-  *   process in a Landlock domain that handles this permission is denied
-  *   from using namespace types that are not explicitly allowed by a
-  *   %LANDLOCK_RULE_NAMESPACE rule.
-+ * - %LANDLOCK_PERM_CAPABILITY_USE: Restrict the use of specific Linux
-+ *   capabilities.  A process in a Landlock domain that handles this
-+ *   permission is denied from exercising capabilities that are not
-+ *   explicitly allowed by a %LANDLOCK_RULE_CAPABILITY rule.  This hook
-+ *   is purely restrictive: it can deny capabilities that the kernel
-+ *   would otherwise grant, but it can never grant capabilities that the
-+ *   kernel already denied.
-  */
- /* clang-format off */
- #define LANDLOCK_PERM_NAMESPACE_USE			(1ULL << 0)
-+#define LANDLOCK_PERM_CAPABILITY_USE			(1ULL << 1)
- /* clang-format on */
- 
- #endif /* _UAPI_LINUX_LANDLOCK_H */
-diff --git a/security/landlock/Makefile b/security/landlock/Makefile
-index cacfba075dec..1927b81fea93 100644
---- a/security/landlock/Makefile
-+++ b/security/landlock/Makefile
-@@ -9,7 +9,8 @@ landlock-y := \
- 	task.o \
- 	fs.o \
- 	tsync.o \
--	ns.o
-+	ns.o \
-+	cap.o
- 
- landlock-$(CONFIG_INET) += net.o
- 
-diff --git a/security/landlock/access.h b/security/landlock/access.h
-index 42229eea6d7e..28c40f8ad5b5 100644
---- a/security/landlock/access.h
-+++ b/security/landlock/access.h
-@@ -72,6 +72,13 @@ static_assert(sizeof(typeof_member(union access_masks_all, masks)) ==
-  * storage unit.
-  */
- struct perm_masks {
-+	/**
-+	 * @caps: Allowed capabilities.  Each bit corresponds to a ``CAP_*``
-+	 * value (e.g. ``CAP_NET_RAW`` = bit 13).  Bits are stored directly
-+	 * (sequential mapping) and masked with ``CAP_VALID_MASK`` at rule-add
-+	 * time.
-+	 */
-+	u64 caps : LANDLOCK_NUM_PERM_CAP;
- 	/**
- 	 * @ns: Allowed namespace types.  Each bit corresponds to a sequential
- 	 * index assigned by the ``_LANDLOCK_NS_*`` enum (derived from
-@@ -83,6 +90,9 @@ struct perm_masks {
- } __packed __aligned(sizeof(u64));
- 
- static_assert(sizeof(struct perm_masks) == sizeof(u64));
-+/* All perm_masks bitfields must fit in a single u64. */
-+static_assert(LANDLOCK_NUM_PERM_CAP + LANDLOCK_NUM_PERM_NS <=
-+	      BITS_PER_TYPE(u64));
- 
- /**
-  * struct layer_config - Per-layer access configuration
-@@ -91,10 +101,10 @@ static_assert(sizeof(struct perm_masks) == sizeof(u64));
-  * This is the element type of the &struct landlock_ruleset.layers FAM.
-  *
-  * Unlike filesystem and network access rights, which are tracked per-object in
-- * red-black trees, namespace types use a flat bitmask because their keyspace is
-- * small and bounded (~8 namespace types).  A single rule adds to the allowed
-- * set via bitwise OR; at enforcement time each layer is checked directly (no
-- * tree lookup needed).
-+ * red-black trees, namespace types and capabilities use flat bitmasks because
-+ * their keyspaces are small and bounded (~8 namespace types, 41 capabilities).
-+ * A single rule adds to the allowed set via bitwise OR; at enforcement time
-+ * each layer is checked directly (no tree lookup needed).
-  */
- struct layer_config {
- 	/**
-diff --git a/security/landlock/audit.c b/security/landlock/audit.c
-index eca447ec281d..e7926d464981 100644
---- a/security/landlock/audit.c
-+++ b/security/landlock/audit.c
-@@ -86,6 +86,10 @@ get_blocker(const enum landlock_request_type type,
- 	case LANDLOCK_REQUEST_NAMESPACE:
- 		WARN_ON_ONCE(access_bit != -1);
- 		return "perm.namespace_use";
-+
-+	case LANDLOCK_REQUEST_CAPABILITY:
-+		WARN_ON_ONCE(access_bit != -1);
-+		return "perm.capability_use";
- 	}
- 
- 	WARN_ON_ONCE(1);
-diff --git a/security/landlock/audit.h b/security/landlock/audit.h
-index e9e52fb628f5..fe5d701ea45d 100644
---- a/security/landlock/audit.h
-+++ b/security/landlock/audit.h
-@@ -22,6 +22,7 @@ enum landlock_request_type {
- 	LANDLOCK_REQUEST_SCOPE_ABSTRACT_UNIX_SOCKET,
- 	LANDLOCK_REQUEST_SCOPE_SIGNAL,
- 	LANDLOCK_REQUEST_NAMESPACE,
-+	LANDLOCK_REQUEST_CAPABILITY,
- };
- 
- /*
-diff --git a/security/landlock/cap.c b/security/landlock/cap.c
-new file mode 100644
-index 000000000000..d54bd32297b7
---- /dev/null
-+++ b/security/landlock/cap.c
-@@ -0,0 +1,141 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Landlock - Capability hooks
-+ *
-+ * Copyright © 2026 Cloudflare
-+ */
-+
-+#include <linux/capability.h>
-+#include <linux/cred.h>
-+#include <linux/lsm_audit.h>
-+#include <linux/lsm_hooks.h>
-+#include <uapi/linux/landlock.h>
-+
-+#include "audit.h"
-+#include "cap.h"
-+#include "cred.h"
-+#include "limits.h"
-+#include "ruleset.h"
-+#include "setup.h"
-+
-+static const struct access_masks cap_perm = {
-+	.perm = LANDLOCK_PERM_CAPABILITY_USE,
-+};
-+
-+/**
-+ * hook_capable - Deny capability use for Landlock-sandboxed processes
-+ *
-+ * @cred: Credentials being checked.
-+ * @ns: User namespace for the capability check.
-+ * @cap: Capability number (CAP_*).
-+ * @opts: Capability check options.  CAP_OPT_NOAUDIT suppresses audit logging.
-+ *
-+ * Pure bitmask check: denies the capability if it is not in the layer's allowed
-+ * set.  This hook is purely restrictive: commoncap is registered with
-+ * LSM_ORDER_FIRST so cap_capable() always runs first, which means Landlock can
-+ * deny capabilities that commoncap would allow, but never grant capabilities
-+ * that commoncap denied.
-+ *
-+ * Return: 0 if allowed, -EPERM if capability use is denied.
-+ */
-+static int hook_capable(const struct cred *cred, struct user_namespace *ns,
-+			int cap, unsigned int opts)
-+{
-+	const struct landlock_cred_security *subject;
-+	size_t denied_layer;
-+
-+	subject = landlock_get_applicable_subject(cred, cap_perm, NULL);
-+	if (!subject)
-+		return 0;
-+
-+	denied_layer = landlock_perm_is_denied(subject->domain,
-+					       LANDLOCK_PERM_CAPABILITY_USE,
-+					       landlock_cap_to_bit(cap));
-+	if (!denied_layer)
-+		return 0;
-+
-+	/*
-+	 * Respects CAP_OPT_NOAUDIT to suppress audit records for capability
-+	 * probes (e.g., ns_capable_noaudit(), has_capability_noaudit()).
-+	 */
-+	if (!(opts & CAP_OPT_NOAUDIT))
-+		landlock_log_denial(subject,
-+				    &(struct landlock_request){
-+					    .type = LANDLOCK_REQUEST_CAPABILITY,
-+					    .audit.type = LSM_AUDIT_DATA_CAP,
-+					    .audit.u.cap = cap,
-+					    .layer_plus_one = denied_layer,
-+				    });
-+
-+	return -EPERM;
-+}
-+
-+static struct security_hook_list landlock_hooks[] __ro_after_init = {
-+	LSM_HOOK_INIT(capable, hook_capable),
-+};
-+
-+__init void landlock_add_cap_hooks(void)
-+{
-+	security_add_hooks(landlock_hooks, ARRAY_SIZE(landlock_hooks),
-+			   &landlock_lsmid);
-+}
-+
-+#ifdef CONFIG_SECURITY_LANDLOCK_KUNIT_TEST
-+
-+#include <kunit/test.h>
-+
-+static void test_cap_to_bit(struct kunit *const test)
-+{
-+	KUNIT_EXPECT_EQ(test, BIT_ULL(0), landlock_cap_to_bit(0));
-+	KUNIT_EXPECT_EQ(test, BIT_ULL(CAP_NET_RAW),
-+			landlock_cap_to_bit(CAP_NET_RAW));
-+	KUNIT_EXPECT_EQ(test, BIT_ULL(CAP_SYS_ADMIN),
-+			landlock_cap_to_bit(CAP_SYS_ADMIN));
-+	KUNIT_EXPECT_EQ(test, BIT_ULL(CAP_LAST_CAP),
-+			landlock_cap_to_bit(CAP_LAST_CAP));
-+}
-+
-+static void test_cap_to_bit_invalid(struct kunit *const test)
-+{
-+	KUNIT_EXPECT_EQ(test, 0ULL, landlock_cap_to_bit(-1));
-+	KUNIT_EXPECT_EQ(test, 0ULL, landlock_cap_to_bit(CAP_LAST_CAP + 1));
-+}
-+
-+static void test_caps_to_bits_valid(struct kunit *const test)
-+{
-+	KUNIT_EXPECT_EQ(test, (u64)CAP_VALID_MASK,
-+			landlock_caps_to_bits(CAP_VALID_MASK));
-+	KUNIT_EXPECT_EQ(test, BIT_ULL(CAP_NET_RAW),
-+			landlock_caps_to_bits(BIT_ULL(CAP_NET_RAW)));
-+}
-+
-+static void test_caps_to_bits_unknown(struct kunit *const test)
-+{
-+	KUNIT_EXPECT_EQ(test, 0ULL,
-+			landlock_caps_to_bits(BIT_ULL(CAP_LAST_CAP + 1)));
-+}
-+
-+static void test_caps_to_bits_zero(struct kunit *const test)
-+{
-+	KUNIT_EXPECT_EQ(test, 0ULL, landlock_caps_to_bits(0));
-+}
-+
-+static struct kunit_case test_cases[] = {
-+	/* clang-format off */
-+	KUNIT_CASE(test_cap_to_bit),
-+	KUNIT_CASE(test_cap_to_bit_invalid),
-+	KUNIT_CASE(test_caps_to_bits_valid),
-+	KUNIT_CASE(test_caps_to_bits_unknown),
-+	KUNIT_CASE(test_caps_to_bits_zero),
-+	{}
-+	/* clang-format on */
-+};
-+
-+static struct kunit_suite test_suite = {
-+	.name = "landlock_cap",
-+	.test_cases = test_cases,
-+};
-+
-+kunit_test_suite(test_suite);
-+
-+#endif /* CONFIG_SECURITY_LANDLOCK_KUNIT_TEST */
-diff --git a/security/landlock/cap.h b/security/landlock/cap.h
-new file mode 100644
-index 000000000000..67ac3d0c3ad3
---- /dev/null
-+++ b/security/landlock/cap.h
-@@ -0,0 +1,49 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Landlock - Capability hooks
-+ *
-+ * Copyright © 2026 Cloudflare
-+ */
-+
-+#ifndef _SECURITY_LANDLOCK_CAP_H
-+#define _SECURITY_LANDLOCK_CAP_H
-+
-+#include <linux/bitops.h>
-+#include <linux/bug.h>
-+#include <linux/capability.h>
-+#include <linux/compiler_attributes.h>
-+#include <linux/types.h>
-+
-+/**
-+ * landlock_cap_to_bit - Convert a capability number to a compact bitmask
-+ *
-+ * @cap: Capability number (CAP_*).
-+ *
-+ * Return: BIT_ULL(@cap), or 0 if @cap is invalid (with a WARN).
-+ */
-+static inline __attribute_const__ u64 landlock_cap_to_bit(const int cap)
-+{
-+	if (WARN_ON_ONCE(!cap_valid(cap)))
-+		return 0;
-+
-+	return BIT_ULL(cap);
-+}
-+
-+/**
-+ * landlock_caps_to_bits - Validate and mask a capability bitmask
-+ *
-+ * @capabilities: Bitmask of capabilities (e.g. from user space).
-+ *
-+ * Return: @capabilities masked to known capabilities.  Warns if unknown bits
-+ * are present (callers must pre-mask for user input).
-+ */
-+static inline __attribute_const__ u64
-+landlock_caps_to_bits(const u64 capabilities)
-+{
-+	WARN_ON_ONCE(capabilities & ~CAP_VALID_MASK);
-+	return capabilities & CAP_VALID_MASK;
-+}
-+
-+__init void landlock_add_cap_hooks(void);
-+
-+#endif /* _SECURITY_LANDLOCK_CAP_H */
-diff --git a/security/landlock/cred.h b/security/landlock/cred.h
-index 0172345fa86f..d04323a5eb05 100644
---- a/security/landlock/cred.h
-+++ b/security/landlock/cred.h
-@@ -191,6 +191,9 @@ landlock_perm_is_denied(const struct landlock_ruleset *const domain,
- 		case LANDLOCK_PERM_NAMESPACE_USE:
- 			allowed = domain->layers[layer].allowed.ns;
- 			break;
-+		case LANDLOCK_PERM_CAPABILITY_USE:
-+			allowed = domain->layers[layer].allowed.caps;
-+			break;
- 		default:
- 			WARN_ON_ONCE(1);
- 			return layer + 1;
-diff --git a/security/landlock/limits.h b/security/landlock/limits.h
-index e51122668fd3..01b0b693d0fb 100644
---- a/security/landlock/limits.h
-+++ b/security/landlock/limits.h
-@@ -11,6 +11,7 @@
- #define _SECURITY_LANDLOCK_LIMITS_H
- 
- #include <linux/bitops.h>
-+#include <linux/capability.h>
- #include <linux/limits.h>
- #include <linux/ns/ns_common_types.h>
- #include <uapi/linux/landlock.h>
-@@ -32,11 +33,12 @@
- #define LANDLOCK_MASK_SCOPE		((LANDLOCK_LAST_SCOPE << 1) - 1)
- #define LANDLOCK_NUM_SCOPE		__const_hweight64(LANDLOCK_MASK_SCOPE)
- 
--#define LANDLOCK_LAST_PERM		LANDLOCK_PERM_NAMESPACE_USE
-+#define LANDLOCK_LAST_PERM		LANDLOCK_PERM_CAPABILITY_USE
- #define LANDLOCK_MASK_PERM		((LANDLOCK_LAST_PERM << 1) - 1)
- #define LANDLOCK_NUM_PERM		__const_hweight64(LANDLOCK_MASK_PERM)
- 
- #define LANDLOCK_NUM_PERM_NS		__const_hweight64((u64)(CLONE_NS_ALL))
-+#define LANDLOCK_NUM_PERM_CAP		(CAP_LAST_CAP + 1)
- 
- #define LANDLOCK_LAST_RESTRICT_SELF	LANDLOCK_RESTRICT_SELF_TSYNC
- #define LANDLOCK_MASK_RESTRICT_SELF	((LANDLOCK_LAST_RESTRICT_SELF << 1) - 1)
-diff --git a/security/landlock/setup.c b/security/landlock/setup.c
-index a7ed776b41b4..971419d663bb 100644
---- a/security/landlock/setup.c
-+++ b/security/landlock/setup.c
-@@ -11,6 +11,7 @@
- #include <linux/lsm_hooks.h>
- #include <uapi/linux/lsm.h>
- 
-+#include "cap.h"
- #include "common.h"
- #include "cred.h"
- #include "errata.h"
-@@ -70,6 +71,7 @@ static int __init landlock_init(void)
- 	landlock_add_fs_hooks();
- 	landlock_add_net_hooks();
- 	landlock_add_ns_hooks();
-+	landlock_add_cap_hooks();
- 	landlock_init_id();
- 	landlock_initialized = true;
- 	pr_info("Up and running.\n");
-diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
-index b5bbeedc6825..6e99cda3d511 100644
---- a/security/landlock/syscalls.c
-+++ b/security/landlock/syscalls.c
-@@ -30,6 +30,7 @@
- #include <linux/uaccess.h>
- #include <uapi/linux/landlock.h>
- 
-+#include "cap.h"
- #include "cred.h"
- #include "domain.h"
- #include "fs.h"
-@@ -98,8 +99,9 @@ static void build_check_abi(void)
- 	struct landlock_path_beneath_attr path_beneath_attr;
- 	struct landlock_net_port_attr net_port_attr;
- 	struct landlock_namespace_attr namespace_attr;
-+	struct landlock_capability_attr capability_attr;
- 	size_t ruleset_size, path_beneath_size, net_port_size;
--	size_t namespace_size;
-+	size_t namespace_size, capability_size;
- 
- 	/*
- 	 * For each user space ABI structures, first checks that there is no
-@@ -127,6 +129,11 @@ static void build_check_abi(void)
- 	namespace_size += sizeof(namespace_attr.namespace_types);
- 	BUILD_BUG_ON(sizeof(namespace_attr) != namespace_size);
- 	BUILD_BUG_ON(sizeof(namespace_attr) != 16);
-+
-+	capability_size = sizeof(capability_attr.allowed_perm);
-+	capability_size += sizeof(capability_attr.capabilities);
-+	BUILD_BUG_ON(sizeof(capability_attr) != capability_size);
-+	BUILD_BUG_ON(sizeof(capability_attr) != 16);
- }
- 
- /* Ruleset handling */
-@@ -449,14 +456,57 @@ static int add_rule_namespace(struct landlock_ruleset *const ruleset,
- 	return 0;
- }
- 
-+static int add_rule_capability(struct landlock_ruleset *const ruleset,
-+			       const void __user *const rule_attr)
-+{
-+	struct landlock_capability_attr cap_attr;
-+	int res;
-+	access_mask_t mask;
-+
-+	/* Copies raw user space buffer. */
-+	res = copy_from_user(&cap_attr, rule_attr, sizeof(cap_attr));
-+	if (res)
-+		return -EFAULT;
-+
-+	/* Informs about useless rule: empty allowed_perm. */
-+	if (!cap_attr.allowed_perm)
-+		return -ENOMSG;
-+
-+	/* The allowed_perm must match LANDLOCK_PERM_CAPABILITY_USE. */
-+	if (cap_attr.allowed_perm != LANDLOCK_PERM_CAPABILITY_USE)
-+		return -EINVAL;
-+
-+	/* Checks that allowed_perm matches the @ruleset constraints. */
-+	mask = landlock_get_perm_mask(ruleset, 0);
-+	if (!(mask & LANDLOCK_PERM_CAPABILITY_USE))
-+		return -EINVAL;
-+
-+	/* Informs about useless rule: empty capabilities. */
-+	if (!cap_attr.capabilities)
-+		return -ENOMSG;
-+
-+	/*
-+	 * Stores only the capabilities this kernel knows about.  Unknown bits
-+	 * are silently accepted for forward compatibility: user space compiled
-+	 * against newer headers can pass new CAP_* bits without getting EINVAL
-+	 * on older kernels.  Unknown bits have no effect because no hook checks
-+	 * them.
-+	 */
-+	mutex_lock(&ruleset->lock);
-+	ruleset->layers[0].allowed.caps |=
-+		landlock_caps_to_bits(cap_attr.capabilities & CAP_VALID_MASK);
-+	mutex_unlock(&ruleset->lock);
-+	return 0;
-+}
-+
- /**
-  * sys_landlock_add_rule - Add a new rule to a ruleset
-  *
-  * @ruleset_fd: File descriptor tied to the ruleset that should be extended
-  *		with the new rule.
-  * @rule_type: Identify the structure type pointed to by @rule_attr:
-- *             %LANDLOCK_RULE_PATH_BENEATH, %LANDLOCK_RULE_NET_PORT, or
-- *             %LANDLOCK_RULE_NAMESPACE.
-+ *             %LANDLOCK_RULE_PATH_BENEATH, %LANDLOCK_RULE_NET_PORT,
-+ *             %LANDLOCK_RULE_NAMESPACE, or %LANDLOCK_RULE_CAPABILITY.
-  * @rule_attr: Pointer to a rule (matching the @rule_type).
-  * @flags: Must be 0.
-  *
-@@ -508,6 +558,8 @@ SYSCALL_DEFINE4(landlock_add_rule, const int, ruleset_fd,
- 		return add_rule_net_port(ruleset, rule_attr);
- 	case LANDLOCK_RULE_NAMESPACE:
- 		return add_rule_namespace(ruleset, rule_attr);
-+	case LANDLOCK_RULE_CAPABILITY:
-+		return add_rule_capability(ruleset, rule_attr);
- 	default:
- 		return -EINVAL;
- 	}
--- 
-2.54.0
-
+> 
+> Best regards,
+> Tomasz
