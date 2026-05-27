@@ -1,130 +1,97 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D9F313520
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 20:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779915205; cv=pass; b=IJUqQbzLG95M4+OZSjT+rZaIwbk2YhG5PxURk2Xq9az5A3quoGSHeIJVkV6sW0ZeNI2KYGILXBJnXUComk54BU5677O+jPpKQ8iz00V8Cr2lYyNs+k6+kdQV+kC50iPZXEPEE9gKiD/LSaQjIQDvASyIkRgbITKqzdXB7fhrPoI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779915205; c=relaxed/simple;
-	bh=wmy93l+/aBdJc9H+704sJw9+4dGAbErOrmAMS1b8xyg=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612AB28D8DB
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 21:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779916150; cv=none; b=TqJ/0U25HokLhkgwTZC+qtJ6CaPwWewkoD8Fq+edvFkR/cnMXWrpRRdD0bQgZQB6OsflBgOZqOcR4ZoEFJNRc7yOjjPmqpr3ysUDFicslmJ5M1/a4FdUgjXuepO5+YCs5J/1TethGFPzLlsvibL/ntr/PW8DJc6xqElquD/z0gk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779916150; c=relaxed/simple;
+	bh=GEKS06uuuAqcjSg8ihpyB/cxnmd0DZZbElkKKpaHokU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FtmVcScWS7l2dORZXb7CPB1XD5NjUMGr6CxkcATwQHk84QMHgNYyarkeZDC1yl1uLQCU5rW2JlRGUV/WDEeE2daBk24rIxtjEuNq8gZF0U3eAMC++pBMU3glwaleukxjsLKVJzeX4RXnpvFT9mPtzUvnJDPhmF1HuFj5E+z2OZo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FUenSyuh; arc=pass smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Z5FhaevH1eiTOXXMgTkGvGWPDfKzkAzPA5C9qJumDvTbAZdDp4BRY1LNX3frjjXgNl7ZnzHyVRD1ftO43XGLVFTJ2PzBSsskHjXZhkOJoxPEOO0jhZ2XEy+2TMgGSDMHEDlWNjfNC0Djjm+datrGFi99MvFPhXCkzwXffahZtWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYbl47tS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FUenSyuh"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-44e1ebb3122so7412702f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 13:53:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779915202; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ExU8QHVd5QM/BFN905ePDkFm6lMd1rlDvjS0v+H/ZxlqzVoxsW/UfGvRAhDG+p13ov
-         XJv3q18wQBUY6xjT449pPPYCJKFOqR6mRbomvNAPWWQVKUCMdOMynD2pPEdIs1Hf65pM
-         1MX4XemzYBvPGIoRwO/U0bK+JiRiPEOL81TyeKr695HAnV09VFf78vLA9rQJqdMRv3b3
-         6+f8bqcJjF3n72AFQuX5BU8Nsf7ziiwhgA7NcYC3vs/BpULHdqQ16aH0nLPbmXgM2mNi
-         JkmVGrghkEqjSqGd7WELRrI5GMuI8r6yC9dOL/POcXvJ/LZfE14070ndmAhcueT+zGbB
-         U+GQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wmy93l+/aBdJc9H+704sJw9+4dGAbErOrmAMS1b8xyg=;
-        fh=S3+1IlfpX7nLyuOf5UQpkwmE2kfEaftBf4CK+LGcLv0=;
-        b=dUSYJmlmEde48UOhMe28drstS8pdry7lLTGp1W6+uK1hRLo4oKv0rie2dmTT7GcfBj
-         s8FD6+zSNbI14hWLZuwyJ0eCzcHv402Mi4E5uYzIX84vc+KYhYwy5cJ4qWJoZDLjDDYf
-         zdKM/lfYmmI0lu8ihTtcC3182iSmhzvYo3svBcCG7xCbiLz2rCf1f2Xe9Fq1qPPECg82
-         b1mMUeLDIqNK9HZx6Yilg6JZ/iLNY2vY+ImC2hSTAak20nssV7zUJxGyDGEDgxBixTMx
-         nEhy6nQptgDGrIGha8MDQkb2zLp4nkag3/chxkr5/kMy0ZIprmSUyHknX85uuwZT+DFV
-         QjaQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779915202; x=1780520002; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wmy93l+/aBdJc9H+704sJw9+4dGAbErOrmAMS1b8xyg=;
-        b=FUenSyuhraXSgwGWz+MioPzRp8kACsP/s9dVA8AhMDnVM567UYXHmPWqGOj1oLmAys
-         UUApcxtSsqWzdJf7V0XnbnXMWcLXJI/wuWLezSlHlPZlio/EvhgDt5f+3yzz2hLuCHaK
-         ipMxDDuPx1M9mC5by9xJWUU5b7riQcCNwzk7S4B+JFMPc7cUGHgnOGjIXnXDghEOBCL9
-         T871cNMQN+9s2BPwiU2eDY1amZ1it1+Uj2yUYK2uY809gWGMQ4kmytJp1BcWu/M98NCh
-         tagavwlpHllFRrY6ujJ0SaaYr3ituKUz5/kQDfIMJ6wLqJ08hls/8kPOmv1pR8l1SdPr
-         jw7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779915202; x=1780520002;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wmy93l+/aBdJc9H+704sJw9+4dGAbErOrmAMS1b8xyg=;
-        b=bC9Yami2SaFHf0tW2GRlhvnrKWc9Ws+cZ2g2GRc4js3KwUcblaEmhwLVSiqpi5yg26
-         tN01baQcQfH5Eitly54kQZqxjmYbvcPRKNOAE+zOaS9bUmygBTsAMxwLq9PVTU8gBkuG
-         l0kTDMX8wqnSTfc2R+ZxEAmqP9GvvT5yr7u7VxnWnhm6Hf/BoaG1AWt3cTQLQN/7qEnl
-         9yuA4awNOlP+O4J6jMCd8ROHxH/tnKhXnr0V5JPI1xQN+N2uYJ7c5RjRfCmjGIE/lpE/
-         Yey830Oe1OO9xa2aKdmhav5nDsuW2XProzTecvFLh7cGGMH643F4/izhu++stddsuuxJ
-         tUng==
-X-Forwarded-Encrypted: i=1; AFNElJ+O68HtS+0uh7oEUYErdchK4+HTwu2aSXmU+Ni3RgjLacykh7nNFFA2QbTjmBHcNyu6SZHIKAS/Rq4Ducat@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJlmmadjvqopxXZLEKh8oEfL8vTNmTJ3MRt7FP1GSuhTJjyDD/
-	7nYIhj6JMXs/LFeskqgJminR6c1hQl0/IeHT7UD3rVk9zBi4QDzb5vb1offd7EutTFTPHGOtkI/
-	yMgI4e63c3q6upZrtXl2Odgh0D9TJ2jQneM0nm0g=
-X-Gm-Gg: Acq92OGUAEVfKn9JHTMiBbdrasY9vIB8kRNfzrQ4ziE/tMK/Ln6BYiedq3O7BywfPnn
-	JpF5lxgeMSQ1uzUz0672AHReLLwQ6rpz36rar/7OJLCJU8ZpDF5jD4WYFsQCYBWJwsia1o0N1zL
-	jzsR662tr7fHYJm2btprVWD+8wemywCavLtezqt9todj6/5VAGcLKBKLmnST6QgJbmEgMagAfGS
-	ApscR/jJ5P3MMJKXysawLppfJU+QFIdZv/UtCuems1oV2JBlQn5qhIi3e8+Vvv5YImyB2nnz62y
-	dS47u/IhlJ++lIokF1RT/kMoaMtz+/u5hQ==
-X-Received: by 2002:a05:600c:4510:b0:48f:e230:72fc with SMTP id
- 5b1f17b1804b1-490428ee268mr384790785e9.33.1779915202084; Wed, 27 May 2026
- 13:53:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYbl47tS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FAE31F00ADF
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 21:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779916149;
+	bh=SGNQeth4C737npdaj8qyPJlkY2CV1woEfMjV+LyPpKs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=YYbl47tSWadaLp25wNd29TyEhD4mDuRPA28dakOeAUi2bdlKLPhX785Mg1CaYsLVE
+	 sD2/UqQMwyaKYORziMsp06JC0jnVFXsmv28Cq6AUsef4IIA4og8Jp30IHGFpcDCxmh
+	 TIH1q1zW3VniIGan5y6fvFl8fQkRzkWDwZ3OHjKXax0ebudOFasMJQQa23pSLWcf/R
+	 qoyK3Q/TewfmY7g3nmlToY+2U48SfjZPF15+bF6ESDIbdeyvyqu5Lw8dU03J7LZzUP
+	 YeJJxhVvVPKVl39qKuc06tiwWWPMT2IgRsnRwrT1bjnpvpOlrVaFq6LhYVYJvPA38H
+	 h0l76bbb6sc0Q==
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-914b4be9c4bso540529285a.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 14:09:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8CrXOlYBpvjiQtAkmipIS8KnbeFzgDLEZRximIxhFxxR0CwXYzwE/m0AoNvEx31fAEp540vpi/uVeEfphf@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKI6KODILHqmU71QC/GxiFlmfpRVumHm2rA1jMSTlSZei4eeUf
+	xpMr018BPxaPlR4nR/TNSf37LQYt9OrA0q74SBEtbwCxIsiHxvhy14V9QPDnaGzFjGUIwBXE4Lj
+	EneMS+tEQxV+sCV+2KjaVZbGp45ZPfrU=
+X-Received: by 2002:a05:620a:408f:b0:90c:a08f:c5f0 with SMTP id
+ af79cd13be357-914b49cd89fmr3578191385a.33.1779916148247; Wed, 27 May 2026
+ 14:09:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-2-joannelkoong@gmail.com> <ae5355a5-b10d-47e2-88f8-fc3eaa0de54e@linux.alibaba.com>
-In-Reply-To: <ae5355a5-b10d-47e2-88f8-fc3eaa0de54e@linux.alibaba.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 27 May 2026 13:53:09 -0700
-X-Gm-Features: AVHnY4Il3qkvk6D6gZbDOw1w2l5UyCEreQgdw11d2LS3_hgS4aWwLUlJ_NYAIk0
-Message-ID: <CAJnrk1Ypd=ek1E7qLpdxCoVzwzmzXLktXdpDbjPBZz7qKrWWTQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/14] fuse: separate next request fetching from
- sending logic
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: miklos@szeredi.hu, bernd@bsbernd.com, axboe@kernel.dk, 
-	linux-fsdevel@vger.kernel.org, Bernd Schubert <bschubert@ddn.com>
+References: <20260515200158.4081915-1-song@kernel.org> <20260515200158.4081915-2-song@kernel.org>
+ <177944135249.2871055.11361892114499566606.b4-review@b4> <CAPhsuW4BVSQ6oqyk=kExuZUkB9PWRRqUf_EJ=x3mNmtkT4oH4g@mail.gmail.com>
+ <20260527-landen-bahnfahren-eckpfeiler-c1e1e9cb73aa@brauner>
+In-Reply-To: <20260527-landen-bahnfahren-eckpfeiler-c1e1e9cb73aa@brauner>
+From: Song Liu <song@kernel.org>
+Date: Wed, 27 May 2026 14:08:56 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4bwf=G--_gfMZOOAkpRJDfC0FSv=Tq+UAdAOY0euDamg@mail.gmail.com>
+X-Gm-Features: AVHnY4JoTXa2GC7TLUEwE7AqXzVEqSqzeUkn5eeygD5_8kZaIgsnYmpV6LQtVMg
+Message-ID: <CAPhsuW4bwf=G--_gfMZOOAkpRJDfC0FSv=Tq+UAdAOY0euDamg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/7] lsm: Add granular mount hooks to replace security_sb_mount
+To: Christian Brauner <brauner@kernel.org>, paul@paul-moore.com
+Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	selinux@vger.kernel.org, apparmor@lists.ubuntu.com, jmorris@namei.org, 
+	serge@hallyn.com, viro@zeniv.linux.org.uk, jack@suse.cz, 
+	john.johansen@canonical.com, stephen.smalley.work@gmail.com, 
+	omosnace@redhat.com, mic@digikod.net, gnoack@google.com, 
+	takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	herton@canonical.com, kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 26, 2026 at 9:02=E2=80=AFPM Baokun Li <libaokun@linux.alibaba.c=
-om> wrote:
->
-> On 2026/4/3 00:28, Joanne Koong wrote:
-> > Simplify the logic for fetching + sending off the next request.
+On Wed, May 27, 2026 at 5:17=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+[...]
+> > 1/7 adds new hooks:
+> >   lsm: Add granular mount hooks to replace security_sb_mount
+> > 2/7 through 6/7 migrate LSMs from old hooks to new hooks:
+> >   apparmor: Remove redundant MS_MGC_MSK stripping in apparmor_sb_mount
+> >   apparmor: Convert from sb_mount to granular mount hooks
+> >   selinux: Convert from sb_mount to granular mount hooks
+> >   landlock: Convert from sb_mount to granular mount hooks
+> >   tomoyo: Convert from sb_mount to granular mount hooks
+> > 7/7 removes old hooks:
+> >   lsm: Remove security_sb_mount and security_move_mount
 > >
-> > This gets rid of fuse_uring_send_next_to_ring() which contained
-> > duplicated logic from fuse_uring_send(). This decouples request fetchin=
-g
-> > from the send operation, which makes the control flow clearer and
-> > reduces unnecessary parameter passing.
-> >
-> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > Reviewed-by: Bernd Schubert <bschubert@ddn.com>
+> > Some ideas to change this:
 >
+> My thought had been:
 >
-> Nice cleanup.
+> * Add the new hooks to security/.
+> * add the individual lsm implementations.
+> * Now replace the old hooks with the new hooks in fs/namespace.c
+> * Delete the old hooks in security/
 >
-> Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
->
+> IOW, why the migration step? It is a full replacement anyway.
 
-Thanks for taking the time to review the patches in this series,
-Baokun. There is a newer v3 version of this series in [1] that was
-cc'ed only to the new fuse-devel mailing list (with fs-devel dropped
-since the patches are only fuse-specific). I'll make sure your
-Reviewed-bys get added to the series.
+I think having a migration like this doesn't really make
+review more difficult. But I am OK refactoring the patches
+as requested.
+
+Paul, do you have a strong preference either way?
 
 Thanks,
-Joanne
-
-[1] https://lore.kernel.org/fuse-devel/20260522205823.1597313-1-joannelkoon=
-g@gmail.com/
+Song
