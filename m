@@ -1,138 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616233B8D40;
-	Wed, 27 May 2026 12:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D342BEFEF
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 12:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779883514; cv=none; b=C7vUTB7gOf5tVn7hYfULaQY6MDZvVgUFdxK8DM11064V0UZeTk+Abq/AIF+rqP1NRwv/2Bo7cSav1uXgTTU+DZllA26MxcdBCkPs2hNQCB/gYgdSmtGW7rwqAyMx5WVXM+YtxMqeLUA0ti3ppmXBRagdAksUMLUaomZt33b2q9A=
+	t=1779883552; cv=none; b=ACEdaK6Qm9ZQfKPtrV00X1E8TwLyZgxuEXdRjLkkjuV+2oDy2C3CL+GiehONBzfKFU/zsaIBe1cIBIfSDxUS+YQrhhVxcGkJpCnlm0HFwWQbGmalyaPTJ9yMq9eVncHDwcgTKDBXS8y3OO3cofIDm69MTmAB6oZ4JBuZD5RQuOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779883514; c=relaxed/simple;
-	bh=7rQ2H903AAvQ6IZQAXl+cCdxot1XbPFMx/ZvOX+8vrc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b08oOtZSnAGlRh+ymnFK7H7biESKw/7XmqlJ9gvk+zCh+KQAJzlM78wytOMyOJ+PkQ+hEKXlbtqGGecql7QE0Yh7gPeZjQCr3vdziSLUSIXgjbLOPwmvGTlqkdZCtOHWgAOSJ0OiMVUgR+hZY149g4m0ZQP8C8WQnOZVbynjyHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QEBSWLta; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779883552; c=relaxed/simple;
+	bh=adYa1Lpyft+sSshPCyVT78ZL4TPiNqJulxJyuE0U0s4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OoZKInqyWTkI2tHWXPsAwGD01yqMFyDmDbfes+N8HAAS108lLj7b97G/ar+O/Rmd4MNHY6W8BDCa51DDzjAoZOp00/n/rwojAQUoW7C+uD5YGwU1rdVV0SLDEXXBZycsZJPnCHJ9C7/YDaIRWLYU4afEIxOkjHEZN8baARcv24g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q8WKEWja; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QEBSWLta"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EDD71F000E9;
-	Wed, 27 May 2026 12:05:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q8WKEWja"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5051B1F00A3D
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 12:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779883513;
-	bh=dSe/p8m92m4kv6gkSLjHZwhNrgydZHmT4N7lsMHBvQU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QEBSWLtaZIuoMiK58mLh0h3+0FMG9IjpSp3cijZXDpJUAI2yAuoxrOkYksYtwqUoV
-	 ayrNBjVdYBsJ4uUBTaqARidUay+v6Iy/CXc5HwTbfTj+cZz3gpJNfCh6IVruk0zHYF
-	 ZMntdi8fdcDrJhOFuIWjUHPPknUkGwpcLFAsmm4+YXJKKnMKVMpMTi2stdGvqVafTj
-	 pgTEobe+ZtvrgggQFNadI7tE88JKdrrWmLHG+tdQ4E1+eKi6k1MUT6QXDFhBYz1O0h
-	 fWBhWkWeVexTDXhD9chgA9VhUR8xEY5v3IqDHj0K+ZGhAakGALO0saJdKMeDQz9zTW
-	 cTIuDPpg54pAA==
-From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
-	Kees Cook <kees@kernel.org>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	linux-nilfs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	jfs-discussion@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 00/17] fs: replace __get_free_pages() call with kmalloc()
-Date: Wed, 27 May 2026 14:05:00 +0200
-Message-ID: <20260527-anachronismus-waagrecht-abgibt-77744a201ada@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
-References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
+	s=k20260515; t=1779883551;
+	bh=adYa1Lpyft+sSshPCyVT78ZL4TPiNqJulxJyuE0U0s4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Q8WKEWjaXbwcTY8fK04gUvgp4uwbEkzZyAeAX1M/KCn4w9S9Vwtv6Cav4JrSriQCy
+	 QC88bIHBm9pDF9QSPegXWXgz6UqAfSfPqQXIy3JWCU4zXRS0/pY8FIPGHFuON0QNX7
+	 w2tHEwizWzTrLHHnUQHHRCbTcc3YmoBu52N+E4jps0+0luN+B+Ft8xmazDVk6kQcva
+	 GzCQku2HFbqSPtxddPwNk+ZCRqABkSOFd40nTql2SRAIrZWWaFu9eTq9jjSWvT5Myk
+	 RuyXwzOx8Xqn9xrTFKtB/NVVfSHPocO2oa187u/WT2IU/1S101fEhW5bJVGfL/z2xD
+	 EeXFqEINVNESA==
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bd8f9889a8cso1384063066b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 05:05:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9rWHGFEk5Qhi/qKiCdE3X89XOJN5tous523pYvwyQ0nkNXJkg3Nd7d0DUsU2qh4xqDTPv+1/s8vhhs6MQQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEV8uP7JTTrIda4EwLxkhuRK1IT61HBZ+qv6i00JhxK1LwWoAR
+	f0fTJqayKisOUIu32Mi6g/ErOgtsyHUJGOTiDw3mx8Bn0Q7kW8b5tU0Pnjqp7aW62AcsiJMThsO
+	V3tx4FxAQA8/LWHqTBEf7oIlOPzD9rJk=
+X-Received: by 2002:a17:907:9309:b0:bd1:2c29:a6ac with SMTP id
+ a640c23a62f3a-bdd269b6755mr1466163366b.44.1779883549805; Wed, 27 May 2026
+ 05:05:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2952; i=brauner@kernel.org; h=from:subject:message-id; bh=7rQ2H903AAvQ6IZQAXl+cCdxot1XbPFMx/ZvOX+8vrc=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSJ3X1n8TZN9+8lI6kCEx+Ra2rJdjqm/rwVB6c+tFmke vLSg57+jlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkUzGL4H/Wc/8X5Rv71Hhe/ LJ41e+PUnsiQ20n3F3Eov1G/e8HpkTgjw6ra1Vf7Iu73sXftPit++IHYnemLJ5iqnCmtzdAtv8p owwQA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+References: <20260527074942.17393-1-colin.i.king@gmail.com>
+In-Reply-To: <20260527074942.17393-1-colin.i.king@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 27 May 2026 21:05:37 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-y1bP+=2PrPf_wGkCotT7j0OrVVV89US4siaO=k2v=Jg@mail.gmail.com>
+X-Gm-Features: AVHnY4KxVlAW9Fk2OSBRPw728Xn8jdObUeEIwAXQ0pQn8bvqeW0R2z4AL8FpkGc
+Message-ID: <CAKYAXd-y1bP+=2PrPf_wGkCotT7j0OrVVV89US4siaO=k2v=Jg@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: Fix spelling mistake "etnry" -> "entry"
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 23 May 2026 20:54:12 +0300, Mike Rapoport (Microsoft) wrote:
-> This is a (small) part of larger work of replacing page allocator calls
-> with kmalloc.
-> 
-> Also in git:
-> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/fs
-> 
-> 
-> [...]
-
-Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.misc
-
-[01/17] quota: allocate dquot_hash with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/c94d1fa0af45
-[02/17] proc: replace __get_free_page() with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/3c849e5fe1db
-[03/17] ocfs2/dlm: replace __get_free_page() with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/40b7e5db6a25
-[04/17] nilfs2: replace get_zeroed_page() with kzalloc()
-        https://git.kernel.org/vfs/vfs/c/2abe95d9f56d
-[05/17] NFS: replace __get_free_page() with kmalloc() in nfs_show_devname()
-        https://git.kernel.org/vfs/vfs/c/75805c8f6d43
-[06/17] NFS: remove unused page and page2 in nfs4_replace_transport()
-        https://git.kernel.org/vfs/vfs/c/0d77bacd0eab
-[07/17] NFSD: replace __get_free_page() with kmalloc() in nfsd_buffered_readdir()
-        https://git.kernel.org/vfs/vfs/c/64f162f93a81
-[08/17] libfs: simple_transaction_get(): replace get_zeroed_page() with kzalloc()
-        https://git.kernel.org/vfs/vfs/c/5a3763a94e95
-[09/17] jfs: replace __get_free_page() with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/d50250728dc1
-[10/17] jbd2: replace __get_free_pages() with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/75c9377833a1
-[11/17] isofs: replace __get_free_page() with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/95f2509040ac
-[12/17] fuse: replace __get_free_page() with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/c78262429022
-[13/17] fs/select: replace __get_free_page() with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/ac6aa4672cef
-[14/17] fs/namespace: use __getname() to allocate mntpath buffer
-        https://git.kernel.org/vfs/vfs/c/bd822134dcaf
-[15/17] configfs: replace __get_free_pages() with kzalloc()
-        https://git.kernel.org/vfs/vfs/c/32466534cba7
-[16/17] binfmt_misc: replace __get_free_page() with kmalloc()
-        https://git.kernel.org/vfs/vfs/c/df5f3ac3e999
-[17/17] bfs: replace get_zeroed_page() with kzalloc()
-        https://git.kernel.org/vfs/vfs/c/0a994e1ab090
+On Wed, May 27, 2026 at 4:51=E2=80=AFPM Colin Ian King <colin.i.king@gmail.=
+com> wrote:
+>
+> There is a spelling mistake in a ntfs_error message. Fix it.
+>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
