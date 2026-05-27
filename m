@@ -1,217 +1,200 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E833B27ED
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 19:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610053B19AE
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 19:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779911364; cv=none; b=FiA+GzDgaYLUAu5ZW+0CNAxAT470hXbQQPGwy1JMnsY/w177Y26Veg/DWvWVQ8qE5RhKNpqcWGRDSYzHddFvBmDgUXW6QVOluz7oiARy73sdt7i+Y/nsQPa3C9pYC2jDrJD7dHbDfBoMCq1OyQjYQVBIa7A9vQAYXAwIl/OVhsQ=
+	t=1779911520; cv=none; b=qwh+KhnoUuV4eB1OgOszoqLbga3qOP5YrAmnG1bLBw8Dbxe/biIyQ+rEMAo7jmnkkQ0N/OeTl07hLjHXc5q98EROGXF5qZxNFv5jZcISbjItx548AahkjKf6ii/dnLan1AlTTil37Edy+y944Y9ZnauBUK1ljiftCXFikrIr9gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779911364; c=relaxed/simple;
-	bh=1VX7dQqrhyxM42aOJqsFe18tEj1zm1eELprqELEHgWw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RCfVoWvaDf7gEuCHxhqLBoNo03z5cixf8di14GApEP7+29bPmHJSAzU7YPpwdL94Hsj35h+zt5YlEICZpaYs1UYBptBAYbFRord5AXWgR3VTgnVAXgSXzWVDbOkSYtRvAD1N7T3bipIjquwp/v8v9DWiAUeABQnnqpqgVcvkQ0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=oIlGoQEL; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	s=arc-20240116; t=1779911520; c=relaxed/simple;
+	bh=kCl++7kVYFt/ccvpD4rkLQoby1VrrRSqMkxpEBLSpA8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qWoAQJTQy/HFidygP6MqD255Iar9exGxWLt3olLtg2/167YqCEnx/U4HWq+60TFpEX4JujKzSllFmvs0UyeXYKZUfm2cu0AH1NLNfSXDKDoFuV9dUyMfPZIRlnOK1HGOL+G3jhz5LcnibcTD274c+4eNcMWwgBaDRpraUlKXDOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c0tOkv30; arc=none smtp.client-ip=74.125.82.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="oIlGoQEL"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-4854166e1efso6224533b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 12:49:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c0tOkv30"
+Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-137335bc3caso2993385c88.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 12:51:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1779911362; x=1780516162; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iGDr2RH1M47w9vRwh+ddVqffMm7NNJFajgGCLuO3PlA=;
-        b=oIlGoQEL+P6iqaXh1XCBYigYf8JgwClcm4E8z3Kv/JpBrw5nNJi4keyaNvg7JM+Hv6
-         xu/Uup5dMo8XYELmmVCgcqzE0aUKq/ihnihq8LdVa5Lmu0jP2vZzTujCOLywcJiGivfJ
-         X9kmXaUbQwGNJChZkfilK8srmmgDH7JPp6+nBrLwUMh70wslMQsvBqZlNwsqtbIa6Q74
-         sQvgIvcqe/qmTvbOYBtSynGILaS+bDbRB/hY/5eo9Bp+bG6D77ipDqSdO5Ua53melShi
-         m/aE5PfuJDbxW2GO/X30g/BAFPL61q+KDNptfOzZ5386noHuZhjbA2Gvl5D60J5V9LdK
-         +JrA==
+        d=gmail.com; s=20251104; t=1779911518; x=1780516318; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0Sp+s7C7f8D+jwwDxh0Y9qxUvL34f7v6oQb0ido5j04=;
+        b=c0tOkv30dFFMOs8lQI7MqrKFPpuSGUHCXUY0W0d4Bzgc+Jvd/y3VR/qfrQF6Dxk3Nj
+         XcueQNIxEDBPxc+v4abjlF1kFNAvJ5it/qCGT5vrs2rsSeki0LEGg3XJDxn2kWP4Qa0c
+         r9aptGyWYN6aBYJ4OK5htdqYve3Z36WtnWzivYMp446V+GeT3dh7QpEZ0xAwlNkXtaK9
+         +B1ixPm8bRDPVtb3Ktbr5dkDJm7W4zOaLP8Mhp3kJw6r41/bsquLLktSV1AtX1YxR2UZ
+         qWQ0Z/ePiAXANRPy3LszmpA+AowH3R/Pcqpn3SbpBjynXDVp+Vj3ecEx9KK3UsG8xjjO
+         Dv1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779911362; x=1780516162;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iGDr2RH1M47w9vRwh+ddVqffMm7NNJFajgGCLuO3PlA=;
-        b=Xjp4qhCK2mhLfdjcjGeiTeLlPKg9ksMzmiThFK9TrQZtPslVzjnxyjZ9dlpNSwkdV7
-         aygBgVmgrkj5WjXgO7e+WsdMmZq/bssu5FxCTVXpahSmPh2eLJApWIxIBhG0wwD2rLWE
-         v4nS9D9J04C6xmExnLitxLTDCORPFyP6K/AtEgARHqXbZ9V58MsepbhcMK033R0kOwNr
-         XV0vlMASHPLapVmrYE4DV1fRL9aGsgZQV+0FI6AOBZ7RE6ozdHQ6MkGC9twc32GFCNc5
-         /nHZTQ3gRN4ZbbBb8Dc84ItpnitUlp3nII9JTToBxs/CtISs/ErSVDqv91fxqtBzhwta
-         ORwg==
-X-Gm-Message-State: AOJu0YxZa1ZW8KZcRj5Wdk0WtNN5ZEQpYc4yrCLVVCXMb+4NAltWPndb
-	B1PBIgl7QJLedpVt4v7EQurdmfMH3CwA0ahdNVHlKSVKIgzBzQlx0QaDKuq7QhJxZIs=
-X-Gm-Gg: Acq92OE4btbgT+H+UBWJSF/qjJXHKdDXoRscAXBL9jrlZNJtORW00sCZcPUqUqSUhAI
-	DpyUEXDvGvjStqCWGpAJ0PDCk6eiIxjwrc5sACB1WmqeuUYtgssiX0N9dPrJ8C2E9JaTYcZ+gSU
-	Z1RPuhGrRdvGY8/TQeiSBEhheoD2+2Xbfn2fyxiRvliEtw/BQs9KLaQDQx4FkpX8PIYjn1J7Yvf
-	bQdu2QOJNzaVM1M45KEseB0MPUOrYmeYArXhWkF4e4gPWKlYDuuOolcTAZCLUOxUTRsl3S4FGEk
-	SH7oa09Fe8/p4EjJntCZVo5pfqrPdkZVHiT2pbmQhSDuQ8jRQ9h4GM44mJnwQ1PG9pTw9+A2Q4e
-	TzYQ9G2EsNXc2dGBSG4zcd4Z1pSVquSJwqE8yFHNliK4hEeTVjay0FG8usAgGtsncb3KkCixxyx
-	ICd/1uhC/nzUr6xOH9XApuZ5yFAzvzENOgykesPOcZ5mt49YlY5TomufsOR7GHri9UXp35Ens9z
-	Vwsd+SYtTWvdx/6ZKTu4IZ3eNBs9RIyRjZuCzncXrVRIAFrlV4cZCTLSwmWUhIETSccwJDDa6QF
-	bRg=
-X-Received: by 2002:a05:6820:1f05:b0:69b:bf80:2db3 with SMTP id 006d021491bc7-69d7ec8a6aamr13540638eaf.44.1779911361897;
-        Wed, 27 May 2026 12:49:21 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:ba8:c4d7:97bf:1bb5? ([2600:1700:6476:1430:ba8:c4d7:97bf:1bb5])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43b63512d63sm16848068fac.2.2026.05.27.12.49.20
+        d=1e100.net; s=20251104; t=1779911518; x=1780516318;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0Sp+s7C7f8D+jwwDxh0Y9qxUvL34f7v6oQb0ido5j04=;
+        b=DpttkV9yMJaJJOgWjyNa+CKpNkq0NtloeLBwXHi3sVkWg6lGZuegr5+vP25GIOnscZ
+         +ip5ejlIyXooe0USx2b2EHtW+40eWb7h7EYLX3MFX9ScToBNdkfu2T3cjUlaMbst+uqa
+         3NieBwv5S02ni6LKpyuODtprXBXvANogn74Unohyya5mTPwiHXUMvv/XaXiZ+c7zbHq6
+         1aGafiG7CFTMLzd5aDKnvKDYa2Qx/siN6Et46MbtV0G6XjDPEIeo2M7k21aGl+7PubMK
+         nXDxnWV+u5c+q0UNf2bqhN4SjKu4+zKs4y0BXwo7/DlShTYW0dNpfT17Zt7RYJvcOSo6
+         5sDg==
+X-Forwarded-Encrypted: i=1; AFNElJ9D7p+mJgwPmVol2jKJKw+p0MHbbYXZPwilTu8lNfPuqO9F1GmswRiAFTxt9M/X/7VgxRGOor5X1LGy8eNH@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyuycbsFpauB1gUANfoMN60aPqIFXGbQDfBxQ5e7/19MFhfqev
+	RSaDkpSGNF1zM/Fz2ccqGfLo7Xdp6dqieBrJ0v88Ck9noCNn4laNvLrI
+X-Gm-Gg: Acq92OHpd9+uOzgBxN1eB4O+fgBSRw45ng0+FrDgJ5W14C4RUCcu2+8K2nK5eWN3r4C
+	PY214izMKuomTpyJjMVzS7cvrxArvSPcN/qkyHZjjDpK/QXdHGejdrz4DMOzwqxmAhCCniU9T3Y
+	cQvKBSQziV9NHwu5LwJupIr67tGMPv4wVSzz3gEUh+eZxNaNj39eVwNuoOK7mzxOoI/m9cnMU9P
+	CfJ4A5C8TOSoxSh8lJLiwyGgKxE5Ok4uBP7aqp6hXK80n2IOl268d+O8wJF4aCGuNrJU9NggNHd
+	t8w3cx638M/y3s4nP6mBJb9oog3KfYsS0IaNPx14ovJ9H7s6gm5rKN3yaDMXjLrkv17KoLrP/1V
+	0DcnorJRynIuywuWEfDZWk5e2CvwKZ1/y2rb+6w7Xv1RDjmI5BcnSLtFMLIcJ2ltHJI+hGyNgZA
+	p3XlutjJ+wsK4aP0Sn9yaGDBhrvwyKeA==
+X-Received: by 2002:a05:7022:61a0:b0:133:3c47:92de with SMTP id a92af1059eb24-1365f812367mr9061282c88.17.1779911518387;
+        Wed, 27 May 2026 12:51:58 -0700 (PDT)
+Received: from anonyme ([2605:52c0:2:2f27:be24:11ff:fe89:6f0f])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30451ef4719sm13705106eec.1.2026.05.27.12.51.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 12:49:21 -0700 (PDT)
-Message-ID: <1d26872db999da42b2d8452ace8a98b79e569cc8.camel@dubeyko.com>
-Subject: Re: [PATCH] hfs: reject volume bitmaps overlapping the MDB
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Yue Sun <samsun1006219@gmail.com>, glaubitz@physik.fu-berlin.de, 
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 27 May 2026 12:49:20 -0700
-In-Reply-To: <20260527153206.85701-1-samsun1006219@gmail.com>
-References: <20260527153206.85701-1-samsun1006219@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (by Flathub.org) 
+        Wed, 27 May 2026 12:51:58 -0700 (PDT)
+From: AnonymeMeow <anonymemeow@gmail.com>
+To: pvorel@suse.cz
+Cc: amir73il@gmail.com,
+	jack@suse.cz,
+	repnop@google.com,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	ltp@lists.linux.it,
+	AnonymeMeow <anonymemeow@gmail.com>
+Subject: [PATCH v2 1/2] fanotify: fix crash when running multiple iterations
+Date: Thu, 28 May 2026 03:50:55 +0800
+Message-ID: <20260527195056.337081-1-anonymemeow@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260527072312.GA231966@pevik>
+References: <20260527072312.GA231966@pevik>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2026-05-27 at 23:32 +0800, Yue Sun wrote:
-> hfs_mdb_commit() writes the volume bitmap while HFS_SB(sb)->mdb_bh is
-> locked. A crafted image can set drVBMSt so that the bitmap byte range
-> resolves to the same buffer_head as the MDB. When writeback later
-> calls
-> lock_buffer() for that bitmap block, the task tries to lock mdb_bh
-> again
-> and self-deadlocks in __lock_buffer().
->=20
-> Reject the image during mount if the bitmap byte range maps to
-> mdb_bh.
-> This checks the aliasing condition that can deadlock writeback
-> without
-> trying to validate unrelated HFS layout fields.
+This commit fixes ./fanotify13 -i10 crash by restoring the deleted objects
+every time a test finishes.
 
-Even if we reject to mount the corrupted, then it doesn't resolve the
-deadlock itself. Because, location of volume bitmap can be potentially
-incorrectly modified by HFS driver internal logic. So, anyway, we need
-to have the check and the fix during MDB commit, anyway.=20
+This commit also fixes ./fanotify21 -i10 crash by remounting the read-only
+mount (if the mount is remounted read-only during the test) back to
+read-write every time a test finishes.
 
->=20
-> Reported-by: Yue Sun <samsun1006219@gmail.com>
-> Closes:
-> https://lore.kernel.org/all/CAEkJfYMB47v1yOWHB8q2dc8kf=3Duj-rLO=3D+yMyudw=
-PguJ8Kd3jA@mail.gmail.com/
-> Signed-off-by: Yue Sun <samsun1006219@gmail.com>
-> ---
-> =C2=A0fs/hfs/mdb.c | 19 +++++++++++++++++++
-> =C2=A01 file changed, 19 insertions(+)
->=20
-> diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-> index a97cea35ca2e..abaa636db938 100644
-> --- a/fs/hfs/mdb.c
-> +++ b/fs/hfs/mdb.c
-> @@ -99,8 +99,10 @@ int hfs_mdb_get(struct super_block *sb)
-> =C2=A0	char *ptr;
-> =C2=A0	int off2, len, size, sect;
-> =C2=A0	sector_t part_start, part_size;
-> -	loff_t off;
-> +	sector_t mdb_block, vbm_first, vbm_last;
-> +	loff_t off, vbm_off;
-> =C2=A0	__be16 attrib;
-> +	u32 bitmap_size;
-> =C2=A0
-> =C2=A0	/* set the device driver to 512-byte blocks */
-> =C2=A0	size =3D sb_min_blocksize(sb, HFS_SECTOR_SIZE);
-> @@ -185,6 +187,25 @@ int hfs_mdb_get(struct super_block *sb)
-> =C2=A0		sb->s_flags |=3D SB_RDONLY;
-> =C2=A0	}
-> =C2=A0
-> +	/*
-> +	 * hfs_mdb_commit() writes the bitmap while holding mdb_bh.
-> Reject
-> +	 * images whose bitmap range can resolve to the MDB
-> buffer_head.
-> +	 */
-> +	bitmap_size =3D DIV_ROUND_UP(HFS_SB(sb)->fs_ablocks,
-> BITS_PER_BYTE);
+Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+---
 
-If you are trying to operate with MDB field (mdb->drVBMSt), then you
-need to use drNmAlBlks (number of allocation blocks). I assume we
-already have likewise calculation already. Could we reuse this logic?
-Or HFS hasn't this calculation logic already?
+On 2026-05-27 09:23:12+02:00, Petr Vorel wrote:
+> @AnonymeMeow nit: if you put whole conversation after --- (below), it will not
+> be part of the commit message when one applies the patch. And here should be a
+> proper commit message.
 
-> +	if (!bitmap_size) {
-> +		pr_err("bad volume bitmap size\n");
-> +		return -EIO;
-> +	}
-> +	vbm_off =3D (loff_t)(part_start + be16_to_cpu(mdb->drVBMSt))
-> <<
-> +		=C2=A0 HFS_SECTOR_SIZE_BITS;
-> +	vbm_first =3D vbm_off >> sb->s_blocksize_bits;
-> +	vbm_last =3D (vbm_off + bitmap_size - 1) >> sb-
-> >s_blocksize_bits;
-> +	mdb_block =3D HFS_SB(sb)->mdb_bh->b_blocknr;
-> +	if (vbm_first <=3D mdb_block && mdb_block <=3D vbm_last) {
-> +		pr_err("volume bitmap overlaps MDB\n");
-> +		return -EIO;
-> +	}
+Thank you for pointing this out, I will be more mindful the next time
+(this time).
 
-The volume bitmap should be located on the volume after the MDB record
-(superblock). So, it's completely enough to use the mdb->drVBMSt for
-checking the overlapping with main MDB record. Potentially, bitmap_size
-can be use to check the overlapping with with alternative MDB record at
-the end of the volume. However, volume bitmap cannot be so big.
+> Also I found that fanotify21.c on the current master fails when running more
+> than 1 iteration:
 
-Thanks,
-Slava.
+Thanks for testing my patch, I didn't know that the standalone test binary
+supports the -i option to specify the number of iterations. Running
+multiple iterations through kirk's -i option seems to work fine.
 
-> +
-> =C2=A0	/* TRY to get the alternate (backup) MDB. */
-> =C2=A0	sect =3D part_start + part_size - 2;
-> =C2=A0	bh =3D sb_bread512(sb, sect, mdb2);
+I then tested all fanotify tests with the -i option and found that
+fanotify13 also crashed when running multiple iterations. I fixed both
+fanotify13 and fanotify21 in this patch. So now all fanotify tests pass
+with the -i option.
+
+With Best Regards,
+AnonymeMeow
+
+---
+ .../kernel/syscalls/fanotify/fanotify13.c     | 20 +++++++++++++++++++
+ .../kernel/syscalls/fanotify/fanotify21.c     | 13 +++++++++++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+
+diff --git a/testcases/kernel/syscalls/fanotify/fanotify13.c b/testcases/kernel/syscalls/fanotify/fanotify13.c
+index 76d40eaf7..540e0b483 100644
+--- a/testcases/kernel/syscalls/fanotify/fanotify13.c
++++ b/testcases/kernel/syscalls/fanotify/fanotify13.c
+@@ -137,6 +137,16 @@ static void delete_objects(void)
+ 	}
+ }
+ 
++static void clean_upper_dir(void)
++{
++	unsigned int i;
++
++	SAFE_MOUNT(OVL_UPPER, MOUNT_PATH, "none", MS_BIND, NULL);
++	for (i = 0; i < ARRAY_SIZE(objects); i++)
++		SAFE_UNLINK(objects[i].path);
++	SAFE_UMOUNT(MOUNT_PATH);
++}
++
+ static void get_object_stats(void)
+ {
+ 	unsigned int i;
+@@ -340,6 +350,15 @@ static void do_test(unsigned int number)
+ 			"Did not get an expected event (expected: %llx)",
+ 			event_set[i].expected_mask);
+ 	}
++
++	if (tc->mask & FAN_DELETE_SELF) {
++		if (tst_variant & 1) {
++			clean_upper_dir();
++		} else {
++			create_objects();
++			get_object_stats();
++		}
++	}
+ out:
+ 	SAFE_CLOSE(fanotify_fd);
+ }
+@@ -417,6 +436,7 @@ static void do_cleanup(void)
+ 	if (ovl_bind_mounted)
+ 		SAFE_UMOUNT(MOUNT_PATH);
+ 	if (bind_mounted) {
++		delete_objects();
+ 		SAFE_UMOUNT(MOUNT_PATH);
+ 		SAFE_RMDIR(MOUNT_PATH);
+ 	}
+diff --git a/testcases/kernel/syscalls/fanotify/fanotify21.c b/testcases/kernel/syscalls/fanotify/fanotify21.c
+index 340fb0018..2e3dbd4bd 100644
+--- a/testcases/kernel/syscalls/fanotify/fanotify21.c
++++ b/testcases/kernel/syscalls/fanotify/fanotify21.c
+@@ -199,7 +199,7 @@ static void do_test(unsigned int num)
+ 	if (len < 0) {
+ 		if (tc->remount_ro && !fd_err && errno == EROFS) {
+ 			tst_res(TPASS, "cannot read event with rw fd from a ro fs");
+-			return;
++			goto restore_rw_mount;
+ 		}
+ 		tst_brk(TBROK | TERRNO, "reading fanotify events failed");
+ 	} else if (tc->remount_ro && !fd_err) {
+@@ -346,6 +346,17 @@ next_event:
+ 		if (event_pidfd_fdinfo)
+ 			free(event_pidfd_fdinfo);
+ 	}
++
++restore_rw_mount:
++	if (tc->remount_ro) {
++		/* SAFE_MOUNT fails to remount FUSE */
++		if (mount(tst_device->dev, MOUNT_PATH, tst_device->fs_type,
++			  MS_REMOUNT, NULL) != 0) {
++			tst_brk(TFAIL,
++				"filesystem %s failed to remount read-write",
++				tst_device->fs_type);
++		}
++	}
+ }
+ 
+ static void do_cleanup(void)
+-- 
+2.54.0
+
