@@ -1,81 +1,98 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D813CF96B
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 08:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0C130DD2A;
+	Wed, 27 May 2026 08:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.61.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779868806; cv=none; b=A9cIRC8JBnBSYFvTB6E46iBr0uzrciSY4fmRxTS/LXYtn76n5qWp0fggLjIKdM1OTVHMDE6DP2nT4fvnF/uvg57KXZQ03QyBYZAzmWkxFYXcvmWrFMjZdHo17NzX9yhHbRt+FozXuaGfriW9Wz9S64FMQxHdJhOP8ZVMZI46ILM=
+	t=1779869023; cv=none; b=R+Vl2uNWn65quNDaaoPItFiJaRfVM3ie0StvhvTXp4jhPeaYvoN9iUlUR0gOyUbWScDpgEx3u+ZJuy6n88KuLVFYlYRak/8takqqCau3EUT79PDhJWfHFSt7iTvBsgu1gYMz3Ivpy7/MfHJ3BwOBSev6Zl22cl+Cxbym5kNRtag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779868806; c=relaxed/simple;
-	bh=r2CdmUt9vJ3JA0P9UYyJVR8Tg4yVwtbWnTHJijeji78=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e8IMeefYZ4uFT4gKcgfwtM4LVoSUB1oQCG95hEqjZw3qt+PSCvezS5PYggYyZLU/Qrd/fHrVU9h5+Jw56RyPsIseXmXLiI58DJLlGrXfhIrYWXPpYXo/dH8qeml2Nl1lcfmTMg9pQmHK1Xcxay/3y2IpY3rBqkw1yeiqw99OhJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=k+fmdUHD; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1779869023; c=relaxed/simple;
+	bh=HM9hWX6VnUHxs0n4+BlQjLc+c4PovxyWLIbZq+xbheo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Ccm+W7hcKT1g3+d1THPaoLOLcYrnvj8YS1TuYYrShSrtIs2yKHgfxPriIXqDfWXGhyCKQlmgkvTx0tUt6uusvoKVvSWuQPuXQZ3vJtutUVqWh9DeqQmQlfDDVeRRaJeaYUnrPBtvqmagdckvxjZstzfR6P9L7uAKFsoYA3fxSuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=q4XFoFTR; arc=none smtp.client-ip=139.138.61.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="k+fmdUHD"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1779868793; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=iTiY0JNHNI2uJ32QpCQH8YLgznwGyDMe0eHrOf1pmO0=;
-	b=k+fmdUHDCMsxDSuczFQuLMB0aGmypBj+1JJMU/EePYMZQrHR6479Zt8tjUoftFEDPmdRHKslzOO0pqvYz5V2uD6t+8+/2olCEx68eRD92BJoJSZDjDSvCgtrFLboHpnpTwaS80yFjP+DhclPd42wNEs6eaevWQHyuQZ+k1CQ2Gw=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X3ioSmd_1779868481;
-Received: from 30.221.145.39(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3ioSmd_1779868481 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 27 May 2026 15:54:41 +0800
-Message-ID: <3164f091-7777-4144-a18a-023478ff9f8a@linux.alibaba.com>
-Date: Wed, 27 May 2026 15:54:41 +0800
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="q4XFoFTR"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1779869022; x=1811405022;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HM9hWX6VnUHxs0n4+BlQjLc+c4PovxyWLIbZq+xbheo=;
+  b=q4XFoFTRhm5Dv9rEAOEvJGLZ3SZ7LNezWvFOn15dAPRKb35TJKtPU/o0
+   4f1ZNvAuFuNWo5xfOGAIH9ba8Qd1IH+G3mj09saiYU8R5h8ejGPcB69Lk
+   ln0xQmaDFL/M600tdF8y6WrYK8vaw/KiFmzRQFWNdxuBWmScBH+YKq6O3
+   /FhKxgUt+6h8LK09BAcarxHJf4RvRFZ/AmFsSAZuIvGEGEj7aens+UCOz
+   1q8xKZk8yJGcXlCJ1DKyt37XkAavTEPkqhjJ8Od0TWaKsJ9sxxqekvT1M
+   aH1FZs5GjpxvPhPCkKeEfss1QvMCrI+TotqeqqTHB4HpzixxlSqCcUAFE
+   w==;
+X-CSE-ConnectionGUID: IEhQQWORR/mGS2047311mQ==
+X-CSE-MsgGUID: U3TR5rGFS0ejz6TIH8LS2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="229996312"
+X-IronPort-AV: E=Sophos;i="6.24,171,1774278000"; 
+   d="scan'208";a="229996312"
+Received: from gmgwnl01.global.fujitsu.com (HELO mgmgwnl01.global.fujitsu.com) ([52.143.17.124])
+  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 17:03:34 +0900
+Received: from az2nlsmgm2.o.css.fujitsu.com (unknown [10.150.26.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mgmgwnl01.global.fujitsu.com (Postfix) with ESMTPS id 4C3641467;
+	Wed, 27 May 2026 08:03:34 +0000 (UTC)
+Received: from az2uksmom1.o.css.fujitsu.com (unknown [10.151.22.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2nlsmgm2.o.css.fujitsu.com (Postfix) with ESMTPS id ECD3C1C000C4;
+	Wed, 27 May 2026 08:03:33 +0000 (UTC)
+Received: from dhcp-portal (unknown [10.172.107.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by az2uksmom1.o.css.fujitsu.com (Postfix) with ESMTPS id F400D1800A66;
+	Wed, 27 May 2026 08:03:32 +0000 (UTC)
+Received: from isar2.ecs00.fujitsu.local (unknown [10.172.183.27])
+	by dhcp-portal (Postfix) with ESMTP id 51F49606D6;
+	Wed, 27 May 2026 10:03:32 +0200 (CEST)
+From: Tomasz Wolski <tomasz.wolski@fujitsu.com>
+To: djbw@kernel.org
+Cc: alison.schofield@intel.com,
+	ardb@kernel.org,
+	benjamin.cheatham@amd.com,
+	dan.j.williams@intel.com,
+	dave.jiang@intel.com,
+	icheng@nvidia.com,
+	jonathan.cameron@huawei.com,
+	linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	smita.koralahallichannabasappa@amd.com,
+	tomasz.wolski@fujitsu.com
+Subject: Re: [PATCH v2] dax/bus: Upgrade resource conflict message to dev_err() in alloc_dax_region()
+Date: Wed, 27 May 2026 10:03:28 +0200
+Message-Id: <20260527080328.12171-1-tomasz.wolski@fujitsu.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <ec26d3de-d556-4ab9-a333-d69d1e6cdda7@app.fastmail.com>
+References: <ec26d3de-d556-4ab9-a333-d69d1e6cdda7@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/34] ocfs2: Convert ocfs2_write_block to bh_submit()
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>,
- Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
- ocfs2-devel@lists.linux.dev
-References: <20260525171931.4144395-1-willy@infradead.org>
- <20260525171931.4144395-19-willy@infradead.org>
-From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20260525171931.4144395-19-willy@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Hello Dan & Alison,
 
+Thanks for your remarks
 
-On 5/26/26 1:19 AM, Matthew Wilcox (Oracle) wrote:
-> Avoid an extra indirect function call by using bh_submit() instead of
-> submit_bh().
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: ocfs2-devel@lists.linux.dev
+>> Just report the request_resource() failure. This case does not warrant exporting request_resource _conflict(). Historically one driver can not mess with another driver's resource beyond conflict detection.
+Do you think v1 of the patch is good enough or v3 is needed? (which in fact would be the same as v1)
 
-Looks fine.
-Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
-
-> ---
->  fs/ocfs2/buffer_head_io.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/ocfs2/buffer_head_io.c b/fs/ocfs2/buffer_head_io.c
-> index 701d27d908d4..3e42ca700db0 100644
-> --- a/fs/ocfs2/buffer_head_io.c
-> +++ b/fs/ocfs2/buffer_head_io.c
-> @@ -62,9 +62,8 @@ int ocfs2_write_block(struct ocfs2_super *osb, struct buffer_head *bh,
->  	/* remove from dirty list before I/O. */
->  	clear_buffer_dirty(bh);
->  
-> -	get_bh(bh); /* for end_buffer_write_sync() */
-> -	bh->b_end_io = end_buffer_write_sync;
-> -	submit_bh(REQ_OP_WRITE, bh);
-> +	get_bh(bh); /* for bh_end_write() */
-> +	bh_submit(bh, REQ_OP_WRITE, bh_end_write);
->  
->  	wait_on_buffer(bh);
->  
-
+Best regards,
+Tomasz
