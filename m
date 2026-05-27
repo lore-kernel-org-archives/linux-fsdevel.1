@@ -1,213 +1,131 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13AB274B23;
-	Wed, 27 May 2026 12:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061033E9C0F;
+	Wed, 27 May 2026 13:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779886663; cv=none; b=mOIsWwODj119dOsYayzqp+ncpYRsBZHrbg9oCJ1rucxL9cjCaufg1b6GNcEzcFkvH7iYeQI8Z9/JC0OTI9ytLQMM8WVE198WsCVNkxbtV/kPehvICTymMLIfExj2mCCko4eaOESgecUet2J88/lybkvSZYw7IOOMBvUrWYNcxm0=
+	t=1779886807; cv=none; b=UNxGueAL2ozg5zLp7D/Pij1HGi2stuJccxyrCcLDFrGny0Y7lBAzgiZdaGcGTP+HcBPjDErzIVP+NgjH2wQlh9g7+F/GwxwrSsOwgdZfQ+VKKFbJRdIf/Bxt7l/J6o4AWwpkGiAzJMiyH9vzLmvpIL687OUyoUkMirfZnbb4jAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779886663; c=relaxed/simple;
-	bh=mEnr730FIetw3epKUXKDcC+RMyywq4bTMRwWXJuV3YM=;
+	s=arc-20240116; t=1779886807; c=relaxed/simple;
+	bh=EBaps+i7LpVAFfaa4b8PPUb3GdkIkGVY4AM8X9+iX4A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kgaj3xcEcjHVJj/mGmTxhW8UwWJ7IDaMxYa3miLRIqvPLr0CIc4LoJqS5s3NDZ4jhB596nNphZO5pVVpKofHw+bGzSWgG/9NbcijTeOrYlG6Yb5XoDmkbWh6+iB0ewRh7MXogbsyPx7IK9fo7znlTVNym6yriwmKpBMBum/RTPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=g/g9LJDP; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ee5rcvS1pphvcD2se/pX8NpkVGnMe5j+6IZ3S1XyMnmLi9HDfQZMKX/UbCO1IzablVXPk99JKF9AM/vG3OojEH0GrQhaBUr6Z6cxl46AISZlTtoEx9tWJyveqkpT/aOjfOwDhTwmgxQy/5k5mrdwlbieam/OhCGeiLWKY7Ne0X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KRj0xV6x; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="g/g9LJDP"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64RBK7ts346072;
-	Wed, 27 May 2026 12:57:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=37xzcsbpHuPg1Y+nn795ol4ZlMyEJ3
-	XZzpsrmLDROPk=; b=g/g9LJDPURA0IYNBqKV1fS1wcBAerAT1s9jpOZd0aGYovC
-	duwvfAAkhBGtU9i/PJNinfsFGRKwziSmgM3ABTTwPofytH9yWcfr3dY37LgSRIgr
-	GzD3YJKfqwD4MMXb2eZXZvJt5v+c7YktodCEwGGmp3bpmVAPXA/8l9TJ4U3U4F8e
-	89hmdIpoWT8zy6pcLSKNpLZRcVu+TP68a9mrxeVG2wo2Jmw9rwtmyu2lB8XLvHwf
-	4ApRr11f2o97dP2yccaO9mmA46HTXbVlGlDk2ppNch64PZy2JNMm405OEOpdEErY
-	m4bfac+6Y+fEQemrTK5ucEfyiQiFtoZ3/eCmiYCw==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eb4nuseky-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 27 May 2026 12:57:01 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64RCsk3I003061;
-	Wed, 27 May 2026 12:57:00 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4edjrb31eb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 27 May 2026 12:57:00 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64RCuwRc41419072
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 27 May 2026 12:56:59 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E0F9A2004B;
-	Wed, 27 May 2026 12:56:58 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2E88B20043;
-	Wed, 27 May 2026 12:56:54 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.21.79])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 27 May 2026 12:56:53 +0000 (GMT)
-Date: Wed, 27 May 2026 18:26:51 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
-        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
-        djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
-        yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v4 10/23] ext4: implement mmap path using iomap
-Message-ID: <ahbqEziyQZLV_GoH@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-11-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KRj0xV6x"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
+	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=XSOTEpS6jnOnkKRCoQQoSeSU8dByk24sxPymLSbbGcE=; b=KRj0xV6xgukBl9D4xsqK6bZu1w
+	dlb6+dENOCzrPokyPEyMx/A/gnulxCC8Nx++F+gqtsSfg9ClXRpm31kYxour0RKhesUZlRvTUFuRd
+	19M6/F7BZYFc/d/YQVXxi2aRol6wjk4whwR16kRtSjpvF/JEF8P62hjtbSKs9ZYaGGLhnDdLMw5mL
+	/0fgeUmYAN+QGS97ENVQi4jvijWsfdJq5nO4yD9dVYRbOLO39dr4iA5+ulp8Sq/8WtiFXraw/grNl
+	j061BWxTakH+C5qFKHLDH5NrEG+CE7bdtola8Vdwh9FhPMYYePVoT2Ta0OQURkR/NFiZZXlYWpP79
+	cs+2kb4A==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wSDrd-000000048vG-0eXC;
+	Wed, 27 May 2026 13:00:01 +0000
+Date: Wed, 27 May 2026 06:00:01 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Tal Zussman <tz2294@columbia.edu>,
+	Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>
+Subject: Re: [PATCH v6 1/4] block: add task-context bio completion
+ infrastructure
+Message-ID: <ahbq0RdUyLIPiItB@infradead.org>
+References: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
+ <20260514-blk-dontcache-v6-1-782e2fa7477b@columbia.edu>
+ <agq2KRd8RkP1TAf5@infradead.org>
+ <ea1fa305-3ba2-4cfd-b7cb-86875032a300@columbia.edu>
+ <ahPbaSEoNA755Nt3@infradead.org>
+ <f1b8eeb6-2397-4f48-a21a-a023eb0c80ab@columbia.edu>
+ <rkb5oei6cx2erbyininczz6ukbnquqheexhu7tznn5rslkkdn7@b4kpdyhdwdb6>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260511072344.191271-11-yi.zhang@huaweicloud.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDEyMyBTYWx0ZWRfX3BrRIE0MoOpF
- VqZu7JKWoaBPN9M6Eh5lu/Ws4geNZtydmze6x/wbYgGjgNZIf2ox8cApbw0nB7yZliQHl6tLywV
- dm491wOKXUaDpdHc8dmK0/tktHRchEoi2/yMTJmA4F/joDAvJVbFkIMNADTyY7O7EnI9asGbtHs
- J4OqDj+8R3bqPcBjHj3HveRmgdR1//umET2n2saSYj1l+19BFYG7Kfvccbc0aIAHJgPklMu3oxy
- ZSVu/ZiZjpBx/xXlbwK+kv/8n9j9fSPkozIs69kFL9wpVqLMEbbck4UUHHHi3g0TfVgvJCeWNXp
- UhOYbx0K3VPbUmrhnjVn9rmkAWPigDj4+IKNM2V7WtZp9Dw0Fe6fm/PZyfwgenTppB5cC46jybx
- SSK9UTwZ0Pkj/+AQIc0Ye3rMo1st0KW5vWvHfS4vJTEvk44oCRWycCz/uy/nLJ+9ixTL0w8ho15
- siJ6i7nSAPkRJcarkmg==
-X-Authority-Analysis: v=2.4 cv=UtJT8ewB c=1 sm=1 tr=0 ts=6a16ea1e cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=i0EeH86SAAAA:8
- a=VnNF1IyMAAAA:8 a=f4b4VZvygqwfF3xW4tMA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: jmldLGCfQaP-KTw3n7o8oyxaI-P_YB9R
-X-Proofpoint-GUID: JfoSiptbPEWmjw4MFkRXK-uBh11FMYBO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-27_01,2026-05-26_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 adultscore=0 clxscore=1015 bulkscore=0
- phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605270123
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <rkb5oei6cx2erbyininczz6ukbnquqheexhu7tznn5rslkkdn7@b4kpdyhdwdb6>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, May 11, 2026 at 03:23:30PM +0800, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
+On Wed, May 27, 2026 at 11:42:28AM +0200, Jan Kara wrote:
+> > I ran some experiments with fio on both XFS and a raw block device. Five
+> > iterations each for 60s. Results below.
+> > 
+> > TLDR: Removing the delay doesn't significantly decrease user-visible
+> > latency or otherwise improve performance, but does significantly reduce
+> > throughput and increase context switches in some workloads (e.g. C).
+> > I think it makes sense to leave the delay as-is. Thoughts?
 > 
-> Introduce ext4_iomap_page_mkwrite() to implement the mmap iomap path
-> for ext4. The heavy lifting is delegated to iomap_page_mkwrite(), which
-> only requires ext4_iomap_buffered_write_ops and
-> ext4_iomap_buffered_da_write_ops to allocate and map blocks.
-> 
-> Note that the lock ordering between folio lock and transaction start in
-> this path is reversed compared to the buffer_head buffered write path.
-> The lock ordering documentation in super.c has been updated accordingly.
-> 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+> Thanks for the test! One question below:
 
-Looks good, feel free to add:
-Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Thanks from me as well!
 
-Regards,
-Ojaswin
+> 
+> > Results:
+> > 
+> > Workloads (all `uncached=1`):
+> >   A: rw=write     bs=128k iodepth=1   ioengine=pvsync2     # XFS
+> >   B: rw=write     bs=128k iodepth=128 ioengine=io_uring    # XFS
+> >   C: rw=randwrite bs=4k   iodepth=32  ioengine=io_uring    # XFS
+> >   D: rw=rw 50/50  bs=64k  iodepth=32  ioengine=io_uring    # XFS
+> >   E: rw=write     bs=128k iodepth=128 ioengine=io_uring    # raw /dev/nvmeXn1
+> >   F: rw=write     bs=128k iodepth=128 numjobs=4
+> >      + vm.dirty_bytes=64MB, vm.dirty_background_bytes=32MB # XFS
+> > 
+> > Mean ± stddev across 5 iterations:
+> > 
+> >     metric                     delay=1           delay=0     delta
+> >     --------------------------------------------------------------
+> > 
+> >   A seq 128k qd1
+> >     BW (MB/s)                4333 ± 27         4374 ± 34     +0.9%
+> >     p99   (us)              36.2 ± 0.8        35.8 ± 0.4     -1.1%
+> >     p999  (us)               3260 ± 75         3228 ± 29     -1.0%
+> >     ctx-switches          184 k ± 59 k     3.68 M ± 65 k    +1903%
+> >     cs / io                0.09 ± 0.03       1.86 ± 0.03    +1888%
+> >     avg bios/run            80.4 ± 0.6         1.1 ± 0.0    -98.7%
+> 
+> So 1 jiffie delay is (with default HZ=1000) 1ms. That means for this load
+> the completion latency should be at least 1000us but your results show p99
+> latency of 36. What am I missing?
 
-> ---
->  fs/ext4/inode.c | 32 +++++++++++++++++++++++++++++++-
->  fs/ext4/super.c |  8 ++++++--
->  2 files changed, 37 insertions(+), 3 deletions(-)
+Yes, this looks a bit odd.  Unless there's multiple threads submitting
+and somehow the completions get batched this should complete one
+bio at a time and be the worst case for the delay scheme.
+
+> >   C rand 4k qd32
+> >     BW (MB/s)               66.2 ± 0.8        44.6 ± 7.4    -32.7%
+> >     p99   (us)              8002 ± 174      17990 ± 6800   +124.8%
+> >     p999  (us)             11390 ± 554     31890 ± 11076   +180.0%
+> >     ctx-switches         3.67 M ± 45 k    3.59 M ± 106 k     -2.2%
+> >     cs / io                3.78 ± 0.04       5.62 ± 0.83    +48.7%
+> >     avg bios/run            32.3 ± 1.0         3.1 ± 0.3    -90.5%
 > 
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index a80195bd6f20..c6fe42d012fc 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -4020,7 +4020,7 @@ static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
->  		return -ERANGE;
->  	if (WARN_ON_ONCE(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS)))
->  		return -EINVAL;
-> -	if (WARN_ON_ONCE(!(flags & IOMAP_WRITE)))
-> +	if (WARN_ON_ONCE(!(flags & (IOMAP_WRITE | IOMAP_FAULT))))
->  		return -EINVAL;
->  
->  	if (delalloc)
-> @@ -4080,6 +4080,14 @@ static int ext4_iomap_buffered_da_write_end(struct inode *inode, loff_t offset,
->  	if (iomap->type != IOMAP_DELALLOC || !(iomap->flags & IOMAP_F_NEW))
->  		return 0;
->  
-> +	/*
-> +	 * iomap_page_mkwrite() will never fail in a way that requires delalloc
-> +	 * extents that it allocated to be revoked.  Hence never try to release
-> +	 * them here.
-> +	 */
-> +	if (flags & IOMAP_FAULT)
-> +		return 0;
-> +
->  	/* Nothing to do if we've written the entire delalloc extent */
->  	start_byte = iomap_last_written_block(inode, offset, written);
->  	end_byte = round_up(offset + length, i_blocksize(inode));
-> @@ -7191,6 +7199,23 @@ static int ext4_block_page_mkwrite(struct inode *inode, struct folio *folio,
->  	return ret;
->  }
->  
-> +static vm_fault_t ext4_iomap_page_mkwrite(struct vm_fault *vmf)
-> +{
-> +	struct inode *inode = file_inode(vmf->vma->vm_file);
-> +	const struct iomap_ops *iomap_ops;
-> +
-> +	/*
-> +	 * ext4_nonda_switch() could writeback this folio, so have to
-> +	 * call it before lock folio.
-> +	 */
-> +	if (test_opt(inode->i_sb, DELALLOC) && !ext4_nonda_switch(inode->i_sb))
-> +		iomap_ops = &ext4_iomap_buffered_da_write_ops;
-> +	else
-> +		iomap_ops = &ext4_iomap_buffered_write_ops;
-> +
-> +	return iomap_page_mkwrite(vmf, iomap_ops, NULL);
-> +}
-> +
->  vm_fault_t ext4_page_mkwrite(struct vm_fault *vmf)
->  {
->  	struct vm_area_struct *vma = vmf->vma;
-> @@ -7213,6 +7238,11 @@ vm_fault_t ext4_page_mkwrite(struct vm_fault *vmf)
->  
->  	filemap_invalidate_lock_shared(mapping);
->  
-> +	if (ext4_inode_buffered_iomap(inode)) {
-> +		ret = ext4_iomap_page_mkwrite(vmf);
-> +		goto out;
-> +	}
-> +
->  	err = ext4_convert_inline_data(inode);
->  	if (err)
->  		goto out_ret;
-> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> index 51d87db53543..62bfe05a64bc 100644
-> --- a/fs/ext4/super.c
-> +++ b/fs/ext4/super.c
-> @@ -100,8 +100,12 @@ static const struct fs_parameter_spec ext4_param_specs[];
->   * Lock ordering
->   *
->   * page fault path:
-> - * mmap_lock -> sb_start_pagefault -> invalidate_lock (r) -> transaction start
-> - *   -> page lock -> i_data_sem (rw)
-> + * - buffer_head path:
-> + *   mmap_lock -> sb_start_pagefault -> invalidate_lock (r) ->
-> + *     transaction start -> folio lock -> i_data_sem (rw)
-> + * - iomap path:
-> + *   mmap_lock -> sb_start_pagefault -> invalidate_lock (r) ->
-> + *     folio lock -> transaction start -> i_data_sem (rw)
->   *
->   * buffered write path:
->   * sb_start_write -> i_rwsem (w) -> mmap_lock
-> -- 
-> 2.52.0
-> 
+> I'm somewhat surprised how larger is the completion latency is here without
+> the delay. Is that due to a contention on local lock between the IO completion
+> interrupt and the worker? Or why is the completion latency so big here when
+> the case B with more IOs in flight, less bios per run, still had significantly
+> lower latency in the delay=0 case?
+
+Note that in the past we had major problems with workqueue scheduling
+latency.  At some point these got mitigated a lot, but if they are back
+for this workload that might be one reason.
+
