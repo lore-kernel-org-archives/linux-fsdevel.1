@@ -1,38 +1,30 @@
-Received: from mta22.hihonor.com (mta22.honor.com [81.70.192.198])
+Received: from mta20.hihonor.com (mta20.honor.com [81.70.206.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6D83E0098;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4893EEAE3;
 	Wed, 27 May 2026 11:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.206.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779881212; cv=none; b=V6/Q4VSsTiLRs/bM7LdeE9zXS07aBwX8gJiZVUWShV047q2JeVUs1Lqs5RIqZUorTRRMYRqmDe4eaJgqdAMCTfB6SZYu8srRCyGGr9b/l07UZ9QA5OEy6Ts6kE/xdYK9GAhZZhpPZWjiksfuzR8msiO9G7ZEZnjdHzxM/dcovB8=
+	t=1779881213; cv=none; b=FScyZzAFC3zpZhrrG02s0fENF27W/7l3MGHznvaF4cM25Hx2CS5ctJ+Lh6IgbcdtwMoPbtvkEMFsHPA1ONP5syBwPp9lVlL6IZTKPtrb0PETccjlhjOc+ggwcqXdsyOb+n4MR5bEiMpRFheSWT8HVG7AoHhP/TSqQvOL1dcnZB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779881212; c=relaxed/simple;
-	bh=qoIFnxvb/u5KBE1R27C75C60Tasnec+gPdBlMUkMn2Q=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R1CNfZ6A0OIbxCYMfj8j2YeBXP/rR57UJvER+TdvzKoihxH+5dMIHJw4VZce7KzuBNtouhRjTe3uxiPXPrdg+/gdwUO8zvDhCmOEqrb3yJ90JEtCvB9N02DT+XCPFFTilNmAG0QeushrC0QjfjBY0DmpCAODozkcqiBddeundgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b=QdYLaf7r; arc=none smtp.client-ip=81.70.192.198
+	s=arc-20240116; t=1779881213; c=relaxed/simple;
+	bh=sFTjpTy9jS1J6p+gZVpzAXiVY7b1vJQet9M2pL8BGtk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I2iicwBY6BOyqpvzfH9Rl5WRxB+ujV+F8aozjYJHu53xuLkr/oZYwN0n5HRB//1eANwP3UuF2+SZWQnk+Qbwa6g4PnrfjScGwz8Luha/73VFoPtDFDCfTRlTqqn0JnC6QtXFeQEzmvxi+5iWiHC1KijJzKbR2YijMRczNJd+6b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.206.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b="QdYLaf7r"
-dkim-signature: v=1; a=rsa-sha256; d=honor.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=To:From;
-	bh=vvR/tuZayREkwIkwHZP/jPrTyMDEhSidNL4CuNjxao4=;
-	b=QdYLaf7rRUY0eslf6/Dm3hgzaAxp8J54DWdegtqXyS3m6oBsFnah8p8LFKqKy9gqw3DSuBW3Z
-	FWwRV66U5wdU0ilIb85tskEAYEdOXfnqg5rQ4TE0w4s4gJ0PL/ght2I4MYGaCT25aG/12gPQWWQ
-	KDjiXKyb42/L4dBK7BnWDjo=
-Received: from TW001.hihonor.com (unknown [10.77.229.151])
-	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4gQRcS4gXvzYl1Fx;
-	Wed, 27 May 2026 19:05:44 +0800 (CST)
-Received: from TA003.hihonor.com (10.72.0.43) by TW001.hihonor.com
- (10.77.229.151) with Microsoft SMTP Server (version=TLS1_2,
+Received: from TW002-1.hihonor.com (unknown [10.72.0.137])
+	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4gQRdL5rLWzYkxQN;
+	Wed, 27 May 2026 19:06:30 +0800 (CST)
+Received: from TA003.hihonor.com (10.72.0.43) by TW002-1.hihonor.com
+ (10.72.0.137) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 27 May
- 2026 19:06:59 +0800
+ 2026 19:07:57 +0800
 Received: from localhost.localdomain (10.144.18.117) by TA003.hihonor.com
  (10.72.0.43) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 27 May
- 2026 19:06:59 +0800
+ 2026 19:07:56 +0800
 From: tao <tao.wangtao@honor.com>
 To: <catalin.marinas@arm.com>, <will@kernel.org>, <tglx@kernel.org>,
 	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
@@ -55,10 +47,12 @@ CC: <hpa@zytor.com>, <liam@infradead.org>, <vbabka@kernel.org>,
 	<damon@lists.linux.dev>, <shakeel.butt@linux.dev>, <ryncsn@gmail.com>,
 	<21cnbao@gmail.com>, <jparsana@google.com>, <dvander@google.com>,
 	<zhangji1@honor.com>, <wangzicheng@honor.com>
-Subject: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma creation
-Date: Wed, 27 May 2026 19:01:32 +0800
-Message-ID: <20260527110147.17815-1-tao.wangtao@honor.com>
+Subject: [PATCH 03/15] mm: introduce anon_vma_tree_t for multiple anon_vma topologies
+Date: Wed, 27 May 2026 19:01:35 +0800
+Message-ID: <20260527110147.17815-4-tao.wangtao@honor.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260527110147.17815-1-tao.wangtao@honor.com>
+References: <20260527110147.17815-1-tao.wangtao@honor.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -69,115 +63,108 @@ Content-Type: text/plain
 X-ClientProxiedBy: TW006-1.hihonor.com (10.77.215.153) To TA003.hihonor.com
  (10.72.0.43)
 
-TL;DR
------
+Prepare for upcoming ANON_VMA_LAZY support and RCU-based lockless rmap
+traversal by clearly separating anon_vma topology handling from the
+anon_rmap semantics.
 
-This series introduces ANON_VMA_LAZY, which defers anon_vma creation
-until it is actually required.
+Prepare for supporting multiple anon_vma topologies by introducing
+lightweight abstractions used by the VMA and rmap code.
 
-- anon_vma memory reduced by ~92-97%, anon_vma_chain reduced by ~50-57%  
-- rmap operations on ANON_VMA_LAZY VMAs do not require anon_vma locking
+Introduce anon_vma_tree_t as the type stored in vma->anon_vma:
 
-Background
-----------
+    typedef unsigned long anon_vma_tree_t;
 
-Currently anon_vma structures are created eagerly when anonymous VMAs
-are initialized. However, many VMAs never participate in fork or rmap
-operations that require anon_vma chains, so the allocated anon_vma and
-anon_vma_chain objects are often unnecessary.
+It represents a tagged pointer encoding a reference to the anon_vma
+topology. The low bits are reserved as type tags to distinguish
+different implementations (e.g. regular anon_vma and lazy anon_vma).
+This keeps the VMA representation compact while allowing the topology
+to evolve without changing the VMA layout.
 
-Design overview
----------------
+Signed-off-by: tao <tao.wangtao@honor.com>
+---
+ include/linux/mm_types.h |  3 +++
+ mm/internal.h            | 54 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
 
-ANON_VMA_LAZY defers anon_vma allocation until it is actually needed
-(for example during fork). VMAs that never participate in sharing can
-avoid creating anon_vma structures entirely.
-
-Before an anon_vma exists, rmap operations rely directly on VMA
-information, so no anon_vma locking is required. An anon_vma is created
-and linked only when sharing semantics are required.
-
-This series introduces anon_rmap helpers to make rmap less dependent on
-direct anon_vma access. It also introduces anon_vma_tree_t as a container
-to support both the lazy and the existing anon_vma layouts.
-
-Once a VMA becomes associated with an anon_vma, the normal behavior
-remains unchanged.
-
-Memory impact
--------------
-
-Preliminary measurements show significant reductions in anon_vma-related
-slab allocations.
-
-After boot:
-
-Object            | Before (active KB) | After (active KB) | Change
-vm_area_struct    | 117035             | 118176            | +1.0%
-anon_vma_chain    | 18865.8            | 8112.06           | -57.0%
-anon_vma          | 20426.4            | 613.75            | -97.0%
-
-After launching 24 apps:
-
-Object            | Before (active KB) | After (active KB) | Change
-vm_area_struct    | 196873             | 197345            | +0.2%
-anon_vma_chain    | 31477.1            | 15576.8           | -50.5%
-anon_vma          | 33280              | 2648.12           | -92.0%
-
-Simple fork microbenchmarks also show a slight improvement in fork
-performance, since child VMAs do not need to allocate anon_vma
-structures during fork.
-
-Feedback and suggestions are welcome.
-
-
-tao (15):
-  mm/rmap: introduce anon_rmap APIs for anonymous folios
-  mm: convert anon_vma rmap APIs to anon_rmap
-  mm: introduce anon_vma_tree_t for multiple anon_vma topologies
-  mm: switch to anon_vma_tree_t APIs in preparation for ANON_VMA_LAZY
-  mm: add CONFIG_ANON_VMA_LAZY and folio helpers
-  mm: add CONFIG_VMA_REF and VMA helpers
-  mm: replace direct FOLIO_MAPPING_ANON usage with helpers
-  mm: prepare rmap infrastructure for ANON_VMA_LAZY
-  mm: implement ANON_VMA_LAZY rmap semantics
-  mm: defer anon_vma creation with ANON_VMA_LAZY
-  mm: handle ANON_VMA_LAZY in huge page operations
-  mm: handle ANON_VMA_LAZY during migration
-  mm: support setup and upgrade of ANON_VMA_LAZY folios
-  mm: support merging of ANON_VMA_LAZY VMAs
-  mm: enable CONFIG_ANON_VMA_LAZY on arm64 and x86_64
-
- arch/arm64/Kconfig         |   1 +
- arch/x86/Kconfig           |   1 +
- fs/proc/page.c             |   6 +-
- include/linux/mm.h         |  38 ++
- include/linux/mm_types.h   |   9 +-
- include/linux/page-flags.h |  34 +-
- include/linux/pagemap.h    |   2 +-
- include/linux/rmap.h       | 165 ++++++++-
- mm/Kconfig                 |  22 ++
- mm/damon/ops-common.c      |   4 +-
- mm/debug.c                 |   2 +-
- mm/debug_vm_pgtable.c      |   2 +-
- mm/gup.c                   |   6 +-
- mm/huge_memory.c           |  16 +-
- mm/internal.h              | 171 +++++++++
- mm/khugepaged.c            |  13 +-
- mm/ksm.c                   |  43 ++-
- mm/memory-failure.c        |  11 +-
- mm/memory.c                |  19 +-
- mm/migrate.c               | 126 ++++---
- mm/mmap.c                  |  15 +-
- mm/mremap.c                |   4 +-
- mm/page_idle.c             |   2 +-
- mm/rmap.c                  | 690 ++++++++++++++++++++++++++++++++++---
- mm/vma.c                   |  76 ++--
- mm/vma.h                   |   4 +-
- mm/vma_exec.c              |   2 +-
- mm/vma_init.c              |   1 +
- 28 files changed, 1279 insertions(+), 206 deletions(-)
-
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index a308e2c23b82..5f4961ea1572 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -917,6 +917,9 @@ struct vm_area_desc {
+ 	struct mmap_action action;
+ };
+ 
++/* Tagged pointer stored in vma->anon_vma. Low bits encode anon_vma type. */
++typedef unsigned long anon_vma_tree_t;
++
+ /*
+  * This struct describes a virtual memory area. There is one of these
+  * per VM-area/task. A VM area is any part of the process virtual memory
+diff --git a/mm/internal.h b/mm/internal.h
+index 5a2ddcf68e0b..76544ad44ff0 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -246,6 +246,60 @@ static inline void anon_vma_unlock_read(struct anon_vma *anon_vma)
+ 	up_read(&anon_vma->root->rwsem);
+ }
+ 
++/* anon_vma_tree_t APIs */
++
++static inline anon_vma_tree_t make_anon_vma_tree(struct anon_vma *anon_vma)
++{
++	return (anon_vma_tree_t)anon_vma;
++}
++
++static inline struct anon_vma *anon_vma_tree_anon_vma(anon_vma_tree_t anon_tree)
++{
++	return (struct anon_vma *)anon_tree;
++}
++
++static inline void anon_vma_tree_lock_write(anon_vma_tree_t anon_tree)
++{
++	struct anon_vma *anon_vma = anon_vma_tree_anon_vma(anon_tree);
++
++	anon_vma_lock_write(anon_vma);
++}
++
++static inline int anon_vma_tree_trylock_write(anon_vma_tree_t anon_tree)
++{
++	struct anon_vma *anon_vma = anon_vma_tree_anon_vma(anon_tree);
++
++	return anon_vma_trylock_write(anon_vma);
++}
++
++static inline void anon_vma_tree_unlock_write(anon_vma_tree_t anon_tree)
++{
++	struct anon_vma *anon_vma = anon_vma_tree_anon_vma(anon_tree);
++
++	anon_vma_unlock_write(anon_vma);
++}
++
++static inline void anon_vma_tree_lock_read(anon_vma_tree_t anon_tree)
++{
++	struct anon_vma *anon_vma = anon_vma_tree_anon_vma(anon_tree);
++
++	anon_vma_lock_read(anon_vma);
++}
++
++static inline int anon_vma_tree_trylock_read(anon_vma_tree_t anon_tree)
++{
++	struct anon_vma *anon_vma = anon_vma_tree_anon_vma(anon_tree);
++
++	return anon_vma_trylock_read(anon_vma);
++}
++
++static inline void anon_vma_tree_unlock_read(anon_vma_tree_t anon_tree)
++{
++	struct anon_vma *anon_vma = anon_vma_tree_anon_vma(anon_tree);
++
++	anon_vma_unlock_read(anon_vma);
++}
++
+ struct anon_vma *folio_get_anon_vma(const struct folio *folio);
+ 
+ /* Operations which modify VMAs. */
 -- 
 2.17.1
 
