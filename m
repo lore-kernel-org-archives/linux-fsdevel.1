@@ -1,733 +1,816 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9615D390CB7
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 07:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA530282F05;
+	Wed, 27 May 2026 07:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779866602; cv=none; b=V7f19WNM3H6ILtxSdVYhVQNSo+mQ4KTd2v5NH+stDvg7DoCSVxIp925IK70t5FWkaKcPFnS0xoSQJxDaJBp8ku+QnH+OOeXfNfzBmfBp4JOz+cExHKc94RopjAOhKjYNpFuW8eqN9AAlFoXQrrjjs8O+DZtiqJAmc0z86+yyP4E=
+	t=1779866885; cv=none; b=qjwYRXHhRC6FHvFp1m8loUMsEbYYBJ3VifDFt4+pGFFIlGvw2XpdX/VGciJ6xnWBd+++i1XjhnFt+WWtQK7Nj9YGMF1igyaa5M4EQLe5D8Bze14BtluBjC8fX984LwPwFL377Kx2HcKTnU1VrTybvBlDIA2+9siR9l6ZnpzDD60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779866602; c=relaxed/simple;
-	bh=savCm8GmVnTnsfyA3O39Qenmxhbd89Ouj1x6bvNfgjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ShWqHXjNgsU+oVbR8BMY+Hby2TUGqlxUsaxZl1BSCxng9mDqbvVuv9GKJvp5S1Cc5ZWzF+EaF4jtqhFKpbxm9AbGMLd1zo52utQwNtc3puvlNyGdjfeQGyYiBU8CHYJYUCcVvlDl5savmsz5M66QBu4NqkCDo1e6/LL/oos2G80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=micIOXXd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fzPQ2hL2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=micIOXXd; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fzPQ2hL2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1779866885; c=relaxed/simple;
+	bh=vlkz0g3OI/Vp8/k2RELcUG0D4eeDWK+Yx7AqfUsxVuc=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=j2Nc+Yy9gHeCnd5pFdwolQYfqgyU6GxMLkVvnM5wnHr9TgTTgPjINEiKNZYvwSP536MOxFR1Ho9Z19TslUsmxjMlBWD2N7Ch2II/9p0kmL0fQriTR0yDIg/BL0R52HqLRXtA+bt6KOnW2sIgtoLj/b7bgnsZoxVI/Hq+DzG7XTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Ys3BnB4b; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XKzkHPtO; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="micIOXXd";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fzPQ2hL2";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="micIOXXd";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fzPQ2hL2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C33466D0C;
-	Wed, 27 May 2026 07:23:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779866598;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Td8RXPM9V9f1P0v6ts+FzdhgpkFEnwA+21BfJp+w69A=;
-	b=micIOXXdvgC3C13fzs7qmLTw1NFdalF/AnUHpGyAiQwc4golH8SdmJJrfiO0lOfcttvR3T
-	TtLxqSnmNixvn1pbahP7x3VBKll1J6yaHxV46ijhg8qcJAex/79XSXKSB2Pz7oOFv2U9Dj
-	b9NeH4MWOFUvpyJM8qiF7yauHu8ELac=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779866598;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Td8RXPM9V9f1P0v6ts+FzdhgpkFEnwA+21BfJp+w69A=;
-	b=fzPQ2hL2ET8hxB28N/yXjX7J9glMcQdl6t9WiA4/KkBD+PvEG1EoK9W3IwwjkzqUQ4WmFT
-	8PouVyY1jF1d54AA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=micIOXXd;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=fzPQ2hL2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779866598;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Td8RXPM9V9f1P0v6ts+FzdhgpkFEnwA+21BfJp+w69A=;
-	b=micIOXXdvgC3C13fzs7qmLTw1NFdalF/AnUHpGyAiQwc4golH8SdmJJrfiO0lOfcttvR3T
-	TtLxqSnmNixvn1pbahP7x3VBKll1J6yaHxV46ijhg8qcJAex/79XSXKSB2Pz7oOFv2U9Dj
-	b9NeH4MWOFUvpyJM8qiF7yauHu8ELac=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779866598;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Td8RXPM9V9f1P0v6ts+FzdhgpkFEnwA+21BfJp+w69A=;
-	b=fzPQ2hL2ET8hxB28N/yXjX7J9glMcQdl6t9WiA4/KkBD+PvEG1EoK9W3IwwjkzqUQ4WmFT
-	8PouVyY1jF1d54AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 259BD5A6EC;
-	Wed, 27 May 2026 07:23:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lKoUCOabFmqKMAAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Wed, 27 May 2026 07:23:18 +0000
-Date: Wed, 27 May 2026 09:23:12 +0200
-From: Petr Vorel <pvorel@suse.cz>
-To: AnonymeMeow <anonymemeow@gmail.com>
-Cc: amir73il@gmail.com, ltp@lists.linux.it, jack@suse.cz, repnop@google.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fanotify: prepare tests for thread pidfd reporting
-Message-ID: <20260527072312.GA231966@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <CAOQ4uxgrLEJDskC8Ku8evT21un=AMnMgrKJwAN5ceUFDrJY=GA@mail.gmail.com>
- <20260527064041.50443-1-anonymemeow@gmail.com>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Ys3BnB4b";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XKzkHPtO"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 880311D0007B;
+	Wed, 27 May 2026 03:28:01 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 27 May 2026 03:28:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1779866881; x=1779953281; bh=3XwO/+V37KVrRNpcEaN1SRMQKJO+ru5dnmD
+	qhl3Butw=; b=Ys3BnB4bB51G9bAX2plf8tiNxXmxDtSmSX8Q/INFSdF3l7dBAcP
+	T0AUriIXJRvyGV4dCImYro0rSjxEx17VLj55PCCWys6JFx0Pl0tc3/xQEsbusV/a
+	LbiVQ7WVYFwGn16IJGYLahxgCylZYJm+F4STGVBh9NXrABxsgdDR2mFxA20aDef+
+	WXrsLjle7bD3tLkikhtl0pq5u55C7ywsMa8GP5l61bhh66bnmkEAQiHt4Fi+NNI9
+	SYGeJf6xszAyLMNQlMkHKe7+RR+Wdep/bBHpUQR6SVLIoYdHZNL00pkJ2J7Bl3IU
+	P94QZTtGdymTC4dErzjq+j1R2OrDBBLef8A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779866881; x=
+	1779953281; bh=3XwO/+V37KVrRNpcEaN1SRMQKJO+ru5dnmDqhl3Butw=; b=X
+	KzkHPtOadzD/Ys0uigqcaAxJbnC563xvLxjo55HpwM0ZelI5y0YQN8Kug04reCin
+	Xpfojy8aR16t3tQYzxvPMpY3r1TvGTll9sjuKXUYUulEOM406PQKAnV2aVIVqaP/
+	WGy4r7Oh+2cmPneCXyxIm6aOO2MznEYaY9tSI/O99S+KsZ24aUTUl3FppRIGRpLe
+	SlbwUicBYJjvDccqRsCU85FQBo3VbxZKL9b8QJRYKdoOpXhRwSCKcKM1Sfog//ZJ
+	nzibJdd26+arIdR/me9Y/1BSNwT4Gpt705pk4L9G9uiuEb6xCHGNrUCdsur3hS49
+	cDtxszp+8lPQtvGcx6mlA==
+X-ME-Sender: <xms:AJ0WarUVx6T86N3Bk1fhjVu4QzXBn3EjEFzQX_fgSk3RfhuQY6QxYg>
+    <xme:AJ0WamK81DGPw5IbseLwKAgmQEGH4f2jM70vGskQzNZ6qDyAbVV9yoS_YC1mpcpRW
+    8JVgYfDeaobMYfnsUzm-W46BTBEeuuUIg_ECNOaa6uPoPejRg>
+X-ME-Received: <xmr:AJ0WarAWSoYKsOAgvd5PV2h-IhY89PFazP9eLSMjBmm8J60sjxcbfy9G5-GGFxt1wwMcWMLvyIEFEOv-NW-fiIcNOtI2WTE>
+X-ME-Proxy-Cause: dmFkZTGzGGfIMu6kVafRuqU7pAz0xAQ+4OXj4xUTz7W9gcgHPLaOgVfs+eG5gUgVhyjUUs
+    mKMGsFuonZgnMx8FGzxt2iHdD+DUAVxeKJr0JUult6V9CxG7mOenhrSU1yNNATxGOUmB8F
+    QL59h12zRcNKoeA9VWv/Z7X5XNqZjMRieDDnaU7rFd+7zigSRByDRWvRej/SKIBwowA1X1
+    50L3R+WoWbX/5rLNTnf+HBtU3KE3mhZGCmSWiW86BS2BeTq4KJdjyZ4RLJxBnCIqNpiGo9
+    TAkFIDe3o0IKqsSfcpGFGj71n4BgaUrnPWVGocA61EHTzFebbVeDF6nltLH/9Zki9DXmtC
+    0zsHl0fy23DwTzEeV2EbvY7LdI3HbfQqZegX8B6HrusLa7woOgqVLPViZYWhGrpSZPZVyX
+    8oxnDm5N3EgT1WT/cl0ZOccd2vuxuUe6F8goFDrp47FCa3jfuS8jbbsoMPIdehoJkmHtVP
+    +M6NLAgt3YCIa28MNr6PrbAuxFjmD3w8VqBjTo9G9t0n5aTJoMJQSovNEzuMmbmFirOtPb
+    tQN9dmyCUCrdDC7RlwKlTkNZ87+31Xmamyww6UxncyHLQNFdyWg+mbzMxHmrVEZaKettpf
+    yPtiQ4JyGfLejfiNiOUVC7mH/7U8ElejTrI0IxoE5xstR6i21U2toDCh8OVA
+X-ME-Proxy: <xmx:AJ0Wamd-ulXlz8TfLVLtABD3t71PxDV_lGGzrv5qiB3b3gzwFzhJgw>
+    <xmx:AJ0Waq2LbGhEAh_6R-JfW1tLPujFX95nJUxnfX6gZoHxP9DTnSq7Yg>
+    <xmx:AJ0Watic0tYJIcaRiHOwajiZJIDa4IKi0ZxiSjyG-lK6yURSeuFMjg>
+    <xmx:AJ0WajnUvWAf1rdnHFhSgUcdsQaGE_SPRx3USy3sz5oqFbQp9aJ3UA>
+    <xmx:AZ0WamvyagndXaF0TmBvJ7Jmbez0lFcJWtoQ9_d25ubajsmE06UjST2i>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 May 2026 03:27:58 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260527064041.50443-1-anonymemeow@gmail.com>
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 5C33466D0C
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.71 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	HAS_REPLYTO(0.30)[pvorel@suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,lists.linux.it,suse.cz,google.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.cz:replyto];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -3.71
+From: NeilBrown <neilb@ownmail.net>
+To: "Jori Koolstra" <jkoolstra@xs4all.nl>
+Cc: "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Aleksa Sarai" <cyphar@cyphar.com>, "Jori Koolstra" <jkoolstra@xs4all.nl>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ cmirabil@redhat.com
+Subject: Re: [RFC PATCH v5 1/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+In-reply-to: <20260525202937.466497-2-jkoolstra@xs4all.nl>
+References: <20260525202937.466497-1-jkoolstra@xs4all.nl>
+  <20260525202937.466497-2-jkoolstra@xs4all.nl>
+Date: Wed, 27 May 2026 17:27:54 +1000
+Message-id: <177986687451.3379282.8177801680240137022@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-Hi AnonymeMeow, Amir,
+On Tue, 26 May 2026, Jori Koolstra wrote:
+> Currently there is no way to race-freely create and open a directory.
+> For regular files we have open(O_CREAT) for creating a new file inode,
+> and returning a pinning fd to it. The lack of such functionality for
+> directories means that when populating a directory tree there's always
+> a race involved: the inodes first need to be created, and then opened
+> to adjust their permissions/ownership/labels/timestamps/acls/xattrs/...,
+> but in the time window between the creation and the opening they might
+> be replaced by something else.
+>=20
+> Addressing this race without proper APIs is possible (by immediately
+> fstat()ing what was opened, to verify that it has the right inode type),
+> but difficult to get right. Hence, adding support for a new flag combo
+> O_CREAT|O_DIRECTORY to open*(2) that creates a directory (if it does not
+> exist already) and returns an O_DIRECTORY fd is very useful.
+>=20
+> Historically, the O_CREAT|O_DIRECTORY behaviour was to return ENOTDIR if
+> a regular file exists at the open path; EISDIR if a directory exists at
+> the path; and to create a regular file if no file exists at the path.
+> This behaviour changed accidentally with 973d4b73fbaf ("do_last(): rejoin
+> the common path even earlier in FMODE_{OPENED,CREATED} case") causing
+> ENOTDIR to return in the last case while still creating the file. As
+> this change was not detected for a long time, Brauner proposed to adopt
+> the more consistent NetBSD behaviour, i.e. to return EINVAL on the the
+> O_CREAT|O_DIRECTORY combination. This change was applied in 43b450632676
+> ("open: return EINVAL for O_DIRECTORY | O_CREAT") in March, 2023. As
+> the EINVAL behaviour has been in the kernel for about 3 year now, no
+> rollback is expected as a result of userspace reliance on old
+> behaviour, leaving us free to reassign the O_CREAT|O_DIRECTORY semantics.
+>=20
+> This commit also changes the error returned when a filesystem operation
+> is unsupported (i_op->mkdir/creat) to EOPNOTSUPP. Current error values
+> are inconsistent (both EPERM and EACCES are used) and confusing.
 
-[ Cc Cyril ]
+This commit description is good at justifying the change.  But it is not
+so good at explaining the details of how the change happens so that a
+reviewer can match the code with the explanation.  There is a lot
+happening here and I think I would rather it were split into a few
+separate patches so it is easier to comprehend.
 
-> On 2026-05-25 12:04:32+02:00, Amir Goldstein wrote:
-> > On Sun, May 24, 2026 at 12:25 PM AnonymeMeow <anonymemeow@gmail.com> wrote:
-@AnonymeMeow nit: if you put whole conversation after --- (below), it will not
-be part of the commit message when one applies the patch. And here should be a
-proper commit message.
+I *think* the intention is that this new functionality would not be
+available on filesystems which support ->atomic_open, until those
+filesystems are given tailored support.  Is that correct?  Spelling that
+out at the start would be useful.  I would implement that by checking
+for O_DIRECTORY in atomic_open() and leaving the filesystems untouched.
+Then a patch later in the series would move that test into the various
+filesystems.
 
-FYI We have just 2 days before releasing new LTP version, this will not get in
-anyway.  At least I'm not sure if we want to risk regression in the release for
-functionality which is not yet even in the next tree.
+I'm not convinced the change to EOPNOTSUPP is a good idea.  It should
+be a separate patch so that it can be reviewed separately.
 
-Also I found that fanotify21.c on the current master fails when running more
-than 1 iteration:
+EOPNOTSUPP is documented as
+       EOPNOTSUPP      Operation not supported on socket (POSIX.1-2001).
 
-# ./fanotify21 -i2
-...
-tst_test.c:1980: TINFO: === Testing on ext2 ===
-tst_test.c:1291: TINFO: Formatting /dev/loop0 with ext2 opts='' extra opts=''
-mke2fs 1.47.4 (6-Mar-2025)
-tst_test.c:1303: TINFO: Mounting /dev/loop0 to /tmp/LTP_fanWZr7p3/fs_mnt fstyp=ext2 flags=0
-fanotify21.c:238: TINFO: Test #0.0: return a valid pidfd for event created by self
-fanotify21.c:340: TPASS: event->fd 4 is valid as expected
-fanotify21.c:415: TPASS: got an event with a valid pidfd info record, mask: 32, pid: 234527, fd: 4, pidfd: 5, info_type: 4, info_len: 8
-fanotify21.c:238: TINFO: Test #1.0: return a valid pidfd for event created by child
-fanotify21.c:340: TPASS: event->fd 4 is valid as expected
-fanotify21.c:415: TPASS: got an event with a valid pidfd info record, mask: 32, pid: 234528, fd: 4, pidfd: 5, info_type: 4, info_len: 8
-fanotify21.c:238: TINFO: Test #2.0: return invalid pidfd for event created by terminated child
-fanotify21.c:340: TPASS: event->fd 4 is valid as expected
-fanotify21.c:375: TPASS: pid: 234529 terminated before pidfd was created, pidfd set to the value of: -1, as expected
-fanotify21.c:238: TINFO: Test #3.0: fail to open rw fd for event created on read-only mount
-fanotify21.c:297: TPASS: cannot read event with rw fd from a ro fs
-fanotify21.c:238: TINFO: Test #0.0: return a valid pidfd for event created by self
-fanotify21.c:300: TBROK: reading fanotify events failed: EROFS (30)
+and we have no sockets here!
+ENOTSUP might be a reasonable choice - though it has the same numeric
+value and it often confused with EOPNOTSUPP in the kernel.
 
-Summary:
-passed   7
-failed   0
-broken   1
-skipped  0
-warnings 0
+I don't think EACCES is particularly good, but I don't think anything
+else is enough better to justify a change.
 
-That should be fixed. It might be worth to fix that before the release.
+Other comments interleaved...
 
-Kind regards,
-Petr
-
-> > > The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
-> > > exclusive because by the time the pidfd support was introduced to
-> > > fanotify, pidfds could only be created for thread group leaders. Now
-> > > that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
-> > > this restriction can be lifted.
-
-> > > This patch allows listeners using FAN_REPORT_PIDFD | FAN_REPORT_TID
-> > > to receive the pidfd referring to the thread that triggered the
-> > > event.
-
-> > > Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
-
-> > Regarding the legal standpoint, as far as I can tell, commit d4563201f33a0
-> > ("Documentation: simplify and clarify DCO contribution example language")
-> > explicitly allowed pseudonyms, so although unorthodox, this seems to be legit.
-
-> > In any case, the contributing itself seems legit to me, so
-
-> > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-
-> > But before merging this, AnonymeMeow, since it is your first contribution
-> > to the Linux kernel (right?) as well as a "I am not a robot" challenge
-> > I would like to first see that the tests have been dealt with.
-
-> > The LTP test fanotify20 explicitly checks that this flag combination is not
-> > allowed. Need to discuss an acceptable solution with LTP developers -
-> > remove this check depending on kernel version or whatever they choose.
-
-> > The LTP test fanotify21 tests the FAN_REPORT_PIDFD functionality.
-> > Please add two new variants for REPORT_TID:
-> >         .test_variants = 4,
-
-> > #define TST_VARIANT_FD_ERROR (tst_variant & 1)
-> > #define TST_VARIANT_PIDFD_THREAD (tst_variant & 2)
-
-> > The existing checks if (tst_variant) become if (TST_VARIANT_FD_ERROR)
-> > so bit 0 represents the FAN_REPORT_FD_ERROR variation.
-
-> > in do_setup() need to use if (TST_VARIANT_PIDFD_THREAD)
-> > to add FAN_REPORT_TID and to use PIDFD_THREAD for pidfd.
-
-> > Follow the footsteps of fd_error_unsupported to skip the
-> > TST_VARIANT_PIDFD_THREAD variants on kernels where the flag
-> > combination is not supported.
-
-> > Good luck,
-> > Amir.
-
-> Thanks for the helpful and detailed guidance on how to extend the tests!
-> I've updated the test cases according to your suggestions.
-
-> After applying my previous patch, the LTP fanotify20 test needs to probe
-> whether the running kernel supports thread pidfd reporting. I didn't use
-> kernel version check because the LTP documentation notes that kernel
-> versions do not always correspond to a well-defined feature set due to
-> distribution backports, and recommends runtime feature checks. I probe
-> whether fanotify_init() succeeds with FAN_REPORT_PIDFD | FAN_REPORT_TID
-> as a workaround. The first test case uses exactly the same flags, but it
-> still verifies the return value and errno, so I am not sure whether this
-> should be considered duplicate logic. I also added one test case that
-> passes all relevant FAN_REPORT_* flags and verifies whether
-> fanotify_init() behaves as expected. The expected result depends on the
-> previous probe result.
-
-> Also, I added one test case and two test variants to LTP test
-> fanotify21. The new test case verifies that fanotify reports the correct
-> pidfd for the event generated by a child process or a worker thread
-> created by the main thread. This is especially useful for the thread
-> pidfd test variants, because it checks that the pidfd reported by
-> fanotify really refers to the event-generating thread rather than to
-> the thread-group leader. The two new test variants extend the existing
-> ones by adding the thread pidfd mode, as you suggested.
-
-> I ran all fanotify-related LTP tests on both a vanilla Linux 7.1-rc5
-> kernel and a Linux 7.1-rc5 kernel with my patch applied. Both kernels
-> passed all the tests. They were both built with the config file from the
-> official Arch Linux package repo. More specifically, both kernels passed
-> all three test cases in fanotify20, with no skips. The test cases expect
-> different results from the two kernels, which is the expected behavior.
-> For fanotify21, the patched kernel passed all test cases in all test
-> variants. On the unpatched kernel, all test cases passed for variants
-> without TST_VARIANT_PIDFD_THREAD, while all test cases in variants with
-> TST_VARIANT_PIDFD_THREAD were skipped, which is also the expected
-> behavior.
-
-> Again, thanks for the detailed guidance on this!
-
-> With Best Regards,
-> AnonymeMeow
-
-> Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+>=20
+> This feature idea (and some of its description) is taken from the
+> UAPI group:
+> https://github.com/uapi-group/kernel-features?tab=3Dreadme-ov-file#race-fre=
+e-creation-and-opening-of-non-file-inodes
+>=20
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 > ---
->  testcases/kernel/syscalls/fanotify/Makefile   |   2 +-
->  .../kernel/syscalls/fanotify/fanotify20.c     |  24 +-
->  .../kernel/syscalls/fanotify/fanotify21.c     | 224 +++++++++++++-----
->  3 files changed, 184 insertions(+), 66 deletions(-)
-
-> diff --git a/testcases/kernel/syscalls/fanotify/Makefile b/testcases/kernel/syscalls/fanotify/Makefile
-> index 3628094ba..b20bb50e9 100644
-> --- a/testcases/kernel/syscalls/fanotify/Makefile
-> +++ b/testcases/kernel/syscalls/fanotify/Makefile
-> @@ -2,7 +2,7 @@
->  #  Copyright (c) Jan Kara <jack@suse.cz>, 2013
-
->  top_srcdir		?= ../../../..
-> -fanotify11: CFLAGS+=-pthread
-> +fanotify11 fanotify21: CFLAGS+=-pthread
->  include $(top_srcdir)/include/mk/testcases.mk
-
->  include $(top_srcdir)/include/mk/generic_leaf_target.mk
-> diff --git a/testcases/kernel/syscalls/fanotify/fanotify20.c b/testcases/kernel/syscalls/fanotify/fanotify20.c
-> index b32ecf6aa..5d77b485c 100644
-> --- a/testcases/kernel/syscalls/fanotify/fanotify20.c
-> +++ b/testcases/kernel/syscalls/fanotify/fanotify20.c
-> @@ -28,19 +28,27 @@
->  #define FLAGS_DESC(x) .flags = x, .desc = #x
-
->  static int fd;
-> +static int thread_pidfd_unsupported;
-
->  static struct test_case_t {
->  	unsigned int flags;
->  	char *desc;
->  	int exp_errno;
-> +	unsigned int needs_thread_pidfd;
->  } test_cases[] = {
->  	{
->  		FLAGS_DESC(FAN_REPORT_PIDFD | FAN_REPORT_TID),
->  		.exp_errno = EINVAL,
-> +		.needs_thread_pidfd = 1,
->  	},
->  	{
->  		FLAGS_DESC(FAN_REPORT_PIDFD | FAN_REPORT_FID | FAN_REPORT_DFID_NAME),
->  	},
-> +	{
-> +		FLAGS_DESC(FAN_REPORT_PIDFD | FAN_REPORT_TID | FAN_REPORT_FID | FAN_REPORT_DFID_NAME),
-> +		.exp_errno = EINVAL,
-> +		.needs_thread_pidfd = 1,
-> +	},
->  };
-
->  static void do_setup(void)
-> @@ -51,17 +59,29 @@ static void do_setup(void)
->  	 */
->  	REQUIRE_FANOTIFY_INIT_FLAGS_SUPPORTED_ON_FS(FAN_REPORT_PIDFD,
->  						    MOUNT_PATH);
+>  fs/9p/vfs_inode.c      |   3 +
+>  fs/9p/vfs_inode_dotl.c |   3 +
+>  fs/ceph/file.c         |   3 +
+>  fs/fuse/dir.c          |   3 +
+>  fs/gfs2/inode.c        |   3 +
+>  fs/namei.c             | 177 +++++++++++++++++++++++++++--------------
+>  fs/nfs/dir.c           |   3 +
+>  fs/nfs/file.c          |   3 +
+>  fs/open.c              |  25 +++---
+>  fs/smb/client/dir.c    |   3 +
+>  fs/vboxsf/dir.c        |   3 +
+>  include/linux/fcntl.h  |   2 +
+>  12 files changed, 161 insertions(+), 70 deletions(-)
+>=20
+> diff --git a/fs/9p/vfs_inode.c b/fs/9p/vfs_inode.c
+> index f468acb8ee7d..d1925333d327 100644
+> --- a/fs/9p/vfs_inode.c
+> +++ b/fs/9p/vfs_inode.c
+> @@ -771,6 +771,9 @@ v9fs_vfs_atomic_open(struct inode *dir, struct dentry *=
+dentry,
+>  	struct inode *inode;
+>  	int p9_omode;
+> =20
+> +	if ((flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
 > +
-> +	/*
-> +	 * Check whether the kernel supports FAN_REPORT_PIDFD in combination
-> +	 * with FAN_REPORT_TID. Test cases with the needs_thread_pidfd field
-> +	 * set expect different errno values depending on whether this
-> +	 * combination is supported.
-> +	 */
-> +	thread_pidfd_unsupported = fanotify_init_flags_supported_on_fs(
-> +		FAN_REPORT_PIDFD | FAN_REPORT_TID, MOUNT_PATH);
->  }
 
->  static void do_test(unsigned int i)
+O_MKDIR_MASK is only ever used in this construct.  I would prefer
+something like
+
+static inline bool O_IS_MKDIR(unsigned flags)
+{
+    return (flags & (O_CREAT|O_DIRECTORY)) =3D=3D O_CREAT|O_DIRECTORY);
+}
+
+so we would have
+
+   if (O_IS_MKDIR(flags))
+         return -EINVAL;
+
+
+>  	if (d_in_lookup(dentry)) {
+>  		struct dentry *res =3D v9fs_vfs_lookup(dir, dentry, 0);
+>  		if (res || d_really_is_positive(dentry))
+> diff --git a/fs/9p/vfs_inode_dotl.c b/fs/9p/vfs_inode_dotl.c
+> index 141fb54db65d..9f4b865d07d7 100644
+> --- a/fs/9p/vfs_inode_dotl.c
+> +++ b/fs/9p/vfs_inode_dotl.c
+> @@ -239,6 +239,9 @@ v9fs_vfs_atomic_open_dotl(struct inode *dir, struct den=
+try *dentry,
+>  	struct v9fs_session_info *v9ses;
+>  	struct posix_acl *pacl =3D NULL, *dacl =3D NULL;
+> =20
+> +	if ((flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
+> +
+>  	if (d_in_lookup(dentry)) {
+>  		struct dentry *res =3D v9fs_vfs_lookup(dir, dentry, 0);
+>  		if (res || d_really_is_positive(dentry))
+> diff --git a/fs/ceph/file.c b/fs/ceph/file.c
+> index d54d71669176..9707d9ed17b6 100644
+> --- a/fs/ceph/file.c
+> +++ b/fs/ceph/file.c
+> @@ -813,6 +813,9 @@ int ceph_atomic_open(struct inode *dir, struct dentry *=
+dentry,
+>  	if (dentry->d_name.len > NAME_MAX)
+>  		return -ENAMETOOLONG;
+> =20
+> +	if ((flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
+> +
+>  	err =3D ceph_wait_on_conflict_unlink(dentry);
+>  	if (err)
+>  		return err;
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index b658b6baf72f..4c59992b9867 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -940,6 +940,9 @@ static int fuse_atomic_open(struct inode *dir, struct d=
+entry *entry,
+>  	if (fuse_is_bad(dir))
+>  		return -EIO;
+> =20
+> +	if ((flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
+> +
+>  	if (d_in_lookup(entry)) {
+>  		struct dentry *res =3D fuse_lookup(dir, entry, 0);
+>  		if (res || d_really_is_positive(entry))
+> diff --git a/fs/gfs2/inode.c b/fs/gfs2/inode.c
+> index e9bf4879c07f..21c6544fbee5 100644
+> --- a/fs/gfs2/inode.c
+> +++ b/fs/gfs2/inode.c
+> @@ -1384,6 +1384,9 @@ static int gfs2_atomic_open(struct inode *dir, struct=
+ dentry *dentry,
 >  {
->  	struct test_case_t *tc = &test_cases[i];
-
-> -	tst_res(TINFO, "Test %s on %s", tc->exp_errno ? "fail" : "pass",
-> +	int exp_errno = tc->needs_thread_pidfd && !thread_pidfd_unsupported ?
-> +		0 : tc->exp_errno;
+>  	bool excl =3D !!(flags & O_EXCL);
+> =20
+> +	if ((flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
 > +
-> +	tst_res(TINFO, "Test %s on %s", exp_errno ? "fail" : "pass",
->  		tc->desc);
-
->  	TST_EXP_FD_OR_FAIL(fd = fanotify_init(tc->flags, O_RDONLY),
-> -			   tc->exp_errno);
-> +			   exp_errno);
-
->  	if (fd > 0)
->  		SAFE_CLOSE(fd);
-> diff --git a/testcases/kernel/syscalls/fanotify/fanotify21.c b/testcases/kernel/syscalls/fanotify/fanotify21.c
-> index 340fb0018..4629860da 100644
-> --- a/testcases/kernel/syscalls/fanotify/fanotify21.c
-> +++ b/testcases/kernel/syscalls/fanotify/fanotify21.c
-> @@ -20,9 +20,11 @@
->  #include <stdlib.h>
->  #include <string.h>
->  #include <sys/mount.h>
-> +#include <pthread.h>
->  #include "tst_test.h"
->  #include "tst_safe_stdio.h"
->  #include "tst_safe_macros.h"
-> +#include "tst_safe_pthread.h"
->  #include "lapi/pidfd.h"
-
->  #ifdef HAVE_SYS_FANOTIFY_H
-> @@ -42,7 +44,7 @@ struct pidfd_fdinfo_t {
-
->  static struct test_case_t {
->  	char *name;
-> -	int fork;
-> +	int trigger_in_child;
->  	int want_pidfd_err;
->  	int remount_ro;
->  } test_cases[] = {
-> @@ -52,6 +54,12 @@ static struct test_case_t {
->  		0,
->  		0,
->  	},
-> +	{
-> +		"return a valid pidfd for event created by child",
-> +		1,
-> +		0,
-> +		0,
-> +	},
->  	{
->  		"return invalid pidfd for event created by terminated child",
->  		1,
-> @@ -68,16 +76,17 @@ static struct test_case_t {
-
->  static int fanotify_fd;
->  static char event_buf[BUF_SZ];
-> -static struct pidfd_fdinfo_t *self_pidfd_fdinfo;
-> +static struct pidfd_fdinfo_t expected_pidfd_fdinfo;
-
->  static int fd_error_unsupported;
-> +static int thread_pidfd_unsupported;
-> +
-> +#define TST_VARIANT_FD_ERROR (tst_variant & 1)
-> +#define TST_VARIANT_PIDFD_THREAD (tst_variant & 2)
-
-> -static struct pidfd_fdinfo_t *read_pidfd_fdinfo(int pidfd)
-> +static void read_pidfd_fdinfo(int pidfd, struct pidfd_fdinfo_t *pidfd_fdinfo)
->  {
->  	char *fdinfo_path;
-> -	struct pidfd_fdinfo_t *pidfd_fdinfo;
-> -
-> -	pidfd_fdinfo = SAFE_MALLOC(sizeof(struct pidfd_fdinfo_t));
-
->  	SAFE_ASPRINTF(&fdinfo_path, "/proc/self/fdinfo/%d", pidfd);
->  	SAFE_FILE_LINES_SCANF(fdinfo_path, "pos: %d", &pidfd_fdinfo->pos);
-> @@ -87,8 +96,6 @@ static struct pidfd_fdinfo_t *read_pidfd_fdinfo(int pidfd)
->  	SAFE_FILE_LINES_SCANF(fdinfo_path, "NSpid: %d", &pidfd_fdinfo->ns_pid);
-
->  	free(fdinfo_path);
-> -
-> -	return pidfd_fdinfo;
+>  	if (d_in_lookup(dentry)) {
+>  		struct dentry *d =3D __gfs2_lookup(dir, dentry, file);
+>  		if (file->f_mode & FMODE_OPENED) {
+> diff --git a/fs/namei.c b/fs/namei.c
+> index c7fac83c9a85..9d9529ef30c4 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -2777,9 +2777,14 @@ static const char *path_init(struct nameidata *nd, u=
+nsigned flags)
+>  	return s;
 >  }
-
->  static void generate_event(void)
-> @@ -100,30 +107,91 @@ static void generate_event(void)
->  	SAFE_CLOSE(fd);
->  }
-
-> -static void do_fork(void)
-> +static pid_t do_fork(int want_pidfd_err)
->  {
-> -	int status;
-> +	int pidfd;
->  	pid_t child;
-
->  	child = SAFE_FORK();
->  	if (child == 0) {
->  		SAFE_CLOSE(fanotify_fd);
->  		generate_event();
-> +		TST_CHECKPOINT_WAIT(0);
->  		exit(EXIT_SUCCESS);
->  	}
-
-> -	SAFE_WAITPID(child, &status, 0);
-> -	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-> -		tst_brk(TBROK,
-> -			"child process terminated incorrectly");
-> +	pidfd = SAFE_PIDFD_OPEN(child, 0);
-> +	read_pidfd_fdinfo(pidfd, &expected_pidfd_fdinfo);
-> +	SAFE_CLOSE(pidfd);
-> +
-> +	if (want_pidfd_err) {
-> +		int status;
-> +		TST_CHECKPOINT_WAKE(0);
-> +		SAFE_WAITPID(child, &status, 0);
-> +		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-> +			tst_brk(TBROK, "child process terminated incorrectly");
-> +		
-> +		return -1;
-> +	}
-> +
-> +	return child;
->  }
-
-> -static void do_setup(void)
-> +static void *thread_generate_event(void *arg)
+> =20
+> +static inline bool trailing_slashes(struct nameidata *nd)
 > +{
-> +	*(int *)arg = SAFE_PIDFD_OPEN(gettid(), PIDFD_THREAD);
-> +	TST_CHECKPOINT_WAKE(0);
+> +	return (bool)nd->last.name[nd->last.len];
+> +}
+
+Moving and reusing this function could be a patch on its own.  It is a
+nice tidy-up which is unrelated to the rest of the change.
+
 > +
-> +	generate_event();
-> +	TST_CHECKPOINT_WAIT(0);
-> +	pthread_exit(0);
+>  static inline const char *lookup_last(struct nameidata *nd)
+>  {
+> -	if (nd->last_type =3D=3D LAST_NORM && nd->last.name[nd->last.len])
+> +	if (nd->last_type =3D=3D LAST_NORM && trailing_slashes(nd))
+>  		nd->flags |=3D LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
+> =20
+>  	return walk_component(nd, WALK_TRAILING);
+> @@ -4166,6 +4171,16 @@ static inline umode_t vfs_prepare_mode(struct mnt_id=
+map *idmap,
+>  	return mode;
+>  }
+> =20
+> +static int __vfs_create(struct mnt_idmap *idmap, struct dentry *dentry, um=
+ode_t mode,
+> +			struct delegated_inode *di, bool excl)
+> +{
+> +	struct inode *dir =3D d_inode(dentry->d_parent);
+> +	int error =3D try_break_deleg(dir, di);
+> +	if (error)
+> +		return error;
+> +	return dir->i_op->create(idmap, dir, dentry, mode, excl);
+> +}
+
+I don't understand why you have factored this out.  Why not leave the
+try_break_deleg() where it was?
+This is the sort of thing that really benefits from a few words in the
+commit message.
+
+> +
+>  /**
+>   * vfs_create - create new file
+>   * @idmap:	idmap of the mount the inode was found from
+> @@ -4192,16 +4207,14 @@ int vfs_create(struct mnt_idmap *idmap, struct dent=
+ry *dentry, umode_t mode,
+>  		return error;
+> =20
+>  	if (!dir->i_op->create)
+> -		return -EACCES;	/* shouldn't it be ENOSYS? */
+> +		return -EOPNOTSUPP;
+> =20
+>  	mode =3D vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
+>  	error =3D security_inode_create(dir, dentry, mode);
+>  	if (error)
+>  		return error;
+> -	error =3D try_break_deleg(dir, di);
+> -	if (error)
+> -		return error;
+> -	error =3D dir->i_op->create(idmap, dir, dentry, mode, true);
+> +
+> +	error =3D __vfs_create(idmap, dentry, mode, di, true);
+>  	if (!error)
+>  		fsnotify_create(dir, dentry);
+>  	return error;
+> @@ -4321,21 +4334,32 @@ static inline int open_to_namei_flags(int flag)
+> =20
+>  static int may_o_create(struct mnt_idmap *idmap,
+>  			const struct path *dir, struct dentry *dentry,
+> -			umode_t mode)
+> +			umode_t mode, bool create_dir)
+                                      ^^^^^^
+
+I don't like bool arguments much.  Particularly when code passes a
+literal "true" or "false" as in
+
+	create_error =3D may_o_create(idmap, path, dentry, mode, false);
+
+as it isn't clear what the "false" is supposed to mean.
+Could we arrange to pass S_IFDIR or S_IFREG as appropriate?
+Or somehow make the intent of that 5th arg more obvious.
+
+>  {
+> -	int error =3D security_path_mknod(dir, dentry, mode, 0);
+> +	struct inode *dir_inode =3D dir->dentry->d_inode;
+> +	int error;
+> +
+> +	error =3D create_dir ? security_path_mkdir(dir, dentry, mode)
+> +			   : security_path_mknod(dir, dentry, mode, 0);
+>  	if (error)
+>  		return error;
+> =20
+>  	if (!fsuidgid_has_mapping(dir->dentry->d_sb, idmap))
+>  		return -EOVERFLOW;
+> =20
+> -	error =3D inode_permission(idmap, dir->dentry->d_inode,
+> -				 MAY_WRITE | MAY_EXEC);
+> +	error =3D inode_permission(idmap, dir_inode, MAY_WRITE | MAY_EXEC);
+>  	if (error)
+>  		return error;
+> =20
+> -	return security_inode_create(dir->dentry->d_inode, dentry, mode);
+> +	return create_dir ? security_inode_mkdir(dir_inode, dentry, mode)
+> +			  : security_inode_create(dir_inode, dentry, mode);
 > +}
 > +
-> +static pthread_t do_pthread_create(int want_pidfd_err)
->  {
->  	int pidfd;
-> +	pthread_t worker;
-> +
-> +	SAFE_PTHREAD_CREATE(&worker, NULL, thread_generate_event, &pidfd);
-> +
-> +	TST_CHECKPOINT_WAIT(0);
-> +	read_pidfd_fdinfo(pidfd, &expected_pidfd_fdinfo);
-> +
-> +	if (want_pidfd_err) {
-> +		int status;
-> +		struct pidfd_fdinfo_t thread_pidfd_fdinfo;
-> +		TST_CHECKPOINT_WAKE(0);
-> +		SAFE_PTHREAD_JOIN(worker, (void **)&status);
-> +		if (status != 0)
-> +			tst_brk(TBROK, "worker thread terminated incorrectly");
-> +
-> +		/*
-> +		 * Unlike waitpid(), pthread_join() only waits until the worker thread
-> +		 * has exited from the pthread point of view. The thread may still be
-> +		 * visible through its pidfd for a short time afterwards, and fanotify
-> +		 * creates the event pidfd when the event is read. Wait until the
-> +		 * worker pidfd fdinfo reports Pid: -1 before reading the event so
-> +		 * that fanotify reports ESRCH/FAN_NOPIDFD instead of a pidfd.
-> +		 */
-> +		do {
-> +			read_pidfd_fdinfo(pidfd, &thread_pidfd_fdinfo);
-> +		} while (thread_pidfd_fdinfo.pid != -1);
-> +
-> +		SAFE_CLOSE(pidfd);
-> +
-> +		return -1;
-> +	}
-> +
-> +	SAFE_CLOSE(pidfd);
-> +
-> +	return worker;
-> +}
-> +
-> +static void do_setup(void)
+> +static inline umode_t o_create_mode(struct mnt_idmap *idmap,
+> +		const struct inode *dir, umode_t mode, bool create_dir)
 > +{
->  	int init_flags = FAN_REPORT_PIDFD;
+> +	return create_dir ? vfs_prepare_mode(idmap, dir, mode, S_IRWXUGO | S_ISVT=
+X, 0)
+> +			  : vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
 
-> -	if (tst_variant) {
-> +	if (TST_VARIANT_FD_ERROR) {
->  		fanotify_fd = -1;
->  		fd_error_unsupported = fanotify_init_flags_supported_on_fs(FAN_REPORT_FD_ERROR, ".");
->  		if (fd_error_unsupported)
-> @@ -131,6 +199,15 @@ static void do_setup(void)
->  		init_flags |= FAN_REPORT_FD_ERROR;
->  	}
+It isn't clear the purpose of this.
+In the create_dir case, shouldn't we pass S_IFDIR as the last arg: type?
 
-> +	if (TST_VARIANT_PIDFD_THREAD) {
-> +		fanotify_fd = -1;
-> +		thread_pidfd_unsupported = fanotify_init_flags_supported_on_fs(
-> +			FAN_REPORT_PIDFD | FAN_REPORT_TID, ".");
-> +		if (thread_pidfd_unsupported)
-> +			return;
-> +		init_flags |= FAN_REPORT_TID;
-> +	}
-> +
->  	SAFE_TOUCH(TEST_FILE, 0666, NULL);
+The difference between "S_IRWXUGO | S_ISVTX" and "S_IALLUGO" is not
+immediately obvious, but the former excludes S_ISUID and S_ISGID.
+The setuid bit is meaningless on directories so there is little point in
+stripping it, but I don't object as long as the intent is documented
+here.
+The setgid bit is meaningful but vfs_prepare_mode() seems to already
+handle it correctly for directories if you pass the type as S_IFDIR.
+If you have a good reason to impose different handling here, that might
+be sensible, but it should be documented.
 
->  	/*
-> @@ -144,15 +221,6 @@ static void do_setup(void)
->  	fanotify_fd = SAFE_FANOTIFY_INIT(init_flags, O_RDWR);
->  	SAFE_FANOTIFY_MARK(fanotify_fd, FAN_MARK_ADD, FAN_OPEN, AT_FDCWD,
->  			   TEST_FILE);
-> -
-> -	pidfd = SAFE_PIDFD_OPEN(getpid(), 0);
-> -
-> -	self_pidfd_fdinfo = read_pidfd_fdinfo(pidfd);
-> -	if (self_pidfd_fdinfo == NULL) {
-> -		tst_brk(TBROK,
-> -			"pidfd=%d, failed to read pidfd fdinfo",
-> -			pidfd);
-> -	}
 >  }
-
->  static void do_test(unsigned int num)
-> @@ -160,17 +228,29 @@ static void do_test(unsigned int num)
->  	int i = 0, len;
->  	struct test_case_t *tc = &test_cases[num];
->  	int nopidfd_err = tc->want_pidfd_err ?
-> -			  (tst_variant ? -ESRCH : FAN_NOPIDFD) : 0;
-> -	int fd_err = (tc->remount_ro && tst_variant) ? -EROFS : 0;
-> +			  (TST_VARIANT_FD_ERROR ? -ESRCH : FAN_NOPIDFD) : 0;
-> +	int fd_err = (tc->remount_ro && TST_VARIANT_FD_ERROR) ? -EROFS : 0;
-> +	union {
-> +		pid_t pid;
-> +		pthread_t pthread_id;
-> +	} worker_id;
-
->  	tst_res(TINFO, "Test #%d.%d: %s %s", num, tst_variant, tc->name,
-> -			tst_variant ? "(FAN_REPORT_FD_ERROR)" : "");
-> +		TST_VARIANT_FD_ERROR ? (TST_VARIANT_PIDFD_THREAD ?
-> +			"(FAN_REPORT_FD_ERROR, FAN_REPORT_TID)" : "(FAN_REPORT_FD_ERROR)") :
-> +			(TST_VARIANT_PIDFD_THREAD ? "(FAN_REPORT_TID)" : ""));
-
-> -	if (fd_error_unsupported && tst_variant) {
-> +	if (fd_error_unsupported && TST_VARIANT_FD_ERROR) {
->  		FANOTIFY_INIT_FLAGS_ERR_MSG(FAN_REPORT_FD_ERROR, fd_error_unsupported);
->  		return;
+> =20
+>  /*
+> @@ -4388,6 +4412,9 @@ static struct dentry *atomic_open(const struct path *=
+path, struct dentry *dentry
+>  	return dentry;
+>  }
+> =20
+> +static struct dentry *__vfs_mkdir(struct mnt_idmap *, struct inode *,
+> +			 struct dentry *, umode_t,
+> +			 struct delegated_inode *);
+>  /*
+>   * Look up and maybe create and open the last component.
+>   *
+> @@ -4412,8 +4439,9 @@ static struct dentry *lookup_open(struct nameidata *n=
+d, struct file *file,
+>  	struct inode *dir_inode =3D dir->d_inode;
+>  	int open_flag =3D op->open_flag;
+>  	struct dentry *dentry;
+> -	int error, create_error =3D 0;
+> +	int error =3D 0, create_error =3D 0;
+>  	umode_t mode =3D op->mode;
+> +	bool create_dir =3D (open_flag & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK;
+>  	DECLARE_WAIT_QUEUE_HEAD_ONSTACK(wq);
+> =20
+>  	if (unlikely(IS_DEADDIR(dir_inode)))
+> @@ -4462,10 +4490,10 @@ static struct dentry *lookup_open(struct nameidata =
+*nd, struct file *file,
+>  	if (open_flag & O_CREAT) {
+>  		if (open_flag & O_EXCL)
+>  			open_flag &=3D ~O_TRUNC;
+> -		mode =3D vfs_prepare_mode(idmap, dir->d_inode, mode, mode, mode);
+> +		mode =3D o_create_mode(idmap, dir_inode, mode, create_dir);
+>  		if (likely(got_write))
+>  			create_error =3D may_o_create(idmap, &nd->path,
+> -						    dentry, mode);
+> +						    dentry, mode, create_dir);
+>  		else
+>  			create_error =3D -EROFS;
 >  	}
-
-> +	if (thread_pidfd_unsupported && TST_VARIANT_PIDFD_THREAD) {
-> +		FANOTIFY_INIT_FLAGS_ERR_MSG(FAN_REPORT_PIDFD | FAN_REPORT_TID,
-> +				thread_pidfd_unsupported);
-> +		return;
+> @@ -4494,29 +4522,37 @@ static struct dentry *lookup_open(struct nameidata =
+*nd, struct file *file,
+>  		}
+>  	}
+> =20
+> +	if (unlikely(create_error) && !dentry->d_inode) {
+> +		error =3D create_error;
+> +		goto out_dput;
 > +	}
 > +
->  	if (tc->remount_ro) {
->  		/* SAFE_MOUNT fails to remount FUSE */
->  		if (mount(tst_device->dev, MOUNT_PATH, tst_device->fs_type,
-> @@ -182,14 +262,30 @@ static void do_test(unsigned int num)
->  	}
-
->  	/*
-> -	 * Generate the event in either self or a child process. Event
-> -	 * generation in a child process is done so that the FAN_NOPIDFD case
-> -	 * can be verified.
-> +	 * Generate the event either in the current task or in another task.
-> +	 * When trigger_in_child is set, the event can be generated by either
-> +	 * a child process or a worker thread depending on the test variant.
-> +	 * The want_pidfd_err field determines whether the event-generating
-> +	 * task is still valid when the event is read.
->  	 */
-> -	if (tc->fork)
-> -		do_fork();
-> -	else
-> +	if (tc->trigger_in_child) {
-> +		if (TST_VARIANT_PIDFD_THREAD)
-> +			worker_id.pthread_id = do_pthread_create(tc->want_pidfd_err);
-> +		else
-> +			worker_id.pid = do_fork(tc->want_pidfd_err);
-> +	} else {
-> +		/*
-> +		 * Although the expected pid and the pid reported by fanotify are
-> +		 * the same in this case, pidfds created with and without PIDFD_THREAD
-> +		 * flag have different fdinfo flags. Use PIDFD_THREAD for the expected
-> +		 * pidfd fdinfo so that the fdinfo can be compared bitwise.
-> +		 */
-> +		int pidfd = SAFE_PIDFD_OPEN(gettid(), TST_VARIANT_PIDFD_THREAD ? PIDFD_THREAD : 0);
-> +		read_pidfd_fdinfo(pidfd, &expected_pidfd_fdinfo);
-> +		SAFE_CLOSE(pidfd);
-> +
->  		generate_event();
-> +	}
-
->  	/*
->  	 * Read all of the queued events into the provided event
-> @@ -208,7 +304,7 @@ static void do_test(unsigned int num)
->  	while (i < len) {
->  		struct fanotify_event_metadata *event;
->  		struct fanotify_event_info_pidfd *info;
-> -		struct pidfd_fdinfo_t *event_pidfd_fdinfo = NULL;
-> +		struct pidfd_fdinfo_t event_pidfd_fdinfo;
-
->  		event = (struct fanotify_event_metadata *)&event_buf[i];
->  		info = (struct fanotify_event_info_pidfd *)(event + 1);
-> @@ -288,39 +384,32 @@ static void do_test(unsigned int num)
->  		 * No pidfd errors occurred, continue with verifying pidfd
->  		 * fdinfo validity.
->  		 */
-> -		event_pidfd_fdinfo = read_pidfd_fdinfo(info->pidfd);
-> -		if (event_pidfd_fdinfo == NULL) {
-> -			tst_brk(TBROK,
-> -				"reading fdinfo for pidfd: %d "
-> -				"describing pid: %u failed",
-> -				info->pidfd,
-> -				(unsigned int)event->pid);
-> -			goto next_event;
-> -		} else if (event_pidfd_fdinfo->pid != event->pid) {
-> +		read_pidfd_fdinfo(info->pidfd, &event_pidfd_fdinfo);
-> +		if (event_pidfd_fdinfo.pid != event->pid) {
->  			tst_res(TFAIL,
->  				"pidfd provided for incorrect pid "
->  				"(expected pidfd for pid: %u, got pidfd for "
->  				"pid: %u)",
->  				(unsigned int)event->pid,
-> -				(unsigned int)event_pidfd_fdinfo->pid);
-> +				(unsigned int)event_pidfd_fdinfo.pid);
->  			goto next_event;
-> -		} else if (memcmp(event_pidfd_fdinfo, self_pidfd_fdinfo,
-> +		} else if (memcmp(&event_pidfd_fdinfo, &expected_pidfd_fdinfo,
->  				  sizeof(struct pidfd_fdinfo_t))) {
->  			tst_res(TFAIL,
->  				"pidfd fdinfo values for self and event differ "
->  				"(expected pos: %d, flags: %x, mnt_id: %d, "
->  				"pid: %d, ns_pid: %d, got pos: %d, "
->  				"flags: %x, mnt_id: %d, pid: %d, ns_pid: %d",
-> -				self_pidfd_fdinfo->pos,
-> -				self_pidfd_fdinfo->flags,
-> -				self_pidfd_fdinfo->mnt_id,
-> -				self_pidfd_fdinfo->pid,
-> -				self_pidfd_fdinfo->ns_pid,
-> -				event_pidfd_fdinfo->pos,
-> -				event_pidfd_fdinfo->flags,
-> -				event_pidfd_fdinfo->mnt_id,
-> -				event_pidfd_fdinfo->pid,
-> -				event_pidfd_fdinfo->ns_pid);
-> +				expected_pidfd_fdinfo.pos,
-> +				expected_pidfd_fdinfo.flags,
-> +				expected_pidfd_fdinfo.mnt_id,
-> +				expected_pidfd_fdinfo.pid,
-> +				expected_pidfd_fdinfo.ns_pid,
-> +				event_pidfd_fdinfo.pos,
-> +				event_pidfd_fdinfo.flags,
-> +				event_pidfd_fdinfo.mnt_id,
-> +				event_pidfd_fdinfo.pid,
-> +				event_pidfd_fdinfo.ns_pid);
->  			goto next_event;
->  		} else {
->  			tst_res(TPASS,
-> @@ -342,9 +431,20 @@ next_event:
-
->  		if (info && info->pidfd >= 0)
->  			SAFE_CLOSE(info->pidfd);
-> +	}
-
-> -		if (event_pidfd_fdinfo)
-> -			free(event_pidfd_fdinfo);
-> +	if (tc->trigger_in_child && !tc->want_pidfd_err) {
-> +		int status;
-> +		TST_CHECKPOINT_WAKE(0);
-> +		if (TST_VARIANT_PIDFD_THREAD) {
-> +			SAFE_PTHREAD_JOIN(worker_id.pthread_id, (void **)&status);
-> +			if (status != 0)
-> +				tst_brk(TBROK, "worker thread terminated incorrectly");
+>  	/* Negative dentry, just create the file */
+>  	if (!dentry->d_inode && (open_flag & O_CREAT)) {
+> -		/* but break the directory lease first! */
+> -		error =3D try_break_deleg(dir_inode, delegated_inode);
+> -		if (error)
+> -			goto out_dput;
+> =20
+>  		file->f_mode |=3D FMODE_CREATED;
+>  		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+> -		if (!dir_inode->i_op->create) {
+> -			error =3D -EACCES;
+> +		if ((create_dir && !dir_inode->i_op->mkdir)
+> +		    || (!create_dir && !dir_inode->i_op->create)) {
+> +			error =3D -EOPNOTSUPP;
+>  			goto out_dput;
+>  		}
+> =20
+> -		error =3D dir_inode->i_op->create(idmap, dir_inode, dentry,
+> -						mode, open_flag & O_EXCL);
+> +		if (create_dir) {
+> +			struct dentry *res =3D __vfs_mkdir(idmap, dir_inode, dentry, mode,
+> +							 delegated_inode);
+> +			if (IS_ERR(res))
+> +				error =3D PTR_ERR(res);
+> +			else
+> +				dentry =3D res;
 > +		} else {
-> +			SAFE_WAITPID(worker_id.pid, &status, 0);
-> +			if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-> +				tst_brk(TBROK, "child process terminated incorrectly");
+> +			error =3D __vfs_create(idmap, dentry, mode, delegated_inode,
+> +					     open_flag & O_EXCL);
+> +		}
+>  		if (error)
+>  			goto out_dput;
+>  	}
+> -	if (unlikely(create_error) && !dentry->d_inode) {
+> -		error =3D create_error;
+> -		goto out_dput;
+> -	}
+> +
+>  	return dentry;
+> =20
+>  out_dput:
+> @@ -4524,17 +4560,12 @@ static struct dentry *lookup_open(struct nameidata =
+*nd, struct file *file,
+>  	return ERR_PTR(error);
+>  }
+> =20
+> -static inline bool trailing_slashes(struct nameidata *nd)
+> -{
+> -	return (bool)nd->last.name[nd->last.len];
+> -}
+> -
+>  static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_=
+flag)
+>  {
+>  	struct dentry *dentry;
+> =20
+>  	if (open_flag & O_CREAT) {
+> -		if (trailing_slashes(nd))
+> +		if (trailing_slashes(nd) && !(open_flag & O_DIRECTORY))
+>  			return ERR_PTR(-EISDIR);
+> =20
+>  		/* Don't bother on an O_EXCL create */
+> @@ -4605,13 +4636,17 @@ static const char *open_last_lookups(struct nameida=
+ta *nd,
+>  		 */
+>  	}
+>  	if (open_flag & O_CREAT)
+> -		inode_lock(dir->d_inode);
+> +		inode_lock_nested(dir->d_inode, I_MUTEX_PARENT);
+>  	else
+>  		inode_lock_shared(dir->d_inode);
+>  	dentry =3D lookup_open(nd, file, op, got_write, &delegated_inode);
+>  	if (!IS_ERR(dentry)) {
+> -		if (file->f_mode & FMODE_CREATED)
+> -			fsnotify_create(dir->d_inode, dentry);
+> +		if (file->f_mode & FMODE_CREATED) {
+> +			if (open_flag & O_DIRECTORY)
+> +				fsnotify_mkdir(dir->d_inode, dentry);
+> +			else
+> +				fsnotify_create(dir->d_inode, dentry);
+> +		}
+>  		if (file->f_mode & FMODE_OPENED)
+>  			fsnotify_open(file);
+>  	}
+> @@ -4672,12 +4707,16 @@ static int do_open(struct nameidata *nd,
+>  	if (open_flag & O_CREAT) {
+>  		if ((open_flag & O_EXCL) && !(file->f_mode & FMODE_CREATED))
+>  			return -EEXIST;
+> -		if (d_is_dir(nd->path.dentry))
+> -			return -EISDIR;
+> -		error =3D may_create_in_sticky(idmap, nd,
+> -					     d_backing_inode(nd->path.dentry));
+> -		if (unlikely(error))
+> -			return error;
+> +		// there are no special rules for creating dirs in a sticky bit dir
+
+Maybe there *should* be special rules for creating dirs.
+I don't know the details of the exploits that these rules protect
+against, but if we add O_CREAT|O_DIRECTORY and people start using
+it, and they don't do appropriate validation in sticky
+directories (and the whole point here is to avoid the need
+for validation) then maybe similar sorts of bugs and exploits
+could appear.
+
+I would recommend that O_CREAT|O_DIRECTORY must never successfully open
+a directory with different ownership in a sticky directory.  There is no
+need for a sysctl, because there is no legacy behaviour to protect.
+
+Q: is O_EXCL supported with O_CREAT|O_DIRECTORY? I didn't notice
+and special handling, but I could easily have missed it.
+
+
+> +		if (!(open_flag & O_DIRECTORY)) {
+> +			if (d_is_dir(nd->path.dentry))
+> +				return -EISDIR;
+> +
+> +			error =3D may_create_in_sticky(idmap, nd,
+> +						     d_backing_inode(nd->path.dentry));
+> +			if (unlikely(error))
+> +				return error;
 > +		}
 >  	}
+>  	if ((nd->flags & LOOKUP_DIRECTORY) && !d_can_lookup(nd->path.dentry))
+>  		return -ENOTDIR;
+> @@ -5039,7 +5078,7 @@ struct file *dentry_create(struct path *path, int fla=
+gs, umode_t mode,
+>  		path->dentry =3D dir;
+>  		mode =3D vfs_prepare_mode(idmap, dir_inode, mode, S_IALLUGO, S_IFREG);
+> =20
+> -		create_error =3D may_o_create(idmap, path, dentry, mode);
+> +		create_error =3D may_o_create(idmap, path, dentry, mode, false);
+>  		if (create_error)
+>  			flags &=3D ~O_CREAT;
+> =20
+> @@ -5207,6 +5246,37 @@ SYSCALL_DEFINE3(mknod, const char __user *, filename=
+, umode_t, mode, unsigned, d
+>  	return filename_mknodat(AT_FDCWD, name, mode, dev);
 >  }
-
-> @@ -352,19 +452,17 @@ static void do_cleanup(void)
+> =20
+> +static struct dentry *__vfs_mkdir(struct mnt_idmap *idmap, struct inode *d=
+ir,
+> +			 struct dentry *dentry, umode_t mode,
+> +			 struct delegated_inode *di)
+> +{
+> +	int error;
+> +	unsigned max_links =3D dir->i_sb->s_max_links;
+> +	struct dentry *de;
+> +
+> +	error =3D -EMLINK;
+> +	if (max_links && dir->i_nlink >=3D max_links)
+> +		goto err;
+> +
+> +	error =3D try_break_deleg(dir, di);
+> +	if (error)
+> +		goto err;
+> +
+> +	de =3D dir->i_op->mkdir(idmap, dir, dentry, mode);
+> +	if (IS_ERR(de)) {
+> +		error =3D PTR_ERR(de);
+> +		goto err;
+> +	}
+> +	if (de) {
+> +		dput(dentry);
+> +		dentry =3D de;
+> +	}
+> +	return dentry;
+> +
+> +err:
+> +	return ERR_PTR(error);
+> +}
+> +
+>  /**
+>   * vfs_mkdir - create directory returning correct dentry if possible
+>   * @idmap:		idmap of the mount the inode was found from
+> @@ -5231,17 +5301,16 @@ SYSCALL_DEFINE3(mknod, const char __user *, filenam=
+e, umode_t, mode, unsigned, d
+>   */
+>  struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+>  			 struct dentry *dentry, umode_t mode,
+> -			 struct delegated_inode *delegated_inode)
+> +			 struct delegated_inode *di)
 >  {
->  	if (fanotify_fd >= 0)
->  		SAFE_CLOSE(fanotify_fd);
+>  	int error;
+> -	unsigned max_links =3D dir->i_sb->s_max_links;
+>  	struct dentry *de;
+> =20
+>  	error =3D may_create_dentry(idmap, dir, dentry);
+>  	if (error)
+>  		goto err;
+> =20
+> -	error =3D -EPERM;
+> +	error =3D -EOPNOTSUPP;
+>  	if (!dir->i_op->mkdir)
+>  		goto err;
+> =20
+> @@ -5250,22 +5319,12 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, s=
+truct inode *dir,
+>  	if (error)
+>  		goto err;
+> =20
+> -	error =3D -EMLINK;
+> -	if (max_links && dir->i_nlink >=3D max_links)
+> -		goto err;
 > -
-> -	if (self_pidfd_fdinfo)
-> -		free(self_pidfd_fdinfo);
+> -	error =3D try_break_deleg(dir, delegated_inode);
+> -	if (error)
+> -		goto err;
+> -
+> -	de =3D dir->i_op->mkdir(idmap, dir, dentry, mode);
+> -	error =3D PTR_ERR(de);
+> -	if (IS_ERR(de))
+> +	de =3D __vfs_mkdir(idmap, dir, dentry, mode, di);
+> +	if (IS_ERR(de)) {
+> +		error =3D PTR_ERR(de);
+>  		goto err;
+> -	if (de) {
+> -		dput(dentry);
+> -		dentry =3D de;
+>  	}
+> +	dentry =3D de;
+>  	fsnotify_mkdir(dir, dentry);
+>  	return dentry;
+> =20
+> diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
+> index e9ce1883288c..e44c7598b68e 100644
+> --- a/fs/nfs/dir.c
+> +++ b/fs/nfs/dir.c
+> @@ -2314,6 +2314,9 @@ int nfs_atomic_open_v23(struct inode *dir, struct den=
+try *dentry,
+>  	if (dentry->d_name.len > NFS_SERVER(dir)->namelen)
+>  		return -ENAMETOOLONG;
+> =20
+> +	if ((open_flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
+> +
+>  	if (open_flags & O_CREAT) {
+>  		error =3D nfs_do_create(dir, dentry, mode, open_flags);
+>  		if (!error) {
+> diff --git a/fs/nfs/file.c b/fs/nfs/file.c
+> index 25048a3c2364..467f6bc707da 100644
+> --- a/fs/nfs/file.c
+> +++ b/fs/nfs/file.c
+> @@ -52,6 +52,9 @@ int nfs_check_flags(int flags)
+>  	if ((flags & (O_APPEND | O_DIRECT)) =3D=3D (O_APPEND | O_DIRECT))
+>  		return -EINVAL;
+> =20
+> +	if ((flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
+> +
+>  	return 0;
 >  }
+>  EXPORT_SYMBOL_GPL(nfs_check_flags);
+> diff --git a/fs/open.c b/fs/open.c
+> index 681d405bc61e..865ea6f70e8c 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -1209,29 +1209,30 @@ inline int build_open_flags(const struct open_how *=
+how, struct open_flags *op)
+>  	if (WILL_CREATE(flags)) {
+>  		if (how->mode & ~S_IALLUGO)
+>  			return -EINVAL;
+> -		op->mode =3D how->mode | S_IFREG;
+> +		if ((flags & (O_MKDIR_MASK)) =3D=3D O_MKDIR_MASK)
+> +			op->mode =3D how->mode | S_IFDIR;
+> +		else
+> +			op->mode =3D how->mode | S_IFREG;
+>  	} else {
+>  		if (how->mode !=3D 0)
+>  			return -EINVAL;
+>  		op->mode =3D 0;
+>  	}
+> =20
+> -	/*
+> -	 * Block bugs where O_DIRECTORY | O_CREAT created regular files.
+> -	 * Note, that blocking O_DIRECTORY | O_CREAT here also protects
+> -	 * O_TMPFILE below which requires O_DIRECTORY being raised.
+> -	 */
+> -	if ((flags & (O_DIRECTORY | O_CREAT)) =3D=3D (O_DIRECTORY | O_CREAT))
+> -		return -EINVAL;
+> -
+>  	/* Now handle the creative implementation of O_TMPFILE. */
+>  	if (flags & __O_TMPFILE) {
+>  		/*
+>  		 * In order to ensure programs get explicit errors when trying
+>  		 * to use O_TMPFILE on old kernels we enforce that O_DIRECTORY
+> -		 * is raised alongside __O_TMPFILE.
+> +		 * is raised alongside __O_TMPFILE, but without O_CREAT. The
+> +		 * reason for disallowing O_CREAT|O_TMPFILE is that
+> +		 * O_DIRECTORY|O_CREAT used to work and created a regular file
+> +		 * if nothing existed at the open path. Hence, allowing the
+> +		 * combination would have caused O_CREAT|O_TMPFILE to create a
+> +		 * regular (non-temporary) file on old kernels, while the caller
+> +		 * would believe they created an actual O_TMPFILE.
+>  		 */
+> -		if (!(flags & O_DIRECTORY))
+> +		if (!(flags & O_DIRECTORY) || (flags & O_CREAT))
+>  			return -EINVAL;
+>  		if (!(acc_mode & MAY_WRITE))
+>  			return -EINVAL;
+> @@ -1268,6 +1269,8 @@ inline int build_open_flags(const struct open_how *ho=
+w, struct open_flags *op)
+>  	op->intent =3D flags & O_PATH ? 0 : LOOKUP_OPEN;
+> =20
+>  	if (flags & O_CREAT) {
+> +		if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
+> +			return -EISDIR;
 
->  static struct tst_test test = {
->  	.setup = do_setup,
->  	.test = do_test,
->  	.tcnt = ARRAY_SIZE(test_cases),
-> -	.test_variants = 2,
-> +	.test_variants = 4,
->  	.cleanup = do_cleanup,
->  	.all_filesystems = 1,
->  	.needs_root = 1,
-> +	.needs_checkpoints = 1,
->  	.mount_device = 1,
->  	.mntpoint = MOUNT_PATH,
->  	.forks_child = 1,
+It seems odd that the MAY_WRITE test is only performed for O_CREAT.
+Shouldn't any open of O_DIRECTORY|O_WRONLY fail, and shouldn't the one
+test catch both create and non-create cases?
+
+
+>  		op->intent |=3D LOOKUP_CREATE;
+>  		if (flags & O_EXCL) {
+>  			op->intent |=3D LOOKUP_EXCL;
+> diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
+> index e4295a5b55b3..ec8c54c91261 100644
+> --- a/fs/smb/client/dir.c
+> +++ b/fs/smb/client/dir.c
+> @@ -526,6 +526,9 @@ int cifs_atomic_open(struct inode *dir, struct dentry *=
+direntry,
+>  	if (unlikely(cifs_forced_shutdown(cifs_sb)))
+>  		return smb_EIO(smb_eio_trace_forced_shutdown);
+> =20
+> +	if ((oflags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
+> +
+>  	/*
+>  	 * Posix open is only called (at lookup time) for file create now. For
+>  	 * opens (rather than creates), because we do not know if it is a file
+> diff --git a/fs/vboxsf/dir.c b/fs/vboxsf/dir.c
+> index 42bedc4ec7af..aef5ca6730be 100644
+> --- a/fs/vboxsf/dir.c
+> +++ b/fs/vboxsf/dir.c
+> @@ -318,6 +318,9 @@ static int vboxsf_dir_atomic_open(struct inode *parent,=
+ struct dentry *dentry,
+>  	u64 handle;
+>  	int err;
+> =20
+> +	if ((flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> +		return -EINVAL;
+> +
+>  	if (d_in_lookup(dentry)) {
+>  		struct dentry *res =3D vboxsf_dir_lookup(parent, dentry, 0);
+>  		if (res || d_really_is_positive(dentry))
+> diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+> index a332e79b3207..e31f3a57f07c 100644
+> --- a/include/linux/fcntl.h
+> +++ b/include/linux/fcntl.h
+> @@ -12,6 +12,8 @@
+>  	 FASYNC	| O_DIRECT | O_LARGEFILE | O_DIRECTORY | O_NOFOLLOW | \
+>  	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
+> =20
+> +#define O_MKDIR_MASK	(O_CREAT | O_DIRECTORY)
+> +
+>  /* List of all valid flags for the how->resolve argument: */
+>  #define VALID_RESOLVE_FLAGS \
+>  	(RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS | \
+> --=20
+> 2.54.0
+>=20
+>=20
+>=20
+
+Thanks,
+NeilBrown
