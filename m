@@ -1,98 +1,88 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938CA288D0
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 00:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD2626B764;
+	Wed, 27 May 2026 01:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779842874; cv=none; b=pMLKi+ytlGHLRs6AbzDmW2DAXXiHS32HbACpo6n6rU+l7JtEG3BGWpOnkHXPuzbKsnmNX6wYh9OrTqb0AgELI7XqdLJouYwwItg4BnbK5MHjcBJhHm6DgkTKu8SDElzekecSUdkCeUY3DmFv/24mAkij/HSPcDvcZ4hjaoifrrs=
+	t=1779844540; cv=none; b=dgmwLCocKU40zyzpPWKXR+1xcWtod4OdQl4dQz6+AjLxNKqtRHteNS33GM0BMgN/wS2bYG0QikEgtJiuTQG+2Q19Y3sXpcGug672OIGhtbQevfSTiQ/qkMdKkn+FkMm/KPpqDOYeeFIjqC02m6Q7XlgORG1UAnpil/ErEpNVfLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779842874; c=relaxed/simple;
-	bh=lcCYuCGfSd0zDWahzwyqLMc/PYaKx0zgtnyYe4rufcc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ebSGDhJWxSIvM1lGAlTa4E0L513S1+8HCzLw7/N5zfJ8i2QXjGx8cMitke60bTUnZ4Qz0wmON4DW94vWcIxQa8x//tlb+sJdhwR/b3o8Cfjj/IY1+plVX/7zBB5mPoHoZZPi1Myj+Ibd5J1yXFwxJe8T0atbSkc+fTB/vDMJTRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Wc4SmC6U; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1779844540; c=relaxed/simple;
+	bh=b35A5qZxUq6MNNo8bBuj9sTBjvapqqit5PoBBag5ZOY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RqTQDvh0OOvar4nbtSxhpgAR0WO3IX+fDfOIP1ufVRyNiekmDhy3Mv24YoGi+pIRPpbsygeCfgR3Psu6mKE+vSORqgJdPZZ/AYeyVqLKRbPB1MU3ZG0gbuzI3dGzg3ysEtuZvgihKRhNLchZcMS0emAvcY++KNsEFmXpnFMMzxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=4dszTYjT; arc=none smtp.client-ip=199.89.1.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Wc4SmC6U"
-Received: from macsyma.thunk.org (c-73-9-28-129.hsd1.il.comcast.net [73.9.28.129])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64R0lRgD009634
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 May 2026 20:47:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1779842858; bh=S8Y5sSAKASdTWIXSNaX1pRYH062Cce7Ozy6HzdK3LIM=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=Wc4SmC6URMEMoiiHTJR4NK8tO+i08XLudUqhelcPMb7dZIUr39PuTmbmUB6yxiPbn
-	 Op5zAVCtruc1LKUX2BNO10TBDYfWjLc/vgXLYEs3JPEqWIf/pzpnzm2nd8cv9BUC5w
-	 KR6i40cICZakpU+3NRyeMob3/xlL2GIS6cbV9DmJ3yPu7C31W1K5qyLSLmFN3JuG3z
-	 44rWBcTcw1ezDQYw52qPiwaZuAiYR8jgneHReVWYmSFXDtIk99QCb4n1Rppq8rlrAO
-	 Bn3QrMyEmi2gO9u9OS9xcjRCXU4rN9nVpeBfL1xWVeeNfMMLOLbX8jATWxZ4VX68yn
-	 wnvCyEtnKjM5w==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 6CDE96B367C1; Tue, 26 May 2026 19:47:27 -0500 (CDT)
-Date: Tue, 26 May 2026 19:47:27 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jan Kara <jack@suse.cz>,
-        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-        linux-ext4@vger.kernel.org, linux-cifs@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH 2/8] ext4: convert mballoc KUnit test to sget_fc()
-Message-ID: <ny6ggedljk3celsnnaaczpehmgll6hqrglqc44ku53cmxrclx5@w4qby54x6mff>
-References: <20260526-work-sget-v1-0-263f7025cedd@kernel.org>
- <20260526-work-sget-v1-2-263f7025cedd@kernel.org>
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="4dszTYjT"
+Received: from localhost (localhost [127.0.0.1])
+	by 011.lax.mailroute.net (Postfix) with ESMTP id 4gQBWX66T0z1XM6JN;
+	Wed, 27 May 2026 01:15:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1779844532; x=1782436533; bh=JQ76c0ZKyPhJJ/YX2rWxuedO
+	/ZUKDUPRSCpouDt6Lvk=; b=4dszTYjTwYxVzsK3EmW9I1eIh8cJav0Zmg4Fqfhk
+	n7ad5S6m0qtboA6aELUUHk0Bmf9+W+j9opNIKiyfk+bC8Qb3Lc/nlkD6vyRe7wbU
+	fXwsGcFzjzm5rIS+FgdgCByEX5IkJjGK/eM5WbcxqUIPjply4pF982/b8uKeH2Sh
+	NtvGWCfKMItmhtUqIWNcJA9I0Oqq8n24Tdfm5M21Bq8fdB0ib+LQ4dubSg1na0/N
+	PjQDFLtOr//BL6iWNAADp4KO4TYgmtmUVYssbrqlz0ZhMD/NL85WOqkHPRnKa3i8
+	1QaFn9ew0mcDMHLGW25DZQucxmLe2nKCKbCEQFJaJYlaTw==
+X-Virus-Scanned: by MailRoute
+Received: from 011.lax.mailroute.net ([127.0.0.1])
+ by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id MBCftocQcW0H; Wed, 27 May 2026 01:15:32 +0000 (UTC)
+Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4gQBWM5yz8z1XM5jn;
+	Wed, 27 May 2026 01:15:27 +0000 (UTC)
+Message-ID: <426a9687-c39e-4ac8-a406-d5e2198f01b0@acm.org>
+Date: Tue, 26 May 2026 18:15:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260526-work-sget-v1-2-263f7025cedd@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
+ remembering inode number
+To: Theodore Tso <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Matthew Wilcox <willy@infradead.org>,
+ linux-f2fs-devel@lists.sourceforge.net, Christoph Hellwig
+ <hch@infradead.org>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Akilesh Kailash <akailash@google.com>,
+ Christian Brauner <christian@brauner.io>
+References: <ad30g9xMs9wNJhFb@infradead.org> <ad_AVHe7RMnGrGTb@google.com>
+ <ad_HwhzlNPUEKQi6@casper.infradead.org> <ag7HfNryTmQ-bVIS@infradead.org>
+ <20260521155748.GA79343@macsyma-wired.lan> <ag_OVwPF49LSZ7rz@google.com>
+ <20260522141115.GA8258@macsyma-wired.lan> <ahCNmWbcd_2lAJyk@google.com>
+ <20260522224108.GA18663@macsyma-wired.lan> <ahTzHyHBL8t0iNBR@google.com>
+ <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 26, 2026 at 05:09:04PM +0200, Christian Brauner wrote:
-> Add a no-op mbt_init_fs_context() so fs_context_for_mount() has
-> something to call on the fake fs_type....
+On 5/26/26 6:42 AM, Theodore Tso wrote:
+>      2. Host Controller Hardware Limits (UFSHCI)
+>      
+> 	Transfer Queue Depth: A UFS controller supports a predefined
+> 	    number of outstanding task request entries. This is often
+> 	    hard-capped at 32 concurrent transfer requests (slots) by the
+> 	    doorbell register array.
 
-I was trying to figure out what needed to be in an init_fs_context()
-functrion, and I came accross this in
-Documentation/filesystems/mount_api.rst:
+The above information comes from the UFSHCI 3 standard. Jaegeuk's test
+setup has an UFSHCI 4.0 controller that supports one submission queue
+per CPU and also one completion queue per CPU. This is an architecture
+that is very similar but not identical to NVMe. Jaegeuk, please correct
+me if I got anything wrong.
 
-       const struct fs_context_operations *ops
-
-     These are operations that can be done on a filesystem context (see
-     below).  This must be set by the ->init_fs_context() file_system_type
-     operation.    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-So is it safe to just have an init_fs_context() function which doesn't
-do this?
-
-> +static int mbt_init_fs_context(struct fs_context *fc)
-> +{
-> +	return 0;
-> +}
-> +
-
-I see in fs/fs_context.c that in some places the code protects against
-a NULL ops pointer:
-
-        if (fc->need_free && fc->ops && fc->ops->free)
-		fc->ops->free(fc);
-
-But in other places, it doesn't and we'll end up derefrencing a null
-pointer:
-
-        if (fc->ops->parse_param) {
-		ret = fc->ops->parse_param(fc, param);
-
-	....
-
-So it's unclear to me --- when is it safe (and not safe) to not bother
-to fill in the ops pointer?
-
-						- Ted
+Bart.
