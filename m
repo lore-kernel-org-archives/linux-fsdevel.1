@@ -1,192 +1,131 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC4735E1DA
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 09:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33793E9284
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 09:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779872449; cv=none; b=nj44GYz6GMy4qOTyJim1UXXtRcQI5uLEfzso+CKscAHnwKuAxS+BQ5GASYQDnTWcE7GJbZs/aNsfMLc6pud+Et9ZfdRfIqvd8PqbfMxa6GHJo9dwTfCF7gIbz10i4HwBNNolT4nS/hvB/+h1vIxY3fvOvxoWYSAV8hjzu0PmdQw=
+	t=1779873437; cv=none; b=nldWF25nMyg1+//1kkFT4H2DC372POVy3JmQejBz+2vEyTshlSCfR+LKVkDUK3HuRbeckEP7eul90ryMH2AdYQkTwbKJ9eT7UwAVY+nfGG/q/dlgh0rRUGRbP9geeOfwgfHkUwZvFBkHxtIzzrm9ZUN21YM5BRGDo3+uiCODvnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779872449; c=relaxed/simple;
-	bh=ajlFsEUXLx4V6nM4BI5aVb99piqw1XwZDoqgALOM2U8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BJbc49IwKO54l2P+VLYQt23njGrJRYcsre3IMsgRebwSEhBybzGgtt7AtimO8JCoO1KPEGc9lI+7Qlbm7e8zksIhJUJWCrh7oVh6lpUWzNvE8QEPAYXgCt+rm87rZbfOhFSkzJoY/MmXxw8Syu66HCizy9eX61TKfMdiCNHgSQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=eTOEGzMt; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1779873437; c=relaxed/simple;
+	bh=IzVN5xW3kRQPCGsT55G3BnVXpO7OygZtxZk8spmtN0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YGan14fqgCbJSGSVK2Eg8c6DlIvflVwLP0Ps2lsSQ3aqknM386Lb2ev/Rd8A4+XRl9YCAHVF2jzAo0BbfsrN0j/zCdN4O0EN84sL9350PY6J8HLNZh0q/GtfPHpxCKdZGSXhoxIPcEsr6S4zYRCW6VyTC9p3Ps/fHzZ//06OhCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RqfwKguJ; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="eTOEGzMt"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1779872444; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=sMY6Rme31SmSDRy+WVsrlqCKyOjgeZOye+Qe2jg9B40=;
-	b=eTOEGzMtlcrJLEoDL/Ko5WWA+RSU7JVKXlw4M85a/qxRdpM58BiAiPYg7hh8mlXPT485eoUOeGEVGy5gdgjMfmTifk4eVVCiYk8wXg9UZcdKX1lUTHD+HJL8UJSPt8ZuvGaaiSv6z3ogoTSD32alCL7/3fTWAAZZkEmgHieAg7U=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X3j8ZWI_1779872442;
-Received: from 30.221.147.201(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3j8ZWI_1779872442 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 27 May 2026 17:00:43 +0800
-Message-ID: <244c7a0e-0a9f-4e56-a610-5a211e8c553a@linux.alibaba.com>
-Date: Wed, 27 May 2026 17:00:41 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqfwKguJ"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49040362e4aso59064855e9.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 02:17:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779873434; x=1780478234; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dHrSvc1jo9bXxcTvImuqQhfOCzHHna0fH4j3s8pZNK4=;
+        b=RqfwKguJWRCJVb8ZJIhigcATVch/Ible+MepmJ2bYVamEzBw0jAL8dm7D4NLgwSWrO
+         YNuGHqvSF1HlbKLjucIWLX40OOLqDN/1YGy/3puZDbUa1GFkbWEYXHIJAxd0yMnJzWzq
+         EnpbgPOQi1p5p5sicGfBAADFacSihOFZ4AIi7PQEVqNvCDtISX2kWIMhJFbyZs2qRBde
+         1XuD+xjft0CItGKMM/mAUmHe4e7g4m9n3lLUFc/S66B1j65jcAB5EFwh0IoXFrvk0FVt
+         fzWC8FvP9PWi0Scwgi60DvVIvwH3hM2GaENYbbjc7vRrejelGH8rQpCasVZD+Xsxpzoy
+         duxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779873434; x=1780478234;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dHrSvc1jo9bXxcTvImuqQhfOCzHHna0fH4j3s8pZNK4=;
+        b=DZQfSALe3AL/hy1q47bOE1ETTK1DNv2aF/Z4pQMdZ16hiejGlbc9HZUxIqKe/f4glC
+         DpPmBUiRoU79g3DjHd07YqXalCgnub7HWeqS/QOx2iMhaPcWgg5vUZwqlf/7cfNnk+wb
+         sfdtPlDlOFlRmbTBYE1nYJUxq35iMjeRxtRy4MMlPtVp1NNLXydlLkaFIhojJ1SQ4zrw
+         T44KlZsE0cnzvQKYzQFXq0zmeYnitwUY0VS1jSCG23s/b5Mw5iwqTst+8uzuCKTPlsHW
+         S93LnrWT0Vn3EuH+rvi9IvOkkgPfteDOPSHU2qSfNSH0GHyhkv58LYVXqae26u4VWprE
+         NRcQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/pLcID3ahwIgJLA5vtBOg/ziwBRTtqJz2Jdtxl8JgISPHOFj8gkOHphVyuUWwl/626QdIV7SUADohG+kvW@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBX7RpR4+Tsv5BdgEvhYPLBbyROokjcbbA+7IRHdYhU/0QHpj0
+	z9c3Jym0Hdkj0GsPSD2L2D2+Fvcc1lXM53G2IUMCRdeSLpN9PKLYyfPo
+X-Gm-Gg: Acq92OGWTK+BieLnaW4TFJQ0fNBknfeJlOlzNu1eilbcE6zVdh0iEVxKO3pUbjC1/Ru
+	5Y8awgipsJb0Md1HHLydNxH8/XjModX2pmSibAw42wOPeMwdDsrybLrL3NT8fNKwFH6FmmSrgtl
+	FgTF3z8KaNmFRsbZfCbsztlVwfB2BD9NaUU78Jr9iqd8I3IASDYT2yY3W/5dPkxS3ePba0v4mRW
+	HCSOZItqymct/5a9+3vhD2CYhELvHlMEo7zMzx0UrPlGGQ+4PJqm4oZTU+3q/li6vMSDxkoh2co
+	UyRR95VZ68diOluucAPQwgyBLDJnr8gcBfeNY/HSKIGUhiOhVHVyeOo3GPTpbCCGcIt4j6f2w/+
+	r/TVSxNKBkgdsfk+q/0l9eorgAtGpCZWK16QhT9yv8UOJ7YpScFVsCnB2o1zE5PcwekSF9vLVcs
+	y7G8rC8esda40sZtTaBiucDROcLw7EoPhOwaJgHw3fuDoOMSC1XO+/Jhaiu6JIgRcE5tJzEvI=
+X-Received: by 2002:a05:600c:6094:b0:490:625e:bb68 with SMTP id 5b1f17b1804b1-490625ebc14mr214506055e9.3.1779873433852;
+        Wed, 27 May 2026 02:17:13 -0700 (PDT)
+Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5b1a28sm4666944f8f.26.2026.05.27.02.17.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 02:17:13 -0700 (PDT)
+Date: Wed, 27 May 2026 11:17:05 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
+To: fffsqian@163.com
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Qingshuang Fu <fuqingshuang@kylinos.cn>
+Subject: Re: [PATCH v1] fs: fix spelling mistakes in comment
+Message-ID: <22tr2m4v4b7kc5w7eoclxdcajodtvfl6e2jvgvx4vd7k7atvdt@l4hxanuf5squ>
+References: <20260527031508.820423-1-fffsqian@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/14] fuse: rearrange io-uring iovec and ent
- allocation logic
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, bernd@bsbernd.com, axboe@kernel.dk,
- linux-fsdevel@vger.kernel.org
-References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-10-joannelkoong@gmail.com>
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <20260402162840.2989717-10-joannelkoong@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260527031508.820423-1-fffsqian@163.com>
 
-On 2026/4/3 00:28, Joanne Koong wrote:
-> Move fuse_uring_get_iovec_from_sqe() to earlier in the file and
-> move the allocation logic in fuse_uring_create_ring_ent() to the
-> beginning of the function.
->
-> There is no change in logic, this is done to make the subsequent commit
-> that adds buffer rings easier to review.
->
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-Looks good.
-
-Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
+On Wed, May 27, 2026 at 11:15:08AM +0800, fffsqian@163.com wrote:
+> From: Qingshuang Fu <fuqingshuang@kylinos.cn>
+> 
+> Fix three spelling errors in the comment for an internal file structure
+> allocation function:
+> - happend  →  happened
+> - over     →  exceed (grammatical fix)
+> - int      →  in
+> 
+> Signed-off-by: Qingshuang Fu <fuqingshuang@kylinos.cn>
 > ---
->  fs/fuse/dev_uring.c | 78 ++++++++++++++++++++++++---------------------
->  1 file changed, 41 insertions(+), 37 deletions(-)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index cce8994241b7..a061f175b3fd 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -277,6 +277,32 @@ static struct fuse_ring *fuse_uring_create(struct fuse_conn *fc)
->  	return res;
+>  fs/file_table.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/file_table.c b/fs/file_table.c
+> index 16e52e7fc2ac..fa06b660f116 100644
+> --- a/fs/file_table.c
+> +++ b/fs/file_table.c
+> @@ -231,13 +231,13 @@ static int init_file(struct file *f, int flags, const struct cred *cred)
 >  }
 >  
-> +/*
-> + * sqe->addr is a ptr to an iovec array, iov[FUSE_URING_IOV_HEADERS] has the
-> + * headers, iov[FUSE_URING_IOV_PAYLOAD] the payload
-> + */
-> +static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
-> +					 struct iovec iov[FUSE_URING_IOV_SEGS])
-> +{
-> +	struct iovec __user *uiov = u64_to_user_ptr(READ_ONCE(sqe->addr));
-> +	struct iov_iter iter;
-> +	ssize_t ret;
-> +
-> +	if (sqe->len != FUSE_URING_IOV_SEGS)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Direction for buffer access will actually be READ and WRITE,
-> +	 * using write for the import should include READ access as well.
-> +	 */
-> +	ret = import_iovec(WRITE, uiov, FUSE_URING_IOV_SEGS,
-> +			   FUSE_URING_IOV_SEGS, &iov, &iter);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
->  static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
->  						       int qid)
->  {
-> @@ -1076,32 +1102,6 @@ static void fuse_uring_do_register(struct fuse_ring_ent *ent,
->  	}
->  }
->  
-> -/*
-> - * sqe->addr is a ptr to an iovec array, iov[FUSE_URING_IOV_HEADERS] has the
-> - * headers, iov[FUSE_URING_IOV_PAYLOAD] the payload
-> - */
-> -static int fuse_uring_get_iovec_from_sqe(const struct io_uring_sqe *sqe,
-> -					 struct iovec iov[FUSE_URING_IOV_SEGS])
-> -{
-> -	struct iovec __user *uiov = u64_to_user_ptr(READ_ONCE(sqe->addr));
-> -	struct iov_iter iter;
-> -	ssize_t ret;
-> -
-> -	if (sqe->len != FUSE_URING_IOV_SEGS)
-> -		return -EINVAL;
-> -
-> -	/*
-> -	 * Direction for buffer access will actually be READ and WRITE,
-> -	 * using write for the import should include READ access as well.
-> -	 */
-> -	ret = import_iovec(WRITE, uiov, FUSE_URING_IOV_SEGS,
-> -			   FUSE_URING_IOV_SEGS, &iov, &iter);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return 0;
-> -}
-> -
->  static struct fuse_ring_ent *
->  fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
->  			   struct fuse_ring_queue *queue)
-> @@ -1112,40 +1112,44 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
->  	struct iovec *headers, *payload;
->  	int err;
->  
-> +	ent = kzalloc_obj(*ent, GFP_KERNEL_ACCOUNT);
-> +	if (!ent)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	INIT_LIST_HEAD(&ent->list);
-> +
-> +	ent->queue = queue;
-> +
->  	err = fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
->  	if (err) {
->  		pr_info_ratelimited("Failed to get iovec from sqe, err=%d\n",
->  				    err);
-> -		return ERR_PTR(err);
-> +		goto error;
->  	}
->  
->  	err = -EINVAL;
->  	headers = &iov[FUSE_URING_IOV_HEADERS];
->  	if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
->  		pr_info_ratelimited("Invalid header len %zu\n", headers->iov_len);
-> -		return ERR_PTR(err);
-> +		goto error;
->  	}
->  
->  	payload = &iov[FUSE_URING_IOV_PAYLOAD];
->  	if (payload->iov_len < ring->max_payload_sz) {
->  		pr_info_ratelimited("Invalid req payload len %zu\n",
->  				    payload->iov_len);
-> -		return ERR_PTR(err);
-> +		goto error;
->  	}
->  
-> -	err = -ENOMEM;
-> -	ent = kzalloc_obj(*ent, GFP_KERNEL_ACCOUNT);
-> -	if (!ent)
-> -		return ERR_PTR(err);
-> -
-> -	INIT_LIST_HEAD(&ent->list);
-> -
-> -	ent->queue = queue;
->  	ent->headers = headers->iov_base;
->  	ent->payload = payload->iov_base;
->  
->  	atomic_inc(&ring->queue_refs);
->  	return ent;
-> +
-> +error:
-> +	kfree(ent);
-> +	return ERR_PTR(err);
->  }
->  
->  /*
+>  /* Find an unused file structure and return a pointer to it.
+> - * Returns an error pointer if some error happend e.g. we over file
+> + * Returns an error pointer if some error happened e.g. we exceed the file
+>   * structures limit, run out of memory or operation is not permitted.
+>   *
+>   * Be very careful using this.  You are responsible for
+>   * getting write access to any mount that you might assign
+>   * to this filp, if it is opened for write.  If this is not
+> - * done, you will imbalance int the mount's writer count
+> + * done, you will imbalance in the mount's writer count
+>   * and a warning at __fput() time.
+>   */
+>  struct file *alloc_empty_file(int flags, const struct cred *cred)
 
+If one is to touch this comment block it would be best to sort it out
+overall. Or better yet, not just this one but the entirety of the file.
 
+For starters there is a format to follow to document args & return
+values, see file_init_path for an example.
+
+That aside even if your changes the comment is definitely wrong from
+grammar standpoint, but I don't know English well enough to be confident
+I would write a fully correct version.
+
+"e.g." requires a comma ("e.g.,")
+
+That aside "you will imbalance in the mount's writer count" reads way
+off to me.
+
+Perhaps this is best left to native speakers.
