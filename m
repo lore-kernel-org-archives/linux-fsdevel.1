@@ -1,131 +1,243 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33793E9284
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 09:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DFE3CF689
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 09:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779873437; cv=none; b=nldWF25nMyg1+//1kkFT4H2DC372POVy3JmQejBz+2vEyTshlSCfR+LKVkDUK3HuRbeckEP7eul90ryMH2AdYQkTwbKJ9eT7UwAVY+nfGG/q/dlgh0rRUGRbP9geeOfwgfHkUwZvFBkHxtIzzrm9ZUN21YM5BRGDo3+uiCODvnE=
+	t=1779874952; cv=none; b=K8KRTi2kWYJWfsrMGbdsdeHKvZNrudvp6i9nBvLv5MQC6oRwhkE4JL+XujSlQjjPwsFOd/VpO04nexHRnS3YrTZzbVgH3W4sPYGzrbNyULrv1svn4IJYR8Tk7JSnOTTG82YbUrB12ceFlhgL18rBIZf+uutKIVMAeCL6fWqeTlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779873437; c=relaxed/simple;
-	bh=IzVN5xW3kRQPCGsT55G3BnVXpO7OygZtxZk8spmtN0Y=;
+	s=arc-20240116; t=1779874952; c=relaxed/simple;
+	bh=61U6XIXlhdseyS0QSeUGHn2IzPTiXds/yQic4oL/f2k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGan14fqgCbJSGSVK2Eg8c6DlIvflVwLP0Ps2lsSQ3aqknM386Lb2ev/Rd8A4+XRl9YCAHVF2jzAo0BbfsrN0j/zCdN4O0EN84sL9350PY6J8HLNZh0q/GtfPHpxCKdZGSXhoxIPcEsr6S4zYRCW6VyTC9p3Ps/fHzZ//06OhCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RqfwKguJ; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GE88OKhEqwdDvK8NTflKmg6Kn287t9QzDuVXE6Ko7p3BkyGci+QYxvnZ0YufZOCvHws1IVReEj7hXtifbUstb1Ks8bL/0EJjslhH6JEGV//4mtwTIs1r4pCDvX0HkxhhJRDIV2nztHWosd5CaazBA4A2Sbwsu4wFlM1Tll5u0fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QuOM12sE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PloHyGwy; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=QuOM12sE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PloHyGwy; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqfwKguJ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49040362e4aso59064855e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 02:17:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779873434; x=1780478234; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dHrSvc1jo9bXxcTvImuqQhfOCzHHna0fH4j3s8pZNK4=;
-        b=RqfwKguJWRCJVb8ZJIhigcATVch/Ible+MepmJ2bYVamEzBw0jAL8dm7D4NLgwSWrO
-         YNuGHqvSF1HlbKLjucIWLX40OOLqDN/1YGy/3puZDbUa1GFkbWEYXHIJAxd0yMnJzWzq
-         EnpbgPOQi1p5p5sicGfBAADFacSihOFZ4AIi7PQEVqNvCDtISX2kWIMhJFbyZs2qRBde
-         1XuD+xjft0CItGKMM/mAUmHe4e7g4m9n3lLUFc/S66B1j65jcAB5EFwh0IoXFrvk0FVt
-         fzWC8FvP9PWi0Scwgi60DvVIvwH3hM2GaENYbbjc7vRrejelGH8rQpCasVZD+Xsxpzoy
-         duxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779873434; x=1780478234;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dHrSvc1jo9bXxcTvImuqQhfOCzHHna0fH4j3s8pZNK4=;
-        b=DZQfSALe3AL/hy1q47bOE1ETTK1DNv2aF/Z4pQMdZ16hiejGlbc9HZUxIqKe/f4glC
-         DpPmBUiRoU79g3DjHd07YqXalCgnub7HWeqS/QOx2iMhaPcWgg5vUZwqlf/7cfNnk+wb
-         sfdtPlDlOFlRmbTBYE1nYJUxq35iMjeRxtRy4MMlPtVp1NNLXydlLkaFIhojJ1SQ4zrw
-         T44KlZsE0cnzvQKYzQFXq0zmeYnitwUY0VS1jSCG23s/b5Mw5iwqTst+8uzuCKTPlsHW
-         S93LnrWT0Vn3EuH+rvi9IvOkkgPfteDOPSHU2qSfNSH0GHyhkv58LYVXqae26u4VWprE
-         NRcQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/pLcID3ahwIgJLA5vtBOg/ziwBRTtqJz2Jdtxl8JgISPHOFj8gkOHphVyuUWwl/626QdIV7SUADohG+kvW@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBX7RpR4+Tsv5BdgEvhYPLBbyROokjcbbA+7IRHdYhU/0QHpj0
-	z9c3Jym0Hdkj0GsPSD2L2D2+Fvcc1lXM53G2IUMCRdeSLpN9PKLYyfPo
-X-Gm-Gg: Acq92OGWTK+BieLnaW4TFJQ0fNBknfeJlOlzNu1eilbcE6zVdh0iEVxKO3pUbjC1/Ru
-	5Y8awgipsJb0Md1HHLydNxH8/XjModX2pmSibAw42wOPeMwdDsrybLrL3NT8fNKwFH6FmmSrgtl
-	FgTF3z8KaNmFRsbZfCbsztlVwfB2BD9NaUU78Jr9iqd8I3IASDYT2yY3W/5dPkxS3ePba0v4mRW
-	HCSOZItqymct/5a9+3vhD2CYhELvHlMEo7zMzx0UrPlGGQ+4PJqm4oZTU+3q/li6vMSDxkoh2co
-	UyRR95VZ68diOluucAPQwgyBLDJnr8gcBfeNY/HSKIGUhiOhVHVyeOo3GPTpbCCGcIt4j6f2w/+
-	r/TVSxNKBkgdsfk+q/0l9eorgAtGpCZWK16QhT9yv8UOJ7YpScFVsCnB2o1zE5PcwekSF9vLVcs
-	y7G8rC8esda40sZtTaBiucDROcLw7EoPhOwaJgHw3fuDoOMSC1XO+/Jhaiu6JIgRcE5tJzEvI=
-X-Received: by 2002:a05:600c:6094:b0:490:625e:bb68 with SMTP id 5b1f17b1804b1-490625ebc14mr214506055e9.3.1779873433852;
-        Wed, 27 May 2026 02:17:13 -0700 (PDT)
-Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5b1a28sm4666944f8f.26.2026.05.27.02.17.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 02:17:13 -0700 (PDT)
-Date: Wed, 27 May 2026 11:17:05 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: fffsqian@163.com
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Qingshuang Fu <fuqingshuang@kylinos.cn>
-Subject: Re: [PATCH v1] fs: fix spelling mistakes in comment
-Message-ID: <22tr2m4v4b7kc5w7eoclxdcajodtvfl6e2jvgvx4vd7k7atvdt@l4hxanuf5squ>
-References: <20260527031508.820423-1-fffsqian@163.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QuOM12sE";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PloHyGwy";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="QuOM12sE";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PloHyGwy"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B13EB66E60;
+	Wed, 27 May 2026 09:42:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779874948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=txQW/NutESarVL2WCPWrxQmoc9DCV4mIFABmq/5UFX4=;
+	b=QuOM12sE4wJS3LYUZHx2eWGaKa87TTl/jUawVLsmsUSXlvC/wyrKArexyno7LZ4iuYy8T5
+	4TwAzXD9cDImq+TwoO8KCDvAH4/NXMXB4qEET/gRxsyagsgXS8x2t+5/5KYFOou4gVTU6E
+	wQmQJvhNC0p4VWjcSe8Bj32qV60w9nM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779874948;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=txQW/NutESarVL2WCPWrxQmoc9DCV4mIFABmq/5UFX4=;
+	b=PloHyGwy7bm90Y12jURU00qxDfQs0HlwMT/y8L8A+UKZakw4ndJKJSQNd9o8cFDFaJoRol
+	ZF97yZK/ebR9r1DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779874948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=txQW/NutESarVL2WCPWrxQmoc9DCV4mIFABmq/5UFX4=;
+	b=QuOM12sE4wJS3LYUZHx2eWGaKa87TTl/jUawVLsmsUSXlvC/wyrKArexyno7LZ4iuYy8T5
+	4TwAzXD9cDImq+TwoO8KCDvAH4/NXMXB4qEET/gRxsyagsgXS8x2t+5/5KYFOou4gVTU6E
+	wQmQJvhNC0p4VWjcSe8Bj32qV60w9nM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779874948;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=txQW/NutESarVL2WCPWrxQmoc9DCV4mIFABmq/5UFX4=;
+	b=PloHyGwy7bm90Y12jURU00qxDfQs0HlwMT/y8L8A+UKZakw4ndJKJSQNd9o8cFDFaJoRol
+	ZF97yZK/ebR9r1DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A44AE5A779;
+	Wed, 27 May 2026 09:42:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EpYZKIS8FmpiPQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 27 May 2026 09:42:28 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 375A7A0EB5; Wed, 27 May 2026 11:42:28 +0200 (CEST)
+Date: Wed, 27 May 2026 11:42:28 +0200
+From: Jan Kara <jack@suse.cz>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Christoph Hellwig <hch@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Christian Brauner <brauner@kernel.org>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Dave Chinner <dgc@kernel.org>, 
+	Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Gao Xiang <xiang@kernel.org>
+Subject: Re: [PATCH v6 1/4] block: add task-context bio completion
+ infrastructure
+Message-ID: <rkb5oei6cx2erbyininczz6ukbnquqheexhu7tznn5rslkkdn7@b4kpdyhdwdb6>
+References: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
+ <20260514-blk-dontcache-v6-1-782e2fa7477b@columbia.edu>
+ <agq2KRd8RkP1TAf5@infradead.org>
+ <ea1fa305-3ba2-4cfd-b7cb-86875032a300@columbia.edu>
+ <ahPbaSEoNA755Nt3@infradead.org>
+ <f1b8eeb6-2397-4f48-a21a-a023eb0c80ab@columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260527031508.820423-1-fffsqian@163.com>
+In-Reply-To: <f1b8eeb6-2397-4f48-a21a-a023eb0c80ab@columbia.edu>
+X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-On Wed, May 27, 2026 at 11:15:08AM +0800, fffsqian@163.com wrote:
-> From: Qingshuang Fu <fuqingshuang@kylinos.cn>
+On Tue 26-05-26 15:29:28, Tal Zussman wrote:
+> On 5/25/26 1:17 AM, Christoph Hellwig wrote:
+> > On Fri, May 22, 2026 at 06:47:43PM -0400, Tal Zussman wrote:
+> >> > But this 1-jiffie delay also means we unconditionally increase
+> >> > completion latency, which feels like a bad idea.  Do you have any
+> >> > measurements that show where it does benefit?  Note that queing work
+> >> > already often has very measurable latency on it's own.  This also
+> >> > directly contradics the erofs experience that even went to a RT
+> >> > thread to reduce the latency.
+> >> 
+> >> I added this per Dave's feedback on v4, where he noted that XFS inodegc
+> >> uses a delayed work item to avoid context switch storms. There's only a
+> >> delay for the first bio in a batch to complete, as we only delay when the
+> >> list is empty. I'll run some experiments and measure context switches,
+> >> completion latency, etc. to see if this is necessary.
+> > 
+> > The difference is that XFS inodegc is not latency bound.  Most of the
+> > time no one cares if it is delayed a bit, in the cases where someone
+> > cares we explicitly flush the queues.  I/O completion on the other hand
+> > is something where users very much care about latency.
+> > 
 > 
-> Fix three spelling errors in the comment for an internal file structure
-> allocation function:
-> - happend  â†’  happened
-> - over     â†’  exceed (grammatical fix)
-> - int      â†’  in
+> I ran some experiments with fio on both XFS and a raw block device. Five
+> iterations each for 60s. Results below.
 > 
-> Signed-off-by: Qingshuang Fu <fuqingshuang@kylinos.cn>
-> ---
->  fs/file_table.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> TLDR: Removing the delay doesn't significantly decrease user-visible
+> latency or otherwise improve performance, but does significantly reduce
+> throughput and increase context switches in some workloads (e.g. C).
+> I think it makes sense to leave the delay as-is. Thoughts?
+
+Thanks for the test! One question below:
+
+> Results:
 > 
-> diff --git a/fs/file_table.c b/fs/file_table.c
-> index 16e52e7fc2ac..fa06b660f116 100644
-> --- a/fs/file_table.c
-> +++ b/fs/file_table.c
-> @@ -231,13 +231,13 @@ static int init_file(struct file *f, int flags, const struct cred *cred)
->  }
->  
->  /* Find an unused file structure and return a pointer to it.
-> - * Returns an error pointer if some error happend e.g. we over file
-> + * Returns an error pointer if some error happened e.g. we exceed the file
->   * structures limit, run out of memory or operation is not permitted.
->   *
->   * Be very careful using this.  You are responsible for
->   * getting write access to any mount that you might assign
->   * to this filp, if it is opened for write.  If this is not
-> - * done, you will imbalance int the mount's writer count
-> + * done, you will imbalance in the mount's writer count
->   * and a warning at __fput() time.
->   */
->  struct file *alloc_empty_file(int flags, const struct cred *cred)
+> Workloads (all `uncached=1`):
+>   A: rw=write     bs=128k iodepth=1   ioengine=pvsync2     # XFS
+>   B: rw=write     bs=128k iodepth=128 ioengine=io_uring    # XFS
+>   C: rw=randwrite bs=4k   iodepth=32  ioengine=io_uring    # XFS
+>   D: rw=rw 50/50  bs=64k  iodepth=32  ioengine=io_uring    # XFS
+>   E: rw=write     bs=128k iodepth=128 ioengine=io_uring    # raw /dev/nvmeXn1
+>   F: rw=write     bs=128k iodepth=128 numjobs=4
+>      + vm.dirty_bytes=64MB, vm.dirty_background_bytes=32MB # XFS
+> 
+> Mean ± stddev across 5 iterations:
+> 
+>     metric                     delay=1           delay=0     delta
+>     --------------------------------------------------------------
+> 
+>   A seq 128k qd1
+>     BW (MB/s)                4333 ± 27         4374 ± 34     +0.9%
+>     p99   (us)              36.2 ± 0.8        35.8 ± 0.4     -1.1%
+>     p999  (us)               3260 ± 75         3228 ± 29     -1.0%
+>     ctx-switches          184 k ± 59 k     3.68 M ± 65 k    +1903%
+>     cs / io                0.09 ± 0.03       1.86 ± 0.03    +1888%
+>     avg bios/run            80.4 ± 0.6         1.1 ± 0.0    -98.7%
 
-If one is to touch this comment block it would be best to sort it out
-overall. Or better yet, not just this one but the entirety of the file.
+So 1 jiffie delay is (with default HZ=1000) 1ms. That means for this load
+the completion latency should be at least 1000us but your results show p99
+latency of 36. What am I missing?
 
-For starters there is a format to follow to document args & return
-values, see file_init_path for an example.
+>   B seq 128k qd128
+>     BW (MB/s)               4393 ± 3.3        4311 ± 5.3     -1.9%
+>     p99   (us)               8461 ± 73        8638 ± 105     +2.1%
+>     p999  (us)             12465 ± 213       12386 ± 299     -0.6%
+>     ctx-switches        6.90 M ± 186 k    9.72 M ± 184 k    +40.7%
+>     cs / io                3.43 ± 0.10       4.92 ± 0.10    +43.4%
+>     avg bios/run            51.9 ± 2.2         1.3 ± 0.0    -97.4%
+> 
+>   C rand 4k qd32
+>     BW (MB/s)               66.2 ± 0.8        44.6 ± 7.4    -32.7%
+>     p99   (us)              8002 ± 174      17990 ± 6800   +124.8%
+>     p999  (us)             11390 ± 554     31890 ± 11076   +180.0%
+>     ctx-switches         3.67 M ± 45 k    3.59 M ± 106 k     -2.2%
+>     cs / io                3.78 ± 0.04       5.62 ± 0.83    +48.7%
+>     avg bios/run            32.3 ± 1.0         3.1 ± 0.3    -90.5%
 
-That aside even if your changes the comment is definitely wrong from
-grammar standpoint, but I don't know English well enough to be confident
-I would write a fully correct version.
+I'm somewhat surprised how larger is the completion latency is here without
+the delay. Is that due to a contention on local lock between the IO completion
+interrupt and the worker? Or why is the completion latency so big here when
+the case B with more IOs in flight, less bios per run, still had significantly
+lower latency in the delay=0 case?
 
-"e.g." requires a comma ("e.g.,")
+								Honza
 
-That aside "you will imbalance in the mount's writer count" reads way
-off to me.
-
-Perhaps this is best left to native speakers.
+>   D mixed 50/50 r/w 64k qd32
+>     write BW (MB/s)       892.4 ± 20.9      925.3 ± 18.3     +3.7%
+>     write p99 (us)          3562 ± 107         3601 ± 82     +1.1%
+>     write p999 (us)         4673 ± 217        4647 ± 107     -0.6%
+>     read BW (MB/s)        893.6 ± 20.8      926.6 ± 18.4     +3.7%
+>     read p99 (us)            1003 ± 48         1035 ± 39     +3.2%
+>     read p999 (us)           1545 ± 63         1476 ± 50     -4.5%
+>     ctx-switches         5.15 M ± 75 k    5.79 M ± 230 k    +12.6%
+>     cs / io                6.32 ± 0.15       6.85 ± 0.20     +8.5%
+>     avg bios/run            23.9 ± 0.3         2.5 ± 0.0    -89.4%
+> 
+>   E raw 128k qd128
+>     BW (MB/s)               1043 ± 1.0        1045 ± 0.5     +0.1%
+>     p99   (us)             26922 ± 105       27027 ± 128     +0.4%
+>     p999  (us)            37906 ± 4527      37408 ± 2464     -1.3%
+>     ctx-switches          3.20 M ± 6 k     3.33 M ± 10 k     +3.8%
+>     cs / io                6.71 ± 0.01       6.95 ± 0.02     +3.7%
+>     avg bios/run            38.0 ± 0.1        32.0 ± 0.0    -15.6%
+> 
+>   F mem-pressure (dirty_bytes=64MB, 4 writers)
+>     BW (MB/s)                4361 ± 24         4444 ± 40     +1.9%
+>     p99   (us)             29439 ± 419       30173 ± 788     +2.5%
+>     p999  (us)            35704 ± 1773       36648 ± 535     +2.6%
+>     ctx-switches        20.8 M ± 1.6 M    27.1 M ± 1.4 M    +30.1%
+>     cs / io                6.94 ± 0.49       8.87 ± 0.46    +27.8%
+>     avg bios/run            23.6 ± 0.3         1.2 ± 0.0    -94.9%
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
