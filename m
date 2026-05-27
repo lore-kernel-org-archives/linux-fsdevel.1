@@ -1,201 +1,137 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021139.outbound.protection.outlook.com [52.101.95.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E896426EDA;
-	Wed, 27 May 2026 15:05:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.139
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779894334; cv=fail; b=J9DfnWL9tHdYxxp16il5Df9q+6P4gvbFKHEwivC0OjKxNThOo7ZGF36bc6jciMbNFZX/LUVIY4iBNg8wCQnq7No97pT+b5N7t838QiQGA6Xc7MhjiscyAo5jhOtfXYW+O8JSK03fE8ilBpSH5jBopOuNks+CsumFvwjRr4+1dqs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779894334; c=relaxed/simple;
-	bh=h8AzLWDmOj8KTftvlNvWLXvDLiNKzZ4oiYB+wpJONsA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tJAMK7MjivgyGwl6qStbIShWq1IVnj6T0F89133acHUe4o5k4fHg6nax9k9fGFsn4pFnUop/56u6Gf2Pv7HIVnIql05iPuqSZcD6YlW+WDfykzPbjsJAGcpjTuULoRii7sLs+BJCEo5Co9Vjb1sSp2g4bbdZVYRhvfBAxFyva/0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.95.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EGi+bB7abXN6Wd1nkFew8rets1uNLrQW0404HF6DJB/8sW3NSzmNPYocgAlj5N3iy8aNyGoq2FwD1i16/Mk98Nr8iSo/brG4QrHLjJGCq3sQx0vEfsccuQiGXooP54hZlFh87PzozSDgSNxNSTG/MbcA5HMdpFJwZaR+wm2B4LRso2f5eBdm0M1X4WCro0QC3yW9rcb7rhbo2k59//XrLxu8jcvjMqsU1WNk7/CH0gNOb21rEZQuVfbtJ6TwOJMOaNSCwT1sHBexPj90fH/WHadXKKV9zW6FJlj2d6TtFmGquhoRic6ck11h7tTn+IdqlHvDlla5ChEyJ17Sfoughg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=h8AzLWDmOj8KTftvlNvWLXvDLiNKzZ4oiYB+wpJONsA=;
- b=PhQEPWYFcJy6MTwe1D4PsGY0nZXmyy5bjOpFXxtt3XS43bRjwezk1lGmjgeaa7MH258nI+P9yOcgWdyUg4eYqwKZUckXUGLCP/0sm2CIs3wWihpFGo58Mfbx6oS4EEzpyyfVTEiOpnybQptmHWF4mXI9ez/P+1BD5Nu8b37IWL+0QPLHFdUNhOQviNC+16JwrBrxEM7AEExtooVCPzEVy0y77GA2M8LrgdnhMubdQEfiuPLaSQpEXYlf4AktSLcU2sd/xZYt+DaepGEd1vf8bkOep5bXW4LMJDyWNNLGeJK7J/rz5r6sWYsr6W1qhIw4Ap9qkMohvmOvOF+ItKUBtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by LO0P123MB6303.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:28a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Wed, 27 May
- 2026 15:05:21 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0071.011; Wed, 27 May 2026
- 15:05:21 +0000
-Date: Wed, 27 May 2026 11:05:17 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: tsbogend@alpha.franken.de, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, mingo@redhat.com, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, stephen.smalley.work@gmail.com, casey@schaufler-ca.com, 
-	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, 
-	chenridong@huaweicloud.com, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, 
-	omosnace@redhat.com, kees@kernel.org, neelx@suse.com, sean@ashe.io, 
-	chjohnst@gmail.com, steve@abita.co, mproche@gmail.com, nick.lange@gmail.com, 
-	cgroups@vger.kernel.org, linux-mips@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] security: Expand task_setscheduler LSM hook to
- include CPU affinity mask
-Message-ID: <bgjagepcfb7gz6jawatu6kpfmecw46gwg5cvb6r7dl3dn7bt4l@rtymdaslx7ef>
-References: <20260526142838.774711-1-atomlin@atomlin.com>
- <20260527085221.GQ3126523@noisy.programming.kicks-ass.net>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wx5nuid6cri5pbzd"
-Content-Disposition: inline
-In-Reply-To: <20260527085221.GQ3126523@noisy.programming.kicks-ass.net>
-X-ClientProxiedBy: MN2PR01CA0060.prod.exchangelabs.com (2603:10b6:208:23f::29)
- To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AB442B749
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 15:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779895948; cv=none; b=Dq+iD3DkYjBT5+Ru/ibCfDgBJBgr2SdhWmLLZvEWyVq9NQzMkbO5KONYc/n7dbz7v3g3JGkGwhRI5bsRa2fOHdLIPrmTn8KzGT1x84KGihO6CS61Y2Fjm5r16Ah5UounpxBuAlqG/759iqDrViDTqm0Q8EU9hZttGTE7xMie2WA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779895948; c=relaxed/simple;
+	bh=gA/rmwlbX6BzWflQ7GBf040tg5982Oh53sFfiyKP5pc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bshF0RI5N4t7b3Wv0N/QkM+cffmKRNxpS4t9Ej9KK4AQSiUC6kRZiJKiEjd7H7VSmr/HtRK5+V2073aVGNZvZVc98nupMYio13u4PaCpBikJ6iRQRLxTEcNqdkqtwW2i1dZFpbUnQfE61/GQNkwUGxm3AlAcnU47np/GpdUsNgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gVOMK8zg; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gVOMK8zg"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3698e34a567so10948616a91.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 08:32:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779895943; x=1780500743; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=URgNU/rT6ZHhxZb3K6pKics+UL8aQFhvSZmIlnCDbGA=;
+        b=gVOMK8zgnjolL9J3WhyLzVTKuBp1HX3XsL2TsCNxaPx2qeZGtxI6d9BHiDiAEnf5Oq
+         a0v8zA5raFrhYpqf4Mr2E+3jGgeBf8LtzsFgtuWzbZn3Wt/vf8tJ4hPaSFDfdO9smdFa
+         jBA+dxfBC9JGeuL2EofNQn7ooCkjJtr2Ocu+wdkjF3ReRclvpFJO5yIzb6HNkZr74a47
+         aP4mhNL5ON4/LsEmTRpybhYvKDfPYnbt807crRBVWfaxF6OI9Vn8cgkw/Td8+72FhpMC
+         UncSdsMcpmqs3M8BxFOLnQrxKWJLEdpVr//ukmw7E5lQKJUm1lJ0RnFmzjzGgqWPyIEk
+         q26Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779895943; x=1780500743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=URgNU/rT6ZHhxZb3K6pKics+UL8aQFhvSZmIlnCDbGA=;
+        b=gk3BoUIT/0l6Aaql+MiP4TemQqNA17M1bHIT1iHFpveXPyyQ0nyZeRG/KQIDPT1xi5
+         5CL696YuWykOr/eRSPRhmA4TRDLN1UDFyGxo485KsMx5Yc9hCYKq1L5RSKooGOECJ/6P
+         i3gUC4KCAch+SJ2Tw8MOviLptv7K8ME8XWnYFb2tUtSvmyxvUdXKhkcDanDn/tS5QAvZ
+         sNjv902Hwb68LMxPV0XTMB34xvEg4Wlj6l5vAD1TgGEPJSJSaAp8jRmvmcTlMZagQDxH
+         Y/nxhvw2N7jNNXdEdSO1Kwz8zzyMX0/jAhVaXSW22XiC/RYnzetdubnBZUF411A7jTCd
+         21cw==
+X-Gm-Message-State: AOJu0Yy29aWN80PzQWhbKCTqFyTF5+4bRnLxuQ1E9cBVez1AK160YKgP
+	HSA6i7bciDq1f1SW9xxE0nLXum+R8mt7nFtGrgSTqeJJDzcAr1/OyKscg6UFsN3llh48Iw==
+X-Gm-Gg: Acq92OHOGKmy2EqbndL+k9c9u46ltSNLVK+pFGiXU1nkA425VqStHAd+HZCC/Gk+eO7
+	FApF4ok0xxgQdf6eW4cCjO+/+iiB257LelWCCt9a0/gWOvpmU0zwVri/aeKVybwQM49aeQ+2Mv/
+	jIz6KG84uiytI9w7KazxLProbOt8cKWavgP7aPwMpEJ8pNswYhBDgnCibDHfzucXmWSk1zIWfQP
+	KZCTW3wYwQylc0VIzc4Bt765iYnY9oLoWiaSieDtLkCcMyTPu0R1jcgSR0IhIylSQ1G1V/e+JrK
+	sq6Q5cGLqtZ+kK5y9dkOtp5YUFOjZ2XVX+aB2fcdy0YOGS9bohkd83QUul9CNxtqA1Bl1sKn6sK
+	9OTQWHC2zj+nxPVpYFIIxmO/y3+LgPKhr4Uz/3hH0wBLh6djS5L4hXzL+pHTk6AoNXF3cnPY5Bb
+	emGp08PT8lTBWaDquIftgKYF9uZmLlUSca07T98AEFokEOKA==
+X-Received: by 2002:a17:90b:2e04:b0:369:b957:1d84 with SMTP id 98e67ed59e1d1-36a677c78famr22352920a91.14.1779895943532;
+        Wed, 27 May 2026 08:32:23 -0700 (PDT)
+Received: from gmail.com ([218.106.182.251])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36b24d2feeasm1456247a91.1.2026.05.27.08.32.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 27 May 2026 08:32:23 -0700 (PDT)
+From: Yue Sun <samsun1006219@gmail.com>
+To: slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yue Sun <samsun1006219@gmail.com>
+Subject: [PATCH] hfs: reject volume bitmaps overlapping the MDB
+Date: Wed, 27 May 2026 23:32:04 +0800
+Message-ID: <20260527153206.85701-1-samsun1006219@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|LO0P123MB6303:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e52063b-d14e-4a2c-0860-08debc015f3b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|4143699003|56012099006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	6QDHvmBQiQdTYziyfhNyw3VhN41o+czne3s5IJmed6Vw/+w8DghUX95bQeXcvGKldidijpsnsnmUpVbiIBs1q09l3ugYbJnPUihOwX6jdFi0A6SwPB4CtRrO4HPWc4Q8ZUlmEJtUfOVT3NijQTGJdYjpJZBVBm8FicJLcx2Xdtf57JsmDmcvKYsTuHvU+coYNkp5aIG9Q41n6PXg4ueG5dGB2d9CPORXecMR1s5UrfKCUoxI/JAqEPFHJkojnevUPmItJXKMvONY1GlazoYYCKaoCny4z7LSQu/dLyZBVqViYEBU12J+j4EABtj6wm8egiPwJ8TerpbRoyaEeMJ5xTKFQOSeNN86mOASF1Fj0uBmNWymHFFWGvnPL8Ksk1gBNSdELYWAS+iARa6/MwGqWw9f6E9r7mLptWtkRNbS3vyDyswe9ecBo8K0vs3SzZJh/7lCJUEwbRyb6XZEWI7wDBff7YTgkCqHuBCs1mcCnupIZabnDp3JIUq2oHi79qPbs04nyJjoIYy2Oj5Vv+8XaUuBrdep9NzVmCgERGrY2x523lK8/CDvqSpKSmbNcO9PV271AphJjxs7P5vkAxaUbprqJs+kE00dKH40czfH/jg3qjO8y2rhBpQoZkPPO5U6jw6dXkSfcwhpBhFaRKoamxkNWJjq2Mm8CgvzNuQ62KihQ4mjFy3w4R0mtNZ4p9yG
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(4143699003)(56012099006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TnZjSWRXQ0ZnSG94bk9TZythejhFTlp2RjZMSGR5R29FTlRuaXBjTHBuRzhX?=
- =?utf-8?B?OE81a3l0VjFlTWhuZ3RmNmJ0MDdFR0hGcnFOOFZHUnJ4S3pKRUwxc3BhcWJN?=
- =?utf-8?B?Zk9PblRSeDQ5WFMyNUhTalY0WFdaa0IrQjdidzVLNmRQUmhqQUt4VHJTcUtl?=
- =?utf-8?B?TmZ2d1BHd3lDNnhuNGNmb0dDcGdNMUVrR1dMYWF5WmJxcHRVZTdrZ0lMbXJZ?=
- =?utf-8?B?ZkxpZ1NhS0RWVGtVQS8yd2MvMnRKQ1lodDlpUmRwdWZwUkVsRzFkcTVBQk9D?=
- =?utf-8?B?bUM5S0pWRndNdktmVHp6UjhzTURnWTg1UkdGWkluRTM0MHVlZU9FSXVVV2NG?=
- =?utf-8?B?RzMxZVAvU0dDTFByVGlWbHFDdWJ1UjNyQWdLVHhhYlJSUDR6Rk9ScU11T2di?=
- =?utf-8?B?bXE3TEcrcFVXUlJ1SlNUTTFwUWJQSzl5UkxzVDZFM1RQZjZCN2t3djNjZXRk?=
- =?utf-8?B?bS9HY3kwUkwvd1V2eURDaE1zZk9heG5tckF5aXF4bktGV0U5dU0yc3VXUSs1?=
- =?utf-8?B?aVFyVXNhNmsyTStCbXB0cit3bktZc0lBMXhyMVB3RkcrM3FTU2s5aHBHT0JW?=
- =?utf-8?B?WDdXYTZEbnAvaFlGc0hjMjVGUXF1dEt3U1RlTDR2a0VhVk9jK0dFdGM0S2hq?=
- =?utf-8?B?UDVoRHpJeWMrb3p3MUhEL3J6WVV0RVRpRTlxNjA3QzVXd21xcllLMHZqZith?=
- =?utf-8?B?akxTZ3VTamlJOC8xSkJmSGxuMzdIai9jOEFzdStKeER1c3RkZzRJczNoblNh?=
- =?utf-8?B?eVFRRndRWjEvUVdSa2tRakUwMDNnTS9veGtYRFpmMFcydVBuRmF0NXBMNERi?=
- =?utf-8?B?MXBGWGthVHEzV0hDWXBaTWltSzF0WUNsM01qaHJDOGRDNUxLOGU3dXRrL0ZQ?=
- =?utf-8?B?ZWRFMWoyTVJnblhTU2hGaEFabUxKS1JCeTE4eEtvYkx4Q2Nkak80eDZnY3dC?=
- =?utf-8?B?UWk3MVU1cDdnN3RXZ3dkVXdkUVRwYmdoZzIrczJUNVVNaGI3UkR3SlV3WlRH?=
- =?utf-8?B?WW0xOXNKeGFIWU9PWWJWc0ZOWkIxUzc3YndpMnptT05lejdTUWcxSndQM0RG?=
- =?utf-8?B?bCtqaitLME15SWNMRXVkTlVLZ3o4MmZZY1lCYmsrWEF1ZnZJZzF5WVFSNW9r?=
- =?utf-8?B?SXBCY2JmNkVySFNkclJ6RXM5aDJ5U1lVMzdkenRYRUV4Z3N0TFREREFkdkk3?=
- =?utf-8?B?bGFxcFhBczlKU3pXRUtNMVVNUkNwNTRlSC9XQkk5S2VEcS92eXdpd1VlV3p2?=
- =?utf-8?B?NFRaRlg0cUFmVUYySjcyQWpuZHhYa1lXWmpzRnpNRnQ1OEZzZGFzclpZU1Bn?=
- =?utf-8?B?OHlLeEN6R2xCZHpmd1I4aE5uSGRINExucTRPYTN6R1RMOUFhNnA5M3lDRE0y?=
- =?utf-8?B?NHM1aXRRN1lNUWJJUFAwdm1Rd0ovQy9xZTJEQm1IRmR2ZDdUckxzUit0RHhZ?=
- =?utf-8?B?eFlhdnZiNjMzMGVRMmMvVDMvc0kxbW5CUFJwR0dMdk9ranRmQU1tVXFNY092?=
- =?utf-8?B?eklVNmwyb3R1YThJU2YvZ2ZxUW04RkVidGFwb0o2QUNycFFPN21mUk1kVTU4?=
- =?utf-8?B?VWdzdHVib2sxNWN5aDlMOWhISnh4SGhsYkVScGZPSjltTXRuem42dEJuZENK?=
- =?utf-8?B?Wis2M3A2UFB6UC9CY0puQzZGR1V4SjJBZWNKMkV1ZkxBT2Mrck1vMnE3VXl6?=
- =?utf-8?B?Z2hrd2ptR1dtcXBmWUkyNk1ESnhXSW5ORHRpb2xVbFBnOVAydFYydmNMMGtr?=
- =?utf-8?B?YnhsYnh5cFBObEZ0S3F0SE5VVUNKT1BFcUhTdldpSWdQQnB0S1Q1dVZ6ZkZS?=
- =?utf-8?B?WEFKNTFPUFoxbldsNXp2VTRrRXRTZExxSjI0UEVRa2dNaUNNYWYwWGhtNUlU?=
- =?utf-8?B?TDRXRVhxRmlURllrMS9nbjJncWVscE85TVVrazMvNWE1RzAyNzJyWWdSRFNU?=
- =?utf-8?B?dmNCY2xBbFdlUmo0cm5GQ1UwaWRxZ1JoUDdzZFZTZHFEKyt6WTRqcWxpOEQv?=
- =?utf-8?B?Mjd3bFFGNDJzL0p0NmxVTzVjeitZWnRHUXFVbFRURkFtNTFzc1Q3OEJySXl4?=
- =?utf-8?B?ZFNwV0tINjdmcldLYjNNUXp0cUIyKzlteWd0Z2pGWUdXMitEWEhxTlVJb0NL?=
- =?utf-8?B?VXkvNkZtNERvN0V2NVd1YS9oVWtUamJ0S1l3S25mNEs1TWZiMkxiMWkyVTF0?=
- =?utf-8?B?MDU1YlVZTi9TZEN1YTQzWG1JQUYxd2Erc1Z4REM0ZXpEUTZwSmFpWGd5aUMy?=
- =?utf-8?B?Lys3WjYrUVk5Q0swcXo1aVN6b2xoc3U1OE1wRGVKTnJCbTRLazk5VVBoZkw4?=
- =?utf-8?B?WDNrNGF1OTV0cG1pcklLeG94cGU4emNqZ2MzNnlhR29obUZaTkQxUT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e52063b-d14e-4a2c-0860-08debc015f3b
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 15:05:21.4784
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FyMSaAlA9Mvxeql5KEzmNprc7/CPaDw8tbC7PR8Ib/YF1nkcEgqQkI9CUY+fYtcCWYyPcEixINQ0vZd8qSv41w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB6303
+Content-Transfer-Encoding: 8bit
 
---wx5nuid6cri5pbzd
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] security: Expand task_setscheduler LSM hook to
- include CPU affinity mask
-MIME-Version: 1.0
+hfs_mdb_commit() writes the volume bitmap while HFS_SB(sb)->mdb_bh is
+locked. A crafted image can set drVBMSt so that the bitmap byte range
+resolves to the same buffer_head as the MDB. When writeback later calls
+lock_buffer() for that bitmap block, the task tries to lock mdb_bh again
+and self-deadlocks in __lock_buffer().
 
-On Wed, May 27, 2026 at 10:52:21AM +0200, Peter Zijlstra wrote:
-> I'm not sure I really buy the Real-Time argument here; that really feels
-> like a straw man. Real-Time will need to account for the shared resource
-> usage inherent in using a single kernel image across the CPUs, affinity
-> alone does not Real-Time make in any way shape or form.
->=20
-> And the compromised task vs crypto thing feels like it wants sandboxing,
-> but wasn't that what seccomp is for, rather than lsm?
->=20
-> So while I don't think I object very much to the patch, I do find the
-> whole Changelog to be utterly questionable. Which makes me very
-> suspicious as to wtf this is actually for.
+Reject the image during mount if the bitmap byte range maps to mdb_bh.
+This checks the aliasing condition that can deadlock writeback without
+trying to validate unrelated HFS layout fields.
 
-Hi Peter,
+Reported-by: Yue Sun <samsun1006219@gmail.com>
+Closes: https://lore.kernel.org/all/CAEkJfYMB47v1yOWHB8q2dc8kf=uj-rLO=+yMyudwPguJ8Kd3jA@mail.gmail.com/
+Signed-off-by: Yue Sun <samsun1006219@gmail.com>
+---
+ fs/hfs/mdb.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Thank you for the blunt and honest feedback.
-
-You are completely right to call out the changelog. It obscured the actual
-practical use case. I will rewrite the commit message to drop those
-statements.
-
-To answer your question regarding seccomp: seccomp-bpf is strictly limited
-to inspecting syscall arguments by value at the syscall entry boundary. For
-sched_setaffinity(), the mask is passed as a "__user" pointer. Seccomp
-cannot safely dereference this pointer to inspect the requested CPU bits.
-To actually evaluate which CPUs a task is trying to pin to, we must
-evaluate the mask after copy_from_user() has safely brought it into kernel
-memory. The LSM hook is currently the only infrastructure positioned to do
-this safely for eBPF-driven security policies.
-
-The actual use case here is multi-tenant workload isolation and visibility.
-Passing the evaluated cpumask to the BPF LSM allows operators to write a
-simple eBPF program to detect spatial boundary overlaps (e.g., logging an
-event if a requested mask intersects with platform-reserved cores).
-
-If this justification makes more sense, I will focus strictly on the
-seccomp pointer limitations and multi-tenant workload isolation.
-
-Kind regards,
---=20
-Aaron Tomlin
-
---wx5nuid6cri5pbzd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmoXCCgACgkQ4t6WWBnM
-d9Y4MhAAornb7ubJ8KDR3tNH2l1S6EU7tVaxicXH2UVND6BNnfc5ergnVZK3XxiD
-39/wnFqJdQ6RvSg7FSb075RPeVJ0uq9BTJrwqWU/bwa8mvdNNle3wbu5bldHw0NF
-L4rmiYJmqgpJAtG5fhcVb1ScvtgUBOVwRtkewEy1XeVtew4JnVAKmV27gwUPZT4R
-1FLoE1syKRgYc4pE9nPfYS+gl1OqRwdUTIDiKeOR4wNYhJ8orKPMZH6DIVSRVvx6
-/YHSry1CfOcotUE3nracgybjH+AG354I5qBv28b5jEPpNDG3Db/wb0WyfzVxu20X
-ngScXLn6/NP+l2sVgGGgWDCEbSvtSCOPUz7tq97iRZLzzbgDUDVLBJ4ovwaRYdZE
-zCmQudnNfaKkrh3PgnyB9kIekF4403TUnkBkEuMveQstZawjjPsMnVN6nsY6iuyD
-aDqYJShCM0t923piAW60x2lSCN/vCyI5AM4aDyEcwns3lu4rr/fgvQkeODvsSHME
-AdW7hUt5CfFhS3LowDBELEDTYctz7zdVDkKd7y5tLfD98ZPhkt8Z1PAQ4p/QWVmO
-Yn0uzwQXD20djvkuGKQyui9QHoij/wnDVdQwMtt+kQFg9ZTvtW2D7pkDWgwhn5R+
-zCTGPUGznVEd962exI3t4sYOytem9hGWPEOKzkDdPVq75qyS8fg=
-=vQEN
------END PGP SIGNATURE-----
-
---wx5nuid6cri5pbzd--
+diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
+index a97cea35ca2e..abaa636db938 100644
+--- a/fs/hfs/mdb.c
++++ b/fs/hfs/mdb.c
+@@ -99,8 +99,10 @@ int hfs_mdb_get(struct super_block *sb)
+ 	char *ptr;
+ 	int off2, len, size, sect;
+ 	sector_t part_start, part_size;
+-	loff_t off;
++	sector_t mdb_block, vbm_first, vbm_last;
++	loff_t off, vbm_off;
+ 	__be16 attrib;
++	u32 bitmap_size;
+ 
+ 	/* set the device driver to 512-byte blocks */
+ 	size = sb_min_blocksize(sb, HFS_SECTOR_SIZE);
+@@ -185,6 +187,25 @@ int hfs_mdb_get(struct super_block *sb)
+ 		sb->s_flags |= SB_RDONLY;
+ 	}
+ 
++	/*
++	 * hfs_mdb_commit() writes the bitmap while holding mdb_bh. Reject
++	 * images whose bitmap range can resolve to the MDB buffer_head.
++	 */
++	bitmap_size = DIV_ROUND_UP(HFS_SB(sb)->fs_ablocks, BITS_PER_BYTE);
++	if (!bitmap_size) {
++		pr_err("bad volume bitmap size\n");
++		return -EIO;
++	}
++	vbm_off = (loff_t)(part_start + be16_to_cpu(mdb->drVBMSt)) <<
++		  HFS_SECTOR_SIZE_BITS;
++	vbm_first = vbm_off >> sb->s_blocksize_bits;
++	vbm_last = (vbm_off + bitmap_size - 1) >> sb->s_blocksize_bits;
++	mdb_block = HFS_SB(sb)->mdb_bh->b_blocknr;
++	if (vbm_first <= mdb_block && mdb_block <= vbm_last) {
++		pr_err("volume bitmap overlaps MDB\n");
++		return -EIO;
++	}
++
+ 	/* TRY to get the alternate (backup) MDB. */
+ 	sect = part_start + part_size - 2;
+ 	bh = sb_bread512(sb, sect, mdb2);
+-- 
+2.34.1
