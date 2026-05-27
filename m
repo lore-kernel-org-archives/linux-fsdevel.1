@@ -1,145 +1,157 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F771B6D08
-	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 08:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B222F6560;
+	Wed, 27 May 2026 08:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779871712; cv=none; b=BbHVpNaHifbfeGZcaIBxFcWwN8Q9sKEBOkFqbeIAnzUyDNTjef4onq+i5F0mBCKOsnZB+yyf3wpcU5Z8aTIiY0wrKE8K0j5XRWlKu0ac0TcwJgg09a1T1xUqxTGqs8miD2wONR3FdziC+oi6Ue+0nITp8WDDiVZrvj4osOQk1jQ=
+	t=1779871735; cv=none; b=uGA9+MsPXe5nbzs8Jhq18wBXIo5l3vk7rR2Us8yYfFG4pJnnY3KlW28s3Bz5iuo1q6EpZPg3R6WTuvwS0JkeGovT1xZ8G623srsVjEnNpjEXDrFkMgAtahy+Gslz5MVt0aXANiDUCeicPel1QCA2MRpcXrJvEJOGiQ7QQMv6e4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779871712; c=relaxed/simple;
-	bh=xF0STBuODk7sadMJGVyZBECIfetLc6Qp1tv97ArVf8w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GfKFOWjGOeE2B72jz/fniXpl0zYD0ayI7XAidz82IxPc17h/zb48VSdgmkpxrskH3KCQMrQJ+qc5ipDMLgy97I0F8Nhf/QWT7+2Xv5Hk5SiSyNSmPR7fbHM4lcCZwbiHMK9J1A0+xJ+TIKZGVrCJ5a525lrbfNhn1mQ3m8bWdLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Gz2gPw6E; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1779871735; c=relaxed/simple;
+	bh=0NEe1fpBjvEOML8OtlSvPlZx2xId+Au52fZtgRJuxug=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=si2GuFeniPfe7ADVFlANluY8YYaekLkuRs2rrZfyNzgokHsyTochbyubZbVDwygjhCMMtbTPRDKuakyx3Eb1nXHb/AT7e3xuG0DBhf7auMS9TV0qHVnNhntVq4uIuDYGZqtSJVdTZkjr91aZGlmDvqNnQC466cgzfQVTqQrbVTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=UJGJ0WIm; arc=none smtp.client-ip=35.157.23.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Gz2gPw6E"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1779871705; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=rZVTgqYB2Y0kCgKB9vRLlwMkkN4Wxtg827MkQZc14Ks=;
-	b=Gz2gPw6Eh0Z+3F8yGV9L9QEOx7iV/5P98QGpsIrSjiKcZc2ITXsxHWX5sYlLXIr7n+7/5NjPzQQh9kFAkdHsGH/dLGzTY7TCc4nqoC5NJX5mWR8NWm166fII5dIcaDOCIfaAuP3BuwJSu8qK8geyhaqHnMRqNq05jqwgy+HM75c=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X3j9Eym_1779871703;
-Received: from 30.221.147.201(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3j9Eym_1779871703 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 27 May 2026 16:48:24 +0800
-Message-ID: <59bd7e2d-7bce-4b75-a87b-31d442bae7f8@linux.alibaba.com>
-Date: Wed, 27 May 2026 16:48:23 +0800
+	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="UJGJ0WIm"
+Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
+	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 23A72C4;
+	Wed, 27 May 2026 08:48:54 +0000 (UTC)
+Authentication-Results: relayaws-01.paragon-software.com;
+	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=UJGJ0WIm;
+	dkim-atps=neutral
+Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
+	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 9085F2158;
+	Wed, 27 May 2026 08:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=paragon-software.com; s=mail; t=1779871731;
+	bh=tkR1AHaTrjBlNO5JavwPUutUHPVC4uYCTgcq5wIPNko=;
+	h=From:To:CC:Subject:Date;
+	b=UJGJ0WImD1UThSQj0NWfe+oWdUZzUK/RI0f8yqZL8aiUaiOxeKxD/DO4P6T5GbDQT
+	 oRLFp806vESUcnvmYlairOFAe61QOP0ZfVvnAHw1qnr6psD+KTXR6m3vd0y2wa5ms+
+	 612p99kIJBc7Bm0+w7pRs5BLe6y5/rpHSTphIxOM=
+Received: from localhost.localdomain (172.30.20.133) by
+ vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.7; Wed, 27 May 2026 11:48:50 +0300
+From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+To: <ntfs3@lists.linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [PATCH] fs/ntfs3: reject SEEK_DATA and SEEK_HOLE past EOF early
+Date: Wed, 27 May 2026 10:48:42 +0200
+Message-ID: <20260527084842.7871-1-almaz.alexandrovich@paragon-software.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/14] fuse: move fuse_uring_abort() from header to
- dev_uring.c
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, bernd@bsbernd.com, axboe@kernel.dk,
- linux-fsdevel@vger.kernel.org
-References: <20260402162840.2989717-1-joannelkoong@gmail.com>
- <20260402162840.2989717-9-joannelkoong@gmail.com>
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <20260402162840.2989717-9-joannelkoong@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
+ vdlg-exch-02.paragon-software.com (172.30.1.105)
 
-On 2026/4/3 00:28, Joanne Koong wrote:
-> Move fuse_uring_abort() out of the inline header definition and into
-> dev_uring.c. This function calls several internal helpers (abort
-> requests, stop queues) that are all defined in dev_uring.c so inlining
-> it in the header unnecessarily exposes implementation details.
->
-> This will make the subsequent commit that adds pinning capabilties for
-> fuse buffers cleaner.
->
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+Handle non-data/hole seeks through generic_file_llseek_size() and return
+-ENXIO immediately when SEEK_DATA or SEEK_HOLE is requested at or past
+EOF. Handle compressed files in such cases properly as well.
 
-Looks good.
+Signed-off-by: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+---
+ fs/ntfs3/file.c    | 14 ++++++++------
+ fs/ntfs3/frecord.c | 17 +++++++++++++----
+ 2 files changed, 21 insertions(+), 10 deletions(-)
 
-Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
-
-> ---
->  fs/fuse/dev_uring.c   | 17 +++++++++++++++--
->  fs/fuse/dev_uring_i.h | 16 +---------------
->  2 files changed, 16 insertions(+), 17 deletions(-)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index a85acd9c2b71..cce8994241b7 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -129,7 +129,7 @@ static void fuse_uring_abort_end_queue_requests(struct fuse_ring_queue *queue)
->  	fuse_dev_end_requests(&req_list);
->  }
->  
-> -void fuse_uring_abort_end_requests(struct fuse_ring *ring)
-> +static void fuse_uring_abort_end_requests(struct fuse_ring *ring)
->  {
->  	int qid;
->  	struct fuse_ring_queue *queue;
-> @@ -477,7 +477,7 @@ static void fuse_uring_async_stop_queues(struct work_struct *work)
->  /*
->   * Stop the ring queues
->   */
-> -void fuse_uring_stop_queues(struct fuse_ring *ring)
-> +static void fuse_uring_stop_queues(struct fuse_ring *ring)
->  {
->  	int qid;
->  
-> @@ -501,6 +501,19 @@ void fuse_uring_stop_queues(struct fuse_ring *ring)
->  	}
->  }
->  
-> +void fuse_uring_abort(struct fuse_conn *fc)
-> +{
-> +	struct fuse_ring *ring = fc->ring;
-> +
-> +	if (ring == NULL)
-> +		return;
-> +
-> +	if (atomic_read(&ring->queue_refs) > 0) {
-> +		fuse_uring_abort_end_requests(ring);
-> +		fuse_uring_stop_queues(ring);
-> +	}
-> +}
-> +
->  /*
->   * Handle IO_URING_F_CANCEL, typically should come on daemon termination.
->   *
-> diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-> index 51a563922ce1..349418db3374 100644
-> --- a/fs/fuse/dev_uring_i.h
-> +++ b/fs/fuse/dev_uring_i.h
-> @@ -137,27 +137,13 @@ struct fuse_ring {
->  
->  bool fuse_uring_enabled(void);
->  void fuse_uring_destruct(struct fuse_conn *fc);
-> -void fuse_uring_stop_queues(struct fuse_ring *ring);
-> -void fuse_uring_abort_end_requests(struct fuse_ring *ring);
-> +void fuse_uring_abort(struct fuse_conn *fc);
->  int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
->  void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req);
->  bool fuse_uring_queue_bq_req(struct fuse_req *req);
->  bool fuse_uring_remove_pending_req(struct fuse_req *req);
->  bool fuse_uring_request_expired(struct fuse_conn *fc);
->  
-> -static inline void fuse_uring_abort(struct fuse_conn *fc)
-> -{
-> -	struct fuse_ring *ring = fc->ring;
-> -
-> -	if (ring == NULL)
-> -		return;
-> -
-> -	if (atomic_read(&ring->queue_refs) > 0) {
-> -		fuse_uring_abort_end_requests(ring);
-> -		fuse_uring_stop_queues(ring);
-> -	}
-> -}
-> -
->  static inline void fuse_uring_wait_stopped_queues(struct fuse_conn *fc)
->  {
->  	struct fuse_ring *ring = fc->ring;
-
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 06a5d9b44ac1..1b52447bd228 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -1008,7 +1008,7 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
+ 		CLST lcn, clen;
+ 
+ 		frame = valid >> frame_bits;
+-		frame_vbo = valid & ~(frame_size - 1);
++		frame_vbo = valid & ~(u64)(frame_size - 1);
+ 		off = valid & (frame_size - 1);
+ 
+ 		err = attr_data_get_block(ni, frame << NTFS_LZNT_CUNIT, 1, &lcn,
+@@ -1077,7 +1077,7 @@ static ssize_t ntfs_compress_write(struct kiocb *iocb, struct iov_iter *from)
+ 		if (bytes > count)
+ 			bytes = count;
+ 
+-		frame_vbo = pos & ~(frame_size - 1);
++		frame_vbo = pos & ~(u64)(frame_size - 1);
+ 		index = frame_vbo >> PAGE_SHIFT;
+ 
+ 		if (unlikely(fault_in_iov_iter_readable(from, bytes))) {
+@@ -1530,7 +1530,12 @@ static loff_t ntfs_llseek(struct file *file, loff_t offset, int whence)
+ 	loff_t maxbytes = ntfs_get_maxbytes(ni);
+ 	loff_t ret;
+ 
+-	if (whence == SEEK_DATA || whence == SEEK_HOLE) {
++	if (whence != SEEK_DATA && whence != SEEK_HOLE) {
++		ret = generic_file_llseek_size(file, offset, whence, maxbytes,
++					       i_size_read(inode));
++	} else if ((unsigned long long)offset >= i_size_read(inode)) {
++		ret = -ENXIO;
++	} else {
+ 		inode_lock_shared(inode);
+ 		/* Scan file for hole or data. */
+ 		ret = ni_seek_data_or_hole(ni, offset, whence == SEEK_DATA);
+@@ -1538,9 +1543,6 @@ static loff_t ntfs_llseek(struct file *file, loff_t offset, int whence)
+ 
+ 		if (ret >= 0)
+ 			ret = vfs_setpos(file, ret, maxbytes);
+-	} else {
+-		ret = generic_file_llseek_size(file, offset, whence, maxbytes,
+-					       i_size_read(inode));
+ 	}
+ 	return ret;
+ }
+diff --git a/fs/ntfs3/frecord.c b/fs/ntfs3/frecord.c
+index 78eb065c7e43..4b5dd3de327b 100644
+--- a/fs/ntfs3/frecord.c
++++ b/fs/ntfs3/frecord.c
+@@ -2889,8 +2889,14 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni, loff_t offset, bool data)
+ 			 * the file offset is set to offset.
+ 			 */
+ 			if (lcn != SPARSE_LCN) {
+-				vbo = (u64)vcn << cluster_bits;
+-				return max(vbo, offset);
++				/* Normal cluster. */
++				break;
++			}
++
++			if ((ni->std_fa & FILE_ATTRIBUTE_COMPRESSED) &&
++			    (vcn & (NTFS_LZNT_CLUSTERS - 1))) {
++				/* Compressed cluster in compressed frame. */
++				break;
+ 			}
+ 		} else {
+ 			/*
+@@ -2904,8 +2910,8 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni, loff_t offset, bool data)
+ 			    /* native compression hole begins at aligned vcn. */
+ 			    (!(ni->std_fa & FILE_ATTRIBUTE_COMPRESSED) ||
+ 			     !(vcn & (NTFS_LZNT_CLUSTERS - 1)))) {
+-				vbo = (u64)vcn << cluster_bits;
+-				return max(vbo, offset);
++				/* Hole in sparsed or compressed file frame. */
++				break;
+ 			}
+ 		}
+ 
+@@ -2914,6 +2920,9 @@ loff_t ni_seek_data_or_hole(struct ntfs_inode *ni, loff_t offset, bool data)
+ 			return -EINVAL;
+ 		}
+ 	}
++
++	vbo = (u64)vcn << cluster_bits;
++	return max(vbo, offset);
+ }
+ 
+ /*
+-- 
+2.43.0
 
