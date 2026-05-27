@@ -1,94 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AF4330B01;
-	Wed, 27 May 2026 15:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779897579; cv=none; b=PRhA96na2bJGnC9RtFO4d+I4+FUfR7uqGlLuHD7UBdPnGhFC5Gv14bH3R0rbWYLEpki2lM3jUnWnUIfJML85iwcvJhebZUnwrqSRl7GAfp+VJyC41Ggq3Ty2fnQYMk6GdcfwPaycW1QIp0bHZqy8ofzHsMMmffvnoGk5OWmJw4U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779897579; c=relaxed/simple;
-	bh=93hGzeUNZXSmgPP5rRVCOqylEsp/Noq5x/ntYlDk91Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xnxuog08Msp3H4b6vU5bK368v3oysKUYP66PK0wLnn4YFyM9NfdIrQdvClSghZO0+fdMCpWxIS82jDMSOs3KJB9Ky4doC7nW1BlaaLhTumXxfVzpr8lbxY9QeoHep40ZbTgSivpprJVK7oXxs12hG2MOZR8C/RX8kcXKXzmnzsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYqc0BD/; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C3C3939A9
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 16:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779897760; cv=pass; b=YyEcn+tqBzJzt2MFeg+UGyIROS21c5u0Bw1C2yX3BWL/CErND0OeAhZFREV8lJ0f4c3A3BqC9gGVsDHxt3vfakCcWTNGAMvesxTEZ9rwHwuQVfyeTpzzNLFibNFAJc0RevBzX0qqCop5hYybHAKhXa7uGcqRMH0LZGAbgcrwc8s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779897760; c=relaxed/simple;
+	bh=AHt0+86vpId0YnypIvt+8kocwI6bTxlsvlDW/zwRB5c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eENRfpbxWwNoJCHDfaPR+UBkCO/xhpiKas5984ZRm7WoinmynBBGMVuRe/7qTAg+VhwK/1j7HtNZfbR3JhZFgrgGEo6HqCyJZwY+SJ7opaEGfttGsc1zI4tXENPhuroR9geb/X+YLtszHQLOOgfux2/n5r8QIAaEEjIK5GaRtgg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L6AweTLN; arc=pass smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYqc0BD/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6866E1F000E9;
-	Wed, 27 May 2026 15:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779897577;
-	bh=ky5x6VV8bGsiRibL4Mbeireh2/3HHtZ2G1qotL6tKkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RYqc0BD/c9Rk6VG80/Ku4juq+/5NhEA9655oRwH1Wmuep9DRWmqdGxTBZaGOAbx4c
-	 tAWp51YEvq1+8lth6riLToTePL3f5jhd0A9B+eajyaSW8fHPYWYjSs9849zYuwPqKi
-	 SkmrQ1Sj73F1X2nwofk44uZKbCtcjtNxLKSdqk50qPKRabEVz9ZGdCeRb9P/jUX7Gp
-	 ROw64V0uXEJeCATrY80FENgdTyVVifxFzRe5FtVsGqwU6po13npcbonInSgIoCh8L0
-	 uwTj53KmkgZ1MFEdp8hsLXFebtZo4DHZROQbE1pFiS8JcRGFroxsy56nkfPhdv80xj
-	 RmK8vLj9DyWvQ==
-Date: Wed, 27 May 2026 15:59:35 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Bart Van Assche <bvanassche@acm.org>, Theodore Tso <tytso@mit.edu>,
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
-	Akilesh Kailash <akailash@google.com>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <christian@brauner.io>
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-Message-ID: <ahcU5xbVy7xjps02@google.com>
-References: <ag7HfNryTmQ-bVIS@infradead.org>
- <20260521155748.GA79343@macsyma-wired.lan>
- <ag_OVwPF49LSZ7rz@google.com>
- <20260522141115.GA8258@macsyma-wired.lan>
- <ahCNmWbcd_2lAJyk@google.com>
- <20260522224108.GA18663@macsyma-wired.lan>
- <ahTzHyHBL8t0iNBR@google.com>
- <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
- <f4e521ac-2381-49ca-8dcc-3cb3cf3ffaea@acm.org>
- <ahaPDHiXcJoVShPv@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L6AweTLN"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5aa4a628ab0so1083568e87.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 09:02:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779897756; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EvxiRbRAvLop0UZFclFwChX4h08T8arBQ9AQ6hP1Q3wTfUrQHX0u4VI9ktkyvTmun3
+         X5bNEilHkJoABaDExDLYKTO583OSyqiy8dszxsFeXh57+Gt2wRhtcKWpvF6DDY1X+Y2w
+         GRxDCEKeEojFxtBlmfJxLijy3/9Gj2nVkRxRCR0VEHU2gUl8S+7RWH13JHznr3lE/gcG
+         rvOHac0PraZUnNg5rhFzRMz7V3Zx/jz9KH9iUWK8GduqzledRXIeX6Sdv/X8cMwG6Y1w
+         mSTB1N1TEUCpA9CiA+5jwOF9zPjqFLxeKyNgveQg/D21x7bRreabR9VEcxhaFZbxGrmm
+         pUmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=z2Cy0T5Ytizh+1Br6nvrDriJnRVK9iMYXygh/HS+xaY=;
+        fh=FOW9UhG9OVy5i9wzyzlbMSING+ng2Y5lJqc0BxKmh5k=;
+        b=TUxALxGPSJmLJTZ19aH0RC2GVESKmuWJdtVU2t5jadKTkhKayr9W4l6Huw+01uTSsF
+         /IjTreZTL3rdmDrl3ZOF+anulen1DIHWLvElrkfJDhhY3nKlECN3648X7EWeOAVeXlCS
+         OLsUtanLJFK/WFMxP1wn+LVDxaFoeeRpG5qpAoF0UvoqIMqBpR9W+Ql03cF4/jc/9vSM
+         DOAjAR9z99E1gsKYt8ZlLCGLN3ZBNhSeRJHi4viCwj2b40eewWaoRXExyCTQrwNDPRi2
+         6itYmDyDCNtxlqITybXVyKg6Kjmpzi2IqUZVg7NRqjhZbKZKzV8n3DU2AGLIey8Kut6f
+         kfjQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779897756; x=1780502556; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z2Cy0T5Ytizh+1Br6nvrDriJnRVK9iMYXygh/HS+xaY=;
+        b=L6AweTLNHy/Z0BzaB6cRHkDYdErwcaMUEx8sJqTCu6h0qBQaMI0UE7aPhCgR72qWxR
+         SZBJ7t2RaoXpz4Fldpeu3WtNvtR9fGkYodPHOCr6ktBnEdknHAi631onR1oC5MFvlZy2
+         moajP1VpZItzXpnNDN9Vh/8h3PzgP5amoobLKOr4RvS6L4yacQa55e2mV8a00urNt5nn
+         HTjaq768EtXo9tfUIVpinlcto7s/5nLIsy4HiNkmZN86ifJim24oHWq+N95dQY3ntf3J
+         Z5ZtSXPJv5DKW3uIy9zRs41yXQqczJ0rvHLa8rUvUrd3+qC9SeiuGsQYj4VxNAhx6cpR
+         KzGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779897756; x=1780502556;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=z2Cy0T5Ytizh+1Br6nvrDriJnRVK9iMYXygh/HS+xaY=;
+        b=iutAtjnp4dkzkD5dg7iasGYA9Dg3kyFa3Swpr+zwPZ0xOiD6xd/FogOytkcrBruGeV
+         yE3ywu/c2vbCszlhpejZjTUdeOhbMq1rXgNUdpNMTWlwlTLgPw7+BMfma9EC+13h4efH
+         4Yfj+PgIDX+xztQdPDSfQVdx3B3xxgRZsfCPHkf/f+CEfihr6ANeRCnH0OkeDZ/Li6on
+         psmf9DvwPBUb1NxBauDyFb51WHmPOaepig8iNF/liPnKdNukl8kLrUjQOZgk8wNfrfyB
+         39NWDMASjQRYocoZ7qi2974uJ9p0cdNFeAE+CdEbvXlIbeiG01K6Taz2xIwUFob1yIbt
+         oL5w==
+X-Forwarded-Encrypted: i=1; AFNElJ/ISDxtVod6vQuUHDDaualwV5MXCAsHGgJcoqvwUyRvMeUOWymx3ckdhSzRtxOdujIuLscyAmzPr7dcKr48@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmBYOUqz8sZMGR89DSIMBcf1+EkbEvDS0R5voclhTkaiDeUbVG
+	QwSoU+6DH6B7dCTh1lMUvwbB7DI9qskyl/sj5NgPMNQXSBdgZCJc1UrAraqM2GlY8Ody2TaC+Y6
+	tJGlXnDVEOZ75WvUbLiNu2Q5OFfFK0nI=
+X-Gm-Gg: Acq92OEEwAJFNtnH8p4xBxK2WeQ9Gy0x7JleIY1sPdny0DjYX4F2UTVbrlWcHczTinx
+	NiCD10jF88LI/YdnzWgNkwCi0a0qs5ituMDeuzoVZ2hD3y3zTwneE6BCSqk7rb2rHBqANqVnHXv
+	oKEhD/aCPVVh5Qpo/gDM2qFBgvBglRa0SnzxmqrF2S0VyPYA0lHTII2MulQ+gmjMytfLo/c16Nj
+	aUuniStlNOmGHov6olUWxTj3rVD8anvm9GKnrefjGbFvilPGx9Xd6vOOas9e7KYdPrHjvkQl1MU
+	JhTixu/2
+X-Received: by 2002:a05:6512:1082:b0:5a8:96cf:c8c4 with SMTP id
+ 2adb3069b0e04-5aa3232a140mr8148267e87.15.1779897755653; Wed, 27 May 2026
+ 09:02:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahaPDHiXcJoVShPv@infradead.org>
+References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org> <20260523-b4-fs-v1-4-275e36a83f0e@kernel.org>
+ <1bb537f6dc36b00788b613fb8f71579478418457.camel@redhat.com>
+In-Reply-To: <1bb537f6dc36b00788b613fb8f71579478418457.camel@redhat.com>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Thu, 28 May 2026 01:02:19 +0900
+X-Gm-Features: AVHnY4KetSSI45sZ2YEgAEZTRsUQAA2DaTD5AcJyh7fDYB4FmiHhDhxOxGAj9DM
+Message-ID: <CAKFNMokr_mk8xhMQ7u8RGRd1XPQSSd_uVKXR=-ui5Zjk8AhfTw@mail.gmail.com>
+Subject: Re: [PATCH 04/17] nilfs2: replace get_zeroed_page() with kzalloc()
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Viacheslav Dubeyko <vdubeyko@redhat.com>, Jan Kara <jack@suse.com>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Dave Kleikamp <shaggy@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao <leitao@debian.org>, Kees Cook <kees@kernel.org>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, ocfs2-devel@lists.linux.dev, 
+	linux-nilfs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	jfs-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 05/26, Christoph Hellwig wrote:
-> On Tue, May 26, 2026 at 09:14:52AM -0700, Bart Van Assche wrote:
-> > On 5/26/26 6:42 AM, Theodore Tso wrote:
-> > > It seems... surprising that the additional I/O operations are actually
-> > > throttloing UFS device bandwidth by 2x (4GB/s vs 2GB/s).  Have you dug
-> > > into why this is happening, and whether there is anything that can be
-> > > optimized below the file system?
-> > The layers below the filesystem (block, SCSI, UFS) is what I'm
-> > responsible for in the Pixel team and I can assure you that these are
-> > highly optimized.
-> > 
-> > Since the transfer size used in Jaegeuk's tests is much larger than 4
-> > KiB, how many CPU cycles are used per IO by the layers below the
-> > filesystem is not limiting the transfer bandwidth.
-> 
-> I'm honestly not sure what discussion we have here.  Larger I/O is
-> pretty much always more efficient.  If you submit smaller I/O you
-> need more merging to build it back up larger, and more I/Os.
+On Tue, May 26, 2026 at 2:07=E2=80=AFAM Viacheslav Dubeyko wrote:
+>
+> On Sat, 2026-05-23 at 20:54 +0300, Mike Rapoport (Microsoft) wrote:
+> > nilfs_ioctl_wrap_copy() allocates a temporary buffer with
+> > get_zeroed_page().
+> >
+> > kzalloc() is a better API for such use and it also provides better
+> > scalability and more debugging possibilities.
+> >
+> > Replace use of get_zeroed_page() with kzalloc().
+> >
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> > ---
+> >  fs/nilfs2/ioctl.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/fs/nilfs2/ioctl.c b/fs/nilfs2/ioctl.c
+> > index e0a606643e87..b73f2c5d10f0 100644
+> > --- a/fs/nilfs2/ioctl.c
+> > +++ b/fs/nilfs2/ioctl.c
+> > @@ -69,7 +69,7 @@ static int nilfs_ioctl_wrap_copy(struct the_nilfs *ni=
+lfs,
+> >       if (argv->v_index > ~(__u64)0 - argv->v_nmembs)
+> >               return -EINVAL;
+> >
+> > -     buf =3D (void *)get_zeroed_page(GFP_NOFS);
+> > +     buf =3D kzalloc(PAGE_SIZE, GFP_NOFS);
+> >       if (unlikely(!buf))
+> >               return -ENOMEM;
+> >       maxmembs =3D PAGE_SIZE / argv->v_size;
+> > @@ -107,7 +107,7 @@ static int nilfs_ioctl_wrap_copy(struct the_nilfs *=
+nilfs,
+> >       }
+> >       argv->v_nmembs =3D total;
+> >
+> > -     free_pages((unsigned long)buf, 0);
+> > +     kfree(buf);
+> >       return ret;
+> >  }
+> >
+>
+> Makes sense to me.
+>
+> Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+>
+> Thanks,
+> Slava.
 
-F2FS merges bios before submit_bio, regardless of small or large folios,
-since the block addresses are consecutive. So, I think IO subsystem was
-working in full speed.
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 
-> 
-> Which is exaxtly why we need large folio support everywhere, as it
-> makes a huge difference in I/O performance.
-> 
-> 
-> 
-> _______________________________________________
-> Linux-f2fs-devel mailing list
-> Linux-f2fs-devel@lists.sourceforge.net
-> https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel
+This conversion looks reasonable and won't affect the behavior of the
+ioctls that use the modified function.
+
+Thanks,
+Ryusuke Konishi
