@@ -1,147 +1,154 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949BA34750E;
-	Wed, 27 May 2026 13:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84B73F39E3
+	for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 13:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779887726; cv=none; b=aze9p5cuR0J9mfnceZLFIT88RnPhZqk4GhbzpYXIVQXd8eFuv4D0XTtgTJHMHTGyr1KfvZf4/KFx/1SEcz+zYO53SxklRh4n5Vjru9YqEUkhc/8eA/YAAGtsAnyLajtNnVN9iF2hpS5m0P7CY1evLXddXsAaPTJ5lz2jy4PRpmc=
+	t=1779888176; cv=none; b=Y0NNsRnyEgjfGqnyZqpx+zIvkpTiffPnmUJ7TTjXxJFgUOxotUgD0xcpR38Ja9+yhx6vmoCwz4Irn29+cJgFxQc/wHbrNtyrI20XVQAWsQZx0mkRCNGuuEBoO4Zo/1/OmpkbSekHYngueA2NL+5ucBdX/SiXiLutFI292+t7n6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779887726; c=relaxed/simple;
-	bh=Jm2pneVohwVy0yEiPXS4kBDWDp7CeKhsTOMS1RoMG1M=;
+	s=arc-20240116; t=1779888176; c=relaxed/simple;
+	bh=PHLsu2Z5sGPxx3BqJuISubLbNqzh1/NTrS4e826wtiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G9lB/PEuL6PfxG610FtAQIhN48AumWod7WJ+dYwU30Q6/w8RDyU4WbA7dr2wJitjl0fys6rfNy3FPMS/zkfzWv2Pnhbgwbc/1Vaua7d4KWcr4c8P9BrVSJ4YLOJNPvykJJVJ5MI8951iNsF4BRZBaXFy2ScbENUe5v5AE61ZDUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=CtR7bHcT; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tj7BsDJkIQOOIzK25F3pl6wE4vbw6/+Pap7lIBkWny27lRsvDIgQmIzf23gb/LoIeYJjKwh6884oEnn6xK20ogrWZ8D+NnVvIDInL7zkp6+tYsc+vdbLswXbOsLQ5rkxutHDt+sJc3Qj9IyTO7NH1CNZ+qFpckv0f4XeqV/ZzJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=VZroMDM7; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="CtR7bHcT"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64RDDUiV3595371;
-	Wed, 27 May 2026 13:14:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=sn8HExIJV+uioXCHBHmRXysmtN4ZMB
-	2jO7HWMViOHRI=; b=CtR7bHcT53huKyqK0DHNOgmbsDbW2z5MSYd2PHKZratDBi
-	TWtIc8LGvHqhyRZfw5v0ldf1Ng4Q3dGwYHUE0r2tuU4JZ+uXl4MyBoETdJrw//Kl
-	S/z3Q/24stJB/fWwXmHth7YNm/CIw01D6tXUUPQ9TgqF5CzstMjK8UZYDpwbVzAW
-	CzaxoGOaaLO2zK+YDwPMd9Hk6BESrIqXllNJFQbVeYoUXPhtFzPPi/ej1h7/DkBT
-	c3tc4Qr2bLbi2p+d77/dDKZSmO+RunAOtLrsnMcb8ewJxwWkZhN0EC/YR9724y1p
-	UMOJROw7Fft8BBoLBak4TkR9b/xRhx5sI7/E/w2w==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eb4s2hdwn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 27 May 2026 13:14:54 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64RD98v6005071;
-	Wed, 27 May 2026 13:14:53 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4edjrb348p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 27 May 2026 13:14:53 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64RDEqOw50856288
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 27 May 2026 13:14:52 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0D0D720043;
-	Wed, 27 May 2026 13:14:52 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 088CD20040;
-	Wed, 27 May 2026 13:14:47 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.21.79])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 27 May 2026 13:14:46 +0000 (GMT)
-Date: Wed, 27 May 2026 18:44:43 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
-        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
-        djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
-        yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v4 16/23] ext4: disable online defrag when inode using
- iomap buffered I/O path
-Message-ID: <ahbuQxLq9StWCzSx@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-17-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="VZroMDM7"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4903f7a90d1so47361805e9.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 06:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1779888172; x=1780492972; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q/RBHCR3qCaewkn0icuin5UM+dMKVdabs3wS26coKl8=;
+        b=VZroMDM7ZDoHjjmVynMblB3INA+GUdz1zUcodG8uatQ6cbQzup5btLrlosc+Z0A4nC
+         IyiC4EElcCZG69acIl3OWp1cs8iUBhHI/g6RLf/q/MFzjlUBRvK2lT/LVabdeXeZoMh5
+         jyes7cwAL0s56rTL99VlDHfue315FZI4+S5Jh1ADBIBM65xg4qQKhXxgifARFYNoyp4l
+         1pVWPoNIpUNaSCqHV7dOjTK7NngSDjwAe9KuDTIWG/xO+YGChU72IYm3JC5JCYX3pYzI
+         hS4tE2f9aK8PSHNStJeYh/Kxr2hxAYyB5Qf8vJvA8oGp+kaZh4dFQpZ7UQ/4cmPZsgEv
+         fxpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779888172; x=1780492972;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q/RBHCR3qCaewkn0icuin5UM+dMKVdabs3wS26coKl8=;
+        b=UQop6DP5C0REnU2qLL75mQyzLy7/F1IuOKtQzz2sI4/QGSCxorhY0kksFCYhVPiWgZ
+         aoQmHQXW55SchXFVJrpRhSLmkmvfJ48tuz6IHX32OMFXBf8bDGIlQMgecjHPVP0MRBt7
+         Sg6pFwI06EaGDz9k4vCMUPyLRd0ffNeI49/3hAT6i5WBr+/t0PUCgMv8c4Qd4ednNQ5t
+         z8sDZQVN6Dle02OZI4ACW6MFBfeSjNsv4NgtbFYrL/NPyAAodp4im9dfVD3iUKQfhe7P
+         1IJvhq1VQxR4TiYa2z9O+lCiINELT7CD1r4Pz783YuMtVbN6Si31aKnA3m9ew6d7et3K
+         S+lw==
+X-Forwarded-Encrypted: i=1; AFNElJ9HkCaCVozATCwdZohz/TUVSEkXWjbs26Nl+zRpkdDjKDJSQ48EFtbW6242Whp5NDZd03QvN1SsDXouvu3x@vger.kernel.org
+X-Gm-Message-State: AOJu0YysA5brkEQJTxXYLJDHrZ5ShprXlp5innhNkXxkIULScrPgKLcT
+	rf3vd6RH9zneFEzZMT+4U/eWewBcE8rQkEWV2v35NB0gfPdwGPEAzVVgBieMRuKnFyw=
+X-Gm-Gg: Acq92OElISNvwSDJPD+MDUCVzfPnocTrVWaovD+SeyW0ILKdndvS9oi/J4rrvPPfhap
+	TiSgr7Qf25nnjRpgC3Jtrjiinaqmp9IrClERwapGz5XCQt+lgZ3n0TJyEPyJQuEVy/TWBs76ppo
+	ivrJVHoWc1Thci5tbK82WITR+8xaf+g4+oW0g4r26xc/T0XHVH9avpu++Hpha7gL0BO4GB61trS
+	EcjNLnJeH7kqzPv+v+4vhUO3bGxz/4W+nXaTP3YQFUOcSCuAxlofhtVuCOKkPH98yv50RzXUbIO
+	eXyHqTH5iAl5LQ0SPpkEHTZeJoZO4E1jRL7axI8sltlm1fHIVhqSqKklj/e+mcF/qAA5gNyDRsT
+	mgfBPYtm2IwyL4ktbEBqcVL1PtukwkW/LEWlTqNtTNnaiOIkDn53d2+vmBzr/QIGsePdwZVFjcH
+	VDjMYrSt50I0FrRtfMqVyUi7qCkpxhKIpNGNTl3k8tLj+4blOP2/MVZPeZ9IR9nVwh3PLLRvNLu
+	xSwkPaec5TbZhM=
+X-Received: by 2002:a05:600c:19cb:b0:490:507c:bdb1 with SMTP id 5b1f17b1804b1-490507cbed4mr331274845e9.15.1779888172116;
+        Wed, 27 May 2026 06:22:52 -0700 (PDT)
+Received: from localhost (p200300f65f47db04d0bbaa07c813b2f2.dip0.t-ipconnect.de. [2003:f6:5f47:db04:d0bb:aa07:c813:b2f2])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4907e6284e5sm28276165e9.0.2026.05.27.06.22.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 06:22:51 -0700 (PDT)
+Date: Wed, 27 May 2026 15:22:50 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Scott Tringali <stringal@mathworks.com>, 1137107-quiet@bugs.debian.org
+Cc: David Howells <dhowells@redhat.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: Bug#1137107: netfs local_bh_enable in hard IRQ via cachefiles
+ read completion
+Message-ID: <ahbuh46O8ncqe6Ob@monoceros>
+References: <177921663299.22800.4367803780230080606.reportbug@ah-stringal-l.dhcp.mathworks.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3c4o7jiux3kao3gh"
 Content-Disposition: inline
-In-Reply-To: <20260511072344.191271-17-yi.zhang@huaweicloud.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: _TS2aTRDYvvq3lksI0AMgpCQQHu1BWmV
-X-Authority-Analysis: v=2.4 cv=Sq2gLvO0 c=1 sm=1 tr=0 ts=6a16ee4f cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=i0EeH86SAAAA:8
- a=VnNF1IyMAAAA:8 a=ZvFAdT02YJFtCQ7zTEYA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI3MDEyOCBTYWx0ZWRfX+U1vWx7YB/mW
- kcW788LPsnHF21Sgad2xSVwwHkjP9ZE4QfZ92iG0I4rBE9p1lVRMXDN6m0zNL/J/2x32+4euL+W
- ifGP8/BG1JWa0S5DRo/AAOqVGvwtoLs9Ujckm6G+DHeLsVBfEqUgIFfVNpdM5XyqasBBluzGHZr
- uNu5h/qrsNuWN42S2/whUYMRGEnX42cPD+zxEYlNKuE2P9PX5Jcsqd319n3e1cEZNXGnQAbB6OA
- D6QnRqP3sMUz046dm7GRJTGIXCcLrTysN6ZGhEhPKBkuvRXD7HC91k3a611ZmLmt0W++cLE5tks
- U31xzl49W0GHVNxLc4Y4huYtnj90NfBd9esjuvZ9/TShdRfACZJzBkRvbYn7u+Gq8Mq2ZUa052Y
- OlTneqaJBRcbwbUIAeAK9FZHMSNVLQph/dxcN2ePJpRleCxcbB+H+/+p690xy5a/kS1dnqLZTXs
- bu7aq5cBsdHTZqXsEdw==
-X-Proofpoint-ORIG-GUID: Wjuas53mjPm0mGxQx_wLlUoqyZ--IS2F
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-27_02,2026-05-26_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 phishscore=0 impostorscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 suspectscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605270128
+In-Reply-To: <177921663299.22800.4367803780230080606.reportbug@ah-stringal-l.dhcp.mathworks.com>
 
-On Mon, May 11, 2026 at 03:23:36PM +0800, Zhang Yi wrote:
-> From: Zhang Yi <yi.zhang@huawei.com>
-> 
-> Online defragmentation does not currently support inodes using the
-> iomap buffered I/O path. The existing implementation relies on
-> buffer_head for sub-folio block management and data=ordered mode for
-> data consistency, both of which are incompatible with the iomap path.
-> 
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
 
-Looks good, feel free to add:
-Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+--3c4o7jiux3kao3gh
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: Bug#1137107: netfs local_bh_enable in hard IRQ via cachefiles
+ read completion
+MIME-Version: 1.0
 
-Regards,
-Ojaswin
+Control: tag -1 + upstream moreinfo
 
-> ---
->  fs/ext4/move_extent.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/fs/ext4/move_extent.c b/fs/ext4/move_extent.c
-> index 3329b7ad5dbd..f707a1096544 100644
-> --- a/fs/ext4/move_extent.c
-> +++ b/fs/ext4/move_extent.c
-> @@ -476,6 +476,17 @@ static int mext_check_validity(struct inode *orig_inode,
->  		return -EOPNOTSUPP;
->  	}
->  
-> +	/*
-> +	 * TODO: support online defrag for inodes that using the buffered
-> +	 * I/O iomap path.
-> +	 */
-> +	if (ext4_inode_buffered_iomap(orig_inode) ||
-> +	    ext4_inode_buffered_iomap(donor_inode)) {
-> +		ext4_msg(sb, KERN_ERR,
-> +			 "Online defrag not supported for inode with iomap buffered IO path");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
->  	if (donor_inode->i_mode & (S_ISUID|S_ISGID)) {
->  		ext4_debug("ext4 move extent: suid or sgid is set to donor file [ino:orig %llu, donor %llu]\n",
->  			   orig_inode->i_ino, donor_inode->i_ino);
-> -- 
-> 2.52.0
-> 
+Hello,
+
+On Tue, May 19, 2026 at 02:50:32PM -0400, Scott Tringali wrote:
+> Package: linux
+> Severity: important
+> Tags: patch
+> X-Debbugs-Cc: stringal@mathworks.com
+>=20
+> Package: linux
+> Version: 6.12.86-1
+> Severity: important
+> Tags: upstream
+>=20
+> netfs_consume_read_data() calls local_bh_enable() in hard IRQ context
+> when reached via the cachefiles async read completion path.
+>=20
+> The call chain is:
+>=20
+>   nvme_irq                              [hard IRQ]
+>     blk_mq_end_request_batch
+>       iomap_dio_bio_end_io
+>         cachefiles_read_complete        [cachefiles]
+>           netfs_read_subreq_terminated  [netfs]
+>             netfs_consume_read_data     [netfs]
+>               __local_bh_enable_ip      *** WARNING ***
+>=20
+> This fires a WARN_ON at kernel/softirq.c:386 because local_bh_enable()
+> is called while in hard IRQ context (PID 0, swapper, inside <IRQ>).
+
+There was a similar report filed upstream at
+https://lore.kernel.org/all/CAKPOu+_4m80thNy5_fvROoxBm689YtA0dZ-=3DgcmkzwYS=
+Y4syqw@mail.gmail.com/
+
+The patches mentioned there went into 6.14-rc1[1], though they didn't
+fix all issues for the reporter there.
+
+So I think the right course of action is to test a newer kernel first,
+and if that helps (and I assume it does), prod David (on Cc:) about
+maybe backporting the fixes to v6.12.y.
+
+So Scott, you you please check if the kernel from unstable/testing or
+backports fixes things for you?
+
+Best regards
+Uwe
+
+[1] https://lore.kernel.org/linus/ca56a74a31e26d81a481304ed2f631e65883372b
+
+--3c4o7jiux3kao3gh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoW8CcACgkQj4D7WH0S
+/k6rYggAuRcTKQTss2YOE6MZEF/VrHw5B6ZhO0XBgtaln+sLUYqeQnNs/2ZsTBwQ
+0Lf2pXBGa9JOZJjDmxrTmhGculYNR+WGcxfn8BmTLlYRfv/WVAdMBcxuv7Dn1QQv
+S0iHvNtSSpvcwDklel75a6vBYel00nGR/z723Oj5kHKfcD6XNDS9dlP66hSVfDax
+7a1oosJu51hZlsDf59aim3i++L+IkSXf7MQAx5yh+jQapTBg8UQBLHm7ASRUUbIP
+S5lO25Up0gT5wRM8O8ooPdbg/u3cBvgWDaau6py2oji074nHOm5D1VshwTnSpz6a
+vwV6URaEn5fGxGbIcaiDu8YhEJEPQA==
+=GIFV
+-----END PGP SIGNATURE-----
+
+--3c4o7jiux3kao3gh--
