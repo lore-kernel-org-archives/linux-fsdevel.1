@@ -1,153 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3553264DF;
-	Thu, 28 May 2026 07:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B8C348C7E;
+	Thu, 28 May 2026 07:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779952987; cv=none; b=nXksoeWwkKYZ62eUOHemHpqQojIakmqzygJfakYyPKKEu4gE1G0q0LZJ8xW06VeYVpYNrM4HRMw1pqttA75QIJl1G83osTHoTp66PLlCNewrKbSC43PAvx+Y+tiXxZw9ErSFzMPzJ3e/sURIkGPTpEtZ70Go41prXz4+JdNoMR8=
+	t=1779954461; cv=none; b=qZu6VMd2SBIuWxnXBgZvz2thtXxFbyL62/q2Kc3T/xJaS0hqJKjq3J/y6PZjG9NyqfzRtALgU36yGS2LxXWyJQ0Cx4wOqRAspkgxwbr3z4ubUVAPEgqXJY/XDQmub0IJZSZa8V0suQ+0HKZFEEMqLE0Urc5aRAIjBP7yH+jmW2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779952987; c=relaxed/simple;
-	bh=HHXMoFquiYqwF/6HKOfa/oV8pMDJswOIvcYE8om1ODo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kdblD6xhgOSZRfFI4oWlUZGNuewTL4dL+Hl96m/PGMWXvtkhtWVYjOXSMDdEPJUIf3s6RX/HJd229egrNOlCG+h2r5wug51wNORUJ69AXkRMEDrhtjFv9BIfi5TVuqznePDoXZiO0KLWVcLZOIlENSaqVoguQJo1Q97tbaCX4g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OTIRfDt/; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OTIRfDt/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CC161F000E9;
-	Thu, 28 May 2026 07:22:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779952984;
-	bh=HHXMoFquiYqwF/6HKOfa/oV8pMDJswOIvcYE8om1ODo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OTIRfDt/2crw/q20AADL1qU3uFYcIxvzokAPq57kqI0Dt8zEfl1g1NHG1Nb26nU/F
-	 DHFzUIUYs1CV1HX3AuFsYZv8rP49097eA9j0zjzuOCvXjHxV1MNVCDilr7IF/W84tx
-	 Xia0Bn0OXpFx/TEE3++mvy8okZ3sKdRUTl53UkwFO90uScJPgrnevqogE7olUAUIHO
-	 ntY8Ju1RmAsHVIEDDKZrW0iJRivTGwnL2hVQuRydTRvQjZfhWcuBqMerbEZigtcjK0
-	 1C88h/AeIRGhRjW6T61m9LqiitqN2pEI8SU4e71uQ0AdquRlmsaCCEV72/eGyNhT9Y
-	 L/NXndorMH/mQ==
-Date: Thu, 28 May 2026 08:22:48 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: wangtao <tao.wangtao@honor.com>
-Cc: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	"will@kernel.org" <will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
-	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, 
-	"kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com" <luizcap@redhat.com>, 
-	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
-	"jack@suse.cz" <jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>, 
-	"harry@kernel.org" <harry@kernel.org>, "jannh@google.com" <jannh@google.com>, 
-	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
-	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>, 
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
-	"baohua@kernel.org" <baohua@kernel.org>, "lance.yang@linux.dev" <lance.yang@linux.dev>, 
-	"xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, 
-	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, "matthew.brost@intel.com" <matthew.brost@intel.com>, 
-	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>, 
-	"byungchul@sk.com" <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>, 
-	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>, 
-	"pfalcato@suse.de" <pfalcato@suse.de>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
-	"ryncsn@gmail.com" <ryncsn@gmail.com>, "21cnbao@gmail.com" <21cnbao@gmail.com>, 
-	"jparsana@google.com" <jparsana@google.com>, "dvander@google.com" <dvander@google.com>, 
-	zhangji <zhangji1@honor.com>, wangzicheng <wangzicheng@honor.com>
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
- creation
-Message-ID: <ahfrzwK-RsQOKxy_@lucifer>
+	s=arc-20240116; t=1779954461; c=relaxed/simple;
+	bh=U6LyOaRHgM7bNmxfx7oQssI+MuLm0BMEi7VTJSUIFus=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=JgsZ8mDkeHlbHhtWomQeeqUIRV6lDPcwCDnIih4uxcxZ03QXfYMuoCdN2GJL4scBTMtyfh/tPflVTEdeZgsKEGvLWDM9eusW88lsRvZB/lTf9eo1Zie0xr6v0ceNBVSvACfIJuWRYK7hUW/kiq7zDfs1t0P23t6I6symeV0X9dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from TW001.hihonor.com (unknown [10.77.229.151])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4gQz7V6dNhzYmnW4;
+	Thu, 28 May 2026 15:45:58 +0800 (CST)
+Received: from TA001.hihonor.com (10.77.210.32) by TW001.hihonor.com
+ (10.77.229.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 28 May
+ 2026 15:47:35 +0800
+Received: from TA003.hihonor.com (10.72.0.43) by TA001.hihonor.com
+ (10.77.210.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 28 May
+ 2026 15:47:39 +0800
+Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
+ TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
+ 15.02.2562.037; Thu, 28 May 2026 15:47:35 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+CC: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
+	<will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com"
+	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
+	<x86@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"david@kernel.org" <david@kernel.org>, "willy@infradead.org"
+	<willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, "kees@kernel.org"
+	<kees@kernel.org>, "luizcap@redhat.com" <luizcap@redhat.com>,
+	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>,
+	"kas@kernel.org" <kas@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"liam@infradead.org" <liam@infradead.org>, "vbabka@kernel.org"
+	<vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
+	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz"
+	<jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>, "harry@kernel.org"
+	<harry@kernel.org>, "jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca"
+	<jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
+	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
+	"baohua@kernel.org" <baohua@kernel.org>, "lance.yang@linux.dev"
+	<lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
+	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
+	"matthew.brost@intel.com" <matthew.brost@intel.com>,
+	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
+	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
+	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
+	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
+	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
+	"21cnbao@gmail.com" <21cnbao@gmail.com>, "jparsana@google.com"
+	<jparsana@google.com>, "dvander@google.com" <dvander@google.com>, zhangji
+	<zhangji1@honor.com>, wangzicheng <wangzicheng@honor.com>
+Subject: RE: [PATCH 01/15] mm/rmap: introduce anon_rmap APIs for anonymous
+ folios
+Thread-Topic: [PATCH 01/15] mm/rmap: introduce anon_rmap APIs for anonymous
+ folios
+Thread-Index: AQHc7ckRwxjcs/8lx0W0uDFJW08PjLYhOs2AgAHQxJA=
+Date: Thu, 28 May 2026 07:47:34 +0000
+Message-ID: <d02134e2a17041e2bcc0a8779e5e7127@honor.com>
 References: <20260527110147.17815-1-tao.wangtao@honor.com>
- <ahbSrt0B1aQTwrk4@lucifer>
- <288935c5d9d84794a9120893f61e670b@honor.com>
+ <20260527110147.17815-2-tao.wangtao@honor.com> <ahbWKJL8TtGsFV4r@lucifer>
+In-Reply-To: <ahbWKJL8TtGsFV4r@lucifer>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <288935c5d9d84794a9120893f61e670b@honor.com>
 
-On Thu, May 28, 2026 at 07:11:19AM +0000, wangtao wrote:
->
->
-> > Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred
-> > anon_vma creation
-> >
-> > I'm sorry but this is not how kernel development is done.
-> >
-> > You're sending a series that's very invasive, that you've not coordinated with
-> > anybody else, nor have you mentioned it at a conference, nor engaged with
-> > in discussion with anybody else in the community in any way.
-> >
-> > And you've sent it without an RFC, at -rc5 is... quite something.
-> >
-> > We do NOT want to extend or expand or hack in anything like this on top of
-> > the existing anon_vma machinery. It's a mess that requires replacement, not
-> > more hacks or expansion.
-> >
-> > I've been working on a replacement for the anonymous rmap, recently
-> > presenting at LSF/MM, and all of that has been very public.
-> >
-> > In fact I have engaged in recent work which reduced lock contention in
-> > anon_vma, it's really quite discourteous for you not to have contacted me or
-> > the community in addition to the above.
-> >
-> First of all, thank you very much for your reply.
->
-> I'm also glad to learn that you have been working on optimizations
-> related to anon_vma. I noticed your work from another email in the
-> thread.
->
-> I apologize if my approach caused any inconvenience. My English is not
-> very good, and I have rarely participated in community discussions
-> before, so I'm still learning how things are usually done in the
-> kernel community. If anything I did came across as discourteous, please
-> understand that it was not my intention.
->
-> Recently, due to increasing memory costs, I revisited the memory usage
-> of anon_vma and found that it might be possible to reduce its
-> overhead.
->
-> My original intention was simply to experiment with an anon_vma_lazy
-> mechanism to reduce the memory footprint of anon_vma. However, while
-> working on it I realized that anon_vma handling is quite complex. In
-> particular, after multiple levels of fork the topology of anonymous
-> pages can become quite complicated, and it also interacts with other
-> subsystems such as reclaim, KSM, and migration.
->
-> Because of this, I tried separating the functionality of anon_vma
-> into two parts: anon_rmap_t for anonymous page reverse mapping, and
-> anon_vma_tree_t for topology management.
->
-> anon_rmap_t provides the reverse mapping interface used by reclaim,
-> KSM, migration, and similar components.
->
-> anon_vma_tree_t manages the topology internally for operations such
-> as fork, clone, split, and merge, and can also indicate whether a
-> VMA has experienced page faults.
->
-> My hope is that by separating these responsibilities, it may become
-> easier to reason about and further improve the anon_vma design in the
-> future.
-
-I understand your approach, as discussed it's not viable.
-
-As mentioned elsewhere, please refrain from further code contributions to
-rmap, as there is now a trust issue due to a high likelihood of undeclared
-AI-generated code.
-
-You are, however, welcome to engage in discussion, and I'm happy to discuss
-the approach publicly on list or via private email whichever you prefer :)
-
-You are also welcome to engage in discussion/review/critique once I produce
-my RFC for this.
-
-Thanks, Lorenzo
+PiANCj4gT24gV2VkLCBNYXkgMjcsIDIwMjYgYXQgMDc6MDE6MzNQTSArMDgwMCwgdGFvIHdyb3Rl
+Og0KPiA+IEFkZCBhIHNldCBvZiBhbm9uX3JtYXAgQVBJcyB0byBvcGVyYXRlIG9uIHRoZSByZXZl
+cnNlIG1hcHBpbmdzIG9mDQo+ID4gYW5vbnltb3VzIGZvbGlvcy4NCj4gPg0KPiA+IEludHJvZHVj
+ZSBhbm9uX3JtYXBfZm9yX2VhY2hfdm1hKCkgYXMgYSB3cmFwcGVyIGFyb3VuZA0KPiA+IHZtYV9p
+bnRlcnZhbF90cmVlX2ZvcmVhY2goKSwgc28gY2FsbGVycyBubyBsb25nZXIgYWNjZXNzIHRoZSBp
+bnRlcnZhbA0KPiA+IHRyZWUgZGlyZWN0bHkuDQo+ID4NCj4gPiBUaGlzIHByZXBhcmVzIHRoZSBy
+bWFwIGNvZGUgZm9yIHVwY29taW5nIEFOT05fVk1BX0xBWlkgc3VwcG9ydCBhbmQNCj4gPiBSQ1Ut
+YmFzZWQgbG9ja2xlc3Mgcm1hcCB0cmF2ZXJzYWwuDQo+ID4NCj4gPiBObyBmdW5jdGlvbmFsIGNo
+YW5nZSBpbnRlbmRlZC4NCj4gDQo+IFRoaXMgY29tbWl0IG1lc3NhZ2UgaXMgdG90YWwgZ2FyYmFn
+ZS4gWW91J3JlIG5vdCBleHBsYWluaW5nIFdIWSB5b3UncmUgdXNpbmcNCj4gd29yZHMgdG8gZGVz
+Y3JpYmUgd2hhdCB0aGUgY29kZSBkb2VzLiBJIGNhbiByZWFkIHRoZSBjb2RlPw0KPiANCj4gPg0K
+PiA+IFNpZ25lZC1vZmYtYnk6IHRhbyA8dGFvLndhbmd0YW9AaG9ub3IuY29tPg0KPiANCj4gVGhp
+cyBpcyBhbGwgaG9ycmlibGUsIGhvcnJpYmx5IGludmFzaXZlLCBhbmQgYWRkaW5nIGEgcGlsZSBv
+ZiBjcmFwIG9uIG1hY2hpbmVyeQ0KPiB3ZSB3YW50IHRvIGdldCByaWQgb2YuDQo+IA0KPiBZb3Un
+dmUgYWRkZWQgemVybyBleHBsYW5hdGlvbiBvciBjb21tZW50cy4gVGhpcyBpcyBqdXN0IG5vdCB1
+cHN0cmVhbWFibGUsDQo+IGFuZCBldmVuIGlmIHlvdSBkaWQgZXhwbGFpbiB5b3Vyc2VsZiB3ZSBk
+b24ndCB3YW50IHRvIGV4dGVuZCBhIGJyb2tlbg0KPiBhYnN0cmFjdGlvbiB3aXRoIG1vcmUgYnJv
+a2VuIGNvbXBsZXhpdHk/DQo+IA0KPiBZb3UncmUgYWxzbyBzZWVtaW5nbHkgaW50cm9kdWNpbmcg
+YSB0eXBlc2FmZSB3cmFwcGVyIHRvIHdyYXAgYW4gYXJiaXRyYXJ5DQo+IHZhbHVlPw0KPiANCg0K
+SSB0aG91Z2h0IHRoZXNlIHdlcmUganVzdCBzaW1wbGUgd3JhcHBlcnMsIHNvIHRoZXkgc2VlbWVk
+DQpzdHJhaWdodGZvcndhcmQsIHNvIEkgYWRkZWQgdGhlbSBpbiB0aGUgbmV3IHBhdGNoLg0KDQo+
+ID4gLS0tDQo+ID4gIGluY2x1ZGUvbGludXgvcm1hcC5oIHwgNjgNCj4gKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiAgbW0vcm1hcC5jICAgICAgICAgICAgfCA3
+Mw0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICAy
+IGZpbGVzIGNoYW5nZWQsIDE0MSBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9saW51eC9ybWFwLmggYi9pbmNsdWRlL2xpbnV4L3JtYXAuaCBpbmRleA0KPiA+IDhk
+YzA4NzFlNWYwMC4uYzQyMzE0ZWE0MzYyIDEwMDY0NA0KPiA+IC0tLSBhL2luY2x1ZGUvbGludXgv
+cm1hcC5oDQo+ID4gKysrIGIvaW5jbHVkZS9saW51eC9ybWFwLmgNCj4gPiBAQCAtOTM3LDYgKzkz
+Nyw0NCBAQCBpbnQgcGZuX21rY2xlYW5fcmFuZ2UodW5zaWduZWQgbG9uZyBwZm4sDQo+IHVuc2ln
+bmVkDQo+ID4gbG9uZyBucl9wYWdlcywgcGdvZmZfdCBwZ29mZiwgIHZvaWQgcmVtb3ZlX21pZ3Jh
+dGlvbl9wdGVzKHN0cnVjdCBmb2xpbw0KPiAqc3JjLCBzdHJ1Y3QgZm9saW8gKmRzdCwNCj4gPiAg
+CQllbnVtIHR0dV9mbGFncyBmbGFncyk7DQo+ID4NCj4gPiArLyogUmV2ZXJzZSBtYXBwaW5nIGhh
+bmRsZSBmb3IgYW5vbnltb3VzIGZvbGlvIHJtYXAgaGVscGVycy4gKi8NCj4gPiArdHlwZWRlZiBz
+dHJ1Y3QgYW5vbl9ybWFwIHsNCj4gPiArCXVuc2lnbmVkIGxvbmcgcm1hcDsNCj4gPiArfSBhbm9u
+X3JtYXBfdDsNCj4gDQo+IEkgZG8gbm90IGtub3cgd2h5IHlvdSdyZSB1c2luZyBhIHR5cGVkZWYg
+d2hlbiB5b3UganVzdCB0cmVhdCBpdCBhcyBhbg0KPiBhcmJpdHJhcnkgdmFsdWU/DQo+IA0KYW5v
+bl9ybWFwX3QgcHJvdmlkZXMgZnVuY3Rpb25hbGl0eSBleHRlcm5hbGx5LCBzbyB1c2luZyBhIHN0
+cnVjdA0KaXMgcmVsYXRpdmVseSBtb3JlIHJvYnVzdCBhbmQgaGVscHMgcHJldmVudCBtaXN1c2Uu
+DQoNCj4gPiArDQo+ID4gKyNkZWZpbmUgQU5PTl9STUFQX05VTEwgbWFrZV9hbm9uX3JtYXAoMCkN
+Cj4gDQo+IFRoaXMgaXMganVzdCBlcXVpdmFsZW50IHRvIGEgTlVMTCB2YWx1ZT8uLi4NCj4gDQo+
+ID4gKw0KPiA+ICtzdGF0aWMgaW5saW5lIGFub25fcm1hcF90IG1ha2VfYW5vbl9ybWFwKGNvbnN0
+IHZvaWQgKmFub25fbWFwcGluZykNCj4gew0KPiA+ICsJcmV0dXJuIChhbm9uX3JtYXBfdCl7IC5y
+bWFwID0gKHVuc2lnbmVkIGxvbmcpYW5vbl9tYXBwaW5nLCB9OyB9DQo+IA0KPiBZb3UncmUgaW50
+ZW50aW9uYWxseSBkZWZlYXRpbmcgdHlwZSBzYWZldHkgdG8gc3RvcmUgYXJiaXRyYXJ5IHZhbHVl
+cz8uLi4NCj4gDQo+ID4gKw0KPiA+ICtzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGxvbmcgYW5vbl9y
+bWFwX3ZhbHVlKGFub25fcm1hcF90IGFub25fcm1hcCkgew0KPiA+ICsJcmV0dXJuIGFub25fcm1h
+cC5ybWFwOw0KPiA+ICt9DQo+IA0KPiAnVW50eXBlIHNhZmUgbXkgYXJiaXRyYXJpbHkgdHlwZSBz
+YWZlIHdyYXBwZWQgdHlwZScuLi4/DQo+IA0KPiA+ICsNCj4gPiArc3RhdGljIGlubGluZSBhbm9u
+X3JtYXBfdCBhbm9uX3ZtYV90b19hbm9uX3JtYXAoY29uc3Qgc3RydWN0DQo+IGFub25fdm1hDQo+
+ID4gKyphbm9uX3ZtYSkgew0KPiA+ICsJcmV0dXJuIG1ha2VfYW5vbl9ybWFwKGFub25fdm1hKTsN
+Cj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGlubGluZSBzdHJ1Y3QgYW5vbl92bWEgKmFub25f
+cm1hcF90b19hbm9uX3ZtYShhbm9uX3JtYXBfdA0KPiA+ICthbm9uX3JtYXApIHsNCj4gPiArCXVu
+c2lnbmVkIGxvbmcgcm1hcCA9IGFub25fcm1hcF92YWx1ZShhbm9uX3JtYXApOw0KPiA+ICsNCj4g
+PiArCXJldHVybiAoc3RydWN0IGFub25fdm1hICopcm1hcDsNCj4gPiArfQ0KPiANCj4gQSB0b24g
+b2Ygbm9pc2UgZm9yIHNlZW1pbmdseSBubyB2YWx1ZT8NCj4gDQoNCj4gPiArDQo+ID4gK2Fub25f
+cm1hcF90IHZtYV9nZXRfYW5vbl9ybWFwKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKTsgdm9p
+ZA0KPiA+ICtwdXRfYW5vbl9ybWFwKGFub25fcm1hcF90IGFub25fcm1hcCk7IHZvaWQNCj4gPiAr
+YW5vbl9ybWFwX2xvY2tfd3JpdGUoYW5vbl9ybWFwX3QgYW5vbl9ybWFwKTsgaW50DQo+ID4gK2Fu
+b25fcm1hcF90cnlsb2NrX3dyaXRlKGFub25fcm1hcF90IGFub25fcm1hcCk7IHZvaWQNCj4gPiAr
+YW5vbl9ybWFwX3VubG9ja193cml0ZShhbm9uX3JtYXBfdCBhbm9uX3JtYXApOyB2b2lkDQo+ID4g
+K2Fub25fcm1hcF9sb2NrX3JlYWQoYW5vbl9ybWFwX3QgYW5vbl9ybWFwKTsgaW50DQo+ID4gK2Fu
+b25fcm1hcF90cnlsb2NrX3JlYWQoYW5vbl9ybWFwX3QgYW5vbl9ybWFwKTsgdm9pZA0KPiA+ICth
+bm9uX3JtYXBfdW5sb2NrX3JlYWQoYW5vbl9ybWFwX3QgYW5vbl9ybWFwKTsNCj4gDQo+IFllcyBs
+ZXQncyBhZGQgYSBidW5jaCBvZiBleHRyYSBicm9rZW4gYWJzdHJhY3Rpb25zIG9uIHRoZSBicm9r
+ZW4gYWJzdHJhY3Rpb24uDQo+IA0KPiBBbmQgbGV0J3Mgbm90IGNvbW1lbnQgYW55dGhpbmchDQo+
+IA0KPiA+ICsNCj4gPiAgLyoNCj4gPiAgICogcm1hcF93YWxrX2NvbnRyb2w6IFRvIGNvbnRyb2wg
+cm1hcCB0cmF2ZXJzaW5nIGZvciBzcGVjaWZpYyBuZWVkcw0KPiA+ICAgKg0KPiA+IEBAIC05Njks
+NiArMTAwNywzNiBAQCB2b2lkIHJtYXBfd2Fsa19sb2NrZWQoc3RydWN0IGZvbGlvICpmb2xpbywN
+Cj4gPiBzdHJ1Y3Qgcm1hcF93YWxrX2NvbnRyb2wgKnJ3Yyk7ICBzdHJ1Y3QgYW5vbl92bWENCj4g
+KmZvbGlvX2xvY2tfYW5vbl92bWFfcmVhZChjb25zdCBzdHJ1Y3QgZm9saW8gKmZvbGlvLA0KPiA+
+ICAJCQkJCSAgc3RydWN0IHJtYXBfd2Fsa19jb250cm9sICpyd2MpOw0KPiA+DQo+ID4gK2Jvb2wg
+Zm9saW9fbWF5YmVfc2FtZV9hbm9uX3ZtYShjb25zdCBzdHJ1Y3QgZm9saW8gKmZvbGlvLA0KPiA+
+ICsJY29uc3Qgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpOw0KPiANCj4gV2hhdCB0aGUgaGVs
+bCBpcyB0aGlzPw0KPiANCj4gDQo+ID4gK2Fub25fcm1hcF90IGZvbGlvX2dldF9hbm9uX3JtYXAo
+Y29uc3Qgc3RydWN0IGZvbGlvICpmb2xpbyk7DQo+ID4gK2Fub25fcm1hcF90IGZvbGlvX2xvY2tf
+YW5vbl9ybWFwX3JlYWQoY29uc3Qgc3RydWN0IGZvbGlvICpmb2xpbywNCj4gPiArCXN0cnVjdCBy
+bWFwX3dhbGtfY29udHJvbCAqcndjKTsNCj4gPiArDQo+ID4gK3N0YXRpYyBpbmxpbmUgc3RydWN0
+IHZtX2FyZWFfc3RydWN0ICphbm9uX3JtYXBfaXRlcl9maXJzdF92bWEoDQo+ID4gKwlhbm9uX3Jt
+YXBfdCBhbm9uX3JtYXAsIHVuc2lnbmVkIGxvbmcgc3RhcnQsIHVuc2lnbmVkIGxvbmcgbGFzdCwN
+Cj4gPiArCXN0cnVjdCBhbm9uX3ZtYV9jaGFpbiAqKmF2YykNCj4gPiArew0KPiA+ICsJc3RydWN0
+IGFub25fdm1hICphbm9uX3ZtYSA9DQo+IGFub25fcm1hcF90b19hbm9uX3ZtYShhbm9uX3JtYXAp
+Ow0KPiA+ICsNCj4gPiArCSphdmMgPSBhbm9uX3ZtYV9pbnRlcnZhbF90cmVlX2l0ZXJfZmlyc3Qo
+JmFub25fdm1hLT5yYl9yb290LA0KPiBzdGFydCwgbGFzdCk7DQo+ID4gKwlyZXR1cm4gKmF2YyA/
+ICgqYXZjKS0+dm1hIDogTlVMTDsNCj4gPiArfQ0KPiANCj4gU28gd2UncmUgYWxsb3dpbmcgZm9y
+IGZvbGlvcyB0byBoYXZlIE5VTEwgZW50cmllcyAocmVhbGx5IHRoZSBjb21taXQgbWVzc2FnZQ0K
+PiBzaG91bGQgaGF2ZSB0aGF0LCByYXRoZXIgdGhhbiBtZSBzY2FubmluZyB0aHJvdWdoIHVuY29t
+bWVudGVkIGNvZGUpLCBidXQNCj4gaW4gd2hhdCB3b3JsZCBhcmUgd2Ugb2sgd2l0aCBhbiBhbm9u
+IGZvbGlvIE5PVCBCRUlORyBMSU5LRUQgQkFDSyBUTyBJVFMNCj4gVk1BPw0KPiANCj4gVGhhdCdz
+IGJyb2tlbiBubz8NCj4gDQpJ4oCZbSBub3Qgc3VyZSBJIHVuZGVyc3RhbmQgeW91ciBxdWVzdGlv
+bi4gQXJlIHlvdSBhc2tpbmcgd2hldGhlciB3ZSBzaG91bGQgY2hlY2sgdGhhdCAqYXZjIGlzIG5v
+buKAkU5VTEw/DQoNCkhlcmUsIGFub25fcm1hcF9mb3JlYWNoX3ZtYSgpIGlzIHVzZWQgdG8gcmVw
+bGFjZSBhbm9uX3ZtYV9pbnRlcnZhbF90cmVlX2ZvcmVhY2guDQpBZnRlciBvYnRhaW5pbmcgYXZj
+LCB3ZSB0aGVuIGNoZWNrIHRoYXQgaXQgaXMgbm9u4oCRTlVMTC4NCg0KI2RlZmluZSBhbm9uX3Zt
+YV9pbnRlcnZhbF90cmVlX2ZvcmVhY2goYXZjLCByb290LCBzdGFydCwgbGFzdCkJCSBcDQoJZm9y
+IChhdmMgPSBhbm9uX3ZtYV9pbnRlcnZhbF90cmVlX2l0ZXJfZmlyc3Qocm9vdCwgc3RhcnQsIGxh
+c3QpOyBcDQoJICAgICBhdmM7IGF2YyA9IGFub25fdm1hX2ludGVydmFsX3RyZWVfaXRlcl9uZXh0
+KGF2Yywgc3RhcnQsIGxhc3QpKQ0KDQoNCj4gPiArDQo+ID4gK2Jvb2wgZm9saW9fbWF5YmVfc2Ft
+ZV9hbm9uX3ZtYShjb25zdCBzdHJ1Y3QgZm9saW8gKmZvbGlvLA0KPiA+ICsJY29uc3Qgc3RydWN0
+IHZtX2FyZWFfc3RydWN0ICp2bWEpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCBhbm9uX3ZtYSAqYW5v
+bl92bWE7DQo+ID4gKwlzdHJ1Y3QgYW5vbl92bWEgKnRndF9hbm9uX3ZtYSA9IHZtYS0+YW5vbl92
+bWE7DQo+ID4gKwlib29sIHNhbWUgPSBmYWxzZTsNCj4gPiArDQo+ID4gKwlyY3VfcmVhZF9sb2Nr
+KCk7DQo+ID4gKwlhbm9uX3ZtYSA9IGZvbGlvX2Fub25fdm1hKGZvbGlvKTsNCj4gPiArCWlmIChh
+bm9uX3ZtYSAmJiB0Z3RfYW5vbl92bWEpDQo+ID4gKwkJc2FtZSA9IGFub25fdm1hLT5yb290ID09
+IHRndF9hbm9uX3ZtYS0+cm9vdDsNCj4gPiArCXJjdV9yZWFkX3VubG9jaygpOw0KPiA+ICsJcmV0
+dXJuIHNhbWU7DQo+IA0KPiBXaGF0IFZNQSBsb2NrcyBhcmUgYmVpbmcgaGVsZCBhdCB0aGlzIHBv
+aW50PyBZb3UgYXNzZXJ0IG5vbmUuDQo+IA0KPiBXaHkgaXMgaXQgbWF5YmU/DQo+IA0KPiBXaHkg
+YXJlIHlvdSB0YWtpbmcgdGhlIFJDVSBsb2NrPw0KPiANCg0KVXNpbmcgb25seSBhbm9uX3ZtYS0+
+cm9vdCBpcyBqdXN0IGEgc2ltcGxlIHByZWxpbWluYXJ5IGNoZWNrOyBpdCBpcw0KbmVjZXNzYXJ5
+IHRvIG9idGFpbiB0aGUgUFRFIHRvIGRldGVybWluZSB3aGV0aGVyIHRoZSBwYWdlIGlzIGFjdHVh
+bGx5DQp1c2VkIGJ5IHRoaXMgYW5vbl92bWENCg0KVGhlIGFub25fdm1hIG9idGFpbmVkIGZyb20g
+Zm9saW9fYW5vbl92bWEoZm9saW8pIG11c3QgYmUgYWNjZXNzZWQNCnVuZGVyIFJDVTsgb3RoZXJ3
+aXNlIGl0IG1heSBhbHJlYWR5IGhhdmUgYmVlbiBmcmVlZC4NCg0K
