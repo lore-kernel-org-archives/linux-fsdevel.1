@@ -1,238 +1,149 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020140.outbound.protection.outlook.com [52.101.195.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B45191;
-	Thu, 28 May 2026 01:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779931162; cv=fail; b=Fq2UqqsREoSA6hVF4oCcJrJ3T9bCESZdrhhaZB3VbyNVNhQT7ShtV2r0Ox0rUwLsMqfeDfiZnygPJElS5yhz1bWspqB8W8YNr2YgSv1RlorqOTDl0eZCoiaDOnJn05cNOpu9IjT/SPqTDUJ5ztCqvmy6FDV2rXB719BpmTigl2w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779931162; c=relaxed/simple;
-	bh=ekcAlTHlrP+u+ylOfb4hCE57kyvpdf6hz/Wt9AThXeA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=KP4IVeOkcpIFKsJrAw8W+a4s1dK0z4Z+PSW/HAHCeeqVW7qhVdigYXHZne27mE6kvzcMtbFsNXKv1mf/Hmp1TIBtl+Gp29OnxBUKWamMj0im6wL1PpE7C9KZU6V+PQA9woCoRhulCnvVePiwJhG70K3mnKG641H11BvIL3uuqB4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.195.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GBrnoDarmLOlK02kBEa7OCw0jW2mPNSVAGSZ9Nu6ePfaOQ9H+aA7k0XxWuBpyQ/Ir2Davxpj+EF2C/8YdXPauJ2asbbB40H8BDH8/z0GgZb5634rLCGM39LPaTJriahurA+L2avX3a1otMFlyOT5MHJ7ffD/E0qgyf0Mcoc/0C89HtNngUuZDT41CIe/VZu1Jmll7k87xsyirlXtaDPSs02nFtICv/Mqms+tq+nQGWSAl4/Z79HkjN+29Jsaolgb4mrT18NeeQExhisru+hZeLDV9HhP4m9FAdduXTsVSueVIH6LrBNYbNLL1czzU4y1pRBv4YXvObpsGlP03srJJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=ekcAlTHlrP+u+ylOfb4hCE57kyvpdf6hz/Wt9AThXeA=;
- b=dwhy7f2n/24wySFMU5EdjDGV3oNpfAgwNciqUv9V6UCgs5vV8tjDN1f+KGCE0HXIFqpyJpmAjXYDx7KmymcNae4RaR4Jkb1JcIvBTM9XFDQt284DVfo2LZgZxnZk3XLbJveFVuNdo2sAl7X3FfgTYFdpBRPHjPzu8picYkarMdxX41PaNJpgpbWO/3l/3fZcz+nRVzrwOPu0mPictdimip/qadGYCWn13474zuz/ny72B4uwotCrHhulVMuL5CzRf4JDCrp2k7KHQreSyeJJ6LgMS6ArlD8J32PiX8/TOFcp9wmhuTLfEBZxl1CNZQsImN8d4gEIx4d5bLh6wxC4JQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by CWLP123MB6178.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:1a4::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.14; Thu, 28 May
- 2026 01:19:11 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 01:19:10 +0000
-Date: Wed, 27 May 2026 21:19:06 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: tsbogend@alpha.franken.de, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, mingo@redhat.com, juri.lelli@redhat.com, 
-	vincent.guittot@linaro.org, stephen.smalley.work@gmail.com, casey@schaufler-ca.com, 
-	longman@redhat.com, tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, 
-	chenridong@huaweicloud.com, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com, 
-	omosnace@redhat.com, kees@kernel.org, neelx@suse.com, sean@ashe.io, 
-	chjohnst@gmail.com, steve@abita.co, mproche@gmail.com, nick.lange@gmail.com, 
-	cgroups@vger.kernel.org, linux-mips@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] security: Expand task_setscheduler LSM hook to
- include CPU affinity mask
-Message-ID: <6hqq5oxvlcpmjvyns42dy2vtfvvixy7q4xyyjrrn46jrvsx5ar@gkmjsteqlpzd>
-References: <20260526142838.774711-1-atomlin@atomlin.com>
- <20260527085221.GQ3126523@noisy.programming.kicks-ass.net>
- <bgjagepcfb7gz6jawatu6kpfmecw46gwg5cvb6r7dl3dn7bt4l@rtymdaslx7ef>
- <20260527155404.GV3126523@noisy.programming.kicks-ass.net>
- <ov33cu2wosubbfufcmfyoinfatecskjgmkvqyit33komlcla2d@2qgj45724bql>
- <20260527195858.GC3493090@noisy.programming.kicks-ass.net>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kszlm3lx6cl6sn4w"
-Content-Disposition: inline
-In-Reply-To: <20260527195858.GC3493090@noisy.programming.kicks-ass.net>
-X-ClientProxiedBy: BN0PR03CA0034.namprd03.prod.outlook.com
- (2603:10b6:408:e7::9) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3C127F017
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 02:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779934557; cv=none; b=K3iCZyWNx7q+AwjKcWGKOhwHWv13e8dWDMcH2tuRcMBYv9TKyQE/YsBLfva5DNy5KoAFxJhGBfU6n7wk8Nsfzow2DX9NWnKr617on8fIEuPc0V9Va4g2jkyQckGMzbdTLXtk3qU72vbtej9ntw9ehpxa4gnS3S2f81VIDHJWPMc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779934557; c=relaxed/simple;
+	bh=cTDRdOQPPIBJHJS8UtAzmhpnUyPrrU4bxmh03cAS/Qk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nb+3Nhag2l7LMkzDH8xzOUZYfU5J1Vjrfo3Ogr4Wz4v/ORitN9SPuUEAshf5fxfkhxHp5Vn9xJSwdjdbmoxME7EU+oxEM0bL8lJBoedPtnQMd9FucfthgoH6Nw0Kohe8wRs1Dnzw8kAb+FP+ojOySR/DPUwKmZWATUX4B0COFIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ESiqEVwh; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ESiqEVwh"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-36b95eb4bb4so16666a91.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 19:15:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779934556; x=1780539356; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9qKTx4wwwn/KnQj5P1c8u+QpqNSgMGAUsRjMkSqVvk4=;
+        b=ESiqEVwhcJKbNTU8d0lhrsqjOwTZFxsNF+0tg4WgClraPnwAXw+QorWPLlNs5YnsBJ
+         uGXc/nauYt7EThMjKtXCAsD6+kbUGjYWzW30LT+agq14PNpJadQGC9n/pgoFYNoYQUTG
+         lqJEeLrSa48FXg0gQ5zzkohVsVrdvebKXlpIHsazjBCIowXpWT7eQtF+uGJTVAWxTOzl
+         QTxQ7+tUdXJAjC/loHeCvc3EDh+3723wMVA7FhUcys1HfBNGRG4mW6o1k0B7f4nrHG96
+         dfJMazN2uGx8mXltYyR8seOezkzrNjx45yh51IRmhDR4iyaU1LGB5E9LRxqV7V8JH0Fs
+         TeIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779934556; x=1780539356;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9qKTx4wwwn/KnQj5P1c8u+QpqNSgMGAUsRjMkSqVvk4=;
+        b=f2SompI5Q8zFblKSEZFkJ3WvW5OinuoepIS3uIGodnUhY2orzqzgDrpWSY3rTonYym
+         qMHWLrl/xrGTRhha1sAdMEnjajvbFvAYtbeKe1n3D6owyaQmmvpiiTJEKFFksGc8JHHs
+         xpRNc1tsTcp+cNzdMN71Q+3Qn8tAh6UoC43WmbmhHc1vizwCnH6A0J2dQjmRKyW/lweY
+         i68jxX0dFjRyrw+mZoTaxfbUh6Ie2kOchf6BwrJfuO7oidex0bpIuyRQytIYp1ZS7bsL
+         QYHVCbAZ4l6N5xhBOXgmNLb+jSojuWAIzdb7nDn32Uq3TL/PHoVPOALqS55XeqRp8o1e
+         EF5g==
+X-Forwarded-Encrypted: i=1; AFNElJ8qU3wC2saieNY9AsMT3OFgOw6j1LOvOT6OEJ+PxjG+2imDcEl4jTSOAoiE7z/XRVd+XQoHhhm1Tu8wlLxO@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJSa8M4TH6+FxEqZ5b2GuFDaXLbDA6YfOQJYFJXQ/qHthNZvX0
+	w96BCwX3xMgWE1w6TIk16gdOiXgJCXwwKFqjSbu54IK3tQnC5DDA93TvBJhsCg==
+X-Gm-Gg: Acq92OF4DEJ1Nb8VYuV2qwGSy1lVCFe3eKQLm+ajZ8+BuS6IphoeBX8KBVcBF1MzbyT
+	KORblqhR/fgNJL/Z35tnMZJ3UwmoQVINMiyIkxtTYRgcFBbJ+qhoYmpNidJM6KJX4feMxpTh48r
+	5LtYsnUOQ0G2oWSsq5P1J/WfGKBfh6ZaIkSOhM+Ff7ZZpwOuJTOXrPziGVTcVWtaDRmWYgI9ZuK
+	37eRL0vpVJDSu/9Qo+doJUHDL03rca4+7EWcMBce5gtsvufjTyvXllwTL1lSaa5xOhuZCLfceCH
+	Z1PUlNKrPkkLeQ0TS2Zn8FI726RXezVmTUYdLETanFRXf91WrOgxwU4IgtpSJQwgM8lQpqRoLe7
+	Ya6o5NfDqvFV+zWKLGsWL2wnrlAv1WgrbXtTo177OznNd55dgz17gGcPS/+Q78vJtxyuJSiZAo3
+	cFHzBMq8ag3YRvTC3pUl0UtieFGFl8bHrNO87B9mrlF7i+T+Pb8B4=
+X-Received: by 2002:a17:90b:3887:b0:369:223a:cb60 with SMTP id 98e67ed59e1d1-36a674558fcmr23292850a91.8.1779934555746;
+        Wed, 27 May 2026 19:15:55 -0700 (PDT)
+Received: from hyunchul-PC02.lge.net ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36b9090b6b7sm223234a91.7.2026.05.27.19.15.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 19:15:55 -0700 (PDT)
+From: Hyunchul Lee <hyc.lee@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ntfs: not change 0-byte $DATA attribute to non-resident
+Date: Thu, 28 May 2026 11:15:35 +0900
+Message-ID: <20260528-f-0-byte-data-v1-1-9f36f5ce39b1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|CWLP123MB6178:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc399a0c-eba2-4750-2970-08debc571f0f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|6133799003|22082099003|18002099003|56012099006|4143699003|5023799004|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	uRVEXOkZ30QIHQNWJEGhMF339rRI4DnylgNMmG2Cob1xGS7jOohRARLWXf9Xnk95nzDDeU156XOb4O//sLZ9bZRO5FmhJ4YbZfnhiUtnyGtcPdVkTzrXf1Enm8dsIpZNsUpaPox7TTHSf8UBDpknPEx6nd515OOrB5Q/e/c4oSsU2ayxIEEfXlawzI7xxAYIyySg47gje/aLneQZcSP3+7tAzBpdKGu1AUQpHjQVoTnvF4XxCq4JBfqumfhp8t+qk98Mi3H++xFkhn031HFqxQDTrFjLV0EUXCEbTaA25U8SeLP1cNLTd5YwabbhXT6OXTuzWwXYnIG7D90+rMD2flGPX94dMf39Vi6F3GOV8Tnpb5BYOZAX0ntJSElsSxHpahZWyl8OQdTl1LArLIipVz9+/5mRhCxxrRfAXvU2hEOj+9tgGM89Y6tLg8peT2xJ00vrthXXtOBYFsiQAJcSsC+PJfT7f84hKV1x3dTv/Q1VS//ZWY2+6r3FU36QKb6wnFSmRDuMada0soeKgyRGPK/dXZuP7lUID+0tjWUEGmJpXfbd2I7wexaW1ZUm6N2FevPIZWZz4VxvGq8iKZ8Jda/UHHt69LeWfppiHnrW7gtGvqn4eJQsijjDPbXxZog88C0D4/3yROiKuiiX1A9toxlRTZDSB5TIqYB/RBT+k1TLenoEI6+BLlBnWEUapg/K
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(6133799003)(22082099003)(18002099003)(56012099006)(4143699003)(5023799004)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Sld0d2h6YWF1eFNBWmttL1pOSzJWVFhLOFNwMkFWOGsweHU2Y3BtclhkZHNG?=
- =?utf-8?B?ZEQ4VlNxYTZSUEFMUy8vTnJLTHRGbmVRb0o1aXFaYklFaXVYem1UbWlrYk0v?=
- =?utf-8?B?VnJNUXZXYWVwbm1UTmxzdDZKS2VJMUhBeGVRS2ZENWNMZ3dRY1V5cE5qcVZx?=
- =?utf-8?B?Zzh5TjRnRkpCMG9Qd2lKRVBEN3pmTjVhR1VnQXNIeXlPNExoeVBXWmZ6M1Z0?=
- =?utf-8?B?dURYZzFYVHNlVkUyTy9FNFMvL1hEUEoza29xc1ZYRXBtK1d2QVVocnhNVHZ3?=
- =?utf-8?B?akhCUlJoaVIzZW5kZ1lUd21FbU4rc0Jqb1d3d2NkMk8wSjhjK1ExMmJib24z?=
- =?utf-8?B?U1J3YnZSWFcxZUs1LzI4MEZ0TVl0ZCtrVXJrcHRTM25aTHhyVVJKMTlhakZn?=
- =?utf-8?B?TVovRmRIQjVDQjZmbVk3L3llSFFCZy9jTS85bDBkQThwaGpqZk03aFp6aWM5?=
- =?utf-8?B?RStZMm5pbUNCaW1vdXhhdERtVG8rOEhIc3lWdDFENmZyTkx1OElPb3AzWW9k?=
- =?utf-8?B?NUZCSHdRbXZmUnMybzJ0YkR0WENZVXY2WUZMY1E1QWtFTTZhSVl5amQ5YUdu?=
- =?utf-8?B?YTRLWlN5VUw4WURUL0tHbTVmNldhVmhybEFqblorb213dElzK3MzM0hzZkxX?=
- =?utf-8?B?YjBjWkxjRkZLN0c3QW00aTRJbS8xbW55UE5KWmJDQ1dQZERHbVdiU0ZMUzVD?=
- =?utf-8?B?WjhVSGdnOWRWd2hJaE1wUjBmVm9MU1U0QU4xTTNJVGVVQWltOEpaTnFXQnVo?=
- =?utf-8?B?OWo4elBHNXFHV2cyOUJiSzNPOWMrU1lkaGdLZytnWEtrWXoxTUdMK0M3L3V2?=
- =?utf-8?B?d29oRzlkRURRMUhJMllYdmY0VjZ5QmRWL2tGM2xkWFdJL1huWk5FQmNYRXRk?=
- =?utf-8?B?QjcvQ3lzelIyU2NjWUN5emhkNm9rRStZVHhlbE9vRjUvNHZHajhLQ2xVWmRK?=
- =?utf-8?B?WjQzZ1pJK1JYWmpHNkhEd0E2TE01TnRiNDlUcFpCMXFoVmZJWUQ3YXhuYmhF?=
- =?utf-8?B?dmIvMm5Sak9pWHU1bUVwSldUQ2J4L21YWi83c2hpaEtYMCtqa0RzcmM1UWRT?=
- =?utf-8?B?OFFTelJ6czQ1Z2p6dVVlb1lyaEtOS0R1emNOT2NtdkZlVjBMZUJiOWVDQVBS?=
- =?utf-8?B?aTJaczdVRFJRaEMvYkJNM1ZZSlg5ZkxiVlJ1TkhqV1JkdHlHdUZ6YmlXSVR2?=
- =?utf-8?B?Y2tOMm9LSWRUVWJWS1RrU0JYR3haY1lRbWNnOTNXVklDbzM4bndhcVNkTExP?=
- =?utf-8?B?dmhxcm5OeXhwaDIwWFA3d0lhcTlHSWh5dnZTc0RyN2VCd01Kd1ZvVEVMQ2xo?=
- =?utf-8?B?d3NYbHlkYVl5SmlmRmhTZEtqdkV6WWhWb3J6UTBQdEQvOXRoN21VcDVCOG81?=
- =?utf-8?B?OXN6bTF2OWhONmRud0czU2Q1dWN2bS9oSkZwdVFFcmt2UFF5czVIRThlTC9r?=
- =?utf-8?B?TFl3aEVDQTYzdjFBWHJ1MFlDSXZqWTJhWHRuN2JnZWdIN3NQZ1dJS3FCNW91?=
- =?utf-8?B?M2dzb3V5NWtpS0hQcmpJRDlCc3VmcDdyWFhlTHhsN0pFK0tld3cxbjQyQ3I3?=
- =?utf-8?B?NEJvUXoxR2QwSitXL1lzblFtaGVWTThhcURiallmY293SlV1VGNTR3JHeThv?=
- =?utf-8?B?N1FPS0MxOUl2OFFyK2lzYXF1OTJOclhiUFJKcUZxUUtPVC9NWHFXaGIrQkdv?=
- =?utf-8?B?YU1IWEowYW9kdCs0MWdXYTVwS0hnK2ZDNFNZR1hld2kyMkJwZXZYSEhxcmNQ?=
- =?utf-8?B?WXBzWldBd25hRFVzU2t3VlJoT0xXWk1sQU93aHBxY1Z6R3J1eWV2THhkbXc2?=
- =?utf-8?B?UFhSbVowbjh5dFhtUnIzRTE1WWEzNjZDT2xQRGZvb3ZQQU82eDJldVphNnNv?=
- =?utf-8?B?RFQ3UEtmZklSb25kT2xYbmtOL0RaekVNNkxIZno3T1RsdFNKSVRtczVVUkxY?=
- =?utf-8?B?WDlSYVpXVGo2aHBtV2VBLzVtMnVib3ZMa1NhdmltTWJBUWJYRnZJUlZwVWxT?=
- =?utf-8?B?SFpidGZVNGZFZUdZd1pYYWlMbHk3ekMxSWl5Q0tQN1ppN2JUWWJxbkhUaFBT?=
- =?utf-8?B?ZUt3bVl3emw1d0tpQzBLL0R1UEVFc0VMK292WmFraTFFZDhhcUw1aTAveFpo?=
- =?utf-8?B?Q3dPM0hIcVQvNmdIWUt4ZG9OeUR1TElPVkxQTlExSFdmM3lZazV1enRjOGF3?=
- =?utf-8?B?NGdrUG4xT29sTU9FVklhajJjM3l6Tit5Smk5eEpXSlFobm55SE1uVWJ4aU4r?=
- =?utf-8?B?b09uSGh5RkM2NkhnaHRPZ2F6TER0S2svaDJjMXdCdWQrK0ZwK0o4YWFHaWN3?=
- =?utf-8?B?bllHeGtuenFUVmJrM3BoeVRxc2phRzYwNi9ScVNVSWtxSjNRZ0Y1UT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc399a0c-eba2-4750-2970-08debc571f0f
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 01:19:10.6207
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7LWN3jPZarCCym+5B4TsL3SlnpirQbKqu+jXCIKiD3yr+JyLbrc1CfDe/hoyfN3rNoBuzEH1/mjfDVSFLej0bA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB6178
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1957; i=hyc.lee@gmail.com;
+ h=from:subject:message-id; bh=cTDRdOQPPIBJHJS8UtAzmhpnUyPrrU4bxmh03cAS/Qk=;
+ b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqF6UFr7Q2QW/zcUfkpuUJK/6R99k2b5X+QQRO0
+ Oh/cFQrXreJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCahelBQAKCRA08jD6945I
+ 00cxEACWQZm6mmEBizp8h3eOL6Md6bxlVMGPCAQd7EdEQHLz2MvHfE0Tcnb0bAvna0HoAyOMztD
+ UuZEwsLj32xcFIzquMdDuqPGBr4e5XunmP4o7H10vOsIPKspVShiVpYhf/AfhDbR6VppCXYlinB
+ fShlyTEEE9n2N8BiLVAiLNt0J3f+SsteWAFwr2z7ej4DO7GoRS+f0FaR/EYsPIkWQ+S1duej5mP
+ xzkyeCNawgyCputWr9G5TEJe+Su8K6b5QB10StRlbseT4VZmEcU+bfy1PstcT+mTPdG63xIKhyA
+ 8NvG2qRRdEP9zembDoO3goLrVlQa82CTBfbbgVoV25v3C9GDcKg0DhBLZkMB+H6c7WfbrXX5o47
+ l97XpyDF+zP0WUN7k1dIs6nKknBoPpC3YY+pduMaPrOZUSjBidTY7tESIUm9974YymkNKeU4gKU
+ uThv4X0Ygf9T4N2JGGf2DQD3FLygDMc0Wl3yxnw5oRCaX5OtXo2IO/rC5NSAS2h/HLsRQydGQ2r
+ RqI/6MfBOFS/Nx7eePi5DewoG4+IYhHB/kUpoUissEXPvIVQvdOEPrDRR+oLMQxdSgK5MecirA9
+ /vXmZeFXuyC46lpXcnXa4d/YnkcfA7KhJ/1p0CpZcYntcvlTRyeaHNHxbGXNLlGyXSs6Z3gUXa1 /CTT8TifUey1Gvg==
+X-Developer-Key: i=hyc.lee@gmail.com; a=openpgp; fpr=D58529CC5376E36D6E1E6F6234F230FAF78E48D3
+Content-Transfer-Encoding: 8bit
 
---kszlm3lx6cl6sn4w
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3] security: Expand task_setscheduler LSM hook to
- include CPU affinity mask
-MIME-Version: 1.0
+When ntfs_resident_attr_resize() cannot grow a resident attribute in
+place, it retries after converting other resident attributes to
+non-resident to free space in the MFT recrord.
 
-On Wed, May 27, 2026 at 09:58:58PM +0200, Peter Zijlstra wrote:
-> On Wed, May 27, 2026 at 01:41:52PM -0400, Aaron Tomlin wrote:
->=20
-> > > > The actual use case here is multi-tenant workload isolation and vis=
-ibility.
-> > > > Passing the evaluated cpumask to the BPF LSM allows operators to wr=
-ite a
-> > > > simple eBPF program to detect spatial boundary overlaps (e.g., logg=
-ing an
-> > > > event if a requested mask intersects with platform-reserved cores).
->=20
-> Why isn't cgroups good enough to enforce this? If you create a cgroup
-> hierarchy per tenant, and constrain them using the cpuset controller,
-> they should not be able to escape, rendering this event impossible.
+Do not select zero-length resident $DATA attributes for this conversion.
+fsck treats 0-byte non-resident $DATA attribute as corruptions.
 
-Hi Peter,
+Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
+---
+ fs/ntfs/attrib.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-You raise a very fair point. The cpuset cgroup controller is indeed the
-kernel's primary vehicle for spatial enforcement, and under normal
-circumstances, it successfully prevents a tenant from escaping their
-designated cores.
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index 9d676375f25c..2872b4ce1835 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -4537,10 +4537,12 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
+ 	while (!(err = ntfs_attr_lookup(AT_UNUSED, NULL, 0, 0, 0, NULL, 0, ctx))) {
+ 		struct inode *tvi;
+ 		struct attr_record *a;
++		u32 value_len;
+ 
+ 		a = ctx->attr;
+ 		if (a->non_resident || a->type == AT_ATTRIBUTE_LIST)
+ 			continue;
++		value_len = le32_to_cpu(a->data.resident.value_length);
+ 
+ 		if (ntfs_attr_can_be_non_resident(vol, a->type))
+ 			continue;
+@@ -4552,6 +4554,8 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
+ 		if (le32_to_cpu(a->length) <= (sizeof(struct attr_record) - sizeof(s64)) +
+ 				((a->name_length * sizeof(__le16) + 7) & ~7) + 8)
+ 			continue;
++		if (a->type == AT_DATA && !value_len)
++			continue;
+ 
+ 		if (a->type == AT_DATA)
+ 			tvi = ntfs_iget(sb, base_ni->mft_no);
+@@ -4564,8 +4568,7 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
+ 			continue;
+ 		}
+ 
+-		if (ntfs_attr_make_non_resident(NTFS_I(tvi),
+-		    le32_to_cpu(ctx->attr->data.resident.value_length))) {
++		if (ntfs_attr_make_non_resident(NTFS_I(tvi), value_len)) {
+ 			iput(tvi);
+ 			continue;
+ 		}
 
-The cpuset controller does govern resource limits, but does not audit
-intent. When __sched_setaffinity() is invoked, the kernel compares the
-requested in_mask against the task's allowed cpuset. If there is only a
-partial intersection, the kernel silently truncates the requested mask to
-fit the cpuset, without raising any alarm.
+---
+base-commit: 47a20013412ac44a71be899c206a2dc71c7a5dd9
+change-id: 20260528-f-0-byte-data-ff696b1bacf6
 
-The BPF LSM hook, conversely, receives the raw, untruncated in_mask,
-affording operators the visibility to detect, audit, and even reject these
-violations of intent before the kernel silently sanitises the input.
+Best regards,
+-- 
+Thanks,
+Hyunchul
 
-This patch does not seek to replace the cpuset controller, but rather to
-complement it by providing auditing capabilities.
-
-> > We are not creating a bespoke BPF hook here; rather, we are rectifying a
-> > historical blind spot within the API. The existing LSM hook is invoked
-> > during sched_setaffinity(), yet it presently receives only the task_str=
-uct
-> > pointer. Consequently, the security module is essentially asked, "Should
-> > Process A be permitted to alter Process B's affinity?" without being
-> > informed of the proposed affinity itself. Providing in_mask simply
-> > furnishes the existing hook with the requisite payload to make an infor=
-med
-> > decision.
->=20
-> It occurs to me that this same argument would require to also pass in
-> the new sched_attr, no? That way the LSM can inspect the new policy
-> before it becomes effective.
-
-I agree, the underlying logic does indeed extend perfectly to sched_attr.
-
-Presently, the LSM is equally oblivious as to whether a process is
-requesting a benign transition to SCHED_BATCH, or attempting to escalate
-its privileges by requesting a real-time policy such as SCHED_FIFO with
-maximum priority. Just as with the CPU mask, providing the sched_attr
-payload would rectify this parallel blind spot, allowing BPF policies to
-inspect and mediate scheduling attributes before they become effective.
-
-If you are amenable, I should be more than happy to expand the scope of the
-forthcoming patch to include this. Alternatively, we could address the
-sched_attr expansion in a separate, subsequent patch. Personally, I would
-favour the latter approach, but please do let me know your preference.
-
-I very much look forward to hearing Paul's thoughts on whether this aligns
-with the broader LSM vision.
-
-Thank you.
-
-
-Kind regards,
---=20
-Aaron Tomlin
-
---kszlm3lx6cl6sn4w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmoXmAoACgkQ4t6WWBnM
-d9ZTGA/+I+wiTJFbsU4kq9EMg4TeuzCfcjQ28UFOCrZqIdAGyQc/SMUZjEyD1bSs
-TD2LmeQdBROf9rJBJ5viAl8Gtbhbe1S4cuv2QHitAGE6cKA1RbWwwU2sKKedmi/Q
-gkT9BPQ+ABz47zzaQsHHqFnpygR2XtCDeTt4BsYWVOMcQXt908ONk6pD+XNpIwvx
-/hG84SrTXffIoJFXENGv4rJTFlks7TCYca+1PfBtA33IQugYHHV8ZV3kLKCQaAdL
-z0EtPNy7vRxx7MPed8Az5RSqHC22127TFam/9atjUZ40/AcDjwQ+dLCpdwxO4N5m
-HOwkd66G8zdXlP2kdMw8lE/1ngTtNl4DBnCYQTwGYT5NizppJJ3q25z7DTWAkf7R
-X/yNxQMflP2pDPoOuBO5zHCBG3vs7BregVqskz4BnS8RkJZ7zGAn9PZmj3StizC5
-drRi0+Gn1hrSiDGiwsL88rer2lrCA8mnbAP+N7zak0bG1d6BgTAMRnErzeWVXhH3
-Dos+Iv3kzwKKKMfLMF9b8F8bM0zYCM9YNzIK4TTDhMf2SncZVDpY8/VNVyt0AS5Z
-Fobwo8NLfkWmsGfi6xRgVfPRHFqi+FpyTrCvQqwQoQ7BSIGQYM0Ig1QphRTF8EB5
-G5gW8RXBLkT4LSzMWRHp4l2IU4A8gLz450bfZ2vcbunm4hmYGPo=
-=KjrL
------END PGP SIGNATURE-----
-
---kszlm3lx6cl6sn4w--
