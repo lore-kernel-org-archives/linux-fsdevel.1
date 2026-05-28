@@ -1,361 +1,254 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f194.google.com (mail-yw1-f194.google.com [209.85.128.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3571833D4FB;
-	Thu, 28 May 2026 20:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780000882; cv=none; b=oOEtqVpqX0Dc+W29heZjkBgCQZ9DrTQtGtBjZH1hKkN+yXDlua4eM04nuK/6yUVRse2OcVF8/rnDcvcHqZANuH1nQYL3ExkNGk6plMK46FaSd5n5p3hCtx2+5SeY3V0KcdOcvJDE1kcaezhGxeiZPqxcwbRqIVJbfW4y/SwC73c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780000882; c=relaxed/simple;
-	bh=k8bCpju/v1barOErOVcxKZywQQJgmy1/ww2vy7dd9oU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rE/fYkKlk7XUM3P9pJn5rvnbJrI8lscy1LcF/VcNIxUCjwjgQfvzcic2oPe2lT3G0wUFLzmEDgyTKVkwIRXhjQgOQ7FxmCq0rIItBQ/MPeD5RZcU+gSIzDZYvh0o6jopsm1QKoCRzO3IuVpotSaiVegfaqI9yQ9R9C5zWrWND30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=y6yogSIK; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA8833D4E2
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 20:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.194
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780001187; cv=pass; b=UIzfJab5pdNeJeBHUrGkROE1QzBlScD12AiQhwNYlK2F4d/1MfWrtDGcwwv+RvZ8L2RdA4iw9nxZ3m0DrLDbKd70P5nZM5d8ZpMhmrJpiIjIYAwGBgJw+0ayueXznoeXVtLLDjYTyQdqxl3/SQOXxnSXvL9/ydboEz6/p2fGOow=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780001187; c=relaxed/simple;
+	bh=EDJNvm0YrjeMnSgMUb+fvcef3p2ZkXve5QJOezV7E5A=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=EHSwRbdRiu3K33U28j4dxfxEVKkhEFhTU/Eyx49qWJguSrPrWhC37XSEnyNsibTw5sffj1jUnud9zJ6txQgOaMJStgb075w06+CSg5p+FWexnFmtVeObyr6HwdC/Fg4CdL2AiaiUD8Lkv3g7dOsG8XbmdJcErfR6ePZLVywGqvc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=uQCt9oHQ; arc=pass smtp.client-ip=209.85.128.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="y6yogSIK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9819A1F000E9;
-	Thu, 28 May 2026 20:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1780000881;
-	bh=AAQfOSBplHynxSIUlHmPbzjktbg3N9S+qPA2Pdv75pc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=y6yogSIKroNXOxwlVIkpNmeq3gx8UQuesjlF11e4SB7lAGrKBNPou0nn+WR4Zcfar
-	 gOQpMK0pYqLKZsLppkfT+bishNWFU0pBLanpTu33dNEvDu9Q5eOIyz/7Qzk6ROlZas
-	 UGfTeiw/XsMK6M7IlagMMdMKAfywDzcU57OJcZBE=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	netfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.12 201/272] netfs: Fix folio->private handling in netfs_perform_write()
-Date: Thu, 28 May 2026 21:49:35 +0200
-Message-ID: <20260528194634.878507147@linuxfoundation.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260528194629.379955525@linuxfoundation.org>
-References: <20260528194629.379955525@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="uQCt9oHQ"
+Received: by mail-yw1-f194.google.com with SMTP id 00721157ae682-7c307937816so125730327b3.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 13:46:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780001185; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Wyt2FmLRIhK/d7bYFM5DD6McqoOc3FUgdegHOsl7rlGomB9NqqYQqJ/a7v7nO5wv/K
+         FVnM7skfLLeh2anPiG7bV1Kgg6CD+tzIe9VXeTny08j1sK3u04xpfyKoXy24dhAlgwRj
+         w4A0ScJMP2reYcmEACjxHV6X6qjcCiuxcqvHPmzFuhXm0avOH63eXutZI6QQkdaVocF0
+         KoZMnJ6J9INWYuY8MjsAJPMA0wQK9mUiLZJffrd9GsW3ryMCx7dthGSdUM0LhCqDf7SU
+         xvDEdlribt286SNljjPC9tzfUT+cDpKPsf5Y024+KhDJeWgFOixN34dsrollvdAedvp7
+         Yvzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=HjgfqX7QNXnSnP3koXPVYHPRxEus+HDmNJT6HKYumdw=;
+        fh=AE02y6zOJc/d+TI8j3MIr8TfWz8Dz+J0+AC2URkahbY=;
+        b=Chdrxf2y6uo82QZUYqyiAqA3ro35GA91md8WkNRLIGxJNZksTse6+4reQvvisQjE5m
+         xVHp4IVadF/e6wo605CmTu0NNHbjU2o3ey3RhS0Zzj4vwwUGZQMlFVOexyXISNVThvoK
+         3RV/lSigWvKBLSPAJQ3ZDKqrXYhIxfNDltdlqU/fYwbB5ituvEq22PMGpKRsmV/ltvSa
+         CTC1P2pfDIbQpGI0OrOWRw+gQDHxZJwlx9wSeySOydGtvOX+gArhKZQ7IkoLjAKEpxoG
+         CdMnbuRMmM6hUt83wF70NVncIcj2F1vtmaaTum8yGa7vkD4hMQ+onwGzmCdVkiltOH00
+         BkbA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=berkeley.edu; s=google; t=1780001185; x=1780605985; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HjgfqX7QNXnSnP3koXPVYHPRxEus+HDmNJT6HKYumdw=;
+        b=uQCt9oHQV8DgKWXnMiAA6TJKZxzm1RefCNVZNFw0GfDi3Dt1cN8D9mFUKrklMbdrx2
+         aCcJ06bu3QxBSgCN8Ghn7dYyzyAfKvBcvmki5IxPaCqeDQ2s7TxEQvhemYnO3SfCyBm6
+         3IgLn2gWDlBEwQ1AkRHVBDAyxdj27SiY1B4/gzBilRnXEdJHoTtojTKAFSury1PRUCZS
+         LTYsDIhjv5T1wVNZz1xcFE9II0D0xt0bdbkv+zdHR8n9D4VkqW8KY9o13QxpP3kykve/
+         bC3klbAGxGRDDe1JCQaRizH19qpueIpYCh3DoIFi/5TX+7CQ1kaNue3S4fHYiqKLjPgk
+         6qsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780001185; x=1780605985;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HjgfqX7QNXnSnP3koXPVYHPRxEus+HDmNJT6HKYumdw=;
+        b=qLciYcVJSP9uJHp6tzD42XqDn7b+v5M1ki0hKIRMtXIFHapKZhuvfOcYdOzexc3HCC
+         RSFNIiubMsNRmQIa6NMdtluCf5NKpT0GMclxZi3Yldgcwcqmog9plQ/UQ4FVpqtKDFnl
+         xOh/pYqPnwGRijCLUnxHtrdoSeQxV3lrIPv/vxBHFEV2Cl0xoxxVg1uHVWzYm/54bHnj
+         wdOocxYNMqGcJReQqDWBboF/kfKaW6k+f8V7XNdUMVtUs6C3cyei3aoQpWg0mz9m8ZtT
+         bLYj6iEXHtq6vSYNYTMuiXBT4kG7pi6OblsyDH+l/CTLm218aAujjkZ1clf8Dwu2baxP
+         Ci8Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9REQ8plSDBrS8FB7+wEqofKx8UgaIzdDrYJuWE5gmIXo53HKEuR4hB1yER3oyssFss6vS3mbp1Hvnc4jHy@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywk2cpYGSfL0gjNFwzRlak6eUAgdIwJNaYjyM0Obufi9ZdsjTnt
+	swP5fPvVudCowX100vRoF7T1iV+mXE2LH6W/j3jsFnpSA4pZk1p595z70RJV4wFQ8rkac2SgE2M
+	j9uw0v63rIk7UYe9GU5u/qpUXitBVJhiFRsW0omlq
+X-Gm-Gg: Acq92OHuVP7+GpYtQnQjQ5Zdt02DXTAPT+1KmCsNG7YFyNjsbonOY4Y9HDj1LQvajpt
+	B+TUwyz7ONydpTSvqOYLvQO4TAEJTwZu+IMF1LtTE1CvDY2aCia1QQ6ZYgaxzG0GyF/I+pyfvqg
+	p6uitPHpoLHvYqmsTYu86CdIEID5b+c+w9zuKSDFespB/IJtqfYmk7XE6HzqbANLGR2MMhpWB0U
+	9C5+ssnZ+6Ymgy3fY83eG5fnTOUE421OW/VXPFFbabxNeunN8DQoVZE0EFMLUtKXF633FxJqLiI
+	MbyhBmB9C8NA/BWwlA==
+X-Received: by 2002:a05:690c:c4c1:b0:7bd:a4dc:c22a with SMTP id
+ 00721157ae682-7ddc5519b99mr8715477b3.48.1780001183678; Thu, 28 May 2026
+ 13:46:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Farhad Alemi <farhad.alemi@berkeley.edu>
+Date: Thu, 28 May 2026 13:46:12 -0700
+X-Gm-Features: AVHnY4JAj-3VfYypeFJ7wOHjZcqEp9eB_RGlPOsLE8_Y8Dvn9TOd4zDJQpub1m4
+Message-ID: <CA+0ovCjP5N=37oRM53FfXZbZ7dRgTcJ1_kpT1JGxB55Npnr7TA@mail.gmail.com>
+Subject: [BUG] gfs2: list_del corruption of i_rwsem.wait_list during unlinkat
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, gfs2@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="00000000000041f9460652e6d211"
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+--00000000000041f9460652e6d211
+Content-Type: text/plain; charset="UTF-8"
 
-------------------
+Hello Andreas and locking/gfs2 maintainers,
 
-From: David Howells <dhowells@redhat.com>
+I am reporting a DEBUG_LIST list_del corruption on a gfs2 unlinkat()
+path found by syzkaller. The slab the kernel implicates is gfs2_inode,
+but the corrupted list is the rw_semaphore's own wait_list, so I am
+Cc'ing the locking maintainers as well.
 
-[ Upstream commit ccde2ac757c713535b224233a296de40efe5212d ]
+Summary:
+On a contended unlinkat() against an inode on a mounted gfs2 image,
+do_unlinkat() takes the target inode's i_rwsem via inode_lock_nested(),
+falls into rwsem_down_write_slowpath(), and reaches
+rwsem_try_write_lock(). The list_del(&waiter->list) at
+kernel/locking/rwsem.c:662 (on v6.17.8) trips DEBUG_LIST in
+__list_del_entry_valid_or_report() at lib/list_debug.c:62. The kernel
+prints:
 
-Under some circumstances, netfs_perform_write() doesn't correctly
-manipulate folio->private between NULL, NETFS_FOLIO_COPY_TO_CACHE, pointing
-to a group and pointing to a netfs_folio struct, leading to potential
-multiple attachments of private data with associated folio ref leaks and
-also leaks of netfs_folio structs or netfs_group refs.
+  slab gfs2_inode start ffff8881283f9aa0 pointer offset 304 size 1576
+  list_del corruption. prev->next should be ffffc900075ffc40, but was
+ffff8881283f9bd0. (prev=ffff8881283f9bd0)
 
-Fix this by consolidating the place at which a folio is marked uptodate in
-one place and having that look at what's attached to folio->private and
-decide how to clean it up and then set the new group.  Also, the content
-shouldn't be flushed if group is NULL, even if a group is specified in the
-netfs_group parameter, as that would be the case for a new folio.  A
-filesystem should always specify netfs_group or never specify netfs_group.
+The trapping entry is the queued waiter at ffffc900075ffc40; the
+prev pointer it carries names slab+304 = ffff8881283f9bd0; and the
+printed prev->next equals that same address (i.e. prev == prev->next).
+Since list_del at kernel/locking/rwsem.c:662 operates on a waiter
+queued on the rwsem's wait_list (rwsem_waiter carries no other list
+membership in v6.17), and waiters live on the stack of the blocked
+task, the prev pointer being in the gfs2_inode slab identifies
+slab+304 as the i_rwsem.wait_list head itself.
 
-The Sashiko auto-review tool noted that it was theoretically possible that
-the fpos >= ctx->zero_point section might leak if it modified a streaming
-write folio.  This is unlikely, but with a network filesystem, third party
-changes can happen.  It also pointed out that __netfs_set_group() would
-leak if called multiple times on the same folio from the "whole folio
-modify section".
+Observed on:
+- Linux 6.17.8, x86_64, QEMU Q35
+- KASAN + DEBUG_LIST enabled
+- Crash context: Comm: syz.2.171, PID 4766
+- Reached on the fuzzed unlinkat() path: inode_lock_nested ->
+  down_write_nested -> rwsem_down_write_slowpath ->
+  rwsem_try_write_lock -> list_del(&waiter->list)
+- As the fuzzer didn't have a reproducer for this,
+  I have NOT verified this bug against linus/master at commit
+  e8c2f9fdadee (v7.1-rc4-754-ge8c2f9fdadee); the relevant
+  data structure was restructured in commit 1ea4b473504b
+  ("locking/rwsem: Remove the list_head from struct rw_semaphore",
+  Matthew Wilcox (Oracle), 2026-03-05, first appearing in v7.1-rc1).
+  After that commit struct rw_semaphore no longer contains a
+  list_head wait_list; waiters are linked via sem->first_waiter
+  plus inter-waiter waiter->list.
 
-Fixes: 8f52de0077ba ("netfs: Reduce number of conditional branches in netfs_perform_write()")
-Closes: https://sashiko.dev/#/patchset/20260414082004.3756080-1-dhowells%40redhat.com
-Signed-off-by: David Howells <dhowells@redhat.com>
-Link: https://patch.msgid.link/20260512123404.719402-22-dhowells@redhat.com
-cc: Paulo Alcantara <pc@manguebit.org>
-cc: Matthew Wilcox <willy@infradead.org>
-cc: netfs@lists.linux.dev
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/netfs/buffered_write.c    | 134 +++++++++++++++++++++--------------
- include/trace/events/netfs.h |   1 +
- 2 files changed, 82 insertions(+), 53 deletions(-)
+Impact:
+A user with the privileges to mount a gfs2 image and perform an
+unlinkat() on a contended path trips kernel BUG, killing the kernel.
+The full Oops header, register dump, and call trace are in
+crash-report.txt. The trapping RIP is
+__list_del_entry_valid_or_report+0x15a/0x190 (lib/list_debug.c:62);
+the kernel BUG fires at lib/list_debug.c:64.
 
-diff --git a/fs/netfs/buffered_write.c b/fs/netfs/buffered_write.c
-index 8ba74556bccab..f4e9d88a0a7bf 100644
---- a/fs/netfs/buffered_write.c
-+++ b/fs/netfs/buffered_write.c
-@@ -13,24 +13,6 @@
- #include <linux/pagevec.h>
- #include "internal.h"
- 
--static void __netfs_set_group(struct folio *folio, struct netfs_group *netfs_group)
--{
--	if (netfs_group)
--		folio_attach_private(folio, netfs_get_group(netfs_group));
--}
--
--static void netfs_set_group(struct folio *folio, struct netfs_group *netfs_group)
--{
--	void *priv = folio_get_private(folio);
--
--	if (unlikely(priv != netfs_group)) {
--		if (netfs_group && (!priv || priv == NETFS_FOLIO_COPY_TO_CACHE))
--			folio_attach_private(folio, netfs_get_group(netfs_group));
--		else if (!netfs_group && priv == NETFS_FOLIO_COPY_TO_CACHE)
--			folio_detach_private(folio);
--	}
--}
--
- /*
-  * Grab a folio for writing and lock it.  Attempt to allocate as large a folio
-  * as possible to hold as much of the remaining length as possible in one go.
-@@ -151,6 +133,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 		size_t offset;	/* Offset into pagecache folio */
- 		size_t part;	/* Bytes to write to folio */
- 		size_t copied;	/* Bytes copied from user */
-+		void *priv;
- 
- 		offset = pos & (max_chunk - 1);
- 		part = min(max_chunk - offset, iov_iter_count(iter));
-@@ -196,6 +179,25 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			goto error_folio_unlock;
- 		}
- 
-+		finfo = netfs_folio_info(folio);
-+		group = netfs_folio_group(folio);
-+
-+		/* If the requested group differs from the group set on the
-+		 * page, then we need to flush out the folio if it has a group
-+		 * set (ie. is non-NULL).  Note that COPY_TO_CACHE is a special
-+		 * case, being a netfs annotation rather than an actual group.
-+		 *
-+		 * The filesystem isn't permitted to mix writes with groups and
-+		 * writes without groups as the NULL group is used to indicate
-+		 * that no group is set.
-+		 */
-+		if (unlikely(group != netfs_group) &&
-+		    group != NETFS_FOLIO_COPY_TO_CACHE &&
-+		    group) {
-+			WARN_ON_ONCE(!netfs_group);
-+			goto flush_content;
-+		}
-+
- 		/* Decide how we should modify a folio.  We might be attempting
- 		 * to do write-streaming, as we don't want to a local RMW cycle
- 		 * if we can avoid it.  If we're doing local caching or content
-@@ -203,22 +205,14 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 		 * file is open readably, then we let ->read_folio() fill in
- 		 * the gaps.
- 		 */
--		finfo = netfs_folio_info(folio);
--		group = netfs_folio_group(folio);
--
--		if (unlikely(group != netfs_group) &&
--		    group != NETFS_FOLIO_COPY_TO_CACHE)
--			goto flush_content;
--
- 		if (folio_test_uptodate(folio)) {
- 			if (mapping_writably_mapped(mapping))
- 				flush_dcache_folio(folio);
- 			copied = copy_folio_from_iter_atomic(folio, offset, part, iter);
- 			if (unlikely(copied == 0))
- 				goto copy_failed;
--			netfs_set_group(folio, netfs_group);
- 			trace = netfs_folio_is_uptodate;
--			goto copied;
-+			goto copied_uptodate;
- 		}
- 
- 		/* If the page is above the zero-point then we assume that the
-@@ -231,24 +225,22 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			if (unlikely(copied == 0))
- 				goto copy_failed;
- 			folio_zero_segment(folio, offset + copied, flen);
--			__netfs_set_group(folio, netfs_group);
--			folio_mark_uptodate(folio);
--			trace = netfs_modify_and_clear;
--			goto copied;
-+			if (finfo)
-+				trace = netfs_modify_and_clear_rm_finfo;
-+			else
-+				trace = netfs_modify_and_clear;
-+			goto mark_uptodate;
- 		}
- 
- 		/* See if we can write a whole folio in one go. */
- 		if (!maybe_trouble && offset == 0 && part >= flen) {
- 			copied = copy_folio_from_iter_atomic(folio, offset, part, iter);
- 			if (likely(copied == part)) {
--				if (finfo) {
-+				if (finfo)
- 					trace = netfs_whole_folio_modify_filled;
--					goto folio_now_filled;
--				}
--				__netfs_set_group(folio, netfs_group);
--				folio_mark_uptodate(folio);
--				trace = netfs_whole_folio_modify;
--				goto copied;
-+				else
-+					trace = netfs_whole_folio_modify;
-+				goto mark_uptodate;
- 			}
- 			if (copied == 0)
- 				goto copy_failed;
-@@ -266,7 +258,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			finfo->dirty_len += finfo->dirty_offset;
- 			if (finfo->dirty_len == flen) {
- 				trace = netfs_whole_folio_modify_filled_efault;
--				goto folio_now_filled;
-+				goto mark_uptodate;
- 			}
- 			if (copied > finfo->dirty_len)
- 				finfo->dirty_len = copied;
-@@ -294,11 +286,11 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			copied = copy_folio_from_iter_atomic(folio, offset, part, iter);
- 			if (unlikely(copied == 0))
- 				goto copy_failed;
--			netfs_set_group(folio, netfs_group);
- 			trace = netfs_just_prefetch;
--			goto copied;
-+			goto copied_uptodate;
- 		}
- 
-+		/* Do a streaming write on a folio that has nothing in it yet. */
- 		if (!finfo) {
- 			ret = -EIO;
- 			if (WARN_ON(folio_get_private(folio)))
-@@ -307,10 +299,8 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			if (unlikely(copied == 0))
- 				goto copy_failed;
- 			if (offset == 0 && copied == flen) {
--				__netfs_set_group(folio, netfs_group);
--				folio_mark_uptodate(folio);
- 				trace = netfs_streaming_filled_page;
--				goto copied;
-+				goto mark_uptodate;
- 			}
- 
- 			finfo = kzalloc(sizeof(*finfo), GFP_KERNEL);
-@@ -339,7 +329,7 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			finfo->dirty_len += copied;
- 			if (finfo->dirty_offset == 0 && finfo->dirty_len == flen) {
- 				trace = netfs_streaming_cont_filled_page;
--				goto folio_now_filled;
-+				goto mark_uptodate;
- 			}
- 			trace = netfs_streaming_write_cont;
- 			goto copied;
-@@ -355,13 +345,36 @@ ssize_t netfs_perform_write(struct kiocb *iocb, struct iov_iter *iter,
- 			goto out;
- 		continue;
- 
--	folio_now_filled:
--		if (finfo->netfs_group)
--			folio_change_private(folio, finfo->netfs_group);
--		else
--			folio_detach_private(folio);
-+		/* Mark a folio as being up to data when we've filled it
-+		 * completely.  If the folio has a group attached, then it must
-+		 * be the same group, otherwise we should have flushed it out
-+		 * above.  We have to get rid of the netfs_folio struct if
-+		 * there was one.
-+		 */
-+	mark_uptodate:
- 		folio_mark_uptodate(folio);
--		kfree(finfo);
-+
-+	copied_uptodate:
-+		priv = folio_get_private(folio);
-+		if (likely(priv == netfs_group)) {
-+			/* Already set correctly; no change required. */
-+		} else if (priv == NETFS_FOLIO_COPY_TO_CACHE) {
-+			if (!netfs_group)
-+				folio_detach_private(folio);
-+			else
-+				folio_change_private(folio, netfs_get_group(netfs_group));
-+		} else if (!priv) {
-+			folio_attach_private(folio, netfs_get_group(netfs_group));
-+		} else {
-+			WARN_ON_ONCE(!finfo);
-+			if (netfs_group)
-+				/* finfo->netfs_group has a ref */
-+				folio_change_private(folio, netfs_group);
-+			else
-+				folio_detach_private(folio);
-+			kfree(finfo);
-+		}
-+
- 	copied:
- 		trace_netfs_folio(folio, trace);
- 		flush_dcache_folio(folio);
-@@ -526,6 +539,7 @@ vm_fault_t netfs_page_mkwrite(struct vm_fault *vmf, struct netfs_group *netfs_gr
- 	struct inode *inode = file_inode(file);
- 	struct netfs_inode *ictx = netfs_inode(inode);
- 	vm_fault_t ret = VM_FAULT_NOPAGE;
-+	void *priv;
- 	int err;
- 
- 	_enter("%lx", folio->index);
-@@ -546,7 +560,9 @@ vm_fault_t netfs_page_mkwrite(struct vm_fault *vmf, struct netfs_group *netfs_gr
- 	}
- 
- 	group = netfs_folio_group(folio);
--	if (group != netfs_group && group != NETFS_FOLIO_COPY_TO_CACHE) {
-+	if (group &&
-+	    group != netfs_group &&
-+	    group != NETFS_FOLIO_COPY_TO_CACHE) {
- 		folio_unlock(folio);
- 		err = filemap_fdatawrite_range(mapping,
- 					       folio_pos(folio),
-@@ -568,7 +584,19 @@ vm_fault_t netfs_page_mkwrite(struct vm_fault *vmf, struct netfs_group *netfs_gr
- 		trace_netfs_folio(folio, netfs_folio_trace_mkwrite_plus);
- 	else
- 		trace_netfs_folio(folio, netfs_folio_trace_mkwrite);
--	netfs_set_group(folio, netfs_group);
-+
-+	priv = folio_get_private(folio);
-+	if (priv != netfs_group) {
-+		if (!netfs_group && priv == NETFS_FOLIO_COPY_TO_CACHE)
-+			folio_detach_private(folio);
-+		else if (netfs_group && priv == NETFS_FOLIO_COPY_TO_CACHE)
-+			folio_change_private(folio, netfs_get_group(netfs_group));
-+		else if (netfs_group && !priv)
-+			folio_attach_private(folio, netfs_get_group(netfs_group));
-+		else
-+			WARN_ON_ONCE(1);
-+	}
-+
- 	file_update_time(file);
- 	set_bit(NETFS_ICTX_MODIFIED_ATTR, &ictx->flags);
- 	if (ictx->ops->post_modify)
-diff --git a/include/trace/events/netfs.h b/include/trace/events/netfs.h
-index 6395827e83954..1d9b068bb1758 100644
---- a/include/trace/events/netfs.h
-+++ b/include/trace/events/netfs.h
-@@ -149,6 +149,7 @@
- 	EM(netfs_whole_folio_modify_filled,	"mod-whole-f+")	\
- 	EM(netfs_whole_folio_modify_filled_efault, "mod-whole-f+!") \
- 	EM(netfs_modify_and_clear,		"mod-n-clear")	\
-+	EM(netfs_modify_and_clear_rm_finfo,	"mod-n-clear+")	\
- 	EM(netfs_streaming_write,		"mod-streamw")	\
- 	EM(netfs_streaming_write_cont,		"mod-streamw+")	\
- 	EM(netfs_flush_content,			"flush")	\
--- 
-2.53.0
+Expected behavior:
+Either the rwsem's wait_list invariant (no list_del observing a
+self-referencing prev while a waiter is queued) was violated, or an
+overlapping lifecycle operation on the gfs2_inode placed the rwsem
+into an inconsistent state. The maintainers are best placed to
+identify the root cause.
+
+Reproducer:
+A standalone .syz or C reproducer was not produced for this seed;
+the crash fired during automated gfs2 unlink fuzzing. The console
+report is attached as crash-report.txt.
+
+Novelty check:
+I searched the syzbot dashboard's upstream open, fixed, stable, and
+invalid (per-subsystem gfs2/locking/fs) namespaces, the Android
+dashboard, and the marc.info linux-kernel archive, for
+"__list_del_entry_valid_or_report" + "rwsem", "list_del corruption"
++ "gfs2_inode", "rwsem_try_write_lock" + "gfs2", "rwsem" +
+"wait_list" + "corruption", and "corrupted list in do_unlinkat". I
+did not find an exact match. The adjacent gfs2 + do_unlinkat tickets
+in the invalid namespace are task-hung / soft-lockup / deadlock
+variants, not DEBUG_LIST list_del trips. The adjacent
+__list_del_entry_valid_or_report ticket is a KCSAN data-race in
+nfc_llcp_register_device, a different code path.
 
 
+I appreciate your time and consideration, and I'm grateful for your
+work on this subsystem. I'd be glad to test any candidate patches.
 
+Regards,
+
+--00000000000041f9460652e6d211
+Content-Type: text/plain; charset="US-ASCII"; name="crash-report.txt"
+Content-Disposition: attachment; filename="crash-report.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mppygz770>
+X-Attachment-Id: f_mppygz770
+
+IHNsYWIgZ2ZzMl9pbm9kZSBzdGFydCBmZmZmODg4MTI4M2Y5YWEwIHBvaW50ZXIgb2Zmc2V0IDMw
+NCBzaXplIDE1NzYKbGlzdF9kZWwgY29ycnVwdGlvbi4gcHJldi0+bmV4dCBzaG91bGQgYmUgZmZm
+ZmM5MDAwNzVmZmM0MCwgYnV0IHdhcyBmZmZmODg4MTI4M2Y5YmQwLiAocHJldj1mZmZmODg4MTI4
+M2Y5YmQwKQotLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0Ka2VybmVsIEJVRyBh
+dCBsaWIvbGlzdF9kZWJ1Zy5jOjY0IQpPb3BzOiBpbnZhbGlkIG9wY29kZTogMDAwMCBbIzFdIFNN
+UCBLQVNBTiBOT1BUSQpDUFU6IDAgVUlEOiAwIFBJRDogNDc2NiBDb21tOiBzeXouMi4xNzEgTm90
+IHRhaW50ZWQgNi4xNy44ICMxIFBSRUVNUFQoZnVsbCkgCkhhcmR3YXJlIG5hbWU6IFFFTVUgU3Rh
+bmRhcmQgUEMgKFEzNSArIElDSDksIDIwMDkpLCBCSU9TIDEuMTYuMy1kZWJpYW4tMS4xNi4zLTIg
+MDQvMDEvMjAxNApSSVA6IDAwMTA6X19saXN0X2RlbF9lbnRyeV92YWxpZF9vcl9yZXBvcnQrMHgx
+NWEvMHgxOTAgbGliL2xpc3RfZGVidWcuYzo2MgpDb2RlOiBlOCA1YiBjYiBmZSBmZCA0MyA4MCAz
+YyAyYyAwMCA3NCAwOCA0YyA4OSBmZiBlOCBhYyA5ZiAxYSBmZSA0OSA4YiAxNyA0OCBjNyBjNyBh
+MCAyYSA5OCA4NiA0OCA4OSBkZSA0YyA4OSBmOSBlOCBlNyBkOSA1OSBmZCA5MCA8MGY+IDBiIDRj
+IDg5IGY3IGU4IDJjIGNiIGZlIGZkIDQzIDgwIDNjIDJjIDAwIDc0IDA4IDRjIDg5IGZmIGU4IDdk
+ClJTUDogMDAxODpmZmZmYzkwMDA3NWZmYWQwIEVGTEFHUzogMDAwMTAwNDYKUkFYOiAwMDAwMDAw
+MDAwMDAwMDZkIFJCWDogZmZmZmM5MDAwNzVmZmM0MCBSQ1g6IGQyZWI0M2I3NzZmZjFiMDAKUkRY
+OiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogMDAwMDAwMDA4MDAwMDAwMiBSREk6IDAwMDAwMDAwMDAw
+MDAwMDAKUkJQOiBmZmZmYzkwMDA3NWZmZDEwIFIwODogZmZmZjg4ODIzNWMyNDBkMyBSMDk6IDFm
+ZmZmMTEwNDZiODQ4MWEKUjEwOiBkZmZmZmMwMDAwMDAwMDAwIFIxMTogZmZmZmVkMTA0NmI4NDgx
+YiBSMTI6IDFmZmZmMTEwMjUwN2YzN2EKUjEzOiBkZmZmZmMwMDAwMDAwMDAwIFIxNDogZmZmZjg4
+ODEyODNmOWJkMCBSMTU6IGZmZmY4ODgxMjgzZjliZDAKRlM6ICAwMDAwN2Y5ODlkNjU1NmMwKDAw
+MDApIEdTOmZmZmY4ODgyYWJiZTgwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApDUzog
+IDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNSMjogMDAwMDdm
+ZmU4ZDg2ZGY4MCBDUjM6IDAwMDAwMDAxMWRhNDYwMDAgQ1I0OiAwMDAwMDAwMDAwNzUwZWYwClBL
+UlU6IDgwMDAwMDAwCkNhbGwgVHJhY2U6CiA8VEFTSz4KIF9fbGlzdF9kZWxfZW50cnlfdmFsaWQg
+aW5jbHVkZS9saW51eC9saXN0Lmg6MTI0IFtpbmxpbmVdCiBfX2xpc3RfZGVsX2VudHJ5IGluY2x1
+ZGUvbGludXgvbGlzdC5oOjIxNSBbaW5saW5lXQogbGlzdF9kZWwgaW5jbHVkZS9saW51eC9saXN0
+Lmg6MjI5IFtpbmxpbmVdCiByd3NlbV90cnlfd3JpdGVfbG9jayBrZXJuZWwvbG9ja2luZy9yd3Nl
+bS5jOjY2MiBbaW5saW5lXQogcndzZW1fZG93bl93cml0ZV9zbG93cGF0aCsweDk0ZS8weDEwNDAg
+a2VybmVsL2xvY2tpbmcvcndzZW0uYzoxMTU5CiBfX2Rvd25fd3JpdGVfY29tbW9uIGtlcm5lbC9s
+b2NraW5nL3J3c2VtLmM6MTMxNyBbaW5saW5lXQogX19kb3duX3dyaXRlIGtlcm5lbC9sb2NraW5n
+L3J3c2VtLmM6MTMyNiBbaW5saW5lXQogZG93bl93cml0ZV9uZXN0ZWQrMHgxY2IvMHgyMTAga2Vy
+bmVsL2xvY2tpbmcvcndzZW0uYzoxNzA3CiBpbm9kZV9sb2NrX25lc3RlZCBpbmNsdWRlL2xpbnV4
+L2ZzLmg6OTE2IFtpbmxpbmVdCiBkb191bmxpbmthdCsweDFkYy8weDU5MCBmcy9uYW1laS5jOjQ2
+NDUKIF9fZG9fc3lzX3VubGlua2F0IGZzL25hbWVpLmM6NDY5OSBbaW5saW5lXQogX19zZV9zeXNf
+dW5saW5rYXQgZnMvbmFtZWkuYzo0NjkyIFtpbmxpbmVdCiBfX3g2NF9zeXNfdW5saW5rYXQrMHhk
+OC8weGYwIGZzL25hbWVpLmM6NDY5MgogZG9fc3lzY2FsbF94NjQgYXJjaC94ODYvZW50cnkvc3lz
+Y2FsbF82NC5jOjYzIFtpbmxpbmVdCiBkb19zeXNjYWxsXzY0KzB4ZjAvMHgzOTAgYXJjaC94ODYv
+ZW50cnkvc3lzY2FsbF82NC5jOjk0CiBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg3
+Ny8weDdmClJJUDogMDAzMzoweDdmOTg5ZWM0Nzc4ZApDb2RlOiBmZiBjMyA2NiAyZSAwZiAxZiA4
+NCAwMCAwMCAwMCAwMCAwMCA5MCBmMyAwZiAxZSBmYSA0OCA4OSBmOCA0OCA4OSBmNyA0OCA4OSBk
+NiA0OCA4OSBjYSA0ZCA4OSBjMiA0ZCA4OSBjOCA0YyA4YiA0YyAyNCAwOCAwZiAwNSA8NDg+IDNk
+IDAxIGYwIGZmIGZmIDczIDAxIGMzIDQ4IGM3IGMxIGIwIGZmIGZmIGZmIGY3IGQ4IDY0IDg5IDAx
+IDQ4ClJTUDogMDAyYjowMDAwN2Y5ODlkNjU1MDE4IEVGTEFHUzogMDAwMDAyNDYgT1JJR19SQVg6
+IDAwMDAwMDAwMDAwMDAxMDcKUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAwMDdmOTg5ZWVk
+NjE4MCBSQ1g6IDAwMDA3Zjk4OWVjNDc3OGQKUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogMDAw
+MDIwMDAwMDAzOThjMCBSREk6IGZmZmZmZmZmZmZmZmZmOWMKUkJQOiAwMDAwN2Y5ODllY2VlYjNk
+IFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6IDAwMDAwMDAwMDAwMDAwMDAKUjEwOiAwMDAwMDAw
+MDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDAwMDAwMDAwMDAwMDAKUjEz
+OiAwMDAwN2Y5ODllZWQ2MjE4IFIxNDogMDAwMDdmOTg5ZWVkNjE4MCBSMTU6IDAwMDA3ZmZlOGQ4
+NmU4NTAKIDwvVEFTSz4KTW9kdWxlcyBsaW5rZWQgaW46Ci0tLVsgZW5kIHRyYWNlIDAwMDAwMDAw
+MDAwMDAwMDAgXS0tLQpSSVA6IDAwMTA6X19saXN0X2RlbF9lbnRyeV92YWxpZF9vcl9yZXBvcnQr
+MHgxNWEvMHgxOTAgbGliL2xpc3RfZGVidWcuYzo2MgpDb2RlOiBlOCA1YiBjYiBmZSBmZCA0MyA4
+MCAzYyAyYyAwMCA3NCAwOCA0YyA4OSBmZiBlOCBhYyA5ZiAxYSBmZSA0OSA4YiAxNyA0OCBjNyBj
+NyBhMCAyYSA5OCA4NiA0OCA4OSBkZSA0YyA4OSBmOSBlOCBlNyBkOSA1OSBmZCA5MCA8MGY+IDBi
+IDRjIDg5IGY3IGU4IDJjIGNiIGZlIGZkIDQzIDgwIDNjIDJjIDAwIDc0IDA4IDRjIDg5IGZmIGU4
+IDdkClJTUDogMDAxODpmZmZmYzkwMDA3NWZmYWQwIEVGTEFHUzogMDAwMTAwNDYKUkFYOiAwMDAw
+MDAwMDAwMDAwMDZkIFJCWDogZmZmZmM5MDAwNzVmZmM0MCBSQ1g6IGQyZWI0M2I3NzZmZjFiMDAK
+UkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogMDAwMDAwMDA4MDAwMDAwMiBSREk6IDAwMDAwMDAw
+MDAwMDAwMDAKUkJQOiBmZmZmYzkwMDA3NWZmZDEwIFIwODogZmZmZjg4ODIzNWMyNDBkMyBSMDk6
+IDFmZmZmMTEwNDZiODQ4MWEKUjEwOiBkZmZmZmMwMDAwMDAwMDAwIFIxMTogZmZmZmVkMTA0NmI4
+NDgxYiBSMTI6IDFmZmZmMTEwMjUwN2YzN2EKUjEzOiBkZmZmZmMwMDAwMDAwMDAwIFIxNDogZmZm
+Zjg4ODEyODNmOWJkMCBSMTU6IGZmZmY4ODgxMjgzZjliZDAKRlM6ICAwMDAwN2Y5ODlkNjU1NmMw
+KDAwMDApIEdTOmZmZmY4ODgyYWJiZTgwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApD
+UzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNSMjogMDAw
+MDdmZmU4ZDg2ZGY4MCBDUjM6IDAwMDAwMDAxMWRhNDYwMDAgQ1I0OiAwMDAwMDAwMDAwNzUwZWYw
+ClBLUlU6IDgwMDAwMDAwCgo8PDw8PDw8PDw8PDw8PDwgdGFpbCByZXBvcnQgPj4+Pj4+Pj4+Pj4+
+Pj4+Cgo=
+--00000000000041f9460652e6d211--
