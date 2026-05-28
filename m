@@ -1,60 +1,66 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99E83AF664
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 09:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.66
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779961309; cv=none; b=Z0FAHrBdSbNaxZHTAO9Hh+0NCyGtG8ApMnW/R0ing4fVwK++5zdEOYQX0aqfh5NzYlPUzAEVhBBJcGyUw+wq3s5QEjwAR7eJhbeVxEUymS9ichDoymSL+58LXHQwH1eFDnKyFQgpuLg1HHsaw+BBukuQxsn5jNkX8iehfRFfN/M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779961309; c=relaxed/simple;
-	bh=MUL158TIarDsv3txrX32xNfRGNKHiG1GhJq8gii1TLo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZMM0bf3qvP+S45/NQNvzVuaKQyLiBdKfG7ANfLNjF9kKpolBHllxkJoMkrFe8Q3SlIXvyeuB4S5pDi0Y52A7NMDGS022UQp0HtcgFT2nMJgSVoy/3p3ZN78vYlkZ7TgADho2MWKhFkqJ3jUNKkMuq+Me0QK5TUu0IFltkYzVVNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f66.google.com with SMTP id 98e67ed59e1d1-36b8e1760ccso291810a91.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 02:41:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779961307; x=1780566107;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Va/8UHj/muCxXwz4cRtoHIipkT2i9Y/gR+pknqm6No=;
-        b=GofuhjGH7xxf3SfY/LCDcmpeXJko9DbEUsc25vncVVzPtHupBvIyz3wtz4quiUO4Ix
-         kznsR9BJAdd27YBg/u7HPcKACdPy8HP2iyA2UlWiNnT6JsgAwnqQUA37oB1lI/JU9Zz1
-         4+gAC1O25RSsahf1WOXQtVFjHn3OYou0SGcWRxsUxcL8th8gIYhuUtOiGC83hL53wdit
-         fl7j7XyDRDAU8JncyWKyl+vz3MjRYXPbPuAp2MUvtqEfMn5WpkOxtmuvGvHrFpErNayA
-         tGo2v9sWib4TmuR/5tal6TVmyWxLcuF1urLY0jlpF3JqDVsATGpIYHc3ihY//1trvfOe
-         ZBpA==
-X-Forwarded-Encrypted: i=1; AFNElJ9494CQI/038rtIBSO1dg0V/tdBuED7STM44rDXtxmGSKCmq6OxWIz6IpvydNBY0TN2oR7Ls5gpNhI1ieJB@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzSToBFK4Lp2dnlQh9WMYlvvVYlza6pN0y+LQo+97WAsWkpZTf
-	NwR8snmN+M8DBQOBQII1xX+P8MicOyJ8BuNdlp4eJ5Elw8THvl7mqLC2
-X-Gm-Gg: Acq92OHafNn97kdvuWKGZxpezeqyL0hiq113wsUqLo55EujkGaXriRQp4aSvJq4jbnQ
-	UwQLkYpfeaMLjO0m1c8KsSRFoPeIqobaSg6HdmhPDBXoUmVwfxieLWL/X+Z/1UGTOpari8UVhu2
-	M79Oo+LF2zbQJkmH5DKXy4gN0ObAKRJrqXUT/mmiiX827F+t6EcaGBgU0xOFn/tSlEmLrVsDbOs
-	BnyK0KEM6PDM5BJ8IT8FVgp0txr32lHmwvg1TnLQiwwfj2ndus3SqxTqQZzUGlR0t8/i2ekDEYC
-	hTJTvRWMgwFAocQpNAnGq7uqFOAe8VrdNq4nAmmeQStFQtSRS6AO4nmNCYseM6admCgc3ftsZuV
-	MNEkNABRaNBNKo/0Shhks4Aea2/o2y2MXG1+RX4Z7ibz8NWu+DXHih3h2T+bhL1Doe/jpjFoDxq
-	+D/oo9QILCrYqNrihrjyT8BmnDmlPj2o4csEaEdCQjKn7kvGqZ46Sisf0=
-X-Received: by 2002:a05:6a20:d486:b0:3a8:7fb:ca0e with SMTP id adf61e73a8af0-3b328ce50f0mr28880426637.23.1779961307007;
-        Thu, 28 May 2026 02:41:47 -0700 (PDT)
-Received: from kylin-XiaoXinPro-16-AHP9.. ([116.128.244.171])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-841d70f1ed8sm5468915b3a.43.2026.05.28.02.41.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 02:41:46 -0700 (PDT)
-From: Xueqin Luo <luoxueqin@kylinos.cn>
-To: viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Xueqin Luo <luoxueqin@kylinos.cn>,
-	xiongxin <xiongxin@kylinos.cn>
-Subject: [PATCH -next] initramfs: Add CRC32 debugging mechanism for unpack failures
-Date: Thu, 28 May 2026 17:41:37 +0800
-Message-ID: <20260528094137.200674-1-luoxueqin@kylinos.cn>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D053B635F;
+	Thu, 28 May 2026 09:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779962012; cv=pass; b=u9DmIUxesY6Tbz9bXD1mVGRLlAJh1d8MF1EUUZsYiBqaHpPxTr0dCVtXBcgqu9UKNwaj4yeD/2lmLGbG/1vemI3QxY4jv7wFW1f5YaI6poRq/s7Id0yWpemnssoNkWVJKpmxxLx0Rr8JRUgPFVbuH6Nlw6Cf5+wsOopHeg7nORQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779962012; c=relaxed/simple;
+	bh=7iM2Kx/tK8WkB/Ra3LM0b0NJNDJgwiemZ3+qPNNwLS4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h7b2gkXulZpEYdWdc1VysLahNiKvLiWHoajOf7EKcOJDlRCrYI4z6rJfeLSeWsKvYb3Qm/IX46vxN/6AvQt/drHCwR6kn7MPE2ccWWR/nkAejdf2KLLTUc5pamjmRnfnk8zbQ+v/ywKrRviVwvavnve4AHaB4rp1Y53K1sTKDh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=DfSYQ56A; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="DfSYQ56A"
+ARC-Seal: i=1; a=rsa-sha256; t=1779961977; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=NAkz0SOOQjM2W1IWbe8FHDI2ymZWX/CCi43appKxaUbubD1pgY0UI6O7diyjpjdaW9Q6uV7e/8bG/pmIKNFthuFvABkpmc44s4IfoyEjFLDVsVe/2NPRFxS3qor1wN8SpBIZvq5KFIPVM2PxDHP0N9hXSUTCHWsEmAkNleE4dK0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779961977; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=zYZjJmq/v2k7XZXptq1VTDQbNRTjIht89217mgdV0uw=; 
+	b=OA2Q3PQfADtBhDNrKr2INK2o4NyExUuPqlkKxUakcRmRfXWb3nY6cBdIZJP+DAF/vyPs9UAkcI8ZbZw5sdFp12KODA9VzSn4kUIvSGEnUt+CLBQyWPB6tE8tdV2VN27Iz9/lP9/1cdacue7PqyWSFB+7WIOFcuI0Kf5ZK8ywXBA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=linux.beauty;
+	spf=pass  smtp.mailfrom=me@linux.beauty;
+	dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779961977;
+	s=zmail; d=linux.beauty; i=me@linux.beauty;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=zYZjJmq/v2k7XZXptq1VTDQbNRTjIht89217mgdV0uw=;
+	b=DfSYQ56AiaiAMjT0uY8uKVXcmFmmXwWBaeU6a1/PqiqdDvUb2knMtnHjB4xYjOOe
+	Rpibfj90vJyzR5JTJdsKSAlYWMcd/Igextbkf2fLlHWQDJAVwBvpEsRppc6c9mezwtX
+	reqwjIhX2t06gNoIeGcHljkyHUWQ15EOOMoFWIG4=
+Received: by mx.zohomail.com with SMTPS id 17799619745921012.7078084271373;
+	Thu, 28 May 2026 02:52:54 -0700 (PDT)
+From: Li Chen <me@linux.beauty>
+To: Christian Brauner <brauner@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	x86@kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [RFC PATCH v1 00/13] exec: add spawn templates for repeated executable startup
+Date: Thu, 28 May 2026 17:52:21 +0800
+Message-ID: <20260528095235.2491226-1-me@linux.beauty>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,88 +68,291 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Some motherboards report high probability unpack initramfs failed,
-resulting in the system cannot start normally. The error is as follows:
+Hi,
 
-[    9.400739][ 0] [   T11] Trying to unpack rootfs image as initramfs...
-[    9.408430][ 5] [    T1] calling  register_arm64_panic_block+0x0/0x40 @ 1
-[    9.417144][ 0] [   T11] Initramfs unpacking failed: junk at the end of compressed archive
+This is an early RFC for an idea that is probably still rough in both the
+UAPI and implementation details. Sorry for the rough edges; I am sending
+it now to check whether this direction is worth pursuing and to get
+feedback on the kernel/userspace boundary.
 
-Initramfs unpacking failures can be difficult to diagnose because it is
-often unclear whether the initrd image was corrupted before unpacking or
-whether the decompressor failed while processing a valid image.
+The series is based on linux-next version 20260518.
 
-Add an optional debugging mode that computes and prints a CRC32 checksum
-of the external initrd before unpacking.
+This RFC adds spawn_template, a userspace-controlled exec acceleration
+mechanism for runtimes that repeatedly start the same executable with
+different argv, envp, and per-spawn file descriptor setup.
 
-Comparing the CRC32 value across multiple boot attempts may help
-distinguish between corrupted initrd contents and decompression failures.
+The main target is agent runtimes. Modern coding agents repeatedly start
+short-lived helper tools such as rg, git, sed, awk, python, node, and
+shell wrappers while they inspect and edit a workspace. Those runtimes
+already know which tools are hot, and they are also the right place to
+decide policy. The kernel does not choose names such as rg, git, or sed.
+Userspace opts in by creating a template fd for one executable, then uses
+that fd for later spawns. Launchers, shells, and build systems have a
+similar repeated-startup shape and could use the same primitive, but the
+agent runtime case is the main motivation for this RFC.
 
-This patch does not change the default boot behavior unless explicitly
-enabled through the "initramfs_debug=1" kernel command-line parameter.
+The mechanism applies to the executable that userspace asks the kernel to
+start. If an agent runtime directly starts /usr/bin/rg, the rg executable
+is the template target. If the runtime starts /usr/bin/bash -c "rg ... |
+head", the shell is the template target unless the shell itself opts in
+when it starts rg and head. The kernel does not parse the shell command
+string or rewrite inner commands into template spawns. Userspace has to
+call spawn_template for those inner commands explicitly:
 
-Co-developed-by: xiongxin <xiongxin@kylinos.cn>
-Signed-off-by: xiongxin <xiongxin@kylinos.cn>
-Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
----
- init/initramfs.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+    direct exec                 shell wrapper
+    -----------                 -------------
+    agent                       agent
+      template("/usr/bin/rg")     template("/usr/bin/bash")
+      spawn rg argv              spawn bash -c "rg ... | head"
 
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 20a18fcda48e..4809065aed29 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -21,6 +21,7 @@
- #include <linux/types.h>
- #include <linux/umh.h>
- #include <linux/utime.h>
-+#include <linux/crc32.h>
- 
- #include <asm/byteorder.h>
- 
-@@ -30,6 +31,9 @@
- static __initdata bool csum_present;
- static __initdata u32 io_csum;
- 
-+static bool initramfs_debug;
-+core_param(initramfs_debug, initramfs_debug, bool, 0400);
-+
- static ssize_t __init xwrite(struct file *file, const unsigned char *p,
- 		size_t count, loff_t *pos)
- {
-@@ -716,6 +720,20 @@ static void __init populate_initrd_image(char *err)
- }
- #endif /* CONFIG_BLK_DEV_RAM */
- 
-+/*
-+ * Record a CRC32 checksum of the initrd contents for diagnostics.
-+ */
-+static void debug_initrd_crc32(const void *data, size_t len)
-+{
-+	u32 crc;
-+
-+	pr_info("initramfs: integrity diagnostics enabled\n");
-+
-+	crc = crc32_le(~0, data, len);
-+
-+	pr_info("initramfs: external initrd CRC32 checksum: %08x\n", crc);
-+}
-+
- static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
- {
- 	/* Load the built in initramfs */
-@@ -726,6 +744,10 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
- 	if (!initrd_start || IS_ENABLED(CONFIG_INITRAMFS_FORCE))
- 		goto done;
- 
-+	if (initramfs_debug)
-+		debug_initrd_crc32((char *)initrd_start,
-+				   initrd_end - initrd_start);
-+
- 	if (IS_ENABLED(CONFIG_BLK_DEV_RAM))
- 		printk(KERN_INFO "Trying to unpack rootfs image as initramfs...\n");
- 	else
+    kernel target: rg          kernel target: bash
+    rg startup benefits        rg/head need shell opt-in
+
+Several agent runtime discussions are moving toward direct argv-style
+exec tools for both security and policy clarity. For example, opencode
+issue #2206 proposes an exec tool as a safer alternative to a shell-only
+bash tool:
+
+https://github.com/anomalyco/opencode/issues/2206
+
+spawn_template is meant to support both models. Direct exec users can
+cache the actual hot tool. Shell-wrapper users can cache the shell and
+still reduce shell startup cost. If a shell or an agent runtime later
+uses the same API for commands started inside a shell command, those
+inner tools can benefit too.
+
+Each spawn still goes through the normal exec path. The template reuses
+only metadata that can be revalidated before use. Credential preparation,
+permission checks, binary handler checks, secure-exec handling, and LSM
+hooks remain on the normal execve path.
+
+The UAPI has two operations. spawn_template_create() creates an
+anonymous-inode template fd from either an executable fd or an absolute
+executable path. spawn_template_spawn() starts one child from that
+template, applies per-spawn fd, cwd, and signal actions, and returns both
+pid and pidfd.
+
+fd inheritance is deliberately conservative. By default, after the
+requested per-spawn actions have run, the child closes fds above stderr.
+An agent runtime can still request traditional inheritance explicitly,
+but helper tools do not inherit unrelated secret files or sockets by
+accident. The create-time actions fields are reserved and rejected in
+this RFC because fd numbers are per-process state, not stable reusable
+objects. The caller supplies fd actions for each spawn instead.
+
+A typical agent runtime would keep one template per hot executable and
+still build argv, envp, cwd, and pipe wiring for each tool call:
+
+    rg_tmpl = spawn_template_create("/usr/bin/rg");
+
+    for each search request:
+        out_r, out_w = pipe_cloexec();
+        err_r, err_w = pipe_cloexec();
+        actions = [
+            FCHDIR(worktree_fd),
+            DUP2(out_w, STDOUT_FILENO),
+            DUP2(err_w, STDERR_FILENO),
+        ];
+        child = spawn_template_spawn(rg_tmpl, rg_argv, envp, actions);
+        close(out_w);
+        close(err_w);
+        read out_r and err_r;
+        waitid(P_PIDFD, child.pidfd, ...);
+
+A shell-wrapper runtime would use the same shape with a template for
+/usr/bin/bash and argv such as ["/usr/bin/bash", "-c", command]. That
+reduces shell startup cost, but it does not cache rg or head inside that
+command unless the shell also opts into spawn_template for commands it
+starts internally.
+
+The template pins the executable and denies writes to that file while the
+template fd is alive, so cached executable metadata cannot race with a
+writer changing the same inode. This means direct in-place writes to the
+executable can fail while a runtime keeps a template open. It does not
+block the common package-manager update pattern where a new inode is
+written and then atomically renamed over the old path. In that case the
+old path-created template becomes stale, spawn_template_spawn() rejects
+it with ESTALE, and the runtime should close and recreate the template
+for the new executable.
+
+    in-place write              package-manager update
+    --------------              ----------------------
+    template pins old inode     write new inode
+    write(old inode) denied     rename(new, "/usr/bin/rg")
+
+    cached metadata safe        old template sees path mismatch
+                                spawn_template_spawn() = -ESTALE
+                                recreate template for new inode
+
+Each spawn revalidates executable identity before cached metadata is
+used. Path-created templates only accept absolute paths: a relative path
+such as ./tool depends on cwd, and the same string can name a different
+file after chdir. For an absolute path template, each spawn reopens the
+path and checks that it still resolves to the executable recorded when
+the template was created. If the path now names a replaced file, the
+template is stale and userspace should close and recreate it.
+
+A template fd can be passed over SCM_RIGHTS like any other fd, but this
+RFC does not treat that as delegation. spawn_template_spawn() only works
+while the caller still has the same struct cred object that created the
+template. If another task, or the same task after a credential change,
+receives the fd, spawn fails instead of running the executable using the
+creator's launch authority:
+
+    ordinary fd                         spawn_template fd
+    -----------                         -----------------
+    A: open log                         A: create rg template
+    A -> B: SCM_RIGHTS(fd)              A -> B: SCM_RIGHTS(tfd)
+
+    B: read(fd) = ok                    B: spawn(tfd) = -EACCES
+                                        B: create own rg template
+                                        B: spawn(own_tfd) = ok
+
+    open-file use is delegated          spawn authority is not delegated
+
+The cached state is intentionally small. The template fd keeps the opened
+main executable file, an optional absolute path string, the creator
+credential pointer, and the deny-write state. The executable identity key
+records device, inode, size, mode, owner, ctime, and mtime, and is
+rechecked before cached metadata is used. The ELF cache keeps only the
+main executable's ELF header, program header table, and program header
+count.
+
+    cached in this RFC          not cached in this RFC
+    ------------------          ----------------------
+    opened main executable      PT_INTERP metadata
+    executable identity key     shared-library graph
+    main ELF header             VMA layout metadata
+    main ELF program headers    cross-process metadata sharing
+    creator cred pointer
+    deny-write state
+
+This RFC does not cache ELF interpreter metadata, shared-library
+dependency state, or derived mapping-layout state. Shared-library
+resolution is dynamic linker policy and depends on LD_LIBRARY_PATH,
+RPATH, RUNPATH, /etc/ld.so.cache, mount namespaces, and secure-exec
+state. It also does not share cached executable metadata between template
+fds created by different processes. Each template owns its small cached
+metadata object in this RFC.
+
+Performance
+===========
+
+The numbers below come from my separate local autogen-bench project.
+autogen-bench uses AutoGen [1] Core as the agent harness: RoutedAgent
+instances run under SingleThreadedAgentRuntime, and RPC-style dispatch
+fans out concurrent tool-call requests to worker agents. The workload
+definitions, generated test files, and subprocess/spawn_template backends
+are local to autogen-bench.
+
+The agent-tools preset includes direct tool calls and shell-wrapper forms
+for:
+
+rg, grep, sed, awk, cat, head, tail, find, stat, ls, git-status, git-diff,
+python-small, node-small, sh-c, and bash-c.
+
+The benchmark is launch-heavy but not no-op: it searches generated
+Python-like source files, reads sample files, runs small Python and
+Node.js programs, and runs git status and git diff in a small repository.
+It does not include model inference or long-running tool work, so the
+numbers mainly describe the short-tool regime.
+
+The subprocess column starts each tool call through the existing
+userspace launch path. The spawn_template column creates templates for
+hot executables and uses spawn_template_spawn() for later calls.
+
+Total in-flight tool calls stay at 16; only the worker-process split
+changes. For example, 4x4 means 4 worker processes with 4 in-flight tool
+calls each. The two time_s values are subprocess/spawn_template wall
+times.
+
+Workload     Calls  subprocess  spawn_template  time_s       Delta
+(workers)    calls  calls/s     calls/s         seconds
+1x16         6144      411.04          420.32   14.95/14.62  +2.26%
+2x8          6144      666.78          690.08    9.21/8.90   +3.49%
+4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
+8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
+
+The table measures the whole mixed workload, including both process
+startup and the short tool work done after exec. Since this workload is
+launch-heavy, the possible launch-side savings include:
+
+- the template fd keeps an opened executable, avoiding repeated ordinary
+  open/path setup for that executable;
+- the kernel can reuse cached main-executable ELF header and program
+  header metadata after revalidation;
+- the fork-and-exec-style launch is submitted as one
+  spawn_template_spawn() operation;
+- fd, cwd, and signal actions run in the child kernel path instead of
+  being driven one syscall at a time by userspace child glue;
+- pid and pidfd are returned by the same operation, reducing some
+  runtime-side bookkeeping.
+
+In local experiments before this RFC, I also tried caching ELF
+interpreter metadata and derived ELF mapping-layout metadata. A focused
+repeated-exec benchmark did not show a stable standalone throughput gain
+for those two optimizations, so this RFC leaves them out and keeps only
+the main executable metadata cache.
+
+I also tried sharing main-executable ELF metadata across template fds
+created by different processes for the same executable identity. That can
+reduce duplicated metadata memory when many agent worker processes create
+their own templates for /usr/bin/rg, /usr/bin/git, and similar tools, but
+it did not show a stable throughput win in local multi-agent tests. It
+also adds cache keying, lifetime, invalidation, credential, and namespace
+questions to the RFC. This version therefore keeps per-template metadata
+ownership and leaves cross-process sharing out.
+
+Sorry again for the rough edges in this RFC. I would appreciate feedback
+on whether this direction is useful and what the right API boundary
+should be.
+
+Thanks,
+Li
+
+[1]: https://github.com/microsoft/autogen
+
+Li Chen (13):
+  exec: factor argument setup out of do_execveat_common()
+  exec: add an internal helper for opened executables
+  file: expose helpers for in-kernel fd actions
+  exec: add spawn template UAPI definitions
+  exec: add spawn template file descriptors
+  exec: add spawn_template_spawn()
+  exec: validate spawn template executable identity
+  binfmt_elf: cache ELF metadata for spawn templates
+  Documentation: describe spawn templates
+  exec: require absolute paths for path-created templates
+  exec: let close-range actions target the max fd
+  syscalls: add generic spawn template entries
+  selftests/exec: cover spawn template basics
+
+ Documentation/userspace-api/index.rst         |   1 +
+ .../userspace-api/spawn_template.rst          | 153 +++
+ MAINTAINERS                                   |   6 +
+ arch/x86/entry/syscalls/syscall_64.tbl        |   3 +-
+ fs/Makefile                                   |   2 +-
+ fs/binfmt_elf.c                               | 104 +-
+ fs/exec.c                                     | 162 ++-
+ fs/file.c                                     |  11 +-
+ fs/spawn_template.c                           | 619 +++++++++++
+ include/linux/binfmts.h                       |  10 +
+ include/linux/fdtable.h                       |   2 +
+ include/linux/spawn_template.h                |  72 ++
+ include/linux/syscalls.h                      |   7 +
+ include/uapi/asm-generic/unistd.h             |   7 +-
+ include/uapi/linux/spawn_template.h           |  62 ++
+ scripts/syscall.tbl                           |   2 +
+ tools/testing/selftests/exec/Makefile         |   1 +
+ tools/testing/selftests/exec/spawn_template.c | 997 ++++++++++++++++++
+ 18 files changed, 2179 insertions(+), 42 deletions(-)
+ create mode 100644 Documentation/userspace-api/spawn_template.rst
+ create mode 100644 fs/spawn_template.c
+ create mode 100644 include/linux/spawn_template.h
+ create mode 100644 include/uapi/linux/spawn_template.h
+ create mode 100644 tools/testing/selftests/exec/spawn_template.c
+
 -- 
-2.43.0
-
+2.52.0
