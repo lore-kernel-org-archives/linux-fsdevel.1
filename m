@@ -1,211 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E763EFFCD
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 13:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575CE3E63BB;
+	Thu, 28 May 2026 13:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779973204; cv=none; b=QnwTZZ08gIfehFNkG3kqIazZSJjGZ2bXy2FVxYavPxum5G1v8dvIw5ob4R39Qm1U53FB3k53V3aex0hteVasWfijd3KxQA5pUlWdsqZbatVwK/vV2Iezw/wCaeg7vRiFLXYLZGa+II0/FRo3hzqpJ9FMfHRNh1PTnuDc0Ci5BI8=
+	t=1779973380; cv=none; b=lwf7yCiEe1Iip6pZC241S2vNxiaqchnEHa2ES/w2ubfAkHtSeDm1KICZQsk7KDbm0cOLkCs+LVfMthufhbwuz6RL7SOQoXrqGWbZDQTDZ0IjPf3a2an4UEP2JT7RzYUxWMjYemxbeV0jkvKxGs4mI9ieIyfePmEKKV2ljtCoOhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779973204; c=relaxed/simple;
-	bh=Djenmp2baETm7xD1hTtXkNHUzCURlH+sM71QUH5p0RQ=;
+	s=arc-20240116; t=1779973380; c=relaxed/simple;
+	bh=hp3N1BlaCEBo40AI5r7xHP6l+ggEflBpXEwKQIjkybQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LijJGu1X07MUjaCHR5n00aV1PQjVuuGVgXSQrDITz9Q4MObozzhaJPpdel/ELR0vJYMlTASFlUcWhd+cHbpj4cjktfE51T908m8XOrgfLoGjZU6amWhC5HAOTdZPn65Ii+D5H4IKnEijpzJxnhbVF5xD3szpZrPABilPSk6tTQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T0UXoAWO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8YD1IAhW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T0UXoAWO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8YD1IAhW; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=m53Sakjc9cETl4nYf+OiT3a7IwbDKw2FjLdCadtffqcu+Iaay6NndtiTPIBEsG6yp8R4ofXVHgXPu4rhKOOXKFD7VUmRUGD5CUEZLgttY2HmNlbtaW5+kcLWV/ls/wdOZT0EIuUI68cJIZuFWJkR9MG4f8P1r52wsW5q6whTiEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPwCWdO5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T0UXoAWO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8YD1IAhW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T0UXoAWO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8YD1IAhW"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 94C5166EA7;
-	Thu, 28 May 2026 13:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779973201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7uWMGPiFFEoPtLga1o3umCg9y3n8wcDkGSWAPBBrAqM=;
-	b=T0UXoAWOAywx9BISEdCcf3/WXeg24b+fopA/2687OMPvMq+T1L4bkOsmXPed8/tXyo/+sz
-	v14D2A/Y4OX0cmjC3cmozYCBbTM1hwYxs2ZFZ9h4QA1DEChaz8Nn/D/7JWr+WGa9f3Q3JK
-	vlEMTKMVzlyhyYc021FRvFc4vf+gUhE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779973201;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7uWMGPiFFEoPtLga1o3umCg9y3n8wcDkGSWAPBBrAqM=;
-	b=8YD1IAhW6s0t9pNmshA3Oj+MGZpmq6wrPMUl6znMwW5j8uImZUj0oPHgoqx/TK99KjMzrv
-	EJioN7D2hL59MWDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=T0UXoAWO;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8YD1IAhW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779973201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7uWMGPiFFEoPtLga1o3umCg9y3n8wcDkGSWAPBBrAqM=;
-	b=T0UXoAWOAywx9BISEdCcf3/WXeg24b+fopA/2687OMPvMq+T1L4bkOsmXPed8/tXyo/+sz
-	v14D2A/Y4OX0cmjC3cmozYCBbTM1hwYxs2ZFZ9h4QA1DEChaz8Nn/D/7JWr+WGa9f3Q3JK
-	vlEMTKMVzlyhyYc021FRvFc4vf+gUhE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779973201;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7uWMGPiFFEoPtLga1o3umCg9y3n8wcDkGSWAPBBrAqM=;
-	b=8YD1IAhW6s0t9pNmshA3Oj+MGZpmq6wrPMUl6znMwW5j8uImZUj0oPHgoqx/TK99KjMzrv
-	EJioN7D2hL59MWDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D16D85ADCB;
-	Thu, 28 May 2026 13:00:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /lXmL1A8GGqwIAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 28 May 2026 13:00:00 +0000
-Date: Thu, 28 May 2026 13:59:58 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Christian Brauner <brauner@kernel.org>, 
-	Mateusz Guzik <mjguzik@gmail.com>
-Cc: Jann Horn <jannh@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>
-Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
- read-only files
-Message-ID: <ahg6JgO0wUkJKjRb@pedro-suse>
-References: <20260516182126.530498-1-pfalcato@suse.de>
- <20260518-starten-messdaten-3b8aa670ec85@brauner>
- <CAG48ez0jbSUgT3ZxPKZP7Eu=K7ce2cX7k2NzHCHNMOxQjOGT9w@mail.gmail.com>
- <177918418452.771415.4371785688744608623.b4-reply@b4>
- <CAGudoHFtecdkcYpFrtM5RAAPSU11eL_ALPGp_jhtHW=WxyHE4Q@mail.gmail.com>
- <177918837114.804096.3977912252785122973.b4-reply@b4>
- <CAGudoHGSZOEzbXHOAGqrdp6D06JQQ5Af759TQ+HiQx7=ruQa-Q@mail.gmail.com>
- <20260522-haltestelle-laufpass-volltreffer-3c69a6d84fc4@brauner>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPwCWdO5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 564341F00A3A;
+	Thu, 28 May 2026 13:02:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779973378;
+	bh=TIAUg/ZVKNqvTA8OMB2jX9V/vIvoB2IFv0g+QQaqho8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OPwCWdO5JiTusiyHJ5/gGhmCfAS/U+AbZ9hPU3j9riiMXkSChnWQco0zNOuvpoB5k
+	 YZEjwHBmMScYY45vzZgHOtKjb6qlCMnascrpq4ymIXjxCRPT5a/j7n9vab1KkukjvH
+	 aly2lokpEZh9ujZn/Mtvq8MWq8F3rXg0VLf9e58l/Lw4zjpCUt6QEIByJDJmtTZn7K
+	 GfX2jwDfJ6FcTcEMGj0kQJU1raQIRvxtmp3O3Dysb1sIE/xI1g9T5KHvl/XRRMiYkf
+	 kfhhFyTVJ4z3viR8UUYlfrr1rwQu3NnkrcmIlhWrYp4naJwIn1G7Yynx8ROuRgN4Pz
+	 D3veNFhZ8lp4A==
+Date: Thu, 28 May 2026 14:02:55 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Daniel Palmer <daniel@thingy.jp>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, "Liam R. Howlett" <liam@infradead.org>
+Subject: Re: [PATCH] tmpfs/ramfs: Let memfd_create() work on nommu
+Message-ID: <ahg6FiMo7cEQxod_@lucifer>
+References: <20260523130445.1101818-1-daniel@thingy.jp>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260522-haltestelle-laufpass-volltreffer-3c69a6d84fc4@brauner>
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 94C5166EA7
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+In-Reply-To: <20260523130445.1101818-1-daniel@thingy.jp>
 
-Hello,
++cc Liam
 
-Apologies for the delay (laziness^Wconferences, travel and the sort),
+On Sat, May 23, 2026 at 10:04:45PM +0900, Daniel Palmer wrote:
+> Currently trying to use memfd_create() on nommu returns
+> an error with errno set to EFBIG. The manpage memfd_create()
+> doesn't have EFBIG as a possible error value.
+>
+> Doing some digging this is coming from 0 getting passed as
+> newsize to ramfs_nommu_expand_for_mapping() and that getting
+> into get_order() and there "The result is undefined if the size is 0".
+>
+> Whatever comes out of get_order() is then used in the following
+> logic and that results in the EFBIG that causes the syscall
+> to fail and the errno in userspace.
+>
+> If newsize is 0 there is nothing to do so just return.
+>
+> Roughly tested on m68k nommu by creating a process, creating
+> an memfd, forking another process, mmap()ing the memfd in the
+> child, writing into the mapping, then mmap()ing in the parent
+> and checking that the right data is there.
+>
+> Signed-off-by: Daniel Palmer <daniel@thingy.jp>
 
-On Fri, May 22, 2026 at 03:11:11PM +0200, Christian Brauner wrote:
-> On Tue, May 19, 2026 at 01:56:42PM +0200, Mateusz Guzik wrote:
-> > On Tue, May 19, 2026 at 12:59 PM Christian Brauner <brauner@kernel.org> wrote:
-> > >
-> > > On 2026-05-19 12:51 +0200, Mateusz Guzik wrote:
-> > > > How about denial of splice usage or degradation to copy are still on
-> > > > the table, but based on a different criterion: whether code involved
-> > > > is "known good" for lack of a better description. iow the kernel would
-> > > > maintain a whitelist of "safe" cases. Random-ass AF_NOBODYEVERHEARDOF
-> > > > does not make the cut.
-> > >
-> > > I had thought about that to but I felt a bit iffy about it. You could
-> > > envision an FOP_* flag for this:
-> > >
-> > >   /* Module may use splice-like apis */
-> > >   #define FOP_MAY_SPLICE          ((__force fop_flags_t)(1 << 8))
+I don't really have the setup to check it, but I don't see a problem with
+this so:
 
-FWIW, I don't think this works. Sockets expose the same file_operations struct
-for every socket. So while it could work for other dodgy fd's around the kernel, I
-would hope there isn't many of them... (or at least many of them using splice,
-etc).
+Acked-by: Lorenzo Stoakes <ljs@kernel.org>
 
-> > >
-> > > But that doesn't address how fundamentally broken vmsplice() for example
-> > > really is and that probably no one should get to use it in its current
-> > > form.
+> ---
+>
+> Really not sure if this is correct. It works for me but on
+> nommu a lot of things just work because there is no MMU to
+> shout about badness.
 
-Right.
+:)
 
-> > 
-> > I never looked into the area on Linux, I am willing to take claims of
-> > breakage on face value.
-> > 
-> > In this context I'm saying the functionality is used in the real world
-> > for performance reasons and just whacking imo does not cut it.
+>
+> Maybe shashiko will say this is a dumb patch and explain
+> the proper fix. :)
 
-Which is why I wanted to introduce the (admittedly, rather adhoc) approach
-of limiting it to files that could already be written to. So hopefully it
-could actually be deployed. I'm afraid many users out there will not deploy
-a "go slower, safer" flag.
+No see below I think this is correct.
 
-> > 
-> > >
-> > > > Common-case usage would have to be audited of course, but this sounds
-> > > > rather actionable and would provide hardening without much friction.
-> > >
-> > > And that's the usual problem where rando module will just raise the
-> > > flag. Maybe that's fine and we will keep up.
-> > >
-> > 
-> > If this is a genuine worry the whitelist can still be introduced and
-> > managed by one person (Linus?) very easily. The implementation is only
-> > mildly cumbersome to get going and trivial to spread afterwards.
-> > 
-> > You could have something like this:
-> > struct file_operations funky_ops = {
-> > ....
-> > };
-> > VFS_FILE_OPS_REGISTER(funky_ops);
-> 
-> Unless someone is going to do that work a sysctl to force degrade all
-> the APIs into copies should be ok.
+>
+> Also I had almost no idea who to send this to from the output
+> of get_maintainer.pl.
 
-Ok. It seems that the general consensus is KISS and just degrade everything
-with the sysctl? I can do that for v2.
+Yeah this file doesn't really belong anywhere... the mm bits of nommu are
+(ostensibly :P) maintained by me and Liam though.
 
--- 
-Pedro
+>
+>  fs/ramfs/file-nommu.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/fs/ramfs/file-nommu.c b/fs/ramfs/file-nommu.c
+> index 2f79bcb89d2e..fb471bf88ab7 100644
+> --- a/fs/ramfs/file-nommu.c
+> +++ b/fs/ramfs/file-nommu.c
+> @@ -69,6 +69,9 @@ int ramfs_nommu_expand_for_mapping(struct inode *inode, size_t newsize)
+>  	gfp_t gfp = mapping_gfp_mask(inode->i_mapping);
+>
+>  	/* make various checks */
+> +	if (!newsize)
+> +		return 0;
+> +
+
+Hmm yeah get_order() literally says the result is undefined if you input 0,
+and it bizarrely returns BITS_PER_LONG - PAGE_SHIFT in that case.
+
+So this isn't correctly handling 0 size at all.
+
+Also in the case of a mmu, this function collapses to a stub that just
+returns 0 and the rest of __shmem_file_setup() runs fine if size == 0.
+
+So yeah this is probably right!
+
+>  	order = get_order(newsize);
+>  	if (unlikely(order > MAX_PAGE_ORDER))
+>  		return -EFBIG;
+> --
+> 2.53.0
+>
+>
+>
+
+Cheers, Lorenzo
