@@ -1,48 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA30D19F11B;
-	Thu, 28 May 2026 15:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4093F23C4
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 15:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779982628; cv=none; b=LDPegQ6LgNngCTT+4y+LLs4lvBdn1rxTRvVwpsYdn3zKHm0TuhKG3UchVY/YQeh6BZFSRsYyt9L9LnDTPRm9MWamo/ZaZmDBN3wWmLHBRMNz30NpzLCJgT72S0JPkpMSOjWrbthBZOpopECiQNCklJYa3NyO63pCBIppp7VcIH8=
+	t=1779982634; cv=none; b=i8RajGws8QUcKFlHx0Yc3IVHMeNTt/Apz3OAq/xgfqXVDnvsIeetab5YYPjDzTcj56jNYVR3T7pvgYjzbm8EKgBQCR8HlCHZ0D9xSdF3gY2z11swpxlZz5doGXv5dTBbSqQdT9oORJFUAmqHtcJqZazQMHTwhn+kkmr2DlaqVyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779982628; c=relaxed/simple;
-	bh=UvZhOE2beGt+JfbB29hrRjxwc3ro/bcu2TES6dE/gIw=;
+	s=arc-20240116; t=1779982634; c=relaxed/simple;
+	bh=NftFE2JtbNjI/YCmi6LTOBt8TBhJcI4X+lbsIBRp6R0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vq3qS94FrrdxickNxVZmxu0PTt/0T0JQqTIldSoQLhYHqRSZR+/fczqUCFY/aLlMNQKtKp38rqOWTBtTQeqlTdsC4PA7Z7Xr8uKa2fg6ah1xRZECYzubhY2AlgXV8lIX8SSQ9NmfqIqLLkmm6kd9SJfEipugNLQZzCnNDwKiIw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQMYV3ZK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=m6SvTiSfEULD9RUFksYdSVVmi3yw+9Vp7fFbQjzlNdGYtO38S6R0p9/tdNTBPA9w6wq1mouToyptWviyY4U8UIaeXuQErbS0FCWheJnXBDxk/ZtjB2EpVC4RY3zDa2nY8Dy8aaACd2qlIQNIVUoWPVteXhDx1VlC15UZuyzavFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=dZNPpuKv; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQMYV3ZK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEB6A1F000E9;
-	Thu, 28 May 2026 15:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779982628;
-	bh=UvZhOE2beGt+JfbB29hrRjxwc3ro/bcu2TES6dE/gIw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UQMYV3ZKcZd4PTfDuCGUUCmHgppui9/Vm/kGrVy0q6tnmbMql5N9huBmxl8OhHmPq
-	 NZXe7O+u4nVXHvTE/mXhF7eqPUUxLaqX+2FACM1qI2tTOBZxU7lhh3Fy2moNpxgsT3
-	 DKt/0Y/mqQ+5TDNs4DWalqXQ2Efn0bhAzIRdX/ox5/QrhL3riv8HF6k+l8OVLy0zvv
-	 CBUN1Xjy3S/ddU+RTWxf4YFyACT+c+NQhxHW+dgeTe3NPW5pf9hCSHwWDo0DTkFDPg
-	 JOEP8qewIj059PxVLOsFuAwy8nEh6oDYCqOHRb/+2poEJhV7mK06Gg8Cg4w6vRLym8
-	 6hg3qeubdPNWw==
-Date: Thu, 28 May 2026 16:37:01 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, liam@infradead.org, vbabka@kernel.org, willy@infradead.org, 
-	jannh@google.com, paulmck@kernel.org, pfalcato@suse.de, shuah@kernel.org, 
-	hsukrut3@gmail.com, richard.weiyang@gmail.com, reddybalavignesh9979@gmail.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] use vma locks for proc/pid/{smaps|numa_maps} reads
-Message-ID: <ahhdeYDAY7BvqxYU@lucifer>
-References: <20260426062718.1238437-1-surenb@google.com>
- <a27344e1-6f0c-4686-99ac-fc2cfcc5bb06@kernel.org>
- <CAJuCfpG3xZhL94E=yR1KsWs6fVwcdoAECoOaV3UOeB10TXmOeg@mail.gmail.com>
- <0ce6071b-0c99-4119-9ab4-a2d9c00b99a8@kernel.org>
- <CAJuCfpHPs54_hc_U9DCxtv=xikKHJMtqCEDN_4Y5aDqKhoBDnA@mail.gmail.com>
- <20260526184944.18c28d6980fd29ff12fbbe22@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="dZNPpuKv"
+Received: from macsyma.thunk.org (c-73-9-28-129.hsd1.il.comcast.net [73.9.28.129])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64SFaoGe005093
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 May 2026 11:36:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1779982617; bh=TZP9Bw72ZXDcE3HLjqomxWwAgWZts+W2FqVr4QLSYkw=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=dZNPpuKvaLChaKmueTnmQ6G8mucA3VRMAOh4nmlQ/bPjVJo79ZKpQQznPIFhgtzau
+	 OQgmjOGfnY8XV2+c+vkiG/tCsbX2ozJxIJr+c8UcjM1dXir02JwEnJbltONKkde0qh
+	 /0wKGIQJDFIp5gSU7vMpn8lgfUPX79oPfTc2/PZ83fgB2Ud5tkj91LIJlwpfJ03AYa
+	 ggfFZmwD1bJjSTbC1U+cTgQw2nD1qODgMy6R/yrJtsAcotJCw5dGkqn2Pxuj8jwpG1
+	 v5tuCMCw3aLapGw7kDk42IQQm9uJPcXR249dnZC5BdcI0aK9XAz4icoMadLIE6mNw1
+	 6EFN54ga6AXYQ==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id A59336B6C80C; Thu, 28 May 2026 10:36:49 -0500 (CDT)
+Date: Thu, 28 May 2026 10:36:49 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org
+Subject: Re: [PATCH 16/34] jbd2: Convert journal commit to bh_submit()
+Message-ID: <5plxqx6kdm5nkp65bjfrfy5z52v536ajonph2oegfm6wcmaw4p@hpd7ijpv4yxk>
+References: <20260525171931.4144395-1-willy@infradead.org>
+ <20260525171931.4144395-17-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,36 +51,16 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260526184944.18c28d6980fd29ff12fbbe22@linux-foundation.org>
+In-Reply-To: <20260525171931.4144395-17-willy@infradead.org>
 
-On Tue, May 26, 2026 at 06:49:44PM -0700, Andrew Morton wrote:
-> On Thu, 21 May 2026 08:16:01 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
->
-> > > > It might be but the point of this patchset (and the previous one that
-> > > > made a similar change for /proc/pid/maps) is to reduce mmap_lock
-> > > > contention, not to speed up the read operation, which is not a
-> > > > performance critical part.
-> > >
-> > > Well, this interface has been around .. forever, so if there is a noticeable
-> > > change in performance it should be called out.
-> >
-> > Sorry, I missed your reply. I'll see if I can adopt Paul's test for
-> > /proc/pid/maps [1] for benchmarking smaps but I would expect similar
-> > results as was reported in [2].
->
-> How's it coming along ;)
->
-> > [1] https://github.com/paulmckrcu/proc-mmap_sem-test
-> > [2] https://lore.kernel.org/all/20250719182854.3166724-1-surenb@google.com/
->
-> I've moved this series to the tail of mm-unstable to permit more time.
+On Mon, May 25, 2026 at 06:19:09PM +0100, Matthew Wilcox (Oracle) wrote:
+> Avoid an extra indirect function call by using bh_submit()
+> instead of submit_bh() in journal_submit_commit_record()
+> and jbd2_journal_commit_transaction().  These both use
+> journal_end_buffer_io_sync(), so it's more straightforward to do them
+> both at once.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: linux-ext4@vger.kernel.org
 
-Well I'm not sure it's _vital_ to get stats for this, it's pretty much an
-extension of existing VMA lock work in /proc/$pid/maps -> smaps, and the
-logic is sound.
-
-There's no reason to believe there will be anything other than a reduction
-in lock contention here at least under whichever workloads happen to hammer
-smaps, but doesn't feel like there's a downside!
-
-Cheers, Lorenzo
+Acked-by: Theodore Ts'o <tytso@mit.edu>
