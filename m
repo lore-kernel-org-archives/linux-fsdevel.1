@@ -1,295 +1,436 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3E42BEC45
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 14:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779978079; cv=pass; b=ZyOVqeyOZ8R4MTdH57nx7kuqIotab5umVTpgKCWHsBuZ7WyicLBInbRShhbCT/ntlKbcIK85IoXdUyzA1zcTp8F5qtmLKpCJbZcRfFNgwLeu+xhnL5/X2+V11MGw+aEQ4uqxtCqdmpppZz2a+Tl19XxpogpzeyfU9TipEnqaQ4U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779978079; c=relaxed/simple;
-	bh=js34c//je42ehN93ZjJa3FU5a9BRF/ma1UygPPSGroA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eAJbm+2PcPNt7KjjJ2sfd7LFZgiLnt7IFDOzaeOvtLUFfmF/HzOVNwgf8fLIWFnAbPNQ4TgLp3QLYoEm7OzbJafJaaRdCHKk4Vc1sSk79zQyHt+G0mSqXouL3Qm6KrIqzOId1fqpUC4MsgBKUACLRrCGLWnbSalTHPn1lBbY5GM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=auhMhcSU; arc=pass smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735B73D4133
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 14:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779978122; cv=none; b=lVA74afkDjc/89btHfo1wVZbjGfY3BPDMLLBCk6NhZy2F00BDyUaCB75crfSZoyc+OI1mEhZI9TCa89k93sUhs6WIZuzexwszrwfN2dgAqM2bYDPPyTV1rnxn18MHEXKw2tSZnqP7G8r09fZxOh1xKQ47hDqdWTmkFLW6YjTOuY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779978122; c=relaxed/simple;
+	bh=qndRqPKBI7+mJgMntZWop/389pamknKCawN23Xk6rso=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TL5VQfLFYc1SEDJsIaAr595r0RN0IHVBanU/6NjRJCk07q86DRhS+V/EwswAuURvafQp6ddNsTP1p3SLP67LbPHR4T5EwALiZm1ULnJuEmMM8O9GdMPLD9wEdDGekMKH/bma/7XCiPSXgUJ9CSR8ZBLK8Oo8IwAUYbCbbjInjLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OARE2uLf; arc=none smtp.client-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="auhMhcSU"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-671588ab0cfso137a12.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 07:21:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779978076; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kIniufyfbyYFauyNGfRtMpSWF8wX2fQklSoYzyOG7Ig+xH5OUb0NrgSB4UaACIc6ef
-         coAsLuVkE92PpJoOcZcBYdXolM0Ebswr5H5JsP6batR5B+1Gv+pm9jL7oaZJa3BvVnWu
-         oTdFG+amKtzVtfrz80UcvkL7ojag+aTX/WjzsnOqId3MsCPIEinWMBlfhGnHkWyBbaHz
-         Q4pGEMVw4Zdgh+4O82zffh2glkSCbDB988hLAVR6b2H5UNdHvZgQQugwHLqcY9IP5lh1
-         e3k7Uf5OzRtH471tFhLupjhj1Nfeuv3JYzWee1edEOABNsKadiXBM4nKQBYFxq7/YLDT
-         NG5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KF8uuHRKhzu9ZemQbfUrK/7gicBvewdCR8gP+EPI77w=;
-        fh=vi4LljKgyhhbrMGyY2/aaHSmRG19kHdZ4Yq3ICTCM08=;
-        b=V8a/PzaV0vSNf2x0B9p5eKLe8fPme9mhFrF48jiS22/4n/Neu8iAuvHQ5HObgCQZgZ
-         lJAbUd8qkwsV1HvzSmlDApiraBsZeT/1CzG8VPq/zXJ/xl8MEnuIw+Kv1fqP5+PMCzH0
-         viKTbAv9BtJ6kZDVrLsGYlexdCCl+NsXp8aLSgEfOIICXFlKh7a70BuMeNIdLN2UdlYx
-         9AVF8WMOkt1wrxTt6Ug/za3M6haEbH+n/T2bZ0SpD04Iys8v+1kWzKlcI3IiOsHH5HLr
-         rF3ONVwJK+MV36oiSBgeNvcQQL4oKjvBLMScykShoJpdFAo1kNcvwPneLT9iQChMBKyu
-         MdmQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OARE2uLf"
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1329fc4bf77so3993888c88.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 07:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779978076; x=1780582876; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779978119; x=1780582919; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KF8uuHRKhzu9ZemQbfUrK/7gicBvewdCR8gP+EPI77w=;
-        b=auhMhcSUOfqf1SDln+pkwcH1LO0LM5tOZ68iAt1WXhvNbtiGRp66D8KwdwOcsD/t7x
-         ryxmnx+YviSbjQL39qcu4Q6irzP9DR8WHuNfXsqCRpHqNk3VzmiOhcRzq8bAVbxwPB9U
-         ROSDkJmDHinuIw3bNFi5rm44TVwv5bYybATe6BgaEqaF6UeWy7+rrsQAMYVIYsIUqr+y
-         0gu1vMUh5SjJtslG3q3DsPdoloEEixrCkYL+4hWB6hf5+JYDLGHU2IJUcSOKGliytVRQ
-         8n8If5L/wsBLzkm2WDzrYLIUgxe1KbCfcBb9DLGH+Zvigg4cNPArmWPaNfekRm42qmG/
-         DnhQ==
+        bh=yAS9z0wKWgBpy9qk4qxfRFZg6O/qEwC7u6d0FgnJwAg=;
+        b=OARE2uLfu2MpL/hm1xq2B7YCDfKofFEQGGyKpMaXIk+seEsEwKfpELsjBWKlppxKwY
+         keFWkqQCnABjQj+hhsLuUWvkYncMNcET2ru9d6EDTT3l9CPtIdxG7k9c6sDGITeEocGE
+         iX9k9q/2T0CeYnDHZKNfHYLUw0gDfkGj57fTdceKyZfxd+UsqIx98gBNd2Bg90CCeua5
+         94uvXiqrN5cNt0LKYQCSX/bWkF/IP/n9C8idZW39hpJik6So3k6Iqr+RDBxAoM7uCN39
+         QYkINWyQi47PLaclbV46iEorrPqGz3FHNBWb+KTGW9qJ1RZOa975ppe4mtNr00k4eeuz
+         UAFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779978076; x=1780582876;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1779978119; x=1780582919;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=KF8uuHRKhzu9ZemQbfUrK/7gicBvewdCR8gP+EPI77w=;
-        b=W+aS3pmHGi9o3fqCkM4Hlmel8w4cuBHs+5fs5RGBs5RTeOxyZUW28e8YtVN2VeLvE6
-         4UzYlR8lXqTiaF3YGABJLXNHoA1t5HMNvAQQfMbqFCBey6oWJXfzuGC1c+cyQSFMc8AC
-         RUKJcZc3eF/MEk1o25c8phqC0pufTeXGRf3JLdvWgM2osWultry3BN1O9N6cFP219XmA
-         kG0Xgfle8frMZXthobfbqWUeEomghezAsmt0Isl4roHLdPE31DM/KRQVbMNgxUcQeyad
-         XDlbQlXsrrJf7s37Y0MEn3ishagPHHj1jx+4zI+3QdaTCGCUEHSXlw85g4UWh3ZwwT07
-         mlRw==
-X-Forwarded-Encrypted: i=1; AFNElJ8O0v2DNjmx+K68QL5WD52Yzkw+OnoyEV8hhubRMCMkxmHX8+2mN7xpG2SuTY9d1/OH69P5phj2+o65TrP3@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0aZl1Ns0z68/Alf9hqz4ajkt7vanGUgAUXizG+wAb3NxoxdA+
-	j5Ij3R8DT8QMC8NpU5vhUUgNTsdou7EL1SpKmI/44V3h4Y74WbcRMSqvVpp0ltmaZXlqz892jqr
-	LxJZ6NBip3ylfb9AD5Ev8vmZaeTlSXw8sbxIcPj8U
-X-Gm-Gg: Acq92OFPJ9IKM3DaTcGYs51HD5TEJHWXUKwnrLb4Vr5RO7Kq4boBFEvGdvo/X9IyHo7
-	Nv48fdk/mZofliA1jxi0A46NOBmLhbJMYDsW0ULG+KwqGwFWAKDrwBl+9vaiobL2rmUoIPwJFh9
-	+vk0lJ2EvPEPxVU62aa1hjx/XpSnK5O7f0fM5fg6O6/2biNbaOIO0da2Jx1EQjTqKa59LCP9xFa
-	009/I9ak52wex5Z5oibO9uGfV9tm4x3DXZcs42NDe/uuk19uyFPSsJSQUjK3P7NBVg+CxW/H1mP
-	idacQVXrwk+U7rnQ2GX2JBgvcG9Vcdqa0KgnyB4mX7+p/4bi
-X-Received: by 2002:a05:6402:128f:b0:67b:6d1c:9585 with SMTP id
- 4fb4d7f45d1cf-68b1e0ba9c7mr37591a12.8.1779978075876; Thu, 28 May 2026
- 07:21:15 -0700 (PDT)
+        bh=yAS9z0wKWgBpy9qk4qxfRFZg6O/qEwC7u6d0FgnJwAg=;
+        b=oV+HROjthQtUd2iqyS9RurMLgBG/vhrBsMZ4ALKO2vy4RffL/4hnGJuj4ujZV4vxdN
+         n4N7Zdk5X67iBm2og02XmqFmTtTsixldubgbrek+bKSGfohMVkQCMTY5UlAQvB8KyHXg
+         pixoaI2rdd+LYCKdzM69bi1ZXQb+SYYg/K3FVHJVqnLYkHBt+u8VuVs2IwR7lV6Sxpmo
+         pNNlPANcS5FqMnlyVKqPm1k8K4NZHM7iSQkBXok96hO5YH+xNyx2HychkX7ai8CvuVwN
+         7VnvD8mwuY4FYUL4jEJt4D3RUNOu/j9v24+9Y4lkb+u2Nn+5L4SRgLv0vigZF7I4mLW7
+         c49A==
+X-Forwarded-Encrypted: i=1; AFNElJ8BX6RIVV4oKcImPkgFyu2H8K3AII3RWMkDfYObTcC9v6Z81nohVzA7/CE7NOYei+qSABVqHAGabBpKnhUv@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTNmdhbZPqm2Y5l1/mg5yYLEaRAkqWJlVbm4YiorTfeN6CtiHk
+	20DQ4Ur8jdZ7Umy7nGnqD2R32JlRAb7fs0tI5P5yQZ/BpqhyrPOl40M=
+X-Gm-Gg: Acq92OEFipMWj0U+2FcQECJMf5MWNnbZPkNtOFmoaq/JeuHjt41Mi8bYijXzuxyMmB/
+	rboW42kFmOyT9gt4iaq1HZD9yqah8ltPkiDBmjhwILI468GdE9JIpCOrIgUdQW9GjvEFKEdUCEl
+	iTvRHY5W4ITzlC07omKadaI2MzfbBkLBunHsZwpAGu62AJk3kbqaNFG5MGa8H7mfPQTHBZ3XPCm
+	zgmZ2Ev48PhsQ6Q1E+hStJikfbYt8+cKZ8uJby5txAgZZVlTkC/AWABg8XzEeTF1GKHBCzDFG8S
+	oW584dY9pa3Ztao1LUG/kbvERtsBlIefsEqXMXNnnczBpcaLtLILTGYwPGSeqxCneLLXg8k8T8Q
+	jgkY8FOwKf7KFs2ybWKJHOmLs6hsv/byWmKsh+3Wh2gAj6Bf5BP6EGP+hYt7RtKVudCbXsptjDe
+	Bc/Eehc4GrBsyW5bwX7BlmYHmfqvReGl/JTdxZP5iZK5qMDl3yoUXZCEcK3MZCYvQ/Np7YCqpEh
+	OALL+e9KNVlXY96IPmkJs62aqQJpmda
+X-Received: by 2002:a05:7022:913:b0:135:e814:d03f with SMTP id a92af1059eb24-1365fc7d7e9mr10292897c88.36.1779978118278;
+        Thu, 28 May 2026 07:21:58 -0700 (PDT)
+Received: from localhost.localdomain (157-131-96-99.fiber.dynamic.sonic.net. [157.131.96.99])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1366a40305csm11602290c88.7.2026.05.28.07.21.57
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 28 May 2026 07:21:57 -0700 (PDT)
+From: Rochan Avlur <rochan.avlur@gmail.com>
+To: yuezhang.mo@sony.com
+Cc: linkinjeon@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	rochan.avlur@gmail.com,
+	rochan.avlur@skydio.com,
+	sj1557.seo@samsung.com,
+	stable@vger.kernel.org,
+	Yuezhang Mo <Yuezhang.Mo@sony.com>
+Subject: [PATCH v5] exfat: preserve benign secondary entries during rename and move
+Date: Thu, 28 May 2026 07:21:37 -0700
+Message-ID: <20260528142137.49121-1-rochan.avlur@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <PUZPR04MB63162D8FEE0B2F486C14888E810B2@PUZPR04MB6316.apcprd04.prod.outlook.com>
+References: <PUZPR04MB63162D8FEE0B2F486C14888E810B2@PUZPR04MB6316.apcprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
- <87ik8b2rh8.fsf@email.froward.int.ebiederm.org> <CAG48ez2pmuoTCZh_AVKDDLeQEYmm=gLMgThnqFhRMFfZvABpdw@mail.gmail.com>
- <87wlwny905.fsf@email.froward.int.ebiederm.org>
-In-Reply-To: <87wlwny905.fsf@email.froward.int.ebiederm.org>
-From: Jann Horn <jannh@google.com>
-Date: Thu, 28 May 2026 16:20:39 +0200
-X-Gm-Features: AVHnY4JlrfOEpU_4BQJnUmH3-05d24mVTy1oiRn0qweLdreGyUfEGpJa7KT7h7A
-Message-ID: <CAG48ez3Wp757fQh1gyTxf-k3p__utUOWM8xdJeUig4gPpSmTEA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] proc: protect ptrace_may_access() with exec_update_lock
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Arjan van de Ven <arjan@linux.intel.com>, Jake Edge <jake@lwn.net>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
-	Kees Cook <keescook@chromium.org>, Oleg Nesterov <oleg@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 28, 2026 at 3:11=E2=80=AFPM Eric W. Biederman <ebiederm@xmissio=
-n.com> wrote:
-> Jann Horn <jannh@google.com> writes:
->
-> > On Mon, May 25, 2026 at 9:56=E2=80=AFPM Eric W. Biederman <ebiederm@xmi=
-ssion.com> wrote:
-> >> I have added a couple more people who might be interested.
-> >>
-> >> Kees Cook because as you have structured this it is an exec problem.
-> >>
-> >> Oleg Nesterov as he is knowledgable about ptrace.
-> >>
-> >> Jann Horn <jannh@google.com> writes:
-> >>
-> >> > My understanding is that procfs is effectively maintained by the VFS
-> >> > maintainers (though scripts/get_maintainer.pl claims that there are
-> >> > no maintainers for procfs because the VFS entry only claims files
-> >> > directly in fs/, and the procfs entry has no maintainers listed on
-> >> > it).
-> >> >
-> >> > In procfs, most uses of ptrace_may_access() should use
-> >> > exec_update_lock to avoid TOCTOU issues with concurrent privileged
-> >> > execve() (like setuid binary execution).
-> >> >
-> >> > This series doesn't fix all the remaining issues in procfs, but it f=
-ixes
-> >> > the easy cases for now; I will probably follow up with fixes for the
-> >> > gnarlier cases later unless someone else wants to do that.
-> >> >
-> >> > I have checked that procfs files still work with these changes and t=
-hat
-> >> > CONFIG_PROVE_LOCKING=3Dy doesn't generate any warnings.
-> >> >
-> >> > (checkpatch complains about missing argument names in
-> >> > proc_op::proc_get_link, but that was already the case before my
-> >> > patch.)
-> >>
-> >>
-> >> I think I finally have my context paged back in so I can intelligently
-> >> say something about this series.
-> >>
-> >> The scenario you are worried about is when exec gains privileges,
-> >> and we read through proc and authenticate with the old credentials
-> >> instead of the new credentials.
-> >>
-> >> Question 1.
-> >>
-> >> Assuming the executable is world readable (which they generally are)
-> >> is there anything that becomes accessible in that race that was
-> >> not already accessible?
-> >
-> > I believe so - the gnarliest example I am thinking of is:
-> > Memfds are always mode 0777 or 0666 (see __shmem_file_setup, which
-> > sets S_IRWXUGO), so their access control is purely based on being able
-> > to pathwalk to the memfd's inode. If you can race
-> > open(/proc/$pid/fd/$n) with the process $pid going through setuid
-> > execution and calling memfd_create(), you should be able to get
-> > read+write access to the memfd created by the setuid binary that was
-> > supposed to be private.
-> >
-> > (But I have not tested that and don't know if there are actually any
-> > setuid binaries that happen to use memfds.)
->
-> I don't know about memfds.  I do know it has been a concern in the past
-> about opening proc using credentials before exec and then using the
-> credentials after exec.
->
-> We certainly closed some of those races, if there are still some
-> of those races present we should definitely close them.
->
-> In my thinking there are the set of races that exist because we fail to
-> present exec to userspace as an atomic operation. Then there are larger
+Commit 8258ef28001a ("exfat: handle unreconized benign secondary
+entries") added cluster freeing for benign secondary entries inside
+exfat_remove_entries().  However, exfat_remove_entries() is also called
+from the rename and move paths (exfat_rename_file and exfat_move_file),
+where the old entry set is being relocated rather than deleted.  This
+causes benign secondary entries such as vendor extension entries to be
+silently destroyed on rename or cross-directory move, violating the
+exFAT spec requirement (section 8.2) that implementations preserve
+unrecognized benign secondary entries.
 
-Yes, and exec_update_lock is how we make sure we can present the core
-of exec to userspace as an atomic operation.
+Fix this by adding a free_benign parameter to exfat_remove_entries()
+so callers can suppress cluster freeing during relocation, and
+extending exfat_init_ext_entry() to copy trailing benign secondary
+entries from the old entry set into the new one internally.  Also
+clean up the error paths to delete newly allocated entries on failure.
 
-> set of races that exist simply because exec happened.
->
->
-> Looking at it proc fd's currently rely on the permission checks
-> of the file descriptors themselves and don't make any guarantees
-> about the path.
+Fixes: 8258ef28001a ("exfat: handle unreconized benign secondary entries")
+Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/linux-fsdevel/CAG7tbBV--waov7XVu2FHQEc6paR92dufS=em9DW5Kzsrpu3iQg@mail.gmail.com/
+Signed-off-by: Rochan Avlur <rochan.avlur@gmail.com>
+Reviewed-by: Yuezhang Mo <Yuezhang.Mo@sony.com>
+---
+v5:
+ - Add Reviewed-by tag.
+v4:
+ - Fold benign secondary copy into exfat_init_ext_entry(), removing
+   exfat_copy_trailing_entries(); handle in-place shrink internally.
+ - Simplify relocation condition to avoid unnecessary ENOSPC.
+v3:
+ - Merge exfat_remove_entries_nofree() into exfat_remove_entries() with
+   a bool free_benign parameter.
+ - Move new_entries and src_start calculations after the early return in
+   exfat_copy_trailing_entries().
+ - Clean up error paths in exfat_rename_file() and exfat_move_file() to
+   delete newly allocated entries on failure.
+v2:
+ - Resent with proper formatting (no content changes from v1).
 
-What do you mean by "the permission checks of the file descriptors themselv=
-es"?
+ fs/exfat/dir.c      | 50 ++++++++++++++++++++++---
+ fs/exfat/exfat_fs.h |  5 ++-
+ fs/exfat/namei.c    | 89 +++++++++++++++++++++++++++++++++++----------
+ 3 files changed, 116 insertions(+), 28 deletions(-)
 
-> The issue you point out with memfd's definitely needs to be fixed.
-> It should be separated out from the rest of the races simply because
-> it is a completely different kind of issue.
->
-> I wonder if anyone even anticipated you could open another file handle
-> to memfd's through proc.  If so leaving everything to path based
-> permissions assumed a feature of proc that doesn't exist.
+diff --git a/fs/exfat/dir.c b/fs/exfat/dir.c
+index ac008ccaa97d..2f883107be6e 100644
+--- a/fs/exfat/dir.c
++++ b/fs/exfat/dir.c
+@@ -470,32 +470,70 @@ static void exfat_free_benign_secondary_clusters(struct inode *inode,
+ 	exfat_free_cluster(inode, &dir);
+ }
+ 
++/*
++ * exfat_init_ext_entry - initialize extension entries in a directory entry set
++ * @es:          target entry set
++ * @num_entries: number of entries excluding benign secondary entries
++ * @p_uniname:   filename to store
++ * @old_es:      optional source entry set with benign secondary entries, or NULL
++ * @num_extra:   number of benign secondary entries to copy from @old_es
++ *
++ * Set up the file, stream extension, and filename entries in @es, optionally
++ * preserving @num_extra benign secondary entries from @old_es.  @es and @old_es
++ * may refer to the same entry set; excess entries are marked as deleted.
++ */
+ void exfat_init_ext_entry(struct exfat_entry_set_cache *es, int num_entries,
+-		struct exfat_uni_name *p_uniname)
++		struct exfat_uni_name *p_uniname,
++		struct exfat_entry_set_cache *old_es, int num_extra)
+ {
+-	int i;
++	int i, src_start = 0, old_num;
+ 	unsigned short *uniname = p_uniname->name;
+ 	struct exfat_dentry *ep;
+ 
+-	es->num_entries = num_entries;
++	if (WARN_ON(num_extra < 0 || (num_extra && (!old_es ||
++		    old_es->num_entries < ES_IDX_FIRST_FILENAME + num_extra))))
++		num_extra = 0;
++
++	/*
++	 * Save old entry count and source position before modifying
++	 * es->num_entries, since old_es and es may point to the same
++	 * entry set.
++	 */
++	old_num = es->num_entries;
++	if (old_es && num_extra > 0)
++		src_start = old_es->num_entries - num_extra;
++
++	es->num_entries = num_entries + num_extra;
+ 	ep = exfat_get_dentry_cached(es, ES_IDX_FILE);
+-	ep->dentry.file.num_ext = (unsigned char)(num_entries - 1);
++	ep->dentry.file.num_ext = (unsigned char)(num_entries - 1 + num_extra);
+ 
+ 	ep = exfat_get_dentry_cached(es, ES_IDX_STREAM);
+ 	ep->dentry.stream.name_len = p_uniname->name_len;
+ 	ep->dentry.stream.name_hash = cpu_to_le16(p_uniname->name_hash);
+ 
++	if (old_es && num_extra > 0) {
++		for (i = 0; i < num_extra; i++)
++			*exfat_get_dentry_cached(es, num_entries + i) =
++				*exfat_get_dentry_cached(old_es, src_start + i);
++	}
++
+ 	for (i = ES_IDX_FIRST_FILENAME; i < num_entries; i++) {
+ 		ep = exfat_get_dentry_cached(es, i);
+ 		exfat_init_name_entry(ep, uniname);
+ 		uniname += EXFAT_FILE_NAME_LEN;
+ 	}
+ 
++	/* Mark excess old entries as deleted (in-place shrink) */
++	for (i = num_entries + num_extra; i < old_num; i++) {
++		ep = exfat_get_dentry_cached(es, i);
++		exfat_set_entry_type(ep, TYPE_DELETED);
++	}
++
+ 	exfat_update_dir_chksum(es);
+ }
+ 
+ void exfat_remove_entries(struct inode *inode, struct exfat_entry_set_cache *es,
+-		int order)
++		int order, bool free_benign)
+ {
+ 	int i;
+ 	struct exfat_dentry *ep;
+@@ -503,7 +541,7 @@ void exfat_remove_entries(struct inode *inode, struct exfat_entry_set_cache *es,
+ 	for (i = order; i < es->num_entries; i++) {
+ 		ep = exfat_get_dentry_cached(es, i);
+ 
+-		if (exfat_get_entry_type(ep) & TYPE_BENIGN_SEC)
++		if (free_benign && (exfat_get_entry_type(ep) & TYPE_BENIGN_SEC))
+ 			exfat_free_benign_secondary_clusters(inode, ep);
+ 
+ 		exfat_set_entry_type(ep, TYPE_DELETED);
+diff --git a/fs/exfat/exfat_fs.h b/fs/exfat/exfat_fs.h
+index 89ef5368277f..e22b4ca3ec7f 100644
+--- a/fs/exfat/exfat_fs.h
++++ b/fs/exfat/exfat_fs.h
+@@ -524,9 +524,10 @@ void exfat_init_dir_entry(struct exfat_entry_set_cache *es,
+ 		unsigned int type, unsigned int start_clu,
+ 		unsigned long long size, struct timespec64 *ts);
+ void exfat_init_ext_entry(struct exfat_entry_set_cache *es, int num_entries,
+-		struct exfat_uni_name *p_uniname);
++		struct exfat_uni_name *p_uniname,
++		struct exfat_entry_set_cache *old_es, int num_extra);
+ void exfat_remove_entries(struct inode *inode, struct exfat_entry_set_cache *es,
+-		int order);
++		int order, bool free_benign);
+ void exfat_update_dir_chksum(struct exfat_entry_set_cache *es);
+ int exfat_calc_num_entries(struct exfat_uni_name *p_uniname);
+ int exfat_find_dir_entry(struct super_block *sb, struct exfat_inode_info *ei,
+diff --git a/fs/exfat/namei.c b/fs/exfat/namei.c
+index 2c5636634b4a..76b2e2db80fb 100644
+--- a/fs/exfat/namei.c
++++ b/fs/exfat/namei.c
+@@ -503,7 +503,7 @@ static int exfat_add_entry(struct inode *inode, const char *path,
+ 	 * the first cluster is not determined yet. (0)
+ 	 */
+ 	exfat_init_dir_entry(&es, type, start_clu, clu_size, &ts);
+-	exfat_init_ext_entry(&es, num_entries, &uniname);
++	exfat_init_ext_entry(&es, num_entries, &uniname, NULL, 0);
+ 
+ 	ret = exfat_put_dentry_set(&es, IS_DIRSYNC(inode));
+ 	if (ret)
+@@ -814,7 +814,7 @@ static int exfat_unlink(struct inode *dir, struct dentry *dentry)
+ 	exfat_set_volume_dirty(sb);
+ 
+ 	/* update the directory entry */
+-	exfat_remove_entries(inode, &es, ES_IDX_FILE);
++	exfat_remove_entries(inode, &es, ES_IDX_FILE, true);
+ 
+ 	err = exfat_put_dentry_set(&es, IS_DIRSYNC(inode));
+ 	if (err)
+@@ -969,7 +969,7 @@ static int exfat_rmdir(struct inode *dir, struct dentry *dentry)
+ 
+ 	exfat_set_volume_dirty(sb);
+ 
+-	exfat_remove_entries(inode, &es, ES_IDX_FILE);
++	exfat_remove_entries(inode, &es, ES_IDX_FILE, true);
+ 
+ 	err = exfat_put_dentry_set(&es, IS_DIRSYNC(dir));
+ 	if (err)
+@@ -996,6 +996,23 @@ static int exfat_rmdir(struct inode *dir, struct dentry *dentry)
+ 	return err;
+ }
+ 
++/*
++ * Count benign secondary entries beyond the filename entries.
++ * Returns the count, or -EIO if the entry set is inconsistent.
++ */
++static int exfat_count_extra_entries(struct exfat_entry_set_cache *es)
++{
++	struct exfat_dentry *stream;
++	unsigned int name_entries;
++	int extra;
++
++	stream = exfat_get_dentry_cached(es, ES_IDX_STREAM);
++	name_entries = EXFAT_FILENAME_ENTRY_NUM(stream->dentry.stream.name_len);
++	extra = es->num_entries - (ES_IDX_FIRST_FILENAME + name_entries);
++
++	return extra >= 0 ? extra : -EIO;
++}
++
+ static int exfat_rename_file(struct inode *parent_inode,
+ 		struct exfat_uni_name *p_uniname, struct exfat_inode_info *ei)
+ {
+@@ -1004,6 +1021,7 @@ static int exfat_rename_file(struct inode *parent_inode,
+ 	struct super_block *sb = parent_inode->i_sb;
+ 	struct exfat_entry_set_cache old_es, new_es;
+ 	int sync = IS_DIRSYNC(parent_inode);
++	unsigned int num_extra_entries, num_total_entries;
+ 
+ 	if (unlikely(exfat_forced_shutdown(sb)))
+ 		return -EIO;
+@@ -1013,19 +1031,23 @@ static int exfat_rename_file(struct inode *parent_inode,
+ 		return num_new_entries;
+ 
+ 	ret = exfat_get_dentry_set_by_ei(&old_es, sb, ei);
+-	if (ret) {
+-		ret = -EIO;
+-		return ret;
+-	}
++	if (ret)
++		return -EIO;
+ 
+ 	epold = exfat_get_dentry_cached(&old_es, ES_IDX_FILE);
+ 
+-	if (old_es.num_entries < num_new_entries) {
++	ret = exfat_count_extra_entries(&old_es);
++	if (ret < 0)
++		goto put_old_es;
++	num_extra_entries = ret;
++	num_total_entries = num_new_entries + num_extra_entries;
++
++	if (old_es.num_entries < num_total_entries) {
+ 		int newentry;
+ 		struct exfat_chain dir;
+ 
+ 		newentry = exfat_find_empty_entry(parent_inode, &dir,
+-				num_new_entries, &new_es);
++				num_total_entries, &new_es);
+ 		if (newentry < 0) {
+ 			ret = newentry; /* -EIO or -ENOSPC */
+ 			goto put_old_es;
+@@ -1042,13 +1064,23 @@ static int exfat_rename_file(struct inode *parent_inode,
+ 		epnew = exfat_get_dentry_cached(&new_es, ES_IDX_STREAM);
+ 		*epnew = *epold;
+ 
+-		exfat_init_ext_entry(&new_es, num_new_entries, p_uniname);
++		exfat_init_ext_entry(&new_es, num_new_entries, p_uniname,
++				     &old_es, num_extra_entries);
+ 
+ 		ret = exfat_put_dentry_set(&new_es, sync);
+-		if (ret)
++		if (ret) {
++			/* Best-effort delete to avoid duplicate entries */
++			if (!exfat_get_dentry_set(&new_es, sb,
++						  &dir, newentry,
++						  ES_ALL_ENTRIES)) {
++				exfat_remove_entries(parent_inode, &new_es,
++						    ES_IDX_FILE, false);
++				exfat_put_dentry_set(&new_es, false);
++			}
+ 			goto put_old_es;
++		}
+ 
+-		exfat_remove_entries(parent_inode, &old_es, ES_IDX_FILE);
++		exfat_remove_entries(parent_inode, &old_es, ES_IDX_FILE, false);
+ 		ei->dir = dir;
+ 		ei->entry = newentry;
+ 	} else {
+@@ -1057,8 +1089,8 @@ static int exfat_rename_file(struct inode *parent_inode,
+ 			ei->attr |= EXFAT_ATTR_ARCHIVE;
+ 		}
+ 
+-		exfat_remove_entries(parent_inode, &old_es, ES_IDX_FIRST_FILENAME + 1);
+-		exfat_init_ext_entry(&old_es, num_new_entries, p_uniname);
++		exfat_init_ext_entry(&old_es, num_new_entries, p_uniname,
++				     &old_es, num_extra_entries);
+ 	}
+ 	return exfat_put_dentry_set(&old_es, sync);
+ 
+@@ -1074,6 +1106,7 @@ static int exfat_move_file(struct inode *parent_inode,
+ 	struct exfat_dentry *epmov, *epnew;
+ 	struct exfat_entry_set_cache mov_es, new_es;
+ 	struct exfat_chain newdir;
++	unsigned int num_extra_entries, num_total_entries;
+ 
+ 	num_new_entries = exfat_calc_num_entries(p_uniname);
+ 	if (num_new_entries < 0)
+@@ -1083,8 +1116,14 @@ static int exfat_move_file(struct inode *parent_inode,
+ 	if (ret)
+ 		return -EIO;
+ 
++	ret = exfat_count_extra_entries(&mov_es);
++	if (ret < 0)
++		goto put_mov_es;
++	num_extra_entries = ret;
++	num_total_entries = num_new_entries + num_extra_entries;
++
+ 	newentry = exfat_find_empty_entry(parent_inode, &newdir,
+-			num_new_entries, &new_es);
++			num_total_entries, &new_es);
+ 	if (newentry < 0) {
+ 		ret = newentry; /* -EIO or -ENOSPC */
+ 		goto put_mov_es;
+@@ -1102,21 +1141,31 @@ static int exfat_move_file(struct inode *parent_inode,
+ 	epnew = exfat_get_dentry_cached(&new_es, ES_IDX_STREAM);
+ 	*epnew = *epmov;
+ 
+-	exfat_init_ext_entry(&new_es, num_new_entries, p_uniname);
+-	exfat_remove_entries(parent_inode, &mov_es, ES_IDX_FILE);
++	exfat_init_ext_entry(&new_es, num_new_entries, p_uniname,
++			     &mov_es, num_extra_entries);
++
++	exfat_remove_entries(parent_inode, &mov_es, ES_IDX_FILE, false);
+ 
+ 	ei->dir = newdir;
+ 	ei->entry = newentry;
+ 
+ 	ret = exfat_put_dentry_set(&new_es, IS_DIRSYNC(parent_inode));
+-	if (ret)
++	if (ret) {
++		/* Best-effort delete to avoid duplicate entries */
++		if (!exfat_get_dentry_set(&new_es, parent_inode->i_sb,
++					  &newdir, newentry,
++					  ES_ALL_ENTRIES)) {
++			exfat_remove_entries(parent_inode, &new_es,
++					    ES_IDX_FILE, false);
++			exfat_put_dentry_set(&new_es, false);
++		}
+ 		goto put_mov_es;
++	}
+ 
+ 	return exfat_put_dentry_set(&mov_es, IS_DIRSYNC(parent_inode));
+ 
+ put_mov_es:
+ 	exfat_put_dentry_set(&mov_es, false);
+-
+ 	return ret;
+ }
+ 
+@@ -1190,7 +1239,7 @@ static int __exfat_rename(struct inode *old_parent_inode,
+ 			goto del_out;
+ 		}
+ 
+-		exfat_remove_entries(new_inode, &es, ES_IDX_FILE);
++		exfat_remove_entries(new_inode, &es, ES_IDX_FILE, true);
+ 
+ 		ret = exfat_put_dentry_set(&es, IS_DIRSYNC(new_inode));
+ 		if (ret)
+-- 
+2.45.2
 
-I don't think memfds are particularly special here, they are just a
-nice, clear example of a case where an inode is protected based on
-which processes can path-walk to it.
-
-As another example: Making a directory mode 0700 is also supposed to
-prevent other users from accessing things inside it.
-
-> My gut says the best fix for the entire memfd issue is to simply change
-> memfd's and probably everything that calls shmem_file_setup to not have
-> an open method.  That eliminates any chance anyone will do anything
-> clever with proc.  But I can't see why it makes any sense to be able to
-> open another file handle into memfd's, or anything else that calls
-> shmem_file_setup for that matter.
->
-> We can first try to remove the open method of memfd's set by
-> shmem_file_setup, and if that doesn't work we can look at fixing proc to
-> provide the guarantees that were assumed (as a security fix).
->
->
-> As a quality of implementation issue I can see fixing the small race
-> where when looking up a file descriptor through proc, exec does not
-> appear to be an atomic operation.  I keep wondering if that is something
-> that should be done in get_link or d_revalidate.
-
-I don't see how d_revalidate would help, that still wouldn't be atomic.
-
-> I suspect the answer for proc_pid_get_link is to either cache something
-> like a seqcount, or simply to repeat the permission and existence checks
-> just before calling nd_jump_link.
-
-That seems like it results in complicated semantics, while a mutex
-would provide clear semantics. Which is already what we use in places
-like __pidfd_fget() and /proc/<pid>/syscall.
-
-> >> Question 2.
-> >>
-> >> How does this race compare to racing with setresuid?
-> >> Do we need to fix the setresuid case as well?
-> >
-> > Which setresuid case? setresuid clears the dumpable flag and has a
-> > memory barrier that is supposed to make that properly ordered against
-> > ptrace_may_access(); so setresuid() should normally not cause a task
-> > to become traceable, though that could maybe happen in weird
-> > scenarios.
->
-> The cases where the dumpable flag get set are all part of exec.
->
-> I was thinking of cases where we have a daemon that is started by
-> root and then it changes it's uid to do something.
-
-(Normally such a daemon would only change its EUID, which is mainly
-considered when the daemon acts as a subject, unless it intends to
-permanently drop privileges.)
-
-> Looking at ptrace_may_access the uid based checks won't allow
-> accessing of such a task unless it changes all of it's uids.
->
-> At which point arguably it is on the process that calls setuid to make
-> certain ptracing it won't be a problem.  I am not certain that ever
-> actually works in practice but that does seem to be what the current
-> code is saying.
-
-When a daemon changes its EUID for some reason, commit_creds() will
-change that daemon's dumpability to suid_dumpable, which will prevent
-ptracing it even if the UIDs match.
-
-The ptrace.2 manpage guarantees that a process which is not
-SUID_DUMP_USER can't be accessed without CAP_SYS_PTRACE.
-
-> Now I am wondering if dumpable should get set if setresuid changes
-> a uid like I described above.
-
-What do you mean by "get set"?
-
-> > I think another case we should probably care about is what happens if
-> > a process which is only protected against ptrace by being non-dumpable
-> > goes through execve() - it shouldn't be possible to access resources
-> > associated with the pre-execve state while checking against the
-> > post-execve dumpability. It might be important for this that the
-> > do_close_on_exec() logic currently happens after committing the
-> > dumpable state in exec_mmap()...
-> >
-> >> Question 3.
-> >> Do we care about the case when a privileged process calls a setuid
-> >> process and drops privileges?
-> >
-> > I don't understand the question. Hmm - do you mean a case where a
-> > process with ruid=3D1000, euid=3D0, suid=3D1000 does execve() on a setu=
-id
-> > 1000 binary? I think we probably don't specifically care about that...
-> >
->
-> The general case would be a daemon running as root forks and exec's a
-> binary running as some unprivileged user fred.
->
-> Mostly I bring it up is that it is easy to forget suid exec can drop
-> privileges as well as raise them.
-
-I do not understand the scenario you're describing. Can you give a
-specific example you're thinking of - what the ruid/euid/suid would be
-before execve(), and which mode the binary would be?
