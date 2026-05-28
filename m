@@ -1,33 +1,33 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80E53FF1D9
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 17:32:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368D33FD955
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 17:32:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779989523; cv=none; b=RVozrhqRMSbV6nzYTmutQ6Oo9nJ/DD0Bgtd/HeHH9+sP9SLqYSn1zWw2qwjb190IXaE0uJ157H7U9kUpocXGgXLOtC1vdNp2VJIHzOKYbIAj9IcE3vAthq4MDZZDl+SNIWDRZfrAfCxpKsjlHKhZzLHgLXMfk704FyC4Rzlz3KM=
+	t=1779989523; cv=none; b=UU4IoRuznkttxG24/uDq9iPLSZl7XjibXWOmhh47QlFMT7sz2+5Xt/xKXlrW2q+/q3QYPwOjuhmDEB5K94bTeafWY7I0/A63qj+l4yvLH9mVlGgieP4hwtRWCaR4+bx6se8sxUKD9VYixwqTUSiKripHZydFoRDTlq97lVViTbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779989523; c=relaxed/simple;
-	bh=stEh505biN28uWf3KDCW3G7MpaEM0WkDwJrRuZ2IHeQ=;
+	bh=AGiI3giCG7RxRRjQJhOT4T1RQbvOywWdHeAJTz9aAds=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=amWyffLWWlN/SIeC0q6+plx17CJZ/CraDt/qRMeeVPdTWm1psDyYROhRn9do2qfa4ZjgzF8IylNnI4dZKD6v2XdRQKGfMxLeSxYVOemUzu0QZ969QN1qdxWz3M30p19d5XCbWHdGy8lCUXXdveUPOs9H65zlxeBZ9oLxCqGaxAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gW7TR9ce; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=i+bIOsKGV00ZP4th1l7UTCq7+wWo4OqWiTCzS2XOpFhlzaIZyIAg0oXP6KByVAltcoA4LwFypcS3Oa1RaWqnEfZjUu2u++iqF0ZzNNY2+OR70gOFDCie381zR+iqFOer+QzY3wWg3nofO4zChv4KoNYXqYQKZlILIg1Akflf0Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=f5+Pyw6F; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gW7TR9ce"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f5+Pyw6F"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=icY8XnTWA652obgB1qQfuxH6nYGuRx7lUvFwdPVbl2A=; b=gW7TR9ceZBQqU0bLY4O4ijHJrw
-	SQVF5Pwn/GhsOiz3YuDCfXf/EzA7+2knzbQoQhOQDeRM6IjgfEowokTYWhsAOg4xMjm3NAnabAg/l
-	WhmxwdWu33BAK25V6TNZLabSxdS/U8Dbt1T22S0gD19wplknJhWFWjGtZTAx4LUjds/107l0V3gwe
-	00UkEyTgdi7fKuofYf5oD1HjqpWvaeyWyTXHNgX0Lv2dIUhVFQCO0TTz63W8Hvwib/ZPO3zv1hirf
-	bljBN6BKvdug8OLZ7tX1g0Cj8V44K54iLlXaSaKpvHP3XQzVRpCDxwdUMzAeg9SznvG0YlK73gtmO
-	+V4szhIw==;
+	bh=M+31+ZmvrmTI55uT5a4C6YGgiZcxhxPk5y63+RUgwWY=; b=f5+Pyw6FvR17CYj4EpIO8dLhwo
+	bRERhraOZXKfKIuqNf86BkvrnQI8eiZ3P1wS8KddCl1HszwLKSUUGgPoNyRHixBq3KsL2JMumIJik
+	9VfAEbG+RE5aag6TgtN16VQ+DDcQB2URFmPSg4aCkBu61tGjYRbItwgNnlxiLxNHlQprt3hhaE2E/
+	HxDRUfiWmgXkHMECay89+ujpNNRdoGJX4g6vAWWyvffGNZBAwVP1ia/LlR+JkLXeAryNgTbcjd92d
+	VrHlB+SojW++2cI+8k+yxmJVF6igL3ew0SnZeXu6K+HM21VMFAXbCTJ7pA97SLuzcVBB6WZKiPr0O
+	nym/a7tg==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSeaN-00000004abu-0fmc;
+	id 1wSeaN-00000004ac4-1jhO;
 	Thu, 28 May 2026 17:31:59 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
@@ -35,9 +35,9 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 33/34] buffer: Change calling convention for end_buffer_read_sync()
-Date: Thu, 28 May 2026 18:31:46 +0100
-Message-ID: <20260528173150.1093780-34-willy@infradead.org>
+Subject: [PATCH v2 34/34] buffer: Remove end_buffer_write_sync()
+Date: Thu, 28 May 2026 18:31:47 +0100
+Message-ID: <20260528173150.1093780-35-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260528173150.1093780-1-willy@infradead.org>
 References: <20260528173150.1093780-1-willy@infradead.org>
@@ -49,87 +49,74 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Unify end_buffer_read_sync() and __end_buffer_read_notouch()
-by requiring the caller put the refcount on the buffer.  The only caller
-is in the gfs2_meta_read() path, and there we can put the refcount
-after locking the buffer.
+It has no callers left, so delete it.  Inline __end_buffer_write_sync()
+into bh_end_write().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- fs/buffer.c       | 28 +++++++++-------------------
- fs/gfs2/meta_io.c |  2 +-
- 2 files changed, 10 insertions(+), 20 deletions(-)
+ fs/buffer.c                 | 29 +++++++++--------------------
+ include/linux/buffer_head.h |  1 -
+ 2 files changed, 9 insertions(+), 21 deletions(-)
 
 diff --git a/fs/buffer.c b/fs/buffer.c
-index ccda92920175..db604c0e54d4 100644
+index db604c0e54d4..7ed8dd77d221 100644
 --- a/fs/buffer.c
 +++ b/fs/buffer.c
-@@ -157,15 +157,15 @@ bool bio_endio_bh(struct bio *bio, struct buffer_head **bhp)
- }
- EXPORT_SYMBOL(bio_endio_bh);
- 
--/*
-- * End-of-IO handler helper function which does not touch the bh after
-- * unlocking it.
-- * Note: unlock_buffer() sort-of does touch the bh after unlocking it, but
-- * a race there is benign: unlock_buffer() only use the bh's address for
-- * hashing after unlocking the buffer, so it doesn't actually touch the bh
-- * itself.
-+/**
-+ * end_buffer_read_sync - Handle buffer reads finishing
-+ * @bh: The buffer.
-+ * @uptodate: True if the read was successful.
-+ *
-+ * If a buffer is read through a mechanism that isn't bh_submit(), you
-+ * can call this function to finish the read.
-  */
--static void __end_buffer_read_notouch(struct buffer_head *bh, int uptodate)
-+void end_buffer_read_sync(struct buffer_head *bh, int uptodate)
- {
- 	if (uptodate) {
- 		set_buffer_uptodate(bh);
-@@ -175,16 +175,6 @@ static void __end_buffer_read_notouch(struct buffer_head *bh, int uptodate)
- 	}
- 	unlock_buffer(bh);
- }
--
--/*
-- * Default synchronous end-of-IO handler..  Just mark it up-to-date and
-- * unlock the buffer.
-- */
--void end_buffer_read_sync(struct buffer_head *bh, int uptodate)
--{
--	put_bh(bh);
--	__end_buffer_read_notouch(bh, uptodate);
--}
- EXPORT_SYMBOL(end_buffer_read_sync);
- 
- /**
-@@ -198,7 +188,7 @@ void bh_end_read(struct bio *bio)
- {
- 	struct buffer_head *bh;
- 	bool uptodate = bio_endio_bh(bio, &bh);
--	__end_buffer_read_notouch(bh, uptodate);
-+	end_buffer_read_sync(bh, uptodate);
+@@ -192,25 +192,6 @@ void bh_end_read(struct bio *bio)
  }
  EXPORT_SYMBOL(bh_end_read);
  
-diff --git a/fs/gfs2/meta_io.c b/fs/gfs2/meta_io.c
-index 4895bb010cfb..a87cfbf0df38 100644
---- a/fs/gfs2/meta_io.c
-+++ b/fs/gfs2/meta_io.c
-@@ -286,10 +286,10 @@ int gfs2_meta_read(struct gfs2_glock *gl, u64 blkno, int flags,
- 		lock_buffer(bh);
- 		if (buffer_uptodate(bh)) {
- 			unlock_buffer(bh);
--			brelse(bh);
- 		} else {
- 			bhs[num++] = bh;
- 		}
-+		brelse(bh);
- 	}
+-static void __end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+-{
+-	if (uptodate) {
+-		set_buffer_uptodate(bh);
+-	} else {
+-		buffer_io_error(bh, ", lost sync page write");
+-		mark_buffer_write_io_error(bh);
+-		clear_buffer_uptodate(bh);
+-	}
+-	unlock_buffer(bh);
+-}
+-
+-void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+-{
+-	__end_buffer_write_sync(bh, uptodate);
+-	put_bh(bh);
+-}
+-EXPORT_SYMBOL(end_buffer_write_sync);
+-
+ /**
+  * bh_end_write - I/O end handler for writes
+  * @bio: The bio being completed.
+@@ -222,7 +203,15 @@ void bh_end_write(struct bio *bio)
+ {
+ 	struct buffer_head *bh;
+ 	bool success = bio_endio_bh(bio, &bh);
+-	__end_buffer_write_sync(bh, success);
++
++	if (success) {
++		set_buffer_uptodate(bh);
++	} else {
++		buffer_io_error(bh, ", lost sync page write");
++		mark_buffer_write_io_error(bh);
++		clear_buffer_uptodate(bh);
++	}
++	unlock_buffer(bh);
+ }
+ EXPORT_SYMBOL(bh_end_write);
  
- 	gfs2_submit_bhs(REQ_OP_READ | REQ_META | REQ_PRIO, bhs, num);
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index 1ee56c9f2327..8b23bc9a244c 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -201,7 +201,6 @@ struct buffer_head *alloc_page_buffers(struct page *page, unsigned long size);
+ struct buffer_head *create_empty_buffers(struct folio *folio,
+ 		unsigned long blocksize, unsigned long b_state);
+ void end_buffer_read_sync(struct buffer_head *bh, int uptodate);
+-void end_buffer_write_sync(struct buffer_head *bh, int uptodate);
+ bool bio_endio_bh(struct bio *bio, struct buffer_head **bhp);
+ 
+ /* Completion routines suitable for passing to bh_submit() */
 -- 
 2.47.3
 
