@@ -1,88 +1,90 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7867360EEE
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 09:05:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5C03AD527
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 09:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779959140; cv=none; b=flNEbNAZOIE5xwNhKnuYIiK0rPfhiiwSRbn4mxG9k5/jh/Foc2yrb9kUj5J0sHwRoySce7H2WDkl0y/jmT/DFFGv7cmmrieIwNndAYF8R4PFpmIWtlGLUarVSljMRw2fxiA+hMQKaUTyyosawsfwUpUm1/ctDwXG6L+0eMqz/b4=
+	t=1779960169; cv=none; b=DJufe41yknQl3Xs/AfKNBPeyCCXawe+boepjcmCb96WKWls2+MY7FspK+V1Gfj7LKKGUlvm/hV8YRIgRhtD4tpAAPNA9ecrl/khPmyhAHMMkjASdhkgiGWfFYzeL3L8ZXrjB72fwf9nVmvim0ZYQU/pcVj5ST9RMDUnM/3XcV0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779959140; c=relaxed/simple;
-	bh=wwfD4h+tn92RIZqL8pnFeW5a13eMgLbl+InYNBC21rc=;
+	s=arc-20240116; t=1779960169; c=relaxed/simple;
+	bh=LmAHuJh+vNna2h86oEs3hhlxuhm/glTpqL0VwzrWRcU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IqbJ4InrEOwfvp1aXTULgU1EsP5mYSZNxkMXpI1SeCow7KdzCNy0BaVcRRCuKPw/9zwOvMHLxmpwj6K8TvJhvOpTuKIiGzNL1DUjy9sE+D6IqLOlzh2aT+/6PWDGJuibg0uv0a6vDI88RppIr1+YeIDRaXH9uJ+jwcB26dIjPE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zJfLl4/z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PMbX2xHs; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zJfLl4/z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PMbX2xHs; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=ex0nR1xSS42w1WZX7ERj9gg8sXWS0tuvVjnqXgDbW3Yq+cbSVhnbUfhfJrGwkFy+8W+NdN0xM+OnscVZD5VG5l5+wGDbeU/oE07qfMi/2wNMs1lMNIwD28B0mCQR3TDpYNrz4QlVBp6tpkFcbzmq4dtVLho8+AWVENsNE3MTJGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vwFJrv3P; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WGHUy67C; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hKpjqBIJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bLDbaUfZ; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zJfLl4/z";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PMbX2xHs";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zJfLl4/z";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PMbX2xHs"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vwFJrv3P";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WGHUy67C";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hKpjqBIJ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bLDbaUfZ"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C1B00673C9;
-	Thu, 28 May 2026 09:05:36 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 68A9767380;
+	Thu, 28 May 2026 09:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779959136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779960163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2b02VcHFGPeeRN7nUuoste2B3hd+aLCZvOotAv/aTk4=;
-	b=zJfLl4/zPYOhCXFGa9HsnfedcoLMntP85hgXR0UP/ljiBz3oX1OMo4peQdZhnn5CfVu1er
-	LidkJHA1eDp0yDp0FJVCQ/TVqTMk0ibCtFGMBGtvOxz6hvEBKNopxGpsaYkUG99h/7nvDN
-	VmKpfZT7iU1iafW7zJpsiJaDYlxLRzo=
+	bh=txEsarQVyN8eunFyNH+dCTUvcxmT63EdhouQVd3C0+E=;
+	b=vwFJrv3PTA+YrYJJW4Ms+yETvFyZi8cym5fOaaG8hQgh4LCo5WZf7c6TVMngafgPJx0pCT
+	NQmqTDY07CoKXY38uKajNl5AsKEJZW7MfCJxIhL2pzCbMkyN3j1Q6CGtzoTcH6R50t83E4
+	sTP61OA3EbjACQ/o/eGw7NxYku7OdPk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779959136;
+	s=susede2_ed25519; t=1779960163;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2b02VcHFGPeeRN7nUuoste2B3hd+aLCZvOotAv/aTk4=;
-	b=PMbX2xHsvJGFfPDF1zSHKKuvA8r50e0xnSBxBGj/mJ0Hk/xV9WAV7ZsFhkHFLi9YgSS+BX
-	ZXS0oiH7Gk4nhvBQ==
+	bh=txEsarQVyN8eunFyNH+dCTUvcxmT63EdhouQVd3C0+E=;
+	b=WGHUy67CH801700ZCizCQlnjNSXm4CGoaVzR0qm/EjUFuHjILBX1re9DUybIDWSOks31IJ
+	g1zOezv0ur6I5YBQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779959136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779960162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2b02VcHFGPeeRN7nUuoste2B3hd+aLCZvOotAv/aTk4=;
-	b=zJfLl4/zPYOhCXFGa9HsnfedcoLMntP85hgXR0UP/ljiBz3oX1OMo4peQdZhnn5CfVu1er
-	LidkJHA1eDp0yDp0FJVCQ/TVqTMk0ibCtFGMBGtvOxz6hvEBKNopxGpsaYkUG99h/7nvDN
-	VmKpfZT7iU1iafW7zJpsiJaDYlxLRzo=
+	bh=txEsarQVyN8eunFyNH+dCTUvcxmT63EdhouQVd3C0+E=;
+	b=hKpjqBIJJJWkh7JFOAcIDpZgZddY1JA+3wYGfTHxv8D+49orws0VVkj4P4mq/UPUgGnlEP
+	mesj/2kJXNRPv+79Jp0Jzzt0tj+yOivO3CwhDokCT3bv3c6jNhbQMFT0Kj+HSt9Mb4QpT4
+	RW7v6uw3F767X5AzIC0jgOs3FJhLzM8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779959136;
+	s=susede2_ed25519; t=1779960162;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2b02VcHFGPeeRN7nUuoste2B3hd+aLCZvOotAv/aTk4=;
-	b=PMbX2xHsvJGFfPDF1zSHKKuvA8r50e0xnSBxBGj/mJ0Hk/xV9WAV7ZsFhkHFLi9YgSS+BX
-	ZXS0oiH7Gk4nhvBQ==
+	bh=txEsarQVyN8eunFyNH+dCTUvcxmT63EdhouQVd3C0+E=;
+	b=bLDbaUfZVoUHAoN5AsJRKhcMzI5Rj+pD0en3A8mlT5fyi513884lGAzCBNkv2qrVLsaiCr
+	CUHd9zMd8UuGzvBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA33E5ACE0;
-	Thu, 28 May 2026 09:05:36 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D0BE5ACF1;
+	Thu, 28 May 2026 09:22:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oedwLWAFGGr5MAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 28 May 2026 09:05:36 +0000
+	id VpaxFmIJGGrOQQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 28 May 2026 09:22:42 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 59D96A0905; Thu, 28 May 2026 11:05:32 +0200 (CEST)
-Date: Thu, 28 May 2026 11:05:32 +0200
+	id 0286FA0905; Thu, 28 May 2026 11:22:37 +0200 (CEST)
+Date: Thu, 28 May 2026 11:22:37 +0200
 From: Jan Kara <jack@suse.cz>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 04/34] buffer: Add bh_end_read(), bh_end_write() and
- bh_end_async_write()
-Message-ID: <7mj3e7hjcum7lyr4xxo4ctzfgq422fnec47vhygqygfpt536cp@olmqcd2elu3j>
-References: <20260525171931.4144395-1-willy@infradead.org>
- <20260525171931.4144395-5-willy@infradead.org>
- <sfdgf57x2oa3f5hn5izgdiomkgzwoiyqunborxtyfvtty2tlfo@oa6lvhzjrqic>
- <ahb_0Dc0Zqr9pGVx@casper.infradead.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, io-uring@vger.kernel.org
+Subject: Re: [PATCH RFC 00/11] mm/filemap: split out folio wait and VFS code
+Message-ID: <3dxzu3ck5y3wxw4pp2qhzwwb6y3f7mwhvgxfpl56sokw4ymop7@xaaoxsa5yu5q>
+References: <20260520-filemap-split-v1-0-c36ddc2b6cf2@columbia.edu>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -91,110 +93,105 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ahb_0Dc0Zqr9pGVx@casper.infradead.org>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
+In-Reply-To: <20260520-filemap-split-v1-0-c36ddc2b6cf2@columbia.edu>
 X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
 X-Spamd-Result: default: False [-3.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
 	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,columbia.edu:email,imap1.dmz-prg2.suse.org:helo]
 
-On Wed 27-05-26 15:29:36, Matthew Wilcox wrote:
-> On Wed, May 27, 2026 at 12:22:27PM +0200, Jan Kara wrote:
-> > > +/**
-> > > + * bio_endio_bh - Return the bh for a bio
-> > > + * @bio: The bio
-> > > + *
-> > > + * Call this in your bio_end_io handler to retrieve the buffer_head
-> > > + * submitted in bh_submit().  If you did not call bh_submit(), do not
-> > > + * call this function; it will return garbage.
-> > > + *
-> > > + * This function consumes the bio refcount which will probably free the
-> > > + * bio.  You should retrieve the bi_status before calling this.
-> > > + */
-> > > +struct buffer_head *bio_endio_bh(struct bio *bio)
-> > > +{
-> > > +	struct buffer_head *bh = bio->bi_private;
-> > > +
-> > > +	if (unlikely(bio_flagged(bio, BIO_QUIET)))
-> > > +		set_bit(BH_Quiet, &bh->b_state);
-> > > +	bio_put(bio);
-> > > +
-> > > +	return bh;
-> > > +}
-> > > +EXPORT_SYMBOL(bio_endio_bh);
-> > 
-> > Frankly, this looks too fragile to me, in particular for an exported
-> > function. I'd prefer this returned the status and have another argument
-> > where to store bh to. 
+On Wed 20-05-26 16:48:51, Tal Zussman wrote:
+> mm/filemap.c has accumulated additional infrastructure over the years
+> that is not directly related to the page cache. It is currently nearly
+> 5000 lines long. This series splits out the folio bit-lock and wait
+> queue code into separate files, and moves the VFS-level
+> generic_file_{read,write}_iter() family of files to fs/read_write.c, in
+> order to provide better separation of concerns. This also slims down
+> mm/filemap.c by ~1000 lines.
 > 
-> Heh, fair enough.  An earlier iteration of the patchset did this:
+> The folio wait infrastructure is centralized in mm/folio_wait.c and
+> include/linux/folio_wait.h, with functions moved from mm/filemap.c,
+> mm/page-writeback.c, and include/linux/pagemap.h. Afterwards, the code
+> is cleaned up a little, with functions and data types renamed to refer
+> to folios rather than pages.
 > 
-> +struct xbh bio_endio_bh(struct bio *bio)
-> +{
-> +       struct xbh xbh;
-> +       struct buffer_head *bh = bio->bi_private;
-> +
-> +       if (unlikely(bio_flagged(bio, BIO_QUIET)))
-> +               set_bit(BH_Quiet, &bh->b_state);
-> +
-> +       xbh.word = (unsigned long)bh;
-> +       if (bio->bi_status == BLK_STS_OK)
-> +               xbh.word |= 1;
-> +       bio_put(bio);
-> +
-> +       return xbh;
-> +}
-> +EXPORT_SYMBOL(bio_endio_bh);
+> generic_file_{read,write}_iter() implement the VFS-level read/write path
+> for filesystems, including support for direct I/O. These functions and
+> their helpers are moved to fs/read_write.c, along with other VFS-level
+> read/write functions. dir_pages() is also moved to include/linux/fs.h.
+> i_blocks_per_folio() is not moved from include/linux/pagemap.h, as it
+> requires folio_size(), which is not currently available in
+> include/linux/fs.h.
 > 
-> and then the callers did this:
+> No functional change is intended.
 > 
-> +void bh_end_read(struct bio *bio)
-> +{
-> +       struct xbh xbh = bio_endio_bh(bio);
-> +       end_buffer_read_sync(xbh_bh(xbh), xbh_uptodate(xbh));
-> +}
-> 
-> somewhat patterned after struct fd.  But I decided it just wasn't worth
-> it and revised the patchset to have the callers grab bi_status
-> themselves.  I did consider both returning bi_status and returning
-> a bool (ie the current uptodate).  Do you have a preference between
-> those two options?  I'd probably go with returning a bool just to make
-> the conversions easier:
-> 
-> bool bio_endio_bh(struct bio *bio, struct buffer_head **bhp)
-> {
->         bool ret = bio->bi_status == BLK_STS_OK;
->         struct buffer_head *bh = bio->bi_private;
-> 
->         if (unlikely(bio_flagged(bio, BIO_QUIET)))
->                 set_bit(BH_Quiet, &bh->b_state);
->         bio_put(bio);
-> 
->         *bhp = bh;
->         return ret;
-> }
+> Note: I have additional cleanups to mm/filemap.c ready to go, foremost
+> among them centralizing on the filemap_*() naming convention and making
+> the exposed page cache API clearer and more consistent, but I've split
+> these patches off from that in order to avoid sending these logically
+> separate patches to ~60 maintainers.
 
-OK, this looks good to me.
+Overall this makes sense to me. In particular I agree it makes sense to
+move the file read/write helpers into fs. Regarding the page waiting bits
+it makes some sense to me as well although there it's more of "I don't
+really care" opinion so let's see what Matthew and others think...
 
 								Honza
+
+> 
+> ---
+> Tal Zussman (11):
+>       mm: add folio_wake_writeback() helper
+>       folio_wait: move folio bit-lock and wait implementation to mm/folio_wait.c
+>       folio_wait: move folio bit-lock and wait declarations to include/linux/folio_wait.h
+>       folio_wait: move folio_wait_writeback() family to mm/folio_wait.c
+>       folio_wait: reformat comments and fix alignment
+>       folio_wait: rename wait_page_* infrastructure to wait_folio_*
+>       folio_wait: convert VM_BUG_ON_FOLIO() to VM_WARN_ON_ONCE_FOLIO()
+>       MAINTAINERS: add folio_wait files to MEMORY MANAGEMENT - CORE
+>       fs: move dir_pages() from <linux/pagemap.h> to <linux/fs.h>
+>       fs: move generic_file_read_iter() to fs/read_write.c
+>       fs: move generic_file_write_iter() family to fs/read_write.c
+> 
+>  MAINTAINERS                |   2 +
+>  fs/read_write.c            | 358 ++++++++++++++++
+>  include/linux/folio_wait.h | 183 +++++++++
+>  include/linux/fs.h         |  19 +-
+>  include/linux/pagemap.h    | 184 +--------
+>  io_uring/rw.c              |  14 +-
+>  io_uring/rw.h              |   6 +-
+>  mm/Makefile                |   2 +-
+>  mm/filemap.c               | 993 +--------------------------------------------
+>  mm/folio_wait.c            | 710 ++++++++++++++++++++++++++++++++
+>  mm/internal.h              |   4 +
+>  mm/page-writeback.c        |  66 ---
+>  12 files changed, 1285 insertions(+), 1256 deletions(-)
+> ---
+> base-commit: e9add7501ad3297dad9b90ce201266830a68ab47
+> change-id: 20260511-filemap-split-871b5c18e98c
+> 
+> Best regards,
+> -- 
+> Tal Zussman <tz2294@columbia.edu>
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
