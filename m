@@ -1,161 +1,270 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72212EEA8;
-	Thu, 28 May 2026 17:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779991196; cv=none; b=uia0bWpfTZK685+4fWUeNqJdhkOxrS4EzmLaxkOfcpNkoOfod1Ze41JU35WRGyhd64gqOrs4+1yLISMC4mLwpuKfu1aqd11beRKfw6bNQUjHReYcLw56gJGqx00BB5/f8ha0xbQ18L0UTWGjZeh9HE/lc0/xcTcg2pYUOEOwzqM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779991196; c=relaxed/simple;
-	bh=+t2uBMRmJqWbe7EEuTbwr1yRQbqM/ioHiPLugIxF0RE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rcho8WnCx657qPZmH+gv1SF8aM3TFrRxU0B3fq94t78viFn0kIdemVjh5oYoCVDOpi+/nOM10N7FMGsY/kqDxOid+AtL4zfip6RIuAF9GJ44t/FDDDHMGSILRyY7qXMfQ+Hob/f77wH4A1+x/6lwKD6I9v1Bw6BtLDoAAQqpUGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=tHUGdmUV; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF8F403EB6
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 18:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779991558; cv=pass; b=DQIkvexZ6WWKt2K5zipD5aOqGYwIiFxDZY+pB5nOtNF+nQK4A8qJ2cNhXfsCGIjadrXnN9zDDX5ecV7YnkDIOrEW9ubqxuU5uPwpumxjQ+ETbfT+2A8CG21g52vgMSfcA/Cl/5nWblyEsS+JOLiMwZfmRgbLd7N6GOhHOfDGkSU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779991558; c=relaxed/simple;
+	bh=XxaQyWrqGy8ALzKAMqk8RFHpO8ktxPpgBjNzrggPml8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=keaYOq0WbrOUOizrZS8fkEtXDP4yZCyXxdWC4XCDExT7mzrIS92cg2Vlx00LoeXzj8gatUUSrxJDLAC2vbyE/WxNMzUHMUZyP3o6vgbl7cre6sMLh8FQUGkCVxS6Yc3T//6vbDgcVBnrAhD7r7k5RNvneyRjX5Iyi5gT9I6+6o8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HnbVYHUR; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="tHUGdmUV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1779991172; x=1780595972; i=spasswolf@web.de;
-	bh=+t2uBMRmJqWbe7EEuTbwr1yRQbqM/ioHiPLugIxF0RE=;
-	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=tHUGdmUVuAbkG+fY6ZCY2EgNnl/Ps6LOdMcloY5zY/iW/OQPOsgeV91QlYLFA0vS
-	 WuMri366Seza8nVqdnY4Ct3tsIZdi+iEyBNJ6JKsmgf9dC+kJiDRWJNUPzYq/q69w
-	 CytPuNzoBpLlzkkqw3FxjXmS7OiaS36XHSN5WlP1dU7i/KrIqdc8knkLvQxnJv64s
-	 sIlAjc41cRSMzZ2KmlmGBFgUo5I2q5USPCak/3nSXfEFc3qZ8bdE4cDft/yotvLFO
-	 azuGcMVAxhcktONqt+r/Iv+AuWFTR5xfBW9pdNpZU4FLHsMPtsmwEE8cEzr9xIHCM
-	 9TYn6oS6GKyQuxT+YA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mrfp8-1x7HAe0ZLI-00oWDW; Thu, 28
- May 2026 19:59:32 +0200
-Message-ID: <7e8f3a515208583d06c9b5ca18a3e007a8c6b692.camel@web.de>
-Subject: Re: context switch within RCU read-side critical section in
- next-20260518+ with PREEMPT_RT
-From: Bert Karwatzki <spasswolf@web.de>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, spasswolf@web.de, Christian
- Brauner	 <brauner@kernel.org>, linux-kernel@vger.kernel.org,
- linux-next@vger.kernel.org, 	linux-rt-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, 	adobriyan@gmail.com, jack@suse.cz,
- viro@zeniv.linux.org.uk, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alex Deucher <alexander.deucher@amd.com>, 	amd-gfx@lists.freedesktop.org
-Date: Thu, 28 May 2026 19:59:31 +0200
-In-Reply-To: <CAGudoHEX=Su_ehV8nNP_6Onfh=hB6uiyTTCojR7nSOkEj6zh4Q@mail.gmail.com>
-References: <20260520225245.2962-1-spasswolf@web.de>
-	 <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
-	 <s7cu3dpioidx6mepmai6eyj2pxjs4skbw7v534zbzs6g2fwcis@cvokidcxy3xa>
-	 <4f548d61b2dd12e01f401ce4b8c865f238f7b23c.camel@web.de>
-	 <878q9dvzh0.ffs@tglx>
-	 <50e5e76bc13256e3f5b3301e92f159957c3d6762.camel@web.de>
-	 <CAGudoHGk1CP3gRQLCV85AFHKx6vBEyKySOn4J+AZVAP2FkrN3g@mail.gmail.com>
-	 <70676dae700e6a40989315bf31ea269a509ddc0f.camel@web.de>
-	 <CAGudoHEX=Su_ehV8nNP_6Onfh=hB6uiyTTCojR7nSOkEj6zh4Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HnbVYHUR"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-67e9e343b22so17931085a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 11:05:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779991555; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eeMjcZFzgA/gc8ZFzgaCsZ/fnjNC93yukperX1TYhFsrkyoNZ5PULg4cm210lfRRJV
+         XUez0qxWkeorACiEhllxZUmzWvExEU83oF/PqDAcww69zoXAF7MxyDxWh77B8ZEqzPEO
+         Rh/HYmO7Wg/qd15sCvCosAM0uKv0HaLZnDIPkuB9nD0PA83A2virlw5CdZV85RYX+vgL
+         yisg45DK1QR1+OjQj9whKmFXlMWiQbkLWDbbLCscoQw1IUBFxi3H6sBeJsqYscM0F4iz
+         eDVCMSQQ3Q+F4m6X4UOG8B5vTyaeoS7JWoc8FR2dJy1M+1M/73DOccHbyAB8Ktj5anym
+         14Kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=l30nu3YKfLY2ER0SPLKJG8LovOKpPfL4wcmIkenbb4E=;
+        fh=ODRa2T5+Zs/4Xe8zuNKTgJA9GsEWcY8+u06N92yFHSY=;
+        b=OjaK3PS9johTiV3JkL8T5vDhZzy5OE51fgYkwlt3KxiiOLM/Z6sV82m6rzI330gGCp
+         xSKHLuOpEf7XwHqeH2g6NYdcU5b1G/vIYNQN0+7RqQDHkPQ7qOKfZ+joKu4/aqnj5iky
+         i/hY7SZBA5AO+TJqThw5epQr3Sxo9EYLwk4Iw3N1CCCEhw1Hwpmlaz5lF45hE+wmcDzP
+         YSKPo0VI/8eP77AlK+Ya0+dry7wf3zS6n8u8z0qAThSpWAZH2rp9Re02AFDLF/4kTNuq
+         8o114+h4WRe2gKxirmvpDIxEtuqHF8erx7jza0bXHFvneB/jKBujqUNiEi5IUJ8zVqUs
+         R5Tw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779991555; x=1780596355; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l30nu3YKfLY2ER0SPLKJG8LovOKpPfL4wcmIkenbb4E=;
+        b=HnbVYHUR3d4uXlMkL8YUpzeDlOgCjv5WGhHDlFeSZFlNBHdlBLQemKBwTM9fN/0tr0
+         aQfeGyNfBD5TU/ZgXdDHNuy1+IOccgl986H3Iy2TI8Ses79YqGx9D1gaWg7xQri/K4hB
+         5+u20mydsh9lcv5wk/ta0pheZulxVDdGquuoq53yuQiR05n4e+G4Q/eOLXKsRVgtYkFT
+         GwQ4tZx+nb0d1HdIcz1B79/bldPMNM+7RWlhREBJmGnFifPMoMiq/+UD+zu6E7Ho7cBk
+         JY8RunzB0gFiqD76F754n7m2wzgQLPwVseEwKkan1Sx2Xn1QQ7nV/iPc9ATOj+4/Zvvf
+         yu1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779991555; x=1780596355;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=l30nu3YKfLY2ER0SPLKJG8LovOKpPfL4wcmIkenbb4E=;
+        b=TYRKIqbgKzgVWj+yBonC8M1jSdff6aAiG3U40pj3A55yzNpbqmhMPGWCl45CzoHYmc
+         d81XlFv3SNnhohYL7oXkdEJNd7QN2VSDuN1IMmSSEXUPbJ5CWUMTR2An/HFw1HVDZ17j
+         ra/82jcOK9EMQ+VOiJHhbiqeKf0CsX8MunKu1dRl2QpljCFMsjZ9d0UrD3JPBSFbvSfs
+         gQVqA41gvWJKhpZHlm1099bgMh4iYm1UKDzxffjac4Fx6x6Xuh/itS9LS+LnRPqCmK/N
+         k49GRChMHxTBv3JaY16/ZtXup/QCTL1HjiMM8YMm3RT9UiAuqfYwdikA3AW/n0kw1gM/
+         5R9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ84dIoJSi0KPNTsVXlMUVLSDWkMRXeYLge2ymACMjCmiSYkzz2/ynOtppfycWW1pB2V/amWxpWBLou54Y1C@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4Y1Dk0A+vyXimEfoHuoMFe4gYSqwZOi69X72qTksVko6BjP2T
+	YW5mcVLD0fl89tI6WlaUiS1VT1pdDkaRW6wYK7zMkoZ/8Kr3bymi312BMUSSA5Sf8e6ytA/ic6y
+	QHuwUZ0OunWaIgiMvZbwNlEyA/hvb9Mw=
+X-Gm-Gg: Acq92OFQGKXO8aqaUtGFD66wwSAKQhTQluh4jXnmMrwWytftFYiPPkr2E/xxtfyUA+4
+	/C0bZWiPNb7AUibJdT4uSa5p5+si718U7lZNZZwcGCdD0vMMfL+CUTlpIlt+3vncaYjZrkbiSRi
+	0KnIS9tqBC5fyUHps0NkkuWpFTrDWU4bdlP2KBHN5X/DiT4b4p6it92b/YrAtaR7DknV/iLYA0i
+	zK2sXeQyqi119Fu3pzTJJndkZJbkpFi6cbi1NqfA0fiswF40pYe4DZmDRw9qYrCIekrJZzMovWt
+	vY53Pd8yZPc61T8lI9VAOagjUwM0x3HJ+7uOoBtPzUsHZuVmscSA
+X-Received: by 2002:a05:6402:34c4:b0:676:988e:8eb6 with SMTP id
+ 4fb4d7f45d1cf-6889cc61b55mr15543560a12.26.1779991554386; Thu, 28 May 2026
+ 11:05:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260528175854.57626-1-jkoolstra@xs4all.nl>
+In-Reply-To: <20260528175854.57626-1-jkoolstra@xs4all.nl>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 28 May 2026 20:05:41 +0200
+X-Gm-Features: AVHnY4Ixq7MCxETflSNe_Em_5mMHi44xt5IEh-RxgrZvDID_Dv_0Xe_5VDbUlKY
+Message-ID: <CAOQ4uxj0dcbMYha=0hoHdpo27Lzky2PzcwkyRv2rG8t=+=Uixw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] vfs: make LAST_XXX private to fs/namei.c
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Steve French <smfrench@gmail.com>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Tom Talpey <tom@talpey.com>, NeilBrown <neil@brown.name>, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, 
+	Mateusz Guzik <mjguzik@gmail.com>, 
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:KERNEL SMB3 SERVER (KSMBD)" <linux-cifs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:00WSvhz+TDyJCaqT65o7CCHgLmuLFFgzuy688cx9TWJOtR7WSeO
- /Adyo5OULwI9pS52bPv4SUA+xnfypCdp6Ap7XbvO943ita7f6nia4PPRjIeQwCWBgDFgeZE
- Dx+dI77s4rKPl+okHBYsOvVZdhmys4xXyb8rdhhkXkTvHHJ22CBmNpvFjssCC8tfthZZxsC
- Mml2S5umvfUpB7S2Du8FQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PbM6UiLJT3k=;vWaKiJNlmb0UTjzm/mzok9hxmZu
- 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
- yonhuA==
 
-Am Donnerstag, dem 21.05.2026 um 14:01 +0200 schrieb Mateusz Guzik:
->=20
-> So overall I think we are done here.
->=20
-> Thank you for testing and sorry for the breakage.
+On Thu, May 28, 2026 at 7:54=E2=80=AFPM Jori Koolstra <jkoolstra@xs4all.nl>=
+ wrote:
+>
+> The only user of LAST_XXX outside of fs/namei.c is fs/smb/server/vfs.c;
+> ksmbd_vfs_path_lookup() calls vfs_path_parent_lookup() and expects a
+> LAST_NORM last type (or it will be ENOENT). ksmbd_vfs_rename() also calls
+> vfs_path_parent_lookup() but forgets the LAST_NORM check.
+>
+> It does not really make sense to have vfs_path_parent_lookup() expose
+> the last_type because it is only needed to ensure it is LAST_NORM. So
+> let's do this check in vfs_path_parent_lookup() instead and keep the
+> LAST_XXX internal to fs/namei.c. This changes the ENOENT errno in
+> ksmbd_vfs_path_lookup() to EINVAL, which matches better with how this is
+> handled by callers of filename_parentat().
+>
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 
-Just as a reminder, this has not been fixed in linux-next, yet,
-up to version next-20260528.
+Thanks for following up.
 
-Bert Karwatzki
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+
+> ---
+>  fs/namei.c            | 20 ++++++++++++++++----
+>  fs/smb/server/vfs.c   | 15 +++------------
+>  include/linux/namei.h |  7 +------
+>  3 files changed, 20 insertions(+), 22 deletions(-)
+>
+> diff --git a/fs/namei.c b/fs/namei.c
+> index c7fac83c9a85..889792761bc2 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -129,6 +129,11 @@
+>  static struct kmem_cache *__names_cache __ro_after_init;
+>  #define names_cache    runtime_const_ptr(__names_cache)
+>
+> +/*
+> + * Type of the last component on LOOKUP_PARENT
+> + */
+> +enum {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT};
+> +
+>  void __init filename_init(void)
+>  {
+>         __names_cache =3D kmem_cache_create_usercopy("names_cache", sizeo=
+f(struct filename), 0,
+> @@ -3051,15 +3056,22 @@ EXPORT_SYMBOL(kern_path);
+>   * @flags: lookup flags
+>   * @parent: pointer to struct path to fill
+>   * @last: last component
+> - * @type: type of the last component
+>   * @root: pointer to struct path of the base directory
+>   */
+>  int vfs_path_parent_lookup(struct filename *filename, unsigned int flags=
+,
+> -                          struct path *parent, struct qstr *last, int *t=
+ype,
+> +                          struct path *parent, struct qstr *last,
+>                            const struct path *root)
+>  {
+> -       return  __filename_parentat(AT_FDCWD, filename, flags, parent, la=
+st,
+> -                                   type, root);
+> +       int type;
+> +       int err =3D  __filename_parentat(AT_FDCWD, filename, flags, paren=
+t, last,
+> +                                      &type, root);
+> +       if (err)
+> +               return err;
+> +       if (unlikely(type !=3D LAST_NORM)) {
+> +               path_put(parent);
+> +               return -EINVAL;
+> +       }
+> +       return 0;
+>  }
+>  EXPORT_SYMBOL(vfs_path_parent_lookup);
+>
+> diff --git a/fs/smb/server/vfs.c b/fs/smb/server/vfs.c
+> index d08973b288e5..cd1dbca0cffb 100644
+> --- a/fs/smb/server/vfs.c
+> +++ b/fs/smb/server/vfs.c
+> @@ -19,7 +19,6 @@
+>  #include <linux/vmalloc.h>
+>  #include <linux/sched/xacct.h>
+>  #include <linux/crc32c.h>
+> -#include <linux/namei.h>
+>  #include <linux/splice.h>
+>
+>  #include "glob.h"
+> @@ -56,7 +55,7 @@ static int ksmbd_vfs_path_lookup(struct ksmbd_share_con=
+fig *share_conf,
+>  {
+>         struct qstr last;
+>         const struct path *root_share_path =3D &share_conf->vfs_path;
+> -       int err, type;
+> +       int err;
+>         struct dentry *d;
+>
+>         if (pathname[0] =3D=3D '\0') {
+> @@ -67,17 +66,11 @@ static int ksmbd_vfs_path_lookup(struct ksmbd_share_c=
+onfig *share_conf,
+>         }
+>
+>         CLASS(filename_kernel, filename)(pathname);
+> -       err =3D vfs_path_parent_lookup(filename, flags,
+> -                                    path, &last, &type,
+> +       err =3D vfs_path_parent_lookup(filename, flags, path, &last,
+>                                      root_share_path);
+>         if (err)
+>                 return err;
+>
+> -       if (unlikely(type !=3D LAST_NORM)) {
+> -               path_put(path);
+> -               return -ENOENT;
+> -       }
+> -
+>         if (for_remove) {
+>                 err =3D mnt_want_write(path->mnt);
+>                 if (err) {
+> @@ -668,7 +661,6 @@ int ksmbd_vfs_rename(struct ksmbd_work *work, const s=
+truct path *old_path,
+>         struct renamedata rd;
+>         struct ksmbd_share_config *share_conf =3D work->tcon->share_conf;
+>         struct ksmbd_file *parent_fp;
+> -       int new_type;
+>         int err, lookup_flags =3D LOOKUP_NO_SYMLINKS;
+>
+>         if (ksmbd_override_fsids(work))
+> @@ -678,8 +670,7 @@ int ksmbd_vfs_rename(struct ksmbd_work *work, const s=
+truct path *old_path,
+>
+>  retry:
+>         err =3D vfs_path_parent_lookup(to, lookup_flags | LOOKUP_BENEATH,
+> -                                    &new_path, &new_last, &new_type,
+> -                                    &share_conf->vfs_path);
+> +                                    &new_path, &new_last, &share_conf->v=
+fs_path);
+>         if (err)
+>                 goto out1;
+>
+> diff --git a/include/linux/namei.h b/include/linux/namei.h
+> index 2ad6dd9987b9..3941b9f1dec7 100644
+> --- a/include/linux/namei.h
+> +++ b/include/linux/namei.h
+> @@ -13,11 +13,6 @@ enum { MAX_NESTED_LINKS =3D 8 };
+>
+>  #define MAXSYMLINKS 40
+>
+> -/*
+> - * Type of the last component on LOOKUP_PARENT
+> - */
+> -enum {LAST_NORM, LAST_ROOT, LAST_DOT, LAST_DOTDOT};
+> -
+>  /* pathwalk mode */
+>  #define LOOKUP_FOLLOW          BIT(0)  /* follow links at the end */
+>  #define LOOKUP_DIRECTORY       BIT(1)  /* require a directory */
+> @@ -67,7 +62,7 @@ static inline void end_removing_path(const struct path =
+*path , struct dentry *de
+>         end_creating_path(path, dentry);
+>  }
+>  int vfs_path_parent_lookup(struct filename *filename, unsigned int flags=
+,
+> -                          struct path *parent, struct qstr *last, int *t=
+ype,
+> +                          struct path *parent, struct qstr *last,
+>                            const struct path *root);
+>  int vfs_path_lookup(struct dentry *, struct vfsmount *, const char *,
+>                     unsigned int, struct path *);
+> --
+> 2.54.0
+>
