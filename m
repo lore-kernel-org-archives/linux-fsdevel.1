@@ -1,463 +1,295 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246613F4DE5;
-	Thu, 28 May 2026 13:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779975324; cv=none; b=rdb8+DV3CWFlf+7Crxgzn4z5AbKPwaHnvpn1v+NbdYiqlZ7zJ0/Y4SAIMv+yvKm55yjMrPtjlmGm3c48pbOOOKtiZVaoV1xVVBBinyWRQRVM7hG55pDgdA1gmyLLIy0tblkEhj7gFEYq5JBHXBW5nPujdm7yC6izixHb2Ri29hM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779975324; c=relaxed/simple;
-	bh=y2ru2yQ3keJqWXoOk1cfN8WYxwuqqMZ/s4P1IdjmcI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GO+kgwsbPoxSoH8LBVORwcNJIOOhhh7xx15gwNjWhYNxHvaw3EeCQR7iO7TJPfmrM2HYHWYy1cg1COQglxTn+a+awTvYdKdBCXZQUlc0W6xfyCC+katnRTyVDOWil8kX9Z84Z69g51PwYO35kFNZTyFoGNp6LE4eEMMEROOCV54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=VmB0iGMJ; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3E42BEC45
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 14:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779978079; cv=pass; b=ZyOVqeyOZ8R4MTdH57nx7kuqIotab5umVTpgKCWHsBuZ7WyicLBInbRShhbCT/ntlKbcIK85IoXdUyzA1zcTp8F5qtmLKpCJbZcRfFNgwLeu+xhnL5/X2+V11MGw+aEQ4uqxtCqdmpppZz2a+Tl19XxpogpzeyfU9TipEnqaQ4U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779978079; c=relaxed/simple;
+	bh=js34c//je42ehN93ZjJa3FU5a9BRF/ma1UygPPSGroA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eAJbm+2PcPNt7KjjJ2sfd7LFZgiLnt7IFDOzaeOvtLUFfmF/HzOVNwgf8fLIWFnAbPNQ4TgLp3QLYoEm7OzbJafJaaRdCHKk4Vc1sSk79zQyHt+G0mSqXouL3Qm6KrIqzOId1fqpUC4MsgBKUACLRrCGLWnbSalTHPn1lBbY5GM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=auhMhcSU; arc=pass smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="VmB0iGMJ"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64SD5fnG2480393;
-	Thu, 28 May 2026 13:34:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=IeSYcOeclSS7NIlDJYFXrEkvOsuXlO
-	zPETdZWUXOb4k=; b=VmB0iGMJ0BcZj3/8Xcj4mtqniex4wykSFqGLUbIE6A47oR
-	Fr+pUjO4y5rdHB7LjSCJEyEsfvzp/cuO1FDMeDKNst6E0owaI+7KcBvctGP33nRi
-	PNeoDb8GrDQFNaQjQvpFy/Y2LshPvq8Rfsm9hi4e8pxqGRqojhPRqP11sPJFglno
-	xXo3t1SA0aS0GSGeTFYuA8LkcDJlZM+ZSQYvWRyC+ZIoAEE1qZbIU+t54WzbC76v
-	ICLBai/eNl57qWmub0ZoJyAgEZf1mvVrc0nbRDxWczh9Xob/N7eDKwjcHapkfYsu
-	/MAvlULgWpZJu15E+2KgituHBuaID+MRir6NqtwA==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4ee886b8b6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 May 2026 13:34:26 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64SDOCJA021777;
-	Thu, 28 May 2026 13:34:25 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4edjrb89m1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 May 2026 13:34:25 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64SDYNuG50921972
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 28 May 2026 13:34:23 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A303920043;
-	Thu, 28 May 2026 13:34:23 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B175620040;
-	Thu, 28 May 2026 13:34:18 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.220.144])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Thu, 28 May 2026 13:34:18 +0000 (GMT)
-Date: Thu, 28 May 2026 19:04:15 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
-        libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
-        djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
-        yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
-Subject: Re: [PATCH v4 18/23] ext4: wait for ordered I/O in the iomap
- buffered I/O path
-Message-ID: <ahhEV3STaaVI4dTs@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-19-yi.zhang@huaweicloud.com>
- <ahcUeq_IA_X988Ca@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="auhMhcSU"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-671588ab0cfso137a12.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 07:21:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779978076; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kIniufyfbyYFauyNGfRtMpSWF8wX2fQklSoYzyOG7Ig+xH5OUb0NrgSB4UaACIc6ef
+         coAsLuVkE92PpJoOcZcBYdXolM0Ebswr5H5JsP6batR5B+1Gv+pm9jL7oaZJa3BvVnWu
+         oTdFG+amKtzVtfrz80UcvkL7ojag+aTX/WjzsnOqId3MsCPIEinWMBlfhGnHkWyBbaHz
+         Q4pGEMVw4Zdgh+4O82zffh2glkSCbDB988hLAVR6b2H5UNdHvZgQQugwHLqcY9IP5lh1
+         e3k7Uf5OzRtH471tFhLupjhj1Nfeuv3JYzWee1edEOABNsKadiXBM4nKQBYFxq7/YLDT
+         NG5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KF8uuHRKhzu9ZemQbfUrK/7gicBvewdCR8gP+EPI77w=;
+        fh=vi4LljKgyhhbrMGyY2/aaHSmRG19kHdZ4Yq3ICTCM08=;
+        b=V8a/PzaV0vSNf2x0B9p5eKLe8fPme9mhFrF48jiS22/4n/Neu8iAuvHQ5HObgCQZgZ
+         lJAbUd8qkwsV1HvzSmlDApiraBsZeT/1CzG8VPq/zXJ/xl8MEnuIw+Kv1fqP5+PMCzH0
+         viKTbAv9BtJ6kZDVrLsGYlexdCCl+NsXp8aLSgEfOIICXFlKh7a70BuMeNIdLN2UdlYx
+         9AVF8WMOkt1wrxTt6Ug/za3M6haEbH+n/T2bZ0SpD04Iys8v+1kWzKlcI3IiOsHH5HLr
+         rF3ONVwJK+MV36oiSBgeNvcQQL4oKjvBLMScykShoJpdFAo1kNcvwPneLT9iQChMBKyu
+         MdmQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779978076; x=1780582876; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KF8uuHRKhzu9ZemQbfUrK/7gicBvewdCR8gP+EPI77w=;
+        b=auhMhcSUOfqf1SDln+pkwcH1LO0LM5tOZ68iAt1WXhvNbtiGRp66D8KwdwOcsD/t7x
+         ryxmnx+YviSbjQL39qcu4Q6irzP9DR8WHuNfXsqCRpHqNk3VzmiOhcRzq8bAVbxwPB9U
+         ROSDkJmDHinuIw3bNFi5rm44TVwv5bYybATe6BgaEqaF6UeWy7+rrsQAMYVIYsIUqr+y
+         0gu1vMUh5SjJtslG3q3DsPdoloEEixrCkYL+4hWB6hf5+JYDLGHU2IJUcSOKGliytVRQ
+         8n8If5L/wsBLzkm2WDzrYLIUgxe1KbCfcBb9DLGH+Zvigg4cNPArmWPaNfekRm42qmG/
+         DnhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779978076; x=1780582876;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KF8uuHRKhzu9ZemQbfUrK/7gicBvewdCR8gP+EPI77w=;
+        b=W+aS3pmHGi9o3fqCkM4Hlmel8w4cuBHs+5fs5RGBs5RTeOxyZUW28e8YtVN2VeLvE6
+         4UzYlR8lXqTiaF3YGABJLXNHoA1t5HMNvAQQfMbqFCBey6oWJXfzuGC1c+cyQSFMc8AC
+         RUKJcZc3eF/MEk1o25c8phqC0pufTeXGRf3JLdvWgM2osWultry3BN1O9N6cFP219XmA
+         kG0Xgfle8frMZXthobfbqWUeEomghezAsmt0Isl4roHLdPE31DM/KRQVbMNgxUcQeyad
+         XDlbQlXsrrJf7s37Y0MEn3ishagPHHj1jx+4zI+3QdaTCGCUEHSXlw85g4UWh3ZwwT07
+         mlRw==
+X-Forwarded-Encrypted: i=1; AFNElJ8O0v2DNjmx+K68QL5WD52Yzkw+OnoyEV8hhubRMCMkxmHX8+2mN7xpG2SuTY9d1/OH69P5phj2+o65TrP3@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0aZl1Ns0z68/Alf9hqz4ajkt7vanGUgAUXizG+wAb3NxoxdA+
+	j5Ij3R8DT8QMC8NpU5vhUUgNTsdou7EL1SpKmI/44V3h4Y74WbcRMSqvVpp0ltmaZXlqz892jqr
+	LxJZ6NBip3ylfb9AD5Ev8vmZaeTlSXw8sbxIcPj8U
+X-Gm-Gg: Acq92OFPJ9IKM3DaTcGYs51HD5TEJHWXUKwnrLb4Vr5RO7Kq4boBFEvGdvo/X9IyHo7
+	Nv48fdk/mZofliA1jxi0A46NOBmLhbJMYDsW0ULG+KwqGwFWAKDrwBl+9vaiobL2rmUoIPwJFh9
+	+vk0lJ2EvPEPxVU62aa1hjx/XpSnK5O7f0fM5fg6O6/2biNbaOIO0da2Jx1EQjTqKa59LCP9xFa
+	009/I9ak52wex5Z5oibO9uGfV9tm4x3DXZcs42NDe/uuk19uyFPSsJSQUjK3P7NBVg+CxW/H1mP
+	idacQVXrwk+U7rnQ2GX2JBgvcG9Vcdqa0KgnyB4mX7+p/4bi
+X-Received: by 2002:a05:6402:128f:b0:67b:6d1c:9585 with SMTP id
+ 4fb4d7f45d1cf-68b1e0ba9c7mr37591a12.8.1779978075876; Thu, 28 May 2026
+ 07:21:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahcUeq_IA_X988Ca@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: DCmKynd11Ie5hYkMI223fbnlGwYUxkde
-X-Authority-Analysis: v=2.4 cv=Z8Dc2nRA c=1 sm=1 tr=0 ts=6a184462 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=NEAV23lmAAAA:8
- a=i0EeH86SAAAA:8 a=cbDbR749rfPoaaM3czMA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDEzMyBTYWx0ZWRfXzoAO/SR4kVt8
- tbs8usqaxFanhaJSQyw2Z9Qw0bkXm5vTqIWPQBdJhSBJiEZGB7GnZcib0fNHv84it6O5gyQS9Sb
- kA4k7GErGTHlgQTKRFLxhl8HfHnOgjhW4WlB3lQPE+wQuFlnEIwpJl73KfH23o8Z8YBy2yPKFst
- PdIuhT/rhbkdT0IhPg+JpzcCfMaNVQQ/gd/1rRF7BdBCtMHplSRWBoqVIPs9niHefXtH9MN1tEq
- ELI/C80TGl+7/fRNpyPdHws/AaoYw394mTMNxFWscXHN2k/cWHuTglMnCrEDp05IYb2jiGvO/CK
- dBNT6NH+PSPtJktFVlCmyWxJG4LKZN60XCMNRJoMIllEAZrpsP6tph4mHzMiqjKZA9oRSdt9Gxh
- Y+N+Iap6Vm7XGSiguDiBev2rbG0PbR5asTUH/qRXszuzYEFMThQ7udsRaeYUd/iVvCE355OV15J
- ytVfvuRzdfrZUE8FQIw==
-X-Proofpoint-ORIG-GUID: PVpP_2TFeb1AanuKbABBSYy7KXhteVDR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-05-28_03,2026-05-28_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
- malwarescore=0 phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2605280133
+References: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
+ <87ik8b2rh8.fsf@email.froward.int.ebiederm.org> <CAG48ez2pmuoTCZh_AVKDDLeQEYmm=gLMgThnqFhRMFfZvABpdw@mail.gmail.com>
+ <87wlwny905.fsf@email.froward.int.ebiederm.org>
+In-Reply-To: <87wlwny905.fsf@email.froward.int.ebiederm.org>
+From: Jann Horn <jannh@google.com>
+Date: Thu, 28 May 2026 16:20:39 +0200
+X-Gm-Features: AVHnY4JlrfOEpU_4BQJnUmH3-05d24mVTy1oiRn0qweLdreGyUfEGpJa7KT7h7A
+Message-ID: <CAG48ez3Wp757fQh1gyTxf-k3p__utUOWM8xdJeUig4gPpSmTEA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] proc: protect ptrace_may_access() with exec_update_lock
+To: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Arjan van de Ven <arjan@linux.intel.com>, Jake Edge <jake@lwn.net>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
+	Kees Cook <keescook@chromium.org>, Oleg Nesterov <oleg@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 27, 2026 at 09:28:28PM +0530, Ojaswin Mujoo wrote:
-> On Mon, May 11, 2026 at 03:23:38PM +0800, Zhang Yi wrote:
-> > From: Zhang Yi <yi.zhang@huawei.com>
-> > 
-> > For append writes, wait for ordered I/O to complete before updating
-> > i_disksize. This ensures that zeroed data is flushed to disk before the
-> > metadata update, preventing stale data from being exposed during
-> > unaligned post-EOF append writes.
-> > 
-> > Suggested-by: Jan Kara <jack@suse.cz>
-> > Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> > ---
-> >  fs/ext4/ext4.h    | 11 +++++++
-> >  fs/ext4/inode.c   | 80 ++++++++++++++++++++++++++++++++++++++++++-----
-> >  fs/ext4/page-io.c | 60 +++++++++++++++++++++++++++++++++++
-> >  fs/ext4/super.c   | 23 ++++++++++----
-> >  4 files changed, 161 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-> > index 078feda47e36..9ce2128eea3e 100644
-> > --- a/fs/ext4/ext4.h
-> > +++ b/fs/ext4/ext4.h
-> > @@ -1195,6 +1195,15 @@ struct ext4_inode_info {
-> >  #ifdef CONFIG_FS_ENCRYPTION
-> >  	struct fscrypt_inode_info *i_crypt_info;
-> >  #endif
-> > +
-> > +	/*
-> > +	 * Track ordered zeroed data during post-EOF append writes, fallocate,
-> > +	 * and truncate-up operations. These parameters are used only in the
-> > +	 * iomap buffered I/O path.
-> > +	 */
-> > +	ext4_lblk_t i_ordered_lblk;
-> > +	ext4_lblk_t i_ordered_len;
-> > +	wait_queue_head_t i_ordered_wq;
-> >  };
-> >  
-> >  /*
-> > @@ -3858,6 +3867,8 @@ extern int ext4_move_extents(struct file *o_filp, struct file *d_filp,
-> >  			     __u64 len, __u64 *moved_len);
-> >  
-> >  /* page-io.c */
-> > +#define EXT4_IOMAP_IOEND_ORDER_IO	1UL	/* This I/O is an ordered one */
-> > +
-> >  extern int __init ext4_init_pageio(void);
-> >  extern void ext4_exit_pageio(void);
-> >  extern ext4_io_end_t *ext4_init_io_end(struct inode *inode, gfp_t flags);
-> > diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> > index e013aeb03d7b..11fb369efeb1 100644
-> > --- a/fs/ext4/inode.c
-> > +++ b/fs/ext4/inode.c
-> > @@ -4345,6 +4345,7 @@ static int ext4_iomap_writeback_submit(struct iomap_writepage_ctx *wpc,
-> >  {
-> >  	struct iomap_ioend *ioend = wpc->wb_ctx;
-> >  	struct ext4_inode_info *ei = EXT4_I(ioend->io_inode);
-> > +	ext4_lblk_t start, end, order_lblk, order_len;
-> >  
-> >  	/*
-> >  	 * After I/O completion, a worker needs to be scheduled when:
-> > @@ -4357,6 +4358,30 @@ static int ext4_iomap_writeback_submit(struct iomap_writepage_ctx *wpc,
-> >  	    test_opt(ioend->io_inode->i_sb, DATA_ERR_ABORT))
-> >  		ioend->io_bio.bi_end_io = ext4_iomap_end_bio;
-> >  
-> > +	/*
-> > +	 * Mark the I/O as ordered. Ordered I/O requires separate endio
-> > +	 * handling and must not be merged with regular I/O operations.
-> > +	 */
-> > +	order_len = READ_ONCE(ei->i_ordered_len);
-> > +	if (order_len) {
-> > +		/*
-> > +		 * Pair with smp_store_release() in ext4_block_zero_eof().
-> > +		 * Ensure we see the updated i_ordered_lblk that was written
-> > +		 * before the release store to i_ordered_len.
-> > +		 */
-> > +		smp_rmb();
-> > +		order_lblk = READ_ONCE(ei->i_ordered_lblk);
-> > +		start = ioend->io_offset >> ioend->io_inode->i_blkbits;
-> > +		end = EXT4_B_TO_LBLK(ioend->io_inode,
-> > +				     ioend->io_offset + ioend->io_size);
-> > +
-> > +		if (start <= order_lblk && end >= order_lblk + order_len) {
-> 
-> Hi Zhang,
-> 
-> I guess this check is enough cause ordered_lblk and ordered_len will
-> always be  contained in a single block.
-> 
-> > +			ioend->io_bio.bi_end_io = ext4_iomap_end_bio;
-> > +			ioend->io_private = (void *)EXT4_IOMAP_IOEND_ORDER_IO;
-> > +			ioend->io_flags |= IOMAP_IOEND_BOUNDARY;
-> 
-> FWIU, we are wanting the ordered IO to not be merged and submitted asap
-> since we want to wake up the waiters. Is there any other reason?
-> 
-> Adding the boundary in ->writeback_submit() only affects
-> iomap_ioend_can_merge() which happens after we have woken up the waiters
-> and deferred the IO to the wq. We ideally want it affect
-> iomap_can_add_to_ioend() ie we need to add IOMAP_F_BOUNDARY in
-> ->writeback_range().
-> 
-> Secondly, I don't think boundary is the right flag here. It ensures
-> that everything before the ordered iomap gets submitted and the ordered
-> iomap starts a new ioend. This can still keep getting merged with the
-> newer ioends untils we decide to submit the IO, which can delay waking
-> up the waiters. If we really want the "no merge" behavior, we'll have to
-> do something like [1] (Check the 2 NOMERGE flag patches).
+On Thu, May 28, 2026 at 3:11=E2=80=AFPM Eric W. Biederman <ebiederm@xmissio=
+n.com> wrote:
+> Jann Horn <jannh@google.com> writes:
+>
+> > On Mon, May 25, 2026 at 9:56=E2=80=AFPM Eric W. Biederman <ebiederm@xmi=
+ssion.com> wrote:
+> >> I have added a couple more people who might be interested.
+> >>
+> >> Kees Cook because as you have structured this it is an exec problem.
+> >>
+> >> Oleg Nesterov as he is knowledgable about ptrace.
+> >>
+> >> Jann Horn <jannh@google.com> writes:
+> >>
+> >> > My understanding is that procfs is effectively maintained by the VFS
+> >> > maintainers (though scripts/get_maintainer.pl claims that there are
+> >> > no maintainers for procfs because the VFS entry only claims files
+> >> > directly in fs/, and the procfs entry has no maintainers listed on
+> >> > it).
+> >> >
+> >> > In procfs, most uses of ptrace_may_access() should use
+> >> > exec_update_lock to avoid TOCTOU issues with concurrent privileged
+> >> > execve() (like setuid binary execution).
+> >> >
+> >> > This series doesn't fix all the remaining issues in procfs, but it f=
+ixes
+> >> > the easy cases for now; I will probably follow up with fixes for the
+> >> > gnarlier cases later unless someone else wants to do that.
+> >> >
+> >> > I have checked that procfs files still work with these changes and t=
+hat
+> >> > CONFIG_PROVE_LOCKING=3Dy doesn't generate any warnings.
+> >> >
+> >> > (checkpatch complains about missing argument names in
+> >> > proc_op::proc_get_link, but that was already the case before my
+> >> > patch.)
+> >>
+> >>
+> >> I think I finally have my context paged back in so I can intelligently
+> >> say something about this series.
+> >>
+> >> The scenario you are worried about is when exec gains privileges,
+> >> and we read through proc and authenticate with the old credentials
+> >> instead of the new credentials.
+> >>
+> >> Question 1.
+> >>
+> >> Assuming the executable is world readable (which they generally are)
+> >> is there anything that becomes accessible in that race that was
+> >> not already accessible?
+> >
+> > I believe so - the gnarliest example I am thinking of is:
+> > Memfds are always mode 0777 or 0666 (see __shmem_file_setup, which
+> > sets S_IRWXUGO), so their access control is purely based on being able
+> > to pathwalk to the memfd's inode. If you can race
+> > open(/proc/$pid/fd/$n) with the process $pid going through setuid
+> > execution and calling memfd_create(), you should be able to get
+> > read+write access to the memfd created by the setuid binary that was
+> > supposed to be private.
+> >
+> > (But I have not tested that and don't know if there are actually any
+> > setuid binaries that happen to use memfds.)
+>
+> I don't know about memfds.  I do know it has been a concern in the past
+> about opening proc using credentials before exec and then using the
+> credentials after exec.
+>
+> We certainly closed some of those races, if there are still some
+> of those races present we should definitely close them.
+>
+> In my thinking there are the set of races that exist because we fail to
+> present exec to userspace as an atomic operation. Then there are larger
 
-Hi Zhang, forgot to add this.
+Yes, and exec_update_lock is how we make sure we can present the core
+of exec to userspace as an atomic operation.
 
-[1] https://github.com/OjaswinM/linux/commits/iomap-buffered-atomic-rfc2.3/
+> set of races that exist simply because exec happened.
+>
+>
+> Looking at it proc fd's currently rely on the permission checks
+> of the file descriptors themselves and don't make any guarantees
+> about the path.
 
-Also some more comments below:
-> 
-> > +		}
-> > +	}
-> > +
-> >  	return iomap_ioend_writeback_submit(wpc, error);
-> >  }
-> >  
-> > @@ -4746,8 +4771,10 @@ static int ext4_iomap_submit_zero_block(struct inode *inode,
-> >  					loff_t from, loff_t end)
-> >  {
-> >  	struct address_space *mapping = inode->i_mapping;
-> > +	struct ext4_inode_info *ei = EXT4_I(inode);
-> >  	struct folio *folio;
-> >  	bool do_submit = false;
-> > +	int ret;
-> >  
-> >  	folio = filemap_lock_folio(mapping, from >> PAGE_SHIFT);
-> >  	if (IS_ERR(folio))
-> > @@ -4757,14 +4784,50 @@ static int ext4_iomap_submit_zero_block(struct inode *inode,
-> >  	folio_wait_writeback(folio);
-> >  	WARN_ON_ONCE(folio_test_writeback(folio));
-> >  
-> > -	if (likely(folio_test_dirty(folio)))
-> > +	/*
-> > +	 * Mark the ordered range. It will be cleared upon I/O completion
-> > +	 * in ext4_iomap_end_bio(). Any operation that extends i_disksize
-> > +	 * (including append write end io past the zeroed boundary,
-> > +	 * truncate up and append fallocate) must wait for this I/O to
-> > +	 * complete before updating i_disksize.
-> > +	 *
-> > +	 * When multiple overlapping unaligned EOF writes are in flight, we
-> > +	 * only need to track and wait for the first one. Subsequent writes
-> > +	 * will zero the gap in memory and ensure that the zeroed data is
-> > +	 * written out along with the valid data in the same block before
-> > +	 * i_disksize is updated.
-> > +	 */
-> > +	if (likely(folio_test_dirty(folio) &&
-> > +		   READ_ONCE(ei->i_ordered_len) == 0)) {
-> > +		WRITE_ONCE(ei->i_ordered_lblk,
-> > +			   from >> inode->i_blkbits);
-> > +		/*
-> > +		 * Pairs with smp_rmb() in ext4_iomap_writeback_submit()
-> > +		 * and ext4_iomap_wb_ordered_wait(). Ensure the updated
-> > +		 * i_ordered_lblk is visible when i_ordered_len becomes
-> > +		 * non-zero.
-> > +		 */
-> > +		smp_store_release(&ei->i_ordered_len, 1);
-> >  		do_submit = true;
-> > +	}
-> >  	folio_unlock(folio);
-> >  	folio_put(folio);
-> >  
-> >  	/* Submit zeroed block. */
-> > -	if (do_submit)
-> > -		return filemap_fdatawrite_range(mapping, from, end - 1);
-> > +	if (do_submit) {
-> > +		ret = filemap_fdatawrite_range(mapping, from, end - 1);
-> > +		if (ret) {
-> > +			/*
-> > +			 * Pairs with wait_event() in
-> > +			 * ext4_iomap_wb_ordered_wait(). Ensure
-> > +			 * i_ordered_len = 0 is visible before waking up
-> > +			 * waiters.
-> > +			 */
-> > +			smp_store_release(&ei->i_ordered_len, 0);
-> > +			wake_up_all(&ei->i_ordered_wq);
-> > +			return ret;
+What do you mean by "the permission checks of the file descriptors themselv=
+es"?
 
-Okay so even if the ordered IO fails we still let the i_disksize updates
-go ahead? I think this is a deviation from the current behavior where we
-abort the journal. If this is acceptable we should atleast add a comment
-on why its okay.
+> The issue you point out with memfd's definitely needs to be fixed.
+> It should be separated out from the rest of the races simply because
+> it is a completely different kind of issue.
+>
+> I wonder if anyone even anticipated you could open another file handle
+> to memfd's through proc.  If so leaving everything to path based
+> permissions assumed a feature of proc that doesn't exist.
 
-> > +		}
-> > +	}
-> >  	return 0;
-> >  }
-> >  
-> > @@ -4827,10 +4890,13 @@ int ext4_block_zero_eof(struct inode *inode, loff_t from, loff_t end)
-> >  		 * data=ordered mode. We submit zeroed range directly here.
-> >  		 * Do not wait for I/O completion for performance.
-> >  		 *
-> > -		 * TODO: Any operation that extends i_disksize (including
-> > -		 * append write end io past the zeroed boundary, truncate up,
-> > -		 * and append fallocate) must wait for the relevant I/O to
-> > -		 * complete before updating i_disksize.
-> > +		 * The end_io handler ext4_iomap_wb_ordered_wait() will wait
-> > +		 * for I/O completion before updating i_disksize if the write
-> > +		 * extends beyond the zeroed boundary.
-> > +		 *
-> > +		 * TODO: Any other operation that extends i_disksize
-> > +		 * (including truncate up and append fallocate) must wait for
-> > +		 * the relevant I/O to complete before updating i_disksize.
-> >  		 */
-> >  		} else if (ext4_inode_buffered_iomap(inode)) {
-> >  			err = ext4_iomap_submit_zero_block(inode, from, end);
-> > diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
-> > index 3050c887329f..ad05ebb49bf6 100644
-> > --- a/fs/ext4/page-io.c
-> > +++ b/fs/ext4/page-io.c
-> > @@ -613,6 +613,46 @@ int ext4_bio_write_folio(struct ext4_io_submit *io, struct folio *folio,
-> >  	return 0;
-> >  }
-> >  
-> > +/*
-> > + * If the old disk size is not block size aligned and the current
-> > + * writeback range is entirely beyond the old EOF block, we should
-> > + * wait for the zeroed data written in ext4_block_zero_eof() to be
-> > + * written out, otherwise, it may expose stale data in that block.
-> > + */
-> > +static void ext4_iomap_wb_ordered_wait(struct inode *inode,
-> > +				       loff_t pos, loff_t end)
-> > +{
-> > +	struct ext4_inode_info *ei = EXT4_I(inode);
-> > +	unsigned int blocksize = i_blocksize(inode);
-> > +	loff_t disksize = READ_ONCE(ei->i_disksize);
-> > +	ext4_lblk_t order_lblk, order_len;
-> > +
-> > +	/*
-> > +	 * Waiting for ordered I/O is unnecessary when:
-> > +	 * - The on-disk size is block-aligned (no stale data exists).
-> > +	 * - The write start is within the block of the old EOF
-> > +	 *   (overwriting, or appending to a block that already contains
-> > +	 *   valid data).
-> > +	 */
-> > +	if (!(disksize & (blocksize - 1)) ||
-> > +	    pos < round_up(disksize, blocksize))
-> > +		return;
+I don't think memfds are particularly special here, they are just a
+nice, clear example of a case where an inode is protected based on
+which processes can path-walk to it.
 
-Okay these checks are pretty confusing. I was intially thinking that
-i_disksize's block would always be equal to i_ordered_lblk but seems
-like that is not true because ext4_block_zero_eof() uses from=i_size.
+As another example: Making a directory mode 0700 is also supposed to
+prevent other users from accessing things inside it.
 
-So we could have a sequence where
+> My gut says the best fix for the entire memfd issue is to simply change
+> memfd's and probably everything that calls shmem_file_setup to not have
+> an open method.  That eliminates any chance anyone will do anything
+> clever with proc.  But I can't see why it makes any sense to be able to
+> open another file handle into memfd's, or anything else that calls
+> shmem_file_setup for that matter.
+>
+> We can first try to remove the open method of memfd's set by
+> shmem_file_setup, and if that doesn't work we can look at fixing proc to
+> provide the guarantees that were assumed (as a security fix).
+>
+>
+> As a quality of implementation issue I can see fixing the small race
+> where when looking up a file descriptor through proc, exec does not
+> appear to be an atomic operation.  I keep wondering if that is something
+> that should be done in get_link or d_revalidate.
 
-1. truncate 4k (i_disksize = i_size = 4k)
-2. write 8k,10k (i_disksize = 4k i_size = 10k, i_ordered_len = 0 (old isisze  is block aligned)) 
-3. write 16k,18k (i_disksize = 4k i_size = 10k, i_ordered_len = 1, lblk=4)
+I don't see how d_revalidate would help, that still wouldn't be atomic.
 
-Here we issue ordered IO even though it' probably not needed.  Now if
-write 3 finishes first we see disksize as 4k so we don't wait for
-ordered write. Which seems okay since we don't risk any stale data
-exposure. However, this flow is pretty confuing.
+> I suspect the answer for proc_pid_get_link is to either cache something
+> like a seqcount, or simply to repeat the permission and existence checks
+> just before calling nd_jump_link.
 
-Can't we somehow avoid having to issue/set ordered len/lblk in case it
-is not really needed, like only issue it if i_disksize (and not i_size) 
-is unaligned. That can simplify some of our check and avoid extra IO
-overhead.
+That seems like it results in complicated semantics, while a mutex
+would provide clear semantics. Which is already what we use in places
+like __pidfd_fget() and /proc/<pid>/syscall.
 
-> > +
-> > +	order_len = READ_ONCE(ei->i_ordered_len);
-> > +	if (!order_len)
-> > +		return;
-> > +
-> > +	/*
-> > +	 * Pair with smp_store_release() in ext4_iomap_end_bio() and
-> > +	 * ext4_block_zero_eof(). Ensure we see the updated i_ordered_lblk
-> > +	 * that was written before the release store to i_ordered_len.
-> > +	 */
-> > +	smp_rmb();
-> > +	order_lblk = READ_ONCE(ei->i_ordered_lblk);
-> > +	if ((pos >> inode->i_blkbits) >= order_lblk + order_len)
-> > +		wait_event(ei->i_ordered_wq, READ_ONCE(ei->i_ordered_len) == 0);
-> > +}
-> > +
-> >  static int ext4_iomap_wb_update_disksize(handle_t *handle, struct inode *inode,
-> >  					 loff_t end)
-> >  {
-> > @@ -656,6 +696,9 @@ static void ext4_iomap_finish_ioend(struct iomap_ioend *ioend)
-> >  		goto out;
-> >  	}
-> >  
-> > +	/* Wait ordered zero data to be written out. */
-> > +	ext4_iomap_wb_ordered_wait(inode, pos, pos + size);
-> > +
-> >  	/* We may need to convert one extent and dirty the inode. */
-> >  	credits = ext4_chunk_trans_blocks(inode,
-> >  			EXT4_MAX_BLOCKS(size, pos, inode->i_blkbits));
-> > @@ -717,8 +760,25 @@ void ext4_iomap_end_bio(struct bio *bio)
-> >  	struct inode *inode = ioend->io_inode;
-> >  	struct ext4_inode_info *ei = EXT4_I(inode);
-> >  	struct ext4_sb_info *sbi = EXT4_SB(inode->i_sb);
-> > +	unsigned long io_mode = (unsigned long)ioend->io_private;
-> >  	unsigned long flags;
-> >  
-> > +	/*
-> > +	 * This is an ordered I/O, clear the ordered range set in
-> > +	 * ext4_block_zero_eof() and wake up all waiters that will update
-> > +	 * the inode i_disksize.
-> > +	 */
-> > +	if (io_mode == EXT4_IOMAP_IOEND_ORDER_IO) {
-> > +		/*
-> > +		 * Pairs with wait_event() in ext4_iomap_wb_ordered_wait().
-> > +		 * Ensure i_ordered_len = 0 is visible before waking up
-> > +		 * waiters.
-> > +		 */
-> > +		smp_store_release(&ei->i_ordered_len, 0);
-> > +		wake_up_all(&ei->i_ordered_wq);
-> > +		goto defer;
-> > +	}
-> > +
-> >  	/* Needs to convert unwritten extents or update the i_disksize. */
-> >  	if ((ioend->io_flags & IOMAP_IOEND_UNWRITTEN) ||
-> >  	    ioend->io_offset + ioend->io_size > READ_ONCE(ei->i_disksize))
-> > diff --git a/fs/ext4/super.c b/fs/ext4/super.c
-> > index 62bfe05a64bc..9c0a00e716f3 100644
-> > --- a/fs/ext4/super.c
-> > +++ b/fs/ext4/super.c
-> > @@ -1444,6 +1444,9 @@ static struct inode *ext4_alloc_inode(struct super_block *sb)
-> >  	ext4_fc_init_inode(&ei->vfs_inode);
-> >  	spin_lock_init(&ei->i_fc_lock);
-> >  	mmb_init(&ei->i_metadata_bhs, &ei->vfs_inode.i_data);
-> > +	ei->i_ordered_lblk = 0;
-> > +	ei->i_ordered_len = 0;
-> > +	init_waitqueue_head(&ei->i_ordered_wq);
-> >  	return &ei->vfs_inode;
-> >  }
-> >  
-> > @@ -1480,12 +1483,20 @@ static void ext4_destroy_inode(struct inode *inode)
-> >  		dump_stack();
-> >  	}
-> >  
-> > -	if (!(EXT4_SB(inode->i_sb)->s_mount_state & EXT4_ERROR_FS) &&
-> > -	    WARN_ON_ONCE(EXT4_I(inode)->i_reserved_data_blocks))
-> > -		ext4_msg(inode->i_sb, KERN_ERR,
-> > -			 "Inode %llu (%p): i_reserved_data_blocks (%u) not cleared!",
-> > -			 inode->i_ino, EXT4_I(inode),
-> > -			 EXT4_I(inode)->i_reserved_data_blocks);
-> > +	if (!(EXT4_SB(inode->i_sb)->s_mount_state & EXT4_ERROR_FS)) {
-> > +		if (WARN_ON_ONCE(EXT4_I(inode)->i_reserved_data_blocks))
-> > +			ext4_msg(inode->i_sb, KERN_ERR,
-> > +				 "Inode %llu (%p): i_reserved_data_blocks (%u) not cleared!",
-> > +				 inode->i_ino, EXT4_I(inode),
-> > +				 EXT4_I(inode)->i_reserved_data_blocks);
-> > +
-> > +		if (WARN_ON_ONCE(EXT4_I(inode)->i_ordered_len))
-> > +			ext4_msg(inode->i_sb, KERN_ERR,
-> > +				 "Inode %llu (%p): i_ordered_lblk (%u) and i_ordered_len (%u) not cleared!",
-> > +				 inode->i_ino, EXT4_I(inode),
-> > +				 EXT4_I(inode)->i_ordered_lblk,
-> > +				 EXT4_I(inode)->i_ordered_len);
-> > +	}
-> >  }
-> >  
-> >  static void ext4_shutdown(struct super_block *sb)
-> > -- 
-> > 2.52.0
-> > 
+> >> Question 2.
+> >>
+> >> How does this race compare to racing with setresuid?
+> >> Do we need to fix the setresuid case as well?
+> >
+> > Which setresuid case? setresuid clears the dumpable flag and has a
+> > memory barrier that is supposed to make that properly ordered against
+> > ptrace_may_access(); so setresuid() should normally not cause a task
+> > to become traceable, though that could maybe happen in weird
+> > scenarios.
+>
+> The cases where the dumpable flag get set are all part of exec.
+>
+> I was thinking of cases where we have a daemon that is started by
+> root and then it changes it's uid to do something.
+
+(Normally such a daemon would only change its EUID, which is mainly
+considered when the daemon acts as a subject, unless it intends to
+permanently drop privileges.)
+
+> Looking at ptrace_may_access the uid based checks won't allow
+> accessing of such a task unless it changes all of it's uids.
+>
+> At which point arguably it is on the process that calls setuid to make
+> certain ptracing it won't be a problem.  I am not certain that ever
+> actually works in practice but that does seem to be what the current
+> code is saying.
+
+When a daemon changes its EUID for some reason, commit_creds() will
+change that daemon's dumpability to suid_dumpable, which will prevent
+ptracing it even if the UIDs match.
+
+The ptrace.2 manpage guarantees that a process which is not
+SUID_DUMP_USER can't be accessed without CAP_SYS_PTRACE.
+
+> Now I am wondering if dumpable should get set if setresuid changes
+> a uid like I described above.
+
+What do you mean by "get set"?
+
+> > I think another case we should probably care about is what happens if
+> > a process which is only protected against ptrace by being non-dumpable
+> > goes through execve() - it shouldn't be possible to access resources
+> > associated with the pre-execve state while checking against the
+> > post-execve dumpability. It might be important for this that the
+> > do_close_on_exec() logic currently happens after committing the
+> > dumpable state in exec_mmap()...
+> >
+> >> Question 3.
+> >> Do we care about the case when a privileged process calls a setuid
+> >> process and drops privileges?
+> >
+> > I don't understand the question. Hmm - do you mean a case where a
+> > process with ruid=3D1000, euid=3D0, suid=3D1000 does execve() on a setu=
+id
+> > 1000 binary? I think we probably don't specifically care about that...
+> >
+>
+> The general case would be a daemon running as root forks and exec's a
+> binary running as some unprivileged user fred.
+>
+> Mostly I bring it up is that it is easy to forget suid exec can drop
+> privileges as well as raise them.
+
+I do not understand the scenario you're describing. Can you give a
+specific example you're thinking of - what the ruid/euid/suid would be
+before execve(), and which mode the binary would be?
