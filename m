@@ -1,43 +1,43 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7293A2D3A93
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 17:31:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AC5288D0
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 17:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779989518; cv=none; b=bxbMlnHPzO/NYlSQqFl7uwljZLw9ydtKLjiP+5XzvTOgGnkpbChuyZ3riO9uw5HiX8Pj4GyzJQnzFqSTNdhqYNfBfAUh9x4r6jNu6zF0V7hfR+VvE0rb/n4m/jiq8BWNlee3psHn7H66QeUX13RDV7AA6Hzu2l4f+nrO1f5UcRY=
+	t=1779989518; cv=none; b=dZOmjYe5u8U8D1c/25qQUCaReM/jBD2e9Abx4Gg4k3qGs4dK7ke3yWThcOADl924UldWgeuDlpAaU1d9tEPtyTAKHnCaxHAEM/ZWaYcdKqjAGuduVAFy8ngh6Q+UxGiSPxIopzDa5L6apx6+9c0srcMFQRyFZ5uSwJoy7Y9h/6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779989518; c=relaxed/simple;
-	bh=Nmf1KbqbwN9V+UgC6CMihPvNK3l12C1aDzFjEljwDMk=;
+	bh=oBo535glMXGLMv+bnts4aSwDQzr5U1RkxN6oGjMkX/Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lJHJTsgp+0ulZGSF9TnjQrYzpstHlSTmsrEypJZwr7HImmUi+kF78goKqPKYWhOdUSd5fBhn1N6kfN4HHG1dopsoL/xi1gnMapWuIIsLRFzvp7XhPlPhJbCDmM4tONqTyccz6W3dWsAMok4pzY+lEI6fxeXRg/7e9rqPDK71WFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cgZUd9Wy; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=Klb4E0WH3Ro5v8OBeh7B2CBORWbB8+3W7mMeuaWIKkOzmAcUgmYLDxn15CblZH89vzAw/orYXvx6ft2+/cYWX+VwD8vleNvEi1PVIVZpBlU8RiALOijGRN7dlw30tt6Uzg9/4Abaob9UKbQ/mJMGfHVi7sqo084Rds+nq5umc3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ho8MMAfc; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cgZUd9Wy"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ho8MMAfc"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=le6ZmY8M28M9dx9C26aY4tuYtt9QW5QBHt5M3arZ8ns=; b=cgZUd9WyFzPdnHSxZ66Ey9E7l+
-	uJSAzOBtDEMyIjP7gPXU91VjLi5yrRxm7HLod952RCb9dNqjuNDJubqQx38LVT3jwkegeiK/Ww6SU
-	Dkns/toAp0BI+Z224AdlWGDCUM59Xv34rC5SSpOCYRLWg1HL47t81QYj4eqCplOnH+o1OYEe1LpI/
-	CnyKZzD1pjkXseORAIUdEy9WalxGPfc6ZI1dZ5YvQRgTLjFSFDEHxY6nD7lp4scgBa8rZH1FJR02u
-	n0W9pyzkPHTzSVe1mWQ+EGiwpZtIugWMPylBBKtD3FH0rAzukjMOXTTGmqUTFbPfugbhVavS3t0e9
-	lXpcKpQQ==;
+	bh=u8B0Gw91fndi6WZNc2puuGaH2pHkZ4dVqi+8nEIK7+0=; b=Ho8MMAfc7br4c3Ejg4zoiOZZfy
+	jRk1u981SdoTAZ/d/4Ct+9b/Xwe/0OgL0B7epiVxh/WuM3xt9aL7tXeus1PZUJcjvIrdzYfri8SvI
+	itSBun9DthHWi/Rn97V9StQAj5jKyXzBn7ixP7TVy62j1Vy5ImsztKgEpUZTLNAzugRXSUclV0NK/
+	OItfg4VEpX75Z7S+wVouOKXShp1BObH4KErCVv4FJeQ4efOyV5VDQmZJXeDiEC2AY02/TzDNJ8l8u
+	LDmbWPqR5L5EdrYZlAmD962xuUcpzjUK9Z2snkotwSMl9wx4WfH9eDw9Y8Iiqx8zNTAncrQWBm7lk
+	zHPvmjGw==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSeaG-00000004aYQ-2Owv;
-	Thu, 28 May 2026 17:31:52 +0000
+	id 1wSeaH-00000004aYu-1zvd;
+	Thu, 28 May 2026 17:31:53 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 05/34] buffer: Convert write_dirty_buffer to bh_submit()
-Date: Thu, 28 May 2026 18:31:18 +0100
-Message-ID: <20260528173150.1093780-6-willy@infradead.org>
+Subject: [PATCH v2 08/34] buffer: Convert __bh_read to bh_submit()
+Date: Thu, 28 May 2026 18:31:21 +0100
+Message-ID: <20260528173150.1093780-9-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260528173150.1093780-1-willy@infradead.org>
 References: <20260528173150.1093780-1-willy@infradead.org>
@@ -59,20 +59,20 @@ Reviewed-by: Jan Kara <jack@suse.cz>
  1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/fs/buffer.c b/fs/buffer.c
-index e22a94afa385..6329f2b554da 100644
+index deabf7479325..97c8b9966060 100644
 --- a/fs/buffer.c
 +++ b/fs/buffer.c
-@@ -2836,9 +2836,7 @@ void write_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags)
- 		unlock_buffer(bh);
- 		return;
- 	}
--	bh->b_end_io = end_buffer_write_sync;
--	get_bh(bh);
--	submit_bh(REQ_OP_WRITE | op_flags, bh);
-+	bh_submit(bh, REQ_OP_WRITE | op_flags, bh_end_write);
- }
- EXPORT_SYMBOL(write_dirty_buffer);
+@@ -3089,9 +3089,7 @@ int __bh_read(struct buffer_head *bh, blk_opf_t op_flags, bool wait)
  
+ 	BUG_ON(!buffer_locked(bh));
+ 
+-	get_bh(bh);
+-	bh->b_end_io = end_buffer_read_sync;
+-	submit_bh(REQ_OP_READ | op_flags, bh);
++	bh_submit(bh, REQ_OP_READ | op_flags, bh_end_read);
+ 	if (wait) {
+ 		wait_on_buffer(bh);
+ 		if (!buffer_uptodate(bh))
 -- 
 2.47.3
 
