@@ -1,106 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC122EBB9E;
-	Thu, 28 May 2026 15:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF203F0AA5
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 15:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779982636; cv=none; b=iCRhJT9EuKpE2P2gvOSJKQFbyoUT2HJC+NJtKhNzjSkBDIZC5R/syMwPfcjjAGNzzfi2x7iLVSpq4g6w/08wEnnYQzyhOY1j8TrZGDmHRU/dL9+JXxBltals5+1ve11Ztb1h4RInQkGS8q7//BnRCmJcZjFEq0ka5o0uzfG+oqY=
+	t=1779982643; cv=none; b=Z/LurEesj7ZsOu4NPi3dQ40XRbiSA2FydPqquVuiasN/ASUHfDQvLMsta53kpX74HjbV5hbvpfTGh0dLr6CH7PwACrHYygGfNTs+l+cqQB45yRMD2K1p75cywyAcDSjoXS758rWZfZf7SLB/Q11DmzuEC7lVxvUNblM+x4OoiUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779982636; c=relaxed/simple;
-	bh=TEn+txG6ta+6hE/Z9Pzr+UAtGT6r145WOb+oTH7pZyQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=By8bUYJh4VnzCyQtD6Y932WKC5NSOq2QanlP0em2Ih62yi7VfFmka6OamEAcsWw/pQms7zcx8vA3JbKzSQfvDckev6lDdr7wKzqQNPu94mGjf338crhEeJrnrfXr0yMXef25zyn6mfJOOHIzqMDoDpibxB0t7C6cETMuIRXP890=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6I2TXeR; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779982643; c=relaxed/simple;
+	bh=rqQCeHIszqLtzGD+9TIjivyuDDyH+4oIR9R8QJU8JUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tfWF32JlIPDq0rH52jrIr1nethb1lrHU7oQxZxw9ixKP9nDIAnN9Qw64Pj4v6BBwfkuHYqXHg+KID7/Wq4GHsSoGNPxcEhMbvUzAa8DnyhfJiE2amDDY3QdMlk07DTtZD3d9ftrb+Q8lH+veztWxipVg3uvW4UonSJcPxUDNhT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=aElPts2x; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6I2TXeR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779982636; x=1811518636;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=TEn+txG6ta+6hE/Z9Pzr+UAtGT6r145WOb+oTH7pZyQ=;
-  b=R6I2TXeR9gqcbgC2+ctdNzsedyoOEE1tROhaSnege3VTzJmaj7K6rmEv
-   7iUkr2+tJYO+r8uz1vZ1dQx03bMoVN7ZDOe4BsvCGD9sQcsRefdAsqWDR
-   9cnSRvnPQ1NPPHey+gMwVv8RdRMD5DezUn+K/Arl0K04hsh9hXDzifm7c
-   tdHSWK0ex4wnuYSIZ4lVlrRcJQWuBls3ph49IJWaqVYoGB1CmrIu8TEh3
-   2TeX9adiKSeGpSDIjOlhFYNTBdvJabUUmQ7qaUpUjqprH1/+X4hFwj2bF
-   a7vRCU1RB3JLw6Ooc4QpVpNLdcoOr6kREOWfKk2KhgCXF7lT9IzHJhkz+
-   w==;
-X-CSE-ConnectionGUID: jR5NPJIzTI6JdZVVZ4qtqQ==
-X-CSE-MsgGUID: kqc1iu41Q6KLWzSOHFwLyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="80819348"
-X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="80819348"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 08:37:16 -0700
-X-CSE-ConnectionGUID: HIrujNteQKyG5fD0QnT/Pw==
-X-CSE-MsgGUID: Thpjl90iQ4K+psZL8Y+37g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="272915069"
-Received: from aduenasd-mobl5.amr.corp.intel.com (HELO [10.125.111.91]) ([10.125.111.91])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 08:37:10 -0700
-Message-ID: <97fc27c6-6cda-4a78-9847-fc2aa17ce057@intel.com>
-Date: Thu, 28 May 2026 08:37:08 -0700
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="aElPts2x"
+Received: from macsyma.thunk.org (c-73-9-28-129.hsd1.il.comcast.net [73.9.28.129])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 64SFb5U9005244
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 May 2026 11:37:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1779982631; bh=G+Cvh472mgio3qnzQivWQBkXaVPqCLOy9h74veY0hYo=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=aElPts2xYATFDcae3J0iz4wIMuY7ttQ1xKZEjcGAfAAXaxO8yQd/NgmwEREKBVh4p
+	 G1N0dSQ8qWzVJRtmWRXMmZedIls9IpTTlrYTrg/B2zFMWlRiAsT4WWiDlgA/nmftl8
+	 qxixSnKNRMMmpjTXNu8hs0k/81Wy/4CfffHo4JyJCdAz2HvHxqwYg+ikifiQLp2cJt
+	 2OeOYtmKe1TdH8YHi9PPoP8ld7BEuIMMXO+DhOLiKiqUXOvY4HABXeDTuY8aI3+c0w
+	 Cunc34kmoiX40up9vyHs5nRJt5/hbtvM0N/EGYVif52wiZKB/9WkMV+vknK4aM1xJo
+	 b1HyUFk8NQjeQ==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 6453E6B6C83E; Thu, 28 May 2026 10:37:05 -0500 (CDT)
+Date: Thu, 28 May 2026 10:37:05 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org
+Subject: Re: [PATCH 17/34] jbd2: Convert jbd2_write_superblock() to
+ bh_submit()
+Message-ID: <4w3twcxncvmld277cslrrn7r7f233fpw5wyis2rno5ec72y5tf@hhparb3t6ddx>
+References: <20260525171931.4144395-1-willy@infradead.org>
+ <20260525171931.4144395-18-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] dax/bus: Upgrade resource conflict message to
- dev_err() in alloc_dax_region()
-To: Tomasz Wolski <tomasz.wolski@fujitsu.com>,
- smita.koralahallichannabasappa@amd.com, alison.schofield@intel.com,
- dan.j.williams@intel.com
-Cc: icheng@nvidia.com, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, nvdimm@lists.linux.dev, ardb@kernel.org,
- benjamin.cheatham@amd.com, jonathan.cameron@huawei.com
-References: <20260528064546.23362-1-tomasz.wolski@fujitsu.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20260528064546.23362-1-tomasz.wolski@fujitsu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260525171931.4144395-18-willy@infradead.org>
 
-
-
-On 5/27/26 11:45 PM, Tomasz Wolski wrote:
-> The dax_region resource conflict in alloc_dax_region() indicates a
-> serious configuration problem — two subsystems (e.g. dax_hmem and
-> dax_cxl) are attempting to register overlapping address ranges. This is
-> not a transient or debug-level condition; it represents a genuine
-> resource conflict that an administrator needs to be aware of.
+On Mon, May 25, 2026 at 06:19:10PM +0100, Matthew Wilcox (Oracle) wrote:
+> Avoid an extra indirect function call by using bh_submit() instead of
+> submit_bh().
 > 
-> Promote the log level from dev_dbg() to dev_err() so that the conflict
-> is visible by default without requiring dynamic debug to be enabled.
-> 
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Link: https://lore.kernel.org/linux-cxl/69c1a8d1c0fa9_7ee3100a1@dwillia2-mobl4.notmuch/
-> Signed-off-by: Tomasz Wolski <tomasz.wolski@fujitsu.com>
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: linux-ext4@vger.kernel.org
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-> ---
->  drivers/dax/bus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> index 68437c05e21d..cd963eeeef7b 100644
-> --- a/drivers/dax/bus.c
-> +++ b/drivers/dax/bus.c
-> @@ -672,7 +672,7 @@ struct dax_region *alloc_dax_region(struct device *parent, int region_id,
->  
->  	rc = request_resource(&dax_regions, &dax_region->res);
->  	if (rc) {
-> -		dev_dbg(parent, "dax_region resource conflict for %pR\n",
-> +		dev_err(parent, "dax_region resource conflict for %pR\n",
->  			&dax_region->res);
->  		goto err_res;
->  	}
-
+Acked-by: Theodore Ts'o <tytso@mit.edu>
