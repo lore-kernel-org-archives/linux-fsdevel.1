@@ -1,46 +1,45 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787BF400E1E;
-	Thu, 28 May 2026 17:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D02403E8A;
+	Thu, 28 May 2026 17:32:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779989525; cv=none; b=N6pdQM2nLryjWdUdvpy8vPpyM60QUdUDKCOv2kcSvzrOwyLtPdNEvzjzQNli1pb37nMQTsFPlBQ/QkAPLuN0i8uSF17+fPo3f0EaW6V2aPUtWRiFv/Qq8TFKSpn6J4zpXBy9Va7BhmZo0WFAgZqe8nbiKugc7bPEv/+ui5R9PNc=
+	t=1779989528; cv=none; b=BANwTDgvupPmFcO/oBFTcAbfOoxufPHdisoaXEUQXthjNZDqilJgy10VZvLGVySxsHRR7boAhnhSeT8VgW8r3vNBsb+L1qJGNiWYheq18SXQHWGYYeJWQsiLFejLAt9JAWFCa6sR5pKRieFxXlh2BntAY/06YkCe36a0s+Oll4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779989525; c=relaxed/simple;
-	bh=OHjokb/c6gjpSrGSG3dtxQ77F2kAIT8pa0Wh0Utp/rA=;
+	s=arc-20240116; t=1779989528; c=relaxed/simple;
+	bh=CyFmYM26d76ZkKYJSY4JJTzUecNTStW7eaF21ieUwJ0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CxNi3MF9iNPoxLMwxU22Zqh/drVF6dYKrZQ3C6TJQo9SZwrnpXPwdZvuljV2rNyxMSJ8VPcxo+V7RaHhXY3MlBtDabKQnF41XM8Chhmz3YyML3j/JrzdmiTwznkpYC64o+btO2rXkZV4/HfrJw6e31v7W9CbfNwln8uqgSR5j8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SU1CecUG; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=M5JC8JAiKjvBn3NSape/ebxSa+5Ztw0KyxwWnDIUjc7BbMwaB38NC0+uCbe+EgYRK9KJk9ogLaCj7SBsACQZ2j3/rxSV+bg0mi17+yt/M7ZtTeZaVl3Pqu+pGDvZops3gzKm6EPHOCO5ByNtWjSE7gfEUsAVXvxj2DVelGZ2OM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DPyO18ag; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SU1CecUG"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DPyO18ag"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=KXFbcSbgnMghTDGAHJa+f87pRV3vkEI2ij7TKdp7UUI=; b=SU1CecUGS2reQ8qqq0AALuu7/T
-	jGTDuIKhuQ+5UOpXwOjOOtbpO4sVEhrxhlKZ83lrFdOajZbaiizIT342PSNaCenSkr/0mKs0bjurK
-	zWWWoO2jxtTAXw77REEcmP0trKV+TkY448EpYTfW8QCyxA/CdSvQu7ja5+tdHwqKScq5Kr49AH2O9
-	QzrRt0z0ptHIZc8jsp2EF5gG1l+aufTsBhRJcPKf4Nv62XPgBX669JMQnsWfMLiCbQoh76qo2G7v3
-	EmEUddH8SpZozVZeDHtmOKm0DwiiC1G407QIvdHBtAbqumMyGi1c1X6Huh+CfC1oodg0sJSGQAVC0
-	/s7+8jIw==;
+	bh=5YL3wQRMlJ9Mc2LQfJNBK+sNFYnQQTh8sKR9rJ/ClMM=; b=DPyO18agiPx7qw6V7UCwQ83m/7
+	J6CenD3HiGatR0wU94N+VHStI+2zQ2u6FUiVnkLLc1vHb4XlnDGY+jl/BO5usENlEpAIGncRsrBUG
+	bqGb7JPqt6hHI1CfITVRwoFUs82kOWtacYEYC0YAKn1bIiwHan0nVDBQwJJYJ+BoV9yv1j70TxNQ+
+	yL33bkZ05zdfxQx+hcrQIa4dOIgKTeV7XBAFraLEklNEEzD2mK0jXJmOxj8D6in/Df4bSHOxCxBBM
+	4F4pddivvxUJ2r/jWypoCBAVAqV9+qMJJiYwed6yXcFlPx4oCVSSerSXa36rz1nsDE1btLc1pNmNk
+	cAD6oXMw==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSeaL-00000004abD-3SvO;
-	Thu, 28 May 2026 17:31:57 +0000
+	id 1wSeaJ-00000004aaF-3tnn;
+	Thu, 28 May 2026 17:31:55 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-fsdevel@vger.kernel.org,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	linux-nilfs@vger.kernel.org
-Subject: [PATCH v2 28/34] nilfs2: Convert nilfs_gccache_submit_read_data to bh_submit()
-Date: Thu, 28 May 2026 18:31:41 +0100
-Message-ID: <20260528173150.1093780-29-willy@infradead.org>
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	ocfs2-devel@lists.linux.dev
+Subject: [PATCH v2 20/34] ocfs2: Convert ocfs2_read_blocks to bh_submit()
+Date: Thu, 28 May 2026 18:31:33 +0100
+Message-ID: <20260528173150.1093780-21-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260528173150.1093780-1-willy@infradead.org>
 References: <20260528173150.1093780-1-willy@infradead.org>
@@ -56,28 +55,29 @@ Avoid an extra indirect function call and changing the buffer refcount
 by using bh_submit() instead of submit_bh().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: linux-nilfs@vger.kernel.org
+Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
+Cc: ocfs2-devel@lists.linux.dev
 ---
- fs/nilfs2/gcinode.c | 4 +---
+ fs/ocfs2/buffer_head_io.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/fs/nilfs2/gcinode.c b/fs/nilfs2/gcinode.c
-index 62d4c1b787e9..85379ac23ae2 100644
---- a/fs/nilfs2/gcinode.c
-+++ b/fs/nilfs2/gcinode.c
-@@ -83,9 +83,7 @@ int nilfs_gccache_submit_read_data(struct inode *inode, sector_t blkoff,
- 	if (!buffer_mapped(bh))
- 		set_buffer_mapped(bh);
- 	bh->b_blocknr = pbn;
--	bh->b_end_io = end_buffer_read_sync;
--	get_bh(bh);
--	submit_bh(REQ_OP_READ, bh);
-+	bh_submit(bh, REQ_OP_READ, bh_end_read);
- 	if (vbn)
- 		bh->b_blocknr = vbn;
-  out:
+diff --git a/fs/ocfs2/buffer_head_io.c b/fs/ocfs2/buffer_head_io.c
+index 9edaeef5c4b9..185ff4dcba75 100644
+--- a/fs/ocfs2/buffer_head_io.c
++++ b/fs/ocfs2/buffer_head_io.c
+@@ -319,11 +319,9 @@ int ocfs2_read_blocks(struct ocfs2_caching_info *ci, u64 block, int nr,
+ 				continue;
+ 			}
+ 
+-			get_bh(bh); /* for end_buffer_read_sync() */
+ 			if (validate)
+ 				set_buffer_needs_validate(bh);
+-			bh->b_end_io = end_buffer_read_sync;
+-			submit_bh(REQ_OP_READ, bh);
++			bh_submit(bh, REQ_OP_READ, bh_end_read);
+ 			continue;
+ 		}
+ 	}
 -- 
 2.47.3
 
