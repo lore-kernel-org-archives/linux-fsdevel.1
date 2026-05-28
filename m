@@ -1,149 +1,90 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3C127F017
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 02:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4517622576E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 02:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779934557; cv=none; b=K3iCZyWNx7q+AwjKcWGKOhwHWv13e8dWDMcH2tuRcMBYv9TKyQE/YsBLfva5DNy5KoAFxJhGBfU6n7wk8Nsfzow2DX9NWnKr617on8fIEuPc0V9Va4g2jkyQckGMzbdTLXtk3qU72vbtej9ntw9ehpxa4gnS3S2f81VIDHJWPMc=
+	t=1779935493; cv=none; b=IHACGZrere0be/tan4eucpey9Fkl9f4WzjUyYgmtKmvtOcPagoJp0K9c4He2N1jHOboKl++vBACaOijerOe9XTJCVEYGv0OrjlXY/r4PRojKKLSLyBxDGxyXAQA+rF7Hs2va0YNZ0crTKT/bWf+1QYE4l7rVxb80AkUtsnfw99A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779934557; c=relaxed/simple;
-	bh=cTDRdOQPPIBJHJS8UtAzmhpnUyPrrU4bxmh03cAS/Qk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nb+3Nhag2l7LMkzDH8xzOUZYfU5J1Vjrfo3Ogr4Wz4v/ORitN9SPuUEAshf5fxfkhxHp5Vn9xJSwdjdbmoxME7EU+oxEM0bL8lJBoedPtnQMd9FucfthgoH6Nw0Kohe8wRs1Dnzw8kAb+FP+ojOySR/DPUwKmZWATUX4B0COFIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ESiqEVwh; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779935493; c=relaxed/simple;
+	bh=myUvuy9oJZVt8E0PipSjsSIHPEuQCDDpEvLqc2IYuCI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xfw2LLmR51s0juhVaCYZkgSdfyMrx1GS/aOvJrnl0mLUMWLIs73OQBPO0mVbtG9spkNIT53hiXCx9gS6BHfjUGuFNRl/s+57+dVihYjXLtHhgPMmMHaQ0D8V3TTOisLaw+SWVa0wlTS1xpe+QQhm6XJQWoxon08zeRIECwWnMzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Tx7ZTkcY; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ESiqEVwh"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-36b95eb4bb4so16666a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 27 May 2026 19:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779934556; x=1780539356; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9qKTx4wwwn/KnQj5P1c8u+QpqNSgMGAUsRjMkSqVvk4=;
-        b=ESiqEVwhcJKbNTU8d0lhrsqjOwTZFxsNF+0tg4WgClraPnwAXw+QorWPLlNs5YnsBJ
-         uGXc/nauYt7EThMjKtXCAsD6+kbUGjYWzW30LT+agq14PNpJadQGC9n/pgoFYNoYQUTG
-         lqJEeLrSa48FXg0gQ5zzkohVsVrdvebKXlpIHsazjBCIowXpWT7eQtF+uGJTVAWxTOzl
-         QTxQ7+tUdXJAjC/loHeCvc3EDh+3723wMVA7FhUcys1HfBNGRG4mW6o1k0B7f4nrHG96
-         dfJMazN2uGx8mXltYyR8seOezkzrNjx45yh51IRmhDR4iyaU1LGB5E9LRxqV7V8JH0Fs
-         TeIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779934556; x=1780539356;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9qKTx4wwwn/KnQj5P1c8u+QpqNSgMGAUsRjMkSqVvk4=;
-        b=f2SompI5Q8zFblKSEZFkJ3WvW5OinuoepIS3uIGodnUhY2orzqzgDrpWSY3rTonYym
-         qMHWLrl/xrGTRhha1sAdMEnjajvbFvAYtbeKe1n3D6owyaQmmvpiiTJEKFFksGc8JHHs
-         xpRNc1tsTcp+cNzdMN71Q+3Qn8tAh6UoC43WmbmhHc1vizwCnH6A0J2dQjmRKyW/lweY
-         i68jxX0dFjRyrw+mZoTaxfbUh6Ie2kOchf6BwrJfuO7oidex0bpIuyRQytIYp1ZS7bsL
-         QYHVCbAZ4l6N5xhBOXgmNLb+jSojuWAIzdb7nDn32Uq3TL/PHoVPOALqS55XeqRp8o1e
-         EF5g==
-X-Forwarded-Encrypted: i=1; AFNElJ8qU3wC2saieNY9AsMT3OFgOw6j1LOvOT6OEJ+PxjG+2imDcEl4jTSOAoiE7z/XRVd+XQoHhhm1Tu8wlLxO@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJSa8M4TH6+FxEqZ5b2GuFDaXLbDA6YfOQJYFJXQ/qHthNZvX0
-	w96BCwX3xMgWE1w6TIk16gdOiXgJCXwwKFqjSbu54IK3tQnC5DDA93TvBJhsCg==
-X-Gm-Gg: Acq92OF4DEJ1Nb8VYuV2qwGSy1lVCFe3eKQLm+ajZ8+BuS6IphoeBX8KBVcBF1MzbyT
-	KORblqhR/fgNJL/Z35tnMZJ3UwmoQVINMiyIkxtTYRgcFBbJ+qhoYmpNidJM6KJX4feMxpTh48r
-	5LtYsnUOQ0G2oWSsq5P1J/WfGKBfh6ZaIkSOhM+Ff7ZZpwOuJTOXrPziGVTcVWtaDRmWYgI9ZuK
-	37eRL0vpVJDSu/9Qo+doJUHDL03rca4+7EWcMBce5gtsvufjTyvXllwTL1lSaa5xOhuZCLfceCH
-	Z1PUlNKrPkkLeQ0TS2Zn8FI726RXezVmTUYdLETanFRXf91WrOgxwU4IgtpSJQwgM8lQpqRoLe7
-	Ya6o5NfDqvFV+zWKLGsWL2wnrlAv1WgrbXtTo177OznNd55dgz17gGcPS/+Q78vJtxyuJSiZAo3
-	cFHzBMq8ag3YRvTC3pUl0UtieFGFl8bHrNO87B9mrlF7i+T+Pb8B4=
-X-Received: by 2002:a17:90b:3887:b0:369:223a:cb60 with SMTP id 98e67ed59e1d1-36a674558fcmr23292850a91.8.1779934555746;
-        Wed, 27 May 2026 19:15:55 -0700 (PDT)
-Received: from hyunchul-PC02.lge.net ([27.122.242.71])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36b9090b6b7sm223234a91.7.2026.05.27.19.15.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 19:15:55 -0700 (PDT)
-From: Hyunchul Lee <hyc.lee@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ntfs: not change 0-byte $DATA attribute to non-resident
-Date: Thu, 28 May 2026 11:15:35 +0900
-Message-ID: <20260528-f-0-byte-data-v1-1-9f36f5ce39b1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Tx7ZTkcY"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1779935490; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=myUvuy9oJZVt8E0PipSjsSIHPEuQCDDpEvLqc2IYuCI=;
+	b=Tx7ZTkcY0eyY++vSQBcV+Yu/oNy+l8DcXgEHayIH/9RNX0EyRFU5wcU+1Mrw/D8RCHq2b5qHRvoXMkwxxzz8IwAEkiq4DawVq6CZpn/o5smqK45xPJaHFQZ/YPFiervy4JTwaAzsJYJMZQDjQpDtenvbOl2TQmZA2EmY3AodnTo=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0X3l1ZXA_1779935488;
+Received: from 30.221.145.190(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X3l1ZXA_1779935488 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 28 May 2026 10:31:29 +0800
+Message-ID: <826e5016-4dcb-4697-ab0c-a5838e5d0f06@linux.alibaba.com>
+Date: Thu, 28 May 2026 10:31:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1957; i=hyc.lee@gmail.com;
- h=from:subject:message-id; bh=cTDRdOQPPIBJHJS8UtAzmhpnUyPrrU4bxmh03cAS/Qk=;
- b=owEBbQKS/ZANAwAKATTyMPr3jkjTAcsmYgBqF6UFr7Q2QW/zcUfkpuUJK/6R99k2b5X+QQRO0
- Oh/cFQrXreJAjMEAAEKAB0WIQTVhSnMU3bjbW4eb2I08jD6945I0wUCahelBQAKCRA08jD6945I
- 00cxEACWQZm6mmEBizp8h3eOL6Md6bxlVMGPCAQd7EdEQHLz2MvHfE0Tcnb0bAvna0HoAyOMztD
- UuZEwsLj32xcFIzquMdDuqPGBr4e5XunmP4o7H10vOsIPKspVShiVpYhf/AfhDbR6VppCXYlinB
- fShlyTEEE9n2N8BiLVAiLNt0J3f+SsteWAFwr2z7ej4DO7GoRS+f0FaR/EYsPIkWQ+S1duej5mP
- xzkyeCNawgyCputWr9G5TEJe+Su8K6b5QB10StRlbseT4VZmEcU+bfy1PstcT+mTPdG63xIKhyA
- 8NvG2qRRdEP9zembDoO3goLrVlQa82CTBfbbgVoV25v3C9GDcKg0DhBLZkMB+H6c7WfbrXX5o47
- l97XpyDF+zP0WUN7k1dIs6nKknBoPpC3YY+pduMaPrOZUSjBidTY7tESIUm9974YymkNKeU4gKU
- uThv4X0Ygf9T4N2JGGf2DQD3FLygDMc0Wl3yxnw5oRCaX5OtXo2IO/rC5NSAS2h/HLsRQydGQ2r
- RqI/6MfBOFS/Nx7eePi5DewoG4+IYhHB/kUpoUissEXPvIVQvdOEPrDRR+oLMQxdSgK5MecirA9
- /vXmZeFXuyC46lpXcnXa4d/YnkcfA7KhJ/1p0CpZcYntcvlTRyeaHNHxbGXNLlGyXSs6Z3gUXa1 /CTT8TifUey1Gvg==
-X-Developer-Key: i=hyc.lee@gmail.com; a=openpgp; fpr=D58529CC5376E36D6E1E6F6234F230FAF78E48D3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/14] fuse: separate next request fetching from
+ sending logic
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, bernd@bsbernd.com, axboe@kernel.dk,
+ linux-fsdevel@vger.kernel.org, Bernd Schubert <bschubert@ddn.com>
+References: <20260402162840.2989717-1-joannelkoong@gmail.com>
+ <20260402162840.2989717-2-joannelkoong@gmail.com>
+ <ae5355a5-b10d-47e2-88f8-fc3eaa0de54e@linux.alibaba.com>
+ <CAJnrk1Ypd=ek1E7qLpdxCoVzwzmzXLktXdpDbjPBZz7qKrWWTQ@mail.gmail.com>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <CAJnrk1Ypd=ek1E7qLpdxCoVzwzmzXLktXdpDbjPBZz7qKrWWTQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When ntfs_resident_attr_resize() cannot grow a resident attribute in
-place, it retries after converting other resident attributes to
-non-resident to free space in the MFT recrord.
+On 2026/5/28 04:53, Joanne Koong wrote:
+> On Tue, May 26, 2026 at 9:02 PM Baokun Li <libaokun@linux.alibaba.com> wrote:
+>> On 2026/4/3 00:28, Joanne Koong wrote:
+>>> Simplify the logic for fetching + sending off the next request.
+>>>
+>>> This gets rid of fuse_uring_send_next_to_ring() which contained
+>>> duplicated logic from fuse_uring_send(). This decouples request fetching
+>>> from the send operation, which makes the control flow clearer and
+>>> reduces unnecessary parameter passing.
+>>>
+>>> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+>>> Reviewed-by: Bernd Schubert <bschubert@ddn.com>
+>>
+>> Nice cleanup.
+>>
+>> Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
+>>
+> Thanks for taking the time to review the patches in this series,
+> Baokun. There is a newer v3 version of this series in [1] that was
+> cc'ed only to the new fuse-devel mailing list (with fs-devel dropped
+> since the patches are only fuse-specific). I'll make sure your
+> Reviewed-bys get added to the series.
+>
+> Thanks,
+> Joanne
+>
+> [1] https://lore.kernel.org/fuse-devel/20260522205823.1597313-1-joannelkoong@gmail.com/
 
-Do not select zero-length resident $DATA attributes for this conversion.
-fsck treats 0-byte non-resident $DATA attribute as corruptions.
 
-Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
----
- fs/ntfs/attrib.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Hi Joanne,
 
-diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-index 9d676375f25c..2872b4ce1835 100644
---- a/fs/ntfs/attrib.c
-+++ b/fs/ntfs/attrib.c
-@@ -4537,10 +4537,12 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
- 	while (!(err = ntfs_attr_lookup(AT_UNUSED, NULL, 0, 0, 0, NULL, 0, ctx))) {
- 		struct inode *tvi;
- 		struct attr_record *a;
-+		u32 value_len;
- 
- 		a = ctx->attr;
- 		if (a->non_resident || a->type == AT_ATTRIBUTE_LIST)
- 			continue;
-+		value_len = le32_to_cpu(a->data.resident.value_length);
- 
- 		if (ntfs_attr_can_be_non_resident(vol, a->type))
- 			continue;
-@@ -4552,6 +4554,8 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
- 		if (le32_to_cpu(a->length) <= (sizeof(struct attr_record) - sizeof(s64)) +
- 				((a->name_length * sizeof(__le16) + 7) & ~7) + 8)
- 			continue;
-+		if (a->type == AT_DATA && !value_len)
-+			continue;
- 
- 		if (a->type == AT_DATA)
- 			tvi = ntfs_iget(sb, base_ni->mft_no);
-@@ -4564,8 +4568,7 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
- 			continue;
- 		}
- 
--		if (ntfs_attr_make_non_resident(NTFS_I(tvi),
--		    le32_to_cpu(ctx->attr->data.resident.value_length))) {
-+		if (ntfs_attr_make_non_resident(NTFS_I(tvi), value_len)) {
- 			iput(tvi);
- 			continue;
- 		}
+Thanks for the heads-up, and apologies — I hadn't noticed that fuse now
+has its own dedicated mailing list, so I ended up reviewing the stale
+v2. I've subscribed to fuse-devel now and will follow the series there
+going forward.
 
----
-base-commit: 47a20013412ac44a71be899c206a2dc71c7a5dd9
-change-id: 20260528-f-0-byte-data-ff696b1bacf6
 
-Best regards,
--- 
-Thanks,
-Hyunchul
+Cheers,
+Baokun
 
