@@ -1,32 +1,33 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF173FC5AA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869733FCB05
 	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 17:31:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779989517; cv=none; b=f3cWQEvMpgzX/2CMpSPrqNLGIFy9SLrLcqDnRxeZuiY2zZzAla0A1orxDYURiNClX3MymvKO1DmPboLsK/+EaawOVmLz0yyIlIdwaXzb4dAXg0pcVrlk/vANc9Cnx4qe8QeNMY1mdHcs/IqCpO9gldGvINXEsV88PfQgPteDQQc=
+	t=1779989518; cv=none; b=ZVurslpIOyxOy6lKA432AbxUFW5DwqaIdDv7FMNlJyTvPB6VMvEb6zgEjLSVnm7W/aZX1DP1Kxwf5IXE1rvmt2qavSLZ1bzbgxhODkYkPEMarEdhcaRVmonoJrsgaF0q53vnpvDLp9H3ASENyvSptPPiwoUINPHoG5zWu/y5ENA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779989517; c=relaxed/simple;
-	bh=5CCPuqb9zz+TTg4Uaw417ctZfy7l7fkFBLSs6LNis/U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SaSWr+xd0OWld8VSBrMDrOsB5Ylhl1YECdb7AuA4hedm3VywKkZAjK608FfTduEFN0wEJOPhc1BRiRY+U6/V3P8uA1jtfHYV0tI/mougZzzX/qN263aWSpezdLTZG+5TA0eJbTBc+n6mq164Nf7RoYgYlBdt8Cz2eULzoEc0Mrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WY4fsU5q; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1779989518; c=relaxed/simple;
+	bh=sWu79/Ldp4GZRCIwqnxWGI3J6zjwrhOKdMalFPWwJi4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LU2B3C4no6u8qgS+u3hbuMp7rHYMuJ0c9ut2Ocuc18Q+ns/o7UZBMud5MAEhhlxkKCCWpIByhNS+GhD8D7O0aWvJX0vIKZA/tgbeRciO6aGWx/lzy0y+VUM7k+8bfy2z4ydROguuQ5QDplRwF6z0PZzbA5HoSoPECgTKc4BDGcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vE+Qjqr3; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WY4fsU5q"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vE+Qjqr3"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=q/2fb3LsE5p71sojG2x+TQcETWGSEHC5JYCijUi/pUk=; b=WY4fsU5qPzBv7zMQQZ2plBHYX9
-	2OQwiWHWQgtkDpIOihufid/p1Nlu+PB7uu4ujkNHhK2GGlLGDpOLwHB9RMCMBvlC9ufkbqUkXwOFc
-	m4g2A3RNwnb936l3icjW8kTCI6hOJISdqyA2r8T+GSENXs2/ffJzCBkC7tpiJkR1H+M0conkC5CmS
-	Mf6V+OXvnNc+cvDrdFekNYMvREoVjMRhrtW2q6Vj3agnwNSYWkWb6DFYoOpgqEwApFnXGLJsFBcbQ
-	YT1kkYPeuFjecJ120VFF70WX178gP3bBmD202sMWOssoQqUWT1qDXuuZxbyLtSGtVOW1SPohKxiYr
-	AqYKxGmg==;
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=8vrXrzkw7auK4rniwyzr07O1MkAqbKy0xtNXF8roeFE=; b=vE+Qjqr35meac9PJCGEmF3LPcy
+	k29soeeJ3CxCWyScoX7BYKXEbT3vSwf6BwJWnmhHNAl/CvY+M6j4x8w/KpV3nDzu8Im0qylNxi1aJ
+	XN3TIEK2LjudzpeBeaQbEeaoFVDIUCprN/sfD5fGSTeKniFLajzuwyOJ6+qisSPUnDtF/gkwLwgMQ
+	xLBIBETKbEOmgEX1J9/jGzJiH84A39jXnrUDWf2bbHZFxSE4JBtRm+4e4hOnpaE4TjMVPym1uRv7s
+	sdiFq20uI/ivurd+b6g9ShNFoE6PfMr3vjxxmykU6LCnqmgQGuuypiMnhkviXH1RDWd0fjfO3ZhJU
+	tUtuRWCA==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSeaF-00000004aXs-1cFK;
+	id 1wSeaF-00000004aY2-39f7;
 	Thu, 28 May 2026 17:31:51 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
@@ -34,10 +35,12 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 00/34] Remove b_end_io from struct buffer_head
-Date: Thu, 28 May 2026 18:31:13 +0100
-Message-ID: <20260528173150.1093780-1-willy@infradead.org>
+Subject: [PATCH v2 02/34] buffer: Add bh_submit()
+Date: Thu, 28 May 2026 18:31:15 +0100
+Message-ID: <20260528173150.1093780-3-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260528173150.1093780-1-willy@infradead.org>
+References: <20260528173150.1093780-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -46,92 +49,91 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are four benefits to this patchset.  First, it removes an
-indirect function call from the completion path.  Instead of setting
-bio->bi_end_io to end_bio_bh_io_sync() which then calls bh->b_end_io(),
-we set bio->bi_end_io to the appropriate completion handler, replacing
-two indirect function calls with one.
+bh_submit() takes a bio_end_io allowing users to avoid the indirect
+function call through bh->b_end_io, and eventually allowing us to remove
+bh->b_end_io.
 
-Second, there is a slight security advantage to this.  It is one fewer
-function pointer in the middle of a writable data structure that can
-be corrupted.  Third, it shrinks struct buffer_head from 104 bytes to 96
-bytes, allowing for appropriximately 7% reduction in the amount of memory
-used by buffer_heads (or, alternatively, allows 7% more buffer_heads to
-be cached in the same amount of memory).  Fourth, it removes some
-atomic operations as the buffer refcount is no longer incremented before
-calling the end_io handler.
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Reviewed-by: Jan Kara <jack@suse.cz>
+---
+ fs/buffer.c                 | 31 +++++++++++++++++++++++++++----
+ include/linux/buffer_head.h |  1 +
+ 2 files changed, 28 insertions(+), 4 deletions(-)
 
-I've run ext4 through its paces, and everything seems OK.  I've only
-compiled ocfs2/gfs2/nilfs/md-bitmap.  Hopefully the maintainers can give
-this series a try.  I'm sending the entire series to linux-fsdevel
-and cc'ing the fs-specific mailing lists for the fs-specific patches.
-
-v2:
- - Redo bio_endio_bh() to return a bool and the buffer_head instead of
-   requiring callers to retried bi_status themselves (Jan)
- - Remove buffer refcount inc/dec (Jan)
- - Add kernel-doc for end_buffer_read_sync()
- - Collect tags from Jan, Ted, Joseph, Viacheslav and Ryusuke
-
-Matthew Wilcox (Oracle) (34):
-  buffer: Remove forward declaration of submit_bh_wbc()
-  buffer: Add bh_submit()
-  buffer: Remove mark_buffer_async_write_endio()
-  buffer: Add bh_end_read(), bh_end_write() and bh_end_async_write()
-  buffer: Convert write_dirty_buffer to bh_submit()
-  buffer: Convert __bread_slow to bh_submit()
-  buffer: Convert __sync_dirty_buffer to bh_submit()
-  buffer: Convert __bh_read to bh_submit()
-  buffer: Convert __bh_read_batch to bh_submit()
-  buffer: Convert block_read_full_folio to bh_submit()
-  buffer: Convert __block_write_full_folio to __bh_submit()
-  ext4; Convert __ext4_read_bh() to bh_submit()
-  ext4: Convert ext4_fc_submit_bh() to bh_submit()
-  ext4: Convert write_mmp_block_thawed() to bh_submit()
-  ext4: Convert ext4_commit_super() to bh_submit()
-  jbd2: Convert journal commit to bh_submit()
-  jbd2: Convert jbd2_write_superblock() to bh_submit()
-  ocfs2: Convert ocfs2_write_block to bh_submit()
-  ocfs2: Convert ocfs2_read_block to bh_submit()
-  ocfs2: Convert ocfs2_read_blocks to bh_submit()
-  ocfs2: Convert ocfs2_write_super_or_backup to bh_submit()
-  gfs2: Convert gfs2_metapath_ra to bh_submit()
-  gfs2: Convert gfs2_dir_readahead to bh_submit()
-  gfs2: Remove use of b_end_io in gfs2_meta_read_endio()
-  gfs2: Convert gfs2_aspace_write_folio to bh_submit()
-  buffer: Remove mark_buffer_async_write()
-  nilfs2: Convert nilfs_btnode_submit_block to bh_submit()
-  nilfs2: Convert nilfs_gccache_submit_read_data to bh_submit()
-  nilfs2: Convert nilfs_mdt_submit_block to bh_submit()
-  md-bitmap: Convert read_file_page and write_file_page to bh_submit()
-  buffer: Remove submit_bh()
-  buffer: Remove b_end_io
-  buffer: Change calling convention for end_buffer_read_sync()
-  buffer: Remove end_buffer_write_sync()
-
- Documentation/filesystems/locking.rst |  14 -
- Documentation/trace/ftrace.rst        |   4 +-
- drivers/md/md-bitmap.c                |  27 +-
- drivers/md/raid5.h                    |   6 +-
- fs/buffer.c                           | 385 ++++++++++++++------------
- fs/ext4/ext4.h                        |  10 +-
- fs/ext4/fast_commit.c                 |   8 +-
- fs/ext4/ialloc.c                      |   6 +-
- fs/ext4/mmp.c                         |   5 +-
- fs/ext4/super.c                       |  18 +-
- fs/gfs2/bmap.c                        |  13 +-
- fs/gfs2/dir.c                         |  12 +-
- fs/gfs2/meta_io.c                     |  13 +-
- fs/jbd2/commit.c                      |  13 +-
- fs/jbd2/journal.c                     |   4 +-
- fs/nilfs2/btnode.c                    |   4 +-
- fs/nilfs2/gcinode.c                   |   4 +-
- fs/nilfs2/mdt.c                       |   4 +-
- fs/ocfs2/buffer_head_io.c             |  16 +-
- include/linux/buffer_head.h           |  16 +-
- mm/vmscan.c                           |   2 +-
- 21 files changed, 288 insertions(+), 296 deletions(-)
-
+diff --git a/fs/buffer.c b/fs/buffer.c
+index d4e9a10d2a26..ea926963529e 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -1180,15 +1180,15 @@ static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
+ 			folio_pos(bh->b_folio) + bh_offset(bh), gfp_mask);
+ }
+ 
+-static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
+-		enum rw_hint write_hint, struct writeback_control *wbc)
++static void __bh_submit(struct buffer_head *bh, blk_opf_t opf,
++		enum rw_hint write_hint, struct writeback_control *wbc,
++		bio_end_io_t end_bio)
+ {
+ 	const enum req_op op = opf & REQ_OP_MASK;
+ 	struct bio *bio;
+ 
+ 	BUG_ON(!buffer_locked(bh));
+ 	BUG_ON(!buffer_mapped(bh));
+-	BUG_ON(!bh->b_end_io);
+ 	BUG_ON(buffer_delay(bh));
+ 	BUG_ON(buffer_unwritten(bh));
+ 
+@@ -1213,7 +1213,7 @@ static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
+ 
+ 	bio_add_folio_nofail(bio, bh->b_folio, bh->b_size, bh_offset(bh));
+ 
+-	bio->bi_end_io = end_bio_bh_io_sync;
++	bio->bi_end_io = end_bio;
+ 	bio->bi_private = bh;
+ 
+ 	/* Take care of bh's that straddle the end of the device */
+@@ -1227,6 +1227,29 @@ static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
+ 	blk_crypto_submit_bio(bio);
+ }
+ 
++static void submit_bh_wbc(blk_opf_t opf, struct buffer_head *bh,
++			  enum rw_hint write_hint,
++			  struct writeback_control *wbc)
++{
++	BUG_ON(!bh->b_end_io);
++	__bh_submit(bh, opf, write_hint, wbc, end_bio_bh_io_sync);
++}
++
++/**
++ * bh_submit - Start I/O against a buffer head
++ * @bh: The buffer head to perform I/O on.
++ * @opf: Operation and flags for bio.
++ * @end_io: The routine to call when I/O has completed.
++ *
++ * If you need to do I/O on an individual bh (instead of allowing the
++ * page cache to do I/O on the folio that it is in), call this function.
++ */
++void bh_submit(struct buffer_head *bh, blk_opf_t opf, bio_end_io_t end_io)
++{
++	__bh_submit(bh, opf, WRITE_LIFE_NOT_SET, NULL, end_io);
++}
++EXPORT_SYMBOL(bh_submit);
++
+ static struct buffer_head *__bread_slow(struct buffer_head *bh)
+ {
+ 	lock_buffer(bh);
+diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+index e4939e33b4b5..d59980e4adda 100644
+--- a/include/linux/buffer_head.h
++++ b/include/linux/buffer_head.h
+@@ -240,6 +240,7 @@ int sync_dirty_buffer(struct buffer_head *bh);
+ int __sync_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags);
+ void write_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags);
+ void submit_bh(blk_opf_t, struct buffer_head *);
++void bh_submit(struct buffer_head *, blk_opf_t, bio_end_io_t);
+ void write_boundary_block(struct block_device *bdev,
+ 			sector_t bblock, unsigned blocksize);
+ int bh_uptodate_or_lock(struct buffer_head *bh);
 -- 
 2.47.3
 
