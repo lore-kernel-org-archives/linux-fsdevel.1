@@ -1,78 +1,98 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E3E3EE1D8
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 12:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E763EFFCD
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 13:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779972943; cv=none; b=G8STbsTp7jt79ELS4FQwqAdzGrVssN0H44DWJg3saDHaezKY7fOCYuCaL0EJv8kB0x+s8Yjw3abgLOQSw0IqtvyJ/1GwWmdamX6Z3Ha+bXCmVTr6LAkIxy2hprjQD8S1s2I9jaTgdQk4te1u+mxhEbWlAxf+adrLwRkNejGx9jM=
+	t=1779973204; cv=none; b=QnwTZZ08gIfehFNkG3kqIazZSJjGZ2bXy2FVxYavPxum5G1v8dvIw5ob4R39Qm1U53FB3k53V3aex0hteVasWfijd3KxQA5pUlWdsqZbatVwK/vV2Iezw/wCaeg7vRiFLXYLZGa+II0/FRo3hzqpJ9FMfHRNh1PTnuDc0Ci5BI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779972943; c=relaxed/simple;
-	bh=lpz+Ddv9Dl9ska+aj8bD+cCJIeYa6uuABpLxyLqfJLw=;
+	s=arc-20240116; t=1779973204; c=relaxed/simple;
+	bh=Djenmp2baETm7xD1hTtXkNHUzCURlH+sM71QUH5p0RQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=irswI3p0wEuCx1BN1jpei58TOrAh9LBP9gX1oDT//D60XB1qA6cj4vE2zmLxbmK9rrypRltgdactBpkMsfBrjmzuSkDwMRkQCMs+/GEGZ109SyIqS/gP2kVP3Kk5oSQa/AKWeH7LJtFXtU7/dTaVRwsB6Utp71f//GgBfESSjp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ooAc9vXK; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=LijJGu1X07MUjaCHR5n00aV1PQjVuuGVgXSQrDITz9Q4MObozzhaJPpdel/ELR0vJYMlTASFlUcWhd+cHbpj4cjktfE51T908m8XOrgfLoGjZU6amWhC5HAOTdZPn65Ii+D5H4IKnEijpzJxnhbVF5xD3szpZrPABilPSk6tTQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T0UXoAWO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8YD1IAhW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T0UXoAWO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8YD1IAhW; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ooAc9vXK"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4903f7a90d1so57309765e9.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 05:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779972940; x=1780577740; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+PXV0iuW9R5esuigYUQ8OuX8X2sJ11qfHxNpdIBfn54=;
-        b=ooAc9vXKTuWNLbW73kK7SI6/DjKAmprG1gDhOZvUPX7L9NjiuoiHzkLckbSCXjT1pS
-         b4E3zbPWxU0hUq0DF0YFzGPkKQ6LbluWhB+kIyghLHkkPVwoEe2NqecAvYHYb3ms5pQE
-         Ds4FUzjYHN21+ndFwLAuZf3Yk8IhKmyUzigZrMXtqsOZaJvSP5DakL588L4dx3RTruxn
-         0uKsYP5eymAc2GlzfhbwxR2Dge0DbqBZ4wzuGUyLAQO3aYe0OTlWZTC2Y2pVuNft4V3V
-         LchsorJGz5BTYp9YXp8M/ygOxzxdZLTKf2/kkzjtxVRiAYT5LZmwmDZAxKqibSVCYoxa
-         Ffmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779972940; x=1780577740;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+PXV0iuW9R5esuigYUQ8OuX8X2sJ11qfHxNpdIBfn54=;
-        b=VPs5DEcQ07s784wf4RWgdGzpcVNowP/W1KqM+O7V5E1+8exxPRki/XQjjxGwclslik
-         5TU1sM2kgFKhpULsn3pZchvsGhL5tLKQ3BkRFE12p1fLSd6wadcQh2fcDh0Fzb3I20iA
-         LmLym8vi3VispEH1Zv5bWBP0RIWunl/LH8vl4DTCm2YbErWuiuIdn7w5fqf8iAZklqZM
-         qr+JVIYxS/YXPp9bXCozz/MrKjdPd6ONpbqzTW2wgVd2bd2egeS65sRbuHYzfbeiHq1y
-         D97wkDfue0z2CTzNVnLirIkeYhNxsokJlUXo6c8x6q2FlB1GQOu8/wZfMJxwJNj0vxwn
-         Ge/w==
-X-Forwarded-Encrypted: i=1; AFNElJ8l4dSYpMZ5YK68gxTORKAaMOfprr2zjMfN9NN0IBtz7iwfrPiEbh7ruvDTXskLoppWAdpb8HCvH+9g5jy5@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxy2gFHmh0+6pm6zESrnzrKYEfO8yssbzzDlOLf7voeoZxRN8Nj
-	cMURgYezS1DQzDYYmLl83vUEM6j6VbsWqdGmRVP+uutTCamGQNWtxXR8
-X-Gm-Gg: Acq92OHJKNZj839A+BaRWKZ5qM9AUfu9qYagLGnjJCM52BU7ORs8IAYScD1Rj84GDmj
-	jOhGgVEKJvMIzVYTMFLvMQRIpBLtC8iqoTT4WcpFQdbTmJOS00z52MEew3uUKcZCvW0K7tMCbz3
-	GMWaQJ4NwHlP4pByM4FxwBFbONaG5j++Nm4e+o+lMweaz+FF6LDOh1nlmVG7OUB0bqvmeCeHtRM
-	SiKPtGKCOMy1xNTdHCTW1LQszGe9ZN7ktdJi4Wqm59dhUM5XU/Fed7pjdAUxYYbivofbqhZZG3L
-	opB7oDOoJZyoi4yqXaV4oyOa44idDr2uRZceE7IByV8zHUUDoAZh1hxV6A0xxrGpcgh255X3vR3
-	y2qiQVSqWtaFUuaTmbCUQ+Md0AAsx+jknuWQyVJMHclI/4z4kgT7uDTSoYiqpTYsYHSRylCX67L
-	MU1xHoIKHCraSvgLoaf95bx81hWua7lwXDInEr0XCDuoF1CbK+siru4p3StFngiwIC3ufLxUp7Z
-	ZzFWVbRUg==
-X-Received: by 2002:a05:600d:640f:10b0:490:3d45:48d7 with SMTP id 5b1f17b1804b1-4904248d296mr326000915e9.6.1779972939903;
-        Thu, 28 May 2026 05:55:39 -0700 (PDT)
-Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49092a82ea2sm68894895e9.9.2026.05.28.05.55.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 05:55:39 -0700 (PDT)
-Date: Thu, 28 May 2026 14:55:32 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: Li Chen <me@linux.beauty>
-Cc: Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, x86@kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
- executable startup
-Message-ID: <vealb52tv5suireenkke4lul2l3wbnaul2rp3ea545ly5wa5ty@yk3aksvp7skt>
-References: <20260528095235.2491226-1-me@linux.beauty>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T0UXoAWO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8YD1IAhW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T0UXoAWO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8YD1IAhW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 94C5166EA7;
+	Thu, 28 May 2026 13:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779973201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7uWMGPiFFEoPtLga1o3umCg9y3n8wcDkGSWAPBBrAqM=;
+	b=T0UXoAWOAywx9BISEdCcf3/WXeg24b+fopA/2687OMPvMq+T1L4bkOsmXPed8/tXyo/+sz
+	v14D2A/Y4OX0cmjC3cmozYCBbTM1hwYxs2ZFZ9h4QA1DEChaz8Nn/D/7JWr+WGa9f3Q3JK
+	vlEMTKMVzlyhyYc021FRvFc4vf+gUhE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779973201;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7uWMGPiFFEoPtLga1o3umCg9y3n8wcDkGSWAPBBrAqM=;
+	b=8YD1IAhW6s0t9pNmshA3Oj+MGZpmq6wrPMUl6znMwW5j8uImZUj0oPHgoqx/TK99KjMzrv
+	EJioN7D2hL59MWDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=T0UXoAWO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8YD1IAhW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779973201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7uWMGPiFFEoPtLga1o3umCg9y3n8wcDkGSWAPBBrAqM=;
+	b=T0UXoAWOAywx9BISEdCcf3/WXeg24b+fopA/2687OMPvMq+T1L4bkOsmXPed8/tXyo/+sz
+	v14D2A/Y4OX0cmjC3cmozYCBbTM1hwYxs2ZFZ9h4QA1DEChaz8Nn/D/7JWr+WGa9f3Q3JK
+	vlEMTKMVzlyhyYc021FRvFc4vf+gUhE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779973201;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7uWMGPiFFEoPtLga1o3umCg9y3n8wcDkGSWAPBBrAqM=;
+	b=8YD1IAhW6s0t9pNmshA3Oj+MGZpmq6wrPMUl6znMwW5j8uImZUj0oPHgoqx/TK99KjMzrv
+	EJioN7D2hL59MWDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D16D85ADCB;
+	Thu, 28 May 2026 13:00:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /lXmL1A8GGqwIAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Thu, 28 May 2026 13:00:00 +0000
+Date: Thu, 28 May 2026 13:59:58 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Christian Brauner <brauner@kernel.org>, 
+	Mateusz Guzik <mjguzik@gmail.com>
+Cc: Jann Horn <jannh@google.com>, Jens Axboe <axboe@kernel.dk>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>
+Subject: Re: [RFC PATCH] fs/splice: allow for a way to block splice() with
+ read-only files
+Message-ID: <ahg6JgO0wUkJKjRb@pedro-suse>
+References: <20260516182126.530498-1-pfalcato@suse.de>
+ <20260518-starten-messdaten-3b8aa670ec85@brauner>
+ <CAG48ez0jbSUgT3ZxPKZP7Eu=K7ce2cX7k2NzHCHNMOxQjOGT9w@mail.gmail.com>
+ <177918418452.771415.4371785688744608623.b4-reply@b4>
+ <CAGudoHFtecdkcYpFrtM5RAAPSU11eL_ALPGp_jhtHW=WxyHE4Q@mail.gmail.com>
+ <177918837114.804096.3977912252785122973.b4-reply@b4>
+ <CAGudoHGSZOEzbXHOAGqrdp6D06JQQ5Af759TQ+HiQx7=ruQa-Q@mail.gmail.com>
+ <20260522-haltestelle-laufpass-volltreffer-3c69a6d84fc4@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,157 +101,111 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260528095235.2491226-1-me@linux.beauty>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260522-haltestelle-laufpass-volltreffer-3c69a6d84fc4@brauner>
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 94C5166EA7
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
 
-On Thu, May 28, 2026 at 05:52:21PM +0800, Li Chen wrote:
-> This RFC adds spawn_template, a userspace-controlled exec acceleration
-> mechanism for runtimes that repeatedly start the same executable with
-> different argv, envp, and per-spawn file descriptor setup.
+Hello,
+
+Apologies for the delay (laziness^Wconferences, travel and the sort),
+
+On Fri, May 22, 2026 at 03:11:11PM +0200, Christian Brauner wrote:
+> On Tue, May 19, 2026 at 01:56:42PM +0200, Mateusz Guzik wrote:
+> > On Tue, May 19, 2026 at 12:59 PM Christian Brauner <brauner@kernel.org> wrote:
+> > >
+> > > On 2026-05-19 12:51 +0200, Mateusz Guzik wrote:
+> > > > How about denial of splice usage or degradation to copy are still on
+> > > > the table, but based on a different criterion: whether code involved
+> > > > is "known good" for lack of a better description. iow the kernel would
+> > > > maintain a whitelist of "safe" cases. Random-ass AF_NOBODYEVERHEARDOF
+> > > > does not make the cut.
+> > >
+> > > I had thought about that to but I felt a bit iffy about it. You could
+> > > envision an FOP_* flag for this:
+> > >
+> > >   /* Module may use splice-like apis */
+> > >   #define FOP_MAY_SPLICE          ((__force fop_flags_t)(1 << 8))
+
+FWIW, I don't think this works. Sockets expose the same file_operations struct
+for every socket. So while it could work for other dodgy fd's around the kernel, I
+would hope there isn't many of them... (or at least many of them using splice,
+etc).
+
+> > >
+> > > But that doesn't address how fundamentally broken vmsplice() for example
+> > > really is and that probably no one should get to use it in its current
+> > > form.
+
+Right.
+
+> > 
+> > I never looked into the area on Linux, I am willing to take claims of
+> > breakage on face value.
+> > 
+> > In this context I'm saying the functionality is used in the real world
+> > for performance reasons and just whacking imo does not cut it.
+
+Which is why I wanted to introduce the (admittedly, rather adhoc) approach
+of limiting it to files that could already be written to. So hopefully it
+could actually be deployed. I'm afraid many users out there will not deploy
+a "go slower, safer" flag.
+
+> > 
+> > >
+> > > > Common-case usage would have to be audited of course, but this sounds
+> > > > rather actionable and would provide hardening without much friction.
+> > >
+> > > And that's the usual problem where rando module will just raise the
+> > > flag. Maybe that's fine and we will keep up.
+> > >
+> > 
+> > If this is a genuine worry the whitelist can still be introduced and
+> > managed by one person (Linus?) very easily. The implementation is only
+> > mildly cumbersome to get going and trivial to spread afterwards.
+> > 
+> > You could have something like this:
+> > struct file_operations funky_ops = {
+> > ....
+> > };
+> > VFS_FILE_OPS_REGISTER(funky_ops);
 > 
-> The main target is agent runtimes. Modern coding agents repeatedly start
-> short-lived helper tools such as rg, git, sed, awk, python, node, and
-> shell wrappers while they inspect and edit a workspace. Those runtimes
-> already know which tools are hot, and they are also the right place to
-> decide policy. The kernel does not choose names such as rg, git, or sed.
-> Userspace opts in by creating a template fd for one executable, then uses
-> that fd for later spawns. Launchers, shells, and build systems have a
-> similar repeated-startup shape and could use the same primitive, but the
-> agent runtime case is the main motivation for this RFC.
-> 
-[..]
-> A typical agent runtime would keep one template per hot executable and
-> still build argv, envp, cwd, and pipe wiring for each tool call:
-> 
->     rg_tmpl = spawn_template_create("/usr/bin/rg");
-> 
->     for each search request:
->         out_r, out_w = pipe_cloexec();
->         err_r, err_w = pipe_cloexec();
->         actions = [
->             FCHDIR(worktree_fd),
->             DUP2(out_w, STDOUT_FILENO),
->             DUP2(err_w, STDERR_FILENO),
->         ];
->         child = spawn_template_spawn(rg_tmpl, rg_argv, envp, actions);
->         close(out_w);
->         close(err_w);
->         read out_r and err_r;
->         waitid(P_PIDFD, child.pidfd, ...);
-> 
-> 
-[..]
-> The cached state is intentionally small. The template fd keeps the opened
-> main executable file, an optional absolute path string, the creator
-> credential pointer, and the deny-write state. The executable identity key
-> records device, inode, size, mode, owner, ctime, and mtime, and is
-> rechecked before cached metadata is used. The ELF cache keeps only the
-> main executable's ELF header, program header table, and program header
-> count.
-> 
->     cached in this RFC          not cached in this RFC
->     ------------------          ----------------------
->     opened main executable      PT_INTERP metadata
->     executable identity key     shared-library graph
->     main ELF header             VMA layout metadata
->     main ELF program headers    cross-process metadata sharing
->     creator cred pointer
->     deny-write state
-> 
-> This RFC does not cache ELF interpreter metadata, shared-library
-> dependency state, or derived mapping-layout state. Shared-library
-> resolution is dynamic linker policy and depends on LD_LIBRARY_PATH,
-> RPATH, RUNPATH, /etc/ld.so.cache, mount namespaces, and secure-exec
-> state. It also does not share cached executable metadata between template
-> fds created by different processes. Each template owns its small cached
-> metadata object in this RFC.
-> 
-> Performance
-> ===========
-> 
-[..]
-> Workload     Calls  subprocess  spawn_template  time_s       Delta
-> (workers)    calls  calls/s     calls/s         seconds
-> 1x16         6144      411.04          420.32   14.95/14.62  +2.26%
-> 2x8          6144      666.78          690.08    9.21/8.90   +3.49%
-> 4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
-> 8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
-> 
+> Unless someone is going to do that work a sysctl to force degrade all
+> the APIs into copies should be ok.
 
-This problem is dear to my heart and I have been pondering it on and off
-for some time now. The entire fork + exec idiom is terrible and needs to
-be retired.
+Ok. It seems that the general consensus is KISS and just degrade everything
+with the sysctl? I can do that for v2.
 
-Is this vibe-coded? I asked claude for in-kernel posix_spawn for kicks
-some time ago and it generated remarkably similar code. But that's a
-tangent.
-
-I'm rather confused by the angle in the patchset. Most of this shaves
-off a tiny amount of work, while retaining the primary avoidable reason
-for bad performance: the very fact that fork is part of the picture,
-especially the part mucking with mm. Creating a pristine process is the
-way to go.
-
-Additionally there is a known problem where transiently copied file
-descriptors on fork + exec cause a headache in multithreaded programs
-doing something like this in parallel. I only did cursory reading, it
-seems your patchset keeps the same problem in place.
-
-There are numerous impactful ways to speed up execs both in terms of
-single-threaded cost and their multicore scalability, most of which
-would be immediately usable by all programs without an opt-in. imo these
-needs to be exhausted before something like a "template" can be
-considered.
-
-Per the above, the primary win would stem from *NOT* messing with mm.
-
-As in, whatever the interface, it needs to create an "empty" target
-process (for lack of a better term).
-
-In terms of userspace-visible APIs, a clean solution escapes me.
-
-Some time ago I proposed returning a handle which is populated over time
-by the parnet-to-be. One of the problems with it I failed to consider at
-the time is NUMA locality -- what if the process to be created is going
-to run on another domain? For example, opening and installing a file for
-its later use will result in avoidable loss of locality for some of the
-in-kernel data. That's on top of the fd vs fork problem.
-
-From perf standpoint, the final goal of whatever mechanism should be a
-state where the target process avoided copying any state it did not need
-to and which allocated any memory it needed from local NUMA node
-(whatever it may happen to be). Of course if no affinity is assigned it
-may happen to move again and lose such locality, nothing can be done
-about that. But pretend the process is to run in a specific node the
-parent is NOT running in.
-
-So I think the pragmatic way forward is to implement something close to
-posix_spawn in the kernel. It may make sense for the thing to take the
-PATH argument for repeated exec attempts. I understand this is of no use
-in your particular case, but it very much IS of use for most of the
-real-world. The initial implementation might even start with doing vfork
-just to get it off the ground.
-
-The next step would be to extend the interface with means to AVOID
-copying any file descriptors. There could be a dedicated file action
-which tells the kernel to avoid such copies or something like a
-close_range file action (or close_from) -- with a range like <0, INT_MAX>
-you know no fds are copied.
-
-For the NUMA angle to be sorted out, any file action which opens a file
-or dups from the parent needs to execute in the child. And frankly
-something would be needed to ask the scheduler where does it think the
-child is going to run, so that the task_struct itself can also be
-allocated with the right backing.
-
-I have not looked into what's needed to create a new process and NOT
-mess with mm, but I don't think there are unsolvable problems there, at
-worst some churn.
-
-There are of course other parameters which need to be sorted out, that's
-covered by the posix_spawn thing.
-
-This e-mail is long enough, so I'm not going to go into issues
-concerning exec itself right now.
-
-tl;dr I would suggest redoing the patchset as posix_spawn and then doing
-the actual optimization of not cloning mm itself.
+-- 
+Pedro
