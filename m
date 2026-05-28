@@ -1,59 +1,193 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF0B37AA98;
-	Thu, 28 May 2026 08:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EA838A719;
+	Thu, 28 May 2026 08:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779957534; cv=none; b=oVV35wTdqMIUKhp1eChuxhQAr+TJ0v+im0zTt8MAD5ygffzy96OVRg1hW9ndgHP0V8lpux0DLR0A1z/r/I4rg47iE8nEmRqhFOdNeK36b7Ne9lzR5DQYigSIFinpduXXV8WAa745+QlJ+gbspuZYIjYNE8pPRGRUMtHK2JdCRgg=
+	t=1779958507; cv=none; b=ExAj9xLYyutsna23g/9vOGXUj/7ZP8abOzX1RmzsT1JM3R4T9lSx0ZQXYtGuKnbBCd1TihUkgMppy9O5whTBa3VpiWH0G2uYAjX/q+MlBFA/qV+niWlc/KXZT+2nt2ixFnGz1fGL7wKnMuMGDES2GPcHCyq6VneI/+PoZLLAaVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779957534; c=relaxed/simple;
-	bh=ca8a+dPPep6NApVFiDy5bg5dA2X1txktRw3eTJlLHkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kTsBgf71AkSPlVKo53vT5wkU9Z3cCUijoHRtpeQZV9zzeRA6475IJDXUeK/S+tL8YVFlI/3/YbYCKpAltY90nOui1Je1gR0d///cERw+FN+QXm0RgrhMlEGqcV/kKY+qnOd1t1NNwNeGIAUuOvLGIawT9r1uaY/R/n4xkyFc4k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id DC8D668B05; Thu, 28 May 2026 10:38:48 +0200 (CEST)
-Date: Thu, 28 May 2026 10:38:48 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-	Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>,
-	linux-block <linux-block@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
-Message-ID: <20260528083848.GA7694@lst.de>
-References: <1ab8c579-eb76-4227-8a72-6ec819135219@I-love.SAKURA.ne.jp> <ag1223nAa0wZ8ALC@fedora> <fda8abc8-6aa2-463b-bf72-865f6b838034@I-love.SAKURA.ne.jp> <ahRocb0Vs_m6RF_O@fedora> <1a9f53d4-6f48-4df8-a3d8-2b0e442a163a@I-love.SAKURA.ne.jp> <ahZGxoI6oHQ_vSrx@fedora> <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp> <ahZeYQ0cLE1i8TGs@fedora> <fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp> <ab5492b6-a053-4e3b-8c59-2e836ae85bc4@kernel.org>
+	s=arc-20240116; t=1779958507; c=relaxed/simple;
+	bh=uMbNQmckTp5QaMoElcMoTyXu3ymd3LQP1tSw7Oj8rW8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=XiOoZiiX4PvN/vOqrIS30uJr3n8GxfZJTXU7vucSbicH5AAtC+INZha+jefBcc/a/3lk+FnhXTCQ0gB6hNyhtde9evfd3dZ+aVk0k+uhzHowjwLLWeFn3qXGUAIFBBYU8VbONbQSkfslVtyM0E0iGGZ+ZYsY1X+gVDsxK29pSOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from TW001.hihonor.com (unknown [10.77.229.151])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4gR0dK5BqmzYkxql;
+	Thu, 28 May 2026 16:53:25 +0800 (CST)
+Received: from TA004.hihonor.com (10.72.0.6) by TW001.hihonor.com
+ (10.77.229.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 28 May
+ 2026 16:55:02 +0800
+Received: from TA003.hihonor.com (10.72.0.43) by TA004.hihonor.com (10.72.0.6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Thu, 28 May
+ 2026 16:55:02 +0800
+Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
+ TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
+ 15.02.2562.037; Thu, 28 May 2026 16:55:02 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+CC: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
+	<will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com"
+	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
+	<x86@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"david@kernel.org" <david@kernel.org>, "willy@infradead.org"
+	<willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, "kees@kernel.org"
+	<kees@kernel.org>, "luizcap@redhat.com" <luizcap@redhat.com>,
+	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>,
+	"kas@kernel.org" <kas@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"liam@infradead.org" <liam@infradead.org>, "vbabka@kernel.org"
+	<vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
+	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz"
+	<jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>, "harry@kernel.org"
+	<harry@kernel.org>, "jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca"
+	<jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
+	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
+	"baohua@kernel.org" <baohua@kernel.org>, "lance.yang@linux.dev"
+	<lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
+	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
+	"matthew.brost@intel.com" <matthew.brost@intel.com>,
+	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
+	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
+	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
+	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
+	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
+	"21cnbao@gmail.com" <21cnbao@gmail.com>, "jparsana@google.com"
+	<jparsana@google.com>, "dvander@google.com" <dvander@google.com>, zhangji
+	<zhangji1@honor.com>, wangzicheng <wangzicheng@honor.com>
+Subject: RE: [PATCH 02/15] mm: convert anon_vma rmap APIs to anon_rmap
+Thread-Topic: [PATCH 02/15] mm: convert anon_vma rmap APIs to anon_rmap
+Thread-Index: AQHc7ckSlLO6TLjg1UCiENwGiuHKtrYhPCKAgAHl8fA=
+Date: Thu, 28 May 2026 08:55:01 +0000
+Message-ID: <e55c557e85a64e439194d0fc5ea27aaf@honor.com>
+References: <20260527110147.17815-1-tao.wangtao@honor.com>
+ <20260527110147.17815-3-tao.wangtao@honor.com> <ahbZdWDiqTCWU77K@lucifer>
+In-Reply-To: <ahbZdWDiqTCWU77K@lucifer>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ab5492b6-a053-4e3b-8c59-2e836ae85bc4@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Thu, May 28, 2026 at 03:11:05AM +0900, Damien Le Moal wrote:
-> It sounds like the VFS unmount call needs to have something that waits for
-> sync() to complete. Though, it really feels very strange that an FS can complete
+> Subject: Re: [PATCH 02/15] mm: convert anon_vma rmap APIs to anon_rmap
+>=20
+> On Wed, May 27, 2026 at 07:01:34PM +0800, tao wrote:
+> > Convert the rmap anon_vma interfaces to anon_rmap APIs to clarify the
+> > semantics of anonymous rmap operations and prepare for upcoming
+> > ANON_VMA_LAZY support and RCU-based lockless rmap traversal.
+> >
+> > Replace folio_anon_vma(), folio_get_anon_vma(),
+> > folio_lock_anon_vma_read(), anon_vma_trylock_read(),
+> > anon_vma_lock_read(), anon_vma_unlock_read(),
+> > anon_vma_trylock_write(), anon_vma_lock_write(),
+> anon_vma_unlock_write(), and vma_interval_tree_foreach() with the
+> anon_rmap APIs.
+>=20
+> This is another worthless commit message. You're again just writing what =
+you
+> did not why or what for. This gives no help whatsoever.
+>=20
+I will update the commit message to add more explanation.
 
-I don't think this is the VFS-controlled VFS file data writeback, which
-we wait on, but some kind of fs controlled metadata.  And yes, it looks
-like those file systems are buggy in that area.  We definitively had
-such bugs in XFS before and fixed them.
+> >
+> > No functional change intended.
+>=20
+> Err, there is a functional change, since you're literally changing how th=
+ings
+> iterate?
+>=20
+> >
+> > Signed-off-by: tao <tao.wangtao@honor.com>
+>=20
+> All of this is terrible, you're replacing a broken abstraction with somet=
+hing
+> that assumes something completely broken with zero explanation.
+>=20
+> No to this.
+>=20
+Before supporting ANON_VMA_LAZY, these were indeed just simple wrappers.
 
-e.g. 9c7504aa72b6 ("xfs: track and serialize in-flight async buffers against
-unmount")
+> >  /*
+> > @@ -3035,9 +3040,10 @@ static struct anon_vma
+> > *rmap_walk_anon_lock(const struct folio *folio,  static void
+> rmap_walk_anon(struct folio *folio,
+> >  		struct rmap_walk_control *rwc, bool locked)  {
+> > -	struct anon_vma *anon_vma;
+> > +	anon_rmap_t anon_rmap;
+> >  	pgoff_t pgoff_start, pgoff_end;
+> >  	struct anon_vma_chain *avc;
+> > +	struct vm_area_struct *vma;
+>=20
+> I have no idea why you put the VMA at this scope...
 
+The vma is used in anon_rmap_foreach_vma().
 
+>=20
+> >
+> >  	/*
+> >  	 * The folio lock ensures that folio->mapping can't be changed under
+> > us @@ -3046,20 +3052,19 @@ static void rmap_walk_anon(struct folio
+> *folio,
+> >  	VM_WARN_ON_FOLIO(!folio_test_locked(folio), folio);
+> >
+> >  	if (locked) {
+> > -		anon_vma =3D folio_anon_vma(folio);
+> > +		anon_rmap =3D folio_anon_rmap(folio);
+> >  		/* anon_vma disappear under us? */
+> > -		VM_BUG_ON_FOLIO(!anon_vma, folio);
+> > +		VM_BUG_ON_FOLIO(!anon_rmap_value(anon_rmap), folio);
+> >  	} else {
+> > -		anon_vma =3D rmap_walk_anon_lock(folio, rwc);
+> > +		anon_rmap =3D rmap_walk_anon_lock(folio, rwc);
+> >  	}
+> > -	if (!anon_vma)
+> > +	if (!anon_rmap_value(anon_rmap))
+> >  		return;
+> >
+> >  	pgoff_start =3D folio_pgoff(folio);
+> >  	pgoff_end =3D pgoff_start + folio_nr_pages(folio) - 1;
+> > -	anon_vma_interval_tree_foreach(avc, &anon_vma->rb_root,
+> > +	anon_rmap_foreach_vma(vma, avc, anon_rmap,
+> >  			pgoff_start, pgoff_end) {
+> > -		struct vm_area_struct *vma =3D avc->vma;
+>=20
+> Don't throw random changes like this in with a general replacement patch.
+
+These were replaced carefully, but there may still be omissions or mistakes=
+. Please point them out specifically.
+>=20
+> >  		unsigned long address =3D vma_address(vma, pgoff_start,
+> >  				folio_nr_pages(folio));
+> >
+> > @@ -3076,7 +3081,7 @@ static void rmap_walk_anon(struct folio *folio,
+> >  	}
+> >
+> >  	if (!locked)
+> > -		anon_vma_unlock_read(anon_vma);
+> > +		anon_rmap_unlock_read(anon_rmap);
+> >  }
+> >
+> >  /**
+> > --
+> > 2.17.1
+> >
