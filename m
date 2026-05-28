@@ -1,77 +1,91 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E8E1D130E;
-	Thu, 28 May 2026 12:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2071D130E;
+	Thu, 28 May 2026 12:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779972587; cv=none; b=EHpRUitifn3LhCApPl9vzWVAYmKyrRPNUNmS/77mclToGI9T8qq5/NbAuF6tFc0fwomdP9sL2X2O/9nYUz2w1+qzQBCU/MLNe6qj6TGPryddVbNsZjgSj5wyZsZmCuF7E4sEueYyk34IGPHzhy0JaPS0hsC3sy3GTixT9Tl+4qY=
+	t=1779972684; cv=none; b=UlT44nLVb5E3HNPU0bS6RwptSHrlGwg3Tr9nMZswMHPM6ZJ8S5LCq+AHIAnocq121A/0w+i+aLVAJ8XSblceB9lUD4PQaJUVGPlzDZLShJK48dsJrIyfh/QeMcb/qQGIDl7uLmSNnkCZBWveScluW+kCMnFB4Son4+03A2ar+LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779972587; c=relaxed/simple;
-	bh=BxsZlQH/NmhJWCy0C0vQPhklXsles/VSUoE8slX9KFM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D6RKMkXKViyxKLL15dUrFGIydHyKoA78t0RZueis4tF7r/sGeAcqevR5XaS2DRfgaGBELFfDxY2evNfTXI1HT6TvLR0sbA9cwOe6k0rcYu/XKyl8II/HqW6BWxY9ZNPq9dXaNnGIhMu+mX71mboQ1n9VZgdV+Z3uK45ukI6F/NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AcBo2kFB; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1779972684; c=relaxed/simple;
+	bh=l2WKjnkz7wL5YHQCQn0FPlauShdQUkMmXpFCsoMdnjE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=miqd483bH44JKzeJN9jh8VWThoXhcJSDKzjpm7sH9SPCtnxQG+4x+O7B1WYVenW4rkkZqOG+rTTx0VNaJUcWnNE4j5yy4sNbkIn8X1uhpNnZI34YhF9Y6tbSeo1E8LYfN8qwN08rWrBgKDEPPFpsU6hALpYN8zYlhof0sSRTjsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kf3IkGyc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AcBo2kFB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=7G6U2FOW7FeLuMO+G3YOi7XP6zPp5DB5XZz1vAGJDdM=; b=AcBo2kFBlUmREj6D6f0eKT4T4y
-	46dZcGN/eLbRRLwv26lUr6d8nBZ0DIrSduOoMatNxpjeLqIgYQaXCdrqIivgiBHMSBojOcil+KSF5
-	b9U1sMiwffkblDJ+zhJF+unRt5BfW8oj4Q1CAq3TbVB3RigiyZdEiDvgx/xQ0vk2zurn7JXidKboT
-	RBGLE8aMptY21RjCVD6XyVH4pqPz7u1ZJn3tCoMfj6+v09920aPPwS6PuceYOOt5MbT303mbhXVuz
-	h09jXnUKm+dAQEanZ5//GDHo0yMbBZcjnqu8FYS+kxM7k/NJZzzevOeDt5CThnMzUsLBxTSj5/s7K
-	AiDiENhg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSaBA-00000005jvl-2bcT;
-	Thu, 28 May 2026 12:49:40 +0000
-Date: Thu, 28 May 2026 05:49:40 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Tal Zussman <tz2294@columbia.edu>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	io-uring@vger.kernel.org
-Subject: Re: [PATCH RFC 00/11] mm/filemap: split out folio wait and VFS code
-Message-ID: <ahg55Ei8Fc3iRsnA@infradead.org>
-References: <20260520-filemap-split-v1-0-c36ddc2b6cf2@columbia.edu>
- <3dxzu3ck5y3wxw4pp2qhzwwb6y3f7mwhvgxfpl56sokw4ymop7@xaaoxsa5yu5q>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kf3IkGyc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C841F000E9;
+	Thu, 28 May 2026 12:51:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779972683;
+	bh=f2duLyTEyViEAsFKf2dWhkC4yuRPxnwNiVJ/FjoYBro=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=kf3IkGyc/a/9PWm0OUFMvziIu/91q4oL7/r6NJBf73rTDQexL1mmWzR4Fk5b1kRCo
+	 zcIMX1Jyby3kP5y1jirwdArURCDE4EKgvq/kOkLfIDI9qD7AzLt0xGrjqFZUJo8nGn
+	 CkXoD9Xl2UK9PXhvfzc5gxjnz3wrI1+WcLuBROIs4/1vZBirmzYlDpeoGyU63LvXNy
+	 xupR+QWcBlEA5bPyCr0gM5ePA8oxN+aDxKYnOFZ4nRHz6CngczM1rtIzAuvj/icS/i
+	 ppdGVyGJSlsM/+B7Oqu0M00ngUtAtkLTAk9PKxY4t0iqPlbv1cA/zWxmpSybuPCEYG
+	 FBQt3Epc0bR0Q==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org, viro@zeniv.linux.org.uk, tytso@mit.edu, 
+ jack@suse.com, linux-ext4@vger.kernel.org, 
+ Dai Junbing <daijunbing@vivo.com>
+Cc: jack@suse.cz, linux-kernel@vger.kernel.org
+In-Reply-To: <20260527064912.1038-1-daijunbing@vivo.com>
+References: <20260527064912.1038-1-daijunbing@vivo.com>
+Subject: Re: [PATCH 0/4] fs: mark selected blocking waits as freezable
+Message-Id: <177997267385.1024700.10028396434477082299.b4-ty@b4>
+Date: Thu, 28 May 2026 14:51:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3dxzu3ck5y3wxw4pp2qhzwwb6y3f7mwhvgxfpl56sokw4ymop7@xaaoxsa5yu5q>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-fffa9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1448; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=l2WKjnkz7wL5YHQCQn0FPlauShdQUkMmXpFCsoMdnjE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRJWHl+nvG96njs/html58zJIcEJXTYXjj8Zm7X2q2nF
+ voe7I8J7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZgI1z2GfwZ+ExfrnFZnaszf
+ eO1P0QG1/4wnwsKCnX8+42BemrLwxVZGhk+uSVEFYdG/RP22ssvWrPxa4pPvZOdlWRzwg3nqjCe
+ ufAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, May 28, 2026 at 11:22:37AM +0200, Jan Kara wrote:
-> Overall this makes sense to me. In particular I agree it makes sense to
-> move the file read/write helpers into fs.
+On Wed, 27 May 2026 14:49:08 +0800, Dai Junbing wrote:
+> fs: mark selected blocking waits as freezable
+> 
+> Hi,
+> 
+> During suspend and resume, tasks blocked in some interruptible wait
+> paths may be unnecessarily woken due to freezer state transitions. This
+> can introduce avoidable activity in the suspend/resume path.
+> 
+> [...]
 
-I disagree very strongly.  Mixing default implementations with the
-higher level APIs is a really bad idea and leads to people taking
-stupid shortcuts and other layering violations.
+Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.misc branch should appear in linux-next soon.
 
-Splitting up filemap.c makes sense, but I'd rather keep the generic copy
-into and out of the pagecache code with the MM infrastructure for it,
-as it is not VFS code, and making that clear to anyone touching the code
-is important.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.misc
+
+[1/4] eventpoll: mark ep_poll() sleep as freezable
+      https://git.kernel.org/vfs/vfs/c/f5437433c37d
+[2/4] jbd2: make kjournald2 commit wait freezable
+      https://git.kernel.org/vfs/vfs/c/10c6b259fb56
+[3/4] pipe: mark blocking pipe read and FIFO open sleeps as freezable
+      https://git.kernel.org/vfs/vfs/c/6e5e03a76bee
+[4/4] select: make select() and poll() waits freezable
+      https://git.kernel.org/vfs/vfs/c/f837c1dbd121
 
