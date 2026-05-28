@@ -1,155 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1004A3DD50C;
-	Thu, 28 May 2026 11:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1074830BF67
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 11:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779969072; cv=none; b=UIg7l8jw0bavQlcsWBRFYlghkGe+n/cysFWo4fk608Z33Pdi28FlOvMmvm/mUrYLZUrjLEMAW/VnagxBOdlsFYq9OorYSENiCJrIqfhPYO5K4CkbwYS3aAvex4l7qX4zrs0upyo99Tx5qGaLPzdQ08o/76jg1q2tXs9VxSalj38=
+	t=1779969144; cv=none; b=MeaP3F7ZLnc43IX45qjeiMEz7ylbr05GNKf1PebVQhQZOjByaROdocLDd9gU6y5+VG63ysKHT873ulTMFt14fJcUNIzSl+UF8hU0fHYUEx+u+LwBQlBHsEQ9zBJ8GnYyRHLbMAMpWFSmYy7NbuUTP3dRk7c/ynZ1nGMcK1dXCNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779969072; c=relaxed/simple;
-	bh=Xd7xqSkso4Q2nxuT8CSKUefQWnpu+6UuPMIl+8mhtm8=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=oWR7LsF7arWDG0cXX2qrFF4TypI2s+WGQ1XLzPjAteCDlouq9ep5iz+3oVciLvPF89itGvJpge32heyIaQDv2JttJkR7azvetIA1+SQv3OaTVTarOlPKA08sjDlAcJAi7LzQ27bs34c/40f/1FWWaqy4ulX2TmHqvBAGRn0RcbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7s6mbhg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779969144; c=relaxed/simple;
+	bh=cMKejHfmTzaAxv15XNQTQhRiA0Jj8+a1BqdgpPeJzw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NGIDdFaWDkHcSsGa28hDRoB+AbAd3cERgi+kWt/5Lf+MQ4bxv0rTNBSCb+Y58En6iQwUxASr1NrHCV0mYCn6chluGYuXSDJi/NaylhkZzDlDQrNC6Ca7DpZc4JrUjX4w10eNqrZcEb/mEfVW6gYAecZJamSvsVYU/uh4hvFYQyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=e2nZ5elH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cPkNJcwD; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=e2nZ5elH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cPkNJcwD; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7s6mbhg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826F41F000E9;
-	Thu, 28 May 2026 11:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779969070;
-	bh=V310jeh3exb11XzZf9DK/E52a0qpB45n2Whxx036Ero=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=B7s6mbhgDQDIOaCG+WO+4rCNTYzL+jPT4iQ+Ko1WfGHPveolAv/wCvaLJqc5rUOGT
-	 Mf1jNsDE0NHj8zZh43BcN2mNsA2N/2GCbbhjC+v45Seg41CPdyWgKI4JGw8siD76wr
-	 NBfxKHXWWKi8Y5yBoNpjARtL/7xVmkPb/RygCCO3/Vqt03jEKMtgwJ13f2wo6D0m85
-	 OmxeRBKLzPHdxTjhAcZGTaa9CPHXBW71+VFOzrsVYszEfK3RYyDA6ExdxX6W2eUsrW
-	 1K2u0t8lF92Ja1Ko3M//10oQCNha9Y92cWf6aqNAjnEpC0xL10ARObxJ9hiJyCuMNV
-	 q7RMfJX+sTICQ==
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="e2nZ5elH";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cPkNJcwD";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="e2nZ5elH";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cPkNJcwD"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3876066DBF;
+	Thu, 28 May 2026 11:52:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779969140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5isazmqWArv9VSBIon3Qf8S6OtaFt21TeDYwjDXhO/Q=;
+	b=e2nZ5elH8/yh9CWCX/A/Ge0GJKeJysgWdaG0oq7ywtbrxgz4eBzE0tT9AnwBJEwipDG/0u
+	8egd8EAs7StdSrCkwSTdxhA7/U3mwlaSkxbznk9B/GTJYU2jduf2PDvIIC9xFPII8x1oKE
+	GP0V0TDYnOiXxEmd3jqtBMqLHioEfWQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779969140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5isazmqWArv9VSBIon3Qf8S6OtaFt21TeDYwjDXhO/Q=;
+	b=cPkNJcwD2ucAn0sKc6qjbsXLmsoxT8via16WSY5ZbV+1I62XMb8Tr/cO6Q3X90HZSWiim1
+	PscE5oufXosbVUDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779969140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5isazmqWArv9VSBIon3Qf8S6OtaFt21TeDYwjDXhO/Q=;
+	b=e2nZ5elH8/yh9CWCX/A/Ge0GJKeJysgWdaG0oq7ywtbrxgz4eBzE0tT9AnwBJEwipDG/0u
+	8egd8EAs7StdSrCkwSTdxhA7/U3mwlaSkxbznk9B/GTJYU2jduf2PDvIIC9xFPII8x1oKE
+	GP0V0TDYnOiXxEmd3jqtBMqLHioEfWQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779969140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5isazmqWArv9VSBIon3Qf8S6OtaFt21TeDYwjDXhO/Q=;
+	b=cPkNJcwD2ucAn0sKc6qjbsXLmsoxT8via16WSY5ZbV+1I62XMb8Tr/cO6Q3X90HZSWiim1
+	PscE5oufXosbVUDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D6165AD87;
+	Thu, 28 May 2026 11:52:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5ywOC3QsGGq7WgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 28 May 2026 11:52:20 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id AE2C9A0905; Thu, 28 May 2026 13:52:19 +0200 (CEST)
+Date: Thu, 28 May 2026 13:52:19 +0200
+From: Jan Kara <jack@suse.cz>
+To: fffsqian@163.com
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Qingshuang Fu <fuqingshuang@kylinos.cn>
+Subject: Re: [PATCH v1] fs: fix two spelling mistakes in comments
+Message-ID: <iqp6gjxl7qohnxn7rle62zovyiedmw7nnfhjk5mpmq4azx7v5m@llgoenjgzgbf>
+References: <20260527033102.824028-1-fffsqian@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] fanotify: report thread pidfds for FAN_REPORT_TID
-From: Christian Brauner <brauner@kernel.org>
-To: AnonymeMeow <anonymemeow@gmail.com>
-Cc: jack@suse.cz, amir73il@gmail.com, repnop@google.com, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260524102439.44642-1-anonymemeow@gmail.com>
-References: <20260524102439.44642-1-anonymemeow@gmail.com>
-Date: Thu, 28 May 2026 13:51:06 +0200
-Message-Id: <20260528-schmuckvoll-heilen-garen-be77b4208671@brauner>
-X-Mailer: b4 0.16-dev-fffa9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4076; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Xd7xqSkso4Q2nxuT8CSKUefQWnpu+6UuPMIl+8mhtm8=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRJ6Oj6ZrmmdL3+flf8R+bVoIszZ19rm+MqbFD9+cURj
- +m3nVJcO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACZy9ycjw6o2bRORnr0zu2ct
- 89BwTF37Xn/eq/c3btU5hW+P7Ptfbs7wT9fh6XzluxwhWUGnzt1Iinux7NT20JA0qyvfNA2vbeY
- t4AIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260527033102.824028-1-fffsqian@163.com>
+X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[163.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,kylinos.cn:email,imap1.dmz-prg2.suse.org:helo]
 
-On 2026-05-24 18:24 +0800, AnonymeMeow wrote:
-> The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
-> exclusive because by the time the pidfd support was introduced to
-> fanotify, pidfds could only be created for thread group leaders. Now
-> that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
-> this restriction can be lifted.
+On Wed 27-05-26 11:31:02, fffsqian@163.com wrote:
+> From: Qingshuang Fu <fuqingshuang@kylinos.cn>
 > 
-> This patch allows listeners using FAN_REPORT_PIDFD | FAN_REPORT_TID
-> to receive the pidfd referring to the thread that triggered the
-> event.
+> Fix two spelling errors in fs/:
+> - childen  →  children
+> - postion → position
 > 
-> Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+> Signed-off-by: Qingshuang Fu <fuqingshuang@kylinos.cn>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
 > ---
->  fs/notify/fanotify/fanotify_user.c | 27 ++++++++-------------------
->  1 file changed, 8 insertions(+), 19 deletions(-)
+>  fs/coredump.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
-> index ae904451dfc0..ebdd48942029 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -19,6 +19,7 @@
->  #include <linux/memcontrol.h>
->  #include <linux/statfs.h>
->  #include <linux/exportfs.h>
-> +#include <linux/pidfd.h>
->  
->  #include <asm/ioctls.h>
->  
-> @@ -903,25 +904,21 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
->  		metadata.fd = fd >= 0 ? fd : FAN_NOFD;
->  
->  	if (pidfd_mode) {
-> -		/*
-> -		 * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mutual
-> -		 * exclusion is ever lifted. At the time of incoporating pidfd
-> -		 * support within fanotify, the pidfd API only supported the
-> -		 * creation of pidfds for thread-group leaders.
-> -		 */
-> -		WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-> +		unsigned int tid_mode = FAN_GROUP_FLAG(group, FAN_REPORT_TID);
-> +		enum pid_type pidtype = tid_mode ? PIDTYPE_PID : PIDTYPE_TGID;
-> +		unsigned int pidfd_flags = tid_mode ? PIDFD_THREAD : 0;
+> diff --git a/fs/coredump.c b/fs/coredump.c
+> index bb6fdb1f458e..f82f6dc4f773 100644
+> --- a/fs/coredump.c
+> +++ b/fs/coredump.c
+> @@ -637,7 +637,7 @@ static int umh_coredump_setup(struct subprocess_info *info, struct cred *new)
+>  		pidfs_coredump(cp);
 >  
 >  		/*
-> -		 * The PIDTYPE_TGID check for an event->pid is performed
-> +		 * The pid_has_task() check for an event->pid is performed
->  		 * preemptively in an attempt to catch out cases where the event
-> -		 * listener reads events after the event generating process has
-> +		 * listener reads events after the event generating task has
->  		 * already terminated.  Depending on flag FAN_REPORT_FD_ERROR,
->  		 * report either -ESRCH or FAN_NOPIDFD to the event listener in
->  		 * those cases with all other pidfd creation errors reported as
->  		 * the error code itself or as FAN_EPIDFD.
->  		 */
-> -		if (metadata.pid && pid_has_task(event->pid, PIDTYPE_TGID))
-> -			pidfd = pidfd_prepare(event->pid, 0, &pidfd_file);
-> +		if (metadata.pid && pid_has_task(event->pid, pidtype))
-
-For quite a while the kernel refused to hand out pidfds for reaped
-processes even if the struct pid was pinned like in this case.
-
-But that makes various APIs - including this one - way less powerful
-than they can be. Nowadays the socket layer already hands out pidfds for
-reaped processes. It also stashed the struct pid. Let's do the same
-here.
-
-Drop the pid_has_task() change and then:
-
-pidfd = pidfd_prepare(event->pid, pidfd_flags | PIDFD_STALE, &pidfd_file);
-
-which instructs pidfs to and out a pidfd even if the task has already
-been reaped. Reaped pidfds can still be queried for various types of
-information that is kept around even if the task is long gone.
-
-
-> +			pidfd = pidfd_prepare(event->pid, pidfd_flags, &pidfd_file);
->  
->  		if (!FAN_GROUP_FLAG(group, FAN_REPORT_FD_ERROR) && pidfd < 0)
->  			pidfd = pidfd == -ESRCH ? FAN_NOPIDFD : FAN_EPIDFD;
-> @@ -1628,14 +1625,6 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
->  #endif
->  		return -EINVAL;
->  
-> -	/*
-> -	 * A pidfd can only be returned for a thread-group leader; thus
-> -	 * FAN_REPORT_PIDFD and FAN_REPORT_TID need to remain mutually
-> -	 * exclusive.
-> -	 */
-> -	if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
-> -		return -EINVAL;
-> -
->  	/* Don't allow mixing mnt events with inode events for now */
->  	if (flags & FAN_REPORT_MNT) {
->  		if (class != FAN_CLASS_NOTIF)
+> -		 * Usermode helpers are childen of either
+> +		 * Usermode helpers are children of either
+>  		 * system_dfl_wq or of kthreadd. So we know that
+>  		 * we're starting off with a clean file descriptor
+>  		 * table. So we should always be able to use
+> @@ -1053,7 +1053,7 @@ static bool coredump_write(struct core_name *cn,
+>  	cn->core_dumped = binfmt->core_dump(cprm);
+>  	/*
+>  	 * Ensures that file size is big enough to contain the current
+> -	 * file postion. This prevents gdb from complaining about
+> +	 * file position. This prevents gdb from complaining about
+>  	 * a truncated file if the last "write" to the file was
+>  	 * dump_skip.
+>  	 */
+> 
+> base-commit: eb3f4b7426cfd2b79d65b7d37155480b32259a11
 > -- 
-> 2.54.0
+> 2.25.1
 > 
-> 
-
-
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
