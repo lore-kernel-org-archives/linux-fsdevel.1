@@ -1,44 +1,43 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78323FD13F;
-	Thu, 28 May 2026 17:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB533FD13E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 17:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779989519; cv=none; b=plP+FTu1n5/EamIAxZKXg21DgYhhTobABF8vV8Fy20o+GTNuLUV8BhPmWM/CVXwd/iGOC44iWrZbM+XrfC5ZHbFCjGUckTJCXC09emXT7wpJnounDuaKTwmFPHvrlbK6n/CiFVCc8aI+6PoGC5HGLQShP+IfSJDl6ZrZJPvR4kQ=
+	t=1779989520; cv=none; b=nNXc7ZJEKHoCbB7hwK/GVSYTNFYpAF3kX/AhEmEy7IY1dmcQr0ronPOy9TRaMfko4UflNlMX2uhzYhM7fPiRcF0aKhZOwb8JTu+p+xJT/ezzRq0zxou0HMq1DnUw10zZ9VgcFWXizFtMvfAJ3yMuJf/r50dR8yiCf//CXyJl+2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779989519; c=relaxed/simple;
-	bh=ItaHl8ZkaISr41AfEx7xLpJ8LMPKSlkeq0mZjT9OzBs=;
+	s=arc-20240116; t=1779989520; c=relaxed/simple;
+	bh=m3Mo415wFw4SbUiKZKwDJ+1Y/ftpBiAyT+G18A89ecE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lc1bbDDUVGMj9W3hTTVSe1n3kAkp4ILlwxrezRZ+IatD9NHCmgqwjGAsWWh8d5TZfONsm2gc4q6WheDsiza4aNjRFK4GcYIpjVkZif7qYLUEizh7Rgwci2f9xPxycQm8MXfZC5L2mO9q6bUa7mKQiyTM8+406QqpoO5BlSeFDTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wV1xZNTu; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=GS5jpv3Hfgnt63/Ce8beYuAVdT69yvenXdBGZnxcRnURNZMOe4WJ1+uFX8ZE+uTIpT7sKvYfnqz90p6VMbgLlnvSnEl9kCxS7QBlDiebiRgrRLpoa5ZoP0zlU4Hn0hfL/1R6CGZnUX336SwQCcqZV734u9JCIiWoI/HKQzGhBeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jLmK6WcM; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wV1xZNTu"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jLmK6WcM"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=LcJp+Ytx240VuBDRcZk9owF5OmUKRtyXb1hYH/hCZVs=; b=wV1xZNTuutYs8nseUvyjw5hfCy
-	p2P1pfn8wQtMi/5tOUMgeMdX/eVGQRjfVm/MntsHFjCotkw2zhS/mXBqQbuxqVmiWj0eN/GFd/Hq3
-	GIZH59SxngcslvOITJO0AXAH+3m05ZAmFw83LW7rVE0Br29vxNaZn1X37e6AZnh++DFsrSs7xHyKw
-	bEJnWv6Q4OfFkLsliwQz/9hTAf6svd3Pg+caYZGPD1QNE/2npynFWAZh1CWbxCNqMRwpL1EsuunXU
-	bTwHJ1tNViOTTr9bl3EdlwAGdYm5WhzmmqWJo/orkzPb+ehxpDEcrFkDKIkXAomIJWVi7Oa8Vo1z0
-	CkB9GyYQ==;
+	bh=yqGo1PUB6Nqq+6c6/3ubXDuwNb9kMGudJjHIpoZV5hs=; b=jLmK6WcMWhUPbmALoCPUJZMKbW
+	YivGUpq+KfwFWi9oP0vC66R7URHYAM83WRd6qLZT8RWzUtwUnkP229UcxYs+uUyIErw1hQvbPi5V0
+	jT8wMCBMHqIWCY7wApL71hYRzwnYo6POgNeFAapiiH/S3SRdZULJP/+BYtKzy9bPSw3YIW+ewimq/
+	1IEkHrUPII7TYVVbKeOhi9G9VYSEDekWk2A0ngQya6CtmQDsV0XfgnyUb0gJnbl/nE8ffHJQUX7zH
+	xQvGQOpBTQRb+PQowH7UU9hhH2VO4umbL4C9+s0OKK8jN2YPYnbm9u9WbrlVGEeKHnF4grl+cE28g
+	1m18WOcQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSeaI-00000004aZg-3BEE;
-	Thu, 28 May 2026 17:31:54 +0000
+	id 1wSeaH-00000004aZA-3iqB;
+	Thu, 28 May 2026 17:31:53 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org
-Subject: [PATCH v2 14/34] ext4: Convert write_mmp_block_thawed() to bh_submit()
-Date: Thu, 28 May 2026 18:31:27 +0100
-Message-ID: <20260528173150.1093780-15-willy@infradead.org>
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 10/34] buffer: Convert block_read_full_folio to bh_submit()
+Date: Thu, 28 May 2026 18:31:23 +0100
+Message-ID: <20260528173150.1093780-11-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260528173150.1093780-1-willy@infradead.org>
 References: <20260528173150.1093780-1-willy@infradead.org>
@@ -50,32 +49,126 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Avoid an extra indirect function call and changing the buffer refcount
-by using bh_submit() instead of submit_bh().
+Avoid an extra indirect function call by using bh_submit() instead of
+submit_bh().  Since mark_buffer_async_read() would collapse to a single
+function call, inline it into block_read_full_folio() along with its
+extensive comment.  Convert end_buffer_async_read_io() to
+bh_end_async_read().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 Reviewed-by: Jan Kara <jack@suse.cz>
-Cc: linux-ext4@vger.kernel.org
 ---
- fs/ext4/mmp.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ fs/buffer.c | 65 ++++++++++++++++++++++++++---------------------------
+ 1 file changed, 32 insertions(+), 33 deletions(-)
 
-diff --git a/fs/ext4/mmp.c b/fs/ext4/mmp.c
-index 6f57c181ff77..7ce361484b38 100644
---- a/fs/ext4/mmp.c
-+++ b/fs/ext4/mmp.c
-@@ -46,9 +46,8 @@ static int write_mmp_block_thawed(struct super_block *sb,
+diff --git a/fs/buffer.c b/fs/buffer.c
+index d96320c18acb..b668a73d48ec 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -402,11 +402,13 @@ static void decrypt_bh(struct work_struct *work)
+ }
  
- 	ext4_mmp_csum_set(sb, mmp);
- 	lock_buffer(bh);
--	bh->b_end_io = end_buffer_write_sync;
--	get_bh(bh);
--	submit_bh(REQ_OP_WRITE | REQ_SYNC | REQ_META | REQ_PRIO, bh);
-+	bh_submit(bh, REQ_OP_WRITE | REQ_SYNC | REQ_META | REQ_PRIO,
-+			bh_end_write);
- 	wait_on_buffer(bh);
- 	if (unlikely(!buffer_uptodate(bh)))
- 		return -EIO;
+ /*
+- * I/O completion handler for block_read_full_folio() - pages
++ * I/O completion handler for block_read_full_folio() - folios
+  * which come unlocked at the end of I/O.
+  */
+-static void end_buffer_async_read_io(struct buffer_head *bh, int uptodate)
++static void bh_end_async_read(struct bio *bio)
+ {
++	struct buffer_head *bh;
++	bool uptodate = bio_endio_bh(bio, &bh);
+ 	struct inode *inode = bh->b_folio->mapping->host;
+ 	bool decrypt = fscrypt_inode_uses_fs_layer_crypto(inode);
+ 	struct fsverity_info *vi = NULL;
+@@ -431,7 +433,7 @@ static void end_buffer_async_read_io(struct buffer_head *bh, int uptodate)
+ 			}
+ 			return;
+ 		}
+-		uptodate = 0;
++		uptodate = false;
+ 	}
+ 	end_buffer_async_read(bh, uptodate);
+ }
+@@ -494,33 +496,6 @@ void bh_end_async_write(struct bio *bio)
+ }
+ EXPORT_SYMBOL(bh_end_async_write);
+ 
+-/*
+- * If a page's buffers are under async readin (end_buffer_async_read
+- * completion) then there is a possibility that another thread of
+- * control could lock one of the buffers after it has completed
+- * but while some of the other buffers have not completed.  This
+- * locked buffer would confuse end_buffer_async_read() into not unlocking
+- * the page.  So the absence of BH_Async_Read tells end_buffer_async_read()
+- * that this buffer is not under async I/O.
+- *
+- * The page comes unlocked when it has no locked buffer_async buffers
+- * left.
+- *
+- * PageLocked prevents anyone starting new async I/O reads any of
+- * the buffers.
+- *
+- * PageWriteback is used to prevent simultaneous writeout of the same
+- * page.
+- *
+- * PageLocked prevents anyone from starting writeback of a page which is
+- * under read I/O (PageWriteback is only ever set against a locked page).
+- */
+-static void mark_buffer_async_read(struct buffer_head *bh)
+-{
+-	bh->b_end_io = end_buffer_async_read_io;
+-	set_buffer_async_read(bh);
+-}
+-
+ void mark_buffer_async_write(struct buffer_head *bh)
+ {
+ 	bh->b_end_io = end_buffer_async_write;
+@@ -2497,9 +2472,33 @@ int block_read_full_folio(struct folio *folio, get_block_t *get_block)
+ 			continue;
+ 		}
+ 
+-		mark_buffer_async_read(bh);
++		/*
++		 * If a folio's buffers are under async readin
++		 * (end_buffer_async_read completion) then there is a
++		 * possibility that another thread of control could lock
++		 * one of the buffers after it has completed but while
++		 * some of the other buffers have not completed.  This
++		 * locked buffer would confuse end_buffer_async_read()
++		 * into not unlocking the folio.  So the absence of
++		 * BH_Async_Read tells end_buffer_async_read() that this
++		 * buffer is not under async I/O.
++		 *
++		 * The folio comes unlocked when it has no locked
++		 * buffer_async buffers left.
++		 *
++		 * The folio lock prevents anyone starting new async
++		 * I/O reads into any of the buffers.
++		 *
++		 * The writeback flag is used to prevent simultaneous
++		 * writeout of the same folio.
++		 *
++		 * The folio lock prevents anyone from starting writeback
++		 * of a folio which is under read I/O (the writeback
++		 * flag is only ever set on a locked folio).
++		 */
++		set_buffer_async_read(bh);
+ 		if (prev)
+-			submit_bh(REQ_OP_READ, prev);
++			bh_submit(prev, REQ_OP_READ, bh_end_async_read);
+ 		prev = bh;
+ 	} while (iblock++, (bh = bh->b_this_page) != head);
+ 
+@@ -2513,7 +2512,7 @@ int block_read_full_folio(struct folio *folio, get_block_t *get_block)
+ 	 * in this folio.
+ 	 */
+ 	if (prev)
+-		submit_bh(REQ_OP_READ, prev);
++		bh_submit(prev, REQ_OP_READ, bh_end_async_read);
+ 	else
+ 		folio_end_read(folio, !page_error);
+ 
 -- 
 2.47.3
 
