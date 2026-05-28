@@ -1,197 +1,200 @@
-Received: from mta22.hihonor.com (mta22.honor.com [81.70.192.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B72255F2D;
-	Thu, 28 May 2026 09:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.192.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7867360EEE
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 09:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779958809; cv=none; b=DF3bNWBWDtWKuPAto5oeLarPxorBvyTfa8mdo9aWN+F3yTHYExREDWxMK950eEiKqw39eHYY3Kd0h+dtsg4s8ZhnWSzhv5706fZphhP3TyqCqALB1O0mYoOCVmgGk37OsBk4fwMUsiubv+zrdL0rWUS7odWecxnlQYQkknJInPI=
+	t=1779959140; cv=none; b=flNEbNAZOIE5xwNhKnuYIiK0rPfhiiwSRbn4mxG9k5/jh/Foc2yrb9kUj5J0sHwRoySce7H2WDkl0y/jmT/DFFGv7cmmrieIwNndAYF8R4PFpmIWtlGLUarVSljMRw2fxiA+hMQKaUTyyosawsfwUpUm1/ctDwXG6L+0eMqz/b4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779958809; c=relaxed/simple;
-	bh=Bux8GCftyQ+aPXERCy2YSrQ8/ekfm0FLVwx50wtZDiQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=bxTVMF272UU98Ma/TBx/xTcs9Q0yvYgxsb9+GgCFyVN5ajbTCAQtR9N4A2uGOoljVE4bQ8E3V4zJDujZkPqzlEvXJkrDiEqYNiDXifbiyv+AvOn6Ro71Ojrcwq5dzakU+nZX43Y75HXqRqu4qZbhSbBsPGI76XpjWQLC1EwO2+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b=WASDnVpC; arc=none smtp.client-ip=81.70.192.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+	s=arc-20240116; t=1779959140; c=relaxed/simple;
+	bh=wwfD4h+tn92RIZqL8pnFeW5a13eMgLbl+InYNBC21rc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IqbJ4InrEOwfvp1aXTULgU1EsP5mYSZNxkMXpI1SeCow7KdzCNy0BaVcRRCuKPw/9zwOvMHLxmpwj6K8TvJhvOpTuKIiGzNL1DUjy9sE+D6IqLOlzh2aT+/6PWDGJuibg0uv0a6vDI88RppIr1+YeIDRaXH9uJ+jwcB26dIjPE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zJfLl4/z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PMbX2xHs; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zJfLl4/z; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PMbX2xHs; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=honor.com header.i=@honor.com header.b="WASDnVpC"
-dkim-signature: v=1; a=rsa-sha256; d=honor.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=To:From;
-	bh=XD3hORJdYdgNuk6+D4BQV8kmKZ7YLD8FvucsViATNX4=;
-	b=WASDnVpCEPy/DfZY9zA6UOFUvEQqxkvnRV1po3xn/d/NwIl+ux0JVJEQSKeFAuqA5QtrueMZR
-	KnRicy9kFmXVEKoIbAqhWZ4fjsIxKPwsUkbX148kjnjSzfE42VzBDj/GomPvnbh7RTocuIxyEQN
-	89bvgsqsegQyYL1C3p8go+0=
-Received: from TW003.hihonor.com (unknown [10.77.199.161])
-	by mta22.hihonor.com (SkyGuard) with ESMTPS id 4gR0lX0CxyzYkxhn;
-	Thu, 28 May 2026 16:58:48 +0800 (CST)
-Received: from TA002.hihonor.com (10.77.230.8) by TW003.hihonor.com
- (10.77.199.161) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 28 May
- 2026 17:00:00 +0800
-Received: from TA003.hihonor.com (10.72.0.43) by TA002.hihonor.com
- (10.77.230.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 28 May
- 2026 16:59:08 +0800
-Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
- TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
- 15.02.2562.037; Thu, 28 May 2026 17:00:03 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-CC: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
-	<will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com"
-	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"david@kernel.org" <david@kernel.org>, "willy@infradead.org"
-	<willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, "kees@kernel.org"
-	<kees@kernel.org>, "luizcap@redhat.com" <luizcap@redhat.com>,
-	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>,
-	"kas@kernel.org" <kas@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"liam@infradead.org" <liam@infradead.org>, "vbabka@kernel.org"
-	<vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
-	<surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz"
-	<jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>, "harry@kernel.org"
-	<harry@kernel.org>, "jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca"
-	<jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
-	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
-	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
-	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
-	"baohua@kernel.org" <baohua@kernel.org>, "lance.yang@linux.dev"
-	<lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
-	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
-	"matthew.brost@intel.com" <matthew.brost@intel.com>,
-	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
-	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
-	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
-	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
-	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
-	"21cnbao@gmail.com" <21cnbao@gmail.com>, "jparsana@google.com"
-	<jparsana@google.com>, "dvander@google.com" <dvander@google.com>, zhangji
-	<zhangji1@honor.com>, wangzicheng <wangzicheng@honor.com>
-Subject: RE: [PATCH 03/15] mm: introduce anon_vma_tree_t for multiple anon_vma
- topologies
-Thread-Topic: [PATCH 03/15] mm: introduce anon_vma_tree_t for multiple
- anon_vma topologies
-Thread-Index: AQHc7ckS0nHB17pDfk6r1PTPwH0GsrYhPg2AgAHhCFA=
-Date: Thu, 28 May 2026 09:00:02 +0000
-Message-ID: <f53d9327cf064c87aec7c50e867b0e0d@honor.com>
-References: <20260527110147.17815-1-tao.wangtao@honor.com>
- <20260527110147.17815-4-tao.wangtao@honor.com> <ahbatfs3G-Qkh7Vk@lucifer>
-In-Reply-To: <ahbatfs3G-Qkh7Vk@lucifer>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zJfLl4/z";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PMbX2xHs";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zJfLl4/z";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PMbX2xHs"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C1B00673C9;
+	Thu, 28 May 2026 09:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779959136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2b02VcHFGPeeRN7nUuoste2B3hd+aLCZvOotAv/aTk4=;
+	b=zJfLl4/zPYOhCXFGa9HsnfedcoLMntP85hgXR0UP/ljiBz3oX1OMo4peQdZhnn5CfVu1er
+	LidkJHA1eDp0yDp0FJVCQ/TVqTMk0ibCtFGMBGtvOxz6hvEBKNopxGpsaYkUG99h/7nvDN
+	VmKpfZT7iU1iafW7zJpsiJaDYlxLRzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779959136;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2b02VcHFGPeeRN7nUuoste2B3hd+aLCZvOotAv/aTk4=;
+	b=PMbX2xHsvJGFfPDF1zSHKKuvA8r50e0xnSBxBGj/mJ0Hk/xV9WAV7ZsFhkHFLi9YgSS+BX
+	ZXS0oiH7Gk4nhvBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1779959136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2b02VcHFGPeeRN7nUuoste2B3hd+aLCZvOotAv/aTk4=;
+	b=zJfLl4/zPYOhCXFGa9HsnfedcoLMntP85hgXR0UP/ljiBz3oX1OMo4peQdZhnn5CfVu1er
+	LidkJHA1eDp0yDp0FJVCQ/TVqTMk0ibCtFGMBGtvOxz6hvEBKNopxGpsaYkUG99h/7nvDN
+	VmKpfZT7iU1iafW7zJpsiJaDYlxLRzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1779959136;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2b02VcHFGPeeRN7nUuoste2B3hd+aLCZvOotAv/aTk4=;
+	b=PMbX2xHsvJGFfPDF1zSHKKuvA8r50e0xnSBxBGj/mJ0Hk/xV9WAV7ZsFhkHFLi9YgSS+BX
+	ZXS0oiH7Gk4nhvBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA33E5ACE0;
+	Thu, 28 May 2026 09:05:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oedwLWAFGGr5MAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 28 May 2026 09:05:36 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 59D96A0905; Thu, 28 May 2026 11:05:32 +0200 (CEST)
+Date: Thu, 28 May 2026 11:05:32 +0200
+From: Jan Kara <jack@suse.cz>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 04/34] buffer: Add bh_end_read(), bh_end_write() and
+ bh_end_async_write()
+Message-ID: <7mj3e7hjcum7lyr4xxo4ctzfgq422fnec47vhygqygfpt536cp@olmqcd2elu3j>
+References: <20260525171931.4144395-1-willy@infradead.org>
+ <20260525171931.4144395-5-willy@infradead.org>
+ <sfdgf57x2oa3f5hn5izgdiomkgzwoiyqunborxtyfvtty2tlfo@oa6lvhzjrqic>
+ <ahb_0Dc0Zqr9pGVx@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahb_0Dc0Zqr9pGVx@casper.infradead.org>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
 
-> Subject: Re: [PATCH 03/15] mm: introduce anon_vma_tree_t for multiple
-> anon_vma topologies
->=20
-> On Wed, May 27, 2026 at 07:01:35PM +0800, tao wrote:
-> > Prepare for upcoming ANON_VMA_LAZY support and RCU-based lockless
-> rmap
-> > traversal by clearly separating anon_vma topology handling from the
-> > anon_rmap semantics.
->=20
-> RCU is not 'lockless'... and if you truly get RCU semantics you break a b=
-unch
-> of stuff as I found out.
->=20
-RCU is required when acquiring anon_vma or vma. When calling
-rmap_one, RCU lock is not required; the lock is obtained with
-anon_rmap_lock_read() or folio_lock_anon_rmap_read().
+On Wed 27-05-26 15:29:36, Matthew Wilcox wrote:
+> On Wed, May 27, 2026 at 12:22:27PM +0200, Jan Kara wrote:
+> > > +/**
+> > > + * bio_endio_bh - Return the bh for a bio
+> > > + * @bio: The bio
+> > > + *
+> > > + * Call this in your bio_end_io handler to retrieve the buffer_head
+> > > + * submitted in bh_submit().  If you did not call bh_submit(), do not
+> > > + * call this function; it will return garbage.
+> > > + *
+> > > + * This function consumes the bio refcount which will probably free the
+> > > + * bio.  You should retrieve the bi_status before calling this.
+> > > + */
+> > > +struct buffer_head *bio_endio_bh(struct bio *bio)
+> > > +{
+> > > +	struct buffer_head *bh = bio->bi_private;
+> > > +
+> > > +	if (unlikely(bio_flagged(bio, BIO_QUIET)))
+> > > +		set_bit(BH_Quiet, &bh->b_state);
+> > > +	bio_put(bio);
+> > > +
+> > > +	return bh;
+> > > +}
+> > > +EXPORT_SYMBOL(bio_endio_bh);
+> > 
+> > Frankly, this looks too fragile to me, in particular for an exported
+> > function. I'd prefer this returned the status and have another argument
+> > where to store bh to. 
+> 
+> Heh, fair enough.  An earlier iteration of the patchset did this:
+> 
+> +struct xbh bio_endio_bh(struct bio *bio)
+> +{
+> +       struct xbh xbh;
+> +       struct buffer_head *bh = bio->bi_private;
+> +
+> +       if (unlikely(bio_flagged(bio, BIO_QUIET)))
+> +               set_bit(BH_Quiet, &bh->b_state);
+> +
+> +       xbh.word = (unsigned long)bh;
+> +       if (bio->bi_status == BLK_STS_OK)
+> +               xbh.word |= 1;
+> +       bio_put(bio);
+> +
+> +       return xbh;
+> +}
+> +EXPORT_SYMBOL(bio_endio_bh);
+> 
+> and then the callers did this:
+> 
+> +void bh_end_read(struct bio *bio)
+> +{
+> +       struct xbh xbh = bio_endio_bh(bio);
+> +       end_buffer_read_sync(xbh_bh(xbh), xbh_uptodate(xbh));
+> +}
+> 
+> somewhat patterned after struct fd.  But I decided it just wasn't worth
+> it and revised the patchset to have the callers grab bi_status
+> themselves.  I did consider both returning bi_status and returning
+> a bool (ie the current uptodate).  Do you have a preference between
+> those two options?  I'd probably go with returning a bool just to make
+> the conversions easier:
+> 
+> bool bio_endio_bh(struct bio *bio, struct buffer_head **bhp)
+> {
+>         bool ret = bio->bi_status == BLK_STS_OK;
+>         struct buffer_head *bh = bio->bi_private;
+> 
+>         if (unlikely(bio_flagged(bio, BIO_QUIET)))
+>                 set_bit(BH_Quiet, &bh->b_state);
+>         bio_put(bio);
+> 
+>         *bhp = bh;
+>         return ret;
+> }
 
-For regular anon_vma, the anon_vma lock is still used. For
-ANON_VMA_LAZY, there is only one vma, so the anon_vma lock is not
-needed; we only need to ensure the vma is valid.
+OK, this looks good to me.
 
-> >
-> > Prepare for supporting multiple anon_vma topologies by introducing
-> > lightweight abstractions used by the VMA and rmap code.
-> >
-> > Introduce anon_vma_tree_t as the type stored in vma->anon_vma:
-> >
-> >     typedef unsigned long anon_vma_tree_t;
-> >
-> > It represents a tagged pointer encoding a reference to the anon_vma
-> > topology. The low bits are reserved as type tags to distinguish
-> > different implementations (e.g. regular anon_vma and lazy anon_vma).
-> > This keeps the VMA representation compact while allowing the topology
-> > to evolve without changing the VMA layout.
-> >
-> > Signed-off-by: tao <tao.wangtao@honor.com>
->=20
-> The commit message is at least better on this one, but this approach is a=
-gain,
-> predicated on extending a broken abstraction.
->=20
-> You could have saved time and effort by coming forward with this earlier =
-to
-> the community.
->=20
-> You're also adding a bunch more messy code on top of anon_vma. It's just
-> the wrong direction.
->=20
-I will update the commit message to add more explanation.
-
-> >
-> > +/* anon_vma_tree_t APIs */
-> > +
-> > +static inline anon_vma_tree_t make_anon_vma_tree(struct anon_vma
-> > +*anon_vma) {
-> > +	return (anon_vma_tree_t)anon_vma;
-> > +}
->=20
-> You're literally returning an unsigned long of an anon_vma here?
->=20
-> Why is the anon_rmap_t a wrapped struct and this an unsigned long?
->=20
-anon_vma_tree_t uses unsigned long because it is used internally
-by rmap.c and vma.c. In other places it is mainly used to check
-whether a fault has occurred.
-
-> > +
-> > +static inline struct anon_vma
-> *anon_vma_tree_anon_vma(anon_vma_tree_t
-> > +anon_tree) {
-> > +	return (struct anon_vma *)anon_tree; }
->=20
-> The anon_tree is an anon_vma? What?
->=20
-> And it's a tagged pointer but we don't bother clearing any bits right?...=
-!
->=20
-When supporting ANON_VMA_LAZY, the lower bits definitions are added.
-I will add comments to clarify this.
-
-> > +static inline void anon_vma_tree_unlock_read(anon_vma_tree_t
-> > +anon_tree) {
-> > +	struct anon_vma *anon_vma =3D
-> anon_vma_tree_anon_vma(anon_tree);
-> > +
-> > +	anon_vma_unlock_read(anon_vma);
-> > +}
-> > +
->=20
-> You keep adding more and more code on top of the existing mess. This is
-> NOT what we want.
->=20
-Additional handling is introduced when enabling ANON_VMA_LAZY;
-I will add comments to clarify this.
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
