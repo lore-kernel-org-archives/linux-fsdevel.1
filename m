@@ -1,43 +1,43 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368D33FD955
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 17:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AFE3FD96B
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 17:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779989523; cv=none; b=UU4IoRuznkttxG24/uDq9iPLSZl7XjibXWOmhh47QlFMT7sz2+5Xt/xKXlrW2q+/q3QYPwOjuhmDEB5K94bTeafWY7I0/A63qj+l4yvLH9mVlGgieP4hwtRWCaR4+bx6se8sxUKD9VYixwqTUSiKripHZydFoRDTlq97lVViTbM=
+	t=1779989523; cv=none; b=fcA1dwIkX2E+w1zni4XkVCQxoKewCGPcupPu9dWEzK1Lf2+DTk3Jzypj0G2BYInHNDi48RAG9wGzhrUnnDarmU1MgEi2yHZgdWYJFD7g04QBGZd0fVxz5LFNijjGUg1VszJR54tjmFjneMou6R5inYQ0gle2nTOjMkagDNYgMTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779989523; c=relaxed/simple;
-	bh=AGiI3giCG7RxRRjQJhOT4T1RQbvOywWdHeAJTz9aAds=;
+	bh=+oWIoaN40Uz18Ei2VePIObYxOIE6knUedFMardmVcyM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i+bIOsKGV00ZP4th1l7UTCq7+wWo4OqWiTCzS2XOpFhlzaIZyIAg0oXP6KByVAltcoA4LwFypcS3Oa1RaWqnEfZjUu2u++iqF0ZzNNY2+OR70gOFDCie381zR+iqFOer+QzY3wWg3nofO4zChv4KoNYXqYQKZlILIg1Akflf0Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=f5+Pyw6F; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=GLXLwO/eq+ldypLfq/BozkxbOE8QYdMR6dM4fhm8oQR1GReaE/nmpLh/lJil0vUobJtmzdkXhnJfM7WwPFSbsS0M+CTx5ThTK25TPRNmOIueDAYCQqy9l6MvfUq6b6BsPIeZq8R/wrhCKUg8V3BjSCM3tUvabaeXS3QQlIJSj1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Hh7VQPKN; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f5+Pyw6F"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Hh7VQPKN"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=M+31+ZmvrmTI55uT5a4C6YGgiZcxhxPk5y63+RUgwWY=; b=f5+Pyw6FvR17CYj4EpIO8dLhwo
-	bRERhraOZXKfKIuqNf86BkvrnQI8eiZ3P1wS8KddCl1HszwLKSUUGgPoNyRHixBq3KsL2JMumIJik
-	9VfAEbG+RE5aag6TgtN16VQ+DDcQB2URFmPSg4aCkBu61tGjYRbItwgNnlxiLxNHlQprt3hhaE2E/
-	HxDRUfiWmgXkHMECay89+ujpNNRdoGJX4g6vAWWyvffGNZBAwVP1ia/LlR+JkLXeAryNgTbcjd92d
-	VrHlB+SojW++2cI+8k+yxmJVF6igL3ew0SnZeXu6K+HM21VMFAXbCTJ7pA97SLuzcVBB6WZKiPr0O
-	nym/a7tg==;
+	bh=PetCHeO35/Pk+7ixTNn6W0aWoFYpZ54IsYDHQJR44tY=; b=Hh7VQPKNr01a49G5ZprOD8l/m6
+	9PMod9TCv7QW4hPBtMV3837gTLTjj/LbASePzQ99AmwzXovfOjmqdocVznEQ/OQeCd1rHzAHuo6WB
+	ACmm5eqlDXtVNl4QMMy2Hw56+TiPSrpPUO1oy+TXf5zeYbqIoA7+QHTqjWApZ4v17OXmktnNb1Jqo
+	aRPXkIBwa2B3FgKZkkvzgCnvFWZ6iZFFl9U4atqC24LgCRYtXNS6+eTtAcw/A5DAZLBEsh97ARwyN
+	QyU8phNiVoXi8ICLnBj4mTXUdWay/xwBJyYlSVbpoTQku0cdNEqVuF6SI0JdoWixRQwg76qBBlSmh
+	sZwUc8Cg==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wSeaN-00000004ac4-1jhO;
-	Thu, 28 May 2026 17:31:59 +0000
+	id 1wSeaM-00000004abX-2gNY;
+	Thu, 28 May 2026 17:31:58 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Jan Kara <jack@suse.cz>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Christoph Hellwig <hch@infradead.org>,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 34/34] buffer: Remove end_buffer_write_sync()
-Date: Thu, 28 May 2026 18:31:47 +0100
-Message-ID: <20260528173150.1093780-35-willy@infradead.org>
+Subject: [PATCH v2 31/34] buffer: Remove submit_bh()
+Date: Thu, 28 May 2026 18:31:44 +0100
+Message-ID: <20260528173150.1093780-32-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260528173150.1093780-1-willy@infradead.org>
 References: <20260528173150.1093780-1-willy@infradead.org>
@@ -49,74 +49,136 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It has no callers left, so delete it.  Inline __end_buffer_write_sync()
-into bh_end_write().
+No users are left; remove this API.  Also remove/fix comments mentioning
+it, and end_bio_bh_io_sync() as it's now unused.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- fs/buffer.c                 | 29 +++++++++--------------------
- include/linux/buffer_head.h |  1 -
- 2 files changed, 9 insertions(+), 21 deletions(-)
+ Documentation/trace/ftrace.rst |  4 ++--
+ fs/buffer.c                    | 27 ++++++---------------------
+ include/linux/buffer_head.h    |  3 +--
+ mm/vmscan.c                    |  2 +-
+ 4 files changed, 10 insertions(+), 26 deletions(-)
 
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index b9efb148a5c2..2ed1b96e440b 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -1624,7 +1624,7 @@ function-trace, we get a much larger output::
+    => blk_queue_bio
+    => submit_bio_noacct
+    => submit_bio
+-   => submit_bh
++   => bh_submit
+    => __ext3_get_inode_loc
+    => ext3_iget
+    => ext3_lookup
+@@ -1909,7 +1909,7 @@ tracers.
+    => blk_queue_bio
+    => submit_bio_noacct
+    => submit_bio
+-   => submit_bh
++   => bh_submit
+    => ext3_bread
+    => ext3_dir_bread
+    => htree_dirblock_to_tree
 diff --git a/fs/buffer.c b/fs/buffer.c
-index db604c0e54d4..7ed8dd77d221 100644
+index d35f584a06f9..3df0ea1a6342 100644
 --- a/fs/buffer.c
 +++ b/fs/buffer.c
-@@ -192,25 +192,6 @@ void bh_end_read(struct bio *bio)
+@@ -1187,14 +1187,6 @@ void __bforget(struct buffer_head *bh)
  }
- EXPORT_SYMBOL(bh_end_read);
+ EXPORT_SYMBOL(__bforget);
  
--static void __end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+-static void end_bio_bh_io_sync(struct bio *bio)
 -{
--	if (uptodate) {
--		set_buffer_uptodate(bh);
--	} else {
--		buffer_io_error(bh, ", lost sync page write");
--		mark_buffer_write_io_error(bh);
--		clear_buffer_uptodate(bh);
--	}
--	unlock_buffer(bh);
+-	struct buffer_head *bh;
+-	bool uptodate = bio_endio_bh(bio, &bh);
+-
+-	bh->b_end_io(bh, uptodate);
 -}
 -
--void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
--{
--	__end_buffer_write_sync(bh, uptodate);
--	put_bh(bh);
--}
--EXPORT_SYMBOL(end_buffer_write_sync);
--
- /**
-  * bh_end_write - I/O end handler for writes
-  * @bio: The bio being completed.
-@@ -222,7 +203,15 @@ void bh_end_write(struct bio *bio)
+ static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
+ 				  gfp_t gfp_mask)
  {
- 	struct buffer_head *bh;
- 	bool success = bio_endio_bh(bio, &bh);
--	__end_buffer_write_sync(bh, success);
-+
-+	if (success) {
-+		set_buffer_uptodate(bh);
-+	} else {
-+		buffer_io_error(bh, ", lost sync page write");
-+		mark_buffer_write_io_error(bh);
-+		clear_buffer_uptodate(bh);
-+	}
-+	unlock_buffer(bh);
- }
- EXPORT_SYMBOL(bh_end_write);
+@@ -1829,15 +1821,15 @@ static struct buffer_head *folio_create_buffers(struct folio *folio,
  
+ /*
+  * While block_write_full_folio is writing back the dirty buffers under
+- * the page lock, whoever dirtied the buffers may decide to clean them
++ * the folio lock, whoever dirtied the buffers may decide to clean them
+  * again at any time.  We handle that by only looking at the buffer
+  * state inside lock_buffer().
+  *
+  * If block_write_full_folio() is called for regular writeback
+- * (wbc->sync_mode == WB_SYNC_NONE) then it will redirty a page which has a
+- * locked buffer.   This only can happen if someone has written the buffer
+- * directly, with submit_bh().  At the address_space level PageWriteback
+- * prevents this contention from occurring.
++ * (wbc->sync_mode == WB_SYNC_NONE) then it will redirty a folio which
++ * has a locked buffer.   This only can happen if someone has written
++ * the buffer directly, with bh_submit().  At the address_space level
++ * the folio writeback flag prevents this contention from occurring.
+  *
+  * If block_write_full_folio() is called with wbc->sync_mode ==
+  * WB_SYNC_ALL, the writes are posted using REQ_SYNC; this
+@@ -1954,7 +1946,7 @@ int __block_write_full_folio(struct inode *inode, struct folio *folio,
+ 		/*
+ 		 * The folio was marked dirty, but the buffers were
+ 		 * clean.  Someone wrote them back by hand with
+-		 * write_dirty_buffer/submit_bh.  A rare case.
++		 * write_dirty_buffer/bh_submit.  A rare case.
+ 		 */
+ 		folio_end_writeback(folio);
+ 
+@@ -2800,13 +2792,6 @@ sector_t generic_block_bmap(struct address_space *mapping, sector_t block,
+ }
+ EXPORT_SYMBOL(generic_block_bmap);
+ 
+-void submit_bh(blk_opf_t opf, struct buffer_head *bh)
+-{
+-	BUG_ON(!bh->b_end_io);
+-	__bh_submit(bh, opf, WRITE_LIFE_NOT_SET, NULL, end_bio_bh_io_sync);
+-}
+-EXPORT_SYMBOL(submit_bh);
+-
+ void write_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags)
+ {
+ 	lock_buffer(bh);
 diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-index 1ee56c9f2327..8b23bc9a244c 100644
+index f0a9f3f05ac1..7629130d42c4 100644
 --- a/include/linux/buffer_head.h
 +++ b/include/linux/buffer_head.h
-@@ -201,7 +201,6 @@ struct buffer_head *alloc_page_buffers(struct page *page, unsigned long size);
- struct buffer_head *create_empty_buffers(struct folio *folio,
- 		unsigned long blocksize, unsigned long b_state);
- void end_buffer_read_sync(struct buffer_head *bh, int uptodate);
--void end_buffer_write_sync(struct buffer_head *bh, int uptodate);
- bool bio_endio_bh(struct bio *bio, struct buffer_head **bhp);
- 
- /* Completion routines suitable for passing to bh_submit() */
+@@ -55,7 +55,7 @@ typedef void (bh_end_io_t)(struct buffer_head *bh, int uptodate);
+  * is the bio, and buffer_heads are used for extracting block
+  * mappings (via a get_block_t call), for tracking state within
+  * a folio (via a folio_mapping) and for wrapping bio submission
+- * for backward compatibility reasons (e.g. submit_bh).
++ * for backward compatibility reasons (e.g. bh_submit).
+  */
+ struct buffer_head {
+ 	unsigned long b_state;		/* buffer state bitmap (see above) */
+@@ -244,7 +244,6 @@ void __lock_buffer(struct buffer_head *bh);
+ int sync_dirty_buffer(struct buffer_head *bh);
+ int __sync_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags);
+ void write_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags);
+-void submit_bh(blk_opf_t, struct buffer_head *);
+ void bh_submit(struct buffer_head *, blk_opf_t, bio_end_io_t);
+ void write_boundary_block(struct block_device *bdev,
+ 			sector_t bblock, unsigned blocksize);
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index bd1b1aa12581..67231d3189ef 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1449,7 +1449,7 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
+ 		 * is possible for a folio to have the dirty flag set,
+ 		 * but it is actually clean (all its buffers are clean).
+ 		 * This happens if the buffers were written out directly,
+-		 * with submit_bh(). ext3 will do this, as well as
++		 * with bh_submit(). ext3 will do this, as well as
+ 		 * the blockdev mapping.  filemap_release_folio() will
+ 		 * discover that cleanness and will drop the buffers
+ 		 * and mark the folio clean - it can be freed.
 -- 
 2.47.3
 
