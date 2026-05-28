@@ -1,197 +1,149 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5C03AD527
-	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 09:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99E83AF664
+	for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 09:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779960169; cv=none; b=DJufe41yknQl3Xs/AfKNBPeyCCXawe+boepjcmCb96WKWls2+MY7FspK+V1Gfj7LKKGUlvm/hV8YRIgRhtD4tpAAPNA9ecrl/khPmyhAHMMkjASdhkgiGWfFYzeL3L8ZXrjB72fwf9nVmvim0ZYQU/pcVj5ST9RMDUnM/3XcV0U=
+	t=1779961309; cv=none; b=Z0FAHrBdSbNaxZHTAO9Hh+0NCyGtG8ApMnW/R0ing4fVwK++5zdEOYQX0aqfh5NzYlPUzAEVhBBJcGyUw+wq3s5QEjwAR7eJhbeVxEUymS9ichDoymSL+58LXHQwH1eFDnKyFQgpuLg1HHsaw+BBukuQxsn5jNkX8iehfRFfN/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779960169; c=relaxed/simple;
-	bh=LmAHuJh+vNna2h86oEs3hhlxuhm/glTpqL0VwzrWRcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ex0nR1xSS42w1WZX7ERj9gg8sXWS0tuvVjnqXgDbW3Yq+cbSVhnbUfhfJrGwkFy+8W+NdN0xM+OnscVZD5VG5l5+wGDbeU/oE07qfMi/2wNMs1lMNIwD28B0mCQR3TDpYNrz4QlVBp6tpkFcbzmq4dtVLho8+AWVENsNE3MTJGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vwFJrv3P; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=WGHUy67C; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hKpjqBIJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bLDbaUfZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vwFJrv3P";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="WGHUy67C";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hKpjqBIJ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bLDbaUfZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 68A9767380;
-	Thu, 28 May 2026 09:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779960163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=txEsarQVyN8eunFyNH+dCTUvcxmT63EdhouQVd3C0+E=;
-	b=vwFJrv3PTA+YrYJJW4Ms+yETvFyZi8cym5fOaaG8hQgh4LCo5WZf7c6TVMngafgPJx0pCT
-	NQmqTDY07CoKXY38uKajNl5AsKEJZW7MfCJxIhL2pzCbMkyN3j1Q6CGtzoTcH6R50t83E4
-	sTP61OA3EbjACQ/o/eGw7NxYku7OdPk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779960163;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=txEsarQVyN8eunFyNH+dCTUvcxmT63EdhouQVd3C0+E=;
-	b=WGHUy67CH801700ZCizCQlnjNSXm4CGoaVzR0qm/EjUFuHjILBX1re9DUybIDWSOks31IJ
-	g1zOezv0ur6I5YBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1779960162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=txEsarQVyN8eunFyNH+dCTUvcxmT63EdhouQVd3C0+E=;
-	b=hKpjqBIJJJWkh7JFOAcIDpZgZddY1JA+3wYGfTHxv8D+49orws0VVkj4P4mq/UPUgGnlEP
-	mesj/2kJXNRPv+79Jp0Jzzt0tj+yOivO3CwhDokCT3bv3c6jNhbQMFT0Kj+HSt9Mb4QpT4
-	RW7v6uw3F767X5AzIC0jgOs3FJhLzM8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1779960162;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=txEsarQVyN8eunFyNH+dCTUvcxmT63EdhouQVd3C0+E=;
-	b=bLDbaUfZVoUHAoN5AsJRKhcMzI5Rj+pD0en3A8mlT5fyi513884lGAzCBNkv2qrVLsaiCr
-	CUHd9zMd8UuGzvBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D0BE5ACF1;
-	Thu, 28 May 2026 09:22:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VpaxFmIJGGrOQQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 28 May 2026 09:22:42 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 0286FA0905; Thu, 28 May 2026 11:22:37 +0200 (CEST)
-Date: Thu, 28 May 2026 11:22:37 +0200
-From: Jan Kara <jack@suse.cz>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, io-uring@vger.kernel.org
-Subject: Re: [PATCH RFC 00/11] mm/filemap: split out folio wait and VFS code
-Message-ID: <3dxzu3ck5y3wxw4pp2qhzwwb6y3f7mwhvgxfpl56sokw4ymop7@xaaoxsa5yu5q>
-References: <20260520-filemap-split-v1-0-c36ddc2b6cf2@columbia.edu>
+	s=arc-20240116; t=1779961309; c=relaxed/simple;
+	bh=MUL158TIarDsv3txrX32xNfRGNKHiG1GhJq8gii1TLo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZMM0bf3qvP+S45/NQNvzVuaKQyLiBdKfG7ANfLNjF9kKpolBHllxkJoMkrFe8Q3SlIXvyeuB4S5pDi0Y52A7NMDGS022UQp0HtcgFT2nMJgSVoy/3p3ZN78vYlkZ7TgADho2MWKhFkqJ3jUNKkMuq+Me0QK5TUu0IFltkYzVVNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f66.google.com with SMTP id 98e67ed59e1d1-36b8e1760ccso291810a91.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 02:41:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779961307; x=1780566107;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Va/8UHj/muCxXwz4cRtoHIipkT2i9Y/gR+pknqm6No=;
+        b=GofuhjGH7xxf3SfY/LCDcmpeXJko9DbEUsc25vncVVzPtHupBvIyz3wtz4quiUO4Ix
+         kznsR9BJAdd27YBg/u7HPcKACdPy8HP2iyA2UlWiNnT6JsgAwnqQUA37oB1lI/JU9Zz1
+         4+gAC1O25RSsahf1WOXQtVFjHn3OYou0SGcWRxsUxcL8th8gIYhuUtOiGC83hL53wdit
+         fl7j7XyDRDAU8JncyWKyl+vz3MjRYXPbPuAp2MUvtqEfMn5WpkOxtmuvGvHrFpErNayA
+         tGo2v9sWib4TmuR/5tal6TVmyWxLcuF1urLY0jlpF3JqDVsATGpIYHc3ihY//1trvfOe
+         ZBpA==
+X-Forwarded-Encrypted: i=1; AFNElJ9494CQI/038rtIBSO1dg0V/tdBuED7STM44rDXtxmGSKCmq6OxWIz6IpvydNBY0TN2oR7Ls5gpNhI1ieJB@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzSToBFK4Lp2dnlQh9WMYlvvVYlza6pN0y+LQo+97WAsWkpZTf
+	NwR8snmN+M8DBQOBQII1xX+P8MicOyJ8BuNdlp4eJ5Elw8THvl7mqLC2
+X-Gm-Gg: Acq92OHafNn97kdvuWKGZxpezeqyL0hiq113wsUqLo55EujkGaXriRQp4aSvJq4jbnQ
+	UwQLkYpfeaMLjO0m1c8KsSRFoPeIqobaSg6HdmhPDBXoUmVwfxieLWL/X+Z/1UGTOpari8UVhu2
+	M79Oo+LF2zbQJkmH5DKXy4gN0ObAKRJrqXUT/mmiiX827F+t6EcaGBgU0xOFn/tSlEmLrVsDbOs
+	BnyK0KEM6PDM5BJ8IT8FVgp0txr32lHmwvg1TnLQiwwfj2ndus3SqxTqQZzUGlR0t8/i2ekDEYC
+	hTJTvRWMgwFAocQpNAnGq7uqFOAe8VrdNq4nAmmeQStFQtSRS6AO4nmNCYseM6admCgc3ftsZuV
+	MNEkNABRaNBNKo/0Shhks4Aea2/o2y2MXG1+RX4Z7ibz8NWu+DXHih3h2T+bhL1Doe/jpjFoDxq
+	+D/oo9QILCrYqNrihrjyT8BmnDmlPj2o4csEaEdCQjKn7kvGqZ46Sisf0=
+X-Received: by 2002:a05:6a20:d486:b0:3a8:7fb:ca0e with SMTP id adf61e73a8af0-3b328ce50f0mr28880426637.23.1779961307007;
+        Thu, 28 May 2026 02:41:47 -0700 (PDT)
+Received: from kylin-XiaoXinPro-16-AHP9.. ([116.128.244.171])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-841d70f1ed8sm5468915b3a.43.2026.05.28.02.41.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 02:41:46 -0700 (PDT)
+From: Xueqin Luo <luoxueqin@kylinos.cn>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Xueqin Luo <luoxueqin@kylinos.cn>,
+	xiongxin <xiongxin@kylinos.cn>
+Subject: [PATCH -next] initramfs: Add CRC32 debugging mechanism for unpack failures
+Date: Thu, 28 May 2026 17:41:37 +0800
+Message-ID: <20260528094137.200674-1-luoxueqin@kylinos.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260520-filemap-split-v1-0-c36ddc2b6cf2@columbia.edu>
-X-Spam-Level: 
-X-Spam-Score: -3.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,columbia.edu:email,imap1.dmz-prg2.suse.org:helo]
+Content-Transfer-Encoding: 8bit
 
-On Wed 20-05-26 16:48:51, Tal Zussman wrote:
-> mm/filemap.c has accumulated additional infrastructure over the years
-> that is not directly related to the page cache. It is currently nearly
-> 5000 lines long. This series splits out the folio bit-lock and wait
-> queue code into separate files, and moves the VFS-level
-> generic_file_{read,write}_iter() family of files to fs/read_write.c, in
-> order to provide better separation of concerns. This also slims down
-> mm/filemap.c by ~1000 lines.
-> 
-> The folio wait infrastructure is centralized in mm/folio_wait.c and
-> include/linux/folio_wait.h, with functions moved from mm/filemap.c,
-> mm/page-writeback.c, and include/linux/pagemap.h. Afterwards, the code
-> is cleaned up a little, with functions and data types renamed to refer
-> to folios rather than pages.
-> 
-> generic_file_{read,write}_iter() implement the VFS-level read/write path
-> for filesystems, including support for direct I/O. These functions and
-> their helpers are moved to fs/read_write.c, along with other VFS-level
-> read/write functions. dir_pages() is also moved to include/linux/fs.h.
-> i_blocks_per_folio() is not moved from include/linux/pagemap.h, as it
-> requires folio_size(), which is not currently available in
-> include/linux/fs.h.
-> 
-> No functional change is intended.
-> 
-> Note: I have additional cleanups to mm/filemap.c ready to go, foremost
-> among them centralizing on the filemap_*() naming convention and making
-> the exposed page cache API clearer and more consistent, but I've split
-> these patches off from that in order to avoid sending these logically
-> separate patches to ~60 maintainers.
+Some motherboards report high probability unpack initramfs failed,
+resulting in the system cannot start normally. The error is as follows:
 
-Overall this makes sense to me. In particular I agree it makes sense to
-move the file read/write helpers into fs. Regarding the page waiting bits
-it makes some sense to me as well although there it's more of "I don't
-really care" opinion so let's see what Matthew and others think...
+[    9.400739][ 0] [   T11] Trying to unpack rootfs image as initramfs...
+[    9.408430][ 5] [    T1] calling  register_arm64_panic_block+0x0/0x40 @ 1
+[    9.417144][ 0] [   T11] Initramfs unpacking failed: junk at the end of compressed archive
 
-								Honza
+Initramfs unpacking failures can be difficult to diagnose because it is
+often unclear whether the initrd image was corrupted before unpacking or
+whether the decompressor failed while processing a valid image.
 
-> 
-> ---
-> Tal Zussman (11):
->       mm: add folio_wake_writeback() helper
->       folio_wait: move folio bit-lock and wait implementation to mm/folio_wait.c
->       folio_wait: move folio bit-lock and wait declarations to include/linux/folio_wait.h
->       folio_wait: move folio_wait_writeback() family to mm/folio_wait.c
->       folio_wait: reformat comments and fix alignment
->       folio_wait: rename wait_page_* infrastructure to wait_folio_*
->       folio_wait: convert VM_BUG_ON_FOLIO() to VM_WARN_ON_ONCE_FOLIO()
->       MAINTAINERS: add folio_wait files to MEMORY MANAGEMENT - CORE
->       fs: move dir_pages() from <linux/pagemap.h> to <linux/fs.h>
->       fs: move generic_file_read_iter() to fs/read_write.c
->       fs: move generic_file_write_iter() family to fs/read_write.c
-> 
->  MAINTAINERS                |   2 +
->  fs/read_write.c            | 358 ++++++++++++++++
->  include/linux/folio_wait.h | 183 +++++++++
->  include/linux/fs.h         |  19 +-
->  include/linux/pagemap.h    | 184 +--------
->  io_uring/rw.c              |  14 +-
->  io_uring/rw.h              |   6 +-
->  mm/Makefile                |   2 +-
->  mm/filemap.c               | 993 +--------------------------------------------
->  mm/folio_wait.c            | 710 ++++++++++++++++++++++++++++++++
->  mm/internal.h              |   4 +
->  mm/page-writeback.c        |  66 ---
->  12 files changed, 1285 insertions(+), 1256 deletions(-)
-> ---
-> base-commit: e9add7501ad3297dad9b90ce201266830a68ab47
-> change-id: 20260511-filemap-split-871b5c18e98c
-> 
-> Best regards,
-> -- 
-> Tal Zussman <tz2294@columbia.edu>
-> 
+Add an optional debugging mode that computes and prints a CRC32 checksum
+of the external initrd before unpacking.
+
+Comparing the CRC32 value across multiple boot attempts may help
+distinguish between corrupted initrd contents and decompression failures.
+
+This patch does not change the default boot behavior unless explicitly
+enabled through the "initramfs_debug=1" kernel command-line parameter.
+
+Co-developed-by: xiongxin <xiongxin@kylinos.cn>
+Signed-off-by: xiongxin <xiongxin@kylinos.cn>
+Signed-off-by: Xueqin Luo <luoxueqin@kylinos.cn>
+---
+ init/initramfs.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 20a18fcda48e..4809065aed29 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -21,6 +21,7 @@
+ #include <linux/types.h>
+ #include <linux/umh.h>
+ #include <linux/utime.h>
++#include <linux/crc32.h>
+ 
+ #include <asm/byteorder.h>
+ 
+@@ -30,6 +31,9 @@
+ static __initdata bool csum_present;
+ static __initdata u32 io_csum;
+ 
++static bool initramfs_debug;
++core_param(initramfs_debug, initramfs_debug, bool, 0400);
++
+ static ssize_t __init xwrite(struct file *file, const unsigned char *p,
+ 		size_t count, loff_t *pos)
+ {
+@@ -716,6 +720,20 @@ static void __init populate_initrd_image(char *err)
+ }
+ #endif /* CONFIG_BLK_DEV_RAM */
+ 
++/*
++ * Record a CRC32 checksum of the initrd contents for diagnostics.
++ */
++static void debug_initrd_crc32(const void *data, size_t len)
++{
++	u32 crc;
++
++	pr_info("initramfs: integrity diagnostics enabled\n");
++
++	crc = crc32_le(~0, data, len);
++
++	pr_info("initramfs: external initrd CRC32 checksum: %08x\n", crc);
++}
++
+ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+ {
+ 	/* Load the built in initramfs */
+@@ -726,6 +744,10 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+ 	if (!initrd_start || IS_ENABLED(CONFIG_INITRAMFS_FORCE))
+ 		goto done;
+ 
++	if (initramfs_debug)
++		debug_initrd_crc32((char *)initrd_start,
++				   initrd_end - initrd_start);
++
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_RAM))
+ 		printk(KERN_INFO "Trying to unpack rootfs image as initramfs...\n");
+ 	else
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.43.0
+
