@@ -1,155 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C10D3F1673;
-	Fri, 29 May 2026 16:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F17378D8C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 16:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780073133; cv=none; b=L4lk5dpCVOZufMoboURr2uzKJkDeLVPVp7TOFYczohrFILQi8uzIUx4cSSVbDBRZrCeAnVXQ3Ijpb7Mv/Fm3YU3Ssbi/PM3pwa92oRgt0F1Czkj4fzvlf9+7c+SxjLi3HHeCnC2VlaHlbyGqyV8lEuVxO5EnJorjSLqPRw+cXxY=
+	t=1780073155; cv=none; b=Lxf+IXlAyBEGQQ0vuJu+IInBVcDn/M9yRA+Qd8qkEGMXO9v6FGUG6/dfR8aBzqahqW44tz+k6YMDgfwBX4FfWRjOi0Z+eonBsa18icVE8RzdEwQ9FD67dcRq+TPaku6KFccxXptBvtVTyJYt+1pEaaU6v6dHRB5elQdg+Nf14lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780073133; c=relaxed/simple;
-	bh=adm4Xg68sOp6Hdjli3T7/GamU7ER4+2eHQAszvxhcg8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=USMSMMqJj0yWdvTrV0eAJRgMmqR0aV14hn8Oe+g//pky7TbuzVrUJ37C94RKv4ZCsWeZN5N8HJ11zsXpcGL9BMX+N+LKTm/HAM9cbq1IvmJmKSWN5+wplw4Ew1lLH9LDO7BtpMBP4i5GvbwMuQPvQrTNRfpUjsLUDziQm/2wtfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+6m3z+x; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780073155; c=relaxed/simple;
+	bh=aCI6e/l7Dth2yzzxP11p44pWFmgqpTitIRCmWKW+Zeo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=AFu9fP/h/9PLZDRq3DawmzY3DI0hK4K5isa4p87gFZBVHueCUwrQkL7vjxGwxBIG3r9kmmO86cUH0ak21sODcWpEEdZdnA1QGT2/mAjlgQy7hqvhD5gUCysPpLBrJZvYp0LFKrdPwwHdyuEtOF3uJYJyY7TOwL26kJrJaRqEQD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com; spf=pass smtp.mailfrom=etsalapatis.com; dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b=U6YU6Qgy; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=etsalapatis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etsalapatis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+6m3z+x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8389C1F00899;
-	Fri, 29 May 2026 16:45:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780073132;
-	bh=GI/3CxbtRcVE+9zBOcv6zZDBqjLvSiyQcrxy+I1s2kY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F+6m3z+xQ394skheiMjunzJhlBgB+CzilkptCdn5ktna0OC9prPxP1/JKJw82p+YI
-	 UXVqD0hCer/BB0QybutXjH03Y5iQs+hfrBjQIOsoUaUwmy4zCcGVTKTiD+3qLFeILI
-	 dJosqiE6T+i1kzFoqbVlDw9pf1t0BnX6hulULUji5sihczml9EFhDc/VCXiPMlB47N
-	 nn0n2fVF7KDRNWHHf6uD4hn09Uo+C96XSmN4PRA67PjSlObXIW+qgLxqzYFOm82NRZ
-	 x+UgPpKrUPQW82c2RprpiyLwOu2aYKuxRl1lSijFKgSHKXlSixB2r4swYDEj+GDr4H
-	 7sD6NQXv88zBg==
-Date: Fri, 29 May 2026 17:45:24 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Dev Jain <dev.jain@arm.com>
-Cc: akpm@linux-foundation.org, liam@infradead.org, jgg@ziepe.ca, 
-	leon@kernel.org, david@kernel.org, shuah@kernel.org, vbabka@kernel.org, 
-	jannh@google.com, pfalcato@suse.de, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, balbirs@nvidia.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	ryan.roberts@arm.com, anshuman.khandual@arm.com, stable@vger.kernel.org
-Subject: Re: [PATCH] fs/proc/task_mmu: do not warn on seeing non-migration
- pmd entry
-Message-ID: <ahmdJFCw2arBdsd9@lucifer>
-References: <20260529111704.1078346-1-dev.jain@arm.com>
+	dkim=pass (2048-bit key) header.d=etsalapatis-com.20251104.gappssmtp.com header.i=@etsalapatis-com.20251104.gappssmtp.com header.b="U6YU6Qgy"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3665a90bcd3so14658229a91.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 09:45:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=etsalapatis-com.20251104.gappssmtp.com; s=20251104; t=1780073149; x=1780677949; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aCI6e/l7Dth2yzzxP11p44pWFmgqpTitIRCmWKW+Zeo=;
+        b=U6YU6QgykwPA7soFByIMVg2vbXSf59v0zB9T82Pl5qEorozbfJvZKAlGI0zVP87zEO
+         PyB74ETcPxMSukAmfp5cIQ3SdDvbp7bTDloQb2+VY7F/Gr5qHYiePCBvvx1I3ALVJLFd
+         WknBmMA/H9QPmkOPAWyKHRRmVMvziPyQXmrXy2Dyk67UX1jBvkwEFAnr1QfXxjap/rtM
+         XppvEPHy/pqFcyDgPQksoaM4rXhb/gZIhCryYwYUEJWCT+toO0MH4ex5qA9kBGdtKOGl
+         rhFXfu67mnePh6eXQWmuZvM7pberkMaZMtaMtG0GpEsZ3s/rKHX1/RzuuydJqD3CneCh
+         RIfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780073149; x=1780677949;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aCI6e/l7Dth2yzzxP11p44pWFmgqpTitIRCmWKW+Zeo=;
+        b=msnvnfL5KmPWPbQ7yHVzBh6yP+QoZX8xShQT73ZAATS9GK0oFw9ojdUYgas7dEm4pz
+         T+7qUrs4hCJf1zZKnYBXujt0WbgXV6fh995vumfJbtZw7ZFecu3zF/mSoTMzmXbUoTqC
+         tDvGQ5JHdSpNJR+TF+u6ooq273hwyoiM5ZnZcUHTBnqCfE+Ir3fwGIGdCsI9Qa+cOa6o
+         aHRo0yApd1KPcXf9Wzyri8snG+wcRWL1lv/UHwQEOdM6teVAsaQQP+R8auUpW5MzP0H+
+         ZPtwsHtoh9WVMp5eNgXUYijMc15i/IqGt9QW/VhWxpZXcnXKVC9GeZZbjqAB0zdVOcv9
+         jZrA==
+X-Forwarded-Encrypted: i=1; AFNElJ+rm3bgxD1AHqqL7r35qvxd5h07ymyvVifNSJLmFRQ04Kja5zHqCBKmkYsqZi0B3DvP0EPInSPGGvQm+jCi@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt1i+ycHB9Y55ipttw/8jlD41SF+4Ousa+OUVDyFEDAL0plu3c
+	Eg5ETQIZ8BCqgWB+JT9BmsjmX6oLFzHbTOZdx7aQbOwnlciKK0Iv2T9vAWwOgDF7meE=
+X-Gm-Gg: Acq92OEnDYgugPprGkXkYGuNeMLJzLijT96NoBLy2c+kD1Ro8JeWQN1B0J2XsHRC83C
+	rOuUzbwpJqYHeNoZAiD+vDz5QK/JG9S5eIUwoptM2undy/SdnRrzdqPhJyiprYSY0O1Tf9BPQRP
+	cGKqWOCTQjhZIXREgu+5wRdJvMTlD83yjt1f1dwbiTNKfLfdiwhuQBDxFo+nEtfUUwkb/HTtad3
+	Wk/a8DwgZcIFV2GhkwFL1ukdXDOqjxSH+HZzKg6mVu0Sgx8MSJMEXbiYU4F3XcOoHVO+RNRTUuY
+	G0Vs8lAa2sKLu6qsMzY7F1mnWS+oLuzWUHwgbh1Ui7ZguNFDMWxsa36g93tRz5w978Ud5lbWIEW
+	fbE2bB0RvGrm9hENC4tyiT7E6Uq99ejIx8Uiw0R7S7VDfUZJUH2KRZd8B6w0lOLMtPJyG8BVWnk
+	dxBefT3fDqgGNv229AuM1MPeqbQAYk0euSJ2U=
+X-Received: by 2002:a17:902:d583:b0:2b4:5931:bc4c with SMTP id d9443c01a7336-2bf367cbf43mr8005005ad.15.1780073148788;
+        Fri, 29 May 2026 09:45:48 -0700 (PDT)
+Received: from localhost ([2001:569:58a0:da00:a5c8:c4ce:f7c1:40c1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23c26b3bsm25060415ad.64.2026.05.29.09.45.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 May 2026 09:45:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260529111704.1078346-1-dev.jain@arm.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 29 May 2026 12:45:47 -0400
+Message-Id: <DIVB9MNT5JG1.SRSKMZRPB4G1@etsalapatis.com>
+Cc: <emil@etsalapatis.com>, <martin.lau@linux.dev>, <ast@kernel.org>,
+ <daniel@iogearbox.net>, <andrii@kernel.org>, <eddyz87@gmail.com>,
+ <memxor@gmail.com>, <song@kernel.org>, <yonghong.song@linux.dev>,
+ <jolsa@kernel.org>, <kees@kernel.org>, <joel.granados@kernel.org>,
+ <bpf@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <jianhao.xu@seu.edu.cn>
+Subject: Re: [PATCH v2 0/3] bpf: cgroup: fix sysctl new-value handling in
+ __cgroup_bpf_run_filter_sysctl
+From: "Emil Tsalapatis" <emil@etsalapatis.com>
+To: "Dawei Feng" <dawei.feng@seu.edu.cn>, <jiayuan.chen@linux.dev>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <0f50af7f-03c5-46d5-9d68-553dc6995df0@linux.dev>
+ <20260529113752.2863465-1-dawei.feng@seu.edu.cn>
+In-Reply-To: <20260529113752.2863465-1-dawei.feng@seu.edu.cn>
 
-On Fri, May 29, 2026 at 11:17:03AM +0000, Dev Jain wrote:
-> pagemap_pmd_range_thp() warns if a non-present PMD is not a migration
-> entry. This became false once device-private entries at the PMD level were
-> added.
+On Fri May 29, 2026 at 7:37 AM EDT, Dawei Feng wrote:
+> On Fri, May 29, 2026 at 12:44 PM, Jiayuan Chen wrote:
+>>I think patch 1 and patch 3 should be adjacent in the series.
+>>
+>>Why is patch 2 placed between them?
 >
-> One can hit the warning by patching hmm-tests.c with the following:
+> Hi Jiayuan,
 >
-> diff --git a/tools/testing/selftests/mm/hmm-tests.c b/tools/testing/selftests/mm/hmm-tests.c
-> index e1c8a679a4cf3..7f0a3384f3c5f 100644
-> --- a/tools/testing/selftests/mm/hmm-tests.c
-> +++ b/tools/testing/selftests/mm/hmm-tests.c
-> @@ -209,6 +209,37 @@ static int hmm_dmirror_cmd(int fd,
->  	return 0;
->  }
+> Thanks for the review.
 >
-> +static int hmm_read_self_pagemap(void *addr, unsigned long npages,
-> +				 unsigned long page_size)
-> +{
-> +	const size_t entry_size = sizeof(uint64_t);
-> +	const off_t offset = ((uintptr_t)addr / page_size) * entry_size;
-> +	uint64_t *entries;
-> +	ssize_t nread;
-> +	int fd;
-> +
-> +	entries = malloc(npages * entry_size);
-> +	if (!entries)
-> +		return -ENOMEM;
-> +
-> +	fd = open("/proc/self/pagemap", O_RDONLY);
-> +	if (fd < 0) {
-> +		free(entries);
-> +		return -errno;
-> +	}
-> +
-> +	nread = pread(fd, entries, npages * entry_size, offset);
-> +	close(fd);
-> +	free(entries);
-> +
-> +	if (nread < 0)
-> +		return -errno;
-> +	if ((size_t)nread != npages * entry_size)
-> +		return -EIO;
-> +
-> +	return 0;
-> +}
-> +
->  static void hmm_buffer_free(struct hmm_buffer *buffer)
->  {
->  	if (buffer == NULL)
-> @@ -2314,6 +2345,10 @@ TEST_F(hmm, migrate_anon_huge_fault)
->  	ASSERT_EQ(ret, 0);
->  	ASSERT_EQ(buffer->cpages, npages);
+> Patch 1 and Patch 2 are actually parallel to each other. They both addres=
+s
+> pre-existing issues that would be exposed and triggered once the changes
+> in Patch 3 are applied.
 >
-> +	/* Exercise pagemap on a PMD device-private entry. */
-> +	ret = hmm_read_self_pagemap(buffer->ptr, npages, self->page_size);
-> +	ASSERT_EQ(ret, 0);
-> +
->  	/* Check what the device read. */
->  	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
->  		ASSERT_EQ(ptr[i], i);
-
-Thanks for this!
-
-though, hmm it really feels like you maybe want to add this as a test and
-make this a series :)
-
-Andrew is usually fine with adding tests as part of a fix I believe!
-
+> In a previous iteration, a test bot and another maintainer pointed out
+> that activating the code path without fixing the underlying issues first
+> could trigger a kernel panic.
 >
+> I placed both prerequisite fixes (Patch 1 and Patch 2) before Patch 3.
+> This ensures that the fixes are already in place before the code path is
+> activated.
 >
-> Therefore, remove the stale migration-only assertion.
+> If you prefer a different order, please let me know and I will be happy t=
+o
+> adjust it.
 >
-> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dev Jain <dev.jain@arm.com>
-
-The logic does seem sense, it does seem like something of an oversight here
-and I can repro the assert (though I have to fix something else first on my
-system, patch incoming for that...!)
-
-> ---
-> Applies on mm-unstable (404fb4f38e8f).
+>> Change is fine but fixes tag is wrong like the bot said.
 >
->  fs/proc/task_mmu.c | 1 -
->  1 file changed, 1 deletion(-)
+> Noted. I will correct the Fixes tag in v3.
 >
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 1e3a15bf46f4e..58938e62154d9 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -2129,7 +2129,6 @@ static int pagemap_pmd_range_thp(pmd_t *pmdp, unsigned long addr,
->  			flags |= PM_SOFT_DIRTY;
->  		if (pmd_swp_uffd_wp(pmd))
->  			flags |= PM_UFFD_WP;
-> -		VM_WARN_ON_ONCE(!pmd_is_migration_entry(pmd));
->  		page = softleaf_to_page(entry);
-
->  	}
+>> I saw a reviewed-by tag given by Emil in previous thread. Pls carry it=
+=20
+>> when sending new verson.
 >
-> --
-> 2.43.0
+> Thanks for catching this. I will make sure to collect and carry Emil's
+> Reviewed-by tag in the upcoming v3.
 >
 
-Cheers, Lorenzo
+Seconding what Jiayuan said in terms of the Fixes: tag. Also feel free
+to add my Reviewed-by: on patch 2/3 that IIRC was not present on v1.
+
+> Best regards,
+> Dawei
+
