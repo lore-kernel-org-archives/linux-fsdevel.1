@@ -1,73 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9FE1F78E6;
-	Fri, 29 May 2026 15:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C10D3F1673;
+	Fri, 29 May 2026 16:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780069250; cv=none; b=SSAfNjErm7m+oxMKAAqkAhya57fArc9RnoqX0nUWkwg+N8qwqVMMsuczQyHzlFqyb2hcGoGlwPbRqf5jy2JEviubes2bMBPaRViMOIfuEXxf1QMZ9izpAX545CnzV65NGf9J21Ao3y2XpLXpZs/2fiUcRtIj2uzILv5mbAEtYNA=
+	t=1780073133; cv=none; b=L4lk5dpCVOZufMoboURr2uzKJkDeLVPVp7TOFYczohrFILQi8uzIUx4cSSVbDBRZrCeAnVXQ3Ijpb7Mv/Fm3YU3Ssbi/PM3pwa92oRgt0F1Czkj4fzvlf9+7c+SxjLi3HHeCnC2VlaHlbyGqyV8lEuVxO5EnJorjSLqPRw+cXxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780069250; c=relaxed/simple;
-	bh=P5OXlc2w1jT8rpSydWhuQM+Wx/RRTDE8maGSqN+tbH4=;
+	s=arc-20240116; t=1780073133; c=relaxed/simple;
+	bh=adm4Xg68sOp6Hdjli3T7/GamU7ER4+2eHQAszvxhcg8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LpBdmj0oYqSsREr4v8VeOO5LTrFsgGeHvIW4OGK8BPuW5jhOh57rOAXbFXqpaKulBc21HkH0jL6B5NVsn6Cpo0/VVPve1pRUjLxh/as0tlZv8OEUDcNb1538kXIF82TnJP2vhT6CW9g3hxuKUx3jYdkPGqr+Ee0QJFP5wf9Y8Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QUNwOBtd; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=USMSMMqJj0yWdvTrV0eAJRgMmqR0aV14hn8Oe+g//pky7TbuzVrUJ37C94RKv4ZCsWeZN5N8HJ11zsXpcGL9BMX+N+LKTm/HAM9cbq1IvmJmKSWN5+wplw4Ew1lLH9LDO7BtpMBP4i5GvbwMuQPvQrTNRfpUjsLUDziQm/2wtfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+6m3z+x; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QUNwOBtd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC151F00893;
-	Fri, 29 May 2026 15:40:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+6m3z+x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8389C1F00899;
+	Fri, 29 May 2026 16:45:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780069248;
-	bh=hAYoCu/RXfyftNoJ6VS8vSHQtBSJuT1PmOIzykcmtbQ=;
+	s=k20260515; t=1780073132;
+	bh=GI/3CxbtRcVE+9zBOcv6zZDBqjLvSiyQcrxy+I1s2kY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QUNwOBtdHlaVN6zntNCHNfsn9Ya0qsXlEmh52j+bxLKsBC7DIzIhnvBoM/3IgCcca
-	 SCvz/Xu9OuvcHaAxbRg085ySDA5hW8nz97lugGsuVBxcKgxO0GYiYRmxvcuKmWaXGe
-	 /yCDUypGwkcF+2Nio/qTMTlS5VxsGSXdcEvsi7O20rDRUhEG6P6txj3YadQLjzqxAa
-	 SWQqIOHjkCz1TNbdHPsMERpiVQQKHfxRiuXjUNscx6ltv+N2VO6QzSyvNZP+YDsMHV
-	 XYgxVmHVu1BvYKm/VTdcnV+jNFcB1EB0mOjWOr7ioAP8W/elBicMpuRwJrXVyYr5Uj
-	 Y3d3AMnr7Thcw==
-Date: Fri, 29 May 2026 16:40:33 +0100
+	b=F+6m3z+xQ394skheiMjunzJhlBgB+CzilkptCdn5ktna0OC9prPxP1/JKJw82p+YI
+	 UXVqD0hCer/BB0QybutXjH03Y5iQs+hfrBjQIOsoUaUwmy4zCcGVTKTiD+3qLFeILI
+	 dJosqiE6T+i1kzFoqbVlDw9pf1t0BnX6hulULUji5sihczml9EFhDc/VCXiPMlB47N
+	 nn0n2fVF7KDRNWHHf6uD4hn09Uo+C96XSmN4PRA67PjSlObXIW+qgLxqzYFOm82NRZ
+	 x+UgPpKrUPQW82c2RprpiyLwOu2aYKuxRl1lSijFKgSHKXlSixB2r4swYDEj+GDr4H
+	 7sD6NQXv88zBg==
+Date: Fri, 29 May 2026 17:45:24 +0100
 From: Lorenzo Stoakes <ljs@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Barry Song <baohua@kernel.org>, wangtao <tao.wangtao@honor.com>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, 
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, 
-	"x86@kernel.org" <x86@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
-	"david@kernel.org" <david@kernel.org>, "willy@infradead.org" <willy@infradead.org>, 
-	"sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>, 
-	"luizcap@redhat.com" <luizcap@redhat.com>, 
-	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
-	"jack@suse.cz" <jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>, 
-	"harry@kernel.org" <harry@kernel.org>, "jannh@google.com" <jannh@google.com>, 
-	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
-	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>, 
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
-	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, 
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
-	"matthew.brost@intel.com" <matthew.brost@intel.com>, "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, 
-	"rakie.kim@sk.com" <rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>, 
-	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, 
-	"apopple@nvidia.com" <apopple@nvidia.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
-	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
-	"dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>, 
-	wangzicheng <wangzicheng@honor.com>
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
- creation
-Message-ID: <ahmzXSN_sQYmq2Jp@lucifer>
-References: <20260527110147.17815-1-tao.wangtao@honor.com>
- <ahcANgFDFwfC0v1q@lucifer>
- <b24b4a8198ba412f8b8b42c43dccd058@honor.com>
- <ahf2mJg9OOWvu0jA@lucifer>
- <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
- <87qzmu2r0t.fsf@trenco.lwn.net>
+To: Dev Jain <dev.jain@arm.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, jgg@ziepe.ca, 
+	leon@kernel.org, david@kernel.org, shuah@kernel.org, vbabka@kernel.org, 
+	jannh@google.com, pfalcato@suse.de, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, balbirs@nvidia.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	ryan.roberts@arm.com, anshuman.khandual@arm.com, stable@vger.kernel.org
+Subject: Re: [PATCH] fs/proc/task_mmu: do not warn on seeing non-migration
+ pmd entry
+Message-ID: <ahmdJFCw2arBdsd9@lucifer>
+References: <20260529111704.1078346-1-dev.jain@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -76,30 +47,109 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87qzmu2r0t.fsf@trenco.lwn.net>
+In-Reply-To: <20260529111704.1078346-1-dev.jain@arm.com>
 
-On Fri, May 29, 2026 at 09:07:30AM -0600, Jonathan Corbet wrote:
-> Barry Song <baohua@kernel.org> writes:
+On Fri, May 29, 2026 at 11:17:03AM +0000, Dev Jain wrote:
+> pagemap_pmd_range_thp() warns if a non-present PMD is not a migration
+> entry. This became false once device-private entries at the PMD level were
+> added.
 >
-> > After coming back from Zagreb, I kept trying to find one or
-> > two full days to read Lorenzo's code and slides carefully and
-> > write a blog about them. Unfortunately, I have been completely
-> > busy with other work. Sigh... we always seem to have too many
-> > non-upstream tasks.
-> >
-> > If possible, I'd really appreciate it if you could take a
-> > deep dive into it and write a detailed blog post. I'd be
-> > very eager to read it and better understand the overall design.
-> > Otherwise, I'll try to find some time next week or later to
-> > go through it myself.
+> One can hit the warning by patching hmm-tests.c with the following:
 >
-> It's still somewhat superficial, but in case it's helpful:
+> diff --git a/tools/testing/selftests/mm/hmm-tests.c b/tools/testing/selftests/mm/hmm-tests.c
+> index e1c8a679a4cf3..7f0a3384f3c5f 100644
+> --- a/tools/testing/selftests/mm/hmm-tests.c
+> +++ b/tools/testing/selftests/mm/hmm-tests.c
+> @@ -209,6 +209,37 @@ static int hmm_dmirror_cmd(int fd,
+>  	return 0;
+>  }
 >
->   https://lwn.net/Articles/1072378/
+> +static int hmm_read_self_pagemap(void *addr, unsigned long npages,
+> +				 unsigned long page_size)
+> +{
+> +	const size_t entry_size = sizeof(uint64_t);
+> +	const off_t offset = ((uintptr_t)addr / page_size) * entry_size;
+> +	uint64_t *entries;
+> +	ssize_t nread;
+> +	int fd;
+> +
+> +	entries = malloc(npages * entry_size);
+> +	if (!entries)
+> +		return -ENOMEM;
+> +
+> +	fd = open("/proc/self/pagemap", O_RDONLY);
+> +	if (fd < 0) {
+> +		free(entries);
+> +		return -errno;
+> +	}
+> +
+> +	nread = pread(fd, entries, npages * entry_size, offset);
+> +	close(fd);
+> +	free(entries);
+> +
+> +	if (nread < 0)
+> +		return -errno;
+> +	if ((size_t)nread != npages * entry_size)
+> +		return -EIO;
+> +
+> +	return 0;
+> +}
+> +
+>  static void hmm_buffer_free(struct hmm_buffer *buffer)
+>  {
+>  	if (buffer == NULL)
+> @@ -2314,6 +2345,10 @@ TEST_F(hmm, migrate_anon_huge_fault)
+>  	ASSERT_EQ(ret, 0);
+>  	ASSERT_EQ(buffer->cpages, npages);
 >
+> +	/* Exercise pagemap on a PMD device-private entry. */
+> +	ret = hmm_read_self_pagemap(buffer->ptr, npages, self->page_size);
+> +	ASSERT_EQ(ret, 0);
+> +
+>  	/* Check what the device read. */
+>  	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
+>  		ASSERT_EQ(ptr[i], i);
 
-I found it to be great as usual :)
+Thanks for this!
 
-> jon
+though, hmm it really feels like you maybe want to add this as a test and
+make this a series :)
+
+Andrew is usually fine with adding tests as part of a fix I believe!
+
+>
+>
+> Therefore, remove the stale migration-only assertion.
+>
+> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
+
+The logic does seem sense, it does seem like something of an oversight here
+and I can repro the assert (though I have to fix something else first on my
+system, patch incoming for that...!)
+
+> ---
+> Applies on mm-unstable (404fb4f38e8f).
+>
+>  fs/proc/task_mmu.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 1e3a15bf46f4e..58938e62154d9 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -2129,7 +2129,6 @@ static int pagemap_pmd_range_thp(pmd_t *pmdp, unsigned long addr,
+>  			flags |= PM_SOFT_DIRTY;
+>  		if (pmd_swp_uffd_wp(pmd))
+>  			flags |= PM_UFFD_WP;
+> -		VM_WARN_ON_ONCE(!pmd_is_migration_entry(pmd));
+>  		page = softleaf_to_page(entry);
+
+>  	}
+>
+> --
+> 2.43.0
+>
 
 Cheers, Lorenzo
