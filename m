@@ -1,103 +1,90 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798C5306B31
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 04:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7B82AF00;
+	Fri, 29 May 2026 05:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780030292; cv=none; b=fNC5PwuIpg8hQPaogpYk/HHpEQvwl7ueJX4ggLHUCeORpsZ+vTgr/NvYhI8Zaal/TuvHNZMqsJg9tjWR5/qgC5iaUQdsyifpZT6S6gFVWeXKV9OLICaDtdh5AHtCR8eDS921ChLKo6qYX6+SzvEUo+IlSVVyy4mzuuHkVL+2i0U=
+	t=1780033002; cv=none; b=YaRVj+oPhfuNyGSX3bPSo7hpgr32jpMTFvxUiLD1jBIiz7+FpQ1zD6q+NmOi128OKbLLK33eF1OQM3GpKA+SMijIESrCjY1zEZUWmJesgHO6QVsp1MNMIuVyUyaY399JerhexOMX5AtIJwWsH1ndIbq8r3234JizyBzIX5OhZpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780030292; c=relaxed/simple;
-	bh=csXtqmfNt7VlKqy5YrQQzRdfzgTn5uRyKAcFEOYoWP0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kxPnoly5emgLDEKm7W8wEKfjryS2mo3m9iuxyNwVTDP7QlmzUBUjj2BnN+NwJlS0WAHVXjzbqjGWenTriJTINp2DUY/LxjCxbz8bHfRItXhp24Mcq/wzLZqolsFmhK2GHa8PbECWHzqEOM3Tq0A0IZ7oTwiZo6bx3uPAyO3pNc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Fc9tjiNr; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780033002; c=relaxed/simple;
+	bh=MuWcljyp7OOdH9o85PvmckiMkDkWaaHun8MLuCLlIr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n2/0bMUpRGMPCW0RbjwWQXRnqCJLBROxhRHb//jkhojwyeSkuBjZAQuK3Z+kaboEK6oh1YLFxk7aq4OzXfNmuy31c1iRWZ2bB1G5U5C90eO9TQTxX3snJSAqH+qg6i+PeFnfL+DLetlnz17ayVk2B5dnxvRI4mNhLFBVaY2uRr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vZ6FwFY/; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Fc9tjiNr"
-Message-ID: <5e74168a-5a54-4ad3-8b1d-d4c2cc941de4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780030288;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J9uleFF/SNpzQuaSDmEBCmTqADcd4XvDfxCE6oEFePQ=;
-	b=Fc9tjiNr6lUrTySRdLPSGoVKTjdBNZ4y0PFqegzYwRB148YEHXemsvt2E6xI2cEC44NbNl
-	C30QKmyxyKQJRIo0UoH7fi4Th8HCrNwXJtoc8ce94tsiHWYEkNDDrfT81O8wgLZQJmXW4o
-	CViCJKU+1pjNhrK49C9Zoj2zcFA942w=
-Date: Fri, 29 May 2026 12:51:08 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vZ6FwFY/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=aWo/gTZ+lk7qCswHD1K4xHit8Q7TVDZZNoyS6wwTu8Y=; b=vZ6FwFY/6VqF6WzikjGIZxuBlC
+	FLMmpJLHB1p5hx2CsiBI/QUAU2dEbJULNxIZqhYJcJWSj4LkthqJ3RzSqurUj8ga5p7zkk+DGxIbb
+	l0CrRbsr9CTjvx51lSw1qc0faVXR5JH0vmj6Ikbyfh23v42jgWYoZ6v2AbGP/kjGmb2GZAjzcPI6z
+	IluxeI7aHavbJ3PLPUbgjtngBQyObKDGlnQbakChVVkOGCAP4EJy/6Umqu93cGXoPGws54kMp3tED
+	U+OMb9FtkrQnZhUtkvZlDtU4ulHdOD05FgUGQCY0ug52p0Bk0z6/rwsAHUr9uOCWNjjK+d9jeTFmX
+	Q1Ew1VRw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wSptf-00000006laY-1dEg;
+	Fri, 29 May 2026 05:36:39 +0000
+Date: Thu, 28 May 2026 22:36:39 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Bart Van Assche <bvanassche@acm.org>, Theodore Tso <tytso@mit.edu>,
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>,
+	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
+	Akilesh Kailash <akailash@google.com>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <christian@brauner.io>
+Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
+ remembering inode number
+Message-ID: <ahkl52N3RDcusCNd@infradead.org>
+References: <20260521155748.GA79343@macsyma-wired.lan>
+ <ag_OVwPF49LSZ7rz@google.com>
+ <20260522141115.GA8258@macsyma-wired.lan>
+ <ahCNmWbcd_2lAJyk@google.com>
+ <20260522224108.GA18663@macsyma-wired.lan>
+ <ahTzHyHBL8t0iNBR@google.com>
+ <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
+ <f4e521ac-2381-49ca-8dcc-3cb3cf3ffaea@acm.org>
+ <ahaPDHiXcJoVShPv@infradead.org>
+ <ahcU5xbVy7xjps02@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 3/3] bpf: cgroup: restore sysctl new-value replacement
-To: Dawei Feng <dawei.feng@seu.edu.cn>, martin.lau@linux.dev
-Cc: emil@etsalapatis.com, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, jolsa@kernel.org, kees@kernel.org,
- joel.granados@kernel.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jianhao.xu@seu.edu.cn,
- stable@vger.kernel.org, Zilin Guan <zilin@seu.edu.cn>
-References: <20260529031026.2716641-1-dawei.feng@seu.edu.cn>
- <20260529031026.2716641-4-dawei.feng@seu.edu.cn>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-In-Reply-To: <20260529031026.2716641-4-dawei.feng@seu.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahcU5xbVy7xjps02@google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Wed, May 27, 2026 at 03:59:35PM +0000, Jaegeuk Kim wrote:
+> F2FS merges bios before submit_bio, regardless of small or large folios,
+> since the block addresses are consecutive. So, I think IO subsystem was
+> working in full speed.
 
-On 5/29/26 11:10 AM, Dawei Feng wrote:
-> Commit 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value
-> helpers") changed the success return value to 0, but failed to update the
-> corresponding check in __cgroup_bpf_run_filter_sysctl(). Since
-> bpf_prog_run_array_cg() now returns 0 on success, the legacy ret == 1
-> condition is never satisfied. As a result, the modified value is ignored,
-> and bpf_sysctl_set_new_value() fails to replace the write buffer.
->
-> Fix this by checking for a return value of 0 instead, so cgroup/sysctl
-> programs can correctly replace the pending sysctl buffer.
->
-> This bug was discovered during a manual code review. Tested via a
-> cgroup/sysctl BPF reproducer overriding writes to a target sysctl.
-> Pre-fix, bpf_sysctl_set_new_value("foo") was silently ignored: the write
-> returned 8192 and the value remained "600". Post-fix, the BPF replacement
-> buffer properly propagates: the write returns 3 and the value updates to
-> "foo".
->
-> Fixes: 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value helpers")
+As does every other remotely modern file system.  But that merging is
+surprisingly expensive, which is why using folios gets really major
+performance improvements.
 
+For one doing these checks to merge touch quite a few cache lines.
+Second, devices are often a lot more efficient if they see fewer SGL
+entries.  I.e. having a 1MB bio a single SGL tends to work better than
+having 256 of them.
+The same is true in the kernel code itself, both in the submission path
+(dma mapping and co), and even more so in the page cache handling
+both before submitting and in the completion path.
 
-Change is fine but fixes tag is wrong like the bot said.
+See Bart's patch about how long the walk of the bio_vecs in the f2fs
+completion path can take.  We had similar issues in XFS even in the
+workqueue completion path due to lack of rescheduling, and these simply
+go away when you do the folio manipulation in larger chunks (LAZY_PREEMPT
+would avoid the need to explicit rescheduling these days, but that just
+papers over the symptoms in this case).
 
-> Cc: stable@vger.kernel.org
->
-> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-
-I saw a reviewed-by tag given by Emil in previous thread. Pls carry it 
-when sending new verson.
-
-
-> ---
->   kernel/bpf/cgroup.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index a0b5f8cd8b10..3f06e2270f5c 100644
-> --- a/kernel/bpf/cgroup.c
-> +++ b/kernel/bpf/cgroup.c
-> @@ -1935,7 +1935,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table_header *head,
->   
->   	kfree(ctx.cur_val);
->   
-> -	if (ret == 1 && ctx.new_updated) {
-> +	if (!ret && ctx.new_updated) {
->   		kvfree(*buf);
->   		*buf = ctx.new_val;
->   		*pcount = ctx.new_len;
