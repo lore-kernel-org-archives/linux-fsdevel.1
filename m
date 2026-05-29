@@ -1,384 +1,270 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F391517745
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 14:12:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F113930F934
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 14:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780063940; cv=none; b=UOxdMgdpHgoWHQef1jlzXuOTRARaUYj4sqxADLrYvCK8ytIAkWmfO/jCEw0PPFPyKNeoSIqa1JkKys8hXfJT88AkEbgC0QZqQsWi+hlKMS6+s1m5WqGOE0X1jbyyeqRySwqCd4FxvkS+k8gLkTqgvc/1lb55XbwMY0b4cfU/MLc=
+	t=1780063950; cv=none; b=cAK1NcLycc7bR5CTWwJGRzV5CSH6XA63b/uVwMdZavIv/L9KeNx0GnuHfm6DjSHQ17mR1bLa2A5VBrdqi8MxxzKrMr6X4J4bUMw7+YKraOtBBhZWqvzAkEc1Q1u+fIH8zr6rVQBrt4kKbNXhVpCc+G9FYlzAXIeul0mC9yt2Evg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780063940; c=relaxed/simple;
-	bh=NRtgKlLwC2XEPo/n9hVMr6Bp1BPKeoqH+gCzzU1cOKE=;
+	s=arc-20240116; t=1780063950; c=relaxed/simple;
+	bh=CYirGH2Xl9zJCjgoD1uWlouBi2vpfD6S/KcDNz9UHrI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uquLH3I1G/nK2FzeyvLA6LFIB1VdWU0SZBkrhVCoPcguqoTdcdp/SF43rc64QslVEvw+djAxaWz5bK8M3jHxYPbE0UPetEv1ZMQKxWXmiGB/kZnpCuSzqK8+Tm+pQ76G6YaWI2yMUu182lV9BBGh+C/7CyZ+Ch2J467UmnkyYJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=efu7M7RF; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=Wgjgs+W0TuwTQcoJkxII/ySeafDKgovyxmBgsjCK+7VVWsMK8UrfQaf0M5KQ/I88uNZmnSk+3ecLIq2bb3dxwgB2LYUHzE/N7UDq3kSOfK5pr8hdhWIlZIihWTaasUU2Tu7dJpVR09lA+egr9nnlHgquJpvKhLCjJhrMZp/s/ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JLPCvJK7; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efu7M7RF"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-368f25ff4c4so8075159a91.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 07:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780063938; x=1780668738; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RRnTfBH9bYTxNsieG48Nyv91JQy6+LpC3fmsGgDXrrU=;
-        b=efu7M7RFjjKxbzK1WOu+XInuUKEMMvPeEV0JB5Im/1E7R23OVZRCScmnZR99tygDH9
-         tItbSKm0TtsSzai7v1UecT7UOsQDtlgU4Fo0179Z2G4uckzYvEll/h7Eyb3q/cGOs1DN
-         AlVO+mhf0mwJ64qGmsKtpBX6gEKNUiHbF+nKwThdYZwq0kbnBRzV7EWqM/8nFJjXcTk4
-         clGuj4dBusNIcOEeZ16HKFJTE+6C0okkp7HP2Mt1wftWr86J/jG3DB7P+SaofCiemwH/
-         /WpnlERrg/UarTST/TyS8t4RZh8e8Hh1JbvbMnHyK9/DUX1gP149TdnSRHlbHwxLQrFJ
-         njQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780063938; x=1780668738;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RRnTfBH9bYTxNsieG48Nyv91JQy6+LpC3fmsGgDXrrU=;
-        b=rpa8FbTw7KMsV2n9VTnBadhuyeL3nPYbIzw7j+QWR59VWha82wu/SLfnAtlMqGh71n
-         0SKhPLi+//e0GzKIGICzvAGITlTJkOFKMeY7DK0A4tYVIyDLIywhPs7Wo5SaJwQ5xiu7
-         jiVxRYYyqLGi8IObrSF5laGbf2GPkn9VnZlWiH4JKzALqmyPHn2tevokRJGaJX+REJt1
-         GthPEBju1bxfSAd+jQ/8tvr135eaZ4sXANRkxfKnEsJkj4RrqAvkERFroXmmp7V0iDD/
-         nQDKx+N8r3G7yB2zsPKjTL8ySQOseUohlXrPSbBjHcfP9DvAynOcnwQ5WUWiphBwyzFm
-         8RNw==
-X-Forwarded-Encrypted: i=1; AFNElJ98g0FXsRVMQel75ftIwfgjptcimRCqUh13e3UjqVQKchMule8lppWFONXmoy4hg1QMoGbo0cvrfWHXa6xO@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTBfu62ZnWCkYY4ad3ZGWJn7IQZ6OEzdoowcCxJ6iXFfLeDDdY
-	6ezE5GaPZBgw6kFxLBpIZO5vjajn13GZYSscI3teN4y/Ly4Bc1zFjz1D
-X-Gm-Gg: Acq92OGWHIFjgXwhqrNhsdg02D8EEDL8gazhaoU4ChudWZN2SNZF/t8CAJrxqOijitI
-	Di3EZM6tIBgcWciFhIJ0rZa3e/SInSdJ1yZFxy0ohMZ/vnwVoVmzByXFPyZbPMTdOWm+ZnSYk+X
-	s0a1z4Y4yKKYyNtRurLZXMTTZeSintahu9nmpBdGnYSSa5MujhAFPpDqAzymEhB+YVKEUhzwv5g
-	wCx/dgaU/9gzfS9qxRRdEhTdKidVhQNJ/cbBeCaQteQ6zYsOIowpk9MnFguupyzESE5M6QmDIkB
-	IVO0Yuqdy8cCitUQTVo4lDVk79mppVWbF3v31L2fX60B7Z9XYcb3WHgzSSoED57Ts5rQ/orcg3S
-	qWC+562Jeji89S0RDg8ge8koYWYkR4IDeFiMqJSmuLCFwJ6GNXc8WXiwnSkay/ptVp5KaaqPw7c
-	FSl2TR+1/Tt6XWnYW0GZp8HKgfdsazKRTK9X2YqGFzeawyYe/lLdjG3/y5MEo9JoglWgyOGPtII
-	C1j+bY=
-X-Received: by 2002:a17:90b:3dc4:b0:36b:9faf:8396 with SMTP id 98e67ed59e1d1-36bbcd407demr3603647a91.11.1780063937900;
-        Fri, 29 May 2026 07:12:17 -0700 (PDT)
-Received: from ?IPV6:240e:390:a90:671:f49e:f306:1054:8e7? ([240e:390:a90:671:f49e:f306:1054:8e7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36bc6b7c178sm2048091a91.15.2026.05.29.07.12.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 May 2026 07:12:17 -0700 (PDT)
-Message-ID: <458bda7a-c3c6-4cb3-9c05-0718cf2ef95f@gmail.com>
-Date: Fri, 29 May 2026 22:12:12 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JLPCvJK7"
+Message-ID: <185f1caf-b33d-4467-beb5-51bd8520ac78@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780063936;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d4X9vwkCHSddENx5Gglm/hOpAgU7U6Z+T82AMSjAjBE=;
+	b=JLPCvJK79SCpodHOC8Zl7IddRjrtvqukUPFRrtPCcLMxUdCF4RZ8uQartrpJUibd2h/66X
+	OJmBi26/H0srMKbN/NTfSuaPmdtYQJqsTVgTE3BqugvznrnDzBw13w0Sr97417lH5mhsow
+	m1e8Tfw0EnsU1yOvo438g2t//YFHiRs=
+Date: Fri, 29 May 2026 15:11:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/23] ext4: implement writeback path using iomap
-To: Ojaswin Mujoo <ojaswin@linux.ibm.com>, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
- djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
- yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-10-yi.zhang@huaweicloud.com>
- <ahboWtDYXagrgTR4@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Subject: Re: [PATCH v6 2/2] mm: use mapping_max_folio_order() for
+ force_thp_readahead order
+To: Pedro Falcato <pfalcato@suse.de>, willy@infradead.org, jack@suse.cz
+Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org,
+ ryan.roberts@arm.com, linux-mm@kvack.org, r@hev.cc,
+ Andrew Donnellan <andrew+kernel@donnellan.id.au>, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, brauner@kernel.org,
+ catalin.marinas@arm.com, dev.jain@arm.com, kees@kernel.org,
+ kevin.brodsky@arm.com, lance.yang@linux.dev,
+ "Liam R. Howlett" <liam@infradead.org>,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, ljs@kernel.org, mhocko@suse.com,
+ npache@redhat.com, pasha.tatashin@soleen.com, rmclure@linux.ibm.com,
+ rppt@kernel.org, surenb@google.com, vbabka@kernel.org,
+ Al Viro <viro@zeniv.linux.org.uk>, wilts.infradead.org@pedro-suse.lan,
+ ziy@nvidia.com, hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev,
+ kernel-team@meta.com
+References: <20260528165635.2068012-1-usama.arif@linux.dev>
+ <20260528165635.2068012-3-usama.arif@linux.dev>
+ <ahlh2vdHEGo6ZSot@pedro-suse.lan>
+ <cc9a1cf7-7b96-439a-b0be-ecdcf27b5da5@linux.dev>
+ <ahmSolHvUChl-3vM@pedro-suse.lan>
 Content-Language: en-US
-From: Zhang Yi <yizhang089@gmail.com>
-In-Reply-To: <ahboWtDYXagrgTR4@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <ahmSolHvUChl-3vM@pedro-suse.lan>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi, Ojaswin!
 
-On 5/27/2026 8:49 PM, Ojaswin Mujoo wrote:
-> On Mon, May 11, 2026 at 03:23:29PM +0800, Zhang Yi wrote:
->> From: Zhang Yi <yi.zhang@huawei.com>
+
+On 29/05/2026 14:40, Pedro Falcato wrote:
+> On Fri, May 29, 2026 at 01:19:03PM +0100, Usama Arif wrote:
 >>
->> Add the iomap writeback path for ext4 buffered I/O. This introduces:
 >>
->>   - ext4_iomap_writepages(): the main writeback entry point.
->>   - ext4_writeback_ops: a new iomap_writeback_ops instance to handle
->>     block mapping and I/O submission.
->>   - A new end I/O worker for converting unwritten extents, updating file
->>     size, and handling DATA_ERR_ABORT after I/O completion.
+>> On 29/05/2026 11:01, Pedro Falcato wrote:
+>>> On Thu, May 28, 2026 at 09:55:20AM -0700, Usama Arif wrote:
+>>>> The force_thp_readahead path in do_sync_mmap_readahead() is gated on
+>>>> HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER and always requests
+>>>> HPAGE_PMD_ORDER / HPAGE_PMD_NR. On configurations where HPAGE_PMD_ORDER
+>>>> exceeds MAX_PAGECACHE_ORDER, notably arm64 with a 64K base page size,
+>>>> VM_HUGEPAGE mappings cannot use this path and fall back to the non-forced
+>>>> mmap readahead path even when the mapping supports useful large folios.
+>>>>
+>>>> Keep the existing PMD-sized behavior when HPAGE_PMD_ORDER fits in the
+>>>> page cache. When it does not, enable forced readahead for mappings that
+>>>> support large folios and request an order capped by both
+>>>> mapping_max_folio_order(mapping) and 2MB.
+>>>>
+>>>> 2MB is chosen as the cap because it matches the PMD size on x86_64
+>>>> and on arm64 with 4K or 16K base pages, so the size/memory-pressure
+>>>
+>>> 16K base page size's PMDs should be 32M, no? Am I misunderstanding what
+>>> you mean here?
+>>>
 >>
->> Core implementation details:
+>> Yes, should have just said 4K. Messed up when rewriting the commit
+>> message. Andrew Thanks for merging in mm-new, would it be possible
+>> to remove "or 16K" from the commit message. I can send a new revision
+>> as well if that is easier and preferred.
 >>
->>   - ->writeback_range() callback
->>     Calls ext4_iomap_map_writeback_range() to query the longest range of
->>     existing mapped extents. For performance, when a block range is not
->>     yet allocated, it allocates based on the writeback length and delalloc
->>     extent length, rather than allocating for a single folio at a time.
->>     The folio is then added to an iomap_ioend instance.
+>>>> tradeoff for folios of that size is already well understood. On arm64
+>>>> with a 64K base page size, 2MB is also the contiguous-PTE (contpte)
+>>>> block size, so the resulting folios coalesce into a single TLB entry
+>>>> and reduce TLB pressure on the readahead path.
+>>>>
+>>>> The final allocation order may still be clamped by page_cache_ra_order()
+>>>> to the mapping and request geometry, but this gives VM_HUGEPAGE mappings
+>>>> on such configurations a large-folio readahead request instead of
+>>>> dropping back to base-page readahead.
+>>>>
+>>>> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+>>>> ---
+>>>>  mm/filemap.c | 27 +++++++++++++++++++--------
+>>>>  1 file changed, 19 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/mm/filemap.c b/mm/filemap.c
+>>>> index a16b33e0fc71..bfb891d9da1f 100644
+>>>> --- a/mm/filemap.c
+>>>> +++ b/mm/filemap.c
+>>>> @@ -3312,14 +3312,23 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
+>>>>  	struct file *fpin = NULL;
+>>>>  	vm_flags_t vm_flags = vmf->vma->vm_flags;
+>>>>  	bool force_thp_readahead = false;
+>>>> +	unsigned int thp_order = 0;
+>>>>  	unsigned short mmap_miss;
+>>>>  
+>>>>  	ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
+>>>>  
+>>>>  	/* Use the readahead code, even if readahead is disabled */
+>>>> -	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
+>>>> -	    (vm_flags & VM_HUGEPAGE) && HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER)
+>>>> -		force_thp_readahead = true;
+>>>> +	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && (vm_flags & VM_HUGEPAGE)) {
+>>>> +		if (HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER) {
+>>>> +			force_thp_readahead = true;
+>>>> +			thp_order = HPAGE_PMD_ORDER;
+>>>> +		} else if (mapping_large_folio_support(mapping)) {
+>>>> +			force_thp_readahead = true;
+>>>> +			thp_order = min_t(unsigned int,
+>>>> +					  mapping_max_folio_order(mapping),
+>>>> +					  get_order(SZ_2M));
+>>>
+>>> This looks somewhat arbitrary to me (as does the old logic). It seems more
+>>> natural (correct?) to do this:
+>>>
+>>> 	if (THP_ENABLED && (vm_flags & VM_HUGEPAGE)) {
+>>> 		if (mapping_large_folio_support(mapping)) {
+>>> 			force_thp_readahead = true;
+>>> 			/*
+>>> 			 * Cap THP readahead to either the max folio order the
+>>> 			 * mapping supports, or the max order the page cache
+>>> 			 * supports (useless to try more), or the hugepage PMD
+>>> 			 * order (CPU can't benefit from larger).
+>>> 			 */
+>>> 			thp_order = min3(mapping_max_folio_order(mapping),
+>>> 					MAX_PAGECACHE_ORDER, HPAGE_PMD_ORDER);
+>>> 		}
+>>> 	}
+>>>
 >>
->>   - ->writeback_submit() callback
->>     Registers ext4_iomap_end_bio() as the end bio callback. This callback
->>     schedules a worker to handle:
->>     - Unwritten extent conversion.
->>     - i_disksize update after data is written back.
->>     - Journal abort on writeback I/O failure.
-> 
-> Hi Zhang, the changes look good. I have a few comments below:
+>> So this can result in extreme memory pressure. For example, on 64K base page size,
+>> with HPAGE_PMD_ORDER = 13 (512M) and MAX_PAGECACHE_ORDER = 11 (128M), this will evaluate
+>> THP order to 128M. I think Jan mentioned in previous versions that there are already
+>> reports of high memory pressure due to large file folios, and we are seeing this
+>> in our fleet as well with xfs.
 >>
->> Key changes and considerations:
+>> I chose 2M cap as that is what most (not all) architectures which currently support this
+>> hugepage code flow are currently used to, and on archs + base page size combination which
+>> just evaluate this code to base page, for example 64K base page size, it will provide a
+>> performance uplift without causing excessive memory pressure.
+> 
+> For what it's worth, memory pressure is still a problem even on 2MB folios. But
+> yes, I understand.
+> 
+> For what it's worth, I don't think it's such a big issue in this case - you're
+> asking for THPs, and you're getting them - though maybe not efficiently because
+> these aren't at the PMD level. But this is also true for e.g x86 where an
+> an order-3 folio or order-7 folio are completely useless for the hardware, since
+> there is no mTHP to speak of (and, with that, you also lose PG_active and
+> PG_reference precision as you only keep one of each for each folio, amongst
+> other tradeoffs).
+> 
+
+So there is hardware TLB coalescing on almost every new AMD CPU, I believe it is
+at 32kB, and we would benefit from that. On top of that, we would reduce pagefaults.
+
 >>
->> - Append write and unwritten extents
->>    Since data=ordered mode is not used to prevent stale data exposure
->>    during append writebacks, new blocks are always allocated as unwritten
->>    extents (i.e. always enable dioread_nolock), and i_disksize update is
->>    postponed until I/O completion.
-> 
-> Makes sense.
-> 
->>    Additionally, the deadlock that the
->>    reserve handle was expected to resolve does not occur anymore.
-> 
-> I guess this is since we don't use ordered data so we can't block on
-> starting a txn in end io.
-
-Yep.
-
-> 
->>    Therefore, the end I/O worker can start a normal journal handle
->>    instead of a reserve handle when converting unwritten extents.
+>> In pagemap.h, we have
 >>
->> - Lock ordering
->>    The ->writeback_range() callback runs under the folio lock, requiring
->>    the journal handle to be started under that same lock. This reverses
->>    the order compared to the buffer_head writeback path. The lock ordering
->>    documentation in super.c has been updated accordingly.
+>> #define PREFERRED_MAX_PAGECACHE_ORDER	HPAGE_PMD_ORDER
+>> #define MAX_PAGECACHE_ORDER	min(MAX_XAS_ORDER, PREFERRED_MAX_PAGECACHE_ORDER)
 >>
->> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->> ---
->>   fs/ext4/ext4.h        |   4 +
->>   fs/ext4/inode.c       | 208 +++++++++++++++++++++++++++++++++++++++++-
->>   fs/ext4/page-io.c     | 126 +++++++++++++++++++++++++
->>   fs/ext4/super.c       |   7 +-
->>   fs/iomap/ioend.c      |   3 +-
->>   include/linux/iomap.h |   1 +
->>   6 files changed, 346 insertions(+), 3 deletions(-)
+>> So MAX_PAGECACHE_ORDER <= HPAGE_PMD_ORDER is always true.
 >>
->> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
->> index 4832e7f7db82..078feda47e36 100644
->> --- a/fs/ext4/ext4.h
->> +++ b/fs/ext4/ext4.h
->> @@ -1173,6 +1173,8 @@ struct ext4_inode_info {
->>   	 */
->>   	struct list_head i_rsv_conversion_list;
->>   	struct work_struct i_rsv_conversion_work;
->> +	struct list_head i_iomap_ioend_list;
->> +	struct work_struct i_iomap_ioend_work;
->>   
->>   	/*
->>   	 * Transactions that contain inode's metadata needed to complete
->> @@ -3870,6 +3872,8 @@ int ext4_bio_write_folio(struct ext4_io_submit *io, struct folio *page,
->>   		size_t len);
->>   extern struct ext4_io_end_vec *ext4_alloc_io_end_vec(ext4_io_end_t *io_end);
->>   extern struct ext4_io_end_vec *ext4_last_io_end_vec(ext4_io_end_t *io_end);
->> +extern void ext4_iomap_end_io(struct work_struct *work);
->> +extern void ext4_iomap_end_bio(struct bio *bio);
->>   
->>   /* mmp.c */
->>   extern int ext4_multi_mount_protect(struct super_block *, ext4_fsblk_t);
->> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
->> index 1ae7d3f4a1c8..a80195bd6f20 100644
->> --- a/fs/ext4/inode.c
->> +++ b/fs/ext4/inode.c
->> @@ -44,6 +44,7 @@
->>   #include <linux/iversion.h>
->>   
->>   #include "ext4_jbd2.h"
->> +#include "ext4_extents.h"
->>   #include "xattr.h"
->>   #include "acl.h"
->>   #include "truncate.h"
->> @@ -4120,10 +4121,215 @@ static void ext4_iomap_readahead(struct readahead_control *rac)
->>   	iomap_bio_readahead(rac, &ext4_iomap_buffered_read_ops);
->>   }
->>   
->> +static int ext4_iomap_map_one_extent(struct inode *inode,
->> +				     struct ext4_map_blocks *map)
->> +{
->> +	struct extent_status es;
->> +	handle_t *handle = NULL;
->> +	int credits, map_flags;
->> +	int retval;
->> +
->> +	credits = ext4_chunk_trans_blocks(inode, map->m_len);
->> +	handle = ext4_journal_start(inode, EXT4_HT_WRITE_PAGE, credits);
->> +	if (IS_ERR(handle))
->> +		return PTR_ERR(handle);
->> +
->> +	map->m_flags = 0;
->> +	/*
->> +	 * It is necessary to look up extent and map blocks under i_data_sem
->> +	 * in write mode, otherwise, the delalloc extent may become stale
->> +	 * during concurrent truncate operations.
->> +	 */
->> +	ext4_fc_track_inode(handle, inode);
->> +	down_write(&EXT4_I(inode)->i_data_sem);
->> +	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, &map->m_seq)) {
->> +		retval = es.es_len - (map->m_lblk - es.es_lblk);
->> +		map->m_len = min_t(unsigned int, retval, map->m_len);
->> +
->> +		if (ext4_es_is_delayed(&es)) {
-> 
-> I understand that it is okay for us to rely on extent status ==
-> delayed here because we never reclaim delayed es entries and hence we
-> are sure to not skip any delayed block allocations here.
-
-Yeah, right.
-
-> 
->> +			map->m_flags |= EXT4_MAP_DELAYED;
->> +			trace_ext4_da_write_pages_extent(inode, map);
->> +			/*
->> +			 * Call ext4_map_create_blocks() to allocate any
->> +			 * delayed allocation blocks. It is possible that
->> +			 * we're going to need more metadata blocks, however
->> +			 * we must not fail because we're in writeback and
->> +			 * there is nothing we can do so it might result in
->> +			 * data loss. So use reserved blocks to allocate
->> +			 * metadata if possible.
->> +			 */
->> +			map_flags = EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT |
->> +				    EXT4_GET_BLOCKS_METADATA_NOFAIL |
->> +				    EXT4_EX_NOCACHE;
->> +
->> +			retval = ext4_map_create_blocks(handle, inode, map,
->> +							map_flags);
->> +			if (retval > 0)
->> +				ext4_fc_track_range(handle, inode, map->m_lblk,
->> +						map->m_lblk + map->m_len - 1);
->> +			goto out;
->> +		} else if (unlikely(ext4_es_is_hole(&es)))
-> 
-> Now that you've fixed the partial invalidate in iomap (patch 12/23)
-> can we still hit this hole case?
-
-Theoretically, no hole should be encountered; this is just defensive
-programming.
-
-> 
->> +			goto out;
->> +
->> +		/* Found written or unwritten extent. */
->> +		map->m_pblk = ext4_es_pblock(&es) + map->m_lblk - es.es_lblk;
->> +		map->m_flags = ext4_es_is_written(&es) ?
->> +			       EXT4_MAP_MAPPED : EXT4_MAP_UNWRITTEN;
->> +		goto out;
->> +	}
->> +
->> +	retval = ext4_map_query_blocks(handle, inode, map, EXT4_EX_NOCACHE);
->> +out:
->> +	up_write(&EXT4_I(inode)->i_data_sem);
->> +	ext4_journal_stop(handle);
->> +	return retval < 0 ? retval : 0;
->> +}
->> +
->> +static int ext4_iomap_map_writeback_range(struct iomap_writepage_ctx *wpc,
->> +					  loff_t offset, unsigned int dirty_len)
->> +{
->> +	struct inode *inode = wpc->inode;
->> +	struct super_block *sb = inode->i_sb;
->> +	struct journal_s *journal = EXT4_SB(sb)->s_journal;
->> +	struct ext4_map_blocks map;
->> +	unsigned int blkbits = inode->i_blkbits;
->> +	unsigned int index = offset >> blkbits;
->> +	unsigned int blk_end, blk_len;
->> +	int ret;
->> +
->> +	ret = ext4_emergency_state(sb);
->> +	if (unlikely(ret))
->> +		return ret;
->> +
->> +	/* Check validity of the cached writeback mapping. */
->> +	if (offset >= wpc->iomap.offset &&
->> +	    offset < wpc->iomap.offset + wpc->iomap.length &&
->> +	    ext4_iomap_valid(inode, &wpc->iomap))
->> +		return 0;
->> +
->> +	blk_len = dirty_len >> blkbits;
->> +	blk_end = min_t(unsigned int, (wpc->wbc->range_end >> blkbits),
->> +				      (UINT_MAX - 1));
-> 
-> This is an interesting idea. I'm just a bit worried when we have
-> range_end == LLONG_MAX (bg flush) and we will always be trying to allocate
-> MAX_WRITEPAGES, incase of a slightly fragmented FS, we might keep
-> falling into slower mballoc criterias and might waste a lot of time
-> scanning the groups.
-
-Actually, MAX_WRITEPAGES is not allocated every time; the allocated
-length also depends on the length of data that has already been delayed
-for writing, and the smaller value is taken. If the user has indeed
-performed delalloc writes on data of up to MAX_WRITEPAGES in length,
-then regardless of how fragmented the file system is, I will need to
-allocate blocks of that length. Reducing the number of calls is always
-beneficial.
-
-> 
->> +	if (blk_end > index + blk_len)
->> +		blk_len = blk_end - index + 1;
->> +
->> +retry:
->> +	map.m_lblk = index;
->> +	map.m_len = min_t(unsigned int, MAX_WRITEPAGES_EXTENT_LEN, blk_len);
->> +	ret = ext4_map_blocks(NULL, inode, &map,
->> +			      EXT4_GET_BLOCKS_IO_SUBMIT | EXT4_EX_NOCACHE);
-> 
-> Do we really need the IO_SUBMIT flag here now that we are:
-> 1. Not using ordered data
-> 2. We anyways don't use it in ext4_iomap_map_one_extent().
-> 
-> I think we can drop it.
-
-We can't drop it, because IO_SUBMIT is also used to avoid the check of
-ext4_check_map_extents_env() in ext4_map_blocks() under the writeback
-path.
-
-Cheers,
-Yi.
-
-> 
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	/*
->> +	 * The map is not a delalloc extent, it must either be a hole
->> +	 * or an extent which have already been allocated.
->> +	 */
->> +	if (!(map.m_flags & EXT4_MAP_DELAYED))
->> +		goto out;
->> +
->> +	/* Map one delalloc extent. */
->> +	ret = ext4_iomap_map_one_extent(inode, &map);
->> +	if (ret < 0) {
->> +		if (ext4_emergency_state(sb))
->> +			return ret;
->> +
->> +		/*
->> +		 * Retry transient ENOSPC errors, if
->> +		 * ext4_count_free_blocks() is non-zero, a commit
->> +		 * should free up blocks.
->> +		 */
->> +		if (ret == -ENOSPC && journal && ext4_count_free_clusters(sb)) {
->> +			jbd2_journal_force_commit_nested(journal);
->> +			goto retry;
->> +		}
->> +
->> +		ext4_msg(sb, KERN_CRIT,
->> +			 "Delayed block allocation failed for inode %llu at logical offset %llu with max blocks %u with error %d",
->> +			 inode->i_ino, (unsigned long long)map.m_lblk,
->> +			 (unsigned int)map.m_len, -ret);
->> +		ext4_msg(sb, KERN_CRIT,
->> +			 "This should not happen!! Data will be lost\n");
->> +		if (ret == -ENOSPC)
->> +			ext4_print_free_blocks(inode);
->> +		return ret;
->> +	}
->> +out:
->> +	ext4_set_iomap(inode, &wpc->iomap, &map, offset, dirty_len, 0);
->> +	return 0;
->> +}
->> +
-> 
-> <snip>
+>> At filesystem/inode setup: mapping_set_folio_order_range() 
 >>
+>> 	if (max > MAX_PAGECACHE_ORDER)
+>> 		max = MAX_PAGECACHE_ORDER;
+>>
+>> so mapping_max_folio_order() <= MAX_PAGECACHE_ORDER is also always true.
+> 
+> Right, good point. (well, I suppose it will not be true in the future as
+> someone tries to harness PMD-level cont bits)
+> 
+>>
+>> which means mapping_max_folio_order(mapping) <= MAX_PAGECACHE_ORDER <= HPAGE_PMD_ORDER is always
+>> true, and you dont need the min3(..) in your diff.
+>>
+>> Now the question is if then why not just do:
+>>
+>> 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && (vm_flags & VM_HUGEPAGE)) {
+>> 		if (mapping_large_folio_support(mapping)) {
+>> 			force_thp_readahead = true;
+>> 			thp_order = min_t(unsigned int,
+>> 					  mapping_max_folio_order(mapping),
+>> 					  get_order(SZ_2M));
+>> 		}
+>> 	}
+>>
+>>
+>> This is because this will regress the 16K ARM case where we already got 32M
+>> folios. Someone might upgrade the kernel and start getting 2M folios now.
+> 
+> So maybe limit to 32MB? It's still arbitrary but at least you get simpler
+> logic. If the architecture does not support 32MiB folios, it will clamp
+> the maximum folio order to HPAGE_PMD_ORDER, and you get the same result.
+> 
+> Does this sound correct?
+> 
+
+Yes, so if we replace it with SZ_32M, it sounds correct. I just think
+the 32M size is too large. But as you pointed out, even 2M can be too large...
+
+
+>>
+>> So IMHO the current code is correct, both in maintaining what the
+>> existing behaviour has been, but also trying to provide large folios to
+>> architectures that currently dont get them but in a controlled way.
+>>
+>> Later on, when we think or evaluate that 2M was too small a cap, it can
+>> be raised. I think its very easy to raise a cap, but much more difficult
+>> to make the cap smaller, as we might get reports on kernel upgrades that
+>> someone was getting a certain size of folio but now its much smaller.
+> 
+> I don't think this is a valid argument. You can also have reports that now
+> folios are too large and they're regressing workloads because of thrashing/
+> compaction/possibly TLB thrashing. And indeed we have several reports of that
+> (https://lore.kernel.org/linux-fsdevel/20260403193535.9970-1-dipiets@amazon.it/
+> comes to mind, plus all of the anon THP regressions over the years, including
+> in $current_year).
+
+Ack, and yes we have seen both thrashing and compaction issues due to xfs
+large folios in the fleet with x86..
+
+> 
+> Bottom line is that changing things will always affect someone :) Particularly
+> since the logic we have is not too careful at deciding what should or should
+> not be a THP (both in anon and file cases). And if (once?) we make it smarter,
+> it will surely also regress someone!
+> 
+
+Yes completely agree on this as well.
+
+So personally I do have a preference of keeping the cap at 2M atleast initially
+while we currently try and solve the issues we see with 2M alone. As we are already
+seeing reports of thrashing and compaction with just 2M, I dont think the logic
+in this patch with just an if else is that complicated.
+
+Matthew, Jan, do you have any thoughts or strong preferences on cap size?
+
+Thanks!
 
