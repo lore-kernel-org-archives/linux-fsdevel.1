@@ -1,178 +1,134 @@
-Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720AE3E9C3D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 14:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780064752; cv=none; b=IkTpsyrfQAWr4b/E1W2GpA7+SITJaGghvhVRt3YbyFXul9j6OWiiSb+BQx+SCH78GUrreT6q1qZj0nc+lRtUADgwaTeGMB9TrBC3F0w89ncCFQN+viJBXY14zj//32Ctk8qHLIHlYwHlZh8V4L4dDCry7qNlWBs8/XL5Zihv5nA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780064752; c=relaxed/simple;
-	bh=LQB2kaz9QSTegWvTSJZra84FuHw/6aS/0tC7TZJBexg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Klg9ikBpNFq5tG1L58BSvydrC8JcGDFcqkBbmWYX+f+6J60oFPDfQqQZEZHt0AqbfrnwJhn3g5qQs6dPJQfajl+yfFQlR13xF5iqcsEQxAKraIwIY31DG6ylVAeUNLAugc74NWv7rj6vd+CMA2FC/FzMkVLbCFpEywcDN3G3yvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tI83X0Wc; arc=none smtp.client-ip=74.125.82.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D2233921
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 14:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780066552; cv=pass; b=UFnrbHrhqPz7C77VK5ljUO3/qGkfHNRwkuxDJxA4BBvNZroCYvj4NUM+qc/eQDgWl2+zN92UJ43kQcTDWNbHWyMA+gWOa+Zs2tkpDqckWlX6uWSORkGeZXll56Kp81UKRULotlzqx5EVJP17hF7k9ePvs8C/KOgASysvqi2LWuc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780066552; c=relaxed/simple;
+	bh=LwJOnMXOw6081AX2/qRcsTPErxa/34W6EGMtFB2ROnQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XH5XB640VaDJvnNxjYavNdAgOLan1vEtrQCUdxlwaNv6JgGeXQpoR/X+FJYJ8D+0JhOYq6YuPusWJx7fNc4WkLEq80/Mca+RFbBPU9v3FrrhV7DeTW6dbPz9TlbLOfIcAU5wPVFRiI9AAfScsVoJABI5Y+DPAb7kFnL4Fkruor8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G31QUE6E; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tI83X0Wc"
-Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-304f0039c02so954212eec.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 07:25:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G31QUE6E"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-671f1a0d0c5so204a12.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 07:55:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780066549; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hnQjAD+ik8ShzLWQ3EIxyDibOj0zwCUEyG3AMeGKf+uQgnc458DZqV2hyVyqy5r+hd
+         xxgomjqtyPie3OkiYzeJ/CbGuVDIznXsHTYwGDtlC1OIs9A2cT6J+Sb325hjiHEKhxIW
+         A99BDq2PXvoM+iZ4RYn+dOrd1KahCp2CDAq/t49Aa1s/oTCby3+KzzVJXIH0VvsyoWLF
+         iLTC+YuwDIx5VMINOqleKrz5CRKn41NVsKcdIFF8fzdEcldx6/n1Ov2R2c5Z4aQ15syp
+         658iwETyLZRtv8RLFH+kPttbklpeLMBpjOOI6iCyDNxZWDQ096ERNPF66J/0O+UpVVMV
+         cenQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=v0NQbiwUs18ppXLU+jeyodzQjlwqR5G0Z1wemEqLfuw=;
+        fh=+/WjqGOODrJjRWEFHLCYnr7yJLLuUBSws8YhyjZh+N8=;
+        b=AGHcYDNwqFaoX8zsBnMVU8RdUZrGtWb/y+yzyIKBFMAEc5rRDssm7MDc8XwMuJV79B
+         OfNk2nGp8dDJ96XcyYGH/W3+x6xacCTQtHpin8UNdKcg72eEahI4m1T/ymi8yKhz/Aqb
+         uKEzyDQYvu+bKtFvNPqILcr0TDy+I/nSbrxVr7dNgbxKC5MwNTXncFHNfDOzJOEyVC1V
+         6SCYbmyeQ3zSmVmBxdVVK2m52Pp079IjYZmm9KgobUQLd7ev+xlg9sCWz7CFXOeT+DGK
+         6IfpfaEZIr/EHsSi1+30BthUcCv90z40PZqBZ3al0ScB7sfnJvF2R9827vN6Y60gMOeF
+         Df8g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780064749; x=1780669549; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cSyq379iMRs5CLWz1GrbdWaHEBM9DGZinDVUSvey/oI=;
-        b=tI83X0WchL7gjQ2oluUFBAo/ZebSlRKORALLuCgrXZQGyjwQzS/eYBi110hPoL1BqB
-         gsu/Ww03ymPS48ic4QT3uXGkRqq2dpyZkAd58fWsEZ9++I5DfYKL55Gx2nl7ANPPQtVW
-         vOsyDpAI+9FWf4N5hUSOpqbMEVWeTNFyZZ2hIdCJnn6W13x/+l4WFLSWDITGkL1UlhtK
-         0Fh+T6jDLd7aqqH7Vy65wuOahfe+2HDRpSP7PJKZNUWRhjMDE4G3epPslso00135C69q
-         X4ERhsKlBi01O1l2mZU304EpNM3a3mv15wYrT2vx9vL1E4tYmFIiRwdhmuNsT9OxLKxs
-         syKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780064749; x=1780669549;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1780066549; x=1780671349; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cSyq379iMRs5CLWz1GrbdWaHEBM9DGZinDVUSvey/oI=;
-        b=c1xPRGBtDASxt9C8AA6FvAsDirG21nihv+YjSnuTphjDMtsWRJR11k477wpM0Bwh4Y
-         xYR5eSzk7ThYIRtY1DNtnH7AgL3cnMsQ4uVePBnUcypsu65V0kNMCO3ZHoCy63jUs6V9
-         mhPFttK5VqQQOOYeGenlsffeXl5yg8URp8RXfLtOAnJfPTVqllo9PCbIILHI2uVAg0nX
-         vYFI5LOjJqfCUXIaP+FkZvWp5WFfPedZTAFPItstQRp0IAveHVNYewvfD85Wdwut9bwQ
-         FzZ6ZfzyXBsphQv+maMaZgBV5Yfj7kpss/skz5JwDbb4xfMK59OHy1+0bySmEjg+GKg+
-         aHaQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9GHAguKgPDJeIm/xXiWZaRzWxLflOdg9OTm1heqgmOzKpu2a54IOHYoFO6IikV+2lh1wxBtqQineB/cECD@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfhncEvYZXawUcRHblZq3mdGdSzrKY3j5+3N9JsTsIXXQuVOMK
-	zIRPr92b16v/2gfTbKJlIJc1wz2hJorWmuwagdlK37+7KSFRKhaF9emE
-X-Gm-Gg: Acq92OEUFxTq4nz1rGUehm1C9otjgDFh7HPva2GqTc++73joeypohO5yS3vROvWjCRe
-	XWPbWneHJlMdtMBpA1AabOnbW042Gj0qs5zSZMakxHRgn42J91UD/K+5FB6FNP1MTdBM020W8nn
-	0RvHUe7UYegn8hC4vg2nXRRMtroDs4/k410/zA6s/b9caW2onPmPnZOmn86mfyc5Hxmmlp5jNYx
-	kpkyG3pp2u4lkUhVGB2QoU7T8SBJjkgqFndx/y7qwnR1EpcynrpWgVV7HeaWIwbDXwgeikai0Yl
-	l954PUT0bBpCR4rv/shXeA59dvidkip9lKWmnZQcE7KT+AQ4qubq5v5KTSp3irdZ+Zm0E8iNkXq
-	vNFqKMmS8XqzA6W/EzhmyBSmH4X6TDdg/4B0TSHoYbsGBxPDT5EnughrkYYIajRynIHRoxkFvoC
-	7w6KjpXUyP5wS37oaoZlY8K6edGG9DaOkp
-X-Received: by 2002:a05:7300:5714:b0:304:1fb6:88fd with SMTP id 5a478bee46e88-304fa693196mr4791eec.29.1780064749422;
-        Fri, 29 May 2026 07:25:49 -0700 (PDT)
-Received: from zhanwei.. ([192.227.223.214])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed2efb4esm1534916eec.8.2026.05.29.07.25.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 07:25:47 -0700 (PDT)
-From: Zhan Wei <zhanwei919@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+e70e1b6cba8714543f7c@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com,
-	Zhan Wei <zhanwei919@gmail.com>
-Subject: [PATCH] eventpoll: restore EP_UNACTIVE_PTR sentinel for ctx->tfile_check_list
-Date: Fri, 29 May 2026 22:25:33 +0800
-Message-ID: <20260529142533.23696-1-zhanwei919@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=v0NQbiwUs18ppXLU+jeyodzQjlwqR5G0Z1wemEqLfuw=;
+        b=G31QUE6EtzN4Kon/9+jOvgHGXQM4ilz88jq1v6eD5E53IbKtY9kA3yUejtHlKCxPBJ
+         c9V4u3cP/hJJj1LqTLQeqs5CGGLknqCOZVd6Rwr7OM/Vr7WUHdpn6aE+ORSd6AbQ4vWT
+         dJc2lfPubsc8t3h9TR0TVfMvsDp0HzxAAH8AgwJxLSpwal6hDqnc9nbT+bhEnRb+2grq
+         RwyBdv7ClwZa1cwZvtOjwBL+1r+xKN3sTRTzAZP05svOSVhxnhq6YU3p6Xxre9kqCyQw
+         bZ6zuiM9ALHQUdHrZoJyaN4ofJ7he0n8PriRt/ar/n+JrQYyaUKvw5jXoAXC6CSteiCT
+         T8pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780066549; x=1780671349;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=v0NQbiwUs18ppXLU+jeyodzQjlwqR5G0Z1wemEqLfuw=;
+        b=mHGNcPbCL1eNJZBNkuGRHEoJ8oglR6E/279mta8vx8NmPkMX5nounev31MyDp9Sqbh
+         OOWL8cfIqY2UQSKfWCCnLojumFnWkGPKIpulIn7DyRIJz0grbe8/Xp8KqBZ6naw99BRe
+         h3ketD3eFMbcUGxx0mzwd65Is0x6m6xw7PdQUPBqQ/sGldgR69rCt3GweIKWteMWbfyf
+         uB6jb6LCn+jG8Tpajj/12QQkcUagDn4H5gGv64nTv2D3ew2QnmPa32mjkzGwN1fZ7bvB
+         KvTEB6U7+GLinHmV6NW4gR9yix8OeyAY9dQF9tNN+3igDksVW7p/vg0UaGJTBBihOFDF
+         MWgg==
+X-Gm-Message-State: AOJu0YwhGqBhAEFc7qtyOhSECrWGSiDEkTcu0Fb9gmCVlozIX91P16Tt
+	lcql2wPdDp+GfLRz9gi3Xif2/FmuJ0L3BsEIeJ7G4whMvXYP7riHf6XHOEM1QqeDATc7+ubNwiS
+	V655yJwV/PbEASqQnekBgmbN+NGN2NdNdhAsj/Q1t7xcspo83CEP8pkuZ
+X-Gm-Gg: Acq92OFaohLqXCa85UroI8brLn8Zdca/Y4cDt/RGmSkQX78Zbyh4DWznBONSiFihq1p
+	7fITMR74Z1Lg6bs1g8FMfwPpAdlb73QliX4dG9MBqTzQa6Pt3Y1rhsK1Utff4AxOcIvbMCP2rHf
+	qtCwP0th6LqOJdztE+4JDD6pzx1UKgrQKEmp8r5eAHBPXNSMJ6TfzWPTsn0WTf7Cxg7DMiRSbtz
+	fti9muobCAYfch3xJ4khp2Zi8G9WQ2PAfYK5xtg8bWqC5n6SoIWjjJ6w61Lw6VYAy+zzgV9Rdjh
+	BPxHZink/erdtU0eigh/QFW7YFl619zarL4tIawER3AX+zE=
+X-Received: by 2002:aa7:c989:0:b0:68a:7046:e64 with SMTP id
+ 4fb4d7f45d1cf-68c16347f25mr38871a12.3.1780066548782; Fri, 29 May 2026
+ 07:55:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org> <20260311-work-kthread-nullfs-v3-26-3dd2cbe92ad0@kernel.org>
+In-Reply-To: <20260311-work-kthread-nullfs-v3-26-3dd2cbe92ad0@kernel.org>
+From: Jann Horn <jannh@google.com>
+Date: Fri, 29 May 2026 16:55:12 +0200
+X-Gm-Features: AVHnY4JPftso9nO08E6XXE3kBylHk0XbZE0x7sDGtn0bJWnN3iIsyuWGqxOj9YM
+Message-ID: <CAG48ez2-V62qga0ma7Se1RhH1Hr0RubmFfWK3HV20T76QB6rjA@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 26/26] fs: stop rewriting paths for PF_EXITING | PF_DUMPCORE
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, Jan Kara <jack@suse.cz>, 
+	Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit e09c77d94003 ("eventpoll: hoist CTL_ADD scratch state into
-struct ep_ctl_ctx") moved tfile_check_list from a file-scope global into
-the stack-allocated struct ep_ctl_ctx, and in doing so replaced the
-EP_UNACTIVE_PTR sentinel with NULL on the grounds that "NULL is the
-obvious 'empty' value and zero-init handles it for free", describing the
-change as "No functional change". It is not.
+On Wed, Mar 11, 2026 at 10:57=E2=80=AFPM Christian Brauner <brauner@kernel.=
+org> wrote:
+> If the task is dead or dumping core stop messing with its fs struct.
+> There's no point in doing that. Worst case it'll be stuck in a stale
+> path until it calls exit_fs().
+>
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> ---
+>  fs/fs_struct.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/fs/fs_struct.c b/fs/fs_struct.c
+> index 2a98cfbedd32..34699f3b6f88 100644
+> --- a/fs/fs_struct.c
+> +++ b/fs/fs_struct.c
+> @@ -61,8 +61,7 @@ void chroot_fs_refs(const struct path *old_root, const =
+struct path *new_root)
+>
+>         read_lock(&tasklist_lock);
+>         for_each_process_thread(g, p) {
+> -               /* leave kthreads alone */
+> -               if (p->flags & PF_KTHREAD)
+> +               if (p->flags & (PF_KTHREAD | PF_EXITING | PF_DUMPCORE))
+>                         continue;
 
-epitems_head->next is overloaded with two roles:
+If an exiting/dumping task still refers to the old root, that could
+prevent unmounting the old root, right? In the case of umount2(...,
+MNT_DETACH), it would just delay destroying the old rootfs until the
+exiting/dumping task is gone (which hopefully won't take long); in the
+case of umount(...), it could cause an error, though I don't know if
+anything would do that - I guess that'd be very brittle, and the
+pivot_root.2 manpage suggests MNT_DETACH. And pivot_root isn't really
+a syscall one would use when anything is concurrently running in the
+mount namespace, so this probably shouldn't matter in practice...
 
-  1. the "next" pointer that threads a head onto ctx->tfile_check_list;
-  2. a membership flag: ep_remove_file() uses
-     !smp_load_acquire(&v->next) to mean "this head is not on any
-     pending ctx->tfile_check_list and is therefore safe to free".
-
-Before that change the EP_UNACTIVE_PTR sentinel kept the two roles
-disjoint: a head on the list always had a non-NULL ->next (another head,
-or the sentinel at the tail), so ->next == NULL was equivalent to "never
-listed". With the sentinel gone the list is NULL-terminated, so the tail
-head's ->next is NULL as well. ep_remove_file()'s gate can no longer
-distinguish "never listed" from "listed at the tail", and misfires on
-the tail head.
-
-The reader (reverse_path_check_proc) holds epnested_mutex +
-rcu_read_lock; the freer (ep_remove_file) holds ep->mtx + file->f_lock.
-The two sides share no mutex -- the sentinel was the invariant the gate
-relied on to know it could skip the read side. With it gone,
-ep_remove_file() frees the tail head while reverse_path_check_proc() is
-still walking it, producing the slab-use-after-free read. The syzbot
-reproducer hits this within seconds on a multi-CPU VM.
-
-Restore the sentinel: initialize ctx.tfile_check_list to EP_UNACTIVE_PTR
-in do_epoll_ctl_file(), and terminate the walk on "!= EP_UNACTIVE_PTR"
-in reverse_path_check() and clear_tfile_check_list(). The tail head's
-->next becomes the sentinel again rather than NULL, so
-ep_remove_file()'s gate regains its exclusivity and stops misfiring on
-the tail. ep_remove_file() itself is unchanged.
-
-This restores the invariant the file-scope tfile_check_list relied on
-before that change while preserving the ctx packaging it introduced.
-
-Reported-by: syzbot+e70e1b6cba8714543f7c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=e70e1b6cba8714543f7c
-Fixes: e09c77d94003 ("eventpoll: hoist CTL_ADD scratch state into struct ep_ctl_ctx")
-Suggested-by: Christian Brauner <brauner@kernel.org>
-Link: https://lore.kernel.org/all/20260528-rotwild-summt-kuhhandel-7276ef4c33b7@brauner.io/
-Signed-off-by: Zhan Wei <zhanwei919@gmail.com>
----
- fs/eventpoll.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index a569e98d4a99..abef3bc48cc4 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -429,7 +429,11 @@ struct ep_ctl_ctx {
- 	/*
- 	 * Singly-linked list of epitems_head objects collected during
- 	 * ep_loop_check_proc(), then walked by reverse_path_check().
--	 * NULL means empty.
-+	 * Terminated by EP_UNACTIVE_PTR, not NULL: epitems_head->next
-+	 * doubles as a membership flag (a NULL ->next means "not on this
-+	 * list", see ep_remove_file()), so the list uses a non-NULL
-+	 * sentinel to keep the tail head distinguishable from an unlisted
-+	 * one.
- 	 */
- 	struct epitems_head *tfile_check_list;
- 
-@@ -1685,7 +1689,7 @@ static int reverse_path_check(struct ep_ctl_ctx *ctx)
- {
- 	struct epitems_head *p;
- 
--	for (p = ctx->tfile_check_list; p; p = p->next) {
-+	for (p = ctx->tfile_check_list; p != EP_UNACTIVE_PTR; p = p->next) {
- 		int error;
- 		path_count_init(ctx);
- 		rcu_read_lock();
-@@ -2438,7 +2442,7 @@ static int ep_loop_check(struct ep_ctl_ctx *ctx, struct eventpoll *ep,
- static void clear_tfile_check_list(struct ep_ctl_ctx *ctx)
- {
- 	rcu_read_lock();
--	while (ctx->tfile_check_list) {
-+	while (ctx->tfile_check_list != EP_UNACTIVE_PTR) {
- 		struct epitems_head *head = ctx->tfile_check_list;
- 		ctx->tfile_check_list = head->next;
- 		unlist_file(head);
-@@ -2601,7 +2605,9 @@ int do_epoll_ctl_file(struct file *f, int op, struct epoll_key *tf,
- 	int full_check;
- 	struct eventpoll *ep;
- 	struct epitem *epi;
--	struct ep_ctl_ctx ctx = { };
-+	struct ep_ctl_ctx ctx = {
-+		.tfile_check_list = EP_UNACTIVE_PTR,
-+	};
- 
- 	/* The target file descriptor must support poll */
- 	if (!file_can_poll(tf->file))
--- 
-2.43.0
-
+So I think this change is probably fine, but I wouldn't say that there
+is entirely no point in updating exiting/dumping tasks.
