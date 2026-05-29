@@ -1,144 +1,113 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFD736F427;
-	Fri, 29 May 2026 04:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780027703; cv=none; b=WrPc6Pg0C6rkX0EbuJqSlUTryYEer89c1ugyTwIcmF3erahz1N6wM1NWSID4a9AucY3PfoKvUFjuJW8anDG3pHHMdwFv/1QCQkhbpzqP8bkmAquaH0Sm0GEP7RtYtHeWgy9695XaPvbZhgTCwNKlYplbxWTFIvQ923YO4OCnNfM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780027703; c=relaxed/simple;
-	bh=oygsdnR7CqvrVE1HWq5mt8THW9fcl34Bickxczx8U9M=;
-	h=From:Subject:To:Cc:Date:Message-ID:References:MIME-Version:
-	 Content-Type; b=sneHLQAFAPNqlWRikFwgOHk4Ba+gtHSwygWkJN+jaak3m7ve1v1gcfJ+ukfSgyzxERLLr0cASlr4NpY3861dyzn9t/NqvPT/lbummhnWHPgqWjkH786XobJUr0LA6T56kL6xHH5O1Yuv3N8iNnXddeBGgQasQ3LcO7S0W/0i6w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 037e46265b1411f1aa26b74ffac11d73-20260529
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:badf1323-f148-47b1-b337-e32fcd2618b6,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:f97461e035bfbeb51c00cb44343375fb,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|83|102|865|898,TC:0,Content:0|14|51,E
-	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: 2483C66CED848B1E200EEE4EE5FC8E08
-X-UUID: 037e46265b1411f1aa26b74ffac11d73-20260529
-Received: from node4 [(10.44.17.112)] by mailgw.kylinos.cn
-	(envelope-from <fuqingshuang@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1501025117; Fri, 29 May 2026 12:08:14 +0800
-Received: from node4 (localhost [127.0.0.1])
-	by node4 (NSMail) with SMTP id 0A9611200BD91;
-	Fri, 29 May 2026 12:08:14 +0800 (CST)
-Received: by node4 (NSMail, from userid 10001)
-	id 03D331200BD8A; Fri, 29 May 2026 12:08:13 +0800 (CST)
-From: =?UTF-8?B?5YKF5riF54i9?= <fuqingshuang@kylinos.cn>
-Subject: =?UTF-8?B?UmU6IFJlOiBbUEFUQ0ggdjFdIGZzOiBmaXggdHdvIHNwZWxsaW5nIG1pc3Rha2VzIGluIGNvbW1lbnRz?=
-To: =?UTF-8?B?ZmZmc3FpYW4=?= <fffsqian@163.com>,
-	=?UTF-8?B?SmFuIEthcmE=?= <jack@suse.cz>
-Cc: =?UTF-8?B?dmlybw==?= <viro@zeniv.linux.org.uk>,
-	=?UTF-8?B?YnJhdW5lcg==?= <brauner@kernel.org>,
-	=?UTF-8?B?amFjaw==?= <jack@suse.cz>,
-	=?UTF-8?B?bGludXgtZnNkZXZlbA==?= <linux-fsdevel@vger.kernel.org>,
-	=?UTF-8?B?bGludXgta2VybmVs?= <linux-kernel@vger.kernel.org>
-Date: Fri, 29 May 2026 12:08:13 +0800
-X-Mailer: NSMAIL 8.2
-Message-ID: <74eveufks5oj-74f1sjio1akk@nsmail8.2--kylin--1>
-References: iqp6gjxl7qohnxn7rle62zovyiedmw7nnfhjk5mpmq4azx7v5m@llgoenjgzgbf
-X-Israising: 0
-X-Seclevel-1: 0
-X-Seclevel: 0
-X-Delaysendtime: Fri, 29 May 2026 12:08:13 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B641D78F2B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 04:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780028179; cv=pass; b=DXGUfg/sdDCDhcr429kSCb9PgdVmw5HKndg6QkkKAze8+HMGu2Z7EfiLDkE5MiVBfZd8egdPOg0f7Yo1lLRKH9a1l4OKC0ZJQf9AhicwE7ZbPupJwYMextUQg5B+q+dnzffL33YBBn2lsWXryUoCSBQuQkJy97obVy/+7SJyn80=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780028179; c=relaxed/simple;
+	bh=BFOKOVPme59erEMfzfDis9lCDNoZIkq0mEh7prAMf+s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sq/W/9RoLpb2IMQLJgTIJ2wLD/OJ+xiq0rmQvl2rN/Pxjm+93PmzVzzyTZ691IZSvk9i4YULQDWLfX7zTlMZorBW+VGNX0xXJrPLVedJSbHy4kT6bcus5hUxls7QVHvTliRQ7u/wgsfyrufkRun6qcU/KJk6T0inPGNVQ8w8LNg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RmS4M79L; arc=pass smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RmS4M79L"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-7ca947f9b00so132871127b3.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 21:16:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780028178; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZYGVkykCvGYTVteoFJ4CnsaQxBLeZfPDLfQTkPEh+PVi6fKBn+jFpTrJAOIXL142n+
+         mXTLFOudL2cSMty8pa1eQve6g0qgxanp0xeAs7eAPr1XypF+HOzYZI3+GctpOSTXkn3y
+         dIGXf6sziPUk3JYVXO/xCyDgb8JFJybTH+wfh2u89rDl58AkJOarnsEfHmSmoNoPVxmq
+         GBVx0jgJbIRj9Xw3XOszw6qeSaWF1w2dSx1DpMxKl+QWnryCI+HhuQ4YJN55JriXQSRT
+         +FGHLICHPAQlLkUV8bENxLvDq17uVukSkgg+tGq6KIrsX8lxR2e8qasEOaUdHixvHcqA
+         7MbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BFOKOVPme59erEMfzfDis9lCDNoZIkq0mEh7prAMf+s=;
+        fh=yTXZu0gkbGVErmG1IgBJ2Dk3A6Ntwg+KSGUaOEA2r0Q=;
+        b=itTyKhOBffwJuea3lWoXcnCONCqASULt30f2kqq7LTEnDOccw2vN52kVxnZipqcQ8x
+         /I7I4s9Vmy+Sprt8rhN45lFfhh0E40lShqznPNrlXHoRcT+PKM1oMqshvzGY8kAEfPmC
+         biE0k6Wk0/kSTmdygZgLReF7zs8+92Q+D1aMCBAzLhQk/4J6sc0A9QN4Hm/QhnfXmAGr
+         4U+0LsCQGXbMtubunxF6a0v5g17o0pn6x5NeeJNU55OA2YquFJSUOawCDjYdm4XuOrQ3
+         AxISurXbxxsOgb7tPJNrB2mebTCmtyFgipCfO65fletZYzbw5YodYoUCY4vgN2terqFN
+         yeCQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780028178; x=1780632978; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BFOKOVPme59erEMfzfDis9lCDNoZIkq0mEh7prAMf+s=;
+        b=RmS4M79L61XMVKcpgHFNr4U1pRB0+fNwror82veyyODMGrfR966Um6K+GxtXV7TqQn
+         z25D43lc/j0sfk1OIpkCw1Rcv9W3FwHY+139d2qRYJJSArqnWj1/H4CpAreUtlkQRLhU
+         bQFg+z57oMRCs73N/02ixMUM/Ok7vnejufv5HX1ID79re3HJwOkI84MZEONDBy/TZWeM
+         mM1Dk87THdEDeY8vXi7U32hwSjFKEdjClebccxgQla2Bw4YQ4KxxYeV/nqN9ZGTU/vCA
+         yBgk8m50XarU5Ln4Y0m39i7E66t6YM/esSMEsBbVFqPiHWpkHxeNECV2J0cJm64RtJ+1
+         ghvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780028178; x=1780632978;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BFOKOVPme59erEMfzfDis9lCDNoZIkq0mEh7prAMf+s=;
+        b=cswwB0H6onFzKKTHIktMX39BZOJrlYPp+Yeoa7zJ0Usxvt1Rr7K5nosdBVmyLuOgYW
+         9YvyOQ98Ko3GY/lx6pWLaIKPed9vji6iL1SuBu2+/5rr16pi7lucBg7lGCrUVprxofjj
+         De9qMVC57hCo7gzTXOkA80+PM3B2V/nlxnvURCVETOjN3KtBGlr1ADec1Tb4cDkHZcIc
+         S3hf/5d0FAnNiqJkqLpyjpQ+2/R/yOM3ztZEra8yP4IBg8FEaE3BxqYnryjk8IPhyYYR
+         SIzXxVWK+94hY057XWQ/htaUzYxLzthIU4EoBgfLH0EHbwXmkwfm7j/i+xdA/Ubw9z5W
+         Bzfw==
+X-Forwarded-Encrypted: i=1; AFNElJ9uHqttzWV9Fo0viMiMdRvvgNriqA1SwMrm5Rm2su7JpU4W+p8pMWH/3Ch+ZBK15KkKnMxKQATTWLb8q65g@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6et99z2hes00AtOCC40hQS86GS73je+n10Kq7eIT5hFLiwxLQ
+	WOHSBFxW5pl8qNiH6ik0CIIePlAdUwnvI2fVUQ2MvH4z4x0P+GftCnWm+QAFSMpUFXAyH5IsiTy
+	B3eWD2itbXwOqpQqPxKhDODdYD6OE8Vo=
+X-Gm-Gg: Acq92OGBenMOLbRWBvjIrPdH/QpwIzoAnv/Ihipvk9erhjYRguIbJjytqrtd6jyaYkx
+	P+pyLAddmDo/n9HMW6hifcqk7mkajcpi8M/iJ9UQiz1OP6ek2YUlMCDiG3rxbhE9EmjTEZ/nMCx
+	W9Xt6RBZT6hJP5SLkSMYaLijbyJIFSOgtvWP/+e15ZUI1jA6klcESN2oPWFlkj0d5TYK83fSIdk
+	vufV83H5oTZLc3J8KfpD9/yxb4hjlsvmv0EUh7n/OW7IyjeEZs9S5weiWQsqOFZC5hwJIeO52zF
+	QpqrAUE6jyp9v1b6Lk1FjVtdST8OtG/CejV3pZo5gFmNTlxRTKA5lgCmMsEu2EmnAyY358PpQS3
+	d6mkcp0I=
+X-Received: by 2002:a05:690e:140d:b0:65d:7d86:7758 with SMTP id
+ 956f58d0204a3-660531221admr668197d50.59.1780028177828; Thu, 28 May 2026
+ 21:16:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary=nsmail-774ajja99sxy-774hzijv2gnb
-X-ns-mid: webmail-6a19112d-75aa6879
-X-ope-from: <fuqingshuang@kylinos.cn>
-X-receipt: 0
+References: <20260523091107.61880-1-kartikey406@gmail.com> <20260528-wendung-vielleicht-klargemacht-27241ff15b32@brauner>
+In-Reply-To: <20260528-wendung-vielleicht-klargemacht-27241ff15b32@brauner>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Fri, 29 May 2026 09:46:06 +0530
+X-Gm-Features: AVHnY4KK8przQseq03FTociD-OXXQ0jatvgrHWgeFxIX1HcBmGGDY7pqdtc_gEU
+Message-ID: <CADhLXY7O=JSZAGZ-B8Ozq-vAUCPAmpZZ1Q_iX8hxsFychUpbEw@mail.gmail.com>
+Subject: Re: [PATCH] eventpoll: fix use-after-free in clear_tfile_check_list()
+To: Christian Brauner <brauner@kernel.org>
+Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+69a3d7738ad3aa175caf@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This message is in MIME format.
+On Thu, May 28, 2026 at 6:12=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 
---nsmail-774ajja99sxy-774hzijv2gnb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+> Better than the other fix but I'm really confused about this define...
 
-PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6TWljcm9zb2Z0IFlhSGVpO2ZvbnQt
-c2l6ZToxNHB4O2NvbG9yOiMwMDAwMDA7IiBjbGFzcz0ibF9ub2RlX2hhc19j
-b2xvciI+PHA+VGhhbmsgeW91IGZvciB0aGUgcmV2aWV3ITwvcD4KPHA+QWRk
-ZWQgeW91ciBSZXZpZXdlZC1ieSB0YWcuPC9wPgo8cD4mbmJzcDs8L3A+Cjxk
-aXYgaWQ9InNpZ25hdHVyZVRvcCI+PC9kaXY+CjxkaXYgaWQ9ImNzMmNfcmUi
-IHN0eWxlPSJtYXJnaW4tbGVmdDogMC41ZW07IHBhZGRpbmctbGVmdDogMC41
-ZW07IGJvcmRlci1sZWZ0OiAxcHggc29saWQgI2NhY2FjYTsgLXdlYmtpdC11
-c2VyLW1vZGlmeTogcmVhZC1vbmx5OyAtbW96LXVzZXItbW9kaWZ5OiByZWFk
-LW9ubHk7IC1tcy11c2VyLW1vZGlmeTogcmVhZC1vbmx5OyAtby11c2VyLW1v
-ZGlmeTogcmVhZC1vbmx5OyI+PGJyPjxicj48YnI+CjxkaXYgc3R5bGU9ImJh
-Y2tncm91bmQtY29sb3I6ICNmOGY4Zjg7IHBhZGRpbmc6IDhweCAxMHB4OyBm
-b250LWZhbWlseTogTWljcm9zb2Z0IFlhSGVpOyBmb250LXNpemU6IDE0cHg7
-IGNvbG9yOiAjMDAwOyI+PHN0cm9uZz7kuLsmbmJzcDsmbmJzcDsmbmJzcDvp
-opjvvJo8L3N0cm9uZz48c3BhbiBpZD0iY3MyY19zdWJqZWN0Ij5SZTogW1BB
-VENIIHYxXSBmczogZml4IHR3byBzcGVsbGluZyBtaXN0YWtlcyBpbiBjb21t
-ZW50czwvc3Bhbj4gPGJyPjxzdHJvbmc+5pelJm5ic3A7Jm5ic3A7Jm5ic3A7
-5pyf77yaPC9zdHJvbmc+PHNwYW4gaWQ9ImNzMmNfZGF0ZSI+MjAyNuW5tDA1
-5pyIMjjml6UxOTo1Mjwvc3Bhbj4gPGJyPjxzdHJvbmc+5Y+R5Lu25Lq677ya
-PC9zdHJvbmc+PHNwYW4gaWQ9ImNzMmNfZnJvbSI+SmFuIEthcmE8L3NwYW4+
-IDxicj48c3Ryb25nPuaUtuS7tuS6uu+8mjwvc3Ryb25nPjxzcGFuIGlkPSJj
-czJjX3RvIiBzdHlsZT0id29yZC1icmVhazogYnJlYWstYWxsOyI+ZmZmc3Fp
-YW4sSmFuIEthcmE8L3NwYW4+IDxicj48c3Ryb25nPuaKhOmAgeS6uu+8mjwv
-c3Ryb25nPjxzcGFuIGlkPSJjczJjX3RvIiBzdHlsZT0id29yZC1icmVhazog
-YnJlYWstYWxsOyI+dmlybyxicmF1bmVyLGphY2ssbGludXgtZnNkZXZlbCxs
-aW51eC1rZXJuZWw8L3NwYW4+PC9kaXY+Cjxicj4KPGRpdiBpZD0iY3MyY19j
-b250ZW50Ij5PbiBXZWQgMjctMDUtMjYgMTE6MzE6MDIsIGZmZnNxaWFuQDE2
-My5jb20gd3JvdGU6ICZndDsgRnJvbTogUWluZ3NodWFuZyBGdSAmbHQ7ZnVx
-aW5nc2h1YW5nQGt5bGlub3MuY24mZ3Q7ICZndDsgJmd0OyBGaXggdHdvIHNw
-ZWxsaW5nIGVycm9ycyBpbiBmcy86ICZndDsgLSBjaGlsZGVuIOKGkiBjaGls
-ZHJlbiAmZ3Q7IC0gcG9zdGlvbiDihpIgcG9zaXRpb24gJmd0OyAmZ3Q7IFNp
-Z25lZC1vZmYtYnk6IFFpbmdzaHVhbmcgRnUgJmx0O2Z1cWluZ3NodWFuZ0Br
-eWxpbm9zLmNuJmd0OyBMb29rcyBnb29kLiBGZWVsIGZyZWUgdG8gYWRkOiBS
-ZXZpZXdlZC1ieTogSmFuIEthcmEgJmx0O2phY2tAc3VzZS5jeiZndDsgSG9u
-emEgJmd0OyAtLS0gJmd0OyBmcy9jb3JlZHVtcC5jIHwgNCArKy0tICZndDsg
-MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
-LSkgJmd0OyAmZ3Q7IGRpZmYgLS1naXQgYS9mcy9jb3JlZHVtcC5jIGIvZnMv
-Y29yZWR1bXAuYyAmZ3Q7IGluZGV4IGJiNmZkYjFmNDU4ZS4uZjgyZjZkYzRm
-NzczIDEwMDY0NCAmZ3Q7IC0tLSBhL2ZzL2NvcmVkdW1wLmMgJmd0OyArKysg
-Yi9mcy9jb3JlZHVtcC5jICZndDsgQEAgLTYzNyw3ICs2MzcsNyBAQCBzdGF0
-aWMgaW50IHVtaF9jb3JlZHVtcF9zZXR1cChzdHJ1Y3Qgc3VicHJvY2Vzc19p
-bmZvICppbmZvLCBzdHJ1Y3QgY3JlZCAqbmV3KSAmZ3Q7IHBpZGZzX2NvcmVk
-dW1wKGNwKTsgJmd0OyAmZ3Q7IC8qICZndDsgLSAqIFVzZXJtb2RlIGhlbHBl
-cnMgYXJlIGNoaWxkZW4gb2YgZWl0aGVyICZndDsgKyAqIFVzZXJtb2RlIGhl
-bHBlcnMgYXJlIGNoaWxkcmVuIG9mIGVpdGhlciAmZ3Q7ICogc3lzdGVtX2Rm
-bF93cSBvciBvZiBrdGhyZWFkZC4gU28gd2Uga25vdyB0aGF0ICZndDsgKiB3
-ZSdyZSBzdGFydGluZyBvZmYgd2l0aCBhIGNsZWFuIGZpbGUgZGVzY3JpcHRv
-ciAmZ3Q7ICogdGFibGUuIFNvIHdlIHNob3VsZCBhbHdheXMgYmUgYWJsZSB0
-byB1c2UgJmd0OyBAQCAtMTA1Myw3ICsxMDUzLDcgQEAgc3RhdGljIGJvb2wg
-Y29yZWR1bXBfd3JpdGUoc3RydWN0IGNvcmVfbmFtZSAqY24sICZndDsgY24t
-Jmd0O2NvcmVfZHVtcGVkID0gYmluZm10LSZndDtjb3JlX2R1bXAoY3BybSk7
-ICZndDsgLyogJmd0OyAqIEVuc3VyZXMgdGhhdCBmaWxlIHNpemUgaXMgYmln
-IGVub3VnaCB0byBjb250YWluIHRoZSBjdXJyZW50ICZndDsgLSAqIGZpbGUg
-cG9zdGlvbi4gVGhpcyBwcmV2ZW50cyBnZGIgZnJvbSBjb21wbGFpbmluZyBh
-Ym91dCAmZ3Q7ICsgKiBmaWxlIHBvc2l0aW9uLiBUaGlzIHByZXZlbnRzIGdk
-YiBmcm9tIGNvbXBsYWluaW5nIGFib3V0ICZndDsgKiBhIHRydW5jYXRlZCBm
-aWxlIGlmIHRoZSBsYXN0ICJ3cml0ZSIgdG8gdGhlIGZpbGUgd2FzICZndDsg
-KiBkdW1wX3NraXAuICZndDsgKi8gJmd0OyAmZ3Q7IGJhc2UtY29tbWl0OiBl
-YjNmNGI3NDI2Y2ZkMmI3OWQ2NWI3ZDM3MTU1NDgwYjMyMjU5YTExICZndDsg
-LS0gJmd0OyAyLjI1LjEgJmd0OyAtLSBKYW4gS2FyYSAmbHQ7amFja0BzdXNl
-LmNvbSZndDsgU1VTRSBMYWJzLCBDUiAmbHQ7L2phY2tAc3VzZS5jb20mZ3Q7
-Jmx0Oy9qYWNrQHN1c2UuY3omZ3Q7Jmx0Oy9mdXFpbmdzaHVhbmdAa3lsaW5v
-cy5jbiZndDsmbHQ7L2Z1cWluZ3NodWFuZ0BreWxpbm9zLmNuJmd0OzwvZGl2
-Pgo8L2Rpdj4KPHA+Jm5ic3A7PC9wPgo8cD4mbmJzcDs8L3A+CjxkaXYgaWQ9
-InNpZ25hdHVyZUJvbSI+CjxkaXY+CjxwPiZuYnNwOzwvcD4KPGJyPgo8cCBz
-dHlsZT0iY29sb3I6ICMwMDA7IGZvbnQtc2l6ZTogMTZweDsiPi0tLTwvcD4K
-PGRpdiBpZD0iY3MyY19tYWlsX3NpZ2F0dXJlIiBzdHlsZT0iY29sb3I6ICMw
-MDA7IGZvbnQtc2l6ZTogMTZweDsgZm9udC1mYW1pbHk6IE1pY3Jvc29mdCBZ
-YUhlaTsiPjwvZGl2Pgo8cD4mbmJzcDs8L3A+CjwvZGl2Pgo8L2Rpdj48L2Rp
-dj4=
+Good point =E2=80=94 EP_UNACTIVE_PTR is already the sentinel used elsewhere=
+ in
+this file for the same kind of "inactive slot" semantics, no reason to
+add a new name.
 
---nsmail-774ajja99sxy-774hzijv2gnb--
+ I'll reuse it directly and send v2.
+
+Thanks
+
+Deepanshu
