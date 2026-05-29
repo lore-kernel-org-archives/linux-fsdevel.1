@@ -1,301 +1,256 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964A536C5BB
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 23:23:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BE228506C;
+	Fri, 29 May 2026 23:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780097012; cv=none; b=Jh6H39wHRhgOcGO2q+gMbaxHEXxQgP2jj1sbFgK9HcVWQSTqRjLUyhI7sMcsZtJIwZ+cGthpsCx2ScnLsKogonYQK9IUn1itohEWiBBTR3e2kUY4Q3Vm4hZUosv5vNhyj0ihH5fCIV2ECGvPO3FeKIy6At6O/16d6/Av70HdWkY=
+	t=1780097596; cv=none; b=uJwtcx6gmpGCKLzA/Pl4pSXZd3qRGoEiUqMTnJJ3tUAz9GHQ5wcnf6oYMwmBrhUflJ/mgoYToi/0F0++Nw0GCfXDCfWMkOCV+x+xw4bDMDHSN54SPDJLqE0A7wWleqlpsijhsb0ayEfcFqlBYXlgOLF0aWlLGSbwja8VNkfHCnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780097012; c=relaxed/simple;
-	bh=XkXt5xvWbeRkGH7vkAfiINhBts1WmxKb9QgFAuL7S/M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nK/Lbdoc34H7vgD0o98ECIRVq29fPl+Q/fh1Aipcm+lgnbnf9ag7qVKiVT13EM12SZGGQktXlcPl59iLMUPcSQowIMttDQXdZY7+m+MlsXLYzvOFYxyuDIPHsD4rxAsp6ROrOUz0PhFguX53cw9Ez0yLtMzz3NWN67xT5+zqH6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O5dC71IW; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=rdcG3MUo; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780097596; c=relaxed/simple;
+	bh=cr2J61wIRbdLJ8JeVUMZMRpYithBTTq8UapgpGnMiyc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m85PTOUd3GYpi/edYCdAfWDnR7lIL4DeaCjrmH6Q3FrXF4KoYb7r9wbWCOFqMCwga5xNrAI5x1KZQj7qZNT4UtrIW+EArR9goSxMP8hEfXqheneSqt0Sco9quHUXEt2yBul2ztnGFvzqv+ocaQDZG3uERXvJ8/qgtHJdcOk2qUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZ11a3QO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O5dC71IW";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="rdcG3MUo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780097008;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MN/GG/B80cTeN/1dBywgE/jxTvXiCfeDsRJwHlMLSwI=;
-	b=O5dC71IWzsrJnrtbXya9SziJVk/2R6hbD3OH6xKK3ktTrM4TNiPPrY9B44KtDHpUjQ09Om
-	74FjuSyOP3jQb3szf4heGslWURNta24hvSZ9dF6JWkM4k6gdQZRAetnFMbkpMIW17s0Z1a
-	4C6KF0bWKnlcMqj3XVfC5FBQ+zXyH2A=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-597-WROIskwjMMOdbexbqbWIsQ-1; Fri, 29 May 2026 19:23:27 -0400
-X-MC-Unique: WROIskwjMMOdbexbqbWIsQ-1
-X-Mimecast-MFC-AGG-ID: WROIskwjMMOdbexbqbWIsQ_1780097006
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-69df9b0b773so2685384eaf.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 16:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780097006; x=1780701806; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=MN/GG/B80cTeN/1dBywgE/jxTvXiCfeDsRJwHlMLSwI=;
-        b=rdcG3MUonti+0sllbgFya4EGwzXmDBLyeiizGXTGlhexgUfcanfHn0lNYa2rhJVz5n
-         gi55vUFn4R57XToVRIm5Vgp9FtwOp1f9eo+dwpHK787Xdf9qEHzAFRJhRA/U2wKh77tO
-         /EKBiN/RNsqH9O8CHeRcJviXvLCGpR2KUoTDo1ldT5lsSjK4ogEySdNXyfl33Yn6H8f2
-         SLfytipB25R29911FE78EdQxUF21f9JeLZe+Bmh/P2sVNb4050nFCpM1Xu+QiMKKmq+v
-         rozruVdWyOyZJ1byPc18EzQI5zzBMohYmt44BObf9x3VhT0QuM4LS06bGtgyLlvLXZvh
-         zF4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780097006; x=1780701806;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MN/GG/B80cTeN/1dBywgE/jxTvXiCfeDsRJwHlMLSwI=;
-        b=d9lSrXtlhZkvGQT0E9NqEdsL6OQHkq/Wg8NrxM1VvvQ5u+BDwpIQ2q7G8AYOMMAOPf
-         nQG1/X7aJAPLCiKyomTSs1mV562h9+bffD7G9XwGjuPV+grUQKBHd5D/DEg7O3sGN+13
-         CLFXR2erV4oluAkN5ehUscYhbhCxFglc2oLuKsmJgL4zpzQpfDfWxus8UcqtMGBRmMuC
-         5mh9dgszZdxf92uboNTEEH3V1/jgKzASNWrtVsHJBu3yAyMlrOUXuLikots6rjvT3Bx1
-         p+WRyf1/s/d3Ivwk+HLZ9MMfayTiunnV5y1/qJZpF/Y7CYnnzHECv5oL6lGk5BpMKc2B
-         is+Q==
-X-Gm-Message-State: AOJu0Yy/jhNADPIC08NgRaH4m5knl2UM2VKXyrZ5m+nc08hkV3WuxII3
-	AtP6UhDSK5CK55M2vzEr50j1dNdS4BidxYpYdOfjg3MFz/sXMoEW1gfF4w6qN98HTljyc3eLrbK
-	pxnjKplgKiLI6AicE4YZJuOm4FPsqRY9ijwrCccD6m/AgzJqisLk/8eXn29vB1pgTROI=
-X-Gm-Gg: Acq92OF+WTZFsGdzHmTHuMlJdpv/EwLr2j3lCseFnDNlld5LzPwnmofmktGiOc2gc2G
-	fqyR3N5M8eInXLuDToRFl/8uCAUfM+6diHvX6+e/xnzvag4Vx53ik/pWmGT6lK4rETEdNt1buvM
-	1Ydi/rriH8Iqq72hxdmNwBbzHgwX75006iAeDIt5u5a0jkD3SkceoJyhoGCyoALr6V70cVfWLeV
-	eYAxOeag/LIhay/Q2YRPUf2HVwLK4ugkzXqGEM1R0edP07DTd2HeBYPTf1grYfhPNyD1q5zM87q
-	oGglDQCb3IKKL+xnIwIR7XxAm4BilE4TjdiU8v1ySkYWR72du+GKg+tUGQOvFaldfJMMh6AE3Bt
-	kp9ECw44o8L/bPpYzCKw+MtP1AvZgAEdGVaGRktJ3cxt1C5rXbF4CBjVWcmrk1jc=
-X-Received: by 2002:a05:6820:2d0b:b0:696:7f3d:a75d with SMTP id 006d021491bc7-69e0ff718femr666154eaf.27.1780097006433;
-        Fri, 29 May 2026 16:23:26 -0700 (PDT)
-X-Received: by 2002:a05:6820:2d0b:b0:696:7f3d:a75d with SMTP id 006d021491bc7-69e0ff718femr666149eaf.27.1780097005982;
-        Fri, 29 May 2026 16:23:25 -0700 (PDT)
-Received: from li-4c4c4544-0032-4210-804c-c3c04f423534.ibm.com ([2600:1700:6476:1430::29])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43c93a22989sm1979271fac.1.2026.05.29.16.23.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 16:23:25 -0700 (PDT)
-Message-ID: <1924119775624adb4ce3fd7f3d936eaa2fea3c16.camel@redhat.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v2] hfs: prevent MDB and bitmap
- buffer_head aliasing
-From: Viacheslav Dubeyko <vdubeyko@redhat.com>
-To: Yue Sun <samsun1006219@gmail.com>, slava@dubeyko.com, 
-	glaubitz@physik.fu-berlin.de, frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 29 May 2026 16:23:24 -0700
-In-Reply-To: <09c2bf1e91f7ddabc24240379cd7dd0b4e15dd8d.camel@redhat.com>
-References: <1d26872db999da42b2d8452ace8a98b79e569cc8.camel@dubeyko.com>
-		 <20260529103428.99099-1-samsun1006219@gmail.com>
-	 <09c2bf1e91f7ddabc24240379cd7dd0b4e15dd8d.camel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44app2) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZ11a3QO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52DA91F00893;
+	Fri, 29 May 2026 23:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780097595;
+	bh=M2EDTxvUOf0FbYXWsVSHXg6R0s2buLubx0e5ZZg5Khk=;
+	h=From:To:Cc:Subject:Date;
+	b=hZ11a3QOKXffID46ltLUxrUd2cCaPk+eMhXGx8u5J1Lqig1jyCbNWvY8IBsmmvGge
+	 0DXFCUBpnaFeMyS74W4xq2LFH2odLikObxUKzbmJh/8GNG4bUfu6svDhirg+YeyNJX
+	 WMVucwiyOf6xkXAt9f00+Lv44Aon5eUvDeyY4v+GA+2D+aDUX2WAYlez231N0t8pjy
+	 9RAW5DgtYZ9o8Bz559WbMHBzbrE2Y1RkJUTnvS8vTAlhvqZJtIUw8lwmoQoRSP7Vi1
+	 wSqkymW4r18VqTS+PAmMxYrHeFKRqZq5HpaiXQhgiBMjQM5yoX91gGtjdeVpLa/Zy4
+	 2MAFG5gCsEeZg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org,
+	tools@kernel.org,
+	x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [PATCH v4 00/11] Kernel API Specification Framework
+Date: Fri, 29 May 2026 19:32:59 -0400
+Message-ID: <20260529233311.1901670-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2026-05-29 at 14:29 -0700, Viacheslav Dubeyko wrote:
-> On Fri, 2026-05-29 at 18:34 +0800, Yue Sun wrote:
-> > hfs_mdb_commit() writes the volume bitmap while HFS_SB(sb)->mdb_bh is
-> > locked. A crafted image can set drVBMSt so that the bitmap block resolv=
-es
-> > to the same buffer_head as the MDB. When writeback later calls
-> > lock_buffer() for that bitmap block, the task tries to lock mdb_bh agai=
-n
-> > and self-deadlocks in __lock_buffer().
-> >=20
-> > Reject images whose volume bitmap starts at or before the MDB during
-> > mount. Also guard the bitmap writeback path itself: if the bitmap block
-> > would resolve to mdb_bh, force the filesystem read-only and stop bitmap
-> > writeback before taking the buffer lock. This keeps the deadlock fix in
-> > the MDB commit path and reuses the existing bitmap size/writeback logic=
-.
-> >=20
-> > Reported-by: Yue Sun <samsun1006219@gmail.com>
-> > Closes: https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lore.ker=
-nel.org_all_CAEkJfYMB47v1yOWHB8q2dc8kf-3Duj-2DrLO-3D-2ByMyudwPguJ8Kd3jA-40m=
-ail.gmail.com_&d=3DDwIFaQ&c=3DBSDicqBQBDjDI9RkVyTcHQ&r=3Dq5bIm4AXMzc8NJu1_R=
-GmnQ2fMWKq4Y4RAkElvUgSs00&m=3D2ATrdgpvRdYnJfz2T53Ih3iQv6Y9wogU2Ba19prTYgchh=
-1mh4KI7lo9TYLQnlu3X&s=3DS8XdWVW0SpxB05CfctrqCJtJEXqtWDfLNdtzPHIZAY8&e=3D=
-=20
-> > Signed-off-by: Yue Sun <samsun1006219@gmail.com>
-> > ---
-> > Changes in v2:
-> > - Add a commit-time guard before locking bitmap buffer_heads.
-> > - Replace the mount-time byte-range check with a simple drVBMSt check.
-> > - Reuse the existing bitmap writeback size calculation.
-> >=20
-> >  fs/hfs/mdb.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >=20
-> > diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-> > index a97cea35ca2e..53cd137892b5 100644
-> > --- a/fs/hfs/mdb.c
-> > +++ b/fs/hfs/mdb.c
-> > @@ -185,6 +185,11 @@ int hfs_mdb_get(struct super_block *sb)
-> >  		sb->s_flags |=3D SB_RDONLY;
-> >  	}
-> > =20
-> > +	if (be16_to_cpu(mdb->drVBMSt) <=3D HFS_MDB_BLK) {
->=20
-> Technically speaking, if we are trying to check the overlapping of volume=
- bitmap
-> with the main MDB record, then we need to check the overlapping with alte=
-rnative
-> MDB record, and with Catalog File and Extents Overflow File. However, it =
-sounds
-> like we are trying to add some FSCK logic here. :)
->=20
-> > +		pr_err("volume bitmap overlaps MDB\n");
->=20
-> This situation means volume corruption. It makes sense to recommend to ru=
-n FSCK.
->=20
-> > +		return -EIO;
->=20
-> This code error is wrong because the read operation was OK. But we have
-> corrupted volume. Even if we have overlapping of volume bitmap with MDB r=
-ecord,
-> then we cannot reject mount operation. We must mount in READ-ONLY mode be=
-cause,
-> potentially, the rest of metadata could be completely OK. We simply canno=
-t mount
-> in RW mode.
->=20
-> > +	}
-> > +
-> >  	/* TRY to get the alternate (backup) MDB. */
-> >  	sect =3D part_start + part_size - 2;
-> >  	bh =3D sb_bread512(sb, sect, mdb2);
-> > @@ -341,6 +346,11 @@ void hfs_mdb_commit(struct super_block *sb)
-> >  		size =3D (HFS_SB(sb)->fs_ablocks + 7) / 8;
-> >  		ptr =3D (u8 *)HFS_SB(sb)->bitmap;
-> >  		while (size) {
-> > +			if (unlikely(block =3D=3D HFS_SB(sb)->mdb_bh->b_blocknr)) {
-> > +				pr_err("volume bitmap overlaps MDB, forcing read-only\n");
-> > +				sb->s_flags |=3D SB_RDONLY;
-> > +				break;
-> > +			}
->=20
-> At this point, we already wrote main MDB and alternative MDB to the volum=
-e.
-> Theoretically, it is possible to imagine that if size of volume bitmap is=
- big
-> enough, then we could partially process the bitmap too. Probably, we need=
- to
-> check the overlapping at the beginning of the method and reject the whole
-> superblock commit.
->=20
-> Initial issue was the deadlock. Could we implement some check that buffer=
-_heads
-> don't overlap before trying to lock? Does it make sense to you?
->=20
+This proposal introduces machinery for documenting kernel APIs, addressing the
+long-standing challenge of maintaining stable interfaces between the kernel and
+user-space programs. Despite the kernel's commitment to never breaking user
+space, the lack of machine-readable API specifications has led to breakages
+across kernel interfaces.
 
-By the way, I can see the deadlock in hfs_mdb_commit() even for completely =
-valid
-HFS volume during generic/013 test run. This issue takes place because foli=
-o
-lock related issue. I remember that somebody has sent the patch related to =
-this
-issue but we haven't finished the discussion with some reasonable solution.=
- I
-think we need to rework the locking scheme:
+Specifications can document parameter types, valid ranges, constraints, and
+alignment requirements. They capture return value semantics including success
+conditions and error codes with their meaning. Execution context requirements,
+capabilities, locking constraints, signal handling behavior, and side effects
+can all be formally specified.
 
-diff --git a/fs/hfs/hfs_fs.h b/fs/hfs/hfs_fs.h
-index 97e8d1f96d6d..919798eda0f8 100644
---- a/fs/hfs/hfs_fs.h
-+++ b/fs/hfs/hfs_fs.h
-@@ -64,6 +64,7 @@ struct hfs_inode_info {
-  * The HFS-specific part of a Linux (struct super_block)
-  */
- struct hfs_sb_info {
-+	struct mutex mdb_lock;			/* MDB operations lock */
- 	struct buffer_head *mdb_bh;		/* The hfs_buffer
- 						   holding the real
- 						   superblock (aka VIB
-diff --git a/fs/hfs/mdb.c b/fs/hfs/mdb.c
-index a97cea35ca2e..94497c155d29 100644
---- a/fs/hfs/mdb.c
-+++ b/fs/hfs/mdb.c
-@@ -291,9 +291,9 @@ void hfs_mdb_commit(struct super_block *sb)
- 	if (sb_rdonly(sb))
- 		return;
-=20
--	lock_buffer(HFS_SB(sb)->mdb_bh);
- 	if (test_and_clear_bit(HFS_FLG_MDB_DIRTY, &HFS_SB(sb)->flags)) {
- 		/* These parameters may have been modified, so write them back
-*/
-+		lock_buffer(HFS_SB(sb)->mdb_bh);
- 		mdb->drLsMod =3D hfs_mtime();
- 		mdb->drFreeBks =3D cpu_to_be16(HFS_SB(sb)->free_ablocks);
- 		mdb->drNxtCNID =3D
-@@ -304,6 +304,7 @@ void hfs_mdb_commit(struct super_block *sb)
- 			cpu_to_be32((u32)atomic64_read(&HFS_SB(sb)-
->file_count));
- 		mdb->drDirCnt =3D
- 			cpu_to_be32((u32)atomic64_read(&HFS_SB(sb)-
->folder_count));
-+		unlock_buffer(HFS_SB(sb)->mdb_bh);
-=20
- 		/* write MDB to disk */
- 		mark_buffer_dirty(HFS_SB(sb)->mdb_bh);
-@@ -360,7 +361,6 @@ void hfs_mdb_commit(struct super_block *sb)
- 			size -=3D len;
- 		}
- 	}
--	unlock_buffer(HFS_SB(sb)->mdb_bh);
- }
-=20
- void hfs_mdb_close(struct super_block *sb)
-diff --git a/fs/hfs/super.c b/fs/hfs/super.c
-index a466c401f6bb..5d4caf3ddda6 100644
---- a/fs/hfs/super.c
-+++ b/fs/hfs/super.c
-@@ -35,7 +35,11 @@ MODULE_LICENSE("GPL");
- static int hfs_sync_fs(struct super_block *sb, int wait)
- {
- 	is_hfs_cnid_counts_valid(sb);
-+
-+	mutex_lock(&HFS_SB(sb)->mdb_lock);
- 	hfs_mdb_commit(sb);
-+	mutex_unlock(&HFS_SB(sb)->mdb_lock);
-+
- 	return 0;
- }
-=20
-@@ -68,7 +72,9 @@ static void flush_mdb(struct work_struct *work)
-=20
- 	is_hfs_cnid_counts_valid(sb);
-=20
-+	mutex_lock(&sbi->mdb_lock);
- 	hfs_mdb_commit(sb);
-+	mutex_unlock(&sbi->mdb_lock);
- }
-=20
- void hfs_mark_mdb_dirty(struct super_block *sb)
-@@ -339,9 +345,13 @@ static int hfs_fill_super(struct super_block *sb, stru=
-ct
-fs_context *fc)
- 	sb->s_op =3D &hfs_super_operations;
- 	sb->s_xattr =3D hfs_xattr_handlers;
- 	sb->s_flags |=3D SB_NOATIME | SB_NODIRATIME;
-+	mutex_init(&sbi->mdb_lock);
- 	mutex_init(&sbi->bitmap_lock);
-=20
-+	mutex_lock(&sbi->mdb_lock);
- 	res =3D hfs_mdb_get(sb);
-+	mutex_unlock(&sbi->mdb_lock);
-+
- 	if (res) {
- 		if (!silent)
- 			pr_warn("can't find a HFS filesystem on dev %s\n",
+These specifications live alongside the code they document and are both
+human-readable and machine-parseable. They can be validated at runtime when
+CONFIG_KAPI_RUNTIME_CHECKS is enabled, exported via debugfs for userspace
+tools, and extracted from either vmlinux or source code.
 
-What do you think?
+This enables static analysis tools to verify userspace API usage at compile
+time, test generation based on formal specifications, consistent error handling
+validation, automated documentation generation, and formal verification of
+kernel interfaces.
 
-Thanks,
-Slava.
+The implementation includes a core framework with ELF section storage,
+kerneldoc integration for inline specification, a debugfs interface for runtime
+querying, ftrace tracepoints that report each spec'd syscall's parameters and
+return value, and a Rust-based extraction tool (tools/kapi) supporting JSON,
+RST, and plain text output formats. Example specifications are provided for the
+four fundamental file syscalls (sys_open, sys_close, sys_read, sys_write) and
+for sys_madvise. The series also includes a KUnit test suite with 27 tests and
+a runtime verification selftest with 29 TAP tests.
+
+The series with runtime testing enabled (CONFIG_KAPI_RUNTIME_CHECKS=y)
+currently survives LTP tests in a KVM VM.
+
+Changes since v3:
+
+- Fix the build with CONFIG_KAPI_SPEC=y: scripts/Makefile.build now derives the
+  list of instrumented sources from $(real-obj-y)/$(real-obj-m) instead of a
+  recursive find, and the detection regex matches "contexts:" (the token the
+  syscalls actually use). The previous "context-flags:"-only match found no
+  files, so no *.apispec.h was generated and the guarded includes failed to
+  compile.
+
+- Force-include the generated *.apispec.h via a per-object -include cflag in
+  scripts/Makefile.build rather than a manual "#include" at the end of each
+  instrumented source; the include blocks are dropped from fs/open.c and
+  fs/read_write.c.
+
+- kernel/Makefile: drop the redundant "obj- += api/"; the
+  obj-$(CONFIG_KAPI_SPEC) gate already covers 'make clean'.
+
+- kernel/api/Makefile: build kernel_api_spec.o with obj-y now that the subdir
+  gate lives in kernel/Makefile.
+
+- kernel/api/Kconfig: drop the tautological "default n" from KAPI_SPEC,
+  KAPI_RUNTIME_CHECKS and KAPI_SPEC_DEBUGFS.
+
+- Add an API specification for sys_madvise.
+
+- Add ftrace tracepoints on the runtime-check path: kapi_syscall_enter (spec
+  name and named parameter values) and kapi_syscall_exit (return value and
+  spec match).
+
+Changes since v2:
+
+- Replace statically sized arrays in the spec structs with const char *
+  pointers to reduce memory footprint and remove string truncation.
+
+- Simplify the kerneldoc DSL to short tokens (e.g. `type: uint, input`,
+  `contexts: process, softirq`, `constraint-type: range(0, KMAX)`,
+  `side-effect: alloc_memory`) in place of raw KAPI_* enum names.
+
+- tools/kapi: commit Cargo.lock for reproducible offline builds, add a
+  Makefile and README, expand the kerneldoc parser to cover the full
+  DSL, and refactor the vmlinux extractor for the const-pointer layout.
+
+- tools/lib/python/kdoc/kdoc_apispec.py expanded to match the DSL so
+  scripts/kernel-doc --apispec emits the structure the extractor consumes.
+
+References:
+
+  v3: https://lore.kernel.org/all/20260424165130.2306833-1-sashal@kernel.org/
+  v2: https://lore.kernel.org/all/20260322121026.869758-1-sashal@kernel.org/
+  v1: https://lore.kernel.org/all/20260313150928.2637368-1-sashal@kernel.org/
+  RFC v5: https://lore.kernel.org/lkml/20251218204239.4159453-1-sashal@kernel.org/
+  RFC v4: https://lore.kernel.org/lkml/20250825181434.3340805-1-sashal@kernel.org/
+  RFC v3: https://lore.kernel.org/lkml/20250711114248.2288591-1-sashal@kernel.org/
+  RFC v2: https://lore.kernel.org/lkml/20250624180742.5795-1-sashal@kernel.org/
+  RFC v1: https://lore.kernel.org/lkml/20250614134858.790460-1-sashal@kernel.org/
+
+Sasha Levin (11):
+  kernel/api: introduce kernel API specification framework
+  kernel/api: enable kerneldoc-based API specifications
+  kernel/api: add debugfs interface for kernel API specifications
+  tools/kapi: add kernel API specification extraction tool
+  kernel/api: add API specification for sys_open
+  kernel/api: add API specification for sys_close
+  kernel/api: add API specification for sys_read
+  kernel/api: add API specification for sys_write
+  kernel/api: add runtime verification selftest
+  kernel/api: add API specification for sys_madvise
+  kernel/api: add syscall enter/exit tracepoints
+
+ .gitignore                                    |    1 +
+ Documentation/dev-tools/index.rst             |    1 +
+ Documentation/dev-tools/kernel-api-spec.rst   |  746 +++++
+ MAINTAINERS                                   |   12 +
+ Makefile                                      |    1 +
+ arch/x86/include/asm/syscall_wrapper.h        |   40 +
+ fs/open.c                                     |  561 ++++
+ fs/read_write.c                               |  692 ++++
+ include/asm-generic/vmlinux.lds.h             |   28 +
+ include/linux/kernel_api_spec.h               | 1270 ++++++++
+ include/linux/syscalls.h                      |   38 +
+ include/trace/events/kapi.h                   |   74 +
+ init/Kconfig                                  |    2 +
+ kernel/Makefile                               |    1 +
+ kernel/api/Kconfig                            |   74 +
+ kernel/api/Makefile                           |   14 +
+ kernel/api/internal.h                         |   21 +
+ kernel/api/kapi_debugfs.c                     |  553 ++++
+ kernel/api/kapi_kunit.c                       |  538 ++++
+ kernel/api/kernel_api_spec.c                  | 1424 +++++++++
+ mm/madvise.c                                  |  575 ++++
+ scripts/Makefile.build                        |   20 +
+ tools/docs/kernel-doc                         |    5 +
+ tools/kapi/.gitignore                         |    4 +
+ tools/kapi/Cargo.lock                         |  679 ++++
+ tools/kapi/Cargo.toml                         |   20 +
+ tools/kapi/Makefile                           |   33 +
+ tools/kapi/README.md                          |   32 +
+ tools/kapi/src/extractor/debugfs.rs           |  849 +++++
+ tools/kapi/src/extractor/kerneldoc_parser.rs  | 2831 +++++++++++++++++
+ tools/kapi/src/extractor/mod.rs               |  388 +++
+ tools/kapi/src/extractor/source_parser.rs     |  415 +++
+ .../src/extractor/vmlinux/binary_utils.rs     |  462 +++
+ .../src/extractor/vmlinux/magic_finder.rs     |  115 +
+ tools/kapi/src/extractor/vmlinux/mod.rs       |  857 +++++
+ tools/kapi/src/formatter/json.rs              |  634 ++++
+ tools/kapi/src/formatter/mod.rs               |  122 +
+ tools/kapi/src/formatter/plain.rs             |  646 ++++
+ tools/kapi/src/formatter/rst.rs               |  726 +++++
+ tools/kapi/src/main.rs                        |  123 +
+ tools/lib/python/kdoc/kdoc_apispec.py         | 1313 ++++++++
+ tools/lib/python/kdoc/kdoc_output.py          |    9 +-
+ tools/lib/python/kdoc/kdoc_parser.py          |   86 +-
+ tools/testing/selftests/Makefile              |    1 +
+ tools/testing/selftests/kapi/Makefile         |    7 +
+ tools/testing/selftests/kapi/kapi_test_util.h |   33 +
+ tools/testing/selftests/kapi/test_kapi.c      | 1096 +++++++
+ 47 files changed, 18167 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/dev-tools/kernel-api-spec.rst
+ create mode 100644 include/linux/kernel_api_spec.h
+ create mode 100644 include/trace/events/kapi.h
+ create mode 100644 kernel/api/Kconfig
+ create mode 100644 kernel/api/Makefile
+ create mode 100644 kernel/api/internal.h
+ create mode 100644 kernel/api/kapi_debugfs.c
+ create mode 100644 kernel/api/kapi_kunit.c
+ create mode 100644 kernel/api/kernel_api_spec.c
+ create mode 100644 tools/kapi/.gitignore
+ create mode 100644 tools/kapi/Cargo.lock
+ create mode 100644 tools/kapi/Cargo.toml
+ create mode 100644 tools/kapi/Makefile
+ create mode 100644 tools/kapi/README.md
+ create mode 100644 tools/kapi/src/extractor/debugfs.rs
+ create mode 100644 tools/kapi/src/extractor/kerneldoc_parser.rs
+ create mode 100644 tools/kapi/src/extractor/mod.rs
+ create mode 100644 tools/kapi/src/extractor/source_parser.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/magic_finder.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
+ create mode 100644 tools/kapi/src/formatter/json.rs
+ create mode 100644 tools/kapi/src/formatter/mod.rs
+ create mode 100644 tools/kapi/src/formatter/plain.rs
+ create mode 100644 tools/kapi/src/formatter/rst.rs
+ create mode 100644 tools/kapi/src/main.rs
+ create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
+ create mode 100644 tools/testing/selftests/kapi/Makefile
+ create mode 100644 tools/testing/selftests/kapi/kapi_test_util.h
+ create mode 100644 tools/testing/selftests/kapi/test_kapi.c
+
+-- 
+2.53.0
 
