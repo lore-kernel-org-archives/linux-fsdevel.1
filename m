@@ -1,60 +1,46 @@
-Received: from r3-22.sinamail.sina.com.cn (r3-22.sinamail.sina.com.cn [202.108.3.22])
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE48329E79
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 22:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC9230B51D;
+	Fri, 29 May 2026 22:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780092708; cv=none; b=KddU3ov+cuMUIXApJaCeJgo32dlUrU4mD4CkxQFZO0YjpeJNaKjUxEbDInlhTLokvO3V44Jvu0o7cNz1QKkvO+pRuOLw9/IJtNmNcsb7NCesl+U0LctOYHtL7NuSfzAOpIBo4MeFEydAHh0jsg3dMof9DlhbnGFUVqtjRjgBOq8=
+	t=1780092761; cv=none; b=kUOHuv6HPNb/iCBbyi87z0DEOkfyAvzqueAFXR7zAhh3BxWm4MxcVQS9M+KeZg24gJhR3O4pX/nRBzprPafp1fWRU4cw7dHEqvdp0aOrrFxe1illkyNaJouSA77QU8o4vcFQTumkRlA6JGaHQDmW8eO7Vn08HzckOPSvo+J8kkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780092708; c=relaxed/simple;
-	bh=FrlNSD5ptoLwRoC92Nn/ePPH3Q6UgR3eP7lFPmRGkjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kgwcbE2IWt6N1lbgcujgeCckDaaHV40SEsae/lTJtF0RSfO+dYwmgpcBcRobhXZCb0Ox2ipQx2BABJLA6MVJ4ykUaV6Bh+voY1kOsNaWRuivxYuhIIxlyDWz8AEj/Hne8AaTRgzXURsDkVxqkuvToUVeHeNwSR7M1aky9EvDszI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=RywAdWUj; arc=none smtp.client-ip=202.108.3.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	s=arc-20240116; t=1780092761; c=relaxed/simple;
+	bh=GkJC3egb4LS1ayZPA66NZ/YQZuamGbqIAJf5LPP1Qbc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I62gw8tCMHWB9tsH1R+M2MQKW3k2m8x75aVykW+Gb5N0JVDOUwJZBQMjQxUgTvZvWF67GLySVraDbdY8g+8EzVP6LJtd93U9T8w0SV4B7Z8WOGey044fd/2oQvxfVcCwlODwGkOi5A5e6jGN0VhDZSj4vbrYk7fvdWG6YRRPvUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net; spf=pass smtp.mailfrom=iogearbox.net; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=VeFZeFSo; arc=none smtp.client-ip=213.133.104.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="RywAdWUj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1780092704;
-	bh=tV9YFy/TIg8r8/7C2E2kcrSOZPl7xJdXK++V+f+9xIc=;
-	h=From:Subject:Date:Message-ID;
-	b=RywAdWUjIXDjzd0kBDGHEVYnZiJvgGrJHahSl1W+/Sjv8UO8zHZ22RvOMHKsJF53I
-	 VUUKH6487DW7WjsDGJqZ+GfT4tCtNGUvKlYZAlL7ZGaFI0YmlJhU2qOOzfU/DqG8qN
-	 WsMW/uW5MW6oJ2ss0ujUMeQA3W60DfYDIs49G7eg=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
-	by sina.com (10.54.253.33) with ESMTP
-	id 6A1A0DD200007033; Fri, 30 May 2026 06:06:11 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 9575776685448
-X-SMAIL-UIID: 45EF894C6A164D4D8498A92F92AF606C-20260530-060611-1
-From: Hillf Danton <hdanton@sina.com>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Ming Lei <tom.leiming@gmail.com>,
-	linux-block <linux-block@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-btrfs@vger.kernel.org,
-	David Sterba <dsterba@suse.com>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	syzbot+78ad2c6a58c0a1faa5f5@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
-Date: Sat, 30 May 2026 06:05:59 +0800
-Message-ID: <20260529220600.1226-1-hdanton@sina.com>
-In-Reply-To: <20260529070411.1206-1-hdanton@sina.com>
-References: 
+	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="VeFZeFSo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=Nog/jWc5yi9ePYTbIawRZOv/Eax+bE3eHqXgfQPwFso=; b=VeFZeFSo7xwGlByhVOSwCTTi7O
+	suo1VnrLTBX54syLYHoQ5uVGOIrEkYuqYQ/eepO1EQjVQIHYfhsBba8kpz5/8R1yGeg+Y4/DAhw86
+	ZxBAHwJro7r/ivrT57UBFy9BZzzh6TDW3xs60dzlHN1++EHG2gWZe5QqGzIM7thcUtaDsZp1Dg7DV
+	3EDozXVZBm7FeOSm0dC1ZBE2eR4diwnK59twu5OsMo8WTgQkea3tcyVZdOGDHiT007NrMb/AN27L2
+	cx89n0oLuxr2SoznXV/QZvxuDzONJy+SMwJk7waNuJfH488aNbcTz/aR2LGDpgtJQ1or2uxd8ctk5
+	CSlwa9+Q==;
+Received: from localhost ([127.0.0.1])
+	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1wT5RT-0005Vj-11;
+	Sat, 30 May 2026 00:12:35 +0200
+From: Daniel Borkmann <daniel@iogearbox.net>
+To: brauner@kernel.org
+Cc: alexei.starovoitov@gmail.com,
+	bpf@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH vfs-7.2.xattr v2] bpf: Add simple xattr support to bpffs
+Date: Sat, 30 May 2026 00:12:34 +0200
+Message-ID: <20260529221234.324174-1-daniel@iogearbox.net>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -62,241 +48,456 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: Clear (ClamAV 1.4.3/28015/Fri May 29 08:24:51 2026)
 
-On Fri, 29 May 2026 15:04:10 +0800 Hillf Danton wrote:
->On Fri, 29 May 2026 09:14:47 +0900 Tetsuo Handa wrote:
->>On 2026/05/29 8:00, Hillf Danton wrote:
->>>> Given the loop workqueue that triggered the jfs warning, can you specify
->>>> the reason why the workqueue in question is NOT flushed while closing disk?
->>>>
->>> Got it, the loop workqueue is NOT flushed to avoid deadlock, see d292dc80686a
->>> ("loop: don't destroy lo->workqueue in __loop_clr_fd") for detail.
->>> And the deadlock can be reproduced by flushing the loop workqueue with
->>> disk->open_mutex held [1].
->>> 
->>> [1] Subject: Re: [syzbot] possible deadlock in blkdev_put (3)
->>> https://lore.kernel.org/lkml/000000000000ea753505da2658d5@google.com/
->>
->>We can avoid the following lockdep warnings (including [1] you mentioned)
->>
->>  https://syzkaller.appspot.com/bug?extid=2f62807dc3239b8f584e
->>  https://syzkaller.appspot.com/bug?extid=c4e9d077bcc86bee08dc
->>  https://syzkaller.appspot.com/bug?extid=0f427123ae84b3ba6dc7
->>  https://syzkaller.appspot.com/bug?extid=4feabfc9641267769c97
->>  https://syzkaller.appspot.com/bug?extid=fb0ff9bfe34ad282ebd4
->>
->>caused by "drain_workqueue() with disk->open_mutex held" if we assign
->>caller-specific lockdep class to disk->open_mutex
->>
->>  https://sourceforge.net/p/tomoyo/tomoyo.git/ci/c2245c765ebeba9dcb924d9171d8d470a9ac41c8/
->>
->>.
->>
->>Also, we can avoid lockdep warning caused by "drain_workqueue() with disk->open_mutex held" +
->>"holding system_transition_mutex" if we forbid binding to pseudo files as backing file
->>in the loop driver
->>
->>  https://lkml.kernel.org/r/d38e4600-3c32-491f-aa49-905f4fad1bfb@I-love.SAKURA.ne.jp
->>
->>which we can reproduce with
->>
->>  echo 7:0 > /sys/power/resume
->>  losetup /dev/loop0 /sys/power/resume
->>  cat /dev/loop0 > /dev/null
->>  losetup -d /dev/loop0
->>
->>.
->>
->> Therefore, I think we can address this problem by "drain_workqueue() with disk->open_mutex
->> held" in the loop driver side.
->>
-> Good news.
->
-Bad news: Subject: [syzbot] [block?] possible deadlock in loop_process_work
-[3] https://lore.kernel.org/lkml/6a19f5f7.5099cdd9.8e407.0004.GAE@google.com/
+Add support for extended attributes on bpffs inodes so that user space
+and BPF LSM programs can attach metadata, for example, a content hash
+or a security label - to a pinned object or directory. BPF LSM or user
+space tooling can then uniformly look at this (e.g. security.bpf.*) in
+similar way to other fs'es. The store is in-memory and non-persistent:
+it lives only for the lifetime of the mount, like everything else in
+bpffs. The modelling is similar to tmpfs.
 
-syzbot found the following issue on:
+bpffs serves the trusted.* and security.* namespaces; user.* is left
+unsupported. As bpffs is FS_USERNS_MOUNT, security.* is reachable by
+the unprivileged mounter in a user namespace, and thus we are using
+the simple_xattr_set_limited infra there (trusted.* needs global
+CAP_SYS_ADMIN).
 
-HEAD commit:    c1ecb239fa34 Add linux-next specific files for 20260522
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=12fa6336580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=77a9211ff284de54
-dashboard link: https://syzkaller.appspot.com/bug?extid=78ad2c6a58c0a1faa5f5
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+bpf_fill_super() is open-coded instead of using simple_fill_super(),
+because the root inode must now be allocated through bpf_fs_alloc_inode()
+i.e. carry the bpf_fs_inode wrapper and come from the right cache -
+which requires s_op (and s_xattr) to be installed before the first
+inode is created. While at it, also harden s_iflags with SB_I_NOEXEC
+and SB_I_NODEV.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+bpf_fs_listxattr() is only reachable through the filesystem via
+i_op->listxattr, so the BPF token inode is left untouched. Name-based
+fsetxattr()/fgetxattr() on a token fd still work since the get/set
+handlers are installed at the superblock.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/4cb88c910144/disk-c1ecb239.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/4a9bc938cf88/vmlinux-c1ecb239.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/684f1e33f264/bzImage-c1ecb239.xz
+Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+---
+ v1->v2:
+  - Rebase against vfs-7.2.xattr for routing via vfs given it
+    contains simple xattr rework (Christian, Alexei)
+  - Use simple_xattr_set_limited for security.* namespace (sashiko)
+  - Dropped user.* namespace (sashiko)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+78ad2c6a58c0a1faa5f5@syzkaller.appspotmail.com
+ include/linux/bpf.h |   3 +
+ kernel/bpf/inode.c  | 248 +++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 234 insertions(+), 17 deletions(-)
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Tainted: G             L
-------------------------------------------------------
-kworker/u8:15/1491 is trying to acquire lock:
-ffff88805e1a6480 (sb_writers#5){.+.+}-{0:0}, at: do_req_filebacked drivers/block/loop.c:433 [inline]
-ffff88805e1a6480 (sb_writers#5){.+.+}-{0:0}, at: loop_handle_cmd drivers/block/loop.c:1941 [inline]
-ffff88805e1a6480 (sb_writers#5){.+.+}-{0:0}, at: loop_process_work+0x637/0x11b0 drivers/block/loop.c:1976
+diff --git a/include/linux/bpf.h b/include/linux/bpf.h
+index b4b703c90ca9..434ba91401c6 100644
+--- a/include/linux/bpf.h
++++ b/include/linux/bpf.h
+@@ -31,6 +31,7 @@
+ #include <linux/static_call.h>
+ #include <linux/memcontrol.h>
+ #include <linux/cfi.h>
++#include <linux/xattr.h>
+ #include <asm/rqspinlock.h>
+ 
+ struct bpf_verifier_env;
+@@ -1918,6 +1919,8 @@ struct bpf_mount_opts {
+ 	u64 delegate_maps;
+ 	u64 delegate_progs;
+ 	u64 delegate_attachs;
++
++	struct simple_xattr_cache xa_cache;
+ };
+ 
+ struct bpf_token {
+diff --git a/kernel/bpf/inode.c b/kernel/bpf/inode.c
+index 25c06a011825..7bd21cf4e857 100644
+--- a/kernel/bpf/inode.c
++++ b/kernel/bpf/inode.c
+@@ -21,6 +21,9 @@
+ #include <linux/bpf.h>
+ #include <linux/bpf_trace.h>
+ #include <linux/kstrtox.h>
++#include <linux/xattr.h>
++#include <linux/security.h>
++
+ #include "preload/bpf_preload.h"
+ 
+ enum bpf_type {
+@@ -30,6 +33,23 @@ enum bpf_type {
+ 	BPF_TYPE_LINK,
+ };
+ 
++struct bpf_fs_inode {
++	struct list_head		xattrs;
++	struct simple_xattr_limits	xlimits;
++	struct inode			vfs_inode;
++};
++
++static inline struct bpf_fs_inode *BPF_FS_I(struct inode *inode)
++{
++	return container_of(inode, struct bpf_fs_inode, vfs_inode);
++}
++
++static struct kmem_cache *bpf_fs_inode_cachep __ro_after_init;
++
++static int bpf_fs_initxattrs(struct inode *inode,
++			     const struct xattr *xattr_array, void *fs_info);
++static ssize_t bpf_fs_listxattr(struct dentry *dentry, char *buf, size_t size);
++
+ static void *bpf_any_get(void *raw, enum bpf_type type)
+ {
+ 	switch (type) {
+@@ -94,10 +114,17 @@ static void *bpf_fd_probe_obj(u32 ufd, enum bpf_type *type)
+ }
+ 
+ static const struct inode_operations bpf_dir_iops;
++static const struct inode_operations bpf_symlink_iops;
+ 
+-static const struct inode_operations bpf_prog_iops = { };
+-static const struct inode_operations bpf_map_iops  = { };
+-static const struct inode_operations bpf_link_iops  = { };
++static const struct inode_operations bpf_prog_iops = {
++	.listxattr	= bpf_fs_listxattr,
++};
++static const struct inode_operations bpf_map_iops  = {
++	.listxattr	= bpf_fs_listxattr,
++};
++static const struct inode_operations bpf_link_iops  = {
++	.listxattr	= bpf_fs_listxattr,
++};
+ 
+ struct inode *bpf_get_inode(struct super_block *sb,
+ 			    const struct inode *dir,
+@@ -153,11 +180,19 @@ static struct dentry *bpf_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+ 				struct dentry *dentry, umode_t mode)
+ {
+ 	struct inode *inode;
++	int ret;
+ 
+ 	inode = bpf_get_inode(dir->i_sb, dir, mode | S_IFDIR);
+ 	if (IS_ERR(inode))
+ 		return ERR_CAST(inode);
+ 
++	ret = security_inode_init_security(inode, dir, &dentry->d_name,
++					   bpf_fs_initxattrs, NULL);
++	if (ret && ret != -EOPNOTSUPP) {
++		iput(inode);
++		return ERR_PTR(ret);
++	}
++
+ 	inode->i_op = &bpf_dir_iops;
+ 	inode->i_fop = &simple_dir_operations;
+ 
+@@ -330,10 +365,20 @@ static int bpf_mkobj_ops(struct dentry *dentry, umode_t mode, void *raw,
+ 			 const struct file_operations *fops)
+ {
+ 	struct inode *dir = dentry->d_parent->d_inode;
+-	struct inode *inode = bpf_get_inode(dir->i_sb, dir, mode);
++	struct inode *inode;
++	int ret;
++
++	inode = bpf_get_inode(dir->i_sb, dir, mode);
+ 	if (IS_ERR(inode))
+ 		return PTR_ERR(inode);
+ 
++	ret = security_inode_init_security(inode, dir, &dentry->d_name,
++					   bpf_fs_initxattrs, NULL);
++	if (ret && ret != -EOPNOTSUPP) {
++		iput(inode);
++		return ret;
++	}
++
+ 	inode->i_op = iops;
+ 	inode->i_fop = fops;
+ 	inode->i_private = raw;
+@@ -382,9 +427,11 @@ bpf_lookup(struct inode *dir, struct dentry *dentry, unsigned flags)
+ static int bpf_symlink(struct mnt_idmap *idmap, struct inode *dir,
+ 		       struct dentry *dentry, const char *target)
+ {
+-	char *link = kstrdup(target, GFP_USER | __GFP_NOWARN);
+ 	struct inode *inode;
++	char *link;
++	int ret;
+ 
++	link = kstrdup(target, GFP_USER | __GFP_NOWARN);
+ 	if (!link)
+ 		return -ENOMEM;
+ 
+@@ -394,13 +441,25 @@ static int bpf_symlink(struct mnt_idmap *idmap, struct inode *dir,
+ 		return PTR_ERR(inode);
+ 	}
+ 
+-	inode->i_op = &simple_symlink_inode_operations;
++	inode->i_op = &bpf_symlink_iops;
+ 	inode->i_link = link;
+ 
++	ret = security_inode_init_security(inode, dir, &dentry->d_name,
++					   bpf_fs_initxattrs, NULL);
++	if (ret && ret != -EOPNOTSUPP) {
++		iput(inode);
++		return ret;
++	}
++
+ 	bpf_dentry_finalize(dentry, inode, dir);
+ 	return 0;
+ }
+ 
++static const struct inode_operations bpf_symlink_iops = {
++	.get_link	= simple_get_link,
++	.listxattr	= bpf_fs_listxattr,
++};
++
+ static const struct inode_operations bpf_dir_iops = {
+ 	.lookup		= bpf_lookup,
+ 	.mkdir		= bpf_mkdir,
+@@ -409,6 +468,7 @@ static const struct inode_operations bpf_dir_iops = {
+ 	.rename		= simple_rename,
+ 	.link		= simple_link,
+ 	.unlink		= simple_unlink,
++	.listxattr	= bpf_fs_listxattr,
+ };
+ 
+ /* pin iterator link into bpffs */
+@@ -762,22 +822,143 @@ static int bpf_show_options(struct seq_file *m, struct dentry *root)
+ 	return 0;
+ }
+ 
++static struct inode *bpf_fs_alloc_inode(struct super_block *sb)
++{
++	struct bpf_fs_inode *bi;
++
++	bi = alloc_inode_sb(sb, bpf_fs_inode_cachep, GFP_KERNEL);
++	if (!bi)
++		return NULL;
++	INIT_LIST_HEAD_RCU(&bi->xattrs);
++	simple_xattr_limits_init(&bi->xlimits);
++	return &bi->vfs_inode;
++}
++
+ static void bpf_destroy_inode(struct inode *inode)
+ {
++	struct bpf_mount_opts *opts = inode->i_sb->s_fs_info;
++	struct bpf_fs_inode *bi = BPF_FS_I(inode);
+ 	enum bpf_type type;
+ 
+ 	if (S_ISLNK(inode->i_mode))
+ 		kfree(inode->i_link);
+ 	if (!bpf_inode_type(inode, &type))
+ 		bpf_any_put(inode->i_private, type);
+-	free_inode_nonrcu(inode);
++	simple_xattrs_free(&opts->xa_cache, &bi->xattrs, NULL);
++}
++
++static void bpf_free_inode(struct inode *inode)
++{
++	kmem_cache_free(bpf_fs_inode_cachep, BPF_FS_I(inode));
++}
++
++static int bpf_fs_xattr_get(const struct xattr_handler *handler,
++			    struct dentry *unused, struct inode *inode,
++			    const char *name, void *value, size_t size)
++{
++	struct bpf_mount_opts *opts = inode->i_sb->s_fs_info;
++	struct bpf_fs_inode *bi = BPF_FS_I(inode);
++
++	name = xattr_full_name(handler, name);
++	return simple_xattr_get(&opts->xa_cache, &bi->xattrs, name, value, size);
++}
++
++enum {
++	BPF_FS_XATTR_SECURITY,
++	BPF_FS_XATTR_TRUSTED,
++};
++
++static int bpf_fs_xattr_set(const struct xattr_handler *handler,
++			    struct mnt_idmap *idmap, struct dentry *unused,
++			    struct inode *inode, const char *name,
++			    const void *value, size_t size, int flags)
++{
++	struct bpf_mount_opts *opts = inode->i_sb->s_fs_info;
++	struct bpf_fs_inode *bi = BPF_FS_I(inode);
++	struct simple_xattr *old;
++	int err;
++
++	name = xattr_full_name(handler, name);
++	if (handler->flags == BPF_FS_XATTR_SECURITY) {
++		err = simple_xattr_set_limited(&opts->xa_cache, &bi->xattrs,
++					       &bi->xlimits, name, value, size,
++					       flags);
++	} else {
++		old = simple_xattr_set(&opts->xa_cache, &bi->xattrs, name,
++				       value, size, flags);
++		err = IS_ERR(old) ? PTR_ERR(old) : 0;
++		if (!err)
++			simple_xattr_free_rcu(old);
++	}
++	if (err)
++		return err;
++	inode_set_ctime_current(inode);
++	return 0;
++}
++
++static const struct xattr_handler bpf_fs_trusted_xattr_handler = {
++	.prefix	= XATTR_TRUSTED_PREFIX,
++	.flags	= BPF_FS_XATTR_TRUSTED,
++	.get	= bpf_fs_xattr_get,
++	.set	= bpf_fs_xattr_set,
++};
++
++static const struct xattr_handler bpf_fs_security_xattr_handler = {
++	.prefix	= XATTR_SECURITY_PREFIX,
++	.flags	= BPF_FS_XATTR_SECURITY,
++	.get	= bpf_fs_xattr_get,
++	.set	= bpf_fs_xattr_set,
++};
++
++static const struct xattr_handler * const bpf_fs_xattr_handlers[] = {
++	&bpf_fs_trusted_xattr_handler,
++	&bpf_fs_security_xattr_handler,
++	NULL,
++};
++
++static ssize_t bpf_fs_listxattr(struct dentry *dentry, char *buf, size_t size)
++{
++	struct inode *inode = d_inode(dentry);
++
++	return simple_xattr_list(inode, &BPF_FS_I(inode)->xattrs, buf, size);
++}
++
++static int bpf_fs_initxattrs(struct inode *inode,
++			     const struct xattr *xattr_array, void *fs_info)
++{
++	struct bpf_mount_opts *opts = inode->i_sb->s_fs_info;
++	struct bpf_fs_inode *bi = BPF_FS_I(inode);
++	const struct xattr *xattr;
++
++	for (xattr = xattr_array; xattr->name != NULL; xattr++) {
++		CLASS(simple_xattr, new_xattr)(xattr->value, xattr->value_len);
++		if (IS_ERR(new_xattr))
++			break;
++
++		new_xattr->name = kasprintf(GFP_KERNEL_ACCOUNT,
++					    XATTR_SECURITY_PREFIX "%s",
++					    xattr->name);
++		if (!new_xattr->name)
++			break;
++		if (simple_xattr_add(&opts->xa_cache, &bi->xattrs, new_xattr))
++			break;
++
++		retain_and_null_ptr(new_xattr);
++	}
++
++	if (xattr->name != NULL)
++		return -ENOMEM;
++
++	return 0;
+ }
+ 
+ const struct super_operations bpf_super_ops = {
+ 	.statfs		= simple_statfs,
+ 	.drop_inode	= inode_just_drop,
+ 	.show_options	= bpf_show_options,
++	.alloc_inode	= bpf_fs_alloc_inode,
+ 	.destroy_inode	= bpf_destroy_inode,
++	.free_inode	= bpf_free_inode,
+ };
+ 
+ enum {
+@@ -996,25 +1177,38 @@ static int populate_bpffs(struct dentry *parent)
+ 
+ static int bpf_fill_super(struct super_block *sb, struct fs_context *fc)
+ {
+-	static const struct tree_descr bpf_rfiles[] = { { "" } };
+ 	struct bpf_mount_opts *opts = sb->s_fs_info;
+ 	struct inode *inode;
+-	int ret;
+ 
+ 	/* Mounting an instance of BPF FS requires privileges */
+ 	if (fc->user_ns != &init_user_ns && !capable(CAP_SYS_ADMIN))
+ 		return -EPERM;
+ 
+-	ret = simple_fill_super(sb, BPF_FS_MAGIC, bpf_rfiles);
+-	if (ret)
+-		return ret;
+-
++	sb->s_blocksize = PAGE_SIZE;
++	sb->s_blocksize_bits = PAGE_SHIFT;
++	sb->s_magic = BPF_FS_MAGIC;
+ 	sb->s_op = &bpf_super_ops;
++	sb->s_xattr = bpf_fs_xattr_handlers;
++	sb->s_iflags |= SB_I_NOEXEC;
++	sb->s_iflags |= SB_I_NODEV;
++	sb->s_time_gran = 1;
++
++	inode = bpf_get_inode(sb, NULL, S_IFDIR | 0777);
++	if (IS_ERR(inode))
++		return PTR_ERR(inode);
++
++	inode->i_ino = 1;
++	inode->i_op = &bpf_dir_iops;
++	inode->i_fop = &simple_dir_operations;
++	set_nlink(inode, 2);
++
++	sb->s_root = d_make_root(inode);
++	if (!sb->s_root)
++		return -ENOMEM;
+ 
+-	inode = sb->s_root->d_inode;
++	inode = d_inode(sb->s_root);
+ 	inode->i_uid = opts->uid;
+ 	inode->i_gid = opts->gid;
+-	inode->i_op = &bpf_dir_iops;
+ 	inode->i_mode &= ~S_IALLUGO;
+ 	populate_bpffs(sb->s_root);
+ 	inode->i_mode |= S_ISVTX | opts->mode;
+@@ -1068,6 +1262,7 @@ static void bpf_kill_super(struct super_block *sb)
+ 	struct bpf_mount_opts *opts = sb->s_fs_info;
+ 
+ 	kill_anon_super(sb);
++	simple_xattr_cache_cleanup(&opts->xa_cache);
+ 	kfree(opts);
+ }
+ 
+@@ -1080,18 +1275,37 @@ static struct file_system_type bpf_fs_type = {
+ 	.fs_flags	= FS_USERNS_MOUNT,
+ };
+ 
++static void bpf_fs_inode_init_once(void *foo)
++{
++	struct bpf_fs_inode *bi = foo;
++
++	inode_init_once(&bi->vfs_inode);
++}
++
+ static int __init bpf_init(void)
+ {
+ 	int ret;
+ 
++	bpf_fs_inode_cachep = kmem_cache_create("bpf_fs_inode_cache",
++						sizeof(struct bpf_fs_inode), 0,
++						SLAB_RECLAIM_ACCOUNT | SLAB_ACCOUNT,
++						bpf_fs_inode_init_once);
++	if (!bpf_fs_inode_cachep)
++		return -ENOMEM;
++
+ 	ret = sysfs_create_mount_point(fs_kobj, "bpf");
+ 	if (ret)
+-		return ret;
++		goto out_cache;
+ 
+ 	ret = register_filesystem(&bpf_fs_type);
+-	if (ret)
++	if (ret) {
+ 		sysfs_remove_mount_point(fs_kobj, "bpf");
++		goto out_cache;
++	}
+ 
++	return 0;
++out_cache:
++	kmem_cache_destroy(bpf_fs_inode_cachep);
+ 	return ret;
+ }
+ fs_initcall(bpf_init);
+-- 
+2.43.0
 
-but task is already holding lock:
-ffffc90006e27c40 ((work_completion)(&worker->work)){+.+.}-{0:0}, at: process_one_work+0x8be/0x1630 kernel/workqueue.c:3294
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #7 ((work_completion)(&worker->work)){+.+.}-{0:0}:
-       process_one_work+0x8d7/0x1630 kernel/workqueue.c:3294
-       process_scheduled_works kernel/workqueue.c:3401 [inline]
-       worker_thread+0xb49/0x1140 kernel/workqueue.c:3482
-       kthread+0x388/0x470 kernel/kthread.c:436
-       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #6 ((wq_completion)loop4){+.+.}-{0:0}:
-       touch_wq_lockdep_map+0xcb/0x180 kernel/workqueue.c:4033
-       __flush_workqueue+0x14b/0x14f0 kernel/workqueue.c:4075
-       drain_workqueue+0xd3/0x390 kernel/workqueue.c:4239
-       __loop_clr_fd drivers/block/loop.c:1130 [inline]
-       lo_release+0x287/0x8f0 drivers/block/loop.c:1767
-       bdev_release+0x541/0x660 block/bdev.c:-1
-       blkdev_release+0x15/0x20 block/fops.c:705
-       __fput+0x461/0xa70 fs/file_table.c:510
-       fput_close_sync+0x11f/0x240 fs/file_table.c:615
-       __do_sys_close fs/open.c:1511 [inline]
-       __se_sys_close fs/open.c:1496 [inline]
-       __x64_sys_close+0x7e/0x110 fs/open.c:1496
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #5 (&disk->open_mutex){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
-       __del_gendisk+0x127/0x980 block/genhd.c:710
-       del_gendisk+0xe7/0x160 block/genhd.c:823
-       nbd_dev_remove drivers/block/nbd.c:268 [inline]
-       nbd_dev_remove_work+0x47/0xe0 drivers/block/nbd.c:284
-       process_one_work+0x98b/0x1630 kernel/workqueue.c:3318
-       process_scheduled_works kernel/workqueue.c:3401 [inline]
-       worker_thread+0xb49/0x1140 kernel/workqueue.c:3482
-       kthread+0x388/0x470 kernel/kthread.c:436
-       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #4 (&set->update_nr_hwq_lock){++++}-{4:4}:
-       down_read+0x97/0x200 kernel/locking/rwsem.c:1568
-       add_disk_fwnode+0xe7/0x480 block/genhd.c:596
-       add_disk include/linux/blkdev.h:794 [inline]
-       nbd_dev_add+0x72c/0xb50 drivers/block/nbd.c:1984
-       nbd_genl_connect+0x965/0x1c80 drivers/block/nbd.c:2125
-       genl_family_rcv_msg_doit+0x22a/0x330 net/netlink/genetlink.c:1114
-       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
-       genl_rcv_msg+0x61c/0x7a0 net/netlink/genetlink.c:1209
-       netlink_rcv_skb+0x232/0x4b0 net/netlink/af_netlink.c:2551
-       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x780/0x920 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1895
-       sock_sendmsg_nosec+0x112/0x150 net/socket.c:797
-       __sock_sendmsg net/socket.c:812 [inline]
-       ____sys_sendmsg+0x55c/0x870 net/socket.c:2716
-       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2770
-       __sys_sendmsg net/socket.c:2802 [inline]
-       __do_sys_sendmsg net/socket.c:2807 [inline]
-       __se_sys_sendmsg net/socket.c:2805 [inline]
-       __x64_sys_sendmsg+0x1c3/0x2a0 net/socket.c:2805
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #3 (genl_mutex){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
-       genl_lock net/netlink/genetlink.c:35 [inline]
-       genl_lock_all net/netlink/genetlink.c:48 [inline]
-       genl_register_family+0x7b9/0x17b0 net/netlink/genetlink.c:784
-       vdpa_init+0x39/0x70 drivers/vdpa/vdpa.c:1565
-       do_one_initcall+0x250/0x870 init/main.c:1347
-       do_initcall_level+0x104/0x190 init/main.c:1409
-       do_initcalls+0x59/0xa0 init/main.c:1425
-       kernel_init_freeable+0x2a6/0x3e0 init/main.c:1658
-       kernel_init+0x1d/0x1d0 init/main.c:1548
-       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #2 (cb_lock){++++}-{4:4}:
-       down_read+0x97/0x200 kernel/locking/rwsem.c:1568
-       genl_rcv+0x19/0x40 net/netlink/genetlink.c:1217
-       netlink_unicast_kernel net/netlink/af_netlink.c:1319 [inline]
-       netlink_unicast+0x780/0x920 net/netlink/af_netlink.c:1345
-       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1895
-       sock_sendmsg_nosec+0x112/0x150 net/socket.c:797
-       __sock_sendmsg net/socket.c:812 [inline]
-       sock_sendmsg+0x1ca/0x2d0 net/socket.c:835
-       splice_to_socket+0xae5/0x11f0 fs/splice.c:884
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0xef8/0x1940 fs/splice.c:1349
-       __do_splice fs/splice.c:1431 [inline]
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice+0x353/0x490 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&pipe->mutex){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
-       iter_file_splice_write+0x1f3/0x10f0 fs/splice.c:682
-       do_splice_from fs/splice.c:936 [inline]
-       do_splice+0xef8/0x1940 fs/splice.c:1349
-       __do_splice fs/splice.c:1431 [inline]
-       __do_sys_splice fs/splice.c:1634 [inline]
-       __se_sys_splice+0x353/0x490 fs/splice.c:1616
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (sb_writers#5){.+.+}-{0:0}:
-       check_prev_add kernel/locking/lockdep.c:3167 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3286 [inline]
-       validate_chain kernel/locking/lockdep.c:3910 [inline]
-       __lock_acquire+0x15a5/0x2d10 kernel/locking/lockdep.c:5239
-       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5870
-       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
-       percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
-       __sb_start_write include/linux/fs/super.h:19 [inline]
-       sb_start_write include/linux/fs/super.h:125 [inline]
-       kiocb_start_write include/linux/fs.h:2767 [inline]
-       lo_rw_aio+0xb1b/0xf00 drivers/block/loop.c:401
-       do_req_filebacked drivers/block/loop.c:433 [inline]
-       loop_handle_cmd drivers/block/loop.c:1941 [inline]
-       loop_process_work+0x637/0x11b0 drivers/block/loop.c:1976
-       process_one_work+0x98b/0x1630 kernel/workqueue.c:3318
-       process_scheduled_works kernel/workqueue.c:3401 [inline]
-       worker_thread+0xb49/0x1140 kernel/workqueue.c:3482
-       kthread+0x388/0x470 kernel/kthread.c:436
-       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-other info that might help us debug this:
-
-Chain exists of:
-  sb_writers#5 --> (wq_completion)loop4 --> (work_completion)(&worker->work)
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock((work_completion)(&worker->work));
-                               lock((wq_completion)loop4);
-                               lock((work_completion)(&worker->work));
-  rlock(sb_writers#5);
-
- *** DEADLOCK ***
