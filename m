@@ -1,270 +1,178 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F113930F934
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 14:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720AE3E9C3D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 14:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780063950; cv=none; b=cAK1NcLycc7bR5CTWwJGRzV5CSH6XA63b/uVwMdZavIv/L9KeNx0GnuHfm6DjSHQ17mR1bLa2A5VBrdqi8MxxzKrMr6X4J4bUMw7+YKraOtBBhZWqvzAkEc1Q1u+fIH8zr6rVQBrt4kKbNXhVpCc+G9FYlzAXIeul0mC9yt2Evg=
+	t=1780064752; cv=none; b=IkTpsyrfQAWr4b/E1W2GpA7+SITJaGghvhVRt3YbyFXul9j6OWiiSb+BQx+SCH78GUrreT6q1qZj0nc+lRtUADgwaTeGMB9TrBC3F0w89ncCFQN+viJBXY14zj//32Ctk8qHLIHlYwHlZh8V4L4dDCry7qNlWBs8/XL5Zihv5nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780063950; c=relaxed/simple;
-	bh=CYirGH2Xl9zJCjgoD1uWlouBi2vpfD6S/KcDNz9UHrI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wgjgs+W0TuwTQcoJkxII/ySeafDKgovyxmBgsjCK+7VVWsMK8UrfQaf0M5KQ/I88uNZmnSk+3ecLIq2bb3dxwgB2LYUHzE/N7UDq3kSOfK5pr8hdhWIlZIihWTaasUU2Tu7dJpVR09lA+egr9nnlHgquJpvKhLCjJhrMZp/s/ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JLPCvJK7; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780064752; c=relaxed/simple;
+	bh=LQB2kaz9QSTegWvTSJZra84FuHw/6aS/0tC7TZJBexg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Klg9ikBpNFq5tG1L58BSvydrC8JcGDFcqkBbmWYX+f+6J60oFPDfQqQZEZHt0AqbfrnwJhn3g5qQs6dPJQfajl+yfFQlR13xF5iqcsEQxAKraIwIY31DG6ylVAeUNLAugc74NWv7rj6vd+CMA2FC/FzMkVLbCFpEywcDN3G3yvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tI83X0Wc; arc=none smtp.client-ip=74.125.82.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JLPCvJK7"
-Message-ID: <185f1caf-b33d-4467-beb5-51bd8520ac78@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780063936;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d4X9vwkCHSddENx5Gglm/hOpAgU7U6Z+T82AMSjAjBE=;
-	b=JLPCvJK79SCpodHOC8Zl7IddRjrtvqukUPFRrtPCcLMxUdCF4RZ8uQartrpJUibd2h/66X
-	OJmBi26/H0srMKbN/NTfSuaPmdtYQJqsTVgTE3BqugvznrnDzBw13w0Sr97417lH5mhsow
-	m1e8Tfw0EnsU1yOvo438g2t//YFHiRs=
-Date: Fri, 29 May 2026 15:11:54 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tI83X0Wc"
+Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-304f0039c02so954212eec.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 07:25:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780064749; x=1780669549; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cSyq379iMRs5CLWz1GrbdWaHEBM9DGZinDVUSvey/oI=;
+        b=tI83X0WchL7gjQ2oluUFBAo/ZebSlRKORALLuCgrXZQGyjwQzS/eYBi110hPoL1BqB
+         gsu/Ww03ymPS48ic4QT3uXGkRqq2dpyZkAd58fWsEZ9++I5DfYKL55Gx2nl7ANPPQtVW
+         vOsyDpAI+9FWf4N5hUSOpqbMEVWeTNFyZZ2hIdCJnn6W13x/+l4WFLSWDITGkL1UlhtK
+         0Fh+T6jDLd7aqqH7Vy65wuOahfe+2HDRpSP7PJKZNUWRhjMDE4G3epPslso00135C69q
+         X4ERhsKlBi01O1l2mZU304EpNM3a3mv15wYrT2vx9vL1E4tYmFIiRwdhmuNsT9OxLKxs
+         syKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780064749; x=1780669549;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cSyq379iMRs5CLWz1GrbdWaHEBM9DGZinDVUSvey/oI=;
+        b=c1xPRGBtDASxt9C8AA6FvAsDirG21nihv+YjSnuTphjDMtsWRJR11k477wpM0Bwh4Y
+         xYR5eSzk7ThYIRtY1DNtnH7AgL3cnMsQ4uVePBnUcypsu65V0kNMCO3ZHoCy63jUs6V9
+         mhPFttK5VqQQOOYeGenlsffeXl5yg8URp8RXfLtOAnJfPTVqllo9PCbIILHI2uVAg0nX
+         vYFI5LOjJqfCUXIaP+FkZvWp5WFfPedZTAFPItstQRp0IAveHVNYewvfD85Wdwut9bwQ
+         FzZ6ZfzyXBsphQv+maMaZgBV5Yfj7kpss/skz5JwDbb4xfMK59OHy1+0bySmEjg+GKg+
+         aHaQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9GHAguKgPDJeIm/xXiWZaRzWxLflOdg9OTm1heqgmOzKpu2a54IOHYoFO6IikV+2lh1wxBtqQineB/cECD@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfhncEvYZXawUcRHblZq3mdGdSzrKY3j5+3N9JsTsIXXQuVOMK
+	zIRPr92b16v/2gfTbKJlIJc1wz2hJorWmuwagdlK37+7KSFRKhaF9emE
+X-Gm-Gg: Acq92OEUFxTq4nz1rGUehm1C9otjgDFh7HPva2GqTc++73joeypohO5yS3vROvWjCRe
+	XWPbWneHJlMdtMBpA1AabOnbW042Gj0qs5zSZMakxHRgn42J91UD/K+5FB6FNP1MTdBM020W8nn
+	0RvHUe7UYegn8hC4vg2nXRRMtroDs4/k410/zA6s/b9caW2onPmPnZOmn86mfyc5Hxmmlp5jNYx
+	kpkyG3pp2u4lkUhVGB2QoU7T8SBJjkgqFndx/y7qwnR1EpcynrpWgVV7HeaWIwbDXwgeikai0Yl
+	l954PUT0bBpCR4rv/shXeA59dvidkip9lKWmnZQcE7KT+AQ4qubq5v5KTSp3irdZ+Zm0E8iNkXq
+	vNFqKMmS8XqzA6W/EzhmyBSmH4X6TDdg/4B0TSHoYbsGBxPDT5EnughrkYYIajRynIHRoxkFvoC
+	7w6KjpXUyP5wS37oaoZlY8K6edGG9DaOkp
+X-Received: by 2002:a05:7300:5714:b0:304:1fb6:88fd with SMTP id 5a478bee46e88-304fa693196mr4791eec.29.1780064749422;
+        Fri, 29 May 2026 07:25:49 -0700 (PDT)
+Received: from zhanwei.. ([192.227.223.214])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed2efb4esm1534916eec.8.2026.05.29.07.25.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 07:25:47 -0700 (PDT)
+From: Zhan Wei <zhanwei919@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+e70e1b6cba8714543f7c@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	Zhan Wei <zhanwei919@gmail.com>
+Subject: [PATCH] eventpoll: restore EP_UNACTIVE_PTR sentinel for ctx->tfile_check_list
+Date: Fri, 29 May 2026 22:25:33 +0800
+Message-ID: <20260529142533.23696-1-zhanwei919@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 2/2] mm: use mapping_max_folio_order() for
- force_thp_readahead order
-To: Pedro Falcato <pfalcato@suse.de>, willy@infradead.org, jack@suse.cz
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org,
- ryan.roberts@arm.com, linux-mm@kvack.org, r@hev.cc,
- Andrew Donnellan <andrew+kernel@donnellan.id.au>, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, brauner@kernel.org,
- catalin.marinas@arm.com, dev.jain@arm.com, kees@kernel.org,
- kevin.brodsky@arm.com, lance.yang@linux.dev,
- "Liam R. Howlett" <liam@infradead.org>,
- linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, ljs@kernel.org, mhocko@suse.com,
- npache@redhat.com, pasha.tatashin@soleen.com, rmclure@linux.ibm.com,
- rppt@kernel.org, surenb@google.com, vbabka@kernel.org,
- Al Viro <viro@zeniv.linux.org.uk>, wilts.infradead.org@pedro-suse.lan,
- ziy@nvidia.com, hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev,
- kernel-team@meta.com
-References: <20260528165635.2068012-1-usama.arif@linux.dev>
- <20260528165635.2068012-3-usama.arif@linux.dev>
- <ahlh2vdHEGo6ZSot@pedro-suse.lan>
- <cc9a1cf7-7b96-439a-b0be-ecdcf27b5da5@linux.dev>
- <ahmSolHvUChl-3vM@pedro-suse.lan>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <ahmSolHvUChl-3vM@pedro-suse.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
+Commit e09c77d94003 ("eventpoll: hoist CTL_ADD scratch state into
+struct ep_ctl_ctx") moved tfile_check_list from a file-scope global into
+the stack-allocated struct ep_ctl_ctx, and in doing so replaced the
+EP_UNACTIVE_PTR sentinel with NULL on the grounds that "NULL is the
+obvious 'empty' value and zero-init handles it for free", describing the
+change as "No functional change". It is not.
 
+epitems_head->next is overloaded with two roles:
 
-On 29/05/2026 14:40, Pedro Falcato wrote:
-> On Fri, May 29, 2026 at 01:19:03PM +0100, Usama Arif wrote:
->>
->>
->> On 29/05/2026 11:01, Pedro Falcato wrote:
->>> On Thu, May 28, 2026 at 09:55:20AM -0700, Usama Arif wrote:
->>>> The force_thp_readahead path in do_sync_mmap_readahead() is gated on
->>>> HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER and always requests
->>>> HPAGE_PMD_ORDER / HPAGE_PMD_NR. On configurations where HPAGE_PMD_ORDER
->>>> exceeds MAX_PAGECACHE_ORDER, notably arm64 with a 64K base page size,
->>>> VM_HUGEPAGE mappings cannot use this path and fall back to the non-forced
->>>> mmap readahead path even when the mapping supports useful large folios.
->>>>
->>>> Keep the existing PMD-sized behavior when HPAGE_PMD_ORDER fits in the
->>>> page cache. When it does not, enable forced readahead for mappings that
->>>> support large folios and request an order capped by both
->>>> mapping_max_folio_order(mapping) and 2MB.
->>>>
->>>> 2MB is chosen as the cap because it matches the PMD size on x86_64
->>>> and on arm64 with 4K or 16K base pages, so the size/memory-pressure
->>>
->>> 16K base page size's PMDs should be 32M, no? Am I misunderstanding what
->>> you mean here?
->>>
->>
->> Yes, should have just said 4K. Messed up when rewriting the commit
->> message. Andrew Thanks for merging in mm-new, would it be possible
->> to remove "or 16K" from the commit message. I can send a new revision
->> as well if that is easier and preferred.
->>
->>>> tradeoff for folios of that size is already well understood. On arm64
->>>> with a 64K base page size, 2MB is also the contiguous-PTE (contpte)
->>>> block size, so the resulting folios coalesce into a single TLB entry
->>>> and reduce TLB pressure on the readahead path.
->>>>
->>>> The final allocation order may still be clamped by page_cache_ra_order()
->>>> to the mapping and request geometry, but this gives VM_HUGEPAGE mappings
->>>> on such configurations a large-folio readahead request instead of
->>>> dropping back to base-page readahead.
->>>>
->>>> Signed-off-by: Usama Arif <usama.arif@linux.dev>
->>>> ---
->>>>  mm/filemap.c | 27 +++++++++++++++++++--------
->>>>  1 file changed, 19 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/mm/filemap.c b/mm/filemap.c
->>>> index a16b33e0fc71..bfb891d9da1f 100644
->>>> --- a/mm/filemap.c
->>>> +++ b/mm/filemap.c
->>>> @@ -3312,14 +3312,23 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->>>>  	struct file *fpin = NULL;
->>>>  	vm_flags_t vm_flags = vmf->vma->vm_flags;
->>>>  	bool force_thp_readahead = false;
->>>> +	unsigned int thp_order = 0;
->>>>  	unsigned short mmap_miss;
->>>>  
->>>>  	ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
->>>>  
->>>>  	/* Use the readahead code, even if readahead is disabled */
->>>> -	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
->>>> -	    (vm_flags & VM_HUGEPAGE) && HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER)
->>>> -		force_thp_readahead = true;
->>>> +	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && (vm_flags & VM_HUGEPAGE)) {
->>>> +		if (HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER) {
->>>> +			force_thp_readahead = true;
->>>> +			thp_order = HPAGE_PMD_ORDER;
->>>> +		} else if (mapping_large_folio_support(mapping)) {
->>>> +			force_thp_readahead = true;
->>>> +			thp_order = min_t(unsigned int,
->>>> +					  mapping_max_folio_order(mapping),
->>>> +					  get_order(SZ_2M));
->>>
->>> This looks somewhat arbitrary to me (as does the old logic). It seems more
->>> natural (correct?) to do this:
->>>
->>> 	if (THP_ENABLED && (vm_flags & VM_HUGEPAGE)) {
->>> 		if (mapping_large_folio_support(mapping)) {
->>> 			force_thp_readahead = true;
->>> 			/*
->>> 			 * Cap THP readahead to either the max folio order the
->>> 			 * mapping supports, or the max order the page cache
->>> 			 * supports (useless to try more), or the hugepage PMD
->>> 			 * order (CPU can't benefit from larger).
->>> 			 */
->>> 			thp_order = min3(mapping_max_folio_order(mapping),
->>> 					MAX_PAGECACHE_ORDER, HPAGE_PMD_ORDER);
->>> 		}
->>> 	}
->>>
->>
->> So this can result in extreme memory pressure. For example, on 64K base page size,
->> with HPAGE_PMD_ORDER = 13 (512M) and MAX_PAGECACHE_ORDER = 11 (128M), this will evaluate
->> THP order to 128M. I think Jan mentioned in previous versions that there are already
->> reports of high memory pressure due to large file folios, and we are seeing this
->> in our fleet as well with xfs.
->>
->> I chose 2M cap as that is what most (not all) architectures which currently support this
->> hugepage code flow are currently used to, and on archs + base page size combination which
->> just evaluate this code to base page, for example 64K base page size, it will provide a
->> performance uplift without causing excessive memory pressure.
-> 
-> For what it's worth, memory pressure is still a problem even on 2MB folios. But
-> yes, I understand.
-> 
-> For what it's worth, I don't think it's such a big issue in this case - you're
-> asking for THPs, and you're getting them - though maybe not efficiently because
-> these aren't at the PMD level. But this is also true for e.g x86 where an
-> an order-3 folio or order-7 folio are completely useless for the hardware, since
-> there is no mTHP to speak of (and, with that, you also lose PG_active and
-> PG_reference precision as you only keep one of each for each folio, amongst
-> other tradeoffs).
-> 
+  1. the "next" pointer that threads a head onto ctx->tfile_check_list;
+  2. a membership flag: ep_remove_file() uses
+     !smp_load_acquire(&v->next) to mean "this head is not on any
+     pending ctx->tfile_check_list and is therefore safe to free".
 
-So there is hardware TLB coalescing on almost every new AMD CPU, I believe it is
-at 32kB, and we would benefit from that. On top of that, we would reduce pagefaults.
+Before that change the EP_UNACTIVE_PTR sentinel kept the two roles
+disjoint: a head on the list always had a non-NULL ->next (another head,
+or the sentinel at the tail), so ->next == NULL was equivalent to "never
+listed". With the sentinel gone the list is NULL-terminated, so the tail
+head's ->next is NULL as well. ep_remove_file()'s gate can no longer
+distinguish "never listed" from "listed at the tail", and misfires on
+the tail head.
 
->>
->> In pagemap.h, we have
->>
->> #define PREFERRED_MAX_PAGECACHE_ORDER	HPAGE_PMD_ORDER
->> #define MAX_PAGECACHE_ORDER	min(MAX_XAS_ORDER, PREFERRED_MAX_PAGECACHE_ORDER)
->>
->> So MAX_PAGECACHE_ORDER <= HPAGE_PMD_ORDER is always true.
->>
->> At filesystem/inode setup: mapping_set_folio_order_range() 
->>
->> 	if (max > MAX_PAGECACHE_ORDER)
->> 		max = MAX_PAGECACHE_ORDER;
->>
->> so mapping_max_folio_order() <= MAX_PAGECACHE_ORDER is also always true.
-> 
-> Right, good point. (well, I suppose it will not be true in the future as
-> someone tries to harness PMD-level cont bits)
-> 
->>
->> which means mapping_max_folio_order(mapping) <= MAX_PAGECACHE_ORDER <= HPAGE_PMD_ORDER is always
->> true, and you dont need the min3(..) in your diff.
->>
->> Now the question is if then why not just do:
->>
->> 	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && (vm_flags & VM_HUGEPAGE)) {
->> 		if (mapping_large_folio_support(mapping)) {
->> 			force_thp_readahead = true;
->> 			thp_order = min_t(unsigned int,
->> 					  mapping_max_folio_order(mapping),
->> 					  get_order(SZ_2M));
->> 		}
->> 	}
->>
->>
->> This is because this will regress the 16K ARM case where we already got 32M
->> folios. Someone might upgrade the kernel and start getting 2M folios now.
-> 
-> So maybe limit to 32MB? It's still arbitrary but at least you get simpler
-> logic. If the architecture does not support 32MiB folios, it will clamp
-> the maximum folio order to HPAGE_PMD_ORDER, and you get the same result.
-> 
-> Does this sound correct?
-> 
+The reader (reverse_path_check_proc) holds epnested_mutex +
+rcu_read_lock; the freer (ep_remove_file) holds ep->mtx + file->f_lock.
+The two sides share no mutex -- the sentinel was the invariant the gate
+relied on to know it could skip the read side. With it gone,
+ep_remove_file() frees the tail head while reverse_path_check_proc() is
+still walking it, producing the slab-use-after-free read. The syzbot
+reproducer hits this within seconds on a multi-CPU VM.
 
-Yes, so if we replace it with SZ_32M, it sounds correct. I just think
-the 32M size is too large. But as you pointed out, even 2M can be too large...
+Restore the sentinel: initialize ctx.tfile_check_list to EP_UNACTIVE_PTR
+in do_epoll_ctl_file(), and terminate the walk on "!= EP_UNACTIVE_PTR"
+in reverse_path_check() and clear_tfile_check_list(). The tail head's
+->next becomes the sentinel again rather than NULL, so
+ep_remove_file()'s gate regains its exclusivity and stops misfiring on
+the tail. ep_remove_file() itself is unchanged.
 
+This restores the invariant the file-scope tfile_check_list relied on
+before that change while preserving the ctx packaging it introduced.
 
->>
->> So IMHO the current code is correct, both in maintaining what the
->> existing behaviour has been, but also trying to provide large folios to
->> architectures that currently dont get them but in a controlled way.
->>
->> Later on, when we think or evaluate that 2M was too small a cap, it can
->> be raised. I think its very easy to raise a cap, but much more difficult
->> to make the cap smaller, as we might get reports on kernel upgrades that
->> someone was getting a certain size of folio but now its much smaller.
-> 
-> I don't think this is a valid argument. You can also have reports that now
-> folios are too large and they're regressing workloads because of thrashing/
-> compaction/possibly TLB thrashing. And indeed we have several reports of that
-> (https://lore.kernel.org/linux-fsdevel/20260403193535.9970-1-dipiets@amazon.it/
-> comes to mind, plus all of the anon THP regressions over the years, including
-> in $current_year).
+Reported-by: syzbot+e70e1b6cba8714543f7c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=e70e1b6cba8714543f7c
+Fixes: e09c77d94003 ("eventpoll: hoist CTL_ADD scratch state into struct ep_ctl_ctx")
+Suggested-by: Christian Brauner <brauner@kernel.org>
+Link: https://lore.kernel.org/all/20260528-rotwild-summt-kuhhandel-7276ef4c33b7@brauner.io/
+Signed-off-by: Zhan Wei <zhanwei919@gmail.com>
+---
+ fs/eventpoll.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-Ack, and yes we have seen both thrashing and compaction issues due to xfs
-large folios in the fleet with x86..
-
-> 
-> Bottom line is that changing things will always affect someone :) Particularly
-> since the logic we have is not too careful at deciding what should or should
-> not be a THP (both in anon and file cases). And if (once?) we make it smarter,
-> it will surely also regress someone!
-> 
-
-Yes completely agree on this as well.
-
-So personally I do have a preference of keeping the cap at 2M atleast initially
-while we currently try and solve the issues we see with 2M alone. As we are already
-seeing reports of thrashing and compaction with just 2M, I dont think the logic
-in this patch with just an if else is that complicated.
-
-Matthew, Jan, do you have any thoughts or strong preferences on cap size?
-
-Thanks!
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index a569e98d4a99..abef3bc48cc4 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -429,7 +429,11 @@ struct ep_ctl_ctx {
+ 	/*
+ 	 * Singly-linked list of epitems_head objects collected during
+ 	 * ep_loop_check_proc(), then walked by reverse_path_check().
+-	 * NULL means empty.
++	 * Terminated by EP_UNACTIVE_PTR, not NULL: epitems_head->next
++	 * doubles as a membership flag (a NULL ->next means "not on this
++	 * list", see ep_remove_file()), so the list uses a non-NULL
++	 * sentinel to keep the tail head distinguishable from an unlisted
++	 * one.
+ 	 */
+ 	struct epitems_head *tfile_check_list;
+ 
+@@ -1685,7 +1689,7 @@ static int reverse_path_check(struct ep_ctl_ctx *ctx)
+ {
+ 	struct epitems_head *p;
+ 
+-	for (p = ctx->tfile_check_list; p; p = p->next) {
++	for (p = ctx->tfile_check_list; p != EP_UNACTIVE_PTR; p = p->next) {
+ 		int error;
+ 		path_count_init(ctx);
+ 		rcu_read_lock();
+@@ -2438,7 +2442,7 @@ static int ep_loop_check(struct ep_ctl_ctx *ctx, struct eventpoll *ep,
+ static void clear_tfile_check_list(struct ep_ctl_ctx *ctx)
+ {
+ 	rcu_read_lock();
+-	while (ctx->tfile_check_list) {
++	while (ctx->tfile_check_list != EP_UNACTIVE_PTR) {
+ 		struct epitems_head *head = ctx->tfile_check_list;
+ 		ctx->tfile_check_list = head->next;
+ 		unlist_file(head);
+@@ -2601,7 +2605,9 @@ int do_epoll_ctl_file(struct file *f, int op, struct epoll_key *tf,
+ 	int full_check;
+ 	struct eventpoll *ep;
+ 	struct epitem *epi;
+-	struct ep_ctl_ctx ctx = { };
++	struct ep_ctl_ctx ctx = {
++		.tfile_check_list = EP_UNACTIVE_PTR,
++	};
+ 
+ 	/* The target file descriptor must support poll */
+ 	if (!file_can_poll(tf->file))
+-- 
+2.43.0
 
