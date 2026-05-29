@@ -1,295 +1,121 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97EC3812F4
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 17:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780075141; cv=none; b=bdWcXmVjZN+LwFIBzHmTrws3XDwCQbYNAh0536ShWCxP/yaatSSAsa28asPOn8QXhW3jGyGz9BReQwCj+rt3BZ2A1SR5iGuA+CDvvgNwN+S2g7dXxZ+h6eCffnYZA6izoFLVhtJcu+iWG6+pt/BUkMaH2K+FnkaI50fZzQnsMZQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780075141; c=relaxed/simple;
-	bh=qO8gKdZWVCp3u2z9buUYizj/kCjZNyvtTAd/qWerhzQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WNvtpGlYLc5NOhuoeMQb+txWwTLrkg6G6N19HvBdAVNrb/Rp6KJSY9uHE+EQX2ITZ5q5+yZUC/Hx8U4xA1p7mKu95mEmpikrLDAAcDdXW9P7Su/0j9U+rLUH393AX0ikbjOmoSMGJq1jsBuLwMEn9w2ArlptFZCQufPdo98I/p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B2tEfGFO; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617F53803C5
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 17:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780075216; cv=pass; b=B/aai1OiFevKCiqEPY1hTGaKbXgcK4tzA7NLlTe0oWOy2/8wjYPGKE3B3KEH2w7jlP6gqilDpqm/GsdV3wPiB9y6N1nMt5l9rqC2Z/8jXQZ6YbxLHa2iU2R2E/invojMPjLt5GjBNbxzQbZDB5b7hrJt6AAROvzp7hKh/lnkl3Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780075216; c=relaxed/simple;
+	bh=ynZ2XBdbslE1WoArPNQQVVLJB+hS3g1ZlbeqlJR3SQc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=heoXYKVHz/k1Ui/vvuiHTUobMaQBxmpE71hsR0xj3wZNp6awdQIGVXv/TRETJ+pJErCFAGzrOo6qynyrPXjCsrH87j4ORb6+commmcUOmjE1pIaWr7z16NXEvrl0krCJ3ABdiIxOJHKa/EnMpdngR+4z4r/9QV8V/DrZbKo4M44=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZBF+E4qN; arc=pass smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B2tEfGFO"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49048e043e5so63203225e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 10:18:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZBF+E4qN"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bcd3c190f71so2241373866b.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 10:20:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780075213; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Lb1cg6bYZWHqgegbG6fGI6Ny7gfkpURXec8e7I5QIoYWMB21RK7TpeNvLJ59qJ6FPQ
+         bFyeWwrTyppI9QDy28rALpFM+tMet2M1+3F3X+4yqpcASKU2Qis3fEL+EUoFwVWx1TgP
+         ic3W+dH1Mj+wruC33gdGyHKDQUC6FharcP0Yu3UYSu68ij2X+8foWtc1AZgGf78nAReA
+         oJ6hxiCAcdhSQwjEqS4jp16MwylyaSYOJ+KJYeSG/A/mKxGazen+ViBGg2XxFpMhsQo7
+         B6AWOH4ueRUiVrWmoZlJeX076fG2BrIcPaV2eQaZawYNgDfDf1pTAg/wks7ItA49nj7k
+         qKCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ynZ2XBdbslE1WoArPNQQVVLJB+hS3g1ZlbeqlJR3SQc=;
+        fh=uSQWhP1Kk9mlKwMjlV1w45L5OzJlGOR7HM2Q/pB/tNs=;
+        b=ShWGtu9L9KdzjAtqQwPrEtmYA/iDLnWV4SDBrFZtKpUt+AomWAV2BDddRVfPQoQxeR
+         2Asg090QgFiqkis9eXt9SKBP6wfPpKHgyG6k83IH5L1WyddnXzaCZI/JuJz9ViqYuAc8
+         ioN66YlUOGWEWFFi7Kc0ax4tYlKf752PnaZhcg0lazxl5dVc2QRLZdSTxbe/DgGvy6lQ
+         q1bXND3yeTIYHSPWqXV1fTJU/fnmS+GhWUhi/HrOU7/mLXG4GAgxDDUOfjEgG+wcOUzu
+         Cqtiwu0ac7eSGGfw7rtXIyp16/zEeQ62bJ1I5/PV8MMzAUc7+Ish52tzqJnzKwZSkcYg
+         jBLg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780075137; x=1780679937; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780075213; x=1780680013; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gjNfddSx1CZYCGwuNq70lpBd2sPOv8YHgLj4FuhfVY4=;
-        b=B2tEfGFOCA2x3DjCT7GqiBTbSlM4Y0n4aouCWZKLBdbOp1v0BWXlvmegMVS6rNNyxy
-         aAiWo7Q03je5ilO982YxaiAqzr9OxW3CRE8a1OdaFfAdsxYzye1SPyasBcjPOHUpeoon
-         V2Vs3QG4tU0AInQl+dSBLYl94Slabal484M+gj7mhUDu91koEDqsWswaf+xCXMEwtDjX
-         X3WRDelg+UlM4AOOlGx2Kd70YC5Pk9JZhvUcO0pkFxpN/PmLGKq03ca7VTeMFhNx906T
-         6416aGA1jwQmAErUKgdr2t2IX82Q/Hqrj7pRDSwo4LV9RCCK/GAgcFfk2Bri0vznfl2S
-         Q7BA==
+        bh=ynZ2XBdbslE1WoArPNQQVVLJB+hS3g1ZlbeqlJR3SQc=;
+        b=ZBF+E4qNQjBF7tdz5XmYiAB2vJW/NSs0RStxA1oVuU9x5FIn+ctBf64izDCzWSuxyQ
+         Y46zQ+lhkoffzWzmZ6Gii/7+nbduBSfhMxICMi+W/4CUFYVgWmfyFn3dKWMK1NzLaUOc
+         N/Obp18jFP6EdyXjWnXgzsYwylDiX2/KZjS6XvjLvKWhrywbSBPw+spZNUqEBGRSlPzG
+         5q6+27Ul0g/hdNTnR9C6lz94U/TbxgcDewn8Q1zISxzYV5GhTAU2JpGNWavKH2PELArq
+         zvHmQdVcvK5v1ZltXHgdfzoD3q124JlDpoIjS+b0U4tbol48O7XtStF6tgbDlf4SaR0M
+         7FJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780075137; x=1780679937;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1780075213; x=1780680013;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gjNfddSx1CZYCGwuNq70lpBd2sPOv8YHgLj4FuhfVY4=;
-        b=mSj2gKD9nJ7sPS6vNR5SJSA+NP9zWJUVR1MnLEJc2UYuSh7FF2/Yy3Frb3st1HY+x3
-         wOEO6dFv7iqsJFVXPHbkf+Bn8yhPGHWjvcyWfLAIwPAYd50EmU5MaUH3vefFulmDu4/n
-         Mo7JQS8Sp6c7Mksl+drwextEVF/8nsuA3ORdTnZzZQ8+cQ9ofJsYC0VGQZLKW+pG8bMZ
-         TsNHEOgdh8F2PAcfsdMYIcB/4NQnjW+DAdjEwDliLAwZ4GkQS9V/rj/ClR0WhQgHRsTa
-         YxiXj+Ea1olzGyaXpRIXjHTkZqVevtatiz3JV1CbGZOC3Vj+/bX5X9Z2rBn7K5gd3zW5
-         PH/Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8xoHFJfe4v/Ec00O8CeU74F0Dn4cP17UMWF4EVmTQkl1YahXE3LwSr5JpTyllh8y4A7+fP4mku+7KkQX7n@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxc/sxhDD7MQCzImUvzUBfDTc7hmF/DOHcPCgB7DVKlx6WpJXOo
-	kOqVWfSGZNgtYal1IXxlaSM4vw2Aj2iMJJIFWgGliDhkoTmT6wbTEtTd
-X-Gm-Gg: Acq92OEmcjh92dddYGoNwJF+bKeOCS41iSx2EDbjt4HhmqXEP0zHwAvwvqIAdaO3N2W
-	9Uc7TtWoi7IdC+Uw2CKxdidnWZpn+Gi/0iQhUEU9QCLb+HAVCS3EvDspr0MbQU+zlUfeEMedzal
-	G5j9cwBvT2C+jcryEgOhv2Y3nIBFn90a9Pd64rK65fDTNrVE+EVrHJSgO+BhUE80rWsTwrgbDgi
-	ESQjgvBD30NjHppVT39u1nRnQqbVwSSPL5QsVtnmvkc8TpQzKW2N/YRIFzXQz5aYuQBO8U58qol
-	qDqM0JooJSmMcSLfTU5Re4VvNRscX7ncpMaLYavON8DQCyl7TP7y/xY4hzffTwfGSUCqm801bvl
-	sL777D/kKs9oRZu/n922QZ42gAzzrUi3hnc51utzdWty/kBgoJN7t5S5U/jXSk2sRLLtU76OcCc
-	RBydPWW34dGQKLzTB5TVAhftO5zksd340qr/6hT9qM1izsGCutVghslboGDR9IWyy9I3qs+LZXv
-	bkoyGTXq8g1
-X-Received: by 2002:a05:600d:4448:20b0:48f:e26a:1744 with SMTP id 5b1f17b1804b1-490a29096admr7694415e9.9.1780075137144;
-        Fri, 29 May 2026 10:18:57 -0700 (PDT)
-Received: from f.. (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909caa7faasm56255375e9.11.2026.05.29.10.18.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 10:18:56 -0700 (PDT)
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: brauner@kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	adobriyan@gmail.com,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: [PATCH v4 3/3] fs: cache the string generated by reading /proc/filesystems
-Date: Fri, 29 May 2026 19:18:40 +0200
-Message-ID: <20260529171840.2576445-4-mjguzik@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260529171840.2576445-1-mjguzik@gmail.com>
-References: <20260529171840.2576445-1-mjguzik@gmail.com>
+        bh=ynZ2XBdbslE1WoArPNQQVVLJB+hS3g1ZlbeqlJR3SQc=;
+        b=l+Va4U8DQR4vHIeZBr3Qj9rlJ9lgWPAA+S8CszHtmUIbAyeGW1J7a+KBv1LL5qkj6I
+         xp2IFfP/2FXFRy45EyjDSFiqSnZZafF08HLmyRLRoKux0Bgdk33xhceowTh6wkq+cmpg
+         FEfj21h3QSunziOg2ED2dvWCYTDWsUHcBW8krlcpMVxfzmfFkSfI5o+t6NV1WnRLMaQZ
+         8hJnR9KbjHSWgTrfG2Di5e+oqQjjAFSSgGJ/mrOpC6haHAukMeuNVEvFvfI2QoJR2i4s
+         TIRe+2gsTLzLmfVbRdTLpubE75IzvrsLQ1gsirFxcsFwq+wAwtC8sR3scphkaVJr14x4
+         k8kQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/ipPID1qWRJ5hoEuDmjfpyhmphy15PJv0MQxoKWYOIMDJUapEUGqIdQuueyS4yQRilQswz08NABcvCIvSq@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6p8YW4mWm/VaoGOO1NhOjqk+hW0BOQgTyEjRDaa+oHxLQG8JY
+	AIhfjpfdX+pRqnED5OYe8kUOV3EXHgSgAd43UKaqhxeI4LIt6/iTnbvFsipJrPlAW2m0cj96KxE
+	ZF8zKPQPLEYUatIaCEwzXcZEfoHm7Yss=
+X-Gm-Gg: Acq92OE6vHZj0Y0LNfjp0YWO8S4ATkA6NFLeiyhiNLJs8ETHeP2oOJp45AI8UyLzwlE
+	Z+LrcFRgJRPf4x0CGjEYbDgsO/9y/JC64MCwWVL1Rqn88E0sEgCVfipKXcqU880eWASwEP2Qj9g
+	HKMA3FTBPM/baa2eqCsM449UK7UoXn0OedX3R5JX3j9yuH1qnl7PCGwkbwow1AIr0ujyqsnQsW1
+	OwTOGHFR8F36wSbPt+dsS26eiU2eaGrVjeOgxFSFnlx2vZ6Jd8fdJzoCW6jbih+Js1bMQ5v4vJj
+	GXAlzI2pkkTIOCC9QhJmvhiQjKIZyHm4n6G5wjqdsYcC0lauaQ==
+X-Received: by 2002:a17:907:9282:b0:bd4:6da5:d5b2 with SMTP id
+ a640c23a62f3a-beab0dd8aecmr26412166b.1.1780075213265; Fri, 29 May 2026
+ 10:20:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260520225245.2962-1-spasswolf@web.de> <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
+ <s7cu3dpioidx6mepmai6eyj2pxjs4skbw7v534zbzs6g2fwcis@cvokidcxy3xa>
+ <4f548d61b2dd12e01f401ce4b8c865f238f7b23c.camel@web.de> <878q9dvzh0.ffs@tglx>
+ <50e5e76bc13256e3f5b3301e92f159957c3d6762.camel@web.de> <CAGudoHGk1CP3gRQLCV85AFHKx6vBEyKySOn4J+AZVAP2FkrN3g@mail.gmail.com>
+ <70676dae700e6a40989315bf31ea269a509ddc0f.camel@web.de> <CAGudoHEX=Su_ehV8nNP_6Onfh=hB6uiyTTCojR7nSOkEj6zh4Q@mail.gmail.com>
+ <7e8f3a515208583d06c9b5ca18a3e007a8c6b692.camel@web.de>
+In-Reply-To: <7e8f3a515208583d06c9b5ca18a3e007a8c6b692.camel@web.de>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Fri, 29 May 2026 19:20:00 +0200
+X-Gm-Features: AVHnY4LcAg9EMC0vBy9pozkVNxhEfZnN5xmOlqt1ph5yPNhhQZBBmhxfALKw18o
+Message-ID: <CAGudoHFPXP+i3q4HsZqmZaRxw-UjXX_RiUosteVESO2uv-qhew@mail.gmail.com>
+Subject: Re: context switch within RCU read-side critical section in
+ next-20260518+ with PREEMPT_RT
+To: Bert Karwatzki <spasswolf@web.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Christian Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, adobriyan@gmail.com, jack@suse.cz, 
+	viro@zeniv.linux.org.uk, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It is being read surprisingly often (e.g., by mkdir, ls and even sed!).
+On Thu, May 28, 2026 at 7:59=E2=80=AFPM Bert Karwatzki <spasswolf@web.de> w=
+rote:
+>
+> Am Donnerstag, dem 21.05.2026 um 14:01 +0200 schrieb Mateusz Guzik:
+> >
+> > So overall I think we are done here.
+> >
+> > Thank you for testing and sorry for the breakage.
+>
+> Just as a reminder, this has not been fixed in linux-next, yet,
+> up to version next-20260528.
+>
 
-This is lock-protected pointer chasing over a linked list to pay for
-sprintf for every fs (32 on my boxen).
-
-Instead cache the result.
-
-While here make the file as permanent to avoid spurious ref trips in
-procfs.
-
-Signed-off-by: Mateusz Guzik <mjguzik@gmail.com>
----
- fs/filesystems.c | 153 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 151 insertions(+), 2 deletions(-)
-
-diff --git a/fs/filesystems.c b/fs/filesystems.c
-index 7976366d4197..673a03b5f32b 100644
---- a/fs/filesystems.c
-+++ b/fs/filesystems.c
-@@ -31,6 +31,36 @@
- static HLIST_HEAD(file_systems);
- static DEFINE_SPINLOCK(file_systems_lock);
- 
-+#ifdef CONFIG_PROC_FS
-+/*
-+ * Cache a stringified version of the filesystem list.
-+ *
-+ * The fs list gets queried a lot by userspace because of libselinux, including
-+ * rather surprising programs (would you guess *sed* is on the list?). In order
-+ * to reduce the overhead we cache the resulting string, which normally hangs
-+ * around below 512 bytes in size.
-+ *
-+ * As the list almost never changes, its creation is not particularly optimized
-+ * to keep things simple.
-+ *
-+ * We sort it out on read in order to not introduce a failure point for fs
-+ * registration (in principle we may be unable to alloc memory for the list).
-+ */
-+struct file_systems_string {
-+	struct rcu_head rcu;
-+	unsigned long gen;
-+	size_t len;
-+	char string[];
-+};
-+
-+static unsigned long file_systems_gen;
-+static struct file_systems_string __read_mostly __rcu *file_systems_string;
-+
-+static void invalidate_filesystems_string(void);
-+#else
-+static inline void invalidate_filesystems_string(void) { }
-+#endif
-+
- /* WARNING: This can be used only if we _already_ own a reference */
- struct file_system_type *get_filesystem(struct file_system_type *fs)
- {
-@@ -80,6 +110,7 @@ int register_filesystem(struct file_system_type *fs)
- 	if (find_filesystem(fs->name, strlen(fs->name)))
- 		return -EBUSY;
- 	hlist_add_tail_rcu(&fs->list, &file_systems);
-+	invalidate_filesystems_string();
- 	return 0;
- }
- EXPORT_SYMBOL(register_filesystem);
-@@ -101,6 +132,7 @@ int unregister_filesystem(struct file_system_type *fs)
- 		if (hlist_unhashed(&fs->list))
- 			return -EINVAL;
- 		hlist_del_init_rcu(&fs->list);
-+		invalidate_filesystems_string();
- 	}
- 	synchronize_rcu();
- 	return 0;
-@@ -209,7 +241,100 @@ int __init list_bdev_fs_names(char *buf, size_t size)
- }
- 
- #ifdef CONFIG_PROC_FS
--static int filesystems_proc_show(struct seq_file *m, void *v)
-+static void invalidate_filesystems_string(void)
-+{
-+	struct file_systems_string *old;
-+
-+	lockdep_assert_held_write(&file_systems_lock);
-+	file_systems_gen++;
-+	old = rcu_replace_pointer(file_systems_string, NULL,
-+			   lockdep_is_held(&file_systems_lock));
-+	if (old)
-+		kfree_rcu(old, rcu);
-+}
-+
-+static __cold noinline int regen_filesystems_string(void)
-+{
-+	struct file_system_type *p;
-+	struct file_systems_string *old, *new;
-+	size_t newlen, usedlen;
-+	unsigned long gen;
-+
-+retry:
-+	newlen = 0;
-+
-+	/* pre-calc space for each fs */
-+	spin_lock(&file_systems_lock);
-+	gen = file_systems_gen;
-+	hlist_for_each_entry_rcu(p, &file_systems, list) {
-+		if (!(p->fs_flags & FS_REQUIRES_DEV))
-+			newlen += strlen("nodev");
-+		newlen += strlen("\t") + strlen(p->name) + strlen("\n");
-+	}
-+	spin_unlock(&file_systems_lock);
-+
-+	new = kmalloc(offsetof(struct file_systems_string, string) + newlen + 1,
-+		      GFP_KERNEL);
-+	if (!new)
-+		return -ENOMEM;
-+
-+	new->gen = gen;
-+	new->len = newlen;
-+	new->string[newlen] = '\0';
-+
-+	spin_lock(&file_systems_lock);
-+	old = file_systems_string;
-+
-+	/*
-+	 * Did someone beat us to it?
-+	 */
-+	if (old && old->gen == file_systems_gen) {
-+		spin_unlock(&file_systems_lock);
-+		kfree(new);
-+		return 0;
-+	}
-+
-+	/*
-+	 * Did the list change in the meantime?
-+	 */
-+	if (gen != file_systems_gen) {
-+		spin_unlock(&file_systems_lock);
-+		kfree(new);
-+		goto retry;
-+	}
-+
-+	/*
-+	 * Populate the string.
-+	 *
-+	 * We know we have just enough space because we calculated the right
-+	 * size the previous time we had the lock and confirmed the list has
-+	 * not changed after reacquiring it.
-+	 */
-+	usedlen = 0;
-+	hlist_for_each_entry_rcu(p, &file_systems, list) {
-+		usedlen += sprintf(&new->string[usedlen], "%s\t%s\n",
-+				   (p->fs_flags & FS_REQUIRES_DEV) ? "" : "nodev",
-+				   p->name);
-+	}
-+
-+	if (WARN_ON_ONCE(new->len != strlen(new->string))) {
-+		/*
-+		 * Should never happen of course, keep this in case someone changes string
-+		 * generation above and messes it up.
-+		 */
-+		spin_unlock(&file_systems_lock);
-+		kfree(new);
-+		return -EINVAL;
-+	}
-+
-+	rcu_assign_pointer(file_systems_string, new);
-+	spin_unlock(&file_systems_lock);
-+	if (old)
-+		kfree_rcu(old, rcu);
-+	return 0;
-+}
-+
-+static __cold noinline int filesystems_proc_show_fallback(struct seq_file *m, void *v)
- {
- 	struct file_system_type *p;
- 
-@@ -222,9 +347,33 @@ static int filesystems_proc_show(struct seq_file *m, void *v)
- 	return 0;
- }
- 
-+static int filesystems_proc_show(struct seq_file *m, void *v)
-+{
-+	struct file_systems_string *fss;
-+
-+	for (;;) {
-+		scoped_guard(rcu) {
-+			fss = rcu_dereference(file_systems_string);
-+			if (likely(fss)) {
-+				seq_write(m, fss->string, fss->len);
-+				return 0;
-+			}
-+		}
-+
-+		int err = regen_filesystems_string();
-+		if (unlikely(err))
-+			return filesystems_proc_show_fallback(m, v);
-+	}
-+}
-+
- static int __init proc_filesystems_init(void)
- {
--	proc_create_single("filesystems", 0, NULL, filesystems_proc_show);
-+	struct proc_dir_entry *pde;
-+
-+	pde = proc_create_single("filesystems", 0, NULL, filesystems_proc_show);
-+	if (!pde)
-+		return -ENOMEM;
-+	proc_make_permanent(pde);
- 	return 0;
- }
- module_init(proc_filesystems_init);
--- 
-2.48.1
-
+I sent a v4 of the patchset with some extra touch ups:
+https://lore.kernel.org/linux-fsdevel/20260529171840.2576445-1-mjguzik@gmai=
+l.com/T/#t
