@@ -1,234 +1,226 @@
-Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB1E46AF1A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 20:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD9A3A8734
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 20:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780084891; cv=none; b=a9cqeRVGPjHSjnpHHe0uT+Rg1m5Sdp/F4jRqCyqQdiX0rivqZQoF2PHfvL1qX5ufUYmRXYRpN7L0YJ65PhS2m0/de+6nnclP5bZt5642IR4PA4w3HSEAUAbEcx6Cnc7WDi61xmNqp+sH6qqKVTfG1HKcxAVzEBRf2W+bI+F+sok=
+	t=1780085726; cv=none; b=HLuEnU+RHTjKPZn3pSQBFczySMbQjehHks/Pl4OgW34tC7p4fHqATcT5R9P4XS12uNBPWGkMu854WpTdrMhL7//UQo30BfoEWpAq20aNnmXBJnZxMivFX5KERfQGkmvFWoOyxkKzRYhZzMfRDkx2A5FrhB6IBoqOjw8a6XKROyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780084891; c=relaxed/simple;
-	bh=RGny/la2xCXvhDntgZ3IOWpx9qp8epYuc2DA0FjUw7E=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DUR75h0lwQ6svKi7JIqM57VOPUTkuR/aKMDtvLWbnTbV+d14uNHJQCDCNeOlg+SoYWegg/LW8BunUjST2eeXGHMl9PSAfW4eqhk32+wJsrAjBM3/LrGVSCdyPqppNolm3i6bwkxExCYCnBIDdeliMaJ+tQPsyer2eqUMnRA/IvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-69dd543babfso3744427eaf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 13:01:29 -0700 (PDT)
+	s=arc-20240116; t=1780085726; c=relaxed/simple;
+	bh=N01FzKyM/oneUR/nY80hKjSqcL3euNBKYFWM4OUxW8E=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=jXJiC25jW5qg6ztDKaojjOkA76RToLxOwzQtVjchxf8NYUUuMr+oOvuik6bizASmiMwLd/Fwp+huZ0C3PsvTnv6xzde0nUsyEkPK04Hq+nC5t6mt/epHagw/UstyXavTj/mhfSXcjeT7IVwcU3DvFDIrTNrJ2NO7FcLEokzhfmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xq/hURoh; arc=none smtp.client-ip=209.85.219.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xq/hURoh"
+Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-8cce22e029cso17694006d6.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 13:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780085724; x=1780690524; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EWYN1LfizB6BVQCT1KhTKUJ2V49wLv3aFdUdiKdHhaA=;
+        b=Xq/hURohQJbEDZKIZKCcyemKG1bJTQ3kYXLZ13E719g4lxg4o7vOxVthghvZl0mo41
+         9yiKH9xIGntFA2MdUSD2LaRK4r7/gtYvwG3jzuPv2ST7+1jSr+NZwDcF85rq9hU5cCZQ
+         N+RvEEnOEjc9Iz4Ia6Qyjxq5t8dh6kp0lJrktlppiMnp4h/ClslbiXr9o2i1mI3icvyG
+         neDPjDXu+mQKp1gaoUJHvEEUciqClFE7EVZY/pP8bzBdRHulGrNIKa6nDUWXfGQVWjmn
+         8Tbp+h0U0whKAKUXlN5uPqYX17JNLUwUa1JghkBKkzEqxb3jFjKjtkA959/KwJL9zqHY
+         qDYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780084888; x=1780689688;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5cIy58T8b6smMDrJfBXFqT2PqmOH5/pUjAmtMG/RVqs=;
-        b=CLjZWgc6SrM0gDbJD0w0CWAG2mdMgqdzWPrnwkNKXoALjmkEbglpUy6o+3x57c95pO
-         MwI03DPNp5KQTIp/Dj2bdNh3f0SbGx6EkUJxzdOMerr84tGY+Dv0WBqBCSKjxgRXeBBk
-         r8cGp+3Q7tLV/92uIABuwOTgkfO3ggxRLPjvQuMxrO3l9HQxH9haeV4Kangh0WHgT8iW
-         DGKWcjlS7Gpbkm9qrlhoGXfbQwIBf0rk8FmNpQ0tcPGhjNgvL9VzzDXPbq8Z2COIZJXF
-         S4kpy8JTgprSozP56itI/6qJrei+7lPux+/80LqsvA+PZm77Fm1gpoTcL2wDgjZwFrIQ
-         xlYg==
-X-Forwarded-Encrypted: i=1; AFNElJ9iolJEmPMCuQPFFbYnzY7SqRArGmfsweQvh65t33XyBV50iDrWHX6ldFXTVveao2myVD9/Kjt4KFKv5Hzx@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw83Lv8NZndyF8zoQqVoht4rpsBbc4zfF3rJk+okklAENmY6VuA
-	FZyj9mut+Xqy+0zyUHHoXzQQerdLUkEK2BQNN4XT0CtAU/UIQWXEt+P9EHHWV1KphcMzDP2Ju8u
-	pUtb4ISrzbfKv6gXuJdFG53VLhzXqO6p6uHsdU8WVPY0gKtPIk+G9ydUIEl8=
+        d=1e100.net; s=20251104; t=1780085724; x=1780690524;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=EWYN1LfizB6BVQCT1KhTKUJ2V49wLv3aFdUdiKdHhaA=;
+        b=QfZRgByNLTlAlD7pe8DmVwHRylPG9WbZ/FJZurOMiaf4Yqk+DgJ++AmK+mvcGsiq5N
+         otY5jZODYOMNaPkT+bhxSCAb4o/oI4jty2JVTWXj70znsl2QYKw6IF+ZPBlUWh2O6DXZ
+         a6OiCRIzHoqL193KPmuuhVnNcEty1B5WHUNTaNi8g8vlTDaRFZ30zBLM/MtjZsK0XrDD
+         a4S9F7R98S5vxUWfXC5NSyWDoVmpf3JqBk2bTd+9aFXkMosvQNILpEMI4vwbu1N/eKHF
+         dwwNjYobXiN/Kyj6wH8PiMYVN9l7b7vIdshEgm4cELLxC55VQfHNYiOJVcJMPTr5a1hy
+         4xBw==
+X-Gm-Message-State: AOJu0YyDwKDnVdcQfSJBD7rietsyIZPYZlLBjvzJy2Wgx0Gg06d3dwa3
+	rk5zsvszp6brD66sBiwFIR960mkUsRP90QXeKJzLNmviE9qdxpae5oOJ
+X-Gm-Gg: Acq92OFQ4eoUA+I8IGjbrppccyR9VR3TOyrbXUgRmPJ6yjTOQ3edepZFSx80REabM+Y
+	iPb8UbmUu4zrYgexEh9P5F+wrVJHGQAqyh+FYbpCN03+d1pYjEgOYZA6zVlfY7atSb57J1e8ysk
+	rj6U6WjyBvyCX539RISRDQ4NGHgHX2GAkjcA1iKBy9U9LR5Ha4BmF7wDenbMnrWK5Dn1lUQVSK1
+	AjBJ8UuPqk+Q7gqXN9fnHwXYDoid5P8aX5qAsbaaEMSFoJaLBSrRPMCeoElLkdgszoYWgKi3uoM
+	uLiUDjaNjK08rAZWA2rThVouZcYNzkQYQZyhdB+af33QIFutwJEfkwfj4KmG8Pe2nNJWhLjXueh
+	8kttiHT+VxdS8uTkW/HMVDSS9JLND8W0EJR1cG9wX7gH306dnbcro7BDKn1i6z+QBrLvfGoPKK4
+	4NDfjuBXfL+1meRmgPuTwJ123r2XG0Qv64QXUSFRQIVxG1oYdBKpHlRw==
+X-Received: by 2002:a05:6214:2508:b0:89c:ac42:e119 with SMTP id 6a1803df08f44-8cce4afc85dmr60314586d6.8.1780085723738;
+        Fri, 29 May 2026 13:15:23 -0700 (PDT)
+Received: from smtpclient.apple ([104.39.165.68])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ccea0663fesm25924926d6.14.2026.05.29.13.15.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 29 May 2026 13:15:23 -0700 (PDT)
+From: Shuangpeng Bai <shuangpengbai@gmail.com>
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_BFD48016-EA8E-431A-BC6B-A8095D455012";
+	protocol="application/pkcs7-signature";
+	micalg=sha-256
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Received: by 2002:a4a:e846:0:b0:696:6e28:8c19 with SMTP id
- 006d021491bc7-69e043898a6mr1693673eaf.20.1780084888344; Fri, 29 May 2026
- 13:01:28 -0700 (PDT)
-Date: Fri, 29 May 2026 13:01:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a19f098.abb04025.19af7b.0003.GAE@google.com>
-Subject: [syzbot] [netfs?] KASAN: slab-use-after-free Read in netfs_unbuffered_write
-From: syzbot <syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com>
-To: dhowells@redhat.com, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netfs@lists.linux.dev, pc@manguebit.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    8fde5d1d47f6 Merge tag 'acpi-7.1-rc6' of git://git.kernel...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=107a02b6580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8118209836970b54
-dashboard link: https://syzkaller.appspot.com/bug?extid=3c74b1f0c372e98efc32
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15bedcb6580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=171b697e580000
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-8fde5d1d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/529080512bd5/vmlinux-8fde5d1d.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/39c09b74f46c/bzImage-8fde5d1d.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in netfs_unbuffered_write+0x1c21/0x21e0 fs/netfs/direct_write.c:119
-Read of size 2 at addr ffff888022e87864 by task syz.0.17/5936
-
-CPU: 1 UID: 0 PID: 5936 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1d0 mm/kasan/report.c:595
- netfs_unbuffered_write+0x1c21/0x21e0 fs/netfs/direct_write.c:119
- netfs_unbuffered_write_iter_locked+0x7e2/0xa90 fs/netfs/direct_write.c:294
- netfs_unbuffered_write_iter+0x442/0x740 fs/netfs/direct_write.c:386
- v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1070 fs/read_write.c:688
- ksys_write+0x12a/0x250 fs/read_write.c:740
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2eecd9ce59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f2eedc49028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f2eed015fa0 RCX: 00007f2eecd9ce59
-RDX: 00000000fffffdd8 RSI: 0000200000000540 RDI: 0000000000000003
-RBP: 00007f2eece32d6f R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f2eed016038 R14: 00007f2eed015fa0 R15: 00007fff0ed7a0b8
- </TASK>
-
-Allocated by task 5936:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- unpoison_slab_object mm/kasan/common.c:340 [inline]
- __kasan_slab_alloc+0x89/0x90 mm/kasan/common.c:366
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4570 [inline]
- slab_alloc_node mm/slub.c:4899 [inline]
- kmem_cache_alloc_noprof+0x241/0x6e0 mm/slub.c:4906
- mempool_alloc_noprof+0x1b7/0x310 mm/mempool.c:566
- netfs_alloc_subrequest+0xc1/0x3c0 fs/netfs/objects.c:204
- netfs_prepare_write+0x76/0x780 fs/netfs/write_issue.c:172
- netfs_unbuffered_write+0x7b8/0x21e0 fs/netfs/direct_write.c:111
- netfs_unbuffered_write_iter_locked+0x7e2/0xa90 fs/netfs/direct_write.c:294
- netfs_unbuffered_write_iter+0x442/0x740 fs/netfs/direct_write.c:386
- v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1070 fs/read_write.c:688
- ksys_write+0x12a/0x250 fs/read_write.c:740
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 5936:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2689 [inline]
- slab_free mm/slub.c:6251 [inline]
- kmem_cache_free+0x127/0x6c0 mm/slub.c:6378
- mempool_free+0xde/0x130 mm/mempool.c:711
- netfs_free_subrequest fs/netfs/objects.c:239 [inline]
- netfs_put_subrequest+0x282/0x4c0 fs/netfs/objects.c:255
- netfs_unbuffered_write+0x13ed/0x21e0 fs/netfs/direct_write.c:118
- netfs_unbuffered_write_iter_locked+0x7e2/0xa90 fs/netfs/direct_write.c:294
- netfs_unbuffered_write_iter+0x442/0x740 fs/netfs/direct_write.c:386
- v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6ac/0x1070 fs/read_write.c:688
- ksys_write+0x12a/0x250 fs/read_write.c:740
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff888022e877c0
- which belongs to the cache netfs_subrequest of size 200
-The buggy address is located 164 bytes inside of
- freed 200-byte region [ffff888022e877c0, ffff888022e87888)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x22e86
-head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-memcg:ffff888026b62001
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff88801fab5680 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000800190019 00000000f5000000 ffff888026b62001
-head: 00fff00000000040 ffff88801fab5680 dead000000000100 dead000000000122
-head: 0000000000000000 0000000800190019 00000000f5000000 ffff888026b62001
-head: 00fff00000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000002
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 4032896346, free_ts 0
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1853
- prep_new_page mm/page_alloc.c:1861 [inline]
- get_page_from_freelist+0x11a6/0x3410 mm/page_alloc.c:3941
- __alloc_frozen_pages_noprof+0x27c/0x2bc0 mm/page_alloc.c:5221
- alloc_slab_page mm/slub.c:3278 [inline]
- allocate_slab mm/slub.c:3467 [inline]
- new_slab+0xa6/0x6c0 mm/slub.c:3525
- refill_objects+0x277/0x420 mm/slub.c:7272
- refill_sheaf mm/slub.c:2816 [inline]
- __pcs_replace_empty_main+0x375/0x650 mm/slub.c:4652
- alloc_from_pcs mm/slub.c:4750 [inline]
- slab_alloc_node mm/slub.c:4884 [inline]
- kmem_cache_alloc_noprof+0x480/0x6e0 mm/slub.c:4906
- mempool_init_node+0x2f7/0x6e0 mm/mempool.c:259
- mempool_init_noprof+0x3a/0x50 mm/mempool.c:289
- netfs_init+0x16c/0x2b0 fs/netfs/main.c:128
- do_one_initcall+0x121/0x750 init/main.c:1392
- do_initcall_level init/main.c:1454 [inline]
- do_initcalls init/main.c:1470 [inline]
- do_basic_setup init/main.c:1490 [inline]
- kernel_init_freeable+0x6ea/0x7b0 init/main.c:1703
- kernel_init+0x1f/0x1e0 init/main.c:1593
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff888022e87700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888022e87780: fc fc fc fc fc fc fc fc fa fb fb fb fb fb fb fb
->ffff888022e87800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                       ^
- ffff888022e87880: fb fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff888022e87900: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: [BUG] KASAN: slab-use-after-free in cdev_put
+Message-Id: <EDF77EB4-909B-44F6-BEA3-0D111F76A5CD@gmail.com>
+Date: Fri, 29 May 2026 16:15:12 -0400
+Cc: linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+To: viro@zeniv.linux.org.uk,
+ brauner@kernel.org,
+ jack@suse.cz
+X-Mailer: Apple Mail (2.3864.600.51.1.1)
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+--Apple-Mail=_BFD48016-EA8E-431A-BC6B-A8095D455012
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Hi Kernel Maintainers,
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+I hit the following KASAN report while testing current upstream kernel:
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+KASAN: slab-use-after-free in cdev_put
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+on commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 2026)
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+The reproducer and .config files are here.
+https://gist.github.com/shuangpengbai/8f7dd0c0b1c638482b0e4cc62c554121
 
-If you want to undo deduplication, reply with:
-#syz undup
+I=E2=80=99m happy to test debug patches or provide additional =
+information.
+
+Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+
+
+[  133.746964][ T8494] =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[  133.747541][ T8494] BUG: KASAN: slab-use-after-free in cdev_put =
+(fs/char_dev.c:361)
+[  133.748018][ T8494] Read of size 8 at addr ffff8881066d7108 by task =
+bad_nvme_io/8494
+[  133.748544][ T8494]
+[  133.748716][ T8494] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + =
+PIIX, arch_caps fix, 1996), BIOS 1.16.34
+[  133.748718][ T8494] Call Trace:
+[  133.748720][ T8494]  <TASK>
+[  133.748721][ T8494]  dump_stack_lvl (lib/dump_stack.c:94 =
+lib/dump_stack.c:120)
+[  133.748725][ T8494]  print_report (mm/kasan/report.c:378 =
+mm/kasan/report.c:482)
+[  133.748734][ T8494]  kasan_report (mm/kasan/report.c:595)
+[  133.748738][ T8494]  cdev_put (fs/char_dev.c:361)
+[  133.748740][ T8494]  __fput (fs/file_table.c:513)
+[  133.748743][ T8494]  fput_close_sync (fs/file_table.c:615)
+[  133.748756][ T8494]  __x64_sys_close (fs/open.c:1507 fs/open.c:1492 =
+fs/open.c:1492)
+[  133.748759][ T8494]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 =
+arch/x86/entry/syscall_64.c:94)
+[  133.748761][ T8494]  entry_SYSCALL_64_after_hwframe =
+(arch/x86/entry/entry_64.S:121)
+[  133.748764][ T8494] RIP: 0033:0x7fd3713a311b
+[  133.748767][ T8494] Code: 0f 05 48 3d 00 f0 ff ff 77 45 c3 0f 1f 40 =
+00 48 83 ec 18 89 7c 24 0c e8 f3 fb ff f4
+
+Code starting with the faulting instruction
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   0:	0f 05                	syscall
+   2:	48 3d 00 f0 ff ff    	cmp    $0xfffffffffffff000,%rax
+   8:	77 45                	ja     0x4f
+   a:	c3                   	ret
+   b:	0f 1f 40 00          	nopl   0x0(%rax)
+   f:	48 83 ec 18          	sub    $0x18,%rsp
+  13:	89 7c 24 0c          	mov    %edi,0xc(%rsp)
+  17:	e8 f3 fb ff f4       	call   0xfffffffff4fffc0f
+[  133.748769][ T8494] RSP: 002b:00007fd3709b7e60 EFLAGS: 00000293 =
+ORIG_RAX: 0000000000000003
+[  133.748773][ T8494] RAX: ffffffffffffffda RBX: 0000557a0cdd5390 RCX: =
+00007fd3713a311b
+[  133.748775][ T8494] RDX: 00007fd3709b7e80 RSI: 00000000c0484e43 RDI: =
+0000000000000010
+[  133.748776][ T8494] RBP: 0000000000000010 R08: 0000000000000000 R09: =
+00007fd3709b8700
+[  133.748778][ T8494] R10: 0000000000000000 R11: 0000000000000293 R12: =
+00007fd3709b7e80
+[  133.748779][ T8494] R13: 000000000000010b R14: 00007fd3709b7fc0 R15: =
+0000000000802000
+[  133.748782][ T8494]  </TASK>
+[  133.748783][ T8494]
+[  133.760567][ T8494] Freed by task 8494 on cpu 1 at 133.746963s:
+[  133.760976][ T8494]  kasan_save_track (mm/kasan/common.c:57 =
+mm/kasan/common.c:78)
+[  133.761296][ T8494]  kasan_save_free_info (mm/kasan/generic.c:584)
+[  133.761651][ T8494]  __kasan_slab_free (mm/kasan/common.c:253 =
+mm/kasan/common.c:285)
+[  133.761976][ T8494]  kfree (./include/linux/kasan.h:235 =
+mm/slub.c:2689 mm/slub.c:6251 mm/slub.c:6566)
+[  133.762243][ T8494]  nvme_ns_head_chr_release =
+(drivers/nvme/host/multipath.c:606)
+[  133.762617][ T8494]  __fput (fs/file_table.c:510)
+[  133.762889][ T8494]  fput_close_sync (fs/file_table.c:615)
+[  133.763213][ T8494]  __x64_sys_close (fs/open.c:1507 fs/open.c:1492 =
+fs/open.c:1492)
+[  133.763526][ T8494]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 =
+arch/x86/entry/syscall_64.c:94)
+[  133.763838][ T8494]  entry_SYSCALL_64_after_hwframe =
+(arch/x86/entry/entry_64.S:121)
+[  133.764235][ T8494]
+[  133.764398][ T8494] The buggy address belongs to the object at =
+ffff8881066d7000
+[  133.764398][ T8494]  which belongs to the cache kmalloc-2k of size =
+2048
+[  133.765325][ T8494] The buggy address is located 264 bytes inside of
+[  133.765325][ T8494]  freed 2048-byte region [ffff8881066d7000, =
+ffff8881066d7800)
+
+
+
+
+Best,
+Shuangpeng
+
+
+--Apple-Mail=_BFD48016-EA8E-431A-BC6B-A8095D455012
+Content-Disposition: attachment;
+	filename=smime.p7s
+Content-Type: application/pkcs7-signature;
+	name=smime.p7s
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCA0Qw
+ggNAMIICKKADAgECAgpzxoAcnO02uUeSMA0GCSqGSIb3DQEBCwUAME4xFzAVBgNVBAMTDlNodWFu
+Z3BlbmcgQmFpMSYwJAYJKoZIhvcNAQkBFhdzaHVhbmdwZW5nYmFpQGdtYWlsLmNvbTELMAkGA1UE
+BhMCVVMwHhcNMjYwMTI3MTkyMjIzWhcNMzEwMTI3MTkyMjIzWjBOMRcwFQYDVQQDEw5TaHVhbmdw
+ZW5nIEJhaTEmMCQGCSqGSIb3DQEJARYXc2h1YW5ncGVuZ2JhaUBnbWFpbC5jb20xCzAJBgNVBAYT
+AlVTMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjjDmy9pLRbIcAP8+e9d3OiNLxzrk
+UlSmVx67fdvsrK2abuHnKV8tbkMaVShNrFoAZTfgXbgOca5JZEzxUNnvZ8wSJVxa0fsbp1b9zPYk
+PM9GHASgMdIGMNRItx60UIOxO9mLWqvdVUJs48N1QQnaUONr7w6sLdW8/Sdh/XgZUI5d4CUbORGw
+cYOJgneYMtLlafzMMLREcg2qnEMOX0kiDqs2YCcRDXaU/AMs1GVbTRuGHunaCafUX+2pNWPW54om
+HukRDtbnlF9uSIOuRKMd//W342ivdQ+4PBA1iz0Mg9slJ+NIlHA62Hro2JmAMtvyvLirkGS8fCb+
+KL/AvGRPRwIDAQABoyAwHjAPBgkqhkiG9y8BAQoEAgUAMAsGA1UdDwQEAwIHgDANBgkqhkiG9w0B
+AQsFAAOCAQEATyV/HKQD+haICrFpNql9ZvBqzFzqG/SJ/cb4ckZNxoLvGRYqz/0Hy3VhKv7nL9DO
+/cbOYT0LIdCZOUwRhuOh6WrAl4ODvMYuyF51iQZ02C6tWBi0Z71Y2bZXUd9Ro53bLG+266DsdVl9
+NaMtwFc2s4Qyd+BpRWL5PMcYJ0wNaUIU0LkLMK+t0JCKaDV0ezjfByKBIAsWL1HHTA3jCjjo4kUD
+Op5W56Am4LpPJLVW4ASDMYdDlvyvQ4Vakdzplvt+T3QUezVAw4UBVU8d5lBr24mU6egcbZGP5dEq
+ABlFtrTpnXwTwEQRBLOfQq94n8hqwbq6TMi9Sl06KU+iVIYjVzGCAfIwggHuAgEBMFwwTjEXMBUG
+A1UEAxMOU2h1YW5ncGVuZyBCYWkxJjAkBgkqhkiG9w0BCQEWF3NodWFuZ3BlbmdiYWlAZ21haWwu
+Y29tMQswCQYDVQQGEwJVUwIKc8aAHJztNrlHkjANBglghkgBZQMEAgEFAKBpMBgGCSqGSIb3DQEJ
+AzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDUyOTIwMTUxMlowLwYJKoZIhvcNAQkE
+MSIEIOLYQM6yFXO+9EeQP1hJq3b1xn0OBMZKUErf64OddEh7MA0GCSqGSIb3DQEBCwUABIIBADnL
+jfQ9ZEACiUdMB4EPuQtuXQ3mbRdPFlZaIBweAmtQUnCDN+tWRrfrkNo+l5OJ8EdAAxwqOEKrFZDB
+LbguCkWcKV6DV5x5hygY4JEWvAJM3M/82t3MNSvO9u+cK4pfGRsMqFK6mZPXCKfR9YX1S3vKf/79
+nhbOBnGBX+yV6i43RoFLPdSKqjqr4Mn4JIdzuGBXMp4KkIY7mydMnQL1OtHS1YE13FS7rx3Fy7tS
+SEjcoo+i0A4tD7eqmHdNeeIJZTZ+wYBZ7wXNYZtcKdz4BhcGQjdPLvda4tyeh+u033lqWn5yjmoh
+twzsbGv+EOA4wCQyfqzXShWdgkMpn5sYUWEAAAAAAAA=
+--Apple-Mail=_BFD48016-EA8E-431A-BC6B-A8095D455012--
