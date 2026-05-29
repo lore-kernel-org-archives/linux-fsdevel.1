@@ -1,70 +1,75 @@
 Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A322FFFA5
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 03:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4907311C2F
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 03:19:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780024764; cv=none; b=USvd1UvD4iisJvkyOCfoS73hqsXBYdJnDwl9AKfDb+0KaTKUjUCm3fTe8JQ/YkUbnrt4mHyAx2A9DuECBkV6VUf6tufE0feK0CAa9SXZxRJtft9IR29ZMJ9tv4infEtVzLEBhuSrrMxOsiFZtMs7hAw6oyxsXnpEtXqw3nM1PeU=
+	t=1780024765; cv=none; b=b4xl029XgEMkiMOiD6BWsdAQx01EQFYvx2+TRZKU1B2SMhLeoirFW2jnaccGKcA/i9vgm14yzMxJ8W9rghjhubmxDOsNNZlszOErtOJNibIb9yF5xhBRtbnHyi+/ScmCNfF8gBzVRQiXaCAwp1ywPsT3wtJCRpIKMub/IQcu4uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780024764; c=relaxed/simple;
-	bh=/u4f4FgZyBWtjbRRaaWz9qfOmIy3D/4tMW3teTl0wq8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tv5ZM9/OXgVhFkDS2PYFr6xfIcPbsDK9z2GD5xUf6Y9ugjyNufs933GvwVxKlJOVwozeVc4sBGIgE6tziAuY2wh+rUQrVtWvULxX9bfYN3svFDkA/QqujfVAvFmO792i3SjJlIymAQARbM0DpitSn6o8I7QpifRxHUxcFld+geo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qsYFYcGD; arc=none smtp.client-ip=209.85.167.169
+	s=arc-20240116; t=1780024765; c=relaxed/simple;
+	bh=40T2GLBqj4FpYx2f+Q5O8Te1Fo7OcJyPDzJ1RlcCGmM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=io3CQC4mLpJtedRFSMdleraaAVK9F7i5rN5g/lMaQiYuYixMRgonKEuC4sHWFaqz3P1mAiranXmvIvkV9qbdmLso/Sy51iwN029sbLd/nCRpdgI6HIuvOlS7nu3Z5/Ki7SyGeBN83kDRh4WiQgOaWWrUdUNBcAh2SbTgSyshARc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V99MNcJx; arc=none smtp.client-ip=209.85.167.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qsYFYcGD"
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-479d593a0c3so11018912b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 20:19:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V99MNcJx"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-479d85152c9so4932693b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 28 May 2026 20:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780024762; x=1780629562; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G9Phfc/ZC4dml+VHPh7TrqnGY9YxNLE5sIFguW0tl3Y=;
-        b=qsYFYcGDy7qY9+MxYJcPSef8gXiUoFElHGSUYNTG11rrRK6JTCZq8f1mBX1SOl8gDd
-         /YXwvq5//znuxUN5/yUHEAHX5XTk0Pfk9xgj46ODV29NYCfWGEdz2AP+2Of1INa8ptpK
-         PQ5tbRUc+5aciyudWMsDabyQy4FBk5uoUu7zGeFsp/c/AbSCamVlO4J/+i4mRg20QzUW
-         5mdZm0gdrFftG5/jdR0F8BVih1wuI3Nm9Z6RGB68UGQqO9pFmFA2KPmixz0nLLb87UKw
-         4hY/YBjnEKlUADN7t1mpUlq2LmSyhs7FJLPsGYnhZz2nWxxp88EpTcdpljKm/hvWFxAi
-         dATA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780024762; x=1780629562;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780024763; x=1780629563; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G9Phfc/ZC4dml+VHPh7TrqnGY9YxNLE5sIFguW0tl3Y=;
-        b=HJVsAZx+j5sIU/mJMzeSpdrpEG7I+DfhSG9ZTr0UNdT+O3JxohpeW1S9eVSWI0vDDF
-         JF0CFBOp69jo2K6u8lHKUY+3i61s3mv1hHLbNXj5/RgRfV7mLN/hUCfCx8pvEytK9lq2
-         AyY/+0Iv4FMMm8Xcnp843Fy0+Oj+/0nQ1YxQf2tFjq2T6IkXgyKgadTNlAufvgZ/PGn0
-         GEeCfaBU/ZSneWWX0sYi0OE0vpDNhQdPMAvf5cy2LgwKKYA1s98C0CVzxvMR0amA8ZGu
-         aIfRsyyGjZ/fIKCEro+z7J8hMs/h5FBEDU1WBo8/qqmNonZ52QjYKPkfGkhoQkF5ksVM
-         IdgA==
-X-Gm-Message-State: AOJu0YyorfPZb13RXeGAnJpELVOeDkQfD7L0JlvubJCsN+AQtfZU0DJg
-	sFp4Do1h/rr9Filuxp5REhrPN1LtqezXQ4k9+XmWcyqx2TP4sLIS44b7SX5Yd+wc
-X-Gm-Gg: Acq92OHk1HA6X9tUKzj7lLx+/2xdzoywt3BUtXX5uxu3GRTe1WKn9A8pF7BSaWYctU1
-	aw1Dvsr1JT/BhfufiK8Mper+0kxCvh0AjPnDaECG1bVmyHeVsv/z2pkaYxIEMX9O6u1HVul/1CB
-	S5Di+UdQx4YWXTZbBf1ftE0R9zYneZP3r750MfeSZr8ZwEYVbef4fadf/mvwAw2+Q9vfut/AokM
-	BBTCh9D2ddqagjBs1J1AWZmJi4e/c2l1QgcRm7B/iD6AQtzaXH26FNgvI3m6caCsLvK36BRWcYs
-	462YeDUah0fxl86B3Em6INUmBd4HpdCpHyUbnsoNT9yE/vDC/QuoFFFi6Gx6EDH8IS5+gGj/me4
-	Y3HA/+zfgH2RewuFnCmcRye6iorwv3+MZ9D6fy6vtfFf+7TvHBYWX+ZcRu2YyGRA0l6GmB6n8wj
-	6qCReNJ1ghAI+MD/J8lfvddlwkaZ4/jP09eqr9czNrz2aU4ZXQHIu/6jK/ZC3rMIucJHodABrAi
-	5vUtJsw8vq9m1Sv+ofmAp2hi6TVZy7IE2L379VUcQALWeBJkgMKBqkCEUleS23sDA==
-X-Received: by 2002:a05:6808:1b26:b0:485:43af:5de0 with SMTP id 5614622812f47-485e73626eemr656910b6e.22.1780024761918;
-        Thu, 28 May 2026 20:19:21 -0700 (PDT)
+        bh=o9Db9daSum/vcEWTe0jIogWuT23gsSW5PUBP5KH0NAU=;
+        b=V99MNcJxDllHIiIlVvlfYNZaYIxV/vgbwNdLncReVf2RD5vEgR6Zhl8a1k61Buv2xM
+         7Ns2p2a7fglX4/jVzyS4RUvab+46F+gpImkFUDDETE/e1o5cDz+BkR9OPHWgaUk+sgh2
+         sb8P4b5BUW1wWYvEmHcu7R5gHOn8/pwohfdVyw4DzJ87hzQkujqct9Me1m3hN3k7pgFY
+         Czeg9Mvl0jSLiXkWPgWDZ5gKWjZHp/b5du7Y5+djc1p9fv7+XEvBtdH0fSIDCkG16Y3l
+         8My/Lk38kgrO9gvhYnKYr0U85/Ek2J8zQZF/lqBg5wjqgbiAqe4+wfO+XrqAe2W2DVpv
+         uihQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780024763; x=1780629563;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=o9Db9daSum/vcEWTe0jIogWuT23gsSW5PUBP5KH0NAU=;
+        b=PqLBwYHk70ctUaYkE6/0+QrwoxEL5rzTwAm/schzlmaTVhHBDQbFAaLXovcARf/q6y
+         ZmtX2eLIYpIf4r6yEmvPy+svjsmaa/AzhK3ghP8hhsHleSAQM5Ge/hHqn+w8DRUvkAuO
+         l9dUlOpiaaEPIlGkMpaWwQhGFP9CsMZt5zCA8DlG9Q6j1DrKzHc2NwLb0VuZroH87vmj
+         QH2FwrxPMVi0K5qkt3+WbKMOLtDfMp9iY5+DqvuMIhKWj1udJaY/xr/n5rbOpEuLYTvC
+         94NeY/Bf2xs3yxQ+/yFtaJT1GujaPpE7Wo6yPYkMAOrfQNKZbpDSGSYnZBvpYoc8HJiE
+         m2vA==
+X-Gm-Message-State: AOJu0Yzx4Io5Ova9BoWqJFtb5qqLc9PINbqUgQIUBKkfmdbyLCBtm4wy
+	Vq3MCCFupXlEt/3uP0E+UD7Ggr7TYkjTu0JPa4JL+DQ9eVBk4Ve728CI0O6Ey6Va
+X-Gm-Gg: Acq92OEdyK+Pyyfz4Shht1Cx1+sp4KEYl5hdUm6ctyHxfFqJuVAGIktctnZW9vApkL5
+	iILCAk4yST/YYjMR+AdrjNw3TUjQ21gHYROU3yvlo2BY/06dR3BXQF0nG3yGzOP8fiJ5hE+YDgO
+	hieACbmzuj85PwTXC9k2vy0H2eo/vLUH/KIcLntiNAJvLowkFbom9f1a2q2lDc9hsZyMqUZ8aKS
+	n3Lluje3prY1PCdyrZbXGrfT6hGEDb25xgL5T7ZA6WVN2v+svF2HJSDjzS7g2RfcVYpC6zseo0S
+	1jM9xRZn6Civgn/nEFa4J9qeZWCD4xZPFNUj4xXFycxjBs98gX0YqVRpe88LpTM+BB1+xKmRDK0
+	rlapTtMfzwiHmc6gA1+efLZiuCPjWVZM6Tf3AxzHLbpfWcC9ZQXtZNpibCUf4ZkrwNdpwixxTxs
+	faJJwPFVo431yGuKh/vP23W8HLgMYj77C/KcHL3o9FjhrVuFQ+E2F4YJCh79xIskHshqba8fk6h
+	ugkmp0AybHj81Tmp95Qx43MDdqugYIhExIrF2fk1Cf9JcEhR3ypa6E/Ll6L/3mYmA==
+X-Received: by 2002:a05:6808:3318:b0:485:467f:a307 with SMTP id 5614622812f47-485e6c9fd72mr901051b6e.42.1780024762736;
+        Thu, 28 May 2026 20:19:22 -0700 (PDT)
 Received: from rdf-gcp2.us-central1-b.c.storage-xlrait-66065.internal (163.80.112.136.bc.googleusercontent.com. [136.112.80.163])
         by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e695bb393bsm556788a34.7.2026.05.28.20.19.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 20:19:21 -0700 (PDT)
+        Thu, 28 May 2026 20:19:22 -0700 (PDT)
 From: Russ Fellows <russ.fellows@gmail.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: miklos@szeredi.hu,
 	linux-kernel@vger.kernel.org,
-	Russ Fellows <russ.fellows@gmail.com>
-Subject: [PATCH 0/2] fuse: fix and optimize parallel writes on passthrough mounts
-Date: Fri, 29 May 2026 03:19:14 +0000
-Message-ID: <20260529031918.7361-1-russ.fellows@gmail.com>
+	Russ Fellows <russ.fellows@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 1/2] fuse: fix FOPEN_PARALLEL_DIRECT_WRITES being ignored for passthrough writes
+Date: Fri, 29 May 2026 03:19:15 +0000
+Message-ID: <20260529031918.7361-2-russ.fellows@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260529031918.7361-1-russ.fellows@gmail.com>
+References: <20260529031918.7361-1-russ.fellows@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,50 +78,170 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These two patches fix a bug that causes FOPEN_PARALLEL_DIRECT_WRITES to have
-no effect on FUSE passthrough mounts, preventing write IOPS from scaling with
-concurrency.
+FOPEN_PARALLEL_DIRECT_WRITES has no effect on passthrough-backed FUSE
+files due to two independent bugs that each prevent it from working.
+Both must be fixed to restore parallel write concurrency.
 
-The bug has two sides that must be fixed together (patch 1/2):
+Bug 1: fuse_passthrough_write_iter() acquires the exclusive inode lock
+directly:
 
-  (a) fuse_passthrough_write_iter() calls inode_lock() directly, bypassing
-      the fuse_dio_lock() function that checks FOPEN_PARALLEL_DIRECT_WRITES.
+    inode_lock(inode);
+    ret = backing_file_write_iter(...);
+    inode_unlock(inode);
 
-  (b) fuse_file_io_open() strips FOPEN_PARALLEL_DIRECT_WRITES from any open
-      that lacks FOPEN_DIRECT_IO, including passthrough opens where the flag
-      is redundant and should not be required.
+This serializes all concurrent writers regardless of whether the server
+set FOPEN_PARALLEL_DIRECT_WRITES.  The flag is checked by
+fuse_dio_wr_exclusive_lock(), called from fuse_dio_lock(), called from
+fuse_direct_write_iter() -- the non-passthrough O_DIRECT path.
+fuse_file_write_iter() routes passthrough opens to
+fuse_passthrough_write_iter() instead, bypassing the flag check entirely.
 
-Either bug alone is sufficient to serialize all writers.  Together they ensure
-the flag can never take effect on a passthrough-backed file.
+Bug 2: fuse_file_io_open() in iomode.c strips FOPEN_PARALLEL_DIRECT_WRITES
+from any open that lacks FOPEN_DIRECT_IO:
 
-Patch 2/2 is an independent performance follow-on: once parallel writes are
-unblocked, the per-inode spinlock (fi->lock) becomes the next measurable cost.
-This patch converts iocachectr to atomic_t and adds lockless fast paths to
-fuse_inode_uncached_io_start/end and fuse_write_update_attr.
+    if (!(ff->open_flags & FOPEN_DIRECT_IO))
+        ff->open_flags &= ~FOPEN_PARALLEL_DIRECT_WRITES;
 
-Tested with fio randwrite 4K direct, numjobs=1/2/4/8, iodepth=64, on a FUSE
-passthrough mount backed by XFS on a RAM-backed null_blk device (kernel 6.17.13,
-AMD EPYC 9B45, 16 threads):
+This is correct for regular direct-IO opens where FOPEN_DIRECT_IO ensures
+O_DIRECT is actually in effect.  It is wrong for passthrough opens: a
+passthrough file already bypasses the FUSE page cache by definition, so
+FOPEN_DIRECT_IO is redundant and should not be required to preserve the
+parallel-writes flag.
 
-  numjobs | Before (IOPS) | After patch 1 | After patch 2
-  --------|---------------|---------------|---------------
-        1 |        ~470K  |        ~470K  |        ~470K
-        2 |        ~650K  |        ~930K  |        ~930K
-        4 |        ~640K  |      ~1,530K  |      ~1,530K
-        8 |        ~635K  |      ~1,707K  |      ~1,707K
+Note: adding FOPEN_DIRECT_IO to the daemon's open flags is not a valid
+workaround.  fuse_file_write_iter() checks FOPEN_DIRECT_IO before
+FOPEN_PASSTHROUGH, so setting both causes writes to be routed through
+fuse_direct_write_iter() (requiring a userspace round-trip) instead of
+fuse_passthrough_write_iter() (zero-copy kernel path).
 
-Raw XFS throughput on the same device at numjobs=8: ~1,702K IOPS.
+Combined effect: a daemon that opens with FOPEN_PASSTHROUGH |
+FOPEN_PARALLEL_DIRECT_WRITES (without FOPEN_DIRECT_IO) has the parallel
+flag stripped by Bug 2 before Bug 1 is even reached.  Both bugs must be
+fixed together.
 
-Russ Fellows (2):
-  fuse: fix FOPEN_PARALLEL_DIRECT_WRITES being ignored for passthrough writes
-  fuse: reduce fi->lock contention on parallel direct I/O
+Fix Bug 1: make fuse_dio_lock() and fuse_dio_unlock() non-static and call
+them from fuse_passthrough_write_iter(), replacing the open-coded
+inode_lock/inode_unlock.  This reuses the existing logic that handles
+FOPEN_PARALLEL_DIRECT_WRITES, append writes, writes past EOF, and
+page-cache IO mode transitions.
 
- fs/fuse/file.c        |  49 ++++++++++++++++++++++-----
- fs/fuse/fuse_i.h      |  11 +++++-
- fs/fuse/inode.c       |   2 +-
- fs/fuse/iomode.c      |  61 +++++++++++++++++++++++++++------
- fs/fuse/passthrough.c |   6 ++--
- 5 files changed, 104 insertions(+), 25 deletions(-)
+Fix Bug 2: skip the FOPEN_PARALLEL_DIRECT_WRITES strip when
+FOPEN_PASSTHROUGH is set.  The flag remains stripped for non-passthrough
+opens without FOPEN_DIRECT_IO, preserving existing behaviour.
 
+Safety: backing_file_write_iter() calls into the backing filesystem's
+write_iter (e.g. xfs_file_write_iter), which acquires the backing inode's
+own lock independently.  The FUSE inode lock and the backing inode lock are
+entirely separate; using inode_lock_shared on the FUSE inode does not
+affect the backing filesystem's concurrency control.
+
+Fixes: 4d99ff8f6b85 ("fuse: implement open/create with FOPEN_PASSTHROUGH")
+Cc: stable@vger.kernel.org
+Signed-off-by: Russ Fellows <russ.fellows@gmail.com>
+---
+ fs/fuse/file.c        |  6 +++---
+ fs/fuse/fuse_i.h      |  2 ++
+ fs/fuse/iomode.c      |  8 ++++++--
+ fs/fuse/passthrough.c |  6 +++---
+ 4 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index f94f3dc082c6..602c3f18676e 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -1428,8 +1428,8 @@ static bool fuse_dio_wr_exclusive_lock(struct kiocb *iocb, struct iov_iter *from
+ 	return false;
+ }
+ 
+-static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
+-			  bool *exclusive)
++void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
++		   bool *exclusive)
+ {
+ 	struct inode *inode = file_inode(iocb->ki_filp);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+@@ -1455,7 +1455,7 @@ static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
+ 	}
+ }
+ 
+-static void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
++void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
+ {
+ 	struct inode *inode = file_inode(iocb->ki_filp);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+@@ -1469,7 +1469,7 @@ static void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
+ 	}
+ }
+ 
+-static const struct iomap_write_ops fuse_iomap_write_ops = {
++static const struct iomap_write_ops fuse_iomap_write_ops = {	/* unchanged */
+ 	.read_folio_range = fuse_iomap_read_folio_range,
+ };
+ 
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 17423d4e3cfa..120de517cea0 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1541,6 +1541,8 @@ int fuse_file_io_open(struct file *file, struct inode *inode);
+ void fuse_file_io_release(struct fuse_file *ff, struct inode *inode);
+ 
+ /* file.c */
++void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from, bool *exclusive);
++void fuse_dio_unlock(struct kiocb *iocb, bool exclusive);
+ struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
+ 				 unsigned int open_flags, bool isdir);
+ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+index c99e285f3..b3f51e3d1 100644
+--- a/fs/fuse/iomode.c
++++ b/fs/fuse/iomode.c
+@@ -214,10 +214,14 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+ 	if (fuse_inode_backing(fi) && !(ff->open_flags & FOPEN_PASSTHROUGH))
+ 		goto fail;
+ 
+-	/*
+-	 * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO.
+-	 */
+-	if (!(ff->open_flags & FOPEN_DIRECT_IO))
++	/*
++	 * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO, except for
++	 * passthrough opens which bypass the page cache regardless and do not
++	 * need FOPEN_DIRECT_IO to guarantee direct I/O semantics.
++	 */
++	if (!(ff->open_flags & FOPEN_DIRECT_IO) &&
++	    !(ff->open_flags & FOPEN_PASSTHROUGH))
+ 		ff->open_flags &= ~FOPEN_PARALLEL_DIRECT_WRITES;
+ 
+ 	/*
+diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+index f2d08ac2459b..f83d0a27cfb9 100644
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -54,11 +54,11 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
+ 				    struct iov_iter *iter)
+ {
+ 	struct file *file = iocb->ki_filp;
+-	struct inode *inode = file_inode(file);
+ 	struct fuse_file *ff = file->private_data;
+ 	struct file *backing_file = fuse_file_passthrough(ff);
+ 	size_t count = iov_iter_count(iter);
+ 	ssize_t ret;
++	bool exclusive;
+ 	struct backing_file_ctx ctx = {
+ 		.cred = ff->cred,
+ 		.end_write = fuse_passthrough_end_write,
+@@ -70,10 +70,10 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
+ 	if (!count)
+ 		return 0;
+ 
+-	inode_lock(inode);
++	fuse_dio_lock(iocb, iter, &exclusive);
+ 	ret = backing_file_write_iter(backing_file, iter, iocb, iocb->ki_flags,
+ 				      &ctx);
+-	inode_unlock(inode);
++	fuse_dio_unlock(iocb, exclusive);
+ 
+ 	return ret;
+ }
 -- 
 2.51.0
