@@ -1,336 +1,214 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E503A987B
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 10:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F593D8135
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 10:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780050280; cv=pass; b=bACKsvNwHuAXr+aLkTMPFWdPC7BTRs53mpu3L7EyLKSH5rdx/JhgrbpAREfcE9LBCM1EM0pm1SUnPsDDLc6ZtAIDywvu/lAHoVJ3/aUZyFMXIIt8x+09hBuwN01g07HuTxQYL22bbjwNMES2APfC+Y1zr5VFJCW0xjf3mlH2Jn8=
+	t=1780050745; cv=pass; b=ZMWR7sqey2ETsEA3P2Ordz4WPfFYC88ksL+OYsiXVDDD/f7tQE76ZVF72l2rm4x0D7ViUrvD4T/t0DooA4Vj8vpuQ0agHQOqNhhaHxRpL1bDpWZ3rcOdHpAkCnejltQ6fndes8V564WomsAwEd9D+14uQ6/mBOK2zDjwyZGshyY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780050280; c=relaxed/simple;
-	bh=Sfd3Adi+tUI+S4DxrF1vcNGy8CCGFz3QMBAnVMp6htA=;
+	s=arc-20240116; t=1780050745; c=relaxed/simple;
+	bh=0Z8G8Fc03t0xe4iIts5vzMlUzLhqURpN5rsJJExa7wk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TnuWeZ7UQNg2pNajnp8C4JKVuwj3o9CGXJtAyHNpUMjZ83pg9Slz/vHuwwJUy3kH/o5HgaLNDSu1j477XxlC48SCfB3e1tc1sIO6c8j0bsSlbGM21tmsnit1tIKFxk+jerzz9gWViyu2fUvhyicdM5VSYy/aJx2IF5V4VxV+4xY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9x0FVyw; arc=pass smtp.client-ip=209.85.160.182
+	 To:Cc:Content-Type; b=EsSGpn2GA+Tv2SKvdRMdmdZhNoHs245cUwoppAPaVUsduapyzVQsNaCYjyucnBWY1H1c6fwFR1USKm6CIED3nlMFO128ngeiXM4+UlF6Vc8+q2wCXPleqZ4Yv7AXYEHMqGqqpIcSRPSPflgnXZbdxsyr+dsmKOaWCd7BHecqIDM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hxxy3zNN; arc=pass smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9x0FVyw"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-50faeb8317bso123186651cf.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 03:24:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780050278; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hxxy3zNN"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68c19f1f3ceso730398a12.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 03:32:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780050738; cv=none;
         d=google.com; s=arc-20240605;
-        b=CcDWC7vXo3P8zm6NkKnWJsP78zoKkwfejjP9kgfY0V0C/NvebswvkDqOU4WK9prwwC
-         poxQlz8GMmBYMMhUWGos2NqHTRahji7/1TsiGXp90HPoH8jtOFR9maoGKXJ9rc1yjqBR
-         WBpZ1m2CQCa1VuuIJ/pLHzEtTRC22rSp1bZrBa79SbS2BRSSW/poQFwksDcrV+/nPcfd
-         y38UzW+AYA11fq/d0RtuUYRAjkb+HY8hmvUcJLvpOz12M02RWbV7sLx4I241DFborRtZ
-         GFee0a1KhOfV+JaMinHSOGoGwvgsLK/y6UyJAC8XCKXJG9Nc8mBUeRWATgwANpR5S4Z3
-         GeDQ==
+        b=JwIQXkJAgZOQQD1sKmetiquk5VCjMpBXlgwrDODIsySDRHbQXB/ZaBa/8seg+Yn8/3
+         2E58rnr/ka3rNRudyECRzin/Ip9vY+yJbEFelh63gqYboWyVFHkXqOtTzClDMTAb+Y4d
+         eJDXiO94y7FJvLvo8y9zC8VVHfd5wHal15ncltu0KJAkiMfsMrU8iYZo3GKuVkZoRzxp
+         unLcs0WqWgPVH0T+8PMB9VVsM/R3lHOM5Dry9/Ag7tFy6EkCVVDA0HCdY80/4xBnBVNr
+         Xe2UshEE9TDG4gWpSBGms36UsFT19T1+UCXDd80GcnlAvQYOALH6xJPywpbyM+6RejOl
+         nKsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=HwfD+J2kx1n2f8ryQ5IZeBmApk9xDHEgGs5Hv6L+XY8=;
-        fh=+oTAltVYyEbYrRQp1b82xomFBqiHY/XMBkUSQSowQc4=;
-        b=jQEmdr2yGzX8NmdWIAveUo0zH03F04FZZnt43QLmkvBAuKDuJwCsuoAEEJYuPw99e5
-         zSpWVrxB6KjBblqe0D0R+IuYklRPbqPmtGxt1cq++L6lixVNzpeuALghLpJYoeuDuLWc
-         3QyXyNWfIAygxtoj02qNoamLd6IjRkyl3D4SmivFGUj52SvFO8408tFGYFI+VV959qAi
-         qFQGA2J5qNTuqgDlQEj7tobyFkvDva3dpa/n4ph7GG4TZbJDEaGdo322gISEcESJQAPY
-         kcuLtTIE7Gnd/Ym4BD/C8c6dhVhi/sxa7RCB6KdtEq3ohyDEYVv6TMAFxWmMDEguTWS1
-         vjtA==;
+        bh=KlNYEgnUJFjtyAdqaqrXO6t79cGa+JdphkQwWnHLbDA=;
+        fh=CRERso476dIVVRohgv/yMPNfmJZtDarWL0bTV93W5tk=;
+        b=PROtSNMer/Avq9SsBX3GLmazNuseCWR7mmPBhdcj4T4bH52Or+lzVBpvX6gvRAEFhR
+         D809BrWKQbIMkFMR49hVApHEbmUPskvoma+FKzZWujfqXa8QOsYFGPw+kI92DxDzpPXA
+         TVIMdjdO1j6fZ7/92umXW2fyYgy7vQ/AifDH+2rYzWfl+B1fwBREDpbQkBuJaRWHoElZ
+         +ewFF2Vet9fTbVHApp0AojcBT4jciHyQkME3lNq3qNH9hVy2mMU4A/RktPNJnEM6+0m9
+         yRBSp0T4SjhQ9hlk3DbqtBPQGyHo28lmo03FDzbCDg2TcE4H2xERmFCHHDuCpLWxUam9
+         AqTQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780050278; x=1780655078; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780050738; x=1780655538; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HwfD+J2kx1n2f8ryQ5IZeBmApk9xDHEgGs5Hv6L+XY8=;
-        b=i9x0FVywOHOlSjvXvUsMbyMMAfGacOXAkCF71ktdTgYq/BKn8YhL6Gz8vIQGjXZRgK
-         L4tujeQXa+TAT8nPpJYi9gy8AWVd7lBJQXeM84lvKAj5Gc3zuCMJIQC6IWvIlJCzmepl
-         c9TZkBpiCmztbmhmKwo8InF9Ku8KEtkSUOJijKVjpU0+D+mdRY6Hqx9MmSyWcKj8xAbF
-         zqopdu8g+Tp4+mQJokOaWYj2zHrJJ77YIzP6GP2cC9tlKpLt1KZQFNgx4xaLKlIVxcLE
-         MMFXod68XfKEa3VUUVa593xpunpOQuwq3eyD2ev57gUW773LjJjWKdU/cK97hf2Se9xH
-         1cIg==
+        bh=KlNYEgnUJFjtyAdqaqrXO6t79cGa+JdphkQwWnHLbDA=;
+        b=hxxy3zNNEAwbtCc/GsCZLFn6X5seMbBrg3V3cAzpg0qxvAxmLPvTDZUdTAYgF1rMcv
+         d3tyXGneANo/eXlomUQynfiQENwWCcKd2qXMAohP4DrZLn9F6qbMw+gfv6krafgzbMRr
+         7W/VG64r4Kpc0cPXUv/a4nHKLO+jcKzJ9Jc1xxYM6pbqEPjBqlqvJC8ZheenbFwdumYT
+         Ap/CZu0QNnYfh1HS3i4cLOzO1rqWqy0cUkxFKAk2PkOu+nMrwTXmrL/9PpCWfjmZN9k7
+         Fj61mg93xLaW38XDWKwZ0OFQ8hKUjzQSMnee5zlUO8o1/9bUPvnbE7casNoSLcvxcsfa
+         eHTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780050278; x=1780655078;
+        d=1e100.net; s=20251104; t=1780050738; x=1780655538;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HwfD+J2kx1n2f8ryQ5IZeBmApk9xDHEgGs5Hv6L+XY8=;
-        b=cXX0nGTins9m3zz/Glm5bSvrQI2MPfNVOYSLXZTJRtFqqABdu3EX4asYlOP3j+r19R
-         vmlJKpzbrTZptzmthG7HRE7cjBDsFBMAwQtIG6UaKS1UvduLCF5A30ukwIdfJQWJo5E1
-         BHt/luXDU4qM5TttFal7RzymVHpwBeyN2tgiR6J8gGqW8kYkCQUUlc65S3WRjRQF7432
-         /vmdT39FqESbc7vwg/c1gO3zayAZSbghltDBiQAwff/py7jkTbZZXJfcFCKXsrkDmv4M
-         hDXQgwpPw/jLz6zwKB1CdUA3GZZD/vmdPJhtiBg5y6AR91wMagsD7V3uQsVb/ZWGcMEd
-         pFRQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8TDsXRHkRyEQaLoLq5bcK54jfwRcHQMJu91kxtZTTRbzI6pzHSnQSOxF9ptzzFR8EMrfRk9LkThIO0SIw5@vger.kernel.org
-X-Gm-Message-State: AOJu0YwruGzdYuTANBM4uwkWLioeyYQnR0NpIny9OX81eXqOVP9wfr/N
-	iyY8L1jNGpBNaiRe1Uoz7cq6h8q04iILu4qZ+fRv+C+gOW4cmzDwnKbJ9oGjcK9PuFqc6yEakxI
-	AWjhe+dZA6rBRJsMHRrRW5ZLmh13B9Eo=
-X-Gm-Gg: Acq92OGUV2AYqmAlHMiz0pyxqxoQiFkrFuXU2FArptO0aXz8ne1GXukDjyBIS66XWR4
-	VZTaclafejVxBfiWonybO11t2SIxBSlgDRgX2CI70prEz0x2n+sVJLHrvmvwqa4ItVSJNV68M80
-	GyyVO1YOBg3AqB4tP82nVAdzg4CFv6ws5NJ/NG/wVpVDhsGJGdwr9ohd1O8UUuKjz6/EnZlrRi+
-	JwzkPd34IWEkiIbtYd3XZ0/oPVBTk7r6hQWXdvgWldv/feU/NdzjjkREbzJlCgasTPd9q1TAMg8
-	GJlTYz3s1Iog8uaT4jM=
-X-Received: by 2002:a05:622a:5786:b0:516:ddc3:6248 with SMTP id
- d75a77b69052e-5172dd201e9mr25384481cf.29.1780050277759; Fri, 29 May 2026
- 03:24:37 -0700 (PDT)
+        bh=KlNYEgnUJFjtyAdqaqrXO6t79cGa+JdphkQwWnHLbDA=;
+        b=c7I6VM/sXTRJA03m73/gZMW6h2MFFrLoQB9VITgwv2GXUBAcdDNghJ50C3JcbgeHw0
+         AYXcPAALz9b3svpc3Pvt5YK9F7Ym+hGLxv7Vu/2metc6oAbK7uAQRNg53BlizhcIogro
+         c8cgt1vXO2A2s3x1RjgFAJ5Wiiunp1HnorHB1VdVIwvDvWpzAuEglz8xxY6ooFboEDHa
+         s2y5x1ipbg5MwD53q2OrSuvPbwFyi0SJkPTcSCus6QjSZG51S5tRYxHauxlDJi4a2zs9
+         7ICpOEp4MKIUlJoKyj+BtY16BdDljmEp4QvB4EJ8TuaPKHbV8ElOP91hNKTXABQYJdC8
+         A+Uw==
+X-Forwarded-Encrypted: i=1; AFNElJ+RnIJ6Ih9ZVS7ZCygFARLYW11ao4uGwz01d9ZxOK50WC0myj0jwBOWp96I1T+FWFaY6yu/Ahg49L+4GHJL@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQbFHPlqrQnUsIlcOUAbp+NOISAmC5hCBEzabB8rvMNY7ZC5TT
+	LwFEandMYcJF835gGls8qYfOay0JMGbRtWEbtmTK7BsuwcAOA8VlJmclzXRvmCNvo746Pxm61a+
+	ciVMlAiOix2/H1pLgryHrg7BvJaAWfZc=
+X-Gm-Gg: Acq92OFY0CQeF1vmbYnJ3KGcs2eZsIqxi4MIXMmgRD83z9qtHR/FKBeLGJiU/34ljIV
+	L3DIxcUlloXa+p198EKf7alJJ7bc2UVh0qrrtt3Won6iHrLu00ddOeiU5f8qFRRm4NqfPTT+H/v
+	+nXQGm/v2H9isvKjxBOIxSeZUiWFgAs+nV4KwBAELR6Ux2uGApy28C+BToisGYABlOOM9R43hIO
+	bthibURxRa4KtapiureZMZwXG76uygSpNCT4BKZuGbIdLwKYK0lqXGpWgZkf/oRi5PBzlj03wan
+	co6Cp4WN5fi1HxK48WSN4cYNoQaSSggf7A8nQ+AGbZJdBNECf0WB
+X-Received: by 2002:a05:6402:40c7:b0:68b:ce88:9d3f with SMTP id
+ 4fb4d7f45d1cf-68c11657878mr1129718a12.22.1780050737378; Fri, 29 May 2026
+ 03:32:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAEkJfYPhWdd59RKmuNLJg-bkypHz7xiOwaWyNVu3A8CUqQCnvg@mail.gmail.com>
- <ahPhcZvPD4S20UJf@infradead.org> <CAEkJfYP5YhcwVik31Mv3iouLG2wDksb4fEbu4TSU0TAYN25w6A@mail.gmail.com>
- <CAJnrk1a=ivLcEHBOJ8Nzodb52zJ_B2X4yV16hwv_Sio84y8y1g@mail.gmail.com>
-In-Reply-To: <CAJnrk1a=ivLcEHBOJ8Nzodb52zJ_B2X4yV16hwv_Sio84y8y1g@mail.gmail.com>
-From: Sam Sun <samsun1006219@gmail.com>
-Date: Fri, 29 May 2026 18:24:26 +0800
-X-Gm-Features: AVHnY4JGm6pyY-37gGgdR-OuOkcaLG39fTSUe50PM8OnUJ5tg0TieREHbyHHcVw
-Message-ID: <CAEkJfYMtEVcpNeH1SbvqUDB9KKKqhq0tX+t64uOW6dqCjqFKwA@mail.gmail.com>
-Subject: Re: [BUG] iomap: NULL dereference in iomap_finish_folio_read after
- deferred failed read
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>, brauner@kernel.org, 
-	"Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller@googlegroups.com
+References: <20260528-schmuckvoll-heilen-garen-be77b4208671@brauner>
+ <20260529020035.17477-1-anonymemeow@gmail.com> <CAOQ4uxiGr7i=_H4XttS3kWKni1nT75BjnVNZM-0j2JnAHLY7cA@mail.gmail.com>
+ <20260529-erdig-eckig-querulant-439a4ba4317d@brauner>
+In-Reply-To: <20260529-erdig-eckig-querulant-439a4ba4317d@brauner>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 29 May 2026 12:32:06 +0200
+X-Gm-Features: AVHnY4L1WhirJUgq1nbYINA2dO20vufByH80KeKyRkuT7c1H8CIBAS36F70anQg
+Message-ID: <CAOQ4uxi_5QArLFcgcWKjyWmomrHje_rvVQm=6Cf7NEh7JBcVKw@mail.gmail.com>
+Subject: Re: [PATCH v2] fanotify: report thread pidfds for FAN_REPORT_TID
+To: Christian Brauner <brauner@kernel.org>
+Cc: AnonymeMeow <anonymemeow@gmail.com>, jack@suse.cz, repnop@google.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 27, 2026 at 12:13=E2=80=AFPM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
+On Fri, May 29, 2026 at 9:40=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> On Tue, May 26, 2026 at 8:25=E2=80=AFPM Sam Sun <samsun1006219@gmail.com>=
- wrote:
-> >
-> > On Mon, May 25, 2026 at 1:43=E2=80=AFPM Christoph Hellwig <hch@infradea=
-d.org> wrote:
+> On Fri, May 29, 2026 at 09:21:55AM +0200, Amir Goldstein wrote:
+> > On Fri, May 29, 2026 at 4:01=E2=80=AFAM AnonymeMeow <anonymemeow@gmail.=
+com> wrote:
 > > >
-> > > On Sat, May 23, 2026 at 06:58:46PM +0800, Sam Sun wrote:
-> > > > Dear developers and maintainers,
+> > > The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
+> > > exclusive because by the time the pidfd support was introduced to
+> > > fanotify, pidfds could only be created for thread group leaders. Now
+> > > that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
+> > > this restriction can be lifted.
+> > >
+> > > Also drop the pid_has_task() check to allow pidfds to be reported for
+> > > reaped tasks as well.
+> >
+> > I am not objecting to this change, but as a rule of thumb, almost
+> > every time that
+> > a commit message says "Also" it means that it should have been a separa=
+te
+> > commit.
+> >
+> > This is not an exception to the rule and even worse -
+> > This change PIDFD_STALE is an independent change of behavior
+> > (as observed by breakage of fanotify21) that could (maybe unlikely)
+> > surprise real users.
+>
+> I don't think so. It's the same as when we enabled PIDFD_STALE for
+> AF_UNIX sockets: it strictly expanded the usability of the interface as
+> you could now reliably get a pidfd for all events and get stronger
+> guarantees.
+>
+> > We have few options:
+> > 1. Make it opt-in with yet another fanotify_init flag
+> > 2. Enable it implicitly together (and in the same patch) with FAN_REPOR=
+T_TID
+> > 3. Enable it without opt-in (as you did) but as separate patch
+> >     that will be reverted if someone complains on "real world"
+> >     (i.e. not test) breakage
+> >
+> > IMO, the path of least resistance is option 2.
+> > If users want to get the pidfd of tgid I suppose there should be no
+> > problem to get it from the pidfd of the thread. Right?
+> > So what FAN_REPORT_TID really means is give me a richer pidfd
+> > with more information about the actor than without FAN_REPORT_TID.
+> >
+> > I'd like to get Jan's input on those UAPI choices.
+> >
+> > >
+> > > Link: https://lore.kernel.org/lkml/20260528-schmuckvoll-heilen-garen-=
+be77b4208671@brauner/
+> > > Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+> > > ---
+> > >
+> > > On 2026-05-28 13:51 +0200, Christian Brauner wrote:
+> > > > For quite a while the kernel refused to hand out pidfds for reaped
+> > > > processes even if the struct pid was pinned like in this case.
 > > > >
-> > > > We encountered a NULL pointer dereference in the deferred buffered
-> > > > read failure path. Unfortunately, no reproducer is available yet.
-> > >
-> > > [snip]
-> > >
-> > > > We analyzed the cause of this report. It seems that failed buffered
-> > > > read bios are deferred to a global work item "failed_read_work". Th=
-e
-> > > > deferred worker still owns the bio/folio, but by the time it calls
-> > > > `iomap_finish_folio_read()`, the folio may have been truncated,
-> > > > invalidated, or otherwise detached from its mapping. In that case,
-> > > > `folio->mapping` is NULL, but the error reporting path unconditiona=
-lly
-> > > > dereferences `folio->mapping->host`. This pattern still exists on t=
-he
-> > > > latest kernel commit.
+> > > > But that makes various APIs - including this one - way less powerfu=
+l
+> > > > than they can be. Nowadays the socket layer already hands out pidfd=
+s for
+> > > > reaped processes. It also stashed the struct pid. Let's do the same
+> > > > here.
 > > > >
-> > > > A possible fix could be avoiding the `folio->mapping->host`
+> > > > Drop the pid_has_task() change and then:
+> > > >
+> > > > pidfd =3D pidfd_prepare(event->pid, pidfd_flags | PIDFD_STALE, &pid=
+fd_file);
+> > > >
+> > > > which instructs pidfs to and out a pidfd even if the task has alrea=
+dy
+> > > > been reaped. Reaped pidfds can still be queried for various types o=
+f
+> > > > information that is kept around even if the task is long gone.
 > > >
-> > > The folio is locked until the folio_end_read() call.  So I don't see
-> > > what could legitimately clear folio->mapping here.  Curiously waiting
-> > > for the reproducer to see waht is going wrong here.
+> > > Thanks for the review. I've updated this in v2 as you suggested.
 > > >
+> > > Also, the LTP fanotify21 test currently explicitly expects ESRCH or
+> > > FAN_NOPIDFD for exited processes. I will update that test case accord=
+ingly.
 > >
-> > I have more data now. I agree that the folio is supposed to stay locked
-> > until `folio_end_read()`, but that does not fully protect this path. Th=
-e
-> > problematic window is a non-final read completion, after
-> > `ifs->read_bytes_pending` has been decremented and before the error rep=
-orting
-> > path dereferences `folio->mapping->host`. The relevant code is still
-> > present in v7.1-rc5.
+> > This sentence highlights the problematic aspect of this change.
+> > How would you update the test expectation?
+> > The test must be able to run on upstream as well as stable kernels.
+> > Would you test for support in FAN_REPORT_TID
+> > and according to the result determine the expected behavior of the
+> > test cases (variants) without FAN_REPORT_TID?
+> > Very ugly IMO.
 > >
-> > The race I observed is:
-> >
-> > 1. A failed buffered read completion reaches `iomap_finish_folio_read()=
-`.
-> > 2. It decrements `ifs->read_bytes_pending`, but `finished` is false
-> > (`pending_after=3D2048` in the logs below), so this completion is not t=
-he one
-> > that unlocks the folio.
-> > 3. If the worker is delayed/preempted before the `fserror_report_io()` =
-call,
-> > another completion can finish the remaining bytes and unlock the folio.
-> > 4. Userspace then truncates the XFS file. The truncate path removes the=
- folio
-> > from the page cache and clears `folio->mapping` in
-> > `delete_from_page_cache_batch()`.
-> > 5. The delayed worker resumes and dereferences `folio->mapping->host`.
+> > OTH, if you take the suggestion that PIDFD_STALE is implied only
+> > for FAN_REPORT_TID, you can change the expectation for the
+> > "terminated child" test case only for TST_VARIANT_PIDFD_THREAD.
 >
-> Does it not suffice to just call fserror_report_io() before
-> decrementing ifs->read_bytes_pending? eg
->
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index d7b648421a70..d55b936e6986 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -400,6 +400,11 @@ void iomap_finish_folio_read(struct folio *folio,
-> size_t off, size_t len,
->         bool uptodate =3D !error;
->         bool finished =3D true;
->
-> +       if (error)
-> +               fserror_report_io(folio->mapping->host, FSERR_BUFFERED_RE=
-AD,
-> +                                 folio_pos(folio) + off, len, error,
-> +                                 GFP_ATOMIC);
-> +
->         if (ifs) {
->                 unsigned long flags;
->
-> @@ -411,11 +416,6 @@ void iomap_finish_folio_read(struct folio *folio,
-> size_t off, size_t len,
->                 spin_unlock_irqrestore(&ifs->state_lock, flags);
->         }
->
-> -       if (error)
-> -               fserror_report_io(folio->mapping->host, FSERR_BUFFERED_RE=
-AD,
-> -                                 folio_pos(folio) + off, len, error,
-> -                                 GFP_ATOMIC);
-> -
->         if (finished)
->                 folio_end_read(folio, uptodate);
->
->
-> With read_bytes_pending still > 0, it's guaranteed that the folio is
-> locked and truncate can't invalidate folio->mapping yet as it requires
-> the folio lock.
->
-> Thanks,
-> Joanne
->
+> I think this is just not worth it. It brings users no value if they get
+> slightly different semantics for effectively the same API. I don't see
+> what the problem is with just enabling it and fixing the LTP tests.
+> We've done that so many times before when APIs get extended.
 
-Yes, that makes sense. For the race I observed, moving
-fserror_report_io() before the read_bytes_pending decrement should
-keep the failing completion's range counted while folio->mapping->host
-is used.  That means another completion should not be able to make
-read_bytes_pending reach zero and unlock the folio before the error
-report runs, so truncate/invalidation should not be able to clear
-folio->mapping in that window.
+Of course, fixing LTP tests is no problem.
+I'm just not sure what the expectation should be for test that
+runs on different stable kernels and I assume this change cannot
+be backported all the way to all versions with FAN_REPORT_PIDFD
+support. If the test can be made to support both its fine.
 
-So this looks like it addresses the interleaving I reproduced.  Thanks
-for pointing this out.
+>
+> Worst-case someone comes back and tells us that they were relying on
+> that specific behavior then you just revert. So I would propose to add a
+> separate patch on top of PIDFD_THREAD that enables PIDFD_STALE
+> unconditionally. If this leads to non-test regressions revert the patch.
 
-Best,
-Yue
+I can live with that, but the legacy flag behavior change  needs to be in
+a patch of its own clearly stating this change.
 
-> >
-> > In other words, the truncate path clears the mapping after the folio
-> > has legitimately
-> > been unlocked by another, final read completion. The unsafe part is tha=
-t the
-> > non-final failed completion uses `folio->mapping->host` without holding=
- a lock
-> > or reference that keeps `folio->mapping` stable.
-> >
-> > One possible interleaving is:
-> >
-> > ```
-> > CPU0: failed_read_work CPU1: another read completion CPU2: userspace tr=
-uncate
-> > -------------------------------------
-> > ---------------------------------- --------------------------------
-> >
-> > iomap_finish_folio_read(folio, err)
-> >
-> > lock(ifs->state_lock)
-> > ifs->read_bytes_pending -=3D len
-> > finished =3D false
-> > unlock(ifs->state_lock)
-> >
-> > if (error)
-> >   /* about to execute:
-> >   * fserror_report_io(folio->mapping->host, ...)
-> >   */
-> > <preempted here>
-> >                                       iomap_finish_folio_read(folio, 0)
-> >
-> >                                       lock(ifs->state_lock)
-> >                                       ifs->read_bytes_pending -=3D len
-> >                                       finished =3D true
-> >                                       unlock(ifs->state_lock)
-> >
-> >                                       folio_end_read(folio, true)
-> >
-> >
-> >           open(..., O_TRUNC)
-> >
-> >             do_truncate()
-> >
-> >               truncate_setsize()
-> >
-> >                 truncate_inode_pages()
-> >
-> >
-> >           lock_folio(folio)
-> >
-> >           delete_from_page_cache_batch()
-> >
-> >             folio->mapping =3D NULL
-> >
-> >           unlock_folio(folio)
-> >
-> > <resumed>
-> >   fserror_report_io(folio->mapping->host, ...)
-> >                               ^^^^^^^^^^^^^^
-> >                               NULL now
-> > ```
-> >
-> > To validate the race on v7.1-rc5, I used a diagnostic build that is
-> > equivalent to
-> > placing a breakpoint immediately before the original dereference.
-> > The diagnostic patch:
-> >
-> > - logs non-final failed completions and records the folio/mapping being=
- used by
-> > the error path;
-> > - logs immediately before the existing `folio->mapping =3D NULL` assign=
-ments in
-> > `page_cache_delete()` and `delete_from_page_cache_batch()`;
-> > - defers only the non-final `fserror_report_io(folio->mapping->host, ..=
-.)` by
-> > one second so the truncate race has time to run.
-> >
-> > With the syz corpus on v7.1-rc5 plus the diagnostic breakpoint:
-> >
-> > ```text
-> > [ 116.142333] d280-iomap-latest: deferred non-final fserror
-> > folio=3Dffd40000013ea940 mapping=3Dff1100004560b6b8 pending_after=3D204=
-8
-> > comm=3Dkworker/0:7
-> > [ 116.177780] d280-filemap-latest: delete_from_page_cache_batch
-> > clearing watched folio=3Dffd40000013ea940 mapping=3Dff1100004560b6b8
-> > host=3Dff1100004560b4a0 ino=3D9286 index=3D0 locked=3D1 ref=3D4 comm=3D=
-syz.5.30
-> > [ 117.330579] d280-iomap-latest: deferred fserror
-> > folio=3Dffd40000013ea940 mapping=3D0000000000000000 host=3D000000000000=
-0000
-> > index=3D0 pos=3D0 off=3D0 len=3D2048 locked=3D0 ref=3D1 comm=3Dkworker/=
-0:9
-> > [ 117.336816] Oops: general protection fault, probably for
-> > non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
-> > [ 117.337746] KASAN: null-ptr-deref in range
-> > [0x0000000000000000-0x0000000000000007]
-> > [ 117.339635] Workqueue: events d280_deferred_report_work
-> > ```
-> >
-> > The detach is done by the normal truncate path:
-> >
-> > ```text
-> > delete_from_page_cache_batch()
-> > truncate_inode_pages_range()
-> > truncate_pagecache()
-> > xfs_vn_setattr_size()
-> > xfs_vn_setattr()
-> > notify_change()
-> > do_truncate()
-> > path_openat()
-> > do_file_open()
-> > __x64_sys_open()
-> > ```
-> >
+Thanks,
+Amir.
