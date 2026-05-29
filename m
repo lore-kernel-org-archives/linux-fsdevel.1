@@ -1,244 +1,160 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5652BDC1C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 10:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8421C3BED18;
+	Fri, 29 May 2026 10:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780048890; cv=none; b=fBdQ0HPLdjzk4uKgp4jn3EMKBH4mn99UwfFhauYBOGc6KF5D2+c+dKPGB9o20oO9lkPvUMJKmSnpnfo258/iolYiB+5ZIypwINePlO3JVSNqBvQ7rYw8gn0L//8+6fgPeTh8LY1KQm1BAfd/HPjacTsWm1tYK7auIMz0eqdPIR8=
+	t=1780049850; cv=none; b=cZHw/GTYjDZ1DykT2xrYdVeP7CdYfsBJcuDB6hWUbKzoVr/1JVuM/h+/wNz5AI6NqyFxmSzDGZwJsooWfuddya+cG5DrdZIl47q3d0SqeR460fjT12KDtD6veN2sICEPlllCKmrk6SEBASHRARQdkaXll0idKV1R6GTIT9xQdH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780048890; c=relaxed/simple;
-	bh=ulOthAC9cKEeS6cyC3TOl/xYUdd5w/5aIPtB/sST4NM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qaRxhHvrFgz7SZNRSPe7GCc1blvkj6S5aEaMf5xEbwlka1JQZG9Z1dTSxo/p5hrmif5dpi3TpTlbTw4YGSMc0tjTwqJEhKoZKZIxxjjGVRGUmweotUNZWai46EX5bFXqsyb2OUPNgVJ76DwDLlh/O3GWFmPqpXE6BnsSKdNwBHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=reQyoAZg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1ck1i2jT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R9MbOLjn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8dtnSBU8; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1780049850; c=relaxed/simple;
+	bh=w/fPZc8VZYOg5IBXFIIIuw4jjGwRXjAGRosx1Obg8r8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RZ9w7lrT6cELeOAGfY+5qLS5QuLkZD+OO98x3W1OyMrghtVyye3XZ6jE+vLJ8XTJBvUn2QhPeCSn+Mf8xXirw0Clz4ggaVM7uGqWU5bmx/vcvnTWeAqDHVgtVCd2cqi3G4QpUZrrb84IZJB0EmKRQ/RZqNQM2c6zdfjU+z1gcSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=D7mz2YRp; arc=none smtp.client-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="reQyoAZg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1ck1i2jT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R9MbOLjn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8dtnSBU8"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DDF066AADA;
-	Fri, 29 May 2026 10:01:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780048887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IDCpu1/nuWgxfdw1LsjaHJ9L6YwcwToPNO7yEAIUT+Q=;
-	b=reQyoAZggaokCNF1+0IkBjyJV72pNQ5r6ET1CR/g/LQfhNd6xCcPR9XLudh+nM7iUKWBVf
-	BuQ1Cpazko0Of4tlGW5M0CH7OTeTuoJe6VwIy8g1nuE71kvaeTCaBnYc1027ZUUimsUJtS
-	Hy9cHwMBT6yCLUf2aJZhQZzweUj4JJ8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780048887;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IDCpu1/nuWgxfdw1LsjaHJ9L6YwcwToPNO7yEAIUT+Q=;
-	b=1ck1i2jT0HYfHibf1hHQDlmVSZbD6UgcIrXbtrCJzfHZuSETmb/WiPxaV6xxJj7MqJiAXi
-	3FQNPTLDZGvG3lDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=R9MbOLjn;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8dtnSBU8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780048883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IDCpu1/nuWgxfdw1LsjaHJ9L6YwcwToPNO7yEAIUT+Q=;
-	b=R9MbOLjnfaB2OW5h+RPzQd1GQdd/hX9knnauDawYIpyznWihIT9ezMl7VjfwWKHA8ehS+7
-	5Si53dwcl4+/Xo4JPBj6XnR1v/f4o14yiMnDDiXi22woGtIPSlOXMe21y5gtUcA5s7SwW2
-	CBWkiDImwPBOD75ig5qfV1Cgcrao6nI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780048883;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IDCpu1/nuWgxfdw1LsjaHJ9L6YwcwToPNO7yEAIUT+Q=;
-	b=8dtnSBU8SRtvS0iRSEMWihwBKq5EHV3pfDBhkQnqsaV46vO3PCbFFla6qu6WdqzEqV9/sv
-	DwiELJFLHklF+sAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8797A779A7;
-	Fri, 29 May 2026 10:01:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id I2KYHfFjGWrNcwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Fri, 29 May 2026 10:01:21 +0000
-Date: Fri, 29 May 2026 11:01:19 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org, 
-	willy@infradead.org, ryan.roberts@arm.com, linux-mm@kvack.org, r@hev.cc, jack@suse.cz, 
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com, dev.jain@arm.com, 
-	kees@kernel.org, kevin.brodsky@arm.com, lance.yang@linux.dev, 
-	"Liam R. Howlett" <liam@infradead.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, ljs@kernel.org, mhocko@suse.com, 
-	npache@redhat.com, pasha.tatashin@soleen.com, rmclure@linux.ibm.com, 
-	rppt@kernel.org, surenb@google.com, vbabka@kernel.org, 
-	Al Viro <viro@zeniv.linux.org.uk>, wilts.infradead.org@pedro-suse.lan, ziy@nvidia.com, 
-	hannes@cmpxchg.org, kas@kernel.org, shakeel.butt@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v6 2/2] mm: use mapping_max_folio_order() for
- force_thp_readahead order
-Message-ID: <ahlh2vdHEGo6ZSot@pedro-suse.lan>
-References: <20260528165635.2068012-1-usama.arif@linux.dev>
- <20260528165635.2068012-3-usama.arif@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="D7mz2YRp"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1780049843; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=7fd2Y8Ql9k72hSwi04NGSL/jCuVf0ona1HA/C8TxvGE=;
+	b=D7mz2YRp4CML/rwoBxItQN9aWKL5hfHV+rDN9HhYDuiu4AVGaBuhRMBwC4szfOuadmlDB7cKDfCyXHeA4+et+QyRjrt77oXqdrkc9k6SXKESFhn5XindqJWRDLESDH0t/g9ngS8LZ5Kl5AZgUkKX9R6gZoizf+fXMTK+4FWavrY=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X3p0tiO_1780049522;
+Received: from 30.221.145.52(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X3p0tiO_1780049522 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 29 May 2026 18:12:02 +0800
+Message-ID: <0d12ccb1-72ce-4ee0-ad3d-fe7af5ba1ca4@linux.alibaba.com>
+Date: Fri, 29 May 2026 18:12:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260528165635.2068012-3-usama.arif@linux.dev>
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: DDF066AADA
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	TAGGED_RCPT(0.00)[kernel];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL764437jfm1qe6abtk9nwyx8m)];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,pedro-suse.lan:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] ocfs2: NULL osb->journal deref via ocfs2_checkpoint_inode
+ on unmount
+To: Farhad Alemi <farhad.alemi@berkeley.edu>
+Cc: falemi@asu.edu, Tiffany Bao <tbao@asu.edu>, Mark Fasheh
+ <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+ ocfs2-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <CA+0ovCjF9enBdtPGJ-b=ewXnZBV0QmjThaOrvhOx0KavCFft5Q@mail.gmail.com>
+From: Joseph Qi <joseph.qi@linux.alibaba.com>
+In-Reply-To: <CA+0ovCjF9enBdtPGJ-b=ewXnZBV0QmjThaOrvhOx0KavCFft5Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 28, 2026 at 09:55:20AM -0700, Usama Arif wrote:
-> The force_thp_readahead path in do_sync_mmap_readahead() is gated on
-> HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER and always requests
-> HPAGE_PMD_ORDER / HPAGE_PMD_NR. On configurations where HPAGE_PMD_ORDER
-> exceeds MAX_PAGECACHE_ORDER, notably arm64 with a 64K base page size,
-> VM_HUGEPAGE mappings cannot use this path and fall back to the non-forced
-> mmap readahead path even when the mapping supports useful large folios.
+
+
+On 5/29/26 1:39 PM, Farhad Alemi wrote:
+> Hello Joseph, Mark, Joel, and the ocfs2 team,
 > 
-> Keep the existing PMD-sized behavior when HPAGE_PMD_ORDER fits in the
-> page cache. When it does not, enable forced readahead for mappings that
-> support large folios and request an order capped by both
-> mapping_max_folio_order(mapping) and 2MB.
+> I am reporting a KASAN null-ptr-deref GPF in the ocfs2 unmount path
+> found by syzkaller as part of research at the SEFCOM Lab at ASU.
 > 
-> 2MB is chosen as the cap because it matches the PMD size on x86_64
-> and on arm64 with 4K or 16K base pages, so the size/memory-pressure
-
-16K base page size's PMDs should be 32M, no? Am I misunderstanding what
-you mean here?
-
-> tradeoff for folios of that size is already well understood. On arm64
-> with a 64K base page size, 2MB is also the contiguous-PTE (contpte)
-> block size, so the resulting folios coalesce into a single TLB entry
-> and reduce TLB pressure on the readahead path.
+> Summary:
+> During unmount, ocfs2_clear_inode() calls ocfs2_checkpoint_inode()
+> without checking that osb->journal is still live. At
+> fs/ocfs2/inode.c:1223-1224:
 > 
-> The final allocation order may still be clamped by page_cache_ra_order()
-> to the mapping and request geometry, but this gives VM_HUGEPAGE mappings
-> on such configurations a large-folio readahead request instead of
-> dropping back to base-page readahead.
+>   if (!(oi->ip_flags & OCFS2_INODE_DELETED))
+>           ocfs2_checkpoint_inode(inode);
 > 
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
-> ---
->  mm/filemap.c | 27 +++++++++++++++++++--------
->  1 file changed, 19 insertions(+), 8 deletions(-)
+> ocfs2_checkpoint_inode() (fs/ocfs2/journal.h:192) reaches
+> ocfs2_ci_fully_checkpointed() (fs/ocfs2/journal.h:91), which loads
+> osb->journal and dereferences it:
 > 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index a16b33e0fc71..bfb891d9da1f 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -3312,14 +3312,23 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  	struct file *fpin = NULL;
->  	vm_flags_t vm_flags = vmf->vma->vm_flags;
->  	bool force_thp_readahead = false;
-> +	unsigned int thp_order = 0;
->  	unsigned short mmap_miss;
->  
->  	ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
->  
->  	/* Use the readahead code, even if readahead is disabled */
-> -	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-> -	    (vm_flags & VM_HUGEPAGE) && HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER)
-> -		force_thp_readahead = true;
-> +	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && (vm_flags & VM_HUGEPAGE)) {
-> +		if (HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER) {
-> +			force_thp_readahead = true;
-> +			thp_order = HPAGE_PMD_ORDER;
-> +		} else if (mapping_large_folio_support(mapping)) {
-> +			force_thp_readahead = true;
-> +			thp_order = min_t(unsigned int,
-> +					  mapping_max_folio_order(mapping),
-> +					  get_order(SZ_2M));
+>   struct ocfs2_journal *journal =
+>           OCFS2_SB(ocfs2_metadata_cache_get_super(ci))->journal;
+>   spin_lock(&trans_inc_lock);
+>   ret = time_after(journal->j_trans_id, ci->ci_last_trans);   <-- :98
+> 
+> On the unmount-side slot-info eviction, ocfs2_journal_shutdown() has
+> already set osb->journal = NULL (fs/ocfs2/journal.c:1130) before
+> ocfs2_delete_osb() evicts the slot inodes, so the journal->j_trans_id
+> load at journal.h:98 faults. The KASAN range is [0x70, 0x77] (see
+> crash-report.txt); the RIP chain is:
+> 
+>   ocfs2_ci_fully_checkpointed fs/ocfs2/journal.h:98 [inline]
+>   ocfs2_checkpoint_inode fs/ocfs2/journal.h:199 [inline]
+>   ocfs2_clear_inode fs/ocfs2/inode.c:1224 [inline]
+>   ocfs2_evict_inode+0x244c/0x43c0 fs/ocfs2/inode.c:1303
+> 
+> Observed on:
+> - Linux v7.1-rc3-200-g70eda68668d1-dirty,
+>   x86_64, QEMU Q35
+> - KASAN enabled
+> - The only local dirty file in my tree is
+>   drivers/tty/serial/serial_core.c, a ttyS0 console guard for the
+>   fuzzing harness, unrelated to fs/ocfs2/.
+> - Source inspection of linus/master at commit e8c2f9fdadee
+>   (v7.1-rc4-754-ge8c2f9fdadee) shows the structure is unchanged:
+>   ocfs2_clear_inode() at fs/ocfs2/inode.c:1223-1224 still calls
+>   ocfs2_checkpoint_inode() with no osb->journal check, and
+>   ocfs2_ci_fully_checkpointed() at fs/ocfs2/journal.h:98 still
+>   dereferences journal->j_trans_id unconditionally. As no reproducer
+>   is available for this seed, I have not re-run it against e8c2f9fdadee.
+> 
+> Impact:
+> An ocfs2 unmount kills the kernel with a GPF / KASAN null-ptr-deref.
+> The full Oops header, register dump, and call trace are in
+> crash-report.txt.
+> 
+> Expected behavior:
+> Either ocfs2_clear_inode() should skip ocfs2_checkpoint_inode() when
+> osb->journal is NULL (the same shape as the existing guard at
+> fs/ocfs2/inode.c:1286), or ocfs2_ci_fully_checkpointed() should treat
+> a NULL journal as "fully checkpointed".
+> 
+> Reproducer:
+> A standalone .syz or C reproducer was not produced for this seed; the
+> crash fired during automated ocfs2 mount/unmount fuzzing. The console
+> report is attached as crash-report.txt.
+> 
+> Novelty check:
+> I searched the syzbot dashboard's upstream open, fixed, stable, and
+> invalid (per-subsystem ocfs2) namespaces; the Android dashboard; the
+> marc.info linux-fsdevel archive; and lore, for
+> "ocfs2_ci_fully_checkpointed", "ocfs2_checkpoint_inode",
+> "ocfs2_clear_inode" + journal, and "ocfs2_evict_inode" + GPF. I did
+> not find a prior report of this specific dereference.
+> 
+> There are three closely related syzbot reports, all titled by the
+> outer frame:
+> "general protection fault in ocfs2_evict_inode" (id 9d4aa7d1...),
+> "general protection fault in ocfs2_clear_inode" (id 9eca3ca3...),
+> and "...ocfs2_clear_inode (2)" (id 9e34a0dc...). They share this
+> unmount slot-info eviction reach path but fault at offset 0x8 of the
+> NULL pointer (KASAN range [0x8, 0xf]); this crash faults at offset
+> 0x70, inside ocfs2_ci_fully_checkpointed() at journal.h:98 (the
+> journal->j_trans_id read) -- a distinct dereference site. Commit
+> f46e8ef8bb7b ("ocfs2: prevent release journal inode after journal
+> shutdown", first in v6.17-rc5) added an osb->journal guard before the
+> jbd2_journal_release_jbd_inode() call at fs/ocfs2/inode.c:1286, but
+> the earlier ocfs2_checkpoint_inode() call in the same
+> ocfs2_clear_inode() is not guarded.
+> 
+> 
+> I appreciate your time and consideration, and I'm grateful for your
+> work on this subsystem. I'd be glad to test any candidate patches.
+> 
+A simple fix, please have a try:
 
-This looks somewhat arbitrary to me (as does the old logic). It seems more
-natural (correct?) to do this:
+diff --git a/fs/ocfs2/journal.h b/fs/ocfs2/journal.h
+index 6397170f302f..f8b3b2a3d630 100644
+--- a/fs/ocfs2/journal.h
++++ b/fs/ocfs2/journal.h
+@@ -196,6 +196,9 @@ static inline void ocfs2_checkpoint_inode(struct inode *inode)
+        if (ocfs2_mount_local(osb))
+                return;
 
-	if (THP_ENABLED && (vm_flags & VM_HUGEPAGE)) {
-		if (mapping_large_folio_support(mapping)) {
-			force_thp_readahead = true;
-			/*
-			 * Cap THP readahead to either the max folio order the
-			 * mapping supports, or the max order the page cache
-			 * supports (useless to try more), or the hugepage PMD
-			 * order (CPU can't benefit from larger).
-			 */
-			thp_order = min3(mapping_max_folio_order(mapping),
-					MAX_PAGECACHE_ORDER, HPAGE_PMD_ORDER);
-		}
-	}
++       if (!osb->journal)
++               return;
++
+        if (!ocfs2_ci_fully_checkpointed(INODE_CACHE(inode))) {
+                /* WARNING: This only kicks off a single
+                 * checkpoint. If someone races you and adds more
 
-> +		}
-> +	}
->  
->  	if (!force_thp_readahead) {
->  		/*
-> @@ -3354,17 +3363,19 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  	}
->  
->  	if (force_thp_readahead) {
-> +		unsigned long folio_nr_pages = 1UL << thp_order;
-> +
->  		fpin = maybe_unlock_mmap_for_io(vmf, fpin);
-> -		ractl._index &= ~((unsigned long)HPAGE_PMD_NR - 1);
-> -		ra->size = HPAGE_PMD_NR;
-> +		ractl._index &= ~(folio_nr_pages - 1);
-> +		ra->size = folio_nr_pages;
->  		/*
-> -		 * Fetch two PMD folios, so we get the chance to actually
-> +		 * Fetch two folios so we get the chance to actually
-			  ^^ large folios?
->  		 * readahead, unless we've been told not to.
->  		 */
->  		if (!(vm_flags & VM_RAND_READ))
->  			ra->size *= 2;
-> -		ra->async_size = HPAGE_PMD_NR;
-> -		ra->order = HPAGE_PMD_ORDER;
-> +		ra->async_size = folio_nr_pages;
-> +		ra->order = thp_order;
-
-This part LGTM.
-
--- 
-Pedro
