@@ -1,223 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E4D2E7399;
-	Fri, 29 May 2026 08:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D9C3B47D7;
+	Fri, 29 May 2026 08:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780044239; cv=none; b=rC0goldnrZKrA2q+IxLD2Je+8dZmf8157FLf19ODQUwzpqL9XIc+Fu2ErX3jvotX4EkNSTqv3cHFAdklrCcOujFIx1vjKD1atfpGkVmwbprGpAV78P2v33UiwgkkUsylM3Fyjw+cLlm7OWZXDywYT8jTwMBdSB/WYMqKKjxQlWk=
+	t=1780044592; cv=none; b=WgLLEouSoYB8wpaglyD5kjYaHXjn1wlt8FpD6E7EucZ7Z1ThsgTrC9MoW9R+yK3Sgl+/PCxIloXcenfBgZ3XGOY+XcSW5QdsDNW0+BjRzsQJz7QtH3q8MOjBQskgsvwTfA5HfXeHg6gcdzzZt90qlAd36gazsz7/f6FjK7fkxLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780044239; c=relaxed/simple;
-	bh=e7wKMKr+HsU/JnqET2ePDgdpli5v5VhqWtSSBsarBiA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sMhzJq6u/7CIyh2VK3X9UazUnsFNb8KERyS9VHPvkUcuXbImYll9fOfiraeuoIzfypwwEq4+b5G5oEWi7pFG6KxxBM9xWPxYKtkoEgE1k8s/dyfPAZP2eg9LhxNMK2DVfejInzY8fiL/C+M0++k65fH3DWrVyeP7AdQAhwnri3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PX4TA1FM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780044592; c=relaxed/simple;
+	bh=gzi15Ba6ST4F/udZXZcOXKU4Z4iYEVoCn/tiURTKZEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RcfnHD9WvjiMjn4RyGSCiYqcwCv+V6dVi7OcY10fTrUsjq7Mon6322SWjduI+IYVRRBk6se6mGHd/5RyVrYQK/86/+z9qQBxuKIk14MI908gUshMsHcXgo/TUSqVkc476QcZT3YttYaNslgMPXqbER5SyAh2hLOk7cP9tnqjVdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PezPME7C; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hXpBCHC4; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PX4TA1FM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCFEB1F00898;
-	Fri, 29 May 2026 08:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780044237;
-	bh=MN6sCcOU8pQHv4qRImohzFWvar0iO7Uv/wwPJx7ADng=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=PX4TA1FMPZNH/wA0WQhg4yBZ25MqGONZdPYL8YELmOOVg1ZuCB8Ed0FQNu1AVvP+E
-	 l5+KHJKaCFiFHMwgJCf/1tBxrVDBiBNhw/z9MgDaolkOFLRB/2CWVtSnzgJbyTa+Up
-	 Jfl8ilybBE9jL8WKIQ8aSPtGuwlz/wTVcHQnI9qcqml+LErdDugY75zkHWN/ezG5Ri
-	 /s2Qb4itLVAKb6y+uqMz6W7EQPhUs/AglsaiR4KPJx84tWdsL5ynMDJ3kwU5SevdwB
-	 fkeZw5jMfmHze0n5kyn2KptuBsnGScU1mBWzlSj7YhTJbHGrtwO80OGMQYxKmJufpJ
-	 xN0mpbFcs0sdw==
-From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 29 May 2026 10:43:43 +0200
-Subject: [PATCH v2 4/4] fs: retire sget()
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PezPME7C";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hXpBCHC4"
+Date: Fri, 29 May 2026 10:49:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1780044582;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RIQTzMrAiz60EQXjnvZkMfXRLxi3s6ETa0YnTZQN3V0=;
+	b=PezPME7Ck4DYD3pliNLx80vlw7cBwz4loyN4hp4vr99ld5QeCjXUaYDk4HPjJWNIaQnq4f
+	0LxxtzVOUWhqIHIH7twCdRAVZ4CLMCdeIYdJe5JdlFewz1xVNoOu78DAFqsfcYlkoIcDT9
+	O/XNOzNEuARiVjFPEv7yXpTcaMjFZqQ2LZYMPvDbih3OvYfdJi/vdTvDq7xh8iGIbQTDzW
+	yDWvl0x9xn7yNXjZ9k9dcBmv54e/1zv0kJh5cvQZSczWuVAf4haoNjwrQ1mjH9Y00UK3oQ
+	6HjviRT4QUJQa+RVtekFJTWsggcUGZeLOBhi2MTnepnzenOqovMnOrV4JCrYfQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1780044582;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RIQTzMrAiz60EQXjnvZkMfXRLxi3s6ETa0YnTZQN3V0=;
+	b=hXpBCHC4cVaCxy8mohdL9CuJryevkV2GGrSOm/4C3/y0Ka2S2b4kEgKL/boonjNbSwUhFS
+	2C4ZWQ/P7coXDPBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Tal Zussman <tz2294@columbia.edu>, Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v6 1/4] block: add task-context bio completion
+ infrastructure
+Message-ID: <20260529084939.bWkYVTj4@linutronix.de>
+References: <ea6fc01f-5cb7-4a04-9f92-bbd2791fea51@columbia.edu>
+ <ahPdDtu3vXfNpb__@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260529-work-sget-v2-4-57bbe08604e4@kernel.org>
-References: <20260529-work-sget-v2-0-57bbe08604e4@kernel.org>
-In-Reply-To: <20260529-work-sget-v2-0-57bbe08604e4@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Theodore Ts'o <tytso@mit.edu>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.cz>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, linux-ext4@vger.kernel.org, 
- linux-cifs@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.16-dev-fffa9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5936; i=brauner@kernel.org;
- h=from:subject:message-id; bh=e7wKMKr+HsU/JnqET2ePDgdpli5v5VhqWtSSBsarBiA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRJBh6cqcw3zW+p7pY/xsJZD+e//d/JpLfr6wuz3AP7b
- O7Zrzzf2VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCR5EiG/y7rO62SWlU1ajuv
- Pb9vt1iq3XPlOQMOnzjxJTm3/H+f02FkuORyMOlVwZ/4n3PMM2fcddPhy7C1yvuYodImaTfz4SR
- VLgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ahPdDtu3vXfNpb__@infradead.org>
 
-sget() and sget_fc() have lived side by side as near-duplicate
-find-or-create-and-publish helpers for the legacy and fs_context mount
-APIs. The three remaining in-tree callers (CIFS plus the ext4 extents
-and mballoc KUnit tests) have all been moved to sget_fc(). Nothing
-calls sget() anymore.
+On 2026-05-24 22:24:30 [-0700], Christoph Hellwig wrote:
+> > > +	local_lock_irqsave(&bio_complete_batch.lock, flags);
+> > 
+> > Q: "Is it safe to use local_lock_irqsave() here when called from an atomic
+> > context?
+> > On CONFIG_PREEMPT_RT kernels, local_lock_t maps to a per-CPU spinlock_t,
+> > which is a sleepable rt_mutex. Since __bio_complete_in_task() is specifically
+> > called when bio_in_atomic() is true (which includes hardware interrupts or
+> > execution under a raw_spinlock_t), attempting to acquire a sleepable lock
+> > here would trigger an "Invalid wait context" lockdep warning.
+> > Would a lockless list (llist) be more appropriate here to avoid sleeping
+> > in atomic contexts?"
+> > 
+> > A: This seems legit, but I'm not super familiar with PREEMPT_RT. I don't want
+> > to switch to raw_spinlock_t, as it seems like that would add unnecessary
+> > overhead on non-PREEMPT_RT kernels. I think switching to use local_irq_save()
+> > (as is done for the per-CPU bio allocation cache) should work.
+> 
+> Adding the PREEMPT_RT maintainers for this as it is above my pay grade.
 
-Delete sget() from fs/super.c and the prototype in <linux/fs.h>.
-Update the two comments that referred to "sget()" or "sget{_fc}()" to
-just say "sget_fc()".
+The local_lock_irqsave() seems to come from __bio_complete_in_task()
+which sounds like preemptible context in general. So yes, using so is
+safe.
+It should be even save with interrupt handlers and so on since they are
+threaded in general.
+There is this new bio_in_atomic() this looks a bit odd to detect softirq
+context as calimed in the comment. Anyway, on PREEMPT_RT
+rcu_preempt_depth() will work as intended. The preemptible() shouldn't
+get false because softirq handling is not recorded in preempt-counter,
+interrupts are forced-threaded so you should never be in hardirq
+context and things like spin_lock_irq() don't disable interrupts. So
+unless you do local_irq_save(), preempt_disable() you should remain
+preemptible (even in softirq). This might or might not do what you want.
 
-This removes ~60 lines of code that only existed to be kept in
-lockstep with sget_fc() on every superblock publish-path change.
+> > Q: "Does creating this workqueue with WQ_MEM_RECLAIM break the local_lock_irq()
+> > protection in bio_complete_work_fn()?
+> > When a workqueue has WQ_MEM_RECLAIM, it spawns a global rescuer thread that
+> > can execute per-CPU work items during worker pool congestion. This rescuer
+> > thread executes unbound, meaning it could run on CPU B while processing
+> > CPU A's work item.
+> > Since local_lock operates strictly on the currently executing CPU, the
+> > rescuer thread on CPU B would acquire CPU B's lock, while popping elements
+> > from CPU A's list (derived via container_of()).
+> > If an interrupt on CPU A concurrently calls __bio_complete_in_task(),
+> > it will acquire CPU A's lock and modify the same list without mutual
+> > exclusion, potentially causing list corruption."
+> > 
+> > A: The rescuer should run on the same CPU, not unbound, so this is not an
+> > issue.
+> 
+> This is another area where the PREEMPT_RT/scheduler folks might be able
+> to help.
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/btrfs/super.c   |  2 +-
- fs/super.c         | 71 ++++--------------------------------------------------
- include/linux/fs.h |  4 ---
- 3 files changed, 6 insertions(+), 71 deletions(-)
+Not sure what the question is. WQ_MEM_RECLAIM is one thing WQ_UNBOUND/
+WQ_PERCPU another.
 
-diff --git a/fs/btrfs/super.c b/fs/btrfs/super.c
-index b26aa9169e83..636154861d7c 100644
---- a/fs/btrfs/super.c
-+++ b/fs/btrfs/super.c
-@@ -2052,7 +2052,7 @@ static int btrfs_get_tree_subvol(struct fs_context *fc)
- 	 * then open_ctree will properly initialize the file system specific
- 	 * settings later.  btrfs_init_fs_info initializes the static elements
- 	 * of the fs_info (locks and such) to make cleanup easier if we find a
--	 * superblock with our given fs_devices later on at sget() time.
-+	 * superblock with our given fs_devices later on at sget_fc() time.
- 	 */
- 	fs_info = kvzalloc_obj(struct btrfs_fs_info);
- 	if (!fs_info)
-diff --git a/fs/super.c b/fs/super.c
-index 378e81efe643..5fe8cea9f8fe 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -328,7 +328,7 @@ static struct super_block *alloc_super(struct file_system_type *type, int flags,
- 	init_rwsem(&s->s_umount);
- 	lockdep_set_class(&s->s_umount, &type->s_umount_key);
- 	/*
--	 * sget() can have s_umount recursion.
-+	 * sget_fc() can have s_umount recursion.
- 	 *
- 	 * When it cannot find a suitable sb, it allocates a new
- 	 * one (this one), and tries again to find a suitable old
-@@ -439,7 +439,7 @@ static void kill_super_notify(struct super_block *sb)
- 
- 	/*
- 	 * Remove it from @fs_supers so it isn't found by new
--	 * sget{_fc}() walkers anymore. Any concurrent mounter still
-+	 * sget_fc() walkers anymore. Any concurrent mounter still
- 	 * managing to grab a temporary reference is guaranteed to
- 	 * already see SB_DYING and will wait until we notify them about
- 	 * SB_DEAD.
-@@ -517,7 +517,7 @@ EXPORT_SYMBOL(deactivate_super);
-  * @sb: superblock to acquire
-  *
-  * Acquire a temporary reference on a superblock and try to trade it for
-- * an active reference. This is used in sget{_fc}() to wait for a
-+ * an active reference. This is used in sget_fc() to wait for a
-  * superblock to either become SB_BORN or for it to pass through
-  * sb->kill() and be marked as SB_DEAD.
-  *
-@@ -673,11 +673,11 @@ void generic_shutdown_super(struct super_block *sb)
- 	/*
- 	 * Broadcast to everyone that grabbed a temporary reference to this
- 	 * superblock before we removed it from @fs_supers that the superblock
--	 * is dying. Every walker of @fs_supers outside of sget{_fc}() will now
-+	 * is dying. Every walker of @fs_supers outside of sget_fc() will now
- 	 * discard this superblock and treat it as dead.
- 	 *
- 	 * We leave the superblock on @fs_supers so it can be found by
--	 * sget{_fc}() until we passed sb->kill_sb().
-+	 * sget_fc() until we passed sb->kill_sb().
- 	 */
- 	super_wake(sb, SB_DYING);
- 	super_unlock_excl(sb);
-@@ -808,67 +808,6 @@ struct super_block *sget_fc(struct fs_context *fc,
- }
- EXPORT_SYMBOL(sget_fc);
- 
--/**
-- *	sget	-	find or create a superblock
-- *	@type:	  filesystem type superblock should belong to
-- *	@test:	  comparison callback
-- *	@set:	  setup callback
-- *	@flags:	  mount flags
-- *	@data:	  argument to each of them
-- */
--struct super_block *sget(struct file_system_type *type,
--			int (*test)(struct super_block *,void *),
--			int (*set)(struct super_block *,void *),
--			int flags,
--			void *data)
--{
--	struct user_namespace *user_ns = current_user_ns();
--	struct super_block *s = NULL;
--	struct super_block *old;
--	int err;
--
--retry:
--	spin_lock(&sb_lock);
--	if (test) {
--		hlist_for_each_entry(old, &type->fs_supers, s_instances) {
--			if (!test(old, data))
--				continue;
--			if (user_ns != old->s_user_ns) {
--				spin_unlock(&sb_lock);
--				destroy_unused_super(s);
--				return ERR_PTR(-EBUSY);
--			}
--			if (!grab_super(old))
--				goto retry;
--			destroy_unused_super(s);
--			return old;
--		}
--	}
--	if (!s) {
--		spin_unlock(&sb_lock);
--		s = alloc_super(type, flags, user_ns);
--		if (!s)
--			return ERR_PTR(-ENOMEM);
--		goto retry;
--	}
--
--	err = set(s, data);
--	if (err) {
--		spin_unlock(&sb_lock);
--		destroy_unused_super(s);
--		return ERR_PTR(err);
--	}
--	s->s_type = type;
--	strscpy(s->s_id, type->name, sizeof(s->s_id));
--	list_add_tail(&s->s_list, &super_blocks);
--	hlist_add_head(&s->s_instances, &type->fs_supers);
--	spin_unlock(&sb_lock);
--	get_filesystem(type);
--	shrinker_register(s->s_shrink);
--	return s;
--}
--EXPORT_SYMBOL(sget);
--
- void drop_super(struct super_block *sb)
- {
- 	super_unlock_shared(sb);
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 11559c513dfb..6dbe3218dc1e 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2327,10 +2327,6 @@ void free_anon_bdev(dev_t);
- struct super_block *sget_fc(struct fs_context *fc,
- 			    int (*test)(struct super_block *, struct fs_context *),
- 			    int (*set)(struct super_block *, struct fs_context *));
--struct super_block *sget(struct file_system_type *type,
--			int (*test)(struct super_block *,void *),
--			int (*set)(struct super_block *,void *),
--			int flags, void *data);
- struct super_block *sget_dev(struct fs_context *fc, dev_t dev);
- 
- /* Alas, no aliases. Too much hassle with bringing module.h everywhere */
+bio_complete_wq is WQ_MEM_RECLAIM | WQ_PERCPU. So it will run on the
+requested CPU. The container_of() and local_local() looks like it will
+access the same thing but having a WARN_ON() if they don't would be a
+blessing. Or just use this_cpu in the worker FN to avoid all this.
 
--- 
-2.47.3
+The need_resched() check in bio_complete_work_fn() is bit odd. So if
+need_resched() is true then you want to leave (and you care !PREEMPT
+kernels). On PREEMPT_LAZY you could just continue as there would be
+preemption sooner or later.
+The bio_list_empty() check below is futile. If it is empty then you
+leave doing nothing (so you could just leave without the check).
+If there is an item, then the enqueue "thread" should have invoked
+mod_delayed_work_on(, 1) claiming the work. That means the
+mod_delayed_work_on(, 0) in this function should do nothing because the
+work is already claimed (so you could just leave skipping the extra
+work).
 
+Sebastian
