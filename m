@@ -1,226 +1,255 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD9A3A8734
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 20:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6885F3451B5
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 20:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780085726; cv=none; b=HLuEnU+RHTjKPZn3pSQBFczySMbQjehHks/Pl4OgW34tC7p4fHqATcT5R9P4XS12uNBPWGkMu854WpTdrMhL7//UQo30BfoEWpAq20aNnmXBJnZxMivFX5KERfQGkmvFWoOyxkKzRYhZzMfRDkx2A5FrhB6IBoqOjw8a6XKROyo=
+	t=1780087586; cv=none; b=nAU0Wnkd+5illKz4kFECTSURklzN83W/TPzEiu+Cpm3PosDCWF5aCfBiZstaBIIBF3f5zE94YmqKEwdddKH75YV1Kl1OoRcWmyGStE+XiReWS6kJ/VXrxeIfuudBIV+axdj+ZzO34xBbRUF4QdP1vvlondOqJp1OOt16e6O2ZNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780085726; c=relaxed/simple;
-	bh=N01FzKyM/oneUR/nY80hKjSqcL3euNBKYFWM4OUxW8E=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=jXJiC25jW5qg6ztDKaojjOkA76RToLxOwzQtVjchxf8NYUUuMr+oOvuik6bizASmiMwLd/Fwp+huZ0C3PsvTnv6xzde0nUsyEkPK04Hq+nC5t6mt/epHagw/UstyXavTj/mhfSXcjeT7IVwcU3DvFDIrTNrJ2NO7FcLEokzhfmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xq/hURoh; arc=none smtp.client-ip=209.85.219.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780087586; c=relaxed/simple;
+	bh=Dgt9gdgsSTGz25LNKdlg6p96v9ORYzbnwBkkNl+zH0w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rCkN95nQIA3qOrZw+4eQnUlJKPjRzTgrJwbPpaIs2iZdLJSPZgeYwKV40qWdg2Hg01Gx5vs7rRo4ba/DkuF4RFa5tPafNTjINOiyN/NKxl/C4rHvPBjN4STAnRM5YgLALJdksiEj6G8J7Z66W7//YV2G/m7+TcgN7c0SMQ/VqFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=fNdL0jd2; arc=none smtp.client-ip=148.163.135.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xq/hURoh"
-Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-8cce22e029cso17694006d6.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 13:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780085724; x=1780690524; darn=vger.kernel.org;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EWYN1LfizB6BVQCT1KhTKUJ2V49wLv3aFdUdiKdHhaA=;
-        b=Xq/hURohQJbEDZKIZKCcyemKG1bJTQ3kYXLZ13E719g4lxg4o7vOxVthghvZl0mo41
-         9yiKH9xIGntFA2MdUSD2LaRK4r7/gtYvwG3jzuPv2ST7+1jSr+NZwDcF85rq9hU5cCZQ
-         N+RvEEnOEjc9Iz4Ia6Qyjxq5t8dh6kp0lJrktlppiMnp4h/ClslbiXr9o2i1mI3icvyG
-         neDPjDXu+mQKp1gaoUJHvEEUciqClFE7EVZY/pP8bzBdRHulGrNIKa6nDUWXfGQVWjmn
-         8Tbp+h0U0whKAKUXlN5uPqYX17JNLUwUa1JghkBKkzEqxb3jFjKjtkA959/KwJL9zqHY
-         qDYA==
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="fNdL0jd2"
+Received: from pps.filterd (m0167072.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64TKivjA1213287
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 16:46:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=Tu3y
+	zxbzT574lf/x8+7GuddK+9mUu+iNaUikqjzhrDc=; b=fNdL0jd2jEZLLdEDzHwo
+	hg9oAn2A09Nc/UhTjZBmS2wSISfSJcrx7iHnycx2ggqMsmdYhM48Qp6dn8zJwdYB
+	985sLAgkwtmSCT8teAzwTA6OhaIFRxvl6MhKiUIHzXRQSYgRkuDKU0XNg2X2RpBr
+	0P7NHA2+A2rGk69mahYeBod1zrBCcJUIzU4maJzE4t8BG1N9Hc/8nKnhiSDo4Nh4
+	Ch5XzOjEOBE/jVetXJBtepua7x9ftMeGTiaGWhJ+DI1yELSJMypkbL8bJpLS0OQb
+	sCO7ehhxuKMpXZEyP0t++n/X9s8DuU67L6dejzRsJ12iZiflWRTJYEZgsZtHx+T6
+	gg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4ef6r1n40s-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 16:46:18 -0400 (EDT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50f13da9684so173965441cf.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 13:46:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780085724; x=1780690524;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=EWYN1LfizB6BVQCT1KhTKUJ2V49wLv3aFdUdiKdHhaA=;
-        b=QfZRgByNLTlAlD7pe8DmVwHRylPG9WbZ/FJZurOMiaf4Yqk+DgJ++AmK+mvcGsiq5N
-         otY5jZODYOMNaPkT+bhxSCAb4o/oI4jty2JVTWXj70znsl2QYKw6IF+ZPBlUWh2O6DXZ
-         a6OiCRIzHoqL193KPmuuhVnNcEty1B5WHUNTaNi8g8vlTDaRFZ30zBLM/MtjZsK0XrDD
-         a4S9F7R98S5vxUWfXC5NSyWDoVmpf3JqBk2bTd+9aFXkMosvQNILpEMI4vwbu1N/eKHF
-         dwwNjYobXiN/Kyj6wH8PiMYVN9l7b7vIdshEgm4cELLxC55VQfHNYiOJVcJMPTr5a1hy
-         4xBw==
-X-Gm-Message-State: AOJu0YyDwKDnVdcQfSJBD7rietsyIZPYZlLBjvzJy2Wgx0Gg06d3dwa3
-	rk5zsvszp6brD66sBiwFIR960mkUsRP90QXeKJzLNmviE9qdxpae5oOJ
-X-Gm-Gg: Acq92OFQ4eoUA+I8IGjbrppccyR9VR3TOyrbXUgRmPJ6yjTOQ3edepZFSx80REabM+Y
-	iPb8UbmUu4zrYgexEh9P5F+wrVJHGQAqyh+FYbpCN03+d1pYjEgOYZA6zVlfY7atSb57J1e8ysk
-	rj6U6WjyBvyCX539RISRDQ4NGHgHX2GAkjcA1iKBy9U9LR5Ha4BmF7wDenbMnrWK5Dn1lUQVSK1
-	AjBJ8UuPqk+Q7gqXN9fnHwXYDoid5P8aX5qAsbaaEMSFoJaLBSrRPMCeoElLkdgszoYWgKi3uoM
-	uLiUDjaNjK08rAZWA2rThVouZcYNzkQYQZyhdB+af33QIFutwJEfkwfj4KmG8Pe2nNJWhLjXueh
-	8kttiHT+VxdS8uTkW/HMVDSS9JLND8W0EJR1cG9wX7gH306dnbcro7BDKn1i6z+QBrLvfGoPKK4
-	4NDfjuBXfL+1meRmgPuTwJ123r2XG0Qv64QXUSFRQIVxG1oYdBKpHlRw==
-X-Received: by 2002:a05:6214:2508:b0:89c:ac42:e119 with SMTP id 6a1803df08f44-8cce4afc85dmr60314586d6.8.1780085723738;
-        Fri, 29 May 2026 13:15:23 -0700 (PDT)
-Received: from smtpclient.apple ([104.39.165.68])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ccea0663fesm25924926d6.14.2026.05.29.13.15.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 29 May 2026 13:15:23 -0700 (PDT)
-From: Shuangpeng Bai <shuangpengbai@gmail.com>
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_BFD48016-EA8E-431A-BC6B-A8095D455012";
-	protocol="application/pkcs7-signature";
-	micalg=sha-256
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20251104; t=1780087578; x=1780692378;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tu3yzxbzT574lf/x8+7GuddK+9mUu+iNaUikqjzhrDc=;
+        b=lc4Q76T4ppVCpWn8lM8BNwQmLMVOdN0ifNe5b/FABAwLx09MCWmHmiDUTWCLY+6/ip
+         LGvQq+OduF1ufZMMzOG0Pdi5XvpLp+5XXQHkoWHSQevnfB3m+wGw464kIzn7yQqXLmOc
+         RttoMTiTrFb8dsx0DK6Miuf1sSuL/US39euDrGH7UL5La+hDDexbqr8yO+yvYGOtNYXF
+         W1LzFwAS1BiC7H+REG7Sy4ySU4DnIeFi7mygAvMo5y5CrhmqDeMAoVDep5+Fx78atOrK
+         KgI19+jI22YrV6INZFrCwtXoJrX/6W+v/q15xOkt7QxvaAKVVRYlGaL0Prttz+zQYz07
+         gDmw==
+X-Forwarded-Encrypted: i=1; AFNElJ99okagaU79mUE/lU1iq8yLDHmjEqQ1eS+aYcr2dP2XThFMbfdJexmnbcnkaIDuxlOVHHO0kJ1560sQSQCg@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyIdmPgob2PGKcu3WjJolXnGrV1YXhuQBk4nzHDWGFUUisuT8A
+	V+wZ3BMYA4WcPSNLnxNRRMpVu73pxl9qUzr39u8DBIksbk2T6BqZwIcl/iv0nTrr//dpoLhGI2i
+	Gz9nKtIVpNkD1SvFxoczV36rF3DjEULITwZG+JGhTeKeRIjn5TjbH4A6LGex+crs=
+X-Gm-Gg: Acq92OFb5wgEzxpBQEyPtpbWO27VQG7iNcmKiQjvECWyy1KRCwZlvkq7EQvfxMeea46
+	DiJ2BhHe3gBosEAe30DlXBK2JwddPqfnd/FYlhQrJxznav5GYAKD6QzdEDdhA10uMvL0C8DW9fQ
+	tj0mh5+egNAq2f+rDpyGzkiq1+HzxnLWDahrVbEq8qUTrLBlle4DmX1zT3FOOuoJpjJR/IDGDeB
+	hNjlMz0sFKZ24LFYF0EK+vh/f1SLwZcRN3AZkBYFCAPhhd++hXWYxZI8j/yD+Uq8HkZgOwRfWbj
+	FDMnsCaJ/v4k8/4T80KT29LJx/zT4piuOntSVFW9T/+++ulLDc+Sb4ZR6J2cgL4g0QgFDgv/H1h
+	R6/qD3hl3tVyWAY8/sEe/yRmMhPHH/1W3L5m1ZzETTU8kwuQ+fqVy+SnzJ88d9i2o+QhlW9RHkQ
+	ADM+HIphf4GZH7Kk1uLqDzIM3g6w==
+X-Received: by 2002:a05:620a:27cf:b0:914:b65f:6afe with SMTP id af79cd13be357-9153d93295cmr223977185a.1.1780087577722;
+        Fri, 29 May 2026 13:46:17 -0700 (PDT)
+X-Received: by 2002:a05:620a:27cf:b0:914:b65f:6afe with SMTP id af79cd13be357-9153d93295cmr223970285a.1.1780087577139;
+        Fri, 29 May 2026 13:46:17 -0700 (PDT)
+Received: from ?IPV6:2600:4040:974e:fe00:c8bb:325f:9d37:a5f? ([2600:4040:974e:fe00:c8bb:325f:9d37:a5f])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-915324a5502sm300290485a.21.2026.05.29.13.46.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 May 2026 13:46:16 -0700 (PDT)
+Message-ID: <80cb53f3-e7e5-4f96-bacc-f9fb7661d976@columbia.edu>
+Date: Fri, 29 May 2026 16:46:15 -0400
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
-Subject: [BUG] KASAN: slab-use-after-free in cdev_put
-Message-Id: <EDF77EB4-909B-44F6-BEA3-0D111F76A5CD@gmail.com>
-Date: Fri, 29 May 2026 16:15:12 -0400
-Cc: linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-To: viro@zeniv.linux.org.uk,
- brauner@kernel.org,
- jack@suse.cz
-X-Mailer: Apple Mail (2.3864.600.51.1.1)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/4] block: add task-context bio completion
+ infrastructure
+To: Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>
+Cc: Jens Axboe <axboe@kernel.dk>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "Darrick J. Wong"
+ <djwong@kernel.org>,
+        Carlos Maiolino <cem@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>
+References: <20260514-blk-dontcache-v6-0-782e2fa7477b@columbia.edu>
+ <20260514-blk-dontcache-v6-1-782e2fa7477b@columbia.edu>
+ <agq2KRd8RkP1TAf5@infradead.org>
+ <ea1fa305-3ba2-4cfd-b7cb-86875032a300@columbia.edu>
+ <ahPbaSEoNA755Nt3@infradead.org>
+ <f1b8eeb6-2397-4f48-a21a-a023eb0c80ab@columbia.edu>
+ <rkb5oei6cx2erbyininczz6ukbnquqheexhu7tznn5rslkkdn7@b4kpdyhdwdb6>
+ <ahbq0RdUyLIPiItB@infradead.org>
+Content-Language: en-US
+From: Tal Zussman <tz2294@columbia.edu>
+In-Reply-To: <ahbq0RdUyLIPiItB@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI5MDIwNyBTYWx0ZWRfX9Puk56skxLEA
+ jWRF8kOQfAlKWDbDjGPsd1wM5Uv0WBPwXMhrxtm4uU6bocJq/y5eXq9VTe20vKo6j2Zqu2wKM4W
+ 2Yv7RlFpAhnKTVNoCW+M8x2si/9EFuV0ibocX6g0z1wC5W39DRrZ3v4KgFBp8kIG5NjeOhO6W54
+ NRDStix6tmcVJsXt9BVZyH/awczzVrPiwQQqeAM9dRAom/B+9PVjO5C2VEuPxY7jBEpTu7x9yxT
+ TUTB+6GK7qTTlCW1S82XsAV7dM1yTnQ9VojgnlGSsKVx5lIJKX1c0VDAsPYVpSPo1RpT6iDlVWT
+ r9tidDBNSLbos4tzWSlizxCxiCQ9VEFOMFr8HmD2nK2TKDQVZlvb5cxWwNcfqAnuBFIkgC/ABsG
+ DCOkI5gFJ8/79rLNE7ZAinKNsEE+RG5QO37fGORiS3J0iDKyQohWaE6lj2A/IbM7fyneutanaBQ
+ xwXQbwNo2vct8DCMflw==
+X-Proofpoint-ORIG-GUID: Xws9Z1dlTrLrQRan-yOfSl_79pTTOz1A
+X-Authority-Analysis: v=2.4 cv=FI0rAeos c=1 sm=1 tr=0 ts=6a19fb1a cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Da8U98TiO7q1upZEImrf:22 a=SsB-OO3BMngHh3ZO9fOt:22 a=glsx1xNwX7j2ZVJJCoYA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: Xws9Z1dlTrLrQRan-yOfSl_79pTTOz1A
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11801
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=10 suspectscore=0 clxscore=1015
+ lowpriorityscore=10 malwarescore=0 spamscore=0 phishscore=0
+ priorityscore=1501 bulkscore=10 classifier=typeunknown authscore=0 authtc=
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2605210000 definitions=main-2605290207
 
+On 5/27/26 9:00 AM, Christoph Hellwig wrote:
+> On Wed, May 27, 2026 at 11:42:28AM +0200, Jan Kara wrote:
+>> > I ran some experiments with fio on both XFS and a raw block device. Five
+>> > iterations each for 60s. Results below.
+>> > 
+>> > TLDR: Removing the delay doesn't significantly decrease user-visible
+>> > latency or otherwise improve performance, but does significantly reduce
+>> > throughput and increase context switches in some workloads (e.g. C).
+>> > I think it makes sense to leave the delay as-is. Thoughts?
+>> 
+>> Thanks for the test! One question below:
+> 
+> Thanks from me as well!
+> 
+>> 
+>> > Results:
+>> > 
+>> > Workloads (all `uncached=1`):
+>> >   A: rw=write     bs=128k iodepth=1   ioengine=pvsync2     # XFS
+>> >   B: rw=write     bs=128k iodepth=128 ioengine=io_uring    # XFS
+>> >   C: rw=randwrite bs=4k   iodepth=32  ioengine=io_uring    # XFS
+>> >   D: rw=rw 50/50  bs=64k  iodepth=32  ioengine=io_uring    # XFS
+>> >   E: rw=write     bs=128k iodepth=128 ioengine=io_uring    # raw /dev/nvmeXn1
+>> >   F: rw=write     bs=128k iodepth=128 numjobs=4
+>> >      + vm.dirty_bytes=64MB, vm.dirty_background_bytes=32MB # XFS
+>> > 
+>> > Mean ± stddev across 5 iterations:
+>> > 
+>> >     metric                     delay=1           delay=0     delta
+>> >     --------------------------------------------------------------
+>> > 
+>> >   A seq 128k qd1
+>> >     BW (MB/s)                4333 ± 27         4374 ± 34     +0.9%
+>> >     p99   (us)              36.2 ± 0.8        35.8 ± 0.4     -1.1%
+>> >     p999  (us)               3260 ± 75         3228 ± 29     -1.0%
+>> >     ctx-switches          184 k ± 59 k     3.68 M ± 65 k    +1903%
+>> >     cs / io                0.09 ± 0.03       1.86 ± 0.03    +1888%
+>> >     avg bios/run            80.4 ± 0.6         1.1 ± 0.0    -98.7%
+>> 
+>> So 1 jiffie delay is (with default HZ=1000) 1ms. That means for this load
+>> the completion latency should be at least 1000us but your results show p99
+>> latency of 36. What am I missing?
+> 
+> Yes, this looks a bit odd.  Unless there's multiple threads submitting
+> and somehow the completions get batched this should complete one
+> bio at a time and be the worst case for the delay scheme.
 
---Apple-Mail=_BFD48016-EA8E-431A-BC6B-A8095D455012
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Sorry, I should've clarified - the latency here is the userspace-visible
+I/O completion latency (i.e. fio's clat value).
 
-Hi Kernel Maintainers,
+I ran again and traced to get the actual time from __bio_complete_in_task()
+to calling ->bi_end_io(). The results match the 1 jiffie delay now:
 
-I hit the following KASAN report while testing current upstream kernel:
+  metric                  delay=1  delay=0
 
-KASAN: slab-use-after-free in cdev_put
+  A seq 128k qd1
+    fio clat p99             38us     36us
+    bio cb p50             1.23ms    2.5us
+    bio cb p99             4.13ms   1.44ms
+    bio cb p999            5.01ms   2.63ms
 
-on commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 2026)
+  B seq 128k qd128
+    fio clat p99           8.74ms   8.85ms
+    bio cb p50             1.27ms    3.1us
+    bio cb p99             4.05ms   2.27ms
+    bio cb p999            4.91ms   2.77ms
 
-The reproducer and .config files are here.
-https://gist.github.com/shuangpengbai/8f7dd0c0b1c638482b0e4cc62c554121
+  C rand 4k qd32
+    fio clat p99           8.16ms   8.11ms
+    bio cb p50             1.09ms   97.7us
+    bio cb p99             3.73ms   2.06ms
+    bio cb p999           11.87ms   3.79ms
 
-I=E2=80=99m happy to test debug patches or provide additional =
-information.
+  D mixed 64k qd32
+    fio clat p99            981us   1.03ms
+    bio cb p50             1.14ms   39.5us
+    bio cb p99             2.83ms    275us
+    bio cb p999            3.06ms    595us
 
-Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+  E raw 128k qd128
+    fio clat p99          26.97ms  27.34ms
+    bio cb p50             1.58ms   41.5us
+    bio cb p99             2.98ms    325us
+    bio cb p999            3.02ms    575us
 
+  F mem-pressure
+    fio clat p99          29.75ms  30.43ms
+    bio cb p50             1.32ms    2.5us
+    bio cb p99             3.73ms   2.48ms
+    bio cb p999            4.62ms   2.83ms
 
-[  133.746964][ T8494] =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[  133.747541][ T8494] BUG: KASAN: slab-use-after-free in cdev_put =
-(fs/char_dev.c:361)
-[  133.748018][ T8494] Read of size 8 at addr ffff8881066d7108 by task =
-bad_nvme_io/8494
-[  133.748544][ T8494]
-[  133.748716][ T8494] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + =
-PIIX, arch_caps fix, 1996), BIOS 1.16.34
-[  133.748718][ T8494] Call Trace:
-[  133.748720][ T8494]  <TASK>
-[  133.748721][ T8494]  dump_stack_lvl (lib/dump_stack.c:94 =
-lib/dump_stack.c:120)
-[  133.748725][ T8494]  print_report (mm/kasan/report.c:378 =
-mm/kasan/report.c:482)
-[  133.748734][ T8494]  kasan_report (mm/kasan/report.c:595)
-[  133.748738][ T8494]  cdev_put (fs/char_dev.c:361)
-[  133.748740][ T8494]  __fput (fs/file_table.c:513)
-[  133.748743][ T8494]  fput_close_sync (fs/file_table.c:615)
-[  133.748756][ T8494]  __x64_sys_close (fs/open.c:1507 fs/open.c:1492 =
-fs/open.c:1492)
-[  133.748759][ T8494]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 =
-arch/x86/entry/syscall_64.c:94)
-[  133.748761][ T8494]  entry_SYSCALL_64_after_hwframe =
-(arch/x86/entry/entry_64.S:121)
-[  133.748764][ T8494] RIP: 0033:0x7fd3713a311b
-[  133.748767][ T8494] Code: 0f 05 48 3d 00 f0 ff ff 77 45 c3 0f 1f 40 =
-00 48 83 ec 18 89 7c 24 0c e8 f3 fb ff f4
+Note that in the above, the C degradation didn't reproduce as much. The
+bandwidth does go down from 64.5 MB/s with delay=1 to 54.9 MB/s with delay=0,
+but it's a much smaller drop. I ran it several more times and ran into the
+degradation ~20% of the time. The lack of batching means the completion
+kworker fires for nearly every bio, leading to heavier preemption when a
+writer is placed on a CPU that receives many completion IRQs. The degradation
+seems to occur when the writers are migrated less often, leading to more
+preemption. But I haven't dug into why the scheduler chooses to migrate more
+in some runs vs. others. However, when pinning to 16 cores, the difference
+between delay=0 and delay=1 goes away.
 
-Code starting with the faulting instruction
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-   0:	0f 05                	syscall
-   2:	48 3d 00 f0 ff ff    	cmp    $0xfffffffffffff000,%rax
-   8:	77 45                	ja     0x4f
-   a:	c3                   	ret
-   b:	0f 1f 40 00          	nopl   0x0(%rax)
-   f:	48 83 ec 18          	sub    $0x18,%rsp
-  13:	89 7c 24 0c          	mov    %edi,0xc(%rsp)
-  17:	e8 f3 fb ff f4       	call   0xfffffffff4fffc0f
-[  133.748769][ T8494] RSP: 002b:00007fd3709b7e60 EFLAGS: 00000293 =
-ORIG_RAX: 0000000000000003
-[  133.748773][ T8494] RAX: ffffffffffffffda RBX: 0000557a0cdd5390 RCX: =
-00007fd3713a311b
-[  133.748775][ T8494] RDX: 00007fd3709b7e80 RSI: 00000000c0484e43 RDI: =
-0000000000000010
-[  133.748776][ T8494] RBP: 0000000000000010 R08: 0000000000000000 R09: =
-00007fd3709b8700
-[  133.748778][ T8494] R10: 0000000000000000 R11: 0000000000000293 R12: =
-00007fd3709b7e80
-[  133.748779][ T8494] R13: 000000000000010b R14: 00007fd3709b7fc0 R15: =
-0000000000802000
-[  133.748782][ T8494]  </TASK>
-[  133.748783][ T8494]
-[  133.760567][ T8494] Freed by task 8494 on cpu 1 at 133.746963s:
-[  133.760976][ T8494]  kasan_save_track (mm/kasan/common.c:57 =
-mm/kasan/common.c:78)
-[  133.761296][ T8494]  kasan_save_free_info (mm/kasan/generic.c:584)
-[  133.761651][ T8494]  __kasan_slab_free (mm/kasan/common.c:253 =
-mm/kasan/common.c:285)
-[  133.761976][ T8494]  kfree (./include/linux/kasan.h:235 =
-mm/slub.c:2689 mm/slub.c:6251 mm/slub.c:6566)
-[  133.762243][ T8494]  nvme_ns_head_chr_release =
-(drivers/nvme/host/multipath.c:606)
-[  133.762617][ T8494]  __fput (fs/file_table.c:510)
-[  133.762889][ T8494]  fput_close_sync (fs/file_table.c:615)
-[  133.763213][ T8494]  __x64_sys_close (fs/open.c:1507 fs/open.c:1492 =
-fs/open.c:1492)
-[  133.763526][ T8494]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 =
-arch/x86/entry/syscall_64.c:94)
-[  133.763838][ T8494]  entry_SYSCALL_64_after_hwframe =
-(arch/x86/entry/entry_64.S:121)
-[  133.764235][ T8494]
-[  133.764398][ T8494] The buggy address belongs to the object at =
-ffff8881066d7000
-[  133.764398][ T8494]  which belongs to the cache kmalloc-2k of size =
-2048
-[  133.765325][ T8494] The buggy address is located 264 bytes inside of
-[  133.765325][ T8494]  freed 2048-byte region [ffff8881066d7000, =
-ffff8881066d7800)
+C specifically also seems to get worse because we're doing random writes to a
+sparse file, so each bio goes through the IOMAP_IOEND_UNWRITTEN path and the
+completion path is heavier, leading to more CPU stealing from the writing
+threads compared to the other workloads.
 
+>> >   C rand 4k qd32
+>> >     BW (MB/s)               66.2 ± 0.8        44.6 ± 7.4    -32.7%
+>> >     p99   (us)              8002 ± 174      17990 ± 6800   +124.8%
+>> >     p999  (us)             11390 ± 554     31890 ± 11076   +180.0%
+>> >     ctx-switches         3.67 M ± 45 k    3.59 M ± 106 k     -2.2%
+>> >     cs / io                3.78 ± 0.04       5.62 ± 0.83    +48.7%
+>> >     avg bios/run            32.3 ± 1.0         3.1 ± 0.3    -90.5%
+>> 
+>> I'm somewhat surprised how larger is the completion latency is here without
+>> the delay. Is that due to a contention on local lock between the IO completion
+>> interrupt and the worker? Or why is the completion latency so big here when
+>> the case B with more IOs in flight, less bios per run, still had significantly
+>> lower latency in the delay=0 case?
+> 
+> Note that in the past we had major problems with workqueue scheduling
+> latency.  At some point these got mitigated a lot, but if they are back
+> for this workload that might be one reason.
+> 
 
-
-
-Best,
-Shuangpeng
-
-
---Apple-Mail=_BFD48016-EA8E-431A-BC6B-A8095D455012
-Content-Disposition: attachment;
-	filename=smime.p7s
-Content-Type: application/pkcs7-signature;
-	name=smime.p7s
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCA0Qw
-ggNAMIICKKADAgECAgpzxoAcnO02uUeSMA0GCSqGSIb3DQEBCwUAME4xFzAVBgNVBAMTDlNodWFu
-Z3BlbmcgQmFpMSYwJAYJKoZIhvcNAQkBFhdzaHVhbmdwZW5nYmFpQGdtYWlsLmNvbTELMAkGA1UE
-BhMCVVMwHhcNMjYwMTI3MTkyMjIzWhcNMzEwMTI3MTkyMjIzWjBOMRcwFQYDVQQDEw5TaHVhbmdw
-ZW5nIEJhaTEmMCQGCSqGSIb3DQEJARYXc2h1YW5ncGVuZ2JhaUBnbWFpbC5jb20xCzAJBgNVBAYT
-AlVTMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjjDmy9pLRbIcAP8+e9d3OiNLxzrk
-UlSmVx67fdvsrK2abuHnKV8tbkMaVShNrFoAZTfgXbgOca5JZEzxUNnvZ8wSJVxa0fsbp1b9zPYk
-PM9GHASgMdIGMNRItx60UIOxO9mLWqvdVUJs48N1QQnaUONr7w6sLdW8/Sdh/XgZUI5d4CUbORGw
-cYOJgneYMtLlafzMMLREcg2qnEMOX0kiDqs2YCcRDXaU/AMs1GVbTRuGHunaCafUX+2pNWPW54om
-HukRDtbnlF9uSIOuRKMd//W342ivdQ+4PBA1iz0Mg9slJ+NIlHA62Hro2JmAMtvyvLirkGS8fCb+
-KL/AvGRPRwIDAQABoyAwHjAPBgkqhkiG9y8BAQoEAgUAMAsGA1UdDwQEAwIHgDANBgkqhkiG9w0B
-AQsFAAOCAQEATyV/HKQD+haICrFpNql9ZvBqzFzqG/SJ/cb4ckZNxoLvGRYqz/0Hy3VhKv7nL9DO
-/cbOYT0LIdCZOUwRhuOh6WrAl4ODvMYuyF51iQZ02C6tWBi0Z71Y2bZXUd9Ro53bLG+266DsdVl9
-NaMtwFc2s4Qyd+BpRWL5PMcYJ0wNaUIU0LkLMK+t0JCKaDV0ezjfByKBIAsWL1HHTA3jCjjo4kUD
-Op5W56Am4LpPJLVW4ASDMYdDlvyvQ4Vakdzplvt+T3QUezVAw4UBVU8d5lBr24mU6egcbZGP5dEq
-ABlFtrTpnXwTwEQRBLOfQq94n8hqwbq6TMi9Sl06KU+iVIYjVzGCAfIwggHuAgEBMFwwTjEXMBUG
-A1UEAxMOU2h1YW5ncGVuZyBCYWkxJjAkBgkqhkiG9w0BCQEWF3NodWFuZ3BlbmdiYWlAZ21haWwu
-Y29tMQswCQYDVQQGEwJVUwIKc8aAHJztNrlHkjANBglghkgBZQMEAgEFAKBpMBgGCSqGSIb3DQEJ
-AzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDUyOTIwMTUxMlowLwYJKoZIhvcNAQkE
-MSIEIOLYQM6yFXO+9EeQP1hJq3b1xn0OBMZKUErf64OddEh7MA0GCSqGSIb3DQEBCwUABIIBADnL
-jfQ9ZEACiUdMB4EPuQtuXQ3mbRdPFlZaIBweAmtQUnCDN+tWRrfrkNo+l5OJ8EdAAxwqOEKrFZDB
-LbguCkWcKV6DV5x5hygY4JEWvAJM3M/82t3MNSvO9u+cK4pfGRsMqFK6mZPXCKfR9YX1S3vKf/79
-nhbOBnGBX+yV6i43RoFLPdSKqjqr4Mn4JIdzuGBXMp4KkIY7mydMnQL1OtHS1YE13FS7rx3Fy7tS
-SEjcoo+i0A4tD7eqmHdNeeIJZTZ+wYBZ7wXNYZtcKdz4BhcGQjdPLvda4tyeh+u033lqWn5yjmoh
-twzsbGv+EOA4wCQyfqzXShWdgkMpn5sYUWEAAAAAAAA=
---Apple-Mail=_BFD48016-EA8E-431A-BC6B-A8095D455012--
