@@ -1,134 +1,113 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19D2233921
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 14:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780066552; cv=pass; b=UFnrbHrhqPz7C77VK5ljUO3/qGkfHNRwkuxDJxA4BBvNZroCYvj4NUM+qc/eQDgWl2+zN92UJ43kQcTDWNbHWyMA+gWOa+Zs2tkpDqckWlX6uWSORkGeZXll56Kp81UKRULotlzqx5EVJP17hF7k9ePvs8C/KOgASysvqi2LWuc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780066552; c=relaxed/simple;
-	bh=LwJOnMXOw6081AX2/qRcsTPErxa/34W6EGMtFB2ROnQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XH5XB640VaDJvnNxjYavNdAgOLan1vEtrQCUdxlwaNv6JgGeXQpoR/X+FJYJ8D+0JhOYq6YuPusWJx7fNc4WkLEq80/Mca+RFbBPU9v3FrrhV7DeTW6dbPz9TlbLOfIcAU5wPVFRiI9AAfScsVoJABI5Y+DPAb7kFnL4Fkruor8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G31QUE6E; arc=pass smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B843B8BA1;
+	Fri, 29 May 2026 15:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780067258; cv=none; b=gNALC5lU320GyuG99gzFoX/G+SXcZQH40z8tPb3H2/gvp2uggoui0VFNL81EK5caFgij20L6JjSvra1tByaGli2Vpos48YhIWtLftSgmCGd1SjAde+xD9EmiUuCJpuzDv/JhWEN9KZ1I8r6Nn121ctoSwhqlYKm/m5xYl6USewg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780067258; c=relaxed/simple;
+	bh=Pil606WUH2ip76AQan+V+uJr/Ad8H1Jaot/pJ/IfzkA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ET6WdsHLuhxP1egxUgbCkWzkhBS9A/iLmlrvvX55eWO0eaMcLyTgE7A/4Ebd9y/VBzMh8+IeON0dRVZEs7+cIeOrhp1QFbJyvGdxAULlR2ZawLCIngPbP9nuiIehzByLHwcoheHDU2UXaS+DjFWqpnekUBUSMhEWPB1eBrbWkHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YHFXwrZp; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G31QUE6E"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-671f1a0d0c5so204a12.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 07:55:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780066549; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hnQjAD+ik8ShzLWQ3EIxyDibOj0zwCUEyG3AMeGKf+uQgnc458DZqV2hyVyqy5r+hd
-         xxgomjqtyPie3OkiYzeJ/CbGuVDIznXsHTYwGDtlC1OIs9A2cT6J+Sb325hjiHEKhxIW
-         A99BDq2PXvoM+iZ4RYn+dOrd1KahCp2CDAq/t49Aa1s/oTCby3+KzzVJXIH0VvsyoWLF
-         iLTC+YuwDIx5VMINOqleKrz5CRKn41NVsKcdIFF8fzdEcldx6/n1Ov2R2c5Z4aQ15syp
-         658iwETyLZRtv8RLFH+kPttbklpeLMBpjOOI6iCyDNxZWDQ096ERNPF66J/0O+UpVVMV
-         cenQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=v0NQbiwUs18ppXLU+jeyodzQjlwqR5G0Z1wemEqLfuw=;
-        fh=+/WjqGOODrJjRWEFHLCYnr7yJLLuUBSws8YhyjZh+N8=;
-        b=AGHcYDNwqFaoX8zsBnMVU8RdUZrGtWb/y+yzyIKBFMAEc5rRDssm7MDc8XwMuJV79B
-         OfNk2nGp8dDJ96XcyYGH/W3+x6xacCTQtHpin8UNdKcg72eEahI4m1T/ymi8yKhz/Aqb
-         uKEzyDQYvu+bKtFvNPqILcr0TDy+I/nSbrxVr7dNgbxKC5MwNTXncFHNfDOzJOEyVC1V
-         6SCYbmyeQ3zSmVmBxdVVK2m52Pp079IjYZmm9KgobUQLd7ev+xlg9sCWz7CFXOeT+DGK
-         6IfpfaEZIr/EHsSi1+30BthUcCv90z40PZqBZ3al0ScB7sfnJvF2R9827vN6Y60gMOeF
-         Df8g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780066549; x=1780671349; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v0NQbiwUs18ppXLU+jeyodzQjlwqR5G0Z1wemEqLfuw=;
-        b=G31QUE6EtzN4Kon/9+jOvgHGXQM4ilz88jq1v6eD5E53IbKtY9kA3yUejtHlKCxPBJ
-         c9V4u3cP/hJJj1LqTLQeqs5CGGLknqCOZVd6Rwr7OM/Vr7WUHdpn6aE+ORSd6AbQ4vWT
-         dJc2lfPubsc8t3h9TR0TVfMvsDp0HzxAAH8AgwJxLSpwal6hDqnc9nbT+bhEnRb+2grq
-         RwyBdv7ClwZa1cwZvtOjwBL+1r+xKN3sTRTzAZP05svOSVhxnhq6YU3p6Xxre9kqCyQw
-         bZ6zuiM9ALHQUdHrZoJyaN4ofJ7he0n8PriRt/ar/n+JrQYyaUKvw5jXoAXC6CSteiCT
-         T8pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780066549; x=1780671349;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=v0NQbiwUs18ppXLU+jeyodzQjlwqR5G0Z1wemEqLfuw=;
-        b=mHGNcPbCL1eNJZBNkuGRHEoJ8oglR6E/279mta8vx8NmPkMX5nounev31MyDp9Sqbh
-         OOWL8cfIqY2UQSKfWCCnLojumFnWkGPKIpulIn7DyRIJz0grbe8/Xp8KqBZ6naw99BRe
-         h3ketD3eFMbcUGxx0mzwd65Is0x6m6xw7PdQUPBqQ/sGldgR69rCt3GweIKWteMWbfyf
-         uB6jb6LCn+jG8Tpajj/12QQkcUagDn4H5gGv64nTv2D3ew2QnmPa32mjkzGwN1fZ7bvB
-         KvTEB6U7+GLinHmV6NW4gR9yix8OeyAY9dQF9tNN+3igDksVW7p/vg0UaGJTBBihOFDF
-         MWgg==
-X-Gm-Message-State: AOJu0YwhGqBhAEFc7qtyOhSECrWGSiDEkTcu0Fb9gmCVlozIX91P16Tt
-	lcql2wPdDp+GfLRz9gi3Xif2/FmuJ0L3BsEIeJ7G4whMvXYP7riHf6XHOEM1QqeDATc7+ubNwiS
-	V655yJwV/PbEASqQnekBgmbN+NGN2NdNdhAsj/Q1t7xcspo83CEP8pkuZ
-X-Gm-Gg: Acq92OFaohLqXCa85UroI8brLn8Zdca/Y4cDt/RGmSkQX78Zbyh4DWznBONSiFihq1p
-	7fITMR74Z1Lg6bs1g8FMfwPpAdlb73QliX4dG9MBqTzQa6Pt3Y1rhsK1Utff4AxOcIvbMCP2rHf
-	qtCwP0th6LqOJdztE+4JDD6pzx1UKgrQKEmp8r5eAHBPXNSMJ6TfzWPTsn0WTf7Cxg7DMiRSbtz
-	fti9muobCAYfch3xJ4khp2Zi8G9WQ2PAfYK5xtg8bWqC5n6SoIWjjJ6w61Lw6VYAy+zzgV9Rdjh
-	BPxHZink/erdtU0eigh/QFW7YFl619zarL4tIawER3AX+zE=
-X-Received: by 2002:aa7:c989:0:b0:68a:7046:e64 with SMTP id
- 4fb4d7f45d1cf-68c16347f25mr38871a12.3.1780066548782; Fri, 29 May 2026
- 07:55:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YHFXwrZp"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 10C8440E37
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1780067251; bh=ebIP9u+W/NdprxD2plfJ1x4u07OsUSk6F8cbjhxlAs4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=YHFXwrZpXpELJCTLz1aonU6ujOlC3U+3KBMyzDRJIeqAQxcKO89EUcmvxyoUQM96G
+	 GofDbotXK9F4W+ymH9hdnOnS1IvDgr+Lwj66tJhtDzp5UmEbp+e5byw5Etm+YfUK7D
+	 /Ecut4iJxA08ifiuuZA6Vcwyd0e4utrKgns8b6tGmNx2OtCMX5T+skVL1jEXVmAbCL
+	 2QNrsrRMp72ArGrSCZhPWChA7mnro+R7Uv2NUXuEvWX6U49hDb9rCBCBah+o8+OAx/
+	 +rLwQA0b7r+EZwuhVhdFVhVfiBkLpFeYS21diLH8um6X9eUyPadg/1mjT/mKpeCdmY
+	 G6+x3PczFpJBw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 10C8440E37;
+	Fri, 29 May 2026 15:07:31 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Barry Song <baohua@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>
+Cc: wangtao <tao.wangtao@honor.com>, "catalin.marinas@arm.com"
+ <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
+ "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com"
+ <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
+ "willy@infradead.org" <willy@infradead.org>, "sj@kernel.org"
+ <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com"
+ <luizcap@redhat.com>, "zhangjiao2@cmss.chinamobile.com"
+ <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>,
+ "hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org"
+ <liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>,
+ "rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com"
+ <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz"
+ <jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>, "harry@kernel.org"
+ <harry@kernel.org>, "jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca"
+ <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com"
+ <ziy@nvidia.com>, "baolin.wang@linux.alibaba.com"
+ <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>,
+ "ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com"
+ <dev.jain@arm.com>, "lance.yang@linux.dev" <lance.yang@linux.dev>,
+ "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, "chengming.zhou@linux.dev"
+ <chengming.zhou@linux.dev>, "nao.horiguchi@gmail.com"
+ <nao.horiguchi@gmail.com>, "matthew.brost@intel.com"
+ <matthew.brost@intel.com>, "joshua.hahnjy@gmail.com"
+ <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>,
+ "byungchul@sk.com" <byungchul@sk.com>, "gourry@gourry.net"
+ <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
+ <ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
+ "pfalcato@suse.de" <pfalcato@suse.de>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org"
+ <linux-mm@kvack.org>, "damon@lists.linux.dev" <damon@lists.linux.dev>,
+ "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, "ryncsn@gmail.com"
+ <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>,
+ "dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>,
+ wangzicheng <wangzicheng@honor.com>
+Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
+ creation
+In-Reply-To: <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
+References: <20260527110147.17815-1-tao.wangtao@honor.com>
+ <ahcANgFDFwfC0v1q@lucifer> <b24b4a8198ba412f8b8b42c43dccd058@honor.com>
+ <ahf2mJg9OOWvu0jA@lucifer>
+ <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
+Date: Fri, 29 May 2026 09:07:30 -0600
+Message-ID: <87qzmu2r0t.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260311-work-kthread-nullfs-v3-0-3dd2cbe92ad0@kernel.org> <20260311-work-kthread-nullfs-v3-26-3dd2cbe92ad0@kernel.org>
-In-Reply-To: <20260311-work-kthread-nullfs-v3-26-3dd2cbe92ad0@kernel.org>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 29 May 2026 16:55:12 +0200
-X-Gm-Features: AVHnY4JPftso9nO08E6XXE3kBylHk0XbZE0x7sDGtn0bJWnN3iIsyuWGqxOj9YM
-Message-ID: <CAG48ez2-V62qga0ma7Se1RhH1Hr0RubmFfWK3HV20T76QB6rjA@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 26/26] fs: stop rewriting paths for PF_EXITING | PF_DUMPCORE
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, Jan Kara <jack@suse.cz>, 
-	Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Mar 11, 2026 at 10:57=E2=80=AFPM Christian Brauner <brauner@kernel.=
-org> wrote:
-> If the task is dead or dumping core stop messing with its fs struct.
-> There's no point in doing that. Worst case it'll be stuck in a stale
-> path until it calls exit_fs().
->
-> Signed-off-by: Christian Brauner <brauner@kernel.org>
-> ---
->  fs/fs_struct.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/fs/fs_struct.c b/fs/fs_struct.c
-> index 2a98cfbedd32..34699f3b6f88 100644
-> --- a/fs/fs_struct.c
-> +++ b/fs/fs_struct.c
-> @@ -61,8 +61,7 @@ void chroot_fs_refs(const struct path *old_root, const =
-struct path *new_root)
->
->         read_lock(&tasklist_lock);
->         for_each_process_thread(g, p) {
-> -               /* leave kthreads alone */
-> -               if (p->flags & PF_KTHREAD)
-> +               if (p->flags & (PF_KTHREAD | PF_EXITING | PF_DUMPCORE))
->                         continue;
+Barry Song <baohua@kernel.org> writes:
 
-If an exiting/dumping task still refers to the old root, that could
-prevent unmounting the old root, right? In the case of umount2(...,
-MNT_DETACH), it would just delay destroying the old rootfs until the
-exiting/dumping task is gone (which hopefully won't take long); in the
-case of umount(...), it could cause an error, though I don't know if
-anything would do that - I guess that'd be very brittle, and the
-pivot_root.2 manpage suggests MNT_DETACH. And pivot_root isn't really
-a syscall one would use when anything is concurrently running in the
-mount namespace, so this probably shouldn't matter in practice...
+> After coming back from Zagreb, I kept trying to find one or
+> two full days to read Lorenzo's code and slides carefully and
+> write a blog about them. Unfortunately, I have been completely
+> busy with other work. Sigh... we always seem to have too many
+> non-upstream tasks.
+>
+> If possible, I'd really appreciate it if you could take a
+> deep dive into it and write a detailed blog post. I'd be
+> very eager to read it and better understand the overall design.
+> Otherwise, I'll try to find some time next week or later to
+> go through it myself.
 
-So I think this change is probably fine, but I wouldn't say that there
-is entirely no point in updating exiting/dumping tasks.
+It's still somewhat superficial, but in case it's helpful:
+
+  https://lwn.net/Articles/1072378/
+
+jon
