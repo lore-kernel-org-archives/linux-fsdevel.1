@@ -1,122 +1,211 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEFB46AF18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB1E46AF1A
 	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 20:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780084891; cv=none; b=ZiwnnphJ1yY/jZ4e5lHLchJlFtZ5f+MR1qZ8nSwSqHYVCA1cOpvaYl9lktT4XI9lcKUpCtuk4DDA7iJGnWAHdfcbRQelS0GGvSBbOtisNzOuA8P1V5uBccDMK4Mzdn4jqJjU+sQGCtAaJgTPTHuz6o2/rR11bAoCsy7xvydr93Q=
+	t=1780084891; cv=none; b=a9cqeRVGPjHSjnpHHe0uT+Rg1m5Sdp/F4jRqCyqQdiX0rivqZQoF2PHfvL1qX5ufUYmRXYRpN7L0YJ65PhS2m0/de+6nnclP5bZt5642IR4PA4w3HSEAUAbEcx6Cnc7WDi61xmNqp+sH6qqKVTfG1HKcxAVzEBRf2W+bI+F+sok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780084891; c=relaxed/simple;
-	bh=3IpUrlo62Dfpe2727IVWPo0EwIMZEWc147ANblrJSwk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=l2K1xfr9LVqGX7CRIkMkRHhIKPmIRtPubvuIYHGivhXqivX85rlVa0vKbKAJlQI9roGmV7bO3iWqOYj65SDC19bSnxSrW+BDSdOlEgmLYygxcBToVWO09qJYdH0LDr3/bTby0Gc/RqMJFonwcWncP0Ef+lKe5AihuM7ML9vgZig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+	bh=RGny/la2xCXvhDntgZ3IOWpx9qp8epYuc2DA0FjUw7E=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DUR75h0lwQ6svKi7JIqM57VOPUTkuR/aKMDtvLWbnTbV+d14uNHJQCDCNeOlg+SoYWegg/LW8BunUjST2eeXGHMl9PSAfW4eqhk32+wJsrAjBM3/LrGVSCdyPqppNolm3i6bwkxExCYCnBIDdeliMaJ+tQPsyer2eqUMnRA/IvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4856a701421so8541599b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 13:01:28 -0700 (PDT)
+Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-69dd543babfso3744427eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 13:01:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1780084888; x=1780689688;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7nPRUEnRNqMa+1+PQQpjITRPLsPNU9LXJQSlKO+AT60=;
-        b=ZPsZHAc0LHphPDlX3VkO/XEdYj7sTqT0JPy8FrieldZAJfBfZ1TGxYcprXfwdzorm8
-         xCZe6MWDfw2fVqvDyVFXt2v5qHfn22g89VfgDzquOTO4A8Fl+ooMEMOhE+O67Aoltk/G
-         DLSCHs6vMRh+C9nREWUov7Ab/is3sXIksMOv2fHOAacD/oik94gmyxIlUfnjFUoLjQwp
-         m2aeGMGPSnTYfRPuiGLuB8vI3H3oesw9O1wXqxIjQ1MbmV6B76baVVf3GiQWAYBUxHOV
-         yS0tkA8bsHkm9PnbvCGLTu+ZQAtr4V25+TCZGfh/th+eWf5b778SAFgCEhLaczuXbY60
-         nszw==
-X-Forwarded-Encrypted: i=1; AFNElJ9PEV3s6dIJ2180Oq++D+cOhery077HI3NCwdQS6/ISmLBUFDd1F9vyKhMV4euchZ2v9Ewqx1AqNxYm0XGE@vger.kernel.org
-X-Gm-Message-State: AOJu0YywogoJLghyPVzqthDggHeCEX7iFP2M2ysqkef2CDGUZKpbXxvB
-	7F45p3H7M2/tqtcsBNYRMlS1jir/1qDEVcFN7W5ILC/9EaZL9Es35/zYYYRCSa2dMfSc0FhqB80
-	uEFY4OfaJoIntaTyzZlOGXiPSJW4rAMaCvr9h8AjxzwZ8UjYpgI+duWOb20E=
+        bh=5cIy58T8b6smMDrJfBXFqT2PqmOH5/pUjAmtMG/RVqs=;
+        b=CLjZWgc6SrM0gDbJD0w0CWAG2mdMgqdzWPrnwkNKXoALjmkEbglpUy6o+3x57c95pO
+         MwI03DPNp5KQTIp/Dj2bdNh3f0SbGx6EkUJxzdOMerr84tGY+Dv0WBqBCSKjxgRXeBBk
+         r8cGp+3Q7tLV/92uIABuwOTgkfO3ggxRLPjvQuMxrO3l9HQxH9haeV4Kangh0WHgT8iW
+         DGKWcjlS7Gpbkm9qrlhoGXfbQwIBf0rk8FmNpQ0tcPGhjNgvL9VzzDXPbq8Z2COIZJXF
+         S4kpy8JTgprSozP56itI/6qJrei+7lPux+/80LqsvA+PZm77Fm1gpoTcL2wDgjZwFrIQ
+         xlYg==
+X-Forwarded-Encrypted: i=1; AFNElJ9iolJEmPMCuQPFFbYnzY7SqRArGmfsweQvh65t33XyBV50iDrWHX6ldFXTVveao2myVD9/Kjt4KFKv5Hzx@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw83Lv8NZndyF8zoQqVoht4rpsBbc4zfF3rJk+okklAENmY6VuA
+	FZyj9mut+Xqy+0zyUHHoXzQQerdLUkEK2BQNN4XT0CtAU/UIQWXEt+P9EHHWV1KphcMzDP2Ju8u
+	pUtb4ISrzbfKv6gXuJdFG53VLhzXqO6p6uHsdU8WVPY0gKtPIk+G9ydUIEl8=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:148d:b0:482:48e1:cdf1 with SMTP id
- 5614622812f47-485fb4a82ccmr557428b6e.5.1780084888142; Fri, 29 May 2026
+X-Received: by 2002:a4a:e846:0:b0:696:6e28:8c19 with SMTP id
+ 006d021491bc7-69e043898a6mr1693673eaf.20.1780084888344; Fri, 29 May 2026
  13:01:28 -0700 (PDT)
 Date: Fri, 29 May 2026 13:01:28 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a19f098.abb04025.19af7b.0002.GAE@google.com>
-Subject: [syzbot] [hfs?] WARNING in hfsplus_bnode_create (2)
-From: syzbot <syzbot+2bf21610eea63cb2ce93@syzkaller.appspotmail.com>
-To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	slava@dubeyko.com, syzkaller-bugs@googlegroups.com
+Message-ID: <6a19f098.abb04025.19af7b.0003.GAE@google.com>
+Subject: [syzbot] [netfs?] KASAN: slab-use-after-free Read in netfs_unbuffered_write
+From: syzbot <syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com>
+To: dhowells@redhat.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netfs@lists.linux.dev, pc@manguebit.org, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    eb3f4b7426cf Merge tag 'nfsd-7.1-2' of git://git.kernel.or..
+HEAD commit:    8fde5d1d47f6 Merge tag 'acpi-7.1-rc6' of git://git.kernel...
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=144f912e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=bd38685893011045
-dashboard link: https://syzkaller.appspot.com/bug?extid=2bf21610eea63cb2ce93
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=109c991f980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=148dd97e580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=107a02b6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8118209836970b54
+dashboard link: https://syzkaller.appspot.com/bug?extid=3c74b1f0c372e98efc32
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15bedcb6580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=171b697e580000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/82ff9dc3956e/disk-eb3f4b74.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/be01a7a564dd/vmlinux-eb3f4b74.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5d5168563228/bzImage-eb3f4b74.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/a4a0cfb0b4a1/mount_0.gz
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-8fde5d1d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/529080512bd5/vmlinux-8fde5d1d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/39c09b74f46c/bzImage-8fde5d1d.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2bf21610eea63cb2ce93@syzkaller.appspotmail.com
+Reported-by: syzbot+3c74b1f0c372e98efc32@syzkaller.appspotmail.com
 
-WARNING: The mand mount option has been deprecated and
-         and is ignored by this kernel. Remove the mand
-         option from the mount to silence this warning.
-=======================================================
-hfsplus: new node 0 already hashed?
-------------[ cut here ]------------
-1
-WARNING: fs/hfsplus/bnode.c:634 at hfsplus_bnode_create+0x45d/0x4f0 fs/hfsplus/bnode.c:634, CPU#0: syz.0.17/5942
-Modules linked in:
-CPU: 0 UID: 0 PID: 5942 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
-RIP: 0010:hfsplus_bnode_create+0x45d/0x4f0 fs/hfsplus/bnode.c:634
-Code: 47 8b 89 ee e8 24 6f 83 fe e9 cf fc ff ff e8 da 88 20 ff 4c 89 f7 e8 92 d0 79 08 48 c7 c7 a0 52 47 8b 89 ee e8 04 6f 83 fe 90 <0f> 0b 90 49 c7 c5 ef ff ff ff eb a9 44 89 f9 80 e1 07 80 c1 03 38
-RSP: 0018:ffffc90003a5f5a0 EFLAGS: 00010246
-RAX: 0000000000000023 RBX: dffffc0000000000 RCX: 89c16ee503352d00
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: dffffc0000000000 R11: fffff5200074be65 R12: 0000000000000000
-R13: ffff888039ca0000 R14: ffff888039ca00d0 R15: ffff88802808fc00
-FS:  00005555881da500(0000) GS:ffff888126386000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 0000000038b22000 CR4: 00000000003526f0
+==================================================================
+BUG: KASAN: slab-use-after-free in netfs_unbuffered_write+0x1c21/0x21e0 fs/netfs/direct_write.c:119
+Read of size 2 at addr ffff888022e87864 by task syz.0.17/5936
+
+CPU: 1 UID: 0 PID: 5936 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
 Call Trace:
  <TASK>
- hfs_bnode_split+0xd2/0x1090 fs/hfsplus/brec.c:248
- hfsplus_brec_insert+0x3bc/0xd70 fs/hfsplus/brec.c:100
- hfsplus_create_cat+0xa64/0x11f0 fs/hfsplus/catalog.c:308
- hfsplus_mknod+0x186/0x3f0 fs/hfsplus/dir.c:538
- hfsplus_mkdir+0x2c/0x40 fs/hfsplus/dir.c:579
- vfs_mkdir+0x40b/0x630 fs/namei.c:5261
- filename_mkdirat+0x289/0x520 fs/namei.c:5294
- __do_sys_mkdirat fs/namei.c:5315 [inline]
- __se_sys_mkdirat+0x35/0x150 fs/namei.c:5312
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1d0 mm/kasan/report.c:595
+ netfs_unbuffered_write+0x1c21/0x21e0 fs/netfs/direct_write.c:119
+ netfs_unbuffered_write_iter_locked+0x7e2/0xa90 fs/netfs/direct_write.c:294
+ netfs_unbuffered_write_iter+0x442/0x740 fs/netfs/direct_write.c:386
+ v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1070 fs/read_write.c:688
+ ksys_write+0x12a/0x250 fs/read_write.c:740
  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7efc691dbcc7
-Code: 00 66 90 48 89 f2 b9 00 01 00 00 48 89 fe bf 9c ff ff ff e9 db f7 ff ff 66 2e 0f 1f 84 00 00 00 00 00 90 b8 02 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd3adf41f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000102
-RAX: ffffffffffffffda RBX: 00007ffd3adf4280 RCX: 00007efc691dbcc7
-RDX: 00000000000001ff RSI: 0000200000000440 RDI: 00000000ffffff9c
-RBP: 0000200000000080 R08: 0000200000000140 R09: 0000000000000000
-R10: 0000200000000080 R11: 0000000000000246 R12: 0000200000000440
-R13: 00007ffd3adf4240 R14: 0000000000000000 R15: 0000000000000000
+RIP: 0033:0x7f2eecd9ce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f2eedc49028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f2eed015fa0 RCX: 00007f2eecd9ce59
+RDX: 00000000fffffdd8 RSI: 0000200000000540 RDI: 0000000000000003
+RBP: 00007f2eece32d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f2eed016038 R14: 00007f2eed015fa0 R15: 00007fff0ed7a0b8
  </TASK>
+
+Allocated by task 5936:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:340 [inline]
+ __kasan_slab_alloc+0x89/0x90 mm/kasan/common.c:366
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4570 [inline]
+ slab_alloc_node mm/slub.c:4899 [inline]
+ kmem_cache_alloc_noprof+0x241/0x6e0 mm/slub.c:4906
+ mempool_alloc_noprof+0x1b7/0x310 mm/mempool.c:566
+ netfs_alloc_subrequest+0xc1/0x3c0 fs/netfs/objects.c:204
+ netfs_prepare_write+0x76/0x780 fs/netfs/write_issue.c:172
+ netfs_unbuffered_write+0x7b8/0x21e0 fs/netfs/direct_write.c:111
+ netfs_unbuffered_write_iter_locked+0x7e2/0xa90 fs/netfs/direct_write.c:294
+ netfs_unbuffered_write_iter+0x442/0x740 fs/netfs/direct_write.c:386
+ v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1070 fs/read_write.c:688
+ ksys_write+0x12a/0x250 fs/read_write.c:740
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5936:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2689 [inline]
+ slab_free mm/slub.c:6251 [inline]
+ kmem_cache_free+0x127/0x6c0 mm/slub.c:6378
+ mempool_free+0xde/0x130 mm/mempool.c:711
+ netfs_free_subrequest fs/netfs/objects.c:239 [inline]
+ netfs_put_subrequest+0x282/0x4c0 fs/netfs/objects.c:255
+ netfs_unbuffered_write+0x13ed/0x21e0 fs/netfs/direct_write.c:118
+ netfs_unbuffered_write_iter_locked+0x7e2/0xa90 fs/netfs/direct_write.c:294
+ netfs_unbuffered_write_iter+0x442/0x740 fs/netfs/direct_write.c:386
+ v9fs_file_write_iter+0xbf/0x100 fs/9p/vfs_file.c:409
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1070 fs/read_write.c:688
+ ksys_write+0x12a/0x250 fs/read_write.c:740
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888022e877c0
+ which belongs to the cache netfs_subrequest of size 200
+The buggy address is located 164 bytes inside of
+ freed 200-byte region [ffff888022e877c0, ffff888022e87888)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x22e86
+head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+memcg:ffff888026b62001
+flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000040 ffff88801fab5680 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000800190019 00000000f5000000 ffff888026b62001
+head: 00fff00000000040 ffff88801fab5680 dead000000000100 dead000000000122
+head: 0000000000000000 0000000800190019 00000000f5000000 ffff888026b62001
+head: 00fff00000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000002
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 4032896346, free_ts 0
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1853
+ prep_new_page mm/page_alloc.c:1861 [inline]
+ get_page_from_freelist+0x11a6/0x3410 mm/page_alloc.c:3941
+ __alloc_frozen_pages_noprof+0x27c/0x2bc0 mm/page_alloc.c:5221
+ alloc_slab_page mm/slub.c:3278 [inline]
+ allocate_slab mm/slub.c:3467 [inline]
+ new_slab+0xa6/0x6c0 mm/slub.c:3525
+ refill_objects+0x277/0x420 mm/slub.c:7272
+ refill_sheaf mm/slub.c:2816 [inline]
+ __pcs_replace_empty_main+0x375/0x650 mm/slub.c:4652
+ alloc_from_pcs mm/slub.c:4750 [inline]
+ slab_alloc_node mm/slub.c:4884 [inline]
+ kmem_cache_alloc_noprof+0x480/0x6e0 mm/slub.c:4906
+ mempool_init_node+0x2f7/0x6e0 mm/mempool.c:259
+ mempool_init_noprof+0x3a/0x50 mm/mempool.c:289
+ netfs_init+0x16c/0x2b0 fs/netfs/main.c:128
+ do_one_initcall+0x121/0x750 init/main.c:1392
+ do_initcall_level init/main.c:1454 [inline]
+ do_initcalls init/main.c:1470 [inline]
+ do_basic_setup init/main.c:1490 [inline]
+ kernel_init_freeable+0x6ea/0x7b0 init/main.c:1703
+ kernel_init+0x1f/0x1e0 init/main.c:1593
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff888022e87700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888022e87780: fc fc fc fc fc fc fc fc fa fb fb fb fb fb fb fb
+>ffff888022e87800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                       ^
+ ffff888022e87880: fb fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888022e87900: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
 
 
 ---
