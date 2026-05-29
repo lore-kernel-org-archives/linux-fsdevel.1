@@ -1,248 +1,454 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1923B27E9
-	for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 08:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780045185; cv=fail; b=IHnPRmJ/SS88xmUyV4zh1s/oITBNsxuWu5hVUivP9CCzARmNIQWn8NqOtziJ4tbd8Dvcpci9/Xs9pJt8ZUjGUQuJfsb71dMfv5Adlcd15mS+VFSr8MzB8XpSLLSQfQI1evNCnpeoh4Gw4XicBQ+CRWsRqkkUQuJCAVBEGJdUpgE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780045185; c=relaxed/simple;
-	bh=mc9WVmXoWix1uDHbzi0RpIukiYHjtFNhPIlXuHBZ9iI=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=VpkuoWZQZjkixvwcxveYmnDpAvgnMyDKXj7vxM53uiBYacMSIdNBzLcdhka65EEbfSfeefxd9Ljg7y/Hl/ifaE/H/PBEhQQCjPn11Qb1fUX0V2SIOdUI9GkCdaiMDo/zOPBSDEz/qldJ0jqF3mFohrZZ55b6mD0MSBKdsk0DJRs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuUn6jIJ; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuUn6jIJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780045184; x=1811581184;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mc9WVmXoWix1uDHbzi0RpIukiYHjtFNhPIlXuHBZ9iI=;
-  b=OuUn6jIJneEpRpp1kVLikAUVXs6qPZxHq4tc+T2qox39SS6REnJwe+eK
-   UmsabdQgJf3cEOTa0R0udpPPp9VsrYi+RrOCY7kxZxgtXk87lGIdrMHB7
-   QedmOR/r/jbPRrHpNIEdykU3/Lp9gRZuHTC9+HbvXeHV+rZoUZJ6WcErQ
-   9EDY5ITvrVqIZ/RwHZSvtFHCOKBg9p+890NS2IdhwSG2vh4JDTRm4klDk
-   2yrLh3FoykgcDwPcWt5/pz2Mlr/3jFkCIBveUMdUh8x6P3mfjZRj8xUjq
-   8ohDlZ1aEypEDoHw+qVbEKjp1bGcaY+TkpoCtncTGGZDYfLqqJV5o9ge6
-   g==;
-X-CSE-ConnectionGUID: KbsdOMFMQCGcCOQp7M1ekA==
-X-CSE-MsgGUID: GljKPJTfTf6N23NIWIZZJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="92006593"
-X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="92006593"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 01:59:44 -0700
-X-CSE-ConnectionGUID: nf1KjuW9Tmq5DufUR6nN4Q==
-X-CSE-MsgGUID: /9QJJvvyRWqtoDL9164F1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="236446180"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 01:59:43 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 29 May 2026 01:59:42 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Fri, 29 May 2026 01:59:42 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.34) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 29 May 2026 01:59:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IPllvazVmo14r5AjTHnvMyySSLB6o/uN5NeTNUCPHdKYYx+Jl0kbdcEEeeieFIxT3rFtah2qdkmR9yruNXS9z1ltGd/6pCYqN+AGtaQoEk34dBt6isjkjbW+i11xKg4dT4xsuxwWn1ZQ88eFVy7ht+YeKQA5e8aA42xCaXYrl2FcZoyvYpzxHvnIrSFHA2t0AFozDjI4csFyZBn0PPJIERvOcfTNC4l3B5e1XSJEcvXJOtp6Y//14sHTXDXNDTn+m83ehsz1kmGkH6qj1Ti+AleyKqfZ1ZSboULAXFWb72u1nXELykxEi8/g+YefIXgy+/5+eqr4NeeRFnXM02IT6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=16NAA5rYFC5eZpy1LtAmZ6pMyhw8cJg7p/zNCYTnquU=;
- b=UR7mAvjrJb4RISiwHsI0L8uny2N2qI0KinLDX7R8nRCQGgECQCmFz4zlu2bJLT3oSeFrNbdzzyMKDPjsS2jainMhAp1Dp+/NKkDWQkk3AlDBlWtaeHTswF12bVY1PsXIxcUd4J5yGSzVj+V/nGRdQPSd1XBDMp+2IkfjHnXueZ0hWgv2DLAmI4HGldU1TYvkT/kIl16xRBu/OoEvMK+/ZLtbY7QFRQeVdAL+drykd2Kq3a1ZnO2EkRRS7C+lPDDe3KSk8wZXvn1ubwOZ9EVlWHZ32XXDcbXwW3vehRDl2sTYw7OioIQUGdakn5Lwp4+3VEX8HsiuPt+i2HkRIxbbjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com (2603:10b6:510:141::7)
- by PH0PR11MB4997.namprd11.prod.outlook.com (2603:10b6:510:31::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Fri, 29 May
- 2026 08:59:39 +0000
-Received: from PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707]) by PH0PR11MB5832.namprd11.prod.outlook.com
- ([fe80::106e:78dd:4c96:d707%3]) with mapi id 15.21.0048.019; Fri, 29 May 2026
- 08:59:39 +0000
-Date: Fri, 29 May 2026 16:59:32 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Hannes Reinecke <hare@suse.de>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>,
-	<linux-fsdevel@vger.kernel.org>, <oliver.sang@intel.com>
-Subject: [hare-scsi-devel:configfs-ns.v5] [fs/configfs]  7aae6b1018:
- Oops:general_protection_fault,probably_for_non-canonical_address#:#[##]SMP_KASAN_PTI
-Message-ID: <202605291631.40385aeb-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-User-Agent: s-nail v14.9.25
-X-ClientProxiedBy: TPYP295CA0004.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:9::13) To PH0PR11MB5832.namprd11.prod.outlook.com
- (2603:10b6:510:141::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C39364942;
+	Fri, 29 May 2026 09:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780046048; cv=none; b=BZEVrv8dvYXL2XrImLVkPI8PK+UuNPxpVhaZpdhpJMe2bhHVxE4RyKWj13Zw///wlxQ3S4UMN3NMR8F2maXcHd3Gn0nVIIAnn3ZUe4SlyNl1hLRcQaYH1G+QmZ0KV3/bhNFW8UyPioL7k9Ks3DOFKYC89fVZYENLk4AKxVxV4nk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780046048; c=relaxed/simple;
+	bh=ANhNrvXcDMF4vCV202euB2Ggezb5zfktbSD1nVHuMIw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bOf+uTN0IliT/nGxxd+rNa72TvsjNv19mk+meS6nQ/HhOOC1UGzU/LJh/QItRhGDqFsUN9jAyD6YDygpzCn22yKyNljzZyLbL9rF9gxkZB+voNw91HaqFe5Awbi5+zxtPz+NXd3h9cquOetc4PjBq3pihWPxkUh+EuYrDpQNmxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gRd1R0jWqzYQv6m;
+	Fri, 29 May 2026 17:12:59 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 920714056B;
+	Fri, 29 May 2026 17:13:58 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP4 (Coremail) with SMTP id gCh0CgD3v1vUWBlqX0cyEA--.36427S3;
+	Fri, 29 May 2026 17:13:58 +0800 (CST)
+Message-ID: <83e36f9c-aeb1-40d4-9265-fd22120a7fa9@huaweicloud.com>
+Date: Fri, 29 May 2026 17:13:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5832:EE_|PH0PR11MB4997:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83cd5725-8141-4726-49ba-08debd609d7c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|18002099003|56012099006|11063799006|3023799007;
-X-Microsoft-Antispam-Message-Info: 1A78HzLElegYsGCrrJQDfI6I39uUswJbq+c1a/pFBe2ss5sce3Nxbh6u0LM/w0ZbYPKZonSzJ8P9HY4VWhtnhGbkPgoSN2dwucrk9mNrfje9TMniyp4mjbJ70urulYXkY6Ohr/8PCbDbp/81hQgV6hYjnDpcX3JDHMQKPACMp/ToaiBe9wOuiZKitAdPmIeVz5ZyrsDp9zC9iW6R8LnShbYGY/jcInbMPKgNU8irULbTQZXfvcVHWm5g7tCUp+uX2AKqfk7gFCNiF0Bdn0BzMGIq5koA7GOj2GQhEXcIocIZjUj6yeOSe8cpMu61H0Yeiy/THP9t/1/zhtnFp9mFQib2shvrddjCPYtkd2UggdkWAC242SFDlYeyvTwzPzBBIem7IzGz+I8QdpkADd91ap7rq+PWVCSAnHC4bdFIdnwkZo4qqBxSs/zGPCi00ap0WFTi7mzzgBMZTLWxJRQUAidNxdOefWs+bY46zer6vn7sxfxxRAGOGN6XbcaA24ybQ6MtlpUTobHH1L9JTBls1T+Rv1BS8Tt5pYHF15DWKEllP/NP4rZ9kQPaIBI8s9eprzExug18b9C/Tj23RQ5VprHksLOjjgu0uJ7ZLEsXPBxaArdfy+sxruVnd92sok7QxH4oKNUZ61HIoXRAJe8eIA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5832.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(18002099003)(56012099006)(11063799006)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rM5mSxUCRfGWixvKYIAhA3IzlOWHattBmQpJ3ho/9IYtIGjavMQg3mYFjhuj?=
- =?us-ascii?Q?8bhcfWNbfXWr8rrFqfrMLaz55ZHeMZ1ceATzqVt50TkwYQToQEFYqRSjomdg?=
- =?us-ascii?Q?T8YDl3lLaQkIktDg3qZgXDOa2IU4F9FayZcwiz3FukGr19C23+NcGqhaPeNY?=
- =?us-ascii?Q?xTZsrT3hkqVb2g2F3D6vip9uzKUWKB2n3upe6DMdPFBKKEBdYBdtyrXWvQXz?=
- =?us-ascii?Q?+Nj5zTfkn3XXW7sX9fn0drR+AP4BXXW5zH4y3kl0D2o9tuZhrKecqt4MNCia?=
- =?us-ascii?Q?aHymKP642gjVeiXAtEXPSWNyVTgixAN/7DIO+qLnzrzAR75BRC/IBbBM8jrz?=
- =?us-ascii?Q?AM2De7wTnKcx1iWQszAmyWdt76KUWRfClkzTQDT/kYmmlr22WmKNhddJmsbo?=
- =?us-ascii?Q?eOHlhFumsvqrdG16JkPaSxtCz6LLjJtNdrWKUgn1nlKtniRF50fUXDbQPE0W?=
- =?us-ascii?Q?VK+MYrsDBy8GTvgZuctYMyGEZYKZgzY4IXTqjk2S2Y19VQWVU0XozcQWXDOO?=
- =?us-ascii?Q?Rt6aBU/jX20aAQMSbvpv+tuS5/DXzMnGzBPKWftVD+AUpAZoCSyk8gWx7aWB?=
- =?us-ascii?Q?cw5dxZ/GRuBijn4xVK8q9oCXLt3VDJOKl3r2niFsVjTb606CdVfFx/IxBjwB?=
- =?us-ascii?Q?Z0UK1V3iRrPOhXvJ3Oi1+ZpkDJlCxw8kO22WGZzTjEDrt0/reVlSUskfhrUM?=
- =?us-ascii?Q?wgFi3rdt5ZmPnGlSY9M8aKWWbA6IaH9ypd+WQ7TvMTfjhhOb5cEBPZ38WqyF?=
- =?us-ascii?Q?bzggbb7rlBzDL91NGyVDT4bbBNjJgb3oUlXY0rV+s+WuGohRrtm9zvJDV1Uk?=
- =?us-ascii?Q?Kp9v4QLige9xwY6RLhOGugy8qQT/tqBu5EB3+BQkSObS5IMC/ox0aZ4knhHu?=
- =?us-ascii?Q?H9ulisUC1EzF/JQkYpzVi3PucjNhstHLWyUAH4mM/SA6YVTX39X0gzWfof2s?=
- =?us-ascii?Q?1qT5NlUC5QOlcbcai0B6TMGY3BnaBHAMdv2HHAjdmCx0vL2MhhGjAw8EC3n/?=
- =?us-ascii?Q?qpeBp+1oJ4tt+IiwlzeK3U07J6l3NyZEIcdjFi7UHrxmzfUfBvSjIsZ22CeI?=
- =?us-ascii?Q?1OwBD0Gv2Son9DfBJb4RJeBVDpi9B3LTm4eq3HuhHWeWK8NdM2MkwYTytcXp?=
- =?us-ascii?Q?vNpEIYBSwChM403UmCdDu44MaNM/01bdge0qyRSOallzDZh1WbP4qXVOHawI?=
- =?us-ascii?Q?CN19aiDg8Qvifp+/1f24MJlAOB4VDQYJU2hmg9InDqMRX420fhdl6FYRiZtc?=
- =?us-ascii?Q?NvVpmAhp4k08MW2Rs2uxk5UOluNIHWXd9AKx+dYQh4QBaJ6Jxjk7ZocztgSM?=
- =?us-ascii?Q?b6b/ZxeNN2qY4c/VvVy9Ixl6lKms3mMDe/NshWOD/IDbuBKUEaKSzH6uckf7?=
- =?us-ascii?Q?yfFJg9miHL+GZF65LIBn7Bl6+9Ty9paKBjRWxUfwM+wdXdUpp10vznDAr5xJ?=
- =?us-ascii?Q?MANQUO7s40EjlS3CvOopG5rs7dxQG7NgEIkGJNp0Mk2AtRGP4eOBTCQedj7n?=
- =?us-ascii?Q?fQ4WqVJ2UYgMB8FNSFJwiCPBHNCGDqR0hV3lnSlkf/2LDz5P43Y7gmafuy72?=
- =?us-ascii?Q?OG1o5ALLIxxSoxbaSkm3UddOXTC6nXGwYyJULq+YiBUFbcK++bV0baQ81siR?=
- =?us-ascii?Q?th54aGvQFnV9Ni+MtS0vSZV2WuQnhRAbTrPnL3TVj7ly7DTJM4FQUlI3NZPY?=
- =?us-ascii?Q?yiQAswK8xZ5+2A3pScVOSVOIz2JVjwUb0lO3LJdQsPP47HsWReIpDLdzwLJk?=
- =?us-ascii?Q?MCk6kBCNxQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: JH3Aa4GUzga4lHJu+u/gzmiKyuNblysITCulTM4u1ZwXJjcbf7ui9/f+C6yfs++jCmcgnpQKDGaxfwVqPZNnPXl6Vknsr0ylgL8xTbHiYsOTFoELKNEsoHJWjrmbHgkjgCMQdQTdhLnSynC3ioNTWLPCMv+HK6MbFmPPIWpwE01GS+RJ+q6WV61avI8ogjtOWNOinwOvKKJ4zjgxSAUmLblGoOLL6mXHOjCO59aElbV6YjGprOaDR/bB1akJhDVnQCoSoa3q0vQf6dyj1F+UUy4RnPtPEclsGExT6EJwX1SB19ZTjCXl0BKdf7nMvfoC/NMexhFOgdiuWTbqXnEYvw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83cd5725-8141-4726-49ba-08debd609d7c
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5832.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 08:59:39.1283
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 04iEbsEwWx5BE5FPDwe/kBgaKWSzavmmF5TbOyiPqZHjsuove4pyZO9s3vGPHb4AIXdHO7o3NhZxPlkVK6ELVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4997
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/23] ext4: implement buffered write path using iomap
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-9-yi.zhang@huaweicloud.com>
+ <ahXUBgoivo5CFl39@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <ahXUBgoivo5CFl39@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgD3v1vUWBlqX0cyEA--.36427S3
+X-Coremail-Antispam: 1UD129KBjvAXoWfGFyftrW7Ar1kJr17WF45Jrb_yoW8GFW5uo
+	Waqw47Xr4xAryYkFW8u34xJFyUua9rCw18AF4rZrZIqryaq3W5Cw47Jw43Zay7Xw1FkF48
+	Ga4xJa45CrWkJa15n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUY27kC6x804xWl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK
+	8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4
+	AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF
+	7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7
+	CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8C
+	rVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4
+	IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
+	e7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+	GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	UAwIDUUUUU=
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
+Hi, Ojaswin!
 
+On 5/27/2026 1:10 AM, Ojaswin Mujoo wrote:
+> On Mon, May 11, 2026 at 03:23:28PM +0800, Zhang Yi wrote:
+>> From: Zhang Yi <yi.zhang@huawei.com>
+>>
+>> Introduce two new iomap_ops instances for ext4 buffered writes:
+>>
+>>  - ext4_iomap_buffered_da_write_ops: for delayed allocation mode, using
+>>    ext4_da_map_blocks() to map delalloc extents.
+>>  - ext4_iomap_buffered_write_ops: for non-delayed allocation mode, using
+>>    ext4_iomap_get_blocks() to directly allocate blocks.
+>>
+>> Also add ext4_iomap_valid() for the iomap infrastructure to check extent
+>> validity.
+>>
+>> Key changes and considerations:
+>>
+>>  - Unwritten extents for new blocks (dioread_nolock always on)
+>>    Since data=ordered mode is not used to prevent stale data exposure in
+>>    the non-delayed allocation path, new blocks are always allocated as
+>>    unwritten extents.
+> 
+> Okay makes sense.
+> 
+>>
+>>  - Short write and write failure handling
+>>    a. Delalloc path: On short write or failure, the stale delalloc range
+>>       must be dropped and its space reservation released. Otherwise, a
+>>       clean folio may cover leftover delalloc extents, causing
+>>       inaccurate space reservation accounting.
+> 
+> Hmm, okay so in the usual buffer head path, seems like during a short
+> write we still zero the new buffers we couldn't write and keep it dirty
+> (folio_zero_new_buffers()). This way they are still written back and
+> the delalloc reservations are used up.
+> 
 
-Hello,
+In fact, in the normal buffer head path, writeback does not consume
+delalloc reservations. Instead, the reservations are retained until the
+inode is released or the area is written again using delalloc. This is
+because i_size is not updated during short writes. Therefore, when a
+zeroed dirty folio is written back, no block mapping is created for it.
+For details, please see the lblk >= blocks judgment in
+mpage_process_page_bufs().
 
-kernel test robot noticed "Oops:general_protection_fault,probably_for_non-canonical_address#:#[##]SMP_KASAN_PTI" on:
+This will not lead to duplicate space statistics, because
+ext4_da_map_blocks() only reserves space when inserting a new delalloc
+extent. Therefore, this does not pose a serious issue. However, It may
+cause some temporary and minor space leaks. Nevertheless, I think it
+would be better if delalloc extents could be released for the buffer
+head path when short writes occur.
 
-commit: 7aae6b1018fb4655e80345c84a0c000ef5c4a7fe ("fs/configfs: separate out configfs_{link,unlink}_root()")
-https://git.kernel.org/cgit/linux/kernel/git/hare/scsi-devel.git configfs-ns.v5
+> However in iomap we don't mark the range that we couldnt write as dirty
+> so we need to make sure we clear up the stale delalloc mappings. Is this
+> correct?
+> 
+Yeah.
 
-in testcase: boot
+Thanks,
+Yi.
 
-config: x86_64-randconfig-001-20260529
-compiler: gcc-14
-test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 32G
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202605291631.40385aeb-lkp@intel.com
-
-
-
-[   17.291164][    T1] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
-[   17.292114][    T1] KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-[   17.292114][    T1] CPU: 1 UID: 0 PID: 1 Comm: swapper/0 Not tainted 7.1.0-rc2-00032-g7aae6b1018fb #1 PREEMPT(full)
-[   17.302193][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[   17.302193][    T1] RIP: configfs_unlink_root+0x204/0x580
-[   17.302193][    T1] Code: ff df 48 c1 ea 03 80 3c 02 00 0f 85 09 03 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 63 68 49 8d 7c 24 04 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 51
-All code
-========
-   0:	ff                   	lcall  (bad)
-   1:	df 48 c1             	fisttps -0x3f(%rax)
-   4:	ea                   	(bad)
-   5:	03 80 3c 02 00 0f    	add    0xf00023c(%rax),%eax
-   b:	85 09                	test   %ecx,(%rcx)
-   d:	03 00                	add    (%rax),%eax
-   f:	00 48 b8             	add    %cl,-0x48(%rax)
-  12:	00 00                	add    %al,(%rax)
-  14:	00 00                	add    %al,(%rax)
-  16:	00 fc                	add    %bh,%ah
-  18:	ff                   	lcall  (bad)
-  19:	df 4c 8b 63          	fisttps 0x63(%rbx,%rcx,4)
-  1d:	68 49 8d 7c 24       	push   $0x247c8d49
-  22:	04 48                	add    $0x48,%al
-  24:	89 fa                	mov    %edi,%edx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-  2a:*	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx		<-- trapping instruction
-  2e:	48 89 f8             	mov    %rdi,%rax
-  31:	83 e0 07             	and    $0x7,%eax
-  34:	83 c0 03             	add    $0x3,%eax
-  37:	38 d0                	cmp    %dl,%al
-  39:	7c 08                	jl     0x43
-  3b:	84 d2                	test   %dl,%dl
-  3d:	0f                   	.byte 0xf
-  3e:	85                   	.byte 0x85
-  3f:	51                   	push   %rcx
-
-Code starting with the faulting instruction
-===========================================
-   0:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx
-   4:	48 89 f8             	mov    %rdi,%rax
-   7:	83 e0 07             	and    $0x7,%eax
-   a:	83 c0 03             	add    $0x3,%eax
-   d:	38 d0                	cmp    %dl,%al
-   f:	7c 08                	jl     0x19
-  11:	84 d2                	test   %dl,%dl
-  13:	0f                   	.byte 0xf
-  14:	85                   	.byte 0x85
-  15:	51                   	push   %rcx
-[   17.302193][    T1] RSP: 0000:ffffc9000001fcc0 EFLAGS: 00010247
-[   17.302193][    T1] RAX: dffffc0000000000 RBX: ffff8881005f0eb0 RCX: ffffc9000001fbb4
-[   17.302193][    T1] RDX: 0000000000000000 RSI: ffffffff8516f240 RDI: 0000000000000004
-[   17.302193][    T1] RBP: ffffc9000001fd00 R08: 0000000000000001 R09: ffffed10200bd765
-[   17.302193][    T1] R10: ffff8881005ebb2b R11: 0000000000000000 R12: 0000000000000000
-[   17.302193][    T1] R13: ffff8881005eba70 R14: ffff8881005f0f18 R15: ffff8881005ebad8
-[   17.302193][    T1] FS:  0000000000000000(0000) GS:ffff888799493000(0000) knlGS:0000000000000000
-[   17.302193][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   17.302193][    T1] CR2: 0000000000000000 CR3: 0000000004ce4000 CR4: 00000000000406b0
-[   17.302193][    T1] Call Trace:
-[   17.302193][    T1]  <TASK>
-[   17.302193][    T1]  configfs_unregister_subsystem (kbuild/src/fs/configfs/dir.c:1957)
-[   17.302193][    T1]  ? nvl_gpio_driver_init (gpio-novalake-events.c:?)
-[   17.302193][    T1]  gpio_virtuser_init (kbuild/src/drivers/gpio/gpio-virtuser.c:1789)
-[   17.302193][    T1]  do_one_initcall (kbuild/src/init/main.c:1392)
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20260529/202605291631.40385aeb-lkp@intel.com
-
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Regards,
+> Ojaswin
+> 
+>>    b. Non-delalloc path: No cleanup of allocated blocks is needed on
+>>       short write.
+>>
+>>  - Lock ordering reversal
+>>    The folio lock and transaction start ordering is reversed compared to
+>>    the buffer_head buffered write path. To handle this, the journal
+>>    handle must be stopped in iomap_begin() callbacks. The lock ordering
+>>    documentation in super.c has been updated accordingly.
+>>
+>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
+>> ---
+>>  fs/ext4/ext4.h  |   4 ++
+>>  fs/ext4/file.c  |  20 +++++-
+>>  fs/ext4/inode.c | 165 +++++++++++++++++++++++++++++++++++++++++++++++-
+>>  fs/ext4/super.c |  10 ++-
+>>  4 files changed, 192 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+>> index 1e27d73d7427..4832e7f7db82 100644
+>> --- a/fs/ext4/ext4.h
+>> +++ b/fs/ext4/ext4.h
+>> @@ -3057,6 +3057,7 @@ int ext4_walk_page_buffers(handle_t *handle,
+>>  int do_journal_get_write_access(handle_t *handle, struct inode *inode,
+>>  				struct buffer_head *bh);
+>>  void ext4_set_inode_mapping_order(struct inode *inode);
+>> +int ext4_nonda_switch(struct super_block *sb);
+>>  #define FALL_BACK_TO_NONDELALLOC 1
+>>  #define CONVERT_INLINE_DATA	 2
+>>  
+>> @@ -3926,6 +3927,9 @@ static inline void ext4_clear_io_unwritten_flag(ext4_io_end_t *io_end)
+>>  
+>>  extern const struct iomap_ops ext4_iomap_ops;
+>>  extern const struct iomap_ops ext4_iomap_report_ops;
+>> +extern const struct iomap_ops ext4_iomap_buffered_write_ops;
+>> +extern const struct iomap_ops ext4_iomap_buffered_da_write_ops;
+>> +extern const struct iomap_write_ops ext4_iomap_write_ops;
+>>  
+>>  static inline int ext4_buffer_uptodate(struct buffer_head *bh)
+>>  {
+>> diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+>> index eb1a323962b1..7f9bfbbc4a4e 100644
+>> --- a/fs/ext4/file.c
+>> +++ b/fs/ext4/file.c
+>> @@ -299,6 +299,21 @@ static ssize_t ext4_write_checks(struct kiocb *iocb, struct iov_iter *from)
+>>  	return count;
+>>  }
+>>  
+>> +static ssize_t ext4_iomap_buffered_write(struct kiocb *iocb,
+>> +					 struct iov_iter *from)
+>> +{
+>> +	struct inode *inode = file_inode(iocb->ki_filp);
+>> +	const struct iomap_ops *iomap_ops;
+>> +
+>> +	if (test_opt(inode->i_sb, DELALLOC) && !ext4_nonda_switch(inode->i_sb))
+>> +		iomap_ops = &ext4_iomap_buffered_da_write_ops;
+>> +	else
+>> +		iomap_ops = &ext4_iomap_buffered_write_ops;
+>> +
+>> +	return iomap_file_buffered_write(iocb, from, iomap_ops,
+>> +					 &ext4_iomap_write_ops, NULL);
+>> +}
+>> +
+>>  static ssize_t ext4_buffered_write_iter(struct kiocb *iocb,
+>>  					struct iov_iter *from)
+>>  {
+>> @@ -313,7 +328,10 @@ static ssize_t ext4_buffered_write_iter(struct kiocb *iocb,
+>>  	if (ret <= 0)
+>>  		goto out;
+>>  
+>> -	ret = generic_perform_write(iocb, from);
+>> +	if (ext4_inode_buffered_iomap(inode))
+>> +		ret = ext4_iomap_buffered_write(iocb, from);
+>> +	else
+>> +		ret = generic_perform_write(iocb, from);
+>>  
+>>  out:
+>>  	inode_unlock(inode);
+>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+>> index 39577a6b65b9..1ae7d3f4a1c8 100644
+>> --- a/fs/ext4/inode.c
+>> +++ b/fs/ext4/inode.c
+>> @@ -3097,7 +3097,7 @@ static int ext4_dax_writepages(struct address_space *mapping,
+>>  	return ret;
+>>  }
+>>  
+>> -static int ext4_nonda_switch(struct super_block *sb)
+>> +int ext4_nonda_switch(struct super_block *sb)
+>>  {
+>>  	s64 free_clusters, dirty_clusters;
+>>  	struct ext4_sb_info *sbi = EXT4_SB(sb);
+>> @@ -3467,6 +3467,15 @@ static bool ext4_inode_datasync_dirty(struct inode *inode)
+>>  	return inode_state_read_once(inode) & I_DIRTY_DATASYNC;
+>>  }
+>>  
+>> +static bool ext4_iomap_valid(struct inode *inode, const struct iomap *iomap)
+>> +{
+>> +	return iomap->validity_cookie == READ_ONCE(EXT4_I(inode)->i_es_seq);
+>> +}
+>> +
+>> +const struct iomap_write_ops ext4_iomap_write_ops = {
+>> +	.iomap_valid = ext4_iomap_valid,
+>> +};
+>> +
+>>  static void ext4_set_iomap(struct inode *inode, struct iomap *iomap,
+>>  			   struct ext4_map_blocks *map, loff_t offset,
+>>  			   loff_t length, unsigned int flags)
+>> @@ -3501,6 +3510,8 @@ static void ext4_set_iomap(struct inode *inode, struct iomap *iomap,
+>>  	    !ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS))
+>>  		iomap->flags |= IOMAP_F_MERGED;
+>>  
+>> +	iomap->validity_cookie = map->m_seq;
+>> +
+>>  	/*
+>>  	 * Flags passed to ext4_map_blocks() for direct I/O writes can result
+>>  	 * in m_flags having both EXT4_MAP_MAPPED and EXT4_MAP_UNWRITTEN bits
+>> @@ -3908,8 +3919,12 @@ const struct iomap_ops ext4_iomap_report_ops = {
+>>  	.iomap_begin = ext4_iomap_begin_report,
+>>  };
+>>  
+>> +/* Map blocks */
+>> +typedef int (ext4_get_blocks_t)(struct inode *, struct ext4_map_blocks *);
+>> +
+>>  static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
+>> -		loff_t length, struct ext4_map_blocks *map)
+>> +		loff_t length, ext4_get_blocks_t get_blocks,
+>> +		struct ext4_map_blocks *map)
+>>  {
+>>  	u8 blkbits = inode->i_blkbits;
+>>  
+>> @@ -3921,6 +3936,9 @@ static int ext4_iomap_map_blocks(struct inode *inode, loff_t offset,
+>>  	map->m_len = min_t(loff_t, (offset + length - 1) >> blkbits,
+>>  			   EXT4_MAX_LOGICAL_BLOCK) - map->m_lblk + 1;
+>>  
+>> +	if (get_blocks)
+>> +		return get_blocks(inode, map);
+>> +
+>>  	return ext4_map_blocks(NULL, inode, map, 0);
+>>  }
+>>  
+>> @@ -3938,7 +3956,7 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
+>>  	if (WARN_ON_ONCE(ext4_has_inline_data(inode)))
+>>  		return -ERANGE;
+>>  
+>> -	ret = ext4_iomap_map_blocks(inode, offset, length, &map);
+>> +	ret = ext4_iomap_map_blocks(inode, offset, length, NULL, &map);
+>>  	if (ret < 0)
+>>  		return ret;
+>>  
+>> @@ -3946,6 +3964,147 @@ static int ext4_iomap_buffered_read_begin(struct inode *inode, loff_t offset,
+>>  	return 0;
+>>  }
+>>  
+>> +static int ext4_iomap_get_blocks(struct inode *inode,
+>> +				 struct ext4_map_blocks *map)
+>> +{
+>> +	loff_t i_size = i_size_read(inode);
+>> +	handle_t *handle;
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * Check if the blocks have already been allocated, this could
+>> +	 * avoid initiating a new journal transaction and return the
+>> +	 * mapping information directly.
+>> +	 */
+>> +	if ((map->m_lblk + map->m_len) <=
+>> +	    round_up(i_size, i_blocksize(inode)) >> inode->i_blkbits) {
+>> +		ret = ext4_map_blocks(NULL, inode, map, 0);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		if (map->m_flags & (EXT4_MAP_MAPPED | EXT4_MAP_UNWRITTEN |
+>> +				    EXT4_MAP_DELAYED))
+>> +			return 0;
+>> +	}
+>> +
+>> +	handle = ext4_journal_start(inode, EXT4_HT_MAP_BLOCKS,
+>> +			ext4_chunk_trans_blocks(inode, map->m_len));
+>> +	if (IS_ERR(handle))
+>> +		return PTR_ERR(handle);
+>> +
+>> +	ret = ext4_map_blocks(handle, inode, map,
+>> +			      EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT);
+>> +	/*
+>> +	 * Stop handle here following the lock ordering of the folio lock
+>> +	 * and the transaction start.
+>> +	 */
+>> +	ext4_journal_stop(handle);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int ext4_iomap_buffered_do_write_begin(struct inode *inode,
+>> +		loff_t offset, loff_t length, unsigned int flags,
+>> +		struct iomap *iomap, struct iomap *srcmap, bool delalloc)
+>> +{
+>> +	int ret, retries = 0;
+>> +	struct ext4_map_blocks map;
+>> +	ext4_get_blocks_t *get_blocks;
+>> +
+>> +	ret = ext4_emergency_state(inode->i_sb);
+>> +	if (unlikely(ret))
+>> +		return ret;
+>> +
+>> +	/* Inline data and non-extent are not supported. */
+>> +	if (WARN_ON_ONCE(ext4_has_inline_data(inode)))
+>> +		return -ERANGE;
+>> +	if (WARN_ON_ONCE(!ext4_test_inode_flag(inode, EXT4_INODE_EXTENTS)))
+>> +		return -EINVAL;
+>> +	if (WARN_ON_ONCE(!(flags & IOMAP_WRITE)))
+>> +		return -EINVAL;
+>> +
+>> +	if (delalloc)
+>> +		get_blocks = ext4_da_map_blocks;
+>> +	else
+>> +		get_blocks = ext4_iomap_get_blocks;
+>> +retry:
+>> +	ret = ext4_iomap_map_blocks(inode, offset, length, get_blocks, &map);
+>> +	if (ret == -ENOSPC && ext4_should_retry_alloc(inode->i_sb, &retries))
+>> +		goto retry;
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	ext4_set_iomap(inode, iomap, &map, offset, length, flags);
+>> +	return 0;
+>> +}
+>> +
+>> +static int ext4_iomap_buffered_write_begin(struct inode *inode,
+>> +		loff_t offset, loff_t length, unsigned int flags,
+>> +		struct iomap *iomap, struct iomap *srcmap)
+>> +{
+>> +	return ext4_iomap_buffered_do_write_begin(inode, offset, length, flags,
+>> +						  iomap, srcmap, false);
+>> +}
+>> +
+>> +static int ext4_iomap_buffered_da_write_begin(struct inode *inode,
+>> +		loff_t offset, loff_t length, unsigned int flags,
+>> +		struct iomap *iomap, struct iomap *srcmap)
+>> +{
+>> +	return ext4_iomap_buffered_do_write_begin(inode, offset, length, flags,
+>> +						  iomap, srcmap, true);
+>> +}
+>> +
+>> +/*
+>> + * On write failure, drop the stale delayed allocation range and release
+>> + * its reserved space for both start and end blocks. Otherwise, we may
+>> + * leave a range of delayed extents covered by a clean folio, which can
+>> + * result in inaccurate space reservation accounting.
+>> + */
+>> +static void ext4_iomap_punch_delalloc(struct inode *inode, loff_t offset,
+>> +				     loff_t length, struct iomap *iomap)
+>> +{
+>> +	down_write(&EXT4_I(inode)->i_data_sem);
+>> +	ext4_es_remove_extent(inode, offset >> inode->i_blkbits,
+>> +			DIV_ROUND_UP_ULL(length, EXT4_BLOCK_SIZE(inode->i_sb)));
+>> +	up_write(&EXT4_I(inode)->i_data_sem);
+>> +}
+>> +
+>> +static int ext4_iomap_buffered_da_write_end(struct inode *inode, loff_t offset,
+>> +					    loff_t length, ssize_t written,
+>> +					    unsigned int flags,
+>> +					    struct iomap *iomap)
+>> +{
+>> +	loff_t start_byte, end_byte;
+>> +
+>> +	/* If we didn't reserve the blocks, we're not allowed to punch them. */
+>> +	if (iomap->type != IOMAP_DELALLOC || !(iomap->flags & IOMAP_F_NEW))
+>> +		return 0;
+>> +
+>> +	/* Nothing to do if we've written the entire delalloc extent */
+>> +	start_byte = iomap_last_written_block(inode, offset, written);
+>> +	end_byte = round_up(offset + length, i_blocksize(inode));
+>> +	if (start_byte >= end_byte)
+>> +		return 0;
+>> +
+>> +	filemap_invalidate_lock(inode->i_mapping);
+>> +	iomap_write_delalloc_release(inode, start_byte, end_byte, flags,
+>> +				     iomap, ext4_iomap_punch_delalloc);
+>> +	filemap_invalidate_unlock(inode->i_mapping);
+>> +	return 0;
+>> +}
+>> +
+>> +/*
+>> + * Since we always allocate unwritten extents, there is no need for
+>> + * iomap_end to clean up allocated blocks on a short write.
+>> + */
+>> +const struct iomap_ops ext4_iomap_buffered_write_ops = {
+>> +	.iomap_begin = ext4_iomap_buffered_write_begin,
+>> +};
+>> +
+>> +const struct iomap_ops ext4_iomap_buffered_da_write_ops = {
+>> +	.iomap_begin = ext4_iomap_buffered_da_write_begin,
+>> +	.iomap_end = ext4_iomap_buffered_da_write_end,
+>> +};
+>> +
+>>  const struct iomap_ops ext4_iomap_buffered_read_ops = {
+>>  	.iomap_begin = ext4_iomap_buffered_read_begin,
+>>  };
+>> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+>> index 6a77db4d3124..9bc294b769db 100644
+>> --- a/fs/ext4/super.c
+>> +++ b/fs/ext4/super.c
+>> @@ -104,9 +104,13 @@ static const struct fs_parameter_spec ext4_param_specs[];
+>>   *   -> page lock -> i_data_sem (rw)
+>>   *
+>>   * buffered write path:
+>> - * sb_start_write -> i_mutex -> mmap_lock
+>> - * sb_start_write -> i_mutex -> transaction start -> page lock ->
+>> - *   i_data_sem (rw)
+>> + * sb_start_write -> i_rwsem (w) -> mmap_lock
+>> + * - buffer_head path:
+>> + *   sb_start_write -> i_rwsem (w) -> transaction start -> folio lock ->
+>> + *     i_data_sem (rw)
+>> + * - iomap path:
+>> + *   sb_start_write -> i_rwsem (w) -> transaction start -> i_data_sem (rw)
+>> + *   sb_start_write -> i_rwsem (w) -> folio lock (not under an active handle)
+>>   *
+>>   * truncate:
+>>   * sb_start_write -> i_mutex -> invalidate_lock (w) -> i_mmap_rwsem (w) ->
+>> -- 
+>> 2.52.0
+>>
 
