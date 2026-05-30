@@ -1,85 +1,86 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16123AB269
-	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 11:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550E639478F
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 11:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780142372; cv=none; b=WLOoKBJEPrcXLzB8vggIPNDQd5OO0mQYJHOgLLa00hHlY9H6fhW/e/y01EjBiPIjxLfddMIcd5BRuFSvuHEpbIBU/FDqI5E7RLZXAG5dU6Q2GFr87Bv2qjx3IzBF29D947263Yd96164FT26ahCFZKrU2jGq7jlVTcci/50Yqzo=
+	t=1780142400; cv=none; b=i6hh+wAkDE8w5DaKzSd55SF6BWruOQk4awfgj/JAR4hYgzCu5pvwigyKt+UxfIyk3hlG9iaBB1+wTG6Xm6d0KFmjFnpfhQrLXzWWfcUiSbBCAhhk6rS2rwz2q2CDPlWhpe/nsErnz/uyYfs7/D21AwHmUcoVUmC4pjm5j8jy42A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780142372; c=relaxed/simple;
-	bh=1jMqW6OWcfwkn63tccJ2LEsBb+AhGYT6lqaAY1QvPuM=;
+	s=arc-20240116; t=1780142400; c=relaxed/simple;
+	bh=g0uIJjzgfDyezKSychyydjDXmD+EIL1hSJlrVXTvA3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Augw+VrHEZ6Ae6qWF5tUfMzDWSKTW3mZQnkcetjCv1jbO/gABsAgHJshehNDdNkTLVfnyIlyQCDw9Bf09grC0vPoDBCPYEJ4X5SSJP7eoD+MOvp9cC4hTcrmOLl3VOzyMAAtxMftWirj6LbIUMPGfZcSO3S1mzUt4VXEtz+79NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cjOBXAGS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zKY7aTCs; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cjOBXAGS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=zKY7aTCs; arc=none smtp.client-ip=195.135.223.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=cR2brFC8KSyz+8elJD6CIE9komUXACAjGN6b3C07VrAFk7UC90SaVfo0iFKSIIucFlqXMmSWzLyDL9sGc2RZ+Kfs46kMuf1FvxGs1uX3Hs4nd1mi8EeTym25tFZTd+2b2Jdy6/oSLg3lGLGVMrFoGCqDAy1NTQlGZrXrv1pRvZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iw1QuBO5; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tk73V8PU; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iw1QuBO5; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tk73V8PU; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cjOBXAGS";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zKY7aTCs";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cjOBXAGS";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="zKY7aTCs"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iw1QuBO5";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tk73V8PU";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="iw1QuBO5";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tk73V8PU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5734067BBB;
-	Sat, 30 May 2026 11:59:29 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9418167BBB;
+	Sat, 30 May 2026 11:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780142369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780142397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Pc3LRpGQbepoMCoptJJrAeG3cBSnHvk5zXQNBD/0J7U=;
-	b=cjOBXAGSVUp83idhc0LHNq1eHtAsROaobge7X8CmTpmb8kEI+PuQ3xBTjiyObE7Q7vgkXo
-	hTU9pjVfkpP7eX1G1fOB8H9jo83JVbbpos9LXgQfq0fOduxkn17G2OgNKYl6uxp/URWuOK
-	JngEX73412GLj5zinrTPpdqk3XmraZo=
+	bh=tn63NGWlTw9ntiR+XNdvQFJdntD6xdT5+ZEyjlWwprg=;
+	b=iw1QuBO5PBoqxI/StcsggV1wQ7KW0jmGiHTq90pOyfM8I/Ae2RdfGbP3C92OaBFYfNzqFP
+	Vg5BTmUtBpi+F32XHqNKQhBy8onFmkdRo0/Ajz3rUNOe5mVbJaH23yz1mUtJmvDQ8oMeAz
+	pZj+PNfrtbR/X8ykFIQglJfagYD5u84=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780142369;
+	s=susede2_ed25519; t=1780142397;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Pc3LRpGQbepoMCoptJJrAeG3cBSnHvk5zXQNBD/0J7U=;
-	b=zKY7aTCs9+EdXDgYhfz5HH8XzFICiJMB1pAU9ZS9EqPb0vRzP0zutpAZTT5naLJHCo/NAa
-	PKBn/CyONhN37pCA==
+	bh=tn63NGWlTw9ntiR+XNdvQFJdntD6xdT5+ZEyjlWwprg=;
+	b=tk73V8PU1eY2XFI3pbfS5udpLb++aEXoyQ8jPWTy6GDvMAEUh8kcLoygE7mNM4RcaTdct0
+	VjnmQnB5WqxOLaBQ==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=iw1QuBO5;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=tk73V8PU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780142369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780142397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Pc3LRpGQbepoMCoptJJrAeG3cBSnHvk5zXQNBD/0J7U=;
-	b=cjOBXAGSVUp83idhc0LHNq1eHtAsROaobge7X8CmTpmb8kEI+PuQ3xBTjiyObE7Q7vgkXo
-	hTU9pjVfkpP7eX1G1fOB8H9jo83JVbbpos9LXgQfq0fOduxkn17G2OgNKYl6uxp/URWuOK
-	JngEX73412GLj5zinrTPpdqk3XmraZo=
+	bh=tn63NGWlTw9ntiR+XNdvQFJdntD6xdT5+ZEyjlWwprg=;
+	b=iw1QuBO5PBoqxI/StcsggV1wQ7KW0jmGiHTq90pOyfM8I/Ae2RdfGbP3C92OaBFYfNzqFP
+	Vg5BTmUtBpi+F32XHqNKQhBy8onFmkdRo0/Ajz3rUNOe5mVbJaH23yz1mUtJmvDQ8oMeAz
+	pZj+PNfrtbR/X8ykFIQglJfagYD5u84=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780142369;
+	s=susede2_ed25519; t=1780142397;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Pc3LRpGQbepoMCoptJJrAeG3cBSnHvk5zXQNBD/0J7U=;
-	b=zKY7aTCs9+EdXDgYhfz5HH8XzFICiJMB1pAU9ZS9EqPb0vRzP0zutpAZTT5naLJHCo/NAa
-	PKBn/CyONhN37pCA==
+	bh=tn63NGWlTw9ntiR+XNdvQFJdntD6xdT5+ZEyjlWwprg=;
+	b=tk73V8PU1eY2XFI3pbfS5udpLb++aEXoyQ8jPWTy6GDvMAEUh8kcLoygE7mNM4RcaTdct0
+	VjnmQnB5WqxOLaBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4117C779A7;
-	Sat, 30 May 2026 11:59:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B433779A7;
+	Sat, 30 May 2026 11:59:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id erDhDyHRGmquTAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Sat, 30 May 2026 11:59:29 +0000
+	id QMT9IT3RGmpMTQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Sat, 30 May 2026 11:59:57 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id EF576A0EBD; Sat, 30 May 2026 13:59:20 +0200 (CEST)
-Date: Sat, 30 May 2026 13:59:20 +0200
+	id 478ACA0EBD; Sat, 30 May 2026 13:59:57 +0200 (CEST)
+Date: Sat, 30 May 2026 13:59:57 +0200
 From: Jan Kara <jack@suse.cz>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
 	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 31/34] buffer: Remove submit_bh()
-Message-ID: <nql2zn2tr5zbvsd7y23exxte6shx6ho33wz4uhrrkfhwiibvw5@rr3fgrfggigj>
+Subject: Re: [PATCH v2 32/34] buffer: Remove b_end_io
+Message-ID: <dozckfyiu5fihs57p6vokz4o6vl65kau35vbrw2c5ra3b3kgm4@msvpe2i5vbyg>
 References: <20260528173150.1093780-1-willy@infradead.org>
- <20260528173150.1093780-32-willy@infradead.org>
+ <20260528173150.1093780-33-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -88,34 +89,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260528173150.1093780-32-willy@infradead.org>
+In-Reply-To: <20260528173150.1093780-33-willy@infradead.org>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 9418167BBB
 X-Spam-Flag: NO
-X-Spam-Score: -3.80
+X-Spam-Score: -4.01
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.80 / 50.00];
+X-Spamd-Result: default: False [-4.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,infradead.org:email,suse.com:email];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,infradead.org:email]
+	DKIM_TRACE(0.00)[suse.cz:+]
 
-On Thu 28-05-26 18:31:44, Matthew Wilcox (Oracle) wrote:
-> No users are left; remove this API.  Also remove/fix comments mentioning
-> it, and end_bio_bh_io_sync() as it's now unused.
+On Thu 28-05-26 18:31:45, Matthew Wilcox (Oracle) wrote:
+> This shrinks buffer_head by 8 bytes, letting us pack more buffer heads
+> per slab.  With a Debian config, it shrinks from 104 bytes to 96 bytes
+> which is 42 objects per 4KiB page rather than 39, a 7% reduction in the
+> amount of memory used.
 > 
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
@@ -126,131 +136,102 @@ Reviewed-by: Jan Kara <jack@suse.cz>
 								Honza
 
 > ---
->  Documentation/trace/ftrace.rst |  4 ++--
->  fs/buffer.c                    | 27 ++++++---------------------
->  include/linux/buffer_head.h    |  3 +--
->  mm/vmscan.c                    |  2 +-
->  4 files changed, 10 insertions(+), 26 deletions(-)
+>  Documentation/filesystems/locking.rst | 14 --------------
+>  drivers/md/raid5.h                    |  6 +++---
+>  fs/buffer.c                           |  1 -
+>  include/linux/buffer_head.h           |  4 +---
+>  4 files changed, 4 insertions(+), 21 deletions(-)
 > 
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index b9efb148a5c2..2ed1b96e440b 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -1624,7 +1624,7 @@ function-trace, we get a much larger output::
->     => blk_queue_bio
->     => submit_bio_noacct
->     => submit_bio
-> -   => submit_bh
-> +   => bh_submit
->     => __ext3_get_inode_loc
->     => ext3_iget
->     => ext3_lookup
-> @@ -1909,7 +1909,7 @@ tracers.
->     => blk_queue_bio
->     => submit_bio_noacct
->     => submit_bio
-> -   => submit_bh
-> +   => bh_submit
->     => ext3_bread
->     => ext3_dir_bread
->     => htree_dirblock_to_tree
+> diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
+> index 8421ea21bd35..a27aca42fd85 100644
+> --- a/Documentation/filesystems/locking.rst
+> +++ b/Documentation/filesystems/locking.rst
+> @@ -416,20 +416,6 @@ lm_open_conflict	yes		no			no
+>  lm_breaker_timedout     yes             no                      no
+>  ======================	=============	=================	=========
+>  
+> -buffer_head
+> -===========
+> -
+> -prototypes::
+> -
+> -	void (*b_end_io)(struct buffer_head *bh, int uptodate);
+> -
+> -locking rules:
+> -
+> -called from interrupts. In other words, extreme care is needed here.
+> -bh is locked, but that's all warranties we have here. Currently only RAID1,
+> -highmem, fs/buffer.c, and fs/ntfs/aops.c are providing these. Block devices
+> -call this method upon the IO completion.
+> -
+>  block_device_operations
+>  =======================
+>  prototypes::
+> diff --git a/drivers/md/raid5.h b/drivers/md/raid5.h
+> index 1c7b710fc9c1..1dfa60a41d91 100644
+> --- a/drivers/md/raid5.h
+> +++ b/drivers/md/raid5.h
+> @@ -38,7 +38,7 @@
+>   *  Clean -> Dirty  - on compute_parity to satisfy write/sync (RECONSTRUCT or RMW)
+>   *
+>   * The Want->Empty, Want->Clean, Dirty->Clean, transitions
+> - * all happen in b_end_io at interrupt time.
+> + * all happen in end_io at interrupt time.
+>   * Each sets the Uptodate bit before releasing the Lock bit.
+>   * This leaves one multi-stage transition:
+>   *    Want->Dirty->Clean
+> @@ -64,7 +64,7 @@
+>   * together, but we are not guaranteed of that so we allow for more.
+>   *
+>   * If a buffer is on the read list when the associated cache buffer is
+> - * Uptodate, the data is copied into the read buffer and it's b_end_io
+> + * Uptodate, the data is copied into the read buffer and it's end_io
+>   * routine is called.  This may happen in the end_request routine only
+>   * if the buffer has just successfully been read.  end_request should
+>   * remove the buffers from the list and then set the Uptodate bit on
+> @@ -76,7 +76,7 @@
+>   * into the cache buffer, which is then marked dirty, and moved onto a
+>   * third list, the written list (bh_written).  Once both the parity
+>   * block and the cached buffer are successfully written, any buffer on
+> - * a written list can be returned with b_end_io.
+> + * a written list can be returned with end_io.
+>   *
+>   * The write list and read list both act as fifos.  The read list,
+>   * write list and written list are protected by the device_lock.
 > diff --git a/fs/buffer.c b/fs/buffer.c
-> index d35f584a06f9..3df0ea1a6342 100644
+> index 3df0ea1a6342..ccda92920175 100644
 > --- a/fs/buffer.c
 > +++ b/fs/buffer.c
-> @@ -1187,14 +1187,6 @@ void __bforget(struct buffer_head *bh)
->  }
->  EXPORT_SYMBOL(__bforget);
+> @@ -946,7 +946,6 @@ static sector_t folio_init_buffers(struct folio *folio,
 >  
-> -static void end_bio_bh_io_sync(struct bio *bio)
-> -{
-> -	struct buffer_head *bh;
-> -	bool uptodate = bio_endio_bh(bio, &bh);
-> -
-> -	bh->b_end_io(bh, uptodate);
-> -}
-> -
->  static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
->  				  gfp_t gfp_mask)
->  {
-> @@ -1829,15 +1821,15 @@ static struct buffer_head *folio_create_buffers(struct folio *folio,
->  
->  /*
->   * While block_write_full_folio is writing back the dirty buffers under
-> - * the page lock, whoever dirtied the buffers may decide to clean them
-> + * the folio lock, whoever dirtied the buffers may decide to clean them
->   * again at any time.  We handle that by only looking at the buffer
->   * state inside lock_buffer().
->   *
->   * If block_write_full_folio() is called for regular writeback
-> - * (wbc->sync_mode == WB_SYNC_NONE) then it will redirty a page which has a
-> - * locked buffer.   This only can happen if someone has written the buffer
-> - * directly, with submit_bh().  At the address_space level PageWriteback
-> - * prevents this contention from occurring.
-> + * (wbc->sync_mode == WB_SYNC_NONE) then it will redirty a folio which
-> + * has a locked buffer.   This only can happen if someone has written
-> + * the buffer directly, with bh_submit().  At the address_space level
-> + * the folio writeback flag prevents this contention from occurring.
->   *
->   * If block_write_full_folio() is called with wbc->sync_mode ==
->   * WB_SYNC_ALL, the writes are posted using REQ_SYNC; this
-> @@ -1954,7 +1946,7 @@ int __block_write_full_folio(struct inode *inode, struct folio *folio,
->  		/*
->  		 * The folio was marked dirty, but the buffers were
->  		 * clean.  Someone wrote them back by hand with
-> -		 * write_dirty_buffer/submit_bh.  A rare case.
-> +		 * write_dirty_buffer/bh_submit.  A rare case.
->  		 */
->  		folio_end_writeback(folio);
->  
-> @@ -2800,13 +2792,6 @@ sector_t generic_block_bmap(struct address_space *mapping, sector_t block,
->  }
->  EXPORT_SYMBOL(generic_block_bmap);
->  
-> -void submit_bh(blk_opf_t opf, struct buffer_head *bh)
-> -{
-> -	BUG_ON(!bh->b_end_io);
-> -	__bh_submit(bh, opf, WRITE_LIFE_NOT_SET, NULL, end_bio_bh_io_sync);
-> -}
-> -EXPORT_SYMBOL(submit_bh);
-> -
->  void write_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags)
->  {
->  	lock_buffer(bh);
+>  	do {
+>  		if (!buffer_mapped(bh)) {
+> -			bh->b_end_io = NULL;
+>  			bh->b_private = NULL;
+>  			bh->b_bdev = bdev;
+>  			bh->b_blocknr = block;
 > diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-> index f0a9f3f05ac1..7629130d42c4 100644
+> index 7629130d42c4..1ee56c9f2327 100644
 > --- a/include/linux/buffer_head.h
 > +++ b/include/linux/buffer_head.h
-> @@ -55,7 +55,7 @@ typedef void (bh_end_io_t)(struct buffer_head *bh, int uptodate);
->   * is the bio, and buffer_heads are used for extracting block
->   * mappings (via a get_block_t call), for tracking state within
->   * a folio (via a folio_mapping) and for wrapping bio submission
-> - * for backward compatibility reasons (e.g. submit_bh).
-> + * for backward compatibility reasons (e.g. bh_submit).
->   */
->  struct buffer_head {
->  	unsigned long b_state;		/* buffer state bitmap (see above) */
-> @@ -244,7 +244,6 @@ void __lock_buffer(struct buffer_head *bh);
->  int sync_dirty_buffer(struct buffer_head *bh);
->  int __sync_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags);
->  void write_dirty_buffer(struct buffer_head *bh, blk_opf_t op_flags);
-> -void submit_bh(blk_opf_t, struct buffer_head *);
->  void bh_submit(struct buffer_head *, blk_opf_t, bio_end_io_t);
->  void write_boundary_block(struct block_device *bdev,
->  			sector_t bblock, unsigned blocksize);
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index bd1b1aa12581..67231d3189ef 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -1449,7 +1449,7 @@ static unsigned int shrink_folio_list(struct list_head *folio_list,
->  		 * is possible for a folio to have the dirty flag set,
->  		 * but it is actually clean (all its buffers are clean).
->  		 * This happens if the buffers were written out directly,
-> -		 * with submit_bh(). ext3 will do this, as well as
-> +		 * with bh_submit(). ext3 will do this, as well as
->  		 * the blockdev mapping.  filemap_release_folio() will
->  		 * discover that cleanness and will drop the buffers
->  		 * and mark the folio clean - it can be freed.
+> @@ -46,7 +46,6 @@ enum bh_state_bits {
+>  struct page;
+>  struct buffer_head;
+>  struct address_space;
+> -typedef void (bh_end_io_t)(struct buffer_head *bh, int uptodate);
+>  
+>  /*
+>   * Historically, a buffer_head was used to map a single block
+> @@ -70,8 +69,7 @@ struct buffer_head {
+>  	char *b_data;			/* pointer to data within the page */
+>  
+>  	struct block_device *b_bdev;
+> -	bh_end_io_t *b_end_io;		/* I/O completion */
+> - 	void *b_private;		/* reserved for b_end_io */
+> +	void *b_private;		/* reserved for bio_end_io */
+>  	struct list_head b_assoc_buffers; /* associated with another mapping */
+>  	struct mapping_metadata_bhs *b_mmb; /* head of the list of metadata bhs
+>  					     * this buffer is associated with */
 > -- 
 > 2.47.3
 > 
