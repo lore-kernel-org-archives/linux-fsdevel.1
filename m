@@ -1,111 +1,123 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373A71DDC28;
-	Sat, 30 May 2026 21:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.18.0.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FBB25A2C6;
+	Sat, 30 May 2026 23:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780177664; cv=none; b=S2ckr14zSSB7IP7HqlF9OL0moO/FKowVuozraSZFb6k/THZx1FQZnj0DLrseID85BW8Xd/T8GqvrowDZJPXl+XPxBdPW2tMFwUxanm0985nphFTrOTQHxXaxD5gpk5KjflBeFKbFynIUcQVYuUvkdvsfmOw9TMMIQ5TfgoX7grM=
+	t=1780185479; cv=none; b=qlYMHEDPeMU/3mYAsiNXfj1tMlY3hbNDd36kXY5WXCOl4QuW44yeo8dYUR5rFxfHoPIo1R0iDr2jpmEy1IMVV+RqjSUHVCv1M3z4AyZFuubPD8pqIjj2e0uwATChzRSZ0zs5oeFzAiMUeCRovF2Jc2x4D+VOu3BlANrPOH3GGio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780177664; c=relaxed/simple;
-	bh=+OdWi9WDtXgTepnQhKQYQwYgI4l6P+St845J3qNXsrI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IzdtKsYHVIb1LVDs3WUkSXlt/SH9znPUGDLcePOjBARQBDdI8EjPdVj8fVbairI64MtbvSbbiSdmkJEqtkME2HAKJbcPy1yqA99DuxPPqgKaC9g0wLlY+mzArTUmziu88BiOg1PaPFhN9aITErLvi1dBdOHRbMXIF8NPn+kodGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=nefkom.net; arc=none smtp.client-ip=212.18.0.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nefkom.net
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4gSYjk41jXz1sG8Z;
-	Sat, 30 May 2026 23:47:38 +0200 (CEST)
-Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4gSYjj4CZvz1sG7h;
-	Sat, 30 May 2026 23:47:37 +0200 (CEST)
-Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
-	by mail.m-online.net (Postfix) with ESMTP id 4gSYjj2cFzz1qqlS;
-	Sat, 30 May 2026 23:47:37 +0200 (CEST)
-X-Virus-Scanned: amavis at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.6.182])
- by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
- with ESMTP id jhAAUe4_r901; Sat, 30 May 2026 23:47:36 +0200 (CEST)
-X-Auth-Info: VhoZGXqafEl8xd2Vn3898hxCrPZhtM4EMxNmVIF69poad4TwEdSE9C4PLgF6bHrY
-Received: from igel.home (aftr-82-135-83-65.dynamic.mnet-online.de [82.135.83.65])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Sat, 30 May 2026 23:47:36 +0200 (CEST)
-Received: by igel.home (Postfix, from userid 1000)
-	id 42A002C16CE; Sat, 30 May 2026 23:47:36 +0200 (CEST)
-From: Andreas Schwab <schwab@linux-m68k.org>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Deepak Gupta via B4 Relay <devnull+debug.rivosinc.com@kernel.org>,
-  Thomas Gleixner <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,
-  Borislav Petkov <bp@alien8.de>,  Dave Hansen
- <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
- <hpa@zytor.com>,  Andrew Morton <akpm@linux-foundation.org>,  "Liam R.
- Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
-  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  Paul Walmsley
- <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>,  Albert
- Ou <aou@eecs.berkeley.edu>,  Conor Dooley <conor@kernel.org>,  Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Arnd
- Bergmann <arnd@arndb.de>,  Christian Brauner <brauner@kernel.org>,  Peter
- Zijlstra <peterz@infradead.org>,  Oleg Nesterov <oleg@redhat.com>,  Eric
- Biederman <ebiederm@xmission.com>,  Kees Cook <kees@kernel.org>,  Jonathan
- Corbet <corbet@lwn.net>,  Shuah Khan <shuah@kernel.org>,  Jann Horn
- <jannh@google.com>,  Conor Dooley <conor+dt@kernel.org>,  Miguel Ojeda
- <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,  Boqun Feng
- <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6?=
- =?utf-8?Q?rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  Andreas Hindborg <a.hindborg@kernel.org>,
-  Alice Ryhl <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>,
-  Benno Lossin <lossin@kernel.org>,  linux-kernel@vger.kernel.org,
-  linux-fsdevel@vger.kernel.org,  linux-mm@kvack.org,
-  linux-riscv@lists.infradead.org,  devicetree@vger.kernel.org,
-  linux-arch@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-kselftest@vger.kernel.org,  alistair.francis@wdc.com,
-  richard.henderson@linaro.org,  jim.shu@sifive.com,  andybnac@gmail.com,
-  kito.cheng@sifive.com,  charlie@rivosinc.com,  atishp@rivosinc.com,
-  evan@rivosinc.com,  cleger@rivosinc.com,  alexghiti@rivosinc.com,
-  samitolvanen@google.com,  broonie@kernel.org,
-  rick.p.edgecombe@intel.com,  rust-for-linux@vger.kernel.org,  Zong Li
- <zong.li@sifive.com>
-Subject: Re: [PATCH v23 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ
- | VM_WRITE
-In-Reply-To: <CAKC1njS=AHu6uHrH4ae8VxcdEbhgiPXYCAoN3F_mnppBd3SwOA@mail.gmail.com>
-	(Deepak Gupta's message of "Sat, 30 May 2026 12:40:33 -0700")
-References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
-	<20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com>
-	<87jyslndo4.fsf@igel.home>
-	<CAKC1njS=AHu6uHrH4ae8VxcdEbhgiPXYCAoN3F_mnppBd3SwOA@mail.gmail.com>
-Date: Sat, 30 May 2026 23:47:36 +0200
-Message-ID: <875x44o9hj.fsf@igel.home>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1780185479; c=relaxed/simple;
+	bh=P+ARwgwPDAQi8TDWl1HgbllaUnzFrBzBr8U8EqvzhWA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fskbUqXQnvdv8XDpnGW3UhQWLwB1lB7O9xoBwZXY8jwDGXWFMonBfDVd70IzgIWJ1dYt3U3/0CEuZaP+R3Xbss2vSQNSGXvhmVy3VOMnCE1POGJEXK+eA0RQqhztXLP5E9HFlIfAYmsIewz5bSfM8QSWSGU33RIomxATI+L0dlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64UNvYTZ074013;
+	Sun, 31 May 2026 08:57:34 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64UNvYqK074010
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sun, 31 May 2026 08:57:34 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <b27609f0-59f0-403d-90af-274c55df817e@I-love.SAKURA.ne.jp>
+Date: Sun, 31 May 2026 08:57:33 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
+To: Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>
+Cc: Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>,
+        Damien Le Moal <dlemoal@kernel.org>, Ming Lei <tom.leiming@gmail.com>,
+        linux-block <linux-block@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
+        linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
+References: <20260529220600.1226-1-hdanton@sina.com>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <20260529220600.1226-1-hdanton@sina.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Virus-Status: clean
+X-Anti-Virus-Server: fsav402.rs.sakura.ne.jp
 
-On Mai 30 2026, Deepak Gupta wrote:
+On 2026/05/30 7:05, Hillf Danton wrote:
+>>> Therefore, I think we can address this problem by "drain_workqueue() with disk->open_mutex
+>>> held" in the loop driver side.
+>>>
+>> Good news.
+>>
+> Bad news: Subject: [syzbot] [block?] possible deadlock in loop_process_work
+> [3] https://lore.kernel.org/lkml/6a19f5f7.5099cdd9.8e407.0004.GAE@google.com/
+> 
 
-> I see two ways forward:
->
-> - It can be done in generic way where incoming PROT_WRITE means
->   PROT_READ | PROT_WRITE irrespective of RISC-V. Although others
->   (x86, arm, etc) would have to weigh in.
->
-> OR
->
-> - mmap04 LTP test can be updated to expect either of "rw-p" or "-w-p"
->   whenever only PROT_WRITE was specified.
+OK. I sent two patches
 
-OR
+  https://lkml.kernel.org/r/147ed056-03d9-4214-b925-0f10fc00cf27@I-love.SAKURA.ne.jp
+  https://lkml.kernel.org/r/148efba2-a0b6-47d7-ac76-b19d2f4b696c@I-love.SAKURA.ne.jp
 
-- Add a new PROT_ flag.
+as a preparation for evaluating the possibility of calling drain_workqueue() from
+__loop_clr_fd(). But as far as syzbot has tested using linux-next tree
 
--- 
-Andreas Schwab, schwab@linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
+  https://syzkaller.appspot.com/bug?extid=c4e9d077bcc86bee08dc
+  https://syzkaller.appspot.com/bug?extid=4feabfc9641267769c97
+
+seems to remain even if we applied above patches.
+
+Therefore, I think that we need to call drain_workqueue() from __loop_clr_fd()
+without holding disk->open_mutex (if we address this NULL pointer dereference
+problem by updating the loop driver).
+
+"[PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()" was an attempt to call
+drain_workqueue() from __loop_clr_fd() without holding disk->open_mutex, but Sashiko's
+review ( https://sashiko.dev/#/patchset/fda8abc8-6aa2-463b-bf72-865f6b838034%40I-love.SAKURA.ne.jp )
+mentioned that the "module_put(THIS_MODULE);" executed as the last step of __loop_clr_fd() has
+a race window of concurrently triggering module unload operation because module refcount of
+the loop driver can become 0 due to this module_put(THIS_MODULE) call. In other words,
+we cannot safely manage refcount of the loop module without a support by the caller of
+lo_release() (i.e. bdev_release()).
+
+  void bdev_release(struct file *bdev_file)
+  {
+  (...snipped...)
+  	if (bdev_is_partition(bdev))
+  		blkdev_put_part(bdev);
+  	else
+  		blkdev_put_whole(bdev);
+  	mutex_unlock(&disk->open_mutex); // <= Keeping holding disk->open_mutex until __loop_clr_fd() completes causes circular locking problem.
+  
+  	module_put(disk->fops->owner); // <= Calling after __loop_clr_fd() completed is required for managing module refcount safely.
+  put_no_open:
+  	blkdev_put_no_open(bdev);
+  }
+
+Therefore, I think that the only robust and safe approach is, although you won't be
+happy to see layering violation / tricky code, either
+
+  (a) allow __loop_clr_fd() to temporarily drop disk->open_mutex
+
+or
+
+  (b) add a new callback for the loop driver which is called between mutex_unlock(&disk->open_mutex) and module_put(disk->fops->owner)
+
+. Jens, what do you think?
+
+One might argue that this problem should be fixed on the filesystem side by
+ensuring all filesystems wait for I/O requests safely. However, from the
+perspective of defensive programming, the loop driver should be robust enough
+to handle incomplete I/O serialization from underlying layers to prevent GPF.
+Furthermore, without adding noisy debug printk() messages, it is extremely
+difficult to pinpoint which specific layer or filesystem failed to wait for
+the I/O requests.
+
