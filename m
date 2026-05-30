@@ -1,177 +1,150 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03B53AEF2F
-	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 12:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2093AD514;
+	Sat, 30 May 2026 13:06:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780142994; cv=none; b=p3opetqFR6Gh81gczbRmLEwkichJAtER75RBuQvXa49X3FAAIv8eq9sxoyVzUl9iA7nZKLl/OK+nYtsW9HA5Q5HK1uymv3dUDsKvyySns86i30Jrn17wnMiZfF+n75YX3MgR6v4UkstEZtZQYRoxezPh9B7UH3It7YWcRa57Nng=
+	t=1780146390; cv=none; b=baMqfi51PqCFN9CHjWlkQtfe3hmUb6df9kCURt9RIpHkwIUw01oty5X4k45DOpToGEZ8uTd1hONfxIQm3RzsXFnCttBoKDWDzIUjF1HB7+K6y7WSIBgiQ8MUAAeHQ+lhImDlvp5Kl1IoA8lxIy+NnZAU6q3oyBOYSMyUg9x4HYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780142994; c=relaxed/simple;
-	bh=eIif9K4k1g+wQ3Og2LQrtLla4l8gzfEr6uE9TdZHQ9A=;
+	s=arc-20240116; t=1780146390; c=relaxed/simple;
+	bh=2ABZHv73MowCHL57OPh+YjN8tPSPSEAHFPnRCGObCEI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vAl+w8nIn9MCs+Ogfed+qUMfPW7+PkdnZxWEtGvKLgoIdc8O46svqovGBYLShF7RfvoX/JUwl26oRfDFRrGTfdT/JoXVDohQ+UYM/XYNGOXKf63cDgvza9nbELyhQmA0S3GydHTGJenSBqb5B87W9HfFvB28liD0uDrrgf+Jo7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=G+uWDakR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=fhE47yb4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jKJBh7e7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=C5ZcxEDp; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="G+uWDakR";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fhE47yb4";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jKJBh7e7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="C5ZcxEDp"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B64B76B91B;
-	Sat, 30 May 2026 12:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780142991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7qPyPnY68h4XGTAPDdeJSBgBU4zBavbMWJ/aD2NKD3Q=;
-	b=G+uWDakR3psEWVR+JGX5DRbHdGz1bqhV1zn4nLJuN2fewgdPNQDpf8AgzaFVJGIoEFxgZQ
-	HIBAv4oVEuZzBu5cGKJvCYmwpqZ2myyMip+6rMg0J0rRoDyf2trjVIPgfR9vu/baDHGubG
-	fv87vgc3PuVFFpDuyfDgVWmmk8fEMxQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780142991;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7qPyPnY68h4XGTAPDdeJSBgBU4zBavbMWJ/aD2NKD3Q=;
-	b=fhE47yb4ZO29poQugGfQ4DOpDrvIZ4g7/fNSdxJHlVvoD6VXQmf+ULzba5jKuRRNthS17O
-	IyQiQC1iawrpkiCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=jKJBh7e7;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=C5ZcxEDp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780142989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7qPyPnY68h4XGTAPDdeJSBgBU4zBavbMWJ/aD2NKD3Q=;
-	b=jKJBh7e7KTgCH4vBP7XHvwCCeKI0ufuVhxDBr3y4WDnJL7ym+x10SKeNI3jDVbcq0/NJEh
-	7m2Byi9PgYIo6uN+UV/kFyKru12EArlWmz18CfT0FMI8zwonelYhABcpkx37QkL2fGJJxH
-	aYvylVTAK204m3L8mpPJqzcfVJUti14=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780142989;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7qPyPnY68h4XGTAPDdeJSBgBU4zBavbMWJ/aD2NKD3Q=;
-	b=C5ZcxEDpRtnV+9wSSB+AlrxSNsTRc+BeZezN7KEDubsa2RvMTG2aTmrbwUUrNaoz7bNHLs
-	9IFZcJJCy8cL5RDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD111779A7;
-	Sat, 30 May 2026 12:09:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id am0+Ko3TGmrvVgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Sat, 30 May 2026 12:09:49 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6F26DA0EBD; Sat, 30 May 2026 14:09:41 +0200 (CEST)
-Date: Sat, 30 May 2026 14:09:41 +0200
-From: Jan Kara <jack@suse.cz>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
-	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev
-Subject: Re: [PATCH v2 24/34] gfs2: Remove use of b_end_io in
- gfs2_meta_read_endio()
-Message-ID: <bowj5ekdjodcabs54zgceka5u5eyvgxermwyerttxyj4whutxg@iea6aqy5hfwj>
-References: <20260528173150.1093780-1-willy@infradead.org>
- <20260528173150.1093780-25-willy@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=o0oJI3pw2Ltf/Qq2V/3OkiQfzFt3rJey8zVGKaHwAnYIXxA28xDXF5JvZu1/ev2aO4JqT6DW40aZdaDd9G8VoxkArw91xYhxigZcNy/KfQFEq1med6ciljtMKE+KN4jOuibpETfSZdt6/eM72zQGfDZR360Dnm97I2L4pdfsb98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 5072B1613B1;
+	Sat, 30 May 2026 13:06:26 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf19.hostedemail.com (Postfix) with ESMTPA id 69E8920029;
+	Sat, 30 May 2026 13:06:22 +0000 (UTC)
+Date: Sat, 30 May 2026 08:06:21 -0500
+From: John Groves <John@groves.net>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
+	John Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Alison Schofield <alison.schofield@intel.com>, 
+	Ira Weiny <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V2 4/7] dax/fsdev: clamp direct_access return to current
+ physical range
+Message-ID: <ahrfpRtpeZKKZPyG@groves.net>
+References: <0100019e511fb82e-1a444df3-8310-40ed-8380-72e1373d5da9-000000@email.amazonses.com>
+ <20260522191907.79187-1-john@jagalactic.com>
+ <0100019e51209df4-90c4ba85-6cc5-4f5d-af26-451e7e786535-000000@email.amazonses.com>
+ <16628b9f-a624-46f8-8a7f-3b9e7963963b@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260528173150.1093780-25-willy@infradead.org>
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: B64B76B91B
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,linux.dev:email,infradead.org:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <16628b9f-a624-46f8-8a7f-3b9e7963963b@intel.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 69E8920029
+X-Stat-Signature: kc4k66ndgjuifzsaj64b84giuqsi6n1s
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX198LYxhY3/aOaSmNYak0fUivv4r0QL3LRU=
+X-HE-Tag: 1780146382-404624
+X-HE-Meta: U2FsdGVkX18FsthJhXJNuQ8DcAFt16fMeIwFty4TgNw62RUJS8FxCFa5AChJUtUwEyiF6eEKJ/I3e4NRRHYEDrYaG9hrx5kgS9RpqMfljeaswaq5eZORqs2NNuVYMwbXAHgy+5/CISdlDpnZ9bJhNYwdddew5gKY9EmH6KZWvUBfBTGt3aQ7/4D6dYF2aJ+7Me8ini0uFkMW3DTZRH2KFdozkbDOWsSWtbmE/uHGIfVNkyzXi6BhEjn20Q3dGVYYbFH1KZUN9x3Yb6EYMcMhogYYEauO+QddapNq6QRitZ7QIo1OPOByDPm3PJ5vjVseIu1voZDtKgCBuilcrnOUuoTXicIEFAey6h7SUgsrXVl7eMQr1mRDOKMFpvNGJsmAtkh8zfYGxSQiQSLygRYoPw==
 
-On Thu 28-05-26 18:31:37, Matthew Wilcox (Oracle) wrote:
-> All buffer heads submitted by gfs2_submit_bhs() use
-> end_buffer_read_sync() so we can call it directly.
+On 26/05/26 05:00PM, Dave Jiang wrote:
 > 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: gfs2@lists.linux.dev
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/gfs2/meta_io.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/fs/gfs2/meta_io.c b/fs/gfs2/meta_io.c
-> index d407dd476e72..df5f05054f6e 100644
-> --- a/fs/gfs2/meta_io.c
-> +++ b/fs/gfs2/meta_io.c
-> @@ -212,7 +212,7 @@ static void gfs2_meta_read_endio(struct bio *bio)
->  		do {
->  			struct buffer_head *next = bh->b_this_page;
->  			len -= bh->b_size;
-> -			bh->b_end_io(bh, !bio->bi_status);
-> +			end_buffer_read_sync(bh, bio->bi_status == BLK_STS_OK);
->  			bh = next;
->  		} while (bh && len);
->  	}
-> @@ -275,7 +275,6 @@ int gfs2_meta_read(struct gfs2_glock *gl, u64 blkno, int flags,
->  		unlock_buffer(bh);
->  		flags &= ~DIO_WAIT;
->  	} else {
-> -		bh->b_end_io = end_buffer_read_sync;
->  		get_bh(bh);
->  		bhs[num++] = bh;
->  	}
-> @@ -288,7 +287,6 @@ int gfs2_meta_read(struct gfs2_glock *gl, u64 blkno, int flags,
->  			unlock_buffer(bh);
->  			brelse(bh);
->  		} else {
-> -			bh->b_end_io = end_buffer_read_sync;
->  			bhs[num++] = bh;
->  		}
->  	}
-> -- 
-> 2.47.3
+> On 5/22/26 12:19 PM, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > __fsdev_dax_direct_access() returned the number of available pages based
+> > on cached_size (the total size across all ranges). For multi-range
+> > devices with physical gaps between ranges, this over-reports the number
+> > of physically contiguous pages available from the returned kaddr/pfn.
+> > Callers trust this return value to mean contiguous pages, so accessing
+> > beyond the current range boundary would hit unmapped or unrelated memory.
+> > 
+> > Fix by finding the range that contains the translated physical address
+> > and clamping the return to the remaining pages within that range.
+> > 
+> > Also remove the now-unused cached_size field from struct dev_dax, since
+> > it was only consumed by the old return calculation.
+> > 
+> > Fixes: 099c81a1f0ab3 ("dax: Add dax_operations for use by fs-dax on fsdev dax")
+> > Signed-off-by: John Groves <john@groves.net>
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> I ran this through Claude and this is what it came back with and it looks reasonable to me:
+> 
+> The claimed bug does not manifest in the current tree. This is a
+>   refactor + dead-field removal dressed as a bugfix. Either the justification is
+>    wrong or there's a missing companion change.
+> 
+>   The claim doesn't hold up
+> 
+>   Commit message:
+> 
+>   ▎ __fsdev_dax_direct_access() returned the number of available pages based on
+>   ▎ cached_size (the total size across all ranges). For multi-range devices with
+>   ▎  physical gaps between ranges, this over-reports the number of physically
+>   ▎ contiguous pages available from the returned kaddr/pfn.
+> 
+>   Walk through it. __fsdev_dax_direct_access does:
+> 
+>   phys = dax_pgoff_to_phys(dev_dax, pgoff, size);
+>   if (phys == -1)
+>       return -EFAULT;
+>   ...
+>   return PHYS_PFN(min(size, dev_dax->cached_size - offset));
+> 
+>   Now look at what dax_pgoff_to_phys (drivers/dax/bus.c:1433) enforces:
+> 
+>   phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
+>   if (phys + size - 1 <= range->end)
+>       return phys;
+>   break;        /* falls through to return -1 */
+> 
+>   It returns valid phys only when the entire requested size fits inside a single
+>    range. If the request straddles a gap, it returns -1 and the caller bails
+>   with -EFAULT before ever reaching the clamp.
+> 
+>   So in the only path where the clamp runs, we already know size <= range->end -
+>    phys + 1, which means cached_size - offset >= size, which means min(size,
+>   cached_size - offset) == size. Pre-patch returns nr_pages. Post-patch returns
+>   nr_pages. Same answer.
+> 
+>   I worked it through with concrete numbers on a 2-range device with a physical
+>   gap (range[0]=4 pages at 0x1000_0000, range[1]=4 pages at 0x2000_0000):
+>   - pgoff=2, nr_pages=2: both return 2. ✓
+>   - pgoff=3, nr_pages=2 (straddles gap): both return -EFAULT via the early bail.
+>    ✓
+>   - pgoff=4, nr_pages=2: both return 2. ✓
+> 
+>   I cannot construct a case where pre-patch over-reports.
+> 
+>   What's actually changed
+> 
+>   1. A no-op clamp loop replaces a constant calculation. Same return value in
+>   every reachable case.
+>   2. The trailing return -EFAULT; is dead code. If dax_pgoff_to_phys returned
+>   valid phys, then by construction phys lies inside some range in
+>   dev_dax->ranges[], so the loop will match.
+>   3. O(N) walk replaces O(1) arithmetic. Trivial for small nr_range, but it's a
+>   regression in the wrong direction for a hot path.
+>   4. cached_size field is removed. Good cleanup — I grepped, no other consumers.
+> 
+> 
+> DJ
+
+Thanks Dave. Sashiko reviews can be great, but sometimes they make us (me)
+dumber. 
+
+Dropping this patch from the series.
+
+John
+
+<snip>
+
