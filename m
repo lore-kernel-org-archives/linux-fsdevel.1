@@ -1,199 +1,138 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9E42F747A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 13:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780149133; cv=pass; b=TovQTDCjgwpEe45ektFZyaUA3/ylfee4/Le6g5ETvbOXup8UabMhTcvFgm8GkTi+39cBrOkvHUziCX5Il0pJ4x5DrQuL6e9cqvfUQYW+I97ge8z8G5QMAcSZ2xUS9Ok3Ph5S7sXrvb+rmvxZtbmbV7h8e0JnhDGJMlusS69zokQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780149133; c=relaxed/simple;
-	bh=4x3GF/1WUOVbtHt5KYzp50NAkSFR6ObYdzDg9nGrOq8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XQpuIPhO/0vFLDX6nrkxJ6xw7nLE8ZI+6yKZkb7FXBjTzDj+aWse9lkEIlDLIc8PTlhRMVml80wcSNiSo6BHO/BFZDV+mYrIzSw0d4YJ8CgzvqZGz1rJzWTvCyV0odVVEWOWTPPns60U8Fewkm7hjRTC7O8LOEAY4P0HemHCf8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OO7EqNMC; arc=pass smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OO7EqNMC"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-68ced97b6eeso313175a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 06:52:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780149130; cv=none;
-        d=google.com; s=arc-20240605;
-        b=F/KKf3JyAh9Po12IjrtdUYh1NifASHzhlRUgN30HHHfNvL4yTiUAvm00u0ldeUM04h
-         kURVJzVVxZ2Qg2iO7rJ3JM/5LX4lUkI/FoTUat+bQGgxvJf63Pz6nV2O/ThIkworiEUF
-         lJdOGzTsBsT0AOENZA8fJG18MbgNv5AzYcVPlO2iEb8EbW56bbJw6Z8y8UvmXx4l1LIc
-         WW1Lqduky9fovPtlyt+dUxwXawt6LmWbwVoRPfc/DbP7aH78j2BNtkUALt0SwW1UciC9
-         jrXU8ReNGVCm5ECEr62WkRXspkdPuysGL83SoKn1A5aErmLqVuK7yymXRXJPDNdco8rk
-         b97A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NCN/n4d3VnrplZpxtAHWZHIJdkMepTtjI7eXY9Ww4wc=;
-        fh=gJhxlu9UhzKbblY5tbsjMzRaUxuglr3IRAu4XM58YOw=;
-        b=ebLVGRxYiZVvu/oBD3YhYR8p8VA797vSMyAJxoo0oBASFpHv8wzOdJjTCsRrLRJ5Q2
-         B0155PdVUc7iqjzt05pHsf3yJLyFqe54dFmA8KZldb/J76yEZMyviIkDHaUajFG0R/jY
-         TIzFefl+Q1IyOvTtFD2Ts55GpTVWMmC5IeonPeCBPlDzei/z2tTJSvQpYjR6gvTKGCPX
-         zPp9YFH9JpBnzWngtdHubwwpf28ZjmilApFlnFwH+qZNS43wk4kN1CXRHCEwy1bcAFMh
-         UGKUtLGvp4jdmq8mUUdLsU8WEoINcir6CJteoJ7nTEGA4AgrpEXAbYsLxSS9uyYg8Ch0
-         e3Jg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780149130; x=1780753930; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NCN/n4d3VnrplZpxtAHWZHIJdkMepTtjI7eXY9Ww4wc=;
-        b=OO7EqNMC84Ss7chXi3jgIQySMFC0JQ4Q1iLkyBVM2PFTeApmaifkuemcR9DQS78SiM
-         jHgm46Z5NnOtrnhHxN3PCZxD0DYecAp7KqreOUYtHy2jCs00q1r5HkTuhOUuKuVx1swB
-         sUPxiRoPxq8JBCF0L0yxijnWTl/nQzdNF/GbdRcKH1ubYyS2mWtX04qEi39JHCcuWxKw
-         p7tgcSkkzLVLlUBzNHssPVHoo0evpULupkT8huKgGXDxtx1U0Mc0i8fKCrajy/h6qyIE
-         Zube2GuxqDiDfYKI4jE0hjRMRiiLiZIJPv7O9gGHykz3903BHmqNEcj5mBxew334RkYt
-         P5sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780149130; x=1780753930;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NCN/n4d3VnrplZpxtAHWZHIJdkMepTtjI7eXY9Ww4wc=;
-        b=NL/R0XtKvURQKso+ha12jXKFYplfz7ENqjRMerALKJ4lzUvEMlt4xQaSsHESLZ9Eaj
-         wC2wzoM3MEJudQ7Snv352OYS/psM3RkqPdBUZkYpHkEjwW5jDYMsK34fp+uMm5VMlFc6
-         hHcC0iXyrwq3np6ghW1Wc/Gqsxnc2MBsrFTThEnXlMSnD4UJUFpH8IyM1XJyW2/M1okt
-         XswWjWKFk1U6c+ZDzuXIX/fxr6sU/LzwngQtudE1y96tQkUinuuFd0JRrawFAq71QnND
-         BWARBZkEtkLOhJbWCTxk5L3rQhfADPrkGHIy5uq2sEPFuUkNs1kZnqGkkMuoywKbWh1n
-         Pisw==
-X-Forwarded-Encrypted: i=1; AFNElJ/TTmLQkhGDfYihbzsG87sW4w/qurJjocb1cPRZ7IMtpAzKxx3jQo79iFEfNd2GSs/UcEiq8q7Q7RAw7DvG@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhAVwPgQ/zAaEzdFi5bZyGdAuy6G1qJs8XsEvB3BSA9cX5n9Ka
-	9kAAtHlQb6Q1YcBWZ8oRvRJ93Xi0miLzbyHUAKDGRyjdBYhEpKNksVXyO0/Zvh/WzJBI1gK1thI
-	MmTrn37hDAVmiFMAq7wbH3sjF1r5wluM=
-X-Gm-Gg: Acq92OGJbKxB2UQ5+S48axClH3XURwXYuERlQFgDK2lmVqauCPYw/23sVTWD9/BWuTP
-	zN0u2mZ8aIJa6OfYF5xDQxQZD/HztSB86cuY5Zf7O5F4lAJSSLFg73CRed2y+87HmHkM2S1SdtU
-	DL+GwAlH7bXhC+pYdga81BhSCsDiUnkmBB9zgBxgBOzu8YBasw08v044Z4uMIGRin5XL3ueiVcp
-	KNJRTC1IOUk+8NWGD4++HlYJOv2rKKNIYE1syt+R6MJjVPhB9tF1+M1aChKLZu/GJYg6AiBzu/Q
-	N4g23xcsXXeFt1bS+d+c+nGG3Seq8YMs+lILggFinbTY5oC2y4du
-X-Received: by 2002:a05:6402:5306:b0:671:a18b:32b8 with SMTP id
- 4fb4d7f45d1cf-68c87b9a52emr2157218a12.0.1780149130080; Sat, 30 May 2026
- 06:52:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1664623E25B;
+	Sat, 30 May 2026 14:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780150077; cv=none; b=JgFA9lzXrVPKV+r7byfv2kRh8h+XBdZXeqsXWzY4YLJDiCo6LdGY0Pb+mHlO0Rg1MBI6zwtyUPKdOMoOEUbOIRTIDgoF7G7Ge3qN1/QJ855KgOcKqwBwctQPpREQkX5uoJl5/Y3pjLzbRlTFRJpx1MpX/VEDF/jOYKNv1XeI3zo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780150077; c=relaxed/simple;
+	bh=PPZRcehItjpi1cpcwVw3Fam6REWdbTtbxGlWECVMz/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qSKdbpRPQ7AEDGcXgOPyGHhAjduj9XbSexrHANT1RLhNLGpto34cjV+DKSGK5+4LmgWNUyj35fF5L8dW4RhOz01mei0XkaMBEq/PmdqtplGjsEZ7nEH6kAqd3v+/6DCR+Aa06Q9O6Py3Hsw2P4q9sM+PrSEX+ARvFbWm7q1IJvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf16.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 4B0484038B;
+	Sat, 30 May 2026 14:02:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf16.hostedemail.com (Postfix) with ESMTPA id 5EC0C2000F;
+	Sat, 30 May 2026 14:02:03 +0000 (UTC)
+Date: Sat, 30 May 2026 09:02:02 -0500
+From: John Groves <John@groves.net>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
+	John Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Alison Schofield <alison.schofield@intel.com>, 
+	Ira Weiny <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V2 5/7] dax: fix holder_ops race in fs_put_dax()
+Message-ID: <ahrrs8hg9mTpgePM@groves.net>
+References: <0100019e511fb82e-1a444df3-8310-40ed-8380-72e1373d5da9-000000@email.amazonses.com>
+ <20260522191917.79204-1-john@jagalactic.com>
+ <0100019e5120c6c2-6fee7a58-7fb8-4c80-a229-4b5573e0e2c0-000000@email.amazonses.com>
+ <e7655b88-c56d-4d9a-8ae1-68eb9448bb87@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260530013732.50811-1-anonymemeow@gmail.com> <20260530013732.50811-2-anonymemeow@gmail.com>
-In-Reply-To: <20260530013732.50811-2-anonymemeow@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 30 May 2026 15:51:58 +0200
-X-Gm-Features: AVHnY4IxB6c9_NC2DH0-rb7ivZPZnhSn1eXMMgSYtoUEILQCKUJkFeQaBJuiKws
-Message-ID: <CAOQ4uxhwH6zAmKX6p4YHi-037YEG0ejBGWWhCcN7JRiQhRieCw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] fanotify: report thread pidfds for FAN_REPORT_TID
-To: AnonymeMeow <anonymemeow@gmail.com>
-Cc: brauner@kernel.org, jack@suse.cz, repnop@google.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e7655b88-c56d-4d9a-8ae1-68eb9448bb87@intel.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 5EC0C2000F
+X-Stat-Signature: kg8dkt3djaypmpnxhx65j73m1z17yw81
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX19USd7P0xcl9bP1DKa6t3dWaWoDdTzcGL4=
+X-HE-Tag: 1780149723-893019
+X-HE-Meta: U2FsdGVkX19VsXy/wZRbjCsWVLy2DMbz1vvJbz7m7lHeGr9txEfQpDdgeDI2/vttb8LKaGDwiDT5JyuSCVE6qdnUHEAjXBEzB+KgjYcaB1dCJlGw3a0EFqyXCjKbPMZ+KNZWQT1hnOLGxiLvaxQra69ab2hcb2JvZbtnQfnya+xHTqnB9mCZzBWQugYsck7i2MwJrD3fb01NKU2t1+RMiAqQAxxXwptb2QJrRW4DIpa1KHEU/2XL+gK/eTx9owvrhmu6OybPwWmV6wPOoQuPf6hIbARwWOZ8cs15SXdm68FJYqoFMugLoLjOd3dcC20meltiLaemOvrGX6HiQSy68V4sArKWgECcebba+bizy26lSCVPHz7aYq3qnoBAPy/6NoTWjVSteNHINWFU+z2+Dg==
 
-On Sat, May 30, 2026 at 3:37=E2=80=AFAM AnonymeMeow <anonymemeow@gmail.com>=
- wrote:
->
-> The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
-> exclusive because by the time the pidfd support was introduced to
-> fanotify, pidfds could only be created for thread group leaders. Now
-> that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
-> this restriction can be lifted.
->
-> Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+On 26/05/26 05:16PM, Dave Jiang wrote:
+> 
+> 
+> On 5/22/26 12:19 PM, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > Clear holder_ops before holder_data so that a concurrent fs_dax_get()
+> > cannot have its newly installed holder_ops overwritten. Also add a
+> > kerneldoc comment documenting that fs_put_dax() must only be called
+> > by the current holder.
+> > 
+> > Fixes: eec38f5d86d27 ("dax: add fs_dax_get() for devdax")
+> > Signed-off-by: John Groves <john@groves.net>
+> 
+> Couple things from Claude that may be worth taking a look at:
+> 
+>   1. Memory ordering is now load-bearing and missing
+> 
+>   The whole correctness argument depends on the reader observing holder_ops =
+>   NULL before observing holder_data = NULL. The patch uses a plain store
+>   followed by cmpxchg. On x86 plain stores are ordered, but on arm64/ppc they
+>   are not — the reader can observe cmpxchg's release of holder_data while still
+>   seeing the old holder_ops. That puts us back in the dangerous (holder_data ==
+>   NULL, holder_ops == old) state on weakly-ordered arches.
+> 
+>   Required:
+> 
+>   smp_store_release(&dax_dev->holder_ops, NULL);   /* publish ops=NULL first */
+>   cmpxchg(&dax_dev->holder_data, holder, NULL);    /* then release holder_data
+>   */
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Updating to WRITE_ONCE(), which I think is the right choice
 
-Thanks,
-Amir.
+> 
+>   And the reader in dax_holder_notify_failure should use
+>   smp_load_acquire/READ_ONCE because today it reads dax_dev->holder_ops twice
+>   (line 334 and line 339), allowing tearing or stale-cache reads. Pre-existing
+>   weakness, but this patch is what makes the ordering matter.
+> 
+>   kill_dax (line 461-462) has the same naked-store pattern — it should be made
+>   consistent.
 
-> ---
->  fs/notify/fanotify/fanotify_user.c | 27 ++++++++-------------------
->  1 file changed, 8 insertions(+), 19 deletions(-)
->
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fano=
-tify_user.c
-> index ae904451dfc0..ebdd48942029 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -19,6 +19,7 @@
->  #include <linux/memcontrol.h>
->  #include <linux/statfs.h>
->  #include <linux/exportfs.h>
-> +#include <linux/pidfd.h>
->
->  #include <asm/ioctls.h>
->
-> @@ -903,25 +904,21 @@ static ssize_t copy_event_to_user(struct fsnotify_g=
-roup *group,
->                 metadata.fd =3D fd >=3D 0 ? fd : FAN_NOFD;
->
->         if (pidfd_mode) {
-> -               /*
-> -                * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mu=
-tual
-> -                * exclusion is ever lifted. At the time of incoporating =
-pidfd
-> -                * support within fanotify, the pidfd API only supported =
-the
-> -                * creation of pidfds for thread-group leaders.
-> -                */
-> -               WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-> +               unsigned int tid_mode =3D FAN_GROUP_FLAG(group, FAN_REPOR=
-T_TID);
-> +               enum pid_type pidtype =3D tid_mode ? PIDTYPE_PID : PIDTYP=
-E_TGID;
-> +               unsigned int pidfd_flags =3D tid_mode ? PIDFD_THREAD : 0;
->
->                 /*
-> -                * The PIDTYPE_TGID check for an event->pid is performed
-> +                * The pid_has_task() check for an event->pid is performe=
-d
->                  * preemptively in an attempt to catch out cases where th=
-e event
-> -                * listener reads events after the event generating proce=
-ss has
-> +                * listener reads events after the event generating task =
-has
->                  * already terminated.  Depending on flag FAN_REPORT_FD_E=
-RROR,
->                  * report either -ESRCH or FAN_NOPIDFD to the event liste=
-ner in
->                  * those cases with all other pidfd creation errors repor=
-ted as
->                  * the error code itself or as FAN_EPIDFD.
->                  */
-> -               if (metadata.pid && pid_has_task(event->pid, PIDTYPE_TGID=
-))
-> -                       pidfd =3D pidfd_prepare(event->pid, 0, &pidfd_fil=
-e);
-> +               if (metadata.pid && pid_has_task(event->pid, pidtype))
-> +                       pidfd =3D pidfd_prepare(event->pid, pidfd_flags, =
-&pidfd_file);
->
->                 if (!FAN_GROUP_FLAG(group, FAN_REPORT_FD_ERROR) && pidfd =
-< 0)
->                         pidfd =3D pidfd =3D=3D -ESRCH ? FAN_NOPIDFD : FAN=
-_EPIDFD;
-> @@ -1628,14 +1625,6 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags=
-, unsigned int, event_f_flags)
->  #endif
->                 return -EINVAL;
->
-> -       /*
-> -        * A pidfd can only be returned for a thread-group leader; thus
-> -        * FAN_REPORT_PIDFD and FAN_REPORT_TID need to remain mutually
-> -        * exclusive.
-> -        */
-> -       if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
-> -               return -EINVAL;
-> -
->         /* Don't allow mixing mnt events with inode events for now */
->         if (flags & FAN_REPORT_MNT) {
->                 if (class !=3D FAN_CLASS_NOTIF)
-> --
-> 2.54.0
->
+Will study this and post a separate patch for kill_dax if I think it's
+warranted
+
+> 
+>   2. Unconditional holder_ops = NULL is a behavior regression
+> 
+>   Pre-patch was defensive: if a caller passed the wrong holder, the cmpxchg
+>   failed and nothing got cleared.
+> 
+>   Post-patch clears holder_ops unconditionally whenever dax_dev && holder is
+>   truthy. A wrong-holder fs_put_dax() now actively damages the legitimate
+>   holder's state — sets holder_ops to NULL while holder_data retains the
+>   legitimate holder's pointer. From that point, all dax_holder_notify_failure()
+>   calls return -EOPNOTSUPP, silently breaking the legitimate holder's
+>   poison-recovery path.
+
+This is a bit of a sticky wicket. The API contract is that the caller 
+of fs_dax_put() is the holder. To get the ordering right AND guard against
+non-holder callers would require a lock.
+
+Instead, I think the right answer is:
+
+    WRITE_ONCE(dax_dev->holder_ops, NULL);
+    WARN_ON(cmpxchg(&dax_dev->holder_data, holder, NULL) != holder);
+
+If a non-holder calls this function, that's a bug and we'll get the 
+WARN_ON(). If a holder calls this function twice, we'll get the WARN_ON()
+(the second time).
+
+And when the API contract is honored, we have correct ordering.
+
+> 
+> DJ
+
+Thanks Dave!
+
+John
+
+<snip>
+
