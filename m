@@ -1,89 +1,68 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA5B17555;
-	Sat, 30 May 2026 00:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62124503B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 00:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780099479; cv=none; b=i9UeD1URvweue1MNwL3Q5QFhVZrAnMoXv3tRLCLP+LqnoHxb20Cb873bQSaZ5eByeNPCYrHQTAoptDagzEKj/S/NVBuYZBUdD+4+dBs/iNbbbf91F4r2l31upFereeUIab/ExTQRE9uRsu83ea4hX/hKQeqJyyRRg5ggHBqvrkY=
+	t=1780100480; cv=none; b=me1YAxX4qB9YJ9g5P9bSE9ysLgEAKDsPlwylvDKEmZCl4tb1SXKxanvuq7ihsnv/mpd2kLnlqbpBvbOYpC/c5yIiEcuvSmqI0iphPHqgNueUmHipcOZaJb6VMDBqjM6ZmPbwhwYR41t3W+C2rZ3g1cUu7sZyws0y3LKYF1Bt6d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780099479; c=relaxed/simple;
-	bh=W+eSIK2s1c9SlFH0SBZ70mCj0LzhyiVL/pvn+0kKIiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nG+Xf0Y87keMyYihm7t9Osdlws+lRoHYav+yJe+mbPpljKcKcvyT2JPJbow9d2CK6DCOHR9MdAgLtquS1TSQ9KWtTWmlphCFExErATBTKgPHkLlykH24G/n4QSRebKWfXuBhgwVf3J7A7xGqEWec5K+Q82GaoHSgJz+QrSVAvV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf03.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id BF018C0680;
-	Sat, 30 May 2026 00:04:35 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf03.hostedemail.com (Postfix) with ESMTPA id DB7D06000B;
-	Sat, 30 May 2026 00:04:31 +0000 (UTC)
-Date: Fri, 29 May 2026 19:04:30 -0500
-From: John Groves <John@groves.net>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
-	John Groves <jgroves@micron.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Alison Schofield <alison.schofield@intel.com>, 
-	Ira Weiny <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V2 3/7] dax/fsdev: fix kaddr for multi-range and fail
- probe on invalid pgmap offset
-Message-ID: <ahopdHYhO2x9E5-_@groves.net>
-References: <0100019e511fb82e-1a444df3-8310-40ed-8380-72e1373d5da9-000000@email.amazonses.com>
- <20260522191859.79167-1-john@jagalactic.com>
- <0100019e51208026-d62e0ffa-73d4-4cac-b950-dbbbb13ab38c-000000@email.amazonses.com>
- <1aa37178-4d36-4a4c-8b36-bf2789ce9655@intel.com>
+	s=arc-20240116; t=1780100480; c=relaxed/simple;
+	bh=bu+E9R43HOu1Aylsnvy7nXZk/d36tLwAt0Zh5idjpgo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Of3ChUvsOSwaf7EZCng/SPz3k4i53G7OYrQWMQWoAQEL3qa6snzs5zrY1PlzRNG7RlkWhe/Tn2Bjm9w+lTOj2nkq5RNlkbIS7JewoBveXZwZB4A7is4t7us+TV7uRYUucm3R3QtMi+11WJdTd8QAqSlgt/rW8mmAgNCEUkFSBxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q7AkJtNd; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q7AkJtNd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5299D1F00899
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 00:21:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780100479;
+	bh=bu+E9R43HOu1Aylsnvy7nXZk/d36tLwAt0Zh5idjpgo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Q7AkJtNdQbikE9P6CJ7M9OKGHIBQVtViEJ4EcAa6U2PmmMcdC/lNYYlMg218s7sX7
+	 KIwl8IrRMqBisN5mio+Fs26a/VRTf9GRJJ26jgwnQY8HEO154YKvmTDVvpbxrZVz+/
+	 SFqXH1ZkVclJgS8AsH9Yb89m1T8EVFj/f7vw62Mi5GYlvt2QmElxv7junyt9B9uczo
+	 tQi1E/TykiROOJnY/lH7D2xtVORHqXwfw+DeYUkAuWz3w1poLNBAPCZeh73YTrOQPj
+	 CKvi8FvMk8IkEv+qmICVW90nxwcGmIpUhI6wnK8xiydKfTN/fKoYjA5YP8JqnCPpc0
+	 lqOTMxVF16I2Q==
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bdb3fd39045so1312384066b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 17:21:19 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwcENIQD4cd1IZVlIEZUxBvJ4rkQeDM2YYzBEwk0ELpbQ1LKdka
+	d5B5xICn5BOrsAN9Hb9iemlE8CYDuU4yVBP91T3pdFmuwEG1+e+nAu9uxBIjofWy/UpnKISjwYD
+	zZ2OnjjhAMoH47TAJCUzQjAR/0cNozMQ=
+X-Received: by 2002:a17:907:8688:b0:bd4:e590:4238 with SMTP id
+ a640c23a62f3a-beab5905e3dmr88265166b.17.1780100477983; Fri, 29 May 2026
+ 17:21:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1aa37178-4d36-4a4c-8b36-bf2789ce9655@intel.com>
-X-Stat-Signature: fktne5rgu9jqyndra1htdmubhsxhofiy
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: DB7D06000B
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX18uDUuCppJvPq2aWc5YSXzIQdPFIXrOEYs=
-X-HE-Tag: 1780099471-924468
-X-HE-Meta: U2FsdGVkX19MRAxqPWBREwjd+kVfmw7Ed45/YJU/VxhqGuNHyl7/ejBlhm+GvPp2lJGB3NfLaY9rCV6Vbv1pWXGw9jqZ/z6mwmW8C3bGm1f2QHeyde4wAFOMBZOGEUMWzJUFH0yzVbGRhWLTdNVp9BBtq2A/IAcQr8GadHZNNoeviW7A8lI0Ya81wFA0faLMTvrhD+r1KUWImPgXkODJkYoP8qySnhrZj468Od6wEzqZiOS5ATbdgoeUqlyIUXhCeBwCjmGIzjRQxFyKrlfCWgI0BFqDaaeu/oJRXu6bDn1CAYjKTXvNtVTN45weZjGEJkkXGGCOW1MI9yM2zUyGJAegCKZnAx/2aYj7axLW20I7IVZdxGZPd8uaX/vf4GU9
+References: <20260528-f-0-byte-data-v1-1-9f36f5ce39b1@gmail.com>
+In-Reply-To: <20260528-f-0-byte-data-v1-1-9f36f5ce39b1@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Sat, 30 May 2026 09:21:05 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-9JVWX_LkpgT1FLWShoEia5F_z3Jd4fPBLySTYkmMEvQ@mail.gmail.com>
+X-Gm-Features: AVHnY4IR2Tu2zM43ZLBWQp8TFlc2SkjlNC0J3nuNvw6tbSgr502LBFcSaVJqQVY
+Message-ID: <CAKYAXd-9JVWX_LkpgT1FLWShoEia5F_z3Jd4fPBLySTYkmMEvQ@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: not change 0-byte $DATA attribute to non-resident
+To: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/05/26 04:31PM, Dave Jiang wrote:
-> 
-> 
-> On 5/22/26 12:19 PM, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
-> > Two fixes for virtual address handling in fsdev:
-> > 
-> > 1. Use __va(phys) instead of virt_addr + linear_offset for the kaddr
-> >    return in __fsdev_dax_direct_access(). The previous code added a
-> >    device-linear byte offset to virt_addr (which is __va of ranges[0]),
-> >    but for multi-range devices with physical gaps between ranges, this
-> >    linear arithmetic crosses the gap and produces a wrong kernel virtual
-> >    address. Using __va(phys) where phys comes from dax_pgoff_to_phys()
-> >    is correct for any range layout because the direct map translates
-> >    each physical address independently.
-> > 
-> > 2. Convert the WARN_ON to a fatal error when pgmap_phys > phys. This
-> >    condition means the remapped region starts after the device's data
-> >    region, which is an impossible state. Previously the probe continued
-> >    with data_offset=0, leaving virt_addr silently misaligned. Now probe
-> >    returns -EINVAL with a diagnostic message.
-> 
-> Split to 2 different patches I'd say.
-> 
-> DJ
-
-Agree - done. Thanks!
-
-John
-
-<snip>
-
+On Thu, May 28, 2026 at 11:15=E2=80=AFAM Hyunchul Lee <hyc.lee@gmail.com> w=
+rote:
+>
+> When ntfs_resident_attr_resize() cannot grow a resident attribute in
+> place, it retries after converting other resident attributes to
+> non-resident to free space in the MFT recrord.
+>
+> Do not select zero-length resident $DATA attributes for this conversion.
+> fsck treats 0-byte non-resident $DATA attribute as corruptions.
+>
+> Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
