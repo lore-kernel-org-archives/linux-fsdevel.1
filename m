@@ -1,194 +1,125 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA07156661
-	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 11:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46E239A81B
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 11:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780139741; cv=none; b=J8rvY5EUx9gqCRG7IyzqHpBVsw7U6R4QZZ/6cAVVF+keFaabJWEnEfrm7ttJyuUaMf+pmJsxtDsIPtz7u8JecHTIkWdUo9L3e1RMObB5OOMXab79OzrwYRbrduv0fo1AGhpZw/pbVoHjZ+Vq264MqWE4diG549E7ZOqgQUG2sQM=
+	t=1780140505; cv=none; b=HcBaiy0r6tQzzuRpMF8hwGCdWUBlkBCksrcB0SNriegPKugH+Djgjjo/5igthLaaZSVaFhLmfGI4Fmj88SpniX6rInvLMGUU8Q0YHTKkhQCLcAx/tzH09JHn8S0SBG7SxDyYQIWIz8ptG+vOrSHHFFuD/rFMH4rOBD7waflz0xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780139741; c=relaxed/simple;
-	bh=4yXam7P1CatY5Jj3tEYkT/ysiGwPWCGOrp4iCw3SqtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XY+KFh3Zw1LCXI2djwXwPWrG5RxZYhABy8aaj0VfBeaLIxsYgc7dWulx38aLWLNecY8/t+Qr3yS91ond3NQ2hqffm/Z6qLBWnrxzdU5JLe7UfJh/h4xUaDj3zNoxwo4dUb4+DuyzeR+UNpS9Xz4WCerCiFpu0byvyZG2jD1CULc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ypnksrHm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2PxYdXlg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DBWZOFyi; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=+O6h8mMm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1780140505; c=relaxed/simple;
+	bh=eNVjiDtoALomYsclT0hUpRMM3pr0rt7mXonemwgAJbY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=liQoyN+1QeCowO1u+CKLGzK6dRH2tx2dwN4KFtvKCc4gyCdB2GSA+kQWSn6GUA7xhdXtL5R0/2SWfaBL3lbul3m+auUKXR4nhyDjH7VefuQ5BpeX37X+eJdq2hHwMkq3obZMBSVtc52VEY6u+7kC27Ms29Aiwi9kN1WVmpuqW34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDIWChJZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ypnksrHm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2PxYdXlg";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DBWZOFyi";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="+O6h8mMm"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8AA6B6789E;
-	Sat, 30 May 2026 11:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780139738; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SvdTnOqDUuaISygzxpB5+o01Gyll44W9NCHBRGZT/Bs=;
-	b=ypnksrHmRlX8wtCop1b/htUbD4cFg3sWEaXbwwqRvhc8q92TK+1EUp/0jmy5Tuy+wXOWPK
-	K0ZfiW66vStWs6gGXHtmoL3on1gXKEia3CEnxCak/bKOe88S/CERe4zFTE0+MaNhb5hcGy
-	tM063y5CbZZVlo3NriUYyC9yPggRtFo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780139738;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SvdTnOqDUuaISygzxpB5+o01Gyll44W9NCHBRGZT/Bs=;
-	b=2PxYdXlgrQKwj73K19/IrGlQRm631Ji8B/JGJ7himFfEW8UasmK6rsGkrlCUgOldeXOLzl
-	cLkXbbl6Rjaih3Cg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=DBWZOFyi;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=+O6h8mMm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780139737; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SvdTnOqDUuaISygzxpB5+o01Gyll44W9NCHBRGZT/Bs=;
-	b=DBWZOFyiGKJ2NOm6+VZ9RVvkTZ7zFozsEC2EAwB6hXVX0n//6HjJGb7i4Qn8Kis4eCEV/4
-	ujWulHd0RKOs49/v5PoLNKaUUmNd5EenLig8LXsZ0F/wqhpSrGmCJwJyZzFd/358+jXTIz
-	mjUETKPj9R+Q2Mjpw91XZyFNeyHB+6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780139737;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SvdTnOqDUuaISygzxpB5+o01Gyll44W9NCHBRGZT/Bs=;
-	b=+O6h8mMmADHSqWWyoYhD0+Lhyo+RioIQf5eO+XAcg6aMF0odVMwKjyIlOO/6I+WXxkS1gX
-	EnVLT5B2Rk6SBVBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E28A779A7;
-	Sat, 30 May 2026 11:15:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 73PhHdnGGmr0IwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Sat, 30 May 2026 11:15:37 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 22A8CA0EBD; Sat, 30 May 2026 13:15:37 +0200 (CEST)
-Date: Sat, 30 May 2026 13:15:37 +0200
-From: Jan Kara <jack@suse.cz>
-To: Philipp Matthias Hahn <pmhahn@pmhahn.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: Proper error-handling of cdev_add() after cdev_alloc() ?
-Message-ID: <f64qxrwhhfrxxcp4z7kaeudoz5x7irzu5tjhcu2qarzdhtf6e3@g4g3ytghcyoe>
-References: <agLivEl8W_gjAi51@birdy.pmhahn.de>
- <ahb5O4PqQd51u8Ke@birdy.pmhahn.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDIWChJZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D8F1F00899
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 11:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780140504;
+	bh=sq2iLDCXi6pDren51u1cQUzgAX9nwmLUuBb8+qFvt4c=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=JDIWChJZ5HBvxKRLY86aQ4mCtPB3mchD3+6j9CO4V3Zfldriy00F20T5l3/KrTzEY
+	 4iR2RT0/j4sFVS1dQZ/Kbkfjh+fEolP841WKNsjUJFg8pH7aW7wVjF2094d8vdd0yT
+	 HfLx9I2ayMHn6z3e0AlbCQldDW0lN2gN+c90HvIUP+7aJ7IsKwQGIOKBSeqTjRsoBI
+	 ko7ERB7kigumw4pkHRSD43tDFRqmRP5JBD5hbwk+j2P9SMScEXjdbJq2rCbpw0pIli
+	 7OftayBRqrL6XlN3WhscSpvzvxc1T1f7oK8QNIhax3GHkFLgbDcsu2J8qGGruoUQ+p
+	 p14DeXvsONWtg==
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8cc0ef7c306so122143026d6.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 04:28:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9GLQOpoY5CeiLU7vXGPC+oelf/PL0lJb8xfG0NZvbe3VGVxnLK7pXLjF7OYu9npIKsceL+nri6Oq9XbPXq@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG3gXSlKVTqZYzYourBVmLR29L4pezgzx5jXm8srLT98UlBHVl
+	iuYy3E32V+wfSJX64UrTHf9x6mH34B/J/0+ccYZ+0tN9iViBvqWcbDy+zXqfC2pQ1FRBjACAo1K
+	NG0PQzGopRZb6AMn2EA2OHtW69TvieVg=
+X-Received: by 2002:a05:620a:45aa:b0:914:c246:ac9d with SMTP id
+ af79cd13be357-9153d9f76eamr544656885a.28.1780140503550; Sat, 30 May 2026
+ 04:28:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahb5O4PqQd51u8Ke@birdy.pmhahn.de>
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 8AA6B6789E
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
+References: <20260527110147.17815-1-tao.wangtao@honor.com> <ahcANgFDFwfC0v1q@lucifer>
+ <b24b4a8198ba412f8b8b42c43dccd058@honor.com> <ahf2mJg9OOWvu0jA@lucifer>
+ <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
+ <87qzmu2r0t.fsf@trenco.lwn.net> <ahmzXSN_sQYmq2Jp@lucifer>
+In-Reply-To: <ahmzXSN_sQYmq2Jp@lucifer>
+From: Barry Song <baohua@kernel.org>
+Date: Sat, 30 May 2026 19:28:12 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4yDek3neUQ_Le8nWr1XA7YrqZDKXZJX+u5f9kvv9=d0vQ@mail.gmail.com>
+X-Gm-Features: AVHnY4LYmPGlt-SyUQzP7ovTfzzfgSTVLh1_UKbg7JbyXYbDT08n9Dn5EUIKOuU
+Message-ID: <CAGsJ_4yDek3neUQ_Le8nWr1XA7YrqZDKXZJX+u5f9kvv9=d0vQ@mail.gmail.com>
+Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma creation
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, wangtao <tao.wangtao@honor.com>, 
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
+	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>, 
+	"luizcap@redhat.com" <luizcap@redhat.com>, 
+	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
+	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>, 
+	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>, 
+	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"ziy@nvidia.com" <ziy@nvidia.com>, 
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
+	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, 
+	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, 
+	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
+	"matthew.brost@intel.com" <matthew.brost@intel.com>, 
+	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>, 
+	"byungchul@sk.com" <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>, 
+	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>, 
+	"pfalcato@suse.de" <pfalcato@suse.de>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
+	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
+	"dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>, 
+	wangzicheng <wangzicheng@honor.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello!
+On Fri, May 29, 2026 at 11:40=E2=80=AFPM Lorenzo Stoakes <ljs@kernel.org> w=
+rote:
+>
+> On Fri, May 29, 2026 at 09:07:30AM -0600, Jonathan Corbet wrote:
+> > Barry Song <baohua@kernel.org> writes:
+> >
+> > > After coming back from Zagreb, I kept trying to find one or
+> > > two full days to read Lorenzo's code and slides carefully and
+> > > write a blog about them. Unfortunately, I have been completely
+> > > busy with other work. Sigh... we always seem to have too many
+> > > non-upstream tasks.
+> > >
+> > > If possible, I'd really appreciate it if you could take a
+> > > deep dive into it and write a detailed blog post. I'd be
+> > > very eager to read it and better understand the overall design.
+> > > Otherwise, I'll try to find some time next week or later to
+> > > go through it myself.
+> >
+> > It's still somewhat superficial, but in case it's helpful:
+> >
+> >   https://lwn.net/Articles/1072378/
+> >
+>
+> I found it to be great as usual :)
 
-On Wed 27-05-26 16:01:31, Philipp Matthias Hahn wrote:
-> > How should errors of `cdev_add()` after `cdev_alloc()` be handled?
-> 
-> sorry for ping-ing you directly, but so far got no answer and I would
-> like to get a definitive answer on this before I spend more time on this
-> to create and send patches. Thank you.
++1
+Thanks very much, Jon. That's really helpful.
 
-So I don't really feel like chrdev specialist but based on reading the
-code:
+>
+> > jon
+>
+> Cheers, Lorenzo
 
-> Am Tue, May 12, 2026 at 10:20:13AM +0200 schrieb Philipp Matthias Hahn:
-> > The basic schema seems to be like this:
-> > 
-> > 	cdev = cdev_alloc();
-> > 	if (!cdev)
-> > 		return -ENOMEM;
-> > 	...
-> > 	ret = cdev_add(cdev, ...);
-> > 	if (ret < 0) {
-> > 		/* WHAT HERE ??? */
-> > 		return ret;
-> > 	}
-> > 	...
-> > 	return 0;  // success
-> > 
-> > I found 5 case of how errors are handled:
-> > 
-> > 1.  kfree(cdev);
-> > 	drivers/media/v4l2-core/v4l2-dev.c:1060
-> > 
-> > 2.  kobject_put(&cdev->kobj);
-> > 	drivers/char/xillybus/xillybus_class.c:107
-> > 	fs/char_dev.c:293
-> > 	drivers/s390/char/vmlogrdr.c:780
-> > 	drivers/tty/tty_io.c:3171
-> > 	drivers/uio/uio.c:925
-> > 
-> > 3.  cdev_del(cdev);
-> > 	drivers/char/virtio_console.c:1435
-> > 	fs/fuse/cuse.c:419
-> > 	drivers/misc/mei/main.c:1318
-> > 	drivers/s390/char/tape_class.c:92
-> > 	drivers/s390/char/vmur.c:928
-> > 	drivers/scsi/sg.c:1560
-> > 	drivers/scsi/st.c:4307
-> > 	drivers/staging/vme_user/vme_user.c:694
-> > 
-> > 4.  No error handling at all.
-> > 	arch/sh/boards/mach-landisk/gio.c:145
-> > 
-> > 5.  panic()
-> > 
-> > Currently I'm unsure of what's the correct way.
-> > My current understanding is, that `cdev_del()` should only be called if
-> > `cdev_add()` succeeded, so those findings above should be fixed. But
-> > to what?
-> 
-> I guess __register_chrdev() from fs/char_dev.c:293 is correct and
-> 	kobject_put(&cdev->kobj);
-> should be used.
-
-This indeed looks like proper handling of the failure.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Best Regards
+Barry
