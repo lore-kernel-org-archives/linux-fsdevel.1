@@ -1,307 +1,103 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E1A233920;
-	Sat, 30 May 2026 01:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2218C1F5437
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 01:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780104101; cv=none; b=eFHK3UwQlcB9ZO0C1iw5Eu445+v+B0yD43nLTLEIVTXFQZzlG5MumMt6tiCF8JFIrr1Fvbfx4RJBvC+giN8ymMaooLWptxERGLxx38YW+J8aiwySv3TTudH6jUBnCMwDrsoPbO5MYibNGemoAUEs+rhUpOJHK1XWgcD+/+RkXpc=
+	t=1780105069; cv=none; b=I4pY87xqSNWZje+1Xf8M7ZH+hQGO3xHNHeBhz0q1LzK2Gl46bxP/WcBZPijb03pFZTyOlSgIGB8yid8LEEvLYNSoU8g2rSj15Q/xl8N2c/y1bMJjMdA17qjw35b56rQa3TBxURgfq4j/5ZTFwcT8Gk+d3VY4748V+fYQt7M9pIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780104101; c=relaxed/simple;
-	bh=I9h44NgYixv8hPi4r+t+3lTg+AVFRMIZ1pEJ0OvdHbU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JaRUNzqJnDx0/wrq6hVQMXmzqXJiBL6WXRZz26FMvfwyjVsLJJeUOOs6QXXqx4jeqb9dmMZAsSfmPKYOdhItzw00/R3R9FcwwTHF9co2ONEsCEdEflh/xOtLV4lxZdmkIOX6E0AlYRavb3AwuWHYfI3kuvg2LkNMVtRETcCQL3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gS2Vf6Wl7zKHMKL;
-	Sat, 30 May 2026 09:21:14 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 968AF4056D;
-	Sat, 30 May 2026 09:21:33 +0800 (CST)
-Received: from [10.174.178.253] (unknown [10.174.178.253])
-	by APP4 (Coremail) with SMTP id gCh0CgAHz1qbOxpqCqKEEA--.54113S3;
-	Sat, 30 May 2026 09:21:33 +0800 (CST)
-Message-ID: <29370885-bd50-4032-939f-2c377330872d@huaweicloud.com>
-Date: Sat, 30 May 2026 09:21:31 +0800
+	s=arc-20240116; t=1780105069; c=relaxed/simple;
+	bh=LHyB+JnY3kd4bb6QzQwMUTL6CC6B386HnI7zURYW23k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CYcyb1FPXEMbFdr/SZhtHnTmdAnAGmRcFvkn1NmhfNro0rUivJ2q55p8SyKBAaNPfGgtNbtdLnoRP6uro9Uogj4Ex1NiNBxBsfLrpUlFQd9ge5XjwZEmXyhwNMn8jvJYwdUH2YfhZlvoT5zU65rSdbk9p5v60JgV1ay3n44m5cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CrxerMGg; arc=none smtp.client-ip=74.125.82.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CrxerMGg"
+Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-304545f5206so11758792eec.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 29 May 2026 18:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780105066; x=1780709866; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nEddm1iPZoYFl6fvCyhLcBAQ8Jfqvmn8ZxI1n9Q+nVM=;
+        b=CrxerMGgS/xl3Mrz9ts21jXH47Y5ZRfAK2eLXXrw0EpF4PDeko5P+VLto5bEmjg1Vz
+         apFKu/t9v4FF+S7+MDPyoJDQXzlOFUAM4OFEshSdmecjissgTcsOZ8qEUh2Njo2UaHjM
+         frbVWlWNu4pyW8+x7CztvbRzSNHU8hx/qxiZv2NKsT9sR4gFPyr3lsHZSxQ51Of8vVhq
+         x9kqfGYr6+L5+rjHLzNS/pREdTP8yswHHW82keS1dGe+iIvRHoee3Bu+hfPS1VN5QEwL
+         He/HRjL1znnYtKwGkad8lmZ+WK2j6SgsRE0J441qvzebcZ57I5IY7N0lfz8Xl2teNapd
+         JWsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780105066; x=1780709866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nEddm1iPZoYFl6fvCyhLcBAQ8Jfqvmn8ZxI1n9Q+nVM=;
+        b=RYCDxoP2PDf3WMdAflG97wYJm4ggxRla1aW9lcpty1mMivzy0DgK9Y85How1+8Q3On
+         a+EcCnoDE6rZcoiB6faUQm1bm6Z/d4ViBJIGD3740QlOLjMy4ZaGFHOm91gaTpUVFXM0
+         lq/9aPnduUXuBLAHo0W+4EjDOaRkP74XMCTmfx0/YZeqDtpzjK23ZH2i99M98YRNMNhK
+         xaW629XUuluYn8fBHjts1qXhaZACtK23u6CPjHN5xVuy1/BMNK0GZdoIicoM1tJZFvm3
+         f8sa69U+LaVFRJbdLhsAuV5y9Logfz0LI26tSKjw3nfuEpwSRFJUB7y/o5cFRAIdAQtt
+         9/DA==
+X-Forwarded-Encrypted: i=1; AFNElJ/F/+3gHR5/dm25vWWCuBCqC7YMfXy7emO2SnKwWVqxlyk+PC61hqV416fvl2epmPo9bJRRuWCtXiVh/hh8@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6QvVECKGYfme+oFQFjgoFizUgR49Iyqv1uK4cgVM9uNS73B6i
+	+BW3qRyP4G3fxnlrNV8IlzL2Gv/XcssREeRyTFhSypT7Z18CKwi60dIQ
+X-Gm-Gg: Acq92OF3JDYEXJLAdDO8g4/W1tO4Dfj/2AEbibEY2w8DbugHFsLfhtQjO3pXctv7rP8
+	shpHRyXt6a6AwekJIIQDY86w+8eykKfpCiF/USR9QGkFrvG2v/WdC2sqhT/y/3Rn8l7N+Vz1ErR
+	aLmVl1Du9GAeaHiVVH6oVxxGMRThP4pCLyHnyNgMWoFFNnt8cclkHBPqz9VlGRGiRBkIypx7cJc
+	F/h+kSDNdR8Nyz+AQo71p/a91KWfp3SP4qiEukisEbdsKVrckR4aGgb+GV5YeKtbpQYsk4AVD+W
+	Vxh7I1mhn095WlPfevpqLjBTxd52wcBWrMT9aBLfs9HLTyVHY9Cumb1RkGPUQdCXaQe/vs/bGpi
+	P8JGX6Im4Hwh9j+ChIdvT0XhgDODy47q4tJzqT71bBSaYqaWu/Htyej9sx9fzhF148lrVAOwsFY
+	e878bkUcRZ6Od6mDF9pWY+9WMJad8s9w==
+X-Received: by 2002:a05:7300:2313:b0:2ea:c085:44b1 with SMTP id 5a478bee46e88-304fa5a7a4fmr1183998eec.19.1780105066164;
+        Fri, 29 May 2026 18:37:46 -0700 (PDT)
+Received: from anonyme ([2605:52c0:2:2f27:be24:11ff:fe89:6f0f])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed5a114dsm2881199eec.24.2026.05.29.18.37.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 18:37:45 -0700 (PDT)
+From: AnonymeMeow <anonymemeow@gmail.com>
+To: amir73il@gmail.com
+Cc: brauner@kernel.org,
+	jack@suse.cz,
+	repnop@google.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	AnonymeMeow <anonymemeow@gmail.com>
+Subject: [PATCH v3 0/2] fanotify: lift pidfd reporting restrictions
+Date: Sat, 30 May 2026 09:37:30 +0800
+Message-ID: <20260530013732.50811-1-anonymemeow@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/23] ext4: implement writeback path using iomap
-To: Ojaswin Mujoo <ojaswin@linux.ibm.com>, Zhang Yi <yizhang089@gmail.com>
-Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
- libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
- djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
- yangerkun@huawei.com, yukuai@fnnas.com
-References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
- <20260511072344.191271-10-yi.zhang@huaweicloud.com>
- <ahboWtDYXagrgTR4@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
- <458bda7a-c3c6-4cb3-9c05-0718cf2ef95f@gmail.com>
- <ahmxmrWzIWRR9PUm@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <ahmxmrWzIWRR9PUm@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAHz1qbOxpqCqKEEA--.54113S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxKrWUCF4DWrykGF4rAr1DJrb_yoWfuFW5pr
-	WkCF1UGr4UXry2grsavw12qrnakw48Kr47Wry3Ga4Yvr90yF1fKFWjkF1j9Fy0yr47CF1U
-	ZF4jkry7urWYyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
-	v3UUUUU
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Transfer-Encoding: 8bit
 
-On 5/29/2026 11:32 PM, Ojaswin Mujoo wrote:
-> On Fri, May 29, 2026 at 10:12:12PM +0800, Zhang Yi wrote:
->> Hi, Ojaswin!
->>
->> On 5/27/2026 8:49 PM, Ojaswin Mujoo wrote:
->>> On Mon, May 11, 2026 at 03:23:29PM +0800, Zhang Yi wrote:
->>>> From: Zhang Yi <yi.zhang@huawei.com>
->>>>
->>>> Add the iomap writeback path for ext4 buffered I/O. This introduces:
->>>>
->>>>   - ext4_iomap_writepages(): the main writeback entry point.
->>>>   - ext4_writeback_ops: a new iomap_writeback_ops instance to handle
->>>>     block mapping and I/O submission.
->>>>   - A new end I/O worker for converting unwritten extents, updating file
->>>>     size, and handling DATA_ERR_ABORT after I/O completion.
->>>>
->>>> Core implementation details:
->>>>
->>>>   - ->writeback_range() callback
->>>>     Calls ext4_iomap_map_writeback_range() to query the longest range of
->>>>     existing mapped extents. For performance, when a block range is not
->>>>     yet allocated, it allocates based on the writeback length and delalloc
->>>>     extent length, rather than allocating for a single folio at a time.
->>>>     The folio is then added to an iomap_ioend instance.
->>>>
->>>>   - ->writeback_submit() callback
->>>>     Registers ext4_iomap_end_bio() as the end bio callback. This callback
->>>>     schedules a worker to handle:
->>>>     - Unwritten extent conversion.
->>>>     - i_disksize update after data is written back.
->>>>     - Journal abort on writeback I/O failure.
->>>
->>> Hi Zhang, the changes look good. I have a few comments below:
->>>>
->>>> Key changes and considerations:
->>>>
->>>> - Append write and unwritten extents
->>>>    Since data=ordered mode is not used to prevent stale data exposure
->>>>    during append writebacks, new blocks are always allocated as unwritten
->>>>    extents (i.e. always enable dioread_nolock), and i_disksize update is
->>>>    postponed until I/O completion.
->>>
->>> Makes sense.
->>>
->>>>    Additionally, the deadlock that the
->>>>    reserve handle was expected to resolve does not occur anymore.
->>>
->>> I guess this is since we don't use ordered data so we can't block on
->>> starting a txn in end io.
->>
->> Yep.
->>
->>>
->>>>    Therefore, the end I/O worker can start a normal journal handle
->>>>    instead of a reserve handle when converting unwritten extents.
->>>>
->>>> - Lock ordering
->>>>    The ->writeback_range() callback runs under the folio lock, requiring
->>>>    the journal handle to be started under that same lock. This reverses
->>>>    the order compared to the buffer_head writeback path. The lock ordering
->>>>    documentation in super.c has been updated accordingly.
->>>>
->>>> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
->>>> ---
->>>>   fs/ext4/ext4.h        |   4 +
->>>>   fs/ext4/inode.c       | 208 +++++++++++++++++++++++++++++++++++++++++-
->>>>   fs/ext4/page-io.c     | 126 +++++++++++++++++++++++++
->>>>   fs/ext4/super.c       |   7 +-
->>>>   fs/iomap/ioend.c      |   3 +-
->>>>   include/linux/iomap.h |   1 +
->>>>   6 files changed, 346 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
->>>> index 4832e7f7db82..078feda47e36 100644
->>>> --- a/fs/ext4/ext4.h
->>>> +++ b/fs/ext4/ext4.h
->>>> @@ -1173,6 +1173,8 @@ struct ext4_inode_info {
->>>>   	 */
->>>>   	struct list_head i_rsv_conversion_list;
->>>>   	struct work_struct i_rsv_conversion_work;
->>>> +	struct list_head i_iomap_ioend_list;
->>>> +	struct work_struct i_iomap_ioend_work;
->>>>   	/*
->>>>   	 * Transactions that contain inode's metadata needed to complete
->>>> @@ -3870,6 +3872,8 @@ int ext4_bio_write_folio(struct ext4_io_submit *io, struct folio *page,
->>>>   		size_t len);
->>>>   extern struct ext4_io_end_vec *ext4_alloc_io_end_vec(ext4_io_end_t *io_end);
->>>>   extern struct ext4_io_end_vec *ext4_last_io_end_vec(ext4_io_end_t *io_end);
->>>> +extern void ext4_iomap_end_io(struct work_struct *work);
->>>> +extern void ext4_iomap_end_bio(struct bio *bio);
->>>>   /* mmp.c */
->>>>   extern int ext4_multi_mount_protect(struct super_block *, ext4_fsblk_t);
->>>> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
->>>> index 1ae7d3f4a1c8..a80195bd6f20 100644
->>>> --- a/fs/ext4/inode.c
->>>> +++ b/fs/ext4/inode.c
->>>> @@ -44,6 +44,7 @@
->>>>   #include <linux/iversion.h>
->>>>   #include "ext4_jbd2.h"
->>>> +#include "ext4_extents.h"
->>>>   #include "xattr.h"
->>>>   #include "acl.h"
->>>>   #include "truncate.h"
->>>> @@ -4120,10 +4121,215 @@ static void ext4_iomap_readahead(struct readahead_control *rac)
->>>>   	iomap_bio_readahead(rac, &ext4_iomap_buffered_read_ops);
->>>>   }
->>>> +static int ext4_iomap_map_one_extent(struct inode *inode,
->>>> +				     struct ext4_map_blocks *map)
->>>> +{
->>>> +	struct extent_status es;
->>>> +	handle_t *handle = NULL;
->>>> +	int credits, map_flags;
->>>> +	int retval;
->>>> +
->>>> +	credits = ext4_chunk_trans_blocks(inode, map->m_len);
->>>> +	handle = ext4_journal_start(inode, EXT4_HT_WRITE_PAGE, credits);
->>>> +	if (IS_ERR(handle))
->>>> +		return PTR_ERR(handle);
->>>> +
->>>> +	map->m_flags = 0;
->>>> +	/*
->>>> +	 * It is necessary to look up extent and map blocks under i_data_sem
->>>> +	 * in write mode, otherwise, the delalloc extent may become stale
->>>> +	 * during concurrent truncate operations.
->>>> +	 */
->>>> +	ext4_fc_track_inode(handle, inode);
->>>> +	down_write(&EXT4_I(inode)->i_data_sem);
->>>> +	if (ext4_es_lookup_extent(inode, map->m_lblk, NULL, &es, &map->m_seq)) {
->>>> +		retval = es.es_len - (map->m_lblk - es.es_lblk);
->>>> +		map->m_len = min_t(unsigned int, retval, map->m_len);
->>>> +
->>>> +		if (ext4_es_is_delayed(&es)) {
->>>
->>> I understand that it is okay for us to rely on extent status ==
->>> delayed here because we never reclaim delayed es entries and hence we
->>> are sure to not skip any delayed block allocations here.
->>
->> Yeah, right.
->>
->>>
->>>> +			map->m_flags |= EXT4_MAP_DELAYED;
->>>> +			trace_ext4_da_write_pages_extent(inode, map);
->>>> +			/*
->>>> +			 * Call ext4_map_create_blocks() to allocate any
->>>> +			 * delayed allocation blocks. It is possible that
->>>> +			 * we're going to need more metadata blocks, however
->>>> +			 * we must not fail because we're in writeback and
->>>> +			 * there is nothing we can do so it might result in
->>>> +			 * data loss. So use reserved blocks to allocate
->>>> +			 * metadata if possible.
->>>> +			 */
->>>> +			map_flags = EXT4_GET_BLOCKS_CREATE_UNWRIT_EXT |
->>>> +				    EXT4_GET_BLOCKS_METADATA_NOFAIL |
->>>> +				    EXT4_EX_NOCACHE;
->>>> +
->>>> +			retval = ext4_map_create_blocks(handle, inode, map,
->>>> +							map_flags);
->>>> +			if (retval > 0)
->>>> +				ext4_fc_track_range(handle, inode, map->m_lblk,
->>>> +						map->m_lblk + map->m_len - 1);
->>>> +			goto out;
->>>> +		} else if (unlikely(ext4_es_is_hole(&es)))
->>>
->>> Now that you've fixed the partial invalidate in iomap (patch 12/23)
->>> can we still hit this hole case?
->>
->> Theoretically, no hole should be encountered; this is just defensive
->> programming.
->>
->>>
->>>> +			goto out;
->>>> +
->>>> +		/* Found written or unwritten extent. */
->>>> +		map->m_pblk = ext4_es_pblock(&es) + map->m_lblk - es.es_lblk;
->>>> +		map->m_flags = ext4_es_is_written(&es) ?
->>>> +			       EXT4_MAP_MAPPED : EXT4_MAP_UNWRITTEN;
->>>> +		goto out;
->>>> +	}
->>>> +
->>>> +	retval = ext4_map_query_blocks(handle, inode, map, EXT4_EX_NOCACHE);
->>>> +out:
->>>> +	up_write(&EXT4_I(inode)->i_data_sem);
->>>> +	ext4_journal_stop(handle);
->>>> +	return retval < 0 ? retval : 0;
->>>> +}
->>>> +
->>>> +static int ext4_iomap_map_writeback_range(struct iomap_writepage_ctx *wpc,
->>>> +					  loff_t offset, unsigned int dirty_len)
->>>> +{
->>>> +	struct inode *inode = wpc->inode;
->>>> +	struct super_block *sb = inode->i_sb;
->>>> +	struct journal_s *journal = EXT4_SB(sb)->s_journal;
->>>> +	struct ext4_map_blocks map;
->>>> +	unsigned int blkbits = inode->i_blkbits;
->>>> +	unsigned int index = offset >> blkbits;
->>>> +	unsigned int blk_end, blk_len;
->>>> +	int ret;
->>>> +
->>>> +	ret = ext4_emergency_state(sb);
->>>> +	if (unlikely(ret))
->>>> +		return ret;
->>>> +
->>>> +	/* Check validity of the cached writeback mapping. */
->>>> +	if (offset >= wpc->iomap.offset &&
->>>> +	    offset < wpc->iomap.offset + wpc->iomap.length &&
->>>> +	    ext4_iomap_valid(inode, &wpc->iomap))
->>>> +		return 0;
->>>> +
->>>> +	blk_len = dirty_len >> blkbits;
->>>> +	blk_end = min_t(unsigned int, (wpc->wbc->range_end >> blkbits),
->>>> +				      (UINT_MAX - 1));
->>>
->>> This is an interesting idea. I'm just a bit worried when we have
->>> range_end == LLONG_MAX (bg flush) and we will always be trying to allocate
->>> MAX_WRITEPAGES, incase of a slightly fragmented FS, we might keep
->>> falling into slower mballoc criterias and might waste a lot of time
->>> scanning the groups.
->>
->> Actually, MAX_WRITEPAGES is not allocated every time; the allocated
->> length also depends on the length of data that has already been delayed
->> for writing, and the smaller value is taken. If the user has indeed
-> 
-> Hmm so we take the blk_end based on range_end (which is LLONG_MAX for bg
-> flusher) and then our blk_len will be set accordingly and would become a
-> large number as well. Then we will set map.m_len based on this blk_len
-> and MAX_WRITEPAGES. Am I missing something that clamps our m_len?
-> 
-Please take a look at ext4_iomap_map_one_extent():
+The pidfd API now supports pidfds for tasks that are not thread group leaders,
+but fanotify has not caught up yet. This patch set lifts that restriction and
+allows fanotify to report pidfds referring the event-generating thread.
 
-+		retval = es.es_len - (map->m_lblk - es.es_lblk);
-+		map->m_len = min_t(unsigned int, retval, map->m_len);
+Additionally, this patch set drops the pid_has_task() check before the
+pidfd_prepare() call, allowing fanotify to hand out pidfds for reaped tasks,
+as suggested by Christian.
 
-In this case, m_len is truncated to the length of the delalloc extent.
+Link: https://lore.kernel.org/lkml/20260528-schmuckvoll-heilen-garen-be77b4208671@brauner/
 
-Thanks,
-Yi.
+changes since v2:
+ - Split the two independent changes into separate patches.
+
+v2: https://lore.kernel.org/lkml/20260529020035.17477-1-anonymemeow@gmail.com/
+
+AnonymeMeow (2):
+  fanotify: report thread pidfds for FAN_REPORT_TID
+  fanotify: allow reporting pidfds for reaped tasks
+
+ fs/notify/fanotify/fanotify_user.c | 33 +++++++-----------------------
+ 1 file changed, 7 insertions(+), 26 deletions(-)
+
+-- 
+2.54.0
 
