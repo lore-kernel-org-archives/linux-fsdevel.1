@@ -1,71 +1,71 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C2722425B
-	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 14:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418F02566D3
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 14:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780151731; cv=none; b=O8PBF6c2AHMYyU9tA28e9dXu005azhTeuOsZFDit4rU94uQrA0meDWZWRd0deyf9OK1QdCBXljrMiIcbjoKb8aDVxkvYiaSQyDTiNt6IOXxkTvvOZyTgFBvkGQu3h7fIfurRdWTqArZR1b5A5LbKEE994aOT4Z3oTZCJoZjSee0=
+	t=1780151734; cv=none; b=Ep+x7RSk1w+jG26iKeAbGBkmcFKoya7Tbe36HhUh/8CtjkDVzNiwvMzdf9z+72OQCzHQ2hiyjKHLgNkXAUXjxpGiYYKfMGijRDCoQEpJ12OPIYv077L3+vLLQ0geFyhCuwLb1pByn67gAheCLvpe5WCLjKR5w5gw5EczchFId/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780151731; c=relaxed/simple;
-	bh=9icizL+Sjs2p+zTleA2i7He+9Wrfoo5fQEGr1xgi4KI=;
+	s=arc-20240116; t=1780151734; c=relaxed/simple;
+	bh=ijOuRHPAqJHZAughCM9VYDQ6TyLb0FcaeFQA6fy4rEs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=apFXTdYx8QlQRG/eo9e/YHY6oP9ff4GcyX4YYtM3Xjt22ws/whjd2TxtNfSLJ1jWSvLvnAhFbzT5nrLDrh4pdbHvLeQjz7SNIbNx4jN6HLqR6CkQJmaa+kYEoxTRoC7qK/zhe4uOff9Cdvn/zz+eHVNzQsTOSpr+dY8IyEcYJbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OGrlrdUg; arc=none smtp.client-ip=209.85.215.169
+	 MIME-Version; b=NCfI25TgGgfCvQXpZfkUQeu9TbgsfEhSVykghjCpwWrklvKYIL0hqWkGuTJ421jn8VQTDBh4m4upolJILX4f5Qc86HRlP0WIeIyABmHuNafn1Fm0EXswmkHHGIMkIPtXa30XFBrtEe4QjlVioXWUXE/NYd7OiiWZcgo3/7rq1ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BgFF979y; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OGrlrdUg"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c85640eaf62so247836a12.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 07:35:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BgFF979y"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-36b4d634bddso407072a91.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 07:35:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780151730; x=1780756530; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780151733; x=1780756533; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yl6ECZG8J6iHdI6eQPCRlThUPWfxjh8VpTkkklcQYXg=;
-        b=OGrlrdUg3OB0d8p2aFaVQb9KkSSIjzBKU0eZV8d9uW25fuVHMmJOa2wUqxi8jMfGVa
-         wCzrm8qxZr30xdY16/BFVCIeCsd/xIqbVE36W5DqMx+0aH0A/SGDgX7E78BhqqmKbabH
-         tUV3ILGw3G0QVEY4yUBKT9O2peUL9F6dCeRwk1iVQkPrN4/YMRL7tSguELVx/UVweh4x
-         iYRXyZNex2NFZUg4g/Vv0d7wPaHlFh9igapvJ7MShKycYR536UxRjtlv0vwMl9QzHcuJ
-         +fIw4knkXBNgKRBeLTH4jy3N/3YXBnMPdxBaAeTnU6Xv2T6qHAZKgPf3+jSQ4kkPCbnW
-         /2wg==
+        bh=zDfvTLy1+sJMtcgOCTiZxQEYHCAfpO8m5RiCueB0hpU=;
+        b=BgFF979yQqBJ2IfV0n0QAe7fhjE9Hrw5cv2O1+1m+WbH9dBl0iOPjfIX3bfb3EGtjI
+         Jdmdl9txzNo+H+vDgIQW0RRgXX0rrCeTZ2IQ/7/EVyKnF6XT1rGxtfBBg4S89hfpcBq6
+         RLjH8oy/Lx7mciOvIzMYCpqUjb+T0lk4IAn8FJ1K+n+KOIJ6oOONbv/WdKCpAS78gL08
+         sIJPFA/gtjFL81ToJlGL6kXp1Hy7A5Qu6E8OSEuetgZaJynhU0YBaX+1Sg43u7spbdGF
+         fR0l3FQQakdU1853IopmL2ErQ3g5UwPLyCAvRm53nftwZ1jkhCh1vIcopRS4G6UgvuP7
+         dq+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780151730; x=1780756530;
+        d=1e100.net; s=20251104; t=1780151733; x=1780756533;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=yl6ECZG8J6iHdI6eQPCRlThUPWfxjh8VpTkkklcQYXg=;
-        b=lvdNeCx1I/XPRbRgOZu9egTL4nLZY68Jrb8uDdMschPKU2WCAgdtA7cvUDiD6MrPJW
-         0J3UMQO+SSxD/LFW5AXrjuWU76N4ZS/nke7lEBQtQqN9OZvo9jY1UZct1JFDtIsgquGK
-         I2Hdt8ill24z6FZXQeg+RXbaeRrBIS6atIntQmu46GWTeWfcMrp5f6wDzxeWWdXLsk8I
-         3Ki8izlLk71QgCA/OtNVluarfZNk8dHuA5ApOCpx7nQXiABQVrCyJb5QCxzHKZJSh0FR
-         mMaZhAra7DKGOJcQyTsvDmwtVzVXg+Lcg092PWnsLNMTpAnZelXMNepnPvRrAqFwUGtG
-         +x5A==
-X-Gm-Message-State: AOJu0YwRvnP4pjJ1lu5MZzJ/PwJOCojnwJFEM1MLb1gWymzwuHVqI4aJ
-	fkCHVCIACfPeBaDj7SvQEX8Jd3J+Z574hGbwyu8QI2dWDX9i1Cr4ptrmp88qRw==
-X-Gm-Gg: Acq92OH5usfBszxCNzD1CBpPDjDgvtDiUyXEZrPaz6Vtmh7Zb/bazHGPFvCTkEq1rU9
-	e1hfbujgv8fk7SUhbnerQMiMI2aVsqlNz+icRYVcWIwFOD79i3WKXkxK96C1kDBjh10vahOkBI0
-	zCm01WnBZL2MVd5aQdS6Jh4eJ+Zu3YdEPZWlIbpiIoB3ZNrTV8sDuieLoY3WomtDc9LBe6vkXhs
-	myoIAZD3/ougsdijlnI3NQx8Bu78Yqr+VvrLhgLMa0K4IgWHOsPT2f3Bekril0c6zasaUPDf08F
-	wpU7Zu5DmX2J3kqAIKsubWn9oIBCp4IFEOtC/9FFDIKZ1y/3jjI00GR2vdxzKZnpIVG72oDOl5F
-	VXSOJnR5mqTypDnJnh4zOY+353M2lfgQ7TfKpBk2D6NQE3f/Jumt6jsOaA9/StYZT2bqTW2opNj
-	ONNMLDyJhhvOP4bVHpv1IsXx5om/A=
-X-Received: by 2002:a05:6a00:124b:b0:82f:6a82:4231 with SMTP id d2e1a72fcca58-8422533341amr1692669b3a.1.1780151729690;
-        Sat, 30 May 2026 07:35:29 -0700 (PDT)
+        bh=zDfvTLy1+sJMtcgOCTiZxQEYHCAfpO8m5RiCueB0hpU=;
+        b=k8jddHCsMum0bPePg676z9LrQqYSzwMI6W3DAPn/DBzbkTSHWQI/PV5BKZ5I7sI8Dx
+         QtU0R1qp5Lz1L+RLOt2ZWec9r+tXnszXaKzVB3ZHTOE/EC5L2XvKnAYYbpiFxF05DvP6
+         PqVqU8wMGQg8+eZY5rhx/ijLjaf9qzqbEwkYMlkyRGr6ikjCddU754/jH6a17gyBkCaG
+         FpRnbwjWUbXtc5n1DmsBU1LZkUVCTZl16uZZNPYfh4CNhiRisz8uIy9NrdkTZ5n8aka/
+         UclBlikcaViy6uO/ES2TZPeEDky6H/OtaCqTgjsAY9uYKEnIf4ycZ1D7zu87Cy/j+iCa
+         yy7g==
+X-Gm-Message-State: AOJu0YzokxoVqJhEdQmzTaRRqRmOSU01raEkKhj9q5rllXVp1plg2Hhm
+	R9MnHPayY+2YYS88AhhowBIkWeBV4/Q9LziTnGO6sZb1zw6f+SUFs+dr
+X-Gm-Gg: Acq92OFyDTdbcobTwP6ufEiipNzpWWzutUG/qUwIhIW2Mj0P2mvsxt+QnGHA6xbfZYU
+	kApI36fsn3CgFOV5lkhcIaDbx4A4fXI2bz5R+tt+a+GKzWQRuFO9kkJWgx5Jzq6A4yRPq9F//3g
+	uL6pys6mV2tTWUa/x3+Eefgl65UzLsEeLMEs3AUPNZxdarpx+/rRBCqhF9V2rdszhbTZJR1jdB1
+	sQ/nCBwC08Pv9BjNJ7LC18HT/pddiy4K2aea9uMxRpBkQVxgDXxhdejsCuF8QgEe6KjsVRFpSGB
+	eD75aYr1LCmBXgo0qMrCC6/OCW4+QNRihZdReaNvdmyWNrknfI0X8JYiKoK8zZjIKu7hfZiE2ZE
+	F34sq6HP/Xy0wYlnLsqKWLOBRMVDNpjGq6IWzVeeE4kOzH7lagjyaeZIb2FDycvtUy7jBEGNHKw
+	2KiAKv3gNMBKBTQEg6ag+Jfa3d4H0=
+X-Received: by 2002:a05:6a21:9189:b0:39f:a451:4a6a with SMTP id adf61e73a8af0-3b427e9c7c1mr2162463637.5.1780151732474;
+        Sat, 30 May 2026 07:35:32 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b2acb7sm5832280b3a.13.2026.05.30.07.35.28
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b2acb7sm5832280b3a.13.2026.05.30.07.35.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 07:35:29 -0700 (PDT)
+        Sat, 30 May 2026 07:35:32 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v4 3/6] ntfs: reinit search context before volume information lookup
-Date: Sat, 30 May 2026 23:35:11 +0900
-Message-ID: <20260530143514.3083601-4-charsyam@gmail.com>
+Subject: [PATCH v4 4/6] ntfs: validate resident volume name values on lookup
+Date: Sat, 30 May 2026 23:35:12 +0900
+Message-ID: <20260530143514.3083601-5-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260530143514.3083601-1-charsyam@gmail.com>
 References: <20260530143514.3083601-1-charsyam@gmail.com>
@@ -77,36 +77,65 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On mount the volume inode is searched for $VOLUME_NAME and then, reusing
-the same search context, for $VOLUME_INFORMATION. The $VOLUME_NAME lookup
-is optional and its result is otherwise ignored.
+The shared lookup-time attribute validator now has a safe caller path for
+$VOLUME_NAME corruption: ntfs_write_volume_label() no longer treats
+lookup errors as an absent label, and the mount path reinitializes its
+search context before continuing to $VOLUME_INFORMATION.
 
-Once lookup-time validation can reject a corrupt $VOLUME_NAME with -EIO,
-the search context is left in an undefined state: ntfs_attr_find()
-documents that on an actual error @ctx->attr is undefined. Continuing the
-$VOLUME_INFORMATION search from that context is not contractually valid.
+Add $VOLUME_NAME-specific resident value validation. A volume name is
+stored as a UTF-16LE string, so reject odd byte lengths, and reject
+values longer than the NTFS volume label limit. Empty labels remain
+valid.
 
-Reinitialize the search context before the $VOLUME_INFORMATION lookup so
-it always starts from a well-defined state regardless of the
-$VOLUME_NAME lookup outcome.
+Also reject non-resident $VOLUME_NAME records. $VOLUME_NAME is required
+to be resident, like $FILE_NAME; a crafted non-resident record would
+otherwise pass lookup and ntfs_write_volume_label() would remove it as if
+it were a normal resident attribute.
 
 Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 ---
- fs/ntfs/super.c | 1 +
- 1 file changed, 1 insertion(+)
+ fs/ntfs/attrib.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index 140b8c8a811e..79b530280d87 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -1537,6 +1537,7 @@ static bool load_system_files(struct ntfs_volume *vol)
- 			vol->volume_label = NULL;
- 	}
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index 98e0b8ea2edd..7e293b85ad19 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -607,6 +607,14 @@ static bool ntfs_file_name_attr_value_is_valid(const u8 *value, const u32 value_
+ 			value_length - offsetof(struct file_name_attr, file_name);
+ }
  
-+	ntfs_attr_reinit_search_ctx(ctx);
- 	if (ntfs_attr_lookup(AT_VOLUME_INFORMATION, NULL, 0, 0, 0, NULL, 0,
- 			ctx) || ctx->attr->non_resident || ctx->attr->flags) {
- 		ntfs_attr_put_search_ctx(ctx);
++static bool ntfs_volume_name_attr_value_is_valid(const u32 value_length)
++{
++	if (value_length & 1)
++		return false;
++
++	return value_length <= NTFS_MAX_LABEL_LEN * sizeof(__le16);
++}
++
+ struct ntfs_resident_attr_value {
+ 	const u8 *data;
+ 	u32 len;
+@@ -657,7 +665,7 @@ static bool ntfs_attr_value_is_valid(struct ntfs_volume *vol,
+ 	u32 min_len;
+ 
+ 	if (a->non_resident) {
+-		if (a->type == AT_FILE_NAME)
++		if (a->type == AT_FILE_NAME || a->type == AT_VOLUME_NAME)
+ 			goto corrupt;
+ 		if (!ntfs_non_resident_attr_value_is_valid(a))
+ 			goto corrupt;
+@@ -676,6 +684,10 @@ static bool ntfs_attr_value_is_valid(struct ntfs_volume *vol,
+ 		if (!ntfs_file_name_attr_value_is_valid(value.data, value.len))
+ 			goto corrupt;
+ 		break;
++	case AT_VOLUME_NAME:
++		if (!ntfs_volume_name_attr_value_is_valid(value.len))
++			goto corrupt;
++		break;
+ 	}
+ 	return true;
+ 
 -- 
 2.43.0
 
