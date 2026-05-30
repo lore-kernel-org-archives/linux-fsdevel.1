@@ -1,71 +1,71 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418F02566D3
-	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 14:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8202D9ECA
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 14:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780151734; cv=none; b=Ep+x7RSk1w+jG26iKeAbGBkmcFKoya7Tbe36HhUh/8CtjkDVzNiwvMzdf9z+72OQCzHQ2hiyjKHLgNkXAUXjxpGiYYKfMGijRDCoQEpJ12OPIYv077L3+vLLQ0geFyhCuwLb1pByn67gAheCLvpe5WCLjKR5w5gw5EczchFId/0=
+	t=1780151737; cv=none; b=F/GEsSv7RYexFuP/YMwmxB98YzJDUaK0X7Wr6vP3EF2pjO7AkRP6xJN2F8Fe58+e+H4A+aEoP+s2Ah+Zx2q9PpsgLf+acF3yNC0F1el3qTTCh+YnOOz51QMv1/pE8lE4PaAs2mAbEFfMhUBQPezref8yngLrXAIhzfDjstYrTrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780151734; c=relaxed/simple;
-	bh=ijOuRHPAqJHZAughCM9VYDQ6TyLb0FcaeFQA6fy4rEs=;
+	s=arc-20240116; t=1780151737; c=relaxed/simple;
+	bh=sVgzmvJrwwfRTA5jIT18ZQAVVs4t/EJoipsudjW5zlc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NCfI25TgGgfCvQXpZfkUQeu9TbgsfEhSVykghjCpwWrklvKYIL0hqWkGuTJ421jn8VQTDBh4m4upolJILX4f5Qc86HRlP0WIeIyABmHuNafn1Fm0EXswmkHHGIMkIPtXa30XFBrtEe4QjlVioXWUXE/NYd7OiiWZcgo3/7rq1ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BgFF979y; arc=none smtp.client-ip=209.85.216.42
+	 MIME-Version; b=OoFMRgGYz8O8LFy21jeXqb0aea12mfG35Fervlmyf3fYq86zFQqyHKCifyVimRXjTFQ56tLtGzCq6DIiw/IgA/efbEMpWZjEXjV5gDlk4AMC9me2Wc++qYIQzHqh/kYpFLrrsltfTGlhHK45NVmxm3mmJpWAuGGqBj1PW1yGnqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pPNePyYG; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BgFF979y"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-36b4d634bddso407072a91.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 07:35:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pPNePyYG"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c8576ae4702so73079a12.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 07:35:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780151733; x=1780756533; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780151735; x=1780756535; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zDfvTLy1+sJMtcgOCTiZxQEYHCAfpO8m5RiCueB0hpU=;
-        b=BgFF979yQqBJ2IfV0n0QAe7fhjE9Hrw5cv2O1+1m+WbH9dBl0iOPjfIX3bfb3EGtjI
-         Jdmdl9txzNo+H+vDgIQW0RRgXX0rrCeTZ2IQ/7/EVyKnF6XT1rGxtfBBg4S89hfpcBq6
-         RLjH8oy/Lx7mciOvIzMYCpqUjb+T0lk4IAn8FJ1K+n+KOIJ6oOONbv/WdKCpAS78gL08
-         sIJPFA/gtjFL81ToJlGL6kXp1Hy7A5Qu6E8OSEuetgZaJynhU0YBaX+1Sg43u7spbdGF
-         fR0l3FQQakdU1853IopmL2ErQ3g5UwPLyCAvRm53nftwZ1jkhCh1vIcopRS4G6UgvuP7
-         dq+w==
+        bh=P0z7rLBKen5DM92a4OaucYeckexSO2wBy9x5XZ4xp3g=;
+        b=pPNePyYG6N/9VS/yimSWKEuw6neIwiXrtXdYdB8DOSQNWqbzl1ayH2qeBE/jVnlpot
+         pH78ObKsTiT1SDZ1dM7yJrWz/nV+YLNXw1c2qYFnUecp3H+pgEEnOPMTI5AUyNtjsNyg
+         9JTbBPrcBZIH0jTMSYN7Gmy+Y9DieB+lwpytQ1SKf/zXqWEk2r756bMArSxIgbsdpKos
+         voQz03DSD8RQII33t+pOSdOKaR9Of1MLDwEqplFapccn0sisyjUyTqGrz3O2GDtSsEBQ
+         YgKOpJ3DOF7+T6wi6dtpfjGVopriKncJcfOBaNOpCzEcQzvVpQtu5Rm/T9PnNWcOh8yx
+         p1bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780151733; x=1780756533;
+        d=1e100.net; s=20251104; t=1780151735; x=1780756535;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zDfvTLy1+sJMtcgOCTiZxQEYHCAfpO8m5RiCueB0hpU=;
-        b=k8jddHCsMum0bPePg676z9LrQqYSzwMI6W3DAPn/DBzbkTSHWQI/PV5BKZ5I7sI8Dx
-         QtU0R1qp5Lz1L+RLOt2ZWec9r+tXnszXaKzVB3ZHTOE/EC5L2XvKnAYYbpiFxF05DvP6
-         PqVqU8wMGQg8+eZY5rhx/ijLjaf9qzqbEwkYMlkyRGr6ikjCddU754/jH6a17gyBkCaG
-         FpRnbwjWUbXtc5n1DmsBU1LZkUVCTZl16uZZNPYfh4CNhiRisz8uIy9NrdkTZ5n8aka/
-         UclBlikcaViy6uO/ES2TZPeEDky6H/OtaCqTgjsAY9uYKEnIf4ycZ1D7zu87Cy/j+iCa
-         yy7g==
-X-Gm-Message-State: AOJu0YzokxoVqJhEdQmzTaRRqRmOSU01raEkKhj9q5rllXVp1plg2Hhm
-	R9MnHPayY+2YYS88AhhowBIkWeBV4/Q9LziTnGO6sZb1zw6f+SUFs+dr
-X-Gm-Gg: Acq92OFyDTdbcobTwP6ufEiipNzpWWzutUG/qUwIhIW2Mj0P2mvsxt+QnGHA6xbfZYU
-	kApI36fsn3CgFOV5lkhcIaDbx4A4fXI2bz5R+tt+a+GKzWQRuFO9kkJWgx5Jzq6A4yRPq9F//3g
-	uL6pys6mV2tTWUa/x3+Eefgl65UzLsEeLMEs3AUPNZxdarpx+/rRBCqhF9V2rdszhbTZJR1jdB1
-	sQ/nCBwC08Pv9BjNJ7LC18HT/pddiy4K2aea9uMxRpBkQVxgDXxhdejsCuF8QgEe6KjsVRFpSGB
-	eD75aYr1LCmBXgo0qMrCC6/OCW4+QNRihZdReaNvdmyWNrknfI0X8JYiKoK8zZjIKu7hfZiE2ZE
-	F34sq6HP/Xy0wYlnLsqKWLOBRMVDNpjGq6IWzVeeE4kOzH7lagjyaeZIb2FDycvtUy7jBEGNHKw
-	2KiAKv3gNMBKBTQEg6ag+Jfa3d4H0=
-X-Received: by 2002:a05:6a21:9189:b0:39f:a451:4a6a with SMTP id adf61e73a8af0-3b427e9c7c1mr2162463637.5.1780151732474;
-        Sat, 30 May 2026 07:35:32 -0700 (PDT)
+        bh=P0z7rLBKen5DM92a4OaucYeckexSO2wBy9x5XZ4xp3g=;
+        b=XXvH5eQzHT4Pnmw6ah5DTYpjxTQfTzFVCTHFAuVjwP2Kf3py4olmkWeo8QnKGOTeXk
+         lbTkYDsnPIUeHAHZB2uVuBVkqsMXyp+V+3RFF/sWOea+1zX/P/rtWhp6ejZCPuqJFdfa
+         Un0HZ46PJ27eOtgqrmFCmdvyjovGLh0c6hFtumWJzXjVaPb2z0nnEGAOmdHpezz2VI5i
+         GEZEEH7PIdLLJydTykZC8sHuZuoda+lWmEGbCtlel+21ysWmWh7HAe5ZQn5Wqs9s1bKR
+         ujB0l1Xo3RJzs+Yc9WGHCoY4nRdxxEJ4cDMp9Qvf6Ghyu7lpd7hKyre2VmMAyua7Hr8R
+         30Qw==
+X-Gm-Message-State: AOJu0YwV00Rgnw5+rFVIhj7Klnzuts2DbLJOf/4nVodoP2Ql30vDIXqh
+	ZJAhLk8K9DS7Oj9bMUmO43ihpjyNP8cihlf7UDl6g11aB7/z1REvCPC4
+X-Gm-Gg: Acq92OHypBFsbuOn7MPkgbRH5uk07fjzFWUKaxw+lfHvoCkFqOxCIcDQExH7k0U69i6
+	Xt3CVjF6bfSBMdp1hN166un2N/2Df9+qHofNu6k34Fnqg7Mg3+gJHJuLw0fsVJ/G1UcH6NpGDia
+	XGPQLTL4lDkQhUX9SJsqsBxFpZ4jEvUCD0AfmT91q2eB+fw6DrLRrU/iTRvDtFUVET7AwMN4kab
+	4F8DJLF/nVSBt8OrnUQobOJNhfc5O8gc5TK29xx6iS0THOOT25Te/gJvo9i5hm3YvI+xxUFeiyy
+	rL1PsG9hBAL8HIptNl/y2rkdOBAI06JO34tCN/wBd7pomlgEbFm34M1fNar3QwgJEw2/6aWYtIC
+	OQTDFN1F3O5t+A8HTn/4XetUPrLP68ZR+F9XOdAvGtXFZwEeVya8KX5xHKlWzJLAeqBqLU9DId0
+	hc1EPqyDL8biUTWpx/umwNoEJtNXo=
+X-Received: by 2002:a05:6a00:124b:b0:835:41f3:f434 with SMTP id d2e1a72fcca58-84225333915mr1897126b3a.1.1780151734907;
+        Sat, 30 May 2026 07:35:34 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b2acb7sm5832280b3a.13.2026.05.30.07.35.31
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b2acb7sm5832280b3a.13.2026.05.30.07.35.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 07:35:32 -0700 (PDT)
+        Sat, 30 May 2026 07:35:34 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v4 4/6] ntfs: validate resident volume name values on lookup
-Date: Sat, 30 May 2026 23:35:12 +0900
-Message-ID: <20260530143514.3083601-5-charsyam@gmail.com>
+Subject: [PATCH v4 5/6] ntfs: update index root allocated size before shrink
+Date: Sat, 30 May 2026 23:35:13 +0900
+Message-ID: <20260530143514.3083601-6-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260530143514.3083601-1-charsyam@gmail.com>
 References: <20260530143514.3083601-1-charsyam@gmail.com>
@@ -77,65 +77,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The shared lookup-time attribute validator now has a safe caller path for
-$VOLUME_NAME corruption: ntfs_write_volume_label() no longer treats
-lookup errors as an absent label, and the mount path reinitializes its
-search context before continuing to $VOLUME_INFORMATION.
+ntfs_ir_truncate() currently shrinks the resident $INDEX_ROOT value first
+and only updates index.allocated_size after re-looking up the attribute.
+During that relookup, the resident value_length can already be smaller
+while index.allocated_size still contains the old larger size.
 
-Add $VOLUME_NAME-specific resident value validation. A volume name is
-stored as a UTF-16LE string, so reject odd byte lengths, and reject
-values longer than the NTFS volume label limit. Empty labels remain
-valid.
+That leaves a transiently inconsistent $INDEX_ROOT layout and prevents
+lookup-time $INDEX_ROOT validation from being enabled: validation can
+correctly reject allocated_size extending past the newly shrunk resident
+value.
 
-Also reject non-resident $VOLUME_NAME records. $VOLUME_NAME is required
-to be resident, like $FILE_NAME; a crafted non-resident record would
-otherwise pass lookup and ntfs_write_volume_label() would remove it as if
-it were a normal resident attribute.
+When shrinking, lower index.allocated_size before shrinking value_length.
+If the truncate fails, restore the old allocated_size. Keep the existing
+grow ordering because the old allocated_size remains within the enlarged
+resident value until it is updated after the relookup. The shrink path is
+safe because the new value_length still covers struct index_root, so the
+index.allocated_size field remains present while it is updated first.
 
 Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
 ---
- fs/ntfs/attrib.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ fs/ntfs/index.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-index 98e0b8ea2edd..7e293b85ad19 100644
---- a/fs/ntfs/attrib.c
-+++ b/fs/ntfs/attrib.c
-@@ -607,6 +607,14 @@ static bool ntfs_file_name_attr_value_is_valid(const u8 *value, const u32 value_
- 			value_length - offsetof(struct file_name_attr, file_name);
+diff --git a/fs/ntfs/index.c b/fs/ntfs/index.c
+index 146e011c1a41..068c68a0f9cf 100644
+--- a/fs/ntfs/index.c
++++ b/fs/ntfs/index.c
+@@ -1280,9 +1280,16 @@ static int ntfs_ir_reparent(struct ntfs_index_context *icx)
+ static int ntfs_ir_truncate(struct ntfs_index_context *icx, int data_size)
+ {
+ 	int ret;
++	u32 old_allocated_size;
++	bool shrink;
+ 
+ 	ntfs_debug("Entering\n");
+ 
++	old_allocated_size = le32_to_cpu(icx->ir->index.allocated_size);
++	shrink = data_size < old_allocated_size;
++	if (shrink)
++		icx->ir->index.allocated_size = cpu_to_le32(data_size);
++
+ 	/*
+ 	 *  INDEX_ROOT must be resident and its entries can be moved to
+ 	 *  struct index_block, so ENOSPC isn't a real error.
+@@ -1294,9 +1301,14 @@ static int ntfs_ir_truncate(struct ntfs_index_context *icx, int data_size)
+ 		if (!icx->ir)
+ 			return -ENOENT;
+ 
+-		icx->ir->index.allocated_size = cpu_to_le32(data_size);
+-	} else if (ret != -ENOSPC)
+-		ntfs_error(icx->idx_ni->vol->sb, "Failed to truncate INDEX_ROOT");
++		if (!shrink)
++			icx->ir->index.allocated_size = cpu_to_le32(data_size);
++	} else {
++		if (shrink)
++			icx->ir->index.allocated_size = cpu_to_le32(old_allocated_size);
++		if (ret != -ENOSPC)
++			ntfs_error(icx->idx_ni->vol->sb, "Failed to truncate INDEX_ROOT");
++	}
+ 
+ 	return ret;
  }
- 
-+static bool ntfs_volume_name_attr_value_is_valid(const u32 value_length)
-+{
-+	if (value_length & 1)
-+		return false;
-+
-+	return value_length <= NTFS_MAX_LABEL_LEN * sizeof(__le16);
-+}
-+
- struct ntfs_resident_attr_value {
- 	const u8 *data;
- 	u32 len;
-@@ -657,7 +665,7 @@ static bool ntfs_attr_value_is_valid(struct ntfs_volume *vol,
- 	u32 min_len;
- 
- 	if (a->non_resident) {
--		if (a->type == AT_FILE_NAME)
-+		if (a->type == AT_FILE_NAME || a->type == AT_VOLUME_NAME)
- 			goto corrupt;
- 		if (!ntfs_non_resident_attr_value_is_valid(a))
- 			goto corrupt;
-@@ -676,6 +684,10 @@ static bool ntfs_attr_value_is_valid(struct ntfs_volume *vol,
- 		if (!ntfs_file_name_attr_value_is_valid(value.data, value.len))
- 			goto corrupt;
- 		break;
-+	case AT_VOLUME_NAME:
-+		if (!ntfs_volume_name_attr_value_is_valid(value.len))
-+			goto corrupt;
-+		break;
- 	}
- 	return true;
- 
 -- 
 2.43.0
 
