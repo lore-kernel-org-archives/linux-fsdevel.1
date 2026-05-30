@@ -1,125 +1,299 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46E239A81B
-	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 11:28:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5653AC0C8
+	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 11:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780140505; cv=none; b=HcBaiy0r6tQzzuRpMF8hwGCdWUBlkBCksrcB0SNriegPKugH+Djgjjo/5igthLaaZSVaFhLmfGI4Fmj88SpniX6rInvLMGUU8Q0YHTKkhQCLcAx/tzH09JHn8S0SBG7SxDyYQIWIz8ptG+vOrSHHFFuD/rFMH4rOBD7waflz0xA=
+	t=1780141229; cv=none; b=OmwDNdtsJ35COI7jFTcdL15wmVPw57+IMRxYZP4GVh0Z3XpNqZg2SrPM6FgX29bF6Eeijb7gQTOlEmSxml4NmTYYQW0jUtnwsi4DtVoVXi/07CEnNdTQ6T5HmAViW+Saua8uoocIPzNM5hAfjje1siyZ4mJxn1XLfqOLKZo9tEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780140505; c=relaxed/simple;
-	bh=eNVjiDtoALomYsclT0hUpRMM3pr0rt7mXonemwgAJbY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=liQoyN+1QeCowO1u+CKLGzK6dRH2tx2dwN4KFtvKCc4gyCdB2GSA+kQWSn6GUA7xhdXtL5R0/2SWfaBL3lbul3m+auUKXR4nhyDjH7VefuQ5BpeX37X+eJdq2hHwMkq3obZMBSVtc52VEY6u+7kC27Ms29Aiwi9kN1WVmpuqW34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDIWChJZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780141229; c=relaxed/simple;
+	bh=vHsycQFj0tis+7SfZpBFiw43eXYWQVVS7iZ7bUYmOjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RBKhXitVkPc/YFM6s8uuPWqadjAsj3HNz+7dP1A7M1mfTlUp2LWrZPN++ksI+z7eip8wIEtjkNGNGJjWlufrlRPLC/TcgnPnBbwfDY2vK75oaALb60Ox8DwiNLePIQHHIaqLYbCOsuEDLSeUFWepJO0RIwYruLbuqM2wAuif9QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2xUCZ2ap; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uURamRj3; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2xUCZ2ap; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uURamRj3; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDIWChJZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D8F1F00899
-	for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 11:28:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780140504;
-	bh=sq2iLDCXi6pDren51u1cQUzgAX9nwmLUuBb8+qFvt4c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=JDIWChJZ5HBvxKRLY86aQ4mCtPB3mchD3+6j9CO4V3Zfldriy00F20T5l3/KrTzEY
-	 4iR2RT0/j4sFVS1dQZ/Kbkfjh+fEolP841WKNsjUJFg8pH7aW7wVjF2094d8vdd0yT
-	 HfLx9I2ayMHn6z3e0AlbCQldDW0lN2gN+c90HvIUP+7aJ7IsKwQGIOKBSeqTjRsoBI
-	 ko7ERB7kigumw4pkHRSD43tDFRqmRP5JBD5hbwk+j2P9SMScEXjdbJq2rCbpw0pIli
-	 7OftayBRqrL6XlN3WhscSpvzvxc1T1f7oK8QNIhax3GHkFLgbDcsu2J8qGGruoUQ+p
-	 p14DeXvsONWtg==
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8cc0ef7c306so122143026d6.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 04:28:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9GLQOpoY5CeiLU7vXGPC+oelf/PL0lJb8xfG0NZvbe3VGVxnLK7pXLjF7OYu9npIKsceL+nri6Oq9XbPXq@vger.kernel.org
-X-Gm-Message-State: AOJu0YwG3gXSlKVTqZYzYourBVmLR29L4pezgzx5jXm8srLT98UlBHVl
-	iuYy3E32V+wfSJX64UrTHf9x6mH34B/J/0+ccYZ+0tN9iViBvqWcbDy+zXqfC2pQ1FRBjACAo1K
-	NG0PQzGopRZb6AMn2EA2OHtW69TvieVg=
-X-Received: by 2002:a05:620a:45aa:b0:914:c246:ac9d with SMTP id
- af79cd13be357-9153d9f76eamr544656885a.28.1780140503550; Sat, 30 May 2026
- 04:28:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2xUCZ2ap";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uURamRj3";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2xUCZ2ap";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uURamRj3"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B0CD46B857;
+	Sat, 30 May 2026 11:40:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780141225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4PBW6VIxMvDjJ6qxZVWSdAZJS2lFwdzaBIt0Ewjilyo=;
+	b=2xUCZ2ap0qmlnKEdcBlGZMMTtuclzZA+XSWkaIhsG81dYil7zTJBYKfwkBOsciGZjRtv+l
+	9KJR+4hKFo0xmydhQL57FV5QP8bOow/h25AJRyX/c0UCPTNxM68XOLOwfUsyFDbUByd7vi
+	sYmpRHGIBqTYJwflbCb2QYPIvgR0Yvs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780141225;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4PBW6VIxMvDjJ6qxZVWSdAZJS2lFwdzaBIt0Ewjilyo=;
+	b=uURamRj3lLVOJRL8LFlmv69Vnx4ca9ow/EbX5R1Ig79o1qkkOKjEC4VMGoR2D5UgKfLPOE
+	stkxa7OrmcozvxCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=2xUCZ2ap;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=uURamRj3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780141225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4PBW6VIxMvDjJ6qxZVWSdAZJS2lFwdzaBIt0Ewjilyo=;
+	b=2xUCZ2ap0qmlnKEdcBlGZMMTtuclzZA+XSWkaIhsG81dYil7zTJBYKfwkBOsciGZjRtv+l
+	9KJR+4hKFo0xmydhQL57FV5QP8bOow/h25AJRyX/c0UCPTNxM68XOLOwfUsyFDbUByd7vi
+	sYmpRHGIBqTYJwflbCb2QYPIvgR0Yvs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780141225;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4PBW6VIxMvDjJ6qxZVWSdAZJS2lFwdzaBIt0Ewjilyo=;
+	b=uURamRj3lLVOJRL8LFlmv69Vnx4ca9ow/EbX5R1Ig79o1qkkOKjEC4VMGoR2D5UgKfLPOE
+	stkxa7OrmcozvxCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9AC59779A7;
+	Sat, 30 May 2026 11:40:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LuTCJanMGmohOwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Sat, 30 May 2026 11:40:25 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 35DE9A0EBD; Sat, 30 May 2026 13:40:21 +0200 (CEST)
+Date: Sat, 30 May 2026 13:40:21 +0200
+From: Jan Kara <jack@suse.cz>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 04/34] buffer: Add bh_end_read(), bh_end_write() and
+ bh_end_async_write()
+Message-ID: <j3l3p4svv2qf3en7ee3fy7gyw3fkix2bn5recoid4uqa3tdajc@ysiwm3tlbd3m>
+References: <20260528173150.1093780-1-willy@infradead.org>
+ <20260528173150.1093780-5-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260527110147.17815-1-tao.wangtao@honor.com> <ahcANgFDFwfC0v1q@lucifer>
- <b24b4a8198ba412f8b8b42c43dccd058@honor.com> <ahf2mJg9OOWvu0jA@lucifer>
- <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
- <87qzmu2r0t.fsf@trenco.lwn.net> <ahmzXSN_sQYmq2Jp@lucifer>
-In-Reply-To: <ahmzXSN_sQYmq2Jp@lucifer>
-From: Barry Song <baohua@kernel.org>
-Date: Sat, 30 May 2026 19:28:12 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4yDek3neUQ_Le8nWr1XA7YrqZDKXZJX+u5f9kvv9=d0vQ@mail.gmail.com>
-X-Gm-Features: AVHnY4LYmPGlt-SyUQzP7ovTfzzfgSTVLh1_UKbg7JbyXYbDT08n9Dn5EUIKOuU
-Message-ID: <CAGsJ_4yDek3neUQ_Le8nWr1XA7YrqZDKXZJX+u5f9kvv9=d0vQ@mail.gmail.com>
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma creation
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, wangtao <tao.wangtao@honor.com>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
-	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>, 
-	"luizcap@redhat.com" <luizcap@redhat.com>, 
-	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>, 
-	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>, 
-	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"ziy@nvidia.com" <ziy@nvidia.com>, 
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
-	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, 
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, 
-	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
-	"matthew.brost@intel.com" <matthew.brost@intel.com>, 
-	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>, 
-	"byungchul@sk.com" <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>, 
-	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>, 
-	"pfalcato@suse.de" <pfalcato@suse.de>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
-	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
-	"dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>, 
-	wangzicheng <wangzicheng@honor.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260528173150.1093780-5-willy@infradead.org>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: B0CD46B857
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
 
-On Fri, May 29, 2026 at 11:40=E2=80=AFPM Lorenzo Stoakes <ljs@kernel.org> w=
-rote:
->
-> On Fri, May 29, 2026 at 09:07:30AM -0600, Jonathan Corbet wrote:
-> > Barry Song <baohua@kernel.org> writes:
-> >
-> > > After coming back from Zagreb, I kept trying to find one or
-> > > two full days to read Lorenzo's code and slides carefully and
-> > > write a blog about them. Unfortunately, I have been completely
-> > > busy with other work. Sigh... we always seem to have too many
-> > > non-upstream tasks.
-> > >
-> > > If possible, I'd really appreciate it if you could take a
-> > > deep dive into it and write a detailed blog post. I'd be
-> > > very eager to read it and better understand the overall design.
-> > > Otherwise, I'll try to find some time next week or later to
-> > > go through it myself.
-> >
-> > It's still somewhat superficial, but in case it's helpful:
-> >
-> >   https://lwn.net/Articles/1072378/
-> >
->
-> I found it to be great as usual :)
+On Thu 28-05-26 18:31:17, Matthew Wilcox (Oracle) wrote:
+> These are the bio_end_io_t versions of end_buffer_read_sync(),
+> end_buffer_write_sync() and end_buffer_async_write().  They do not
+> contain a put_bh() call as it is no longer necessary.
+> 
+> Also add the helper function bio_endio_bh().
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-+1
-Thanks very much, Jon. That's really helpful.
+Looks good. Feel free to add:
 
->
-> > jon
->
-> Cheers, Lorenzo
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Best Regards
-Barry
+								Honza
+
+> ---
+>  fs/buffer.c                 | 89 ++++++++++++++++++++++++++++++++++---
+>  include/linux/buffer_head.h |  6 +++
+>  2 files changed, 88 insertions(+), 7 deletions(-)
+> 
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 4dcce64ef006..e22a94afa385 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -129,6 +129,34 @@ static void buffer_io_error(struct buffer_head *bh, char *msg)
+>  			bh->b_bdev, (unsigned long long)bh->b_blocknr, msg);
+>  }
+>  
+> +/**
+> + * bio_endio_bh - Discard the bio used to submit a buffer.
+> + * @bio: The bio.
+> + * @bhp: Where to return the buffer_head.
+> + *
+> + * Call this in your bio_end_io handler to retrieve the buffer_head
+> + * submitted in bh_submit().  If you did not call bh_submit(), do not
+> + * call this function; it will return garbage.
+> + *
+> + * This function consumes the bio refcount which will probably free the
+> + * bio.
+> + *
+> + * Return: True if the I/O succeeded.
+> + */
+> +bool bio_endio_bh(struct bio *bio, struct buffer_head **bhp)
+> +{
+> +	bool success = bio->bi_status == BLK_STS_OK;
+> +	struct buffer_head *bh = bio->bi_private;
+> +
+> +	if (unlikely(bio_flagged(bio, BIO_QUIET)))
+> +		set_bit(BH_Quiet, &bh->b_state);
+> +	bio_put(bio);
+> +
+> +	*bhp = bh;
+> +	return success;
+> +}
+> +EXPORT_SYMBOL(bio_endio_bh);
+> +
+>  /*
+>   * End-of-IO handler helper function which does not touch the bh after
+>   * unlocking it.
+> @@ -159,7 +187,22 @@ void end_buffer_read_sync(struct buffer_head *bh, int uptodate)
+>  }
+>  EXPORT_SYMBOL(end_buffer_read_sync);
+>  
+> -void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+> +/**
+> + * bh_end_read - I/O end handler for reads
+> + * @bio: The bio being completed.
+> + *
+> + * Pass this function to bh_submit() if you're reading into the buffer,
+> + * unless you need your own special I/O end handler.
+> + */
+> +void bh_end_read(struct bio *bio)
+> +{
+> +	struct buffer_head *bh;
+> +	bool uptodate = bio_endio_bh(bio, &bh);
+> +	__end_buffer_read_notouch(bh, uptodate);
+> +}
+> +EXPORT_SYMBOL(bh_end_read);
+> +
+> +static void __end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+>  {
+>  	if (uptodate) {
+>  		set_buffer_uptodate(bh);
+> @@ -169,10 +212,30 @@ void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+>  		clear_buffer_uptodate(bh);
+>  	}
+>  	unlock_buffer(bh);
+> +}
+> +
+> +void end_buffer_write_sync(struct buffer_head *bh, int uptodate)
+> +{
+> +	__end_buffer_write_sync(bh, uptodate);
+>  	put_bh(bh);
+>  }
+>  EXPORT_SYMBOL(end_buffer_write_sync);
+>  
+> +/**
+> + * bh_end_write - I/O end handler for writes
+> + * @bio: The bio being completed.
+> + *
+> + * Pass this function to bh_submit() if you're writing from the buffer,
+> + * unless you need your own special I/O end handler.
+> + */
+> +void bh_end_write(struct bio *bio)
+> +{
+> +	struct buffer_head *bh;
+> +	bool success = bio_endio_bh(bio, &bh);
+> +	__end_buffer_write_sync(bh, success);
+> +}
+> +EXPORT_SYMBOL(bh_end_write);
+> +
+>  static struct buffer_head *
+>  __find_get_block_slow(struct block_device *bdev, sector_t block, bool atomic)
+>  {
+> @@ -416,6 +479,21 @@ static void end_buffer_async_write(struct buffer_head *bh, int uptodate)
+>  	spin_unlock_irqrestore(&first->b_uptodate_lock, flags);
+>  }
+>  
+> +/**
+> + * bh_end_async_write - I/O end handler for async folio writes
+> + * @bio: The bio being completed.
+> + *
+> + * Pass this function to bh_submit() if you're doing the equivalent of
+> + * block_write_full_folio().
+> + */
+> +void bh_end_async_write(struct bio *bio)
+> +{
+> +	struct buffer_head *bh;
+> +	bool success = bio_endio_bh(bio, &bh);
+> +	end_buffer_async_write(bh, success);
+> +}
+> +EXPORT_SYMBOL(bh_end_async_write);
+> +
+>  /*
+>   * If a page's buffers are under async readin (end_buffer_async_read
+>   * completion) then there is a possibility that another thread of
+> @@ -1150,13 +1228,10 @@ EXPORT_SYMBOL(__bforget);
+>  
+>  static void end_bio_bh_io_sync(struct bio *bio)
+>  {
+> -	struct buffer_head *bh = bio->bi_private;
+> -
+> -	if (unlikely(bio_flagged(bio, BIO_QUIET)))
+> -		set_bit(BH_Quiet, &bh->b_state);
+> +	struct buffer_head *bh;
+> +	bool uptodate = bio_endio_bh(bio, &bh);
+>  
+> -	bh->b_end_io(bh, !bio->bi_status);
+> -	bio_put(bio);
+> +	bh->b_end_io(bh, uptodate);
+>  }
+>  
+>  static void buffer_set_crypto_ctx(struct bio *bio, const struct buffer_head *bh,
+> diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
+> index d59980e4adda..b0a31a90fa79 100644
+> --- a/include/linux/buffer_head.h
+> +++ b/include/linux/buffer_head.h
+> @@ -204,6 +204,12 @@ struct buffer_head *create_empty_buffers(struct folio *folio,
+>  		unsigned long blocksize, unsigned long b_state);
+>  void end_buffer_read_sync(struct buffer_head *bh, int uptodate);
+>  void end_buffer_write_sync(struct buffer_head *bh, int uptodate);
+> +bool bio_endio_bh(struct bio *bio, struct buffer_head **bhp);
+> +
+> +/* Completion routines suitable for passing to bh_submit() */
+> +void bh_end_read(struct bio *bio);
+> +void bh_end_write(struct bio *bio);
+> +void bh_end_async_write(struct bio *bio);
+>  
+>  /* Things to do with metadata buffers list */
+>  void mmb_mark_buffer_dirty(struct buffer_head *bh, struct mapping_metadata_bhs *mmb);
+> -- 
+> 2.47.3
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
