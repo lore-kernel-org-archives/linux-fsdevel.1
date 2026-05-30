@@ -1,82 +1,137 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a11-73.smtp-out.amazonses.com (a11-73.smtp-out.amazonses.com [54.240.11.73])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C0D329C6D;
-	Sat, 30 May 2026 16:15:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613A33998B1;
+	Sat, 30 May 2026 16:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780157730; cv=none; b=XCxrK/Bf2LwKe88l9HuGlLwKE54vnkUQArZPBkVBCU+sMhcgeG8we4g10DZhEH82FNeRAoG8/aEoDeRqqj/Wguw2d0oJiPlz8yCwNND1VaDCUiBUwihMlcy6jrqf050t3SHy421fD4d7JWdxxk0f1jr9WDgP4s78xxqCA8dFnLg=
+	t=1780159804; cv=none; b=FKYDegnm/Vrl01BfAxmnQdF277DI/yBcR9y6148BxKzSPqf7x9CZOcHOp79PAD4BT6+/OHWtFCUiX10nzInHtL7xw+i0yIuvA9Y5IciPbzf8IxR+uIrP51g0YrgLrt6FvDvpN7NlZ3HpdU/wrCXRI9Xt64NDlZHCxFQZdiwzMsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780157730; c=relaxed/simple;
-	bh=ZEjhVkTzEZe02lpF1D5FVpB0PktFr8q11+aU7ABZ8iw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gDWCfR0zLuhgQkwjCaHNtsBr0hmmysulmH/eMh6jBAGqZK7mvo0ySjgdxKKJBH8zo8V15c9b9UH5DvwcBc4Az1MVJJOQ2a5/86zpC1zDqGr9L0P/e6ElTmFrgXg9zVTQOtPNCpwcghkGrHg4QjVVm0/rh/Bk2WeXbUxd+8Vc9Yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jysGEgbq; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1780159804; c=relaxed/simple;
+	bh=aJgpOXWo6TMioWluhbVYAPCxFneaCuvwJria7OxLR5k=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:References:
+	 Message-ID; b=rmda3tnIH7Y71snjbFQ1TitW1DiAGXO0WggvLn2UV6b/3c+QXyMN2R7ncRbPJkqiAyJTsVjjJxwY2bxdA1lomjAVnn8vKaa2GdIS0Ub9Ge2dbUizGcSTqU3i900TTt1FM++aSr5Ct5m/C5hY7vFNMlKGd2cZf3uHtbCaqbxzfIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=h90A0QNT; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=OkI37pKe; arc=none smtp.client-ip=54.240.11.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jysGEgbq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=OoUzWgK9VbS7ydruAlaYlubDCeG8VBUFAExW/DqXEFc=; b=jysGEgbqg/Z0nUgD7wTZmtRPQU
-	N1+8o8aA4/veyX1X+ITuBZ/Df/7pSYKneKz0DdNY3pW81BEKUkVhzW0fFFj6ltI/9AHLCW2MuJ52q
-	8KfCehwmjK91sN0/DQzrERIACHYkhKItx0w88Uc2h68vwynWtqlcC5uoNAENUOQWH3SWamiy2+am1
-	3n/gFMeQQpCKev3mTl8A6TYNMZvcv7RmaxluHfx9pMkrgJ/nAVYng4XC6x186PkYuJR5r3qfymns5
-	GNEQOSPg55uevIiDzBoQfEr00c4SZIPogfITIY27p6rDyiyA9g/wcc4IUhEsf6J7ZnIxx5CZSWpo5
-	OKVZhSaA==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wTMLH-000000088qW-0TYY;
-	Sat, 30 May 2026 16:15:19 +0000
-Date: Sat, 30 May 2026 17:15:18 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	linux-fsdevel@vger.kernel.org,
-	Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev
-Subject: Re: [PATCH v2 33/34] buffer: Change calling convention for
- end_buffer_read_sync()
-Message-ID: <ahsNFkp_9q8PhLFc@casper.infradead.org>
-References: <20260528173150.1093780-1-willy@infradead.org>
- <20260528173150.1093780-34-willy@infradead.org>
- <2lbdmkqnz62wulcq576mvhjwiirgky6vpyvpjwxkpm275qf7a4@zlkck3bcyqby>
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="h90A0QNT";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="OkI37pKe"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1780159802;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id;
+	bh=aJgpOXWo6TMioWluhbVYAPCxFneaCuvwJria7OxLR5k=;
+	b=h90A0QNTUKrVpM/EtaiOYn5NwXxEYOgL3P0cqSb0qfBqeGLcEUDfMTH51Qdp3b+n
+	WekDuqK40cLROCYNNEZZYXEihvE4ojfi2A/IcHYe1z/gXyZ1BD+Vs2AKimZDNt8Z5ir
+	d0nTevn+/8OddjROP0K1qGz/x67V2oTLyacFRDLQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1780159802;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id:Feedback-ID;
+	bh=aJgpOXWo6TMioWluhbVYAPCxFneaCuvwJria7OxLR5k=;
+	b=OkI37pKeVgOCAayjXeo/igJ1He2jMNPetOf6LkhcCJrRC4SqL6z21+PdIUwB3S+r
+	FiaMFoPU/HrkHT1xe9aetjF2c0HwDBklAaAzq4R9aM5TWg5UILNW7ZMoA8ATGcg2AU8
+	Tcm/JKKt+YMnIJ8y3eWHKgyflow62BgzJwnGFgOI=
+Subject: [PATCH V3 0/9] Fixes to the previously-merged drivers/dax/fsdev
+ series
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
+	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>
+Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?Christian_Brauner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>, 
+	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
+	=?UTF-8?Q?John_Groves?= <john@groves.net>
+Date: Sat, 30 May 2026 16:50:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2lbdmkqnz62wulcq576mvhjwiirgky6vpyvpjwxkpm275qf7a4@zlkck3bcyqby>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <20260530164953.6578-1-john@jagalactic.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHc8FRa7vroVK8USxmz3hlONeiu3Q==
+Thread-Topic: [PATCH V3 0/9] Fixes to the previously-merged drivers/dax/fsdev
+ series
+X-Wm-Sent-Timestamp: 1780159800
+X-Original-Mailer: git-send-email 2.52.0
+Message-ID: <0100019e79caead2-5795328c-af48-4a93-b147-c11df7446e1a-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.05.30-54.240.11.73
 
-On Sat, May 30, 2026 at 02:07:40PM +0200, Jan Kara wrote:
-> On Thu 28-05-26 18:31:46, Matthew Wilcox (Oracle) wrote:
-> > Unify end_buffer_read_sync() and __end_buffer_read_notouch()
-> > by requiring the caller put the refcount on the buffer.  The only caller
-> > is in the gfs2_meta_read() path, and there we can put the refcount
-> > after locking the buffer.
-> > 
-> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> 
-> It seems a bit sad to keep end_buffer_read_sync() alive only for gfs2
-> metadata reading path but let's leave that for another time. Feel free to
-> add:
-> 
-> Reviewed-by: Jan Kara <jack@suse.cz>
+From: John Groves <john@groves.net>
 
-Thanks!  I agree that we've got two entry points (end_buffer_read_sync()
-and bh_end_async_write()) each with one caller, and I'd be happier if
-we could make both of them go away.
+This series applies bug fixes (mostly found via sashiko) to the dax/fsdev 
+series. This has been soaking in the famfs CI pipeline for 2+ weeks and
+1) won't affect anything that doesn't use drivers/dax/fsdev.c, and 2)
+doesn't affect any known workloads - although the bugs would have 
+manifested when multi-range DCD dax devices are a thing (soon-ish).
 
-I keep reminding myself that we'd be better off converting gfs2 to iomap
-than improving buffer.c to fit gfs2's needs.
+Changes since V2:
 
-As far as I can tell (... and I am so not an expert in gfs2), the main
-thing we'd need to add to iomap to handle gfs2_meta_aops is the ability to
-set REQ_META | REQ_PRIO.  Maybe that's an AS_METADATA flag on the mapping?
+* Patch 1 (comment fix): No change. Responded to Dave's question about
+  the dropped precondition -- the new comment correctly covers both
+  callers; fsdev_clear_folio_state() does not guarantee share==0 before
+  calling, so the old precondition was no longer universally true.
+* V2 patch 2 (three fixes): Split into three separate patches (patches
+  2-4) per Dave's review.
+* V2 patch 3 (two fixes): Split into two separate patches (patches 5-6)
+  per Dave's review.
+* V2 patch 4 (clamp direct_access / remove cached_size): Dropped.
+  Dave's analysis correctly showed the claimed bug does not exist --
+  dax_pgoff_to_phys() already enforces that the full requested size fits
+  within a single range before returning, making the clamp a no-op in
+  every reachable path.
+* V2 patch 5 (holder_ops race): Use WRITE_ONCE() for the holder_ops
+  store; add WARN_ON() on the cmpxchg result to catch wrong-holder and
+  double-put API contract violations; fix the inline comment, which
+  incorrectly claimed dax_holder_notify_failure() consults holder_ops
+  only when holder_data is non-NULL.
+* V2 patch 6 (dax_dev_find): Add dax_alive() check under dax_read_lock()
+  after ilookup5() to prevent returning a device that is concurrently
+  being torn down by kill_dax().
+* V2 patch 7 (formatting cleanup): Drop incorrect Fixes: tag; add
+  Dave's Reviewed-by.
+* The series grows from 7 to 9 patches.
 
-But maybe there's code elsewhere in gfs2 that depends on there being
-buffer heads for the metadata address_space folios?
+Changes since v1:
+* Dropped modes from patch 6 to fs/fuse/famfs.c and 
+  fs/famfs/famfs_inode.c, which are not upstream so it broke
+  attempts to apply the series. Oops...
+* Added patch 7, which addresses a previously-missed review comment
+  from Jonathan - minor cleanup
+
+John Groves (9):
+  dax: fix misleading comment about share/index union in
+    dax_folio_reset_order()
+  dax/fsdev: fix multi-range offset in memory_failure handler
+  dax/fsdev: clear vmemmap_shift when binding static pgmap
+  dax/fsdev: clear dev_dax->pgmap on probe failure
+  dax/fsdev: use __va(phys) for kaddr in direct_access
+  dax/fsdev: fail probe on invalid pgmap offset
+  dax: fix holder_ops race in fs_put_dax()
+  dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
+  dax: fsdev.c minor formatting cleanup
+
+ drivers/dax/fsdev.c | 81 +++++++++++++++++++++++++++++++--------------
+ drivers/dax/super.c | 73 +++++++++++++++++++++++++++++++++++++---
+ fs/dax.c            | 12 +++----
+ include/linux/dax.h |  6 +++-
+ 4 files changed, 136 insertions(+), 36 deletions(-)
+
+-- 
+2.53.0
+
