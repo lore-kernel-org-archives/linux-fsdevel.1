@@ -1,102 +1,141 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C35B394EA7
-	for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 18:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A3521ADC7;
+	Sun, 31 May 2026 19:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780251660; cv=none; b=FxplPvFWsHr6ivAFNtHi+qxJqqY5Siq3bXaSl2W2LI35rTYvWthFlVH7Pbs5rwvdpfwpdjvOXxoENSk05a1aM57gBKSf7aGcr4NgThVMF4NprQkTlFS3QEJq9sd/gs1ZZxTpO9jHvmt0FQ7P8V4bW+VQx99x/LvjbJcc0u1Ht1c=
+	t=1780254076; cv=none; b=T6nqHvACEiCmjKztD7ijRmd8cmlCkC5XcjY/PmPUMH1D6hfDB+ORJKnFW1m7AFPMsCnA2a6vOpqoxSF2tuWgz+InV8TUsXv4hvgnOqv2WTk00VbQLH+rIAw88bbPgjtVEjHY5lOyc02i8d73k8GH9OdLkrvWsCIQQA6HCE81BCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780251660; c=relaxed/simple;
-	bh=ft+9yq72KJdD/sjuEoB+DhVJkKsT41kLGUfS9mNA/ng=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oV3oECH+ckjtaahuAWKgaBou3VMheWquLCRRXt3FQ1wJYsniYHwX66Y47uT0zt/asVZGLKL+1FnYkcDReUNao4zcWXXyD9xeKDVXu6bC4RbaD7MSDOOLHus2ZIu2adYCqhC2UhyJ76BxS5/QX3v4Fm1nB38LqBhPM9pHGQtk24s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=hfYQEFqI; arc=none smtp.client-ip=195.121.94.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1780254076; c=relaxed/simple;
+	bh=c6HVtj1BrNeQP8HJB4VgikCUxQBGGOr8yQg/LtHBzKI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YCP1AcirEMDgiTBHyOPvWOAhgc0NAV85lcmrvFVhExaQX8DIYmD5d8daV54YYk9PvjO9ikt6f9GfT8mAwTrY2p+EhyVxrJRgDKIVE087ELgxnvubB36ckRjRhLk7ZV+RSif5ZNJyixORXOljHKt+6KRxrXJ24wlP3ueib5JyRvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IR3X1VQ3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="hfYQEFqI"
-X-KPN-MessageId: 507b806a-5d1d-11f1-96a9-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 507b806a-5d1d-11f1-96a9-005056abbe64;
-	Sun, 31 May 2026 20:19:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=mime-version:message-id:date:subject:to:from;
-	bh=L1JI9rT8lcqw7yTG/hZa/LYzcpZYPHY91GUQ2FxpbBw=;
-	b=hfYQEFqIDy4epi5eefEHXkuuKFooBodLagZIw9+yP/yaYpBBAErjLyfDUgw3KbXsCOCsK9jjZFIEq
-	 h+DJm1AFNJog6l8n4kDKYIlnI1ThcKf9zSXaldilesniaK4FAmqXIp3nlshrGzKIInOJL+XobxJiSB
-	 n6Ct7anY7DilKjGOtzX4b4gyl0XkktatQ9aTDUqhLs50ooA52pDc4hvIhZBvtspWqPsPil/LZeYjUt
-	 sSBQ3BntGclkxo6oUgf0BTjdIZYeXIzOa6RJR4BClEvIue7h2R462HptzGO+O2SVqwBojqnrpbiCiZ
-	 CK7MuMVo1YZcNdlThmG+DQXdgzAYu7w==
-X-KPN-MID: 33|1V+7mnPA12pc+J4sY5I1PKRJWaUYYa/u5H9dehUrX8NcOqufRTfi0GubfB7ABP/
- Hp7WafaNj5eRL3mVHDc1IWjBjK83yK9EKp+G7j5lXwA8=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|42GZKuzmEJbp6p3rqqF/zylRA4b9REWOhWDBS5djRNI7Hj4AUJMQL3IX9GesYae
- ya1q/MKjbjcMN+Iz3cLfg7g==
-Received: from daedalus.home (unknown [178.227.141.146])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 50319ac2-5d1d-11f1-8011-005056ab7447;
-	Sun, 31 May 2026 20:19:50 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: NeilBrown <neil@brown.name>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Aleksa Sarai <cyphar@cyphar.com>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
-	Jan Kara <jack@suse.cz>,
-	Jeff Layton <jlayton@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Charles Mirabile <cmirabil@redhat.com>
-Subject: [RFC PATCH v6 6/9] vfs: lookup_open(): use vfs_create_no_perm()
-Date: Sun, 31 May 2026 20:20:42 +0200
-Message-ID: <20260531182045.171711-7-jkoolstra@xs4all.nl>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260531182045.171711-1-jkoolstra@xs4all.nl>
-References: <20260531182045.171711-1-jkoolstra@xs4all.nl>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IR3X1VQ3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 568961F00893;
+	Sun, 31 May 2026 19:01:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780254075;
+	bh=fcdMJCvYcrxynpav12XOXRlTlPDIl3/7C5MgYt6/rxM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=IR3X1VQ3sfK8nwizv/o40dv7x4UY52RwB32eTAzN6vkUjJen1CO+9kUOt76HB0+xD
+	 iykOW4+TrFC5n9TXfXZXtvSDoJ4ycLBnff42d5ofdKUqncVr1sayrtVj0RNfWKbJU2
+	 Tcbhu2r/7h/Y6zlcnS56zEIybxwmlYZXlD2hhVKlYta+WHVbTe0y4D/eZeHvVWKp00
+	 NFuTbY3VnbUD74bfNyrUJtoXbuONXsBl+I1+jvo3g0GUZcmsHQYkUePajF8NZrvxr3
+	 2nW6ksVuhtD3SjQi/lFyT0qTOGpPU82KdOPIe3G2NUq68rkk9r8Elc8gOHPPplMtq/
+	 vXK2p3JnBERXQ==
+Message-ID: <6dfa5f7c-ffbd-4605-96f2-09e365ce57dd@kernel.org>
+Date: Sun, 31 May 2026 21:01:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+To: Pedro Falcato <pfalcato@suse.de>, Askar Safin <safinaskar@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org,
+ netdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Miklos Szeredi
+ <miklos@szeredi.hu>, patches@lists.linux.dev
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <ahv16ogY8Zx3Rtox@pedro-suse.lan>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <ahv16ogY8Zx3Rtox@pedro-suse.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-We can replace the code in the no create_error/negative dentry found
-from lookup case in lookup_open() with the vfs_create_no_perm() helper.
+On 5/31/26 10:54, Pedro Falcato wrote:
+> On Sun, May 31, 2026 at 01:01:04AM +0000, Askar Safin wrote:
+>> This patchset is for VFS.
+>>
+>> Recently we got a lot of vulnerabilities in splice/vmsplice.
+>>
+>> Also vmsplice already was source of vulnerabilities in the past:
+>> CVE-2020-29374 (see https://lwn.net/Articles/849638/ ).
+>>
+>> Also vmsplice is problematic for other reasons. Here is what other
+>> developers say:
+>>
+>> Linus Torvalds in 2023:
+>>> So I'd personally be perfectly ok with just making vmsplice() be
+>>> exactly the same as write, and turn all of vmsplice() into just "it's
+>>> a read() if the pipe is open for read, and a write if it's open for
+>>> writing".
+>> https://lore.kernel.org/all/CAHk-=wgG_2cmHgZwKjydi7=iimyHyN8aessnbM9XQ9ufbaUz9g@mail.gmail.com/
+>>
+>> Christoph Hellwig in May 2026:
+>>> vmsplice is the worst, as it is one of the few remaining places that
+>>> can incorrectly dirty file backed pages without telling the file system
+>>> and cause the other problems fixed by a FOLL_PIN conversion, but it is
+>>> the only one where we do not have any idea yet how we could convert it
+>>> to FOLL_PIN due to the unbounded pin time.
+>> https://lore.kernel.org/all/agwFlBKvKytjURDO@infradead.org/
+>>
+>> See recent discussion here:
+>> https://lore.kernel.org/all/20260516182126.530498-1-pfalcato@suse.de/T/#u
+> 
+> So, you took an ongoing discussion with an ongoing RFC patchset, and you
+> decided to reimplement part of the idea on your own, as a concurrent patchset.
+> 
+> Riiiiiight.... I don't think I have to NAK this, do I?
 
-Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
----
- fs/namei.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+Jup. I'll just ignore this patch set here.
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 293592a4d011..a8c247e0bb65 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4533,17 +4533,11 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 			goto out_dput;
- 		}
- 
--		/* but break the directory lease first! */
--		error = try_break_deleg(dir_inode, delegated_inode);
-+		error = vfs_create_no_perm(idmap, dentry, mode, delegated_inode,
-+					   open_flag & O_EXCL);
- 		if (error)
- 			goto out_dput;
- 
--		error = dir_inode->i_op->create(idmap, dir_inode, dentry,
--						mode, open_flag & O_EXCL);
--		if (error)
--			goto out_dput;
--
--		fsnotify_create(dir_inode, dentry);
- 		file->f_mode |= FMODE_CREATED;
- 	}
- 
 -- 
-2.54.0
+Cheers,
 
+David
