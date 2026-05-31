@@ -1,61 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7577A2D9787;
-	Sun, 31 May 2026 19:24:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF11330FF08;
+	Sun, 31 May 2026 19:49:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780255500; cv=none; b=Uz6Nlvfr0Hq2dTxe5Y9dP7o5SXzKe7btwefrGGp/XbA6jtYJaiwnH5B42Jq6yqtm/i+dMzT0kTdH40edfKrSFT8jLHSyNqHSObesnjkSsAorp3keYE8xBLhd8dof1pOhNa71IkMT2FpOlLJ7HH+/daRS0wdFa6TX0tEKVT2ylAE=
+	t=1780256993; cv=none; b=Nj3nhfKNlPREmmqZl2UmabA/DzcV/BPWdvoLJF54QE4zHk36pXFNktQPJLre0V9AXjnAx6ZpdY9Da5WZuZj5UDy1ZGsekiGrUQQ00QfTRxxSLAiCy8lJTMmAFO0olJBfOVKgZ3C4jz4D6JAFLlxh1UbBe9CQuVXFIfZ/pRipzNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780255500; c=relaxed/simple;
-	bh=4thto6ApMgQzLePk8QhDxaNshU7SAUo/AZxlyelN8qE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=MWUCCyTxniBE5j/pOoEOh2bgMcPPF2f70fGpUY6ik89rTHytVCdxmuK8Zfz9N0MposuqH9x5g7NxsaocHu7eeTJQ/W0ehFtpiQwIXPL0M1y/udtWtmRCXTTkehiShb3/wxFz6tH4h6n1kqrLTYk1nvyPWlXGEBbMpL4qKse10Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=BqUnGLzc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780256993; c=relaxed/simple;
+	bh=B7FxAfw32DDsnxF+rFGxl7EqV79gh3pLPeaJyxvx47U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LCMc78H4qxK1ckK5VdnxkqXPrFp8QbR4Xp2a41m/BrKMiPs3NDa9W1q/R7d40j6hFvi56Jj3NodSuvhIo2Lil76tdnlWhfrCsDU9PGq2b6l/8g674aM5zmWXSPX9giHlvfvlxPBQ20PNnA0wl4n9bFnwQbVnQJEN9au5q5xGRkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hi2oZ76z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="BqUnGLzc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9434C1F00893;
-	Sun, 31 May 2026 19:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1780255499;
-	bh=Uko1Vuv+TRAWbjerQEGKNfOSzZb/odVklCx5MByR3WQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=BqUnGLzcGY9YmhTi41lBU6NbdBR4BH3icQiVpu7Cu4k8LsPyfwWTbimSnSi491BMM
-	 7gJbMySUzveXwFRISDc9OGmLtP2Pe98w/fnTvdELdKirOql5+FBFKEe1bgIk8/hkgk
-	 t3xzRG/x170r1rjn3A4sInX2dhb71mwlk+YEOK18=
-Date: Sun, 31 May 2026 12:24:58 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Dev Jain <dev.jain@arm.com>
-Cc: liam@infradead.org, ljs@kernel.org, jgg@ziepe.ca, leon@kernel.org,
- david@kernel.org, shuah@kernel.org, vbabka@kernel.org, jannh@google.com,
- pfalcato@suse.de, balbirs@nvidia.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- linux-kselftest@vger.kernel.org, usama.arif@linux.dev,
- ryan.roberts@arm.com, anshuman.khandual@arm.com
-Subject: Re: [PATCH v2 0/2] mm/hmm: A fix and a selftest
-Message-Id: <20260531122458.864e9deac7425e1b71c14f3a@linux-foundation.org>
-In-Reply-To: <20260530085413.1270139-1-dev.jain@arm.com>
-References: <20260530085413.1270139-1-dev.jain@arm.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hi2oZ76z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAA041F00893;
+	Sun, 31 May 2026 19:49:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780256992;
+	bh=JzgiLAWTT+8hb3wVDklQJ1QdmY7O+bXqn2rYAgmL3Bs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Hi2oZ76zuOyqgAKzwkh+Tj3Z68AdgAhljPJbC/zVN6EeSegwC+wRGTq/dPFs911MN
+	 3lZ1kn7kKebyRLl5KKVhllKyMnsstuzyfzDXKO+WZthQ5+WQwmNjti8EPBtg5gACsx
+	 FiA6goisKZGXNovh5p6TwOGE/KjhXhhrNosF6VtrUtOzNdZnmOIjag0xdfN3EprhZG
+	 v4xyVnc3/+20U22+qr6tYZaBSfRMBc3Z6DQAAqanWmO/ReTczoOT0YAkn7slMJNgnl
+	 c9IZC0TZlaCY8l/12yoE+CSExH3sJgsfVz2YkSVugu70tHrrEDsPS90EgKSySssvlJ
+	 yYBgrcsKs1EhQ==
+Message-ID: <fa674c4c-11e7-4383-8c1e-dbe7f16575e7@kernel.org>
+Date: Sun, 31 May 2026 21:49:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] mm/hmm: A fix and a selftest
+To: Andrew Morton <akpm@linux-foundation.org>, Dev Jain <dev.jain@arm.com>
+Cc: liam@infradead.org, ljs@kernel.org, jgg@ziepe.ca, leon@kernel.org,
+ shuah@kernel.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de,
+ balbirs@nvidia.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, linux-kselftest@vger.kernel.org, usama.arif@linux.dev,
+ ryan.roberts@arm.com, anshuman.khandual@arm.com
+References: <20260530085413.1270139-1-dev.jain@arm.com>
+ <20260531122458.864e9deac7425e1b71c14f3a@linux-foundation.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260531122458.864e9deac7425e1b71c14f3a@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Sat, 30 May 2026 08:54:10 +0000 Dev Jain <dev.jain@arm.com> wrote:
-
-> Patch 1 fixes a stale warning present from the time when only migration
-> softleaf entries were supported at the PMD level.
+On 5/31/26 21:24, Andrew Morton wrote:
+> On Sat, 30 May 2026 08:54:10 +0000 Dev Jain <dev.jain@arm.com> wrote:
 > 
-> Patch 2 adds some code into hmm-tests.c which exercises the pagemap path
-> for PMD device-private entries.
+>> Patch 1 fixes a stale warning present from the time when only migration
+>> softleaf entries were supported at the PMD level.
+>>
+>> Patch 2 adds some code into hmm-tests.c which exercises the pagemap path
+>> for PMD device-private entries.
+> 
+> David, I'll retain your ack on patch 1.
 
-David, I'll retain your ack on patch 1.
+Thanks!
 
-Sashiko has a concern about the selftest:
-	https://sashiko.dev/#/patchset/20260530085413.1270139-1-dev.jain@arm.com
+-- 
+Cheers,
+
+David
