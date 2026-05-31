@@ -1,60 +1,62 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A201509AB
-	for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 01:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4BC1427A
+	for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 01:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780189312; cv=none; b=E5k9uC2yKFf+eeV1p+sUfkpRSC5qNUtElyHrBuS/tCT5/+9rVV2yBz+NnW0H5gz/DcnblIxsDEW0Xxelx4GPczZwEhcEcwKXrjA6iAJu1W/fV6L1ZnkEwK21ZOv2+EL3xBWHL9W5hZkY7DvRIuH+mW4PlQy2lSkK7ePISMHzJP8=
+	t=1780189342; cv=none; b=AMrbb53m3RodPyIAs9hQ7AaLtylNA2kQN9X7F1dThmWJDTLz17vBM1rm5PpSZ3huCKr5qk2eyV17zlUByWv8IQkA0c0I6SvxBAjVjXopID1ZCBwEFktk+UOjHBkUaIhNUuwoG0UgmP5iBl2WKyaR12Prwd5f991Kjk78KjsStaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780189312; c=relaxed/simple;
-	bh=zDp1XhZh+e1pWOK/DsDnXaGWcjK6DLDDhCVbs2gw3ZU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fRHaUVAwerdx7Zkt5vKyHukZ6klSzOCnvx5540xDzggpF8uvWp4+7gncQjSJW54KuIRrM5Kpf5Dbd4biHExTo2gut01mvt+E63pdRJ0zDeAkpF3TRy6dqDU2N5SPZFRHutwI85dyqdAy0/kza9ow/Njmy5iSm+fql20mUt7jnTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ONPBy+wq; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1780189342; c=relaxed/simple;
+	bh=vsb+QThfs2Jw6QSiFQtsk0PMTT4LF7TO2lj9pLcB1Gc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lxKjMukZw0O23DOxmTz14c+GkXY5LoIV7WPcGR+7grV6v0+qOfEDN/4dvy+uWyFan3WF2w5qpte+sZTmOBw9e0uMJ/FEO2wXekWW53MLa+CN/HtVbwwdEHz7i1dtGgCFqzqfQrJA3iDbYH4jWq+XpC9zTFWd+hOyCJrhoxJKHYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YAvMMyEJ; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ONPBy+wq"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490686877a1so49172265e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 18:01:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YAvMMyEJ"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49041fb8c23so68627935e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 18:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780189309; x=1780794109; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zPl6w3uFFVNTR71LIvI6Hm9g27LWiqb2gsEEN2QBH30=;
-        b=ONPBy+wq4TbJvSn3LFGXIzPYyx8ZL8H0HYU72wPZVRyrKbZ3ulzc+EdYpWvPewy5+E
-         HceHotkVzpTfwy5ttrDEQripSfGnKvGRaFhDHsXtc4xPtvryIUsW/n8cMtnKWqhWjVLr
-         5PfktqQ0ALXzQVgwDDPr+8rAkWm76N+8vqNhRBIwZuny+k5LKYT/URzgaeAt9ij4cqwR
-         5H33MKZqNPe3/+Dxieo1Mgg7UT2ujBWMZpgVi2MeIgWNbiM6X0ITgl05Jg7oUoq1J4lO
-         3h3UAOnRQ3GVFDTMv+9NbMUeYedFTVX0GHUKUuxma6BOnmivDMq7ziff3UXnxYXACATl
-         unmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780189309; x=1780794109;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780189340; x=1780794140; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zPl6w3uFFVNTR71LIvI6Hm9g27LWiqb2gsEEN2QBH30=;
-        b=r/MhTfBTCdM5s/nIms/8bEBuZgeGpSEx6j/0Y+GpsbA20X4Of6BWu+rKfPjAQvtbSq
-         sSVWRWENTZoUsCnDzXRltQydtTPIIhYJA5Tq9Th0R4K4T47Gs3zDdajcdT1XjEBMX0/u
-         z7Bm7b52WeXIbhBuBe9GolRX8ZYU87qen0p9EQ1d+XZ9TKApKzF4mlxrNP8QyIjMhqSj
-         n0fnK3XW1lrPRPualQ81XJfHb6S5rEGb6S0qYZoUkAZa816egi6BXnowm80CoayZ1cM6
-         0H91K8uSystRREAH0iQO7ua8Dn4aHWX+ZJkTTUyyyS2K1/uxhejI9uMmZ9oCvRCyhsNo
-         349w==
-X-Gm-Message-State: AOJu0YzEUSYBfSL92/CJIn3Jt3X8A3UDcYtlbHyoQckYb8DotwmLMpRp
-	GmGpCaHX4crjoyBUlm/PAdN4kbgdjGLSAegGPfkZ4KRGlW5RjAR14Efk9CeMYA==
-X-Gm-Gg: Acq92OFdq3w/vQxMEKLDmevmSHrl1c1xORD9jp7ixSmLqmStNYwk4lxAFS8Hstt6FbX
-	C7Q1y88OtjO8RG3eSDby+nTAmZPwW6qkB2uMrdvVU3EHoZnhNAHBzMDSHUaC0hh/tOqy7N8eLLT
-	UOg5Tfs9x2W8HDqxa7LilrLtcsEhFzgGqcYADD8yIIhYsrm77DNvhWp93FuGuBOqcFnfQ8fTIwx
-	aPDPql42e/w9/uyrDUTg1CxzfSFuepgfo3LiK4nJuc7gh9JUgWCKvYnmEdQiwxFNLh2AksZLngk
-	L54qvIYUVX0/cibWRzh5x61k/ciolPLF3yM/dS7FQDLLNRMjYGWHtFoF76/bzFEsJw8rVtoQIPB
-	zErXz5/Gjs1F/csJ36I9hIo3H1DJPScpntHJoFIt5KZad3NNsPeeuy2tliYMLAVa/P5+1MoMJ+z
-	dJhiJxAsZ1Q6Tm87nBfPLUbfNQLAT7ToC4fvxkg2L1
-X-Received: by 2002:a05:600c:c168:b0:490:5000:917 with SMTP id 5b1f17b1804b1-490a2a02ad9mr75824695e9.1.1780189308943;
-        Sat, 30 May 2026 18:01:48 -0700 (PDT)
+        bh=BcbBqWTkzkDxwNMdgJ7xVJp7N/TN/+GdHi920u4savY=;
+        b=YAvMMyEJ51N9vhC53xnEEhMm64qQqG1nVXXeYsDkF8PoTdCjhLyZnmzfCSYThtdoy1
+         xQsUDvOWfjZEmUxZMrd9oIqvRZNrBe6DS3VWZlDIMcgXjpn2cJcdJNnFBr/XqhB96PJU
+         HBSmZ6TBf4E9VdaAhL/aQODtYVa6xsf9T38CbwVsI4S3+2yt0zjO8SndLk/jA/1OffH2
+         ZaVds/eSQ4VuDx11SuHsFijcAuRxyQ4YsPRgmLwekBU/X7ylJBNUFqTSL0pxA7dPhDq3
+         +oBnDHnZnJl5UV9B+7sXOzS0EcMnC8BefxAnlSrPj8VyAxLHQjRV3k3PD5oBoLo4cQgo
+         GZeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780189340; x=1780794140;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BcbBqWTkzkDxwNMdgJ7xVJp7N/TN/+GdHi920u4savY=;
+        b=UeFfkaJmhGCwEgqeffatlVTMa5vFGTmKxhzHjV1KpCZcbd/i8PbBFG8rP8C+c7bs/5
+         hx3jYw3frQhWVwjmJgdHLfV7JFtyTRZAsDXXYZ8nbZ3wpnx/0gBwS0m9M6T+FMoVMfrT
+         r49xWtZTsJ/37VXfhwa/FXvZVApqgPB3oQgkRUdYv5Ee1hItktgxkIFC+jGbH3XysXeI
+         1xWMhzk0BmfmFv2nwsfyD6hATi0Sc7ywp8rh++0ltuoX6Z9NSJA2Co6OjxCqVI0Dw/k+
+         CN86a8519+aiZ9xwcVIlCnswaOl2cfOa4IX1SzXScLS1PWoHsm6BLzt6StibjccNp0Tr
+         OiTw==
+X-Gm-Message-State: AOJu0Yyz5pKbNLXzu4PxEPhfi+FOUSgTqF2YXtASBWKhtuazZ904LsVF
+	7xFTcN/9qYL9IqjffKbqP6+tjHC3w822G/K+BZMRIF9JsTZZMpYOnguITw4RpA==
+X-Gm-Gg: Acq92OEGynJUFNohOKX5zncsq89iu8oIl2L/PtcRJymtxFuICoBCrBv8VO8J4m4nwMy
+	63z1LAoEu+EwpzHntE1+4/9naFnsmfhm5YtVkXObtuDWiHkCw7cTVJk2H6VrRuGcOEJNfPHvyVE
+	R+sPJY6uh1AoOCTK0DP6W1APkfrig1wvL19EnVWymmNS6n91ZHknh3OJE+W8ZMqzgehcp2oZzlt
+	GavF/Tz9Exv9r7BxMaRpvAUpuWpeFHyWrP3Nq1dBzrI6NMdnP2bBFNEWDORiMgSB8opp3fmEGMj
+	PuzRakqCZ3CtLiPUFz7uwkg6H884g5FaraLk2/Q9NjfAHiIQQlxkWzStUxio+Mg8jmzgbfdKWd6
+	9cSKN/juQ0geer5D2zLZ+lc1+5WBIHjUWAoakduEjeupmcPZZWwOIs8OXWYikqUVllpOPzh52rc
+	TCLBoHYMWWOgQUDK7iJCFRJgC0Mwu/PQ==
+X-Received: by 2002:a05:600d:8648:20b0:490:9d5c:a3e0 with SMTP id 5b1f17b1804b1-490a29215ebmr71216825e9.9.1780189339981;
+        Sat, 30 May 2026 18:02:19 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4909cab0e79sm261799535e9.13.2026.05.30.18.01.46
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4909c103908sm45297445e9.22.2026.05.30.18.02.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 May 2026 18:01:48 -0700 (PDT)
+        Sat, 30 May 2026 18:02:19 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
@@ -74,10 +76,12 @@ Cc: linux-kernel@vger.kernel.org,
 	Pedro Falcato <pfalcato@suse.de>,
 	Miklos Szeredi <miklos@szeredi.hu>,
 	patches@lists.linux.dev
-Subject: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-Date: Sun, 31 May 2026 01:01:04 +0000
-Message-ID: <20260531010107.1953702-1-safinaskar@gmail.com>
+Subject: [PATCH 1/3] tee: fs/splice.c: remove unused parameter "flags" from "link_pipe"
+Date: Sun, 31 May 2026 01:01:05 +0000
+Message-ID: <20260531010107.1953702-2-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260531010107.1953702-1-safinaskar@gmail.com>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -86,68 +90,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset is for VFS.
+Remove unused parameter "flags" from "link_pipe".
 
-Recently we got a lot of vulnerabilities in splice/vmsplice.
+Signed-off-by: Askar Safin <safinaskar@gmail.com>
+---
+ fs/splice.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Also vmsplice already was source of vulnerabilities in the past:
-CVE-2020-29374 (see https://lwn.net/Articles/849638/ ).
-
-Also vmsplice is problematic for other reasons. Here is what other
-developers say:
-
-Linus Torvalds in 2023:
-> So I'd personally be perfectly ok with just making vmsplice() be
-> exactly the same as write, and turn all of vmsplice() into just "it's
-> a read() if the pipe is open for read, and a write if it's open for
-> writing".
-https://lore.kernel.org/all/CAHk-=wgG_2cmHgZwKjydi7=iimyHyN8aessnbM9XQ9ufbaUz9g@mail.gmail.com/
-
-Christoph Hellwig in May 2026:
-> vmsplice is the worst, as it is one of the few remaining places that
-> can incorrectly dirty file backed pages without telling the file system
-> and cause the other problems fixed by a FOLL_PIN conversion, but it is
-> the only one where we do not have any idea yet how we could convert it
-> to FOLL_PIN due to the unbounded pin time.
-https://lore.kernel.org/all/agwFlBKvKytjURDO@infradead.org/
-
-See recent discussion here:
-https://lore.kernel.org/all/20260516182126.530498-1-pfalcato@suse.de/T/#u
-
-For all these reasons I propose to make vmsplice a simple wrapper for
-preadv2/pwritev2.
-
-vmsplice(fd, vec, vlen, vmsplice_flags) will
-be equivalent to preadv2(fd, vec, vlen, -1, rw_flags) if you have
-readable pipe and to pwritev2(fd, vec, vlen, -1, rw_flags) if you have
-writable pipe.
-
-SPLICE_F_NONBLOCK is translated to RWF_NOWAIT, all other SPLICE_F_*
-flags are ignored.
-
-There is a small change to handling of NONBLOCK-related flags,
-see commit messages for details.
-
-I tested this patch in Qemu.
-
-This patchset was written by me, not by LLMs.
-
-Askar Safin (3):
-  tee: fs/splice.c: remove unused parameter "flags" from "link_pipe"
-  vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-  splice: remove PIPE_BUF_FLAG_GIFT
-
- fs/fuse/dev.c             |   1 -
- fs/read_write.c           |  23 +++++
- fs/splice.c               | 202 +-------------------------------------
- include/linux/pipe_fs_i.h |   1 -
- include/linux/skbuff.h    |   4 +-
- include/linux/splice.h    |   2 +-
- include/linux/syscalls.h  |   4 +-
- 7 files changed, 33 insertions(+), 204 deletions(-)
-
-
-base-commit: e7ae89a0c97ce2b68b0983cd01eda67cf373517d (7.1-rc5)
+diff --git a/fs/splice.c b/fs/splice.c
+index 9d8f63e2fd1a..59adbc2fa4d6 100644
+--- a/fs/splice.c
++++ b/fs/splice.c
+@@ -1849,7 +1849,7 @@ static int splice_pipe_to_pipe(struct pipe_inode_info *ipipe,
+  */
+ static ssize_t link_pipe(struct pipe_inode_info *ipipe,
+ 			 struct pipe_inode_info *opipe,
+-			 size_t len, unsigned int flags)
++			 size_t len)
+ {
+ 	struct pipe_buffer *ibuf, *obuf;
+ 	unsigned int i_head, o_head;
+@@ -1962,7 +1962,7 @@ ssize_t do_tee(struct file *in, struct file *out, size_t len,
+ 		if (!ret) {
+ 			ret = opipe_prep(opipe, flags);
+ 			if (!ret)
+-				ret = link_pipe(ipipe, opipe, len, flags);
++				ret = link_pipe(ipipe, opipe, len);
+ 		}
+ 	}
+ 
 -- 
 2.47.3
 
