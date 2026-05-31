@@ -1,252 +1,264 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4217A49620
-	for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 01:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780189936; cv=pass; b=SSGA+K3Iw9DgUDanSogMoUpxvpgsbFwn7duJc3KeZD1y8qWJU1GJ+0DCCh92Vkg0XbzQ1EX+RvSmtMF5dRoD+8XjePhX7WgNpQQJOW8/QCt7SWBbC4w0KiG+gAAvDgAF/81sLT306K+Tq5GRyewJTowZIwahJHKlp4BMjm1ItuU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780189936; c=relaxed/simple;
-	bh=W62O6qbs3ZKG8xO/+DyqjzyW9/JwB0GbWGE/e3oqbR8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=owcU1dtbmJgCKF/kbDUPAzGYjX+NrNjr4KtcvdUCBDbwucfZQyfLJ7SMgpQcHCvUnuo1LtHCEzdyP9lRPD4HqNeRI2+XJjLe1megbyT8nlbB+VYNKgbFHGPjrbbIpBjK5DaoprAZelQdP47gAlo+SCLWhI7c6vcwEz0tF2dCpp4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kpF2r3nf; arc=pass smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kpF2r3nf"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36bd175fdbaso901721a91.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 18:12:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780189934; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Zd04DrS/Tj8CCGDR8T8OAkeiw3T/tHJjL7h27hb5yNu5D0ABpp+A0cqsB1l1tyeq59
-         J+yCeBAK616hrKUk9AlzzVi35lb0nhV0rBNN6A7YxdSO8AidLabY2Uwi13W2RJXlor6e
-         e8Vg8vkuK1qx84KCWy4MNAkz6lomdKv+vVw6UWcsnSZg7QAEVgvgo4HgDtFYN1pNWnVc
-         AZ0V+9mhDdCLzQOVNnTmpDiHvUfhdd9H+mAx1cwcKZXqeyJwEzAkKxhFOjZlRb9DDmnH
-         UCojVRf6Y5TSs7pxo/sJZrqzkYUgU/cYYT6ihWbExXSa8MgB+2Rp6VyriWBD5AL+lT0Q
-         wErg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=K3IRqDu/cs1dVQ1QO9A0E2Hsj/Zj/URAXOHivWFZLc0=;
-        fh=ykageJM+NGqHtKMBuMx5oSj4miJ66u+5aPhQ9keDlyI=;
-        b=G7B0VEDE93kMwzWZS0X0R1guS2EGWzWnLCE7RWyz7IHbv6Ci/GufwCX2aPHhyZrCSq
-         RFpPiQtCHgS68nflHJwxrF8EbggRb+AyfVccmMfmZVk5sbqp/RirtQtdq8BT8BJRCXQA
-         E+ODkkxOqGSdazUpe1xfv1QUP8tJGJN8mLZFgDRpRXhHv8adcK7eK+olPadtwCytY9jv
-         0IuvtrsdIyelii0cEKdUKlrYc+Dq24tJoij+O8Fx9c13rhkn/k6W7wCYvh5sBfOPVdTx
-         DOmFUKs8Ug1mbPp/16vnbO61yoWEAaLzde5TXpHf1wEE4dqOP4UlaCL29EPPhU5XyslY
-         a1Lg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780189934; x=1780794734; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=K3IRqDu/cs1dVQ1QO9A0E2Hsj/Zj/URAXOHivWFZLc0=;
-        b=kpF2r3nfb3XwO0WcND1DL589X2LY/nd+lPmyEE8esEfn7K6N+7Bx553sf1yUA86Bgh
-         5uK9t2I+Q0cu0uSgCMRsDNIItax/gh2RiTKoy8v7rtT1u52bmgaBfStCrSH08vHImsKz
-         COqq0FqTtXjZ3HrHElWAudWwq1FZweAUMJ0C5e81aGlYeHZRYB50LIl74xRUDaK0/oET
-         WVHoGz+WEpXG9elOY0zBsrdE5Ocz6d6Q4DnXXF0ioslSi90v86yenb8FSg0fD04m8Toy
-         dEQ1kbMSntWcD/yym9yGVdaM7IgNcsAfYf+Y8tYHc4Jnw2aAmrZB5k0WwUCyDufBCeas
-         sQRg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420062FD1A5
+	for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 02:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780193138; cv=none; b=o5qR3v/WKcvhy5XSUH9dBy5wy35JnX2BhMo1UQbI59+iwz2LOAA4N1gEUBLBX4K6hi8Ny5Yh5y7DG5Vmx5idKkcUzbh1adxF1Qwi5K3FnsQ0pmkwkR68wY1XOLdclqUmF9z6NrB/qBojq/y19l0hx5ORjg2x7S0GzZNNlksa5K4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780193138; c=relaxed/simple;
+	bh=I4g7FzUxvM1SI0tZjI3ToMdvph6DcYYHtzy/eHHJ3VI=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=rxrpU/+Ias24DDUczw6vBblJUxhhX/7ygauc/FyakwHUGRj1QdSW2HFl16OTwlkVH01MEsJ7e8sWyLoPstT8msIBwYCOTdl03utlHCQTTnZrN9HMclira8bn1YVwNFPjgCVYD6RD678HIxsy/YOvRPPG7vojoai692mZoaRQG8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-69d7fee2b39so5864271eaf.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 30 May 2026 19:05:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780189934; x=1780794734;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K3IRqDu/cs1dVQ1QO9A0E2Hsj/Zj/URAXOHivWFZLc0=;
-        b=JyemOVm6MvebmmMuC7jD0ron0Mv94iKF4Lwxhi4d77XWGOk0TeDQpy3zFet5RBAWRW
-         PBDorN5ddx7672WdP/bVaXjB4FyJcb+X+0CO0f1y6LoSveetRdym8uHQyeGmEYreDAtr
-         UPYEm34SnDIecwOvkIrcy05elf/+mutyj2030rrnag4tu3SMbOkFWnOy5O/mYM/+WWiI
-         S9MGf3omtCZRNjgXrb586TAMk8S1cIGkYZ5ckpfgGx6VQbOnt0SEB9WPJvxUSjgrmhaz
-         bJbubzwDrlu97FYm2rCS77xFS4Rodfw/cGPzb6ZlbK8afVYFCCwqOgpfiUvbhNnvut9T
-         nwIw==
-X-Gm-Message-State: AOJu0YxuHAMZZ93wDM96pmbDIXZ2K+dycIaHhB7W5h4//yW7F2QLF9XO
-	iKUWYxumIV0hHRzTOTQHOAM/gYG1t3LAOFmpf9IRj3j8/lEN2NM64ED21DImShB0hlasnJoy9+f
-	pPmqGPDaqMD2SZzWHIXYeX2Z0YqZAgGU=
-X-Gm-Gg: Acq92OF2ovfvG/wahZ14i5lYNf+S0oSYwAV/bWuHy4D1fXQqv9ktYBhBAW0ffpQWnP1
-	w7GtpvsPXIs4T/IPmpv0k60Df4ZtXIzJjxQrqtWoqz/Lt8lTUmhUqB4PA/QAyrOyTIEfspX2rDG
-	KieMCN02c/9Hj4L3cgbH2SUvX1XtcNAE9wk1+F/ugVQa1iz2C2VCW72SOF/W0+d7SIDbXDfccCl
-	amSv/c6CIqdqeFhcvSpYmC7Z9wvdPnDKkUvh9rkKiB0+HdWofuIrWIXGF8kKgzwWM3YPKtzs0Vq
-	LbtANkTMgQmk/bVJh22fOEzO4nfC7AspGg68ypw7
-X-Received: by 2002:a05:6a20:b08d:b0:3b1:8cf6:8f60 with SMTP id
- adf61e73a8af0-3b427f98183mr5887392637.12.1780189934435; Sat, 30 May 2026
- 18:12:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780193136; x=1780797936;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ne4GzdzdnKm+4BhwlEFgMY6GWR7zMb3d/gEca9fJHag=;
+        b=cZFXQE6loBsrviglePaa9muC62AMdjBN/LsmfVoXWaSiS0Xkht/hFhM1ZCk02BqDov
+         NyMIQ3BCxJ9jXGDwzutV8/kp00JIdIlCTBWoYxSLgvYJqTdKiMrl22JqCf8s37BU2KPK
+         mDEuD7NMDhVTONvkS8I/rJ0OY9Dz0LUBSQYF7/PWXtMTHEKjVHfXlSCqs630BMMuavLs
+         n1adrgJSH9TFCck9n5ON3NxozjJF3WhVvjI6E+T0mDLyVDLk2Ls65jT4jHIpiSNENsUP
+         i1a4F2UwhWPmL5/bTahzhRBW6RJUujSQpq9QRFChZ+d5nr7XEh9zQrWPkBCTvvz9Fnpn
+         ogYg==
+X-Forwarded-Encrypted: i=1; AFNElJ8AZUwMjsIB733HLkWywkrY/RLP0xrBoua+kL21rkpyRgj82vBlWhrH5fwDNzSmLQLEwiR/9fGjL0rNQA45@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/yzu7UUbx8fOrhxv1AevisFLFvlXNxlA3AFCG70mCtDrV9/Wu
+	dDGIhXzOtkgLyeq8fgbbqWwPJM5LcsMCqPAmZ89l5Dj7FykMI8p/Qe2MAssbkuLl8YRS+igvnPT
+	CaaMf02IqKJqC10wiWfkVodfU+WAIz+iQ/nVN844Ggw8gg0SlRBhWIqmkYAI=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?B?0JDRgNGC0LXQvCDQm9Cw0LHQsNC30L7Qsg==?= <123321artyom@gmail.com>
-Date: Sun, 31 May 2026 04:12:02 +0300
-X-Gm-Features: AVHnY4KPEsdbKWeLNEnbmsMt_76NTAfc3Op-S-TznsaFqupDsP0IQ7F42VIWElY
-Message-ID: <CAFbF8N7++zopZuEcsKRxBV_sgOGCbzCY0hOyMw1SiGAtuzGhyQ@mail.gmail.com>
-Subject: PROBLEM: FUSE_NOTIFY_INVAL_ENTRY leaves stale negative dentry after c9ba789dad15
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev
-Content-Type: multipart/mixed; boundary="000000000000acdc2d065312c4c3"
-
---000000000000acdc2d065312c4c3
+X-Received: by 2002:a05:6820:4d0b:b0:69d:9e7c:cb67 with SMTP id
+ 006d021491bc7-69e103fb737mr2454780eaf.53.1780193136287; Sat, 30 May 2026
+ 19:05:36 -0700 (PDT)
+Date: Sat, 30 May 2026 19:05:36 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a1b9770.fd5edf16.2e7427.0008.GAE@google.com>
+Subject: [syzbot] [mm?] [fs?] possible deadlock in page_cache_ra_order
+From: syzbot <syzbot+8bd419f88e25ab12cb75@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	syzkaller-bugs@googlegroups.com, willy@infradead.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hello,
 
-I am reporting a FUSE/VFS regression introduced by:
+syzbot found the following issue on:
 
-  c9ba789dad15ba65662bba17595c0aeaa0cfcf1c
-  VFS: introduce start_creating_noperm() and start_removing_noperm()
+HEAD commit:    e7e28506af98 Add linux-next specific files for 20260526
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=1377f67e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e1701da6552dd9b8
+dashboard link: https://syzkaller.appspot.com/bug?extid=8bd419f88e25ab12cb75
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-After a FUSE filesystem returns a cached negative lookup for a name, then
-later makes that name visible and sends FUSE_NOTIFY_INVAL_ENTRY for it,
-readdir() can list the entry while stat()/open() on the same path still
-returns ENOENT.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Bisect result:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/0060088615f7/disk-e7e28506.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/bee8a0723af7/vmlinux-e7e28506.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/040209574106/bzImage-e7e28506.xz
 
-  good: v6.17
-  bad:  v6.19
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8bd419f88e25ab12cb75@syzkaller.appspotmail.com
 
-  first bad commit:
-    c9ba789dad15ba65662bba17595c0aeaa0cfcf1c
-    VFS: introduce start_creating_noperm() and start_removing_noperm()
+loop4: detected capacity change from 0 to 4096
+ntfs3(loop4): failed to convert "0080" to koi8-ru
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz.4.188/6496 is trying to acquire lock:
+ffff888062d66830 (mapping.invalidate_lock#3){++++}-{4:4}, at: filemap_invalidate_lock_shared include/linux/fs.h:1089 [inline]
+ffff888062d66830 (mapping.invalidate_lock#3){++++}-{4:4}, at: do_page_cache_ra mm/readahead.c:349 [inline]
+ffff888062d66830 (mapping.invalidate_lock#3){++++}-{4:4}, at: page_cache_ra_order+0x2b4/0x4a0 mm/readahead.c:562
 
-Adjacent commits:
+but task is already holding lock:
+ffff88803fd78888 (&ni->ni_lock/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1214 [inline]
+ffff88803fd78888 (&ni->ni_lock/5){+.+.}-{4:4}, at: ntfs_readdir+0x6c9/0xf40 fs/ntfs3/dir.c:497
 
-  bd6ede8a06e89ca5a94a8b51cea792705d1b8ca2 GOOD
-  c9ba789dad15ba65662bba17595c0aeaa0cfcf1c BAD
+which lock already depends on the new lock.
 
-The bad commit changes fs/fuse/dir.c:fuse_reverse_inval_entry() to use
-start_removing_noperm().
 
-I attached a minimal libfuse3 reproducer. It does:
+the existing dependency chain (in reverse order) is:
 
-  1. lookup("config") returns ino=0 with non-zero entry_timeout, causing
-     the kernel to cache a negative dentry.
-  2. The filesystem makes "config" visible.
-  3. It calls fuse_lowlevel_notify_inval_entry(root, "config").
-  4. The test checks whether readdir lists "config" and stat("config")
-     succeeds.
+-> #1 (&ni->ni_lock/5){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
+       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
+       ni_lock fs/ntfs3/ntfs_fs.h:1214 [inline]
+       ntfs_fallocate+0x59f/0x1230 fs/ntfs3/file.c:543
+       vfs_fallocate+0x672/0x7f0 fs/open.c:338
+       ioctl_preallocate fs/ioctl.c:289 [inline]
+       file_ioctl+0x64b/0x870 fs/ioctl.c:332
+       do_vfs_ioctl+0xc29/0x1540 fs/ioctl.c:576
+       __do_sys_ioctl fs/ioctl.c:595 [inline]
+       __se_sys_ioctl+0x82/0x170 fs/ioctl.c:583
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-Build:
+-> #0 (mapping.invalidate_lock#3){++++}-{4:4}:
+       check_prev_add kernel/locking/lockdep.c:3167 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3286 [inline]
+       validate_chain kernel/locking/lockdep.c:3910 [inline]
+       __lock_acquire+0x15a5/0x2d10 kernel/locking/lockdep.c:5239
+       lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5870
+       down_read+0x97/0x200 kernel/locking/rwsem.c:1568
+       filemap_invalidate_lock_shared include/linux/fs.h:1089 [inline]
+       do_page_cache_ra mm/readahead.c:349 [inline]
+       page_cache_ra_order+0x2b4/0x4a0 mm/readahead.c:562
+       do_sync_mmap_readahead+0x698/0x7b0 mm/filemap.c:3409
+       filemap_fault+0x790/0x13a0 mm/filemap.c:3559
+       __do_fault+0x138/0x2a0 mm/memory.c:5421
+       do_shared_fault mm/memory.c:5920 [inline]
+       do_fault mm/memory.c:5994 [inline]
+       do_pte_missing+0x65b/0x2940 mm/memory.c:4566
+       handle_pte_fault mm/memory.c:6375 [inline]
+       __handle_mm_fault mm/memory.c:6513 [inline]
+       handle_mm_fault+0xdc2/0x14d0 mm/memory.c:6682
+       do_user_addr_fault+0x75b/0x1340 arch/x86/mm/fault.c:1390
+       handle_page_fault arch/x86/mm/fault.c:1479 [inline]
+       exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1532
+       asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+       filldir64+0x2b2/0x640 fs/readdir.c:368
+       dir_emit include/linux/fs.h:3587 [inline]
+       ntfs_dir_emit fs/ntfs3/dir.c:344 [inline]
+       ntfs_read_hdr+0x8fb/0xc80 fs/ntfs3/dir.c:385
+       ntfs_readdir+0x98e/0xf40 fs/ntfs3/dir.c:545
+       iterate_dir+0x3a5/0x580 fs/readdir.c:110
+       __do_sys_getdents64 fs/readdir.c:399 [inline]
+       __se_sys_getdents64+0xf1/0x280 fs/readdir.c:384
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-  cc -O2 -Wall -Wextra repro.c -o repro $(pkg-config --cflags --libs
-fuse3) -lpthread
+other info that might help us debug this:
 
-Run:
+ Possible unsafe locking scenario:
 
-  mkdir -p mnt
-  ./repro ./mnt
+       CPU0                    CPU1
+       ----                    ----
+  lock(&ni->ni_lock/5);
+                               lock(mapping.invalidate_lock#3);
+                               lock(&ni->ni_lock/5);
+  rlock(mapping.invalidate_lock#3);
 
-Observed results:
+ *** DEADLOCK ***
 
-  Linux 6.17.0:
-    notify_inval_entry rc=0
-    listed=1 stat=OK
-    GOOD
-    exit code 0
+3 locks held by syz.4.188/6496:
+ #0: ffff888037dde928 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos+0x252/0x320 fs/file.c:1260
+ #1: ffff88803fd78b40 (&type->i_mutex_dir_key#10){++++}-{4:4}, at: iterate_dir+0x29e/0x580 fs/readdir.c:103
+ #2: ffff88803fd78888 (&ni->ni_lock/5){+.+.}-{4:4}, at: ni_lock fs/ntfs3/ntfs_fs.h:1214 [inline]
+ #2: ffff88803fd78888 (&ni->ni_lock/5){+.+.}-{4:4}, at: ntfs_readdir+0x6c9/0xf40 fs/ntfs3/dir.c:497
 
-  Linux 6.19.0:
-    notify_inval_entry rc=-2
-    listed=1 stat=No such file or directory
-    BAD
-    exit code 1
+stack backtrace:
+CPU: 0 UID: 0 PID: 6496 Comm: syz.4.188 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2045
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2177
+ check_prev_add kernel/locking/lockdep.c:3167 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3286 [inline]
+ validate_chain kernel/locking/lockdep.c:3910 [inline]
+ __lock_acquire+0x15a5/0x2d10 kernel/locking/lockdep.c:5239
+ lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5870
+ down_read+0x97/0x200 kernel/locking/rwsem.c:1568
+ filemap_invalidate_lock_shared include/linux/fs.h:1089 [inline]
+ do_page_cache_ra mm/readahead.c:349 [inline]
+ page_cache_ra_order+0x2b4/0x4a0 mm/readahead.c:562
+ do_sync_mmap_readahead+0x698/0x7b0 mm/filemap.c:3409
+ filemap_fault+0x790/0x13a0 mm/filemap.c:3559
+ __do_fault+0x138/0x2a0 mm/memory.c:5421
+ do_shared_fault mm/memory.c:5920 [inline]
+ do_fault mm/memory.c:5994 [inline]
+ do_pte_missing+0x65b/0x2940 mm/memory.c:4566
+ handle_pte_fault mm/memory.c:6375 [inline]
+ __handle_mm_fault mm/memory.c:6513 [inline]
+ handle_mm_fault+0xdc2/0x14d0 mm/memory.c:6682
+ do_user_addr_fault+0x75b/0x1340 arch/x86/mm/fault.c:1390
+ handle_page_fault arch/x86/mm/fault.c:1479 [inline]
+ exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1532
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+RIP: 0010:filldir64+0x2b2/0x640 fs/readdir.c:369
+Code: 00 48 39 c8 48 0f 47 c1 0f 01 cb 48 8b 4c 24 28 48 89 48 08 48 bd 00 00 00 00 00 fc ff df 48 8b 44 24 60 48 89 02 8b 44 24 04 <66> 89 42 10 41 80 e7 0f 44 88 7a 12 42 c6 44 2a 13 00 48 89 54 24
+RSP: 0018:ffffc9000e517aa8 EFLAGS: 00050287
+RAX: 0000000000000020 RBX: ffffc9000e517e38 RCX: 00000000000008c0
+RDX: 0000200000000ff0 RSI: 0000000000000a29 RDI: 0000000000000a2a
+RBP: dffffc0000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: ffffed10054a03e1 R12: ffff88802699c000
+R13: 0000000000000009 R14: 0000000000000009 R15: 0000000000000008
+ dir_emit include/linux/fs.h:3587 [inline]
+ ntfs_dir_emit fs/ntfs3/dir.c:344 [inline]
+ ntfs_read_hdr+0x8fb/0xc80 fs/ntfs3/dir.c:385
+ ntfs_readdir+0x98e/0xf40 fs/ntfs3/dir.c:545
+ iterate_dir+0x3a5/0x580 fs/readdir.c:110
+ __do_sys_getdents64 fs/readdir.c:399 [inline]
+ __se_sys_getdents64+0xf1/0x280 fs/readdir.c:384
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7feadcacce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007feadad1e028 EFLAGS: 00000246 ORIG_RAX: 00000000000000d9
+RAX: ffffffffffffffda RBX: 00007feadcd45fa0 RCX: 00007feadcacce59
+RDX: 00000000000000e0 RSI: 0000200000000fc0 RDI: 0000000000000006
+RBP: 00007feadcb62d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007feadcd46038 R14: 00007feadcd45fa0 R15: 00007ffebb7a32a8
+ </TASK>
+ntfs3(loop4): failed to convert name for inode 1e.
+ntfs3(loop4): ino=1f, mi_enum_attr
+----------------
+Code disassembly (best guess):
+   0:	00 48 39             	add    %cl,0x39(%rax)
+   3:	c8 48 0f 47          	enter  $0xf48,$0x47
+   7:	c1 0f 01             	rorl   $0x1,(%rdi)
+   a:	cb                   	lret
+   b:	48 8b 4c 24 28       	mov    0x28(%rsp),%rcx
+  10:	48 89 48 08          	mov    %rcx,0x8(%rax)
+  14:	48 bd 00 00 00 00 00 	movabs $0xdffffc0000000000,%rbp
+  1b:	fc ff df
+  1e:	48 8b 44 24 60       	mov    0x60(%rsp),%rax
+  23:	48 89 02             	mov    %rax,(%rdx)
+  26:	8b 44 24 04          	mov    0x4(%rsp),%eax
+* 2a:	66 89 42 10          	mov    %ax,0x10(%rdx) <-- trapping instruction
+  2e:	41 80 e7 0f          	and    $0xf,%r15b
+  32:	44 88 7a 12          	mov    %r15b,0x12(%rdx)
+  36:	42 c6 44 2a 13 00    	movb   $0x0,0x13(%rdx,%r13,1)
+  3c:	48                   	rex.W
+  3d:	89                   	.byte 0x89
+  3e:	54                   	push   %rsp
+  3f:	24                   	.byte 0x24
 
-  Linux 7.1.0-rc5-00426-g670b77dfebe7:
-    notify_inval_entry rc=-2
-    listed=1 stat=No such file or directory
-    BAD
-    exit code 1
 
-#regzbot introduced: c9ba789dad15ba65662bba17595c0aeaa0cfcf1c
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Assisted-by: OpenCode:openai/gpt-5.5
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Thanks,
-Artem
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
---000000000000acdc2d065312c4c3
-Content-Type: application/octet-stream; name="repro.c"
-Content-Disposition: attachment; filename="repro.c"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mpt333dj0>
-X-Attachment-Id: f_mpt333dj0
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Ly8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKLy8gUmVwcm9kdWNlciBmb3IgYzli
-YTc4OWRhZDE1OiBjYWNoZWQgbmVnYXRpdmUgRlVTRSBkZW50cnkgc3Vydml2ZXMKLy8gRlVTRV9O
-T1RJRllfSU5WQUxfRU5UUlkuICBFeGl0OiAwPWdvb2QsIDE9YmFkLCAyPWVycm9yLgovLyBCdWls
-ZDogY2MgLU8yIC1XYWxsIC1XZXh0cmEgcmVwcm8uYyAtbyByZXBybyAkKHBrZy1jb25maWcgLS1j
-ZmxhZ3MgLS1saWJzIGZ1c2UzKSAtbHB0aHJlYWQKI2RlZmluZSBGVVNFX1VTRV9WRVJTSU9OIDM0
-CiNpbmNsdWRlIDxkaXJlbnQuaD4KI2luY2x1ZGUgPGVycm5vLmg+CiNpbmNsdWRlIDxmdXNlX2xv
-d2xldmVsLmg+CiNpbmNsdWRlIDxwdGhyZWFkLmg+CiNpbmNsdWRlIDxzdGRpby5oPgojaW5jbHVk
-ZSA8c3RkbGliLmg+CiNpbmNsdWRlIDxzdHJpbmcuaD4KI2luY2x1ZGUgPHN5cy9zdGF0Lmg+CiNp
-bmNsdWRlIDx1bmlzdGQuaD4KCmVudW0geyBST09UID0gMSwgQ09ORklHID0gMiB9OwpzdGF0aWMg
-c3RydWN0IGZ1c2Vfc2Vzc2lvbiAqc2U7CnN0YXRpYyB2b2xhdGlsZSBpbnQgdmlzaWJsZTsKCnN0
-YXRpYyB2b2lkIGF0dHIoc3RydWN0IHN0YXQgKnN0LCBmdXNlX2lub190IGlubykKewogIG1lbXNl
-dChzdCwgMCwgc2l6ZW9mKCpzdCkpOwogIHN0LT5zdF9pbm8gPSBpbm87CiAgc3QtPnN0X21vZGUg
-PSBTX0lGRElSIHwgMDc1NTsKICBzdC0+c3RfbmxpbmsgPSAyOwogIHN0LT5zdF91aWQgPSBnZXR1
-aWQoKTsKICBzdC0+c3RfZ2lkID0gZ2V0Z2lkKCk7Cn0KCnN0YXRpYyB2b2lkIGVudHJ5KGZ1c2Vf
-cmVxX3QgcmVxLCBmdXNlX2lub190IGlubywgZG91YmxlIHQpCnsKICBzdHJ1Y3QgZnVzZV9lbnRy
-eV9wYXJhbSBlID0gey5pbm8gPSBpbm8sIC5nZW5lcmF0aW9uID0gMSwgLmVudHJ5X3RpbWVvdXQg
-PSB0LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLmF0dHJfdGltZW91dCA9IHR9Owog
-IGlmIChpbm8pCiAgICBhdHRyKCZlLmF0dHIsIGlubyk7CiAgZnVzZV9yZXBseV9lbnRyeShyZXEs
-ICZlKTsKfQoKc3RhdGljIHZvaWQgbG9va3VwKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lub190IHBh
-cmVudCwgY29uc3QgY2hhciAqbmFtZSkKewogIGlmIChwYXJlbnQgIT0gUk9PVCkgewogICAgZnVz
-ZV9yZXBseV9lcnIocmVxLCBFTk9FTlQpOwogICAgcmV0dXJuOwogIH0KICBpZiAoIXN0cmNtcChu
-YW1lLCAiY29uZmlnIikpCiAgICByZXR1cm4gZW50cnkocmVxLCB2aXNpYmxlID8gQ09ORklHIDog
-MCwgNjAwLjApOwogIGZ1c2VfcmVwbHlfZXJyKHJlcSwgRU5PRU5UKTsKfQoKc3RhdGljIHZvaWQg
-Z2V0YXR0cihmdXNlX3JlcV90IHJlcSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVjdCBmdXNlX2ZpbGVf
-aW5mbyAqZmkpCnsKICAodm9pZClmaTsKICBpZiAoaW5vID09IFJPT1QgfHwgaW5vID09IENPTkZJ
-RykgewogICAgc3RydWN0IHN0YXQgc3Q7CiAgICBhdHRyKCZzdCwgaW5vKTsKICAgIGZ1c2VfcmVw
-bHlfYXR0cihyZXEsICZzdCwgNjAwLjApOwogICAgcmV0dXJuOwogIH0KICBmdXNlX3JlcGx5X2Vy
-cihyZXEsIEVOT0VOVCk7Cn0KCnN0YXRpYyB2b2lkIGFkZChmdXNlX3JlcV90IHJlcSwgY2hhciAq
-KnAsIHNpemVfdCAqc3osIGNvbnN0IGNoYXIgKm5hbWUsCiAgICAgICAgICAgICAgICBmdXNlX2lu
-b190IGlubykKewogIHN0cnVjdCBzdGF0IHN0OwogIGF0dHIoJnN0LCBpbm8pOwogIHNpemVfdCBv
-bGQgPSAqc3o7CiAgKnN6ICs9IGZ1c2VfYWRkX2RpcmVudHJ5KHJlcSwgTlVMTCwgMCwgbmFtZSwg
-TlVMTCwgMCk7CiAgKnAgPSByZWFsbG9jKCpwLCAqc3opOwogIGZ1c2VfYWRkX2RpcmVudHJ5KHJl
-cSwgKnAgKyBvbGQsICpzeiAtIG9sZCwgbmFtZSwgJnN0LCAqc3opOwp9CgpzdGF0aWMgdm9pZCBy
-ZWFkZGlyX2NiKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lub190IGlubywgc2l6ZV90IHNpemUsIG9m
-Zl90IG9mZiwKICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZnVzZV9maWxlX2luZm8gKmZp
-KQp7CiAgKHZvaWQpZmk7CiAgaWYgKGlubyAhPSBST09UKSB7CiAgICBmdXNlX3JlcGx5X2Vycihy
-ZXEsIEVOT1RESVIpOwogICAgcmV0dXJuOwogIH0KICBjaGFyICpidWYgPSBOVUxMOwogIHNpemVf
-dCBzeiA9IDA7CiAgYWRkKHJlcSwgJmJ1ZiwgJnN6LCAiLiIsIFJPT1QpOwogIGFkZChyZXEsICZi
-dWYsICZzeiwgIi4uIiwgUk9PVCk7CiAgaWYgKHZpc2libGUpCiAgICBhZGQocmVxLCAmYnVmLCAm
-c3osICJjb25maWciLCBDT05GSUcpOwogIGlmIChvZmYgPCAob2ZmX3Qpc3opCiAgICBmdXNlX3Jl
-cGx5X2J1ZihyZXEsIGJ1ZiArIG9mZiwgc3ogLSBvZmYgPCBzaXplID8gc3ogLSBvZmYgOiBzaXpl
-KTsKICBlbHNlCiAgICBmdXNlX3JlcGx5X2J1ZihyZXEsIE5VTEwsIDApOwogIGZyZWUoYnVmKTsK
-fQoKc3RhdGljIHZvaWQgb3BlbmRpcl9jYihmdXNlX3JlcV90IHJlcSwgZnVzZV9pbm9fdCBpbm8s
-CiAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGZ1c2VfZmlsZV9pbmZvICpmaSkKewogIGlu
-byA9PSBST09UID8gZnVzZV9yZXBseV9vcGVuKHJlcSwgZmkpIDogZnVzZV9yZXBseV9lcnIocmVx
-LCBFTk9URElSKTsKfQoKc3RhdGljIGNvbnN0IHN0cnVjdCBmdXNlX2xvd2xldmVsX29wcyBvcHMg
-PSB7CiAgICAubG9va3VwID0gbG9va3VwLAogICAgLmdldGF0dHIgPSBnZXRhdHRyLAogICAgLm9w
-ZW5kaXIgPSBvcGVuZGlyX2NiLAogICAgLnJlYWRkaXIgPSByZWFkZGlyX2NiLAp9OwoKc3RhdGlj
-IHZvaWQgKmxvb3Aodm9pZCAqYXJnKSB7CiAgZnVzZV9zZXNzaW9uX2xvb3AoYXJnKTsKICByZXR1
-cm4gTlVMTDsKfQoKc3RhdGljIGludCBsaXN0ZWQoY29uc3QgY2hhciAqbW50KQp7CiAgRElSICpk
-ID0gb3BlbmRpcihtbnQpOwogIGlmICghZCkKICAgIHJldHVybiAwOwogIGludCBzZWVuID0gMDsK
-ICBzdHJ1Y3QgZGlyZW50ICpkZTsKICB3aGlsZSAoKGRlID0gcmVhZGRpcihkKSkpCiAgICBzZWVu
-IHw9ICFzdHJjbXAoZGUtPmRfbmFtZSwgImNvbmZpZyIpOwogIGNsb3NlZGlyKGQpOwogIHJldHVy
-biBzZWVuOwp9CgpzdGF0aWMgaW50IHVzZXIoY29uc3QgY2hhciAqbW50KQp7CiAgY2hhciBjWzQw
-OTZdOwogIHN0cnVjdCBzdGF0IHN0OwogIHNucHJpbnRmKGMsIHNpemVvZihjKSwgIiVzL2NvbmZp
-ZyIsIG1udCk7CiAgaWYgKHN0YXQoYywgJnN0KSA9PSAwIHx8IGVycm5vICE9IEVOT0VOVCkKICAg
-IHJldHVybiBmcHJpbnRmKHN0ZGVyciwgImV4cGVjdGVkIGluaXRpYWwgRU5PRU5UXG4iKSwgMjsK
-ICBpZiAobGlzdGVkKG1udCkpCiAgICByZXR1cm4gZnByaW50ZihzdGRlcnIsICJjb25maWcgbGlz
-dGVkIHRvbyBlYXJseVxuIiksIDI7CiAgdmlzaWJsZSA9IDE7CiAgaW50IHJjID0KICAgICAgZnVz
-ZV9sb3dsZXZlbF9ub3RpZnlfaW52YWxfZW50cnkoc2UsIFJPT1QsICJjb25maWciLCBzdHJsZW4o
-ImNvbmZpZyIpKTsKICBmcHJpbnRmKHN0ZGVyciwgIm5vdGlmeV9pbnZhbF9lbnRyeSByYz0lZFxu
-IiwgcmMpOwogIHVzbGVlcCgxMDAwMDApOyAvLyBsZXQgbm90aWZ5IHJlYWNoIHRoZSBrZXJuZWwK
-ICBlcnJubyA9IDA7CiAgaW50IHNlZW4gPSBsaXN0ZWQobW50KSwgb2sgPSAhc3RhdChjLCAmc3Qp
-LCBlcnIgPSBlcnJubzsKICBmcHJpbnRmKHN0ZGVyciwgImxpc3RlZD0lZCBzdGF0PSVzXG4iLCBz
-ZWVuLCBvayA/ICJPSyIgOiBzdHJlcnJvcihlcnIpKTsKICBpZiAoc2VlbiAmJiAhb2sgJiYgZXJy
-ID09IEVOT0VOVCkKICAgIHJldHVybiBwdXRzKCJCQUQiKSwgMTsKICByZXR1cm4gcHV0cygiR09P
-RCIpLCAwOwp9CgppbnQgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpCnsKICBpZiAoYXJnYyAh
-PSAyKQogICAgcmV0dXJuIGZwcmludGYoc3RkZXJyLCAidXNhZ2U6ICVzIDxtb3VudHBvaW50Plxu
-IiwgYXJndlswXSksIDI7CiAgc3RydWN0IGZ1c2VfYXJncyBhcmdzID0gRlVTRV9BUkdTX0lOSVQo
-MCwgTlVMTCk7CiAgZnVzZV9vcHRfYWRkX2FyZygmYXJncywgYXJndlswXSk7CiAgZnVzZV9vcHRf
-YWRkX2FyZygmYXJncywgIi1vIik7CiAgZnVzZV9vcHRfYWRkX2FyZygmYXJncywgImF1dG9fdW5t
-b3VudCxmc25hbWU9aW52YWxyZXBybyIpOwogIHNlID0gZnVzZV9zZXNzaW9uX25ldygmYXJncywg
-Jm9wcywgc2l6ZW9mKG9wcyksIE5VTEwpOwogIGlmICghc2UgfHwgZnVzZV9zZXNzaW9uX21vdW50
-KHNlLCBhcmd2WzFdKSkKICAgIHJldHVybiBwZXJyb3IoImZ1c2UgbW91bnQiKSwgMjsKICBwdGhy
-ZWFkX3QgbHQ7CiAgcHRocmVhZF9jcmVhdGUoJmx0LCBOVUxMLCBsb29wLCBzZSk7CiAgaW50IHJl
-dCA9IHVzZXIoYXJndlsxXSk7CiAgZnVzZV9zZXNzaW9uX2V4aXQoc2UpOwogIGZ1c2Vfc2Vzc2lv
-bl91bm1vdW50KHNlKTsKICBwdGhyZWFkX2NhbmNlbChsdCk7CiAgcHRocmVhZF9qb2luKGx0LCBO
-VUxMKTsKICBmdXNlX3Nlc3Npb25fZGVzdHJveShzZSk7CiAgcmV0dXJuIHJldDsKfQo=
---000000000000acdc2d065312c4c3--
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
