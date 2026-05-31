@@ -1,114 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF11330FF08;
-	Sun, 31 May 2026 19:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780256993; cv=none; b=Nj3nhfKNlPREmmqZl2UmabA/DzcV/BPWdvoLJF54QE4zHk36pXFNktQPJLre0V9AXjnAx6ZpdY9Da5WZuZj5UDy1ZGsekiGrUQQ00QfTRxxSLAiCy8lJTMmAFO0olJBfOVKgZ3C4jz4D6JAFLlxh1UbBe9CQuVXFIfZ/pRipzNQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780256993; c=relaxed/simple;
-	bh=B7FxAfw32DDsnxF+rFGxl7EqV79gh3pLPeaJyxvx47U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LCMc78H4qxK1ckK5VdnxkqXPrFp8QbR4Xp2a41m/BrKMiPs3NDa9W1q/R7d40j6hFvi56Jj3NodSuvhIo2Lil76tdnlWhfrCsDU9PGq2b6l/8g674aM5zmWXSPX9giHlvfvlxPBQ20PNnA0wl4n9bFnwQbVnQJEN9au5q5xGRkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hi2oZ76z; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB03285417
+	for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 21:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780262505; cv=pass; b=dj8e0ulMZtWsoH1ywZN+Gegw2DWsOx2dWKMn4F6RD+8evBtC/1otdPMvI5jPeMFkL30G8JS2DvBfK/CAFb6yTMmNsXVA+c3ISh7KIWp64F6NqpzgFlWJXIrMMxJ/JO2ygPIWGemvwIZtU4rd7Bxu52MURS1eC5qu37QzzI1nq6o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780262505; c=relaxed/simple;
+	bh=HK+FQZK/X2670pSoGvJT+eXxMm/YbYUTBbsmMo4Pt1U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b+286nYQCZn0I0xUImLC534e1M38mTds7uKIyflGxP8atP4e8aJsMConasSjM1R2XSAFZ/izU3mFYMMmhrJZZ51u4g1dSmvfFGxgQJaCHm/jIzcxH/onRu3nGcqoheI1poGD3YYqa/pZnWEBI39Tjdri+pztUOKGah02/1LO69k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c7aI7eRe; arc=pass smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hi2oZ76z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAA041F00893;
-	Sun, 31 May 2026 19:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780256992;
-	bh=JzgiLAWTT+8hb3wVDklQJ1QdmY7O+bXqn2rYAgmL3Bs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Hi2oZ76zuOyqgAKzwkh+Tj3Z68AdgAhljPJbC/zVN6EeSegwC+wRGTq/dPFs911MN
-	 3lZ1kn7kKebyRLl5KKVhllKyMnsstuzyfzDXKO+WZthQ5+WQwmNjti8EPBtg5gACsx
-	 FiA6goisKZGXNovh5p6TwOGE/KjhXhhrNosF6VtrUtOzNdZnmOIjag0xdfN3EprhZG
-	 v4xyVnc3/+20U22+qr6tYZaBSfRMBc3Z6DQAAqanWmO/ReTczoOT0YAkn7slMJNgnl
-	 c9IZC0TZlaCY8l/12yoE+CSExH3sJgsfVz2YkSVugu70tHrrEDsPS90EgKSySssvlJ
-	 yYBgrcsKs1EhQ==
-Message-ID: <fa674c4c-11e7-4383-8c1e-dbe7f16575e7@kernel.org>
-Date: Sun, 31 May 2026 21:49:46 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7aI7eRe"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bd8f6ef4ba6so2360708366b.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 14:21:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780262502; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hWyk5RdxurS4UMu8Ut32FWqoYq4pckCKerRWF70MZIcok9ydoshzf76q/GFoBke+C4
+         2HURzQkTsxVGTc61mRSV7xRaILiIDQUilM99kEgXu4XqOckSvYQAvWElm3dNZZ/3gSST
+         5ogTgHTTnm2WC1ZF+j7SZpNP00Ouv3ETiGCI2+CQIrz9VyP2aod4Dpi8ZxXvCuZG0K9N
+         rhy/IgR+SsJTRuygZpOpdTTOukIC+6vpTITzmo7hpfpwnd9Rv5/VRT2nfWhKIeQ/KiqI
+         W/b9CpROHkqycOd3I0wEpcQs1Y1DdGLo/y9wgVi7YqTSkI6t2KW70Wrlef810bUhi63q
+         eDzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HK+FQZK/X2670pSoGvJT+eXxMm/YbYUTBbsmMo4Pt1U=;
+        fh=+GnvgyvG6Lk0RyzFVLfb/NQaM9cEnlh+enys3Z9+qrY=;
+        b=DJZpT+zgLFapuIbGa/8VJ2BjV97vbT1qXubS8xhktFPw1AohjsUXdQCHiFOudxrlVU
+         IXhlGuFVeUEu25dxMLtqXfBm0RMvzwW3JQXK/hcdboyzMT1TzLDlrdGjXj9uiRlUaQsk
+         si+3HDUTwCDpucqSxgKM6a1eWcGGZ8ffXIf+5V0R1MlRsdCrCPo8hZ07cu7xMFQx6WIi
+         Ua+DUI8I5evNPq0JcBy29YugRQ69vRNqcbLXz8iaatKbWTbtpHxC+JeGiI4048rk/s2F
+         xrco5BQL2K2Sw9S+j976uPwHYiN8Ix3iW7//8740YDkjrSNpDc9M8Am3UVdzGjj7xc37
+         76LQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780262502; x=1780867302; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HK+FQZK/X2670pSoGvJT+eXxMm/YbYUTBbsmMo4Pt1U=;
+        b=c7aI7eReqdU1bZ24Z6s7RvCbQwwtVX44prOGcDqWiqy9Y0iDoa0G83zXG1PCdg0Z9s
+         3XbBx+KIXoVsTPBvJh3iz2u0nvMJso7cLGZLUM8emH1pe8YmZlwWFDwcryvxqZv9RBx8
+         9GSILqSeH5g6YEO/tih6sVlw9kqeREYbU/eg/i7KXHYjzxsmkKi/tEtWXFkAwlRKIT4F
+         wGafQicielYAh4rwHgHAeCm+sMdpFDFYtUvN0WBTYY4QR8N22HEllf6YlB/oN15gFkgo
+         p087LJ4RX9YNGRnfZUgKwK3ZV0v7ctdDROLPpC0lyJvNMY5VjbLmQZw5n2I0lngwalub
+         rgxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780262502; x=1780867302;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HK+FQZK/X2670pSoGvJT+eXxMm/YbYUTBbsmMo4Pt1U=;
+        b=o4BQ0l5oo2/L81Z81drzR0PEK7qJ6bDyZOP95o5A5xD6sHGl5duscNoruK8ItQqqpk
+         FBXlZsS6xuhRmh3g4jRgkzd6IofeEx8NZI0nyo6xe6rkVsUWh1Trd4LCqWNqtbvTUZn0
+         SpEgGxAYboBVpLXsslPQ7pZhjV1lQoxmeCDsBBCKVfmWX10QJye4zXR03dOmRSB003VR
+         7/PEWGA47UjpuvTC3jUEULTdiDCTpKRoGavPdepjWMb2rr/WdukUmM/iVTV1+uBLclyn
+         ms+3CQGfiM7j88JkRGg2SR0Y+lMBCZ/eBMn8PJLll+PdPK6YOPzRDoaxu3I853Aq/jf8
+         aAVw==
+X-Gm-Message-State: AOJu0Yyjl3cx+2ayZRH5MZ2RUIPM3HY86Yh6+rL0kehFqfgPRI740Wc3
+	TvU2TBfwhT+u1gvCjaksrmf7M+6XW2enLAXVVNv0XmLfdwmvBV+nnM0xFvwMHVBrWq+l7uE5sIV
+	bG8XqQ04YEEbil+HOE6basj7opu2FVfE=
+X-Gm-Gg: Acq92OElLvDi+Nnx+UB7KwXKj2YwNq8Xj9DaJ/Oc9KWQE4N03Sf+oyVfL1LQOSTJmJN
+	BvStqzH8tVu7DWYjEgvwtYJsXGFTVTOF/4j2x0cAnhFoMR7S+0wSpKegDh3aM6+GLneqwYfupyj
+	x9RlZqUChrA4NpVM/UN1pAUoPduG9Hv3FXV28xjix87Fd9NASXz59hAt0nv6Sc34DK6hvolr5MM
+	LZnfg3cXPS8f4sxaensReobWGArpqrVvqLM1QOXoDQl2W3uAXAeNDFuJRnGWk6ksphUIjJ6VjZK
+	OuEJ8BwZKKMNyEzVkw82hUneuq7f
+X-Received: by 2002:a17:907:d02:b0:be2:dd37:facd with SMTP id
+ a640c23a62f3a-beab4339068mr455362966b.20.1780262502221; Sun, 31 May 2026
+ 14:21:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] mm/hmm: A fix and a selftest
-To: Andrew Morton <akpm@linux-foundation.org>, Dev Jain <dev.jain@arm.com>
-Cc: liam@infradead.org, ljs@kernel.org, jgg@ziepe.ca, leon@kernel.org,
- shuah@kernel.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de,
- balbirs@nvidia.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, linux-kselftest@vger.kernel.org, usama.arif@linux.dev,
- ryan.roberts@arm.com, anshuman.khandual@arm.com
-References: <20260530085413.1270139-1-dev.jain@arm.com>
- <20260531122458.864e9deac7425e1b71c14f3a@linux-foundation.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260531122458.864e9deac7425e1b71c14f3a@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260531010107.1953702-1-safinaskar@gmail.com> <ahv16ogY8Zx3Rtox@pedro-suse.lan>
+In-Reply-To: <ahv16ogY8Zx3Rtox@pedro-suse.lan>
+From: Askar Safin <safinaskar@gmail.com>
+Date: Mon, 1 Jun 2026 00:21:06 +0300
+X-Gm-Features: AVHnY4IV40jpJJDRQFbdKVprCBGPqL0nWYb_1HSlt6FzSI1F6gq0u1bXknLpLA8
+Message-ID: <CAPnZJGD5QR5jrNMAem7FjMRTtw+Ue+jm7Dc2Kp8Lcjj+9TDw_Q@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/31/26 21:24, Andrew Morton wrote:
-> On Sat, 30 May 2026 08:54:10 +0000 Dev Jain <dev.jain@arm.com> wrote:
-> 
->> Patch 1 fixes a stale warning present from the time when only migration
->> softleaf entries were supported at the PMD level.
->>
->> Patch 2 adds some code into hmm-tests.c which exercises the pagemap path
->> for PMD device-private entries.
-> 
-> David, I'll retain your ack on patch 1.
+On Sun, May 31, 2026 at 11:54=E2=80=AFAM Pedro Falcato <pfalcato@suse.de> w=
+rote:
+> So, you took an ongoing discussion with an ongoing RFC patchset, and you
+> decided to reimplement part of the idea on your own, as a concurrent patc=
+hset.
 
-Thanks!
+Yes. But I propose an alternative solution to this problem.
 
--- 
-Cheers,
+Brauner said in discussion for your patchset:
+"So I'm not very likely to pick this up as is".
+So, I decided to submit another solution.
 
-David
+Pedro, I'm not trying to insult you.
+
+Other kernel developers will decide which of these two solutions they like =
+more.
+
+Many people in discussion of your patchset said how they
+dislike splice/vmsplice, and especially vmsplice.
+Hellwig said "vmsplice is the worst".
+Brauner, Hellwig, Horn said that they dislike vmsplice.
+They said that vmsplice in its current form should not
+be used, and that it is broken.
+
+Despite all these problems nobody managed to fix
+vmsplice in all these years.
+So I propose just to effectively remove it.
+
+You may think that I just saw a recent discussion and decided
+to jump in. No. splice/vmsplice is my topic of interest for many
+years. You can verify this by searching "f:Askar splice"
+on lore.kernel.org . I simply decided that given
+recent vulnerabilities now is the perfect time to solve
+all these vmsplice problems once and for all.
+
+I explained my position here:
+https://lore.kernel.org/all/20260523204100.553125-1-safinaskar@gmail.com/ .
+Nobody answered, so I just posted this patchset.
+
+If my patchset is applied, then I will try to deal
+with splice-pagecache-to-pipe somehow,
+probably by removing it, too. :) I decided first
+to deal with vmsplice, because it seems to be
+easier problem.
+
+> > vmsplice(fd, vec, vlen, vmsplice_flags) will
+> > be equivalent to preadv2(fd, vec, vlen, -1, rw_flags) if you have
+> > readable pipe and to pwritev2(fd, vec, vlen, -1, rw_flags) if you have
+> > writable pipe.
+>
+> This does not work. https://codesearch.debian.net/search?q=3Dvmsplice%28&=
+literal=3D1
+> There are users.
+
+Yes, they are. But my solution is compatible. vmsplice is simply performanc=
+e
+optimization. vmsplice will work just as before, but slower.
+And, most importantly, vmsplice design problems will be gone
+(nobody managed to fix them anyway for all these years).
+
+--=20
+Askar Safin
