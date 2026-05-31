@@ -1,44 +1,44 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3662395AD7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCB73955F2
 	for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 18:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.168
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780251597; cv=none; b=hPAWh+KUNzyK+JinWRH4JtBk0N5sb8tviZ6faQFxVW1+64FOgmsaqCp/826tP1xOLTN6M5XNWIEYER8Qvb2Rb5R27w1N2SyGT07kl7mjM+7jPUliaRezLK83parRFYFGDb9hO9d9jsH55UsGVW7hfbmV/RW/h5hdxcRwS/8hjco=
+	t=1780251598; cv=none; b=NKPPHrch6mIbP/9bdbER7IdpNCAmF7a4W+tcy95ESgG3VB5ttd8ZuM4jUz9Ra0aaWImwr6vqhZRTLL6SNID8lWEgQzORjCv1p7P4Iu0JWuDXQ2dbFY6ojQZU5qkdLoAHuRuAdbEQXGiuodpbvhL5VM1cW26hP5K1jl3PCT1vvI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780251597; c=relaxed/simple;
-	bh=p61vhvva4xdYOwHX26DLHiTY4b88UTDKWJk0s61v/Jk=;
+	s=arc-20240116; t=1780251598; c=relaxed/simple;
+	bh=dn6SihIUPLWOfN26dYAPACiqQ49/1rU1058g0P6VrIs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Tl8F7m+BsjmBltyYcP3iJSnBE11QPJlJyhU1ipLAqGcZQLeyOAF6tM6pzxFy2WCnY0IPj7BeKPP/AC4/ceHgCbbSR84e0h734Exuzqmrfy1MWpi2Mp969vRsZPuL09GdkrePVzQOYFEmoRvIHbDtvtuaDXu7NenMqYKlA1fdrfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=HrJqpDq/; arc=none smtp.client-ip=195.121.94.168
+	 MIME-Version; b=PGKHnnwEjR1QjibmVWfHq4wRo1jywcyS6rhEd9hwq/NBLO26ZAMpje2QHTVMU7+LUwvvX6dCkThh1459cAIkn1MtLxiEGM6kBx6rhTzTgvZeM7EGDqa9dsfGlzNQN7Y8kIv2lssmZwZ1dJ2XtaFUruV1JlYGI369DEr3VjpzDVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=tv8U5sNk; arc=none smtp.client-ip=195.121.94.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="HrJqpDq/"
-X-KPN-MessageId: 4f23a6f1-5d1d-11f1-92b3-005056aba152
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="tv8U5sNk"
+X-KPN-MessageId: 522ef40e-5d1d-11f1-96a9-005056abbe64
 Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 4f23a6f1-5d1d-11f1-92b3-005056aba152;
-	Sun, 31 May 2026 20:19:48 +0200 (CEST)
+	id 522ef40e-5d1d-11f1-96a9-005056abbe64;
+	Sun, 31 May 2026 20:19:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=mime-version:message-id:date:subject:to:from;
-	bh=S/PcftfCfUTrWV5yABNt7y5wuIj0V4tgVvHpnpjZmfQ=;
-	b=HrJqpDq/NHV0+0I5p3cepi3J8aXxEkG2/9ygCMhHzFCP7ESFr6GKpW5rhyA1c8GwXZBAOJlkLftnp
-	 K4Re0YNYX+UiQK0OoSlHK5ScxmRTudBqMEP9EkM4ba/xaParw7P2pYNYJHEiowcyX9aouoTAFKrxlK
-	 vJ/Z/gOQPQjBK8EypuKtm6ZW/gG7jCP7duqzR8ONKDNa4KasfdRrbJUps5Bajo92PloU/2A1WtoKLd
-	 0xpsVFVd4avz1cA1KTntyeE0SS56uEfuKEpdjYcO9dq/cCogQFJ9vMXmiAjgY4+yxznPWMFG7a4CoY
-	 LRZSV694mjD/+URDTcmfv+9golEnzJQ==
-X-KPN-MID: 33|bU+JIveaSCmmjpRRMoCqXc9Rn2dhqiG9B2rXcuvvN6wJ2UsS/l3yfTZhqhspHbe
- HMKfTpiLzVmNMlX+Wuuf4YrN1TfXEowccHCETAYVgRlw=
+	bh=34ZFfcPo/wCV7rUgvNIeW6wK60MzzQzVDVItofBMs5I=;
+	b=tv8U5sNkmzBqbX23gMiQVx7fCYlWNHyjxavmxUEhzzTrChy8DUHsvmsDEET+X+92TJt+L0eK5ZU/a
+	 1nmG9yQqNJKFO2O18sByOu6cJVVSlaz6j1nPC9dcfvllTtT6xPx795fNVgomySjpbI6m3g38wBVdqK
+	 ecGXa5ZvCIE6zdbK0lSFej9+02tgtu56CyjWb5cMT736AWcHr2Z/crs2zIsjvXsZC4WfDxbsvjCy9q
+	 nMWo3Y1VjJLvttoseNKgqgQOUlMrxjk/wFYbokDKwDhMPc2XWdZkaBaGWoCuZ+fiU7nuJLXpaPDDcb
+	 SaLpFAoH4QitArcXngtNNMDRNfnBNCw==
+X-KPN-MID: 33|XUUscqeZMaFhRDs6XEX9lcT0Y2925Cq6T96N11s36aNkMDoGAMIYaeHUWPPMVb6
+ y9FEXHHkYzYi71jP/fTylGpWPXupkqhAy4NrIhhyPenk=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|yfs3/GKz6NOsjg7nvEzO/EiSaWixgvnlg2tBc4L/CT1FSI+zF7yvqCyUcoiV7iA
- TZ1ccTeFSfwuTpbk/ekDhxw==
+X-CMASSUN: 33|DVxjmziSlgRNEjvYt7L0foOk9lYvMa516mh447HZbWbjh8iIteDixRInhUgN1hf
+ h1QClAsHqnlFFk+VCm8pqDg==
 Received: from daedalus.home (unknown [178.227.141.146])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 4ef12f7d-5d1d-11f1-8011-005056ab7447;
-	Sun, 31 May 2026 20:19:48 +0200 (CEST)
+	id 51e4cedb-5d1d-11f1-8011-005056ab7447;
+	Sun, 31 May 2026 20:19:53 +0200 (CEST)
 From: Jori Koolstra <jkoolstra@xs4all.nl>
 To: NeilBrown <neil@brown.name>,
 	Al Viro <viro@zeniv.linux.org.uk>,
@@ -51,9 +51,9 @@ Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Charles Mirabile <cmirabil@redhat.com>
-Subject: [RFC PATCH v6 4/9] vfs: lookup_open(): move setting FMODE_CREATED up when calling create()
-Date: Sun, 31 May 2026 20:20:40 +0200
-Message-ID: <20260531182045.171711-5-jkoolstra@xs4all.nl>
+Subject: [RFC PATCH v6 9/9] selftest: add tests for open*(O_CREAT|O_DIRECTORY)
+Date: Sun, 31 May 2026 20:20:45 +0200
+Message-ID: <20260531182045.171711-10-jkoolstra@xs4all.nl>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260531182045.171711-1-jkoolstra@xs4all.nl>
 References: <20260531182045.171711-1-jkoolstra@xs4all.nl>
@@ -65,43 +65,257 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In preparation for using vfs_create_no_perm() in lookup_open() we need
-to move setting FMODE_CREATED on the file mode to either before or after
-that call, as currently it is in the middle. If try_break_deleg() fails
-it is currently not set, but vfs_create_no_perm() includes a
-try_break_deleg().
-
-Going up the call chain of lookup_open() we see that it is only used in
-open_last_lookups() if no error is returned from lookup_open(), so we
-can safely move it to after the filesystem create() call. This also
-makes more sense when reading the code as you don't have to wonder what
-the implications are of setting FMODE_CREATED before the create() call.
+Add some tests for the new valid O_CREAT|O_DIRECTORY flag combination for
+open*(2) to test compliance and to showcase its behaviour.
 
 Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
 ---
- fs/namei.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../testing/selftests/filesystems/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/Makefile  |   4 +-
+ tools/testing/selftests/filesystems/fclog.c   |   1 +
+ .../filesystems/open_o_creat_o_dir.c          | 197 ++++++++++++++++++
+ 4 files changed, 201 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/open_o_creat_o_dir.c
 
-diff --git a/fs/namei.c b/fs/namei.c
-index 2a35dd72ee96..16dcf537db87 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4531,7 +4531,6 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 		if (error)
- 			goto out_dput;
+diff --git a/tools/testing/selftests/filesystems/.gitignore b/tools/testing/selftests/filesystems/.gitignore
+index 64ac0dfa46b7..f257b3ddb479 100644
+--- a/tools/testing/selftests/filesystems/.gitignore
++++ b/tools/testing/selftests/filesystems/.gitignore
+@@ -1,4 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
++open_o_creat_o_dir
+ dnotify_test
+ devpts_pts
+ fclog
+diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
+index 85427d7f19b9..ec7f93b700d2 100644
+--- a/tools/testing/selftests/filesystems/Makefile
++++ b/tools/testing/selftests/filesystems/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
  
--		file->f_mode |= FMODE_CREATED;
- 		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
- 		if (!dir_inode->i_op->create) {
- 			error = -EACCES;
-@@ -4544,6 +4543,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
- 			goto out_dput;
+-CFLAGS += $(KHDR_INCLUDES)
+-TEST_GEN_PROGS := devpts_pts file_stressor anon_inode_test kernfs_test fclog
++CFLAGS += $(KHDR_INCLUDES) $(TOOLS_INCLUDES)
++TEST_GEN_PROGS := open_o_creat_o_dir devpts_pts file_stressor anon_inode_test kernfs_test fclog
+ TEST_GEN_PROGS_EXTENDED := dnotify_test
  
- 		fsnotify_create(dir_inode, dentry);
-+		file->f_mode |= FMODE_CREATED;
- 	}
+ include ../lib.mk
+diff --git a/tools/testing/selftests/filesystems/fclog.c b/tools/testing/selftests/filesystems/fclog.c
+index 551c4a0f395a..33ed59286a2d 100644
+--- a/tools/testing/selftests/filesystems/fclog.c
++++ b/tools/testing/selftests/filesystems/fclog.c
+@@ -4,6 +4,7 @@
+  * Copyright (C) 2025 SUSE LLC.
+  */
  
- 	return dentry;
++#include <fcntl.h>
+ #include <assert.h>
+ #include <errno.h>
+ #include <sched.h>
+diff --git a/tools/testing/selftests/filesystems/open_o_creat_o_dir.c b/tools/testing/selftests/filesystems/open_o_creat_o_dir.c
+new file mode 100644
+index 000000000000..03b5edcffeef
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/open_o_creat_o_dir.c
+@@ -0,0 +1,197 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <sys/stat.h>
++#include <sys/syscall.h>
++#include <errno.h>
++#include <limits.h>
++#include <fcntl.h>
++
++#include "kselftest_harness.h"
++
++static inline int open_o_creat_o_dir(int dfd, const char *pathname,
++				     mode_t mode, unsigned int flags)
++{
++	return syscall(__NR_openat, dfd, pathname,
++		       flags | O_DIRECTORY | O_CREAT, mode);
++}
++
++#define open_o_creat_o_dir_checked_flags(dfd, pathname, flags) ({	\
++	struct stat __st;						\
++	int __fd = open_o_creat_o_dir(dfd, pathname, S_IRWXU, flags);	\
++	ASSERT_GE(__fd, 0);						\
++	ASSERT_EQ(fstat(__fd, &__st), 0);				\
++	EXPECT_TRUE(S_ISDIR(__st.st_mode));				\
++	__fd;								\
++})
++
++#define open_o_creat_o_dir_checked(dfd, pathname) \
++	open_o_creat_o_dir_checked_flags(dfd, pathname, 0)
++
++FIXTURE(open_o_creat_o_dir) {
++	char dirpath[PATH_MAX];
++	int dfd;
++};
++
++FIXTURE_SETUP(open_o_creat_o_dir)
++{
++	strcpy(self->dirpath, "/tmp/open_o_creat_o_dir_test.XXXXXX");
++	ASSERT_NE(mkdtemp(self->dirpath), NULL);
++	self->dfd = open(self->dirpath, O_DIRECTORY);
++	ASSERT_GE(self->dfd, 0);
++}
++
++FIXTURE_TEARDOWN(open_o_creat_o_dir)
++{
++	close(self->dfd);
++	rmdir(self->dirpath);
++}
++
++/* Does open_o_creat_o_dir return a fd at all? */
++TEST_F(open_o_creat_o_dir, returns_fd)
++{
++	int fd = open_o_creat_o_dir_checked(self->dfd, "newdir");
++	EXPECT_EQ(close(fd), 0);
++	EXPECT_EQ(unlinkat(self->dfd, "newdir", AT_REMOVEDIR), 0);
++}
++
++/* The fd must refer to the directory that was just created. */
++TEST_F(open_o_creat_o_dir, fd_is_created_dir)
++{
++	int fd;
++	struct stat st_via_fd, st_via_path;
++	char path[PATH_MAX];
++
++	fd = open_o_creat_o_dir_checked(self->dfd, "checkdir");
++
++	ASSERT_EQ(fstat(fd, &st_via_fd), 0);
++
++	snprintf(path, sizeof(path), "%s/checkdir", self->dirpath);
++	ASSERT_EQ(stat(path, &st_via_path), 0);
++
++	EXPECT_EQ(st_via_fd.st_ino, st_via_path.st_ino);
++	EXPECT_EQ(st_via_fd.st_dev, st_via_path.st_dev);
++
++	EXPECT_EQ(close(fd), 0);
++	EXPECT_EQ(rmdir(path), 0);
++}
++
++/* Missing parent component must fail with ENOENT. */
++TEST_F(open_o_creat_o_dir, enoent_missing_parent)
++{
++	EXPECT_EQ(open_o_creat_o_dir(self->dfd, "nonexistent/child", S_IRWXU, 0), -1);
++	EXPECT_EQ(errno, ENOENT);
++}
++
++/* An invalid dfd must fail with EBADF. */
++TEST_F(open_o_creat_o_dir, ebadf)
++{
++	EXPECT_EQ(open_o_creat_o_dir(-42, "badfdir", S_IRWXU, 0), -1);
++	EXPECT_EQ(errno, EBADF);
++}
++
++/* A dfd that points to a file (not a directory) must fail with ENOTDIR. */
++TEST_F(open_o_creat_o_dir, enotdir_dfd)
++{
++	int file_fd;
++
++	file_fd = openat(self->dfd, "file",
++			 O_CREAT | O_WRONLY, S_IRWXU);
++	ASSERT_GE(file_fd, 0);
++
++	EXPECT_EQ(open_o_creat_o_dir(file_fd, "subdir", S_IRWXU, 0), -1);
++	EXPECT_EQ(errno, ENOTDIR);
++
++	EXPECT_EQ(close(file_fd), 0);
++	EXPECT_EQ(unlinkat(self->dfd, "file", 0), 0);
++}
++
++/*
++ * O_EXCL together with O_CREAT|O_DIRECTORY must fail with EEXIST when
++ * the target directory already exists.
++ */
++TEST_F(open_o_creat_o_dir, o_excl_eexist)
++{
++	int fd;
++
++	fd = open_o_creat_o_dir_checked_flags(self->dfd, "excldir", O_EXCL);
++	EXPECT_EQ(close(fd), 0);
++
++	EXPECT_EQ(open_o_creat_o_dir(self->dfd, "excldir", S_IRWXU, O_EXCL), -1);
++	EXPECT_EQ(errno, EEXIST);
++
++	EXPECT_EQ(unlinkat(self->dfd, "excldir", AT_REMOVEDIR), 0);
++}
++
++/*
++ * O_CREAT|O_DIRECTORY on a path that already exists as a regular file
++ * must fail with ENOTDIR.
++ */
++TEST_F(open_o_creat_o_dir, existing_file_enotdir)
++{
++	int file_fd;
++
++	file_fd = openat(self->dfd, "regfile",
++			 O_CREAT | O_WRONLY, S_IRWXU);
++	ASSERT_GE(file_fd, 0);
++	EXPECT_EQ(close(file_fd), 0);
++
++	EXPECT_EQ(open_o_creat_o_dir(self->dfd, "regfile", S_IRWXU, 0), -1);
++	EXPECT_EQ(errno, ENOTDIR);
++
++	EXPECT_EQ(unlinkat(self->dfd, "regfile", 0), 0);
++}
++
++/*
++ * O_CREAT|O_DIRECTORY combined with a writable access mode must be
++ * rejected: a directory cannot be opened for writing.
++ */
++TEST_F(open_o_creat_o_dir, rejects_writable_acc_mode)
++{
++	EXPECT_EQ(open_o_creat_o_dir(self->dfd, "rdwrdir", S_IRWXU, O_RDWR), -1);
++	EXPECT_EQ(errno, EISDIR);
++	/* Clean up if the kernel created the directory anyway. */
++	unlinkat(self->dfd, "rdwrdir", AT_REMOVEDIR);
++}
++
++/*
++ * openat(O_CREAT) with a trailing slash but without O_DIRECTORY
++ * must fail with EISDIR and must not create anything at the path.
++ */
++TEST_F(open_o_creat_o_dir, trailing_slash_no_o_dir)
++{
++	int fd;
++	struct stat st;
++
++	fd = openat(self->dfd, "trailing/", O_CREAT | O_WRONLY, S_IRWXU);
++	EXPECT_EQ(fd, -1);
++	EXPECT_EQ(errno, EISDIR);
++
++	EXPECT_EQ(fstatat(self->dfd, "trailing", &st, 0), -1);
++	EXPECT_EQ(errno, ENOENT);
++
++	/* Best-effort cleanup in case the kernel left a file behind. */
++	if (fd >= 0)
++		close(fd);
++	unlinkat(self->dfd, "trailing", 0);
++}
++
++/*
++ * The returned fd must be usable as a dfd for further *at() calls.
++ */
++TEST_F(open_o_creat_o_dir, fd_usable_as_dfd)
++{
++	int parent_fd, child_fd;
++	char path[PATH_MAX];
++
++	parent_fd = open_o_creat_o_dir_checked(self->dfd, "parent");
++	child_fd = open_o_creat_o_dir_checked(parent_fd, "child");
++
++	EXPECT_EQ(close(child_fd), 0);
++	EXPECT_EQ(close(parent_fd), 0);
++
++	snprintf(path, sizeof(path), "%s/parent/child", self->dirpath);
++	EXPECT_EQ(rmdir(path), 0);
++	snprintf(path, sizeof(path), "%s/parent", self->dirpath);
++	EXPECT_EQ(rmdir(path), 0);
++}
++
++TEST_HARNESS_MAIN
 -- 
 2.54.0
 
