@@ -1,120 +1,82 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64E621C9EA
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 03:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3928B1A6831
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 04:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780284568; cv=none; b=uWdQu7pYpbI5QgC0ETKYaIj/gxZCYH4/FY1ktzB9I8gagymkY65O0ko3xkxcabnMWFozVUiPQfBQg0jGzQufQ+zYUkakdUJcL6Ixl0S6dEFDRUVS+Hp5AIRPcoKzjEL9xRUEVfAwdA4Z+0uiQd+Bk4IpiQucwe7HfIe3JVIWmEg=
+	t=1780288669; cv=none; b=cd2H1HjhVneYKA/GXFSkzUvuzvLid9W9BxVZlCci04Fg9mgVrVAzihMXkOdLBDZm3psUkvQ24zWwwNLbY15HyAl8pbqWIVYPnfsnrtD9SruzqQM3wFbXMCF/bnpfCv2A0IwLhb8593clSgCIs8cj3+fkgKIz1U2bf/8/39GLFoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780284568; c=relaxed/simple;
-	bh=lVgoOXhWjH6Mday8chaIt6qfzRi9SX7tNnJmLoviCQk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HEcC3rQXUdFpm28QgshIP8qPa9oOhallyiYEO/nGq9Lv8BapntpQ45bZfgs28HoffcS3Am/zUXlKz6c/ZPnlWTbOb/lcyKRVrcV/fsk1sfuTcamAHkG+TpSyMZ/0JBGHdfkUikUMd68bp8+fXAfwITkqBw7a3A5c4d5HA5waEeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=L7wxkZfH; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780288669; c=relaxed/simple;
+	bh=tf45mNGVC1N2gBWGAiHRL1ouyZ/J+BOESiySq4bZYTk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fcfGhDf/MAkj70T1rVn0wuPKmFSJ1FHyDnMTtMO6O2OccK3dZPu5YXQt9NgiWJx1lLlRLmgCLWC/4BabrGzvKb538midmh/rmkJ7c8N5PRdQcxdMyIMmZ9zlj9VJBRz27Qfj1E7seyirimxKQl3GKL+lMsd+7HGqmtt/YO18fj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iTiPFCCZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="L7wxkZfH"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780284565;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qUwK/evFOV3E2+dfmPSL8FiGs8kF3vHIuP+lxCXArNQ=;
-	b=L7wxkZfHOcupGthiyTO3d6wj3U57LCSRgvQi/uyVcaojnCn11IdofzNv6HVZXjlb910wn6
-	IGkO8yEKxLuGp/8bHcntr/kyrG/COi7nPvL0cTc1WVULbmUs+iICGrEoR0iiYEXO4c88N3
-	al9yqEoxm30+mgM5lhrEtoe109R9wfM=
-From: Guopeng Zhang <guopeng.zhang@linux.dev>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Guopeng Zhang <zhangguopeng@kylinos.cn>
-Subject: [PATCH v2] fs/namespace: notify pollers of legacy propagation changes
-Date: Mon,  1 Jun 2026 11:29:11 +0800
-Message-ID: <20260601032911.940507-1-guopeng.zhang@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iTiPFCCZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C45EB1F00898
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 04:37:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780288666;
+	bh=tf45mNGVC1N2gBWGAiHRL1ouyZ/J+BOESiySq4bZYTk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=iTiPFCCZw2derFZvthRL/leww8H1F6PHLg9htN6N9aR3Nn7JEhKC64JH1Ao6fAAcC
+	 njQxcLWaKDADQWtCR1m0LI63JYtRrKN2VrmVs0HWcHEMREH6fCcJ+lKoa0cQWKJLUG
+	 ucZC1akEkzSTsyuG8jlbwvtrJke+ZofT95KU+Dc6rGebGpgJ6iQu8dNlCQgeuDgCdc
+	 kISAwDVsQe0NoNheZBuQpfUV/OSvTALc2bhfOP76HFHW9OW8+McTMiPCvCp3cRuAi0
+	 0AsrQQmWCAjfpVqbNn57rdVmb8fx5fRsus4dR+DCFH4n1yHuiH/9Bo+DGNnbjkKgnW
+	 SZw0HbooOiBUg==
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bdb3fd39045so1482344266b.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 21:37:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/M4ZKKmibXT8CW4xr3VUfWGmAeJrRVVv9LOuGkabQjUmoIGw+w66x9a89qXrB2VXljwGM3AXZPhgyQhqZs@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJroYuxsfyRVXaKSg/SNGJ4M5dQPpE448cazqQcZkQ5WEAZPX2
+	XsroNwa3AxgdfeygmFpIpQ0GVgfCku98eYLbaFdxTIRmgUJw9NoeQkWKaUazcfEQWyrTZxbDfSH
+	2boaF2MI5906IIwyhjEOLpTmq+tNqegU=
+X-Received: by 2002:a17:906:5a59:b0:bd3:7c7c:b817 with SMTP id
+ a640c23a62f3a-beab4d25a9emr354675766b.1.1780288665490; Sun, 31 May 2026
+ 21:37:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260530143514.3083601-1-charsyam@gmail.com> <20260530143514.3083601-7-charsyam@gmail.com>
+In-Reply-To: <20260530143514.3083601-7-charsyam@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Mon, 1 Jun 2026 13:37:33 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_-Y1Rx-sUd-2GWS+KBCkTi+DA0DtX9qaD3nT8payRbGg@mail.gmail.com>
+X-Gm-Features: AVHnY4LKTBmT8TWSzmguYmGusgWCzY_SYfrmuRx6wt0Qi4gLvK9WPIylHKDigys
+Message-ID: <CAKYAXd_-Y1Rx-sUd-2GWS+KBCkTi+DA0DtX9qaD3nT8payRbGg@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] ntfs: validate resident index root values on lookup
+To: DaeMyung Kang <charsyam@gmail.com>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Guopeng Zhang <zhangguopeng@kylinos.cn>
-
-Changing mount propagation through the legacy mount API changes
-user-visible mountinfo contents, including the shared: and master:
-optional fields.
-
-The mount_setattr() path already touches the mount namespace after
-change_mnt_propagation(), so pollers of /proc/<pid>/mountinfo are woken
-when the namespace event changes.
-
-The legacy mount --make-* path also changes propagation through
-change_mnt_propagation(), and MOVE_MOUNT_SET_GROUP updates the
-propagation relationship of the target mount. Both paths currently
-return without touching the affected mount namespace.
-
-As a result, userspace polling /proc/<pid>/mountinfo can miss these
-propagation-only changes even though mountinfo has changed.
-
-A simple reproducer that polls /proc/self/mountinfo while changing
-propagation shows the inconsistency.
-
-Before this change:
-
-  legacy MS_SHARED: poll ret=0 revents=0x0
-  mount_setattr MS_SHARED: poll ret=1 revents=0xa
-
-After this change:
-
-  legacy MS_SHARED: poll ret=1 revents=0xa
-  mount_setattr MS_SHARED: poll ret=1 revents=0xa
-
-Fix this by touching the affected mount namespace after successful
-propagation changes in do_change_type() and do_set_group().
-
-Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
----
-Changes in v2:
-- Use guard(mount_locked_reader)() instead of lock_mount_hash() around
-  touch_mnt_namespace(), as suggested by Christian, to avoid forcing
-  seqcount readers to retry for propagation-only changes.
-
-v1:
-https://lore.kernel.org/all/20260529095441.1744006-1-guopeng.zhang@linux.dev/
-
- fs/namespace.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 9a66a806a9b8..f01d4b9cf65d 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2908,6 +2908,9 @@ static int do_change_type(const struct path *path, int ms_flags)
- 	for (m = mnt; m; m = (recurse ? next_mnt(m, mnt) : NULL))
- 		change_mnt_propagation(m, type);
- 
-+	guard(mount_locked_reader)();
-+	touch_mnt_namespace(mnt->mnt_ns);
-+
- 	return 0;
- }
- 
-@@ -3479,6 +3482,10 @@ static int do_set_group(const struct path *from_path, const struct path *to_path
- 		list_add(&to->mnt_share, &from->mnt_share);
- 		set_mnt_shared(to);
- 	}
-+
-+	guard(mount_locked_reader)();
-+	touch_mnt_namespace(to->mnt_ns);
-+
- 	return 0;
- }
- 
--- 
-2.43.0
+On Sat, May 30, 2026 at 11:35=E2=80=AFPM DaeMyung Kang <charsyam@gmail.com>=
+ wrote:
+>
+> Resident $INDEX_ROOT values carry index header fields that callers
+> consume after lookup. Some callers already validate parts of the layout
+> before walking entries, but those checks are scattered and do not cover
+> all root header invariants, such as entries_offset alignment and lower
+> bound, index_length, and allocated_size consistency.
+>
+> Now that ntfs_ir_truncate() updates index.allocated_size before
+> shrinking the resident value, lookup-time validation can cover these
+> header invariants without tripping over the driver shrink path.
+>
+> Add $INDEX_ROOT to the minimum resident value size table and validate the
+> resident index header fields before returning the attribute from lookup.
+> Require 8-byte aligned index header fields, a sane entries_offset, an
+> index_length within allocated_size, allocated_size within the resident
+> value, and enough entry space for at least an index entry header.
+>
+> Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+When this patch is applied, the generic/013 test fails randomly. The
+failure can be reproduced by running xfstests generic/013 multiple
+times. Additionally, ntfsprogs-plus must be installed to run fsck
+checks.
+Thanks.
