@@ -1,132 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from r3-21.sinamail.sina.com.cn (r3-21.sinamail.sina.com.cn [202.108.3.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B741D286D56;
-	Mon,  1 Jun 2026 21:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5BE286D56
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 21:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780350669; cv=none; b=gsnLx4cQi7a2C59cSRkDWKRFaEDeXuLdD/fLPFgH6Y3iuwQRWR+ZYMT1QYrTHjiWgx49SZZ1syuTv6c3OkWt0SeADbUyb/+efLjJpIiuj3Rzy818AkmVTLoRzlPvA94NJcPEqXm5NN1nRlKAqpcvdYv8z94q8zjY9c8K2rS1SFA=
+	t=1780350712; cv=none; b=BQ0nfsHV5TYhkhgpPNnjeFcgsbSrgNHLYvddDPJrC+EPzsgBjOX0JA8QnMlw9HCNPzc8cebXXmvQJXM2WgoS91jXnsHoJnY94HSllx9eED0+Meqmx8h4tg8OVVs0IeSDN+c7PUr32KuBSykFbKBoRoEjGuyfXN8Y73Oz+49igBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780350669; c=relaxed/simple;
-	bh=k/TlNjEi0j2Ww63gzF2QK+oEs4VlqDFVRLcIvgAQrl4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qcEWa3vYK0il9s/vSzKwAN370aMQHhWiTlV2uffdj9e2UMzAx/xiT4Cbyf6qCRBqRFjqMLI5gFvj1Fzdj/dKawIifhDhGtCU/R9ZP+tqgkiN7cpKrZw2wolZ8Bjs2F8sBcp7Cc3oopXeMa7rf84OpheJy0/VFJsSh2l10iAnWaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXif+v8c; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780350712; c=relaxed/simple;
+	bh=WAZnLuKL4m+84MYIRzHZOpYJMzXYGL/7lQREjsNyMQA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=E6ZXXI2aYfjrBS0Pt3kk91GZqU+ArQNl+dXoBPZJoIEmB1qt6XOmBMbJzSj8IfkGZYmQDlJRKr5JLRbLczCtRPwOdkz7exduYkwrZYpFfQV274U0HGrgtq4s4zIcqBKY6VJ2WQv08BzvVoYbnN9YtQGUnR8w8aktZOwfgHl/PjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=eth1zqp6; arc=none smtp.client-ip=202.108.3.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXif+v8c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780350667; x=1811886667;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=k/TlNjEi0j2Ww63gzF2QK+oEs4VlqDFVRLcIvgAQrl4=;
-  b=jXif+v8cibQV23NA1eki8U7GV5N9IooWN9liE4Ml+EUpZ/5dFFM7QS25
-   w/pBTdam9BCWXYgf3L+0+IUNES0BcJ25WLN1B7h/oAkjSdK9FTFmaSw4X
-   zPIzoj18+++g2+ITGd3kNDnQ8VksR4vZG520660b1FT9TcnvxNcMOvfnd
-   VIpiz2poDpZBSQ5L8tB+ufPNbjEjAcVYt6VNwemALYDb4d7X9NeSe5rBQ
-   UYNzWbAOruO+3pRt4S/HA9TKi3uBq7EUkrN0+judTCfOzeup6NCwDL/Tu
-   GlRtS3XZ9pGMjIal3QB3Hfj86w60FUUye3PENxWmD+H916Efv5BAR7qSY
-   A==;
-X-CSE-ConnectionGUID: q634CLYHRsSFlgxSmJqcjQ==
-X-CSE-MsgGUID: WP+ytHYmQrWl8YnI/JqoEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91691383"
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="91691383"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 14:51:06 -0700
-X-CSE-ConnectionGUID: uDJmgZU/RkWZYpYbXGA1ag==
-X-CSE-MsgGUID: 99xJYBbiRm2piWn4FHXarQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="281816378"
-Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.108.24]) ([10.125.108.24])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 14:51:04 -0700
-Message-ID: <60fb426e-d8e3-48fa-a1a7-f566d0109c3d@intel.com>
-Date: Mon, 1 Jun 2026 14:51:03 -0700
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="eth1zqp6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1780350710;
+	bh=zXzW3XX8RZqVhkmrR/Gk6gc/2IISfIY2tXx/7L6FHlU=;
+	h=From:Subject:Date:Message-ID;
+	b=eth1zqp6icLY78ftytRN/nCA8uNtVKLwz/JzjgVMXVLopz+Rg3Bq853OKXn/A++XE
+	 DpSc1/mYigawKf8XVS7/b9J+mJWYah0LVnLUMUvxKcCRFJwsVJ72H1VLA8pPHVrOMq
+	 rmmvupEU/MNzG+SH/Ck0/asKLhdd7q16U2FeAsZg=
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
+	by sina.com (10.54.253.33) with ESMTP
+	id 6A1DFEEA00003659; Mon, 2 Jun 2026 05:51:40 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 959696685158
+X-SMAIL-UIID: DAD1829FCED34716B5F9A21E0845A313-20260602-055140-1
+From: Hillf Danton <hdanton@sina.com>
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Qu Wenruo <wqu@suse.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Jens Axboe <axboe@kernel.dk>,
+	Bart Van Assche <bvanassche@acm.org>,
+	linux-block <linux-block@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-btrfs@vger.kernel.org,
+	David Sterba <dsterba@suse.com>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
+Date: Tue,  2 Jun 2026 05:51:26 +0800
+Message-ID: <20260601215129.1375-1-hdanton@sina.com>
+In-Reply-To: <CACVXFVOSm=VpYfxUEpYk4yC2N1uAoK=vbg_A=h51GXeeArzCpw@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 1/9] dax: fix misleading comment about share/index
- union in dax_folio_reset_order()
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Dan Williams <djbw@kernel.org>
-Cc: John Groves <jgroves@micron.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Alison Schofield <alison.schofield@intel.com>, Ira Weiny
- <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019e79caead2-5795328c-af48-4a93-b147-c11df7446e1a-000000@email.amazonses.com>
- <20260530165029.6601-1-john@jagalactic.com>
- <0100019e79cb6bf6-4b48b7f5-c562-4591-aefe-730561f1b8c6-000000@email.amazonses.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019e79cb6bf6-4b48b7f5-c562-4591-aefe-730561f1b8c6-000000@email.amazonses.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+On Mon, 1 Jun 2026 10:29:25 -0500 Ming Lei wrote:
+>On Thu, May 28, 2026 at 5:16 AM Qu Wenruo <wqu@suse.com> wrote:
+>> 在 2026/5/28 18:08, Christoph Hellwig 写道:
+>> > On Thu, May 28, 2026 at 03:11:05AM +0900, Damien Le Moal wrote:
+>> >> It sounds like the VFS unmount call needs to have something that waits for
+>> >> sync() to complete. Though, it really feels very strange that an FS can complete
+>> >
+>> > I don't think this is the VFS-controlled VFS file data writeback, which
+>> > we wait on, but some kind of fs controlled metadata.  And yes, it looks
+>> > like those file systems are buggy in that area.  We definitively had
+>> > such bugs in XFS before and fixed them.
+>> >
+>> > e.g. 9c7504aa72b6 ("xfs: track and serialize in-flight async buffers against
+>> > unmount")
+>> Considering the xfs fix is pretty old, it's before the fix hint thus no
+>> such mention in fstests.
+>>
+>> Do you happen to know which test case is for that fix?
+>> I'd like to adapt it for btrfs as a reproducer.
+>>
+>> This syzbot report doesn't provide a reproducer.
+>>
+>>
+>> Another thing is, if it's some btrfs bios on-the-fly after
+>> close_ctree(), the most common symptom should be NULL pointer
+>> dereference inside various btrfs endio functions.
+>> As all those end_bbio_*() functions are referring to either fs_info or
+>> inode/eb, thus if the fs is unmounted before the bio finished, they
+>> should all cause use-after-free.
+>>
+>> The only exception is discard, which is using blkdev_issue_discard()
+>> thus has no such reference to btrfs internal structure, but that's out
+>> of my understanding.
+>
+> syzbot log shows the null-ptr-deref  is on WRITE, instead of DISCARD.
+>
+> https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28
+>
+> Adding WARN_ON(!lo->lo_backing_file) in loop_queue_rq() might capture
+> this bio submission context if this req isn't issued via wq.
+>
+I suspect this makes $.02 sense given the check of Lo_bound upon queuing rq.
 
+static blk_status_t loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+		const struct blk_mq_queue_data *bd)
+{
+	struct request *rq = bd->rq;
+	struct loop_cmd *cmd = blk_mq_rq_to_pdu(rq);
+	struct loop_device *lo = rq->q->queuedata;
 
-On 5/30/26 9:50 AM, John Groves wrote:
-> From: John Groves <John@Groves.net>
-> 
-> The comment in dax_folio_reset_order() claims that DAX maintains an
-> invariant where folio->share != 0 only when folio->mapping == NULL,
-> implying folio->share is zero whenever mapping is non-NULL. This is
-> misleading because folio->share and folio->index are a union -- for
-> non-shared folios with mapping != NULL, reading folio->share returns
-> the file page offset (folio->index), which is typically non-zero.
-> 
-> Reword the comment to accurately describe the union aliasing: the
-> assignment clears whichever interpretation of the union word is active
-> (index for non-shared folios, share for shared folios), which is correct
-> because the folio is being released in either case.
-> 
-> No functional change -- the code was already correct, only the
-> justification was wrong.
-> 
-> Fixes: 59eb73b98ae0b ("dax: Factor out dax_folio_reset_order() helper")
-> 
-> Reviewed-by: Jonathan Cameron <jic23@kernel.org>
-> Signed-off-by: John Groves <john@groves.net>
+	blk_mq_start_request(rq);
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-> ---
->  fs/dax.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 6d175cd47a99b..df19c9317d10e 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -392,12 +392,12 @@ int dax_folio_reset_order(struct folio *folio)
->  	int order = folio_order(folio);
->  
->  	/*
-> -	 * DAX maintains the invariant that folio->share != 0 only when
-> -	 * folio->mapping == NULL (enforced by dax_folio_make_shared()).
-> -	 * Equivalently: folio->mapping != NULL implies folio->share == 0.
-> -	 * Callers ensure share has been decremented to zero before
-> -	 * calling here, so unconditionally clearing both fields is
-> -	 * correct.
-> +	 * Clear the mapping and the index/share union word. folio->share
-> +	 * and folio->index occupy the same union in struct folio. For
-> +	 * non-shared folios (mapping != NULL), the union holds folio->index
-> +	 * (file page offset); for shared folios (mapping == NULL), it holds
-> +	 * folio->share (reference count). Either way, we are releasing the
-> +	 * folio and both fields should be zeroed.
->  	 */
->  	folio->mapping = NULL;
->  	folio->share = 0;
-
+	if (data_race(READ_ONCE(lo->lo_state)) != Lo_bound)
+		return BLK_STS_IOERR;
