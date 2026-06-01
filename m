@@ -1,109 +1,175 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC388386C25;
-	Mon,  1 Jun 2026 20:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.18.0.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADF533DEE9
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 21:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780347546; cv=none; b=J/eaMYw1+XYQqGKM+IvLqRQ/oy9FRz69nN4ah/+T/WwgG8xpx1oXOtmiF2Kcq7V6LTVsFGQ9ggCh2hgKp3gGo8TJg2/sGPJseJy7TxPxWPb3mkMcEkY5KqpGLQwZ12vzqHxgzNKy818lw0M6fC/imvgfUiv4555SabcOoC67sr0=
+	t=1780348075; cv=none; b=GVwdaRXpbDrZyduy0gOSZermyXSx9F9C5ppR4JCil49LEnVWDRyRjFqGVdORn16RejD6f/B7gNRE7rgxHfmNmpUo7wKjh/J5YsWefn8rYl4Gp0V3DUNARkGgZmW9jr3aF/0wcbpbJdoE9a/sDXs69fgZq2LS/fEjxTnTrAPcxm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780347546; c=relaxed/simple;
-	bh=JSuMB78WGrnAVsJ7teKH/zI0mt19h3G7ax62Fj2NvyE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=plFGTNz0M+lvKSLMn6n2ix1XPXVL95qy2avLq0cwLkBD8yW5ySkb7Q2XbwPOF6cSSzSBQONY1JaJ59ulOvoNY31IDPzdzLFbSZE563gsgHEcI5TDrmjrD8Fqzj4vzX0Uv1IOYRQFtgBJr9ZnmfsVb9KHJGipKI36RFqpsKLL09k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=nefkom.net; arc=none smtp.client-ip=212.18.0.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nefkom.net
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4gTmXZ1PYGz1sGWy;
-	Mon,  1 Jun 2026 22:58:54 +0200 (CEST)
-Received: from frontend03.mail.m-online.net (unknown [192.168.6.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4gTmXY53gdz1sG8c;
-	Mon,  1 Jun 2026 22:58:53 +0200 (CEST)
-Received: from localhost (dynscan3.mnet-online.de [192.168.6.87])
-	by mail.m-online.net (Postfix) with ESMTP id 4gTmXY3vBrz1qqlS;
-	Mon,  1 Jun 2026 22:58:53 +0200 (CEST)
-X-Virus-Scanned: amavis at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.6.182])
- by localhost (dynscan3.mail.m-online.net [192.168.6.87]) (amavis, port 10024)
- with ESMTP id e1EAzhraFHWf; Mon,  1 Jun 2026 22:58:52 +0200 (CEST)
-X-Auth-Info: FqnxIDPc+CejjKHAe9u56JUkf8btEszKYhyFrkdtC5LkcdNUzyTOWALY7FYpYrLU
-Received: from igel.home (aftr-82-135-83-133.dynamic.mnet-online.de [82.135.83.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon,  1 Jun 2026 22:58:52 +0200 (CEST)
-Received: by igel.home (Postfix, from userid 1000)
-	id 6F0742C16DB; Mon,  1 Jun 2026 22:58:52 +0200 (CEST)
-From: Andreas Schwab <schwab@linux-m68k.org>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: Deepak Gupta via B4 Relay <devnull+debug.rivosinc.com@kernel.org>,
-  Thomas Gleixner <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,
-  Borislav Petkov <bp@alien8.de>,  Dave Hansen
- <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
- <hpa@zytor.com>,  Andrew Morton <akpm@linux-foundation.org>,  "Liam R.
- Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
-  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  Paul Walmsley
- <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>,  Albert
- Ou <aou@eecs.berkeley.edu>,  Conor Dooley <conor@kernel.org>,  Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Arnd
- Bergmann <arnd@arndb.de>,  Christian Brauner <brauner@kernel.org>,  Peter
- Zijlstra <peterz@infradead.org>,  Oleg Nesterov <oleg@redhat.com>,  Eric
- Biederman <ebiederm@xmission.com>,  Kees Cook <kees@kernel.org>,  Jonathan
- Corbet <corbet@lwn.net>,  Shuah Khan <shuah@kernel.org>,  Jann Horn
- <jannh@google.com>,  Conor Dooley <conor+dt@kernel.org>,  Miguel Ojeda
- <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,  Boqun Feng
- <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6?=
- =?utf-8?Q?rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  Andreas Hindborg <a.hindborg@kernel.org>,
-  Alice Ryhl <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>,
-  Benno Lossin <lossin@kernel.org>,  linux-kernel@vger.kernel.org,
-  linux-fsdevel@vger.kernel.org,  linux-mm@kvack.org,
-  linux-riscv@lists.infradead.org,  devicetree@vger.kernel.org,
-  linux-arch@vger.kernel.org,  linux-doc@vger.kernel.org,
-  linux-kselftest@vger.kernel.org,  alistair.francis@wdc.com,
-  richard.henderson@linaro.org,  jim.shu@sifive.com,  andybnac@gmail.com,
-  kito.cheng@sifive.com,  charlie@rivosinc.com,  atishp@rivosinc.com,
-  evan@rivosinc.com,  cleger@rivosinc.com,  alexghiti@rivosinc.com,
-  samitolvanen@google.com,  broonie@kernel.org,
-  rick.p.edgecombe@intel.com,  rust-for-linux@vger.kernel.org,  Zong Li
- <zong.li@sifive.com>
-Subject: Re: [PATCH v23 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ
- | VM_WRITE
-In-Reply-To: <CAKC1njR+dTdvp+BmLGPtgd8dufiUwBtkQ9a-qinELT_Fmi13sQ@mail.gmail.com>
-	(Deepak Gupta's message of "Mon, 1 Jun 2026 10:57:41 -0700")
-References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
-	<20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com>
-	<87jyslndo4.fsf@igel.home>
-	<CAKC1njS=AHu6uHrH4ae8VxcdEbhgiPXYCAoN3F_mnppBd3SwOA@mail.gmail.com>
-	<875x44o9hj.fsf@igel.home>
-	<CAKC1njSn_rtCj8ii876PNQTk0nsCTfWsb4DzdymufHVthh1Rkg@mail.gmail.com>
-	<871peqgp9v.fsf@igel.home>
-	<CAKC1njR+dTdvp+BmLGPtgd8dufiUwBtkQ9a-qinELT_Fmi13sQ@mail.gmail.com>
-Date: Mon, 01 Jun 2026 22:58:52 +0200
-Message-ID: <87wlwif04z.fsf@igel.home>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1780348075; c=relaxed/simple;
+	bh=+L8aVHnARkByV3UmQ+HgDTphp9/dN6AUUqp/Wm7Mltw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RY95pyndHRXMeCVL+vfS/yo1+cOSB5mesvUoVv38Yod2IFaeGVOR2ixDz59WHU8VU3DdTeuNbNEUV99KP4lakpbcdh+ELAmpNfCODTqAKth4M+v9OzaN9G4HSV618kPbzUpOZQlqJFyESnnbhZMeH81SHfc5mlKPgPSp+31/b+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UKNosXut; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UKNosXut"
+Message-ID: <a167cf00-7a9c-4a30-9142-e0b6f9a4a3d7@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780348061;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=co0I00Xq52CoHpDQW6LxXKmSSFvzTGDaX5Spnes4S7Y=;
+	b=UKNosXutGYs6+967EgMtIqG8JVq9x0cg73SkhMlQT1c37PNmfT/993A5K1YsQyZtwOnFkO
+	cbpa2Mjo2pkZDiPsnS/gbuiNDqNofIXM9YurXBqCW/tR7NHllXTSbfQzuAvV+1Ym6bgBmi
+	zEh665smwy1LyY9DyKyzIPuuzvlYHJs=
+Date: Mon, 1 Jun 2026 14:07:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH v2 1/3] bpf: cgroup: use kvfree() for replaced sysctl
+ write buffer
+Content-Language: en-GB
+To: Dawei Feng <dawei.feng@seu.edu.cn>, martin.lau@linux.dev
+Cc: emil@etsalapatis.com, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, song@kernel.org,
+ jolsa@kernel.org, kees@kernel.org, joel.granados@kernel.org,
+ bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jianhao.xu@seu.edu.cn,
+ stable@vger.kernel.org, Zilin Guan <zilin@seu.edu.cn>
+References: <20260529031026.2716641-1-dawei.feng@seu.edu.cn>
+ <20260529031026.2716641-2-dawei.feng@seu.edu.cn>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <20260529031026.2716641-2-dawei.feng@seu.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Jun 01 2026, Deepak Gupta wrote:
 
-> riscv uses `VM_SHADOW_STACK`. It's just very simple to use `protection_map`
-> with just `VM_WRITE`. On RISC-V, `-W-` is a shadow stack mapping. It's not same
-> on x86 or arm64. So `protection_map[VM_WRITE]` simply picks shadow stack
-> encoding. We just ensure that PROT_WRITE is converted to
-> "VM_READ | VM_WRITE" at vma level.
 
-That does not explain _why_ you need to make that user visible change,
-when others can get away without it.
+On 5/28/26 8:10 PM, Dawei Feng wrote:
+> proc_sys_call_handler() allocates its temporary sysctl buffer with
+> kvzalloc() and passes it to __cgroup_bpf_run_filter_sysctl(). Since
+> kvzalloc() may fall back to vmalloc() for large allocations, freeing
+> that buffer with kfree() is wrong and can corrupt memory.
+>
+> Use kvfree() to safely handle both kmalloc and kvzalloc()/vmalloc
+> allocations.
+>
+> The bug was first flagged by an experimental analysis tool we are
+> developing for kernel memory-management bugs while analyzing
+> v6.13-rc1. The tool is still under development and is not yet publicly
+> available. Manual inspection confirms that the bug is still
+> present in v7.1-rc5.
+>
+> Reproduced the bug based on v7.1-rc4 in a QEMU x86_64 guest booted with
+> KASAN and CONFIG_FAILSLAB enabled. To exercise the replacement path, the
+> test tree also included the accompanying fix for the stale ret == 1
+> check in __cgroup_bpf_run_filter_sysctl(). The reproducer confines
+> failslab injections to the proc_sys_call_handler() range, uses
+> stacktrace-depth=32, and injects fail-nth=1 while writing 8191 bytes to
+> /proc/sys/kernel/domainname from a task in the target cgroup. Under
+> that setup, fail-nth=1 triggered the fault:
+>
+>    BUG: unable to handle page fault for address: ffffeb0200024d48
+>    #PF: supervisor read access in kernel mode
+>    #PF: error_code(0x0000) - not-present page
+>    PGD 0 P4D 0
+>    Oops: Oops: 0000  SMP KASAN NOPTI
+>    CPU: 2 UID: 0 PID: 209 Comm: repro_proc_sys_ Not tainted 7.1.0-rc4-00686-g97625979a5d4  PREEMPT(lazy)
+>    Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
+>    RIP: 0010:kfree+0x6e/0x510
+>    Code: 80 48 01 ef 0f 82 ae 04 00 00 48 c7 c0 00 00 00 80 48 2b 05 04 1b 23 04 48 01 c7 48 c1 ef 0c 48 c1 e7 06 48 03 3d e2 1a 23 04 <4c> 8b 57 08 4c 89 d0 83 e0 01 48 83 e8 01 49 09 c2 49 >
+>    RSP: 0018:ffff888108de7ab8 EFLAGS: 00010282
+>    RAX: 0000777f80000000 RBX: ffff88815af398c0 RCX: 0000000000000080
+>    RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffeb0200024d40
+>    RBP: ffffc90000935000 R08: 0000000000000001 R09: 0000000000000001
+>    R10: ffffffff86b4b297 R11: 0000000000000000 R12: ffffffff819b71fd
+>    R13: 0000000000000001 R14: ffff888108de7cc0 R15: 0000000000000000
+>    FS:  00007f8988cc2b80(0000) GS:ffff8881d3256000(0000) knlGS:0000000000000000
+>    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>    CR2: ffffeb0200024d48 CR3: 0000000101d6b000 CR4: 0000000000350ef0
+>    Call Trace:
+>     <TASK>
+>     ? __cgroup_bpf_run_filter_sysctl+0x626/0xc30
+>     __cgroup_bpf_run_filter_sysctl+0x74d/0xc30
+>     ? __pfx___cgroup_bpf_run_filter_sysctl+0x10/0x10
+>     ? srso_return_thunk+0x5/0x5f
+>     ? __kvmalloc_node_noprof+0x345/0x870
+>     ? proc_sys_call_handler+0x250/0x480
+>     ? srso_return_thunk+0x5/0x5f
+>     proc_sys_call_handler+0x3a2/0x480
+>     ? __pfx_proc_sys_call_handler+0x10/0x10
+>     ? srso_return_thunk+0x5/0x5f
+>     ? selinux_file_permission+0x39f/0x500
+>     ? srso_return_thunk+0x5/0x5f
+>     ? lock_is_held_type+0x9e/0x120
+>     vfs_write+0x98e/0x1000
+>     ? srso_return_thunk+0x5/0x5f
+>     ? kmem_cache_free+0x308/0x550
+>     ? __pfx_vfs_write+0x10/0x10
+>     ? __pfx_do_sys_openat2+0x10/0x10
+>     ksys_write+0xf2/0x1d0
+>     ? __pfx_ksys_write+0x10/0x10
+>     ? srso_return_thunk+0x5/0x5f
+>     ? trace_irq_enable.constprop.0+0x110/0x140
+>     do_syscall_64+0x115/0x690
+>     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>     RIP: 0033:0x7f8988dd8907
+>     Code: 10 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8  01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 >
+>     RSP: 002b:00007fff4069b878 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+>     RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f8988dd8907
+>     RDX: 0000000000001fff RSI: 0000564f97ef46b0 RDI: 0000000000000005
+>     RBP: 0000564f97ef46b0 R08: 0000000000000000 R09: 0000564f97ef46b0
+>     R10: 0000000000000004 R11: 0000000000000246 R12: 0000000000000000
+>     R13: 0000000000001fff R14: 0000000000000005 R15: 0000000000000001
+>     </TASK>
 
--- 
-Andreas Schwab, schwab@linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
+I think the above log can be simplified like
+
+   BUG: unable to handle page fault for address: ffffeb0200024d48
+   #PF: supervisor read access in kernel mode
+   #PF: error_code(0x0000) - not-present page
+   PGD 0 P4D 0
+   Oops: Oops: 0000  SMP KASAN NOPTI
+   CPU: 2 UID: 0 PID: 209 Comm: repro_proc_sys_ Not tainted 7.1.0-rc4-00686-g97625979a5d4  PREEMPT(lazy)
+   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
+   RIP: 0010:kfree+0x6e/0x510
+   ...
+   Call Trace:
+    <TASK>
+    ? __cgroup_bpf_run_filter_sysctl+0x626/0xc30
+    __cgroup_bpf_run_filter_sysctl+0x74d/0xc30
+    ? __pfx___cgroup_bpf_run_filter_sysctl+0x10/0x10
+    ? srso_return_thunk+0x5/0x5f
+    ? __kvmalloc_node_noprof+0x345/0x870
+    ? proc_sys_call_handler+0x250/0x480
+    ? srso_return_thunk+0x5/0x5f
+    proc_sys_call_handler+0x3a2/0x480
+    ? __pfx_proc_sys_call_handler+0x10/0x10
+    ? srso_return_thunk+0x5/0x5f
+    ? selinux_file_permission+0x39f/0x500
+    ? srso_return_thunk+0x5/0x5f
+    ? lock_is_held_type+0x9e/0x120
+    vfs_write+0x98e/0x1000
+    ...
+
+> With this fix applied on top of the same test setup, rerunning the
+> reproducer with fail-nth=1 yields no corresponding Oops reports.
+>
+> Fixes: 4508943794ef ("proc: use kvzalloc for our kernel buffer")
+> Cc: stable@vger.kernel.org
+>
+> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+
+Acked-by: Yonghong Song <yonghong.song@linux.dev>
+
