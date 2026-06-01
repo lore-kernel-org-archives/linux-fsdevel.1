@@ -1,171 +1,169 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D7E39A4C5
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 10:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B550399CE9
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 10:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780309367; cv=none; b=GO5WJYkFf7QJc6SHRjTWK+AawCnoIUhvxlIP7PdCsNNwNP84PrQ4bufvDp5/JLWdNg1ctfDVxpCalUwtv9TRiX04NmRbu9y25EFJw+Ipy0PBcd1SymjZ1EjjAaqUve9nvFolOBWSdvhvQf7Gcx0ZOhwvt8s8wyhHOD5vwRsOcVg=
+	t=1780309645; cv=none; b=ruTPyJ+mxSa/yYSaplNyqOHHYG6jiWoxoTn5CYbRHQ5nADM0tIHmS4ZoI+g+7nw8D9mMDIe+hkQ1kxADriQ3PrRCYhBLs7IpqmnAs0MYKqACt5whzjRq30RaFHStr0wcqIazC/4dP3h7QwahfFrM40fEZXG20F0eJ3WBgSDvnQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780309367; c=relaxed/simple;
-	bh=BNjqGBL9lpVcrJTmJbHdzy0LxyQsqyqrFTJgqqYpO0s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n7OZZQ9VtKUXLdDQ5GvctOQyRXLe4t6COf5haVsA2TP2wkWdUHbjX06fndo7DIpwxyoRjVQO7A90+RWkOXp7F/jCAtO06tem4KbBt+qbl9d6LVmdV5XJL2ko5jQqQkSZw29Y/0g1TnYpT+DBs2QGO12E5CNR/dywSbW1AbGPbHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=p7dsjWCH; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="p7dsjWCH"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780309352;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oPZZdv/NbNMHW5NCcV0iaaUZxovjPZu3VG+R2rQdX+U=;
-	b=p7dsjWCHL7EpFMCaLyQrf7JLU/eEAG83YHK41hodap461fEKBTCpvHcg6QaMvbIVabbEuD
-	rDXBjEqPL6/pOhxj51YoHh1WwSj5xBhRRt9AWX50DXF6rv3q1XKIBhQBBSGoDKv6cg4/fP
-	JZs/KGtesM/+F98iHSLMIvREohG76CM=
-From: Usama Arif <usama.arif@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	david@kernel.org,
-	willy@infradead.org,
-	ryan.roberts@arm.com,
-	linux-mm@kvack.org
-Cc: pfalcato@suse.de,
-	r@hev.cc,
-	jack@suse.cz,
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	brauner@kernel.org,
-	catalin.marinas@arm.com,
-	dev.jain@arm.com,
-	kees@kernel.org,
-	kevin.brodsky@arm.com,
-	lance.yang@linux.dev,
-	Liam R. Howlett <liam@infradead.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	npache@redhat.com,
-	pasha.tatashin@soleen.com,
-	rmclure@linux.ibm.com,
-	rppt@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	ziy@nvidia.com,
-	hannes@cmpxchg.org,
-	kas@kernel.org,
-	shakeel.butt@linux.dev,
-	kernel-team@meta.com,
-	Usama Arif <usama.arif@linux.dev>
-Subject: [PATCH v7 2/2] mm: use mapping_max_folio_order() for force_thp_readahead order
-Date: Mon,  1 Jun 2026 03:21:18 -0700
-Message-ID: <20260601102205.3985788-3-usama.arif@linux.dev>
-In-Reply-To: <20260601102205.3985788-1-usama.arif@linux.dev>
-References: <20260601102205.3985788-1-usama.arif@linux.dev>
+	s=arc-20240116; t=1780309645; c=relaxed/simple;
+	bh=QZpjG/UzxfBrqmGrDSnbKNCojASn/9+1q3s57nBkk6A=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pWID7Su49EgsXFRdK6Cqd6keyK/9S9vZN7QEpUEJDjFc8OvO9KNzD5X6IinbLqSSHPR+AYHp/AizQPVSsfRMQdPw2tLwr/LFD/+Z1p1rjL70O9VQ5OblTqIByhToSs+m/xVf43m2fPttXkxIUGXwjGA79EoJP+fmvdlUYwQISHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-69dc70d4b0aso8263637eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 03:27:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780309642; x=1780914442;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9OAj8tpwVCz7sqt4lnsIHvwwRrgLo88h/anUIIEmmuo=;
+        b=JRBo5qgndHrMon7LvMo7vhFLah5Mp157U3dXwFb3fTpFzfi0L2SX+G7vzb5NtPArc/
+         BFR5S87Lig4F3KCJHccNlDtYmgNn1Nb7NFiiVz/4HFv0Uf/awpRH+aWlgNBts2ynzmBN
+         awB4XEbZuzPbwqFHdydaLdBt6Jj0g/JcCs5J+kBiqLb/EnAwksj0KpNOC5hff8LKPDGI
+         /JawNfrgUU3L6hATcpZBKxo4J0V63Pq1UEj1bNGEdTkf4YxPyy0wvsAIjxya/ARCAzGG
+         Oo1gXAbby0ereKFMwbmzNyN7lOpgOo+oWe9A46RbnxOUhUgTMlP0NxMJBxQ+c0t4I6by
+         fe+A==
+X-Forwarded-Encrypted: i=1; AFNElJ/xuZ0aK3xE3wa+GxGogVdE/S4iRTMQ/J3U+WUqP6X54Dxl9hoxjIyBOSq3ZP6or8p0G9RsQ5xQWLj54VBy@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaIgteOu8AKDhHaKLRiCnqFo6cOkdfnjEkp6ABlNVcxJ4NJqEA
+	ViOkd7H5kzNpJV46rk6zAus+CIWHEHtGguNJt9A6m6FNzuwdmywpkTc6IUeSy4LlqSU9T5Pdk4n
+	g/0vnWdgNIurIyxUQItfWPPbpAgTIKpCSPVuFcfXOCyqVEg7wvxuE4VB3dYc=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Received: by 2002:a05:6820:150e:b0:69d:fa6b:eec6 with SMTP id
+ 006d021491bc7-69e102b2a55mr5538336eaf.4.1780309642621; Mon, 01 Jun 2026
+ 03:27:22 -0700 (PDT)
+Date: Mon, 01 Jun 2026 03:27:22 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a1d5e8a.fd5edf16.2e7427.000f.GAE@google.com>
+Subject: [syzbot] [fuse?] general protection fault in fuse_dev_release
+From: syzbot <syzbot+5bfc774fd6dffbbc4b70@syzkaller.appspotmail.com>
+To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-The force_thp_readahead path in do_sync_mmap_readahead() is gated on
-HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER and always requests
-HPAGE_PMD_ORDER / HPAGE_PMD_NR. On configurations where HPAGE_PMD_ORDER
-exceeds MAX_PAGECACHE_ORDER, notably arm64 with a 64K base page size,
-VM_HUGEPAGE mappings cannot use this path and fall back to the non-forced
-mmap readahead path even when the mapping supports useful large folios.
+Hello,
 
-Enable forced readahead for mappings that support large folios and request
-the max folio order supported by the mapping, capped at 2M.
-2MB is chosen as the cap because it matches the PMD size on x86_64
-and on arm64 with 4K base pages, so the size/memory-pressure tradeoff
-for folios of that size is already well understood. On arm64 with 16K
-and 64K base page sizes, 2MB is also the contiguous-PTE (contpte)
-block size, so the resulting folios coalesce into a single TLB entry
-and reduce TLB pressure on the readahead path. This will result
-in 32M folios not being faulted in with 16K base page size for arm64,
-but with contpte, the performance difference should be negligible.
+syzbot found the following issue on:
 
-The final allocation order may still be clamped by page_cache_ra_order()
-to the mapping and request geometry, but this gives VM_HUGEPAGE mappings
-on such configurations a large-folio readahead request instead of
-dropping back to base-page readahead.
+HEAD commit:    f7af91adc230 Add linux-next specific files for 20260528
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=14f1f57e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9ace0a34301dcd68
+dashboard link: https://syzkaller.appspot.com/bug?extid=5bfc774fd6dffbbc4b70
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-Signed-off-by: Usama Arif <usama.arif@linux.dev>
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d3fc56ffd7af/disk-f7af91ad.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ac5990ec0e63/vmlinux-f7af91ad.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/46b531c86f46/bzImage-f7af91ad.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+5bfc774fd6dffbbc4b70@syzkaller.appspotmail.com
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 1 UID: 0 PID: 5919 Comm: syz.3.28 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+RIP: 0010:list_empty include/linux/list.h:404 [inline]
+RIP: 0010:list_splice_init include/linux/list.h:602 [inline]
+RIP: 0010:fuse_dev_release+0x19c/0x670 fs/fuse/dev.c:2221
+Code: 5c 24 28 48 8b 44 24 30 42 80 3c 38 00 74 08 48 89 df e8 17 22 eb fe 48 8b 0b 48 89 4c 24 18 4e 8d 24 31 4d 89 e5 49 c1 ed 03 <43> 80 7c 3d 00 00 74 08 4c 89 e7 e8 f4 21 eb fe 4d 8b 3c 24 4d 39
+RSP: 0018:ffffc90005cdfc60 EFLAGS: 00010246
+RAX: 1ffff110055a2853 RBX: ffff88802ad14298 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc90005cdfd40 R08: ffffffff8b325a20 R09: ffffffff8dfcac60
+R10: dffffc0000000000 R11: fffffbfff1f1a07f R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: dffffc0000000000
+FS:  000055559158b500(0000) GS:ffff888125fcd000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff1eab87879 CR3: 000000003329e000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __fput+0x461/0xa70 fs/file_table.c:510
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
+ exit_to_user_mode_loop+0x193/0x680 kernel/entry/common.c:98
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
+ do_syscall_64+0x353/0x580 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fd2f2dcce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe4cd86cc8 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 00007fd2f3047d[  137.410093][ T5919] RAX: 0000000000000000 RBX: 00007fd2f3047da0 RCX: 00007fd2f2dcce59
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007fd2f3047da0 R08: 0000000000000006 R09: 0000000000000000
+R10: 00007fd2f3047cb0 R11: 0000000000000246 R12: 0000000000021201
+R13: 00007fd2f304618c R14: 00000000000210c9 R15: 00007ffe4cd86dd0
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:list_empty include/linux/list.h:404 [inline]
+RIP: 0010:list_splice_init include/linux/list.h:602 [inline]
+RIP: 0010:fuse_dev_release+0x19c/0x670 fs/fuse/dev.c:2221
+Code: 5c 24 28 48 8b 44 24 30 42 80 3c 38 00 74 08 48 89 df e8 17 22 eb fe 48 8b 0b 48 89 4c 24 18 4e 8d 24 31 4d 89 e5 49 c1 ed 03 <43> 80 7c 3d 00 00 74 08 4c 89 e7 e8 f4 21 eb fe 4d 8b 3c 24 4d 39
+RSP: 0018:ffffc90005cdfc60 EFLAGS: 00010246
+RAX: 1ffff110055a2853 RBX: ffff88802ad14298 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc90005cdfd40 R08: ffffffff8b325a20 R09: ffffffff8dfcac60
+R10: dffffc0000000000 R11: fffffbfff1f1a07f R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: dffffc0000000000
+FS:  000055559158b500(0000) GS:ffff888125fcd000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff1eab87879 CR3: 000000003329e000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	5c                   	pop    %rsp
+   1:	24 28                	and    $0x28,%al
+   3:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
+   8:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
+   d:	74 08                	je     0x17
+   f:	48 89 df             	mov    %rbx,%rdi
+  12:	e8 17 22 eb fe       	call   0xfeeb222e
+  17:	48 8b 0b             	mov    (%rbx),%rcx
+  1a:	48 89 4c 24 18       	mov    %rcx,0x18(%rsp)
+  1f:	4e 8d 24 31          	lea    (%rcx,%r14,1),%r12
+  23:	4d 89 e5             	mov    %r12,%r13
+  26:	49 c1 ed 03          	shr    $0x3,%r13
+* 2a:	43 80 7c 3d 00 00    	cmpb   $0x0,0x0(%r13,%r15,1) <-- trapping instruction
+  30:	74 08                	je     0x3a
+  32:	4c 89 e7             	mov    %r12,%rdi
+  35:	e8 f4 21 eb fe       	call   0xfeeb222e
+  3a:	4d 8b 3c 24          	mov    (%r12),%r15
+  3e:	4d                   	rex.WRB
+  3f:	39                   	.byte 0x39
+
+
 ---
- mm/filemap.c | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index a16b33e0fc71..9cf89efaf3f1 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3312,14 +3312,26 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 	struct file *fpin = NULL;
- 	vm_flags_t vm_flags = vmf->vma->vm_flags;
- 	bool force_thp_readahead = false;
-+	unsigned int thp_order = 0;
- 	unsigned short mmap_miss;
- 
- 	ractl._max_index = vmf->vma->vm_pgoff + vma_pages(vmf->vma) - 1;
- 
- 	/* Use the readahead code, even if readahead is disabled */
--	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
--	    (vm_flags & VM_HUGEPAGE) && HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER)
--		force_thp_readahead = true;
-+	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && (vm_flags & VM_HUGEPAGE)) {
-+		/*
-+		 * Cap max THP order at 2MB: this is the common PMD-sized
-+		 * hugepage size, and it avoids memory pressure from very
-+		 * large forced readahead when mapping_max_folio_order() is
-+		 * high (for example, 128MB with 64K base pages on arm64).
-+		 */
-+		if (mapping_large_folio_support(mapping)) {
-+			force_thp_readahead = true;
-+			thp_order = min_t(unsigned int,
-+					  mapping_max_folio_order(mapping),
-+					  get_order(SZ_2M));
-+		}
-+	}
- 
- 	if (!force_thp_readahead) {
- 		/*
-@@ -3354,17 +3366,19 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 	}
- 
- 	if (force_thp_readahead) {
-+		unsigned long folio_nr_pages = 1UL << thp_order;
-+
- 		fpin = maybe_unlock_mmap_for_io(vmf, fpin);
--		ractl._index &= ~((unsigned long)HPAGE_PMD_NR - 1);
--		ra->size = HPAGE_PMD_NR;
-+		ractl._index &= ~(folio_nr_pages - 1);
-+		ra->size = folio_nr_pages;
- 		/*
--		 * Fetch two PMD folios, so we get the chance to actually
-+		 * Fetch two folios so we get the chance to actually
- 		 * readahead, unless we've been told not to.
- 		 */
- 		if (!(vm_flags & VM_RAND_READ))
- 			ra->size *= 2;
--		ra->async_size = HPAGE_PMD_NR;
--		ra->order = HPAGE_PMD_ORDER;
-+		ra->async_size = folio_nr_pages;
-+		ra->order = thp_order;
- 		page_cache_ra_order(&ractl, ra);
- 		return fpin;
- 	}
--- 
-2.52.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
