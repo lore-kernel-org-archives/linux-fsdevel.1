@@ -1,162 +1,127 @@
-Received: from mta21.hihonor.com (mta21.honor.com [81.70.160.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE2041C72;
-	Mon,  1 Jun 2026 01:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1E1175A80;
+	Mon,  1 Jun 2026 01:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780278385; cv=none; b=HJzJtmr1T5gvJ5wvPu/Lnv8eUxzuKbrppt3OEG9cvItjM6zYBBs2M6Pjr4qjAA/Z+3Og8sBRuLrdwbG2zjBMntARk8cZA/JRhIoMK55esB7APmAKOXUHugY+GE6XZ0GmauEvu9S3I7YW+m8MuuDgHspxMuW61oE2Hy41Kpz+IDA=
+	t=1780278748; cv=none; b=fel44mgj6Cjx/Zu1rvTOQAyEHiTkVauBHwYN4qSEMHKrKf9WgiwR5RChQRE1o7mVT/Ui7G8SyBm3vQVZZObSSoGuowSQdsJQrnqbXmKVmXqcPpdwIE7dF7aRbYMj56KcHHRmfL6fS1yKW2YQN95ze4T3pp2cjtqPoF5moFKf+BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780278385; c=relaxed/simple;
-	bh=FkJk4eI44HDzOGZFIGth9gQlOvPgscM82zTqXXI4GkI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=QrMCGyvQFAOQMjKBbBHJ5GtdyYc8S6veRrZxv9svDzHhhH7HsQM3AhX8ASV5wtrEecngsU6pgG48M8hYA9JqtLr5DOlvFVxVi1MJ9XUb8dJp3oflYUJB9azvNlPP0p5j+wEjKQ/LR6o51ey6TAGclToRzKEn3/c+FzwnFJGT3hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from TW004-1.hihonor.com (unknown [10.77.232.85])
-	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4gTGwg2flLzYvXcX;
-	Mon,  1 Jun 2026 09:44:35 +0800 (CST)
-Received: from TA006-1.hihonor.com (10.77.232.151) by TW004-1.hihonor.com
- (10.77.232.85) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Mon, 1 Jun
- 2026 09:46:14 +0800
-Received: from TA003.hihonor.com (10.72.0.43) by TA006-1.hihonor.com
- (10.77.232.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 1 Jun
- 2026 09:45:33 +0800
-Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
- TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
- 15.02.2562.037; Mon, 1 Jun 2026 09:46:14 +0800
-From: wangtao <tao.wangtao@honor.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-CC: Barry Song <baohua@kernel.org>, "catalin.marinas@arm.com"
-	<catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org"
-	<david@kernel.org>, "willy@infradead.org" <willy@infradead.org>,
-	"sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>,
-	"luizcap@redhat.com" <luizcap@redhat.com>, "zhangjiao2@cmss.chinamobile.com"
-	<zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>,
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
-	"jack@suse.cz" <jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>,
-	"harry@kernel.org" <harry@kernel.org>, "jannh@google.com" <jannh@google.com>,
-	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
-	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
-	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
-	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
-	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn"
-	<xu.xin16@zte.com.cn>, "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
-	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
-	"matthew.brost@intel.com" <matthew.brost@intel.com>,
-	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
-	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
-	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
-	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
-	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
-	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
-	"jparsana@google.com" <jparsana@google.com>, "dvander@google.com"
-	<dvander@google.com>, zhangji <zhangji1@honor.com>, wangzicheng
-	<wangzicheng@honor.com>
-Subject: RE: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
- creation
-Thread-Topic: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
- creation
-Thread-Index: AQHc7cjw5r5ki6LAJ0S2mW/rJEfblbYhaeaAgAGnM1D//4FNAIABAA8AgAEgmrD//7GxAIAEjCKQ
-Date: Mon, 1 Jun 2026 01:46:14 +0000
-Message-ID: <a90bcb0fa3a044588350e92a78258a09@honor.com>
-References: <20260527110147.17815-1-tao.wangtao@honor.com>
- <ahcANgFDFwfC0v1q@lucifer> <b24b4a8198ba412f8b8b42c43dccd058@honor.com>
- <ahf2mJg9OOWvu0jA@lucifer>
- <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
- <99dfc4a50f3643a6bef6deaeccfcf115@honor.com> <ahlzj--3Gm5pD9ge@lucifer>
-In-Reply-To: <ahlzj--3Gm5pD9ge@lucifer>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1780278748; c=relaxed/simple;
+	bh=6FDHJIS2M8GTEoiYYDurmOWlUc/Ls7kEkJeXBl+EGEc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NYVADZ+x0aZJGHnCOK+4vQtAbx13JLhM9jjmWd1cvj8goI+8iMzF9glpXhY6nzsi+Jem5ppMBRj3vTGLm1RyUM07+54Ukl1aT7ZipvEg2mDBe6b+skpgoSP9iusht0MkGIOeL6PH49zGH2jTBLPev/fAbRCOYcSvI9q/q0pOWs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYRH/paM; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYRH/paM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F8DC1F00893;
+	Mon,  1 Jun 2026 01:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780278746;
+	bh=vZcu83wQUzh29/MUzPMLQS8Iv0nVsOwsxAWqxDDGj50=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KYRH/paMfV8BeCgbYfsHMCWqDOtr++JkRKX25dlTAVmIboEGh885kBK9CuL9tV7tr
+	 8pqNVZlKj2Z5eqkBjCOdCp0sLKsojv97UUmTic4Gw9ws96ZOStR0P5qLHeNR5VBGoj
+	 3LqQJbi8ZclVXzUncbIJ1wqdlIzloAzt9PJuFY5D6+UiIWk8GmIvoBVVeICbzTfjsC
+	 Pd4h54Ftu3TrtIx88YUPUiS7ncpHA0KUeMphtpkxg9lh+Ru7ktMSIfDkYD33de5fyM
+	 gU8LQy89ioRQGwY5FsyGgbwGBRpqJv7qJ25cTr4qdLpzf66OxtRMqTcc+ABTwEWkQp
+	 AbzOUsuArFnkA==
+Date: Mon, 1 Jun 2026 01:52:24 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: Barry Song <baohua@kernel.org>
+Cc: Theodore Tso <tytso@mit.edu>, Bart Van Assche <bvanassche@acm.org>,
+	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Matthew Wilcox <willy@infradead.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	Akilesh Kailash <akailash@google.com>,
+	Christian Brauner <christian@brauner.io>
+Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
+ remembering inode number
+Message-ID: <ahzl2GM1OGsBz9mV@google.com>
+References: <ahCNmWbcd_2lAJyk@google.com>
+ <20260522224108.GA18663@macsyma-wired.lan>
+ <ahTzHyHBL8t0iNBR@google.com>
+ <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
+ <f4e521ac-2381-49ca-8dcc-3cb3cf3ffaea@acm.org>
+ <ahaPDHiXcJoVShPv@infradead.org>
+ <ahcU5xbVy7xjps02@google.com>
+ <ahkl52N3RDcusCNd@infradead.org>
+ <aht812OhSPFqIBPK@google.com>
+ <CAGsJ_4yJihngSY0GNcc+MwPHJjpF1qCnS8-UE1GwYoNDtEm9mQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGsJ_4yJihngSY0GNcc+MwPHJjpF1qCnS8-UE1GwYoNDtEm9mQ@mail.gmail.com>
 
-> > Previously, I also considered converting anon_vma's rb_tree to a
-> > mapletree. If one entry records a single VMA, the average overhead
-> > could be less than two longs per VMA.
+On 05/31, Barry Song via Linux-f2fs-devel wrote:
+> On Sun, May 31, 2026 at 8:12 AM Jaegeuk Kim <jaegeuk@kernel.org> wrote:
 > >
-> > However, unlike rb_tree, mapletree does not support storing multiple
-> > elements under a single key. The key would need to look like
-> > (vma_id/mm_id + pgoff). On 32-bit platforms, since 64-bit mapletree
-> > keys are not supported yet, the remaining
-> > 12 bits are not enough for vma_id/mm_id.
+> > On 05/28, Christoph Hellwig wrote:
+> > > On Wed, May 27, 2026 at 03:59:35PM +0000, Jaegeuk Kim wrote:
+> > > > F2FS merges bios before submit_bio, regardless of small or large folios,
+> > > > since the block addresses are consecutive. So, I think IO subsystem was
+> > > > working in full speed.
+> > >
+> > > As does every other remotely modern file system.  But that merging is
+> > > surprisingly expensive, which is why using folios gets really major
+> > > performance improvements.
+> > >
+> > > For one doing these checks to merge touch quite a few cache lines.
+> > > Second, devices are often a lot more efficient if they see fewer SGL
+> > > entries.  I.e. having a 1MB bio a single SGL tends to work better than
+> > > having 256 of them.
+> > > The same is true in the kernel code itself, both in the submission path
+> > > (dma mapping and co), and even more so in the page cache handling
+> > > both before submitting and in the completion path.
+> > >
+> > > See Bart's patch about how long the walk of the bio_vecs in the f2fs
+> > > completion path can take.  We had similar issues in XFS even in the
+> > > workqueue completion path due to lack of rescheduling, and these simply
+> > > go away when you do the folio manipulation in larger chunks (LAZY_PREEMPT
+> > > would avoid the need to explicit rescheduling these days, but that just
+> > > papers over the symptoms in this case).
+> > >
 > >
-> > Because of this limitation, I later started thinking about ways to
-> > reduce anon_vma allocations instead.
-> >
-> > I will try to find some time next week to analyze the cow-context
-> > design and code more thoroughly, and then write up a summary.
->=20
-> Tao,
->=20
-> This response is so full of misunderstandings it's not really worth me
-> responding to any of it. You've even hallucinated an imaginary field whic=
-h is
-> REALLY suspicious.
->=20
-> You've no mm expertise or history and came up with this in a few hours. I
-> asked Claude to analyse it and it puts it at 75-80% chance of being solel=
-y LLM-
-> generated from cow_context.c.
->=20
-> I simply don't have the time to deal with this, so unfortunately I'm goin=
-g to
-> have to withdraw the suggestion of further discussion with you on this to=
-pic.
->=20
-> I am working on the scalable CoW project and will solicit opinions of tho=
-se
-> with relevant expertise.
->=20
-> We are not interested in your approach or analysis.
->=20
-> Thanks, Lorenzo
+> > I see. That's also super helpful. Let me kick off the large folio support asap.
+> > Thanks.
+> 
+> Hi Jaegeuk,
 
-You said discussion was welcome, yet when someone offered even a =20
-small comment, you refused to continue the discussion.
+Hi Barry,
 
-If I had known you would be this inconsistent, I would not have =20
-replied to you in the first place.
+> 
+> Nanzhe has put significant effort into this work at Xiaomi over
+> the past several months. Large folios can now be supported on
+> non-immutable files.
+> 
+> He has conducted extensive testing on the Pixel 6 and fixed a
+> number of hangs discovered during development. He is still
+> benchmarking performance, but the implementation appears to be
+> reasonably stable at this point. We can run Android Monkey for
+> many hours without observing any hangs.
+> 
+> If you would like to see an RFC, I can ask Nanzhe to send one
+> as soon as possible after some cleanup and polishing.
 
-This will be my last reply to you. I will not respond again.
+Yeah, I was about to reach out to you. Let's do some discussion
+offline.
 
-Consider the following test case:
-Process P creates 1000 VMAs with mmap, named vma_1, vma_2, ..., =20
-vma_1000.
+Thanks,
 
-Then it forks child processes C_1, C_2, ..., C_1000. Each child =20
-process C_k keeps only vma_k and munmaps all other vma_i.
-
-With the current anon_vma, reclaim walking each page only needs =20
-to handle two VMAs (vma_k in process P and vma_k in process C_k).
-
-But under the CoW approach, reclaiming each page needs to walk =20
-1000 processes, then spend O(log(#remap_entries)) time to check =20
-whether a remap_entry exists, and then O(log(#vmas)) time to =20
-locate the VMA.
-
-Both the code complexity and the time complexity of the reverse =20
-walk are much higher than the current anon_vma approach.
-=20
+> 
+> Best regards,
+> Barry
+> 
+> 
+> _______________________________________________
+> Linux-f2fs-devel mailing list
+> Linux-f2fs-devel@lists.sourceforge.net
+> https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel
