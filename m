@@ -1,111 +1,103 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D64349CD7;
-	Mon,  1 Jun 2026 08:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780303051; cv=none; b=fSkm8n3mkuWeN2IHgZNfNW8xWGFjaR1Dmb7rM9eMyuJPCLoolEoC1JWIVvkkqvTDPNIJkNFCH7wsXzAao+igDu6x/WZ5exI08F2gbmHjQuG1L/JnY5eJLtYkJItdS4A1SJynOsDlLZpzlBqqMzYZQH2lPXreEEFn+v7wYrXPFKk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780303051; c=relaxed/simple;
-	bh=nl6p8HLHC286uT4ikfAHUI8B6U9Db6HbVPCH/fT5W64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dQbx+n3OHH2FXgr2zp8OM6DeIC92iORxpmLkVVEhqo7ANjfxKr5zm+wJRhcm+CEivcoWNKCYaQOr7iM+hwH9YAVyofjHFUyJDZ3gvvlapnmSCKrPjxXCrKYASyn1g5ZPybP0fn5TGFZtjFaoq+/HO5JAcZNzY/uWBLmL//eL1zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pCo8u5/E; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0733F273D6D
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 08:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780303339; cv=pass; b=BynuMpzdjH6EwaCSwE5Q+v4IFIi8qmfZ2kVWKvqt1XLI3xCimhWK4ffkDnFaDs2JEnds7CCJWJTOoW7pNmsus7BBMGWLrh30dd+uboaAaj0YYEA4+1bG/4JrikZrcyYPdjOo3xD+Hhj5vS1usiOlfq2cAZBzDECsLBnB+SpX72Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780303339; c=relaxed/simple;
+	bh=UTbkwMsrfw5DD1bwnCMaOoHJmgEVR8v1IDZFFZ9xH+E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GSh/gpfpPsAfBptn0wsPmbOZf9qz8Q/RAKB3nYlRUUH2M0+hCGbakKGQiEJSMx9DuIznkb4vTzChuvAR+byCocIeurrsULNMwmLzqfYhrpgutK7A+UkFzgR11tXbYt5P9E9gy+PLgSLnEOD6TkbueigqABfUVD8QlWl+yiBR4NY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Hw/x04Bc; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pCo8u5/E"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=kbipd5my0kxdieuohQ54gw7V4ZjO4rD65DLmWgf5FoU=; b=pCo8u5/EGo61wq7DLV4otnZqdD
-	OMKAhmp+oGDMcYMT7Ta0Gra/svzVEhzB9h4Mlyr6qhbqnHyzJRuakcf9K2wnhh4Xs5svWnMG3nU39
-	nEFEwBIbWdCzHAa6ZQkLfL8Z9u4Du4KKPYJSY8uDCe7irg541ag9s+9qsPiZklhNsBKlzzXNQKtv3
-	i9m0sjGUjA1z4hn2Wy0EtQdYV8IChJPs05aiIkFxoYXU65kECrcx7M4vBe/jpoV/uSwO3BBjMcFtY
-	Jr6zC9JTzuHWs9fNDLqK9lWXUH95ZY0YIoMRqh6Vyvg1M7o2fyRtr0zo5aAT5aGrduWeDV17HwtHc
-	OF6Pvsiw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wTy9F-0000000AN5J-1YMj;
-	Mon, 01 Jun 2026 08:37:25 +0000
-Date: Mon, 1 Jun 2026 01:37:25 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	io-uring@vger.kernel.org
-Subject: Re: [PATCH RFC 00/11] mm/filemap: split out folio wait and VFS code
-Message-ID: <ah1ExWQdq4yhnmqC@infradead.org>
-References: <20260520-filemap-split-v1-0-c36ddc2b6cf2@columbia.edu>
- <3dxzu3ck5y3wxw4pp2qhzwwb6y3f7mwhvgxfpl56sokw4ymop7@xaaoxsa5yu5q>
- <ahg55Ei8Fc3iRsnA@infradead.org>
- <fb59cca8-28b0-4231-a109-a6ae0ea12a03@columbia.edu>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Hw/x04Bc"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51746c4dd6dso12867961cf.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 01:42:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780303337; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZkjbW8YIv7LjcWZf9Nf8yL169HNd2oJhgcFOInN9gxUMXdruBSQ19kJRCCdlpFvs+P
+         vlrh/8nf9LIB8EjueFbpwCdEpDxtvfu/Z/BZixMO8s/on0MdHp2TqSpTkQ4Ej01gJPyy
+         l0kl9590xS7/9rUEiFR/UHkyIqsZp/Hne7QZDOFQ/ViK8WrcqdzOwvgkDNzLA8BJ/VVh
+         HMW45ndSOVFK8WmtnHvZ9RGEALm+yaDwds47fLO313wSdlCJDr3w16+CtHU4shmAZbr3
+         PzLMP3D3OeVKEAHR5O0ke+QQMCdgrAnZB2CCBqxbhwMR+NLlmJ+QQ8+72J6zs1hiOZ5z
+         Icjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fLytNvYVztilDxrcrU7bSLGgh4QOhycsAm+cSCqJtbw=;
+        fh=mLQs+2r4WG5lhFMS9nTOk262G6wbg2oMc5lwRjU1yng=;
+        b=BvXpgFf7UdTi+c6YxsOwztJSqxgQkXNAfZ+A0AjdJCj92fwS7t4Y9kLMt9Ia0+gh5K
+         e5pjoYUH98paJzRoEj00Xn84CygvCyk+FbkiIRqGGfdRDfBcXrcl9Rn0fzi7lxKdMszz
+         UwLdpUTUwonCVP5IRNWZFtd+mffy1yQr1gDuUXDrpnN0Kw4elrQiIdjwFzdBkuxnU/iC
+         4OTMR6wOwpiROdFCiSYa8XSJIHyHzsYpGq/i+W1DaNCXGZNDxAN853VE/9BiVwB7oaLX
+         eLvYefzhaDtWvA9A658yK0GfNrHNWYj+TsAxfeeP6L4pPlh4Wt9VakeVoaxX+zw8us1r
+         t7Mw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1780303337; x=1780908137; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fLytNvYVztilDxrcrU7bSLGgh4QOhycsAm+cSCqJtbw=;
+        b=Hw/x04BcKsEa/AzDrD/rOSxYe+y8NLOnMrUzuH7aT3Qg7M8024/zMOBZVR06py3cMw
+         +FAjux+kQCLfJPa9s9MEnP1+YeV3gxHJGXAHSrVrG4bUnjhwIAxT5jPd3EWhX9EgLDHJ
+         Ru/A4wYPQ4YCjgipxWaRr9IlLRyZmDTGKW3oM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780303337; x=1780908137;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fLytNvYVztilDxrcrU7bSLGgh4QOhycsAm+cSCqJtbw=;
+        b=ovbnwom2/1h+b9i7jJbP8kYMKWTbMo3lHvMoufkqN+DHeJeRfAZ/ueQsFJZ3GaVFM8
+         W6XFTmGeNT4KxjDothqzBM5cdebeux72Nr4JKsjgPgsNPx1WdnTeOJHE0PtFVWi0KPXI
+         oTXercd1dukMA6a23az9g8NfhNAo6jUbitD55DJnpIiTEZYoqicIe9xYPdJyMNgQOUJ9
+         w9mmP4znX+fBxBRvadpKidpsyZfNpPWl+tNw1QDM+OD+NbIfZDvBUQaDuEi4xTq6mcLY
+         uOlWM8JMbK14hIatiqMnLgGZCgJcoeLQU7VLRCjf7Uoxi4Fv20AWYaGJlbjymL0mqoad
+         sztg==
+X-Forwarded-Encrypted: i=1; AFNElJ9AFhwgLKuYi0yy8iT7lfF35KQWrT9b2eRPnBrSBuso20XpwBlQisSLq6mzNvir9eCmrZrpGYnSQ/Tz7bHy@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrS+hNV9POTp0o64+Ut+/nWYJkL1SA8Y/xLYXU1lNH+nwPJuYa
+	YHDMO5xyCAu9pRiF/hS2qU0ijd0WLGzrhcHA7qNUz1fQqyGY0Ko7R0Sep9HDxPkvggybiN0UkXy
+	mx7S8XbbC82tobeljHXg7yudqODeeB9OUXqTKJtox5w==
+X-Gm-Gg: Acq92OENDec+ymtrBexs/oTa8Wjr1EMVJBgy8luAjhqpWExq9dTTq7ZMcmkprc+EN5G
+	LcOL7Cn75Y8sZ6+RMuHKM/nuokq1tFhmqrww/q1L/iZKmbl9o3SzviiTPlSigZtMt6OcXkmR+Sn
+	nxqlhz1YI7ObATBIi3j193aZVuEt8cGeErWAaOADVv5ZRILJDpGeczCFjIaVsO+JHDpoXlaYGYo
+	XIUVoNDjAlTQ/Fpro2KWdLdkla9/SbdFsMYrM8M0lmXDnP+R2JRUwLUKNvDZSKz9IHE4G5WKF5v
+	GZ17T3xfMSVbZcFoQLefVSjI1RZY9wN7d9tN5D7hx2OzOE997w==
+X-Received: by 2002:ac8:58c8:0:b0:50b:3429:a10b with SMTP id
+ d75a77b69052e-5173a72badamr116737761cf.12.1780303337147; Mon, 01 Jun 2026
+ 01:42:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fb59cca8-28b0-4231-a109-a6ae0ea12a03@columbia.edu>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20260529134302.1989958-1-mszeredi@redhat.com> <CAOQ4uxjZ66rSmbsDMRbrohC4LE4RgLzKotH6N_TYz92bZ-nR8Q@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjZ66rSmbsDMRbrohC4LE4RgLzKotH6N_TYz92bZ-nR8Q@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 1 Jun 2026 10:42:06 +0200
+X-Gm-Features: AVHnY4LsP-cd8mjcfQ-DpqLYZy-SDFfzupmW4YT8BHxYon500RdtNkfy48x3EaM
+Message-ID: <CAJfpegt6x_CNqdy65xKQgRfAg=RiNPbCiESYAUWnH1X_=W3MXA@mail.gmail.com>
+Subject: Re: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <john@groves.net>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, "Darrick J. Wong" <djwong@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 29, 2026 at 06:54:07PM -0400, Tal Zussman wrote:
-> On 5/28/26 8:49 AM, Christoph Hellwig wrote:
-> > On Thu, May 28, 2026 at 11:22:37AM +0200, Jan Kara wrote:
-> >> Overall this makes sense to me. In particular I agree it makes sense to
-> >> move the file read/write helpers into fs.
-> > 
-> > I disagree very strongly.  Mixing default implementations with the
-> > higher level APIs is a really bad idea and leads to people taking
-> > stupid shortcuts and other layering violations.
-> 
-> fs/read_write.c already contains some of these "generic" function
-> implementations, including generic_write_checks(), which is called by
-> generic_file_write_iter() in mm/filemap.c. Right now the two files are
-> unnecessarily interdependent. I do think fs/read_write.c is the natural home
-> for these functions.
+On Sun, 31 May 2026 at 19:36, Amir Goldstein <amir73il@gmail.com> wrote:
 
-generic_write_checks is a very different beast.  It is a generic helper
-that every implementation must call. The implementations have to call
-it with the right locks held, and this it can't be done before calling
-into the method.
+> Could possibly use fuse_backing_ops that Darrick used for iomap
+> backing devices to generalize the backing id ioctls:
+>
+> https://lore.kernel.org/fuse-devel/177922945327.2436837.2738315299316875094.stgit@frogsfrogsfrogs/
 
-> > Splitting up filemap.c makes sense, but I'd rather keep the generic copy
-> > into and out of the pagecache code with the MM infrastructure for it,
-> > as it is not VFS code, and making that clear to anyone touching the code
-> > is important.
-> 
-> About half the code moved is implementing direct I/O or multiplexing between
-> page cache I/O and direct I/O.
+Yeah, this is very much just the userspace API fix.  Cleaning up the
+kAPI will happen but is lower priority.
 
-This will hopefully change quite a bit once we move everyone off the
-legacy direct I/O code and the helpers for it.  Another reason not to
-move the code around for now as it should change a bit.
-
-> It definitely shouldn't be in the page cache,
-> and I do think it is VFS code.
-
-For the higher level stuff I'd agree.  But I'm not sure how much
-is left after the above.  If we have good helpers left something like
-libfs.c or a new library might be a better place.
-
-> The one exception I see is
-> generic_perform_write(), which is analogous to filemap_read() and should stay
-> in filemap.c (and probably be renamed to something like filemap_write()).
-
-Agreed on that.
+Thanks,
+Miklos
