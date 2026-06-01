@@ -1,205 +1,189 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE7E38AC91
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 08:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E6333DEE9
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 08:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780302521; cv=pass; b=OO8C//cZ+bkLAYLjDayaSm/PWdJUxLWEdQ+4O1wGLpKoICPmIEgd6p7Tdq1f+ZXyw0JyFEo4xBR7MWqd7+G/KjXqQR7KJsRxgEp1Dnb3TMLtUYUNInl/wQNvEdvoRMCwYJMCiOu/YeMCeoQub/DJNuuZZGbuUeg7+z2QID4pbvQ=
+	t=1780302719; cv=pass; b=VsZ6tUlL/6NOIQID/W75GETqLuXEc/Uli4+lC/zBMFTCIvq/jPTVvIfMOFX1fEQJFBuToKhvc76rU87aP4opUrp91aJATFTKIziJcsrZj93K/MzLD/pdrTn6WQkqdH9HngTpbiGlehRPCiAy3p6gEPONmNnXsKBKsy0BGIhg+V8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780302521; c=relaxed/simple;
-	bh=c1ig9xcJuO9YJZkXzdXUaCf+kDMbbyvLWLLXcmr8+UI=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=XkubEFyQsEA3J+BTVhtNWXjgrRUGiMNfBDr2BZqQEi3bBAk5kTthW6ay9ZuVBozJgZm6hN2tRpJo0vWU8Ak5gq9pu/Kk7yNpE+8u2c44wqTV3GNb83S1OrpqLc0dvTNagCigg09UYw1Grg3Q9fNFdc9cHb4qaM6V5mZznPsU1Oo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdZsavHj; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780302719; c=relaxed/simple;
+	bh=QOVrh1FbwZicINPjAxgtLi4dWQT7CNzOI6a3e85aE/Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PBvxl5j2FZPTTXW9VL9ez5fzWNvguq3fA2HGmXQ1X+ulaMykpEVbr32gbFHuMevbQUpIbrrckrBzRUZBBNBw22D0FwKU6czd8fYvbkrBOjMYbNTbrwX54V+4OKUyZ/46kWLpWxP0SghSgg+yZsvmkOsOCUy9NDEmjtj0MAzzO14=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=H8Ff6BX2; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdZsavHj"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-516d634956fso114697211cf.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 01:28:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780302519; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="H8Ff6BX2"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-51758478240so2323171cf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 01:31:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780302716; cv=none;
         d=google.com; s=arc-20240605;
-        b=E5+RhZEPw/h1XsYT4OAmzn7ue0kpUS0/AFl3efkdi9S0E277IpHO9hcmmK6uSm5kZd
-         DC/haNbA3pnqyGrq7iGzu6tVJgm0gN3VPruPkMboDMjdgp0sw7zRKlAfExOm6uBbxxqj
-         5mC077VCpiHf8xG33s9jRfhq6MzJExDTh4IeSWoMj+dBJV5GCLWS1s8jUB5mc3MlX6C0
-         ipQVp3B8eOX5GL9qq9NczrdaDF1hlS4ICtnao4AYHCEP5gUQG2Vg+0Dnuy5I28PNT+9N
-         viKvE4RiPxCs04q9lRlR7T1Pepys99GxgRFXwazpII5DL5Hp9zrbtxDj4dz8sb1aUa9U
-         oPYQ==
+        b=Gz2lZRrtbcxZpW4hNJczkVEJyCLJp5zlw3oh9tKcSwnltaCh3p2jHPX9V1/QTVKNXB
+         kCc+wRXH+LzYZRRBY+wjQF7Z+gDSIxF5z4X44INaxtGgqBPjgswbeg6SMrmYOlKE2gy4
+         bzD/zLWw9tB+Zew3HxQF78PEukT4gIZSBX6vEu2yv5wsoqf/zK+O/6cjwhGhf+/XLG3D
+         CGiNE7uweFhz15l73MhFasUFebUgVb/koDkz5Po5LRNN2yOxLSIINRIxgxr4n/avFO75
+         XWLYMpvHSNQs6kyFwbBIBBKBK09v/pXrpsfU4ueGM+Q27Nh4ejIvpIR3EQgYVo5HKZ70
+         LpZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=chy4CiOufXTSxPnyWfni+DiT9+e7J+p1A7Jsak6bS+8=;
-        fh=NvW0M1HP+F1Of6rGMiZYFxuaSNs03uAbuzZpJQMJmV0=;
-        b=QYmpkjwPqvOA6PVCSSDJa9g1XbZrM1GJp3bkj/NwcLmqlA38vdj17nZOwXYN8nNeUP
-         FnwSzSXttGx3Aov++5hey7yO3OPE0cDFP8WhuEzaXrLP94viLfZecHoTUfeq6h2OIw5+
-         IJEQq9S1Jplyqt4V9LJwsQcjaYFI6GbEqjfCZenUT769+UO+w2acp9g8DHvzbQkwZqfm
-         4L15UiMvrBcB8Qy0CWCgO3INY1/iSEHIVbK1MUVOjuUt8xTVu9xujBsVLqq5wlrLlmbx
-         x52gqlpKPXelz/JbPdAcfp3bLDw8sxeDVOy6xwcx8s/jZ2BH15d568oVnCSFe6W9NLN1
-         OJjA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9zCuIe74ELqugw1lXwosD6GadoLnKPFUrjvsZt3Tyts=;
+        fh=3zUFdfv/MtTyplvB3Emo5MvCOcEm5E40VULZ0CQ6I3M=;
+        b=CwavktbaZUDQ8Ht+t9aav4Rr8ZVK0exSY13QYJojZzfzYnsr/Kj5Qq7eUb87udXLdF
+         5u7ZsvtxmDJMz8EdCT066+4tA2NIqb6JC7AUhpuexCxx6dWCZmBfZH8+gEew5+QIJfWL
+         zHTWHr0j/uHo7S1EEBn5EN+8YsGYXdEkF+89t9rLb1SU5KJq6nrHzL3XH2lHTHyqeZfq
+         u+0fE9Q5koOyMgtuV8cX1KSBwOOO4U6SHpiv4UdO3hNN1jrLQ1zIasqIbHFl8eWf9XWq
+         CcR6nfkn40XA6usUUJ3JcNfgxMqsT1gboOR/IjaS1QkFV5CXbmqPrp/ovk0wXG+bEQkH
+         wm+Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780302519; x=1780907319; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=chy4CiOufXTSxPnyWfni+DiT9+e7J+p1A7Jsak6bS+8=;
-        b=fdZsavHjIj2XpSTjmx1ft7As0F/TdqfpaHTpi7QmyJHyEk49In8ShXCHgl8nNCIrUI
-         ptcLlnX1DMsowhlgVZWneu71hQd76YcIulb7JO8x3dgiBZM7UbCvFoKvOPCWsKT1587y
-         Hje+OxxZPHb7OGukzcv0t0zsasgWhw4qdztER0wrkSXvdpxTC7zAQfaI9sOVUxQppKgZ
-         4+EKVgVRGNYfuYxnLMQ4x6MgwM8WGNwJHkkY/0OFkig4ei6BuxkgQnKdIXVBInmCLD+q
-         cjE3xutL5PGn9a5joicC4GrXo3CvjMtKDDH8wDqgOHrQPZf9DVbe6k97gfpEV3sJc1GX
-         VNng==
+        d=szeredi.hu; s=google; t=1780302716; x=1780907516; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9zCuIe74ELqugw1lXwosD6GadoLnKPFUrjvsZt3Tyts=;
+        b=H8Ff6BX2N8q4W0B6ogje2SGU3CrxGzrecioLhwIaOxEvW/EIzjG0+rFKxkmG0/VMJJ
+         E1AV1867Rp8oAkiee9taSAP+QzBgMp3rZjB0AtOQxUb6fJDYWNVWDdIpURMg1BE4Stlt
+         9BN1wML+sObW8gK8OPvhjIOFYKJTVqV/GE2ug=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780302519; x=1780907319;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=chy4CiOufXTSxPnyWfni+DiT9+e7J+p1A7Jsak6bS+8=;
-        b=EIWqG6rdU3RpBI9z3TMkM1coqiJ72hipw7QkoV5bBL+z/Wemhvh1XFIDs02Dhc8rQy
-         IYVHQnCucykcHWuR3/NaqrZ7ccNJ49bbD6bwfxYGZ1oUw0ejv5lFkLmxZhtnNsCMQN/T
-         vGe0j2sTdG3OoFhzhFg6EtjjqW+PvFSa3q9Epm7PzmGffTzPx4jB4fJll03yq+HXc91+
-         I8/A2yCEU48lH6oYb5Hb+FuGKDZMN5ZD+omhmUfCZD31J2n/12hydUvy9CBbEnxLXc4p
-         LS228eHv9wVLk4EduowGfFq0SuQxjcJBMeiHS9dOjCL3sBZ7sozaVpQyWmF1EHczQ3Iu
-         XMWw==
-X-Gm-Message-State: AOJu0Yytd4SWtXRnFRrwvbGUKx2M43gDRrFqoSPAoATh3I1fcMPNgAZO
-	RVsZGWzg/ZYFWgzKUC0Mdh2u/BHyofSmdBDAPIq50Ue1RW5SqMyeodLX1pb7TMqt6JdxYksRaDp
-	vQHtGmBAbjvceswNcmQZU9dTqj4W5PKs=
-X-Gm-Gg: Acq92OHCkUoWT22TOhj8U6Z5/WFK4hmcSAfRvfccsmU/hOUjiKZiYN4oXjNe4WmWMqB
-	R/X/n1MI+M2dunc49CScVZn1lNMommadpnm1O5dLkbMuYyRpknZrPVbsjEZeJMFmQjUzhDkjR2O
-	PiDx+jsVNROZcpK+WkhA7c42jGVv0p29wegz+Z83Fn128VERc816qy9NaL43mrjaK5nPV468jRK
-	7qkkLBFiLMbets8yWkvUi8hIgPGh/5R105Q3kIFw0DcXN/WI20QHjJtFzh99q3BgPHlzxYLPzdo
-	3GsuzhyQ/4W4RLyf
-X-Received: by 2002:a05:622a:830b:b0:516:e062:1a8c with SMTP id
- d75a77b69052e-5173a7a2ea1mr113192091cf.37.1780302519187; Mon, 01 Jun 2026
- 01:28:39 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780302716; x=1780907516;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9zCuIe74ELqugw1lXwosD6GadoLnKPFUrjvsZt3Tyts=;
+        b=VIvi32SBWB5ll+mthlteKSLSzL28Ry4E2YImkXlkYiRjaZJ2Kz9xN9JWPzLz/KGJiF
+         Ur3lhpGMmr95yb+qRETKasfiZZzj3j9gWNRbQEF0y/ml2h5j/P1Bo7gJ+rOJapzh2H7n
+         hp/w8TxKnvcyQCz3Ho7LfT3DlrC7VAzbVgsT7e4MA3lvAq5zPZJHW2WVGPTmIQ0IkJds
+         IUAqik4ErtK+5RCwPOw1VWdqHJWHp/5mKaU9HPYE9xGmzTAOWb9JAsXEn/PaXSG9i7WI
+         8PIWG/h78hmQkoG3qt1WK8m+lHSk5bSXPbiHndYB16pS2Kk21dcpmNa/9akPHKY8pGNn
+         9MIw==
+X-Forwarded-Encrypted: i=1; AFNElJ/X5ToPX3FG1am2rQOI2JH/PPbQlmo1LSN+UucO0WQDwYFbizBcAbCt/IlN7n12A/ZHFdKfRvXw2spXB2xT@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywjy7fFpFo6LQJSzPUvNYNxO/VkoNOAJvJ3X6PVM/tfSfh/f3Qk
+	SYLG1yHQYWE7uTIOqRwGQOBIN9y/Uxi7nK/+ZBgz/j9fNMOBeZJzC4tJCEsxWPtvxGyvPwlSyac
+	je65pK2qn+LS0TpkZn0pH19Lrc9LPC5zq7Ip5tdtZ9A==
+X-Gm-Gg: Acq92OFbNYIpuWYdzB/iGMgMZ2H4tKOkq/B2NWarVetvfJkLsQDAzQSJOe8vt+jUhQF
+	zdiqRLAXkZjoIuL2PSliLamR9e8Q/nbt/GCwNLAwydUkzE1Tss2PnnpIn2c7egdbAzHCc0UoJR4
+	HsN6Txhjq2ru8EqVUIzWmJlnKTHFtIEeDPNRSqmEyFxPFW4WCAY00QETPsvVcBGE+93QSYiC/1i
+	PDclUH/8r9BUri3RwZ7f3r8UzDyiGKhapez/IDMETpOpml++DlBBsaL3CucEgsYeZzFFbcxpSLy
+	sBNiRouZM/Fz5acxUGZS98irvFPkSxIcRLbyZ038TaS4AdCZFQ==
+X-Received: by 2002:a05:622a:1e85:b0:50d:83a4:2995 with SMTP id
+ d75a77b69052e-5173a734ea3mr136021221cf.21.1780302716350; Mon, 01 Jun 2026
+ 01:31:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?B?6rmA66+87ISc?= <neck3922@gmail.com>
-Date: Mon, 1 Jun 2026 17:28:28 +0900
-X-Gm-Features: AVHnY4Jmnl-8FOixwQi52djqGt8p-nCRErtCM1XZESChjmeG5OkicHzsEnjN758
-Message-ID: <CAFmvuTW=gntFCBtuHGAu7caC9FM4Ovf_r1ng5gmy6djn9ziLqg@mail.gmail.com>
-Subject: [BUG] fuse: KASAN slab-use-after-free in fuse_uring_copy_to_ring()
-To: miklos@szeredi.hu
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller@googlegroups.com
+References: <CAFbF8N7++zopZuEcsKRxBV_sgOGCbzCY0hOyMw1SiGAtuzGhyQ@mail.gmail.com>
+In-Reply-To: <CAFbF8N7++zopZuEcsKRxBV_sgOGCbzCY0hOyMw1SiGAtuzGhyQ@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 1 Jun 2026 10:31:44 +0200
+X-Gm-Features: AVHnY4LE7eOT2gpMeRX9HfjuDk28txdWMk79He47NTx4XuEv3dO-iZ4wnJqEPwU
+Message-ID: <CAJfpegsCJnMfn_BzzTK7m9ndCGVsnPit8ZsT0fzAhYoY+yOsKQ@mail.gmail.com>
+Subject: Re: PROBLEM: FUSE_NOTIFY_INVAL_ENTRY leaves stale negative dentry
+ after c9ba789dad15
+To: NeilBrown <neil@brown.name>
+Cc: =?UTF-8?B?0JDRgNGC0LXQvCDQm9Cw0LHQsNC30L7Qsg==?= <123321artyom@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+[Cc: Neil]
 
-I am reporting a FUSE-over-io_uring bug reproduced on upstream v7.1-rc6
-with KASAN enabled. The bug was found with a local syzkaller setup.
+On Sun, 31 May 2026 at 03:12, =D0=90=D1=80=D1=82=D0=B5=D0=BC =D0=9B=D0=B0=
+=D0=B1=D0=B0=D0=B7=D0=BE=D0=B2 <123321artyom@gmail.com> wrote:
+>
+> Hi,
+>
+> I am reporting a FUSE/VFS regression introduced by:
+>
+>   c9ba789dad15ba65662bba17595c0aeaa0cfcf1c
+>   VFS: introduce start_creating_noperm() and start_removing_noperm()
+>
+> After a FUSE filesystem returns a cached negative lookup for a name, then
+> later makes that name visible and sends FUSE_NOTIFY_INVAL_ENTRY for it,
+> readdir() can list the entry while stat()/open() on the same path still
+> returns ENOENT.
+>
+> Bisect result:
+>
+>   good: v6.17
+>   bad:  v6.19
+>
+>   first bad commit:
+>     c9ba789dad15ba65662bba17595c0aeaa0cfcf1c
+>     VFS: introduce start_creating_noperm() and start_removing_noperm()
+>
+> Adjacent commits:
+>
+>   bd6ede8a06e89ca5a94a8b51cea792705d1b8ca2 GOOD
+>   c9ba789dad15ba65662bba17595c0aeaa0cfcf1c BAD
+>
+> The bad commit changes fs/fuse/dir.c:fuse_reverse_inval_entry() to use
+> start_removing_noperm().
+>
+> I attached a minimal libfuse3 reproducer. It does:
+>
+>   1. lookup("config") returns ino=3D0 with non-zero entry_timeout, causin=
+g
+>      the kernel to cache a negative dentry.
+>   2. The filesystem makes "config" visible.
+>   3. It calls fuse_lowlevel_notify_inval_entry(root, "config").
+>   4. The test checks whether readdir lists "config" and stat("config")
+>      succeeds.
 
-Target file: fs/fuse/dev_uring.c
-Subsystem: FUSE
-Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-Git head: e43ffb69e0438cddd72aaa30898b4dc446f664f8
-Kernel release: v7.1-rc6
+Yeah, issue is that start_removing_* all work on a POSITIVE dentry.
 
-Observed crash:
+FUSE_NOTIFY_INVAL_ENTRY works on both positive and negative dentries,
+doesn't care about the inode (or lack of it) at all.
 
-  BUG: KASAN: slab-use-after-free in fuse_uring_copy_to_ring+0x20b/0x230
+I've not dug myself into this work, so not sure what the concept here
+is, or how this should be fixed, but this is definitely not (just) a
+removal op.
 
-The same issue was also observed on v7.1-rc5:
+Thanks,
+Miklos
 
-  Git head: e7ae89a0c97ce2b68b0983cd01eda67cf373517d
 
-Root cause analysis:
-
-The crash appears to be caused by a lifetime/state mismatch between
-struct fuse_req and the FUSE io_uring ring entry state machine.
-
-The KASAN report shows that the affected object is a struct fuse_req from
-the fuse_request cache. It is allocated in the FUSE open path via
-fuse_request_alloc() and freed later in the same open path via
-fuse_put_request(), but it is subsequently accessed from
-fuse_uring_copy_to_ring() while FUSE io_uring is sending a request to the
-userspace ring.
-
-The preceding warning in fuse_ring_ent_set_commit() also shows an unexpected
-ring entry state:
-
-  WARNING: fs/fuse/dev_uring.c:865
-  fuse: qid=0 commit_id 4 state 3
-
-My current guess is that an error/teardown/commit-and-fetch sequence may
-leave a stale fuse_req reachable from the FUSE io_uring ring/request queues.
-
-Reproducer:
-
-C reproducer:
-  https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main/fuse-uring-uaf-v7.1-rc6/repro_fuse_uring_uaf_userns.c
-
-Full symbolized console log:
-  https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main/fuse-uring-uaf-v7.1-rc6/clean_userns_report_rc6.txt
-
-Kernel config:
-  https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main/fuse-uring-uaf-v7.1-rc6/kernel-config-v7.1-rc6.config
-
-Key config options:
-
-  CONFIG_FUSE_FS=y
-  CONFIG_FUSE_IO_URING=y
-  CONFIG_FUSE_PASSTHROUGH=y
-  CONFIG_IO_URING=y
-  CONFIG_KASAN=y
-  CONFIG_KASAN_VMALLOC=y
-  CONFIG_KASAN_EXTRA_INFO=y
-  CONFIG_USER_NS=y
-
-Runtime conditions:
-
-  fuse.enable_uring=1
-  unprivileged user namespaces enabled
-  /dev/fuse accessible to the reproducer
-
-I verified the C reproducer by running it as uid 1000; it then creates a
-user namespace. In my minimal QEMU rootfs, /dev/fuse was chmod 0666 before
-running the reproducer because the device node is root:root 0600 by default.
-
-Without a user namespace, uid 1000 can open /dev/fuse in this setup but
-mount(fuse) fails with EPERM, so the provided reproducer uses CLONE_NEWUSER.
-
-Brief KASAN excerpt:
-
-  BUG: KASAN: slab-use-after-free in fuse_uring_copy_to_ring+0x20b/0x230
-  Read of size 8 at addr ffff888009ecc698 by task repro_minimal_u/153
-
-  Allocated by task 153:
-    fuse_request_alloc
-    fuse_get_req
-    __fuse_simple_request
-    fuse_send_open
-    fuse_file_open
-    fuse_do_open
-    fuse_dir_open
-    do_dentry_open
-    vfs_open
-    path_openat
-    do_file_open
-    do_sys_openat2
-    __x64_sys_openat
-
-  Freed by task 153:
-    fuse_put_request
-    __fuse_simple_request
-    fuse_send_open
-    fuse_file_open
-    fuse_do_open
-    fuse_dir_open
-    do_dentry_open
-    vfs_open
-    path_openat
-    do_file_open
-    do_sys_openat2
-    __x64_sys_openat
-
-If you fix this issue, please add the following tag to the commit:
-
-  Reported-by: Minseo Kim <neck3922@gmail.com>
-
-If you need anything else, please let me know.
-
-Best regards,
-Minseo Kim
+>
+> Build:
+>
+>   cc -O2 -Wall -Wextra repro.c -o repro $(pkg-config --cflags --libs
+> fuse3) -lpthread
+>
+> Run:
+>
+>   mkdir -p mnt
+>   ./repro ./mnt
+>
+> Observed results:
+>
+>   Linux 6.17.0:
+>     notify_inval_entry rc=3D0
+>     listed=3D1 stat=3DOK
+>     GOOD
+>     exit code 0
+>
+>   Linux 6.19.0:
+>     notify_inval_entry rc=3D-2
+>     listed=3D1 stat=3DNo such file or directory
+>     BAD
+>     exit code 1
+>
+>   Linux 7.1.0-rc5-00426-g670b77dfebe7:
+>     notify_inval_entry rc=3D-2
+>     listed=3D1 stat=3DNo such file or directory
+>     BAD
+>     exit code 1
+>
+> #regzbot introduced: c9ba789dad15ba65662bba17595c0aeaa0cfcf1c
+>
+> Assisted-by: OpenCode:openai/gpt-5.5
+>
+> Thanks,
+> Artem
