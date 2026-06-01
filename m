@@ -1,138 +1,210 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27583BED5C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 14:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780324424; cv=pass; b=Pl468UQKV6+gNOTZub584UCJpU5pQ/GfW4UJkmESXZMs/Px6XC3bU309f7O4R+tCJeGg/4codb4TMLF9jZVHa9wdOi+RBtEJsfF8xhoWh2YLiraJbv68GPtUp2Z6VScTvguSApCOe67zshzCk3uwz93kgDjFLrxECzykceT5Coc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780324424; c=relaxed/simple;
-	bh=GULR8GTNYjJG02pu1RxUY4afkjoy1YBZ+KVu4i0ogU4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z7OzbpZI43QZz/5nfGjb1Ub4kWPY7cXAaLuAJvmsYWNOJG0OFlkhEsyygfWKIpnUbZsMCtVXWt7V0XGo6gTj/Btqe+Oh+7Idm22ZBQFYir9EWS2bJE9vHCm/UU+W2ed+UGgTP7xRntM4p0cb6D1zhcS5jNBqoNc8Bk7PNwz2zL0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ee+8qSGK; arc=pass smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089E23BBA0B;
+	Mon,  1 Jun 2026 14:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780324743; cv=none; b=NWkhzH+LnXil5rV1MAX8N++tUpc2xAfqAUAvlqzWZzM7qTP+L0VJ/eGi6cgSL/gpLbfD0JTDo/eHFQ+6ZyctU8BROMU7NPVjN07OeKEPNAHpKHW7J2tufxPCxHJ3NrNkkkEZfuQfB2HMCZ1DAhM9cMnzF4sySNyhnI9Hj3l0k6s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780324743; c=relaxed/simple;
+	bh=zxAx1FopUGZLbvc5qPVhljn0jE+VIP5oZDbsREillQ8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=odAkPNwr4EJvR46VZNmHjJC7PYAO2/22J29MJDgCMrMFjbiLS7spR8EF0PMmIwQwBzgT+f6PE3t6NBtr97QGArKRF6P8HYpNFB/yBy+vjBpJZC5RWhi3uZVdmABG/JB0GuNb4k9H29i+0N8mWrdUeVaf+pvDm4QEFMGTnLWjliI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JvcuKBbC; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ee+8qSGK"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-68ced08613aso2171a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 07:33:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780324421; cv=none;
-        d=google.com; s=arc-20240605;
-        b=foE6Twbk9mZWemG6hscGqppw1ZXf+lPBgYtJiZ/mf8Sd+OuKfoptP/RqLLFoEvMMG2
-         l6h+LvEji23ft2Y7rttRQ/NiEPgW/d4HNfUzagDMJH8tNuEpXdGTUdLob/FLAaG37Lo9
-         jFqEHytRikejx6y/p5gV6Pa7vfEZkz6Ki14iei5PY6Msq6LdYuU5RKn6W48CWi7kPJHv
-         gEKEgjSWOo6TQyCw1o8c3zt+7njToukKe05UI7yb1SulfcH7OmVm57dNhPb3dajNIrZu
-         qwpchehuR/n7TbDS2uPTJz0W9e1I0XyMVLe7fCBhn02BOP1YYRZxKUY4vn7z1CKBC3uk
-         ymtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pGyKaSsj1ZUT9pEo3HgQz/vu5FVFN+mBDg80+RUxJzk=;
-        fh=C3VJj0+0Jbwpf0iQbwsRBUuLUeShMbMEoEFyqm31wDc=;
-        b=V6g8agUwkks4PVjgOiyN2yndB54kaynsFhm15JSVBXSnhtTUsviynMeYGoSMXlPfz7
-         UyfPNMkhQijfmGoDMmPU7HNqm/Ae0God5hS6sJrqHu7pYSxbhu7hiLPDJbZe63qKK7ve
-         MUfyJfeHOaKfJBHdudXBRM7N7+pNo6cD4d2Z078f4TO4ofY0+DfbLwae5SBVnH6midwY
-         nr1s6SojpiCYUtFpSkOkAqX7NZbomTqVNXZF4W7LXZS25Kp4WmnVQ/TXEVBkC2GIJzv6
-         lMNUuqX42RARBPMTVAfFIYES7yQsvcLwbvdBF3p4zn+VSOlsl5BzxVkQQA16YtRlXESV
-         s/gg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780324421; x=1780929221; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pGyKaSsj1ZUT9pEo3HgQz/vu5FVFN+mBDg80+RUxJzk=;
-        b=Ee+8qSGK2NBOp1CIyw7GVqU2VJYBvRfPVmGCntCd6k+pIULSd4gtieP6COdvmwMVMM
-         xSxH6swOTIv/A9J98xQJmtsmYV4GA6eeU/007A0hiZBKqVwAplY2ceFgJ6ANlgIwL/0a
-         u+sWBA26/O7M36TNEIRWqUUgnK1k6vU2F63DGV0ZmtNf33Pm00qL+FqZOKHDJKlLvBiL
-         XjaVoyn7rSgQ0SE3ImRyFv0XP//QbcDxWVEWjCKx9FWHHHC9sIMyQuuhZ3MyrKiNbOEl
-         7/9omz96RW5pGkrikphXGGVQJ207+zT8ihN2vaNEfbxdyYGNBsZwRp4BQl0ciolqm/xm
-         peSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780324421; x=1780929221;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pGyKaSsj1ZUT9pEo3HgQz/vu5FVFN+mBDg80+RUxJzk=;
-        b=NvaVULkwtjOt1hUgZv2KZHJwqsHscePXxQ8iBDLtgdaHtzo7bXSxJQjff3OBzh8S1X
-         ls+zFm96pir8Aeu9Wbj9F4bJbLIbQWKg3fu7ICn56xglzKOOTeXgfO92U1T+cwUuV0rD
-         7OfFlEpefpWWQt+pzUzhWRNqzQju1m6ODIW4DPv6HzZMIHQkeUpSQFPB/wn4kk1MwfVe
-         xQejY75mQPQlwjvecqlJ22t3jEjJi8oPj95rHcihiW3shfAQOkW0yV2pvwlMNSo3LvvM
-         7heL8ySruf58r6mE9SE5KorQpE0VU2Uz//iyzqW+3tn1fDoh11YtHlyei4s5/za6ls2U
-         AVrA==
-X-Forwarded-Encrypted: i=1; AFNElJ/rzjNqBe+Oa4flpbaiVDLwQVgkdUcY+kfQ+m74e8PbcPXF6QMf6bpD5N509oO35CYMZjpzGw8drYP0d85V@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEZzmPumZQ/DummZgPBQmM3zFcFeTyvukuA0cptZEDmYpArlSd
-	jeEfNX/ZFPtgAvbLSzoe008Fr0cpj4qGOhZlkA4xuckwM+ABdLwtT/ta/tsw04rish0AoGWMWO/
-	Rgjapl7jZ8nNH2tkKAwpCtZ0RAu2O/5/Vv2t4A0jGwOyElXNSRLSlHTNS
-X-Gm-Gg: Acq92OEGx3F7drmHZJc49H3028Oghx5sJXEOMUc5R7o3XvBDOgKRH/1XXRtVK1/uJxx
-	8ZgKG/PMZJ5MH4HLrvA1yKWtytnTArJzaW14wJ7jsdPA2Pz+iT3GO1JPoEYDrXWu05VUaW+W6h2
-	7WLkmG9m1K7qj/inPFVcx/fygD2/wM6T8SoQ9qzoyrKL5XsOlbSfSfUumaf+1jpYnc2YnE4ZZCK
-	/hjvy5g7+9mTvKhV7YoRMqC7ShECtZcs5LlDqPiaG9+e/BDgKTPQBzM+D5Txla/C0+Mo/HJomW0
-	FOjYxIb6X6IJvneKqMaMCl0gsv9eGSVrlTrL3HsU1WmcnEjVOyR8zvQvtw==
-X-Received: by 2002:aa7:c1d3:0:b0:670:9e9f:1a5e with SMTP id
- 4fb4d7f45d1cf-68ca1154309mr274389a12.2.1780324420762; Mon, 01 Jun 2026
- 07:33:40 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JvcuKBbC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=OybkN/MnWZxcEpWXBkhrHVcW6dWBDJmEtjbVKxEqFQQ=;
+	b=JvcuKBbC4jlhe+9trAS6EoJ64nstSy3U2osEEAA5JOVuTAxG76gmVPCqctByBD
+	DlGEVKqyDtZAGrfESGCOFBLf7PQnBnJs5dmP/fguZCmGgKKfmUhXMHVXkkIIVWTG
+	H4xGS15FINKIk9zF43B6i9CoUZbwt/fCdcjiobFDwzhKg=
+Received: from [192.168.5.171] (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD31yIamR1qL2s8Aw--.64956S2;
+	Mon, 01 Jun 2026 22:37:15 +0800 (CST)
+Message-ID: <f43d968a-8226-462b-98bf-53e69efec0b0@163.com>
+Date: Mon, 1 Jun 2026 22:37:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260529-vfs-mnt-notify-comment-v1-1-5becd17a15c3@google.com> <qyxetdsywarovuartxqqeazkqpdedsiwam2pke4ocaqgv7sspw@rgkyf72i57zo>
-In-Reply-To: <qyxetdsywarovuartxqqeazkqpdedsiwam2pke4ocaqgv7sspw@rgkyf72i57zo>
-From: Jann Horn <jannh@google.com>
-Date: Mon, 1 Jun 2026 16:33:02 +0200
-X-Gm-Features: AVHnY4K9vTpEIg-RT3pHtu1Yu90udfdzT-BmAu9MaDGltJuN3VT-3WT20fxfEqY
-Message-ID: <CAG48ez0d-tbu09=nNWx3ePbhrvKH0VAdFHFmBoGyr=V_UZ71Qw@mail.gmail.com>
-Subject: Re: [PATCH] vfs: document locking for mnt_notify_add()
-To: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mszeredi@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 5/5] mm/shmem: optimize file read with folio batching
+To: Baolin Wang <baolin.wang@linux.alibaba.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc: Hugh Dickins <hughd@google.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Chi Zhiling <chizhiling@kylinos.cn>
+References: <20260520101538.58745-1-chizhiling@163.com>
+ <20260520101538.58745-6-chizhiling@163.com>
+ <1d8c7c24-b273-4826-9a9e-37fdb0767f2f@linux.alibaba.com>
+ <1fd099de-97d9-4a54-a97f-062fbae1d88e@163.com>
+ <6881f92c-972a-4b7a-b3c0-93a91ff38b88@linux.alibaba.com>
+ <5f1a3e69-c090-42ac-913e-1e8ce2702e9a@163.com>
+ <72817e0c-37d3-4a63-a6d3-1744370c896d@linux.alibaba.com>
+From: Chi Zhiling <chizhiling@163.com>
+In-Reply-To: <72817e0c-37d3-4a63-a6d3-1744370c896d@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD31yIamR1qL2s8Aw--.64956S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Gw1DGr13Kr4xur4DKFyDWrg_yoW7Ww45pr
+	WrG3ZrKrWUJry7Ar1Iqw10vrn3t34xJF4UXa47G3W7AF1qvFn3Kr1Utw1UuFyUAr1rGr10
+	qr18KrW7WF1jyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j1UDJUUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9xtO62odmRuxkQAA3c
 
-On Mon, Jun 1, 2026 at 3:04=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
-> On Fri 29-05-26 21:38:08, Jann Horn wrote:
-> > The locking in mnt_notify_add(), which was introduced in commit
-> > bf630c401641 ("vfs: add notifications for mount attach and detach"), is=
- a
-> > bit gnarly.
-> > notify_list is protected by namespace_lock, but there are cases where
-> > mnt_notify_add() is called without holding namespace_lock, for example:
-> >
-> >     __do_sys_fsmount -> mnt_add_to_ns -> mnt_notify_add
-> >
-> > Luckily, in cases where the namespace_lock isn't held, the namespace is
-> > always freshly created and can't have any fsnotify marks yet, which mea=
-ns
-> > the notify_list isn't actually accessed.
-> >
-> > The existing comment claims that not accessing the notify_list in these
-> > cases is merely an optimization, which is wrong. Fix the comment, and a=
-dd a
-> > locking assertion.
-> >
-> > To allow mnt_notify_add() to reference the namespace_sem, move it into
-> > fs/namespace.c.
-> >
-> > Signed-off-by: Jann Horn <jannh@google.com>
->
-> Thanks for looking into this. Adding Miklos to CC who actually wrote that
-> code. Also in cases like path_pivot_root() I don't think we hold the
-> namespace_sem so the locking is even more complicated if it is correct at
-> all. Miklos?
+On 6/1/26 7:20 PM, Baolin Wang wrote:
+> 
+> 
+> On 5/26/26 3:12 PM, Chi Zhiling wrote:
+>> On 5/26/26 11:11 AM, Baolin Wang wrote:
+>>>
+>>>
+>>> On 5/25/26 5:47 PM, Chi Zhiling wrote:
+>>>> On 5/25/26 4:37 PM, Baolin Wang wrote:
+>>>>>
+>>>>>
+>>>>> On 5/20/26 6:15 PM, Chi Zhiling wrote:
+>>>>>> From: Chi Zhiling <chizhiling@kylinos.cn>
+>>>>>>
+>>>>>> Optimize shmem file read by using filemap_get_folios_contig() to
+>>>>>> batch fetch contiguous folios from the page cache, reducing the
+>>>>>> overhead of repeated shmem_get_folio() calls.
+>>>>>>
+>>>>>> When the folio batch is exhausted, attempt to refill it with
+>>>>>> filemap_get_folios_contig(). If no folios are found (hole or swapped
+>>>>>> out pages), fall back to shmem_get_folio() to handle these cases
+>>>>>> individually.
+>>>>>>
+>>>>>> Additionally:
+>>>>>> - Defer folio_put() until the batch is exhausted or on exit
+>>>>>> - Add folio_test_uptodate() check before copying to ensure data
+>>>>>>    validity
+>>>>>>
+>>>>>> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+>>>>>> ---
+>>>>>>   mm/shmem.c | 50 ++++++++++++++++++++++++++++++++++++--------------
+>>>>>>   1 file changed, 36 insertions(+), 14 deletions(-)
+>>>>>>
+>>>>>> diff --git a/mm/shmem.c b/mm/shmem.c
+>>>>>> index 96ea5a4c0aff..e0eacc23cccd 100644
+>>>>>> --- a/mm/shmem.c
+>>>>>> +++ b/mm/shmem.c
+>>>>>> @@ -3355,11 +3355,14 @@ static ssize_t shmem_file_read_iter(struct 
+>>>>>> kiocb *iocb, struct iov_iter *to)
+>>>>>>       struct file *file = iocb->ki_filp;
+>>>>>>       struct inode *inode = file_inode(file);
+>>>>>>       struct address_space *mapping = inode->i_mapping;
+>>>>>> +    struct folio_batch fbatch;
+>>>>>>       pgoff_t index;
+>>>>>>       unsigned long offset;
+>>>>>>       int error = 0;
+>>>>>>       ssize_t retval = 0;
+>>>>>> +    folio_batch_init(&fbatch);
+>>>>>> +
+>>>>>>       for (;;) {
+>>>>>>           struct folio *folio = NULL;
+>>>>>>           struct page *page = NULL;
+>>>>>> @@ -3372,18 +3375,38 @@ static ssize_t shmem_file_read_iter(struct 
+>>>>>> kiocb *iocb, struct iov_iter *to)
+>>>>>>               break;
+>>>>>>           index = iocb->ki_pos >> PAGE_SHIFT;
+>>>>>> -        error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
+>>>>>> -        if (error) {
+>>>>>> -            if (error == -EINVAL)
+>>>>>> -                error = 0;
+>>>>>> -            break;
+>>>>>> +fetch:
+>>>>>> +        folio = folio_batch_next(&fbatch);
+>>>>>> +        if (!folio) {
+>>>>>> +            pgoff_t start = index;
+>>>>>> +            pgoff_t end = (iocb->ki_pos + to->count - 1) >> 
+>>>>>> PAGE_SHIFT;
+>>>>>> +
+>>>>>> +            if (folio_batch_count(&fbatch)) {
+>>>>>> +                for (int i = 0; i < folio_batch_count(&fbatch); i++)
+>>>>>> +                    folio_put(fbatch.folios[i]);
+>>>>>> +                folio_batch_reinit(&fbatch);
+>>>>>> +            }
+>>>>>> +
+>>>>>> +            filemap_get_folios_contig(inode->i_mapping, &start, 
+>>>>>> end, &fbatch);
+>>>>>> +            if (folio_batch_count(&fbatch))
+>>>>>> +                goto fetch;
+>>>>>> +
+>>>>>> +            error = shmem_get_folio(inode, index, 0, &folio, 
+>>>>>> SGP_READ);
+>>>>>> +            if (unlikely(error)) {
+>>>>>> +                if (error == -EINVAL)
+>>>>>> +                    error = 0;
+>>>>>> +                break;
+>>>>>> +            }
+>>>>>> +            if (folio) {
+>>>>>> +                folio_unlock(folio);
+>>>>>> +                folio_batch_add(&fbatch, folio);
+>>>>>> +                fbatch.i++;
+>>>>>> +            }
+>>>>>>           }
+>>>>>> -        if (folio) {
+>>>>>> -            folio_unlock(folio);
+>>>>>> +        if (folio) {
+>>>>>>               page = folio_file_page(folio, index);
+>>>>>>               if (PageHWPoison(page)) {
+>>>>>> -                folio_put(folio);
+>>>>>>                   error = -EIO;
+>>>>>>                   break;
+>>>>>>               }
+>>>>>
+>>>>> I haven't tested it yet, but I'm sure this will break the 
+>>>>> fallback_page_copy mode.
+>>>>>
+>>>>> You're fetching from the batch at folio granularity here, but in 
+>>>>> fallback_page_copy mode, we still copy the data at page granularity.
+>>>>
+>>>> Yes, that's a bug, Sashika has already reported it. I’ll fix it in 
+>>>> the next version.
+>>>
+>>> Good.
+>>>
+>>>> Sashika also reported another potential issue below, but I think 
+>>>> that is a misunderstanding, because a folio fetched from the swap 
+>>>> cache is already marked Uptodate before being added to the page 
+>>>> cache. What do you think?
+>>>
+>>> I'm not concerned about swap-in folios, since we already ensure the 
+>>> folio is uptodate when swapping out.
+>>>
+>>> What I'm worried about is that this change moves the 
+>>> folio_test_uptodate() check outside of the folio lock, which could 
+>>> introduce some race? Of course, with the original logic, the folio 
+>>> state could also transition from !uptodate to uptodate after the folio
+>>> is unlocked (I need more thought).
+>>>
+>>> Another race condition that needs to be addressed is, when getting 
+>>> the folio locklessly via filemap_get_folios_contig(), there could be 
+>>> a concurrent race with swap-out (because you removed the folio- 
+>>> >mapping check under folio lock). This could result in reading zero 
+>>> data when it shouldn't (the folio actually needs to be swapped in).
+>>
+>> Sorry, I don't fully understand what you mean. It seems that swap-out 
+>> does not clear the uptodate flag, and the folio cannot be freed during 
+>> the read operation because its reference count is held. So a swapped- 
+>> out folio should not be mistaken for a zero-filled folio. Right?
+> 
+> Sorry for the late reply. Ah, I missed the held refcnt, and now sounds 
+> reasonable.
 
-I was confused by that code too, but it turns out that actually does
-hold the namespace_sem - it's just really hard to see because of
-__cleanup() magic.
+I've just sent out v2. Feel free to comment. :)
 
-path_pivot_root() does LOCK_MOUNT(), which is a macro that expands to
-LOCK_MOUNT_MAYBE_BENEATH(), which expands to something that calls
-do_lock_mount() and does a `__cleanup(unlock_mount)` declaration.
-do_lock_mount() does namespace_lock(), and on return from
-path_pivot_root(), the cleanup handler unlock_mount() calls
-__unlock_mount(), which calls namespace_unlock().
+https://lore.kernel.org/linux-fsdevel/20260601055704.167436-1-chizhiling@163.com/
+
