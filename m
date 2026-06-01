@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A6D3BB12A;
-	Mon,  1 Jun 2026 13:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D0E3BBA0A;
+	Mon,  1 Jun 2026 13:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322241; cv=none; b=HJNuMdxumMROftBmEOpps2HJtoN7W14GNL4ltY/84+PuRbWFd+AEOR85rpE3NF2yLZSMYjJsP9ihZoXAyMI+vFcvyDMiGt2LcuLr/7F22Pm+3yFLXkE/fTTga5yB0ESu0wZDhpnerTfbDU5G6MPcxpkUHeex1MQ3f56LhjT0E+g=
+	t=1780322243; cv=none; b=E3RLh6hellOritJFM5hCOWdsjBIU1eQXfozSZrh+UK1tr8TmLghV5kYgYtHoWCwXV3g9JTOgJt5bH1qMe4HtIOXbGJfDT42PXiJa2fxDyFTKq4WB6yI1rGL+9pSouSUAP3rWP1hVbab6YwX+lqzKQlWBS9XfFQMW9S3ne4RPeLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322241; c=relaxed/simple;
-	bh=jZu8M0n+dKdGzUCCyIpPQrmaPkWMSz/q9u6Z1w7pxx4=;
+	s=arc-20240116; t=1780322243; c=relaxed/simple;
+	bh=WbM5yrbUDi3/A+W4ocvtE04HeGFEymTz1EUeNC3DQ9E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BOsy8XGPBlLAjjgbOfPuBjvae7Q0g1l+W9aHSokWKyS6LZh3ZwP2P2tR5R5/b87NHu8R93nuGNC2bqLm0AR+SeOCYNhcN7JPhD15E7tD4zrFVSe1x9bANqr7KZnqZETFa9PhHpELBdsBQztY0FFuO625B/14T7CyoZbGuqkb0BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCKwB2a2; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=tiaWekMosy15mVwS4M4KVlauwJ+Yod/XjtYDgOPcWYDU4kld4At5qQobWdef/DSsHZLs8Fugzifj7TQIz/RcrTDvSDBCYUXmqR6US5X/R0eZroez8gljvqGfQNTnfKt5POwhwPgFFUBIlDGLpYFs4VEiqwefKdiKwAtajbouWeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A697x/VJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCKwB2a2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1C7F1F00898;
-	Mon,  1 Jun 2026 13:57:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A697x/VJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4B781F00893;
+	Mon,  1 Jun 2026 13:57:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780322240;
-	bh=RxyI8sQQsQSUFxhc5pSDtl0L207LrmPXq24mekBd1vM=;
+	s=k20260515; t=1780322242;
+	bh=d9dIeMI3yeIFwM0OgiOFJGaxPa/9AVWdbWSEQYd01rI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=SCKwB2a2NLyvNiI9El9yu+kZJGYPxViY/PBpnwuUuwhqb6XiiirAGCgbAUYz1dFk4
-	 p++Z6nZY3qKncRrMGA6ys21JOloK0StjcfoRcTeNAZMg2L3e6GnypQQxLbOIuAXAEc
-	 wFbHrmQ24qtCdzV9Ccs5i3SVZEBbjyZAmbxY0R9KXbbwzlN9gF1W4Bic2IKTpp5AnD
-	 5Tkann5mFokEZYoQKTh9+1VfEuK3aLlBlCqythVQ8pW/qWmp4bujp7m7k32FZalJ30
-	 M8xi3hgVMXhFe65nLJaC/xSE2LwE152sc/3UCdVJBikHjRnqxaDRfp3epFgd27ilUl
-	 H1ni7SLFbd+TA==
+	b=A697x/VJkMi9C2hfKl3QiVjXXBZeTe8qGULFoPJEW21rCjd+knpjKW4vyLtRkCWyR
+	 KKj9OUJHX17w/NU2DJH7S2Lv2ISbtirlGS7Y6tUtX7G6Rfp0dTztuzrnLq0di3eU19
+	 D911DXBnSWAzkJpDvoWhLDzRxJpnp04V19Pgnhy2YioAeyFCqJlwKf8y/JIzZ+GEO+
+	 HkRxNIaD0YGl/MjWxFNSwgf/Y9xoyCQ2fdwFESdvNJNzekdEPqq2km/dW3CVFynGuO
+	 zz+czLX0sBO2oe8z/W7j2kMsX7RyrhNQz0Hw0bfEnpUQuxPXwIsQYQdwBd0HXYWAjG
+	 otfimhqgXF0HA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 01 Jun 2026 15:56:44 +0200
-Subject: [PATCH RFC v4 11/25] coredump: use scoped_with_init_fs() for
- coredump path resolution
+Date: Mon, 01 Jun 2026 15:56:45 +0200
+Subject: [PATCH RFC v4 12/25] fs: use scoped_with_init_fs() for
+ kernel_read_file_from_path_initns()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260601-work-kthread-nullfs-v4-11-77ee053060e0@kernel.org>
+Message-Id: <20260601-work-kthread-nullfs-v4-12-77ee053060e0@kernel.org>
 References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 In-Reply-To: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,55 +47,56 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev-fffa9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1550; i=brauner@kernel.org;
- h=from:subject:message-id; bh=jZu8M0n+dKdGzUCCyIpPQrmaPkWMSz/q9u6Z1w7pxx4=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i+bXbtYQfNQmpCcWpjur/Bv62b1+Vr0qq0u3Caen
- zFpml1hRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQM+hn+F94o7GBnM9u2/cH8
- PonQhgrFbds0XFl4/HdK67CmR7QUMvyVSa6d+dk7r/LUtq8yZgWdrZwvKz8c3Pavi9Mz48i+KTF
- MAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1336; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=WbM5yrbUDi3/A+W4ocvtE04HeGFEymTz1EUeNC3DQ9E=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i8L+6j7zPs0252GZclzOdKFt+/ir5XmEgtlMMqSt
+ P4gNim0o5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCKTMxj+xzp49oVpGK/UPnVz
+ j/3mqWZBl4RSlH5ddmxldK283cLpxvCHc2PGz7A1d7zzN0hdy/rIJrI198lm1TlNdoa7T5Wn665
+ kAwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Use scoped_with_init_fs() to temporarily override current->fs for
-the filp_open() call so the coredump path lookup happens in init's
-filesystem context. This replaces the init_root() + file_open_root()
-pattern with the simpler scoped override.
+Replace the manual init_task root retrieval with scoped_with_init_fs()
+to temporarily override current->fs. This allows using the simpler
+filp_open() instead of the init_root() + file_open_root() pattern.
 
-coredump_file() ← do_coredump() ← vfs_coredump() ← get_signal() — runs
-as the crashing userspace process
+kernel_read_file_from_path_initns() ← fw_get_filesystem_firmware() ←
+_request_firmware() ← request_firmware_work_func() ← kworker (async
+firmware loading)
 
-Uses init's root to prevent a chrooted/user-namespaced process from
-controlling where suid coredumps land. Not a kthread, but intentionally
-needs init's fs for security.
+Also called synchronously from request_firmware() which can be user or
+kthread context.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/coredump.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ fs/kernel_read_file.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/fs/coredump.c b/fs/coredump.c
-index bb6fdb1f458e..4c81182e2c63 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -922,15 +922,10 @@ static bool coredump_file(struct core_name *cn, struct coredump_params *cprm,
- 		 * with a fully qualified path" rule is to control where
- 		 * coredumps may be placed using root privileges,
- 		 * current->fs->root must not be used. Instead, use the
--		 * root directory of init_task.
-+		 * root directory of PID 1.
- 		 */
--		struct path root;
+diff --git a/fs/kernel_read_file.c b/fs/kernel_read_file.c
+index de32c95d823d..9c2ba9240083 100644
+--- a/fs/kernel_read_file.c
++++ b/fs/kernel_read_file.c
+@@ -150,18 +150,13 @@ ssize_t kernel_read_file_from_path_initns(const char *path, loff_t offset,
+ 					  enum kernel_read_file_id id)
+ {
+ 	struct file *file;
+-	struct path root;
+ 	ssize_t ret;
+ 
+ 	if (!path || !*path)
+ 		return -EINVAL;
+ 
+-	task_lock(&init_task);
+-	get_fs_root(init_task.fs, &root);
+-	task_unlock(&init_task);
 -
--		task_lock(&init_task);
--		get_fs_root(init_task.fs, &root);
--		task_unlock(&init_task);
--		file = file_open_root(&root, cn->corename, open_flags, 0600);
--		path_put(&root);
-+		scoped_with_init_fs()
-+			file = filp_open(cn->corename, open_flags, 0600);
- 	} else {
- 		file = filp_open(cn->corename, open_flags, 0600);
- 	}
+-	file = file_open_root(&root, path, O_RDONLY, 0);
+-	path_put(&root);
++	scoped_with_init_fs()
++		file = filp_open(path, O_RDONLY, 0);
+ 	if (IS_ERR(file))
+ 		return PTR_ERR(file);
+ 
 
 -- 
 2.47.3
