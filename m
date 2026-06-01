@@ -1,213 +1,162 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011019.outbound.protection.outlook.com [40.107.208.19])
+Received: from mta21.hihonor.com (mta21.honor.com [81.70.160.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7493CA6B;
-	Mon,  1 Jun 2026 00:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780272574; cv=fail; b=b/NipJO7F9x6xnmLD0ovZD0w/sOAovoiesMYtlQcPKt0G6JsaDB+mu24ceOBxoiiBdiD3JthuMXlAl0I4HMvKv/fBeX4IRLWL4/XLfh5LVQMLVvAPpLWx37jN0cd3LFeyaswhWPyPadEx7CT75nXK4MSvLXX+OO+oh5CjdmIZK4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780272574; c=relaxed/simple;
-	bh=7tps6icoXuo4Pl4JMOam5VqT3onv2aZA+dx5pvqLoSM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rpLf5Z4OqQg1Vvndh6iQcStt/ST6/wFSkVi33kRl+whrDDY0+h97DXz6QXEi4DwQnvUw8hO6TLZvGm84e+THi9cbRumhp8Ede/nFyS5a+WDxTPo218vvfKvr/K0wZPV8cMkq9pIPXeutrcvcJUIj+DutZuGWo30uI3HfR452T8M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dpezZFJB; arc=fail smtp.client-ip=40.107.208.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dpezZFJB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RZrMn4yEOaHKgupsHQ0+GaJlra7CR+EvHs7tOy9QgVqRlwDqVG86blQgc587byepCjeo9yPG/zLRO+j9vbb520GQuAw1uLuM2wH3qEOFV19HAYNY0V4YOZObvVhSTvRH7jXuvscSNTVzu9mQIaVD6AiBntlgzZY/dJ8vmrOyVlkI8N8xvr0tD83rFL0/6+Nu9dbAB/H3Ah9nGVlPJ5BzFoatu4cAto/ql9keM/5VnJQhEzq2sL1SCJfYFEv/VYx1snvkN0qZyoEAqmF4rnXq1UpSN0/R2eM/YLx+piCEbzw411nDQHXr+/HQYlMY+89prefizrQ2Ew1YnAWLBtjfHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sXvOXmoH94ctsAUAlNs2XBlcPKY38xDWXQCOSo8ZGh8=;
- b=w8EO1XyQRm3fM3VJzKzpgb2XNX+K8mgoDxxyecA2EP912cMb/opq6QZu2ZdOrLs2XYfMIuJWKC4aGns0myqbjmBEXgsLt8pkOYX1qmUvHAqESH9l3modxGVV4vQSOY8FTbLzesn12rjLkRCNg3P/Mszjhi1BH4PtRt3gREb4agp7VC9TC5O90jk5GNd9YEekV15J10llvZWqWYwf6aiiFl1Ax/7eiFJBxFa/KuofUJJQ6kWvtrX15nKhD1bSzRp/vfYMt8w5srNV1mtgmF+A/w1vUrx5k4Om0ufH47iuBlJ9fuuBjLGuR2cXxLoVftoN2GgrU6MRkg84+BW0IrCuhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sXvOXmoH94ctsAUAlNs2XBlcPKY38xDWXQCOSo8ZGh8=;
- b=dpezZFJBMmiLxR06WrCsKPqv4VE7nik9NJLKHJxnQ6TY8vUJ3sCixVdYu4hz4hYdM1+9AvvbhMfTNkkeo2fmvMK0L/844w930mWSj7zM18VFbRjS6ylhdTyTvuUqOvpPCwHX/2i05viPyzg0rpiducez1YvAJ/Ke4qeu9H9T+Zw1zros6xWow+ctepaLf/NJnGp37n8nEIZS2FCeuuJEIPRX0UOkXbLPkoPpwMPurhgrWnuXxHLbP5Z+/F6sAyPRyu5suHB0BUx/j0UKCVgo4g/q2KYhwXRFnpL+vX/a1JEXpZ6nHHPGwIfOU0r0DHIHIOhZVxC9gG2D9gFrbJK9YA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by DS0PR12MB8319.namprd12.prod.outlook.com (2603:10b6:8:f7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Mon, 1 Jun 2026
- 00:09:26 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::2920:e6d9:4461:e2b4]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::2920:e6d9:4461:e2b4%5]) with mapi id 15.21.0071.015; Mon, 1 Jun 2026
- 00:09:25 +0000
-Message-ID: <9d8bffb5-bb07-4cde-8a20-8b9b9996f8cf@nvidia.com>
-Date: Mon, 1 Jun 2026 10:09:16 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] selftests/mm/hmm-tests: test pagemap reads of PMD
- device-private entries
-To: Dev Jain <dev.jain@arm.com>, akpm@linux-foundation.org,
- liam@infradead.org, ljs@kernel.org, jgg@ziepe.ca, leon@kernel.org,
- david@kernel.org, shuah@kernel.org
-Cc: vbabka@kernel.org, jannh@google.com, pfalcato@suse.de,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, linux-kselftest@vger.kernel.org, usama.arif@linux.dev,
- ryan.roberts@arm.com, anshuman.khandual@arm.com
-References: <20260530085413.1270139-1-dev.jain@arm.com>
- <20260530085413.1270139-3-dev.jain@arm.com>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <20260530085413.1270139-3-dev.jain@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ME0P300CA0072.AUSP300.PROD.OUTLOOK.COM
- (2603:10c6:220:20e::7) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE2041C72;
+	Mon,  1 Jun 2026 01:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780278385; cv=none; b=HJzJtmr1T5gvJ5wvPu/Lnv8eUxzuKbrppt3OEG9cvItjM6zYBBs2M6Pjr4qjAA/Z+3Og8sBRuLrdwbG2zjBMntARk8cZA/JRhIoMK55esB7APmAKOXUHugY+GE6XZ0GmauEvu9S3I7YW+m8MuuDgHspxMuW61oE2Hy41Kpz+IDA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780278385; c=relaxed/simple;
+	bh=FkJk4eI44HDzOGZFIGth9gQlOvPgscM82zTqXXI4GkI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QrMCGyvQFAOQMjKBbBHJ5GtdyYc8S6veRrZxv9svDzHhhH7HsQM3AhX8ASV5wtrEecngsU6pgG48M8hYA9JqtLr5DOlvFVxVi1MJ9XUb8dJp3oflYUJB9azvNlPP0p5j+wEjKQ/LR6o51ey6TAGclToRzKEn3/c+FzwnFJGT3hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from TW004-1.hihonor.com (unknown [10.77.232.85])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4gTGwg2flLzYvXcX;
+	Mon,  1 Jun 2026 09:44:35 +0800 (CST)
+Received: from TA006-1.hihonor.com (10.77.232.151) by TW004-1.hihonor.com
+ (10.77.232.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Mon, 1 Jun
+ 2026 09:46:14 +0800
+Received: from TA003.hihonor.com (10.72.0.43) by TA006-1.hihonor.com
+ (10.77.232.151) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 1 Jun
+ 2026 09:45:33 +0800
+Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
+ TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
+ 15.02.2562.037; Mon, 1 Jun 2026 09:46:14 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+CC: Barry Song <baohua@kernel.org>, "catalin.marinas@arm.com"
+	<catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org"
+	<david@kernel.org>, "willy@infradead.org" <willy@infradead.org>,
+	"sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>,
+	"luizcap@redhat.com" <luizcap@redhat.com>, "zhangjiao2@cmss.chinamobile.com"
+	<zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>,
+	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
+	"jack@suse.cz" <jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>,
+	"harry@kernel.org" <harry@kernel.org>, "jannh@google.com" <jannh@google.com>,
+	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
+	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
+	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn"
+	<xu.xin16@zte.com.cn>, "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
+	"matthew.brost@intel.com" <matthew.brost@intel.com>,
+	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
+	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
+	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
+	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
+	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
+	"jparsana@google.com" <jparsana@google.com>, "dvander@google.com"
+	<dvander@google.com>, zhangji <zhangji1@honor.com>, wangzicheng
+	<wangzicheng@honor.com>
+Subject: RE: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
+ creation
+Thread-Topic: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
+ creation
+Thread-Index: AQHc7cjw5r5ki6LAJ0S2mW/rJEfblbYhaeaAgAGnM1D//4FNAIABAA8AgAEgmrD//7GxAIAEjCKQ
+Date: Mon, 1 Jun 2026 01:46:14 +0000
+Message-ID: <a90bcb0fa3a044588350e92a78258a09@honor.com>
+References: <20260527110147.17815-1-tao.wangtao@honor.com>
+ <ahcANgFDFwfC0v1q@lucifer> <b24b4a8198ba412f8b8b42c43dccd058@honor.com>
+ <ahf2mJg9OOWvu0jA@lucifer>
+ <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
+ <99dfc4a50f3643a6bef6deaeccfcf115@honor.com> <ahlzj--3Gm5pD9ge@lucifer>
+In-Reply-To: <ahlzj--3Gm5pD9ge@lucifer>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DS0PR12MB8319:EE_
-X-MS-Office365-Filtering-Correlation-Id: cbd003fd-abc7-4e77-7982-08debf720a54
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|18002099003|3023799007|6133799003|22082099003|56012099006|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	bNNR4VD1sCGWhFTRm+1WX70ij/1X2Gfpzy6c+ckjWfijLcZ5YRB0ZA2Ul/KSSd99eL8nIqsWVuuth8pfhS0vOr+k79NA7z0TLH/kSL5qxp8xr4CLyoqof9ZT+9papptspaAnkZuzeZOo7d0+c/Zu3usXuqb+o0xWTJXwwtQ9sKdXet1V9gFzuY/WTC7zutlxQrGqLgHx4c9c3lUn/HFVuKNX9EMOCLbJG3RdK8mRXbPsZlEtNUGJSOw6SEA+QWtaIFTeNmVj32coDcCsocdbJAZOEvygJ0mK7yyJjLy/NUKQBbndpAGgzeOQwUt/bR9r0/Y2D08giJop3oXNAO8oDP8AxR8Pw8DiWYnkoNNS+ZOxRi2Xtcb6yDhqnebsA4wQHe8B4BpPvPpKRNCvZysGvQZDE7H+O2IGvqKc8Ql/hTzrceIq0ORtebUI5Za9J72wWF6cGnPKED9/lZMKtGcZLezpjX1xyH/IklguZVfjRFfhn8wkLU5tl1BA64Zq5xQ890YFw8UH5bNHwKguVDrCvNB7uo7HpAZ0hYFI5po1/N4v2P20MfLNP/pSHTcPyVMNhnhkfhym29RELxPwKfwFJcBtuwKC5zFoUC853P/QgrBjW6gfqZCvHYepiYCYiJ4R0TwDtiSUka0xGvPGT24nonhTVxGiG3ilGDSGHZXNV6+rO9+l8631p2tiDbdEkmIk
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7277.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(18002099003)(3023799007)(6133799003)(22082099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?czg4S2VxVDJpYkEzUVZQMEpIUDQvRzdEQjcvN25FM0FKK1lMbVZhMWlZRDBh?=
- =?utf-8?B?MTZCL29QbVlnK3dpVzdvMStKdHl4NCtRSkRtSWJKS2lFczZ5UUlMRU42VVVi?=
- =?utf-8?B?c0NOQnZUbGs4VHQza3ZueGNOZnJSc2dpbXpjOStEemRpYk9PYUZIcC82enpk?=
- =?utf-8?B?QlZOb1FYOUJxcm5qd1cvSlQ4QUxIcXJwaWxVak4rTis1cFJndUZaYXE3SGJ1?=
- =?utf-8?B?WW51TFI4b21GTGtHWFBaUm11ME5MeU0zRDR6RjRNRWFycXp5enVUNk1TOTJR?=
- =?utf-8?B?R0RiK0U1S3F5aDFOanhpK3Y1czB1cml6c2FQYU04QW43a0ZaWFV3eEVncTdx?=
- =?utf-8?B?cGVBaUVxZ1BlQjBvREtGMlFEbU9yNklrNFRlbTZXdkRyeWJvTFhHaENWUVBl?=
- =?utf-8?B?VkdCcHJxL2l3WWptQWJMTnJVaXN3QkdGM09MTm1uZmZDRkNwT3V5YXk3V2Jy?=
- =?utf-8?B?dXRQOHBvdjBXQ3ZsSVBKdzFxRlR5RTdDNnN4bHE5ajVqaFhwYUF4cVl0Mm9M?=
- =?utf-8?B?SWw5aGZLUXlsN2lNbjlERGJPTVY1YWJjMVJuYmtNWlJ6REpENzE2dTNuMEht?=
- =?utf-8?B?azcvTWw4SnFSTExCWUw1Wk9GSjZweUY3d2xsbm1XNWw3UzFyQy82VHQ5MDlM?=
- =?utf-8?B?MjIwNExpd1l5dzNiOHhaUWRXcmpIbzNkWElQRzliblBRWFFTeW1rMDlaNG0w?=
- =?utf-8?B?OEUrSmlwL2pUSXdPR2dvYUxCZUk1SHkrSkdNeTJmY2MxaVVmN3hQMXR1dlE3?=
- =?utf-8?B?T0tnU0FEaVByRC92NHMzMHhva0VWWjlvNVVXaUtTZ0pydDV3Tm9JY25Lcm4w?=
- =?utf-8?B?bXRtNFN1Ly9WK3Q1Vlh5bXBFM0c5RmFMRUVFRkIycktPeDRDWVF4WVF1YmF2?=
- =?utf-8?B?V21KcE9kcTlxdjZUVVU3UGpCL2JFSDVpMytNNHU2cmhSZEwzVVpjb1ZaMW5V?=
- =?utf-8?B?ZFBJYWNKWlllYU5EcWpTM1dBek04bEIwZ21xbXkxWFZQRmF5WjdXNjZhdHg1?=
- =?utf-8?B?RDdNSGlzOE5BZmhGcjVLSUdFMmxJMnVlVUJ1WUwrS3grL3lKSDhHSSs3SzNw?=
- =?utf-8?B?N2gwVWc4b1M2VWx0OEFMaEhGRDBRRUI5TmZVek91bHZtV0g2ME1BQVZ2R3ds?=
- =?utf-8?B?bkJCRGRiWkxPYWVzR0gyRmNBazh2aElIRnNNaXFRYW9NWjgrem1UMHpISmZL?=
- =?utf-8?B?aFFvVDJhVUJuclB5TUtHcGdKSkNCeHBBT0hNbG9QNWRkaXA5eEpzZ2hoSzNU?=
- =?utf-8?B?S1ArRW9ETmhzY3dKZ1VJS2NRdWFVMDZoelhyQUxsM2hRR2xFUEJ5aHZFWXI3?=
- =?utf-8?B?Qlkwd2MrdVUwaHVPWldOR1V3ZzBYRTlJVEpOVy9sZXBNeGNVam9jLy81SkZm?=
- =?utf-8?B?ZzBRdWsyM3Q2WU43ZVlSV1pzUHlNbVVSM2IyMGxEZDJEeXFhS3hXUXVXK1VU?=
- =?utf-8?B?VUhxNlJ5T3RqbzN3dWlLUWpRT2t1Rml1L0dvYm41d0I4UFRxK056ejJxN2Er?=
- =?utf-8?B?VEtyaVo5WGY5U09Ua0FxQ1JvZTA4U052QWM0cUlEbTRtRlROcEhkdDRUUWN2?=
- =?utf-8?B?Nkxtd004YzlYdkJSdFZJc0FrVkIvaExMdVJhbVN5V2p3bDJZN1EyUzhlRU0z?=
- =?utf-8?B?UG5JQWhYcHJnWERHbFEzUStBY2w1dWpidWFnTVAzSTgxSTJIdWpkZGc2dDc3?=
- =?utf-8?B?VXI5WXY2aVFqODBEN00zQjZudTB6bWl0NnIrVkdMbk5KellWZ0Y1ckoxUDZJ?=
- =?utf-8?B?SUJ4TDZLUjRwelJURTdOam1qQWFzUHE4bmp3NzRWRlF4SW13QlNyU3o5cVBq?=
- =?utf-8?B?N05UZ3FVRDVDYmNNTnIrZ0xCZTk5Rk12dGF1QzhPczl1REZOQ1ZtYkhvSml0?=
- =?utf-8?B?MzRyOVY3MzdLOGJ0bkdqbzBOR2M2WDJyUG5US2N6S3NlMk41U3A5dUJ1Nktm?=
- =?utf-8?B?a0ZrZExuclRKTkNpRDZJWFBGOFFQUEpZdGwvWkF0SC9Xc2UrUTJxbStkYUU5?=
- =?utf-8?B?WFVDQUp6QmFXelBNUGNWMGFTU1RIeDM4RWx2bEY1N21TcjNudmRhQXNWVC9D?=
- =?utf-8?B?Uk1yRXZNbCtQTlBxckxMRVAxUWpBcWNmSHVqVmE3b0hxUzFsMkhvUUhPdm5B?=
- =?utf-8?B?L2toa3g5ZDFuSWcvSnFmSGxoUUlBL0ZTT3lGSzhpc0ZoOXpmRUJNNGY0QkJy?=
- =?utf-8?B?YmRQSzh0eXNDNlhKTk1TdTM2Mlh0NFFOamdQUCswK1JjK3MydlJmZ1hHaGZz?=
- =?utf-8?B?eHZkN2h6ckdHVnB6M3ovWlJ4OUs2NHQ3b1pJblk5cDJXTWxTY2ptSDhJUndx?=
- =?utf-8?Q?odyfQzZIPuiutUwoCu?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbd003fd-abc7-4e77-7982-08debf720a54
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2026 00:09:25.5485
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nL2AOZumN7Apuavc39rdgXSTtBpH5q7er4mY1WzsvsVbPnGOc3xMF1LY3cDlaUvqDl9ZjuMnm3PgrwYlKJziCQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8319
 
-On 5/30/26 18:54, Dev Jain wrote:
-> To cover pagemap paths scanning PMD entries, add assertions to check
-> whether a device-private PMD entry has the correct pagemap information -
-> the PM_SWAP bit must be on in the pagemap entry. Before that, we must
-> assert through HMM_DMIRROR_SNAPSHOT snapshot that the leaf entry is
-> at PMD level and not PTE level.
-> 
-> Signed-off-by: Dev Jain <dev.jain@arm.com>
-> ---
->  tools/testing/selftests/mm/hmm-tests.c | 29 ++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/mm/hmm-tests.c b/tools/testing/selftests/mm/hmm-tests.c
-> index e1c8a679a4cf3..d09d4a9081de1 100644
-> --- a/tools/testing/selftests/mm/hmm-tests.c
-> +++ b/tools/testing/selftests/mm/hmm-tests.c
-> @@ -2276,8 +2276,11 @@ TEST_F(hmm, migrate_anon_huge_fault)
->  	unsigned long npages;
->  	unsigned long size;
->  	unsigned long i;
-> +	unsigned char *m;
-> +	uint64_t entry;
->  	void *old_ptr;
->  	void *map;
-> +	int pagemap_fd;
->  	int *ptr;
->  	int ret;
->  
-> @@ -2318,6 +2321,32 @@ TEST_F(hmm, migrate_anon_huge_fault)
->  	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
->  		ASSERT_EQ(ptr[i], i);
->  
-> +	if (!hmm_is_coherent_type(variant->device_number)) {
-> +		ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT,
-> +				      buffer, npages);
-> +		ASSERT_EQ(ret, 0);
-> +		ASSERT_EQ(buffer->cpages, npages);
-> +
-> +		m = buffer->mirror;
-> +		for (i = 0; i < npages; ++i)
-> +			ASSERT_EQ(m[i], HMM_DMIRROR_PROT_DEV_PRIVATE_LOCAL |
-> +					HMM_DMIRROR_PROT_WRITE |
-> +					HMM_DMIRROR_PROT_PMD);
+> > Previously, I also considered converting anon_vma's rb_tree to a
+> > mapletree. If one entry records a single VMA, the average overhead
+> > could be less than two longs per VMA.
+> >
+> > However, unlike rb_tree, mapletree does not support storing multiple
+> > elements under a single key. The key would need to look like
+> > (vma_id/mm_id + pgoff). On 32-bit platforms, since 64-bit mapletree
+> > keys are not supported yet, the remaining
+> > 12 bits are not enough for vma_id/mm_id.
+> >
+> > Because of this limitation, I later started thinking about ways to
+> > reduce anon_vma allocations instead.
+> >
+> > I will try to find some time next week to analyze the cow-context
+> > design and code more thoroughly, and then write up a summary.
+>=20
+> Tao,
+>=20
+> This response is so full of misunderstandings it's not really worth me
+> responding to any of it. You've even hallucinated an imaginary field whic=
+h is
+> REALLY suspicious.
+>=20
+> You've no mm expertise or history and came up with this in a few hours. I
+> asked Claude to analyse it and it puts it at 75-80% chance of being solel=
+y LLM-
+> generated from cow_context.c.
+>=20
+> I simply don't have the time to deal with this, so unfortunately I'm goin=
+g to
+> have to withdraw the suggestion of further discussion with you on this to=
+pic.
+>=20
+> I am working on the scalable CoW project and will solicit opinions of tho=
+se
+> with relevant expertise.
+>=20
+> We are not interested in your approach or analysis.
+>=20
+> Thanks, Lorenzo
 
-madvise(..., MADV_HUGEPAGE) is not sufficient to guarantee that the allocation
-was indeed converted to THP. Might be worth using the kpageflags interface (but that
-requires elevated privileges) and then KPF_THP? Otherwise the HMM_DMIRROR_PROT_PMD
-can be a miss from time to time. One other option is not to assert, but to check
-and inform?
+You said discussion was welcome, yet when someone offered even a =20
+small comment, you refused to continue the discussion.
 
-> +
-> +		pagemap_fd = open("/proc/self/pagemap", O_RDONLY);
-> +		ASSERT_GE(pagemap_fd, 0);
-> +
-> +		for (i = 0; i < npages; ++i) {
-> +			entry = pagemap_get_entry(pagemap_fd,
-> +					(char *)buffer->ptr + i * self->page_size);
-> +
+If I had known you would be this inconsistent, I would not have =20
+replied to you in the first place.
 
-If this is a THP entry, do we have valid pagemap entries for offset of i * page_size?
+This will be my last reply to you. I will not respond again.
 
-> +			ASSERT_NE(entry & PM_SWAP, 0);
-> +			ASSERT_EQ(entry & PM_PRESENT, 0);
+Consider the following test case:
+Process P creates 1000 VMAs with mmap, named vma_1, vma_2, ..., =20
+vma_1000.
 
-Nit: You can use PAGEMAP_PRESENT()
+Then it forks child processes C_1, C_2, ..., C_1000. Each child =20
+process C_k keeps only vma_k and munmaps all other vma_i.
 
-> +		}
-> +
-> +		close(pagemap_fd);
-> +	}
-> +
->  	/* Fault pages back to system memory and check them. */
->  	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
->  		ASSERT_EQ(ptr[i], i);
+With the current anon_vma, reclaim walking each page only needs =20
+to handle two VMAs (vma_k in process P and vma_k in process C_k).
 
-Balbir Singh
+But under the CoW approach, reclaiming each page needs to walk =20
+1000 processes, then spend O(log(#remap_entries)) time to check =20
+whether a remap_entry exists, and then O(log(#vmas)) time to =20
+locate the VMA.
+
+Both the code complexity and the time complexity of the reverse =20
+walk are much higher than the current anon_vma approach.
+=20
