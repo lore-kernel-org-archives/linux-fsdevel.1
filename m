@@ -1,127 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1E1175A80;
-	Mon,  1 Jun 2026 01:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978CF13D51E;
+	Mon,  1 Jun 2026 02:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780278748; cv=none; b=fel44mgj6Cjx/Zu1rvTOQAyEHiTkVauBHwYN4qSEMHKrKf9WgiwR5RChQRE1o7mVT/Ui7G8SyBm3vQVZZObSSoGuowSQdsJQrnqbXmKVmXqcPpdwIE7dF7aRbYMj56KcHHRmfL6fS1yKW2YQN95ze4T3pp2cjtqPoF5moFKf+BQ=
+	t=1780279802; cv=none; b=D5ksUUaRgr2B+b3dBEdWcz8JhxKwJnCsNagmj9S9cuaAeFX2xuPcck4UXl+vwTy3tAuZDPPfDRXbgBhI5Lcepa2UXBDuWf/9wtIqZFU5aTTidNsSTcarawvkJpUtKkxS9a8ACbXyAaskmkZkU0gSJE+9632vOYL5+wuImaAQ5c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780278748; c=relaxed/simple;
-	bh=6FDHJIS2M8GTEoiYYDurmOWlUc/Ls7kEkJeXBl+EGEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NYVADZ+x0aZJGHnCOK+4vQtAbx13JLhM9jjmWd1cvj8goI+8iMzF9glpXhY6nzsi+Jem5ppMBRj3vTGLm1RyUM07+54Ukl1aT7ZipvEg2mDBe6b+skpgoSP9iusht0MkGIOeL6PH49zGH2jTBLPev/fAbRCOYcSvI9q/q0pOWs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYRH/paM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780279802; c=relaxed/simple;
+	bh=8rwiN+OUP0Eg5TvzN3ecW65ywr8EZNtvIAZcFPQ081U=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=G0SipbfxiP/cMQixEBFk5N1sZ2w1GdbR9Qrzqh/Cu7ENOJ4Hq9/e/vY3UY2Kz0BN1JZvVyFhnWnetsBX7zMH5qXTvQVIqchhsWeFcsfeMUHrsXxG8+uFs8GKGY+6MOvrVtys8Azm5XP2qF4VkcdlGbJ/LB1rIcSNx6WT6jejShU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=KCCZo4Fn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=q+IgCyLH; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYRH/paM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F8DC1F00893;
-	Mon,  1 Jun 2026 01:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780278746;
-	bh=vZcu83wQUzh29/MUzPMLQS8Iv0nVsOwsxAWqxDDGj50=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KYRH/paMfV8BeCgbYfsHMCWqDOtr++JkRKX25dlTAVmIboEGh885kBK9CuL9tV7tr
-	 8pqNVZlKj2Z5eqkBjCOdCp0sLKsojv97UUmTic4Gw9ws96ZOStR0P5qLHeNR5VBGoj
-	 3LqQJbi8ZclVXzUncbIJ1wqdlIzloAzt9PJuFY5D6+UiIWk8GmIvoBVVeICbzTfjsC
-	 Pd4h54Ftu3TrtIx88YUPUiS7ncpHA0KUeMphtpkxg9lh+Ru7ktMSIfDkYD33de5fyM
-	 gU8LQy89ioRQGwY5FsyGgbwGBRpqJv7qJ25cTr4qdLpzf66OxtRMqTcc+ABTwEWkQp
-	 AbzOUsuArFnkA==
-Date: Mon, 1 Jun 2026 01:52:24 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Barry Song <baohua@kernel.org>
-Cc: Theodore Tso <tytso@mit.edu>, Bart Van Assche <bvanassche@acm.org>,
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	Akilesh Kailash <akailash@google.com>,
-	Christian Brauner <christian@brauner.io>
-Subject: Re: [f2fs-dev] [PATCH v2] f2fs: another way to set large folio by
- remembering inode number
-Message-ID: <ahzl2GM1OGsBz9mV@google.com>
-References: <ahCNmWbcd_2lAJyk@google.com>
- <20260522224108.GA18663@macsyma-wired.lan>
- <ahTzHyHBL8t0iNBR@google.com>
- <ybmbjekuvzmaw4hmlxd7nxs546dqtwmxqxwyali74d6m3u7tat@b4q3japqnhrl>
- <f4e521ac-2381-49ca-8dcc-3cb3cf3ffaea@acm.org>
- <ahaPDHiXcJoVShPv@infradead.org>
- <ahcU5xbVy7xjps02@google.com>
- <ahkl52N3RDcusCNd@infradead.org>
- <aht812OhSPFqIBPK@google.com>
- <CAGsJ_4yJihngSY0GNcc+MwPHJjpF1qCnS8-UE1GwYoNDtEm9mQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="KCCZo4Fn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="q+IgCyLH"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 477CC1D0016E;
+	Sun, 31 May 2026 22:09:59 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Sun, 31 May 2026 22:09:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1780279798; x=1780366198; bh=qvxnqwf4UifI+LQ3v+BCO7M2QwLlydH+REb
+	VyeK9NEg=; b=KCCZo4FnNEhMHerfGxPZpwNVMErXCk4zXay0+6Dhx6DMM7xqyl3
+	6W1hXOBHASQCfo0P+UPuamhYxjgDLpNE4Qh7DpNBTXic6CoZC+ruL5S9+NEeNT3B
+	UCFYf8zH3VrZreIDL+n2o+SuVrfDQ6PPURbsRZsJQSk+9ni6a0kL4/RbnUviCtV3
+	JIXMYOuzBowULGt7kW7yVfcX9GWd7rijbpOSN8y53QqW6R+l0bYRpbwLjNwIYODQ
+	AL0hmydC/Dm400+eKPcUOp9Azmn5CTzEtMAaFMSTMHXxSf5B2CncIb8Mxg6DqWUG
+	D/eQGg+OcO5vSaVB/UQp4vYukIn+nkN1WFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1780279798; x=
+	1780366198; bh=qvxnqwf4UifI+LQ3v+BCO7M2QwLlydH+REbVyeK9NEg=; b=q
+	+IgCyLHL97EpvTLnK+Nd5mGWTCOe812bJHI6dAG3OoYD29d9SFxDRrn23ffM0b1e
+	6clkGtNJMz0mc4+EhX04VlMw09dI6KFpbxpBrB/8oURtn5PSoBuDr2dabnv19egZ
+	Wn0cUEx2hV6B/E1d9HRb8DYmr1tNAZVC/0v0hidUcAWUjuWstPkOroTiuEnuAmLG
+	3TD5y5VQ2PxFuNEoHwyPGZ3oYh0THMuY1td9byMWA0SxJE4hVY9qjPdTeoi9bb/P
+	bJ7Dhjc8lBHLAYFYLvMpxdHOuQodbitslWXraXumjXfWjO9zAaONi0ljDk59HHRp
+	7mG6f9Fwf0EXR6rxBlEQQ==
+X-ME-Sender: <xms:9ukcaivyJGyEZDKKtycPuXOWfGxaIbfHG_cFMSrAbysNTkz0KAlA8w>
+    <xme:9ukcavrOY4mKi-g-_QddZmsgsk5vzumiYcK4UHF7qNtJhS7XXfgQWR7bzxqi7gM6F
+    f8t1zH0IZgNC5G88Af43TJVIXhO9s1ZIqLz4PWiQyRiUFtSbao>
+X-ME-Received: <xmr:9ukcapV-Zk9I4niIAHsHdyGe3V-psOEqjvBRgl5q9cRSjEte97QqBGTHFrlqXaWylH_kDCndL7eTjmUbRWb-AqUOu4ukqnE>
+X-ME-Proxy-Cause: dmFkZTFtPJjajOHYkxtbpmwrc593mBdNxXqYqWoGjd2pt1HSQkuIZP9u0IuYOa6+owAHzp
+    /plzgH0fpAsOYXvTQIkWTZ6T2yqx6yJQp84mQiksEslTsULVlZYKQtZa0gbP8REnAv63rB
+    YL0pmVrevLClRLM/XOheTaW6QaEnjkwd8M2WkNUzN7omYf5RHlrp4sxNteLJoblgbH/soB
+    jUWMQZf9IAxiW3gMC24a+RAf+YN2mlE67u8D+AXSGOQrOiiFVD+6HS060TYPAVU+DEpASz
+    J7EOnAzeUvvDKLG7viJ1Ut8l0h0EkQiYWZaGnhmmQmFsC1z/fKtLMboGf2wBQeiRFcFgHR
+    0hGGjv12ilTB5V55VE5xvKEVaW2d6W9roJZ8aRcBsbUpr3nM2I2IXMIchJW/Ri+dBNWVA5
+    E4ogRB9hFa0D0yAyJW102GBnpikRENTYBAr4T+40VYtPQwFHU/SQN818VPoqKqw9P4RQrw
+    8Ac6cOwOYACIao0hVdWi9c7kkfLathSkXZJ/T4XZIpll601Z2FuVfpjFDpXed48xxYpl2z
+    Zzwr80gia688nAUtoV8R12PVdy+ZRTtNHlor46tTJVUoSmijrwrXRUGcBcvOYNjrXEGxV9
+    J9rCGtuXL0mXeZGR36Vso/TO13DCvoSNl2vfGmRCB4rYTaWW8DUU2tAD2Z0Q
+X-ME-Proxy: <xmx:9ukcan1JMi4sFlaW3obl1uDcphrz0juy90BYdWXgqdPnrie0i34l2g>
+    <xmx:9ukcauvb-fWbMgW0b8P8olJfuIZGsjQM9L1rS4061F1LPkrF0WAdpA>
+    <xmx:9ukcavWXgLRgtyHZYd86kCGFgXHnjBY4XuwtOm1PBfSrgMLJwPrUIA>
+    <xmx:9ukcamzs7b48ihdf3asf_8DdXhWQOk9P6VnijT-4L1fZ6_Mj3EGkiQ>
+    <xmx:9ukcaj32LIXzsqriuKQgiUu9xX-HloQwl94rMWTRASZBq3Ow9MRprSBh>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 31 May 2026 22:09:55 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGsJ_4yJihngSY0GNcc+MwPHJjpF1qCnS8-UE1GwYoNDtEm9mQ@mail.gmail.com>
+From: NeilBrown <neilb@ownmail.net>
+To: "Jori Koolstra" <jkoolstra@xs4all.nl>
+Cc: "Al Viro" <viro@zeniv.linux.org.uk>, "Aleksa Sarai" <cyphar@cyphar.com>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Jori Koolstra" <jkoolstra@xs4all.nl>, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>, "Mateusz Guzik" <mjguzik@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ "Charles Mirabile" <cmirabil@redhat.com>
+Subject:
+ Re: [RFC PATCH v6 1/9] fs/namei.c: make lookup_last() use trailing_slashes()
+In-reply-to: <20260531182045.171711-2-jkoolstra@xs4all.nl>
+References: <20260531182045.171711-1-jkoolstra@xs4all.nl>
+  <20260531182045.171711-2-jkoolstra@xs4all.nl>
+Date: Mon, 01 Jun 2026 12:09:52 +1000
+Message-id: <178027979241.2923901.12962660679778862180@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On 05/31, Barry Song via Linux-f2fs-devel wrote:
-> On Sun, May 31, 2026 at 8:12 AM Jaegeuk Kim <jaegeuk@kernel.org> wrote:
-> >
-> > On 05/28, Christoph Hellwig wrote:
-> > > On Wed, May 27, 2026 at 03:59:35PM +0000, Jaegeuk Kim wrote:
-> > > > F2FS merges bios before submit_bio, regardless of small or large folios,
-> > > > since the block addresses are consecutive. So, I think IO subsystem was
-> > > > working in full speed.
-> > >
-> > > As does every other remotely modern file system.  But that merging is
-> > > surprisingly expensive, which is why using folios gets really major
-> > > performance improvements.
-> > >
-> > > For one doing these checks to merge touch quite a few cache lines.
-> > > Second, devices are often a lot more efficient if they see fewer SGL
-> > > entries.  I.e. having a 1MB bio a single SGL tends to work better than
-> > > having 256 of them.
-> > > The same is true in the kernel code itself, both in the submission path
-> > > (dma mapping and co), and even more so in the page cache handling
-> > > both before submitting and in the completion path.
-> > >
-> > > See Bart's patch about how long the walk of the bio_vecs in the f2fs
-> > > completion path can take.  We had similar issues in XFS even in the
-> > > workqueue completion path due to lack of rescheduling, and these simply
-> > > go away when you do the folio manipulation in larger chunks (LAZY_PREEMPT
-> > > would avoid the need to explicit rescheduling these days, but that just
-> > > papers over the symptoms in this case).
-> > >
-> >
-> > I see. That's also super helpful. Let me kick off the large folio support asap.
-> > Thanks.
-> 
-> Hi Jaegeuk,
+On Mon, 01 Jun 2026, Jori Koolstra wrote:
+> Small cleanup to use the existing trailing_slashes() function in
+> lookup_last().
 
-Hi Barry,
-
-> 
-> Nanzhe has put significant effort into this work at Xiaomi over
-> the past several months. Large folios can now be supported on
-> non-immutable files.
-> 
-> He has conducted extensive testing on the Pixel 6 and fixed a
-> number of hangs discovered during development. He is still
-> benchmarking performance, but the implementation appears to be
-> reasonably stable at this point. We can run Android Monkey for
-> many hours without observing any hangs.
-> 
-> If you would like to see an RFC, I can ask Nanzhe to send one
-> as soon as possible after some cleanup and polishing.
-
-Yeah, I was about to reach out to you. Let's do some discussion
-offline.
+I think this is good and useful but could be better.
+There are 5 other places in namei.c where trailing_slashes() could be
+used to replace the same test.  Let's do them all at once.
 
 Thanks,
+NeilBrown
 
-> 
-> Best regards,
-> Barry
-> 
-> 
-> _______________________________________________
-> Linux-f2fs-devel mailing list
-> Linux-f2fs-devel@lists.sourceforge.net
-> https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel
+
+>=20
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>  fs/namei.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/fs/namei.c b/fs/namei.c
+> index c7fac83c9a85..137d9fffbe80 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -2777,9 +2777,14 @@ static const char *path_init(struct nameidata *nd, u=
+nsigned flags)
+>  	return s;
+>  }
+> =20
+> +static inline bool trailing_slashes(struct nameidata *nd)
+> +{
+> +	return (bool)nd->last.name[nd->last.len];
+> +}
+> +
+>  static inline const char *lookup_last(struct nameidata *nd)
+>  {
+> -	if (nd->last_type =3D=3D LAST_NORM && nd->last.name[nd->last.len])
+> +	if (nd->last_type =3D=3D LAST_NORM && trailing_slashes(nd))
+>  		nd->flags |=3D LOOKUP_FOLLOW | LOOKUP_DIRECTORY;
+> =20
+>  	return walk_component(nd, WALK_TRAILING);
+> @@ -4524,11 +4529,6 @@ static struct dentry *lookup_open(struct nameidata *=
+nd, struct file *file,
+>  	return ERR_PTR(error);
+>  }
+> =20
+> -static inline bool trailing_slashes(struct nameidata *nd)
+> -{
+> -	return (bool)nd->last.name[nd->last.len];
+> -}
+> -
+>  static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_=
+flag)
+>  {
+>  	struct dentry *dentry;
+>=20
+> base-commit: 174914ea551314c52a61713b9c4bde9e42d48073
+> --=20
+> 2.54.0
+>=20
+>=20
+
