@@ -1,103 +1,284 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C24364E81
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 08:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2530038D41F
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 09:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780303622; cv=none; b=pUcfdhVeygrpeuiEKSgR2ZyLyRPxF7g9puCuEtCK1jVu0DfaHfzxhn2Vv8LBWQT/nQ+zc0qCCkPbFcSbg7hlFYxm/QCOj4+zwl7RI+3iDKZyv3CztKOf7rcTdZuuHgQ6PzeMq6RABknhLLb0MwEMubtW1JVHU7PzJg3RbYZfhbg=
+	t=1780305183; cv=none; b=uff2VYCnLHMsOH2TN796nS+Y6HXZm2zuglac5yUp17Ggq6igDtMz+u8YCR2MSFUArk1pJd2qEO5PfK3XAfgkIYu7Vx3z9Ni6NcyNqW4Og2IL5Uqq/0VpspvGd/2Nem+iiYZUe/hU5vIWqJkfWB/5wNHKe3MYYBOCvmkxniuzkaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780303622; c=relaxed/simple;
-	bh=+SlgoleeDtWEdyDxs7WBR/ZnUIxxS9gJz/TRF7FVtPY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MMYwOSXAH3xnDG9BMezrarwJtUAm0xO2G4ncyZ7YDnXZEEZs+S4CH+jNhRJl0B6ubYgbcJ3h3IOMEktFhaZa615AR7UgjPmPgQ/9007UQanIUns1c/K+jyLCdNSCqZLWJh7a8P/cAWF+OwIh9snvZaRQjXCYlu+PODNoqYo1n18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kqXvKNQw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780305183; c=relaxed/simple;
+	bh=E6J0AfQdtUgQ8af3l3p1zfrONnVzjhA2IIojUfoBS5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PO/wG8vEmUyJeRL7DxAdO+AmfkG0IQtEssxWCJtHjjA3P0mKJ/fAFIWL8KQ9rD2pNV8AIvGft6Y70ty0MGeTVBx4L3VsjujWYrwxe3F0kIyfy7rk1RqZAm7PZ+b8umke7CqmqzfrqEqn+G4Yu1lpWCzPGd729Le0fuLPKM+MGh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=y5XHMaWG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=KqifryVN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=y5XHMaWG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=KqifryVN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kqXvKNQw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C21901F0089C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 08:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780303620;
-	bh=+SlgoleeDtWEdyDxs7WBR/ZnUIxxS9gJz/TRF7FVtPY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=kqXvKNQwxWUC3X31X05/CR8gxLjoxU1TaUAIM3e810yqoRt1LI6KIEVeg/4D+MeVz
-	 nYrxCPGbmeciqeinZ230vtFxTBEnzg9uBB4AkHYpLaqhc59x2yOxCkN98HmT9YnunH
-	 izUA2yC0Rwxk4TwlMFZWJM0FDUfklxK1ZADQRYntkFIQWuJrRAWbBl1grdA1lTBkxm
-	 ec74oIK1C18TYCghqQbXRKebBoMzEpgbjn+RwSD8r4gauwTJ6dE9hAt+wR7mFHlOoq
-	 S7lXo8vVrlUmdzTfSVC/cOCmfT/9BA1AyMiVI2UdIhguCKGBUfGPF9Wwyt7754Xocr
-	 kWtDihUrkxVpA==
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-beabc001b0bso255597566b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 01:47:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8sWoQFEceVXra7uR5OdTl1WrhivQFrtvmyxKaOUOIp7Vt14nGaCRMwZzzmRSELaqoTed6ucH0wCkeCe71b@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIIwmBySNKlW1Z3pZm0DiZSU5hqc2LRaKHf4M7AW4MSngH02pQ
-	pVbc0+6/bMV2bp17Z8dxLW9WPVrT+28PYz2DZpQVJ10dKX3rWAUH7qnRCgqpV8baZqbbgLMP1nZ
-	3vpESCJd2tXR2Ga4L9y7tZCMJpU/iZEg=
-X-Received: by 2002:a17:907:7fab:b0:bee:4ddb:2628 with SMTP id
- a640c23a62f3a-bee4ddb3179mr43688766b.30.1780303619542; Mon, 01 Jun 2026
- 01:46:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="y5XHMaWG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="KqifryVN";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="y5XHMaWG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="KqifryVN"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 43DC16B84A;
+	Mon,  1 Jun 2026 09:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780305180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f3gK9fvsvIAeyvPDfPYyKS0/LpTCTS41dM3KqI6bbtE=;
+	b=y5XHMaWGPB9olVKVBTOJFGABfjRNjRzLwxXSXSHiBLtk1djhEcZkYlE+OKjQB/IfWqB6le
+	BN90gAxCyRCPk92Qyi/v4VyQtHu0RBrRZsX2vMijglmogczCq0U5l/YxPzCcRMZ4B0p77M
+	V+9ggrTGAPs8H/OONqgJdjbc0fcmxlI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780305180;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f3gK9fvsvIAeyvPDfPYyKS0/LpTCTS41dM3KqI6bbtE=;
+	b=KqifryVNi5WFmeLknzL/HW2Rdpjm2C/1xKn/ty0n914eA6BYqR4nz7+v9vrFG7YkRrwmoM
+	Cpoh/4cBR544PYBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780305180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f3gK9fvsvIAeyvPDfPYyKS0/LpTCTS41dM3KqI6bbtE=;
+	b=y5XHMaWGPB9olVKVBTOJFGABfjRNjRzLwxXSXSHiBLtk1djhEcZkYlE+OKjQB/IfWqB6le
+	BN90gAxCyRCPk92Qyi/v4VyQtHu0RBrRZsX2vMijglmogczCq0U5l/YxPzCcRMZ4B0p77M
+	V+9ggrTGAPs8H/OONqgJdjbc0fcmxlI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780305180;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f3gK9fvsvIAeyvPDfPYyKS0/LpTCTS41dM3KqI6bbtE=;
+	b=KqifryVNi5WFmeLknzL/HW2Rdpjm2C/1xKn/ty0n914eA6BYqR4nz7+v9vrFG7YkRrwmoM
+	Cpoh/4cBR544PYBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 38444779A8;
+	Mon,  1 Jun 2026 09:13:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id swO4DRxNHWoEPwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 01 Jun 2026 09:13:00 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C75E6A0EBE; Mon, 01 Jun 2026 11:12:59 +0200 (CEST)
+Date: Mon, 1 Jun 2026 11:12:59 +0200
+From: Jan Kara <jack@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: AnonymeMeow <anonymemeow@gmail.com>, brauner@kernel.org, jack@suse.cz, 
+	repnop@google.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] fanotify: report thread pidfds for FAN_REPORT_TID
+Message-ID: <sjlh32si4zbi564na7rrpnuzropsfkqd2xsf2qouskvu5cyqvk@hy7voi7i3sfp>
+References: <20260528-schmuckvoll-heilen-garen-be77b4208671@brauner>
+ <20260529020035.17477-1-anonymemeow@gmail.com>
+ <CAOQ4uxiGr7i=_H4XttS3kWKni1nT75BjnVNZM-0j2JnAHLY7cA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260530143514.3083601-1-charsyam@gmail.com> <20260530143514.3083601-7-charsyam@gmail.com>
- <CAKYAXd_-Y1Rx-sUd-2GWS+KBCkTi+DA0DtX9qaD3nT8payRbGg@mail.gmail.com> <CAMrLSE7T6ZyQZ4eutnek7irEWYDeg4im+tvSxWuEHWDgaseK4A@mail.gmail.com>
-In-Reply-To: <CAMrLSE7T6ZyQZ4eutnek7irEWYDeg4im+tvSxWuEHWDgaseK4A@mail.gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 1 Jun 2026 17:46:47 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-ZABgPfUH+JhWEy47Nx92mMZ153ZQKeBenZ9AsYBt4Cg@mail.gmail.com>
-X-Gm-Features: AVHnY4L7h8iIOtEXfvWIJkF74sF30msrRHF6h8YB9oJsv8aD47vs51td3gGuAuI
-Message-ID: <CAKYAXd-ZABgPfUH+JhWEy47Nx92mMZ153ZQKeBenZ9AsYBt4Cg@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] ntfs: validate resident index root values on lookup
-To: CharSyam <charsyam@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxiGr7i=_H4XttS3kWKni1nT75BjnVNZM-0j2JnAHLY7cA@mail.gmail.com>
+X-Spam-Level: 
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,suse.cz,google.com,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
 
-On Mon, Jun 1, 2026 at 4:51=E2=80=AFPM CharSyam <charsyam@gmail.com> wrote:
->
-> Hi, Namjae.
-> I will check it soon. Do you mean 6/6 patch or all of them?
-It seems that the generic/013 failure started happening after applying
-the 6th patch.
-Thanks!
->
-> Thanks.
-> DaeMyung.
->
-> 2026=EB=85=84 6=EC=9B=94 1=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 1:37, =
-Namjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+On Fri 29-05-26 09:21:55, Amir Goldstein wrote:
+> On Fri, May 29, 2026 at 4:01 AM AnonymeMeow <anonymemeow@gmail.com> wrote:
 > >
-> > On Sat, May 30, 2026 at 11:35=E2=80=AFPM DaeMyung Kang <charsyam@gmail.=
-com> wrote:
+> > The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
+> > exclusive because by the time the pidfd support was introduced to
+> > fanotify, pidfds could only be created for thread group leaders. Now
+> > that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
+> > this restriction can be lifted.
+> >
+> > Also drop the pid_has_task() check to allow pidfds to be reported for
+> > reaped tasks as well.
+> 
+> I am not objecting to this change, but as a rule of thumb, almost
+> every time that
+> a commit message says "Also" it means that it should have been a separate
+> commit.
+> 
+> This is not an exception to the rule and even worse -
+> This change PIDFD_STALE is an independent change of behavior
+> (as observed by breakage of fanotify21) that could (maybe unlikely)
+> surprise real users.
+> 
+> We have few options:
+> 1. Make it opt-in with yet another fanotify_init flag
+> 2. Enable it implicitly together (and in the same patch) with FAN_REPORT_TID
+> 3. Enable it without opt-in (as you did) but as separate patch
+>     that will be reverted if someone complains on "real world"
+>     (i.e. not test) breakage
+> 
+> IMO, the path of least resistance is option 2.
+> If users want to get the pidfd of tgid I suppose there should be no
+> problem to get it from the pidfd of the thread. Right?
+> So what FAN_REPORT_TID really means is give me a richer pidfd
+> with more information about the actor than without FAN_REPORT_TID.
+> 
+> I'd like to get Jan's input on those UAPI choices.
+
+In this case I agree with Christian. I don't think there's a reason to
+complicate the API so I'd go for 3 - I totally agree we want this in a
+separate commit to have the change of behavior clearly documented and easy
+to revert. I just think the pidfd could always be stale by the time you get
+to use it so I think chances for unexpected userspace confusion are
+limited. 
+
+								Honza
+
+> > Link: https://lore.kernel.org/lkml/20260528-schmuckvoll-heilen-garen-be77b4208671@brauner/
+> > Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+> > ---
+> >
+> > On 2026-05-28 13:51 +0200, Christian Brauner wrote:
+> > > For quite a while the kernel refused to hand out pidfds for reaped
+> > > processes even if the struct pid was pinned like in this case.
 > > >
-> > > Resident $INDEX_ROOT values carry index header fields that callers
-> > > consume after lookup. Some callers already validate parts of the layo=
-ut
-> > > before walking entries, but those checks are scattered and do not cov=
-er
-> > > all root header invariants, such as entries_offset alignment and lowe=
-r
-> > > bound, index_length, and allocated_size consistency.
+> > > But that makes various APIs - including this one - way less powerful
+> > > than they can be. Nowadays the socket layer already hands out pidfds for
+> > > reaped processes. It also stashed the struct pid. Let's do the same
+> > > here.
 > > >
-> > > Now that ntfs_ir_truncate() updates index.allocated_size before
-> > > shrinking the resident value, lookup-time validation can cover these
-> > > header invariants without tripping over the driver shrink path.
+> > > Drop the pid_has_task() change and then:
 > > >
-> > > Add $INDEX_ROOT to the minimum resident value size table and validate=
- the
-> > > resident index header fields before returning the attribute from look=
-up.
-> > > Require 8-byte aligned index header fields, a sane entries_offset, an
-> > > index_length within allocated_size, allocated_size within the residen=
-t
-> > > value, and enough entry space for at least an index entry header.
+> > > pidfd = pidfd_prepare(event->pid, pidfd_flags | PIDFD_STALE, &pidfd_file);
 > > >
-> > > Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-> > When this patch is applied, the generic/013 test fails randomly. The
-> > failure can be reproduced by running xfstests generic/013 multiple
-> > times. Additionally, ntfsprogs-plus must be installed to run fsck
-> > checks.
-> > Thanks.
+> > > which instructs pidfs to and out a pidfd even if the task has already
+> > > been reaped. Reaped pidfds can still be queried for various types of
+> > > information that is kept around even if the task is long gone.
+> >
+> > Thanks for the review. I've updated this in v2 as you suggested.
+> >
+> > Also, the LTP fanotify21 test currently explicitly expects ESRCH or
+> > FAN_NOPIDFD for exited processes. I will update that test case accordingly.
+> 
+> This sentence highlights the problematic aspect of this change.
+> How would you update the test expectation?
+> The test must be able to run on upstream as well as stable kernels.
+> Would you test for support in FAN_REPORT_TID
+> and according to the result determine the expected behavior of the
+> test cases (variants) without FAN_REPORT_TID?
+> Very ugly IMO.
+> 
+> OTH, if you take the suggestion that PIDFD_STALE is implied only
+> for FAN_REPORT_TID, you can change the expectation for the
+> "terminated child" test case only for TST_VARIANT_PIDFD_THREAD.
+> 
+> Thanks,
+> Amir.
+> 
+> >
+> > With Best Regards,
+> > AnonymeMeow
+> >
+> > ---
+> >  fs/notify/fanotify/fanotify_user.c | 33 +++++++-----------------------
+> >  1 file changed, 7 insertions(+), 26 deletions(-)
+> >
+> > diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fanotify_user.c
+> > index ae904451dfc0..b604e3da58ad 100644
+> > --- a/fs/notify/fanotify/fanotify_user.c
+> > +++ b/fs/notify/fanotify/fanotify_user.c
+> > @@ -19,6 +19,7 @@
+> >  #include <linux/memcontrol.h>
+> >  #include <linux/statfs.h>
+> >  #include <linux/exportfs.h>
+> > +#include <linux/pidfd.h>
+> >
+> >  #include <asm/ioctls.h>
+> >
+> > @@ -903,25 +904,13 @@ static ssize_t copy_event_to_user(struct fsnotify_group *group,
+> >                 metadata.fd = fd >= 0 ? fd : FAN_NOFD;
+> >
+> >         if (pidfd_mode) {
+> > -               /*
+> > -                * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mutual
+> > -                * exclusion is ever lifted. At the time of incoporating pidfd
+> > -                * support within fanotify, the pidfd API only supported the
+> > -                * creation of pidfds for thread-group leaders.
+> > -                */
+> > -               WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
+> > +               unsigned int pidfd_flags = PIDFD_STALE;
+> >
+> > -               /*
+> > -                * The PIDTYPE_TGID check for an event->pid is performed
+> > -                * preemptively in an attempt to catch out cases where the event
+> > -                * listener reads events after the event generating process has
+> > -                * already terminated.  Depending on flag FAN_REPORT_FD_ERROR,
+> > -                * report either -ESRCH or FAN_NOPIDFD to the event listener in
+> > -                * those cases with all other pidfd creation errors reported as
+> > -                * the error code itself or as FAN_EPIDFD.
+> > -                */
+> > -               if (metadata.pid && pid_has_task(event->pid, PIDTYPE_TGID))
+> > -                       pidfd = pidfd_prepare(event->pid, 0, &pidfd_file);
+> > +               if (FAN_GROUP_FLAG(group, FAN_REPORT_TID))
+> > +                       pidfd_flags |= PIDFD_THREAD;
+> > +
+> > +               if (metadata.pid)
+> > +                       pidfd = pidfd_prepare(event->pid, pidfd_flags, &pidfd_file);
+> >
+> >                 if (!FAN_GROUP_FLAG(group, FAN_REPORT_FD_ERROR) && pidfd < 0)
+> >                         pidfd = pidfd == -ESRCH ? FAN_NOPIDFD : FAN_EPIDFD;
+> > @@ -1628,14 +1617,6 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
+> >  #endif
+> >                 return -EINVAL;
+> >
+> > -       /*
+> > -        * A pidfd can only be returned for a thread-group leader; thus
+> > -        * FAN_REPORT_PIDFD and FAN_REPORT_TID need to remain mutually
+> > -        * exclusive.
+> > -        */
+> > -       if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
+> > -               return -EINVAL;
+> > -
+> >         /* Don't allow mixing mnt events with inode events for now */
+> >         if (flags & FAN_REPORT_MNT) {
+> >                 if (class != FAN_CLASS_NOTIF)
+> > --
+> > 2.54.0
+> >
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
