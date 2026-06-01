@@ -1,197 +1,186 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE0C3A1D05;
-	Mon,  1 Jun 2026 11:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC623A1CF3
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 11:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780312819; cv=none; b=el1nkYOUpZqQhh23fx64qyWatZH439Xquk0I/qMebd9/EgKDhSIz+81a+GM53vTAt+FAtlbFlvgrOa3o+X7i2TAMfjopJdIic6xGZOHlQZnWBIAzhsqvCcUyfgffThOseSzFeCB2rOrOXhwBrmJPFvct6PZRMvXkCICF2/TXPRs=
+	t=1780313060; cv=none; b=XAeITt7uNifBp5WzYJoFai7QpYm60xsPK6CnZksqU5uqiLldNUlG0eaSro/2zoHED23uIT5LNDqGTU7RQ1TdRZAo4mniztsJCgI2L8H9HoBj7PA1pkTR7Un/t7/ZxehY2qdwNqIrtH/Lv+En4HR/pCQJtF9vkhuUwxEbtkJ0koE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780312819; c=relaxed/simple;
-	bh=i2k00afKsPjPSCB5kQoBgoktduRXoxN9w5nDJg/hHP4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MysP2zNrX/FcsgJUaMtCf2tNTp3ruipVSZqY1Mu1QiDxYMdirh/J1IVRiDl1kObtgLhB+XqQzczFVg66txr5oHQ8fuEDW4baDGSnz7FoadEA5qOjCGxyoO79L/qzFK1TGJkzMkHb9+gdHPWXpdV9uaxdXU12KUeLmlU9ffSAi08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=W84eGBeU; arc=none smtp.client-ip=115.124.30.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1780313060; c=relaxed/simple;
+	bh=Bp//2v2F+wzGcqy+nA1rXRyyK+ypEiBTiE/7TriASd0=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=q7AJpD2iEzui3fGoCfd388iUwAF2/QeEJijjTR9jj3ai9/bu6bbLA5/DmVI6I9tvOrbx3DJjeEGRLVBPy9tb+MrvlxlHzqyD4JyHXxcgpgi/IUoCfsHDWOZcyCQz+cznaDaYS/UdrU7pSjMBJPNnRw80/fdAgyXzjWgO35qzOBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=PPcVetUO; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="W84eGBeU"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1780312807; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=IRfMuzG3yKuY5rg+diXsrslBNyfmmtnGq7jInIoNeyM=;
-	b=W84eGBeUgMuhRjIegUmKybmVARElS5oCtzxIpVDg+Eu1bAqo4TISyvYsjiBoYsk5TGFftc5FylN/7hCqhBZBmpVC3NCkxWzx/dEJhZSUduljS1eIvHSpxN3S0H4bTUxi0Z68E6cmvrpZ5MPJqaKBqQih8bA6fk4xfnCYsQUOhFI=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X4-llN8_1780312805;
-Received: from 30.166.19.62(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X4-llN8_1780312805 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 01 Jun 2026 19:20:05 +0800
-Message-ID: <72817e0c-37d3-4a63-a6d3-1744370c896d@linux.alibaba.com>
-Date: Mon, 1 Jun 2026 19:20:04 +0800
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="PPcVetUO"
+X-KPN-MessageId: 6d082512-5dac-11f1-8ff7-005056999439
+Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 6d082512-5dac-11f1-8ff7-005056999439;
+	Mon, 01 Jun 2026 13:24:17 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 6d00f621-5dac-11f1-83dd-00505699891e;
+	Mon, 01 Jun 2026 13:24:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=k26QEFLlDESbHEKCcXByL8Imv6c2RPYDHSFDzDwsrf8=;
+	b=PPcVetUOG6If10QpXww1oZ0TNmX1ZJ0n3AGMCdu5U6FWhH9P0Z5P9s5Iqh3TGmL25UqIRKPneUtSd
+	 hY7qzIq5nGji5TQ8gtxS+anC3OSjlqW3ap/0NnW05SyCpOw5qXX0G/JE8qfGZG5Syfu5Mc9M90aGUR
+	 BKj+KZQ2rT3V2jUJwySDKULrJ5OmG6L/qY/vzwUJEMCtLDWrLXTNh2XsJ+CRVnxQnprYn0GrllzwRP
+	 fHJZRe99mUtnzcbnWpOLuamELDIf4xFjApYjVAlLBLzvYTazZk/XGk94eLhR+9Fm2/tBeMbZVvyNay
+	 Mcryq8MiSY8v5zvKwcXX0D2oCx7cx8A==
+X-KPN-MID: 33|LbUVlR5078hkgXNI/eAK0oSmm/AAVWprXRRqrgpIdbelqHjtu8Unkw4mJn65qiP
+ Gwv9lkn6o+52kWYYeX7Rr9qeqNap2ULzqSWyC3mD52NY=
+X-CMASSUN: 33|TUNyJCME+fAqQFjgUsgy8GF0GwZ9Qc5afRuzIdA67kNLQDHPSOQjpGhYUM5CkGC
+ 5grltvuLed7Zld7Hf/9UY9w==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 6cf38d57-5dac-11f1-b8d7-005056995d6c;
+	Mon, 01 Jun 2026 13:24:16 +0200 (CEST)
+Date: Mon, 1 Jun 2026 13:24:16 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	Benjamin Coddington <ben.coddington@hammerspace.com>,
+	Mateusz Guzik <mjguzik@gmail.com>
+Message-ID: <1753137576.49821.1780313056882@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260601070042.249432-3-neilb@ownmail.net>
+References: <20260601070042.249432-1-neilb@ownmail.net>
+ <20260601070042.249432-3-neilb@ownmail.net>
+Subject: Re: [PATCH 02/18] VFS: move delegated_inode retry loop into
+ lookup_open()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/5] mm/shmem: optimize file read with folio batching
-To: Chi Zhiling <chizhiling@163.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Cc: Hugh Dickins <hughd@google.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Chi Zhiling <chizhiling@kylinos.cn>
-References: <20260520101538.58745-1-chizhiling@163.com>
- <20260520101538.58745-6-chizhiling@163.com>
- <1d8c7c24-b273-4826-9a9e-37fdb0767f2f@linux.alibaba.com>
- <1fd099de-97d9-4a54-a97f-062fbae1d88e@163.com>
- <6881f92c-972a-4b7a-b3c0-93a91ff38b88@linux.alibaba.com>
- <5f1a3e69-c090-42ac-913e-1e8ce2702e9a@163.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <5f1a3e69-c090-42ac-913e-1e8ce2702e9a@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
 
-
-On 5/26/26 3:12 PM, Chi Zhiling wrote:
-> On 5/26/26 11:11 AM, Baolin Wang wrote:
->>
->>
->> On 5/25/26 5:47 PM, Chi Zhiling wrote:
->>> On 5/25/26 4:37 PM, Baolin Wang wrote:
->>>>
->>>>
->>>> On 5/20/26 6:15 PM, Chi Zhiling wrote:
->>>>> From: Chi Zhiling <chizhiling@kylinos.cn>
->>>>>
->>>>> Optimize shmem file read by using filemap_get_folios_contig() to
->>>>> batch fetch contiguous folios from the page cache, reducing the
->>>>> overhead of repeated shmem_get_folio() calls.
->>>>>
->>>>> When the folio batch is exhausted, attempt to refill it with
->>>>> filemap_get_folios_contig(). If no folios are found (hole or swapped
->>>>> out pages), fall back to shmem_get_folio() to handle these cases
->>>>> individually.
->>>>>
->>>>> Additionally:
->>>>> - Defer folio_put() until the batch is exhausted or on exit
->>>>> - Add folio_test_uptodate() check before copying to ensure data
->>>>>    validity
->>>>>
->>>>> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
->>>>> ---
->>>>>   mm/shmem.c | 50 ++++++++++++++++++++++++++++++++++++--------------
->>>>>   1 file changed, 36 insertions(+), 14 deletions(-)
->>>>>
->>>>> diff --git a/mm/shmem.c b/mm/shmem.c
->>>>> index 96ea5a4c0aff..e0eacc23cccd 100644
->>>>> --- a/mm/shmem.c
->>>>> +++ b/mm/shmem.c
->>>>> @@ -3355,11 +3355,14 @@ static ssize_t shmem_file_read_iter(struct 
->>>>> kiocb *iocb, struct iov_iter *to)
->>>>>       struct file *file = iocb->ki_filp;
->>>>>       struct inode *inode = file_inode(file);
->>>>>       struct address_space *mapping = inode->i_mapping;
->>>>> +    struct folio_batch fbatch;
->>>>>       pgoff_t index;
->>>>>       unsigned long offset;
->>>>>       int error = 0;
->>>>>       ssize_t retval = 0;
->>>>> +    folio_batch_init(&fbatch);
->>>>> +
->>>>>       for (;;) {
->>>>>           struct folio *folio = NULL;
->>>>>           struct page *page = NULL;
->>>>> @@ -3372,18 +3375,38 @@ static ssize_t shmem_file_read_iter(struct 
->>>>> kiocb *iocb, struct iov_iter *to)
->>>>>               break;
->>>>>           index = iocb->ki_pos >> PAGE_SHIFT;
->>>>> -        error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
->>>>> -        if (error) {
->>>>> -            if (error == -EINVAL)
->>>>> -                error = 0;
->>>>> -            break;
->>>>> +fetch:
->>>>> +        folio = folio_batch_next(&fbatch);
->>>>> +        if (!folio) {
->>>>> +            pgoff_t start = index;
->>>>> +            pgoff_t end = (iocb->ki_pos + to->count - 1) >> 
->>>>> PAGE_SHIFT;
->>>>> +
->>>>> +            if (folio_batch_count(&fbatch)) {
->>>>> +                for (int i = 0; i < folio_batch_count(&fbatch); i++)
->>>>> +                    folio_put(fbatch.folios[i]);
->>>>> +                folio_batch_reinit(&fbatch);
->>>>> +            }
->>>>> +
->>>>> +            filemap_get_folios_contig(inode->i_mapping, &start, 
->>>>> end, &fbatch);
->>>>> +            if (folio_batch_count(&fbatch))
->>>>> +                goto fetch;
->>>>> +
->>>>> +            error = shmem_get_folio(inode, index, 0, &folio, 
->>>>> SGP_READ);
->>>>> +            if (unlikely(error)) {
->>>>> +                if (error == -EINVAL)
->>>>> +                    error = 0;
->>>>> +                break;
->>>>> +            }
->>>>> +            if (folio) {
->>>>> +                folio_unlock(folio);
->>>>> +                folio_batch_add(&fbatch, folio);
->>>>> +                fbatch.i++;
->>>>> +            }
->>>>>           }
->>>>> -        if (folio) {
->>>>> -            folio_unlock(folio);
->>>>> +        if (folio) {
->>>>>               page = folio_file_page(folio, index);
->>>>>               if (PageHWPoison(page)) {
->>>>> -                folio_put(folio);
->>>>>                   error = -EIO;
->>>>>                   break;
->>>>>               }
->>>>
->>>> I haven't tested it yet, but I'm sure this will break the 
->>>> fallback_page_copy mode.
->>>>
->>>> You're fetching from the batch at folio granularity here, but in 
->>>> fallback_page_copy mode, we still copy the data at page granularity.
->>>
->>> Yes, that's a bug, Sashika has already reported it. I’ll fix it in 
->>> the next version.
->>
->> Good.
->>
->>> Sashika also reported another potential issue below, but I think that 
->>> is a misunderstanding, because a folio fetched from the swap cache is 
->>> already marked Uptodate before being added to the page cache. What do 
->>> you think?
->>
->> I'm not concerned about swap-in folios, since we already ensure the 
->> folio is uptodate when swapping out.
->>
->> What I'm worried about is that this change moves the 
->> folio_test_uptodate() check outside of the folio lock, which could 
->> introduce some race? Of course, with the original logic, the folio 
->> state could also transition from !uptodate to uptodate after the folio
->> is unlocked (I need more thought).
->>
->> Another race condition that needs to be addressed is, when getting the 
->> folio locklessly via filemap_get_folios_contig(), there could be a 
->> concurrent race with swap-out (because you removed the folio->mapping 
->> check under folio lock). This could result in reading zero data when 
->> it shouldn't (the folio actually needs to be swapped in).
+> Op 01-06-2026 08:37 CEST schreef NeilBrown <neilb@ownmail.net>:
 > 
-> Sorry, I don't fully understand what you mean. It seems that swap-out 
-> does not clear the uptodate flag, and the folio cannot be freed during 
-> the read operation because its reference count is held. So a swapped-out 
-> folio should not be mistaken for a zero-filled folio. Right?
+>  
+> From: NeilBrown <neil@brown.name>
+> 
+> By moving this retry into lookup_open() we no longer need to pass around
+> the delegated_inode pointer.
+> 
+> Various variable assignments need to be moved out of the declaration
+> block so that they can still happen after the goto.
+> 
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/namei.c | 42 +++++++++++++++++++++++-------------------
+>  1 file changed, 23 insertions(+), 19 deletions(-)
+> 
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 998fde251fcf..b00ff3f2faf7 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4403,17 +4403,23 @@ static struct dentry *atomic_open(const struct path *path, struct dentry *dentry
+>   * An error code is returned on failure.
+>   */
+>  static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+> -				  const struct open_flags *op,
+> -				  struct delegated_inode *delegated_inode)
+> +				  const struct open_flags *op)
+>  {
+> +	struct delegated_inode delegated_inode = { };
+>  	struct mnt_idmap *idmap;
+>  	struct dentry *dir = nd->path.dentry;
+>  	struct inode *dir_inode = dir->d_inode;
+> -	int open_flag = op->open_flag;
+> +	int open_flag;
+>  	struct dentry *dentry;
+> -	int error, create_error = 0;
+> -	umode_t mode = op->mode;
+> -	bool got_write = false;
+> +	int error, create_error;
+> +	umode_t mode;
+> +	bool got_write;
+> +
+> +retry:
+> +	open_flag = op->open_flag;
+> +	got_write = false;
+> +	mode = op->mode;
+> +	create_error = 0;
+>  
+>  	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
+>  		got_write = !mnt_want_write(nd->path.mnt);
+> @@ -4511,7 +4517,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	/* Negative dentry, just create the file */
+>  	if (!dentry->d_inode && (open_flag & O_CREAT)) {
+>  		/* but break the directory lease first! */
+> -		error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, delegated_inode);
+> +		error = try_break_deleg(dir_inode, LEASE_BREAK_DIR_CREATE, &delegated_inode);
+>  		if (error)
+>  			goto out_dput;
+>  
+> @@ -4546,6 +4552,14 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	if (got_write)
+>  		mnt_drop_write(nd->path.mnt);
+>  
+> +	if (is_delegated(&delegated_inode)) {
+> +		/* Must have come through out_dput */
+> +		error = break_deleg_wait(&delegated_inode);
+> +
+> +		if (!error)
+> +			goto retry;
+> +	}
+> +
+>  	return dentry;
+>  
+>  out_dput:
+> @@ -4593,7 +4607,6 @@ static struct dentry *lookup_fast_for_open(struct nameidata *nd, int open_flag)
+>  static const char *open_last_lookups(struct nameidata *nd,
+>  		   struct file *file, const struct open_flags *op)
+>  {
+> -	struct delegated_inode delegated_inode = { };
+>  	int open_flag = op->open_flag;
+>  	struct dentry *dentry;
+>  	const char *res;
+> @@ -4623,19 +4636,10 @@ static const char *open_last_lookups(struct nameidata *nd,
+>  				return ERR_PTR(-ECHILD);
+>  		}
+>  	}
+> -retry:
+> -	dentry = lookup_open(nd, file, op, &delegated_inode);
+> -
+> -	if (IS_ERR(dentry)) {
+> -		if (is_delegated(&delegated_inode)) {
+> -			int error = break_deleg_wait(&delegated_inode);
+>  
+> -			if (!error)
+> -				goto retry;
+> -			return ERR_PTR(error);
+> -		}
+> +	dentry = lookup_open(nd, file, op);
+> +	if (IS_ERR(dentry))
+>  		return ERR_CAST(dentry);
+> -	}
+>  
+>  	if (file->f_mode & (FMODE_OPENED | FMODE_CREATED)) {
+>  		dput(nd->path.dentry);
+> -- 
+> 2.50.0.107.gf914562f5916.dirty
 
-Sorry for the late reply. Ah, I missed the held refcnt, and now sounds 
-reasonable.
+It does make sense to me that we deal with the retry-loop in the function where
+we call try_break_deleg(). That part is then dealt with on return to
+open_last_lookups(). So I think, at least from a cognitive load perspective, this
+change makes sense.
+
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
