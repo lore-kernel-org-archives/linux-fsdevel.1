@@ -1,181 +1,116 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019933D969D
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 15:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780328445; cv=pass; b=STV1vkVZcOvzQ6rPVlK1SOnCys6cT2HRF6d7r0PLpAIiDgC91t8J1vjHcX3HwCns16aOe9nMbkFGjQDawR+pBdds5pmzjGrHA2QOutqTVSNfcx70wrHz0A7PjtUy2qIwjk97Z2m5JcsSFqm7lwUJvkZQ8vgCYb950/vsO7pQX3Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780328445; c=relaxed/simple;
-	bh=pIbEQSPiN+T+sdtWaSsbUFVX5LVpswc5ZlaCYoLxmhs=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD7B3DB31A
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 15:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780329021; cv=none; b=Gnh79mjDrf5D5aO5o4xyia/IFihpkDq+PH8KNKDRGlCpRI7D3UxK2U+2VlCxJmi8jt+1fPdlnP94brdU6gwn/N9n7mIms/Y1cCuSakTJgHSO4Fjz1EjYOXIAmknx/NjQLNdkt+2vX//v72RUJXSC3y3EVJzaDRqxcDIrk6TXPJ0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780329021; c=relaxed/simple;
+	bh=nTXW1aszJ7vJwM4JLdG9/UwnGyXjFaGyj9QAS58OX2Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e6x5sBHpSVH0PljwhKsWRAMyHLUGioxjRMiOtC7K2cXudOBLfwyQ84Gj9QGy+hdX6AhHiS5nb4VWmNXikLh817Qwk3vMI0TiP6mRl7LXOZRdTRsXwCbIRNKUnyvxF0fI5nYlQMmklVkZbP044GW9xbjtSYmEyLX1N5gGdXwjjmU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DraYZfhC; arc=pass smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=A6/BrwXaHnO9zhVGNWLqysVHO+steowLitjwLVDomUavaT5Sm2Q48iZry1xSqai+Pok3aMkle468NrnFB8fTSC0BVjzH9rlDCvuS9eW7IY4d3qnhstJtKhViWLXE8imPCoHmSrNawWnNyyzYh3AwYhaC6Gb4hrjVPhvBNahZmfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=E9tVlTuA; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DraYZfhC"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-68d23430690so2761981a12.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 08:40:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780328440; cv=none;
-        d=google.com; s=arc-20240605;
-        b=I5opLX7+LQlA0lt11gWkkAsIBo9+EK7VX+SBIcuhlq8PE6GVHznfk2K2W0S9DV+9JP
-         /wJO8JO7WYDheV6tZQBvGl/afmTLRj2UFleVskFV0ysx1NDcDBt+XtEYNxL5kFgR52w9
-         AIehiyeR9Mb4AeRzBIyVnKxOeSxNGdvFCdxaY+jJ/6DOq9m5AUOUpwerW/xvVCHjN27O
-         K8wWO8yfr3lR4G8ncAlklzJzrsKbs2iYHar/RtLiwQof9WOkh6SvK8W/tlbX7LQabeAU
-         D8pPTmzrubQ95T/+YdWvxf1zaSb6xbDwtXV2rF2U48ovTQXZlvMF4JgYBxka2EFkvIJW
-         pjpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yGitNDR3suWUnLziWsrEM4RRTJi0DQuBElG4O41DuOM=;
-        fh=FhJssAAC0oUfHV8Jexp98JBLLvlfkZjvPVCfqQQeX58=;
-        b=C39nOUPVkaEH8BReFu+Pe2M0HPH6OwCMORk+idJOwuG7WfUTVabQ+DNxqJqziga7Y0
-         S/zqZa/5TOpBrxx+EX0g3AMz2qC8ZQRaxzJfWF2bMpRD4MYbKveiKDQ5OBblkRSOeG4s
-         l0ETAYrEZhi4Q1YxagKRh5HzGPrrhAN85fXEfWTHCxbHYIBOwR2ZBLbZwyvd1dd0S+6D
-         hc4U89dtyfjJzAl4nfAVgDFUObparubqFNBgeHRoYkJ6D89+j23d1Qlk1rArZnIkaVtv
-         XdBT/X344T3WeE7EeiIRsaS2dWqUB28/3+ehgNRBLwAozdIjeWRfRBczO7OGmo9Rsxum
-         yLtg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="E9tVlTuA"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bdf8add254dso951811366b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 08:50:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780328440; x=1780933240; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yGitNDR3suWUnLziWsrEM4RRTJi0DQuBElG4O41DuOM=;
-        b=DraYZfhCA0PpJQK7pSZiD+8CaqMiZNo3o/AWCF98lv8ONrEvsxAnjnWYEVaMhnTi9J
-         ALMoCYAz9bpGWDLNiMvgYYtq2/S85UZR63g9v2lQcNQq75D2rCFZFaboACWCHObyKDzH
-         erfxDKdCr/WAaIb7RDYpLGTMCVCQqHNKiBdgdJ4gIS0a/766j2hTmDVL8g9/r+MHPu44
-         yZElLbrA3S8ekKtRoKURXPGaW4sidLBRqduSg1vy0M3gtGWk8/x5urgmIf8fQPrunbwh
-         iPxQY16HsdOPAFl7JYTmfH+17PU9cR0TwZZEmBHTSYMLW93zso8ECm7TV5/ujYOwlQ2V
-         6o+g==
+        d=linux-foundation.org; s=google; t=1780329018; x=1780933818; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pJkQdYMeeClMSzcCqfeyFg/QAKx7SzNPdhAZ0oh+sp4=;
+        b=E9tVlTuAE1Qu0NRW0F9TDROoWDp1okR7x4nUNIAsJlGAgO2TTKBd0WGsMEm4IzYfG7
+         yb/6ImLaBlGXqt9oN2SyOg5TqWwYF6e0MV8PTHndZYo+hgjbL+/6asruA9gpN3suM2P3
+         xpPMuiyf0tMMtckRIyItHLobxpv3+uMW/eBYY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780328440; x=1780933240;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yGitNDR3suWUnLziWsrEM4RRTJi0DQuBElG4O41DuOM=;
-        b=VJrMcEg1pQZjIGeYpLLCLeKEvqGEMnW+hKZPFnMTW2fHOFWybXqSKSBWWrkAZS4cK6
-         danj3u1JtoPuIKtFWZgteTUvJLlQxklJR4eyG8hROs6m7OTkyz85YBoWRvrYTVYfnLqs
-         EpY4Rh1rPsfUpRprd3FPsCyO8H04AvjiXpX5nemXXJKTkPPtlgICFm1DlZt3rQhC40G/
-         a6NGbdv2LUznWCPph28Caw+w1QlOjiZxIoNBbpsoXgzJkjNyci1KKNB4Fb+R41XRdGeF
-         UY1DycmJp1hiSuWf1KVbVxG47+ejT1DA6XNxMDIShAWFFLhtwcTuRD9NTFS791hoCOZS
-         sZ/Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8Oibi4UZpb73t3F58JjWt8HFgo+dxQ9mKKiRar6VbkY5Tu/KDcTSEn1uHIsVGle27TqLRU4n2s3Wo/6XA0@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxaEVBWNBDJmLQeUqYvOAcdfE98b27j4zES2pVfVlYlweofnz+
-	SZ2FtYYORlyDfJofzZVulqmvZYp9EKc/vwW1wA1pB4QF7bi5z7suRq1xf1pPk2BINHV4Lr34PaL
-	u36Fes31u+mfWzY0Evlu8BFulVaLsp58=
-X-Gm-Gg: Acq92OE8ukC74Gb9NrAO5Y4Cd3JyU+tGxhtUktgWynL6bAbzvHfkHRXQ5p4oJYCylct
-	RB5eKfw87B6OExE203g/Pykac+OQKnOXcfzhLpFyz3rVGWj7EW5LIX09SxnejTJDYFb6Z3sSf3v
-	bJj8CprZcqhPCL/na28A9fYhhQdcdwZPr0wr/21ieHbvINacWeYHMXzYCTZPRzdQ6WmFlXK5VNK
-	nIFjWz91XEKm43Xn/XmmbYBvRpqW4Br70sQ90o/PFc924d/GQpFpb5/Og0/UM4kU3LEVGzNBtAj
-	ZjO98O3cXms+wABdSf6x+ZLVvEmCbBmPstmdYSLEyjSb8ls+sw==
-X-Received: by 2002:a05:6402:321a:b0:67d:6c95:9c8e with SMTP id
- 4fb4d7f45d1cf-68c8a27c185mr6210712a12.14.1780328440036; Mon, 01 Jun 2026
- 08:40:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780329018; x=1780933818;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pJkQdYMeeClMSzcCqfeyFg/QAKx7SzNPdhAZ0oh+sp4=;
+        b=CkZeBuI7SGWhNmEKOzaKeE5hVMx9i1p3L7LtiV7/TVHzuXPufs9JOHS55tdWn0b50g
+         iFx+tjaI+eXcRfMZcS8z+gS+zl3A2vlRsIV6+XGggx1udbYr09WhQO7Vtq05XkE/wmcN
+         4j/sYD56eI+TkxuSL8Zm7hepJh4Yvq2Gfv7kigzfuLfscieTQ2IHR5fyHwvKxYo0o/SN
+         ZwjKXGb2/hQ5+EBOIleTl5Tqs7fruchvu8K8Dqxr/n1GoQRxktj5Sm6xbWKqG3fjk/PM
+         hPVUPjinmrUogx7feuYwtgkCghky9xD+F91qgAhOzSWY9LtR6U9fuUSxPlzYUhNXgkbf
+         yiiA==
+X-Forwarded-Encrypted: i=1; AFNElJ/5hx2/Ziv9mMVRaLufrU3xba00PfPzanC1pCKbpcvcH31xa0dk0kTeFAiBWvu6elNvELZ2ZUMu6jPBQWSH@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLPfHO5uuLY+/NTTB3ufhWozPHM2zNbLvw0r+gGncFlN2gDOdI
+	fuL8Q9TA9o94eykgQbRPdOaolQMRnTS+HD7a6g2Dua2IrOcUcS1oGCR8zvCoJGsAcSeH/Yje0VR
+	Fbh2Y90M=
+X-Gm-Gg: Acq92OFdd/Vz+FEU0pUjY8bxwGb01vpFDqBE2C07oja+HlnOWBvO9/ZtembS7Wp7ikc
+	U2Pzzi26s9jc/PVP/29pRBxpO3xbCcn/e1J2QlMMuW5V0vLSSJTDNttGg1vTLEX/udd6/jYzFb+
+	X8+uRtvITGmPKmrpMDvbRSIOssefLt2qbctEipXuoc1WyfZYgb3ee2OxM7ky6EXk6dZqTsjgHgM
+	mNDtKE7TrDUNOoTPmr2vxU9tPttj6C/s3y8vs2jwOmc2Lm2arL1WqpgeHXTUxKpOojoifV0eJDy
+	qZ8BQzhGd09ociv7NiOLC9A21EWZ1HbE57D4EKJv4MYO4zK+jt3q26FS+I/qT7sFn8xXI0xNoe5
+	pXy8NaJWnk8mzS9nxh4rKX9d589uUynbzgwfAh5tBmY08aKehe4vibonDkYye8vXOH9OjiUY8n9
+	NXk8LE8+eGdYH7k22P21FjiLnE+hsUIrid1ZpDORqk0obkAYhkZNWXbbC0H3aXBY/MGIvZ+PWay
+	VcddIzfxSU=
+X-Received: by 2002:a17:907:a2c5:b0:bed:9a7:5ed1 with SMTP id a640c23a62f3a-bed09a768a4mr348516266b.5.1780329017907;
+        Mon, 01 Jun 2026 08:50:17 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bec4639cd2dsm193306266b.37.2026.06.01.08.50.17
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2026 08:50:17 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bdf8add254dso951808466b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 08:50:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9zcDkT7iMTwCvy1B0IYBJe6gREtQnQzMjs2z4D7pceit7jkm414fDNjaue8o+Q7aUbcmDK5SoNJCwxsnSx@vger.kernel.org
+X-Received: by 2002:a17:906:2929:b0:bec:203f:7466 with SMTP id
+ a640c23a62f3a-bec203f7742mr316403166b.8.1780329017245; Mon, 01 Jun 2026
+ 08:50:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601055704.167436-1-chizhiling@163.com> <20260601055704.167436-4-chizhiling@163.com>
- <ah2HfH3jJZDiNAQc@casper.infradead.org> <rvvwfa4dp2wovn4vlglajxwpumiudvcgbnrj6fwh4dxtxemawh@rbav4cliyraj>
- <ah2hszECv05z_Dt7@casper.infradead.org>
-In-Reply-To: <ah2hszECv05z_Dt7@casper.infradead.org>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Mon, 1 Jun 2026 17:40:28 +0200
-X-Gm-Features: AVHnY4IAVx_z6D9Ie4Ky2gR3nWAWMzRl5n77v-Nt4Fr4Nr63r96xqtPbPHht5aY
-Message-ID: <CAGudoHFcWFcrJ=Q8XhxzmnYhorka8jXJXMX5RthsAz1Kd_jthA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] mm/shmem: introduce copy_zero_to_iter() for large zeroing
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <CALCETrW__=8mSusayfXG7UFCfue5BGbx+vqESj1d9wqOfX4s8w@mail.gmail.com> <ah2nBAdsE5vVJ2PL@casper.infradead.org>
+In-Reply-To: <ah2nBAdsE5vVJ2PL@casper.infradead.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 1 Jun 2026 08:50:00 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiFuud0Nn3B9YpTWyQja08TeXVk2AB-aAkmVXyigOagbQ@mail.gmail.com>
+X-Gm-Features: AVHnY4JDfRzuLw7CK_4gSBHmXbq5FWvfpfspaVnl7J1jkuJC1SncFOzqHbctZiE
+Message-ID: <CAHk-=wiFuud0Nn3B9YpTWyQja08TeXVk2AB-aAkmVXyigOagbQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
 To: Matthew Wilcox <willy@infradead.org>
-Cc: Chi Zhiling <chizhiling@163.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chi Zhiling <chizhiling@kylinos.cn>
+Cc: Andy Lutomirski <luto@amacapital.net>, Askar Safin <safinaskar@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 1, 2026 at 5:14=E2=80=AFPM Matthew Wilcox <willy@infradead.org>=
- wrote:
+On Mon, 1 Jun 2026 at 08:36, Matthew Wilcox <willy@infradead.org> wrote:
 >
-> On Mon, Jun 01, 2026 at 05:02:01PM +0200, Mateusz Guzik wrote:
-> > On Mon, Jun 01, 2026 at 02:22:04PM +0100, Matthew Wilcox wrote:
-> > On amd64 some archeology shows the following:
-> > 1. 0db7058e8e23e6bb ("x86/clear_user: Make it faster")
-> >
-> > 2022 vintage, replaces thoroughly terrible 8-byte per-iteration write
-> > with rep stos usage
->
-> That's a good candidate for fixing this problem.  56a8c8eb1eaf is from
-> March 2022 and mentions the slowness of clear_user() on x86.  So a
-> commit from May 2022 might have fixed the problem without anyone going
-> back to measure and remove the workaround.
->
+> Can we review this series properly?
 
-Ok in that case that's basically settled I think.
+Well, since it pretty much is what I suggested a few years ago, I
+certainly won't NAK it.
 
-> I'd be delighted if somebody tested just this patch.  I'm not really set
-> up for performance testing here.
->
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 3b5dc21b323c..112cae9f9e4f 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -3427,19 +3427,7 @@ static ssize_t shmem_file_read_iter(struct kiocb *=
-iocb, struct iov_iter *to)
->                         else
->                                 ret =3D copy_page_to_iter(page, offset, n=
-r, to);
->                         folio_put(folio);
-> -               } else if (user_backed_iter(to)) {
-> -                       /*
-> -                        * Copy to user tends to be so well optimized, bu=
-t
-> -                        * clear_user() not so much, that it is noticeabl=
-y
-> -                        * faster to copy the zero page instead of cleari=
-ng.
-> -                        */
-> -                       ret =3D copy_page_to_iter(ZERO_PAGE(0), offset, n=
-r, to);
->                 } else {
-> -                       /*
-> -                        * But submitting the same page twice in a row to
-> -                        * splice() - or others? - can result in confusio=
-n:
-> -                        * so don't attempt that optimization on pipes et=
-c.
-> -                        */
->                         ret =3D iov_iter_zero(nr, to);
->                 }
->
+And the patches looked very straightforward to me. Just the final
+diffstat is worth quoting again because that certainly doesn't look
+problematic:
 
-I'm not in position to test myself at the moment. But should someone
-be interested and try this on amd64, either make sure you have FSRS or
-in the worst case apply this hack which forces rep stosb:
+  7 files changed, 33 insertions(+), 204 deletions(-)
 
-diff --git a/arch/x86/include/asm/uaccess_64.h
-b/arch/x86/include/asm/uaccess_64.h
-index 20de34cc9aa6..552d1b883579 100644
---- a/arch/x86/include/asm/uaccess_64.h
-+++ b/arch/x86/include/asm/uaccess_64.h
-@@ -189,8 +189,7 @@ static __always_inline __must_check unsigned long
-__clear_user(void __user *addr
-         */
-        asm volatile(
-                "1:\n\t"
--               ALTERNATIVE("rep stosb",
--                           "call rep_stos_alternative",
-ALT_NOT(X86_FEATURE_FSRS))
-+               "rep stosb\n"
-                "2:\n"
-               _ASM_EXTABLE_UA(1b, 2b)
-               : "+c" (size), "+D" (addr), ASM_CALL_CONSTRAINT
+and it removes that GIFT flag that was truly disgusting.
 
-It is always fine to use it from correctness pov. It would cause a
-slowdown for any size on old yellers predating Sandy Bridge (that's 14
-years now I think?) or for small sizes on CPUs without FSRS. Given
-something like 4K I/O that's not a concern.
+So I'm certainly ok with it from a "looking at the patch" standpoint.
+I didn't _test_ it. I don't have any workload that might remotely
+care.
+
+I did a quick scan on debian code search for vmsplice, and after ten
+pages of entries that weren't actually *using* it but had lists of
+system calls, I grew bored. So there are likely users, but I don't
+know what they are and how much they care. It *might* be a big
+performance issue somewhere. Unlikely, but...
+
+         Linus
