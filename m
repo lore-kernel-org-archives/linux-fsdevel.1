@@ -1,177 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4A336213D;
-	Mon,  1 Jun 2026 22:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD5A37F006
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 22:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780352384; cv=none; b=gUNEipYlELXfHGhCucXM+asko9niS34BT2bQG+NKfPoNaZ7nAcQOUxTXRc00Taxz3uwFNdwhjWrTlKXUofCxXSztok9UvWlnOPoGOAQmiPnVENqgKti2bzwP6themON2jxWQABOe8xFZ4Yx1xXUi6OUKHKj4edV1dS/la+flEaQ=
+	t=1780352890; cv=none; b=mX+68mIHYYL5vHe6BXN/kfvkljrrVLRIYMQLMkmNZ0vy9Oqw5ZIlK0aqR/fib4LmBunx82WSsPp0hXRGyUBbrRvEYFthAm8hUIlSEpzOmCsJoMSkjJ4TXyGRoLg5I2b9kTJIy+dIsErFOUaL6hhQ3VabBi88YEif9jbxv8et/Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780352384; c=relaxed/simple;
-	bh=Wrd2uCdZw8mXDwER0LLO5AB0qYC2dGZDcclVnlBQm/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IILWOKSpe4ETdBhzxLQWWyOkw0NKB+5+ZE8tNv6YLA90n4Grj33M3cZjAHIHwsHtjSmFAg9QbToGkqcTr/0ciABX5qMRcRh+2x0hVPfO1/JCvuntmdi+vLHmEfQLe3L/jGIhJ5zkLSCzgoOJKC1jWzmM8JAsr2Lz2+EWPmVLQp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPMz8iQn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780352890; c=relaxed/simple;
+	bh=09QywNMFB9xJQgcS3lv2RJl/+8KF5z2gwtaAl6Sdmzo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MgODkL2vBv7pbGtQ+P1SfaliIH3lsb/s/H+cMs5X272SUNmpnNKMQVE9HrP0IqXFCafDjYfm6glMGo82eReuCF2otUTBnup5u+5Rui3TknkqnvhzGl0LFr2vcxfUP3nEen3mXN6/UeO5JLk+v1cUY5o8o9Wg52qDPrXxNQfd34I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Qq8uywH7; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPMz8iQn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24AC81F00893;
-	Mon,  1 Jun 2026 22:19:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780352382;
-	bh=UGpo5gp1GklDKAAjSvOFnlQNXmY+Rax1chqUL9Ybcr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lPMz8iQn4dV2e2nihs7PsqNqYvx3eMV5OVLHcd0VTwds3VDDftXqI+GwEU9wi7g+r
-	 J1WZTF+KV83gAZEz6DxQuZB1VvJRRlcqOrKz+gMDTNos/qs7AnqDqy8OYB4WsUoq2P
-	 BV/hFMC5v4ltkY4Iez9tLfcKnWUlTudZY7QV0RRdh4xAbcw10IBiS/YU/dayNa0AZJ
-	 nvD7nTKWsGOtikq58NUWA2kAdzL3n2riHfJqnZnG911xlBs4gwDzODtb1927vUHUUZ
-	 uM7z3vPmjEmhBeh+uP0j8DiVDCKa7hEHzzxZkkowtyB7a6oPx6+6Tp5bTCEWuOwAxz
-	 c5X0a7PxABc1Q==
-Date: Tue, 2 Jun 2026 00:19:39 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>, 
-	Heinrich Schuchardt <xypron.glpk@gmx.de>
-Cc: Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, 
-	Matthew Bobrowski <repnop@google.com>, linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] man/man2/fanotify_mark.2: AT_FDCWD plus NULL path
- doesn't work
-Message-ID: <ah4FXUpcE-6xlcDs@devuan>
-References: <20260529-fan-mark-cwd-v1-1-cdfb3b5b6d7c@google.com>
- <CAOQ4uxiHU5xK=_FsOBkkB0go9ACBb2fYcdVE6T2o=MYDcxaiaQ@mail.gmail.com>
- <ahoIuOuC7q5M24dV@devuan>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Qq8uywH7"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b12270b3so1354375e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 15:28:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1780352888; x=1780957688; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=giYcafd3I2mpvPflYmwbLiEG2gQ+vD7xawf2mxGjHFw=;
+        b=Qq8uywH74vqrKhYC/8U636f2URWfcor0TFBdCnOcw8VTY6wahkKvu3avM1zyDUvK+C
+         Hh5G0RFIi7OusASlQLRcTKW19BvQ8HTYJRrgtZfUzHAnSCd02JVCfg7ec1R6bRBH3up6
+         nDmfKJ6pDYOZr2JjQtIKPcziFDG4HABu9V2UUyWlJRjoaIjDNTxFvoU41J69hbKpIHKg
+         z+qTQaI2uRRLTmcSQl7jAOElGRz9k/6YBJm2jzehOOifPEhfeMBsHIc4wEkRK7cMbcyb
+         DZXZBGfihxqwJmE6WG3WvyIRoBMzzONFwNy4FKMH5o0E/XXiXMgGboyNqHwJkRV2koCb
+         koEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780352888; x=1780957688;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=giYcafd3I2mpvPflYmwbLiEG2gQ+vD7xawf2mxGjHFw=;
+        b=JsFTkLW4wiY5YrNLJhXTL05zqviu0hx9t7ZVwhnIA/zdvLstGnHWSpU98bOZwH4CfR
+         WAHot4Feq9vvqt2VhysOrRrKOfTr9MHeB5HHr9hOtrbl/KAEmWZWZIxRTOdjOTSn0Bp9
+         AY21iaRtutDJtDgg7KAhZuwAToRFNDlnA5+FEPXzB8bGLdaDZnvqnGsdSDFS8W1E4RfB
+         KM5VUbWnt94jXU+jDZUsY1dEF1y4mOlqHwZ2gqr4AV+/ffDBFcY3UK8PKFRKkmgokPZe
+         OytImmpxiExGmoBCUKoWVKuclViJx5O/d3u4RK96U9+hy0Er+0wpv0erb/BORkoW+RhV
+         e4gQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8cUuOEZ6uh/L4UOIzuUrxW83Pyq0dzwlRp0rVNaOAEUCSZ+ACa68zpTaTL1kwphKq8aAzO6zqoUqmmONGm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+gfdFtWstaW/QaQwfyZmEF1EBOrFklpEPY3qLsxu3XXmqnWdX
+	BWza4CCXYhJGp4S+vPQHyyJ1AhPNrVc1dHRiOTJvPjUBGwOMxsFFja+pr9J3Fjw3rEs=
+X-Gm-Gg: Acq92OHCzxgST33ejVqXOCl6oxo9oNsxd4as6mTnoSh6YihL3ecRrVdvrrt22d9j/nr
+	h51Yo8xSjEmwa4jLTxEjUF9fchP7Ak3OhWmBOIugf4IvG1rkiGlbdRLXV+a6XckJi1BQ2cJkSTJ
+	r+OKgWWvW18BxWtc9wz7ckJjBV2NCwR7zseim60xtkTOvKiuoN1hMoGfqrOZJdjvCg13HeKLk3q
+	628zMg0mdnwNf/yAv4V6uxNAYhyn0nVR/H4YtSRXenToyTDzdCd++kBa0vvTLNLJ6+X5cyOVUyH
+	erxdrWVcXKKxkg/aTh2f863s2RJT/fpyauexc2EvEspk3wDicFXCogMZv8jT7YZQtUoxsVd1iob
+	d96EsyUhsG0LK+RnFnZpnifbqqZXietYiNQIrw0XrWMhRXk70v3WdfdWi2Y1nEi88u7ls9DvDtU
+	TsLwqFD8rr/58jpL7JHaEeyqDa1Un94PnyvDswWCMqEN0mabeXAT4yC+tvav3u3ezQc9m12A4df
+	mRTmT2nbkLxXtVY/PlKfjioWg9lC+SOR6wK8VIT/xJi9tlJ434FRTlwjw==
+X-Received: by 2002:a05:600c:5395:b0:490:4b89:535d with SMTP id 5b1f17b1804b1-490a2904b29mr282295395e9.1.1780352887955;
+        Mon, 01 Jun 2026 15:28:07 -0700 (PDT)
+Received: from ?IPV6:2403:580d:fda1:0:2bb5:f164:6e6a:38d8? (2403-580d-fda1-0-2bb5-f164-6e6a-38d8.ip6.aussiebb.net. [2403:580d:fda1:0:2bb5:f164:6e6a:38d8])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36dd90415besm774673a91.0.2026.06.01.15.28.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2026 15:28:06 -0700 (PDT)
+Message-ID: <d5d2ae2c-5b9a-4c33-8dca-6f2f15a7877a@suse.com>
+Date: Tue, 2 Jun 2026 07:57:59 +0930
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uykuwuxrsiirp5cu"
-Content-Disposition: inline
-In-Reply-To: <ahoIuOuC7q5M24dV@devuan>
-
-
---uykuwuxrsiirp5cu
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>, 
-	Heinrich Schuchardt <xypron.glpk@gmx.de>
-Cc: Jann Horn <jannh@google.com>, Jan Kara <jack@suse.cz>, 
-	Matthew Bobrowski <repnop@google.com>, linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] man/man2/fanotify_mark.2: AT_FDCWD plus NULL path
- doesn't work
-Message-ID: <ah4FXUpcE-6xlcDs@devuan>
-References: <20260529-fan-mark-cwd-v1-1-cdfb3b5b6d7c@google.com>
- <CAOQ4uxiHU5xK=_FsOBkkB0go9ACBb2fYcdVE6T2o=MYDcxaiaQ@mail.gmail.com>
- <ahoIuOuC7q5M24dV@devuan>
-MIME-Version: 1.0
-In-Reply-To: <ahoIuOuC7q5M24dV@devuan>
-
-Hi,
-
-On 2026-05-29T23:45:55+0200, Alejandro Colomar wrote:
-> Hi Jann, Amir,
->=20
-> On 2026-05-29T23:38:11+0200, Amir Goldstein wrote:
-> > On Fri, May 29, 2026 at 7:27=E2=80=AFPM Jann Horn <jannh@google.com> wr=
-ote:
-> > >
-> > > The fanotify_mark.2 manpage claims that AT_FDCWD works with a NULL pa=
-th,
-> > > but there is no kernel code for that - in fanotify_find_path(), in the
-> > > `if (filename =3D=3D NULL)` block, the fd is only used for a normal FD
-> > > lookup.
-> > >
-> > > This was also already the case when this manpage was written back in
-> > > 2014, so remove the bogus documentation.
-> > >
-> > > Fixes: c200b422d ("fanotify_mark.2: New page documenting fanotify_mar=
-k(2)")
-> > > Signed-off-by: Jann Horn <jannh@google.com>
-> >=20
-> > Hah,  never noticed this.
-> > Apparently, hallucinations already existed in 2014 :D
-> >=20
-> > Acked-by: Amir Goldstein <amir73il@gmail.com>
->=20
-> Thanks!  I've added the author of the fixed commit in the recipients.
-> I'll apply on Monday or so.
-
-I've applied the patch and tag now.  Thanks!
-
-
-Have a lovely night!
-Alex
-
->=20
->=20
-> Have a lovely night!
-> Alex
->=20
-> >=20
-> > > ---
-> > >  man/man2/fanotify_mark.2 | 8 --------
-> > >  1 file changed, 8 deletions(-)
-> > >
-> > > diff --git a/man/man2/fanotify_mark.2 b/man/man2/fanotify_mark.2
-> > > index e561ffd21..a3b77537c 100644
-> > > --- a/man/man2/fanotify_mark.2
-> > > +++ b/man/man2/fanotify_mark.2
-> > > @@ -560,14 +560,6 @@ defines the filesystem object to be marked.
-> > >  .IP \[bu]
-> > >  If
-> > >  .I path
-> > > -is NULL, and
-> > > -.I dirfd
-> > > -takes the special value
-> > > -.BR AT_FDCWD ,
-> > > -the current working directory is to be marked.
-> > > -.IP \[bu]
-> > > -If
-> > > -.I path
-> > >  is absolute, it defines the filesystem object to be marked, and
-> > >  .I dirfd
-> > >  is ignored.
-> > >
-> > > ---
-> > > base-commit: 9db8ca91f920b9aba40ed68de6b8da0ca9dbefaa
-> > > change-id: 20260529-fan-mark-cwd-1c760106eff9
-> > >
-> > > Best regards,
-> > > --
-> > > Jann Horn <jannh@google.com>
-> > >
-> >=20
->=20
-> --=20
-> <https://www.alejandro-colomar.es>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
+To: Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@lst.de>
+Cc: Damien Le Moal <dlemoal@kernel.org>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+ Bart Van Assche <bvanassche@acm.org>,
+ linux-block <linux-block@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-btrfs@vger.kernel.org,
+ David Sterba <dsterba@suse.com>, linux-fsdevel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>
+References: <ahRocb0Vs_m6RF_O@fedora>
+ <1a9f53d4-6f48-4df8-a3d8-2b0e442a163a@I-love.SAKURA.ne.jp>
+ <ahZGxoI6oHQ_vSrx@fedora>
+ <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp>
+ <ahZeYQ0cLE1i8TGs@fedora>
+ <fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp>
+ <ab5492b6-a053-4e3b-8c59-2e836ae85bc4@kernel.org>
+ <20260528083848.GA7694@lst.de>
+ <36571f8a-4df8-4152-b078-d82dbff4ad7e@suse.com>
+ <20260601144034.GA4918@lst.de> <ah2zdCQ0WA6ol2Gn@bfoster>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
+In-Reply-To: <ah2zdCQ0WA6ol2Gn@bfoster>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
 
---=20
-<https://www.alejandro-colomar.es>
+在 2026/6/2 01:59, Brian Foster 写道:
+> On Mon, Jun 01, 2026 at 04:40:34PM +0200, Christoph Hellwig wrote:
+>> On Thu, May 28, 2026 at 07:46:24PM +0930, Qu Wenruo wrote:
+>>>> e.g. 9c7504aa72b6 ("xfs: track and serialize in-flight async buffers against
+>>>> unmount")
+>>> Considering the xfs fix is pretty old, it's before the fix hint thus no
+>>> such mention in fstests.
+>>>
+>>> Do you happen to know which test case is for that fix?
+>>> I'd like to adapt it for btrfs as a reproducer.
+>>
+>> No.  Adding Brian who authored that commit.
+>>
+> 
+> I haven't followed through the full thread here... But if you're just
+> looking for an existing test case associated with the commit above on
+> XFS, I did some quick digging and xfs/311 is the original reproducer for
+> that one.
 
---uykuwuxrsiirp5cu
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks a lot! I'll use the same delayed umount to verify the behavior of 
+btrfs.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Qu
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmoeBXoACgkQ64mZXMKQ
-wqmSKQ/+OB9qZsXi0bFw5jXsbSic3/Z1rzCXQ+cBWfkikbxPIrHk0izfD9Qx9Azs
-3pRZu56HL5ygbdjTLUwgMM5zu8GQ8p9aTfl/HAm4TxVBa0PPqO9ZY4+B1QiqR4HZ
-jW0QNZWLh7AsFJ/fIxMV7QPogB9l2rml90dHTuTNfYgIqjvpuDXTNxnuHkC8NFrD
-vL66WGgUVPRrNd4iIlqxBMdThxBS7P/5zQctgS42oRtMmJhzYZq52q4nnxEg9kGm
-P00pxwLR2qZbOaQfc0mdhkIcu9HU9jDBekbnTEpqw/oFoGTDGfl7zgGSEPVCjWox
-tIWvbJFrXRFAGxn5KdRYOyK/y0nuiW4lh0h/fARy4fAND0h9QiR8TNkZbv09Csec
-aEHp99ydR3yELLtbUinc/QNZ0xv5iOgzVdAdqjZZNeUjm2/wwRkW7I9mdeZf0DTL
-3D9aTK+eKS8rGqOw+lSkxdPQ+BY4Mkqqe0GvxgGeb77MjmVBWX/hExnFxwTZGarv
-TKh9fmQIeHP3d9auQfomP/rEZHrId6m915sJW9Gf0myif/YRMvbAbRyoIzT056Dp
-jMNtQh1lR8CFHHnElpkgYt7yLsaWeyeUV1WSNJ5xZ17vOKX/AqxIHysycSnen1fc
-jpXrucVD0wBMzRhNarejoCV8/rQeHrSi2hHiD6Jo4XuobP+nhDQ=
-=8Bu2
------END PGP SIGNATURE-----
+> 
+> Brian
+> 
 
---uykuwuxrsiirp5cu--
