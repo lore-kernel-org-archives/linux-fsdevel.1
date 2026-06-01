@@ -1,116 +1,278 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD7B3DB31A
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 15:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9A63B2FD1
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 15:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780329021; cv=none; b=Gnh79mjDrf5D5aO5o4xyia/IFihpkDq+PH8KNKDRGlCpRI7D3UxK2U+2VlCxJmi8jt+1fPdlnP94brdU6gwn/N9n7mIms/Y1cCuSakTJgHSO4Fjz1EjYOXIAmknx/NjQLNdkt+2vX//v72RUJXSC3y3EVJzaDRqxcDIrk6TXPJ0=
+	t=1780329495; cv=none; b=ozZeug4B+tANMR5QK0PiHrFBwUqWWloviSJPFS+8h07brq6suQoECej8wqKxlLyS2Dv4iLOsJTBo4hB2okgO0ibvvxSFjSu0X8XrCqjEar2kGV+skGMM2ydA9K3aava5OtJTpY1zsww/vJ7GzPr21vONI/6dRE74mmR99DdL9/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780329021; c=relaxed/simple;
-	bh=nTXW1aszJ7vJwM4JLdG9/UwnGyXjFaGyj9QAS58OX2Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A6/BrwXaHnO9zhVGNWLqysVHO+steowLitjwLVDomUavaT5Sm2Q48iZry1xSqai+Pok3aMkle468NrnFB8fTSC0BVjzH9rlDCvuS9eW7IY4d3qnhstJtKhViWLXE8imPCoHmSrNawWnNyyzYh3AwYhaC6Gb4hrjVPhvBNahZmfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=E9tVlTuA; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1780329495; c=relaxed/simple;
+	bh=wfFGpa4hd8MriFRaj1C27iappjFj/ZUW6x4WeHYHXDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U3NJvqD0/6NUd1hXlUllO6Bl6TfymDM76vATErpR85jw1MHyVgqnnxdix97klG8jgOLYaV5QzB1qdWStRQ6vE9fh3/kQMTtOO673NpJQ8N2WX4N15LSqQAtxo3V2+kcf5eA6hj6EgU/En6+onUhO9ZsO5xUt12aAA9voNom+eJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=E9UpFtjY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=dKUn2my4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OwvWznOn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/ukgfTtP; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="E9tVlTuA"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bdf8add254dso951811366b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 08:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1780329018; x=1780933818; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pJkQdYMeeClMSzcCqfeyFg/QAKx7SzNPdhAZ0oh+sp4=;
-        b=E9tVlTuAE1Qu0NRW0F9TDROoWDp1okR7x4nUNIAsJlGAgO2TTKBd0WGsMEm4IzYfG7
-         yb/6ImLaBlGXqt9oN2SyOg5TqWwYF6e0MV8PTHndZYo+hgjbL+/6asruA9gpN3suM2P3
-         xpPMuiyf0tMMtckRIyItHLobxpv3+uMW/eBYY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780329018; x=1780933818;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pJkQdYMeeClMSzcCqfeyFg/QAKx7SzNPdhAZ0oh+sp4=;
-        b=CkZeBuI7SGWhNmEKOzaKeE5hVMx9i1p3L7LtiV7/TVHzuXPufs9JOHS55tdWn0b50g
-         iFx+tjaI+eXcRfMZcS8z+gS+zl3A2vlRsIV6+XGggx1udbYr09WhQO7Vtq05XkE/wmcN
-         4j/sYD56eI+TkxuSL8Zm7hepJh4Yvq2Gfv7kigzfuLfscieTQ2IHR5fyHwvKxYo0o/SN
-         ZwjKXGb2/hQ5+EBOIleTl5Tqs7fruchvu8K8Dqxr/n1GoQRxktj5Sm6xbWKqG3fjk/PM
-         hPVUPjinmrUogx7feuYwtgkCghky9xD+F91qgAhOzSWY9LtR6U9fuUSxPlzYUhNXgkbf
-         yiiA==
-X-Forwarded-Encrypted: i=1; AFNElJ/5hx2/Ziv9mMVRaLufrU3xba00PfPzanC1pCKbpcvcH31xa0dk0kTeFAiBWvu6elNvELZ2ZUMu6jPBQWSH@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLPfHO5uuLY+/NTTB3ufhWozPHM2zNbLvw0r+gGncFlN2gDOdI
-	fuL8Q9TA9o94eykgQbRPdOaolQMRnTS+HD7a6g2Dua2IrOcUcS1oGCR8zvCoJGsAcSeH/Yje0VR
-	Fbh2Y90M=
-X-Gm-Gg: Acq92OFdd/Vz+FEU0pUjY8bxwGb01vpFDqBE2C07oja+HlnOWBvO9/ZtembS7Wp7ikc
-	U2Pzzi26s9jc/PVP/29pRBxpO3xbCcn/e1J2QlMMuW5V0vLSSJTDNttGg1vTLEX/udd6/jYzFb+
-	X8+uRtvITGmPKmrpMDvbRSIOssefLt2qbctEipXuoc1WyfZYgb3ee2OxM7ky6EXk6dZqTsjgHgM
-	mNDtKE7TrDUNOoTPmr2vxU9tPttj6C/s3y8vs2jwOmc2Lm2arL1WqpgeHXTUxKpOojoifV0eJDy
-	qZ8BQzhGd09ociv7NiOLC9A21EWZ1HbE57D4EKJv4MYO4zK+jt3q26FS+I/qT7sFn8xXI0xNoe5
-	pXy8NaJWnk8mzS9nxh4rKX9d589uUynbzgwfAh5tBmY08aKehe4vibonDkYye8vXOH9OjiUY8n9
-	NXk8LE8+eGdYH7k22P21FjiLnE+hsUIrid1ZpDORqk0obkAYhkZNWXbbC0H3aXBY/MGIvZ+PWay
-	VcddIzfxSU=
-X-Received: by 2002:a17:907:a2c5:b0:bed:9a7:5ed1 with SMTP id a640c23a62f3a-bed09a768a4mr348516266b.5.1780329017907;
-        Mon, 01 Jun 2026 08:50:17 -0700 (PDT)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bec4639cd2dsm193306266b.37.2026.06.01.08.50.17
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 08:50:17 -0700 (PDT)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bdf8add254dso951808466b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 08:50:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9zcDkT7iMTwCvy1B0IYBJe6gREtQnQzMjs2z4D7pceit7jkm414fDNjaue8o+Q7aUbcmDK5SoNJCwxsnSx@vger.kernel.org
-X-Received: by 2002:a17:906:2929:b0:bec:203f:7466 with SMTP id
- a640c23a62f3a-bec203f7742mr316403166b.8.1780329017245; Mon, 01 Jun 2026
- 08:50:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="E9UpFtjY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="dKUn2my4";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OwvWznOn";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/ukgfTtP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ED3F167ACB;
+	Mon,  1 Jun 2026 15:58:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780329491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=558HwviRqQQ7RjjiJ/cce6YAyjTcOG6jdw14ixD5Wug=;
+	b=E9UpFtjYof29VTrn+k0FzAi7f1TMoQDoqsc1/by5B1fbCdp2T6PvqsQmir4MIkeR2DEfhn
+	lyJF5hc3JSqD1MIiFZDLlCBIVaTB/ifIX9vt5Tl7C7ck8YJFLu5A4ahzG6cWQYPTJdbBpn
+	xhxsijwcwmQG9z4yQu7dbQlrFAv9MGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780329491;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=558HwviRqQQ7RjjiJ/cce6YAyjTcOG6jdw14ixD5Wug=;
+	b=dKUn2my4qemsQRg99uoLnfG/mLKXIrxrwXZv9je1Bdodcx+Y0ap5xz+H4+RQOfVEk/143J
+	JSqo6LfIWaOl54Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780329490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=558HwviRqQQ7RjjiJ/cce6YAyjTcOG6jdw14ixD5Wug=;
+	b=OwvWznOn2dDN0ZkcEXwuL26IhLKSlu64T3PgIUsjzgumRYkrWzLhBvxwvBej5UBOGKeLLZ
+	DRKZZU2keNjx5syYaQl7A4b1eg8MHQhLWOrFYOz/4ou3D9rKM5gf7aBMqJk2ujw+Gq7M6v
+	wNMgEIchhqGzA9bty/YshNpbbs1s/Dk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780329490;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=558HwviRqQQ7RjjiJ/cce6YAyjTcOG6jdw14ixD5Wug=;
+	b=/ukgfTtPXPnrrAL7uR/ZwwErxUHs5fVgJvyJxirAfFtkh3GYN3PaWnfxTpFfKmPLuOd09i
+	gg0p/4n2cZt+q5Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DDB63779A7;
+	Mon,  1 Jun 2026 15:58:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GD0bNhKsHWpQXQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 01 Jun 2026 15:58:10 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 7A8EBA0EC0; Mon, 01 Jun 2026 17:58:10 +0200 (CEST)
+Date: Mon, 1 Jun 2026 17:58:10 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Arnd Bergmann <arnd@arndb.de>, 
+	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH] vfs: missing inode operation should return a consistent
+ error code
+Message-ID: <xdknvjlda7wxwo35toe357nnyaydsllv5g65ogzsomxqgm7jfu@qwtugpoy2rcw>
+References: <20260531104947.6142-1-jkoolstra@xs4all.nl>
+ <c5e32b78aeaa833d18d9b7a566358a6f71d09f23.camel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260531010107.1953702-1-safinaskar@gmail.com>
- <CALCETrW__=8mSusayfXG7UFCfue5BGbx+vqESj1d9wqOfX4s8w@mail.gmail.com> <ah2nBAdsE5vVJ2PL@casper.infradead.org>
-In-Reply-To: <ah2nBAdsE5vVJ2PL@casper.infradead.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 1 Jun 2026 08:50:00 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiFuud0Nn3B9YpTWyQja08TeXVk2AB-aAkmVXyigOagbQ@mail.gmail.com>
-X-Gm-Features: AVHnY4JDfRzuLw7CK_4gSBHmXbq5FWvfpfspaVnl7J1jkuJC1SncFOzqHbctZiE
-Message-ID: <CAHk-=wiFuud0Nn3B9YpTWyQja08TeXVk2AB-aAkmVXyigOagbQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andy Lutomirski <luto@amacapital.net>, Askar Safin <safinaskar@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5e32b78aeaa833d18d9b7a566358a6f71d09f23.camel@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[xs4all.nl,zeniv.linux.org.uk,kernel.org,suse.cz,arndb.de,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[opengroup.org:url,suse.com:email,xs4all.nl:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-On Mon, 1 Jun 2026 at 08:36, Matthew Wilcox <willy@infradead.org> wrote:
->
-> Can we review this series properly?
+On Sun 31-05-26 10:08:47, Jeff Layton wrote:
+> On Sun, 2026-05-31 at 12:49 +0200, Jori Koolstra wrote:
+> > Currently several different error codes are used in the VFS for
+> > situations where the underlying filesystem does not support the
+> > requested inode operation (such as mkdir, tmpfile, create, etc.)
+> > Examples: create returns EACCES, mkdir EPERM, tmpfile EOPNOTSUPP,
+> > fileattr_get ENOIOCTLCMD.
+> > 
+> > We should provide a sensible unified error code for these situations.
+> > EOPNOTSUPP is already used for this both in the kernel (when lacking
+> > tmpfile support) and in userland (e.g. glibc).[1] Restricting EOPNOTSUPP
+> > to socket operations as POSIX suggests is not the current reality and
+> > this was recently changed in the man page as well.[2]
+> > 
+> > vfs_fileattr_get|set return ENOIOCTLCMD, but this cannot be changed
+> > since EOPNOTSUPP is already used to by underlying filesystems to indicate
+> > that a flag is not supported. The change to EOPNOTSUPP was reverted by
+> > 4dd5b5ac089b ("Revert "fs: make vfs_fileattr_[get|set] return
+> > -EOPNOTSUPP"")
+> > 
+> > [1]: https://lore.kernel.org/all/20260528-abnimmt-befreien-perspektive-a7930659fb40@brauner/
+> > [2]: https://lore.kernel.org/linux-fsdevel/ahd3SmZZqnzP0-O2@devuan/T/#t
+> > 
+> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> > ---
+> >  fs/namei.c                       | 18 +++++++++---------
+> >  include/uapi/asm-generic/errno.h |  2 +-
+> >  2 files changed, 10 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/fs/namei.c b/fs/namei.c
+> > index c7fac83c9a85..813419c340ad 100644
+> > --- a/fs/namei.c
+> > +++ b/fs/namei.c
+> > @@ -4192,7 +4192,7 @@ int vfs_create(struct mnt_idmap *idmap, struct dentry *dentry, umode_t mode,
+> >  		return error;
+> >  
+> >  	if (!dir->i_op->create)
+> > -		return -EACCES;	/* shouldn't it be ENOSYS? */
+> > +		return -EOPNOTSUPP;
+> >  
+> >  	mode = vfs_prepare_mode(idmap, dir, mode, S_IALLUGO, S_IFREG);
+> >  	error = security_inode_create(dir, dentry, mode);
+> > @@ -4504,7 +4504,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+> >  		file->f_mode |= FMODE_CREATED;
+> >  		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+> >  		if (!dir_inode->i_op->create) {
+> > -			error = -EACCES;
+> > +			error = -EOPNOTSUPP;
+> >  			goto out_dput;
+> >  		}
+> >  
+> > @@ -5102,7 +5102,7 @@ int vfs_mknod(struct mnt_idmap *idmap, struct inode *dir,
+> >  		return -EPERM;
+> >  
+> >  	if (!dir->i_op->mknod)
+> > -		return -EPERM;
+> > +		return -EOPNOTSUPP;
+> >  
+> >  	mode = vfs_prepare_mode(idmap, dir, mode, mode, mode);
+> >  	error = devcgroup_inode_mknod(mode, dev);
+> > @@ -5241,7 +5241,7 @@ struct dentry *vfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
+> >  	if (error)
+> >  		goto err;
+> >  
+> > -	error = -EPERM;
+> > +	error = -EOPNOTSUPP;
+> >  	if (!dir->i_op->mkdir)
+> >  		goto err;
+> >  
+> > @@ -5345,7 +5345,7 @@ int vfs_rmdir(struct mnt_idmap *idmap, struct inode *dir,
+> >  		return error;
+> >  
+> >  	if (!dir->i_op->rmdir)
+> > -		return -EPERM;
+> > +		return -EOPNOTSUPP;
+> >  
+> >  	dget(dentry);
+> >  	inode_lock(dentry->d_inode);
+> > @@ -5479,7 +5479,7 @@ int vfs_unlink(struct mnt_idmap *idmap, struct inode *dir,
+> >  		return error;
+> >  
+> >  	if (!dir->i_op->unlink)
+> > -		return -EPERM;
+> > +		return -EOPNOTSUPP;
+> >  
+> >  	inode_lock(target);
+> >  	if (IS_SWAPFILE(target))
+> > @@ -5630,7 +5630,7 @@ int vfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
+> >  		return error;
+> >  
+> >  	if (!dir->i_op->symlink)
+> > -		return -EPERM;
+> > +		return -EOPNOTSUPP;
+> >  
+> >  	error = security_inode_symlink(dir, dentry, oldname);
+> >  	if (error)
+> > @@ -5752,7 +5752,7 @@ int vfs_link(struct dentry *old_dentry, struct mnt_idmap *idmap,
+> >  	if (HAS_UNMAPPED_ID(idmap, inode))
+> >  		return -EPERM;
+> >  	if (!dir->i_op->link)
+> > -		return -EPERM;
+> > +		return -EOPNOTSUPP;
+> >  	if (S_ISDIR(inode->i_mode))
+> >  		return -EPERM;
+> >  
+> > @@ -5961,7 +5961,7 @@ int vfs_rename(struct renamedata *rd)
+> >  		return error;
+> >  
+> >  	if (!old_dir->i_op->rename)
+> > -		return -EPERM;
+> > +		return -EOPNOTSUPP;
+> >  
+> >  	/*
+> >  	 * If we are going to change the parent - check write permissions,
+> > diff --git a/include/uapi/asm-generic/errno.h b/include/uapi/asm-generic/errno.h
+> > index 92e7ae493ee3..7b5b71ae1b12 100644
+> > --- a/include/uapi/asm-generic/errno.h
+> > +++ b/include/uapi/asm-generic/errno.h
+> > @@ -76,7 +76,7 @@
+> >  #define	ENOPROTOOPT	92	/* Protocol not available */
+> >  #define	EPROTONOSUPPORT	93	/* Protocol not supported */
+> >  #define	ESOCKTNOSUPPORT	94	/* Socket type not supported */
+> > -#define	EOPNOTSUPP	95	/* Operation not supported on transport endpoint */
+> > +#define	EOPNOTSUPP	95	/* Operation not supported */
+> >  #define	EPFNOSUPPORT	96	/* Protocol family not supported */
+> >  #define	EAFNOSUPPORT	97	/* Address family not supported by protocol */
+> >  #define	EADDRINUSE	98	/* Address already in use */
+> > 
+> > base-commit: 670b77dfebe7257adc0defbc48a4c43cfdf6c8f6
+> 
+> This seems ill-advised. The problem is that most of this behavior has
+> been well established for years, and not all userland software (and
+> even some internal callers like nfsd), will react well when you go
+> changing behavior like this.
+> 
+> As a case in point, the POSIX spec doesn't list EOPNOTSUPP as a valid
+> error return for open():
+> 
+>    https://pubs.opengroup.org/onlinepubs/9690949399/functions/open.html
+> 
+> The manpage for open() says only:
+> 
+>        EOPNOTSUPP
+>               The filesystem containing pathname does not support O_TMPFILE.
+> 
+> What is the poor userland developer to make of this when open() starts
+> returning EOPNOTSUPP without O_TMPFILE being specified?
 
-Well, since it pretty much is what I suggested a few years ago, I
-certainly won't NAK it.
+So I wouldn't care as much about POSIX, we largely ignore it anyway in the
+kernel. But I tend to agree that changing the error code we returned for
+several decades just for the sake of "cleanliness" isn't IMHO a good enough
+reason to risk breaking userspace or causing confusion.
 
-And the patches looked very straightforward to me. Just the final
-diffstat is worth quoting again because that certainly doesn't look
-problematic:
-
-  7 files changed, 33 insertions(+), 204 deletions(-)
-
-and it removes that GIFT flag that was truly disgusting.
-
-So I'm certainly ok with it from a "looking at the patch" standpoint.
-I didn't _test_ it. I don't have any workload that might remotely
-care.
-
-I did a quick scan on debian code search for vmsplice, and after ten
-pages of entries that weren't actually *using* it but had lists of
-system calls, I grew bored. So there are likely users, but I don't
-know what they are and how much they care. It *might* be a big
-performance issue somewhere. Unlikely, but...
-
-         Linus
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
