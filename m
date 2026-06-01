@@ -1,81 +1,136 @@
-Received: from mail3-163.sinamail.sina.com.cn (mail3-163.sinamail.sina.com.cn [202.108.3.163])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA1215687D
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 23:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073CB380FF6;
+	Mon,  1 Jun 2026 23:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780355879; cv=none; b=JPLaPvudxsTBASC8s5bwJ/9Jsms8s4MPhDKM7UgrNvxv2iA+vrEbYRCEe6jbD3GGKTWClfUcDHcraXth8LufXGmEGyAqiq5I1l6Ae5xJXjcd1JWTyrsmoCrjL6qfYuPVraQjOiTBO8SBeQ/sq81c3BHFZgJz8XEYLuA7cD0HBUw=
+	t=1780356267; cv=none; b=HCUJOy7TuBW8vAkpBwoYRZhrKy7QlCX+9YHBSFrUW//6Z25hOV4xVcTWCQsd1hvZ5nuh9LEKl1TlQtYV4djCdCb9BlVm6f1/CDUeCIZSl7Yswh8H5BejI59LJrOuswMpQOvfFAUif+yfMFEeoWLwdpQY5+NfmLg/QpIctKlNENo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780355879; c=relaxed/simple;
-	bh=Po0H4PhXpZB4CC0ZmuVH8OSxr/lv1Ed3Id5JhFMl2mg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MMTZNQN9FfRTKihj+o9lJwqCzWWBxk16cbnXARol8ygKoUTdKcEq8cg4TwnysHGmqT1jL9PF3Tc/5XO3p0K9or8Bwu6T9h+oIRBpxckRMRbjK5aGGZ33I055jrOEAcF+eOFYdyQyfInggdi1vVbdq/iZXeptB+Ry8WMQ1XldTZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=HF3FUGtc; arc=none smtp.client-ip=202.108.3.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	s=arc-20240116; t=1780356267; c=relaxed/simple;
+	bh=DfLQHO9ZEMPWPBpxjYs4hLwQre4GHwtiqeK4Tww/mv0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G/Q9kCAxKYAcN/Fdef2fbc7grZlxg/QTgi67LeQCfMlSKXYDFpxTWlBGs67lvnBgToRCU8q5luMCvBKO47lHHONENHUyYf/fhh/EdWYz3w/BJE9IzY2OTWNZ/U8w9BdAY8yjKUDdG46qSyZPKAbEk7fgcbGr16kA3qvikZaauGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBgE/eqJ; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="HF3FUGtc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1780355876;
-	bh=3OCVMiVaoAQ78KSjGPxA9tbJTpAysnsv+Uuid0f3YZE=;
-	h=From:Subject:Date:Message-ID;
-	b=HF3FUGtcciqzpXRIMmIUji6IQrkL9+fuwMBku45uhzoMEsdZolkdmVAKJfV1OV/BQ
-	 +iy8mPhIkLKZEI/139Qtg29phjIQgmP6FbURn90RVqE+5l65kjcLHFPoBEDFwtrHJi
-	 XDFqZgQknu42Aniht1YoVPXqqENReF/cOissjmaE=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
-	by sina.com (10.54.253.34) with ESMTP
-	id 6A1E131500002077; Mon, 2 Jun 2026 07:17:45 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 3043906291827
-X-SMAIL-UIID: 704A31F544FA422892316E3CA446A8CC-20260602-071745-1
-From: Hillf Danton <hdanton@sina.com>
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Qu Wenruo <wqu@suse.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Jens Axboe <axboe@kernel.dk>,
-	Bart Van Assche <bvanassche@acm.org>,
-	linux-block <linux-block@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-btrfs@vger.kernel.org,
-	David Sterba <dsterba@suse.com>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
-Date: Tue,  2 Jun 2026 07:17:30 +0800
-Message-ID: <20260601231731.1403-1-hdanton@sina.com>
-In-Reply-To: <ah4EY2nhPxEETufZ@fedora>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBgE/eqJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780356265; x=1811892265;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=DfLQHO9ZEMPWPBpxjYs4hLwQre4GHwtiqeK4Tww/mv0=;
+  b=PBgE/eqJgF2ypvE3rRlD9e54Qq41mclGQUl8fA6Zu7GXJmR1fMIS6oI3
+   JgvnJYWMvD1gO45M0Y0qgoBR8t5A7XNuEVzbbnJOiUSkRcMR/KaMOM2+v
+   VjE3G1NcSejXUSMkBTUFonDxatPzqgCnYarYk6qH23rf/RMtrLmd4d+jR
+   P4Nf4FQ7kqaMt/8SI7STiPXqSBExkXc++TKjQG6wMaqtD7LyiK6LRaPUq
+   niGTXWc4SUxvKawIlcYxA2AqW3G+4ryhY581KSiym44p4rpWw/uQdcr9B
+   haGeU3Yl6DY0sPmbhUsm3DtrcdIpgo25Kd+5FOKGUWfcu2EjWrrSjtuUQ
+   Q==;
+X-CSE-ConnectionGUID: dZn4Iw4GRzeMSKRsbFXMdA==
+X-CSE-MsgGUID: fGN0C/U6RmWK5BBneHBjmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81026241"
+X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
+   d="scan'208";a="81026241"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 16:24:24 -0700
+X-CSE-ConnectionGUID: g8uOSbJtTQyK+i2f3tMqwQ==
+X-CSE-MsgGUID: qgmFUOBGQzCuG/+DUJ3SKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
+   d="scan'208";a="242680950"
+Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.108.24]) ([10.125.108.24])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 16:24:23 -0700
+Message-ID: <39570927-b4f8-41e2-816b-e8a0a30abf2b@intel.com>
+Date: Mon, 1 Jun 2026 16:24:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 5/9] dax/fsdev: use __va(phys) for kaddr in
+ direct_access
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Dan Williams <djbw@kernel.org>
+Cc: John Groves <jgroves@micron.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Alison Schofield <alison.schofield@intel.com>, Ira Weiny
+ <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019e79caead2-5795328c-af48-4a93-b147-c11df7446e1a-000000@email.amazonses.com>
+ <20260530165100.6670-1-john@jagalactic.com>
+ <0100019e79cbe087-d11f77a7-379f-4355-b65c-52b3090e9ddd-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019e79cbe087-d11f77a7-379f-4355-b65c-52b3090e9ddd-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 1 Jun 2026 17:14:59 -0500 Ming Lei wrote:
-> On Tue, Jun 02, 2026 at 05:51:26AM +0800, Hillf Danton wrote:
-> > On OnMon, 1 Jun 2026 10:29:25 -0500 Ming Lei wrote:
-> > > syzbot log shows the null-ptr-deref  is on WRITE, instead of DISCARD.
-> > >
-> > > https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28
-> > >
-> > > Adding WARN_ON(!lo->lo_backing_file) in loop_queue_rq() might capture
-> > > this bio submission context if this req isn't issued via wq.
-> > >
-> > I suspect this makes $.02 sense given the check of Lo_bound upon queuing rq.
+
+
+On 5/30/26 9:51 AM, John Groves wrote:
+> From: John Groves <John@Groves.net>
 > 
-> Can't lo->lo_state be updated after the check? It is totally lockless...
->
-Sounds good hm... do you mean it is UNWISE to not flush the loop workqueue
-when closing disk?
+> Use __va(phys) instead of virt_addr + linear_offset for the kaddr
+> return in __fsdev_dax_direct_access(). The previous code added a
+> device-linear byte offset to virt_addr (which is __va of ranges[0]),
+> but for multi-range devices with physical gaps between ranges, this
+> linear arithmetic crosses the gap and produces a wrong kernel virtual
+> address. Using __va(phys) where phys comes from dax_pgoff_to_phys()
+> is correct for any range layout because the direct map translates
+> each physical address independently.
+> 
+> Fixes: 759455848df0b ("dax: Save the kva from memremap")
+> Signed-off-by: John Groves <john@groves.net>
+
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+
+one comment below
+
+> ---
+>  drivers/dax/fsdev.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> index 42aac7e952516..a2d2eb20fb4d0 100644
+> --- a/drivers/dax/fsdev.c
+> +++ b/drivers/dax/fsdev.c
+> @@ -51,9 +51,7 @@ static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
+>  	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+>  	size_t size = nr_pages << PAGE_SHIFT;
+>  	size_t offset = pgoff << PAGE_SHIFT;
+> -	void *virt_addr = dev_dax->virt_addr + offset;
+
+With this change, there's no more dev_dax->virt_addr usage? Should that be removed?
+
+DJ
+
+>  	phys_addr_t phys;
+> -	unsigned long local_pfn;
+>  
+>  	phys = dax_pgoff_to_phys(dev_dax, pgoff, size);
+>  	if (phys == -1) {
+> @@ -63,11 +61,10 @@ static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
+>  	}
+>  
+>  	if (kaddr)
+> -		*kaddr = virt_addr;
+> +		*kaddr = __va(phys);
+>  
+> -	local_pfn = PHYS_PFN(phys);
+>  	if (pfn)
+> -		*pfn = local_pfn;
+> +		*pfn = PHYS_PFN(phys);
+>  
+>  	/*
+>  	 * Use cached_size which was computed at probe time. The size cannot
+
