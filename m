@@ -1,109 +1,133 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AEC33B6F8;
-	Mon,  1 Jun 2026 07:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780298241; cv=none; b=rAKMTEJ9kRljV4sZviknBcL3JJYvLMFbAxnu2R+b0KdXMASugxVHV/XsoUmVNVvqxneDFSVYyTZJL3KSqRCq4Adv+759mjaiqsHArMaoAzqN7y5h1L46RX5uQJEOV6y4ioc9VKEL2LrJ/841mumydBmZ+qiJJwIQrcVMk1CqwPM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780298241; c=relaxed/simple;
-	bh=O15qp62lnGg8h0D3Jf+GQQEexYXhwR92s4TvaE9Wd7s=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ftUaf5vul6eD+ZAyLBobVp7C7U9+bQi9WNiONZm/I9x2TZLoezQVVwUMXy54uqhgZZ9BvJu6yKL5mrdxOEkiMV8P6GAm9ElhUu9XfxP5J75FzLt+H/YVJe4JdH0b1ZoCc+ArSPrn3gaD1N3CSFeSTioCOxwjqdmKCxW6bimt7gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=NrCjURBa; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6560238758F
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 07:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780300318; cv=pass; b=JcezCQSmKlLbroS4GFGaS6lGfPdv5OssZfI1pA27jDWjOEdJqIiwB/BpSfx+Aa1NyAaa5kOJkjtbICDGMcI6Jhys63wd5wb3gLhRudcxcTa9ZxPQ7jnh+VjLd8dSqQvGl5zHu6Gk1cwJ9QU3q4ZtfzpblN6Diq2IJQSvubFosFE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780300318; c=relaxed/simple;
+	bh=cF3bo3gTiqGgXsGQh1woooAWR3zcLL1CArsvtr5JdPU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bjGhEVDRaaAi/FTYHJFgWJqE8sMc0wjJc3l2jR88TjoDc3oRg8KAI7dL5ljc0wKEH5k1OKKjfz953IUIIdvf8A9u/mpfDSpj2k+as3Ag6ne6BkiGgjE6MaU0eIxhZgKSmbtywf4+MvA+pwVv3mQCsBAsJEq7+gDPDku7/Bo9wl8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YCBxmYk7; arc=pass smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="NrCjURBa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:To:
-	Content-Type; bh=eMVFGeQet2q9i38H6nc5ggraVuL3XTIUP1O16KEY7o0=;
-	b=NrCjURBabv0q9bQWSd7LBR68SUEtmSmqT8Auy7wVdxNSy0Utfnfw9ANFWepPja
-	yNFd1GkcL8+a4Fr/LS26WIX8p92ysQr1dDx9TpicPuoZC/Lvt1wCeBOuk780El7a
-	eun+91E0ynhrvh5aI5Jv+CbBOwqyPOA4MyYH9WsUmlcfk=
-Received: from [192.168.3.148] (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgBXW5KxMR1q+JGXFQ--.4S2;
-	Mon, 01 Jun 2026 15:16:07 +0800 (CST)
-Message-ID: <0c52fc64-3546-4008-af98-6d589ef00c99@163.com>
-Date: Mon, 1 Jun 2026 15:16:01 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YCBxmYk7"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7df8b6aca7fso1452147b3.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 00:51:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780300316; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WAZpVhWFbZ2J8dYkgx2wFCoc0aEQDhVdp8MvTLYwDb8FXY2BGh5SGph9dtGsDGdWWr
+         SIPlooaUA/LzjUAQTN2Xwm7cs3Xuu3H6xj912eBWb7E93VKO2ZfGI/gCNk5s2jjkA2hu
+         DMmfJnrVTwAOAx4BY3rUnAIQMsuXyyQ1rbf1rAFEkpTfCUhGCPDRurkdHXf22LMTVQpk
+         UeGj9oxMe6xXIcCHqpvYGAVQHjn3058UOwGxLfKF/c+AbXpyTKr/NKampQWtkYr0OI1A
+         EIy8hoLtBr9oxgn5trKMoVxCfGQIf/R2TUdq+yzqQvaMNX6Y8w8E9tnSoOv3HukMaocI
+         8Nbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cF3bo3gTiqGgXsGQh1woooAWR3zcLL1CArsvtr5JdPU=;
+        fh=XdrB3SifvEKACYLf7fuGPXVvEt2aQ2vYggvUVM/mWek=;
+        b=k350DMeRZ8vhP1R27GxnVfPqm/Tje9rA+jRCUvJmZY/3uZJ6yPEGez3WBNy5bHgY3w
+         hbeCZub1pnLJb1QFB6w6WTgSZbOLweWXkf+9tbgYcmj4oMCwYoy1cyw3+GeYrPcMNEas
+         WIoAjAwa1jNh+4VaDM4rd/AODOcO4Mam8wS2TKYMU29E+E10FlFeUbaAzhbEB8oDTssd
+         HbgEiIx60GyBY0FzJHGjBs1t6l71Gvc6hm36ns/xl+HAaPWYI/qP9N5L9BFd8rU76MSB
+         pi40tNNSb7oHjSSqJrfeq+NSRYxzFlCxwDJZKb+5091srRHi4XhzRTXRtinKChvRaaUk
+         nHJg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780300316; x=1780905116; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cF3bo3gTiqGgXsGQh1woooAWR3zcLL1CArsvtr5JdPU=;
+        b=YCBxmYk7K8FYBmNSKOZ5ACifL3eTIanoNVln2/dqRsY0I0ruGUPmIleFd2mpYqjwbH
+         /iM6pDEA4TKUop9/Vy3IvwFIsIgceG6ThsC9HmOsRSPPo8a4R4u+rYUiFkxoAlj8NC8g
+         gxv8tV0nfgyXPeGc7ARb0BFltEJYaK4+4MYG6VhUGoFzBdorDLYXmUs1T0IWQ1K70vVN
+         DQaNRpTrsUV1/LeTi50OV8kzRbDGRFlIphjCtH+KNFU78Hu60RRfn/Og3bovP9qinngm
+         7oODhbCYsDRMTs0dtHup2horsxaC0F/Hk0KYY4U8plzAI0FbIb2AEyXA09Gas3jSNzp1
+         mGgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780300316; x=1780905116;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cF3bo3gTiqGgXsGQh1woooAWR3zcLL1CArsvtr5JdPU=;
+        b=nBvyFwOGLiZIugTOqvn2k1gANWTIxpabNBXiVejFG1L+e9lILb595jW6bKwIaKX5AV
+         B1TMHe1+x0e4X2eAHiOvdpkOR+yLvnSBfHUF15PXoDZiUaCD9l7lk+dmfZ0b0OMttqzo
+         3FQRoscn4tfXeIufHBGWzSn2h9mZ4Y8Po7ELlv62DAJcn2XYOvWt7ZVBa0sxoATFskrs
+         P2+EYDqIzLPibOPd50i3Tf/5WR52YP47dTGVXFFuULvQ/reB9hdSNPzXTZ9ZxrfVHuXF
+         RG24BXFLcn26KHFjlhot72udLYQWbGxYuB4gV5SnTcOH1YRR617/TYAh/t2/0j+IFglw
+         gknw==
+X-Forwarded-Encrypted: i=1; AFNElJ+r+zy5tqdFY7rSuINBLEeME47Pc5oNp37Omq5zauDKMya4YIT7BTsXzUjxSIaJjci2o2Z7c6cEEx5HEsCe@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAuZUcVhphCKytJ68BpxvsUTuvDv+pT9pEaqisESmoClhheTGG
+	F8NgFSj3ZdYOAKPUtJXPBcGtguKs/FGjUXxC9k+2aKUFRbRLDrRtw9ILF8Ee9WesDKwhE6A/s2w
+	UiUnEKoeegU9/tkW4dORib4sAlqTx3iE=
+X-Gm-Gg: Acq92OHpbC9EDDIQSnmpPtCsOSoVDai1bh7F/pkCcr1ZFzN3Sgw1lygb+3xBLLJXreH
+	cRWdOV1XqKgkX3kExcQWBc65cODNMRQRPgyrglPFmLCt0lms1Q1GCupAEmGkEZeSY0jM8oj2ClW
+	J8TiziC0OzqLqUcFPJBItBCMn7O6PH4DZaLkjhEAbdjG+ZS0HE4UkxMGhrFZjfNwtXJqgDe9tsr
+	xGlALEBnibE+LCOlEr4jmubc/auz2eoagJYpJ73IeEj9BHtI7K179NyxaX7jB56AMkdjBQ06BGn
+	VkuZ9ovoYe7m6BteEusL
+X-Received: by 2002:a05:690e:4183:b0:65d:7fad:2207 with SMTP id
+ 956f58d0204a3-6605f2b969cmr4819517d50.8.1780300316343; Mon, 01 Jun 2026
+ 00:51:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] mm/shmem: optimize read with reduced xarray
- lookups and folio batching
-From: Chi Zhiling <chizhiling@163.com>
-To: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chi Zhiling <chizhiling@kylinos.cn>
-References: <20260601055704.167436-1-chizhiling@163.com>
-Content-Language: en-US
-In-Reply-To: <20260601055704.167436-1-chizhiling@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:PigvCgBXW5KxMR1q+JGXFQ--.4S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Kw4DWrWxKF4UAryrAF17Awb_yoW5JrWxpr
-	ySgr1ftry7J3yfArn7Gw1rKFyxJrZ5tF1DWF18KFs3XF1Fyw43t3W8Gr48GrWDCa47Zw1U
-	Jry7Jwnrtr15K37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U6KZAUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC2xdb+GodMbcZaAAA3v
+References: <20260530143514.3083601-1-charsyam@gmail.com> <20260530143514.3083601-7-charsyam@gmail.com>
+ <CAKYAXd_-Y1Rx-sUd-2GWS+KBCkTi+DA0DtX9qaD3nT8payRbGg@mail.gmail.com>
+In-Reply-To: <CAKYAXd_-Y1Rx-sUd-2GWS+KBCkTi+DA0DtX9qaD3nT8payRbGg@mail.gmail.com>
+From: CharSyam <charsyam@gmail.com>
+Date: Mon, 1 Jun 2026 16:51:45 +0900
+X-Gm-Features: AVHnY4KuNaKVOm2lexidjP8dBqeXyIJJcAtznnKIUqc00Ir66msg4tGqdwWooH4
+Message-ID: <CAMrLSE7T6ZyQZ4eutnek7irEWYDeg4im+tvSxWuEHWDgaseK4A@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] ntfs: validate resident index root values on lookup
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/1/26 13:56, Chi Zhiling wrote:
-> Performance Results:
-> 
-> fio --ioengine=sync --rw=read --bs=$1 --size=1G --runtime=180 --time_based --group_reporting --name=seq_read_test --filename=testfile
-> 
-> | THP disabled in tmpfs  | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
-> | ---------------------- | ------------ | ----------------- | ----------- |
-> | 1M + normal file       | bw=11.5GiB/s | bw=12.7GiB/s      | +10.4%      |
-> | 64k + normal file      | bw=11.0GiB/s | bw=12.3GiB/s      | +11.8%      |
-> | 4k + normal file       | bw=3826MiB/s | bw=3849MiB/s      | +0.6%       |
-> | 1M + fallocated file   | bw=23.8GiB/s | bw=28.6GiB/s      | +20.2%      |
-> | 64k + fallocated file  | bw=22.5GiB/s | bw=27.3GiB/s      | +21.3%      |
-> | 4k + fallocated file   | bw=4655MiB/s | bw=4680MiB/s      | +0.5%       |
-> | 1M + hole              | bw=24.2GiB/s | bw=28.6GiB/s      | +18.2%      |
-> | 64k + hole             | bw=22.6GiB/s | bw=27.6GiB/s      | +22.1%      |
-> | 4k + hole              | bw=4652MiB/s | bw=4489MiB/s      | -3.5%       |
-> 
-> 
-> | THP enabled in tmpfs  | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
-> | --------------------- | ------------ | ----------------- | ----------- |
-> | 1M + normal file      | bw=13.7GiB/s | bw=13.9GiB/s      | +1.4%       |
-> | 64k + normal file     | bw=13.5GiB/s | bw=13.5GiB/s      | +0.0%       |
-> | 4k + normal file      | bw=3833MiB/s | bw=3859MiB/s      | +0.7%       |
-> | 1M + fallocated file  | bw=24.9GiB/s | bw=34.2GiB/s      | +37.3%      |
-> | 64k + fallocated file | bw=23.0GiB/s | bw=31.4GiB/s      | +36.5%      |
-> | 4k + fallocated file  | bw=4710MiB/s | bw=4655MiB/s      | -1.2%       |
-> | 1M + hole             | bw=24.3GiB/s | bw=34.5GiB/s      | +42.0%      |
-> | 64k + hole            | bw=23.5GiB/s | bw=31.1GiB/s      | +32.3%      |
-> | 4k + hole             | bw=4690MiB/s | bw=4647MiB/s      | -0.9%       |
-> 
-Apologies, due to my oversight, the tests involving hole were incorrect, 
-the holes were not successfully created in the files during testing.
+Hi, Namjae.
+I will check it soon. Do you mean 6/6 patch or all of them?
 
-Below are the corrected results from a retest:
+Thanks.
+DaeMyung.
 
-| THP disabled | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
-| ------------ | ------------ | ----------------- | ----------- |
-| 1M + hole    | bw=27.3GiB/s | bw=23.4GiB/s      | -14.3%      |
-| 64k + hole   | bw=27.3GiB/s | bw=23.3GiB/s      | -14.7%      |
-| 4k + hole    | bw=4825MiB/s | bw=4624MiB/s      | -4.2%       |
-
-
-| THP enabled | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
-| ----------- | ------------ | ----------------- | ----------- |
-| 1M + hole   | bw=27.0GiB/s | bw=23.1GiB/s      | -14.4%      |
-| 64k + hole  | bw=27.5GiB/s | bw=23.3GiB/s      | -15.3%      |
-| 4k + hole   | bw=4777MiB/s | bw=4640MiB/s      | -2.9%       |
-
-
-There is a noticeable performance drop when accessing holes, as every 
-read triggers a fallback. I will address this in the next version.
-
+2026=EB=85=84 6=EC=9B=94 1=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 1:37, Na=
+mjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Sat, May 30, 2026 at 11:35=E2=80=AFPM DaeMyung Kang <charsyam@gmail.co=
+m> wrote:
+> >
+> > Resident $INDEX_ROOT values carry index header fields that callers
+> > consume after lookup. Some callers already validate parts of the layout
+> > before walking entries, but those checks are scattered and do not cover
+> > all root header invariants, such as entries_offset alignment and lower
+> > bound, index_length, and allocated_size consistency.
+> >
+> > Now that ntfs_ir_truncate() updates index.allocated_size before
+> > shrinking the resident value, lookup-time validation can cover these
+> > header invariants without tripping over the driver shrink path.
+> >
+> > Add $INDEX_ROOT to the minimum resident value size table and validate t=
+he
+> > resident index header fields before returning the attribute from lookup=
+.
+> > Require 8-byte aligned index header fields, a sane entries_offset, an
+> > index_length within allocated_size, allocated_size within the resident
+> > value, and enough entry space for at least an index entry header.
+> >
+> > Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+> When this patch is applied, the generic/013 test fails randomly. The
+> failure can be reproduced by running xfstests generic/013 multiple
+> times. Additionally, ntfsprogs-plus must be installed to run fsck
+> checks.
+> Thanks.
