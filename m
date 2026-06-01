@@ -1,30 +1,29 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B431346A10;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364EC346AE3;
 	Mon,  1 Jun 2026 05:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780293495; cv=none; b=jjlDDFs/tBaT0HBHmsZBrIC61Eb7lOUsjComr4Y1q8+IUkxcGC9P/AZGN6GHK/ajy2SwP590oyc5bV+wx/Wvz8vrNSp9AsYjIgneFsG1SP3hJ2Lp0lF1g1wPIL+598ipteA9oayrqB2A5EycQwjIyrQBYik/Vnmcz5cn+ySjTjo=
+	t=1780293496; cv=none; b=VgK7DLR1wVou+kOxXPUqNZIjHs58p7FfxKWIOzcjGS4js+EWChTUGmioch5b8gNEBMvBP+Ce+bntgKz4cYTg6qCtqK0WWeBDFPXJd9oK3i9unRbZdUPt4RePshaAOkzYgxH3FfpXA4CeKR8ratzv4mRNd/8zBGSFOGefvQw62BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780293495; c=relaxed/simple;
-	bh=UMxeq9LPuPXgUjRNwxWespCzYt4u0qUiwMiR3PxLwQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NJQhqdSj61IksVRSMc+NlXaR7z4/M/VN0plSjwq/vMqo5vRZsAA4/5QlqfhPcwEFzJJEKQOv/LL2ey0OHwws0dAOfDVoN9xWAB3W6ZPf8g+77m7YFa3I4Q4T3GTXJbHiC2Eg3KPp85sh0x9fk7L3Ow/1HRZMnZqmkkQx+YQuhAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HQh1rnhi; arc=none smtp.client-ip=117.135.210.3
+	s=arc-20240116; t=1780293496; c=relaxed/simple;
+	bh=gQCcrl5wOXscPu1TF4ArmdRLqUhBzNAu2ku7+1QmHp8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KmiBhsZ92CxHIkDHzbGIg/XfgiKYGIkmoD3Mi46bWKrssyZ6SuTIVvKMhQTgkYCyWvAgWANfid8p9CdTIyfmE8/lfoPpVG1rXAm89tiCXVvUW0vWz6cTBVnCKIzm+VYp38YTXLcU0a7ej13xcd4jN8z5MYi45H23x/QcKO+/fDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=n1GCqtM+; arc=none smtp.client-ip=117.135.210.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HQh1rnhi"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="n1GCqtM+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=hS
-	FfhvzoChQOQgIIJG5v3NjnH7WU8ceJmhHARcctEEs=; b=HQh1rnhiRosYsEScko
-	GkClTFquAuKP+Vh79FH9s2EGthCwz9V6MaOhQB2tX/5wFhrFQjJ565KBQYkPMy3a
-	+1/ckkRU5cUMXC45gK942ZQ4HdnVnAi6hpF719Fa67drlNBfIfnF/4te+WYqDEoZ
-	bY6j/Z8TL74u0/qa58UchjLI0=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=0J
+	yrTMDTnIbsNnfvDIxSelJbEh2fWHCPQJttmJvmeJ8=; b=n1GCqtM+SPutVhqGs9
+	QSVbCdEIenwGvdNvjIfuMibNyBBheCNf1CB9kzCk8tlTfsqnVB2W8ys9avUa+lZY
+	NxowsBqke8DleHKQk97LEWYdN0gI9ZqctkQjO6Spq/sqzNw0Vl61+bT4NLZSBbGM
+	2A1NfmExaubXy9x9ohk6Xc+vw=
 Received: from czl-ubuntu-pc.. (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3_7Q6Hx1qsb0MAw--.47504S4;
-	Mon, 01 Jun 2026 13:57:20 +0800 (CST)
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3_7Q6Hx1qsb0MAw--.47504S2;
+	Mon, 01 Jun 2026 13:57:17 +0800 (CST)
 From: Chi Zhiling <chizhiling@163.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-mm@kvack.org,
@@ -35,12 +34,10 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Hugh Dickins <hughd@google.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v2 2/5] mm/filemap: reduce xarray lookups in filemap_get_folios_contig()
-Date: Mon,  1 Jun 2026 13:57:01 +0800
-Message-ID: <20260601055704.167436-3-chizhiling@163.com>
+Subject: [PATCH v2 0/5] mm/shmem: optimize read with reduced xarray lookups and folio batching
+Date: Mon,  1 Jun 2026 13:56:59 +0800
+Message-ID: <20260601055704.167436-1-chizhiling@163.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260601055704.167436-1-chizhiling@163.com>
-References: <20260601055704.167436-1-chizhiling@163.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,101 +45,65 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3_7Q6Hx1qsb0MAw--.47504S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ur1ktw17Cw4kAF17WFy7trb_yoW8tFWfpF
-	4agas7WrWxJw13Cr1fA3WrC3WYk34vqa15GFWxGw1fZFn0yFnIkr17K3W5Jas8ZrykJF1x
-	XF48J34kWF1UJa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j24E_UUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9wC5V2odH0BQSAAA3p
+X-CM-TRANSID:_____wD3_7Q6Hx1qsb0MAw--.47504S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ur15AFWxWrWxWrW7JFykuFg_yoW8Kw1rpr
+	yfWr1fJryfJ34fAr93Gw4xKF1fXF95JF1UWF1ftr4fXFnYkw1Dt3WfGF48GrWUCFy7Zw1U
+	Jr17JwnF9w45t37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jFJP_UUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC+B64VmodHz5EMAAA3q
 
 From: Chi Zhiling <chizhiling@kylinos.cn>
 
-Apply the same optimization used in filemap_get_read_batch() by moving
-the boundary check from the loop condition to before xas_advance(),
-avoiding an unnecessary xarray lookup and reducing branches in the fast
-path.
+This series improves shmem read performance by implementing folio
+batching in the read path and reducing unnecessary xarray lookups.
 
-Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
----
- mm/filemap.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+Performance Results:
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index d54450e529bd..6bc717f205a7 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2258,11 +2258,13 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
- 	XA_STATE(xas, &mapping->i_pages, *start);
- 	unsigned long nr;
- 	struct folio *folio;
-+	pgoff_t next;
- 
--	rcu_read_lock();
-+	if (unlikely(*start > end))
-+		return 0;
- 
--	for (folio = xas_load(&xas); folio && xas.xa_index <= end;
--			folio = xas_next(&xas)) {
-+	rcu_read_lock();
-+	for (folio = xas_load(&xas); folio; folio = xas_next(&xas)) {
- 		if (xas_retry(&xas, folio))
- 			continue;
- 		/*
-@@ -2270,11 +2272,11 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
- 		 * No current caller is looking for DAX entries.
- 		 */
- 		if (xa_is_value(folio))
--			goto update_start;
-+			break;
- 
- 		/* If we landed in the middle of a THP, continue at its end. */
- 		if (xa_is_sibling(folio))
--			goto update_start;
-+			break;
- 
- 		if (!folio_try_get(folio))
- 			goto retry;
-@@ -2282,30 +2284,28 @@ unsigned filemap_get_folios_contig(struct address_space *mapping,
- 		if (unlikely(folio != xas_reload(&xas)))
- 			goto put_folio;
- 
--		if (!folio_batch_add(fbatch, folio)) {
--			nr = folio_nr_pages(folio);
--			*start = folio->index + nr;
--			goto out;
--		}
--		xas_advance(&xas, folio_next_index(folio) - 1);
-+		if (!folio_batch_add(fbatch, folio))
-+			break;
-+
-+		next = folio_next_index(folio);
-+		if (next > end)
-+			break;
-+		xas_advance(&xas, next - 1);
- 		continue;
-+
- put_folio:
- 		folio_put(folio);
--
- retry:
- 		xas_reset(&xas);
- 	}
-+	rcu_read_unlock();
- 
--update_start:
- 	nr = folio_batch_count(fbatch);
--
- 	if (nr) {
- 		folio = fbatch->folios[nr - 1];
- 		*start = folio_next_index(folio);
- 	}
--out:
--	rcu_read_unlock();
--	return folio_batch_count(fbatch);
-+	return nr;
- }
- EXPORT_SYMBOL(filemap_get_folios_contig);
- 
+fio --ioengine=sync --rw=read --bs=$1 --size=1G --runtime=180 --time_based --group_reporting --name=seq_read_test --filename=testfile
+
+| THP disabled in tmpfs  | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
+| ---------------------- | ------------ | ----------------- | ----------- |
+| 1M + normal file       | bw=11.5GiB/s | bw=12.7GiB/s      | +10.4%      |
+| 64k + normal file      | bw=11.0GiB/s | bw=12.3GiB/s      | +11.8%      |
+| 4k + normal file       | bw=3826MiB/s | bw=3849MiB/s      | +0.6%       |
+| 1M + fallocated file   | bw=23.8GiB/s | bw=28.6GiB/s      | +20.2%      |
+| 64k + fallocated file  | bw=22.5GiB/s | bw=27.3GiB/s      | +21.3%      |
+| 4k + fallocated file   | bw=4655MiB/s | bw=4680MiB/s      | +0.5%       |
+| 1M + hole              | bw=24.2GiB/s | bw=28.6GiB/s      | +18.2%      |
+| 64k + hole             | bw=22.6GiB/s | bw=27.6GiB/s      | +22.1%      |
+| 4k + hole              | bw=4652MiB/s | bw=4489MiB/s      | -3.5%       |
+
+
+| THP enabled in tmpfs  | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
+| --------------------- | ------------ | ----------------- | ----------- |
+| 1M + normal file      | bw=13.7GiB/s | bw=13.9GiB/s      | +1.4%       |
+| 64k + normal file     | bw=13.5GiB/s | bw=13.5GiB/s      | +0.0%       |
+| 4k + normal file      | bw=3833MiB/s | bw=3859MiB/s      | +0.7%       |
+| 1M + fallocated file  | bw=24.9GiB/s | bw=34.2GiB/s      | +37.3%      |
+| 64k + fallocated file | bw=23.0GiB/s | bw=31.4GiB/s      | +36.5%      |
+| 4k + fallocated file  | bw=4710MiB/s | bw=4655MiB/s      | -1.2%       |
+| 1M + hole             | bw=24.3GiB/s | bw=34.5GiB/s      | +42.0%      |
+| 64k + hole            | bw=23.5GiB/s | bw=31.1GiB/s      | +32.3%      |
+| 4k + hole             | bw=4690MiB/s | bw=4647MiB/s      | -0.9%       |
+
+
+v1:
+https://lore.kernel.org/linux-mm/20260520101538.58745-1-chizhiling@163.com/#t
+rfc:
+https://lore.kernel.org/linux-fsdevel/20260515094702.1092355-1-chizhiling@163.com/
+
+
+Chi Zhiling (5):
+  mm/filemap: reduce unnecessary xarray lookups when read cached pages
+  mm/filemap: reduce xarray lookups in filemap_get_folios_contig()
+  mm/shmem: introduce copy_zero_to_iter() for large zeroing
+  mm/shmem: remove page-copy fallback in shmem read path
+  mm/shmem: optimize file read with folio batching
+
+ mm/filemap.c |  46 +++++++++++--------
+ mm/shmem.c   | 126 +++++++++++++++++++++++++++++++++++----------------
+ 2 files changed, 113 insertions(+), 59 deletions(-)
+
 -- 
 2.43.0
 
