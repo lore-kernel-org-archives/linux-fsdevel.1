@@ -1,48 +1,85 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E70A376A10;
-	Mon,  1 Jun 2026 12:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B5B3783C1
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 13:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780318289; cv=none; b=mCcNZSzLytOVwPWfYVeLP/cgQbZ7hFaB+2eusC/JVIs6dckuOSaQzmzXLOvhn7paK1AN8miNUQcQJvUOg2ru9OlZq7x3X4Y7oYPVKiULZk9uIqx1bsLeuyH2GX3R+b8FgaFKUW3sb1qmN48uvGMMhBDua0Xu5WjRLy54pI2dTHk=
+	t=1780319079; cv=none; b=ZgfALdy4BBjxfgMfUQhn9gBCSn0LfP5jhfEgPqxyRHmAjZO9P33nXAd0JxtloDbbEso7oXkWEJWrrK2NaSFZmXw6UvX9XhHvtwDLbXXwZEVVlkz8LFZMAFIRunOk398G0zLg+jy9bIpRe9azhjBc0vpyWrpZK4Z0TLTu3PbG+qQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780318289; c=relaxed/simple;
-	bh=6n1bI9SNAe4DHNgAAYSIT7M3aaAfOzbkI7gWuv5tfFk=;
+	s=arc-20240116; t=1780319079; c=relaxed/simple;
+	bh=XLJpB0NoNd5a0xV2z3M6vkIicd+vdYUvjre2FxwY718=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KrosPrs8h7lGkJAsp95retFTiqjuFSz+fyiBrNnltYVeagWgBPS4fTszEuijrjwBe5YKE3utOfGOyaSDMklMwh8FXX0yhJFQuux8Rk3wTom7RG9EuK1aduYcqv23Qa/0p4FKQMpMDVo+488hwz42cqdFY3lSrqAC0IRIp2/NDEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T/rnueMQ; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=mCoBQ69qAd4MaUTPQnPzW85p0rPQFvtLdQLD67DT3nr4/wR3f4LCk1JdUR0LZ37HPy55tFTlIRPB8j7Jpz50OrN/ewSkbCmnd+XwKFlFpKM6vu/T4F7romXN2VwXmkZMTERe19IYR4r01elpuorb3fuQT1pC8Vr2EeVjUdcRR3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TqwkvYoo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X/08NNac; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TqwkvYoo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X/08NNac; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T/rnueMQ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=TEhv83iWRMPpEwpywpQrzBRVTeVJZLFdszoXaX6/TKo=; b=T/rnueMQa5GcXTkGnfK2SYkp6F
-	eRWDyHxOMTbt5VXCpubYEBzzMT2cPaFNj1Ps9BJyOgJMlrGqGDDKTBHQwM+pxwEiOXkMzs/wclx4/
-	zuWtcBvOIlKAbggC5VgYjL2wRAtQm9+ACNVagcsedWpyYsOiCtlv4y1QGeEhK4xtHwJkOAXGD2b0H
-	ePR95Tv+sIvfzzphjL66dyAcHuSPpCg13U2L/LT9yX9xcho+9ee91Tp5QqzrIGSwmcV6ryBpb+fsW
-	HHssm50k7Xcdsfns4/qBLIkKcZKaS4GhUV6f9NMF1ionY+EYV9rb06CIG5DlS2nD9vMMzc3kSPSAp
-	5BEUUHXg==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wU26v-000000006aT-0kzb;
-	Mon, 01 Jun 2026 12:51:17 +0000
-Date: Mon, 1 Jun 2026 13:51:17 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Chi Zhiling <chizhiling@163.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: Re: [PATCH v2 1/5] mm/filemap: reduce unnecessary xarray lookups
- when read cached pages
-Message-ID: <ah2ARWo_EiVOaWDI@casper.infradead.org>
-References: <20260601055704.167436-1-chizhiling@163.com>
- <20260601055704.167436-2-chizhiling@163.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TqwkvYoo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X/08NNac";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TqwkvYoo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X/08NNac"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5BB926B71A;
+	Mon,  1 Jun 2026 13:04:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780319074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ERTRb1GjFyLhR0nxqG8SkrVSP8iWe7aK/BBY0/uWnXg=;
+	b=TqwkvYooxcu2UIFZuFTflICvha+1v84HWxjgO9AcsfuRoYC7OcFj8+/EN6Q/zIBsPkP7jd
+	tZfTbIDJPLSZYPt+oRmeknN0hDxElXTloC6t4cFTWUUDt8oZ4JWZ5FcW02FhxbXUqSVRwA
+	qF8eAdYpS424DS4YrmlvqSwjoCFshNE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780319074;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ERTRb1GjFyLhR0nxqG8SkrVSP8iWe7aK/BBY0/uWnXg=;
+	b=X/08NNac2f7EySDJxODAtex4hHf6h/N+GckinKN8K4dlkg6/YTJL3K5kN8DhBv0jz/7qpE
+	SZ4f9nIdUEtee/Dw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780319074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ERTRb1GjFyLhR0nxqG8SkrVSP8iWe7aK/BBY0/uWnXg=;
+	b=TqwkvYooxcu2UIFZuFTflICvha+1v84HWxjgO9AcsfuRoYC7OcFj8+/EN6Q/zIBsPkP7jd
+	tZfTbIDJPLSZYPt+oRmeknN0hDxElXTloC6t4cFTWUUDt8oZ4JWZ5FcW02FhxbXUqSVRwA
+	qF8eAdYpS424DS4YrmlvqSwjoCFshNE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780319074;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ERTRb1GjFyLhR0nxqG8SkrVSP8iWe7aK/BBY0/uWnXg=;
+	b=X/08NNac2f7EySDJxODAtex4hHf6h/N+GckinKN8K4dlkg6/YTJL3K5kN8DhBv0jz/7qpE
+	SZ4f9nIdUEtee/Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5294E779A7;
+	Mon,  1 Jun 2026 13:04:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /0clFGKDHWrJKgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 01 Jun 2026 13:04:34 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id DFEA6A0EBE; Mon, 01 Jun 2026 15:04:33 +0200 (CEST)
+Date: Mon, 1 Jun 2026 15:04:33 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jann Horn <jannh@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, mszeredi@redhat.com
+Subject: Re: [PATCH] vfs: document locking for mnt_notify_add()
+Message-ID: <qyxetdsywarovuartxqqeazkqpdedsiwam2pke4ocaqgv7sspw@rgkyf72i57zo>
+References: <20260529-vfs-mnt-notify-comment-v1-1-5becd17a15c3@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -51,48 +88,135 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260601055704.167436-2-chizhiling@163.com>
+In-Reply-To: <20260529-vfs-mnt-notify-comment-v1-1-5becd17a15c3@google.com>
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,gmail.com,vger.kernel.org,redhat.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Level: 
+X-Spam-Score: -3.80
 
-On Mon, Jun 01, 2026 at 01:57:00PM +0800, Chi Zhiling wrote:
-> From: Chi Zhiling <chizhiling@kylinos.cn>
+On Fri 29-05-26 21:38:08, Jann Horn wrote:
+> The locking in mnt_notify_add(), which was introduced in commit
+> bf630c401641 ("vfs: add notifications for mount attach and detach"), is a
+> bit gnarly.
+> notify_list is protected by namespace_lock, but there are cases where
+> mnt_notify_add() is called without holding namespace_lock, for example:
 > 
-> When reading small amounts of data from the page cache, only a single
-> folio is typically returned from filemap_read_get_batch(). In this case,
-> calling xas_advance() or xas_next() after adding the folio to the batch
-> is unnecessary and only introduces extra branches.
-
-I don't think xas_advance() is all that expensive.  The expensive part
-is going to be calling xas_next() and realising that the folio now lies
-beyond the required range.  I think you'll get just as much benefit from
-doing this:
-
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 4e636647100c..578b03bd5514 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2459,11 +2459,14 @@ static void filemap_get_read_batch(struct address_space *mapping,
- 	XA_STATE(xas, &mapping->i_pages, index);
- 	struct folio *folio;
- 
-+	if (index > max)
-+		return;
-+
- 	rcu_read_lock();
- 	for (folio = xas_load(&xas); folio; folio = xas_next(&xas)) {
- 		if (xas_retry(&xas, folio))
- 			continue;
--		if (xas.xa_index > max || xa_is_value(folio))
-+		if (xa_is_value(folio))
- 			break;
- 		if (xa_is_sibling(folio))
- 			break;
-@@ -2480,6 +2483,8 @@ static void filemap_get_read_batch(struct address_space *mapping,
- 		if (folio_test_readahead(folio))
- 			break;
- 		xas_advance(&xas, folio_next_index(folio) - 1);
-+		if (xas.index >= max)
-+			break;
- 		continue;
- put_folio:
- 		folio_put(folio);
+>     __do_sys_fsmount -> mnt_add_to_ns -> mnt_notify_add
 > 
+> Luckily, in cases where the namespace_lock isn't held, the namespace is
+> always freshly created and can't have any fsnotify marks yet, which means
+> the notify_list isn't actually accessed.
+> 
+> The existing comment claims that not accessing the notify_list in these
+> cases is merely an optimization, which is wrong. Fix the comment, and add a
+> locking assertion.
+> 
+> To allow mnt_notify_add() to reference the namespace_sem, move it into
+> fs/namespace.c.
+> 
+> Signed-off-by: Jann Horn <jannh@google.com>
+
+Thanks for looking into this. Adding Miklos to CC who actually wrote that
+code. Also in cases like path_pivot_root() I don't think we hold the
+namespace_sem so the locking is even more complicated if it is correct at
+all. Miklos?
+
+								Honza
+
+> ---
+> I'm sending this patch because I spent some time staring at this
+> trying to figure out if this was buggy or not.
+> 
+> I don't know if this is working as intended or working by accident,
+> and it might be nice if this was cleaned up to have simpler locking;
+> but for now, document what's going on for the next person who stares
+> at this code.
+> ---
+>  fs/mount.h     | 10 +---------
+>  fs/namespace.c | 19 +++++++++++++++++++
+>  2 files changed, 20 insertions(+), 9 deletions(-)
+> 
+> diff --git a/fs/mount.h b/fs/mount.h
+> index e0816c11a198..99016db2f408 100644
+> --- a/fs/mount.h
+> +++ b/fs/mount.h
+> @@ -219,15 +219,7 @@ static inline struct mnt_namespace *to_mnt_ns(struct ns_common *ns)
+>  }
+>  
+>  #ifdef CONFIG_FSNOTIFY
+> -static inline void mnt_notify_add(struct mount *m)
+> -{
+> -	/* Optimize the case where there are no watches */
+> -	if ((m->mnt_ns && m->mnt_ns->n_fsnotify_marks) ||
+> -	    (m->prev_ns && m->prev_ns->n_fsnotify_marks))
+> -		list_add_tail(&m->to_notify, &notify_list);
+> -	else
+> -		m->prev_ns = m->mnt_ns;
+> -}
+> +void mnt_notify_add(struct mount *m);
+>  #else
+>  static inline void mnt_notify_add(struct mount *m)
+>  {
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index fe919abd2f01..56f130b49e58 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -6431,6 +6431,25 @@ bool mnt_may_suid(struct vfsmount *mnt)
+>  	       current_in_userns(mnt->mnt_sb->s_user_ns);
+>  }
+>  
+> +#ifdef CONFIG_FSNOTIFY
+> +void mnt_notify_add(struct mount *m)
+> +{
+> +	/*
+> +	 * notify_list is protected by namespace_sem.
+> +	 * It is possible to call this function without holding namespace_sem,
+> +	 * but in those cases, the mount is associated with a new mount
+> +	 * namespace that can't have any fanotify marks yet.
+> +	 */
+> +	if ((m->mnt_ns && m->mnt_ns->n_fsnotify_marks) ||
+> +	    (m->prev_ns && m->prev_ns->n_fsnotify_marks)) {
+> +		rwsem_assert_held_write(&namespace_sem);
+> +		list_add_tail(&m->to_notify, &notify_list);
+> +	} else {
+> +		m->prev_ns = m->mnt_ns;
+> +	}
+> +}
+> +#endif
+> +
+>  static struct ns_common *mntns_get(struct task_struct *task)
+>  {
+>  	struct ns_common *ns = NULL;
+> 
+> ---
+> base-commit: 8fde5d1d47f69db6082dfa34500c27f8485389a5
+> change-id: 20260529-vfs-mnt-notify-comment-4369e0558f0b
+> 
+> Best regards,
+> --  
+> Jann Horn <jannh@google.com>
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
