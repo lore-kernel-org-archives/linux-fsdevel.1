@@ -1,158 +1,132 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAF7382F0C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 21:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B741D286D56;
+	Mon,  1 Jun 2026 21:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780349163; cv=none; b=XdudHyo44kKMxGPfAz4fWqQTA5V5Zpbl1yyhlFdCtrSScPSA/qxR7gj5JwqOXFTLb6JYG7ohm3sBeSOWEDu3Z59AqsGG/du2NLcvBOFfu/oXau0dCemyCX3K+SHCvbK7LFGvMwL/AcO8B9/blMpMmPwJ9rKb/arLwQC1e/RI4Xs=
+	t=1780350669; cv=none; b=gsnLx4cQi7a2C59cSRkDWKRFaEDeXuLdD/fLPFgH6Y3iuwQRWR+ZYMT1QYrTHjiWgx49SZZ1syuTv6c3OkWt0SeADbUyb/+efLjJpIiuj3Rzy818AkmVTLoRzlPvA94NJcPEqXm5NN1nRlKAqpcvdYv8z94q8zjY9c8K2rS1SFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780349163; c=relaxed/simple;
-	bh=JGqK9iiSl9ljyNvUmyh3eV6cQ7MU5XCoP8NZjCui8dc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=mY2/unmREw+eIt9/0DEGpNEamaD+I/s2VG9rTJxE0Q+ZYauD5HpjcfOw+No+tVjwLZve24kAhK4anJime5D7ychadMuQwaR82YkFyYQ5z2lAyqboaMXqeqKJFg+6OaT9e/TkQdLGziW8zP6Jo+QOpr21eln21Y3fbWiQrmVO9lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fawBf239; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1780350669; c=relaxed/simple;
+	bh=k/TlNjEi0j2Ww63gzF2QK+oEs4VlqDFVRLcIvgAQrl4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qcEWa3vYK0il9s/vSzKwAN370aMQHhWiTlV2uffdj9e2UMzAx/xiT4Cbyf6qCRBqRFjqMLI5gFvj1Fzdj/dKawIifhDhGtCU/R9ZP+tqgkiN7cpKrZw2wolZ8Bjs2F8sBcp7Cc3oopXeMa7rf84OpheJy0/VFJsSh2l10iAnWaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jXif+v8c; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="fawBf239"
-X-KPN-MessageId: 7b85a619-5e00-11f1-89f2-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.191])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 7b85a619-5e00-11f1-89f2-00505699b430;
-	Mon, 01 Jun 2026 23:25:59 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 7b83a4e9-5e00-11f1-83dd-00505699891e;
-	Mon, 01 Jun 2026 23:25:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=PK8Cn+VTLZJlAtuZxbiceq5/1KVJAkOc3pytUpa3nB4=;
-	b=fawBf2398frEPZIzjsxXoPIKxKuOZLaIZSUSuoxWltOXgUJ6+YZFeiCxjzU0liRfvq2Or6G4yvcQb
-	 cxJdts9oDR9Oc7oCvmay+azsOx7uOaWipLcd3NCCpNkHsPQ+5hjp/qySa/hmZchWh1O4YIjOI7zrB3
-	 h7EXLa1FslkBS9pQQpKOqlhAeeuHlpqVY937sZ7qpkzR7bZdItM4FZmGDQq8dgp7lng3gImbRkT6UK
-	 8Rd7zGe69b0gmdOC4iCpWhTl+nBQUHIbrgAaLFuaNGZTQECTZOue4Nh8CL9i6TobEu1MYlOy0Gkkq/
-	 S/i2KeLlUYF9i6CcCHVjU3OZNcUceMw==
-X-KPN-MID: 33|loT5YMxADASKmWnnXAFfQX5QQnYBc8A0R/PIFZGuAYsaf6J9ItBAq24nEC3M+Gw
- 5jIV3aB2TX+TBnLKAUb+TLKh3Jer/C0EFJTWNlJOD2YQ=
-X-CMASSUN: 33|jUnX+SWO8C4JA1r9vk+QRfxZTNiV6Q1jP/1/6jPuq1XilsG1pL1l/0FIpx41Hyl
- YbCmt60Lcb0naHcuzwtIcWQ==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 7b76a33a-5e00-11f1-94b1-00505699eff2;
-	Mon, 01 Jun 2026 23:25:59 +0200 (CEST)
-Date: Mon, 1 Jun 2026 23:25:58 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Christian Brauner <brauner@kernel.org>, NeilBrown <neil@brown.name>,
-	Aleksa Sarai <cyphar@cyphar.com>, NeilBrown <neilb@ownmail.net>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	cmirabil@redhat.com
-Message-ID: <1825098847.140203.1780349158954@kpc.webmail.kpnmail.nl>
-In-Reply-To: <177986687451.3379282.8177801680240137022@noble.neil.brown.name>
-References: <20260525202937.466497-1-jkoolstra@xs4all.nl>
- <20260525202937.466497-2-jkoolstra@xs4all.nl>
- <177986687451.3379282.8177801680240137022@noble.neil.brown.name>
-Subject: Re: [RFC PATCH v5 1/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jXif+v8c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780350667; x=1811886667;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=k/TlNjEi0j2Ww63gzF2QK+oEs4VlqDFVRLcIvgAQrl4=;
+  b=jXif+v8cibQV23NA1eki8U7GV5N9IooWN9liE4Ml+EUpZ/5dFFM7QS25
+   w/pBTdam9BCWXYgf3L+0+IUNES0BcJ25WLN1B7h/oAkjSdK9FTFmaSw4X
+   zPIzoj18+++g2+ITGd3kNDnQ8VksR4vZG520660b1FT9TcnvxNcMOvfnd
+   VIpiz2poDpZBSQ5L8tB+ufPNbjEjAcVYt6VNwemALYDb4d7X9NeSe5rBQ
+   UYNzWbAOruO+3pRt4S/HA9TKi3uBq7EUkrN0+judTCfOzeup6NCwDL/Tu
+   GlRtS3XZ9pGMjIal3QB3Hfj86w60FUUye3PENxWmD+H916Efv5BAR7qSY
+   A==;
+X-CSE-ConnectionGUID: q634CLYHRsSFlgxSmJqcjQ==
+X-CSE-MsgGUID: WP+ytHYmQrWl8YnI/JqoEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91691383"
+X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
+   d="scan'208";a="91691383"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 14:51:06 -0700
+X-CSE-ConnectionGUID: uDJmgZU/RkWZYpYbXGA1ag==
+X-CSE-MsgGUID: 99xJYBbiRm2piWn4FHXarQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
+   d="scan'208";a="281816378"
+Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.108.24]) ([10.125.108.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 14:51:04 -0700
+Message-ID: <60fb426e-d8e3-48fa-a1a7-f566d0109c3d@intel.com>
+Date: Mon, 1 Jun 2026 14:51:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 1/9] dax: fix misleading comment about share/index
+ union in dax_folio_reset_order()
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Dan Williams <djbw@kernel.org>
+Cc: John Groves <jgroves@micron.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Alison Schofield <alison.schofield@intel.com>, Ira Weiny
+ <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019e79caead2-5795328c-af48-4a93-b147-c11df7446e1a-000000@email.amazonses.com>
+ <20260530165029.6601-1-john@jagalactic.com>
+ <0100019e79cb6bf6-4b48b7f5-c562-4591-aefe-730561f1b8c6-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019e79cb6bf6-4b48b7f5-c562-4591-aefe-730561f1b8c6-000000@email.amazonses.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
 
 
-> Op 27-05-2026 09:27 CEST schreef NeilBrown <neilb@ownmail.net>:
->
-> > @@ -1268,6 +1269,8 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
-> >  	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
-> >  
-> >  	if (flags & O_CREAT) {
-> > +		if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
-> > +			return -EISDIR;
+
+On 5/30/26 9:50 AM, John Groves wrote:
+> From: John Groves <John@Groves.net>
 > 
-> It seems odd that the MAY_WRITE test is only performed for O_CREAT.
-> Shouldn't any open of O_DIRECTORY|O_WRONLY fail, and shouldn't the one
-> test catch both create and non-create cases?
+> The comment in dax_folio_reset_order() claims that DAX maintains an
+> invariant where folio->share != 0 only when folio->mapping == NULL,
+> implying folio->share is zero whenever mapping is non-NULL. This is
+> misleading because folio->share and folio->index are a union -- for
+> non-shared folios with mapping != NULL, reading folio->share returns
+> the file page offset (folio->index), which is typically non-zero.
 > 
-
-I get your point, it does look odd. But AFAIS O_DIRECTORY|O_WRONLY is currently only blocked
-after path resolution and final lookup. So that was the behavior I tried to keep. On the
-other hand, right now O_DIRECTORY|O_CREAT is already blocked in build_open_flags().
-
-But if that is true, and you have atomic_open() defined for your filesystem, then you
-can lookup and open a directory with O_DIRECTORY|O_WRONLY, while it fails with EISDIR later
-(if the fs atomic_open() does not error on O_DIRECTORY|O_WRONLY, which I would guess it
-mostly does). It will then fput_close() the file, so there is no leak, but I don't think
-that is wanted behavior.
-
-@Christian, what do you think?
-
+> Reword the comment to accurately describe the union aliasing: the
+> assignment clears whichever interpretation of the union word is active
+> (index for non-shared folios, share for shared folios), which is correct
+> because the folio is being released in either case.
 > 
-> >  		op->intent |= LOOKUP_CREATE;
-> >  		if (flags & O_EXCL) {
-> >  			op->intent |= LOOKUP_EXCL;
-> > diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
-> > index e4295a5b55b3..ec8c54c91261 100644
-> > --- a/fs/smb/client/dir.c
-> > +++ b/fs/smb/client/dir.c
-> > @@ -526,6 +526,9 @@ int cifs_atomic_open(struct inode *dir, struct dentry *direntry,
-> >  	if (unlikely(cifs_forced_shutdown(cifs_sb)))
-> >  		return smb_EIO(smb_eio_trace_forced_shutdown);
-> >  
-> > +	if ((oflags & O_MKDIR_MASK) == O_MKDIR_MASK)
-> > +		return -EINVAL;
-> > +
-> >  	/*
-> >  	 * Posix open is only called (at lookup time) for file create now. For
-> >  	 * opens (rather than creates), because we do not know if it is a file
-> > diff --git a/fs/vboxsf/dir.c b/fs/vboxsf/dir.c
-> > index 42bedc4ec7af..aef5ca6730be 100644
-> > --- a/fs/vboxsf/dir.c
-> > +++ b/fs/vboxsf/dir.c
-> > @@ -318,6 +318,9 @@ static int vboxsf_dir_atomic_open(struct inode *parent, struct dentry *dentry,
-> >  	u64 handle;
-> >  	int err;
-> >  
-> > +	if ((flags & O_MKDIR_MASK) == O_MKDIR_MASK)
-> > +		return -EINVAL;
-> > +
-> >  	if (d_in_lookup(dentry)) {
-> >  		struct dentry *res = vboxsf_dir_lookup(parent, dentry, 0);
-> >  		if (res || d_really_is_positive(dentry))
-> > diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
-> > index a332e79b3207..e31f3a57f07c 100644
-> > --- a/include/linux/fcntl.h
-> > +++ b/include/linux/fcntl.h
-> > @@ -12,6 +12,8 @@
-> >  	 FASYNC	| O_DIRECT | O_LARGEFILE | O_DIRECTORY | O_NOFOLLOW | \
-> >  	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
-> >  
-> > +#define O_MKDIR_MASK	(O_CREAT | O_DIRECTORY)
-> > +
-> >  /* List of all valid flags for the how->resolve argument: */
-> >  #define VALID_RESOLVE_FLAGS \
-> >  	(RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS | \
-> > -- 
-> > 2.54.0
-> > 
-> > 
-> > 
+> No functional change -- the code was already correct, only the
+> justification was wrong.
 > 
-> Thanks,
-> NeilBrown
+> Fixes: 59eb73b98ae0b ("dax: Factor out dax_folio_reset_order() helper")
+> 
+> Reviewed-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: John Groves <john@groves.net>
 
-There is another point, I maybe should have mentioned in the cover letter: I have not attempted
-to handle dangling symlinks for O_MKDIR. Not because I think they are a great idea (as Aleksa
-has mentioned, but I am not very familiar with the dragons it entails), but I wanted to discuss
-what behavior we want in this case. Do we say that we never do a mkdir after following a lookup
-last symlink? I don't think that state is even recorded right now.
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
-Best,
-Jori.
+> ---
+>  fs/dax.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/fs/dax.c b/fs/dax.c
+> index 6d175cd47a99b..df19c9317d10e 100644
+> --- a/fs/dax.c
+> +++ b/fs/dax.c
+> @@ -392,12 +392,12 @@ int dax_folio_reset_order(struct folio *folio)
+>  	int order = folio_order(folio);
+>  
+>  	/*
+> -	 * DAX maintains the invariant that folio->share != 0 only when
+> -	 * folio->mapping == NULL (enforced by dax_folio_make_shared()).
+> -	 * Equivalently: folio->mapping != NULL implies folio->share == 0.
+> -	 * Callers ensure share has been decremented to zero before
+> -	 * calling here, so unconditionally clearing both fields is
+> -	 * correct.
+> +	 * Clear the mapping and the index/share union word. folio->share
+> +	 * and folio->index occupy the same union in struct folio. For
+> +	 * non-shared folios (mapping != NULL), the union holds folio->index
+> +	 * (file page offset); for shared folios (mapping == NULL), it holds
+> +	 * folio->share (reference count). Either way, we are releasing the
+> +	 * folio and both fields should be zeroed.
+>  	 */
+>  	folio->mapping = NULL;
+>  	folio->share = 0;
+
