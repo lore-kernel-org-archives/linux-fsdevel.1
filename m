@@ -1,155 +1,124 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4D4212D86;
-	Mon,  1 Jun 2026 02:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780281290; cv=none; b=eQq2qQ/cGgwF2Q6AU+o10wTq7Evi25LeTcZpcs3CnVeHvh7ItK6KDx30Jz+tOZTJMuEC/k9drakwx7rEb6CYaJQ8ENzyJ9t/8ODOwcttm9jPdoxDXgiHP7SJPq2vyH2qtHV7JBrl2YdCq+8V5KuC9smYke+wbvWVQ6Ts7b/kqTM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780281290; c=relaxed/simple;
-	bh=JC52Mp/gQWdBWmMv3Le4kTDOvcoMA7USWUX0tZ8B7ok=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=Pe3QpP4q1spoqV0x4N31MyjIHe7dai1pkcR1o5AoC38is5ppfZoa9Ug3ZSqXXpBPsB6t+akngvHvpzEHNoPEulc4YF/KPJJG0NdIdwnegYs+8rGeX/FiH4E+7ZB8cB7zIux3RqMo+yOgEwnojKFF1JIXX6jTsIYpfIuU2+0KE88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Txq89YvV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eNuD0mS1; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7323A18B0A;
+	Mon,  1 Jun 2026 02:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780282058; cv=pass; b=qWXDoZ1TeDC1hgTj8qFAG/jPDDnijm2I+0l/gxHR9UMHJMkOkWEPKyAY7XOCXDUfTtQWCMRBtXEObrmwTaJYAGoIWuTfCTIiBEXKSrIopsWh5M5TXLOVuKxCRcQO1gUM0N28IUPQWlIDOhd2fvzc9/0F5XoUwjDmfgzhc+yuZvY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780282058; c=relaxed/simple;
+	bh=+cvRLTMfGFbpnFcw0p+gJeOVuz5qvmXtedBnn0RfWWg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=TlZXSo6YenwDM3/8ozDN5KS45uUnsR/Z/Jlq5EllS/4Wsi+vOZHtNrgOYpSzpQkiyivQwP5ZyH2s7nsw1AgJf9cIuzrzWXw6y7eGhTCj5jMqPVQcVg6WEGVYb0yeH9x3iaSvd54p6sMCynsrywCye4LnbMzuSLt0h3fx2WjraZ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=i4uWgPWD; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Txq89YvV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eNuD0mS1"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3B9E97A01AB;
-	Sun, 31 May 2026 22:34:47 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Sun, 31 May 2026 22:34:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1780281286; x=1780367686; bh=pErd6CGPCYHnA39ZPy1QgUnBtI0eozkrTcN
-	3ipukNYA=; b=Txq89YvVDCZRe4ZCPsnVyj45AzpsyGD+cBDbYzaAw84jNblTDuG
-	9YerLQJ6drehM06lqKCm+5T0qQSv+8t4MEmiskVXz4/1GE6svtrhNH8Bu9VoNYeL
-	w5Hy41+XULHlGfVmOdOLxspS/XJZiS8WWqrhdCUoI4UQZ722iub2v0SV0PmwaUv8
-	iHXGyAfNlIEN+K32NH+Z8pAx2s0iQ4HrqNLHBNulzaFt5JnN7wUz8tygVfpMpGPx
-	7jnZPV5RBoRiE7ypkU7Ke4RgXlTUWX4pxMe3+MFH32/P2OPU0Pq/8uQKJRjJaP5P
-	X5jszEI2SiyKq+EG8iKw6hbEGwn6zmTfkMw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1780281286; x=
-	1780367686; bh=pErd6CGPCYHnA39ZPy1QgUnBtI0eozkrTcN3ipukNYA=; b=e
-	NuD0mS1oAGr1mgjdktwny1pVyBz1rU6C15JTudebdZHZVmFv8p7fW59yCjQxlF8K
-	k5WiCy3VX4j09yGSdiaacFwSAn5CpC9KAeLxUQ5HOtNS4isXPctsLVYaPjkXdQPi
-	XnacG7m/CUaVb9dGxMUckMFT4bV9y1xCzEhfkVXd6KgyhYD3CtWPuBXXOnOHN8W+
-	T3XM2Cjz1pizkhZJARQLe/msEU00ZvSsgTKddXrmOU5SSNrtsKScdXjsJlSZjI9s
-	VcZfxxZ0DqzDNfr8NSjP88dZJdIoPZ5xK1GAdcsEw5YuG9MFrBwhXc1LI1NdKifd
-	0Q8cVTeSOZOgn3574SxIA==
-X-ME-Sender: <xms:xu8cau3-EkTpsIR0Dn5W1TaNGh-yUdy9Qu7-a-vbakJ2eiJOB71rNg>
-    <xme:xu8capSJDVhz-ounx6wWwLTkt-DYa7SbKqv2uPs6_v08XyxJiedOfihCOQxOegDks
-    Lytk5KoHiIp7_d5wTm4OQW_-OWW0b38N7qToX3TAEi05_cptQ>
-X-ME-Received: <xmr:xu8caidOSV1q0Ik_N8ewEfkpRyiy0Rz9yQvRcLk7itSkzDvLUB7rGmRpk9MWGtRjBg>
-X-ME-Proxy-Cause: dmFkZTFkwrSGRPs7eL8WcEJOFlDdH7SQtmmJ2Jfsi4I+cf9xDYxOTP2GwON5ToDtOCLSs3
-    M8Bi+e4SLcwDW9/KMScbCOmVm4dzep6A91EXs024MrG2UUje+ig+PXJoYoDCtNBGbjmUVl
-    CucsL6bFOdCMf9zll44T65CsvDIFK8j2T7E9CXlXFRIewejJg8dodfDuVgUp0CHrU0msG3
-    FaYctF3/8VfJ5uf3nNwLkZryeJAahwIiEHbaC05XascPguC/IXPfICGPpZSq80MU17soAo
-    8jnPJrtGz88ReX5VAi4gpcyofhOAc3S4KHemKrKpcX7K6ZvPP7cuEV5t/gBxpebk8kldWj
-    AKKwJeT9VdhlGQuclwJ89dwmDnda3KSlb1PXuxrAui7o7ujEcePbLO6Jxp3uAS2RZN51Ql
-    3bJdW5T08CbQo6hqvXW7PhZLz4de/SvOlc/a+pljnpSLJMKySASx9hjXhcJXaFQKfrf44P
-    2Cs3PS98/A9LQRWrwrwnyK6ncRawt+m25b5YGBV1yHfhzQy7PB73IKj07K35VQaJqif6O7
-    DQv/ICMToMbpu2BiApM3I+P60TWyx6OzVa/KMz2aImXNePpG+q2Y8COxXELiq7KlwvJkUg
-    r5rSlKyum1kiLwHeFDnvbXoTUzvPIJhKeKxNjZx2s/nZ0yBHB4G45OQ+s/gA
-X-ME-Proxy: <xmx:xu8caqfW2dSw2oH7JsIciNP-ehYyneqOdqgPREgtTxTEuWu0herzaQ>
-    <xmx:xu8cas2y3ALdLhpHHowfJiWfBi9nahirMv9iiBaF_fWwe7QTiKYpQA>
-    <xmx:xu8cai8ifRJ23b4a1x9o07hF16xjcEH8mmMXJtOlrinNRkxxMlyVyA>
-    <xmx:xu8cah7jHGFFU2a4RHXubEAlP5az0EqX-3I8zU6VIxbDCo-Y4w1Srw>
-    <xmx:xu8cam8BIOE7nKLm4W_GTtPgt3vCs5ce__0sttOLqD2t1Ge7PdVpLG7w>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 31 May 2026 22:34:43 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="i4uWgPWD"
+ARC-Seal: i=1; a=rsa-sha256; t=1780282022; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VhevDLX+jcvxZX+UlQ+Wxz0FCFg+LjBiWzNfXWyC6bp6Q9wQBLfvAwEx84FhSc/2nYZEKzb5DRlJDZSC+u9RX6eI3lcoTwaTP+bngDtffMdxgy0dHAfNBeTwuHnvSQlf8j9fVwRw11AyP6yxXw5XpOCkIiIvlEkwtWG/5/Z4d9A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1780282022; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=0j5y4eHjA2s58keIUCJbqELrbC/VcqvqjEm+eO/tp38=; 
+	b=lSbIdqfNnvt2r8wfFWL9TJ+mSRjbsNaoUAeAFJg3rV8UeQlrUH8z8wrM2DJBd7PlbInrPAjQ4JwEphoQnD7v2eRO2MXq2PDbzWRcJaeXyF4L0qVs4Bqqb8Svz7eFAY2K5Y3KGnaH4I4H5pxLkHOCyGl6Q85F+yD/E/pRtJko0Ok=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=linux.beauty;
+	spf=pass  smtp.mailfrom=me@linux.beauty;
+	dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780282022;
+	s=zmail; d=linux.beauty; i=me@linux.beauty;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=0j5y4eHjA2s58keIUCJbqELrbC/VcqvqjEm+eO/tp38=;
+	b=i4uWgPWDiFQiBL7nZhR4Fm2f/IlUPCFd62QikIjgStAEislo+YBK6vlj5POZsB6L
+	SDFxCJQfURcxOAO4XbXQQHGZW6alw1m02iJZzYSa4l2UMWxuMeb+PCHrQ/VfjKbqJsW
+	AK8cifPY6TEdUz6yVwpoT7hbCaJbJ8wLp6um5Q8k=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 178028202051664.08529719843057; Sun, 31 May 2026 19:47:00 -0700 (PDT)
+Date: Mon, 01 Jun 2026 10:47:00 +0800
+From: Li Chen <me@linux.beauty>
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Kees Cook" <kees@kernel.org>,
+	"Alexander Viro" <viro@zeniv.linux.org.uk>,
+	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"linux-api" <linux-api@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-mm" <linux-mm@kvack.org>,
+	"linux-arch" <linux-arch@vger.kernel.org>,
+	"linux-doc" <linux-doc@vger.kernel.org>,
+	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
+	"x86" <x86@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+	"Andy Lutomirski" <luto@kernel.org>,
+	"Thomas Gleixner" <tglx@kernel.org>,
+	"Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+	"Dave Hansen" <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Shuah Khan" <skhan@linuxfoundation.org>
+Message-ID: <19e8113d290.893abab26142069.5024234139508454104@linux.beauty>
+In-Reply-To: <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+References: <20260528095235.2491226-1-me@linux.beauty> <20260528-madig-fachrichtung-fehlinformation-61117ba640da@brauner>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Al Viro" <viro@zeniv.linux.org.uk>, "Aleksa Sarai" <cyphar@cyphar.com>,
- "Christian Brauner" <brauner@kernel.org>,
- "Jori Koolstra" <jkoolstra@xs4all.nl>, "Jan Kara" <jack@suse.cz>,
- "Jeff Layton" <jlayton@kernel.org>, "Mateusz Guzik" <mjguzik@gmail.com>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Charles Mirabile" <cmirabil@redhat.com>
-Subject: Re: [RFC PATCH v6 4/9] vfs: lookup_open(): move setting FMODE_CREATED
- up when calling create()
-In-reply-to: <20260531182045.171711-5-jkoolstra@xs4all.nl>
-References: <20260531182045.171711-1-jkoolstra@xs4all.nl>
-  <20260531182045.171711-5-jkoolstra@xs4all.nl>
-Date: Mon, 01 Jun 2026 12:34:40 +1000
-Message-id: <178028128000.2923901.7917758563328454041@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-On Mon, 01 Jun 2026, Jori Koolstra wrote:
-> In preparation for using vfs_create_no_perm() in lookup_open() we need
-> to move setting FMODE_CREATED on the file mode to either before or after
-> that call, as currently it is in the middle. If try_break_deleg() fails
-> it is currently not set, but vfs_create_no_perm() includes a
-> try_break_deleg().
->=20
-> Going up the call chain of lookup_open() we see that it is only used in
-> open_last_lookups() if no error is returned from lookup_open(), so we
-> can safely move it to after the filesystem create() call. This also
-> makes more sense when reading the code as you don't have to wonder what
-> the implications are of setting FMODE_CREATED before the create() call.
+Hi Christian,
 
-It seemed a bit odd to me that we set FMODE_CREATED before actually
-creating.
-It doesn't matter as FMODE_CREATED is only meaningful if no error has
-been reported, and if create doesn't end up happening, then there must
-be an error.
+Thanks a lot for your great review!
 
-So I like this improvement.
+ ---- On Thu, 28 May 2026 19:02:53 +0800  Christian Brauner <brauner@kernel=
+.org> wrote ---=20
+ > On Thu, May 28, 2026 at 05:52:21PM +0800, Li Chen wrote:
+ > > Hi,
+ > >=20
+ > > This is an early RFC for an idea that is probably still rough in both =
+the
+ > > UAPI and implementation details. Sorry for the rough edges; I am sendi=
+ng
+ > > it now to check whether this direction is worth pursuing and to get
+ > > feedback on the kernel/userspace boundary.
+ >=20
+ > The idea of having a builder api for exec isn't all that crazy. But it
+ > should simply be built on top of pidfds and thus pidfs itself instead.
+ > It has all the basic infrastructure in place already.
 
-Reviewed-by: NeilBrown <neil@brown.name>
+Yes, that makes a lot more sense. I was staring too hard at the "hot
+executable" part and made the cache/template the API, which was probably
+the wrong thing to expose. Sorry about that.
 
-Thanks,
-NeilBrown
+ > Any implementation
+ > should also allow userspace to implement posix_spawn() on top of it.
 
+That's so cool, and this is a really useful point. I had not thought about =
+this as
+something that could sit under posix_spawn(), but that makes the target
+much clearer. It should be a generic exec/spawn builder first, and the
+agent use case should just be one user of it.
 
->=20
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> ---
->  fs/namei.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 2a35dd72ee96..16dcf537db87 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4531,7 +4531,6 @@ static struct dentry *lookup_open(struct nameidata *n=
-d, struct file *file,
->  		if (error)
->  			goto out_dput;
-> =20
-> -		file->f_mode |=3D FMODE_CREATED;
->  		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
->  		if (!dir_inode->i_op->create) {
->  			error =3D -EACCES;
-> @@ -4544,6 +4543,7 @@ static struct dentry *lookup_open(struct nameidata *n=
-d, struct file *file,
->  			goto out_dput;
-> =20
->  		fsnotify_create(dir_inode, dentry);
-> +		file->f_mode |=3D FMODE_CREATED;
->  	}
-> =20
->  	return dentry;
-> --=20
-> 2.54.0
->=20
->=20
+ > fd =3D pidfd_open(0, PIDFD_EMPTY /* or better name */)
+ >=20
+ > pidfd_config(fd, ...) // modeled similar to fsconfig()
+
+Reusing pidfd_open() with an empty target is nice because it keeps the API =
+close
+to pidfds, but I wonder if a separate entry point such as
+pidfd_spawn_open() or pidfd_create() would make the "new process
+builder" case a bit more explicit? Either way, the configuration side
+being fsconfig-like makes sense to me.
+
+Thanks again for pointing me in this direction. It helps a lot.
+
+Regards,
+Li=E2=80=8B
 
