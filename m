@@ -1,187 +1,125 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7286E13959D;
-	Mon,  1 Jun 2026 02:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780282613; cv=none; b=hCU8odH5xpINLwlEQlQtebVl9hewTMTX9Inja3e451TMZQQ04wBIo6VUsHnacKU9B3A0rb/cN40kGgPWcLgli9RDRMK9y3bjSq984OfeVieREGUuXG6rP2VcodyZAaeahvhOHx86M4y6O16P46TXOpl0VAT+oH1AAFmf4VdzLD4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780282613; c=relaxed/simple;
-	bh=fLyFd/9yaMRu+VfpjqMEdwkPIqznYQ8nPkXTMVLBZVs=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=EDszym3JAX3OhBxDrBLTqnaTOoj+um4CKluR3c32PtrR7HrZ0yzKzS7QWIfFDZPH91Vun+56U9Z4WoWqvOfspPFzOewdOzRNq+2TkBB6cgH53iCUYHzHurqidKW6Rb0MLt7PM5bAvn+lDQNY9hU5gth/aJWlWHAUC5Xv8zI3WDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=efj5TVMv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IedFIPx9; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758B125B080
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 03:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780283510; cv=pass; b=s2yrJrCgSIlHieIHeB2eC5mPfE6zZ91tQxQBbN66oKNzVEQ23p+t1pV5p8bhY0LJe6U1aKhnyOQjF9nJbYbPMuhciWFiX4APkpAPX9S5TrEdJDI58P8BukBqihj6t+xWvN6pJJ14e40HXYjGptV4r7sdv6S131homOsvYEI2hTc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780283510; c=relaxed/simple;
+	bh=3MMmkUu/YfzDJCqhb57EOJIut04O28w1bNQaD8zFkqE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q62GkQPFZ+DYu/znyqyyHT91YhKUaNyNtGwMKKnyxn4zd7Ue57bd4zl6Vs8AdZAAkqTHvP/eWlNEw2r3eAJ1/uF/HuUy5wbsMqxf+ykFhlqU/V5akxjhUJIi0sf8JGJCoYTYrfyaPSq1KaooJvx+v7pOUObq0bk6M1Pe4sG4slU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=Gr7Xked5; arc=pass smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="efj5TVMv";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IedFIPx9"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 343CB7A00F6;
-	Sun, 31 May 2026 22:56:51 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Sun, 31 May 2026 22:56:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1780282610; x=1780369010; bh=/usb4z53yOEgw2yPnOfV+z/Q+3Dbx5M0YXD
-	wS5E57FQ=; b=efj5TVMvmF+eaf6gap51Wr+Jk6NRw9XNdIjNDmXOQFrl2Aqz3GH
-	HNnvq9eX3d8x/08NwYkgOjj/ZZ9g1hvVD1HaNc+Xmreqv1tGs0YPnUKrmps42rqU
-	i6XngRttvWlSS1Lkdf6bK6pQSVPxs+sw0Bd0QqKlTxuh93cT/Kbhp4J/0KYCEeZs
-	+KsbaIm51LKAdhzUaxTBexseOSHJr3NzI2CD6iVmx0b3Pbh5uDvl9ZdG2L6kSn4i
-	qvAdTkSmU10TIDrH8hg1IfNRMbMTyqYKuOJQCNue24s8eTi3U2H932h+fh8SBl+r
-	VrPmlRUMNEUtljlE3cqMKRrZVVl8cMi15DQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1780282610; x=
-	1780369010; bh=/usb4z53yOEgw2yPnOfV+z/Q+3Dbx5M0YXDwS5E57FQ=; b=I
-	edFIPx9SBxqsCHbs6QgFHrpcY60cFxEfB1r+S/0MCZWx8iZwHag2wSB950elLZ9J
-	6521ODSTEYErHYNyUfx7iVgWymGRlsYKc+cCW7nIf6v9p36gMm4RYp3jEFhzcV5V
-	VpNIj7HBTcnFJG5JX4tScfX8m7qWZD8dmS93xeZPv4sD+VNawlG5jzjx9mMk9S5V
-	ZcnzPGxAA8AVx1uVVbiBgvvFTd0e9KOPKehpXYDC0CGnb+AKBuqnpMiDlxaDutHx
-	MustztwViIcE2XP2Z1zDnUMe3A0LhE7GkIMcbMMgtA6PLCowoImkODT9HV+58d1V
-	Ig7FV/l1TBXrqgW+R00QA==
-X-ME-Sender: <xms:8vQcaj43uPAObcYrqUgOTxOF_Pgsc4iIzLB_yp1aMrf-qbtWF66vwg>
-    <xme:8vQcavS3owNYkgVOPlzBxt-42cVIrqcirBMtxVmsRgMcZ57A5NkBRARo8Szkq1WMn
-    8lZt8mrcXQitkBMqDYaUgpY7lBbz40FGIDGo-05UV7tu9hSO6Q>
-X-ME-Received: <xmr:8vQcamus2k1W6sMYgkEgQkxPwG3ZbcNQDQOZlzM5_QZLxiErFI_KTVtXF2iDiWK5YAmLRoK3L5T5ZW4JwNrnPkGM57a9A2s>
-X-ME-Proxy-Cause: dmFkZTG1epHyhLzZpRzCpxYFinwl+m7GyjStuJJcPqfkTNZFhlj9+Id1zb+x43FqlKUSaL
-    bl2C9DPDPK7zKMumUb3gCNMfodPwzb9PS/Yu63AfpYfalr6Mmf2uvmsGFiHrfl91h6+LPl
-    Px85ibzaPDz81SIpMOQgCLVw6ziO36aaTeRLoigRP+COO3oGUV59IOxBPujwfRDYvnu9Hp
-    N7AzhfhLm0Y15l1BitKfPjkEOCAPJyBYX+d/X4I47xoLEWw5FbvF+ca3dMoW+3V48C9oCH
-    /IBxqGLYve2ofLJqlN9Gg5GL/1RhoHIYTVDoM6E9zh6mbVEME6r2pj3AL8X6A/6ScEkvgS
-    q781XLQ5gvmcTWvZVH+iLHjUdrvpZsDiYOoVjLCocz0YWe2D6B6G1MFSGEUcgGV7aVKcjm
-    GbrDbpUd5ob7rGRWhNYjzhwwT4tQ/GqfCQ3A3wC/PnLGxPbWl/15kDtLtzIsq0Z4x73NRk
-    Woul7q4Y4tcjygfGm7I7MSEJpPMXiI1idpAOKCRg2EBhM7LuByGp2UYW5LfKAdNFtigXIc
-    ZvvvWXsHa/4F/LHiKSOR0z6HFRViGt2VmjXm22Pwv7NgqKy3tQpn75iTb0diTecGQKfPIr
-    ge1gS2vFboA3xazIoAe4z6pV7jHUO0XQAEqD95ZoSbtJ6LFh+IqK1k340GtA
-X-ME-Proxy: <xmx:8vQcah8rFb_LoST9EzK1WaMsNnhxwFppNKCW0CL76Fesw14SwXzaPQ>
-    <xmx:8vQcavxAP5zVq0E4-QChnosxb7CbbKHCS8fdG-xObM06v5_Yb_L67Q>
-    <xmx:8vQcaj9fS9mp8QiV6Z2wqveQ6FXsxLf_q_z4LZPtJk0AZoHr3AA8YA>
-    <xmx:8vQcatMKrCbrMgRHffXG10sSSaPeeCv6Zc3sktS0dRyLi1s8sRQ_vg>
-    <xmx:8vQcalJ6W7i01wFix4fIXMvqtog0xd4pZd69kZXQldtm1Y9JLY64SugZ>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 31 May 2026 22:56:46 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="Gr7Xked5"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3966c0d5ac9so13071181fa.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 31 May 2026 20:11:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780283507; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LjCLazJNsSHR3M5sQVQbod2kd3ZY3CZNODMSzllltI+1Fb0j54L5FEZ0spvngwQ+Ij
+         pNJWjuyvZyLNtPV/ORciVctzCKlcNgM134xyShWEuGIymqBTdtT0xUAGM0GHxcYA5VMn
+         QiP2CpSEnwQhWArtfcyb/JJaKYt3cFEFfsx2djdwpAdEUjTnKnk8y0xhOflvRv1xpyhO
+         4ysZGezTbzkq8xYrQvhDDrIWHrs+ophbQhEmPSVgWH9sKBNuxcnq4n09S9VrMUWuaJJd
+         h6GE3uoBx3qHTcRFQ1pqGiL1k8sivLuzXohWq7MCJ90AF9r399BeXuX+JgZsDDeW/tGH
+         9XMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MuDntok0/7oP3h0HaSkrbvB8I/WbSdzhW7ajx8MOkQs=;
+        fh=rsjM5un4HrOmnQQNTq/1+QRybwP8hMBG1qEeyCVTdfw=;
+        b=QTuWf2vSKZFyBmzxA/QzUIVtth+mCzbw+GfasbEq2QVfgK9Z6MPg7E85Bst0vov1bq
+         ucABUVfwpNzZntWzBjxGDq/bIeDYJ8SHIfd9on9GscSmjJFDUEilsKCI92lbSptlZpyT
+         zsuG2qpSLx1TMNNi1MtBwBRzAhcAdeaMSBg1Ich/7q7Z2w0fzLbadZI4AtdQXElhMnoz
+         HmoZAbv7bHQIITdwzWRnx4t1AeF0IHlYWQUXU09+paGBHj7gnFkoScCgAli7cRfKzqTK
+         yCCQsMb0TY0j3x/eeOJYZNaeA9R4t01A7ioDMMPqXE7nd2V8vUeR+dj/jgoTrWdvVRId
+         eZ+g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1780283507; x=1780888307; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MuDntok0/7oP3h0HaSkrbvB8I/WbSdzhW7ajx8MOkQs=;
+        b=Gr7Xked5yR/ormdg6QmBhuz2EBqlCzpWBE2BhBmhSBdzCgihYFsbieosgEIPjRtYD+
+         ivgvFTq4CSNpUsUQfk5YijQ2OhavjVJCtbNEmPdBcxfYB4r9MB7bJxV7MMwh+DZYFFpp
+         v759H90t+ReadfkRDLe8WQfybeejBFfb0QVybNh/KNGzJkgBDjsHezX+0TqVCNpe8DQi
+         w26QmkJ70iQcFPCcXPGdm4trE8B6SImrK/2uvsMQS/OrXUflXJDvOdwAnd+cAtQ8Z9Ki
+         vhTgzaJqws6ofLXjpCx3uynsdQnCr9TQ6rF2xezjyq2kL7Y/GZXQQvO721TkWqmtat6s
+         WEZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780283507; x=1780888307;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MuDntok0/7oP3h0HaSkrbvB8I/WbSdzhW7ajx8MOkQs=;
+        b=W0djckNO4Tw0yFdxVzNQEXR1IgUvN94vSthJlXD/lAVhf56ChVsmRjZ4ER5Pw+/v6N
+         kco30PB0RIzBmwyAgctoHOj52GrBVbLBfWxNM9wCkYKKJmmmL+/NzyUPJexhfa1dzkrE
+         9bZZVuBbYkjEDP5hZ0lXs1VoFaqbjmBIdh/6HDFO68pIouRDhJ8eC1bFE/ciVx/zHels
+         3NIp6xyrm0R0WBvC4fbXAQCzSmySiD8ePmJcLzOrsqOux4ZU4jYhTpURjunsmXQq5SOv
+         x+kKXGZQ1xDHojq/+QpDooJUHauXqJ128lqmGXxU5EjlRJMy2urRzIonoxtEKIllWVJS
+         TNmQ==
+X-Gm-Message-State: AOJu0YzZ9w2fuRXxkgjSKsKWCpUAvainSTPifP1yFKGIn2IhxYElVFqH
+	ZgiWsAhgvP9ow60qCBdd49Mu0OnF10AOyIryU/oddFBBK3+z2y6O1ECaWApyq1UWEH2aZJZEOca
+	NxgFqcFUA+51E7rz5dYPcgkYLLH7tKFoKdpG2h4Oy
+X-Gm-Gg: Acq92OGhpECjtpkEr+tN7SKvDW7cm32OX0v1oXcldxRD9V66nfVHoRGb0qKgBb/xKR/
+	1c1oQvjuWGYqa2OKWdQuZMOoP5LuzWuFYWOBiBFE7W1wElc800o2LRajMx2pDww4/iFXMvirQ8j
+	Ny1qT6lyW98jC5zMMyfX2KR8+vD2Cm93B/27adroatPnYq8xDuMsVfRkjcPK8xAmU/WYcy23pFi
+	tQA6f6ZP8FWANKPLf/y9V+VPzYuIER8jniGDQjybicTZ61r+g4+GmG9Kq4q4SM26lx95wp6/CsC
+	Z6CyPNfDwMNuMUI=
+X-Received: by 2002:a05:6512:158e:b0:5aa:690c:662f with SMTP id
+ 2adb3069b0e04-5aa690c66e9mr1347657e87.23.1780283506595; Sun, 31 May 2026
+ 20:11:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>, Paul Moore <paul@paul-moore.com>,
- Eric Paris <eparis@redhat.com>
-Cc: "Al Viro" <viro@zeniv.linux.org.uk>, "Aleksa Sarai" <cyphar@cyphar.com>,
- "Christian Brauner" <brauner@kernel.org>,
- "Jori Koolstra" <jkoolstra@xs4all.nl>, "Jan Kara" <jack@suse.cz>,
- "Jeff Layton" <jlayton@kernel.org>, "Mateusz Guzik" <mjguzik@gmail.com>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Charles Mirabile" <cmirabil@redhat.com>
-Subject: Re: [RFC PATCH v6 5/9] vfs: lookup_open(): move audit_inode_child()
- and i_op->create check to before try_break_deleg()
-In-reply-to: <20260531182045.171711-6-jkoolstra@xs4all.nl>
-References: <20260531182045.171711-1-jkoolstra@xs4all.nl>
-  <20260531182045.171711-6-jkoolstra@xs4all.nl>
-Date: Mon, 01 Jun 2026 12:56:43 +1000
-Message-id: <178028260358.2923901.6788358930458921830@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+In-Reply-To: <20260531010107.1953702-1-safinaskar@gmail.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Sun, 31 May 2026 20:11:34 -0700
+X-Gm-Features: AVHnY4JXGlP1eBaFLieX9GEu2QC7fa8YTkX6sK3P-yG-Mx-u9DLHduWiKUrWdA8
+Message-ID: <CALCETrW__=8mSusayfXG7UFCfue5BGbx+vqESj1d9wqOfX4s8w@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Askar Safin <safinaskar@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, May 30, 2026 at 6:03=E2=80=AFPM Askar Safin <safinaskar@gmail.com> =
+wrote:
+>
+> See recent discussion here:
+> https://lore.kernel.org/all/20260516182126.530498-1-pfalcato@suse.de/T/#u
+>
+> For all these reasons I propose to make vmsplice a simple wrapper for
+> preadv2/pwritev2.
+>
 
-[Paul and Eric - question for you towards the end)
+I have no comment on the code or the history.  But I'm 100% in favor
+of the solution.  vmsplice is a crappy API, and would be incredibly
+complex to get the implementation right,  and it should be removed.
+But it has users, and the approach of just mapping them straight to
+pread/pwrite makes perfect sense.
 
-On Mon, 01 Jun 2026, Jori Koolstra wrote:
-> Calling audit_inode_child() and the i_op->create check in lookup_open()
-> take place after the try_break_deleg() call. This does not match the
-> order when doing a regular file create via mknod(2). There the call
-> order is:
->=20
-> 	filename_mknodat()
-> 	vfs_create()
-> 	may_create_dentry()
-> 	audit_inode_child(dir, child, AUDIT_TYPE_CHILD_CREATE)
-> 	i_op->create check
-> 	try_break_deleg()
->=20
-> In particular, audit_inode_child() is called regardless of whether
-> try_break_deleg() fails.
->=20
-> Move move audit_inode_child() and the i_op->create check to before
-> try_break_deleg() in lookup_open().
+(If anyone wants to contemplate how bad the API is, contemplate gift
+mode.  Or contemplate that, if you want correct results, you need to
+avoid modifying the memory until the recipient is done reading or you
+need to avoid reading the memory until the writer is done writing, and
+vmsplice *does not tell you when it's done*.  And there isn't even a
+caller specification of whether they want to read or write.  It's ...
+crap.)
 
-I don't think this is sufficient.
-I think (and we should confirm we people who know about auditing) that
-the audit call should come before the permission check so that there is
-an audit record on failed attempts.  In that case the
-audit_inode_child() all needs to be much earlier.
-
-Alternately if we don't need an audit record for failed attempts - maybe
-the audit_inode(..., AUDIT_INODE_PARENT) is enough?  - then the
-audit_inde_child(..., AUDIT_TYPE_CHILD_CREATE) in may_create_dentry()
-should be after the permission check.
-
-I think you are trying to make the two paths consistent.  I think that
-is a good thing.  I don't think you have achieved it.
-
-I notice that fsnotify_create() ALSO calls audit_inode_child(...
-AUDIT_TYPE_CHILD_CREATE).  Surely we don't need both?
-
-Paul, Eric: can you comment on whether AUDIT_TYPE_CHILD_CREATE() should
-come before permission checks, after checks but before create, or after
-the create?  Or maybe several of those?
-We seem to do it both before in may_create_dentry(), and after in
-fsnotify_create().
-
-
-Thanks,
-NeilBrown
-
-
-
->=20
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> ---
->  fs/namei.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->=20
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 16dcf537db87..293592a4d011 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4526,17 +4526,18 @@ static struct dentry *lookup_open(struct nameidata =
-*nd, struct file *file,
-> =20
->  	/* Negative dentry, just create the file */
->  	if (!dentry->d_inode && (open_flag & O_CREAT)) {
-> -		/* but break the directory lease first! */
-> -		error =3D try_break_deleg(dir_inode, delegated_inode);
-> -		if (error)
-> -			goto out_dput;
-> -
->  		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
-> +
->  		if (!dir_inode->i_op->create) {
->  			error =3D -EACCES;
->  			goto out_dput;
->  		}
-> =20
-> +		/* but break the directory lease first! */
-> +		error =3D try_break_deleg(dir_inode, delegated_inode);
-> +		if (error)
-> +			goto out_dput;
-> +
->  		error =3D dir_inode->i_op->create(idmap, dir_inode, dentry,
->  						mode, open_flag & O_EXCL);
->  		if (error)
-> --=20
-> 2.54.0
->=20
->=20
-
+--Andy
