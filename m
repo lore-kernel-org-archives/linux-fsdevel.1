@@ -1,133 +1,205 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6560238758F
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 07:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE7E38AC91
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 08:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780300318; cv=pass; b=JcezCQSmKlLbroS4GFGaS6lGfPdv5OssZfI1pA27jDWjOEdJqIiwB/BpSfx+Aa1NyAaa5kOJkjtbICDGMcI6Jhys63wd5wb3gLhRudcxcTa9ZxPQ7jnh+VjLd8dSqQvGl5zHu6Gk1cwJ9QU3q4ZtfzpblN6Diq2IJQSvubFosFE=
+	t=1780302521; cv=pass; b=OO8C//cZ+bkLAYLjDayaSm/PWdJUxLWEdQ+4O1wGLpKoICPmIEgd6p7Tdq1f+ZXyw0JyFEo4xBR7MWqd7+G/KjXqQR7KJsRxgEp1Dnb3TMLtUYUNInl/wQNvEdvoRMCwYJMCiOu/YeMCeoQub/DJNuuZZGbuUeg7+z2QID4pbvQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780300318; c=relaxed/simple;
-	bh=cF3bo3gTiqGgXsGQh1woooAWR3zcLL1CArsvtr5JdPU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bjGhEVDRaaAi/FTYHJFgWJqE8sMc0wjJc3l2jR88TjoDc3oRg8KAI7dL5ljc0wKEH5k1OKKjfz953IUIIdvf8A9u/mpfDSpj2k+as3Ag6ne6BkiGgjE6MaU0eIxhZgKSmbtywf4+MvA+pwVv3mQCsBAsJEq7+gDPDku7/Bo9wl8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YCBxmYk7; arc=pass smtp.client-ip=209.85.128.179
+	s=arc-20240116; t=1780302521; c=relaxed/simple;
+	bh=c1ig9xcJuO9YJZkXzdXUaCf+kDMbbyvLWLLXcmr8+UI=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=XkubEFyQsEA3J+BTVhtNWXjgrRUGiMNfBDr2BZqQEi3bBAk5kTthW6ay9ZuVBozJgZm6hN2tRpJo0vWU8Ak5gq9pu/Kk7yNpE+8u2c44wqTV3GNb83S1OrpqLc0dvTNagCigg09UYw1Grg3Q9fNFdc9cHb4qaM6V5mZznPsU1Oo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdZsavHj; arc=pass smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YCBxmYk7"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7df8b6aca7fso1452147b3.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 00:51:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780300316; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdZsavHj"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-516d634956fso114697211cf.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 01:28:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780302519; cv=none;
         d=google.com; s=arc-20240605;
-        b=WAZpVhWFbZ2J8dYkgx2wFCoc0aEQDhVdp8MvTLYwDb8FXY2BGh5SGph9dtGsDGdWWr
-         SIPlooaUA/LzjUAQTN2Xwm7cs3Xuu3H6xj912eBWb7E93VKO2ZfGI/gCNk5s2jjkA2hu
-         DMmfJnrVTwAOAx4BY3rUnAIQMsuXyyQ1rbf1rAFEkpTfCUhGCPDRurkdHXf22LMTVQpk
-         UeGj9oxMe6xXIcCHqpvYGAVQHjn3058UOwGxLfKF/c+AbXpyTKr/NKampQWtkYr0OI1A
-         EIy8hoLtBr9oxgn5trKMoVxCfGQIf/R2TUdq+yzqQvaMNX6Y8w8E9tnSoOv3HukMaocI
-         8Nbw==
+        b=E5+RhZEPw/h1XsYT4OAmzn7ue0kpUS0/AFl3efkdi9S0E277IpHO9hcmmK6uSm5kZd
+         DC/haNbA3pnqyGrq7iGzu6tVJgm0gN3VPruPkMboDMjdgp0sw7zRKlAfExOm6uBbxxqj
+         5mC077VCpiHf8xG33s9jRfhq6MzJExDTh4IeSWoMj+dBJV5GCLWS1s8jUB5mc3MlX6C0
+         ipQVp3B8eOX5GL9qq9NczrdaDF1hlS4ICtnao4AYHCEP5gUQG2Vg+0Dnuy5I28PNT+9N
+         viKvE4RiPxCs04q9lRlR7T1Pepys99GxgRFXwazpII5DL5Hp9zrbtxDj4dz8sb1aUa9U
+         oPYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cF3bo3gTiqGgXsGQh1woooAWR3zcLL1CArsvtr5JdPU=;
-        fh=XdrB3SifvEKACYLf7fuGPXVvEt2aQ2vYggvUVM/mWek=;
-        b=k350DMeRZ8vhP1R27GxnVfPqm/Tje9rA+jRCUvJmZY/3uZJ6yPEGez3WBNy5bHgY3w
-         hbeCZub1pnLJb1QFB6w6WTgSZbOLweWXkf+9tbgYcmj4oMCwYoy1cyw3+GeYrPcMNEas
-         WIoAjAwa1jNh+4VaDM4rd/AODOcO4Mam8wS2TKYMU29E+E10FlFeUbaAzhbEB8oDTssd
-         HbgEiIx60GyBY0FzJHGjBs1t6l71Gvc6hm36ns/xl+HAaPWYI/qP9N5L9BFd8rU76MSB
-         pi40tNNSb7oHjSSqJrfeq+NSRYxzFlCxwDJZKb+5091srRHi4XhzRTXRtinKChvRaaUk
-         nHJg==;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=chy4CiOufXTSxPnyWfni+DiT9+e7J+p1A7Jsak6bS+8=;
+        fh=NvW0M1HP+F1Of6rGMiZYFxuaSNs03uAbuzZpJQMJmV0=;
+        b=QYmpkjwPqvOA6PVCSSDJa9g1XbZrM1GJp3bkj/NwcLmqlA38vdj17nZOwXYN8nNeUP
+         FnwSzSXttGx3Aov++5hey7yO3OPE0cDFP8WhuEzaXrLP94viLfZecHoTUfeq6h2OIw5+
+         IJEQq9S1Jplyqt4V9LJwsQcjaYFI6GbEqjfCZenUT769+UO+w2acp9g8DHvzbQkwZqfm
+         4L15UiMvrBcB8Qy0CWCgO3INY1/iSEHIVbK1MUVOjuUt8xTVu9xujBsVLqq5wlrLlmbx
+         x52gqlpKPXelz/JbPdAcfp3bLDw8sxeDVOy6xwcx8s/jZ2BH15d568oVnCSFe6W9NLN1
+         OJjA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780300316; x=1780905116; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cF3bo3gTiqGgXsGQh1woooAWR3zcLL1CArsvtr5JdPU=;
-        b=YCBxmYk7K8FYBmNSKOZ5ACifL3eTIanoNVln2/dqRsY0I0ruGUPmIleFd2mpYqjwbH
-         /iM6pDEA4TKUop9/Vy3IvwFIsIgceG6ThsC9HmOsRSPPo8a4R4u+rYUiFkxoAlj8NC8g
-         gxv8tV0nfgyXPeGc7ARb0BFltEJYaK4+4MYG6VhUGoFzBdorDLYXmUs1T0IWQ1K70vVN
-         DQaNRpTrsUV1/LeTi50OV8kzRbDGRFlIphjCtH+KNFU78Hu60RRfn/Og3bovP9qinngm
-         7oODhbCYsDRMTs0dtHup2horsxaC0F/Hk0KYY4U8plzAI0FbIb2AEyXA09Gas3jSNzp1
-         mGgw==
+        d=gmail.com; s=20251104; t=1780302519; x=1780907319; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=chy4CiOufXTSxPnyWfni+DiT9+e7J+p1A7Jsak6bS+8=;
+        b=fdZsavHjIj2XpSTjmx1ft7As0F/TdqfpaHTpi7QmyJHyEk49In8ShXCHgl8nNCIrUI
+         ptcLlnX1DMsowhlgVZWneu71hQd76YcIulb7JO8x3dgiBZM7UbCvFoKvOPCWsKT1587y
+         Hje+OxxZPHb7OGukzcv0t0zsasgWhw4qdztER0wrkSXvdpxTC7zAQfaI9sOVUxQppKgZ
+         4+EKVgVRGNYfuYxnLMQ4x6MgwM8WGNwJHkkY/0OFkig4ei6BuxkgQnKdIXVBInmCLD+q
+         cjE3xutL5PGn9a5joicC4GrXo3CvjMtKDDH8wDqgOHrQPZf9DVbe6k97gfpEV3sJc1GX
+         VNng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780300316; x=1780905116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cF3bo3gTiqGgXsGQh1woooAWR3zcLL1CArsvtr5JdPU=;
-        b=nBvyFwOGLiZIugTOqvn2k1gANWTIxpabNBXiVejFG1L+e9lILb595jW6bKwIaKX5AV
-         B1TMHe1+x0e4X2eAHiOvdpkOR+yLvnSBfHUF15PXoDZiUaCD9l7lk+dmfZ0b0OMttqzo
-         3FQRoscn4tfXeIufHBGWzSn2h9mZ4Y8Po7ELlv62DAJcn2XYOvWt7ZVBa0sxoATFskrs
-         P2+EYDqIzLPibOPd50i3Tf/5WR52YP47dTGVXFFuULvQ/reB9hdSNPzXTZ9ZxrfVHuXF
-         RG24BXFLcn26KHFjlhot72udLYQWbGxYuB4gV5SnTcOH1YRR617/TYAh/t2/0j+IFglw
-         gknw==
-X-Forwarded-Encrypted: i=1; AFNElJ+r+zy5tqdFY7rSuINBLEeME47Pc5oNp37Omq5zauDKMya4YIT7BTsXzUjxSIaJjci2o2Z7c6cEEx5HEsCe@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAuZUcVhphCKytJ68BpxvsUTuvDv+pT9pEaqisESmoClhheTGG
-	F8NgFSj3ZdYOAKPUtJXPBcGtguKs/FGjUXxC9k+2aKUFRbRLDrRtw9ILF8Ee9WesDKwhE6A/s2w
-	UiUnEKoeegU9/tkW4dORib4sAlqTx3iE=
-X-Gm-Gg: Acq92OHpbC9EDDIQSnmpPtCsOSoVDai1bh7F/pkCcr1ZFzN3Sgw1lygb+3xBLLJXreH
-	cRWdOV1XqKgkX3kExcQWBc65cODNMRQRPgyrglPFmLCt0lms1Q1GCupAEmGkEZeSY0jM8oj2ClW
-	J8TiziC0OzqLqUcFPJBItBCMn7O6PH4DZaLkjhEAbdjG+ZS0HE4UkxMGhrFZjfNwtXJqgDe9tsr
-	xGlALEBnibE+LCOlEr4jmubc/auz2eoagJYpJ73IeEj9BHtI7K179NyxaX7jB56AMkdjBQ06BGn
-	VkuZ9ovoYe7m6BteEusL
-X-Received: by 2002:a05:690e:4183:b0:65d:7fad:2207 with SMTP id
- 956f58d0204a3-6605f2b969cmr4819517d50.8.1780300316343; Mon, 01 Jun 2026
- 00:51:56 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780302519; x=1780907319;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=chy4CiOufXTSxPnyWfni+DiT9+e7J+p1A7Jsak6bS+8=;
+        b=EIWqG6rdU3RpBI9z3TMkM1coqiJ72hipw7QkoV5bBL+z/Wemhvh1XFIDs02Dhc8rQy
+         IYVHQnCucykcHWuR3/NaqrZ7ccNJ49bbD6bwfxYGZ1oUw0ejv5lFkLmxZhtnNsCMQN/T
+         vGe0j2sTdG3OoFhzhFg6EtjjqW+PvFSa3q9Epm7PzmGffTzPx4jB4fJll03yq+HXc91+
+         I8/A2yCEU48lH6oYb5Hb+FuGKDZMN5ZD+omhmUfCZD31J2n/12hydUvy9CBbEnxLXc4p
+         LS228eHv9wVLk4EduowGfFq0SuQxjcJBMeiHS9dOjCL3sBZ7sozaVpQyWmF1EHczQ3Iu
+         XMWw==
+X-Gm-Message-State: AOJu0Yytd4SWtXRnFRrwvbGUKx2M43gDRrFqoSPAoATh3I1fcMPNgAZO
+	RVsZGWzg/ZYFWgzKUC0Mdh2u/BHyofSmdBDAPIq50Ue1RW5SqMyeodLX1pb7TMqt6JdxYksRaDp
+	vQHtGmBAbjvceswNcmQZU9dTqj4W5PKs=
+X-Gm-Gg: Acq92OHCkUoWT22TOhj8U6Z5/WFK4hmcSAfRvfccsmU/hOUjiKZiYN4oXjNe4WmWMqB
+	R/X/n1MI+M2dunc49CScVZn1lNMommadpnm1O5dLkbMuYyRpknZrPVbsjEZeJMFmQjUzhDkjR2O
+	PiDx+jsVNROZcpK+WkhA7c42jGVv0p29wegz+Z83Fn128VERc816qy9NaL43mrjaK5nPV468jRK
+	7qkkLBFiLMbets8yWkvUi8hIgPGh/5R105Q3kIFw0DcXN/WI20QHjJtFzh99q3BgPHlzxYLPzdo
+	3GsuzhyQ/4W4RLyf
+X-Received: by 2002:a05:622a:830b:b0:516:e062:1a8c with SMTP id
+ d75a77b69052e-5173a7a2ea1mr113192091cf.37.1780302519187; Mon, 01 Jun 2026
+ 01:28:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260530143514.3083601-1-charsyam@gmail.com> <20260530143514.3083601-7-charsyam@gmail.com>
- <CAKYAXd_-Y1Rx-sUd-2GWS+KBCkTi+DA0DtX9qaD3nT8payRbGg@mail.gmail.com>
-In-Reply-To: <CAKYAXd_-Y1Rx-sUd-2GWS+KBCkTi+DA0DtX9qaD3nT8payRbGg@mail.gmail.com>
-From: CharSyam <charsyam@gmail.com>
-Date: Mon, 1 Jun 2026 16:51:45 +0900
-X-Gm-Features: AVHnY4KuNaKVOm2lexidjP8dBqeXyIJJcAtznnKIUqc00Ir66msg4tGqdwWooH4
-Message-ID: <CAMrLSE7T6ZyQZ4eutnek7irEWYDeg4im+tvSxWuEHWDgaseK4A@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] ntfs: validate resident index root values on lookup
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+From: =?UTF-8?B?6rmA66+87ISc?= <neck3922@gmail.com>
+Date: Mon, 1 Jun 2026 17:28:28 +0900
+X-Gm-Features: AVHnY4Jmnl-8FOixwQi52djqGt8p-nCRErtCM1XZESChjmeG5OkicHzsEnjN758
+Message-ID: <CAFmvuTW=gntFCBtuHGAu7caC9FM4Ovf_r1ng5gmy6djn9ziLqg@mail.gmail.com>
+Subject: [BUG] fuse: KASAN slab-use-after-free in fuse_uring_copy_to_ring()
+To: miklos@szeredi.hu
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi, Namjae.
-I will check it soon. Do you mean 6/6 patch or all of them?
+Hello,
 
-Thanks.
-DaeMyung.
+I am reporting a FUSE-over-io_uring bug reproduced on upstream v7.1-rc6
+with KASAN enabled. The bug was found with a local syzkaller setup.
 
-2026=EB=85=84 6=EC=9B=94 1=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 1:37, Na=
-mjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> On Sat, May 30, 2026 at 11:35=E2=80=AFPM DaeMyung Kang <charsyam@gmail.co=
-m> wrote:
-> >
-> > Resident $INDEX_ROOT values carry index header fields that callers
-> > consume after lookup. Some callers already validate parts of the layout
-> > before walking entries, but those checks are scattered and do not cover
-> > all root header invariants, such as entries_offset alignment and lower
-> > bound, index_length, and allocated_size consistency.
-> >
-> > Now that ntfs_ir_truncate() updates index.allocated_size before
-> > shrinking the resident value, lookup-time validation can cover these
-> > header invariants without tripping over the driver shrink path.
-> >
-> > Add $INDEX_ROOT to the minimum resident value size table and validate t=
-he
-> > resident index header fields before returning the attribute from lookup=
-.
-> > Require 8-byte aligned index header fields, a sane entries_offset, an
-> > index_length within allocated_size, allocated_size within the resident
-> > value, and enough entry space for at least an index entry header.
-> >
-> > Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
-> When this patch is applied, the generic/013 test fails randomly. The
-> failure can be reproduced by running xfstests generic/013 multiple
-> times. Additionally, ntfsprogs-plus must be installed to run fsck
-> checks.
-> Thanks.
+Target file: fs/fuse/dev_uring.c
+Subsystem: FUSE
+Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+Git head: e43ffb69e0438cddd72aaa30898b4dc446f664f8
+Kernel release: v7.1-rc6
+
+Observed crash:
+
+  BUG: KASAN: slab-use-after-free in fuse_uring_copy_to_ring+0x20b/0x230
+
+The same issue was also observed on v7.1-rc5:
+
+  Git head: e7ae89a0c97ce2b68b0983cd01eda67cf373517d
+
+Root cause analysis:
+
+The crash appears to be caused by a lifetime/state mismatch between
+struct fuse_req and the FUSE io_uring ring entry state machine.
+
+The KASAN report shows that the affected object is a struct fuse_req from
+the fuse_request cache. It is allocated in the FUSE open path via
+fuse_request_alloc() and freed later in the same open path via
+fuse_put_request(), but it is subsequently accessed from
+fuse_uring_copy_to_ring() while FUSE io_uring is sending a request to the
+userspace ring.
+
+The preceding warning in fuse_ring_ent_set_commit() also shows an unexpected
+ring entry state:
+
+  WARNING: fs/fuse/dev_uring.c:865
+  fuse: qid=0 commit_id 4 state 3
+
+My current guess is that an error/teardown/commit-and-fetch sequence may
+leave a stale fuse_req reachable from the FUSE io_uring ring/request queues.
+
+Reproducer:
+
+C reproducer:
+  https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main/fuse-uring-uaf-v7.1-rc6/repro_fuse_uring_uaf_userns.c
+
+Full symbolized console log:
+  https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main/fuse-uring-uaf-v7.1-rc6/clean_userns_report_rc6.txt
+
+Kernel config:
+  https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main/fuse-uring-uaf-v7.1-rc6/kernel-config-v7.1-rc6.config
+
+Key config options:
+
+  CONFIG_FUSE_FS=y
+  CONFIG_FUSE_IO_URING=y
+  CONFIG_FUSE_PASSTHROUGH=y
+  CONFIG_IO_URING=y
+  CONFIG_KASAN=y
+  CONFIG_KASAN_VMALLOC=y
+  CONFIG_KASAN_EXTRA_INFO=y
+  CONFIG_USER_NS=y
+
+Runtime conditions:
+
+  fuse.enable_uring=1
+  unprivileged user namespaces enabled
+  /dev/fuse accessible to the reproducer
+
+I verified the C reproducer by running it as uid 1000; it then creates a
+user namespace. In my minimal QEMU rootfs, /dev/fuse was chmod 0666 before
+running the reproducer because the device node is root:root 0600 by default.
+
+Without a user namespace, uid 1000 can open /dev/fuse in this setup but
+mount(fuse) fails with EPERM, so the provided reproducer uses CLONE_NEWUSER.
+
+Brief KASAN excerpt:
+
+  BUG: KASAN: slab-use-after-free in fuse_uring_copy_to_ring+0x20b/0x230
+  Read of size 8 at addr ffff888009ecc698 by task repro_minimal_u/153
+
+  Allocated by task 153:
+    fuse_request_alloc
+    fuse_get_req
+    __fuse_simple_request
+    fuse_send_open
+    fuse_file_open
+    fuse_do_open
+    fuse_dir_open
+    do_dentry_open
+    vfs_open
+    path_openat
+    do_file_open
+    do_sys_openat2
+    __x64_sys_openat
+
+  Freed by task 153:
+    fuse_put_request
+    __fuse_simple_request
+    fuse_send_open
+    fuse_file_open
+    fuse_do_open
+    fuse_dir_open
+    do_dentry_open
+    vfs_open
+    path_openat
+    do_file_open
+    do_sys_openat2
+    __x64_sys_openat
+
+If you fix this issue, please add the following tag to the commit:
+
+  Reported-by: Minseo Kim <neck3922@gmail.com>
+
+If you need anything else, please let me know.
+
+Best regards,
+Minseo Kim
