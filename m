@@ -1,100 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D12B29D26B
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 16:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696DC311583;
+	Mon,  1 Jun 2026 16:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780331396; cv=none; b=WgZrxoTZbmsqaXVpO+qaLEZnqt5oj2CqU0dONBMMlHfftScV3gn/u3Pr7lcK4jQ61N/AUvTkX9b9uf71nJRDqmfI0B/m4Ytu4SEH8abyi5M5Qy/oQ3XvdHLUSto48GwM9Vm+HJ2vMBtVaj5jevujxVx6CsHNyLw7DHWi25ydZ4A=
+	t=1780332137; cv=none; b=B+U9s0EM+zLNVfRg7s7ffxyoSPJvL5fMJXXK+6/MfsgKi7gTCp/0yl0GYa+DM8kksgoOMFmzKQDilor4+6m0AkIChKwdvgspbSLBszI2b6X7x96XiIBB9I9e3YGlxLuv202b2KfiRM4RTAlrgrQYxmnSJUzSVPxwIwXJ5M7bERo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780331396; c=relaxed/simple;
-	bh=gYfCSgj3xaS2A+YYEac1pAqnPzQSSEZ5MXWL4piM4aE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VDrx+uAmHDu3u57DCg8Dq55MR/WNjRX9RmvaxXoAkIGEC7saxnPODqY+ggnBX2bKj/ERAj0noZSCwjTgaqfq49jQtXEyiD2AQdzoP9+OCy4quektfADBo0r4eeObuAJI01DTdtCaHpQvqaJyi2hrP8JEs/fbbiKjf0OcVejF7aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=USA7JRgg; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780332137; c=relaxed/simple;
+	bh=BgJ9kx1/tXUuldxL8l+n8NO5M2/EWoe/peBIxTf96cA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MkJ5xaSGkZS6brEu3BPd3WjIVIGJSGwldQ6zblOmQgV1VzyHFDGIfvnz2ZinEAzs3AvlaK5HDxv/hdN0HrCviIdSovw9Xy8HdxV49jnlyxsXHYwYJNnlZfee8Awa53Y79Wka8bEoggex7/Clnnme8VOMeWCEG4yJ5yiV4eq7zOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dN2iZrqR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="USA7JRgg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780331394;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FCDOSgEjx1fWi4LkC7ZBCwOBu8wF5UiqKv/5m50uf7w=;
-	b=USA7JRggHIs/hxLW8vEsy4PyBd4Ef60oi5F0vo81A6PkvEspbQ1ynMO9av/9ncbJUbIDOX
-	fUkxpIqJBJzB3dP8YyLhCBIYX43521tX33ei9MFbF9hKUIAAT3mDED7j/SAkSLw5oHRYjj
-	shfHduCGvi/MR4DivcirWx/60UEcbZ4=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-18-nWJ4074FMJq1TUF3XnERQQ-1; Mon,
- 01 Jun 2026 12:29:48 -0400
-X-MC-Unique: nWJ4074FMJq1TUF3XnERQQ-1
-X-Mimecast-MFC-AGG-ID: nWJ4074FMJq1TUF3XnERQQ_1780331386
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6384A195609F;
-	Mon,  1 Jun 2026 16:29:45 +0000 (UTC)
-Received: from bfoster (unknown [10.22.80.88])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1AE5B1800347;
-	Mon,  1 Jun 2026 16:29:42 +0000 (UTC)
-Date: Mon, 1 Jun 2026 12:29:40 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Qu Wenruo <wqu@suse.com>, Damien Le Moal <dlemoal@kernel.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>,
-	Bart Van Assche <bvanassche@acm.org>,
-	linux-block <linux-block@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dN2iZrqR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA65A1F00893;
+	Mon,  1 Jun 2026 16:42:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780332134;
+	bh=teSdp9I1t1pRWNp/a7/eGoyDMHv3wjAOGwFHd06Ja2A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=dN2iZrqRzXR4+E4RaAy6YxsO9Bh+RosZzGkVQQ5KpR8qZlhxfn7UjHG+ybsrgORsN
+	 b/LzrLkcE/p4whNsHJV1MbXOOZ/zkgf8WdoYGwawV8FSAwR6H8gBoacmdsOzR8os6G
+	 oDH1IUaauW6QHuorSlKqhMjG2U5jxKn4MhGBWT6SBY61/cMFinnp7GrWrrB0O8ZXm0
+	 Oj2B/kkHRo4IU/gYxVb0nJPCq3V2F5/Ycp0+POLjcf0bLac7tYCKFXZKrMknrJT+gY
+	 E9/TdDDEMRJogiYq811jJR+JlPnFcJLEMKZpjCDGUO55Y5XeBfXqJSK+BqfAYAHAiP
+	 Dc2Lva0V1oi0g==
+From: Christian Brauner <brauner@kernel.org>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-api@vger.kernel.org,
+	netdev@vger.kernel.org,
 	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Howells <dhowells@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Pedro Falcato <pfalcato@suse.de>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	patches@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
-Message-ID: <ah2zdCQ0WA6ol2Gn@bfoster>
-References: <ahRocb0Vs_m6RF_O@fedora>
- <1a9f53d4-6f48-4df8-a3d8-2b0e442a163a@I-love.SAKURA.ne.jp>
- <ahZGxoI6oHQ_vSrx@fedora>
- <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp>
- <ahZeYQ0cLE1i8TGs@fedora>
- <fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp>
- <ab5492b6-a053-4e3b-8c59-2e836ae85bc4@kernel.org>
- <20260528083848.GA7694@lst.de>
- <36571f8a-4df8-4152-b078-d82dbff4ad7e@suse.com>
- <20260601144034.GA4918@lst.de>
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+Date: Mon,  1 Jun 2026 18:23:24 +0200
+Message-ID: <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260531010107.1953702-1-safinaskar@gmail.com>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260601144034.GA4918@lst.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1316; i=brauner@kernel.org; h=from:subject:message-id; bh=BgJ9kx1/tXUuldxL8l+n8NO5M2/EWoe/peBIxTf96cA=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJbovatvNLlrOz2euq5KJVS68r/ax6FG7+bO79T8tOz 5zmb8r6q6OUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAiVTGMDC9rZr+8fVpQ+U58 ybRti67u4dKZrbrFpkqzdgmD/nptkwhGhssXZ37z/VPKklHqHGjgG1snrZHsoFtm95j5gujhq9w LeAE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 01, 2026 at 04:40:34PM +0200, Christoph Hellwig wrote:
-> On Thu, May 28, 2026 at 07:46:24PM +0930, Qu Wenruo wrote:
-> >> e.g. 9c7504aa72b6 ("xfs: track and serialize in-flight async buffers against
-> >> unmount")
-> > Considering the xfs fix is pretty old, it's before the fix hint thus no 
-> > such mention in fstests.
-> >
-> > Do you happen to know which test case is for that fix?
-> > I'd like to adapt it for btrfs as a reproducer.
+On Sun, 31 May 2026 01:01:04 +0000, Askar Safin wrote:
+> This patchset is for VFS.
 > 
-> No.  Adding Brian who authored that commit.
+> Recently we got a lot of vulnerabilities in splice/vmsplice.
 > 
+> Also vmsplice already was source of vulnerabilities in the past:
+> CVE-2020-29374 (see https://lwn.net/Articles/849638/ ).
+> 
+> [...]
 
-I haven't followed through the full thread here... But if you're just
-looking for an existing test case associated with the commit above on
-XFS, I did some quick digging and xfs/311 is the original reproducer for
-that one.
+Applied to the vfs-7.2.vmsplice branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.vmsplice branch should appear in linux-next soon.
 
-Brian
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.vmsplice
+
+[1/3] tee: fs/splice.c: remove unused parameter "flags" from "link_pipe"
+      https://git.kernel.org/vfs/vfs/c/a9f7db50ed2f
+[2/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+      https://git.kernel.org/vfs/vfs/c/e2c0b2368081
+[3/3] splice: remove PIPE_BUF_FLAG_GIFT
+      https://git.kernel.org/vfs/vfs/c/7d75aa8edfce
