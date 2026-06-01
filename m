@@ -1,139 +1,67 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7621360EDE
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 19:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F7D357D02
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 19:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780341958; cv=none; b=TB3JFq84QXfsDK8den8m9UKPiUaeEtPSKSoA7HtyF/9d9MWSHEtAFSWNAfapXkqhXmFFrFm2qFK0svj6V7Sk7RJ/WbwZITfF4kfEZRx8+BCgTzlVJG3xM+x0Ec+zOVrFqZdJUR6gOj7UQrrmUQm8i7oBewvnrF3a+6ZsdT1saps=
+	t=1780341992; cv=none; b=B1pOFDmb3f4GMTaWQvcoYq+UJLJ2A/m+R/mXzjLhA38YR3ljYJoKdpOg4JjP9Hl/gmn5rXNtSUWlyEpBINNPu577cXW/g0/O6CdgpCMmfPs8e2a8ubNdIW91zycsknasF8BAUF8Nnl3cbZ7f4rSPRCOLJnzjDndfe9gFAaieZm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780341958; c=relaxed/simple;
-	bh=OWRuh/RR8NJ5UTF40FybsEdKJgrcmOFPEN3Dxz4VubM=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=h6FaiqSEOSQJOBdh8WX4/M8nyF6gTEVpyaPkMb+bKySE7OhUdSlnLMUvga30/hlu1XwvPKOY51IpHPeZQAjUWvs3wm2QqtZFQAikBC7PUIlIm2ia1inM45OcVfIdbc5SL4j2SVbBLlQxi7ZrqzaNt4Jm0mESVO8P6lyrOKLmxRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Com3fMZj; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780341992; c=relaxed/simple;
+	bh=LNDbSncytyV30p7bUG6HGLdDHJFjAKWl6sBYA9DYydY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NTiWOlLco/RWfR0tJ8EajoT3n3dYpz/efQ3RfSZJlDE/wuy7aYmiR1GC+2tEEf/oDB8sR2YPNB0LmjOcwlg87SXkZRrNd20GvcmP0mepXhMlIZB1LadcvbQEzCht8gu+1lRk2cXnyLC9IMYWWqO/K9VH0B3phxJ80wsuj84m+CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W5+367Ih; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Com3fMZj"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-43b7987a9d1so6942204fac.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 12:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780341956; x=1780946756; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oUcR4pbJRw7eHCuwwMVNxCHcKa3q8+6m2Z16fn9DjGg=;
-        b=Com3fMZjkuy7lIagmBX8i8vMyu+UXlDiCMaFsfWr+WEHkDso+lNictsXYhHmOEtZr0
-         5pq2E7pvU14CuaA/h9bMYSC+g1rNHlkgzmNEH6dBo6GXFvaeZ6q28ZgmSnsmbSXT6TPp
-         mViq4QAzNdYjgZFW0NV90y7G70XBMsoI5YJH6DkNkY6cp9ObCkntLzPZw9uKvgVurXH+
-         NgvJJL03yr8IBPsijMDmm0GGCiBBhosUthHr5KwNzdDFSuz8CcUMrFrekx1b6FY0hquD
-         OiKSJaC5+EDmCQ0VDovBbaBqNw1ZzdnJNZtpip82Sz4kcoKd0Usj5QXpLZkN+1wsF743
-         137w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780341956; x=1780946756;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oUcR4pbJRw7eHCuwwMVNxCHcKa3q8+6m2Z16fn9DjGg=;
-        b=HHYbPTkNGBtCHqxC61jQTi1ilMgRdpN0tHYbLiJ4lXQYKuzVmHGSNgTnc8FPpBarcX
-         A3dVxSw4qn+DDhL2ODgUfCWjmsvKbGV97EwCsBq1kGomoatDStVp0tMZUrToDsE2p3Jp
-         Fl7J8pgtPnLOEYzvhlhbC/AHpoS2Eq3Re/+vn0ZeCox45PIpNlR7s3oh0Eegyy3FUXcT
-         2G6pJjDj6QlE2FPI21/kWJJUELcsZSIQ8TQeJ+hvYs4ig9w0f5A5C1JZFz7IFehj5KwN
-         T2zx3O/V2MGAODzLwLH30Yx87r09SqToM9ofC/83VZglgulpCekaTvFDLnyfZzKAHf0U
-         sQFQ==
-X-Gm-Message-State: AOJu0Ywz7tGKyGVqEq8ZH5rL8qg5RP1VlnyFG3YjKWk+3bPDYkx/MCWZ
-	e/uyil84F5D8VNukCMHG9lOfd4IYxWj7d11HJOhv12Z4PpD+YXd7nmb4
-X-Gm-Gg: Acq92OG6HRoTGJcZI+/J9IzwxFYPwM5tb1HHGuECi7C20/vucIh4Gpf+dvhXcOwM0Ui
-	VRlaNJ/UNilCrJEB5SVDei5hvLU4YOtKxbq5gzCHwSNMt9Rarkuj7guGsI5GwcLxB3haT+RjNEo
-	7ATXA9cmdnb9O5v7tRwdFiQoQgStRAvW3XAz5gxWW/sbg65gQTSRtLN7/mFU9ASaZTZKgwly6Os
-	N6baLys24NVQsIdSrIKoACEy671Jg7vRvdtaD6H8u/HJ3QbFAzuO+x7e6Qc+/EyUUM/nHSG4XSc
-	BbJ0vKikKAnPLe9nCxrrz+sQtaO5Jmhfh+Fukf3dt/KdnncZtLFqlQ7aMlcVIlNRuWstwC5zQWX
-	Zq6nUgCQ19yqemB5bvEuJVGijv6ptDACpFRGqp849uZRMKeNQA3/gI3WUmYR6s2rF+gHv/6sCkH
-	+OBFAhWKcRU+zZdSn9g7izbjCjlMcZKD7TYAjo1uMmhs0HxN/Yu80Kow==
-X-Received: by 2002:a05:6808:318f:b0:47b:d07b:ec9b with SMTP id 5614622812f47-485fb3a1033mr7732122b6e.24.1780341955751;
-        Mon, 01 Jun 2026 12:25:55 -0700 (PDT)
-Received: from smtpclient.apple ([38.175.164.190])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4863f0c9848sm374903b6e.14.2026.06.01.12.25.55
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Jun 2026 12:25:55 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W5+367Ih"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=3PRjEsmgqn76Hd2Wr35ebCoWayo4PkHbW1sfCmMDIy8=; b=W5+367IhtKRMk7vu0I4HVYNrL4
+	h0RK0yNF5w7DQIxzCKJ4gTHZD5sC2tmCEfTCxYIikZGm9+jjZ/BI3T9qoTRLUDnuSSn2xx28uzoUk
+	nOS7wb10dm43jRP07T7UsfOMmOVF6fYLlIdXp44TYXe/7qLOWHG8ohAR9LHQTEWPNBMY79DyW4VXE
+	26toNjsg/wTctKnds1uCTX9vHlufAsNGaLEcQ21OEsxiNYWdbnRv1mWG7z8qYmdXDiAKOyBiuPwQn
+	qPpRPcEcJEOLscP+UAtnPkW+GmxbUyt6DWVQiDIIuVrHUdIpzbbzaAuUM3XydHaPdsYIh/8G1hjNc
+	52CpbIeA==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wU8HL-00000000dEU-3LO9;
+	Mon, 01 Jun 2026 19:26:27 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Ye Liu <liuye@kylinos.cn>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 0/3] Remove __folio_index again
+Date: Mon,  1 Jun 2026 20:26:19 +0100
+Message-ID: <20260601192626.150804-1-willy@infradead.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.7\))
-Subject: Re: [PATCH 1/2] fuse: fix FOPEN_PARALLEL_DIRECT_WRITES being ignored
- for passthrough writes
-From: Russ Fellows <russ.fellows@gmail.com>
-In-Reply-To: <ah3VCxciXhS0CFdP@amir-ThinkPad-T480>
-Date: Mon, 1 Jun 2026 13:25:44 -0600
-Cc: linux-fsdevel@vger.kernel.org,
- miklos@szeredi.hu,
- linux-kernel@vger.kernel.org,
- fuse-devel@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <02AD69BF-A91D-4798-A90D-7692D3C1ABD0@gmail.com>
-References: <20260529031918.7361-1-russ.fellows@gmail.com>
- <20260529031918.7361-2-russ.fellows@gmail.com>
- <ah3VCxciXhS0CFdP@amir-ThinkPad-T480>
-To: Amir Goldstein <amir73il@gmail.com>
-X-Mailer: Apple Mail (2.3776.700.51.11.7)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Amir,
+I renamed page->index to page->__folio_index a year ago.  That proved to
+be insufficient to prevent people from using it, so take more extreme
+measures.  This breaks tools/mm/show_page_info.py (I expect) but since I
+don't know python and have no interest in running this script myself,
+I invite the author to fix it.
 
-I appreciate your feedback.  I will review and revise my proposed =
-changes. =20
+Matthew Wilcox (Oracle) (3):
+  ntfs: Correct use of folios in handle_bounds_compressed_page()
+  ntfs: Remove references to page->__folio_index
+  mm: Remove __folio_index
 
-I will also remove the =E2=80=9Cfix=E2=80=9D tag and mark this as an =
-enhancement to FUSE parallel I/O.
+ fs/ntfs/compress.c       | 54 +++++++++++++++++-----------------------
+ include/linux/mm_types.h |  9 +++----
+ mm/zpdesc.h              |  2 --
+ 3 files changed, 26 insertions(+), 39 deletions(-)
 
-As an aside, I have tested the kernel changes quite a bit and have had =
-no crashes or corruption, and the write performance is 3x.  But, I will =
-use your input to focus these changes more appropriately and eliminate  =
-their unintended consequences.
-
-Regards,
-=E2=80=94Russ
-
-> On Jun 1, 2026, at 12:52=E2=80=AFPM, Amir Goldstein =
-<amir73il@gmail.com> wrote:
->=20
-> Removing stable list - this is definetly NOT a bug fix
-> Please CC fuse-devel@lists.linux.dev for future fuse patches
->=20
->=20
-> Not a fix, because this was very intentional.
-> It is a new feature that you are proposing to support parallel
-> passthrough dio.
->=20
-> Anyway, this patch has many problems
->=20
->>=20
->=20
-> You can't just use fuse_dio_lock() like this
-> it plays nasty games with the iomode.
-> It does not even check for O_DIRECT mode, so this would do
-> parallel buffered write (at least until it meets the filesystem lock
-> but its not something we would want.
-> You should study this code better.
->=20
->> 	ret =3D backing_file_write_iter(backing_file, iter, iocb, =
-iocb->ki_flags,
->> 				      &ctx);
->=20
-> The problem is that while backing_file_write_iter() does not seem to
-> directly require an exclusive lock (apart from maybe =
-file_remove_privs)
-> the fuse_passthrough_end_write() callback does I think rely on this
-> exclusive lock.
->=20
-> So proving that this can work will require more research and more =
-effort
-> and I am not really sure how that is going to work out.
->=20
-> Thanks,
-> Amir.
+-- 
+2.47.3
 
