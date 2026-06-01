@@ -1,297 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mail3-163.sinamail.sina.com.cn (mail3-163.sinamail.sina.com.cn [202.108.3.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7667E344DBD;
-	Mon,  1 Jun 2026 23:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA1215687D
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 23:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780355444; cv=none; b=RmESF5Uu69w5XKez/2QUh2fazTU6nTvwLPnF7/7vaS/5nWBU5WFsU3S5m/1ebjXcjaDqEViS9eQi2rnDxVrP+vjn392kNzCT7AHkTsGQBugdDAqVRtaVsE6WtgKH9ihDLiMSP5RvsA+uJ2ymn+msWIl09Jrsj2mu7WKRHHNrLe8=
+	t=1780355879; cv=none; b=JPLaPvudxsTBASC8s5bwJ/9Jsms8s4MPhDKM7UgrNvxv2iA+vrEbYRCEe6jbD3GGKTWClfUcDHcraXth8LufXGmEGyAqiq5I1l6Ae5xJXjcd1JWTyrsmoCrjL6qfYuPVraQjOiTBO8SBeQ/sq81c3BHFZgJz8XEYLuA7cD0HBUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780355444; c=relaxed/simple;
-	bh=QkDDYHL1L9uH/stCYZ+/QN6adgi29Br4Kiq31HwRUV4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cf6WCV/C6E0jWPmjgp6RBnl8YpSiwJofJiosytNI7yBS6OG0shwNFculUiAHihbetG1FxTpxyh5rbDXcs3Ijgzouu+hpKc3sgVyAFQlSEZeV/FxUtkfPwdXDCNHCtuBe3fv/AxRHG0GqZUbhD4e1da+29hUeqPkXhvlxb2DL6+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyxi5jgy; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780355879; c=relaxed/simple;
+	bh=Po0H4PhXpZB4CC0ZmuVH8OSxr/lv1Ed3Id5JhFMl2mg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MMTZNQN9FfRTKihj+o9lJwqCzWWBxk16cbnXARol8ygKoUTdKcEq8cg4TwnysHGmqT1jL9PF3Tc/5XO3p0K9or8Bwu6T9h+oIRBpxckRMRbjK5aGGZ33I055jrOEAcF+eOFYdyQyfInggdi1vVbdq/iZXeptB+Ry8WMQ1XldTZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=HF3FUGtc; arc=none smtp.client-ip=202.108.3.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyxi5jgy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780355442; x=1811891442;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=QkDDYHL1L9uH/stCYZ+/QN6adgi29Br4Kiq31HwRUV4=;
-  b=iyxi5jgyrueXTSzCq2LW2Ase6HvwxE6h206k0i22JpN9gazvHzX0CRt5
-   xjw5Gg90bwQAv4FxIKpuhjeZbJKrSKTP1GhWiPwkJurxZeEdCc/akSymB
-   JnywNtRllQ7R9eBBfOQh7Y0AR65HFbohKqoT+VYpElqlgeZLsMny6ASgc
-   yXcjPRb1cnLbqdmfhFf1VdDKN4IWMZPKeC9C+73ZaCTMnSCu1tYvTVYZR
-   /N8XzseFo5nGwjT6KY07pjBKjX2IP/Ayf8/JGpgUVI6Tvyg+2WLK74cSJ
-   YJiArMF6urD1lxnof0SuFEzrqT2nWgZsgAHrHp23cSwF/nR0c2fqA4t3j
-   g==;
-X-CSE-ConnectionGUID: 5vbD5aaoTkKyZSm4px8tiQ==
-X-CSE-MsgGUID: lJYidNxMRBqbe84IDolZnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="84750059"
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="84750059"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 16:10:41 -0700
-X-CSE-ConnectionGUID: z0Lr6ZjySLGR0UFlVJ1g6g==
-X-CSE-MsgGUID: vEbU0vCUSgOHdbGEdh433A==
-X-ExtLoop1: 1
-Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.108.24]) ([10.125.108.24])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 16:10:38 -0700
-Message-ID: <26189ee7-1fba-49c2-94f5-0902a77772ba@intel.com>
-Date: Mon, 1 Jun 2026 16:10:37 -0700
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="HF3FUGtc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1780355876;
+	bh=3OCVMiVaoAQ78KSjGPxA9tbJTpAysnsv+Uuid0f3YZE=;
+	h=From:Subject:Date:Message-ID;
+	b=HF3FUGtcciqzpXRIMmIUji6IQrkL9+fuwMBku45uhzoMEsdZolkdmVAKJfV1OV/BQ
+	 +iy8mPhIkLKZEI/139Qtg29phjIQgmP6FbURn90RVqE+5l65kjcLHFPoBEDFwtrHJi
+	 XDFqZgQknu42Aniht1YoVPXqqENReF/cOissjmaE=
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
+	by sina.com (10.54.253.34) with ESMTP
+	id 6A1E131500002077; Mon, 2 Jun 2026 07:17:45 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 3043906291827
+X-SMAIL-UIID: 704A31F544FA422892316E3CA446A8CC-20260602-071745-1
+From: Hillf Danton <hdanton@sina.com>
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Qu Wenruo <wqu@suse.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Jens Axboe <axboe@kernel.dk>,
+	Bart Van Assche <bvanassche@acm.org>,
+	linux-block <linux-block@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-btrfs@vger.kernel.org,
+	David Sterba <dsterba@suse.com>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
+Date: Tue,  2 Jun 2026 07:17:30 +0800
+Message-ID: <20260601231731.1403-1-hdanton@sina.com>
+In-Reply-To: <ah4EY2nhPxEETufZ@fedora>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 4/9] dax/fsdev: clear dev_dax->pgmap on probe failure
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Dan Williams <djbw@kernel.org>
-Cc: John Groves <jgroves@micron.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Alison Schofield <alison.schofield@intel.com>, Ira Weiny
- <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019e79caead2-5795328c-af48-4a93-b147-c11df7446e1a-000000@email.amazonses.com>
- <20260530165053.6653-1-john@jagalactic.com>
- <0100019e79cbc3fa-cdb45b69-de84-4cc0-8aeb-71d0673c1a9c-000000@email.amazonses.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019e79cbc3fa-cdb45b69-de84-4cc0-8aeb-71d0673c1a9c-000000@email.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 5/30/26 9:50 AM, John Groves wrote:
-> From: John Groves <John@Groves.net>
+On Mon, 1 Jun 2026 17:14:59 -0500 Ming Lei wrote:
+> On Tue, Jun 02, 2026 at 05:51:26AM +0800, Hillf Danton wrote:
+> > On OnMon, 1 Jun 2026 10:29:25 -0500 Ming Lei wrote:
+> > > syzbot log shows the null-ptr-deref  is on WRITE, instead of DISCARD.
+> > >
+> > > https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28
+> > >
+> > > Adding WARN_ON(!lo->lo_backing_file) in loop_queue_rq() might capture
+> > > this bio submission context if this req isn't issued via wq.
+> > >
+> > I suspect this makes $.02 sense given the check of Lo_bound upon queuing rq.
 > 
-> Clear dev_dax->pgmap on probe failure for dynamic devices. After the dynamic
-> path sets dev_dax->pgmap, if a later probe step fails, devres frees the
-> devm_kzalloc'd pgmap but leaves dev_dax->pgmap dangling.  Subsequent probe
-> attempts would hit the "dynamic-dax with pre-populated page map" check and fail
-> permanently. Use a goto cleanup to NULL dev_dax->pgmap on error.
-> 
-> Fixes: d5406bd458b0a ("dax: add fsdev.c driver for fs-dax on character dax")
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  drivers/dax/fsdev.c | 32 +++++++++++++++++++++++---------
->  1 file changed, 23 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> index dbd722ed7ab05..42aac7e952516 100644
-> --- a/drivers/dax/fsdev.c
-> +++ b/drivers/dax/fsdev.c
-> @@ -223,6 +223,7 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->  {
->  	struct dax_device *dax_dev = dev_dax->dax_dev;
->  	struct device *dev = &dev_dax->dev;
-> +	bool pgmap_allocated = false;
->  	struct dev_pagemap *pgmap;
->  	struct inode *inode;
->  	u64 data_offset = 0;
-> @@ -253,6 +254,7 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->  
->  		pgmap->nr_range = dev_dax->nr_range;
->  		dev_dax->pgmap = pgmap;
-> +		pgmap_allocated = true;
->  
->  		for (i = 0; i < dev_dax->nr_range; i++) {
->  			struct range *range = &dev_dax->ranges[i].range;
-> @@ -268,7 +270,8 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->  					range_len(range), dev_name(dev))) {
->  			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
->  				 i, range->start, range->end);
-> -			return -EBUSY;
-> +			rc = -EBUSY;
-> +			goto err_pgmap;
->  		}
->  	}
->  
-> @@ -288,8 +291,10 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->  	pgmap->owner = dev_dax;
->  
->  	addr = devm_memremap_pages(dev, pgmap);
-> -	if (IS_ERR(addr))
-> -		return PTR_ERR(addr);
-> +	if (IS_ERR(addr)) {
-> +		rc = PTR_ERR(addr);
-> +		goto err_pgmap;
-> +	}
->  
->  	/*
->  	 * Clear any stale compound folio state left over from a previous
-> @@ -301,7 +306,7 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->  	rc = devm_add_action_or_reset(dev, fsdev_clear_folio_state_action,
->  				      dev_dax);
->  	if (rc)
-> -		return rc;
-> +		goto err_pgmap;
->  
->  	/* Detect whether the data is at a non-zero offset into the memory */
->  	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
-> @@ -323,23 +328,32 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->  	cdev_set_parent(cdev, &dev->kobj);
->  	rc = cdev_add(cdev, dev->devt, 1);
->  	if (rc)
-> -		return rc;
-> +		goto err_pgmap;
->  
->  	rc = devm_add_action_or_reset(dev, fsdev_cdev_del, cdev);
->  	if (rc)
-> -		return rc;
-> +		goto err_pgmap;
->  
->  	/* Set the dax operations for fs-dax access path */
->  	rc = dax_set_ops(dax_dev, &dev_dax_ops);
->  	if (rc)
-> -		return rc;
-> +		goto err_pgmap;
->  
->  	rc = devm_add_action_or_reset(dev, fsdev_clear_ops, dev_dax);
->  	if (rc)
-> -		return rc;
-> +		goto err_pgmap;
->  
->  	run_dax(dax_dev);
-> -	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
-> +	rc = devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
-> +	if (rc)
-> +		goto err_pgmap;
-> +
-> +	return 0;
-> +
-> +err_pgmap:
-> +	if (pgmap_allocated)
-> +		dev_dax->pgmap = NULL;
-> +	return rc;
->  }
->  
->  static struct dax_device_driver fsdev_dax_driver = {
-
-
-How about something like this to ditch the gotos?
-
----
-
-diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-index dbd722ed7ab0..cb309847e685 100644
---- a/drivers/dax/fsdev.c
-+++ b/drivers/dax/fsdev.c
-@@ -219,6 +219,41 @@ static const struct file_operations fsdev_fops = {
- 	.release = fsdev_release,
- };
- 
-+static struct dev_pagemap *fsdev_acquire_pgmap(struct dev_dax *dev_dax)
-+{
-+	struct device *dev = &dev_dax->dev;
-+	struct dev_pagemap *pgmap;
-+	size_t pgmap_size;
-+
-+	if (static_dev_dax(dev_dax)) {
-+		if (dev_dax->nr_range > 1) {
-+			dev_warn(dev,
-+				 "static vs multi-range device conflict\n");
-+			return ERR_PTR(-EINVAL);
-+		}
-+
-+		pgmap = dev_dax->pgmap;
-+		pgmap->vmemmap_shift = 0;
-+		return pgmap;
-+	}
-+
-+	if (dev_dax->pgmap) {
-+		dev_warn(dev, "dynamic-dax with pre-populated page map\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
-+	pgmap = devm_kzalloc(dev, pgmap_size, GFP_KERNEL);
-+	if (!pgmap)
-+		return ERR_PTR(-ENOMEM);
-+
-+	pgmap->nr_range = dev_dax->nr_range;
-+	for (int i = 0; i < dev_dax->nr_range; i++)
-+		pgmap->ranges[i] = dev_dax->ranges[i].range;
-+
-+	return pgmap;
-+}
-+
- static int fsdev_dax_probe(struct dev_dax *dev_dax)
- {
- 	struct dax_device *dax_dev = dev_dax->dax_dev;
-@@ -230,36 +265,9 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
- 	void *addr;
- 	int rc, i;
- 
--	if (static_dev_dax(dev_dax)) {
--		if (dev_dax->nr_range > 1) {
--			dev_warn(dev, "static pgmap / multi-range device conflict\n");
--			return -EINVAL;
--		}
--
--		pgmap = dev_dax->pgmap;
--		pgmap->vmemmap_shift = 0;
--	} else {
--		size_t pgmap_size;
--
--		if (dev_dax->pgmap) {
--			dev_warn(dev, "dynamic-dax with pre-populated page map\n");
--			return -EINVAL;
--		}
--
--		pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
--		pgmap = devm_kzalloc(dev, pgmap_size, GFP_KERNEL);
--		if (!pgmap)
--			return -ENOMEM;
--
--		pgmap->nr_range = dev_dax->nr_range;
--		dev_dax->pgmap = pgmap;
--
--		for (i = 0; i < dev_dax->nr_range; i++) {
--			struct range *range = &dev_dax->ranges[i].range;
--
--			pgmap->ranges[i] = *range;
--		}
--	}
-+	pgmap = fsdev_acquire_pgmap(dev_dax);
-+	if (IS_ERR(pgmap))
-+		return PTR_ERR(pgmap);
- 
- 	for (i = 0; i < dev_dax->nr_range; i++) {
- 		struct range *range = &dev_dax->ranges[i].range;
-@@ -306,7 +314,7 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
- 	/* Detect whether the data is at a non-zero offset into the memory */
- 	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
- 		u64 phys = dev_dax->ranges[0].range.start;
--		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
-+		u64 pgmap_phys = pgmap[0].range.start;
- 
- 		if (!WARN_ON(pgmap_phys > phys))
- 			data_offset = phys - pgmap_phys;
-@@ -339,7 +347,12 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
- 		return rc;
- 
- 	run_dax(dax_dev);
--	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
-+	rc = devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
-+	if (rc)
-+		return rc;
-+
-+	dev_dax->pgmap = pgmap;
-+	return 0;
- }
- 
- static struct dax_device_driver fsdev_dax_driver = {
-
+> Can't lo->lo_state be updated after the check? It is totally lockless...
+>
+Sounds good hm... do you mean it is UNWISE to not flush the loop workqueue
+when closing disk?
