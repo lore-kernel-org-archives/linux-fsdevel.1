@@ -1,138 +1,155 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E8A41C72
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 02:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4D4212D86;
+	Mon,  1 Jun 2026 02:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780280535; cv=none; b=Jw0lnV5ryNuNPkXdZu7aOTPEHdpDRPJCOmDj/sgCez4WJmnGyIH9Zf0/MCjhisPU5ywT3SL8i812SoXcm3QjLBFgRvsAJaMRUrNBep+6mRvihOKj5EAu4fwT9f/Xa8y3TZeKfzRBE/9U0gUK+EPUcdli248uu+PRgtZCPsRt0p0=
+	t=1780281290; cv=none; b=eQq2qQ/cGgwF2Q6AU+o10wTq7Evi25LeTcZpcs3CnVeHvh7ItK6KDx30Jz+tOZTJMuEC/k9drakwx7rEb6CYaJQ8ENzyJ9t/8ODOwcttm9jPdoxDXgiHP7SJPq2vyH2qtHV7JBrl2YdCq+8V5KuC9smYke+wbvWVQ6Ts7b/kqTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780280535; c=relaxed/simple;
-	bh=/mwC6WocMUG69S0jW9WX4Q5M6p37wBSIAOixCDz2XSw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mwmx4uqLyx4VVTOBOB4GZWDw0QA/nXH0/pvjIR/xbFYW/UTqVm7Avy6IBsQDwrZne9pJAZ6qKxhFhIAUwJS/yWkm3FMvEtpGZhjKnkfhHxEaYGvIYR6aGTBBmiquriZaHlTmyAVQZj6zqgCj1BTBBKVtAM3GuVzS36hEa4zfUDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jO4v7IVB; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780281290; c=relaxed/simple;
+	bh=JC52Mp/gQWdBWmMv3Le4kTDOvcoMA7USWUX0tZ8B7ok=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=Pe3QpP4q1spoqV0x4N31MyjIHe7dai1pkcR1o5AoC38is5ppfZoa9Ug3ZSqXXpBPsB6t+akngvHvpzEHNoPEulc4YF/KPJJG0NdIdwnegYs+8rGeX/FiH4E+7ZB8cB7zIux3RqMo+yOgEwnojKFF1JIXX6jTsIYpfIuU2+0KE88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Txq89YvV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eNuD0mS1; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jO4v7IVB"
-Message-ID: <85c62d67-cbc9-4e7a-b60f-f0d73c17f862@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780280531;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cpmeJq0Hyk0ZwGp7nYbfeoL7vI95fjbFu/Y5afjjw6M=;
-	b=jO4v7IVBQNKEZDZLwi5FZAiLZjuWSms5mpAwIFVqVjEJCjCTkRojKPNSj6NFez4mGmjp5T
-	hpX+H8rPFNKypvVgRNObA19vXYcLL0A+d1f94L4xQ4z/aqJEy1XUcqphxFZF+80X2UIa0f
-	4GDXsNOn/Vj84EfxiF271uctQrnkNmo=
-Date: Mon, 1 Jun 2026 10:21:59 +0800
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Txq89YvV";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eNuD0mS1"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3B9E97A01AB;
+	Sun, 31 May 2026 22:34:47 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sun, 31 May 2026 22:34:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1780281286; x=1780367686; bh=pErd6CGPCYHnA39ZPy1QgUnBtI0eozkrTcN
+	3ipukNYA=; b=Txq89YvVDCZRe4ZCPsnVyj45AzpsyGD+cBDbYzaAw84jNblTDuG
+	9YerLQJ6drehM06lqKCm+5T0qQSv+8t4MEmiskVXz4/1GE6svtrhNH8Bu9VoNYeL
+	w5Hy41+XULHlGfVmOdOLxspS/XJZiS8WWqrhdCUoI4UQZ722iub2v0SV0PmwaUv8
+	iHXGyAfNlIEN+K32NH+Z8pAx2s0iQ4HrqNLHBNulzaFt5JnN7wUz8tygVfpMpGPx
+	7jnZPV5RBoRiE7ypkU7Ke4RgXlTUWX4pxMe3+MFH32/P2OPU0Pq/8uQKJRjJaP5P
+	X5jszEI2SiyKq+EG8iKw6hbEGwn6zmTfkMw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1780281286; x=
+	1780367686; bh=pErd6CGPCYHnA39ZPy1QgUnBtI0eozkrTcN3ipukNYA=; b=e
+	NuD0mS1oAGr1mgjdktwny1pVyBz1rU6C15JTudebdZHZVmFv8p7fW59yCjQxlF8K
+	k5WiCy3VX4j09yGSdiaacFwSAn5CpC9KAeLxUQ5HOtNS4isXPctsLVYaPjkXdQPi
+	XnacG7m/CUaVb9dGxMUckMFT4bV9y1xCzEhfkVXd6KgyhYD3CtWPuBXXOnOHN8W+
+	T3XM2Cjz1pizkhZJARQLe/msEU00ZvSsgTKddXrmOU5SSNrtsKScdXjsJlSZjI9s
+	VcZfxxZ0DqzDNfr8NSjP88dZJdIoPZ5xK1GAdcsEw5YuG9MFrBwhXc1LI1NdKifd
+	0Q8cVTeSOZOgn3574SxIA==
+X-ME-Sender: <xms:xu8cau3-EkTpsIR0Dn5W1TaNGh-yUdy9Qu7-a-vbakJ2eiJOB71rNg>
+    <xme:xu8capSJDVhz-ounx6wWwLTkt-DYa7SbKqv2uPs6_v08XyxJiedOfihCOQxOegDks
+    Lytk5KoHiIp7_d5wTm4OQW_-OWW0b38N7qToX3TAEi05_cptQ>
+X-ME-Received: <xmr:xu8caidOSV1q0Ik_N8ewEfkpRyiy0Rz9yQvRcLk7itSkzDvLUB7rGmRpk9MWGtRjBg>
+X-ME-Proxy-Cause: dmFkZTFkwrSGRPs7eL8WcEJOFlDdH7SQtmmJ2Jfsi4I+cf9xDYxOTP2GwON5ToDtOCLSs3
+    M8Bi+e4SLcwDW9/KMScbCOmVm4dzep6A91EXs024MrG2UUje+ig+PXJoYoDCtNBGbjmUVl
+    CucsL6bFOdCMf9zll44T65CsvDIFK8j2T7E9CXlXFRIewejJg8dodfDuVgUp0CHrU0msG3
+    FaYctF3/8VfJ5uf3nNwLkZryeJAahwIiEHbaC05XascPguC/IXPfICGPpZSq80MU17soAo
+    8jnPJrtGz88ReX5VAi4gpcyofhOAc3S4KHemKrKpcX7K6ZvPP7cuEV5t/gBxpebk8kldWj
+    AKKwJeT9VdhlGQuclwJ89dwmDnda3KSlb1PXuxrAui7o7ujEcePbLO6Jxp3uAS2RZN51Ql
+    3bJdW5T08CbQo6hqvXW7PhZLz4de/SvOlc/a+pljnpSLJMKySASx9hjXhcJXaFQKfrf44P
+    2Cs3PS98/A9LQRWrwrwnyK6ncRawt+m25b5YGBV1yHfhzQy7PB73IKj07K35VQaJqif6O7
+    DQv/ICMToMbpu2BiApM3I+P60TWyx6OzVa/KMz2aImXNePpG+q2Y8COxXELiq7KlwvJkUg
+    r5rSlKyum1kiLwHeFDnvbXoTUzvPIJhKeKxNjZx2s/nZ0yBHB4G45OQ+s/gA
+X-ME-Proxy: <xmx:xu8caqfW2dSw2oH7JsIciNP-ehYyneqOdqgPREgtTxTEuWu0herzaQ>
+    <xmx:xu8cas2y3ALdLhpHHowfJiWfBi9nahirMv9iiBaF_fWwe7QTiKYpQA>
+    <xmx:xu8cai8ifRJ23b4a1x9o07hF16xjcEH8mmMXJtOlrinNRkxxMlyVyA>
+    <xmx:xu8cah7jHGFFU2a4RHXubEAlP5az0EqX-3I8zU6VIxbDCo-Y4w1Srw>
+    <xmx:xu8cam8BIOE7nKLm4W_GTtPgt3vCs5ce__0sttOLqD2t1Ge7PdVpLG7w>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 31 May 2026 22:34:43 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] fs/namespace: notify pollers of legacy propagation
- changes
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- Guopeng Zhang <zhangguopeng@kylinos.cn>
-References: <20260529095441.1744006-1-guopeng.zhang@linux.dev>
- <20260529-herzbrechend-kondor-zahnersatz-3152709a3b47@brauner>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Guopeng Zhang <guopeng.zhang@linux.dev>
-In-Reply-To: <20260529-herzbrechend-kondor-zahnersatz-3152709a3b47@brauner>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+From: NeilBrown <neilb@ownmail.net>
+To: "Jori Koolstra" <jkoolstra@xs4all.nl>
+Cc: "Al Viro" <viro@zeniv.linux.org.uk>, "Aleksa Sarai" <cyphar@cyphar.com>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Jori Koolstra" <jkoolstra@xs4all.nl>, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>, "Mateusz Guzik" <mjguzik@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ "Charles Mirabile" <cmirabil@redhat.com>
+Subject: Re: [RFC PATCH v6 4/9] vfs: lookup_open(): move setting FMODE_CREATED
+ up when calling create()
+In-reply-to: <20260531182045.171711-5-jkoolstra@xs4all.nl>
+References: <20260531182045.171711-1-jkoolstra@xs4all.nl>
+  <20260531182045.171711-5-jkoolstra@xs4all.nl>
+Date: Mon, 01 Jun 2026 12:34:40 +1000
+Message-id: <178028128000.2923901.7917758563328454041@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
+On Mon, 01 Jun 2026, Jori Koolstra wrote:
+> In preparation for using vfs_create_no_perm() in lookup_open() we need
+> to move setting FMODE_CREATED on the file mode to either before or after
+> that call, as currently it is in the middle. If try_break_deleg() fails
+> it is currently not set, but vfs_create_no_perm() includes a
+> try_break_deleg().
+>=20
+> Going up the call chain of lookup_open() we see that it is only used in
+> open_last_lookups() if no error is returned from lookup_open(), so we
+> can safely move it to after the filesystem create() call. This also
+> makes more sense when reading the code as you don't have to wonder what
+> the implications are of setting FMODE_CREATED before the create() call.
 
+It seemed a bit odd to me that we set FMODE_CREATED before actually
+creating.
+It doesn't matter as FMODE_CREATED is only meaningful if no error has
+been reported, and if create doesn't end up happening, then there must
+be an error.
 
-在 2026/5/29 18:23, Christian Brauner 写道:
-> On Fri, May 29, 2026 at 05:54:41PM +0800, Guopeng Zhang wrote:
->> From: Guopeng Zhang <zhangguopeng@kylinos.cn>
->>
->> Changing mount propagation through the legacy mount API changes
->> user-visible mountinfo contents, including the shared: and master:
->> optional fields.
->>
->> The mount_setattr() path already touches the mount namespace after
->> change_mnt_propagation(), so pollers of /proc/<pid>/mountinfo are woken
->> when the namespace event changes.
->>
->> The legacy mount --make-* path also changes propagation through
->> change_mnt_propagation(), and MOVE_MOUNT_SET_GROUP updates the
->> propagation relationship of the target mount. Both paths currently
->> return without touching the affected mount namespace.
->>
->> As a result, userspace polling /proc/<pid>/mountinfo can miss these
->> propagation-only changes even though mountinfo has changed.
->>
->> A simple reproducer that polls /proc/self/mountinfo while changing
->> propagation shows the inconsistency.
->>
->> Before this change:
->>
->>   legacy MS_SHARED: poll ret=0 revents=0x0
->>   mount_setattr MS_SHARED: poll ret=1 revents=0xa
->>
->> After this change:
->>
->>   legacy MS_SHARED: poll ret=1 revents=0xa
->>   mount_setattr MS_SHARED: poll ret=1 revents=0xa
->>
->> Touch the affected mount namespace after successfully changing
->> propagation state in do_change_type() and do_set_group(). Take the
->> vfsmount lock for write around touch_mnt_namespace(), as required by
->> its locking rules.
->>
->> Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
->> ---
->>  fs/namespace.c | 9 +++++++++
->>  1 file changed, 9 insertions(+)
->>
->> diff --git a/fs/namespace.c b/fs/namespace.c
->> index 9a66a806a9b8..f871c7bf3bc8 100644
->> --- a/fs/namespace.c
->> +++ b/fs/namespace.c
->> @@ -2908,6 +2908,10 @@ static int do_change_type(const struct path *path, int ms_flags)
->>  	for (m = mnt; m; m = (recurse ? next_mnt(m, mnt) : NULL))
->>  		change_mnt_propagation(m, type);
->>  
->> +	lock_mount_hash();
->> +	touch_mnt_namespace(mnt->mnt_ns);
->> +	unlock_mount_hash();
->> +
->>  	return 0;
->>  }
->>  
->> @@ -3479,6 +3483,11 @@ static int do_set_group(const struct path *from_path, const struct path *to_path
->>  		list_add(&to->mnt_share, &from->mnt_share);
->>  		set_mnt_shared(to);
->>  	}
->> +
->> +	lock_mount_hash();
->> +	touch_mnt_namespace(to->mnt_ns);
->> +	unlock_mount_hash();
-> 
-> Doing this would cause seqcount readers to retry on mount propagation
-> changes when all of them really only care about mount topology changes.
-> So this can likely use:
-> 
-> guard(mount_locked_reader)();
-> touch_mnt_namespace(mnt_ns);
-> 
-> Even today, observing an unchanged seqcount across mnt->mnt_flags reads
-> doesn't guarantee that it really wasn't changed.
-Hi Christian,
+So I like this improvement.
 
-Thanks for the review and explanation.
-
-I will send a v2 with the suggested changes.
+Reviewed-by: NeilBrown <neil@brown.name>
 
 Thanks,
-Guopeng
+NeilBrown
+
+
+>=20
+> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
+> ---
+>  fs/namei.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 2a35dd72ee96..16dcf537db87 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -4531,7 +4531,6 @@ static struct dentry *lookup_open(struct nameidata *n=
+d, struct file *file,
+>  		if (error)
+>  			goto out_dput;
+> =20
+> -		file->f_mode |=3D FMODE_CREATED;
+>  		audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CREATE);
+>  		if (!dir_inode->i_op->create) {
+>  			error =3D -EACCES;
+> @@ -4544,6 +4543,7 @@ static struct dentry *lookup_open(struct nameidata *n=
+d, struct file *file,
+>  			goto out_dput;
+> =20
+>  		fsnotify_create(dir_inode, dentry);
+> +		file->f_mode |=3D FMODE_CREATED;
+>  	}
+> =20
+>  	return dentry;
+> --=20
+> 2.54.0
+>=20
+>=20
 
