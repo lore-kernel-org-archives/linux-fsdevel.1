@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248683BFAFB;
-	Mon,  1 Jun 2026 13:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658D63C13EE;
+	Mon,  1 Jun 2026 13:57:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322252; cv=none; b=ntKndbwdPi8qaID/eK3wltKh96/fYCa2EABmU50iio9zNu2+Kol48ZQiWZOZncY1c90yqRPbuJzpkMSieP0UgmwlqzMyC2vS3X2vazhbqNSG9TZ0SL6iE7A7re/uy7KJPtWXOAD8l2rU5dEPQH1rv228hvOxqc+gXHBnMKvc5PI=
+	t=1780322254; cv=none; b=Xfax2wnm2a4WkrtFWLtLbNYaTVy0qf8Pm4LXRZwe0rIXtmqR4GP6G4JHqv2P/z5wpm20WU1QtkVrwC5tQQX+QFaJAhEEBdo3NbEp92bG0Tf2IdXQjv50VpA2TwsIJ3SCOpmBP7oqgAYAQ5Z6CLFFlCllj0fMf7mw1ATXqUIKp1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322252; c=relaxed/simple;
-	bh=ufJ1YTglO5I2g9L8vVkoH6XMY3QO/wDhk+KA6W0l8mk=;
+	s=arc-20240116; t=1780322254; c=relaxed/simple;
+	bh=sG1OnJMLGiKQamYTDNXHSLkdyPOBWMPLChw0pAcgZEc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=o2B+sYOEyOu8woBdbEW39HpWV1DjbYcUJi9uI1QDYA5EPOCu+XsZ7tM9BunJ4+O1e0e9mX247zMRNYi+/ma1DIz8udJ4HOXPZ/oRzP6LIqCgX3mUNEo5/5k33Fb/d0PQpaPM/YNrMC3SZW4Jx/CcMmiSdhreSQZkCnTwVHUH6EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZI62gpl; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=OVa4Psq5O9vrhc9CYF+GNYH/0gI9pu/nsl7soMmmRLAo6l8jwmKZePpEDlpDmHrhSYPExySFk96l9UWT+ncSPDm8B0FJTYNuFOi/xEhuyJKI5xNk53OkXMFDCZKgxxyjiO059bkT6QlUFs1lIGwqVW2G+BhIkCIQ9PA5Bu52WOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gBmmLUOi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZI62gpl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 699B81F00893;
-	Mon,  1 Jun 2026 13:57:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gBmmLUOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F8E11F00898;
+	Mon,  1 Jun 2026 13:57:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780322251;
-	bh=f7OKwl2EguFkoh7sinqojlFlIm4hSBh/VNQmlGFvRoA=;
+	s=k20260515; t=1780322253;
+	bh=05sU105TIaoDreFNJcXDcP1f6QXqRrBkOs+MREOztjE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=hZI62gplzHTHWB5RZScyE+pOk7JvJN1b4Fid19cvJ5SfIbwMjv6kF5nbi8Ian1/Ok
-	 9+/X/gPzr5gVOETYcqMysrZozW04UtZt+4IiHyPGrk/Tn7X9+nip3nzbW5GkHkMBaP
-	 0XdojFuvegRwhxlZ54Msd67ypkHp3QHsoDI4glmOjMgp/KAniKve596fXiWQMYsijd
-	 9fnSLbVCy1p8wZxSVfbx5dZ5S4RRs8ezUopOuJgb4FZ/Tp+eOzfLmbICnlBv7YNmwZ
-	 xXz9OjjEfW4Uybjyd20P7OewMHTWQS8s0oWgCzaBFB4SAt081t3Vg9emk1n2JoTNIE
-	 WAhF99h7d8f6Q==
+	b=gBmmLUOi6osocTxiDObVxeaw3IUvuVsQbQS9jglKi23j2YVwtWC0nsDpjpYEvVZot
+	 yun3SPPLzv7vtnsmE47f/VVvNbnCeGvNuDQ4Onsjb4MeJot69swsd9l71D0848BOkt
+	 dzEoNS3SuAzC7s1ZVPEWmabSGQMbjTQ+Lz54FnUEZPxo92Dn90m5fw2vxk4iWooTd0
+	 RluBg/SgLAYWXzJVrUATZ4Pv2iv1FKPZqros9LopuIDJCIdVIYs8uzRlpi5kQa2BSD
+	 NqFOlxlplWhF8Dff9RS6v+E9N4TvVJWad+r4A1VohMMtntEcwNyQrFt+rcnI95CbdH
+	 ileRexGatJc6g==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 01 Jun 2026 15:56:49 +0200
-Subject: [PATCH RFC v4 16/25] pnfs/blocklayout: use scoped_with_init_fs()
- for SCSI device lookup
+Date: Mon, 01 Jun 2026 15:56:50 +0200
+Subject: [PATCH RFC v4 17/25] initramfs: use scoped_with_init_fs() for
+ rootfs unpacking
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,8 +37,8 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260601-work-kthread-nullfs-v4-16-77ee053060e0@kernel.org>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260601-work-kthread-nullfs-v4-17-77ee053060e0@kernel.org>
 References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 In-Reply-To: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,104 +47,83 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev-fffa9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3378; i=brauner@kernel.org;
- h=from:subject:message-id; bh=ufJ1YTglO5I2g9L8vVkoH6XMY3QO/wDhk+KA6W0l8mk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i+LCi43szvS4LJNdfbXXUJMzCWrilu3z7iVZWlYc
- naeYNSzjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIksqGJk+PyVo2HrM1850+NJ
- 4pMfpqvpvqr5lHqxcXKc3NsyNsX254wMzyoecHkaM65Nzny9WfRy9MuUKw9Wxq8sF2HqbHnTVF7
- OBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2433; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=sG1OnJMLGiKQamYTDNXHSLkdyPOBWMPLChw0pAcgZEc=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i9re5W17H9+t3Xv1LvvymVnxueJ/tNx3/0kVPz53
+ 3vxFkeFO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbiyMjwhyc07OSLmOdJR3kZ
+ VmoLz82tYl15/Ost6c7VAqmpFwtkfRn+u+2q6OAs/KzwdvocmVurs/juPs3PO216gvtz1L5Ta0T
+ WswEA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-bl_open_path() resolves pNFS block device paths under /dev/disk/by-id/
-via bdev_file_open_by_path() -> lookup_bdev() -> kern_path(). This
-path resolution uses current->fs->root.
+Extract the initramfs unpacking code into a separate
+unpack_initramfs() function and wrap its invocation from
+do_populate_rootfs() with scoped_with_init_fs(). This ensures all
+file operations during initramfs unpacking (including filp_open()
+calls in do_name() and populate_initrd_image()) happen in init's
+filesystem context.
 
-With kthreads now starting in nullfs, this fails when the call
-originates from writeback kworker context because current->fs->root
-points at the empty nullfs. The full callchain from kworker is:
+Note that security_initramfs_populated() needs the scope as well since
+it does use current->fs to derive the initramfs superblock.
 
-  wb_workfn                              [kworker writeback callback]
-    ...
-      nfs_writepages                     [address_space_operations.writepages]
-        nfs_do_writepage
-          nfs_pageio_add_request
-            ...
-              bl_pg_init_write           [nfs_pageio_ops.pg_init]
-                pnfs_generic_pg_init_write
-                  pnfs_update_layout
-                    nfs4_proc_layoutget  [synchronous RPC]
-                      pnfs_layout_process
-                        bl_alloc_lseg
-                          bl_alloc_extent
-                            bl_find_get_deviceid
-                              bl_alloc_deviceid_node
-                                bl_parse_deviceid
-                                  bl_parse_scsi
-                                    bl_open_path
-                                      bdev_file_open_by_path
-                                        lookup_bdev
-                                          kern_path  <- current->fs->root
+do_populate_rootfs() ← async_schedule_domain() ← kworker (async
+workqueue)
 
-bl_open_path() can also be reached from userspace process context (e.g.
-open, read, write syscalls via pnfs_update_layout). In that case
-current->fs must not be overridden as the path should resolve against
-the calling process's filesystem root.
-
-Add a tsk_is_kthread() conditional in bl_open_path() to only apply
-scoped_with_init_fs() in kthread context.
+May also run synchronously from PID 1 in case async workqueue is
+considered full. Overriding in that case is fine as well.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/nfs/blocklayout/dev.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ init/initramfs.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/fs/nfs/blocklayout/dev.c b/fs/nfs/blocklayout/dev.c
-index bb35f88501ce..368d20daf67b 100644
---- a/fs/nfs/blocklayout/dev.c
-+++ b/fs/nfs/blocklayout/dev.c
-@@ -4,6 +4,7 @@
-  */
- #include <linux/sunrpc/svc.h>
- #include <linux/blkdev.h>
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 58db15fb18fd..f3439e8e41c4 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -3,6 +3,7 @@
+ #include <linux/async.h>
+ #include <linux/export.h>
+ #include <linux/fs.h>
 +#include <linux/fs_struct.h>
- #include <linux/nfs4.h>
- #include <linux/nfs_fs.h>
- #include <linux/nfs_xdr.h>
-@@ -363,15 +364,22 @@ static struct file *
- bl_open_path(struct pnfs_block_volume *v, const char *prefix)
- {
- 	struct file *bdev_file;
--	const char *devname;
-+	const char *devname __free(kfree) = NULL;
- 
- 	devname = kasprintf(GFP_KERNEL, "/dev/disk/by-id/%s%*phN",
- 			prefix, v->scsi.designator_len, v->scsi.designator);
- 	if (!devname)
- 		return ERR_PTR(-ENOMEM);
- 
--	bdev_file = bdev_file_open_by_path(devname,
--			BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
-+	if (tsk_is_kthread(current)) {
-+		scoped_with_init_fs()
-+			bdev_file = bdev_file_open_by_path(devname,
-+					BLK_OPEN_READ | BLK_OPEN_WRITE,
-+					NULL, NULL);
-+	} else {
-+		bdev_file = bdev_file_open_by_path(devname,
-+				BLK_OPEN_READ | BLK_OPEN_WRITE, NULL, NULL);
-+	}
- 	if (IS_ERR(bdev_file)) {
- 		dprintk("failed to open device %s (%ld)\n",
- 			devname, PTR_ERR(bdev_file));
-@@ -380,7 +388,6 @@ bl_open_path(struct pnfs_block_volume *v, const char *prefix)
- 			file_bdev(bdev_file)->bd_disk->disk_name);
- 	}
- 
--	kfree(devname);
- 	return bdev_file;
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ #include <linux/fcntl.h>
+@@ -708,7 +709,7 @@ static void __init populate_initrd_image(char *err)
  }
+ #endif /* CONFIG_BLK_DEV_RAM */
  
+-static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
++static void __init unpack_initramfs(async_cookie_t cookie)
+ {
+ 	/* Load the built in initramfs */
+ 	char *err = unpack_to_rootfs(__initramfs_start, __initramfs_size);
+@@ -716,7 +717,7 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+ 		panic_show_mem("%s", err); /* Failed to decompress INTERNAL initramfs */
+ 
+ 	if (!initrd_start || IS_ENABLED(CONFIG_INITRAMFS_FORCE))
+-		goto done;
++		return;
+ 
+ 	if (IS_ENABLED(CONFIG_BLK_DEV_RAM))
+ 		printk(KERN_INFO "Trying to unpack rootfs image as initramfs...\n");
+@@ -731,9 +732,14 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
+ 		printk(KERN_EMERG "Initramfs unpacking failed: %s\n", err);
+ #endif
+ 	}
++}
+ 
+-done:
+-	security_initramfs_populated();
++static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
++{
++	scoped_with_init_fs() {
++		unpack_initramfs(cookie);
++		security_initramfs_populated();
++	}
+ 
+ 	/*
+ 	 * If the initrd region is overlapped with crashkernel reserved region,
 
 -- 
 2.47.3
