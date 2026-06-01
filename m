@@ -1,92 +1,73 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D3E3264F1
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 16:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F3B3314B7;
+	Mon,  1 Jun 2026 16:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780332614; cv=none; b=HkmcQ0PwsYfz1VzQaCZGuh52f3dMuyma7EFIeZECnxn+tdSCN0u+Y8bc6aJ0mkfoMHCCQgP9Ocnp+XrJHJHFdkZDec5aeLHmaQJxjuQ+z0PLf0te3v0G1dboY5TjIWD5rUhqhPh9OwiYgqy25slNXB9gJKE1y4IA6U7gc9NcDlg=
+	t=1780332623; cv=none; b=G5A/wVgp+BU4sRaQUX7HG2CrtXzg8jvMhXgCu5OFZcvoQP+7LS7jNgcDYEgGuXYQhblqsHF4KfkjPSsUekugODDQbxNT2k0sTNlt4PVhQ6DXElvX+xr9Z7VpM4MgxrSeAG1LwbQNP6/Kfwk0X8wn54GkbjlTZFWjbf4aKI9dKN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780332614; c=relaxed/simple;
-	bh=hT6LMn4LTw78t2l5UXwfzadNRG687jtPT+Yv4jcZPJ0=;
+	s=arc-20240116; t=1780332623; c=relaxed/simple;
+	bh=JaO/JP9VrJR5t7Rrp5D7WvGDBk0UMWfKf7obgnTo9FM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=agNBeS/qSJop/TqIgRF+/LBAgQbXrPaEccanRuMcIQy7aZIVoRwuiwKIUgsCj2jTSTKdfNOBbdKldmZczqoDV2wYTcXUcXW5EE3Wg5+PuULnTWqaKugbAHpuxSVhZbe9jLfsyv/C+KG0jckdUDrgpdBr0bwngOWGSZyJsglxcCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ta1Fg9aS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/d50ojjF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ta1Fg9aS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/d50ojjF; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=hYoCFA17rNH2h82m4nBfdX8c3mwvo8Qv9Qq8vYAF9nxRhl7rh+D9gfsqiJVBZZo3foG47gAqm3cCjaGXGrFSfeLRf9fowbymHgrPB/h9nrAL6cqnrt7G9na1bUvqsyBIiPQAhqel0OarRChP3C3zB6xTTVDIV+Geb6pCvcvBTtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=PbKFHBTo; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ta1Fg9aS";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/d50ojjF";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ta1Fg9aS";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/d50ojjF"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8488C670A2;
-	Mon,  1 Jun 2026 16:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780332611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t04bI625rNgFcDYQ7YzLXL+s401yAKNYuMoBEuMuXXc=;
-	b=Ta1Fg9aS9I4bnXQjLq8WjVCauFbRDF4hJAYMeaKkvAyJvJhe0bE9D0idDtOr1xu9wE1xYp
-	B+ix7WPeQh0IUt9ffvSAoxDGW3DrGasPJDPcbKNY8Bo3N4G1uOSYr64HAKa/pboPtOBl0U
-	+Yt+k/mVKm+PklMQs7hrO3lV6Z2SBM8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780332611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t04bI625rNgFcDYQ7YzLXL+s401yAKNYuMoBEuMuXXc=;
-	b=/d50ojjFMxnPPn7a70xRuAWaHfQ4XXqiWd7IdTmGihgpObhCuhrY8PbEYCERfcov1MRuNm
-	f9DEAcbz6rVXOJCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Ta1Fg9aS;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="/d50ojjF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1780332611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t04bI625rNgFcDYQ7YzLXL+s401yAKNYuMoBEuMuXXc=;
-	b=Ta1Fg9aS9I4bnXQjLq8WjVCauFbRDF4hJAYMeaKkvAyJvJhe0bE9D0idDtOr1xu9wE1xYp
-	B+ix7WPeQh0IUt9ffvSAoxDGW3DrGasPJDPcbKNY8Bo3N4G1uOSYr64HAKa/pboPtOBl0U
-	+Yt+k/mVKm+PklMQs7hrO3lV6Z2SBM8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1780332611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=t04bI625rNgFcDYQ7YzLXL+s401yAKNYuMoBEuMuXXc=;
-	b=/d50ojjFMxnPPn7a70xRuAWaHfQ4XXqiWd7IdTmGihgpObhCuhrY8PbEYCERfcov1MRuNm
-	f9DEAcbz6rVXOJCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 78A9C779A7;
-	Mon,  1 Jun 2026 16:50:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7TtvHUO4HWqgEgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 01 Jun 2026 16:50:11 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id E37EFA0EC0; Mon, 01 Jun 2026 18:50:10 +0200 (CEST)
-Date: Mon, 1 Jun 2026 18:50:10 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, 
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>
-Subject: Re: [PATCH] vfs: missing inode operation should return a consistent
- error code
-Message-ID: <m5fqzr2ny4zb36u6zhmrrxgl36ycsxvlqnzf5idvsq4lxpfh3i@g276qtqgfv3f>
-References: <20260531104947.6142-1-jkoolstra@xs4all.nl>
- <c5e32b78aeaa833d18d9b7a566358a6f71d09f23.camel@kernel.org>
- <xdknvjlda7wxwo35toe357nnyaydsllv5g65ogzsomxqgm7jfu@qwtugpoy2rcw>
- <2002074169.107129.1780331273724@kpc.webmail.kpnmail.nl>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="PbKFHBTo"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 651F1kG7392882;
+	Mon, 1 Jun 2026 16:49:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=7594kL+OGhTh+MPEHirvt0TgqH2sgq
+	oox1kNEtcalJk=; b=PbKFHBTo3ke3/6Xa7sRuxItcAhLn8btB1dORdDZEiDdR25
+	U1bR+LklCZLbQmEmSgaFXTNy3CPB0Wb2+2uIk4b4dJayZatwEhGYC3n35sB3Ub4f
+	k64KrWQQf83sQ0lYhDx5/BoHXefTgHKSQY+7RzDk/D7qTzX9+oguSa5stjaR52X9
+	6WcsVakwzdIPyzneIsxLhEc8tXpU68Ny8v5TZp4re0v0y2TqAmu0amxZP3cqpcSs
+	gJ6aD0HLQgoV8sGToSJiMF2SlXlkRnlxLSKRAfQkkXYt/D55zvebrL5nxmXL7NTx
+	wGrbPwmM2ADocm72xQixzSUB6xjjF2iF3RvyH9Sw==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqm4svpx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 01 Jun 2026 16:49:30 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 651Gd8Tg018851;
+	Mon, 1 Jun 2026 16:49:29 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4egakvq8f4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 01 Jun 2026 16:49:29 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 651GnRNo54264302
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 1 Jun 2026 16:49:27 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 39DA32004F;
+	Mon,  1 Jun 2026 16:49:27 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F03522004B;
+	Mon,  1 Jun 2026 16:49:20 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.124.223.138])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon,  1 Jun 2026 16:49:20 +0000 (GMT)
+Date: Mon, 1 Jun 2026 22:19:18 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: Daniel Gomez <da.gomez@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        djwong@kernel.org, john.g.garry@oracle.com, willy@infradead.org,
+        hch@lst.de, ritesh.list@gmail.com, jack@suse.cz,
+        Luis Chamberlain <mcgrof@kernel.org>, dgc@kernel.org, tytso@mit.edu,
+        p.raghav@samsung.com, andres@anarazel.de, brauner@kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        pankaj.raghav@linux.dev, Daniel Gomez <da.gomez@samsung.com>
+Subject: Re: [RFC PATCH v2 0/5] Add buffered write-through support to iomap &
+ xfs
+Message-ID: <ah24DlQobLjjDTGt@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <cover.1775658795.git.ojaswin@linux.ibm.com>
+ <d5d99db2-9d34-4caf-bcc8-c4a3af561901@kernel.org>
+ <agQPtTx2EXHr10Nn@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -95,96 +76,163 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2002074169.107129.1780331273724@kpc.webmail.kpnmail.nl>
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 8488C670A2
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[xs4all.nl];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email,opengroup.org:url];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[xs4all.nl];
-	TO_DN_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+In-Reply-To: <agQPtTx2EXHr10Nn@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: Ok8QFW2BuRj6goZD5frLwUDQe05DWurF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDE2NSBTYWx0ZWRfX0xEKHeDAU35P
+ c3sfgGbVw+ONfqOn0CzrqdBqm/8FdE3N4eTXJ7EJwaX2RtkK6FwKKrdSv14G9byp0o97Bl1DxDe
+ 0SHMehppQyKyJlN3QWwpwr2Bl52VpLQqvw++w9/rr++sLAjlSEI2ouNNZHuhELp0jivEDpbwaGm
+ KXhf8nd7ZncNuHhvOTO/6Qflcpfc7G1+gjcX0mH5SMahd9N9c81LoORzLLA9CEBx043c9OXHdFD
+ 5tl8pesjDXzv4p+acROMof4WvZpqWnVGDlPjkd6OTSlw4kvsdZQefBlrl1jCqLBVm6IV/pmaTwf
+ xr5ZZp0/D/VdAZ26XXUO8KKIdu9x9c5Q+nSKlphJTIpdvKgWKeyeF9hG6kPlS8V+BrvSRCwTOz3
+ L1VXjilKMasIUuGsmos4EUB3uUtorsbQHEzG6/ajal0Dyu2z2gYnh5UmnAsXvnDrYj00tIclhr9
+ 1jDD+yo2ohrmUUwrSjQ==
+X-Proofpoint-ORIG-GUID: cKnmLeVqMk8j6myG8yTRXGcatVyb6Hci
+X-Authority-Analysis: v=2.4 cv=Vf3H+lp9 c=1 sm=1 tr=0 ts=6a1db81b cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=NEAV23lmAAAA:8
+ a=lcIDxHtVAAAA:8 a=6-Iau3dbAAAA:20 a=ERiHZSWjYGKwgxmZlbMA:9
+ a=qcg49hLlgF0N60+LroqrWnV/Vu4=:19 a=CjuIK1q_8ugA:10 a=SmPfr9tXhjlp3KZZvEYH:22
+ a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-01_04,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 adultscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606010165
 
-On Mon 01-06-26 18:27:53, Jori Koolstra wrote:
+On Wed, May 13, 2026 at 11:14:21AM +0530, Ojaswin Mujoo wrote:
+> On Mon, May 04, 2026 at 09:54:49AM +0200, Daniel Gomez wrote:
+> > On 08/04/2026 20.45, Ojaswin Mujoo wrote:
+> > > Hi all,
+> > > 
+> > > This is the v2 RFC to add buffered writethrough support to iomap and
+> > > xfs. The changes made are mostly to get the writethrough implementation
+> > > more inline with how dio handles writes. 
+> > > 
+> > > 
+> > 
+> > I gave these series a run with kdevops and fstests using the following
+> > profiles: xfs-crc-logdev, xfs-crc, xfs-reflink-logdev, xfs-reflink.
+> > 
+> > Note that I applied all patches on top of v7.1-rc1 and xfstest-dev
+> > patches from Ojaswin have been rebased on latest master [1].
+> > 
+> > Link:
+> > https://github.com/dagomez137/xfstests-dev/tree/iomap-buf-writethrough2 [1].
+> > 
+> > In general, some of the results here seem flaky. But let me know what
+> > you think. I'll try to confirm the possible regressions with another
+> > full run.
+> > 
+> > 
+> > Summary per profile:
+> > 
+> > * xfs-crc-logdev: no regressions or fixes found
+> > * xfs-crc:
+> >   * generic/753 fixed. This test failed on 7.1.0-rc1 run but succeeded
+> > on 7.1.0-rc1-00005-gc6a39600d3c3.
+> > * xfs-reflink-logdev:
+> >   * generic/415 failed on 7.1.0-rc1-00005-gc6a39600d3c3. I tried to
+> > replicate the issue by just running generic/415 (not the entire test
+> > suite), and I couldn't replicate it.
+> > * xfs-reflink:
+> >   * generic/457 failed on 7.1.0-rc1-00005-gc6a39600d3c3.
+> >   * generic/561 failed on 7.1.0-rc1 but not on
+> > 7.1.0-rc1-00005-gc6a39600d3c3.
 > 
-> > Op 01-06-2026 17:58 CEST schreef Jan Kara <jack@suse.cz>:
-> > 
-> >  
-> > On Sun 31-05-26 10:08:47, Jeff Layton wrote:
-> > > 
-> > > This seems ill-advised. The problem is that most of this behavior has
-> > > been well established for years, and not all userland software (and
-> > > even some internal callers like nfsd), will react well when you go
-> > > changing behavior like this.
-> > > 
-> > > As a case in point, the POSIX spec doesn't list EOPNOTSUPP as a valid
-> > > error return for open():
-> > > 
-> > >    https://pubs.opengroup.org/onlinepubs/9690949399/functions/open.html
-> > > 
-> > > The manpage for open() says only:
-> > > 
-> > >        EOPNOTSUPP
-> > >               The filesystem containing pathname does not support O_TMPFILE.
-> > > 
-> > > What is the poor userland developer to make of this when open() starts
-> > > returning EOPNOTSUPP without O_TMPFILE being specified?
-> > 
-> > So I wouldn't care as much about POSIX, we largely ignore it anyway in the
-> > kernel. But I tend to agree that changing the error code we returned for
-> > several decades just for the sake of "cleanliness" isn't IMHO a good enough
-> > reason to risk breaking userspace or causing confusion.
-> > 
-> > 								Honza
-> > -- 
-> > Jan Kara <jack@suse.com>
-> > SUSE Labs, CR
+> Hey Daniel, 
 > 
-> For what its worth, the EACCES return value for not having a create()
-> call on the fs is also not specified in the open() man page. For mkdir,
-> EPERM IS specified.
+> thanks so much for testing the patches. I'm back this week
+> from travel so still catching up to my emails. I'll go trhough thi and
+> get back to you soon.
+> 
+> Regards,
+> Ojaswin
 
-Yep, as I said we don't really follow POSIX closely. And it goes way
-further than just error code :)
+Hi Daniel,
 
-> But in general, can we never add new error codes to any syscall? Are
-> there user programs that do neatly check for each specified error code in
-> the man page, but that do not implement a fallback at all? I mean, I am
-> not unsympathetic to the arguments that you and Jeff make, but such a
-> user program would be odd.
+So this week I spent some time looking into the failure of g/457. 
+I was able to replicate it in my setup and after analysing it, this is
+actually an issue in my xfstests patch. The issue is that to verify
+RWF_WRITETHROUGH support I do a 4kb write on the fd during the test prep
+phase. However "out-of-band" write makes the actual contents of the file
+different from what fsx expected (It reads it in before the problematic
+write), causing the test failure. 
 
-We certainly can (and sometimes do) modify the returned errors. It is
-always just a balancing act between the benefit of the change and chances
-somebody will get broken by it. In this case I don't quite see the
-benefit, not that I'd be too worried about the a regression but there's
-always the chance...
+The below snippet fixes it:
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+diff --git a/ltp/fsx.c b/ltp/fsx.c
+index 720bca83..1c76634b 100644
+--- a/ltp/fsx.c
++++ b/ltp/fsx.c
+@@ -2077,16 +2077,34 @@ test_dontcache_io(void)
+        return 1;
+ }
+
++/*
++ * Use a temporary file to test RWF_WRITETHROUGH so as to not modify the
++ * original. This is so that fsx expected contents and the actual contents
++ * of the original file don't go out of sync
++ */
+ int
+ test_writethrough_io(void)
+ {
+        char buf[4096];
++       char tmpname[PATH_MAX];
++       int tmp_fd;
+        struct iovec iov = { .iov_base = buf, .iov_len = sizeof(buf) };
+        int ret, e;
+
++       snprintf(tmpname, sizeof(tmpname), "%s.fsx.XXXXXX", fname);
++
++       tmp_fd = mkstemp(tmpname);
++       if (fd < 0) {
++               perror("test_writethrough_io: mkstemp() failed\n");
++               exit(132);
++       }
++
+        memset(buf, '\0', sizeof(buf));
+-       ret = pwritev2(fd, &iov, 1, 0, RWF_WRITETHROUGH);
++       ret = pwritev2(tmp_fd, &iov, 1, 0, RWF_WRITETHROUGH);
+        e = ret < 0 ? errno : 0;
++
++       close(tmp_fd);
++
+        if (e == EOPNOTSUPP) {
+                if (!quiet)
+                        fprintf(stderr,
+
+
+Im unable to replicate the 415 failure, but this one is strange because it
+doesn't involve any writethrough IO. In you previous runs have you seen
+this be flaky?
+
+Admittedly, I've not yet started thorough testing since this is in early
+RFC and the design is still getting finalized but I appriciate the help
+in testing this.
+
+Thanks again,
+ojaswin
+
+> 
+> > 
+> > 
+> > Here the full report list for each A/B profile test run:
+> > 
+> > 
+> > http://htmlpreview.github.io/?https://github.com/dagomez137/kdevops-results-archive-wt/blob/main/workflows/fstests/results/r0001/fstests-report-7.1.0-rc1-vs-7.1.0-rc1-00005-gc6a39600d3c3-r0001-qsu-xfs-crc-logdev.html
+> > 
+> > 
+> > http://htmlpreview.github.io/?https://github.com/dagomez137/kdevops-results-archive-wt/blob/main/workflows/fstests/results/r0001/fstests-report-7.1.0-rc1-vs-7.1.0-rc1-00005-gc6a39600d3c3-r0001-qsu-xfs-crc.html
+> > 
+> > 
+> > http://htmlpreview.github.io/?https://github.com/dagomez137/kdevops-results-archive-wt/blob/main/workflows/fstests/results/r0001/fstests-report-7.1.0-rc1-vs-7.1.0-rc1-00005-gc6a39600d3c3-r0001-qsu-xfs-reflink-logdev.html
+> > 
+> > 
+> > http://htmlpreview.github.io/?https://github.com/dagomez137/kdevops-results-archive-wt/blob/main/workflows/fstests/results/r0001/fstests-report-7.1.0-rc1-vs-7.1.0-rc1-00005-gc6a39600d3c3-r0001-qsu-xfs-reflink.html
+> > 
