@@ -1,208 +1,100 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E81C2F5A12
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 16:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780331289; cv=pass; b=K72wRLY7fMFL5V0ekvGVOR8k3zLgiBao2AWoOqFQ2AJ9oa4NwnW6RwMpWxtDuWHgZ3nJHhKmRByXg7pGkb8toF3ubPe8VfujQ5b4p25rvQ9xhuO5yeq7wopTvzxIsn2Setkd2Pzpuzj/A/OfvY6x5tuWsrXG6E0TTAD2j4AdB68=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780331289; c=relaxed/simple;
-	bh=qi0bNA92wLl2nMk/hIYTXnmjk9Bfbm5qhtK/24nDsrE=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159B72EC0A6
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 16:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780331371; cv=none; b=F4bPFZolXU6BowEkNHiEfxchC0bf3OzQ5vL/MNBWafym46BI6zw/17qHeVpTJbMRL97QuIhtErLHr0boFc8+2w30D81a9zWXyqMy3iaKXiyxatiaonpDoyxaEgY00y8VACn0eDPAF8KNH9AdaMsxT+jLnIdA/LnDIkxi08IM2dI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780331371; c=relaxed/simple;
+	bh=JHA8A2LqDoxqFwpttDeYSscr29A5V44SjxGPurj2m8Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rdVGs97q6Y/JBqpG7hmSd3gOIEtf7+fCFUZZWkrwmm/L+7/HSDj9Sr1V2lPCiWRsB0t2oDHHIsASDlARiu/uMGfC76lYoyfDZKBgVYfF+ktFI1bDERThzCYrQnMCdjc763hqKpexv51+A6RFyVuuabpIOkE+hT3IX3mXyRUwL9g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=dUXjSj+g; arc=pass smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=QOEJxWrajAQCc1S0kP5IqytbDRXH/5cR/8MqLavoq9vllww+zqLtO/o9PDTvQOg4BW6jF2rFX+b0nycbT7iuwccvMHDxEM7rw40jVJF7SS9dGkX/oxJFqzSSyuq90ooWHjnsCTSy5iVxzGVPRHoR02dU3Tflu9GV6Jr4G4BEKgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gfhSkiCO; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="dUXjSj+g"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c856db4fcacso3024862a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 09:28:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780331285; cv=none;
-        d=google.com; s=arc-20240605;
-        b=b67UEwddRh/Vl93JGnhq75qH7EftufxriAwF9m1q2SwsN8RgGD/UcH0inkz20Y7soy
-         +FawnQofy+i7+aG9pEGXP0UYWNSi5z49zQlqXxrD6QGxE/X1T1RVd0rOf71sTtZVhPsF
-         qN5vv/wB6P1NVG7jVieAh8f2PYkklEf5Nv3IF8ouCcCSFihbaAoW63YetKqDPoVU5IBH
-         JV5+sryZR1w0QOKrOrZbo/SH3Ho57YH95T7JBnX7LK0vVnZ1DFOXjmlpRTOpWGOjTi6z
-         +U9MwyRF7LfdoqDn7ohhR76+dkd1JmHPcjW5twK68tUVsSlV7b9TKUFL1GCgNAI5gWAp
-         1YRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sGlM2E9AAqaBi+x0e0uF9maYBNYnyD+734d/pzzcsto=;
-        fh=mfqZ/xo9irS8JHbARwU5FzNv9a8AulFK4Kea1lksFms=;
-        b=caqMMtTaP3yCxCacqHkj2ndTa2qKEyrISydjuzzmMovy811cEEqFRtJ9/yIkU5yr+s
-         wHrAXnmP3g6dKS7MARod2Dv7LLGhFtvuskjUvIGZiofV53sAxOnUGEAYsLQJyf0/DjTQ
-         gplKuhrCsINEe24ub2fd2gkHOFkJ6OhBAoqMzzaRXNRHUZbSCIH7gxLGuTN931U2BiXL
-         8sHUke47rXfHNIAxWkjE9XWlQ/B0XegkKALRl/7kUeFn021nUtJo/o/P6ounNwULBDYs
-         FeOzpxjivuygty/q+wmc5fkLvcDTine1FR0G+GA4TC9W7d9v7qBU/oICpGgeCoqlLw2o
-         eyng==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gfhSkiCO"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bec423a5265so295384666b.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 09:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1780331285; x=1780936085; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sGlM2E9AAqaBi+x0e0uF9maYBNYnyD+734d/pzzcsto=;
-        b=dUXjSj+gZhEJ1wkBA3Hx1JpYmkvAvUSX7ehbjhMY8bdJnMF9RArJQMFYfB+bjrQHAe
-         SVbCQGt3bTri37mM1s4mF1Nb5snzD107h3zbt2VlHRlH/FbVX+y/6rJ2EJruX/gK7C1m
-         dRu6usG75kxEqOsojY43Ytgymj6zmkO4zL6BrscU6NK6P1bnNgcBLWdSWjLfH/zR3nTH
-         H+sy/BYXTdaM4ICVqQFdftmCVTZMWQmIZy3NsKDg89ATRjTXPqkPWyxBPBxkmPFHBFeV
-         9E1F7W9l22SX+u4/u9ihYgwATE8vyUc4DV5UOuugSjUCz8HE8M3ePwoSWv/dOd1gfAIP
-         A2aQ==
+        d=linux-foundation.org; s=google; t=1780331368; x=1780936168; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=K5aZ4vAk82i6DVnbVmOCwCzllylMU3ucK3p4smWm5Ow=;
+        b=gfhSkiCOgsXXzedBQgyhrxVG4ffrB8IS6ZQTKCw6WsuX2B2FE7nHs08gmZjEFdNrxr
+         PEsAAPyknfxh7E95H5BPoM6fKJw1UIhaE3fc4c5IYXEcqwiYZFw0DiOsCICG30zFIUQh
+         zbiXMal2Gcv5sZzrtdQJfsjzeUhb8vKQ0je3s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780331285; x=1780936085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sGlM2E9AAqaBi+x0e0uF9maYBNYnyD+734d/pzzcsto=;
-        b=EsxaillBxuiT4HfFK+opCOM5kWfNyAqD38Yehar1b0mo6Ls/uFZivb0jiqD4Xz8era
-         A4naEFAfKJ7iB+Oc/K52N7LSz7+g/UyMUtj0fWd+Hhegco6QtOMe4/Mfr+FyszPth8Sc
-         HYyAEOOrFtlvO3gx7XButk+GOgchxv+JuX2IfMOryc0M1Wz5mbpXUmpEqjsIi7S/Ugrq
-         dFa2SLYYW5WXD82UK+hZma+gnw8uQsuO4Ztd/GUktqhO2UVGcULwj8Fm8fbu9l4himpb
-         HUDQUhf3YPKxqrS1x5VyqKNhXVMniZkOgDwnqnEv3F6M3r2Mu/E/P/rhiwcYabxb50BO
-         vaCA==
-X-Forwarded-Encrypted: i=1; AFNElJ+wXGYlgIa0/UN0Xv3QLJ4EoPhrQiX4jSRgNq0QtfxBBhOUpQ8D6uY7gWIqsu8KsUw52iyRK0cKh7ML+1hL@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4aSKRyHByh/YBhg9TXlOINh08F0ybtBXtbImo7dk01hMSWSo8
-	kSCgJDTginIvdvC+F5I3+dPP5pxqWqIptUnStMUMNwKkLsE6XWNp1ShGDKXXiHxTpzRDL12O0qm
-	sijhuDC9iDR+k6IizE3kZKxhoe/G4Jrb+UzsWgs2V
-X-Gm-Gg: Acq92OGWEV88k0JZQwCLr21w/rLBhVNWq65SMOtcXELVzpxTTQiFQCwp/2TFGvn2TF/
-	Bmd9g9p7TAfwt+GPYZlRegq5OqehGupRiIKcN0UJa9eLHXGbGpvjUrJP4Rg3qRZQAW1a5iFwI+z
-	iCqUiLGAsbQy6UiZ44g7nd2GK5M+nCfR9uB88iHJ97ezvw8J8kJPjUqLbK2TfT8V+bzowqAfqO3
-	UV5CTS7htPDcpWA4mcg4zr0jOUPVluGzF7z0y4K1YGk6m77cOiobS6M7C3kp4ofbDXQbTK79ZxG
-	2kRA+gDFYy8ZfmZcpQ==
-X-Received: by 2002:a05:6a21:8ccc:b0:3b3:2703:11c with SMTP id
- adf61e73a8af0-3b427f517f8mr12921664637.37.1780331285033; Mon, 01 Jun 2026
- 09:28:05 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780331368; x=1780936168;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K5aZ4vAk82i6DVnbVmOCwCzllylMU3ucK3p4smWm5Ow=;
+        b=kKZP7AiyLHJIzc4c6kpWknxH8glVAHPy9uH3qTcC94YogOKyQy2ptdndh8/ZXmmas6
+         huia3A2T3LW0veGIhz41Kn4YeQFH/PHTwUr6uNCgm6ZkUcl+yhXyhoemrE6qzWQdnvd1
+         Je/bv5g50eQ3qcZjZaUmUWa2ht0UiDPqoVizUAERqEMFuwDEt165NGeYung+kbt4uITu
+         64lxsLBd1GrHrdWnb1OJKC8cwbjcxZ7WylAvp/kdt4601GURaDyJzKTOvjlyg9tYPZII
+         y8DhikBXpAun+uI+m34XqlIJTnfrlqGku6rWqccNwwXNAouhsr7m/PDCCMTomTAPCu4i
+         FWaQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+3or3OUyOmqzwe9cHNLofPA8/OG8b+d7w7dvxyHxSIIexeWo+gsJb50D6h3D2s+vHt3eye3uesIvivvoM+@vger.kernel.org
+X-Gm-Message-State: AOJu0YygBdT2CdIjtUPbmBE9qJAaNZChBCoIiJjHJZV4Y9z/P0O4G851
+	SSXKjMdP25bbtKa+ougZlbg8T+9Rsv0Ql+UznpE9GlB3VfWE2YT8ncxh/Ds/71eUSlPAXjRp375
+	l07cMR1M=
+X-Gm-Gg: Acq92OHkjZoOgp3o7r6XlqXAGwYnR1c2whs/EtCSzHrfEnJw2dJZPilP+mx8VB8MLu6
+	ey+QnT3y64HPtAR8MyH2kGpqae34GeKafKekYdU4IvZBsTibwHBYnMZ/VE1ItafTQNCSR1t8jXU
+	NrsZjC8GW/vWGGvHO4kGRy5icbWJ8BKkPMrN4v3NudCfqQRHT0+cb0GqHCRjmHHKmK1Oiw6dg5q
+	UxRLLVQ1vtKd0Oj1Receoun8IBdMHS4fsV2yd9q9RfsHDO39XLGIMROlgCtFsDrHrWlouYYhrqH
+	D+7Cz24b9zBxjYUziNcW5Snaf+rpSVpz/aAgzQqDAL/fEMMQannntwOFABsrQFJsueL4JFE+oH5
+	rI4Gh9r5QMJb9YvBI8320UZFUzkzxPgv0sqe0b5wAO8s+pbta4DW5AXNoW1QwFf0gMHVVhm1Iuy
+	Tt+gQAZFRZG2+57e9OwH7MWfuS4xNh2K5mLEiC09icz3opspojxtRiVfIQyheY3ez6HZBAhFzYO
+	XlOpq2LNC5X0gnEFnyyIA==
+X-Received: by 2002:a17:907:7284:b0:bec:7066:8439 with SMTP id a640c23a62f3a-bec70668badmr429479866b.18.1780331368311;
+        Mon, 01 Jun 2026 09:29:28 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-be9d27f4782sm362028666b.5.2026.06.01.09.29.28
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2026 09:29:28 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bd8d0e4e341so2395550266b.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 09:29:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+UnE+gRRKRekTUtFwe8TxhB61fvuX5v8s/yjGDd3dYwLWnErnGQDL02F6lWszjxpWcPDr6mDrtbRFVRHiT@vger.kernel.org
+X-Received: by 2002:a17:907:3d45:b0:be3:b3fb:e2 with SMTP id
+ a640c23a62f3a-beab207a691mr724400066b.32.1780330992765; Mon, 01 Jun 2026
+ 09:23:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260531182045.171711-1-jkoolstra@xs4all.nl> <20260531182045.171711-6-jkoolstra@xs4all.nl>
- <178028260358.2923901.6788358930458921830@noble.neil.brown.name>
-In-Reply-To: <178028260358.2923901.6788358930458921830@noble.neil.brown.name>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 1 Jun 2026 12:27:53 -0400
-X-Gm-Features: AVHnY4KEv6aJtI3iBUrB4HglIpuGYPQAhy-iIOr2F3ZJYmOy5UkiR3sfOv1CiDw
-Message-ID: <CAHC9VhSN1j36Mo0tCOD2EQi0w5dXg_2sOcBw9vEqb1wRdsPh5g@mail.gmail.com>
-Subject: Re: [RFC PATCH v6 5/9] vfs: lookup_open(): move audit_inode_child()
- and i_op->create check to before try_break_deleg()
-To: NeilBrown <neil@brown.name>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Eric Paris <eparis@redhat.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
-	Mateusz Guzik <mjguzik@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Charles Mirabile <cmirabil@redhat.com>, audit@vger.kernel.org
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <CALCETrW__=8mSusayfXG7UFCfue5BGbx+vqESj1d9wqOfX4s8w@mail.gmail.com>
+ <ah2nBAdsE5vVJ2PL@casper.infradead.org> <CAHk-=wiFuud0Nn3B9YpTWyQja08TeXVk2AB-aAkmVXyigOagbQ@mail.gmail.com>
+ <20260601-aufweichen-dissens-ausrechnen-0d9b84728113@brauner>
+In-Reply-To: <20260601-aufweichen-dissens-ausrechnen-0d9b84728113@brauner>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 1 Jun 2026 09:22:56 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wj1dSKpF=NMJmm9d-7kJY=BEVkchTaxsL1LGL3n89KtBg@mail.gmail.com>
+X-Gm-Features: AVHnY4Kn-EiKMLw7r2InJ00RsvMx_ZNQz4aALUAoaty1wqi8l1c2ToY4hj4PgVo
+Message-ID: <CAHk-=wj1dSKpF=NMJmm9d-7kJY=BEVkchTaxsL1LGL3n89KtBg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Christian Brauner <brauner@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Andy Lutomirski <luto@amacapital.net>, 
+	Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 31, 2026 at 10:56=E2=80=AFPM NeilBrown <neilb@ownmail.net> wrot=
-e:
+On Mon, 1 Jun 2026 at 09:17, Christian Brauner <brauner@kernel.org> wrote:
 >
-> [Paul and Eric - question for you towards the end)
->
-> On Mon, 01 Jun 2026, Jori Koolstra wrote:
-> > Calling audit_inode_child() and the i_op->create check in lookup_open()
-> > take place after the try_break_deleg() call. This does not match the
-> > order when doing a regular file create via mknod(2). There the call
-> > order is:
-> >
-> >       filename_mknodat()
-> >       vfs_create()
-> >       may_create_dentry()
-> >       audit_inode_child(dir, child, AUDIT_TYPE_CHILD_CREATE)
-> >       i_op->create check
-> >       try_break_deleg()
-> >
-> > In particular, audit_inode_child() is called regardless of whether
-> > try_break_deleg() fails.
-> >
-> > Move move audit_inode_child() and the i_op->create check to before
-> > try_break_deleg() in lookup_open().
+> As usual I would argue to accept it and revert in case we get actual
+> regression reports...
 
-Adding the audit mailing list to the CC line.  It's almost always
-better to CC the list than ping folks directly as we now have the
-exchange in the audit archive which makes it easier for audit folks to
-find this in the future.
+Yes, likely the only way we'd ever find out ..
 
-> I don't think this is sufficient.
-> I think (and we should confirm we people who know about auditing) that
-> the audit call should come before the permission check so that there is
-> an audit record on failed attempts.  In that case the
-> audit_inode_child() all needs to be much earlier.
-
-As you likely already know, audit_inode_child() exists simply to
-record information about the file/inode access, the audit record is
-generated later (and can is dependent on other things/config).  For
-that reason, yes, it's generally a good idea to call
-audit_inode_child() as soon as we have the file/inode information.
-Auditors want to know what the user/system attempted to do, even if
-the operation failed; in some cases the log of the failed operations
-are more useful than the successful ones.
-
-> Alternately if we don't need an audit record for failed attempts - maybe
-> the audit_inode(..., AUDIT_INODE_PARENT) is enough?  - then the
-> audit_inde_child(..., AUDIT_TYPE_CHILD_CREATE) in may_create_dentry()
-> should be after the permission check.
->
-> I think you are trying to make the two paths consistent.  I think that
-> is a good thing.  I don't think you have achieved it.
->
-> I notice that fsnotify_create() ALSO calls audit_inode_child(...
-> AUDIT_TYPE_CHILD_CREATE).  Surely we don't need both?
->
-> Paul, Eric: can you comment on whether AUDIT_TYPE_CHILD_CREATE() should
-> come before permission checks, after checks but before create, or after
-> the create?  Or maybe several of those?
-> We seem to do it both before in may_create_dentry(), and after in
-> fsnotify_create().
->
->
-> Thanks,
-> NeilBrown
->
-> > Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> > ---
-> >  fs/namei.c | 11 ++++++-----
-> >  1 file changed, 6 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/fs/namei.c b/fs/namei.c
-> > index 16dcf537db87..293592a4d011 100644
-> > --- a/fs/namei.c
-> > +++ b/fs/namei.c
-> > @@ -4526,17 +4526,18 @@ static struct dentry *lookup_open(struct nameid=
-ata *nd, struct file *file,
-> >
-> >       /* Negative dentry, just create the file */
-> >       if (!dentry->d_inode && (open_flag & O_CREAT)) {
-> > -             /* but break the directory lease first! */
-> > -             error =3D try_break_deleg(dir_inode, delegated_inode);
-> > -             if (error)
-> > -                     goto out_dput;
-> > -
-> >               audit_inode_child(dir_inode, dentry, AUDIT_TYPE_CHILD_CRE=
-ATE);
-> > +
-> >               if (!dir_inode->i_op->create) {
-> >                       error =3D -EACCES;
-> >                       goto out_dput;
-> >               }
-> >
-> > +             /* but break the directory lease first! */
-> > +             error =3D try_break_deleg(dir_inode, delegated_inode);
-> > +             if (error)
-> > +                     goto out_dput;
-> > +
-> >               error =3D dir_inode->i_op->create(idmap, dir_inode, dentr=
-y,
-> >                                               mode, open_flag & O_EXCL)=
-;
-> >               if (error)
-> > --
-> > 2.54.0
-
---=20
-paul-moore.com
+          Linus
