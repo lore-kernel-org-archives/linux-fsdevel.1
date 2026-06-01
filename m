@@ -1,100 +1,100 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159B72EC0A6
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 16:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D12B29D26B
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 16:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780331371; cv=none; b=F4bPFZolXU6BowEkNHiEfxchC0bf3OzQ5vL/MNBWafym46BI6zw/17qHeVpTJbMRL97QuIhtErLHr0boFc8+2w30D81a9zWXyqMy3iaKXiyxatiaonpDoyxaEgY00y8VACn0eDPAF8KNH9AdaMsxT+jLnIdA/LnDIkxi08IM2dI=
+	t=1780331396; cv=none; b=WgZrxoTZbmsqaXVpO+qaLEZnqt5oj2CqU0dONBMMlHfftScV3gn/u3Pr7lcK4jQ61N/AUvTkX9b9uf71nJRDqmfI0B/m4Ytu4SEH8abyi5M5Qy/oQ3XvdHLUSto48GwM9Vm+HJ2vMBtVaj5jevujxVx6CsHNyLw7DHWi25ydZ4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780331371; c=relaxed/simple;
-	bh=JHA8A2LqDoxqFwpttDeYSscr29A5V44SjxGPurj2m8Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QOEJxWrajAQCc1S0kP5IqytbDRXH/5cR/8MqLavoq9vllww+zqLtO/o9PDTvQOg4BW6jF2rFX+b0nycbT7iuwccvMHDxEM7rw40jVJF7SS9dGkX/oxJFqzSSyuq90ooWHjnsCTSy5iVxzGVPRHoR02dU3Tflu9GV6Jr4G4BEKgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gfhSkiCO; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1780331396; c=relaxed/simple;
+	bh=gYfCSgj3xaS2A+YYEac1pAqnPzQSSEZ5MXWL4piM4aE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VDrx+uAmHDu3u57DCg8Dq55MR/WNjRX9RmvaxXoAkIGEC7saxnPODqY+ggnBX2bKj/ERAj0noZSCwjTgaqfq49jQtXEyiD2AQdzoP9+OCy4quektfADBo0r4eeObuAJI01DTdtCaHpQvqaJyi2hrP8JEs/fbbiKjf0OcVejF7aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=USA7JRgg; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gfhSkiCO"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bec423a5265so295384666b.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 09:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1780331368; x=1780936168; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=K5aZ4vAk82i6DVnbVmOCwCzllylMU3ucK3p4smWm5Ow=;
-        b=gfhSkiCOgsXXzedBQgyhrxVG4ffrB8IS6ZQTKCw6WsuX2B2FE7nHs08gmZjEFdNrxr
-         PEsAAPyknfxh7E95H5BPoM6fKJw1UIhaE3fc4c5IYXEcqwiYZFw0DiOsCICG30zFIUQh
-         zbiXMal2Gcv5sZzrtdQJfsjzeUhb8vKQ0je3s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780331368; x=1780936168;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K5aZ4vAk82i6DVnbVmOCwCzllylMU3ucK3p4smWm5Ow=;
-        b=kKZP7AiyLHJIzc4c6kpWknxH8glVAHPy9uH3qTcC94YogOKyQy2ptdndh8/ZXmmas6
-         huia3A2T3LW0veGIhz41Kn4YeQFH/PHTwUr6uNCgm6ZkUcl+yhXyhoemrE6qzWQdnvd1
-         Je/bv5g50eQ3qcZjZaUmUWa2ht0UiDPqoVizUAERqEMFuwDEt165NGeYung+kbt4uITu
-         64lxsLBd1GrHrdWnb1OJKC8cwbjcxZ7WylAvp/kdt4601GURaDyJzKTOvjlyg9tYPZII
-         y8DhikBXpAun+uI+m34XqlIJTnfrlqGku6rWqccNwwXNAouhsr7m/PDCCMTomTAPCu4i
-         FWaQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+3or3OUyOmqzwe9cHNLofPA8/OG8b+d7w7dvxyHxSIIexeWo+gsJb50D6h3D2s+vHt3eye3uesIvivvoM+@vger.kernel.org
-X-Gm-Message-State: AOJu0YygBdT2CdIjtUPbmBE9qJAaNZChBCoIiJjHJZV4Y9z/P0O4G851
-	SSXKjMdP25bbtKa+ougZlbg8T+9Rsv0Ql+UznpE9GlB3VfWE2YT8ncxh/Ds/71eUSlPAXjRp375
-	l07cMR1M=
-X-Gm-Gg: Acq92OHkjZoOgp3o7r6XlqXAGwYnR1c2whs/EtCSzHrfEnJw2dJZPilP+mx8VB8MLu6
-	ey+QnT3y64HPtAR8MyH2kGpqae34GeKafKekYdU4IvZBsTibwHBYnMZ/VE1ItafTQNCSR1t8jXU
-	NrsZjC8GW/vWGGvHO4kGRy5icbWJ8BKkPMrN4v3NudCfqQRHT0+cb0GqHCRjmHHKmK1Oiw6dg5q
-	UxRLLVQ1vtKd0Oj1Receoun8IBdMHS4fsV2yd9q9RfsHDO39XLGIMROlgCtFsDrHrWlouYYhrqH
-	D+7Cz24b9zBxjYUziNcW5Snaf+rpSVpz/aAgzQqDAL/fEMMQannntwOFABsrQFJsueL4JFE+oH5
-	rI4Gh9r5QMJb9YvBI8320UZFUzkzxPgv0sqe0b5wAO8s+pbta4DW5AXNoW1QwFf0gMHVVhm1Iuy
-	Tt+gQAZFRZG2+57e9OwH7MWfuS4xNh2K5mLEiC09icz3opspojxtRiVfIQyheY3ez6HZBAhFzYO
-	XlOpq2LNC5X0gnEFnyyIA==
-X-Received: by 2002:a17:907:7284:b0:bec:7066:8439 with SMTP id a640c23a62f3a-bec70668badmr429479866b.18.1780331368311;
-        Mon, 01 Jun 2026 09:29:28 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-be9d27f4782sm362028666b.5.2026.06.01.09.29.28
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 09:29:28 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bd8d0e4e341so2395550266b.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 09:29:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+UnE+gRRKRekTUtFwe8TxhB61fvuX5v8s/yjGDd3dYwLWnErnGQDL02F6lWszjxpWcPDr6mDrtbRFVRHiT@vger.kernel.org
-X-Received: by 2002:a17:907:3d45:b0:be3:b3fb:e2 with SMTP id
- a640c23a62f3a-beab207a691mr724400066b.32.1780330992765; Mon, 01 Jun 2026
- 09:23:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="USA7JRgg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780331394;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FCDOSgEjx1fWi4LkC7ZBCwOBu8wF5UiqKv/5m50uf7w=;
+	b=USA7JRggHIs/hxLW8vEsy4PyBd4Ef60oi5F0vo81A6PkvEspbQ1ynMO9av/9ncbJUbIDOX
+	fUkxpIqJBJzB3dP8YyLhCBIYX43521tX33ei9MFbF9hKUIAAT3mDED7j/SAkSLw5oHRYjj
+	shfHduCGvi/MR4DivcirWx/60UEcbZ4=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-18-nWJ4074FMJq1TUF3XnERQQ-1; Mon,
+ 01 Jun 2026 12:29:48 -0400
+X-MC-Unique: nWJ4074FMJq1TUF3XnERQQ-1
+X-Mimecast-MFC-AGG-ID: nWJ4074FMJq1TUF3XnERQQ_1780331386
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6384A195609F;
+	Mon,  1 Jun 2026 16:29:45 +0000 (UTC)
+Received: from bfoster (unknown [10.22.80.88])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1AE5B1800347;
+	Mon,  1 Jun 2026 16:29:42 +0000 (UTC)
+Date: Mon, 1 Jun 2026 12:29:40 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Qu Wenruo <wqu@suse.com>, Damien Le Moal <dlemoal@kernel.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+	Bart Van Assche <bvanassche@acm.org>,
+	linux-block <linux-block@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
+Message-ID: <ah2zdCQ0WA6ol2Gn@bfoster>
+References: <ahRocb0Vs_m6RF_O@fedora>
+ <1a9f53d4-6f48-4df8-a3d8-2b0e442a163a@I-love.SAKURA.ne.jp>
+ <ahZGxoI6oHQ_vSrx@fedora>
+ <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp>
+ <ahZeYQ0cLE1i8TGs@fedora>
+ <fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp>
+ <ab5492b6-a053-4e3b-8c59-2e836ae85bc4@kernel.org>
+ <20260528083848.GA7694@lst.de>
+ <36571f8a-4df8-4152-b078-d82dbff4ad7e@suse.com>
+ <20260601144034.GA4918@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260531010107.1953702-1-safinaskar@gmail.com>
- <CALCETrW__=8mSusayfXG7UFCfue5BGbx+vqESj1d9wqOfX4s8w@mail.gmail.com>
- <ah2nBAdsE5vVJ2PL@casper.infradead.org> <CAHk-=wiFuud0Nn3B9YpTWyQja08TeXVk2AB-aAkmVXyigOagbQ@mail.gmail.com>
- <20260601-aufweichen-dissens-ausrechnen-0d9b84728113@brauner>
-In-Reply-To: <20260601-aufweichen-dissens-ausrechnen-0d9b84728113@brauner>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 1 Jun 2026 09:22:56 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wj1dSKpF=NMJmm9d-7kJY=BEVkchTaxsL1LGL3n89KtBg@mail.gmail.com>
-X-Gm-Features: AVHnY4Kn-EiKMLw7r2InJ00RsvMx_ZNQz4aALUAoaty1wqi8l1c2ToY4hj4PgVo
-Message-ID: <CAHk-=wj1dSKpF=NMJmm9d-7kJY=BEVkchTaxsL1LGL3n89KtBg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: Christian Brauner <brauner@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, Andy Lutomirski <luto@amacapital.net>, 
-	Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260601144034.GA4918@lst.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Mon, 1 Jun 2026 at 09:17, Christian Brauner <brauner@kernel.org> wrote:
->
-> As usual I would argue to accept it and revert in case we get actual
-> regression reports...
+On Mon, Jun 01, 2026 at 04:40:34PM +0200, Christoph Hellwig wrote:
+> On Thu, May 28, 2026 at 07:46:24PM +0930, Qu Wenruo wrote:
+> >> e.g. 9c7504aa72b6 ("xfs: track and serialize in-flight async buffers against
+> >> unmount")
+> > Considering the xfs fix is pretty old, it's before the fix hint thus no 
+> > such mention in fstests.
+> >
+> > Do you happen to know which test case is for that fix?
+> > I'd like to adapt it for btrfs as a reproducer.
+> 
+> No.  Adding Brian who authored that commit.
+> 
 
-Yes, likely the only way we'd ever find out ..
+I haven't followed through the full thread here... But if you're just
+looking for an existing test case associated with the commit above on
+XFS, I did some quick digging and xfs/311 is the original reproducer for
+that one.
 
-          Linus
+Brian
+
