@@ -1,32 +1,32 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089E23BBA0B;
-	Mon,  1 Jun 2026 14:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE85374E46;
+	Mon,  1 Jun 2026 14:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780324743; cv=none; b=NWkhzH+LnXil5rV1MAX8N++tUpc2xAfqAUAvlqzWZzM7qTP+L0VJ/eGi6cgSL/gpLbfD0JTDo/eHFQ+6ZyctU8BROMU7NPVjN07OeKEPNAHpKHW7J2tufxPCxHJ3NrNkkkEZfuQfB2HMCZ1DAhM9cMnzF4sySNyhnI9Hj3l0k6s=
+	t=1780324839; cv=none; b=PuwizmII3ZZJ06eOC6ExIE/7gpwt13i2mM3gZWrPUWzg+ugSSMrMTSc7xNkHKpIuJ/C9Ce3G9WmQW7s5vzl/G+RQ3NT5S75chhT2UHZB0J2FXRDAvdaENjOY21YxDtqL1CV3x5G4ARtzCphDjAEjAHeexFQwey2z0JqCaXuZC94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780324743; c=relaxed/simple;
-	bh=zxAx1FopUGZLbvc5qPVhljn0jE+VIP5oZDbsREillQ8=;
+	s=arc-20240116; t=1780324839; c=relaxed/simple;
+	bh=n4K0F6hT/suZTqp9Y4qRaK1zjvLuAK7b16Mjd/xBuSc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=odAkPNwr4EJvR46VZNmHjJC7PYAO2/22J29MJDgCMrMFjbiLS7spR8EF0PMmIwQwBzgT+f6PE3t6NBtr97QGArKRF6P8HYpNFB/yBy+vjBpJZC5RWhi3uZVdmABG/JB0GuNb4k9H29i+0N8mWrdUeVaf+pvDm4QEFMGTnLWjliI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JvcuKBbC; arc=none smtp.client-ip=117.135.210.4
+	 In-Reply-To:Content-Type; b=D512ZiT/hLJfAbZunBoCF83LCqFu1LqDqqrBRN3mC+dGPoGBlVu46oyTruTW2AX2yrbFczK3ARYIM4PrAjSWN/dW+JIZ/M877Z8S/BdgMXCgcq65PSN0jX3q9jibvRkXbnzwk/H+tB3xB7iblMbhMusHWF0lewYF5cDt6eyDa7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=fgGD4KVC; arc=none smtp.client-ip=117.135.210.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JvcuKBbC"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="fgGD4KVC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
 	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=OybkN/MnWZxcEpWXBkhrHVcW6dWBDJmEtjbVKxEqFQQ=;
-	b=JvcuKBbC4jlhe+9trAS6EoJ64nstSy3U2osEEAA5JOVuTAxG76gmVPCqctByBD
-	DlGEVKqyDtZAGrfESGCOFBLf7PQnBnJs5dmP/fguZCmGgKKfmUhXMHVXkkIIVWTG
-	H4xGS15FINKIk9zF43B6i9CoUZbwt/fCdcjiobFDwzhKg=
+	Content-Type; bh=cK3Gvdkr36jX3698KQfjB7612HPZkiyqbqTCq+0O2Zo=;
+	b=fgGD4KVC/pxxMfdfYdAGu3GTLt3YblGkg7TREETQGp6bT1xHZG8S4t4ykXLseU
+	/JJEUPTchNKRdzrkTFYDA5aPKt7xHvev9XrnZxzxjAvJV1hsFWgGpy1LRYRU+iMW
+	59qTYhZ26lDAjAodQVsMdrM+uhrDFTsifquxSA4ZQ8PS0=
 Received: from [192.168.5.171] (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD31yIamR1qL2s8Aw--.64956S2;
-	Mon, 01 Jun 2026 22:37:15 +0800 (CST)
-Message-ID: <f43d968a-8226-462b-98bf-53e69efec0b0@163.com>
-Date: Mon, 1 Jun 2026 22:37:14 +0800
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wCX9fmymR1qF8kFAw--.654S2;
+	Mon, 01 Jun 2026 22:39:46 +0800 (CST)
+Message-ID: <c6d65420-c4f9-4211-b9d8-1040d99379d0@163.com>
+Date: Mon, 1 Jun 2026 22:39:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -34,177 +34,77 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/5] mm/shmem: optimize file read with folio batching
-To: Baolin Wang <baolin.wang@linux.alibaba.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Cc: Hugh Dickins <hughd@google.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Chi Zhiling <chizhiling@kylinos.cn>
-References: <20260520101538.58745-1-chizhiling@163.com>
- <20260520101538.58745-6-chizhiling@163.com>
- <1d8c7c24-b273-4826-9a9e-37fdb0767f2f@linux.alibaba.com>
- <1fd099de-97d9-4a54-a97f-062fbae1d88e@163.com>
- <6881f92c-972a-4b7a-b3c0-93a91ff38b88@linux.alibaba.com>
- <5f1a3e69-c090-42ac-913e-1e8ce2702e9a@163.com>
- <72817e0c-37d3-4a63-a6d3-1744370c896d@linux.alibaba.com>
+Subject: Re: [PATCH v2 1/5] mm/filemap: reduce unnecessary xarray lookups when
+ read cached pages
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chi Zhiling <chizhiling@kylinos.cn>
+References: <20260601055704.167436-1-chizhiling@163.com>
+ <20260601055704.167436-2-chizhiling@163.com>
+ <ah2ARWo_EiVOaWDI@casper.infradead.org>
 From: Chi Zhiling <chizhiling@163.com>
-In-Reply-To: <72817e0c-37d3-4a63-a6d3-1744370c896d@linux.alibaba.com>
+In-Reply-To: <ah2ARWo_EiVOaWDI@casper.infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD31yIamR1qL2s8Aw--.64956S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Gw1DGr13Kr4xur4DKFyDWrg_yoW7Ww45pr
-	WrG3ZrKrWUJry7Ar1Iqw10vrn3t34xJF4UXa47G3W7AF1qvFn3Kr1Utw1UuFyUAr1rGr10
-	qr18KrW7WF1jyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j1UDJUUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC9xtO62odmRuxkQAA3c
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:_____wCX9fmymR1qF8kFAw--.654S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tF1DuryUXFW7KrWruFyxGrg_yoW8WFyxpr
+	Z8Ka4kCrWUtayakrnxtF1fZa4F934Fqay5Aa4Ig34SvFn8JFnIkr97Ka45Jan8Zr4kJF1x
+	Xa18Za40ga15t3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UI_M-UUUUU=
+X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC3BJ0EmodmbIWBwAA3l
 
-On 6/1/26 7:20 PM, Baolin Wang wrote:
-> 
-> 
-> On 5/26/26 3:12 PM, Chi Zhiling wrote:
->> On 5/26/26 11:11 AM, Baolin Wang wrote:
->>>
->>>
->>> On 5/25/26 5:47 PM, Chi Zhiling wrote:
->>>> On 5/25/26 4:37 PM, Baolin Wang wrote:
->>>>>
->>>>>
->>>>> On 5/20/26 6:15 PM, Chi Zhiling wrote:
->>>>>> From: Chi Zhiling <chizhiling@kylinos.cn>
->>>>>>
->>>>>> Optimize shmem file read by using filemap_get_folios_contig() to
->>>>>> batch fetch contiguous folios from the page cache, reducing the
->>>>>> overhead of repeated shmem_get_folio() calls.
->>>>>>
->>>>>> When the folio batch is exhausted, attempt to refill it with
->>>>>> filemap_get_folios_contig(). If no folios are found (hole or swapped
->>>>>> out pages), fall back to shmem_get_folio() to handle these cases
->>>>>> individually.
->>>>>>
->>>>>> Additionally:
->>>>>> - Defer folio_put() until the batch is exhausted or on exit
->>>>>> - Add folio_test_uptodate() check before copying to ensure data
->>>>>>    validity
->>>>>>
->>>>>> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
->>>>>> ---
->>>>>>   mm/shmem.c | 50 ++++++++++++++++++++++++++++++++++++--------------
->>>>>>   1 file changed, 36 insertions(+), 14 deletions(-)
->>>>>>
->>>>>> diff --git a/mm/shmem.c b/mm/shmem.c
->>>>>> index 96ea5a4c0aff..e0eacc23cccd 100644
->>>>>> --- a/mm/shmem.c
->>>>>> +++ b/mm/shmem.c
->>>>>> @@ -3355,11 +3355,14 @@ static ssize_t shmem_file_read_iter(struct 
->>>>>> kiocb *iocb, struct iov_iter *to)
->>>>>>       struct file *file = iocb->ki_filp;
->>>>>>       struct inode *inode = file_inode(file);
->>>>>>       struct address_space *mapping = inode->i_mapping;
->>>>>> +    struct folio_batch fbatch;
->>>>>>       pgoff_t index;
->>>>>>       unsigned long offset;
->>>>>>       int error = 0;
->>>>>>       ssize_t retval = 0;
->>>>>> +    folio_batch_init(&fbatch);
->>>>>> +
->>>>>>       for (;;) {
->>>>>>           struct folio *folio = NULL;
->>>>>>           struct page *page = NULL;
->>>>>> @@ -3372,18 +3375,38 @@ static ssize_t shmem_file_read_iter(struct 
->>>>>> kiocb *iocb, struct iov_iter *to)
->>>>>>               break;
->>>>>>           index = iocb->ki_pos >> PAGE_SHIFT;
->>>>>> -        error = shmem_get_folio(inode, index, 0, &folio, SGP_READ);
->>>>>> -        if (error) {
->>>>>> -            if (error == -EINVAL)
->>>>>> -                error = 0;
->>>>>> -            break;
->>>>>> +fetch:
->>>>>> +        folio = folio_batch_next(&fbatch);
->>>>>> +        if (!folio) {
->>>>>> +            pgoff_t start = index;
->>>>>> +            pgoff_t end = (iocb->ki_pos + to->count - 1) >> 
->>>>>> PAGE_SHIFT;
->>>>>> +
->>>>>> +            if (folio_batch_count(&fbatch)) {
->>>>>> +                for (int i = 0; i < folio_batch_count(&fbatch); i++)
->>>>>> +                    folio_put(fbatch.folios[i]);
->>>>>> +                folio_batch_reinit(&fbatch);
->>>>>> +            }
->>>>>> +
->>>>>> +            filemap_get_folios_contig(inode->i_mapping, &start, 
->>>>>> end, &fbatch);
->>>>>> +            if (folio_batch_count(&fbatch))
->>>>>> +                goto fetch;
->>>>>> +
->>>>>> +            error = shmem_get_folio(inode, index, 0, &folio, 
->>>>>> SGP_READ);
->>>>>> +            if (unlikely(error)) {
->>>>>> +                if (error == -EINVAL)
->>>>>> +                    error = 0;
->>>>>> +                break;
->>>>>> +            }
->>>>>> +            if (folio) {
->>>>>> +                folio_unlock(folio);
->>>>>> +                folio_batch_add(&fbatch, folio);
->>>>>> +                fbatch.i++;
->>>>>> +            }
->>>>>>           }
->>>>>> -        if (folio) {
->>>>>> -            folio_unlock(folio);
->>>>>> +        if (folio) {
->>>>>>               page = folio_file_page(folio, index);
->>>>>>               if (PageHWPoison(page)) {
->>>>>> -                folio_put(folio);
->>>>>>                   error = -EIO;
->>>>>>                   break;
->>>>>>               }
->>>>>
->>>>> I haven't tested it yet, but I'm sure this will break the 
->>>>> fallback_page_copy mode.
->>>>>
->>>>> You're fetching from the batch at folio granularity here, but in 
->>>>> fallback_page_copy mode, we still copy the data at page granularity.
->>>>
->>>> Yes, that's a bug, Sashika has already reported it. I’ll fix it in 
->>>> the next version.
->>>
->>> Good.
->>>
->>>> Sashika also reported another potential issue below, but I think 
->>>> that is a misunderstanding, because a folio fetched from the swap 
->>>> cache is already marked Uptodate before being added to the page 
->>>> cache. What do you think?
->>>
->>> I'm not concerned about swap-in folios, since we already ensure the 
->>> folio is uptodate when swapping out.
->>>
->>> What I'm worried about is that this change moves the 
->>> folio_test_uptodate() check outside of the folio lock, which could 
->>> introduce some race? Of course, with the original logic, the folio 
->>> state could also transition from !uptodate to uptodate after the folio
->>> is unlocked (I need more thought).
->>>
->>> Another race condition that needs to be addressed is, when getting 
->>> the folio locklessly via filemap_get_folios_contig(), there could be 
->>> a concurrent race with swap-out (because you removed the folio- 
->>> >mapping check under folio lock). This could result in reading zero 
->>> data when it shouldn't (the folio actually needs to be swapped in).
+Hi, Matthew
+
+On 6/1/26 8:51 PM, Matthew Wilcox wrote:
+> On Mon, Jun 01, 2026 at 01:57:00PM +0800, Chi Zhiling wrote:
+>> From: Chi Zhiling <chizhiling@kylinos.cn>
 >>
->> Sorry, I don't fully understand what you mean. It seems that swap-out 
->> does not clear the uptodate flag, and the folio cannot be freed during 
->> the read operation because its reference count is held. So a swapped- 
->> out folio should not be mistaken for a zero-filled folio. Right?
+>> When reading small amounts of data from the page cache, only a single
+>> folio is typically returned from filemap_read_get_batch(). In this case,
+>> calling xas_advance() or xas_next() after adding the folio to the batch
+>> is unnecessary and only introduces extra branches.
 > 
-> Sorry for the late reply. Ah, I missed the held refcnt, and now sounds 
-> reasonable.
+> I don't think xas_advance() is all that expensive.  The expensive part
+> is going to be calling xas_next() and realising that the folio now lies
+> beyond the required range.  I think you'll get just as much benefit from
+> doing this:
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 4e636647100c..578b03bd5514 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -2459,11 +2459,14 @@ static void filemap_get_read_batch(struct address_space *mapping,
+>   	XA_STATE(xas, &mapping->i_pages, index);
+>   	struct folio *folio;
+>   
+> +	if (index > max)
+> +		return;
+> +
+>   	rcu_read_lock();
+>   	for (folio = xas_load(&xas); folio; folio = xas_next(&xas)) {
+>   		if (xas_retry(&xas, folio))
+>   			continue;
+> -		if (xas.xa_index > max || xa_is_value(folio))
+> +		if (xa_is_value(folio))
+>   			break;
+>   		if (xa_is_sibling(folio))
+>   			break;
+> @@ -2480,6 +2483,8 @@ static void filemap_get_read_batch(struct address_space *mapping,
+>   		if (folio_test_readahead(folio))
+>   			break;
+>   		xas_advance(&xas, folio_next_index(folio) - 1);
+> +		if (xas.index >= max)
+> +			break;
+>   		continue;
+>   put_folio:
+>   		folio_put(folio);
+>>
 
-I've just sent out v2. Feel free to comment. :)
+Looks good. I'll include it in the next version and make the same change 
+in patch 2/5.
 
-https://lore.kernel.org/linux-fsdevel/20260601055704.167436-1-chizhiling@163.com/
+Thanks!
 
