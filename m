@@ -1,169 +1,234 @@
-Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B550399CE9
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 10:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4F53921E9
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 10:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780309645; cv=none; b=ruTPyJ+mxSa/yYSaplNyqOHHYG6jiWoxoTn5CYbRHQ5nADM0tIHmS4ZoI+g+7nw8D9mMDIe+hkQ1kxADriQ3PrRCYhBLs7IpqmnAs0MYKqACt5whzjRq30RaFHStr0wcqIazC/4dP3h7QwahfFrM40fEZXG20F0eJ3WBgSDvnQQ=
+	t=1780310881; cv=none; b=gLxTuE7wdPOphxNda9qSf7TZtxcV0hbw4vCaKF7tqPVHfo2+cpyitFl3G3T++oZrnyybHsx8KeEK0Y8oALWPwl/hA8P6/4aXa+2I/8vwFp7eqYYJU96JXvWcZT1EILrPJx/TXYz5a8MsEE0j4Yf9aWd2jTedzi6O0kUyc6igr40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780309645; c=relaxed/simple;
-	bh=QZpjG/UzxfBrqmGrDSnbKNCojASn/9+1q3s57nBkk6A=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pWID7Su49EgsXFRdK6Cqd6keyK/9S9vZN7QEpUEJDjFc8OvO9KNzD5X6IinbLqSSHPR+AYHp/AizQPVSsfRMQdPw2tLwr/LFD/+Z1p1rjL70O9VQ5OblTqIByhToSs+m/xVf43m2fPttXkxIUGXwjGA79EoJP+fmvdlUYwQISHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-69dc70d4b0aso8263637eaf.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 03:27:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780309642; x=1780914442;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9OAj8tpwVCz7sqt4lnsIHvwwRrgLo88h/anUIIEmmuo=;
-        b=JRBo5qgndHrMon7LvMo7vhFLah5Mp157U3dXwFb3fTpFzfi0L2SX+G7vzb5NtPArc/
-         BFR5S87Lig4F3KCJHccNlDtYmgNn1Nb7NFiiVz/4HFv0Uf/awpRH+aWlgNBts2ynzmBN
-         awB4XEbZuzPbwqFHdydaLdBt6Jj0g/JcCs5J+kBiqLb/EnAwksj0KpNOC5hff8LKPDGI
-         /JawNfrgUU3L6hATcpZBKxo4J0V63Pq1UEj1bNGEdTkf4YxPyy0wvsAIjxya/ARCAzGG
-         Oo1gXAbby0ereKFMwbmzNyN7lOpgOo+oWe9A46RbnxOUhUgTMlP0NxMJBxQ+c0t4I6by
-         fe+A==
-X-Forwarded-Encrypted: i=1; AFNElJ/xuZ0aK3xE3wa+GxGogVdE/S4iRTMQ/J3U+WUqP6X54Dxl9hoxjIyBOSq3ZP6or8p0G9RsQ5xQWLj54VBy@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaIgteOu8AKDhHaKLRiCnqFo6cOkdfnjEkp6ABlNVcxJ4NJqEA
-	ViOkd7H5kzNpJV46rk6zAus+CIWHEHtGguNJt9A6m6FNzuwdmywpkTc6IUeSy4LlqSU9T5Pdk4n
-	g/0vnWdgNIurIyxUQItfWPPbpAgTIKpCSPVuFcfXOCyqVEg7wvxuE4VB3dYc=
+	s=arc-20240116; t=1780310881; c=relaxed/simple;
+	bh=dr83epYbEC0O4eIbkzvPW9x8F0QHlZQvcIUA3JUmkIE=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=C3MFhbgJktJqbcQkE2qVHJrp6bwI5Mxve3bAWrnN9h+hNUAgSaptkI2O7VVNjMg91Z2I1to19gwfL11waNdsu3k0GNS64OIvFRccfi6i/PchpcRILaQvetBuriLslqrrjbEfpYKXUfLJCvj4UVul8bheil5CY2HCC+8Q3QS4KQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=cMzHNuIW; arc=none smtp.client-ip=195.121.94.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="cMzHNuIW"
+X-KPN-MessageId: 54bf57c9-5da7-11f1-8ff7-005056999439
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 54bf57c9-5da7-11f1-8ff7-005056999439;
+	Mon, 01 Jun 2026 12:47:48 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 54bc4521-5da7-11f1-99d0-0050569977a2;
+	Mon, 01 Jun 2026 12:47:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=Ld5L1Sm+i8NgI0DY+ycerm75tnKnP2C4Iz+0R3TMP/o=;
+	b=cMzHNuIW9174LoTUiqby+NEDtbblxwzIqLsQwXJPvED2KI8CmA68SUvtbjCxyYj5XUJOrbC8j+dty
+	 hK8FXcpEDtR263Khdq1rofmjVT2vpjWxg+BEZ0eHpcxdpPd70qZbMx7lbR4Ez9BVMj+ziXCiOHGYtH
+	 Erk6CHHkY+GGgFB3jN2lxOmcPnmDQhv/nQ7pbklhtFRVShecSiqOmSDvtqAvPnrE9EbVlLt4NM/Ggg
+	 KSt2K2tHNlnn/wpaysYqS1j+sgqzRQpcQ1hQ+/Kj+zENbygmuv8kz+h1+MGC2n1G3wvbGYS9y8np6L
+	 /gm2hpX/UmJ8g/mUrmzsD1G+NaAhseQ==
+X-KPN-MID: 33|AC3WzUmDrLv1xs5vyp84paDNhbE1ERHtz0A8hwWnRUsx0k6VWDg1xY7ZGSJjRam
+ o1EwlT2OUmmjVLvgZUOL9BfHniEybgZE5zQecj4c7N6U=
+X-CMASSUN: 33|Am0Tbtl8G2WQELvZK2ZwhVK0UwLsyCcyZ+jORZ/ALvU2dgLd1eOdwEtY1ISVJLL
+ JaV45qySfhTLrNVlCtsaKBQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh01 (cpxoxapps-mh01.personalcloud.so.kpn.org [10.128.135.207])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 54ac629f-5da7-11f1-b8d7-005056995d6c;
+	Mon, 01 Jun 2026 12:47:48 +0200 (CEST)
+Date: Mon, 1 Jun 2026 12:47:48 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: NeilBrown <neil@brown.name>, NeilBrown <neilb@ownmail.net>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	Benjamin Coddington <ben.coddington@hammerspace.com>,
+	Mateusz Guzik <mjguzik@gmail.com>
+Message-ID: <1841736563.45811.1780310868666@kpc.webmail.kpnmail.nl>
+In-Reply-To: <20260601070042.249432-2-neilb@ownmail.net>
+References: <20260601070042.249432-1-neilb@ownmail.net>
+ <20260601070042.249432-2-neilb@ownmail.net>
+Subject: Re: [PATCH 01/18] VFS: move mnt_want_write() and locking into
+ lookup_open()
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:150e:b0:69d:fa6b:eec6 with SMTP id
- 006d021491bc7-69e102b2a55mr5538336eaf.4.1780309642621; Mon, 01 Jun 2026
- 03:27:22 -0700 (PDT)
-Date: Mon, 01 Jun 2026 03:27:22 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a1d5e8a.fd5edf16.2e7427.000f.GAE@google.com>
-Subject: [syzbot] [fuse?] general protection fault in fuse_dev_release
-From: syzbot <syzbot+5bfc774fd6dffbbc4b70@syzkaller.appspotmail.com>
-To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    f7af91adc230 Add linux-next specific files for 20260528
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=14f1f57e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9ace0a34301dcd68
-dashboard link: https://syzkaller.appspot.com/bug?extid=5bfc774fd6dffbbc4b70
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d3fc56ffd7af/disk-f7af91ad.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ac5990ec0e63/vmlinux-f7af91ad.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/46b531c86f46/bzImage-f7af91ad.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+5bfc774fd6dffbbc4b70@syzkaller.appspotmail.com
-
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 1 UID: 0 PID: 5919 Comm: syz.3.28 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
-RIP: 0010:list_empty include/linux/list.h:404 [inline]
-RIP: 0010:list_splice_init include/linux/list.h:602 [inline]
-RIP: 0010:fuse_dev_release+0x19c/0x670 fs/fuse/dev.c:2221
-Code: 5c 24 28 48 8b 44 24 30 42 80 3c 38 00 74 08 48 89 df e8 17 22 eb fe 48 8b 0b 48 89 4c 24 18 4e 8d 24 31 4d 89 e5 49 c1 ed 03 <43> 80 7c 3d 00 00 74 08 4c 89 e7 e8 f4 21 eb fe 4d 8b 3c 24 4d 39
-RSP: 0018:ffffc90005cdfc60 EFLAGS: 00010246
-RAX: 1ffff110055a2853 RBX: ffff88802ad14298 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc90005cdfd40 R08: ffffffff8b325a20 R09: ffffffff8dfcac60
-R10: dffffc0000000000 R11: fffffbfff1f1a07f R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: dffffc0000000000
-FS:  000055559158b500(0000) GS:ffff888125fcd000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ff1eab87879 CR3: 000000003329e000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __fput+0x461/0xa70 fs/file_table.c:510
- task_work_run+0x1d9/0x270 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
- exit_to_user_mode_loop+0x193/0x680 kernel/entry/common.c:98
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
- do_syscall_64+0x353/0x580 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fd2f2dcce59
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe4cd86cc8 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-RAX: 0000000000000000 RBX: 00007fd2f3047d[  137.410093][ T5919] RAX: 0000000000000000 RBX: 00007fd2f3047da0 RCX: 00007fd2f2dcce59
-RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-RBP: 00007fd2f3047da0 R08: 0000000000000006 R09: 0000000000000000
-R10: 00007fd2f3047cb0 R11: 0000000000000246 R12: 0000000000021201
-R13: 00007fd2f304618c R14: 00000000000210c9 R15: 00007ffe4cd86dd0
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:list_empty include/linux/list.h:404 [inline]
-RIP: 0010:list_splice_init include/linux/list.h:602 [inline]
-RIP: 0010:fuse_dev_release+0x19c/0x670 fs/fuse/dev.c:2221
-Code: 5c 24 28 48 8b 44 24 30 42 80 3c 38 00 74 08 48 89 df e8 17 22 eb fe 48 8b 0b 48 89 4c 24 18 4e 8d 24 31 4d 89 e5 49 c1 ed 03 <43> 80 7c 3d 00 00 74 08 4c 89 e7 e8 f4 21 eb fe 4d 8b 3c 24 4d 39
-RSP: 0018:ffffc90005cdfc60 EFLAGS: 00010246
-RAX: 1ffff110055a2853 RBX: ffff88802ad14298 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc90005cdfd40 R08: ffffffff8b325a20 R09: ffffffff8dfcac60
-R10: dffffc0000000000 R11: fffffbfff1f1a07f R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: dffffc0000000000
-FS:  000055559158b500(0000) GS:ffff888125fcd000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ff1eab87879 CR3: 000000003329e000 CR4: 00000000003526f0
-----------------
-Code disassembly (best guess):
-   0:	5c                   	pop    %rsp
-   1:	24 28                	and    $0x28,%al
-   3:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
-   8:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
-   d:	74 08                	je     0x17
-   f:	48 89 df             	mov    %rbx,%rdi
-  12:	e8 17 22 eb fe       	call   0xfeeb222e
-  17:	48 8b 0b             	mov    (%rbx),%rcx
-  1a:	48 89 4c 24 18       	mov    %rcx,0x18(%rsp)
-  1f:	4e 8d 24 31          	lea    (%rcx,%r14,1),%r12
-  23:	4d 89 e5             	mov    %r12,%r13
-  26:	49 c1 ed 03          	shr    $0x3,%r13
-* 2a:	43 80 7c 3d 00 00    	cmpb   $0x0,0x0(%r13,%r15,1) <-- trapping instruction
-  30:	74 08                	je     0x3a
-  32:	4c 89 e7             	mov    %r12,%rdi
-  35:	e8 f4 21 eb fe       	call   0xfeeb222e
-  3a:	4d 8b 3c 24          	mov    (%r12),%r15
-  3e:	4d                   	rex.WRB
-  3f:	39                   	.byte 0x39
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> Op 01-06-2026 08:37 CEST schreef NeilBrown <neilb@ownmail.net>:
+> 
+>  
+> From: NeilBrown <neil@brown.name>
+> 
+> The mnt_want_write() call and the parent inode locking in
+> open_last_lookups() are only needed for lookup_open().  So we can move
+> them and all the got_write handling into lookup_open().
+> 
+> Note that we need to also check create_error when determining whether to
+> unlock shared or not, as O_CREAT can be cleared.
+> 
+> The fsnotify calls come too as they must be in the locked region.
+> 
+> Also use the existing dir_inode uniformly for dir->d_inode.
+> 
+> This is a step towards exporting an better "open/create" interface to nfsd.
+> 
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+> +	if (open_flag & O_CREAT)
+> +		inode_lock(dir_inode);
+> +	else
+> +		inode_lock_shared(dir_inode);
+> +
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+This is not about a change in your patch, but I do wonder whether we should
+also set the lockdep subclass here. We aren't taking any other locks, but
+that is also true in the create path of mknod, which ultimately calls start_dirop
+and there we do
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+		inode_lock_nested(dir, I_MUTEX_PARENT);
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+> +	if (unlikely(IS_DEADDIR(dir_inode))) {
+> +		dentry = ERR_PTR(-ENOENT);
+> +		goto out;
+> +	}
+>  
+>  	file->f_mode &= ~FMODE_CREATED;
+>  	dentry = d_lookup(dir, &nd->last);
+> @@ -4423,7 +4439,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  		if (!dentry) {
+>  			dentry = d_alloc_parallel(dir, &nd->last);
+>  			if (IS_ERR(dentry))
+> -				return dentry;
+> +				goto out;
+>  		}
+>  		if (d_in_lookup(dentry))
+>  			break;
+> @@ -4439,7 +4455,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	}
+>  	if (dentry->d_inode) {
+>  		/* Cached positive dentry: will open in f_op->open */
+> -		return dentry;
+> +		goto out;
+>  	}
+>  
+>  	if (open_flag & O_CREAT)
+> @@ -4460,7 +4476,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  	if (open_flag & O_CREAT) {
+>  		if (open_flag & O_EXCL)
+>  			open_flag &= ~O_TRUNC;
+> -		mode = vfs_prepare_mode(idmap, dir->d_inode, mode, mode, mode);
+> +		mode = vfs_prepare_mode(idmap, dir_inode, mode, mode, mode);
+>  		if (likely(got_write))
+>  			create_error = may_o_create(idmap, &nd->path,
+>  						    dentry, mode);
+> @@ -4475,7 +4491,7 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  		dentry = atomic_open(&nd->path, dentry, file, open_flag, mode);
+>  		if (unlikely(create_error) && dentry == ERR_PTR(-ENOENT))
+>  			dentry = ERR_PTR(create_error);
+> -		return dentry;
+> +		goto out;
+>  	}
+>  
+>  	if (d_in_lookup(dentry)) {
+> @@ -4515,11 +4531,27 @@ static struct dentry *lookup_open(struct nameidata *nd, struct file *file,
+>  		error = create_error;
+>  		goto out_dput;
+>  	}
+> +out:
+> +	if (!IS_ERR(dentry)) {
+> +		if (file->f_mode & FMODE_CREATED)
+> +			fsnotify_create(dir_inode, dentry);
+> +		if (file->f_mode & FMODE_OPENED)
+> +			fsnotify_open(file);
+> +	}
 
-If you want to undo deduplication, reply with:
-#syz undup
+We can move this later if my changes land to the vfs_* and atomic_open() functions.
+
+> +	if ((open_flag & O_CREAT) || create_error)
+> +		inode_unlock(dir_inode);
+> +	else
+> +		inode_unlock_shared(dir_inode);
+> +
+> +	if (got_write)
+> +		mnt_drop_write(nd->path.mnt);
+> +
+>  	return dentry;
+>  
+>  out_dput:
+>  	dput(dentry);
+> -	return ERR_PTR(error);
+> +	dentry = ERR_PTR(error);
+> +	goto out;
+>  }
+>  
+>  static inline bool trailing_slashes(struct nameidata *nd)
+> @@ -4562,9 +4594,7 @@ static const char *open_last_lookups(struct nameidata *nd,
+>  		   struct file *file, const struct open_flags *op)
+>  {
+>  	struct delegated_inode delegated_inode = { };
+> -	struct dentry *dir = nd->path.dentry;
+>  	int open_flag = op->open_flag;
+> -	bool got_write = false;
+>  	struct dentry *dentry;
+>  	const char *res;
+>  
+> @@ -4594,32 +4624,7 @@ static const char *open_last_lookups(struct nameidata *nd,
+>  		}
+>  	}
+>  retry:
+> -	if (open_flag & (O_CREAT | O_TRUNC | O_WRONLY | O_RDWR)) {
+> -		got_write = !mnt_want_write(nd->path.mnt);
+> -		/*
+> -		 * do _not_ fail yet - we might not need that or fail with
+> -		 * a different error; let lookup_open() decide; we'll be
+> -		 * dropping this one anyway.
+> -		 */
+> -	}
+> -	if (open_flag & O_CREAT)
+> -		inode_lock(dir->d_inode);
+> -	else
+> -		inode_lock_shared(dir->d_inode);
+> -	dentry = lookup_open(nd, file, op, got_write, &delegated_inode);
+> -	if (!IS_ERR(dentry)) {
+> -		if (file->f_mode & FMODE_CREATED)
+> -			fsnotify_create(dir->d_inode, dentry);
+> -		if (file->f_mode & FMODE_OPENED)
+> -			fsnotify_open(file);
+> -	}
+> -	if (open_flag & O_CREAT)
+> -		inode_unlock(dir->d_inode);
+> -	else
+> -		inode_unlock_shared(dir->d_inode);
+> -
+> -	if (got_write)
+> -		mnt_drop_write(nd->path.mnt);
+> +	dentry = lookup_open(nd, file, op, &delegated_inode);
+>  
+>  	if (IS_ERR(dentry)) {
+>  		if (is_delegated(&delegated_inode)) {
+> -- 
+> 2.50.0.107.gf914562f5916.dirty
+
+I will say we are doing a lot in lookup_open(), but since open_last_lookups() is
+its only caller, and there is no particular reason that I see for doing this work
+there, this is fine by me if it helps your nfsd refactor.
+
+Reviewed-by: Jori Koolstra <jkoolstra@xs4all.nl>
