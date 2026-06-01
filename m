@@ -1,42 +1,45 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FF8363C6B
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 19:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CF837C11B
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 19:26:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780341992; cv=none; b=gUoQn+HyEH/I1OKj1PcB/yhrDjWVcMr1L714+M8gVAQvWjrFStIh1i809bS1GWHh7BveJvQ4u5BwMZpvR7zcV27o/w6RJ97j/+zlpXgNSAdc5xA0ySokGwYFfoRlCnlFVHKU/o8bAYXJWq5i7TJhcNW4kfzX2V66AMVIdc01K6E=
+	t=1780341994; cv=none; b=dnDYEvrRhol4UV+aCyUfZS4O1Gpqf2ECL/fi9kMU5pHzjrpxHfUE9DIBnYQw8P7O4CUNWEqzzP+YHlm+WphT1WT8fJDEb+lnbaGvPwPMABwUx9+hmGIF336AasOxzshvgRaTa5TuyEMyucv1JCK27pCR3cJDGFfXFzwoIk21c0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780341992; c=relaxed/simple;
-	bh=VVS5A+zfhd9WeJIMVX1hfB9oEM8MVJ2nynnhw0JPRjU=;
+	s=arc-20240116; t=1780341994; c=relaxed/simple;
+	bh=0Q8QnvWlWToVCJHp26HZCnqXs+krxcGHFW5T8+kBAzw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Chds6tp2eOFwFYM5btpKWHqc8v5JhB3aB0Ez1zcFhZnyO6/OxeIF8T/0tWnFYuiq+OdlTj1ZmhoaByoapDQbbN6w9DjACdWJZUL2CyJJU5P+Pb9WNviA7t3hh2CdBec8FtpG7kjMwlzUHdy54xOt7dv17Vpbi2+Lpsm3HGbKc0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pVr3UK6T; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=QaruJ9y+cmMgSnHW7/S21763wz1T9bWG+1xhpvF5ikXBdlGTT6G5oS/zyLhjgkcUNiIZkV2ontn/WlY28ByfpYxTneEBF7yYXNINyKIYL8eZ4na+c0FWSh3qIuelVHXrLzXsJyBYzxU8BRLnTBErD2CXJNFbNDVMnha9Ruxo7FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DpG1jwm2; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pVr3UK6T"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DpG1jwm2"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=c1KJ2Wwe3ucfE/pLWnGUXc+3brG6sd+o4SoK+rDcOrQ=; b=pVr3UK6T4h/0D/X6PEhDowRZa5
-	3ke529BHpmBOlsRCOIjeWqpJ9ab1sK9cou2vPuLa0cUlOYI5k2QNwesxuG3PyqArcPJvHXCZmo6ov
-	tA/AY9SR8sTEupLocLlYOedX7BPHxxA95xPDIDI/Bd9fFOcH122EfKvj45HqZFMnWNOijyMnTJ/Kj
-	XpoAy+c/JMoXxsqEK2xLdJHAJ9dH81XlDCG8TE0a5CGrvidhGvMbuwQNUiwn5W9dfrz2yjlk+rxge
-	ywR2bKppyST5x97vdb8Q9DkU+U665N/hTmf0XOYyjCNUV4xszCsapTojGOpby7Q9wX6bcsohpnq/8
-	TrOqUVWg==;
+	bh=HuAHwFgxQTl/6u/qT6//YvieKzXrnJyvSaoUGnMavJo=; b=DpG1jwm2UYMqqHqXLHMEKJ5M4b
+	wwlvLajwdRr2b1i8oK2RYr6lfgH3sbxBVgHtCeGNaEenq4xz8rdDes15Tst8xrV25t+7aMHBWbxTG
+	OnvOU6c3JPKgx3fql1s3iT5wlzulqA3jM7ByKV9r7a5U6vLxhaJSZUdK013rpUBhbVJLX4hQI4kJD
+	ri0XZmBDGdHxycjTF5b7CzbASEpFOmu4KtJAQmhf3Eq1nqdw5Sw7Z5MbJZ882jEG2v6qH1jQwCAA1
+	Swd6yC7+cF+/JF/nWE1syl0Cy8cfq4FNudpg+V2Soytrvahj4IVWPdxYOlhfXW1XDKp9jLXd0OiEf
+	iHwIfF5Q==;
 Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wU8HM-00000000dEa-0cW4;
+	id 1wU8HM-00000000dEY-0Bv4;
 	Mon, 01 Jun 2026 19:26:28 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 3/3] mm: Remove __folio_index
-Date: Mon,  1 Jun 2026 20:26:22 +0100
-Message-ID: <20260601192626.150804-4-willy@infradead.org>
+	linux-mm@kvack.org,
+	Christoph Hellwig <hch@lst.de>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: [PATCH 2/3] ntfs: Remove references to page->__folio_index
+Date: Mon,  1 Jun 2026 20:26:21 +0100
+Message-ID: <20260601192626.150804-3-willy@infradead.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260601192626.150804-1-willy@infradead.org>
 References: <20260601192626.150804-1-willy@infradead.org>
@@ -48,64 +51,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-People have been abusing the existence of __folio_index.  Since that was
-too subtle for them, use a bigger hammer to make it unusable.  That also
-makes it unusable for the FOLIO_MATCH, TABLE_MATCH and ZPDESC_MATCH
-macros, but that's OK, since we don't care what fields these fields alias.
+Pages don't have indexes, folios have indexes.  Correct this in
+ntfs_read_compressed_block() and also remove a use of page->mapping
+while I'm in here.  Also convert the calls to unlock_page() and
+flush_dcache_page().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Fixes: 495e90fa3348 (ntfs: update attrib operations)
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: Namjae Jeon <linkinjeon@kernel.org>
 ---
- include/linux/mm_types.h | 9 +++------
- mm/zpdesc.h              | 2 --
- 2 files changed, 3 insertions(+), 8 deletions(-)
+ fs/ntfs/compress.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index a308e2c23b82..8f8687bb80d9 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -101,10 +101,9 @@ struct page {
- 				struct llist_node pcp_llist;
- 			};
- 			struct address_space *mapping;
--			union {
--				pgoff_t __folio_index;		/* Our offset within mapping. */
--				unsigned long share;	/* share count for fsdax */
--			};
-+#define DO_NOT_USE(x)	x ## __LINE__
-+			unsigned long DO_NOT_USE(_pad);
-+#undef DO_NOT_USE
- 			/**
- 			 * @private: Mapping-private opaque data.
- 			 * Usually used for buffer_heads if PagePrivate.
-@@ -511,7 +510,6 @@ FOLIO_MATCH(flags, flags);
- FOLIO_MATCH(lru, lru);
- FOLIO_MATCH(mapping, mapping);
- FOLIO_MATCH(compound_info, lru);
--FOLIO_MATCH(__folio_index, index);
- FOLIO_MATCH(private, private);
- FOLIO_MATCH(_mapcount, _mapcount);
- FOLIO_MATCH(_refcount, _refcount);
-@@ -612,7 +610,6 @@ TABLE_MATCH(flags, pt_flags);
- TABLE_MATCH(compound_info, pt_list);
- TABLE_MATCH(compound_info, _pt_pad_1);
- TABLE_MATCH(mapping, __page_mapping);
--TABLE_MATCH(__folio_index, pt_index);
- TABLE_MATCH(rcu_head, pt_rcu_head);
- TABLE_MATCH(page_type, __page_type);
- TABLE_MATCH(_refcount, __page_refcount);
-diff --git a/mm/zpdesc.h b/mm/zpdesc.h
-index b8258dc78548..194392afd3a7 100644
---- a/mm/zpdesc.h
-+++ b/mm/zpdesc.h
-@@ -54,8 +54,6 @@ struct zpdesc {
- ZPDESC_MATCH(flags, flags);
- ZPDESC_MATCH(lru, lru);
- ZPDESC_MATCH(mapping, movable_ops);
--ZPDESC_MATCH(__folio_index, next);
--ZPDESC_MATCH(__folio_index, handle);
- ZPDESC_MATCH(private, zspage);
- ZPDESC_MATCH(page_type, first_obj_offset);
- ZPDESC_MATCH(_refcount, _refcount);
+diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
+index 143f362a42f5..096e00b967d7 100644
+--- a/fs/ntfs/compress.c
++++ b/fs/ntfs/compress.c
+@@ -456,14 +456,14 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 	struct page *page = &folio->page;
+ 	loff_t i_size;
+ 	s64 initialized_size;
+-	struct address_space *mapping = page->mapping;
++	struct address_space *mapping = folio->mapping;
+ 	struct ntfs_inode *ni = NTFS_I(mapping->host);
+ 	struct ntfs_volume *vol = ni->vol;
+ 	struct super_block *sb = vol->sb;
+ 	struct runlist_element *rl;
+ 	unsigned long flags;
+ 	u8 *cb, *cb_pos, *cb_end;
+-	unsigned long offset, index = page->__folio_index;
++	unsigned long offset, index = folio->index;
+ 	u32 cb_size = ni->itype.compressed.block_size;
+ 	u64 cb_size_mask = cb_size - 1UL;
+ 	s64 vcn;
+@@ -812,14 +812,16 @@ int ntfs_read_compressed_block(struct folio *folio)
+ 	for (cur_page = 0; cur_page < max_page; cur_page++) {
+ 		page = pages[cur_page];
+ 		if (page) {
++			struct folio *folio = page_folio(page);
++
+ 			ntfs_error(vol->sb,
+ 				"Still have pages left! Terminating them with extreme prejudice.  Inode 0x%llx, page index 0x%lx.",
+-				ni->mft_no, page->__folio_index);
+-			flush_dcache_page(page);
++				ni->mft_no, folio->index);
++			flush_dcache_folio(folio);
+ 			kunmap_local(page_address(page));
+-			unlock_page(page);
++			folio_unlock(folio);
+ 			if (cur_page != xpage)
+-				put_page(page);
++				folio_put(folio);
+ 			pages[cur_page] = NULL;
+ 		}
+ 	}
 -- 
 2.47.3
 
