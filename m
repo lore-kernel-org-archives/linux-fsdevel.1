@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5203C583A;
-	Mon,  1 Jun 2026 13:57:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5177F3AFCE3;
+	Mon,  1 Jun 2026 13:57:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322264; cv=none; b=UZrB1wNRmW+8UayzP8BfxFvc1yns636V1i8+ZmvL2D4ebrY59BqhTZ/VFD+4tVGXkBK+Xf2N4tQ91zt7zD4h+cWAii2f7fXmfqyX9RH+QSQjfrQD/vsrqvXAxnKip7FOoCWM3hmSjFnIlZDBILxmtadj3csieDCOqQ5lpgdgfG4=
+	t=1780322267; cv=none; b=BmK+G3gA1rBa35Y4rSLRrOTnvCQWCGQ6R8RGTqKnEBLeLgEQndlVCJNppimekAsIAOHpiV3+PdqatetQFf5nIb9q/6AxGzYnOlP017NR9XVwavAF+V7Z+YhkD0K2F5b17RlgviRJMui9Wj20YKgVy2TrpzzjnnEOOedAnvE0uf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322264; c=relaxed/simple;
-	bh=gsKo9ZxMiXDjOR4Wany4EeaBMVexcWU80GKAvzT/HwE=;
+	s=arc-20240116; t=1780322267; c=relaxed/simple;
+	bh=MYNO8igEEy4pRIGZyjYHhL4cRXiZMddZoNch1b2IC5M=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZxiF/zD0yRjLjCj7swpYcXSuaDnETDX68F2tWhjuNBlFhHEQ+4JSRpGFDb6lJrZtR+V1i+SawvfgX36x1Jf6MBJueC+j0/zMsP8GWDjs3KK7F3tuR8K7Mgcjp6UYwjl81PI7r4xS0EUzVrofEjdk4EDj++YyrzJ5xHqKF94hGGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PH/tzYEZ; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=qVXWxR1KHr292+RVJOFQ+cTNpG1bWcw2wq/rONgGTCC1cxqIG5b4Qe8Qutj02QYUdfeSRmHZwZ294YbJ8GK41diX8dmVRBnGKFt0GJumXy5WFpM/svPVrBFP7hZqPPA7TD7aAFC0TEfjYIhXENd6HwBKLsmnKZOhJ4rMznpKZ1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BrFSeIT7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PH/tzYEZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DDC01F00893;
-	Mon,  1 Jun 2026 13:57:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BrFSeIT7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34C661F00898;
+	Mon,  1 Jun 2026 13:57:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780322263;
-	bh=BKylie4bx6inTDguqDRJ0FQKs8prBhaJe9RWlZEj5vE=;
+	s=k20260515; t=1780322266;
+	bh=iD6KyvqK8Yaq4jXyCOL8KAEvMvA4FfnrgOINzDSdd+Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=PH/tzYEZkhPoyjajAOeNzMPzy6l03vAB0s86GdqVHGeqvE1RwRwv7ieHOG+4jCbal
-	 BxGppLKr4E+28qANwhs8wEaRhQDnAbxQQByRPHYxShWAEoIQKL6oXfGN+4DQn9TMtm
-	 eVUDQhLtQ3c1b75icR+S4avrLWVQcFsWwwLi7/SjpGXUqtpIMv2UCMQ3wWIz2J4uAy
-	 sMLIbI+BF7/cjwUQfX4GOlmm3Mw+J3DRjP6uJLC0ayS4vt6wJzCG9674Ebhlm63IQE
-	 kyRuoEqhYaXHtBsZRPR6nmU/2IhuCj0+jRi0o59Dex2/1w3IZL+I7ZJMF1gc+4DuxQ
-	 J1qX5yeutm20A==
+	b=BrFSeIT7Qi9EqzIOB5Walg0i7OOZFRjE/YTKklnkV+2L+SpiGWyTRqTwuC8wizqj0
+	 wUo5bMw2eXbAD9MNA48XANANp3bZY801LgagoX/R/E0jEovaoouP2zCNaUsBO+NWkd
+	 njmCokscYh1tVg59gp7CLWh9PMBQRUojUw4ezdl+6JsEo/+9wc3b9y9nhogUczwkhv
+	 oqUuu8hL5IhXIlUUXPmspFHjbq1KelLcKzd3/M++3uqMzH4BOcSXTI9uE6IEZtITjm
+	 g2bya+p+kcrOg4oX07h2nPTPClP8HG+MjAlNj4z+Oo7WaqQf/LS8T3qpNqCKMNjFOi
+	 /xC3+IbG27ECA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 01 Jun 2026 15:56:55 +0200
-Subject: [PATCH RFC v4 22/25] nullfs: make nullfs multi-instance
+Date: Mon, 01 Jun 2026 15:56:56 +0200
+Subject: [PATCH RFC v4 23/25] fs: start all kthreads in nullfs
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260601-work-kthread-nullfs-v4-22-77ee053060e0@kernel.org>
+Message-Id: <20260601-work-kthread-nullfs-v4-23-77ee053060e0@kernel.org>
 References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 In-Reply-To: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -46,55 +46,72 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev-fffa9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1403; i=brauner@kernel.org;
- h=from:subject:message-id; bh=gsKo9ZxMiXDjOR4Wany4EeaBMVexcWU80GKAvzT/HwE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i8/8P3D6jcyZbM6zyx81V/QsKSrWHab5vFfHlz+j
- EFft3C1dpSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEyE15OR4e4Tpf1CWn4br4vz
- 9zkmXpn0Kcy07sh8prXlrDqpLV+/tDMyrL9mPLnYNuihfn9Fx8NvVeJyy226Xc9ULmDY2WsleCW
- IEwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2078; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=MYNO8igEEy4pRIGZyjYHhL4cRXiZMddZoNch1b2IC5M=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i8XbdE3NwqZcfz8rq87jOxP3/QwLHpTv3yze9iBJ
+ +zHp+xp7yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhItiQjw+WIg2lLTevmrstl
+ fXGac028bN4JHibu7YZzTJwbFPes/c7IcME2ftU1+0+7Ni9d/uv1tqV7G3MePZG5bvmZ989cEXG
+ eLdwA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Allow multiple instances of nullfs to be created. Right now we're only
-going to use it for kernel-internal purposes but ultimately we can allow
-userspace to use it too to e.g., safely overmount stuff.
+Point init_task's fs_struct (root and pwd) at a private nullfs instance
+instead of the mutable rootfs. All kthreads now start isolated in nullfs
+and must use scoped_with_init_fs() for any path resolution.
+
+PID 1 is moved from nullfs into the initramfs by init_userspace_fs().
+Usermodehelper threads use userspace_init_fs via the umh flag in
+copy_fs(). All subsystems that need init's filesystem state for path
+resolution already use scoped_with_init_fs() from earlier commits in
+this series.
+
+This isolates kthreads from userspace filesystem state and makes it
+hard to perform filesystem operations from kthread context.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/nullfs.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ fs/namespace.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/fs/nullfs.c b/fs/nullfs.c
-index fdbd3e5d3d71..c6f5b9493e26 100644
---- a/fs/nullfs.c
-+++ b/fs/nullfs.c
-@@ -40,14 +40,9 @@ static int nullfs_fs_fill_super(struct super_block *s, struct fs_context *fc)
- 	return 0;
- }
+diff --git a/fs/namespace.c b/fs/namespace.c
+index fe919abd2f01..43ca4838d451 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -6173,12 +6173,14 @@ static void __init init_mount_tree(void)
+ 	struct path root;
  
--/*
-- * For now this is a single global instance. If needed we can make it
-- * mountable by userspace at which point we will need to make it
-- * multi-instance.
-- */
- static int nullfs_fs_get_tree(struct fs_context *fc)
- {
--	return get_tree_single(fc, nullfs_fs_fill_super);
-+	return get_tree_nodev(fc, nullfs_fs_fill_super);
- }
+ 	/*
+-	 * We create two mounts:
++	 * We create three mounts:
+ 	 *
+ 	 * (1) nullfs with mount id 1
+ 	 * (2) mutable rootfs with mount id 2
++	 * (3) private nullfs for kthreads (SB_KERNMOUNT)
+ 	 *
+-	 * with (2) mounted on top of (1).
++	 * with (2) mounted on top of (1). The init_task's root and pwd
++	 * are pointed at (3) so all kthreads start isolated in nullfs.
+ 	 */
+ 	nullfs_mnt = vfs_kern_mount(&nullfs_fs_type, 0, "nullfs", NULL);
+ 	if (IS_ERR(nullfs_mnt))
+@@ -6218,12 +6220,14 @@ static void __init init_mount_tree(void)
+ 		init_mnt_ns.nr_mounts++;
+ 	}
  
- static const struct fs_context_operations nullfs_fs_context_ops = {
-@@ -57,9 +52,8 @@ static const struct fs_context_operations nullfs_fs_context_ops = {
- static int nullfs_init_fs_context(struct fs_context *fc)
- {
- 	fc->ops		= &nullfs_fs_context_ops;
--	fc->global	= true;
--	fc->sb_flags	= SB_NOUSER;
--	fc->s_iflags	= SB_I_NOEXEC | SB_I_NODEV;
-+	fc->sb_flags	|= SB_NOUSER;
-+	fc->s_iflags	|= SB_I_NOEXEC | SB_I_NODEV;
- 	return 0;
- }
++	nullfs_mnt = kern_mount(&nullfs_fs_type);
++	if (IS_ERR(nullfs_mnt))
++		panic("VFS: Failed to create private nullfs instance");
++	root.mnt	= nullfs_mnt;
++	root.dentry	= nullfs_mnt->mnt_root;
++
+ 	init_task.nsproxy->mnt_ns = &init_mnt_ns;
+ 	get_mnt_ns(&init_mnt_ns);
+-
+-	/* The root and pwd always point to the mutable rootfs. */
+-	root.mnt	= mnt;
+-	root.dentry	= mnt->mnt_root;
+ 	set_fs_pwd(current->fs, &root);
+ 	set_fs_root(current->fs, &root);
  
 
 -- 
