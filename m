@@ -1,49 +1,43 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E633DD87C;
-	Mon,  1 Jun 2026 17:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B13348C5C;
+	Mon,  1 Jun 2026 17:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780335558; cv=none; b=b4ceU4SvIGlesTyELnIBgu5B6IeWGnZDClOMSuoIiO0wEP/HnWBueO2OqDQvUZFPS61ToAf4WPanNhIALAjxodH8/4g1lExQidhSqaYBpwC+Se8OJ6dYXxzjVqIxQOKXig3A1bqIVkuSlqcY+80BVMfiF4hy6q8axFNkjYEu5Gk=
+	t=1780336143; cv=none; b=rfYpSjbc9dhQE0+q+6dgCZ0bAG7Ux2Mzpo479Nu9rLKY2L6oqKRuqbH53rIFd1wQ/F/zLWZlaAJT75jAT7NcFqEgEITZJIr9uBXu4CKOKR1LTK9tgEPDDy4sWrGq5/z+ehKve8PZPGxmtq9fohhhZm97fUIz3ADIfRYnpl7tu9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780335558; c=relaxed/simple;
-	bh=tLudQeEJJZDtFK+5qOc9mUH8gl7h2TIO9ww8w7ORKiM=;
+	s=arc-20240116; t=1780336143; c=relaxed/simple;
+	bh=2fDVb0aHUepZO8YfamR0NQOQodqSlZukaAS70NRzAFk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qc+hg/2AWz21LBlXy32shnw2Z3D7v4+g1ebsn7fcT8OCH+PFHggfUzila2ipJ9efvfNQWfDxyqWFGV2dHhDM7W+ooyN+3VFbOlvdTy00SQ23sFdq2wAexG+wiw02L568P7r9jVMw22NzFkP29DSJusVHMzm0LsS06M5H4JD+0tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=evilplan.org; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=fail (0-bit key) header.d=infradead.org header.i=@infradead.org header.b=QvELIstK reason="key not found in DNS"; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=evilplan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=fa9pKIG3td7hxon9/stqNc8xlmgXp78DUCoy78UcwdvaVNXtJhH5xe8j1jtsvhB/etNNPZsXMkKgFmeyHRTYYTZyDJmr5dVCAyFbbDaWDezeBEZwAdNnJPLbcq88WkAxPYbbNs29s4+06hXqk6FZjVpaksU1YjpldJ8v/PsMEkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qVpxpP6j; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=infradead.org header.i=@infradead.org header.b="QvELIstK"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qVpxpP6j"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=hQJrieaWJI73YeXNyAEIZ/Yxty3YHjK+dmhqfWY0PX8=; b=QvELIstKd/f5F75dj7d2AAfKdQ
-	mfXPf44Mre9hID4+9+hilSpEaejx4EsT/7DXuZN7sDksZ5Ny8WD+/AcZd6iLXIqRNZVRhUWgIYM8x
-	eXKkqSm4gXJmtS7PP9XmSFuIbOQAmKtcFPDlUcgM4YXGPrWESf0qHoXr+rtwSK+b5xyeGkr0gwK4g
-	e72QDxvwsI0ZAHpEpl4G+BbSA7XLxQYQ6KtK6wGG999dBxbegnQYw4QOfQx/r05oraBsuNv9NZLD+
-	lU0umGpUYeym/UCdwa1ufaO8TT4+myXVzzx/ZMfgnEfx5/0//KcQPBCyNpnSt8skUr+i7Ynx/kEBW
-	7d+P9F1w==;
-Received: from jlbec by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wU6bZ-00000003OOM-15bQ;
-	Mon, 01 Jun 2026 17:39:13 +0000
-Date: Mon, 1 Jun 2026 10:39:09 -0700
-From: Joel Becker <jlbec@evilplan.org>
-To: Michael Bommarito <michael.bommarito@gmail.com>
-Cc: Joseph Qi <joseph.qi@linux.alibaba.com>, Mark Fasheh <mark@fasheh.com>,
-	ZhengYuan Huang <gality369@gmail.com>, ocfs2-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] ocfs2: harden inode validators against forged
- metadata
-Message-ID: <ah3DvUPLC9AG2q6N@google.com>
-Mail-Followup-To: Michael Bommarito <michael.bommarito@gmail.com>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	ZhengYuan Huang <gality369@gmail.com>, ocfs2-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260517111015.3187935-1-michael.bommarito@gmail.com>
+	bh=Qwdk/pI6z0M9pmHJY0eaojInR/B76JcdGEXnXVatnqE=; b=qVpxpP6j+td4VHBF4PDCfsm1mz
+	8HSqXK3eJRsLFYmDMMbDHMC+4DTvLNmxTh17W8ksydYCJqNrYET6REyBZPzNnCenAxBwpPso1ivKA
+	ZV1ITNDf1dbF7d/OkpAaNhqLF2E6jxPoOwE8L3LXYezLxoprYzYlopgd35mrDtb0IaJ4e7CeCrY6W
+	5cDGwblQSKoPFj8k4kGBvn6J/FEc/KurTI5k47sc+Aa2gPX8d+xw+8R5fz2F3f8zIKi+5+XsxRYB8
+	Mk/Xrt0YUQGPvoulCG6f9sI7qA2ha6vS2Zts+AXF9XOTJ/GK2JY4gdiSBilmVpEYxbb20i0jgFOWl
+	EzuWbsOQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wU6l1-00000000VXH-2AA7;
+	Mon, 01 Jun 2026 17:48:59 +0000
+Date: Mon, 1 Jun 2026 18:48:59 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: tanze <tanze@kylinos.cn>
+Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+	jack@suse.cz
+Subject: Re: [PATCH v1] mm/filemap: use folio_next_index() for start
+Message-ID: <ah3GC_Ho8IrGuq5d@casper.infradead.org>
+References: <20260601110425.44784-1-tanze@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -52,62 +46,16 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260517111015.3187935-1-michael.bommarito@gmail.com>
-X-Burt-Line: Trees are cool.
-X-Red-Smith: Ninety feet between bases is perhaps as close as man has ever
- come to perfection.
-Sender: Joel Becker <jlbec@ftp.linux.org.uk>
+In-Reply-To: <20260601110425.44784-1-tanze@kylinos.cn>
 
-On Sun, May 17, 2026 at 07:10:11AM -0400, Michael Bommarito wrote:
-> This series adds three structural checks to
-> ocfs2_validate_inode_block() that catch attacker-controlled bytes
-> in a freshly read dinode before ocfs2_populate_inode() copies them
-> verbatim into the in-core inode.  All three checks fire on the
->
-> ...
->
-> Threat model
-> ============
+On Mon, Jun 01, 2026 at 07:04:23PM +0800, tanze wrote:
+> Use folio_next_index() instead of open-coding
+> folio->index + folio_nr_pages(folio) when updating @start in
+> filemap_get_folios_contig(), filemap_get_folios_tag(), and
+> filemap_get_folios_dirty().
 > 
-> The validator is the chokepoint that protects
-> ocfs2_populate_inode() from a malformed dinode whether the
-> malformation got there via:
-> 
->   (1) An attacker-supplied disk image mounted by a privileged
->       user.  The mount path runs every dinode through this
->       validator before any unprivileged user opens a file on
->       the volume.  This is the same threat model the existing
->       inline-data, refcount, and chain-list checks in this
->       function were written for.
-> 
->   (2) A compromised cluster peer with raw write access to the
->       shared block device.  OCFS2 is a clustered filesystem;
->       the on-disk blocks behind bh->b_data live on shared
->       storage that other cluster nodes can write.  The local
->       node's cache-eviction re-read runs the newly fetched
->       block through this validator before ocfs2_populate_inode()
->       runs again.  Oracle's BlockErrorDetection design document
->       scopes the existing CRC32 + Hamming integrity primitive
->       explicitly as defense against memory and wire corruption,
->       not as authentication of peer writes; the field-level
->       validators are therefore the kernel-side defense
->       whichever path produced the forged block.
+> Signed-off-by: tanze <tanze@kylinos.cn>
 
-Thank you for the excellent description of the threat model, and for
-devising the comprehensive model in the first place.  It really helps
-consider these patches in the right context.
+Thanks!
 
-Can you make sure this info carries on to later versions of this patch
-series, so it isn't lost?
-
-Thanks,
-Joel
-
--- 
-
-"Every day I get up and look through the Forbes list of the richest
- people in America. If I'm not there, I go to work."
-        - Robert Orben
-
-			http://www.jlbec.org/
-			jlbec@evilplan.org
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
