@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9A43BADA5;
-	Mon,  1 Jun 2026 13:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A6D3BB12A;
+	Mon,  1 Jun 2026 13:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322239; cv=none; b=iD4W1FvvOUyEm+s5rpHA2TaMzbq96SFEPkwkG9V/h6iuO8uL0vA9G/85o/Ib8v9L8bjEuvgMvOxGIgOYbz7YKJ9VfLuYtXZK9jPACbGe2PwO7fTdT4RIXlCUDbm91iVJqjLLw0KmsI4cR9Mc8DfUZZxOrTfxvx63k19QDzN7UpM=
+	t=1780322241; cv=none; b=HJNuMdxumMROftBmEOpps2HJtoN7W14GNL4ltY/84+PuRbWFd+AEOR85rpE3NF2yLZSMYjJsP9ihZoXAyMI+vFcvyDMiGt2LcuLr/7F22Pm+3yFLXkE/fTTga5yB0ESu0wZDhpnerTfbDU5G6MPcxpkUHeex1MQ3f56LhjT0E+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322239; c=relaxed/simple;
-	bh=piQMn1e6FaWg5N5YyNpDLQ+CLvrL1afyXNBbQ5NJvPc=;
+	s=arc-20240116; t=1780322241; c=relaxed/simple;
+	bh=jZu8M0n+dKdGzUCCyIpPQrmaPkWMSz/q9u6Z1w7pxx4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jodfAZBfZNsfee2sS7A5HQ7PjeZl5svbKM1rv5DgRZXvqMi1NgNyrvFXolyNnVZbLarPd6q8tC0Z7Q/KU9ZlA6XdZ2FOXBqBEnqW3k9jFsF2BoSzb65uXVHDq9h5dRmXi3QjEa8QqC54/yipm0uEDTQCi0dEkGa+hFhIIirMuCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBO+ATgg; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=BOsy8XGPBlLAjjgbOfPuBjvae7Q0g1l+W9aHSokWKyS6LZh3ZwP2P2tR5R5/b87NHu8R93nuGNC2bqLm0AR+SeOCYNhcN7JPhD15E7tD4zrFVSe1x9bANqr7KZnqZETFa9PhHpELBdsBQztY0FFuO625B/14T7CyoZbGuqkb0BQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCKwB2a2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBO+ATgg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F5051F00893;
-	Mon,  1 Jun 2026 13:57:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCKwB2a2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1C7F1F00898;
+	Mon,  1 Jun 2026 13:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780322238;
-	bh=lP8OEgQM5WpZ3TOFDqqMlVW2UDNnbc/Kdkkhd8jbQeM=;
+	s=k20260515; t=1780322240;
+	bh=RxyI8sQQsQSUFxhc5pSDtl0L207LrmPXq24mekBd1vM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=dBO+ATggiG7i6Gqbs4BC2koSaI34cjBXvAaePvMFxmzJDmwclb3yQlmZtV13NuEKq
-	 rravWdbKT3aYxi0/kkJX9p7MDQXSMOu5F+ViO81FATVMmdQhqBfxtD/vgKP4FtAooU
-	 KIJlgWE9ysv75AqLQ7SENGy4cHS5B9icRHNqkZo0e07g2KeoZcT9vUmKGitQCbTghv
-	 l0pW0zF5Fr60q2Zlb5GwgSajNc4shHrzCpybbo35z0MCemyTKmSkzyuqwKqNbzNyxp
-	 XYm4qxV4KJvaJxm/BApCsMShaH4IQiSnwk8ZhsxaJIp5TSCCIDyi905rMZZ5/3KiZ0
-	 Or3a92+NzjDFw==
+	b=SCKwB2a2NLyvNiI9El9yu+kZJGYPxViY/PBpnwuUuwhqb6XiiirAGCgbAUYz1dFk4
+	 p++Z6nZY3qKncRrMGA6ys21JOloK0StjcfoRcTeNAZMg2L3e6GnypQQxLbOIuAXAEc
+	 wFbHrmQ24qtCdzV9Ccs5i3SVZEBbjyZAmbxY0R9KXbbwzlN9gF1W4Bic2IKTpp5AnD
+	 5Tkann5mFokEZYoQKTh9+1VfEuK3aLlBlCqythVQ8pW/qWmp4bujp7m7k32FZalJ30
+	 M8xi3hgVMXhFe65nLJaC/xSE2LwE152sc/3UCdVJBikHjRnqxaDRfp3epFgd27ilUl
+	 H1ni7SLFbd+TA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 01 Jun 2026 15:56:43 +0200
-Subject: [PATCH RFC v4 10/25] btrfs: use scoped_with_init_fs() for
- update_dev_time()
+Date: Mon, 01 Jun 2026 15:56:44 +0200
+Subject: [PATCH RFC v4 11/25] coredump: use scoped_with_init_fs() for
+ coredump path resolution
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260601-work-kthread-nullfs-v4-10-77ee053060e0@kernel.org>
+Message-Id: <20260601-work-kthread-nullfs-v4-11-77ee053060e0@kernel.org>
 References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 In-Reply-To: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,60 +47,54 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev-fffa9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1471; i=brauner@kernel.org;
- h=from:subject:message-id; bh=piQMn1e6FaWg5N5YyNpDLQ+CLvrL1afyXNBbQ5NJvPc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i8zPL7G/nBPgmPz5Y+37+lJ21duublV8pVQwrXt7
- EHORcmrO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyOYLhn13SnR398sf7K3W1
- C3jKd2XP87eX0un8lymTsvtQ7BoeY0aGid6ryjklZ87geH/5BZfKGd55Z/avf1PWfnfTyrTcRW4
- nmAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1550; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=jZu8M0n+dKdGzUCCyIpPQrmaPkWMSz/q9u6Z1w7pxx4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i+bXbtYQfNQmpCcWpjur/Bv62b1+Vr0qq0u3Caen
+ zFpml1hRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwEQM+hn+F94o7GBnM9u2/cH8
+ PonQhgrFbds0XFl4/HdK67CmR7QUMvyVSa6d+dk7r/LUtq8yZgWdrZwvKz8c3Pavi9Mz48i+KTF
+ MAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-update_dev_time() can be called from both kthread and process context.
 Use scoped_with_init_fs() to temporarily override current->fs for
-the kern_path() call when running in kthread context so the path
-lookup happens in init's filesystem context.
+the filp_open() call so the coredump path lookup happens in init's
+filesystem context. This replaces the init_root() + file_open_root()
+pattern with the simpler scoped override.
 
-update_dev_time() ← btrfs_scratch_superblocks() ←
-btrfs_dev_replace_finishing() ← btrfs_dev_replace_kthread()
-← kthread (kthread_run)
+coredump_file() ← do_coredump() ← vfs_coredump() ← get_signal() — runs
+as the crashing userspace process
 
-Also called from ioctl (user process).
+Uses init's root to prevent a chrooted/user-namespaced process from
+controlling where suid coredumps land. Not a kthread, but intentionally
+needs init's fs for security.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/btrfs/volumes.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ fs/coredump.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
-index a88e68f90564..967a1fab5c96 100644
---- a/fs/btrfs/volumes.c
-+++ b/fs/btrfs/volumes.c
-@@ -12,6 +12,7 @@
- #include <linux/uuid.h>
- #include <linux/list_sort.h>
- #include <linux/namei.h>
-+#include <linux/fs_struct.h>
- #include "misc.h"
- #include "disk-io.h"
- #include "extent-tree.h"
-@@ -2120,8 +2121,16 @@ static int btrfs_add_dev_item(struct btrfs_trans_handle *trans,
- static void update_dev_time(const char *device_path)
- {
- 	struct path path;
-+	int err;
- 
--	if (!kern_path(device_path, LOOKUP_FOLLOW, &path)) {
-+	if (tsk_is_kthread(current)) {
+diff --git a/fs/coredump.c b/fs/coredump.c
+index bb6fdb1f458e..4c81182e2c63 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -922,15 +922,10 @@ static bool coredump_file(struct core_name *cn, struct coredump_params *cprm,
+ 		 * with a fully qualified path" rule is to control where
+ 		 * coredumps may be placed using root privileges,
+ 		 * current->fs->root must not be used. Instead, use the
+-		 * root directory of init_task.
++		 * root directory of PID 1.
+ 		 */
+-		struct path root;
+-
+-		task_lock(&init_task);
+-		get_fs_root(init_task.fs, &root);
+-		task_unlock(&init_task);
+-		file = file_open_root(&root, cn->corename, open_flags, 0600);
+-		path_put(&root);
 +		scoped_with_init_fs()
-+			err = kern_path(device_path, LOOKUP_FOLLOW, &path);
-+	} else {
-+		err = kern_path(device_path, LOOKUP_FOLLOW, &path);
-+	}
-+
-+	if (!err) {
- 		vfs_utimes(&path, NULL);
- 		path_put(&path);
++			file = filp_open(cn->corename, open_flags, 0600);
+ 	} else {
+ 		file = filp_open(cn->corename, open_flags, 0600);
  	}
 
 -- 
