@@ -1,147 +1,158 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F8D3655EA
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 21:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAF7382F0C
+	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 21:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780348952; cv=none; b=G2mQB2M7FEVQuhd1sUCGeJZAK69uC/e5kFNcHNL51Q6aY5mlRJJIoXHHuTPXUBwyDl3DFKsFNO0WTyXDUE1hLwiqAwWmLdNBOSofR42/3oVDxdhwBxt8SgQUWvnZWrU1HLXn3ywUjJ/R623EAZhrkB9RFZYT5cUEs+pw98262h0=
+	t=1780349163; cv=none; b=XdudHyo44kKMxGPfAz4fWqQTA5V5Zpbl1yyhlFdCtrSScPSA/qxR7gj5JwqOXFTLb6JYG7ohm3sBeSOWEDu3Z59AqsGG/du2NLcvBOFfu/oXau0dCemyCX3K+SHCvbK7LFGvMwL/AcO8B9/blMpMmPwJ9rKb/arLwQC1e/RI4Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780348952; c=relaxed/simple;
-	bh=TOet9gHRAoWgXcK57IsHF+aGMxd4XyBmcv73npyP4bo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fRlfihB58DYGUogx+rn0o9gPWvpRAfGYo4D0w7f2xcayJpfXtZAlsOQ5eTQvqfMlKRVg1DzCXwJnkUKboedYTlGUldeNV6rsOJM9+9SBUBNuRZIjb4IN7hC2D0PO9FBE/15+n5o7E3sQulUnmciVdcj14gAE8rehhYp4y5U6Sls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MTGDR4w/; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780349163; c=relaxed/simple;
+	bh=JGqK9iiSl9ljyNvUmyh3eV6cQ7MU5XCoP8NZjCui8dc=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=mY2/unmREw+eIt9/0DEGpNEamaD+I/s2VG9rTJxE0Q+ZYauD5HpjcfOw+No+tVjwLZve24kAhK4anJime5D7ychadMuQwaR82YkFyYQ5z2lAyqboaMXqeqKJFg+6OaT9e/TkQdLGziW8zP6Jo+QOpr21eln21Y3fbWiQrmVO9lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=fawBf239; arc=none smtp.client-ip=195.121.94.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MTGDR4w/"
-Message-ID: <bf25d653-d856-4ad7-a751-b97d38f38892@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780348938;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Yi/kLXPWTXDnXBwCzubmcWKzXu2wCsq25zFOF0fkSZQ=;
-	b=MTGDR4w/IFz8uTMl3ssMh69s/YTySr/SiRKDomnTGpH6qm5pvickCNs3WZahjym/SWFHEG
-	YuH/fI4XBLaiipPltU2q313frUWOx8JiLk6ReNLVW3rqAo1YfVI5iha8SIvzJr+55aIfDm
-	9BTslTIYhAcMWxvC0rWX9WZdP/q7EKs=
-Date: Mon, 1 Jun 2026 14:22:07 -0700
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="fawBf239"
+X-KPN-MessageId: 7b85a619-5e00-11f1-89f2-00505699b430
+Received: from mta.kpnmail.nl (unknown [10.31.161.191])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 7b85a619-5e00-11f1-89f2-00505699b430;
+	Mon, 01 Jun 2026 23:25:59 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 7b83a4e9-5e00-11f1-83dd-00505699891e;
+	Mon, 01 Jun 2026 23:25:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=PK8Cn+VTLZJlAtuZxbiceq5/1KVJAkOc3pytUpa3nB4=;
+	b=fawBf2398frEPZIzjsxXoPIKxKuOZLaIZSUSuoxWltOXgUJ6+YZFeiCxjzU0liRfvq2Or6G4yvcQb
+	 cxJdts9oDR9Oc7oCvmay+azsOx7uOaWipLcd3NCCpNkHsPQ+5hjp/qySa/hmZchWh1O4YIjOI7zrB3
+	 h7EXLa1FslkBS9pQQpKOqlhAeeuHlpqVY937sZ7qpkzR7bZdItM4FZmGDQq8dgp7lng3gImbRkT6UK
+	 8Rd7zGe69b0gmdOC4iCpWhTl+nBQUHIbrgAaLFuaNGZTQECTZOue4Nh8CL9i6TobEu1MYlOy0Gkkq/
+	 S/i2KeLlUYF9i6CcCHVjU3OZNcUceMw==
+X-KPN-MID: 33|loT5YMxADASKmWnnXAFfQX5QQnYBc8A0R/PIFZGuAYsaf6J9ItBAq24nEC3M+Gw
+ 5jIV3aB2TX+TBnLKAUb+TLKh3Jer/C0EFJTWNlJOD2YQ=
+X-CMASSUN: 33|jUnX+SWO8C4JA1r9vk+QRfxZTNiV6Q1jP/1/6jPuq1XilsG1pL1l/0FIpx41Hyl
+ YbCmt60Lcb0naHcuzwtIcWQ==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh02 (cpxoxapps-mh02.personalcloud.so.kpn.org [10.128.135.208])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 7b76a33a-5e00-11f1-94b1-00505699eff2;
+	Mon, 01 Jun 2026 23:25:59 +0200 (CEST)
+Date: Mon, 1 Jun 2026 23:25:58 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: Christian Brauner <brauner@kernel.org>, NeilBrown <neil@brown.name>,
+	Aleksa Sarai <cyphar@cyphar.com>, NeilBrown <neilb@ownmail.net>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	cmirabil@redhat.com
+Message-ID: <1825098847.140203.1780349158954@kpc.webmail.kpnmail.nl>
+In-Reply-To: <177986687451.3379282.8177801680240137022@noble.neil.brown.name>
+References: <20260525202937.466497-1-jkoolstra@xs4all.nl>
+ <20260525202937.466497-2-jkoolstra@xs4all.nl>
+ <177986687451.3379282.8177801680240137022@noble.neil.brown.name>
+Subject: Re: [RFC PATCH v5 1/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/3] bpf: cgroup: NUL-terminate replaced sysctl value
-Content-Language: en-GB
-To: Dawei Feng <dawei.feng@seu.edu.cn>, martin.lau@linux.dev
-Cc: emil@etsalapatis.com, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, song@kernel.org,
- jolsa@kernel.org, kees@kernel.org, joel.granados@kernel.org,
- bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jianhao.xu@seu.edu.cn,
- Zilin Guan <zilin@seu.edu.cn>
-References: <20260529031026.2716641-1-dawei.feng@seu.edu.cn>
- <20260529031026.2716641-3-dawei.feng@seu.edu.cn>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260529031026.2716641-3-dawei.feng@seu.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
 
-
-On 5/28/26 8:10 PM, Dawei Feng wrote:
-> When writing to sysctls, proc_sys_call_handler() guarantees that the
-> buffer passed to proc handlers is NUL-terminated. If
-> bpf_sysctl_set_new_value() replaces the pending sysctl value, it can
-> hand a replacement buffer directly to proc handlers. However, the
-> helper currently copies only buf_len
-> bytes into that buffer without appending a NUL terminator, leaving
-> downstream parsers vulnerable to out-of-bounds access.
+> Op 27-05-2026 09:27 CEST schreef NeilBrown <neilb@ownmail.net>:
 >
-> Fix this by appending a '\0' after the replaced value to restore the
-> expected sysctl semantics. Since the helper already rejects buf_len
-> greater than PAGE_SIZE - 1, there is always room for the extra byte.
->
-> Reproduced in a QEMU x86_64 guest booted with KASAN while exercising
-> the sysctl replacement path with a cgroup/sysctl BPF program. The
-> reproducer targets `/proc/sys/net/core/flow_limit_cpu_bitmap`, fills
-> the original user write buffer with non-zero bytes, and overrides the
-> sysctl value so the replacement buffer lacks a terminating NUL. Under
-> that setup, the pre-fix kernel reported:
->
->    BUG: KASAN: slab-out-of-bounds in strnchrnul+0x72/0x90
->    Read of size 1 at addr ffff88800de57000 by task repro_patch3/66
->    CPU: 0 UID: 0 PID: 66 Comm: repro_patch3 Not tainted 7.1.0-rc3-00269-g8370ca1f87cc #6 PREEMPT(lazy)
->    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
->    Call Trace:
->     <TASK>
->     dump_stack_lvl+0x68/0xa0
->     print_report+0xcb/0x5e0
->     ? __virt_addr_valid+0x21d/0x3f0
->     ? strnchrnul+0x72/0x90
->     ? strnchrnul+0x72/0x90
->     kasan_report+0xca/0x100
->     ? strnchrnul+0x72/0x90
->     strnchrnul+0x72/0x90
->     bitmap_parse+0x37/0x2e0
->     flow_limit_cpu_sysctl+0xc6/0x840
->     ? __pfx_flow_limit_cpu_sysctl+0x10/0x10
->     ? __kvmalloc_node_noprof+0x5ba/0x870
->     proc_sys_call_handler+0x31d/0x480
->     ? __pfx_proc_sys_call_handler+0x10/0x10
->     ? selinux_file_permission+0x39f/0x500
->     ? lock_is_held_type+0x9e/0x120
->     vfs_write+0x98e/0x1000
->     ? kmem_cache_free+0x308/0x550
->     ? __pfx_vfs_write+0x10/0x10
->     ? __pfx_do_sys_openat2+0x10/0x10
->     ksys_write+0xf2/0x1d0
->     ? __pfx_ksys_write+0x10/0x10
->     ? trace_irq_enable.constprop.0+0x110/0x140
->     do_syscall_64+0x115/0x690
->     entry_SYSCALL_64_after_hwframe+0x77/0x7f
->     RIP: 0033:0x447f37
->     Code: ff ff f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
->     RSP: 002b:00007fff01ade608 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
->     RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 0000000000447f37
->     RDX: 0000000000001fff RSI: 00000000172b1780 RDI: 0000000000000005
->     RBP: 00000000172b1780 R08: 00000000004ca1b0 R09: 00000000172b1780
->     R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000001fff
->     R13: 0000000000000000 R14: 0000000000000005 R15: 0000000000000003
->     </TASK>
->    The buggy address is located 0 bytes to the right of
->    allocated 4096-byte region [ffff88800de56000, ffff88800de57000)
+> > @@ -1268,6 +1269,8 @@ inline int build_open_flags(const struct open_how *how, struct open_flags *op)
+> >  	op->intent = flags & O_PATH ? 0 : LOOKUP_OPEN;
+> >  
+> >  	if (flags & O_CREAT) {
+> > +		if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
+> > +			return -EISDIR;
+> 
+> It seems odd that the MAY_WRITE test is only performed for O_CREAT.
+> Shouldn't any open of O_DIRECTORY|O_WRONLY fail, and shouldn't the one
+> test catch both create and non-create cases?
+> 
 
-The above log can be simplied.
+I get your point, it does look odd. But AFAIS O_DIRECTORY|O_WRONLY is currently only blocked
+after path resolution and final lookup. So that was the behavior I tried to keep. On the
+other hand, right now O_DIRECTORY|O_CREAT is already blocked in build_open_flags().
 
->
-> With this fix applied, rerunning the same sysctl-targeted path yields
-> no corresponding KASAN reports.
->
-> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> ---
->   kernel/bpf/cgroup.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index faadcfb9b5e5..a0b5f8cd8b10 100644
-> --- a/kernel/bpf/cgroup.c
-> +++ b/kernel/bpf/cgroup.c
-> @@ -2342,6 +2342,7 @@ BPF_CALL_3(bpf_sysctl_set_new_value, struct bpf_sysctl_kern *, ctx,
->   		return -E2BIG;
->   
->   	memcpy(ctx->new_val, buf, buf_len);
-> +	((char *)ctx->new_val)[buf_len] = '\0';
+But if that is true, and you have atomic_open() defined for your filesystem, then you
+can lookup and open a directory with O_DIRECTORY|O_WRONLY, while it fails with EISDIR later
+(if the fs atomic_open() does not error on O_DIRECTORY|O_WRONLY, which I would guess it
+mostly does). It will then fput_close() the file, so there is no leak, but I don't think
+that is wanted behavior.
 
-Does memcpy(ctx->new_val, buf, buf_len + 1) work?
+@Christian, what do you think?
 
->   	ctx->new_len = buf_len;
->   	ctx->new_updated = 1;
->   
+> 
+> >  		op->intent |= LOOKUP_CREATE;
+> >  		if (flags & O_EXCL) {
+> >  			op->intent |= LOOKUP_EXCL;
+> > diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
+> > index e4295a5b55b3..ec8c54c91261 100644
+> > --- a/fs/smb/client/dir.c
+> > +++ b/fs/smb/client/dir.c
+> > @@ -526,6 +526,9 @@ int cifs_atomic_open(struct inode *dir, struct dentry *direntry,
+> >  	if (unlikely(cifs_forced_shutdown(cifs_sb)))
+> >  		return smb_EIO(smb_eio_trace_forced_shutdown);
+> >  
+> > +	if ((oflags & O_MKDIR_MASK) == O_MKDIR_MASK)
+> > +		return -EINVAL;
+> > +
+> >  	/*
+> >  	 * Posix open is only called (at lookup time) for file create now. For
+> >  	 * opens (rather than creates), because we do not know if it is a file
+> > diff --git a/fs/vboxsf/dir.c b/fs/vboxsf/dir.c
+> > index 42bedc4ec7af..aef5ca6730be 100644
+> > --- a/fs/vboxsf/dir.c
+> > +++ b/fs/vboxsf/dir.c
+> > @@ -318,6 +318,9 @@ static int vboxsf_dir_atomic_open(struct inode *parent, struct dentry *dentry,
+> >  	u64 handle;
+> >  	int err;
+> >  
+> > +	if ((flags & O_MKDIR_MASK) == O_MKDIR_MASK)
+> > +		return -EINVAL;
+> > +
+> >  	if (d_in_lookup(dentry)) {
+> >  		struct dentry *res = vboxsf_dir_lookup(parent, dentry, 0);
+> >  		if (res || d_really_is_positive(dentry))
+> > diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+> > index a332e79b3207..e31f3a57f07c 100644
+> > --- a/include/linux/fcntl.h
+> > +++ b/include/linux/fcntl.h
+> > @@ -12,6 +12,8 @@
+> >  	 FASYNC	| O_DIRECT | O_LARGEFILE | O_DIRECTORY | O_NOFOLLOW | \
+> >  	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
+> >  
+> > +#define O_MKDIR_MASK	(O_CREAT | O_DIRECTORY)
+> > +
+> >  /* List of all valid flags for the how->resolve argument: */
+> >  #define VALID_RESOLVE_FLAGS \
+> >  	(RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS | \
+> > -- 
+> > 2.54.0
+> > 
+> > 
+> > 
+> 
+> Thanks,
+> NeilBrown
 
+There is another point, I maybe should have mentioned in the cover letter: I have not attempted
+to handle dangling symlinks for O_MKDIR. Not because I think they are a great idea (as Aleksa
+has mentioned, but I am not very familiar with the dragons it entails), but I wanted to discuss
+what behavior we want in this case. Do we say that we never do a mkdir after following a lookup
+last symlink? I don't think that state is even recorded right now.
+
+Best,
+Jori.
