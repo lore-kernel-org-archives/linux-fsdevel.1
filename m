@@ -1,154 +1,228 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD5A37F006
-	for <linux-fsdevel@vger.kernel.org>; Mon,  1 Jun 2026 22:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1C0199949;
+	Mon,  1 Jun 2026 22:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780352890; cv=none; b=mX+68mIHYYL5vHe6BXN/kfvkljrrVLRIYMQLMkmNZ0vy9Oqw5ZIlK0aqR/fib4LmBunx82WSsPp0hXRGyUBbrRvEYFthAm8hUIlSEpzOmCsJoMSkjJ4TXyGRoLg5I2b9kTJIy+dIsErFOUaL6hhQ3VabBi88YEif9jbxv8et/Co=
+	t=1780354713; cv=none; b=VcNnKf8DyGsP4JHE1WkDhZCQkMiyNftmMEK4OllrKRi1G6ZMYQ1mjAscY4qWbvM/LQqejJJg/mQzlOGeLYESlp+Qwk5Yem08hm1twyBycQCfbrO+frLzIDThv83ABit/+3lDkR+GSIR5LLQN4urrv//ot6BNhL2FeOIl7cfKHIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780352890; c=relaxed/simple;
-	bh=09QywNMFB9xJQgcS3lv2RJl/+8KF5z2gwtaAl6Sdmzo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MgODkL2vBv7pbGtQ+P1SfaliIH3lsb/s/H+cMs5X272SUNmpnNKMQVE9HrP0IqXFCafDjYfm6glMGo82eReuCF2otUTBnup5u+5Rui3TknkqnvhzGl0LFr2vcxfUP3nEen3mXN6/UeO5JLk+v1cUY5o8o9Wg52qDPrXxNQfd34I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Qq8uywH7; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1780354713; c=relaxed/simple;
+	bh=Rnq9K8g2oM43Q3bXYRYfb99m107XnkyONqNp85y2IIo=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=UHoMG+OU/Ew2rVpmdNUzCfyApekFo+pV5rLPxkwiQzmC4O3k3ZRa3AD88Fz1Fcf8srjTIQv8B5rsyTNpew1buOwKbVK4PnafWgsOsAc6dNfoi/ueQOOMBllzWVQ49xUfJ+GNz1yG2nVX568KcXBl5YRY/6h3JLf6TCn9lvA+tuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=h/UlIio+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=j/dgfNhX; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Qq8uywH7"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b12270b3so1354375e9.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 15:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1780352888; x=1780957688; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=giYcafd3I2mpvPflYmwbLiEG2gQ+vD7xawf2mxGjHFw=;
-        b=Qq8uywH74vqrKhYC/8U636f2URWfcor0TFBdCnOcw8VTY6wahkKvu3avM1zyDUvK+C
-         Hh5G0RFIi7OusASlQLRcTKW19BvQ8HTYJRrgtZfUzHAnSCd02JVCfg7ec1R6bRBH3up6
-         nDmfKJ6pDYOZr2JjQtIKPcziFDG4HABu9V2UUyWlJRjoaIjDNTxFvoU41J69hbKpIHKg
-         z+qTQaI2uRRLTmcSQl7jAOElGRz9k/6YBJm2jzehOOifPEhfeMBsHIc4wEkRK7cMbcyb
-         DZXZBGfihxqwJmE6WG3WvyIRoBMzzONFwNy4FKMH5o0E/XXiXMgGboyNqHwJkRV2koCb
-         koEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780352888; x=1780957688;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=giYcafd3I2mpvPflYmwbLiEG2gQ+vD7xawf2mxGjHFw=;
-        b=JsFTkLW4wiY5YrNLJhXTL05zqviu0hx9t7ZVwhnIA/zdvLstGnHWSpU98bOZwH4CfR
-         WAHot4Feq9vvqt2VhysOrRrKOfTr9MHeB5HHr9hOtrbl/KAEmWZWZIxRTOdjOTSn0Bp9
-         AY21iaRtutDJtDgg7KAhZuwAToRFNDlnA5+FEPXzB8bGLdaDZnvqnGsdSDFS8W1E4RfB
-         KM5VUbWnt94jXU+jDZUsY1dEF1y4mOlqHwZ2gqr4AV+/ffDBFcY3UK8PKFRKkmgokPZe
-         OytImmpxiExGmoBCUKoWVKuclViJx5O/d3u4RK96U9+hy0Er+0wpv0erb/BORkoW+RhV
-         e4gQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8cUuOEZ6uh/L4UOIzuUrxW83Pyq0dzwlRp0rVNaOAEUCSZ+ACa68zpTaTL1kwphKq8aAzO6zqoUqmmONGm@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+gfdFtWstaW/QaQwfyZmEF1EBOrFklpEPY3qLsxu3XXmqnWdX
-	BWza4CCXYhJGp4S+vPQHyyJ1AhPNrVc1dHRiOTJvPjUBGwOMxsFFja+pr9J3Fjw3rEs=
-X-Gm-Gg: Acq92OHCzxgST33ejVqXOCl6oxo9oNsxd4as6mTnoSh6YihL3ecRrVdvrrt22d9j/nr
-	h51Yo8xSjEmwa4jLTxEjUF9fchP7Ak3OhWmBOIugf4IvG1rkiGlbdRLXV+a6XckJi1BQ2cJkSTJ
-	r+OKgWWvW18BxWtc9wz7ckJjBV2NCwR7zseim60xtkTOvKiuoN1hMoGfqrOZJdjvCg13HeKLk3q
-	628zMg0mdnwNf/yAv4V6uxNAYhyn0nVR/H4YtSRXenToyTDzdCd++kBa0vvTLNLJ6+X5cyOVUyH
-	erxdrWVcXKKxkg/aTh2f863s2RJT/fpyauexc2EvEspk3wDicFXCogMZv8jT7YZQtUoxsVd1iob
-	d96EsyUhsG0LK+RnFnZpnifbqqZXietYiNQIrw0XrWMhRXk70v3WdfdWi2Y1nEi88u7ls9DvDtU
-	TsLwqFD8rr/58jpL7JHaEeyqDa1Un94PnyvDswWCMqEN0mabeXAT4yC+tvav3u3ezQc9m12A4df
-	mRTmT2nbkLxXtVY/PlKfjioWg9lC+SOR6wK8VIT/xJi9tlJ434FRTlwjw==
-X-Received: by 2002:a05:600c:5395:b0:490:4b89:535d with SMTP id 5b1f17b1804b1-490a2904b29mr282295395e9.1.1780352887955;
-        Mon, 01 Jun 2026 15:28:07 -0700 (PDT)
-Received: from ?IPV6:2403:580d:fda1:0:2bb5:f164:6e6a:38d8? (2403-580d-fda1-0-2bb5-f164-6e6a-38d8.ip6.aussiebb.net. [2403:580d:fda1:0:2bb5:f164:6e6a:38d8])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36dd90415besm774673a91.0.2026.06.01.15.28.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 15:28:06 -0700 (PDT)
-Message-ID: <d5d2ae2c-5b9a-4c33-8dca-6f2f15a7877a@suse.com>
-Date: Tue, 2 Jun 2026 07:57:59 +0930
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="h/UlIio+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="j/dgfNhX"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 51C83EC06AB;
+	Mon,  1 Jun 2026 18:58:30 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 01 Jun 2026 18:58:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1780354710; x=1780441110; bh=fNvQOWqWpm6NNXGBtE6b3O+w7EF/b0ZRcI6
+	OXDSk3Xw=; b=h/UlIio+zFbboa4PtltCl6iHByxTqfSttGKAVCPK+GV+hlIc5QD
+	y7Lj9P9MyOyA7oytXdf9xeAWVRX59TTm9frK0Qcio5alhsSqnHFo8t8yZViKHwx8
+	ue5jHrit0pWOp7milgyJc3ZADJmB8idNOk9Wpkik3wpaV/wL38f8zNmN56eBtBOQ
+	zZxK0Ks6qy650ZaOVphshpNc8TauaQulDhVLbEKf+NaOngp9g+Mxqmx2SKm2ynTD
+	7c+8SHunFlWR2NymltW1dK82vvEvuak78URp+mj/ocHDQ2aqRVuBnBpjhkVaG+CI
+	q95kc5NjFXyR9ogDQdImWtZiqMR9arq3K5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780354710; x=
+	1780441110; bh=fNvQOWqWpm6NNXGBtE6b3O+w7EF/b0ZRcI6OXDSk3Xw=; b=j
+	/dgfNhXWu0O7Z7jv5n0mT3EX4AFYDYq2q+u6qnjJMXiDpbx/tV4FBh95HfK6ouE6
+	93UQTZJfIOgcfIReC+3RejmKe0MFn7EbtOJ3RFeQH4vea0g/2R0TT507Hkrqo+xp
+	R1wsOq3sKXcp5qMQDTNZ5vsbDL6XstZvS//inzt2o+MERr68OhmL2wpeXLM6rafU
+	VCDwGV2J+jRHm+Z/CN1WGRXoJ8kdjkFF54ZCgxlxKSL39ptLZ/oOeqXOEeWL1v6+
+	1bV52nYw4Q4kA4ZrrpDo48Ecno1oKKGdJrsENTeRCMd6MS/cRp2+W5NnOHiB8iEX
+	+zafFTy+lLmJXCh3PhBRg==
+X-ME-Sender: <xms:lQ4eag_gCocb83h8_DL2qMe49AaBO4HyDGSP1gjkTYlRoObsaRnkNw>
+    <xme:lQ4earTAdgc_MS95B3Ox5UUmenHO5USDwQQUhNF5PZAhYtHtSAU7txPLjcp6-oakr
+    hCcaQF65l-JWW6gk5JAaXwv_YdpbB9mdsoJSviguq2mRfpMHQ>
+X-ME-Received: <xmr:lQ4eapqZvyMmuitjwdP2AnUlGmiWtCOifxaEmwb-1eHm9iTmdVIWzLRcFw2p6wW7Evwxks7q7HDE_aFK7uePuFFvr3ZPvuw>
+X-ME-Proxy-Cause: dmFkZTFeAF2Pr3NX7F5A/EfBwpJOmsIi/oBfk6/6nzs90uvaYBKq5pvXSfDa3+gC0zv2D7
+    /Mezun34Z++fzjlb3fY04VVM4H6Hdd9ybkINBtypyHos07vSmcNWzvoMBIzeI4JKIC+pmx
+    ufBWmPMmuGSjlKYGKnNuLRRjYtZA7II8KnoPI/clQsEastzG17u5LrI7us0afi5trLx8zR
+    sdxscLovO3uySsCdczKyhMRKR7WCGWTTFYEHRV7hsO3FPRPsL5FE4uVCosO1WPjjdkriIV
+    3oATiax99uSUIlSY5uJTyyPsgSnyMD2ieqiCHGHkBH6W20ROgLmrjkrXx/6tmpUYEQQItc
+    GODULCpL30qAmCzi0z3RAwBameCiixB8D1lNXKhbO7DNz69uAQbafhB8Y5Io9I879etrtm
+    /R/SUXjQoECArPHc1IwYyIMnyroiecz6dZ4goPWoPWyi8Db8qfS6Zy1Y2eMAgvQiz7GUiJ
+    fXYUUS8oA4Ex3HPhZdF3QayVX3jZONv6oAJxMZDjow7oHhc7odReuwucZFxqZMfgIZGrdu
+    QWPGFs8yN5ESUwW4NNPTyWjgMuQafn9hydrNfi03eV6frEyJ6kMmYDPGOkVV+IKCk1I2LM
+    PbS1OqmCDzZJPStbmvVensssIJFbuT2Grn8L03UoPR8e+DLQht+mKSPNLNXg
+X-ME-Proxy: <xmx:lQ4eagl4GZBE6sWRzV8UuRRUMAQACMWKBCDUpHg4NI8tKcFlsMIcdQ>
+    <xmx:lQ4eaqdhfDSTp5t2aCYMVh-VjXniww0kWHq4M-cUKg2HptdZXhZF1A>
+    <xmx:lQ4eakpURwLACLw2XFMiv6Z0yX2sOGhy-YBfLvi3k02loUq_gETwFQ>
+    <xmx:lQ4easNbWLfAwj8_m-seOriO0En5dP5w1CKOQUDUtWj7PocFQwyb1w>
+    <xmx:lg4eamXX696lz4aOIv0fkeWL2IV2nHJ0T_koGak9b-9b-_bG0-V5rrIR>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 1 Jun 2026 18:58:27 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
-To: Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@lst.de>
-Cc: Damien Le Moal <dlemoal@kernel.org>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>,
- Bart Van Assche <bvanassche@acm.org>,
- linux-block <linux-block@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-btrfs@vger.kernel.org,
- David Sterba <dsterba@suse.com>, linux-fsdevel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>
-References: <ahRocb0Vs_m6RF_O@fedora>
- <1a9f53d4-6f48-4df8-a3d8-2b0e442a163a@I-love.SAKURA.ne.jp>
- <ahZGxoI6oHQ_vSrx@fedora>
- <d1b5a737-f0e3-4927-b762-430b37fbb2f9@I-love.SAKURA.ne.jp>
- <ahZeYQ0cLE1i8TGs@fedora>
- <fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp>
- <ab5492b6-a053-4e3b-8c59-2e836ae85bc4@kernel.org>
- <20260528083848.GA7694@lst.de>
- <36571f8a-4df8-4152-b078-d82dbff4ad7e@suse.com>
- <20260601144034.GA4918@lst.de> <ah2zdCQ0WA6ol2Gn@bfoster>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
- Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
- fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
- 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
- V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
- rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
- cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
- qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
- /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
- o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
- JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
-In-Reply-To: <ah2zdCQ0WA6ol2Gn@bfoster>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Jori Koolstra" <jkoolstra@xs4all.nl>
+Cc: "Christian Brauner" <brauner@kernel.org>,
+ "Aleksa Sarai" <cyphar@cyphar.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ cmirabil@redhat.com
+Subject: Re: [RFC PATCH v5 1/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+In-reply-to: <1825098847.140203.1780349158954@kpc.webmail.kpnmail.nl>
+References: <20260525202937.466497-1-jkoolstra@xs4all.nl>
+  <20260525202937.466497-2-jkoolstra@xs4all.nl>
+  <177986687451.3379282.8177801680240137022@noble.neil.brown.name>
+  <1825098847.140203.1780349158954@kpc.webmail.kpnmail.nl>
+Date: Tue, 02 Jun 2026 08:58:23 +1000
+Message-id: <178035470365.2923901.16027569586235650310@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
+On Tue, 02 Jun 2026, Jori Koolstra wrote:
+> > Op 27-05-2026 09:27 CEST schreef NeilBrown <neilb@ownmail.net>:
+> >
+> > > @@ -1268,6 +1269,8 @@ inline int build_open_flags(const struct open_how=
+ *how, struct open_flags *op)
+> > >  	op->intent =3D flags & O_PATH ? 0 : LOOKUP_OPEN;
+> > > =20
+> > >  	if (flags & O_CREAT) {
+> > > +		if ((flags & O_DIRECTORY) && (acc_mode & MAY_WRITE))
+> > > +			return -EISDIR;
+> >=20
+> > It seems odd that the MAY_WRITE test is only performed for O_CREAT.
+> > Shouldn't any open of O_DIRECTORY|O_WRONLY fail, and shouldn't the one
+> > test catch both create and non-create cases?
+> >=20
+>=20
+> I get your point, it does look odd. But AFAIS O_DIRECTORY|O_WRONLY is curre=
+ntly only blocked
+> after path resolution and final lookup. So that was the behavior I tried to=
+ keep. On the
+> other hand, right now O_DIRECTORY|O_CREAT is already blocked in build_open_=
+flags().
 
+I see that currently O_WRONLY for directories is only blocked in
+may_open() which happens after we have the inode for the target, so
+after any create.
 
-在 2026/6/2 01:59, Brian Foster 写道:
-> On Mon, Jun 01, 2026 at 04:40:34PM +0200, Christoph Hellwig wrote:
->> On Thu, May 28, 2026 at 07:46:24PM +0930, Qu Wenruo wrote:
->>>> e.g. 9c7504aa72b6 ("xfs: track and serialize in-flight async buffers against
->>>> unmount")
->>> Considering the xfs fix is pretty old, it's before the fix hint thus no
->>> such mention in fstests.
->>>
->>> Do you happen to know which test case is for that fix?
->>> I'd like to adapt it for btrfs as a reproducer.
->>
->> No.  Adding Brian who authored that commit.
->>
-> 
-> I haven't followed through the full thread here... But if you're just
-> looking for an existing test case associated with the commit above on
-> XFS, I did some quick digging and xfs/311 is the original reproducer for
-> that one.
+So I agree that we need to put something in build_open_flags() which
+happens much earlier before path-walk even starts.
 
-Thanks a lot! I'll use the same delayed umount to verify the behavior of 
-btrfs.
+I think it would be best to always block an O_WRONLY/O_RDWR combined
+with O_DIRECTORY.  It can never succeed so there is no point in even
+starting the path-walk.
+
+But I too would like to know what Christian or Al think.
+
+>=20
+> But if that is true, and you have atomic_open() defined for your filesystem=
+, then you
+> can lookup and open a directory with O_DIRECTORY|O_WRONLY, while it fails w=
+ith EISDIR later
+> (if the fs atomic_open() does not error on O_DIRECTORY|O_WRONLY, which I wo=
+uld guess it
+> mostly does). It will then fput_close() the file, so there is no leak, but =
+I don't think
+> that is wanted behavior.
+>=20
+> @Christian, what do you think?
+>=20
+> >=20
+> > >  		op->intent |=3D LOOKUP_CREATE;
+> > >  		if (flags & O_EXCL) {
+> > >  			op->intent |=3D LOOKUP_EXCL;
+> > > diff --git a/fs/smb/client/dir.c b/fs/smb/client/dir.c
+> > > index e4295a5b55b3..ec8c54c91261 100644
+> > > --- a/fs/smb/client/dir.c
+> > > +++ b/fs/smb/client/dir.c
+> > > @@ -526,6 +526,9 @@ int cifs_atomic_open(struct inode *dir, struct dent=
+ry *direntry,
+> > >  	if (unlikely(cifs_forced_shutdown(cifs_sb)))
+> > >  		return smb_EIO(smb_eio_trace_forced_shutdown);
+> > > =20
+> > > +	if ((oflags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> > > +		return -EINVAL;
+> > > +
+> > >  	/*
+> > >  	 * Posix open is only called (at lookup time) for file create now. For
+> > >  	 * opens (rather than creates), because we do not know if it is a file
+> > > diff --git a/fs/vboxsf/dir.c b/fs/vboxsf/dir.c
+> > > index 42bedc4ec7af..aef5ca6730be 100644
+> > > --- a/fs/vboxsf/dir.c
+> > > +++ b/fs/vboxsf/dir.c
+> > > @@ -318,6 +318,9 @@ static int vboxsf_dir_atomic_open(struct inode *par=
+ent, struct dentry *dentry,
+> > >  	u64 handle;
+> > >  	int err;
+> > > =20
+> > > +	if ((flags & O_MKDIR_MASK) =3D=3D O_MKDIR_MASK)
+> > > +		return -EINVAL;
+> > > +
+> > >  	if (d_in_lookup(dentry)) {
+> > >  		struct dentry *res =3D vboxsf_dir_lookup(parent, dentry, 0);
+> > >  		if (res || d_really_is_positive(dentry))
+> > > diff --git a/include/linux/fcntl.h b/include/linux/fcntl.h
+> > > index a332e79b3207..e31f3a57f07c 100644
+> > > --- a/include/linux/fcntl.h
+> > > +++ b/include/linux/fcntl.h
+> > > @@ -12,6 +12,8 @@
+> > >  	 FASYNC	| O_DIRECT | O_LARGEFILE | O_DIRECTORY | O_NOFOLLOW | \
+> > >  	 O_NOATIME | O_CLOEXEC | O_PATH | __O_TMPFILE)
+> > > =20
+> > > +#define O_MKDIR_MASK	(O_CREAT | O_DIRECTORY)
+> > > +
+> > >  /* List of all valid flags for the how->resolve argument: */
+> > >  #define VALID_RESOLVE_FLAGS \
+> > >  	(RESOLVE_NO_XDEV | RESOLVE_NO_MAGICLINKS | RESOLVE_NO_SYMLINKS | \
+> > > --=20
+> > > 2.54.0
+> > >=20
+> > >=20
+> > >=20
+> >=20
+> > Thanks,
+> > NeilBrown
+>=20
+> There is another point, I maybe should have mentioned in the cover letter: =
+I have not attempted
+> to handle dangling symlinks for O_MKDIR. Not because I think they are a gre=
+at idea (as Aleksa
+> has mentioned, but I am not very familiar with the dragons it entails), but=
+ I wanted to discuss
+> what behavior we want in this case. Do we say that we never do a mkdir afte=
+r following a lookup
+> last symlink? I don't think that state is even recorded right now.
+
+I think the state might be recorded in nd->depth.  But you probably
+don't want to use that directly.  Maybe forcing LOOKUP_FOLLOW to be
+cleared if O_CREAT|O_DIRECTORY is set would be good.  But what would
+stop you opening an existing directory through a symlink....
+
+Probably we need a clear statement of intended semantics which we can
+review, agree on, then implement.  Have you looked at preparing a patch
+for man-pages to document the change in behaviour for openat etc?
 
 Thanks,
-Qu
+NeilBrown
 
-> 
-> Brian
-> 
+
+>=20
+> Best,
+> Jori.
+>=20
 
