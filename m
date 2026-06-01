@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658D63C13EE;
-	Mon,  1 Jun 2026 13:57:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5103C277E;
+	Mon,  1 Jun 2026 13:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322254; cv=none; b=Xfax2wnm2a4WkrtFWLtLbNYaTVy0qf8Pm4LXRZwe0rIXtmqR4GP6G4JHqv2P/z5wpm20WU1QtkVrwC5tQQX+QFaJAhEEBdo3NbEp92bG0Tf2IdXQjv50VpA2TwsIJ3SCOpmBP7oqgAYAQ5Z6CLFFlCllj0fMf7mw1ATXqUIKp1Y=
+	t=1780322256; cv=none; b=KOpvD3Jp0Jw7Q/yKHPCRPqU+cwWMtI5chER4xPVIGI/KY3gQG2Vblu+Pi89udkZQZl2c35jF6N8ONBFucX9j+B8bubwBBiMNP3w87ez5RX0rMGi+PZ0KjC+xtF57wUAQsRu9pWNclXdjs44ZvFGXHNYvDarGDWy5YQF+9lDf6g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322254; c=relaxed/simple;
-	bh=sG1OnJMLGiKQamYTDNXHSLkdyPOBWMPLChw0pAcgZEc=;
+	s=arc-20240116; t=1780322256; c=relaxed/simple;
+	bh=vFBABEnVshvWG8V1VJBzbdxjjGGsu+BBLNYaoa3dMGw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OVa4Psq5O9vrhc9CYF+GNYH/0gI9pu/nsl7soMmmRLAo6l8jwmKZePpEDlpDmHrhSYPExySFk96l9UWT+ncSPDm8B0FJTYNuFOi/xEhuyJKI5xNk53OkXMFDCZKgxxyjiO059bkT6QlUFs1lIGwqVW2G+BhIkCIQ9PA5Bu52WOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gBmmLUOi; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=rUd7+qdak6E7BV/nFvqc9PFGfTFjOOrm+jOFGi1o8K9KzJKMPi5XYXLXAclhH3eO8I+W5JfMZFoTS2+KoKFg7bzLeWUvIlUVeY4UEDwLnrcHYbp1bjh/CXEf2vcrRawg73Unpzb7RJiukB+4fusW9To6D0rC+rtj7KNOAg+dMXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OfzU+1GG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gBmmLUOi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F8E11F00898;
-	Mon,  1 Jun 2026 13:57:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OfzU+1GG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93E401F00893;
+	Mon,  1 Jun 2026 13:57:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780322253;
-	bh=05sU105TIaoDreFNJcXDcP1f6QXqRrBkOs+MREOztjE=;
+	s=k20260515; t=1780322255;
+	bh=7zpdIEG6VyeGO8+KCpOYeQe/qkva4b8ejF6f2rY5vgw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=gBmmLUOi6osocTxiDObVxeaw3IUvuVsQbQS9jglKi23j2YVwtWC0nsDpjpYEvVZot
-	 yun3SPPLzv7vtnsmE47f/VVvNbnCeGvNuDQ4Onsjb4MeJot69swsd9l71D0848BOkt
-	 dzEoNS3SuAzC7s1ZVPEWmabSGQMbjTQ+Lz54FnUEZPxo92Dn90m5fw2vxk4iWooTd0
-	 RluBg/SgLAYWXzJVrUATZ4Pv2iv1FKPZqros9LopuIDJCIdVIYs8uzRlpi5kQa2BSD
-	 NqFOlxlplWhF8Dff9RS6v+E9N4TvVJWad+r4A1VohMMtntEcwNyQrFt+rcnI95CbdH
-	 ileRexGatJc6g==
+	b=OfzU+1GGeFSh+rHDXm8mkoFBLOEwz06IkaIHzmCslDRJe4kDCFhZlEZvB+K3kGO5l
+	 7bi+dUZqD94wH3Y6pX4EHadSWXmd4Hy8DJdfqZPodx1yH25WOe2RK2A/S+fhsxgAIU
+	 eat0rFnrpz3bksE6vBL6ORDiRS703Fl+yHBKD67MPs8c1vQC2FDNXDU5JD2H8SUiDm
+	 0dJJzRcMVK4AVXLYDMulI96CaFh3StVekBSuurdOj1oIW2TORydq87h9Sp3PRl5FHf
+	 S3l9a1OxXdBCLYzPnvyJDsVi+mv4e4AKytDyQvI2avAV9MhWW22g/Cd9d2FQKd11fs
+	 0xn+Qt2kkEpzQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 01 Jun 2026 15:56:50 +0200
-Subject: [PATCH RFC v4 17/25] initramfs: use scoped_with_init_fs() for
- rootfs unpacking
+Date: Mon, 01 Jun 2026 15:56:51 +0200
+Subject: [PATCH RFC v4 18/25] af_unix: use scoped_with_init_fs() for
+ coredump socket lookup
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260601-work-kthread-nullfs-v4-17-77ee053060e0@kernel.org>
+Message-Id: <20260601-work-kthread-nullfs-v4-18-77ee053060e0@kernel.org>
 References: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 In-Reply-To: <20260601-work-kthread-nullfs-v4-0-77ee053060e0@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -47,83 +47,63 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Jan Kara <jack@suse.cz>, Jann Horn <jannh@google.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.16-dev-fffa9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2433; i=brauner@kernel.org;
- h=from:subject:message-id; bh=sG1OnJMLGiKQamYTDNXHSLkdyPOBWMPLChw0pAcgZEc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i9re5W17H9+t3Xv1LvvymVnxueJ/tNx3/0kVPz53
- 3vxFkeFO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbiyMjwhyc07OSLmOdJR3kZ
- VmoLz82tYl15/Ost6c7VAqmpFwtkfRn+u+2q6OAs/KzwdvocmVurs/juPs3PO216gvtz1L5Ta0T
- WswEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1728; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=vFBABEnVshvWG8V1VJBzbdxjjGGsu+BBLNYaoa3dMGw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJ9i8/nb1hg1xHPi/jnI2Np3VMX/+62y//9FfzS06+t
+ MbW9a8VOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbixcHIsFAmWFW98WBB3dLz
+ EpJ/GO++2/uoy//uxBKt9N3X4icfdmb4Z/zjcPxZmy1tXzxOq7VaTrt+/6Lmb28Lm28/pnUrsS3
+ V4gAA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Extract the initramfs unpacking code into a separate
-unpack_initramfs() function and wrap its invocation from
-do_populate_rootfs() with scoped_with_init_fs(). This ensures all
-file operations during initramfs unpacking (including filp_open()
-calls in do_name() and populate_initrd_image()) happen in init's
-filesystem context.
+Use scoped_with_init_fs() to temporarily override current->fs for the
+coredump unix socket path resolution. This replaces the init_root() +
+vfs_path_lookup() pattern with scoped_with_init_fs() + kern_path().
 
-Note that security_initramfs_populated() needs the scope as well since
-it does use current->fs to derive the initramfs superblock.
+The old code used LOOKUP_BENEATH to confine the lookup beneath init's
+root. This is dropped because the coredump socket path is absolute and
+resolved from root (where ".." is a no-op), and LOOKUP_NO_SYMLINKS
+already blocks any symlink-based escape. LOOKUP_BENEATH was redundant
+in this context.
 
-do_populate_rootfs() ← async_schedule_domain() ← kworker (async
-workqueue)
+unix_find_bsd(SOCK_COREDUMP) ← coredump_sock_connect() ← do_coredump() —
+same crashing userspace process
 
-May also run synchronously from PID 1 in case async workqueue is
-considered full. Overriding in that case is fine as well.
+Same security rationale as coredump.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- init/initramfs.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ net/unix/af_unix.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/init/initramfs.c b/init/initramfs.c
-index 58db15fb18fd..f3439e8e41c4 100644
---- a/init/initramfs.c
-+++ b/init/initramfs.c
-@@ -3,6 +3,7 @@
- #include <linux/async.h>
- #include <linux/export.h>
- #include <linux/fs.h>
-+#include <linux/fs_struct.h>
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/fcntl.h>
-@@ -708,7 +709,7 @@ static void __init populate_initrd_image(char *err)
- }
- #endif /* CONFIG_BLK_DEV_RAM */
+diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+index e2d787ca3e74..af719429f3b1 100644
+--- a/net/unix/af_unix.c
++++ b/net/unix/af_unix.c
+@@ -1198,17 +1198,12 @@ static struct sock *unix_find_bsd(struct sockaddr_un *sunaddr, int addr_len,
+ 	unix_mkname_bsd(sunaddr, addr_len);
  
--static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
-+static void __init unpack_initramfs(async_cookie_t cookie)
- {
- 	/* Load the built in initramfs */
- 	char *err = unpack_to_rootfs(__initramfs_start, __initramfs_size);
-@@ -716,7 +717,7 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
- 		panic_show_mem("%s", err); /* Failed to decompress INTERNAL initramfs */
- 
- 	if (!initrd_start || IS_ENABLED(CONFIG_INITRAMFS_FORCE))
--		goto done;
-+		return;
- 
- 	if (IS_ENABLED(CONFIG_BLK_DEV_RAM))
- 		printk(KERN_INFO "Trying to unpack rootfs image as initramfs...\n");
-@@ -731,9 +732,14 @@ static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
- 		printk(KERN_EMERG "Initramfs unpacking failed: %s\n", err);
- #endif
- 	}
-+}
- 
--done:
--	security_initramfs_populated();
-+static void __init do_populate_rootfs(void *unused, async_cookie_t cookie)
-+{
-+	scoped_with_init_fs() {
-+		unpack_initramfs(cookie);
-+		security_initramfs_populated();
-+	}
- 
- 	/*
- 	 * If the initrd region is overlapped with crashkernel reserved region,
+ 	if (flags & SOCK_COREDUMP) {
+-		struct path root;
+-
+-		task_lock(&init_task);
+-		get_fs_root(init_task.fs, &root);
+-		task_unlock(&init_task);
+-
+-		scoped_with_kernel_creds()
+-			err = vfs_path_lookup(root.dentry, root.mnt, sunaddr->sun_path,
+-					      LOOKUP_BENEATH | LOOKUP_NO_SYMLINKS |
+-					      LOOKUP_NO_MAGICLINKS, &path);
+-		path_put(&root);
++		scoped_with_init_fs() {
++			scoped_with_kernel_creds()
++				err = kern_path(sunaddr->sun_path,
++						LOOKUP_NO_SYMLINKS |
++						LOOKUP_NO_MAGICLINKS, &path);
++		}
+ 		if (err)
+ 			goto fail;
+ 	} else {
 
 -- 
 2.47.3
