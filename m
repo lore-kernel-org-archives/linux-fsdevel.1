@@ -1,36 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E62B33D6D5;
-	Tue,  2 Jun 2026 01:52:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB1E3043C9;
+	Tue,  2 Jun 2026 01:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780365170; cv=none; b=hiGbA8DM6fI1gu6cIiJeU0VHKrxtI977Muveb0S8HzgChKiqaqB1HDUlgVcN890G671mmtDhu/DSv0Sy+mVTjeQFhNPwAFfcpvsGlXSPfRiVnalYXOuZZbFkDtfFyXfLdmvlIbw4W0/wL3r5/hW6zZICCqT99pI//loIjntWhoE=
+	t=1780365175; cv=none; b=rQy0cV6Y5piQf76uEwQ1ZTsjXSkONO2i4zi09Q4SPh7lBv8OI7SN7MQxErkpsVST8prUNuIOA0J+DwWn14d8UW6DxQa7L2sQbAU/G+Vaol7NXyeRxnwb6eRGPcab29z3gEvh0L1lkgCoQi0lEpACKX296mIZKH81gX85EJPW/io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780365170; c=relaxed/simple;
-	bh=3qhNAScQCdir0sKo2odoD5hJeguey5gpG6BAiF7M7dQ=;
-	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=L4Rid43ZPzm0u082sJIKXRmog5sfo0gG526QPzjryDotALdqm3Asm5A9bBvvLCUF8Jc5e+CcKiBzUt8CC+WCnI0wnd9KlMU3pffPhs5rErOxdoxDK0lWK/Or87WzQL1HP+n0RFYrepBA3bZGMA4dVi8s1U07O0FekuNPaT8qEWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k8IX9vOn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780365175; c=relaxed/simple;
+	bh=4YcyQTVg1LXpPzvRDjYX7SQfokdlQiTPmiIU+2EPQKs=;
+	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ij0POxwsLGkAyDpXEWuOjZu96auR/jYGGRlQ95sDmrWWGYa+HEYSa0A/+PN5CpTcBnfjVmBNXrHAZmPRXwPpVA8C20aegRkIRWqhcrbUYWm3u5Ih0L5H+Fn0Jpdb9IGo7IzHyXKnUorzHX71QHbDsHJr9YNpk6RjtXK5c52y064=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NawyHHHz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k8IX9vOn"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id B1BD81F00893;
-	Tue,  2 Jun 2026 01:52:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NawyHHHz"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 422591F00893;
+	Tue,  2 Jun 2026 01:52:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780365168;
-	bh=K2hQ8Gh67WcS2i8bFxuLpkFaxUyDpvJSJmFatqgIatI=;
-	h=Date:Subject:From:To:Cc;
-	b=k8IX9vOnb7LUuPGf8m2jkYVh9F4Xiw69pgmdYd0Usv0037NSOOwfT1FcprSARungC
-	 Icr+k4SZxYqxo85RDv8tSQCxW2XuL6LJnqwB9THbA9/zgWLissdkFSzo15+aRG/wZ5
-	 Ex54PAbyoLt4HetXd8mEtZkVQ6UySIRpIzGPCOTN9PBXvJCpg0SWhgMa3sxST17mvh
-	 fEwXir+NrT/kmnUv9zGIl9Ne7TuKjaGSuJfor/RWq5rWdFowsMrdcTpK9DKRhNA7Z5
-	 uc2fhchqGo47u8UdLoEZ0aZBY8/Ru182wknnH6v5pqLx6ZJ6MX24ulQv4De8Nfi2LQ
-	 7z5txtQOsjeZQ==
-Date: Mon, 01 Jun 2026 18:52:48 -0700
-Subject: [PATCHSET] libfuse: more random fixes for fuse service containers
+	s=k20260515; t=1780365174;
+	bh=C3zz/+xVlomvqar3sllzZV4iWTbRq4WXC6OcDBDRvZs=;
+	h=Date:Subject:From:To:Cc:In-Reply-To:References;
+	b=NawyHHHzdoCb7rAwYAXM4N4aB1KVRay/LH5H6en5HTljkPhYAQKRe1jPPM/Jz/6se
+	 +wVlrNiI6rbyL0gEMe/3jZrc/izGp+4AVL5sQueSz32eNvm8MPB3JLcw6gNXf/+WRX
+	 ON7yHnUa1lDqJAhFWTShReb5U137VjNpyOJBLFR1ZobzRQviSmTSZLI+4SfKoBBT5U
+	 hMUkI8yu7BJEp+6okGvFmh37JdvyC0NfmCe7j9IhUJ8yLbD3/0XNSmTreyvSme0T11
+	 7vq3/UiJVETKEbCux/LotVvBfVPpnZDkbWDZpoJdNeTtKMDPx29sTNolLgZrKJaoMw
+	 qp4JsWIjivhew==
+Date: Mon, 01 Jun 2026 18:52:53 -0700
+Subject: [PATCH 1/3] fsmount: don't truncate ms_flags in set_fsconfig_ms_flags
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Message-ID: <178036512130.432362.7597373245082703669.stgit@frogsfrogsfrogs>
+Message-ID: <178036512159.432362.4314375052645032534.stgit@frogsfrogsfrogs>
+In-Reply-To: <178036512130.432362.7597373245082703669.stgit@frogsfrogsfrogs>
+References: <178036512130.432362.7597373245082703669.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -40,21 +43,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Hi all,
+From: Darrick J. Wong <djwong@kernel.org>
 
-Here are some miscellaneous fixes for libfuse.
+The mount(2) flags (i.e. MS_*) are unsigned long.  Don't truncate them
+in this function by assigning to int.
 
-With a bit of luck, this should all go splendidly.
-Comments and questions are, as always, welcome.
-
---D
+Fixes: 14cb7b93bb9688 ("Add support for the new linux mount API")
+Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
-Commits in this patchset:
- * fsmount: don't truncate ms_flags in set_fsconfig_ms_flags
- * mount_service: don't pass the chopped buffer to apply_fsconfig_mount_opts
- * mount_service: call the new fsmount ms_flags helpers in the right order
----
- lib/mount_fsmount.c  |    4 +++-
- util/mount_service.c |   14 ++++++++++----
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ lib/mount_fsmount.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+
+diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
+index 0f64880e045ba0..83768f0b8d193b 100644
+--- a/lib/mount_fsmount.c
++++ b/lib/mount_fsmount.c
+@@ -95,7 +95,8 @@ void log_fsconfig_kmsg(int fd)
+ 
+ int set_fsconfig_ms_flags(int fsfd, unsigned long *ms_flags)
+ {
+-	int ret, flags = *ms_flags;
++	unsigned long flags = *ms_flags;
++	int ret;
+ 	int i;
+ 
+ 	for (i = 0; mount_flags[i].opt != NULL && flags != 0; i++) {
 
