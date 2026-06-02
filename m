@@ -1,78 +1,125 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98053161A4;
-	Tue,  2 Jun 2026 02:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E1C1D63F0
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 02:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780365889; cv=none; b=fV8f6drWFHPPONoZjTNuOunJYZcIbreHdPUivkEgmsePIcgQ7TvqYkUhOLlrdpXKRpYVjljBOUMh/yfG+EaPwQgtZIcZXFS1ZNiNkRx+48oos8Zz4h7arGoQyX5g/CEa4tS9S4varq29xkFFoIBBIAkOIdQ1mAxHvJCjOPT5Qow=
+	t=1780366533; cv=none; b=aVzg+f4XDr14PYfnY+YyAAWjrvpdZrlXZSLXCLL8H04t3MEARLiYOzWC8/Mt9BbyiMwZSD3c6TRa025JhavoaXeO1+uzchUbLHBhdQwN/H2D12pOenD6DNk61XHOwF2PXAZZ2+/jVdybtio2NIFs2ek/i5s221qeP5mG83/9mis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780365889; c=relaxed/simple;
-	bh=T4I31M0PLTEwTn8WEOdyD4QByeRGNlWXuxameENdrkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FzgIbO5ohjmwMk3SiGb6DdI1iNzsW5CbtdfXcOWJv7+KIrIUB6TX7weBMu7+HjXD6jH94brs7BlnR41gt9+0Rxx82QwQ+CXKzPoT+Nr+LzHBl/+fumfOkHF1N4+9jjimvm0z0TDg+dGCvxR9cVBibQ88BpWDFXJK4lZOQy/OLvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=nIVkQ2OE; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1780366533; c=relaxed/simple;
+	bh=vDNolArekgRosQOyPhKqBidL7MM7+dNKWKcNGsM/o4A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GcWRbxK3xZi+sVosklzE94+rJgKK+HEInCQ/v0GtHy71sRKwhDMXcScK4yPcnFkguhrQXcDfZSQESWALLlfLNpOQuzl7CYhccvOfWDZSl+g5j8CgOZmVNVUsUS8TZpZ0/WVPxlNoSCbfeE7JkcB+jrNG12KjWCwPCPOs+MVfXp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GVPnVtx8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="nIVkQ2OE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=LeFlYkjUmS3153POexTFVk/hRyqELYXfJyWxbUFn0ec=; b=nIVkQ2OEloPOV+48X+lLM1OUeC
-	fgoztAFUyllJbj5tHe22c8jd/NklR+nnAXs3sSHZ+vzPAfr9rGUBilcbmSvr+c4xrY4b/uhX0ehzi
-	w4VarDH2CI4RXNWdaKKEiG3uzB3x8VVpGmXAWeYE4sTlHmJxN6Hos8uaAueTO7LnItyC9LFywPsuQ
-	lfT09AyO703q63bRf214goZ6A/Loc7EWs8R9whGpDQahAQsSsHNopLlGNiOkXzQD7xtI9nAB+QNIB
-	vI7fuD3Lf3qN05DQaxIcRZehkpYGC4QMbcjG6f18qY0cwqlE/u3JQbflVSXC05ODuE5XTYIhCsnPF
-	DudVPeTA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUEUm-00000005Q2B-2HVb;
-	Tue, 02 Jun 2026 02:04:44 +0000
-Date: Tue, 2 Jun 2026 03:04:44 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org, stable@vger.kernel.org,
-	Denis Arefev <arefev@swemel.ru>
-Subject: [PATCH] make new mount API honour SB_NOUSER (was Re: [PATCH] block:
- Avoid mounting the bdev pseudo-filesystem in userspace)
-Message-ID: <20260602020444.GP2636677@ZenIV>
-References: <20260521072857.5078-1-arefev@swemel.ru>
- <20260602011907.GM2636677@ZenIV>
- <20260602013526.GO2636677@ZenIV>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GVPnVtx8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72D571F00A07
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 02:15:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780366532;
+	bh=vDNolArekgRosQOyPhKqBidL7MM7+dNKWKcNGsM/o4A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=GVPnVtx88mdLm1WWoKMJNVP52OGVT6hSqHGGU/NMJ2ZYmp1lM4EhG7bBar3rDZ3Zi
+	 TcxR6ZPw9T/2gM35LpBRYKZl94OtaE0v9KeakbfZBDag3dMj+cvnK/i/UELlGHpaw4
+	 bcrE6Vk7PjxVS662uUJnk5KxxtHPd4+2betlow6/BTSvgaI9DUQu1VWM/iYhUarxJQ
+	 q6DAuG49IeAm8A3EP1ny0kmt0Tn4SFFsDNg81XUyYHbtjjYbNtlppOnjCQhMF242J8
+	 XaHZv6Zah5JHZMdfugRssA53ppN1fZHnH10PoWAJbGYnDdk3HRNj6nSsLa40P+aqKr
+	 EYJJmDXRRaasQ==
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-915336b83adso393108585a.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 19:15:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9f5xI1NZATiCGoVOE3CT+ZTiK+QgpKXx2QZV+oC9GYvKPv7WI8uqJ5k961LhNevff8RwGMN84s45Zo9d9j@vger.kernel.org
+X-Gm-Message-State: AOJu0Yydqm9pfG2lMnS4MOIDBucrqFwNo897Yqq07Vd7EPTUuO4iWqOP
+	fAoSx8MJiNEEC3ywfaWnhQArz3UqyECFTdCyDHE78pG0/76fd8n9Y+hw+HD8b6Ejt4VdX7VbpmD
+	0CfFv8Ld3vreW+VjTNUDMc7f7Vr0hsRw=
+X-Received: by 2002:a05:620a:46ab:b0:914:dc12:60d9 with SMTP id
+ af79cd13be357-9153da3c92amr2245294985a.46.1780366531281; Mon, 01 Jun 2026
+ 19:15:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260602013526.GO2636677@ZenIV>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+References: <20260527110147.17815-1-tao.wangtao@honor.com> <ahcANgFDFwfC0v1q@lucifer>
+ <b24b4a8198ba412f8b8b42c43dccd058@honor.com> <ahf2mJg9OOWvu0jA@lucifer>
+ <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
+ <99dfc4a50f3643a6bef6deaeccfcf115@honor.com> <ahlzj--3Gm5pD9ge@lucifer> <a90bcb0fa3a044588350e92a78258a09@honor.com>
+In-Reply-To: <a90bcb0fa3a044588350e92a78258a09@honor.com>
+From: Barry Song <baohua@kernel.org>
+Date: Tue, 2 Jun 2026 10:15:19 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4wFr89M2i8pth79swv3==i8SGSMWrbr+Yp2umwFTuCShg@mail.gmail.com>
+X-Gm-Features: AVHnY4LJPt1t2ZBIxfgvbOEnyfUBTI1uXsLcte0MhxaOkYp5LfKwaoVVIHaTQkk
+Message-ID: <CAGsJ_4wFr89M2i8pth79swv3==i8SGSMWrbr+Yp2umwFTuCShg@mail.gmail.com>
+Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma creation
+To: wangtao <tao.wangtao@honor.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
+	"will@kernel.org" <will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, 
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, 
+	"x86@kernel.org" <x86@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
+	"david@kernel.org" <david@kernel.org>, "willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, 
+	"kees@kernel.org" <kees@kernel.org>, "luizcap@redhat.com" <luizcap@redhat.com>, 
+	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
+	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>, 
+	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>, 
+	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"ziy@nvidia.com" <ziy@nvidia.com>, 
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
+	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, 
+	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, 
+	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
+	"matthew.brost@intel.com" <matthew.brost@intel.com>, 
+	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>, 
+	"byungchul@sk.com" <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>, 
+	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>, 
+	"pfalcato@suse.de" <pfalcato@suse.de>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
+	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
+	"dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>, 
+	wangzicheng <wangzicheng@honor.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-one should *not* be allowed to mount one of those, new API or not.
+On Mon, Jun 1, 2026 at 9:46=E2=80=AFAM wangtao <tao.wangtao@honor.com> wrot=
+e:
+[...]
+>
+> You said discussion was welcome, yet when someone offered even a
+> small comment, you refused to continue the discussion.
+>
+> If I had known you would be this inconsistent, I would not have
+> replied to you in the first place.
+>
+> This will be my last reply to you. I will not respond again.
+>
 
-Reported-by: Denis Arefev <arefev@swemel.ru>
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
----
-[[ I still want to see the rest of the reproducer - report smells like a missing
-d_can_lookup() somewhere, on top of fsmount(2) bug]]
-diff --git a/fs/namespace.c b/fs/namespace.c
-index fe919abd2f01..17777c837683 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -4499,6 +4499,10 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
- 	new_mnt = vfs_create_mount(fc);
- 	if (IS_ERR(new_mnt))
- 		return PTR_ERR(new_mnt);
-+	if (new_mnt->mnt_sb->s_flags & SB_NOUSER) {
-+		mntput(new_mnt);
-+		return -EINVAL;
-+	}
- 	new_mnt->mnt_flags = mnt_flags;
- 
- 	new_path.dentry = dget(fc->root);
+Hi Tao,
+
+Please don't walk away from the linux-mm community. I read your
+patchset and found it quite valuable. It not only reduces memory
+overhead, but also eliminates rmap costs for exclusive folios.
+
+Since I'm not very confident discussing technical topics in English,
+I wrote a blog post in Chinese about your patchset:
+
+https://mp.weixin.qq.com/s/k00tzhTl8HbL3k4G6ev4SA
+
+I have to admit that I found the implementation quite complex and
+in need of significant improvement. However, I think the underlying
+idea is very interesting and worth exploring further.
+
+I'm looking forward to seeing a v2 RFC with a cleaner and simpler
+implementation while preserving the core concept.
+
+Regardless of whether it ultimately gets merged, I hope the discussion
+can continue.
+
+Best regards,
+Barry
