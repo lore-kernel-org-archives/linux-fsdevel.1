@@ -1,90 +1,78 @@
-Received: from smtp153-141.sina.com.cn (smtp153-141.sina.com.cn [61.135.153.141])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BD733D6E1
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 02:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98053161A4;
+	Tue,  2 Jun 2026 02:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780365752; cv=none; b=Bti6GGhGzCDezKnzPBWKyrr5gEuKu0hciA5gzsb2W/hHoVPe2cOn1RNaj0ECmj6ZIOXqrbbyCbBJlb/nAA7k+Zf++CXZT7WtZ2N67hsQ3e7UwMXmdQC504slpUYo2HiNBphdXyxRyrgpUD6BH9xgxkbOTalhduTI5IYOnKNWFMA=
+	t=1780365889; cv=none; b=fV8f6drWFHPPONoZjTNuOunJYZcIbreHdPUivkEgmsePIcgQ7TvqYkUhOLlrdpXKRpYVjljBOUMh/yfG+EaPwQgtZIcZXFS1ZNiNkRx+48oos8Zz4h7arGoQyX5g/CEa4tS9S4varq29xkFFoIBBIAkOIdQ1mAxHvJCjOPT5Qow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780365752; c=relaxed/simple;
-	bh=4c3HxiNf/o9YDjCtEqMTF0xdGqjnroVz8yDppoabx6c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qp59C9pcUnUAPmmhcICkimyjK8RKQFyY2lmst6H0tPGesVNMT3bn+2CAIexBwSqihrLeMOBW37ZtJKceMePbSRyL/RVQK3M/tcIEg4qsgXF9cwEJzVFcE60Yg4vzqOeXrly8CeUdpXi6U27a7PwedS9cIkUA33u9IAAFg+LZVXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=uF8u6ETd; arc=none smtp.client-ip=61.135.153.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	s=arc-20240116; t=1780365889; c=relaxed/simple;
+	bh=T4I31M0PLTEwTn8WEOdyD4QByeRGNlWXuxameENdrkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FzgIbO5ohjmwMk3SiGb6DdI1iNzsW5CbtdfXcOWJv7+KIrIUB6TX7weBMu7+HjXD6jH94brs7BlnR41gt9+0Rxx82QwQ+CXKzPoT+Nr+LzHBl/+fumfOkHF1N4+9jjimvm0z0TDg+dGCvxR9cVBibQ88BpWDFXJK4lZOQy/OLvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=nIVkQ2OE; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="uF8u6ETd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1780365749;
-	bh=1bH9sJe186VqJCIcr0CHi8vVxsQpzOuCBdS8Qj+ILmo=;
-	h=From:Subject:Date:Message-ID;
-	b=uF8u6ETdvR5PEDLE/smbph1uJIu+z8QSa49QHqr5ysOHJL9T6Jvl79S+dAZaS8otv
-	 BNcOaxcF8C2oaoJd2xso3aKjZ/2+z/D7zy7C8LSHUtCA6evyK12RDt2HtNvrp1HB+/
-	 zOsIYgSpFXPaxbNirSM4VUu9xqqXsSx2n7Rkykn0=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
-	by sina.com (10.54.253.31) with ESMTP
-	id 6A1E39A600003D56; Tue, 2 Jun 2026 10:02:17 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 4078536816537
-X-SMAIL-UIID: E78B314D45EE49BEBFAC1BE9F84BB44F-20260602-100217-1
-From: Hillf Danton <hdanton@sina.com>
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Qu Wenruo <wqu@suse.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Jens Axboe <axboe@kernel.dk>,
-	Bart Van Assche <bvanassche@acm.org>,
-	linux-block <linux-block@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-btrfs@vger.kernel.org,
-	David Sterba <dsterba@suse.com>,
-	linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
-Date: Tue,  2 Jun 2026 10:02:03 +0800
-Message-ID: <20260602020204.1420-1-hdanton@sina.com>
-In-Reply-To: <ah4Xc7OmGle_C5M3@fedora>
-References: 
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="nIVkQ2OE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=LeFlYkjUmS3153POexTFVk/hRyqELYXfJyWxbUFn0ec=; b=nIVkQ2OEloPOV+48X+lLM1OUeC
+	fgoztAFUyllJbj5tHe22c8jd/NklR+nnAXs3sSHZ+vzPAfr9rGUBilcbmSvr+c4xrY4b/uhX0ehzi
+	w4VarDH2CI4RXNWdaKKEiG3uzB3x8VVpGmXAWeYE4sTlHmJxN6Hos8uaAueTO7LnItyC9LFywPsuQ
+	lfT09AyO703q63bRf214goZ6A/Loc7EWs8R9whGpDQahAQsSsHNopLlGNiOkXzQD7xtI9nAB+QNIB
+	vI7fuD3Lf3qN05DQaxIcRZehkpYGC4QMbcjG6f18qY0cwqlE/u3JQbflVSXC05ODuE5XTYIhCsnPF
+	DudVPeTA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wUEUm-00000005Q2B-2HVb;
+	Tue, 02 Jun 2026 02:04:44 +0000
+Date: Tue, 2 Jun 2026 03:04:44 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org, stable@vger.kernel.org,
+	Denis Arefev <arefev@swemel.ru>
+Subject: [PATCH] make new mount API honour SB_NOUSER (was Re: [PATCH] block:
+ Avoid mounting the bdev pseudo-filesystem in userspace)
+Message-ID: <20260602020444.GP2636677@ZenIV>
+References: <20260521072857.5078-1-arefev@swemel.ru>
+ <20260602011907.GM2636677@ZenIV>
+ <20260602013526.GO2636677@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260602013526.GO2636677@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-on Mon, 1 Jun 2026 18:36:19 -0500 Ming Lei wrote:
-> On Tue, Jun 02, 2026 at 07:17:30AM +0800, Hillf Danton wrote:
-> > On Mon, 1 Jun 2026 17:14:59 -0500 Ming Lei wrote:
-> > > On Tue, Jun 02, 2026 at 05:51:26AM +0800, Hillf Danton wrote:
-> > > > On OnMon, 1 Jun 2026 10:29:25 -0500 Ming Lei wrote:
-> > > > > syzbot log shows the null-ptr-deref  is on WRITE, instead of DISCARD.
-> > > > >
-> > > > > https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28
-> > > > >
-> > > > > Adding WARN_ON(!lo->lo_backing_file) in loop_queue_rq() might capture
-> > > > > this bio submission context if this req isn't issued via wq.
-> > > > >
-> > > > I suspect this makes $.02 sense given the check of Lo_bound upon queuing rq.
-> > > 
-> > > Can't lo->lo_state be updated after the check? It is totally lockless...
-> > >
-> > Sounds good hm... do you mean it is UNWISE to not flush the loop workqueue
-> > when closing disk?
-> 
-> Quite the opposite, it is wise to not flush wq in __loop_clr_fd(), please
-> see my previous comment.
->
-When queuing rq, if lo_state is updated after checking Lo_bond, I see nothing
-that prevents syzbot from reporting null-ptr-deref exists. Can you tippoint
-why flush is NOT needed if you are right?
+one should *not* be allowed to mount one of those, new API or not.
+
+Reported-by: Denis Arefev <arefev@swemel.ru>
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+[[ I still want to see the rest of the reproducer - report smells like a missing
+d_can_lookup() somewhere, on top of fsmount(2) bug]]
+diff --git a/fs/namespace.c b/fs/namespace.c
+index fe919abd2f01..17777c837683 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -4499,6 +4499,10 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
+ 	new_mnt = vfs_create_mount(fc);
+ 	if (IS_ERR(new_mnt))
+ 		return PTR_ERR(new_mnt);
++	if (new_mnt->mnt_sb->s_flags & SB_NOUSER) {
++		mntput(new_mnt);
++		return -EINVAL;
++	}
+ 	new_mnt->mnt_flags = mnt_flags;
+ 
+ 	new_path.dentry = dget(fc->root);
