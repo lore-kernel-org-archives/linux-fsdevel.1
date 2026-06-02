@@ -1,136 +1,72 @@
-Received: from relayaws-01.paragon-software.com (relayaws-01.paragon-software.com [35.157.23.187])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7513E8C46;
-	Tue,  2 Jun 2026 13:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.157.23.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8D83E8C55;
+	Tue,  2 Jun 2026 14:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780408712; cv=none; b=u1uGtmz/Xtwb18Vu2GX1zwqiBwzZaTrpPTkxAw2ok01QTjpD5MVNvtCrq2qUyuegzMc2sSDXDOWC0mY1j4eKTHrRYrSUA0KIAc2HBVE5ovcQe63hcOHnzzXExvM6UeSI5dpeREsit2LosSJmfpRIB2/EL1t8+RkFnS9/8JLhuRU=
+	t=1780409277; cv=none; b=t3HMW+WCgDSe3ljganKef54jBUwN/inwdhVkvcD495stBNodC0XTNWeTywP1bbyrcmTeNcleQMo4p0cVYOe6EqCIIxf8/LC0e+AKwC00Q+fnV2b6Jy9bQrid8Vv2kES8zve7yXfSET/gR+AYU0EOdk4a7jMl/gGK5nvX3FZoi6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780408712; c=relaxed/simple;
-	bh=SzC3tKjWvKmMFKMh/jPLS+NMwhPY0yFm8Bttt5hTgTM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ZYmmB969bTQDRDHmL3wmxghxvOcIQiJmi14vYAEiPryt/9N3b4J2rVaP08C0EMbL6/6fc3d8/a0bnkXp3vyXCq+YNS5t0RBS6lSmVsMWIuRbT4/N0SsVJIop4KRwCiolO9c0KGh3dvHi6yk79PIH8OLqeMUqRUqc/IxbLMplfjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com; spf=pass smtp.mailfrom=paragon-software.com; dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b=CHKIzYcG; arc=none smtp.client-ip=35.157.23.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=paragon-software.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paragon-software.com
+	s=arc-20240116; t=1780409277; c=relaxed/simple;
+	bh=4dz0aVDbAza9NrGUOk6no+/5AUPcXlFrOeq10s213Lk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EsO+mSEOqSJ0GUTNhuGDw2E7jVsMtW9y1MqEjmFkI3rWYlHdiRHF+ZFsB9cEnx8xDKfeFwoWokt2nOABEAj8zzD+VzhNWDYbn9O83hvqTuTLeitzS0L7cbLfEk02dGG56wDTPW6dfggyl1odYnTZhZFXYXnpPwdxg4VxWiLLbVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=nfmRBtia; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=paragon-software.com header.i=@paragon-software.com header.b="CHKIzYcG"
-Received: from relayfre-01.paragon-software.com (relayfre-01.paragon-software.com [176.12.100.13])
-	by relayaws-01.paragon-software.com (Postfix) with ESMTPS id 9C4321D3F;
-	Tue,  2 Jun 2026 13:58:29 +0000 (UTC)
-Authentication-Results: relayaws-01.paragon-software.com;
-	dkim=pass (1024-bit key; unprotected) header.d=paragon-software.com header.i=@paragon-software.com header.b=CHKIzYcG;
-	dkim-atps=neutral
-Received: from dlg2.mail.paragon-software.com (vdlg-exch-02.paragon-software.com [172.30.1.105])
-	by relayfre-01.paragon-software.com (Postfix) with ESMTPS id 28EDD1D26;
-	Tue,  2 Jun 2026 13:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=paragon-software.com; s=mail; t=1780408708;
-	bh=qhFgvX4tZJecHCNLh4j/LKFvSKwNsLowxgYgr4s9BnE=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=CHKIzYcGIQ4XqjvWnkgnanUcJeO/qzRueXpEQchaAoXH7Y9M67Y+r5+8WEiFwgEDv
-	 xZKOlnBC+2TaUI8hlAzNTbWvrhFiGQf0Zca96yqJfypnNlEZd/K2AAmnqO1vCpoZXX
-	 Tl6qro2ovdNJkdZxoQ9Ld5KvWGXzEh6BZbGHGv4U=
-Received: from [192.168.95.128] (172.30.20.149) by
- vdlg-exch-02.paragon-software.com (172.30.1.105) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Tue, 2 Jun 2026 16:58:27 +0300
-Message-ID: <f94854ba-c98a-47d7-9c33-9b1d395f3f2b@paragon-software.com>
-Date: Tue, 2 Jun 2026 15:58:25 +0200
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="nfmRBtia"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=0MDfwDh/SJOUK5N2F+NqK0JKKK0pl/RgJyfkhobSXcE=; b=nfmRBtia0xRzP4DigT1vceQLCg
+	slWKmmhyybGDT0A1Mk6Vcpu4Fyvn9Ye0ivNvfJoofBQeVonzes8redM8uxn/Q0Z7mkoMK/AzjTmJj
+	9WXMAeGCMvBS1D/I5Yz5p1J1PkhKAYToNrzj0ab2rmMSL0vlk5kvwwdIwc6fnKaceAgQPFzXxo/tO
+	pRCUCdmY/Ey0BD+cebLcNt6tfwbfznBcOG/fPGz9DwEQg8Mr6xp35AE0UzH9AC0sfE2uxv8BFf7t4
+	GLDEghgSQl8pa0oWNg8draCgGG0fz9GePEyi9qzMbd955J15u6eIJWkXPFaSEYuczUbh9gVF3XdIx
+	wjogzplQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wUPmZ-00000008InF-1SNx;
+	Tue, 02 Jun 2026 14:07:51 +0000
+Date: Tue, 2 Jun 2026 15:07:51 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jan Kara <jack@suse.cz>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org, stable@vger.kernel.org,
+	Denis Arefev <arefev@swemel.ru>
+Subject: Re: [PATCH] make new mount API honour SB_NOUSER (was Re: [PATCH]
+ block: Avoid mounting the bdev pseudo-filesystem in userspace)
+Message-ID: <20260602140751.GS2636677@ZenIV>
+References: <20260521072857.5078-1-arefev@swemel.ru>
+ <20260602011907.GM2636677@ZenIV>
+ <20260602013526.GO2636677@ZenIV>
+ <20260602020444.GP2636677@ZenIV>
+ <eevyuiiqt5b4n7kws2lc24jk2njdllanojl76t5cftx6he6hba@y46tiknbebj4>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/ntfs3: bound copy_lcns dp->page_lcns[] index in
- analysis pass
-To: Michael Bommarito <michael.bommarito@gmail.com>
-CC: <ntfs3@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-References: <20260515163405.1574574-1-michael.bommarito@gmail.com>
-Content-Language: en-US
-From: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-In-Reply-To: <20260515163405.1574574-1-michael.bommarito@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: vobn-exch-01.paragon-software.com (172.30.72.13) To
- vdlg-exch-02.paragon-software.com (172.30.1.105)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eevyuiiqt5b4n7kws2lc24jk2njdllanojl76t5cftx6he6hba@y46tiknbebj4>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On 5/15/26 18:34, Michael Bommarito wrote:
+On Tue, Jun 02, 2026 at 11:11:11AM +0200, Jan Kara wrote:
+> On Tue 02-06-26 03:04:44, Al Viro wrote:
+> > one should *not* be allowed to mount one of those, new API or not.
+> > 
+> > Reported-by: Denis Arefev <arefev@swemel.ru>
+> > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+> 
+> Won't it make sense to actually check fc->sb_flags before we call
+> vfs_create_mount()? Otherwise it looks good to me.
 
-> In log_replay()'s analysis pass, after find_dp() returns a
-> valid DIR_PAGE_ENTRY for the (target_attr, target_vcn) tuple,
-> the copy_lcns block walks lrh->lcns_follow further entries:
->
-> 	t16 = le16_to_cpu(lrh->lcns_follow);
-> 	for (i = 0; i < t16; i++) {
-> 	    size_t j = (size_t)(le64_to_cpu(lrh->target_vcn) -
-> 	                        le64_to_cpu(dp->vcn));
-> 	    dp->page_lcns[j + i] = lrh->page_lcns[i];
-> 	}
->
-> find_dp() only validates that target_vcn falls within
-> [dp->vcn, dp->vcn + dp->lcns_follow), i.e., that the FIRST
-> cluster is covered.  The walk through the further entries is
-> not bounded against dp->lcns_follow.  For a malformed LRH
-> where target_vcn = dp->vcn + dp->lcns_follow - 1 and
-> lrh->lcns_follow > 1, the i > 0 writes overflow the dp's
-> allocated page_lcns[] array.
->
-> Add the missing j + lrh->lcns_follow <= dp->lcns_follow guard.
->
-> Reproduced under UML+KASAN on mainline 8d90b09e6741 as a
-> slab-out-of-bounds write of size 8 from log_replay+0x68d4 on
-> the mount path.
->
-> This is distinct from Pavitra Jha's 2026-05-02 patch
-> ("fs/ntfs3: validate lcns_follow in log_replay conversion",
-> <20260502154252.164586-1-jhapavitra98@gmail.com>) which
-> addresses the separate version-0 dirty-page-table conversion
-> path's memmove(&dp->vcn, ...) call.  The two fixes are
-> complementary; both should land.
->
-> Fixes: b46acd6a6a62 ("fs/ntfs3: Add NTFS journal")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-4-7
-> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
-> ---
->   fs/ntfs3/fslog.c | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
->
-> diff --git a/fs/ntfs3/fslog.c b/fs/ntfs3/fslog.c
-> index acfa18b84401e..f409611f2530d 100644
-> --- a/fs/ntfs3/fslog.c
-> +++ b/fs/ntfs3/fslog.c
-> @@ -4547,6 +4547,19 @@ int log_replay(struct ntfs_inode *ni, bool *initialized)
->   		 * whole routine a loop, case Lcns do not fit below.
->   		 */
->   		t16 = le16_to_cpu(lrh->lcns_follow);
-> +		/*
-> +		 * find_dp() only validates that target_vcn is the first
-> +		 * cluster covered by dp.  The walk through lrh->lcns_follow
-> +		 * further entries must stay within the allocated
-> +		 * dp->page_lcns[] array, which is sized by dp->lcns_follow.
-> +		 */
-> +		if (le64_to_cpu(lrh->target_vcn) - le64_to_cpu(dp->vcn) + t16 >
-> +		    le32_to_cpu(dp->lcns_follow)) {
-> +			err = -EINVAL;
-> +			log->set_dirty = true;
-> +			goto out;
-> +		}
-> +
->   		for (i = 0; i < t16; i++) {
->   			size_t j = (size_t)(le64_to_cpu(lrh->target_vcn) -
->   					    le64_to_cpu(dp->vcn));
-
-Hello,
-
-There was a conflict in patch apply, fixed it. Thanks for the patch.
-
-Regards,
-Konstantin
-
+Interpretation of fc->sb_flags is up to your ->get_tree().  What matters
+is ->s_flags in the resulting superblock; that's type-independent and
+that's what we ought to check...
