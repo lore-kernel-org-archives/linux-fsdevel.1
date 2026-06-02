@@ -1,54 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D00623A99F
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 07:40:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3E91DF261
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 07:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780386058; cv=none; b=UMOo14S/X7eO0wJMj5cwtNQbAmI7p2GxvvipToNiMziuKsXCA40gl4Mo1M8WpdqtDP3aMNEmEpCkYv6FiN4FZZEMF+OeF2eBQd233P20K+YxHxqS3AMuq0UlS0mo2gqtiJ5dRwQPsI26bLhUbN3jLiJmQD9HjC55tYkXDPxSaPw=
+	t=1780386089; cv=none; b=TakIPNBTtL8YuW0bpfH/LUMo23eco8JszgO3pEco3ljfmwGluZ6Ad/4Dcs81IFf/QR7M99TA01Ub3AD8/HgW8lBNNPBZWdKuSNMpzzsvVMIvxnW4wolLZbgNhjTwGMk/8Wiq0J/kkhWq9BR9iKz/Qg5DOOZB1o4kg0i8Pxamby8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780386058; c=relaxed/simple;
-	bh=fYditk54Uku6bdeB4OKiDApuAv/ey2NvuAnoxzRJ+ac=;
+	s=arc-20240116; t=1780386089; c=relaxed/simple;
+	bh=hdXO8WuR7pUtzv/OIIHSfMC58eYHVazvmWeQk/XoI4s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O60MQd+F/IXqZlLSLKKLV8Y7V7qCHvo0GzI8Wz7qTuXTIqqzbzrzFcBjRQqTOH6eOPfOKz8lLIWMy3S4tUuCjaIhKIgvBXuSEWRXzmSBLBDlPiCF8Ea998CdEGPGfMKud57vh6cwzinG1YAhfZY1B5MyXZymVMQLQEtZwnSOVY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mt4n/cit; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=i0EDo1wOtkREN68XksB+4qGCjvgaY2+aGBvpGJ0p2SnluCGlHh4V0WS3dow6BbbAuwo5rjNzlHS+jX6jwvsSCLvhheDVZHQp0yny/EvILXHJvQVzX0M6PJM/OBZuOZt4RDcr7mDO0R0hY1YHcFaTbLH/SUhugAZRfOXOZ3cC7IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FhM0a85p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mt4n/cit"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E384D1F0089C
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 07:40:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FhM0a85p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C7A61F0089C
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 07:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780386056;
-	bh=fYditk54Uku6bdeB4OKiDApuAv/ey2NvuAnoxzRJ+ac=;
+	s=k20260515; t=1780386088;
+	bh=hA0FiCS9ooS+oM4XlD7bN1EhAH0gqUkn755Mz94STBs=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Mt4n/cit0YTDOaHACOBbRmk0o34BjkWEM0CpWHEnL5PN43aCqwnmPlXvXFc0CU3rI
-	 DsatfwC7+MfTYLARIcU537LstG7YH7keRHnF5aK+ANfAjqOC1r9JktihAggX8knOWE
-	 wAiiHsgL0ZYd6SnRs4m6MWCoeprT9rHX1Yg5xGShRipGcuRKH41VL0R9WZp5DkS+6P
-	 VzfJ9ruUe8ii//OL5HmIzKI6OleTYYloRY2HBNm2HheUZrYE4WQKmtPMpOx8SBOXdu
-	 mythy3QXxECtzyQ7zTzds5ZOscPUdkajWGi+hIUVHm4sNFDK/1VCyD5z17s/MeNRjc
-	 asLwezpzafofw==
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-68c08bfe5afso2588861a12.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 00:40:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ80USrPclEsRPu2Ojs5unp0PBgYKL++E3ErcWF4Jo8kqnChdJNUvDoy6J5UoX2wcvYUbQ4/Rj7DOQwt6/cP@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjEPvErCCKoK0SPUIaaMeP7VxQlmDL/6HUQH2mYoeUWeRrWFL4
-	MrZ20/ovXZTcUEq/TDenpf5o8BAeVKWuL0W28R+7/3+Ymlm3mf7EN6PPYyS67nhgmdIlO0awe0W
-	LkumlR/GnTkFMYBAbbbXpyFNAf4ViJ5Q=
-X-Received: by 2002:a17:906:fe01:b0:bdd:52ef:73e3 with SMTP id
- a640c23a62f3a-beab13c0e42mr869047966b.12.1780386055618; Tue, 02 Jun 2026
- 00:40:55 -0700 (PDT)
+	b=FhM0a85p+gIXj9KgvgpHkigcX58gKxbBzJMNnNCfCHyVa8r4n8IbngY9gj2EcaJWB
+	 EwervNfguOaq2ZXJ6BXlkuG53PVexOPEZKw8cE3s2Vn1WDPPfr22bIJi6Bf6jVi7H6
+	 9+i4DIrgwhexV60cWsUuwwQmTwnIO1d284klt0LQOLw4tn2JdtBJDoCiF7Z4iUyjj6
+	 cVbXtklweXQ4CGKgDgIKJzTuJ82jJk6T/86qh+a+x1WLGR0nJyJdPcUZxZ43VTUDPu
+	 6t9vShdEkGcnQGnvGvLn+5SdwE+jeAh7cDRrq/706N74uDex3yNz8oyfLH7WOOWb5M
+	 o416Kd3C1WwHw==
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-68d232ed3f9so3242519a12.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 00:41:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+GhF8C0UNHBr+0ocmW+ZKlEI7gyue6/gAPSRlSWFPa7E1DlrPazknDR4+Qorj9NRp+Jyi0afLI18zi8+Ft@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNENZJm67PycBKbKbMayQ9lxc/zkchiJz+JAflTZpG9kcfwUxX
+	nKQPdAuuOzcSxRyVjeiFgY0/NxX01tQR5r/HqKGAIwm+9jiQPKPY0yV2KouvUmYsuFqQ7hunwGR
+	RpK9QZn+Tgy4EbdGy30D5OAEyEm5z0pk=
+X-Received: by 2002:a05:6402:a50e:b0:66f:9f63:e537 with SMTP id
+ 4fb4d7f45d1cf-68c8cd220e3mr4074950a12.19.1780386087215; Tue, 02 Jun 2026
+ 00:41:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601192626.150804-1-willy@infradead.org> <20260601192626.150804-2-willy@infradead.org>
-In-Reply-To: <20260601192626.150804-2-willy@infradead.org>
+References: <20260601192626.150804-1-willy@infradead.org> <20260601192626.150804-3-willy@infradead.org>
+In-Reply-To: <20260601192626.150804-3-willy@infradead.org>
 From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 2 Jun 2026 16:40:43 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8S6MCddYeebRajNEBrPDwLNC09=uWP5XmUaE15Gu+JZQ@mail.gmail.com>
-X-Gm-Features: AVHnY4Kodk94p-MYFF8ymWKX7Seg-p_3ldHd0r1g_9SuP85Dgp63IRhmvVe9TNg
-Message-ID: <CAKYAXd8S6MCddYeebRajNEBrPDwLNC09=uWP5XmUaE15Gu+JZQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ntfs: Correct use of folios in handle_bounds_compressed_page()
+Date: Tue, 2 Jun 2026 16:41:15 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_8sUxdRT82pGmu2xo9=wt2ub_Jd_9ecFgOmQhj2Od1KQ@mail.gmail.com>
+X-Gm-Features: AVHnY4Lgnr6ZT-SFXiJYLCzGrX6QCpf3_RA7vIZl8mbRng2W9bM_b_JQnJeb2YY
+Message-ID: <CAKYAXd_8sUxdRT82pGmu2xo9=wt2ub_Jd_9ecFgOmQhj2Od1KQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] ntfs: Remove references to page->__folio_index
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
 	linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>, Hyunchul Lee <hyc.lee@gmail.com>
@@ -58,11 +58,10 @@ Content-Transfer-Encoding: quoted-printable
 On Tue, Jun 2, 2026 at 4:26=E2=80=AFAM Matthew Wilcox (Oracle)
 <willy@infradead.org> wrote:
 >
-> Inline zero_partial_compressed_page() into its one caller, remove accesse=
-s
-> to page->__folio_index, fix highmem (page_address() does not work with
-> kmap_local()), switch to using zero_user_segment() which includes the
-> call to flush_dcache_page().
+> Pages don't have indexes, folios have indexes.  Correct this in
+> ntfs_read_compressed_block() and also remove a use of page->mapping
+> while I'm in here.  Also convert the calls to unlock_page() and
+> flush_dcache_page().
 >
 > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 > Fixes: 495e90fa3348 (ntfs: update attrib operations)
