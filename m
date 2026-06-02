@@ -1,95 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE561F4180;
-	Tue,  2 Jun 2026 00:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AA615A86D;
+	Tue,  2 Jun 2026 01:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780361031; cv=none; b=FhBO38TLgctlKSbYwdAZeUyI2wI6GngROw0tB+N/igXol2o+re2F914ZCcfRWSZedQgCDfOB8hrTsAiZtFszsMSq3iXLcGBv4Sn/i7FqBnPQobo99T9Q13dMLRdiCLGQoVq5NkpJcK3uwfQe5gYce20paNdy96JdeggvPDFlhOg=
+	t=1780364129; cv=none; b=dovj1CZxj6D+WxMXq0SJ2AmfGE+7RtS3Fo3lnNepk3diW+Z2Zhl/FBJ89/ZblJD0Aky0dWxyYAAFDLWdNqYJnxnZSwZjqqgljBeebHDpuUM59e0j9zdYUZPLLPej/JbHUgW0yR1qyFVH6U1EALFEgID0878W++NfthGHjt1E4dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780361031; c=relaxed/simple;
-	bh=EP7NbwxGQO3cHzJFzkZ79NTCvuSBMk7HVlXDF5Gk4gU=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=MzTvEF+P0CKyfd6EbS40pbppuskF6R5EWI9W5RuPZSaT6g29eAEZMyLPcQ73CmmTALD32JLe8ODnuXKtuO0qMkHPIrc9CrvGAM+cY2L7y6CJhk+x+49aHxMkD7NpOx4eYNbJIy0Efni1NK6Arw3gzmSZCCTW7wJR4M0rymfOfv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bFcb+93/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780364129; c=relaxed/simple;
+	bh=RdA6LE86r8jsoZYpCHow1eeJqRpXht1bmL55sUXORoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vAMpnJ4ymmPT0KLu6y4yJ65Mbn8iTZRQWPFTA/627EQirHVqM7uvWncd8i1BNTVOf92p240/CvbFEZJp8W4OBFPgn9bBpxwMuB7ulhQ0iXeFvaK7lIrTvKjlk5JL6Uzz+gBPd5Woi6w4bevlTd1IzioSXGNrEqGGQvN5m4AoAMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Izo3uQd/; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bFcb+93/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA561F00893;
-	Tue,  2 Jun 2026 00:43:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1780361030;
-	bh=Rh2n9Gu0rmNTDcj9emYz6ha4zA22fi+waHRK2Lt+xYA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=bFcb+93/9S95ynXbVnpuZtZBYT+X51bssv+rLmgGtRgV8B/W56LyHj9DX1uQVcj4i
-	 Pd6p0tFzPEmJGOLkLwCU38i7iM7tieX6PLvShLWnLmzImiLUxjSOP+AuXGeNX+RDxQ
-	 9ziqdplU8XWD78fouW0PPprxDLqIHU3nxGZ3Rhqw=
-Date: Mon, 1 Jun 2026 17:43:49 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Chi Zhiling <chizhiling@163.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>, Hugh Dickins
- <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chi
- Zhiling <chizhiling@kylinos.cn>
-Subject: Re: [PATCH v2 0/5] mm/shmem: optimize read with reduced xarray
- lookups and folio batching
-Message-Id: <20260601174349.e521b96acac805ac3d9bfbbb@linux-foundation.org>
-In-Reply-To: <20260601055704.167436-1-chizhiling@163.com>
-References: <20260601055704.167436-1-chizhiling@163.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Izo3uQd/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=W2Gktytyiai/yXIIzLju2+22GzznnF7rncF3FpGPaw8=; b=Izo3uQd/vsXLT81MerBX6rLA1W
+	G8+Lg65UmroVHjhjOdqgJn5aHlE+0p5IuG/YFL+kn2sY1naz20p9uOb4e3R9o+7GxrdhTu+w9eRZv
+	eHwkfKOFinHNdOgMPrKzyj12GyeouLKaF6UfUszbJ3ykWXu1UUeY4ytWAjnEM52RfeXCAnEg0y1sY
+	go/b+TOTzTNWrG5Pc5yNMKyxoUYZwKXkpgNMRVaIvXe+mZGfryHC2bO6XuX8Qs7uBO1abmHtyqtES
+	AMXqS/dlC9JqPoidBWGeIRXhzQkn1fSDJNZRYRTtOWpcg7WXMBBJ6hKiW7hVfIinYXfXt6tzCfL15
+	IjsWNOmg==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wUE2Q-00000005IRS-2fHm;
+	Tue, 02 Jun 2026 01:35:26 +0000
+Date: Tue, 2 Jun 2026 02:35:26 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Denis Arefev <arefev@swemel.ru>
+Cc: linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org, stable@vger.kernel.org
+Subject: Re: [PATCH] block: Avoid mounting the bdev pseudo-filesystem in
+ userspace
+Message-ID: <20260602013526.GO2636677@ZenIV>
+References: <20260521072857.5078-1-arefev@swemel.ru>
+ <20260602011907.GM2636677@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260602011907.GM2636677@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Mon,  1 Jun 2026 13:56:59 +0800 Chi Zhiling <chizhiling@163.com> wrote:
+On Tue, Jun 02, 2026 at 02:19:07AM +0100, Al Viro wrote:
+> On Thu, May 21, 2026 at 10:28:56AM +0300, Denis Arefev wrote:
+> > The bdev pseudo-filesystem is an internal kernel filesystem with which
+> > userspace should not interfere. Unregister it so that userspace cannot
+> > even attempt to mount it.
+> > 
+> > This fixes a bug [1] that occurs when attempting to access files,
+> > because the system call move_mount() uses pointers declared in the
+> > inode_operations structure, which for the bdev pseudo-filesystem
+> > are always equal to 0. `inode->i_op = &empty_iops;`
+> 
+> What?  init_pseudo() sets SB_NOUSER; what are you talking about?
 
-> From: Chi Zhiling <chizhiling@kylinos.cn>
-> 
-> This series improves shmem read performance by implementing folio
-> batching in the read path and reducing unnecessary xarray lookups.
-> 
-> Performance Results:
-> 
-> fio --ioengine=sync --rw=read --bs=$1 --size=1G --runtime=180 --time_based --group_reporting --name=seq_read_test --filename=testfile
-> 
-> | THP disabled in tmpfs  | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
-> | ---------------------- | ------------ | ----------------- | ----------- |
-> | 1M + normal file       | bw=11.5GiB/s | bw=12.7GiB/s      | +10.4%      |
-> | 64k + normal file      | bw=11.0GiB/s | bw=12.3GiB/s      | +11.8%      |
-> | 4k + normal file       | bw=3826MiB/s | bw=3849MiB/s      | +0.6%       |
-> | 1M + fallocated file   | bw=23.8GiB/s | bw=28.6GiB/s      | +20.2%      |
-> | 64k + fallocated file  | bw=22.5GiB/s | bw=27.3GiB/s      | +21.3%      |
-> | 4k + fallocated file   | bw=4655MiB/s | bw=4680MiB/s      | +0.5%       |
-> | 1M + hole              | bw=24.2GiB/s | bw=28.6GiB/s      | +18.2%      |
-> | 64k + hole             | bw=22.6GiB/s | bw=27.6GiB/s      | +22.1%      |
-> | 4k + hole              | bw=4652MiB/s | bw=4489MiB/s      | -3.5%       |
-> 
-> 
-> | THP enabled in tmpfs  | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
-> | --------------------- | ------------ | ----------------- | ----------- |
-> | 1M + normal file      | bw=13.7GiB/s | bw=13.9GiB/s      | +1.4%       |
-> | 64k + normal file     | bw=13.5GiB/s | bw=13.5GiB/s      | +0.0%       |
-> | 4k + normal file      | bw=3833MiB/s | bw=3859MiB/s      | +0.7%       |
-> | 1M + fallocated file  | bw=24.9GiB/s | bw=34.2GiB/s      | +37.3%      |
-> | 64k + fallocated file | bw=23.0GiB/s | bw=31.4GiB/s      | +36.5%      |
-> | 4k + fallocated file  | bw=4710MiB/s | bw=4655MiB/s      | -1.2%       |
-> | 1M + hole             | bw=24.3GiB/s | bw=34.5GiB/s      | +42.0%      |
-> | 64k + hole            | bw=23.5GiB/s | bw=31.1GiB/s      | +32.3%      |
-> | 4k + hole             | bw=4690MiB/s | bw=4647MiB/s      | -0.9%       |
-> 
+... which doesn't suffice, apparently, since now bdev has become
+mountable, along with the rest of pseudo-fs.  *THAT* is a bug.
 
-That looks nice.
+> And assuming you've somehow managed to mount the sucker, which
+> ->i_op method had been accessed?
 
-Microbenchmarks are useful, but are you able to help us understand how
-much benefit our users might see in real-world workloads?
+->lookup(), apparently.  Which means that 'directory' should've been
+rejected by d_can_lookup(), no matter which filesystem it's been
+from.  Which might or might not be a bug in its own right.
 
-I'll take no action at this time - it's late in the cycle and reviewers
-have yet to participate.
+In any case, NAK on that patch - it's papering over the real bug that
+has nothing to do with block layer.
 
-AI review flagged a few possible issues, so please take a look:
-	https://sashiko.dev/#/patchset/20260601055704.167436-1-chizhiling@163.com
+mount -t bdev none /mnt
+
+must fail, same as for pipefs, sockfs, etc.  It doesn't.
+
+fsdevel Cc'd, as it should've been from the very beginning.
