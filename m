@@ -1,75 +1,31 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4701829A31C;
-	Tue,  2 Jun 2026 06:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185753603DD
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 06:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780383303; cv=none; b=H9WCBNumPRQZ0uTBG2o22hySPf+7OpQQf7NQHn9SPrKiqonTmrgb/AvWyXz6d/F77SXavhQZO9vEIUr7rSecDQatYczpwb/9DYr4gNp7E21509uTIgNAFwTf/D9EBQNz54rCOSF2C/XdWyniLyoPLWOraJqDay87TzOMeWO9piU=
+	t=1780383544; cv=none; b=Vb9CVhPc2uiRdiF3uT30P7KPNThGxgZb0wDDqi86tOF/jBXvg8lIBunRIzLLNgMbwWMEgzRKKfO8W29aScQQrErVoAYxKJnHkTNBBhcGotDmBNn8GHHWCvLt41g7kXBMZV7dbD/NHNHW8uzQhP/Qw6DFGnRh5tz900jb+efttWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780383303; c=relaxed/simple;
-	bh=PEcRV3ln06wPZWBUaDm17PV14nWg91zdPBb1asFx6gE=;
+	s=arc-20240116; t=1780383544; c=relaxed/simple;
+	bh=0jh649FRBc4Bjvnq+qBgd8RoM+wjZ7Bwa0qbjiJSG2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P01NY1q5h7I7+Quaaulsq/7FZngV5lVTPERIzM4J5kSGKX2wTGWdZJh2As0TNfbBS8B0uKx2tQyV7hvxqbo+XgEQiRdB5+5BMPnEVDJ5oJVaXDjFfL2eE3KQQAP4DJfLvtIvsFZ0LzimJytPRwc3gLaOqxgUGdObqy2FzwRnXyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=UjGZRuJT; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="UjGZRuJT"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 651GQdOW3295133;
-	Tue, 2 Jun 2026 06:54:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=azyPBhysyV4g+I5FC5hYmzOA7/DTfO
-	zRYV+TgiZsgAs=; b=UjGZRuJTIyh+wW4psq3TgQ7K7y5QfQMZH6OTp+BG4dkmDJ
-	76D8oBdy0p9O/urR/8A9KXVobZY6plDHefG66EdBbNw2lgb/aW9Pq5aMU6+olXXc
-	qCiTBqXOZ17cpiCJJAsQ5B478A8dAUv6rdl8XnF9gocPknGBG6v4Xv4b57ywGEWu
-	Z5G3CctaAZl4sYGGe67ZlRj2UrYAwsGOzGj65i1zcefgiye4WyxPAZIziVhXg1/4
-	uVZuE2TMNMoqdBXL5oLR67k5US+hOM9uMBoEizkH5v0USXiuoP38FznVc0N+pHH0
-	3oee0PyrO8bgNU2cK4oyDgxIhEABK1vpJQG+uEHQ==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efnahmech-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Jun 2026 06:54:16 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 6526s8P3013816;
-	Tue, 2 Jun 2026 06:54:15 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ega7qa6jf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 02 Jun 2026 06:54:15 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6526sEVF56623600
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 2 Jun 2026 06:54:14 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 26BF120043;
-	Tue,  2 Jun 2026 06:54:14 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B8CFE20040;
-	Tue,  2 Jun 2026 06:54:09 +0000 (GMT)
-Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.123.13.2])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue,  2 Jun 2026 06:54:09 +0000 (GMT)
-Date: Tue, 2 Jun 2026 12:24:07 +0530
-From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Daniel Gomez <da.gomez@kernel.org>, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, djwong@kernel.org,
-        john.g.garry@oracle.com, willy@infradead.org, ritesh.list@gmail.com,
-        jack@suse.cz, Luis Chamberlain <mcgrof@kernel.org>, dgc@kernel.org,
-        tytso@mit.edu, p.raghav@samsung.com, andres@anarazel.de,
-        brauner@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        pankaj.raghav@linux.dev, Daniel Gomez <da.gomez@samsung.com>
-Subject: Re: [RFC PATCH v2 0/5] Add buffered write-through support to iomap &
- xfs
-Message-ID: <ah5-D51KPxM-lgHi@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
-References: <cover.1775658795.git.ojaswin@linux.ibm.com>
- <d5d99db2-9d34-4caf-bcc8-c4a3af561901@kernel.org>
- <agQPtTx2EXHr10Nn@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
- <ah24DlQobLjjDTGt@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
- <20260602054743.GA32657@lst.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=o3M4FAII118kQw/JI6NVs9ulZxYvIh7qvZT/wCFUDTj8VawHvJkdXZCybOFJNu/6pJ/HcPBd+FD/O05Ie+bPwrgsx7XRflSczm/AFkv/PcK7/YUZtEdit9sZHRd1vjNM7mXUb5cKsOjDbpYx0GRVB5FTQ4sCbGZ73L6Nd239apc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id 1824C921D9;
+	Tue,  2 Jun 2026 06:59:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf01.hostedemail.com (Postfix) with ESMTPA id 9C5AD60010;
+	Tue,  2 Jun 2026 06:58:59 +0000 (UTC)
+Date: Mon, 1 Jun 2026 23:58:56 -0700
+From: John Groves <john@groves.net>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
+Message-ID: <ah5-40YypaswEG-1@groves.net>
+References: <20260529134302.1989958-1-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,70 +34,169 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260602054743.GA32657@lst.de>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAyMDA1OSBTYWx0ZWRfX+71z47PaWB2B
- vNndWMdiWWmMj3ZIPpVWGD5p+2c/9zFyNcAKPRkFbRotwIDGDJLrRhZgh471UPw7eEuuMYnSJVe
- 5xVWVUl9Xx8wcfxINn8nVtsHhozfCcAqmE6WUIGDkRappWMKnxnx3+csdzcXFWUEUiZX/7OtWRE
- V8K/VI6lQhn1/3spDBLGIiBUvKdqD0LNlX7z2deGGup80ykjxVRlco4ntQ0EPzKpZcsbqbrZ9dy
- yqDXcTDwiONwmM2/DPLurto/AAnqj3b5gN6Ue9BVGHTi4KVggFFe272HumkkQt6uBcxxxhzsH8N
- pjoC6WOw/goXFrqFsmgGAm8c8k81wQGB8xuIJLNLr1/p4U9S2GMePFWUnqgrxES+ucVQQEKrWEy
- FPp+kNVWHQxZWSD6L6YA9Ose2Et+djg0FYpaLoRUFCWgnChkYscsk0m2xmSIKDXDP0rRDPK5NlS
- p76bQLOoLhK0Wt1A2DA==
-X-Proofpoint-ORIG-GUID: nibAEZvf3c6xmr4xgEIJIOcU81GPtqOV
-X-Authority-Analysis: v=2.4 cv=cOzQdFeN c=1 sm=1 tr=0 ts=6a1e7e19 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=hhuWuiOL4SiSWFdKcnEA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: 2Vk8eMUcoTVI1KE_6lVXeY-buYjiBWU2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-01_07,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
- malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606020059
+In-Reply-To: <20260529134302.1989958-1-mszeredi@redhat.com>
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: 9C5AD60010
+X-Stat-Signature: gtjgco8m5hcz8yoo7fnwu63yc9bmwsay
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18Ez6eA1eH4QLQlsiFcbgHDAY2CFDReqEg=
+X-HE-Tag: 1780383539-804029
+X-HE-Meta: U2FsdGVkX1/Z9EqRrMtrly2Xa2YMgZqAODDZ6HOC1vohh/wF3T69IJ2Hyi/8flfQF37O1alX/iAUa5yEvvhGPcgpVue9V1aCDHW/gV0ByaHTDvCGLLWvRO521MqNlqeD3rA6bnffmwNBUeZ3QefLKFGu9Lbu3w9+EexGiCQUpQYS0o0aGD9qUg2cQTebW8n45+gQm0cRvHdn0HbwXXs3iBlsCsCSi5bzl6NH5VdXhnbb4wkIRTdx4ShfR2PR3ZKmptOsCqxTqcyJsggNog/6ERaD+7a4paOeD6id5hcI9OHJClCFNnbNVJqUWwITK6dJrHCL0fp90hkMw6Ug9BlMK33LaUAUiFC+
 
-On Tue, Jun 02, 2026 at 07:47:43AM +0200, Christoph Hellwig wrote:
-> On Mon, Jun 01, 2026 at 10:19:18PM +0530, Ojaswin Mujoo wrote:
-> > 
-> > So this week I spent some time looking into the failure of g/457. 
-> > I was able to replicate it in my setup and after analysing it, this is
-> > actually an issue in my xfstests patch. The issue is that to verify
-> > RWF_WRITETHROUGH support I do a 4kb write on the fd during the test prep
-> > phase. However "out-of-band" write makes the actual contents of the file
-> > different from what fsx expected (It reads it in before the problematic
-> > write), causing the test failure. 
+On 26/05/29 03:43PM, Miklos Szeredi wrote:
+> The difference is that now the server needs to look at the fmap and check
+> if any new device needs registering, the device index is now allocated by
+> the kernel and returned by the ioctl().
 > 
-> Why does this get out of sync?  One of the arguments for RWF_WRITETHROUGH
-> vs direct I/O was that it avoids the content getting out of sync.
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+> This is the first part of what we were talking about: using the backing
+> file API for dax devices.
 > 
+> It's on top of the famfs-v10 patchset.
+> 
+> Totally untested, haven't even tried booting it.  Obviously needs
+> nontrivial conversion in the server code as well.
+> 
+> Thanks,
+> Miklos
 
-Hey Christoph, I think I was a bit vague in my explanation. So this
-issue is not in the kernel but in fsx. Basically fsx does something
-like:
+Miklos, thanks for looking at this.
 
-1. Read in the file contents and store it in a local good_buffer
-2. Detect support for various IO types (writethrough, dontcache etc)
-  2.1 To detect writethrough support, I perform a 
-	pwrite("4kb of 0s", file, flag=RWF_WRITETHROUGH) and look out for
-	EOPNOTSUPP.
-3. Start running the test
-  3.1 Whenever we perform a write operation in fsx we use fsx write
-	wrappers which also update the good_buffer before writing to file.
-4. During fsync, we write the good_buffer to a golden output file and
-   also set a dm_logwrite mark. Later, we replay the dm_logwrites mark
-	 and then check if the file matches the golden o/p file.
+First, a scope check. This patch touches only the daxdev registration -
+GET_FMAP, struct fuse_famfs_fmap_header, and the simple/interleave
+extent structs in include/uapi/linux/fuse.h are untouched. I'm reading
+that as tacit agreement to GET_FMAP and its ABI. Can you confirm? If so
+the large piece is settled and this is really just about how a daxdev
+gets registered.
 
-The issue here is that fsx's golden output was not correct cause in step
-2.1 I was using pwritev2() directly instead of using fsx wrappers to do
-the write which was not updating the good_buffer. Hence, good_buffer
-went out of sync from what was actually supposed to be in the file.
-g/457 thought this was a corruption however it was a bug in my fsx
-writethrough support patch.
+Device indices - the part that has to be right
+----------------------------------------------
 
-Regards,
-ojaswin
+Everything below turns on what a famfs device index *is*, so let me make
+it explicit, because the patch's model of it (kernel-allocated) isn't
+workable for famfs.
+
+Famfs daxdevs are shared memory. The same physical memory is mapped by
+famfs on multiple nodes, and on each node it most likely has a different
+name and dev_t. What is invariant across nodes is the daxdev's UUID. So
+a daxdev's definitive identity is its UUID, not a path or a dev_t.
+
+The index is assigned by famfs userspace, as the order of appearance of
+daxdevs in the famfs metadata log:
+  - the primary daxdev (which holds the superblock) is always index 0;
+  - additional daxdevs are introduced by ADD_DAXDEV log entries and take
+    1..n in order of appearance.
+  - ADD_DAXDEV log entries establish the UUID-to-index mapping
+  - any file may have extents referencing any or all daxdevs defined
+    previously in the log - by index
+
+Two properties make the index a userspace-owned, cluster-invariant value
+the kernel cannot allocate:
+
+  1. Bootstrap. The famfs metadata log establishes the indices - each
+     ADD_DAXDEV entry defines the next - and an index can then appear in
+     any later file fmap. But the log is itself a file on index 0 (with
+     the superblock), so index 0 must resolve before the kernel can even
+     read the log. The numbering is fixed in the log before the kernel
+     sees any of it, so the kernel can't be the allocator.
+     (idr_alloc_cyclic never hands out 0 anyway, so a kernel-assigned
+     primary couldn't even be index 0.)
+
+  2. Cluster-invariance. fmaps live in the shared-memory log, read
+     identically by every node. A given dev_index must denote the same
+     daxdev (the same UUID) on every node, even though it most likely has
+     a different name and dev_t on each node. A kernel-allocated id is
+     node-local and mount-local - the wrong kind of value to live in a
+     shared fmap.
+
+So the index must be supplied by userspace (which owns the log and
+resolves each index's UUID to a local device), and the kernel looks
+devices up by that index. Resolving UUID -> local device is inherently
+userspace's job; the kernel trusts that resolution and never needs the
+UUID.
+
+This is also why the hand-rolled daxdev table is the right structure, not
+incidental cruft: a small self-contained array in famfs.c, keyed directly
+by the dense zero-based index, closing the discovery race (valid flag +
+wmb) and giving O(1) lookup. That's exactly what this index namespace
+calls for.
+
+Identity by reference, not by path - this part is right
+-------------------------------------------------------
+
+The genuinely better idea here is getting the kernel out of resolving a
+device pathname: the daemon hands over an already-resolved reference
+(you do it with an fd, from which the kernel takes inode->i_rdev)
+instead of a string the kernel has to kern_path(). I want to adopt that
+- credit where it's due.
+
+The minimal way to realize it is to have GET_DAXDEV return a dev_t: the
+kernel uses dax_dev_find() and kern_path()/may_open_dev() drop out
+entirely. No ABI change - struct fuse_daxdev_out already carries the
+index and has reserved space (sized with room for a uuid), so it's just
+filling a reserved field, and the index is already first-class in the
+reply.
+
+The fd delivers that same dev_t (the kernel already reads it from
+f_path), so BACKING_OPEN can realize the same idea - but the dev_t is
+the part that's actually the improvement, and the daxdev reply ABI
+already models (index, dev_t) while fuse_backing_map models neither. So
+realizing it is cleaner without the fd than with it; the costs of going
+through BACKING_OPEN are below.
+
+On BACKING_OPEN
+---------------
+
+If you feel strongly about FUSE_DEV_IOC_BACKING_OPEN, I'll make it work
+- but I want to be honest that for famfs it's a shared-almost-nothing
+approach:
+
+  - famfs needs its own handler regardless (the famfs branch of
+    fuse_backing_open), and that handler can keep populating the famfs
+    devlist exactly as today - so the only things actually shared are the
+    ioctl entry and the {fd, flags} struct.
+
+  - it forces 'select FUSE_PASSTHROUGH', pulling in file retention, I/O
+    forwarding, refcounting and close - none of which famfs uses. Famfs
+    maps device memory directly via iomap/dax_direct_access; there is no
+    backing file and no famfs close path (fuse_backing_close already
+    returns -EINVAL when famfs_iomap is set).
+
+  - the ABI doesn't fit. struct fuse_backing_map is {int32_t fd; uint32_t
+    flags; uint64_t padding} - it's fd-shaped, with no dev_t field and no
+    index field. To use it for famfs I'd have to carry the device by fd
+    (which forces the daemon to open() the device just to register it -
+    the daemon otherwise never opens it) and smuggle the native index
+    through padding. And the fd does no real work: in famfs_daxdev_open()
+    it's borrowed only to read f_path -> devno, then dropped; exclusivity
+    comes from fs_dax_get()'s holder, not the fd.
+
+On access control, in case it's a concern behind the fd: the famfs path
+is already gated on the server holding CAP_SYS_RAWIO at init -
+FUSE_DAX_FMAP is only offered under capable(CAP_SYS_RAWIO) in
+fuse_send_init(), and famfs_iomap (hence GET_FMAP/GET_DAXDEV) is enabled
+only if that flag comes back. So the registering daemon is already
+raw-IO-trusted; there's no access-control gap an fd's open would close
+(may_open_dev() isn't a capability check anyway, just a mount-nodev test).
+
+Net
+---
+
+I'm glad to (a) confirm we're aligned on GET_FMAP and its ABI, and (b)
+switch GET_DAXDEV to return a dev_t instead of a path. I can't move index
+allocation into the kernel - the index is a userspace-owned,
+cluster-invariant value for the reasons above - and I'd keep the famfs
+daxdev table where it is. Lazy discovery has to keep working either way:
+only the primary daxdev is known at mount; the rest are discovered as the
+famfs metadata log is replayed and first referenced by an fmap.
+
+If you still want BACKING_OPEN after the above, say so and I'll make it
+work, ABI overloads and all - but I think GET_DAXDEV + dev_t is the
+smaller and better-fitting change.
+
+<snip>
+
+Thanks,
+John
+
