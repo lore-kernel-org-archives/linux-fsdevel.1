@@ -1,236 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDDF3090C4;
-	Tue,  2 Jun 2026 20:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6A830C148
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 21:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780433254; cv=none; b=q484roOMdDXdzjo1kV/OV7FAXhveQVZb4gcVQ+8rFwqeTeyBesg4wZLi4mb0DlCr3CaEhH+uTPT6uyaMSXfeuRVgoMU7DGYa3//dKNW8GanolwhvVsfs3ZD39SVA0lRYHLTDmQ9kEmYVA9l/Tcg5oDqHLka0q/P2RR/5J7Zx/P8=
+	t=1780434773; cv=none; b=scPGQzIjaYs9rwDK+i8veCLO224WLvsCDikL7Ts6czk58QXx3CyAnldczIXwGd4/p8A5ZtepwT1sUm/uShFP67QP8toYSAu2sIjnsZ/qbFoG42Z5x30bjbtsBMHJe9c9hdeLkxBBZCFjJffjhUGmuOc34hfLLEgavfuLUY/WGf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780433254; c=relaxed/simple;
-	bh=geDvUwPJhkpDKczkx53xFYXwpWeDidtGiVWgR/gBGcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TObF6JMtz1JU9qfaVyjNQ+ePkVRVtpP/sSZS7Bp7FXPh1WTpYFoPNNY1+ydAagmDfUUbyRMILoyRVqYxxVRHZMuhOI+08nbjatDsQR4SF0xZ1UIKfVtQuPsawiQsrHePbtklGaWg7b4WCUQKyN1xHY6Zg9kGzbEd3x8/nnBKqxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nzt8VJlF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780434773; c=relaxed/simple;
+	bh=uij0fPrYXhiLn/hkkJMC6Jmrz2271TCJpQyuyCz9648=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CJBdvjrzlcbMFuL6S9F2esEeqyi9zpfpuaAvlqlDRQMCiGwIsuAjaT798PQCroAfnkZ7olFcMHc12bmeWTSmQco+jF8Ix7wwgmxVaYo0VJnh/YHl+Xuobsb9ZYI16wHaTvdvSr2ARPBo/3mOymiUjLhtmMCfWC6e8v4IKoZ7uq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PBbMtFsm; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nzt8VJlF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A56691F00893;
-	Tue,  2 Jun 2026 20:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780433252;
-	bh=feidG2as/XbImAclBaae090g0zSDhLsjz6jl/0A4LvM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nzt8VJlFbZ1fLWVcj2WlL05fM+BocJStfm95qE/oxhpfKoTl2aVhIhpyxmUhpn7Sh
-	 xXb1w5fL4q0FFF8tkj0FC0w+t18EK8wlWQcYTwE9iYo1FIOFqmw7nREQ+kjB1pSJMs
-	 kWUzxzF1cdXbUuAl8PM3VZ8GosZJ7hrEFmnD5AB/scpGZu5KjU+4OQXFtWiqd2Y8Me
-	 dws8W7hGRkUrW+sNeYWrqf6mUxNg9UQMRMVruAd4TJCIHU6TreYhygTZIyLW5h168K
-	 tfwaQPpZ1v0nAC3JICmLT8yrtJjFUhEsnA/MbuCM0gBWDJcmpA5TskWK78MTEqkpaE
-	 Bv4gjeOV7WVhg==
-Date: Tue, 2 Jun 2026 21:47:17 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: wangtao <tao.wangtao@honor.com>
-Cc: Barry Song <baohua@kernel.org>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, 
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, 
-	"x86@kernel.org" <x86@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
-	"david@kernel.org" <david@kernel.org>, "willy@infradead.org" <willy@infradead.org>, 
-	"sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>, 
-	"luizcap@redhat.com" <luizcap@redhat.com>, 
-	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, 
-	"jack@suse.cz" <jack@suse.cz>, "riel@surriel.com" <riel@surriel.com>, 
-	"harry@kernel.org" <harry@kernel.org>, "jannh@google.com" <jannh@google.com>, 
-	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
-	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>, 
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
-	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, 
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
-	"matthew.brost@intel.com" <matthew.brost@intel.com>, "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, 
-	"rakie.kim@sk.com" <rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>, 
-	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, 
-	"apopple@nvidia.com" <apopple@nvidia.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
-	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
-	"dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>, 
-	wangzicheng <wangzicheng@honor.com>
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
- creation
-Message-ID: <ah887A5VkXOcmq-g@lucifer>
-References: <20260527110147.17815-1-tao.wangtao@honor.com>
- <ahcANgFDFwfC0v1q@lucifer>
- <b24b4a8198ba412f8b8b42c43dccd058@honor.com>
- <ahf2mJg9OOWvu0jA@lucifer>
- <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
- <99dfc4a50f3643a6bef6deaeccfcf115@honor.com>
- <ahlzj--3Gm5pD9ge@lucifer>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PBbMtFsm"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490abf12f0fso65895e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 14:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780434771; x=1781039571; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z9XdL0UcpSaON9fzpANOcoqtpqZ13Zvjis5WLumIDqM=;
+        b=PBbMtFsm7wChxpUx03NtaBWtFJn/EfXqGpb/VEcyERZ2iLqzHMNLMatuyuVR7QWPfu
+         8WW8Km1XEKgRVtRqCtPHN3gEyqhtnScsvDIixgY+SJJkqmbpV3efaZaYV/MpDC8bTm8e
+         gYdss33U+liT52p6RMSvYoxy2QyNaXnuzCa+sKtK8nUIqJ5pYU6Cy+mxQU8F5dPVe7u1
+         oNwY08o05liz3y3GSjB05k6kCEfRohwJ/l9HSMdThLORfytOf2+NyxgPK2L06LQokybP
+         6i/kZCzq/KcwJurNssCq+GZzk+85sMQ5Y6AcSdxc6gYMOO3mzAywpIfUxoG+CJ/gzeha
+         1nFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780434771; x=1781039571;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Z9XdL0UcpSaON9fzpANOcoqtpqZ13Zvjis5WLumIDqM=;
+        b=ITTpUSVsaR5GR7R+bMraMLZLWc1Gcw9pZbXD2qBlnGtXw53mLAxhVVMefB8b29TJQ/
+         PJKZYeJgFfytQvK1Gkcke60vec7Ig+ntpslRuqCbiM7XWp1PxxAJCZYludiKgWY/GBb0
+         UDbomPlqNfHrjR9O2x8rg/LD5FfYSTWhLQ5iT3x46xYm/6HDvMX6rQ/JjzOxPJF8zDAF
+         AdOsWQFdAzQE3mjOfYLqd5KXjhqkCm5n8cmDtBVLA3wEhm6qvwA7fKB01coSAvNGHuc9
+         Jp4uDyc+EmrfbFILe0+mDe+1jMiMTg6FyKXPZ2bE4+Sq5dzcrErnAPzDiELN43AGa2qM
+         ymIg==
+X-Forwarded-Encrypted: i=1; AFNElJ+kqkhmNOmpt0q/269oKxvilsp8fd3JqEdOuPC5nO9UaLrDl9dMMDIpB4i8Z+kUWC+C1lX+3AlmC1Vb6NIQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhjKaWqUyJXvDQVehMtwVmh3cWmOAzN4Yw+xe/bqr5TN+KuRMI
+	ovaiILNbUAqQ15JP7Gy+SksbnyVShOer5iA6tmhEtNoBaN2+ZJNRoRgQ
+X-Gm-Gg: Acq92OFF07+107KM4B4dJ5RQQ2e7Ugq+Ax59Cyqz2JVNAGk9cRXCn+L6N+UVFr4ym52
+	COZslyoAS/L+pibF9HaLSonpIJ7evTchwJpEUnnTNKtjCZoujUM7Jq9/cPVl/wTNySLeEetilQd
+	L0YKU8M/Bu97DD3hz0qmT0F1FCxlTS47mE19BjcpgC20G2C3xGK/pCmR9W3iw+RDLli3JMU1D6q
+	vsCyWIONPea6cmEAAUh9lQVhMW1VfdRN7IdIXbomP6rbF6gHeDHg27dVpCuuPyia0aE/LQb0kk7
+	UAyQc4ZcrPbEMXkGRRqWyV1jNncn4x1ULgt4xpwQUbWypO6YwlD4sNODV3FnvJzhZa3cBRscmA7
+	nGoewzH+CYgtwaMuRt7a2Xm4sOBClXIR1O8kO989NR2XfLJ0Dl6w6F56JbBHaBx5JXC8T9uDvz0
+	jhIV9hdnB8jjORdrHUpm5R1JzvHI38AA==
+X-Received: by 2002:a05:600c:3b98:b0:490:b11e:e4be with SMTP id 5b1f17b1804b1-490b611105bmr5959595e9.3.1780434771026;
+        Tue, 02 Jun 2026 14:12:51 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490b0e13f91sm111429715e9.3.2026.06.02.14.12.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2026 14:12:50 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: pfalcato@suse.de
+Cc: akpm@linux-foundation.org,
+	axboe@kernel.dk,
+	brauner@kernel.org,
+	david@kernel.org,
+	dhowells@redhat.com,
+	hch@infradead.org,
+	jack@suse.cz,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	miklos@szeredi.hu,
+	netdev@vger.kernel.org,
+	patches@lists.linux.dev,
+	safinaskar@gmail.com,
+	torvalds@linux-foundation.org,
+	viro@zeniv.linux.org.uk,
+	willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+Date: Wed,  3 Jun 2026 00:12:42 +0300
+Message-ID: <20260602211242.13870-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <ahv16ogY8Zx3Rtox@pedro-suse.lan>
+References: <ahv16ogY8Zx3Rtox@pedro-suse.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahlzj--3Gm5pD9ge@lucifer>
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 29, 2026 at 01:04:08PM +0100, Lorenzo Stoakes wrote:
-> On Fri, May 29, 2026 at 09:41:20AM +0000, wangtao wrote:
-> > > Hi Tao,
-> > >
-> > > Lorenzo had a discussion about rmap in Zagreb here:
-> > > https://lore.kernel.org/linux-mm/aec533b2-37a7-4f44-a279-
-> > > c4aa604206ac@lucifer.local/
-> > >
-> > > He also shared the PoC code here:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/ljs/linux.git/log/?h=project/
-> > > cow-context
-> > >
-> > > and the slides were shared as well. In case you can't find them on linux-mm (I
-> > > actually couldn't find them myself), I am attaching them again here -
-> > > "scalable-cow-lsf-longer-version.pdf"
-> > >
-> > > After coming back from Zagreb, I kept trying to find one or two full days to
-> > > read Lorenzo's code and slides carefully and write a blog about them.
-> > > Unfortunately, I have been completely busy with other work. Sigh... we
-> > > always seem to have too many non-upstream tasks.
-> > >
-> > > If possible, I'd really appreciate it if you could take a deep dive into it and
-> > > write a detailed blog post. I'd be very eager to read it and better understand
-> > > the overall design.
-> > > Otherwise, I'll try to find some time next week or later to go through it
-> > > myself.
-> > >
-> > Hi Barry,
-> >
-> > Thank you very much for your reply.
-> >
-> > I took an initial look at the cow-context code, and a few points
-> > might be worth noting:
-> >
-> > 1. cow_context_walk currently assumes that the rmap walk runs
-> >    under RCU protection. This may need to be adjusted early,
-> >    since paths such as try_to_unmap_one, page_vma_mkclean_one,
-> >    and try_to_migrate_one may involve task switching.
-> >
-> > 2. In cow_context_walk, traverse_contexts appears to involve
-> >    multiple nested loops. When there are many child processes
-> >    across several fork layers, it may not be as simple or
-> >    efficient as the current anon_vma approach.
-> >
-> >    It needs to traverse all child cow_ctx, and within each
-> >    cow_ctx, remaps_for_each() has two levels of iteration:
-> >    remaps_for_each_entry and remaps_for_each_entry_offset.
-> >
-> >    In other words, it first iterates over cow_ctx and then
-> >    traverses rmap_mt inside each one. The rough complexity
->
-> >    seems to be O(#proc * log(#rmap_entries_in_cow)), which
-> >    may be somewhat higher than anon_vma's
-> >    O(#vmas_in_anon_vma). However, in most cases the number
-> >    of processes is not large, so the impact may be limited.
-> >
-> > Previously, I also considered converting anon_vma's rb_tree
-> > to a mapletree. If one entry records a single VMA, the
-> > average overhead could be less than two longs per VMA.
-> >
-> > However, unlike rb_tree, mapletree does not support storing
-> > multiple elements under a single key. The key would need to
-> > look like (vma_id/mm_id + pgoff). On 32-bit platforms, since
-> > 64-bit mapletree keys are not supported yet, the remaining
-> > 12 bits are not enough for vma_id/mm_id.
-> >
-> > Because of this limitation, I later started thinking about
-> > ways to reduce anon_vma allocations instead.
-> >
-> > I will try to find some time next week to analyze the
-> > cow-context design and code more thoroughly, and then
-> > write up a summary.
->
-> Tao,
->
-> This response is so full of misunderstandings it's not really worth me
-> responding to any of it. You've even hallucinated an imaginary field which
-> is REALLY suspicious.
->
-> You've no mm expertise or history and came up with this in a few hours. I
-> asked Claude to analyse it and it puts it at 75-80% chance of being solely
-> LLM-generated from cow_context.c.
->
-> I simply don't have the time to deal with this, so unfortunately I'm going
-> to have to withdraw the suggestion of further discussion with you on this
-> topic.
->
-> I am working on the scalable CoW project and will solicit opinions of those
-> with relevant expertise.
->
-> We are not interested in your approach or analysis.
->
-> Thanks, Lorenzo
+Pedro Falcato <pfalcato@suse.de>:
+> On Sun, May 31, 2026 at 01:01:04AM +0000, Askar Safin wrote:
+> > See recent discussion here:
+> > https://lore.kernel.org/all/20260516182126.530498-1-pfalcato@suse.de/T/#u
+> 
+> So, you took an ongoing discussion with an ongoing RFC patchset, and you
+> decided to reimplement part of the idea on your own, as a concurrent patchset.
+> 
+> Riiiiiight.... I don't think I have to NAK this, do I?
 
-Apparently there's some misunderstanding about this situation here, sigh.
+Okay, possibly this was indeed inappropriate.
 
-So for avoidance of doubt - I've now spent many hours on this, and unfortunately
-(as I've already said in multiple places) this series has serious architectural
-and code flaws.
+So this time I'm asking explicitly: is it okay to post new patchset?
 
-And unfortunately, the anon_vma approach is not something we wish to extend, for
-reasons I've gone into elsewhere - but broadly because it's a broken
-abstraction, that uses lots of memory and causes lock contention.
+I want to post patchset, which will remove pagecache-to-pipe splice.
 
-The approach here has multiple technical issues, so many that getting into each
-one would require hours more of my time to analyse, maybe all week?
-
-And then if there were further replies and replies to the replies and respins...
-
-However, I also feel there's substantive, overlapping, evidence of the _logic_
-(not the text, we are FINE with using AI to assist text for non-native speakers)
-being LLM-generated.
-
-However you can never prove this for 100% certain. But you can certainly be more
-or less sure. I would never suggest this unless I was really pretty certain.
-
-I am very keen to avoid 'witch hunts', or rash accusations. This is not
-that. It's a _carefully considered_ opinion, based on evidence.
-
-But of course - I do not know for SURE. You can never know.
-
-The big problem here is asymmetry of maintainer resource. I simply _cannot_
-respond to every single issue here. And when the architecture is something we
-don't want, then it's not really necessary to.
-
-And my big deep underlying concern with all this is - people can generate a very
-significant amount of this kind of work, and we have limited reviewer time.
-
-I've already dealt with burnout recently that I'm thankfully recovering
-from. I'm not really keen to go back to that.
-
-I really truly worry that if we don't have a means by which we can quickly
-dismiss/deprioritise things when we have a _significant_ evidence of wholesale
-AI generation, then maintainer overload will increase exponentially.
-
-And that's really a serious problem.
-
-If we treat it like simply a technically incorrect solution, then it means we
-open it up to further discussion on and onx, as we're actually observing here. If
-the responses are also LLM-generated then it's even more problematic.
-
-This is why I bring it up, and proactively say it's lead to a real loss in trust
-in this case, and why, after there was a response that included a hallucinated
-field in it, I went further and said that I really don't want to have a
-discussion either.
-
-It's because of this asymmetry.
-
-And even this reply, written at 9.45pm at night, after several hours of
-discussion about this off-list, is evidence of the problem we have with this
-kind of asymmetry.
-
-It's nothing personal, it's about managing time and resources.
-
-Thanks, Lorenzo
+-- 
+Askar Safin
