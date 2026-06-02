@@ -1,74 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463A0219303;
-	Tue,  2 Jun 2026 13:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A893831F997;
+	Tue,  2 Jun 2026 13:19:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780406230; cv=none; b=ev9ECc04MHfwBSdYbMeUZyea88fH3O5mH6LOxNi3vr3x4F2n0af9/UF0qxBk0dy29ha5FeaU/Aw/EEmqy4TxMbDaQBfjqM9lmUi2+0ggH8NIbIxikE0HbpVSoOhbyCAp8VZcYGAS++2aApFbOkTYTu5R+zgEuwNA4EIg3RFQciU=
+	t=1780406364; cv=none; b=HvqjWXF+N9zwyvnZwx0xxFTQ46jbJf67GuqC9+eCoaTtpkZzjnadctwdPKCYR3z/46urVSV5IsmhKs7uniHSPw8jLQXxQGsfFf4LPZ26ADhXqpH9QHL8GwQBXwDj9xoNs9b1ga3Z89qUWkY/nCgpdbPvfXIXJ0IdfC8sqAUxHy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780406230; c=relaxed/simple;
-	bh=pv0ccRbUlFd7UzDDwsvJdcTrldXAWEKe60nLCXs3PBQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tEt4ZdNn8aEee4sVfEbXoJcTK8JiACj5E50NWgWDzm9ozxhJa8QgSytOcX//AT7l4+aQM7CKLfbpjDci7dDHFF+g8dcPsJ9qDAFNJdqHErzdBtHbcXsai7T/8Ed3WgFdfGPeIECJ/LhzBRo5oSIoij+zRGaZP55iwvEcEroyMEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/5H3ObN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780406364; c=relaxed/simple;
+	bh=Nt/4H64NaQk44GeIizZ1ITHTVqkfyCLEtkyLtqQB1yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D5gria8TwudIqxczBYbxLp2i3AxVyWn+4Ojf6Ewcm/iA62rSBecyva/l3bU15waERba+uYUGLXHyHsr3MVmMJCZJfusx0iOXc+Aj3qZ7pLA86mJO0Da/6mvj+7saQK/HbRF0Z9vW3qDGY8kGgIpoIQ+cC2OCqpcpo4eOfN0JIJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jAVHKLz8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/5H3ObN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E00D1F00893;
-	Tue,  2 Jun 2026 13:17:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jAVHKLz8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0078F1F00898;
+	Tue,  2 Jun 2026 13:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780406229;
-	bh=chx4TDQlPG/cOKsaz8RSYtW/SkbbWLvNfKmDplsGi2g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=m/5H3ObN+93mRzmsCouXFl8XW+l7YSraCoSJltuIhWN5vZ26mNwM50cFyrKSShAVr
-	 rXu5apqQHL8gd/okx6bHuLZcUQHMNvdyCx62SjQfpfk9BD1IL01T20XzUI/VPMM9bF
-	 5xFCCFYMYUy+HxtwqQLtbdM5HfUOgRyMXtxv0H6/g62vTIdjpewmztHlZ0QAXli4dQ
-	 lP5+XxAPhqvdrzll4kOfHZNcTATkQaIdkqtnVBeg0XoQW5hKS5fpFLZwDayrhE/iY8
-	 zu/5b3wF3R1KCdh1TzRVdlIkxIkbOLW/DEm3NRaME/5Faeb04i128QZbH8AQHCNnUh
-	 7jWjDppGrHjOQ==
+	s=k20260515; t=1780406363;
+	bh=qIqOC0zIFENBc5vsQMZZ4aasxKCurPlnabfas50Y1Og=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jAVHKLz87ZxGp1a+9DqoSudr9kpicv9cIBjG0OVBI+VWyBz8hIxNqUFqFPO5MURkz
+	 a3XKpsVYvDASH3j4JutQzmbQ1Z3JjngeslxHHJAQnz30fLZiiZq/6TeOg1UgIquu/h
+	 3hCCxLXyHsQNswX/RHmmZKoBeyWZ233/ZfigARYhEtwsqw3kFLZlhYis0X2U1ZR90H
+	 qTXjftD3L06vFfBeckP2fGOw2izPwpn6yebbkHAgb/87nNuFThhkgEZWCDHL6OUa6l
+	 7pTVc+1PfkcCMl8MBcjc4iw3dlQgFetZBmIPnsSH9faBmfLjzvkXcgW4MpRLt4op5J
+	 hck8QWW1bcrug==
+Date: Tue, 2 Jun 2026 15:19:19 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-kernel@vger.kernel.org,
-	Askar Safin <safinaskar@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	patches@lists.linux.dev,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] include/linux/splice.h: trivial fix: declerations -> declarations
-Date: Tue,  2 Jun 2026 15:17:04 +0200
-Message-ID: <20260602-lastzug-baumwipfel-dorffest-5d4b7de69132@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260529225813.546405-1-safinaskar@gmail.com>
-References: <20260529225813.546405-1-safinaskar@gmail.com>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: viro@zeniv.linux.org.uk, jack@suse.cz, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, adobriyan@gmail.com
+Subject: Re: [PATCH v4 0/3] revamp fs/filesystems.c
+Message-ID: <20260602-eiskalt-kaputt-baubeginn-739632ab746b@brauner>
+References: <20260529171840.2576445-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=902; i=brauner@kernel.org; h=from:subject:message-id; bh=pv0ccRbUlFd7UzDDwsvJdcTrldXAWEKe60nLCXs3PBQ=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTJXb+Q4hvsMClbR8pYKz/uerDiiSfXbD3e7Fh6dNcJ6 zt7G9w9OkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbydwMjQ5PQTelJd19bTFqm cFnvU+E1htbloZPqzs3/Jx0fJXX0iA7D/6y002FXd7MtncEZ7jq31Ukp5tWyyPjJhqJVF88enPT uPzMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260529171840.2576445-1-mjguzik@gmail.com>
 
-On Fri, 29 May 2026 22:58:13 +0000, Askar Safin wrote:
-> Trivial fix: declerations -> declarations
+On Fri, May 29, 2026 at 07:18:37PM +0200, Mateusz Guzik wrote:
+> The file is a mess with a hand-rolled linked list in a desperate need of
+> a clean up.
+> 
+> The code to emit /proc/filesystems is used frequently because libselinux
+> reads the file, which in turn is linked into numerous frequently used
+> programs (even ones you would not suspect, like sed!). In order to
+> combat that pre-gen the string instead of pointer-chasing and printfing
+> one by-one.
+> 
+> open+read+close cycle single-threaded (ops/s):
+> before: 442732
+> after:  1063462 (+140%)
+> 
+> Additionally scalability is also improved thanks to bypassing ref
+> maintenance on open/close.
+> 
+> open+read+close cycle with 20 processes (ops/s):
+> before: 606177
+> after:	3300576 (+444%)
+> 
+> The main bottleneck afterwards is the spurious lockref trip on open.
 
-Applied to the vfs-7.2.vmsplice branch of the vfs/vfs.git tree.
-Patches in the vfs-7.2.vmsplice branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.2.vmsplice
-
-[1/1] include/linux/splice.h: trivial fix: declerations -> declarations
-      https://git.kernel.org/vfs/vfs/c/8d86fcfc2857
+There's a bunch of work in vfs-7.2.procfs on top of what's currently in
+there. So please any changes should be a diff on there otherwise we have
+to rebase that whole branch when it's already -rc6.
