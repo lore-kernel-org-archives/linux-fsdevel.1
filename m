@@ -1,145 +1,136 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F6B32860F
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 02:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780368426; cv=none; b=uwwEP40+kj8KV/v+gdFBEPK+6zEXlz+mBmi2ENjfBQyceSmaL/8IMUuXii8OJidz857+S6OwWNiDK0ORc2a1dg3LZfkyCaDsxD55rQ9hugUXmHw2RkBpilo1l6Rz3i0kEofACB41ObS3nDMjf5D1oBDhtbN/Bn0H5PGXhiRwjjE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780368426; c=relaxed/simple;
-	bh=jGmf/himYOssnxkiYCGhSl5qC3ScSmdh3I8Xl9A39JM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nAtw0zq3yO3kfK4ZWCGcFNQwi13h7cSZLc0Q4Bh1gEb8LBnGjLRSBD1G/CjQsY2UBozMoPHW6FNh2R6YLna0orYLDSxR17CAwmNKyYH/TLsvbmMh2SI5C8meS1MjNpR9c4CjqvyfhccuU7eSef1Qh5vwkoHI06Ej/dmRCxKYr94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LkPFv9Yx; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6926B33C194
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 03:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780369813; cv=pass; b=nPMwBe5CYrgyce8Ii5WrpDF4mU8TLLZU6c6glyzELzMxEq/v+2WHUo9oy8+1AHyKr+OTPaFwBwy/TRcH7YtrsRCo4lh5L7uiKpys8CJ67f5VVbaM/2BZay4zilRIc/LnY1ahBVe3jBqmzPQBL9EbMnJA1lAJMAjKELwrjp9Xo0o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780369813; c=relaxed/simple;
+	bh=cwAVpJuKlEp9kEmPE4v3fWnLBXPmYqHqdhlp7l4T5cA=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QD8t7VWY0tTgyRreFd4lgWJvyxnjFWdG/2j9+QMtgAVanFzMpeFw7nIjZu4XxzLCQGH2/5V4JqeoBt37QnM8FVLU+HtcikTaRZb72dILt6KdHWmndFOq4cbP8yOP26HZm5eoyKhCVJewMwd9qCOtICaw8BsxygB3VFkx+s0WrVY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=RFYG3QNq; arc=pass smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LkPFv9Yx"
-Message-ID: <2e9175ab-f9be-44c6-bf1a-a82aeed18f98@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780368422;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DzEYFBO0HPhxlPtDd2N2r80uc2UpuMcmthR9XLKa9lY=;
-	b=LkPFv9YxAbgRgjzFP5BMJD5UzFP+Pyiqo/D36+oL993VEh6AhN+ezGxDUcCS9s1mF8idFo
-	bKX0IsY3IN9aHJ9n2qaT7GDgfkgtCEo4nxE73t6M0xRyIHtFkbgoKVcmNlAMsIba1f1TGR
-	1etFxbBwPJy0kyfvqYoI+XbTR08elbs=
-Date: Tue, 2 Jun 2026 10:46:35 +0800
+	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="RFYG3QNq"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7e2fd65f968so18579827b3.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 01 Jun 2026 20:10:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780369810; cv=none;
+        d=google.com; s=arc-20240605;
+        b=a8DJLtpLybl5K2omrbrLcRByBUbApRq95oMREysZuHMOMmYyzPOoKhwrnQbpg+T3c+
+         lub9q/EX3slyJyrhmrI6kN6AezybE/z+Vv9b6Mn+AuOPts5WFLtNm0bWdf93v7iBgmZ1
+         07vPeKYTNnM1Iccw6EkOMoCwiFGw7FmY1UfVoDtEmUCAHwGIQ5tYAhD+WdnZiregzHUS
+         NCCslK8YBMg9hHgR9sIngaodkZCl+tWsJyd84wFCCLF7RaKCqDnae5YyraHryKardt+i
+         dMDRUqnQlYkJpD+hcAREuXNuFUiftgSAsHmKzzh3YrJFYoOGr5J88up3avmmLNQO0rFQ
+         E4lA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=6fdhswAexcCHtqjvZiOVmNsqcqEhluDdYm31R2U+3Hw=;
+        fh=ulEpty6juDdRfxm9laYOEevCXZWMrRZoUW+I2ewiAD4=;
+        b=jfay8J7RKYNVojrGQhhYr6jQwdBvoS6ZWFSz46yMVDuBL2V1CjIp4LJvKVTanqlWw/
+         PpfgwKJayHgzc93MFcNWKVIdB7F0yZswQkwAGXQayKdDxpo7Gt5sdZ1uMceEWYdycYd5
+         saz1Q1Ct6eUe2l/QSngx40vkcj6lrT/qOg5XqiQOWkq0rHr2OXO/4AZM4Yx5WjDEY3ji
+         kPs5Bn9NiE6gBh2Qwcv4aN+7jBnBEmCOZbqOaj/zJTjPg+tEzIQWSU/DJrdU1gXN2Set
+         AontpbZsneVv76pw743+E9CmbbKJv1vXwHQ/o4/0ZHTJyR4p8mcXpEzXkOR8cYjLm1/L
+         SFOw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=berkeley.edu; s=google; t=1780369810; x=1780974610; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6fdhswAexcCHtqjvZiOVmNsqcqEhluDdYm31R2U+3Hw=;
+        b=RFYG3QNqrVMNsfKU+oEc8kLGG+wV2TD3Rfk0qUcFo/Bj+h7t/nspdx9CWFSHvQ0SqW
+         L3WEqm1XaBfh/ppyJcGIeVRdMNe7nL6enu79d9bfw6Q9GZmLYyAvmEkkdFafJllCz+Nn
+         5YxT//FU/osOlJGyH0Jh5svLHMxGw9YxwchHF6aZkH0APPIhVAn0D28bjuO/SJQz+87I
+         DPjzN9hHmhuMOTO5d4Aornc9hwf1OYg0i9anAwg3SQbUdgq3a8876GShu2UYOAu0BIcy
+         6pfgleTxIElHboQoypv3pcPUgwZpW809kuMkNtgZxVRoRmZmK8fLUmE1LHC7rAfT42fF
+         QhyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780369810; x=1780974610;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6fdhswAexcCHtqjvZiOVmNsqcqEhluDdYm31R2U+3Hw=;
+        b=bOqUrn8paSuJtbFQK5yiLJzGwTs1TuNagk+OySJY/YApuCRaCTYHCuuK1oc4tLrGGr
+         +kgmHphhUcMKsHQQ63sivRBFpaJwSuiBP00hhcznvBDc6yxp2INVUfINEUZrugwLjIkf
+         pd6MLfP8I0bmJb2A3Ad6pGEYI7GuB3qucp4Htq0tbjeIB15tmoN476v66Xtn2r8TNhvG
+         ChonU7aCz4zAtlOseZKq0StFr8y3fH7znnjcdAjpRVEG2rWrl3oTjZKoGsCv/CTzysDF
+         cQ+AHA19VBW1HF4Y8J0pAifTRIj9F+Mz7hGfdzjeQwD/Nz1FUX1ULJ9EyWlDBHSg2rny
+         y7dg==
+X-Forwarded-Encrypted: i=1; AFNElJ8wlZljuuBCyH93QX2L7Mf8YakjL/6MqRq3fwkhDvGw40OvVQLHoYJuFGlDX4muerD7aZrOaC/jPL/PcrLc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxy6x/8a53Pr72EK+JQYYM3h6A3iTVR9JMGn15tBguHmoRtl5Cg
+	VbZPfvYIfKoimp7rrtOv7/OoqG628/obWz0Ppq1gEhY77gAWx2ZbieN+eoLQM78n2g16YrXI1XM
+	7Vluw1DHeL/pnii1hDSs0u1WtCqCGRdwQa1nRJPxwNu5NYs2GOXc=
+X-Gm-Gg: Acq92OGBe/mou3pJTbwyKYboavqrZsxGtXNM8K+2J6cy+na54GMmeM4hpDSB3hAliLs
+	YuA3yEg+XA+0AT9EIP8/P5GrcaVnN5kn+MyTU8w9BBcIoTpXVyN7s3eIegMLJb3NiKyVEzohHZ3
+	giokvOZorhdVrsiUPg3F+R9LjaWPNlNh6eVL0lwjbf/YOte25Ks3QqpeN0EvR3Pd+0sA5URdaA4
+	0ZLWgkzsQ4vH94AdmNSGdD7eeOvkoD3RO14rCC2NKNGZNJgiTdZE2Cuk7XezcK5MATiZIU6tZQE
+	eDU224ZXQoH/coPDkiUf
+X-Received: by 2002:a05:690c:3391:b0:7dc:1d92:180b with SMTP id
+ 00721157ae682-7e05c664b3bmr123328887b3.23.1780369809315; Mon, 01 Jun 2026
+ 20:10:09 -0700 (PDT)
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 1 Jun 2026 20:10:08 -0700
+Received: from 474444807712 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 1 Jun 2026 20:10:08 -0700
+From: Farhad Alemi <farhad.alemi@berkeley.edu>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ah0wDkTgo3L1scql@infradead.org>
+References: <ah0wDkTgo3L1scql@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
- creation
-Content-Language: en-US
-To: Barry Song <baohua@kernel.org>, wangtao <tao.wangtao@honor.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "will@kernel.org" <will@kernel.org>, "tglx@kernel.org" <tglx@kernel.org>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "david@kernel.org" <david@kernel.org>,
- "willy@infradead.org" <willy@infradead.org>, "sj@kernel.org"
- <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>,
- "luizcap@redhat.com" <luizcap@redhat.com>,
- "zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>,
- "kas@kernel.org" <kas@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "liam@infradead.org" <liam@infradead.org>,
- "vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org"
- <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
- "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>,
- "riel@surriel.com" <riel@surriel.com>, "harry@kernel.org"
- <harry@kernel.org>, "jannh@google.com" <jannh@google.com>,
- "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
- "peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
- "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
- "npache@redhat.com" <npache@redhat.com>,
- "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
- "dev.jain@arm.com" <dev.jain@arm.com>,
- "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
- "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
- "nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
- "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>,
- "rakie.kim@sk.com" <rakie.kim@sk.com>, "byungchul@sk.com"
- <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>,
- "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>,
- "apopple@nvidia.com" <apopple@nvidia.com>,
- "pfalcato@suse.de" <pfalcato@suse.de>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "damon@lists.linux.dev" <damon@lists.linux.dev>,
- "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
- "ryncsn@gmail.com" <ryncsn@gmail.com>,
- "jparsana@google.com" <jparsana@google.com>,
- "dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>,
- wangzicheng <wangzicheng@honor.com>
-References: <20260527110147.17815-1-tao.wangtao@honor.com>
- <ahcANgFDFwfC0v1q@lucifer> <b24b4a8198ba412f8b8b42c43dccd058@honor.com>
- <ahf2mJg9OOWvu0jA@lucifer>
- <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
- <99dfc4a50f3643a6bef6deaeccfcf115@honor.com> <ahlzj--3Gm5pD9ge@lucifer>
- <a90bcb0fa3a044588350e92a78258a09@honor.com>
- <CAGsJ_4wFr89M2i8pth79swv3==i8SGSMWrbr+Yp2umwFTuCShg@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <CAGsJ_4wFr89M2i8pth79swv3==i8SGSMWrbr+Yp2umwFTuCShg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Date: Mon, 1 Jun 2026 20:10:08 -0700
+X-Gm-Features: AVHnY4Iui-ID622VDwxr8uEuQB7BFvNN3vwYOUNrp6RUN-4zlOIf1vlS7zDt85E
+Message-ID: <CA+0ovChveuAwv=t15dr2m09E32bM48hHJxvfeEYZOhdNiEc9Tw@mail.gmail.com>
+Subject: [PATCH v2] freevxfs: don't BUG() on unknown typed-extent type
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Christian Brauner <christian@brauner.io>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+vxfs_bmap_typed() handles four typed-extent types and calls BUG() in
+its default case, so an on-disk typed extent with any other type value
+crashes the kernel. It is reachable from ioctl(FIBMAP) on a regular
+file:
 
+  kernel BUG at fs/freevxfs/vxfs_bmap.c:230!
+  RIP: vxfs_bmap_typed fs/freevxfs/vxfs_bmap.c:230 [inline]
+       vxfs_bmap1+0x128a/0x12d0 fs/freevxfs/vxfs_bmap.c:257
 
-On 2026/6/2 10:15, Barry Song wrote:
-> On Mon, Jun 1, 2026 at 9:46 AM wangtao <tao.wangtao@honor.com> wrote:
-> [...]
->>
->> You said discussion was welcome, yet when someone offered even a
->> small comment, you refused to continue the discussion.
->>
->> If I had known you would be this inconsistent, I would not have
->> replied to you in the first place.
->>
->> This will be my last reply to you. I will not respond again.
->>
-> 
-> Hi Tao,
-> 
-> Please don't walk away from the linux-mm community. I read your
-> patchset and found it quite valuable. It not only reduces memory
-> overhead, but also eliminates rmap costs for exclusive folios.
-> 
-> Since I'm not very confident discussing technical topics in English,
-> I wrote a blog post in Chinese about your patchset:
-> 
-> https://mp.weixin.qq.com/s/k00tzhTl8HbL3k4G6ev4SA
-> 
-> I have to admit that I found the implementation quite complex and
-> in need of significant improvement. However, I think the underlying
-> idea is very interesting and worth exploring further.
-> 
-> I'm looking forward to seeing a v2 RFC with a cleaner and simpler
-> implementation while preserving the core concept.
-> 
-> Regardless of whether it ultimately gets merged, I hope the discussion
-> can continue.
+Replace the BUG() with WARN_ON_ONCE() and return 0 -- the value
+vxfs_bmap_typed() already returns on failure (and from the DEV4 case
+above); vxfs_getblk() maps 0 to -EIO, so the ioctl fails cleanly.
 
-Same here :)
+Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+Signed-off-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+---
+v2: tone down the changelog wording (Christoph Hellwig); code unchanged.
 
-Tao, please don't let this thread get you down. No first RFC is
-perfect, and the idea still looks worth discussing :)
+ fs/freevxfs/vxfs_bmap.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thanks for working on this!
+diff --git a/fs/freevxfs/vxfs_bmap.c b/fs/freevxfs/vxfs_bmap.c
+index e85222892038..1b8216eb1d90 100644
+--- a/fs/freevxfs/vxfs_bmap.c
++++ b/fs/freevxfs/vxfs_bmap.c
+@@ -227,7 +227,8 @@ vxfs_bmap_typed(struct inode *ip, long iblock)
+ 			return 0;
+ 		}
+ 		default:
+-			BUG();
++			WARN_ON_ONCE(1);
++			return 0;
+ 		}
+ 	}
 
-Cheers, Lance
-
+-- 
+2.43.0
