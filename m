@@ -1,83 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3446227456
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 00:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E2C282F13;
+	Tue,  2 Jun 2026 00:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780358704; cv=none; b=JftaZAS/QVVP2QlbEM2PF4JLRgnDh7UdqIk8oFC+pFdHCWJnVFebSBtOrhUxsujoNlW7fQ71SUTYn6sz/2zBJDrj4u97upGOgMvXv+l9KC51HuG13VdGy0ncWQpYV58kcGURT93GPGR0l7Z992Belh9YoiY55kzOhBfLe/54UZI=
+	t=1780359205; cv=none; b=GBOk0i9I5P08hATeV7JM/ETOqt+1iFGLJFL/2xjP8r9z9UC9++QeaX4fytppFXgFRCaGdStsABlGzQQ6nODjVvYKjwU3pRV4YLP601cGU2zAmuL1WNoJwtnw+SwZslV1IukSToFgGi0X2fHd4AWy2QKsBHHGpI8YVNvlNtgPhsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780358704; c=relaxed/simple;
-	bh=mFk2l6W+m0dTjT3bSIpE3D9nFqo228ZT5sV8j1xoHmc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=eDL9YtMxNp8Be/8kyAeS7AZOC2nEaEcg525IKT7iF86V+NVsGvL8Q1pD+U8d1Lb46Zo6k3hU/oLkrtklXLFjywV3njEnDVDHBrG2PH+qOfmAtca0Qvqxs4fdTWwMPzSqCLT7nAgciAgF1N3RMWsEX5XNvAqiGpNzghw3c6dHgLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=jbAoYU1j; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780359205; c=relaxed/simple;
+	bh=MfuSKIvwZ9zcGWvQRHhhb65OQYqtt3icjo2hcSD/D0g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wn82w9XHzb5PV2GaiRHd3Kt5FGddcToT44j+DfTwyaJMj3YeNi3bvKUrtgbF2Bmlvu+DCarLZYD60A6kpmlUkzLbG1jBkepngSLoh5nKPsI5EImMvBi1SfFYajRaQ4dWVSQpv0WnZP8jMZRYEP8nYxG9hSNImu+ZnzNVpuEzB6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VLjD47Gb; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="jbAoYU1j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA2FE1F00893;
-	Tue,  2 Jun 2026 00:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1780358702;
-	bh=VkfeLI+37zLW0sMlnQTmo8K2Ux0zvzJarLoyrF4Hw+M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=jbAoYU1jMIllEKyXViMDWhrfLeiinTuhaCfnLb2Wal0c6n2SyKfW766R+dbmhfWwA
-	 Z9e8v+f+fyRopf9W9/SB4GA5Qs0CPcJovDAcGuAT+E3xl8nYo4SMZ9Cb4WrEhO3v1v
-	 IpQibb9QEb2/FV1jY1XlvgciDuGAmNss4+CtNZUE=
-Date: Mon, 1 Jun 2026 17:05:02 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Hyunchul Lee
- <hyc.lee@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>
-Subject: Re: [PATCH 3/3] mm: Remove __folio_index
-Message-Id: <20260601170502.a3328023425ca85409c77957@linux-foundation.org>
-In-Reply-To: <20260601192626.150804-4-willy@infradead.org>
-References: <20260601192626.150804-1-willy@infradead.org>
-	<20260601192626.150804-4-willy@infradead.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VLjD47Gb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780359202; x=1811895202;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=MfuSKIvwZ9zcGWvQRHhhb65OQYqtt3icjo2hcSD/D0g=;
+  b=VLjD47Gb5ZMRj+yBMzKa5OLRA0PrcUmvZD9NVe4ca0Dx+Gg7FJXiLv9H
+   ggV38P87IRFm5vHoApPrz2fugAApd+iYStunPDr7MD2dSar2QO5JNUWwm
+   oZVxO5K5oyDH1r0dERgN8KO4jtwJk/X1S0PEm/wRpbSwXU43clh7wdiIM
+   A/XtaaBeObgzFEXbKdSfGQrY8ZXSWak9i2bmMoa3NCurti2I/WZCkEBvp
+   bXK4Fu5l03t46tndpbh6gGtxxqTS4uV4FZ90rdUU0p9UXYDN+lyH567BR
+   bw1nlcHOf2yLDEb+mP8ZrPK1n3yH/Sm8f1NWLQjMA9ia4rDhI5Kxh7kvV
+   Q==;
+X-CSE-ConnectionGUID: eOwFRl1gROuSPUZDGxCaMw==
+X-CSE-MsgGUID: SPX42P5eQg2ItNK9/tIzUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="92605938"
+X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
+   d="scan'208";a="92605938"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 17:13:22 -0700
+X-CSE-ConnectionGUID: 9/nLObPSSzebJ9FOYge7cg==
+X-CSE-MsgGUID: c4HsNaGvSOqiy/Ov+4TjzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
+   d="scan'208";a="242910586"
+Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.108.24]) ([10.125.108.24])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 17:13:20 -0700
+Message-ID: <4b381e73-ef4c-4d73-a60f-7725a678dd35@intel.com>
+Date: Mon, 1 Jun 2026 17:13:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 8/9] dax: replace exported dax_dev_get() with
+ non-allocating dax_dev_find()
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Dan Williams <djbw@kernel.org>
+Cc: John Groves <jgroves@micron.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Alison Schofield <alison.schofield@intel.com>, Ira Weiny
+ <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019e79caead2-5795328c-af48-4a93-b147-c11df7446e1a-000000@email.amazonses.com>
+ <20260530165126.6721-1-john@jagalactic.com>
+ <0100019e79cc4e0f-26041b0e-3c38-4641-9e36-c8964a7f0e89-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019e79cc4e0f-26041b0e-3c38-4641-9e36-c8964a7f0e89-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon,  1 Jun 2026 20:26:22 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
 
-> People have been abusing the existence of __folio_index.
 
-Patchset is rather amusing.  Perhaps you should have called it
-__folio_index_dont_use_this_or_ill_shoot_you.
-
->  Since that was
-> too subtle for them, use a bigger hammer to make it unusable.  That also
-> makes it unusable for the FOLIO_MATCH, TABLE_MATCH and ZPDESC_MATCH
-> macros, but that's OK, since we don't care what fields these fields alias.
+On 5/30/26 9:51 AM, John Groves wrote:
+> From: John Groves <John@Groves.net>
 > 
-> ...
->
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -101,10 +101,9 @@ struct page {
->  				struct llist_node pcp_llist;
->  			};
->  			struct address_space *mapping;
-> -			union {
-> -				pgoff_t __folio_index;		/* Our offset within mapping. */
-> -				unsigned long share;	/* share count for fsdax */
-> -			};
+> This fix is in response to a Sashiko review, and some subsequent
+> analysis.
+> 
+> dax_dev_get() uses iget5_locked() which creates a new inode if no
+> matching one exists. This is correct for the internal caller
+> (alloc_dax), but dangerous for external callers that look up devices
+> from user-supplied or metadata-supplied dev_t values:
+> 
+> 1. A new inode is created with DAXDEV_ALIVE set but no backing driver,
+>    no ops, and no IDA-allocated minor number.
+> 
+> 2. On teardown, dax_destroy_inode() warns because kill_dax() was never
+>    called, and dax_free_inode() calls ida_free() for a minor that was
+>    never ida_alloc'd -- potentially freeing the minor of a real device.
+> 
+> Add dax_dev_find() which uses ilookup5() for lookup-only semantics:
+> it returns an existing dax_device with an elevated inode reference, or
+> NULL if no device with the given dev_t exists. It never creates inodes.
+> A dax_alive() check under dax_read_lock() guards against returning a
+> device that is concurrently being torn down by kill_dax().
+> 
+> Make dax_dev_get() static again (internal to super.c for alloc_dax),
+> export dax_dev_find() instead, and update the two external callers
+> (famfs_inode.c, famfs.c). Also add the missing CONFIG_DAX=n stub.
+> 
+> Fixes: 2ae624d5a555d ("dax: export dax_dev_get()")
 
-`share' went away?  What's up with that?  Unused?
+Not sure about the Fixes tag when the caller isn't in tree?
 
-> +#define DO_NOT_USE(x)	x ## __LINE__
-> +			unsigned long DO_NOT_USE(_pad);
-> +#undef DO_NOT_USE
+> Signed-off-by: John Groves <john@groves.net>
 
-Sashiko says this doesn't do what you intended.
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
-Sashiko also might have found a few existing issues in ntfs which the
-maintainers may choose to examine:
-	https://sashiko.dev/#/patchset/20260601192626.150804-1-willy@infradead.org
 
+> ---
+>  drivers/dax/super.c | 38 ++++++++++++++++++++++++++++++++++++--
+>  include/linux/dax.h |  6 +++++-
+>  2 files changed, 41 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> index 4c56ac2faacdb..6cb271e034a70 100644
+> --- a/drivers/dax/super.c
+> +++ b/drivers/dax/super.c
+> @@ -550,7 +550,7 @@ static int dax_set(struct inode *inode, void *data)
+>  	return 0;
+>  }
+>  
+> -struct dax_device *dax_dev_get(dev_t devt)
+> +static struct dax_device *dax_dev_get(dev_t devt)
+>  {
+>  	struct dax_device *dax_dev;
+>  	struct inode *inode;
+> @@ -573,7 +573,41 @@ struct dax_device *dax_dev_get(dev_t devt)
+>  
+>  	return dax_dev;
+>  }
+> -EXPORT_SYMBOL_GPL(dax_dev_get);
+> +
+> +/**
+> + * dax_dev_find - look up an existing dax_device by dev_t
+> + * @devt: the device number to find
+> + *
+> + * Returns a dax_device with an elevated inode reference, or NULL if no
+> + * device with the given dev_t exists. Unlike dax_dev_get(), this never
+> + * allocates a new inode — it is safe for external callers that are looking
+> + * up devices from user-supplied or metadata-supplied dev_t values.
+> + *
+> + * Caller must put_dax() the returned device when done.
+> + */
+> +struct dax_device *dax_dev_find(dev_t devt)
+> +{
+> +	struct dax_device *dax_dev;
+> +	struct inode *inode;
+> +	int id;
+> +
+> +	inode = ilookup5(dax_superblock, hash_32(devt + DAXFS_MAGIC, 31),
+> +			 dax_test, &devt);
+> +	if (!inode)
+> +		return NULL;
+> +
+> +	dax_dev = to_dax_dev(inode);
+> +	id = dax_read_lock();
+> +	if (!dax_alive(dax_dev)) {
+> +		dax_read_unlock(id);
+> +		iput(inode);
+> +		return NULL;
+> +	}
+> +	dax_read_unlock(id);
+> +
+> +	return dax_dev;
+> +}
+> +EXPORT_SYMBOL_GPL(dax_dev_find);
+>  
+>  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops)
+>  {
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index fe6c3ded1b50f..29113eb95e72d 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -54,7 +54,7 @@ struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+>  void *dax_holder(struct dax_device *dax_dev);
+>  void put_dax(struct dax_device *dax_dev);
+>  void kill_dax(struct dax_device *dax_dev);
+> -struct dax_device *dax_dev_get(dev_t devt);
+> +struct dax_device *dax_dev_find(dev_t devt);
+>  void dax_write_cache(struct dax_device *dax_dev, bool wc);
+>  bool dax_write_cache_enabled(struct dax_device *dax_dev);
+>  bool dax_synchronous(struct dax_device *dax_dev);
+> @@ -92,6 +92,10 @@ static inline void put_dax(struct dax_device *dax_dev)
+>  static inline void kill_dax(struct dax_device *dax_dev)
+>  {
+>  }
+> +static inline struct dax_device *dax_dev_find(dev_t devt)
+> +{
+> +	return NULL;
+> +}
+>  static inline void dax_write_cache(struct dax_device *dax_dev, bool wc)
+>  {
+>  }
 
