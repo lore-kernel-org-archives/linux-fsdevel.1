@@ -1,158 +1,197 @@
-Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D0D3D5C0C;
-	Tue,  2 Jun 2026 11:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.70.13.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458DA3191A5
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 11:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780398772; cv=none; b=qgLH/i0NL+XBarjIdlPH26etRAHkrP97UHzrntyNLC5oncKOTQ56u/Hbit3C/yGw9AbsgyVFMGhiI55krm/VUZnxlSpn+XtA1kgPr3Mi4fTcsONTYM5FXCuVeFZAWL0TeyGqQRRos1uey/2Xu3ctT2FX1EqBBx/eTvY28KbbfUQ=
+	t=1780398853; cv=none; b=ic8u19xGOnqWh/brELr17UH4x05FwL7W6kGCwSZcztKrkyqfPDA5zbwuwZkEQF+bhTu8DkdGmFHEKR/qvbmS5bWVpiHC2OVapyCxAON+22a72kG/a5TCZnZ/27hccawIAvNnp9IX4cJav45kLZYObALoEAvZSpxCS+un7Sa26I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780398772; c=relaxed/simple;
-	bh=vvILlsXaVQShutp1p5WceQi2Eaf3pB4ovG/S15HHsU4=;
-	h=From:To:Cc:In-Reply-To:References:Date:Message-ID:MIME-Version:
-	 Content-Type:Subject; b=cNHkPHmtouJJRpCZK+UhcqWNnVG5Lnj/ejJkkyBb5FzLTOY4+tGJEfbHDPiD/c+8vGwiYeHAUgNjc0CC3//sCAJFkNx0uwE8zfSpNt6jFeXySlJHlHrdViH9FrHGsc9zhd0iiVVL9o91EUAYtQCKiwa1XB3bZ3PFo73l6liDFYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com; spf=pass smtp.mailfrom=xmission.com; dkim=pass (1024-bit key) header.d=xmission.com header.i=@xmission.com header.b=PT1nwI4K; arc=none smtp.client-ip=166.70.13.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xmission.com
+	s=arc-20240116; t=1780398853; c=relaxed/simple;
+	bh=9LjEc3QdsXn2ZCahezoawKAeZ53JAUbu1hVLhjAcwiM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ifNYeHp4NykUlkhIAvcCYuxJ3GrnVLtNGTMtCMPrPScNooxL2wC5CWrnVvs8JeQ6uEz3egdjMwzkJ0GlMzpvfiRpnmKAbeonKazjAYK4979K0MeVFT7km7fPNAHv5cYBx1IfZ0OrzUh7Hv/Di39Y6W7+kYtY0a7Hd0MkojCzzxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CBGWsGjf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ejSlTx7R; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tsftKb+W; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=laW7hGPV; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xmission.com header.i=@xmission.com header.b="PT1nwI4K"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=xmission.com;
-	 s=xmission; h=Subject:Content-Type:MIME-Version:Message-ID:Date:References:
-	In-Reply-To:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=vvILlsXaVQShutp1p5WceQi2Eaf3pB4ovG/S15HHsU4=; b=PT1nwI4K/LueK0DDSNL+s4C13J
-	wCISW9cQ6Rku1p5e71v6LNcH9E8BpNOErgTq20OxsIi/JohdQWrgMebuwQrMKgen7pJXROs+AsRqv
-	q/PDtUrCrIsMZAHrVRiLpwUsOkpysGxuDIlQz4e1uDX5u9eweqgYZDbb9a8545EZNJqI=;
-Received: from in01.mta.xmission.com ([166.70.13.51]:57296)
-	by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1wUMHI-00EQUk-Sf; Tue, 02 Jun 2026 04:23:20 -0600
-Received: from ip72-198-198-28.om.om.cox.net ([72.198.198.28]:37600 helo=email.froward.int.ebiederm.org.xmission.com)
-	by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1wUMHF-002RRp-JI; Tue, 02 Jun 2026 04:23:20 -0600
-From: "Eric W. Biederman" <ebiederm@xmission.com>
-To: Andreas Schwab <schwab@linux-m68k.org>
-Cc: Deepak Gupta <debug@rivosinc.com>,  Deepak Gupta via B4 Relay
- <devnull+debug.rivosinc.com@kernel.org>,  Thomas Gleixner
- <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,  Borislav Petkov
- <bp@alien8.de>,  Dave Hansen <dave.hansen@linux.intel.com>,
-  x86@kernel.org,  "H. Peter Anvin" <hpa@zytor.com>,  Andrew Morton
- <akpm@linux-foundation.org>,  "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-  Vlastimil Babka <vbabka@suse.cz>,  Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>,  Paul Walmsley <paul.walmsley@sifive.com>,
-  Palmer Dabbelt <palmer@dabbelt.com>,  Albert Ou <aou@eecs.berkeley.edu>,
-  Conor Dooley <conor@kernel.org>,  Rob Herring <robh@kernel.org>,
-  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,
-  Christian Brauner <brauner@kernel.org>,  Peter Zijlstra
- <peterz@infradead.org>,  Oleg Nesterov <oleg@redhat.com>,  Kees Cook
- <kees@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
- <shuah@kernel.org>,  Jann Horn <jannh@google.com>,  Conor Dooley
- <conor+dt@kernel.org>,  Miguel Ojeda <ojeda@kernel.org>,  Alex Gaynor
- <alex.gaynor@gmail.com>,  Boqun Feng <boqun.feng@gmail.com>,  Gary Guo
- <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,  Andreas
- Hindborg <a.hindborg@kernel.org>,  Alice Ryhl <aliceryhl@google.com>,
-  Trevor Gross <tmgross@umich.edu>,  Benno Lossin <lossin@kernel.org>,
-  linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
-  linux-mm@kvack.org,  linux-riscv@lists.infradead.org,
-  devicetree@vger.kernel.org,  linux-arch@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-kselftest@vger.kernel.org,
-  alistair.francis@wdc.com,  richard.henderson@linaro.org,
-  jim.shu@sifive.com,  andybnac@gmail.com,  kito.cheng@sifive.com,
-  charlie@rivosinc.com,  atishp@rivosinc.com,  evan@rivosinc.com,
-  cleger@rivosinc.com,  alexghiti@rivosinc.com,  samitolvanen@google.com,
-  broonie@kernel.org,  rick.p.edgecombe@intel.com,
-  rust-for-linux@vger.kernel.org,  Zong Li <zong.li@sifive.com>
-In-Reply-To: <87wlwif04z.fsf@igel.home> (Andreas Schwab's message of "Mon, 01
-	Jun 2026 22:58:52 +0200")
-References: <20251112-v5_user_cfi_series-v23-0-b55691eacf4f@rivosinc.com>
-	<20251112-v5_user_cfi_series-v23-6-b55691eacf4f@rivosinc.com>
-	<87jyslndo4.fsf@igel.home>
-	<CAKC1njS=AHu6uHrH4ae8VxcdEbhgiPXYCAoN3F_mnppBd3SwOA@mail.gmail.com>
-	<875x44o9hj.fsf@igel.home>
-	<CAKC1njSn_rtCj8ii876PNQTk0nsCTfWsb4DzdymufHVthh1Rkg@mail.gmail.com>
-	<871peqgp9v.fsf@igel.home>
-	<CAKC1njR+dTdvp+BmLGPtgd8dufiUwBtkQ9a-qinELT_Fmi13sQ@mail.gmail.com>
-	<87wlwif04z.fsf@igel.home>
-Date: Tue, 02 Jun 2026 05:23:10 -0500
-Message-ID: <87tsrli6lt.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CBGWsGjf";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ejSlTx7R";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tsftKb+W";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="laW7hGPV"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 622C26AAFE;
+	Tue,  2 Jun 2026 11:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780398850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mj2dTLHBTtJmxWAHjjC/JAoIXX1S+JjAURhUmTJMA5Y=;
+	b=CBGWsGjfnDxJIyL6p7b7wnwzwF4lPO73dMch8UF/HBIV4nI1QDhY/3h1uf/DF2EIsJXBR+
+	ytZiiL/9uB+AboDqxs6f6RTlu9G6/GOwzRVaMu9GAIUXQkn4JhN4ceSg9ni8oFUF9H6zfA
+	XcZ+6IOhaSeZmmN92rojJ8PsBGo2HQU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780398850;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mj2dTLHBTtJmxWAHjjC/JAoIXX1S+JjAURhUmTJMA5Y=;
+	b=ejSlTx7R71Y/OQSYP6ds9AHIooLXhHxB/DxJs4KC/y/9CtuqIbOEd7dJ0xn/4AQc4wldhx
+	RD+jQ+02+N0Da5Cw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=tsftKb+W;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=laW7hGPV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780398849; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mj2dTLHBTtJmxWAHjjC/JAoIXX1S+JjAURhUmTJMA5Y=;
+	b=tsftKb+W7mmTMWmVSkXFsfdsrkKZt6YmLILo8gYUI6/AZotLEy4LJlSHTl/MUgVcbbrp4F
+	BIhRvr8WZqo/a+t/DM1DabB01jUX/VFhxYlBhVJ2CaXDlaKso27RaYtjSsvo1hNkuPx7r9
+	zKYKCyKfDNy1AUprB8/V4u1FaYrCQ2c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780398849;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mj2dTLHBTtJmxWAHjjC/JAoIXX1S+JjAURhUmTJMA5Y=;
+	b=laW7hGPVyumtc9e2Vxg5ohsWyBGkNz9p0RwIeUUUJmK119/NZpsydZIxRlmdo5nakYxi7T
+	i9A+c0usCfSb0PDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 563C2779A7;
+	Tue,  2 Jun 2026 11:14:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jMoGFQG7HmqmNQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 02 Jun 2026 11:14:09 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id E0B6EA0EC1; Tue, 02 Jun 2026 13:14:00 +0200 (CEST)
+Date: Tue, 2 Jun 2026 13:14:00 +0200
+From: Jan Kara <jack@suse.cz>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	willy@infradead.org, david@kernel.org, hannes@cmpxchg.org, kas@kernel.org, 
+	shakeel.butt@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH] mm: make mmap_miss accounting symmetric for VM_SEQ_READ
+Message-ID: <3apovyh7kutv5qdo5yrcawqlviaeckuyqoirfk55pjwdkmyllg@ku4xvvpgub4n>
+References: <20260525145751.2671248-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1wUMHF-002RRp-JI;;;mid=<87tsrli6lt.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=72.198.198.28;;;frm=ebiederm@xmission.com;;;spf=pass
-X-XM-AID: U2FsdGVkX19J6tpF2AGRJ9xglxGPNzSSZeVg13KZsgY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260525145751.2671248-1-usama.arif@linux.dev>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
 X-Spam-Level: 
-X-Spam-Virus: No
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	*  0.1 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-	*      [score: 0.4997]
-	*  0.7 XMSubLong Long Subject
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa02 1397; Body=1 Fuz1=1 Fuz2=1]
-	*  0.0 T_TooManySym_01 4+ unique symbols in subject
-	*  0.0 T_TooManySym_02 5+ unique symbols in subject
-X-Spam-DCC: XMission; sa02 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Andreas Schwab <schwab@linux-m68k.org>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 2774 ms - load_scoreonly_sql: 0.03 (0.0%),
-	signal_user_changed: 3.6 (0.1%), b_tie_ro: 2.5 (0.1%), parse: 0.84
-	(0.0%), extract_message_metadata: 8 (0.3%), get_uri_detail_list: 0.86
-	(0.0%), tests_pri_-2000: 7 (0.3%), tests_pri_-1000: 8 (0.3%),
-	tests_pri_-950: 1.02 (0.0%), tests_pri_-900: 0.92 (0.0%),
-	tests_pri_-90: 62 (2.2%), check_bayes: 61 (2.2%), b_tokenize: 13
-	(0.5%), b_tok_get_all: 9 (0.3%), b_comp_prob: 1.76 (0.1%),
-	b_tok_touch_all: 35 (1.3%), b_finish: 0.56 (0.0%), tests_pri_0: 297
-	(10.7%), check_dkim_signature: 0.41 (0.0%), check_dkim_adsp: 3.2
-	(0.1%), poll_dns_idle: 2367 (85.3%), tests_pri_10: 2.7 (0.1%),
-	tests_pri_500: 2379 (85.8%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: [PATCH v23 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ
- | VM_WRITE
-X-SA-Exim-Connect-IP: 166.70.13.51
-X-SA-Exim-Rcpt-To: too long (recipient list exceeded maximum allowed size of 512 bytes)
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-SA-Exim-Scanned: No (on out02.mta.xmission.com); SAEximRunCond expanded to false
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 622C26AAFE
+X-Spam-Score: -4.01
 
-Andreas Schwab <schwab@linux-m68k.org> writes:
+On Mon 25-05-26 07:57:51, Usama Arif wrote:
+> do_sync_mmap_readahead() skips both the mmap_miss increment and the
+> MMAP_LOTSAMISS check for VM_SEQ_READ mappings, since sequential access
+> is non-speculative and should always read ahead. The two decrement
+> sites in do_async_mmap_readahead() and filemap_map_pages() do not
+> mirror this skip, so concurrent faults on a VM_SEQ_READ mapping can
+> still drive ra->mmap_miss down to zero through the decrement paths
+> even though nothing in the sync path ever increments it. The counter
+> itself is per-file (file->f_ra.mmap_miss), so it can be moved by any
+> VMA mapping the file, not just the one currently faulting.
+> 
+> Skip the decrement for VM_SEQ_READ in both decrement sites so the
+> counter only moves for mappings that also participate in the
+> increment side. No functional change for VM_SEQ_READ users, since the
+> increment-side gate already prevents the counter from being consulted
+> on their behalf, but it stops a VM_SEQ_READ mapping from biasing the
+> counter for other mappings of the same file.
+> 
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
 
-> On Jun 01 2026, Deepak Gupta wrote:
->
->> riscv uses `VM_SHADOW_STACK`. It's just very simple to use `protection_map`
->> with just `VM_WRITE`. On RISC-V, `-W-` is a shadow stack mapping. It's not same
->> on x86 or arm64. So `protection_map[VM_WRITE]` simply picks shadow stack
->> encoding. We just ensure that PROT_WRITE is converted to
->> "VM_READ | VM_WRITE" at vma level.
->
-> That does not explain _why_ you need to make that user visible change,
-> when others can get away without it.
+Looks good. Feel free to add:
 
-Especially since as I recall the decision was made was that the user
-visible protection bits would match the mmap call.  If there is some
-combination an architecture does not support that would simply not be
-reflected in hardware until some future version of the hardware gets
-around to supporting it.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-This is what happened with executable page permissions on x86 for
-example.  It used to be that it was not possible to deny execute
-permission on a readable page.  Later that proved sufficiently valuable
-that support for denying execute permission was added to the hardware.
+								Honza
 
-That all happened quite transparently to userspace, that wasn't trying
-to assuming PROT_READ implied PROT_EXEC.
-
-So I am at a complete loss why someone would choose to break userspace
-by confusing hardware limitations with what userspace asks for in mmap.
-
-Eric
-
+> ---
+>  mm/filemap.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 5aaba0d3e81d..cca20e350c95 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -3433,8 +3433,13 @@ static struct file *do_async_mmap_readahead(struct vm_fault *vmf,
+>  	 * Don't touch the mmap_miss counter to avoid decreasing it multiple
+>  	 * times for a single folio and break the balance with mmap_miss
+>  	 * increase in do_sync_mmap_readahead().
+> +	 *
+> +	 * VM_SEQ_READ mappings skip the mmap_miss increment in
+> +	 * do_sync_mmap_readahead(), so skip the decrement here as well to
+> +	 * keep the counter symmetric.
+>  	 */
+> -	if (likely(!folio_test_locked(folio))) {
+> +	if (likely(!folio_test_locked(folio)) &&
+> +	    !(vmf->vma->vm_flags & VM_SEQ_READ)) {
+>  		mmap_miss = READ_ONCE(ra->mmap_miss);
+>  		if (mmap_miss)
+>  			WRITE_ONCE(ra->mmap_miss, --mmap_miss);
+> @@ -3935,10 +3940,15 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+>  		 * In such situation, read-ahead is only a waste of IO.
+>  		 * Don't decrease mmap_miss in this scenario to make sure
+>  		 * we can stop read-ahead.
+> +		 *
+> +		 * VM_SEQ_READ mappings skip the mmap_miss increment in
+> +		 * do_sync_mmap_readahead(), so skip the decrement here as
+> +		 * well to keep the counter symmetric.
+>  		 */
+>  		if ((map_ret & VM_FAULT_NOPAGE) &&
+>  		    !(vmf->flags & FAULT_FLAG_TRIED) &&
+> -		    !folio_test_workingset(folio)) {
+> +		    !folio_test_workingset(folio) &&
+> +		    !(vma->vm_flags & VM_SEQ_READ)) {
+>  			unsigned short mmap_miss;
+>  
+>  			mmap_miss = READ_ONCE(file->f_ra.mmap_miss);
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
