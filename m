@@ -1,82 +1,95 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CEE1F4180;
-	Tue,  2 Jun 2026 00:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE561F4180;
+	Tue,  2 Jun 2026 00:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780361005; cv=none; b=Fdtri0DAGH4Sb5WGLpU06qN1M+fY4O8By34bHFugSXkkdxtebGBkameb5FJvU15J1V0aqbqLDzD/pD+jiPQsajAWWysslAM4AEvFBLXA2vr/F63lNCKZ8N5rLNLG8UE5WMLNV5ZGPFlc4ibNjIn9tdNuaBbl/v5kqXsv7XZHem0=
+	t=1780361031; cv=none; b=FhBO38TLgctlKSbYwdAZeUyI2wI6GngROw0tB+N/igXol2o+re2F914ZCcfRWSZedQgCDfOB8hrTsAiZtFszsMSq3iXLcGBv4Sn/i7FqBnPQobo99T9Q13dMLRdiCLGQoVq5NkpJcK3uwfQe5gYce20paNdy96JdeggvPDFlhOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780361005; c=relaxed/simple;
-	bh=MG50YLQvQxNORvZuVFSBPMLKBdfywUTiNY7Fy69tyV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JJzXnRS7ZvwiaSnUxu2ad1xWl4D0J+5miT0zVRtTC25nZfrTPafH2QD10WjhYbQMH1jqWGV1/mxrqmTb8Fejwvu+in/rh/tGlROJbtXsIVi+6CatYE2Xj9OWCDsaszoK9n0i9pNYGci5WFG5YwnmFuagwWbBSyDfqeZyhePf8Xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=KasdYkQ/; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1780361031; c=relaxed/simple;
+	bh=EP7NbwxGQO3cHzJFzkZ79NTCvuSBMk7HVlXDF5Gk4gU=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=MzTvEF+P0CKyfd6EbS40pbppuskF6R5EWI9W5RuPZSaT6g29eAEZMyLPcQ73CmmTALD32JLe8ODnuXKtuO0qMkHPIrc9CrvGAM+cY2L7y6CJhk+x+49aHxMkD7NpOx4eYNbJIy0Efni1NK6Arw3gzmSZCCTW7wJR4M0rymfOfv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bFcb+93/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="KasdYkQ/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=wJtIngZ1FRKANvUeb2PvORViMIM4aVCTFs+fJPSfFik=; b=KasdYkQ/Ll7ymQkucSGZ1ACIUw
-	QwZPO1uYQHLL5yh1lUpZKFbk1j3ZedMkaeEvszDgoK/jpwQa9mkJnE2KHOAdVAsm2uxqPPXhVdFXX
-	Fg2KtEIKJeLrhV0dP4kAlC3vlXb8UubGshz5dPsuSsWHnrVFmEPr1L2+307QGwCbIcY85WGWMHq6y
-	DdxxFNOO+YJEjgsVmVSPQAbICnQSVlOvWOLY7RTXBgyDQeS7wPnyUusUY4P2xAYNJAStMXyBr8SXc
-	fuCJLAwYinSXdtAk9L9hF3/18MpDPMgP900d5qO9sMexp6WVdUA3h0Sad6nkwQXQCgCGrByuLU1yR
-	2KRLfWwA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUDE0-000000055hw-1306;
-	Tue, 02 Jun 2026 00:43:20 +0000
-Date: Tue, 2 Jun 2026 01:43:20 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: brauner@kernel.org, jack@suse.cz, mjguzik@gmail.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+36e50496c8ac4bcde3f9@syzkaller.appspotmail.com
-Subject: Re: [PATCH] fs/namei: fix UAF in pick_link() by unlazying before
- atime check
-Message-ID: <20260602004320.GL2636677@ZenIV>
-References: <20260602002607.110866-1-kartikey406@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bFcb+93/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA561F00893;
+	Tue,  2 Jun 2026 00:43:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1780361030;
+	bh=Rh2n9Gu0rmNTDcj9emYz6ha4zA22fi+waHRK2Lt+xYA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=bFcb+93/9S95ynXbVnpuZtZBYT+X51bssv+rLmgGtRgV8B/W56LyHj9DX1uQVcj4i
+	 Pd6p0tFzPEmJGOLkLwCU38i7iM7tieX6PLvShLWnLmzImiLUxjSOP+AuXGeNX+RDxQ
+	 9ziqdplU8XWD78fouW0PPprxDLqIHU3nxGZ3Rhqw=
+Date: Mon, 1 Jun 2026 17:43:49 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Chi Zhiling <chizhiling@163.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Jan Kara <jack@suse.cz>, Hugh Dickins
+ <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chi
+ Zhiling <chizhiling@kylinos.cn>
+Subject: Re: [PATCH v2 0/5] mm/shmem: optimize read with reduced xarray
+ lookups and folio batching
+Message-Id: <20260601174349.e521b96acac805ac3d9bfbbb@linux-foundation.org>
+In-Reply-To: <20260601055704.167436-1-chizhiling@163.com>
+References: <20260601055704.167436-1-chizhiling@163.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260602002607.110866-1-kartikey406@gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 02, 2026 at 05:56:07AM +0530, Deepanshu Kartikey wrote:
-> In pick_link(), atime_needs_update() is called while the path walk
-> may still be in RCU mode (LOOKUP_RCU set), meaning no reference is
-> held on the inode. A concurrent iput() from another task can free
-> the inode while atime_needs_update() reads inode->i_opflags (offset
-> +2) inside current_time() -> is_mgtime(), causing a use-after-free.
-> 
-> KASAN reports:
->   BUG: KASAN: slab-use-after-free in is_mgtime include/linux/fs.h:2313
->   Read of size 2 at addr ffff8880407e4282 (offset +2 = i_opflags)
-> 
-> The race:
->   Task A (pick_link)             Task B (unlinkat)
->   ------------------             -----------------
->   atime_needs_update(inode)      iput(inode)
->     current_time(inode)            evict()
->       is_mgtime(inode)               destroy_inode()
->         inode->i_opflags  UAF          inode FREED
-> 
-> Fix: call try_to_unlazy() before atime_needs_update() so that
-> a proper inode reference is held before any inode fields are read.
-> If try_to_unlazy() detects the inode is already gone, it returns
-> false and we exit safely with -ECHILD without touching freed memory.
+On Mon,  1 Jun 2026 13:56:59 +0800 Chi Zhiling <chizhiling@163.com> wrote:
 
-NAK.  This is *not* fixing the real problem; it's papering over the
-real breakage.  At a guess - in bpffs, if that's the same thing as
-in https://lore.kernel.org/all/20260423043906.GN3518998@ZenIV/
+> From: Chi Zhiling <chizhiling@kylinos.cn>
+> 
+> This series improves shmem read performance by implementing folio
+> batching in the read path and reducing unnecessary xarray lookups.
+> 
+> Performance Results:
+> 
+> fio --ioengine=sync --rw=read --bs=$1 --size=1G --runtime=180 --time_based --group_reporting --name=seq_read_test --filename=testfile
+> 
+> | THP disabled in tmpfs  | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
+> | ---------------------- | ------------ | ----------------- | ----------- |
+> | 1M + normal file       | bw=11.5GiB/s | bw=12.7GiB/s      | +10.4%      |
+> | 64k + normal file      | bw=11.0GiB/s | bw=12.3GiB/s      | +11.8%      |
+> | 4k + normal file       | bw=3826MiB/s | bw=3849MiB/s      | +0.6%       |
+> | 1M + fallocated file   | bw=23.8GiB/s | bw=28.6GiB/s      | +20.2%      |
+> | 64k + fallocated file  | bw=22.5GiB/s | bw=27.3GiB/s      | +21.3%      |
+> | 4k + fallocated file   | bw=4655MiB/s | bw=4680MiB/s      | +0.5%       |
+> | 1M + hole              | bw=24.2GiB/s | bw=28.6GiB/s      | +18.2%      |
+> | 64k + hole             | bw=22.6GiB/s | bw=27.6GiB/s      | +22.1%      |
+> | 4k + hole              | bw=4652MiB/s | bw=4489MiB/s      | -3.5%       |
+> 
+> 
+> | THP enabled in tmpfs  | v7.1-rc5     | v7.1-rc5 + fbatch | Improvement |
+> | --------------------- | ------------ | ----------------- | ----------- |
+> | 1M + normal file      | bw=13.7GiB/s | bw=13.9GiB/s      | +1.4%       |
+> | 64k + normal file     | bw=13.5GiB/s | bw=13.5GiB/s      | +0.0%       |
+> | 4k + normal file      | bw=3833MiB/s | bw=3859MiB/s      | +0.7%       |
+> | 1M + fallocated file  | bw=24.9GiB/s | bw=34.2GiB/s      | +37.3%      |
+> | 64k + fallocated file | bw=23.0GiB/s | bw=31.4GiB/s      | +36.5%      |
+> | 4k + fallocated file  | bw=4710MiB/s | bw=4655MiB/s      | -1.2%       |
+> | 1M + hole             | bw=24.3GiB/s | bw=34.5GiB/s      | +42.0%      |
+> | 64k + hole            | bw=23.5GiB/s | bw=31.1GiB/s      | +32.3%      |
+> | 4k + hole             | bw=4690MiB/s | bw=4647MiB/s      | -0.9%       |
+> 
 
-Prompt freeing of inode is allowed *ONLY* if inode is never exposed
-to lazy pathwalk.  It's OK for pipes, but this is not a pipe.
+That looks nice.
+
+Microbenchmarks are useful, but are you able to help us understand how
+much benefit our users might see in real-world workloads?
+
+I'll take no action at this time - it's late in the cycle and reviewers
+have yet to participate.
+
+AI review flagged a few possible issues, so please take a look:
+	https://sashiko.dev/#/patchset/20260601055704.167436-1-chizhiling@163.com
