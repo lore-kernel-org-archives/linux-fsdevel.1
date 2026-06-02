@@ -1,155 +1,185 @@
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D79938656D;
-	Tue,  2 Jun 2026 23:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF993AA502
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 23:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780441221; cv=none; b=qK+MYgTTxA0Xa8T80NKEuAHzU6g4JvvLRR1GGw54h72r5O4up71ljLIiK81i0TBgTiWaoKGhB3oNGzK9dHKH7x4Wf8hO9I0TuUNpt/Z6TGUc4xfcp2axbbqvnE5pkajuzR6fLAya5i7o73bmf1lhOMMu6LeZz4zltQM0Y1e7njU=
+	t=1780441450; cv=none; b=o9pq+mgF4K/7NHvlirBL/Ihg1oopDfahuE6D9gA8nJn/CBuR+4lXUnuE0M0yxF5r92ZxHfIxk1k/MqUSAZoFmD/P7Y/wsugtV4JuQYcYgS8lFsK8W13aDXGxyb+AaiICRHFG1G1Q6GhLDKmajjevMAzDZKMq63mRCnsWKeE6kuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780441221; c=relaxed/simple;
-	bh=Yjizqz5uimQ7YHEMoGu7QonsO5YxJ09Tfx54YQHnWZM=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=hsyX3fQly0oNvITrJdYQS7ptU1iDJI9KvyVbTtkPx1ypvAZHK0ixnXY81I/jC/7jesLFoOpzlkvAhK1Xe6iq3L+5jiodj0gMGREAt1B9MBh5s9BIrjqi0Y2Ppdyp1gqKIDFyCGsyCJWcvYxyrfNGhDd4vpeTOMO14ny4GLMDz+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=PxjCWP6K; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NMYwca3u; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1780441450; c=relaxed/simple;
+	bh=fGzDjuAvcIt9jSsrnnmZfYKA/ydyZfYEEoZeMj6ExQM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KYnKVpeiJ3Hc/QeaddM2U74iCqmbxflbgPL7WMTWYi89addvfb9oXo7yLRst5jgALT2l5OnlEwS74awmV1qYIIqv5kZH33bbv4RVi1VTLZ0aEbguzrkCxAps2LcFG901X1ywX8syP4LleOTj9rRbVRfTfvi32anWyoKbiIX7u7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EvUCuuQf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="PxjCWP6K";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NMYwca3u"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 7624E1D00097;
-	Tue,  2 Jun 2026 19:00:18 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Tue, 02 Jun 2026 19:00:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
-	1780441218; x=1780527618; bh=2XoA/FjqB/erdhiWHhe5XpG4Kcr6mHjgZ1n
-	WDmcsRCY=; b=PxjCWP6Kx6Rsk0VnlAthdsicnaRSFe9TMGCg7ZarZt3HGkOmsDj
-	jmnZnqFGgLyK/bADvKVpVWIYcrbk8uANmJBHTH9iArj3pXt9G2Py3Ljzj2QyleKn
-	A+qAuxijfEkKNAAKKnqN/zb6JM0TIYnJlkKuyPc6zNaAjur/QVIzy+WGUU19kE08
-	OUeptof1QZOHW4zHljlzjTMZSH2wI93YIDTfc5kqrcDSei+y2tH66hy+nbM8+DnO
-	rAUMkibgoNtnLptYsosmfgFZRPaTzReMG1exFRlHRi0kV5VoWM2RyS5XQ+mv2qVg
-	2m3JWB02+3H6FuGVnfk2mENFwFkSU6Vqtgg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780441218; x=
-	1780527618; bh=2XoA/FjqB/erdhiWHhe5XpG4Kcr6mHjgZ1nWDmcsRCY=; b=N
-	MYwca3u39v/EpPoZngxWiyNqvMH3MEmTIw5EJTdqYJNn6Z4vIXci4ggvEEqVqjPR
-	a3ckdP1zRDZmVzqjZr6MEDcyGEQSUE9NLPbEmrhphJJFP3v9DMGdRT8aMQ88ULQJ
-	y7AIKZQxoQLQvXuoPJo7zYxXz0u9980inO+yQwqWn6+VvbvCGRXZgFxMwGIkaJUS
-	O+iR83TiQzxDkrqRQZvQ4vDRKbFmXlCNTt3nu1lKyqnSKKUTtWiS2VJWdvReZnyf
-	ZFe3dewxuas9cndwNHOuWarbij3WrcXXae84yHvl0iZohrcfo4iuRRDGgWwFVa8i
-	XBn1kNKtLQCnAo+vBriMA==
-X-ME-Sender: <xms:gWAfak5zmBcTBlDaxzj9-8C69KBl-YEte3FDYg1dYXIAGA9DONQnow>
-    <xme:gWAfauE827Uq8ktz0k3a1YntgFV6b23BRj1NVQBdBnAVrDDuzyXf1OsV4ljfHiGG3
-    L-eTSGtR7SoiYUAMZwEymwdK4a-G0sKjxWj9zxWn3aRZ0_Vgg>
-X-ME-Received: <xmr:gWAfavDT8S08BCAUtCidjLgCT4ObPp4Ay4F9ITcbxdnxsH3wh3YOJ5oNP3el7m4T05qd986c4UdyA0K-TlfiP0lHYf_yB6M>
-X-ME-Proxy-Cause: dmFkZTFFg8OyK0zdeyMHqSvOzVCwr8wXcMDfAwkCLB+a4Rp5mQGvRuCjqXfiunFZMNqbxe
-    UJFCMpEbHY8wVdl4+NrPK1v+xGPVVtwJMjhb/vdpcIYX9GXB2Wd13FJmc45OZHdbiwNlcB
-    2lIey8dUmP8xKKRAnbj7TkqvlqNimMZDqT5PRQE3mfKgRpgO80INNtamerbGRPyr+eXLEW
-    TgTelX3JM2p3oGhqz5pckor26XAiiZ9az2K3KGqQoDmZWYkRvFmpz1016vqWwa0YiPzTGS
-    99VWaaootX0sbfxx99B5P2AuD7zC+MNBzeKy9N6BxqaBXdYAftEilURVtCudKfoBS/pUV6
-    qICGtVh1XZvFaiz8t7wknhOsVgyKXyVe1cOVjHd6p/xN5pZT3heHj8cCPzRsyn+sMZjCGn
-    Q0TtEc1i31tSIBhs1dIYEJJB5mFm47lBKfRqio7XlnDNjL1Mvtt6ugkNrJ9wTMrHW1z6cR
-    gKJQdX3YpZ9pXRpmoSk0X9dh4YqOCyva4AvZHQ6lDrIhYYnI6JgVr9mpCjyAVyeV/2mGQ9
-    s9envbhXa/8v9G28ihvmAZHlvKMVMUVVKyMaGodffIycSSZqcDIRg5+yd2oUQ/ZvWuO3SJ
-    usjPcdRKsCLNmTr8KA9iDYs6FphoKE+8fbjYu9E6yLx8HtKpm6Ax1M0EOmgw
-X-ME-Proxy: <xmx:gWAfajxjGbgx32K9JItD5O84oIXJrrw6ZzX7vfNwpEleHRdaMW_gyw>
-    <xmx:gWAfaj5slawdaMlrJjecWMpBOdIy3xQWi8lr1untJc1HoMkf9v0Igg>
-    <xmx:gWAfakyd6z6accU6t0b_yjN4BKoxx9Jk7WzxEwi2ZbR6ZBVizZ_o0A>
-    <xmx:gWAfandcfzNFfTp_hveddB7h6TsBMH9yiAj1HCCGQxyxqAYLsaPvLg>
-    <xmx:gmAfapNwCHSsORCs41zkEfGkQ7NpxoFtP-lZL01gjdVyDjefenxfKx_K>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Jun 2026 19:00:14 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EvUCuuQf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5860D1F008A1
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 23:04:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780441445;
+	bh=fGzDjuAvcIt9jSsrnnmZfYKA/ydyZfYEEoZeMj6ExQM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=EvUCuuQfxIVQtKdieJ/ojTw7O5oTpN+1v4wSoySeJnSQ77XhNPBL4s0Qq/Y1kunRy
+	 O/1dguz4EY6tg69/ld8u0YuxKtsGscTfoE3p7hvpY29oeTAInBfr4YsW9C4LSpW/dQ
+	 o+FniKL/AHjEv2g5G3bwTIAbht7mdo5l8J5i+nXwa5dKa5BmC1NhTBV5ulufIVzVX9
+	 GVUoQKkCgBsmCpKp4KXyQuW2FsNpAb6Pi5BgbcfO5gqv0Q59eu3/Alp+/1nEb8AWH5
+	 eJqUb/x3HgusCNWLkaE9PXVaih58QSkPAATsny3gUFg84kl8gPINK1abjlxx8KyOx1
+	 Z84I6M8uqEUcQ==
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-91550eca866so467794785a.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 16:04:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+sn5UbitaKEY1OaZ88B9mZQ5y2KNPMJ6wLkXcE4i5+h5VgZf3oH9QYLs+7zgNZUsfhkEFAlO1aKpfpeEOR@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsxfR2zuB8HoyGPkfSOwGln1QDVzbySBxkf8YdwoFVJIK6aEIV
+	x/foRulqgusHEVgGW/Xs/VvLfrlfVjzi924ONpYSASCmfNs71H/Kmv1XdOrCNZZqXsoarAY0oX9
+	xNEbQ4cANn05NgcSsqzyB8biKml4/wyY=
+X-Received: by 2002:a05:620a:25cf:b0:912:8fd0:4a5d with SMTP id
+ af79cd13be357-9158a8430eamr187006285a.55.1780441444405; Tue, 02 Jun 2026
+ 16:04:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jori Koolstra" <jkoolstra@xs4all.nl>
-Cc: "Al Viro" <viro@zeniv.linux.org.uk>, "Aleksa Sarai" <cyphar@cyphar.com>,
- "Christian Brauner" <brauner@kernel.org>,
- "Jori Koolstra" <jkoolstra@xs4all.nl>, "Jan Kara" <jack@suse.cz>,
- "Jeff Layton" <jlayton@kernel.org>, "Mateusz Guzik" <mjguzik@gmail.com>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- "Charles Mirabile" <cmirabil@redhat.com>
-Subject: Re: [RFC PATCH v6 3/9] vfs: prepare vfs_creat|mkdir_no_perm for reuse
- in lookup_open()
-In-reply-to: <20260531182045.171711-4-jkoolstra@xs4all.nl>
-References: <20260531182045.171711-1-jkoolstra@xs4all.nl>
-  <20260531182045.171711-4-jkoolstra@xs4all.nl>
-Date: Wed, 03 Jun 2026 09:00:02 +1000
-Message-id: <178044120271.2082204.8038449401223306061@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20260527110147.17815-1-tao.wangtao@honor.com> <ahcANgFDFwfC0v1q@lucifer>
+ <b24b4a8198ba412f8b8b42c43dccd058@honor.com> <ahf2mJg9OOWvu0jA@lucifer>
+ <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
+ <99dfc4a50f3643a6bef6deaeccfcf115@honor.com> <ahlzj--3Gm5pD9ge@lucifer>
+ <a90bcb0fa3a044588350e92a78258a09@honor.com> <CAGsJ_4wFr89M2i8pth79swv3==i8SGSMWrbr+Yp2umwFTuCShg@mail.gmail.com>
+ <2e9175ab-f9be-44c6-bf1a-a82aeed18f98@linux.dev> <ah71gjj21rLIuTnb@lucifer>
+In-Reply-To: <ah71gjj21rLIuTnb@lucifer>
+From: Barry Song <baohua@kernel.org>
+Date: Wed, 3 Jun 2026 07:03:53 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4yKtEnCEyLVpzKUNDDw0AwttnFhB7c1sicBpjecBxATQw@mail.gmail.com>
+X-Gm-Features: AVHnY4Khgdh1OvPc32I3tWzQ7qSOu8BOGvT2qrR5LpDulZJiDfW5EMOXKL2Djq8
+Message-ID: <CAGsJ_4yKtEnCEyLVpzKUNDDw0AwttnFhB7c1sicBpjecBxATQw@mail.gmail.com>
+Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma creation
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Lance Yang <lance.yang@linux.dev>, 
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
+	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>, 
+	"luizcap@redhat.com" <luizcap@redhat.com>, 
+	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
+	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
+	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>, 
+	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>, 
+	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
+	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
+	"ziy@nvidia.com" <ziy@nvidia.com>, 
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
+	"xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, 
+	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
+	"matthew.brost@intel.com" <matthew.brost@intel.com>, 
+	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>, 
+	"byungchul@sk.com" <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>, 
+	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>, 
+	"pfalcato@suse.de" <pfalcato@suse.de>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
+	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
+	"dvander@google.com" <dvander@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 01 Jun 2026, Jori Koolstra wrote:
-> To implement O_CREAT|O_DIRECTORY we will have to repeat some of the
-> logic that is now in vfs_mkdir() (e.g. do error checks in the same
-> order). Separate this out in vfs_mkdir_no_perm(), which does all the
-> non-permission related work of vfs_mkdir(). Permission checking for the
-> lookup_open() path is timed differently because we may just be doing an
-> open and no create. Similar considerations give rise to
-> vfs_create_no_perm().
->=20
-> Moving the fsnotify_* calls also allows us to deal with this in one
-> place for each type of operation. This does mean that we also need
-> to move the fsnotify_* calls into atomic_open() for the atomic open
-> case, but this actually reduces duplicate code in open_last_lookups()
-> and dentry_create().
->=20
-> Signed-off-by: Jori Koolstra <jkoolstra@xs4all.nl>
-> ---
->  fs/namei.c | 105 ++++++++++++++++++++++++++++++++++-------------------
->  1 file changed, 68 insertions(+), 37 deletions(-)
->=20
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 4cd132fe3981..2a35dd72ee96 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4171,6 +4171,24 @@ static inline umode_t vfs_prepare_mode(struct mnt_id=
-map *idmap,
->  	return mode;
->  }
-> =20
-> +static inline
-> +int vfs_create_no_perm(struct mnt_idmap *idmap, struct dentry *dentry,
-> +		       umode_t mode, struct delegated_inode *di, bool excl)
+On Tue, Jun 2, 2026 at 11:37=E2=80=AFPM Lorenzo Stoakes <ljs@kernel.org> wr=
+ote:
 >
+> On Tue, Jun 02, 2026 at 10:46:35AM +0800, Lance Yang wrote:
+> >
+> >
+> > On 2026/6/2 10:15, Barry Song wrote:
+> > > On Mon, Jun 1, 2026 at 9:46=E2=80=AFAM wangtao <tao.wangtao@honor.com=
+> wrote:
+> > > [...]
+> > > >
+> > > > You said discussion was welcome, yet when someone offered even a
+> > > > small comment, you refused to continue the discussion.
+> > > >
+> > > > If I had known you would be this inconsistent, I would not have
+> > > > replied to you in the first place.
+> > > >
+> > > > This will be my last reply to you. I will not respond again.
+> > > >
+> > >
+> > > Hi Tao,
+> > >
+> > > Please don't walk away from the linux-mm community. I read your
+> > > patchset and found it quite valuable. It not only reduces memory
+> > > overhead, but also eliminates rmap costs for exclusive folios.
+> > >
+> > > Since I'm not very confident discussing technical topics in English,
+> > > I wrote a blog post in Chinese about your patchset:
+> > >
+> > > https://mp.weixin.qq.com/s/k00tzhTl8HbL3k4G6ev4SA
+> > >
+> > > I have to admit that I found the implementation quite complex and
+> > > in need of significant improvement. However, I think the underlying
+> > > idea is very interesting and worth exploring further.
+> > >
+> > > I'm looking forward to seeing a v2 RFC with a cleaner and simpler
+> > > implementation while preserving the core concept.
+> > >
+> > > Regardless of whether it ultimately gets merged, I hope the discussio=
+n
+> > > can continue.
+> >
+> > Same here :)
+> >
+> > Tao, please don't let this thread get you down. No first RFC is
+> > perfect, and the idea still looks worth discussing :)
+> >
+> > Thanks for working on this!
+>
+> Guys, this isn't helpful.
+>
+> We aren't extending anon_vma, and I am working on replacing it, that's th=
+e
+> bottom line.
 
-I meant to mention this on my first review but got distracted.
+Not trying to challenge your bottom line. As explained to Harry, I
+have no doubt about your expertise in rmap and many other mm
+areas, and I deeply respect your work on rmap.
 
-I would rather this function didn't have the "bool excl" arg, not
-because it is "bool", but because it is not needed.
-The 'excl' flag to ->create is not needed and I would like to get rid of
-it.  We don't have to do that immediately, but I'd rather not perpetuate
-it.
+With more discussion, we might gain additional insight and
+inspiration. What Tao has inspired me with is the idea that if we
+assume most real-world processes are leaf processes, could we
+simplify parts of the design?
 
-There are two sort of fileystems - local and cluster.
-cluster filesystems support ->atomic_open and so ->create is *never*
-called with 'excl' false.  All vfs_create() calls (which are either mknod or
-internal) are exclusive.
+This is why I suggested a v2, to improve the clarity of the cover
+letter and make the code easier to understand, and to see whether
+there is something worth considering further, even if it is not
+suitable for merging.
 
-local filesystems do not support ->atomic_open but *always* ignore the
-excl flag.  The only time ->create is called with 'excl' being false is
-after VFS has already checked that the file doesn't exist, and is
-holding a lock so that the there cannot be a concurrent create.
+>
+> I have presented compelling evidence suggesting this is AI generated. In
+> response I got more AI-generated nonsense. There's no trust, the code and
+> analysis are all wrong, end of discussion.
 
-So we can change all filesystems that currently notice 'excl' to assume
-that it is always 'true' and we can deprecate the flag.
+I am not an AI expert, and I do not really use AI in kernel work,
+so I am not really sure what counts as AI versus non-AI. Sorry.
 
-Maybe I should post some patches, but for you could leave the 'bool
-excl' out of this patch, that would be great.
+>
+> >
+> > Cheers, Lance
+> >
+>
+> Thanks, Lorenzo
+>
+> P.S. maintainership is utterly thankless, and I don't really expect much =
+in
+> return, but honestly reading this, given the case I've made here, was
+> really quite disappointing.
 
-Thanks,
-NeilBrown
+Understood. I see your position, and I personally have great
+respect and appreciation for your work on maintenance. Sorry if
+my words came across as disappointing.
+
+Best Regards
+Barry
