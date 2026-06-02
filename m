@@ -1,238 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CDC3C455B
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 22:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDF53C5855
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 22:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780439252; cv=none; b=uaPd7FU9pmfXfJlJH3FCl3VXvTN9YThAwQbbbTk/Cqf9oEQfHkCF+LohJf6FT9QjLOzbqVTRN/HUtMbTMbZPIIeG1x03I6CCxlUIvE3YceHo/2O8Db9ogwfLsx/ohjvfCgu5oUHsrjxTb4198rQV0WB7Nuxbg/riTJGs/HhaG5I=
+	t=1780440106; cv=none; b=VYp6RmHHOUMyi/IPdOWhpYwA1/7yOqqeff60I6BOAL24TW5RKfxN5n3aspAS354PeIKNGjF19Lg08enYjsp4Xk3e101prqbB2OCVRs72FRfn9xDNbvKUoQoNhfxqAfUzNIZwNmQNyOJkhZ2U1WE6hrkFhvlTB5UTr/PWxswcmZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780439252; c=relaxed/simple;
-	bh=IPiUnyCYQyu+QmrL66bVqUiAaYmsJXs+ruL81nIq63U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hs7URBQdThjhNqRAtp3xRKldVYT0kuFjHe5MX3sHV8QU4CytNPygoddEaI27XSqJJ8joJ9geBKgLTGFi/B3S0rRcKVuYehpSbfIF+CK2hgwQDS3zrMn72akDksC3v3u/aAWDSk+KG52c0Ht4xcA5alI2eTeFmnv07WrgFdLWzio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BYuCyZFu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780440106; c=relaxed/simple;
+	bh=sbjnbD6ERB+J0p+IG7/cOkT8z0ehA1CaN9y0MYeGsA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fX4J1RfBLujJaf09OsfejCsHX3KxVHA25hAPMcMuCACkj3k/LJVfNDpse4wix7aAY+CCM58PxPIaVZzkdAmBk+MLpK1HaJyqVLW1JzOv2bLKotuNahdQLZvC0NBKg79yHU/f4Tknj+1Md8Ax4B41dyCaUZlyeplsA2/YHWYk0xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kkmq6f9i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=e8gJMoYO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kkmq6f9i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=e8gJMoYO; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BYuCyZFu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 370A31F008A3
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 22:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780439251;
-	bh=IPiUnyCYQyu+QmrL66bVqUiAaYmsJXs+ruL81nIq63U=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=BYuCyZFu4VrF0CEJSFaJM/ABaX2nQQVoc1FH+40z4ue4ec4N7KgRk10owK85AKvSh
-	 mwVfwpZRZt8pP6Xl/wEkonX0YxFAdYKfVuQ4FkfXhwDMLvDfUOJCtKzz8lQVCAV6hc
-	 JknjQy1W1+C3L/c0dxnrPNQVcC5Zm3S0Gcv8JYIWEiaNJszr8kvdZlM7DauUlcvtBt
-	 m4QEDmschH2RCmh3+OlaflVFFNtod3fufPXivuCnSUu0C8tdxWdVcflDvOQT0GVt+H
-	 TPxvWUGEM4GjXE0U0N8qTBl/HAYqgPMRyBC78LuIoyqDFMhU9ywUMVITNLKlpmjrue
-	 F3xnhnmiLgkbQ==
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-59b24523cbeso3237493e0c.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 15:27:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9nAiEgZJZxyXRS5afy8PxPmUQCoOcYPKcWCr0BWY9HApxAjLmZVtL/Mc/L2R4v8LNaHViy0zsQbmSIollJ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzpj6UUluSVaID3tyMTh1rHS32WmwVWrOllf5TOzIUhT2JDjy5X
-	LIBCKatSMqmNnpSNKa/H83+PBLoKY5PrerLpK5+9+8CletzbTdrRZc76QBKnCiwyKVlUDr4KvVx
-	fD6L2oDnzhdJ3U/4DnwR1gPzQar5pFJg=
-X-Received: by 2002:a05:6102:4191:b0:631:b365:40f6 with SMTP id
- ada2fe7eead31-6ec733deaadmr286422137.23.1780439249968; Tue, 02 Jun 2026
- 15:27:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kkmq6f9i";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e8gJMoYO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kkmq6f9i";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e8gJMoYO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 266236A8A7;
+	Tue,  2 Jun 2026 22:41:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780440103; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z4sAf9CWdWRBvdOC/VGUxmfAjIcDMPecq5z6keRuBsA=;
+	b=kkmq6f9ix4swGXyI4aIvlOQLaRMo0MKVHP3WZluLcWY353S0mj+eBxx2i2GLMdV+G2nwUp
+	DWhx+D/Vb5I46792pYDwOAqnjBt2cwOwdzUEhtD4QENdlGwfkfHMCpR0lnDXia84H/lgFG
+	t9VDMQqZX3R5apQ5/iHUPKzmN7eLI90=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780440103;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z4sAf9CWdWRBvdOC/VGUxmfAjIcDMPecq5z6keRuBsA=;
+	b=e8gJMoYOEr/U8OOqmLZ51N4lmMQG8SgKb1tCa5m4kViL8ToOpbb/JNnx+hBTISHjRkglpe
+	0Pivw3kxEVYE6kBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780440103; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z4sAf9CWdWRBvdOC/VGUxmfAjIcDMPecq5z6keRuBsA=;
+	b=kkmq6f9ix4swGXyI4aIvlOQLaRMo0MKVHP3WZluLcWY353S0mj+eBxx2i2GLMdV+G2nwUp
+	DWhx+D/Vb5I46792pYDwOAqnjBt2cwOwdzUEhtD4QENdlGwfkfHMCpR0lnDXia84H/lgFG
+	t9VDMQqZX3R5apQ5/iHUPKzmN7eLI90=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780440103;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z4sAf9CWdWRBvdOC/VGUxmfAjIcDMPecq5z6keRuBsA=;
+	b=e8gJMoYOEr/U8OOqmLZ51N4lmMQG8SgKb1tCa5m4kViL8ToOpbb/JNnx+hBTISHjRkglpe
+	0Pivw3kxEVYE6kBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8A4C779A7;
+	Tue,  2 Jun 2026 22:41:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Pw7/MCVcH2o1QwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Tue, 02 Jun 2026 22:41:41 +0000
+Date: Tue, 2 Jun 2026 23:41:40 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Askar Safin <safinaskar@gmail.com>
+Cc: akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org, 
+	david@kernel.org, dhowells@redhat.com, hch@infradead.org, jack@suse.cz, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org, 
+	patches@lists.linux.dev, viro@zeniv.linux.org.uk, willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <ah9Yle5pd6mD9Ugr@pedro-suse.lan>
+References: <ahv16ogY8Zx3Rtox@pedro-suse.lan>
+ <20260602211242.13870-1-safinaskar@gmail.com>
+ <ah9LaPQayJ6tBE53@pedro-suse.lan>
+ <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260527110147.17815-1-tao.wangtao@honor.com> <ahcANgFDFwfC0v1q@lucifer>
- <b24b4a8198ba412f8b8b42c43dccd058@honor.com> <ahf2mJg9OOWvu0jA@lucifer>
- <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
- <99dfc4a50f3643a6bef6deaeccfcf115@honor.com> <ahlzj--3Gm5pD9ge@lucifer>
- <a90bcb0fa3a044588350e92a78258a09@honor.com> <CAGsJ_4wFr89M2i8pth79swv3==i8SGSMWrbr+Yp2umwFTuCShg@mail.gmail.com>
- <1fb6a226-2899-497c-abbb-eb49c3a2f306@kernel.org>
-In-Reply-To: <1fb6a226-2899-497c-abbb-eb49c3a2f306@kernel.org>
-From: Barry Song <baohua@kernel.org>
-Date: Wed, 3 Jun 2026 06:27:17 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4zyO4bWmjBEjeqdbDo_hgEyEQuSD6ZH59=mG9BdwirfNw@mail.gmail.com>
-X-Gm-Features: AVHnY4KyJyCedUIUa_arn7DimqNML6DLaItJ5RHt47reA6vuXBGcpLeyeVYr68w
-Message-ID: <CAGsJ_4zyO4bWmjBEjeqdbDo_hgEyEQuSD6ZH59=mG9BdwirfNw@mail.gmail.com>
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma creation
-To: Harry Yoo <harry@kernel.org>
-Cc: wangtao <tao.wangtao@honor.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
-	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>, 
-	"luizcap@redhat.com" <luizcap@redhat.com>, 
-	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>, 
-	"riel@surriel.com" <riel@surriel.com>, "jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"ziy@nvidia.com" <ziy@nvidia.com>, 
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
-	"lance.yang@linux.dev" <lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, 
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, 
-	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
-	"matthew.brost@intel.com" <matthew.brost@intel.com>, 
-	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>, 
-	"byungchul@sk.com" <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>, 
-	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>, 
-	"pfalcato@suse.de" <pfalcato@suse.de>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
-	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
-	"dvander@google.com" <dvander@google.com>, zhangji <zhangji1@honor.com>, 
-	wangzicheng <wangzicheng@honor.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[linux-foundation.org,gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Level: 
+X-Spam-Score: -4.30
 
-On Wed, Jun 3, 2026 at 3:57=E2=80=AFAM Harry Yoo <harry@kernel.org> wrote:
->
->
->
-> On 6/2/26 11:15 AM, Barry Song wrote:
-> > On Mon, Jun 1, 2026 at 9:46=E2=80=AFAM wangtao <tao.wangtao@honor.com> =
-wrote:
-> > [...]
-> >>
-> >> You said discussion was welcome, yet when someone offered even a
-> >> small comment, you refused to continue the discussion.
-> >>
-> >> If I had known you would be this inconsistent, I would not have
-> >> replied to you in the first place.
-> >>
-> >> This will be my last reply to you. I will not respond again.
+On Tue, Jun 02, 2026 at 03:06:07PM -0700, Linus Torvalds wrote:
+> On Tue, 2 Jun 2026 at 14:37, Pedro Falcato <pfalcato@suse.de> wrote:
 > >
-> > Hi Tao,
-> >
-> > Please don't walk away from the linux-mm community. I read your
-> > patchset and found it quite valuable. It not only reduces memory
-> > overhead, but also eliminates rmap costs for exclusive folios.
-> >
-> > Since I'm not very confident discussing technical topics in English,
-> > I wrote a blog post in Chinese about your patchset:
-> >
-> > https://mp.weixin.qq.com/s/k00tzhTl8HbL3k4G6ev4SA
-> The cover letter and commit messages should have been elaborated to a
-> much greater degree instead of making people guess the design and intent
-> from the code.
+> > Well, that's most definitely part of my patch. Also, you cannot outright
+> > remove splice() functionality
+> 
+> That isn't what Askar's patch ever did.
+> 
+> You apparently didn't even read it.
+ 
+Well, I was replying to Askar's new idea to remove pagecache-to-pipe splice,
+which is what he suggested. And directly intersects with my sysctl-to-disable-splice
+patch.
 
-Indeed. The cover letter does not clearly tell the story, and yesterday
-I needed quite some time to understand what the patchset
-was trying to achieve.
+> Honestly, I think you are the one out of line here.
+> 
+> Askar did something I suggested years ago, and didn't remove any functionality.
+> 
+> It just changes vmsplice to be a copying model (one of the directions
+> already was). It doesn't change regular splice at all.
+> 
+> And yes, it has the potential to be a visible behavior difference - if
+> some insane user uses vmsplice and then modifies the buffer
+> *afterwards*, then that would be semantically different between a
+> zero-copy and a normal copy.
+> 
+> But that would be insane behavior, and was never really reliable
+> anyway even with zero-copy (ie subsequent writes to user space buffers
+> would potentially do COW breaking based purely on timing and memory
+> pressure etc, so anybody who relied on it being visible wasn't goign
+> to get it realiably anyway)
+> 
+> Perhaps more importantly, it has the potential to change performance -
+> zero-copy *can* be a performance win, although typically it really
+> doesn't tend to be (looking up the page mapping is often slower than
+> copying).
+> 
+> I would expect it to be very clear in trivial benchmarks that aren't
+> actually real loads. And probably not visible anywhere else.
 
->
-> > I have to admit that I found the implementation quite complex and
-> > in need of significant improvement.
->
-> > However, I think the underlying> idea is very interesting and worth
-> exploring further.
->
-> No. What it is trying to achieve is ambitious, but the idea itself is
-> not worth exploring further as-is unless the correctness and complexity
-> concerns are addressed.
+Yes, vmsplice() sucks, and we know it. Hopefully no one else will see the
+difference. I don't think we can say the same for splice(), though.
 
-Can we give Tao more time to address the concerns and explain
-the correctness of the approach?
+> Trying to make it look like Askar is the problem is only making you look worse.
 
-That said, I don't think the patchset is entirely without merit.
-The idea that caught my attention is whether knowing that a
-process is guaranteed to be a leaf process could allow us to
-simplify parts of the rmap machinery and reduce some of the
-associated overhead.
+To be clear, I don't think Askar is the (or a) problem. I'm glad he's
+contributing, and getting rid of bad kernel interfaces is always nice. I was
+just a little frustrated with a parallel splice-related-unscrew patch.
 
-Assuming that a fork server (e.g. systemd or zygote) is preferable
-to having each application perform its own fork(), Linux already
-largely relies on fork servers in practice. Matthew also pointed
-out that calling fork() in multithreaded applications is a
-terrible idea [1]. This may suggest that, in general, processes
-outside of a fork-server model should avoid using fork().
+(Askar, if I was too hostile, I do sincerely apologize.)
 
-If we were to introduce an API such as prctl(PR_SET_NOFORK) or
-something similar, could we eliminate a significant portion of
-the rmap-related overhead for such leaf processes, while still
-avoiding the complexity of the lazy allocation scheme proposed
-by Tao?
-
-I assume that the vast majority of processes in a real system
-are leaf processes?
-
-It also seems somewhat unusual that a few Android applications
-invoke fork() directly in a multithreaded context, while most
-use the zygote to create multiple processes for an app. Perhaps
-the Android framework should discourage this pattern entirely,
-and require applications to create child processes via the zygote?
-
-If, in real-world systems, more than 95% of processes are leaf
-processes, could that imply that the rmap design might be
-reconsidered for a different optimization path?
-
-[1] https://marc.info/?l=3Dlinuxppc-embedded&m=3D177912107460825&w=3D2
-
->
-> > I'm looking forward to seeing a v2 RFC with a cleaner and simpler
-> > implementation while preserving the core concept.
->
-> I'm afraid this encouragement would mislead us in the wrong direction,
-> where all of us end up wasting time.
->
-> There isn't much point in posting v2 without addressing fundamental
-> questions about the design.
-
-I suggested a v2 because the current patchset does not clearly
-state what it is trying to achieve. A revised version might help
-clarify the intent and make it easier to understand. Even if the
-overall complexity (such as lazy allocation) makes it hard to
-move forward, we may still be able to learn from it and gain
-some useful inspiration.
-
->
-> > Regardless of whether it ultimately gets merged, I hope the discussion
-> > can continue.
->
-> Regarding the "improving the reverse mapping subsystem" topic, a more
-> constructive direction would be to carefully revisit the design
-> decisions and discuss what we can do about them (that's exactly what
-> Lorenzo has been doing).
-
-I have no doubt at all about Lorenzo=E2=80=99s expertise in rmap and many
-other mm areas. That is well understood and widely recognized.
-
-I just think that hearing more perspectives could help us gain
-additional insight and inspiration.
-
->
-> But that's not the first thing I would recommend to a relatively new
-> contributor given that it's really complicated and even the people who
-> have designed and reworked the reverse mapping subsystem over the past
-> 20+ years haven't come up with a fundamentally better design.
->
-> Reverse mapping is a frustratingly complicated subsystem. Without
-> carefully revisiting the current design, there is not much hope of
-> improving things at the design level, even slightly.
->
-> What I would recommend to new people instead is:
->
-> 1) starting by reviewing other people's work, so that you have enough
-> time to learn the historical context and subtleties of the subsystem
-> without making intrusive changes (which also keeps in touch with the
-> community), and
->
-> 2) making progress on smaller tasks with less intrusive changes, to
-> gradually build trust and be able to do more valuable work.
->
-
-Yes, that is a good approach for new contributors.
-
-> Unfortunately, looking at how this thread went, I see that the author is
-> now in a worse position than an entirely new contributor.
->
-> --
-> Cheers,
-> Harry / Hyeonggon
-
-Thanks
-Barry
+-- 
+Pedro
