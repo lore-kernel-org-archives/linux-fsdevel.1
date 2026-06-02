@@ -1,209 +1,95 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9513E0C42
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 13:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE302441B8;
+	Tue,  2 Jun 2026 13:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780405498; cv=none; b=YcHm+EsfZ32H1ok1nheR1HF8yhmHMrLSYj1MSglafdzHpcOYBM8qfBqJDWESAbKHgbtjUMOU1+4IUmxJ9eBG3wxEHR6Y97ZkfawI68fXKOmhx0QHd/Nj7CpRJ7o16OKaCMhOqrV0NF988oe2/dOsgWsyljMSM7QzFJa1dlMVvgM=
+	t=1780406055; cv=none; b=j/TZtNihWJVBLtjtyi6C7NtGYqDmanHVESdlIs8ipxu0kuQH3tS5ZITe8o14yGSnjhh3eylvcnGbmN9/KBisCR41DzH3pjxmJ1UGCL4ZFuxxuKqn/V2iEFhbgC35bhb51p8QnrgRQUV8T46VZuDXRywmnt1a85Icqgj8+4id6zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780405498; c=relaxed/simple;
-	bh=Lv88enNvVjptEHx4RPDpSYkoiYl4NHCAht/k1YwYRy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CgzmWeCfhvXcKbw7ARnTK2va1j2OgZTrmafnhH1G99D3ErgQkFNVsmA4jCfMF3G31wSknCDGk8x7I+Peg+QIlGJUqxxSUHQVXInLH758wMSQdUFu6rW6updCXnR9ngkwb6dMXOlL0eWS1gC6qudZXD4zco9CPSG2w/H5BZxH6cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oYCy8oWL; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780406055; c=relaxed/simple;
+	bh=FPxWpeou7tmXApJuo4Y6PHMUbCndAexPTUj0mT/qUrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rZrfDLuZkPJhSHiN8qPb68xp5T6Ajwye9vbKDsZjkX0QPHcw7aGo1l78Y7yPxWlCx8qHXeggpIAQUNccjoFbeiZ6lucZ4qLum/JHBIElnfKRLctpWvxICZAJ6ossbSMyyYYxCQKkpGpPNTztBI3BOUXMyIEYX8P63N98/P1zdPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NgHqnfA5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oYCy8oWL"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4904fd4f6aeso95916375e9.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 06:04:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780405496; x=1781010296; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H/8nMdqnIqVIuE86ZCCEmz0EQ1iXOszPXfKX9VZoGH4=;
-        b=oYCy8oWLEOXs3ZZpnQ8VOQHoNFjKZT62/QUyW3df6kxvDecqCOK07UnU98cT9bih7d
-         QifFlcWIr+EJiA3Y4YekpYVbMWMA0XqQZb9m0aNzEy+n6CZ9KNJxUBct5gbgm0d6jBJX
-         4RYm7cSM4Fa+MgP775wpjzUTJB2NacljxFREy0lFq+bJunDJIYp2ZV4sTIDkO+Vc1xr7
-         FpcRQcE1R3qM6zq5aytz97WBpu5zXpd39pgEA0GnDnl2ujkjmEdAdRZhqHjKWr+k4Lc4
-         ry5o67NwkoWSsT9Lap7TwhGHQwNn20aUpkBNKTwaaKQ1kQ2Jb1T0oTaxOfTVux7BZHHQ
-         5nZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780405496; x=1781010296;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=H/8nMdqnIqVIuE86ZCCEmz0EQ1iXOszPXfKX9VZoGH4=;
-        b=o644LRs2erYBhczo/a5oU+EJsWUV6N3p67idIa/fV4hDC9Fe4hWr0zK+1A57Ek/IQK
-         26sPVZY+xOgy8qqlTgPhxXjEtZXG9a97hYf3Y6MYldtj8SEkBgkUhFyfCZOVw15YnFdZ
-         69dKeUYEaSw+INQRltr+NoPUEYZYYa0zVdvagRR3R54rbZ6sQ15rHlRCTneOKN5n4Ssz
-         Sy3TN6UpbVr8IQdVzmr70NAhdDYB69h6hAx6xmdnTCZpUDN6cCNONbAE9tJzn5EDWVJv
-         XOQ5uNTUxAd6BbZTWG9J0l3MDZqf3brwcpnsLZCsavBbyT/yffdHJoOOLayOMNCiqoXg
-         hqlw==
-X-Forwarded-Encrypted: i=1; AFNElJ8D3qqx0Vfj/fE16QVE88jowJK4Sw3QdeD7Iv8Y8aI////f4LDG6MjuADhODGI3T7GjASHHEluPCMgrcH+Z@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJ0EOlV93GA4iSUPBngnh+x2rR8W6NARxv3h1aFhhuNu1XoH5X
-	89Krby8lc4XAlL1C9f1Ci8QQ6EPey+O1bgTQ3zkgP5qSY+ehJDwUjOh9
-X-Gm-Gg: Acq92OEzif0AE99v6MvvuXYbwnKNyeHpvkibsFwqNoTdPl578FKlg/k5w+Bo5P6GOKX
-	4uq+xB3esQ3YhRFfVhC5HiQCtOaGktH6bzKGwcmRV6pbOD+I/bseZi9EpH+SAJ/MpLFEZT5rbAb
-	Q5yrPF5OGYRZCJf9LYtFtwvWXOdRg5y8SXzdtz6QnmOdX+d2dOYjyuX4TZ67YMb5kZ2Ys5HJDkV
-	SSW4+a/Of7+1/3QXCgl1auW1QOuAkA8eL9RmmyVMMIFT/5LYXFU3migkYv22ig11PVaA7Pq/gSY
-	9zh8wBVnHylhjFLhECOXN7H0+I0bkzwMGLhVIWOeW4zEmKb9pZ1eYf69wiyWZnNCqDG3AZ9uYD7
-	n6qfd0ooDnJv5ZaVoFJviupplQckRXc6aPQJfjPWDLUUdI3Dn7PZ01Hf/do6Nu0iWnjEI2F5Vvd
-	Bjvn4MkXTBqa6ewtf88uQ2gMvuQUdkh0WuoTIDtuEYyYxU+TeeF8YviuUKAiOw/t8ToXvVr8i1j
-	ZwS9JiBZw==
-X-Received: by 2002:a05:600c:8105:b0:490:b072:1be6 with SMTP id 5b1f17b1804b1-490b0721e0amr76565325e9.25.1780405495119;
-        Tue, 02 Jun 2026 06:04:55 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef34b834esm33184301f8f.11.2026.06.02.06.04.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 06:04:54 -0700 (PDT)
-Date: Tue, 2 Jun 2026 14:04:51 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Kees Cook <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Pengpeng Hou <pengpeng@iscas.ac.cn>, stable@vger.kernel.org, Petr Pavlu
- <petr.pavlu@suse.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>, Johannes Berg
- <johannes@sipsolutions.net>, "Rafael J. Wysocki" <rafael@kernel.org>, Len
- Brown <lenb@kernel.org>, Corey Minyard <corey@minyard.net>, Gabriel Somlo
- <somlo@cmu.edu>, "Michael S. Tsirkin" <mst@redhat.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
- <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Hannes Reinecke <hare@suse.de>, "James E.J.
- Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Daniel Lezcano <daniel.lezcano@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
- <jirislaby@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Jason Wang
- <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio
- =?UTF-8?B?UMOpcmV6?= <eperezma@redhat.com>, Jason Baron
- <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, Tiwei Bie
- <tiwei.btw@antgroup.com>, Benjamin Berg <benjamin.berg@intel.com>, Ilpo
- =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, "David E. Box"
- <david.e.box@linux.intel.com>, "Maciej W. Rozycki" <macro@orcam.me.uk>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Peter Zijlstra
- <peterz@infradead.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
- <gor@linux.ibm.com>, Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>, Frank Li
- <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen
- <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, Alexander
- Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry
- Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- John Johansen <john.johansen@canonical.com>, Paul Moore
- <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
- <serge@hallyn.com>, Georgia Garcia <georgia.garcia@canonical.com>,
- kvm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-mm@kvack.org, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org, linux-um@lists.infradead.org,
- linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 01/11] params: bound array element output to the
- caller's page buffer
-Message-ID: <20260602140451.2e3e6622@pumpkin>
-In-Reply-To: <ah699hwLxIIOZ0-7@ashevche-desk.local>
-References: <20260521133315.work.845-kees@kernel.org>
-	<20260521133326.2465264-1-kees@kernel.org>
-	<ah699hwLxIIOZ0-7@ashevche-desk.local>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NgHqnfA5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DCF71F00893;
+	Tue,  2 Jun 2026 13:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780406053;
+	bh=rOrksVHuBmhsxaRnHPZ9ei/O8kXtWgGMPtbui1fmkv4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NgHqnfA5LrUuhhpNclazUqKdW6wN7HlxLtO71+VtfXv7lxeoMUAO6Q/bjESHRARmi
+	 ERPuZQVYH2aQaYGuQgpbtuXR83cSERZDcFHzZ1oxpnnq/PYu/aaXERVOW9/O+LywpG
+	 zMqPj8tkPHDP6v80r3g1Dp1xoeHdT1tiVSA0cbUcuH6x+XuBWag92Psi/j1cnH51xt
+	 n6zeupwfeVfnxo0REzGATFMJehZwqV9KdxhYCmuvyt/X4lv9ogGqTsrUsYzcigUyoI
+	 3Z06LdfAyFTeo4CvQjF2QkX/I0Gs2sq5gwx7xZ7z3gcYXPQy36PUhkmlPSwarDtzGC
+	 BsmJ6QUcx4huw==
+Date: Tue, 2 Jun 2026 15:14:09 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] vfs: document locking for mnt_notify_add()
+Message-ID: <20260602-rudel-zerstochen-fahrdienst-22b9860144b5@brauner>
+References: <20260529-vfs-mnt-notify-comment-v1-1-5becd17a15c3@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260529-vfs-mnt-notify-comment-v1-1-5becd17a15c3@google.com>
 
-On Tue, 2 Jun 2026 14:26:46 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-
-> On Thu, May 21, 2026 at 06:33:14AM -0700, Kees Cook wrote:
-> > 
-> > param_array_get() appends each element's string representation into the
-> > shared sysfs page buffer by passing buffer + off to the element getter.
-> > 
-> > That works for getters that only write a small bounded string, but
-> > param_get_charp() and similar helpers format against PAGE_SIZE from the
-> > pointer they receive. Once off is non-zero, an element getter can
-> > therefore write past the end of the original sysfs page buffer.
-> > 
-> > Collect each element into a temporary PAGE_SIZE buffer first and then
-> > copy only the remaining space into the caller's page buffer.  
+On Fri, May 29, 2026 at 09:38:08PM +0200, Jann Horn wrote:
+> The locking in mnt_notify_add(), which was introduced in commit
+> bf630c401641 ("vfs: add notifications for mount attach and detach"), is a
+> bit gnarly.
+> notify_list is protected by namespace_lock, but there are cases where
+> mnt_notify_add() is called without holding namespace_lock, for example:
 > 
-> ...
+>     __do_sys_fsmount -> mnt_add_to_ns -> mnt_notify_add
 > 
-> > +	elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);  
-> 
-> get_free_page() (or how it is called)?
+> Luckily, in cases where the namespace_lock isn't held, the namespace is
+> always freshly created and can't have any fsnotify marks yet, which means
+> the notify_list isn't actually accessed.
 
-The kmalloc() should be faster and I think has to be aligned.
-There is another patch set to replace get_free_pages() with kmalloc().
+When fsmount() is called it creates an anonymous mount namespace. Such
+anonymous mount namespaces are pure containers for a mount trees. They
+can never actually appear as namespaces to userspace. Nothing can be
+registered on them and they can't be setns()'d into. So it is impossible
+to ever register any mount notification watch on them.
 
-Although all these 'show' functions should really head to using a safer
-interface.
-Although, at the moment, it is really difficult to find the ones that
-are guaranteed to be passed a page aligned buffer.
-
--- David
+In general modifying mount notification objects require namespace_sem to
+be held (read-side - we downgrade when possible).
 
 > 
-> > +	if (!elem_buf)
-> > +		return -ENOMEM;
-> > +
-> >  	for (i = off = 0; i < (arr->num ? *arr->num : arr->max); i++) {
-> > -		/* Replace \n with comma */
-> > -		if (i)
-> > -			buffer[off - 1] = ',';
-> >  		p.arg = arr->elem + arr->elemsize * i;
-> >  		check_kparam_locked(p.mod);
-> > -		ret = arr->ops->get(buffer + off, &p);
-> > +		ret = arr->ops->get(elem_buf, &p);
-> >  		if (ret < 0)
-> > -			return ret;
-> > +			goto out;
-> > +		ret = min(ret, (int)(PAGE_SIZE - 1 - off));  
-> 
-> It's usually discouraged to use castings in min/max/clamp. Can we make ret long
-> or do something different here?
-> 
-> > +		if (!ret)
-> > +			break;  
-> 
-> > +		/* Replace the previous element's trailing newline with a comma. */
-> > +		if (i)
-> > +			buffer[off - 1] = ',';  
-> 
-> Can't we do this after with help of strreplace()?
-> 
-> > +		memcpy(buffer + off, elem_buf, ret);
-> >  		off += ret;
-> > +		if (off == PAGE_SIZE - 1)
-> > +			break;
-> >  	}
-> >  	buffer[off] = '\0';
-> > -	return off;
-> > +	ret = off;
-> > +out:
-> > +	kfree(elem_buf);
-> > +	return ret;  
-> 
+> The existing comment claims that not accessing the notify_list in these
+> cases is merely an optimization, which is wrong. Fix the comment, and add a
+> locking assertion.
 
+I don't think this is what the comment intended to communicate but I
+guess it can be misread.
+
+> 
+> To allow mnt_notify_add() to reference the namespace_sem, move it into
+> fs/namespace.c.
+> 
+> Signed-off-by: Jann Horn <jannh@google.com>
+> ---
+> I'm sending this patch because I spent some time staring at this
+> trying to figure out if this was buggy or not.
+> 
+> I don't know if this is working as intended or working by accident,
+> and it might be nice if this was cleaned up to have simpler locking;
+
+The locking is rather simple: namespace_sem. But maybe I misunderstand.
+It just piggy-backs on the same logic as mnt_add_to_ns() in that
+mnt_add_to_ns() may be called to add mount into a newly allocated
+namespaces without namespace semaphore held. So the locking context is
+guaranteed by mnt_add_to_ns(). To put another way: if you have quarrels
+with mnt_notify_add() you likely also have quarrels with the contextual
+locking of mnt_add_to_ns().
