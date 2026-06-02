@@ -1,72 +1,92 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8D83E8C55;
-	Tue,  2 Jun 2026 14:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2303E95B2
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 14:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780409277; cv=none; b=t3HMW+WCgDSe3ljganKef54jBUwN/inwdhVkvcD495stBNodC0XTNWeTywP1bbyrcmTeNcleQMo4p0cVYOe6EqCIIxf8/LC0e+AKwC00Q+fnV2b6Jy9bQrid8Vv2kES8zve7yXfSET/gR+AYU0EOdk4a7jMl/gGK5nvX3FZoi6w=
+	t=1780409680; cv=none; b=CwOu2YvCxr7p6VF4fEyzQLlNq9lDR5PP8ioYPdWSb9beXb9SKYqykh9tHJXoHYcSkM8eQ0H0iGqovcjvFyAjtuQzS6OfJxK6aQtG6aukC3xGG7VIMSFxd9v2pzE3U8W1zr9lp4X3Z/hKHmesdV9kLEGlI22eGq7iDyEIFvqCCsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780409277; c=relaxed/simple;
-	bh=4dz0aVDbAza9NrGUOk6no+/5AUPcXlFrOeq10s213Lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EsO+mSEOqSJ0GUTNhuGDw2E7jVsMtW9y1MqEjmFkI3rWYlHdiRHF+ZFsB9cEnx8xDKfeFwoWokt2nOABEAj8zzD+VzhNWDYbn9O83hvqTuTLeitzS0L7cbLfEk02dGG56wDTPW6dfggyl1odYnTZhZFXYXnpPwdxg4VxWiLLbVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=nfmRBtia; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1780409680; c=relaxed/simple;
+	bh=oYXvB8teeg8oXc/k9KnDRAOlku/K25xxHKzwmHoBuOI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 References; b=KbSjkq9PE33SuHpmdWOTqpW0pflOB75jLncj+z5Cly1ReJclgbXpm7VpeFY4e+d+LmzuAlgx8axEFFVsgvpJ+QMW5a9OOSWOWpS9PvTc2BnnHis1jSmfkTUU9+1PtOytv0Kgv0LyxAgrYefZqLkU8mYOaiwfjmn6Xz7FV28VxMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=iakm7INH; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="nfmRBtia"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0MDfwDh/SJOUK5N2F+NqK0JKKK0pl/RgJyfkhobSXcE=; b=nfmRBtia0xRzP4DigT1vceQLCg
-	slWKmmhyybGDT0A1Mk6Vcpu4Fyvn9Ye0ivNvfJoofBQeVonzes8redM8uxn/Q0Z7mkoMK/AzjTmJj
-	9WXMAeGCMvBS1D/I5Yz5p1J1PkhKAYToNrzj0ab2rmMSL0vlk5kvwwdIwc6fnKaceAgQPFzXxo/tO
-	pRCUCdmY/Ey0BD+cebLcNt6tfwbfznBcOG/fPGz9DwEQg8Mr6xp35AE0UzH9AC0sfE2uxv8BFf7t4
-	GLDEghgSQl8pa0oWNg8draCgGG0fz9GePEyi9qzMbd955J15u6eIJWkXPFaSEYuczUbh9gVF3XdIx
-	wjogzplQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUPmZ-00000008InF-1SNx;
-	Tue, 02 Jun 2026 14:07:51 +0000
-Date: Tue, 2 Jun 2026 15:07:51 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Jan Kara <jack@suse.cz>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org, stable@vger.kernel.org,
-	Denis Arefev <arefev@swemel.ru>
-Subject: Re: [PATCH] make new mount API honour SB_NOUSER (was Re: [PATCH]
- block: Avoid mounting the bdev pseudo-filesystem in userspace)
-Message-ID: <20260602140751.GS2636677@ZenIV>
-References: <20260521072857.5078-1-arefev@swemel.ru>
- <20260602011907.GM2636677@ZenIV>
- <20260602013526.GO2636677@ZenIV>
- <20260602020444.GP2636677@ZenIV>
- <eevyuiiqt5b4n7kws2lc24jk2njdllanojl76t5cftx6he6hba@y46tiknbebj4>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="iakm7INH"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260602141435euoutp010a3351c74548406b4dd3b686bd793094~1SSq0vDYh1519415194euoutp01M
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 14:14:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260602141435euoutp010a3351c74548406b4dd3b686bd793094~1SSq0vDYh1519415194euoutp01M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1780409675;
+	bh=cEJXaKoHVG052rosoP3EzDpk3GM9twb5LiOcKSOoRtE=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=iakm7INHutpfW8w8828S7xDUt8CaWU0diTcb6LHgFdLZOWz1ekmXbWFH+PCJjOjxi
+	 lvXaa0LxWx3X/puNbrEtqIj6wY7kVmOargsD60ZNs7wcmauc0jkoiTIxnrXYd6D0dY
+	 eDdAmqgtolHWPpLOqLSGOux+Z9ygidEn+VSWE1Yk=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260602141434eucas1p15746f013244db658407ada4f3cea7b89~1SSqPEBA62689226892eucas1p1M;
+	Tue,  2 Jun 2026 14:14:34 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260602141434eusmtip1f0c1b2b32c5aa519e2bc971a891e402d~1SSp-rIF50373503735eusmtip1u;
+	Tue,  2 Jun 2026 14:14:34 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Namjae Jeon
+	<linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
+Subject: [PATCH] ntfs: fix missing alloc_workqueue() flag
+Date: Tue,  2 Jun 2026 16:14:27 +0200
+Message-Id: <20260602141427.2301354-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eevyuiiqt5b4n7kws2lc24jk2njdllanojl76t5cftx6he6hba@y46tiknbebj4>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260602141434eucas1p15746f013244db658407ada4f3cea7b89
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260602141434eucas1p15746f013244db658407ada4f3cea7b89
+X-EPHeader: CA
+X-CMS-RootMailID: 20260602141434eucas1p15746f013244db658407ada4f3cea7b89
+References: <CGME20260602141434eucas1p15746f013244db658407ada4f3cea7b89@eucas1p1.samsung.com>
 
-On Tue, Jun 02, 2026 at 11:11:11AM +0200, Jan Kara wrote:
-> On Tue 02-06-26 03:04:44, Al Viro wrote:
-> > one should *not* be allowed to mount one of those, new API or not.
-> > 
-> > Reported-by: Denis Arefev <arefev@swemel.ru>
-> > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-> 
-> Won't it make sense to actually check fc->sb_flags before we call
-> vfs_create_mount()? Otherwise it looks good to me.
+Commit 21c05ca88a54 ("workqueue: Add warnings and ensure one among
+WQ_PERCPU or WQ_UNBOUND is present") added a check for the proper
+workqueue flags (WQ_PERCPU or WQ_UNBOUND). NTFS driver lacks them,
+what triggers the following warning:
 
-Interpretation of fc->sb_flags is up to your ->get_tree().  What matters
-is ->s_flags in the resulting superblock; that's type-independent and
-that's what we ought to check...
+WARNING: kernel/workqueue.c:5855 at __alloc_workqueue+0x688/0x70c, CPU#0: swapper/0/1
+workqueue: ntfs-bg-io is using neither WQ_PERCPU or WQ_UNBOUND. Setting WQ_PERCPU.
+
+Fix this by explicitely requesting WQ_PERCPU workqueue.
+
+Fixes: 6251f0b0de7d ("ntfs: update super block operations")
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ fs/ntfs/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+index 2a5ad7d56bc2..0a7c9d1bc69a 100644
+--- a/fs/ntfs/super.c
++++ b/fs/ntfs/super.c
+@@ -2526,7 +2526,7 @@ MODULE_ALIAS_FS("ntfs");
+ 
+ static int ntfs_workqueue_init(void)
+ {
+-	ntfs_wq = alloc_workqueue("ntfs-bg-io", 0, 0);
++	ntfs_wq = alloc_workqueue("ntfs-bg-io", WQ_PERCPU, 0);
+ 	if (!ntfs_wq)
+ 		return -ENOMEM;
+ 	return 0;
+-- 
+2.34.1
+
