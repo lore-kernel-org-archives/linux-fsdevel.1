@@ -1,185 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF993AA502
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 23:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937763CCFBD
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 23:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780441450; cv=none; b=o9pq+mgF4K/7NHvlirBL/Ihg1oopDfahuE6D9gA8nJn/CBuR+4lXUnuE0M0yxF5r92ZxHfIxk1k/MqUSAZoFmD/P7Y/wsugtV4JuQYcYgS8lFsK8W13aDXGxyb+AaiICRHFG1G1Q6GhLDKmajjevMAzDZKMq63mRCnsWKeE6kuM=
+	t=1780441669; cv=none; b=o12Fl1T4g/1O2RJ9Kf3f+mpAq6qoITOwrDG80+7yVKC/4D9cSioOjAEJ6qyQvDb/FXknArhkAef8FXli0/PaPIhh/E74kUXvVciJuBYVYZ0zQbY4PCEPckimIy7WQz7D8G4TciyWLpuKPehPWgubA8G/ZVXNVf/P4fh/XW8JtiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780441450; c=relaxed/simple;
-	bh=fGzDjuAvcIt9jSsrnnmZfYKA/ydyZfYEEoZeMj6ExQM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KYnKVpeiJ3Hc/QeaddM2U74iCqmbxflbgPL7WMTWYi89addvfb9oXo7yLRst5jgALT2l5OnlEwS74awmV1qYIIqv5kZH33bbv4RVi1VTLZ0aEbguzrkCxAps2LcFG901X1ywX8syP4LleOTj9rRbVRfTfvi32anWyoKbiIX7u7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EvUCuuQf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780441669; c=relaxed/simple;
+	bh=5chq1ZYL6r9BXlem4E1EUr+5R5J1k5Q21LCWXDRISUM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qCC1hOjqG+o756LTgjvfhjidXKpoK3F+uHJ0RqRPS/0nNySufaMSxksNj0pBiqwX2hqCn4uTQTQA68xKMP/sMc8hdpMO2ehrkd+PjtJJKhu7ltSe8KwnbL3ldE3Rdk+0rz7MUj5cq04qGsjsPTPM0bwrNtZ/2etcN/uvlTcAmBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0Qeljjj; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EvUCuuQf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5860D1F008A1
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 23:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780441445;
-	bh=fGzDjuAvcIt9jSsrnnmZfYKA/ydyZfYEEoZeMj6ExQM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=EvUCuuQfxIVQtKdieJ/ojTw7O5oTpN+1v4wSoySeJnSQ77XhNPBL4s0Qq/Y1kunRy
-	 O/1dguz4EY6tg69/ld8u0YuxKtsGscTfoE3p7hvpY29oeTAInBfr4YsW9C4LSpW/dQ
-	 o+FniKL/AHjEv2g5G3bwTIAbht7mdo5l8J5i+nXwa5dKa5BmC1NhTBV5ulufIVzVX9
-	 GVUoQKkCgBsmCpKp4KXyQuW2FsNpAb6Pi5BgbcfO5gqv0Q59eu3/Alp+/1nEb8AWH5
-	 eJqUb/x3HgusCNWLkaE9PXVaih58QSkPAATsny3gUFg84kl8gPINK1abjlxx8KyOx1
-	 Z84I6M8uqEUcQ==
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-91550eca866so467794785a.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 16:04:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+sn5UbitaKEY1OaZ88B9mZQ5y2KNPMJ6wLkXcE4i5+h5VgZf3oH9QYLs+7zgNZUsfhkEFAlO1aKpfpeEOR@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsxfR2zuB8HoyGPkfSOwGln1QDVzbySBxkf8YdwoFVJIK6aEIV
-	x/foRulqgusHEVgGW/Xs/VvLfrlfVjzi924ONpYSASCmfNs71H/Kmv1XdOrCNZZqXsoarAY0oX9
-	xNEbQ4cANn05NgcSsqzyB8biKml4/wyY=
-X-Received: by 2002:a05:620a:25cf:b0:912:8fd0:4a5d with SMTP id
- af79cd13be357-9158a8430eamr187006285a.55.1780441444405; Tue, 02 Jun 2026
- 16:04:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0Qeljjj"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490b4e1ade7so5306195e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 16:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780441667; x=1781046467; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IvSaS68IPr55Kp5FHpvrg0n0LohiEL0S8pivrepEpA4=;
+        b=g0QeljjjZVRfch0Tv562TmOzSOJBhL8ujFnNlpdXl0x1fHoxAC80hk5vUbqtI6keb5
+         dN6GvIY+/6KPLAPt+nptAK3fOIQGMUpyiPeAvndNg/+gozsMl1uKdb38DDTdyjz2CKsf
+         P1W6WDQZF1/0B1qBjQ30EqXE7aq0QK9VRgE1FpZeLD09Et0PvqXZGbFjWX/f7K8PBxMZ
+         EIMxvsA1XP0bqYi8v7JJpcE8boyJ7SburJV5nC8F1mvObatl+7o9H2Vgt4QQvh86SU5+
+         7JLkm69aetHtPhoqjFK62BEHOIb1aItevXjVcnkfBNLI1pVeaxZ2ImvNnqLeOl+s6fnr
+         KYBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780441667; x=1781046467;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IvSaS68IPr55Kp5FHpvrg0n0LohiEL0S8pivrepEpA4=;
+        b=Zj5s5rgSIdLVa3HjlN2sFpeCwqlgp87Aq2UKNnhDcQ9TVgKQMdYCE79glGj3H0iC78
+         3dPxxx5hq6rR7Pf1yz/e7P8LYJWgoHDCTO8V6P5rNc0h0SFzze+iK6FJf0zAL9MXyQYR
+         UBW8alWRzARb32kFL95Y2zAs+NHaOBT+QK1lWLQI2xbsypAMJvNDcGHNQMDC0X2l4wK1
+         6iEa1fM3kZoRzfy5SBphhlVd//ydcDzjXzJzzGskWX/SXCAurByFOCweul4OE7ET4m48
+         MEiAPAPcrzG6MLOuO6khA10rp2Oy/NhMutIDfbVv1i9cRuUiLPwUGjlacfr7NNeae3za
+         ygLQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9yDvkrckv2qnpXjghVuChhoH/lTFMDPxBPPhbXyS6ngHcf+KruBR7ofr7vk8TnH/OQ4uuD6NIJknJM6HgK@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrkQYdmetAYn4nnbfbAtepnMx5Yu+eY7VvTej8EdKd4fo/0HGQ
+	w0YI5cUXDzyavWbwBLJ6WrXudnp0/kn77m/EOmMLoIce3/o8u8WFZhSR
+X-Gm-Gg: Acq92OFXNs7tyry88WfP6TMU+GBd3AhwTLyHOPS8tLycO30gSeA/bSViMGaKo42w+xz
+	+Z2bOZSaxHPvcXeZHkN23HrTLbnKPk3OOHKpPoWrK6AjdaNpZVYveXfKYZBYVMb4LGvSae9vnKd
+	1/1HSbrYLDP7skSAwLcIFwZs33j3+BQP7ZpKZUlGz7IBzfrNN4bPXikjC916F6lFAnQMRYVaxYg
+	omLF1Y/U7T2V+bw+14zt7HHQZn18vM/UusYu12OIBFDvyTykJstrR39Exmt2fkFc4mBeDCqIcaf
+	4FqBsbJPPf8utgKJFUXUVK9QeWkZKGrftCrl1v7jNjYwJgttqeVfmU57nT8oSPIFkbka89a90I7
+	iS8CcYRZyAtQE7PBWM5/wvJ324ctvHRUxcjbf/c+HF46F9mPAn3XmrVF986m6izD7AiE7+xr/2/
+	1v9AGEV5aQ4mNNBnframgODA80Vb01a2CQGI8vS8BH
+X-Received: by 2002:a05:600c:698c:b0:490:44eb:c1e7 with SMTP id 5b1f17b1804b1-490b60fdd10mr11320095e9.30.1780441666946;
+        Tue, 02 Jun 2026 16:07:46 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490b7a71bb7sm357295e9.10.2026.06.02.16.07.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2026 16:07:46 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: pfalcato@suse.de
+Cc: akpm@linux-foundation.org,
+	axboe@kernel.dk,
+	brauner@kernel.org,
+	david@kernel.org,
+	dhowells@redhat.com,
+	hch@infradead.org,
+	jack@suse.cz,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	miklos@szeredi.hu,
+	netdev@vger.kernel.org,
+	patches@lists.linux.dev,
+	safinaskar@gmail.com,
+	torvalds@linux-foundation.org,
+	viro@zeniv.linux.org.uk,
+	willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+Date: Wed,  3 Jun 2026 02:07:30 +0300
+Message-ID: <20260602230730.138904-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <ah9Yle5pd6mD9Ugr@pedro-suse.lan>
+References: <ah9Yle5pd6mD9Ugr@pedro-suse.lan>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260527110147.17815-1-tao.wangtao@honor.com> <ahcANgFDFwfC0v1q@lucifer>
- <b24b4a8198ba412f8b8b42c43dccd058@honor.com> <ahf2mJg9OOWvu0jA@lucifer>
- <CAGsJ_4zy=-m5wjm0BC-vQXMHGRkHymC-5S_L9Oi708v339vvPw@mail.gmail.com>
- <99dfc4a50f3643a6bef6deaeccfcf115@honor.com> <ahlzj--3Gm5pD9ge@lucifer>
- <a90bcb0fa3a044588350e92a78258a09@honor.com> <CAGsJ_4wFr89M2i8pth79swv3==i8SGSMWrbr+Yp2umwFTuCShg@mail.gmail.com>
- <2e9175ab-f9be-44c6-bf1a-a82aeed18f98@linux.dev> <ah71gjj21rLIuTnb@lucifer>
-In-Reply-To: <ah71gjj21rLIuTnb@lucifer>
-From: Barry Song <baohua@kernel.org>
-Date: Wed, 3 Jun 2026 07:03:53 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4yKtEnCEyLVpzKUNDDw0AwttnFhB7c1sicBpjecBxATQw@mail.gmail.com>
-X-Gm-Features: AVHnY4Khgdh1OvPc32I3tWzQ7qSOu8BOGvT2qrR5LpDulZJiDfW5EMOXKL2Djq8
-Message-ID: <CAGsJ_4yKtEnCEyLVpzKUNDDw0AwttnFhB7c1sicBpjecBxATQw@mail.gmail.com>
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma creation
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Lance Yang <lance.yang@linux.dev>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>, 
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>, 
-	"willy@infradead.org" <willy@infradead.org>, "sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>, 
-	"luizcap@redhat.com" <luizcap@redhat.com>, 
-	"zhangjiao2@cmss.chinamobile.com" <zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org" <liam@infradead.org>, 
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>, 
-	"riel@surriel.com" <riel@surriel.com>, "harry@kernel.org" <harry@kernel.org>, 
-	"jannh@google.com" <jannh@google.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"jhubbard@nvidia.com" <jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>, 
-	"ziy@nvidia.com" <ziy@nvidia.com>, 
-	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>, "npache@redhat.com" <npache@redhat.com>, 
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>, 
-	"xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>, "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>, 
-	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>, 
-	"matthew.brost@intel.com" <matthew.brost@intel.com>, 
-	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com" <rakie.kim@sk.com>, 
-	"byungchul@sk.com" <byungchul@sk.com>, "gourry@gourry.net" <gourry@gourry.net>, 
-	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>, 
-	"pfalcato@suse.de" <pfalcato@suse.de>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>, 
-	"ryncsn@gmail.com" <ryncsn@gmail.com>, "jparsana@google.com" <jparsana@google.com>, 
-	"dvander@google.com" <dvander@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 2, 2026 at 11:37=E2=80=AFPM Lorenzo Stoakes <ljs@kernel.org> wr=
-ote:
->
-> On Tue, Jun 02, 2026 at 10:46:35AM +0800, Lance Yang wrote:
-> >
-> >
-> > On 2026/6/2 10:15, Barry Song wrote:
-> > > On Mon, Jun 1, 2026 at 9:46=E2=80=AFAM wangtao <tao.wangtao@honor.com=
-> wrote:
-> > > [...]
-> > > >
-> > > > You said discussion was welcome, yet when someone offered even a
-> > > > small comment, you refused to continue the discussion.
-> > > >
-> > > > If I had known you would be this inconsistent, I would not have
-> > > > replied to you in the first place.
-> > > >
-> > > > This will be my last reply to you. I will not respond again.
-> > > >
-> > >
-> > > Hi Tao,
-> > >
-> > > Please don't walk away from the linux-mm community. I read your
-> > > patchset and found it quite valuable. It not only reduces memory
-> > > overhead, but also eliminates rmap costs for exclusive folios.
-> > >
-> > > Since I'm not very confident discussing technical topics in English,
-> > > I wrote a blog post in Chinese about your patchset:
-> > >
-> > > https://mp.weixin.qq.com/s/k00tzhTl8HbL3k4G6ev4SA
-> > >
-> > > I have to admit that I found the implementation quite complex and
-> > > in need of significant improvement. However, I think the underlying
-> > > idea is very interesting and worth exploring further.
-> > >
-> > > I'm looking forward to seeing a v2 RFC with a cleaner and simpler
-> > > implementation while preserving the core concept.
-> > >
-> > > Regardless of whether it ultimately gets merged, I hope the discussio=
-n
-> > > can continue.
-> >
-> > Same here :)
-> >
-> > Tao, please don't let this thread get you down. No first RFC is
-> > perfect, and the idea still looks worth discussing :)
-> >
-> > Thanks for working on this!
->
-> Guys, this isn't helpful.
->
-> We aren't extending anon_vma, and I am working on replacing it, that's th=
-e
-> bottom line.
+Pedro Falcato <pfalcato@suse.de>:
+> (Askar, if I was too hostile, I do sincerely apologize.)
 
-Not trying to challenge your bottom line. As explained to Harry, I
-have no doubt about your expertise in rmap and many other mm
-areas, and I deeply respect your work on rmap.
+You did nothing wrong.
 
-With more discussion, we might gain additional insight and
-inspiration. What Tao has inspired me with is the idea that if we
-assume most real-world processes are leaf processes, could we
-simplify parts of the design?
-
-This is why I suggested a v2, to improve the clarity of the cover
-letter and make the code easier to understand, and to see whether
-there is something worth considering further, even if it is not
-suitable for merging.
-
->
-> I have presented compelling evidence suggesting this is AI generated. In
-> response I got more AI-generated nonsense. There's no trust, the code and
-> analysis are all wrong, end of discussion.
-
-I am not an AI expert, and I do not really use AI in kernel work,
-so I am not really sure what counts as AI versus non-AI. Sorry.
-
->
-> >
-> > Cheers, Lance
-> >
->
-> Thanks, Lorenzo
->
-> P.S. maintainership is utterly thankless, and I don't really expect much =
-in
-> return, but honestly reading this, given the case I've made here, was
-> really quite disappointing.
-
-Understood. I see your position, and I personally have great
-respect and appreciation for your work on maintenance. Sorry if
-my words came across as disappointing.
-
-Best Regards
-Barry
+-- 
+Askar Safin
