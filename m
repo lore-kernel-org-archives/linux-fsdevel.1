@@ -1,183 +1,126 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011029.outbound.protection.outlook.com [52.101.62.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683FE3F0A81;
-	Tue,  2 Jun 2026 14:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4661B87C9
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 14:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780411501; cv=fail; b=fkPbH5JaJyYPIOnSFNKkqfO5ds1LmeepqxAil/UOh37MpnnFjAwUMmLCpnP5wnNXqvKrRmihHXItmcgK9Bg/2uEvWbquEtjS9QBJ8+PIcajMCCWb4S4IHRhnOTsowrrOsOOpvzdCRsVsOlfXoQ72HtQSAhZMHkOu8QyBvL9tczQ=
+	t=1780411907; cv=pass; b=ft1l2HlYf6qQjUKh6hrzfxruhOFBBlY5FCXcrruzI8VYcS65ulzrcfioBeRJkGGvqhSFBRVpUymB0SS8LPHW8J7bO5zp8h990GkGBUSXZKLulmlTd9plDYGUZ4Hm2MosRdOogRgC3P6eenwz3ItRRTpBMLmrN5RqAoUlXO5tToQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780411501; c=relaxed/simple;
-	bh=Ya0DcuMFYuvvmvKTBU/H2Vruq585277YbsNl09HJtwk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ff14p+BdtK1MS17fLCSo/ODvYOIoDrCRdDTkBf2Ahw1IytE/3NS2adyy4pOcpvlKV61IAIockYuBwE4qd4fm2wRO98tTJBFxtyHqOIzKwRX3qf1HZfMSq3JNMZluEBAAHpZg1sKeRa8nVzTXRHo/G8bOuY6Pvc2l9T77Y6TwgJU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EAb9e7Qm; arc=fail smtp.client-ip=52.101.62.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1780411907; c=relaxed/simple;
+	bh=znnSf0bs10j7eI0t38PX7h2UnPZZQeY6rPY6Z/F31+w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FK9N4x2596a+QOLFb5aQHqfnrxajgQ00Y08GNSQikD+47qNxR4I2997nfm4wakGN0oHt1nQj1eqT183PYvHg5C0aWaAXX3300faynCvu7TywF0QLovoBD8SRH2s0naWieULPJGmbu5xwQgP95sFJRXE9uovSNLBPi7dsTdA1yhM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EvnFbQxG; arc=pass smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EAb9e7Qm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JtSHNxGwXdyWIcgKcNr8Pd4MRW5qFSVQljjUW5XMilMzPH8CTAot+Odgojh/7secEXROITRHw4PsvIL1Ft85kQkXtqhtWVluHXcGbJx+5okQSQj6Q3PH/591W7LD1BaoDf+UKjRLhxfgOXz2uoKyNdSCO4YoKo4kIIVxgErffPji06gdq6VmkloCiJOaHhfWupOD8WFz5qlHRuuUDSpia1W6tEgmxFx6mskbLhUppPXUDceVe5orzFZhsIH1bf01rdoqzngMCd9wNtJ6hZN5TN3K8lNzrEkuR7ArHFvIwP2DZnHFnABfWwWGXziX9hwEjsBP7S83vulzQ08QXljWBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o8YbX4INPPl7zfprYT/O/Vc8WLrZnM2yh3fsNNZkMzc=;
- b=Ls14HKN5v4ofHdvhMZCSVEkbpg0UaKGxh3u0YBk2+rSfCD7Vje+XsFpLYWFHIVY6wQWggoPID61Hn+HQia4itS5rSDpPo94+To2wqgb6zxnFU8RrLlv7yrVSHXNFJOJay6cOSPbDPypNiWdGOSnVa6xEOkE9HXWtAHFYM4FbzQzzYF1PouOaaBMjISw52tSbnJzpHP0hvbW7Qeu08IM/fF6ps8Da2eRx46EmAparDXJScPQ0CPeU+qJ5twxFXYUp9RqnJY8ShCBe3z1csotRsmNuULadKQQ34HdlkSsKx3NNmhQiF5KH6hvUIXN+Y9l/YWZzGSAlYLhSED90VUwsNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o8YbX4INPPl7zfprYT/O/Vc8WLrZnM2yh3fsNNZkMzc=;
- b=EAb9e7QmNQIC6uVMNHEK+w8vhiueM9jG1cbEBCAMFYAjqcxfvg3ucpLsVwRK/vt9Z25ZQSqHOnFkS5YmG8fxlgN5sFEEAazFy3ZhFK7AoCcA4bQ6APRf+3bcCwOgil73LyVfo7EkXKAgbil9YkZ+/jMFz0rjofdXlHIiCQ8+M8IbzWbffTCLnb4KpIlDoF+4XqSdpCaaMhfXB/ggGlkOSvqgMH3QA8W5CQeDfO4A7pJjQ9nBmJLwJ67VA412nA3i6KY1maOQzqsEwYBcTu+J9XcwPfRec1l9XXIFt58qPvL133t80pzGmPFL93wfWRKRxSLBJygKg5jOcIsA2PxJBw==
-Received: from DS0PR12MB8442.namprd12.prod.outlook.com (2603:10b6:8:125::12)
- by PH8PR12MB7326.namprd12.prod.outlook.com (2603:10b6:510:216::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Tue, 2 Jun 2026
- 14:44:53 +0000
-Received: from DS0PR12MB8442.namprd12.prod.outlook.com
- ([fe80::c4df:b439:571:4591]) by DS0PR12MB8442.namprd12.prod.outlook.com
- ([fe80::c4df:b439:571:4591%4]) with mapi id 15.21.0071.015; Tue, 2 Jun 2026
- 14:44:53 +0000
-From: Matt Ochs <mochs@nvidia.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: Bernd Schubert <bschubert@ddn.com>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4] fuse: back uncached readdir buffers with pages
-Thread-Topic: [PATCH v4] fuse: back uncached readdir buffers with pages
-Thread-Index: AQHc7SMrDK6LV6Q58ki3S+oesyW4KLYrYmoA
-Date: Tue, 2 Jun 2026 14:44:53 +0000
-Message-ID: <055064DB-67C1-424D-B6E6-0B9C3E326267@nvidia.com>
-References: <20260526152021.891412-1-mochs@nvidia.com>
-In-Reply-To: <20260526152021.891412-1-mochs@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR12MB8442:EE_|PH8PR12MB7326:EE_
-x-ms-office365-filtering-correlation-id: d94d4b7c-3caa-4050-cb7f-08dec0b5821e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700021|3023799007|18002099003|22082099003|56012099006|11063799006;
-x-microsoft-antispam-message-info:
- IjUNslQSrdyX/8HHLW5dgUCbGPxTffv8CkOHQzKCYkjVrdC8d8WbOUIvMgAKAmSvDwQa9mNuj6PGf8AvML8d9GvbjXSyNrgGWudT1S6juHKcnClu9Fh7ulDRmYqWxwwDnyrOOp9QJ+9DBIU0V980ZcCL7XnwWTmxuNVYdCb/tjRCpzkX1SG3jvkW4/43r7R9e+5FKhaOfXqj/Q9z8rG+X9QwPHpF4P8yzSB+v/zMOjpkqIXn8V1LvTMs9efNrX4QPC2udSwV2zHmKGNjCTIwTo1fCanwkAWK7xTzCi6i2a2QFaH55DHNO9l3K96pFUh3P2gxKOPFoozdzi/wqFkAZS9wyUclH4qq10DS97FYFt36+6QF+npDFzuajgF/lc+xlxlO57Cr/VH+KWakfaDwLIp5+SeR3+LuHxbTOu7D8MlJwa7KH2VdhCevfUz0ZnWQ8K63HupKDN3TRdYYr6vr/hg0Ts8M8zux4WV8zAzxKQPFkBE0aG2qPCrBhJe8E8V1QzZ0pxNueIjzJpXsdnyy0tgEIrjCTgZ4xq6t8JmnDLh0663/nxYcCSnKe9yXybxAj0ulgQPgQAWGBk4Na9kH9MtcSs7XfveosFFlfF5ujHgjNHwWYvsavRpjTlioaPstnsGAM3qkb+YIUG6kYQjmEsJRK8nQ+gGKGoWERPC4iSciyS2aYtXymmqOhSeUZ5du9vRovHEAQqhvj8JiTUCrRRPhezKNgnTZ0ui+e1rhcZyB5Y88PRJ5BURfqk4Pja1K
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB8442.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021)(3023799007)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?sDSPc1J1OaE7CHuoHvMNcexLQJh04RmJBp9R9NpmL79mqzeMrkDW1JRty3E0?=
- =?us-ascii?Q?2UeuBCiL4fgdijexZVg49N+yZR+/iAwopmFFM+8vMiMAGWYjgBR6ymZ5iiAE?=
- =?us-ascii?Q?/YtzgHljJ3/YvLQTgIdX4wkKd+Y2VhpSrePzQCHZKnjLPLggovBi8yv3RtG4?=
- =?us-ascii?Q?DTIoqpiNh0GKUQ0hQ3bRbZ5dUrLdO97uzG3Ex3A2hDT1Xu2dAQiJTkGOKMLR?=
- =?us-ascii?Q?uDtpN2r0otSLb6nvFc9LvgT53ck5jXw9sxwXJTDGBLMBhQcokEEfwY2e/J5j?=
- =?us-ascii?Q?2w8XaAT1p4A6GUzjXSC126UfgrSL7zsJCY37rVhrDUybhnTVKsGxFiPgh7LE?=
- =?us-ascii?Q?bT+P25AQr7+57Pt2c5AGxncpgcudC9b+dQMHKTQGE0xzt9Hjvum0k1sixv61?=
- =?us-ascii?Q?Qpp5XraWtCRfqyExczknk5FpDhVv5xBdX9iiKmUVQPD/wFKu9wbN+31k3lgJ?=
- =?us-ascii?Q?B/BWF1Yz6zHuUsSeiKh+mxw5NeJeTKx4y9eKMvCsChsvd/50Id0ZcdsfkSFr?=
- =?us-ascii?Q?qC/l1CCLljQi2qab0AELbDHerlX2Kv6BaQbFNcizu2KkSGEzKwVSVvOw2Gbx?=
- =?us-ascii?Q?Hk7k8kAWofo8RJg9boIs5C0Wc3Eo+MLfTu9r64v5IJvOeFDJUIM38l8BNdtz?=
- =?us-ascii?Q?ezoG6QwiXNakWiwDtYjslXWErhzUt8AkcmAIw13j0ey2WN1tx4LqBOdq2uT3?=
- =?us-ascii?Q?UYr6lIUwO7AkwfZIbH0KR6vRDlM288XulVCcv/imYAmvNq9K5IkbHcQSTL5v?=
- =?us-ascii?Q?jwq2BLPmgvMDDbgSXZ3IsVUsYRUjrxloXD2HZNOEZe790xJEqVDlwO+iJYlM?=
- =?us-ascii?Q?z/YeF/7+o7/X2ddwZ8Nsj8dVp2F+wOayFJq9oqOYiMoH1wpsZKRpWGeHOQk5?=
- =?us-ascii?Q?QuQ3NutOqGb01z0sS9wI6U7waGk8BjwvFvu0Q00qzki8cSobULpJn6gjZCpL?=
- =?us-ascii?Q?xXwd1RSVzEAdkd/S3aBepusRnmGqbJnTtM0XVx3jKeeK4JXx50U346SfJMcm?=
- =?us-ascii?Q?w8iYBFJMcLYKeOzF1m6GEBaW5wf7PPwnvMb0NN2WLJ58GqCZw2UBfTlZVfTS?=
- =?us-ascii?Q?qqagzBAjYN7b/hLmS/Cl8H7bIN3iZcyWH/eCMrfuNb7lOjQRzYAiE6rqlt4U?=
- =?us-ascii?Q?OwSvW+Tl4WuBXchMjbR3TLPBT9t0iZS65tSB74DQ70818jDLLDunVWDMENci?=
- =?us-ascii?Q?IWL4AxM5LPmqGpfQhFlGeOTlX8Gb0Nfo8rsmvuZ+SiYPuc6XjSSn5hRiUC+P?=
- =?us-ascii?Q?Z2miA/FbSQah1XCUu0AlPnSdQrZ4A6yD3G2gIizMr26YPFD+aoXbCjcWYsDr?=
- =?us-ascii?Q?7HLNUr/2I8riU49nXWbFZtJYn7kiiOlKPKzz1ROcgC6BYL2pdsS9JWpFdcRp?=
- =?us-ascii?Q?XGgoQc0JbQHNaurNaEEfg241vEpAivwe/VMPY9QrXQplEwl/t3CvKOj5LNRa?=
- =?us-ascii?Q?K2kvfad7BBfXNhWuK0GdlbjaYI5Y+0duPHf3TRxFyCnkC321GoBM1xtomOmh?=
- =?us-ascii?Q?Qqns27Ms+1eibnCvIbjf/zIl5BWdiVJLBcJqxW2NpW3v5IPRoWoW6dSkHtrQ?=
- =?us-ascii?Q?5P12FtaofAQdDQ+VtvrlAAe5Cim+hORDOCmHcFU5wWZhzhRf/3+EWX971yEO?=
- =?us-ascii?Q?l6pdXa7grlyTScuyQFGCoxSTaK6Qh/SeinOq02xhl+7wPZkh65Qml2CKuQO8?=
- =?us-ascii?Q?NGU2foZR1LdD6mxEgQ1bY1D5Cg9LuVrBAeoMbEg7lSqvx6kl7qXjGZepfGY4?=
- =?us-ascii?Q?2/SxriIfkA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9E9664104095414B90B92C7E9CFD7CF8@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EvnFbQxG"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa68dbb38aso2132844e87.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 07:51:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780411904; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Xc1euvakAJahLq2dJCVut+BOHoZ1d7EbfLYwsEsfa7rXrrWlPuDOrO2MY0bCOq1fMh
+         oRbWBmjLiFLJvNe403RTz6x0lRf8CRd+/gYPIX221b2f4zaab8qcTM8mdqP1syT8o6Yw
+         T78RurphcQNWWp6PBygACteGN5hmxMMqPvTuOIeLFy9tAEhEvrF0lA+E/i8ckcjWz/cF
+         EA1gWQO0FlPUfitJR06WZBwffTvtp43GWwYj6gH+4COTnaRT7JmN+sDIbMISXOLailYj
+         LRHyg748M7W02TPsP6po36ygXMq75rOoDYdBZV/E7AAnbjVnz9vtNauf9O38fjbZPYxI
+         giFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=znnSf0bs10j7eI0t38PX7h2UnPZZQeY6rPY6Z/F31+w=;
+        fh=gTNWdqxKEdi5mtnb3DFjxa4REAO6EI0nkXVhK7zNqRI=;
+        b=ANWGdHA6AT5ziqXTdlTdU86bDCB/XWms0hKDcZDaLTK8aBng+skIHHDO0vCsj2VrlN
+         VvfsusAEEp7T1mais4ZMVop2rR143ypYLaApGOpm7BS+TU5HuZy8D9LvH8sXHk3yJZa8
+         lDU+NC5+Qm0SHZDWD81upAJsrnX5+t18j5LBbTn8gFTHeup6PW/GtmWxLTekVFhRf3Zy
+         zt5UqJdL/sU2OCzfdLLMjG5djhaxXKatDIuvo90dSmmPLO8bPfMRx5Ao4vMDhXvYyc6C
+         XssVVRfD2UA72QTwOo0Vemhg52TTHPYtFwVVKmI9ez5/eWWQHOeDaz2N1D3MSOo4AfVW
+         mvjw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780411904; x=1781016704; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=znnSf0bs10j7eI0t38PX7h2UnPZZQeY6rPY6Z/F31+w=;
+        b=EvnFbQxGBFZM5HLZXY0+wVBHp+lLo5VK9ySSx3DMoGvSBdl8MJ1ilKcVxnomwAwIDe
+         rQp0PIoJxe91hJPSR75uoUMPqjyWi8lN1I9NJzf00VTN9CAqL/dzJE2UQIOwewlzWRRO
+         nJMYQ6RtyXNadpZe6Ea2vxywwP/FIje6dafQsYAzNmgXAlro4sjLM1KJzVyVVLnpvm7H
+         srT0GLwkLQnTmu7N0T7AlJ6WMhRr97TGhoamWLx8dA3M2h7vlXh6XyapecSkizpgOfRs
+         qMNpzyjs11PQ8IXcjgZX8vGs5JN4kw7lASX46kHYnrtaMEblYr3816BdVtAvJZnWKp6P
+         VvFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780411904; x=1781016704;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=znnSf0bs10j7eI0t38PX7h2UnPZZQeY6rPY6Z/F31+w=;
+        b=G3KO+e2CxC3biGwLr3jcCd7zsfwWwT9aUXyzXpMbgZtaFhB3FS6Ju1www1JFCIe9L1
+         ddY6yQBbSqmb4VRZLhCqdq9Kdk/FnKMzuiuPyJ9nBfyIXaVVmN65BQvArUCWNfLzCJoT
+         DruSck5WTdlPEmkjwdfkk3fMljh02q1zNlH3xZWqBEMxVnadK8MkB+D634VNlJZl6GP7
+         lAeA/gSvr1N9XLXYFh2xQineyK41ZuDohekkh9nFUSnp/dvK7HNC0fqZ/qGUJB50a3u2
+         TKKKr9fuENBuIAvQu/tEBVwImK3txkIk7M9BeTU9MT8F90ARlS03oxLyeWXtwxu8CX6D
+         csBw==
+X-Forwarded-Encrypted: i=1; AFNElJ+0Aj8XpzawOoHJv/7wGMBapIVxmwURPTYv8cJARwkuoMl/k5fkIWF2hLNrO0OHuVb3dUn/TQAAorfqzhBQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTk8qTgwGow3tUuiRSJaHuzpi4+xW8ozPxSHmSQqepExxrIgkz
+	/ftA0sqrl3bKEszkFvRXinFck62oLZhcsax/3NMwQL7UkDV4w+OeWCV21urSUxtHCuyetJwlSGZ
+	ViErns8DunNrz3hEp8L7BQUT1f4nQXzxpwlLu
+X-Gm-Gg: Acq92OH05JP6cEmXEfK0hfmf7HwTdNiUKTxTepacfCA403s0ELR6GuBCDPjHNues7Ma
+	A95m7omVoCJ63+EX03oSebUkvS2qnbDW34LTUI4cT6SmJvV61Q+6fmMim6Wt+SXFUKCQLRWQwAn
+	j6uyEHlZE18FMPp1DezLWXLEbfrzmzC5fw+4X3P3Y/ONGswH/NtP17KJls9DRCzOFYHKQbR4w6n
+	EiB79rRBTG1CfSUkIKgUc3GLtQ4mjlGaV6kLFyf4ut6ZHTM3Sba7zSprdpYQOJ5D5vJvCCtVbTE
+	UbZIux+TEB7fGTh/3XY=
+X-Received: by 2002:a05:6512:234a:b0:5aa:79d4:7135 with SMTP id
+ 2adb3069b0e04-5aa79d47198mr698365e87.0.1780411903891; Tue, 02 Jun 2026
+ 07:51:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB8442.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d94d4b7c-3caa-4050-cb7f-08dec0b5821e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2026 14:44:53.7746
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 668IxS8Px04+VqtYY72F+3GQECkscauu663/AriwKOVBI5RavNPLlXS+pNbu3wKV5Ud4TfgAlh/MsOoF9caOBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7326
+References: <CGME20260602141434eucas1p15746f013244db658407ada4f3cea7b89@eucas1p1.samsung.com>
+ <20260602141427.2301354-1-m.szyprowski@samsung.com> <CAKYAXd87d8pycHVc7GLu5jTemowzRaLOSVfHLaBXYkUtetUN9A@mail.gmail.com>
+In-Reply-To: <CAKYAXd87d8pycHVc7GLu5jTemowzRaLOSVfHLaBXYkUtetUN9A@mail.gmail.com>
+From: Hyunchul Lee <hyc.lee@gmail.com>
+Date: Tue, 2 Jun 2026 23:51:32 +0900
+X-Gm-Features: AVHnY4Lw2pJtYhVRZj7pIh_citfKI8ZZwXwWcbA2tUP8Q1mn9jokAnPwlHjjOEY
+Message-ID: <CANFS6batPUtAt5dPhLYVgceKFODCXpfNOuWhVSHKeSFoMO4umw@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: fix missing alloc_workqueue() flag
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Miklos,
+2026=EB=85=84 6=EC=9B=94 2=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 11:38, N=
+amjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Tue, Jun 2, 2026 at 11:14=E2=80=AFPM Marek Szyprowski
+> <m.szyprowski@samsung.com> wrote:
+> >
+> > Commit 21c05ca88a54 ("workqueue: Add warnings and ensure one among
+> > WQ_PERCPU or WQ_UNBOUND is present") added a check for the proper
+> > workqueue flags (WQ_PERCPU or WQ_UNBOUND). NTFS driver lacks them,
+> > what triggers the following warning:
+> >
+> > WARNING: kernel/workqueue.c:5855 at __alloc_workqueue+0x688/0x70c, CPU#=
+0: swapper/0/1
+> > workqueue: ntfs-bg-io is using neither WQ_PERCPU or WQ_UNBOUND. Setting=
+ WQ_PERCPU.
+> >
+> > Fix this by explicitely requesting WQ_PERCPU workqueue.
+> >
+> > Fixes: 6251f0b0de7d ("ntfs: update super block operations")
+> > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Applied it to #ntfs-next.
+> Thanks!
 
-Gentle ping on this v4.
+There is a patch that was sent earlier.
+https://lore.kernel.org/all/20260514135408.297659-1-marco.crivellari@suse.c=
+om/
 
-I reworked it to keep the kernel change limited to backing uncached
-readdir output with pages, and dropped the request-size cap as requested.
-
-For context, the separate virtiofsd-side issue we discussed has now been
-fixed upstream in virtiofsd:
-
-https://gitlab.com/virtio-fs/virtiofsd/-/commit/d24cda8a325d2a9ae1adc5acda5=
-7515ed2e8e1d2
-
-That should leave this patch only addressing the kernel-side argbuf
-allocation path for uncached readdir.
-
-Do you have any remaining concerns with this version?
-
-
--matt
-
-> On May 26, 2026, at 10:20, Matthew R. Ochs <mochs@nvidia.com> wrote:
->=20
-> Commit dabb90391028 ("fuse: increase readdir buffer size") changed
-> fuse_readdir_uncached() to size its temporary buffer from ctx->count.
-> This is useful for overlayfs and other in-kernel callers that use
-> INT_MAX to indicate an unlimited directory read.
->=20
-> The larger buffer is currently supplied as a kvec output argument. For
-> virtiofs, kvec arguments are copied through req->argbuf, which is
-> allocated with kmalloc(..., GFP_ATOMIC). A large uncached readdir buffer
-> can therefore require a multi-megabyte contiguous atomic allocation
-> before the request is queued.
->=20
-> Avoid the large bounce-buffer allocation by backing uncached readdir
-> output with pages and setting out_pages. Transports such as virtiofs can
-> then pass the pages as scatter-gather entries instead of copying the
-> output through argbuf.
->=20
-> Map the pages with vm_map_ram() only while parsing the returned dirents.
-> The existing parser can then continue to use a linear kernel mapping.
->=20
-> Fixes: dabb90391028 ("fuse: increase readdir buffer size")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Matthew R. Ochs <mochs@nvidia.com>
-> ---
-> v4:
-> - Drop the fc->max_read/fc->max_write request-size cap.
-> - Keep the existing uncached readdir buffer sizing logic unchanged.
-> - Limit this patch to backing uncached readdir output with pages.
-> - Update the commit message to describe only the kernel-side argbuf fix.
-> - The remaining 4K-host/64K-guest ENOMEM was traced to virtiofsd rejectin=
-g
->  READDIR sizes larger than its MAX_BUFFER_SIZE; a virtiofsd fix is being
->  handled separately.
-> - Link to v3: https://lore.kernel.org/all/20260519004746.3203156-1-mochs@=
-nvidia.com/
->=20
-
+--=20
+Thanks,
+Hyunchul
