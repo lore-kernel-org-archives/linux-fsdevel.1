@@ -1,45 +1,85 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2833D352035;
-	Tue,  2 Jun 2026 07:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13F7357D05
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 07:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780384656; cv=none; b=HAAzRnBEunv5KqTl0Pj28foa2J03VMfGePbrk9sCxbQPb00WOWOxU3htPyh9vtfS5090bM8HqFHitCM28JtJiILmDpJT5qJ9FxcZIzygto149GOFT3Ed4N5cdHNmJOpEMeJU58LDGq48W+OIU9TYyXtF6/N4DQazu6IFbOTVmvA=
+	t=1780384962; cv=none; b=fEUC3Qraya0JmMN3DzFiFnfuYIwocYX4c2NH3G4SZdeOdojBXu8RxYGGP4JgU5EfVez36R7R3NOoGqMIW4u3kKXaEnk2mnDdkIaH0gfRgHEyKiVaAmwa7bkw/w4biuj4ISYC0ohdLG2/p+X8FoDUzRL/Cuz+e+kGCKWnye1fh/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780384656; c=relaxed/simple;
-	bh=El3+TjXEr7FJO3HYLS8thfLVpxG93Hen1fpeiRJB0Mw=;
+	s=arc-20240116; t=1780384962; c=relaxed/simple;
+	bh=c5jEInMRpeI80yly3x3kU/i2KignyqH4gB3zKajS2Ek=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eFL83ozLRChu+ymFHZB37CPP6YOYS+VFzPUd9AliTcfvUda2liMxviFOUMEB/cx481q5x2kzyIafGQB/P0e1i5kz3AI6bN4LiTDLRLmmMZlYEwBN9SlF28jpkGzAfoO8PwIS+Nfj/6tF/Wp2TtimzqAyYpGu0zt7J2BboukZ/gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=alaiCOmR; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=qSTx6kNXx7C9fsKX/8AHFuWahTc7U3LibywiBre3God2AftliNDk5/LTj36uKy1yFj7T+pd5Uh0t8c0/NsK5aZUrd58hhN4HxeeMNsX+tGOuk1H/AfQfM/5j2Nr0TLzsKHuNurpJPEqxHtrPJ12COzEDJYsAEdaHxtN5+C/t/P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=d6bCPTc/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X1GOHG+1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=d6bCPTc/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=X1GOHG+1; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="alaiCOmR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=zIEGCvg9vI/rXCyGBdSSGD7TJh7MNFGvQ1sybkYqrRw=; b=alaiCOmRSWP+Dc7Ix9cmrwXoRj
-	wJWTgo+TzwFEsjUsU6QnwfP4m8CgJHGoudQU2iTms1T7YOc2OoTYu6BSS6v+H83UHuPdNnTtf+CrD
-	rCpbLQ891jNUI5axE/H0cPkb/eMHI5/c7emXWnC4gdgWDKYI+oDdmhvONpSScx73Aobde6+IZgEJG
-	GIzW4tSOK0j62BDs9HAxWPyrLcjatelnmTcSiSlkbMy8d2tHp+nxjVprTTFaQfSNnRrTSiI3rKFQx
-	lhhMsTtizu+KsDcOKW2Y1NE+IZAQKDdarOf6vFIMp8tbYTTsZFqyi01oRfBhXq09lthSMfYm+sv5B
-	uUneKQCw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUJNT-00000006h7s-36zw;
-	Tue, 02 Jun 2026 07:17:32 +0000
-Date: Tue, 2 Jun 2026 08:17:31 +0100
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Breno Leitao <leitao@debian.org>
-Cc: Farhad Alemi <farhad.alemi@berkeley.edu>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] configfs: slab-use-after-free in configfs_drop_dentry() on
- rmdir
-Message-ID: <20260602071731.GR2636677@ZenIV>
-References: <CA+0ovCjv-VYvn-4jUj3wDn+DuP9FSv-GL+yPAHbR=ZGKU0wmGg@mail.gmail.com>
- <ahbG94EFLD5ntnYr@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="d6bCPTc/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X1GOHG+1";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="d6bCPTc/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="X1GOHG+1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 632C0689B2;
+	Tue,  2 Jun 2026 07:22:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780384959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XrhjommOd6peEEaK23OhHqseWgrWIFbHPd46J58lq4s=;
+	b=d6bCPTc/fEllbTJmOQsa3R8ssKeVYTAnMnroJecKUWlIfqBBuGLgE2sX6cBYtcGiQACnyd
+	5tCN9CmlPvDhkJcVRbV3LCMIpZojfgAXxvERA+eiOCWNa8L0Ixew3yvr5BuqSlgsaxn+f8
+	LAL8hKsi4szEchNFxZ9Eddn5uklX2+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780384959;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XrhjommOd6peEEaK23OhHqseWgrWIFbHPd46J58lq4s=;
+	b=X1GOHG+1/+7kwMLlvpI0hdRMrW6JL+KZTU3rDv2L0X/XIc+nzrMuPymR0az1//SzWbu5qI
+	4z0jv4Jxw8rSalDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780384959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XrhjommOd6peEEaK23OhHqseWgrWIFbHPd46J58lq4s=;
+	b=d6bCPTc/fEllbTJmOQsa3R8ssKeVYTAnMnroJecKUWlIfqBBuGLgE2sX6cBYtcGiQACnyd
+	5tCN9CmlPvDhkJcVRbV3LCMIpZojfgAXxvERA+eiOCWNa8L0Ixew3yvr5BuqSlgsaxn+f8
+	LAL8hKsi4szEchNFxZ9Eddn5uklX2+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780384959;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XrhjommOd6peEEaK23OhHqseWgrWIFbHPd46J58lq4s=;
+	b=X1GOHG+1/+7kwMLlvpI0hdRMrW6JL+KZTU3rDv2L0X/XIc+nzrMuPymR0az1//SzWbu5qI
+	4z0jv4Jxw8rSalDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AD68779A7;
+	Tue,  2 Jun 2026 07:22:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cBEoFr+EHmopUAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 02 Jun 2026 07:22:39 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id EEB5AA0EC1; Tue, 02 Jun 2026 09:22:34 +0200 (CEST)
+Date: Tue, 2 Jun 2026 09:22:34 +0200
+From: Jan Kara <jack@suse.cz>
+To: linux-fsdevel@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>, aivazian.tigran@gmail.com, 
+	Ted Tso <tytso@mit.edu>, linux-ext4@vger.kernel.org, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v2 0/10] fs: Fix missed inode write during fsync
+Message-ID: <7b54r6zj74tfhnyw3eajraantq3m4wxtsnnycofc6hmrue2skr@sy4cftizcinj>
+References: <20260525085035.12891-1-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,28 +88,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ahbG94EFLD5ntnYr@gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20260525085035.12891-1-jack@suse.cz>
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,mit.edu,vger.kernel.org,mail.parknet.co.jp,suse.cz];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-On Wed, May 27, 2026 at 11:27:57AM +0100, Breno Leitao wrote:
-> +				/*
-> +				 * configfs_create() failed (e.g. -ENOMEM
-> +				 * from new_inode()).  The dentry will be
-> +				 * dput()ed by the caller and freed via RCU;
-> +				 * because it never gained an inode,
-> +				 * configfs_d_iput() will not run to clear
-> +				 * sd->s_dentry.  Drop the linkage here so a
-> +				 * later detach_attrs() walking the parent's
-> +				 * s_children list does not dereference a
-> +				 * freed dentry in configfs_drop_dentry().
-> +				 */
-> +				spin_lock(&configfs_dirent_lock);
-> +				if (sd->s_dentry == dentry)
+Hello!
 
-Don't need that comparison - to get a different ->s_dentry you'd need a lookup
-on the same name in the same parent since having dropped configfs_dirent_lock,
-and VFS locking guarantees that it won't happen.
+On Mon 25-05-26 10:58:06, Jan Kara wrote:
+> here is v2 of the patch series which fixes the possibly missing inode write
+> during fsync(2) for filesystems using generic metadata bh tracking. The
+> inherent problem is that .write_inode methods clear inode dirty bit but they
+> only copy inode contents into to the buffer cache. Because buffer carrying the
+> inode is shared among multiple inodes, it cannot be tracked by the generic
+> metadata bh tracking infrastructure and thus nothing is tracking that buffer
+> needs to be written out to maintain fsync(2) guarantees. Normally, this gets
+> taken care of by .write_inode checking for WB_SYNC_ALL writeback and submitting
+> & waiting for the buffer in that case however if flush worker ends up writing
+> the inode before data integrity writeback, this mechanism is broken.
+> 
+> This patch series adds a way for filesystems to track metadata block number
+> which contains the inode metadata and then uses this information to writeout
+> the buffer on fsync.
 
-IOW, the variant in
-https://lore.kernel.org/all/20260519070633.2025485-2-viro@zeniv.linux.org.uk/
-should be fine.
+FWIW I went through Sashiko review comments. Lot of them are hallucinated
+but there are actually three good finds:
+
+1) FAT implementation of inode tracking is broken when fsync races with
+rename.
+
+2) ext2 & minix inode tracking makes handling of dirsync even more broken
+than it already is (current handling is already broken because we don't
+flush any directory indirect blocks but my changes also stop flushing the
+inode buffer).
+
+3) mmb_sync() flushing of inode buffer is racy for multiple parallel
+fsyncs.
+
+So I'll be addressing these. Please don't waste time with the series as is.
+
+								Honza
+
+> 
+> Changes since v1:
+> * Fixed freeing for ext4 dynamically allocated mmb struct
+> * Optimized tracking of block carrying the inode so that we don't flush it
+>   unnecessarily on fsync
+> * Add forgotten check for reclaimed bh to mmb_sync() to avoid NULL ptr deref
+> * Couple other smaller fixups pointed out by Sashiko
+> 
+> 								Honza
+> Previous versions:
+> Link: http://lore.kernel.org/r/20260511115725.28441-1-jack@suse.cz # v1
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
