@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381DB3E6DE3;
-	Tue,  2 Jun 2026 13:41:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B455158535;
+	Tue,  2 Jun 2026 13:50:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780407716; cv=none; b=gEZzYshWBLVDOFGVTq2k6MqBtNXS8cPATJ5vQUSMDChWUBhtA14YXSHFARd21N+DCfMoLFyrMHqf9oLvcc/uJPc7S5bpqH7NdehR8evke+2XhpsMDuI6IoG8OZc+IwGwKzrQvNHidyBsWkgQlAQ2HW4uIplkaaZha/RfM3ka2tE=
+	t=1780408224; cv=none; b=cNMWV15Q2V3CRe/wefaaWtaygJW479EN0gOwIMS57jHuh3UltQzBMJkGYONmfQQ/w4mHJxn9L9LmkmYPkU3QnD1S3KG0TnR8oe7+2kl9WhsFohmd4PmaMvKnf3mQxPLQYOSyZb3Wx2QZUFPBPzc5w2+YnvQsEiK7PccjbKwOdM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780407716; c=relaxed/simple;
-	bh=z+ssSedXNDqwpoCd66mmuzgBkfuSj2vlr56Ju3Xl9g0=;
+	s=arc-20240116; t=1780408224; c=relaxed/simple;
+	bh=kfokZ2H6wNEPx9QXqIGQxi5dBkbn2UZb4QiutV4UqLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rsp+Nxr02+FjPhTaZ5zijjU6AYRpguS4J0kGLvYLMGcSyLKDR4ex/IvK7+BslmEXp9UTxYmNmHGmFdSVvvGob/CsdWjQ6RP81IPFd9ZUdaxolERQDyj3nVSXqRPsdPvaJCBDgGToV53KEilujieDyT8cEysxXBJQLlbe6q8mHHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eMN6NOUo; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gT3rc/knCIZB+WA/HTRfovjBnKGO6/oSHSrc+ZNCbItYevnOtONjFJwzPJuRq136nksZvEmxPciKmDTHocaDW4uLqdOsC3cXfO7NVO8G0Xx7RdcomWBgp893nze2UFMczMYE4saC0I9QQoCSxmY0yvE5fpMd0U4eEXsl/QXi6Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oYJmroha; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eMN6NOUo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C6FC1F00893;
-	Tue,  2 Jun 2026 13:41:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oYJmroha"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC321F00893;
+	Tue,  2 Jun 2026 13:50:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780407713;
-	bh=DaCSsnBQcLMloicGEjTBB3YgF6H5vHu541BNKfnyXkw=;
+	s=k20260515; t=1780408222;
+	bh=Abi/11pkmXbc/O3FpznXF1iIrYpHhjU7n86de2QBtMs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eMN6NOUoJxtSw/QwiRbuS5Js/IF2QMz8AScAhujqMvMkoNZJtmOxu+wsUbKxHqvDQ
-	 xPY/uKsS8ayRIDNao/Fk84YwEgGnUByAuKNADpLutSIOMrvfAnCleVKcvvMkacQFiM
-	 3qwYNpz0W3jgSonb575hBIIAxGol15YGqmuUM0v1gEvvydVYMumvdKposTma0tehT+
-	 WYADy6loWvVBRVBoPsYmf/E5BsI329ui/mR6q/qZMhW2IgVceSXatP6bixntVdrTxy
-	 Atwlu+lR0iPdEJBQhOVynPT9gKx/0FejQfokPOXaQrYKL5egM5du/b/owx5NQZLEZv
-	 nvhiO7wM9dHTQ==
-Date: Tue, 2 Jun 2026 15:41:49 +0200
+	b=oYJmrohaFPubXuTb1Gkn8mTAoe2dNGjJJbeaOun7PNJawNsTId4z+8vU0HW7UKBip
+	 zMuxLQe+4ZihpHv7CIcn7u4nrMuV2vhtgWVSwMG+jdFZQpajX6uV19JT84ZZYVd7T4
+	 7tJ/0ad1U5X9mOvMz3RqIfdFq2ZnlyYS9i4ais+/Dotig3FLwwmtryU5TVLMF9D16W
+	 E9lcHNdAgdoDug+CSKDYBXSeDeHhlv32Vo0BWjJRksoxXyihXkyo9nv8lZKGVXInw5
+	 pf+hsz+ErKUfqY40SKslGimE979QdHw7JbLaw8tT/l3V+wPgrPZ39Ci4xCraMw5dMN
+	 tICnvyz+QyjJA==
+Date: Tue, 2 Jun 2026 15:50:19 +0200
 From: Christian Brauner <brauner@kernel.org>
-To: NeilBrown <neil@brown.name>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Jan Kara <jack@suse.cz>, Jeff Layton <jlayton@kernel.org>, 
-	Mateusz Guzik <mjguzik@gmail.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Charles Mirabile <cmirabil@redhat.com>
-Subject: Re: [RFC PATCH v6 4/9] vfs: lookup_open(): move setting
- FMODE_CREATED up when calling create()
-Message-ID: <20260602-aufdrehen-umorganisieren-formlos-4f0e12bbcbda@brauner>
-References: <20260531182045.171711-1-jkoolstra@xs4all.nl>
- <20260531182045.171711-5-jkoolstra@xs4all.nl>
- <178028128000.2923901.7917758563328454041@noble.neil.brown.name>
+To: Jan Kara <jack@suse.cz>
+Cc: AnonymeMeow <anonymemeow@gmail.com>, amir73il@gmail.com, 
+	repnop@google.com, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCH] fanotify: register event pid for pidfd reporting
+Message-ID: <20260602-patzt-sturz-segen-f1f305d61b75@brauner>
+References: <20260530013732.50811-1-anonymemeow@gmail.com>
+ <20260530105117.45792-1-anonymemeow@gmail.com>
+ <dolfs6j4x4thpgluglxhlepg34l5uvvxv2sjcmuao57bxnbtjb@urx5vgczxbup>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -47,36 +44,33 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <178028128000.2923901.7917758563328454041@noble.neil.brown.name>
+In-Reply-To: <dolfs6j4x4thpgluglxhlepg34l5uvvxv2sjcmuao57bxnbtjb@urx5vgczxbup>
 
-On Mon, Jun 01, 2026 at 12:34:40PM +1000, NeilBrown wrote:
-> On Mon, 01 Jun 2026, Jori Koolstra wrote:
-> > In preparation for using vfs_create_no_perm() in lookup_open() we need
-> > to move setting FMODE_CREATED on the file mode to either before or after
-> > that call, as currently it is in the middle. If try_break_deleg() fails
-> > it is currently not set, but vfs_create_no_perm() includes a
-> > try_break_deleg().
+On Mon, Jun 01, 2026 at 05:24:36PM +0200, Jan Kara wrote:
+> On Sat 30-05-26 18:51:17, AnonymeMeow wrote:
+> > pidfd_prepare() may still fail if userspace reads the event after the
+> > task has been reaped and the pid has not been registered with pidfs.
+> > Register the event pid with pidfs when creating the fanotify event if
+> > pidfd reporting was requested, so pidfd_prepare() can later create a
+> > pidfd for the reaped task.
 > > 
-> > Going up the call chain of lookup_open() we see that it is only used in
-> > open_last_lookups() if no error is returned from lookup_open(), so we
-> > can safely move it to after the filesystem create() call. This also
-> > makes more sense when reading the code as you don't have to wonder what
-> > the implications are of setting FMODE_CREATED before the create() call.
+> > Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
 > 
-> It seemed a bit odd to me that we set FMODE_CREATED before actually
-> creating.
+> So the two patches in this series so far look good to me. This patch looks
+> OK to me as well and since the overhead of allocation etc. is only once per
 
-Plus, we kinda-sorta-maybe do expose that as uapi - even though it's
-broken on networking filesystems... which I didn't know in that detail
-back then. So be prepared to whack me over the head with:
+It's a kmem cache so should not matter at all...
 
-820a185896b77814557302b981b092a9e7b36814
+> registered task, I think it's fine but let's wait a bit whether Christian
+> agrees this is what needs to be done.
 
+pidfs_register_pid() can only fail with ENOMEM or if the task is already
+dead. The latter cannot happen because even for a non-empty thread group
+where the thread-group leader already exited but subthreads are still
+alive the thread-group leader cannot be reaped. So the only error here
+is ENOMEM which means we should defo fail this, imho.
 
-> It doesn't matter as FMODE_CREATED is only meaningful if no error has
-> been reported, and if create doesn't end up happening, then there must
-> be an error.
-> 
-> So I like this improvement.
-
-Agreed.
+And yes, I think this is worth doing. Because you get a persistent
+handle on the task that generated that event + all the exit information
+even if that thask has been reaped in the meantime. I'm pretty sure if
+you're using fanotify that's a rather huge win for apps that need it.
