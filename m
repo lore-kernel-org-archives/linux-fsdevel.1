@@ -1,83 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp153-141.sina.com.cn (smtp153-141.sina.com.cn [61.135.153.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5CE31ED8B;
-	Tue,  2 Jun 2026 01:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BD733D6E1
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 02:02:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780365222; cv=none; b=GTpmw3+o0NdxQ1ia/RgNDlfy+J1OizYUTnGeRt19FX9EDrRCZyS9OODNnCfyaeI3MrPpf1wi1+QhJxekokL9stfGpJRejVKjaQRSl6LLVwtarIocLuzM5G1Amxbxc/f5runDuI5x07wGCBzhGeZ1drEFse/M69gMoDfyoyL8XME=
+	t=1780365752; cv=none; b=Bti6GGhGzCDezKnzPBWKyrr5gEuKu0hciA5gzsb2W/hHoVPe2cOn1RNaj0ECmj6ZIOXqrbbyCbBJlb/nAA7k+Zf++CXZT7WtZ2N67hsQ3e7UwMXmdQC504slpUYo2HiNBphdXyxRyrgpUD6BH9xgxkbOTalhduTI5IYOnKNWFMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780365222; c=relaxed/simple;
-	bh=tjyKspkJ1LgAWN2Mxni8AN27xGO9q3yAKpsjQu0lZpk=;
-	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=XrCzNJXg8kk6fiEzehYRMlFlbmxF63yfQ8DTMWk2SzdzCGIVo3grM99bSEYspPDCcFoL1Qx4JHGe6n7Y7mRGzA6RVVXKBFFTH9vkEXnR1DG4BFuLMnDG28+BV+Nmth6ope5Cwky8cJ1LsTO80SC56mO1MRqTiro/1Fl0pWGDlk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGW4gPDV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780365752; c=relaxed/simple;
+	bh=4c3HxiNf/o9YDjCtEqMTF0xdGqjnroVz8yDppoabx6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qp59C9pcUnUAPmmhcICkimyjK8RKQFyY2lmst6H0tPGesVNMT3bn+2CAIexBwSqihrLeMOBW37ZtJKceMePbSRyL/RVQK3M/tcIEg4qsgXF9cwEJzVFcE60Yg4vzqOeXrly8CeUdpXi6U27a7PwedS9cIkUA33u9IAAFg+LZVXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=uF8u6ETd; arc=none smtp.client-ip=61.135.153.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGW4gPDV"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 721141F00893;
-	Tue,  2 Jun 2026 01:53:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780365221;
-	bh=Nj+VRd7OK1LJX1OqynSRL879zyEyE4QoCPGI9t5tilw=;
-	h=Date:Subject:From:To:Cc;
-	b=MGW4gPDVeiDKrSc+R44V/ZSNj+5FQGqh5YqxLtAJ5bdQlFRcra+gfoixAipuco+lE
-	 RfH8svg7ji+YNZulS+PalbYoLRh1Q4t+jFjvuc5ipLK7ondcaCkm5WM4sC6U1A0YPC
-	 pTXwkYaJ9W2ijBye3taPoV4DP0abPwHRMxl5LsUclTbM7F4eV8XBuOHDTQn8r6FALX
-	 DYzbAunF4OZa5pPTnjsaUm0nel6yl3Gm0ycLds9MaHH+SulLjNAFVs/wzSb+jXS5lJ
-	 0BJiI0tE2mwHLagbqXv7eZ4/1nkjgR7NqK2aiC5RqOfKOSCBapO0hT6j+0Mp7hHNU9
-	 kn0m7FS2KUN2g==
-Date: Mon, 01 Jun 2026 18:53:41 -0700
-Subject: [GIT PULL] libfuse: more random fixes for fuse service containers
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com, djwong@kernel.org
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Message-ID: <178036512347.432506.164688566914401782.stg-ugh@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="uF8u6ETd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1780365749;
+	bh=1bH9sJe186VqJCIcr0CHi8vVxsQpzOuCBdS8Qj+ILmo=;
+	h=From:Subject:Date:Message-ID;
+	b=uF8u6ETdvR5PEDLE/smbph1uJIu+z8QSa49QHqr5ysOHJL9T6Jvl79S+dAZaS8otv
+	 BNcOaxcF8C2oaoJd2xso3aKjZ/2+z/D7zy7C8LSHUtCA6evyK12RDt2HtNvrp1HB+/
+	 zOsIYgSpFXPaxbNirSM4VUu9xqqXsSx2n7Rkykn0=
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
+	by sina.com (10.54.253.31) with ESMTP
+	id 6A1E39A600003D56; Tue, 2 Jun 2026 10:02:17 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 4078536816537
+X-SMAIL-UIID: E78B314D45EE49BEBFAC1BE9F84BB44F-20260602-100217-1
+From: Hillf Danton <hdanton@sina.com>
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Qu Wenruo <wqu@suse.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Jens Axboe <axboe@kernel.dk>,
+	Bart Van Assche <bvanassche@acm.org>,
+	linux-block <linux-block@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-btrfs@vger.kernel.org,
+	David Sterba <dsterba@suse.com>,
+	linux-fsdevel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v3] loop: Fix NULL pointer dereference in lo_rw_aio()
+Date: Tue,  2 Jun 2026 10:02:03 +0800
+Message-ID: <20260602020204.1420-1-hdanton@sina.com>
+In-Reply-To: <ah4Xc7OmGle_C5M3@fedora>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Bernd,
-
-Please pull this branch with changes for libfuse.
-
-As usual, I did a test-merge with the main upstream branch as of a few
-minutes ago, and didn't see any conflicts.  Please let me know if you
-encounter any problems.
-
---D
-
-The following changes since commit b71dd2629ff24405ad95814ba24773a24436a49e:
-
-Merge pull request #1444 from bsbernd/fuse-service-container (2026-05-26 19:56:02 +0200)
-
-are available in the Git repository at:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-random-fixes_2026-06-01
-
-for you to fetch changes up to 82f46798b91b23e38329f7e276342f306a8507fa:
-
-mount_service: call the new fsmount ms_flags helpers in the right order (2026-06-01 18:51:24 -0700)
-
-----------------------------------------------------------------
-libfuse: more random fixes for fuse service containers [1/2]
-
-Here are some miscellaneous fixes for libfuse.
-
-With a bit of luck, this should all go splendidly.
-
-Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-
-----------------------------------------------------------------
-Darrick J. Wong (3):
-fsmount: don't truncate ms_flags in set_fsconfig_ms_flags
-mount_service: don't pass the chopped buffer to apply_fsconfig_mount_opts
-mount_service: call the new fsmount ms_flags helpers in the right order
-
-lib/mount_fsmount.c  |  4 +++-
-util/mount_service.c | 14 ++++++++++----
-2 files changed, 13 insertions(+), 5 deletions(-)
-
+on Mon, 1 Jun 2026 18:36:19 -0500 Ming Lei wrote:
+> On Tue, Jun 02, 2026 at 07:17:30AM +0800, Hillf Danton wrote:
+> > On Mon, 1 Jun 2026 17:14:59 -0500 Ming Lei wrote:
+> > > On Tue, Jun 02, 2026 at 05:51:26AM +0800, Hillf Danton wrote:
+> > > > On OnMon, 1 Jun 2026 10:29:25 -0500 Ming Lei wrote:
+> > > > > syzbot log shows the null-ptr-deref  is on WRITE, instead of DISCARD.
+> > > > >
+> > > > > https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28
+> > > > >
+> > > > > Adding WARN_ON(!lo->lo_backing_file) in loop_queue_rq() might capture
+> > > > > this bio submission context if this req isn't issued via wq.
+> > > > >
+> > > > I suspect this makes $.02 sense given the check of Lo_bound upon queuing rq.
+> > > 
+> > > Can't lo->lo_state be updated after the check? It is totally lockless...
+> > >
+> > Sounds good hm... do you mean it is UNWISE to not flush the loop workqueue
+> > when closing disk?
+> 
+> Quite the opposite, it is wise to not flush wq in __loop_clr_fd(), please
+> see my previous comment.
+>
+When queuing rq, if lo_state is updated after checking Lo_bond, I see nothing
+that prevents syzbot from reporting null-ptr-deref exists. Can you tippoint
+why flush is NOT needed if you are right?
