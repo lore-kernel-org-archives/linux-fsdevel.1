@@ -1,22 +1,22 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C3D3FBEBD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C098E38C2D4;
 	Tue,  2 Jun 2026 17:51:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780422718; cv=none; b=Nj5AGQsuoNsfZXLQ6sKgkVnga1oyC4m5mQR3F9VP21rtLbful4InFYtsgVXscw3FGiNB0oqYky7jtAcopNI++6rFr1Xnp5X8c3PJphvZpR+IQyLMscApI4XPLSJIArupSNVJEv7hShMyBl6P6Osq15pQ5X9+QV/bB6nCbkKCrw4=
+	t=1780422719; cv=none; b=V5xGBgl8+G6BapnIM9DITgojCVcPGiHIDeNAydBvKbuZ9pyMR+hV96oCD9041e1S+MMztQWO9ETuk9mAJpixeAEfGOlMlkyPtBbpSURx6FSZXSvo+zWMxbkErMm+CBRZzZ4lrQEIhK2m9y7GVjEdlBuRD4spaIQ2WipYZdXsU1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780422718; c=relaxed/simple;
-	bh=JpJFlUECNNus1Qk62uCTbOSmj3u9VJzWwPJQZHOeoQU=;
+	s=arc-20240116; t=1780422719; c=relaxed/simple;
+	bh=v/4CJcUStN50PTDnbTokihYoDohpPVW9HYDAhQOZ9Aw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g6tz/a2b3cctbj/K6n7Hq6HmxM3XVEm1NfSvutLX2JhGqVjxM88UhwqIFERrAlGvvvw0fUbosh1VdAoNO+gf/Zv2GwJHwEexb/mbr6jaT+QsymrFgsdYOExNHiq77liQq6zuMeQeM5Bo+o+rux37tvsV0MUSeHJlXo1hziSIUDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pXX4R1DK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UKiE13/l; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=rLuxEscj5KXaZ9WfaIUTYRhIZENVy+hMaBjdTvP63Vx/vHPyxDuYUgMemSZfkvInNwHEW7AUlGy1edQw0KEVClixY5LJnoQhtKgp+t3LtSKUg5vXsbWsnFjxo2RFa1YnRGrtIaZKa0Bx/0sf4G/uIvmdzvop3itvyCpl9DKucyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bL/ZpX1C; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7nB0zdJq; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pXX4R1DK";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UKiE13/l"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bL/ZpX1C";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7nB0zdJq"
 From: Nam Cao <namcao@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1780422716;
@@ -24,21 +24,21 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gfTkEpFSA6rsnLRfrCgif8Z+qwt1DWfiZbx/HB3hB8c=;
-	b=pXX4R1DKnc8vSxeWCjmUiY25pubLMRSTHATgZ9hfZ/AK8Cz8EPZZaDJNT0562GaJTQtlS5
-	lxaCKqFd63kbsluGhy3Y6NRXsC4MqF0hZCi3Z1VU2XG33/ILTgOjxLEVXz4h2zqPRhefEt
-	0N4atCA52I55g/2BehF/SSV8U4aWhd8rom3YXzur9WkeERdYcneQcnRYUFrBRNsZu059SA
-	+Tidx0IvSc5V7+zyxFM0/RqEzecVueaNgAhx8KihOhonX+ilsDkWSWTgIm6x4Yt8jzHF5K
-	YaeSR/cCQkAlh8OpDlSJcKroVDXejUPp4m7C10M7JJc6Uhh+7wWFKeAkGD9m/g==
+	bh=uOV9CFQdy1cW/ZQKOWrmNzSWrzUTnWJVp4TtwbZFzTE=;
+	b=bL/ZpX1CxVjXGWo3/QB5ctqpaowXtMtyIOnKSH7d/Axfb8dqlLnthFhEcLB0nTaw6hsOqm
+	3qyowc/4r67uW6/DodatDMcaNaacZXk8EzSU7p055+wW+lYg5H7EtDi0haCyNzqLL9UPlU
+	IBQ62FFxsMxJen+K5ViukxePi8KCFSNWQcAoiLdApUWKdXLneTYwvpKPCbt1YtDkpvINXY
+	FvF5u/ghVBAAX0U50dR/QIMyNii4c6ZgW3X/R74KuGXOZ4+G2vxUqLf3QxanofgyRdncTl
+	Q5arPB67XCMvUDe6lf6iFzh5OgOg39JkY0mLztIhLq1UqthC7VkhDfxEerJz6g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1780422716;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gfTkEpFSA6rsnLRfrCgif8Z+qwt1DWfiZbx/HB3hB8c=;
-	b=UKiE13/lIzBhXqdmotnMmGkzNcBDIPN2Bh2Xhwkn9kpGxSHcISqKblKqeWM8sqYEWw+jKY
-	WPV+96WAbJ7EqyCQ==
+	bh=uOV9CFQdy1cW/ZQKOWrmNzSWrzUTnWJVp4TtwbZFzTE=;
+	b=7nB0zdJqSXrAPUbtK0GiEQuwl5zuR70VKpu8TBGtYl6Oowjzv3LaUVmWFkzlW096Q3jmMZ
+	iNYLWVdyRNPw3TAw==
 To: Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Jan Kara <jack@suse.cz>,
@@ -51,9 +51,9 @@ To: Christian Brauner <brauner@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
 Cc: Nam Cao <namcao@linutronix.de>
-Subject: [PATCH v3 1/2] selftests/eventpoll: Add test for multiple waiters
-Date: Tue,  2 Jun 2026 19:51:45 +0200
-Message-ID: <b11947013563875c046c0b0959c29fd95eeebd34.1780422138.git.namcao@linutronix.de>
+Subject: [PATCH v3 2/2] eventpoll: Fix epoll_wait() report false negative
+Date: Tue,  2 Jun 2026 19:51:46 +0200
+Message-ID: <4363cd8e34a21d4f0d257be1b33e84dc25030fdf.1780422138.git.namcao@linutronix.de>
 In-Reply-To: <cover.1780422137.git.namcao@linutronix.de>
 References: <cover.1780422137.git.namcao@linutronix.de>
 Precedence: bulk
@@ -64,73 +64,135 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Add a test whichs creates 64 threads who all epoll_wait() on the same
-eventpoll. The source eventfd is written but never read, therefore all the
-threads should always see an EPOLLIN event.
+ep_events_available() checks for available events by looking at
+ep->rdllist and ep_is_scanning(). However, this is done without a lock
+and can report false negative if ep_start_scan() or ep_done_scan() are
+executed by another task concurrently. For example:
+_________________________________________________________________________
+                                   |ep_start_scan()
+                                   |  list_splice_init(&ep->rdllist, ...)
+ep_events_available()              |
+  !list_empty_careful(&ep->rdllist)|
+  || ep_is_scanning(ep)            |
+	                           |  ep_enter_scan(ep)
+___________________________________|_____________________________________
 
-This test fails because of a kernel bug, which will be fixed by a follow-up
-commit.
+Another example:
+_________________________________________________________________________
+ep_events_available()              |
+                                   |ep_start_scan()
+                                   |  list_splice_init(&ep->rdllist, ...)
+	                           |  ep_enter_scan(ep)
+  !list_empty_careful(&ep->rdllist)|
+                                   |ep_done_scan()
+                                   |  ep_exit_scan(ep)
+                                   |  list_splice(..., &ep->rdllist)
+  || ep_is_scanning(ep)            |
+___________________________________|_____________________________________
 
+In the above examples, ep_events_available() sees no event despite
+events being available. In case epoll_wait() is called with timeout=3D0,
+epoll_wait() will wrongly return "no event" to user.
+
+Introduce a sequence lock to resolve this issue.
+
+Measuring the time consumption of 10 million loop iterations doing
+epoll_wait(), the following performance drop is observed:
+
+   timeout  #event  before    after    diff
+     0ms      0     3727ms   3974ms   +6.6%
+     0ms      1     8099ms   9134ms    +13%
+     1ms      1    13525ms  13586ms  +0.45%
+
+Considering the use case of epoll_wait() (wait for events, do something
+with the events, repeat), it should only contribute to a small portion of
+user's CPU consumption. Therefore this performance drop is not alarming.
+
+Fixes: c5a282e9635e ("fs/epoll: reduce the scope of wq lock in epoll_wait()=
+")
+Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
 Signed-off-by: Nam Cao <namcao@linutronix.de>
 ---
- .../filesystems/epoll/epoll_wakeup_test.c     | 45 +++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ fs/eventpoll.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/filesystems/epoll/epoll_wakeup_test.c =
-b/tools/testing/selftests/filesystems/epoll/epoll_wakeup_test.c
-index 8bc57a2ef966..f6f1a7ff01b0 100644
---- a/tools/testing/selftests/filesystems/epoll/epoll_wakeup_test.c
-+++ b/tools/testing/selftests/filesystems/epoll/epoll_wakeup_test.c
-@@ -3493,4 +3493,49 @@ TEST(epoll64)
- 	close(ctx.sfd[1]);
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index baa97d0edade..df364a8783b5 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -38,6 +38,7 @@
+ #include <linux/compat.h>
+ #include <linux/rculist.h>
+ #include <linux/capability.h>
++#include <linux/seqlock.h>
+ #include <net/busy_poll.h>
+=20
+ /*
+@@ -312,6 +313,9 @@ struct eventpoll {
+ 	/* Lock which protects rdllist and ovflist */
+ 	spinlock_t lock;
+=20
++	/* Protect switching between rdllist and ovflist */
++	seqcount_spinlock_t seq;
++
+ 	/* RB tree root used to store monitored fd structs */
+ 	struct rb_root_cached rbr;
+=20
+@@ -590,7 +594,10 @@ static inline void epi_clear_ovflist(struct epitem *ep=
+i)
+ /* True iff @ep has ready events that epoll_wait() might harvest. */
+ static inline bool ep_events_available(struct eventpoll *ep)
+ {
+-	return !list_empty_careful(&ep->rdllist) || ep_is_scanning(ep);
++	unsigned int seq =3D read_seqcount_begin(&ep->seq);
++
++	return !list_empty_careful(&ep->rdllist) || ep_is_scanning(ep) ||
++		read_seqcount_retry(&ep->seq, seq);
  }
 =20
-+static void *epoll65_wait(void *ctx_)
-+{
-+	struct epoll_mtcontext *ctx =3D ctx_;
-+	struct epoll_event event;
+ #ifdef CONFIG_NET_RX_BUSY_POLL
+@@ -947,8 +954,12 @@ static void ep_start_scan(struct eventpoll *ep, struct=
+ list_head *scan_batch)
+ 	 */
+ 	lockdep_assert_irqs_enabled();
+ 	spin_lock_irq(&ep->lock);
++	write_seqcount_begin(&ep->seq);
 +
-+	for (int i =3D 0; i < 100000; ++i) {
-+		if (!epoll_wait(ctx->efd[0], &event, 1, 0))
-+			return (void *)ENODATA;
-+	}
+ 	list_splice_init(&ep->rdllist, scan_batch);
+ 	ep_enter_scan(ep);
 +
-+	return (void *)0;
-+}
++	write_seqcount_end(&ep->seq);
+ 	spin_unlock_irq(&ep->lock);
+ }
+=20
+@@ -979,6 +990,9 @@ static void ep_done_scan(struct eventpoll *ep,
+ 			ep_pm_stay_awake(epi);
+ 		}
+ 	}
 +
-+TEST(epoll65)
-+{
-+	struct epoll_mtcontext ctx;
-+	struct epoll_event event;
-+	int64_t dummy_data =3D 99;
-+	pthread_t threads[64];
-+	uintptr_t ret;
-+	int i, err;
++	write_seqcount_begin(&ep->seq);
 +
-+	ctx.efd[0] =3D epoll_create(1);
-+	ASSERT_GE(ctx.efd[0], 0);
-+	ctx.efd[1] =3D eventfd(0, 0);
-+	ASSERT_GE(ctx.efd[1], 0);
+ 	/* Back out of scan mode; callbacks target ep->rdllist again. */
+ 	ep_exit_scan(ep);
+=20
+@@ -986,6 +1000,9 @@ static void ep_done_scan(struct eventpoll *ep,
+ 	 * Quickly re-inject items left on "scan_batch".
+ 	 */
+ 	list_splice(scan_batch, &ep->rdllist);
 +
-+	event.events =3D EPOLLIN;
-+	err =3D epoll_ctl(ctx.efd[0], EPOLL_CTL_ADD, ctx.efd[1], &event);
-+	ASSERT_EQ(err, 0);
++	write_seqcount_end(&ep->seq);
 +
-+	write(ctx.efd[1], &dummy_data, sizeof(dummy_data));
-+
-+	for (i =3D 0; i < ARRAY_SIZE(threads); ++i)
-+		ASSERT_EQ(pthread_create(&threads[i], NULL, epoll65_wait, &ctx), 0);
-+
-+	for (i =3D 0; i < ARRAY_SIZE(threads); ++i) {
-+		ASSERT_EQ(pthread_join(threads[i], (void **)&ret), 0);
-+		ASSERT_EQ(ret, 0);
-+	}
-+
-+	close(ctx.efd[0]);
-+	close(ctx.efd[1]);
-+}
-+
- TEST_HARNESS_MAIN
+ 	__pm_relax(ep->ws);
+=20
+ 	if (!list_empty(&ep->rdllist)) {
+@@ -1405,6 +1422,7 @@ static int ep_alloc(struct eventpoll **pep)
+=20
+ 	mutex_init(&ep->mtx);
+ 	spin_lock_init(&ep->lock);
++	seqcount_spinlock_init(&ep->seq, &ep->lock);
+ 	init_waitqueue_head(&ep->wq);
+ 	init_waitqueue_head(&ep->poll_wait);
+ 	INIT_LIST_HEAD(&ep->rdllist);
 --=20
 2.47.3
 
