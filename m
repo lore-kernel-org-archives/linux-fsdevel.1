@@ -1,202 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340CB10F2;
-	Tue,  2 Jun 2026 00:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3446227456
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 00:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780358634; cv=none; b=GOcH5/na4QgU5Ln+fiJJo9WLVCmi72NeM+7fcC2qxGhAbmHXSbAnl0WRcfANSscWvSomBljTeRxSJT6NuC4s/ok6WP1dpRguF7fUAxiiLMTKMPKA3FX00iUQjB8XwScF/P2LE5aAAVy/pVn3cCSL8iD8fP3Q/DQKFvivCxIyrAY=
+	t=1780358704; cv=none; b=JftaZAS/QVVP2QlbEM2PF4JLRgnDh7UdqIk8oFC+pFdHCWJnVFebSBtOrhUxsujoNlW7fQ71SUTYn6sz/2zBJDrj4u97upGOgMvXv+l9KC51HuG13VdGy0ncWQpYV58kcGURT93GPGR0l7Z992Belh9YoiY55kzOhBfLe/54UZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780358634; c=relaxed/simple;
-	bh=to8P1CZX2GbAoTqZA4Mfp4tKhLJ+ZWagu5SoFzW38Qk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QJfs46BB9KTph8JPVnQsCbDxxnBPdv+TDME2Y1yWLeOLx4oHCKDq4nbQ/ajtfNpic3T5WTl/wnLsZzlLogGdeggDTMPgu7AY7o3VBJvmUjKSV4H2kpYNBZD5UXulya9vcRhLI0LVaFB7ZkwyHg4m2nnfhOfYcSv8KuwReEp6jT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dOjXnHIf; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780358704; c=relaxed/simple;
+	bh=mFk2l6W+m0dTjT3bSIpE3D9nFqo228ZT5sV8j1xoHmc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=eDL9YtMxNp8Be/8kyAeS7AZOC2nEaEcg525IKT7iF86V+NVsGvL8Q1pD+U8d1Lb46Zo6k3hU/oLkrtklXLFjywV3njEnDVDHBrG2PH+qOfmAtca0Qvqxs4fdTWwMPzSqCLT7nAgciAgF1N3RMWsEX5XNvAqiGpNzghw3c6dHgLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=jbAoYU1j; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dOjXnHIf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780358632; x=1811894632;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=to8P1CZX2GbAoTqZA4Mfp4tKhLJ+ZWagu5SoFzW38Qk=;
-  b=dOjXnHIfcEFPJn4vv0DSbQBYbaZvtvo53HJj60oU13qc8ix9NHsVzpiF
-   DCpKCA0ktCeV88LzYEhkPbtQF9z11wF/kT7G0pmhhJnXqUS0jDXNZiXeo
-   3iO6zUNso4w9/NPTmQ1q14T2BDSItVxys1FU+B4v82a1s1gXO5/wiYN90
-   MClmaCTJogOUq+J7B0mDscI8Ttv3gCsBOQcGzcTWz9pNt6CT5+qHg75tP
-   ewezDYHl2UvK/K02O4vxk0paVU445GrXVylqpUzzYJFVNoJUYHCNWss/b
-   3qNxRFiiqLopFtdLctRHZltJ4hkb+C8liMJRMMavuYsqWU0lBn24swyLq
-   Q==;
-X-CSE-ConnectionGUID: 0Oy0bwKDR62wszsVv2/L6A==
-X-CSE-MsgGUID: 8lGebvavQ5aDR8ICCRDlWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="92605283"
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="92605283"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 17:03:51 -0700
-X-CSE-ConnectionGUID: lS4CsBijSQqbwAaC0t9cZg==
-X-CSE-MsgGUID: /MJK9tynTeq52WBeLO8rSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="242907572"
-Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.108.24]) ([10.125.108.24])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 17:03:49 -0700
-Message-ID: <2908dc0f-5790-4801-89b8-7f53dff9e320@intel.com>
-Date: Mon, 1 Jun 2026 17:03:48 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="jbAoYU1j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA2FE1F00893;
+	Tue,  2 Jun 2026 00:05:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1780358702;
+	bh=VkfeLI+37zLW0sMlnQTmo8K2Ux0zvzJarLoyrF4Hw+M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=jbAoYU1jMIllEKyXViMDWhrfLeiinTuhaCfnLb2Wal0c6n2SyKfW766R+dbmhfWwA
+	 Z9e8v+f+fyRopf9W9/SB4GA5Qs0CPcJovDAcGuAT+E3xl8nYo4SMZ9Cb4WrEhO3v1v
+	 IpQibb9QEb2/FV1jY1XlvgciDuGAmNss4+CtNZUE=
+Date: Mon, 1 Jun 2026 17:05:02 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Hyunchul Lee
+ <hyc.lee@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>
+Subject: Re: [PATCH 3/3] mm: Remove __folio_index
+Message-Id: <20260601170502.a3328023425ca85409c77957@linux-foundation.org>
+In-Reply-To: <20260601192626.150804-4-willy@infradead.org>
+References: <20260601192626.150804-1-willy@infradead.org>
+	<20260601192626.150804-4-willy@infradead.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 7/9] dax: fix holder_ops race in fs_put_dax()
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Dan Williams <djbw@kernel.org>
-Cc: John Groves <jgroves@micron.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Alison Schofield <alison.schofield@intel.com>, Ira Weiny
- <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019e79caead2-5795328c-af48-4a93-b147-c11df7446e1a-000000@email.amazonses.com>
- <20260530165115.6704-1-john@jagalactic.com>
- <0100019e79cc1d9e-d39ff70d-4f1d-4a02-8b8e-e01c70272c0c-000000@email.amazonses.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019e79cc1d9e-d39ff70d-4f1d-4a02-8b8e-e01c70272c0c-000000@email.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon,  1 Jun 2026 20:26:22 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
 
+> People have been abusing the existence of __folio_index.
 
-On 5/30/26 9:51 AM, John Groves wrote:
-> From: John Groves <John@Groves.net>
+Patchset is rather amusing.  Perhaps you should have called it
+__folio_index_dont_use_this_or_ill_shoot_you.
+
+>  Since that was
+> too subtle for them, use a bigger hammer to make it unusable.  That also
+> makes it unusable for the FOLIO_MATCH, TABLE_MATCH and ZPDESC_MATCH
+> macros, but that's OK, since we don't care what fields these fields alias.
 > 
-> Clear holder_ops before holder_data so that a concurrent fs_dax_get()
-> cannot have its newly installed holder_ops overwritten. cmpxchg()
-> provides release ordering on weakly-ordered architectures, ensuring the
-> WRITE_ONCE(holder_ops, NULL) store is visible to any CPU that observes
-> the holder_data release.
-> 
-> Add WARN_ON() on the cmpxchg result to catch two API contract
-> violations: fs_put_dax() called by a non-holder, or called twice by
-> the same holder (double-put). Either way holder_ops has already been
-> cleared, so WARN_ON() does not prevent the damage but makes the bug
-> visible. (Note: "damage" is only if a non-holder causes holder_ops
-> to be cleared)
-> 
-> Also add a kerneldoc comment documenting that fs_put_dax() must only
-> be called by the current holder.
-> 
-> Fixes: eec38f5d86d27 ("dax: Add fs_dax_get() func to prepare dax for fs-dax usage")
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  drivers/dax/super.c | 35 ++++++++++++++++++++++++++++++++---
->  1 file changed, 32 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-> index 25cf99dd9360b..4c56ac2faacdb 100644
-> --- a/drivers/dax/super.c
-> +++ b/drivers/dax/super.c
-> @@ -116,11 +116,40 @@ EXPORT_SYMBOL_GPL(fs_dax_get_by_bdev);
->  
->  #if IS_ENABLED(CONFIG_FS_DAX)
->  
-> +/**
-> + * fs_put_dax() - release holder ownership of a dax_device
-> + * @dax_dev: dax device to release (may be NULL)
-> + * @holder: the holder pointer previously passed to fs_dax_get() or
-> + *          fs_dax_get_by_bdev(); must match exactly, as it is used
-> + *          in a cmpxchg to atomically release ownership
-> + *
-> + * Must only be called by the current holder. Clears holder_ops before
-> + * holder_data to avoid a race where a concurrent fs_dax_get() could have
-> + * its newly installed holder_ops overwritten.
-> + */
->  void fs_put_dax(struct dax_device *dax_dev, void *holder)
->  {
-> -	if (dax_dev && holder &&
-> -	    cmpxchg(&dax_dev->holder_data, holder, NULL) == holder)
-> -		dax_dev->holder_ops = NULL;
-> +	if (dax_dev && holder) {
-> +		/*
-> +		 * Clear holder_ops before releasing holder_data. A concurrent
-> +		 * dax_holder_notify_failure() that sees NULL ops returns
-> +		 * -EOPNOTSUPP cleanly. A concurrent fs_dax_get() that acquires
-> +		 * holder_data after the cmpxchg below is guaranteed to observe
-> +		 * holder_ops=NULL first (cmpxchg provides release ordering), so
-> +		 * its subsequent store of new ops will not be overwritten.
-> +		 *
-> +		 * Two cases will trigger the WARN_ON():
-> +		 * - Caller is not the current holder; this is an API contract
-> +		 *   violation, and the holder will no longer get callbacks
-> +		 * - Holder calls this function twice; also a contract violation
-> +		 *
-> +		 * A lock would be necessary to guard against the contract
-> +		 * violations, but we WARN_ON() instead since violating the
-> +		 * contract is a bug
-> +		 */
-> +		WRITE_ONCE(dax_dev->holder_ops, NULL);
-> +		WARN_ON(cmpxchg(&dax_dev->holder_data, holder, NULL) != holder);
-> +	}
->  	put_dax(dax_dev);
->  }
->  EXPORT_SYMBOL_GPL(fs_put_dax);
+> ...
+>
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -101,10 +101,9 @@ struct page {
+>  				struct llist_node pcp_llist;
+>  			};
+>  			struct address_space *mapping;
+> -			union {
+> -				pgoff_t __folio_index;		/* Our offset within mapping. */
+> -				unsigned long share;	/* share count for fsdax */
+> -			};
 
+`share' went away?  What's up with that?  Unused?
 
-This is what Claude Opus 4.8 said:
+> +#define DO_NOT_USE(x)	x ## __LINE__
+> +			unsigned long DO_NOT_USE(_pad);
+> +#undef DO_NOT_USE
 
-  The added WARN_ON(cmpxchg(...) != holder) fires on the supported
-  device-removal-while-mounted path. kill_dax() (super.c:457) clears holder_data
-  = NULL while a holder is still attached — it explicitly tests holder_data !=
-  NULL to deliver MF_MEM_PRE_REMOVE first. For xfs on pmem:
+Sashiko says this doesn't do what you intended.
 
-  1. pmem_remove() → kill_dax() → MF_MEM_PRE_REMOVE →
-  xfs_force_shutdown(SHUTDOWN_FORCE_UMOUNT); the handler does not call
-  fs_put_dax. kill_dax then clears holder_data.
-  2. Forced unmount → xfs_free_buftarg() → fs_put_dax(bt_daxdev, mp).
-  3. cmpxchg(&holder_data, mp, NULL) returns NULL (already cleared) != mp → WARN
-  fires, despite xfs being the legitimate holder doing a single put.
-
-  The old == holder form skipped silently in this case. On panic_on_warn systems
-  this turns a supported device removal into a panic.
-
-  The commit message's claim that the WARN catches only "non-holder" or
-  "double-put" contract violations is incomplete — it also catches the holder
-  racing with kill_dax(), which is not a contract violation.
-
-This is the suggested fix:
-  void fs_put_dax(struct dax_device *dax_dev, void *holder)
-  {
-        if (dax_dev && holder) {
-                void *prev;
-
-                /*
-                 * Clear holder_ops before releasing holder_data so a
-                 * concurrent fs_dax_get() that wins holder_data observes
-                 * holder_ops == NULL and its store is not overwritten.
-                 */
-                WRITE_ONCE(dax_dev->holder_ops, NULL);
-                prev = cmpxchg(&dax_dev->holder_data, holder, NULL);
-
-                /*
-                 * prev == holder: normal release.
-                 * prev == NULL:   already released by kill_dax() when the
-                 *                 device was removed under a live holder;
-                 *                 not a bug.
-                 * prev != holder (non-NULL): fs_put_dax() called by something
-                 *                 that is not the current holder.
-                 */
-                WARN_ON(prev && prev != holder);
-        }
-        put_dax(dax_dev);
-  }
+Sashiko also might have found a few existing issues in ntfs which the
+maintainers may choose to examine:
+	https://sashiko.dev/#/patchset/20260601192626.150804-1-willy@infradead.org
 
 
