@@ -1,92 +1,66 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2303E95B2
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 14:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5418B389DE3
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 14:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780409680; cv=none; b=CwOu2YvCxr7p6VF4fEyzQLlNq9lDR5PP8ioYPdWSb9beXb9SKYqykh9tHJXoHYcSkM8eQ0H0iGqovcjvFyAjtuQzS6OfJxK6aQtG6aukC3xGG7VIMSFxd9v2pzE3U8W1zr9lp4X3Z/hKHmesdV9kLEGlI22eGq7iDyEIFvqCCsM=
+	t=1780410179; cv=none; b=prNwJL7SrrKzC+rIz1+VJhviqXze4/yCdnWj1o1z2Hf32k8vFWoMi6CbaHmQ+TXqdgHkCOMjE5GyQgDE26nauPNWgsy1TDwMHXq4nqytEs2Wo056qZ/jRehvl20WzfagSR9E11dG+QIP19hPQXWkDH+KjkmHdbA1u0GDLODJViA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780409680; c=relaxed/simple;
-	bh=oYXvB8teeg8oXc/k9KnDRAOlku/K25xxHKzwmHoBuOI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=KbSjkq9PE33SuHpmdWOTqpW0pflOB75jLncj+z5Cly1ReJclgbXpm7VpeFY4e+d+LmzuAlgx8axEFFVsgvpJ+QMW5a9OOSWOWpS9PvTc2BnnHis1jSmfkTUU9+1PtOytv0Kgv0LyxAgrYefZqLkU8mYOaiwfjmn6Xz7FV28VxMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=iakm7INH; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1780410179; c=relaxed/simple;
+	bh=KcFRx5tRsorRG0WnYO7fy66k2j2WzGLkPyoQZNG1p0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tcMT41jsPoLVQnYoP7xMyHcXcauQNHV62UdehHQaIOOB52dHk9d7jXbCGTPxS8VXOWBDXi4YXzjIOIthORQv0CjGGDiToolGGqfqcgDl5uJ3qFXnXsNdVVPzD9oiPn5ADZoIbAh8XnUeLY9+G8yXX3PU5+BOvjqZPMQqd57iOj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SWKsEG2O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="iakm7INH"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260602141435euoutp010a3351c74548406b4dd3b686bd793094~1SSq0vDYh1519415194euoutp01M
-	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 14:14:35 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260602141435euoutp010a3351c74548406b4dd3b686bd793094~1SSq0vDYh1519415194euoutp01M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1780409675;
-	bh=cEJXaKoHVG052rosoP3EzDpk3GM9twb5LiOcKSOoRtE=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=iakm7INHutpfW8w8828S7xDUt8CaWU0diTcb6LHgFdLZOWz1ekmXbWFH+PCJjOjxi
-	 lvXaa0LxWx3X/puNbrEtqIj6wY7kVmOargsD60ZNs7wcmauc0jkoiTIxnrXYd6D0dY
-	 eDdAmqgtolHWPpLOqLSGOux+Z9ygidEn+VSWE1Yk=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260602141434eucas1p15746f013244db658407ada4f3cea7b89~1SSqPEBA62689226892eucas1p1M;
-	Tue,  2 Jun 2026 14:14:34 +0000 (GMT)
-Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260602141434eusmtip1f0c1b2b32c5aa519e2bc971a891e402d~1SSp-rIF50373503735eusmtip1u;
-	Tue,  2 Jun 2026 14:14:34 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Namjae Jeon
-	<linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
-Subject: [PATCH] ntfs: fix missing alloc_workqueue() flag
-Date: Tue,  2 Jun 2026 16:14:27 +0200
-Message-Id: <20260602141427.2301354-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SWKsEG2O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7F2C1F00893
+	for <linux-fsdevel@vger.kernel.org>; Tue,  2 Jun 2026 14:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780410177;
+	bh=KcFRx5tRsorRG0WnYO7fy66k2j2WzGLkPyoQZNG1p0s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=SWKsEG2OrNxFrRbPU6n/kDxpifLRTTtrVyYqxm2zLfVE3bsQkQLHM5BUyzhYG22Pw
+	 Lxo7j3ElrfIEyAPMPGBRJXUaxxNOkaeGPAQHcqFfjob3laPCy7R5y7G5d+lt10xBlK
+	 yRSYqoK8xuwoks/yL5oKnFzCA4+6XVyH4D/MOo4lS0/ay/fd4y2knyXylewOJIJZbQ
+	 FwV494//RfaZJgheTfn+pW6TiZoTIhMVLcRZVZ2mTnVOBukz9Z0oss2Fjh7HgkK+ow
+	 w2ssspDAeW3uU1fNlo3dnq1egeWvOGy45hw+yJMzQH/Ap+npWP/ZS3vTgXJrKlPuK/
+	 jGkckmSJb7bfA==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-68bac6e24fdso7238156a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 07:22:57 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxJfmzZR+eNcdVXxGuYkv7pnrDnY2SEimwDiOd4QffKbFzv+uRF
+	SXA3+1vMPiF4/9LBDD7V9+xQeyb3zLmxYUkWa8xgI0x1VnCjz9G2Mbx5GFIWJ1J1VhfhIMnxSUM
+	dzeWGFh+2UmqtsqsBw4beJpCpRXrD/38=
+X-Received: by 2002:a17:907:1b16:b0:bda:a98:e584 with SMTP id
+ a640c23a62f3a-beab1a9b8cemr985175966b.23.1780410176694; Tue, 02 Jun 2026
+ 07:22:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260602141434eucas1p15746f013244db658407ada4f3cea7b89
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260602141434eucas1p15746f013244db658407ada4f3cea7b89
-X-EPHeader: CA
-X-CMS-RootMailID: 20260602141434eucas1p15746f013244db658407ada4f3cea7b89
-References: <CGME20260602141434eucas1p15746f013244db658407ada4f3cea7b89@eucas1p1.samsung.com>
+References: <20260602-t-serialize-label-v1-1-a7f753bd3c79@gmail.com>
+In-Reply-To: <20260602-t-serialize-label-v1-1-a7f753bd3c79@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 2 Jun 2026 23:22:44 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-LeRRkcwBr6-Umop78y0zvS_PPvbNFf0NN4=EyDX-gQw@mail.gmail.com>
+X-Gm-Features: AVHnY4LZEefjM18yWEcncEPPTsvIahLT5s0D22AJutud8IOGG6RPh2wtcm5B8qY
+Message-ID: <CAKYAXd-LeRRkcwBr6-Umop78y0zvS_PPvbNFf0NN4=EyDX-gQw@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: serialize volume label accesses
+To: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 21c05ca88a54 ("workqueue: Add warnings and ensure one among
-WQ_PERCPU or WQ_UNBOUND is present") added a check for the proper
-workqueue flags (WQ_PERCPU or WQ_UNBOUND). NTFS driver lacks them,
-what triggers the following warning:
-
-WARNING: kernel/workqueue.c:5855 at __alloc_workqueue+0x688/0x70c, CPU#0: swapper/0/1
-workqueue: ntfs-bg-io is using neither WQ_PERCPU or WQ_UNBOUND. Setting WQ_PERCPU.
-
-Fix this by explicitely requesting WQ_PERCPU workqueue.
-
-Fixes: 6251f0b0de7d ("ntfs: update super block operations")
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- fs/ntfs/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-index 2a5ad7d56bc2..0a7c9d1bc69a 100644
---- a/fs/ntfs/super.c
-+++ b/fs/ntfs/super.c
-@@ -2526,7 +2526,7 @@ MODULE_ALIAS_FS("ntfs");
- 
- static int ntfs_workqueue_init(void)
- {
--	ntfs_wq = alloc_workqueue("ntfs-bg-io", 0, 0);
-+	ntfs_wq = alloc_workqueue("ntfs-bg-io", WQ_PERCPU, 0);
- 	if (!ntfs_wq)
- 		return -ENOMEM;
- 	return 0;
--- 
-2.34.1
-
+On Tue, Jun 2, 2026 at 1:53=E2=80=AFPM Hyunchul Lee <hyc.lee@gmail.com> wro=
+te:
+>
+> Protect vol->volume_label with a mutex and snaphost the label before
+> copy_to_user. This prevent a use-after-free when FS_IOC_SETFSLABEL
+> replaces the vol->volume_label and FS_IOC_GETTSLABEL reads it
+> concurrently.
+>
+> Signed-off-by: Hyunchul Lee <hyc.lee@gmail.com>
+Applied it to #ntfs-next.
+Thanks!
