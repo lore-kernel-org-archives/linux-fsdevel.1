@@ -1,78 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A93630F95C
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 14:35:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A763AEB2B
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 14:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780497310; cv=none; b=cNTJ58srczgM+W4OKWjOQLVFaTTRvKUD4whUsBRNiyH9dUduMJ9s/c1fYq6kaluySGAUT3oRxWCICsZih+5Vy+g94F2jvWgZcLD13dn/AUTk7m2NwAVWiVtZqqQB+mp3X12cuMf0OGaGoNy7MpOyfNQ7hkm0FpdqLg85lWoneHA=
+	t=1780497474; cv=none; b=DCA8UtZ2swQTMOupJjkIAhp7bMF8gz/otFB6N2xXVqprq0XLKGlK0qv0FscusZpFbZF8Tvgx9aVGoWWyTwUdGVwI8VGzEPGCG7pNt4tYFs+bObM18k+1/sgkjkvGU05Uy28mjZzqnA8hhkZzy0Z7Pr/txAYfTl2uq1Tr27IxBx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780497310; c=relaxed/simple;
-	bh=zSYh7SK16REeywlliZ2DlArXTX5ucvOzjVrB2LpqcIk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c+qo/3/5odQVxeCeJpM7nBmEAKLoWE5YSokWH/CYsHHngm7tDIC0szfx6lMhE9+MgSkSY91EcUVP3q4lF+g9rGLbF8i4NnO1GTeIe1h74pZLScLgDOMvlrXRZEM9bdUli4CoOUnttsVrvKEncchzs2ieie+ovhin7YXSdEIclXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNVML1br; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780497474; c=relaxed/simple;
+	bh=83/CcjA7R6FlA91QsIqzRpUpMxfqD4LBKq0WnzuPEgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m7WqW/0abBOvCKQBzELE5oCbVUirzt9Rb6CQ0SnyUaILxMHL9TjxxeYi66gx+s1FMynfd8h615wGb3TCAEnIwlqi3PnjcftsVaDf6Q4gDARCFqZqnJaYgYtwedO0AVeMld1pAgYdzUkCLUX2S2sHgRpS+MrAZTGom7EYC4POj5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TKhLIJXM; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNVML1br"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2871D1F00898
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 14:35:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780497309;
-	bh=zSYh7SK16REeywlliZ2DlArXTX5ucvOzjVrB2LpqcIk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ZNVML1brSH5Q9gecCk+hY7s7DQihZyfGRn+SkLsqc+JEad5GxEqjzt2Zip5QigUQb
-	 5kW3AYaVsGKC0CZNzB7Dk+eu1G2DzNFWDH/HkbSvwY3lz970eD2aAHXIRt40PReVgu
-	 YKTVduWu6hTZWEPEeAHBbzktd9NJlFUoaPhQYQc7DCB5w9rNPlP/nr1g5bRA4iL4R8
-	 EhzyXZ15M9uCUQVriGnwVUCRUVDUfyZPMJen4S+uP7Q4VlSq+BDtmg2bhm2NvHUFHI
-	 szxQFaYuY4qTJCdvAw7CuOUm0h5e5Drn9ZXZppWaQF3VQB9CCIKMCpcSESWiVU8d6D
-	 AX3ozrkhdUiHw==
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bed4f2f0898so508367166b.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 07:35:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ92MWONa1L+3if9yQYgNgwJfHXEeTBQZCmlaEkYKLb24EcPp4KgHfB+E2DEvFda3hieBqOAhq+hvXg3N0Rz@vger.kernel.org
-X-Gm-Message-State: AOJu0YycOkSf9dMjXWdFsmsJu3TUvjVjGlOQAZ96H3VtWgKmcwcDnAVa
-	xG843XbN9molrg+dZm03pqUbQ8JoWyBLcpYE8/aFiK4VHHhdfqxd3Tg1cCVBQNoS+DYX8cuYB34
-	SGiKrS+2OUzNgEu4YSwcvEO3RNnl16XM=
-X-Received: by 2002:a17:907:3fa0:b0:beb:2665:f37c with SMTP id
- a640c23a62f3a-bf0b4392021mr210636166b.46.1780497307855; Wed, 03 Jun 2026
- 07:35:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TKhLIJXM"
+Message-ID: <961fbada-5ca3-46c2-a5df-51bb006f9cb6@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780497460;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BqNdllQBqgAnWlE1ZNMFWUVUiaoezQRXBATxxDjsNRY=;
+	b=TKhLIJXM6TWK6wMHejbD63m1HHx/rym3Gfwiew8hh+HqPckxVy1J+hxg7WDLbFqfenI5w2
+	6vX4UNfEzETLmluoxnAqqPdAzRB5npKfTzRbYunVpZkml3BsS8MG6uZ3Y0xJKqIuuU2qzG
+	neQ1geHWPhTxj6pbvnUqjlwpduaqjd4=
+Date: Wed, 3 Jun 2026 07:37:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKYAXd80+UfzKaCR9YRK8dAQq9S+kEp_VVwr_p3dj1tEeyqUQA@mail.gmail.com>
- <20260603131950.321858-1-japo@linux.ibm.com>
-In-Reply-To: <20260603131950.321858-1-japo@linux.ibm.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 3 Jun 2026 23:34:55 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-mLHaF6VeREroNfUXYYhqLObr=8Lmv9JqVZ7qu5XO0Dw@mail.gmail.com>
-X-Gm-Features: AVHnY4K413_sgqXiq4PvJ-_KMlJ75A4rKrG1UjnZIbKBxqxxwtZ4UkMxOjnynoE
-Message-ID: <CAKYAXd-mLHaF6VeREroNfUXYYhqLObr=8Lmv9JqVZ7qu5XO0Dw@mail.gmail.com>
-Subject: Re: [PATCH] exfat: add swap_activate support
-To: Jan Polensky <japo@linux.ibm.com>
-Cc: djwong@kernel.org, hch@lst.de, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/3] bpf: NUL-terminate replaced sysctl value
+Content-Language: en-GB
+To: Dawei Feng <dawei.feng@seu.edu.cn>, martin.lau@linux.dev
+Cc: emil@etsalapatis.com, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, song@kernel.org,
+ jolsa@kernel.org, kees@kernel.org, joel.granados@kernel.org,
+ bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jianhao.xu@seu.edu.cn,
+ Zilin Guan <zilin@seu.edu.cn>
+References: <20260603105317.944304-1-dawei.feng@seu.edu.cn>
+ <20260603105317.944304-2-dawei.feng@seu.edu.cn>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <20260603105317.944304-2-dawei.feng@seu.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jun 3, 2026 at 10:20=E2=80=AFPM Jan Polensky <japo@linux.ibm.com> w=
-rote:
+
+
+On 6/3/26 3:53 AM, Dawei Feng wrote:
+> When writing to sysctls, proc_sys_call_handler() guarantees that the
+> buffer passed to proc handlers is NUL-terminated. If
+> bpf_sysctl_set_new_value() replaces the pending sysctl value, it can
+> hand a replacement buffer directly to proc handlers. However, the
+> helper currently copies only buf_len bytes into that buffer without
+> appending a NUL terminator, leaving downstream parsers vulnerable to
+> out-of-bounds access.
 >
-> Commit 614f71ca1bdf ("exfat: add iomap buffered I/O support")
-> converted exfat buffered I/O to iomap, but did not add a
-> .swap_activate handler to the address_space_operations.
+> Fix this by appending a '\0' after the replaced value to restore the
+> expected sysctl semantics. Since the helper already rejects buf_len
+> greater than PAGE_SIZE - 1, there is always room for the extra byte.
 >
-> swapon(2) on an exfat swapfile then fails with EINVAL, which causes
-> LTP swap tests to fail.
+> Reproduced in a QEMU x86_64 guest booted with KASAN while exercising
+> the sysctl replacement path with a cgroup/sysctl BPF program. The
+> reproducer targets `/proc/sys/net/core/flow_limit_cpu_bitmap`, fills
+> the original user write buffer with non-zero bytes, and overrides the
+> sysctl value so the replacement buffer lacks a terminating NUL. Under
+> that setup, the pre-fix kernel reported:
 >
-> Add exfat_iomap_swap_activate() and hook it into exfat_aops so exfat
-> uses iomap_swapfile_activate() for swapfile activation.
+>    BUG: KASAN: slab-out-of-bounds in strnchrnul+0x72/0x90
+>    Read of size 1 at addr ffff88800de57000 by task repro_patch3/66
+>    CPU: 0 UID: 0 PID: 66 Comm: repro_patch3 Not tainted 7.1.0-rc3-00269-g8370ca1f87cc #6 PREEMPT(lazy)
+>    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+>    Call Trace:
+>     <TASK>
+>     dump_stack_lvl+0x68/0xa0
+>     print_report+0xcb/0x5e0
+>     ? __virt_addr_valid+0x21d/0x3f0
+>     ? strnchrnul+0x72/0x90
+>     ? strnchrnul+0x72/0x90
+>     kasan_report+0xca/0x100
+>     ? strnchrnul+0x72/0x90
+>     strnchrnul+0x72/0x90
+>     bitmap_parse+0x37/0x2e0
+>     flow_limit_cpu_sysctl+0xc6/0x840
+>     ? __pfx_flow_limit_cpu_sysctl+0x10/0x10
+>     ? __kvmalloc_node_noprof+0x5ba/0x870
+>     proc_sys_call_handler+0x31d/0x480
+>     ? __pfx_proc_sys_call_handler+0x10/0x10
+>     ? selinux_file_permission+0x39f/0x500
+>     ? lock_is_held_type+0x9e/0x120
+>     vfs_write+0x98e/0x1000
+>     ...
+>     </TASK>
+>    The buggy address is located 0 bytes to the right of
+>    allocated 4096-byte region [ffff88800de56000, ffff88800de57000)
+> With this fix applied, rerunning the same sysctl-targeted path yields
+> no corresponding KASAN reports.
 >
-> Fixes: 614f71ca1bdf ("exfat: add iomap buffered I/O support")
-> Closes: https://lore.kernel.org/all/20260603110212.3020276-1-japo@linux.i=
-bm.com/
-> Signed-off-by: Jan Polensky <japo@linux.ibm.com>
-Applied it to #dev.
-Thanks!
+> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+> ---
+>   kernel/bpf/cgroup.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
+> index 876f6a81a9b6..2c7f72d3fb11 100644
+> --- a/kernel/bpf/cgroup.c
+> +++ b/kernel/bpf/cgroup.c
+> @@ -2342,6 +2342,7 @@ BPF_CALL_3(bpf_sysctl_set_new_value, struct bpf_sysctl_kern *, ctx,
+>   		return -E2BIG;
+>   
+>   	memcpy(ctx->new_val, buf, buf_len);
+> +	((char *)ctx->new_val)[buf_len] = '\0';
+
+In v2 (https://lore.kernel.org/bpf/bf25d653-d856-4ad7-a751-b97d38f38892@linux.dev/)
+I suggested
+     memcpy(ctx->new_val, buf, buf_len + 1);
+Does it work?
+
+>   	ctx->new_len = buf_len;
+>   	ctx->new_updated = 1;
+>   
+
