@@ -1,163 +1,280 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D643A5E80
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 19:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1B818871F;
+	Wed,  3 Jun 2026 20:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780516802; cv=none; b=M52+iodzHy6pLtHon8AblOcdMeg5IJ0pny2rxJfp2pMQ8E6xqdNFT5rDgViPWBJYDiCrTkbh/waJgf46s/1go+JJxhpySNfxAjx9FeOwpjRBiEseJ5naEliUUClqUbXRr2zdpqLo3BSYDndlda5aV4mruz1WOCVsa8iFjuofgX8=
+	t=1780518323; cv=none; b=kQijWS9QTni6VBLaMGEutdLGdKA8q/e7jLkpxiYBw8jBvy+4W6iBf6XsxdwwCiS3TXlAj9HgitJOgiBFJxelPoC277Fg5m6JUyOahW+9r4oKlcwSVBKiW6KPBB9K3HkaDGFshEtk33S8heZdfnluHOiHr8pYDRSAAMhVGYgic8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780516802; c=relaxed/simple;
-	bh=cJCdMggMBtlaRufFOzf56NF2SmvXVse1UnTO+KmUUY8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CqCf/O29C7PSAXW/5y4glOoIC7/95uZ9hj2HklAOKbomYHClprcqKL2mtim21vjcKttk3zFLtB8QOxr6H7KqByofzD6PYqoeylV/iYnTb3EPkNv0XMs4f+gFC5ma3mZUdubqz2JIDgacLrVzEi+8gapiFlFhaIX78wId/pPlRNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=FdaO0QAS; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1780518323; c=relaxed/simple;
+	bh=g6JyleiTDI3GCNlBSZecrS6Rath8qblVJVKKQ/AL3pY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=maDicxJaP1luW8P7Qmhad5qO+bEuZEusXnn1aqOh9yVCUIvOcFNbVuoS2+HwF1cLKgQwMEiijnaeegH+UHeWVspigoDKu8dahCM37oyVqTpL9djWqUvN5wMebcfb5BSF98UCFLorP81yWfxZ5P0zP/PRsLSbKK6NMEfipVTkIi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4YWQj08; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="FdaO0QAS"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-36b95eb4bb4so3397490a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 12:59:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1780516799; x=1781121599; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rLwU6+VwyCgHprpb82bpoZ1vCU00viaTeQ4mjhQKQr0=;
-        b=FdaO0QAS68QWZT6jQqIW4sa4Ov++CF4dW/hkpwuHa5YogIfOMTRRb7tEkWBZe/Wg2w
-         5lPTmM5Qk0b4p3OD4lBcrq7256uc2LWeh6DFFlNa07IFXkwp3dKExRcXNUJus6YMUWBc
-         8GGY63KpV6K9UZc69JVnJZfsEIZNNMNyam9OI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780516799; x=1781121599;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rLwU6+VwyCgHprpb82bpoZ1vCU00viaTeQ4mjhQKQr0=;
-        b=ILf4y8N53pUUesrRZ0dSJpxZljQFsQePxEj47LJw6Ud7gpEuno5e+vU/9L4XCJ396g
-         HV8HnpOUGvDAIwGczJPR4AmHF32QdbRrE3MYJrxKvvqyBTlmX+TmhbJkZjfMj0tZa6Gh
-         f5r++nHLPJPUjlCDqZ1hdFXsHyFZiO6REp9kjrX5oDN7qrqfyayr1Mk8nfqIhumYv6ox
-         CTG+pIbEBZ2o2EaGgxUgKWeL1Mpfkm1FA78Nlis4/j8cw2iBL3jKVohGexdyag43z0PZ
-         azO99gwTseD5aA2iq3wzQbG5qI/fxr/EeFVzLb+v+lalT0KaSula8BMDdJiEA9NbAtXi
-         Z+6A==
-X-Forwarded-Encrypted: i=1; AFNElJ/WAN9Z6JXjW05UdeeHgkFjY3X6MmpPBuAHYZ+/6ZMfsFq6YsWG6g0iuaOTi3k6ISyJRoy5Bsg4kZHnc17u@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2BfZ3EiKIi2SwczlVQ14EQ4h85IJlE4Tq9Cs8eGE8UCT81yue
-	v/S69wI/5NL2oKC5M6QCxVFnKdPzkNeNeIYem52jq/m38sZ8I/9M3nUtXUhbto/urb2n1RTM9yt
-	jYBrBcAxj4Q==
-X-Gm-Gg: Acq92OE6XHZfJwKTN4DwWUUDPL6sMxzZB1etrEku9A/XqtFYHCmemrPo008Ws+1bgXl
-	f1pGY10OrPweFeSgqvH/6ju4oPdAxeT/Mh6+R5M7A7nDNzS3995MfVKMP7FViMUVjqXmytPTcjv
-	JJJ2lp6u/RWRCxkX4kZcd8x4bO6A6xQ+8Yg7x/ltM6cNMcTI+BHOWCIEDmiBOn9XBJIAcYCV4UF
-	AHFhu8aTZ8uelrakw7aRbUEMdndGeVLUzSPXwzv8lqtZlXqqrT5TkFEJLt16IP5CuDbIb7mQB55
-	y7rpGFZVY00alvXtKRt5NXz/sDUMF+bSuCJkwnvSwir9sTeODHcn8uPXxyVTYHGuVRjaAwUs6Dl
-	5udk95HEgFERhH+zcth1Y+oaVRcq2CNwRULD4HM2YcX6H7jgGantKDTlzunfy3oFWtM4Dsqe6G6
-	+l2UMzSdJ3d8rKkHR6bPQaVZ877uPAwthXjXUZw/Y7wmPIU0AMhezyYhhhLlaLEti24MCI0uBwi
-	aa8+PtS42A=
-X-Received: by 2002:a17:90b:4f85:b0:36d:f28b:72e0 with SMTP id 98e67ed59e1d1-36e30f0eb4cmr4781238a91.12.1780516798873;
-        Wed, 03 Jun 2026 12:59:58 -0700 (PDT)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com. [209.85.216.46])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36e6b904cadsm3207379a91.0.2026.06.03.12.59.58
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 12:59:58 -0700 (PDT)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36b8e1760ccso3901654a91.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 12:59:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+SVBBY+3GmW1tn5PVFu2wbYmCOPeGwjeympnX/8HKn6NuNQGyegD1BBKK76YYxACv5sjoQAl8PCdddlazQ@vger.kernel.org
-X-Received: by 2002:a17:90b:2f86:b0:36b:77b9:5c8c with SMTP id
- 98e67ed59e1d1-36e3237e125mr4484034a91.17.1780516797989; Wed, 03 Jun 2026
- 12:59:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4YWQj08"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 137011F00893;
+	Wed,  3 Jun 2026 20:25:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780518321;
+	bh=fmIvnRW/JH4l0jkU+wpLIRsFLhy34ftAmVsUOe9lQk0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=P4YWQj08fQNEw6TZFl2z7DSm4sqNR2Gz05k5xn8jlteJ/fJ3REtS320d3jdb0Seb2
+	 a7ao4f1T6gee2wV+OyFLH+4pBupbXhiyf7Bm6vUJV27Z6U22E8EaIXB1PwM+cG739q
+	 ylLXOzQLT2vwSW9+BkMQcNUC8xeLxcnMxCcQS7vVu0U6CBj4GVmMdF6zxtUPkxfiPu
+	 84Q+FHCxN5Wq7PLUJ+nDlWIOZ8hQRX8jLcIiZHpYJb0FEe0eulppdOVh0D/gvjIsIU
+	 8konRcIQf/YtiOqVZvnf13kXrTVFcghrhvdhtkwnakHQbuZjBWznFBVw0XBdu2FnTT
+	 dwO5hkm5Hro5Q==
+Message-ID: <70377626-500d-46f2-a3f5-a0d2914ce365@kernel.org>
+Date: Wed, 3 Jun 2026 22:25:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
- <20260602225426.122258-1-safinaskar@gmail.com> <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
- <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
- <CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
- <CALCETrXzxubt4eWue3+wv7Fq9C2m7uu6bWPstqFh6Mo57bPwQQ@mail.gmail.com> <CAHk-=wiEwSjfbjfO74xu=UmkkdHXkJg5QNQ8pP-3iYmunmeV9g@mail.gmail.com>
-In-Reply-To: <CAHk-=wiEwSjfbjfO74xu=UmkkdHXkJg5QNQ8pP-3iYmunmeV9g@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 3 Jun 2026 12:59:36 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whkGbMoP-Dym8pAd3hV21=BZST+6sK++1X038+9Q-TgeA@mail.gmail.com>
-X-Gm-Features: AVHnY4Jw9pwWVUIawcRWYEJbSOr_4eFJHRjDI61fxjs_qgnMfY70yBDODQXhxd4
-Message-ID: <CAHk-=whkGbMoP-Dym8pAd3hV21=BZST+6sK++1X038+9Q-TgeA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org, axboe@kernel.dk, 
-	brauner@kernel.org, david@kernel.org, dhowells@redhat.com, hch@infradead.org, 
-	jack@suse.cz, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu, 
-	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de, 
-	viro@zeniv.linux.org.uk, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
+ creation
+To: tao <tao.wangtao@honor.com>, catalin.marinas@arm.com, will@kernel.org,
+ tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, akpm@linux-foundation.org,
+ willy@infradead.org, sj@kernel.org, kees@kernel.org, luizcap@redhat.com,
+ zhangjiao2@cmss.chinamobile.com, kas@kernel.org, ljs@kernel.org
+Cc: hpa@zytor.com, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, jack@suse.cz, riel@surriel.com,
+ harry@kernel.org, jannh@google.com, jgg@ziepe.ca, jhubbard@nvidia.com,
+ peterx@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+ npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
+ baohua@kernel.org, lance.yang@linux.dev, xu.xin16@zte.com.cn,
+ chengming.zhou@linux.dev, nao.horiguchi@gmail.com, matthew.brost@intel.com,
+ joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+ gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
+ pfalcato@suse.de, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, damon@lists.linux.dev, shakeel.butt@linux.dev,
+ ryncsn@gmail.com, 21cnbao@gmail.com, jparsana@google.com,
+ dvander@google.com, zhangji1@honor.com, wangzicheng@honor.com
+References: <20260527110147.17815-1-tao.wangtao@honor.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260527110147.17815-1-tao.wangtao@honor.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 3 Jun 2026 at 11:28, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> But even then you need to have a *handle* to the buffers for the
-> general case, and that's what the pipe fd ends up then still
-> effectively being.
+On 5/27/26 13:01, tao wrote:
+> TL;DR
+> -----
+> 
+> This series introduces ANON_VMA_LAZY, which defers anon_vma creation
+> until it is actually required.
+> 
+> - anon_vma memory reduced by ~92-97%, anon_vma_chain reduced by ~50-57%  
+> - rmap operations on ANON_VMA_LAZY VMAs do not require anon_vma locking
+> 
+> Background
+> ----------
+> 
+> Currently anon_vma structures are created eagerly when anonymous VMAs
+> are initialized. However, many VMAs never participate in fork or rmap
+> operations that require anon_vma chains, so the allocated anon_vma and
+> anon_vma_chain objects are often unnecessary.
+> 
+> Design overview
+> ---------------
+> 
+> ANON_VMA_LAZY defers anon_vma allocation until it is actually needed
+> (for example during fork). VMAs that never participate in sharing can
+> avoid creating anon_vma structures entirely.
+> 
+> Before an anon_vma exists, rmap operations rely directly on VMA
+> information, so no anon_vma locking is required. An anon_vma is created
+> and linked only when sharing semantics are required.
+> 
+> This series introduces anon_rmap helpers to make rmap less dependent on
+> direct anon_vma access. It also introduces anon_vma_tree_t as a container
+> to support both the lazy and the existing anon_vma layouts.
+> 
+> Once a VMA becomes associated with an anon_vma, the normal behavior
+> remains unchanged.
+> 
+> Memory impact
+> -------------
+> 
+> Preliminary measurements show significant reductions in anon_vma-related
+> slab allocations.
+> 
+> After boot:
+> 
+> Object            | Before (active KB) | After (active KB) | Change
+> vm_area_struct    | 117035             | 118176            | +1.0%
+> anon_vma_chain    | 18865.8            | 8112.06           | -57.0%
+> anon_vma          | 20426.4            | 613.75            | -97.0%
+> 
+> After launching 24 apps:
+> 
+> Object            | Before (active KB) | After (active KB) | Change
+> vm_area_struct    | 196873             | 197345            | +0.2%
+> anon_vma_chain    | 31477.1            | 15576.8           | -50.5%
+> anon_vma          | 33280              | 2648.12           | -92.0%
+> 
+> Simple fork microbenchmarks also show a slight improvement in fork
+> performance, since child VMAs do not need to allocate anon_vma
+> structures during fork.
+> 
+> Feedback and suggestions are welcome.
+> 
+> 
+> tao (15):
+>   mm/rmap: introduce anon_rmap APIs for anonymous folios
+>   mm: convert anon_vma rmap APIs to anon_rmap
+>   mm: introduce anon_vma_tree_t for multiple anon_vma topologies
+>   mm: switch to anon_vma_tree_t APIs in preparation for ANON_VMA_LAZY
+>   mm: add CONFIG_ANON_VMA_LAZY and folio helpers
+>   mm: add CONFIG_VMA_REF and VMA helpers
+>   mm: replace direct FOLIO_MAPPING_ANON usage with helpers
+>   mm: prepare rmap infrastructure for ANON_VMA_LAZY
+>   mm: implement ANON_VMA_LAZY rmap semantics
+>   mm: defer anon_vma creation with ANON_VMA_LAZY
+>   mm: handle ANON_VMA_LAZY in huge page operations
+>   mm: handle ANON_VMA_LAZY during migration
+>   mm: support setup and upgrade of ANON_VMA_LAZY folios
+>   mm: support merging of ANON_VMA_LAZY VMAs
+>   mm: enable CONFIG_ANON_VMA_LAZY on arm64 and x86_64
+> 
+>  arch/arm64/Kconfig         |   1 +
+>  arch/x86/Kconfig           |   1 +
+>  fs/proc/page.c             |   6 +-
+>  include/linux/mm.h         |  38 ++
+>  include/linux/mm_types.h   |   9 +-
+>  include/linux/page-flags.h |  34 +-
+>  include/linux/pagemap.h    |   2 +-
+>  include/linux/rmap.h       | 165 ++++++++-
+>  mm/Kconfig                 |  22 ++
+>  mm/damon/ops-common.c      |   4 +-
+>  mm/debug.c                 |   2 +-
+>  mm/debug_vm_pgtable.c      |   2 +-
+>  mm/gup.c                   |   6 +-
+>  mm/huge_memory.c           |  16 +-
+>  mm/internal.h              | 171 +++++++++
+>  mm/khugepaged.c            |  13 +-
+>  mm/ksm.c                   |  43 ++-
+>  mm/memory-failure.c        |  11 +-
+>  mm/memory.c                |  19 +-
+>  mm/migrate.c               | 126 ++++---
+>  mm/mmap.c                  |  15 +-
+>  mm/mremap.c                |   4 +-
+>  mm/page_idle.c             |   2 +-
+>  mm/rmap.c                  | 690 ++++++++++++++++++++++++++++++++++---
+>  mm/vma.c                   |  76 ++--
+>  mm/vma.h                   |   4 +-
+>  mm/vma_exec.c              |   2 +-
+>  mm/vma_init.c              |   1 +
+>  28 files changed, 1279 insertions(+), 206 deletions(-)
 
-Again: for sendfile, you don't need the handle, because you can just
-"read the file data again".
+Hi!
 
-But the the handle is needed for any buffering that can't do that -
-iow pretty much *any* other case than a file-backed source.
+When I saw the diffsat I was concerned. Going through the patches made me ...
+more concerned :)
 
-So the original use-cases included things like copying media data from
-a TV capture card to a GPU for outputting in a window.
+This is a lot of complexity. On top of something that is already so complicated
+that I fail to grasp most details without regularly taking a look at the nice
+figures Lorenzo created recently.
 
-There it's actually the intermediate buffer that is the important
-thing, and it needs to have a lifetime that is independent of the
-system call itself, because the system call may be interrupted by
-signals etc, and you can't just "read the data again" when you
-restart.
+For example, I read above "since child VMAs do not need to allocate anon_vma"
+and wondered how that could be part of something that is just done lazily. Then
+I had to learn in the patches that there is some additional "Child VMAs
+are created as ANON_VMA_TREE_PARENT and do not allocate anon_vma" -- excuse me,
+what? :)
 
-So the whole idea with splice() is that you have an input, an output,
-and a stateful buffer between the two that has a lifetime.
+Reading about VMA refcounts made me shiver. Reading "Holding only
+folio_lock(folio) cannot guarantee that the split
+operation completes atomically." confused me. Learning that we have to invent
+interesting ways to make page migration mutually exclusive to free_pgtables()
+concerned me. Figuring out that there are arch-specific config options and
+runtime toggles is a clear warning sign.
 
-Having just a iov_iter isn't enough - even with the current much more
-capable iov_iter we have now (compared to when splice came to be: two
-decades ago when the modern iov_iter didn't even exist). You have to
-have that notion of a buffer with a lifetime.
+Seeing test_folio_unmapped() was funny, though (why?! :)).
 
-(iov_iter came a couple of years later, but it then took many many
-years for it to become the powerful thing it is today where you can
-put almost arbitrary data into it - it started as purely a user space
-iovec iterator, all the bvec/kvec etc stuff that you need for IO
-buffering came a decade later)
+I think this patch set has a noble goal of reducing anon_vma overhead when anon
+pages are not shared during fork. However, using anon_vma for them actually
+makes the overall implementation (e.g., rmap walks, locking) more consistent and
+simpler.
 
-So there's historical reasons for the use of pipes, but there really
-is a very fundamental reason for it too: wanting to *generic* data
-transfer between two points, not sendfile.
+Even if we could be convinced that most of this here is correct, how should we
+reasonably maintain this increasing level of complexity here?
 
-It's worth noticing that in the generic case, zero-copy isn't really
-even an issue.
+I won't echo what has already been said in this thread (and I didn't manage to
+read all, unfortunately), but for such big and invasive work it's often best to
+get in touch with the community earlier. Otherwise, you might end up wasting
+your time.
 
-When you think operations like "splice TV capture input to a pipe",
-you typically need to allocate the pages that you then DMA into
-*anyway*, and you'd just put those pages into the pipe. And the facty
-that you can then just take the data directly from those pages when
-you splice from the pipe to whatever GPU engine that does the decoding
-is kind of secondary.
+Ok, arguably, someone who writes that code learns a lot on the way. And if this
+code really was written by one developer only, I tip my hat! I'd be curious if
+that code already ran somewhere on some Android kernel out there?
 
-So again: the big deal with splice() and the pipe isn't really about
-zero-copy. It's the in-kernel buffers where the drivers control the
-allocation and you don't have some "user space allocates memory, then
-kernel looks that allocation up and uses it" model.
+But adding more complexity on top of something that's already extremely
+complicated to save some memory looks like the wrong direction, really.
 
-Having less copies is kind of incidental. It *might* happen just
-because it's natural when some streaming device just gives it data
-away and doesn't care after the fact.
+I was excited when Lorenzo started working on a completely new approach that
+would focus on improving the common cases while trying to reduce the overall
+complexity. Because I think most of us really dislike anon_vma. It's still work
+in progress, and I am sure there are some rough edges.
 
-The problem with splicing from a file has been exactly the fact that
-it's *not* streaming data, and the filesystem zero-copy case gave
-direct access to the long-term cache.
+But fundamentally, I think we want to find a new design that is just naturally
+simpler.
 
-Which is undoubtedly good for performance. But it fundamentally
-*requires* that the sink is trustworthy. Which has been problematic.
+Lorenzo has been hard at work exploring various design options (and I'm afraid
+he might be one of the 3 people on this planet that understand anon_vma in full
+detail), so I suggest we wait for a redesign proposal from him and see if that
+is doable?
 
-That's why sendfile() is bad. Not because splice itself is a bad
-concept, but because you have to have that absolute trust across
-components.
+-- 
+Cheers,
 
-          Linus
+David
