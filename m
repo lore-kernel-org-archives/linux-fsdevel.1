@@ -1,46 +1,49 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7993C379C49
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 09:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8E92E285C;
+	Wed,  3 Jun 2026 09:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780480146; cv=none; b=Jd6WxAGjNM7Q0S3H67cMF3kOZkF7HQVpEWDlp7ZffIQzVu+BDwEdtzGw7xbFUXBm7gRB82rtgyzXK4Z3quxFWzHK5iuiat6bmtlTg3m7QpS4P1/RxE7y94C4LV6pRIpQ4aHQhv45Sjr1qHcEinYSqz3Ha7CdserD+G+K4JvUB/U=
+	t=1780480391; cv=none; b=bdJrQew03owpATuFU3FHXPzUHk2DDWhAoPDmqF3YFEZXEqWPNq5hN8o0m8LlVK23CRT6OFBdaeyyHD/BwVCpt6EIupu9Y3qplcqPit7EmJQEz4xe5sKD2NBByhOyh1nYGs+JWyWTf9jhTlqYtWSIEgO1XyMTiMM5SrgcW9E4dMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780480146; c=relaxed/simple;
-	bh=aCuOCjCxCqzADQFU6QT4NdBSuo9F/i2GV46gIcVNsCU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WFBeh4QtkJ/MJ57dW/j6PB3ScGROqjMkHNiM6bK6QRttWOr7VA64+RgxgYUEw+0njHnypVue5pUdgGICfveVyg4azNY7ZMJBiRGf6heXxY7c2tIR9PTNGJ1/DLGZpHYlxMiqWpuCKQApO8oQtAV8UTSu+7cN+mkqglHcqYVDWkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ChOW3goB; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780480391; c=relaxed/simple;
+	bh=FAsGlLDuXIjd03kTiyI5Qfa8qmiuNaTCHebWLKhY5Zk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=CqSK0dbc2UrXzLmr4AhRWCRqvB9rBywKSnNIkzpygHKdJ7sb7df4t08LE9AsUdKdx43ZNP6bpAcj1g2FKonLXyeqI5pWoBxFihEad3b1gscSb/WpDz3RIc4cZbIBISZPFB9/lar8pERVF7rdrxe0OFH1BqHaJPoslIx8ClXi0ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=SfsWVIOM; arc=none smtp.client-ip=45.254.49.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ChOW3goB"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780480142;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qRZp5ZMzEDXQc8ahmmB8pD2/ZDJOPT6FNpIKLdttDE4=;
-	b=ChOW3goBXkRpVxbecvK/1EBRh+1WMjJKOWXpImaw1QNzQXIPKZi+e5xuEfX2hdMNydwHt8
-	iTjJKKsa2yDyk9NybQKSZVaJ9lEkENqNnZzvWcI90hXVPWcg3CbH6hzCg6UE+2Sid3Y1UV
-	5YrkF4d1B4bLPh/O3ZR4tOBq37REYAc=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="SfsWVIOM"
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 40e8f5c1f;
+	Wed, 3 Jun 2026 17:47:50 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: yonghong.song@linux.dev
+Cc: andrii@kernel.org,
+	ast@kernel.org,
+	bpf@vger.kernel.org,
+	daniel@iogearbox.net,
+	dawei.feng@seu.edu.cn,
+	eddyz87@gmail.com,
+	emil@etsalapatis.com,
+	jianhao.xu@seu.edu.cn,
+	joel.granados@kernel.org,
+	jolsa@kernel.org,
+	kees@kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Christoph Hellwig <hch@lst.de>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: Re: [PATCH 1/3] ntfs: Correct use of folios in handle_bounds_compressed_page()
-Date: Wed,  3 Jun 2026 02:48:38 -0700
-Message-ID: <20260603094839.2599704-1-usama.arif@linux.dev>
-In-Reply-To: <20260601192626.150804-2-willy@infradead.org>
-References: 
+	linux-kernel@vger.kernel.org,
+	martin.lau@linux.dev,
+	memxor@gmail.com,
+	song@kernel.org,
+	zilin@seu.edu.cn
+Subject: Re: [PATCH v2 2/3] bpf: cgroup: NUL-terminate replaced sysctl value
+Date: Wed,  3 Jun 2026 17:47:50 +0800
+Message-Id: <20260603094750.910831-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <bf25d653-d856-4ad7-a751-b97d38f38892@linux.dev>
+References: <bf25d653-d856-4ad7-a751-b97d38f38892@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -48,110 +51,47 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-HM-Tid: 0a9e8ce1d3a503a2kunm15434df91ea908
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHR5CVk4eQ0lPSEofGUpDTFYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0
+	NVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=SfsWVIOMatkarDlbKa9LogioXvgXLe+3utDFV6oPmEj0teKeXVDKATWS76Or4EffzN6DW5gFVXk/1aGv/CEPl31LDRqIuW2tg/q41TE6yh8MNyZ5ZoF7t66bV2zDQjqcp7S0SqVCQjOvm6a3oFWWQrvv95ExvAklX4rX9c69ptY=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=QxJ3iMW7Ldgrry4/8NsVUJkmYGX1x+BwOPrSC6DrZt0=;
+	h=date:mime-version:subject:message-id:from;
 
-On Mon,  1 Jun 2026 20:26:20 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
+Hi Yonghong,
 
-> Inline zero_partial_compressed_page() into its one caller, remove accesses
-> to page->__folio_index, fix highmem (page_address() does not work with
-> kmap_local()), switch to using zero_user_segment() which includes the
-> call to flush_dcache_page().
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Fixes: 495e90fa3348 (ntfs: update attrib operations)
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Hyunchul Lee <hyc.lee@gmail.com>
-> Cc: Namjae Jeon <linkinjeon@kernel.org>
-> ---
->  fs/ntfs/compress.c | 40 +++++++++++++++-------------------------
->  1 file changed, 15 insertions(+), 25 deletions(-)
-> 
-> diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
-> index 76bd806b41ed..143f362a42f5 100644
-> --- a/fs/ntfs/compress.c
-> +++ b/fs/ntfs/compress.c
-> @@ -96,26 +96,6 @@ void free_compression_buffers(void)
->  	mutex_unlock(&ntfs_cb_lock);
->  }
->  
-> -/*
-> - * zero_partial_compressed_page - zero out of bounds compressed page region
-> - * @page: page to zero
-> - * @initialized_size: initialized size of the attribute
-> - */
-> -static void zero_partial_compressed_page(struct page *page,
-> -		const s64 initialized_size)
-> -{
-> -	u8 *kp = page_address(page);
-> -	unsigned int kp_ofs;
-> -
-> -	ntfs_debug("Zeroing page region outside initialized size.");
-> -	if (((s64)page->__folio_index << PAGE_SHIFT) >= initialized_size) {
-> -		clear_page(kp);
-> -		return;
-> -	}
-> -	kp_ofs = initialized_size & ~PAGE_MASK;
-> -	memset(kp + kp_ofs, 0, PAGE_SIZE - kp_ofs);
-> -}
-> -
->  /*
->   * handle_bounds_compressed_page - test for&handle out of bounds compressed page
->   * @page: page to check and handle
-> @@ -125,9 +105,21 @@ static void zero_partial_compressed_page(struct page *page,
->  static inline void handle_bounds_compressed_page(struct page *page,
->  		const loff_t i_size, const s64 initialized_size)
->  {
-> -	if ((page->__folio_index >= (initialized_size >> PAGE_SHIFT)) &&
-> -			(initialized_size < i_size))
-> -		zero_partial_compressed_page(page, initialized_size);
-> +	const struct folio *folio = page_folio(page);
-> +	pgoff_t page_index = page_pgoff(folio, page);
-> +	size_t offset;
-> +
-> +	if ((page_index < (initialized_size >> PAGE_SHIFT)) ||
-> +			(initialized_size >= i_size))
-> +		return;
-> +
-> +	ntfs_debug("Zeroing page region outside initialized size.");
-> +	if (((loff_t)page_index << PAGE_SHIFT) >= initialized_size)
-> +		offset = 0;
-> +	else
-> +		offset = initialized_size & ~PAGE_MASK;
-> +
-> +	zero_user_segment(page, offset, PAGE_SIZE);
->  }
->  
->  /*
-> @@ -231,7 +223,6 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
->  				 */
->  				handle_bounds_compressed_page(dp, i_size,
->  						initialized_size);
-> -				flush_dcache_page(dp);
+On Mon, 1 Jun 2026 14:22:07 -0700, Yonghong Song wrote:
+>The above log can be simplied.
 
-Hello!
+Thanks. I will simplify the KASAN log in v3.
 
-In the old code, handle_bounds_compressed_page() returned without doing
-anything when the page was inside the initialized region, and the caller
-then issued flush_dcache_page(dp).
+>>   	memcpy(ctx->new_val, buf, buf_len);
+>> +	((char *)ctx->new_val)[buf_len] = '\0';
+>
+>Does memcpy(ctx->new_val, buf, buf_len + 1) work?
 
-In the new code, when the page is in-bounds the helper returns early before
-reaching zero_user_segment(), so no dcache flush happens for the common
-case where the page actually received decompressed data. Could this leave
-userspace seeing stale dcache contents?
+I do not think memcpy(ctx->new_val, buf, buf_len + 1) would be a good
+fit here.
 
+The helper interface only guarantees that buf is valid for buf_len
+bytes, so reading one more byte would go past the declared input range.
+Even if some callers happen to have a trailing '\0' right after the
+payload, that is not part of the contract.
 
->  				kunmap_local(page_address(dp));
->  				SetPageUptodate(dp);
->  				unlock_page(dp);
-> @@ -767,7 +758,6 @@ int ntfs_read_compressed_block(struct folio *folio)
->  				 */
->  				handle_bounds_compressed_page(page, i_size,
->  						initialized_size);
-> -				flush_dcache_page(page);
->  				kunmap_local(page_address(page));
->  				SetPageUptodate(page);
->  				unlock_page(page);
-> -- 
-> 2.47.3
-> 
-> 
+Appending the terminator on the destination side keeps the source read
+strictly within buf_len, while still restoring the NUL-terminated
+buffer semantics expected by downstream proc handlers. It is also safe
+for the destination, since the helper already rejects
+buf_len > PAGE_SIZE - 1.
+
+Therefore, I would prefer to keep it as:
+
+	memcpy(ctx->new_val, buf, buf_len);
+	((char *)ctx->new_val)[buf_len] = '\0';
+
+Best regards,
+Dawei
