@@ -1,107 +1,157 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3D043E4BF
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 09:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780480067; cv=pass; b=sgfrsIZpu58MrlTh5UyBQFCN9Mznn5Ab0EXSWZm4/6NBsB5EQ6ahdz+yOIEVd0J17IhXbwEY40Uprgf93XbVnuEq+xRy6E1QwoCB1Mcr/iAVgi9+AFxS6wm9L+JlEnlXW1Y6x/zK6j2fHNx+QKtkanYWkCG5pbxheEWyuWeRCnA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780480067; c=relaxed/simple;
-	bh=Rp22GKZLhdvn+vuEM+jw0CqkEgJs0Z3d8HmQXbOoRYw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qvf5wLWiDqTT85AKI45gfjRF4SZaC0ixiWo8q1rpd7mGrXg3byXdY034LYY00J2P4gcmIg3JQiG2dtbcqlfI1k2X0QQ9NBXT6HFXPYyT4qkZjX6AnS2FU719TtjvtV2cHqPH8ZLiolE07ciFTHcTIYIVP3lNwwv/OEto14X4dNg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=gg8hOB+G; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7993C379C49
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 09:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780480146; cv=none; b=Jd6WxAGjNM7Q0S3H67cMF3kOZkF7HQVpEWDlp7ZffIQzVu+BDwEdtzGw7xbFUXBm7gRB82rtgyzXK4Z3quxFWzHK5iuiat6bmtlTg3m7QpS4P1/RxE7y94C4LV6pRIpQ4aHQhv45Sjr1qHcEinYSqz3Ha7CdserD+G+K4JvUB/U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780480146; c=relaxed/simple;
+	bh=aCuOCjCxCqzADQFU6QT4NdBSuo9F/i2GV46gIcVNsCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WFBeh4QtkJ/MJ57dW/j6PB3ScGROqjMkHNiM6bK6QRttWOr7VA64+RgxgYUEw+0njHnypVue5pUdgGICfveVyg4azNY7ZMJBiRGf6heXxY7c2tIR9PTNGJ1/DLGZpHYlxMiqWpuCKQApO8oQtAV8UTSu+7cN+mkqglHcqYVDWkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ChOW3goB; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="gg8hOB+G"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5176bbb9384so17596171cf.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 02:47:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780480064; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kct40a/f9QDfVdKAtXr1PmVSJvKRFXO0ScSC6KCw4MC3rip/rHRaQUdR6/j7qcnp0e
-         +ZxCa3QICt1DwcXdtcxep6qoQDhnHd2+GpMXpLMd5Zs1pV/sm6nP8R0ihscXPs7KCox6
-         Usi6RgKlLDH8/9FAMoC71qEi1MEt1LYX32wyw4CEb2UZayFHEoM42AyU93THWlIIWzUR
-         O9XwanfT4TrUFXKyG6m3svRVxI5PkKaZhGYWldrcqT2yEP9ClPnVwOKrW42gWlZU2I1r
-         vvpeOscSvHoILLHeN/7d1o+iUurP+D1QYLBmi/qg6JzyAsLcfZiIjLRzFWevHo1zFHEK
-         +PDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=cwMmpkwceKnk5WH5016VjmF5XkCan6fdvYBiuBhZlDI=;
-        fh=+aeQRzGvs6UOzvuy+aMZpUUUbay1BFQzi0xJl6To/VI=;
-        b=l2IPPzokNYe68ABhWKPwK5qMM14uMPMyoGMQqkGqk/0ekaZWGRW0TCU/0bpNE+Qbdk
-         Q3YNgsQ4eyWvR+z11l7K/bLKor4i/RuWKJfc2sHV1ongPANtAi+Kg5fcQ3F0ORHP9jbn
-         gxNiIIr1GV7sVJULKveQPgM9yyUTGYlciREGaEz6O5/S3BCJFf6A5LTdBPRedy5xv6tX
-         r4GPI/k7xOwiMydhkSkcUbjB+ALugFQu5M7xlXt0svJyTMhrJ+4ORo51t79C4an0a9wt
-         Stb0V1mKUb96phIe5YMjLUsh+/cVaPcg0q8b4IruNPdsIZok20G4NgKZ0ZL1GpUimxl3
-         0fXg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1780480064; x=1781084864; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cwMmpkwceKnk5WH5016VjmF5XkCan6fdvYBiuBhZlDI=;
-        b=gg8hOB+GU80KFQGGKKIWbZWc4Z1xAC5eozU9/4/qwWdFp4twXuJlcmAvkVI3jo1VbU
-         j2CwTcc6xOfKTCYQMKdoN+W4qnY28JAJ7LFoUpUeG01nG11I+7We0SpewUiroxXwUXR3
-         BgqVnaU83Bms8axXIkQH68IVoEK4cX1Pwqigo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780480064; x=1781084864;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cwMmpkwceKnk5WH5016VjmF5XkCan6fdvYBiuBhZlDI=;
-        b=nksK4sKQBMBhot/5+l/qjPPCRlS5YJMw29RgY1ggfCXSVRTJKQuEiRWM+lRqxI11nv
-         Yeaehw8E+6dOd1oOTS64MN+T2A+gOJ7oaflB6T1a6wTZ93NaDhTuL3+92uTbBXMfZDLm
-         T7G5NudqMPG4xRed1f8nm5CsJRtuRiFCFlrFPomL7wEoS9s5zRqBkK7lEZXG2qd1XRA8
-         0iIJcEGUDNOlu3fhK5GvC61UDdi+0OXfc3rP8uhmL6CIcz80rPHEZ6tlqbqRkYwJKE+w
-         uA4iG5ifEMUVN3KkjuuSRS5O40T04EnS23R0D6QtTT86tBaLP04lxk4q3CpU4bhdYmPd
-         fCKQ==
-X-Gm-Message-State: AOJu0YzAAra3A2mrN1PRUPDeTrnNEqz1dGfSloJbKr5WX6OlGWgDfzOt
-	fHR8K4C5KTCtyhbpwalB48oP9AFfvq6Upr30iyKh7qALA0bcDr5jSjKXPkRRY3f3ni1+xH3KRZz
-	14xEO11iALrA+ifVe4KlJPQc6ZwMaokMJqGi/+4S8QeCdSqpHq50qJv8=
-X-Gm-Gg: Acq92OFDdmcH0VcW7bPMHTk4ZfrKaKwTPGu17HvMgqJPcZow3lyGrInoN56FYPE8iXN
-	Z6zVIf6iEVZXzRR6I3j/y8tb0lTbhXF/xl9e98dnClM+8ruK1VkJOLMY1ZUa1/RmUrv3/IArUV3
-	RCJQ2QNX0US2KVTwmiBqBFMr0IGO+pjvG2ulVzeNoo/tGxLI+RtIKLO5/b/jb0/HOQWT9+09FhL
-	jfzpbaj201U5D3MguWBWXrhMr+xUdxTNcvYYzhFVMkzuAJhFqae67PHlJ+bxRNhys/xBBUvUeT9
-	ML32pXjD+naKYAor93mwaQ7nDwrOw/rAhDDwV5E4gTnsBvg=
-X-Received: by 2002:a05:622a:1814:b0:50d:efc1:841d with SMTP id
- d75a77b69052e-517786447camr37422011cf.23.1780480064330; Wed, 03 Jun 2026
- 02:47:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ChOW3goB"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780480142;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qRZp5ZMzEDXQc8ahmmB8pD2/ZDJOPT6FNpIKLdttDE4=;
+	b=ChOW3goBXkRpVxbecvK/1EBRh+1WMjJKOWXpImaw1QNzQXIPKZi+e5xuEfX2hdMNydwHt8
+	iTjJKKsa2yDyk9NybQKSZVaJ9lEkENqNnZzvWcI90hXVPWcg3CbH6hzCg6UE+2Sid3Y1UV
+	5YrkF4d1B4bLPh/O3ZR4tOBq37REYAc=
+From: Usama Arif <usama.arif@linux.dev>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Christoph Hellwig <hch@lst.de>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>
+Subject: Re: [PATCH 1/3] ntfs: Correct use of folios in handle_bounds_compressed_page()
+Date: Wed,  3 Jun 2026 02:48:38 -0700
+Message-ID: <20260603094839.2599704-1-usama.arif@linux.dev>
+In-Reply-To: <20260601192626.150804-2-willy@infradead.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601192934.617233-1-william@theesfeld.net>
-In-Reply-To: <20260601192934.617233-1-william@theesfeld.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 3 Jun 2026 11:47:32 +0200
-X-Gm-Features: AVHnY4Le1rRh24Wl3nmyOzYWKhHYzqQ0xTX8IxO1VfvIXiLHcawUZjrbeprbZKc
-Message-ID: <CAJfpegvyUdMkpk4e0dFKbqUwu_uz6ORRZ_0W=AVvz93c8-_qPg@mail.gmail.com>
-Subject: Re: [PATCH] fuse: convert page array allocation to kcalloc()
-To: William Theesfeld <william@theesfeld.net>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, 1 Jun 2026 at 21:29, William Theesfeld <william@theesfeld.net> wrote:
->
-> fuse_get_user_pages() allocates the temporary pages[] array used by
-> iov_iter_extract_pages() with the open-coded kzalloc(n * sizeof(*p),
-> ...) form.  max_pages is derived from the inbound iov_iter and is not
-> bounded at compile time, so the multiplication can overflow on
-> sufficiently large iter counts; the resulting too-small allocation
-> would then be written past by iov_iter_extract_pages().
->
-> Switch to kcalloc(), which carries the same zero-on-allocation
-> semantics and adds the standard size_mul overflow check.  No
-> functional change for non-overflow inputs.
->
-> Signed-off-by: William Theesfeld <william@theesfeld.net>
+On Mon,  1 Jun 2026 20:26:20 +0100 "Matthew Wilcox (Oracle)" <willy@infradead.org> wrote:
 
-Applied, thanks.
+> Inline zero_partial_compressed_page() into its one caller, remove accesses
+> to page->__folio_index, fix highmem (page_address() does not work with
+> kmap_local()), switch to using zero_user_segment() which includes the
+> call to flush_dcache_page().
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Fixes: 495e90fa3348 (ntfs: update attrib operations)
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Hyunchul Lee <hyc.lee@gmail.com>
+> Cc: Namjae Jeon <linkinjeon@kernel.org>
+> ---
+>  fs/ntfs/compress.c | 40 +++++++++++++++-------------------------
+>  1 file changed, 15 insertions(+), 25 deletions(-)
+> 
+> diff --git a/fs/ntfs/compress.c b/fs/ntfs/compress.c
+> index 76bd806b41ed..143f362a42f5 100644
+> --- a/fs/ntfs/compress.c
+> +++ b/fs/ntfs/compress.c
+> @@ -96,26 +96,6 @@ void free_compression_buffers(void)
+>  	mutex_unlock(&ntfs_cb_lock);
+>  }
+>  
+> -/*
+> - * zero_partial_compressed_page - zero out of bounds compressed page region
+> - * @page: page to zero
+> - * @initialized_size: initialized size of the attribute
+> - */
+> -static void zero_partial_compressed_page(struct page *page,
+> -		const s64 initialized_size)
+> -{
+> -	u8 *kp = page_address(page);
+> -	unsigned int kp_ofs;
+> -
+> -	ntfs_debug("Zeroing page region outside initialized size.");
+> -	if (((s64)page->__folio_index << PAGE_SHIFT) >= initialized_size) {
+> -		clear_page(kp);
+> -		return;
+> -	}
+> -	kp_ofs = initialized_size & ~PAGE_MASK;
+> -	memset(kp + kp_ofs, 0, PAGE_SIZE - kp_ofs);
+> -}
+> -
+>  /*
+>   * handle_bounds_compressed_page - test for&handle out of bounds compressed page
+>   * @page: page to check and handle
+> @@ -125,9 +105,21 @@ static void zero_partial_compressed_page(struct page *page,
+>  static inline void handle_bounds_compressed_page(struct page *page,
+>  		const loff_t i_size, const s64 initialized_size)
+>  {
+> -	if ((page->__folio_index >= (initialized_size >> PAGE_SHIFT)) &&
+> -			(initialized_size < i_size))
+> -		zero_partial_compressed_page(page, initialized_size);
+> +	const struct folio *folio = page_folio(page);
+> +	pgoff_t page_index = page_pgoff(folio, page);
+> +	size_t offset;
+> +
+> +	if ((page_index < (initialized_size >> PAGE_SHIFT)) ||
+> +			(initialized_size >= i_size))
+> +		return;
+> +
+> +	ntfs_debug("Zeroing page region outside initialized size.");
+> +	if (((loff_t)page_index << PAGE_SHIFT) >= initialized_size)
+> +		offset = 0;
+> +	else
+> +		offset = initialized_size & ~PAGE_MASK;
+> +
+> +	zero_user_segment(page, offset, PAGE_SIZE);
+>  }
+>  
+>  /*
+> @@ -231,7 +223,6 @@ static int ntfs_decompress(struct page *dest_pages[], int completed_pages[],
+>  				 */
+>  				handle_bounds_compressed_page(dp, i_size,
+>  						initialized_size);
+> -				flush_dcache_page(dp);
 
-Miklos
+Hello!
+
+In the old code, handle_bounds_compressed_page() returned without doing
+anything when the page was inside the initialized region, and the caller
+then issued flush_dcache_page(dp).
+
+In the new code, when the page is in-bounds the helper returns early before
+reaching zero_user_segment(), so no dcache flush happens for the common
+case where the page actually received decompressed data. Could this leave
+userspace seeing stale dcache contents?
+
+
+>  				kunmap_local(page_address(dp));
+>  				SetPageUptodate(dp);
+>  				unlock_page(dp);
+> @@ -767,7 +758,6 @@ int ntfs_read_compressed_block(struct folio *folio)
+>  				 */
+>  				handle_bounds_compressed_page(page, i_size,
+>  						initialized_size);
+> -				flush_dcache_page(page);
+>  				kunmap_local(page_address(page));
+>  				SetPageUptodate(page);
+>  				unlock_page(page);
+> -- 
+> 2.47.3
+> 
+> 
