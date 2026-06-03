@@ -1,209 +1,124 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2095B44A71E
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 09:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5BE44BC9F
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 09:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780480529; cv=pass; b=l7UFB1zGmqFyOtz5qqxrb3CAiL62zYfqNJaH5JokpKJR8SUgc9FnWVy3bHKLHeMm1vShreXEcKpcQEQKOz59QxLvc7XOLs/NZ/iV5G5jtOs2ejuKrQqLli0n+/Geiv23GkuqAE2BzkmA8KdWuN47TjClklWu30OhnyTJt12qkBc=
+	t=1780480646; cv=pass; b=U8aujmsgg1z2vD5NUSZRvy+i4QR0avX0kHkxJc0YWbh+YHke2tzq53i0xpVp7MtlwiG5ttiFczpsI3innuyexgh3MRuWzGiN2LIA2rtA5dHmNGv4UwpPll8U9vu5H6xxC6cehJEazT3WNFCbkDb3fy+0PSe3kjJv2EWjiQ+wy/c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780480529; c=relaxed/simple;
-	bh=r2Y+Nar/7dgHmqVliFEtB7l6MvWeVc1GWvkFGdnsZnM=;
+	s=arc-20240116; t=1780480646; c=relaxed/simple;
+	bh=ZCqrAxzAA1VkvSHMPbJW9yIvYLlRWu40qg6zjxtnKxA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oF52MVIkMI7ygGgPyeORXiugJt3sTMmMeodwCBIJpwWA5DtqL+7iG/1HgwQOTPOllKd38mQ7yW7LvMb5HMtOMjNlZwDF7ZVO6RaWu8ktMqGgwsaliy0idJ9FslJLPRXnE2km8XiUqgZMyzeKFP8DV7/sX4Eh/w7eIBKW3dRc1Yw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITsLeWHK; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=A2aoGHBYX+ZT3U+MNA+y9fgXCQEPYB+OZLUpHwlFynueRRJPfEeVLLsRAtZXBExmrCnell9F1RDLm2yvycmzkWqhhCaeWUlC241EqBr/sYFtwjaXy7VqVJz5qDP5jooG3dZ7qr0ehrxXNYHhSZXy0UGYV1gkt+hp92H8qxSmc68=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=HkDLARZC; arc=pass smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITsLeWHK"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-68acf0a15b3so10325609a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 02:55:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780480524; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="HkDLARZC"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-9154ca1aa1dso71503785a.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 02:57:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780480643; cv=none;
         d=google.com; s=arc-20240605;
-        b=hPSRVCWlsN3SKj8jzznfMZW/wTmHZ4KqWNwPBMj4GdAanRkq7JPY37xuqkCqe10zSd
-         mATB04Nex/5i88U0kxnIQz8cN0bt8u+Yj+IAzcQRH8snmSPN6nf8gV+cGOb7wea7ohYp
-         TebDzFDK3BRuTpFjsc7/FjwJWOdjIcCHnLLZbXcWvrAnoaXjns1GnX2xgLef7ZlJFqRn
-         DjiphR7E0OX9P7yeD7ri9/vFiY9D5hxBuEWlxOiQ1/5f/tORh+711a5LBuoQ3I2Geund
-         beUH+vObBr0PnpHGkMvTQD2FZISS6v3FxJy+39EsyPndclqRMCGV4H1cNw7Y/ZBIAU86
-         xCOA==
+        b=S7ZrE9XkLIdVGW+Sl8RqH0B1K+t0iVbM3W1DBddj3Nm5r0sShKEtKQLc/sF/zePXc6
+         BTjoCEZ48USvoE/vLRv8s2RljonOIf+nr77ggomiZIE3iBa3I7B0NPIBLGNK05Woaaj8
+         tdywLHomsJdFmkCBeMW/w4KgR/CqJ2lWMFr0BhP6+VrtFtRR4xAWbMIeaQCfRL3OQi61
+         I85PFuxjS1bacpulC0pn8ePVSRuiAlUqMfMnElNY75GEQJmjwW749AVpSPXxwdY0yuIG
+         zb8VnW6u+R+JjUX1B3fh3tdpacOEqo0ZI0wx3lsMoBG9yxK20a413JzrKutF0aAiUX6R
+         iLXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wZEDpmMkusQJf1ZAgUm+9NBHEm/lFoTCTWpLaCvu64s=;
-        fh=NEpVgMuqiQrt5aW+v2zc6YEJRoWplPAwy/H+FQGg06Y=;
-        b=Hp3yT/tCffHHVadGdHsiQLFXSEvKaH8Df895CYKOOLr8izt8vINSDkT9vkHJoK0iPs
-         MGCqNPPk7Y3Jsh6pEngYp5w9s6z8pjjqh1gOaMAYHwYquVQjr2PhZW+VTEJRMHQI039w
-         gnKmRt6nV4toHbfrfpZhF4Pvz5dhsc3B0wDNmeUeN1IT1IvKbGR7hZJcWVxOtMLZMiJr
-         EIcQBizCk93uFfCaklugAAptBzunM7tMt3+KQiI34bsbnVPf6qECcFm/vUH1Qut9RlMm
-         gH3Nw44scR71rOzKPdyHY5cM8nDZ2C1rL3I+r7rv3qaCLRNySbIwVp0xWfrJVukF7hw4
-         Tdow==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ZCqrAxzAA1VkvSHMPbJW9yIvYLlRWu40qg6zjxtnKxA=;
+        fh=WA2QoWLyDCQNyoy4AAoc+MYA0GMfzhH2Z2fxmbGaJWQ=;
+        b=S0MFEI0vlZt1TKR0oeF3UAuOWbJay38IwiIh/bZlEYCuCdAc90J6ZNj9jUwxm1M7tt
+         /Uo2bfnM+uYBXm4uqlDhrMLEP8rEM5AYac/4eq9aolxEmii0E5K4hmvHAZ2rJwrArpIZ
+         SNQ68AV0Jw7FXRkqfgLV83bo3r9ATHKZVXFlHe/d4dikTrHsaTpbJ5R2GX+bhqCdUEiZ
+         gArGtXEvz3qnlgJZ5tgjllNMFpTE8QcUYvxBZjo5Zxfm1Mlc3MX2INFpoqn35K97DMUB
+         t+ZzbZVxXJ0kwNJfEw42atWaqYhWoVZq1Oww8etwPuYySMN+x/uHPoduilfrLVXBIsih
+         Un7Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780480524; x=1781085324; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wZEDpmMkusQJf1ZAgUm+9NBHEm/lFoTCTWpLaCvu64s=;
-        b=ITsLeWHKhHghXifTGUFpwNkvJVXnQIaB5uvQuw3SzQr0dZ/8qVIrHQfjgRqd5nta70
-         tjCO3+tUvKZJ9zM8vX9qWArBTF6eh0A4Dx6ev+XHH8bX6NCwpAU0Hn5znV4VE4acRXQq
-         9sfPkOVPhwgZdPv3yZJ7yjUcs8zKxXrkmQGLXVfPBTIMnUZ346TIEcU6ogPmCzN2rvpT
-         aMoTJm/UbnBQ7tGaSsELrfPipaDiSMi4j4llrBAZIRErKrDx8UYsouk5Q1MqfXWRwCK9
-         HjPANURzyDrlA1ss6fUEW76hbrY9tezZ888waY/MVL+5LrBcW3782jktulqWsFjQiXy4
-         aDrQ==
+        d=szeredi.hu; s=google; t=1780480643; x=1781085443; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZCqrAxzAA1VkvSHMPbJW9yIvYLlRWu40qg6zjxtnKxA=;
+        b=HkDLARZC/XPgnAkeNQ5n3MAM79d1kM1OOAeIKHRtNGpfkDXUv245i2yp+mD6JQPeUA
+         64NZTw9EGfWhoENMoiIPb3oOJkXL+vE4E73fmxTFzb0nVraMC0mwLrTACZFwydQIAExR
+         aNhk9bnGc++zz0NIEM1FWBwrjxTfiTh4xXjBY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780480524; x=1781085324;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wZEDpmMkusQJf1ZAgUm+9NBHEm/lFoTCTWpLaCvu64s=;
-        b=ErWV9pd+wOKCeyzrpYw4BbpzCCtYMzVSy9qjNrHbFM/yciH8dFtDn+xBklnEt6vppS
-         GQIaH0TtZf8HV4xS9pc8p4VFB0slmnZcd6BDe/yN0ZgkvYUcO9cfBbV4pAt+dT8nomn6
-         gpDjCbVTB6AucKYoOMHEytPNxOeP6PuMBVkauqR2+5hIlWLpqjjHRCXcZGhvUHaVyqkd
-         lN4MfZHxLyZrcAfuGvUjExNDeGuw5yQ0uM18JA/iLVy7UoQ1ocdOpAo6PbO+vaDT3Y1S
-         /ZBanWMEB/CKivLW0ZHwX4bAL3XPIcFACLDUw991oUrGYqQLiwJB1Ob8gveSJR5CJJhT
-         B5sg==
-X-Forwarded-Encrypted: i=1; AFNElJ9g4gzF8BYrA8pZqW2o23/+HaGaYwpiaToWn1gUD/OmOrtHNzXaYMchbJySBIarGav7E5DNkDQ07z8xXoBd@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsYMdjRrNHqAcqKt7XH62i+DzYUOANB0Z0J17vEycUlnXnOPT8
-	zTyK4/fKZTyg8o48naVAu6BVLQ33a7oMBxYxrbAiWcZ1GJHJSjs3oa6QY1hraV9n13D15fS7Oeu
-	uj/jsNHE+Vamb8zYA9lsXUe85F1gIIYw=
-X-Gm-Gg: Acq92OEmbg6X7tp6hGITeOteo7alU++cFfyTSEIsGQQ0B6/VY/nLeviS7qx7JcR8/4s
-	f/EbHhU1DEdLxdcTh0N6UVoaBSTha/ieWfbXcd/FxwSlIgsD6lD4A+8IFkxNSwLp1CGkf61wmBc
-	/VWSPu/pGjui1+Dy8MVtSYrQDiLmAwC0n8DRtL9UATG+3Yny7e4HmrYxQXeQ9fC11yjwPYctYKV
-	WgdbZK+XZJCQQ1TSdQ2YpUX8/lRX6CQV0aw5bEV/VF6SjjXD5DOqGy26JIZ8oPE0rUfm4cOR8OV
-	A5CjmFJIxvRn8stL9COFFZ1D2iMXUzQUhttetFjVzj26gSATwx7h
-X-Received: by 2002:a05:6402:4487:b0:66f:9f63:e537 with SMTP id
- 4fb4d7f45d1cf-68e7254b0d7mr1139562a12.19.1780480524093; Wed, 03 Jun 2026
- 02:55:24 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780480643; x=1781085443;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZCqrAxzAA1VkvSHMPbJW9yIvYLlRWu40qg6zjxtnKxA=;
+        b=qxtjjJKZ6txUv3yuYkHsX+AsVVz15Vazp2nN8t6EJf6aIGrW+xQ1g5m/R+OlVlDo7W
+         6p0hrRI3Syw6HK85IwsbiG3j16c8Hv1tZdhC/6joZtbY1NlZo/Jc18TgKS57GYQeSINb
+         6N40iBnxkhsYfDTx6b6qPDYwZ3wL72s8WQsTeVgjNrcy79oKJ0X3Q9wzCsMwkPq77eYb
+         h1Gq40RMLEiyKqUCK4UTkZY57ML0mfv0OY1rc23s2X9ZCpAA5WpA+YY47ZGX1mD6PYRS
+         v4zFm12YSnVmUmIjB9k/Dk5a5Rq1aIuPktH0mEwR0fBKAlIjU7W5GHdYujga2gCn7P3j
+         9ESQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+Tty7u88jFIjOfqOJ8KFODuZ1Y0t9ekqBGAYTrFskmP4kQ1/EuBcPmQa7/l8DRZc6g0VciXbY86Tr1FFOp@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsAp/8VcpQFsx2pMpLpoYXVV59HojgwXmpNVX1AJQ+KGyXJlyw
+	3YxsUjkFc4Db5/OskuA1e4zJpJO/zEpuB1rNyDjFJxYs5ZGRJuNItWi+IKTMXFv4CLSUx9glTby
+	2dqea7gURyc3YD0roi3837MYbJtHwZvS1mB/BL6NUHA==
+X-Gm-Gg: Acq92OH9CtfOexti1cvk2BCCk9RjMalDjZuHWBcVgQls+nua0DokvwxinOUNuPTtvte
+	Ma7fAYz65Wg9RhlSJ4wEnYEqV6fCIwX7z/s6Ev0061xLkPuHqmU5CKU6igH/OFVUvlhQ45Rfe0d
+	jFRQ82pOOZMBWYvm9UnW73RlyKaV8nZzhj025Pwta5qZZ4mRTFHNMGrB1zVkmYoObRiTjLcOcZM
+	5tK+hIENc4NSzGyUCZI0vQU5+mgRpdaKwrfzFsJof0+lW4tO5vo3vTyKvDJag0gIsOBL/XMHwy5
+	v7d8YM6VZmU8HcwpSc916lrj+pfGajZ4QqpHVwFliHp/l+BISbLFe0R40g==
+X-Received: by 2002:a05:620a:31a8:b0:915:422c:a0 with SMTP id
+ af79cd13be357-9158b6e2074mr292177985a.22.1780480643420; Wed, 03 Jun 2026
+ 02:57:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260603001516.26234-1-anonymemeow@gmail.com> <20260603001516.26234-2-anonymemeow@gmail.com>
-In-Reply-To: <20260603001516.26234-2-anonymemeow@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 3 Jun 2026 11:55:11 +0200
-X-Gm-Features: AVHnY4IjN44ED0XFLr6D_FVk74_zTECcT3g2rD9HWzWyvKbprBOAq5DKMmYaoDU
-Message-ID: <CAOQ4uxhEYwHLmXETAgxiDimah5zvCL65_gmCNYEYgHOVXKR_3g@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] fanotify: report thread pidfds for FAN_REPORT_TID
-To: AnonymeMeow <anonymemeow@gmail.com>
-Cc: jack@suse.cz, brauner@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com> <20260601173325.GH2636677@ZenIV>
+In-Reply-To: <20260601173325.GH2636677@ZenIV>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 3 Jun 2026 11:57:11 +0200
+X-Gm-Features: AVHnY4IqQCqMS4qklUMIqRUT1Fpv-SuCQDkhxYBkM9m1uTwHwBhUln17rZFWNU4
+Message-ID: <CAJfpegtH-E79D-3UL=pPv-QqJk6C4ODXLLZSAjzQJwSSeqqS-A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, 
+	Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, patches@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, 
+	Joanne Koong <joannelkoong@gmail.com>, fuse-devel <fuse-devel@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 3, 2026 at 2:15=E2=80=AFAM AnonymeMeow <anonymemeow@gmail.com> =
-wrote:
+On Mon, 1 Jun 2026 at 19:33, Al Viro <viro@zeniv.linux.org.uk> wrote:
 >
-> The FAN_REPORT_PIDFD and FAN_REPORT_TID flags used to be mutually
-> exclusive because by the time the pidfd support was introduced to
-> fanotify, pidfds could only be created for thread group leaders. Now
-> that the pidfd API supports thread-specific pidfds via PIDFD_THREAD,
-> this restriction can be lifted.
+> On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
 >
-> Signed-off-by: AnonymeMeow <anonymemeow@gmail.com>
+> > TLDR: maybe we could ghet rid of "f_op->splice_read". *That* would be
+> > a big simplification.
+>
+> FUSE might be interesting - fuse_dev_splice_read() and its ilk.
+> Communications between the kernel and fuse server at least used to
+> seriously want that, so that would be one place to look for unhappy
+> userland...
+>
+> splice-related logics in fs/fuse/dev.c is interesting; another place
+> like this is kernel/trace/, but I'm less familiar with that one.
 
-Since I reviewed v3 and provided
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+[Cc: Joanne, fuse-devel]
 
-and nothing has changed (right?)
-it is a good practice to add my RVB so I know I don't need to review it aga=
-in...
+I'd favor simplification, but care is needed to not regress performance.
 
-To clarify, you do not need to post a new revision just for adding RVBs
-but if you do send a new version, please collect them
-and remove them only if patch has non minor changes which
-would require a re-review.
+Joanne might be in a better position to say something about relative
+performance of various transport modes in fuse.
 
 Thanks,
-Amir.
-
-> ---
->  fs/notify/fanotify/fanotify_user.c | 27 ++++++++-------------------
->  1 file changed, 8 insertions(+), 19 deletions(-)
->
-> diff --git a/fs/notify/fanotify/fanotify_user.c b/fs/notify/fanotify/fano=
-tify_user.c
-> index ae904451dfc0..ebdd48942029 100644
-> --- a/fs/notify/fanotify/fanotify_user.c
-> +++ b/fs/notify/fanotify/fanotify_user.c
-> @@ -19,6 +19,7 @@
->  #include <linux/memcontrol.h>
->  #include <linux/statfs.h>
->  #include <linux/exportfs.h>
-> +#include <linux/pidfd.h>
->
->  #include <asm/ioctls.h>
->
-> @@ -903,25 +904,21 @@ static ssize_t copy_event_to_user(struct fsnotify_g=
-roup *group,
->                 metadata.fd =3D fd >=3D 0 ? fd : FAN_NOFD;
->
->         if (pidfd_mode) {
-> -               /*
-> -                * Complain if the FAN_REPORT_PIDFD and FAN_REPORT_TID mu=
-tual
-> -                * exclusion is ever lifted. At the time of incoporating =
-pidfd
-> -                * support within fanotify, the pidfd API only supported =
-the
-> -                * creation of pidfds for thread-group leaders.
-> -                */
-> -               WARN_ON_ONCE(FAN_GROUP_FLAG(group, FAN_REPORT_TID));
-> +               unsigned int tid_mode =3D FAN_GROUP_FLAG(group, FAN_REPOR=
-T_TID);
-> +               enum pid_type pidtype =3D tid_mode ? PIDTYPE_PID : PIDTYP=
-E_TGID;
-> +               unsigned int pidfd_flags =3D tid_mode ? PIDFD_THREAD : 0;
->
->                 /*
-> -                * The PIDTYPE_TGID check for an event->pid is performed
-> +                * The pid_has_task() check for an event->pid is performe=
-d
->                  * preemptively in an attempt to catch out cases where th=
-e event
-> -                * listener reads events after the event generating proce=
-ss has
-> +                * listener reads events after the event generating task =
-has
->                  * already terminated.  Depending on flag FAN_REPORT_FD_E=
-RROR,
->                  * report either -ESRCH or FAN_NOPIDFD to the event liste=
-ner in
->                  * those cases with all other pidfd creation errors repor=
-ted as
->                  * the error code itself or as FAN_EPIDFD.
->                  */
-> -               if (metadata.pid && pid_has_task(event->pid, PIDTYPE_TGID=
-))
-> -                       pidfd =3D pidfd_prepare(event->pid, 0, &pidfd_fil=
-e);
-> +               if (metadata.pid && pid_has_task(event->pid, pidtype))
-> +                       pidfd =3D pidfd_prepare(event->pid, pidfd_flags, =
-&pidfd_file);
->
->                 if (!FAN_GROUP_FLAG(group, FAN_REPORT_FD_ERROR) && pidfd =
-< 0)
->                         pidfd =3D pidfd =3D=3D -ESRCH ? FAN_NOPIDFD : FAN=
-_EPIDFD;
-> @@ -1628,14 +1625,6 @@ SYSCALL_DEFINE2(fanotify_init, unsigned int, flags=
-, unsigned int, event_f_flags)
->  #endif
->                 return -EINVAL;
->
-> -       /*
-> -        * A pidfd can only be returned for a thread-group leader; thus
-> -        * FAN_REPORT_PIDFD and FAN_REPORT_TID need to remain mutually
-> -        * exclusive.
-> -        */
-> -       if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
-> -               return -EINVAL;
-> -
->         /* Don't allow mixing mnt events with inode events for now */
->         if (flags & FAN_REPORT_MNT) {
->                 if (class !=3D FAN_CLASS_NOTIF)
-> --
-> 2.54.0
->
+Miklos
