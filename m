@@ -1,118 +1,170 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE163988F8
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 07:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938A53D47DC;
+	Wed,  3 Jun 2026 07:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780472911; cv=none; b=Zt9vHLyxw9UzxA/N7QgTxtGMhXmCwha8rfnZipFwmC+gxiU0bLO57P0scRrscXDmkKk8JD0VEaV9OWe7TcYHnIZEjsrtc1k5Iin2R5SwA7JH/2MHBHUbJrfThr1CCd+/QluCs8C/gxgsK5sbEdT0LRJ5qe91TZk67fsk6sa86Jg=
+	t=1780473023; cv=none; b=s4wqQP++zvwP1pVV6iKvg5n4yUB3cGCnSwgxnQO79P+m539YghvQSdznI/XKqQI5JuOMd10BaXzZF1rxNLbJpB54beKnLWXfOwDGxDw5YLfymHsSM5UDj83KM5Hq8RCg1dzqH7eoBZHqUgxnCTuWABgmDiZbAvFYOuPxOAEat6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780472911; c=relaxed/simple;
-	bh=TWmcSA6B0DMY7jKJNiVI9qCiP9UtwpdiiUFr6lxS/X8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BjZeSm3QfyaeFVGNfDei/M8InsPz1MaTLfSr6nicWA7Ud8ZovOvu6s8/Suo/mqObBBfMjAwlOeEA6ydeMdTNhQUOW8SAbVguJDZFGVY6vw34T0GthftX7EErSLMhLzCgdPOw+3macla2FgsjHThq723Qfwy8GFe89Qm7uDtBoxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=DC1YMC58; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1780473023; c=relaxed/simple;
+	bh=4SlNVuIUt4a+Le1/sIdYKbYIKA3fRJN6rU1+wZYsBfw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WNKl2HqwTYNB2Q1DEZeHKsAqkpC0RDM71rGeuGZVl/R92HGWRFW6fC5YWdlmuF9X/YBbwfFZKxzwKXWLc25uwYpklmWw5BOTv6Hs2HjhvxsElzDHAizbX1moBjLZ4b6zMYcgclbEn+eOKXuiY3Uv4ZK0dOuHcTg3qiDk1qdVIwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L2Up9Zp/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="DC1YMC58"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=B7aZpHmCgBBjZ00wkejsDBxQbxriKeKh6dsVOWKjBtg=; b=DC1YMC587kUfr1OJtSLYa2zCBw
-	Y9ZNCy/m7g8vxfXjg1WWpg5JTzhni1FO4ZsyCr6TLzuZITDfZxWZ2lDUlW3n9OeuVFENU11zha9gh
-	qEXZVV8bpFwNatiNjV9md7ZXcyOnZ/Jyi7KQKDnOCSE3MrvmIl27ybd2HFrgtkXXlp2uL+qsy7kq+
-	9FjRdOsV6jA+tfdLflCC3GkXtgqP6lsc1ysAVewLYdfCH9ZBPrVgM2POE0WhF3XN5EI7ytoyK4w1/
-	gswwcsBMQK6iYx1bNc+1yCAXKqPu8tSjj3lFWeO38+1M1JDPBZ+RBMdpLNMZt1UDFQaNuvguSvX0+
-	EdB2k+rQ==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUgKo-0000000CjHY-3dcx;
-	Wed, 03 Jun 2026 07:48:18 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: linux-fsdevel@vger.kernel.org
-Cc: Andreas Hindborg <a.hindborg@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2 17/18] configfs_attach_group(): drop the unused parent_item argument
-Date: Wed,  3 Jun 2026 08:48:14 +0100
-Message-ID: <20260603074815.3033766-21-viro@zeniv.linux.org.uk>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
-References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
- <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L2Up9Zp/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB7D1F00893;
+	Wed,  3 Jun 2026 07:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780473022;
+	bh=88hbOu2kVMzvRDy1eOcozFAmg35YAXSjbmJFuM/mDK4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=L2Up9Zp/7tLPcWy426HJxpyxK5jrLwIKsJh/I7EJrRqcMVmPW2D3+n64+taNy6XZD
+	 ZwdSTJ3RON53sNMh72dYcdBngzi+//cBXjPCP2TR0P2pLDzeSCUSNIp2+t/UrFFG+f
+	 l5kJXpa9fMPly8p1SjmScFTJJ15uQW2Zu81INbFDgDLPz5mtcYEx1uNknRioWz8unX
+	 U0un4cVpgXwBSRBNNymxkAycgiZmzK55Txhoa8kYnHkznYtABdxBsIRTGYEIQQqIYB
+	 F0JhkZF7PR8dLeyUevRBWaTjlMrnD/sVqHpvTV1ougk40oJuqlpF6GsQKvj5/BOxGQ
+	 cyjSy6gZLovcA==
+Message-ID: <df22c9ff-6705-426e-85b1-b5018590d723@kernel.org>
+Date: Wed, 3 Jun 2026 09:50:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Al Viro <viro@ftp.linux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Christian Brauner <brauner@kernel.org>, Askar Safin <safinaskar@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-api@vger.kernel.org,
+ netdev@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
+ David Howells <dhowells@redhat.com>, Pedro Falcato <pfalcato@suse.de>,
+ Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV> <20260601160455.2c187574@gandalf.local.home>
+ <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
+ <821ed41e-5b2f-4d17-aeb2-71b0361f8e7f@kernel.org>
+ <20260602184440.GB2503276@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260602184440.GB2503276@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This one *was* used - for passing it to configfs_attach_item(), which
-didn't use the value passed to it.
+On 6/2/26 20:44, Eric Biggers wrote:
+> On Tue, Jun 02, 2026 at 10:25:06AM +0200, David Hildenbrand (Arm) wrote:
+>> On 6/2/26 02:28, Andrew Morton wrote:
+>>>
+>>>
+>>> Well yes, The patchset seems sensible from a quality POV.  But to make
+>>> a decision we should first have a decent understanding of its downside
+>>> impact.
+>>
+>> I guess most (all?) of us ... dislike ... vmsplice(), so trying to remove it
+>> entirely is certainly very appealing ...
+>>
+>>>
+>>> I haven't seen a description of that impact in the discussion thus far.
+>>> And that description is owed, please.
+>>>
+>>> I assume a small number of specialized applications are using
+>>> vmsplice() to great effect?  What are those applications?  What is the
+>>> impact of this change?
+>>
+>>
+>> I did some digging, and the kernel crypto API documents using splice/vmsplice
+>> for zero-copy[1] and libkcapi [2].
+>>
+>> I did not find performance numbers, how much vmsplice/splice actually gives us.
+>> Playing with the kcapi-speed tool [3] (specifying --vmsplice vs. --sendmsg)
+>> doesn't really reveal a big difference at least on my notebook. Not sure if the
+>> parameters I specify are reasonable.
+>>
+>> I don't know whether downgrading vmsplice to preadv2/pwritev2 would perform
+>> significantly worse than sendmsg ... and I don't know what the default would
+>> usually be (default to vmsplice or sendmsg). I might try finding some time to
+>> play with it more, but I doubt it, so if anybody else has time ... :)
+> 
+> AF_ALG is a mistake and isn't commonly used.  Using a userspace crypto
+> library is faster and is what almost everyone does anyway, as it avoids
+> the syscall overhead.  There are many other issues with AF_ALG as well.
+> 
+> 7.2 will mark AF_ALG as deprecated, mostly remove AF_ALG's zero-copy
+> support, and remove AF_ALG's async I/O support:
+> 
+>     https://lore.kernel.org/linux-crypto/20260430011544.31823-1-ebiggers@kernel.org/
+>     https://lore.kernel.org/linux-crypto/20260504225328.25356-1-ebiggers@kernel.org/
+>     https://lore.kernel.org/linux-crypto/20260523-af-alg-harden-v1-0-c76755c3a5c5@gmail.com/
+> 
+> In practice, the programs that are keeping Linux distros from disabling
+> AF_ALG in their kconfig outright are just iwd, cryptsetup, and bluez.
+> They use AF_ALG just because it was mistakenly thought to be easier than
+> using a userspace crypto library.  They don't need maximum performance,
+> nor do they use vmsplice, splice, or sendfile.
+> 
+> There is other highly niche code out there that does implement the
+> AF_ALG + vmsplice + splice thing, e.g. libkcapi.  But it's just not
+> enough of a reason to keep zero-copy support, especially considering
+> that AF_ALG has always been the wrong solution in the first place.  The
+> fallback to copying the data is fine for this deprecated API.
 
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
----
- fs/configfs/dir.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+Cool, thanks for sharing that Eric!
 
-diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index 2f3f3f504e2c..8fc05fe69992 100644
---- a/fs/configfs/dir.c
-+++ b/fs/configfs/dir.c
-@@ -657,8 +657,7 @@ static int populate_attrs(struct config_item *item)
- 	return 0;
- }
- 
--static int configfs_attach_group(struct config_item *parent_item,
--				 struct config_item *item,
-+static int configfs_attach_group(struct config_item *item,
- 				 struct dentry *dentry,
- 				 struct configfs_fragment *frag);
- static void configfs_detach_group(struct dentry *dentry);
-@@ -719,8 +718,7 @@ static int create_default_group(struct config_group *parent_group,
- 	if (child) {
- 		d_add(child, NULL);
- 
--		ret = configfs_attach_group(&parent_group->cg_item,
--					    &group->cg_item, child, frag);
-+		ret = configfs_attach_group(&group->cg_item, child, frag);
- 		if (!ret) {
- 			sd = child->d_fsdata;
- 			sd->s_type |= CONFIGFS_USET_DEFAULT;
-@@ -890,8 +888,7 @@ static void configfs_detach_group(struct dentry *dentry)
- 	configfs_detach_item(dentry);
- }
- 
--static int configfs_attach_group(struct config_item *parent_item,
--				 struct config_item *item,
-+static int configfs_attach_group(struct config_item *item,
- 				 struct dentry *dentry,
- 				 struct configfs_fragment *frag)
- {
-@@ -1423,7 +1420,7 @@ static struct dentry *configfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
- 	spin_unlock(&configfs_dirent_lock);
- 
- 	if (group)
--		ret = configfs_attach_group(parent_item, item, dentry, frag);
-+		ret = configfs_attach_group(item, dentry, frag);
- 	else
- 		ret = configfs_attach_item(item, dentry, frag);
- 
-@@ -1908,8 +1905,7 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
- 
- 		err = configfs_dirent_exists(dentry);
- 		if (!err)
--			err = configfs_attach_group(sd->s_element,
--						    &group->cg_item,
-+			err = configfs_attach_group(&group->cg_item,
- 						    dentry, frag);
- 		if (err) {
- 			BUG_ON(d_inode(dentry));
 -- 
-2.47.3
+Cheers,
 
+David
