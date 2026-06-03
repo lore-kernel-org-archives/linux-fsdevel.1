@@ -1,81 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21ECB46AEE5;
-	Wed,  3 Jun 2026 11:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F0544CF25
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 11:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780486618; cv=none; b=Icbth+7waE+5y04Cu9h/eNsqgZFr59L0vhYTWDNQMBtXVjfJp0mXNBl77DBmBCclZxRjC4HG+EKtW2DEcUJJrA1xRzRt8sMDtd9K+CIlwiy4cJE92TCtlzZ7ohqWUeyRSqBmd/OHQcCeIbUszhJ2nUxf1yy4Oi8ctfcqhqq50ks=
+	t=1780487041; cv=none; b=SzMEukpe+acE2AjsF/KdyHfoFQRx9TnW0YQhnF1nXTuppEjy5kWsWHDW4HQ4IfAr/gE/1jOc6LOUIJSa0NYyYL3N33zWvqg4BVzPZU/kqoNw6PvJpCXmwjBrclh4X5xNMdw9tThSnJWZbrAblQ8d+bPklChB+J94lBlpg9/GZV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780486618; c=relaxed/simple;
-	bh=GXtemVvQe32JT57DRWEfRbfG3iQHNFXNIcdyeU1cKKs=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=uVYHho0o2nFlXUh+9fIpruZcDD1pX3o85rYAm6e9xWiWG2Oth98/4YoZNxPXApGi8QzWboJorke2Yio5g9fG9bFkPkeHDmA2plDUlgWWoZIOiVTyWMBJZjAkZ93pj6p4wRcPB7a+l9v+CR4iJPHYBe9obHaGERu+1V0FcP3Hc30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P+l+YvhR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780487041; c=relaxed/simple;
+	bh=cB5IzueyNAgldHyPvG5KG9AuTk1cmqYL6BsojGI83KI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=acI/TraWpV+GasguaIjSGoUeaX4WL+yRs64FwUJA7baF+4uSFkmCMSW9KwFMu+78WHdlqX9ibYdoW0EDQBYME5en+i2hAbf+w96cviUglN1t5c+KvOttJ0ZYX7d/Yi7B0lpV+nDTIHvVLkIfDMVsdZdDTkhwvHACCtootTH2S3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e9TruHKb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L+5Da9hO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e9TruHKb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L+5Da9hO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P+l+YvhR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7631F1F00898;
-	Wed,  3 Jun 2026 11:36:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780486616;
-	bh=/4A0xCv5HhFvDirt4xZLIckm0i7h6JzjZugBoUcXNR8=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=P+l+YvhRqoYRYIAnghXWuK9AxYaXE4i6xfGgRj1kReI1WPD713ebrzqioVUAB9pob
-	 ckNkTBKOuK16GgariWjKzTzEhDnZYa0gRtNsuiiiJJ0djwTF8baMi6SfHgeJiFwgOu
-	 w0LdbrHDdyNJKEQcanJq36RqcJhZnDM8Iyh4SZSozY80qY1N0oEQ45zrnfV3u2uz3d
-	 1yF/RvE0iJO7kg1qbt3PM1oJCxesQI74UWx2R0FohIU8SqYInPG+xAJoCsqFi1S2eA
-	 EGR8uW9/ljh4vTXT9VyNXTTIYZzAvpxVYtbxKoGsiBM/Rp1P0eLsxRqEoWms0pt1vp
-	 V2xcaWr+y78QA==
-Content-Type: multipart/mixed; boundary="===============3363437374747764375=="
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e9TruHKb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L+5Da9hO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e9TruHKb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L+5Da9hO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A8A7067559;
+	Wed,  3 Jun 2026 11:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780487037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W0eCuaAhCxqMdNJLOaVe8WqPBMsrJRRf6/0fkCn++oY=;
+	b=e9TruHKba2Aw8j5znNs7wuEBN6ABAIt9lPHHNKWc10ifZhfTD8lU+Amkj6FyF3IwnwqsOn
+	ZJSB/bau0jk/KeED2ljIJWWGmrp4+0ZNlP/gz4LWSh0lEAZqj2+Lm+WHhG7wDQUsUCBo76
+	tZ2EMza79/ZhFb4kLqIaWpmw8RG6E6c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780487037;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W0eCuaAhCxqMdNJLOaVe8WqPBMsrJRRf6/0fkCn++oY=;
+	b=L+5Da9hOM6Rn3I3fgd338xAE9ha2lU5C4Va8OfuLmzgu2gRs0ZCE33NMTcTqxRbWVALAl9
+	NTF3zlbpIv+RVfCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780487037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W0eCuaAhCxqMdNJLOaVe8WqPBMsrJRRf6/0fkCn++oY=;
+	b=e9TruHKba2Aw8j5znNs7wuEBN6ABAIt9lPHHNKWc10ifZhfTD8lU+Amkj6FyF3IwnwqsOn
+	ZJSB/bau0jk/KeED2ljIJWWGmrp4+0ZNlP/gz4LWSh0lEAZqj2+Lm+WHhG7wDQUsUCBo76
+	tZ2EMza79/ZhFb4kLqIaWpmw8RG6E6c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780487037;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W0eCuaAhCxqMdNJLOaVe8WqPBMsrJRRf6/0fkCn++oY=;
+	b=L+5Da9hOM6Rn3I3fgd338xAE9ha2lU5C4Va8OfuLmzgu2gRs0ZCE33NMTcTqxRbWVALAl9
+	NTF3zlbpIv+RVfCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 84DC4779A7;
+	Wed,  3 Jun 2026 11:43:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GOpGHXwTIGqNXAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Wed, 03 Jun 2026 11:43:56 +0000
+Date: Wed, 3 Jun 2026 12:43:54 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org, 
+	david@kernel.org, dhowells@redhat.com, hch@infradead.org, jack@suse.cz, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org, 
+	patches@lists.linux.dev, viro@zeniv.linux.org.uk, willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <aiAREqlHK1llOw_y@pedro-suse.lan>
+References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
+ <20260602225426.122258-1-safinaskar@gmail.com>
+ <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
+ <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <01ff25bf2f60666db05099be88f1a67bea2dd97fe7114a9bbe7c190252eebe3a@mail.kernel.org>
-In-Reply-To: <20260603105317.944304-4-dawei.feng@seu.edu.cn>
-References: <20260603105317.944304-4-dawei.feng@seu.edu.cn>
-Subject: Re: [PATCH v3 3/3] bpf: Restore sysctl new-value from 1 to 0
-From: bot+bpf-ci@kernel.org
-To: dawei.feng@seu.edu.cn,martin.lau@linux.dev
-Cc: emil@etsalapatis.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,kees@kernel.org,joel.granados@kernel.org,bpf@vger.kernel.org,linux-kernel@vger.kernel.org,linux-fsdevel@vger.kernel.org,jianhao.xu@seu.edu.cn,dawei.feng@seu.edu.cn,stable@vger.kernel.org,zilin@seu.edu.cn,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Wed,  3 Jun 2026 11:36:56 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,gmail.com,kernel.dk,kernel.org,redhat.com,infradead.org,suse.cz,vger.kernel.org,kvack.org,szeredi.hu,lists.linux.dev,zeniv.linux.org.uk];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
---===============3363437374747764375==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Tue, Jun 02, 2026 at 08:51:03PM -0700, Andy Lutomirski wrote:
+> On Tue, Jun 2, 2026 at 5:12 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > On Tue, 2 Jun 2026 at 15:54, Askar Safin <safinaskar@gmail.com> wrote:
+> > >
+> > > Pedro is talking here not about this vmsplice patch, but about
+> > > my future hypothetical patch, which will remove splice-pagecache-to-pipe.
+> >
+> > That absolutely would be my suggested next step.
+> >
+> > Something like the attached - get rid of filemap_splice_read()
+> > entirely, and just replace it with copy_splice_read().
+> 
+> Am I understanding correctly that this will completely break zerocopy
+> sendfile?  sendfile is, internally, splice-to-a-secret-per-task-pipe
+> and then splice to the socket.  How much to people care?  These days,
+> a lot of high-bandwidth network senders are sending encrypted data,
+> which is not zerocopy frompagecache.  But there are surely some users
 
-> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index 4bf0ec94e719..35d1f1428ef3 100644
-> --- a/kernel/bpf/cgroup.c
-> +++ b/kernel/bpf/cgroup.c
-> @@ -1936,7 +1936,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table_header *head,
->
->  	kfree(ctx.cur_val);
->
-> -	if (ret == 1 && ctx.new_updated) {
-> +	if (!ret && ctx.new_updated) {
+You can do zerocopy from the page cache, even with TLS on top, by having
+your (fancy) NIC do TLS offloading for you. See https://people.freebsd.org/~gallatin/talks/euro2019-ktls.pdf.
+Linux works similarly. Slide 26 is particularly interesting.
+(No KTLS I assume is using simple sendmsg()'s from user memory, SW TLS
+and NIC KTLS are both sendfile(), per the slides)
 
-The success check now tests !ret, but the kerneldoc above
-__cgroup_bpf_run_filter_sysctl() still describes the old convention:
+TL;DR I really do think it matters.
 
-kernel/bpf/cgroup.c:
- * This function will return %-EPERM if an attached program is found and
- * returned value != 1 during execution. In all other cases 0 is returned.
+> 
+> Now maybe someone cares about a different path?  Splice from socket to
+> pipe to file?  Splice from socket to pipe to other socket?  Does
+> anyone do any of this?  One can, of course, recv() directly to an
+> mmapped file, but then you pay for page faults, so that probably a bad
+> idea in most cases.  At least all of these cases don't have spliced
+> buffers that refer to a potentially read-only file.
+> 
+> 
+> But I'm a little concerned that zerocopy sends from files to network
+> are actually important.
+> 
+> --Andy
 
-Since bpf_prog_run_array_cg() returns 0 on success rather than 1, should
-that line read "returned value != 0" to match the new check?
-
-This was raised by the bpf-ci reviewer on both v1 and v2
-(https://lore.kernel.org/all/45201482368d330f6301ea4d90e29fa1585bf985c12a191d9fcd975087eb0649@mail.kernel.org/)
-but the wording does not appear to have changed in v3.
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/26881443787
---===============3363437374747764375==--
+-- 
+Pedro
