@@ -1,137 +1,217 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975B64D8D81
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 22:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587E83D47D0;
+	Wed,  3 Jun 2026 22:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780527239; cv=none; b=uWtc+HpixtdWZ5i9oqE5AWMv3v8ghEFBc1dFpuY21N5q5KL6JAlo7iD47/KvR9nM3Ku2ZeeALbrSP+KudrBreM5AqnDJWjkqyj+zeSmCvMcm1mf6JcCF3x5N4LAwutmc5qDyG07CoIFd6u5S+1OwtEvgw01BtD3nomZq/Xtk+aM=
+	t=1780527383; cv=none; b=Y6vsNBlY5oIb/HqAu5j/PfnhE8mhtxCR7J4r8f8d18l2lDso6273pIgLsm1qPNtl8VdzhpfSi20J67sXvjBolonirqbwE6bdYqJbJjkcAln5IpXFoM7ABTpVvKssbjw0nSrAGm1LqU8f3AVispBBuX+AxMgtgcmJ0DxHWcpACW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780527239; c=relaxed/simple;
-	bh=R/zZG4ZyrvWUzuSIU5eJSLX1T5t0EJujPTyy2snq0VE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d419+k1r6mc37ErMkudatDPN+sOZyyapYApkeGHJLRmxBH9DizcRiiDsuL+4keUylGC63PRp/W5XcE2gLlWA9FiIIEhR/U4IwEsfxWx9nQNeHVDnBmRe+3e15HO4U2L0gUrekom6pq7w4WOhaeAUEbe8hRTVpR+jX6yW7326Js0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=dE+umDdb; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1780527383; c=relaxed/simple;
+	bh=AtoLywmkm8/FMNLl1ZknpqesNH2sKddjCkBb89SUr8I=;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
+	 References:Date:Message-id; b=RwZLrP9G72UTs6lGNiezrkSR416mtFQngQoYY6h54/LDKbACxJB56lGDxdnSZbKQu6kLEgEaEoICKVKgi4Cl0b7C9lJ7ddd1m/pu+kFzEr+xfrJ/dQYvtkHlbmZXb5h+/ALlzRk6g6FrHl7wgoNACbOYeKx1F6njEG6yRu1bc7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=Apr2ZnQC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FsfUp8MG; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="dE+umDdb"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-36d5fd50d20so32404a91.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 15:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1780527236; x=1781132036; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=d66PsLO70IOujHc9tD5MHey7l/21gIQRZ4eLyqG6j78=;
-        b=dE+umDdbmLYSJP06t6FDre4rXB1MQi/ipNRAMF0gNP79dk+7Ep+xdrHGJjHtBnQPWz
-         4qIcL/QR/oEhbTj9gZkM/vgrqepcTWNHjYl3s/0DvYujyIK1CiHLyXqYrNuwWHDlQTxW
-         /qWd1eES/KmdJWsDu8Yiu6phCOMMITWFehz30=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780527236; x=1781132036;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d66PsLO70IOujHc9tD5MHey7l/21gIQRZ4eLyqG6j78=;
-        b=XuxJiukhQy6+PzOOjNARnxcQirWI0FUIo6VnRo0XjzkY/rH/9s08IyMi0casKWF88P
-         XhIEfHxR+JKjhZM40t07UkxBjALhEX7Lm4ZuVDK+sWIXqlOJ7NmSb1cpPSxJEfcjWd1b
-         djYQvWNMvKkPJjyWPYKScYIRsi9pOLcvwfQYtsBjO/3YLBEChwQNQ4GO0dZPNdcA6HHd
-         dLCBxUraLhfEVsRDUVrPdSEb48xO9baZliWbW8baJam/C3gg+/KpqK++OqP+qEB0iD1M
-         VGf+UNG7XZ9ikvA4HizCNv0qaC/pmzYywYuAHgGyhBjx2NZL2eaGTmjLBHP8w9HhWdb1
-         rLZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/EIJqrACktxcuOJRBDfeY57vUs5orb19XpCYEeaNoqgPltMbVCuhmmNqeFZvSlYmzkTeZ+rrkDmFEzJoln@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOMuNpQFMKVRzn19N6CiCWcfYh3D4QQFzaK2A5DoZ7lO7V69nr
-	pJvNl950UASalOqCixNj1ZcaZJzhQDf8RnlWfLR2OOOFEOqgSESvQ6x9I3//SjlQi0CTwVsUEZw
-	atU6zxhmb+Q==
-X-Gm-Gg: Acq92OGIH00N18po6FRDOjLTCVoqG1mwGNz9Pz8I5icqC+m7qOiSnKfNYib5ANg4fvq
-	9tMEC8Hf9whBEeh8GRCmLmSPJ5ZuTnp4JPLXeV0iU2EPkyFtvegCOnYSWNchH5EhUB7m0oHdeTl
-	Aa1mfEC7C530A7lRfI9GRgfWLB2UkBcp9gnq4/GzJqMYs7l7T9Bc4RJJiUxLbu2JSF7SM6e+n7/
-	1FTieLPvdT5IH4R3hJzUv5I7z0IyFT9Ec8fTR7/Sas9+niFWdZI8wDsZbPzHJD6YUeN270kpnOA
-	A/zFtP9G47AgIuZV2ASAB4m9vIz/VjOaEDDFsuKmcNW++Ien5EsPS5A2UoFWZPxG/HDyIaxRe3g
-	b5U+e95x/DPpoAPjOnItwycG3pRZH0zhM6/dWYoMJkuFDjJspCBLEJV50iIW0zUkk3RRbp3ZetM
-	UjARO4JTcG8zOToe7e9EQ4xMA4hujDCLAhMUWp+9+j+Ws9VhX376jCcgVtSiVxHA8YBy+nYqc3U
-	QhRPp6nRrY=
-X-Received: by 2002:a17:90b:4ac7:b0:36b:8873:d96d with SMTP id 98e67ed59e1d1-36e32b3baefmr4916808a91.11.1780527235763;
-        Wed, 03 Jun 2026 15:53:55 -0700 (PDT)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com. [209.85.216.53])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f710ee4f3sm811349a91.13.2026.06.03.15.53.55
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 15:53:55 -0700 (PDT)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36d5fd50d20so32399a91.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 15:53:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8GvSevvw5NGDXkGzDW6/ZTHRalO6rtcMkKab/AGMxNS4oWpMtQGap6QWeULM9sOf/lRE5UTAYvAsb43kdZ@vger.kernel.org
-X-Received: by 2002:a17:90b:4ac7:b0:36b:8873:d96d with SMTP id
- 98e67ed59e1d1-36e32b3baefmr4916778a91.11.1780527234968; Wed, 03 Jun 2026
- 15:53:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="Apr2ZnQC";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FsfUp8MG"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5403E1D00044;
+	Wed,  3 Jun 2026 18:56:21 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 03 Jun 2026 18:56:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm1; t=
+	1780527381; x=1780613781; bh=a5CZr3XaKhzFY2nfmXPaNYzwALzIIcMg4Es
+	oDZpKyMA=; b=Apr2ZnQCcH9EdiwUw7P+yt7lwemVeSOdfkjw8scNzkm4fDdNZrK
+	1bfiJD9ktIsPOkt0Uzz9B6bNilVouw4YgOMRxt6VtfXYJZ+Ju9vD04T0R7pZ2QHO
+	zVHF11PGPxtCArcU6954I9U59Azoj7Y9uIJGVaf16q1kVWHiPj0yVNvRROLNCmiJ
+	9r61f9PMsbB97TZBz6FzG5t5aOlHxmJbDmtE4bsDKJzSYsWrWfy39IQwBa7KsCPR
+	Gbr+Pm9hxuj6LDdu5CnqTWesPwBNxNST1YQRudOZkvDKNet5J/2QTWwN19UYzXl0
+	WETEH6WQB2pHCgugcHjvV/upGjOHnGmNR4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780527381; x=
+	1780613781; bh=a5CZr3XaKhzFY2nfmXPaNYzwALzIIcMg4EsoDZpKyMA=; b=F
+	sfUp8MGZLMUomWcoKo3VNwv/yGVGdVnx5JFFZjUwTVj4XWY8q6n16sANpf6kaqjh
+	cpLGxblk3gAEchjYY1JO8Ix6OLKBHf+YtvU1YDorSBEMfm2DGrwyeS9WgNst2ExD
+	R2GuHW/y6QdXkvW022y4vBPf61VxUP/KMWRvpaB1B4G9YqJVn2+1YsdNtt1gH6PU
+	m8rjdlDKJo9GpEc74bfxb+qi76+irNlKJ5E96SUUq+aikrvrCUZ6K7jzqcLE/mOe
+	dipicYovXnQfzx217bZSL/CVz7sZ3vmRW0rbmt7bsbv1OSkaHa/zW60FvHFG/o/v
+	ULXiuaF9RmjdSdkVqrsTg==
+X-ME-Sender: <xms:FLEgauP3okRVEBKcxDlbxuR3kmXhzAE0yC7j3dklsZWqL1O-i1PRsQ>
+    <xme:FLEgagB_0jP28z3zKFBtCzfTq_SUF-0mxLYsJ6Ftm3JKGY7G5j_u0roIXhZ-zPSr9
+    SxGyhTGuC9hkLIP5tK9v6-CQX8dM6nNaPc6-RWc7hm4467PvmY>
+X-ME-Received: <xmr:FLEgav7q1547NIJp_aAiXBFYuFaMaeBXrbw6-QogmnS5-7T5KEx0UAKS-KwdN-9RSvA6WxgLgYozKQvMTzZCIOi56bitaRo>
+X-ME-Proxy-Cause: dmFkZTFyqTTXsgmvOmZzY2p2ynkvACEz+xIOiYgtbZbCncJuFOH7Yuq+DnHnd5zKrkmR1K
+    0ek2EqkUw24MnDt043g3+TQZVrpZBk8uDiTQvkQ6Z6i7aarv/Zmm8xbYd9KapYQ7QPgjnL
+    5IP8p8JZMV1GYA0MaeQzxJCyr7lG9QzbExLqXxmh6QENqAS2QHqIVvYazv3hrOBZ3k/JjN
+    ndwSEHusY1CWD97xYFUk6X5UamxDcCIflSe/qva2l/ufIRcgOYnEO6qB+9K2CtHQnP7zUb
+    qGthh6HXmmzc7yP0shfLQZyLX+cK26eHPUZXLNS5QZrzu+w+vXF/CeM9CdYsRHO/1ebqpz
+    uVi/LfFMSoHw/VNCXdYp9v1TOjMF08lYWYzE3CA0gQdOsjRY7CmOFKHHoUJSqnXYjtkARn
+    qVyx/kvNC/rgSAiEBwqEl7tP5YhOsKujJhePVCr/StJsJ7WiT5fFg8PmrD911zeU8nHpFp
+    UACRs7BauDZQeOvJCRRU9Idn+bqT5NjhUNHUKfp6PBfrZl2U7g3q6JLVmHCCNGRZfxIJVc
+    UoFEA9o+323LPJYk1HBZnHJ7ntJ9yj/RqRqMMW/BMRMtbyC8zWUphLD+wGxPAUP+Z36KvL
+    68tZeWgtWr499LGuCoO42R1auLalb6tbgghzWmgqaEnXYwi3e0SBMJlVDZfw
+X-ME-Proxy: <xmx:FLEgaq65OV4pjKyDJ38TtGS-D0rux270-U2zpFvQkhKm6M43SDyR7g>
+    <xmx:FLEgahTMjp9p8GwBlBstIYG0ubK3QjM4WtCuuaZsjR10chi38W97PQ>
+    <xmx:FLEgai_tCHhNoctdw4S7U4LwvhQlvRAbsaL8sEUzTlgZcGImrXX6nQ>
+    <xmx:FLEgaib5sxNf3Gvl9IAX-kl_uzmt9VeHkpRk1pyW-TxgaJ2XmcVGog>
+    <xmx:FbEgapOfLIrGk2iJWf8CkI0U3Ud9htiE31FuX_23WYcz4YrZsgsSGt6B>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Jun 2026 18:56:17 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
- <20260602225426.122258-1-safinaskar@gmail.com> <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
- <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
- <CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
- <CALCETrXzxubt4eWue3+wv7Fq9C2m7uu6bWPstqFh6Mo57bPwQQ@mail.gmail.com>
- <CAHk-=wiEwSjfbjfO74xu=UmkkdHXkJg5QNQ8pP-3iYmunmeV9g@mail.gmail.com>
- <CALCETrW3XcNLuB1Y6PSkxQDSK2o+=EB2AAd25SjWQqcJemwnbw@mail.gmail.com>
- <CAHk-=wgn3QTLj+F+XccE10dXY-UGWN8+fNLEvhsLw+tik9rOmg@mail.gmail.com> <CALCETrXpqPMS487Bm8f8mHe8hv9DzCqoaW4UdoHetzYBUAhYLw@mail.gmail.com>
-In-Reply-To: <CALCETrXpqPMS487Bm8f8mHe8hv9DzCqoaW4UdoHetzYBUAhYLw@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 3 Jun 2026 15:53:32 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh5bFj1a7eaGp9sixDg3UXu7xUGfU=YJo+ckpGxGAyhXQ@mail.gmail.com>
-X-Gm-Features: AVHnY4JfTnadgKQknxIsZL_Ab3vCkRcYm3kghJCvdkf-q8nXBlQAzmvvhTEK5F8
-Message-ID: <CAHk-=wh5bFj1a7eaGp9sixDg3UXu7xUGfU=YJo+ckpGxGAyhXQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org, axboe@kernel.dk, 
-	brauner@kernel.org, david@kernel.org, dhowells@redhat.com, hch@infradead.org, 
-	jack@suse.cz, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu, 
-	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de, 
-	viro@zeniv.linux.org.uk, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+From: NeilBrown <neilb@ownmail.net>
+To: "Jori Koolstra" <jkoolstra@xs4all.nl>, linux-api@vger.kernel.org
+Cc: "Christian Brauner" <brauner@kernel.org>,
+ "Aleksa Sarai" <cyphar@cyphar.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ cmirabil@redhat.com
+Subject: Re: [RFC PATCH v5 1/2] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+In-reply-to: <1571071834.388026.1780492561946@kpc.webmail.kpnmail.nl>
+References: <20260525202937.466497-1-jkoolstra@xs4all.nl>
+  <20260525202937.466497-2-jkoolstra@xs4all.nl>
+  <177986687451.3379282.8177801680240137022@noble.neil.brown.name>
+  <1825098847.140203.1780349158954@kpc.webmail.kpnmail.nl>
+  <178035470365.2923901.16027569586235650310@noble.neil.brown.name>
+  <20260602-sofern-filmpreis-erfordern-63998d3af067@brauner>
+  <1571071834.388026.1780492561946@kpc.webmail.kpnmail.nl>
+Date: Thu, 04 Jun 2026 08:56:15 +1000
+Message-id: <178052737557.2082204.7627783397875879458@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Wed, 3 Jun 2026 at 15:23, Andy Lutomirski <luto@amacapital.net> wrote:
->
-> So I'm suspicious that you've possibly make bugs much (MUCH) harder to
-> exploit, but the underlying awful code and opportunity for bugs is
-> still there.  MSG_SPLICE_PAGES is still around, and there is still
-> (AFAICS) no actual coherent description of what it means.
+On Wed, 03 Jun 2026, Jori Koolstra wrote:
+> > Op 02-06-2026 17:44 CEST schreef Christian Brauner <brauner@kernel.org>:
+> >=20
+> > Yes, I agree. This would change error codes but I don't think it
+> > matters:
+> >=20
+> > * O_WRONLY | O_DIRECTORY on non-directory -> ENOTDIR
+> > * O_WRONLY | O_DIRECTORY on     directory -> EISDIR
+> >=20
+> > I don't think that really matters and we should be able to collapse this
+> > to ENOTDIR.
+>=20
+> I will pick this up in the next version of O_CREAT|O_DIRECTORY. I think that
+> makes most sense.
+>=20
+> I have an outstanding patch for changing the EACCES/EPERM to EOPNOTSUPP;
+> Jeff and Jan were skeptical, but I want to know your opinion as well.
+> I feel the the scenario where userspace has no fall-through but does
+> handle every single -E listed in the man-page quite unlikely, so I say
+> lets change them and we'll hear from them if somehow someone relied on
+> this weird way of error handling.
 
-I don't disagree. I've only looked at the filesystem side.
+Please cc linux-api@vger.kernel.org on code and discussions that involve
+API changes.  I have cc:ed them on this reply.
 
-The networking side does some odd stuff too (and I did look at some of
-that, and had to be edumacated by Jakub on some of the subtler rules
-for what skb data sharing is ok and when it's not - really not my
-area).
+Thanks,
+NeilBrown
 
-But at least MSG_SPLICE_PAGES should be kernel-internal only
-interface, and once you don't share page cache pages with networking
-code I think that kneecaps a lot of the attacks.
 
-So that's really the aim here for me - at least _attempting_ to go
-"maybe we can just limit splice enough that it doesn't even *matter*
-when networking does something odd and questionable".
+>=20
+> > > >=20
+> > > > There is another point, I maybe should have mentioned in the cover le=
+tter: I have not attempted
+> > > > to handle dangling symlinks for O_MKDIR. Not because I think they are=
+ a great idea (as Aleksa
+> > > > has mentioned, but I am not very familiar with the dragons it entails=
+), but I wanted to discuss
+> > > > what behavior we want in this case. Do we say that we never do a mkdi=
+r after following a lookup
+> > > > last symlink? I don't think that state is even recorded right now.
+> > >=20
+> > > I think the state might be recorded in nd->depth.  But you probably
+> > > don't want to use that directly.  Maybe forcing LOOKUP_FOLLOW to be
+> > > cleared if O_CREAT|O_DIRECTORY is set would be good.  But what would
+> > > stop you opening an existing directory through a symlink....
+> > >=20
+> > > Probably we need a clear statement of intended semantics which we can
+> > > review, agree on, then implement.  Have you looked at preparing a patch
+> > > for man-pages to document the change in behaviour for openat etc?
+> >=20
+> > Ugh, dangling symlinks. Actually, scratch that: Ugh, symlinks. So
+> > O_CREAT without O_NOFOLLOW allows you to create the target of a dangling
+> > symlink iirc. I always forget that. I think this is a very subtle bug
+> > and maybe - with both eyes closed - a feature at times.
+> >=20
+> > We should straighten the behavior for O_DIRECTORY | O_CREAT and we
+> > agreed on that during LSFMM. It would be nice if we could get away with
+> > simply implying O_NOFOLLOW but I think you're right, Neil, that this
+> > prevents a valid O_CREAT | O_DIRECTORY on an existing directory which we
+> > can't do. Makes this kind of a pointless excercise.
+> >=20
+> > But this shouldn't be all that crazy to do right. Using the O_CREAT as
+> > an _example_ for what we'd need:
+> >=20
+> >     fs: refuse O_CREAT through a dangling symlink
+> >=20
+> >     open(O_CREAT) without O_EXCL follows a trailing symlink and, when the
+> >     symlink target does not exist, creates it.  Refuse to create through a
+> >     dangling symlink instead.
+> >=20
+> >     In lookup_open() a negative target reached with nd->depth > 0 was
+> >     arrived at by following a trailing symlink; since the dentry is negat=
+ive
+> >     the symlink is dangling. Set create_error to -ELOOP in that case.
+> >     Reusing the existing create_error path strips O_CREAT for both the
+> >     generic and ->atomic_open create paths and only reports the error when
+> >     the target is actually negative, so opening an existing target throug=
+h a
+> >     symlink, interior symlinks, and O_EXCL (which never follows the trail=
+ing
+> >     link) are all unaffected.
+> >=20
+> >     Hastily-Cobbled-Together-by: Christian Brauner (Amutable) <brauner@ke=
+rnel.org>
+> >=20
+> > diff --git a/fs/namei.c b/fs/namei.c
+> > index c7fac83c9a85..d20bbcc7e8d3 100644
+> > --- a/fs/namei.c
+> > +++ b/fs/namei.c
+> > @@ -4468,6 +4468,9 @@ static struct dentry *lookup_open(struct nameidata =
+*nd, struct file *file,
+> >                                                     dentry, mode);
+> >                 else
+> >                         create_error =3D -EROFS;
+> > +               /* refuse to create through a dangling (trailing) symlink=
+ */
+> > +               if (unlikely(nd->depth) && !create_error)
+> > +                       create_error =3D -ELOOP;
+> >         }
+> >         if (create_error)
+> >                 open_flag &=3D ~O_CREAT;
+> >=20
+> > It can't be that easy...
+>=20
+> This is what I suggested above, correct, in terms of behavior?
+>=20
+> In terms of the patch, I think this will work, but struct nameidata could r=
+eally
+> use some commentary for its fields. I spent the last two hours verifying th=
+at
+> nd->depth really does what I thought it did, and I am still not 100% positi=
+ve.
+> AFAIS, nd->depth indeed tracks the current symlink depth, which outside of
+> link_path_walk() reduces to the number of trailing links followed.
+>=20
+> But if Neil's rework of lookup_open() is merged we lose access here to nd.
+> @Neil, have you thought about what would be a good way to resolve that?
+>=20
 
-And it's entirely possible that the current zero-copy "networking gets
-direct access to the page cache folios" is a huge and insurmountable
-performance requirement for some loads. So the vmsplice patch - and
-_particularly_ my suggested "let's try always copying" patch - may
-simply be doomed.
-
-But I'd rather try to simplify the splice code by removing complexity
-- and possibly then failing and having to revert it and rethink things
-- than not even trying.
-
-Because I think splice() is a *cool* feature. It was always *clever*.
-I just don't think it's worth the pain it has cause.
-
-And it's been around for a long long time, and after more than two
-decades it's still most definitely not _widely_ used.
-
-So that makes it a failure in my book. Sometimes "clever" just isn't
-the right thing.
-
-               Linus
