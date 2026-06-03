@@ -1,109 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BC620010A;
-	Wed,  3 Jun 2026 00:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1655B223DE9
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 00:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780445744; cv=none; b=XauU7kJxvMPh3R+JgRO2oOMwSIrbApAblv0HqMlYoZMW5qP6V7C7h0u3+gkO4V5XFC+KmnJ5lDP1mD6IAUz9DUQnvOItLm6TfSikYeFy/4UTXyq2qHd3aCj1sMHnc5lC7isH+ka6gQY6bgHYsgV6rgUgZZuFLHkoGcDHbI69AJ0=
+	t=1780445751; cv=none; b=RYbxI3paj7Lw9rz0ZznpBRj2cETerFIThpSexIl5/TCzkxHioxmR3bHMTU/bLtX8jq8sRuRcHKSACSJRyKQKt0PMjtb5dB0tezRE31Vqhe3d3jG/GTEBA1aYjDX/2tNenIXC3sffBu2kEPg2Uu45VzR6lo3ZPqT31YmFyEKc8NE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780445744; c=relaxed/simple;
-	bh=gd8wDR9v6cnB8VzIFp0lzMRpBN0Z3IdiSBdLtFeeWek=;
-	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U4u4++wLgJbWCu2kCXSN2N8GVFoe5U0HTLU9ZmRx6WTb+wA9u3cImoZnDnxZNdn3B58+3SbLZEmfMidmuWrm/2/hihj1+1Z2567tB+ajgAAWdpqrUvvdsn6oaC9oVEXkpI76smKKtDoy5o6+W7Ymp4GwQJwTcgegOwPmOiZC858=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bosqbgA+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780445751; c=relaxed/simple;
+	bh=RAII8uf5vXZDzGDv43KJHEi4ttduXQEmEi0GBvJ2fP0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a4O/z8kgys5MK99Ff2vteT0ZTCDAm2sQx79zkd9inz84Ce9LLfNPHPQwMKy18QkHcu3J9gX+yoFeCbOR5ohUDPVDEspf76x4Ipqrq/C4eWZWDSVaOi8tLgoDPLGsQry0ym7cwVRX60tHocg2UI5E2lJuXtBZOP2BMJljm1GmPMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcJ7XPHE; arc=none smtp.client-ip=74.125.82.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bosqbgA+"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D14C81F00893;
-	Wed,  3 Jun 2026 00:15:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780445742;
-	bh=gSv9Pr8q/0JAfHzT/mySCm8uHyYxHXTJqvtNqeIRK+g=;
-	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=bosqbgA+paZeYZkbP/5RT4Ev0NW1crZoK2kfrJqUkpGB2LosLP3mT6q7Me2oCZn07
-	 HxBi2kR3eRkXKPu7NJ0KdMO1tiBTakKIOBSYsBdavBJuGDSHlbHhc7ZsMtGibDPe/A
-	 Ll/iSqv0oayth0fgiTZXRzaJHNcvV+gKB+kTC1fPikWhqhKw2HLXKKHSLyh7p/Hpj9
-	 rW7/h46jgsnVGL96ZO++pyPFaITCKB5MrCW/Cqsw6XC7OkCM4WDbBsf1QnM/B8Qn1j
-	 Lly8vToxS525iWPBeo/2me4lsWdUzDxLTt79EDHsdNEKtbLZVDRFIdmnBc6Exjt2dB
-	 IwhJs0ZJCR+NA==
-Date: Tue, 02 Jun 2026 17:15:42 -0700
-Subject: [PATCH 4/6] mountservice: improve checking of protocol version
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: djwong@kernel.org, bernd@bsbernd.com
-Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Message-ID: <178044567896.1435997.1499306550078259526.stgit@frogsfrogsfrogs>
-In-Reply-To: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
-References: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcJ7XPHE"
+Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-304ec41197bso5119987eec.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 17:15:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780445749; x=1781050549; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nd1qlp3StXzhHoHvmBNDlwVf9iOQtt7Zdy0Ey8CkHxE=;
+        b=AcJ7XPHE+trVAMKeZix7QPO+S5pQ6SPhVBRokgb6GXsYWyqKmFDWkR7LNKFW/ydHXw
+         fhWahSo323ViLe3bmrpYnI/dQ90GbPzN2E9ORiyRhRyYqiDBaQkSQfdjAjGyyAFiRejN
+         9W+AX6Kz0655uNm+x+3lq2xCXxcZS9Ge5wgvdbPpldCjdmFahygLYDgDOU35PYjPwl8j
+         SJ1Zi+5Fo2c2px2XtI3jeoF4j48ic0exJM3d7omvmPXd0kFmNs5c+zMNaSWlNn9CUGqX
+         1BAWdmOewcaFU0JK+f9gdlU6xhQ80e4fJzm10auiZOcMHc/zifRB0b6Fxl+yMu3+ate8
+         M17w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780445749; x=1781050549;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nd1qlp3StXzhHoHvmBNDlwVf9iOQtt7Zdy0Ey8CkHxE=;
+        b=Q60ZkSHy/MFKgbsY78HcG5gfUBAEOCUqMEzMaUQUQK+rtdn7AQA1vv56p1dyKr28Y3
+         67JJTuruPKpKlkJyRIQROioqimi2E7wmXLWUn7oQ5mqpUKRxLJ4KicdytW+0eCk7VGxc
+         cft/xr0vOp7FHUfXUVvb3JTS8lrJwrdxHUhRwLH2Tt1jL8652arOTMBFXjwYEVQYVOkr
+         Lw+FwWCZZusZxRmR2bhCllCjAA7HUizlT3Yf+5XHddC7gSXGf9Q+HNiZIJuPA2nvenxZ
+         G9S1medGOWAr7bHt/67/5zegKPGuXAP51MoMjR8A394Ci8q1vPZEcd+mKaGmYmnOQWyG
+         oAMA==
+X-Forwarded-Encrypted: i=1; AFNElJ8yedSKkdpxZkNtYmnZJDJDjdiq+SQJluxyOxtS1ZZCd42fFxKREsq6LS41VShgTVSRYwd5IfQPHyi0gBxg@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4BCypf7m5eoF0a7xiaIsqmFe3sDEUGxjpnqx7KE0ZW5hpG7mm
+	QG8aP3XKTiQPH5ucGH0ki6K8KK9gnWz4k8mtUwAqsflU0YnB4TO1Ghpa
+X-Gm-Gg: Acq92OHudFKWMLH1cCjhbL0BkXrCPYqduCzqHEllIZQmhBQb1yIqUB/gN5UzxU2h+kT
+	WYJoHn/SGwO9k5cXMOOhxPTdzyjMwWCUVpOwX1RzhPM+er5g1I87SH5qO2MHajhV9jmZx1q3mD0
+	XVI3PEBhK3yZYzIDaA76nzuPSvxyjXatoVAdyTEJ8xLbrSmIi5VZcS6WfMCjt46efUdjuNJW4hp
+	Ccqr5JnkG/CfJjaqPXSdp4q7+xQIM6jSjLdNW7C2k0CO0uxwty8GfFqlN6eIMmimZap+5/hOmY+
+	l9rZpIxhZgHW1DbS6KgrSeORSMvUfTY/xf/4jSHh1580ABdxRePrxW35a7hDGyRascsNzw2Z50H
+	x6zVXpvJYwviHNsHQb9TKwjQPEwyPjjem/3Y/VVBD3s29fGqcczp2Nx5vniSB2UOQCSjyvSzAHa
+	9XvjwWyxKZTz7q932mxy/6HjOjNFVtpA==
+X-Received: by 2002:a05:7301:5f8c:b0:2d8:7302:d3d with SMTP id 5a478bee46e88-3074fa64b1fmr563586eec.8.1780445749252;
+        Tue, 02 Jun 2026 17:15:49 -0700 (PDT)
+Received: from anonyme ([2605:52c0:2:2f27:be24:11ff:fe89:6f0f])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dcb98aasm829069eec.12.2026.06.02.17.15.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2026 17:15:48 -0700 (PDT)
+From: AnonymeMeow <anonymemeow@gmail.com>
+To: jack@suse.cz
+Cc: amir73il@gmail.com,
+	brauner@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	AnonymeMeow <anonymemeow@gmail.com>
+Subject: [PATCH v4 0/2] fanotify: lift pidfd reporting restrictions
+Date: Wed,  3 Jun 2026 08:15:14 +0800
+Message-ID: <20260603001516.26234-1-anonymemeow@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-From: Darrick J. Wong <djwong@kernel.org>
+The pidfd API now supports pidfds for tasks that are not thread group leaders,
+but fanotify has not caught up yet. This patch set lifts that restriction and
+allows fanotify to report pidfds referring to the event-generating thread.
 
-Codex complains that the protocol checking here is too stringent.  For
-example, if the mount helper advertises min=1,max=2 but libfuse inside
-the container is older and only supports protocol version 1, the second
-check results in service mount failure when we could just use v1.
+Additionally, this patch set allows fanotify to hand out pidfds for reaped
+tasks by registering the event pid with pidfs when pidfd reporting is
+requested and dropping the pid_has_task() check before the pidfd_prepare()
+call, as suggested by Christian.
 
-Fix this by requiring that maxver >= minver, and then looking for a lack
-of overlap between what libfuse supports and what the helper advertised.
+Link: https://lore.kernel.org/lkml/20260528-schmuckvoll-heilen-garen-be77b4208671@brauner/
+Link: https://lore.kernel.org/lkml/20260602-patzt-sturz-segen-f1f305d61b75@brauner/
 
-Fixes: 5d8b9a39a1cb3e ("mount_service: add systemd socket service mounting helper")
-Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
----
- lib/fuse_service.c |   25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+Changes since v3:
+ - Make fanotify_alloc_event() fail if pidfs_register_pid() fails.
 
+v3: https://lore.kernel.org/lkml/20260530013732.50811-1-anonymemeow@gmail.com/
 
-diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-index 61d1cdf3f1eb86..7fd10211dbeab4 100644
---- a/lib/fuse_service.c
-+++ b/lib/fuse_service.c
-@@ -449,6 +449,7 @@ static int negotiate_hello(struct fuse_service *sf)
- 		.p.magic = htonl(FUSE_SERVICE_HELLO_REPLY),
- 		.version = htons(FUSE_SERVICE_PROTO),
- 	};
-+	uint16_t minver, maxver;
- 	uint32_t flags;
- 	ssize_t size;
- 
-@@ -471,15 +472,27 @@ static int negotiate_hello(struct fuse_service *sf)
- 		return -EBADMSG;
- 	}
- 
--	if (ntohs(hello.min_version) < FUSE_SERVICE_MIN_PROTO) {
--		fuse_log(FUSE_LOG_ERR, "fuse: unsupported min service protocol version %u\n",
--			ntohs(hello.min_version));
-+	minver = ntohs(hello.min_version);
-+	maxver = ntohs(hello.max_version);
-+
-+	if (minver > maxver) {
-+		fuse_log(FUSE_LOG_ERR,
-+"fuse: min service protocol version %u must be less than max %u\n",
-+			 minver, maxver);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (maxver < FUSE_SERVICE_MIN_PROTO) {
-+		fuse_log(FUSE_LOG_ERR,
-+"fuse: max service protocol version %u too old to support version %u\n",
-+			 maxver, FUSE_SERVICE_MIN_PROTO);
- 		return -EOPNOTSUPP;
- 	}
- 
--	if (ntohs(hello.max_version) > FUSE_SERVICE_MAX_PROTO) {
--		fuse_log(FUSE_LOG_ERR, "fuse: unsupported max service protocol version %u\n",
--			ntohs(hello.min_version));
-+	if (minver > FUSE_SERVICE_MAX_PROTO) {
-+		fuse_log(FUSE_LOG_ERR,
-+"fuse: min service protocol version %u too new to support version %u\n",
-+			 minver, FUSE_SERVICE_MAX_PROTO);
- 		return -EOPNOTSUPP;
- 	}
- 
+AnonymeMeow (2):
+  fanotify: report thread pidfds for FAN_REPORT_TID
+  fanotify: allow reporting pidfds for reaped tasks
+
+ fs/notify/fanotify/fanotify.c      | 16 +++++++++------
+ fs/notify/fanotify/fanotify_user.c | 33 +++++++-----------------------
+ 2 files changed, 17 insertions(+), 32 deletions(-)
+
+-- 
+2.54.0
 
