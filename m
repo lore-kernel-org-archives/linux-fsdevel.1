@@ -1,151 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9492F7EEF;
-	Wed,  3 Jun 2026 13:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7F82FDC20
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 13:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780494044; cv=none; b=IqZTnqw9grflu5GXNQKEtBvrWPB2qpfabK8IhvC6dur6NhQxGY5ZyrJimK7a58qoN/RcJudKVQ/C9f4LUvZT8BJG+wwcqmX6WGpea+NzPAp+Qu2sJ1D6qkdCYxsfB2WE9khvlUhwW3tEDpYw6PUAKML5Iq+RvdPnL1QK0HFK9Lg=
+	t=1780494102; cv=none; b=BkdgZs6NJVQm4Anw7nr4kM1DkXS5lW9vDS71XIh9pn5ei4OAR91Cl37LSOWRKv5/bi8L12+gCSD06RNeyFvywzHzmn8ZtPLH+rOh/OTU3zguyWl/u/+ZLm2ll5xj+RVbi6FQarZ5Fxh44/su/lUN4aHDe1A6SQ8AHUZO3MZveRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780494044; c=relaxed/simple;
-	bh=b6vBOlamIALY9QchbQL4bGF2Nouw+mjRGEs7YrsXTNo=;
+	s=arc-20240116; t=1780494102; c=relaxed/simple;
+	bh=JqBWPoa6OM1wBn/TtcjKEcZdpXvCRD7PyZHdJthOkIE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NM6AXP31Z8B/Z0cT9ykvrYuUjg5NKHCqoP8EZSOAxGRSC9NeLE943CM0b3oQqo1D90H887Tjw16Fyp/TJ1G0y4gDlIRpQyOhXXyxrMzjbWbXoOwdh6BW/fkg7vODBz8U7wOQNrikCRZLJl/4FIgG4/tcex7cnp9JFUDlUqA+jBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c1ouCCeO; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=pUIiYQ7RiU5p0gQpfi3QquNUqcT4xHsq/7LBM393m3GOBm5eTAZrYcKt3qCmLxm8MfSVJRGEFTUCieWYjGr6/K7f5cWIMPDuCixK5x7g0RcG/jVnzKuwJzPlMsoiEPFGXkm/JeytX5mCba616GPOfdxUtazriMAPKqjs8vONmIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=TnaYOFWS; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c1ouCCeO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB4C61F00898;
-	Wed,  3 Jun 2026 13:40:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780494043;
-	bh=KGsTHKQ9mld7YxQe3rajH7wvD+M6DWrkXFM9QhfOh6M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=c1ouCCeOfGsSWLGNkvvoOa5gTYM0YWhQ2YWKcMokI4OUSVIQBt0LDWDEXGXgdOBhk
-	 RcRyl93QyEJ9JLW5AoFWnCmqBcXY4cK06cakG8SwHN1xGxeQjB9bXeW0akqq75vk2P
-	 s1CIE2PyGQkPbaRlS08LsLJsqwRjPSYYv9Co1tKaf2nz1vK6+dOTW+wW6ZJys66m7i
-	 l/CfFgBOqWkhIpv51rSLKkHcHCfO99JTOGnqyq9fBQ5yu+2Nk4F/mwwgwhNKVUGHUE
-	 NbEKOEm1HAbHTIt1WY4dqDDq5U04q5ORt1Vz6IqwcdFYPqakOw4Ejt1EIbx3TDx8mS
-	 7EOkXsCAM9FvQ==
-Date: Wed, 3 Jun 2026 15:40:36 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andy Lutomirski <luto@amacapital.net>, 
-	Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org, axboe@kernel.dk, david@kernel.org, 
-	dhowells@redhat.com, hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	miklos@szeredi.hu, netdev@vger.kernel.org, patches@lists.linux.dev, 
-	pfalcato@suse.de, viro@zeniv.linux.org.uk, willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <20260603-raumfahrt-unmerklich-ertrugen-c4ecae70d5f9@brauner>
-References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
- <20260602225426.122258-1-safinaskar@gmail.com>
- <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
- <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
- <CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
- <20260603-navigieren-pleite-stilvoll-60e6da66b1d4@brauner>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="TnaYOFWS"
+Received: from macsyma.thunk.org ([104.135.218.90])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 653DfDON021479
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 3 Jun 2026 09:41:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1780494076; bh=/WlDoBOBU1AIvM33kioQkvAi40TF6B38PilqBNl1uvc=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=TnaYOFWSE8CfrSIRT371u8kpAbaunSiEbQO/zSKffhEWklFEC2fLz6saxoZyGMrEM
+	 G9b+hDwdjTcdFFCzJ6UcPuQeGvxv4PyCLINNEInVbiO9DgG6nG0uLkZcrmc0vxXhpD
+	 xyMf6eb7CKzLKymDDd1ure3qg/p86rYRlaJEW9CJpQYbtrjSUa4j2uiepf9wMgE2+k
+	 S3kP90QxsQvM7Pz3Flh8ChG8saeESJmxsk0Xk1xVmuGiAOIt3o5BCqOWn8TbJ6r1Qr
+	 EuKleHYGPke7sOEC/sVv/X3stUmCw9ve+u1jpb8hm14LcWBx6AAzxu758sK30TFOMl
+	 hr1FtBcCnQL3Q==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id EF5D735D605; Wed,  3 Jun 2026 09:41:12 -0400 (EDT)
+Date: Wed, 3 Jun 2026 09:41:12 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        aivazian.tigran@gmail.com, linux-ext4@vger.kernel.org,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Subject: Re: [PATCH v2 02/10] ext4: Allocate mapping_metadata_bhs struct on
+ demand
+Message-ID: <is7eaz2cgtaucbqupfk66n6gotpn54uy5md35phnd7jwmuivjl@jgmtfr6kahlt>
+References: <20260525085035.12891-1-jack@suse.cz>
+ <20260525085821.769119-12-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260603-navigieren-pleite-stilvoll-60e6da66b1d4@brauner>
+In-Reply-To: <20260525085821.769119-12-jack@suse.cz>
 
-On Wed, Jun 03, 2026 at 08:45:18AM +0200, Christian Brauner wrote:
-> On Tue, Jun 02, 2026 at 09:20:13PM -0700, Linus Torvalds wrote:
-> > On Tue, 2 Jun 2026 at 20:51, Andy Lutomirski <luto@amacapital.net> wrote:
-> > >
-> > > Am I understanding correctly that this will completely break zerocopy
-> > > sendfile?
-> > 
-> > Very much, yes.
-> > 
-> > And it's worth making it very very clear that ABSOLUTELY NONE of the
-> > recent big security bugs were in splice.
-> > 
-> > They were all in the networking and crypto code that just didn't deal
-> > with shared data correctly.
-> > 
-> > So in that sense, it's a bit sad to discuss castrating splice.
+On Mon, May 25, 2026 at 10:58:08AM +0200, Jan Kara wrote:
+> Currently every ext4 inode gets mapping_metadata_bhs struct although it
+> is only needed when running without a journal and only for inodes where
+> any metadata was dirtied. Allocate mapping_metadata_bhs struct on demand
+> when dirtying the first metadata buffer for the inode.
 > 
-> Well, we're completely ignoring the fact that splice()'s locking and
-> interactions with pipe_lock() are complete insanity. So unless someone
-> sits down and really thinks about how to rework the locking I think
-> degrading splice() is just fine.
-> 
-> > But it's probably still the right thing to at least try.
-> 
-> Yes.
-> 
-> > I just suspect we'll never get real answers without going the "let's
-> > just see what happens" route...
-> 
-> Yes.
+> Signed-off-by: Jan Kara <jack@suse.cz>
 
-Reading this thread again I'm really amazed how willingly people argue
-to remain locked into a really broken API even if they're giving a risk
-but worthwhile chance to kill it for good. Anway, odd-userspace behavior
-time:
-
-David reported vmsplice01 failing in the LTP testsuite after the change:
-
-11297 20:41:02.548383  <LAVA_SIGNAL_STARTTC vmsplice01>
-11298 20:41:02.548518  tst_tmpdir.c:316: TINFO: Using /tmp/LTP_vmsZ13ZQj as tmpdir (tmpfs filesystem)
-11299 20:41:02.548656  tst_test.c:2047: TINFO: LTP version: 20260130
-11300 20:41:02.548793  tst_test.c:2050: TINFO: Tested kernel: 7.1.0-rc6-next-20260602 #1 SMP PREEMPT Tue Jun  2 18:13:29 UTC 2026 aarch64
-11301 20:41:02.548932  tst_kconfig.c:88: TINFO: Parsing kernel config '/proc/config.gz'
-11302 20:41:02.549069  tst_test.c:1875: TINFO: Overall timeout per run is 0h 01m 30s
-11303 20:41:02.549205  tst_test.c:1632: TINFO: tmpfs is supported by the test
-11304 20:41:02.549340  Test timeouted, sending SIGKILL!
-11305 20:41:02.549477  tst_test.c:1947: TINFO: If you are running on slow machine, try exporting LTP_TIMEOUT_MUL > 1
-11306 20:41:02.549614  tst_test.c:1949: TBROK: Test killed! (timeout?)
-11307 20:41:02.549751  
-11308 20:41:02.549887  Summary:
-11309 20:41:02.550021  passed   0
-11310 20:41:02.550155  failed   0
-11311 20:41:02.550290  broken   1
-11312 20:41:02.550450  skipped  0
-11313 20:41:02.550582  warnings 0
-11314 20:41:02.550710  
-11315 20:41:02.550838  <LAVA_SIGNAL_ENDTC vmsplice01>
-
-So I looked at the test:
-
-	while (v.iov_len) {
-		/*
-		 * in a real app you'd be more clever with poll of course,
-		 * here we are basically just blocking on output room and
-		 * not using the free time for anything interesting.
-		 */
-		if (poll(&pfd, 1, -1) < 0)
-			tst_brk(TBROK | TERRNO, "poll() failed");
-
-		written = vmsplice(pipes[1], &v, 1, 0);
-		if (written < 0) {
-			tst_brk(TBROK | TERRNO, "vmsplice() failed");
-		} else {
-			if (written == 0) {
-				break;
-			} else {
-				v.iov_base += written;
-				v.iov_len -= written;
-			}
-		}
-
-		SAFE_SPLICE(pipes[0], NULL, fd_out, &offset, written, 0);
-		//printf("offset = %lld\n", (long long)offset);
-	}
-
-Prior to the change add_to_pipe() returns -EAGAIN the moment the pipe is
-full. So iter_to_pipe stops and returns a partial count capped at pipe
-capacity. For a 128K buffer over a 64K pipe the first call returns 64K,
-the test drains it, call 2 returns the remaining 64K. Done.
-
-After this change do_writev(... flags & SPLICE_F_NONBLOCK ? RWF_NOWAIT :
-0) then calls pipe_write which does not stop when the pipe fills. It
-blocks until the entire iovec is consumed.
-
-I kinda think we need to preserve similar semantics.
+Acked-by: Theodore Ts'o <tytso@mit.edu>
