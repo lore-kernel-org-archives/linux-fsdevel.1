@@ -1,255 +1,163 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAFC48BD55
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 19:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D643A5E80
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 19:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780515127; cv=none; b=l1UvGVUWwpaZQhmfI3wMdH4h07oSxRvNESj/Bt9pX28RPSoHIhtS7aoGgSi0c8hYT3xow/CjgYdSl/pF66oqnvlDmrgRHxzbBb2ANhNG5IvL238GYGMJQU3CK+tvjeCwFVcOQZwb0P5NKfYizDObZRJsqq2CCcaSEBECQf4EOnU=
+	t=1780516802; cv=none; b=M52+iodzHy6pLtHon8AblOcdMeg5IJ0pny2rxJfp2pMQ8E6xqdNFT5rDgViPWBJYDiCrTkbh/waJgf46s/1go+JJxhpySNfxAjx9FeOwpjRBiEseJ5naEliUUClqUbXRr2zdpqLo3BSYDndlda5aV4mruz1WOCVsa8iFjuofgX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780515127; c=relaxed/simple;
-	bh=TQxe3lxjnun8hagmZm/MNZUEw9/HolUDis/d92awEoY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=iezwn8kOHRWzVdpBTcj2FwtHuG5X9lsI2iCoWmC3O3uMG3wnFTkQvntQ9yekjMX2dhOzasJCQ52OqxLoEH5x84zhdCG33MxK1zNdN3aO2cojUQedVRVleyT6j6miD73sh9tuw/po0oez006cpvuvnqITebpc2Bm1zg4TDEz8JEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YLFdbCai; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1780516802; c=relaxed/simple;
+	bh=cJCdMggMBtlaRufFOzf56NF2SmvXVse1UnTO+KmUUY8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CqCf/O29C7PSAXW/5y4glOoIC7/95uZ9hj2HklAOKbomYHClprcqKL2mtim21vjcKttk3zFLtB8QOxr6H7KqByofzD6PYqoeylV/iYnTb3EPkNv0XMs4f+gFC5ma3mZUdubqz2JIDgacLrVzEi+8gapiFlFhaIX78wId/pPlRNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=FdaO0QAS; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YLFdbCai"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4891b4934ffso15665e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 12:32:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="FdaO0QAS"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-36b95eb4bb4so3397490a91.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 12:59:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780515124; x=1781119924; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WyYYbe9n0CflRt4VnvQU2N03ZiDpY3ZgwW7PfjETq5w=;
-        b=YLFdbCaiajgSxtTu2+rCX/PlPlM0MAC4q4NHlEM/vQD2jLpBMcKIF81QQpbjXNChc6
-         6aaBKrVwi9r+qR+8/de2fh9tBXepP2szaJrOlpclIHkM/XLmbldwkRUKM9d6AIobxq5R
-         Qpr2UWbWHPfvNiNDVeY5N/DfyqcJZxPF7D217bc64rfwHhXJ50rfNqFnEKrc0OvYlHkY
-         r7uxSP3Wv314cxrQFlj9J3EuFXhHwjXW0xim/YirWHwXIy5gCxnNcO9LGUiy1L3eF8GM
-         pWUJzUr8aONDpl6lcJiAlrlkpJBGY9jUSJ4LgfKofeLcVB6YrO9KPLAM0EJBpP2kcexC
-         GEtg==
+        d=linux-foundation.org; s=google; t=1780516799; x=1781121599; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rLwU6+VwyCgHprpb82bpoZ1vCU00viaTeQ4mjhQKQr0=;
+        b=FdaO0QAS68QWZT6jQqIW4sa4Ov++CF4dW/hkpwuHa5YogIfOMTRRb7tEkWBZe/Wg2w
+         5lPTmM5Qk0b4p3OD4lBcrq7256uc2LWeh6DFFlNa07IFXkwp3dKExRcXNUJus6YMUWBc
+         8GGY63KpV6K9UZc69JVnJZfsEIZNNMNyam9OI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780515124; x=1781119924;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1780516799; x=1781121599;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WyYYbe9n0CflRt4VnvQU2N03ZiDpY3ZgwW7PfjETq5w=;
-        b=qJRexfK3wXpn9e2Fq5k6tAUAJ3vN7X8cq4OQ4HjTD8FiMZiRy9FnznpT2/Hv6vPedR
-         66zvGPg2ONYLFKfGsjR+BdQOTUb81zTdS+bb2xexLqXjO0vcbX0bwv2Ho1hWdu3L5cGA
-         ZEj4UTZisPvtBoGLbJei9l2qXBF/+P0rAVACG8098Pgg4pbzfsRZzadfQY9JBDlzKsD+
-         KEWMU6MoOfkXiti+Fgt6MGF9cmE21AaTNTIi+GnZivxWS8X9Pp2TFXTi5Kq3SQh57ghd
-         O8ixRi0gkElCOj2hDqCBSACwbPt1eWs1yLPEItKsIoMoRPdZZmukTWOCUnWDElrA2jWU
-         DcgA==
-X-Gm-Message-State: AOJu0Yy2JPQ/Ab5sVoIdCPm0QaO3o7KThN3U2c65MO3M+QZbWMlDQ955
-	vP0SjvbRUWdFalXHXXGLb/BsQ8oEFdcS+20DmlYsZeGTW6NcuwaM+JI5lDuFs2pmzQ==
-X-Gm-Gg: Acq92OHzNytLtcDPvCfZw8/a/I9ggHE0bn4Gv2P3Q2SiKFHrE696g4yZB+BsPRV7jeF
-	cKB/ALRjtUqxE1k5VUOg+SOwMQiZwHqH/Tk12GAeogblBynzHai7P1DaNlgKhAxtL/KaBnh0DGo
-	T5QFlikj1gwi1HcjAi07fcuD3Q8tQp0+arfkI5Mnoy25cKdtDCXj4TYyNwk/rU7bz4bMQqQXXHt
-	XikbdHyXpBCT2DyliuE7GsFdVmCfSFRa/Yb/jltIKmdMDxEPYGqWZNASVU2arEVWvxqtRlA/E1D
-	r32+lsJx8VWQabOI0lyjMWGZWUbB/6Oyg2u5e2Z5yKEzjn6TDC+s1FilmDEGkBMnqeyYNq7a9Fu
-	oJGPmA93odJCltHbJl0fq0eSxEiT/PqwZW2tzISORrUmGmJwarwHRFUpd6ccIGEGk+0Xa9gSxwQ
-	DdZWpM+97B6hfEiXSv6otNh5+xrOotZTuedRIpOBivRhUcN5ZIN2TOHtvMegMzmQ==
-X-Received: by 2002:a05:600d:18:b0:490:b2ae:44e1 with SMTP id 5b1f17b1804b1-490bcbea733mr114005e9.5.1780515123978;
-        Wed, 03 Jun 2026 12:32:03 -0700 (PDT)
-Received: from localhost ([2a00:79e0:288a:8:ac5a:f71c:9e28:abca])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35fd33sm10773167f8f.35.2026.06.03.12.32.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 12:32:03 -0700 (PDT)
-From: Jann Horn <jannh@google.com>
-Date: Wed, 03 Jun 2026 21:31:57 +0200
-Subject: [PATCH v2] fhandle: fix UAF due to unlocked ->mnt_ns read in
- may_decode_fh()
+        bh=rLwU6+VwyCgHprpb82bpoZ1vCU00viaTeQ4mjhQKQr0=;
+        b=ILf4y8N53pUUesrRZ0dSJpxZljQFsQePxEj47LJw6Ud7gpEuno5e+vU/9L4XCJ396g
+         HV8HnpOUGvDAIwGczJPR4AmHF32QdbRrE3MYJrxKvvqyBTlmX+TmhbJkZjfMj0tZa6Gh
+         f5r++nHLPJPUjlCDqZ1hdFXsHyFZiO6REp9kjrX5oDN7qrqfyayr1Mk8nfqIhumYv6ox
+         CTG+pIbEBZ2o2EaGgxUgKWeL1Mpfkm1FA78Nlis4/j8cw2iBL3jKVohGexdyag43z0PZ
+         azO99gwTseD5aA2iq3wzQbG5qI/fxr/EeFVzLb+v+lalT0KaSula8BMDdJiEA9NbAtXi
+         Z+6A==
+X-Forwarded-Encrypted: i=1; AFNElJ/WAN9Z6JXjW05UdeeHgkFjY3X6MmpPBuAHYZ+/6ZMfsFq6YsWG6g0iuaOTi3k6ISyJRoy5Bsg4kZHnc17u@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2BfZ3EiKIi2SwczlVQ14EQ4h85IJlE4Tq9Cs8eGE8UCT81yue
+	v/S69wI/5NL2oKC5M6QCxVFnKdPzkNeNeIYem52jq/m38sZ8I/9M3nUtXUhbto/urb2n1RTM9yt
+	jYBrBcAxj4Q==
+X-Gm-Gg: Acq92OE6XHZfJwKTN4DwWUUDPL6sMxzZB1etrEku9A/XqtFYHCmemrPo008Ws+1bgXl
+	f1pGY10OrPweFeSgqvH/6ju4oPdAxeT/Mh6+R5M7A7nDNzS3995MfVKMP7FViMUVjqXmytPTcjv
+	JJJ2lp6u/RWRCxkX4kZcd8x4bO6A6xQ+8Yg7x/ltM6cNMcTI+BHOWCIEDmiBOn9XBJIAcYCV4UF
+	AHFhu8aTZ8uelrakw7aRbUEMdndGeVLUzSPXwzv8lqtZlXqqrT5TkFEJLt16IP5CuDbIb7mQB55
+	y7rpGFZVY00alvXtKRt5NXz/sDUMF+bSuCJkwnvSwir9sTeODHcn8uPXxyVTYHGuVRjaAwUs6Dl
+	5udk95HEgFERhH+zcth1Y+oaVRcq2CNwRULD4HM2YcX6H7jgGantKDTlzunfy3oFWtM4Dsqe6G6
+	+l2UMzSdJ3d8rKkHR6bPQaVZ877uPAwthXjXUZw/Y7wmPIU0AMhezyYhhhLlaLEti24MCI0uBwi
+	aa8+PtS42A=
+X-Received: by 2002:a17:90b:4f85:b0:36d:f28b:72e0 with SMTP id 98e67ed59e1d1-36e30f0eb4cmr4781238a91.12.1780516798873;
+        Wed, 03 Jun 2026 12:59:58 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com. [209.85.216.46])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36e6b904cadsm3207379a91.0.2026.06.03.12.59.58
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2026 12:59:58 -0700 (PDT)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36b8e1760ccso3901654a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 12:59:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+SVBBY+3GmW1tn5PVFu2wbYmCOPeGwjeympnX/8HKn6NuNQGyegD1BBKK76YYxACv5sjoQAl8PCdddlazQ@vger.kernel.org
+X-Received: by 2002:a17:90b:2f86:b0:36b:77b9:5c8c with SMTP id
+ 98e67ed59e1d1-36e3237e125mr4484034a91.17.1780516797989; Wed, 03 Jun 2026
+ 12:59:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260603-vfs-fhandle-uaf-fix-v2-1-d05db76a5084@google.com>
-X-B4-Tracking: v=1; b=H4sIACyBIGoC/32NSw6CMBCGr0Jm7ZjSQlFW3sOwADqFGqSmhUZDu
- Lst7l1+/3MDT86QhzrbwFEw3tg5Aj9l0I/tPBAaFRk445JJJjBojzo6aiJcW43avFFwXl1V2fG
- qvEBsvhxF+Vi9Nz/2a/egfklTKTEav1j3OW5DnnL/H0KOOWotCyIhKyrUbbB2mOjc2yc0+75/A
- aB7oQrJAAAA
-X-Change-ID: 20260603-vfs-fhandle-uaf-fix-32279d5b2758
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
- Amir Goldstein <amir73il@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Jann Horn <jannh@google.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780515120; l=6036;
- i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=TQxe3lxjnun8hagmZm/MNZUEw9/HolUDis/d92awEoY=;
- b=K+4of6TqNWTyWzKPNAp9t6KhlWoMPKZ8N6RslxyIcl5G/CVP0yN5DB2rP9fkDSdzg39pgsZDq
- Ga5TomOHFV0AbRGKlkO9Mss5adscN2S+yIo9aKIeptmxtyDNWKoGKXH
-X-Developer-Key: i=jannh@google.com; a=ed25519;
- pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
+References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
+ <20260602225426.122258-1-safinaskar@gmail.com> <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
+ <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
+ <CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
+ <CALCETrXzxubt4eWue3+wv7Fq9C2m7uu6bWPstqFh6Mo57bPwQQ@mail.gmail.com> <CAHk-=wiEwSjfbjfO74xu=UmkkdHXkJg5QNQ8pP-3iYmunmeV9g@mail.gmail.com>
+In-Reply-To: <CAHk-=wiEwSjfbjfO74xu=UmkkdHXkJg5QNQ8pP-3iYmunmeV9g@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 3 Jun 2026 12:59:36 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whkGbMoP-Dym8pAd3hV21=BZST+6sK++1X038+9Q-TgeA@mail.gmail.com>
+X-Gm-Features: AVHnY4Jw9pwWVUIawcRWYEJbSOr_4eFJHRjDI61fxjs_qgnMfY70yBDODQXhxd4
+Message-ID: <CAHk-=whkGbMoP-Dym8pAd3hV21=BZST+6sK++1X038+9Q-TgeA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org, axboe@kernel.dk, 
+	brauner@kernel.org, david@kernel.org, dhowells@redhat.com, hch@infradead.org, 
+	jack@suse.cz, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu, 
+	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de, 
+	viro@zeniv.linux.org.uk, willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-may_decode_fh() accesses mount::mnt_ns without holding any locks; that
-means the mount can concurrently be unmounted, and the mnt_namespace can
-concurrently be freed after an RCU grace period.
+On Wed, 3 Jun 2026 at 11:28, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> But even then you need to have a *handle* to the buffers for the
+> general case, and that's what the pipe fd ends up then still
+> effectively being.
 
-This race can happens as follows, assuming that the mount point was
-created by open_tree(..., OPEN_TREE_CLONE):
+Again: for sendfile, you don't need the handle, because you can just
+"read the file data again".
 
-thread 1            thread 2            RCU
-                    __do_sys_open_by_handle_at
-                      do_handle_open
-                        handle_to_path
-                          may_decode_fh
-                            is_mounted
-                              [mount::mnt_ns access]
-                            [mount::mnt_ns access]
-__do_sys_close
-  fput_close_sync
-    __fput
-      dissolve_on_fput
-        umount_tree
-        class_namespace_excl_destructor
-          namespace_unlock
-            free_mnt_ns
-              mnt_ns_tree_remove
-                call_rcu(mnt_ns_release_rcu)
-                                        mnt_ns_release_rcu
-                                          mnt_ns_release
-                                            kfree
-                            [mnt_namespace::user_ns access] **UAF**
+But the the handle is needed for any buffering that can't do that -
+iow pretty much *any* other case than a file-backed source.
 
-Fix it by taking rcu_read_lock() around the mount::mnt_ns access, like
-in __prepend_path().
-Additionally, document the semantics of mount::mnt_ns, and use WRITE_ONCE()
-for writers that can race with lockless readers.
+So the original use-cases included things like copying media data from
+a TV capture card to a GPU for outputting in a window.
 
-This bug is unreachable unless one of the following is set:
+There it's actually the intermediate buffer that is the important
+thing, and it needs to have a lifetime that is independent of the
+system call itself, because the system call may be interrupted by
+signals etc, and you can't just "read the data again" when you
+restart.
 
- - CONFIG_PREEMPTION
- - CONFIG_RCU_STRICT_GRACE_PERIOD
+So the whole idea with splice() is that you have an input, an output,
+and a stateful buffer between the two that has a lifetime.
 
-because it requires an RCU grace period to happen during a syscall without
-an explicit preemption.
+Having just a iov_iter isn't enough - even with the current much more
+capable iov_iter we have now (compared to when splice came to be: two
+decades ago when the modern iov_iter didn't even exist). You have to
+have that notion of a buffer with a lifetime.
 
-This doesn't seem to have interesting security impact; worst-case, it could
-leak the result of an integer comparison to userspace (from the level
-check in cap_capable()), cause an endless loop, or crash the kernel by
-dereferencing an invalid address.
+(iov_iter came a couple of years later, but it then took many many
+years for it to become the powerful thing it is today where you can
+put almost arbitrary data into it - it started as purely a user space
+iovec iterator, all the bvec/kvec etc stuff that you need for IO
+buffering came a decade later)
 
-Fixes: 620c266f3949 ("fhandle: relax open_by_handle_at() permission checks")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jann Horn <jannh@google.com>
----
-I used custom tooling to force this race condition to occur and check
-that it leads to a KASAN splat - let me know if you want me to create a
-kernel patch to force the race condition and a reproducer you can run.
+So there's historical reasons for the use of pipes, but there really
+is a very fundamental reason for it too: wanting to *generic* data
+transfer between two points, not sendfile.
 
-I remember Christian asking me for feedback on the patch that introduced
-the bug, and I missed the bug because I didn't realize what the semantics
-of mount::mnt_ns are...
----
-Changes in v2:
-- improve comment on mnt_ns semantics based on discussion with viro@
-- Link to v1: https://patch.msgid.link/20260603-vfs-fhandle-uaf-fix-v1-1-ff64ee367e4d@google.com
----
- fs/fhandle.c   | 16 ++++++++++++++--
- fs/mount.h     | 10 +++++++++-
- fs/namespace.c |  6 +++---
- 3 files changed, 26 insertions(+), 6 deletions(-)
+It's worth noticing that in the generic case, zero-copy isn't really
+even an issue.
 
-diff --git a/fs/fhandle.c b/fs/fhandle.c
-index 642e3d569497..1ca7eb3a6cb5 100644
---- a/fs/fhandle.c
-+++ b/fs/fhandle.c
-@@ -285,6 +285,19 @@ static int do_handle_to_path(struct file_handle *handle, struct path *path,
- 	return 0;
- }
- 
-+static bool capable_wrt_mount(struct mount *mount)
-+{
-+	struct mnt_namespace *mnt_ns;
-+
-+	/*
-+	 * For ->mnt_ns access.
-+	 * The following READ_ONCE() is semantically rcu_dereference().
-+	 */
-+	guard(rcu)();
-+	mnt_ns = READ_ONCE(mount->mnt_ns);
-+	return ns_capable(mnt_ns->user_ns, CAP_SYS_ADMIN);
-+}
-+
- static inline int may_decode_fh(struct handle_to_path_ctx *ctx,
- 				unsigned int o_flags)
- {
-@@ -320,8 +333,7 @@ static inline int may_decode_fh(struct handle_to_path_ctx *ctx,
- 	if (ns_capable(root->mnt->mnt_sb->s_user_ns, CAP_SYS_ADMIN))
- 		ctx->flags = HANDLE_CHECK_PERMS;
- 	else if (is_mounted(root->mnt) &&
--		 ns_capable(real_mount(root->mnt)->mnt_ns->user_ns,
--			    CAP_SYS_ADMIN) &&
-+		 capable_wrt_mount(real_mount(root->mnt)) &&
- 		 !has_locked_children(real_mount(root->mnt), root->dentry))
- 		ctx->flags = HANDLE_CHECK_PERMS | HANDLE_CHECK_SUBTREE;
- 	else
-diff --git a/fs/mount.h b/fs/mount.h
-index e0816c11a198..5c120f8361bd 100644
---- a/fs/mount.h
-+++ b/fs/mount.h
-@@ -71,7 +71,15 @@ struct mount {
- 	struct hlist_head mnt_slave_list;/* list of slave mounts */
- 	struct hlist_node mnt_slave;	/* slave list entry */
- 	struct mount *mnt_master;	/* slave is on master->mnt_slave_list */
--	struct mnt_namespace *mnt_ns;	/* containing namespace */
-+	/*
-+	 * Containing namespace (active or deactivating, non-refcounted).
-+	 * Normally protected by namespace_sem.
-+	 * Can also be accessed locklessly under RCU. RCU readers can't rely on
-+	 * the namespace still being active, but implicitly hold a passive
-+	 * reference (because an RCU delay happens between a namespace being
-+	 * deactivated and the corresponding passive refcount drop).
-+	 */
-+	struct mnt_namespace *mnt_ns;
- 	struct mountpoint *mnt_mp;	/* where is it mounted */
- 	union {
- 		struct hlist_node mnt_mp_list;	/* list mounts with the same mountpoint */
-diff --git a/fs/namespace.c b/fs/namespace.c
-index fe919abd2f01..f5905f4ec560 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -1079,7 +1079,7 @@ static void mnt_add_to_ns(struct mnt_namespace *ns, struct mount *mnt)
- 	bool mnt_first_node = true, mnt_last_node = true;
- 
- 	WARN_ON(mnt_ns_attached(mnt));
--	mnt->mnt_ns = ns;
-+	WRITE_ONCE(mnt->mnt_ns, ns);
- 	while (*link) {
- 		parent = *link;
- 		if (mnt->mnt_id_unique < node_to_mount(parent)->mnt_id_unique) {
-@@ -1434,7 +1434,7 @@ EXPORT_SYMBOL(mntget);
- void mnt_make_shortterm(struct vfsmount *mnt)
- {
- 	if (mnt)
--		real_mount(mnt)->mnt_ns = NULL;
-+		WRITE_ONCE(real_mount(mnt)->mnt_ns, NULL);
- }
- 
- /**
-@@ -1806,7 +1806,7 @@ static void umount_tree(struct mount *mnt, enum umount_tree_flags how)
- 			ns->nr_mounts--;
- 			__touch_mnt_namespace(ns);
- 		}
--		p->mnt_ns = NULL;
-+		WRITE_ONCE(p->mnt_ns, NULL);
- 		if (how & UMOUNT_SYNC)
- 			p->mnt.mnt_flags |= MNT_SYNC_UMOUNT;
- 
+When you think operations like "splice TV capture input to a pipe",
+you typically need to allocate the pages that you then DMA into
+*anyway*, and you'd just put those pages into the pipe. And the facty
+that you can then just take the data directly from those pages when
+you splice from the pipe to whatever GPU engine that does the decoding
+is kind of secondary.
 
----
-base-commit: ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
-change-id: 20260603-vfs-fhandle-uaf-fix-32279d5b2758
+So again: the big deal with splice() and the pipe isn't really about
+zero-copy. It's the in-kernel buffers where the drivers control the
+allocation and you don't have some "user space allocates memory, then
+kernel looks that allocation up and uses it" model.
 
-Best regards,
---  
-Jann Horn <jannh@google.com>
+Having less copies is kind of incidental. It *might* happen just
+because it's natural when some streaming device just gives it data
+away and doesn't care after the fact.
 
+The problem with splicing from a file has been exactly the fact that
+it's *not* streaming data, and the filesystem zero-copy case gave
+direct access to the long-term cache.
+
+Which is undoubtedly good for performance. But it fundamentally
+*requires* that the sink is trustworthy. Which has been problematic.
+
+That's why sendfile() is bad. Not because splice itself is a bad
+concept, but because you have to have that absolute trust across
+components.
+
+          Linus
