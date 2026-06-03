@@ -1,280 +1,173 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22BC3E2AC8
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 22:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD8A43D50F
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 22:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780524894; cv=pass; b=K1OjjxZ6sh2S1ot5dKqJiR/sg3TBIXxolfAFEoGGwSgAMNEt82jbl/zuYjzoexb5A8OdGN8TJz4puIhtKiUuO9wWpSjkyDsIqc6eJBxAnILooak0Ov8ZEEAlsr6QVF6JLBWJIlZpLwHbDxE+zfwL9h+arJ86UaFQNr7KGqpGkI8=
+	t=1780525414; cv=pass; b=NQqZawlflI12OyvdG5oLBKck8TMbxZf4WugPVGOwpCgQC5xNWAme6wBF5GFco97zkwIrMz9DjFUU6QdKqLF+tMv32HHSQWVWcyCVC0gyhGDl0uIwVktMxyoW0oQGUIldfry61iV4XeGOjDOEd2vh/8DnMw+Qq/fEtfh0suAS7fg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780524894; c=relaxed/simple;
-	bh=xgUe0AQGXjeGjvTj0ecs5Nu+F+iIOfUesQJXMInIf7w=;
+	s=arc-20240116; t=1780525414; c=relaxed/simple;
+	bh=qdFVVpm9+qBWydzXpCd5rc442R2RuxPVFhAYWPCKrjk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PFihkE7wruI15A90XAtZK5Xylm3wAcLkw6t7xeUaH1O7OK9pD0aWzIxh/acHllzvTiMJbsMFRL5ZPTCTu7N8+W58YdOa3jpdfCs4yJTQTDVY6SzuqaBrzUwM6A/fBHTXIBAqpwrJnc/R2OQXaBEthBLRv06kdkmF7fpHC3Yv8fw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ng1TB4Z8; arc=pass smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=HxccStyCPwexmKpVJeweKZFMwWA/5N49A5zmBHoNL2OlfvatoJla1//wyBRqajwk2Gi13J5ay5s9cLta/AP1XMH+qthjwu4Z0p1JTIyD8fonTbFHttqTF8dhbgzaSsJ9J/1jH3f+bpUpxQpJx9Sfk9zLzYTTOvukHupdswpyNfY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=RalLSyzg; arc=pass smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ng1TB4Z8"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-9157d3f2098so11019485a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 15:14:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780524892; cv=none;
+	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="RalLSyzg"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aa61e3d3f3so12007e87.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 15:23:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780525412; cv=none;
         d=google.com; s=arc-20240605;
-        b=JK/7CxmF768rJ2J0p4Hnk6f+G2WsSUsN2M9TsdKxDs9m/fTlIDCfmL8rJSYYLjoylr
-         wR+q/7yNqubo2waiJwY0hAUORQbS8PZsIyjkgVNIp1s8dNceeHfusDKGEsxeuEvLCb4/
-         7Dn0E1XYMRG3yzJLS8H4S2htX9VOX3bsEUpQi5trlytbXdfJltKLjN9dOvZc15dUwQXA
-         AikU6hH1/1wqvnUeoq/79NKThcLlclOCHh1dCLdOIWzKtPDucqMOfNkhInsB4dWT+oXg
-         V8uC4wU2RS6HOd0dYfjYstSzwyVQJp1C6USow74bO5dnxEEzT3+EW7LkPOEVWncLyZvr
-         aKGA==
+        b=GBsFkmDRHi889PqaCHoSuRRNI7s2cdzoWU1HiF8WqCpszMt00I1ct9UQ+teXJujyHx
+         mPFfvmlWTSYYCcU58J2fhAGy9mRJmNi/8g1NA5fE4ijKM93K9ivgp7GX2b6eXOBc2Tmm
+         awYfGtEhJpx+C7g4+jHcjbfBzPgXzUdqBSY1Rp2eeG1lU1ivaMnq6V5yfd/lNaZBufih
+         7TKVjm7H3aVcRU2HIvZW/4qTWSdN0QuWaSGZLn6EDIkiig8tm0jGhffwcLJ9J7BDXSOR
+         Dze56JjueW8ijx2gR8t64PLz3FbUxv4ZeyUkEXGc9kzQl5pXP+MMOxPmuIDEtDSWQ2At
+         LEBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=FmzDsup0sFlBNWhGg0+0FS+tEwpLPYz+Yh+3amtQtVM=;
-        fh=ITrOT4M/UrWeppW2tQd3kZ7ptl4UeZE4ZdQD1KQCPy0=;
-        b=NgVJc/xZxSMQ+ShFqA3Kzyz2y+gIYseapSi2ngIEuehU+4BqxSj1b83CEY50ZrjAuC
-         ZENR38xIpXGLvUdD0r4ePFLgPMQ1xEHpPehrWN0EV9WVCFeldDQqNs8qMCuVjsbdYDy0
-         1JmDT4DsyuzE8tiqrysNgqXfHUlb5WcmGIGk01CUy7hIcEIB+xB5lS7/H91mYMx9VPh4
-         1K6eUpeF/quFItpN7sZXHzxgSwcvxnwPcZTHOWdY5MrujsOhF6VLTZfiP/fWpLE6Ai6g
-         s2/I4xsVKgvxnBN2Z42c5/yHh1qZ6Eaf0NTAZiXUE1AaLSR1JDBVmJtRWGgOY3fFXIBs
-         ZOtg==;
+        bh=s3SPKunMho6E/CBsMnfM4oP5YS4R7re3HwYPdqVA40w=;
+        fh=j6SGyJ+I6Deu5/744sP8luDOCzHJUiHK7O8JxnlXuXE=;
+        b=b1KMb7jjF47TMPgUrXCwAtZhTO/USu/JrYfV6L8D2LPpACEPkxRwUb7H8bd+EG+4jV
+         r5g4ocfhVYchGtvG2VRbVy9BaA0RronpsZNxoyShtAiJSDu98WD+YRZdOJmET+YRx3R+
+         7caqFrk01Tttgh6nHKV2xWZs4QE66DbFUGZfM0zP8Hk2dbt3Atx184/hRez3UMcVOf96
+         UbB12VHlOlL3zrLW4sl+Ujs9LQ5OhnRnz4MmaPTEzoY5lz6wFmok8CK99hCPIOCI8A1/
+         REechLKMXhzYCWHcVw/d0u4EV7hnqZaY5uc9ISsXKTUULbbiB36MgU9o+6diefJWHVcq
+         8WxQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780524892; x=1781129692; darn=vger.kernel.org;
+        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1780525412; x=1781130212; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FmzDsup0sFlBNWhGg0+0FS+tEwpLPYz+Yh+3amtQtVM=;
-        b=Ng1TB4Z85ZVBVNOqAvlL6uAcjQAQkUjHvLTKrSXxegfQJZtKP/6x1lL9lSpJ0ZkmGe
-         rFJv4W4ezg+mU8NkW7iAv3Wea+HZEPm3jn1CoGOK0eLEXUhA+CfUTx/NFT1xa2gHACrP
-         4XPIBJtrSyDSsNz7j/cbASBDpWgkRY7ElCh7gvscCClTTxh9yDKKIDWoIKzCEtRzTGpF
-         PwmA7RrkOo15/za3nzC6Mo+w2Pm559rUOV7aEpFyOu+8MSIRnKENPq8OIvnwjIRNBUfJ
-         S/bRjS9ESrJjUXUl0F6/T/eEeaUUCPPRzQSgMJRydDbEHpH/Zbi8YAXLAaHgtgTe9v4u
-         qyRw==
+        bh=s3SPKunMho6E/CBsMnfM4oP5YS4R7re3HwYPdqVA40w=;
+        b=RalLSyzghTe1qbss1gZP+U06ITu7Qli1Rj++bTkIVnXwpKefNu46FFxyo7Kr/kG5cl
+         48wD1gZfB1caHQ+1YK0vW5j4bSW4pSdrDVi/EJjmakvyuXR0UucKyvVAZ7jTFgSPgo0x
+         rUe3+Gf1VWUiTvfaMIDkPzwhTp6Mg9aKah02vrYtLNc3nxSNWj6mrhofr8SichYncx/G
+         kxmRgrLIgDY5kojDZ6IOX0Vx/QqOenTv+Yg6aP2K4hm7emQFwJFcuIKOhgo6wRUCRb9O
+         DZZTKP38zlm/cob+oxXI9AO2hDozRFDe+wn35z3kQdZKAuzOpanyRX8Euc/584Ew58FC
+         bHgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780524892; x=1781129692;
+        d=1e100.net; s=20251104; t=1780525412; x=1781130212;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FmzDsup0sFlBNWhGg0+0FS+tEwpLPYz+Yh+3amtQtVM=;
-        b=M5fxlh8+9OZRaKXLesU7rJ9S6MHhw2/64jWFwye+ZMJ67X1WybiLCW6EzsYGGQspME
-         PZThyDtUpQ4fmSuHkUdI7l/W+eNXslNG5g1Ap9gURAV7Od/8J8yolwdN3dTkKF60vRdd
-         cGUDezvWagv308yMm2TOlKEFNYksd+bZHEicwKdL4BPXm5uc3NVk7wIIL4noiYV6O3aR
-         XCaRJ1vih2xtRPpPMnflB5AQZ52Q75VpB8fFjZK6MkXQVxaTNu6A4XAEjm/57a5q3xDZ
-         SYrJ5LQBzt3iFG/MNU1WYeG4vg+gIL6JptooHlyJFToapU7RlgsQeD/e1cBuXbWWpFE0
-         N8JQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9raI4Pivflm3ewByAe+QlvBvhxAYz4RnuivOBd0SwkTVa7NKH0QWJOcNncyinc6jg9CBA6vGYFe6YcLWC+@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOhexgPKIIM6y6cmRCogw6SxY9DpuH/Lbx3ieJ9mgjea5riave
-	gZLrIanjsX4uO3rqPW7smfPdwA8nMME4joG7AdywwuZQ4qlq0sVfF+whw6cei2i37okOvMR9kFI
-	5c1+QsFpQijeF+2PlRyB0RZB2XuQj5XI=
-X-Gm-Gg: Acq92OHPbKxuVpWlzP2KXr5tri3gPHWs+HP8d3SFcoHNfR6H3Ov8vKLUZ2CeVVvF4K4
-	LpfUDIElsHDdpPVX9CTErh0JT0hzJwgMv+vEhEmajVQ7stg4dT4DHIMwM3291tJA6/twvOv9bmt
-	ykOm8v1fitCAHexfZt7i7KVt6cYOCUG5otc42xxk9Sj/dV3iVwXcEW4G/vmrB0HJDjlkSR5Eau7
-	3yBvMifHBXnLJK/fY7ux/9ElzmZntabDcWn+7QNR96BQ2lOpll9tNH5kKpEtT6uYHFCN5qdQ0If
-	ye1Zo6dzsRHrdIEHdPuh2v4Gb/1DN0b5BUqYzclzQahbA0Op
-X-Received: by 2002:a05:620a:40c4:b0:915:9c4b:fdb4 with SMTP id
- af79cd13be357-9159c4c0fccmr119218285a.22.1780524891016; Wed, 03 Jun 2026
- 15:14:51 -0700 (PDT)
+        bh=s3SPKunMho6E/CBsMnfM4oP5YS4R7re3HwYPdqVA40w=;
+        b=HHtqiV21DYLY68sN1FY6eVbnWlWH0OQNRTUD9tPl7nIwT45XEXSt0VRBObVQNe3//I
+         Y5qYpi6G+oGJk+AFfXOPLOGc90RC3JuqCm+bWQ8NHWvgV0Ftu8XJTOQ+14g793fy2RTh
+         mIHgyTjiF0uHmYyehhcSBBc5mQ4oEV/bvVPfukLJAAntWjK9/I8f54BwKaGm4uKV92Su
+         1S8fi3f50EWQj5DGWMgRPejdGdTq3PREsW5+mRlmksPnkbojKdwzI4lEat1fGO56xfj6
+         1N2MXfq9xbgyYYj82hSHzyCHQY9QyPV8RMTOinOJKxMoaSldGKrPaHX7G48dZKwVfi5C
+         Xr5A==
+X-Forwarded-Encrypted: i=1; AFNElJ+0QyJf4NbfzaRwUd/sOBBOXWwqbfvYafVWvY8yWTIpalupBQVgEx4LUfdmSVe933FxeLZZS6uADD1quhJc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzg8gPPS/ET+fJ/IjPe7R/nFqXV0Lzz8WesJbCAqBvhw0MGo+og
+	lkyqXvyPcsciYYVQmbZrWUwd9f/U9PCgbyGfKiWvjeqsmD//iG1EhLF/VydNevfny7EXwFifxbB
+	pMHmOwEXtVDpyWKgGf3hqH8WGKz5IZL6QgUKZbAIY
+X-Gm-Gg: Acq92OHbKDTeLRBHdHbo5w+md5AF7OQa76cvhLJixsOyZD5TQEBNdNYp6qZj/Er/Y0/
+	ySfQ8n3TQsmbSILynQN92/urlWXkQ7MpFcywAqX0UUt0nrOoPfZdLtr1i+MZwB0IeX2DeB6WnI2
+	dKxRn8GMlON+FBUNK/EYX7AajJnzrSJwAKZbWAPLnLWPNxoqidupjruJhk4vMDKqZgS/KmXYqZ+
+	YV6nzGTVcIvFRmwFcJ5o0nIk5x3ymEHyAtHfKDjWSuGlgMzUmHUwwp2xCDMWbCN+EIT+UmoNbA6
+	2D5Y97YJAvZBfkd4hL8=
+X-Received: by 2002:a05:6512:3d14:b0:5aa:7126:c645 with SMTP id
+ 2adb3069b0e04-5aa7c088c90mr1762489e87.2.1780525411782; Wed, 03 Jun 2026
+ 15:23:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260527110147.17815-1-tao.wangtao@honor.com> <70377626-500d-46f2-a3f5-a0d2914ce365@kernel.org>
-In-Reply-To: <70377626-500d-46f2-a3f5-a0d2914ce365@kernel.org>
-From: Barry Song <21cnbao@gmail.com>
-Date: Thu, 4 Jun 2026 06:14:39 +0800
-X-Gm-Features: AVHnY4LRywF8yijh3uWS4ASgIO-DqQ0mxyZBegdnnjWwYExKtCPyz-v6JopNV6g
-Message-ID: <CAGsJ_4zg8+pVDwtsJtxxiC1ahJ9MR56Ue8VXCt_VrQgcXES2uQ@mail.gmail.com>
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma creation
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: tao <tao.wangtao@honor.com>, catalin.marinas@arm.com, will@kernel.org, 
-	tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, 
-	x86@kernel.org, akpm@linux-foundation.org, willy@infradead.org, sj@kernel.org, 
-	kees@kernel.org, luizcap@redhat.com, zhangjiao2@cmss.chinamobile.com, 
-	kas@kernel.org, ljs@kernel.org, hpa@zytor.com, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	jack@suse.cz, riel@surriel.com, harry@kernel.org, jannh@google.com, 
-	jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, npache@redhat.com, ryan.roberts@arm.com, 
-	dev.jain@arm.com, lance.yang@linux.dev, xu.xin16@zte.com.cn, 
-	chengming.zhou@linux.dev, nao.horiguchi@gmail.com, matthew.brost@intel.com, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, 
-	gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com, 
-	pfalcato@suse.de, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, damon@lists.linux.dev, shakeel.butt@linux.dev, 
-	ryncsn@gmail.com, jparsana@google.com, dvander@google.com, zhangji1@honor.com, 
-	wangzicheng@honor.com
+References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
+ <20260602225426.122258-1-safinaskar@gmail.com> <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
+ <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
+ <CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
+ <CALCETrXzxubt4eWue3+wv7Fq9C2m7uu6bWPstqFh6Mo57bPwQQ@mail.gmail.com>
+ <CAHk-=wiEwSjfbjfO74xu=UmkkdHXkJg5QNQ8pP-3iYmunmeV9g@mail.gmail.com>
+ <CALCETrW3XcNLuB1Y6PSkxQDSK2o+=EB2AAd25SjWQqcJemwnbw@mail.gmail.com> <CAHk-=wgn3QTLj+F+XccE10dXY-UGWN8+fNLEvhsLw+tik9rOmg@mail.gmail.com>
+In-Reply-To: <CAHk-=wgn3QTLj+F+XccE10dXY-UGWN8+fNLEvhsLw+tik9rOmg@mail.gmail.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Wed, 3 Jun 2026 15:23:19 -0700
+X-Gm-Features: AVHnY4Ikay6WVUle1y1S25sIv6i_k8jcErZspj4ec4V3SJVcTGqkjlXJTjro2bQ
+Message-ID: <CALCETrXpqPMS487Bm8f8mHe8hv9DzCqoaW4UdoHetzYBUAhYLw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org, axboe@kernel.dk, 
+	brauner@kernel.org, david@kernel.org, dhowells@redhat.com, hch@infradead.org, 
+	jack@suse.cz, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu, 
+	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de, 
+	viro@zeniv.linux.org.uk, willy@infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 4, 2026 at 4:25=E2=80=AFAM David Hildenbrand (Arm) <david@kerne=
-l.org> wrote:
-[...]
+On Wed, Jun 3, 2026 at 2:39=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Wed, 3 Jun 2026 at 14:31, Andy Lutomirski <luto@amacapital.net> wrote:
 > >
-> >  arch/arm64/Kconfig         |   1 +
-> >  arch/x86/Kconfig           |   1 +
-> >  fs/proc/page.c             |   6 +-
-> >  include/linux/mm.h         |  38 ++
-> >  include/linux/mm_types.h   |   9 +-
-> >  include/linux/page-flags.h |  34 +-
-> >  include/linux/pagemap.h    |   2 +-
-> >  include/linux/rmap.h       | 165 ++++++++-
-> >  mm/Kconfig                 |  22 ++
-> >  mm/damon/ops-common.c      |   4 +-
-> >  mm/debug.c                 |   2 +-
-> >  mm/debug_vm_pgtable.c      |   2 +-
-> >  mm/gup.c                   |   6 +-
-> >  mm/huge_memory.c           |  16 +-
-> >  mm/internal.h              | 171 +++++++++
-> >  mm/khugepaged.c            |  13 +-
-> >  mm/ksm.c                   |  43 ++-
-> >  mm/memory-failure.c        |  11 +-
-> >  mm/memory.c                |  19 +-
-> >  mm/migrate.c               | 126 ++++---
-> >  mm/mmap.c                  |  15 +-
-> >  mm/mremap.c                |   4 +-
-> >  mm/page_idle.c             |   2 +-
-> >  mm/rmap.c                  | 690 ++++++++++++++++++++++++++++++++++---
-> >  mm/vma.c                   |  76 ++--
-> >  mm/vma.h                   |   4 +-
-> >  mm/vma_exec.c              |   2 +-
-> >  mm/vma_init.c              |   1 +
-> >  28 files changed, 1279 insertions(+), 206 deletions(-)
+> > I think I buried the lede too much and you're arguing against what I
+> > was trying not to say.
+> >
+> > Maybe we should keep an API that does an optimized copy, from one fd
+> > to another, that can send from a file to the network with at most ONE
+> > cpu-side copy.  Not aiming for zero like sendfile / splice.  Aiming
+> > for one.
 >
-> Hi!
+> Oh, absolutely - that's what my completely untested test patch  basically=
+ did.
 >
-> When I saw the diffsat I was concerned. Going through the patches made me=
- ...
-> more concerned :)
+> The user space interface was still there.
 >
-> This is a lot of complexity. On top of something that is already so compl=
-icated
-> that I fail to grasp most details without regularly taking a look at the =
-nice
-> figures Lorenzo created recently.
->
-> For example, I read above "since child VMAs do not need to allocate anon_=
-vma"
-> and wondered how that could be part of something that is just done lazily=
-. Then
-> I had to learn in the patches that there is some additional "Child VMAs
-> are created as ANON_VMA_TREE_PARENT and do not allocate anon_vma" -- excu=
-se me,
-> what? :)
+> And the networking side still continued to use the ->splice_write()
+> thing for writing to the socket.
 
-Yes, that part is quite complicated here. There are two cases here:
-1. A forks B, and B inherits a VMA from A. In this case,
-B's VMA gets ANON_VMA_TREE_PARENT.
+So I'm suspicious that you've possibly make bugs much (MUCH) harder to
+exploit, but the underlying awful code and opportunity for bugs is
+still there.  MSG_SPLICE_PAGES is still around, and there is still
+(AFAICS) no actual coherent description of what it means.  There is
+code that checks for it and apparently needs to do something special.
+Foir example, some random kernel version I have checked out has this
+delight in af_alg.c:
 
-2. A forks B, and B later creates a new VMA via mmap().
-If a page fault occurs in this new VMA, it gets
-ANON_VMA_TREE_VMA.
+                /* use the existing memory in an allocated page */
+                if (ctx->merge && !(msg->msg_flags & MSG_SPLICE_PAGES)) {
 
-In both cases, we need to upgrade B to a regular anon_vma
-when B becomes a parent and performs a fork().
+Grepping for MSG_SPLICE_PAGES come up with all kinds of terrors.
+Check out the lovely comment in drivers/block/drbd/drbd_main.c, for
+example...
 
-This may be a bit off-topic, but I'm also considering
-whether there is a chance to work with Suren to support
-case 2 via a GKI hook in the Android kernel before
-Lorenzo's work is ready.
+And even with your patch, I think checking for MSG_SPLICE_PAGES still
+matters: if I write to a pipe (using copy_splice_read or even just
+plain write) and then I tee() that data, then I splice one of those
+teed copies into a socket, then we hit ->sendmsg with MSG_SPLICE_PAGES
+set, and we're hoping that the code does the right thing.  And maybe
+all the bugs are fixed by now or maybe they're not.  Most of what your
+patch accomplishes is breaking the connection between the buffers and
+pagecache, so you can't poison /sbin/su.
 
-Even then, the optimization would apply only to the case
-where B never forks, allowing us to skip the anon_vma
-"upgrade" entirely. That assumption holds for most
-applications, although there are a few cases where it does
-not.
+It also seems kind of unfortunate that we can have skbs that contain
+data that isn't actually owned by the socket in question, and, with
+your patch applied, I'm wondering if the only case where this can
+really happen is tee() and a handful of random drivers that send to
+sockets.  (The ones in drivers/nvme/host/tcp.c and iSCSI seem like the
+ones that people are likely to care about the most.)
 
-I'm actually hoping Android could eventually disable
-forking for UI applications altogether. From what I've
-heard, some applications use fork() primarily to evade
-LMKD (the Android low-memory killer daemon). For
-example, a child process may monitor the main process,
-and if the main process is killed, detect that event and
-request a relaunch. This is one way some applications
-attempt to keep themselves alive indefinitely.
+I *think* that what I'm sort of suggesting is to drop this ability
+from the kernel as well, or at least to consider it.  skbs would
+always own their contents.  And something would get wired up so that
+at least the cases of sendfile, nvme and iscsi to TCP or UDP sockets
+would still works with only one copy, from the source page cache into
+the socket buffer.
 
-But even if we limit the optimization to the subset of
-case 2 where B never forks, we still need to handle
-mremap(), VMA merges, VMA splits, and similar cases.
-That starts to become quite a headache.
 
-So please just ignore my rambling if it turns out to be
-nonsense :-)
+I suppose the counterargument is that, even if more bugs exist, it's a
+bit hard to imagine a real attack involving tee, and one needs
+privileges to set up nvme or iscsi aimed at an unusual socket type.
 
->
-> Reading about VMA refcounts made me shiver. Reading "Holding only
-> folio_lock(folio) cannot guarantee that the split
-> operation completes atomically." confused me. Learning that we have to in=
-vent
-> interesting ways to make page migration mutually exclusive to free_pgtabl=
-es()
-> concerned me. Figuring out that there are arch-specific config options an=
-d
-> runtime toggles is a clear warning sign.
->
-> Seeing test_folio_unmapped() was funny, though (why?! :)).
->
-> I think this patch set has a noble goal of reducing anon_vma overhead whe=
-n anon
-> pages are not shared during fork. However, using anon_vma for them actual=
-ly
-> makes the overall implementation (e.g., rmap walks, locking) more consist=
-ent and
-> simpler.
->
-> Even if we could be convinced that most of this here is correct, how shou=
-ld we
-> reasonably maintain this increasing level of complexity here?
->
-> I won't echo what has already been said in this thread (and I didn't mana=
-ge to
-> read all, unfortunately), but for such big and invasive work it's often b=
-est to
-> get in touch with the community earlier. Otherwise, you might end up wast=
-ing
-> your time.
->
-> Ok, arguably, someone who writes that code learns a lot on the way. And i=
-f this
-> code really was written by one developer only, I tip my hat! I'd be curio=
-us if
-> that code already ran somewhere on some Android kernel out there?
-
-I heard from Zicheng that they have been running this for
-months and it seems reasonably stable. Please correct me if
-I'm wrong, Zicheng :-). This really should have been
-discussed with the community earlier.
-
->
-> But adding more complexity on top of something that's already extremely
-> complicated to save some memory looks like the wrong direction, really.
->
-> I was excited when Lorenzo started working on a completely new approach t=
-hat
-> would focus on improving the common cases while trying to reduce the over=
-all
-> complexity. Because I think most of us really dislike anon_vma. It's stil=
-l work
-> in progress, and I am sure there are some rough edges.
->
-> But fundamentally, I think we want to find a new design that is just natu=
-rally
-> simpler.
->
-
-+1
-
-> Lorenzo has been hard at work exploring various design options (and I'm a=
-fraid
-> he might be one of the 3 people on this planet that understand anon_vma i=
-n full
-> detail), so I suggest we wait for a redesign proposal from him and see if=
- that
-> is doable?
->
-
-Thanks
-Barry
+--=20
+Andy Lutomirski
+AMA Capital Management, LLC
