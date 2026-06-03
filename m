@@ -1,249 +1,114 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B7F3E315F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 17:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C273CF058
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 17:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780508299; cv=none; b=SYKuLPzIlqmTCD58QjaYxJOgvMyS/Q75htTiDWT5CrWb1muUx3rm/M7UOka0TKaqX6oQm/5nDQ71mNVYcbtjVLFhPRrQcOmxDjxzl0sxcbYnCB+nZV8SmJruDW8QFG3c0dhEGOLmSYhAH9YTlmgyAxc86YvFWWs1uZLJ0UmKesg=
+	t=1780508477; cv=none; b=bznGyjA6JW8qy7ar3rcQLf4EiUbSL4t1rXVqPQ/ioJK//6dUwCxmF3h0zJ4QvYiVftLmpKNm+OYZb2g8YTJN1BidhivjWyJPcAzPPktai8Mvd6bkPMa7eFpGL5CYg49Bk49WfBxQped/FhxQf4s7R3SGb1Q1eJkQK7lHiGsBXEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780508299; c=relaxed/simple;
-	bh=/Lgj9HtEnqPpmq+rogy1Nun9KLEpuIEnHyzW//Qr03k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sm9pmh6oNJj0CWSzQI3OUyAJK/wwYy8YxEDpLbjCe5KX4wDuwJx0NhsRn3mNAjgkeEFvE3yNdY7jY+HewMnyd+3ZpryKleYTMkntxVKMp8Ogee3MnYUYbWCnrBcHcR54gZ4fsuYud+6PkeFNxbb35HS3Xxkvu8U3ZatIJXaQuVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fIrjrmRE; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1780508477; c=relaxed/simple;
+	bh=JVGYcqebgbCuB0pc6BGHwgjfVl8P9S+X9NEwlre1qsE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YbigyWE9tZtE+VvnaDNpA+zIdCr9R7x3kETAiwZKojjX+x5lJPYaycXbXeq0ewRTuDNrVweT0wbu/NiSea5LTRmn7Bj70X7SY47xk+zQx9lgbJJQKRM97dohYsfnVTXG90aSJ8yByY76kzfGSMhQX4NL3wF0PGsr1M1yl7SBLdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=e8VxB9f6; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fIrjrmRE"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490b23c828aso4915e9.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 10:38:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="e8VxB9f6"
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-9639130b20fso4762426241.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 10:41:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780508293; x=1781113093; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mVCPWqSNKcww4dR+mNI3XTjBLMex/Kkq8cMFX9Pn86M=;
-        b=fIrjrmRERXZZGx2aKTwfYHBDhksTNYr/gstglZtNq+vjUhQPcVmDwv5nb+7/ZGP1Sq
-         aXULYHX9SM3ADPsNR77CeEYVKwM8p7M2WI987nK4WVpN3/ceJ8HduJ4JQg0j0l7nrHC2
-         suQEmLxBGpLJ8fGl4NdC7BXJ69rmz6axDBS1EQO//Y4VQVK5kKsCHchtbOcosPXLpYaN
-         2MpINMxa+oZNZtMsll5ocX6t1qA9E6UoJVVcYt7MCrc1y7fnWQoLtjAbE7Tr6cVxX+Zy
-         19Itb6WkT2576q5NCFkFe0IX2ZwwtEUPwOU9pkenoQDjf5DI+YOfLtWrhE52uFCgYhwH
-         VEig==
+        d=trailofbits.com; s=google; t=1780508474; x=1781113274; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8XK9xInquW7IMwPEjdHbMk+r0s9l32zp7Hy3Ogn3fj0=;
+        b=e8VxB9f6np9rNrPL6KasUANYlIiisMKQt2PHcOpMd9BGNLjtdjx3YC5MphM8UvDEMO
+         lygsEvrOYeLbcpVBK7v4bGyDaS7AE/KQtzSzqELJ7Sln54QDkQGtv08UPSVA6OjgEF7B
+         Z10+HNkSoGww1VBqYY4p/W+JjUSAoawNtFxUASamEK8+FNpb508kOhyXHvgQe1G72U3c
+         aNY/I/TaFEW2vK8g9v5Ll+9xE5/G+hSOL9C3DX9i+aUMl4u0U4Wy+f22VTjqVS3ZHtwO
+         ykNNbxOzwDKVQOQ7Q+ftPI8ZGUi90RKFvYKjYjVWfAsc2yJwL9e4cNZ+n+aXLmorzLrm
+         /AKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780508293; x=1781113093;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1780508474; x=1781113274;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mVCPWqSNKcww4dR+mNI3XTjBLMex/Kkq8cMFX9Pn86M=;
-        b=i8WmUCDy7ryEDC05LAVCPNbw0AKkj1uZQ9K8RTZoOYtg7ZnUeJEzFhae4L8phRAubu
-         QKkeoC7PQ8G0xCov7DKryTXKuT6Dc4WgogwjQJK3hBHk10+v02KYsSr5tNoi1xsDQAme
-         bBIB/B0+5gEpoGBPb+GmjPeJhp9xXmTRVg5Ur+BKjXyXHlsLW9huXZrHVsVQgRTvpdZu
-         0aSzTOzdx1MPGwZXCBrsxmGl/8/WmHhLPNh3KygwMIAW1TscLWCkZ2HSerO5Jcm5H8Ti
-         rXRg43FW6lpiwN4XBeeXyJlxMdbI7+vk8I5T6OLr1gICZAH8xm0/GJFSud+ApkmF7jWA
-         yN+A==
-X-Gm-Message-State: AOJu0YzlfZwjjC1auB/egCuv4dgW99lJB/PnJoJI6Wz6DFK8ROstOUS0
-	4KhqyQ3lWeA/0txJhORnHkyW32KnalRsqRNnGJFfkI3WGQPGz7pPaMsDqD1e5cuAUHfN2r94010
-	kNaAQ+U+v
-X-Gm-Gg: Acq92OE+RaazmdwD8TVZV19+i26a+G+X6kKnuSe2WhQmoVUsRERAHEQGnnkPNkrieV8
-	kdOGmln8HXBRCZlrhzAi//mvCxxjf3ZR4ZAjrsEn7ey4ckU6VUirYobTvTfjRfdk4hlNwX6LtaG
-	VUg/Ov0mjnsQFI5or1a7exu1G7LmZxgZ8f9pMLSNUwZ3Pxv7ctuReaAc7pEiU/xTPE7DU+J2WvP
-	7i/rg/wLtLYX0YbRgoGdgQbiVc8+n0ZmLX4fkIl+W/pYOEErTargH15K5sT3RYzRno7qb/Yrr7P
-	njM8gBNHMKI+kBJeLKfnpbfORKzAbtFLCkSn9ryF/sExHif/vF052Il5AWGvxwZKTnDZ0cvzZK5
-	gRaffc7hcAeoPqyr1U9KkCgAwNi9RVTPaRlTKWNLCcrSJup67CG/a+UsRpky3Oa3H/9ILGf8Imo
-	sCo85YSULk9aaytQXiGLCy47X4js4ga0fjboIDx9kxNF/hoUkL8TVmWT/wn9KdlmkW3eBEwRP3
-X-Received: by 2002:a05:600c:1912:b0:490:ab15:b9e8 with SMTP id 5b1f17b1804b1-490bca7445emr90855e9.2.1780508292385;
-        Wed, 03 Jun 2026 10:38:12 -0700 (PDT)
-Received: from localhost ([2a00:79e0:288a:8:ac5a:f71c:9e28:abca])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc391aaasm9894005e9.1.2026.06.03.10.38.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 10:38:11 -0700 (PDT)
-From: Jann Horn <jannh@google.com>
-Date: Wed, 03 Jun 2026 19:38:06 +0200
-Subject: [PATCH] fhandle: fix UAF due to unlocked ->mnt_ns read in
- may_decode_fh()
+        bh=8XK9xInquW7IMwPEjdHbMk+r0s9l32zp7Hy3Ogn3fj0=;
+        b=DJyrEYd8E2IZ13toDXZYz8/RSkZU8DZJvJTVhb39P+UkT9WIRg27N9/1W8wOjXIq8N
+         PD5nTnFlH5B5vq5NVTXkxEde8eRewK9c8h5OzV09FYQ3KP2qAbIzj3bRgVSu4bW0atdq
+         VkExFpQbr8XRCZn5ftoRGs7VMBIY+Ug6aM2wYGGojlQmYOq7jobV/8GTtk+EWwdpL5+y
+         OA+lNMTAUL3r1Z8JQz/QKIl1obR7tcL9CsVmXGIaofId4c2cpNcM48FKeWgauVLYBmbC
+         yC3tL3f42kaGtOeJwWrx3Gt82L0XzvRNPf0on4XV1JFDMZGrz/v42jGSLIxfwkczGPx4
+         tCZg==
+X-Forwarded-Encrypted: i=1; AFNElJ8QvvpxzvxCzz9hK6bsYYjH6Bo4o9B/EfZzZoUNjssJH4+PsPVLkWTgU270ZOZr1Rd3BJin1UJ6gUBgaAC9@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEaWA2XaUHoc2ShHpKTV+34eU09DsS8UehRxvCgvFQiN/gnp9Z
+	ElE12Q4pZEttZZ1UomaxEi6VBF7f6eiSiykd5zY4FGCf+6bQ6vgq7IHHaKm+KjSq/2c=
+X-Gm-Gg: Acq92OE5oWBvxu5MZa2xBEj4Vq+5SxLGtYjl97/hv+QXi3mPWP96hg97plUQR5iWr6D
+	8k9d/9ovsNOcUDTZINqWxgdRxyi2OqtP7KHTtyoLzkQ5AqLNYiXJXQS8x2cgsyFiLoW++0RlXTb
+	G2li1xRRT1l2gMBJmAFWe7wD3vv0xG+Qdu87+NtgzQFEt2kF6BC4WO1v6Xfk/eXvjsaMFis2Mny
+	YfDLMYIFFKHN9fydUnZ1XcF3vFPldCOsT2V08DkN4MNw13L5nHzZRHqBfqD8kBapbMU52A7SutX
+	kUJr0nle8KbsA6x8USHcbTV4GzONL22FnQTtAIy8l02ol6QwghI6S1CSKNASDLRUeuiU4rt/flQ
+	6r3OmNu3LC0L1V8aReO4wOp+4x+Urem1MvprJs7uYAUbviTxJiSoRGmhypZfo6hafGVFQiyHADH
+	NFtweOp2CdEhGcaCZHh5RDX5v+ZYd3ppj1RhqKuA==
+X-Received: by 2002:a05:6102:14a3:b0:6ce:7e04:ddae with SMTP id ada2fe7eead31-6ec458ffdc0mr2950326137.18.1780508474136;
+        Wed, 03 Jun 2026 10:41:14 -0700 (PDT)
+Received: from localhost ([161.35.96.86])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-8cecd06d600sm26376476d6.35.2026.06.03.10.41.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2026 10:41:13 -0700 (PDT)
+From: Samuel Moelius <sam.moelius@trailofbits.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Samuel Moelius <sam.moelius@trailofbits.com>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	linux-fsdevel@vger.kernel.org (open list:NTFS FILESYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] ntfs: detect mapping-pairs LCN accumulator overflow
+Date: Wed,  3 Jun 2026 17:41:09 +0000
+Message-ID: <20260603174109.24493-1-sam.moelius@trailofbits.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260603-vfs-fhandle-uaf-fix-v1-1-ff64ee367e4d@google.com>
-X-B4-Tracking: v=1; b=H4sIAH5mIGoC/yWMywqDQAxFf0WyNjBGfNRfkS7UybSRojJRKYj/b
- myX517OOUA5Cis0yQGRd1GZJ4MsTWB4d9OLUbwxkKPSlS7HPSgGe/yHcesCBvliTlQ9fNFTVdR
- g5hLZ5l+1ff5Zt37kYb1TcJ4X/gcrkXcAAAA=
-X-Change-ID: 20260603-vfs-fhandle-uaf-fix-32279d5b2758
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
- Amir Goldstein <amir73il@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Jann Horn <jannh@google.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780508288; l=5636;
- i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=/Lgj9HtEnqPpmq+rogy1Nun9KLEpuIEnHyzW//Qr03k=;
- b=QBYoxLJIwvpSnWQyglXtVqRr/pmqqfjrZYlk0p12HNcbNJYMSOj125PeA2qZCwy3jaXqTz89a
- dMYx1BW4O4FBeJgBIDlLdKs0YsZtaOaQAGK3bJEv2akyIrsqKOlChgZ
-X-Developer-Key: i=jannh@google.com; a=ed25519;
- pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
+Content-Transfer-Encoding: 8bit
 
-may_decode_fh() accesses mount::mnt_ns without holding any locks; that
-means the mount can concurrently be unmounted, and the mnt_namespace can
-concurrently be freed after an RCU grace period.
+The NTFS mapping-pairs parser accumulates relative LCN deltas in a
+signed integer.  A corrupted attribute can drive that addition past
+the representable range.
 
-This race can happens as follows, assuming that the mount point was
-created by open_tree(..., OPEN_TREE_CLONE):
+One corrupt runlist shape sets the accumulated LCN to S64_MAX and
+then adds a delta of 1 in the next mapping-pairs entry.
 
-thread 1            thread 2            RCU
-                    __do_sys_open_by_handle_at
-                      do_handle_open
-                        handle_to_path
-                          may_decode_fh
-                            is_mounted
-                              [mount::mnt_ns access]
-                            [mount::mnt_ns access]
-__do_sys_close
-  fput_close_sync
-    __fput
-      dissolve_on_fput
-        umount_tree
-        class_namespace_excl_destructor
-          namespace_unlock
-            free_mnt_ns
-              mnt_ns_tree_remove
-                call_rcu(mnt_ns_release_rcu)
-                                        mnt_ns_release_rcu
-                                          mnt_ns_release
-                                            kfree
-                            [mnt_namespace::user_ns access] **UAF**
+Signed overflow is undefined and can turn an invalid runlist into a
+different set of physical clusters.
 
-Fix it by taking rcu_read_lock() around the mount::mnt_ns access, like
-in __prepend_path().
-Additionally, document the semantics of mount::mnt_ns, and use WRITE_ONCE()
-for writers that can race with lockless readers.
+Check the LCN addition for overflow before storing the next run.
 
-This bug is unreachable unless one of the following is set:
-
- - CONFIG_PREEMPTION
- - CONFIG_RCU_STRICT_GRACE_PERIOD
-
-because it requires an RCU grace period to happen during a syscall without
-an explicit preemption.
-
-This doesn't seem to have interesting security impact; worst-case, it could
-leak the result of an integer comparison to userspace (from the level
-check in cap_capable()), cause an endless loop, or crash the kernel by
-dereferencing an invalid address.
-
-Fixes: 620c266f3949 ("fhandle: relax open_by_handle_at() permission checks")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jann Horn <jannh@google.com>
+Assisted-by: Codex:gpt-5.5-cyber-preview
+Signed-off-by: Samuel Moelius <sam.moelius@trailofbits.com>
 ---
-I used custom tooling to force this race condition to occur and check
-that it leads to a KASAN splat - let me know if you want me to create a
-kernel patch to force the race condition and a reproducer you can run.
+ fs/ntfs/runlist.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-I remember Christian asking me for feedback on the patch that introduced
-the bug, and I missed the bug because I didn't realize what the semantics
-of mount::mnt_ns are...
----
- fs/fhandle.c   | 16 ++++++++++++++--
- fs/mount.h     |  8 +++++++-
- fs/namespace.c |  6 +++---
- 3 files changed, 24 insertions(+), 6 deletions(-)
-
-diff --git a/fs/fhandle.c b/fs/fhandle.c
-index 642e3d569497..1ca7eb3a6cb5 100644
---- a/fs/fhandle.c
-+++ b/fs/fhandle.c
-@@ -285,6 +285,19 @@ static int do_handle_to_path(struct file_handle *handle, struct path *path,
- 	return 0;
- }
- 
-+static bool capable_wrt_mount(struct mount *mount)
-+{
-+	struct mnt_namespace *mnt_ns;
-+
-+	/*
-+	 * For ->mnt_ns access.
-+	 * The following READ_ONCE() is semantically rcu_dereference().
-+	 */
-+	guard(rcu)();
-+	mnt_ns = READ_ONCE(mount->mnt_ns);
-+	return ns_capable(mnt_ns->user_ns, CAP_SYS_ADMIN);
-+}
-+
- static inline int may_decode_fh(struct handle_to_path_ctx *ctx,
- 				unsigned int o_flags)
- {
-@@ -320,8 +333,7 @@ static inline int may_decode_fh(struct handle_to_path_ctx *ctx,
- 	if (ns_capable(root->mnt->mnt_sb->s_user_ns, CAP_SYS_ADMIN))
- 		ctx->flags = HANDLE_CHECK_PERMS;
- 	else if (is_mounted(root->mnt) &&
--		 ns_capable(real_mount(root->mnt)->mnt_ns->user_ns,
--			    CAP_SYS_ADMIN) &&
-+		 capable_wrt_mount(real_mount(root->mnt)) &&
- 		 !has_locked_children(real_mount(root->mnt), root->dentry))
- 		ctx->flags = HANDLE_CHECK_PERMS | HANDLE_CHECK_SUBTREE;
- 	else
-diff --git a/fs/mount.h b/fs/mount.h
-index e0816c11a198..f0af6d789bfc 100644
---- a/fs/mount.h
-+++ b/fs/mount.h
-@@ -71,7 +71,13 @@ struct mount {
- 	struct hlist_head mnt_slave_list;/* list of slave mounts */
- 	struct hlist_node mnt_slave;	/* slave list entry */
- 	struct mount *mnt_master;	/* slave is on master->mnt_slave_list */
--	struct mnt_namespace *mnt_ns;	/* containing namespace */
-+	/*
-+	 * Containing namespace.
-+	 * Normally protected by namespace_sem, but there are also lockless
-+	 * readers (which must use RCU to guard against the namespace being
-+	 * freed).
-+	 */
-+	struct mnt_namespace *mnt_ns;
- 	struct mountpoint *mnt_mp;	/* where is it mounted */
- 	union {
- 		struct hlist_node mnt_mp_list;	/* list mounts with the same mountpoint */
-diff --git a/fs/namespace.c b/fs/namespace.c
-index fe919abd2f01..f5905f4ec560 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -1079,7 +1079,7 @@ static void mnt_add_to_ns(struct mnt_namespace *ns, struct mount *mnt)
- 	bool mnt_first_node = true, mnt_last_node = true;
- 
- 	WARN_ON(mnt_ns_attached(mnt));
--	mnt->mnt_ns = ns;
-+	WRITE_ONCE(mnt->mnt_ns, ns);
- 	while (*link) {
- 		parent = *link;
- 		if (mnt->mnt_id_unique < node_to_mount(parent)->mnt_id_unique) {
-@@ -1434,7 +1434,7 @@ EXPORT_SYMBOL(mntget);
- void mnt_make_shortterm(struct vfsmount *mnt)
- {
- 	if (mnt)
--		real_mount(mnt)->mnt_ns = NULL;
-+		WRITE_ONCE(real_mount(mnt)->mnt_ns, NULL);
- }
- 
- /**
-@@ -1806,7 +1806,7 @@ static void umount_tree(struct mount *mnt, enum umount_tree_flags how)
- 			ns->nr_mounts--;
- 			__touch_mnt_namespace(ns);
- 		}
--		p->mnt_ns = NULL;
-+		WRITE_ONCE(p->mnt_ns, NULL);
- 		if (how & UMOUNT_SYNC)
- 			p->mnt.mnt_flags |= MNT_SYNC_UMOUNT;
- 
-
----
-base-commit: ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
-change-id: 20260603-vfs-fhandle-uaf-fix-32279d5b2758
-
-Best regards,
---  
-Jann Horn <jannh@google.com>
+diff --git a/fs/ntfs/runlist.c b/fs/ntfs/runlist.c
+index e7de3d01257e..e9294a5f4cbf 100644
+--- a/fs/ntfs/runlist.c
++++ b/fs/ntfs/runlist.c
+@@ -860,7 +860,11 @@ struct runlist_element *ntfs_mapping_pairs_decompress(const struct ntfs_volume *
+ 			for (deltaxcn = (s8)buf[b--]; b > b2; b--)
+ 				deltaxcn = (deltaxcn << 8) + buf[b];
+ 			/* Change the current lcn to its new value. */
+-			lcn += deltaxcn;
++			if (unlikely(check_add_overflow(lcn, deltaxcn, &lcn))) {
++				ntfs_error(vol->sb,
++						"LCN overflow in mapping pairs array.");
++				goto err_out;
++			}
+ #ifdef DEBUG
+ 			/*
+ 			 * On NTFS 1.2-, apparently can have lcn == -1 to
+-- 
+2.43.0
 
