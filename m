@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664E140242F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 07:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D324028EC
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 07:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780472908; cv=none; b=Rq74yB+Lm1KfD3D5B7thHyTEJkk8ZaXN7dTTD9Im2V5JUVwFiKK8A2YslzlUNE4yzovzwFc0qXIzqEMw+az8K3sPsRYe1HB7YCChtzmauMsrM9rPuqGfMJhmIWqAHVKPssBbwub93WuMRlplnU1svTNnQFgW0ltVk2+3Kt2rNCA=
+	t=1780472910; cv=none; b=MzwG14ti5NI+AJXiqnL+IA2consb8Jq9Yt2MGqBCVLee9XaQE6zmHpEkWVRDlKh80doQa5Ln4Nce5wvHGTwc7PLU30+6BqBxElzBAeIloRsxEFRY/bQ9f1cfJBplJOrrU9dfnsDFuME1BtxOVC267+EJISiW5FIQ+6lf8IPNPyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780472908; c=relaxed/simple;
-	bh=fCZwFdtV0r5k4xU2U8NR+MaPT1DrEUmxc+QPOj3rhDw=;
+	s=arc-20240116; t=1780472910; c=relaxed/simple;
+	bh=KcgCUgijIOzKAhePrgkCmkCwCRYnCm71DuHYQjneCnU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pMBA+RFp6u9VZRZSH9nn21S/irNAUGXXQnSWZ7BFnH1pEICS73ciB2mdd3l6iLvslRfIZ2WcjnKaGEAhzdQAnb2pJJA1StSsDfBAjeb0KelJNlYDl6EuReqEBYtKB4T1kiDJAIFHa3hfcQ9qWODcKQQRHeyFqBEKSXgCDdzTC1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=ASxfxwjq; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=Z5uPgN9lhACNj0Ezj2Toiq4CHG/eABYjuRNSiQUyulmBL4d6eHjx2Wv0X5grRZHbM/DR+suDkaU4XCcWFbu9YG0e5DWzHRrXcUJkjwrqKq6yl3cJAJxKriyVEoN8lwTIHEDRNL4hG69HAui9wJFmKYpgUK5MvfAuUa2mufwtJvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=k5rTJMvA; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="ASxfxwjq"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="k5rTJMvA"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=uO+xq4U1UqHk8n/YmgBUetHHU8Pxk2VCRfuHcf6eqL0=; b=ASxfxwjqXsnLWYi/escfr5l0xe
-	wZxBiy5HzGW3jf6MHCpiJGpjOnzg7jp6Q9jDPYSVKL05v7edQsSbDFisG3ngf/Joa/7Cme0Oi8nVP
-	Viu7vhV/kut5/y/oFpevcZlLJp3cN0v69nUkdBsV1G3G/nrKLQZe6DYx7zEwxxRj5S+4gZNQ3fEy0
-	lJquLg1RfV73nnyoalTUKEs1jWPutTyUdgPGEZ1mjO+4ULptaCnscFeNSoNKyY8Nu9DLf1vx9h5kf
-	JaYZlKDJYDxIqSGmZC/ieaZ1mWkP0ID314ojTkD2ba2Yn4HfIyeS91xA1CjuQfksGUQklzOw/CKG8
-	+nMc+pxQ==;
+	bh=CZxfIE7f8psSR+RzXS8A3uRapwbom/tKdXbR9th5aIo=; b=k5rTJMvANkkB/0dod8Mpjb5ouw
+	6MVCPCntzz37bpHiZe1i8OGsLpVisZkKy5DlmIn7ThBg4V1blia6j7lSIgqPs2Jw+AxoWxUAi1k56
+	jgzf9Z+q4uVsn0+J8UZafv//iR8jYlU5alz5wtaPVXa+s/19yLUZbRMUtIf82ompZtLMeRartOKuq
+	JeNrKJ62z8CZnF7Js9jTpHXmnXDvx/zBU8l2ZXcz2aq9+asLBojb9j6gCkbcHdW6khqpZwOho2jke
+	jqd9TK4fK4q4d5jdfKmSrViDmObTwX1ceZ7CmPdQGARoVYtCPyKXhiPqGVhtbjV5zv/8tExz8qNkm
+	wtEjcxSg==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUgKm-0000000CjFA-2b4v;
-	Wed, 03 Jun 2026 07:48:16 +0000
+	id 1wUgKo-0000000CjH6-2GvL;
+	Wed, 03 Jun 2026 07:48:18 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: Andreas Hindborg <a.hindborg@kernel.org>,
@@ -36,9 +36,9 @@ Cc: Andreas Hindborg <a.hindborg@kernel.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2 07/18] configfs_detach_rollback(): pass configfs_dirent instead of dentry
-Date: Wed,  3 Jun 2026 08:48:04 +0100
-Message-ID: <20260603074815.3033766-11-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 14/18] kill configfs_drop_dentry()
+Date: Wed,  3 Jun 2026 08:48:11 +0100
+Message-ID: <20260603074815.3033766-18-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
 References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
@@ -52,55 +52,102 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-same story as with configfs_detach_prep() this function is undoing.
+Fold into the only remaining user, don't bother with the timestamps
+of parent - we are going to rmdir it shortly anyway, which will
+override those.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Fix the locking of inode, while we are at it - updating the link
+count and timestamps ought to be done with the inode locked.
+
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/configfs/dir.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ fs/configfs/configfs_internal.h |  1 -
+ fs/configfs/dir.c               | 24 +++++++++++++++++++++++-
+ fs/configfs/inode.c             | 22 ----------------------
+ 3 files changed, 23 insertions(+), 24 deletions(-)
 
+diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
+index 0b969d0eb8ff..acdeea8e2d69 100644
+--- a/fs/configfs/configfs_internal.h
++++ b/fs/configfs/configfs_internal.h
+@@ -76,7 +76,6 @@ extern int configfs_make_dirent(struct configfs_dirent *, struct dentry *,
+ extern int configfs_dirent_is_ready(struct configfs_dirent *);
+ 
+ extern const unsigned char * configfs_get_name(struct configfs_dirent *sd);
+-extern void configfs_drop_dentry(struct configfs_dirent *sd, struct dentry *parent);
+ extern int configfs_setattr(struct mnt_idmap *idmap,
+ 			    struct dentry *dentry, struct iattr *iattr);
+ 
 diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index c6055a626bef..c420191610c3 100644
+index 479d37b8d806..4a4bad1741cf 100644
 --- a/fs/configfs/dir.c
 +++ b/fs/configfs/dir.c
-@@ -563,16 +563,15 @@ static int configfs_detach_prep(struct configfs_dirent *parent_sd, struct dentry
-  * Walk the tree, resetting CONFIGFS_USET_DROPPING wherever it was
-  * set.
-  */
--static void configfs_detach_rollback(struct dentry *dentry)
-+static void configfs_detach_rollback(struct configfs_dirent *parent_sd)
- {
--	struct configfs_dirent *parent_sd = dentry->d_fsdata;
- 	struct configfs_dirent *sd;
+@@ -581,12 +581,34 @@ static void detach_attrs(struct dentry *dentry)
  
- 	parent_sd->s_type &= ~CONFIGFS_USET_DROPPING;
- 
- 	list_for_each_entry(sd, &parent_sd->s_children, s_sibling)
- 		if (sd->s_type & CONFIGFS_USET_DEFAULT)
--			configfs_detach_rollback(sd->s_dentry);
-+			configfs_detach_rollback(sd);
- }
- 
- /*
-@@ -1537,7 +1536,7 @@ static int configfs_rmdir(struct inode *dir, struct dentry *dentry)
- 		if (!ret) {
- 			ret = configfs_detach_prep(sd, &wait);
- 			if (ret)
--				configfs_detach_rollback(dentry);
-+				configfs_detach_rollback(sd);
- 		}
+ 	spin_lock(&configfs_dirent_lock);
+ 	for (sd = next_dirent(parent_sd, NULL); sd; sd = next) {
++		struct dentry *child;
++
+ 		next = next_dirent(parent_sd, sd);
+ 		if (!(sd->s_type & CONFIGFS_NOT_PINNED))
+ 			continue;
+ 		list_del_init(&sd->s_sibling);
++		child = sd->s_dentry;
++		if (child) {
++			spin_lock(&child->d_lock);
++			if (simple_positive(child)) {
++				dget_dlock(child);
++				__d_drop(child);
++				spin_unlock(&child->d_lock);
++			} else {
++				spin_unlock(&child->d_lock);
++				child = NULL;
++			}
++		}
  		spin_unlock(&configfs_dirent_lock);
- 		mutex_unlock(&configfs_symlink_mutex);
-@@ -1558,7 +1557,7 @@ static int configfs_rmdir(struct inode *dir, struct dentry *dentry)
- 	frag = sd->s_frag;
- 	if (down_write_killable(&frag->frag_sem)) {
+-		configfs_drop_dentry(sd, dentry);
++		if (child) {
++			struct inode *inode = child->d_inode;
++
++			inode_lock_nested(inode, I_MUTEX_NONDIR2);
++			inode_set_ctime_current(inode);
++			drop_nlink(inode);
++			inode_unlock(inode);
++			dput(child);
++		}
+ 		configfs_put(sd);
  		spin_lock(&configfs_dirent_lock);
--		configfs_detach_rollback(dentry);
-+		configfs_detach_rollback(sd);
- 		spin_unlock(&configfs_dirent_lock);
- 		config_item_put(parent_item);
- 		return -EINTR;
+ 	}
+diff --git a/fs/configfs/inode.c b/fs/configfs/inode.c
+index bc507b720a01..3c26b6c443be 100644
+--- a/fs/configfs/inode.c
++++ b/fs/configfs/inode.c
+@@ -195,25 +195,3 @@ const unsigned char * configfs_get_name(struct configfs_dirent *sd)
+ 	}
+ 	return NULL;
+ }
+-
+-
+-/*
+- * Unhashes the dentry corresponding to given configfs_dirent
+- * Called with parent inode's i_mutex held.
+- */
+-void configfs_drop_dentry(struct configfs_dirent * sd, struct dentry * parent)
+-{
+-	struct dentry * dentry = sd->s_dentry;
+-
+-	if (dentry) {
+-		spin_lock(&dentry->d_lock);
+-		if (simple_positive(dentry)) {
+-			dget_dlock(dentry);
+-			__d_drop(dentry);
+-			spin_unlock(&dentry->d_lock);
+-			__simple_unlink(d_inode(parent), dentry);
+-			dput(dentry);
+-		} else
+-			spin_unlock(&dentry->d_lock);
+-	}
+-}
 -- 
 2.47.3
 
