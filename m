@@ -1,34 +1,34 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54243406291
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 07:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A8F405C44
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 07:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780472906; cv=none; b=pgaGgMVcNO9XBUEMbxCDYoTbsXEk/XLiY4/jNyw3eDUrob0YRkyEU2sCUH2rMYm2PrtIeGa2B8fSmGCoQaPJUttJ0pMdBdN62gFxa23dih99PJnR8oImNVCwQFtPCqA5ddGANerNziCin/PP47t9e/3UtgydShqog62iFiiI8Dk=
+	t=1780472907; cv=none; b=ksE8OhBb5GM5DMOsAkkAwobgIRbmB4qJXDxoDYM9FRQvbudoBOMpIDh2ROgU3TYXLTEXmG4VqI3eH8hChUqiatl0hp5dSDaRBZiZ4GJ2VY23FZE8jGQn8uuiAQ1BH2OLY8A2qpVDTF7ugNNk0IdjHeUnEtLkZJQsLz0vmx3Egdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780472906; c=relaxed/simple;
-	bh=pYQ2iDB1u/M8CP9WbfyJAAHpUeDg3ZP5qdiASkGKCaw=;
+	s=arc-20240116; t=1780472907; c=relaxed/simple;
+	bh=+OXp4I2w8P194EHNr3T3/e39X0kdoGPQipQTnWq8Cok=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QAll0FWgrc94GvymEEptA2+xa7s85Kx6drLIRo1HsxnxG21yxQHAUv8AslSQLmTQa0/eKTT94yg4L241V34nrIWGUSKtG2iz+BLkzZSwilUnHieX0XWbrTcxtTj0gKl6oQ+bjmCFSrCKHDzxb8GgAtnkwbMUcVD3oGixZ8PRBlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=p7qSyqPr; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=FhhTDObNpGTlxmfazZ5/Rg6IcmtDm1Pa2oB7J9P38VnbzULZ8IlUoU/ZBJUEszzXYZCW5ltuTYb/cKuuMf8NZi9DjWjLgDj9gBPd+9LIb1Be96Dc6dcOQEWUw074zVlmv1hF5Lj+Ux6fWaZ1dDB9VU/xnA1vO4jtqaqMuZeXNJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=a/mj8Dvf; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="p7qSyqPr"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="a/mj8Dvf"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=eEbez3SmBseJq7M1z/gIdz58yP3IJrdUliDU+eMF1qI=; b=p7qSyqPrMrigVp6vAci9z7a/KJ
-	TVSQJT/ZYSIpTmmuHi8noPY5NILKVeL8b2usLEokRlMneffQWk28e9jm/u940gxlhpOXD8KbWCsGc
-	KU2TcFPCdYmchFp7vx3GVCVTibRJJsSYAQiN03XMipfYNjE/7z3XItFxjoE7W7zzcnpa2N9TSOLKr
-	67T5qH7cZ+6qVahkTQlQzLTlPe7qzQWnjtLYwIyLtfRpre9otdSmLBbKKX6q3CImzNi1diajuqVp4
-	kSz5w3UvvHKnYH52v9xt42u37sZ/YDqEFhij6jLmMErY1ofn+AEBxe1onBZpRG2C7TG4UjIVmLWja
-	70EuN+jg==;
+	bh=8m1bCZuQV9fxbIWqfY/3QghVnznjtksaO8b6ID4CQJA=; b=a/mj8Dvfa/vWitjc3DS8RPZF3v
+	FWGs3rIYemXJEdIjMdJNQ4z/w2pA4vcN7cPioV9O0uQctu4nRspuA+QRHTy5Uv8g1uBLnlO+cJcHn
+	vDd7StYRXnb8vih2LN7U+kmE1Gf9MGN/rf/vfBzjqGkdLtINPsIeJYCtzVLhyddNqnSUT7PXidp4R
+	h5jjGeAEmEqxfHhZwd7jWLAJQjf2Wm//Dybsmsj0LA839Mu4hj5VJZlViGhhFIvm9rDSjroxH2Aqh
+	CtTmCl2n6wgsQD+PbJfTmJJdFi5pbnNg7Llpru3X2aV8BBEDd0OZ5aapSxR7Ef1nIG0UJy5jH3vbV
+	gJpU6KLQ==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUgKm-0000000CjF4-2G9X;
-	Wed, 03 Jun 2026 07:48:16 +0000
+	id 1wUgKl-0000000CjE6-3MWy;
+	Wed, 03 Jun 2026 07:48:15 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
 Cc: Andreas Hindborg <a.hindborg@kernel.org>,
@@ -36,9 +36,9 @@ Cc: Andreas Hindborg <a.hindborg@kernel.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2 06/18] configfs_do_depend_item(): pass configfs_dirent instead of dentry
-Date: Wed,  3 Jun 2026 08:48:03 +0100
-Message-ID: <20260603074815.3033766-10-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 1/3] get rid of impossible checks in detach_attrs()/configfs_detach_item()
+Date: Wed,  3 Jun 2026 08:47:56 +0100
+Message-ID: <20260603074815.3033766-3-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
 References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
@@ -52,61 +52,81 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Again, the only thing it uses the argument for is its ->d_fsdata
-and callers already have that - as the matter of fact, they are
-passing ->s_dentry of that configfs_dirent, so that the function
-could get it back as ->d_fsdata of that.  With nothing else in
-dentry even looked at...
+configfs_detach_item() is never called with NULL item->ci_dentry.
+Call graph stinks to high heaven, unfortunately (which is a major part
+of the reasons for the entire massage)...
 
-configfs_dirent in question is a directory one - in this case those
-are subdirectories of root (aka roots of "subsystem" trees).
+1) after successful configfs_create_dir(item, dentry), item->ci_dentry
+is non-NULL, equal to dentry and dentry->d_fsdata->s_element points
+to item.
+2) after successful configfs_attach_item(_, item, dentry), we know we'd
+passed through successful configfs_create_dir()
+3) all directory dentries other than root have passed through successful
+configfs_create_dir().  Root has ->d_fsdata set manually so that the
+same warranties hold - ->d_fsdata->s_element->ci_dentry points back to
+dentry itself.
+4) when sd->s_type gets CONFIGFS_USET_DEFAULT set, we are guaranteed that
+sd->s_element points to an item with ->ci_dentry non-NULL and
+->ci_dentry->d_fsdata pointing back to sd.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+configfs_detach_item()
+	configfs_attach_item(), after successful configfs_create_dir()
+	configfs_attach_group(), after successful configfs_attach_item()
+	configfs_rmdir(), with item coming from dentry->d_fsdata->s_element,
+			dentry being that of a directory
+	configfs_detach_group()
+		configfs_rmdir() (same as above)
+		detach_groups(), given sd->s_element when sd->s_type has
+				CONFIGFS_USET_DEFAULT))
+		configfs_unregister_group(), assumes we'd called
+				configfs_register_group() first, which
+				would've done configfs_default_group(),
+				which would've done configfs_attach_group().
+				In any case, oopses a line later if
+				->ci_dentry is NULL.
+		configfs_unregister_subsystem(), assumes we'd called
+				configfs_register_subsystem() first, which
+				would've done configfs_attach_group().
+				In any case, would've already oopsed if
+				->ci_dentry had been NULL.
+
+detach_attrs() is called only by configfs_detach_item() and gets item
+from it.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+detach_attrs() is called only by configfs_detach_item() and gets item
+from it.
+
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/configfs/dir.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ fs/configfs/dir.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index a6b99bcbddbc..c6055a626bef 100644
+index 98bf37376165..515f41e7dba2 100644
 --- a/fs/configfs/dir.c
 +++ b/fs/configfs/dir.c
-@@ -1119,7 +1119,7 @@ static int configfs_depend_prep(struct configfs_dirent *sd,
- 	return ret;
- }
+@@ -519,9 +519,6 @@ static void detach_attrs(struct config_item * item)
+ 	struct configfs_dirent * parent_sd;
+ 	struct configfs_dirent * sd, * tmp;
  
--static int configfs_do_depend_item(struct dentry *subsys_dentry,
-+static int configfs_do_depend_item(struct configfs_dirent *subsys_sd,
- 				   struct config_item *target)
- {
- 	struct configfs_dirent *p;
-@@ -1127,7 +1127,7 @@ static int configfs_do_depend_item(struct dentry *subsys_dentry,
+-	if (!dentry)
+-		return;
+-
+ 	pr_debug("configfs %s: dropping attrs for  dir\n",
+ 		 dentry->d_name.name);
  
- 	spin_lock(&configfs_dirent_lock);
- 	/* Scan the tree, return 0 if found */
--	ret = configfs_depend_prep(subsys_dentry->d_fsdata, target);
-+	ret = configfs_depend_prep(subsys_sd, target);
- 	if (ret)
- 		goto out_unlock_dirent_lock;
+@@ -773,9 +770,6 @@ static void configfs_detach_item(struct config_item *item)
+ 	detach_attrs(item);
  
-@@ -1195,7 +1195,7 @@ int configfs_depend_item(struct configfs_subsystem *subsys,
- 	}
+ 	dentry = dget(item->ci_dentry);
+-	if (!dentry)
+-		return;
+-
+ 	parent = dget(dentry->d_parent);
  
- 	/* Ok, now we can trust subsys/s_item */
--	ret = configfs_do_depend_item(subsys_sd->s_dentry, target);
-+	ret = configfs_do_depend_item(subsys_sd, target);
- 
- out_unlock_fs:
- 	inode_unlock(d_inode(root));
-@@ -1297,7 +1297,7 @@ int configfs_depend_item_unlocked(struct configfs_subsystem *caller_subsys,
- 	}
- 
- 	/* Now we can execute core of depend item */
--	ret = configfs_do_depend_item(subsys_sd->s_dentry, target);
-+	ret = configfs_do_depend_item(subsys_sd, target);
- 
- 	if (target_subsys != caller_subsys)
- out_root_unlock:
+ 	configfs_remove_dirent(dentry);
 -- 
 2.47.3
 
