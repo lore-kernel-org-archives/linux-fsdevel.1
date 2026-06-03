@@ -1,131 +1,133 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44BA33970F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 14:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08943A873D
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 15:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780498064; cv=none; b=saU4X6NatPEUqSf2C3tQjRUdjIUgg2vZhnQU+q7iTO8dz5zCuCR8D9T5pJjoSIJctr2E/spYvp3h/Z0+CO0QJPw8xqRJ3m5MbuMiW4SD2apF8wO66bcH00VxX7ZJom3uyLzgCiZ/AqEMqfWptX48muvw/lWn0uPuawGwp37nJLI=
+	t=1780500424; cv=none; b=NXLqxmP0pi1RbaZnlP/jXfdnbSuisg1ZU+kakPoKQEDmVS3PV6Et4TkreR9JHiSWlS96sCMtqYNWQ+307HSE7W5ITD2GPJ4JCjHPmVw7f1BcakNU4KtmQclTG4Uy5DpTES9Y2Y2jIxxvB2UERgBJctGy9S+qtHFYcqQn4/gulTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780498064; c=relaxed/simple;
-	bh=7kOMdDhELVsnDjTcC/y7+iMfuPibj49wbC6iVYiZGNo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SIAqTmcEzcoRgFabVXCXplKkoIObh3ThtJaexwuhkIkv8YKj7Op0z9LTt4NWgXWByLPHqRz6z8HZNN+VNaf1oA26tDUL3FLJ2Jx7PfK0xyk2E/fb2tppvH/ZCEncBPyLbnl8GcXhYmPhIiNFMoV1wmbDOr9tH+BxI4cmBXIXExs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tat/HxE7; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780500424; c=relaxed/simple;
+	bh=5wR6ldRtC07oE2OfAwKn+DBv+oDO9pj5vEPnyj7TnCw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pFJVHwKvSoTiYTlLl5w/weEf0BIxR0fOGzsWrkEKH+e5QUxMTx6lj41A7Ygs9dVkHR5Ozx3HMIOjLKv54275G5zpAQbqFRxqmK00mbPldTFUK8CBINxW2WwPNBBjescl7UnJ5DIXHbDYLcsvdGNkIvZ8WNij6w+pN2MBkIHDriE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=GR5Ainrb; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tat/HxE7"
-Message-ID: <555331d6-59e5-4925-a409-2bf4af273799@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780498061;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wv3ebTyk2pBaPVt0dLr3PlUA7SWe5wDGnlq/dmSVxwM=;
-	b=tat/HxE7wfDtc4xbi81DSVrfj6irpnGGDi2EtmyOZmbn/CKKIWhHgmgECy2WpSBBIgNtbL
-	iRQiNKMfXARCbblS1gwk/QXqgYEuOPfB3IdkavTjJuz/Aj+pk7CFHN7S7ARDbA0fA+r7hL
-	GtDbrNnIxyJJrg6o6uGfI1iLxUYD5Tw=
-Date: Wed, 3 Jun 2026 07:47:33 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="GR5Ainrb"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bed2195323cso556744166b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 08:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1780500421; x=1781105221; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EdBrjWRKLAumno5vFkve2ATlSCQiBIWYVQeSXYhWLKg=;
+        b=GR5AinrbEA1LdrzGwQjhSZHbnZjyn5PJPKLcC/i01LK16bSWM+GLNlHgxBkxSa6ILY
+         KTkjft0Rk/vVp03hAP1oDhpiGkrIa8Xfv5lPQnQ+sTlLEK+AXY37iVDezKKTx57rqi4g
+         n2Yya4Ck76D9l3cgW4fKBEdbDCtLSXt3ytzlY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780500421; x=1781105221;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EdBrjWRKLAumno5vFkve2ATlSCQiBIWYVQeSXYhWLKg=;
+        b=qu7/xTjP7mtlXhjC5B86sjDWaQUr1u3K7FNdjQbiqyaTJGAuE70227k+qxE5QQ2TsY
+         XQI+ONuMbfizlQq9ow4n1kPC+UX5gIru1zo97G5h0zafzfWEKGkpqpV2kuDqnBdQI2OS
+         xtMHlHHGnuJEsEsynSyaLKra9q7z91/NK04yJaWc7KAxZjaeiz114Y0JdPWluslcHsmS
+         PgKJPl7jJQOumlGaRshDStw/SmyXZQ4NykdmpX38uT4kODf5NYVcdt5qfJHhCzI1v0qE
+         0YWac2/OFlNYefprFb2dl6r86YTHt6FqqI3IjRjkBsjbvhdLsnU841sJI9yERozz2aYl
+         NLjA==
+X-Forwarded-Encrypted: i=1; AFNElJ9ykunWUPDO0Sr9GI1jbKd6HTjqqKdN5kyxyHi3MBrmo7oNeermXchHkqiTZRFUZ5ktVnUjriqDuE3/un31@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYU1GmIZAr64PLtJ36jukj1ZmgCjW3CjrAPiSMLz64LKyvWzEB
+	T8akRijdMH5IWT6mDotgHWoSzXJ3oXhKQzMU1xKB/+hs6x5N8vYX7Bkq8bybfj6xoTUvI1W7ZPZ
+	lhGR/mQ8aLQ==
+X-Gm-Gg: Acq92OH2rPo8z1W//xBLkdgqHxl7E23+c01AUmVV3Fj4zYsJIqbIZs/YJDc3sOeEGOt
+	6FzGghClVvZTFJHl02/njIMe3MleZ93aToEmoH7jbPJ1YCBgpNu8oWyTDdhqbddN8R90Q3RyXMa
+	tkJcR5VH0yxp8TtBC9TdRWV/FWvqu6UvNU6eTjlEJxMzqE7Dw2n2dTRqMICqRYoRSM4kFSbaa6K
+	JUW1qF3mjVZidsTXTAPO7k6YUKB+PUNY1h2oJAhD9fiyvr0JLKMjmX2rrZU02YPTupk5I8we/HB
+	F6e0+x9MZyYgkgwhVGK2fJssPkDl0CYHzsy5ElAY9kX00HRj5QYI6Q25FVCJ4kFYSIzRn/ynffD
+	oXGh6zJuI7xEfFFu9J272bFUgvM6Jyqu/C/3L/PdJ5tqYtX5wy67jwhm49+3661YxzURFNmkvUl
+	4zi1g6Xc1TPmRn1vBLfoTVLf1MWkaqoUH+yuNXJvCfXi5As6wYU+Di8OIrioTB5VL0yxX4jU617
+	5H1mDTT3Bo=
+X-Received: by 2002:a17:907:1c03:b0:bf0:701e:b148 with SMTP id a640c23a62f3a-bf0ae905954mr214845366b.27.1780500421159;
+        Wed, 03 Jun 2026 08:27:01 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf054e04a89sm176349266b.41.2026.06.03.08.26.58
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2026 08:26:59 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bed2195323cso556734566b.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 08:26:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/u3rMQNErx0wjA+a9R72AwDPzKxtNPljZQBeq56KvdgQhfY6msUPacGmYkLENXB9hnz21rbdjbVHp3AbOo@vger.kernel.org
+X-Received: by 2002:a17:907:3f0e:b0:bed:19af:f8aa with SMTP id
+ a640c23a62f3a-bf0acf0f958mr176902766b.13.1780500418629; Wed, 03 Jun 2026
+ 08:26:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/3] bpf: NUL-terminate replaced sysctl value
-Content-Language: en-GB
-To: Dawei Feng <dawei.feng@seu.edu.cn>, martin.lau@linux.dev
-Cc: emil@etsalapatis.com, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, song@kernel.org,
- jolsa@kernel.org, kees@kernel.org, joel.granados@kernel.org,
- bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jianhao.xu@seu.edu.cn,
- Zilin Guan <zilin@seu.edu.cn>
-References: <20260603105317.944304-1-dawei.feng@seu.edu.cn>
- <20260603105317.944304-2-dawei.feng@seu.edu.cn>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20260603105317.944304-2-dawei.feng@seu.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
+ <20260602225426.122258-1-safinaskar@gmail.com> <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
+ <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
+ <CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
+ <20260603-navigieren-pleite-stilvoll-60e6da66b1d4@brauner> <20260603-raumfahrt-unmerklich-ertrugen-c4ecae70d5f9@brauner>
+In-Reply-To: <20260603-raumfahrt-unmerklich-ertrugen-c4ecae70d5f9@brauner>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 3 Jun 2026 08:26:42 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgV-j-G3d+899Zm1pQ=NaJrddPz=GKcL5Yw5DTUM=GaUw@mail.gmail.com>
+X-Gm-Features: AVHnY4Kj73Z8AasW6cIfq1Oi-uE8PGC_0Rj2_P-0GPM116OFy2hMKOC9XAw-q3o
+Message-ID: <CAHk-=wgV-j-G3d+899Zm1pQ=NaJrddPz=GKcL5Yw5DTUM=GaUw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Christian Brauner <brauner@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>, Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org, 
+	axboe@kernel.dk, david@kernel.org, dhowells@redhat.com, hch@infradead.org, 
+	jack@suse.cz, linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu, 
+	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de, 
+	viro@zeniv.linux.org.uk, willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 6/3/26 3:53 AM, Dawei Feng wrote:
-> When writing to sysctls, proc_sys_call_handler() guarantees that the
-> buffer passed to proc handlers is NUL-terminated. If
-> bpf_sysctl_set_new_value() replaces the pending sysctl value, it can
-> hand a replacement buffer directly to proc handlers. However, the
-> helper currently copies only buf_len bytes into that buffer without
-> appending a NUL terminator, leaving downstream parsers vulnerable to
-> out-of-bounds access.
+On Wed, 3 Jun 2026 at 06:40, Christian Brauner <brauner@kernel.org> wrote:
 >
-> Fix this by appending a '\0' after the replaced value to restore the
-> expected sysctl semantics. Since the helper already rejects buf_len
-> greater than PAGE_SIZE - 1, there is always room for the extra byte.
+> Prior to the change add_to_pipe() returns -EAGAIN the moment the pipe is
+> full. So iter_to_pipe stops and returns a partial count capped at pipe
+> capacity. For a 128K buffer over a 64K pipe the first call returns 64K,
+> the test drains it, call 2 returns the remaining 64K. Done.
 >
-> Reproduced in a QEMU x86_64 guest booted with KASAN while exercising
-> the sysctl replacement path with a cgroup/sysctl BPF program. The
-> reproducer targets `/proc/sys/net/core/flow_limit_cpu_bitmap`, fills
-> the original user write buffer with non-zero bytes, and overrides the
-> sysctl value so the replacement buffer lacks a terminating NUL. Under
-> that setup, the pre-fix kernel reported:
+> After this change do_writev(... flags & SPLICE_F_NONBLOCK ? RWF_NOWAIT :
+> 0) then calls pipe_write which does not stop when the pipe fills. It
+> blocks until the entire iovec is consumed.
 >
->    BUG: KASAN: slab-out-of-bounds in strnchrnul+0x72/0x90
->    Read of size 1 at addr ffff88800de57000 by task repro_patch3/66
->    CPU: 0 UID: 0 PID: 66 Comm: repro_patch3 Not tainted 7.1.0-rc3-00269-g8370ca1f87cc #6 PREEMPT(lazy)
->    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
->    Call Trace:
->     <TASK>
->     dump_stack_lvl+0x68/0xa0
->     print_report+0xcb/0x5e0
->     ? __virt_addr_valid+0x21d/0x3f0
->     ? strnchrnul+0x72/0x90
->     ? strnchrnul+0x72/0x90
->     kasan_report+0xca/0x100
->     ? strnchrnul+0x72/0x90
->     strnchrnul+0x72/0x90
->     bitmap_parse+0x37/0x2e0
->     flow_limit_cpu_sysctl+0xc6/0x840
->     ? __pfx_flow_limit_cpu_sysctl+0x10/0x10
->     ? __kvmalloc_node_noprof+0x5ba/0x870
->     proc_sys_call_handler+0x31d/0x480
->     ? __pfx_proc_sys_call_handler+0x10/0x10
->     ? selinux_file_permission+0x39f/0x500
->     ? lock_is_held_type+0x9e/0x120
->     vfs_write+0x98e/0x1000
->     ...
->     </TASK>
->    The buggy address is located 0 bytes to the right of
->    allocated 4096-byte region [ffff88800de56000, ffff88800de57000)
-> With this fix applied, rerunning the same sysctl-targeted path yields
-> no corresponding KASAN reports.
->
-> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> ---
->   kernel/bpf/cgroup.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index 876f6a81a9b6..2c7f72d3fb11 100644
-> --- a/kernel/bpf/cgroup.c
-> +++ b/kernel/bpf/cgroup.c
-> @@ -2342,6 +2342,7 @@ BPF_CALL_3(bpf_sysctl_set_new_value, struct bpf_sysctl_kern *, ctx,
->   		return -E2BIG;
->   
->   	memcpy(ctx->new_val, buf, buf_len);
-> +	((char *)ctx->new_val)[buf_len] = '\0';
+> I kinda think we need to preserve similar semantics.
 
-Okay, I looked at your v2 comment and checked the bpf_sysctl_set_new_value again.
-You above implementation is correct.
+Ack. We definitely do need to keep the old semantics.
 
-Acked-by: Yonghong Song <yonghong.song@linux.dev>
+Looking at the patch again, I think it's that
 
->   	ctx->new_len = buf_len;
->   	ctx->new_updated = 1;
->   
+    (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0
 
+thing that is broken. I think splice_to_pipe is *always* nowait - but
+has the special conditional _initial_ wait.
+
+So I think the RWF_NOWAIT should be unconditional to the do_writev(),
+and instead the code should do something like
+
+        ret = wait_for_space(pipe, flags);
+        if (!ret) do_writev(...RWF_NOWAIT);
+
+but admittedly I did not think very much about the details, so I might
+miss something.
+
+Which also then probably measn that we should just keep the legacy
+wrapper in fs/splice.c and we'd just need to make do_writev() and
+do_readv() non-static.
+
+Because I'd rather keep wait_for_space() internal to splice (or
+alternatively we'd move it to pipe.c, rename it to
+"pipe_wait_for_space()", and change the 'flags' argument to be a
+boolean to not make it use that splice-specific flags etc).
+
+            Linus
