@@ -1,33 +1,33 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF83403158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97EE407576
 	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 07:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780472908; cv=none; b=tXUlzmwh6349iyWAr5/RQnZQpOG+gsUXOTuHGRxGQK0WpDf6B+yllcso6TnBdSFyUZXhIn/M3edLo45MoqtE0pd1YFx9ixnnDk8Utvb0HBi2P6GcDzxZxayRcSenKkIxnH6GOnX1YfrkWJejsO1YVCSkHVRHDuL8OtA0Wv55r7c=
+	t=1780472908; cv=none; b=eqtvhF7JlbhsmZeLUR0WlZqPVFJ2qVQeUNSkYB+kYm+H1w5nlzJkbeZOWZl5uvuAIliNSSeZNGAOY2GA0t/gMrsPxhWyW5DYeyRHmuxg9grzwbtgDjT/J2eO8iVC3pug6ytuFuWuGfisxBB1mKa2zvBTT2gBuxRLzpiW8O04454=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780472908; c=relaxed/simple;
-	bh=uubg7tOnHQoyuKy+T5t/e8qT9KBBGVQ5iL2AG8o2DI0=;
+	bh=qXBeUR8siHfo9F7jSGywClktpzXkgALoJQ/3XpFwSLA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XhE/qQWr1V8lWCKNlhmDenVB5Wj4UtKH59aJmykopIwsTyeGDqzWkwzPs9dlTL8Oil5+tELC0Ubltcw58UjUoHM++A0pntJ0OyzHmL2SN+qmd2IzFS7Y15RXs8U+be9EPVBhFe/pJv2sTg+GDDywfT1egqsnfIzw/e87SvveDsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=aVubDqUD; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=r6gwkKD9R2iaFVUNUSjuVvqTM81xPf6/gOCfYlOI7T0fawTX8pC9iw3yw6drJIkXQo3oVDOvAZqrK/3SoChB/acG72rqaTMbEqKEXfdHokawv6kzepu58q5JA23fKmPLy0fzP7Fsdt3iVOgCGLmbQz4VLeihqeg9w9HS9+BAot0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=QdcnFAO+; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="aVubDqUD"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="QdcnFAO+"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Q1B5mhiy63xKrdx+4oADqnr8OQD9EgCq6YwE+LKlTIU=; b=aVubDqUDfdNvXeh5nXOlvr7JaU
-	rqm1ZGM9cnW5px3uHXlymSZZe1fCjQZZ+roW1y8KrzeDsJofoy36b9hi1jfU+crShVnCMEmNvKqVi
-	yHkyWDiUufAF2IUru+VhO+ZsqIjVGrfqI8oqIsEySrUx8c4fcPqCd/1uh8sBzc/pjqHhWIx5CR6ch
-	0QLMw9gMlrImuK4wny3EGSFOE9E8Jvh20KTDFB+XK0muKkQr6WHZ2IAuMznVXyQfeCWi1oHznRfNu
-	dxnuZSQenh2ELVdO4O3qbcPbnrMc40mgLAtcdSLiDDKKY4b4HdYWxunS7qjW+ceDHry1hUzKPZuSF
-	c69UCKCA==;
+	bh=3B7lpI+x6aLvVRs2D17lv+e7KvssSz96YiGGzLN6zGs=; b=QdcnFAO+oeEKFhxzRjnI+1A29W
+	p/FJNO4pg2FA8DiCy3Ef9cF5mIk6Cz/ezAX6LFhQEUaQPLTKnf34pYp4nEAGLFI1J017UoHbhL4Tk
+	50GlUkq08fS4mnXKYJZ/3/R+jJ3hpLfuodzlVpJNaL79kwV3pP/TB/VtMaA6A62TX8kMyLvhYoY0v
+	zmSed0M9hDwcDXJk2pIbFr+u9vhV7xZxpQeRDoIkMlDYDAvdLcqMRSMp2NQuZME+5fLtIwZXnRplP
+	YW1TNMWd+QSX87BEZrfKy/On8sn/avEZORany0gMYYlKIH0YxfFgMww6iFYR1LIAV5H8jwRtA8qPy
+	SlP7B9vA==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUgKn-0000000CjGU-40tH;
+	id 1wUgKo-0000000CjGo-18nz;
 	Wed, 03 Jun 2026 07:48:18 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
@@ -36,9 +36,9 @@ Cc: Andreas Hindborg <a.hindborg@kernel.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2 10/18] configfs_remove_dir(), detach_attrs(): switch to passing dentry
-Date: Wed,  3 Jun 2026 08:48:07 +0100
-Message-ID: <20260603074815.3033766-14-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 12/18] configfs: dentry refcount needs to be pinned only once
+Date: Wed,  3 Jun 2026 08:48:09 +0100
+Message-ID: <20260603074815.3033766-16-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
 References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
@@ -52,119 +52,85 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-... and deal with grabbing/dropping it in the sole caller.
-After that configfs_remove_dir() becomes an unconditional call of remove_dir(),
-so we can fold them together.
+currently we have a weird situation where
+	* symlinks and roots of subtrees created by mkdir are pinned once
+	* subdirectories of subtrees created by mkdir are pinned twice
+	* roots of subtrees created by register_{group,subsystem} are pinned
+twice.
+
+It makes things harder to follow for no good reason.  The goal is to
+encapsulate the unbalanced dget/dput into d_{make,discard}_persisitent()
+and, preferably, allow a use of simple_recursive_removal() or analogue
+thereof.  So let's regularize that and pin things only once.
+
+create_default_group() and configfs_register_subsystem() don't need to
+keep their reference around on success - configfs_create_dir() has pinned
+the sucker already.  So we can drop the reference passed to
+configfs_create_dir() (via configfs_attach_group(), etc.) both on success
+and on failure.  On the removal side we no longer have the double references,
+so we need an explicit dget() to compensate.
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/configfs/dir.c | 60 ++++++++++++++++-------------------------------
- 1 file changed, 20 insertions(+), 40 deletions(-)
+ fs/configfs/dir.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index 6580c919ee5a..11e2597fb1e2 100644
+index 87a0847d88b9..4836ffb3b70f 100644
 --- a/fs/configfs/dir.c
 +++ b/fs/configfs/dir.c
-@@ -395,7 +395,18 @@ int configfs_create_link(struct configfs_dirent *target, struct dentry *parent,
- 	return PTR_ERR(inode);
- }
+@@ -657,7 +657,7 @@ static void detach_groups(struct dentry *dentry)
+ 		if (!(sd->s_type & CONFIGFS_USET_DEFAULT))
+ 			continue;
  
--static void remove_dir(struct dentry * d)
-+/**
-+ * configfs_remove_dir - remove an config_item's directory.
-+ * @d:	dentry we're removing.
-+ *
-+ * The only thing special about this is that we remove any files in
-+ * the directory before we remove the directory, and we've inlined
-+ * what used to be configfs_rmdir() below, instead of calling separately.
-+ *
-+ * Caller holds the mutex of the item's inode
-+ */
-+
-+static void configfs_remove_dir(struct dentry *d)
- {
- 	struct dentry * parent = dget(d->d_parent);
+-		child = sd->s_dentry;
++		child = dget(sd->s_dentry);
+ 		spin_unlock(&configfs_dirent_lock);
  
-@@ -415,31 +426,6 @@ static void remove_dir(struct dentry * d)
- 	dput(parent);
- }
- 
--/**
-- * configfs_remove_dir - remove an config_item's directory.
-- * @item:	config_item we're removing.
-- *
-- * The only thing special about this is that we remove any files in
-- * the directory before we remove the directory, and we've inlined
-- * what used to be configfs_rmdir() below, instead of calling separately.
-- *
-- * Caller holds the mutex of the item's inode
-- */
--
--static void configfs_remove_dir(struct config_item * item)
--{
--	struct dentry * dentry = dget(item->ci_dentry);
--
--	if (!dentry)
--		return;
--
--	remove_dir(dentry);
--	/**
--	 * Drop reference from dget() on entrance.
--	 */
--	dput(dentry);
--}
--
- static struct dentry * configfs_lookup(struct inode *dir,
- 				       struct dentry *dentry,
- 				       unsigned int flags)
-@@ -591,17 +577,12 @@ static struct configfs_dirent *next_dirent(struct configfs_dirent *parent,
- 	return NULL;
- }
- 
--static void detach_attrs(struct config_item * item)
-+static void detach_attrs(struct dentry *dentry)
- {
--	struct dentry * dentry = dget(item->ci_dentry);
- 	struct configfs_dirent *parent_sd;
- 	struct configfs_dirent *sd, *next;
- 
--	if (!dentry)
--		return;
--
--	pr_debug("configfs %s: dropping attrs for  dir\n",
--		 dentry->d_name.name);
-+	pr_debug("configfs %pd: dropping attrs for  dir\n", dentry);
- 
- 	parent_sd = dentry->d_fsdata;
- 
-@@ -617,11 +598,6 @@ static void detach_attrs(struct config_item * item)
- 		spin_lock(&configfs_dirent_lock);
+ 		inode_lock(d_inode(child));
+@@ -708,8 +708,8 @@ static int create_default_group(struct config_group *parent_group,
+ 		} else {
+ 			BUG_ON(d_inode(child));
+ 			d_drop(child);
+-			dput(child);
+ 		}
++		dput(child);
  	}
- 	spin_unlock(&configfs_dirent_lock);
--
--	/**
--	 * Drop reference from dget() on entrance.
--	 */
--	dput(dentry);
- }
  
- static int populate_attrs(struct config_item *item)
-@@ -851,8 +827,12 @@ static void link_group(struct config_group *parent_group, struct config_group *g
- /* Caller holds the mutex of the item's inode */
- static void configfs_detach_item(struct config_item *item)
+ 	return ret;
+@@ -1781,7 +1781,7 @@ EXPORT_SYMBOL(configfs_register_group);
+ void configfs_unregister_group(struct config_group *group)
  {
--	detach_attrs(item);
--	configfs_remove_dir(item);
-+	struct dentry *dentry = dget(item->ci_dentry);
-+	if (dentry) {
-+		detach_attrs(dentry);
-+		configfs_remove_dir(dentry);
+ 	struct configfs_subsystem *subsys = group->cg_subsys;
+-	struct dentry *dentry = group->cg_item.ci_dentry;
++	struct dentry *dentry = dget(group->cg_item.ci_dentry);
+ 	struct dentry *parent = group->cg_item.ci_parent->ci_dentry;
+ 	struct configfs_dirent *sd = dentry->d_fsdata;
+ 	struct configfs_fragment *frag = sd->s_frag;
+@@ -1896,12 +1896,12 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ 		if (err) {
+ 			BUG_ON(d_inode(dentry));
+ 			d_drop(dentry);
+-			dput(dentry);
+ 		} else {
+ 			spin_lock(&configfs_dirent_lock);
+ 			configfs_dir_set_ready(dentry->d_fsdata);
+ 			spin_unlock(&configfs_dirent_lock);
+ 		}
 +		dput(dentry);
-+	}
- }
+ 	}
  
- /*
+ 	inode_unlock(d_inode(root));
+@@ -1920,7 +1920,7 @@ int configfs_register_subsystem(struct configfs_subsystem *subsys)
+ void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
+ {
+ 	struct config_group *group = &subsys->su_group;
+-	struct dentry *dentry = group->cg_item.ci_dentry;
++	struct dentry *dentry = dget(group->cg_item.ci_dentry);
+ 	struct dentry *root = dentry->d_sb->s_root;
+ 	struct configfs_dirent *sd = dentry->d_fsdata;
+ 	struct configfs_fragment *frag = sd->s_frag;
 -- 
 2.47.3
 
