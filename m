@@ -1,105 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F82B3D5677
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 11:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9283955E7
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 11:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780485022; cv=none; b=rRPcMyuma+/3386MrZbZbRI2dt7oAJBwa0lRfckcjOcDL87fVRf5SqM9veHwhl/eZTEZL1CTpRmQ2lDQoZDewa9c3Hn0XtiBBtSJvhSq0VYb+TRiBp7Abl9/Zyh482sxMV9zxxc7AEvo3aA+tqpbPYeXrqPSnuf5oJLWYRunLzo=
+	t=1780485604; cv=none; b=nQVZMJpy/J7ecBm9WdekYwgWGTYzgyj0xBz1dOuNnM+YZAVFFOtAcTN/NyQuvKKh8e4SXUNNiFn3jF6PvN+q5XVhOrOfkNQx+kRZmbDKaMl7MEC35CQ5cPcbvKfiY/qDH1YluylBErx3vdLeWuFlDWdZlgwQFj4oTNVGtncEr8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780485022; c=relaxed/simple;
-	bh=8SbDU2OlhnhxrGUXLIg2aQlLpy6y3WsK4EJfe8WYJxc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bzFy7YyqIP9wjVS2vf2oJvXfJ1H1ijfzm4R+8P349v82TjGCU3aSWUe8nuCOEiVrfo0p2wIE6exsnH7DygEsmZ2E1BLbewSb7QPlm6zzdf0q/02QiQbRCYApueBvchDy0HOJwPbi/2NJ1pxzdwAugePefIgxUZq0yF03EM2TLs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0gyBqnI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780485604; c=relaxed/simple;
+	bh=15gLpT8vS1QO/htr/bOb8jjhFZ1hz9MyKyPEdedINkA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eTZT9MsFLbthKIi6HyRCsq2UPU1KZSwqq9Wra15GEAOoU8FDW1X3w9AmOdzMemUxshO0s7g+RQnRFGINkmqHKtElC1PLRmZOqusGqxtlXcnEdCdjxG5S8282iIryYqLpTYCLQqWE/ZM/o+HJd8e/byhib4LWVSuuS0hK7yuL7H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qlaI+asY; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0gyBqnI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 536781F0089D
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 11:10:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780485021;
-	bh=Nd5refc15GJrELtVphbXBTfZyjkxiEauqcgyfGIdZCM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=P0gyBqnIAivd0otXXfLKGPVVSqpFGx8Co+1hJYgJ7ETvhyPjZkzeUCfsr7dNDcYdl
-	 yA7FPl24zmMyfk7twX7Qpj0gJP2KgaGkXNqhCK7KRzazRI0xc9DKfeivD81nB+A4pD
-	 DtI4guogas+aii6VF9v+0NzEuQ2axinOClRh3zcvVmc2aWGYYZWYDSJ36wcRVP2pfz
-	 GIHju/8Zb9oRX+ctGomMSDscdAS5nmnUTDDr/xloncwX6sEMQo68M8IDUciKZ6Lho4
-	 vo4tuBEMcuyoLjEUSpL0X2sgI1J/ZS146LnrDfJTrAIV89oU9hcoAm1YvYc+8sv/bo
-	 B3bIvNqO30e4g==
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-beb7f26ed62so445701266b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 04:10:21 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyN7N8w/UCg9ptqgnGjL6mMSL2bVZTeM5VaraNzNUFHukkEFAyS
-	lzo6eBA8GiGIkYTYaJuLeT1nImBWTUVDniCRUhtaXPXXJSFOCTkIHXYnLVE5zVAVuws+GtJ5Uhi
-	UIOxW/+RDnmN9NAnNyEb16qlxALYIKUo=
-X-Received: by 2002:a17:907:68a9:b0:bd9:a087:730d with SMTP id
- a640c23a62f3a-bf0b0fdc6bfmr92480666b.8.1780485020039; Wed, 03 Jun 2026
- 04:10:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qlaI+asY"
+Message-ID: <c57fe00a-5cb3-46dd-8c1e-a4f19567dfcb@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780485590;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=15gLpT8vS1QO/htr/bOb8jjhFZ1hz9MyKyPEdedINkA=;
+	b=qlaI+asYNiip64z7eOjFvNnckh1QZtNuLpxSUm9zuV2TruwdWTJTy5HdKkHGnb9BNOL43K
+	TT4z/rx+RhW3hEi+yf1+SQBLtKeNvtNLaOOoveB7wPfW6/gGhvJHYmesYb5QhV1WX6gT+s
+	8hwWgV/Q76YEnAXo3LL9kZqwC948VaI=
+Date: Wed, 3 Jun 2026 19:19:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260603110212.3020276-1-japo@linux.ibm.com>
-In-Reply-To: <20260603110212.3020276-1-japo@linux.ibm.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 3 Jun 2026 20:10:07 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd80+UfzKaCR9YRK8dAQq9S+kEp_VVwr_p3dj1tEeyqUQA@mail.gmail.com>
-X-Gm-Features: AVHnY4I-kSxHzCEyAjofTAvp9GqFmh54EvAmNsdlbztot0ApYQRsxVtPxG38L3M
-Message-ID: <CAKYAXd80+UfzKaCR9YRK8dAQq9S+kEp_VVwr_p3dj1tEeyqUQA@mail.gmail.com>
-Subject: Re: [REGRESSION] exfat: swapon(2) fails with EINVAL after iomap conversion
-To: Jan Polensky <japo@linux.ibm.com>
-Cc: linux-fsdevel@vger.kernel.org, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Yuezhang Mo <yuezhang.mo@sony.com>, Christoph Hellwig <hch@lst.de>, 
-	"Darrick J . Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 3/3] bpf: Restore sysctl new-value from 1 to 0
+To: Dawei Feng <dawei.feng@seu.edu.cn>, martin.lau@linux.dev
+Cc: emil@etsalapatis.com, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, song@kernel.org,
+ yonghong.song@linux.dev, jolsa@kernel.org, kees@kernel.org,
+ joel.granados@kernel.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jianhao.xu@seu.edu.cn,
+ stable@vger.kernel.org, Zilin Guan <zilin@seu.edu.cn>
+References: <20260603105317.944304-1-dawei.feng@seu.edu.cn>
+ <20260603105317.944304-4-dawei.feng@seu.edu.cn>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+In-Reply-To: <20260603105317.944304-4-dawei.feng@seu.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jun 3, 2026 at 8:02=E2=80=AFPM Jan Polensky <japo@linux.ibm.com> wr=
-ote:
+
+On 6/3/26 6:53 PM, Dawei Feng wrote:
+> Commit 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value
+> helpers") changed the success return value to 0, but failed to update the
+> corresponding check in __cgroup_bpf_run_filter_sysctl(). Since
+> bpf_prog_run_array_cg() now returns 0 on success, the legacy ret == 1
+> condition is never satisfied. As a result, the modified value is ignored,
+> and bpf_sysctl_set_new_value() fails to replace the write buffer.
 >
-> Hi,
+> Fix this by checking for a return value of 0 instead, so cgroup/sysctl
+> programs can correctly replace the pending sysctl buffer.
 >
-> we are seeing a regression on linux-next after commit
+> This bug was discovered during a manual code review. Tested via a
+> cgroup/sysctl BPF reproducer overriding writes to a target sysctl.
+> Pre-fix, bpf_sysctl_set_new_value("foo") was silently ignored: the write
+> returned 8192 and the value remained "600". Post-fix, the BPF replacement
+> buffer properly propagates: the write returns 3 and the value updates to
+> "foo".
 >
->   614f71ca1bdfaa2f25a6f147fe22f3ad031f8e2b
->   ("exfat: add iomap buffered I/O support")
+> Fixes: f10d05966196 ("bpf: Make BPF_PROG_RUN_ARRAY return -err instead of allow boolean")
+> Cc: stable@vger.kernel.org
 >
-> With this change, swapon(2) on an exfat swapfile fails with EINVAL.
->
-> Observed fallout in LTP:
->   swapoff01
->   swapoff02
->   swapon01
->   swapon02
->   swapon03
->
-> Example failure:
->
->   tst_test.c:1980: TINFO: =3D=3D=3D Testing on exfat =3D=3D=3D
->   tst_test.c:1291: TINFO: Formatting /dev/loop0 with exfat opts=3D'' extr=
-a opts=3D''
->   tst_test.c:1303: TINFO: Mounting /dev/loop0 to /tmp/LTP_swaKmkGVo/mntpo=
-int fstyp=3Dexfat flags=3D0
->   tse_swap.c:196: TINFO: create a swapfile size of 1 megabytes (MB)
->   tst_ioctl.c:26: TINFO: FIBMAP ioctl is supported
->   tse_swap.c:228: TFAIL: swapon() on exfat failed: EINVAL (22)
->
-> and from swapon02:
->
->   swapon02.c:56: TWARN: swapon(alreadyused) failed: EINVAL (22)
->   swapon02.c:73: TFAIL: swapon(2) fail with File already used expected EB=
-USY: EINVAL (22)
->
-> The iomap conversion changes exfat_aops to iomap based callbacks, but doe=
-s not add a
-> .swap_activate handler. The VFS documentation says that ->swap_activate()=
- should call
-> add_swap_extent(), or the helper iomap_swapfile_activate().
->
-> So this looks like an exfat swap activation regression triggered by the i=
-omap buffered I/O conversion.
-You have already suggested a solution. Could you please provide a
-patch for this ?
-Thanks for the report.
+> Acked-by: Yonghong Song <yonghong.song@linux.dev>
+> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+
+
+Reviewed-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+
