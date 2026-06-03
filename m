@@ -1,230 +1,189 @@
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B9F3921DD;
-	Wed,  3 Jun 2026 06:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D243437FF4E
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 06:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780467824; cv=none; b=OevFEyhplscbgiBqqhrTAAI8An+lvBZi0Eh9YZvhq6yeHMYFX+AiRxPbOfUIVe5t4sUXWJlg7RAK7V82tuKPrQ3GmTn8dt6DCnTwaBN5T4VS7fwC8RJDDbqcgd3pRYf+QzdUeDFTotrUWDe1gvXlQfP1TT1Sn6hGPGqhXVlYTNQ=
+	t=1780468989; cv=none; b=D04iGMZI8V9AjS6R7PhQFS9gzTu3BFZc9SFkWpCjFX6YLYSjVQ4cUDZmchbDDelKc9xHC0cqABD7bOcSYWIdhadhkDaxEzKi0EH98gMhQ2CI4tU34XtFdecXoLGQvmW09O1xw1E4Xv6a/G9v0BxuW3XFKTck1sfszjTEKVBavNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780467824; c=relaxed/simple;
-	bh=uYhm8QNvG9IY2xc+IVP403TIQlnk+21WVCrKgs5QZ4g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ceDd+IIvQIzOPZQ9hokXDsy+QYl1v7UvHjG05X8mDZc2uwfJwCj3VLBQKw1WL16jaRzAP7NpgJODphvw12/HH4vWJk5vXOQ0K8mam+aTJDPJTt9SFttKJmyiOjTTq/sm2Km85jxbAaIOjQo0zEikBN7uiexX1V2J/v96ldrOmMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=fgwiTfmg; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=fg5DOj7V; arc=none smtp.client-ip=210.171.160.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="fgwiTfmg";
-	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="fg5DOj7V"
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 7A5E526F765F;
-	Wed,  3 Jun 2026 15:15:31 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1780467331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JLTIoFL4HfKf9H/T2PmOj2xMWqfyVB0ymdXuUth9B1A=;
-	b=fgwiTfmgGkfgqLcrJWA18EV38w3s1NDZZ7RRFAhrNofns6CYTrlNR/uAm8ehFF8xNm7EP0
-	hHz0Y346IqoTvPjjdeozPTSy6B5Tn2ZVr5QyC57gWIuaEwHPAYwCKa2u4rHKV5luuclg+O
-	ZfonB2sMXIJDjbrv0Nbfhw5OYVAsDaFw98wfWGhBrdBRDukAOc4Oz4FC7O/su0CjhnzBmE
-	ROKBRmOsSN513n7VQhopFjibFij4HMGvfzuOCGMB9AKHuaaEEzp1cEY0YJRA3fbRiN4h+G
-	NvMHE4ur3AquN6aoVA9PZGXquFk2aVacbGhyBzSl9yxmnrsqPbwzLd9N2K4cnA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1780467331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JLTIoFL4HfKf9H/T2PmOj2xMWqfyVB0ymdXuUth9B1A=;
-	b=fg5DOj7VIhnPlBQ4LM7NUJnv2RNyNZ9xJm0Qf8Dnf2crnoUC4UKnnleXLzQoBhxttHVkhl
-	W4Y3VIqH133J3cCA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id E566EE002D5;
-	Wed, 03 Jun 2026 15:15:30 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id D51B52200151; Wed, 03 Jun 2026 15:15:30 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Matteo Croce <technoboy85@gmail.com>
-Cc: Timothy Redaelli <tredaelli@redhat.com>,  linux-fsdevel@vger.kernel.org,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fat: stop reading directory entries past the
- end-of-directory marker
-In-Reply-To: <20260514203436.13789-1-teknoraver@meta.com>
-References: <20260514203436.13789-1-teknoraver@meta.com>
-Date: Wed, 03 Jun 2026 15:15:30 +0900
-Message-ID: <87y0gwi1z1.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1780468989; c=relaxed/simple;
+	bh=CGT7gEJWsfdmL4PputUa7LMdCWKNz5EziUoO4YB1Cv0=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=N+JgO8MgOHTg1Lu3ulFZjP5JEFWQU9PDW4GINEl+/f43eY8HTaePOS8FdnT10jmaC9APhMdNzCsVAdvhGq/0cSSksFn6fhRVksz3tMttidRHwZI1FTwaMUqPZHMBOXM7gjhi2TBOyVyx3YVfQEBByjVmW0/D+87qchNSfxBPLmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-43ccdfac598so5459898fac.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 23:43:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780468987; x=1781073787;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BXLTeHlKrc/+j7C9QPbOJLUrs1rqjWUe2L1pYvC54MA=;
+        b=T5/alepXZ60sMXnzzN0AwhlOLmP7B7dsVm8a07J3GAP3LtwRQNcuG5fHY9MxAHWw/b
+         wIjugLGh2ojhM5whJvM4RXPM/I7xkTL40mwh45pLTUmGmIU/e6ZN5wBYDEv8BpGsITh+
+         SFIq/V28WDJWRnJfxSzOeOtYHvsaX87jGv9yPogUG4yD9GKxF29Ytubi8gkbMN5DFV+v
+         8D3tO+FFrnAVp9VKxCpWaiGFrijOFEVLE7OwcpZlzYAKQgiOkSwnw9kRkJSYmkvkewW/
+         xmJ+UhCJvsh9ACkk/mmFWXcnvEWD/ixJE3SD1rxuLWJ8Tg1rks+R3dsTiCd8Tui87Xgf
+         joiQ==
+X-Forwarded-Encrypted: i=1; AFNElJ92ApOVzpGCRv1MnexN0QJcpql8Z58XO1vcg8XRqYO8pL9bbGiUQ8NPELhET4wcwOe6XJzr3QppzPuy3VJV@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYpHj/mDS3VfDTJ/RoaWX1m5nhp2cIVPGixkBnM8eNFYIJtmPy
+	9KE3z+CUeE5Xz+vtrYv8XlCaZOMZQZ/SGvQqzKgdn5BX8QV5sSMcEpcWHsg7Kgdj9IVd8kEt/3K
+	4ot6UyRIfx8abqxEdJO1pEmnV2e0NDc8oAtN8SpFOrzQBL2FyHffDOr1TSzI=
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Received: by 2002:a05:6820:180c:b0:696:637e:4831 with SMTP id
+ 006d021491bc7-69e47f0669emr1446323eaf.25.1780468986990; Tue, 02 Jun 2026
+ 23:43:06 -0700 (PDT)
+Date: Tue, 02 Jun 2026 23:43:06 -0700
+In-Reply-To: <20260602-work-super-bdev_holder_global-v1-0-bb0fd82f3861@kernel.org>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a1fccfa.278b5b03.2bcf39.0048.GAE@google.com>
+Subject: [syzbot ci] Re: fs: support freeze/thaw/mark_dead/sync with shared devices
+From: syzbot ci <syzbot+ci2e0a11d6a5730bb0@syzkaller.appspotmail.com>
+To: axboe@kernel.dk, brauner@kernel.org, cem@kernel.org, clm@fb.com, 
+	dsterba@suse.com, hch@lst.de, jack@suse.cz, linux-block@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org, tytso@mit.edu, 
+	viro@zeniv.linux.org.uk, xiang@kernel.org
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Matteo Croce <technoboy85@gmail.com> writes:
+syzbot ci has tested the following series
 
-> The FAT specification[1] (FAT Directory Structure -> "DIR_Name[0]") states:
->
->     If DIR_Name[0] == 0x00, then the directory entry is free (same as for
->     0xE5), and there are no allocated directory entries after this one
->     (all of the DIR_Name[0] bytes in all of the entries after this one
->     are also set to 0).
->
->     The special 0 value, rather than the 0xE5 value, indicates to FAT
->     file system driver code that the rest of the entries in this
->     directory do not need to be examined because they are all free.
->
-> Linux doesn't honour this: if the trailing on-disk slots is not zero-filled
-> (buggy formatters, on-disk corruption, etc.) fat_get_entry() keeps on
-> advancing past the 0x00 terminator and the driver parses arbitrary bytes as
-> real directory entries.
-> On a typical affected image, `ls /mnt` returns ~150 bogus entries with
-> random binary names, multi-gigabyte sizes, dates ranging from 1980 to 2106,
-> and a flood of -EIO from stat().
->
-> Earlier attempts (was "vfat: don't read garbage after last dirent"[2][3][4])
-> added `de->name[0] == 0` guards at each call site.
-> As Hirofumi pointed out on v3, those guards reject the entry but
-> fat_get_entry() has already advanced *pos past it. The next readdir()
-> resumes after the marker and walks straight back into the garbage.
->
-> This patch:
-> Adds fat_get_entry_eod(), a small wrapper around fat_get_entry()
-> that returns -1 when name[0] == 0 AND rewinds *pos to the marker.
-> converts the read/search paths to use the new wrapper.
-> Leaves fat_add_entries() and __fat_remove_entries() on raw fat_get_entry():
-> the write paths legitimately need to operate on free/zero slots.
-> Additionally, log a rate-limited warning suggesting fsck if it sees an
-> allocated entry after a 0x00 marker.
->
-> [1] https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc
-> [2] https://lore.kernel.org/lkml/20181207013410.7050-1-mcroce@redhat.com/
-> [3] https://lore.kernel.org/lkml/20181216231510.26854-1-mcroce@redhat.com/
-> [4] https://lore.kernel.org/lkml/20190201001408.7453-1-mcroce@redhat.com/
+[v1] fs: support freeze/thaw/mark_dead/sync with shared devices
+https://lore.kernel.org/all/20260602-work-super-bdev_holder_global-v1-0-bb0fd82f3861@kernel.org
+* [PATCH RFC 1/8] fs, block: move blk_mode_t and fop_flags_t into <linux/types.h>
+* [PATCH RFC 2/8] fs: add a global device to super block hash table
+* [PATCH RFC 3/8] fs: refuse to claim any frozen block device
+* [PATCH RFC 4/8] xfs: port to fs_bdev_file_open_by_path()
+* [PATCH RFC 5/8] btrfs: open via dedicated fs bdev helpers
+* [PATCH RFC 6/8] ext4: open via dedicated fs bdev helpers
+* [PATCH RFC 7/8] erofs: open via dedicated fs bdev helpers
+* [PATCH RFC 8/8] super: make fs_holder_ops private
 
-> Reported-by: Timothy Redaelli <tredaelli@redhat.com>
-> Signed-off-by: Matteo Croce <teknoraver@meta.com>
-> ---
->  fs/fat/dir.c | 38 ++++++++++++++++++++++++++++++++++----
->  1 file changed, 34 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/fat/dir.c b/fs/fat/dir.c
-> index 4f6f42f33613..109330da77b1 100644
-> --- a/fs/fat/dir.c
-> +++ b/fs/fat/dir.c
-> @@ -130,6 +130,26 @@ static inline int fat_get_entry(struct inode *dir, loff_t *pos,
->  	return fat__get_entry(dir, pos, bh, de);
->  }
->  
-> +/*
-> + * Like fat_get_entry(), but honour the FAT end-of-directory marker:
-> + * a dirent whose first name byte is NUL terminates iteration per the
-> + * spec. *pos is rewound to the EOD slot so callers that persist *pos
-> + * across invocations (e.g. readdir's ctx->pos) keep reporting EOD.
-> + */
-> +static int fat_get_entry_eod(struct inode *dir, loff_t *pos,
-> +			     struct buffer_head **bh,
-> +			     struct msdos_dir_entry **de)
-> +{
-> +	loff_t saved = *pos;
-> +	int err = fat_get_entry(dir, pos, bh, de);
-> +
-> +	if (err == 0 && (*de)->name[0] == 0) {
-> +		*pos = saved;
+and found the following issue:
+general protection fault in close_fs_devices
 
-This rollback seek position to previous. But actual name[0]==0 means
-all dirents have name[0]==0 after it (never be used). So it can skip
-until the end of this dir.
+Full report is available here:
+https://ci.syzbot.org/series/9511f00a-a3c2-44ab-9a0b-2d65de5bbd49
 
-So why this rollback the seek position to previous, not seek to the end
-of dir?  If it points the end of dir, this would work as just
-optimization, not bug workaround?
+***
 
-Thanks.
+general protection fault in close_fs_devices
 
-> +		return -1;
-> +	}
-> +	return err;
-> +}
-> +
->  /*
->   * Convert Unicode 16 to UTF-8, translated Unicode, or ASCII.
->   * If uni_xlate is enabled and we can't get a 1:1 conversion, use a
-> @@ -327,7 +347,7 @@ static int fat_parse_long(struct inode *dir, loff_t *pos,
->  
->  		if (ds->id & 0x40)
->  			(*unicode)[offset + 13] = 0;
-> -		if (fat_get_entry(dir, pos, bh, de) < 0)
-> +		if (fat_get_entry_eod(dir, pos, bh, de) < 0)
->  			return PARSE_EOF;
->  		if (slot == 0)
->  			break;
-> @@ -489,7 +509,7 @@ int fat_search_long(struct inode *inode, const unsigned char *name,
->  
->  	err = -ENOENT;
->  	while (1) {
-> -		if (fat_get_entry(inode, &cpos, &bh, &de) == -1)
-> +		if (fat_get_entry_eod(inode, &cpos, &bh, &de) == -1)
->  			goto end_of_dir;
->  parse_record:
->  		nr_slots = 0;
-> @@ -601,7 +621,7 @@ static int __fat_readdir(struct inode *inode, struct file *file,
->  
->  	bh = NULL;
->  get_new:
-> -	if (fat_get_entry(inode, &cpos, &bh, &de) == -1)
-> +	if (fat_get_entry_eod(inode, &cpos, &bh, &de) == -1)
->  		goto end_of_dir;
->  parse_record:
->  	nr_slots = 0;
-> @@ -885,7 +905,7 @@ static int fat_get_short_entry(struct inode *dir, loff_t *pos,
->  			       struct buffer_head **bh,
->  			       struct msdos_dir_entry **de)
->  {
-> -	while (fat_get_entry(dir, pos, bh, de) >= 0) {
-> +	while (fat_get_entry_eod(dir, pos, bh, de) >= 0) {
->  		/* free entry or long name entry or volume label */
->  		if (!IS_FREE((*de)->name) && !((*de)->attr & ATTR_VOLUME))
->  			return 0;
-> @@ -1302,6 +1322,7 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  	struct msdos_dir_entry *de;
->  	int err, free_slots, i, nr_bhs;
->  	loff_t pos;
-> +	bool saw_eod;
->  
->  	sinfo->nr_slots = nr_slots;
->  
-> @@ -1310,12 +1331,15 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  	bh = prev = NULL;
->  	pos = 0;
->  	err = -ENOSPC;
-> +	saw_eod = false;
->  	while (fat_get_entry(dir, &pos, &bh, &de) > -1) {
->  		/* check the maximum size of directory */
->  		if (pos >= FAT_MAX_DIR_SIZE)
->  			goto error;
->  
->  		if (IS_FREE(de->name)) {
-> +			if (de->name[0] == 0)
-> +				saw_eod = true;
->  			if (prev != bh) {
->  				get_bh(bh);
->  				bhs[nr_bhs] = prev = bh;
-> @@ -1325,6 +1349,12 @@ int fat_add_entries(struct inode *dir, void *slots, int nr_slots,
->  			if (free_slots == nr_slots)
->  				goto found;
->  		} else {
-> +			if (saw_eod) {
-> +				fat_msg_ratelimit(sb, KERN_WARNING,
-> +					"allocated dir entry found after end-of-directory marker (i_pos %lld); please run fsck",
-> +					MSDOS_I(dir)->i_pos);
-> +				saw_eod = false;
-> +			}
->  			for (i = 0; i < nr_bhs; i++)
->  				brelse(bhs[i]);
->  			prev = NULL;
+tree:      bpf-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/bpf/bpf-next.git
+base:      254f49634ee16a731174d2ae34bc50bd5f45e731
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/4af26755-5773-453e-807d-ee451d2fdec5/config
+syz repro: https://ci.syzbot.org/findings/2d8d96f7-d133-47dc-b4ca-5c0c65e1b6c9/syz_repro
 
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+btrfs: Deprecated parameter 'usebackuproot'
+BTRFS warning: 'usebackuproot' is deprecated, use 'rescue=usebackuproot' instead
+BTRFS: device fsid ed167579-eb65-4e76-9a50-61ac97e9b59d devid 1281 transid 8 /dev/loop1 (7:1) scanned by syz.1.18 (5863)
+Oops: general protection fault, probably for non-canonical address 0xdffffc00000000f8: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x00000000000007c0-0x00000000000007c7]
+CPU: 1 UID: 0 PID: 5863 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:btrfs_close_bdev fs/btrfs/volumes.c:1140 [inline]
+RIP: 0010:btrfs_close_one_device fs/btrfs/volumes.c:1161 [inline]
+RIP: 0010:close_fs_devices+0x47c/0x860 fs/btrfs/volumes.c:1204
+Code: 3c 08 00 74 08 48 89 ef e8 b1 95 38 fe 48 8b 6d 00 b8 c0 07 00 00 48 01 c5 48 89 e8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 08 48 89 ef e8 86 95 38 fe 48 8b 75 00 4c 89 ff e8
+RSP: 0018:ffffc90004007a48 EFLAGS: 00010202
+RAX: 00000000000000f8 RBX: 1ffff110368c440b RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 00000000000007c0 R08: ffff8881b462206f R09: 1ffff110368c440d
+R10: dffffc0000000000 R11: ffffed10368c440e R12: ffff8881b4622000
+R13: ffff8881b4622068 R14: ffff8881b4622058 R15: ffff8881707b7a00
+FS:  00007f849d6ce6c0(0000) GS:ffff8882a9292000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f849c786a00 CR3: 00000001bbbcc000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ btrfs_close_devices+0xcd/0x570 fs/btrfs/volumes.c:1219
+ btrfs_free_fs_info+0x4f/0x360 fs/btrfs/disk-io.c:1205
+ deactivate_locked_super+0xbc/0x130 fs/super.c:477
+ btrfs_get_tree_super fs/btrfs/super.c:-1 [inline]
+ btrfs_get_tree_subvol fs/btrfs/super.c:2087 [inline]
+ btrfs_get_tree+0xca6/0x1910 fs/btrfs/super.c:2121
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1928
+ fc_mount fs/namespace.c:1193 [inline]
+ do_new_mount_fc fs/namespace.c:3758 [inline]
+ do_new_mount+0x341/0xd30 fs/namespace.c:3834
+ do_mount fs/namespace.c:4167 [inline]
+ __do_sys_mount fs/namespace.c:4383 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4360
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f849c79e0ca
+Code: 48 c7 c2 e8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f849d6cde58 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007f849d6cdee0 RCX: 00007f849c79e0ca
+RDX: 00002000000055c0 RSI: 0000200000000340 RDI: 00007f849d6cdea0
+RBP: 00002000000055c0 R08: 00007f849d6cdee0 R09: 0000000000000408
+R10: 0000000000000408 R11: 0000000000000246 R12: 0000200000000340
+R13: 00007f849d6cdea0 R14: 00000000000055f5 R15: 0000200000000380
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:btrfs_close_bdev fs/btrfs/volumes.c:1140 [inline]
+RIP: 0010:btrfs_close_one_device fs/btrfs/volumes.c:1161 [inline]
+RIP: 0010:close_fs_devices+0x47c/0x860 fs/btrfs/volumes.c:1204
+Code: 3c 08 00 74 08 48 89 ef e8 b1 95 38 fe 48 8b 6d 00 b8 c0 07 00 00 48 01 c5 48 89 e8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 08 48 89 ef e8 86 95 38 fe 48 8b 75 00 4c 89 ff e8
+RSP: 0018:ffffc90004007a48 EFLAGS: 00010202
+
+RAX: 00000000000000f8 RBX: 1ffff110368c440b RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 00000000000007c0 R08: ffff8881b462206f R09: 1ffff110368c440d
+R10: dffffc0000000000 R11: ffffed10368c440e R12: ffff8881b4622000
+R13: ffff8881b4622068 R14: ffff8881b4622058 R15: ffff8881707b7a00
+FS:  00007f849d6ce6c0(0000) GS:ffff8882a9292000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000557941c2b058 CR3: 00000001bbbcc000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess):
+   0:	3c 08                	cmp    $0x8,%al
+   2:	00 74 08 48          	add    %dh,0x48(%rax,%rcx,1)
+   6:	89 ef                	mov    %ebp,%edi
+   8:	e8 b1 95 38 fe       	call   0xfe3895be
+   d:	48 8b 6d 00          	mov    0x0(%rbp),%rbp
+  11:	b8 c0 07 00 00       	mov    $0x7c0,%eax
+  16:	48 01 c5             	add    %rax,%rbp
+  19:	48 89 e8             	mov    %rbp,%rax
+  1c:	48 c1 e8 03          	shr    $0x3,%rax
+  20:	48 b9 00 00 00 00 00 	movabs $0xdffffc0000000000,%rcx
+  27:	fc ff df
+* 2a:	80 3c 08 00          	cmpb   $0x0,(%rax,%rcx,1) <-- trapping instruction
+  2e:	74 08                	je     0x38
+  30:	48 89 ef             	mov    %rbp,%rdi
+  33:	e8 86 95 38 fe       	call   0xfe3895be
+  38:	48 8b 75 00          	mov    0x0(%rbp),%rsi
+  3c:	4c 89 ff             	mov    %r15,%rdi
+  3f:	e8                   	.byte 0xe8
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
