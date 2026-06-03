@@ -1,133 +1,151 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4627730569F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 13:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9492F7EEF;
+	Wed,  3 Jun 2026 13:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780493535; cv=none; b=j4TwcOkKFLh/PrhZso7jheMMPHKw8WowMxgcmI8bV4FmFOfw9fzs2Yeew3ZPpT4v7mc0qRftgkdn/0JIXZUqH6X7z4Ab646RNO0/4lYHkBu98Kf+cUhwYpaDZ9VfB8PVdiVn9R7jCJ08hmJYmgvKuK54a8Q4jpQU0RPAq401Gpg=
+	t=1780494044; cv=none; b=IqZTnqw9grflu5GXNQKEtBvrWPB2qpfabK8IhvC6dur6NhQxGY5ZyrJimK7a58qoN/RcJudKVQ/C9f4LUvZT8BJG+wwcqmX6WGpea+NzPAp+Qu2sJ1D6qkdCYxsfB2WE9khvlUhwW3tEDpYw6PUAKML5Iq+RvdPnL1QK0HFK9Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780493535; c=relaxed/simple;
-	bh=0XaLpw8wCWCVqO3HuR7IIwW8qzeoCTixBtIKErorbuM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TGxaMhtJUhvu815mzVElnwjNeIZLOJ9NBQzZt+iftpFslCdiLsOQ1hWZnjyAcHNAG4pNi8OIaCV0OfQuLW12RvHQt5PiVEnXylMZaHVRGdUD/HhjsLXM3QFlZ4K28eEU5CkY7i9WVY6gkNHPJZ8sKt8XNCSmfdInsJjRMlmDx0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K5Pkbg1v; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780494044; c=relaxed/simple;
+	bh=b6vBOlamIALY9QchbQL4bGF2Nouw+mjRGEs7YrsXTNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NM6AXP31Z8B/Z0cT9ykvrYuUjg5NKHCqoP8EZSOAxGRSC9NeLE943CM0b3oQqo1D90H887Tjw16Fyp/TJ1G0y4gDlIRpQyOhXXyxrMzjbWbXoOwdh6BW/fkg7vODBz8U7wOQNrikCRZLJl/4FIgG4/tcex7cnp9JFUDlUqA+jBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c1ouCCeO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K5Pkbg1v"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490b7866869so8626875e9.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 06:32:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780493533; x=1781098333; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4TVbfpbXuT0Cc8+UmhjB+WjY3nKUaTcDDEiy2PFK/eY=;
-        b=K5Pkbg1veMtiMn3iRnrbfarln4Qey7dy+cZiKbAKWdXixIno80/sRg1GRpSETsRJ9a
-         UJZuJ0WcOX0IkHnFZHIxgVymDrTEYMAHqsqWio172F2jHdiOni0jzQoz6GlJeGLyU858
-         OeAmEhtPgDSfr2wnSqkM+l/i6qP5GUlMEhtisBEjCtyk+a2qrjamrLHjw7k/yJsQsnaK
-         96lUAQPcLtBNkgp99kccMvzvavbrvgtUdFPNvwXGfHwD76Z9W6zCOVLDG6M/CXpmiZ6D
-         bYdWZM5gP1uzA3H6ILWm1aJeSzN/FPUcew6RcW/PV3hc66srs7qevDprvZWIA3wd/+ey
-         cO/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780493533; x=1781098333;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4TVbfpbXuT0Cc8+UmhjB+WjY3nKUaTcDDEiy2PFK/eY=;
-        b=VaOwwul/7qkCzka0fMv76mlufu6TxR5KJ473XKkQBbZIiXplifQXZ4cpgKljF1vpI2
-         lPLkqN4nh6CG1KJx5LxuvaUJ5U8aVERoIgeGUKUAsX5pbgcTzU/1O5M2+E20vYAPillj
-         Og9In/9ISXKynWbW0rR3lmegnUWTsg+bYJ8sgcgx+q0OCpGEB9FNLxjnfEdzqrDKHmNM
-         4a282W5rdd3WyNOqjG8oRTmyM6xenTKkNPfKLNpVk4hbt3gdIwvAzpjMOn8CDOrVQlEv
-         +7+qPzKO9UdeYmwQdAY7UpG2IutiyhJhgfzq4LGWP+Jv4kJsAq7ljVtq7Jc5WSiP4CkF
-         rdiQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9Pc7WVMmUpi6eq/lgLTOGXK4vW1Ug437t+toqE735zI+9CVTjq4Mz8D0aI3NnPWffKUlcmtcUYoJyMvVen@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWGmt+gFE7LHE3hQ4wneTeTJtErSptMDaUBvcKj3Iv09B5rDUv
-	XKywfJVs+n3nI9iEHOIZNwo1sb1ipanO9JBeyMDP7OSrcKfp1ZhfNCvt
-X-Gm-Gg: Acq92OEqrVTQANpamrBIINrJ6IuNzoewVAjxZo7/Q+lCPJEZtuYBXjXBQqJdEsP+0ev
-	xS3/TzGWWWboUtURGHWkuDwR605X66bIPouEOAFpGU6SrYxKTiNwEGbO2vns2FSnZYK2+KtJrZg
-	FfU6887KuvBqHSGRNNQds2eRWPi8KDOm0ZXULiqEWs+uhYwHUbmlRJqfIbsHxthi1K6FnT7REeN
-	bkMLQ26hKuhrOvf2ujKJgTlKok3/fyTzIxRmLwIjFGp5Pz1VYOJHu/WBhHiFBa4hm3QI5M1TSvJ
-	4AOb/4y2ytruGjhsdAtJzZwMZnhcfxD2+EXyEx0euBe2eSNde4C7zKy+9S8LpQplMmD2qyRXnDC
-	aKEZvKm78s6yvgCzay73FLuq06NihH3hyO+EFvtWkGzMurb/BD8+Aj10enamFNVaZ1osXUmfLIh
-	dyKHGrQPfTGY97y87rzeZTlkEaUKSSZE1SF7XiXARQnCyQlKBj+bbFOHFBLccmGHTVEbG2sxMAD
-	5s09BXxbIAmAxIHouBxjg==
-X-Received: by 2002:a05:600c:c48e:b0:490:40f1:5314 with SMTP id 5b1f17b1804b1-490b5eb73aamr51371835e9.1.1780493532528;
-        Wed, 03 Jun 2026 06:32:12 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd1f:f500:f867:fc8a:5174:5755? ([2a01:4b00:bd1f:f500:f867:fc8a:5174:5755])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f351d69sm12355413f8f.29.2026.06.03.06.32.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 06:32:11 -0700 (PDT)
-Message-ID: <755aaa06-9f6f-4f49-a3ac-5cf7f3574393@gmail.com>
-Date: Wed, 3 Jun 2026 14:32:11 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c1ouCCeO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB4C61F00898;
+	Wed,  3 Jun 2026 13:40:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780494043;
+	bh=KGsTHKQ9mld7YxQe3rajH7wvD+M6DWrkXFM9QhfOh6M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=c1ouCCeOfGsSWLGNkvvoOa5gTYM0YWhQ2YWKcMokI4OUSVIQBt0LDWDEXGXgdOBhk
+	 RcRyl93QyEJ9JLW5AoFWnCmqBcXY4cK06cakG8SwHN1xGxeQjB9bXeW0akqq75vk2P
+	 s1CIE2PyGQkPbaRlS08LsLJsqwRjPSYYv9Co1tKaf2nz1vK6+dOTW+wW6ZJys66m7i
+	 l/CfFgBOqWkhIpv51rSLKkHcHCfO99JTOGnqyq9fBQ5yu+2Nk4F/mwwgwhNKVUGHUE
+	 NbEKOEm1HAbHTIt1WY4dqDDq5U04q5ORt1Vz6IqwcdFYPqakOw4Ejt1EIbx3TDx8mS
+	 7EOkXsCAM9FvQ==
+Date: Wed, 3 Jun 2026 15:40:36 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Andy Lutomirski <luto@amacapital.net>, 
+	Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org, axboe@kernel.dk, david@kernel.org, 
+	dhowells@redhat.com, hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	miklos@szeredi.hu, netdev@vger.kernel.org, patches@lists.linux.dev, 
+	pfalcato@suse.de, viro@zeniv.linux.org.uk, willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <20260603-raumfahrt-unmerklich-ertrugen-c4ecae70d5f9@brauner>
+References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
+ <20260602225426.122258-1-safinaskar@gmail.com>
+ <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
+ <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
+ <CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
+ <20260603-navigieren-pleite-stilvoll-60e6da66b1d4@brauner>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] bpf: Restore sysctl new-value from 1 to 0
-To: Dawei Feng <dawei.feng@seu.edu.cn>, martin.lau@linux.dev
-Cc: emil@etsalapatis.com, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, jolsa@kernel.org, kees@kernel.org,
- joel.granados@kernel.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jianhao.xu@seu.edu.cn,
- stable@vger.kernel.org, Zilin Guan <zilin@seu.edu.cn>
-References: <20260603105317.944304-1-dawei.feng@seu.edu.cn>
- <20260603105317.944304-4-dawei.feng@seu.edu.cn>
-Content-Language: en-US
-From: Mykyta Yatsenko <mykyta.yatsenko5@gmail.com>
-In-Reply-To: <20260603105317.944304-4-dawei.feng@seu.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260603-navigieren-pleite-stilvoll-60e6da66b1d4@brauner>
 
-On 6/3/26 11:53 AM, Dawei Feng wrote:
-> Commit 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value
-> helpers") changed the success return value to 0, but failed to update the
-> corresponding check in __cgroup_bpf_run_filter_sysctl(). Since
-> bpf_prog_run_array_cg() now returns 0 on success, the legacy ret == 1
-> condition is never satisfied. As a result, the modified value is ignored,
-> and bpf_sysctl_set_new_value() fails to replace the write buffer.
+On Wed, Jun 03, 2026 at 08:45:18AM +0200, Christian Brauner wrote:
+> On Tue, Jun 02, 2026 at 09:20:13PM -0700, Linus Torvalds wrote:
+> > On Tue, 2 Jun 2026 at 20:51, Andy Lutomirski <luto@amacapital.net> wrote:
+> > >
+> > > Am I understanding correctly that this will completely break zerocopy
+> > > sendfile?
+> > 
+> > Very much, yes.
+> > 
+> > And it's worth making it very very clear that ABSOLUTELY NONE of the
+> > recent big security bugs were in splice.
+> > 
+> > They were all in the networking and crypto code that just didn't deal
+> > with shared data correctly.
+> > 
+> > So in that sense, it's a bit sad to discuss castrating splice.
 > 
-> Fix this by checking for a return value of 0 instead, so cgroup/sysctl
-> programs can correctly replace the pending sysctl buffer.
+> Well, we're completely ignoring the fact that splice()'s locking and
+> interactions with pipe_lock() are complete insanity. So unless someone
+> sits down and really thinks about how to rework the locking I think
+> degrading splice() is just fine.
 > 
-> This bug was discovered during a manual code review. Tested via a
-> cgroup/sysctl BPF reproducer overriding writes to a target sysctl.
-> Pre-fix, bpf_sysctl_set_new_value("foo") was silently ignored: the write
-> returned 8192 and the value remained "600". Post-fix, the BPF replacement
-> buffer properly propagates: the write returns 3 and the value updates to
-> "foo".
+> > But it's probably still the right thing to at least try.
+> 
+> Yes.
+> 
+> > I just suspect we'll never get real answers without going the "let's
+> > just see what happens" route...
+> 
+> Yes.
 
-I wonder if we can make that reproducer into a selftest, clearly this
-codepath is not tested automatically at all, which is a problem.
+Reading this thread again I'm really amazed how willingly people argue
+to remain locked into a really broken API even if they're giving a risk
+but worthwhile chance to kill it for good. Anway, odd-userspace behavior
+time:
 
-> 
-> Fixes: f10d05966196 ("bpf: Make BPF_PROG_RUN_ARRAY return -err instead of allow boolean")
-> Cc: stable@vger.kernel.org
-> 
-> Acked-by: Yonghong Song <yonghong.song@linux.dev>
-> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> ---
->  kernel/bpf/cgroup.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index a0b5f8cd8b10..3f06e2270f5c 100644
-> --- a/kernel/bpf/cgroup.c
-> +++ b/kernel/bpf/cgroup.c
-> @@ -1935,7 +1935,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table_header *head,
->  
->  	kfree(ctx.cur_val);
->  
-> -	if (ret == 1 && ctx.new_updated) {
-> +	if (!ret && ctx.new_updated) {
->  		kvfree(*buf);
->  		*buf = ctx.new_val;
->  		*pcount = ctx.new_len;
+David reported vmsplice01 failing in the LTP testsuite after the change:
 
+11297 20:41:02.548383  <LAVA_SIGNAL_STARTTC vmsplice01>
+11298 20:41:02.548518  tst_tmpdir.c:316: TINFO: Using /tmp/LTP_vmsZ13ZQj as tmpdir (tmpfs filesystem)
+11299 20:41:02.548656  tst_test.c:2047: TINFO: LTP version: 20260130
+11300 20:41:02.548793  tst_test.c:2050: TINFO: Tested kernel: 7.1.0-rc6-next-20260602 #1 SMP PREEMPT Tue Jun  2 18:13:29 UTC 2026 aarch64
+11301 20:41:02.548932  tst_kconfig.c:88: TINFO: Parsing kernel config '/proc/config.gz'
+11302 20:41:02.549069  tst_test.c:1875: TINFO: Overall timeout per run is 0h 01m 30s
+11303 20:41:02.549205  tst_test.c:1632: TINFO: tmpfs is supported by the test
+11304 20:41:02.549340  Test timeouted, sending SIGKILL!
+11305 20:41:02.549477  tst_test.c:1947: TINFO: If you are running on slow machine, try exporting LTP_TIMEOUT_MUL > 1
+11306 20:41:02.549614  tst_test.c:1949: TBROK: Test killed! (timeout?)
+11307 20:41:02.549751  
+11308 20:41:02.549887  Summary:
+11309 20:41:02.550021  passed   0
+11310 20:41:02.550155  failed   0
+11311 20:41:02.550290  broken   1
+11312 20:41:02.550450  skipped  0
+11313 20:41:02.550582  warnings 0
+11314 20:41:02.550710  
+11315 20:41:02.550838  <LAVA_SIGNAL_ENDTC vmsplice01>
+
+So I looked at the test:
+
+	while (v.iov_len) {
+		/*
+		 * in a real app you'd be more clever with poll of course,
+		 * here we are basically just blocking on output room and
+		 * not using the free time for anything interesting.
+		 */
+		if (poll(&pfd, 1, -1) < 0)
+			tst_brk(TBROK | TERRNO, "poll() failed");
+
+		written = vmsplice(pipes[1], &v, 1, 0);
+		if (written < 0) {
+			tst_brk(TBROK | TERRNO, "vmsplice() failed");
+		} else {
+			if (written == 0) {
+				break;
+			} else {
+				v.iov_base += written;
+				v.iov_len -= written;
+			}
+		}
+
+		SAFE_SPLICE(pipes[0], NULL, fd_out, &offset, written, 0);
+		//printf("offset = %lld\n", (long long)offset);
+	}
+
+Prior to the change add_to_pipe() returns -EAGAIN the moment the pipe is
+full. So iter_to_pipe stops and returns a partial count capped at pipe
+capacity. For a 128K buffer over a 64K pipe the first call returns 64K,
+the test drains it, call 2 returns the remaining 64K. Done.
+
+After this change do_writev(... flags & SPLICE_F_NONBLOCK ? RWF_NOWAIT :
+0) then calls pipe_write which does not stop when the pipe fills. It
+blocks until the entire iovec is consumed.
+
+I kinda think we need to preserve similar semantics.
