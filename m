@@ -1,99 +1,104 @@
-Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta21.hihonor.com (mta21.hihonor.com [81.70.160.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CE93E5EC9
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 03:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880D0384CCB;
+	Wed,  3 Jun 2026 03:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780456283; cv=none; b=UtzXFo/9KkqI6rF4CACE6Va7Fr3SZsoET/KP7+cNfSkWn6tcy6PsvLpF3HyGgehmt+6IReO7jr47aQpZjDYF6GdTlIOrpnTK2AS4PIOmn3ykQIHojgzWOEOLSswkFxJmTAnwRV5DlefmpoAbH4205B3pAElif0xXWPK9gsF9MdI=
+	t=1780456383; cv=none; b=MQzt9tyAfEoBz0UbE5anRoWmJqq1+c5RJfGpDTQPiVldwgxd5muQDHCDXo4imXqoS7Xeogp20vRjlrMRuwVXAo/Rn38uTE5gkHftrCoMN6Fn9sMwtMq842ECjEFvUfgb0Ysvq1xYiArL8PG1ZwO6BpnhTKGWFVMKMXSt/0Ji4nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780456283; c=relaxed/simple;
-	bh=JRNH2XRTEkYHJTv63VfJNzHKgkwnq+3D+tuw5gxbqRo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=COm9JVdaHzs2EaLvruPw93JwvLMkt0rwnltD0CdyNfavWi6eTB9oXSXuW0tSBJ3DRj+R9kutc6VLjuT7KHDr/+91g0RoTE8cYSBY+LgEfgF2Wy1P5BmLsH0+qA5RRpxKpRIF2yXt1iUVqB4k1WfDvEhFMIwLGzRyflMnhjUfZTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=irVJQrWo; arc=none smtp.client-ip=74.125.82.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="irVJQrWo"
-Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-1363e78746eso15308237c88.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 20:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780456281; x=1781061081; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JRNH2XRTEkYHJTv63VfJNzHKgkwnq+3D+tuw5gxbqRo=;
-        b=irVJQrWodeTBWC0sJDzWmneqBCFIey96xh0nlfQGi5E3nExei5CeqJgrXd+gBqzqBT
-         lHIAQmZRo+uiBsQlpb7H+YDN3rmGx0wi6jS1A7o4RNF/WFqqyG9dt35uWREgoL6XVkpI
-         yOHrfIC6e7L57WMz0DUNbmNXba2EtneRUKbghOv8re0ont90wR8N3EVmtVu8ZXmmFYp1
-         ujoHy74VKoAPh5Ao9YYk0kG0BA/4CG/y88ITkZGcE9R8XpImaykEIS+de9Sffy08kJTL
-         /fRzDbyxcF8kvxE5/7ELlJS8lyRg4JUpRCZHdfQpnsw6jGibIZ33mMVB5IKrCgQT+ADA
-         iMdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780456281; x=1781061081;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JRNH2XRTEkYHJTv63VfJNzHKgkwnq+3D+tuw5gxbqRo=;
-        b=bpuUTEm0P/jXql5yYmHC/iu4VkDJbHasAOfF4BaBujpqBvoOUv7FqHp0AY1SxTIn3x
-         BAw0nQKIopQgFRDUezuKUwPGGjE1rUJAFZAdCAI5dr7ThoCjW+1xji7P/BIwc6ron3Rx
-         y2IAjVXmBWHPvUxeBI5/yZCXz7MVcONO+unjfhAzKMvSKq3csy8ApMhhCAFAY/aVaWgg
-         Ae1U6WSS46olURR4DBkE9nZUsmY02ZDsk2jAB8MzjW5RkWIwks/D7GeFCt9TIYkasxFm
-         bmwMvGSimgUdInsPj+JEDVyDCNJDv+Q9SYcngGmzOaOoeorjw6pyO+WHsdrYVgNJDJJ/
-         Y3Yg==
-X-Forwarded-Encrypted: i=1; AFNElJ+1Xxh0J+KrLxk/NnbCsLsCpQqINMn2WPDfYyLDhKmFjSYjtyUecTzyrKhdvcuYrr94Z3Vah/Tj878GnjYa@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg+3fGkdBRhbxVskrlFBfeA/S6VZQYnchPJlzoDBlPB3kw+kRC
-	PKP9HhYqepwKdyy/zv9VRI7NyZ3tiuwjvvhIZ1ga2VAIlnSV99oV6diS
-X-Gm-Gg: Acq92OGXlC/g13u1i/q1Hh2ck4/UVqRB8PUG9IoxalyF0Y+scf7MV0pJz6vvJZXUmRL
-	qeQEbSwWPTpxGhS2/AuJFMd8SJtAJsOtjM9bKefUvHr5t1c0DHvHjv2ZiCWEn2DmTHGaupP5AjZ
-	UvTGAX2zEI2lNx2AsHk7mg2nYgtnUXvJ9/JIuVK4jvrB6wiLZ3F3uCSqz6BGiud5br6JhWdEc+f
-	kSvhd+yii4jRvtPZ9D2XEPK7l1Ta9EkGDMRNusm7MI2bYpM/VJjY1kUZQUu2ROC6gvxf3ygoRf5
-	nIbahNJME/1TNwGd70zB+rwN4F6T9sCI3UAjICv4eobZ2Pda5XoL4v2kngbB6CMKfq77zNML3fR
-	YMQO9o7wVq5LLDcvuvPcgoUxF7G+puCRtdB2N+YWjG943Xb0gg2RQuSd0y6YCDJRAjhhTpcWpdP
-	kDYL8SJUZ3LQydBD/UcMfvo+3dwLXtgw==
-X-Received: by 2002:a05:7022:6089:b0:12d:de3f:d84e with SMTP id a92af1059eb24-137f6c47322mr494802c88.39.1780456280477;
-        Tue, 02 Jun 2026 20:11:20 -0700 (PDT)
-Received: from anonyme ([2605:52c0:2:2f27:be24:11ff:fe89:6f0f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f554f732sm1029020c88.12.2026.06.02.20.11.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 20:11:20 -0700 (PDT)
-From: AnonymeMeow <anonymemeow@gmail.com>
-To: brauner@kernel.org
-Cc: amir73il@gmail.com,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] fanotify: allow reporting pidfds for reaped tasks
-Date: Wed,  3 Jun 2026 11:11:17 +0800
-Message-ID: <20260603031117.20950-1-anonymemeow@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260603001516.26234-3-anonymemeow@gmail.com>
-References: <20260603001516.26234-3-anonymemeow@gmail.com>
+	s=arc-20240116; t=1780456383; c=relaxed/simple;
+	bh=ELAckSMkwRGZ6DfjbRItAGTsXXdLZQbzq00xTtjjcNs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=WBh7xzGXRTwIIwaNdAFzcgy0syY5N23A6/h1vOJkA96kycgFCjR8UE6Evi8Tuj0JHKGTYUaLS+8Muc2KRQIhZhXf4EYezW1zkpTo+ujglnHp2Mnu7o+oD1a3XXl8Ngq3kx/w5X9wo132Kn68S+AFOAwnY2D8pkOXFvfvSL/6Zio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
+Received: from TW004-1.hihonor.com (unknown [10.77.232.85])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4gVXlh3hQCzYl0S0;
+	Wed,  3 Jun 2026 11:11:12 +0800 (CST)
+Received: from TA004.hihonor.com (10.72.0.6) by TW004-1.hihonor.com
+ (10.77.232.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 3 Jun
+ 2026 11:12:53 +0800
+Received: from TA003.hihonor.com (10.72.0.43) by TA004.hihonor.com (10.72.0.6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.27; Wed, 3 Jun
+ 2026 11:12:52 +0800
+Received: from TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1]) by
+ TA003.hihonor.com ([fe80::998f:47ec:980d:bdf1%7]) with mapi id
+ 15.02.2562.037; Wed, 3 Jun 2026 11:12:52 +0800
+From: wangtao <tao.wangtao@honor.com>
+To: Harry Yoo <harry@kernel.org>, "catalin.marinas@arm.com"
+	<catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "david@kernel.org"
+	<david@kernel.org>, "willy@infradead.org" <willy@infradead.org>,
+	"sj@kernel.org" <sj@kernel.org>, "kees@kernel.org" <kees@kernel.org>,
+	"luizcap@redhat.com" <luizcap@redhat.com>, "zhangjiao2@cmss.chinamobile.com"
+	<zhangjiao2@cmss.chinamobile.com>, "kas@kernel.org" <kas@kernel.org>,
+	"ljs@kernel.org" <ljs@kernel.org>
+CC: "hpa@zytor.com" <hpa@zytor.com>, "liam@infradead.org"
+	<liam@infradead.org>, "vbabka@kernel.org" <vbabka@kernel.org>,
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
+	"mhocko@suse.com" <mhocko@suse.com>, "jack@suse.cz" <jack@suse.cz>,
+	"riel@surriel.com" <riel@surriel.com>, "jannh@google.com" <jannh@google.com>,
+	"jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+	"peterx@redhat.com" <peterx@redhat.com>, "ziy@nvidia.com" <ziy@nvidia.com>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"npache@redhat.com" <npache@redhat.com>, "ryan.roberts@arm.com"
+	<ryan.roberts@arm.com>, "dev.jain@arm.com" <dev.jain@arm.com>,
+	"baohua@kernel.org" <baohua@kernel.org>, "lance.yang@linux.dev"
+	<lance.yang@linux.dev>, "xu.xin16@zte.com.cn" <xu.xin16@zte.com.cn>,
+	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+	"nao.horiguchi@gmail.com" <nao.horiguchi@gmail.com>,
+	"matthew.brost@intel.com" <matthew.brost@intel.com>,
+	"joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>, "rakie.kim@sk.com"
+	<rakie.kim@sk.com>, "byungchul@sk.com" <byungchul@sk.com>,
+	"gourry@gourry.net" <gourry@gourry.net>, "ying.huang@linux.alibaba.com"
+	<ying.huang@linux.alibaba.com>, "apopple@nvidia.com" <apopple@nvidia.com>,
+	"pfalcato@suse.de" <pfalcato@suse.de>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"damon@lists.linux.dev" <damon@lists.linux.dev>, "shakeel.butt@linux.dev"
+	<shakeel.butt@linux.dev>, "ryncsn@gmail.com" <ryncsn@gmail.com>,
+	"21cnbao@gmail.com" <21cnbao@gmail.com>, "jparsana@google.com"
+	<jparsana@google.com>, "dvander@google.com" <dvander@google.com>, zhangji
+	<zhangji1@honor.com>, wangzicheng <wangzicheng@honor.com>
+Subject: RE: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
+ creation
+Thread-Topic: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
+ creation
+Thread-Index: AQHc7cjw5r5ki6LAJ0S2mW/rJEfblbYq8jCAgAEtZwCAABGecA==
+Date: Wed, 3 Jun 2026 03:12:52 +0000
+Message-ID: <2235c9949d8a4986b89c99757c5161a7@honor.com>
+References: <20260527110147.17815-1-tao.wangtao@honor.com>
+ <0867dac0-bc48-4aa9-891f-2066a3eff989@kernel.org>
+ <7319ad82f9ee4fc4b18b50b1842c9f99@honor.com>
+In-Reply-To: <7319ad82f9ee4fc4b18b50b1842c9f99@honor.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Sashiko said that pidfs_register_pid() can fail under memory pressure,
-since it allocates memory using GFP_KERNEL without a way to pass in
-__GFP_NOFAIL. This can cause fanotify_alloc_event() to silently drop
-the event even when the group has an unlimited queue length.
-
-Should we make pidfs registration best-effort instead and still return
-the allocated event if pidfs_register_pid() fails? But IMO this will
-make the API semantically ambiguous. If the kernel guarantees that the
-event pid is registered with pidfs when pidfd reporting is requested,
-then a later FAN_NOPIDFD or -ESRCH can only be caused by the task being
-invisible within the reader's pid namespace. But if we allow best-effort
-registration, the event may still carry a pinned struct pid, but pidfs
-registration may have failed due to memory pressure. If userspace reads
-the event after the task has been reaped, it still gets a FAN_NOPIDFD
-or -ESRCH due to failed pidfs registration caused by memory pressure,
-IMO this should be reported as a -ENOMEM instead of -ESRCH. But
-currently it seems we don't have a good way to register the pid with
-__GFP_NOFAIL or __GFP_RETRY_MAYFAIL, so what would be the preferred
-approach to handle this situation?
+PiBEdXJpbmcgcm1hcCB3ZSBjYW4gY29tcHV0ZSB0aGUgZm9saW8gYWRkcmVzcyB1c2luZyByb290
+X3ZtYToNCj4gDQo+IHZtYV9hZGRyZXNzKHZtYSwgcGdvZmYsIDEpID0NCj4gICAgIHZtYS0+dm1f
+c3RhcnQgKyAoKHBnb2ZmIC0gdm1hLT52bV9wZ29mZikgPDwgUEFHRV9TSElGVCkNCj4gICA9IHZt
+YV9tYXBwaW5nX2Jhc2Uodm1hKSArIHBnb2ZmICogUEFHRV9TSVpFDQo+ICAgPSB2bWFfbWFwcGlu
+Z19iYXNlKHJvb3Rfdm1hKSArIGZvbGlvX3Bnb2ZmICogUEFHRV9TSVpFDQo+IA0KSXQgaXMgaW5j
+b25zaXN0ZW50IGhlcmUuIFRoZSBvZmZzZXQgc2hvdWxkIHJlbWFpbiBwZ29mZiB0aHJvdWdob3V0
+LiBJdCBzaG91bGQgYmU6DQoNCnZtYV9hZGRyZXNzKHZtYSwgcGdvZmYsIDEpID0NCnZtYS0+dm1f
+c3RhcnQgKyAoKHBnb2ZmIC0gdm1hLT52bV9wZ29mZikgPDwgUEFHRV9TSElGVCkNCj0gdm1hX21h
+cHBpbmdfYmFzZSh2bWEpICsgcGdvZmYgKiBQQUdFX1NJWkUNCj0gdm1hX21hcHBpbmdfYmFzZShy
+b290X3ZtYSkgKyBwZ29mZiAqIFBBR0VfU0laRQ0K
