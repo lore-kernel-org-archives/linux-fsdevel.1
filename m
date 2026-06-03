@@ -1,88 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-m2411.xmail.ntesmail.com (mail-m2411.xmail.ntesmail.com [45.195.24.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7D237268A;
-	Wed,  3 Jun 2026 10:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCBC383985;
+	Wed,  3 Jun 2026 10:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.195.24.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780482502; cv=none; b=m6Tur0oMPTIPrAaoj+j1X8eLm+SqHqd0s+vhKA1NCCY6dQB2Ni222ksk+c6jHnNmac0Yfbgi9faFyayGD4f9qNfWW7OMlS7wn/SWJTdk85z3CnC87+tvI7TlaoO9283wCvDJl/m8pHra/mfQGJm4PO7WvMUnrfTcM2z/bu+OV54=
+	t=1780482848; cv=none; b=EbnQuLDuh/lFI5v7vF4ppntgMx480p+rn4k8yKePqg9Na53Zn0uTLJuB9WyEf7ySA6BlZy/WsCQdNRfjkt9e2yPXqDiBHizSGPOmy3XDwgWQwKXn/nxyK8NFLgHoAvCKzdwY5rTI7j8JyXqjYkig2Gwhh8yZwc+IIGN2X+3p6rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780482502; c=relaxed/simple;
-	bh=ZGkuZVPZ9s9KfoIlJ7dEJd/+1dvizBkJNE0Cb3iTR5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajEiwVnmkQh2yCEdIcjRTUfbIH2+bj+FuzqstkLmUXCInDa5suEqigpUeaTdn76jF5d8Q7cLRDEqq2nXUpHsrCH4tKzRpGzW+/5bYnghoIeb7uGylHkFpBz3k9iUYECYIY5/coHKiUwO3z3XFUiyFbSBDAoEblAj9Rua0QzQEkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n2Q1Dguo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780482848; c=relaxed/simple;
+	bh=FAsGlLDuXIjd03kTiyI5Qfa8qmiuNaTCHebWLKhY5Zk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=iYTYhNrQYMcPX4C3SRvmS8V8DaFRV1RPsGfNq8/f+U78Su6Q+KKPpXu9gm1tAkk6+Q/JW+1o97cgs3TtVCNZuBkz6ENqBhyWBAGhnZtOsTh1sRwRcF97jz5c7dfbvM8xnzajzIQ5jcALPYf6E+opzJDWTG/Cj5YEPxsOxjsrPQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=ln7UZ2wR; arc=none smtp.client-ip=45.195.24.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n2Q1Dguo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AC101F00898;
-	Wed,  3 Jun 2026 10:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780482500;
-	bh=aL5mtFk9j4rQnSXBTtmj1YVIkPnWlaip8NOkI03jbOQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=n2Q1Dguopg8jS0PfkroCq0EuNVWQ81yx4WVALc089gQ2r8VJq00J/sdj8XU+zhkeA
-	 /jtDDcIX8HSuxlQk3OZOpAXhUcOcrLmpC0w6cLhFMM1lrZfJ6ve/tptJrl2JrVHqzU
-	 Im2/Bh0+E86+wRp9X5xGB5EkjPIt2wnSNMk7DtPn5dRESgM2NcVN6yAwSjrJKVXOjg
-	 MFdEEHWnqxDXY04Eo4zjGcXM1K7mNnj4ZmQjaY0CByt07UhBSbjhNxThYnajGj0QmX
-	 p2tcjuXkWG/PbtAQq/QT+aj5Vt6+6xOOR1i8Ucu5BHNBmb19UDqDWVrmMuKw0ABcXb
-	 Hdv/ezgCcWjQQ==
-Date: Wed, 3 Jun 2026 12:28:17 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: AnonymeMeow <anonymemeow@gmail.com>, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] fanotify: allow reporting pidfds for reaped tasks
-Message-ID: <20260603-schindel-drehzahl-planlos-e334e6899cd5@brauner>
-References: <20260603001516.26234-3-anonymemeow@gmail.com>
- <20260603031117.20950-1-anonymemeow@gmail.com>
- <CAOQ4uxgudh_W2Gcs5qqGce8yO6503yjrGzEwbjTKkT+DLAqufA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="ln7UZ2wR"
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 40ea2c53f;
+	Wed, 3 Jun 2026 18:33:56 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: yonghong.song@linux.dev
+Cc: andrii@kernel.org,
+	ast@kernel.org,
+	bpf@vger.kernel.org,
+	daniel@iogearbox.net,
+	dawei.feng@seu.edu.cn,
+	eddyz87@gmail.com,
+	emil@etsalapatis.com,
+	jianhao.xu@seu.edu.cn,
+	joel.granados@kernel.org,
+	jolsa@kernel.org,
+	kees@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	martin.lau@linux.dev,
+	memxor@gmail.com,
+	song@kernel.org,
+	zilin@seu.edu.cn
+Subject: Re: [PATCH v2 2/3] bpf: cgroup: NUL-terminate replaced sysctl value
+Date: Wed,  3 Jun 2026 18:33:58 +0800
+Message-Id: <20260603103358.938480-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <bf25d653-d856-4ad7-a751-b97d38f38892@linux.dev>
+References: <bf25d653-d856-4ad7-a751-b97d38f38892@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxgudh_W2Gcs5qqGce8yO6503yjrGzEwbjTKkT+DLAqufA@mail.gmail.com>
+X-HM-Tid: 0a9e8d0c09a903a2kunm6d7b34da1ec68e
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaS05PVk9PGR9NShhITh9DTVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktJSE
+	5DQ1VKS0tVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=ln7UZ2wRLZCxyD5Q1F2DgoFgzuNzFO12tGBbbISBDaJWkw9oLLu32E6DN7Z2O8Saoy2R74+WXfw6UvWo5XCPHhTPDbHpbEZAFeiKkl6JuBlYLSxw4rIQpP0cv8O301x45vEsg3zHbMNomYFOiuNu+rPKibmwNNgaOUKEfZWwF5E=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=QxJ3iMW7Ldgrry4/8NsVUJkmYGX1x+BwOPrSC6DrZt0=;
+	h=date:mime-version:subject:message-id:from;
 
-On Wed, Jun 03, 2026 at 12:00:42PM +0200, Amir Goldstein wrote:
-> On Wed, Jun 3, 2026 at 5:11 AM AnonymeMeow <anonymemeow@gmail.com> wrote:
-> >
-> > Sashiko said that pidfs_register_pid() can fail under memory pressure,
-> > since it allocates memory using GFP_KERNEL without a way to pass in
-> > __GFP_NOFAIL. This can cause fanotify_alloc_event() to silently drop
-> > the event even when the group has an unlimited queue length.
-> >
-> > Should we make pidfs registration best-effort instead and still return
-> > the allocated event if pidfs_register_pid() fails? But IMO this will
-> > make the API semantically ambiguous. If the kernel guarantees that the
-> > event pid is registered with pidfs when pidfd reporting is requested,
-> > then a later FAN_NOPIDFD or -ESRCH can only be caused by the task being
-> > invisible within the reader's pid namespace. But if we allow best-effort
-> > registration, the event may still carry a pinned struct pid, but pidfs
-> > registration may have failed due to memory pressure. If userspace reads
-> > the event after the task has been reaped, it still gets a FAN_NOPIDFD
-> > or -ESRCH due to failed pidfs registration caused by memory pressure,
-> > IMO this should be reported as a -ENOMEM instead of -ESRCH. But
-> > currently it seems we don't have a good way to register the pid with
-> > __GFP_NOFAIL or __GFP_RETRY_MAYFAIL, so what would be the preferred
-> > approach to handle this situation?
-> 
-> Thanks for noticing the oddity and explaining the options.
-> 
-> We could fail the event in case on ENOMEM because the system
-> is likely is a bad shape anyway and other events are likely to fail
-> allocation themselves, so I am not objecting to your patch as is,
-> 
-> but I am slightly leaning towards the semantically ambiguous API.
+Hi Yonghong,
 
-As usual, I think a semantically ambiguous api should be avoided.
+On Mon, 1 Jun 2026 14:22:07 -0700, Yonghong Song wrote:
+>The above log can be simplied.
 
-> I don't think that we are going to change the man page to say that
-> FAN_REPORT_PIDFD is guaranteed to return a pidfd, maybe we just
-> add a NOTE about increased likelihood of getting a pidfd since kernel XXX
-> and mention the known cases of pid namespace and ENOMEM.
+Thanks. I will simplify the KASAN log in v3.
 
-The pid namespace shouldn't matter.
+>>   	memcpy(ctx->new_val, buf, buf_len);
+>> +	((char *)ctx->new_val)[buf_len] = '\0';
+>
+>Does memcpy(ctx->new_val, buf, buf_len + 1) work?
+
+I do not think memcpy(ctx->new_val, buf, buf_len + 1) would be a good
+fit here.
+
+The helper interface only guarantees that buf is valid for buf_len
+bytes, so reading one more byte would go past the declared input range.
+Even if some callers happen to have a trailing '\0' right after the
+payload, that is not part of the contract.
+
+Appending the terminator on the destination side keeps the source read
+strictly within buf_len, while still restoring the NUL-terminated
+buffer semantics expected by downstream proc handlers. It is also safe
+for the destination, since the helper already rejects
+buf_len > PAGE_SIZE - 1.
+
+Therefore, I would prefer to keep it as:
+
+	memcpy(ctx->new_val, buf, buf_len);
+	((char *)ctx->new_val)[buf_len] = '\0';
+
+Best regards,
+Dawei
