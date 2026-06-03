@@ -1,131 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4E31547C0;
-	Wed,  3 Jun 2026 00:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7712C2FFDFC
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 01:08:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780445884; cv=none; b=O8ZETu+2B8KKD1xpBmKig66mc8aeXwvM3v49xPpGJgQ/pdOib6exkMuEsrwufnpFawOooJXGx9jeZxHIIz5ODHlnRW+0FhlTTZaJ/PFH5Wp35T+TksSJxxr6fIxlLm5LsBYphjSyWWT2nVUAQaxKCxNR9aapQUMqkaEltcVmwFo=
+	t=1780448932; cv=none; b=gN2hzXL54DsIk8RdHCA2fQLHlrC+Q1pQGGB63bNULafpSVbAPJpjI/629RGuVeLRPe/R5QcVyygDV5j8oDga0lH7MHl5FBZn0x5QeUCDJAQEC1VwKdAoqUujogAGaRpVmkT2lhq/OIIO/pX32wHELPhm2ZYQSQ526jGvvNIrtw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780445884; c=relaxed/simple;
-	bh=j5a4EnHiKf7RaWJzPddfZ7I45WAetzuNsDXT5s0Zq/w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QJaGZLULdKvUsmmeYx+g5Tme50vzTLbuW4CZ2Hq3lJF7LnuILwf8Ty3xe8uh2dnwTwn7XAuz6Jb5hesXapzUu1YO8uG+9timG4qZSGIXG9/Fq0krgVy/FM0FY01pyv/fO2ygaKORwwXbXZgVfOvherzjtp2KtWKbjZWdrKR107A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdFVx25b; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780448932; c=relaxed/simple;
+	bh=2ZV+1Hj/UhdYw1uvUPcYqYevnxoEYOizS2cgooIrU6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bUBvPq+qiLzYSvePf0AwiwMQLcCpoyWuMqUXehwA//CHnozB4/1KJyvUSGNNVwmVCUw9sBm5y/KCliaJwQRtL2XwKhf5PtlSYIN0hvShHRZ5uaSip/2fLJlk+3QntfuJfn+f2984bMH7dD1uWD3MqIpCsb3pLuBOiV7wyUeSJyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MUJ0fG0c; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdFVx25b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780445882; x=1811981882;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=j5a4EnHiKf7RaWJzPddfZ7I45WAetzuNsDXT5s0Zq/w=;
-  b=OdFVx25b0T/A6UbjwQ6CAfl1OYxGKurhTvdFDZZeKb8U4MkriV/6zb0k
-   rhoiOk1EIj0T8w8aYvYWSB9riQwpB/j7huSxBCrCd/6WqPl9+uEcbJA07
-   NZAbfBHH+/tAj/auEn3dvI26gP/qOX0eP0ZDnSusKNW4pb8BdHeGWDI6Z
-   9uhB8eRRNLQB02ybydFTYwuqwHc2KEPeBQlh7JMOrT03gJAjlqRNcLQZ6
-   cxoCGQiuws0prNbcSmy7nVwXPNwxbK5vwQtGbPwYkaEjEq+gtq5mhH3OG
-   9Hh5TABClcOhV4zS3KbYC7uhXrgS388pOerij6slJGplDN/hUeKAFJcZw
-   A==;
-X-CSE-ConnectionGUID: 4iMwu10ySZeHumFzEhG5Mg==
-X-CSE-MsgGUID: 07J0iZwaQLeW2b10SeUxeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81274788"
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="81274788"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 17:18:02 -0700
-X-CSE-ConnectionGUID: QqOEc7o8QeibjRKTdoq74w==
-X-CSE-MsgGUID: zSlGOjfITn6UgTOfJDjhYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="244144753"
-Received: from rchatre-mobl4.amr.corp.intel.com (HELO [10.125.108.56]) ([10.125.108.56])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 17:18:00 -0700
-Message-ID: <0079f36f-0605-4ab4-97c6-5223340a2ebd@intel.com>
-Date: Tue, 2 Jun 2026 17:17:58 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MUJ0fG0c"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b4e1ade7so5749315e9.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 18:08:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780448930; x=1781053730; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d3GAR7SC93N2eePKpNe9tCYUdzk5c1g7WEzw2IFy6ZM=;
+        b=MUJ0fG0cIpJXmkAFcfYXyp+Ziu0eTA2MWQKXOJCX9h4zM6quBFYIGbyFGKTKcYDnUP
+         QCr+wZoQugq6gZqHvmB06ZVuyPnzsP+9RN/MkIZdhn6sgxeFendYavb4LX94sVQknFes
+         u34G2sWsdklgOrU01MKqa26rFpWStx3YomD+VmUFaipI31mBQETea10anU3ZByFumeG8
+         1Sz599EnabnRLD8aCPMaViugxHQ9CtMt2hpwdrlY23Rhnfa0dM9pgwNQw76F1S1ifBSz
+         0MuU4qj8NGZTi5IG6fILtSkgR1IA4sV5TgiE1cozubQ48uUDm1VgtXRT9hiwZV1aLvSN
+         vJvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780448930; x=1781053730;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=d3GAR7SC93N2eePKpNe9tCYUdzk5c1g7WEzw2IFy6ZM=;
+        b=rFI7lfSDimGgw4HSJJ2VkQ703g4rUFRhjxh2y63B+NViyas8YWXE5bWM1mvUHATCqS
+         F1yqNDNqyTUGRV4w5vg899vLH7ChUx5zHFjDOa06Wz2vQbb5FPO0EJA7FpbA7snvu2+L
+         iuy+C89lkqvIj0tGilEkty8vpHYeaJ8QcfzsjWU4Ex2f60sE0PfKlgtcmPJiboUv/kKj
+         zmGUpeMY4uqBmnJx669pgoIxn9FNQdv9LzBpC/tQAhIASdPhV0qN8hN4bcM4cMWPnoSr
+         05yZBt1fyAIfjyqLQfTRqsjxtqv3TdlUy6MeQf8/AdXI2Ca6dLZuWOtwoRE3pLLOroXD
+         GhjA==
+X-Forwarded-Encrypted: i=1; AFNElJ+h/KgLboN8C1ZDrJ7DvhQTu/1wrBLML0j51jdir40WRwg20HFpBjnkVvtKuWQyyOdz+T78zVuSLvlunqWC@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywxs1SjwWb4oc3bQqUEtrgl+fG59HfK97/ABgQmCrgLpq9ERweI
+	iRbFOxPwvdtlJPz4YYVLacmGHz3CVkip/0at9cn+2e0ETssWLp10JCjS
+X-Gm-Gg: Acq92OFS5fd1X5IBY9H72kDBEw3Caajir7CKfF8gHerEy8lUoSdf1OSd3oysX4bOV25
+	4ljgcPQO0hUEfLiW/PLcA06XzA51dTGbK3t2EzJXVtkswQgkLY7Ht3qq9qxWjsJgSu6NUn6U+4E
+	ULe/FG/dUjaYMROGT39xzbtwrl0MMXbmhtQjvb4p7KsWDX5kNYdK+Zn/fkK4V69sam5+hixOHf9
+	WQqJthTI/7QLUYY7APwcYdiW3+UkD3qd/wLKvXzfSvp9sDH7SvZxxYDAXR97a1tHBVGFC7NY9l5
+	C49ZSVyYBWX0wumvShJ5VEVgMl3QWtu+KPhOfw+UTATt54o1Sp+GQkQ9mohkZW0H30gAbYus3jv
+	6NpgS9LyWrZBRh+qqH8nrrSFt6Jer5xDJLQ80TgdxsPqgdCqf4AL7l6GIYZrvDSoZvNqFlrXDEr
+	5HAO2lx4nohhonPZMA6uOAaPU608OF9A==
+X-Received: by 2002:a05:600c:3e19:b0:490:b58a:dcc1 with SMTP id 5b1f17b1804b1-490b60fcd56mr18908035e9.29.1780448929768;
+        Tue, 02 Jun 2026 18:08:49 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490b725fb1bsm11254325e9.8.2026.06.02.18.08.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2026 18:08:49 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: torvalds@linux-foundation.org
+Cc: akpm@linux-foundation.org,
+	axboe@kernel.dk,
+	brauner@kernel.org,
+	david@kernel.org,
+	dhowells@redhat.com,
+	hch@infradead.org,
+	jack@suse.cz,
+	linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	miklos@szeredi.hu,
+	netdev@vger.kernel.org,
+	patches@lists.linux.dev,
+	pfalcato@suse.de,
+	safinaskar@gmail.com,
+	viro@zeniv.linux.org.uk,
+	willy@infradead.org
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+Date: Wed,  3 Jun 2026 04:08:44 +0300
+Message-ID: <20260603010844.257094-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
+References: <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 2/9] dax/fsdev: fix multi-range offset in
- memory_failure handler
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Dan Williams <djbw@kernel.org>
-Cc: John Groves <jgroves@micron.com>, Vishal Verma
- <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Alison Schofield <alison.schofield@intel.com>, Ira Weiny
- <iweiny@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019e79caead2-5795328c-af48-4a93-b147-c11df7446e1a-000000@email.amazonses.com>
- <20260530165037.6619-1-john@jagalactic.com>
- <0100019e79cb8953-e505a8dc-63a4-4bc3-a9bd-3b86ec081838-000000@email.amazonses.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019e79cb8953-e505a8dc-63a4-4bc3-a9bd-3b86ec081838-000000@email.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 5/30/26 9:50 AM, John Groves wrote:
-> From: John Groves <John@Groves.net>
+Linus Torvalds <torvalds@linux-foundation.org>:
+> That absolutely would be my suggested next step.
 > 
-> Fix memory_failure offset calculation for multi-range devices. The old code
-> subtracted ranges[0].range.start from the faulting PFN's physical address,
-> which produces an incorrect (inflated) logical offset when the PFN falls in
-> ranges[1] or beyond due to physical gaps between ranges. Add
-> fsdev_pfn_to_offset() to walk the range list and compute the correct
-> device-linear byte offset.
-> 
-> Fixes: d5406bd458b0a ("dax: add fsdev.c driver for fs-dax on character dax")
-> Signed-off-by: John Groves <john@groves.net>
+> Something like the attached - get rid of filemap_splice_read()
+> entirely, and just replace it with copy_splice_read().
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+Okay, I will post something like this soon.
 
-> ---
->  drivers/dax/fsdev.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> index 188b2526bee45..f315533b299e9 100644
-> --- a/drivers/dax/fsdev.c
-> +++ b/drivers/dax/fsdev.c
-> @@ -135,11 +135,26 @@ static void fsdev_clear_ops(void *data)
->   * The core mm code in free_zone_device_folio() handles the wake_up_var()
->   * directly for this memory type.
->   */
-> +static u64 fsdev_pfn_to_offset(struct dev_dax *dev_dax, unsigned long pfn)
-> +{
-> +	phys_addr_t phys = PFN_PHYS(pfn);
-> +	u64 offset = 0;
-> +
-> +	for (int i = 0; i < dev_dax->nr_range; i++) {
-> +		struct range *range = &dev_dax->ranges[i].range;
-> +
-> +		if (phys >= range->start && phys <= range->end)
-> +			return offset + (phys - range->start);
-> +		offset += range_len(range);
-> +	}
-> +	return -1ULL;
-> +}
-> +
->  static int fsdev_pagemap_memory_failure(struct dev_pagemap *pgmap,
->  		unsigned long pfn, unsigned long nr_pages, int mf_flags)
->  {
->  	struct dev_dax *dev_dax = pgmap->owner;
-> -	u64 offset = PFN_PHYS(pfn) - dev_dax->ranges[0].range.start;
-> +	u64 offset = fsdev_pfn_to_offset(dev_dax, pfn);
->  	u64 len = nr_pages << PAGE_SHIFT;
->  
->  	return dax_holder_notify_failure(dev_dax->dax_dev, offset,
+But I'm slow person, and also I will test things in Qemu, so this will
+take some days.
 
+-- 
+Askar Safin
