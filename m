@@ -1,107 +1,130 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7712C2FFDFC
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 01:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC4937FF53;
+	Wed,  3 Jun 2026 01:44:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780448932; cv=none; b=gN2hzXL54DsIk8RdHCA2fQLHlrC+Q1pQGGB63bNULafpSVbAPJpjI/629RGuVeLRPe/R5QcVyygDV5j8oDga0lH7MHl5FBZn0x5QeUCDJAQEC1VwKdAoqUujogAGaRpVmkT2lhq/OIIO/pX32wHELPhm2ZYQSQ526jGvvNIrtw4=
+	t=1780451054; cv=none; b=a8AHhAi4kJajRqfPfqF2v095UEnz6K/lDMSYKZ1gJOxuxLpTAuXbIkuaVm5aRtjuM+idPkhGO5sXLNwLkG+gYNaGt04Hlg/7cVOAjFhBjCA0pXgzAdkGLT+nhn/6QXOsFmslUT63HeGTuFssXlV98TfNI8A4UrRUO5Sz7pjbZKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780448932; c=relaxed/simple;
-	bh=2ZV+1Hj/UhdYw1uvUPcYqYevnxoEYOizS2cgooIrU6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bUBvPq+qiLzYSvePf0AwiwMQLcCpoyWuMqUXehwA//CHnozB4/1KJyvUSGNNVwmVCUw9sBm5y/KCliaJwQRtL2XwKhf5PtlSYIN0hvShHRZ5uaSip/2fLJlk+3QntfuJfn+f2984bMH7dD1uWD3MqIpCsb3pLuBOiV7wyUeSJyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MUJ0fG0c; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MUJ0fG0c"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b4e1ade7so5749315e9.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 02 Jun 2026 18:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780448930; x=1781053730; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d3GAR7SC93N2eePKpNe9tCYUdzk5c1g7WEzw2IFy6ZM=;
-        b=MUJ0fG0cIpJXmkAFcfYXyp+Ziu0eTA2MWQKXOJCX9h4zM6quBFYIGbyFGKTKcYDnUP
-         QCr+wZoQugq6gZqHvmB06ZVuyPnzsP+9RN/MkIZdhn6sgxeFendYavb4LX94sVQknFes
-         u34G2sWsdklgOrU01MKqa26rFpWStx3YomD+VmUFaipI31mBQETea10anU3ZByFumeG8
-         1Sz599EnabnRLD8aCPMaViugxHQ9CtMt2hpwdrlY23Rhnfa0dM9pgwNQw76F1S1ifBSz
-         0MuU4qj8NGZTi5IG6fILtSkgR1IA4sV5TgiE1cozubQ48uUDm1VgtXRT9hiwZV1aLvSN
-         vJvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780448930; x=1781053730;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=d3GAR7SC93N2eePKpNe9tCYUdzk5c1g7WEzw2IFy6ZM=;
-        b=rFI7lfSDimGgw4HSJJ2VkQ703g4rUFRhjxh2y63B+NViyas8YWXE5bWM1mvUHATCqS
-         F1yqNDNqyTUGRV4w5vg899vLH7ChUx5zHFjDOa06Wz2vQbb5FPO0EJA7FpbA7snvu2+L
-         iuy+C89lkqvIj0tGilEkty8vpHYeaJ8QcfzsjWU4Ex2f60sE0PfKlgtcmPJiboUv/kKj
-         zmGUpeMY4uqBmnJx669pgoIxn9FNQdv9LzBpC/tQAhIASdPhV0qN8hN4bcM4cMWPnoSr
-         05yZBt1fyAIfjyqLQfTRqsjxtqv3TdlUy6MeQf8/AdXI2Ca6dLZuWOtwoRE3pLLOroXD
-         GhjA==
-X-Forwarded-Encrypted: i=1; AFNElJ+h/KgLboN8C1ZDrJ7DvhQTu/1wrBLML0j51jdir40WRwg20HFpBjnkVvtKuWQyyOdz+T78zVuSLvlunqWC@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywxs1SjwWb4oc3bQqUEtrgl+fG59HfK97/ABgQmCrgLpq9ERweI
-	iRbFOxPwvdtlJPz4YYVLacmGHz3CVkip/0at9cn+2e0ETssWLp10JCjS
-X-Gm-Gg: Acq92OFS5fd1X5IBY9H72kDBEw3Caajir7CKfF8gHerEy8lUoSdf1OSd3oysX4bOV25
-	4ljgcPQO0hUEfLiW/PLcA06XzA51dTGbK3t2EzJXVtkswQgkLY7Ht3qq9qxWjsJgSu6NUn6U+4E
-	ULe/FG/dUjaYMROGT39xzbtwrl0MMXbmhtQjvb4p7KsWDX5kNYdK+Zn/fkK4V69sam5+hixOHf9
-	WQqJthTI/7QLUYY7APwcYdiW3+UkD3qd/wLKvXzfSvp9sDH7SvZxxYDAXR97a1tHBVGFC7NY9l5
-	C49ZSVyYBWX0wumvShJ5VEVgMl3QWtu+KPhOfw+UTATt54o1Sp+GQkQ9mohkZW0H30gAbYus3jv
-	6NpgS9LyWrZBRh+qqH8nrrSFt6Jer5xDJLQ80TgdxsPqgdCqf4AL7l6GIYZrvDSoZvNqFlrXDEr
-	5HAO2lx4nohhonPZMA6uOAaPU608OF9A==
-X-Received: by 2002:a05:600c:3e19:b0:490:b58a:dcc1 with SMTP id 5b1f17b1804b1-490b60fcd56mr18908035e9.29.1780448929768;
-        Tue, 02 Jun 2026 18:08:49 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490b725fb1bsm11254325e9.8.2026.06.02.18.08.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Jun 2026 18:08:49 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: torvalds@linux-foundation.org
-Cc: akpm@linux-foundation.org,
-	axboe@kernel.dk,
-	brauner@kernel.org,
-	david@kernel.org,
-	dhowells@redhat.com,
-	hch@infradead.org,
-	jack@suse.cz,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	miklos@szeredi.hu,
-	netdev@vger.kernel.org,
-	patches@lists.linux.dev,
-	pfalcato@suse.de,
-	safinaskar@gmail.com,
-	viro@zeniv.linux.org.uk,
-	willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-Date: Wed,  3 Jun 2026 04:08:44 +0300
-Message-ID: <20260603010844.257094-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
-References: <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
+	s=arc-20240116; t=1780451054; c=relaxed/simple;
+	bh=L/ekwo7GKsnru2+zPvQaLMNVVjcMgUe8qQK2MWwSs2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hLLHdDUgXkrh4ENROueDlmMY2Il9JIuYRN3dhfVMHUrtUu0Zzz0GNhju9GmcMPz2hzSOUS0wUpUuULSeXuduZotyN4QRzWKxrOYc5OmQ7XgWFbgDA9Ymdy0F6MmhRVWPtEzfDOr50uBmNBGYR8pcrR5ttaxcs4H7S+FC028Xj0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4gVVph5z4bzKHMNy;
+	Wed,  3 Jun 2026 09:43:40 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id F1FE64056D;
+	Wed,  3 Jun 2026 09:44:05 +0800 (CST)
+Received: from [10.174.178.253] (unknown [10.174.178.253])
+	by APP1 (Coremail) with SMTP id cCh0CgAndzzkhh9qJLKxAQ--.52545S3;
+	Wed, 03 Jun 2026 09:44:05 +0800 (CST)
+Message-ID: <d6e493d3-8f9e-49c0-b36c-536ef6120011@huaweicloud.com>
+Date: Wed, 3 Jun 2026 09:44:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/23] ext4: implement buffered write path using iomap
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Cc: linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tytso@mit.edu, adilger.kernel@dilger.ca,
+ libaokun@linux.alibaba.com, jack@suse.cz, ritesh.list@gmail.com,
+ djwong@kernel.org, hch@infradead.org, yi.zhang@huawei.com,
+ yizhang089@gmail.com, yangerkun@huawei.com, yukuai@fnnas.com
+References: <20260511072344.191271-1-yi.zhang@huaweicloud.com>
+ <20260511072344.191271-9-yi.zhang@huaweicloud.com>
+ <ahXUBgoivo5CFl39@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+ <83e36f9c-aeb1-40d4-9265-fd22120a7fa9@huaweicloud.com>
+ <ah6q3bx27P1wptTg@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <ah6q3bx27P1wptTg@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:cCh0CgAndzzkhh9qJLKxAQ--.52545S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7CrW5Jw1rXw4fuFyktFyrZwb_yoW8KF43pr
+	ZYk3W7tr4kGr1rXFs29F1xWF40k3WfXr47Xr45Xr12vFn0kFySqFW7tF1UuFykKrs3t3Wj
+	qrWUZryxZ3yjyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
+	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
+	0PfPUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-Linus Torvalds <torvalds@linux-foundation.org>:
-> That absolutely would be my suggested next step.
+On 6/2/2026 6:05 PM, Ojaswin Mujoo wrote:
+> On Fri, May 29, 2026 at 05:13:55PM +0800, Zhang Yi wrote:
+>> Hi, Ojaswin!
+>>
+>> On 5/27/2026 1:10 AM, Ojaswin Mujoo wrote:
+>>> On Mon, May 11, 2026 at 03:23:28PM +0800, Zhang Yi wrote:
+>>>> From: Zhang Yi <yi.zhang@huawei.com>
+>>>>
+>>>> Introduce two new iomap_ops instances for ext4 buffered writes:
+>>>>
+>>>>  - ext4_iomap_buffered_da_write_ops: for delayed allocation mode, using
+>>>>    ext4_da_map_blocks() to map delalloc extents.
+>>>>  - ext4_iomap_buffered_write_ops: for non-delayed allocation mode, using
+>>>>    ext4_iomap_get_blocks() to directly allocate blocks.
+>>>>
+>>>> Also add ext4_iomap_valid() for the iomap infrastructure to check extent
+>>>> validity.
+>>>>
+>>>> Key changes and considerations:
+>>>>
+>>>>  - Unwritten extents for new blocks (dioread_nolock always on)
+>>>>    Since data=ordered mode is not used to prevent stale data exposure in
+>>>>    the non-delayed allocation path, new blocks are always allocated as
+>>>>    unwritten extents.
+>>>
+>>> Okay makes sense.
+>>>
+>>>>
+>>>>  - Short write and write failure handling
+>>>>    a. Delalloc path: On short write or failure, the stale delalloc range
+>>>>       must be dropped and its space reservation released. Otherwise, a
+>>>>       clean folio may cover leftover delalloc extents, causing
+>>>>       inaccurate space reservation accounting.
+>>>
+>>> Hmm, okay so in the usual buffer head path, seems like during a short
+>>> write we still zero the new buffers we couldn't write and keep it dirty
+>>> (folio_zero_new_buffers()). This way they are still written back and
+>>> the delalloc reservations are used up.
+>>>
+>>
+>> In fact, in the normal buffer head path, writeback does not consume
+>> delalloc reservations. Instead, the reservations are retained until the
+>> inode is released or the area is written again using delalloc. This is
+>> because i_size is not updated during short writes. Therefore, when a
+>> zeroed dirty folio is written back, no block mapping is created for it.
+>> For details, please see the lblk >= blocks judgment in
+>> mpage_process_page_bufs().
 > 
-> Something like the attached - get rid of filemap_splice_read()
-> entirely, and just replace it with copy_splice_read().
+> Oh okay I see, I'm not very clear on the code path but what about a case
+> where i_size is beyond the short write range.
+> 
 
-Okay, I will post something like this soon.
+Yeah, You're right. When i_size extends beyond the short write range,
+the delalloc reservation will be consumed during writeback.
 
-But I'm slow person, and also I will test things in Qemu, so this will
-take some days.
+Thanks,
+Yi.
 
--- 
-Askar Safin
+
+
