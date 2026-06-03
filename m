@@ -1,86 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87CE32A3E5
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 19:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C202392C42;
+	Wed,  3 Jun 2026 19:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780514664; cv=none; b=hmom8D2jsCvRI1Ng/q5gwobaPkaijRlinINsqCSzllBgC/PJegcgAJblfw3hTZhIs3/tpHn9mwZzcVivBexkiuS2g/EBmabWGrbgSc52RneTPBNZfKtjo4n9IIhVLkaPQ+LmnYW3HAa1hPBhohrYLsLgRFjscwO7G/HRG1ca+w4=
+	t=1780514764; cv=none; b=A97Sa5dqxQ/hHy9a9CEb8xFahSK/JqzFjNmJ081T7OWctxWTESICqIAUDbJubiMscnrLaHh83Vf9r9otShKG/l701Kp49cg85vhoBs/CAMoxhquWO7kCFCB4HJrZLY1BPyG3FTr1g8yunydzRcI0REiMDxcrnu+g3QCRSCD2B6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780514664; c=relaxed/simple;
-	bh=9gfUHrdoR1LzqY63DNhYraq2XhjxJEOvKb6+mvRgSVk=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=bxbJ7MaXq6hTthVSExmgmivzcU2QNqW4TdF2plwFZy6ligUuRbW+n5wic3QPt+0/kaAVRbH7eOBXWc0tFDlYWXybzzECdBXfJQLSiJ8sfV82T55xBucQXBLC/pnWJzKKcXUsyygUpyoPaaYzF0xYOZemSk4Pq3MQEEgdnCrLw/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ClQ+uuBg; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780514764; c=relaxed/simple;
+	bh=QVlkX2E8iDFOe4j5RGhchIX1THfbnqzA1888jRaMDw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U81jljkhwOzZs0ZuTVDrP1SBRlJ2vT+Z/0iaiGxTJHrBVEyA39ZM7pl6VUXRCf3XsOUi1R4Oettyw0l+EB9UQQgorGK05BeTuyX2MCi0AKEkj2P6mHd/LygDYEkgOEU0KOVzwAzY2L8HTEvfUgGVjXkHodtzQw+Ix0/6MH6IiVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=M6f7FF3J; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ClQ+uuBg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780514662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9gfUHrdoR1LzqY63DNhYraq2XhjxJEOvKb6+mvRgSVk=;
-	b=ClQ+uuBgMx2Y78gHTLyLTVooT3mRxb+8aLUpYgZdtc/1c7/WUQ5bLC+21L/2vUPEvLOlIO
-	PLlJyRlwEzw0Dg+aZIjpLmRiE7e8n7UMauGBcjwtgmmMY87eyiJRGakfxrnAb9EidjugUZ
-	eux+oygqWjUFLVLyT0cGmTp80FED/ps=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-16-lMJTVDivP3Ogp6JqZBXk8Q-1; Wed,
- 03 Jun 2026 15:24:19 -0400
-X-MC-Unique: lMJTVDivP3Ogp6JqZBXk8Q-1
-X-Mimecast-MFC-AGG-ID: lMJTVDivP3Ogp6JqZBXk8Q_1780514656
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1CFCE18002FF;
-	Wed,  3 Jun 2026 19:24:15 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.48.52])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 219B0414;
-	Wed,  3 Jun 2026 19:24:08 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <CAHk-=wiFuud0Nn3B9YpTWyQja08TeXVk2AB-aAkmVXyigOagbQ@mail.gmail.com>
-References: <CAHk-=wiFuud0Nn3B9YpTWyQja08TeXVk2AB-aAkmVXyigOagbQ@mail.gmail.com> <20260531010107.1953702-1-safinaskar@gmail.com> <CALCETrW__=8mSusayfXG7UFCfue5BGbx+vqESj1d9wqOfX4s8w@mail.gmail.com> <ah2nBAdsE5vVJ2PL@casper.infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: dhowells@redhat.com, Matthew Wilcox <willy@infradead.org>,
-    Andy Lutomirski <luto@amacapital.net>,
-    Askar Safin <safinaskar@gmail.com>, linux-fsdevel@vger.kernel.org,
-    Christian Brauner <brauner@kernel.org>,
-    Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-    linux-api@vger.kernel.org, netdev@vger.kernel.org,
-    Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@infradead.org>,
-    Andrew Morton <akpm@linux-foundation.org>,
-    David Hildenbrand <david@kernel.org>,
-    Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>,
-    patches@lists.linux.dev
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="M6f7FF3J"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=g/2xJpnHysjfxcynfshyRZy4HNP70kVBpzuH7PUMLlc=; b=M6f7FF3JUO32ezTogdRHjBIFKi
+	Ttv32gXMj2PnBa2iuQSb9FpSru1s5MCDYuXQ72RWUGuwA+JZK9fuPqIVflvF0i8zSE4o/yjc7cRjM
+	wbEx3oK3mtwXOYrP84os1dns3+WmRL1qjXoIuIwjTtnMJMVxOhJmhTgKGJAY1UzIABSsdUQnA5lyS
+	r2VaHxfkgHcZDotJiIIFo7pSf0PGWa3nWN8cefRqsDGX/BobtEpBbMzKjP5BU43ol5lve3mLTbGx5
+	MTSS1pN/4EaYk2h1zbFECZgooMSgIkFtQHJSz/d0movlCyiDXeszkuaiQOQvTwhJfCgWp8zf37jj7
+	RescRvVw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1wUrDz-0000000FKCy-0s9k;
+	Wed, 03 Jun 2026 19:25:59 +0000
+Date: Wed, 3 Jun 2026 20:25:59 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] fhandle: fix UAF due to unlocked ->mnt_ns read in
+ may_decode_fh()
+Message-ID: <20260603192559.GC2636677@ZenIV>
+References: <20260603-vfs-fhandle-uaf-fix-v1-1-ff64ee367e4d@google.com>
+ <20260603181523.GW2636677@ZenIV>
+ <20260603182454.GX2636677@ZenIV>
+ <CAG48ez0Jte3UE8wn9Ljs3o2uVDFB24Zbp9zBdaj+D5c4R0+TSQ@mail.gmail.com>
+ <20260603185324.GA2636677@ZenIV>
+ <20260603190225.GB2636677@ZenIV>
+ <CAG48ez34NaE5DCdC=VQWFRPds6JHwGq2YJDF5e6XUtGPNfQq+g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <22833.1780514647.1@warthog.procyon.org.uk>
-Date: Wed, 03 Jun 2026 20:24:07 +0100
-Message-ID: <22834.1780514647@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG48ez34NaE5DCdC=VQWFRPds6JHwGq2YJDF5e6XUtGPNfQq+g@mail.gmail.com>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On Wed, Jun 03, 2026 at 09:08:26PM +0200, Jann Horn wrote:
 
-> Well, since it pretty much is what I suggested a few years ago, I
-> certainly won't NAK it.
+> (And there's also that weird detail of how, for anonymous namespaces,
+> the active refcount isn't used and AFAICS never actually drops to
+> zero...)
 
-I've been wanting to get rid of vmsplice for a while, so I'm in favour of this
-too.
+More like "is always 1 and we skip decrement when we decide to drop
+that", really.
 
-David
+> So I guess I'll write "Containing namespace (active or deactivating,
+> non-refcounted)."?
 
+That would probably do for now...  The lifecycle for mnt_namespace
+really needs to be documented; right now we have a maze of twisty
+little functions around that area and it takes quite a non-trivial
+amount of searching to recall the names - and I am familiar with
+the area ;-/
