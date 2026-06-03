@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4B91643B;
-	Wed,  3 Jun 2026 00:14:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A672264A9;
+	Wed,  3 Jun 2026 00:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780445697; cv=none; b=ifGVt4OYH7WHOtLHV9hPcZWhjVlVqkRf1dZDw3fq9C6uzezOCwouuEfIKP6dLKD78id8z5lUkhxB5aEl+gmzUv/IwehSeyAl3gfX8e8IcUk2xirI9WjdD94OWPwWOSnOYcrFsICd33XHrn4BlySJEDLfzj8+/2fX/VVzocOPTO8=
+	t=1780445713; cv=none; b=K3st+BhKpZH57TsSoNijsAZM3VrRMG1DNMuU8VI+Z+njPYfj6mzgsbzM3dFK1XjJb439AOY4LFtBV9hq06LoqUxdqbEVpssHnKmxOZ8+lGOqNte1Xn+/sfmMtN6b5K+JmjbGupmBBEq+74AMiCE197EPjHrwIpiS7GpedNa6Xs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780445697; c=relaxed/simple;
-	bh=4YcyQTVg1LXpPzvRDjYX7SQfokdlQiTPmiIU+2EPQKs=;
+	s=arc-20240116; t=1780445713; c=relaxed/simple;
+	bh=10CbSTCQDBWKJNmzd1JjSrmuf4EOmLHN4AyMZ7eyKng=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bj+9eAGfAvjLqTTT05oK4WAPB/PaSZGTqP+pfVKpM9s5mEGO4WRGgCLggCfjyzapG0/hyJMA9Sbt3K+8mEmOnBAEZeuDTX/wTM6OKXxlBFTj0yjTBK9YEzDs/poMkwkwHw2zwQvhFrWVqSxS72M3Azu+Pfl06QLV1juYwqJjTcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GD0scI2T; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=D5coxzcZ1B7g0jXvhxcDPNDmM1RlyIQBJGvo0wn5Or0GCkze16vrKWsUqTqgS2g36OPU4HvOvGDHGtFkfV3DASS7eyuloNeEivzyVpuZnmHJLchiFqC5QLRjS7C7pRi8WpDkdeLyInj6ZQ5IeB6XCRHt53Jxn1A/UFJFtWz866M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NFmqK+d8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GD0scI2T"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4BD1E1F00893;
-	Wed,  3 Jun 2026 00:14:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NFmqK+d8"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CA2931F00893;
+	Wed,  3 Jun 2026 00:15:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780445696;
-	bh=C3zz/+xVlomvqar3sllzZV4iWTbRq4WXC6OcDBDRvZs=;
+	s=k20260515; t=1780445711;
+	bh=+TjC/FT4bgtivKcQK7C1qgC0IXis/2arP3Q94BASnIY=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=GD0scI2T3fLZYXLcGfVLeWdwspDIwAgwSfxWzlTuw5szwLG8hKLsL+FshlY9sdn7C
-	 Wx3yxNFibSiIegclgw2EtDKaJ9joVuGKzs2ohxhLl1aMxGH3l5iDx6eWpGzJ5MufeO
-	 e4OPKxmiNvKr4thqDic2hc6yE7pGoDxbtCRDwLvpjseS4ZT9g/mymEp5sBJoD5NkNb
-	 k/asBDgsvbmRKpQlF95JoK7iOY3ALDTaG//WJVVYQjPpdiYL8H1zBOd+fWdjpIzGhr
-	 MtJaLM45tK4ofg0cprpZoKWQnMpWiqvVynsnEn1PdFgLT4heAOB6AjkHcN0VjAlHs5
-	 lfkVpeqMeqfyw==
-Date: Tue, 02 Jun 2026 17:14:56 -0700
-Subject: [PATCH 1/6] fsmount: don't truncate ms_flags in set_fsconfig_ms_flags
+	b=NFmqK+d82u+9j1USo6jvDyihJVb254ZVyzyw43T1MsedU2vHb26w1k8vcNCn13BF3
+	 pqpRxJ/RMMR4uNQj3lSZU58OBa5M/GJjFZuAg5HRvMG7zzsjJ+UvlWf2n2z2+A5/52
+	 YYDn8RTaUnx+T55maw28TIbL+gPx5ygcfouFzRetQfjTAGkXTwnF/X9kkt3J9DFJOc
+	 KLhxzu1GRZ9BON87T810JnjlWtZXTWgK9WyAFnDEgk5y0dZYnWojlKzZxAFA8JUDAh
+	 1KT8Ls3uzJ+8L5DdliXjmMZPDCrGcRLnVnlzCC5rHJTo82OQNehukVDuat9KiraEDH
+	 5QwPsABU0Fgfg==
+Date: Tue, 02 Jun 2026 17:15:11 -0700
+Subject: [PATCH 2/6] mount_service: don't pass the chopped buffer to
+ apply_fsconfig_mount_opts
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Message-ID: <178044567844.1435997.7649583407724131504.stgit@frogsfrogsfrogs>
+Message-ID: <178044567862.1435997.14889132979032394431.stgit@frogsfrogsfrogs>
 In-Reply-To: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
 References: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -45,28 +46,30 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-The mount(2) flags (i.e. MS_*) are unsigned long.  Don't truncate them
-in this function by assigning to int.
+If mount_service_handle_mntopts_cmd previously looked at the mount
+options to screen for allow_{other,root}, then tokstr (aka oc->value)
+has been modified and not put back.  This causes truncation of the mount
+options passed to fsconfig, so let's use the snapshot that we took
+previously.  Codex noticed this.
 
-Fixes: 14cb7b93bb9688 ("Add support for the new linux mount API")
+Fixes: 7211953256526f ("mount_service: use the fsmount API helpers from mount_fsmount.c")
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- lib/mount_fsmount.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ util/mount_service.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 
-diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
-index 0f64880e045ba0..83768f0b8d193b 100644
---- a/lib/mount_fsmount.c
-+++ b/lib/mount_fsmount.c
-@@ -95,7 +95,8 @@ void log_fsconfig_kmsg(int fd)
+diff --git a/util/mount_service.c b/util/mount_service.c
+index adcc7a296645ff..360a78bab3bd3d 100644
+--- a/util/mount_service.c
++++ b/util/mount_service.c
+@@ -994,7 +994,7 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
  
- int set_fsconfig_ms_flags(int fsfd, unsigned long *ms_flags)
- {
--	int ret, flags = *ms_flags;
-+	unsigned long flags = *ms_flags;
-+	int ret;
- 	int i;
+ #ifdef HAVE_NEW_MOUNT_API
+ 	if (mo->fsopenfd >= 0) {
+-		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, oc->value);
++		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, mntopts);
  
- 	for (i = 0; mount_flags[i].opt != NULL && flags != 0; i++) {
+ 		if (ret < 0) {
+ 			free(mntopts);
 
