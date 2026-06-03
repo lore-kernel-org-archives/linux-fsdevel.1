@@ -1,33 +1,33 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B12403EAC
-	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 07:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7BE3AE185
+	for <linux-fsdevel@vger.kernel.org>; Wed,  3 Jun 2026 07:48:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780472909; cv=none; b=iiQkuPxcG9mF4O5pRvya6wRema2oBIS4tLXFu/upaaczie2F7FGBrWx3V6xLXDyrMozoyeeow8Nfi0/YiCh9aMjoYzJqQ9H/IkJeajwTFGb/KecnnzFNwPsO+OYZzNz1yDX4nMUw82OHGhljG8FCNIapteGvMB+XEdpfbmLXdcs=
+	t=1780472910; cv=none; b=iAw5RW8lnuwgt+rRh+GtkciVzIIxE56HMH33SG1k8B5C3M3GKSoQ16B0D7KZd4OiYiojyie/YTijtfDwtP3Ser6pEUS1NNFfF4kDEhNZv8rNEo+bqYfmBrH719HCNZTYAngZCwtYMP+SGxQ/H8f0CVyPXMBCYEgJ3jJpfAzAU6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780472909; c=relaxed/simple;
-	bh=rO8Tg+MbXi1EFiblsikxDdRTJFmm2Wpg2sTrIfDcByE=;
+	s=arc-20240116; t=1780472910; c=relaxed/simple;
+	bh=T862CHglmc2VLGhBAoVr7BTxm7j8gxGGEYoSHFBcrWI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eakS4rdimTj4fqUtFWI06EdVvUYk6ZKYEq+Nc+nIS8WQ654WXyQzdE2O3KDNABSm3SkGNtzPOthmmZUGcVfVZPyDCts5NGD0iqeKV8kPM8/Gqc75nevjF22MQdyW8MAUTTWdkxVOSt28Blu9t3+Ao99R1L9Gvr7kT9+dtY+k/Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=kMxiE+ra; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=h26v4YbVEDbNmBvWgiHOSwPTbDqeH5iSBu9p6lEl24bFNfWsSstJ++w7pBa11yS1yKS/A8vzyNIBOf7apC7znEYsqzYKwVwSTCPWIU1WzI9ivHPFD9HV/xE6nz7VEOynoNVVSuWHLYjw4dz61SBWYim6xcNOdR5tl4j+BZSx+9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=dGZHAZ3E; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="kMxiE+ra"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="dGZHAZ3E"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=DDNmW3ibxPgAzcA0zKWI8BZyqfREysNFMiVk9Hj2QEY=; b=kMxiE+raXWzdc/iY/rg8AdgJQE
-	6ATJ0f1jQOp2tCvC7bSpsEEe/vq7Utw+cwgQC/Bv7JzxzodvJ5xfwjKP3XgT0b6Gm1ROLsVX0i3vy
-	giJLsfabRAQRQCYfQIzvZNYn6YLU2OKVg94cZF04qOKrhcZcHzWvMrhOuhk0LyeTk9Arlb57h5uFv
-	etSyKmXw2hiy91xOao4dKBOHV+vazWDw2RlrafVsUkLFm40faW0GnwTXH2qjBZ5aOc3nsWkJ5Y3fV
-	HKLYnAOBQycQfG+nAEPCJ0JX8KiF/tFCqru08yZvIos7Pdbi0KqFhump8tmUXAYGAcTnvmull+Dxp
-	EPIcNIcg==;
+	bh=BwVcPxCfLGlV4vN6xe8ZwAkQTUm1FbMVn9j/oC9Xv8I=; b=dGZHAZ3Ebq2qrP5BTC+In+x3Vv
+	uDDI6RwGbDDachs/EHj1CPc6CmtU3o6lrTo7Q9ux04IgOFb6HvzssEc7qUBqNsI3Qic4GsKX+hbu+
+	7ak5sA8yNCb7RKz6kCAbwlHxwCsdNj2jzVsBu2/GWbkNseeG6v3hOdfbTmXTLiD1tFUJLCVN4KE4U
+	s5mF+0b58fxRlm9rsEmcFrzvBOCvRHz82GvXxZIz085oXBa8P15e3stBJ1t2fkOYBPqbS+TFfx0kk
+	Oyz7Ye4uL8kGb4tu/BEPxF65TjxAHalvhhzS0Fs9P4HwTHfJsScxgzbdKDjtERNdHT1kVi28qa6ZG
+	05BZhrig==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wUgKo-0000000CjGi-0hce;
+	id 1wUgKo-0000000CjGv-1WUg;
 	Wed, 03 Jun 2026 07:48:18 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: linux-fsdevel@vger.kernel.org
@@ -36,9 +36,9 @@ Cc: Andreas Hindborg <a.hindborg@kernel.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2 11/18] switch configfs_detach_{group,item}() to passing dentry
-Date: Wed,  3 Jun 2026 08:48:08 +0100
-Message-ID: <20260603074815.3033766-15-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 13/18] configfs: mark pinned dentries persistent
+Date: Wed,  3 Jun 2026 08:48:10 +0100
+Message-ID: <20260603074815.3033766-17-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260603074815.3033766-1-viro@zeniv.linux.org.uk>
 References: <20260519070633.2025485-1-viro@zeniv.linux.org.uk>
@@ -52,154 +52,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-... and there's no need to grab/drop it, or check for NULL - none
-of the callers would even get there with NULL dentry and all of
-them have the sucker pinned
-
-Note that if sd is a directory configfs_dirent, we have sd->s_element
-pointing to config_item with item->ci_dentry equal to sd->s_dentry.
-Which is the only reason why detach_groups() gets away with using
-the latter for locking the inode and the former for removal.
-
-Aren't redundant data structures wonderful, for obfuscation if nothing
-else?
+on the removal side we can (finally) get rid of __simple_unlink()
+and __simple_rmdir() kludges now that dentries in question are
+properly marked persistent - simple_unlink() and simple_rmdir()
+will do the right thing for those.
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/configfs/dir.c | 43 +++++++++++++++----------------------------
- 1 file changed, 15 insertions(+), 28 deletions(-)
+ fs/configfs/dir.c     | 13 +++----------
+ fs/configfs/symlink.c |  3 +--
+ 2 files changed, 4 insertions(+), 12 deletions(-)
 
 diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
-index 11e2597fb1e2..87a0847d88b9 100644
+index 4836ffb3b70f..479d37b8d806 100644
 --- a/fs/configfs/dir.c
 +++ b/fs/configfs/dir.c
-@@ -642,18 +642,14 @@ static int configfs_attach_group(struct config_item *parent_item,
- 				 struct config_item *item,
- 				 struct dentry *dentry,
- 				 struct configfs_fragment *frag);
--static void configfs_detach_group(struct config_item *item);
-+static void configfs_detach_group(struct dentry *dentry);
+@@ -315,9 +315,7 @@ static int configfs_create_dir(struct config_item *item, struct dentry *dentry,
+ 	inode->i_fop = &configfs_dir_operations;
+ 	/* directory inodes start off with i_nlink == 2 (for "." entry) */
+ 	inc_nlink(inode);
+-	d_instantiate(dentry, inode);
+-	/* already hashed */
+-	dget(dentry);  /* pin directory dentries in core */
++	d_make_persistent(dentry, inode);
+ 	inc_nlink(d_inode(p));
+ 	item->ci_dentry = dentry;
+ 	return 0;
+@@ -385,8 +383,7 @@ int configfs_create_link(struct configfs_dirent *target, struct dentry *parent,
  
--static void detach_groups(struct config_group *group)
-+static void detach_groups(struct dentry *dentry)
- {
--	struct dentry * dentry = dget(group->cg_item.ci_dentry);
- 	struct dentry *child;
- 	struct configfs_dirent *parent_sd;
- 	struct configfs_dirent *sd, *next;
+ 	inode->i_link = body;
+ 	inode->i_op = &configfs_symlink_inode_operations;
+-	d_instantiate(dentry, inode);
+-	dget(dentry);  /* pin link dentries in core */
++	d_make_persistent(dentry, inode);
+ 	return 0;
  
--	if (!dentry)
--		return;
--
- 	parent_sd = dentry->d_fsdata;
+ out_remove:
+@@ -413,12 +410,8 @@ static void configfs_remove_dir(struct dentry *d)
+ 	configfs_remove_dirent(d);
+ 
+ 	if (d_really_is_positive(d)) {
+-		if (likely(simple_empty(d))) {
+-			__simple_rmdir(d_inode(parent),d);
+-			dput(d);
+-		} else {
++		if (unlikely(simple_rmdir(d_inode(parent), d)))
+ 			pr_warn("remove_dir (%pd): attributes remain", d);
+-		}
+ 	}
+ 
+ 	pr_debug(" o %pd removing done (%d)\n", d, d_count(d));
+diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
+index f3f79c67add5..31eb28b27309 100644
+--- a/fs/configfs/symlink.c
++++ b/fs/configfs/symlink.c
+@@ -229,9 +229,8 @@ int configfs_unlink(struct inode *dir, struct dentry *dentry)
  	spin_lock(&configfs_dirent_lock);
- 	for (sd = next_dirent(parent_sd, NULL); sd; sd = next) {
-@@ -666,7 +662,7 @@ static void detach_groups(struct config_group *group)
- 
- 		inode_lock(d_inode(child));
- 
--		configfs_detach_group(sd->s_element);
-+		configfs_detach_group(child);
- 		d_inode(child)->i_flags |= S_DEAD;
- 		dont_mount(child);
- 
-@@ -677,11 +673,6 @@ static void detach_groups(struct config_group *group)
- 		spin_lock(&configfs_dirent_lock);
- 	}
+ 	list_del_init(&sd->s_sibling);
  	spin_unlock(&configfs_dirent_lock);
--
--	/**
--	 * Drop reference from dget() on entrance.
--	 */
+-	configfs_drop_dentry(sd, dentry->d_parent);
 -	dput(dentry);
- }
+ 	configfs_put(sd);
++	simple_unlink(dir, dentry);
  
- /*
-@@ -825,14 +816,10 @@ static void link_group(struct config_group *parent_group, struct config_group *g
- }
- 
- /* Caller holds the mutex of the item's inode */
--static void configfs_detach_item(struct config_item *item)
-+static void configfs_detach_item(struct dentry *dentry)
- {
--	struct dentry *dentry = dget(item->ci_dentry);
--	if (dentry) {
--		detach_attrs(dentry);
--		configfs_remove_dir(dentry);
--		dput(dentry);
--	}
-+	detach_attrs(dentry);
-+	configfs_remove_dir(dentry);
- }
- 
- /*
-@@ -867,7 +854,7 @@ static int configfs_attach_item(struct config_item *parent_item,
- 			 * we must lock them as rmdir() would.
- 			 */
- 			inode_lock(d_inode(dentry));
--			configfs_detach_item(item);
-+			configfs_detach_item(dentry);
- 			d_inode(dentry)->i_flags |= S_DEAD;
- 			dont_mount(dentry);
- 			inode_unlock(d_inode(dentry));
-@@ -879,10 +866,10 @@ static int configfs_attach_item(struct config_item *parent_item,
- }
- 
- /* Caller holds the mutex of the group's inode */
--static void configfs_detach_group(struct config_item *item)
-+static void configfs_detach_group(struct dentry *dentry)
- {
--	detach_groups(to_config_group(item));
--	configfs_detach_item(item);
-+	detach_groups(dentry);
-+	configfs_detach_item(dentry);
- }
- 
- static int configfs_attach_group(struct config_item *parent_item,
-@@ -911,7 +898,7 @@ static int configfs_attach_group(struct config_item *parent_item,
- 		configfs_adjust_dir_dirent_depth_before_populate(sd);
- 		ret = populate_groups(to_config_group(item), frag);
- 		if (ret) {
--			configfs_detach_group(item);
-+			configfs_detach_group(dentry);
- 			d_inode(dentry)->i_flags |= S_DEAD;
- 			dont_mount(dentry);
- 		}
-@@ -1549,13 +1536,13 @@ static int configfs_rmdir(struct inode *dir, struct dentry *dentry)
- 		dead_item_owner = item->ci_type->ct_owner;
- 
- 	if (sd->s_type & CONFIGFS_USET_DIR) {
--		configfs_detach_group(item);
-+		configfs_detach_group(dentry);
- 
- 		mutex_lock(&subsys->su_mutex);
- 		client_disconnect_notify(parent_item, item);
- 		unlink_group(to_config_group(item));
- 	} else {
--		configfs_detach_item(item);
-+		configfs_detach_item(dentry);
- 
- 		mutex_lock(&subsys->su_mutex);
- 		client_disconnect_notify(parent_item, item);
-@@ -1808,7 +1795,7 @@ void configfs_unregister_group(struct config_group *group)
- 	configfs_detach_prep(sd, NULL);
- 	spin_unlock(&configfs_dirent_lock);
- 
--	configfs_detach_group(&group->cg_item);
-+	configfs_detach_group(dentry);
- 	d_inode(dentry)->i_flags |= S_DEAD;
- 	dont_mount(dentry);
- 	d_drop(dentry);
-@@ -1957,7 +1944,7 @@ void configfs_unregister_subsystem(struct configfs_subsystem *subsys)
- 	}
- 	spin_unlock(&configfs_dirent_lock);
- 	mutex_unlock(&configfs_symlink_mutex);
--	configfs_detach_group(&group->cg_item);
-+	configfs_detach_group(dentry);
- 	d_inode(dentry)->i_flags |= S_DEAD;
- 	dont_mount(dentry);
- 	inode_unlock(d_inode(dentry));
+ 	/*
+ 	 * drop_link() must be called before
 -- 
 2.47.3
 
