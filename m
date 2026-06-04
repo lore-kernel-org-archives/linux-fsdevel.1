@@ -1,107 +1,81 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DBB407590
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 11:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780573152; cv=pass; b=HhiZuPtgoWivvEld4iupM06Omy5DMQzlm5FTU9zHF8yGxC0b/1rFzhIyXpXpsVL+srm2V5FYDoXVKwu+e/B2pKiyMS62D6bsQhMCq21kqLgcD+RbSpGWdehJBsdNu4j6ezxfKtqTuqwQGx6kjKd+6PgZOrv5orqT/A0dDG/BUuo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780573152; c=relaxed/simple;
-	bh=wIVCb2tFnJMJ3EitQ8kkm+1Ios57WCliE0rfj15yF8I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vp+ukWNTJufflGclylkahBiVghxfBEV3RJpn5NimMbNhdZGjAFRjmdCmRNpTNkkwPOWVuQDrJqbe1zHlwMYeSF/Z4XwojHs4ZoOX+qSPe+bJ6wC++770IRgQlNCpMGsdlHq7XRdIfM/70HEew1JvCV2KHXm7hqhgk6BPAMq+5AU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=XLeQqp3w; arc=pass smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E412F7EF8;
+	Thu,  4 Jun 2026 11:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780574058; cv=none; b=sWSx46rsDAkmDeV4XRo1aF9eyDjn5L9FkWS4e7smWqOLdCHMlxjwQgBwBQ9WZFQ+GmSdlODsMQp+GN+Hme1GvEjFeFzOspaCttqTUa/ZKmfY33I7JQB5OJgf/lzSn0SS4tbwi3qK45BpKtR8lHf/9+VmSe6WgUVUz8vq6tTSrTY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780574058; c=relaxed/simple;
+	bh=tkRNBsPsLLVI+kct8IDelTy/WP/ldFVTkmuTcES2YPE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a1CJJDO31mI/9nswga3hPU49tZGKJxa1iag+yNMCgtPaA9syHppbrVy+WH59AHNClwbSvwYOkDVQs15nyFp5Knz2+Pz/cXii2ugh1acEdlx8YKjtPdKb7AAr71QW6lZhP9EljjtQT7j4O5eTumDTis35RPoq4NMpS3RTkWDvxyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OHOXWYqg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="XLeQqp3w"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-5176bbb9384so6736311cf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 04:39:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780573150; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ainvEYaP3Mrd9DCnAvO8+xsu4ZbJGRiqPWIg/cOyvZEM3V6qHMb5pq0TuRYpkPa1iw
-         Q8b5DDq4Ys1oqgA/x74BBpf1ePDHIImqqnG+ZOR/fYMlWmA4ejpiUS1NN3pFjruYi36v
-         sgz8DvQXMa0hGY1J2J1fBHs7UW58vSwjwWdSP1yFEpAbJD824uooyEup9Op0q5W0RVkc
-         WQPTH0A+VQS6Dhgk4gq59bJTSo812kihgdkGCrW6rwhLRiVD2cbOcUo/QkSv54ke6CRW
-         F3hOyCwYmugrT1l4ocv1jhyuh3Mme0U5G+GeHaPk+NM+s93RuQzcPeOuftZI/9ssorLA
-         Gkzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0zLSTYOXdLcBAt8Q32kyk96azm/PtDRBZ0577QtB8Mc=;
-        fh=CeX0KZGRdzdVNLP6fkFBfyIXQGiHzXQ4/QqfJQAfMjo=;
-        b=Jx3NEDXD0yS3te97c5hSLbP5J+87Al8ZXopEsTXOTjstV9uXTRsnw0adEhjHkDBcEH
-         jmIhgdD0CDbN5InzWkVhLF9oNDFQYkPnfH5K/V1ywPNECj1K5/nP7RSFn3sRdQ3jMtST
-         6WxQ7+QFXj+HOp6zk4+CENO2gZd6+4pXpptMLVKlfN5bJjlEo9/2xcyTRkc8Xy97+7XE
-         tkBIPtjXt9ZRhLg7UczvdepB8vfQ1qFsZIv6h9Sdff8j1iIpDoLIQTLiMwE1NWBJew9x
-         +8L3SaWJHXla+Nc/hGnwUYU4IK4T7RtkldUBTObhzDZ/W8pCleJ9etXwIbjy99NtPD3b
-         l4wg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1780573150; x=1781177950; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0zLSTYOXdLcBAt8Q32kyk96azm/PtDRBZ0577QtB8Mc=;
-        b=XLeQqp3wrnWRSOhWIMNNheiGg5Y0zIbYmjA68/btC/bRt8E1mo6SlspJ1WsKelb01q
-         2FrztU+zPL1Qbk4RdhzanSHDc78z05cjQrX0nLhh1oKuvdH+BbiHh+krJBy9OwvlDjwE
-         Itw0t0O6LN2hI6Q1oiP3KFZ2S0LiDqsdfJ0gY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780573150; x=1781177950;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0zLSTYOXdLcBAt8Q32kyk96azm/PtDRBZ0577QtB8Mc=;
-        b=nLdZg4mRhuly1no91C7lzvYdaQ2W1+TGxkixI3B6EOMxfCU40RZXOvJRf6YyfY5392
-         B7s+YA0E0RC+CdwYEL8Glx1exxA4oukQGqMWRnnnqH3UlHZGtf8XOfaJWiXOyDzYWPRf
-         cqNKhFFY8PuzDYaLkeT7Uj2NIoKvAtohx/BgUOHf3KkpsYA2rc96V5Cx3XTNzYEBwsSH
-         LXnlUBtVmrO1CYd2pijGMT/X3neFmgPcLEJKw4Ufdmq9hOCXoQ0tkZgbJE6MTEFIwM5Z
-         30e/ABpfN20dY6CVkvwyRyqkE5Ay7JHdM+MJhIjT7ZbHGtCjBdVcabB6VmfVYqlOruL3
-         kukA==
-X-Forwarded-Encrypted: i=1; AFNElJ8JC03mN+GQN4EHK2rjqwCk8gw3VCW9zlqLkMuS9QfKpr+j5cGUttiUN3nN6gzO4NQsrENMg3Me6liyRECi@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzo3B6dENSgfElxcoq6sLSwxm97jRDiF4EUpolkF3ISAc6m94LA
-	LXlmc9t+PcRfNNy2vXV0gxzRYLX+RDdKLbLF1SiWnrScZgyy8iWISvi+uVE0/sd/8eF8K2+yXZH
-	QayUwCaLihDafhXP+KUOlQPH0ZwMSb/WYnUzgHq/WoA==
-X-Gm-Gg: Acq92OFE5PieOC2AAfJ4fM0YdhGgpvFrVLByA0FjkwlpPK10EbFM2plgI58uYgzkckH
-	oZ2pPs94kqncPd6Gq1zSUk114PxR0JR+/KpWqdcflcDTCzbLqikOybW2liDgisIB2abfwBpXGHB
-	PcORChlQ6UP2sdQK3Xwhy6vhomEiyw9kuEPtblb1iJWWNpeWjg9O6wjN2L5RpNPojYl2IQSdTTS
-	kg/kC56xR44tFsIXIZ8Lu0ewShZn1NApNmU98I/SwjPnIagcAkFk4hGlxu0Rb54UMqDk9edwJB1
-	3lCnCc/LuqO3Wr3LxgnPRSm6Aai1a7m4rsrrZQ2UAmowZM3FDoftwRVkgA==
-X-Received: by 2002:a05:622a:6181:b0:517:6631:101b with SMTP id
- d75a77b69052e-51778787b94mr111344291cf.55.1780573149971; Thu, 04 Jun 2026
- 04:39:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OHOXWYqg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263561F00893;
+	Thu,  4 Jun 2026 11:54:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780574057;
+	bh=5Qq6GJhyKGtHbFu09KmmMAC7z1sgjGWJIkBgTTUBCmA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=OHOXWYqgYZVHo2i9uPEd0GMWiSw6g6N5viOUgifFbtTi5/Z0hYWbadQ4ejfw8hDlC
+	 r68sPlwzVEkyOe92urKre/wCDs6uv0UXVEdfltO8eJ7BsFZ6kq/Nu8gr3xIELGkU/L
+	 oUTBMv3CIVrXyoLkul7cRWnNWQQtXo1KuUkMtccU1N8UxCgzCalttk//MmCbpGudJ/
+	 bxnn6Oa7HB0+a6llB4LU30p240+Vk/p75Hus8idS1pPVdUjCQ3AIvDgBzxreS26NAb
+	 JZoHvc1nFBF0jcDTMmkN0M4FhcIcZfhjN70qFNoKo7BMhDqmHG+2eDg3eheB8Z/v14
+	 Ab78Qd6daLSlQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Zhan Wei <zhanwei919@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+e70e1b6cba8714543f7c@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] eventpoll: restore EP_UNACTIVE_PTR sentinel for ctx->tfile_check_list
+Date: Thu,  4 Jun 2026 13:54:05 +0200
+Message-ID: <20260604-sodbrennen-buhlen-trugbild-7c9fca205113@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260529142533.23696-1-zhanwei919@gmail.com>
+References: <20260529142533.23696-1-zhanwei919@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6a1d5e8a.fd5edf16.2e7427.000f.GAE@google.com>
-In-Reply-To: <6a1d5e8a.fd5edf16.2e7427.000f.GAE@google.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 4 Jun 2026 13:38:59 +0200
-X-Gm-Features: AVHnY4KLGvpNknzBwDpkcCnrvpiWL4AIKsDR0ylrPtD1UJKuXuq4lnEgapCwKlY
-Message-ID: <CAJfpegtC3Bm+_L15RXbRSgkNB_OmE4+QsHkWU6ZhxeaKZPyEdw@mail.gmail.com>
-Subject: Re: [syzbot] [fuse?] general protection fault in fuse_dev_release
-To: syzbot <syzbot+5bfc774fd6dffbbc4b70@syzkaller.appspotmail.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1285; i=brauner@kernel.org; h=from:subject:message-id; bh=tkRNBsPsLLVI+kct8IDelTy/WP/ldFVTkmuTcES2YPE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQppqc8qDS5fvTSq5ING+U6qo9sfeZr9535Xp1f+1a3K xM/untf6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIQQaGf3arc98qSy+0NQ+S Z/XzOC9gb7Vk+mU3cZlUTxH/75MCMhkZNk1oLkhhL/20d9ralBb+e3dOa/rncfsJX45yVfHQSFv DDAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Mon, 1 Jun 2026 at 12:27, syzbot
-<syzbot+5bfc774fd6dffbbc4b70@syzkaller.appspotmail.com> wrote:
+On Fri, 29 May 2026 22:25:33 +0800, Zhan Wei wrote:
+> Commit e09c77d94003 ("eventpoll: hoist CTL_ADD scratch state into
+> struct ep_ctl_ctx") moved tfile_check_list from a file-scope global into
+> the stack-allocated struct ep_ctl_ctx, and in doing so replaced the
+> EP_UNACTIVE_PTR sentinel with NULL on the grounds that "NULL is the
+> obvious 'empty' value and zero-init handles it for free", describing the
+> change as "No functional change". It is not.
+> 
+> [...]
 
-> RIP: 0010:list_empty include/linux/list.h:404 [inline]
-> RIP: 0010:list_splice_init include/linux/list.h:602 [inline]
-> RIP: 0010:fuse_dev_release+0x19c/0x670 fs/fuse/dev.c:2221
+Applied to the vfs-7.2.eventpoll branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.eventpoll branch should appear in linux-next soon.
 
-Found a race between fuse_dev_install_with_pq() and
-fuse_dev_release().  One uses fch->lock the other fpq->lock, so there
-can be a short window where fud->pq.processing is NULL after fud->chan
-was set.  This would explain the Oops.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Fixed in #for-next, let's see if this still reproduces.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Thanks,
-Miklos
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.eventpoll
+
+[1/1] eventpoll: restore EP_UNACTIVE_PTR sentinel for ctx->tfile_check_list
+      https://git.kernel.org/vfs/vfs/c/a1e9718b406b
