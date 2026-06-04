@@ -1,152 +1,119 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAE43A5E93
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 19:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11EB6FC3
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 19:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780601761; cv=none; b=TI5R3pCcbRRzFFgg+V5OuD/TG8FKsbQy8ptog2riU7trjXGWphiMAcywUlIetIxuPMBMkxsTpRlfsxUz7EZOxrqRwv57gAjeVUuOX4+RsBe/0KwCDlmrLLqdiFu3+QCeTmuhylRuCIwKn11Ifa9kOZ+oOf7rf6RY/AnRH0NrSbE=
+	t=1780601868; cv=none; b=SIQuJ6D7DJIjbo0LUjLUZs0N3QTjHz7QKSdaFXrKBe54Z5PmUMw14a2gPK0VL70lwmco/aH8S9h3V/2KcPqYObgm6XMKcNkBH+eMNYzoXBnmhXsic34fc+tQHi5mYKjdfHVXq5oC8r6tMVhvttOjQsu+Hv4XqppqHTS48MQov7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780601761; c=relaxed/simple;
-	bh=EAD9/bXJ4tnJuAwrhyAdMrCQIQ55jfIqEKAmPGt31sQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E6Sd6nt8xGWBcXhb5fGNhgPZS54GKSnFZOdO7wcoL57F/2ctlMG4PErRMAcMuhw4OBaI49pXFOncLj/noOVRVeEP4KoBejtgnxI/7VYaxdNu/WSg3GWmqmW0ykHHPu++9DlMi0Hb0q2kmR9q5lBvVjFl6p/sEhTblhBMpPDNwRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DJouXcY5; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1780601868; c=relaxed/simple;
+	bh=d97FFwmE32XoeNnLtg7CNSRYTgucvS3+TBVC4MKcTx0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GL7B0SfwO+E8YfZ5DFLuOToVUXvEvvK9QH614TTV7TK0oSfd4Ex+RpJxPaELxPnLpZd0IcwJAQStjQu2yagw03obvYyawUJQlZm/k/B4/DfoxJK8tx4sVTHKNeAJt7ldr2JtW0UsQ+k9WnG7GEQHv7DnHJjPns6TIUatFWHxo8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=RQodwCPn; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DJouXcY5"
-Message-ID: <bdda3985-d443-4d57-9365-ad7424573e66@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1780601756;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PNm9t5e8lAXGoW/IVeDw2m+9fidHrJXDk+58Ty0jXuo=;
-	b=DJouXcY5+AmQMI5KNgzKE2sPEBtR6yIR7QUGT7yRsww8JuRKFwMvKRmTwlXu8LF+6RAiOL
-	EudhekB9R3I/CLuC0enZj0B/SzSANeahh3PqMeszRkgSvSQp4cl0YzgD+LL/hBgPbHweB5
-	KXK2HN2I3m4gkuJFHTd0skO5UC2N8vM=
-Date: Thu, 4 Jun 2026 12:35:37 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="RQodwCPn"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aa66893e9fso1251604e87.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 12:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1780601865; x=1781206665; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/vRjXw0GxoiIE6driNbyJfpHo79+KlSJNRDFpalZAbE=;
+        b=RQodwCPnvo8GCF/IsJ39RYufFxiR1eSMzFtIy2+JStXWzUAFF6Y/i/vzqGwLu+lM9o
+         dkCEJtQafmg4mZPIBZy2q1qsZsKOkPS54mhuJ0J1MA/g6s0l45+T6N+1ADvYjwRnJ8Rw
+         NoXsnTvQ3SznNCSikgmSPCY7EEL5b6Tj5Ga/8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780601865; x=1781206665;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/vRjXw0GxoiIE6driNbyJfpHo79+KlSJNRDFpalZAbE=;
+        b=pQui8Zco33at+uAGmDcIfL+93CS9b/xW+UpxgMyE4cBIAlhXkmemRZAKEHlyylN0Kw
+         aKKGrPquDQVd8LWFtyF8EpAMM36i0VTVdgV81iq1S6GPx4HiIfn9P8hpn0BDlhQ0+Tjc
+         vkwjMapTWs0AI2LXotbPJbyYf/XmR5SPzmVEFRNI08okC0JP1ple6xIlVmsgVgyrxkhc
+         Q7YsfmViIzDOypYYy2INMbO7ivbUBktYq3jh4OmIHz/OVn2NPb/LqtZno1alDjret4vR
+         EYi0XrJIHVW/IBKSFhkOmrsAMpJsLHklobeY7EnabJcDshcrwAQDqrvBuexrq1bRDH5T
+         +sEg==
+X-Forwarded-Encrypted: i=1; AFNElJ+stC77sdvWraR4fxhDBjPQ95XN0H0gBZYNgWtXoqxY2lXDH3WEyTTK+HqVdUCJLha39IKzLeDg4lgMJMww@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+uLyClY4Mn1ewMtGKkCllvKliaHz4OiMT87sqqFMbHI13LC3H
+	Wp0D+0Mj7iUdTjfIKQLMKPFngSOUl9ZgPDtNiJAy2HpA3grAqW23fJUzCrh9QM9q5tcQfPwWT6K
+	psOaWKhqe0Q==
+X-Gm-Gg: Acq92OFhEU5mxrfwPzQeD6ZwvweoxHQlcHhG3unt+1xNa60Zgbv+fziGPeOgYo10fpO
+	jcVyrQs5EPWffQ5lKr3JBcrNg0X+pAegqkMX50E2s/ytYJDh6SvYjUHaA1whpUi/ZApnfRaFP43
+	nYQGxbEAGxG1mSwrqsvL2F21XWaXSLhAp2GJ7yiDDzdd5JSkCqVo9Fd8PiuyOWYJ48kR33jlebG
+	ELWRD8ZJ8AmGdD8VFXKepbqYhcgXtEjn6cuvBKtpvYkBKpF4hgfhdix/7dxAAbINWzdYMxPmoRI
+	wAlZknxsQ1iPeVvSIwQtDOMdD95mKwrrkDt9MmZ5Lchl6dOzy8OqVoeALF8XV8+vx8wMQejlm/r
+	95nPYBDBD7C5G/vQHe256FphAJjCZYlqEwE0WnHrohGp9m3wGEFNQVXQkb6HBQbD44wz/D48aF7
+	R8SsGiV5IcUqjTQQJJYaMRB/CCAe/ctB9u+V5o1NyMBypnpXq6QsYwnpFCNMXjinI+78HXulOhJ
+	zgeqwXGbkzxx6bTj3e7cw==
+X-Received: by 2002:a05:6512:104c:b0:5aa:6b70:325b with SMTP id 2adb3069b0e04-5aa87b66f3bmr61892e87.7.1780601864511;
+        Thu, 04 Jun 2026 12:37:44 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b986c42sm1389782e87.58.2026.06.04.12.37.44
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 12:37:44 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aa66893e9fso1251590e87.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 12:37:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+ebGT32XjVxQw5wiHZabuBQoCnNjEVjUg8QIupMabEaPiZ62wM6yNSjce4JUZV/kyRRY8iPznVXEXfcaIK@vger.kernel.org
+X-Received: by 2002:a17:907:3e20:b0:bf3:fe:1d5d with SMTP id
+ a640c23a62f3a-bf373306d04mr3098066b.43.1780601447577; Thu, 04 Jun 2026
+ 12:30:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 1/3] bpf: NUL-terminate replaced sysctl value
-Content-Language: en-GB
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Dawei Feng <dawei.feng@seu.edu.cn>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Emil Tsalapatis <emil@etsalapatis.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Song Liu <song@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
- Kees Cook <kees@kernel.org>, joel.granados@kernel.org,
- bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, jianhao.xu@seu.edu.cn,
- Zilin Guan <zilin@seu.edu.cn>
-References: <20260603105317.944304-1-dawei.feng@seu.edu.cn>
- <20260603105317.944304-2-dawei.feng@seu.edu.cn>
- <961fbada-5ca3-46c2-a5df-51bb006f9cb6@linux.dev>
- <CAADnVQLtKYpE0=-UWLWkBVp4s0cncR+KXRu_7Wkt4zXWsmkchQ@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <CAADnVQLtKYpE0=-UWLWkBVp4s0cncR+KXRu_7Wkt4zXWsmkchQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
+ <20260603211736.755139-1-safinaskar@gmail.com> <20260604100609.6b37f500@pumpkin>
+ <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com> <20260604183829.63c35fd9@pumpkin>
+In-Reply-To: <20260604183829.63c35fd9@pumpkin>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 4 Jun 2026 12:30:30 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wip3mwLOHOYJ9TtjDxOaq9YUXmuCg2AycyASGgeY6qqUw@mail.gmail.com>
+X-Gm-Features: AVVi8CdPQe90u6Sxnc7w9w1KvqakJpNEvGXvNsTMWUZWIferNC2FIUNZ3K7Amh0
+Message-ID: <CAHk-=wip3mwLOHOYJ9TtjDxOaq9YUXmuCg2AycyASGgeY6qqUw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Askar Safin <safinaskar@gmail.com>, metze@samba.org, akpm@linux-foundation.org, 
+	axboe@kernel.dk, brauner@kernel.org, david@kernel.org, dhowells@redhat.com, 
+	hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org, 
+	patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk, 
+	willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, 4 Jun 2026 at 10:38, David Laight <david.laight.linux@gmail.com> wrote:
+>
+> Bool is another matter entirely, (IIRC from a couple of weeks ago)
+> gcc will assume that the low 8 bits of the parameter register are
+> either 0 or 1 and clang assumes that the low 32 bits are 0 or 1.
+> You can't even check with 'if ((u32)bool_param > 1) error()' because
+> the compiler 'knows' it can't be false.
 
+Nobody should ever use 'bool' as a system call argument. Anything that
+takes a boolean should take a 'flags' field with bits.
 
-On 6/3/26 4:23 PM, Alexei Starovoitov wrote:
-> On Wed, Jun 3, 2026 at 7:37 AM Yonghong Song <yonghong.song@linux.dev> wrote:
->>
->>
->> On 6/3/26 3:53 AM, Dawei Feng wrote:
->>> When writing to sysctls, proc_sys_call_handler() guarantees that the
->>> buffer passed to proc handlers is NUL-terminated. If
->>> bpf_sysctl_set_new_value() replaces the pending sysctl value, it can
->>> hand a replacement buffer directly to proc handlers. However, the
->>> helper currently copies only buf_len bytes into that buffer without
->>> appending a NUL terminator, leaving downstream parsers vulnerable to
->>> out-of-bounds access.
->>>
->>> Fix this by appending a '\0' after the replaced value to restore the
->>> expected sysctl semantics. Since the helper already rejects buf_len
->>> greater than PAGE_SIZE - 1, there is always room for the extra byte.
->>>
->>> Reproduced in a QEMU x86_64 guest booted with KASAN while exercising
->>> the sysctl replacement path with a cgroup/sysctl BPF program. The
->>> reproducer targets `/proc/sys/net/core/flow_limit_cpu_bitmap`, fills
->>> the original user write buffer with non-zero bytes, and overrides the
->>> sysctl value so the replacement buffer lacks a terminating NUL. Under
->>> that setup, the pre-fix kernel reported:
->>>
->>>     BUG: KASAN: slab-out-of-bounds in strnchrnul+0x72/0x90
->>>     Read of size 1 at addr ffff88800de57000 by task repro_patch3/66
->>>     CPU: 0 UID: 0 PID: 66 Comm: repro_patch3 Not tainted 7.1.0-rc3-00269-g8370ca1f87cc #6 PREEMPT(lazy)
->>>     Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
->>>     Call Trace:
->>>      <TASK>
->>>      dump_stack_lvl+0x68/0xa0
->>>      print_report+0xcb/0x5e0
->>>      ? __virt_addr_valid+0x21d/0x3f0
->>>      ? strnchrnul+0x72/0x90
->>>      ? strnchrnul+0x72/0x90
->>>      kasan_report+0xca/0x100
->>>      ? strnchrnul+0x72/0x90
->>>      strnchrnul+0x72/0x90
->>>      bitmap_parse+0x37/0x2e0
->>>      flow_limit_cpu_sysctl+0xc6/0x840
->>>      ? __pfx_flow_limit_cpu_sysctl+0x10/0x10
->>>      ? __kvmalloc_node_noprof+0x5ba/0x870
->>>      proc_sys_call_handler+0x31d/0x480
->>>      ? __pfx_proc_sys_call_handler+0x10/0x10
->>>      ? selinux_file_permission+0x39f/0x500
->>>      ? lock_is_held_type+0x9e/0x120
->>>      vfs_write+0x98e/0x1000
->>>      ...
->>>      </TASK>
->>>     The buggy address is located 0 bytes to the right of
->>>     allocated 4096-byte region [ffff88800de56000, ffff88800de57000)
->>> With this fix applied, rerunning the same sysctl-targeted path yields
->>> no corresponding KASAN reports.
->>>
->>> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
->>> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
->>> ---
->>>    kernel/bpf/cgroup.c | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
->>> index 876f6a81a9b6..2c7f72d3fb11 100644
->>> --- a/kernel/bpf/cgroup.c
->>> +++ b/kernel/bpf/cgroup.c
->>> @@ -2342,6 +2342,7 @@ BPF_CALL_3(bpf_sysctl_set_new_value, struct bpf_sysctl_kern *, ctx,
->>>                return -E2BIG;
->>>
->>>        memcpy(ctx->new_val, buf, buf_len);
->>> +     ((char *)ctx->new_val)[buf_len] = '\0';
->> In v2 (https://lore.kernel.org/bpf/bf25d653-d856-4ad7-a751-b97d38f38892@linux.dev/)
->> I suggested
->>       memcpy(ctx->new_val, buf, buf_len + 1);
->> Does it work?
-> may be it should be strscpy()?
-> The input is a string, right?
+But this is basically what a lot of the SYSCALL_DEFINEx() macros are
+all about - sorting out ABI assumptions.
 
-The following is the bpf_sysctl_set_new_value proto:
+For example, on powerpc (iirc - maybe it was 390), a 32-bit argument
+is always sign-extended by the ABI, and the compiler *depends* on
+that. But at system call boundaries we can't trust that the user side
+actually follows the ABI, so SYSCALL_DEFINEx() will actually take a
+'unsigned long' and turn it into a 32-bit argument so that things like
+this are well-defined and you can't fool the kernel by not following
+the ABI rules.
 
-static const struct bpf_func_proto bpf_sysctl_set_new_value_proto = {
-         .func           = bpf_sysctl_set_new_value,
-         .gpl_only       = false,
-         .ret_type       = RET_INTEGER,
-         .arg1_type      = ARG_PTR_TO_CTX,
-         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         .arg3_type      = ARG_CONST_SIZE,
-};
+The same would be the case if some system call actually takes bool
+(but I don't think such garbage exists). The SYSCALL_DEFINE() macro
+magic would take the full register content and *force* it to follow
+the ABI conventions, whatever they are on that platform.
 
-So the input may not be a string.
-
-
+              Linus
