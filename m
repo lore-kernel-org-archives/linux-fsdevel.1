@@ -1,159 +1,114 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4213DA5AE
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 21:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C123783BB
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 21:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780608741; cv=none; b=CdaFfPvnF+WRxkOSisDfjB7i2Ngzc4iSFq+hzZ7T41k7Q3/hmk02UtrjkzptEXMIlBuE3IcIf7eqIj4RMJiuRQRoLnVPCTRXMp80ZX9NBJ8RDoltWSGOGpid9pkuWeHwyXkjHcHy/I9xwOIoHJvWLWkkAVY6vRjzL/yRW+FDcrc=
+	t=1780609392; cv=none; b=sV1mNTtugTmnlAuoOyiLwuaF65sLpbK0izD5VY8Dig7Qrw0AhcdQSJm95Ap6GaXDDjkOUVXKepDrYaT3z8HMEs032kFWqh4mt+zZDwBaOGc/qv7B2Ko4dQoG5WpBmq/KW8IzIf+D0iL1jPFG9vNRoy1NpWjsXeyYr7wdcP9DvbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780608741; c=relaxed/simple;
-	bh=SgWKOY85N4QXHw6DJquJOy0hqfu11eB/INo5oQyQqiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H5ghDWRKhN03SeT/5x4MHH725jHvUHe4XkUad1255xyDPKg4mKcsh/UeqEheiQsMBhRGNpTvUmJAKEAw/YB49OjPiiduuuKz3XK0i2AHTlMjGRglc5pi5z+iXnP8DI1aXk0ZH1e8yyixOf891r118cgfIyjJEnrRyR8MBGwsQVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FRNqCzl3; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780609392; c=relaxed/simple;
+	bh=ZWDSpacEFEQZGnIVBEbJF0VYYuNfWke7vLWrwwZT/Sc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KpQRXopmLz3XixnsclrF1xaqZhFJ5tM9gBe7fhMUXb8VTFBxLgpZ6Oo1IxzEZ51yZQFUZMRTk0Bsc6fpZUxVywMtClTtQBfAr7dPzxXzzgunyu3K+IVEREQCcLrku6EY4mTYdQdXf+og8LcO81wCsk9ALKycz5mnPwyGD7UZItM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=cGCqekVw; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FRNqCzl3"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b3e03939so10095785e9.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 14:32:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="cGCqekVw"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bf1141c26ecso179343666b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 14:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780608739; x=1781213539; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IQN7agybo6gzy0fVoImTNH+8qqV3opcO9FSCB/3Heuk=;
-        b=FRNqCzl3sbzOovDDK978itlbuhw2Msse9nhImaUZTPk6UF67PziAOWjVIcPIk+8ALo
-         8YY5/h8G1rsC0C041mmtds/9kfbCfhpe5OroEUoax84EXhJ/rQEaWVwG8zWS73M0FXG+
-         5780ygw4cLNX4n9G2SDqg4BbQAmPB3ehcbTy6IRURs/lv6iNBm61LMY3QxQq/FEiB74L
-         1H/iSXfZQ2XiRKAHo/hLDw/6khkBJIu8xChkKgkALJPhdzgMcNsyz7pF2NTwdiQ6JwE9
-         Ci2332wI0A0RwxWDFOaMf603qqFIIHQkl8aLC3n3BeKqCghDikbtGmFTracqB+y/P7Cf
-         5t9Q==
+        d=linux-foundation.org; s=google; t=1780609390; x=1781214190; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=C0rKRLQ7b0xQkDszK4kB86a8NKDdPGLBrBut9iuJxEs=;
+        b=cGCqekVw78n5ZIPveO7LHJDqnrEPR21SeuXk7KlfXlBcUevB3eBj0OssT0LUPi0Ds1
+         55s4r5GenpFBZnFRQYHrbhjdNcdlOKk3RVxjAXL4/1D7Vrntz4bvQi0Faai493uAlY2J
+         5NvMqC/du8RbPgU6taIIAZbty6L4rCVStvKeI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780608739; x=1781213539;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IQN7agybo6gzy0fVoImTNH+8qqV3opcO9FSCB/3Heuk=;
-        b=eaU04T5vdkFUwAD79KSSroczbvfojzzAythEXzOSKfB9kAiefW/CiCQxMAyEgkvLOj
-         74VfkpOiNS8AlxSZxvq0vVY/nAFkvCLf54zP6QfRF5l/aqbLr3T06u40YtlMXEF2AWwx
-         MhgFr2cr6XhdNr/u3KzmQjeEeicOhUoLaNZU/fBr3pZ9Ehu2UjFz/OaivEvMDplbWQKz
-         a4qj9SLGBGusE6NMcKv+WE/W2e+ynzFl/kEyspjBTtIhET/tTmlLciQq6mzCC6/8Elto
-         ahSE1Q3VIA5fNsMCjlgvdHtNvXPnRi+68hj1Q6MN9gZn7VLWZbppvSODnCCpFTRd5ytS
-         +uow==
-X-Forwarded-Encrypted: i=1; AFNElJ/96qV5+45EBfWc4T5VAONBN2H3mhvIuaYxRn924STWI1+oGTgdcHniLTy9Vt/Izd4ZY4sLPDQdCHdAl+kB@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkRFgWJWw0D+nij7iSEUzI8AcihfBkNkcWm71VCYbMYMeurxhQ
-	CorxSrXY9Ez/KuYMhGowEbH9nCa0zO/ZCj22VOxGVJvbWVd03/taxR8l
-X-Gm-Gg: Acq92OHQUWzAtB/k1IDbFuAnxq4CcT5T+kXahDX3e+YGDdVrucDkvYNHbBUeryFpQ1f
-	LPczxgUfwV4bOSRq3uMRgQ47kg7TfHRmUw5L5/M0roQ03S/5jUzMJ/G08JJHLpHweNpvOe90t8t
-	JP2VBsaGLXJ19ZY12RjGXZ54mp8q9cttIisIAKEm3H2Q5H3kK2JUPC9ZwxX11CKym3jQVmLg2Le
-	Gr3kCd82fZ7Ns1brO3TMXqGZPsYe92aww71/+svSwvwQu2maQTpakivEc87B5xpAQ6eqjpQpgK2
-	lPwnFNqgoFT4RbZgb+VnHaKiRIP5mlPf4rtrK3J6uXKW8xfY5JVymNYWwqspxFQD/qtITqb8kif
-	6t96g6rUXmpUWSpVGUeR3xy9FrFvckiyh1wXA0wbZUxsunAOHCe2cr2KpbOEF0oi6nuRm1MGcvd
-	Pbj5TLUlmrQ1oWCNhZ9zArjqofwSWyNBoCaRs0BebdJAuduUpFQyirdm3fEAve1V3qapyYH3Q=
-X-Received: by 2002:a05:600c:348f:b0:490:4b89:5372 with SMTP id 5b1f17b1804b1-490c25e2739mr4133095e9.11.1780608738825;
-        Thu, 04 Jun 2026 14:32:18 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3918fcsm111713545e9.3.2026.06.04.14.32.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 14:32:18 -0700 (PDT)
-Date: Thu, 4 Jun 2026 22:32:16 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Askar Safin <safinaskar@gmail.com>, metze@samba.org,
- akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org,
- david@kernel.org, dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
- linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu,
- netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de,
- viro@zeniv.linux.org.uk, willy@infradead.org
-Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <20260604223216.73468830@pumpkin>
-In-Reply-To: <CAHk-=wip3mwLOHOYJ9TtjDxOaq9YUXmuCg2AycyASGgeY6qqUw@mail.gmail.com>
-References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
-	<20260603211736.755139-1-safinaskar@gmail.com>
-	<20260604100609.6b37f500@pumpkin>
-	<CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
-	<20260604183829.63c35fd9@pumpkin>
-	<CAHk-=wip3mwLOHOYJ9TtjDxOaq9YUXmuCg2AycyASGgeY6qqUw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1780609390; x=1781214190;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C0rKRLQ7b0xQkDszK4kB86a8NKDdPGLBrBut9iuJxEs=;
+        b=osMecacBYPTtQGsv7KRi5hmuPPP557ukp0//xwX/MWHFGXy4zlioq4YfO8zx5sH6Gx
+         ae0AA/qcq+BB6m1Rz34G1lVt8eA5gO9GcVqKh4arELucqPgi5D8IA3AoKuK1oLwb5c+Q
+         ab5eiiaG6IIc+9LOhekbjiJpCP0rxzus1c9jfuVMb2u/57bEBaHsSRrSqzx3ZYyLdVxH
+         YiJZG7TjcFgovlwHnpsXTOH0GXR9q9+pM3/9Xxq57u8HgsQoYsVHOoI+xfPwqTo/KH4y
+         NUIWGyxAvOpOyGCnRk/6tzVEpC1akIL8bjoGwwPYVDgI5hWsJcaED2GIAOPRxXcOvTpd
+         MMsw==
+X-Forwarded-Encrypted: i=1; AFNElJ/hjoDSSPJExXK9faQEI+fSikTmE0IoGcfcDakBeoVEy6+pqJQVLINLfe3yy7YwoRPPv4jFDVr/UriisFfV@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjtMsAw3ay6SE5Mp8mO5qGDYQyI3aL24XqHt4yXmCB9kXvR/M2
+	UhrNsuLAdP6uk2CXPcS3Iz2lEFsXsxH0FC6w3seDrI/faGq7mQEVCz9wNHRUZ45HRPMZh0AGYFX
+	NXL20XdBPxA==
+X-Gm-Gg: Acq92OG8MNyf5ge3wPOJyanM5iJ2iyYygo9I3wDvnjUIFVNGddA1SilvsuwMVO9CaM6
+	xRXduEvYDztNaJFUd3zIZx9DB3FVTLp6EEx4evjPsq9ky7XJTUxrDwAVZrDCqfOUvdT3VwpyjLC
+	/lOCm5d2fy9srsShMkXMKDqijSte6nSRG5W8tsC6lxq5NVqL/u4YNOCxtdk0epYinGaaE1kRbnA
+	9Yhdu/BMPTud5Pm9hPNxCna+L6szRMDvNL8bwGc6ugeY6v7mggBPSPoN0UOD4b0IwAVCIM2tCUC
+	PbhgZx3Qt0RpeQgdBIJzVNRi2MyYOMSaW976Cels6/nELySKIGHG2gqbd4pMU1IIzxrGKCUvkwy
+	2rcjRs4FA+bsliHYdHIp0h+7Cfxu/Lbc1O717XBq7ioqztTlaZA5xOoKA0Z4rxmq6ZOXfQVpMs/
+	CriJ/TT1Ehjg3w/RSu8+LYTUyi37J1Vze1WxtqINP+qg/fg1PbQDPJWA2s/53ljg23PhLcTbSUA
+	i1eI/U0Nuo=
+X-Received: by 2002:a17:906:c107:b0:bd3:32ce:8902 with SMTP id a640c23a62f3a-bf37390389amr22329766b.39.1780609389638;
+        Thu, 04 Jun 2026 14:43:09 -0700 (PDT)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf0558f3885sm351240966b.54.2026.06.04.14.43.08
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 14:43:09 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bf0170c80f7so221285666b.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 14:43:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+G1ndoB3lN4yzAUUjmSbXxsTgrZXXFo7HSMNgL+xEYpsSrIhpTspMbI70RKRN4qzCzeuPAd88xkJKYWH7i@vger.kernel.org
+X-Received: by 2002:a17:907:a03:b0:be2:dd37:facd with SMTP id
+ a640c23a62f3a-bf370e6211cmr21551966b.20.1780609388179; Thu, 04 Jun 2026
+ 14:43:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
+ <20260603211736.755139-1-safinaskar@gmail.com> <20260604100609.6b37f500@pumpkin>
+ <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
+ <20260604183829.63c35fd9@pumpkin> <CAHk-=wip3mwLOHOYJ9TtjDxOaq9YUXmuCg2AycyASGgeY6qqUw@mail.gmail.com>
+ <20260604223216.73468830@pumpkin>
+In-Reply-To: <20260604223216.73468830@pumpkin>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 4 Jun 2026 14:42:51 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh1Avi8FGbWkt9k0Z-KXWB0spo5mQyowO8PB2sJ3unbkw@mail.gmail.com>
+X-Gm-Features: AVVi8CfSQTIVkCCY1e0qHuDIqCVA2aM8un_0a9-AOfB95snGVQXFlgTgq5lonE8
+Message-ID: <CAHk-=wh1Avi8FGbWkt9k0Z-KXWB0spo5mQyowO8PB2sJ3unbkw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Askar Safin <safinaskar@gmail.com>, metze@samba.org, akpm@linux-foundation.org, 
+	axboe@kernel.dk, brauner@kernel.org, david@kernel.org, dhowells@redhat.com, 
+	hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org, 
+	patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk, 
+	willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 4 Jun 2026 12:30:30 -0700
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+On Thu, 4 Jun 2026 at 14:32, David Laight <david.laight.linux@gmail.com> wrote:
+>
+> I think riscv might sign extend 32bit values in 64bit registers.
+> x86 and arm both zero extend.
 
-> On Thu, 4 Jun 2026 at 10:38, David Laight <david.laight.linux@gmail.com> wrote:
-> >
-> > Bool is another matter entirely, (IIRC from a couple of weeks ago)
-> > gcc will assume that the low 8 bits of the parameter register are
-> > either 0 or 1 and clang assumes that the low 32 bits are 0 or 1.
-> > You can't even check with 'if ((u32)bool_param > 1) error()' because
-> > the compiler 'knows' it can't be false.  
-> 
-> Nobody should ever use 'bool' as a system call argument. Anything that
-> takes a boolean should take a 'flags' field with bits.
+That's different.
 
-I was thinking of more generally, not syscall arguments.
-In C you can't really guarantee that a 'bool' variable will always
-contain 0 or 1.
+x86 really doesn't *care*. If the caller zero-extends or leaves high
+bits set randomly, according to the x86 ABI that's perfectly fine: the
+callee will only care about the low 32 bits. So the high bits are
+simply not relevant for the ABI.
 
-Even if you write: https://godbolt.org/z/81P87vv7o
-int f(char *p, _Bool b)
-{
-    return p[b ? 1 : 0];
-}
-you get *(p + b), neither (int)b, !!b or (b & 1) make any difference.
+The Powerpc ABI makes the the sign extension part of the calling conventions.
 
-Talking of broken compilers, had you noticed that:
-struct foo {
-    int a;
-    char c[32];
-};
+So if a caller doesn't sign extend a 32-bit value, the result is
+random behavior - if you pass some function an 'int' argument, the
+function may end up looking at bit 63 to see if it's negative (except
+IBM calls it "bit 0" because they have to be different from everybody
+else)
 
-int b(struct foo *f)
-{
-    return __builtin_object_size(f->c, 1);
-}
-returns -1 (size unknown/indefinite).
-You can't use __builtin_object_size() to stop code running off the end
-of anything referenced by address - even when the size is constant.
-
-
-> But this is basically what a lot of the SYSCALL_DEFINEx() macros are
-> all about - sorting out ABI assumptions.
-> 
-> For example, on powerpc (iirc - maybe it was 390), a 32-bit argument
-> is always sign-extended by the ABI, and the compiler *depends* on
-> that.
-
-I think riscv might sign extend 32bit values in 64bit registers.
-x86 and arm both zero extend.
-Zero extending is more friendly to the kernel where pretty much
-all values are non-negative.
-I think I've used signed variables slightly more often than fp in the
-last 47+ years.
-
--- David
-
-> But at system call boundaries we can't trust that the user side
-> actually follows the ABI, so SYSCALL_DEFINEx() will actually take a
-> 'unsigned long' and turn it into a 32-bit argument so that things like
-> this are well-defined and you can't fool the kernel by not following
-> the ABI rules.
-> 
-> The same would be the case if some system call actually takes bool
-> (but I don't think such garbage exists). The SYSCALL_DEFINE() macro
-> magic would take the full register content and *force* it to follow
-> the ABI conventions, whatever they are on that platform.
-> 
->               Linus
-
+            Linus
