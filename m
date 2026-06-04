@@ -1,121 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1E93D6664;
-	Thu,  4 Jun 2026 06:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D10285CB3;
+	Thu,  4 Jun 2026 06:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.160.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780553711; cv=none; b=YwpXpRyac0zMKTITkcSG77j+ivcxA+XdcmJM6vh80QbElxM1ys/n/OL38V0JQNIphAyAYpIoCVFDrTm3kxyrRhb2/jMFghlVIHWqTOEv4dsxbF8I0TCBLVsRPzxkafNHF6dkq5XaiEo3dsVJ9UVC8Vz1w3icQmXrzvNislspcyM=
+	t=1780554197; cv=none; b=LszBJ5VilOFi/VFOBDdYgTfRA15Krf5YeVnT+Z4C3m1NtOwpyHsGoDfVOcGGQeJnzouI3ian4uNTkbQrfH4gJRsRhaR4mv3RRqSEzu9xEUPGcd09qYSUnD9brVjsKAuDY76YMZefSb2TdN+wSP1RSOyzciEErwG6JkheHcrH/lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780553711; c=relaxed/simple;
-	bh=atVSAfHhDYBovprcHMCjWAChHvgsN9Zly/q2GkqZTdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HsSXpO8srZ6x0paQBdomoVZac5qJ6y8fWyb9dHJTenYOQFkVehtDnMX04uyoKLwHGpT2uJJrwW3hzPQrhqDUbDALnitmkVsRlkUQ9BaRzSk8foi4mvbjn3oorBLKxDi0zuYB0BArUChRHx43RBAzMJPbdQ4NG6cB3SlU9PwucbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZdzENTk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780554197; c=relaxed/simple;
+	bh=KwddaKEhdD86dKjIi6k0PhBR6UU7wp4wjpqFD2plCck=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D3Vp/Ieo3U+tX7eMtD7HPt0hAIEi7VowjeuM7meVVK9PrtJSsqTUn1grEm/tRHYl2EARP8iFWgQoEvRXe5DNY2yObb87CwfjxAy7uqR2Q/a554+zy/AFgg9p+oAW050WhDCsT8toSBG2SMLXkvFYImh0qK5ZbTmiJcmYJ4VIXzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp; spf=pass smtp.mailfrom=parknet.co.jp; dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=pzdmrbjQ; dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b=0BExxRHn; arc=none smtp.client-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZdzENTk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE6611F00893;
-	Thu,  4 Jun 2026 06:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780553709;
-	bh=maKYg38a30VxIX8QCcSBujTuAdCuRyvh3rWBPMbaTa8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YZdzENTkOazs5XSTumSTfKjNe97Bx1gIjbWPEe0rEOYizlJ+PG3Skn0hS26Ux74Jl
-	 AXCvUF5ahoFRq9So4PlOjS3IWyCIq5NTGNUoudm5MMRDdJhNBKN1LdgBDErw0LtVFd
-	 jzKhcofKN8uPI1V71amXjFQlau+IKLTXzAiqIsn/g+sTxSoMC/LouWT+HEHb+idjuI
-	 8F/5ZnoIZWEz4pT/Oim/JLh5w98h2ycR5nXmcdy58o4NERbYl1r+Hpa7rpblTquRvP
-	 owmPxKztmOlhAuoaO/iNyxsWnpCrb8pm0xA6MdS2Qr/cnlFMvHA1Yq1Qntrgg1OIwG
-	 JJVS4xnu2W56g==
-Date: Thu, 4 Jun 2026 09:14:57 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Theodore Tso <tytso@mit.edu>
-Cc: Jan Kara <jack@suse.com>, Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Breno Leitao <leitao@debian.org>, Kees Cook <kees@kernel.org>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev, linux-nilfs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 10/17] jbd2: replace __get_free_pages() with kmalloc()
-Message-ID: <aiEX4UTxEnBTjVKo@kernel.org>
-References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
- <20260523-b4-fs-v1-10-275e36a83f0e@kernel.org>
- <yfzx3jgzwesernofl7mzixa2mhjfii5v3o7yapghtmozixrpfu@6bsh7iixyiov>
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="pzdmrbjQ";
+	dkim=permerror (0-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.b="0BExxRHn"
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id DD70D26F7658;
+	Thu,  4 Jun 2026 15:23:06 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1780554187;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=msWQ4QwpSFejMoeCrnrFK3WaUEGeaZ2Zo6i8ASz/SC8=;
+	b=pzdmrbjQXwgAdMrj/L2Xjfi8woDL6Y29D3ySHmLEusFqF3XWd7DwN+Q+Gq5j5sRbILAsCo
+	gru+73uhvpaZPzoEHoNhbZ1vjkqXMBXU8GEYfCC8YLPTkL8bE6zUK4gYBh/gvLcFvGVL1F
+	A2/kUGcytrcwQgUVLSgIVFqI23/BfbDfTM/oURqPZlXEjE5T7b45uQ+lVXmUd7tyOf7nK1
+	BOqfnshu0WbSDDmoy+HKIBim16I8bsgk+Pc+YPKyiGlae6uy3NOIt2GcxnQ7YOeliMJAjo
+	ncUTxQX7vd/cKIX6in1D89g8cQdQwpp3P6Bpp/3h5xgF48shxIFy2neMsGiy3Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1780554187;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=msWQ4QwpSFejMoeCrnrFK3WaUEGeaZ2Zo6i8ASz/SC8=;
+	b=0BExxRHnflSuCGNge8yfLE4817DBuRpW0LcJ1Mr4m0HXR23l0A34PoSy5cBlqsIud0OAH/
+	+zu+Q45bBbThqmCw==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 6BBD5E00094;
+	Thu, 04 Jun 2026 15:23:06 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 63E9222000E3; Thu, 04 Jun 2026 15:23:06 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Maxwell Doose <m32285159@gmail.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH] fs: fat: inode: Replace sprintf() with scnprintf()
+In-Reply-To: <20260603145222.59012-1-m32285159@gmail.com>
+References: <20260603145222.59012-1-m32285159@gmail.com>
+Date: Thu, 04 Jun 2026 15:23:06 +0900
+Message-ID: <871pemx1rp.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yfzx3jgzwesernofl7mzixa2mhjfii5v3o7yapghtmozixrpfu@6bsh7iixyiov>
+Content-Type: text/plain
 
-Hi Ted,
+Maxwell Doose <m32285159@gmail.com> writes:
 
-On Wed, Jun 03, 2026 at 09:50:15AM -0400, Theodore Tso wrote:
-> On Sat, May 23, 2026 at 08:54:22PM +0300, Mike Rapoport (Microsoft) wrote:
-> > jbd2_alloc() falls back from kmem_cache_alloc() to __get_free_pages() for
-> > allocations larger than PAGE_SIZE.
-> > But kmalloc() can handle such cases with essentially the same fallback.
-> > 
-> > Replace use of __get_free_pages() with kmalloc() and simplify
-> > jbd2_free() as both kmem_cache_alloc() and kmalloc() allocations can be
-> > freed with kfree().
-> > 
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> 
-> So historically __get_free_pages() was more efficient than kmalloc
-> since previously the kmalloc overhead meant that a single 4k
-> allocation would take two pages instead of one.  I'm guessing that has
-> since changed?
+> The kernel documentation notes that sprintf() is deprecated and unsafe.
+> Replace it with the more preferred scnprintf() to help with hardening.
+>
+> Signed-off-by: Maxwell Doose <m32285159@gmail.com>
 
-Today there's no memory overhead for kmalloc(PAGE_SIZE). Cache refill takes
-more pages of course, but they will be handed over to the next
-kmalloc(PAGE_SIZE).
- 
-> Can you explain to someone who hasn't been tracking the changes in
-> kmalloc over time:
-> 
->   * How does the efficiency of kmalloc compare to __get_free_page when
->     order == 1?  What is the overhead in terms of memory overhead?
->     I'm a bit less concerned about CPU overhead, but it would be good
->     to know that?
+Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
-There's no memory overhead when order == 1.
-As for the CPU overhead, the difference for the fast path allocations is
-not measurable and for the slow path it is anyway determined by the amount
-of reclaim involved rather than by what allocator is used.
- 
->   * What does kmalloc() do when a size > PAGE_SIZE is passed?  Will it
->     return contiguous memory, or return an error or worse, BUG?  And
->     same question as above; what is the overhead of kmalloc() when
->     size is 2*PAGE_SIZE?  8*PAGE_SIZE?
-
-For size >= PAGE_SIZE kmalloc() always returns contiguous page aligned
-memory.
-
-Larger allocations (> PAGE_SIZE * 2) go straight to the page allocator. 
-
-> Thanks,
-> 
-> 						- Ted
+> ---
+>  Test compiled only, as the only functional change is the addition of
+>  bounds checking.
+>
+>  fs/fat/inode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+> index 28f78df086ef..b032bbc6855c 100644
+> --- a/fs/fat/inode.c
+> +++ b/fs/fat/inode.c
+> @@ -1786,7 +1786,7 @@ int fat_fill_super(struct super_block *sb, struct fs_context *fc,
+>  	 */
+>  
+>  	error = -EINVAL;
+> -	sprintf(buf, "cp%d", sbi->options.codepage);
+> +	scnprintf(buf, sizeof(buf), "cp%d", sbi->options.codepage);
+>  	sbi->nls_disk = load_nls(buf);
+>  	if (!sbi->nls_disk) {
+>  		fat_msg(sb, KERN_ERR, "codepage %s not found", buf);
 
 -- 
-Sincerely yours,
-Mike.
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
