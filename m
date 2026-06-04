@@ -1,97 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFC03E5EC9;
-	Thu,  4 Jun 2026 09:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003B21474CC;
+	Thu,  4 Jun 2026 09:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780565309; cv=none; b=RUFfPTanVrCI2BXCXIfEaf3ImQw/uJJ4wQ0LPXdEUQ+ZN/SqCb+yKk4+l+3IwN5U2hm0yVLGcia/1L+AGLtPiEwpQmOvPZrhBlv01oLB8eipC+8tb77d+HlDMINs4lB9WT1CmxzRqv5x2QIF5s/ao5NBDgZ5YWJxO3WA5KMT/3Y=
+	t=1780566068; cv=none; b=HG+vfI/TgrNawGhKz8G4ObHtfgIUiyt6YzeWssu+KzEHKtLQpZz24Gk2LBemuY8QEXwAv/1mc+fSwgCwl7/Ii2Mi6YKIJgtirvunNxdv7pozYqlQWowIjgOMq6sLs3d4/ZzexJ99kldw3iv/3NghNjVovN0yepy0m/trR8ClwWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780565309; c=relaxed/simple;
-	bh=/yBzGyqQOZMyVEiCzZsiyx6J7lQQ07rv4gX1vlmUGek=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bonEZsTMdz4xvBsGQvxNcCcylrOS/5D1tNTTKECM1yzaItZFf0iLWsGAcxljJ0pghj0riyFtcBlOwlJMWJvhzZX2EgCgNAccOZ39uCpBP2cjb7WHiM1cHsvWxy6HyBDURxP7Yl2AH91M5EbH+r84iLrf+V1qPv59DodN4IgDzeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iNghG9r4; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1780566068; c=relaxed/simple;
+	bh=mnjVaJX+R7uCbO3jClwNLliInzV5QanTPnKFMHuMuas=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BlY50e4CO845VIE2hKr2LK0pmDoCuMXwE6xtmFAM6r0aNyLuDGkqHcGoWOSSrNJr8/CwVebOztbqCBcnjgiZL8adFjMY7ZxrkQZjchXAQ5sbovE0adTyhm5iQpiqPUNRr6yj0wNsgKbtuEsZNykgx9C4Y1yuuo4kfB9VEVqzMAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1XM8VeW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iNghG9r4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780565307; x=1812101307;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/yBzGyqQOZMyVEiCzZsiyx6J7lQQ07rv4gX1vlmUGek=;
-  b=iNghG9r4Jp8hl7arYvBcxnCdgtUsSasO2ylAJjDesCBGrr1xKNdab5sE
-   H5/+YBLjs68LuWL3EyP0F+OYlnFQ7p2q2VLTAblejb4tnMG11KxAgaqZU
-   SZmpu9LDWKribqzC2jnP6JKkers55ZjgXrHvQNWLIBkdSiN+1DqFz/ZDO
-   5u+ibQWfEkzW6QgVHj82pfOAKnJdqngtviZWCXxru3HYL/FwS5VaA6HC4
-   rnumlry+4K4TKlMGJlkElEkUe9kY2AAEksR0OMmxmhXrDaNDMFZUMA53F
-   qQQ0LLg098et9wEoPV6HYLPtgtpbNAGRla4m1wjViIEjWj91locXQM0fg
-   w==;
-X-CSE-ConnectionGUID: fqFzAQawSj25SCs26vsc+w==
-X-CSE-MsgGUID: hccZmPctTVOD3WTBotkUEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81423606"
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="81423606"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 02:28:26 -0700
-X-CSE-ConnectionGUID: ZJRDe1czTkSlzBNN3Ppl8g==
-X-CSE-MsgGUID: osAbyaJURqyALVcIBJRp+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="282597806"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 04 Jun 2026 02:28:25 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 45AB098; Thu, 04 Jun 2026 11:28:23 +0200 (CEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: "Christian Brauner (Amutable)" <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] fs/read_write: Do not export __kernel_write() to the entire world
-Date: Thu,  4 Jun 2026 11:28:21 +0200
-Message-ID: <20260604092821.247680-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1XM8VeW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72B081F00893;
+	Thu,  4 Jun 2026 09:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780566067;
+	bh=mnjVaJX+R7uCbO3jClwNLliInzV5QanTPnKFMHuMuas=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=f1XM8VeW9YiBPOV7xsp6RjWrfLgcqlz5ytLuWbxe9s6CrVt44fS1UvYE7GV5NQIt7
+	 sopJ13tqkwmI/XyC8MpBwZouwgOSbMk8iVik2o+ZU7c281S9CTFBvgIkDrM+4ZdqWV
+	 2WGnIWao69+I0v6Z76n/kKt4YUfz3qmFsQ1PRzpCGaRmr2erSDCJPApnP6CidYDXMV
+	 wVx8GxOh0qoC3i30sBheccc56PRGVa9YP6PEko8JAoo8n1cgMhz10crJR6NENzssqD
+	 PaHgWdUSzzxcQBj5BKgrhnIAnOARH7gvvtYwlzW1B4w/L7VUJnDDWEUOOyXyzuOREw
+	 sgzKoew4rxb7w==
+Date: Thu, 4 Jun 2026 10:40:52 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: tao <tao.wangtao@honor.com>, catalin.marinas@arm.com, will@kernel.org, 
+	tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, 
+	x86@kernel.org, akpm@linux-foundation.org, willy@infradead.org, sj@kernel.org, 
+	kees@kernel.org, luizcap@redhat.com, zhangjiao2@cmss.chinamobile.com, 
+	kas@kernel.org, hpa@zytor.com, liam@infradead.org, vbabka@kernel.org, 
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com, jack@suse.cz, 
+	riel@surriel.com, harry@kernel.org, jannh@google.com, jgg@ziepe.ca, 
+	jhubbard@nvidia.com, peterx@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, 
+	lance.yang@linux.dev, xu.xin16@zte.com.cn, chengming.zhou@linux.dev, 
+	nao.horiguchi@gmail.com, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
+	rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, 
+	ying.huang@linux.alibaba.com, apopple@nvidia.com, pfalcato@suse.de, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, damon@lists.linux.dev, shakeel.butt@linux.dev, ryncsn@gmail.com, 
+	21cnbao@gmail.com, jparsana@google.com, dvander@google.com, zhangji1@honor.com, 
+	wangzicheng@honor.com
+Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
+ creation
+Message-ID: <aiFH5_rjl-mJyXBs@lucifer>
+References: <20260527110147.17815-1-tao.wangtao@honor.com>
+ <70377626-500d-46f2-a3f5-a0d2914ce365@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <70377626-500d-46f2-a3f5-a0d2914ce365@kernel.org>
 
-Since we have EXPORT_SYMBOL_FOR_MODULES(), we may narrow
-the __kernel_write() export to the only which really needs it.
-With that being done, update the respective comment.
+On Wed, Jun 03, 2026 at 10:25:05PM +0200, David Hildenbrand (Arm) wrote:
+> I was excited when Lorenzo started working on a completely new approach that
+> would focus on improving the common cases while trying to reduce the overall
+> complexity. Because I think most of us really dislike anon_vma. It's still work
+> in progress, and I am sure there are some rough edges.
+>
+> But fundamentally, I think we want to find a new design that is just naturally
+> simpler.
+>
+> Lorenzo has been hard at work exploring various design options (and I'm afraid
+> he might be one of the 3 people on this planet that understand anon_vma in full
+> detail), so I suggest we wait for a redesign proposal from him and see if that
+> is doable?
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- fs/read_write.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+I'll spend the next month focusing on shipping something as a priority, even if
+partial.
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 1e5444f4dab3..1f50f5d015ec 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -641,13 +641,12 @@ ssize_t __kernel_write(struct file *file, const void *buf, size_t count, loff_t
- 	return __kernel_write_iter(file, &iter, pos);
- }
- /*
-- * This "EXPORT_SYMBOL_GPL()" is more of a "EXPORT_SYMBOL_DONTUSE()",
-- * but autofs is one of the few internal kernel users that actually
-+ * autofs is one of the few internal kernel users that actually
-  * wants this _and_ can be built as a module. So we need to export
-  * this symbol for autofs, even though it really isn't appropriate
-  * for any other kernel modules.
-  */
--EXPORT_SYMBOL_GPL(__kernel_write);
-+EXPORT_SYMBOL_GPL_FOR_MODULES(__kernel_write, "autofs");
- 
- ssize_t kernel_write(struct file *file, const void *buf, size_t count,
- 			    loff_t *pos)
--- 
-2.50.1
-
+Thanks, Lorenzo
