@@ -1,79 +1,100 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC27F2EB859
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 14:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723522F1FD7;
+	Thu,  4 Jun 2026 14:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780584412; cv=none; b=K4wCILsJEZMwPQPZsfwSbHRbkTDb+GB6+c2Dzzs83IJhI7J3Kf4jW1bbey2LnP7kW5a6FJAOz7hGqvpEIuAgnPjCWD4T3nj7HuF/v5yjUxmgCzP6mYPYQF2tHLqpKp8svYVA0ZN8dc/kSsxjCdQUvOBDUDReRomW1GoHaKeZ7wA=
+	t=1780584876; cv=none; b=PF6/dHl53o1wCEcJT/vgRa7dVV8bbRtk21QL+RomVjCksfboX6bIQLeyPXAMSgXP7pAnh4SzWXJ/aRMBd3FUQJ/FAYQg5YyG/dColpxUNez2xRg7zNbHDak/3tOtLQI82sx3qYwwhC/q01ra9LkTOu+k0d7BkF9pbZBilpGUPpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780584412; c=relaxed/simple;
-	bh=tP5JKnhBF39Wb5k7qSsh8k4mZKvFxHvxQEwwTvvNT+o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OZ+7H4ubpW6YtwS5qeplr3inwd8SnR3eJ/UhUyQE/dqaaraXwPDNXdH3Ic28+fmzfryx7enGV1fcYh6yKRWNv/mR1fYKmM0wSTnM5jJJLIjEehY6VsCmhvFsz53J57D7+d5DTjFAQrht8QupuuAWlKixHmSZBaHGHfQs/E5z4Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=XjGi4Khf; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1780584876; c=relaxed/simple;
+	bh=eZQRnc2hngZ8wZTdYUmztz3eLlRj5DpKU3KAT1prh34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZwOMqTiWVx3rRO6Bt5VLs4fexIhDOdYCSxfJWepllHhCxqv68cb1CJv+/oPzDyDJWP/2TmK1S68SDrm+BQOfv27b6bZ9tYDaR2ukYaOb+GjokEBjtfpXwygWnd63CZqbmRj6GQkrAnM+F4J+Yew0TUWAgZLRe/bpC8qLAy+EFRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oA8lYKdm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="XjGi4Khf"
-Received: from trampoline.thunk.org (pool-173-48-113-247.bstnma.fios.verizon.net [173.48.113.247])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 654Ejx0q012420
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 4 Jun 2026 10:46:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1780584363; bh=j5wM2952woz1uz28Bltb9K9N8B/fTEeBFbj3QHbSzZs=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=XjGi4KhfXWDudYg6hBc/4kseCQKihzgjT4kcmUk5y7erZyfU6DywMiCEvT2g4+9JG
-	 cg2nPgTuTsTrDaEk33QPt+qTvQuELotzhafIfGOIQzVSu/10j4i51d4dE84Sw/frQT
-	 LEB0ht4FuvT4O7QhuyqdySkfDtvBGX9BYlj5/n+pwcPC0tkAYfnqqqvVaK8WzlX6O0
-	 YHUK9S3zecSj/62wIb8jpEyG3eV2QMGulIk7K8tvb4Ysmjvrnrurc1zJK6y60ZbTQW
-	 S/Iz2dZ6AqeRdkRCmUp+4DUCy9nIJlGWIs2vTiBo5H6gd94JzTY41bSAdlmynVvMP6
-	 PXboeF4kzRuzQ==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 765572E00D5; Thu, 04 Jun 2026 10:45:57 -0400 (EDT)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: linux-ext4@vger.kernel.org, Zhang Yi <yi.zhang@huaweicloud.com>
-Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, adilger.kernel@dilger.ca,
-        libaokun@linux.alibaba.com, jack@suse.cz, ojaswin@linux.ibm.com,
-        ritesh.list@gmail.com, yi.zhang@huawei.com, yizhang089@gmail.com,
-        yangerkun@huawei.com,
-        yukuai@alb-78bjiv52429oh8qptp.cn-shenzhen.alb.aliyuncs.com
-Subject: Re: [PATCH] ext4: fix LOGFLUSH shutdown ordering to allow ordered-mode data writeback
-Date: Thu,  4 Jun 2026 10:45:53 -0400
-Message-ID: <178058433997.388727.14058923901564780428.b4-ty@b4>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260424104201.1930823-1-yi.zhang@huaweicloud.com>
-References: <20260424104201.1930823-1-yi.zhang@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oA8lYKdm"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 2AF7F1F00893;
+	Thu,  4 Jun 2026 14:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780584875;
+	bh=IAsgpmL47mR1epNw0yHyfkb7zo+DMc2V/DOQZzwoZys=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oA8lYKdmVj4O8OKPmDRk/Gel34yIO6a/0WjHpmUbNTnUSm5Mz/9UhQx4QlTuWfTBh
+	 gY2qUwSd+LZNPNofF51uJx+0CUImWBzktq47Y0/Bc5mHLiR1pxFDjqpW0mtu8lmQY/
+	 ZxP7JlGTK4m8NY2gv1AhflL6h8LTBYKa4JI+E3w7sWvI7aR1sact44eInzGva3b12i
+	 VcJxSCP9Vypyo88XrkvVP7rlHgGc26cEr7fUhG2jaYSvKcXDsG5sVPa6jJ6etuQEbQ
+	 Hxb5/e78epCZiS7qJto1RWsLIsjk1RVyyKns6AKvDqPggK8Uj9i+QsE5Pr2HIlbI1k
+	 EBgeFcQibgMng==
+Date: Thu, 4 Jun 2026 07:54:34 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Disha Goel <disgoel@linux.ibm.com>
+Cc: fstests@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	ritesh.list@gmail.com, ojaswin@linux.ibm.com
+Subject: Re: [PATCH v2] common/defrag: skip defrag tests on DAX-enabled
+ filesystems
+Message-ID: <20260604145434.GG6095@frogsfrogsfrogs>
+References: <20260604122305.39805-1-disgoel@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260604122305.39805-1-disgoel@linux.ibm.com>
 
-
-On Fri, 24 Apr 2026 18:42:01 +0800, Zhang Yi wrote:
-> In EXT4_GOING_FLAGS_LOGFLUSH mode, the EXT4_FLAGS_SHUTDOWN flag was set
-> before calling ext4_force_commit().  This caused ordered-mode data
-> writeback (triggered by journal commit) to fail with -EIO, since
-> ext4_do_writepages() checks for the shutdown flag.  The journal would
-> then be aborted prematurely before the commit could succeed.
+On Thu, Jun 04, 2026 at 05:53:05PM +0530, Disha Goel wrote:
+> Online defragmentation is not supported on ext4 DAX-enabled filesystems.
+> The ext4 defrag ioctl (EXT4_IOC_MOVE_EXT) returns EOPNOTSUPP when used
+> on DAX files.
 > 
-> Fix this by calling ext4_force_commit() first, then setting the
-> shutdown flag, so that pending data can be written back correctly.
+> Add an ext4-specific check in _require_defrag() to skip tests when DAX
+> is enabled, avoiding false failures on ext4/301-304, ext4/308, and
+> generic/018.
 > 
-> [...]
+> XFS defrag works with DAX, so this check is ext4-specific.
+> 
+> Signed-off-by: Disha Goel <disgoel@linux.ibm.com>
+> Reviewed-by: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+> ---
+> Changes in v2:
+> - Made the check ext4-specific as XFS defrag works with DAX
+>   (feedback from Darrick)
+> - Use __scratch_uses_fsdax() instead of grepping MOUNT_OPTIONS
+> - Removed unnecessary comment as _notrun message is self-explanatory
+> 
+>  common/defrag | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/common/defrag b/common/defrag
+> index 055d0d0e..f17271cd 100644
+> --- a/common/defrag
+> +++ b/common/defrag
+> @@ -6,6 +6,10 @@
+>  
+>  _require_defrag()
+>  {
+> +    if [ "$FSTYP" = "ext4" ] && __scratch_uses_fsdax; then
 
-Applied, thanks!
+Shouldn't this be:
 
-[1/1] ext4: fix LOGFLUSH shutdown ordering to allow ordered-mode data writeback
-      commit: d99748ef1695ce17eaf51c64b7a06952fa7cddab
+	ext4)
+		__scratch_uses_fsdax && _notrun "..."
+		;;
 
-Best regards,
--- 
-Theodore Ts'o <tytso@mit.edu>
+in the case statement below?
+
+--D
+
+> +        _notrun "ext4 online defrag not supported with DAX"
+> +    fi
+> +
+>      case "$FSTYP" in
+>      xfs)
+>          # xfs_fsr does preallocates, require "falloc"
+> -- 
+> 2.45.1
+> 
