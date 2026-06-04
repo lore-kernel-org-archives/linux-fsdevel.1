@@ -1,75 +1,67 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF3147B438
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 14:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780582651; cv=pass; b=isUA97c6tFd7oDQHxS2vo6omnRUU2GjaG/Bqom3rqSwN8rh+gVTZSLbVyF7kM56nEjhPmW3QN7ERfv6jAOmJsW5cguIpiJ5JzrPlmD7I4JwOEoBEw/5o7Ue9sSFkR2ChNyS3m5NmXDXsn0xWFlYB2JmNC1LH9fGz7+TAwZDHhnM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780582651; c=relaxed/simple;
-	bh=g4s8q6wCkTd+WvxFn8JlUgsNJt/EdkDuJ9t+wJpILjs=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719C648A2BE
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 14:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780582652; cv=none; b=dMNM3ymYsrfTwKvjMAI8Usu7mVALwNkf/QsQ9713kvYAVWm/ljp+rwR11062uu+HMp13Nko79FBZGBQNZ6dZsMO6+pgKQZM08vfZo6qE5RLhXbBVII2HE8ffobfqtUZCTbCuoqQaUgWlIqKAIUuQj1YqrbPGN2GVx3R6c3+BUJM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780582652; c=relaxed/simple;
+	bh=Ecbl/t5OYeJ4mb+vVa4qoGM4jTXP3pkfic84pGx71kY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LObLP3meQ0ncKq0SRxbqjBHnAfvq+YZJf6KHykDBWzdIaKC5heWcYYvus8CdhxEOgJLQh4B8cIijnywDsdDPjhGUv2dCCGbptvEw3FwKS+eWNkXfFliSKStlToOKQ4RD4L9j1M6z4MOm41Ofmo1eoN/2eZSUsM20cXbsL7SzSjE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=c+YzDh5r; arc=pass smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	 To:Cc:Content-Type; b=oveXSjstIRfwDYTgqqSDV1bQ3fEF37Z9uD8zsQFOQ0JDYPJ/GDWvNT8LBOcw/u7Z2kbwvSeJdtjZP15Nv/NcncrqUsEsiXl+qUMLwGaB0RRdmXKPi60oYe30/IgNZuRAW6Adr4NbTAa8r+vKooiDh/i4668PQo6D/j3v94jPw9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZR+ZY+zx; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="c+YzDh5r"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-517760dc3c2so4439341cf.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 07:17:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780582649; cv=none;
-        d=google.com; s=arc-20240605;
-        b=IDLlyGhMijwG2icdtljpwO2sG8D+yDHvyQQwMGjTyxrtx7i1eEYGLFwWhatWLpNiQH
-         nxP7/Nw2CcjowWI34ZDBwRDktTcFBt5aTYMkSkhH0SxisR81t/eYqDU+X+C5IzTK++F5
-         OJnufBPoLupX3cSaY4tI2g910pmggNaglSaUwKh+4AMhETpiC3YMEiR1lxhAMnmsZzvz
-         E4eeuL6nDSeseXyNsmXfuFnqnTpQzWZP28CL0NMp/vXWc3O5SpnvI5llS7/E3GkP1rqQ
-         lr1+TTC97iNHWphf+Qh8678ymTIvCmbeGaJGxiHhF2XMu+bGEt4GBNNSNmneTa2ReCXz
-         LlUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0YcKMZOwZ9iXobTM6Q5V1uLTk3dUBPdkuRRogVK0zIU=;
-        fh=upywKarp1Lks7M02kLe6a2QpZBtAFMSpIcsUWlbEZok=;
-        b=lDLA4hRSsmIsVMTgrHAHHVuTee+5647XCYdo67YJpdaiwOlTG1NFG7SleMY9/Si2dH
-         fbiFCG1fps9AZPeS/ndJvtXZaUgN9+ZBUWc2PIp9jy3tJY14QSL+rYs8y6doWUPzbbG4
-         6A6SqkqUzIaUxZsB40HNjxFT2CqaGdpgHj93LP2BCzgZ8oiLx8STqTLLyG/IUYQTgDKS
-         6DHBgHxx7Zhpd1xQ5NgD6CBC4JxXlDyrrXJacaTLH5Z+ywWp0WDTaz3cRNlnHI6TWQAK
-         uO7xrn8O76E6iRwjem5TnABrYNXYJOeSRVoJnWb14TNMmkjugTDUIidom4tgJU/hLAsD
-         BJxw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZR+ZY+zx"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bec49f7e35eso103364266b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 07:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1780582649; x=1781187449; darn=vger.kernel.org;
+        d=linux-foundation.org; s=google; t=1780582650; x=1781187450; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0YcKMZOwZ9iXobTM6Q5V1uLTk3dUBPdkuRRogVK0zIU=;
-        b=c+YzDh5rVCl38dmGnEej4q6e8zZ5WYtf/+Q18A7taFvcwWpYNe/TQtRyhlbOErHKun
-         ujQdvhAppWdtSucYzyBvGOj4kD2jQX3Cz8rOFgNuhYOvK8V+s5DlvR9LVsO01plH+LPI
-         34q1tfnr2yxtBoZJdclMB19OIWH2xS7u/TE7s=
+        bh=lAn7tUi15DsxPNLBVxb55DsaCLzi2ItCgQT81dYuAAI=;
+        b=ZR+ZY+zxTUtSjTgKJrSRxVrz3rvMxODOqoLzntz8AyaivpSiF9Ae0cUUL1v2fn92JM
+         mP0EmeWr0glHhCIMv003wgJXiqSSF1ydf3s0btixbT6zhlnR1vlFX17/ktdoUUKPeYAM
+         qOE29EmVDyCyr2Cva84XWK8PabOa4wWDm7/xA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780582649; x=1781187449;
+        d=1e100.net; s=20251104; t=1780582650; x=1781187450;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0YcKMZOwZ9iXobTM6Q5V1uLTk3dUBPdkuRRogVK0zIU=;
-        b=IUpEKzLDOS8EXHF2D90dMFMIRPjk+4Ookaa7GVwqxebc0C6g/sFVSrLvaa7oyd63BU
-         w097vuMGDijG3U03RSwi0OTv6CmL5aeG/j2GrSGe7IDRoAiHk0cVOfIcKXSsdcPcZMH5
-         Ewdc7/T4rr+uBY8ZUAl4HZJ+7zmMplph+jW3L3xsgB2hIWEEprmhXhpEIcy9qmMTnMXi
-         YO7CITYpsVsi2fw+WWVNL2zTA2eOhCusWzksFDsiKUoLNt6TVJWmeb6h7u4BYoBTZoKY
-         aq4aCAwOL0cUPmWFPRqcvcMOPrZ5tqBtJR/N/jzU3NSiRki9eHZvR7oA5W+KRs4jAv1A
-         SwZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+wQIVsNkYonvAS6DwdtwhGdX5IxU0N6IK4OX6g5S3FAu5y8h9Rgk3dbR04wZ3EBwAnRgiqK43rg1ltLhdn@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJWHCeWuyrdFpSKlUtWsJe/Bhnwqdcjz7kSk1J2Dbs2TcRy8Gq
-	uO37Wzm+pVZwHcUkr9xfFr223wafzU8ACv+umIuPg/g2jfpKOk27OMLe37jKc8pAAAgmTHXU/IG
-	TSU2GOC4w55wFZqkZqIF+ZQDg7Sym+nFd6ly6ygSBlg==
-X-Gm-Gg: Acq92OEDRvOTX46IhsI5jkY4kfkMtNWLPlwqJ2hpYhq7ltbzBZjWMmXv/zlAsye/ucJ
-	zPa090z+D0HKvYwu51s45GxdB/ELSLYjycuBL00x1P7w/zPzGyvAPQH61mlp5xoX252o3xuLP7c
-	O8Z0aOWwrWZLpEvMEB6NaI4n7EwAD2/p4X4mp0ntgcjn+OQNwHPnj4gDvNz7qdHXZYu82nx1Rvl
-	0248MrTvDC7aBmo79Xrxnk61mFG6uk6ZKRGWTmQ0SCxYtUA0xrtdgUxdnLDTcIqikVJk1UCKnzO
-	tY0vg3bfNUc/p9b3IJf6b06RcyLRnmdlVv+E02ZzxIGjkyQ=
-X-Received: by 2002:a05:622a:1c19:b0:516:cfb9:2856 with SMTP id
- d75a77b69052e-51778683f95mr112927071cf.31.1780582648812; Thu, 04 Jun 2026
+        bh=lAn7tUi15DsxPNLBVxb55DsaCLzi2ItCgQT81dYuAAI=;
+        b=QAUqAtK/qBdfUX3LWyIqOqZWNJoWu8BqbebWiwqv+iPaJTxiajiJ0/ZAOJLWbfyKHy
+         a+uqbogvmbE8tWtMEL8A3m9FBn3/xJSw3jepcyEOAFC93JafU5AuHjZFl4ysve5HqF3v
+         xXuKLmMbI0bsnnJ2d8cXr3TJWAJ9vuVszPyFjU5tRwJflql0Rhlxo6eZzv/o77svYogn
+         EYqb0LAzJDylFnZSXc4gZIAoNqUXMnMF2eqrvA2SwughJOpK/Rs8Uz510yEz2AkOWaKE
+         Cut2Qm2htZnHEDld6WYDIiVgFHjmYhNfAdEV892d+MTQyG2cbFdoYFcyX66FXGviEiyt
+         zRkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8lhG6hQdDHaQu6nDqGEdtRJIZ3zYNX9l6Hgcmx46cdG6gbD/ogHXypTUjP/+yVxkCySJy87IUTIuG4xnIZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDlx+7XEBqnWIwOZHT+qvf+YVkKcJmX6clhVManAfyOl5ymfx1
+	JBaJwI35hKfs6+21UWre9Ahbf6q0m7Y/AO8TC2AmN44eeNoXmSo/klN2RNSwvyzuMG20wylaQA9
+	doZMh405HNQ==
+X-Gm-Gg: Acq92OFglT44/7sEGmNrztSg6j8G0yOR1xLDz0uHkhMNLN5mdc0cXjDF4zTbzlmUCuj
+	AT+0UZxZxBpohzyBpBxPEKEOMYbXph7fdzlkCc9jV48GwJkhAwtvEM9n27kZVpKNiIuCSUzbQRr
+	fhGxfmF4b6P3zQdvyiMi/hgtByXdie+RNsiAQe1gy/WyWVSYosySIq55lkXxaRuHB0srtnUFf2y
+	FydluQYND8W6lH1Lc1tfRkktoEFCpAuivtnxgXTSsqymjdwOo72S+ujLE/cVakbeBjV9K9ofSL2
+	9AK2mTE+Qwz2GNJpEcBep6pcsqbLSsZ8zP4ZXcTGt4xk4zlToDEsuxno8/bGDVCHu6TeuLeYj2r
+	ptCM5jQdk10iUvJBGABuXzXmIiWpipU0aN7yHawTJWkrOhLNpKb7Cr9x7UYja7mC+sGZIrQHxok
+	B9n+1+Ahq99LfGQApg1ZCE1GvnDCA7UQDkVW+Qg6hIwCPiIK4hlD+7AuNm61I+MhL+WPmk5npAw
+	BHZYR2RaMY=
+X-Received: by 2002:a17:907:c282:b0:bec:5234:af7d with SMTP id a640c23a62f3a-bf0ac20eee8mr442279166b.6.1780582649670;
+        Thu, 04 Jun 2026 07:17:29 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68e65851fa2sm2465184a12.18.2026.06.04.07.17.28
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 07:17:28 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68c1653ea0cso1059210a12.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 07:17:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/uzCPx2wO2lBzbahRH9S0W7KKP/ihqDDdMMvbybKCu9VhJ8rK4G6yp30WvBM1IPxaT+VNHxD1giHFnwNsQ@vger.kernel.org
+X-Received: by 2002:a05:6402:5296:b0:670:8add:2b8d with SMTP id
+ 4fb4d7f45d1cf-68e72739555mr4177743a12.24.1780582648047; Thu, 04 Jun 2026
  07:17:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -77,45 +69,48 @@ List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260529134302.1989958-1-mszeredi@redhat.com> <CAJnrk1YQO99GUfTF4n9SOrAVncLYraA+mc79Fvg4g6Fum1m7VA@mail.gmail.com>
-In-Reply-To: <CAJnrk1YQO99GUfTF4n9SOrAVncLYraA+mc79Fvg4g6Fum1m7VA@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 4 Jun 2026 16:17:17 +0200
-X-Gm-Features: AVHnY4LvKDF5pRQTNZRq4yOjJPUv7iyIYXVDPDNxqhKwGjyI_EEQPBIoVtdu9wQ
-Message-ID: <CAJfpegv7AL0+j77EL53iEMgpHN0nb6ExuB83m+UMggMJkvQqzQ@mail.gmail.com>
-Subject: Re: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <john@groves.net>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
+References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
+ <20260603211736.755139-1-safinaskar@gmail.com> <20260604100609.6b37f500@pumpkin>
+In-Reply-To: <20260604100609.6b37f500@pumpkin>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 4 Jun 2026 07:17:10 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
+X-Gm-Features: AVVi8CcQ0yaowxPCFqM7JCGZCz4oCGBQaQ6sAmWXnRpVnXINniRqjS3Vb3FRVpM
+Message-ID: <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Askar Safin <safinaskar@gmail.com>, metze@samba.org, akpm@linux-foundation.org, 
+	axboe@kernel.dk, brauner@kernel.org, david@kernel.org, dhowells@redhat.com, 
+	hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org, 
+	patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk, 
+	willy@infradead.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 4 Jun 2026 at 00:13, Joanne Koong <joannelkoong@gmail.com> wrote:
-
-> struct fuse_backing {
->         enum fuse_backing_type backing_type;
->         struct file *file;
->         bool error;
+On Thu, 4 Jun 2026 at 02:06, David Laight <david.laight.linux@gmail.com> wrote:
 >
->        union {
->            const struct cred *cred;      /* FUSE_BACKING_FILE */
->            struct dax_device *devp;   /*FUSE_BACKING_DAXDEV */
->        };
->
->         /* refcount */
->         refcount_t count;
->         struct rcu_head rcu;
-> };
->
-> where that would let the idr just be one type and would let us drop
-> the fc->famfs_iomap branches in
-> fuse_backing_{open/lookup/close/files_free} and the corresponding
-> famfs_{daxdev_lookup/daxdev_free/devidx_free/teardown} functions and
-> let daxdev piggyback off the refcount/rcu in fuse_backing. Otherwise I
-> think we will need to also add the recount and rcu to famfs_daxdev
-> separately once unregistering a daxdev backing is supported.
+> Something needs to ensure that the high 32bits of the fd get masked off
+> on 64bit systems.
 
-Agree.  This is more of a PoC for the uAPI so John can experiment with
-it.  Will clean up the kAPI once it gets some testing.
+That something already exists: CLASS(fd, f)(fd);
 
-Thanks,
-Miklos
+It ignores the top bits, because 'fdget()' takes an 'unsigned int'.
+
+We have been a bit random in how we declare the system calls in
+general, and we mix 'unsigned int' and 'int' and 'unsigned long'
+pretty much randomly when it comes to file descriptor arguments to
+system calls.
+
+fs/read_write.c in particular uses all three cases with no real logic to it all:
+
+  SYSCALL_DEFINE3(lseek, unsigned int, fd, ..
+  SYSCALL_DEFINE3(readv, unsigned long, fd, ..
+  SYSCALL_DEFINE4(sendfile, int, out_fd, ..
+
+but then anything that uses fdget() (through one of the helper classes
+or not) will simply not care.
+
+Does it make sense? Is it pretty? Nope. Does it matter? Also nope.
+
+                  Linus
