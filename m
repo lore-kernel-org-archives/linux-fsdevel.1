@@ -1,153 +1,84 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2296A394492
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 07:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780558783; cv=pass; b=WnKkL/KyKAIDP73eS7tgjufkzqiP1giChQLKvM+7xIzSMVS1h7CGnR5ZJc7uhfFZ2QEQbjU0YuEnrvJtKVE9fMU1zHGplGvLRjHF2UWH9qSOqhxXhQW29MJFLe7cMoS4Dpq/nBotpkeduN4BNsFkkRDF21UvyL1Yawlex/yNTOk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780558783; c=relaxed/simple;
-	bh=e+K8JI98tjf5hP5bAgSr4Jd5kzHe6QJIzHF3gbCUJH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gJeVSyUGTzdd6+JxJn57gIgjPRiC2947jyJGl2+qVoHci3LM9MqHAtUPtLNheSTv4dYNZefMXrODMCMiFFRjSWEDoG06iSnSi0nqlrXYS6MWVjib+zf/Ccs/z8BKK9v3MobnlhX2AfIdBSxrjPyEzvT6cT0WBwpLweuN+9V1fng=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kFFYVmpQ; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE900394EBD;
+	Thu,  4 Jun 2026 07:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780558845; cv=none; b=TrNHEZqp7A4TmRh8Xhy/Om9PSmi1N8LWA2CupOqet2Ju4njA/NcAQVuN2P7rDHNXodWq+dad3aPp/VF4iKgaeSJwnmvOEKdnZcZBedrDhOkxkKz+mNFEqSKyLLQrutCOUld+IZ/hhfI0G4K873VgrzECBxRmnZpGI76yfl+PBW4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780558845; c=relaxed/simple;
+	bh=4QM7ROL1SK9yxh8L5lBMvpm6fMo7dahyZCc93ONZQDc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VCRLjuIUXmgEFiLWJ34wjjkPjWaCOvh2THhHGZbqRtT13cYVeRwOYiqri3retPsro3bTQ7UkACgTaWnckIagr7i5HaxWqn/+Og0ZMhAAO8uPX3UxYtTf7AWZ9CBINQVV/t7vejxHreMAEcBnFACqEkYhzMqgOgZFYfouwai+HXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CHBMf75p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kFFYVmpQ"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-68d23430690so712157a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 00:39:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780558780; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Hxi3s48EWdP/KzmRfRoJPZNrM1h33rg8JVl0Z0CZsalMbBDL3qWak8LPZD/eiqOuLu
-         kE2rRryzqGFbpaSKlhWisVle8iNywQuLcJawU7r4dpGTZOzeCb+C3n3W2jfjEy5CTzvj
-         TKqCwkgf8MWtTavcl//slHHC1QJKwsYcufTRW6g3LfYxn5m/FaK5dNpAX3VXu6Bis6tW
-         Q0767/ESw6nczQgf0Fq8W0956cLFIN3Hdpmeyd5bVlG+aAQsPZNzI7Dg05pt4poMpwzU
-         8TCBZAmGAeupbfSThWmNuhRFP6K5/lplDRMLJ9fIOtqdG+QG1IJcQTcfYVxia6aRcuUK
-         q9zQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Bh+JpTqn5WaQ/HfI1QK63mlUNBVv/IjZhQGAlbMSN4g=;
-        fh=I0oS1rPd61gNyApE7LyyEAejoQAgEWxrTXqeoIpCzas=;
-        b=Qg1cjRgFJu5v084F6AvmV06VYIa9TbBER1vYFv4aimL61EkhOe0BoefZ0DyT+qKX0Y
-         sWwbWf7/BMH6OrA/uWVPceBIVDSQPaO9XDW1HEr/HPr4GMHdjtgqet5NrVRMb8OEOym5
-         AewZVNu0XjWhErL+gMRXUeu2vpNWjEDCeWItWAxz8maRBbbG3fkzMdXPbGqUd7hYhv1X
-         0BBoTFRzG9absoy7IkpeoyXhM5RGU1hZxTj7UFAGmb7VtdTQqE4tUwev1YccjTf4nrhB
-         c2/2hf1l89pUvjP/sPGOcghU5aqCJVq16XYP27fzCfDlx8qq5H4S7yM9pOJQ2bm6qdY+
-         js2w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780558780; x=1781163580; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bh+JpTqn5WaQ/HfI1QK63mlUNBVv/IjZhQGAlbMSN4g=;
-        b=kFFYVmpQmWs5f35SFrCBs2kqXiiQ0rDQEq4z6POzxIfIS2XVVrG5L9bWyHjGMhQERi
-         AW+p1nEn3zabBT2iygx8KYB71Dy5SlklsxWvbeGCLUUcK/lAS34B35LqTkD0RYFulpW6
-         F2G1FO3ESnQBuE1cHHhYK9wRD0ct6CzmEFscdCZmec/Xvigobe+rYE1eGIcxOYTZRqTQ
-         jImRTyZcC1O83dxi2rub67tuz57KavjubXDNNyq0dho/J6FbKzCWZt3ngHvWVjhI2Ki8
-         3xdBMKww6vjJqPiZYVz9cI5BvU+rOOxduu5SnMkufN7vOZLUOMi7kWV6d3mV7a5XLzJQ
-         Nz3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780558780; x=1781163580;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Bh+JpTqn5WaQ/HfI1QK63mlUNBVv/IjZhQGAlbMSN4g=;
-        b=pBoYQiQK7mHk4s6Nung1+qxsJJhc6SQGNjO2xTdzJf04iNh08P7ijsRcZLp30vEuim
-         tsFNTaAIxqNZOQlCCGZsA2ft42oo+GGR21iTbcNNGo9H47d/xxi8s41I84YzTdXwU4LF
-         djBhxF62VZRIi5/UCNOcViXxO2lIL15FUAqSAUrMkJshtSrG1glOvdpiHhMTAnP1b5UL
-         ylVoS8hF6ue7KdNDLyxILWRNTq4hxRI0dftnU9aLiqPo7CwZ2lacnFZsKJWp8wVnNj0o
-         JVRkuSPrqweXEDlkgFRXaahZ9MuYNlpETFWJNWDFPfXGBQEHjvlbIjxRfmBJKAatwCkZ
-         2tLg==
-X-Forwarded-Encrypted: i=1; AFNElJ9gDvztWAAKT2qn9BtYRzLy6x57nJ30IM72ly8Nld6G6Vh7+MMB0Zg7oHyEzQEDVpmIYlJIKtIhwHKL40Q6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2W1smcAGtntNkD6ryuSy2vZg3+56cMLGhHhO6hoNVatTVQzXy
-	7LotJY1JQh06aEs/W38gfOZkJLsKWdtjvxp/PQijUz4vcPyFZoxv/CJkHfcxGDA8AZxftJeSVz4
-	12EmB9FK8/zE0Sba4N1ecxAmXH+VgvX0=
-X-Gm-Gg: Acq92OGszM+0gk8fpwj3+GL95GQZNu1qGnTZJRP/b24WMG9awLqVWWr9wLFfeccPT1W
-	mL3Elj+1x2q3jnME+SXHAWqPHk6BckgaFOHZf8nhqkzLrj9u24d9aBiQbbk1DRmKl9wwN6K3sKr
-	YQckwntU854DY36+vP71R5PUxwI7QUGpCQeRugaqwa1YqNYuzSetUKg3Pm1rXI4ohTs3C9Pm78h
-	0jG+6VgREKvcj/DQOIvebzV8fdOB7K9mp15l5rRgJG4hUClOUuClaMNMQCivIHQvClEdnPB+ioh
-	2zrLcogpckrCiZAnzeRmzOneDv9urxA80HbvDCpAUyS+H/iySdw=
-X-Received: by 2002:a05:6402:4486:b0:670:8acb:e822 with SMTP id
- 4fb4d7f45d1cf-68e70ce79c3mr3510055a12.12.1780558780334; Thu, 04 Jun 2026
- 00:39:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CHBMf75p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00ACD1F00893;
+	Thu,  4 Jun 2026 07:40:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780558843;
+	bh=aNBGIr0KxjA7l3ilDhG+ohSxX/5+Sr0YpPEZ7HNr+3o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=CHBMf75ppmt7XID9XShlwqpJD1xbaUgL1IQPU1jTt8g7sqO8+MR9rP8lL92IglYyE
+	 dEgs8PdJaNZQ34FiZ54RqNT3Q1k28D5Xz8DCqxxXOFfq0vcQcsUn5kbbV7L+vLF3dJ
+	 MwyOS6i1E2r6vmC20RYOU3jBhpfLuUXl157dooFv4ddAbyRDvUWIo3IyaRSwrqCA+R
+	 Lky90V9f0nK2VWKEQvdyJMwiVyrBhzOJePD+a2P77kis3ux0PUzMIzfKRfvd3viOS3
+	 lzB05O0GB8FwW2Ac7mjHgp0j6D5Q4DiO1skwtYKZEdd9HGUGwb001i1ggy0qUDscZQ
+	 b6KBy6Z6CWN/w==
+From: Christian Brauner <brauner@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] fhandle: fix UAF due to unlocked ->mnt_ns read in may_decode_fh()
+Date: Thu,  4 Jun 2026 09:40:37 +0200
+Message-ID: <20260604-hingibt-rechen-medien-fd15311d6cc7@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260603-vfs-fhandle-uaf-fix-v2-1-d05db76a5084@google.com>
+References: <20260603-vfs-fhandle-uaf-fix-v2-1-d05db76a5084@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601152327.2069787-1-mszeredi@redhat.com> <CAOQ4uxjFg4rjwGjU2LvZT6AhC+gBk_6Ej5S4p4DKuk8=a71cRw@mail.gmail.com>
- <CAJfpegt5Q0nmK0JKAfa4Bp_SydR1qiqu7pB0JKkXSCFOYSVDDA@mail.gmail.com>
-In-Reply-To: <CAJfpegt5Q0nmK0JKAfa4Bp_SydR1qiqu7pB0JKkXSCFOYSVDDA@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 4 Jun 2026 09:39:28 +0200
-X-Gm-Features: AVHnY4KAGkPR4XMrGJ1v2HaS6C6G0nzM70KVbpCrnsTsdQpjDfIqLFHVtkWLhqg
-Message-ID: <CAOQ4uxgc_pW57_xeHjm6xauB3Cfx3ZY3Y-NaXO_xvL==vKcFOQ@mail.gmail.com>
-Subject: Re: [PATCH] famfs: FUSE_FAMFS_EXT_INTERLEAVE -> FUSE_DEV_IOC_STRIPE_OPEN
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <jgroves@micron.com>, 
-	"Darrick J . Wong" <djwong@kernel.org>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1171; i=brauner@kernel.org; h=from:subject:message-id; bh=4QM7ROL1SK9yxh8L5lBMvpm6fMo7dahyZCc93ONZQDc=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQpan+TM51t/11zns/lxdoPZ0baJ24+U7X9K5PQ1YSch kUXtXJaOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACbitIjhv3c2X+HcZ/nVGw0m vKyZPNFEYSrLH6Ey7qcMhfmca3bxPGBk+Bn+6Mma2euy9uQcSfb0mSgrk3woKehB9+vi5lsOBfW GzAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 4, 2026 at 8:12=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> w=
-rote:
->
-> On Tue, 2 Jun 2026 at 15:21, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> > Considering that John wants the daxdev ids to be allocated by userspace
-> > I suppose the number of daxdev ids is limited, same as with iomap
-> > backing devs, so we could probably start allocating backing stripes
-> > from max_daxdevs (1000?), to be negotiated at init time.
->
-> This doesn't belong in the kernel.
->
-> If we really need to have allocation policies for backing IDs, then
-> just move it completely to userspace.  I.e. pass the backing ID in
-> fuse_backing_map together with a flag (FUSE_BACKING_ID_SET).   It
-> would make the open/close more symmetric, and is a nice flexible
-> interface, so we should have done that from the beginning.  But I
-> guess we opted for the kernel allocation scheme due to its similarity
-> with file descriptors.   Oh well.
+On Wed, 03 Jun 2026 21:31:57 +0200, Jann Horn wrote:
+> may_decode_fh() accesses mount::mnt_ns without holding any locks; that
+> means the mount can concurrently be unmounted, and the mnt_namespace can
+> concurrently be freed after an RCU grace period.
+> 
+> This race can happens as follows, assuming that the mount point was
+> created by open_tree(..., OPEN_TREE_CLONE):
+> 
+> [...]
 
-fds also have both dup() and dup2() ;)
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Yeh it's no big deal.
-Auto id allocate is a convenient feature, which has cost us nothing
-to implement.
-FUSE_BACKING_ID_SET would be just as easy and would not
-add that much complication, just do idr_alloc with range of 1.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-We could already reserve the code point for user assigned id
-for famfs or if we want to use this in the future and shrink the
-ops_mask from FUSE_PASSTHROUGH_INO patches to 32bit
-as Joanne had already suggested:
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-struct fuse_backing_map {
-        int32_t         fd;
-        uint32_t        flags;
-        int32_t          id;
-        uint32_t        ops_mask;
-};
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
->
-> > > +       res =3D fuse_backing_id_alloc(fc, &bstripe->backing);
-> > > +       if (res >=3D 0)
-> >
-> > 0 is reserved, it cannot be allocated
->
-> It is confusing either way.  The (res >=3D 0) is expressing the fact
-> that this is not an error value.  If the condition becomes (res > 0)
-> then the zero value becomes an error condition, which is crazy.
-
-OK. make sense.
-
-Thanks,
-Amir.
+[1/1] fhandle: fix UAF due to unlocked ->mnt_ns read in may_decode_fh()
+      https://git.kernel.org/vfs/vfs/c/40ab6644b996
