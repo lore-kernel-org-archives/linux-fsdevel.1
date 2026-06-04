@@ -1,144 +1,132 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188E7397E8B;
-	Thu,  4 Jun 2026 15:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CAC3264D5
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 15:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780588422; cv=none; b=XLxEvbaxhQJXxqDQfkPGXmQ7+R6vb2mGZGXAVP7DeSwgbv4NSsh4MnVR6x+DgTwgo65EltTBXUjtZslwiQtgrWkbNWymjInkTTx0NKhBcbrhE5AI4LimTReoR1REyR4XE/D7O4tvToouv00ltGLk246Lokrwkw4rIfKxqdlGtRI=
+	t=1780588704; cv=none; b=IQnwW75J4ln7zebML5kRgdeLJ834wvlU88SEX0LU7trekUg/lJNJc1bDjFlzrLUfJpQGOldTjPYZlKcmNBBSC3z1KFCZ9t9r9JNeSOjBLDhSw3rMCUrwA9DwPKoa/1PHgu0HmMAAUFRm03aya2bQXCv6vznGTY0UUUX+2mIS/GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780588422; c=relaxed/simple;
-	bh=qus+D5rLRk/7MKk5teLiNXO3sJG3ntMUblD9VoM4MYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lph+Axw0PppB2d1vzIt/UfKM/KsCNyGcYjYzLeu1WmqNHH2AQ+xz6VToAefxmA2Sg5KtqdQ2RvGGuOM5VM3nLpoiO9IcYeYxAIdQhPSn4f8ECLxZq+9+zytPU0y/KWxJSWIcN1kwUj79UcHyLQ8/N96KrHJ70C3RPIKfh3XKi8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=aaJG32qR; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1780588704; c=relaxed/simple;
+	bh=CG4tYKE/ZDtEvhTjWK4OQ+Pk+mMRQbkaM8xxSMWv8lU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QwGtV6k+8Lcimcyv0c+vuby25vZNQ7s2Uui8hSA6b8IT2bUarCFicQdcC0cvsKoRH5vwN+mzXHgn2Al1j5wkjZG1SCrNj+RPxSpwS788YqP8JRn9jC23V8qpIH+vwbcD1yCrVPBRFlViDGuI2ME4uqBTavt37Il/AWm+M8Log8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fJqRJg3l; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="aaJG32qR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1780588418; bh=juT3AhUSnv3+LEExiQBNIpyMhKj+7Ht6/Ub5bBjOybo=;
-	h=From:Message-ID:From;
-	b=aaJG32qRMUOIDg915/7kh3rDdW4vh2IvOB/PNr31yOeigP7OiDM0YHIhZoiZp8UMr
-	 NjXu6O405jBSx5uIwefKURTQZonCG1DnK7RxtvWKkjkUveM2Rqq1sV+8PrM60xISZy
-	 s80aAPevr1LZI2sSO5N94ajr5iCOo4kiSDrTDoDw=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 4A2D1C0ABE;
-	Thu, 04 Jun 2026 17:53:38 +0200 (CEST)
-Date: Thu, 4 Jun 2026 17:53:37 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig <hch@infradead.org>,
-        David Howells <dhowells@redhat.com>,
-        David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
-        Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <aiGfgRch99l_5z11@1wt.eu>
-References: <20260531010107.1953702-1-safinaskar@gmail.com>
- <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
- <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
- <20260601173325.GH2636677@ZenIV>
- <20260601160455.2c187574@gandalf.local.home>
- <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
- <aiEb8CTM-ovMIq7-@1wt.eu>
- <CAHk-=wiQB-j53cTs9kM4UeXoXPaFj78aJe3D6Yp1Fohg7i4tWA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fJqRJg3l"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4891b4934ffso93175e9.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 08:58:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780588702; x=1781193502; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pqw6xFqYHfbtPS2lscmy3UHUr79W7GtUNGneEf+7Bf4=;
+        b=fJqRJg3l1bU+Nf4xgAugLcVG/ajXDWvTJ1gKmne2CWgvXFNwtqpCKgV9vU0w2fGhZR
+         fsMwh6btn9HKQMABdn4pRJS7EPi3eyBpjEdbcoFtCr9yCIP6CjCBF4mtuqWDK5uIbOGy
+         vee3rDhJzW1oFmFS4LtYIoO11F++5G4I/S5BdEpS7v9pTw6Do/gTOxRlek/4Q6W4tnEl
+         RDgz/t/bX5p+gGKa04KtK02AEITk2ptbpxCRF8kQ5dEcREKY2o3Op7cnLNUVwZ6kiTPa
+         RyP1wp6LwDWDOlYTuheo0B1iwk2fTdjlbjkNWyKIpjhozqpSUbCxHzs6B55b5uyT/T5E
+         ftQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780588702; x=1781193502;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pqw6xFqYHfbtPS2lscmy3UHUr79W7GtUNGneEf+7Bf4=;
+        b=GmlNObS2cxKL41DjM3U5enZeianHSPeZYOVRLxl89QBMs8GhaGzDkrd+P2ZFSReiih
+         lmFg0ikp3ziyZqROT18AvjOtdpz5XuD9//TIp4gVDwSgy7ATM8JD2bL8ey+4KflUxQJE
+         p5JJZSRVrtafDkrpdKXLYAJxRm88LHF3EUrKBWjRTP7IRkrrsy1TDrqGICV3YTH7/koR
+         jznrIYmtynjXpB9FVrQF0xTXBNkq1TlFKSZQbH3xrpLgLOQGumVFos/nmN1/6gnSL6gg
+         HwqdmaqfaGt7bkCXy9NHC19w28X4kGQJdbz6ShsbrtOANCoOi7YBxuF7TvBe8Hr6Wwxd
+         NpOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8F7OaX0hpkxeu/GZzd0f6gWilFkWxuCEn8pAfX/qJThW7jKj6h5ZlAfrjzzqwqI0BpdyHn7jzCR+yWNitq@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzS2JCMn3RuexlSPI/tCERY390KVgvr8f6piMoR23k9toRR8Fa
+	AhGHmENSUZ7+CoXnsU55dCq1Ay2p4PGrng0OdFi/jZ2Bh4FNLzYH71SmfzTGpzVl5Q==
+X-Gm-Gg: Acq92OFL10SgJY6NcPHo+G1r+9pqVN2rYiB1fpKcSWuG9yOP3gSlhgA3vpLFMTL4QBX
+	f48MHbtoqssb6W+2LyH5ZEMj3RwVTWm0tRz2s2FESyR4Y/KxH/vvCOR49NOxEbuuOrEGz6x0MIp
+	9HVCcEqfEes+nF9jTmMPu3EnAZqwdQpfO1vh3t7oSCdSa7hm2C/Xf8n2dFn0zD8myHshAOTDV4M
+	yv2ByhGN1T418lQksl1mW7qpBue3MRfPHIpz8YWls7IIs4uITMexdYevL2seoJbGwI/FkwO0aoS
+	caIqXoX9+iJ8i9KRZUoa9aUOo0ogTPoNirsodJYGTndlZSTusZPYLssVV1X76XuNuv3aP3BcTMI
+	mqcHrorxwEyneh8sLPFtyr5woBUCKJMhSYop0b8C+3MqzoIChDMdsSiE5cm/4fzROefaz5SF9k+
+	Q5hZabAjjhf5Zjtb+cGrhjBLJCd980+Fq6+CjSpoWNWATvkAlgZHlsyQdOjDpbhQ==
+X-Received: by 2002:a05:600c:68d5:b0:48a:623c:8859 with SMTP id 5b1f17b1804b1-490bd7e523bmr950095e9.7.1780588701225;
+        Thu, 04 Jun 2026 08:58:21 -0700 (PDT)
+Received: from localhost ([2a00:79e0:288a:8:5de2:6c77:4bc3:b0dc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f344762sm19004407f8f.23.2026.06.04.08.58.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 08:58:20 -0700 (PDT)
+From: Jann Horn <jannh@google.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fixup! proc: protect ptrace_may_access() with exec_update_lock (part 1)
+Date: Thu,  4 Jun 2026 17:58:06 +0200
+Message-ID: <20260604155806.1402880-1-jannh@google.com>
+X-Mailer: git-send-email 2.54.0.1032.g2f8565e1d1-goog
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiQB-j53cTs9kM4UeXoXPaFj78aJe3D6Yp1Fohg7i4tWA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 04, 2026 at 07:31:30AM -0700, Linus Torvalds wrote:
-> On Wed, 3 Jun 2026 at 23:32, Willy Tarreau <w@1wt.eu> wrote:
-> >
-> > I'm using vmsplice() + tee() + splice() in high-performance applications,
-> > load generators to be precise, and soon a cache. This is super convenient
-> > and extremely efficient:
-> >
-> >   - vmsplice() is used to prepare a "master" pipe with data to be sent
-> >     over TCP or kTLS
-> >   - then for each request, we do tee() from this master pipe to per-request
-> >     pipes.
-> >   - the per-request pipes are those that are used to deliver the data to
-> >     the socket via splice().
-> 
-> So most of those would actually not be affected by any of the existing
-> patches: the pipe->socket splice would remain, the tee() code would
-> still just take a ref to the page count.
+fix two test breakages in tools/testing/selftests/proc/read.c:
 
-OK!
+ - The test requires that readdir() on directories in procfs does not fail
+   when running as root.
+   Restore the previous behavior where /proc/$pid/map_files/ simply returns
+   an empty directory if the process has no MM.
+ - The test requires that any directory in procfs has "." and ".." entries.
+   Restore the previous behavior where, even if a task has no MM,
+   /proc/$pid/map_files/ still has "." and ".." entries.
+   (This now differs from previous behavior in that even if the caller does
+   not have permission, they still see "." and ".." entries; recreating
+   the old behavior exactly would make this code unnecessarily complex.)
 
-> The vmsplice() would change,
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Closes: https://lore.kernel.org/oe-lkp/202606021924.b6d8a0c2-lkp@intel.com
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+ fs/proc/base.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-OK but for this use case it's not dramatic (it could be more annyoing
-for the cache where I'd like this zero-copy from memory to the wire
-though).
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index ef2f59461374..5042f14d24f3 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -2399,16 +2399,19 @@ proc_map_files_readdir(struct file *file, struct dir_context *ctx)
+ 	if (!task)
+ 		goto out;
+ 
++	ret = 0;
++	if (!dir_emit_dots(file, ctx))
++		goto out_put_task;
++
+ 	mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
+ 	if (IS_ERR(mm)) {
+ 		ret = PTR_ERR(mm);
++		/* if the task has no mm, the directory should just be empty */
++		if (ret == -ESRCH)
++			ret = 0;
+ 		goto out_put_task;
+ 	}
+ 
+-	ret = 0;
+-	if (!dir_emit_dots(file, ctx))
+-		goto out_put_mm;
+-
+ 	ret = mmap_read_lock_killable(mm);
+ 	if (ret)
+ 		goto out_put_mm;
 
-> but looking at your haterm.c sources, it
-> looks like it's mostly a fairly small thing ("common_response[]" being
-> 16kB).
+base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
+prerequisite-patch-id: 0000000000000000000000000000000000000000
+prerequisite-patch-id: 7c4ef33778ceb9b6e644d78c5be66b99c0c77d51
+prerequisite-patch-id: bd555aff354c96a946f72e56d5d55eecc33a7b47
+-- 
+2.54.0.1032.g2f8565e1d1-goog
 
-In this one it's indeed a 16kB block that is repeated into the
-same pipe by simplicity, in its ancestor it was 64kB. We try to
-make as large a pipe as we can, but that's all.
-
-> That is typically *faster* to just copy than look up pages.
-> 
-> HOWEVER.
-> 
-> It looks like you're actually doing exactly the thing that I thought
-> was crazy and wouldn't even work reliably: you change the
-> common_response[] contents dynamically *after* the vmsplice, and
-> depend on the fact that changing it in user space changes the buffer
-> in the pipe too.
-
-No no, it's definitely not doing that (or it's a bug, but it's not
-supposed to happen). I'm perfectly aware that one must definitely not
-do that, and it's a guarantee the user of vmsplice() must provide.
-
-> So that would break *entirely* with the vmsplice() changes if I read
-> the code right (which I might not do) simply because that looks like
-> it really does require that "wrutably shared buffer after the fact".
-
-We agree that this would deliver complete garbage an I'm not interested
-in such a "feature" at all.
-
-> Interesting.  Because the vmsplice() code uses get_user_pages_fast(),
-> and honestly, it never pinned the page reliably to the original source
-> - it breaks COW randomly in one direction or the other after fork()
-
-I must confess I never knew how it deals with pages shared over a
-fork(), and have been wondering if two processes could create a
-shared memory area on the fly just by using vmsplice() on each side
-and end up with the same pages (I don't need this but it could have
-very nice use cases).
-
-> (and I thouht even after a page-out, but thinking more about it the
-> swap cache may have made it work for that case).
-> 
-> Uhhuh. That does look like it makes the vmsplice() changes untenable.
-
-No no don't worry, I'm not seeing any value in changing data after
-vmsplice() and that would just be a bug. My goal here is only to
-pre-fill a buffer with a pattern then prepare the pipe with that
-pattern, nothing less, nothing more.
-
-> But I may be reading your haproxy code entirely wrong.
-
-I think so, but I wouldn't be the one blaming you for this ;-)
-
-Thanks for the clarifications!
-Willy
