@@ -1,76 +1,46 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDA13CF048
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 06:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9E91A6822;
+	Thu,  4 Jun 2026 07:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780555897; cv=none; b=fBhSOLlyoa7nfJ8SPHLDv5SVq9HSB0Mg1j6lP12dQCv+GriYMI8aNpf6JRF3aPcXH+p59UteKcu43MhIHy8B8xFtnCCznxFC4sRCh7i8zyXw/3zwL2k5fMBw23OcX09JUw/tL1u7V+Fg1FPEbeOUmq8NptNJDfAe1F7GlHyjZrw=
+	t=1780557297; cv=none; b=CGUNrADgUpS9vPLJU9mEzLv+U4I5QLdyul9LfQItOMeV0c1aUuf34xHhg1LIYNX3xXxa6ZJHaD8/FikQ0E3Wx3Z09GWHtc8KOp/6zonRMgDQcWF90KNbfO0yjlKybwsf80LmkJWeHUVix38qnUmXvjqUZYrIZzP7Q+PkMd86CZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780555897; c=relaxed/simple;
-	bh=rZfmT8E2vEREwINMSsmZrCaMt9v4llL/bgylmcTIXuw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ESQtiGWgvxzdcFoISB1Z6vk0T9eU8R047tkmzJPTvXeZNMZhzMjyD2/M9AnF642qbVZOl7YkCuAfpvZbhO1u9gxRYLtBbGMr8xz/5VcQMRinJmGwqNRJWYf64mbdKhPIcIO75iDm9B747gcqJdIUcgldXPEkjh64LMKqsH3pHVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nzpxXUyd; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780557297; c=relaxed/simple;
+	bh=6r1K8mcPsPD6196B3eZY9y47FyQPIVRpzJOVkcWJr0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fLXsaPa2KkhXkkhCAbxEq/YJ+gURMXit0IRolgAxQ+X+I9BH0AEUSE/OhdFMx2Z5ZdZlEpq9AbF40jJFsFkN9yXMqC4tTzjDrkpRwVLQxQOz4Gy4yEYwuFwpqBlVlvDyZOAIC8f5pGZ3uLGUL8nkJaoxkfv1tKyvKQFir0nQwnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0+CqvLi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nzpxXUyd"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c0bd02d97eso4462895ad.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 23:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780555895; x=1781160695; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U9uqJ9zIvGX0NDqn7gTsRWpyFlMlfqGeCbba9ggEOAI=;
-        b=nzpxXUydyJMRm3T2ZOLTG+Q8ZQRMr+WfhWpx/Z5Jo4TH+ySFJxdm8krDlMJPjz/Kbp
-         ZUwUtpDKJ3LvdLcvBoniSA57zA5CNxDf1/ylgpa9VoqTWLgthuRoAwMkC9Xj9h3PnlgA
-         dfhGKhOPYjSTiYIKgcr8D9H6szTvfxk8nJCarob3T+AqCLg7wQcnZzTkVIBhw8gb7TfN
-         UErtVFDcjpnFwzi5oRYFqyKkslUwXv6dHfXZRwNdjjUroLI10lRZFmKDGFFEKFS2Qh8q
-         UE5gfOk86nwacuCAVVpNmtuKasQ7I1t6LJygNX9XAu4fzIyLy8BZiXPyaaByd5c0VChI
-         5XDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780555895; x=1781160695;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=U9uqJ9zIvGX0NDqn7gTsRWpyFlMlfqGeCbba9ggEOAI=;
-        b=ec4HnambWUELIEsu19GYwm++B9OC8NBjvwpSLaJWoTyUcTVVh0l1wkhvP/kqU3/62u
-         oQQnAprQI8+OVWNc9+ctZ8m0Se6Xz4NQbdM1oIRaNxCzW7sTEGyRnSf3bXboJhWlkbWr
-         ZqIMcXJs/a/Jlo7NVVYgv6uXjZOpCZfmvLICun8H1NsNggkMskYSOmnbxhV0e84mdpsf
-         /VOgCN61HH+PqYtYvUUtVP32bF4fWmsAdHL6/rA8yQtivXCOrjKCx/TqX5k9yRThdYd+
-         hCYZFBuF+pGNjK7VH44N+5PP+mDHyC1Z/9+UU22vjMDhuSUOFJxQpSNYbnX+2Y3kWwmj
-         ksDg==
-X-Forwarded-Encrypted: i=1; AFNElJ9QpvzwJHiDzW73RzbRt8WvG587vfK7cXUIQ0u+mEQMZ9MGx/FjalFuDJqSv4beBrYcg1yibu+k0vhZt97+@vger.kernel.org
-X-Gm-Message-State: AOJu0YydL51K1gl9tl+LOwSh7WD9H9sJSD60pKxRbICyolj/a/+8D9Ek
-	7F8Y6nFfpdJmOuS3FPEbN10YAtGZwcY45ltOpgccwp6y89nsefqMZy9t
-X-Gm-Gg: Acq92OH9xgPKmfMk948PAj+vq5m2mBJsibV5mzuexxNj6PFzgAl5URH0eh/3JCmIpre
-	swVivmXNirMAeh6Q6rTS9Q/f6AhgnqHG6wV6jFjvNa0VoTlzvkNmugmCC4kN7Hd1OFQz+RCSlSA
-	XWN5WOfi/h6n2BZJp7hD0IqfJGveH8jsBY6SzFHqi82OLBCqrwtFsb+/4EDSv8uqTTL/MPpopZ9
-	EP5tFGEzIfiHsK/mD56nZxhCRTwvbtLuVcJ6wMPbScvMHxXpKX/Lk8T+IH5dQdmFFWN7FTb7atZ
-	vLolbKCNEQ4B5wQbK+ncGkmFRZrTTbVIqgEi8Dsw5/yYsIv3ndWyihvBzhAQ87qxo2/bmtEjxKV
-	lEQQCvCcVlVncnMlV1hOpP0qpRDoImNa0ciQsTAXQQ3tkzRLAo7sTA9sAveuXiCJZ2+dvYNOO7C
-	GkyJ0Fr/Xiya7/rLrDhZ4WrR9sqauZBRFG45Q9DdIQMw+JwHTH
-X-Received: by 2002:a17:903:808:b0:2b2:6df1:1112 with SMTP id d9443c01a7336-2c1644dd0aamr41901955ad.40.1780555894693;
-        Wed, 03 Jun 2026 23:51:34 -0700 (PDT)
-Received: from localhost ([49.207.144.13])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e573sm46972795ad.47.2026.06.03.23.51.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 23:51:34 -0700 (PDT)
-From: Piyush Sachdeva <s.piyush1024@gmail.com>
-To: Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
- netfs@lists.linux.dev
-Cc: sprasad@microsoft.com, linux-kernel@vger.kernel.org, sfrench@samba.org
-Subject: Re: [DISCUSSION] Preventing ENOSPC/EDQUOT writeback errors on
- network filesystems
-In-Reply-To: <m2zf23e9ox.fsf@gmail.com>
-References: <m21pfqgzbq.fsf@gmail.com>
- <9e48229614786e0c2e92bb6a2dd3269868f160d0.camel@kernel.org>
- <m2zf23e9ox.fsf@gmail.com>
-Date: Thu, 04 Jun 2026 12:20:45 +0530
-Message-ID: <m2tsribxyy.fsf@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0+CqvLi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57DEA1F00893;
+	Thu,  4 Jun 2026 07:14:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780557296;
+	bh=8m2wBlqrNniJuXWjPa5emnSIuk3xsl0CXNJOG/LcpNg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=U0+CqvLiNn1W0H5nExQKsf8773YkpbNiH0ZuQcS3bDXRKk9Fk/cmVBGkrMyQLbDQ6
+	 Shhca1wkgKb24ZJIH6CQF9xYwvOVxwG9DzzLXa7C3yJKatBS8TW+ue7lELmtaB1fKX
+	 6C8f0iKoPB3oaMkD7FTL78fAoe0yXWIO/e+CqFEEJQa4r8aQXKN5m6RZp1f7+CIBvm
+	 0tv5f8Knyg5WiAoeyDLRUfQt/8BDS16nciICeSIHMlUUIw0jCBYZ/i7PNMMmC8C4Zo
+	 U9xwSKN2kN4BDJI574TsbUnErOaAyUlUwD89lpa1idnNOvw+LZCaj0vIP0btoyRwS5
+	 O0n1KgkVJHe3w==
+Date: Thu, 4 Jun 2026 08:14:49 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, shuah@kernel.org, hsukrut3@gmail.com, richard.weiyang@gmail.com, 
+	reddybalavignesh9979@gmail.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] fs/proc/task_mmu: read proc/pid/{smaps|numa_maps}
+ under per-vma lock
+Message-ID: <aiElxkLHn2yC3W_3@lucifer>
+References: <20260426062718.1238437-1-surenb@google.com>
+ <20260426062718.1238437-2-surenb@google.com>
+ <ahhMEBYM9bixF2Lg@lucifer>
+ <CAJuCfpFJvuFZkgKwJ11RjDXYhTz-a31HO9-5C+Yc=KxbsGvB-w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -78,181 +48,427 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpFJvuFZkgKwJ11RjDXYhTz-a31HO9-5C+Yc=KxbsGvB-w@mail.gmail.com>
 
-Piyush Sachdeva <s.piyush1024@gmail.com> writes:
-
-> Jeff Layton <jlayton@kernel.org> writes:
+On Wed, Jun 03, 2026 at 04:49:48PM -0700, Suren Baghdasaryan wrote:
+> On Thu, May 28, 2026 at 8:17 AM Lorenzo Stoakes <ljs@kernel.org> wrote:
+> >
+> > On Sat, Apr 25, 2026 at 11:27:16PM -0700, Suren Baghdasaryan wrote:
+> > > proc/pid/{smaps|numa_maps} can be read using the combination of RCU and
+> > > VMA read locks, similar to proc/pid/maps. RCU is required to safely
+> > > traverse the VMA tree and VMA lock stabilizes the VMA being processed
+> > > and the pagetable walk.
+> > >
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > Reviewed-by: Liam R. Howlett <liam@infradead.org>
+> >
+> > The logic LGTM, some nitty things below but in general:
+> >
+> > Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 >
->> On Tue, 2026-05-05 at 11:41 +0530, Piyush Sachdeva wrote:
->>> Hi,
->>> There have been plenty of discussions on how to handle writeback errors=
- for
->>> network filesystems, but most have focused on error reporting after the=
- fact.
->>> I'd like to start a discussion around preventing writeback errors speci=
-fically
->>> ENOSPC and EDQUOT, before they cause silent data loss.
->>>=20
->>> The problem:
->>> With buffered writes on network filesystems (cifs, nfs, etc.), the writ=
-e()
->>> syscall copies data into the page cache and returns success immediately=
-. The
->>> actual upload to the server happens later during writeback. If the serv=
-er is
->>> out of space at that point, the write fails with ENOSPC. The netfs/writ=
-eback
->>> layer records this error via mapping_set_error(), but critically the fo=
-lio's
->>> writeback flag is cleared and the page is now clean. Under memory press=
-ure, the
->>> VM can reclaim these clean pages, permanently losing data that the appl=
-ication
->>> believes was successfully written. Meanwhile, i_size has already been u=
-pdated
->>> to reflect the new file size. So stat() shows a file size inclusive of =
-the data
->>> that was never persisted. Another inconsistency here is that total free=
- space
->>> hasn't been modified for the file system on the server, leading to inco=
-rrect
->>> values in statfs() output from the client's pov (assuming statfs() call=
-s go
->>> to the server).
->>> To illustrate with real-world scenarios:
->>>=20
->>> - A user or application can keep issuing writes to an fd well beyond the
->>>   available space, since buffered writes return success as soon as data=
- is
->>>   copied to the page cache. A significant amount of data, exceeding the
->>>   available quota can accumulate before fsync() is called, at which poi=
-nt
->>>   critical data loss is nearly certain.
->>>=20
->>> - A malicious user can exploit this to keep resources pinned and memory
->>>   oversubscribed, impacting other applications.
->>>=20
->>> The error is technically observable: fsync() will return it, and close()
->>> surfaces it through the flush callback. But in practice, many applicati=
-ons
->>> check neither, and the POSIX "just call fsync()" answer isn't satisfyin=
-g for
->>> users who lose data silently.
->>>=20
->>
->> Yet, it is the only real answer we have.
->>
->> This is just a fundamental issue with buffered writes and delayed
->> writeback. Either you flush the data to stable storage now, or you have
->> to do it later. If you do it later, then it can still fail for all
->> sorts of reasons.
->>
->>> Local filesystems largely avoid this because they can check available s=
-pace
->>> synchronously in write_begin() and fail the write() syscall directly. N=
-etwork
->>> filesystems can't do this cheaply =E2=80=94 a round-trip per write to c=
-heck server
->>> space would negate the benefits of buffered I/O.
->>>=20
->>> Through recent development, netfs is becoming a central layer for netwo=
-rk
->>> filesystem I/O. It already has retry logic for transient failures (EAGA=
-IN,
->>> ECONNABORTED), but ENOSPC/EDQUOT remain hard failures. This affects eve=
-ry
->>> network filesystem using buffered writes.
->>>=20
->>> I am curious to know if NFS has a solution to this and what the approac=
-h is
->>> towards this specific problem by NFS community?
->>>=20
->>> This problem is worth solving for all network filesystems. I have a few
->>> thoughts on approaches, combining cached statfs() output with
->>> fallocate()-style pre-allocation on the write path:
->>>=20
->>> 1. Pre-allocate space on the server before writing to the page cache,
->>>    analogous to fallocate() on the write path. This guarantees server-s=
-ide
->>>    space for page cache data.
->>>=20
->>> 2. Since per-write fallocate() calls require a server round-trip, effec=
-tively
->>>    negating the benefit of buffered I/O. Use cached statfs() output to =
-gate
->>>    when pre-allocation is triggered. For example, once free space drops=
- below
->>>    20% of total space, enable fallocate() on the write path. Otherwise,=
- let
->>>    writes proceed as normal.
->>>=20
->>> 3. Handle refresh and synchronization of the cached statfs() data separ=
-ately
->>>    to avoid staleness.
->>>=20
->>> I'd appreciate feedback from the community on viable approaches.
->>
->> NFSv4.2 does have an ALLOCATE operation:
->>
->>     https://datatracker.ietf.org/doc/html/rfc7862#section-15.1
->>
->> ...and such an operation could (in principle) precede WRITE in a
->> compound, but that doesn't really help you. By the time we're issuing
->> RPCs to the server, the client application has already finished its
->> writes and moved on.
->>
->> For applications that want to avoid ENOSPC/EDQUOT, the best thing they
->> could do is call fallocate() themselves to ensure that the space
->> exists. With a sufficiently recent NFS client and server, that should
->> DTRT.
+> Thanks!
 >
-> Hey Jeff,
-> Thanks for your email and for sharing the NFS spec. I noticed that the
-> ALLOCATE operation ends up checking for space during write-back as well,
-> and the initial concern of loosing data still remain. But if we do the
-> operation before writing to the page-cache, it would be a performance
-> issue.
+> >
+> > > ---
+> > >  fs/proc/task_mmu.c | 195 ++++++++++++++++++++++++++++++++++++---------
+> > >  1 file changed, 156 insertions(+), 39 deletions(-)
+> > >
+> > > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > > index 751b9ba160fb..1e3a15bf46f4 100644
+> > > --- a/fs/proc/task_mmu.c
+> > > +++ b/fs/proc/task_mmu.c
+> > > @@ -132,6 +132,22 @@ static void release_task_mempolicy(struct proc_maps_private *priv)
+> > >
+> > >  #ifdef CONFIG_PER_VMA_LOCK
+> > >
+> > > +static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> >
+> > NIT: But these inlines are unnecessary in a C file. At the kernel optimisation
+> > level the compiler already decides whether to inline or not.
+> >
+> > However in the kernel we redefine this so we lose function tracing and also we
+> > don't get warnings about unused functions [0], so this is actually a bit harmful
+> > - you can end up with dead code and not know abou tit.
+> >
+> > Same goes for all the other static inline's in task_mmu.c.
 >
-> I will try a few experiments and then post my findings here.=20
+> I see. There are a bunch of these small inline functions. Once the
+> dust settles, I can clean them up. Dave's series and my folloup patch
+> to change smaps_rollup will be changing this code. Maybe after all
+> that is done?
+
+Yeah that's fine this obviously isn't urgent! :) tiny nits really.
+
 >
-> --
-> Regards,
-> Piyush
+> >
+> > [0]: https://elixir.bootlin.com/linux/v7.0.10/source/include/linux/compiler_types.h#L235
+> >
+> > > +{
+> > > +     int ret = mmap_read_lock_killable(lock_ctx->mm);
+> > > +
+> > > +     if (!ret)
+> > > +             lock_ctx->mmap_locked = true;
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> > > +{
+> > > +     mmap_read_unlock(lock_ctx->mm);
+> > > +     lock_ctx->mmap_locked = false;
+> > > +}
+> > > +
+> > >  static void reset_lock_ctx(struct proc_maps_locking_ctx *lock_ctx)
+> > >  {
+> > >       lock_ctx->locked_vma = NULL;
+> > > @@ -146,25 +162,11 @@ static void unlock_ctx_vma(struct proc_maps_locking_ctx *lock_ctx)
+> > >       }
+> > >  }
+> > >
+> > > -static const struct seq_operations proc_pid_maps_op;
+> > > -
+> > >  static inline bool lock_vma_range(struct seq_file *m,
+> > >                                 struct proc_maps_locking_ctx *lock_ctx)
+> > >  {
+> > > -     /*
+> > > -      * smaps and numa_maps perform page table walk, therefore require
+> > > -      * mmap_lock but maps can be read with locking just the vma and
+> > > -      * walking the vma tree under rcu read protection.
+> > > -      */
+> > > -     if (m->op != &proc_pid_maps_op) {
+> > > -             if (mmap_read_lock_killable(lock_ctx->mm))
+> > > -                     return false;
+> > > -
+> > > -             lock_ctx->mmap_locked = true;
+> > > -     } else {
+> > > -             rcu_read_lock();
+> > > -             reset_lock_ctx(lock_ctx);
+> > > -     }
+> > > +     rcu_read_lock();
+> > > +     reset_lock_ctx(lock_ctx);
+> > >
+> > >       return true;
+> > >  }
+> > > @@ -172,7 +174,7 @@ static inline bool lock_vma_range(struct seq_file *m,
+> > >  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+> > >  {
+> > >       if (lock_ctx->mmap_locked) {
+> > > -             mmap_read_unlock(lock_ctx->mm);
+> > > +             unlock_ctx_mm(lock_ctx);
+> > >       } else {
+> > >               unlock_ctx_vma(lock_ctx);
+> > >               rcu_read_unlock();
+> > > @@ -213,17 +215,45 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+> > >       return true;
+> > >  }
+> > >
+> > > +static inline void drop_rcu(struct proc_maps_private *priv)
+> > > +{
+> > > +     if (priv->lock_ctx.mmap_locked)
+> > > +             return;
+> > > +
+> > > +     rcu_read_unlock();
+> > > +}
+> > > +
+> > > +static inline void reacquire_rcu(struct proc_maps_private *priv)
+> > > +{
+> > > +     if (priv->lock_ctx.mmap_locked)
+> > > +             return;
+> > > +
+> > > +     rcu_read_lock();
+> > > +     /* Reinitialize the iterator. */
+> > > +     vma_iter_set(&priv->iter, priv->lock_ctx.locked_vma->vm_end);
+> >
+> > OK good that we reset this :)
+> >
+> > > +}
+> > > +
+> > >  #else /* CONFIG_PER_VMA_LOCK */
+> > >
+> >
+> > We need to pull out the patches from Dave's series and remove this option and
+> > default VMA locks on by default :)
+>
+> I didn't see any followup after Dave posted his v1. I agree it would
+> make things much simpler but I don't want to delay these changes too
+> much.
+> I'll ask Dave if he plans to continue his cleanup. If not, I'll pick it up.
 
-Hi,
-While running experiments, I came across an interesting finding.
+Great thanks!
 
-Context:
-When writing data beyond the available space/quota on the server, we
-don't expect to receive an error on write immediately, given its a
-buffered write. The EDQUOT/ENOSPC error surfaces on a call to fsync(2),
-either directly, or implicitly via close(2). CAVEAT: close(2), doesn't
-guarantee a flush of data to the backing store.
-
-Finding:
-When the flush of over-flowed data - sitting in the pagecache is tried
-using a fsync(2) call, we expect it to fail. However, it looks like that
-the NetFS layer, used by the SMB client to do the writeback, doesn't
-re-set the dirty bit on the pages/folios on which fsync fails. At this
-point the pages with critical user-data are sitting in the pagecache,
-but no longer marked dirty/referenced by the inode of the file. This
-behavior is seen for EDQUOT/ENOSPC errors, contrary to EIO errors where
-data is re-dirtied. It seems that EDQUOT/ENOSPC are treated as
-non-retriable errors, as a reason the dirty bit is not re-set.
-I noticed that NFS also has a similar behavior where the pages are not
-dirty after the failed fsync. Naturally, now that the fsync is
-tried before calling close, and with the data not-dirty anymore, no
-errors are seen on close.
-
-While, the close(2) manpage explicitly states that upon failure, close
-should not be retired, I do believe that the data should still remain
-dirty. An application (should) calling fsync before close would monitor
-for errors, and should be able to retry the fsync after increasing the
-capacity on the server.
-
-I would appreciate thoughts on my idea.=20
-
---=20
-Regards,
-Piyush
+>
+>
+> >
+> > > +static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> > > +{
+> > > +     return mmap_read_lock_killable(lock_ctx->mm);
+> > > +}
+> > > +
+> > > +static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
+> > > +{
+> > > +     mmap_read_unlock(lock_ctx->mm);
+> > > +}
+> > > +
+> > >  static inline bool lock_vma_range(struct seq_file *m,
+> > >                                 struct proc_maps_locking_ctx *lock_ctx)
+> > >  {
+> > > -     return mmap_read_lock_killable(lock_ctx->mm) == 0;
+> > > +     return lock_ctx_mm(lock_ctx) == 0;
+> > >  }
+> > >
+> > >  static inline void unlock_vma_range(struct proc_maps_locking_ctx *lock_ctx)
+> > >  {
+> > > -     mmap_read_unlock(lock_ctx->mm);
+> > > +     unlock_ctx_mm(lock_ctx);
+> > >  }
+> > >
+> > >  static struct vm_area_struct *get_next_vma(struct proc_maps_private *priv,
+> > > @@ -238,6 +268,9 @@ static inline bool fallback_to_mmap_lock(struct proc_maps_private *priv,
+> > >       return false;
+> > >  }
+> > >
+> > > +static inline void drop_rcu(struct proc_maps_private *priv) {}
+> > > +static inline void reacquire_rcu(struct proc_maps_private *priv) {}
+> > > +
+> > >  #endif /* CONFIG_PER_VMA_LOCK */
+> > >
+> > >  static struct vm_area_struct *proc_get_vma(struct seq_file *m, loff_t *ppos)
+> > > @@ -538,12 +571,10 @@ static int query_vma_setup(struct proc_maps_locking_ctx *lock_ctx)
+> > >
+> > >  static void query_vma_teardown(struct proc_maps_locking_ctx *lock_ctx)
+> > >  {
+> > > -     if (lock_ctx->mmap_locked) {
+> > > -             mmap_read_unlock(lock_ctx->mm);
+> > > -             lock_ctx->mmap_locked = false;
+> > > -     } else {
+> > > +     if (lock_ctx->mmap_locked)
+> > > +             unlock_ctx_mm(lock_ctx);
+> > > +     else
+> > >               unlock_ctx_vma(lock_ctx);
+> > > -     }
+> > >  }
+> > >
+> > >  static struct vm_area_struct *query_vma_find_by_addr(struct proc_maps_locking_ctx *lock_ctx,
+> > > @@ -1280,21 +1311,75 @@ static const struct mm_walk_ops smaps_shmem_walk_ops = {
+> > >       .walk_lock              = PGWALK_RDLOCK,
+> > >  };
+> > >
+> > > +#ifdef CONFIG_PER_VMA_LOCK
+> > > +
+> > > +static const struct mm_walk_ops smaps_walk_vma_lock_ops = {
+> > > +     .pmd_entry              = smaps_pte_range,
+> > > +     .hugetlb_entry          = smaps_hugetlb_range,
+> > > +     .walk_lock              = PGWALK_VMA_RDLOCK_VERIFY,
+> > > +};
+> > > +
+> > > +static const struct mm_walk_ops smaps_shmem_walk_vma_lock_ops = {
+> > > +     .pmd_entry              = smaps_pte_range,
+> > > +     .hugetlb_entry          = smaps_hugetlb_range,
+> > > +     .pte_hole               = smaps_pte_hole,
+> > > +     .walk_lock              = PGWALK_VMA_RDLOCK_VERIFY,
+> > > +};
+> > > +
+> > > +static inline const struct mm_walk_ops *
+> > > +get_smaps_walk_ops(struct proc_maps_private *priv)
+> > > +{
+> > > +     if (priv->lock_ctx.mmap_locked)
+> > > +             return &smaps_walk_ops;
+> > > +     return &smaps_walk_vma_lock_ops;
+> > > +}
+> > > +
+> > > +static inline const struct mm_walk_ops *
+> > > +get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+> > > +{
+> > > +     if (priv->lock_ctx.mmap_locked)
+> > > +             return  &smaps_shmem_walk_ops;
+> > > +     return &smaps_shmem_walk_vma_lock_ops;
+> > > +}
+> > > +
+> > > +#else /* CONFIG_PER_VMA_LOCK */
+> > > +
+> > > +static inline const struct mm_walk_ops *
+> > > +get_smaps_walk_ops(struct proc_maps_private *priv)
+> > > +{
+> > > +     return &smaps_walk_ops;
+> > > +}
+> > > +
+> > > +static inline const struct mm_walk_ops *
+> > > +get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+> > > +{
+> > > +     return &smaps_shmem_walk_ops;
+> > > +}
+> > > +
+> > > +#endif /* CONFIG_PER_VMA_LOCK */
+> > > +
+> > >  /*
+> > >   * Gather mem stats from @vma with the indicated beginning
+> > >   * address @start, and keep them in @mss.
+> > >   *
+> > >   * Use vm_start of @vma as the beginning address if @start is 0.
+> > >   */
+> > > -static void smap_gather_stats(struct vm_area_struct *vma,
+> > > -             struct mem_size_stats *mss, unsigned long start)
+> > > +static void smap_gather_stats(struct proc_maps_private *priv,
+> > > +                           struct vm_area_struct *vma,
+> > > +                           struct mem_size_stats *mss, unsigned long start)
+> > >  {
+> > > -     const struct mm_walk_ops *ops = &smaps_walk_ops;
+> > > +     const struct mm_walk_ops *ops = get_smaps_walk_ops(priv);
+> > >
+> > >       /* Invalid start */
+> > >       if (start >= vma->vm_end)
+> > >               return;
+> > >
+> > > +     if (vma == get_gate_vma(priv->lock_ctx.mm))
+> > > +             return;
+> > > +
+> > > +     /* Might sleep. Drop RCU read lock but keep the VMA locked. */
+> > > +     drop_rcu(priv);
+> > > +
+> > >       if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
+> > >               /*
+> > >                * For shared or readonly shmem mappings we know that all
+> > > @@ -1312,15 +1397,16 @@ static void smap_gather_stats(struct vm_area_struct *vma,
+> > >                                       !(vma->vm_flags & VM_WRITE))) {
+> > >                       mss->swap += shmem_swapped;
+> > >               } else {
+> > > -                     ops = &smaps_shmem_walk_ops;
+> > > +                     ops = get_smaps_shmem_walk_ops(priv);
+> > >               }
+> > >       }
+> > >
+> > > -     /* mmap_lock is held in m_start */
+> > >       if (!start)
+> > >               walk_page_vma(vma, ops, mss);
+> > >       else
+> > >               walk_page_range(vma->vm_mm, start, vma->vm_end, ops, mss);
+> > > +
+> > > +     reacquire_rcu(priv);
+> >
+> > OK I was going to say that this RCU lock dance is a bit iffy, but I see
+> > that we're sharing code such that this is necessary.
+> >
+> > >  }
+> > >
+> > >  #define SEQ_PUT_DEC(str, val) \
+> > > @@ -1369,10 +1455,11 @@ static void __show_smap(struct seq_file *m, const struct mem_size_stats *mss,
+> > >
+> > >  static int show_smap(struct seq_file *m, void *v)
+> > >  {
+> > > +     struct proc_maps_private *priv = m->private;
+> > >       struct vm_area_struct *vma = v;
+> > >       struct mem_size_stats mss = {};
+> > >
+> > > -     smap_gather_stats(vma, &mss, 0);
+> > > +     smap_gather_stats(priv, vma, &mss, 0);
+> > >
+> > >       show_map_vma(m, vma);
+> > >
+> > > @@ -1413,7 +1500,7 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+> > >               goto out_put_task;
+> > >       }
+> > >
+> > > -     ret = mmap_read_lock_killable(mm);
+> > > +     ret = lock_ctx_mm(&priv->lock_ctx);
+> > >       if (ret)
+> > >               goto out_put_mm;
+> > >
+> > > @@ -1425,7 +1512,7 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+> > >
+> > >       vma_start = vma->vm_start;
+> > >       do {
+> > > -             smap_gather_stats(vma, &mss, 0);
+> > > +             smap_gather_stats(priv, vma, &mss, 0);
+> > >               last_vma_end = vma->vm_end;
+> > >
+> > >               /*
+> > > @@ -1434,8 +1521,8 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+> > >                */
+> > >               if (mmap_lock_is_contended(mm)) {
+> > >                       vma_iter_invalidate(&vmi);
+> > > -                     mmap_read_unlock(mm);
+> > > -                     ret = mmap_read_lock_killable(mm);
+> > > +                     unlock_ctx_mm(&priv->lock_ctx);
+> > > +                     ret = lock_ctx_mm(&priv->lock_ctx);
+> > >                       if (ret) {
+> > >                               release_task_mempolicy(priv);
+> > >                               goto out_put_mm;
+> > > @@ -1484,14 +1571,14 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+> > >
+> > >                       /* Case 1 and 2 above */
+> > >                       if (vma->vm_start >= last_vma_end) {
+> > > -                             smap_gather_stats(vma, &mss, 0);
+> > > +                             smap_gather_stats(priv, vma, &mss, 0);
+> > >                               last_vma_end = vma->vm_end;
+> > >                               continue;
+> > >                       }
+> > >
+> > >                       /* Case 4 above */
+> > >                       if (vma->vm_end > last_vma_end) {
+> > > -                             smap_gather_stats(vma, &mss, last_vma_end);
+> > > +                             smap_gather_stats(priv, vma, &mss, last_vma_end);
+> > >                               last_vma_end = vma->vm_end;
+> > >                       }
+> > >               }
+> > > @@ -1505,7 +1592,7 @@ static int show_smaps_rollup(struct seq_file *m, void *v)
+> > >       __show_smap(m, &mss, true);
+> > >
+> > >       release_task_mempolicy(priv);
+> > > -     mmap_read_unlock(mm);
+> > > +     unlock_ctx_mm(&priv->lock_ctx);
+> > >
+> > >  out_put_mm:
+> > >       mmput(mm);
+> > > @@ -3291,6 +3378,31 @@ static const struct mm_walk_ops show_numa_ops = {
+> > >       .walk_lock = PGWALK_RDLOCK,
+> > >  };
+> > >
+> > > +#ifdef CONFIG_PER_VMA_LOCK
+> > > +static const struct mm_walk_ops show_numa_vma_lock_ops = {
+> > > +     .hugetlb_entry = gather_hugetlb_stats,
+> > > +     .pmd_entry = gather_pte_stats,
+> > > +     .walk_lock = PGWALK_VMA_RDLOCK_VERIFY,
+> > > +};
+> > > +
+> > > +static inline const struct mm_walk_ops *
+> > > +get_show_numa_ops(struct proc_maps_private *priv)
+> > > +{
+> > > +     if (priv->lock_ctx.mmap_locked)
+> > > +             return &show_numa_ops;
+> > > +     return &show_numa_vma_lock_ops;
+> > > +}
+> > > +
+> > > +#else /* CONFIG_PER_VMA_LOCK */
+> > > +
+> > > +static inline const struct mm_walk_ops *
+> > > +get_show_numa_ops(struct proc_maps_private *priv)
+> > > +{
+> > > +     return &show_numa_ops;
+> > > +}
+> > > +
+> > > +#endif /* CONFIG_PER_VMA_LOCK */
+> > > +
+> > >  /*
+> > >   * Display pages allocated per node and memory policy via /proc.
+> > >   */
+> > > @@ -3335,8 +3447,13 @@ static int show_numa_map(struct seq_file *m, void *v)
+> > >       if (is_vm_hugetlb_page(vma))
+> > >               seq_puts(m, " huge");
+> > >
+> > > -     /* mmap_lock is held by m_start */
+> > > -     walk_page_vma(vma, &show_numa_ops, md);
+> > > +     /* Skip walking pages if gate VMA */
+> > > +     if (vma != get_gate_vma(proc_priv->lock_ctx.mm)) {
+> > > +             /* Might sleep. Drop RCU read lock but keep the VMA locked. */
+> > > +             drop_rcu(proc_priv);
+> > > +             walk_page_vma(vma, get_show_numa_ops(proc_priv), md);
+> > > +             reacquire_rcu(proc_priv);
+> > > +     }
+> > >
+> > >       if (!md->pages)
+> > >               goto out;
+> > > --
+> > > 2.54.0.545.g6539524ca2-goog
+> > >
