@@ -1,160 +1,152 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9C9399356
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 19:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAE43A5E93
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 19:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780601616; cv=none; b=ejsTm6h8rF8jtarSWWfZcymjfxIRYBG7BPvYbpPzi4r891KTphUfRK2ZnmrTCRO4H8HLSjgt36CLci10q4wT81n81FtlFRY7FCZA3ytuSliy00aaLsYQ2a29aNajcWebHwYL/5XSTCryCh9WivZgxD/aLe3cfGZA7C5DpxYtTe4=
+	t=1780601761; cv=none; b=TI5R3pCcbRRzFFgg+V5OuD/TG8FKsbQy8ptog2riU7trjXGWphiMAcywUlIetIxuPMBMkxsTpRlfsxUz7EZOxrqRwv57gAjeVUuOX4+RsBe/0KwCDlmrLLqdiFu3+QCeTmuhylRuCIwKn11Ifa9kOZ+oOf7rf6RY/AnRH0NrSbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780601616; c=relaxed/simple;
-	bh=1S4+fX6xWHQsqyDmxIWpC9Dg22EPzfPvMVi2gkLl0jI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G0gAUKp8bzKQoobbKVB7v/a3TiQHk26SZtP2KIhFBUxQ06/dt+PcbxweVK/4V8ES2liMeKSw+bLzDm+OBNijgb8xAcGVnruaHSO8k8UnQNqduqcqDQXSXjkGwbL1SYMhC+zR3v3+xv2zQu+jy+EzFVilr6+sS90DDuxTwDKvrBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WIZh2DVy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qbCYaYtt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WIZh2DVy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qbCYaYtt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1780601761; c=relaxed/simple;
+	bh=EAD9/bXJ4tnJuAwrhyAdMrCQIQ55jfIqEKAmPGt31sQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E6Sd6nt8xGWBcXhb5fGNhgPZS54GKSnFZOdO7wcoL57F/2ctlMG4PErRMAcMuhw4OBaI49pXFOncLj/noOVRVeEP4KoBejtgnxI/7VYaxdNu/WSg3GWmqmW0ykHHPu++9DlMi0Hb0q2kmR9q5lBvVjFl6p/sEhTblhBMpPDNwRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DJouXcY5; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WIZh2DVy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qbCYaYtt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WIZh2DVy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qbCYaYtt"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 121786B070;
-	Thu,  4 Jun 2026 19:33:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780601613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DJouXcY5"
+Message-ID: <bdda3985-d443-4d57-9365-ad7424573e66@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1780601756;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=17A0fGLj3810t+Y/YXXQUqyaPr5NJ91ZX0M+6IS2/zE=;
-	b=WIZh2DVyNF+J88p0RUcOfFrQZtq1yBCwnN3RA6FJxULVMT6skJVz+LwPJjurOLVHJMDP/r
-	Mga0TWzFCLlmQhvU2G6x6zAk7kpocfztQRzWKvVwrafWSvgUbUyL6yxtjLMaBZp1KhYnd4
-	dNaZQkQ+SxY2xtISp2dgVttb2GqYPIs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780601613;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=17A0fGLj3810t+Y/YXXQUqyaPr5NJ91ZX0M+6IS2/zE=;
-	b=qbCYaYttIPyQ8PjOpFOnhqBob8yWUW3rtX5CfN6zNOJm7Cn8y46bqT9urzlCUp+NvpZ3TF
-	r/rERYsIDHeu9RBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780601613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=17A0fGLj3810t+Y/YXXQUqyaPr5NJ91ZX0M+6IS2/zE=;
-	b=WIZh2DVyNF+J88p0RUcOfFrQZtq1yBCwnN3RA6FJxULVMT6skJVz+LwPJjurOLVHJMDP/r
-	Mga0TWzFCLlmQhvU2G6x6zAk7kpocfztQRzWKvVwrafWSvgUbUyL6yxtjLMaBZp1KhYnd4
-	dNaZQkQ+SxY2xtISp2dgVttb2GqYPIs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780601613;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=17A0fGLj3810t+Y/YXXQUqyaPr5NJ91ZX0M+6IS2/zE=;
-	b=qbCYaYttIPyQ8PjOpFOnhqBob8yWUW3rtX5CfN6zNOJm7Cn8y46bqT9urzlCUp+NvpZ3TF
-	r/rERYsIDHeu9RBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 08564779A8;
-	Thu,  4 Jun 2026 19:33:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 10u7OAnTIWo3EwAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 04 Jun 2026 19:33:29 +0000
-Date: Thu, 4 Jun 2026 20:33:23 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org, 
-	willy@infradead.org, ryan.roberts@arm.com, linux-mm@kvack.org, r@hev.cc, jack@suse.cz, 
-	Andrew Donnellan <andrew+kernel@donnellan.id.au>, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, brauner@kernel.org, catalin.marinas@arm.com, dev.jain@arm.com, 
-	kees@kernel.org, kevin.brodsky@arm.com, lance.yang@linux.dev, 
-	"Liam R. Howlett" <liam@infradead.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, ljs@kernel.org, mhocko@suse.com, 
-	npache@redhat.com, pasha.tatashin@soleen.com, rmclure@linux.ibm.com, 
-	rppt@kernel.org, surenb@google.com, vbabka@kernel.org, 
-	Al Viro <viro@zeniv.linux.org.uk>, ziy@nvidia.com, hannes@cmpxchg.org, kas@kernel.org, 
-	shakeel.butt@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v7 2/2] mm: use mapping_max_folio_order() for
- force_thp_readahead order
-Message-ID: <aiHSt1uK3ESOU-2O@pedro-suse>
-References: <20260601102205.3985788-1-usama.arif@linux.dev>
- <20260601102205.3985788-3-usama.arif@linux.dev>
+	bh=PNm9t5e8lAXGoW/IVeDw2m+9fidHrJXDk+58Ty0jXuo=;
+	b=DJouXcY5+AmQMI5KNgzKE2sPEBtR6yIR7QUGT7yRsww8JuRKFwMvKRmTwlXu8LF+6RAiOL
+	EudhekB9R3I/CLuC0enZj0B/SzSANeahh3PqMeszRkgSvSQp4cl0YzgD+LL/hBgPbHweB5
+	KXK2HN2I3m4gkuJFHTd0skO5UC2N8vM=
+Date: Thu, 4 Jun 2026 12:35:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260601102205.3985788-3-usama.arif@linux.dev>
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLxu57a9hfgn7tttf5jiwuqe5o)];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[kernel];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,linux.dev:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+Subject: Re: [PATCH v3 1/3] bpf: NUL-terminate replaced sysctl value
+Content-Language: en-GB
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Dawei Feng <dawei.feng@seu.edu.cn>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ Emil Tsalapatis <emil@etsalapatis.com>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Song Liu <song@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ Kees Cook <kees@kernel.org>, joel.granados@kernel.org,
+ bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, jianhao.xu@seu.edu.cn,
+ Zilin Guan <zilin@seu.edu.cn>
+References: <20260603105317.944304-1-dawei.feng@seu.edu.cn>
+ <20260603105317.944304-2-dawei.feng@seu.edu.cn>
+ <961fbada-5ca3-46c2-a5df-51bb006f9cb6@linux.dev>
+ <CAADnVQLtKYpE0=-UWLWkBVp4s0cncR+KXRu_7Wkt4zXWsmkchQ@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <CAADnVQLtKYpE0=-UWLWkBVp4s0cncR+KXRu_7Wkt4zXWsmkchQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jun 01, 2026 at 03:21:18AM -0700, Usama Arif wrote:
-> The force_thp_readahead path in do_sync_mmap_readahead() is gated on
-> HPAGE_PMD_ORDER <= MAX_PAGECACHE_ORDER and always requests
-> HPAGE_PMD_ORDER / HPAGE_PMD_NR. On configurations where HPAGE_PMD_ORDER
-> exceeds MAX_PAGECACHE_ORDER, notably arm64 with a 64K base page size,
-> VM_HUGEPAGE mappings cannot use this path and fall back to the non-forced
-> mmap readahead path even when the mapping supports useful large folios.
-> 
-> Enable forced readahead for mappings that support large folios and request
-> the max folio order supported by the mapping, capped at 2M.
-> 2MB is chosen as the cap because it matches the PMD size on x86_64
-> and on arm64 with 4K base pages, so the size/memory-pressure tradeoff
-> for folios of that size is already well understood. On arm64 with 16K
-> and 64K base page sizes, 2MB is also the contiguous-PTE (contpte)
-> block size, so the resulting folios coalesce into a single TLB entry
-> and reduce TLB pressure on the readahead path. This will result
-> in 32M folios not being faulted in with 16K base page size for arm64,
-> but with contpte, the performance difference should be negligible.
-> 
-> The final allocation order may still be clamped by page_cache_ra_order()
-> to the mapping and request geometry, but this gives VM_HUGEPAGE mappings
-> on such configurations a large-folio readahead request instead of
-> dropping back to base-page readahead.
-> 
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
-Overall LGTM. Lets see if performance doesn't degrade.
+On 6/3/26 4:23 PM, Alexei Starovoitov wrote:
+> On Wed, Jun 3, 2026 at 7:37 AM Yonghong Song <yonghong.song@linux.dev> wrote:
+>>
+>>
+>> On 6/3/26 3:53 AM, Dawei Feng wrote:
+>>> When writing to sysctls, proc_sys_call_handler() guarantees that the
+>>> buffer passed to proc handlers is NUL-terminated. If
+>>> bpf_sysctl_set_new_value() replaces the pending sysctl value, it can
+>>> hand a replacement buffer directly to proc handlers. However, the
+>>> helper currently copies only buf_len bytes into that buffer without
+>>> appending a NUL terminator, leaving downstream parsers vulnerable to
+>>> out-of-bounds access.
+>>>
+>>> Fix this by appending a '\0' after the replaced value to restore the
+>>> expected sysctl semantics. Since the helper already rejects buf_len
+>>> greater than PAGE_SIZE - 1, there is always room for the extra byte.
+>>>
+>>> Reproduced in a QEMU x86_64 guest booted with KASAN while exercising
+>>> the sysctl replacement path with a cgroup/sysctl BPF program. The
+>>> reproducer targets `/proc/sys/net/core/flow_limit_cpu_bitmap`, fills
+>>> the original user write buffer with non-zero bytes, and overrides the
+>>> sysctl value so the replacement buffer lacks a terminating NUL. Under
+>>> that setup, the pre-fix kernel reported:
+>>>
+>>>     BUG: KASAN: slab-out-of-bounds in strnchrnul+0x72/0x90
+>>>     Read of size 1 at addr ffff88800de57000 by task repro_patch3/66
+>>>     CPU: 0 UID: 0 PID: 66 Comm: repro_patch3 Not tainted 7.1.0-rc3-00269-g8370ca1f87cc #6 PREEMPT(lazy)
+>>>     Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+>>>     Call Trace:
+>>>      <TASK>
+>>>      dump_stack_lvl+0x68/0xa0
+>>>      print_report+0xcb/0x5e0
+>>>      ? __virt_addr_valid+0x21d/0x3f0
+>>>      ? strnchrnul+0x72/0x90
+>>>      ? strnchrnul+0x72/0x90
+>>>      kasan_report+0xca/0x100
+>>>      ? strnchrnul+0x72/0x90
+>>>      strnchrnul+0x72/0x90
+>>>      bitmap_parse+0x37/0x2e0
+>>>      flow_limit_cpu_sysctl+0xc6/0x840
+>>>      ? __pfx_flow_limit_cpu_sysctl+0x10/0x10
+>>>      ? __kvmalloc_node_noprof+0x5ba/0x870
+>>>      proc_sys_call_handler+0x31d/0x480
+>>>      ? __pfx_proc_sys_call_handler+0x10/0x10
+>>>      ? selinux_file_permission+0x39f/0x500
+>>>      ? lock_is_held_type+0x9e/0x120
+>>>      vfs_write+0x98e/0x1000
+>>>      ...
+>>>      </TASK>
+>>>     The buggy address is located 0 bytes to the right of
+>>>     allocated 4096-byte region [ffff88800de56000, ffff88800de57000)
+>>> With this fix applied, rerunning the same sysctl-targeted path yields
+>>> no corresponding KASAN reports.
+>>>
+>>> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+>>> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+>>> ---
+>>>    kernel/bpf/cgroup.c | 1 +
+>>>    1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
+>>> index 876f6a81a9b6..2c7f72d3fb11 100644
+>>> --- a/kernel/bpf/cgroup.c
+>>> +++ b/kernel/bpf/cgroup.c
+>>> @@ -2342,6 +2342,7 @@ BPF_CALL_3(bpf_sysctl_set_new_value, struct bpf_sysctl_kern *, ctx,
+>>>                return -E2BIG;
+>>>
+>>>        memcpy(ctx->new_val, buf, buf_len);
+>>> +     ((char *)ctx->new_val)[buf_len] = '\0';
+>> In v2 (https://lore.kernel.org/bpf/bf25d653-d856-4ad7-a751-b97d38f38892@linux.dev/)
+>> I suggested
+>>       memcpy(ctx->new_val, buf, buf_len + 1);
+>> Does it work?
+> may be it should be strscpy()?
+> The input is a string, right?
 
-/me hides in cover
+The following is the bpf_sysctl_set_new_value proto:
 
--- 
-Pedro
+static const struct bpf_func_proto bpf_sysctl_set_new_value_proto = {
+         .func           = bpf_sysctl_set_new_value,
+         .gpl_only       = false,
+         .ret_type       = RET_INTEGER,
+         .arg1_type      = ARG_PTR_TO_CTX,
+         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         .arg3_type      = ARG_CONST_SIZE,
+};
+
+So the input may not be a string.
+
+
