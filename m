@@ -1,160 +1,168 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1452882BE
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 01:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34582FE060
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 02:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780537957; cv=none; b=ehlPL/4FDGraiqtSF5xKwummHZEJpuasXz3mr9Lwyj9MSbKl13/DtRQ6F9mw2Y5ttMW+FtezfqcVT3QJpB8LpCQ2JoUiLVfPVk+Yr76lKXow5Nm4YvxZFf4ObziiCSdjO2Rc9Q1G9e64MmHh9oKcvmiZvscof2qSYHhKX/shgGc=
+	t=1780539432; cv=none; b=se38kIqA7oAb77E+JFadsJa7IgRQhv5HM8Ak6GZG1lvRl6gZb2QyucwtcJEyMyZG7lRE4VtAcuLuBPNvZ2G+rW3hqFOub1elVju+t+WJNgCDzjt56ZZkVFyW6s9hQMqgjGk2N2nZyNAo40hfTmywJKLPG9IvYpzghWD+z+qDyWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780537957; c=relaxed/simple;
-	bh=n1SkdCcNZQRg1IgD5sSmDSj8j+GpuHeY4/Td660VL9M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gfqET62z3AH8nKfgnZlH4OvCbu4av70x4pQQUI0HpDDN1uQc6oyiExOBNvQAAtCjwEI3smGU88X/U5JVk+wPcy5lGLLd7pXD8CD5KPSudvbpgM+ezk3R/zttol6pf5DXayNMVm68odf6rkphL+l7TheI8vt4XuTRfVmzbPkOmkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZCyHWoya; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1780539432; c=relaxed/simple;
+	bh=h9+JqMvkk39BCvmTywoeqrhTMeL4OUZnpNwPjVejWBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mu1I2118FpETyEZB5NjOx+vUXzNw6NiOyDkeJT5GyinhPtv+Ot1gr8YdKCVvJbJuhn6t0CBtjC9Lp6IpfZYlIJH1t4fOdgegqibSxk1lNa08AxCLkx8E0bsWk0dvZRxlYrqjg46K3TxZFiPu6ldW4VIuJPq0dtYWH8IH9OM6imA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d75vosx3; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZCyHWoya"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-bec3f69d343so18999766b.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 18:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1780537954; x=1781142754; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ti3H/yNlOCN9jiz2PA4OGwlivuSMT91KkxAffb1eRD4=;
-        b=ZCyHWoyagQn4jEw8+2BqwvYDxEsb3NKp8UQt5a7vjIM7b49dA31y5YQ6nLrvmLkxwk
-         m2U87KFya7eSVerBTp1zyFzoBLbCQbyWNqE+Q2NVnA6lCr+jbohqhEDvR2usn7lNca7N
-         tN290XPLwVYPJOb55/oaR6T/LJe5GhmDWXZco=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780537954; x=1781142754;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ti3H/yNlOCN9jiz2PA4OGwlivuSMT91KkxAffb1eRD4=;
-        b=rGMmDXqh/d3XDsJQRJb4pzVdPfNgO8IED6tRRXM6XvHezclu0UkfNQ5Rwq/70cbdqe
-         tbhmVmoCFWLbZ6gGa2lJPuHvlLM6wtHsLhK23uh5N1OGgd/u59iGoaR9ICQpG7A3zNfJ
-         4zv8v5JWdjqPgIF/gdPZgIpEuq4sEzXb3KnhSIVY0vq2SqFoQ+FCCk+P3mycmaNoWB7C
-         7ZcOdJHxl2CNJbpRcYJwDn2kTPIaaifwOn9/lCCpigg5OJe+/72Epw28kA88xLT4h308
-         JYxbuQVGq+3YUPvQxTcjbVdQF9tByvPIeEvjc2XR18M/ap+f8mQlBVU8NTBRfTv5iCRE
-         8Eiw==
-X-Forwarded-Encrypted: i=1; AFNElJ9t5dRgxnVWXHhwhkoO2z8hG0eAg9iaI10vca3HyScr4J4Ojt+MT5EdWrOZY8hcyfKGc1SleP5tVVhF0KD6@vger.kernel.org
-X-Gm-Message-State: AOJu0YybFD1YBdKeEpWYJY9PvncXW4S0UgNOTpVhXxB7NFeKAh8cSNan
-	nZUduVsTqXLAMs6AsKuZsEg2PYm01fynltt4gQujcE446HQdgCceYsM3XRnZZ+t+EeojhIZbQue
-	iHmFIK014bA==
-X-Gm-Gg: Acq92OERPEYMNIbUgVvorRCY0K7AdPppHyO8GTpEyld1T1jKVv99akWU5/9JtZSZ4nj
-	BCOzmGpMJ7wzxPSMaIKOD1FkmFJkp0fEOe60vSOjHTHvdHJV0VtWbhBK2gVp5RfCvsRsc3j/dEg
-	q84W9AWgo9TQQb524DN4g7hIEZVWjzcbNBY06QK+1QV1OuGgdZoGQ4RSvxdezmVnCVwe7oTjJS7
-	nJUvg2VQdoqS8nqT5vZyNHIFucYfib+05mH8MerJUgwUS9k2Lai3ehmp8Lvz0Mhg9mhxmVBIsFt
-	+A2e7rWazRP7WuNwiif+AIZ1/2Rm7duMv6NJEwhn+0y7BLdpirQgJLfvIJ780zunycaru4ccfkg
-	/7SuloWmZZmroYL0cykJNsmZOsaDjfmzZuAAmvJ/nWdsRnYGLvpZ+8iE5CZ3qLiG8c2j1GG0Cp2
-	IV7QJ28Z9A0pyAx0CmWHaq/gaRk/POtwxeyxF30FZTmUfXlCVr6sbEJVFWuoxqrZZCD4/wyt2se
-	yAd0JonOng=
-X-Received: by 2002:a17:907:c282:b0:bec:5234:af7d with SMTP id a640c23a62f3a-bf0ac20eee8mr303970366b.6.1780537954214;
-        Wed, 03 Jun 2026 18:52:34 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf055307a35sm230614466b.52.2026.06.03.18.52.32
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 18:52:33 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-68ca6f01079so134921a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 18:52:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+cXj8DrqaYfTIS56I+2X9XupGlDOFP/EidvZLRzn8itkiKnljRrrBK98d8/NXoZ8DwTKh0WyyFuC7fY+8n@vger.kernel.org
-X-Received: by 2002:a05:6402:550a:b0:66d:d2f9:520c with SMTP id
- 4fb4d7f45d1cf-68e72250122mr2844444a12.19.1780537952777; Wed, 03 Jun 2026
- 18:52:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d75vosx3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780539424; x=1812075424;
+  h=date:from:to:cc:subject:message-id;
+  bh=h9+JqMvkk39BCvmTywoeqrhTMeL4OUZnpNwPjVejWBQ=;
+  b=d75vosx3xa/rgHx51FWEGibA46n0OyFC3zW7JU+9aaa91qpKE4AuM5s/
+   cXZdZBai9GsZaS3X4UmzVBDK/0mfgJ5NFjLRbq7JNUDrTaUtdjQHDNmr2
+   QNuUVXgMyr73T/b8nVQD2hWQjZBGCiP3rh6hJBeZFffdn96KxBfr2zUkK
+   I1DMO5TlSw5/00ZmvKpOgDSByq2JU/afhpWqBk4wI55tdEczBLFbY8O8b
+   Tt3FmeHTfIiQoOk3WAhmt6MherWKBt2fBHbD4HZllIK9LLE7ucjZKu2+V
+   rwso6J1vJTKvOAL9QofxjXkzVKQXfrn3rxboFsV9T03kUTWgx/Az+8H9k
+   w==;
+X-CSE-ConnectionGUID: ou6zQ0sxQ/eKXpaApYA75Q==
+X-CSE-MsgGUID: FEHagnYwRh2Yf69yxrUn1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81423504"
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="81423504"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 19:17:03 -0700
+X-CSE-ConnectionGUID: 46oUs8EjSxqb+IQrseWE1g==
+X-CSE-MsgGUID: XDUmo70xRI+BavpEgr2pSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="274644433"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 03 Jun 2026 19:17:02 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wUxdj-00000000E9o-1NuI;
+	Thu, 04 Jun 2026 02:16:59 +0000
+Date: Thu, 04 Jun 2026 10:16:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:more.configfs 33/33] fs/configfs/symlink.c:136:33:
+ warning: variable 'sd' set but not used
+Message-ID: <202606041019.eVNiH4jZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260531010107.1953702-1-safinaskar@gmail.com> <20260604004559.1112474-1-safinaskar@gmail.com>
-In-Reply-To: <20260604004559.1112474-1-safinaskar@gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 3 Jun 2026 18:52:15 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgPzxQL9Bdze=qnSa5v8A2D6cPaU0Bi=j4N38+ja1NkzQ@mail.gmail.com>
-X-Gm-Features: AVHnY4Ia6Rugs2gzhFv567LCSFsgwGvMvJbpyqp7BVsPOVMqNGKAIqxMQwoy6bY
-Message-ID: <CAHk-=wgPzxQL9Bdze=qnSa5v8A2D6cPaU0Bi=j4N38+ja1NkzQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: Askar Safin <safinaskar@gmail.com>
-Cc: akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org, 
-	david@kernel.org, dhowells@redhat.com, hch@infradead.org, jack@suse.cz, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu, 
-	netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de, 
-	viro@zeniv.linux.org.uk, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 3 Jun 2026 at 17:46, Askar Safin <safinaskar@gmail.com> wrote:
->
-> For example, in vmsplice I do "CLASS(fd, f)(fd)" and then I pass
-> "fd" (i. e. integer) to "do_writev/do_readv". I don't know whether
-> this is okay to do so.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git more.configfs
+head:   53a9faf145785b0b12ec71f2204f3b3011dbda5e
+commit: 53a9faf145785b0b12ec71f2204f3b3011dbda5e [33/33] kill configfs_dirent_is_ready()
+config: csky-randconfig-r073-20260604 (https://download.01.org/0day-ci/archive/20260604/202606041019.eVNiH4jZ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606041019.eVNiH4jZ-lkp@intel.com/reproduce)
 
-Oh, good point.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606041019.eVNiH4jZ-lkp@intel.com/
 
-It's ok in the sense that it will work, and it's not really going to
-cause problems, but it does mean that the 'struct file' will be looked
-up twice.
+All warnings (new ones prefixed by >>):
 
-And *technically* it's a TOCTOU race, where the first time you look it
-up - in the vmsplice() wrapper - it could be one file, and you make
-decisions based on that. And then pass it off to do_writev(), and it
-will look it up again, and now it might be a different file.
+   fs/configfs/symlink.c: In function 'configfs_symlink':
+>> fs/configfs/symlink.c:136:33: warning: variable 'sd' set but not used [-Wunused-but-set-variable=]
+     136 |         struct configfs_dirent *sd;
+         |                                 ^~
 
-Does it *matter*? No. Even if the file changed, and is now something
-else, it's just going to be a different file that the user does
-writev() on. do_writev() will still do all the appropriate safety
-checks etc, so it doesn't really change anything. It just means that
-you could pass what you *think* is a pipe (because you did that
 
-+       if (!get_pipe_info(fd_file(f), /* for_splice = */ false))
-+               return -EBADF;
+vim +/sd +136 fs/configfs/symlink.c
 
-and by the time do_writev() then looks up the fd again it might be
-something else, and now the user used vmsplice() as a really odd way
-to write to a another non-pipe file instead. But the user could have
-done that with a regular writev(), so it's just the user being silly -
-not something that really confuses the kernel.
+7063fbf2261194 Joel Becker       2005-12-15  130  
+7063fbf2261194 Joel Becker       2005-12-15  131  
+7a77db95511c39 Christian Brauner 2023-01-13  132  int configfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
+549c7297717c32 Christian Brauner 2021-01-21  133  		     struct dentry *dentry, const char *symname)
+7063fbf2261194 Joel Becker       2005-12-15  134  {
+7063fbf2261194 Joel Becker       2005-12-15  135  	int ret;
+2a109f2a4155f1 Louis Rilling     2008-07-04 @136  	struct configfs_dirent *sd;
+7063fbf2261194 Joel Becker       2005-12-15  137  	struct config_item *parent_item;
+3c48f23adada87 Subrata Modak     2009-04-19  138  	struct config_item *target_item = NULL;
+aa293583f0fe8b Bhumika Goyal     2017-10-16  139  	const struct config_item_type *type;
+7063fbf2261194 Joel Becker       2005-12-15  140  
+2a109f2a4155f1 Louis Rilling     2008-07-04  141  	sd = dentry->d_parent->d_fsdata;
+2a109f2a4155f1 Louis Rilling     2008-07-04  142  
+7063fbf2261194 Joel Becker       2005-12-15  143  	parent_item = configfs_get_config_item(dentry->d_parent);
+7063fbf2261194 Joel Becker       2005-12-15  144  	type = parent_item->ci_type;
+7063fbf2261194 Joel Becker       2005-12-15  145  
+2a109f2a4155f1 Louis Rilling     2008-07-04  146  	ret = -EPERM;
+7063fbf2261194 Joel Becker       2005-12-15  147  	if (!type || !type->ct_item_ops ||
+7063fbf2261194 Joel Becker       2005-12-15  148  	    !type->ct_item_ops->allow_link)
+7063fbf2261194 Joel Becker       2005-12-15  149  		goto out_put;
+7063fbf2261194 Joel Becker       2005-12-15  150  
+351e5d869e5ac1 Al Viro           2019-08-03  151  	/*
+351e5d869e5ac1 Al Viro           2019-08-03  152  	 * This is really sick.  What they wanted was a hybrid of
+351e5d869e5ac1 Al Viro           2019-08-03  153  	 * link(2) and symlink(2) - they wanted the target resolved
+351e5d869e5ac1 Al Viro           2019-08-03  154  	 * at syscall time (as link(2) would've done), be a directory
+351e5d869e5ac1 Al Viro           2019-08-03  155  	 * (which link(2) would've refused to do) *AND* be a deep
+351e5d869e5ac1 Al Viro           2019-08-03  156  	 * fucking magic, making the target busy from rmdir POV.
+351e5d869e5ac1 Al Viro           2019-08-03  157  	 * symlink(2) is nothing of that sort, and the locking it
+351e5d869e5ac1 Al Viro           2019-08-03  158  	 * gets matches the normal symlink(2) semantics.  Without
+351e5d869e5ac1 Al Viro           2019-08-03  159  	 * attempts to resolve the target (which might very well
+351e5d869e5ac1 Al Viro           2019-08-03  160  	 * not even exist yet) done prior to locking the parent
+351e5d869e5ac1 Al Viro           2019-08-03  161  	 * directory.  This perversion, OTOH, needs to resolve
+351e5d869e5ac1 Al Viro           2019-08-03  162  	 * the target, which would lead to obvious deadlocks if
+351e5d869e5ac1 Al Viro           2019-08-03  163  	 * attempted with any directories locked.
+351e5d869e5ac1 Al Viro           2019-08-03  164  	 *
+351e5d869e5ac1 Al Viro           2019-08-03  165  	 * Unfortunately, that garbage is userland ABI and we should've
+351e5d869e5ac1 Al Viro           2019-08-03  166  	 * said "no" back in 2005.  Too late now, so we get to
+351e5d869e5ac1 Al Viro           2019-08-03  167  	 * play very ugly games with locking.
+351e5d869e5ac1 Al Viro           2019-08-03  168  	 *
+351e5d869e5ac1 Al Viro           2019-08-03  169  	 * Try *ANYTHING* of that sort in new code, and you will
+351e5d869e5ac1 Al Viro           2019-08-03  170  	 * really regret it.  Just ask yourself - what could a BOFH
+351e5d869e5ac1 Al Viro           2019-08-03  171  	 * do to me and do I want to find it out first-hand?
+351e5d869e5ac1 Al Viro           2019-08-03  172  	 *
+351e5d869e5ac1 Al Viro           2019-08-03  173  	 *  AV, a thoroughly annoyed bastard.
+351e5d869e5ac1 Al Viro           2019-08-03  174  	 */
+351e5d869e5ac1 Al Viro           2019-08-03  175  	inode_unlock(dir);
+1b25dea3867abc Al Viro           2025-09-04  176  	ret = get_target(symname, &target_item, dentry->d_sb);
+351e5d869e5ac1 Al Viro           2019-08-03  177  	inode_lock(dir);
+7063fbf2261194 Joel Becker       2005-12-15  178  	if (ret)
+7063fbf2261194 Joel Becker       2005-12-15  179  		goto out_put;
+7063fbf2261194 Joel Becker       2005-12-15  180  
+351e5d869e5ac1 Al Viro           2019-08-03  181  	if (dentry->d_inode || d_unhashed(dentry))
+351e5d869e5ac1 Al Viro           2019-08-03  182  		ret = -EEXIST;
+351e5d869e5ac1 Al Viro           2019-08-03  183  	else
+4609e1f18e19c3 Christian Brauner 2023-01-13  184  		ret = inode_permission(&nop_mnt_idmap, dir,
+47291baa8ddfda Christian Brauner 2021-01-21  185  				       MAY_WRITE | MAY_EXEC);
+351e5d869e5ac1 Al Viro           2019-08-03  186  	if (!ret)
+7063fbf2261194 Joel Becker       2005-12-15  187  		ret = type->ct_item_ops->allow_link(parent_item, target_item);
+e7520651750446 Louis Rilling     2008-06-12  188  	if (!ret) {
+9a73d78cda750f Louis Rilling     2008-06-20  189  		mutex_lock(&configfs_symlink_mutex);
+7063fbf2261194 Joel Becker       2005-12-15  190  		ret = create_link(parent_item, target_item, dentry);
+9a73d78cda750f Louis Rilling     2008-06-20  191  		mutex_unlock(&configfs_symlink_mutex);
+e7520651750446 Louis Rilling     2008-06-12  192  		if (ret && type->ct_item_ops->drop_link)
+e7520651750446 Louis Rilling     2008-06-12  193  			type->ct_item_ops->drop_link(parent_item,
+e7520651750446 Louis Rilling     2008-06-12  194  						     target_item);
+e7520651750446 Louis Rilling     2008-06-12  195  	}
+7063fbf2261194 Joel Becker       2005-12-15  196  
+7063fbf2261194 Joel Becker       2005-12-15  197  	config_item_put(target_item);
+7063fbf2261194 Joel Becker       2005-12-15  198  
+7063fbf2261194 Joel Becker       2005-12-15  199  out_put:
+7063fbf2261194 Joel Becker       2005-12-15  200  	config_item_put(parent_item);
+7063fbf2261194 Joel Becker       2005-12-15  201  	return ret;
+7063fbf2261194 Joel Becker       2005-12-15  202  }
+7063fbf2261194 Joel Becker       2005-12-15  203  
 
-Coimpletely harmless, in other words.
+:::::: The code at line 136 was first introduced by commit
+:::::: 2a109f2a4155f168047aa2f5b3a170e279bef89a [PATCH] configfs: Prevent userspace from creating new entries under attaching directories
 
-But it would probably be *cleaner* to pass in the 'struct file *'
-pointer that you already looked up once instead, and use vfs_writev()
-instead of do_writev().
+:::::: TO: Louis Rilling <louis.rilling@kerlabs.com>
+:::::: CC: Mark Fasheh <mfasheh@suse.com>
 
-And I do suspect that the wrapper system call should use the same
-
-   SYSCALL_DEFINE4(vmsplice, int, fd, ..
-
-that the original used. Because it somebody crazy had the high bits
-set in 'fd', the old vmsplice() system call didn't care, but your new
-emulation system call will actually see the high bits on a 64-bit
-architecture.
-
-Again - that doesn't actually *matter*, because "CLASS(fd)" takes an
-"int fd" and those high bits will be masked out at use time both in
-vmsplice() and in do_readv/writev().
-
-So it won't affect any behavior, but it does look a bit odd in the conversion.
-
-And I already answered Christian wrt the change in behavior: I think
-RWF_NOWAIT should always be set on the writing side - because splice()
-never waited after it filled a pipe - and instead that
-SPLICE_F_NONBLOCK flag should be used before write to check for
-whether we'll wait *before* doing the write like it used to do with
-
-        ret = wait_for_space(pipe, flags);
-
-in vmsplice_to_pipe().
-
-(On the other side, vmsplice_from_pipe() used to do
-pipe_clear_nowait(), but I think that becomes a non-issue with the
-conversion to readv()).
-
-And once you need wait_for_space(), that probably means that the new
-vmsplice() wrapper simpler needs to remain inside fs/splice.c, and we
-just need to make vfs_readv/vfs_writev non-static.
-
-              Linus
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
