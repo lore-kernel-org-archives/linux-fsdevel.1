@@ -1,422 +1,581 @@
-Received: from mxout5.mail.janestreet.com (mxout5.mail.janestreet.com [64.215.233.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5D63A59B1
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 18:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=64.215.233.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EDD3C13FD
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 19:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780599155; cv=fail; b=cj7Rhdf5nOPsRRgds6KxzvtAV4KoCSwLqrPx9PXJP1LlGAKcmMxeq+yA77JUQtkFo7yxK76ecfv7dn0+k6waHGeaZoTdWMtRFWNKAiYoFTIVzilltC2gi1dFm9x29uw3twtoFKZdJDYrEVUHCVdenNqgkE3zGvr+VNa/X49qzzs=
+	t=1780601191; cv=pass; b=FP6miczRtBCNkXfjlBbzSpkgE/YhvlhIKNr0M6DtBgrrrevzo6Pk4dbnRSZqINfu24OyZ/XyEWtBI0d+8pZ4c5HKJaZ97Mp0FFWCSm7XAMy1gi3C7Z16OyeRTLqUwDILt5pF13TR3qDAMGXXFjORK57SXZ/lRBepU0eADHn5bsY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780599155; c=relaxed/simple;
-	bh=8heG/pRYsdnPv2dWN2tSZbVHLmOj332tTquy6KRDXhE=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=BlmGRz4xKyPZrBhbTC7nnqk4/isSt5tzw+zqldOhilPZfNsqUE8blu71Uoladgf5PSwJwxJ4T3kgA9ud9+AO6SV/hd2P+d4gU0aJIekex0D4TUnmcemmyNta+LTY8bokaa2nhN1+AqLacCDPqom9pJnZA0/mvcb/w+IADQinmwA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=janestreet.com; spf=pass smtp.mailfrom=janestreet.com; dkim=pass (1024-bit key) header.d=janestreet.com header.i=@janestreet.com header.b=L5epZKPy; dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.b=2fBWv8gF; arc=fail smtp.client-ip=64.215.233.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=janestreet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=janestreet.com
+	s=arc-20240116; t=1780601191; c=relaxed/simple;
+	bh=kEF9Ei2YsSRLGZixjkWOR6wX/M+xz6FF17rppl8xZ4Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n4S6sK5Eh+xEJx8P+dNLrkGAdvl2/EvrTuRZscBN4e1wfLaSWyOLP4iufUaYJrN56Ou7z4dSqGTNYAkVAga8IAl3Olk2WuWaNmZBMO6Wk4ck5O5CVHTTx99k3M5hV/H5TG5YZGsSL2e9nRk+uY2q7ZZEJ8F1QP0KI34GO3tiTOs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oAnQgemb; arc=pass smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=janestreet.com header.i=@janestreet.com header.b="L5epZKPy";
-	dkim=pass (2048-bit key) header.d=janestreet.com header.i=@janestreet.com header.b="2fBWv8gF"
-Received: from mail-lf1-f71.google.com ([209.85.167.71])
- 	by mxgoog2.mail.janestreet.com with esmtps (TLS1.3:TLS_AES_128_GCM_SHA256:128)
- 	(Exim 4.99.4)
- 	id 1wVD61-00000000R2J-2Wcp
- 	for linux-fsdevel@vger.kernel.org;
- 	Thu, 04 Jun 2026 14:47:13 -0400
-Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-5aa68e50948so603464e87.3
-         for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 11:47:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780598832; cv=none;
-         d=google.com; s=arc-20240605;
-         b=iipl3AoL2ImETHfiavkLM4nTyf9ZiyTGAwPFLo0v8mLsDoaeRer0kog/qKTjwjESOW
-          ocBUmZOAUKW3MltLqsgMPDn8QETbRoUpChK/TWCvuARBR3+d77MuOxmumHYfBi6aTHju
-          +4P7Up6hYTi8ssopSQuFIqGEPPrWzNKW8IpR6lj8/j6YLCWSzSrwUHiuraJ6EL8pZLci
-          lrHblgGFtJub7QDqEx2MzU5AyO0keKRkiOJ1FC29AElx1iyaMd4ztfJO/HKGVXbQ1E9T
-          4mACbtmrIFyXVomF6F6dYHRbnEgXcBEbkMoJjnaDkTuR2yTXrofVF2YWL0gkxetFGgG3
-          ObIA==
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oAnQgemb"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5175d339e8bso96341cf.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 12:26:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780601187; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jiU3jv/yCy+K5W8DMvDDDH+5IuDjEASIqqWVjoHjftLDxx84lYnQrI9Jg/lSbi7sJs
+         T9mr2q/cjx+2zB2mZlzdxY1Bci1vnxwxBUQgCwLDryVJcoDljSXpHXB7oYzhL4r/t9LD
+         81x6ier/l1XRiUjELzJr0jwCOpTTLGwLA2+EPw5ZwRhluGhZioGF1ZpXv0mYkCUtHgzI
+         rEWO32OqZWPkLlPFWPC49i9B1hNQlwTl0nI/4CRxC/WmesavnLLIoRO+c2Qa0ZRbRczJ
+         vlTd5B7D/arCA9vxWSPcOc+5PnhmsZixeYSani9OJyqGyxk2Dl+fxdDC/VaXsY1JJXzA
+         2VKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-         h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-         bh=lQCuVGxP/BV7D5/gaSpLO06j/STwXOEP1EwPpL+2jB0=;
-         fh=2Nr0Fgthoh8Y7kVuGTu2CtU4Z8DuLjTFHpgNzpo2E6A=;
-         b=R+4icw2KnO/0fqm8RUPl3DDKAWo088ExgkH7cF8RQ6p6HE34MTCjcdpNdAAu3bizZM
-          Lmj2Ve5jVVUJ9EG1ASKHfzlZQEx5n4ILJvitNpgV/+5U0g7jrverrnjx1UGWG6zScl5+
-          QSVBsZ19JmVsAmamoLMykuwQ6Pxp7yu7AwQNZK3IZ5LGYtfGnWiPHRGJHUh7uWkQYXb2
-          D7YyzkzBPavXvTGXi6ry/bdhlNuEi5bbrd3x6KHlTuwILJaf2JENDCkoLG+7zR/rs6MJ
-          oKnZKjxXdvs1VyL7UT3ema7XeqObs3bo8Tk9T4qxsCAw46D0cGSkGmqgxZh1tuep24YE
-          gWLg==;
-         darn=vger.kernel.org
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=W244zF0LrajchLI6hQjM9YMPBGg1nmKsffDjR7F4q1E=;
+        fh=qQbgS3mlVqksybm94OYUvx1eXXmiUXYNfdJ9zwta/tQ=;
+        b=G+BuLjDtQgPJa20obMJw7xuQJHBUeTieG2n0x1l90IveimOBkGAehV2cz5TwFFKJ9d
+         Fz8iB3M5mGl8TKnZsEMozdPyiwms+oR2K4gOh2TPP8Xgyc78IxmNEwi8P29EcbxLcTZ8
+         Vva+n5/TSS4fJO9wuZo+Yh8+U4IcQAT+P0P7sgalLkwI7SoB8LV3IbwD2W0kHmbfTgq5
+         TlFnP3LChdKCdTPDoYzGvm7h+hfo0vrVK0XAKy71JgoUiKtAZl6WN2Kvx+xIYQrtsYU5
+         HQk52bMxIAYIuEIQbBfcrVtNW2WcDXYgy6BX7OASgKfTQCN/XSGYzEx3O4A+/6TmeADH
+         LcNw==;
+        darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-         d=janestreet.com; s=google; t=1780598832; x=1781203632; darn=vger.kernel.org;
-         h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-          :date:message-id:reply-to;
-         bh=lQCuVGxP/BV7D5/gaSpLO06j/STwXOEP1EwPpL+2jB0=;
-         b=L5epZKPyjAyYw9xn6/9PHSY+dShZcNZXBossYKByyvc/tVqKbDA4WI1CticlyWW7N3
-          W1m+T4cHYSS0l77xYEbJSqugkkLsG5JvyPeIoOnjwey6qVyZdacuKXkqGYCj4IhUm7na
-          P6gOsEVvH+3plqfM9qEl7BYVF9vEAV8aYDpLI=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=janestreet.com;
-  s=waixah; t=1780598833;
-  bh=lQCuVGxP/BV7D5/gaSpLO06j/STwXOEP1EwPpL+2jB0=;
-  h=From:Date:Subject:To:Cc;
-  b=2fBWv8gFFz4PsLZWziE17Y+D5qFv14ktW6YXx6gJyN9gfpv/n4PHPfVajdS1oRWKw
-  q9kStJqXAItN/CP/v03uSDS4o8OylP90w2pbPkBfVbcn9SgAJX8I47TZzuN5xC21eo
-  JHCT1nRFdCVPz27qPhdQOI7XqzleXFRFVKyuVimcysWmCNlRoQWpIRsrNtKLW+ey37
-  aix2+ZZ0Oix0hhIFKhrCX8i8OFYW3+uU2d2I2Bgdy3y9nyK//pRpkTWeutId059MFm
-  0lRTfbbm44i00GpOy2PmwLDzzYOuw/Y0TYD6HM0IhZ9n42P0oPoLkt26mT0GKI+juD
-  kgmH7m3TfpKnw==
+        d=google.com; s=20251104; t=1780601187; x=1781205987; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W244zF0LrajchLI6hQjM9YMPBGg1nmKsffDjR7F4q1E=;
+        b=oAnQgembWKe941bNoY/fjLYFZcGvLG/ZNqsl9iNKEiro+n8dhDt+eg5TXvEmDiGGMg
+         MpI+fhTGtedBSAHwL3jVJ+WEFv0dzbBcPjy62H59k48rJ52+EhhwQ5G5gMprcZ8MerRK
+         guHl5gcTJqDx4TN+yhgs9adDAEfDFhCE/sbEmt85YkIA2rr1/6yMNMhBVkqJH+cdvk5s
+         FVL4VhKJzhKPLEOotq0thwu230LBElACcfi+W+L5oNsRpPa4vzDGxZufBEHAup0K/jaK
+         sAO0F76MjtuiOe/03xVqf0AZC/iZSIl6kZeAPdRzFzcLGX/dBdfWdkFaNIARuPbRyrxT
+         W09g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-         d=1e100.net; s=20251104; t=1780598832; x=1781203632;
-         h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-         bh=lQCuVGxP/BV7D5/gaSpLO06j/STwXOEP1EwPpL+2jB0=;
-         b=RPhZFt9OzDe5JF9ReVEFNqxHFafo4HumPxBO918uSJVUkp/QvFi+v2tRHsc5v4eQS2
-          QIkxJgHc6wJfDo7U6klrjETqnBN3LoWKe3PioJfcaHt6Udp4lpWcZ2hSWquXAURoukR8
-          VvmpwfoJOmBS5GCS5WnE0uiw/hWcDZ1NXnJb2vhFmpwztBq71GHrFAsKSqqaAK8o0M7J
-          wpk10xjKwXWsAfvBMLxBVj46e8HwmwK2sacguIASZRpKUwBuiEOVbzBKwPHeM1JwUweo
-          7lM8+DrQcdvAXj3nUirocMk2+RiuyZb4Z1aeZpASYGSkXyibus1TwvvItmdil+oa3cHv
-          AwVA==
-X-Forwarded-Encrypted: i=1; AFNElJ+O3gpmPFIYapppcLDskRa3eIey/b5857emzbST/VGFIHKRna0+a1/07reZHAoF/yD0gfU15jOCL9bLzgkc@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsP6Wqd6oHS+Fib6MVa4WGZQv6PHq4bE9iFfQ66E/Z72QKhwFD
- 	32r6Mf0uwr4oYf7t19COHklCA8Wn/XafvyCMBmho/WHe93qDO1SopSwqppslVWe5U9y2Li6mBTe
- 	aF5mPDuqjWdGQVdKaKBVLuafr8O4xH/RH/nGR6qpAbDw8M3KdZZDcwYG3x9IW9EkC1TtqSw2p4R
- 	RAM4nUBfJZstKQPoIrNoLHha6yxF0sCV6k0HJpgR8h
-X-Gm-Gg: Acq92OF6Acn+rWdWVGPqEqq1K3jiIqEdXM6vui6n3/mvSyuZtIPUYtpcuLEUxinNWvc
- 	KmKeffhhij/qEr6TwYdG25tRBfz9MB7sCQsO1S7yqsKt1dmfwK58syuflB9j4zWc3YHfa1BXzgz
- 	kAk5yZrWfiLumrYVb0URsc1EjGGPOxGMZ8jABid3lFu9n049//tsJIwyOHiOEZi42+/6dgc6//U
- 	Y2FmGduxdCRxcOk
-X-Received: by 2002:a05:6512:124c:b0:5aa:6df7:4ea9 with SMTP id 2adb3069b0e04-5aa87bcacc8mr10561e87.35.1780598832327;
-         Thu, 04 Jun 2026 11:47:12 -0700 (PDT)
-X-Received: by 2002:a05:6512:124c:b0:5aa:6df7:4ea9 with SMTP id
-  2adb3069b0e04-5aa87bcacc8mr10551e87.35.1780598831837; Thu, 04 Jun 2026
-  11:47:11 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780601187; x=1781205987;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=W244zF0LrajchLI6hQjM9YMPBGg1nmKsffDjR7F4q1E=;
+        b=qxFyFyf+VpyQnCEncpUE7qR30S9bG8rwQywranB86HCVop9VwIgXfUssmjKgCjRd21
+         jMMTH1DNaJk8Ew45Q1/PhD6XeJWBKK1ISRjZyIHpFU4qLKnSyxzsslZ1JOgC0E/dVKCh
+         V0Qjuwkui3KyHc4WP10Kp28WL+IlzkGSntnqy2pViLSAQSsfwflmqW5AV8HiIoN00t/b
+         sHSJiqWWtCLsmJOcUD2Mgi9Pm6atFKTRJgteBCQHnAoyL/QqzAYURxNsleXUsk8/jCPt
+         3dx8BpICWrPYbWBlQlge6MOqhKS3va0TW/ZRjrI/MXobBpZsM+uUH4L6EQdfDySstG8y
+         ekVw==
+X-Forwarded-Encrypted: i=1; AFNElJ+EmKtNQp1LihmSULsbj8yzvnEaL+VGpUunwzkD7M0LSBlTg/5X8URog3YZWmaBc8maXH4JhAw5KaaYsnIo@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBWvVHfu4hNQtMJOix5HF9t0LYmWtho+wMCt22n/QGXJHdFspP
+	VhGHMrlU8e7wcpnkkpj9v0J9ftQZaaYQXBbV+/rMRNP8rS2NDSSZ0ogo8whAcQNT8c7JmqR3+I1
+	1OKVxJKqz/Tckt/3p4AtpMBIbyeT983XT3YiVQ5Nr
+X-Gm-Gg: Acq92OF6gKkC/k/vK0KVB2DDNaj3zKxQIS3RR81AJq1BoZqG8WirbsrP456wjFMEx8n
+	Ic6cPmE/MPP13NcvJGbMpLwrq/0TXsAdLakpkmgqdGy52pEQDmcjlRRzuB+EJgOQQnVRmOo98SA
+	P4SN9+o2a+XsY0Nvvnu5qmrdiu3LA1LjfiUKluNHihec6FWRlgtCEmBtY9AKA66yHamBPMt3ZCK
+	AHLAkZWij29SEsypOmMNQ/kzCqt7sf+0CRxS9v9fuIH+zeQYBO7zN/y0BBWoXzljyrjydevy6y+
+	Q0t6yxdYjYxP4WRjMAJ6gXfoaJFXfj1aCR/J0Ml5OTHg8UtQPifMHPv05g==
+X-Received: by 2002:a05:622a:a950:b0:510:fa1:73c5 with SMTP id
+ d75a77b69052e-5179542f418mr1158581cf.16.1780601186114; Thu, 04 Jun 2026
+ 12:26:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Gregg Leventhal <gleventhal@janestreet.com>
-Date: Thu, 4 Jun 2026 14:46:33 -0400
-X-Gm-Features: AVHnY4JX0Q2JrT_P8ExKcbOaAxWCVdhJ719iXGaFfyvnGit06GPdlxX2aHAE0J4
-Message-ID: <CAFN_u7FrgM4Dzie2jjkLwWV8P0dvUG_Wwy3Q9B3-2HnnWiDu8w@mail.gmail.com>
-Subject: [BUG] iomap/io_uring: O_APPEND async buffered write silently
-  re-appends a data chunk (corruption) on XFS, 6.1.y/6.12.y
-To: hch@infradead.org, djwong@kernel.org, bfoster@redhat.com, 
- 	Eric Hagberg <ehagberg@janestreet.com>
-Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- 	io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, stable@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000dc1e61065371f8a6"
-
---000000000000dc1e61065371f8a6
-Content-Type: multipart/alternative; boundary="000000000000dc1e5f065371f8a4"
-
---000000000000dc1e5f065371f8a4
+References: <20260426062718.1238437-1-surenb@google.com> <20260426062718.1238437-2-surenb@google.com>
+ <ahhMEBYM9bixF2Lg@lucifer> <CAJuCfpFJvuFZkgKwJ11RjDXYhTz-a31HO9-5C+Yc=KxbsGvB-w@mail.gmail.com>
+ <aiElxkLHn2yC3W_3@lucifer>
+In-Reply-To: <aiElxkLHn2yC3W_3@lucifer>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 4 Jun 2026 12:26:14 -0700
+X-Gm-Features: AVVi8Cc-CWjsfctvx8_6qqwKKd85h79SSC-SUCCSMuyGDG9ngwwbB7Bwu_Kzo5E
+Message-ID: <CAJuCfpGWeLz7RBVYHTnMpH2O77yb9MtjMKRK1LrgijafC_0mSw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] fs/proc/task_mmu: read proc/pid/{smaps|numa_maps}
+ under per-vma lock
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, 
+	david@redhat.com, willy@infradead.org, jannh@google.com, paulmck@kernel.org, 
+	pfalcato@suse.de, shuah@kernel.org, hsukrut3@gmail.com, 
+	richard.weiyang@gmail.com, reddybalavignesh9979@gmail.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-
-Hi all,
-
-We're seeing silent data corruption -- a chunk of a buffered write being
-silently repeated at a later offset -- when using io_uring async buffered
-writes with O_APPEND on XFS. It reproduces on the longterm stable trees
-6.1.y and 6.12.y under memory pressure, and is fixed in 6.18.y.
-
-Summary
--------
-On XFS, an io_uring async buffered write to a file opened O_APPEND can
-silently write a chunk of data twice. This is not a harmless in-place
-rewrite: a page-aligned, page-multiple sub-range is re-appended at a later
-offset, so the file grows and ends up containing the same run of bytes
-twice in sequence (and everything after the duplicate is shifted relative
-to what was intended). The CQE reports the full requested byte count
-(userspace sees success), the resulting file is larger than the total
-bytes the kernel reported writing, and there is no error and no dmesg
-warning.
-
-Affected kernels (vanilla stable trees; we run ELRepo builds of userspace)
-  - 6.1.173   (observed as 6.1.173-1.el8.x86_64)
-  - 6.12.85   (observed as 6.12.85-1.el8.x86_64)
-Filesystem: XFS
-
-Unaffected:
-  - 6.18.y
-
-Trigger conditions
-------------------
-  - O_APPEND specific. With an explicit file offset (no O_APPEND) we do
-    not observe the corruption.
-  - Only manifests under memory pressure. The reproducer triggers
-    reliably when the system is under enough memory/paging pressure and
-    does not reproduce on an otherwise idle box.
-
-Root cause (our understanding)
-------------------------------
-Under memory pressure the inline IOCB_NOWAIT attempt commits a partial,
-non-page-aligned amount and returns short at a page boundary. The pre-fix
-iomap_write_iter() reverts the iov_iter by the bytes already written and
-returns -EAGAIN:
-
-    } while (iov_iter_count(i) && length);
-
-    if (status == -EAGAIN) {
-        iov_iter_revert(i, total_written);
-        return -EAGAIN;
-    }
-    return total_written ? total_written : status;
-
-io_uring then reissues the page-aligned remainder on io-wq. Because the
-write is O_APPEND, the offset is re-resolved to the current EOF, which now
-already includes the bytes committed by the inline attempt. The result is
-that a page-aligned sub-range is written a second time, re-appended past
-the new EOF rather than landing where it was originally intended.
-
-What fixes it
--------------
-We did not bisect. We identified Brian Foster's "iomap: incremental
-per-operation iter advance" series as the likely relevant change,
-backported it to the affected kernel, and confirmed it makes the
-reproducer pass. The series was merged for v6.15:
-
-
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.18.y&id=30f530096166202cf70e1b7d1de5a8cdfba42af1
-
-It reworks iomap_write_iter() to advance iter->pos/iter->len incrementally
-(iomap_iter_advance) and removes the iov_iter_revert/-EAGAIN handling, so
-retries resume from the correct offset. The buffered-write change is in
-"iomap: advance the iter directly on buffered writes" (d9dc477ff6a2), but
-it depends on the earlier infrastructure patches in the same series.
-
-Detection in the reproducer (both silent)
------------------------------------------
-  1) final file size > sum of CQE byte counts the kernel reported.
-  2) the file is filled with a u64 "byte offset / 8" pattern, so on
-     readback element j must equal j; the first mismatch marks the start
-     of the duplicated copy (observed to be page-aligned).
-
-Reproducer
-----------
-Build: gcc -O2 -o repro_uring_dup repro_uring_dup.c -luring
-Run:   ./repro_uring_dup /path/on/xfs/repro [seconds] [file_target_mb]
-Needs the system under memory pressure to trigger; under those conditions
-it reproduces reliably. Source attached (repro_uring_dup.c).
-
-Notes on stable
----------------
-The fix is a refactor with no Fixes: tag, and the buffered-write commit
-builds on the preceding patches in the series, so a single-commit
-cherry-pick into 6.1.y / 6.12.y doesn't look feasible. We're wondering
-whether a smaller, targeted fix would be more backportable for the active
-LTS trees -- e.g. ensuring the -EAGAIN retry path keeps the append
-position consistent with the reverted iov_iter so the already-committed
-range isn't re-appended -- but we'd defer to your judgment on whether that
-is sound or whether backporting the series as a unit is the better path.
-Given this is silent data corruption present since io_uring async buffered
-write support (~v6.0), we'd appreciate guidance on the right approach.
-
-Happy to test patches and provide any additional detail.
-
-Regards,
-Gregg Leventhal <gleventhal@janestreet.com> and Eric Hagberg <
-ehagberg@janestreet.com>
-
---000000000000dc1e5f065371f8a4
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi all,<br><br>We&#39;re seeing silent data corruption -- =
-a chunk of a buffered write being<br>silently repeated at a later offset --=
- when using io_uring async buffered<br>writes with O_APPEND on XFS. It repr=
-oduces on the longterm stable trees<br>6.1.y and 6.12.y under memory pressu=
-re, and is fixed in 6.18.y.<br><br>Summary<br>-------<br>On XFS, an io_urin=
-g async buffered write to a file opened O_APPEND can<br>silently write a ch=
-unk of data twice. This is not a harmless in-place<br>rewrite: a page-align=
-ed, page-multiple sub-range is re-appended at a later<br>offset, so the fil=
-e grows and ends up containing the same run of bytes<br>twice in sequence (=
-and everything after the duplicate is shifted relative<br>to what was inten=
-ded). The CQE reports the full requested byte count<br>(userspace sees succ=
-ess), the resulting file is larger than the total<br>bytes the kernel repor=
-ted writing, and there is no error and no dmesg<br>warning.<br><br>Affected=
- kernels (vanilla stable trees; we run ELRepo builds of userspace)<br>=C2=
-=A0 - 6.1.173 =C2=A0 (observed as 6.1.173-1.el8.x86_64)<br>=C2=A0 - 6.12.85=
- =C2=A0 (observed as 6.12.85-1.el8.x86_64)<br>Filesystem: XFS<br><br>Unaffe=
-cted:<br>=C2=A0 - 6.18.y<br><br>Trigger conditions<br>------------------<br=
->=C2=A0 - O_APPEND specific. With an explicit file offset (no O_APPEND) we =
-do<br>=C2=A0 =C2=A0 not observe the corruption.<br>=C2=A0 - Only manifests =
-under memory pressure. The reproducer triggers<br>=C2=A0 =C2=A0 reliably wh=
-en the system is under enough memory/paging pressure and<br>=C2=A0 =C2=A0 d=
-oes not reproduce on an otherwise idle box.<br><br>Root cause (our understa=
-nding)<br>------------------------------<br>Under memory pressure the inlin=
-e IOCB_NOWAIT attempt commits a partial,<br>non-page-aligned amount and ret=
-urns short at a page boundary. The pre-fix<br>iomap_write_iter() reverts th=
-e iov_iter by the bytes already written and<br>returns -EAGAIN:<br><br>=C2=
-=A0 =C2=A0 } while (iov_iter_count(i) &amp;&amp; length);<br><br>=C2=A0 =C2=
-=A0 if (status =3D=3D -EAGAIN) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 iov_iter_re=
-vert(i, total_written);<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EAGAIN;<br>=
-=C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 return total_written ? total_written : sta=
-tus;<br><br>io_uring then reissues the page-aligned remainder on io-wq. Bec=
-ause the<br>write is O_APPEND, the offset is re-resolved to the current EOF=
-, which now<br>already includes the bytes committed by the inline attempt. =
-The result is<br>that a page-aligned sub-range is written a second time, re=
--appended past<br>the new EOF rather than landing where it was originally i=
-ntended.<br><br>What fixes it<br>-------------<br>We did not bisect. We ide=
-ntified Brian Foster&#39;s &quot;iomap: incremental<br>per-operation iter a=
-dvance&quot; series as the likely relevant change,<br>backported it to the =
-affected kernel, and confirmed it makes the<br>reproducer pass. The series =
-was merged for v6.15:<br><br>=C2=A0 <a href=3D"https://git.kernel.org/pub/s=
-cm/linux/kernel/git/stable/linux.git/commit/?h=3Dlinux-6.18.y&amp;id=3D30f5=
-30096166202cf70e1b7d1de5a8cdfba42af1">https://git.kernel.org/pub/scm/linux/=
-kernel/git/stable/linux.git/commit/?h=3Dlinux-6.18.y&amp;id=3D30f5300961662=
-02cf70e1b7d1de5a8cdfba42af1</a><br><br>It reworks iomap_write_iter() to adv=
-ance iter-&gt;pos/iter-&gt;len incrementally<br>(iomap_iter_advance) and re=
-moves the iov_iter_revert/-EAGAIN handling, so<br>retries resume from the c=
-orrect offset. The buffered-write change is in<br>&quot;iomap: advance the =
-iter directly on buffered writes&quot; (d9dc477ff6a2), but<br>it depends on=
- the earlier infrastructure patches in the same series.<br><br>Detection in=
- the reproducer (both silent)<br>-----------------------------------------<=
-br>=C2=A0 1) final file size &gt; sum of CQE byte counts the kernel reporte=
-d.<br>=C2=A0 2) the file is filled with a u64 &quot;byte offset / 8&quot; p=
-attern, so on<br>=C2=A0 =C2=A0 =C2=A0readback element j must equal j; the f=
-irst mismatch marks the start<br>=C2=A0 =C2=A0 =C2=A0of the duplicated copy=
- (observed to be page-aligned).<br><br>Reproducer<br>----------<br>Build: g=
-cc -O2 -o repro_uring_dup repro_uring_dup.c -luring<br>Run: =C2=A0 ./repro_=
-uring_dup /path/on/xfs/repro [seconds] [file_target_mb]<br>Needs the system=
- under memory pressure to trigger; under those conditions<br>it reproduces =
-reliably. Source attached (repro_uring_dup.c).<br><br>Notes on stable<br>--=
--------------<br>The fix is a refactor with no Fixes: tag, and the buffered=
--write commit<br>builds on the preceding patches in the series, so a single=
--commit<br>cherry-pick into 6.1.y / 6.12.y doesn&#39;t look feasible. We&#3=
-9;re wondering<br>whether a smaller, targeted fix would be more backportabl=
-e for the active<br>LTS trees -- e.g. ensuring the -EAGAIN retry path keeps=
- the append<br>position consistent with the reverted iov_iter so the alread=
-y-committed<br>range isn&#39;t re-appended -- but we&#39;d defer to your ju=
-dgment on whether that<br>is sound or whether backporting the series as a u=
-nit is the better path.<br>Given this is silent data corruption present sin=
-ce io_uring async buffered<br>write support (~v6.0), we&#39;d appreciate gu=
-idance on the right approach.<br><br>Happy to test patches and provide any =
-additional detail.<br><br>Regards,<br>Gregg Leventhal &lt;<a href=3D"mailto=
-:gleventhal@janestreet.com">gleventhal@janestreet.com</a>&gt; and Eric Hagb=
-erg &lt;<a href=3D"mailto:ehagberg@janestreet.com">ehagberg@janestreet.com<=
-/a>&gt;<br></div>
+On Thu, Jun 4, 2026 at 12:14=E2=80=AFAM Lorenzo Stoakes <ljs@kernel.org> wr=
+ote:
+>
+> On Wed, Jun 03, 2026 at 04:49:48PM -0700, Suren Baghdasaryan wrote:
+> > On Thu, May 28, 2026 at 8:17=E2=80=AFAM Lorenzo Stoakes <ljs@kernel.org=
+> wrote:
+> > >
+> > > On Sat, Apr 25, 2026 at 11:27:16PM -0700, Suren Baghdasaryan wrote:
+> > > > proc/pid/{smaps|numa_maps} can be read using the combination of RCU=
+ and
+> > > > VMA read locks, similar to proc/pid/maps. RCU is required to safely
+> > > > traverse the VMA tree and VMA lock stabilizes the VMA being process=
+ed
+> > > > and the pagetable walk.
+> > > >
+> > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > > Reviewed-by: Liam R. Howlett <liam@infradead.org>
+> > >
+> > > The logic LGTM, some nitty things below but in general:
+> > >
+> > > Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+> >
+> > Thanks!
+> >
+> > >
+> > > > ---
+> > > >  fs/proc/task_mmu.c | 195 ++++++++++++++++++++++++++++++++++++-----=
+----
+> > > >  1 file changed, 156 insertions(+), 39 deletions(-)
+> > > >
+> > > > diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> > > > index 751b9ba160fb..1e3a15bf46f4 100644
+> > > > --- a/fs/proc/task_mmu.c
+> > > > +++ b/fs/proc/task_mmu.c
+> > > > @@ -132,6 +132,22 @@ static void release_task_mempolicy(struct proc=
+_maps_private *priv)
+> > > >
+> > > >  #ifdef CONFIG_PER_VMA_LOCK
+> > > >
+> > > > +static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_c=
+tx)
+> > >
+> > > NIT: But these inlines are unnecessary in a C file. At the kernel opt=
+imisation
+> > > level the compiler already decides whether to inline or not.
+> > >
+> > > However in the kernel we redefine this so we lose function tracing an=
+d also we
+> > > don't get warnings about unused functions [0], so this is actually a =
+bit harmful
+> > > - you can end up with dead code and not know abou tit.
+> > >
+> > > Same goes for all the other static inline's in task_mmu.c.
+> >
+> > I see. There are a bunch of these small inline functions. Once the
+> > dust settles, I can clean them up. Dave's series and my folloup patch
+> > to change smaps_rollup will be changing this code. Maybe after all
+> > that is done?
+>
+> Yeah that's fine this obviously isn't urgent! :) tiny nits really.
+>
+> >
+> > >
+> > > [0]: https://elixir.bootlin.com/linux/v7.0.10/source/include/linux/co=
+mpiler_types.h#L235
+> > >
+> > > > +{
+> > > > +     int ret =3D mmap_read_lock_killable(lock_ctx->mm);
+> > > > +
+> > > > +     if (!ret)
+> > > > +             lock_ctx->mmap_locked =3D true;
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *loc=
+k_ctx)
+> > > > +{
+> > > > +     mmap_read_unlock(lock_ctx->mm);
+> > > > +     lock_ctx->mmap_locked =3D false;
+> > > > +}
+> > > > +
+> > > >  static void reset_lock_ctx(struct proc_maps_locking_ctx *lock_ctx)
+> > > >  {
+> > > >       lock_ctx->locked_vma =3D NULL;
+> > > > @@ -146,25 +162,11 @@ static void unlock_ctx_vma(struct proc_maps_l=
+ocking_ctx *lock_ctx)
+> > > >       }
+> > > >  }
+> > > >
+> > > > -static const struct seq_operations proc_pid_maps_op;
+> > > > -
+> > > >  static inline bool lock_vma_range(struct seq_file *m,
+> > > >                                 struct proc_maps_locking_ctx *lock_=
+ctx)
+> > > >  {
+> > > > -     /*
+> > > > -      * smaps and numa_maps perform page table walk, therefore req=
+uire
+> > > > -      * mmap_lock but maps can be read with locking just the vma a=
+nd
+> > > > -      * walking the vma tree under rcu read protection.
+> > > > -      */
+> > > > -     if (m->op !=3D &proc_pid_maps_op) {
+> > > > -             if (mmap_read_lock_killable(lock_ctx->mm))
+> > > > -                     return false;
+> > > > -
+> > > > -             lock_ctx->mmap_locked =3D true;
+> > > > -     } else {
+> > > > -             rcu_read_lock();
+> > > > -             reset_lock_ctx(lock_ctx);
+> > > > -     }
+> > > > +     rcu_read_lock();
+> > > > +     reset_lock_ctx(lock_ctx);
+> > > >
+> > > >       return true;
+> > > >  }
+> > > > @@ -172,7 +174,7 @@ static inline bool lock_vma_range(struct seq_fi=
+le *m,
+> > > >  static inline void unlock_vma_range(struct proc_maps_locking_ctx *=
+lock_ctx)
+> > > >  {
+> > > >       if (lock_ctx->mmap_locked) {
+> > > > -             mmap_read_unlock(lock_ctx->mm);
+> > > > +             unlock_ctx_mm(lock_ctx);
+> > > >       } else {
+> > > >               unlock_ctx_vma(lock_ctx);
+> > > >               rcu_read_unlock();
+> > > > @@ -213,17 +215,45 @@ static inline bool fallback_to_mmap_lock(stru=
+ct proc_maps_private *priv,
+> > > >       return true;
+> > > >  }
+> > > >
+> > > > +static inline void drop_rcu(struct proc_maps_private *priv)
+> > > > +{
+> > > > +     if (priv->lock_ctx.mmap_locked)
+> > > > +             return;
+> > > > +
+> > > > +     rcu_read_unlock();
+> > > > +}
+> > > > +
+> > > > +static inline void reacquire_rcu(struct proc_maps_private *priv)
+> > > > +{
+> > > > +     if (priv->lock_ctx.mmap_locked)
+> > > > +             return;
+> > > > +
+> > > > +     rcu_read_lock();
+> > > > +     /* Reinitialize the iterator. */
+> > > > +     vma_iter_set(&priv->iter, priv->lock_ctx.locked_vma->vm_end);
+> > >
+> > > OK good that we reset this :)
+> > >
+> > > > +}
+> > > > +
+> > > >  #else /* CONFIG_PER_VMA_LOCK */
+> > > >
+> > >
+> > > We need to pull out the patches from Dave's series and remove this op=
+tion and
+> > > default VMA locks on by default :)
+> >
+> > I didn't see any followup after Dave posted his v1. I agree it would
+> > make things much simpler but I don't want to delay these changes too
+> > much.
+> > I'll ask Dave if he plans to continue his cleanup. If not, I'll pick it=
+ up.
+>
+> Great thanks!
 
---000000000000dc1e5f065371f8a4--
---000000000000dc1e61065371f8a6
-Content-Type: text/x-csrc; charset="US-ASCII"; name="repro_uring_dup.c"
-Content-Disposition: attachment; filename="repro_uring_dup.c"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mpzr6ziv0>
-X-Attachment-Id: f_mpzr6ziv0
+I checked with Dave and he will post the next version in a week or so.
 
-LyoKICogcmVwcm9fdXJpbmdfZHVwLmMKICoKICogUmVwcm9kdWNlciBmb3IgaW9fdXJpbmcgYXN5
-bmMgYnVmZmVyZWQtd3JpdGUgZHVwbGljYXRpb24gb24gWEZTLgogKiBJc3N1ZXMgbGFyZ2UsIHZh
-cmlhYmxlLXNpemUsIG5vbi1wYWdlLWFsaWduZWQgYnVmZmVyZWQgd3JpdGV2J3MgYXBwZW5kZWQK
-ICogdG8gYSBmaWxlIHZpYSBpb191cmluZyB3aXRoIG9mZnNldCAtMSAoInVzZSBjdXJyZW50IHBv
-c2l0aW9uIikuCiAqCiAqIEJ1Zzogd2hlbiB0aGUgaW5saW5lIElPQ0JfTk9XQUlUIGF0dGVtcHQg
-ZG9lcyBhIHBhcnRpYWwtcGFnZSBzaG9ydCB3cml0ZQogKiAobGFuZGluZyBvbiBhIHBhZ2UgYm91
-bmRhcnkpIGFuZCB0aGUgcGFnZS1hbGlnbmVkIHJlbWFpbmRlciBpcyByZWlzc3VlZCBvbgogKiBp
-by13cSwgYSBwYWdlLWFsaWduZWQsIHBhZ2UtbXVsdGlwbGUgc3ViLXJhbmdlIG9mIHRoZSByZW1h
-aW5kZXIgaXMgd3JpdHRlbgogKiBUV0lDRSwgd2hpbGUgdGhlIENRRSBzdGlsbCByZXBvcnRzIHRo
-ZSBmdWxsIHJlcXVlc3RlZCBieXRlIGNvdW50LiBSZXN1bHQ6CiAqIHRoZSBmaWxlIGlzIGxhcmdl
-ciB0aGFuIHRoZSBieXRlcyB3ZSB3ZXJlIHRvbGQgc3VjY2VlZGVkLCB3aXRoIGEgcGFnZS1hbGln
-bmVkCiAqIGR1cGxpY2F0ZWQgY2h1bmsuCiAqCiAqIERldGVjdGlvbiAoYm90aCBzaWxlbnQgLSBu
-byBlcnJvciBpcyBldmVyIHJldHVybmVkKToKICogICAxKSBmaW5hbCBmaWxlIHNpemUgPiB0b3Rh
-bCBieXRlcyB0aGUga2VybmVsIHRvbGQgdXMgaXQgd3JvdGUuCiAqICAgMikgZmlsZSBpcyBmaWxs
-ZWQgd2l0aCBhIHU2NCAiYnl0ZSBvZmZzZXQgLyA4IiBwYXR0ZXJuLCBzbyBvbiByZWFkYmFjawog
-KiAgICAgIGVsZW1lbnQgaiBtdXN0IGVxdWFsIGo7IHRoZSBmaXJzdCBqIHdoZXJlIGl0IGRvZXNu
-J3QgaXMgdGhlIHN0YXJ0IG9mIHRoZQogKiAgICAgIGR1cGxpY2F0ZWQgY29weSAoZXhwZWN0ZWQg
-dG8gYmUgcGFnZS1hbGlnbmVkKS4KICoKICogQnVpbGQ6ICBnY2MgLU8yIC1vIHJlcHJvX3VyaW5n
-X2R1cCByZXByb191cmluZ19kdXAuYyAtbHVyaW5nCiAqIFJ1bjogICAgLi9yZXByb191cmluZ19k
-dXAgL3BhdGgvb24veGZzL3JlcHJvIFtzZWNvbmRzXSBbZmlsZV90YXJnZXRfbWJdCiAqLwojZGVm
-aW5lIF9HTlVfU09VUkNFCiNpbmNsdWRlIDxsaWJ1cmluZy5oPgojaW5jbHVkZSA8ZmNudGwuaD4K
-I2luY2x1ZGUgPHN0ZGludC5oPgojaW5jbHVkZSA8c3RkaW8uaD4KI2luY2x1ZGUgPHN0ZGxpYi5o
-PgojaW5jbHVkZSA8c3RyaW5nLmg+CiNpbmNsdWRlIDx0aW1lLmg+CiNpbmNsdWRlIDx1bmlzdGQu
-aD4KI2luY2x1ZGUgPGVycm5vLmg+CiNpbmNsdWRlIDxzeXMvc3RhdC5oPgojaW5jbHVkZSA8c3lz
-L3Vpby5oPgoKI2RlZmluZSBRRCA4CiNkZWZpbmUgTUIgKDEwMjRVTCAqIDEwMjRVTCkKI2RlZmlu
-ZSBNQVhDSFVOSyAoMjRVTCAqIE1CKQojZGVmaW5lIE1JTkNIVU5LICgxVUwgKiBNQikKCi8qIDE6
-IE9fQVBQRU5EIC8gb2Zmc2V0IC0xIHZhcmlhbnQgKGNvcnJ1cHRzKS4KICogMDogbm8gT19BUFBF
-TkQsIGV4cGxpY2l0IG9mZnNldCB2YXJpYW50IChkb2VzIG5vdCBjb3JydXB0KS4gKi8Kc3RhdGlj
-IGludCB1c2VfYXBwZW5kID0gMTsKCnN0YXRpYyB1aW50NjRfdCBub3dfbnModm9pZCkgewogIHN0
-cnVjdCB0aW1lc3BlYyB0czsKICBjbG9ja19nZXR0aW1lKENMT0NLX01PTk9UT05JQywgJnRzKTsK
-ICByZXR1cm4gKHVpbnQ2NF90KXRzLnR2X3NlYyAqIDEwMDAwMDAwMDBVTEwgKyAodWludDY0X3Qp
-dHMudHZfbnNlYzsKfQoKLyogRmlsbCBidWYgc28gdGhlIHU2NCBhdCBnbG9iYWwgYnl0ZSBvZmZz
-ZXQgKGJhc2UrOCppKSBob2xkcyAoYmFzZSs4KmkpLzguICovCnN0YXRpYyB2b2lkIGZpbGxfcGF0
-dGVybih1aW50NjRfdCAqYnVmLCB1aW50NjRfdCBiYXNlX2J5dGVzLCBzaXplX3QgbGVuKSB7CiAg
-dWludDY0X3Qgc3RhcnRfaWR4ID0gYmFzZV9ieXRlcyAvIDg7CiAgc2l6ZV90IG4gPSBsZW4gLyA4
-OwogIGZvciAoc2l6ZV90IGkgPSAwOyBpIDwgbjsgaSsrKQogICAgYnVmW2ldID0gc3RhcnRfaWR4
-ICsgaTsKfQoKLyogT25lIHdyaXRldjsgbG9vcHMgb3ZlciAobGVnaXRpbWF0ZWx5KSBzaG9ydCAq
-cmV0dXJuZWQqIHJlc3VsdHMuICovCnN0YXRpYyB2b2lkIHdyaXRlX2FsbChzdHJ1Y3QgaW9fdXJp
-bmcgKnJpbmcsIGludCBmZCwgdWludDhfdCAqYnVmLCBzaXplX3QgbGVuLAogICAgICAgICAgICAg
-ICAgICAgICAgdWludDY0X3QgZXhwZWN0ZWQpIHsKICBzaXplX3QgZG9uZSA9IDA7CiAgd2hpbGUg
-KGRvbmUgPCBsZW4pIHsKICAgIHN0cnVjdCBpb191cmluZ19zcWUgKnNxZSA9IGlvX3VyaW5nX2dl
-dF9zcWUocmluZyk7CiAgICBzdHJ1Y3QgaW92ZWMgaW92ID0gey5pb3ZfYmFzZSA9IGJ1ZiArIGRv
-bmUsIC5pb3ZfbGVuID0gbGVuIC0gZG9uZX07CiAgICBsb25nIGxvbmcgb2ZmID0gdXNlX2FwcGVu
-ZCA/IC0xTEwgOiAobG9uZyBsb25nKShleHBlY3RlZCArIGRvbmUpOwogICAgaW9fdXJpbmdfcHJl
-cF93cml0ZXYoc3FlLCBmZCwgJmlvdiwgMSwgKHVuc2lnbmVkIGxvbmcgbG9uZylvZmYpOwoKICAg
-IGludCByZXQgPSBpb191cmluZ19zdWJtaXQocmluZyk7CiAgICBpZiAocmV0IDwgMCkgewogICAg
-ICBmcHJpbnRmKHN0ZGVyciwgInN1Ym1pdDogJXNcbiIsIHN0cmVycm9yKC1yZXQpKTsKICAgICAg
-ZXhpdCgxKTsKICAgIH0KCiAgICBzdHJ1Y3QgaW9fdXJpbmdfY3FlICpjcWU7CiAgICByZXQgPSBp
-b191cmluZ193YWl0X2NxZShyaW5nLCAmY3FlKTsKICAgIGlmIChyZXQgPCAwKSB7CiAgICAgIGZw
-cmludGYoc3RkZXJyLCAid2FpdF9jcWU6ICVzXG4iLCBzdHJlcnJvcigtcmV0KSk7CiAgICAgIGV4
-aXQoMSk7CiAgICB9CiAgICBpbnQgcmVzID0gY3FlLT5yZXM7CiAgICBpb191cmluZ19jcWVfc2Vl
-bihyaW5nLCBjcWUpOwoKICAgIGlmIChyZXMgPCAwKSB7CiAgICAgIGZwcmludGYoc3RkZXJyLCAi
-d3JpdGU6ICVzXG4iLCBzdHJlcnJvcigtcmVzKSk7CiAgICAgIGV4aXQoMSk7CiAgICB9CiAgICBp
-ZiAocmVzID09IDApIHsKICAgICAgZnByaW50ZihzdGRlcnIsICJ3cml0ZSByZXR1cm5lZCAwXG4i
-KTsKICAgICAgZXhpdCgxKTsKICAgIH0KICAgIGRvbmUgKz0gKHNpemVfdClyZXM7CiAgfQp9Cgpp
-bnQgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpIHsKICBpZiAoYXJnYyA8IDIpIHsKICAgIGZw
-cmludGYoc3RkZXJyLCAidXNhZ2U6ICVzIDxwYXRoLXByZWZpeC1vbi14ZnM+IFtzZWNvbmRzXSBb
-ZmlsZV90YXJnZXRfbWJdXG4iLAogICAgICAgICAgICBhcmd2WzBdKTsKICAgIHJldHVybiAyOwog
-IH0KICBjb25zdCBjaGFyICpwcmVmaXggPSBhcmd2WzFdOwogIGludCBzZWNvbmRzID0gKGFyZ2Mg
-PiAyKSA/IGF0b2koYXJndlsyXSkgOiA2MDsKICB1aW50NjRfdCBmaWxlX3RhcmdldCA9ICgoYXJn
-YyA+IDMpID8gKHVpbnQ2NF90KWF0b2xsKGFyZ3ZbM10pIDogNDgpICogTUI7CgogIHNyYW5kKCh1
-bnNpZ25lZCkodGltZShOVUxMKSBeIGdldHBpZCgpKSk7CgogIHN0cnVjdCBpb191cmluZyByaW5n
-OwogIGlmIChpb191cmluZ19xdWV1ZV9pbml0KFFELCAmcmluZywgMCkpIHsKICAgIHBlcnJvcigi
-aW9fdXJpbmdfcXVldWVfaW5pdCIpOwogICAgcmV0dXJuIDE7CiAgfQoKICB1aW50OF90ICpidWYg
-PSBhbGlnbmVkX2FsbG9jKDQwOTYsIE1BWENIVU5LKTsKICBpZiAoIWJ1ZikgewogICAgcGVycm9y
-KCJhbGlnbmVkX2FsbG9jIik7CiAgICByZXR1cm4gMTsKICB9CgogIHN0YXRpYyB1aW50NjRfdCBy
-YnVmWzEgPDwgMTZdOwogIHVpbnQ2NF90IGRlYWRsaW5lID0gbm93X25zKCkgKyAodWludDY0X3Qp
-c2Vjb25kcyAqIDEwMDAwMDAwMDBVTEw7CiAgbG9uZyBmaWxlcyA9IDA7CgogIHdoaWxlIChub3df
-bnMoKSA8IGRlYWRsaW5lKSB7CiAgICBjaGFyIGZuWzgxOTJdOwogICAgc25wcmludGYoZm4sIHNp
-emVvZiBmbiwgIiVzLiVsZCIsIHByZWZpeCwgZmlsZXMpOwogICAgaW50IGZsYWdzID0gT19XUk9O
-TFkgfCBPX0NSRUFUIHwgT19UUlVOQyB8ICh1c2VfYXBwZW5kID8gT19BUFBFTkQgOiAwKTsKICAg
-IGludCBmZCA9IG9wZW4oZm4sIGZsYWdzLCAwNjQ0KTsKICAgIGlmIChmZCA8IDApIHsKICAgICAg
-cGVycm9yKCJvcGVuIik7CiAgICAgIHJldHVybiAxOwogICAgfQoKICAgIHVpbnQ2NF90IGV4cGVj
-dGVkID0gMDsKICAgIHdoaWxlIChleHBlY3RlZCA8IGZpbGVfdGFyZ2V0KSB7CiAgICAgIHNpemVf
-dCB3YW50ID0gTUlOQ0hVTksgKyAoKHNpemVfdClyYW5kKCkgJSAoTUFYQ0hVTksgLSBNSU5DSFVO
-SykpOwogICAgICB3YW50ICY9IH4oKHNpemVfdCk3KTsgLyogOC1hbGlnbjsgZGVsaWJlcmF0ZWx5
-IE5PVCBwYWdlLWFsaWduZWQgKi8KICAgICAgZmlsbF9wYXR0ZXJuKCh1aW50NjRfdCAqKWJ1Ziwg
-ZXhwZWN0ZWQsIHdhbnQpOwogICAgICB3cml0ZV9hbGwoJnJpbmcsIGZkLCBidWYsIHdhbnQsIGV4
-cGVjdGVkKTsKICAgICAgZXhwZWN0ZWQgKz0gd2FudDsgLyogQ1FFIHJlcG9ydGVkIGZ1bGwgc3Vj
-Y2VzcyAqLwogICAgfQogICAgY2xvc2UoZmQpOwoKICAgIC8qIC0tLS0gdmVyaWZ5IC0tLS0gKi8K
-ICAgIHN0cnVjdCBzdGF0IHN0OwogICAgaWYgKHN0YXQoZm4sICZzdCkpIHsKICAgICAgcGVycm9y
-KCJzdGF0Iik7CiAgICAgIHJldHVybiAxOwogICAgfQoKICAgIGxvbmcgbG9uZyBmaXJzdF9iYWQg
-PSAtMTsKICAgIHVpbnQ2NF90IGJhZF92YWwgPSAwOwogICAgaW50IHJmZCA9IG9wZW4oZm4sIE9f
-UkRPTkxZKTsKICAgIGlmIChyZmQgPCAwKSB7CiAgICAgIHBlcnJvcigib3BlbiBybyIpOwogICAg
-ICByZXR1cm4gMTsKICAgIH0KICAgIHVpbnQ2NF90IGlkeCA9IDA7CiAgICBzc2l6ZV90IHI7CiAg
-ICB3aGlsZSAoKHIgPSByZWFkKHJmZCwgcmJ1Ziwgc2l6ZW9mIHJidWYpKSA+IDApIHsKICAgICAg
-c2l6ZV90IGNudCA9IChzaXplX3QpciAvIDg7CiAgICAgIGZvciAoc2l6ZV90IGkgPSAwOyBpIDwg
-Y250OyBpKyspIHsKICAgICAgICBpZiAocmJ1ZltpXSAhPSBpZHgpIHsKICAgICAgICAgIGZpcnN0
-X2JhZCA9IChsb25nIGxvbmcpKGlkeCAqIDgpOwogICAgICAgICAgYmFkX3ZhbCA9IHJidWZbaV07
-CiAgICAgICAgICBicmVhazsKICAgICAgICB9CiAgICAgICAgaWR4Kys7CiAgICAgIH0KICAgICAg
-aWYgKGZpcnN0X2JhZCA+PSAwKQogICAgICAgIGJyZWFrOwogICAgfQogICAgY2xvc2UocmZkKTsK
-CiAgICBpbnQgYnVnID0gKCh1aW50NjRfdClzdC5zdF9zaXplICE9IGV4cGVjdGVkKSB8fCAoZmly
-c3RfYmFkID49IDApOwogICAgZmlsZXMrKzsKCiAgICBpZiAoYnVnKSB7CiAgICAgIHByaW50Zigi
-XG4qKiogQ09SUlVQVElPTiBERVRFQ1RFRCBpbiAlcyAqKipcbiIsIGZuKTsKICAgICAgcHJpbnRm
-KCIgIGJ5dGVzIGtlcm5lbCBzYWlkIGl0IHdyb3RlIChzdW0gb2YgQ1FFIHJlc3VsdHMpOiAlbGx1
-XG4iLAogICAgICAgICAgICAgKHVuc2lnbmVkIGxvbmcgbG9uZylleHBlY3RlZCk7CiAgICAgIHBy
-aW50ZigiICBhY3R1YWwgZmlsZSBzaXplOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-JWxsdVxuIiwKICAgICAgICAgICAgICh1bnNpZ25lZCBsb25nIGxvbmcpc3Quc3Rfc2l6ZSk7CiAg
-ICAgIHByaW50ZigiICBleHRyYSAoZHVwbGljYXRlZCkgYnl0ZXM6ICAgICAgICAgICAgICAgICAg
-ICAgICAgJWxsZFxuIiwKICAgICAgICAgICAgIChsb25nIGxvbmcpc3Quc3Rfc2l6ZSAtIChsb25n
-IGxvbmcpZXhwZWN0ZWQpOwogICAgICBpZiAoZmlyc3RfYmFkID49IDApIHsKICAgICAgICBwcmlu
-dGYoIiAgZmlyc3QgbWlzbWF0Y2hpbmcgb2Zmc2V0OiAlbGxkICgweCVsbHgpICBwYWdlX2FsaWdu
-ZWQ9JXNcbiIsIGZpcnN0X2JhZCwKICAgICAgICAgICAgICAgKHVuc2lnbmVkIGxvbmcgbG9uZylm
-aXJzdF9iYWQsIChmaXJzdF9iYWQgJSA0MDk2ID09IDApID8gIllFUyIgOiAibm8iKTsKICAgICAg
-ICBwcmludGYoIiAgICBleHBlY3RlZCB1NjQgJWxsdSBidXQgZm91bmQgJWxsdSAiCiAgICAgICAg
-ICAgICAgICIoY29udGVudCBmcm9tIGJ5dGUgb2Zmc2V0ICVsbHUgcmVhcHBlYXJlZCBoZXJlKVxu
-IiwKICAgICAgICAgICAgICAgKHVuc2lnbmVkIGxvbmcgbG9uZykoZmlyc3RfYmFkIC8gOCksICh1
-bnNpZ25lZCBsb25nIGxvbmcpYmFkX3ZhbCwKICAgICAgICAgICAgICAgKHVuc2lnbmVkIGxvbmcg
-bG9uZykoYmFkX3ZhbCAqIDgpKTsKICAgICAgfQogICAgICBwcmludGYoIiAgKGZpbGUga2VwdCBm
-b3IgaW5zcGVjdGlvbilcbiIpOwogICAgICBpb191cmluZ19xdWV1ZV9leGl0KCZyaW5nKTsKICAg
-ICAgcmV0dXJuIDA7CiAgICB9CiAgICB1bmxpbmsoZm4pOwogICAgaWYgKGZpbGVzICUgMjAgPT0g
-MCkKICAgICAgZnByaW50ZihzdGRlcnIsICIuLi4lbGQgZmlsZXMgY2xlYW5cbiIsIGZpbGVzKTsK
-ICB9CgogIHByaW50ZigiTm8gY29ycnVwdGlvbiBpbiAlZCBzICglbGQgZmlsZXMpLiBUcnkgbW9y
-ZSB0aW1lLCBwYXJhbGxlbCBpbnN0YW5jZXMsICIKICAgICAgICAgIm9yIG1lbW9yeSBwcmVzc3Vy
-ZS5cbiIsCiAgICAgICAgIHNlY29uZHMsIGZpbGVzKTsKICBpb191cmluZ19xdWV1ZV9leGl0KCZy
-aW5nKTsKICBmcmVlKGJ1Zik7CiAgcmV0dXJuIDA7Cn0K
---000000000000dc1e61065371f8a6--
+>
+> >
+> >
+> > >
+> > > > +static inline int lock_ctx_mm(struct proc_maps_locking_ctx *lock_c=
+tx)
+> > > > +{
+> > > > +     return mmap_read_lock_killable(lock_ctx->mm);
+> > > > +}
+> > > > +
+> > > > +static inline void unlock_ctx_mm(struct proc_maps_locking_ctx *loc=
+k_ctx)
+> > > > +{
+> > > > +     mmap_read_unlock(lock_ctx->mm);
+> > > > +}
+> > > > +
+> > > >  static inline bool lock_vma_range(struct seq_file *m,
+> > > >                                 struct proc_maps_locking_ctx *lock_=
+ctx)
+> > > >  {
+> > > > -     return mmap_read_lock_killable(lock_ctx->mm) =3D=3D 0;
+> > > > +     return lock_ctx_mm(lock_ctx) =3D=3D 0;
+> > > >  }
+> > > >
+> > > >  static inline void unlock_vma_range(struct proc_maps_locking_ctx *=
+lock_ctx)
+> > > >  {
+> > > > -     mmap_read_unlock(lock_ctx->mm);
+> > > > +     unlock_ctx_mm(lock_ctx);
+> > > >  }
+> > > >
+> > > >  static struct vm_area_struct *get_next_vma(struct proc_maps_privat=
+e *priv,
+> > > > @@ -238,6 +268,9 @@ static inline bool fallback_to_mmap_lock(struct=
+ proc_maps_private *priv,
+> > > >       return false;
+> > > >  }
+> > > >
+> > > > +static inline void drop_rcu(struct proc_maps_private *priv) {}
+> > > > +static inline void reacquire_rcu(struct proc_maps_private *priv) {=
+}
+> > > > +
+> > > >  #endif /* CONFIG_PER_VMA_LOCK */
+> > > >
+> > > >  static struct vm_area_struct *proc_get_vma(struct seq_file *m, lof=
+f_t *ppos)
+> > > > @@ -538,12 +571,10 @@ static int query_vma_setup(struct proc_maps_l=
+ocking_ctx *lock_ctx)
+> > > >
+> > > >  static void query_vma_teardown(struct proc_maps_locking_ctx *lock_=
+ctx)
+> > > >  {
+> > > > -     if (lock_ctx->mmap_locked) {
+> > > > -             mmap_read_unlock(lock_ctx->mm);
+> > > > -             lock_ctx->mmap_locked =3D false;
+> > > > -     } else {
+> > > > +     if (lock_ctx->mmap_locked)
+> > > > +             unlock_ctx_mm(lock_ctx);
+> > > > +     else
+> > > >               unlock_ctx_vma(lock_ctx);
+> > > > -     }
+> > > >  }
+> > > >
+> > > >  static struct vm_area_struct *query_vma_find_by_addr(struct proc_m=
+aps_locking_ctx *lock_ctx,
+> > > > @@ -1280,21 +1311,75 @@ static const struct mm_walk_ops smaps_shmem=
+_walk_ops =3D {
+> > > >       .walk_lock              =3D PGWALK_RDLOCK,
+> > > >  };
+> > > >
+> > > > +#ifdef CONFIG_PER_VMA_LOCK
+> > > > +
+> > > > +static const struct mm_walk_ops smaps_walk_vma_lock_ops =3D {
+> > > > +     .pmd_entry              =3D smaps_pte_range,
+> > > > +     .hugetlb_entry          =3D smaps_hugetlb_range,
+> > > > +     .walk_lock              =3D PGWALK_VMA_RDLOCK_VERIFY,
+> > > > +};
+> > > > +
+> > > > +static const struct mm_walk_ops smaps_shmem_walk_vma_lock_ops =3D =
+{
+> > > > +     .pmd_entry              =3D smaps_pte_range,
+> > > > +     .hugetlb_entry          =3D smaps_hugetlb_range,
+> > > > +     .pte_hole               =3D smaps_pte_hole,
+> > > > +     .walk_lock              =3D PGWALK_VMA_RDLOCK_VERIFY,
+> > > > +};
+> > > > +
+> > > > +static inline const struct mm_walk_ops *
+> > > > +get_smaps_walk_ops(struct proc_maps_private *priv)
+> > > > +{
+> > > > +     if (priv->lock_ctx.mmap_locked)
+> > > > +             return &smaps_walk_ops;
+> > > > +     return &smaps_walk_vma_lock_ops;
+> > > > +}
+> > > > +
+> > > > +static inline const struct mm_walk_ops *
+> > > > +get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+> > > > +{
+> > > > +     if (priv->lock_ctx.mmap_locked)
+> > > > +             return  &smaps_shmem_walk_ops;
+> > > > +     return &smaps_shmem_walk_vma_lock_ops;
+> > > > +}
+> > > > +
+> > > > +#else /* CONFIG_PER_VMA_LOCK */
+> > > > +
+> > > > +static inline const struct mm_walk_ops *
+> > > > +get_smaps_walk_ops(struct proc_maps_private *priv)
+> > > > +{
+> > > > +     return &smaps_walk_ops;
+> > > > +}
+> > > > +
+> > > > +static inline const struct mm_walk_ops *
+> > > > +get_smaps_shmem_walk_ops(struct proc_maps_private *priv)
+> > > > +{
+> > > > +     return &smaps_shmem_walk_ops;
+> > > > +}
+> > > > +
+> > > > +#endif /* CONFIG_PER_VMA_LOCK */
+> > > > +
+> > > >  /*
+> > > >   * Gather mem stats from @vma with the indicated beginning
+> > > >   * address @start, and keep them in @mss.
+> > > >   *
+> > > >   * Use vm_start of @vma as the beginning address if @start is 0.
+> > > >   */
+> > > > -static void smap_gather_stats(struct vm_area_struct *vma,
+> > > > -             struct mem_size_stats *mss, unsigned long start)
+> > > > +static void smap_gather_stats(struct proc_maps_private *priv,
+> > > > +                           struct vm_area_struct *vma,
+> > > > +                           struct mem_size_stats *mss, unsigned lo=
+ng start)
+> > > >  {
+> > > > -     const struct mm_walk_ops *ops =3D &smaps_walk_ops;
+> > > > +     const struct mm_walk_ops *ops =3D get_smaps_walk_ops(priv);
+> > > >
+> > > >       /* Invalid start */
+> > > >       if (start >=3D vma->vm_end)
+> > > >               return;
+> > > >
+> > > > +     if (vma =3D=3D get_gate_vma(priv->lock_ctx.mm))
+> > > > +             return;
+> > > > +
+> > > > +     /* Might sleep. Drop RCU read lock but keep the VMA locked. *=
+/
+> > > > +     drop_rcu(priv);
+> > > > +
+> > > >       if (vma->vm_file && shmem_mapping(vma->vm_file->f_mapping)) {
+> > > >               /*
+> > > >                * For shared or readonly shmem mappings we know that=
+ all
+> > > > @@ -1312,15 +1397,16 @@ static void smap_gather_stats(struct vm_are=
+a_struct *vma,
+> > > >                                       !(vma->vm_flags & VM_WRITE)))=
+ {
+> > > >                       mss->swap +=3D shmem_swapped;
+> > > >               } else {
+> > > > -                     ops =3D &smaps_shmem_walk_ops;
+> > > > +                     ops =3D get_smaps_shmem_walk_ops(priv);
+> > > >               }
+> > > >       }
+> > > >
+> > > > -     /* mmap_lock is held in m_start */
+> > > >       if (!start)
+> > > >               walk_page_vma(vma, ops, mss);
+> > > >       else
+> > > >               walk_page_range(vma->vm_mm, start, vma->vm_end, ops, =
+mss);
+> > > > +
+> > > > +     reacquire_rcu(priv);
+> > >
+> > > OK I was going to say that this RCU lock dance is a bit iffy, but I s=
+ee
+> > > that we're sharing code such that this is necessary.
+> > >
+> > > >  }
+> > > >
+> > > >  #define SEQ_PUT_DEC(str, val) \
+> > > > @@ -1369,10 +1455,11 @@ static void __show_smap(struct seq_file *m,=
+ const struct mem_size_stats *mss,
+> > > >
+> > > >  static int show_smap(struct seq_file *m, void *v)
+> > > >  {
+> > > > +     struct proc_maps_private *priv =3D m->private;
+> > > >       struct vm_area_struct *vma =3D v;
+> > > >       struct mem_size_stats mss =3D {};
+> > > >
+> > > > -     smap_gather_stats(vma, &mss, 0);
+> > > > +     smap_gather_stats(priv, vma, &mss, 0);
+> > > >
+> > > >       show_map_vma(m, vma);
+> > > >
+> > > > @@ -1413,7 +1500,7 @@ static int show_smaps_rollup(struct seq_file =
+*m, void *v)
+> > > >               goto out_put_task;
+> > > >       }
+> > > >
+> > > > -     ret =3D mmap_read_lock_killable(mm);
+> > > > +     ret =3D lock_ctx_mm(&priv->lock_ctx);
+> > > >       if (ret)
+> > > >               goto out_put_mm;
+> > > >
+> > > > @@ -1425,7 +1512,7 @@ static int show_smaps_rollup(struct seq_file =
+*m, void *v)
+> > > >
+> > > >       vma_start =3D vma->vm_start;
+> > > >       do {
+> > > > -             smap_gather_stats(vma, &mss, 0);
+> > > > +             smap_gather_stats(priv, vma, &mss, 0);
+> > > >               last_vma_end =3D vma->vm_end;
+> > > >
+> > > >               /*
+> > > > @@ -1434,8 +1521,8 @@ static int show_smaps_rollup(struct seq_file =
+*m, void *v)
+> > > >                */
+> > > >               if (mmap_lock_is_contended(mm)) {
+> > > >                       vma_iter_invalidate(&vmi);
+> > > > -                     mmap_read_unlock(mm);
+> > > > -                     ret =3D mmap_read_lock_killable(mm);
+> > > > +                     unlock_ctx_mm(&priv->lock_ctx);
+> > > > +                     ret =3D lock_ctx_mm(&priv->lock_ctx);
+> > > >                       if (ret) {
+> > > >                               release_task_mempolicy(priv);
+> > > >                               goto out_put_mm;
+> > > > @@ -1484,14 +1571,14 @@ static int show_smaps_rollup(struct seq_fil=
+e *m, void *v)
+> > > >
+> > > >                       /* Case 1 and 2 above */
+> > > >                       if (vma->vm_start >=3D last_vma_end) {
+> > > > -                             smap_gather_stats(vma, &mss, 0);
+> > > > +                             smap_gather_stats(priv, vma, &mss, 0)=
+;
+> > > >                               last_vma_end =3D vma->vm_end;
+> > > >                               continue;
+> > > >                       }
+> > > >
+> > > >                       /* Case 4 above */
+> > > >                       if (vma->vm_end > last_vma_end) {
+> > > > -                             smap_gather_stats(vma, &mss, last_vma=
+_end);
+> > > > +                             smap_gather_stats(priv, vma, &mss, la=
+st_vma_end);
+> > > >                               last_vma_end =3D vma->vm_end;
+> > > >                       }
+> > > >               }
+> > > > @@ -1505,7 +1592,7 @@ static int show_smaps_rollup(struct seq_file =
+*m, void *v)
+> > > >       __show_smap(m, &mss, true);
+> > > >
+> > > >       release_task_mempolicy(priv);
+> > > > -     mmap_read_unlock(mm);
+> > > > +     unlock_ctx_mm(&priv->lock_ctx);
+> > > >
+> > > >  out_put_mm:
+> > > >       mmput(mm);
+> > > > @@ -3291,6 +3378,31 @@ static const struct mm_walk_ops show_numa_op=
+s =3D {
+> > > >       .walk_lock =3D PGWALK_RDLOCK,
+> > > >  };
+> > > >
+> > > > +#ifdef CONFIG_PER_VMA_LOCK
+> > > > +static const struct mm_walk_ops show_numa_vma_lock_ops =3D {
+> > > > +     .hugetlb_entry =3D gather_hugetlb_stats,
+> > > > +     .pmd_entry =3D gather_pte_stats,
+> > > > +     .walk_lock =3D PGWALK_VMA_RDLOCK_VERIFY,
+> > > > +};
+> > > > +
+> > > > +static inline const struct mm_walk_ops *
+> > > > +get_show_numa_ops(struct proc_maps_private *priv)
+> > > > +{
+> > > > +     if (priv->lock_ctx.mmap_locked)
+> > > > +             return &show_numa_ops;
+> > > > +     return &show_numa_vma_lock_ops;
+> > > > +}
+> > > > +
+> > > > +#else /* CONFIG_PER_VMA_LOCK */
+> > > > +
+> > > > +static inline const struct mm_walk_ops *
+> > > > +get_show_numa_ops(struct proc_maps_private *priv)
+> > > > +{
+> > > > +     return &show_numa_ops;
+> > > > +}
+> > > > +
+> > > > +#endif /* CONFIG_PER_VMA_LOCK */
+> > > > +
+> > > >  /*
+> > > >   * Display pages allocated per node and memory policy via /proc.
+> > > >   */
+> > > > @@ -3335,8 +3447,13 @@ static int show_numa_map(struct seq_file *m,=
+ void *v)
+> > > >       if (is_vm_hugetlb_page(vma))
+> > > >               seq_puts(m, " huge");
+> > > >
+> > > > -     /* mmap_lock is held by m_start */
+> > > > -     walk_page_vma(vma, &show_numa_ops, md);
+> > > > +     /* Skip walking pages if gate VMA */
+> > > > +     if (vma !=3D get_gate_vma(proc_priv->lock_ctx.mm)) {
+> > > > +             /* Might sleep. Drop RCU read lock but keep the VMA l=
+ocked. */
+> > > > +             drop_rcu(proc_priv);
+> > > > +             walk_page_vma(vma, get_show_numa_ops(proc_priv), md);
+> > > > +             reacquire_rcu(proc_priv);
+> > > > +     }
+> > > >
+> > > >       if (!md->pages)
+> > > >               goto out;
+> > > > --
+> > > > 2.54.0.545.g6539524ca2-goog
+> > > >
