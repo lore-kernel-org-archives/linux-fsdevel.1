@@ -1,132 +1,126 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CAC3264D5
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 15:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E0936C9F4
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 15:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780588704; cv=none; b=IQnwW75J4ln7zebML5kRgdeLJ834wvlU88SEX0LU7trekUg/lJNJc1bDjFlzrLUfJpQGOldTjPYZlKcmNBBSC3z1KFCZ9t9r9JNeSOjBLDhSw3rMCUrwA9DwPKoa/1PHgu0HmMAAUFRm03aya2bQXCv6vznGTY0UUUX+2mIS/GM=
+	t=1780588735; cv=none; b=TM4fiQg6oGB7gtGqbWwhVFY1hjUJvJo77sVOSV7YNEOHhKkUb94QpFPn95eDMl3ShVUiF2OVMrh8FhZRUTo3MqzMSbMoIv9EHsnrB7xnic6grHBIr5GtjV+SMqoVhjIP67qk9sco+cI9eA9aBuR4jngFdyrruCfqpSy6FgJV/jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780588704; c=relaxed/simple;
-	bh=CG4tYKE/ZDtEvhTjWK4OQ+Pk+mMRQbkaM8xxSMWv8lU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QwGtV6k+8Lcimcyv0c+vuby25vZNQ7s2Uui8hSA6b8IT2bUarCFicQdcC0cvsKoRH5vwN+mzXHgn2Al1j5wkjZG1SCrNj+RPxSpwS788YqP8JRn9jC23V8qpIH+vwbcD1yCrVPBRFlViDGuI2ME4uqBTavt37Il/AWm+M8Log8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fJqRJg3l; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1780588735; c=relaxed/simple;
+	bh=7s0rKR9scvgD84QvTOBiJiUg2JjvF9nGtFbIGJxaif4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VGiu/GeH+4MM4kY4w8lW5BGg2ADb6XGw+r8aMVHbrWlHAuolwFg/otgBRzWCmIVuQjdoYq8uxuSfn2CR1oa67MNimjKtJN2bpz31AJQiYrDFKPuZd497VN85P+kri02yirWhFGJvH+RgQ2itnwDlewxBe9uVmz7sjAGwk006S8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=hWe8WJq1; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fJqRJg3l"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4891b4934ffso93175e9.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 08:58:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="hWe8WJq1"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bebbc325000so116907166b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 08:58:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780588702; x=1781193502; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pqw6xFqYHfbtPS2lscmy3UHUr79W7GtUNGneEf+7Bf4=;
-        b=fJqRJg3l1bU+Nf4xgAugLcVG/ajXDWvTJ1gKmne2CWgvXFNwtqpCKgV9vU0w2fGhZR
-         fsMwh6btn9HKQMABdn4pRJS7EPi3eyBpjEdbcoFtCr9yCIP6CjCBF4mtuqWDK5uIbOGy
-         vee3rDhJzW1oFmFS4LtYIoO11F++5G4I/S5BdEpS7v9pTw6Do/gTOxRlek/4Q6W4tnEl
-         RDgz/t/bX5p+gGKa04KtK02AEITk2ptbpxCRF8kQ5dEcREKY2o3Op7cnLNUVwZ6kiTPa
-         RyP1wp6LwDWDOlYTuheo0B1iwk2fTdjlbjkNWyKIpjhozqpSUbCxHzs6B55b5uyT/T5E
-         ftQw==
+        d=linux-foundation.org; s=google; t=1780588732; x=1781193532; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7+wqPGUkYgYLzLpNrBl5F+HLbRSqQcg4ZruoWvmFRPs=;
+        b=hWe8WJq1ITv3CiTfgMetpWOif5CbLWNw4Jjb2TbX89V8juZQ7mA1rMUTgK6JGmOk/A
+         ksedLLU8GrJCrATzoZTlt21dmkScrtjLgdQepEQMop/eUEFHO3NOn144Lq1wX+fxK4YQ
+         uvcrXT30Xxg1u9j6n7FSdaKU937GCk/X3P5X4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780588702; x=1781193502;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1780588732; x=1781193532;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pqw6xFqYHfbtPS2lscmy3UHUr79W7GtUNGneEf+7Bf4=;
-        b=GmlNObS2cxKL41DjM3U5enZeianHSPeZYOVRLxl89QBMs8GhaGzDkrd+P2ZFSReiih
-         lmFg0ikp3ziyZqROT18AvjOtdpz5XuD9//TIp4gVDwSgy7ATM8JD2bL8ey+4KflUxQJE
-         p5JJZSRVrtafDkrpdKXLYAJxRm88LHF3EUrKBWjRTP7IRkrrsy1TDrqGICV3YTH7/koR
-         jznrIYmtynjXpB9FVrQF0xTXBNkq1TlFKSZQbH3xrpLgLOQGumVFos/nmN1/6gnSL6gg
-         HwqdmaqfaGt7bkCXy9NHC19w28X4kGQJdbz6ShsbrtOANCoOi7YBxuF7TvBe8Hr6Wwxd
-         NpOQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8F7OaX0hpkxeu/GZzd0f6gWilFkWxuCEn8pAfX/qJThW7jKj6h5ZlAfrjzzqwqI0BpdyHn7jzCR+yWNitq@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzS2JCMn3RuexlSPI/tCERY390KVgvr8f6piMoR23k9toRR8Fa
-	AhGHmENSUZ7+CoXnsU55dCq1Ay2p4PGrng0OdFi/jZ2Bh4FNLzYH71SmfzTGpzVl5Q==
-X-Gm-Gg: Acq92OFL10SgJY6NcPHo+G1r+9pqVN2rYiB1fpKcSWuG9yOP3gSlhgA3vpLFMTL4QBX
-	f48MHbtoqssb6W+2LyH5ZEMj3RwVTWm0tRz2s2FESyR4Y/KxH/vvCOR49NOxEbuuOrEGz6x0MIp
-	9HVCcEqfEes+nF9jTmMPu3EnAZqwdQpfO1vh3t7oSCdSa7hm2C/Xf8n2dFn0zD8myHshAOTDV4M
-	yv2ByhGN1T418lQksl1mW7qpBue3MRfPHIpz8YWls7IIs4uITMexdYevL2seoJbGwI/FkwO0aoS
-	caIqXoX9+iJ8i9KRZUoa9aUOo0ogTPoNirsodJYGTndlZSTusZPYLssVV1X76XuNuv3aP3BcTMI
-	mqcHrorxwEyneh8sLPFtyr5woBUCKJMhSYop0b8C+3MqzoIChDMdsSiE5cm/4fzROefaz5SF9k+
-	Q5hZabAjjhf5Zjtb+cGrhjBLJCd980+Fq6+CjSpoWNWATvkAlgZHlsyQdOjDpbhQ==
-X-Received: by 2002:a05:600c:68d5:b0:48a:623c:8859 with SMTP id 5b1f17b1804b1-490bd7e523bmr950095e9.7.1780588701225;
-        Thu, 04 Jun 2026 08:58:21 -0700 (PDT)
-Received: from localhost ([2a00:79e0:288a:8:5de2:6c77:4bc3:b0dc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f344762sm19004407f8f.23.2026.06.04.08.58.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 08:58:20 -0700 (PDT)
-From: Jann Horn <jannh@google.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fixup! proc: protect ptrace_may_access() with exec_update_lock (part 1)
-Date: Thu,  4 Jun 2026 17:58:06 +0200
-Message-ID: <20260604155806.1402880-1-jannh@google.com>
-X-Mailer: git-send-email 2.54.0.1032.g2f8565e1d1-goog
+        bh=7+wqPGUkYgYLzLpNrBl5F+HLbRSqQcg4ZruoWvmFRPs=;
+        b=F+5LVuaj9CRkK0yPAlLZGTRhSbWEALtnY7+dusdG5cbcEopuAG9KIPRlmNb6yLbM/1
+         CO8iIID0/PW92cafyQ2CRO/ojpcK2rjDHl9KajvKgoKqPkfMPul84ZSHJ3Cle7P0dKJb
+         plMMWrAEVn7djzSAotfDmbWX/3Hwl3LCnBWAH6kgSH7z4wiViYBDR6yCf6lGs1rzabBM
+         Mjj9rlg7VpSOU+EYSywROCYag4xB/4XyJK/7OkX18Jmp9RLI1+0KV8EO3NXlYhTno9WF
+         kJ7piXecn5/ITfyZ0T0Gnwa8EeIDiymzIOUTze9WpxDywdBmT2RU1YiSaFVB16iCi5vE
+         cDwQ==
+X-Forwarded-Encrypted: i=1; AFNElJ849gvRtDsn56tVScVdVsyEgZrE+P/RYNKCBQq/6A8Ikq1ggdB5V5FU0I7kpIJVQ8YjNVCMxeAz8hVkNxuu@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnjAolL5RUqaYT35kfkQyUX6KX1h7t1DCx452y3SFgbRJshaab
+	sIGc0mtKYn5UgkdoUsra1JAbIYPdDxUGY2UHSyhnJzY0xFeiT48VwJygBhHL4OcohV9YtfS8dEm
+	F1wzJf7Y9mQ==
+X-Gm-Gg: Acq92OGJUgKyMNPSBrIWlyji4xAREyDUufmQmahGVnM1hjti7bfgL/Jpng2astO7rB6
+	5axZZLM32eUwEUO6wKIIntYazPalsScQc4NIkvNy0lgh844JFtrX8JivXo7s1M95bhwhHQ7lOo0
+	lfx6nMnM076APdkV2o+hj6PE1QCUg2n0hpggL2E6jCCBAZbi2TdMGVvEKfqWqcxg5QMpsaeRRpd
+	ebY4hviJuf33rWhjDCYQbnlhR5C7Z0obU9s4uks15CNvBVs4TRpDvnPLV8jDo5VOnl+3/K0IFWR
+	5h2iPRGapF8n3LlPNq+xr08LDrsqLm82VP1q/fxfGHQhRMpZEI1/mEetLunXlv7ObVcl2YjFtTQ
+	d3tDFOVYZ9+hbME5AjFWYdpWn7lMF692Z/MmL2EBH2f3snDSywV67KxhurHaRtBk0N5M/R25ivc
+	1BalPGeqF1wgidy0ECU05i2dVPQ3MZ8h3FSCVjjz6mXteizg6BU+1Q4IyeKgscuVyMb4/4z1f0x
+	xYT+z86Qj4=
+X-Received: by 2002:a17:907:2d9f:b0:bef:7481:8a4f with SMTP id a640c23a62f3a-bf0b2cc5151mr439272566b.25.1780588732405;
+        Thu, 04 Jun 2026 08:58:52 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf051d82a31sm335044266b.19.2026.06.04.08.58.50
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 08:58:51 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-68be16c61d1so1767584a12.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 08:58:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+Q99LkpMjTi+/IzLWxbqyOSekDKcj9TUUCVv+EaTzUYvyx8t1u2hzYNzrkxvwwh19M6dUfOduyQnJa7khO@vger.kernel.org
+X-Received: by 2002:a05:6402:268d:b0:68d:235a:cdaf with SMTP id
+ 4fb4d7f45d1cf-68e6e447981mr4450863a12.5.1780588730255; Thu, 04 Jun 2026
+ 08:58:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV> <20260601160455.2c187574@gandalf.local.home>
+ <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
+ <aiEb8CTM-ovMIq7-@1wt.eu> <CAHk-=wiQB-j53cTs9kM4UeXoXPaFj78aJe3D6Yp1Fohg7i4tWA@mail.gmail.com>
+ <aiGfgRch99l_5z11@1wt.eu>
+In-Reply-To: <aiGfgRch99l_5z11@1wt.eu>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 4 Jun 2026 08:58:33 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg0e8pP5haNW4qJP1=QwwUEctwjK5k07sv8bskitoMDgg@mail.gmail.com>
+X-Gm-Features: AVVi8Cfm3XRgcYqAOfqktIkPjsqV4jnNlBPsed_wU8pvtWHjKA_FxUEOuJC1FXo
+Message-ID: <CAHk-=wg0e8pP5haNW4qJP1=QwwUEctwjK5k07sv8bskitoMDgg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Willy Tarreau <w@1wt.eu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, 
+	patches@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	Jan Kara <jack@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
 
-fix two test breakages in tools/testing/selftests/proc/read.c:
+On Thu, 4 Jun 2026 at 08:53, Willy Tarreau <w@1wt.eu> wrote:
+>
+> > It looks like you're actually doing exactly the thing that I thought
+> > was crazy and wouldn't even work reliably: you change the
+> > common_response[] contents dynamically *after* the vmsplice, and
+> > depend on the fact that changing it in user space changes the buffer
+> > in the pipe too.
+>
+> No no, it's definitely not doing that (or it's a bug, but it's not
+> supposed to happen). I'm perfectly aware that one must definitely not
+> do that, and it's a guarantee the user of vmsplice() must provide.
 
- - The test requires that readdir() on directories in procfs does not fail
-   when running as root.
-   Restore the previous behavior where /proc/$pid/map_files/ simply returns
-   an empty directory if the process has no MM.
- - The test requires that any directory in procfs has "." and ".." entries.
-   Restore the previous behavior where, even if a task has no MM,
-   /proc/$pid/map_files/ still has "." and ".." entries.
-   (This now differs from previous behavior in that even if the caller does
-   not have permission, they still see "." and ".." entries; recreating
-   the old behavior exactly would make this code unnecessarily complex.)
+Whew, good.
 
-Reported-by: kernel test robot <oliver.sang@intel.com>
-Closes: https://lore.kernel.org/oe-lkp/202606021924.b6d8a0c2-lkp@intel.com
-Signed-off-by: Jann Horn <jannh@google.com>
----
- fs/proc/base.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+In that case, can you just try the vmsplice patch series (Christian
+already found a bug, but I don't think it will necessarily matter in
+practice - famous last words) and that test patch of mine, and see if
+it all (a) works for you and (b) if you have any numbers for
+performance that would be *great*.
 
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index ef2f59461374..5042f14d24f3 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2399,16 +2399,19 @@ proc_map_files_readdir(struct file *file, struct dir_context *ctx)
- 	if (!task)
- 		goto out;
- 
-+	ret = 0;
-+	if (!dir_emit_dots(file, ctx))
-+		goto out_put_task;
-+
- 	mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
- 	if (IS_ERR(mm)) {
- 		ret = PTR_ERR(mm);
-+		/* if the task has no mm, the directory should just be empty */
-+		if (ret == -ESRCH)
-+			ret = 0;
- 		goto out_put_task;
- 	}
- 
--	ret = 0;
--	if (!dir_emit_dots(file, ctx))
--		goto out_put_mm;
--
- 	ret = mmap_read_lock_killable(mm);
- 	if (ret)
- 		goto out_put_mm;
+There aren't many obvious splice users out there, and even if they
+were to exist they are typically specialized enough that you have to
+have a real use case to then tell if the patches make a difference in
+real life or not.
 
-base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
-prerequisite-patch-id: 0000000000000000000000000000000000000000
-prerequisite-patch-id: 7c4ef33778ceb9b6e644d78c5be66b99c0c77d51
-prerequisite-patch-id: bd555aff354c96a946f72e56d5d55eecc33a7b47
--- 
-2.54.0.1032.g2f8565e1d1-goog
+So you testing that thing would seem to be a great first test of
+whether any of this is realistic..
 
+               Linus
