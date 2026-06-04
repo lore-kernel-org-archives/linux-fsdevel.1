@@ -1,95 +1,141 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73EB480355
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 14:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F0729CE9
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 14:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780583238; cv=none; b=fM3RI1jhK8J1h/iWuMZGQ005ia0rlNR9UTR5nXePDpMtspJzj6RUgimFODuutK+DGsdUAKjuoD7rPkbHYIRqPTMtFcjGzSMDiaBNIuRh4TR6IROCaK3mbu7ZudW2zwNCj8CNypZvQAV1EAp/VdNJSNgghbD7OOuSPXstXzgGZsY=
+	t=1780583915; cv=none; b=YOWaMy3tzaPCMf5ugdK8NtjeLab4ot/3dSP0WEL2/VMGOLZC4SJy2ASjbillqiUI0jTcg+nn2CKgL9l/e93bssxDS7wSXiDQhm/Xu82Dde1MsSEuUx7d8U16CEXVLio0w0hBaiDu0d+dcYadskvk9mgvkIYTzenf0xGCp0N9iO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780583238; c=relaxed/simple;
-	bh=9QTOFDsJ3yOCe4Q053NkQEMQbsYSBManmQn/Nq59ARg=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=IGiXFsv15J+zAZbqM67DQgpehWGDg9NFKOqij9SQVfbEO/88EpGGLNvApSUFC+Sw8drw6WUOhFATMmjXIxKC6tdG0sIcdNu649RPebXQm9BUsl+3HCEKsfpoPIy2htHfdTrkaE0tbYawSwWaF0Jr0tAZcO8bAaDsDlafswhH+NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S3T7Vf9A; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780583915; c=relaxed/simple;
+	bh=+HiAUq8B9doNx03/+UK5dzZU592ZQOyFYQ50hXTQNq4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rTucAly/FvE4MxtgCWLCsikEuL0l0siS6PvGCcm9QOaDlD1OUSxTeaZYedqSHmUhdcIkYKTikLCPjpwPPHHfRzr440RmTd0atl1oeeNBgTXEw0cfKHiBQTim3YpsSSjS7DTB2wRmRJIzKmJT3byH5HhckvShMULud74p8X58LXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=FbStviAo; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S3T7Vf9A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780583236;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+OfjBfn5py7b5HQjhhTkuXyu2HLnt9jaf0NDydzON4I=;
-	b=S3T7Vf9Ab60q4ESGJsSLYZsbJE/CKm9zaktRmcwhdnnqQkd1CP2o5Y574yYV5OXIVJGTg8
-	uMvhe8fDUjNwng4b8uPF2EKb3XI7xUTlGPxfEmQ/veV59RxC0g0Y2zWtis4C9kzK2Fl28+
-	0E4lzmtl7SdvK8Cf0WTxdu39JG8xfvQ=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-493-PwOfHFj9OsiIKGl_Ou9BIA-1; Thu,
- 04 Jun 2026 10:27:11 -0400
-X-MC-Unique: PwOfHFj9OsiIKGl_Ou9BIA-1
-X-Mimecast-MFC-AGG-ID: PwOfHFj9OsiIKGl_Ou9BIA_1780583228
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5D7CE1956050;
-	Thu,  4 Jun 2026 14:27:07 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.50.14])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 22BEF1955BC0;
-	Thu,  4 Jun 2026 14:26:59 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <ahPon44OlN0SqzU6@infradead.org>
-References: <ahPon44OlN0SqzU6@infradead.org> <20260518222959.488126-1-dhowells@redhat.com> <20260518222959.488126-7-dhowells@redhat.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: dhowells@redhat.com, Christian Brauner <christian@brauner.io>,
-    Matthew Wilcox <willy@infradead.org>,
-    Paulo Alcantara <pc@manguebit.org>, Jens Axboe <axboe@kernel.dk>,
-    Leon Romanovsky <leon@kernel.org>, Steve French <sfrench@samba.org>,
-    ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-    Marc Dionne <marc.dionne@auristor.com>,
-    Eric Van Hensbergen <ericvh@kernel.org>,
-    Dominique Martinet <asmadeus@codewreck.org>,
-    Ilya Dryomov <idryomov@gmail.com>,
-    Trond Myklebust <trondmy@kernel.org>, netfs@lists.linux.dev,
-    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
-    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-    v9fs@lists.linux.dev, linux-erofs@lists.ozlabs.org,
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-    linux-block@vger.kernel.org
-Subject: Re: [PATCH v2 06/21] iov_iter: Make iov_iter_get_pages*() wrap iov_iter_extract_pages()
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="FbStviAo"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68ad1e513d3so1206041a12.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 07:38:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1780583912; x=1781188712; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=jHCD/usXrKJEgEC7iBTBFv6T3P+9p6Aw20cG/HazQio=;
+        b=FbStviAoGKX/jJHzwarD5rzWd/aaMsIlrbH1+Pg8xY2pFW6w1nlsZ9tG9b+smHxJ6i
+         kKPWF/N6Y5HFItJ6PWvFzhr7HU67wYSj+XCPCacg6MIxCvCkExn/L1f2AzlD9fp41rbW
+         vltZ/NHdqUqFb6frot40lBO+0crAXlPyzT8gg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780583912; x=1781188712;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jHCD/usXrKJEgEC7iBTBFv6T3P+9p6Aw20cG/HazQio=;
+        b=sKchh1/M8lZV3/CvGhDat+M9IAdVUcNiSmz5Cqgo6jj9NQPDAy5RT/WLa68tdpgG73
+         +IbxaOjfmnq1oW5zRa3e5rnLfvDHyMkorJkAPL7pfWcfUOKLhBNaVGaP3A2n6blOA+7T
+         rvsFk/Fyt5l6SNt8X8CJ51hXdiKjmuJDKKo0ZZzYjp/3jj0JoX4xO037Jeg4g9m63uCg
+         /lxkUsqNOKZ4SUca7qKk3UtPeAP7pn5T2r2yL2E9yMGqSlz4YUi5r00rupiofGhbKNjC
+         hcUtogq7XXkdHqmmu6bd25W1skezvfL0/sKmw4EUvcHoRVx6yRtI1CHphHEhhJxk+nRe
+         HUsw==
+X-Forwarded-Encrypted: i=1; AFNElJ8eDxwAFFR8COGTCn23CB+oSmHAb7B6sEtw3Qapu4k65ARzbzfvj2xwxMJ1AcJUF9ZSllv5r4x30uTvyZr0@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGvEh2+zkqEguU/+N244ZrFsYGOc/YNgmsJGzj3SjtTfdRt+fu
+	e/PNjjhyEfDCxYvE0nByHyAN2l3CzQJKKrvnNDlIblYHKRcU1uAsIgQYxz74gUgxsFc3VNzzlcv
+	D6RvCWSrENA==
+X-Gm-Gg: Acq92OG3O99QmHjtgbdk5Dl3Yw4C4u7ysRluds5gqDaCeHi5UAI1JlNFs4WAw7+t2uA
+	cBmAg5zH2lGXF8pJ+R843LE4pYhSE7V9xhlQfeIbzYtJAR+dY33wLD6RxOXvK8h06azM48wxRtJ
+	uUmfwruXi3hzhpHqBdTsfC7DpK4eJesjd5xbkAuTR7QxDK/4WICcfKR6wFOTdeIrB9Ki9DCjm26
+	sHNxAOeK04tpl36ClqTgSdWSrTLgQWah5HL6y2ieaezUzpBx8D4mwkWwG2WyPtdOBSH7i8eafgr
+	sHwAbYeS4LMJO+JKAp35AH3rFGwgkcTvzXP5efM6HeG96IYg80hLHo0Drgfu5Kw/GWNGfv167pn
+	ajQDqGL+1mUB/uIqKEgKLb+lifTOj3W1O367pJMNbYwJOCJYIRGO8wybMLuY+yDBNBxNjfdrVAK
+	zMxKIKGbmKr4xswytmop+aOgqfbCHPApq30jggMY9fsRgIoxg2xqrO29cJXz3OqA4J8AlLqnNlz
+	hEtCNzQ5Qo=
+X-Received: by 2002:a17:907:1c03:b0:bd3:7c7c:b817 with SMTP id a640c23a62f3a-bf0ac40ae05mr479263766b.1.1780583912353;
+        Thu, 04 Jun 2026 07:38:32 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf05228a16csm314626466b.28.2026.06.04.07.38.32
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 07:38:32 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bebc80100efso82418666b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 07:38:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+1LvayTi2Bj7GkpsR+WSyKGU6v4obQttOcL6qU5NiHytHXQcDPu6ATpRQNhoOvbD8qEjmp624fX/bqulaK@vger.kernel.org
+X-Received: by 2002:a05:6402:43cf:b0:688:12fd:789c with SMTP id
+ 4fb4d7f45d1cf-68e70412737mr4177929a12.9.1780583507075; Thu, 04 Jun 2026
+ 07:31:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <127171.1780583218.1@warthog.procyon.org.uk>
-Date: Thu, 04 Jun 2026 15:26:58 +0100
-Message-ID: <127172.1780583218@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
+ <20260601173325.GH2636677@ZenIV> <20260601160455.2c187574@gandalf.local.home>
+ <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org> <aiEb8CTM-ovMIq7-@1wt.eu>
+In-Reply-To: <aiEb8CTM-ovMIq7-@1wt.eu>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 4 Jun 2026 07:31:30 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiQB-j53cTs9kM4UeXoXPaFj78aJe3D6Yp1Fohg7i4tWA@mail.gmail.com>
+X-Gm-Features: AVVi8CdMcH2Yi8zy-bOiW7jRaCCsKof-RnAg4JQ3nwUYFdve2Wu3l5Vz6H4KhIU
+Message-ID: <CAHk-=wiQB-j53cTs9kM4UeXoXPaFj78aJe3D6Yp1Fohg7i4tWA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Willy Tarreau <w@1wt.eu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, 
+	patches@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	Jan Kara <jack@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
 
-Christoph Hellwig <hch@infradead.org> wrote:
+On Wed, 3 Jun 2026 at 23:32, Willy Tarreau <w@1wt.eu> wrote:
+>
+> I'm using vmsplice() + tee() + splice() in high-performance applications,
+> load generators to be precise, and soon a cache. This is super convenient
+> and extremely efficient:
+>
+>   - vmsplice() is used to prepare a "master" pipe with data to be sent
+>     over TCP or kTLS
+>   - then for each request, we do tee() from this master pipe to per-request
+>     pipes.
+>   - the per-request pipes are those that are used to deliver the data to
+>     the socket via splice().
 
-> On Mon, May 18, 2026 at 11:29:38PM +0100, David Howells wrote:
-> > Make iov_iter_get_pages*() wrap iov_iter_extract_pages() for kernel
-> > iterator types (e.g. ITER_BVEC, ITER_FOLIOQ, ITER_XARRAY).  The pages
-> > obtained have their refcounts incremented afterwards if they're not slab
-> > pages.  ITER_KVEC is left returning -EFAULT.
-> 
-> Just kill off iov_iter_get_pages*, please.  Or at least stop using it
-> where these types matter.
+So most of those would actually not be affected by any of the existing
+patches: the pipe->socket splice would remain, the tee() code would
+still just take a ref to the page count.
 
-Much as I would like to, this isn't the place to do it.  It will require an
-overhaul of the network socket buffering.
+The vmsplice() would change, but looking at your haterm.c sources, it
+looks like it's mostly a fairly small thing ("common_response[]" being
+16kB).
 
-David
+That is typically *faster* to just copy than look up pages.
 
+HOWEVER.
+
+It looks like you're actually doing exactly the thing that I thought
+was crazy and wouldn't even work reliably: you change the
+common_response[] contents dynamically *after* the vmsplice, and
+depend on the fact that changing it in user space changes the buffer
+in the pipe too.
+
+So that would break *entirely* with the vmsplice() changes if I read
+the code right (which I might not do) simply because that looks like
+it really does require that "wrutably shared buffer after the fact".
+
+Interesting.  Because the vmsplice() code uses get_user_pages_fast(),
+and honestly, it never pinned the page reliably to the original source
+- it breaks COW randomly in one direction or the other after fork()
+(and I thouht even after a page-out, but thinking more about it the
+swap cache may have made it work for that case).
+
+Uhhuh. That does look like it makes the vmsplice() changes untenable.
+
+But I may be reading your haproxy code entirely wrong.
+
+               Linus
