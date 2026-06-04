@@ -1,120 +1,121 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A155F3C81B6
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 06:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780553581; cv=pass; b=e1PjE7rsJvqtn2Nf0af4BRGEVHd10slTunbPPQCtgET5UEFLmjlM4xnUfr4vHFGMyhQ8k/Xr4/8gMhQ5qT851qvILt2588sacUpYygTBV6O+YR5ovc4rIYAVpd2DMcCn8u6tpVpnVEPw8YXa3l3dIO4nKUjZ45RFPIJfxlZ6egQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780553581; c=relaxed/simple;
-	bh=Pr6wlWNtLQMgQzyy9L6pkNg4ant4ewsf7oEzgRwNQaE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NxYIBj9YPlZY9NrYqmpXgGMgIBYuYxf75Jtw0atTjs/TS9Kh4DbMyTrl0l+58G7sPpACVCPc3XbEa1hXGXmXuUeLJIyzHLyDIt7uzIiFrvxgOCklG3OKbbjbuPfmPanIMliuIYbxnkxDs3c8jd4zax+1vCjlL1VM11R45RA9rNE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=CFT1XhzR; arc=pass smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1E93D6664;
+	Thu,  4 Jun 2026 06:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780553711; cv=none; b=YwpXpRyac0zMKTITkcSG77j+ivcxA+XdcmJM6vh80QbElxM1ys/n/OL38V0JQNIphAyAYpIoCVFDrTm3kxyrRhb2/jMFghlVIHWqTOEv4dsxbF8I0TCBLVsRPzxkafNHF6dkq5XaiEo3dsVJ9UVC8Vz1w3icQmXrzvNislspcyM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780553711; c=relaxed/simple;
+	bh=atVSAfHhDYBovprcHMCjWAChHvgsN9Zly/q2GkqZTdM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HsSXpO8srZ6x0paQBdomoVZac5qJ6y8fWyb9dHJTenYOQFkVehtDnMX04uyoKLwHGpT2uJJrwW3hzPQrhqDUbDALnitmkVsRlkUQ9BaRzSk8foi4mvbjn3oorBLKxDi0zuYB0BArUChRHx43RBAzMJPbdQ4NG6cB3SlU9PwucbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZdzENTk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="CFT1XhzR"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5175eab3a93so2825111cf.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 23:12:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780553578; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JBZ6bT1iKSOesitqYnHwzioXwlFb+/6AZfSIH5g7LR58BSt+vobd2WT/WQ3d90qpmy
-         YUboCczo21h4ZREOabNapzxtHQ2I0A9yPLCjBgPplRNmiPmwWHM1/OTtKe2TQRWiEuDI
-         /HU3XUpwmabgp5Ov3ym4hJweQbyLRTleFFn1bpa6HJrtf92xS9+pN7GPSHRLbtDITXA8
-         veymqOMOO+NUd7OgLrYsfs3iKOKX/3bczWFspI0GNtxKTAFn+JVbTidb+E2qu7ymMYH3
-         hAVyL1lDMqxje+q77ZTJBteYcsMVGOLnV2wcQATw+NXT8/RpJc8DkJZ9BRmJsIiAmsM/
-         WE0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=I6AF20u17yK8lsLHY26JLuWUs1jwFfZ2TsdktDqCk5w=;
-        fh=8usN+7jQxeyRcCKX7Qk6DNdcNvpw3cnH0tNj8uG14kk=;
-        b=b908+LzV+5vUqcNaIUWXyWWx9LZIoXUy4RBBdn7qJ9n9CrnQ10Eu5fKtBk4/mtqvrC
-         zyv8N+RbCFRu9QPiz6wmkXlyXFbDccuziog4xxe4/n7a1i6uxDJWSALawvjReQiqRtYD
-         FE2UenvS1c8pvHQg/Om4CEVxG2yiT4y5uTYWkLhWE45/uk3WbBXKh/mFBBx7mUt20Jwy
-         CH7RCtyKSdOEeD2S9P43vzuDsi7xe4CRZG3PmbbMYzeooOmgF/aL2IhknMo6FV4Wx/RL
-         RF51dGE0OB+zOD/7pWquWlfDo3zUtDTR3YS0A9gQre3+kdGouv3zO/+JlYxfQFSt/Jmu
-         TTog==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1780553578; x=1781158378; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=I6AF20u17yK8lsLHY26JLuWUs1jwFfZ2TsdktDqCk5w=;
-        b=CFT1XhzRZyF+jtK2jp+9SepUtxyW4QeRs8DDVaeQY3LXrDEH4Til7emCUP+92Blpcz
-         VGmZU92WAhz+nTBwUbQIN3irmp3C763QXs0o5dKGHXZOz90ONdlzGhDEngUfMvTowLiv
-         y0NudOEdbRAMWbXOSOZQoviEUZOqsBJP2YTQg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780553578; x=1781158378;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I6AF20u17yK8lsLHY26JLuWUs1jwFfZ2TsdktDqCk5w=;
-        b=QI73NnuSGIMOUbjZjANZxmoKdgUqekd3McMubi7rRDX22rm5bBi3IQxozo8sMTrA8b
-         6dLNybYSFtaBOzh0M3dYNaIacTIGSdJj3ovgNN/S6j9DUnwdqWvupLaJr9cWxLG4ZNBq
-         jt/EeR27UemJ3zZaXUpA73Qw8qOVY9Dn/wQWacdCj6meFJBMJU880Dhahmin7BWt6i9L
-         1nakEqSfwLkQKeuqOywz7N89mI/P5UFasPENMmCtwQb2lpxLyOsK6NnW3Afh8QgKo2Bg
-         pHe/VIgNpHHrYYcWGeNPLBuBuo0ZoKQQfBXHUxlL37bkpPTsHzNAmSVbuS7E1k8wTzJd
-         4nFA==
-X-Forwarded-Encrypted: i=1; AFNElJ9wFGA5kg7LvfJgQrw1Ra/vvB7eCrm1mV2pO+DfIIJB1Wdc5OeO6zvpSXTLn/KmUc3wPyQgA2Ba/TICbsmg@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHIYzKoX3LzmxsJ7IDWwwA3w06/dGi1mEmlqyM1bgJ1AVCsHAV
-	L+dFP3AhNf8NGLrlS9XoeiH/qvVW0Q4Ao7Dd4QyGlBQoy79aj26nkDR5eA1RSp265Cx0GkfGvCJ
-	UY2xWJdbHNUsCaBrXJiPV+L+bij3wgpFKCdh0gCJ/kw==
-X-Gm-Gg: Acq92OF7J7YGbutFd2ac38uzYJlu9PNsL+c1GwouPr0YQrNc+Vig2T2LQCDD6uCFOu9
-	LcEH0jBUFCtGDMefXbQYpaz42WhBtTnLmDfsqvWELRYNlyfmJ9X0sOfchS8FCAecThFjCbYHRpX
-	wJ+DbpQgwusZVwnuorKVLW5/3h2fX+yoMKW7CPfHdwmmpqST7vkfHyUXAGQy0kxcE6Td03LZ88V
-	v4Wq5jc8yeB8TUTn33i4nmCWpmPslmwXiyo2Djyr4RVWU9exUqfQrxTdQ+An9RPpwjFGBNnKkXW
-	efGVKNUXnuNAaw3A4np/IpOtUTBlS6yK+49dy8AdBW4ErC8=
-X-Received: by 2002:a05:622a:205:b0:517:6378:e671 with SMTP id
- d75a77b69052e-51778746f36mr88994211cf.55.1780553578434; Wed, 03 Jun 2026
- 23:12:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZdzENTk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE6611F00893;
+	Thu,  4 Jun 2026 06:15:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780553709;
+	bh=maKYg38a30VxIX8QCcSBujTuAdCuRyvh3rWBPMbaTa8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YZdzENTkOazs5XSTumSTfKjNe97Bx1gIjbWPEe0rEOYizlJ+PG3Skn0hS26Ux74Jl
+	 AXCvUF5ahoFRq9So4PlOjS3IWyCIq5NTGNUoudm5MMRDdJhNBKN1LdgBDErw0LtVFd
+	 jzKhcofKN8uPI1V71amXjFQlau+IKLTXzAiqIsn/g+sTxSoMC/LouWT+HEHb+idjuI
+	 8F/5ZnoIZWEz4pT/Oim/JLh5w98h2ycR5nXmcdy58o4NERbYl1r+Hpa7rpblTquRvP
+	 owmPxKztmOlhAuoaO/iNyxsWnpCrb8pm0xA6MdS2Qr/cnlFMvHA1Yq1Qntrgg1OIwG
+	 JJVS4xnu2W56g==
+Date: Thu, 4 Jun 2026 09:14:57 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Theodore Tso <tytso@mit.edu>
+Cc: Jan Kara <jack@suse.com>, Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Dave Kleikamp <shaggy@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Breno Leitao <leitao@debian.org>, Kees Cook <kees@kernel.org>,
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev, linux-nilfs@vger.kernel.org,
+	linux-nfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+	linux-ext4@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 10/17] jbd2: replace __get_free_pages() with kmalloc()
+Message-ID: <aiEX4UTxEnBTjVKo@kernel.org>
+References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
+ <20260523-b4-fs-v1-10-275e36a83f0e@kernel.org>
+ <yfzx3jgzwesernofl7mzixa2mhjfii5v3o7yapghtmozixrpfu@6bsh7iixyiov>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601152327.2069787-1-mszeredi@redhat.com> <CAOQ4uxjFg4rjwGjU2LvZT6AhC+gBk_6Ej5S4p4DKuk8=a71cRw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjFg4rjwGjU2LvZT6AhC+gBk_6Ej5S4p4DKuk8=a71cRw@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 4 Jun 2026 08:12:46 +0200
-X-Gm-Features: AVHnY4JFCN46EUQT35mtxnUuo1ifXK0J8GC36CfQAJf8_uFrLKrhycYqfsAQQHA
-Message-ID: <CAJfpegt5Q0nmK0JKAfa4Bp_SydR1qiqu7pB0JKkXSCFOYSVDDA@mail.gmail.com>
-Subject: Re: [PATCH] famfs: FUSE_FAMFS_EXT_INTERLEAVE -> FUSE_DEV_IOC_STRIPE_OPEN
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <jgroves@micron.com>, 
-	"Darrick J . Wong" <djwong@kernel.org>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <yfzx3jgzwesernofl7mzixa2mhjfii5v3o7yapghtmozixrpfu@6bsh7iixyiov>
 
-On Tue, 2 Jun 2026 at 15:21, Amir Goldstein <amir73il@gmail.com> wrote:
+Hi Ted,
 
-> Considering that John wants the daxdev ids to be allocated by userspace
-> I suppose the number of daxdev ids is limited, same as with iomap
-> backing devs, so we could probably start allocating backing stripes
-> from max_daxdevs (1000?), to be negotiated at init time.
+On Wed, Jun 03, 2026 at 09:50:15AM -0400, Theodore Tso wrote:
+> On Sat, May 23, 2026 at 08:54:22PM +0300, Mike Rapoport (Microsoft) wrote:
+> > jbd2_alloc() falls back from kmem_cache_alloc() to __get_free_pages() for
+> > allocations larger than PAGE_SIZE.
+> > But kmalloc() can handle such cases with essentially the same fallback.
+> > 
+> > Replace use of __get_free_pages() with kmalloc() and simplify
+> > jbd2_free() as both kmem_cache_alloc() and kmalloc() allocations can be
+> > freed with kfree().
+> > 
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> 
+> So historically __get_free_pages() was more efficient than kmalloc
+> since previously the kmalloc overhead meant that a single 4k
+> allocation would take two pages instead of one.  I'm guessing that has
+> since changed?
 
-This doesn't belong in the kernel.
+Today there's no memory overhead for kmalloc(PAGE_SIZE). Cache refill takes
+more pages of course, but they will be handed over to the next
+kmalloc(PAGE_SIZE).
+ 
+> Can you explain to someone who hasn't been tracking the changes in
+> kmalloc over time:
+> 
+>   * How does the efficiency of kmalloc compare to __get_free_page when
+>     order == 1?  What is the overhead in terms of memory overhead?
+>     I'm a bit less concerned about CPU overhead, but it would be good
+>     to know that?
 
-If we really need to have allocation policies for backing IDs, then
-just move it completely to userspace.  I.e. pass the backing ID in
-fuse_backing_map together with a flag (FUSE_BACKING_ID_SET).   It
-would make the open/close more symmetric, and is a nice flexible
-interface, so we should have done that from the beginning.  But I
-guess we opted for the kernel allocation scheme due to its similarity
-with file descriptors.   Oh well.
+There's no memory overhead when order == 1.
+As for the CPU overhead, the difference for the fast path allocations is
+not measurable and for the slow path it is anyway determined by the amount
+of reclaim involved rather than by what allocator is used.
+ 
+>   * What does kmalloc() do when a size > PAGE_SIZE is passed?  Will it
+>     return contiguous memory, or return an error or worse, BUG?  And
+>     same question as above; what is the overhead of kmalloc() when
+>     size is 2*PAGE_SIZE?  8*PAGE_SIZE?
 
-> > +       res = fuse_backing_id_alloc(fc, &bstripe->backing);
-> > +       if (res >= 0)
->
-> 0 is reserved, it cannot be allocated
+For size >= PAGE_SIZE kmalloc() always returns contiguous page aligned
+memory.
 
-It is confusing either way.  The (res >= 0) is expressing the fact
-that this is not an error value.  If the condition becomes (res > 0)
-then the zero value becomes an error condition, which is crazy.
+Larger allocations (> PAGE_SIZE * 2) go straight to the page allocator. 
 
-Thanks,
-Miklos
+> Thanks,
+> 
+> 						- Ted
+
+-- 
+Sincerely yours,
+Mike.
