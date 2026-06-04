@@ -1,149 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DB93C1976
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 09:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7955E3FBB62
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 09:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780563879; cv=none; b=sbSNPfHAJY7Hc86b7/+6UW57jYfRXdUGu4XZKBqLnweo9uVbrcuur809bRsWw+IaTma7BH6OUKKuxODY61E8f2UD3/1prW2AwUhReHh2xQeE5rNXeQNM8pJ+TWvogdt/V1R71vmFqsq56230uvp8JsjM8bptCNGjpoaWeBAa0MY=
+	t=1780563974; cv=none; b=B/drPvSNTvOIbVfeJKnhxz4FWijdKBERuweBzCyxbUOqMLmwDqdCZjytdE09BjutEK/YlNqFZKLkXsXEf+OACpp6p9rPOITfwVvcmNsea42XbBrfp7/OEdjBxeKGcHc0k1iaeFP+BhfIDmLudQGpW7QQeQuR/7bt84O+LwjkzBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780563879; c=relaxed/simple;
-	bh=PDUUSU7kmVZUxeHMY1MJ5BVFtGwJ68ein9IpwK/HpUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dTMBQ7XzNA0Urf5wYGGW/rc+5I6ZRZLHKH3FFn2t3yISz9ny7DnFv2l8hoYETPuz7RTHTiW4c54RD+iRckV/rXv/MD17pw8e87hlrwDCYBSQWbLzPnZU68wtCNj6YTZdn494RfPQv+0CzlnBDc8VvtLA6vZYG5p2ZVF/9tlCg0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c6GvCVeU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qz9GLDgt; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780563974; c=relaxed/simple;
+	bh=6nC4qMmpp4fUyVsAFDYujq7+sxNujf5CGEPAWJHIlFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TKEniNDDVFmEv4xpjSUt2r7Z3MwPXdFpcPbXmg935mGsTjApdJcKqYt3/0nuyG3SK5VuOq5DQO8AXCpnwQOm+o2kpUJSIJjKeMvKI6EYI5DsGd/oIoFp/Oppp29yMIVUTQdn35pwho1Mw9+J1P22Oa5U8ty0+HfT27CASrM3+3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4Qk/eMs; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c6GvCVeU";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qz9GLDgt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780563877;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2lQs9dI0tAeFPaJ8i1YwQIsal8XYYdyr4lp1F85T2xk=;
-	b=c6GvCVeUnhkZHx4BST2s95bSWk4UDnG7oQfmymIAja8QHnomZzWf9Fk1mvWKccCOXf+5f4
-	jEIx5VWDpWFRq+wW0Pb0CNb6InXSPR/bqfDUeT9sUmmwvBTarNrBtqTiBYUgxmwdQngDtg
-	9oihLHRQqQ4EftErBMQDF3VShLHvFrY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-62-s32ZDap_Oki0c2mzjKlRCg-1; Thu, 04 Jun 2026 05:04:35 -0400
-X-MC-Unique: s32ZDap_Oki0c2mzjKlRCg-1
-X-Mimecast-MFC-AGG-ID: s32ZDap_Oki0c2mzjKlRCg_1780563874
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-45eef10d5ebso240633f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 02:04:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4Qk/eMs"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490ac357c55so5396225e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 02:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780563874; x=1781168674; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2lQs9dI0tAeFPaJ8i1YwQIsal8XYYdyr4lp1F85T2xk=;
-        b=Qz9GLDgtLtISnCfgP/4urs6jsoO4Q4b9/whS91RL5tIMBYkAqf30YvWT9E3QDi7l/Q
-         QyOi0ycgRCwywfL8W0BkAKo/dRS1HhC1SUbF8j7uUT7ipAZ+YMKJQtM/k9XumtfIVxbn
-         bxGcCjGX2kN205Qmc/HEe7kkdoKweYVdypewv2jJmfeDpLw2vUTFWuAssI9DANnBTZoB
-         9jCC4k2pMXQQH+10xJJAGqE27mj931J4fLsC+ZQ91eA+IXFkn6/C8SqemPhFjMHTt2aI
-         OaQF5GfZSAqUCgpASg0uiyqRbM19a60sRZ+xKIK266mpRsZcsjBbbpk3liP9wbTyy7hg
-         v45g==
+        d=gmail.com; s=20251104; t=1780563972; x=1781168772; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EdFuwsES54dFvGT6zPCTaZ+yF4K8AlHGY+rBuqBIdh4=;
+        b=Z4Qk/eMsRQn5NaOl5EnL49h5mkIDXCd6CVB06Y3pkNHIQBrrOz07RC4i9WNJ7soZ5V
+         ZwZnlbdEhstvH16TCDK3NLc3IDK022X024ITEBaBP7leRrZPYvIKM0a2oZgI8eLPi4hf
+         l6bUS8EAAbKpENkoLhJlvpJaE3SPEuYNQtAyuGwu5GFaav3z27CJASM9RViLgvZnE9iX
+         HnaGV4X3VncpchGb6vO7ALPLhi36EY0JNacWYHGwLG7HcXBXRzq/C0S0jLJRDSq+IYgB
+         Ameqbmz9JWPN6B5sTwrZ27N7L7FPN5xbYHLpuQPyHE4EtAIwP41vpiRcH1y53BQ25zuc
+         Uo0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780563874; x=1781168674;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2lQs9dI0tAeFPaJ8i1YwQIsal8XYYdyr4lp1F85T2xk=;
-        b=eTnT22LdNLUlNkUTEZAMI409v1Zv+BYYbKN0EbuhtkWV3AorU8bN0m7dhmHdUzFAx1
-         +uo8J7ZmDQRt93i8juwvjhZr7IIImtErvZzHfZRLzTdPfQdvGD3aQbNHX6EpKJFoLg7/
-         Y5J6hQZz8+UyGdIo2NYrAv06zMfxY9hJNcfhhQkyPktRlAtnScX52jN8XN7duAyS06W/
-         z5Xx6u7YzEt+4xOmX7vQkJfuL1usIZcKrpvdNkEpyiyrObOLwfNBs37HTR9o/5wDOLWM
-         d9Z5Ozo6jbfMwb3dTMxztH/NRMarekMf9x3lQT9goIPjq7gKUUFvlxqxVPakdHg92F2t
-         0UuA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Y6+vdA/dFfNLjWMm6vU+GKicAzIjd6dkIRVFQuifsi2fNJN+mSXziE7N+pqVI5HemcYj6dcFlv+3SYHpf@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjwcRP19M0EBKH3YlTGyrSPwgpRXykMu1bq2SX1gi0Tbzfh27D
-	4X2Myc0ADod0e4xXkEinbAxsPxU8cQtmtYgUlmCFcWP6Q66983EJSVbZ+ya1/GEPoEyecIUlgbw
-	jleoynBEl2HKHn3pxdfXLYDM3ycAMmhLVF7kd3VTZC/ZtJ1Pr1OSmNTrQoApDQqcf2g==
-X-Gm-Gg: Acq92OFcHF6yw07j8sosCut2Y7o5WvxadrueK/z9h5HS4f5x5Gi2tVK0a20wynvmYQm
-	iyRAfOv5Vw599VoE3gl8gh2vRHRBPBmxcu5PGXJLY2i0Jjt+Qkgy66G05OrAmw/YNoL5B0yN4Fc
-	LZXQ/+Ds+/aiU2p4Oz5cfLZdq4nqUd+K9Mq0aN5R0j3nCthtKiXFO0hYs8lWXUs7MhuKlnEHSG3
-	3WvI0wB7HJ0dsLrTcqWDILto353/Zr1DZfNQya5KPPMEnsWrlnGa5/fGwi7ATUurYUT4SDC5ZnN
-	M7VnjERFvDxFuwOhWzpsb7+2z0ANlQU1JhpFIWLDlztqIHeB8bICMCbzG6VVgVobW4KJzIRscR6
-	AL2jXq8BWJEMHZAwirB1nb1IqShaawuT+G3kBITG9gneFAGbsgoO/+8Q0c5QkHCCJfE8=
-X-Received: by 2002:a05:6000:43d4:20b0:460:f36:79b0 with SMTP id ffacd0b85a97d-4602182b90dmr8717141f8f.19.1780563874017;
-        Thu, 04 Jun 2026 02:04:34 -0700 (PDT)
-X-Received: by 2002:a05:6000:43d4:20b0:460:f36:79b0 with SMTP id ffacd0b85a97d-4602182b90dmr8717074f8f.19.1780563873372;
-        Thu, 04 Jun 2026 02:04:33 -0700 (PDT)
-Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([217.30.74.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcde3sm16539954f8f.1.2026.06.04.02.04.32
+        d=1e100.net; s=20251104; t=1780563972; x=1781168772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EdFuwsES54dFvGT6zPCTaZ+yF4K8AlHGY+rBuqBIdh4=;
+        b=if1UWksw9Uq6OK9v1F5Coj3mV/46K4PPILz0dndEeBiLv53Tb0qveuzUt8ux3IU16Y
+         Y2D0vYRMIlIEBXDnPR2xA2AmCzXuXq2oI/KdXxyjCO1MWipoFvTH/LOSC4dENeTL8b1I
+         +EmJ/bKjoz2ZpUn+t52aDHDCYtMysRyKc7E4+zl/DVUz9koR+UiuB8wfSrFgVRqw5e77
+         JKqTKejmyYxtuMXF5kCTO8hUXnNU+Cx77JOwRsh0PiOvhxC2vu+dQueU6w4ryKvuQzJt
+         4+Z3znOLaIodvYTs8f+TnXlz8Ybx2QNBqinGUUnn5WH2cC7tko8T1v+bQ+yPvwR6TkfC
+         RJMA==
+X-Forwarded-Encrypted: i=1; AFNElJ/DoNFdHS9K95ViUEnhPIM8ww3CCcxd2ZkzopPPw2WfuHFn9Rf7uajMnkZKsZK2PQg/TVqd6WxpiZRsBhV0@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRM2XbWtuYDDWzHe7zWHy6I5Z4xPR10wlZLrJ1DsOpyriVMNmQ
+	T4U+aslzWWUrgQwhh9qBfoZtcI7x0x4bGGmm1Eb/QU2PebLFUV0koAShCdK7kSK8
+X-Gm-Gg: Acq92OHZLCktbUDSMU+DdRW05DuVpzsL1nbDsv2zYnhX53n4wUM/xjqWxRN26doABCm
+	KRNhL/Of9tYxK4rxPNgiv4KZYuIv5ot9pwIp+uZbjqRANaOanHK9R8Xk6Uo9NboZXFDZ8wvtJGm
+	Wf3P4EQLsKDWBUtEhwPlpZS3TobnlHJMpwX0z7V7ijPAMe8fex7aYVij1Rdvy0kGfZnqsF0COoK
+	ALY1siIC6PU9QfwFyO4/Mdv+kunOX53rAa8cpF+HOl2ldaqkqRS2v6R306xydCR4WuGvlbQMfQf
+	USbVTnUEMIBy0YzqK5Rz709cikMFEVRkHcLAvA8t3/Yv3t6SnP5nCcrBuZN2MDcqNSL2T6E7KWg
+	Zh5UMpNr65F+/nMoist1nz5aVAhNMk7Z/9GCwHLFB8Wjd8Ps/hLHXEUxVkEWUIS5k6ziiznNHjW
+	ythOjiHAv4Mr8/qOJUD4BToCjoCNFSCTNJJipGZS8oMlNQmZ8rx6uFy9QKmf5KPUwnCDvZJBImF
+	g19h9G9SA==
+X-Received: by 2002:a05:600c:8184:b0:490:5cd8:d213 with SMTP id 5b1f17b1804b1-490b5eb44f8mr113527135e9.15.1780563971711;
+        Thu, 04 Jun 2026 02:06:11 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b7e6c774sm70203515e9.1.2026.06.04.02.06.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 02:04:32 -0700 (PDT)
-Date: Thu, 4 Jun 2026 11:04:32 +0200
-From: Andrey Albershteyn <aalbersh@redhat.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Carlos Maiolino <cem@kernel.org>, Christoph Hellwig <hch@lst.de>, 
-	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
-	djwong@kernel.org, david@fromorbit.com
-Subject: Re: [PATCH v10 00/22] fs-verity support for XFS with post EOF merkle
- tree
-Message-ID: <aiE_YQc6SGSdWlcE@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-References: <20260520123722.405752-1-aalbersh@kernel.org>
- <20260521090705.GA14254@lst.de>
- <gcw7zcg6p4s2egpufwizfig72g6ren7jfmuz5mqskkpb7xepww@e3v35j7bk7dc>
- <ag7uW7KQ5mVyCGEv@nidhogg.toxiclabs.cc>
- <20260522-unbehagen-baumethode-erlesen-811a4065eeac@brauner>
- <20260522120757.GA21041@lst.de>
- <ahVzkf8JoKP-kSC2@nidhogg.toxiclabs.cc>
- <20260528-offiziell-luftleer-misswirtschaft-3503bda2ad70@brauner>
- <fjdfwhwi4aogyiaoijwvw6w4npuu5mbt6ua6fkhwcp5ajlm543@ume2fkxg36cb>
+        Thu, 04 Jun 2026 02:06:11 -0700 (PDT)
+Date: Thu, 4 Jun 2026 10:06:09 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Askar Safin <safinaskar@gmail.com>
+Cc: metze@samba.org, akpm@linux-foundation.org, axboe@kernel.dk,
+ brauner@kernel.org, david@kernel.org, dhowells@redhat.com,
+ hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org,
+ patches@lists.linux.dev, pfalcato@suse.de, torvalds@linux-foundation.org,
+ viro@zeniv.linux.org.uk, willy@infradead.org
+Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <20260604100609.6b37f500@pumpkin>
+In-Reply-To: <20260603211736.755139-1-safinaskar@gmail.com>
+References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
+	<20260603211736.755139-1-safinaskar@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fjdfwhwi4aogyiaoijwvw6w4npuu5mbt6ua6fkhwcp5ajlm543@ume2fkxg36cb>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 2026-05-28 16:50:45, Andrey Albershteyn wrote:
-> On 2026-05-28 14:20:08, Christian Brauner wrote:
-> > On Tue, May 26, 2026 at 12:19:43PM +0200, Carlos Maiolino wrote:
-> > > On Fri, May 22, 2026 at 02:07:57PM +0200, Christoph Hellwig wrote:
-> > > > On Fri, May 22, 2026 at 12:03:20PM +0200, Christian Brauner wrote:
-> > > > > > I was expecting this to come through xfs tree too if Eric and Christian
-> > > > > > agree.
-> > > > > 
-> > > > > You may take it through the xfs tree if there are no conflicts with
-> > > > > vfs-7.2.iomap. If there are I want to add the iomap changes into
-> > > > > vfs-7.2.iomap that you can pull in.
-> > > > 
-> > > > Merging the iomap bits through the iomap branch might make sense, given
-> > > > that iomap usually tends to see quite a bit of activity.
-> > > > 
-> > > 
-> > > That sounds good to me. If you want to go ahead and pull in the iomap
-> > > bits, do so, and give me a heads up when you do it so I'll pull your
-> > > branch locally.
-> > 
-> > Great, can the series please be resent based on current vfs-7.2.iomap
-> > then please? Because the iomap changes in this series don't apply
-> > cleanly on vfs-7.2.iomap so we already have merge conflicts...
-> > 
+On Thu,  4 Jun 2026 00:17:36 +0300
+Askar Safin <safinaskar@gmail.com> wrote:
+
+> Stefan Metzmacher <metze@samba.org>:
+> > Why is 'int fd' changed to 'unsigned long fd'?  
 > 
-> hmm do you mean this branch?
-> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs-7.2.iomap
+> Because preadv2 and pwritev2 take "unsigned long". I want vmsplice
+> to be as similar as possible to preadv2 and pwritev2.
+
+Something needs to ensure that the high 32bits of the fd get masked off
+on 64bit systems.
+They can be non-zero in the register that comes from userspace.
+
+-- David
+
 > 
-> patches 07..09 seems to apply cleanly. The only conflict I see is in
-> the overlayfs patch 03. This is because [1] (is in -rc5) is missing
-> in vfs-7.2.iomap.
+> > Should that be its own commit if the change is desired?  
 > 
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/fs/overlayfs/util.c?h=v7.1-rc5&id=0c8c88b8eb82a2a41bec5f17c076d6312dc40316
-
-Christian, ping
-
-Would be nice to have iomap in vfs, so Carlos can pull and test the
-rest
-
--- 
-- Andrey
+> Yes, possibly. But this patchset already got to next.
+> 
 
