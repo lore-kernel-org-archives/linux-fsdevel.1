@@ -1,116 +1,158 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719C648A2BE
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 14:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E0E47AF4B
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 14:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780582652; cv=none; b=dMNM3ymYsrfTwKvjMAI8Usu7mVALwNkf/QsQ9713kvYAVWm/ljp+rwR11062uu+HMp13Nko79FBZGBQNZ6dZsMO6+pgKQZM08vfZo6qE5RLhXbBVII2HE8ffobfqtUZCTbCuoqQaUgWlIqKAIUuQj1YqrbPGN2GVx3R6c3+BUJM=
+	t=1780583167; cv=none; b=BHGvjbPu1KyNzYydHpScPzYpzBWd9xQeWWgKDvCex9n2zG8ysL/Mtsw94BbPlx0poPqoc9ugtPOpIhMcjF4WoOMW1UWvalWtGzgVFDzNNmwQaPXiZ8m5XlOmNVWKPDBxDAJHjkqjOq2un0KkNQN+eRej8R0Vts9tJ3ves4VOWM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780582652; c=relaxed/simple;
-	bh=Ecbl/t5OYeJ4mb+vVa4qoGM4jTXP3pkfic84pGx71kY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oveXSjstIRfwDYTgqqSDV1bQ3fEF37Z9uD8zsQFOQ0JDYPJ/GDWvNT8LBOcw/u7Z2kbwvSeJdtjZP15Nv/NcncrqUsEsiXl+qUMLwGaB0RRdmXKPi60oYe30/IgNZuRAW6Adr4NbTAa8r+vKooiDh/i4668PQo6D/j3v94jPw9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZR+ZY+zx; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1780583167; c=relaxed/simple;
+	bh=Twt+eDHBoEludCqGvDcVV+Ad8p7sVgzFKO5UzAtXH44=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=dfMDQ6rcFATfglrUZ38+0rlxaJKifFxbnkEbo3BheKu/42TP/0d2AQTDQXhjX7URH4fY1kTCck/oZzkqYRGtwlvaIIy9Hy+fCpZEAjOOa2dZogtGx+cddU4vSc5OhXbcftwpC3Pv6RCPipB9+ZauQBfO0ixWbSYBWdaSxc3EbYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Mgp44RCr; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZR+ZY+zx"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bec49f7e35eso103364266b.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 07:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1780582650; x=1781187450; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lAn7tUi15DsxPNLBVxb55DsaCLzi2ItCgQT81dYuAAI=;
-        b=ZR+ZY+zxTUtSjTgKJrSRxVrz3rvMxODOqoLzntz8AyaivpSiF9Ae0cUUL1v2fn92JM
-         mP0EmeWr0glHhCIMv003wgJXiqSSF1ydf3s0btixbT6zhlnR1vlFX17/ktdoUUKPeYAM
-         qOE29EmVDyCyr2Cva84XWK8PabOa4wWDm7/xA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780582650; x=1781187450;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lAn7tUi15DsxPNLBVxb55DsaCLzi2ItCgQT81dYuAAI=;
-        b=QAUqAtK/qBdfUX3LWyIqOqZWNJoWu8BqbebWiwqv+iPaJTxiajiJ0/ZAOJLWbfyKHy
-         a+uqbogvmbE8tWtMEL8A3m9FBn3/xJSw3jepcyEOAFC93JafU5AuHjZFl4ysve5HqF3v
-         xXuKLmMbI0bsnnJ2d8cXr3TJWAJ9vuVszPyFjU5tRwJflql0Rhlxo6eZzv/o77svYogn
-         EYqb0LAzJDylFnZSXc4gZIAoNqUXMnMF2eqrvA2SwughJOpK/Rs8Uz510yEz2AkOWaKE
-         Cut2Qm2htZnHEDld6WYDIiVgFHjmYhNfAdEV892d+MTQyG2cbFdoYFcyX66FXGviEiyt
-         zRkQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8lhG6hQdDHaQu6nDqGEdtRJIZ3zYNX9l6Hgcmx46cdG6gbD/ogHXypTUjP/+yVxkCySJy87IUTIuG4xnIZ@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDlx+7XEBqnWIwOZHT+qvf+YVkKcJmX6clhVManAfyOl5ymfx1
-	JBaJwI35hKfs6+21UWre9Ahbf6q0m7Y/AO8TC2AmN44eeNoXmSo/klN2RNSwvyzuMG20wylaQA9
-	doZMh405HNQ==
-X-Gm-Gg: Acq92OFglT44/7sEGmNrztSg6j8G0yOR1xLDz0uHkhMNLN5mdc0cXjDF4zTbzlmUCuj
-	AT+0UZxZxBpohzyBpBxPEKEOMYbXph7fdzlkCc9jV48GwJkhAwtvEM9n27kZVpKNiIuCSUzbQRr
-	fhGxfmF4b6P3zQdvyiMi/hgtByXdie+RNsiAQe1gy/WyWVSYosySIq55lkXxaRuHB0srtnUFf2y
-	FydluQYND8W6lH1Lc1tfRkktoEFCpAuivtnxgXTSsqymjdwOo72S+ujLE/cVakbeBjV9K9ofSL2
-	9AK2mTE+Qwz2GNJpEcBep6pcsqbLSsZ8zP4ZXcTGt4xk4zlToDEsuxno8/bGDVCHu6TeuLeYj2r
-	ptCM5jQdk10iUvJBGABuXzXmIiWpipU0aN7yHawTJWkrOhLNpKb7Cr9x7UYja7mC+sGZIrQHxok
-	B9n+1+Ahq99LfGQApg1ZCE1GvnDCA7UQDkVW+Qg6hIwCPiIK4hlD+7AuNm61I+MhL+WPmk5npAw
-	BHZYR2RaMY=
-X-Received: by 2002:a17:907:c282:b0:bec:5234:af7d with SMTP id a640c23a62f3a-bf0ac20eee8mr442279166b.6.1780582649670;
-        Thu, 04 Jun 2026 07:17:29 -0700 (PDT)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68e65851fa2sm2465184a12.18.2026.06.04.07.17.28
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 07:17:28 -0700 (PDT)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68c1653ea0cso1059210a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 07:17:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/uzCPx2wO2lBzbahRH9S0W7KKP/ihqDDdMMvbybKCu9VhJ8rK4G6yp30WvBM1IPxaT+VNHxD1giHFnwNsQ@vger.kernel.org
-X-Received: by 2002:a05:6402:5296:b0:670:8add:2b8d with SMTP id
- 4fb4d7f45d1cf-68e72739555mr4177743a12.24.1780582648047; Thu, 04 Jun 2026
- 07:17:28 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Mgp44RCr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780583165;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WtAwq+kBbu0Jre6SowbAzwYpDgzV/li3NBaF67YwMAg=;
+	b=Mgp44RCrskxTkvyUL5u9FNiAzvCmIxGfdAyW1o73cK58e2SmYIKyG2XWJNuJTJZi09j96z
+	r4AoOFqpkC8RwuHedGcRyaKZ0xrSyu32vbqaSp508uPyXN147yesLM8Grzze4o0iYvt9Ca
+	RyGcY6+ZtHpmrh/SeWm7gxO1xCWStgo=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-154-010EzjtuPq6sAk9ZnnOTDQ-1; Thu,
+ 04 Jun 2026 10:26:00 -0400
+X-MC-Unique: 010EzjtuPq6sAk9ZnnOTDQ-1
+X-Mimecast-MFC-AGG-ID: 010EzjtuPq6sAk9ZnnOTDQ_1780583158
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2813A1956094;
+	Thu,  4 Jun 2026 14:25:56 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.50.14])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F3B2130001A1;
+	Thu,  4 Jun 2026 14:25:47 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <ahPodavlA-gt44FO@infradead.org>
+References: <ahPodavlA-gt44FO@infradead.org> <20260518222959.488126-1-dhowells@redhat.com> <20260518222959.488126-6-dhowells@redhat.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: dhowells@redhat.com, Christian Brauner <christian@brauner.io>,
+    Matthew Wilcox <willy@infradead.org>,
+    Paulo Alcantara <pc@manguebit.org>, Jens Axboe <axboe@kernel.dk>,
+    Leon Romanovsky <leon@kernel.org>, Steve French <sfrench@samba.org>,
+    ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+    Marc Dionne <marc.dionne@auristor.com>,
+    Eric Van Hensbergen <ericvh@kernel.org>,
+    Dominique Martinet <asmadeus@codewreck.org>,
+    Ilya Dryomov <idryomov@gmail.com>,
+    Trond Myklebust <trondmy@kernel.org>, netfs@lists.linux.dev,
+    linux-afs@lists.infradead.org, linux-cifs@vger.kernel.org,
+    linux-nfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+    v9fs@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+    linux-block@vger.kernel.org
+Subject: Re: [PATCH v2 05/21] Add a function to kmap one page of a multipage bio_vec
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
- <20260603211736.755139-1-safinaskar@gmail.com> <20260604100609.6b37f500@pumpkin>
-In-Reply-To: <20260604100609.6b37f500@pumpkin>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 4 Jun 2026 07:17:10 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
-X-Gm-Features: AVVi8CcQ0yaowxPCFqM7JCGZCz4oCGBQaQ6sAmWXnRpVnXINniRqjS3Vb3FRVpM
-Message-ID: <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Askar Safin <safinaskar@gmail.com>, metze@samba.org, akpm@linux-foundation.org, 
-	axboe@kernel.dk, brauner@kernel.org, david@kernel.org, dhowells@redhat.com, 
-	hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org, 
-	patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk, 
-	willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <127137.1780583146.1@warthog.procyon.org.uk>
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 04 Jun 2026 15:25:46 +0100
+Message-ID: <127138.1780583146@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Thu, 4 Jun 2026 at 02:06, David Laight <david.laight.linux@gmail.com> wrote:
->
-> Something needs to ensure that the high 32bits of the fd get masked off
-> on 64bit systems.
+Christoph Hellwig <hch@infradead.org> wrote:
 
-That something already exists: CLASS(fd, f)(fd);
+> > +static inline void *kmap_local_bvec(struct bio_vec *bvec, size_t offs=
+et)
+> =
 
-It ignores the top bits, because 'fdget()' takes an 'unsigned int'.
+> The name is rather confusing for something that does not map the entire
+> bvec, and is an anagram of the existing bvec_kmap_local.  So please
+> rename it to bvec_kmap_partial or something.
 
-We have been a bit random in how we declare the system calls in
-general, and we mix 'unsigned int' and 'int' and 'unsigned long'
-pretty much randomly when it comes to file descriptor arguments to
-system calls.
+Sure...  But it then differs in pattern from the various kmap_local_*() th=
+at
+we have.
 
-fs/read_write.c in particular uses all three cases with no real logic to it all:
+> > +{
+> > +	offset +=3D bvec->bv_offset;
+> > +
+> > +	return kmap_local_page(bvec->bv_page + offset / PAGE_SIZE) + offset =
+% PAGE_SIZE;
+> =
 
-  SYSCALL_DEFINE3(lseek, unsigned int, fd, ..
-  SYSCALL_DEFINE3(readv, unsigned long, fd, ..
-  SYSCALL_DEFINE4(sendfile, int, out_fd, ..
+> ...  Also this can use shits and byte masking to be a tad more efficient=
+ and
+> matching the rest of the bvec code.
 
-but then anything that uses fdget() (through one of the helper classes
-or not) will simply not care.
+PAGE_SIZE is a constant power-of-2, so it shouldn't make a difference if t=
+he
+compiler is doing its job properly, but okay.
 
-Does it make sense? Is it pretty? Nope. Does it matter? Also nope.
+One thought: I could just give bvec_kmap_local() an offset parameter and u=
+se
+that instead.
 
-                  Linus
+> Users of this would be interesting
+
+It's used four times in patch 10 ("afs: Use a bvecq to hold dir content ra=
+ther
+than folioq").  I could merge this patch (patch 5) into one of the other
+patches, it's just been more convenient for it not be in a later patch whe=
+n
+flipping backwards and forwards to cut down on recompiling.
+
+> and why you're not simply using a bvec_iter at page granularity, which i=
+s
+> what other block kmap code does.
+
+Because for the most part I don't want to do linear iteration.  There are =
+a
+number of cases:
+
+ (*) Read-link and follow-link: For symlinks, there will only be a single
+     block and it will fit within PAGE_SIZE.
+
+ (*) Readdir and dir checking: I iterate over the directory contents using
+     iov_iter and iterate_bvecq(), though I could also use bvec_iter insid=
+e a
+     loop to step through the bvecq chain.
+
+ (*) Lookup: Follows the hash chain in the directory rather than searching
+     linearly.
+
+ (*) Editing of local directory copy: Doesn't do linear iteration, but rat=
+her
+     does random access of blocks in the directory.  (This is to avoid hav=
+ing
+     to reload the dir from the server when doing mkdir, rename, etc.)
+
+Note that directories are 2K, not PAGE_SIZE, and, when editing, I may need=
+ to
+modify more than one block in a directory operation and they may share a p=
+age
+(which may be part of a higher order page).  Can we drop 32-bit arches yet=
+ -
+or, at least, highem support?
+
+David
+
