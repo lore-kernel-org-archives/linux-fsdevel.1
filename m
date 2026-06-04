@@ -1,160 +1,258 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F7437CD32;
-	Thu,  4 Jun 2026 06:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDA13CF048
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 06:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780554743; cv=none; b=K9zHa0S3wsmAw3pUubpKwILtQyE4aTh1SqN1CIdoiHlzhy9rOZQKmNgpv9Yz7kvh9jivYu+jAEsO4OV1o0APLIDDHuesew2351g6tdcZMocTHjJ63gD9rINN4QOwpdzkV9bIOPVtEk743YWdmtUu9mcRKuTYgd5D1Q9XeTJKQUw=
+	t=1780555897; cv=none; b=fBhSOLlyoa7nfJ8SPHLDv5SVq9HSB0Mg1j6lP12dQCv+GriYMI8aNpf6JRF3aPcXH+p59UteKcu43MhIHy8B8xFtnCCznxFC4sRCh7i8zyXw/3zwL2k5fMBw23OcX09JUw/tL1u7V+Fg1FPEbeOUmq8NptNJDfAe1F7GlHyjZrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780554743; c=relaxed/simple;
-	bh=SfnC9yJJuifTGy+OR43943J7ylh76jONzzAr29Kxf08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a8H3R1Euu6iDrq+FJz1Lbsj+Av75SZ7IFHD98zdzlu++AQoHu+VCbABixM1TJXH3UtvuI3GrXX/BoSvIOf2xgKuzJw2q3j4tt2gQYiATq5A2aQMucyiKAIwipr1lV9ASNFBgJdzpai1S4BrkKX0wi5iV8m5nmDJPcgMvZhhZbzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=jpkB2nzY; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1780555897; c=relaxed/simple;
+	bh=rZfmT8E2vEREwINMSsmZrCaMt9v4llL/bgylmcTIXuw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ESQtiGWgvxzdcFoISB1Z6vk0T9eU8R047tkmzJPTvXeZNMZhzMjyD2/M9AnF642qbVZOl7YkCuAfpvZbhO1u9gxRYLtBbGMr8xz/5VcQMRinJmGwqNRJWYf64mbdKhPIcIO75iDm9B747gcqJdIUcgldXPEkjh64LMKqsH3pHVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nzpxXUyd; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="jpkB2nzY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1780554737; bh=D9nwLs4KwMwQ80PQ1Q3ExZLliPxSXG1vTX5NNZIw0Hg=;
-	h=From:Message-ID:From;
-	b=jpkB2nzYMYFGJLo2yxhZ7zzA+WhfbH6IPBDq/rnj5kwadTf4T1dykNg7QvtDS3q/f
-	 X1+Gc6B00HW6CKs9VJ9MpDO6InL90L1sxTWsIl/GvAc+96Vwhwlca0ShHaEEmf4bvI
-	 0SMiD+Gpq2qOzkk1UhzhXudoxeVA4OeVV8ZoBGyc=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 989C8C0B73;
-	Thu, 04 Jun 2026 08:32:17 +0200 (CEST)
-Date: Thu, 4 Jun 2026 08:32:16 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org, netdev@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig <hch@infradead.org>,
-        David Howells <dhowells@redhat.com>,
-        David Hildenbrand <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
-        Miklos Szeredi <miklos@szeredi.hu>, patches@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <aiEb8CTM-ovMIq7-@1wt.eu>
-References: <20260531010107.1953702-1-safinaskar@gmail.com>
- <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
- <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com>
- <20260601173325.GH2636677@ZenIV>
- <20260601160455.2c187574@gandalf.local.home>
- <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nzpxXUyd"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c0bd02d97eso4462895ad.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 03 Jun 2026 23:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780555895; x=1781160695; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U9uqJ9zIvGX0NDqn7gTsRWpyFlMlfqGeCbba9ggEOAI=;
+        b=nzpxXUydyJMRm3T2ZOLTG+Q8ZQRMr+WfhWpx/Z5Jo4TH+ySFJxdm8krDlMJPjz/Kbp
+         ZUwUtpDKJ3LvdLcvBoniSA57zA5CNxDf1/ylgpa9VoqTWLgthuRoAwMkC9Xj9h3PnlgA
+         dfhGKhOPYjSTiYIKgcr8D9H6szTvfxk8nJCarob3T+AqCLg7wQcnZzTkVIBhw8gb7TfN
+         UErtVFDcjpnFwzi5oRYFqyKkslUwXv6dHfXZRwNdjjUroLI10lRZFmKDGFFEKFS2Qh8q
+         UE5gfOk86nwacuCAVVpNmtuKasQ7I1t6LJygNX9XAu4fzIyLy8BZiXPyaaByd5c0VChI
+         5XDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780555895; x=1781160695;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=U9uqJ9zIvGX0NDqn7gTsRWpyFlMlfqGeCbba9ggEOAI=;
+        b=ec4HnambWUELIEsu19GYwm++B9OC8NBjvwpSLaJWoTyUcTVVh0l1wkhvP/kqU3/62u
+         oQQnAprQI8+OVWNc9+ctZ8m0Se6Xz4NQbdM1oIRaNxCzW7sTEGyRnSf3bXboJhWlkbWr
+         ZqIMcXJs/a/Jlo7NVVYgv6uXjZOpCZfmvLICun8H1NsNggkMskYSOmnbxhV0e84mdpsf
+         /VOgCN61HH+PqYtYvUUtVP32bF4fWmsAdHL6/rA8yQtivXCOrjKCx/TqX5k9yRThdYd+
+         hCYZFBuF+pGNjK7VH44N+5PP+mDHyC1Z/9+UU22vjMDhuSUOFJxQpSNYbnX+2Y3kWwmj
+         ksDg==
+X-Forwarded-Encrypted: i=1; AFNElJ9QpvzwJHiDzW73RzbRt8WvG587vfK7cXUIQ0u+mEQMZ9MGx/FjalFuDJqSv4beBrYcg1yibu+k0vhZt97+@vger.kernel.org
+X-Gm-Message-State: AOJu0YydL51K1gl9tl+LOwSh7WD9H9sJSD60pKxRbICyolj/a/+8D9Ek
+	7F8Y6nFfpdJmOuS3FPEbN10YAtGZwcY45ltOpgccwp6y89nsefqMZy9t
+X-Gm-Gg: Acq92OH9xgPKmfMk948PAj+vq5m2mBJsibV5mzuexxNj6PFzgAl5URH0eh/3JCmIpre
+	swVivmXNirMAeh6Q6rTS9Q/f6AhgnqHG6wV6jFjvNa0VoTlzvkNmugmCC4kN7Hd1OFQz+RCSlSA
+	XWN5WOfi/h6n2BZJp7hD0IqfJGveH8jsBY6SzFHqi82OLBCqrwtFsb+/4EDSv8uqTTL/MPpopZ9
+	EP5tFGEzIfiHsK/mD56nZxhCRTwvbtLuVcJ6wMPbScvMHxXpKX/Lk8T+IH5dQdmFFWN7FTb7atZ
+	vLolbKCNEQ4B5wQbK+ncGkmFRZrTTbVIqgEi8Dsw5/yYsIv3ndWyihvBzhAQ87qxo2/bmtEjxKV
+	lEQQCvCcVlVncnMlV1hOpP0qpRDoImNa0ciQsTAXQQ3tkzRLAo7sTA9sAveuXiCJZ2+dvYNOO7C
+	GkyJ0Fr/Xiya7/rLrDhZ4WrR9sqauZBRFG45Q9DdIQMw+JwHTH
+X-Received: by 2002:a17:903:808:b0:2b2:6df1:1112 with SMTP id d9443c01a7336-2c1644dd0aamr41901955ad.40.1780555894693;
+        Wed, 03 Jun 2026 23:51:34 -0700 (PDT)
+Received: from localhost ([49.207.144.13])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e573sm46972795ad.47.2026.06.03.23.51.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 23:51:34 -0700 (PDT)
+From: Piyush Sachdeva <s.piyush1024@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ netfs@lists.linux.dev
+Cc: sprasad@microsoft.com, linux-kernel@vger.kernel.org, sfrench@samba.org
+Subject: Re: [DISCUSSION] Preventing ENOSPC/EDQUOT writeback errors on
+ network filesystems
+In-Reply-To: <m2zf23e9ox.fsf@gmail.com>
+References: <m21pfqgzbq.fsf@gmail.com>
+ <9e48229614786e0c2e92bb6a2dd3269868f160d0.camel@kernel.org>
+ <m2zf23e9ox.fsf@gmail.com>
+Date: Thu, 04 Jun 2026 12:20:45 +0530
+Message-ID: <m2tsribxyy.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260601172825.a51a588ec1c32617a0e12d78@linux-foundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 01, 2026 at 05:28:25PM -0700, Andrew Morton wrote:
-> On Mon, 1 Jun 2026 16:04:55 -0400 Steven Rostedt <rostedt@goodmis.org> wrote:
-> 
-> > On Mon, 1 Jun 2026 18:33:25 +0100
-> > Al Viro <viro@zeniv.linux.org.uk> wrote:
-> > 
-> > > On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
-> > > 
-> > > > TLDR: maybe we could ghet rid of "f_op->splice_read". *That* would be
-> > > > a big simplification.  
-> > > 
-> > > FUSE might be interesting - fuse_dev_splice_read() and its ilk.
-> > > Communications between the kernel and fuse server at least used to
-> > > seriously want that, so that would be one place to look for unhappy
-> > > userland...
-> > > 
-> > > splice-related logics in fs/fuse/dev.c is interesting; another place
-> > > like this is kernel/trace/, but I'm less familiar with that one.
-> > > 
-> > > rostedt Cc'd (miklos already had been)
-> > 
-> > Thanks for the Cc. The tracing ring buffer was specifically made to be used
-> > by splice and the libtracefs has a lot of code to use it as well. As
-> > reading the ring buffer literally swaps out the write portion with a blank
-> > read portion, that portion (sub-buffer) is used to be directly fed into
-> > splice, providing a zero-copy of the trace data from the write of the event
-> > to going into a file.
-> > 
-> > trace-cmd defaults to using splice to copy the tracing ring buffer directly
-> > into files to avoid as much copying during live recordings as possible.
-> > 
-> > Whatever changes we make, I would like to make sure there's no regressions
-> > in performance of trace-cmd record.
-> 
-> Well yes, The patchset seems sensible from a quality POV.  But to make
-> a decision we should first have a decent understanding of its downside
-> impact.
-> 
-> I haven't seen a description of that impact in the discussion thus far.
-> And that description is owed, please.
-> 
-> I assume a small number of specialized applications are using
-> vmsplice() to great effect?  What are those applications?  What is the
-> impact of this change?
+Piyush Sachdeva <s.piyush1024@gmail.com> writes:
 
-> Once we are armed with that information, is there some middle ground in
-> which we de-feature vmsplice()?  Fall back to pread/pwrite in the
-> tricky cases and still permit vmsplicing if the application is
-> appropriately restrictive in it usage?
+> Jeff Layton <jlayton@kernel.org> writes:
+>
+>> On Tue, 2026-05-05 at 11:41 +0530, Piyush Sachdeva wrote:
+>>> Hi,
+>>> There have been plenty of discussions on how to handle writeback errors=
+ for
+>>> network filesystems, but most have focused on error reporting after the=
+ fact.
+>>> I'd like to start a discussion around preventing writeback errors speci=
+fically
+>>> ENOSPC and EDQUOT, before they cause silent data loss.
+>>>=20
+>>> The problem:
+>>> With buffered writes on network filesystems (cifs, nfs, etc.), the writ=
+e()
+>>> syscall copies data into the page cache and returns success immediately=
+. The
+>>> actual upload to the server happens later during writeback. If the serv=
+er is
+>>> out of space at that point, the write fails with ENOSPC. The netfs/writ=
+eback
+>>> layer records this error via mapping_set_error(), but critically the fo=
+lio's
+>>> writeback flag is cleared and the page is now clean. Under memory press=
+ure, the
+>>> VM can reclaim these clean pages, permanently losing data that the appl=
+ication
+>>> believes was successfully written. Meanwhile, i_size has already been u=
+pdated
+>>> to reflect the new file size. So stat() shows a file size inclusive of =
+the data
+>>> that was never persisted. Another inconsistency here is that total free=
+ space
+>>> hasn't been modified for the file system on the server, leading to inco=
+rrect
+>>> values in statfs() output from the client's pov (assuming statfs() call=
+s go
+>>> to the server).
+>>> To illustrate with real-world scenarios:
+>>>=20
+>>> - A user or application can keep issuing writes to an fd well beyond the
+>>>   available space, since buffered writes return success as soon as data=
+ is
+>>>   copied to the page cache. A significant amount of data, exceeding the
+>>>   available quota can accumulate before fsync() is called, at which poi=
+nt
+>>>   critical data loss is nearly certain.
+>>>=20
+>>> - A malicious user can exploit this to keep resources pinned and memory
+>>>   oversubscribed, impacting other applications.
+>>>=20
+>>> The error is technically observable: fsync() will return it, and close()
+>>> surfaces it through the flush callback. But in practice, many applicati=
+ons
+>>> check neither, and the POSIX "just call fsync()" answer isn't satisfyin=
+g for
+>>> users who lose data silently.
+>>>=20
+>>
+>> Yet, it is the only real answer we have.
+>>
+>> This is just a fundamental issue with buffered writes and delayed
+>> writeback. Either you flush the data to stable storage now, or you have
+>> to do it later. If you do it later, then it can still fail for all
+>> sorts of reasons.
+>>
+>>> Local filesystems largely avoid this because they can check available s=
+pace
+>>> synchronously in write_begin() and fail the write() syscall directly. N=
+etwork
+>>> filesystems can't do this cheaply =E2=80=94 a round-trip per write to c=
+heck server
+>>> space would negate the benefits of buffered I/O.
+>>>=20
+>>> Through recent development, netfs is becoming a central layer for netwo=
+rk
+>>> filesystem I/O. It already has retry logic for transient failures (EAGA=
+IN,
+>>> ECONNABORTED), but ENOSPC/EDQUOT remain hard failures. This affects eve=
+ry
+>>> network filesystem using buffered writes.
+>>>=20
+>>> I am curious to know if NFS has a solution to this and what the approac=
+h is
+>>> towards this specific problem by NFS community?
+>>>=20
+>>> This problem is worth solving for all network filesystems. I have a few
+>>> thoughts on approaches, combining cached statfs() output with
+>>> fallocate()-style pre-allocation on the write path:
+>>>=20
+>>> 1. Pre-allocate space on the server before writing to the page cache,
+>>>    analogous to fallocate() on the write path. This guarantees server-s=
+ide
+>>>    space for page cache data.
+>>>=20
+>>> 2. Since per-write fallocate() calls require a server round-trip, effec=
+tively
+>>>    negating the benefit of buffered I/O. Use cached statfs() output to =
+gate
+>>>    when pre-allocation is triggered. For example, once free space drops=
+ below
+>>>    20% of total space, enable fallocate() on the write path. Otherwise,=
+ let
+>>>    writes proceed as normal.
+>>>=20
+>>> 3. Handle refresh and synchronization of the cached statfs() data separ=
+ately
+>>>    to avoid staleness.
+>>>=20
+>>> I'd appreciate feedback from the community on viable approaches.
+>>
+>> NFSv4.2 does have an ALLOCATE operation:
+>>
+>>     https://datatracker.ietf.org/doc/html/rfc7862#section-15.1
+>>
+>> ...and such an operation could (in principle) precede WRITE in a
+>> compound, but that doesn't really help you. By the time we're issuing
+>> RPCs to the server, the client application has already finished its
+>> writes and moved on.
+>>
+>> For applications that want to avoid ENOSPC/EDQUOT, the best thing they
+>> could do is call fallocate() themselves to ensure that the space
+>> exists. With a sufficiently recent NFS client and server, that should
+>> DTRT.
+>
+> Hey Jeff,
+> Thanks for your email and for sharing the NFS spec. I noticed that the
+> ALLOCATE operation ends up checking for space during write-back as well,
+> and the initial concern of loosing data still remain. But if we do the
+> operation before writing to the page-cache, it would be a performance
+> issue.
+>
+> I will try a few experiments and then post my findings here.=20
+>
+> --
+> Regards,
+> Piyush
 
-I'm using vmsplice() + tee() + splice() in high-performance applications,
-load generators to be precise, and soon a cache. This is super convenient
-and extremely efficient:
+Hi,
+While running experiments, I came across an interesting finding.
 
-  - vmsplice() is used to prepare a "master" pipe with data to be sent
-    over TCP or kTLS
-  - then for each request, we do tee() from this master pipe to per-request
-    pipes.
-  - the per-request pipes are those that are used to deliver the data to
-    the socket via splice().
+Context:
+When writing data beyond the available space/quota on the server, we
+don't expect to receive an error on write immediately, given its a
+buffered write. The EDQUOT/ENOSPC error surfaces on a call to fsync(2),
+either directly, or implicitly via close(2). CAVEAT: close(2), doesn't
+guarantee a flush of data to the backing store.
 
-So we effectively use vmsplice(), tee() and splice() here, and for exactly
-the reasons they were designed: only play with page refcount and not copy
-data. The code is here for the curious:
+Finding:
+When the flush of over-flowed data - sitting in the pagecache is tried
+using a fsync(2) call, we expect it to fail. However, it looks like that
+the NetFS layer, used by the SMB client to do the writeback, doesn't
+re-set the dirty bit on the pages/folios on which fsync fails. At this
+point the pages with critical user-data are sitting in the pagecache,
+but no longer marked dirty/referenced by the inode of the file. This
+behavior is seen for EDQUOT/ENOSPC errors, contrary to EIO errors where
+data is re-dirtied. It seems that EDQUOT/ENOSPC are treated as
+non-retriable errors, as a reason the dirty bit is not re-set.
+I noticed that NFS also has a similar behavior where the pages are not
+dirty after the failed fsync. Naturally, now that the fsync is
+tried before calling close, and with the data not-dirty anymore, no
+errors are seen on close.
 
-   https://git.haproxy.org/?p=haproxy.git;a=blob;f=src/haterm.c
+While, the close(2) manpage explicitly states that upon failure, close
+should not be retired, I do believe that the data should still remain
+dirty. An application (should) calling fsync before close would monitor
+for errors, and should be able to retry the fsync after increasing the
+capacity on the server.
 
-and its ancestor is here:
+I would appreciate thoughts on my idea.=20
 
-   https://github.com/wtarreau/httpterm/blob/master/httpterm.c
-
-It simply doubles the network bandwidth compared to not using that.
-(62 Gbps per core vs 31). I would seriously miss it if I couldn't use
-this anymore.
-
-I also have mid-term plans for using vmsplice() to deliver contents from
-a cache to sockets as well via splice(). Right now our cache is split into
-too small chunks (1kB) to make that useful, but as soon as we can move to
-4kB pages, it will make sense. There the same gains are expected, and I
-would particularly dislike the idea of no longer being able to implement
-zero-copy!
-
-Maybe some arrangements are possible though. I'm not seeing any other way
-to achieve the same things differently, but possibly that the base of the
-problem is the easy abuse of vmsplice() to affect the page cache. Maybe
-placing certain restrictions such as he area only being mapped to anonymous
-pages, or anything similar could make sense. In my use case it wouldn't be
-that much of a constraint. Well, for the cache maybe it could be though,
-as it would prevent us from sharing it via persistent storage. Or maybe
-we could require a CAP_BACKED_VMSPLICE to be allowed to vmsplice file-
-backed pages, which could be sufficient to prevent easy LPE each time a
-bug is found ?
-
-I think that the users of this APIs are rare enough that we can probably
-find a solution that anyone can reasonably adapt to with minimal
-constraints. But most likely each of these few users rely on this
-*a lot*.
-
-Just my two cents,
-Willy
+--=20
+Regards,
+Piyush
