@@ -1,213 +1,149 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2F33A8F7
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 09:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780563689; cv=pass; b=CnmOYLmJRP9zwPV1JyDBIYZFH7HElmiR3gnKOvKYDzYNSPIso1JSddpTS1+8Pxl7o0zN8kWk3tU1Q2qG0xDG6tF5W29PqgaUTU6Z0XWtt1CJuQAbbIcy1edW9xh6J/xjtX7y2fJ0nsu43B0EcTu2w0tYhaWUGgvXn+hoSay/d7I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780563689; c=relaxed/simple;
-	bh=4T2D2tpQxgl2tH0H+dPM8kNaOFN7DhgmLwudpzcS6wI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NVMvuPflNc3p2N4kKN3sAWZuL5dk4BvQLmF+vhOifudA96go0UliCzCnJ31pvSs8t1dAbYG1IqYnRjGl19iRVOKyMs8HVZArBVeJkQYI5mDq4qce3Bm0xiGPV6j7JG1CKRw0psUXKhAvLBCJ+Jv8s4i1PDkize7phlTl4QvEIO4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGhl2JkW; arc=pass smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DB93C1976
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 09:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780563879; cv=none; b=sbSNPfHAJY7Hc86b7/+6UW57jYfRXdUGu4XZKBqLnweo9uVbrcuur809bRsWw+IaTma7BH6OUKKuxODY61E8f2UD3/1prW2AwUhReHh2xQeE5rNXeQNM8pJ+TWvogdt/V1R71vmFqsq56230uvp8JsjM8bptCNGjpoaWeBAa0MY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780563879; c=relaxed/simple;
+	bh=PDUUSU7kmVZUxeHMY1MJ5BVFtGwJ68ein9IpwK/HpUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dTMBQ7XzNA0Urf5wYGGW/rc+5I6ZRZLHKH3FFn2t3yISz9ny7DnFv2l8hoYETPuz7RTHTiW4c54RD+iRckV/rXv/MD17pw8e87hlrwDCYBSQWbLzPnZU68wtCNj6YTZdn494RfPQv+0CzlnBDc8VvtLA6vZYG5p2ZVF/9tlCg0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c6GvCVeU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qz9GLDgt; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGhl2JkW"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-396669329fbso15026161fa.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 02:01:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780563685; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OI6hstjabHdgM2bRtfJ76Q1kVdxYpGs8PgT79KXwN/vbQo3WXv5SyJLfrlh9R4m8RN
-         j1rRp32FQ3EiqgTepTmQW1fVT+vxpVcezdlaAOJvrqhJxWzYvryHSzGEWW33lZs2CjP3
-         wd4IT+BqQkO9DjfVMKN5/nskoslqcWEJxQf2SPMVzO1oQ1o4k1fIzqg6akfH2kysXxOM
-         ikXMMEs+cgi+UrUeIt8h9xkXI6wSWx4ue52nYOa4qDWWfbNrf6zPujXsz0YAbBHwT81n
-         bYNdF/NYwoVZ6yhQE0xD9OSdzBBqs1y8q2PmxZCSdMdLQL+p1CykmG3JHeye/vA7dk5S
-         Z/FA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XpaGhX3yU6zNFhiI4Kk7DMmiLvZepBTS4HIVT+KVt6k=;
-        fh=vQFImZhvUVoiSJdGaZ9Z0xYOJ6+/+LRCi1KGLIldR84=;
-        b=DRpn3EfWlEeSKvDxC7XSNQ0ISQydEPwtLYslDR7qOOiVhHZjoLqS0BYC9HIBoaY8Ax
-         PhhWijW+P5G1ZK/HE/ON1idMGXKc/1cSmKCV8l5wwZzHY5F2QSMvcXbpoQzeZzGM8u+K
-         fnNCjr9d49ZDRwJ0VNwNEIqlznbnpwClJPTM14M4I6IaXcbyT0vLeIqeuGZdmg/8uJdb
-         MGcY3azksZ2zi5P5sM8aLFnwQTJsL5p38/FtjrAb4UDJn++28Ny0mQ83+/3wWiBU4+hz
-         qScBO9sOREYC8QOmzqcnakpNcvSspXCkCLsfx97xERqtBDevcswj7noTd2dqmNVJ6duJ
-         aGJw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c6GvCVeU";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qz9GLDgt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780563877;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2lQs9dI0tAeFPaJ8i1YwQIsal8XYYdyr4lp1F85T2xk=;
+	b=c6GvCVeUnhkZHx4BST2s95bSWk4UDnG7oQfmymIAja8QHnomZzWf9Fk1mvWKccCOXf+5f4
+	jEIx5VWDpWFRq+wW0Pb0CNb6InXSPR/bqfDUeT9sUmmwvBTarNrBtqTiBYUgxmwdQngDtg
+	9oihLHRQqQ4EftErBMQDF3VShLHvFrY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-62-s32ZDap_Oki0c2mzjKlRCg-1; Thu, 04 Jun 2026 05:04:35 -0400
+X-MC-Unique: s32ZDap_Oki0c2mzjKlRCg-1
+X-Mimecast-MFC-AGG-ID: s32ZDap_Oki0c2mzjKlRCg_1780563874
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-45eef10d5ebso240633f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 02:04:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780563685; x=1781168485; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XpaGhX3yU6zNFhiI4Kk7DMmiLvZepBTS4HIVT+KVt6k=;
-        b=FGhl2JkWgzGv1kNplUGHe4VR5dOqnxAW6fmCg6NQPiqMgkU7Qc1Z6yGIqZV8+OT7zU
-         iQJyWoFBqoR5+KlxE7UdLWurc2YvmyniAc+Q4whq2a4+wikeKtqAhSqnHvS7xMM5oD90
-         7ywtg+SJC5fd0es6io/olpQFibwzOwJSC3fNzW0rqkzgME+0TnP01M7TasHar3LeY3SE
-         OHA4NVskN6kAUckYKrGzlOOhAPWYz+sblbcspal8MhILELdSGTqmQV9kNulgtCvdZS1z
-         wOEB+byhKLARI1RQPSY5LuYPBbk60xmg0siVMhhSvMtetschgnlQhCwaPh7SPp94r13V
-         uq/A==
+        d=redhat.com; s=google; t=1780563874; x=1781168674; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2lQs9dI0tAeFPaJ8i1YwQIsal8XYYdyr4lp1F85T2xk=;
+        b=Qz9GLDgtLtISnCfgP/4urs6jsoO4Q4b9/whS91RL5tIMBYkAqf30YvWT9E3QDi7l/Q
+         QyOi0ycgRCwywfL8W0BkAKo/dRS1HhC1SUbF8j7uUT7ipAZ+YMKJQtM/k9XumtfIVxbn
+         bxGcCjGX2kN205Qmc/HEe7kkdoKweYVdypewv2jJmfeDpLw2vUTFWuAssI9DANnBTZoB
+         9jCC4k2pMXQQH+10xJJAGqE27mj931J4fLsC+ZQ91eA+IXFkn6/C8SqemPhFjMHTt2aI
+         OaQF5GfZSAqUCgpASg0uiyqRbM19a60sRZ+xKIK266mpRsZcsjBbbpk3liP9wbTyy7hg
+         v45g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780563685; x=1781168485;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XpaGhX3yU6zNFhiI4Kk7DMmiLvZepBTS4HIVT+KVt6k=;
-        b=nwEBExT90xXMGvgCAXymjoo2q2cQOdr/syN20dL4sjR+iiqHVaus8D+vJainc0cNmC
-         k+Q5BU9Q799Fc0wwI/68sPKS5Chtqvcbese/I6VW0E/1bEImFGPowpOW3DcipEgeYfSy
-         /kHxQHHxsLUwrdtjyytuhXz2EM/lLydS5mc2hwTk+aWZ+n/Bl+tCN4q7xrEnqwRmePFH
-         ynrdE96g++7aW3zdkbvpWbpu+scf6bj3c99v+wdlUSW173VD08WLiNtRl1JAcrBmCmS2
-         tg2kNCurXoaCy49tIWSmk8CXcy5tXk9LyfwnYzGA3A6HaxjEpbHKgLoMSqAUZxjsTW6S
-         mDYg==
-X-Forwarded-Encrypted: i=1; AFNElJ9ToLE88lQ4xbbQvXh6xzrdciyUYhsF3azA4/go2X70EUfFpnNdlllcy0xb0n6mxTVMXpj/8n3xKQqt51R2@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2EPu3kbGJ/MhEigGaXIdiiYZq17xcExsToT8s3pWnRjbxZsak
-	1luwAFdDyHXEA4uDqwuXic4Dv1Lk07m3Kt6glnQ+V752KNzYE1ysO5pN1TexB/97CrLu71G/yEX
-	+DmGyc9sq0O8H3PqkA5X8X948TDfx7MoreW1c
-X-Gm-Gg: Acq92OECPJpLps2/XpYDrI+JmFncULfppj/sr68e59+LqN9WrV5ZFP0bKQpvKtYcH2V
-	j6g8FK2GptuVgcHAqkW6ApuoKPNnVfb2i3H2k6Fyu2Nq0Bid8uElU7opcibOiWK4zylOD7abvNS
-	sE4tyxx5A8lMRQDccZXHKnfS+ZOggxV2dKqKzWBbmUjcU1adNIvcjjpl6ricXpybT9awq3o4LCf
-	Pt0d1bcwShEH3QDzVuS9a3zcd1AtLrUIA7FhNo81N1IN/yKQuj8fMKTloi/SDDQBJeq4pvAdi3P
-	ivxRVpc+SWU2yst3cw==
-X-Received: by 2002:a05:6512:3514:b0:5aa:7397:73a8 with SMTP id
- 2adb3069b0e04-5aa80ca287dmr791805e87.15.1780563683636; Thu, 04 Jun 2026
- 02:01:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780563874; x=1781168674;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2lQs9dI0tAeFPaJ8i1YwQIsal8XYYdyr4lp1F85T2xk=;
+        b=eTnT22LdNLUlNkUTEZAMI409v1Zv+BYYbKN0EbuhtkWV3AorU8bN0m7dhmHdUzFAx1
+         +uo8J7ZmDQRt93i8juwvjhZr7IIImtErvZzHfZRLzTdPfQdvGD3aQbNHX6EpKJFoLg7/
+         Y5J6hQZz8+UyGdIo2NYrAv06zMfxY9hJNcfhhQkyPktRlAtnScX52jN8XN7duAyS06W/
+         z5Xx6u7YzEt+4xOmX7vQkJfuL1usIZcKrpvdNkEpyiyrObOLwfNBs37HTR9o/5wDOLWM
+         d9Z5Ozo6jbfMwb3dTMxztH/NRMarekMf9x3lQT9goIPjq7gKUUFvlxqxVPakdHg92F2t
+         0UuA==
+X-Forwarded-Encrypted: i=1; AFNElJ/Y6+vdA/dFfNLjWMm6vU+GKicAzIjd6dkIRVFQuifsi2fNJN+mSXziE7N+pqVI5HemcYj6dcFlv+3SYHpf@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjwcRP19M0EBKH3YlTGyrSPwgpRXykMu1bq2SX1gi0Tbzfh27D
+	4X2Myc0ADod0e4xXkEinbAxsPxU8cQtmtYgUlmCFcWP6Q66983EJSVbZ+ya1/GEPoEyecIUlgbw
+	jleoynBEl2HKHn3pxdfXLYDM3ycAMmhLVF7kd3VTZC/ZtJ1Pr1OSmNTrQoApDQqcf2g==
+X-Gm-Gg: Acq92OFcHF6yw07j8sosCut2Y7o5WvxadrueK/z9h5HS4f5x5Gi2tVK0a20wynvmYQm
+	iyRAfOv5Vw599VoE3gl8gh2vRHRBPBmxcu5PGXJLY2i0Jjt+Qkgy66G05OrAmw/YNoL5B0yN4Fc
+	LZXQ/+Ds+/aiU2p4Oz5cfLZdq4nqUd+K9Mq0aN5R0j3nCthtKiXFO0hYs8lWXUs7MhuKlnEHSG3
+	3WvI0wB7HJ0dsLrTcqWDILto353/Zr1DZfNQya5KPPMEnsWrlnGa5/fGwi7ATUurYUT4SDC5ZnN
+	M7VnjERFvDxFuwOhWzpsb7+2z0ANlQU1JhpFIWLDlztqIHeB8bICMCbzG6VVgVobW4KJzIRscR6
+	AL2jXq8BWJEMHZAwirB1nb1IqShaawuT+G3kBITG9gneFAGbsgoO/+8Q0c5QkHCCJfE8=
+X-Received: by 2002:a05:6000:43d4:20b0:460:f36:79b0 with SMTP id ffacd0b85a97d-4602182b90dmr8717141f8f.19.1780563874017;
+        Thu, 04 Jun 2026 02:04:34 -0700 (PDT)
+X-Received: by 2002:a05:6000:43d4:20b0:460:f36:79b0 with SMTP id ffacd0b85a97d-4602182b90dmr8717074f8f.19.1780563873372;
+        Thu, 04 Jun 2026 02:04:33 -0700 (PDT)
+Received: from aalbersh-thinkpadx1carbongen13.rmtcz.csb ([217.30.74.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcde3sm16539954f8f.1.2026.06.04.02.04.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 02:04:32 -0700 (PDT)
+Date: Thu, 4 Jun 2026 11:04:32 +0200
+From: Andrey Albershteyn <aalbersh@redhat.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Carlos Maiolino <cem@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Andrey Albershteyn <aalbersh@kernel.org>, linux-xfs@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, ebiggers@kernel.org, linux-ext4@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-btrfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	djwong@kernel.org, david@fromorbit.com
+Subject: Re: [PATCH v10 00/22] fs-verity support for XFS with post EOF merkle
+ tree
+Message-ID: <aiE_YQc6SGSdWlcE@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20260520123722.405752-1-aalbersh@kernel.org>
+ <20260521090705.GA14254@lst.de>
+ <gcw7zcg6p4s2egpufwizfig72g6ren7jfmuz5mqskkpb7xepww@e3v35j7bk7dc>
+ <ag7uW7KQ5mVyCGEv@nidhogg.toxiclabs.cc>
+ <20260522-unbehagen-baumethode-erlesen-811a4065eeac@brauner>
+ <20260522120757.GA21041@lst.de>
+ <ahVzkf8JoKP-kSC2@nidhogg.toxiclabs.cc>
+ <20260528-offiziell-luftleer-misswirtschaft-3503bda2ad70@brauner>
+ <fjdfwhwi4aogyiaoijwvw6w4npuu5mbt6ua6fkhwcp5ajlm543@ume2fkxg36cb>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260604053921.100409-1-hexlabsecurity@proton.me>
-In-Reply-To: <20260604053921.100409-1-hexlabsecurity@proton.me>
-From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Thu, 4 Jun 2026 18:01:12 +0900
-X-Gm-Features: AVVi8CdKKXIO7p1zOxL1E4wrCJd1Ll9yoxzi4fAzq8gMf1aoAuF-rv5A2KL6TkI
-Message-ID: <CANFS6bYtjMEtu_pn=XzrRd1Vyof00T75G3UEB9vLSy9Wqz2v2w@mail.gmail.com>
-Subject: Re: [PATCH] ntfs: validate $FILE_NAME length before converting the name
-To: Bryam Vargas <hexlabsecurity@proton.me>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fjdfwhwi4aogyiaoijwvw6w4npuu5mbt6ua6fkhwcp5ajlm543@ume2fkxg36cb>
 
-Hi Bryam,
+On 2026-05-28 16:50:45, Andrey Albershteyn wrote:
+> On 2026-05-28 14:20:08, Christian Brauner wrote:
+> > On Tue, May 26, 2026 at 12:19:43PM +0200, Carlos Maiolino wrote:
+> > > On Fri, May 22, 2026 at 02:07:57PM +0200, Christoph Hellwig wrote:
+> > > > On Fri, May 22, 2026 at 12:03:20PM +0200, Christian Brauner wrote:
+> > > > > > I was expecting this to come through xfs tree too if Eric and Christian
+> > > > > > agree.
+> > > > > 
+> > > > > You may take it through the xfs tree if there are no conflicts with
+> > > > > vfs-7.2.iomap. If there are I want to add the iomap changes into
+> > > > > vfs-7.2.iomap that you can pull in.
+> > > > 
+> > > > Merging the iomap bits through the iomap branch might make sense, given
+> > > > that iomap usually tends to see quite a bit of activity.
+> > > > 
+> > > 
+> > > That sounds good to me. If you want to go ahead and pull in the iomap
+> > > bits, do so, and give me a heads up when you do it so I'll pull your
+> > > branch locally.
+> > 
+> > Great, can the series please be resent based on current vfs-7.2.iomap
+> > then please? Because the iomap changes in this series don't apply
+> > cleanly on vfs-7.2.iomap so we already have merge conflicts...
+> > 
+> 
+> hmm do you mean this branch?
+> https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=vfs-7.2.iomap
+> 
+> patches 07..09 seems to apply cleanly. The only conflict I see is in
+> the overlayfs patch 03. This is because [1] (is in -rc5) is missing
+> in vfs-7.2.iomap.
+> 
+> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/fs/overlayfs/util.c?h=v7.1-rc5&id=0c8c88b8eb82a2a41bec5f17c076d6312dc40316
 
-2026=EB=85=84 6=EC=9B=94 4=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 2:39, Br=
-yam Vargas <hexlabsecurity@proton.me>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> ntfs_is_extended_system_file() walks a base inode's $FILE_NAME attributes
-> and, for a name whose parent is $Extend, converts the on-disk name to the
-> local charset via ntfs_attr_name_get() -> ntfs_ucstonls(). It checks that
-> the resident value [file_name_attr, +value_length) lies within the
-> attribute, but never checks that file_name_length (an on-disk u8) fits
-> inside that value.
->
-> ntfs_ucstonls() then reads file_name_length __le16 characters starting at
-> file_name_attr->file_name (offset 66 in the __packed struct), so a crafte=
-d
-> $FILE_NAME whose value_length covers just the fixed header but whose
-> file_name_length is 255 drives an out-of-bounds read of up to ~508 bytes
-> past the resident value -- and, when the MFT record buffer is a tight
-> kmalloc (mft_record_size equal to a power-of-two slab bucket), past the
-> allocation itself.
->
-> Reject the attribute when file_name_length does not fit within
-> value_length before the name is read.
->
-> Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
-> ---
-> Reproducer omitted on the public list -- available to the maintainers on
-> request. This is a crafted-image filesystem bug; posting publicly per the
-> security@kernel.org guidance on the sibling fs/ntfs attribute-list fixes =
-that
-> such bugs fall outside the kernel security process's threat model.
->
-> The over-read was observed under KASAN by mounting a crafted NTFS image
-> (fs/ntfs built as a module against v7.1-rc5): a $FILE_NAME on a system fi=
-le in
-> $Extend with value_length 68 and file_name_length 255 trips, during inode
-> read, a slab-out-of-bounds read of size 2 in utf16s_to_utf8s() along the =
-chain
->
->   ntfs_ucstonls <- ntfs_attr_name_get <- ntfs_is_extended_system_file <-
->   ntfs_read_locked_inode <- ntfs_iget <- ntfs_fill_super
->
-> off the kmalloc-1k MFT record buffer (mft_record_size 1024, allocated by
-> map_mft_record_folio). A benign mkntfs image is clean on the same kernel
-> (control). With this bound in place the crafted $FILE_NAME is rejected wi=
-th
-> -EIO ("Corrupt file name attribute") before the conversion, while a benig=
-n
-> name (value_length =3D=3D 66 + file_name_length * 2) still passes. The bo=
-und is arch-independent: struct
-> file_name_attr is __packed, so offsetof(.., file_name) =3D=3D 66 and the =
-check
-> decides every case identically built -m32/-m64.
->
-> The only other reader of file_name_length for name conversion is under
-> #ifdef DEBUG in fs/ntfs/namei.c (not built in production); it can be guar=
-ded
-> the same way if desired.
->
-> The flaw is original to the fs/ntfs driver: ntfs_is_extended_system_file(=
-)
-> landed with the driver itself (linkinjeon/ntfs, v7.1 merge window). A Fix=
-es:
-> tag against that introducing commit is appropriate -- I'd appreciate you
-> pinning the exact SHA from your tree, as it is not unambiguously citable =
-from
-> a mainline clone. checkpatch clean.
->
->  fs/ntfs/inode.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-> index 360bebd1ee3f..d1a79c276502 100644
-> --- a/fs/ntfs/inode.c
-> +++ b/fs/ntfs/inode.c
-> @@ -581,6 +581,17 @@ static int ntfs_is_extended_system_file(struct ntfs_=
-attr_search_ctx *ctx)
->                 p2 =3D (u8 *)file_name_attr + le32_to_cpu(attr->data.resi=
-dent.value_length);
->                 if (p2 < (u8 *)attr || p2 > p)
->                         goto err_corrupt_attr;
-> +               /*
-> +                * The name is converted below; file_name_length is an on=
--disk
-> +                * u8 that is not otherwise cross-checked, so make sure t=
-he name
-> +                * fits within the resident value before it is read.
-> +                */
-> +               if (le32_to_cpu(attr->data.resident.value_length) <
-> +                               offsetof(struct file_name_attr, file_name=
-) ||
-> +                   offsetof(struct file_name_attr, file_name) +
-> +                               file_name_attr->file_name_length * sizeof=
-(__le16) >
-> +                               le32_to_cpu(attr->data.resident.value_len=
-gth))
-> +                       goto err_corrupt_attr;
+Christian, ping
 
-There is already a patch that validates this in ntfs_attr_lookup().
-Please refer to the link below:
-https://lore.kernel.org/all/20260530143514.3083601-2-charsyam@gmail.com
+Would be nice to have iomap in vfs, so Carlos can pull and test the
+rest
 
+-- 
+- Andrey
 
-
->                 /* This attribute is ok, but is it in the $Extend directo=
-ry? */
->                 if (MREF_LE(file_name_attr->parent_directory) =3D=3D FILE=
-_Extend) {
->                         unsigned char *s;
-> --
-> 2.43.0
->
-
-
---
-Thanks,
-Hyunchul
