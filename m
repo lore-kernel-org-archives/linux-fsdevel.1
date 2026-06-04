@@ -1,65 +1,74 @@
-Received: from mail-43101.protonmail.ch (mail-43101.protonmail.ch [185.70.43.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221551A9F9F;
-	Thu,  4 Jun 2026 10:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9E235C19F;
+	Thu,  4 Jun 2026 11:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780568269; cv=none; b=EC2BqKDRj04008FrkTKM1G99NQGfix8g5shb6xRJo+rEb+E+I+zwv0+Iu6Eil7fjIr4cKSNppJ1SSKOdoRkO/Ot8guLd0mxrx6pXJr4qb+R0AJypEE+Sw7/sCxMmOsyDq5HRXTPbr0+GqoIuftsBkxxCn55NewV+KseVEAG0478=
+	t=1780572927; cv=none; b=SjKYp0myULDdvj1yC5N9DnGO1K79uOIaGpSmmPZ61zfMzkI7jmNsFOS7YNcJZ8MwbDLwcFWqdbapv/fy1wGNlj+pOY7le59Ph11FBNEA69VnEay2nBKsyabPhfUzoaaILAoPBZUlKs7UuFAM98LrQ81/aDQttMC5QHk/Df4roSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780568269; c=relaxed/simple;
-	bh=H3FPW24X3zlDpiZIK2TAWDlQeWlDbZS5WfTjTZDSME8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=omBKyAoxP1iQR4CBY9MyUGK0MFOomIGrCWX7RwL0dqt4TVdwtV/JVCRQLeWolh5UGEGH9l0pojyN/1qwGQseAAIINRDCpzVy9lcGtLxvXfSJTs68GryRZaE85+P6yZIv1WnVcoGfq7rjbrzmSsrM1HfVlAObNtWExsN4hye/S2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=I53qAd/q; arc=none smtp.client-ip=185.70.43.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1780572927; c=relaxed/simple;
+	bh=uB2vWZz9gzpoTg/cjj1qT5IYL1IPVQ8q/l1u3tofe+o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KSRr3Ja8iBS1Pb7ZVXVM9U2o5ZF0kJW/xeQoiQf2DgwoMgGNliSrBpnWvmE8fw0UCYM92SS/c2U/scQMaN7fWmiLaOqIUJIyuiaoRss+hwkMH/pgWTHz/QvpTylZOXziJim8DBcp4+GOP5JMSmKZ07Vs+rGVzj7Jt0PtrhTsx/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LMPlBz5c; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="I53qAd/q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1780568262; x=1780827462;
-	bh=Vc21Ap6crSXxT7y7bF9f92EbYAhOW76rAEBjgxkDio4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=I53qAd/qim10NF8wIYqutWe0CHsviE7gTjiy6LxtuZQA4fvrT24J+Kkm94H7HRrxK
-	 qF0Txs/tEAThCuaY5bDGuKQpq65ABC/ttjtB5azXjgJ8ZareywnM7XwMgQB4GZ9sbF
-	 11IXJniCInhHGZ1HpcfyLtAf3K/rNH2R4mYEwHUDIfmuvCKwgh2ch3/qcC+vvZQD61
-	 LU5HwR3kFX/einPSzdC3aG9R3Z0Hb1d3N7g6odYQdfSFmt/0ZPdq5pAXzUS7nuQDqq
-	 Llz8QirY/FFDCoIxk3P+b3CPhuuGK9aimaN1cjdFDJKRtsKusY/GbUpcjfe+qs++88
-	 ZYsseR2TQ1CRw==
-Date: Thu, 04 Jun 2026 10:17:37 +0000
-To: Hyunchul Lee <hyc.lee@gmail.com>
-From: Bryam Vargas <hexlabsecurity@proton.me>
-Cc: Namjae Jeon <linkinjeon@kernel.org>, DaeMyung Kang <charsyam@gmail.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ntfs: validate $FILE_NAME length before converting the name
-Message-ID: <20260604101733.132709-1-hexlabsecurity@proton.me>
-In-Reply-To: <CANFS6bYtjMEtu_pn=XzrRd1Vyof00T75G3UEB9vLSy9Wqz2v2w@mail.gmail.com>
-References: <20260604053921.100409-1-hexlabsecurity@proton.me> <CANFS6bYtjMEtu_pn=XzrRd1Vyof00T75G3UEB9vLSy9Wqz2v2w@mail.gmail.com>
-Feedback-ID: 199661219:user:proton
-X-Pm-Message-ID: 7a6933492a00fd3dba97324ae07bd1f546cc49fd
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LMPlBz5c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E391F00893;
+	Thu,  4 Jun 2026 11:35:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780572926;
+	bh=qRQBH4fIU+SoPHwieWglOZiXS4hW7GTte7+2P6QruYQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LMPlBz5cYygxvAEwjMHMHYgZwKe2MVY5esStoJdl9FAJwvp2XEX5gtWGpVhHjidRh
+	 IyFZKJjjjq5JVJehnt/mQRsYSjk4gYFENUxrUUsZPrdlTaK6tUNwGqid23MKGIVksO
+	 L4twPQbohQ5hH5Sx7rG2zkQ0Yml6ZcSw1JtvYxQ73J7NpnAw4JaJVjpCkXfo5iLqrJ
+	 Goxn9unseI8BoDbA3J+XM3ki7Ef3WWscAX7fmHqeeMdU2ImHKY8hzjoiyGxWffnTjA
+	 YaI07kzY/X8qdHzJFyGwpwHTGuxn4ynDNTglAc9pOF94DQQgKYytVW5v73J1KtBN1O
+	 4IRlyziNo+ngg==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v2 1/1] fs/read_write: Do not export __kernel_write() to the entire world
+Date: Thu,  4 Jun 2026 13:35:18 +0200
+Message-ID: <20260604-wachen-laienhaft-kochkunst-874e2440768f@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260604095233.284067-1-andriy.shevchenko@linux.intel.com>
+References: <20260604095233.284067-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1031; i=brauner@kernel.org; h=from:subject:message-id; bh=uB2vWZz9gzpoTg/cjj1qT5IYL1IPVQ8q/l1u3tofe+o=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQpJv0KSVrU61LjGayotMGatSzDs/HszTPCr2pmnvEMr ZO9GPm0o5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCL2TxkZ5vlfyrnP+8V+dbJO /5aqO9ODmtZf0TCTlOHc1DrljoylIiPDJJv3xvdVvXQuX8006Zbc5bOjdf1tTvvnTkmvT37b7Rb DAgA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-Hi Hyunchul,
+On Thu, 04 Jun 2026 11:52:02 +0200, Andy Shevchenko wrote:
+> Since we have EXPORT_SYMBOL_FOR_MODULES(), we may narrow
+> the __kernel_write() export to the only which really needs it.
+> With that being done, update the respective comment.
 
-> There is already a patch that validates this in ntfs_attr_lookup().
-> https://lore.kernel.org/all/20260530143514.3083601-2-charsyam@gmail.com
+Applied to the vfs-7.2.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.misc branch should appear in linux-next soon.
 
-Right -- DaeMyung Kang's "[PATCH v4 1/6] ntfs: validate attribute values on
-lookup" already rejects a $FILE_NAME whose file_name_length overruns the
-resident value_length (ntfs_file_name_attr_value_is_valid()), and does it i=
-n
-ntfs_attr_lookup() so every caller is covered, not just
-ntfs_is_extended_system_file().  That subsumes this patch -- please drop it=
-.
-I'll leave the fs/ntfs attribute-value hardening to that series.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Bryam
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.misc
+
+[1/1] fs/read_write: Do not export __kernel_write() to the entire world
+      https://git.kernel.org/vfs/vfs/c/438f0c1fad74
