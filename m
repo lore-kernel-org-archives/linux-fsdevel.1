@@ -1,80 +1,80 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B033F9296
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 08:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E793F210F
+	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 08:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780562512; cv=pass; b=G+wtpI0IrXOGIoKoZjTokMnz9i+MUhhwekFdRs97EsiqKFsANOjfHC7Ir6kciuiwH1xOHMZgiX0WhHnuVScqydlNggW4C4P1CjSsc7xcZN23aU4tz/UCenl02yKtjB3JXL5LeusCObCPLCiCIb8MC252w+bajtGKxe9de+ujg1M=
+	t=1780562701; cv=pass; b=V4XXTPYNFVghrvhCxrzvvVoN66Zs+0O7emMBlruCzd0+uJnjbD26S/2fSxmLjMsuTChEGy6eyPKSujTFTA3cJmRPbAYJLNZ+nsScFzn9LoYFiQJqzCio+Q/gWYSW9QSihHsitikDpFAAktDu/pXy8ol2qwmQA4dkO6B4R/TEsvk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780562512; c=relaxed/simple;
-	bh=sKRiclSEhx5D5/EkW+K5RaUBmiFeugYQ4VM4zHB9vG8=;
+	s=arc-20240116; t=1780562701; c=relaxed/simple;
+	bh=tcixqLie982hIv8PBoKm9gcqeCdyh5cEMqTulnWGYlU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jY9ddoBP822Ks6nzQRigCNvv3Hoyif74A1nKta9D3ASLChyhZLkp9DPQSN5cYjXbc+tDacOBMaV3aGlVtFZLQrtbToG8cxi7ZoWf/zbK9A4ckkBXgx2M5PNcG9FB4uAbSn8/X6tieQZDcegIpapap8CZWb5KHkVRjNcs5nuDj4E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r99INYDR; arc=pass smtp.client-ip=209.85.167.51
+	 To:Cc:Content-Type; b=qkfChgQ446JKCLdIMOLQJRnFg8t4/uxIiRZUo+5w4h8AROnQNAQJoMNL+RP1VlshIVot1kJkw1V74xHNYsUu7KkthySb9HR/cV3G5R9lLakEUBciyKrHlJKyFVAEKh8XRr1bOepywlOm/V3o0q5qgCVqRXP5Edp8ugOs3A7Qoi4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CHBpme87; arc=pass smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r99INYDR"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aa68d9dc18so420826e87.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 01:41:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780562503; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHBpme87"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-396753f343aso4314641fa.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 01:44:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780562697; cv=none;
         d=google.com; s=arc-20240605;
-        b=HU3i67n5nHE30cK2RwKAx8VMRB/abEXu9OqqevcXsADLa8nb+Xhyga25k93m/hwMOa
-         NVFSTgc0xRiKythT2arBgUMScT6U8+cbqus9ltH1Pn3U/Ytkj2KEMx2glR7DhV2zOzZf
-         YY5+ke615x4VqGB5TCrBBB2zr3JU0WgC9t18FaPh/ysf112GGg1XOa6T1acIW1B6nNEB
-         Echs3wKTrMCd/PVhzb5Qod2qkJdY/xNmeFJOgSp4LGMj3iRUtQ2/ZLBWCEJAdmkAA1Fj
-         mQSKqitsHcIOMT/J6guzkc8pNu7HEoP4uO/Gp+JiEBK2rdo1SYzYkndB3Da0FzzM7X7y
-         97cg==
+        b=Wpayg0BKVhbEDme+sNTPAYnhe5pca8bn08FiQnynRdqmybC/FfVnk+hR0WvAwdOG/O
+         lYGajJrDVP4SkhmyqEHLV511DnXu1ipPkOUUqof2n9YZaQFs0z7jlLUECFhqw/wbUaSj
+         nBr6Qrrz7OPgt8wKo5h+GbNhxwH4+Z1qUKmlMNqfHFKRcQsgEMejZyJ43RvC0rerGCtu
+         KP8q1siHvs9S1HlE+6nwRvsyiOAvDfzYWhBB9YldUzTJBTyt1zTmEERbXbfhA+ZYrAFK
+         Zc6P3KZKWXEwpd046zd4Px0YOdr2yQAh2VinNBS1krThQQMFeTFeYuRm0K3RVlpbZqEz
+         4y0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=u13QfsqknDff7yI+wqO7HoZmhYeSH58Qvn8yXLkgd7Q=;
-        fh=kaC8hRN9SKI17NYxYxhVjK9Sn95SVujFQBFV8cThBmI=;
-        b=aPV8oCfKUDllduUrFGdoqEhwWkzgUdo8clz2hLQxMbnemGemQYmNdohX5XBxa3hsAO
-         L3hf5gl94mMoJCHt2osJ4xhsxLIEybDl0bNw3iZfCYut5TZyXK01Xo6xKnvN+AS/Iyt1
-         jhpLk6tGdht/vzv8+IEbGc4hqKFXl3FChvbluSyTkdWkoNvyolOMAsNAdHTnYdjcVxp0
-         Ly4GStyqptM4Vc6cQD1MvF0LpxoNxL3rc4W/AiZkMogitARSfJxNylIOTbv6++CgICJk
-         fNtcCPUFesCtOr19BKBAXqn4jqgFnS+5Kz75KG+dRNRF7H0cp8wkp8sDG1hFq/6rP2n/
-         n3Xg==;
+        bh=L3cHoNPUe8V/yezCa2R1yfqgPO4v4dtOtG0GaxmqbF4=;
+        fh=ND1nzP2KL91gifCQQ8ZXoJ7/Hwlv4Y8fFPVUZTkBgkY=;
+        b=N2CmtbX0N9ls7TGccIkEagzz2gr+9fQScEg1rQXFCj1HNcsQoW5ULAu0oEISYwoJdi
+         NU72dqP5VNa1ZwUgUfaJUUQpsaVECQrtaKlyGEnJE024ojszikjspT+YqHO3CE3X9Vao
+         MCyCKevAA7TwOgoYGpRJ4ARtwF0LB1rqLf35D4X2y9/Zyd/U/DCn+yG7wyCdCePl6D9h
+         HcwUK4Eukh+mJO80q0y9rvlAa367ttdB1GtPvBkvHdq4OuL3J6pplq2OUeqj1yjpwDD5
+         40n91pq5JQD7JYIoA4Ne9YtOcwvpoVHCaHQAnm9hKcIukORJsIxLdl7A957fFkpL+gMU
+         SoGw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780562503; x=1781167303; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780562697; x=1781167497; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u13QfsqknDff7yI+wqO7HoZmhYeSH58Qvn8yXLkgd7Q=;
-        b=r99INYDRDsFMB/WvpqWNAQV9zCG8W+w9dZpxxgrrhBc7TcVsQPdfKjhnTe4tiiPp17
-         XCvK6bF0K0QQ3iFJn/Ohll16+JE7PQKxgYMB8lbUzEawZz6IIjHFQ81j5DazWag4Yzrt
-         3i42kdS0VwVcBUEesePQiSu9VUta+v8YYzrhSj5ymHNEi/DXgox1AWQjlOp0oCxcNFuS
-         HX8lZYB+iITsm1xrHutJDQeSwZBxfjQfKfuV1VcroY+r1T4rsh3Unx9+ivLHbwQSyu6d
-         IsyxsVvEgPy0eov8k0/RjyNDjIjGioGqWDx1imW3zZ6TUNbB2zzoUwJ0s6OI/1Uc4zQH
-         MFAw==
+        bh=L3cHoNPUe8V/yezCa2R1yfqgPO4v4dtOtG0GaxmqbF4=;
+        b=CHBpme87upw/lIl0wle+L+gbSDVHKZ4ViKYCW47ZhfKCuXcw5+EO2plk4WW43DKqht
+         sq6zCXBsBAeM4VDwQVHwMSJdqNOXF/qrUnDf+e/GKRn5p0F3TlNUKYRPTtHI3NiSt2yn
+         lqJT+uApyXW2uGgmO8ot5sbpE4WcWl1trzHvVZwxvv5EoPy7LrQmdhkpMuLCy7jTRqxK
+         769UMF60wTANCiLfjSNOUOrr0W1BqS3brN+wLzFAQ6rl5g0J6fDGX2yHhm29UxnG5Yst
+         3C1vbey1C3sFvs25ZgtQCKAxoutI1pfEBBnsTNGqpQyAY/rFWXAL3P4/B8Z5gUPN54t5
+         zpNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780562503; x=1781167303;
+        d=1e100.net; s=20251104; t=1780562697; x=1781167497;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=u13QfsqknDff7yI+wqO7HoZmhYeSH58Qvn8yXLkgd7Q=;
-        b=L3y2blAUwQ7LntTW9wOYOd0cpzakffJXkq1bp/kIFdrQKkV+Bwaku/ioRW5ejUyYlj
-         BJEdL5uQBxUOKELvOB2NSY+YWy+CbiZi3JAemEFKQR71ED8Sx3ktkO/VRzf1WRMFEtiA
-         GgIkleGuJsQU9lAbCU2hLj6vpAi1j1oQX1VdKs72X8guoG5n02WG/RoCvIfBJ0YmtqtP
-         IORVkkGq1vhsl+C85pWr/7Kxmk6Dg6znTAnjgZXZLYdvBaIYe5OuFBMtIit1/MwLTIDa
-         Xn98YeHO7Ead1rDjjsXkgIJtPvPzbiqes9bi+ihwxb93joZSAoomou/DSXt4JTMCPx4z
-         OWDA==
-X-Forwarded-Encrypted: i=1; AFNElJ9/ILI8u0P52yfrRBpBzYSAFBQMvCmvVQAkHRHv7jBztGATWInuuGRUmPAIUKwG375RbGQzLDkNxdM7eDt5@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwQ6HbrP933hiSfBFZc20aJzHcK8s5Zjwv/mCMbNGArZrwAlX/
-	vLQGsywCsgFaFw9cwCjFCNFMwD1lsT4VCkQAHi7N6KIL2AWrgukCCR9QJUd0oAXWcjPJE+UAFWK
-	ut5OcoV+NqJlzNwUmIUTuk4ejaAU2tQL+W+KZ
-X-Gm-Gg: Acq92OHi0A/bDae+BIgsAxTSizC3OkYK8C2VyFGYQEYtbNCZTKSrXAjLZsjNPn6dB3+
-	czYbVwip1jsRsvo95UexYHbGE8l3adzH7+LPOf/mBY5Mpo9nqBrKFfCurXvzTXIC3UobNjEJQP2
-	YrZzm4/ym4BbUxfTkSUZagqibm0SEiGtbUCtt/BlPD26a2PTnu6dNLeO9qQaetRSF5xB2LiqOK2
-	+iuUkHil4ss0CKF7k4U55W+DapwjfaCcypSNH/rZTKBQ4l7SOCwq1wpM58oazaIMmG5VPgwnEOw
-	xUwD9z1+N4Jjs1HEcQ==
-X-Received: by 2002:a05:6512:40cd:10b0:5aa:b6b:93c3 with SMTP id
- 2adb3069b0e04-5aa7c15c55cmr1623277e87.45.1780562503059; Thu, 04 Jun 2026
- 01:41:43 -0700 (PDT)
+        bh=L3cHoNPUe8V/yezCa2R1yfqgPO4v4dtOtG0GaxmqbF4=;
+        b=Iv/ri7Z48kJokpek7qPEhUe2cIHxWqvgtev1+9RWp/+x9SBg7EKlc3cKvhv4JkMXdy
+         eDMM3Y3qZAZSVEOZNfZ4gYC8OzNVU303erITa81OXlUU4W8eeJ/4rTCHDGIybi3GM2Ts
+         eKHt4jGa1UETCnsQrB0RmsDDQzI/PMis5nNmvYkhCilE0+uQQnmVH0gpNsAM4ygQpd+S
+         8YNYAYgTEC/ocggyzg3RfFIpy8U1S0/VlQqZEyW+1irhmCc3BptGcR/3EW6rwDpUPUwU
+         u9UxrO9JnALXCxme57BE2a3UlNBABTWRFo4CZiCQedl8IzItnF4xNHs2YPVt+rjLAZmh
+         5DJw==
+X-Forwarded-Encrypted: i=1; AFNElJ9V2wbTSQq6ryavpi5Y27/rrL80T/nAyeOzYY/zYlZE2Jbaz4A3gFmTRwwS1ytlYGI0DT/Wkox6xjhJ1Lhx@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkIyGIYRfasD1TPlVJJYIEhcVYKGZIiM7lryHyFTzJ+K5MoKzJ
+	19grI43L6KMRGPX9gqxoYATohVg98MT5MiMwFnuZeea06XP+dTxIkGLUFjPtDzyNwaw4aYzYiU0
+	OVMh3BukQ3FTLbjltGWUTUvmlgXXByGg=
+X-Gm-Gg: Acq92OGFqhiliU6XoGZ8osHjH0vyG29CIwe44ncmLe0f5HRUFUwBOWaOY6iwCC/kMRR
+	d6T7PaftFq8yxOMcsJmGlvSrWVE4cDuznxO/K/96/oDabdcn5tt+UtNkSYIquv5XwBkr/4Hbhwp
+	k5w/Z2TOVHArOVfqzuCXaHGrW1QRJrvUXKDqcJzBKioTWTA4qYeWS7sc7IF9LbeJf/i2mXnANP4
+	Kj3bbCFbtl7iUE+wgBuJYpjORuDiTda2Bqm5hgPPfvMZecbhLzQ/AeQpnCXGdBHXhQ9ENtpFvNS
+	ekjcSnEYpWPmwmmEUQ==
+X-Received: by 2002:a05:6512:1313:b0:5a8:7317:5417 with SMTP id
+ 2adb3069b0e04-5aa7c08d4c4mr2669405e87.9.1780562696922; Thu, 04 Jun 2026
+ 01:44:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -82,13 +82,13 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260603175949.11665-1-hexlabsecurity@proton.me>
- <20260604042912.89893-1-hexlabsecurity@proton.me> <20260604042912.89893-2-hexlabsecurity@proton.me>
-In-Reply-To: <20260604042912.89893-2-hexlabsecurity@proton.me>
+ <20260604042912.89893-1-hexlabsecurity@proton.me> <20260604042912.89893-3-hexlabsecurity@proton.me>
+In-Reply-To: <20260604042912.89893-3-hexlabsecurity@proton.me>
 From: Hyunchul Lee <hyc.lee@gmail.com>
-Date: Thu, 4 Jun 2026 17:41:31 +0900
-X-Gm-Features: AVVi8CcxF9v4AjnCxP86a2cR0Cr0q_zJJfj_Ou0RwFRh52XqOtoAQ1uSGfK09so
-Message-ID: <CANFS6bYMjgUok+p28WbjVfbi6E92KHnCeLcbWBQ-ryJt8Kv=HQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] ntfs: bound the look-ahead attribute-list entry in ntfs_external_attr_find()
+Date: Thu, 4 Jun 2026 17:44:45 +0900
+X-Gm-Features: AVVi8Ceo4mqgz41kDK9SJ-522NW31Z-ehrj1eBRbavT1a28Kcl7EinaEK-o6kDM
+Message-ID: <CANFS6bbHSkaPXyJvbs7QbvVKKXzjMvs3thweXYbEvoEKow5=0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] ntfs: bound the attribute-list entry in ntfs_read_inode_mount()
 To: Bryam Vargas <hexlabsecurity@proton.me>
 Cc: Namjae Jeon <linkinjeon@kernel.org>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
@@ -98,79 +98,69 @@ Content-Transfer-Encoding: quoted-printable
 2026=EB=85=84 6=EC=9B=94 4=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 1:29, Br=
 yam Vargas <hexlabsecurity@proton.me>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> When resolving an attribute lookup with a non-zero @lowest_vcn,
-> ntfs_external_attr_find() peeks at the next $ATTRIBUTE_LIST entry to
-> decide whether to keep searching, but bounds that not-yet-validated
-> entry only with "(u8 *)next_al_entry + 6 < al_end" (which proves just
-> bytes 0..6 are in range) and "(u8 *)next_al_entry + length <=3D al_end"
-> with an attacker-controlled, non-8-aligned length. It then reads
-> next_al_entry->lowest_vcn (an __le64 at offset 8) and the name at
-> next_al_entry->name_offset, both of which can lie past al_end -- the
-> exact end of the kvmalloc'd attribute-list buffer (allocated at the
-> on-disk attr_list_size, no rounding). A crafted on-disk $ATTRIBUTE_LIST
-> whose last entry sits a few bytes before al_end therefore yields a slab
-> out-of-bounds read when the inode is read.
+> The $MFT attribute-list walk in ntfs_read_inode_mount() validates each
+> entry only with "(u8 *)al_entry + 6 > al_end" and
+> "(u8 *)al_entry + le16_to_cpu(al_entry->length) > al_end", but then reads
+> al_entry->lowest_vcn (an __le64 at offset 8) and al_entry->mft_reference
+> (offset 16) -- fields beyond the 6 bytes proven in range. al_entry->lengt=
+h
+> is attacker-controlled and only required non-zero, so a short entry (e.g.
+> length 8) placed at the tail passes both checks while the lowest_vcn /
+> mft_reference reads fall past al_end.
 >
-> Validate the look-ahead entry with ntfs_attr_list_entry_is_valid() (added
-> in patch 1/3) before dereferencing lowest_vcn and the name, so the same
-> fixed-header, length and name bounds the main attribute-list walk uses no=
-w
-> guard this read too.
+> al_end is ni->attr_list + attr_list_size (the on-disk size); the buffer i=
+s
+> kvzalloc(round_up(attr_list_size, SECTOR_SIZE)), so the sector rounding
+> usually absorbs the over-read -- but when attr_list_size is a multiple of
+> SECTOR_SIZE there is no slack and a crafted $MFT attribute list produces =
+an
+> out-of-bounds read at mount time.
+>
+> Validate the entry with ntfs_attr_list_entry_is_valid() (added in patch
+> 1/3) before dereferencing it, matching the bound the other attribute-list
+> walks now use.
 >
 > Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
-
-Looks good to me.
-
-Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
-
 > ---
-> v3 (Hyunchul Lee review): use the extracted ntfs_attr_list_entry_is_valid=
-()
->    helper (added in 1/3) instead of an open-coded bound, so the look-ahea=
-d
->    gets the same fixed-header, 8-byte-aligned-length and name checks as t=
-he
->    main walk.
-> v2: dropped the redundant Reported-by; reproducer/KASAN splat omitted on =
-the
->    public list (available to the maintainers on request).
+> v3 (Hyunchul Lee review): validate with the extracted
+>    ntfs_attr_list_entry_is_valid() helper (added in 1/3) rather than an
+>    open-coded bound, matching the other attribute-list walks.
+> v2: dropped the redundant Reported-by; reproducer omitted on the public l=
+ist
+>    (available to the maintainers on request).
 >
-> Confirmed under KASAN on the earlier revision: a slab out-of-bounds read =
-of
-> next_al_entry->lowest_vcn during inode read of a crafted image; a benign
-> mkntfs image is KASAN-clean (control). Arch-independent (lowest_vcn at
-> offset 8, fixed header offsetof(.., name) =3D=3D 26; identical geometry b=
-uilt
+> Sibling of the ntfs_external_attr_find() look-ahead OOB (2/3): the same
+> struct attr_list_entry fixed fields (lowest_vcn at 8, mft_reference at 16=
+)
+> are read here with a weaker bound. Geometry is arch-independent (identica=
+l
 > -m32/-m64). Please add the appropriate Fixes: tag for the commit that
-> introduced ntfs_external_attr_find() in the new fs/ntfs driver (v7.1 merg=
-e
+> introduced ntfs_read_inode_mount() in the new fs/ntfs driver (v7.1 merge
 > window).
 >
->  fs/ntfs/attrib.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  fs/ntfs/inode.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
-> index abc0add6f0c4..e425c8d074c5 100644
-> --- a/fs/ntfs/attrib.c
-> +++ b/fs/ntfs/attrib.c
-> @@ -1185,9 +1185,8 @@ static int ntfs_external_attr_find(const __le32 typ=
-e,
->                  * we have reached the right one or the search has failed=
-.
->                  */
->                 if (lowest_vcn && (u8 *)next_al_entry >=3D al_start &&
-> -                               (u8 *)next_al_entry + 6 < al_end &&
-> -                               (u8 *)next_al_entry + le16_to_cpu(
-> -                                       next_al_entry->length) <=3D al_en=
-d &&
-> +                               ntfs_attr_list_entry_is_valid(next_al_ent=
-ry,
-> +                                                             al_end) &&
->                                 le64_to_cpu(next_al_entry->lowest_vcn) <=
-=3D
->                                         lowest_vcn &&
->                                 next_al_entry->type =3D=3D al_entry->type=
- &&
+> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+> index a5f7400fd19d..77d7ea4a855b 100644
+> --- a/fs/ntfs/inode.c
+> +++ b/fs/ntfs/inode.c
+> @@ -2002,8 +2002,7 @@ int ntfs_read_inode_mount(struct inode *vi)
+>                                 goto em_put_err_out;
+>                         if (!al_entry->length)
+>                                 goto em_put_err_out;
+
+It seems that some of the above conditions can be removed.
+
+> -                       if ((u8 *)al_entry + 6 > al_end ||
+> -                           (u8 *)al_entry + le16_to_cpu(al_entry->length=
+) > al_end)
+> +                       if (!ntfs_attr_list_entry_is_valid(al_entry, al_e=
+nd))
+>                                 goto em_put_err_out;
+>                         next_al_entry =3D (struct attr_list_entry *)((u8 =
+*)al_entry +
+>                                         le16_to_cpu(al_entry->length));
 > --
 > 2.43.0
 >
