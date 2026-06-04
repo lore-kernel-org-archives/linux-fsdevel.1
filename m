@@ -1,168 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010011.outbound.protection.outlook.com [52.101.201.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34582FE060
-	for <linux-fsdevel@vger.kernel.org>; Thu,  4 Jun 2026 02:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780539432; cv=none; b=se38kIqA7oAb77E+JFadsJa7IgRQhv5HM8Ak6GZG1lvRl6gZb2QyucwtcJEyMyZG7lRE4VtAcuLuBPNvZ2G+rW3hqFOub1elVju+t+WJNgCDzjt56ZZkVFyW6s9hQMqgjGk2N2nZyNAo40hfTmywJKLPG9IvYpzghWD+z+qDyWI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780539432; c=relaxed/simple;
-	bh=h9+JqMvkk39BCvmTywoeqrhTMeL4OUZnpNwPjVejWBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mu1I2118FpETyEZB5NjOx+vUXzNw6NiOyDkeJT5GyinhPtv+Ot1gr8YdKCVvJbJuhn6t0CBtjC9Lp6IpfZYlIJH1t4fOdgegqibSxk1lNa08AxCLkx8E0bsWk0dvZRxlYrqjg46K3TxZFiPu6ldW4VIuJPq0dtYWH8IH9OM6imA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d75vosx3; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230D73A785C;
+	Thu,  4 Jun 2026 02:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780541602; cv=fail; b=Z8TGITXVANnFzMu4GRc9oIiOQQSnE3pmvonh8D8A43Em0QeN+dGdvCOt2ws9QKtwMAucy84cH/QhfiBVmCWyY2WapeK/uQsqOjqIQHqi+1t8Xv7NI1EwaJTqIsU/JxYVNDxV9jldJM6yl9lL/TEj61oaBqBl9ASQl1GYRfv2M2c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780541602; c=relaxed/simple;
+	bh=eS8K8tWXygeCHXlIh+7FdkUGgSpjODu2OTXsZcTwZEo=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ckvm2r8huXtT61weOBZnIaDm8lK3srgwVG7g75yP+SGjsMvI4yMGkglnvwCUUy9QPRRpnn1JGaYRDtFcafrcXx7O7lD88DZk86RFj+gJqVD2E+sHfFDWA59bDLqGXDKNaban5Qc29hRKtUol3PZVz160CTh+5MiCLltPTg/JB34=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=b2KjSmQO; arc=fail smtp.client-ip=52.101.201.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d75vosx3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780539424; x=1812075424;
-  h=date:from:to:cc:subject:message-id;
-  bh=h9+JqMvkk39BCvmTywoeqrhTMeL4OUZnpNwPjVejWBQ=;
-  b=d75vosx3xa/rgHx51FWEGibA46n0OyFC3zW7JU+9aaa91qpKE4AuM5s/
-   cXZdZBai9GsZaS3X4UmzVBDK/0mfgJ5NFjLRbq7JNUDrTaUtdjQHDNmr2
-   QNuUVXgMyr73T/b8nVQD2hWQjZBGCiP3rh6hJBeZFffdn96KxBfr2zUkK
-   I1DMO5TlSw5/00ZmvKpOgDSByq2JU/afhpWqBk4wI55tdEczBLFbY8O8b
-   Tt3FmeHTfIiQoOk3WAhmt6MherWKBt2fBHbD4HZllIK9LLE7ucjZKu2+V
-   rwso6J1vJTKvOAL9QofxjXkzVKQXfrn3rxboFsV9T03kUTWgx/Az+8H9k
-   w==;
-X-CSE-ConnectionGUID: ou6zQ0sxQ/eKXpaApYA75Q==
-X-CSE-MsgGUID: FEHagnYwRh2Yf69yxrUn1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="81423504"
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="81423504"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 19:17:03 -0700
-X-CSE-ConnectionGUID: 46oUs8EjSxqb+IQrseWE1g==
-X-CSE-MsgGUID: XDUmo70xRI+BavpEgr2pSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="274644433"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Jun 2026 19:17:02 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wUxdj-00000000E9o-1NuI;
-	Thu, 04 Jun 2026 02:16:59 +0000
-Date: Thu, 04 Jun 2026 10:16:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:more.configfs 33/33] fs/configfs/symlink.c:136:33:
- warning: variable 'sd' set but not used
-Message-ID: <202606041019.eVNiH4jZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="b2KjSmQO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oR0EAFNrDZQF77/t/yAY3zGrCFS6IIdO4Z0Wm/KT3HDxDKEHEdxUAunHK1gr5n9trTNpovNwQKytPMSpQftJjNOHgcdFPnPLN/jh2fx3426c0mKKsBQYiz1cNVgvK8Vvyo/5LvYiWXKzKjjZpLFDIrkWMNxXkb0cC2hQlwTqJlNR7wbV7omSrOP/ufMrWyJBD00JwBL0w2z2sG9DNsC7p9+Mxtej2NNTIMoDBxNUCSpmmMeIn7E9HY9HHx0rDRAeaKk9tHowqyE+ddl2j2e5MM+a03ltsMCD0oQJYxPIPe2slwO+CzG01TDHtpCI3eb9lLCJh3OuzUJKbrx4gEow3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D7iwQjJul7D/mo+oVjmvN8jhb35E/8AJYgImMf54Jg0=;
+ b=frtyjL77mv1n3KBkWCdrIBqUyqMM15WzucdfV4Uk40q0SAw0v4c4dUOZysjiQnPakUQlNsH7PiTqji693BAa17xWwzT6gVCYNXFDKDtOZJRuKSf7a/RhYAQT6tZC2nQFFBbvRLqJJhzOUHUVcbjutlyq3Mft+Lofq25sAJAr00DvrY5S7VRsc7wXzJF5g87Hd7Js1nN1/BbZ7oP0yi9g/ALx2F0IsbUI43gy5xQvT/evaoXD3CGWs5mSMoViAagOXv5QDCZCP+0U9UtoUUUrhs7nT76pS63K0dxeRsQBLM6dZyldEljEZLoJ0xIysc7FlBfnenb5rEIQjYM53Hx1eA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D7iwQjJul7D/mo+oVjmvN8jhb35E/8AJYgImMf54Jg0=;
+ b=b2KjSmQOIuGy+AGFdhACtmAAt5vEL3St4PAFr1x9d3mZUinkW0InI9KsqE8bC1xENmDR6NLL7qPiXU9l7l1oEDO6L7U6lKUwXru4mmGSp4UyILFDbAh12ApwrTLxpKlqjYc5+Tq27hE8OIN65Jxgqawk9cpBMia4H/jkl6ABuT/5uF1clvkdnvtgU71FW/biLZFoTujcUj3vXPJZbQpju7yplMPNOK9zSXQJGFrutPiRr68l/R3vOMIwlELbjfe+LDt6ipU+zfZygdVrnU+wKeS3BMugIw1B6D0zMfyHy30EonZXlXgs3L7DLNt9LA/Wmyjpvm8qeGj11VWJF6Z7UA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ LV2PR12MB999072.namprd12.prod.outlook.com (2603:10b6:408:354::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Thu, 4 Jun 2026
+ 02:53:18 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%5]) with mapi id 15.21.0092.006; Thu, 4 Jun 2026
+ 02:53:18 +0000
+From: John Hubbard <jhubbard@nvidia.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Kees Cook <kees@kernel.org>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Chia-Lin Kao <acelan.kao@canonical.com>,
+	Benjamin LaHaise <bcrl@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-fsdevel@vger.kernel.org,
+	linux-aio@kvack.org,
+	linux-mm@kvack.org,
+	kvm@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v3 0/2] libfs: set SB_I_NOEXEC and SB_I_NODEV in init_pseudo()
+Date: Wed,  3 Jun 2026 19:53:13 -0700
+Message-ID: <20260604025315.245910-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.54.0
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR05CA0022.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::27) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|LV2PR12MB999072:EE_
+X-MS-Office365-Filtering-Correlation-Id: 21f0b36f-c797-4de1-2322-08dec1e46e46
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|11063799006|56012099006|5023799004|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	udmKxmgAJ8vhgt7aSyDaByNxIia/g5xDQbvEUT1gS33rjuhYRCXbVQ29YLu8P7GozkQ7GIxijWCrllgY175PjeKiYfin6vwSd7Txh2iHhDBWbV0uRbiMhqiSnweMwX12C8n7K5gXokZHp6v9gCZnPyC+unKnseh4paN8sJqBW+7AA5MiCP2HLIADNe3VD6GzNrJFBZHVr7JaZ0kjI1z4CcHW2nv8bf64N4bh1+5gMSyajabrrQ3MZ8tT6Ip4/Pl1sZBFweo7i13qHvjAM0RgnBaSpE1jE5VLSDIJld7Z1DfsJ9U7ZBQ6itEp/s09ml0uemnysItJhvixJ/b60rX55mpVg2PC/tQYjpRSZlrURdigyTeuqF0V4zQmR9icnki4g0EwQXmBtLpXFp0PhSlEFgcL6QzmHJ3NDMFIzEVhnemT00wCgjScE2elFAZh79/tw2WI1XKQ846dZVEVWtJnC5+lAnhw5mA8DIISzpOaRiPNWEkOe6L9+nW3pD6tEjtVioz9E6/kOCp+3N8dCfrCYFuFEpbjZswMPRHbWbqCqS66hi3fFPCawHjDcvdKSQc9C8BZsUXoyJZZM1/19XDfqnwkSdhOvCyjJF1sv1xoER/b9xY3FgWFmBhZ2XRjmXeQW/gxaacDhlBUfD88Kf3+Jlq2u8vV+Vmy4lZtOPRGa7441/d0NpMX7AY2Id8QUlBF
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(11063799006)(56012099006)(5023799004)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?wKClCMaHdIy+ubf2vEBOSr2FHcgDOcBUqLz19nw0m1ZvyNZoXfzgupY5Do2g?=
+ =?us-ascii?Q?8FWhnxMZBorNODZ1vW6sKIH92mOowRNqPlNzqzEBdMtGL5VL75p6L9Mn2ppL?=
+ =?us-ascii?Q?BvjxTTuwtDcI55Lo18Lbmo1Jz3r9rWkQihAQVm+GIX5heDYdtaa6JFo5HXUe?=
+ =?us-ascii?Q?SQj+rLxJ4ow66xDsKrySZH6/0wNOFB/dLgC/qqf6+xWuB0Rp+9E1pHtsX9Rt?=
+ =?us-ascii?Q?32QWb7fCXhM0ks+/saA6eHXd8J7Jhz744rU7GECZ7fh3G7EhhFlUfaLi1XlV?=
+ =?us-ascii?Q?N78s1nIyLGPdnzF0Ct7yxMCgo6AmS5XCeI71YTqm/Vvfgs+/M7RxScwYVSqG?=
+ =?us-ascii?Q?MKAVfkP7Oq/H9c1SAU5JLTS/kgDygFyqYdj+DpkkKWBvfAHSUciX2ZxSxLIG?=
+ =?us-ascii?Q?RSbkRr6wC8DpOtlJPuWQmupd7wEI/sdtX2QqQ5yRp1uU8LzhbgGjmKop/XW3?=
+ =?us-ascii?Q?D2pBNq3UQePwchI0BIa2JU1tepVz7qEpOs007NziCMUM1Vd+LgeKPtOUXH5W?=
+ =?us-ascii?Q?9Mm5H+IIASkPc6vYLUOfkZje4sN8or5oiVME/Hf610yo8m+s6gCIS1ng2LAY?=
+ =?us-ascii?Q?mg8mcbBI772P0AShJz7I5RIgBGiyEMnW+iulE5ku36UQqqDk1G1hOGwRdwL9?=
+ =?us-ascii?Q?Hgz5zVXMUKNeeNf1RwJUpnYqps5+WjTH095tTIuUDL/WmKyq18bu6h5iQJIs?=
+ =?us-ascii?Q?4k3O0AOZli1zxb5RAd7nk+HahVL0rY4ioYwZ+b/A0YY8G935+UAYO4XQ3GbT?=
+ =?us-ascii?Q?/tNPVW1Nhvbm+1VzvAdMkwxx+Ywp0e0MplIYbQNmrRdr6K4AsRx16YwTRRuN?=
+ =?us-ascii?Q?xrSlcFpxpy6fu3JTpDoAf1Or/v9qaO82xLA/WS4VDjAf8V29thZtFWoO/5Ug?=
+ =?us-ascii?Q?JZ1MmLUWm44YumVwgvLhNjdZ2IqzaQN8jaLLlAFVJZFqtt2RGtHMRzPJ4WHp?=
+ =?us-ascii?Q?hi3zswQRzTLoGOHWbyOdsaDH72VlnW42CrMYw9cenFi92zxDZVjYwA5R2Dyn?=
+ =?us-ascii?Q?Hh5ZnaFqHiwe4XVGkmy2cInrt5F+sLFKcqQFqKBdwPxoSef7T1Uo5hu7lqgV?=
+ =?us-ascii?Q?NXKDJnd6o2i7EYMcorCoNkTeMGrNHhC9wqiidzGIaANOm4JB1cOm9iC8B4ZE?=
+ =?us-ascii?Q?ZY/QKF+GAuKCaggdrvSCrnOkByUmGlxorucR3gVxsQMdKyfRXNql4fWEHVUA?=
+ =?us-ascii?Q?Vm/d3LMmI82VKDlLXv5UlRxN0Bz07GB67E8kNqZ/4xjSOydLb2xo+CbaM6mF?=
+ =?us-ascii?Q?n81dhi4kf7T9AvU2sZqa5vWYCMkGPULtLe5sR6nLpCkIwYfaXlVZ3G8omIiN?=
+ =?us-ascii?Q?43srmd8LQ4IYO/35t2vUeOk9QF84mJWIJjovu7p0oVjDzZ/4wNSjG5NkJQvp?=
+ =?us-ascii?Q?aFfuh88cQRJ0BwFj0HcJBXyCu6bx0x+aUZaU359OxWt2KphFluvAH7elo5iJ?=
+ =?us-ascii?Q?dYYb0HZYLDPW1MsfEREGVGsyjPLutqBoZajGoD/Be+6Hk/RehbmE6zHTDL2Z?=
+ =?us-ascii?Q?EX4+X/hDH8Lh3STDuLaNs81VVu+P+D2/AW/3IIr7lZlVXnMbXC916ycNSAdU?=
+ =?us-ascii?Q?zrp8qTIskF9jZiGdQk/OyIDxTPiJbx+v8gLXdK0I/aZktvq7/pu9YMGkE57/?=
+ =?us-ascii?Q?kaSnn20LlRritE5pVT1Mg3J6jF2oU3b5PjSbkg5XDVTEKEtAb22+3n1dqi4m?=
+ =?us-ascii?Q?Tg2/LITyqs5WHfpkmbIQS0BnOVpZSHjN66slxUs/WjyjwwURR0wf/cUZUR4u?=
+ =?us-ascii?Q?hHWBDEqVsg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21f0b36f-c797-4de1-2322-08dec1e46e46
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 02:53:18.1716
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K10zNyVT9yI7I1nfKySKWlUxINtMl3mqiabKBR6pMRKhQp303N0EJh+wnC5Jk8jZzFAh+ZOmRmV3Xt8NquTEsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB999072
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git more.configfs
-head:   53a9faf145785b0b12ec71f2204f3b3011dbda5e
-commit: 53a9faf145785b0b12ec71f2204f3b3011dbda5e [33/33] kill configfs_dirent_is_ready()
-config: csky-randconfig-r073-20260604 (https://download.01.org/0day-ci/archive/20260604/202606041019.eVNiH4jZ-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9185-gbcc58b9c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260604/202606041019.eVNiH4jZ-lkp@intel.com/reproduce)
+This began as a one-line dma-buf fix for a path_noexec() warning added
+by commit 1e7ab6f67824 ("anon_inode: rework assertions"). Christoph
+pointed out that the fix belongs higher up: a pseudo filesystem has no
+reason not to set SB_I_NOEXEC by default. This series does that.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606041019.eVNiH4jZ-lkp@intel.com/
+  * Patch 1 sets both flags in init_pseudo(), so every pseudo
+    filesystem gets them. This is the only patch that changes a flag,
+    and the only one with Fixes:/Cc: stable.
 
-All warnings (new ones prefixed by >>):
+  * Patch 2 drops the assignments that are now redundant in the callers
+    that set them by hand.
 
-   fs/configfs/symlink.c: In function 'configfs_symlink':
->> fs/configfs/symlink.c:136:33: warning: variable 'sd' set but not used [-Wunused-but-set-variable=]
-     136 |         struct configfs_dirent *sd;
-         |                                 ^~
+Most callers already set one or both flags. I audited every
+init_pseudo() caller. Here is what patch 1 actually changes for each.
+The only visible effect is on dma-buf, where SB_I_NOEXEC silences the
+warning. SB_I_NODEV is never consulted on these SB_NOUSER mounts, and
+none of the callers that gain SB_I_NOEXEC are executed from.
+
+  caller                       had        patch 1 adds
+  ---------------------------  --------   --------------
+  fs/anon_inodes.c             both       nothing new
+  mm/secretmem.c               both       nothing new
+  virt/kvm/guest_memfd.c       both       nothing new
+  fs/nsfs.c                    both       nothing new
+  fs/pidfs.c                   both       nothing new
+  fs/aio.c                     NOEXEC     NODEV
+  drivers/dma-buf/dma-buf.c    neither    NOEXEC + NODEV
+  net/socket.c                 neither    NOEXEC + NODEV
+  fs/pipe.c                    neither    NOEXEC + NODEV
+  kernel/resource.c            neither    NOEXEC + NODEV
+  fs/erofs/super.c             neither    NOEXEC + NODEV
+  fs/btrfs/tests/...           neither    NOEXEC + NODEV
+  drivers/vfio/vfio_main.c     neither    NOEXEC + NODEV
+  drivers/gpu/drm/drm_drv.c    neither    NOEXEC + NODEV
+  drivers/dax/super.c          neither    NOEXEC + NODEV
+  block/bdev.c                 neither    NOEXEC + NODEV
+
+John Hubbard (2):
+  libfs: set SB_I_NOEXEC and SB_I_NODEV by default in init_pseudo()
+  libfs: drop redundant SB_I_NOEXEC/SB_I_NODEV in init_pseudo() callers
+
+ fs/aio.c               | 1 -
+ fs/anon_inodes.c       | 2 --
+ fs/libfs.c             | 1 +
+ fs/nsfs.c              | 1 -
+ fs/pidfs.c             | 2 --
+ mm/secretmem.c         | 2 --
+ virt/kvm/guest_memfd.c | 2 --
+ 7 files changed, 1 insertion(+), 10 deletions(-)
 
 
-vim +/sd +136 fs/configfs/symlink.c
+base-commit: ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
+-- 
+2.54.0
 
-7063fbf2261194 Joel Becker       2005-12-15  130  
-7063fbf2261194 Joel Becker       2005-12-15  131  
-7a77db95511c39 Christian Brauner 2023-01-13  132  int configfs_symlink(struct mnt_idmap *idmap, struct inode *dir,
-549c7297717c32 Christian Brauner 2021-01-21  133  		     struct dentry *dentry, const char *symname)
-7063fbf2261194 Joel Becker       2005-12-15  134  {
-7063fbf2261194 Joel Becker       2005-12-15  135  	int ret;
-2a109f2a4155f1 Louis Rilling     2008-07-04 @136  	struct configfs_dirent *sd;
-7063fbf2261194 Joel Becker       2005-12-15  137  	struct config_item *parent_item;
-3c48f23adada87 Subrata Modak     2009-04-19  138  	struct config_item *target_item = NULL;
-aa293583f0fe8b Bhumika Goyal     2017-10-16  139  	const struct config_item_type *type;
-7063fbf2261194 Joel Becker       2005-12-15  140  
-2a109f2a4155f1 Louis Rilling     2008-07-04  141  	sd = dentry->d_parent->d_fsdata;
-2a109f2a4155f1 Louis Rilling     2008-07-04  142  
-7063fbf2261194 Joel Becker       2005-12-15  143  	parent_item = configfs_get_config_item(dentry->d_parent);
-7063fbf2261194 Joel Becker       2005-12-15  144  	type = parent_item->ci_type;
-7063fbf2261194 Joel Becker       2005-12-15  145  
-2a109f2a4155f1 Louis Rilling     2008-07-04  146  	ret = -EPERM;
-7063fbf2261194 Joel Becker       2005-12-15  147  	if (!type || !type->ct_item_ops ||
-7063fbf2261194 Joel Becker       2005-12-15  148  	    !type->ct_item_ops->allow_link)
-7063fbf2261194 Joel Becker       2005-12-15  149  		goto out_put;
-7063fbf2261194 Joel Becker       2005-12-15  150  
-351e5d869e5ac1 Al Viro           2019-08-03  151  	/*
-351e5d869e5ac1 Al Viro           2019-08-03  152  	 * This is really sick.  What they wanted was a hybrid of
-351e5d869e5ac1 Al Viro           2019-08-03  153  	 * link(2) and symlink(2) - they wanted the target resolved
-351e5d869e5ac1 Al Viro           2019-08-03  154  	 * at syscall time (as link(2) would've done), be a directory
-351e5d869e5ac1 Al Viro           2019-08-03  155  	 * (which link(2) would've refused to do) *AND* be a deep
-351e5d869e5ac1 Al Viro           2019-08-03  156  	 * fucking magic, making the target busy from rmdir POV.
-351e5d869e5ac1 Al Viro           2019-08-03  157  	 * symlink(2) is nothing of that sort, and the locking it
-351e5d869e5ac1 Al Viro           2019-08-03  158  	 * gets matches the normal symlink(2) semantics.  Without
-351e5d869e5ac1 Al Viro           2019-08-03  159  	 * attempts to resolve the target (which might very well
-351e5d869e5ac1 Al Viro           2019-08-03  160  	 * not even exist yet) done prior to locking the parent
-351e5d869e5ac1 Al Viro           2019-08-03  161  	 * directory.  This perversion, OTOH, needs to resolve
-351e5d869e5ac1 Al Viro           2019-08-03  162  	 * the target, which would lead to obvious deadlocks if
-351e5d869e5ac1 Al Viro           2019-08-03  163  	 * attempted with any directories locked.
-351e5d869e5ac1 Al Viro           2019-08-03  164  	 *
-351e5d869e5ac1 Al Viro           2019-08-03  165  	 * Unfortunately, that garbage is userland ABI and we should've
-351e5d869e5ac1 Al Viro           2019-08-03  166  	 * said "no" back in 2005.  Too late now, so we get to
-351e5d869e5ac1 Al Viro           2019-08-03  167  	 * play very ugly games with locking.
-351e5d869e5ac1 Al Viro           2019-08-03  168  	 *
-351e5d869e5ac1 Al Viro           2019-08-03  169  	 * Try *ANYTHING* of that sort in new code, and you will
-351e5d869e5ac1 Al Viro           2019-08-03  170  	 * really regret it.  Just ask yourself - what could a BOFH
-351e5d869e5ac1 Al Viro           2019-08-03  171  	 * do to me and do I want to find it out first-hand?
-351e5d869e5ac1 Al Viro           2019-08-03  172  	 *
-351e5d869e5ac1 Al Viro           2019-08-03  173  	 *  AV, a thoroughly annoyed bastard.
-351e5d869e5ac1 Al Viro           2019-08-03  174  	 */
-351e5d869e5ac1 Al Viro           2019-08-03  175  	inode_unlock(dir);
-1b25dea3867abc Al Viro           2025-09-04  176  	ret = get_target(symname, &target_item, dentry->d_sb);
-351e5d869e5ac1 Al Viro           2019-08-03  177  	inode_lock(dir);
-7063fbf2261194 Joel Becker       2005-12-15  178  	if (ret)
-7063fbf2261194 Joel Becker       2005-12-15  179  		goto out_put;
-7063fbf2261194 Joel Becker       2005-12-15  180  
-351e5d869e5ac1 Al Viro           2019-08-03  181  	if (dentry->d_inode || d_unhashed(dentry))
-351e5d869e5ac1 Al Viro           2019-08-03  182  		ret = -EEXIST;
-351e5d869e5ac1 Al Viro           2019-08-03  183  	else
-4609e1f18e19c3 Christian Brauner 2023-01-13  184  		ret = inode_permission(&nop_mnt_idmap, dir,
-47291baa8ddfda Christian Brauner 2021-01-21  185  				       MAY_WRITE | MAY_EXEC);
-351e5d869e5ac1 Al Viro           2019-08-03  186  	if (!ret)
-7063fbf2261194 Joel Becker       2005-12-15  187  		ret = type->ct_item_ops->allow_link(parent_item, target_item);
-e7520651750446 Louis Rilling     2008-06-12  188  	if (!ret) {
-9a73d78cda750f Louis Rilling     2008-06-20  189  		mutex_lock(&configfs_symlink_mutex);
-7063fbf2261194 Joel Becker       2005-12-15  190  		ret = create_link(parent_item, target_item, dentry);
-9a73d78cda750f Louis Rilling     2008-06-20  191  		mutex_unlock(&configfs_symlink_mutex);
-e7520651750446 Louis Rilling     2008-06-12  192  		if (ret && type->ct_item_ops->drop_link)
-e7520651750446 Louis Rilling     2008-06-12  193  			type->ct_item_ops->drop_link(parent_item,
-e7520651750446 Louis Rilling     2008-06-12  194  						     target_item);
-e7520651750446 Louis Rilling     2008-06-12  195  	}
-7063fbf2261194 Joel Becker       2005-12-15  196  
-7063fbf2261194 Joel Becker       2005-12-15  197  	config_item_put(target_item);
-7063fbf2261194 Joel Becker       2005-12-15  198  
-7063fbf2261194 Joel Becker       2005-12-15  199  out_put:
-7063fbf2261194 Joel Becker       2005-12-15  200  	config_item_put(parent_item);
-7063fbf2261194 Joel Becker       2005-12-15  201  	return ret;
-7063fbf2261194 Joel Becker       2005-12-15  202  }
-7063fbf2261194 Joel Becker       2005-12-15  203  
-
-:::::: The code at line 136 was first introduced by commit
-:::::: 2a109f2a4155f168047aa2f5b3a170e279bef89a [PATCH] configfs: Prevent userspace from creating new entries under attaching directories
-
-:::::: TO: Louis Rilling <louis.rilling@kerlabs.com>
-:::::: CC: Mark Fasheh <mfasheh@suse.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
