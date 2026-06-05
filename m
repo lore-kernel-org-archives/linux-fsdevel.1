@@ -1,90 +1,91 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6401431A046
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45ED324B20
 	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 13:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780667610; cv=none; b=QA5vMEOQhKR+xcdbKQuUUXr3g6RxzszKoaiBeRFGNF2jfUA5RVw3QJy0gt9wBSWQrCUALyLZ/O/8zK4YEz1aiF1jIclypKmdtiDkzjNw12xl0KgaRKPL5xZobQm3XqBjhZuzSF44e1IrVxUW9wYoWYWd4aeV8BqzCJHi7KWf7Q8=
+	t=1780667611; cv=none; b=dr+f7xppD43ozd/RzqGj7UN6NMSv+H81E8qRR+B94c1YNUGgrCVgVXmkehmG7eKCo0VUEVdm7C3uw1Lqa4tYBIakzGGtf6rp/rrlXVhGSG1MyyT9EMhJHUdTPGvCyXWLRXAV7rv8OSjPfZuJkJvMYUxHnip1j4oPVEOs3Yw0aI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780667610; c=relaxed/simple;
-	bh=tn2JfMlU4nezVGQkeNM9goVAlzqYmpyEubOlFIiqCr0=;
+	s=arc-20240116; t=1780667611; c=relaxed/simple;
+	bh=waKZEEXY9843aO0iphtvui01RZQIwqYugZMN+on49bw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QYwCsw5w7uMaZP2FAzs10p/tPzZ99tbwU9VB9L4+BtoVDl00kHqmrm0gtJORwuxee1RYz8ubIw+XjcxRq12rijH2FWrH8K+ErpQMRiVlk93iRejzFqRg49vdrTEshYWcM2ZFJ3Hziqt3aKi/ZgOZU6JL7LIcO/AyOGqlhDins4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LTG5cjX5; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kE2iStST; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=aYANz+TuS28w3JEz7Pe2IUje6WAuB9orDtJ9kn9OtIORkrpY8QBMk78N/iTakY7u80xzkx23WxTKchZ0+bHNEi9qtJnje1FINfJqV/dMIEoODq72WZUMrE5VhRvm30F/YNnFcXKSWG/W2stLg1p1C4FOORC9gyCXiZ1KeJd+D5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XHpA0cN6; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=HEqanG/o; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LTG5cjX5";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kE2iStST"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XHpA0cN6";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="HEqanG/o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1780667608;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8Zek5lka7I+V+M7YhuZBNsWHTpvMuxGl7NM9kjldurc=;
-	b=LTG5cjX5p1zbkcfYDcCrQYhw8Vlw+r+GZqNhKjh9CblBMc0pf4Iv+doWa65f6zWR2GsLZP
-	UR7KTsguHWpwuusOj7qNBJ1+fUPMOsSn9MyAwNSEYd8u/seJYJ9sk3kfq2wJuxh8ay+cm9
-	nCgHrk5kTM9NitWTDMAOfV4dS6tY7Z0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=8TRPxFGECnjw+M8/0IvOgB7NTMDasli+evg1PYVSz64=;
+	b=XHpA0cN6wEBcdrPiodg11hNTGbTt4+IYpRztgzwdpGBD5bM5Mde5dq9298erggnIdfEUCT
+	9m/YMA1RnoK2JtIDnTdAKpz26xpAWF1RoStlAYSB9iJrTV4VIPF3bo2xKDtQDr8Myp9RR7
+	MYGP82pmvVhs4x+5pBDpBYxSpzoBaBg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-121-S9jJsCQENCOy-wr_bBnkYQ-1; Fri, 05 Jun 2026 09:53:27 -0400
-X-MC-Unique: S9jJsCQENCOy-wr_bBnkYQ-1
-X-Mimecast-MFC-AGG-ID: S9jJsCQENCOy-wr_bBnkYQ_1780667606
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-490ae3bcf4cso10305435e9.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 06:53:27 -0700 (PDT)
+ us-mta-201-PUgr5NTRNF6K7xRaTDHlew-1; Fri, 05 Jun 2026 09:53:26 -0400
+X-MC-Unique: PUgr5NTRNF6K7xRaTDHlew-1
+X-Mimecast-MFC-AGG-ID: PUgr5NTRNF6K7xRaTDHlew_1780667605
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-490bfd70b0fso18763265e9.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 06:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780667606; x=1781272406; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1780667605; x=1781272405; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Zek5lka7I+V+M7YhuZBNsWHTpvMuxGl7NM9kjldurc=;
-        b=kE2iStSTYRPVv7RoSaFPUc3pqFusKFBIufN15N75CVola2/amk6G0BNIJGLSxP0bK/
-         i3jaH3W89IeqVIY4DNZMseAHBDD7gbp7V4LklUCx44DYRfmCNYDuCP7OiF15+QiEqDj/
-         uaySfHEilSSRD0Orx8tl6lci/e8yAhZkqRJ8C78T9izjTbyWRI5f0UxPqpRR5vNY5miy
-         jyyRPU/npNp7tlO2m84aOxZoDRdy5wxZs114ENIQvFVT1U0qKZCw2V4So9nXjDWFVnSU
-         3R4tZrSkeFuXHilrMxtiVsA8H9s6xMvcXfWXiSLf+C0vYiwA3Wmi9j5IZxKynZzf2fsm
-         C4aQ==
+        bh=8TRPxFGECnjw+M8/0IvOgB7NTMDasli+evg1PYVSz64=;
+        b=HEqanG/oeaTISdDsvhSYrzje11orBKfARtDcpAlqGowt+b2iAf+FvjLCwl4lDbqyHe
+         pbUjoDD/nIrO76uGMrlMy5d0bnjU9JuMwv3/AI5kGke6xKi6uOF166bNEmkvD4BbKQa8
+         rZkNzPXouMdk7j9PdDyZhldxyHyqYlBMnbcwTffrZU08A7zUnv4b9d+ljdRZUNi/fyrR
+         cWOYCpeLCPmV+0xzCbI4jX5q54E4LXQEEPeajavFs+OhCraPT3tl7kUAbyAGWeqNOniY
+         EKANd9A/60nu21S2ZUjs927/mc/ye3OGzi1rLwvXgUIls1AXq0gXgNs4/S2NeO7WmduO
+         Z27A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780667606; x=1781272406;
+        d=1e100.net; s=20251104; t=1780667605; x=1781272405;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8Zek5lka7I+V+M7YhuZBNsWHTpvMuxGl7NM9kjldurc=;
-        b=jTP2La6hWfFJxnBuu4eGy62EY+1oEKSjyo4VAatxk0A/FoBHSxsgUbuVirway/JHgK
-         N3neu4g/uvgTBFRiZ+5S+Q+gqiVzawRivxAu6UMMGNXT+HjS/YZGon9IvUsS+ycU3qj4
-         qQc8MY9yINZn08IJUvAIv0MXwgoaaT9M2MFPG1L69uA42CYkdw++x4p1/NlQ8bAZAQGP
-         jirA2tqyW5HPYvYhUE03bPxaX1+tZIlu/W0LDDUyHA9JHjuo29nNiNmw5Puo9t83rPaa
-         iX5pXECs7/F5XRuFS4r8myoaJtz4AOR+fTiMPkHYW7BddHWzR8uIo7B4CJ6t3T8TWMTP
-         gSRA==
-X-Gm-Message-State: AOJu0YxwdKBX6cRRudFIzCB59NW+gXwCwtsN8bjrUnAgQamavgPUgmd9
-	hJLQM/MpmJbQLHsksyxv0/CBZ+h+Z9BdsCWwkaVkGiO+4T8WVfa8TfaohmTGrc02T7A/t+vtwZb
-	mci+7W7RBPeP/3vMC4TIV+PwaGenWLXuUc7BBtjZIqoT3E8BZK1coubkqpbnqHd17mCcD3iHRIz
-	tF1x8wLTFbPIhjyAGxb8oCCta/D4+1hmUTk32NYc4c3I5fRxpKoRI=
-X-Gm-Gg: Acq92OEXvpgZhnu28xE4dJm6UA8FUpxcEKxHfzYlJGabHN5sjPjbFM7ZAx7NiebnaWW
-	dit3K34BV1Dk7FuEBlaNOxAQm83BODZEMsRvIdBomCxKgkijnmaHZBKcbVEGr3g6sBJ2v4nDxEY
-	rkzTf178AmOHb8gZrxGc+RYt3LzHelCaBSmnp5Iy6726h/u9LAzmsyFhU7fKlxdJ7a5IU69fby6
-	k94zAckp0dQaUhkDpGDIRf2AWnOYsj55yVF4ai18ovo+HKrf0psXW1KLfAowDOSzPSp9jmet2Cs
-	ivL/ePvoq/hFcs3x7TI5dn877HQyAo2ojlH95mHMGW3Oc+yr4vsLdz91OzwRxYN1kajZbqlv+/L
-	9BTdBxf74+qu/X9ZKhISJ9S+2eBKX1hkMYLs7ac0F4nqSApUgFQjGE8dt3QR4cQn1tt9enTJIaE
-	XV/McWhw==
-X-Received: by 2002:a05:600c:314b:b0:490:bfae:55cb with SMTP id 5b1f17b1804b1-490c25f5df4mr55867625e9.21.1780667606170;
-        Fri, 05 Jun 2026 06:53:26 -0700 (PDT)
-X-Received: by 2002:a05:600c:314b:b0:490:bfae:55cb with SMTP id 5b1f17b1804b1-490c25f5df4mr55867145e9.21.1780667605812;
+        bh=8TRPxFGECnjw+M8/0IvOgB7NTMDasli+evg1PYVSz64=;
+        b=BEEwjLhb8bAH+j/4nBNFbndmj3yVe4OvB7SloIa98NbHlgmgkLYJf0cPhDthr1rwkq
+         MChwMhywbK2KyqSz/fN+CyhS7s5vs99e85XbLd5APk3Pvj3a7di5H4RmoHucU23Yl0w3
+         oXYjmZumUsutfJuZ20xmIYkTD1o91vrMYEzwM9TnVJlm4NWGgubNuWtXGpN1tTVo1dEw
+         PPLM67LBQlWCDvLP+STVDDesxjbaWcKmo3fyhXfmDoUl8Zucf0rOPrPZc7EF1tPrpuC1
+         ckP9h95JzWJZIbBYllv4LcL0+h84k9mRmpi5/tKDRUpSuZlwxIAKdnMQIcBj/R/Blzt/
+         vJBg==
+X-Gm-Message-State: AOJu0YyZh4bpxFF3fyUo6XNLyz3sAyq6tsN9/xBWOAMhAIuP7/VlINBp
+	lZ/p3JoOeMDhavJFowFgmGCapEeg4drVG1MoQSNCjASzJvvOJg6h0YmySh2Kyr/PgZ+GfLbLhQR
+	rQh/RU33B2oR785tsze7J5mQpSUE+7zoQiSm6sy8mLThbbcrnVb+M5az9pz/pKs3jUf6RBszlB3
+	QtTNJwq194n53ndmDG5a+GRuNSUb062/mulGw4qgx2BDyHGJTARdQ=
+X-Gm-Gg: Acq92OHc6Qp9bL5w+6E5mIW49Vvt0UkEwl+mmHrnOXEIkdUpYyW3AQ8LZDN8jrb47DU
+	dfB1hvWlhozIv6oCNf6Ulgy/WVNHsqNR3MZGL4LsiublRuK+7zACCWuUJJ5gnq/4FO0TrIYtnXb
+	mIX0kDIcCvhF23gCm0rciy3I+ROjKh42aPL4oSY7XmuEvfBEOGKot42vH7kBoTjDLLRuy4tybIl
+	A8deYwjZF9nJ13IIOHzYYwclvsPwfS+zNKAbsMHG49KpzzjzDMyd1Xwx7uwE8AI4uksO80OWRI0
+	d8aj9ur8EVHdHw9OBDPn3EtoSr6Ad4t9dICblbpU37mdFQPMpU2RSetigbr9wriBinkQHr2hoYS
+	z0p2QBDGMWUg9QUFSU4LwBj8aOmndlRXZ9NwUgqMaZ8og23E3slP0PKY9Xh2LhISzzfWx/I2Tm0
+	BfEY1i6Q==
+X-Received: by 2002:a05:600c:674f:b0:490:6e11:c303 with SMTP id 5b1f17b1804b1-490c25ed266mr66311115e9.13.1780667605458;
+        Fri, 05 Jun 2026 06:53:25 -0700 (PDT)
+X-Received: by 2002:a05:600c:674f:b0:490:6e11:c303 with SMTP id 5b1f17b1804b1-490c25ed266mr66310545e9.13.1780667605025;
         Fri, 05 Jun 2026 06:53:25 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (84-236-1-92.pool.digikabel.hu. [84.236.1.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3cbfe4sm157999025e9.7.2026.06.05.06.53.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3cbfe4sm157999025e9.7.2026.06.05.06.53.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 06:53:25 -0700 (PDT)
+        Fri, 05 Jun 2026 06:53:24 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-mm@kvack.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: [PATCH v4 2/4] tmpfs: simplify constructing "security.foo" xattr names
-Date: Fri,  5 Jun 2026 15:53:17 +0200
-Message-ID: <20260605135322.2632068-3-mszeredi@redhat.com>
+	Christian Brauner <brauner@kernel.org>,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: [PATCH v4 1/4] kernfs: fix xattr race condition with multiple superblocks
+Date: Fri,  5 Jun 2026 15:53:16 +0200
+Message-ID: <20260605135322.2632068-2-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260605135322.2632068-1-mszeredi@redhat.com>
 References: <20260605135322.2632068-1-mszeredi@redhat.com>
@@ -96,45 +97,180 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use kasprintf() instead of doing it with kmalloc() + 2 x memcpy().
+Multiple superblocks with different namespaces can share the same
+kernfs_node when kernfs_test_super() finds a matching root but
+different namespace. This means multiple inodes from different
+superblocks can reference the same kernfs_node->iattr->xattrs
+structure.
 
+The VFS layer only holds per-inode locks during xattr operations,
+which is insufficient to serialize concurrent xattr modifications on
+the shared kernfs_node. This can lead to race conditions in
+simple_xattr_set() where the lookup->replace/remove sequence is not
+atomic with respect to operations from other superblocks.
+
+Fix this by protecting xattr operations with the existing hashed
+kernfs_locks->open_file_mutex[] array, which is already used to
+protect per-node open file data. The hashed mutex array provides
+scalable per-node serialization (scaled by CPU count, up to 1024 locks
+on 32+ CPU systems) with zero memory overhead.
+
+Changes:
+- Rename open_file_mutex[] to node_mutex[] to reflect dual purpose
+- Add kernfs_node_lock_ptr() and kernfs_node_lock() helpers
+- Protect simple_xattr_set() calls in kernfs_xattr_set() and
+  kernfs_vfs_user_xattr_set() with the hashed mutex
+- Update file.c to use new helpers via compatibility wrappers
+- Update documentation to explain the extended lock usage
+
+Fixes: b32c4a213698 ("xattr: add rhashtable-based simple_xattr infrastructure")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/patchset/20260601162454.2116375-1-mszeredi%40redhat.com
+Assisted-by: Claude:claude-sonnet-4-5
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- mm/shmem.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ fs/kernfs/file.c            | 13 +++----------
+ fs/kernfs/inode.c           | 12 ++++++++++++
+ fs/kernfs/kernfs-internal.h | 20 ++++++++++++++++++++
+ fs/kernfs/mount.c           |  2 +-
+ include/linux/kernfs.h      | 11 ++++++++---
+ 5 files changed, 44 insertions(+), 14 deletions(-)
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 3b5dc21b323c..c7897570fc9f 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -4232,7 +4232,6 @@ static int shmem_initxattrs(struct inode *inode,
- 	struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
- 	const struct xattr *xattr;
- 	size_t ispace = 0;
--	size_t len;
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index 1163aa769738..8e0e90c93372 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -40,22 +40,15 @@ struct kernfs_open_node {
+ static DEFINE_SPINLOCK(kernfs_notify_lock);
+ static struct kernfs_node *kernfs_notify_list = KERNFS_NOTIFY_EOL;
  
- 	CLASS(simple_xattrs, xattrs)();
- 	if (IS_ERR(xattrs))
-@@ -4260,17 +4259,11 @@ static int shmem_initxattrs(struct inode *inode,
- 		if (IS_ERR(new_xattr))
- 			break;
- 
--		len = strlen(xattr->name) + 1;
--		new_xattr->name = kmalloc(XATTR_SECURITY_PREFIX_LEN + len,
--					  GFP_KERNEL_ACCOUNT);
-+		new_xattr->name = kasprintf(GFP_KERNEL_ACCOUNT,
-+					XATTR_SECURITY_PREFIX "%s", xattr->name);
- 		if (!new_xattr->name)
- 			break;
- 
--		memcpy(new_xattr->name, XATTR_SECURITY_PREFIX,
--		       XATTR_SECURITY_PREFIX_LEN);
--		memcpy(new_xattr->name + XATTR_SECURITY_PREFIX_LEN,
--		       xattr->name, len);
++/* Compatibility wrappers - use the common hashed node lock */
+ static inline struct mutex *kernfs_open_file_mutex_ptr(struct kernfs_node *kn)
+ {
+-	int idx = hash_ptr(kn, NR_KERNFS_LOCK_BITS);
 -
- 		if (simple_xattr_add(xattrs, new_xattr))
- 			break;
- 		retain_and_null_ptr(new_xattr);
+-	return &kernfs_locks->open_file_mutex[idx];
++	return kernfs_node_lock_ptr(kn);
+ }
+ 
+ static inline struct mutex *kernfs_open_file_mutex_lock(struct kernfs_node *kn)
+ {
+-	struct mutex *lock;
+-
+-	lock = kernfs_open_file_mutex_ptr(kn);
+-
+-	mutex_lock(lock);
+-
+-	return lock;
++	return kernfs_node_lock(kn);
+ }
+ 
+ /**
+diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+index 38b28aa7cd02..e676737d9531 100644
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -320,6 +320,15 @@ int kernfs_xattr_set(struct kernfs_node *kn, const char *name,
+ 	if (!attrs)
+ 		return -ENOMEM;
+ 
++	/*
++	 * Protect xattr modifications with the hashed per-node mutex.
++	 * Multiple superblocks (with different namespaces) can share the same
++	 * kernfs_node, so inode locking alone is insufficient. The hashed mutex
++	 * ensures serialization of concurrent xattr operations on the same node,
++	 * including the lazy allocation of the xattrs structure itself.
++	 */
++	CLASS(kernfs_node_lock, lock)(kn);
++
+ 	xattrs = simple_xattrs_lazy_alloc(&attrs->xattrs, value, flags);
+ 	if (IS_ERR_OR_NULL(xattrs))
+ 		return PTR_ERR(xattrs);
+@@ -372,6 +381,9 @@ static int kernfs_vfs_user_xattr_set(const struct xattr_handler *handler,
+ 	if (!attrs)
+ 		return -ENOMEM;
+ 
++	/* See comment in kernfs_xattr_set() about locking. */
++	CLASS(kernfs_node_lock, lock)(kn);
++
+ 	xattrs = simple_xattrs_lazy_alloc(&attrs->xattrs, value, flags);
+ 	if (IS_ERR_OR_NULL(xattrs))
+ 		return PTR_ERR(xattrs);
+diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
+index 8d8912f50b05..1dc6663553d1 100644
+--- a/fs/kernfs/kernfs-internal.h
++++ b/fs/kernfs/kernfs-internal.h
+@@ -211,4 +211,24 @@ extern const struct inode_operations kernfs_symlink_iops;
+  * kernfs locks
+  */
+ extern struct kernfs_global_locks *kernfs_locks;
++
++/* Hashed mutex helpers - protect per-node data structures */
++static inline struct mutex *kernfs_node_lock_ptr(struct kernfs_node *kn)
++{
++	int idx = hash_ptr(kn, NR_KERNFS_LOCK_BITS);
++
++	return &kernfs_locks->node_mutex[idx];
++}
++
++static inline struct mutex *kernfs_node_lock(struct kernfs_node *kn)
++{
++	struct mutex *lock = kernfs_node_lock_ptr(kn);
++
++	mutex_lock(lock);
++	return lock;
++}
++
++DEFINE_CLASS(kernfs_node_lock, struct mutex *,
++	     mutex_unlock(_T), kernfs_node_lock(kn), struct kernfs_node *kn)
++
+ #endif	/* __KERNFS_INTERNAL_H */
+diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
+index 6e3217b6e481..f183a96778b9 100644
+--- a/fs/kernfs/mount.c
++++ b/fs/kernfs/mount.c
+@@ -446,7 +446,7 @@ static void __init kernfs_mutex_init(void)
+ 	int count;
+ 
+ 	for (count = 0; count < NR_KERNFS_LOCKS; count++)
+-		mutex_init(&kernfs_locks->open_file_mutex[count]);
++		mutex_init(&kernfs_locks->node_mutex[count]);
+ }
+ 
+ static void __init kernfs_lock_init(void)
+diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
+index e21b2f7f4159..351a5101c862 100644
+--- a/include/linux/kernfs.h
++++ b/include/linux/kernfs.h
+@@ -76,20 +76,25 @@ struct kernfs_iattrs;
+  * kernfs_open_file.
+  *
+  * kernfs_open_files are chained at kernfs_open_node->files, which is
+- * protected by kernfs_global_locks.open_file_mutex[i].
++ * protected by kernfs_global_locks.node_mutex[i].
+  *
+  * To reduce possible contention in sysfs access, arising due to single
+- * locks, use an array of locks (e.g. open_file_mutex) and use kernfs_node
++ * locks, use an array of locks (e.g. node_mutex) and use kernfs_node
+  * object address as hash keys to get the index of these locks.
+  *
+  * Hashed mutexes are safe to use here because operations using these don't
+  * rely on global exclusion.
+  *
++ * The hashed mutex array protects per-node data: the kernfs_open_node for
++ * open file management, and kernfs_node xattr operations (necessary because
++ * multiple superblocks with different namespaces can share the same
++ * kernfs_node, making per-inode locking insufficient).
++ *
+  * In future we intend to replace other global locks with hashed ones as well.
+  * kernfs_global_locks acts as a holder for all such hash tables.
+  */
+ struct kernfs_global_locks {
+-	struct mutex open_file_mutex[NR_KERNFS_LOCKS];
++	struct mutex node_mutex[NR_KERNFS_LOCKS];
+ };
+ 
+ enum kernfs_node_type {
 -- 
 2.54.0
 
