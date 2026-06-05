@@ -1,90 +1,90 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D58237F007
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF36E38D6A4
 	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 12:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780662823; cv=none; b=cMo6aioY/0UF1rZQ6+dW67TusEtVHZgCXRgmI4iUn5LJKFjz54GZmhC7gaU23SPDmBiI42V31Q1sddOc26BaemuMAfzJymhA+RYXiTjQIepJTZpwRwV/On8RmI3ZJ8z9JPRZrTNLZ8n8+hC+nrSRqPNGA6Yitv5Oa+khMKBraZo=
+	t=1780662823; cv=none; b=kVMFbjm0I6d4mnU29Q4u1p3DwdOgWDxw0WdQ/qpYRDMh8CHrQ/gihjIIuzyGEnIVxS1RAeICfEn4mDRIeWl3EfSChUsDswsuRnwAs8c2zj+LIkgbQWPs7IuFGLU86utBcMyPuvlACvgxq3Gw9yhXFvkOUbHGzMmw6OPrDQ9RrUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780662823; c=relaxed/simple;
-	bh=tn2JfMlU4nezVGQkeNM9goVAlzqYmpyEubOlFIiqCr0=;
+	bh=2d4FV2pgsGGJHDCjiiZqos7tFgpf7apD9EfnhXcpDcA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oegkZkVU6PyXJO0pLTOBcORdrNCpRPr9OYJK3VqZr9rRPaW96U6Twoo7VO/0ERHeTHAvnz9IcbTNWl8sbX0eXpGY9QMFedYGLxi7y/f/AnsoEbp0MxE8yUBWMYJmwpIY9UTlgQ1UZ2x9bljOb92gm/pSqdtamWPuMdiSDX8kokg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YGx2IBAH; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qS05tQzv; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=fxxtFbqP8LCczTEtzNRYgHj7bvBoiZ2GqH0A0crIN1m7MJJC8F6ze4PLSg3FSr/TGhSKGae2BUIeSnb4ro16Q4yy2k4c1RrPphHsB1tVMyOa6ihLplzBfNuWnZ+jolr37vTExi7IGrykQmMQh2HVsvgzACn6tg19ebSwiH23EWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UrJLdrK4; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=EgfHV+Z8; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YGx2IBAH";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qS05tQzv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UrJLdrK4";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="EgfHV+Z8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1780662820;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8Zek5lka7I+V+M7YhuZBNsWHTpvMuxGl7NM9kjldurc=;
-	b=YGx2IBAHgB8CRogsHjN2/ddspBYf31vf/FRsXmhfuWr1OQJkrugDBekxqhU/fso+bXF1Ne
-	KdhLoXP6ReiyKyA6Rfboo6A5VTo2RGaTHuKnpWwDbviqNucgCSYkI5oOGecuerX47OS/Y7
-	Q9mjdsSdQjuRwE0pRgn+wo1Or+GB4y8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=RMCycfkezZGxdvWXjAVekBGYpHl8hvUubSW802naxEE=;
+	b=UrJLdrK44sDMjQQIQ5M6km2ngN1+FAzAwRgj0TdApJKEq0D1oCAS4tT0dOcvz11f2MJRmq
+	Da+il2hc7+cf+8zwRYTWOwrDQeCcuNl8Kh8F+T1fRndrhtAB1fSi6uSNrRFxVXJpFTMRMy
+	rmOQN+gYC2yAabrzVlXOFR+2Epgudnw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-648-MfNlXLzyPzKM3d9q9wX89Q-1; Fri, 05 Jun 2026 08:33:37 -0400
-X-MC-Unique: MfNlXLzyPzKM3d9q9wX89Q-1
-X-Mimecast-MFC-AGG-ID: MfNlXLzyPzKM3d9q9wX89Q_1780662816
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-45ef55779d1so1184469f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 05:33:37 -0700 (PDT)
+ us-mta-195-8IHGgJHBOvGeABzpB6KzDQ-1; Fri, 05 Jun 2026 08:33:39 -0400
+X-MC-Unique: 8IHGgJHBOvGeABzpB6KzDQ-1
+X-Mimecast-MFC-AGG-ID: 8IHGgJHBOvGeABzpB6KzDQ_1780662818
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-460129ef947so1163395f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 05:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1780662816; x=1781267616; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1780662818; x=1781267618; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Zek5lka7I+V+M7YhuZBNsWHTpvMuxGl7NM9kjldurc=;
-        b=qS05tQzvBgxMrgIoFoxCcVQpSnXnj5Gniz3aJgool7bXTN1/7scgifHzk3lzXEoXHY
-         4rkrlIxpRvDGibm8hmOhVG54g+vCBX57nkL2yJBcGDdG/Wp1rC+nS0E8FhjsIwDxs/Uc
-         qixmDxna7tMaTURVCB3liSEXDuPoQYEMDOeBafDIbVnejOL17atw3EEykihW/DiWHg3R
-         iZso+iBS7aIftT8KGqMeAVVBJtzcabFilM0HQ6WM2P+Oo8joGMjWe4fL9JS5yLCia9TS
-         Hx8FGXjnMn34LPz07waVuCMwQ9fDRaaXZhOMrMWFQ8OwXwZHZd7m4iBzzqCZIWpFWJ8K
-         jh7Q==
+        bh=RMCycfkezZGxdvWXjAVekBGYpHl8hvUubSW802naxEE=;
+        b=EgfHV+Z86JceYS235HE2X/4HwAnnSOla/1VGPbd3ZQ/QiwOkIVp9sxpBy5M8ZVBCBi
+         MZZyP0Ejp1QNL2pUqdY2e+WMlyia+qb8X/VWKBwCE71GvdSjYkCAUqU1+HC8HjlwngiO
+         SxABzvfdufQcn0IEpFXbZgm4Zl81FXaFdn6qNJJxAtvYw8F6NJ9QTQzGDuNnEsUe1PFs
+         S/UqX6dtyrANmmRKOlhrfeUQbDI+uBjGhovHQmBO3G4WxCt1ei7lyzsmEkn19cW4E9Ke
+         36zcwoDswR0TpI83HxQq/U5DDbpXn1f52muT/wktoTbj0jYmjFrAFZWFIzVMniyWPfT5
+         S1Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780662816; x=1781267616;
+        d=1e100.net; s=20251104; t=1780662818; x=1781267618;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8Zek5lka7I+V+M7YhuZBNsWHTpvMuxGl7NM9kjldurc=;
-        b=VNxoReTUPoqHwH9/plHdYRUZ6Eyd6I/7ix3u/ZMIG4xO/Kj2y+6C8J/4daBiC8m+6o
-         xdF5wlHpdgG1lDs3wft9Q6fod0bYMDKzyO3YhRbwWsq+B/c5Xg8L7naeUb6Nxguf0ErC
-         ht68M3P9WmhkrwhEXTq3Q9pav5KWtNkEmI6LG+cLhObRbQ1rmrpX7ixU2MzMfMo1OPES
-         I0i644ygb1ORhOThwiEYbaZBiO+EdeS8mijckGBp8lRJvTL+5d3xjpAltTsT0jfnL9c7
-         sl4NSbyRLRSb+jiaxKqmirlFn9cX/7kzMJK+ji1sxEFfQetSWVKkY4ts2u9ehqZugTg/
-         /f9A==
-X-Gm-Message-State: AOJu0Yw08qpmAfBJ+19S2cVyhaOm85cK2YgWHEUj7PjZ7Q69ojBl2/wD
-	nRWZxTLUWOSDRUKATMqXnCYOF+C/Ky3zGo4ihphCD9ycqMiSOvxRNvYL1qc8gz+n0hqAJyB0VKQ
-	eCNhV7GzMg4KhOYkKk+kpfiidPWxkPwH9xNtsRhhytP2XJgRD2o5LFKJi84TSIukhGWMaPfByWY
-	PLmM43qyBUsDWzNrm+/ObSHPuxfw3Lp27W9ksDnNX35igenxicYco=
-X-Gm-Gg: Acq92OHT7J1wkaKo2ewCMURZZcZPpjqEDlrefMwi/P1NQq+dwdpd7nbL3VgRRLE81kl
-	wlwhqKwDq18+/WoXKT8xRrASChZlXFn0DOzInFX8HpffkWXoIjErGWYllFS7n4B3eGWLd0Cbsfb
-	MYJ03DWwUXO0qOVxlLuLngB9eWA87SIDNYIonwdivk+PESwGKWUA/QSqbQsZif0h+0KmL7R4gq2
-	MOKYmKqxa2f59u9AdtswYEG83g1IbZHClemBp2UFFpyr1Mo9nHb42SC75k/BnKI8J0z2ht3RlD+
-	OOIz/DOX7s0NykHB2roMWMYSPOeJ8YqfDDUmauSqZETs9puONsprHn1aLuc5hBoc9LhGgt9w0Tn
-	Aex4rBXD09+p5Bk6fG1uCMgSEXkvMUt9YPOt55aakvMua37K/7zcVvsmrMpRSEWZC5VDUWk8nyn
-	A/AyfZsA==
-X-Received: by 2002:a05:600c:1c1e:b0:490:bccf:2bd6 with SMTP id 5b1f17b1804b1-490c25f1143mr58625795e9.15.1780662816390;
-        Fri, 05 Jun 2026 05:33:36 -0700 (PDT)
-X-Received: by 2002:a05:600c:1c1e:b0:490:bccf:2bd6 with SMTP id 5b1f17b1804b1-490c25f1143mr58625105e9.15.1780662815924;
-        Fri, 05 Jun 2026 05:33:35 -0700 (PDT)
+        bh=RMCycfkezZGxdvWXjAVekBGYpHl8hvUubSW802naxEE=;
+        b=atvaZ4NDHkMoss0AeOiqP18WF+2zH9fwUdZFQuRv4deLMZFmgXDt0mGP7VTSUFtxCL
+         YlJZxJpjcKLUUhwqApPyeJ6qNY32LOazwpRAEcfVAJFg25fIKkQEZmm9pL2ihVz3++qt
+         dLTKZbEoHis0AcYeOsMdbuoTA6yHgf61ObgA4oA0Cm1uR0j4iXl6knkbh6VGYKBYbrsw
+         z5JdATUCtE46PA2xB0tuAXsxpc/T9wHGcQSFlWxer8Igx+fYiU70vqpzkqjNiv7k4dp7
+         PTEKXtKAxIvbybAO5vYlOV2RWM5skQYCGCN5EjogmEdQcHaTkoqg+bUnJ8qJUFAVVST5
+         4CvQ==
+X-Gm-Message-State: AOJu0Yya2YvG04u3Ux+B08oXB/UGfmCXPlfoCbaOSLmNyfGyk8jZR2t6
+	mF+voqrFo817Vraz4v+gAS9hxWThLrWrYD8YAp0fMz5ej3bi/ixtqnVRfnXGf7KNl52gsFjjnfF
+	zphWr5/cEwnknHTpM1LF+1okNwIYQVd8ZLKVXU6ObmXWYm5ck1/cO3FS2R6kmbmYyKK7J2G8Fsk
+	AFq3WnYz2du09vW6c4TEy4n/bQr3UjGsbIdhxhbL+W7+wIPXUxyRQ=
+X-Gm-Gg: Acq92OHgbj2LZwPshKJZevjWN6FiWtmpzxwfAtFL2ye3m7d2T+P7t1FQLKRe5FAQ0WD
+	GyNxihmv1PBxuqVHjPUEw8MgHju2jPw6k4jUBjQn9e/W4Xw1IjymJjVEbWeutbcywksK8ecHcEq
+	EYZxqa8aFzZdz6tT9r+2nFoGmDPU3MlT7nMovPaJr1XaBFz4AJmAa+bjGNYU8UqxzxEgdsydal0
+	zkQ5Rw6JUzNQtAD0/9dX7WMDAAt0LF96bKnCDkZaB0c0AJh3pU3hOgo3/FGc7xF6AtBBRgw4xoN
+	79OmMfpdlKR14VTPYOy5Msb9ZoQ/qa5+TBOz/QfpKZ/KoG6T/T04riKCUwWg+bVTiRjZcAp4pQO
+	IpGsahsV6+W77Nmp/Cz3+zoQ8wco9/rfOnBzNbHhBVlM+Ry7wQa9RdHVFWEOxmxhU8nep9Ttqyo
+	YUUnuNlg==
+X-Received: by 2002:a05:6000:25c4:b0:43d:7c6c:a0dd with SMTP id ffacd0b85a97d-460306226c3mr6037493f8f.35.1780662817962;
+        Fri, 05 Jun 2026 05:33:37 -0700 (PDT)
+X-Received: by 2002:a05:6000:25c4:b0:43d:7c6c:a0dd with SMTP id ffacd0b85a97d-460306226c3mr6037405f8f.35.1780662817309;
+        Fri, 05 Jun 2026 05:33:37 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (84-236-1-92.pool.digikabel.hu. [84.236.1.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4602cda3651sm12702780f8f.32.2026.06.05.05.33.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4602cda3651sm12702780f8f.32.2026.06.05.05.33.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 05:33:34 -0700 (PDT)
+        Fri, 05 Jun 2026 05:33:36 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: linux-fsdevel@vger.kernel.org
 Cc: linux-mm@kvack.org,
 	Christian Brauner <brauner@kernel.org>
-Subject: [PATCH v3 2/4] tmpfs: simplify constructing "security.foo" xattr names
-Date: Fri,  5 Jun 2026 14:33:27 +0200
-Message-ID: <20260605123331.2621677-3-mszeredi@redhat.com>
+Subject: [PATCH v3 3/4] simple_xattr: change interface to pass struct simple_xattrs **
+Date: Fri,  5 Jun 2026 14:33:28 +0200
+Message-ID: <20260605123331.2621677-4-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260605123331.2621677-1-mszeredi@redhat.com>
 References: <20260605123331.2621677-1-mszeredi@redhat.com>
@@ -96,45 +96,572 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use kasprintf() instead of doing it with kmalloc() + 2 x memcpy().
+Change the simple_xattr API to accept pointer-to-pointer (struct
+simple_xattrs **) instead of pointer.  This allows the functions to handle
+lazy allocation internally without requiring callers to use
+simple_xattrs_lazy_alloc().
+
+The simple_xattr_set(), simple_xattr_set_limited() and simple_xattr_add()
+functions now handle allocation when xattrs is NULL.  simple_xattrs_free()
+now also frees the xattrs structure itself and sets the pointer to NULL.
+
+This simplifies callers and removes the need for most callers to explicitly
+manage xattrs allocation and lifetime.
+
+In shmem_initxattrs(), the total required space for all initial xattrs
+(ispace) is pre-calculated and deducted from sbinfo->free_ispace.
+
+Since this patch modifies the function to add new xattrs directly to the
+inode's &info->xattrs list rather than using a local temporary variable, a
+failure means that the partially populated info->xattrs list remains
+attached to the inode.
+
+When the VFS caller handles the -ENOMEM error, it drops the newly created
+inode via iput(), shmem_free_inode() adds freed to sbinfo->free_ispace a
+second time, permanently inflating the tmpfs free space quota.
+
+Fix by substracting already added xattrs from ispace.
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- mm/shmem.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ fs/kernfs/dir.c       | 12 +++--------
+ fs/kernfs/inode.c     | 24 ++++------------------
+ fs/pidfs.c            | 37 ++++++----------------------------
+ fs/xattr.c            | 46 ++++++++++++++++++++++++++++++++++---------
+ include/linux/xattr.h | 21 ++++++--------------
+ mm/shmem.c            | 33 +++++++++----------------------
+ net/socket.c          | 24 +++++-----------------
+ 7 files changed, 70 insertions(+), 127 deletions(-)
 
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index 4f9ade82b08a..368dc4a217d9 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -605,11 +605,8 @@ void kernfs_put(struct kernfs_node *kn)
+ 	if (kernfs_type(kn) == KERNFS_LINK)
+ 		kernfs_put(kn->symlink.target_kn);
+ 
+-	if (kn->iattr && kn->iattr->xattrs) {
+-		simple_xattrs_free(kn->iattr->xattrs, NULL);
+-		kfree(kn->iattr->xattrs);
+-		kn->iattr->xattrs = NULL;
+-	}
++	if (kn->iattr)
++		simple_xattrs_free(&kn->iattr->xattrs, NULL);
+ 
+ 	spin_lock(&root->kernfs_idr_lock);
+ 	idr_remove(&root->ino_idr, (u32)kernfs_ino(kn));
+@@ -709,10 +706,7 @@ static struct kernfs_node *__kernfs_new_node(struct kernfs_root *root,
+ 
+  err_out4:
+ 	if (kn->iattr) {
+-		if (kn->iattr->xattrs) {
+-			simple_xattrs_free(kn->iattr->xattrs, NULL);
+-			kfree(kn->iattr->xattrs);
+-		}
++		simple_xattrs_free(&kn->iattr->xattrs, NULL);
+ 		kmem_cache_free(kernfs_iattrs_cache, kn->iattr);
+ 	}
+  err_out3:
+diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+index e676737d9531..f2298de6bc6f 100644
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -144,8 +144,7 @@ ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size)
+ 	if (!attrs)
+ 		return -ENOMEM;
+ 
+-	return simple_xattr_list(d_inode(dentry), READ_ONCE(attrs->xattrs),
+-				 buf, size);
++	return simple_xattr_list(d_inode(dentry), &attrs->xattrs, buf, size);
+ }
+ 
+ static inline void set_default_inode_attr(struct inode *inode, umode_t mode)
+@@ -297,23 +296,17 @@ int kernfs_xattr_get(struct kernfs_node *kn, const char *name,
+ 		     void *value, size_t size)
+ {
+ 	struct kernfs_iattrs *attrs = kernfs_iattrs_noalloc(kn);
+-	struct simple_xattrs *xattrs;
+ 
+ 	if (!attrs)
+ 		return -ENODATA;
+ 
+-	xattrs = READ_ONCE(attrs->xattrs);
+-	if (!xattrs)
+-		return -ENODATA;
+-
+-	return simple_xattr_get(xattrs, name, value, size);
++	return simple_xattr_get(&attrs->xattrs, name, value, size);
+ }
+ 
+ int kernfs_xattr_set(struct kernfs_node *kn, const char *name,
+ 		     const void *value, size_t size, int flags)
+ {
+ 	struct simple_xattr *old_xattr;
+-	struct simple_xattrs *xattrs;
+ 	struct kernfs_iattrs *attrs;
+ 
+ 	attrs = kernfs_iattrs(kn);
+@@ -329,11 +322,7 @@ int kernfs_xattr_set(struct kernfs_node *kn, const char *name,
+ 	 */
+ 	CLASS(kernfs_node_lock, lock)(kn);
+ 
+-	xattrs = simple_xattrs_lazy_alloc(&attrs->xattrs, value, flags);
+-	if (IS_ERR_OR_NULL(xattrs))
+-		return PTR_ERR(xattrs);
+-
+-	old_xattr = simple_xattr_set(xattrs, name, value, size, flags);
++	old_xattr = simple_xattr_set(&attrs->xattrs, name, value, size, flags);
+ 	if (IS_ERR(old_xattr))
+ 		return PTR_ERR(old_xattr);
+ 
+@@ -371,7 +360,6 @@ static int kernfs_vfs_user_xattr_set(const struct xattr_handler *handler,
+ {
+ 	const char *full_name = xattr_full_name(handler, suffix);
+ 	struct kernfs_node *kn = inode->i_private;
+-	struct simple_xattrs *xattrs;
+ 	struct kernfs_iattrs *attrs;
+ 
+ 	if (!(kernfs_root(kn)->flags & KERNFS_ROOT_SUPPORT_USER_XATTR))
+@@ -384,11 +372,7 @@ static int kernfs_vfs_user_xattr_set(const struct xattr_handler *handler,
+ 	/* See comment in kernfs_xattr_set() about locking. */
+ 	CLASS(kernfs_node_lock, lock)(kn);
+ 
+-	xattrs = simple_xattrs_lazy_alloc(&attrs->xattrs, value, flags);
+-	if (IS_ERR_OR_NULL(xattrs))
+-		return PTR_ERR(xattrs);
+-
+-	return simple_xattr_set_limited(xattrs, &attrs->xattr_limits,
++	return simple_xattr_set_limited(&attrs->xattrs, &attrs->xattr_limits,
+ 					full_name, value, size, flags);
+ }
+ 
+diff --git a/fs/pidfs.c b/fs/pidfs.c
+index 1cce4f34a051..eb5105bddeca 100644
+--- a/fs/pidfs.c
++++ b/fs/pidfs.c
+@@ -196,12 +196,7 @@ static void pidfs_free_attr_work(struct work_struct *work)
+ 
+ 	head = llist_del_all(&pidfs_free_list);
+ 	llist_for_each_entry_safe(attr, next, head, pidfs_llist) {
+-		struct simple_xattrs *xattrs = attr->xattrs;
+-
+-		if (xattrs) {
+-			simple_xattrs_free(xattrs, NULL);
+-			kfree(xattrs);
+-		}
++		simple_xattrs_free(&attr->xattrs, NULL);
+ 		kfree(attr);
+ 	}
+ }
+@@ -815,14 +810,8 @@ static ssize_t pidfs_listxattr(struct dentry *dentry, char *buf, size_t size)
+ {
+ 	struct inode *inode = d_inode(dentry);
+ 	struct pid *pid = inode->i_private;
+-	struct pidfs_attr *attr = pid->attr;
+-	struct simple_xattrs *xattrs;
+-
+-	xattrs = READ_ONCE(attr->xattrs);
+-	if (!xattrs)
+-		return 0;
+ 
+-	return simple_xattr_list(inode, xattrs, buf, size);
++	return simple_xattr_list(inode, &pid->attr->xattrs, buf, size);
+ }
+ 
+ static const struct inode_operations pidfs_inode_operations = {
+@@ -1057,16 +1046,9 @@ static int pidfs_xattr_get(const struct xattr_handler *handler,
+ 			   const char *suffix, void *value, size_t size)
+ {
+ 	struct pid *pid = inode->i_private;
+-	struct pidfs_attr *attr = pid->attr;
+-	const char *name;
+-	struct simple_xattrs *xattrs;
+-
+-	xattrs = READ_ONCE(attr->xattrs);
+-	if (!xattrs)
+-		return -ENODATA;
++	const char *name = xattr_full_name(handler, suffix);
+ 
+-	name = xattr_full_name(handler, suffix);
+-	return simple_xattr_get(xattrs, name, value, size);
++	return simple_xattr_get(&pid->attr->xattrs, name, value, size);
+ }
+ 
+ static int pidfs_xattr_set(const struct xattr_handler *handler,
+@@ -1075,20 +1057,13 @@ static int pidfs_xattr_set(const struct xattr_handler *handler,
+ 			   const void *value, size_t size, int flags)
+ {
+ 	struct pid *pid = inode->i_private;
+-	struct pidfs_attr *attr = pid->attr;
+-	const char *name;
+-	struct simple_xattrs *xattrs;
++	const char *name = xattr_full_name(handler, suffix);
+ 	struct simple_xattr *old_xattr;
+ 
+ 	/* Ensure we're the only one to set @attr->xattrs. */
+ 	WARN_ON_ONCE(!inode_is_locked(inode));
+ 
+-	xattrs = simple_xattrs_lazy_alloc(&attr->xattrs, value, flags);
+-	if (IS_ERR_OR_NULL(xattrs))
+-		return PTR_ERR(xattrs);
+-
+-	name = xattr_full_name(handler, suffix);
+-	old_xattr = simple_xattr_set(xattrs, name, value, size, flags);
++	old_xattr = simple_xattr_set(&pid->attr->xattrs, name, value, size, flags);
+ 	if (IS_ERR(old_xattr))
+ 		return PTR_ERR(old_xattr);
+ 
+diff --git a/fs/xattr.c b/fs/xattr.c
+index 09ecbaaa1660..9ef7ad8a8f32 100644
+--- a/fs/xattr.c
++++ b/fs/xattr.c
+@@ -1311,12 +1311,17 @@ static const struct rhashtable_params simple_xattr_params = {
+  * Return: On success the length of the xattr value is returned. On error a
+  * negative error code is returned.
+  */
+-int simple_xattr_get(struct simple_xattrs *xattrs, const char *name,
++int simple_xattr_get(struct simple_xattrs **xattrsp, const char *name,
+ 		     void *buffer, size_t size)
+ {
++	struct simple_xattrs *xattrs;
+ 	struct simple_xattr *xattr;
+ 	int ret = -ENODATA;
+ 
++	xattrs = READ_ONCE(*xattrsp);
++	if (!xattrs)
++		return -ENODATA;
++
+ 	guard(rcu)();
+ 	xattr = rhashtable_lookup(&xattrs->ht, name, simple_xattr_params);
+ 	if (xattr) {
+@@ -1331,6 +1336,9 @@ int simple_xattr_get(struct simple_xattrs *xattrs, const char *name,
+ 	return ret;
+ }
+ 
++static struct simple_xattrs *simple_xattrs_lazy_alloc(struct simple_xattrs **xattrsp,
++						      const void *value, int flags);
++
+ /**
+  * simple_xattr_set - set an xattr object
+  * @xattrs: the header of the xattr object
+@@ -1362,13 +1370,18 @@ int simple_xattr_get(struct simple_xattrs *xattrs, const char *name,
+  * Return: On success, the removed or replaced xattr is returned, to be freed
+  * by the caller; or NULL if none. On failure a negative error code is returned.
+  */
+-struct simple_xattr *simple_xattr_set(struct simple_xattrs *xattrs,
++struct simple_xattr *simple_xattr_set(struct simple_xattrs **xattrsp,
+ 				      const char *name, const void *value,
+ 				      size_t size, int flags)
+ {
++	struct simple_xattrs *xattrs;
+ 	struct simple_xattr *old_xattr = NULL;
+ 	int err;
+ 
++	xattrs = simple_xattrs_lazy_alloc(xattrsp, value, flags);
++	if (IS_ERR_OR_NULL(xattrs))
++		return ERR_CAST(xattrs);
++
+ 	CLASS(simple_xattr, new_xattr)(value, size);
+ 	if (IS_ERR(new_xattr))
+ 		return new_xattr;
+@@ -1467,7 +1480,7 @@ static inline int simple_xattr_limits_inc(struct simple_xattr_limits *limits,
+  * Return: On success zero is returned. On failure a negative error code is
+  * returned.
+  */
+-int simple_xattr_set_limited(struct simple_xattrs *xattrs,
++int simple_xattr_set_limited(struct simple_xattrs **xattrs,
+ 			     struct simple_xattr_limits *limits,
+ 			     const char *name, const void *value,
+ 			     size_t size, int flags)
+@@ -1527,10 +1540,11 @@ static bool xattr_is_maclabel(const char *name)
+  * Return: On success the required size or the size of the copied xattrs is
+  * returned. On error a negative error code is returned.
+  */
+-ssize_t simple_xattr_list(struct inode *inode, struct simple_xattrs *xattrs,
++ssize_t simple_xattr_list(struct inode *inode, struct simple_xattrs **xattrsp,
+ 			  char *buffer, size_t size)
+ {
+ 	bool trusted = ns_capable_noaudit(&init_user_ns, CAP_SYS_ADMIN);
++	struct simple_xattrs *xattrs;
+ 	struct rhashtable_iter iter;
+ 	struct simple_xattr *xattr;
+ 	ssize_t remaining_size = size;
+@@ -1552,6 +1566,7 @@ ssize_t simple_xattr_list(struct inode *inode, struct simple_xattrs *xattrs,
+ 	remaining_size -= err;
+ 	err = 0;
+ 
++	xattrs = READ_ONCE(*xattrsp);
+ 	if (!xattrs)
+ 		return size - remaining_size;
+ 
+@@ -1597,9 +1612,15 @@ ssize_t simple_xattr_list(struct inode *inode, struct simple_xattrs *xattrs,
+  * Return: On success zero is returned. On failure a negative error code is
+  * returned.
+  */
+-int simple_xattr_add(struct simple_xattrs *xattrs,
++int simple_xattr_add(struct simple_xattrs **xattrsp,
+ 		     struct simple_xattr *new_xattr)
+ {
++	struct simple_xattrs *xattrs;
++
++	xattrs = simple_xattrs_lazy_alloc(xattrsp, new_xattr->value, 0);
++	if (IS_ERR(xattrs))
++		return PTR_ERR(xattrs);
++
+ 	return rhashtable_insert_fast(&xattrs->ht, &new_xattr->hash_node,
+ 				      simple_xattr_params);
+ }
+@@ -1629,7 +1650,7 @@ int simple_xattrs_init(struct simple_xattrs *xattrs)
+  * Return: On success a new simple_xattrs is returned. On failure an
+  * ERR_PTR is returned.
+  */
+-struct simple_xattrs *simple_xattrs_alloc(void)
++static struct simple_xattrs *simple_xattrs_alloc(void)
+ {
+ 	struct simple_xattrs *xattrs __free(kfree) = NULL;
+ 	int ret;
+@@ -1661,8 +1682,8 @@ struct simple_xattrs *simple_xattrs_alloc(void)
+  * check with IS_ERR_OR_NULL() and propagate with PTR_ERR() which
+  * correctly returns 0 for the NULL no-op case.
+  */
+-struct simple_xattrs *simple_xattrs_lazy_alloc(struct simple_xattrs **xattrsp,
+-					       const void *value, int flags)
++static struct simple_xattrs *simple_xattrs_lazy_alloc(struct simple_xattrs **xattrsp,
++						      const void *value, int flags)
+ {
+ 	struct simple_xattrs *xattrs;
+ 
+@@ -1697,12 +1718,19 @@ static void simple_xattr_ht_free(void *ptr, void *arg)
+  * Destroy all xattrs in @xattr. When this is called no one can hold a
+  * reference to any of the xattrs anymore.
+  */
+-void simple_xattrs_free(struct simple_xattrs *xattrs, size_t *freed_space)
++void simple_xattrs_free(struct simple_xattrs **xattrsp, size_t *freed_space)
+ {
++	struct simple_xattrs *xattrs = *xattrsp;
++
+ 	might_sleep();
+ 
++	if (!xattrs)
++		return;
++
+ 	if (freed_space)
+ 		*freed_space = 0;
+ 	rhashtable_free_and_destroy(&xattrs->ht, simple_xattr_ht_free,
+ 				    freed_space);
++	kfree(xattrs);
++	*xattrsp = NULL;
+ }
+diff --git a/include/linux/xattr.h b/include/linux/xattr.h
+index 8b6601367eae..ded446c1ef81 100644
+--- a/include/linux/xattr.h
++++ b/include/linux/xattr.h
+@@ -133,26 +133,23 @@ static inline void simple_xattr_limits_init(struct simple_xattr_limits *limits)
+ }
+ 
+ int simple_xattrs_init(struct simple_xattrs *xattrs);
+-struct simple_xattrs *simple_xattrs_alloc(void);
+-struct simple_xattrs *simple_xattrs_lazy_alloc(struct simple_xattrs **xattrsp,
+-					       const void *value, int flags);
+-void simple_xattrs_free(struct simple_xattrs *xattrs, size_t *freed_space);
++void simple_xattrs_free(struct simple_xattrs **xattrs, size_t *freed_space);
+ size_t simple_xattr_space(const char *name, size_t size);
+ struct simple_xattr *simple_xattr_alloc(const void *value, size_t size);
+ void simple_xattr_free(struct simple_xattr *xattr);
+ void simple_xattr_free_rcu(struct simple_xattr *xattr);
+-int simple_xattr_get(struct simple_xattrs *xattrs, const char *name,
++int simple_xattr_get(struct simple_xattrs **xattrs, const char *name,
+ 		     void *buffer, size_t size);
+-struct simple_xattr *simple_xattr_set(struct simple_xattrs *xattrs,
++struct simple_xattr *simple_xattr_set(struct simple_xattrs **xattrs,
+ 				      const char *name, const void *value,
+ 				      size_t size, int flags);
+-int simple_xattr_set_limited(struct simple_xattrs *xattrs,
++int simple_xattr_set_limited(struct simple_xattrs **xattrs,
+ 			     struct simple_xattr_limits *limits,
+ 			     const char *name, const void *value,
+ 			     size_t size, int flags);
+-ssize_t simple_xattr_list(struct inode *inode, struct simple_xattrs *xattrs,
++ssize_t simple_xattr_list(struct inode *inode, struct simple_xattrs **xattrs,
+ 			  char *buffer, size_t size);
+-int simple_xattr_add(struct simple_xattrs *xattrs,
++int simple_xattr_add(struct simple_xattrs **xattrs,
+ 		     struct simple_xattr *new_xattr);
+ int xattr_list_one(char **buffer, ssize_t *remaining_size, const char *name);
+ 
+@@ -162,10 +159,4 @@ DEFINE_CLASS(simple_xattr,
+ 	     simple_xattr_alloc(value, size),
+ 	     const void *value, size_t size)
+ 
+-DEFINE_CLASS(simple_xattrs,
+-            struct simple_xattrs *,
+-            if (!IS_ERR_OR_NULL(_T)) { simple_xattrs_free(_T, NULL); kfree(_T); },
+-            simple_xattrs_alloc(),
+-            void)
+-
+ #endif	/* _LINUX_XATTR_H */
 diff --git a/mm/shmem.c b/mm/shmem.c
-index 3b5dc21b323c..c7897570fc9f 100644
+index c7897570fc9f..9111d7efee9c 100644
 --- a/mm/shmem.c
 +++ b/mm/shmem.c
-@@ -4232,7 +4232,6 @@ static int shmem_initxattrs(struct inode *inode,
- 	struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
+@@ -1425,10 +1425,8 @@ static void shmem_evict_inode(struct inode *inode)
+ 		}
+ 	}
+ 
+-	if (info->xattrs) {
+-		simple_xattrs_free(info->xattrs, sbinfo->max_inodes ? &freed : NULL);
+-		kfree(info->xattrs);
+-	}
++	simple_xattrs_free(&info->xattrs, sbinfo->max_inodes ? &freed : NULL);
++
+ 	shmem_free_inode(inode->i_sb, freed);
+ 	WARN_ON(inode->i_blocks);
+ 	clear_inode(inode);
+@@ -4233,10 +4231,6 @@ static int shmem_initxattrs(struct inode *inode,
  	const struct xattr *xattr;
  	size_t ispace = 0;
--	size_t len;
  
- 	CLASS(simple_xattrs, xattrs)();
- 	if (IS_ERR(xattrs))
-@@ -4260,17 +4259,11 @@ static int shmem_initxattrs(struct inode *inode,
- 		if (IS_ERR(new_xattr))
- 			break;
- 
--		len = strlen(xattr->name) + 1;
--		new_xattr->name = kmalloc(XATTR_SECURITY_PREFIX_LEN + len,
--					  GFP_KERNEL_ACCOUNT);
-+		new_xattr->name = kasprintf(GFP_KERNEL_ACCOUNT,
-+					XATTR_SECURITY_PREFIX "%s", xattr->name);
+-	CLASS(simple_xattrs, xattrs)();
+-	if (IS_ERR(xattrs))
+-		return PTR_ERR(xattrs);
+-
+ 	if (sbinfo->max_inodes) {
+ 		for (xattr = xattr_array; xattr->name != NULL; xattr++) {
+ 			ispace += simple_xattr_space(xattr->name,
+@@ -4264,8 +4258,10 @@ static int shmem_initxattrs(struct inode *inode,
  		if (!new_xattr->name)
  			break;
  
--		memcpy(new_xattr->name, XATTR_SECURITY_PREFIX,
--		       XATTR_SECURITY_PREFIX_LEN);
--		memcpy(new_xattr->name + XATTR_SECURITY_PREFIX_LEN,
--		       xattr->name, len);
--
- 		if (simple_xattr_add(xattrs, new_xattr))
+-		if (simple_xattr_add(xattrs, new_xattr))
++		if (simple_xattr_add(&info->xattrs, new_xattr))
  			break;
++
++		ispace -= simple_xattr_space(new_xattr->name, new_xattr->size);
  		retain_and_null_ptr(new_xattr);
+ 	}
+ 
+@@ -4277,8 +4273,8 @@ static int shmem_initxattrs(struct inode *inode,
+ 		}
+ 		return -ENOMEM;
+ 	}
++	WARN_ON(ispace);
+ 
+-	smp_store_release(&info->xattrs, no_free_ptr(xattrs));
+ 	return 0;
+ }
+ 
+@@ -4287,14 +4283,9 @@ static int shmem_xattr_handler_get(const struct xattr_handler *handler,
+ 				   const char *name, void *buffer, size_t size)
+ {
+ 	struct shmem_inode_info *info = SHMEM_I(inode);
+-	struct simple_xattrs *xattrs;
+-
+-	xattrs = READ_ONCE(info->xattrs);
+-	if (!xattrs)
+-		return -ENODATA;
+ 
+ 	name = xattr_full_name(handler, name);
+-	return simple_xattr_get(xattrs, name, buffer, size);
++	return simple_xattr_get(&info->xattrs, name, buffer, size);
+ }
+ 
+ static int shmem_xattr_handler_set(const struct xattr_handler *handler,
+@@ -4305,16 +4296,11 @@ static int shmem_xattr_handler_set(const struct xattr_handler *handler,
+ {
+ 	struct shmem_inode_info *info = SHMEM_I(inode);
+ 	struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
+-	struct simple_xattrs *xattrs;
+ 	struct simple_xattr *old_xattr;
+ 	size_t ispace = 0;
+ 
+ 	name = xattr_full_name(handler, name);
+ 
+-	xattrs = simple_xattrs_lazy_alloc(&info->xattrs, value, flags);
+-	if (IS_ERR_OR_NULL(xattrs))
+-		return PTR_ERR(xattrs);
+-
+ 	if (value && sbinfo->max_inodes) {
+ 		ispace = simple_xattr_space(name, size);
+ 		raw_spin_lock(&sbinfo->stat_lock);
+@@ -4327,7 +4313,7 @@ static int shmem_xattr_handler_set(const struct xattr_handler *handler,
+ 			return -ENOSPC;
+ 	}
+ 
+-	old_xattr = simple_xattr_set(xattrs, name, value, size, flags);
++	old_xattr = simple_xattr_set(&info->xattrs, name, value, size, flags);
+ 	if (!IS_ERR(old_xattr)) {
+ 		ispace = 0;
+ 		if (old_xattr && sbinfo->max_inodes)
+@@ -4375,8 +4361,7 @@ static ssize_t shmem_listxattr(struct dentry *dentry, char *buffer, size_t size)
+ {
+ 	struct shmem_inode_info *info = SHMEM_I(d_inode(dentry));
+ 
+-	return simple_xattr_list(d_inode(dentry), READ_ONCE(info->xattrs),
+-				 buffer, size);
++	return simple_xattr_list(d_inode(dentry), &info->xattrs, buffer, size);
+ }
+ #endif /* CONFIG_TMPFS_XATTR */
+ 
+diff --git a/net/socket.c b/net/socket.c
+index 22a412fdec07..d3597c858345 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -347,12 +347,8 @@ static struct inode *sock_alloc_inode(struct super_block *sb)
+ static void sock_evict_inode(struct inode *inode)
+ {
+ 	struct sockfs_inode *si = SOCKFS_I(inode);
+-	struct simple_xattrs *xattrs = si->xattrs;
+ 
+-	if (xattrs) {
+-		simple_xattrs_free(xattrs, NULL);
+-		kfree(xattrs);
+-	}
++	simple_xattrs_free(&si->xattrs, NULL);
+ 	clear_inode(inode);
+ }
+ 
+@@ -443,13 +439,9 @@ static int sockfs_user_xattr_get(const struct xattr_handler *handler,
+ 				 const char *suffix, void *value, size_t size)
+ {
+ 	const char *name = xattr_full_name(handler, suffix);
+-	struct simple_xattrs *xattrs;
+-
+-	xattrs = READ_ONCE(SOCKFS_I(inode)->xattrs);
+-	if (!xattrs)
+-		return -ENODATA;
++	struct sockfs_inode *si = SOCKFS_I(inode);
+ 
+-	return simple_xattr_get(xattrs, name, value, size);
++	return simple_xattr_get(&si->xattrs, name, value, size);
+ }
+ 
+ static int sockfs_user_xattr_set(const struct xattr_handler *handler,
+@@ -460,13 +452,8 @@ static int sockfs_user_xattr_set(const struct xattr_handler *handler,
+ {
+ 	const char *name = xattr_full_name(handler, suffix);
+ 	struct sockfs_inode *si = SOCKFS_I(inode);
+-	struct simple_xattrs *xattrs;
+-
+-	xattrs = simple_xattrs_lazy_alloc(&si->xattrs, value, flags);
+-	if (IS_ERR_OR_NULL(xattrs))
+-		return PTR_ERR(xattrs);
+ 
+-	return simple_xattr_set_limited(xattrs, &si->xattr_limits,
++	return simple_xattr_set_limited(&si->xattrs, &si->xattr_limits,
+ 					name, value, size, flags);
+ }
+ 
+@@ -635,8 +622,7 @@ static ssize_t sockfs_listxattr(struct dentry *dentry, char *buffer,
+ 	struct sockfs_inode *si = SOCKFS_I(d_inode(dentry));
+ 	ssize_t len, used;
+ 
+-	len = simple_xattr_list(d_inode(dentry), READ_ONCE(si->xattrs),
+-				buffer, size);
++	len = simple_xattr_list(d_inode(dentry), &si->xattrs, buffer, size);
+ 	if (len < 0)
+ 		return len;
+ 
 -- 
 2.54.0
 
