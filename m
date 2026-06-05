@@ -1,168 +1,116 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2120D392812
-	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 17:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC73D30566A
+	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 18:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780681330; cv=pass; b=cz4GPaURZ91/7DWIQaoQ9i5sTzT0785zB7IuGAeSNBH9V3hwYiOH7A2vIKYxbKYbk29wiXAvFhH+HtBAIscfIYmD1BhnkbZQLEj15ZOkT0I359jjmfGICdxIkUyGt73LuyPANTEz4XdoaSVlTyrEry5GmA3e2Qq9G+tXsf9qLss=
+	t=1780682895; cv=pass; b=CKo4qtBsGAe70tfoPRGdEL/cXVwt+8oNhRAG/+6RsFwh5R0lo4OtjUXoRlanm7H5D8NR/zQw9MXK/vvH9gFNkkfKPbu2Ii8MsYfFXHK8RJVhSHvMeVak+DJXixma2SYAhHbGvO5HXngIjzTSXWrjUWlpeoljCPtZCpgd5xyeu+c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780681330; c=relaxed/simple;
-	bh=dYuQLFZyw9MBV3K0UUurnj4coifzgZE7GVc2qkIpHXc=;
+	s=arc-20240116; t=1780682895; c=relaxed/simple;
+	bh=8ilDxhAiB32IqOC3th8HmSfbryjwzjesS/MpZwszFms=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HZd+KSbw6kyp1uzGvS2TqyNdtbU0jF93k8Tf4McBgtAH8WdJkBcs4VHy6rtDPU3mzshL57WTxYq5t1r9U5p+rKIOFcOlKoqI9X26M9XtL0R/rC3RqvEGeG+eG1aYkOEEU/w77qC3m6hycpxXAj861SktTaZFIHUyizoXm7oxo+Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hwqar7y5; arc=pass smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=MDT90smuLfs4bGDD0W6LMOwB6tkdokYEsF1nxKz3xYKEHMHo+kGaVs6YWG9rmHJjYEBaTBPSsiZlWuGOKNcWAMe+xtVd1uPgTQ0WaGhAOOFoVAyCwgBZdslDlDaGc/ZKN0MnDa75cW6WsjTQSDH8+8TfcymXz4uvhrezrD6Nr1Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ag6bubmy; arc=pass smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hwqar7y5"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490b8ac62baso22606545e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 10:42:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780681321; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ag6bubmy"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c85822059d8so1432256a12.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 11:08:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780682893; cv=none;
         d=google.com; s=arc-20240605;
-        b=Nq19PoVRWiq5ZtOwfESr+1uSUkwIZpwJlXH2PsH/QcTMRrm+Wj1tcMRVvNkfjuA6Av
-         BF5QJXnM0Gk5vgBh6QJiLfcNZxU/mYe+fG68CSygL1+90x9dopXBbo4NTUk86DuEQtgs
-         oAeC07FQmPygaGXkePcwUYs7UH+Ld2c9UG+QQPaov0RqaWt0exHDX+42HBqVF3M4iF9Y
-         kmbLQNJ3kRmQxPezXEtMsTLNdwnheGitsEeNOLKiXe7ZM6FB8ouZkI58XHvHIMGHo5Ln
-         6rebdZtCXm8b+a0i44V76+xvTy6ZRHvYTU31ewCbzTTRWVXoWh9kF+wLzkJ6AjM6uCSV
-         lHPg==
+        b=VVPNGck/PTOFg9DFY9TW88dbPZZ1w0/8pZjS3XaqyyVNtlueDOZ9HmF2ePT/PAn4P+
+         Fmv/6rI2bEINK56dHnX1qKu3AHiSBja/bkW2p3wmAkcIbzIHlLDk8Go0i/pDlValbjnG
+         v8eMdZsUVQEjTxzMzTGcU6eQnCbuUwVnWbaUooO7YlU99LIHh/tnw0LHWC7Rh6I0dJBa
+         euxtTm2eOAchCYoJ39MNZv4OPiYBQJExXNSoMrXYo+PlAwvvYHdX3tt4LQsqmpUil/th
+         YecdGdcrnrtL40VfE7vWWDF4Wry5fGE4lSnhttQkDBjGZZjsays5lsiuorB7K8YZTUGR
+         1AAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=QW39kiBGB3An2hVUf/UDc+UkyLppS9jaJRb32IsireU=;
-        fh=x9AoV/FNUh8Las40cZIh8nfY8NO1XtYg1CEosDUz2Vw=;
-        b=JwOcqk107TNhNu4LVzRHr4fQubmTGoN5AHf8vmlR5nPIdfsG4KEEYu9Jkk/y1C/liP
-         +rB0tgJkG9xbgi7WORPuzjtMcMahrwmmgJS/kJKzo42n/yYhCO4ezndhwe2BbAJYXZ62
-         4ZS4E1HZt3RuHzD2qOgPgGFNDcWJj/Ec7jGrLXtjugy/cEqrx7XtSS7pQ3PYyUlOUSc5
-         qP5EdQVtUAmpqwR6QsQRAJwJFIoiBJkomQfZ2sU5CT6pHqobv+yj2CDtfr+ye5PjKxAe
-         U5In+Bgh4DsEe7K5Ac+iAyk5nUZf1JUBpcULS1B2fj94ysY/1M4WFX/YnFRTY3HtVsXh
-         EMNw==;
+        bh=V1+sYntU5WFVxPkxcqomQF7fzW4LgZDONPtKqmZffiA=;
+        fh=fOCMeK113YVx5+4H1PdylSfx3rKhjmbax4AtVTDRWDw=;
+        b=blNvf60EUtSzkOo4ylunBrgnUKXw/0RyJhNEOrmq2sXKGzGkv+C6sxkDA4rishv0+4
+         k6gDEIUrJA6RcbG8vFqnbAmIoYPAwcmal2cyXgxw1Oqfb06dz0x3w5p/9ljGsMjlEvJH
+         se4UZ80UWnSr7AGMAKP39GyLftsDoSudzAr9Qwl0TElC4NdTHgYDLqSpcEnI1BhEYofR
+         ir9vBuG9zr1nggDv/QfGbKV+2Sb4jm1+FSk7N4Nvov+3R4UVvL0A6vy+dBzTB6xAFWzL
+         zw7lp8B4p6ar3hVlDlyzN879ir/tWr/xnT3V8MU6UQIpJljJuP7H9S51ynTnlEHlD5vM
+         ZpVw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780681321; x=1781286121; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1780682893; x=1781287693; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QW39kiBGB3An2hVUf/UDc+UkyLppS9jaJRb32IsireU=;
-        b=hwqar7y5+MN3Jrt68sHwOABtjcbK9H+/rMDOhQ9mbPneztV6ERmb9nq1aZcK3G31mW
-         hV4kerN1e4lCkcUOMELGQrGBEOOlR6+W8ntB1LnQgi8AUrQ4Vn7aiHEoU+JvS7npJ7t8
-         yJ3QVqpww56scgroVo25l4qKiC2KkesqkTYb2Zr+5g+D1/Cz9C0X/XrpMeuUwChyFxm3
-         hjqMIsgEIpl1y5oI7I4m7MMOVpVhEXao+sOXeaDN1l+CnidIJwCrzBwVikhI6141o2wC
-         ABgOk31R0Cf4FqTSPu+Xs5CXexyGC7yjcipZmG2Bkg3ZLADg5X5sNvaD9tMz6dFd07JR
-         FMKw==
+        bh=V1+sYntU5WFVxPkxcqomQF7fzW4LgZDONPtKqmZffiA=;
+        b=ag6bubmyV1LSITsOZ18m+UPiFqAyqHSUlSrkViApHk4nrY7QQ4nL/ZA1gxLW8aKFxm
+         Pew83nPhwuU2sUvTBYuKuIWanVJp2/Vic8YGdvzdOmVIzddRpAAEW+Nehi3m7SslhxpG
+         89EAKVSK3X/QQ8FffyXFtUL9mDF5DozMxgVzBvtu1ZR3bbvV18YPNOKBWlsDRDUgWtek
+         vOaL986Iy4It4J8QLbuzaRGjs5M0sa3Zrhh01GYoOparU4uhhuYabStPGD4HhOU1ht5o
+         qEx5Z2h9USPgNqLx2XYCbjmqc+whoS0wmeA67NgHvbvAZz/SODOYbYGOhs1BIzHb3WdH
+         hPTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780681321; x=1781286121;
+        d=1e100.net; s=20251104; t=1780682893; x=1781287693;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QW39kiBGB3An2hVUf/UDc+UkyLppS9jaJRb32IsireU=;
-        b=s/BowmNHHsJaQyp+ixVhxTBz1DyWNs7f6KZl0CPTeqZSLT82mc6d59ZKH6TiCtuZuO
-         kVL4WScDy/4a+GOOsmDnZui4Ixr1XF4WqPEzZRmbMXiZqS9f4bi1AtyOs+hYtT/nIHiw
-         D9BVFyPd8GiCe3XX6HS/TNWbXDXdO11/0EEODapJW873Vhd4unQYo8CSNsfLgdwdQ2ME
-         z+FK1qsMTdrmlXrndYKnSci5AUlnWbxHhyJKLJ1Dv8nFyID4UuO7pueKl8SkyH9fMOoB
-         aAEe6yMaEdlvLj/HEPJdfldvCWIq+Zven2TuDigHvR0gZ41CRY4ySoKy3jVXxEGB+6Os
-         ohVw==
-X-Forwarded-Encrypted: i=1; AFNElJ/M+k0YsfTjjljyrTsJwA03pHLwC+rkjeoX5ugyUesIwgHG8DEQQTnjKGnNajeHOJ2QpYgzV1QG8x0TdLbt@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzdrbf19+hlqxRXwI28UeO2WJJlp/2IOBsUlMG0qRxDoCAsYr0h
-	lrBQRuNLaHw00XAQ/CwKmHtvmZxCztfwVl6DQZSXk9LkEYcGYMJ+ZAPVF6/IPjAJTJRsT1GG+cP
-	PvYGK+k5RzKtagDRXwV9cvG1cTQ/IW8ASJ4yE
-X-Gm-Gg: Acq92OEzVK0BqjXj0YPBJ9d8lJ8sfxsBzWIxHqA6R5VbYmyPwx5JcvrLT+wzC1gdpLX
-	k/uCwvuj3Alms9Qf+sgLB+SDJGsQcaeQvwrUMB1AB0E0EFjvPvITzU3zaEwW5uu9HYYXlpgu7YT
-	Hb7mmejEmHNcF11eX4pw8AfNBMvm4KHefe2YmgXfZydNRh4NCqTfnwOoFoE5jvQJDyWuFkCnu3E
-	5zLCnIRRTovHAe5zzn4G8/v4QB5roAWKpRp/1jgWI8EIc2Hkxhs9EL0hnHzJnR7ZaPIi60Zf0P4
-	AvPTwGQahPV11vX62GSczOPG/Cs=
-X-Received: by 2002:a05:600c:3b04:b0:490:af63:2cb1 with SMTP id
- 5b1f17b1804b1-490c2cdd2bemr60415115e9.7.1780681321251; Fri, 05 Jun 2026
- 10:42:01 -0700 (PDT)
+        bh=V1+sYntU5WFVxPkxcqomQF7fzW4LgZDONPtKqmZffiA=;
+        b=QNOcrnNSj/FuZhR+ztit0rbX5/C16hiT8T2G5Xq2cHx7vvIR4pe+nczZ0krmIe5Z6W
+         hn9YHYj4T0aA/tIUiczqgsZkAtlORHvuNwmGb5f37llKYpU9DOdpMLshG/Z0oBJGqSf/
+         PMtfhiXKbeyy32QYqvSlLNgjvORYuXR2PWgol9IcvgnIl+kpYNMMJ8KrbDUeiT505QvJ
+         kMcjiOudUlft0qK3sp6riX6YZrrOws+RLEMEiy/EFf+KEm8dflCJsB0C0CDqdA4KUnT/
+         3RlNpiNxj1/g1URjYnFnGeSCDOfbhxLwIKRDqRwex5Fxs/njY3r7FZYfSVOQ+r62X4z1
+         WGbw==
+X-Forwarded-Encrypted: i=1; AFNElJ+umfQlC1WXqJ+9Z2diFzogXygxZ+gxEznlw4tbTaVXOKMqbAG9rftWZG33RzntudpTcZQQI7X4+6vGO4WB@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEMUoGz3NPReVgiwFdY3Ib1cwUhq04oiqeaDv6XyXC+kMOnk+y
+	f/VNXnUx1/YfoB3lwwE4dBAQUdU/yMy+oqfptLnesCj/iwDrZ+kqe6T2wwWebXDPalLaLXjto4D
+	2C/bK8deHU4/vdlLFQ5O+ht/cYdWxiW/Tc6/v9ALH
+X-Gm-Gg: Acq92OGZTwrXyxJm9aQ1W26cPFRDvlnOm3vTrc95kW0CwAX32tEV4X+VI6mnG/SMckq
+	EHA2GC0DYaJ3watiMSZ09BspoM4KsKtzM+Fm+Fe5L53BYQk2fgCOj4lxHFplYP4BiDjSvDc0mH5
+	+apT0W7GF4fAixc8F1BYokDXy/JU8QKfcd5KTMaI9uRxbOcNBqGOQ065OvYeDBa5NgDw6la/oTB
+	ggT/Nqz6CrgTr/ZNaWOwO7OLPyqB75NiM7p85Ce4KTY9DDYmuKIKJ2wzJnzTlfTBXkAMdIfeOiw
+	0RpsKkg14gOWWRVZHg==
+X-Received: by 2002:a05:6a20:c70b:b0:3b4:8fb2:a350 with SMTP id
+ adf61e73a8af0-3b4cd03dd88mr6135775637.34.1780682893128; Fri, 05 Jun 2026
+ 11:08:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
- <177922946372.2439242.13829037107289830266.stgit@frogsfrogsfrogs>
- <CAJnrk1ZQbvCL=ok4WHBn0gC+=k88Cejts_-_DP3epa51Wz5+5g@mail.gmail.com> <20260605000134.GJ6070@frogsfrogsfrogs>
-In-Reply-To: <20260605000134.GJ6070@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 5 Jun 2026 10:41:48 -0700
-X-Gm-Features: AVVi8CdkXR0MXAvVFry-1RgGSo7c735m9aAqhN8hZzwidZowcJTOmI28WGekW5I
-Message-ID: <CAJnrk1Zig5+97Qs3JiaSgLE1KJMn-mgXSFUcxM9-kv6xvpfBHA@mail.gmail.com>
-Subject: Re: [PATCH 9/9] fuse: set iomap backing device block size
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev, 
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+References: <20260527181127.879771-1-mic@digikod.net> <20260527181127.879771-2-mic@digikod.net>
+ <20260605.ieZ1hei8Ahna@digikod.net>
+In-Reply-To: <20260605.ieZ1hei8Ahna@digikod.net>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 5 Jun 2026 14:08:00 -0400
+X-Gm-Features: AVHnY4IwAntIgRXRqihwKQ6FMjOdPIE04f8IHhmR8rRKjjx-CP4eO6M-6Q_FY58
+Message-ID: <CAHC9VhQdT7Jh_dXPk4PMSomZ1JPPsm6ouE7cHQb_3=BdY37j6w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] security: add LSM blob and hooks for namespaces
+To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc: Christian Brauner <brauner@kernel.org>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	"Serge E . Hallyn" <serge@hallyn.com>, Daniel Durning <danieldurning.work@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Justin Suess <utilityemal77@gmail.com>, 
+	Lennart Poettering <lennart@poettering.net>, 
+	Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>, 
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Shervin Oloumi <enlightened@google.com>, Tingmao Wang <m@maowtm.org>, kernel-team@cloudflare.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 4, 2026 at 5:01=E2=80=AFPM Darrick J. Wong <djwong@kernel.org> =
-wrote:
+On Fri, Jun 5, 2026 at 11:07=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
+od.net> wrote:
 >
-> On Fri, May 22, 2026 at 06:06:15PM -0700, Joanne Koong wrote:
-> > On Tue, May 19, 2026 at 3:33=E2=80=AFPM Darrick J. Wong <djwong@kernel.=
-org> wrote:
-> > >
-> > > From: Darrick J. Wong <djwong@kernel.org>
-> > >
-> > > Add a new ioctl so that an unprivileged fuse server can set the block
-> > > size of a bdev that's opened for iomap usage.
-> >
-> > If I'm understanding it correctly, doesn't the fs/iomap layer align
-> > all i/o to the fuse file inode->i_blkbits and submits bios to the
-> > underlying iomap->bdev without ever reading the bdev's
-> > inode->i_blkbits? Why do we need this fuse ioctl then for setting the
-> > block size of a bdev?
->
-> It's not for the regular file IO, it's for the blockdev pagecache that
-> sits in front of filesystem metadata IO.  Block devices do writeback of
-> their pagecache in units of buffer heads, which is a problem if the
-> buffer head size is not aligned to the fsblock size.
->
-> Basically, imagine a 1k-fsblock filesystem with 4k pages.  Let us
-> further assume that block 0 is a superblock, and block 1 is the only
-> file data in the whole filesystem.
->
-> If the BLKBSZGET size is also 4k, then dirtying the superblock now means
-> that the bdev pagecache will think that the whole 4k is dirty, because
-> there's only one bh for the whole 4k.
->
-> Now let's say iomap writes to the sole file data block.  The ondisk data
-> is newer than the bdev pagecache.  Next, the fuse server initiates
-> writeout of the dirty bdev pagecache.  It writes the whole page out to
-> disk, which means the ondisk super is newest, but the file data block
-> has just been clobbered by stale bdev pagecache!
->
-> Ouch.
->
-> So if we can set the bh size to 1k, we avoid the clobbering.
+> Paul, could you please take a look at this patch and the next one? I'd
+> like to push it to linux-next to get more feedback.
 
-Thanks for the explanation.
+I saw the patches Micka=C3=ABl, they are in the queue and will be reviewed
+in due time.  Considering the delay in getting this revision out after
+my last review, another week or two shouldn't pose a problem.
 
-From what I remember, fuseblk servers can pass in a size at mount time
-for what the kernel should use for filesystem inode i_blkbits size.
-imo it seems like the responsibility of the fuse server to make sure
-to pass in a value that matches the buffer head size of the block
-device it's using, or does this not suffice for what you need?
-
-Thanks,
-Joanne
-
->
-> > It seems like this ioctl is re-implementing the BLKBSZSET ioctl but
-> > bypasses the cap sys admin privilege checking that the BLKBSZSET ioctl
-> > requires, which seems like a security violation. Am I understanding
-> > this correctly?
->
-> It is, but the assumption was that you'd only get fuse-iomap if you
-> already had CAP_SYS_RAWIO, so you have to have some privilege.  But I
-> concede that RAWIO !=3D ADMIN.  This might be unnecessary now that fuse
-> service containers can ask the mount helper to open a bdev in O_EXCL
-> mode and set a particular blocksize.
->
-> Though note the weird thing -- a sysadmin can use chmod to let
-> unprivileged userspace to open a bdev and it can open it O_EXCL, but it
-> can't set the block size unless they have CAP_SYS_ADMIN.
->
-> --D
->
+--=20
+paul-moore.com
