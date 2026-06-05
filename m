@@ -1,311 +1,206 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010027.outbound.protection.outlook.com [52.101.85.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2248C276038
-	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 18:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780685820; cv=none; b=ePqiYLAHr46mVTjQuSIKb7J9Z0PuLZDJUAHHO8sPRhrb4gYXXoAnkpEN5/j8ED9Jrb7+mFpGsP8kgIh0LBW02e4sm1X4jOK3X5BjTI1n37hKPwttKH8NNqHaazN96RILWvIN+PMEb17sJAlaUyokLscQUjahHZGQ5METPGvpxe4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780685820; c=relaxed/simple;
-	bh=cWOgdHgnWoXFmAf0rQrIS7t4vDecNJPqnyI1dCrh5Hc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=u/C64hbWo9SCDAc9eNSzH1EM7XrdVRFMdr+onSpsSjYhDDl2VjJOo0yDWxSPtyy3QuTI/hu2UZVtJ6m9kNlVAecYaZrZxaHqqVCIObkD/oPaEoU+xVoOlkm5O/QQL70SNJwpSXe7vpgjMhBpZ/jXZpZkqy4qpTcDzoQ+T949xzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com; spf=pass smtp.mailfrom=dubeyko.com; dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b=yezrXtQg; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5ACD2F7EE4;
+	Fri,  5 Jun 2026 20:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.27
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780689645; cv=fail; b=NgTiAcrC6wdxgDl85XGxS16zDXkp4qPhcpmCrwMAYf9fZEuSZfABIv+e+iWXu/5hBukwEN4E8p1GOj1M2iP6ksAE1+rjqrdKoKpnvODi2myRVvrTJhu1jvacGNy9f5eY50Vg2Nxbgt6an98GbN2lF9JhhACvqY9NN6oLHtUmXNE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780689645; c=relaxed/simple;
+	bh=2klKS93xTFBkF7G2hFYdTaiAj3eDEU2ZRY9kMPiiZ44=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Kgqin0PZ6gHEzE2g4SddH1dMDv+kQhlKEgShmJpGswylfnl2uPTupU9aN3AtuNyu51oHLDag3oA/PvEodDtyqH9W6zzqzI1w4ugWB4o8hp+LcMr6wwNgED5z2NOrDENqeN0ID4qLSMIslZqUVcxmwxfp13kHJmPhjuYpJvZYoaA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DD2z4jsy; arc=fail smtp.client-ip=52.101.85.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20251104.gappssmtp.com header.i=@dubeyko-com.20251104.gappssmtp.com header.b="yezrXtQg"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7e0fc8ead7eso26267597b3.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 11:56:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20251104.gappssmtp.com; s=20251104; t=1780685818; x=1781290618; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cWOgdHgnWoXFmAf0rQrIS7t4vDecNJPqnyI1dCrh5Hc=;
-        b=yezrXtQge00tDPeIPS2hDyxfzQ4KrhXhBrkqXr967z6XFpUiyUMY3CyVplhFWiuhc4
-         3fy6T331slvaeL3rFMCT+xVWkS6pXmdyTNWy5fsnAZt3ktjyPhUEFEPMhlfyalw1PyOl
-         xg5uQkSPMvAPRPDOnPWD/p2fo2hN7lRNjK/twlLHhdvu6NB+Z0vDGvVXtuoAxgn5BD9Y
-         E+ijqa+8IMZb888Rtx4CQSU+5ZanaXeS8JUzo22aUiTTNrUMcQHTj1YZkJfiAM2Oln9Q
-         +LQB0PWLLVPW3Dr5i3EKclQKC/9QrICVFCg38GQRV9CRHE0GzlFw25UIZuTLSW3/Za42
-         EXMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780685818; x=1781290618;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cWOgdHgnWoXFmAf0rQrIS7t4vDecNJPqnyI1dCrh5Hc=;
-        b=qLruQzvc+nLrrFgdxfXN9yoqi6/znB/q/jz7MylHzqvPwYg6FnsKjg4uRLpzfol90n
-         vEKUWJiQfXdtXqtz4Pt/jPd2JX5Bso9gwF9odxAkRFOwTb1J7GwH/gET8f+mO/TL1Ppe
-         p9NAaKOHX57cQebG+GFc2ABCd9CHO4fKVy5pqpVmKfacAf+1essAer3ZI3PX3b1roS+K
-         FxAmC+C6OepYMqiLI7HK2UU/962k+7RZSL+IQF3hEBkHxVPCtnBZ686bahEbkapxsazp
-         ezAH7+0zy4ZmeqDnQQFhHwKkZ2jhgsH5svT2AMOSMmK+1kg1L8agzWdYFRjULlWOkvFS
-         L/hA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Wq5FHo55AcNT2B9dDqbu96fg+slSFAl4n5MdyDAJQGEtHr7Krpw2m5RMgZLeKycWktleeb8nGhZKW5MJo@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQueOZGPZQvPjp7ARqaK9QcES7KNYSBJGBw3w+pzOMyRB3DXcT
-	moU/rvjy4kZWQ8AKNQA2VkdQKTeWC77LNpoQZBxWtpR2k6K2VrRC3wd19scsRDjkbu/enk35ToH
-	ha3A/npgCpA==
-X-Gm-Gg: Acq92OGCsxEf6AW3HOyg7XJC73HJ+V7HKBVTUsMdPyPrJxQp45hIXgcxYNnfPjxaRAS
-	dHo5C1PXuEIpVWAFXVuGlcxJcEbbmDRORCOEFVjQZKzjysIWO6tX1YAkKZKfQLjVwwA1GDVifnb
-	yXWJSiC6IQuRXW1yj1G5Yhk/XZDmJ3xJGgKPRf0FEH2VOy9IlbvX5i+yBvHPY7n3+Qz52Bvypmy
-	ZOrBxuOUNvHVoRvPB2SHt1TgxM9wLW06/pJlMQnAq52R4ryEMibApiNUCPS5AgFTWrDT1C65RN+
-	tv6Vx0MYgtOK5YwsaUDBpHNG5QWTxR47+lpZboil0aMjx3CL7q9vypWOYCp26uIdhDco8mRqIdH
-	aUHdyf136YKAae6DLlXWLBH/ylNWVPAEZ5/OdaXdVE+sROwvfNazkOyPRSRDFA45g07k7mYYdzN
-	m+A0OOmU6OI+Hp8Z/dDSyTRBl3TVu+SN/5LzCNcYyi/VA1MNNydLHppwj13i8A9SJ85vOUSerz4
-	jhFHW2Vm640nL2rvNv7C8hW3ZMzFWv8XUmwl2EDotdDvSBouy7D+S4VErQkbCRc3FTn
-X-Received: by 2002:a05:690c:6706:b0:7db:bff4:f086 with SMTP id 00721157ae682-7ed0c32cd8amr49940327b3.12.1780685818073;
-        Fri, 05 Jun 2026 11:56:58 -0700 (PDT)
-Received: from ?IPv6:2600:1700:6476:1430:80ee:99ae:6c1:509d? ([2600:1700:6476:1430:80ee:99ae:6c1:509d])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7ea2167b40bsm53470807b3.17.2026.06.05.11.56.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 11:56:57 -0700 (PDT)
-Message-ID: <daa2ae339bf016608a632a94fe0c19ff381a8e42.camel@dubeyko.com>
-Subject: Re: [PATCH v2] hfs: prevent MDB and bitmap buffer_head aliasing
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Sam Sun <samsun1006219@gmail.com>
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 05 Jun 2026 11:56:56 -0700
-In-Reply-To: <CAEkJfYO+0+SuaA3iVjrRQu-TUxoJ6_E+WjRFi+FP6Gi-cF2FsQ@mail.gmail.com>
-References: <19becc5c5ccd8f22215eb2a1fbc832bed73933f3.camel@dubeyko.com>
-	 <20260604180306.18672-1-samsun1006219@gmail.com>
-	 <8e4f04261421e7c904eabbf702e5eb66c9e20bd1.camel@dubeyko.com>
-	 <fc2326a0ba9f73c4151352ab5449197e5f0048c2.camel@dubeyko.com>
-	 <CAEkJfYO+0+SuaA3iVjrRQu-TUxoJ6_E+WjRFi+FP6Gi-cF2FsQ@mail.gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DD2z4jsy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zQTB0SklLi/WOLoSCk+Cl4D/BD910D2s/K4kCnvi4AkOXlXGuFThUKS94olBmMcgAzzeis+WzBal8EdRuRJ92qkTLgPQ9ceCHuQMEJWHoaWfOJt+RzzL+7tIQz74jkAAygYS45GFZToctUskq0DgIF29uPVoCsJKgdSgc6+7mQaT5Iyubh/0Di/Pv0AMxZK6m59dDt0xLTS95bGBNZdbQ55PNK8e7WLZKSG842LSEiFQu/K3fEIUXk5RLXJrkAYLdykyu8leJ9QSsvjGOwp0r4dATTvPEztTTFhwvoWDFH1T8nZrCAOQOzP/elnkerdYxPoHd68ZtKalJoYUlZ9lSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X+M2yMvkz4zRFeGB1xh/r0CkQMDOS6FpMdhqPYWHxZE=;
+ b=kDw8+RENro+krsySv1m1yJEKIN79jVIIO7y+zJpQzvIl0WEuvn7R+/QUGCxcul5kTKp85rRHGOGtQtXKO/wENaU5lYdsVXzm6DR/ta4owsHZqNciVDKzxxattmv8aR0FYNEwTmTw0F6Sr0crZ45L/+B8Br8OOLrCazr5t2sHJuI/HwZ+Vz/tKpBXOjDPaHiwPgzMtokg3MaY+dI+agDYCcQFDtsHMeA5dq9/07o3MysdhPIbVVo7dcIOxVnUYmjL2xqxx4qG8gjiuqzBywveXIK2YY+38Mecihnp+hpTqIWsZrY/wwQf6ug8Aenz9F0wWlyk1AlQ6efsReNCkavYGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X+M2yMvkz4zRFeGB1xh/r0CkQMDOS6FpMdhqPYWHxZE=;
+ b=DD2z4jsya3BpIoNMyFO5fTh+iaFIA67TtMc5P/Xthcx21KDGdDzbXcIs2MwjX2PiTmqAhsVyMEfz2XiJKtjnsGQeXElmFM95FMj8NExu1z2NeWK5UIUdnTRdTjCGJsVi94+Jj19YmVGfYV9ljHfIGBTIJk/yVNspdlU30/YIrJoQrSQDdePHyBPhTQYTUfUXUhpY+ljs4bGpnmqxPwYjdi/RJuE8+dJj2vSnGvUFXvyCmkRKQWKnVJ+fa44aqn2QyxK/4BfiXJmWPhVsvyB+HRo883bDCn5MgWIhDI0K77NvCjCQok7eKO7/h0qB4NK3wG4xPSZKG6HcRTjxvlNH5g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ PH7PR12MB5760.namprd12.prod.outlook.com (2603:10b6:510:1d3::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Fri, 5 Jun 2026
+ 20:00:39 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%5]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
+ 20:00:39 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Jan Kara <jack@suse.com>, Mark Fasheh <mark@fasheh.com>,
+ Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>, Trond Myklebust <trondmy@kernel.org>,
+ Anna Schumaker <anna@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+ Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+ Tom Talpey <tom@talpey.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Dave Kleikamp <shaggy@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
+ Miklos Szeredi <miklos@szeredi.hu>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Breno Leitao <leitao@debian.org>, Kees Cook <kees@kernel.org>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ ocfs2-devel@lists.linux.dev, linux-nilfs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 00/17] replace __get_free_pages() call with kmalloc()
+Date: Fri, 05 Jun 2026 16:00:33 -0400
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <3FD8E1FD-6E18-46D9-AE93-00FA1A66C775@nvidia.com>
+In-Reply-To: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
+References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 (by Flathub.org) 
+X-ClientProxiedBy: BY3PR03CA0007.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::12) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|PH7PR12MB5760:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1f642a8-14d1-4c68-c651-08dec33d1de8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|366016|376014|18002099003|11063799006|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	Ixoveqn+yAQ2eRyV6ifOvSrOBaXYJL+YtioS6rxReZqeStemeHMPyo7pO+iDdrQlgygJbIIg5jt/DEGqupARKlhsmST5vrXfMsrE4jakpczCL/qxQFf5urWhqRVm/iaom/cJsP2v9aoguoU1/wUNSfT9TaaL2LM1Wm/kI7p1sgMoqJ+9J2dGMe3iuZH7V664pv1XzQQNDF1W087661YJy+JjrnSdd45LR2bV1fnN/Pil3xMEWtEXVMhCXgjuLF+14uYN3gyHnqZvje5mvLddcWcFacMMGHLYN/qG6/Z1+425WxUoy2tJEftp3EHL7tSNY1Dd+gRcY7ABekOlvXEZCEvgjk2+yblj6tIJ3DTXpwv8OeuJp/SFCI3SLZDw8j9SaruK78lfZQZWYR+nrc0mm5/4dwOpdJaEVq688ImGu2pc8LGimmCV16MgHL0QJjn4k9aQXUmDeQIs1ubcjvrHBNo8zI2sZ9cLlK76c8bVyrVeTKMpqdO1KuEkzMn6eosWR23tczdYo88ea5VCEV5yyO1wGmHhnOJUQaiR1/Yk/VCDokCIIhEpORYXj+T5bA9/ovoSFqpKVXg8jZpmbkADn+wenZqe/jKYtooQxRZDOJie/k5hmVPf75m44ZGxZ4/eFXqQSZn141ZZ39kXDEZshuizuNZLRoH+IMSCdGcWM40ho8Uvq1YsVaJ9m2CPfcsyz7RXS9S/XhA2h1yDR/N0zg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(18002099003)(11063799006)(22082099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?w5C050b6NMHjP88KaETUbDECBm+ShWeYRo6dToP/6yhKHQULJ+qah0sHB5jK?=
+ =?us-ascii?Q?4iZNeddA8JLBQd7FLY/1PSLq4q0JZ03HpX0n+M0A7c85H4NzBjZNgvEPLsKf?=
+ =?us-ascii?Q?11Q7urTDObwfVxERitOHUvbiFtGGBBlj65Fgw+ALA61lJHwH/SVb8PEE4F44?=
+ =?us-ascii?Q?SDzBfISRMEWAhAhauE8DgMH+p/xi4JM2yzblJUMAxhys24dDlw5MU0h4EWI5?=
+ =?us-ascii?Q?D94fhcTggHXHVT8kF8l/yl8AaU78V8JYGRczLn5M6cpH40eLSnKPw5ngoyGJ?=
+ =?us-ascii?Q?7QnTo51eh25H5H19+w3w41JwqmkZ/1ANDFZpOX+iH5jrLOwgJPDQVktlwALJ?=
+ =?us-ascii?Q?xkgzoJAE90ywm+l47OoCNlUuN1oOoEgN74hSZGj2YdUgv4b5TKY2e176tCNy?=
+ =?us-ascii?Q?I+PAO+JK+g+uN5gKri7KNRNEgX+wGshRGutJxM94LdYiOe8mBWGjvXSCKgBd?=
+ =?us-ascii?Q?OhL+mPAjLvszXXW2CyBaQO+5EkAHGWh7xyMiUks/XaNegLoheS6+YtGeU42n?=
+ =?us-ascii?Q?a/9hwkcDVBmvlSYHNAI61DRRywhCQOvnAzCS2KIzp06oDHPQqmhQKtQByEkH?=
+ =?us-ascii?Q?v+sz9oN7UJinvEur/22hK9otPhpC/rUHsOnueU/1Wdv146BNWmM7gUikNyex?=
+ =?us-ascii?Q?UKtAMB+Xnk4yNtA6sGq22j1Bais6FPuoEhA5qIla412xbTwcXwKLEg86nhlv?=
+ =?us-ascii?Q?Fe0dGhTpcPOr7NMzsMIaDdmTgQAPitFJgy8QvUzlhEA71UwmmPJo/sShtMJW?=
+ =?us-ascii?Q?LkTcNMh4qj7ovOj60Xwuvn3kJ2q6J+hsnocYoDUeH5GE6cAh7wcKllghptOf?=
+ =?us-ascii?Q?IV3+dlZdDOboNHpBfTR4o5c5BYsbjlm6JkHoc9iuCLDXsAw0IvjjQJQUDoXj?=
+ =?us-ascii?Q?BwyK/M3YoxhT0QlP2tRnLYtLc/HZvsklo1alK0HxhkroZYZ8D2mA7mkRd+mj?=
+ =?us-ascii?Q?wnQPxtACQiP2OQ9V+wrEu2i5e9Cj9wDLP8/pinkK30/Dh1qAlF2ftnlWmGU6?=
+ =?us-ascii?Q?CThUCsJlVVoF669SOZnx7HlQvhuZrFHHw96yZzeecwo4V8Ov0HrghAuOx41R?=
+ =?us-ascii?Q?468srmOTp3P75zAGCnwJWV3+nESKLb2VBnZkaODRxHK1+gcYWCzP1cA8dxsL?=
+ =?us-ascii?Q?63KRlNIlL4HcEP6ToDhFoWL24KmBLSZ2rtgeYUbKrZMfjqv8qCMjfUKFtWom?=
+ =?us-ascii?Q?geeUUTkjJlKIomtALrVZ1wMfcCJulaM6IjH5B2N6DhYzwyC19v4ovtQnp8Jo?=
+ =?us-ascii?Q?sWOmBBD/BhEi94MPAE4sJoUvGHDJ0pCOAUqOf7a5p3LZVh+jnqqFRmXDHUzR?=
+ =?us-ascii?Q?vYy8/1dER2+4eqyuthQp/9DTq5MAu7aXbERIa7SchxJLpAlln/Afts3Us9qt?=
+ =?us-ascii?Q?r+ruCDP2mkCFmNhcWakPDAyepVfVNwDi4rKiCCyHlV5DE+4fjsGNcQFdi1vD?=
+ =?us-ascii?Q?kQ+EL77Y5JDA57X8kd4TSt7/SspPk1ow4PythomXayeoMHtQa7Jgx+OTITJu?=
+ =?us-ascii?Q?//g1TLPp5KlVsfkEarZRNb8e0eivgvkOKSnjY+I9X3dm/PxApH+BCJFut28N?=
+ =?us-ascii?Q?BuPPF5Ot0Ko7/gJ3BPCtsnLVCPOkUbzWYp68CEcDhL89uel97Kw0YLku8fcN?=
+ =?us-ascii?Q?ACwX/7iMVNMt05Nsz4nn4bOFZ5S5ZP0A9QWSW1VTSGJSa+Ab+E3WHIN/Qp7i?=
+ =?us-ascii?Q?zMBcfn014oayzteFEXf3RFO6lP2Q2UMke6QYg4NbxwMvO5dQ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1f642a8-14d1-4c68-c651-08dec33d1de8
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 20:00:39.6543
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oSheHpPghBqB5eDG3xHA2UkgkSSWKnyI/WSGz/s7BUcddnFxK+E9Qx7ObiJjnaFn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5760
 
-On Fri, 2026-06-05 at 12:00 +0800, Sam Sun wrote:
-> On Fri, Jun 5, 2026 at 7:52=E2=80=AFAM Viacheslav Dubeyko <slava@dubeyko.=
-com>
-> wrote:
-> >=20
-> > On Thu, 2026-06-04 at 14:25 -0700, Viacheslav Dubeyko wrote:
-> > > On Fri, 2026-06-05 at 02:02 +0800, Yue Sun wrote:
-> > > > On Thu, Jun 4, 2026 at 12:25 AM <slava@dubeyko.com> wrote:
-> > > > >=20
-> > > > > Could you please take a deeper look into my diff that I've
-> > > > > shared
-> > > > > with
-> > > > > you before? I don't see the point to review your suggestion
-> > > > > if
-> > > > > you
-> > > > > completely ignored my diff. From my point of view you
-> > > > > suggested
-> > > > > completely the same approach but in more complicated manner.
-> > > >=20
-> > > > You are right. I am sorry for the confusion.
-> > > >=20
-> > > > I should have looked more carefully at your diff and based my
-> > > > reply
-> > > > on
-> > > > it. Adding an HFS-level MDB mutex and avoiding holding mdb_bh
-> > > > across
-> > > > the
-> > > > whole hfs_mdb_commit() path is the right direction. My previous
-> > > > reply
-> > > > mixed that with extra cleanups and a separate corrupted-layout
-> > > > check,
-> > > > which made it look like I was proposing a different approach.
-> > > > That
-> > > > was
-> > > > my mistake.
-> > > >=20
-> > > > I am not very familiar with HFS internals, so please treat the
-> > > > following
-> > > > only as a small suggestion. After re-reading your diff, the
-> > > > only
-> > > > detail
-> > > > I am still unsure about is the HFS_FLG_ALT_MDB_DIRTY path. In
-> > > > that
-> > > > path,
-> > > > hfs_inode_write_fork() gets MDB fields as output buffers:
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hfs_inode_write_fork(...=
-, mdb->drXTExtRec,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drXTFlSize, NULL);
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hfs_inode_write_fork(...=
-, mdb->drCTExtRec,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drCTFlSize, NULL);
-> > >=20
-> > >=20
-> > > I've started to think that, maybe, the location of these
-> > > hfs_inode_write_fork() calls is not correct. We are trying to
-> > > save
-> > > the
-> > > current size of Catalog File and Extents Overflow File. OK, we
-> > > need
-> > > to
-> > > update this if size is changed. But we can save the sizes during
-> > > every
-> > > call of hfs_mdb_commit(). It's logically incorrect to call these
-> > > methods in the alternative MDB section because it is the content
-> > > of
-> > > primary MDB. I suggest to move these two hfs_inode_write_fork()
-> > > to
-> > > primary MDB writing section:
-> > >=20
-> > > lock_buffer(HFS_SB(sb)->mdb_bh);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 /* These parameters may have been modified, so
-> > > write
-> > > them back */
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 mdb->drLsMod =3D hfs_mtime();
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 mdb->drFreeBks =3D cpu_to_be16(HFS_SB(sb)-
-> > > > free_ablocks);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 mdb->drNxtCNID =3D
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpu_to_be32((u32)=
-atomic64_read(&HFS_SB(sb)-
-> > > > next_id));
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 mdb->drNmFls =3D cpu_to_be16(HFS_SB(sb)->root_files);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 mdb->drNmRtDirs =3D cpu_to_be16(HFS_SB(sb)-
-> > > > root_dirs);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 mdb->drFilCnt =3D
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpu_to_be32((u32)=
-atomic64_read(&HFS_SB(sb)-
-> > > > file_count));
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 mdb->drDirCnt =3D
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpu_to_be32((u32)=
-atomic64_read(&HFS_SB(sb)-
-> > > > folder_count));
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 hfs_inode_write_fork(HFS_SB(sb)->ext_tree->inode,
-> > > mdb-
-> > > > drXTExtRec,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drXTFlSi=
-ze, NULL);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 hfs_inode_write_fork(HFS_SB(sb)->cat_tree->inode,
-> > > mdb-
-> > > > drCTExtRec,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &mdb->drCTFlSi=
-ze, NULL);
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 /* write MDB to disk */
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 mark_buffer_dirty(HFS_SB(sb)->mdb_bh);
-> > > unlock_buffer(HFS_SB(sb)->mdb_bh);
-> > >=20
-> > > In this case, we don;'t need to overlap the locks. What do you
-> > > think?
-> > > Sounds like reasonable solution?
-> > >=20
-> > >=20
-> >=20
-> > Frankly speaking, I don't like this approach of assigning the
-> > pointer
-> > on bh->b_data to HFS_SB(sb)->mdb:
-> >=20
-> > data =3D (void *)(__bh->b_data + __offset);
-> >=20
-> > We manipulate by various fields of HFS_SB(sb)->mdb throughout of
-> > the
-> > hfs_mdb_commit(). I think that we need to allocate buffer for
-> > struct
-> > hfs_mdb *mdb during hfs_mdb_get() (and destroy in hfs_mdb_put())
-> > and
-> > synchronize its content with struct buffer_head *mdb_bh. Otherwise,
-> > we
-> > never can resolve the problem of proper locking in
-> > hfs_mdb_commit().
-> > What do you think?
-> >=20
-> > Thanks,
-> > Slava.
-> >=20
->=20
-> Yes, I agree. Keeping HFS_SB(sb)->mdb as a separate in-memory copy
-> sounds
-> cleaner than pointing it directly into mdb_bh->b_data.
->=20
-> For the immediate deadlock fix, I think moving hfs_inode_write_fork()
-> into the
-> primary MDB update section as you suggested sounds like a good
-> minimal step. The
-> separate in-memory MDB copy sounds like a larger cleanup that could
-> follow if
-> you think that is the right direction.
->=20
+On 23 May 2026, at 13:54, Mike Rapoport (Microsoft) wrote:
 
-I don't expect that in-memory MDB copy will require significant
-cleanup. We already have mdb and alt_mdb pointer that are used in the
-HFS code. We simply need to change the initialization phase, freeing
-phase and hfs_mdb_commit() logic. It doesn't sound like a big cleanup.
-But it will be great to get rid of using the buffer heads for primary
-and alternative MDB records. This is the more complicated change. But
-it should be not the part of this patch.=20
+> This is a (small) part of larger work of replacing page allocator calls=
 
-Thanks,
-Slava.
+> with kmalloc.
+
+Is the goal to get rid of __get_free_page(s)()?
+
+Thanks.
+
+>
+> Also in git:
+> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-k=
+malloc/fs
+>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+> Mike Rapoport (Microsoft) (17):
+>       quota: allocate dquot_hash with kmalloc()
+>       proc: replace __get_free_page() with kmalloc()
+>       ocfs2/dlm: replace __get_free_page() with kmalloc()
+>       nilfs2: replace get_zeroed_page() with kzalloc()
+>       NFS: replace __get_free_page() with kmalloc() in nfs_show_devname=
+()
+>       NFS: remove unused page and page2 in nfs4_replace_transport()
+>       NFSD: replace __get_free_page() with kmalloc() in nfsd_buffered_r=
+eaddir()
+>       libfs: simple_transaction_get(): replace get_zeroed_page() with k=
+zalloc()
+>       jfs: replace __get_free_page() with kmalloc()
+>       jbd2: replace __get_free_pages() with kmalloc()
+>       isofs: replace __get_free_page() with kmalloc()
+>       fuse: replace __get_free_page() with kmalloc()
+>       fs/select: replace __get_free_page() with kmalloc()
+>       fs/namespace: use __getname() to allocate mntpath buffer
+>       configfs: replace __get_free_pages() with kzalloc()
+>       binfmt_misc: replace __get_free_page() with kmalloc()
+>       bfs: replace get_zeroed_page() with kzalloc()
+>
+>  fs/bfs/inode.c             |  4 ++--
+>  fs/binfmt_misc.c           |  4 ++--
+>  fs/configfs/file.c         |  7 +++----
+>  fs/fuse/ioctl.c            |  5 +++--
+>  fs/isofs/dir.c             |  5 +++--
+>  fs/jbd2/journal.c          |  7 ++-----
+>  fs/jfs/jfs_dtree.c         | 16 ++++++++--------
+>  fs/libfs.c                 |  6 +++---
+>  fs/namespace.c             |  4 ++--
+>  fs/nfs/nfs4namespace.c     | 15 +--------------
+>  fs/nfs/super.c             |  4 ++--
+>  fs/nfsd/vfs.c              |  4 ++--
+>  fs/nilfs2/ioctl.c          |  4 ++--
+>  fs/ocfs2/dlm/dlmdebug.c    | 24 +++++++++---------------
+>  fs/ocfs2/dlm/dlmdomain.c   |  8 +++++---
+>  fs/ocfs2/dlm/dlmmaster.c   |  5 ++---
+>  fs/ocfs2/dlm/dlmrecovery.c |  4 ++--
+>  fs/proc/base.c             | 16 ++++++++--------
+>  fs/quota/dquot.c           | 11 +++++------
+>  fs/select.c                |  4 ++--
+>  20 files changed, 68 insertions(+), 89 deletions(-)
+> ---
+> base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+> change-id: 20260522-b4-fs-5e5c70f31664
+>
+> Best regards,
+> --
+> Sincerely yours,
+> Mike.
+
+
+Best Regards,
+Yan, Zi
