@@ -1,179 +1,128 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0692D5A01
-	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 12:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AD2211466
+	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 12:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780661989; cv=none; b=PuJ0mYW9805Qbt2B9HwBN8pX1TCAQk9nIH4/AvhatnGtWQAs9dJJyImqjcUQwl6QJttlckMnow75U6QGiB4UnlfIrEkZkn9hE8RJu55ksN5DSdkaIH2ngcXX1JQPTbXdLva0zkCqP6zsxKZsQFs1z1KffGiqJ636xnEinjeiJoQ=
+	t=1780662818; cv=none; b=I/JFtpjNmwuYX+0VZj/APuzK62iY4pqL6QRF+hRJjVzyOqXwqu5XamO+uFOgRNgprTgRMc0jj76hpLtH2Ga3r2PPYDJWdiX3jl9p6gUjijrWHeuueY56J02bDHF14M57q4sypOo9ymRkIXH2oLfYHUWh9e6571y1y/DZtM5D4GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780661989; c=relaxed/simple;
-	bh=fG5cj9E2nMxzrFq+XWzFsnTRtUdYT3n82TzWC2ntc84=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iVFDoUvoPJWuAhKf9aGAZI756XbT+X71kU/cxJZxqNWbDKCsna2zjAfIaZm5vydHtMNVJM+2ZTJtaKLeb7ReoFahPZ5br3YIZGY4R7zq7aZZaUqovhjkqcTnMG6lHqrBZugTchzaBYrDwn10Xs3+hX2D5+c4V9PlbmDLHKIGC5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U5IBHMk2; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780662818; c=relaxed/simple;
+	bh=oDZF84rroP3FQTLj8IKpJ7OIXjqIIRSha6QDeYxLv5Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ibIznRUcNufCUq4Q6BAwBEFSwoelIXYrTYW0XQ4sFMyv612OI2unae43VtzerVmOt+eZ5ApupaplJRSuWzTa5/4/RQ6H3a2VZDNd4BLj7kldBAXodIxvR1qOa+nPOLm+f3V162QC8HSNGNwjjKSLV7rzQSZOIFQWqh/TvYuvbu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IoW2ami1; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=T/qkgFcQ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U5IBHMk2"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b12270b3so11428245e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 05:19:48 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IoW2ami1";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="T/qkgFcQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780662815;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=19vOK/aljw0dP+/71WiEI9NMzlYECl5zmc4CQK8fGGU=;
+	b=IoW2ami1VS2oGpJ5adMZxa2HZFjRR+rgx8j6BUDpxXOASiaiZEwhaMaRPC+esZ4B3QNtN5
+	BuLYTuL/XRpaX6HnUZ3pw1UgpWKlg9decOpTkE55wqjGGvHXxrZPk4zLj/jW+ei3o2s11p
+	xLEfc6QZ2lGVL5/Y++CcdThT690sSuo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-453-X26Qv72bN3yapj-X_ipKHg-1; Fri, 05 Jun 2026 08:33:34 -0400
+X-MC-Unique: X26Qv72bN3yapj-X_ipKHg-1
+X-Mimecast-MFC-AGG-ID: X26Qv72bN3yapj-X_ipKHg_1780662813
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-45efa2f7009so1153276f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 05:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780661987; x=1781266787; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gz+VtwQhYk3ng5JxyiUgLQa8oImJtLVBwaLlzEeVzFo=;
-        b=U5IBHMk2+rOzS/if0P1kHBKhHO1E+Ya49eQCQst9eVyKYrNqaV/ILHIswx3k/Ya6cH
-         uI/Mkj15UuGVafXE+YyfybWXy/xkKIInZpK6pfGSTpv+QymV2+wwfKUmIYjaXlERXnxm
-         77xU7BFQ07n8mdMkNY3AlGELiR6XSktldPtw6Y/m2xAzRkqWUu+XCkzUhmgw2vpaELtr
-         Lpezyfi7gwsgLU57oqpIBv5A8Vryff8AgqJRoWoybSdb0UY3cA2opYUA+qVE0WrXcR89
-         5jpz/98fNXaBTt1hYIX1P8e0rugg6WZ2MlNpbU0QiHlwGKXKS42vNN6OaT420/og3ZdI
-         j61Q==
+        d=redhat.com; s=google; t=1780662813; x=1781267613; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=19vOK/aljw0dP+/71WiEI9NMzlYECl5zmc4CQK8fGGU=;
+        b=T/qkgFcQPqtXoc3NDV04VAScqoE/SvZ2umLZxodgJ1KZMWiYcb4tLJ8WW39OFse++Q
+         OdS80cz+HktsMqUYZEGLAJ4maV2ra4AG24NSX68BE0m+IBCpteItyOmql2JF1Sm2Qgi7
+         wflK7nTy+TfSgNVZSlQsl9GgJlp3+fUW6tjSpBGf7MzXvtanl4+klVUrt3/OqzAsDBy4
+         AoLdQ1zAXBWaJZ6MXSQ768z/luUQ0VRlZTo2qj0DDxFsdDbGFpoTmy31UjFenU970Mox
+         Owr3zsX2UDXVsj5iAAb8ub9Xb+vvK4MmFiwSqSzKqZIC9IVDHtGUoEn1EfI2kLcEzvMM
+         gGVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780661987; x=1781266787;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Gz+VtwQhYk3ng5JxyiUgLQa8oImJtLVBwaLlzEeVzFo=;
-        b=jERGyyZCvWNCK35c081sRFdUoWorYkRTxL6deCLMUHZJM+tagLAzf+lRskB07dCUvf
-         CB7J+UvIxriuLvP1OED32KPtuAhIc5NlhXdX3P3kK19aK53vGBILoamd5naEZ8aZVE1v
-         +iukTB4pou5oUHiGPIGerAQMNRTDyXjiJL664ksvu0fTVd7cAd+NdTYGdyvW5EhXDElD
-         JZIYqVH1Vx+zP5Zs2zzIcmGsQu9vF7Ua3Ro9/0CPOuTZEcAXgg7fOQ1R2BQu/ef9Bi3/
-         SdEhX11Ot0ubUy7Z9nljcDI1wQKm1c+GdES4OBFU25akM3+M+Y+mdNuW0VM8ykgdXz/G
-         KkZA==
-X-Forwarded-Encrypted: i=1; AFNElJ+C9+x5ra8dzMqQUjUeXVDKx8rXdkw4gJQQqz3dOGDzS++m476v37ofBNrdjbJsbJHFhD+bUxoNJEWjndYk@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBAjJTfQEnX+oDQec4LCNLoxDbTejy/uNgUt+c0u2OsuCRy857
-	EIH4gkJxfJQRPzr55Bru0virExQqZ+KEvp24/PVK7tTnz35/hzFBI6Uw
-X-Gm-Gg: Acq92OFSFiGJVzwllMUqcLCbbjoRIRPLoNSuuF0Cbe0yAGhNfPpShSHBjDQLqLRcq0P
-	JFnvBqRqIQkeq3LK7+MVPuSYwuMXQRhT19gwdTu5LF8s8tJ7V2OL917f/MwPcEy8FKuJSGoxgpX
-	C6K5pAC3W5zVKYDgV6xDHoreVDXLBii9hAnRKi31+gUG0EFU7WQSxgdN+Zm14+rQ2geDy3R7mdO
-	J2gajAlPwREFBbe73IXqE0LKPAOQqHj7TTodvudnWfZkXocrx46zhpOqupzfdyXDOHmIiayHukj
-	crMY0FYbLfdOXCiujcml+jEELlAczpiDsOjD0nlEtgStdvusBPuw3gOx6MrNcYRs4gAspdtxs5b
-	y/nCUbf4aKDBj2NeEw+w7qZEEPsH9IrMKsqAfoPT5JETKlACrITcpCyvfOZ1RCEjyRwL/hKGaZs
-	iOhkuOtCYTgY86uP6oELhN2LhprSvfZ+rgf/NZZrHRR9RbAMGeQRtQib/w9RG/8JU+E7xmnxtSM
-	BViiVjmGw==
-X-Received: by 2002:a05:600c:1d12:b0:490:7227:100 with SMTP id 5b1f17b1804b1-490c26049a0mr52430315e9.18.1780661986468;
-        Fri, 05 Jun 2026 05:19:46 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3cbfe4sm152016275e9.7.2026.06.05.05.19.45
+        d=1e100.net; s=20251104; t=1780662813; x=1781267613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=19vOK/aljw0dP+/71WiEI9NMzlYECl5zmc4CQK8fGGU=;
+        b=rDBIlxpEq/wh35FKhodEbkBGShrPQBu1ByjJ/C1Oj0Yv3LlnV+E7qcKwn+YAf97BQh
+         1ZMHE4wc8aF55Vs1x65Elz2+jN42GtqnTvf+3zePCftXDOuvgJ6OaCvP0oDtIknLcSU5
+         hOcg6Yt1NdQ/1Ew+HG94y9b8xLKol/CWZ1JYiBLpLZMPhTxZM8wAV0JpOUaT3A+2/CtT
+         5l1mpnnTNLToJuUJSE//yLs6PHdZxrNcjvJ0DzJ015DknTh1DTsTdAWqzK1lZa20U5fO
+         YhLRNRPh2Q3FVaUmRYZ8y5oFJtBY/TryCSzcjZCpfiEkvaGZyB05gVALOuYj6aa3mVy/
+         5Hdw==
+X-Gm-Message-State: AOJu0YwfpZ0fSl8mXxmfUIuVS/NXtDO4xYRyF9hKI2mNUVr0XUig3p2s
+	BO6qWER0c/9sMLOW1ABW4mOYU7qQf8Se8wBHawlN8KCgjKj6IEWIWR+yvVCO1XejeLGNpcAzFbp
+	osWdluxlwoTS+/aQ4MMKgdyzNCBFtEVM0xAzZhuZoRzdn1dOeHJNSn6NtyhKtSJUvbs65jhRcK2
+	xByzF8p/uXusx2B7RVOgiP41yx33oaXCqK7d3TBWndo6KdSz14oVk=
+X-Gm-Gg: Acq92OH7pXblB2HgkQHciQ+8jNL+rJRAk5s6iPa1ySgaM1FTT3Au5b7BLhBC33cMFky
+	rxm/oHNjFlUjGaw5beeaHPXj+tCS71lWz7vzi0MBwSVzT+ARLzzfFlex4cKmSYcN9KsTDuYGkfO
+	JOXfRNMhTR79d2DA+ESRCQ4MAJF1T421Y++H/OJ5TZ8SYZZaTw+YEFQ6xcKNibX/uck0zDGW4r6
+	bXpsSQkBzRnTUU6go1sdZ9TUSfI0+ruypx199XKs+7Kaipn9wNKDiSGAe9gfOh3IFotXzSZOGQF
+	rzMYO+en6RagbeYQdhqn+1S1Lb7ZkLFh5bAl0GradNr8lEpA2KdcSWi8vaEpbm7ZwQbfFdfurri
+	vIDklt6yRbVYmd3RIchX/5e+5UZAeXdgw36giQr5LEmwG+HbU2wrvBKB81qMipglpAUqANGAgGy
+	GTqMVK7A==
+X-Received: by 2002:a05:6000:1e4d:b0:460:1168:6dd4 with SMTP id ffacd0b85a97d-460302e49acmr3984561f8f.14.1780662813479;
+        Fri, 05 Jun 2026 05:33:33 -0700 (PDT)
+X-Received: by 2002:a05:6000:1e4d:b0:460:1168:6dd4 with SMTP id ffacd0b85a97d-460302e49acmr3984523f8f.14.1780662813031;
+        Fri, 05 Jun 2026 05:33:33 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (84-236-1-92.pool.digikabel.hu. [84.236.1.92])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4602cda3651sm12702780f8f.32.2026.06.05.05.33.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 05:19:46 -0700 (PDT)
-Date: Fri, 5 Jun 2026 13:19:42 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Stefan Metzmacher <metze@samba.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andy Lutomirski
- <luto@amacapital.net>, Askar Safin <safinaskar@gmail.com>,
- akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org,
- david@kernel.org, dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
- linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu,
- netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de,
- viro@zeniv.linux.org.uk, willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <20260605131942.4584728e@pumpkin>
-In-Reply-To: <512d948f-7883-4d8c-b2c5-a777e70ca975@samba.org>
-References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
-	<20260602225426.122258-1-safinaskar@gmail.com>
-	<CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
-	<CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
-	<CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
-	<512d948f-7883-4d8c-b2c5-a777e70ca975@samba.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Fri, 05 Jun 2026 05:33:32 -0700 (PDT)
+From: Miklos Szeredi <mszeredi@redhat.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-mm@kvack.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: [PATCH v3 0/4] simple xattr improvements
+Date: Fri,  5 Jun 2026 14:33:25 +0200
+Message-ID: <20260605123331.2621677-1-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 5 Jun 2026 11:43:45 +0200
-Stefan Metzmacher <metze@samba.org> wrote:
+v3:
+ - need per kernfs_node locking for simple_xattr_set
+ - another accounting fix for shmem_initxattrs
 
-> Hi Linus,
-> 
-> >> Am I understanding correctly that this will completely break zerocopy
-> >> sendfile?  
-> > 
-> > Very much, yes.
-> > 
-> > And it's worth making it very very clear that ABSOLUTELY NONE of the
-> > recent big security bugs were in splice.
-> > 
-> > They were all in the networking and crypto code that just didn't deal
-> > with shared data correctly.
-> > 
-> > So in that sense, it's a bit sad to discuss castrating splice.
-> > 
-> > But it's probably still the right thing to at least try.
-> > 
-> > I've seen very impressive benchmark numbers over the years, but
-> > they've often smelled more like benchmarketing than actual real work.
-> > 
-> > There's also a real possibility that a lot of the sendfile / splice
-> > advantage has little to do with zero-copy, and more to do with the
-> > cost of mapping and maintaining buffers in user space.
-> > 
-> > If you are sending file data using plain reads and writes, it's not
-> > just the "copy from user space to socket data structures".
-> > 
-> > There's also the cost of populating user space in the first place:
-> > page faults for mmap made *that* historical copy avoidance basically a
-> > fairy tale.
-> > 
-> > And not using mmap means that you have the cost of double caching in
-> > the kernel _and_ user space etc.
-> > 
-> > So sendfile() as a concept (whether you use combinations of splice()
-> > system calls or the sendfile system call itsefl) isn't necessarily
-> > only about the zero-copy, it's really also about avoiding the user
-> > space memory management.  
-> 
-> I don't think so. Ok, maybe for webservers just serving tiny
-> html files, that's true. But for me with Samba it's really the
-> copy_to/from_iter() that is the major factor.
+v2:
+ - don't use xxhash
+ - fix lazy alloc concurrency
+ - fix rcu freeing on evict
+ - fix rcu walk of per-inode list
+ - don't double account freed space
 
-Is that copy also doing the ip checksum?
-I really can't tell from the code (it does sometimes, even for tcp).
-But I can't help feeling that optimisation is well past its sell by date.
+---
+Miklos Szeredi (4):
+  kernfs: fix xattr race condition with multiple superblocks
+  tmpfs: simplify constructing "security.foo" xattr names
+  simple_xattr: change interface to pass struct simple_xattrs **
+  simpe_xattr: use per-sb cache
 
--- David
+ fs/kernfs/dir.c             |  13 +-
+ fs/kernfs/file.c            |  13 +-
+ fs/kernfs/inode.c           |  36 ++---
+ fs/kernfs/kernfs-internal.h |  24 +++-
+ fs/kernfs/mount.c           |   2 +-
+ fs/pidfs.c                  |  45 ++-----
+ fs/xattr.c                  | 261 +++++++++++++++++++-----------------
+ include/linux/kernfs.h      |  11 +-
+ include/linux/shmem_fs.h    |   3 +-
+ include/linux/xattr.h       |  35 +++--
+ mm/shmem.c                  |  49 +++----
+ net/socket.c                |  30 ++---
+ 12 files changed, 251 insertions(+), 271 deletions(-)
 
-> 
-> We can use io_uring with IOSQE_ASYNC in order to offload
-> the memcpy cpu wasting to different cores, but it's still
-> wasting a lot of resources.
-> 
-> For the case of filesystem => socket, we can use
-> IORING_OP_SENDMSG_ZC and that at least removes the
-> copy_from_iter() in the sendmsg path, but the
-> IORING_OP_READV of buffers in the sizes up to 8MBytes
-> is wasting cpu in copy_to_iter().
-> 
-> For the case with smbdirect and RDMA offload with 2x200GBit/s links
-> changes from only ~33GBytes/s are used (and the server cpu even if using multiple cores)
-> is the limit. Without the memcpy waste ~46GByte/s is easily reached
-> and the limit is just the network link.
-> 
-> Maybe another solution could be having a version of
-> copy_to/from_iter that uses async_memcpy(), but didn't
-> have the time to experiment with that yet. Maybe a new flag
-> to preadv2/pwritev2 could control that, so that the
-> application can decide what's better.
-> 
-> But without an alternative please don't kill splice.
-> 
-> A lot of people are frustrated because they bought hardware
-> that is able to handle a lot of throughput, but
-> e.g. with the default of smb over tcp they get no
-> higher than 3.5GByte/s on a 100GBit/s link that's able
-> to handle ~11GBytes/s. And io_uring and splice are
-> a key factor to fix that.
-> 
-> Thanks!
-> metze
-> 
+-- 
+2.54.0
 
