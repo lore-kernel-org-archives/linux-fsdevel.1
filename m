@@ -1,33 +1,33 @@
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28FE92DD5E2
-	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 05:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C5B3A9DB9
+	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 05:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780636156; cv=none; b=F74XegJnfEOfC3HgHH4CsoXy0nwYj1O8xipF1+aQrm1GVuCWTuTpXgbIkxRBUrLxYQjTGL8bNwdpWgw4X7fQUiJ6ry9X0XNp7Wb3U6Oo8IlJJcyziNh2MESQ0gqvPACdfS4KTATZN67fyx92pB3wT84JF7L9JpGa/AgxwyhFb3c=
+	t=1780636156; cv=none; b=akEVFuuYTaxAm5ORH3F/W2EK0SabnKazY92CmrolY2k4jfPeuhyuruCmEO4uHFAlUnaDU7kflxYbJ/S0hBMxXfMNVp+8uQlqizn9G0jzca2zSdULXRlCu8680j/KbFucMS2zV2Tl6lidheB9pF8bh4amXvQQklwEZEw+qYp8NUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780636156; c=relaxed/simple;
-	bh=xUx4Ngkb+5Wl75YeZpVQ/VJaqosrunH2YoZpEnOL+4o=;
+	bh=bGW5zbrMz+Lu1lZ+oGyE84HPzgt36idQhSLXfczvpfc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A+Baja9eBiZuK5dmqZnDTPbzv15OwRSR/CyUlSc4/ch86iolmt0w3QMK85cgROH39zW3L4SNjzRejbdxgPNPVUacqc+1RNolT21JNTxWW5oIUObiPNb1jXnyzuP+KWzUARvznJ4UV55xFV/wgte6v+SvaHxX2+PBei5QlBKtoU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Or/oaTMK; arc=none smtp.client-ip=62.89.141.173
+	 MIME-Version; b=PJ+KLNOFzcrX1VsAHpwEKs7oQPslHzsknd/1I0b3o/71FbTPM2Bqn1PVRxnSOrTLzGHOpraj9O7qTb3u0EEECITgxTyAK3/WhF03XZThXur5tw7vsDI2RFbgyEm6jT1VTDQbZ4x+kFf7mVdVSlt1PHY8+R6YeYG/nLa0eOmOf1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=IhkDcC8H; arc=none smtp.client-ip=62.89.141.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Or/oaTMK"
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="IhkDcC8H"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=IPyJ3A8jevUwcbAkwNKVo1SOrWkVbRce+3ZR0654nVQ=; b=Or/oaTMK8cjUaRGGPfCpNyhmq/
-	Qw82I7EYQEg3kLPixsgX02tYGtGArp2tFhXZTDwZs89rcPUwAVcLZAg5+MgqSyLxgQb/hBzA9UnA5
-	QTPDP9YA652y/L0TYst/OyCwdcMdS5b9R97VgHQXUZvDOwPHsyN4SPhBwFqer02TSRYapMd6DEOEz
-	uuWD+lgN8JRHBbEsYaK8x1MZc7D1z5DB+IMOkdE7pLZj5NgaIvgC1AVqyoLjbcBcQ5rmXnRDKToNK
-	cWZijjojaZGUy4XmYnN127F/BW+KVAmC1m7xZ8XSTDHEmnbDHKA2QlfTHcTD+MSlwfKqy/59UJnnD
-	Ag/InTbA==;
+	bh=QCjK8yrMJE0NCg8a2+cChE42xy3FJ9YkOhlYLygA1uc=; b=IhkDcC8HeetNaFF6GQnu9ih1ck
+	l2jxl7Hj0allIWI3rPX9HmdCr5Zvcw8jOeSghMB87WnCVw7oSmWzfKZvubUa51i4bhpdD6C52W5IV
+	eKqzoMtqT36L+l7ZIlGdcthN2ds35CWypoYEdiex0mBdKDpha6DEI2VPhAdoc8touUscnTVXbOBrJ
+	Grtq+olKIr18Tb1WeuO8yvMxMuwpXyGeuVDYmQ+DUL/PuphVnbdOq6Qdq88Aejfk2uA2uRtDjQQnZ
+	NyzNd3HrYpZppL6FIi0lS3++Q3BDlBk72pdDDUQDA7g0RKiCkIpQsZ51lw0TjXXU9DZZkiNdsFxoj
+	smvObfhQ==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wVMnw-00000005TtM-3J8g;
+	id 1wVMnw-00000005Tsf-1Cr3;
 	Fri, 05 Jun 2026 05:09:12 +0000
 From: Al Viro <viro@zeniv.linux.org.uk>
 To: Linus Torvalds <torvalds@linux-foundation.org>
@@ -35,9 +35,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>,
 	NeilBrown <neil@brown.name>
-Subject: [PATCH v2 10/22] fold lock_for_kill() into shrink_kill()
-Date: Fri,  5 Jun 2026 06:08:58 +0100
-Message-ID: <20260605050910.1306432-11-viro@zeniv.linux.org.uk>
+Subject: [PATCH v2 07/22] kill d_dispose_if_unused()
+Date: Fri,  5 Jun 2026 06:08:55 +0100
+Message-ID: <20260605050910.1306432-8-viro@zeniv.linux.org.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260605050910.1306432-1-viro@zeniv.linux.org.uk>
 References: <20260505055412.1261144-1-viro@zeniv.linux.org.uk>
@@ -51,65 +51,168 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Both callers have exact same shape.
+Rename to_shrink_list() into __move_to_shrink_list(), document and
+export it.  Switch d_dispose_if_unused() users to that and kill
+d_dispose_if_unused() itself.
 
 Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- fs/dcache.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ Documentation/filesystems/porting.rst | 11 ++++++
+ fs/dcache.c                           | 51 ++++++++++++++-------------
+ fs/fuse/dir.c                         |  2 +-
+ include/linux/dcache.h                |  2 +-
+ 4 files changed, 40 insertions(+), 26 deletions(-)
 
+diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
+index 36fecc7a3d97..003ab084ad48 100644
+--- a/Documentation/filesystems/porting.rst
++++ b/Documentation/filesystems/porting.rst
+@@ -1391,3 +1391,14 @@ either form of manual loop.
+ **mandatory**
+ 
+ d_alloc_parallel() no longer requires a waitqueue_head.
++
++---
++
++**mandatory**
++
++d_dispose_if_unused() is gone; use __move_to_shrink_list() if you really
++need that functionality, but watch out for memory safety issues - just
++as with d_dispose_if_unused() these are not trivial; with this variant
++of API it's more explicit, since grabbing ->d_lock is caller-side, but
++d_dispose_if_unused() had all the same issues.  It's a low-level primitive;
++use only if you have no alternative.
 diff --git a/fs/dcache.c b/fs/dcache.c
-index ffaaf48533e6..3325ca535bf6 100644
+index 7a0c8349b5a1..ea26bd2dd2b2 100644
 --- a/fs/dcache.c
 +++ b/fs/dcache.c
-@@ -1211,14 +1211,15 @@ EXPORT_SYMBOL(d_prune_aliases);
+@@ -988,7 +988,24 @@ void d_make_discardable(struct dentry *dentry)
+ }
+ EXPORT_SYMBOL(d_make_discardable);
  
- static inline void shrink_kill(struct dentry *victim)
+-static bool to_shrink_list(struct dentry *dentry, struct list_head *list)
++/**
++ * __move_to_shrink_list - try to place a dentry into a shrink list
++ * @dentry:	dentry to try putting into shrink list
++ * @list:	the list to put @dentry into.
++ * Returns:	true @dentry had been placed into @list, false otherwise
++ *
++ * If @dentry is idle and not already include into a shrink list, move
++ * it into @list and return %true; otherwise do nothing and return %false.
++ *
++ * Caller must be holding @dentry->d_lock.  There must have been no calls of
++ * dentry_free(@dentry) prior to the beginning of the RCU read-side critical
++ * area in which __move_to_shrink_list(@dentry, @list) is called.
++ *
++ * @list should be thread-private and eventually emptied by passing it to
++ * shrink_dentry_list().
++ */
++
++bool __move_to_shrink_list(struct dentry *dentry, struct list_head *list)
+ __must_hold(&dentry->d_lock)
  {
--	do {
-+	while (lock_for_kill(victim)) {
- 		rcu_read_unlock();
- 		victim = __dentry_kill(victim);
-+		if (!victim)
-+			return;
- 		rcu_read_lock();
--	} while (victim && lock_for_kill(victim));
-+	}
-+	spin_unlock(&victim->d_lock);
+ 	if (likely(!dentry->d_lockref.count &&
+@@ -1000,6 +1017,7 @@ __must_hold(&dentry->d_lock)
+ 	}
+ 	return false;
+ }
++EXPORT_SYMBOL(__move_to_shrink_list);
+ 
+ void dput_to_list(struct dentry *dentry, struct list_head *list)
+ {
+@@ -1009,7 +1027,7 @@ void dput_to_list(struct dentry *dentry, struct list_head *list)
+ 		return;
+ 	}
  	rcu_read_unlock();
--	if (victim)
--		spin_unlock(&victim->d_lock);
+-	to_shrink_list(dentry, list);
++	__move_to_shrink_list(dentry, list);
+ 	spin_unlock(&dentry->d_lock);
  }
  
- void shrink_dentry_list(struct list_head *list)
-@@ -1235,12 +1236,7 @@ void shrink_dentry_list(struct list_head *list)
- 			continue;
- 		}
- 		rcu_read_lock();
--		if (!lock_for_kill(dentry)) {
--			spin_unlock(&dentry->d_lock);
--			rcu_read_unlock();
--		} else {
--			shrink_kill(dentry);
--		}
-+		shrink_kill(dentry);
- 	}
+@@ -1170,24 +1188,6 @@ struct dentry *d_find_alias_rcu(struct inode *inode)
+ 	return de;
  }
- EXPORT_SYMBOL(shrink_dentry_list);
-@@ -1688,12 +1684,7 @@ static void shrink_dcache_tree(struct dentry *parent, bool for_umount)
- 				wait_for_completion(&wait.completion);
- 				continue;
- 			}
--			if (!lock_for_kill(v)) {
--				spin_unlock(&v->d_lock);
--				rcu_read_unlock();
--			} else {
--				shrink_kill(v);
--			}
-+			shrink_kill(v);
- 		}
- 		if (!list_empty(&data.dispose))
- 			shrink_dentry_list(&data.dispose);
+ 
+-/**
+- * d_dispose_if_unused - move unreferenced dentries to shrink list
+- * @dentry: dentry in question
+- * @dispose: head of shrink list
+- *
+- * If dentry has no external references, move it to shrink list.
+- *
+- * NOTE!!! The caller is responsible for preventing eviction of the dentry by
+- * holding dentry->d_inode->i_lock or equivalent.
+- */
+-void d_dispose_if_unused(struct dentry *dentry, struct list_head *dispose)
+-{
+-	spin_lock(&dentry->d_lock);
+-	to_shrink_list(dentry, dispose);
+-	spin_unlock(&dentry->d_lock);
+-}
+-EXPORT_SYMBOL(d_dispose_if_unused);
+-
+ /*
+  *	Try to kill dentries associated with this inode.
+  * WARNING: you must own a reference to inode.
+@@ -1198,8 +1198,11 @@ void d_prune_aliases(struct inode *inode)
+ 	struct dentry *dentry;
+ 
+ 	spin_lock(&inode->i_lock);
+-	for_each_alias(dentry, inode)
+-		d_dispose_if_unused(dentry, &dispose);
++	for_each_alias(dentry, inode) {
++		spin_lock(&dentry->d_lock);
++		__move_to_shrink_list(dentry, &dispose);
++		spin_unlock(&dentry->d_lock);
++	}
+ 	spin_unlock(&inode->i_lock);
+ 	shrink_dentry_list(&dispose);
+ }
+@@ -1592,7 +1595,7 @@ static enum d_walk_ret select_collect(void *_data, struct dentry *dentry)
+ 		goto out;
+ 
+ 	if (dentry->d_lockref.count <= 0) {
+-		to_shrink_list(dentry, &data->dispose);
++		__move_to_shrink_list(dentry, &data->dispose);
+ 		data->found++;
+ 	}
+ 	/*
+@@ -1624,7 +1627,7 @@ static enum d_walk_ret select_collect2(void *_data, struct dentry *dentry)
+ 		goto out;
+ 
+ 	if (dentry->d_lockref.count <= 0) {
+-		if (!to_shrink_list(dentry, &data->dispose)) {
++		if (!__move_to_shrink_list(dentry, &data->dispose)) {
+ 			rcu_read_lock();
+ 			data->victim = dentry;
+ 			return D_WALK_QUIT;
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index b658b6baf72f..d8e8ea7280bc 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -177,8 +177,8 @@ static void fuse_dentry_tree_work(struct work_struct *work)
+ 			spin_lock(&fd->dentry->d_lock);
+ 			/* If dentry is still referenced, let next dput release it */
+ 			fd->dentry->d_flags |= DCACHE_OP_DELETE;
++			__move_to_shrink_list(fd->dentry, &dispose);
+ 			spin_unlock(&fd->dentry->d_lock);
+-			d_dispose_if_unused(fd->dentry, &dispose);
+ 			if (need_resched()) {
+ 				spin_unlock(&dentry_hash[i].lock);
+ 				cond_resched();
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index a3409de3f490..4b1ff99608e0 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -280,7 +280,7 @@ extern void d_tmpfile(struct file *, struct inode *);
+ 
+ extern struct dentry *d_find_alias(struct inode *);
+ extern void d_prune_aliases(struct inode *);
+-extern void d_dispose_if_unused(struct dentry *, struct list_head *);
++extern bool __move_to_shrink_list(struct dentry *, struct list_head *);
+ extern void shrink_dentry_list(struct list_head *);
+ 
+ extern struct dentry *d_find_alias_rcu(struct inode *);
 -- 
 2.47.3
 
