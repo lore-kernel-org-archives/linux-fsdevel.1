@@ -1,112 +1,143 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C802F5313;
-	Fri,  5 Jun 2026 02:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780628152; cv=none; b=nbOJKb+a95FU3MdSgRiAF9kbmFNrnth/bdiraPlgG/Q17h1qyIQRBU9PYtL1NYDL9cwaa/wHe9N0c2sd0pCaopCe3WiGtSu/gUVEr8klSNgcn8RN+N3muSK+OblOr5WeTEDxrLDIA2ZmcTMIy7lrVNBzNbl45ACKYBkYZYtJvxM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780628152; c=relaxed/simple;
-	bh=RQGbky2LJdGJcg/SIt45tKn8WWBgyAkHdggX9OENauo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bgWxFivGci/AdKHGhZ2FLzHd9lyHPeTJvgNegyZG0U6mKrP2vbRYPYjJGsQh09qKfjEISIXqMk3eGMzGcFDekfD600BX0OoVr/qhYNsJfZzZM/wNkJzad5BvhJ5cRKfVRnvcLpmpwS3+p0D40dOTeyyzIudIV/j/KF8nIZylSu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gWmJQ2Fc0zYQtnr;
-	Fri,  5 Jun 2026 10:55:18 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 9C3614058C;
-	Fri,  5 Jun 2026 10:55:27 +0800 (CST)
-Received: from [10.67.111.192] (unknown [10.67.111.192])
-	by APP4 (Coremail) with SMTP id gCh0CgCH23+fOiJqhROsAg--.32317S2;
-	Fri, 05 Jun 2026 10:55:27 +0800 (CST)
-Message-ID: <78e518ac-b207-4d90-bb8b-b8063be374cb@huaweicloud.com>
-Date: Fri, 5 Jun 2026 10:55:27 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62A53C4555
+	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 03:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780629526; cv=pass; b=Y9lpge1zTAwFYTwbKaX37nmmhtIvKBtcL+/SyLLiLCZJBBxhAItptQ83fb7X0jWPaNZjJQdqQEzL1mMQXS1No7eYQDYKuR1fCOqorSiwikKfPlmhIqhaSWpvILv29XmgtL9/eM+8x9QyDc2O/5Hlc49puUlNC2S33wGIJtwDKfk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780629526; c=relaxed/simple;
+	bh=OsDz30IVBotU+ztKqEia+somcDkw/W3hY//s5nXDJSk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mwDhQ0QLIqSNbO/w+YhPBCirXCOgpwwUhcJOcyPfOeywNfgvG1w/I4omVW4zZAGt4HZVEhBFDTAMJuw8GvjoOOGHeJKil5pQjDoySRr2JUiBseoJ5fmXRL+oMIj6OJJMSixygbBw8LocInU88gAhH4hjNCUWaKWoN3aiqH8udGo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ih54TxU1; arc=pass smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ih54TxU1"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7e0fc8ead7eso16701917b3.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 20:18:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780629523; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fHeFrJ45NJddyHpB8yk98BD9TrL1R6vP9vt4w0nxTBoPE/aPisGCbd27tWg7nN6bXu
+         o7hwLZ2+6904w8Hr8hB8y7HwWC2yRSZv0BgmKhK9FVwCqpIILEcA6MJNLDQCCE74MY98
+         SK6IJ/GEKcScxxGfybOmZVhkmhCK6ku55Vmaa42onZYDjglsWhRXplp+1P62X6wHMgYM
+         aaKkUhIfk0nGxKS5EZivNJFArdb63sycAo3qAcWF7xDWre0jXcANbLmP3M//QNujeZ6P
+         cSScOcc03WduleLwzy5M1dFuGCikx2jJkexodwnYxLRNbdNrkktt8MAdHqp2XmUfsgmY
+         pCGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tbCXIywKYTx3BFmkQIcoj8h/tJ5wTEDhif9yS68+jwo=;
+        fh=4p2uLLYz3VKwt2EpO4GqoAj2IBdx13NJJ4TuD8QErCY=;
+        b=T1r9yY/SXeA7nznzJ8Ol7RdbubmVsfq0nrbqRlaecGuLszDbJAoGA6PIACFXhjD+GY
+         z22HZJ/AUxvD3kFUzjMnw89qFP1FuNoSTgPtp4VbjFOzTX3ppJzqHKwqS2/6pBUMNwQS
+         UW6CZKvmabDaDsR5OalKdh5A9+evG+Y7jpky0zWFXu4yopwBVyQWuzzyvqv7xNcKE/iH
+         iJG5z+uR3K9Cd9t9fl5lYW5/ngxWLLGgjGw/VzWIKjtAz9cXPOdZrAxeYTZMS7m55RCe
+         PIflDkeSOt9wZU8EnQgauGfMrvkeQtAj39ylYHORXn7k97WwTRM4Q/+auG8dZr0lCWnQ
+         Qwug==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780629523; x=1781234323; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tbCXIywKYTx3BFmkQIcoj8h/tJ5wTEDhif9yS68+jwo=;
+        b=ih54TxU17fXzxmaP3tHkE6J4R/GlHQ2Y5JaLIVIXeptzxTTEDPHV5wMhcCBwERj5cJ
+         14RE9uS0HDHdETzqDTet55S9gR1e13laVFnaEW7mTQEls/EUMSZuttUbXM1xgpXo1Stz
+         Wf0PJ25w/ga+vqE7Z6kDoMPTKE7LoZBZltXvPi8x7jDWEwsguCH8eg3yLOuzLfoRP6Lj
+         inLYwaTXlqtg9Qkk+2UhpS/Y16yVUpfQEwGUd889p3xQDUv11VmS/Lip7QaSXev2h86G
+         1SBuTfJPn2fS6waCZN4fxOGbCM037zNqtbRzCIYali9wR7mW+AmvfQNY2mXAmOIKNV9O
+         M5Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780629523; x=1781234323;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tbCXIywKYTx3BFmkQIcoj8h/tJ5wTEDhif9yS68+jwo=;
+        b=IiSCEV9dwXBhuHaT332fwinHXVCErURsNanpcKz1MAgXZ5Mv7IJVhKb4D+6PbGbNwt
+         V+MNEGVgUpuQgckShWomsDXW+tlI9WyPiyi8JtDxMHdp+2qsiJI0mW11DB+FzWjnYIAR
+         LWkx+23k84fMimRAkIj+jpyth/3ta1tOGQkO04LK4YOd1Wcw3UT4S5zPmeT4ZdVOvRE3
+         MqT0K3zc9LZlsdalwNGvbwipsEbP1GnmIz5dwIpgz2LtcIXpeUML3uMGCzIFu+LDarM4
+         QYxU5iEbxeg/yLL4QaEW5nY8bMdtwZWBPYX0n8ZAbERr33IN9xGSP26ZYcbZCm+J5hES
+         fSgA==
+X-Forwarded-Encrypted: i=1; AFNElJ8Bkc+8Tb5KHJDMOtNjVcMUHx6XTWpePoAsHyj7P4SY6gn1kUaZpQyDKziqqXgCG2jcodCOiV+NJX2wywOG@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrWQJaYE7iEOthq/r87rcYjQrQa9Q86xQ+rRkLmh5Z+dGZ2q1N
+	srkcSlcNzD4DlfBX00Gk2bDqL2waiXbTmAQxTjRMsLaINmz9dDc/cI2dzsixzybVnda4IgG4BZB
+	Wr6V7iQgMwbqLN69WSTwm76q/h2xUeu4=
+X-Gm-Gg: Acq92OH3b8TW3AiayS6dcfnCMK/D4t8VlQ+GAMf2lTOLpavS88UyJFZrpuMvRkck5N+
+	lv7T/dUNr9cX7Zf4puq4egfF7nAebMLRa662M+wChajXMK032rT6b0V4uPEt1eZnvP0xIPllGvV
+	C5xozCzuPwAN0akL8TiaS13MBA409Vqy0i0OUymmAPtpo7dg/gwjYUZalEQ9qCbZDUVJYLXUmVs
+	CtwlgUfCgeXSYiJSFOIewJ/KkKWJLTZBvK+hbD0yibXnyru6ytdVJvT4+giPlSgqnkLtyVAYy32
+	Qhz7BCRd+gWegOGKPA==
+X-Received: by 2002:a05:690c:3582:b0:79a:d2ba:3c24 with SMTP id
+ 00721157ae682-7ed0e963aedmr17602567b3.41.1780629522685; Thu, 04 Jun 2026
+ 20:18:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] bpf: Restore sysctl new-value from 1 to 0
-Content-Language: en-US
-To: Dawei Feng <dawei.feng@seu.edu.cn>, martin.lau@linux.dev
-Cc: emil@etsalapatis.com, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, jolsa@kernel.org, kees@kernel.org,
- joel.granados@kernel.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jianhao.xu@seu.edu.cn,
- stable@vger.kernel.org, Zilin Guan <zilin@seu.edu.cn>
-References: <20260603105317.944304-1-dawei.feng@seu.edu.cn>
- <20260603105317.944304-4-dawei.feng@seu.edu.cn>
-From: Xu Kuohai <xukuohai@huaweicloud.com>
-In-Reply-To: <20260603105317.944304-4-dawei.feng@seu.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgCH23+fOiJqhROsAg--.32317S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uryDCrWrCw4fAr1UXFyDtrb_yoW8CrWUpr
-	Z0kw1UK3yjgF9Fk3WYgw4SvFWfuw4kXr1Ygryvqw1UA3s8trW8tryq9rWYqF1avFsIgryr
-	ZFWa9Fyq9w4UJa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	7PEDUUUUU==
-X-CM-SenderInfo: 50xn30hkdlqx5xdzvxpfor3voofrz/
+References: <20260604202441.65226-1-m32285159@gmail.com> <20260604143040.61f70396c568b7433110fb3d@linux-foundation.org>
+ <CAKqfh0Eu=sp3rfAGzhTPcx1Vw5p=sjxTigAWhkzskYrAWB9iWQ@mail.gmail.com> <20260604195355.c2446336f3f8cdefabadc697@linux-foundation.org>
+In-Reply-To: <20260604195355.c2446336f3f8cdefabadc697@linux-foundation.org>
+From: Maxwell Doose <m32285159@gmail.com>
+Date: Thu, 4 Jun 2026 22:16:44 -0500
+X-Gm-Features: AVVi8CcS4iq9syKlY_voaAgwsqYAPm0ave75wu9DXjMrNm8AING231fdQ61w-9c
+Message-ID: <CAKqfh0GR1EbuxTcuTnUUS34QLiinkD7TPCCEqpd-8oS3S824ow@mail.gmail.com>
+Subject: Re: [PATCH] fs: efs: Fix compilation bug and use pr_debug()
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Fabian Frederick <fabf@skynet.be>, open list <linux-kernel@vger.kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/3/2026 6:53 PM, Dawei Feng wrote:
-> Commit 4e63acdff864 ("bpf: Introduce bpf_sysctl_{get,set}_new_value
-> helpers") changed the success return value to 0, but failed to update the
-> corresponding check in __cgroup_bpf_run_filter_sysctl(). Since
-> bpf_prog_run_array_cg() now returns 0 on success, the legacy ret == 1
-> condition is never satisfied. As a result, the modified value is ignored,
-> and bpf_sysctl_set_new_value() fails to replace the write buffer.
-> 
-> Fix this by checking for a return value of 0 instead, so cgroup/sysctl
-> programs can correctly replace the pending sysctl buffer.
-> 
-> This bug was discovered during a manual code review. Tested via a
-> cgroup/sysctl BPF reproducer overriding writes to a target sysctl.
-> Pre-fix, bpf_sysctl_set_new_value("foo") was silently ignored: the write
-> returned 8192 and the value remained "600". Post-fix, the BPF replacement
-> buffer properly propagates: the write returns 3 and the value updates to
-> "foo".
-> 
-> Fixes: f10d05966196 ("bpf: Make BPF_PROG_RUN_ARRAY return -err instead of allow boolean")
-> Cc: stable@vger.kernel.org
-> 
-> Acked-by: Yonghong Song <yonghong.song@linux.dev>
-> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> ---
->   kernel/bpf/cgroup.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/kernel/bpf/cgroup.c b/kernel/bpf/cgroup.c
-> index a0b5f8cd8b10..3f06e2270f5c 100644
-> --- a/kernel/bpf/cgroup.c
-> +++ b/kernel/bpf/cgroup.c
-> @@ -1935,7 +1935,7 @@ int __cgroup_bpf_run_filter_sysctl(struct ctl_table_header *head,
->   
->   	kfree(ctx.cur_val);
->   
-> -	if (ret == 1 && ctx.new_updated) {
-> +	if (!ret && ctx.new_updated) {
->   		kvfree(*buf);
->   		*buf = ctx.new_val;
->   		*pcount = ctx.new_len;
+On Thu, Jun 4, 2026 at 9:53=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
+.org> wrote:
+>
+> On Thu, 4 Jun 2026 20:40:30 -0500 Maxwell Doose <m32285159@gmail.com> wro=
+te:
+>
+> > On Thu, Jun 4, 2026 at 4:30=E2=80=AFPM Andrew Morton <akpm@linux-founda=
+tion.org> wrote:
+> > >
+> > > (cc linux-fsdevel)
+> > >
+> >
+> > Whoops, I guess I'm too reliant on --cc-cmd :(
+> >
+> > > On Thu,  4 Jun 2026 15:24:40 -0500 Maxwell Doose <m32285159@gmail.com=
+> wrote:
+> > >
+> > > > Firstly, the current code uses formatters that are incompatible wit=
+h the
+> > > > most recent GCC for x86_64. Replace them and explicitly cast the
+> > > > formatted variables to their respective forms of long long.
+> > >
+> > > Please quote the compiler output in the changelog.
+> > >
+> >
+> > It's rather lengthy:
+> > fs/efs/file.c: In function =E2=80=98efs_get_block=E2=80=99:
+> > fs/efs/file.c:26:35: error: =E2=80=98block=E2=80=99 undeclared (first u=
+se in this
+> > function); did you mean =E2=80=98iblock=E2=80=99?
+>
+> Right.  You're evidently the first person who tried to compile this in
+> more than 20 years.
+>
+> How about we just delete it all?  If some future developer wants to
+> know block numbers and stuff, they know how to use printk.
 
-Acked-by: Xu Kuohai <xukuohai@huawei.com>
+That sounds good, I'll get that patch going.
 
+--=20
+best regards,
+max
+
+ps: I noticed this was listed as an orphan in MAINTAINERS. I'd be
+happy to step up and maintain this, I've got a bit of experience
+maintaining stuff in iio. Hopefully this isn't too far-fetched!
