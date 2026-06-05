@@ -1,87 +1,167 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2ED3380FC1;
-	Fri,  5 Jun 2026 01:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900BC3B9D91
+	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 01:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780624658; cv=none; b=YaAwXcRzk1GPsDMyAobyXw5QivNFUkKlvsW/YzYO7J3R32bIeVwbBd1wOJVv5iauS8TBF23gxRGtVdUiE/CDHuJli8VleKNvymdGeSTad6R9AUGyT0g08ZtnzHlkYBp8LbyvTE8+NPdskHW1zXdQ9xxL+Hf4ljU5STgARzRzsUc=
+	t=1780624807; cv=none; b=F3YXIOtozKe7FeASh6lPx4XgSp1kO2B2SjYg7T9+RMTv4wUU7Pv/Ik7oET+apqA9giKQhdTy5LOngOOXtHGkCpbKIGVE/zgdciluCnbQOdKk2/txj0+JxOQkm5RBeReT6xOKAPPWz32Is+rs8cZWh5jnSnXhRvu8IWRdnnXMSY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780624658; c=relaxed/simple;
-	bh=FyD284KL2h6kq9Zsrb0/HR/oaReskZnD6LUfv9AEEkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SIecx0VqdRaoEhJqTr0/tT+gNAqMHhbqjiblHILGFqOyJFxd+P6WCML/8h29qY/WXsQMxdf7/Fnn4JEedZqPFoOWMHmhrWOV8AYWAqrqEZud2wUwRgvJlBTv1cdSkQyMVoY2pzwF84dnOmogdaA9i3Jfep2U/MIDqUn6qjCGc0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5kFVbKG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780624807; c=relaxed/simple;
+	bh=OVKwNU4kZ+6+0bQ8yKqrSwveUf9e9kp0A80/m/RFJSE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=NNE+FXY4/6fqVl/paiHDWCDL0LUhS31x4ZUHY/NuMs9Go3CTVf0bmfXv3FBvPaZg3mLvmH2mBun1PHg7oY/CbIGy6UAfbrxgONhDOKFtB82Y7ChtqLMMLhTlMT0RTLLNLpoY9vtJcdTJrqT+57O2ZlvEhlAwju2cCc6SHHedtbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GfrCVpxI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5kFVbKG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4348B1F00898;
-	Fri,  5 Jun 2026 01:57:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GfrCVpxI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA0E1F00893;
+	Fri,  5 Jun 2026 01:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780624651;
-	bh=hSMeDgYWfG9legqy7nLxVx38jDi5V+SRhptqZ18fLp0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=h5kFVbKGgWVM4/By8YauS1zHj3ZfSM7nv7xk5g47JSYjO4uExbSJ8vU62gwc4dAjb
-	 9QQCREwAtgUZqllgZ0AZ8AUIqgkKZFTwlNCOGAb9zpcS8ZM+lT1XkImHiYqor5wnS1
-	 /XlH4Q1yDcsbIC2OsFk+IKqTlK9WBNa20C5VrMvxCEruIE9fHYYaJ7JmPuzX3Wtp2i
-	 3EghSwMOFry9oSJBFg7uVX9Lsap2HZmy+EoldQIf4mz2RbBTkpKKaPMVrv4PmoLKgA
-	 g6YTizz/03AnztZfkq647HYGn7jqBBAF5k1WupLx5j698k7fx5hbgFDH/ed/3FrRFy
-	 43v2riFR3o/4g==
-Date: Thu, 4 Jun 2026 18:57:24 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Askar Safin <safinaskar@gmail.com>, metze@samba.org,
-	akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org,
-	david@kernel.org, dhowells@redhat.com, hch@infradead.org,
-	jack@suse.cz, linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org,
-	patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk,
-	willy@infradead.org
-Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <20260605015724.GA520134@ax162>
-References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
- <20260603211736.755139-1-safinaskar@gmail.com>
- <20260604100609.6b37f500@pumpkin>
- <CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
- <20260604183829.63c35fd9@pumpkin>
- <CAHk-=wip3mwLOHOYJ9TtjDxOaq9YUXmuCg2AycyASGgeY6qqUw@mail.gmail.com>
- <20260604223216.73468830@pumpkin>
+	s=k20260515; t=1780624799;
+	bh=1u4XI2kN8Y7dbVpFh33B77zSDYH9okNaOq36Bcvy3SE=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=GfrCVpxICnmaH8sVAIE+s4V4iE7LSQWLOs5JO6Mdf1JBu9zN14xm1tX6+M6d7nYk5
+	 Mm6PlKPkujQ6itwkHl6aATn5WBvfa5+PCzJ/in9ZVrjMk8gtE4LdxE9u2dDkV4aQEM
+	 SWEy0ETq/Yj+TxlogirXuPnFe8xSIcTP7rK5OMHTLMHWHFJjFNnwJ3rWaZ/HwXlnka
+	 3fiCdJ88eOwLC6O15T0MvheuzBpWoAGkchz4YIef7lMGslIEAW4tRD2h7nAW/dtJiT
+	 LAzaIIiLZMxnREzQJk4Jtsjg2mRs6KQ/eFkpVgNCFGfKQvf1I1zxm2JkgsZJPXhV/G
+	 7bRpLSCTJU7Dw==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id D3326F40084;
+	Thu,  4 Jun 2026 21:59:57 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Thu, 04 Jun 2026 21:59:57 -0400
+X-ME-Sender: <xms:nS0ianHyFq8WSKEVkuLwQrKleQZqrDWjDzKqwXm6YgTXrKcHKtBtKw>
+    <xme:nS0iavKTUYQ4e9vIBs1gOzIBNaVKj6vq_EglhOoz7ZHyZ18CBgAd9MzwSfpN5_57w
+    nPlCpqCtjf38JtTv61g_GFYPdgLAHS2IRNZuvMenVnMnOHuJLTH5vkp>
+X-ME-Proxy-Cause: dmFkZTEdHTb7Q43xmskkWXu7iyzmNPjz8cwV1Q/+tFV4vWvwIUWTAY5pmLXA6YENynUK7U
+    I6Q65wNU2hn+zzxS4zJFT2E/oXx3mEc3lAFRImR+ew28S2dVH2GNhUajLI2YcLK2Tt89Ym
+    aqEcrrNlLr5ihrXetoREcd3IpThC7i16vF2uj4UddATUzt3GenWRFAHe9saRyCrdOVdoNx
+    nmUKl+f/AVZLWg+fQNGCs7Ehc35KJRwjSJUmRMA22T9T61e+HiSyYozdQMLAHqCbZhFUgv
+    xsOrShPAHxjV27VbBIAXxmlffSDV5PxlFGzlsmm+8ex4SITlCbnyebWl+rB05xGKLJ2TbS
+    iyE3nJ98ItveZV8C0QtwycPpAzlRoT1urn4Cj9atQNFJiujjf9lz+Zxy22Ewadyog2FhuP
+    fWPl5z1SjVoMAS8NzoQG/Ag7eqmlD2xKiba/SspnTo9zlIeg4DfX/OVyIfBgAjsODE1Vqg
+    tzimFlw6kfqqLjaDpS8LsfC+il9B7MacXonSgXhOBDtstkXNvNC5l5vhVkXMiv2+FJ+Nwa
+    ID8fNXmV+cHruItnR/87k7ksLsQPD541MudIwoUONOXv/DFb+GlXzyOC5D1hCdefH8rqgS
+    XCBRIzxpEkHW+Lv/E4V6l8OggKdyP0FjTE1H4EXntQlmyAaql9KQSB9v6rfg
+X-ME-Proxy: <xmx:nS0iajymlADIYfhqr5sW9YmFqgFvtDnV39ucy-pQhpmIEUEX1Tiq_w>
+    <xmx:nS0iapg1bXbgn578KAXxxvQkHJyKLx9cVFEgigcNIZKkB34Rd6uhIQ>
+    <xmx:nS0iamqlFLo8cApRjtzViPlmYHXs7A1Pmc3ubvMBNXszyPHpX4KZMg>
+    <xmx:nS0iagh9BCjGUTecsQ4hLKyCqUOXIXh4s2VTFDjZEWnJRKti_CmHmQ>
+    <xmx:nS0iaoOHaRVt2imN8Fz1J0wWMjHa_TrdOx9JhVgcME0VXvN6YMKXd3be>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id AFAAA780075; Thu,  4 Jun 2026 21:59:57 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260604223216.73468830@pumpkin>
+X-ThreadId: AhWl9GhwlQso
+Date: Thu, 04 Jun 2026 18:59:36 -0700
+From: "Chuck Lever" <cel@kernel.org>
+To: NeilBrown <neil@brown.name>, "Christian Brauner" <brauner@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Jeff Layton" <jlayton@kernel.org>
+Cc: "Jan Kara" <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, "Jori Koolstra" <jkoolstra@xs4all.nl>,
+ "Benjamin Coddington" <ben.coddington@hammerspace.com>,
+ "Mateusz Guzik" <mjguzik@gmail.com>
+Message-Id: <2f5da5fd-442f-4889-af15-58f9b5d68d71@app.fastmail.com>
+In-Reply-To: <20260601070042.249432-18-neilb@ownmail.net>
+References: <20260601070042.249432-1-neilb@ownmail.net>
+ <20260601070042.249432-18-neilb@ownmail.net>
+Subject: Re: [PATCH 17/18] nfsd: use vfs_lookup_open() for non-creating open requests
+ too.
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 04, 2026 at 10:32:16PM +0100, David Laight wrote:
-> Talking of broken compilers, had you noticed that:
-> struct foo {
->     int a;
->     char c[32];
-> };
+
+
+On Sun, May 31, 2026, at 11:38 PM, NeilBrown wrote:
+
+> @@ -429,45 +438,35 @@ do_open_lookup(struct svc_rqst *rqstp, struct 
+> nfsd4_compound_state *cstate, stru
+>  	fh_init(*resfh, NFS4_FHSIZE);
+>  	open->op_truncate = false;
 > 
-> int b(struct foo *f)
-> {
->     return __builtin_object_size(f->c, 1);
-> }
-> returns -1 (size unknown/indefinite).
-> You can't use __builtin_object_size() to stop code running off the end
-> of anything referenced by address - even when the size is constant.
+> -	status = fh_fill_pre_attrs(current_fh);
+> -	if (status)
+> -		goto out;
+> -	if (open->op_create) {
+> -		/* FIXME: check session persistence and pnfs flags.
+> -		 * The nfsv4.1 spec requires the following semantics:
+> -		 *
+> -		 * Persistent   | pNFS   | Server REQUIRED | Client Allowed
+> -		 * Reply Cache  | server |                 |
+> -		 * -------------+--------+-----------------+--------------------
+> -		 * no           | no     | EXCLUSIVE4_1    | EXCLUSIVE4_1
+> -		 *              |        |                 | (SHOULD)
+> -		 *              |        | and EXCLUSIVE4  | or EXCLUSIVE4
+> -		 *              |        |                 | (SHOULD NOT)
+> -		 * no           | yes    | EXCLUSIVE4_1    | EXCLUSIVE4_1
+> -		 * yes          | no     | GUARDED4        | GUARDED4
+> -		 * yes          | yes    | GUARDED4        | GUARDED4
+> -		 */
+> +	/* FIXME: check session persistence and pnfs flags.
+> +	 * The nfsv4.1 spec requires the following semantics:
+> +	 *
+> +	 * Persistent   | pNFS   | Server REQUIRED | Client Allowed
+> +	 * Reply Cache  | server |                 |
+> +	 * -------------+--------+-----------------+--------------------
+> +	 * no           | no     | EXCLUSIVE4_1    | EXCLUSIVE4_1
+> +	 *              |        |                 | (SHOULD)
+> +	 *              |        | and EXCLUSIVE4  | or EXCLUSIVE4
+> +	 *              |        |                 | (SHOULD NOT)
+> +	 * no           | yes    | EXCLUSIVE4_1    | EXCLUSIVE4_1
+> +	 * yes          | no     | GUARDED4        | GUARDED4
+> +	 * yes          | yes    | GUARDED4        | GUARDED4
+> +	 */
+> 
+> -		current->fs->umask = open->op_umask;
+> -		status = nfsd4_create_file(rqstp, current_fh, *resfh, open);
+> -		current->fs->umask = 0;
+> +	current->fs->umask = open->op_umask;
+> +	status = nfsd4_open_file(rqstp, current_fh, *resfh, open);
+> +	current->fs->umask = 0;
+> +
+> +	/*
+> +	 * Following rfc 3530 14.2.16, and rfc 5661 18.16.4
+> +	 * use the returned bitmask to indicate which attributes
+> +	 * we used to store the verifier:
+> +	 */
+> +	if (open->op_create && status == 0 &&
+> +	    nfsd4_create_is_exclusive(open->op_createmode))
+> +		open->op_bmval[1] |= (FATTR4_WORD1_TIME_ACCESS |
+> +				      FATTR4_WORD1_TIME_MODIFY);
+> 
+> -		/*
+> -		 * Following rfc 3530 14.2.16, and rfc 5661 18.16.4
+> -		 * use the returned bitmask to indicate which attributes
+> -		 * we used to store the verifier:
+> -		 */
+> -		if (nfsd4_create_is_exclusive(open->op_createmode) && status == 0)
+> -			open->op_bmval[1] |= (FATTR4_WORD1_TIME_ACCESS |
+> -						FATTR4_WORD1_TIME_MODIFY);
+> -	} else {
+> -		status = nfsd_lookup(rqstp, current_fh,
+> -				     open->op_fname, open->op_fnamelen, *resfh);
+> -		/* NFSv4 protocol requires change attributes even though
+> -		 * no change happened.
+> -		 */
+> -		fh_fill_post_noop(current_fh);
+> -	}
+>  	if (status)
+>  		goto out;
+>  	status = nfsd_check_obj_isreg(*resfh, cstate->minorversion);
 
-That is the entire point of using '-fstrict-flex-arrays=3' in the
-kernel:
+Logic bug: Pre-series, the non-create case takes do_open_lookup()'s
+else branch and succeeds; post-series, do_open_lookup() calls
+nfsd4_open_file() unconditionally. Every CLAIM_NULL open of an
+existing file fails with NFS4ERR_EXIST.
 
-  df8fc4e934c1 ("kbuild: Enable -fstrict-flex-arrays=3")
-  https://godbolt.org/z/bvfrh7W58
-
-Without it, all trailing arrays in structures are treated as flexible
-arrays, even those with fixed sizes.
 
 -- 
-Cheers,
-Nathan
+Chuck Lever
