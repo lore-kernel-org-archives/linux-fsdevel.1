@@ -1,156 +1,83 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0AE25228D
-	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 16:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780678584; cv=pass; b=tN2YDbtD5OENfEezM6Qu3sOY1lHe8oxTXjKDsyMAMMA8nm92h9/ojVJwYsyvJYG9XHfkXJhvAkVQ9e7a6tLXtyTytZFYtRKxCI2VvCb2fhZH/C1CqcBv9bSaS2DR7aGmevT3jvImIf0HUpmYoj/gO56PNcyfGn+ts7nXkVrQt1c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780678584; c=relaxed/simple;
-	bh=lRJhQzwkfaYrurGJA+2BHiGqjhVOLsD9M1oQ+MQYHk4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TlzXe0voaqNslvuuw+oJ9wYmWInHMw46X4zCs5QAPMyNkqJiF9E3wmp1xuL1p43kUS+Hm44p0EmS50UDTLuZKQfhq8BnYLBUCzfg/np55lZi5XUBPX+v8IvMdRPXz19g3W0Gdr42UUJIzu9b+dpvw4zv01u343Ag8gPLlfnjoWc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RN0/aHJQ; arc=pass smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337883845A6;
+	Fri,  5 Jun 2026 16:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780678777; cv=none; b=FGVCylTcIupk1q6Tkelm6yu/i1cpl+yvETH1esoapddjrkdivghyPcAEB2pG84r4WR71PTB5Z0QAC2gjmkrNrc6AklFig3Iim9G1yHCJiXFOYB73XeEl9HucLbw86vkzM6v+RlLTlNHFylHk3CiLUkirttZzjpv8Wzd4yTYl3Bg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780678777; c=relaxed/simple;
+	bh=Sp7kIAouqrVBGkZlB5n5AcCoGDET3LuOOuYwoq76BhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o4Qx7tm1E28yIQhSWH8snLSGrkVDuSl6Yxwo97Lx7WyQTP97o6lXJLN20ShG62mY7CVPgiGhUozo5Ku7zfneNzli1ZaGycmL0cghgq/Slfy+Pf6gfne5sMl4Vj6U4J8yDu+8iumYNiEuH+FAGboXZtmZvepHRfiQufruM21UBHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=B0jWb1Sq; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RN0/aHJQ"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490b9318997so16320035e9.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 09:56:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780678581; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QOZqIiO6OlBRtvrIXZUmK7eOgJ/Tr/2Bt+U/51mw0mdk8HlW5qgpUltQKrIb3kBCeu
-         TJBuPKYgKHxwTVx/vPLv7hU1mfqYe0MM1wzucQxS1eKHk9phqDUvx9I4X+TcvjZbe9VI
-         8/JR9YGl9CnK9YtYnJDbgtAG1zeZ8qBsuovoOip9A9jtPGOZg10sxHIEItFiLXO9UEfF
-         1HBr1YrCh9qhtwIEGGANlh0+KGcHedkaUZGdLsB+kPH2ptwmoMgXQS+7KTTHt9hCfTcM
-         Hwx/Km090wa0nxj9YhGtI4Zqp6zcx91qXmjnaoxHZae7WVRi9WYrAQexXLQ0df2zAeLe
-         5enA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EImzJsYV05pjesNEMZOO/uQn/Dz1lGb9i9aAN+v9i+8=;
-        fh=qBwtPfvVx3YEIzAYUOZDZk4Kv1p87tyGoxPTMWaH58U=;
-        b=K5tF8OoqX7Ef72aJTXYaobBnGDD5oyegCwdAhip03+ILJe6lfJrIBBQNTwunQPOm4r
-         m+h0Og0mWtjdPio5YrZC4wkhFU0BBSfsF4NwvKsnBnYibFGybFa7yhAWFWcoH0RCRfBr
-         r+Z8Ze47kUENn38F6HYaQdKBFwQOYwQ3MnoePqhpk1H/k0t+UwsB5Xdn5HgziHotF0LX
-         a8Yk2+TZQdlT5A6ttk88oUStnjJafZqySaWDTATFFnb4AFV47vXXJUrOPQn01anx9XK4
-         Jtcj7UIEAZsVh4PEX5gGaWga9yFnlx8WS3SBXYHBOtXnF9w8bf9ZjW9rmY4PI5znGFp+
-         L2tA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780678581; x=1781283381; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EImzJsYV05pjesNEMZOO/uQn/Dz1lGb9i9aAN+v9i+8=;
-        b=RN0/aHJQebbF7eFyjx8A+Kkxy7wUGykZWvDdtBoSyQUNWC+S1FWSY9gFp2haJ5aSkH
-         hr9fNgA5rf9OCkSP0jA79RyoSpMzJ9QkmIRWHYRX4cjElrbNZ4WtAXxjvAmcnQ2WSzWA
-         FkaBpgfoitmmgqQl9rLGi+EBWvSl/WaoUK2s5WVBzY3zfe32CfFqbj15Em7E2mv7Ygvt
-         cuML9rTdEfMUkDmTyKf86P+ZL1pq52b2onpUo6SNktHomf+p2Z5yo3kEeLfWoMHONqhq
-         YsQnceJWH1JHy5yZ8AKEz/Fc8qTBwKQCMs9Tz0lsPAKzvL7WCrJ7LMrTzHqf4xJvS7ry
-         fQ5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780678581; x=1781283381;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EImzJsYV05pjesNEMZOO/uQn/Dz1lGb9i9aAN+v9i+8=;
-        b=A7dMthtoKEwsFBXZhc8FiIAGILxYDQiv7yj6FIFbmSCkPhiuvPaceddnxqK+R+y6+W
-         B0yKKGMpixcES1bG4oC8swYMHtFWWIK48MIC03R/NGUWYTvn2+aBeyydI2tPG5JZ4F68
-         l13HVIs+jdB6OyAvkLyPzFvwD/2DDBBti8mXznqYi6WMMQrGXazdkEoGpBoMAGNW2CSF
-         nR4VKKo4wSWZY2xmvplh2PL1mgK6mRQXbrbVq86snUrfXhcIZS1jp9eAOePqe5eOeGSm
-         Ab3tLVayX+8E8tHsYSarSf71amgnctG9eVnt58DJqoA7RkV2JbOajpkgfRBlXZGAskvl
-         UXzQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8y0Uffe/BmOWwGLayDcAAoG0FbLIClZB6ikjS8u/7WQ7tvW046HEG+i1nps/1HdhZN+hvNJZOdrT2k4AJY@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfTIdqhc9E2llQrs+tPZSrqXGxxenBjWycUobdBmWJTgy/3rEt
-	Y/1hsb0XCCXcJ79G2q9lAtTuRYvKHdoB4OY7PN7lJfzkBrZLe4P6uJLhMkDBydIFusqnpLb56JF
-	2mVicPUEGgXt3TlyB7fvbRLuCb5Sqz2U=
-X-Gm-Gg: Acq92OFRlIpQIeb6YV3Ca3NU8lbg2Bsu+OyHldG0SFK+zaTku9dFSwQGcYaAAqijAOx
-	3Nr9aTEjKqqI6WhD9VzX9J+tW7ghONp0Eh4UmqPtS/ooo9v6REsONT1Lazk1/QeCwsAxnAVpjgq
-	R0N+Z0D71DMFqwOMeFekBUs5jwlA9dmYnR0i0kDG7WrTx5JtBiPxVRFOz1pwDYi+alMT0EY4kGL
-	BAHL3G/BgV8Bkt5zuPFO61KT+V5WuROIvtzVHrSEXrnloWkZoAaBmwNlkqd+ppNVoqWoh3Iwz0x
-	iv0vRojfJJt9Yief
-X-Received: by 2002:a05:600c:4fc9:b0:490:c015:21 with SMTP id
- 5b1f17b1804b1-490c25f1634mr72764995e9.20.1780678581230; Fri, 05 Jun 2026
- 09:56:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B0jWb1Sq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=7XmqSOwi8v9FGoAwYYe6tCp3ObjfaDSD7+XFE44fObs=; b=B0jWb1SqcT1a/41p/bqOMsn3XP
+	pTkbjbIzENcp0nq+KErY2r74UoTorLID5w94z+JGPIxRUEZrY+YifQQZsYTmSzcDhtmYeQcJxLJ9s
+	JmxKnltkM+/zO40VDAz3TTYIz+JMlgWQF08YQfmbE5hzbH1z8zE2NNdMJhyu/lmNsYlFqqGCGmjn5
+	VwRho9czLiBESGqnKmZDC5wj/1HMFeelOhMYiMkQ+7NcUbrWae7a5ppLHTJPI///zQFKQZjfuPp9B
+	k6xDbrBbW0Jrg1yluUzrHcfWpqHvUOnav7EeD+ofMuuBLgyHvDnyCXZ6kvYo0gm+xrB0y67ss86tI
+	c7vbH9Tw==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wVXtJ-00000008GbQ-1NNI;
+	Fri, 05 Jun 2026 16:59:29 +0000
+Date: Fri, 5 Jun 2026 17:59:29 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Maxwell Doose <m32285159@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Fabian Frederick <fabf@skynet.be>,
+	open list <linux-kernel@vger.kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fs: efs: Fix compilation bug and use pr_debug()
+Message-ID: <aiMAcSooHzy0TMCN@casper.infradead.org>
+References: <20260604202441.65226-1-m32285159@gmail.com>
+ <20260604143040.61f70396c568b7433110fb3d@linux-foundation.org>
+ <CAKqfh0Eu=sp3rfAGzhTPcx1Vw5p=sjxTigAWhkzskYrAWB9iWQ@mail.gmail.com>
+ <20260604195355.c2446336f3f8cdefabadc697@linux-foundation.org>
+ <CAKqfh0GR1EbuxTcuTnUUS34QLiinkD7TPCCEqpd-8oS3S824ow@mail.gmail.com>
+ <aiJCJNgm6pYKgqbn@casper.infradead.org>
+ <CAKqfh0FFB0EkTAh-+6uK0aNqWVZhdwMpP5-Nnz4GEoWYXQM3Dw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
- <177922946329.2439242.17189876954349215664.stgit@frogsfrogsfrogs>
- <CAJnrk1bvmZ0htacx8sqZ+aBVVS_x+7kap77SEctwwB_F6ttsSw@mail.gmail.com> <20260604235304.GI6070@frogsfrogsfrogs>
-In-Reply-To: <20260604235304.GI6070@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 5 Jun 2026 09:56:09 -0700
-X-Gm-Features: AVVi8Cc7CvtLmSAsLsPgbFQJh3fhoENrv1QvAhnBDonpKbY8QJfsAGPKasyWKTE
-Message-ID: <CAJnrk1Yvcet5rqUHLPxgf=YxMG9Lw_-eKkMdXak2-5jchnUq-g@mail.gmail.com>
-Subject: Re: [PATCH 7/9] fuse: invalidate ranges of backing devices being used
- for iomap
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev, 
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKqfh0FFB0EkTAh-+6uK0aNqWVZhdwMpP5-Nnz4GEoWYXQM3Dw@mail.gmail.com>
 
-On Thu, Jun 4, 2026 at 4:53=E2=80=AFPM Darrick J. Wong <djwong@kernel.org> =
-wrote:
->
-> On Fri, May 22, 2026 at 06:29:16PM -0700, Joanne Koong wrote:
-> > On Tue, May 19, 2026 at 3:32=E2=80=AFPM Darrick J. Wong <djwong@kernel.=
-org> wrote:
-> > >
-> > > From: Darrick J. Wong <djwong@kernel.org>
-> > >
-> > > Make it easier to invalidate the page cache for a block device that i=
-s
-> > > being used in conjunction with iomap.  This allows a fuse server to k=
-ill
-> > > all cached data for a block that is being freed, so that block reuse
-> > > doesn't result in file corruption.  Right now, the only way to do thi=
-s
-> > > is with fadvise, which ignores and doesn't wait for pages undergoing
-> > > writeback.
-
-Rereading this patch... (or maybe just reading it correctly for the
-first time now :P)
-
-If I'm understanding it correctly, the problem it's trying to solve is
-that the block device has its own page cache (separate from the fuse
-inode page cache) and when the fuseblk server or fuse iomap server is
-unmounted and done interacting with the block device, there's still
-data in the block device's cache that lingers - is this correct?
-
-Is userspace not able to handle this themselves by flushing +
-invalidating the block device's cache with the BLKFLSBUF ioctl call?
-
+On Thu, Jun 04, 2026 at 10:33:10PM -0500, Maxwell Doose wrote:
+> On Thu, Jun 4, 2026 at 10:27 PM Matthew Wilcox <willy@infradead.org> wrote:
 > >
-> > imo this would be cleaner going through the ioctl backing interface
-> > instead of through notifications.
+> > On Thu, Jun 04, 2026 at 10:16:44PM -0500, Maxwell Doose wrote:
+> > > ps: I noticed this was listed as an orphan in MAINTAINERS. I'd be
+> > > happy to step up and maintain this, I've got a bit of experience
+> > > maintaining stuff in iio. Hopefully this isn't too far-fetched!
 > >
-> > I was thinking of something similar in idea for this for passthrough
-> > where you're able to dynamically update or invalidate a mapping
-> > corresponding to a backing id. It'd be great if we could both use the
-> > same uapi.
->
-> What do you mean by update a mapping?
+> > I'd be just as happy to see it deleted.  efs was succeeded by XFS in
+> > the mid-90s.  The last efs filesystem I personally saw was in 1999 (an
+> > SGI Freeware CD).  If there's any filesystem crying out to be converted
+> > to FUSE and removed from the kernel, this is it.
+> 
+> I guess that is a fair point. But given the fact that we quite
+> literally just found a compile-time bug I think there may be further
+> underlying issues that need to be resolved before conversion to FUSE
+> :/
 
-I don't think my previous comment applies to your patch - I had
-misinterpreted "invalidate ranges of backing devices" as meaning
-invalidating the range of a file that is mapped to a backing
-file/device.
+I'd argue that shows the exact opposite.  efs just isn't useful any more.
+While looking up some information on Wikipedia, I discovered that XFS
+filesystems from SGI used v2 of the directory format.  Linux no longer
+supports anything from before v4 (and even that is now under a CONFIG
+option).  So we're in the weird situation where SGI filesystems from
+1992 are readable in Linux, but SGI filesystems from 1995 are not.
 
-Thanks,
-Joanne
-
->
-> FWIW the functionality here is a lot like POSIX_FADV_DONTNEED, except
-> that we actually want to wait for writeback and tear down all the folios
-> in the range because it's mandatory, not advisory.
->
-> (TBH it's more like what filesystems do to the pagecache prior to a
-> fallocate punch-hole operation).
