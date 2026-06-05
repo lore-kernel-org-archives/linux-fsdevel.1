@@ -1,141 +1,125 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD373264D7
-	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 14:40:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780670403; cv=pass; b=J2grGbHB2AqZp9t7F6r5pD5ougxdjcEm7mUrNlsTI5ScHUtHBgFc1rqZM8yFt/sh/XqIgre2a8m2bVsObOb+nwFQjclqO0PqhcKoP8vQTkuXOHGxdLrhWuWBVFnoaikYsJ40iNJvdJ2V4wXqYCyh8/9ZxMA52QnbHtv/4yS7U4E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780670403; c=relaxed/simple;
-	bh=NOQZeUgc07KS/OvgX6TK90IWE1VfXavRads+HOY4Du0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JAr28IbSDHw4/19yp/AUIw4xzLi/IE9/Bq0CLQ06ppIGUvP6Q5VZAVrLd4mwF4CHIHPmAqgu9M65oUP5AwqijY2/i97OD3YtoGM+PAivCcT3zifzNJAZqgfV+h4a4FjEZVt1ydh7QtKupWtEIBdDArDOtwiBIIy/nZKvy0fzhSo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Be9mkyhk; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3E335BDDB;
+	Fri,  5 Jun 2026 15:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780672558; cv=none; b=DFkTxsjyQ3sKi7jyBAd1yf3+6/AUy4nU+hwj1t+RKPq3kITTZu+T2SiwbiUc3Yz9OWTVcZeCq10nMv7m7GozHaGWBvTLCaM8MsT1xiQnGQUiFG2OYI3T/aBJRLYWVMU0gqXRkOKTXLJzpQZcQUmuFCkIMt0StJkkjFj9vawHjxg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780672558; c=relaxed/simple;
+	bh=RnQ5TAwvjnXWmVPbdQrqA2q6NYo+tJf+sDdBGFn/yMQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZNaHtk0mX5wXCvL14DqBAw6ZrM5NE8L9KFiMgK0d9wC/FZJTpBqY5QPmer3LUfhMjImQhdR30BXUFeqNUfM862zoNbTdXipxCqsAxxXe47uukVlezauDIcYBCXDofilAMJ2SlvxQ0uh9gLDtcklmOtxtTfHErNolMVXx4+eH4rE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=YuDPDQ6Q; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Be9mkyhk"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-68d22476e88so12172a12.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 07:40:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780670401; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OR+1/j371JtK2L8TqNK/WAyPmo7NzD7e19/TN254m5npWQtGvF5V3121nv/mT9EPcI
-         ZsUCUFfAQx5XXf0VYRPeu+lmyYMOtnbBPKc89nB4FY4627WsVHRZI0IizaOcKAm53IR6
-         qFPzkjTr+7X/NZMmWP9UAga2eOh/kQRVmkW1bMReJ5pCLbOBHUxFCvgkjAix2gVyoFS7
-         dafslrw9QuXBys0axdGapjJVfPRawchQq6uj75dXGVbznUW3ALs5xm5lp7atdsfD31A+
-         EPvNE4D3W/Z6Wxmkmn5KNKYohAFaO5Vxp9JfsQ4CgfzPZXq/DRZrOHszdmo5llxY5kV4
-         RJ0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=as1py6QfVQjWXq/H/j8qlkW+Qk+QDS/0K5XkzZmjy6M=;
-        fh=xfCYUdngU/wyZOdGO7Ujuw+KmzF9AWBanBvepQsoBmU=;
-        b=E40XAbTFZdou2ooR3250PzSnaZhk7aa3Qsi7Zt0t5+fTEHhzXTLKAqm+3qu2PF16w8
-         3Ho9qdLyOrRtodL+LvQVjQhWqd8Ke4+tS6arcQNMoCgWkIVX5vtljKykvKuOVgXMHgJf
-         J/9LZEk+Ggs2WlssUdLKtb5drOkLQ7e1LPUvvwa0g5xDkWBVjeFGw2ECDSmJGtNrDzuc
-         /XmlXhGxX4dmvbghB+iLULFBf4flqgp/OmMfWar0HRyWzJJE7i+P8t1PhQHk72xSMUr4
-         hk0xNAjXYSsDy73z5XuTnv0rp3fNOAgoCZIOVJHkCh2XxHiCa9FhW5jXG3Id7qxWnal2
-         fYtQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780670401; x=1781275201; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=as1py6QfVQjWXq/H/j8qlkW+Qk+QDS/0K5XkzZmjy6M=;
-        b=Be9mkyhkMVD309c+/wHXBrEtGxXhvdbtwfJe/nxjdkovw99MZwmqPux/Z1IFKkvpFf
-         6gxN2EMXD05lcaV6oVNQfivjFi/sJeSIsE+QFuk7gH9h90qqRcdbXExWw2CDyy61ncHw
-         HG6cadsbpx9jAWtEghV+AzYktVMELUZczMzHRQIB423v9yujZ0tRkcCTYMuBK9pLHNvs
-         hluB+a+DczRfGjj2R7tIRuZUwzjYiAJMUUl2SUtCTvFk46z7HeEbcJEEBYSD+Guf4Lg9
-         +LpykZqJlCCORzjao4v7vl8M+5cK8PrHlffVYU5y9fluFnqyXscFFYkzZn5PH8GqiDFC
-         ic3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780670401; x=1781275201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=as1py6QfVQjWXq/H/j8qlkW+Qk+QDS/0K5XkzZmjy6M=;
-        b=kr4VJyeqKL4TrAg5xoDtUuW+jwloD+ZNZ9+NvXrnfFVF4EPX7OKjXUYLAOHgL2p+5/
-         luY6Ubxp2/ylDqPjn39zetUS3REST/fC/YRnrX8TizLMuB7y2dABbVtmS8x0KgavJ5h6
-         LetG5wI/o2/N1lbz9SbaXPus1kI22ckNEi2KDsbyEHh2SUWNndZxjcvXye2wEI13sbGT
-         eTVazyswxe8joURBOpO1sPpcBRETkfu9h2cjUgRlXhXEAj5ojmVqp2fHRAfhSplGDXPE
-         bC/0ItqiVjLzStFFSd4z62mZXPxdoLpPzlPkhcugk5raAa3SsZRG7wN1qxKHgxUq4MiY
-         cylw==
-X-Forwarded-Encrypted: i=1; AFNElJ+SlFjYdRS7N/RrRPmJvEgZb9Pjjkbjyj9yXlA31u+1cjrZDwmpymzWyCCBlTl/QtPLYTNOTk8AwFxWh7bH@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxe1XTM4oM5VTdMuNafIie9ugujY9fC9V5HN1+rQRo4p3NiADHo
-	T4GVKtkRs/ZZeMvys+8KphhT5gZHD51V31k7Ooj7Dz2K++qP38H7Ra8pv8wYrWxBvyyiM33oVym
-	Pq0nfRLZZBP5FVDCFPWMKw+DPlu4qZBZKymYNkksp
-X-Gm-Gg: Acq92OHrLGXwDYoxlt2ZOhYHElJXqVaWeJ2sCKs41Akemor0gxVBVF8R5IYbCvLs4lD
-	vAf6gMJbEh3A9+lhT60MAibRADiPTCXEGrDwBsqNNMLkAVLFKuCzGiMLcGWropOhOLJ7+Qk8buS
-	KoS5jiQwo8mi2u4VOTi48m02aEL3Rx33bqeFCnTTIRMGlz9vgNJuKOnh1fOy5Ce5xi7gAMPkWzI
-	ttKesYzBUUmQBJbZYxsBebv+QC0eZlCjEz09viBI9/XHye0gmalTYdPqbzfjQofKLwvwJPUMZk/
-	OovaijXxTxMrTDt/gF1MdQjjn08tDPcUmpNAbirrSEtl/SA5
-X-Received: by 2002:a05:6402:52db:10b0:683:33ae:8689 with SMTP id
- 4fb4d7f45d1cf-68fe8b4cf79mr38019a12.4.1780670400617; Fri, 05 Jun 2026
- 07:40:00 -0700 (PDT)
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="YuDPDQ6Q"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:Cc:To:Date:Message-ID;
+	bh=53NeptYyaF5olDNYNWO0bJ8crWCXIS1XcDfrtYn88/o=; b=YuDPDQ6Q+LUcMPqoxR7mHb6PrZ
+	y6obdJ0OOI2BVMrzNG8xQiporP9alfySr3RP+58Qpo9BKcJeYZYvMOlo83U9MFrz5E4K1OBS/jjwN
+	M9JBNIdAV2sNgyIpIWnCyGhYMHwAQta7Oqk6A0YS8rdUVowtFVReJUxzhfCD9kNe+QASCPOD77B+d
+	rDTJXMiO/f8MyE/25J0GnblyrCr+0y0gmELA6K1NS1vlkb1Md7LvLopGmCV5Xjg/rh/ALFYyCEVkr
+	CGPGWSbgPI8lZsCMpw/8ZGfHDLDM/08U4XfvuriX5ANszUaM1ZvoSRNFgyAs89SrWVsp1neyThmgi
+	FWiTWyaXaW+K/Q34yU06NrX2cTk/9JeCAFXyl6lqH7DY+dQ1xquqF5w94eCuNcJ7TAwhcjqIk0g8i
+	uvWuHksJmqdKLXn0lpTAeNaFxnbI4CWMMQ6d/18Xv5j58pXT/O3cpqgwNn52Ra4zgB40L+Jiy2pBU
+	9yKmLz6kOirkFXxGVJSejpkD;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1wVWH3-0000000EIOH-0FeB;
+	Fri, 05 Jun 2026 15:15:53 +0000
+Message-ID: <f1c7fbbf-5be1-48b0-8927-2d9b75a35816@samba.org>
+Date: Fri, 5 Jun 2026 17:15:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260518-procfs-lockfix-part1-v1-0-5c3d20e0ac33@google.com>
- <20260518-procfs-lockfix-part1-v1-1-5c3d20e0ac33@google.com> <05811fd9-6a33-48d9-a970-281003466c80@sirena.org.uk>
-In-Reply-To: <05811fd9-6a33-48d9-a970-281003466c80@sirena.org.uk>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 5 Jun 2026 16:39:23 +0200
-X-Gm-Features: AVVi8Cf2g5iNAdBBEcbfvUYBHLR4xpYK8oqIRwmCptFF6s_EQcEFjFFXqKVPwDc
-Message-ID: <CAG48ez0V5bgEWgZkYaM2z5qfr0w6PXg6YDU8NS19=ZU6XLxTBw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] proc: protect ptrace_may_access() with
- exec_update_lock (part 1)
-To: Mark Brown <broonie@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Arjan van de Ven <arjan@linux.intel.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Jake Edge <jake@lwn.net>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Andy Lutomirski <luto@amacapital.net>
+Cc: Askar Safin <safinaskar@gmail.com>, akpm@linux-foundation.org,
+ axboe@kernel.dk, brauner@kernel.org, david@kernel.org, dhowells@redhat.com,
+ hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org,
+ patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk,
+ willy@infradead.org
+References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
+ <20260602225426.122258-1-safinaskar@gmail.com>
+ <CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
+ <CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
+ <CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
+ <CALCETrXzxubt4eWue3+wv7Fq9C2m7uu6bWPstqFh6Mo57bPwQQ@mail.gmail.com>
+ <CAHk-=wiEwSjfbjfO74xu=UmkkdHXkJg5QNQ8pP-3iYmunmeV9g@mail.gmail.com>
+ <CALCETrW3XcNLuB1Y6PSkxQDSK2o+=EB2AAd25SjWQqcJemwnbw@mail.gmail.com>
+ <CAHk-=wgn3QTLj+F+XccE10dXY-UGWN8+fNLEvhsLw+tik9rOmg@mail.gmail.com>
+ <CALCETrXpqPMS487Bm8f8mHe8hv9DzCqoaW4UdoHetzYBUAhYLw@mail.gmail.com>
+ <CAHk-=wh5bFj1a7eaGp9sixDg3UXu7xUGfU=YJo+ckpGxGAyhXQ@mail.gmail.com>
+Content-Language: en-US
+From: Stefan Metzmacher <metze@samba.org>
+In-Reply-To: <CAHk-=wh5bFj1a7eaGp9sixDg3UXu7xUGfU=YJo+ckpGxGAyhXQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 5, 2026 at 4:36=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
-> On Mon, May 18, 2026 at 06:35:15PM +0200, Jann Horn wrote:
-> > Fix the easy cases where procfs currently calls ptrace_may_access() wit=
-hout
-> > exec_update_lock protection, where the fix is to simply add the extra l=
-ock
-> > or use mm_access():
->
-> >  - do_task_stat(): grab exec_update_lock
-> >  - proc_pid_wchan(): grab exec_update_lock
-> >  - proc_map_files_lookup(): use mm_access() instead of get_task_mm()
-> >  - proc_map_files_readdir(): use mm_access() instead of get_task_mm()
-> >  - proc_ns_get_link(): grab exec_update_lock
-> >  - proc_ns_readlink(): grab exec_update_lock
->
-> It seems that this patch is triggering a failure in the proc selftests
-> read test:
->
-> # selftests: proc: read
-> [  259.127414] ICMPv6: process `read' is using deprecated sysctl (syscall=
-) net.ipv6.neigh.default.base_reachable_time - use net.ipv6.neigh.default.b=
-ase_reachable_time_ms instead
-> [  259.158773] /proc/cgroups lists only v1 controllers, use cgroup.contro=
-llers of root cgroup for v2 info
-> [  259.177155] sysrq: HELP : loglevel(0-9) reboot(b) crash(c) terminate-a=
-ll-tasks(e) memory-full-oom-kill(f) kill-all-tasks(i) thaw-filesystems(j) s=
-ak(k) show-backtrace-all-active-cpus(l) show-memory-usage(m) nice-all-RT-ta=
-sks(n) poweroff(o) show-registers(p) show-all-timers(q) unraw(r) sync(s) sh=
-ow-task-states(t) unmount(u) force-fb(v) show-blocked-tasks(w) replay-kerne=
-l-logs(R)
-> # read: proc.h:49: xreaddir: Assertion `de || errno =3D=3D 0' failed.
-> # Aborted
-> not ok 19 selftests: proc: read # exit=3D134
+Hi Linus,
 
-Thanks for the report!
+> On Wed, 3 Jun 2026 at 15:23, Andy Lutomirski <luto@amacapital.net> wrote:
+>>
+>> So I'm suspicious that you've possibly make bugs much (MUCH) harder to
+>> exploit, but the underlying awful code and opportunity for bugs is
+>> still there.  MSG_SPLICE_PAGES is still around, and there is still
+>> (AFAICS) no actual coherent description of what it means.
+> 
+> I don't disagree. I've only looked at the filesystem side.
+> 
+> The networking side does some odd stuff too (and I did look at some of
+> that, and had to be edumacated by Jakub on some of the subtler rules
+> for what skb data sharing is ok and when it's not - really not my
+> area).
+> 
+> But at least MSG_SPLICE_PAGES should be kernel-internal only
+> interface, and once you don't share page cache pages with networking
+> code I think that kneecaps a lot of the attacks.
+> 
+> So that's really the aim here for me - at least _attempting_ to go
+> "maybe we can just limit splice enough that it doesn't even *matter*
+> when networking does something odd and questionable".
 
-Yup, https://lore.kernel.org/oe-lkp/202606021924.b6d8a0c2-lkp@intel.com
-reported this too, it should be fixed with
-https://lore.kernel.org/all/20260604155806.1402880-1-jannh@google.com/
-, which has been squashed into the current version of the VFS tree.
+While prototyping a smbdirect_splice_to_bvecs() in order to
+do use rdma_rw_ctx_init_bvec() I found things like pipe_buf_try_steal()
+and dived a bit deeper into struct address_space and found things like:
+mapping_mapped, mapping_tagged, mapping_deny_writable, mapping_allow_writable
+and similar things.
+
+With that I'm wondering if we could allow splicing of
+pages only if nobody mmap'ed the file => mapping_mapped() returned 0
+and the page is not tagged with any of PAGECACHE_TAG_{DIRTY,WRITEBACK,TOWRITE}
+and once a page is spliced we tag the page in the i_pages xarray
+with a PAGECACHE_TAG_SPLICED. In all other cases the page would be copied.
+
+Then any call to do_mmap() or vfs_writev at the highlevel
+and at the lower levels most likely filemap_get_entry()/filemap_map_pages()
+will remove the pages marked with PAGECACHE_TAG_SPLICED
+and allocate new pages used for the pagecache of the related index.
+It would be a bit similar to invalidate_inode_pages2_range() for direct io
+writes. Maybe optimizing by clearing PAGECACHE_TAG_SPLICED if the refcount
+of the page is 1.
+
+This would also mean the content of spliced pages won't be changed
+by future writes to the file, which removes the problem with unstable
+pages and checksums.
+
+It means the most common workload, e.g. a file only opened for
+file serving (or simple opens in general) would still be able to
+be optimized.
+
+Does that sound useful and doable?
+
+metze
