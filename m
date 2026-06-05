@@ -1,213 +1,280 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A511C78C9C;
-	Fri,  5 Jun 2026 00:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780617696; cv=none; b=Rsf5w3YAt0g0hZUtRSbDbqMSy3JlVn/Uosmx45/UVgTTRFjzziRvTbZJI5rvbbcCRPzdRx6ww7DSRNpT3uBKE/1o2qOzb7Ij+g5u656pH4UFBTAanKYmHKKT5j6PR8V6H4vI2eB04KBKz9oPEmj+J0sd5tbGhnNWDm51aiBqavE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780617696; c=relaxed/simple;
-	bh=7MSlpgTRB7O2EjRCOfIgIugKxFlb1l0F7/ns+bRdqQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CZfSdwahCU0tSHWzGVBlrqQec1QPYcN5JoyZZKKeppIC+kTnwqjOQoixegwmoPWkU5xOh/2BUoD46VxECQav8eijd8Ff5mUUFygQn1lOzVs7UbeDlJz8sr3BwHcM7H7EppzRfgo1WdWQpMKVAzqO1eM9VqWUC2NLibV6XSscuXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mWhIcH36; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024D4361DCB
+	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 01:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780623761; cv=pass; b=Is6zDvy4LK/k8KFdPIae/lVuiLVzOaOZBJzqQfpE3Ee2VcL5f+asexFakUXGU47t09qKZt13ZmCgPn2ASFJKOLFsP2sQhsEYC4RmBSuiS7FCOObZs6+Pxq7Sol/rH0aioskbJgLQfvjmlSkBFV3lNuDVx+XhzuMtvg3w1AH4c8g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780623761; c=relaxed/simple;
+	bh=kowWMHHsfxKQVxH1gCsYTEZqK5WmN5gUQOIysZ8mKPc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tM+6tq6ONerZdpCYoyxHS6XDifgD1ByNnWQVuCczLnpw5JubocBmzCYK1ooe1wKreE+GKgwMvEYZ1Th5Jb6jXc/eWhYVGuHHVgOMB1fCMYMfmnx8SfbpGiXtC2/2g/ehc3aUuL62wTXbzM9+EGxlvjpNRktd5ZbpGqrdNkPyPU8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gb7cUHeO; arc=pass smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWhIcH36"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 466EF1F00893;
-	Fri,  5 Jun 2026 00:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780617695;
-	bh=xot4ftVLuYLoGEya37hf1ZUN7zwMR1DOZHxE0swXg/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mWhIcH36vkkJ0mjoUbaifqqN9tmx/zdo77jUsiE26kxtiTzdgrqsD4Nnh4AbsLxH8
-	 ADZbEkKHgTos5z3fynrhGpADO8aPtigKgonQmsnxWERR7gmtM7OMmcVABMS0Gqu2qf
-	 HSqwujuMDshLNXlbtyRMyLSpWmbzDyI6b6j93tUHQ0wlbjA8cW0flVDkMo+AAFZBww
-	 3oQ47g6r2L3gna/XzhfqxNoxfeUNrBALrq69/ErUriY31FEumF7soomWKkOv2SQPUB
-	 cvFZKGqlxphEn2l3WT2MyG0Wk8SYP/gQoAroLQWXG5n21qIn7wUNaOg9FQBRdD/FaW
-	 DcMkM7Wk4Vwhw==
-Date: Thu, 4 Jun 2026 17:01:34 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 9/9] fuse: set iomap backing device block size
-Message-ID: <20260605000134.GJ6070@frogsfrogsfrogs>
-References: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
- <177922946372.2439242.13829037107289830266.stgit@frogsfrogsfrogs>
- <CAJnrk1ZQbvCL=ok4WHBn0gC+=k88Cejts_-_DP3epa51Wz5+5g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gb7cUHeO"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7dc2b658544so11926077b3.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 04 Jun 2026 18:42:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780623750; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gU37Wxdgos89WX1NVh3SQMn8qM8f/Hoh6KUgkUUyrTQu+t8DqSwYlQddZDeRor1fgC
+         sY6jrEbj7zpYjNno1VtUHga+j6WgLleAYOO5IUJU+9ipDPIS6UDzF/e9Ec+ntT6QQxBD
+         rq6PmBp9iQT6SZDucUp5qksSeyJll8dusevryTOFMweybXNjblTegp87T50lan5DXKB6
+         O8TVIuPikA23PO54XwhPeaoYtLJjTTIgwAnrEzcrie3rLHnlqmuOk6gXXuBv32lsm9D1
+         nTLz4egUnrr0+x81lgCq8WqhCQDwFmeRTZU6uhIUK/j3uEUe5tdmzivAIZSESPuy6p0T
+         Vigw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zA461QtkcjGieHEzF6uHxdDBMYEET0L4iyDbA5xKMuE=;
+        fh=I1yJ7ZqG5wHPuBV94j6aZ+U5z4WGA+h+Icu7ypcGmQU=;
+        b=EbAjxlE9aMvCES6MFMSAtrJxHPOb3fgsWuo7u/igw5B6xC9pdTBx8qpRVM4ZLyHLjH
+         opDosG/OpPisAXku+Q8MT7h6b33Kg44Sv5NtryCjQfiReyTL9aUQwZx91GsHI5rn60sk
+         Hw9Qs0zLCx5OoueDqjo/dSRtOCWk3ZPJo3sUUVE6o1sGUdgYdUNxs5XfHbtyrnZ1jykr
+         GXDwshJZDpo6gQHs5xDDaSRXxxv2onjWv9au0M4ZLNQtPyqrNmMTM+cIA4CCJYTa2HhR
+         8k/GVPsp+Garh9Qe66fnhYGrOggRcmAz5VNzhlpih3MSePr26/MUMs/+pHkIh24stiPb
+         NhiQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780623750; x=1781228550; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zA461QtkcjGieHEzF6uHxdDBMYEET0L4iyDbA5xKMuE=;
+        b=Gb7cUHeOZYlmf5fHlH5PWgZfqJoYHdovcoxFfv1RoEdexAp0SKtGIqwW2iTzRGvx+S
+         no9wThf8IC6IU4Ky4ywXSu6ra+dKYuociCxDRvPw+NYFDhoyA+8vkVb6lkvs2pmaak+j
+         ApQyVU1anrkZaXotgBmBsnMV+QDshtd2D+jc10WajHSr0jMbeiRuzKCbklwK9bYsK58f
+         XKYvKkwigXy/GqUBzylfE8Vgi0dakZeWocLwjzwK8+lnZ3ApRaqsLUZcWF9GnvdZOeMX
+         gGQr7TzQrraR/23gDheCyQ4Lq9R7z8mC35RgzeNatF4RDCpqzTw+DZ9r9pwfQf2lC5TC
+         tLBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780623750; x=1781228550;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zA461QtkcjGieHEzF6uHxdDBMYEET0L4iyDbA5xKMuE=;
+        b=Kzhh44vNXVymHAjQQIW+GSa26uyzX+Cc5yEyTLiwlX6mY/wrfKnyEmvYDgUZQxV7Rn
+         MKr3ZlBqpxnSpw/wf8fvZiYwfTU9HR4+oLwxEjE02ejMJv8r1QL35jgxev98nN9kNOZ0
+         27GQae9uQZgcxgc+SAQeZ3gqpGGLgDQvGqfJJlaTdMBJWGC8pmxCXohhDUtfw6a3HAVX
+         XO1yef1mJOpEWQgnlCTXY+KMQIkX+j0dMAXUdgKI3SkPlSNbguzco9q7fAV2XPhKxycA
+         h6WMX3FLNFBAY7RVNYDDuTuyC4sFh+KiiZLwGgXXKFwzDNJT2Cx8YesR5tmSikHHOjUq
+         tQjg==
+X-Forwarded-Encrypted: i=1; AFNElJ/b3uC/q++3oJSjk/gOMFybNUPKuRuXzB/o9iJjn0eif8+h525Nlr29z6svlBCGUnJ8yQgmOtuIbrvt2j0z@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOmGPJ+pFHY4dVUI2BlYNTO0C/41z+EO2zpq6upyNyc+bKT1+i
+	k/CXH4xioOmpoFYGQ4XRAlfsTkeFUVOJ5mGAgYhuMyN0pNvnNimX1IDMJct3AvcBzxRZTkn5Y1Q
+	MrB+4a2bo444ijZ8c12PFexQ6dMUDVFxCRmwqgnbM/Q==
+X-Gm-Gg: Acq92OHrKnSAixvu2agrdB4jcqb+JqckKn6zkcui0mCKLX0+o7VliZaDshBt8VBSCft
+	/Zo7H74RktyOiE6XO+7zx/IeDjeJruMyhG1mtsDik065iJcDhLv3SBRWczBrKYvH5uvPvZ1Dyzv
+	7XlFRT16QENw0K3WodybSE4SkuAa8YC4J6pGSAmYBNrFN+P2BHr9QDGKCKJNhpdDUayaCaUr/K6
+	Q27vzLMtaWs1D0EtULJYChM3sGV/9sCc/nSI9IJTxuA+3pU1Ur8j9SIh/6AqGcl+qbARmikGxoY
+	qSFTAeSMXxq24wHq5g==
+X-Received: by 2002:a05:690c:620a:b0:7c8:f80a:cb4e with SMTP id
+ 00721157ae682-7ed1128e98amr13636637b3.35.1780623749803; Thu, 04 Jun 2026
+ 18:42:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZQbvCL=ok4WHBn0gC+=k88Cejts_-_DP3epa51Wz5+5g@mail.gmail.com>
+References: <20260604202441.65226-1-m32285159@gmail.com> <20260604143040.61f70396c568b7433110fb3d@linux-foundation.org>
+In-Reply-To: <20260604143040.61f70396c568b7433110fb3d@linux-foundation.org>
+From: Maxwell Doose <m32285159@gmail.com>
+Date: Thu, 4 Jun 2026 20:40:30 -0500
+X-Gm-Features: AVVi8CcS5Wva-NZURkbG64aHMfw9ORcpEVLcknzIWAxedafDFCxHxL4GGj2q1SI
+Message-ID: <CAKqfh0Eu=sp3rfAGzhTPcx1Vw5p=sjxTigAWhkzskYrAWB9iWQ@mail.gmail.com>
+Subject: Re: [PATCH] fs: efs: Fix compilation bug and use pr_debug()
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Fabian Frederick <fabf@skynet.be>, open list <linux-kernel@vger.kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 22, 2026 at 06:06:15PM -0700, Joanne Koong wrote:
-> On Tue, May 19, 2026 at 3:33 PM Darrick J. Wong <djwong@kernel.org> wrote:
+On Thu, Jun 4, 2026 at 4:30=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
+.org> wrote:
+>
+> (cc linux-fsdevel)
+>
+
+Whoops, I guess I'm too reliant on --cc-cmd :(
+
+> On Thu,  4 Jun 2026 15:24:40 -0500 Maxwell Doose <m32285159@gmail.com> wr=
+ote:
+>
+> > Firstly, the current code uses formatters that are incompatible with th=
+e
+> > most recent GCC for x86_64. Replace them and explicitly cast the
+> > formatted variables to their respective forms of long long.
+>
+> Please quote the compiler output in the changelog.
+>
+
+It's rather lengthy:
+fs/efs/file.c: In function =E2=80=98efs_get_block=E2=80=99:
+fs/efs/file.c:26:35: error: =E2=80=98block=E2=80=99 undeclared (first use i=
+n this
+function); did you mean =E2=80=98iblock=E2=80=99?
+  26 |                         __func__, block, inode->i_blocks, inode->i_s=
+ize);
+     |                                   ^~~~~
+./include/linux/printk.h:483:33: note: in definition of macro
+=E2=80=98printk_index_wrap=E2=80=99
+ 483 |                 _p_func(_fmt, ##__VA_ARGS__);                       =
+    \
+     |                                 ^~~~~~~~~~~
+./include/linux/printk.h:564:9: note: in expansion of macro =E2=80=98printk=
+=E2=80=99
+ 564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+     |         ^~~~~~
+fs/efs/file.c:25:17: note: in expansion of macro =E2=80=98pr_warn=E2=80=99
+  25 |                 pr_warn("%s(): block %d >=3D %ld (filesize %ld)\n",
+     |                 ^~~~~~~
+fs/efs/file.c:26:35: note: each undeclared identifier is reported only
+once for each function it appears i
+n
+./include/linux/printk.h:483:33: note: in definition of macro
+=E2=80=98printk_index_wrap=E2=80=99
+ 483 |                 _p_func(_fmt, ##__VA_ARGS__);                       =
+    \
+     |                                 ^~~~~~~~~~~
+./include/linux/printk.h:564:9: note: in expansion of macro =E2=80=98printk=
+=E2=80=99
+ 564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+     |         ^~~~~~
+fs/efs/file.c:25:17: note: in expansion of macro =E2=80=98pr_warn=E2=80=99
+  25 |                 pr_warn("%s(): block %d >=3D %ld (filesize %ld)\n",
+     |                 ^~~~~~~
+fs/efs/file.c: In function =E2=80=98efs_bmap=E2=80=99:
+./include/linux/kern_levels.h:5:25: error: format =E2=80=98%ld=E2=80=99 exp=
+ects
+argument of type =E2=80=98long int=E2=80=99, but argument
+4 has type =E2=80=98blkcnt_t=E2=80=99 {aka =E2=80=98long long unsigned int=
+=E2=80=99} [-Werror=3Dformat=3D]
+   5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+     |                         ^~~~~~
+./include/linux/printk.h:483:25: note: in definition of macro
+=E2=80=98printk_index_wrap=E2=80=99
+ 483 |                 _p_func(_fmt, ##__VA_ARGS__);                       =
+    \
+     |                         ^~~~
+./include/linux/printk.h:564:9: note: in expansion of macro =E2=80=98printk=
+=E2=80=99
+ 564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+     |         ^~~~~~
+./include/linux/kern_levels.h:12:25: note: in expansion of macro =E2=80=98K=
+ERN_SOH=E2=80=99
+  12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+     |                         ^~~~~~~~
+./include/linux/printk.h:564:16: note: in expansion of macro =E2=80=98KERN_=
+WARNING=E2=80=99
+ 564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+     |                ^~~~~~~~~~~~
+fs/efs/file.c:47:17: note: in expansion of macro =E2=80=98pr_warn=E2=80=99
+  47 |                 pr_warn("%s(): block %d >=3D %ld (filesize %ld)\n",
+     |                 ^~~~~~~
+./include/linux/kern_levels.h:5:25: error: format =E2=80=98%ld=E2=80=99 exp=
+ects
+argument of type =E2=80=98long int=E2=80=99, but argument
+5 has type =E2=80=98loff_t=E2=80=99 {aka =E2=80=98long long int=E2=80=99} [=
+-Werror=3Dformat=3D]
+   5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+     |                         ^~~~~~
+./include/linux/printk.h:483:25: note: in definition of macro
+=E2=80=98printk_index_wrap=E2=80=99
+ 483 |                 _p_func(_fmt, ##__VA_ARGS__);                       =
+    \
+     |                         ^~~~
+./include/linux/printk.h:564:9: note: in expansion of macro =E2=80=98printk=
+=E2=80=99
+ 564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+     |         ^~~~~~
+./include/linux/kern_levels.h:12:25: note: in expansion of macro =E2=80=98K=
+ERN_SOH=E2=80=99
+  12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+     |                         ^~~~~~~~
+./include/linux/printk.h:564:16: note: in expansion of macro =E2=80=98KERN_=
+WARNING=E2=80=99
+ 564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+     |                ^~~~~~~~~~~~
+fs/efs/file.c:47:17: note: in expansion of macro =E2=80=98pr_warn=E2=80=99
+  47 |                 pr_warn("%s(): block %d >=3D %ld (filesize %ld)\n",
+     |                 ^~~~~~~
+
+(excuse the misalignment of some of this stuff, I'm using gmail to send thi=
+s.)
+
+> > Secondly, replace the legacy conditional compilation for DEBUG with the
+> > more preferred pr_debug() to condense the code, while keeping the final
+> > output functionally identical.
 > >
-> > From: Darrick J. Wong <djwong@kernel.org>
+> > Fixes: f403d1dbac6d ("fs/efs: add pr_fmt / use __func__")
 > >
-> > Add a new ioctl so that an unprivileged fuse server can set the block
-> > size of a bdev that's opened for iomap usage.
-> 
-> If I'm understanding it correctly, doesn't the fs/iomap layer align
-> all i/o to the fuse file inode->i_blkbits and submits bios to the
-> underlying iomap->bdev without ever reading the bdev's
-> inode->i_blkbits? Why do we need this fuse ioctl then for setting the
-> block size of a bdev?
-
-It's not for the regular file IO, it's for the blockdev pagecache that
-sits in front of filesystem metadata IO.  Block devices do writeback of
-their pagecache in units of buffer heads, which is a problem if the
-buffer head size is not aligned to the fsblock size.
-
-Basically, imagine a 1k-fsblock filesystem with 4k pages.  Let us
-further assume that block 0 is a superblock, and block 1 is the only
-file data in the whole filesystem.
-
-If the BLKBSZGET size is also 4k, then dirtying the superblock now means
-that the bdev pagecache will think that the whole 4k is dirty, because
-there's only one bh for the whole 4k.
-
-Now let's say iomap writes to the sole file data block.  The ondisk data
-is newer than the bdev pagecache.  Next, the fuse server initiates
-writeout of the dirty bdev pagecache.  It writes the whole page out to
-disk, which means the ondisk super is newest, but the file data block
-has just been clobbered by stale bdev pagecache!
-
-Ouch.
-
-So if we can set the bh size to 1k, we avoid the clobbering.
-
-> It seems like this ioctl is re-implementing the BLKBSZSET ioctl but
-> bypasses the cap sys admin privilege checking that the BLKBSZSET ioctl
-> requires, which seems like a security violation. Am I understanding
-> this correctly?
-
-It is, but the assumption was that you'd only get fuse-iomap if you
-already had CAP_SYS_RAWIO, so you have to have some privilege.  But I
-concede that RAWIO != ADMIN.  This might be unnecessary now that fuse
-service containers can ask the mount helper to open a bdev in O_EXCL
-mode and set a particular blocksize.
-
-Though note the weird thing -- a sysadmin can use chmod to let
-unprivileged userspace to open a bdev and it can open it O_EXCL, but it
-can't set the block size unless they have CAP_SYS_ADMIN.
-
---D
-
-> Thanks,
-> Joanne
-> 
+> > ...
 > >
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  fs/fuse/fuse_iomap.h      |    3 +++
-> >  include/uapi/linux/fuse.h |    8 ++++++++
-> >  fs/fuse/dev.c             |    2 ++
-> >  fs/fuse/fuse_iomap.c      |   27 +++++++++++++++++++++++++++
-> >  4 files changed, 40 insertions(+)
-> >
-> >
-> > diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
-> > index f40d202c64c822..3cfef073cbe5aa 100644
-> > --- a/fs/fuse/fuse_iomap.h
-> > +++ b/fs/fuse/fuse_iomap.h
-> > @@ -69,6 +69,8 @@ int fuse_dev_ioctl_iomap_support(struct file *file,
-> >  int fuse_dev_ioctl_iomap_set_nofs(struct file *file, uint32_t __user *argp);
-> >  int fuse_iomap_backing_inval(struct fuse_conn *fc,
-> >                              const struct fuse_iomap_backing_inval_out *arg);
-> > +int fuse_iomap_backing_set_blocksize(struct file *file,
-> > +                                    struct fuse_iomap_backing_info __user *argp);
-> >  #else
-> >  # define fuse_iomap_enabled(...)               (false)
-> >  # define fuse_has_iomap(...)                   (false)
-> > @@ -97,6 +99,7 @@ int fuse_iomap_backing_inval(struct fuse_conn *fc,
-> >  # define fuse_dev_ioctl_iomap_support(...)     (-EOPNOTSUPP)
-> >  # define fuse_dev_ioctl_iomap_set_nofs(...)    (-EOPNOTSUPP)
-> >  # define fuse_iomap_backing_inval(...)         (-ENOSYS)
-> > +# define fuse_iomap_backing_set_blocksize(...) (-EOPNOTSUPP)
-> >  #endif /* CONFIG_FUSE_IOMAP */
-> >
-> >  #endif /* _FS_FUSE_IOMAP_H */
-> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> > index 899964f8d6616a..0b67938bb7baf0 100644
-> > --- a/include/uapi/linux/fuse.h
-> > +++ b/include/uapi/linux/fuse.h
-> > @@ -1173,6 +1173,11 @@ struct fuse_iomap_support {
-> >         uint64_t        padding;
-> >  };
-> >
-> > +struct fuse_iomap_backing_info {
-> > +       uint32_t        backing_id;
-> > +       uint32_t        blocksize;
-> > +};
-> > +
-> >  /* Device ioctls: */
-> >  #define FUSE_DEV_IOC_MAGIC             229
-> >  #define FUSE_DEV_IOC_CLONE             _IOR(FUSE_DEV_IOC_MAGIC, 0, uint32_t)
-> > @@ -1184,6 +1189,9 @@ struct fuse_iomap_support {
-> >                                              struct fuse_iomap_support)
-> >  #define FUSE_DEV_IOC_SET_NOFS          _IOW(FUSE_DEV_IOC_MAGIC, 100, uint32_t)
-> >  #define FUSE_DEV_IOC_ADD_IOMAP         _IO(FUSE_DEV_IOC_MAGIC, 101)
-> > +#define FUSE_DEV_IOC_IOMAP_BACKING_SET_BLOCKSIZE \
-> > +                                       _IOW(FUSE_DEV_IOC_MAGIC, 102, \
-> > +                                            struct fuse_iomap_backing_info)
-> >
-> >  struct fuse_lseek_in {
-> >         uint64_t        fh;
-> > diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> > index 06f52114b9aef2..d6ba8d6b1a8875 100644
-> > --- a/fs/fuse/dev.c
-> > +++ b/fs/fuse/dev.c
-> > @@ -2746,6 +2746,8 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
-> >                 return fuse_dev_ioctl_iomap_set_nofs(file, argp);
-> >         case FUSE_DEV_IOC_ADD_IOMAP:
-> >                 return fuse_dev_ioctl_add_iomap(file);
-> > +       case FUSE_DEV_IOC_IOMAP_BACKING_SET_BLOCKSIZE:
-> > +               return fuse_iomap_backing_set_blocksize(file, argp);
-> >
-> >         default:
-> >                 return -ENOTTY;
-> > diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> > index ba54eb694dbbac..2deed4749738cb 100644
-> > --- a/fs/fuse/fuse_iomap.c
-> > +++ b/fs/fuse/fuse_iomap.c
-> > @@ -2448,3 +2448,30 @@ int fuse_iomap_backing_inval(struct fuse_conn *fc,
-> >         up_read(&fc->killsb);
-> >         return ret;
-> >  }
-> > +
-> > +int fuse_iomap_backing_set_blocksize(struct file *file,
-> > +                                    struct fuse_iomap_backing_info __user *argp)
-> > +{
-> > +       struct fuse_iomap_backing_info fbi;
-> > +       struct fuse_dev *fud = fuse_get_dev(file);
-> > +       struct fuse_backing *fb;
-> > +       int ret;
-> > +
-> > +       if (IS_ERR(fud))
-> > +               return PTR_ERR(fud);
-> > +
-> > +       if (!fud->fc->iomap)
-> > +               return -EOPNOTSUPP;
-> > +
-> > +       if (copy_from_user(&fbi, argp, sizeof(fbi)))
-> > +               return -EFAULT;
-> > +
-> > +       fb = fuse_backing_lookup(fud->fc, &fuse_iomap_backing_ops,
-> > +                                fbi.backing_id);
-> > +       if (!fb)
-> > +               return -ENOENT;
-> > +
-> > +       ret = set_blocksize(fb->file, fbi.blocksize);
-> > +       fuse_backing_put(fb);
-> > +       return ret;
-> > +}
-> >
-> 
+>
+> >  Test compiled only with gcc 16.1.1 for x86_64.
+>
+> Compiled how?  DEBUG was defined in some fashion?
+>
+
+I cheated a little and removed the #ifdef DEBUG to compile-test it.
+
+> > --- a/fs/efs/file.c
+> > +++ b/fs/efs/file.c
+> > @@ -19,13 +19,12 @@ int efs_get_block(struct inode *inode, sector_t ibl=
+ock,
+> >       if (create)
+> >               return error;
+> >       if (iblock >=3D inode->i_blocks) {
+> > -#ifdef DEBUG
+> >               /*
+> >                * i have no idea why this happens as often as it does
+> >                */
+> > -             pr_warn("%s(): block %d >=3D %ld (filesize %ld)\n",
+> > -                     __func__, block, inode->i_blocks, inode->i_size);
+>
+> That wouldn't have compiled anyway - `block' is undefined?
+>
+
+Correct, so we're fixing two bugs in one patch (this one is so trivial
+to fix that I just included it).
+
+> > -#endif
+> > +             pr_debug("EFS: block %llu >=3D %llu (filesize %lld)\n",
+> > +                      (unsigned long long)iblock, (unsigned long long)=
+inode->i_blocks,
+> > +                      (long long)inode->i_size);
+>
+> It seems that nowadays sector_t and blkcnt_t are unconditionally u64
+> and loff_t is unconditionally `long long'.  I think, please check.
+>
+> If so, no casts are needed.
+>
+
+Looks like I got a bit sloppy:
+
+fs/efs/file.c: In function =E2=80=98efs_bmap=E2=80=99:
+./include/linux/kern_levels.h:5:25: error: format =E2=80=98%llu=E2=80=99 ex=
+pects
+argument of type =E2=80=98long long unsigned int=E2=80=99
+, but argument 3 has type =E2=80=98efs_block_t=E2=80=99 {aka =E2=80=98int=
+=E2=80=99} [-Werror=3Dformat=3D]
+   5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+     |                         ^~~~~~
+
+This is the one I'm worried about, it seems I casted to ULL in error
+and the formatter should be %d. And I think we can remove the casting,
+just double checked (all compilations were HEAD~2 (so e8c2f9fdadee
+("Merge tag 'for-7.1/hpfs-fixes' of
+git://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm")))
+
+Will send a v2 tomorrow with that fix (unless you want to tweak while
+applying, of course, but obviously bad practice to rely on that).
+
+--=20
+best regards,
+max
