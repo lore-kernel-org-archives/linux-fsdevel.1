@@ -1,175 +1,140 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A604C9558;
-	Fri,  5 Jun 2026 11:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD49E1AB6F1;
+	Fri,  5 Jun 2026 11:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780657338; cv=none; b=I2RMmZE8oT3R0WBRpYGJjK1vaX2yXcZnQp9Rp7SDQGu95am3/ayuFlgrcHUWyCKTMRdzgQhxYmWO1bJ0oqKMzy5Wf6FCrlPCumvrFhojY0zYgmGVcokf2mW+d/rZPqbLJLM7Fw37vok9wUhquQyLZD51RNll2iYmBYzkwpNubIo=
+	t=1780659122; cv=none; b=B+Uq99cdKPDNn1nwgZwQj8QM00qcrYaybJ8KXo+qEK0PLZ1V0nFDWIiqcsWR/F6nwwk/b4KttDuAfw3l8W+Y5B4oxRDavvI+4i/Eqw2twVLWwkr7ubuzxhWx13bZist6cnq9udKMs5lXPkyIsHR9Te232k3lpGFPpKUzYmdNAFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780657338; c=relaxed/simple;
-	bh=2ZDtFGq2fELTLz5GfELVfngRBbhhiz0OLx9XiZhEvX8=;
+	s=arc-20240116; t=1780659122; c=relaxed/simple;
+	bh=L8KMyoRzOG62/thuh9mBHzCevn2S+M9JoPnrBCKOMEI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=buT3CSbFoS4rRO4XX7DfEVKh6gRsEf5wU0f/kHTaV5cc68AtzhSkQp6jcGKZ/PI5LkaJ99HjygeiNC5pZE6Xue2X5aKkxYCz4CCwbMWYdSdW2XuH5GqUrlpYFH17QvlQM1b8Kf5kkZtMQjjBVxolRt5PDRrkD1hbnZ0hMZhzfO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ctl1HVvS; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJbClaiz+2xnivFkIxrI8pAL67bDXoDR7DSs/DnQ2yvjVHgFZhI8BXKub6Y3+huvmQGpOzyV63ZEV4lED3QRHVnzhetvkktKVBQ2b543IDtNIRstvOlT7UfhiYGs/DJg0LOvB+3tEkAIQVwXEelSD/duMtj0NgScA9xwo5yOjHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LpgVnwBS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ctl1HVvS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C108A1F00893;
-	Fri,  5 Jun 2026 11:02:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LpgVnwBS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6FA61F00893;
+	Fri,  5 Jun 2026 11:31:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780657336;
-	bh=zh9rGnRJpkY1lBOy/bvqPYjNbqncuR4wcG+xL8RKLDo=;
+	s=k20260515; t=1780659120;
+	bh=Fc9vcaYFGx4VJWN/qkM/ZED/XUOAhAtzfGEMOALwC10=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ctl1HVvSgU76Vw6SULqs72AZrmRA3tDJG9jTF/UpoFIKpJUomvQkaONMJ0CyA9XU9
-	 AkValjofDC0hU7jmySenQo7PC2jTWR++sfyBzpPIN4kFLupY0/SQ5fuOxm0sMu2UvS
-	 mnw5IswfgWxzvZQmznyBKaEMmzydtp2dP/ojQV10k5/AGwyGmYgG8PseTg2XUfNaEp
-	 1Om4a1nsYuMCXxy89ZtD2An6nsoOWDeNwAsM8Ep4t1ECWeFLLuev5uaXz3YkBNJ9la
-	 osxrOwWtnj2IXDSpeWpSMPFEW3nhQ+w9XwUKEpCpFuARveTnsZzKfm+0ppwEhhix9k
-	 UTdfJR3rGbA4g==
-Date: Fri, 5 Jun 2026 12:02:10 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Askar Safin <safinaskar@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-api@vger.kernel.org, netdev@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Howells <dhowells@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>, Aiswharya.TCV@arm.com,
-	ltp@lists.linux.it, Miklos Szeredi <miklos@szeredi.hu>,
-	patches@lists.linux.dev
-Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <d9806b34-fc73-4878-997a-95c5e8ae4b29@sirena.org.uk>
-References: <20260531010107.1953702-1-safinaskar@gmail.com>
- <20260531010107.1953702-3-safinaskar@gmail.com>
+	b=LpgVnwBSDBMv2ZCVDsEcjfQRjXldbcrdFN6YWC0rquZ76JA4WLAVGYdrU2Hg0J0lu
+	 b9l48jH/dtdOxXSdPpiNOqWudkX7H+Dmk6Tu9z2LXgLyILK31qQOLW7KZ2lLLYAx3I
+	 fUYlaYaQdJ3iXTb1M1TogOngIKpo02yqpbd2QnvxpVH038t+JW9MFZDkhAV1DQCDii
+	 dOyl2XK8+BhGI4nDZpgsWPVpoFWUOyBIbuadfyTaVSYMIvySJTlLYbadUiM4xtF7KN
+	 8RLN2HjeI1uJyOM2NAk8ouza4Wv8Bl+HS7G4okRB0cqcK7sKPLJJVHjh9v1hcoxnp2
+	 dAjEYyWjWwq7A==
+Date: Fri, 5 Jun 2026 12:31:52 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Dev Jain <dev.jain@arm.com>
+Cc: akpm@linux-foundation.org, liam@infradead.org, jgg@ziepe.ca, 
+	leon@kernel.org, david@kernel.org, shuah@kernel.org, vbabka@kernel.org, 
+	jannh@google.com, pfalcato@suse.de, balbirs@nvidia.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, rppt@kernel.org, 
+	surenb@google.com, mhocko@suse.com, linux-kselftest@vger.kernel.org, 
+	ryan.roberts@arm.com, anshuman.khandual@arm.com, usama.arif@linux.dev
+Subject: Re: [PATCH v3 2/2] selftests/mm/hmm-tests: test pagemap reads of PMD
+ device-private entries
+Message-ID: <aiKdccWcgUaWCMes@lucifer>
+References: <20260604055308.1947679-1-dev.jain@arm.com>
+ <20260604055308.1947679-3-dev.jain@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cImTK7GwRCQ+7M7E"
-Content-Disposition: inline
-In-Reply-To: <20260531010107.1953702-3-safinaskar@gmail.com>
-X-Cookie: Today is what happened to yesterday.
-
-
---cImTK7GwRCQ+7M7E
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260604055308.1947679-3-dev.jain@arm.com>
 
-On Sun, May 31, 2026 at 01:01:06AM +0000, Askar Safin wrote:
+On Thu, Jun 04, 2026 at 05:53:06AM +0000, Dev Jain wrote:
+> To cover pagemap paths scanning PMD entries, add assertions to check
+> whether a device-private PMD entry has the correct pagemap information -
+> the PM_SWAP bit must be on in the pagemap entry. Before that, we must
+> assert through HMM_DMIRROR_SNAPSHOT snapshot that the leaf entry is
+> at PMD level and not PTE level.
+>
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
 
-> vmsplice behavior on writable pipe became equivalent to pwritev2.
-> vmsplice behavior on readable pipe already was nearly
-> equivalent to preadv2, but I made this explicit. I. e. I made it
-> obvious from code that vmsplice now is equivalent to preadv2/pwritev2.
+LGTM, and confirmed this triggers the issue locally so:
 
-> Also I moved vmsplice to fs/read_write.c, because now it arguably
-> belongs there.
+Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 
-> Note that SPLICE_F_NONBLOCK behavior slightly changed: previously
-> vmsplice ignored whether the pipe was opened with O_NONBLOCK, and mode
-> of operation depended on whether SPLICE_F_NONBLOCK was passed only.
-> Now the operation will be non-blocking if O_NONBLOCK was passed when
-> opening *or* SPLICE_F_NONBLOCK was passed to vmsplice. Previous
-> behavior was arguably buggy, and new behavior is arguably better.
-
-FWIW this is triggering a failure in the LTP vmsplice01 test case (which
-sends with a vmsplice() and then tries to read that with a splice()) in
--next:
-
-| tst_tmpdir.c:316: TINFO: Using /tmp/LTP_vmsp3vEmQ as tmpdir (tmpfs filesystem)
-| L4471tst_test.c:2047: TINFO: LTP version: 20260130
-| L4472tst_test.c:2050: TINFO: Tested kernel: 7.1.0-rc6-next-20260604 #1 SMP @1780589917 armv7l
-| L4473tst_kconfig.c:71: TINFO: Couldn't locate kernel config!
-| L4474tst_test.c:1875: TINFO: Overall timeout per run is 0h 00m 30s
-| L4475tst_test.c:1632: TINFO: tmpfs is supported by the test
-| L4476Test timeouted, sending SIGKILL!
-| L4477tst_test.c:1947: TINFO: If you are running on slow machine, try exporting LTP_TIMEOUT_MUL > 1
-| L4478tst_test.c:1949: TBROK: Test killed! (timeout?)
-
-As the test itself notes it's not super realistic but thought it was
-better to mention it since I didn't see any report on the list yet, I've
-CCed the LTP list.
-
-Full log:
-
-   https://lava.sirena.org.uk/scheduler/job/2831199#L4468
-
-bisect log:
-
-# bad: [b99ae45861eccff1e1d8c7b05a13650be805d437] Add linux-next specific files for 20260604
-# good: [5e9d583f58c8b56c9f5022639ac70cb7ae6e9fe9] Merge branch 'for-linux-next-fixes' of https://gitlab.freedesktop.org/drm/misc/kernel.git
-# good: [a9f7db50ed2fff96727782456f49bf88def68510] tee: fs/splice.c: remove unused parameter "flags" from "link_pipe"
-# good: [215701873a7ed1214bba82c8fadcd2583d0246c3] net: mdio: realtek-rtl9300: Add ports to info structure
-# good: [b882d807fa443b529ae8bf917d7b640a8d555437] tools/nolibc: stackprotector: Avoid stalling program startup if crng is not init yet
-# good: [835fa43a4d36bd66ad0dd052f9fa15f7bd365fa8] tools/nolibc: add ftruncate()
-# good: [5d72c6a754ef488f88ad33c83d14556c6f38af3a] Merge branch 'pci/controller/dwc-qcom'
-# good: [04b18289834f20bbed25813c4978833ca8bd6e82] Merge branch 'pci/controller/misc'
-# good: [94bf692c483ffb325af0b110429ad37f445d40b0] Merge branch 'pci/endpoint'
-# good: [1c996a37fd244d19e5dbb715328c1676e28ef607] tools/power turbostat: pmt: Improve sscanf() hygiene
-# good: [083c9ab12c402efe9ed55c942ede92eb35f8bf2a] crypto: omap-des - add COMPILE_TEST and fix CONFIG_OF=n build
-# good: [49e05bb00f2e8168695f7af4d694c39e1423e8a2] crypto: atmel-sha204a - fail on hwrng registration error in probe path
-# good: [86ad8069366642fec18c1bc53c24cad3da720ce5] Documentation: qat_rl: make rate limiting wording clearer
-# good: [d58b4a09d7f06750a706b70d068f5a678dad8233] crypto: atmel-sha204a - remove sysfs group before hwrng
-# good: [34808ac8ddafc3e2c2a59e84eaab0a410e7a0fdc] regmap-i2c: fix sparse warning in regmap_smbus_word_write_reg16
-# good: [dc3ec9af62a92a46378960e599521c2ac5f81343] hwrng: core - use MAX to simplify RNG_BUFFER_SIZE
-# good: [513f49c33e91e58975ada7967b44512179f0e703] power: sequencing: print power sequencing device parent in debugfs
-# good: [bb2d82d41894cb30d836e9796ff67d2f9a71eccf] Merge tag 'v7.1-rc2' into nolibc/for-next
-# good: [07a1a6562ce29e2e0c134a57882d6e52e8758492] kcsan: Silence -Wmaybe-uninitialized when calling __kcsan_check_access()
-git bisect start 'b99ae45861eccff1e1d8c7b05a13650be805d437' '5e9d583f58c8b56c9f5022639ac70cb7ae6e9fe9' 'a9f7db50ed2fff96727782456f49bf88def68510' '215701873a7ed1214bba82c8fadcd2583d0246c3' 'b882d807fa443b529ae8bf917d7b640a8d555437' '835fa43a4d36bd66ad0dd052f9fa15f7bd365fa8' '5d72c6a754ef488f88ad33c83d14556c6f38af3a' '04b18289834f20bbed25813c4978833ca8bd6e82' '94bf692c483ffb325af0b110429ad37f445d40b0' '1c996a37fd244d19e5dbb715328c1676e28ef607' '083c9ab12c402efe9ed55c942ede92eb35f8bf2a' '49e05bb00f2e8168695f7af4d694c39e1423e8a2' '86ad8069366642fec18c1bc53c24cad3da720ce5' 'd58b4a09d7f06750a706b70d068f5a678dad8233' '34808ac8ddafc3e2c2a59e84eaab0a410e7a0fdc' 'dc3ec9af62a92a46378960e599521c2ac5f81343' '513f49c33e91e58975ada7967b44512179f0e703' 'bb2d82d41894cb30d836e9796ff67d2f9a71eccf' '07a1a6562ce29e2e0c134a57882d6e52e8758492'
-# test job: [a9f7db50ed2fff96727782456f49bf88def68510] https://lava.sirena.org.uk/scheduler/job/2827407
-# test job: [215701873a7ed1214bba82c8fadcd2583d0246c3] https://lava.sirena.org.uk/scheduler/job/2804576
-# test job: [b882d807fa443b529ae8bf917d7b640a8d555437] https://lava.sirena.org.uk/scheduler/job/2801267
-# test job: [835fa43a4d36bd66ad0dd052f9fa15f7bd365fa8] https://lava.sirena.org.uk/scheduler/job/2801414
-# test job: [5d72c6a754ef488f88ad33c83d14556c6f38af3a] https://lava.sirena.org.uk/scheduler/job/2827129
-# test job: [04b18289834f20bbed25813c4978833ca8bd6e82] https://lava.sirena.org.uk/scheduler/job/2827205
-# test job: [94bf692c483ffb325af0b110429ad37f445d40b0] https://lava.sirena.org.uk/scheduler/job/2827087
-# test job: [1c996a37fd244d19e5dbb715328c1676e28ef607] https://lava.sirena.org.uk/scheduler/job/2801077
-# test job: [083c9ab12c402efe9ed55c942ede92eb35f8bf2a] https://lava.sirena.org.uk/scheduler/job/2804905
-# test job: [49e05bb00f2e8168695f7af4d694c39e1423e8a2] https://lava.sirena.org.uk/scheduler/job/2804997
-# test job: [86ad8069366642fec18c1bc53c24cad3da720ce5] https://lava.sirena.org.uk/scheduler/job/2804815
-# test job: [d58b4a09d7f06750a706b70d068f5a678dad8233] https://lava.sirena.org.uk/scheduler/job/2805032
-# test job: [34808ac8ddafc3e2c2a59e84eaab0a410e7a0fdc] https://lava.sirena.org.uk/scheduler/job/2783569
-# test job: [dc3ec9af62a92a46378960e599521c2ac5f81343] https://lava.sirena.org.uk/scheduler/job/2804763
-# test job: [513f49c33e91e58975ada7967b44512179f0e703] https://lava.sirena.org.uk/scheduler/job/2801614
-# test job: [bb2d82d41894cb30d836e9796ff67d2f9a71eccf] https://lava.sirena.org.uk/scheduler/job/2744679
-# test job: [07a1a6562ce29e2e0c134a57882d6e52e8758492] https://lava.sirena.org.uk/scheduler/job/2745239
-# test job: [b99ae45861eccff1e1d8c7b05a13650be805d437] https://lava.sirena.org.uk/scheduler/job/2831199
-# bad: [b99ae45861eccff1e1d8c7b05a13650be805d437] Add linux-next specific files for 20260604
-git bisect bad b99ae45861eccff1e1d8c7b05a13650be805d437
-# test job: [2d4099641dbaed4b98711fc7d8ec94c5aec0a0f0] https://lava.sirena.org.uk/scheduler/job/2827279
-# bad: [2d4099641dbaed4b98711fc7d8ec94c5aec0a0f0] Merge patch series "vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2"
-git bisect bad 2d4099641dbaed4b98711fc7d8ec94c5aec0a0f0
-# test job: [e2c0b2368081bef7d1f6758cc9e7edde8521237c] https://lava.sirena.org.uk/scheduler/job/2827345
-# bad: [e2c0b2368081bef7d1f6758cc9e7edde8521237c] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-git bisect bad e2c0b2368081bef7d1f6758cc9e7edde8521237c
-# first bad commit: [e2c0b2368081bef7d1f6758cc9e7edde8521237c] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-# test job: [7d75aa8edfce3e8ac4f0f8fe5728fd1eab8f7f23] https://lava.sirena.org.uk/scheduler/job/2829187
-# skip: [7d75aa8edfce3e8ac4f0f8fe5728fd1eab8f7f23] splice: remove PIPE_BUF_FLAG_GIFT
-git bisect skip 7d75aa8edfce3e8ac4f0f8fe5728fd1eab8f7f23
-# first bad commit: [e2c0b2368081bef7d1f6758cc9e7edde8521237c] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-
---cImTK7GwRCQ+7M7E
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoirLEACgkQJNaLcl1U
-h9Bk5Qf/eatF0RmQ7gGfc55SuODXJPE8XNaHAlHHQ3iC2NRcFeVQo4pKa5flxn+O
-bEVCehiyAL9Z0ny5YXd0/A9jml5JtO9l7r0RG1x0niqavPnW4K4aFhP9KJU0xZPW
-kVFZWuJL1IfTvicSPh2V8kAuTxxcMC9UafI4I5R6kyOZl3b7qM/8dFUYxYo14Va7
-k8Qzo8YzxS9VFsLhy5X/vCCUq9Gj5e3YC24HBEDuxmxzTV2nLlbsWc8CuTKnO8hX
-2krdz5ApoZr5Z1iVR4peZphMMyHq6O+RMVltfWoO3K3U5vB6eqteU1w+yGq8WGH3
-Iz1m6atckmGWCI9jlvwaKjChWGDV1Q==
-=PcsM
------END PGP SIGNATURE-----
-
---cImTK7GwRCQ+7M7E--
+> ---
+>  tools/testing/selftests/mm/hmm-tests.c | 34 ++++++++++++++++++++++++--
+>  1 file changed, 32 insertions(+), 2 deletions(-)
+>
+> diff --git a/tools/testing/selftests/mm/hmm-tests.c b/tools/testing/selftests/mm/hmm-tests.c
+> index e1c8a679a4cf3..46e0c8c921c3d 100644
+> --- a/tools/testing/selftests/mm/hmm-tests.c
+> +++ b/tools/testing/selftests/mm/hmm-tests.c
+> @@ -2276,8 +2276,11 @@ TEST_F(hmm, migrate_anon_huge_fault)
+>  	unsigned long npages;
+>  	unsigned long size;
+>  	unsigned long i;
+> +	unsigned char *m;
+> +	uint64_t entry;
+>  	void *old_ptr;
+>  	void *map;
+> +	int pagemap_fd;
+>  	int *ptr;
+>  	int ret;
+>
+> @@ -2300,8 +2303,6 @@ TEST_F(hmm, migrate_anon_huge_fault)
+>
+>  	npages = size >> self->page_shift;
+>  	map = (void *)ALIGN((uintptr_t)buffer->ptr, size);
+> -	ret = madvise(map, size, MADV_HUGEPAGE);
+> -	ASSERT_EQ(ret, 0);
+>  	old_ptr = buffer->ptr;
+>  	buffer->ptr = map;
+>
+> @@ -2309,6 +2310,9 @@ TEST_F(hmm, migrate_anon_huge_fault)
+>  	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
+>  		ptr[i] = i;
+>
+> +	ret = madvise(map, size, MADV_COLLAPSE);
+> +	ASSERT_EQ(ret, 0);
+> +
+>  	/* Migrate memory to device. */
+>  	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
+>  	ASSERT_EQ(ret, 0);
+> @@ -2318,6 +2322,32 @@ TEST_F(hmm, migrate_anon_huge_fault)
+>  	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
+>  		ASSERT_EQ(ptr[i], i);
+>
+> +	if (!hmm_is_coherent_type(variant->device_number)) {
+> +		ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT,
+> +				      buffer, npages);
+> +		ASSERT_EQ(ret, 0);
+> +		ASSERT_EQ(buffer->cpages, npages);
+> +
+> +		m = buffer->mirror;
+> +		for (i = 0; i < npages; ++i)
+> +			ASSERT_EQ(m[i], HMM_DMIRROR_PROT_DEV_PRIVATE_LOCAL |
+> +					HMM_DMIRROR_PROT_WRITE |
+> +					HMM_DMIRROR_PROT_PMD);
+> +
+> +		pagemap_fd = open("/proc/self/pagemap", O_RDONLY);
+> +		ASSERT_GE(pagemap_fd, 0);
+> +
+> +		for (i = 0; i < npages; ++i) {
+> +			entry = pagemap_get_entry(pagemap_fd,
+> +					(char *)buffer->ptr + i * self->page_size);
+> +
+> +			ASSERT_NE(entry & PM_SWAP, 0);
+> +			ASSERT_FALSE(PAGEMAP_PRESENT(entry));
+> +		}
+> +
+> +		close(pagemap_fd);
+> +	}
+> +
+>  	/* Fault pages back to system memory and check them. */
+>  	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
+>  		ASSERT_EQ(ptr[i], i);
+> --
+> 2.43.0
+>
