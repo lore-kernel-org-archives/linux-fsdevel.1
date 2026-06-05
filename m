@@ -1,173 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062D1378D9C;
-	Fri,  5 Jun 2026 10:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780654094; cv=none; b=KLPJ0N4WfX4yeD/+5sMhkkd6uAVVeomEkIydBsOt2FD8JIJYTXMhx9JY2RIx59WQy/DWc9NPh+xI/cc/nl7zXDON7dwzJc87yhF/UWE8m5MGV9vMXWnmNJ3tFHCPOSUSdYK/x9fP4V+Og2amcb/69QxQmKftWqlHixQjw7oEs44=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780654094; c=relaxed/simple;
-	bh=m4UpGEEadJ0WjOAYoI4gvYf25oKzHkiSw67WOeZG6ew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CIoNK6KC+MiCSCh9kV+sS6BXwNNj/w2HWj3Bkk90e7NBBKyc5Sc36PJt6Bmjp/96iSqqRfDn/qUGpwqxMWsaYxMfvf6Eva+ubcbvIu1zt5RIV+0jnImJsAC3d43lSbGAvUL2KqndgnamuxavHy9euQlLi3qXORT+ncP9cWBRB1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DE2kG58h; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7123D1713
+	for <linux-fsdevel@vger.kernel.org>; Fri,  5 Jun 2026 10:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780654625; cv=pass; b=aUejglQS5KKbbqtuudPPZQfv5cQVu8elYSSS3vbECh4H/GisguWfqcFQ0NbqpjGS3XlnXJ2sJa5I1qduEHAtfnZc2vfiK8EJ9ShGD0ehwNACQU12sghpDieTltVa3/27Kj9y8d4BdfX24PPXfUrbY1salJNvTd4XLZ2Re2C0JKU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780654625; c=relaxed/simple;
+	bh=WF1vL9rONde+7EdvH7Uhhegwq4EwzF5oUtUzFz12QtA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fWY5P6PBxfGSpYVNn71eEsdl9DBX64J0SaEO4V6qdqjGdn4+zFZxHtr6LRn7RUq6eQ8lWtbI7wjEUeDc9MDowxikudXaBAag0ERVR55kIMlOQGoaRE6xmbUz1NM0jG99EVa5gy7p4MRa25G+rYSNnI04qj6/4kn8bz02ajBqX4k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G+9vUJST; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DE2kG58h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABC571F00893;
-	Fri,  5 Jun 2026 10:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780654092;
-	bh=I5VqecLRt7G5iGb70TpzMF2J4Qjuy+1vUMH27FXaf78=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DE2kG58hMxthGFnLTKM9WgyXXW0z/Ih2lPXc1ijI95aFcx2R7AziaFPmXqsNZ3iEo
-	 GJgPWk5slRIzPwDbGO0AL7r0+PbMGl0PHsUB5OtVy0oOTph7uJNMn8sFlSyIW/eDPU
-	 VjOeQjH0eVcLx3V6XQwfaEW04TFaTMRsqDxImeXLXM9YGApwhre4/PuiZboowesG+q
-	 PGQzllDWMEEz0pIBeeiWsdy05fSAGlpHIlKQTq4fd6LKW0Tej7F42wt9eTt8sQvn8V
-	 Er3vsj+ZXmfqiQwrPrmtc0ZsIGnnYFk312C4Ww2XJq1lNttvuHNlzozmQErjtzci6D
-	 fwBQzxAn0xlOg==
-Date: Fri, 5 Jun 2026 11:07:57 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: xu.xin16@zte.com.cn, tao.wangtao@honor.com, catalin.marinas@arm.com, 
-	will@kernel.org, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, akpm@linux-foundation.org, willy@infradead.org, 
-	sj@kernel.org, kees@kernel.org, luizcap@redhat.com, 
-	zhangjiao2@cmss.chinamobile.com, kas@kernel.org, hpa@zytor.com, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	jack@suse.cz, riel@surriel.com, harry@kernel.org, jannh@google.com, 
-	jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	baohua@kernel.org, lance.yang@linux.dev, chengming.zhou@linux.dev, 
-	nao.horiguchi@gmail.com, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, 
-	ying.huang@linux.alibaba.com, apopple@nvidia.com, pfalcato@suse.de, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, damon@lists.linux.dev, shakeel.butt@linux.dev, ryncsn@gmail.com, 
-	dvander@google.com, wangzicheng@honor.com
-Subject: Re: [PATCH 0/15] mm: introduce ANON_VMA_LAZY for deferred anon_vma
- creation
-Message-ID: <aiKd7tfrICFnlWxV@lucifer>
-References: <20260604111035154Lk-9ZgwKY4Nlk4zz30U1t@zte.com.cn>
- <68a4aec0-72d4-4967-b063-b57cc7ee40cf@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+9vUJST"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-68c1653ea0cso2420534a12.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 03:17:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780654622; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NumZuYtfwUNQJKpz5khk/T7wGXcdx7xgvgOg4e/jbqAYNBBeijXVd/V29ORRIvV/90
+         M74ZMvsIF572xf0//nkuB40nLNow9JLIOVs5PkaE0KGcca7o9qSrOs6R5Vu5OwmPtCyU
+         xcuYT24p9uZuTFZxAY4Hju4hQeoryaalKbbsNkXlPqXBtNuYWLic8f9iXVIsyP4CV+Vx
+         NiHpwmn8bbay63aLS6RmsoJQ+AVD6/CTck+mtqWP2TNEzTk5Ax3iFUk+GWr7f85Rfr2k
+         sZk6+LyphD1vBMOLSMGlywZnRk4wesPN1IylYl9fssO271576PKhdenVMFgkvwAsp8tg
+         vg6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bUhFysbZlGjq4fEHkg5MW+w54X1b9N3UpX9VYOCDIRU=;
+        fh=ARhWpsT+XnPlUorYc0UK8G5ZI2PFPv8eEqxK5UfY3jc=;
+        b=i3UJDRis9XEIeQMcvKdxy6qQ4Jns7sQ/uTBx0LrkCfnyR/L2qt2HpOIjAJ9AlAE24u
+         ORIKBBhQ/iPm2rexosHxxwXsXR0gdHlNkaDgCzV5lqNkD3tog3yM1CcYZ0EsOMouQ4kP
+         aR//HheGVsd/pTxcBa+U/eHiC7usA27vr20TVS15QnRmHd+xmw4X0veK+n/5Wh+XzHKT
+         enFrw/MJRjG0QrATTBMG5fLUM6oy52XZaP9wmf9Vk7Gfte/fMF8OWZ/EO8FMQRCl+mpY
+         0CVr+rTuapAqmAUtvnBMPv83iUpyw7F7NKLUk0YaG7PK4czX2oTF1C30ivBWWY2iVDSN
+         +68g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780654622; x=1781259422; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bUhFysbZlGjq4fEHkg5MW+w54X1b9N3UpX9VYOCDIRU=;
+        b=G+9vUJSTXWKm8O3eATRdhphA07y2DhvZrPOH5Wq91/zJq3PJ8cEPzEgr1fq/8gYwv7
+         aJ46/Vc9FbwjfMQJbWB1t96yDJ+B5KcLpTPQ8nsS/IKtIU6viXvPsEXwTynWVdZwX2H7
+         pzW8gCInImWsD9OSHoJNDKi3H5lSgFDloIqCjG0EUJWbtiFA+U0dNyO6DPC+T0Qrof1Q
+         +kLPB8d0n/61mS/zIt3XUMS89dBW8OfSkiMBX7u/iofBzqPsL6rM0UWxtUEXcDdxetJW
+         fVAG0A/UbzXE9Rj+a/7pY58ESue8ekdR5y52zTH/zZVCOVZfjnQRGQuGvLKAKAt+hZdB
+         NfOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780654622; x=1781259422;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bUhFysbZlGjq4fEHkg5MW+w54X1b9N3UpX9VYOCDIRU=;
+        b=DJR+jtTgUqyQ4Gano5NlzhlGPZaWZXKoGQ8KYAcs+Qsmzooq3VDWnQ4rNcdKSK4vvm
+         gJCBA0BFnWmiJiqd8oAUPvMjqxJWj2H7BfaTNdPh6NglWQCTOkDOicX1/qeaSKSyG5oI
+         C+7Fv5whqeJDOsbf+tE/pGs27R7gJYN5R4lfInne1LehSlqPTWI7y9wPnU8glxylz21d
+         pt3IbC5Ju5SY7Eb6AV4+xlhjzSaFNxfEzeVrnVIZhljFHtyddATbAaJWLSZ+v6yzXMcx
+         uxSaQPJj+XtSDVvB10bGN49YRoTpOOD6fGLLTYlgruJaVVzFFu8487dmHwtLiHAVMRwp
+         7GZg==
+X-Forwarded-Encrypted: i=1; AFNElJ9LxT4+c1ZTHTSpl6r27VVEj51DboJemsqzrnuBt7W4nw2eW21WWI9WJcWdoTKb+xDtjAPIhP+r7v6shbN4@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSZf4LslA+XFwHWU2H7PoomGJx/neQD8fno3TeYY+KB/4SO3K5
+	eTKEHS+MaELj0g3QZAmd6rMwQ6RZ9YhryJEB5m702L1yX6FB0VvwhzLG9/ljKXy9mrCx/vW9u71
+	Jh1tN6k0lwtKVhyu01jtQRClsdXA5Fis=
+X-Gm-Gg: Acq92OEgmW2PRKPA+vzuw612n6xYrOcg4qYm2VNht34/93yKhyrqHmH8HqP1exEA0gs
+	Pw5TYSSIHKmsq2xLHJS+jyxwa6Hi0iExhF8LYqOQADZFdGtOI23z0irENe5EftoT5PAxWE18rId
+	d7bl7xfIL4mOy88kt8n/gBDk66z0WDKiYYoFtMeUkjYrjrU+VwNvDT/OyyDNGTQhPNY6xzMYfAJ
+	3mQrfI6IE8calfPiBQEQlJgnTvg8ubPmisOqrmbZO+0hU/KmEiwRHXN26iTWuMLod3McJl2RSjL
+	eQ4MqYQJN67wCmhTj1KEgdCX3mOKHSKvBveuNZ/trWPP0UlF2chE
+X-Received: by 2002:a05:6402:27d4:b0:68c:33e9:bf71 with SMTP id
+ 4fb4d7f45d1cf-68fa4e18fafmr1527593a12.11.1780654622302; Fri, 05 Jun 2026
+ 03:17:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <68a4aec0-72d4-4967-b063-b57cc7ee40cf@kernel.org>
+References: <20260526085801.81187-1-liwang@kylinos.cn> <20260528104208.395757-1-liwang@kylinos.cn>
+In-Reply-To: <20260528104208.395757-1-liwang@kylinos.cn>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 5 Jun 2026 12:16:49 +0200
+X-Gm-Features: AVVi8Cc1maywQKJB6UJFdpvjKJlWJs4NKrTH45EiYuR_zdidaMKJhOhK0HdykmA
+Message-ID: <CAOQ4uxi4F=7pOUJfAJavaCZ19YoaASNssjuADqzUQs24ztLkww@mail.gmail.com>
+Subject: Re: [PATCH v2] backing-file: fix backing_file_open() kerneldoc parameter
+To: Li Wang <liwang@kylinos.cn>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Joanne Koong <joannelkoong@gmail.com>, 
+	Bernd Schubert <bernd@bsbernd.com>, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 05, 2026 at 11:38:52AM +0200, David Hildenbrand (Arm) wrote:
-> On 6/4/26 05:10, xu.xin16@zte.com.cn wrote:
-> >>>
-> >>>  arch/arm64/Kconfig         |   1 +
-> >>>  arch/x86/Kconfig           |   1 +
-> >>>  fs/proc/page.c             |   6 +-
-> >>>  include/linux/mm.h         |  38 ++
-> >>>  include/linux/mm_types.h   |   9 +-
-> >>>  include/linux/page-flags.h |  34 +-
-> >>>  include/linux/pagemap.h    |   2 +-
-> >>>  include/linux/rmap.h       | 165 ++++++++-
-> >>>  mm/Kconfig                 |  22 ++
-> >>>  mm/damon/ops-common.c      |   4 +-
-> >>>  mm/debug.c                 |   2 +-
-> >>>  mm/debug_vm_pgtable.c      |   2 +-
-> >>>  mm/gup.c                   |   6 +-
-> >>>  mm/huge_memory.c           |  16 +-
-> >>>  mm/internal.h              | 171 +++++++++
-> >>>  mm/khugepaged.c            |  13 +-
-> >>>  mm/ksm.c                   |  43 ++-
-> >>>  mm/memory-failure.c        |  11 +-
-> >>>  mm/memory.c                |  19 +-
-> >>>  mm/migrate.c               | 126 ++++---
-> >>>  mm/mmap.c                  |  15 +-
-> >>>  mm/mremap.c                |   4 +-
-> >>>  mm/page_idle.c             |   2 +-
-> >>>  mm/rmap.c                  | 690 ++++++++++++++++++++++++++++++++++---
-> >>>  mm/vma.c                   |  76 ++--
-> >>>  mm/vma.h                   |   4 +-
-> >>>  mm/vma_exec.c              |   2 +-
-> >>>  mm/vma_init.c              |   1 +
-> >>>  28 files changed, 1279 insertions(+), 206 deletions(-)
-> >>
-> >> Hi!
-> >>
-> >> When I saw the diffsat I was concerned. Going through the patches made me ...
-> >> more concerned :)
-> >>
-> >> This is a lot of complexity. On top of something that is already so complicated
-> >> that I fail to grasp most details without regularly taking a look at the nice
-> >> figures Lorenzo created recently.
-> >>
-> >> For example, I read above "since child VMAs do not need to allocate anon_vma"
-> >> and wondered how that could be part of something that is just done lazily. Then
-> >> I had to learn in the patches that there is some additional "Child VMAs
-> >> are created as ANON_VMA_TREE_PARENT and do not allocate anon_vma" -- excuse me,
-> >> what? :)
-> >>
-> >> Reading about VMA refcounts made me shiver. Reading "Holding only
-> >> folio_lock(folio) cannot guarantee that the split
-> >> operation completes atomically." confused me. Learning that we have to invent
-> >> interesting ways to make page migration mutually exclusive to free_pgtables()
-> >> concerned me. Figuring out that there are arch-specific config options and
-> >> runtime toggles is a clear warning sign.
-> >>
-> >> Seeing test_folio_unmapped() was funny, though (why?! :)).
-> >>
-> >> I think this patch set has a noble goal of reducing anon_vma overhead when anon
-> >> pages are not shared during fork. However, using anon_vma for them actually
-> >> makes the overall implementation (e.g., rmap walks, locking) more consistent and
-> >> simpler.
-> >>
-> >> Even if we could be convinced that most of this here is correct, how should we
-> >> reasonably maintain this increasing level of complexity here?
-> >
-> > Indeed, it's very complex, but having the changes of 15 patches scattered across
-> > various subsystems is really frustrating for reviewers. It took me a whole day to
-> > read through the entire patch set, which made an already complicated matter even
-> > more complex (maintaining such complex code in the future will be a pain).
-> >
-> > However, overall, I think the original intention behind Tao's patch is innovative
-> > and valuable, and Tao could definitely make this patch set simpler and more
-> > readable, because the core changes actually start from PATCH 10.
-> >
-> > I believe that if Tao had done the following, things might have gone better and easier
-> > for reviewing. In fact, I understand the motivation behind the patch is quite simple
-> > at its core (just wanting to avoid allocating the anon_vma structure when a VMA hasn't
-> > been truly forked, and instead put the VMA information directly into folio->mapping):
-> >
-> > 1) You could actually simplify your patch significantly — without adding a lot of wrappers
-> > and helper functions that introduce extra review overhead — and keep only the most essential elements.
-> >
-> > 2) Provide complete test code (in tools/testing/selftest) that covers the affected functionality,
-> > such as VMA, huge pages, KSM, etc.
-> >
-> > 3) Use the RFC tag to start a discussion.
-> >
-> >
-> > I would be very glad to see if Tao could post a simpler v2 version that does not alter the rmap
-> > core data structures too much and does not introduce excessive complexity, no matter whether
-> > it can be merged finaly.
+On Thu, May 28, 2026 at 12:42=E2=80=AFPM Li Wang <liwang@kylinos.cn> wrote:
 >
-> I'm afraid, the overall complexity would increase in any case.
+> The kerneldoc for backing_file_open() documented a @user_path argument,
+> but the function takes const struct file *user_file. The user
+> path is derived as &user_file->f_path.
 >
-> So to quote myself "But fundamentally, I think we want to find a new design that
-> is just naturally simpler."
-
-In general I'm prioritising my work, and hope to ship something within the next
-month, even if it might just be some early bits of work on this to plumb stuff
-in, and certainly the main ting will be an RFC :)
-
-So keep an eye out for this which will hopefully address people's needs!
-
+> Update the @-tag to @user_file and adjust the description accordingly.
+> Also fix the "reuqested" typo to 'requested' in the old comment.
 >
+> Signed-off-by: Li Wang <liwang@kylinos.cn>
+
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+
+> ---
+>  fs/backing-file.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+>
+> diff --git a/fs/backing-file.c b/fs/backing-file.c
+> index 1f3bbfc75882..080c99696cd0 100644
+> --- a/fs/backing-file.c
+> +++ b/fs/backing-file.c
+> @@ -18,17 +18,18 @@
+>
+>  /**
+>   * backing_file_open - open a backing file for kernel internal use
+> - * @user_path: path that the user reuqested to open
+> + * @user_file:  file the user requested to open
+>   * @flags:     open flags
+>   * @real_path: path of the backing file
+>   * @cred:      credentials for open
+>   *
+>   * Open a backing file for a stackable filesystem (e.g., overlayfs).
+> - * @user_path may be on the stackable filesystem and @real_path on the
+> - * underlying filesystem.  In this case, we want to be able to return th=
+e
+> - * @user_path of the stackable filesystem. This is done by embedding the
+> - * returned file into a container structure that also stores the stacked
+> - * file's path, which can be retrieved using backing_file_user_path().
+> + * @user_file->f_path may be on the stackable filesystem and @real_path
+> + * on the underlying filesystem. In this case, we want to be able to
+> + * return the path of the stackable filesystem. This is done by
+> + * embedding the returned file into a container structure that also
+> + * stores the stacked file's path, which can be retrieved using
+> + * backing_file_user_path().
+>   */
+>  struct file *backing_file_open(const struct file *user_file, int flags,
+>                                const struct path *real_path,
 > --
-> Cheers,
+> 2.34.1
 >
-> David
-
-Thanks, Lorenzo
