@@ -1,117 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11C947ECF1;
-	Fri,  5 Jun 2026 07:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC733481AB3;
+	Fri,  5 Jun 2026 08:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780646047; cv=none; b=RY+SJ3zMebYCLcQaW58/41nTtgkX4q7cM8IiIR7+jfeEOKBbWagDKtsyHny9ZdlIiLb1nmTg6SAwkMwmDU4Q+EcvOmSD1qCstfV8Vk93jtLSLwYJN7JrmOBwtb54nGRlbw1RHLo+ZKBq3d9mWt/g4HaHD0AUgg66SG5VsZP5OxE=
+	t=1780646428; cv=none; b=l7QOGqq202EjsAEEeZZsIYBVkdsida9cw1/kZFX00RGa/z9c/AMd+FsWyGkL1W8l2VidYAQg6mAhyvp4Hgvn8A+AJWjMIaqTPJHsba0oJj0Vof85RWKSZ3RGBXMkESuP5BrMqJfHln6tScLI4fH5gi84YW98+G5mhazo+1c54Mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780646047; c=relaxed/simple;
-	bh=bRCP5Hk67pGY5n4l3HlC7gXQ3/SvGdWxcbrtRyUL23k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U4DJXDWFhxG4o1iO/v2rCmI7+kCZR4eAzCzWyOYVmeEtpgxCXVyINJJ5DubWfr9e5YjzECyrry6Y0cADtzKqK3sxVNDFpRwojuf1KyWl2hkKWSO6kN4guwIomoOkkPwn8EkG0jYjNVdkM7QxAiWgPgHtuUTi/m++zl1I/mHLYxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qd6puHiR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780646428; c=relaxed/simple;
+	bh=YvJKeLRQNexy0zb8rYuAlcSxa7wy9WLn4ug159pEIfY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QzwT1GTMshnFFirQor/XFhHRd4FX9wZ1wWahcj738jAgOX2op69gB/Wx+0eZFAmNGi5wubcDR7I4v9Ugsa+I+cEezcmktTpbBMmCxXSo9qauYzzRPFq5fbHyst3NDRbCWfT6g/1s7YwyAYjnKTPdpdafaaeBK12sWmTObx/+HRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PG4+J48x; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qd6puHiR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 031D71F00898;
-	Fri,  5 Jun 2026 07:54:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PG4+J48x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0426E1F00893;
+	Fri,  5 Jun 2026 08:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780646045;
-	bh=dBHdZJAsi8sqfH5KBHEKNYc5EsMFpdfHefv5XfiSqyI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Qd6puHiRJKs7fXqsiAxnAZMC0vQ3Kebwf4Ne3cyc6sidKowYhBn9B+wn+TfeGbcPc
-	 mkkG70u6biGHrR/IDdzYtfywYCP5foeydpfi31P8MUE5JMV3uTPbzuMBU8T4yIOgUd
-	 ZzF5YP9CIp5ejA53ztNvvEqh3RlVm12OTxPLoQ5uruTFesNtoqacShZ4byU3diaYFt
-	 gJK2CjZ45fHdlJponEYAegAIWMHd3YmIFvkceTJ6+5LPf2CRutTEp6u6NqOxXJmR/j
-	 /ojnF0M6NdEw3dgM5oYFYIz8fFdLclCO9Yw0Hz20tx/OHDS2GC6NuGvWSaL9V3IYdZ
-	 qTvTlBk4d3A0g==
-Date: Fri, 5 Jun 2026 09:54:00 +0200
+	s=k20260515; t=1780646427;
+	bh=BmPrK/VOBJVan69VTNdtidS4qQvNxKZi4P1LJSRoGE4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=PG4+J48x2UiY73m0Zy4Nzyjz4Rq9edN20JvtCvi0i/8vL2FDfQYXJEoblgsbcUC3A
+	 wiMybttfVdmiCwHr71yHvsuzMa4Eijp2ghzfS4H7cRrXFcrtCsjmZ/oLpTCswSfice
+	 gwWn1lVIpJMC/msMQNMTWLMcQ3RRAcDpYyNz63CmMdA2dG0vqeHP00KVHw3Q2rc/AS
+	 8MEXz3cX+0/v0mWT/0bEOjLungVfYxglqB5zX+3pjTdtXWRqzT5D1tcPCW6GWsoVER
+	 hWe1GPSd610GpGx02T/m2MWch147zoioX5NkmDpo02GbjDgiSyCah+A4dYXlKO8zcE
+	 xY3KyZSGZ5kRg==
 From: Christian Brauner <brauner@kernel.org>
-To: AnonymeMeow <anonymemeow@gmail.com>
-Cc: Amir Goldstein <amir73il@gmail.com>, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] fanotify: allow reporting pidfds for reaped tasks
-Message-ID: <20260605-inwiefern-flugbereit-reintreten-9ff8d18b642d@brauner>
-References: <20260603001516.26234-3-anonymemeow@gmail.com>
- <20260603031117.20950-1-anonymemeow@gmail.com>
- <CAOQ4uxgudh_W2Gcs5qqGce8yO6503yjrGzEwbjTKkT+DLAqufA@mail.gmail.com>
- <20260603-schindel-drehzahl-planlos-e334e6899cd5@brauner>
- <CAOQ4uxgEnD6aN4HTh14=SPzU25_2xOXxfnY+60udOqNp3nnm4w@mail.gmail.com>
- <20260603-mehrsprachig-altlasten-unverantwortlich-4fcd029306b0@brauner>
- <178060498710.12657.15047020114378440191.b4-reply@b4>
+To: Jann Horn <jannh@google.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fixup! proc: protect ptrace_may_access() with exec_update_lock (part 1)
+Date: Fri,  5 Jun 2026 10:00:03 +0200
+Message-ID: <20260605-glanz-mittag-auffordern-538ca21aa78c@brauner>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260604155806.1402880-1-jannh@google.com>
+References: <20260604155806.1402880-1-jannh@google.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1612; i=brauner@kernel.org; h=from:subject:message-id; bh=YvJKeLRQNexy0zb8rYuAlcSxa7wy9WLn4ug159pEIfY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQpNYmZ/L577OizSycL5XZOqwrr6vocbalVqvj7rn/U4 7ROnWqtjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInMM2T4X5rLED75W+6dRRkT zjsYpSwX29d/cumfLwejVm49uciIRZqR4fZ+A26nzrxn/B0BZlsMMtin/Ft/cJri8RWmhu4P7zG V8gAA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <178060498710.12657.15047020114378440191.b4-reply@b4>
 
-On Fri, Jun 05, 2026 at 04:29:47AM +0800, AnonymeMeow wrote:
-> On 2026-06-03 13:25 +0200, Christian Brauner wrote:
-> > On Wed, Jun 03, 2026 at 12:58:09PM +0200, Amir Goldstein wrote:
-> > > On Wed, Jun 3, 2026 at 12:28 PM Christian Brauner <brauner@kernel.org> wrote:
-> > > >
-> > > > On Wed, Jun 03, 2026 at 12:00:42PM +0200, Amir Goldstein wrote:
-> > > > > On Wed, Jun 3, 2026 at 5:11 AM AnonymeMeow <anonymemeow@gmail.com> wrote:
-> > > > > >
-> > > > > > Sashiko said that pidfs_register_pid() can fail under memory pressure,
-> > > > > > since it allocates memory using GFP_KERNEL without a way to pass in
-> > > > > > __GFP_NOFAIL. This can cause fanotify_alloc_event() to silently drop
-> > > > > > the event even when the group has an unlimited queue length.
-> > > > > >
-> > > > > > Should we make pidfs registration best-effort instead and still return
-> > > > > > the allocated event if pidfs_register_pid() fails? But IMO this will
-> > > > > > make the API semantically ambiguous. If the kernel guarantees that the
-> > > > > > event pid is registered with pidfs when pidfd reporting is requested,
-> > > > > > then a later FAN_NOPIDFD or -ESRCH can only be caused by the task being
-> > > > > > invisible within the reader's pid namespace. But if we allow best-effort
-> > > > > > registration, the event may still carry a pinned struct pid, but pidfs
-> > > > > > registration may have failed due to memory pressure. If userspace reads
-> > > > > > the event after the task has been reaped, it still gets a FAN_NOPIDFD
-> > > > > > or -ESRCH due to failed pidfs registration caused by memory pressure,
-> > > > > > IMO this should be reported as a -ENOMEM instead of -ESRCH. But
-> > > > > > currently it seems we don't have a good way to register the pid with
-> > > > > > __GFP_NOFAIL or __GFP_RETRY_MAYFAIL, so what would be the preferred
-> > > > > > approach to handle this situation?
-> > > > >
-> > > > > Thanks for noticing the oddity and explaining the options.
-> > > > >
-> > > > > We could fail the event in case on ENOMEM because the system
-> > > > > is likely is a bad shape anyway and other events are likely to fail
-> > > > > allocation themselves, so I am not objecting to your patch as is,
-> > > > >
-> > > > > but I am slightly leaning towards the semantically ambiguous API.
-> > > >
-> > > > As usual, I think a semantically ambiguous api should be avoided.
-> > > >
-> > > > > I don't think that we are going to change the man page to say that
-> > > > > FAN_REPORT_PIDFD is guaranteed to return a pidfd, maybe we just
-> > > > > add a NOTE about increased likelihood of getting a pidfd since kernel XXX
-> > > > > and mention the known cases of pid namespace and ENOMEM.
-> > > >
-> > > > The pid namespace shouldn't matter.
-> > > 
-> > > DO you mean that the event reader inside a pidns always gets a pidfd but
-> > > it will not be able to query the pid of the process outside the pidns
-> > > or do you mean something else?
-> > 
-> > So they will always get a pidfd since fanotify is correctly using
-> > pidfd_prepare() directly. But when the reader tries to resolve the pidfd
-> > to say a pid or retrieve info via the pidfd info ioctl they would fail
-> > to do so (well, the pid will resolve to 0 which is the global indicator
-> > for "can't be resolved in your pidns").
-> > 
+On Thu, 04 Jun 2026 17:58:06 +0200, Jann Horn wrote:
+> fix two test breakages in tools/testing/selftests/proc/read.c:
 > 
-> Before pidfd_prepare(), fanotify checks whether metadata.pid is
-> non-zero, i.e. whether the event pid is visible in the reader's pidns.
-> If it's not visible, fanotify will not create a valid pidfd and return a
-> FAN_NOPIDFD. This is the existing behavior, and my patches do not change
-> it.
+>  - The test requires that readdir() on directories in procfs does not fail
+>    when running as root.
+>    Restore the previous behavior where /proc/$pid/map_files/ simply returns
+>    an empty directory if the process has no MM.
+>  - The test requires that any directory in procfs has "." and ".." entries.
+>    Restore the previous behavior where, even if a task has no MM,
+>    /proc/$pid/map_files/ still has "." and ".." entries.
+>    (This now differs from previous behavior in that even if the caller does
+>    not have permission, they still see "." and ".." entries; recreating
+>    the old behavior exactly would make this code unnecessarily complex.)
+> 
+> [...]
 
-We can hand that out. That's another change we should consider. The
-pidfd works even if the pid namespace is outside the caller's hierarchy.
+Applied to the vfs-7.2.procfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.2.procfs branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.2.procfs
+
+[1/1] fixup! proc: protect ptrace_may_access() with exec_update_lock (part 1)
+      https://git.kernel.org/vfs/vfs/c/883d2f3ec72d
