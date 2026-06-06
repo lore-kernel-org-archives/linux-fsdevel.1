@@ -1,62 +1,62 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03116301472
-	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 06:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EBA3033DF
+	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 06:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780726288; cv=none; b=H1I7xydIoN8l2yz7qAJxH1YuZA4SXdS7CmUZnmjccvUxVCwVSp8Ls/no7M5MlJIcQO+bESjjkaxSx8coeP9riV6mhStgVy2JNNzNJR/EFNKAe4dEPp4c2DrP2NPgoihCSRR3D1QAqyltWfuOjd1is5DSMmLis8C1Sxs5NfSew2I=
+	t=1780726311; cv=none; b=kf2IlrRW436vtIEbhaxbeRvULt65peohVFfGagNIf7iw4md7AsEOGH1/bI5gWrBMDZ1SNG26xu6MvX273bAKZMbJ40Lgnx33OuIInWJYhrCGTEvhnp7fq4Z9cw74o3upglZ0iEZ2tXc3YGzwCrXcyRXoswPer82QamdiDmSwK+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780726288; c=relaxed/simple;
-	bh=QtIkhOcb4XuSPNMSHsQTam2xRok/IOw4SC1HUoDCl24=;
+	s=arc-20240116; t=1780726311; c=relaxed/simple;
+	bh=x+w9SGxZBWO4hPXg8E+A/q/4ScS0BqeDSCrwJNo6iBs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZzL/nc6l2i6uKh89bkcnFSXoXsUPJ3Obw69MqV0VsLiLeA8Zw2vAxSYO+p0Vk6bytthUvD/3AOExI/KFfZdh3zmY3cvaCBWUj19LWqq/PfQvKrC2neUV5YYSN66DULm30XUZVUPWzo5Ew0H0fwzJU11kBeW4JN6BiK0HlgH8B34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KLy12Jix; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=XMZYGW2X7XygAwmhtunaetr6aiessVH5IuGMNm5clPSaFrj/cUcGlQZDUFbKutvjmxRWJBX62HVWAvBiIjwvT/VgT7nsYis6zMtdPnRWF6BMR9IOV8DL8pofsCm/E4hrihaOoGK/npOUqeX5O2ONIpaz+uo79ZkMil0BzUBnRlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NjKXTOhZ; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KLy12Jix"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490c1915793so12793155e9.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 23:11:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NjKXTOhZ"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-46019b190b6so1934991f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 23:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780726285; x=1781331085; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780726309; x=1781331109; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T2cQgCHbxQom2kVIv1Cvt6Y9CPEs8rn7euaXGTL0+j8=;
-        b=KLy12Jixz2tIbG+Bqx2kFQDR1LkeBX0JuY4LIwcqjeHo/va6TrWxNBoa91zM34FCyk
-         mObgIC48xiVoCBi1ZPIGlgQOHQyn9emWUrVDOWqYaBFvhEZXDTOeeUhpLL6+rJIwshLr
-         aKffAjaazH/1LOg2AqAoqWohc3YFEKEv/DxJevSlqg9zFJ078PjbTzLwj+enA8sbMdV9
-         jpud3TmpWZmn+ufBFbxMUfcGTKX1l+POePF59aR2eaSzdSYgy7WHLLc+/yaRg8ft43ID
-         nKTwCh5PVm9JUyDWNm8XB6Ha2WzeIkTh3i356Tr5YC4NvrM4K/q+hVxk9XvOEFi6IqtH
-         L2RQ==
+        bh=0+ggg4zFesK0IrYb2saIE8cPaSi4XEf6KWehvtWp5AY=;
+        b=NjKXTOhZ6oFtD6egk7Q8ZGBQebsZA/l29SSQKp5HIFtTtDs5m9pJncOdhT1E4OMNlw
+         voEdgti52EWxYcP4vTsS4BbnzSSgKcN3+Sj8qb3PYtHNlqx0Yti9pz12uYadPiFktEvI
+         GEY2VByqek/o37vSoIwXjHuNB2Wk+xq00+LtVXml4K2ZaB309p+/VTaXBq7SvGMQTLaS
+         9dG79e/RcblaWFrhC1exZ24H/AznHI1yD5BpA6VnbtCSbx/10pau+uv5bTw4iUoWA6/Y
+         MdH4ZC3Vk3LSX0FT0DfUFQvy7RPM7Jc3cMEtLJ/Y56H/K7XXdGGTNtMsrIvCtmE4Y+Hk
+         LdWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780726285; x=1781331085;
+        d=1e100.net; s=20251104; t=1780726309; x=1781331109;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=T2cQgCHbxQom2kVIv1Cvt6Y9CPEs8rn7euaXGTL0+j8=;
-        b=gGcd9DWG5ApjjD8ZPqlIKhTMocIJWjSaMpDlBuORoR8ok2Dl53o0+M+NaIUCq188RR
-         EL/hqrtZWzXzZH/ZKEzQ97gafq3nBRhew9boCGPjan0QMEDwC7hQsDcLgRk2Xv89JISr
-         sCmCSYDLVZ+p6NXZ9s0rQa3awx3FPPkmn50WtrbQAiGToyxsggtY/6zrb9J9h7qfMhY/
-         XKzIipkvGB8RE8DWCJMkxXNKFWh4xd5b80lW+NPBc0qEw9VEf76NaQDd/z2hgmhgjcqx
-         8u8/sG+umtpBY7V5Wrta0git95nSDnNE8DEEqNTq8pniO9r8NFfWZeVPn7xWbdzNVxrx
-         lGWw==
-X-Gm-Message-State: AOJu0YxGoQpXxAfSRhZaJjE4h6BwBYnX2S+nU1SclKecFw0kux4F5Qi4
-	EZ09VWziADiZao/LyJBWAfQ5Gq8hsQGHcZ53T2eALsfsMSZm6k3+ZkO9xXyzQQ==
-X-Gm-Gg: Acq92OEGDmFF0JlgngeSlk2i3tbU2REn1Wk3KidfXcjv2D/o+xd+PfD2hTvRIkkd4Wi
-	Q/rNzNyrWdOOxYyQ9cTdBzq2IQ0ry2oU3HdG5ipLAo0bsuMYumzgjZaqdHkGYVZ3+W3oYgS0Sbr
-	axY1PEj88mIM8bIBKfSZ1rPpJbfWCg0JPD/YTXOX/HWTUCHklcdcvJ44k4mUAa5HMAQ79tmXOuc
-	khpfA/to+b5MHBC8IX1vEejygy8IkXxL5wcver8iB2dvj6BTnSTBrZF8hwmqrWI8aiEEBQ/W6qx
-	9x1LP0MfVmHnkXQ0TDHBy4fufU5MG4TbJ3sKt+ivwcOpKkq6gBIWDn1ot6xbR12tpxy5dzR2bO0
-	FewWfOtF+ZpyzOL2SF+vedfUogR50yWPW2k+tEz27uSAmrJ3A2+3bW0Ylt0nSVEZ2a/HBOuoIZ+
-	LejrLooHnxlg4WQdrzA9EdLPKK5fmuKibXDu0b7BzV
-X-Received: by 2002:a05:600c:a117:b0:490:c2a3:3302 with SMTP id 5b1f17b1804b1-490c2a3336dmr71973635e9.35.1780726285175;
-        Fri, 05 Jun 2026 23:11:25 -0700 (PDT)
+        bh=0+ggg4zFesK0IrYb2saIE8cPaSi4XEf6KWehvtWp5AY=;
+        b=VCAQUnQapgdrH5Nh9Hf5hvZYIt9lcpiCTzM/6RhEeuiq7dP5/fGyRmAuXV9/QlHZQH
+         dl1zFSpCJYpzByLITtRjhm9N3K57KFcui6u6Dh8xEfLTXgHkvvMKti0m/svMY8TmQkkU
+         kqB5HCqSTw0OCJ0ZN3nBVMWyBTnYceBqHZ9Z0epwixmvGhgYUW3qdFlnu9EnEGwIiq74
+         OIoUadolUIWzGuy7DIhexAf9tHKO4II24PM7R7dIiGZx9R/ABCYgtdzo8/aHiLJBXFg0
+         BOKSFT9i4JJOvzDeCo3VJpZjk+gSaDEmksLXzk31/LLhujUmakC7JKzZatd5+ndc0xBd
+         KaVw==
+X-Gm-Message-State: AOJu0YzSfnvfRqBRVGF0h3yZLzNDd2fk+TFGFzhk2H+7qp5vmewY8ibZ
+	1FDV9juGbTkDdcgbCrv1SDQ9mY3Vq9l4I5wlgvZUY3/xIQ3wUjHo3aGc+z3z3Q==
+X-Gm-Gg: Acq92OEEfmNWqHBr6bLmIOdQprhHakdvHLTuzra9IHguL3X4+0XJy44bQezEGbPOAOf
+	lCLzJOc/S9EtdVtVI1QD0f0cavXywF7WsbVgy4vtn1Nf9WporWyoJfiY9EHErXQl+6T+FHK1RDT
+	vLaovAeylcQBTF1xWNHOML7vw8C08CEfKGPQSgg6ityfHZVfD+z7N3RbnV9JtvYh63Y04kpyQaA
+	xXFIwVoSn+T+uMg4/cX+hZyk7RXTvHGTduPPctgqFQ6nNMtsD3mu5VtdQyxSED33rV1VMmAPog3
+	AvLWGF5EbDqyR8IlUDr8iV/TS//a1XMet6e2uCGMU+sf4YKOJR2VZ0Jx3c9ysc7sSdPdOttOF+d
+	x9G0xJ+OFZhzvR/fpCkNeDbyiBvDAp2pIcbmoo6G4P5yJXU5BMCB+fDnmpsnIIVx0f1p1Ka4gFx
+	UyDv152UxPNbAhsJwln0L6mK0dTPdP65P+Y5fjsSga
+X-Received: by 2002:adf:e014:0:20b0:45e:f29d:d438 with SMTP id ffacd0b85a97d-46030618a38mr7876243f8f.28.1780726308885;
+        Fri, 05 Jun 2026 23:11:48 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490bc39e024sm273433555e9.4.2026.06.05.23.11.22
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46028a6dce6sm24115947f8f.30.2026.06.05.23.11.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jun 2026 23:11:24 -0700 (PDT)
+        Fri, 05 Jun 2026 23:11:48 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
@@ -86,9 +86,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Willy Tarreau <w@1wt.eu>,
 	Joanne Koong <joannelkoong@gmail.com>,
 	patches@lists.linux.dev
-Subject: [PATCH 1/5] vmsplice: open-code do_writev and do_readv
-Date: Sat,  6 Jun 2026 06:10:27 +0000
-Message-ID: <20260606061031.3744880-2-safinaskar@gmail.com>
+Subject: [PATCH 2/5] vmsplice: change argument type back to "int"
+Date: Sat,  6 Jun 2026 06:10:28 +0000
+Message-ID: <20260606061031.3744880-3-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260606061031.3744880-1-safinaskar@gmail.com>
 References: <20260606061031.3744880-1-safinaskar@gmail.com>
@@ -100,71 +100,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-My previous vmsplice patch did the following mistake: I did
-"CLASS(fd, f)(fd)", then did some checks on resulting "struct file",
-then passed numeric (!) file descriptor to a function.
-
-This is somewhat okay in this particular case, but I still think
-this is code smell, so I fix this by open-coding do_writev and do_readv.
-
-Also I insert a comment to warn other developers to keep
-do_writev and do_readv in sync with vmsplice(2).
+My previous vmsplice patchset changed vmsplice argument from
+"int" to "unsigned long". This may cause problems, so let's
+change it back.
 
 Signed-off-by: Askar Safin <safinaskar@gmail.com>
 ---
- fs/read_write.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ fs/read_write.c          | 2 +-
+ include/linux/syscalls.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/fs/read_write.c b/fs/read_write.c
-index 1e5444f4d..e224e7cb8 100644
+index e224e7cb8..77487b307 100644
 --- a/fs/read_write.c
 +++ b/fs/read_write.c
-@@ -1070,6 +1070,7 @@ static ssize_t vfs_writev(struct file *file, const struct iovec __user *vec,
- static ssize_t do_readv(unsigned long fd, const struct iovec __user *vec,
- 			unsigned long vlen, rwf_t flags)
- {
-+	/* All future changes to this function should be kept in sync with vmsplice(2). */
- 	CLASS(fd_pos, f)(fd);
- 	ssize_t ret = -EBADF;
- 
-@@ -1093,6 +1094,7 @@ static ssize_t do_readv(unsigned long fd, const struct iovec __user *vec,
- static ssize_t do_writev(unsigned long fd, const struct iovec __user *vec,
- 			 unsigned long vlen, rwf_t flags)
- {
-+	/* All future changes to this function should be kept in sync with vmsplice(2). */
- 	CLASS(fd_pos, f)(fd);
- 	ssize_t ret = -EBADF;
- 
-@@ -1226,14 +1228,24 @@ SYSCALL_DEFINE4(vmsplice, unsigned long, fd, const struct iovec __user *, vec,
- 	if (fd_empty(f))
- 		return -EBADF;
- 
--	/* We do do_writev/do_readv, so it is okay to pass "false" here */
-+	/* We do vfs_writev/vfs_readv, so it is okay to pass "false" here */
- 	if (!get_pipe_info(fd_file(f), /* for_splice = */ false))
- 		return -EBADF;
- 
--	if (fd_file(f)->f_mode & FMODE_WRITE)
--		return do_writev(fd, vec, vlen, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
--	else
--		return do_readv(fd, vec, vlen, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
-+	if (fd_file(f)->f_mode & FMODE_WRITE) {
-+		ssize_t ret = vfs_writev(fd_file(f), vec, vlen, NULL, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
-+		if (ret > 0)
-+			add_wchar(current, ret);
-+		inc_syscw(current);
-+		return ret;
-+	} else {
-+		ssize_t ret = vfs_readv(fd_file(f), vec, vlen, NULL, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
-+
-+		if (ret > 0)
-+			add_rchar(current, ret);
-+		inc_syscr(current);
-+		return ret;
-+	}
- }
- 
+@@ -1218,7 +1218,7 @@ SYSCALL_DEFINE6(pwritev2, unsigned long, fd, const struct iovec __user *, vec,
  /*
+  * Legacy preadv2/pwritev2 wrapper.
+  */
+-SYSCALL_DEFINE4(vmsplice, unsigned long, fd, const struct iovec __user *, vec,
++SYSCALL_DEFINE4(vmsplice, int, fd, const struct iovec __user *, vec,
+ 		unsigned long, vlen, unsigned int, flags)
+ {
+ 	if (unlikely(flags & ~SPLICE_F_ALL))
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index a86a88207..46a3ec954 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -514,7 +514,7 @@ asmlinkage long sys_ppoll_time32(struct pollfd __user *, unsigned int,
+ 			  struct old_timespec32 __user *, const sigset_t __user *,
+ 			  size_t);
+ asmlinkage long sys_signalfd4(int ufd, sigset_t __user *user_mask, size_t sizemask, int flags);
+-asmlinkage long sys_vmsplice(unsigned long fd, const struct iovec __user *vec,
++asmlinkage long sys_vmsplice(int fd, const struct iovec __user *vec,
+ 			     unsigned long vlen, unsigned int flags);
+ asmlinkage long sys_splice(int fd_in, loff_t __user *off_in,
+ 			   int fd_out, loff_t __user *off_out,
 -- 
 2.47.3
 
