@@ -1,97 +1,71 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B023093B5
-	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 06:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5552FFF99
+	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 06:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780726383; cv=none; b=mjUJErm41/Lcj3DsIEy7q4LoGZsxjIfoF2afHK86q2MGNlwyt56ZucnuuxFU+5Pe3W0KuIIU+yNVx0VM2cpIF4To7Vx3yjs2NgBNYdfaSzwygX/d3KApoQMWOBWXo6jnD+c0Z8EFCgTHPO7lMZewksWx98YFCbQb1YJgYOhAYso=
+	t=1780727847; cv=none; b=q986x6mCnzCVlsPgj/mv6kGFgaZaWuJN1q00WZqvE6YJ4UXNkTxBdGPPxKifesNavbutAAFrbHvImucJEJK4jzgR3UeSsPD79Ys8fXDaWe291/Igrpg4j3LQ04bYSOxwJkejf4jb1Ql8zTjMkUNNfKyxqT43csTdbUrj3gW/t2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780726383; c=relaxed/simple;
-	bh=YVkMCLt5FJ+bDbSrJETzwIU6LK60EPUbwXQNXghAHuo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JrdxfFWfoXwbOQ7UotFmmkPGclxQqqH0OLt+EZslPD4M50ekj/rAnHvjS2RKip0YJ5/cYqeYwITh/KqKIugcEdFeaWsVjhrgUGiOfuIOAyEBbiy3UvmPRJPHbKoY4aIUIYl/EoGmiyvW5QMlIKJ5PqLO2wWAQ8GcfVAS6XTcQCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a3xZMcf8; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1780727847; c=relaxed/simple;
+	bh=FTCFPDxznd2VnSWF1/IP5a2tyREzKaS26U4h2kBWQpA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ppn4qc7QEAXvktCrgs1wAohygoc0sgfMqeER62FrNdLAtOYXOxsbi5ii18jDWS0zVKZ7SuWNpVWZbXAxip4bJT3ORz+uLOKoLF/rJX0ZhNgkELSLf+CaU+MZyodqxRVoZ9NmUmkoZKf6Js2YG6GiOi1bOFF2a08+SmIM/0L58N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ezsj8UDR; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a3xZMcf8"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490b09e4cccso18949295e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 23:13:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ezsj8UDR"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2c0c3543590so18191315ad.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 23:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780726380; x=1781331180; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y22J8nzR3UW0cMYCUVJWDcFSFo/6kHGVqnn/SzRaSz8=;
-        b=a3xZMcf8qDs8ViQFPPN8nYKAL1Op8FOTL/SEYz+j1qU9fOehiv6gerL8Z0EuCjr4jv
-         HzRypJdpqmObxKso9mHsn0g15GTjR0XBAXyZOHh55yoB6XxDYd59DipPJSNqDxEaU/4Q
-         BMZB8INnMZ8T2et5vzOaY/Ox69qyHqWVIlFmtUZvFSypmvFetmxSsORTT45UGHl3FIaS
-         VGInaZScHjTqHPwDX9yC2gAVV9Ze7OQmsjKVlAHASkvxpN9gLrP4jRy2teo2R13z4Qj6
-         HVDS/mFAmPPxrQVADHYbsjFn6nbs3Sb2c2X0GaCNQDspHIGHhAFhtODEvC8n631oljsK
-         GarA==
+        d=gmail.com; s=20251104; t=1780727845; x=1781332645; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fi2g1ORMQplpFEWEapSXzP8JusgWR8+hu6m3SYXtI+o=;
+        b=Ezsj8UDRqMh63tr8f1+ClACQF1JVjGhAleLJIqNK9v9hy5qPd/hgaXUqBko4mhwVpW
+         FtyrKnqg4+VLzhKX7w1uJxUZ5TCQx2QRBILT6tr8i0f4hQcG0S/ZGK7QIXe81u1BL3PJ
+         uVzN0VJ1fiP/hKN3tqUFIn/cLLny+vz8kiCNViYDqlLYrf75qsW0+c76iNSYuVv7RN3X
+         Iwh8C4y7LDRrxshxXX/Ic8CDYGNq4l+ipBkjg6u6adsWR0ndrF3wbXVLKzKWJVXRHGdk
+         n88HtMfTshX8B4gOTZVPbPZnGuEAA/eejcKCDWEFJa2lIAHhqCL8eFaHKUkZ8d87wXh8
+         lBoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780726380; x=1781331180;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y22J8nzR3UW0cMYCUVJWDcFSFo/6kHGVqnn/SzRaSz8=;
-        b=msYOrfqqt3GLFsDVmMzJAHouQD/X5KS4usVKyt/bgn3XEfBeI+MQkcoaqYD1B4S/Dj
-         AnyI4c9Qh2Gt/AIONLWybvWW8PwvupDWIBv+XAbPy/Yy2ne41ny/a5GEEvU92VrCJ33R
-         Yl1q0isgaptqEzbPow4q9xKyuO//7rMTaiCcSL/zWBUQ2UDZxP2eZ5a+te8HJZsFQ84e
-         fpscNAFSlwU8eUavssoV88B2MtKi3Hm6dKxVt+Z+wnPneRYuTzIto1+rJfp8vuWhgBB+
-         VGhos8qT6DkHp5aOv+aeD/R2pmHZwiPbQmoxOPN2cjSpQndfS9RuPTyuYXQb2CM1r5wQ
-         HJFg==
-X-Gm-Message-State: AOJu0YzTDVXlsuTvbvEyFQykEvDSQ44IFklicjhOiZwJQAFOMQ7BzkRb
-	55Uv5xXLdf32epwTUt9g8kWHGP3KDBrzIvEynmpfoBWISmU73dHZ232y8rztqw==
-X-Gm-Gg: Acq92OEhcgjSNPm45CzjWegSxyCTpw00Gmx82lYSvtl7ghA1NgjbvaXXLDCuIl8GdxN
-	RIrVHw5uq8PIzJCHUJnKINyG/scwi54APUPq+7Rmh17/bqFsjD2fUaisWwndRAzYgSc0jdCAh+L
-	fvAgyAOidy/PO2208ccYsmch3xhuBSu0YEgW3dr4P2zD5dbv2IaEoi/BoeawXjZkny1Y8Wx5twD
-	t07ZojmeeLlbB+e2T18y80RSmyLiup2jVPmtqsywpBJIGIxKqqBASj6Hye7gy7xHjhr7b2QKanr
-	4XX6SYI8cl+yssbp7KKzQ69JTZOr4FYUeZMYWb5GQ3qVIJPwSTyJZLfmF9wkOejSkss0vXEDF6A
-	RUSrfxOpkEVpgYV1oK0f0MioRnUtkZmZgXwGQ700/QZALaVP3G4V/YfStxv0ejOzKrfHY1ja59b
-	OgV9S/9E5At8O7FGLpwK5k8wPlnlLbZA==
-X-Received: by 2002:a05:600c:c0d3:b0:490:b0e0:3de2 with SMTP id 5b1f17b1804b1-490c265c148mr78044605e9.33.1780726380490;
-        Fri, 05 Jun 2026 23:13:00 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4601f2eadefsm32281391f8f.11.2026.06.05.23.12.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jun 2026 23:13:00 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-api@vger.kernel.org,
-	netdev@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	ltp@lists.linux.it,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Howells <dhowells@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Collin Funk <collin.funk1@gmail.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	The 8472 <kernel@infinite-source.de>,
-	Willy Tarreau <w@1wt.eu>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	patches@lists.linux.dev
-Subject: [PATCH 5/5] vmsplice: make sure we don't wait after writing some data
-Date: Sat,  6 Jun 2026 06:10:31 +0000
-Message-ID: <20260606061031.3744880-6-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260606061031.3744880-1-safinaskar@gmail.com>
-References: <20260606061031.3744880-1-safinaskar@gmail.com>
+        d=1e100.net; s=20251104; t=1780727845; x=1781332645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fi2g1ORMQplpFEWEapSXzP8JusgWR8+hu6m3SYXtI+o=;
+        b=YRQDABl+49+Di1JITvCXchA593SfBTG5chPL94mUDjKGpWc1+e/z7PRHyKKkxmpBsb
+         YN6a8A8MZIF33FHWbE9TKulQpYk/pxlyMwh+zLLPaIYRlJMiKziOr3c3myPc63A3xysf
+         VVJdoTdj6lGyhgDsYUEdbL+kwbGUVfN0W1BO/9gILIegsXZNMHwJgfZaUd+bd5PXWrn/
+         S1lvRkFyWCXDUiXfWJvwF3XgDPJgwPbbyShRSUTBIVkkvFlRPxdGFKaGrUL6wViiubze
+         IrVlbEkL1HsfaCf29/+ImX+y8/WldGtyI2LsO9rJ2zhk+Yad9P2F7ax9kHV+wrg8GZw/
+         x6sA==
+X-Gm-Message-State: AOJu0YxBd94qo/Eimfx0fvaEm4F+kiZUOe7XLpROl9GuSCvWoYmDS+Re
+	26v/IdRVheSlFSaPax5brTgjHNf5BtBd86zRrLUN3zvpbVyWovgR981M
+X-Gm-Gg: Acq92OHNGwLkA6DDrEB2zfM7lxN4Qp11V9y99r0PVIeHhzIZyiNA7YoruNy1mFnaY+K
+	KHcIFnZZVbKwyTvRGcNFNR3wf+CKw2mEwM1AEaunOga66TPp4YVSsDPNxHfI1jweAorv+2bVJnH
+	L+0kjc+aoOEbYZGyOlLhopBzmvT+xPz2oXnU8ToSBxVo/5JXtVaAoT++h2E53MdJmzJNDaC/p4A
+	UdJjdVS8hoXKEMhg67hPOL39bcNjxmfdQEmHzqMejJ0RUHccQcynRcmgtiuO5w5b+o+Cwq2nHO5
+	QGMCk0WYtyOF+Lr/5OorvBxx+W15PWcctm6PywvXwYAgbSnJd3LvcbBWQkN4lQzSdSVYTUyqSy7
+	Q/4e83mYWc8G9qAk/HY4rajpRSU8rwb+EhpWxjrykwZ9en78OBe5yw180Cu5b2meEzdWvzcVxxR
+	ghb3HbJAfKfFDOq8s7klDftGDGsqA7vl22NVpo5ScyuUoIu686lF4Pl3BzjMAazVuvyIi6hydTR
+	rZY
+X-Received: by 2002:a17:902:fe0c:b0:2be:22cc:e227 with SMTP id d9443c01a7336-2c1e78e0291mr55587825ad.4.1780727845062;
+        Fri, 05 Jun 2026 23:37:25 -0700 (PDT)
+Received: from localhost.localdomain ([2601:600:947f:47d0:d807:4407:d4e8:8895])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c1664ad138sm116025135ad.82.2026.06.05.23.37.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2026 23:37:24 -0700 (PDT)
+From: Hem Parekh <hemparekh1596@gmail.com>
+To: Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	fs-audit <a@b.c>
+Subject: [PATCH] befs: validate b+tree node geometry to prevent out-of-bounds reads
+Date: Fri,  5 Jun 2026 23:37:06 -0700
+Message-ID: <20260606063706.5844-1-hemparekh1596@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -100,78 +74,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make sure we don't wait for space in pipe after writing some data.
-This is needed for compatibility with previous version of vmsplice.
-Found by LTP vmsplice01.
-See comments in the code and links below for details.
+From: fs-audit <a@b.c>
 
-Link: https://lore.kernel.org/all/20260603-raumfahrt-unmerklich-ertrugen-c4ecae70d5f9@brauner/
-Link: https://lore.kernel.org/all/CAHk-=wgV-j-G3d+899Zm1pQ=NaJrddPz=GKcL5Yw5DTUM=GaUw@mail.gmail.com/
-Signed-off-by: Askar Safin <safinaskar@gmail.com>
+A befs b+tree node is parsed inside a single block-sized buffer_head
+returned by befs_read_datastream() (block_size is one of 1024/2048/4096/
+8192 and is capped at PAGE_SIZE).  befs_bt_read_node() copies the on-disk
+all_key_count and all_key_length fields (each an unsigned 16-bit value,
+0..65535) out of the node header but never bounds-checks them against the
+size of that buffer, and the b+tree node_size is likewise never compared
+to block_size.
+
+befs_bt_keylen_index(), befs_bt_valarray() and befs_bt_get_key() then
+derive the keylen-index and value-array pointers directly from those
+untrusted counts:
+
+    off = ALIGN(sizeof(befs_btree_nodehead) + all_key_length, 8);
+    keylen_index = od_node + off;            /* may exceed the block   */
+    valarray     = keylen_index + all_key_count * sizeof(fs16);
+
+With all_key_length close to block_size, or all_key_count large, these
+pointers land past the end of the node buffer.  Indexing them in
+befs_bt_get_key() (keylen_index[index - 1], keylen_index[index]) and the
+value reads in befs_btree_read()/befs_find_key() are then out-of-bounds
+reads of page-cache memory.  The path is reachable from an unprivileged
+readdir()/lookup() on a mounted, crafted befs image.
+
+befs_bt_get_key() additionally accepts index == all_key_count
+(index > all_key_count), reading one element past the keylen array even
+for an otherwise valid node; tighten the bound to >=.
+
+Reject any node whose keylen-index + value arrays would extend past the
+block that backs it, once, in befs_bt_read_node().
+
+Signed-off-by: fs-audit <a@b.c>
 ---
- fs/read_write.c | 39 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+ fs/befs/btree.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 77487b307..dbd0debc2 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -1221,6 +1221,8 @@ SYSCALL_DEFINE6(pwritev2, unsigned long, fd, const struct iovec __user *, vec,
- SYSCALL_DEFINE4(vmsplice, int, fd, const struct iovec __user *, vec,
- 		unsigned long, vlen, unsigned int, flags)
- {
-+	struct pipe_inode_info *pipe;
-+
- 	if (unlikely(flags & ~SPLICE_F_ALL))
- 		return -EINVAL;
- 
-@@ -1229,11 +1231,44 @@ SYSCALL_DEFINE4(vmsplice, int, fd, const struct iovec __user *, vec,
- 		return -EBADF;
- 
- 	/* We do vfs_writev/vfs_readv, so it is okay to pass "false" here */
--	if (!get_pipe_info(fd_file(f), /* for_splice = */ false))
-+	pipe = get_pipe_info(fd_file(f), /* for_splice = */ false);
-+
-+	if (!pipe)
- 		return -EBADF;
- 
- 	if (fd_file(f)->f_mode & FMODE_WRITE) {
--		ssize_t ret = vfs_writev(fd_file(f), vec, vlen, NULL, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
-+		/*
-+		 * When writing to the pipe, previous implementation of vmsplice
-+		 * first waited for space in the pipe to appear
-+		 * (depending on whether SPLICE_F_NONBLOCK was passed),
-+		 * then did unconditional non-blocking write to the pipe.
-+		 *
-+		 * This differs from what pwritev2 does.
-+		 *
-+		 * For compatibility we do the same thing previous
-+		 * implementation did.
-+		 *
-+		 * We lock the pipe, do pipe_wait_for_space, then unlock
-+		 * the pipe, and then do vfs_writev. vfs_writev internally
-+		 * locks the pipe again. This may cause TOCTOU: when we
-+		 * do vfs_writev, the pipe may become full again. So we
-+		 * do a loop.
-+		 */
-+
-+		bool non_block = (flags & SPLICE_F_NONBLOCK) || (fd_file(f)->f_flags & O_NONBLOCK);
-+		ssize_t ret;
-+
-+		do {
-+			pipe_lock(pipe);
-+			ret = pipe_wait_for_space(pipe, non_block);
-+			pipe_unlock(pipe);
-+
-+			if (ret < 0)
-+				break;
-+
-+			ret = vfs_writev(fd_file(f), vec, vlen, NULL, RWF_NOWAIT);
-+		} while (!non_block && ret == -EAGAIN);
-+
- 		if (ret > 0)
- 			add_wchar(current, ret);
- 		inc_syscw(current);
--- 
-2.47.3
+diff --git a/fs/befs/btree.c b/fs/befs/btree.c
+index aa24f1d..33a13da 100644
+--- a/fs/befs/btree.c
++++ b/fs/befs/btree.c
+@@ -219,6 +219,21 @@ befs_bt_read_node(struct super_block *sb, const befs_data_stream *ds,
+ 	node->head.all_key_length =
+ 	    fs16_to_cpu(sb, node->od_node->all_key_length);
 
++	/*
++	 * od_node points into a single block_size buffer_head.  Reject
++	 * nodes whose (untrusted) key counts/lengths would push the
++	 * keylen-index or value arrays past the end of that block, which
++	 * would otherwise cause out-of-bounds reads in befs_bt_get_key()
++	 * and befs_bt_valarray().
++	 */
++	if (ALIGN(sizeof(befs_btree_nodehead) + node->head.all_key_length, 8) +
++	    (size_t)node->head.all_key_count * (sizeof(fs16) + sizeof(fs64)) >
++	    BEFS_SB(sb)->block_size) {
++		befs_error(sb, "corrupt b+tree node: keys (%u/%u) exceed block size",
++			   node->head.all_key_count, node->head.all_key_length);
++		return BEFS_ERR;
++	}
++
+ 	befs_debug(sb, "<--- %s", __func__);
+ 	return BEFS_OK;
+ }
+@@ -678,7 +693,7 @@ befs_bt_get_key(struct super_block *sb, struct befs_btree_node *node,
+ 	char *keystart;
+ 	fs16 *keylen_index;
+
+-	if (index < 0 || index > node->head.all_key_count) {
++	if (index < 0 || index >= node->head.all_key_count) {
+ 		*keylen = 0;
+ 		return NULL;
+ 	}
+--
+2.34.1
