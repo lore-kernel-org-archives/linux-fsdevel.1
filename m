@@ -1,125 +1,139 @@
-Received: from mail-106119.protonmail.ch (mail-106119.protonmail.ch [79.135.106.119])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25F531715A
-	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 08:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179624071C3
+	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 09:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780734104; cv=none; b=Msutbs2Mka4mjVa8u13QPJsF/VNE8x+rix01T+Mq6zX5VB0+BMFeSHtJ/GDPmTVbwHcz7ETUhNf6O87NG0qtTcSSIJu4IQHM+UT11jzdBiqFOtrCnK3okP/p15QnbxR35pK6Fd5RKDsM3joF8l0xEG/6zw5sjlAnTar/XAnVGc0=
+	t=1780737386; cv=none; b=rbofN8tsyrYPc0D7Oo6AQtDgd/lUItPZ089Y4FrAs3kRbI/P7fM+oJ9MVYLv+UN+dhPDrG5oBxTL+8C2lw94UIfr/G80c9DlmzLdO/Em23j3gFklFWvrtoa7iwgAym/Lbvm/qmdFBeJ7Eo2Twfx8Zupp6ndp+314PdPaDmGBGcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780734104; c=relaxed/simple;
-	bh=nHejhsIfeJuaXTY01mr9HNqqMY8jn50uROXEEzlAnSQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s/h6olRYHzecLFi0O9+bX0etYIwa/Fsv0ESSfKGA7bWWfcyxDOcYKHO/xa4LIkOjC6UB7wqe+l/0Qcwf8mQvdx5WeV6BY8CTU2UwxrHfBXuQFyPbXYU8++4VJm0o6NauPAdTavkhvmnxZqVAFMB4uxOfrcIpJsUP2r/n7T1MbsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=a+byetKl; arc=none smtp.client-ip=79.135.106.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1780737386; c=relaxed/simple;
+	bh=CpQdRBzECz1cjWSW+VoW6/cj4i4cip2V9Z6XLkYrqQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EHmVkhWxzyXf81NiOkrW9UlnIsGPMlmxB6wuhYdR+i9BTXuV6cmk2HlsKU/DtWj0V/5Ftnl9XZLjQi7nOL0+UC+x65zRBBiZW2Gr6gvzW29nfIEpNHGgkbs8O+rLoo5IUFDLWqw0mh46fJxbqQHJwnChhSo0WtBCMi1mREKuX1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ir9xp+Rf; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="a+byetKl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=gi4cosge6zgcbgjrdyfs7phpbm.protonmail; t=1780734097; x=1780993297;
-	bh=s/zihKOq1Ep7P1soX/FqpAMcaSeZt5ktnyeRrSV9INM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=a+byetKl4zUfZLidDhzuEsPnycgd7uZYETQc/HsqUMDoFJUaNvfz5a5ibcvANKs7f
-	 x1yUeGzLYO/SU4R6y9MI7g1Y/Vbjp7Kz2QzyiUVUrypzMSwEk5lfHHsN7dvg7NxzE8
-	 d7AsS5dvtLtc5q1hpSM+Icgj9MBaB1Tstl5C4lLXxpfSBNcF52R5rNi2aauTm5uamx
-	 JzTM0g0QceXUskbD9kgsU2eTIVX0/TYo5bPt6fzjq54NFb8GAVHcYoQXmGShrQ1S59
-	 OS39U0JcfYGIX2pSmRxmswb65zgSbZOuzo94tnPU7v4HMzIZi9UDido7Oa7suc9d9p
-	 Pc09JO7I1ryKw==
-Date: Sat, 06 Jun 2026 08:21:32 +0000
-To: Anders Larsen <al@alarsen.net>
-From: Bryam Vargas <hexlabsecurity@proton.me>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] fs/qnx4: validate the extent count before walking the extent block
-Message-ID: <a450ab64e05e4b07e4ecef0130ce3a0bdf38eb74.1780733712.git.hexlabsecurity@proton.me>
-In-Reply-To: <cover.1780733712.git.hexlabsecurity@proton.me>
-References: <cover.1780733712.git.hexlabsecurity@proton.me>
-Feedback-ID: 199661219:user:proton
-X-Pm-Message-ID: 1de4bad1586a76fe6efc9c40d4786413b463f11d
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ir9xp+Rf"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490b64c8311so30649525e9.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 02:16:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780737383; x=1781342183; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/SxOH3sBqh56WyqC7iKaRtAkj2hv0SNo09/WoL7JuhE=;
+        b=Ir9xp+RfW7zEfhlmHWN4cKq4EtLbS6jnYjUT+aoOTb4FcEuqF5HOl85ypGKR1nXorh
+         Sps2ILrf5DTgYLbvMPtc72+zJ5YzSLcJhI7qiQVRN8au+vPQVPJtO7cqqxDBES9Pq2C3
+         zJXYBsd06ojJkLJ2bZRiFV+BIssT9CvlIGPnjE74nfj1gV/Bvo1BfHZL5vPNBaPCI5RE
+         GcuTqEqf9pFd+z2tDdK/Dpy5iV0eqG1q6SjyWiWQoleNeVnpMbPU8fnqrAFfGhoCegZc
+         S9JvwNEGltkYKAdUu86r+XJK9bR4+ra4xPdJewTmDRDKYaHgcIPpjsAcV8WQ4lPKWg/Q
+         KNAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780737383; x=1781342183;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/SxOH3sBqh56WyqC7iKaRtAkj2hv0SNo09/WoL7JuhE=;
+        b=YSef5Bw2r2/WRfXKeyJbf/xlF/DCFS2l0Q+kuqQco/BDZKbO79frf6Knx3iAmCK2UG
+         /SFM3RngAWakd7LX36v8lx1SdRKM8Mtvs/aEZmCqCK7ks3oCoFB3qgUN66TNqXPBmf+E
+         W+uOIKtP66TtX4LvHIcViUO26Ifc7jbW+4UuTkcAg3+e5ZObUCfxnKwRmdJaL0Vwy73S
+         5dUfdltU710EsBDNH8q54N//MwTKWVUpruE4od9EyId9P3UhG4Pp1IGI1KVzC8Ukg/2U
+         q27tG5/oyjn+0bLXzFh2E5SJjpmw4+CfReFVJr18CHezb+Xxj7IJqZZpup7+XT9b2D4Q
+         ix5w==
+X-Forwarded-Encrypted: i=1; AFNElJ/04zEC6jtfJlhlIuD/8UUFtUBEzjqnoVEPPwNNxZ1PNsw+Lrf2SbVf3dEqVCzKGlDqbb/j2xacr8n2TBAz@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlfIHA0Zk0d/TpjZC1BaGuN0+W6LKSd43Vz3Wkcp3jxOhKIKUK
+	kJ9v2ROLC5jj+XMfmgH1qiiaaABIJhRoPvK+cR3NPl1GhhaXiQDIrkxr
+X-Gm-Gg: Acq92OH02eXBbdWNvg8NBLCfSOErtZVU251MDrWyn/3hjojavbhDME++TEp5RNqsfFa
+	PENjbKjYufJnVWKezaMYtY/V0Nzkhf8YomV1PNX6W3s04iV0ppEB/lbQibEwT8Uz88ZVJtHz0PP
+	9kc9WaaMS0MNhK0N6JYZpvYAk6eIspFUrZoRrCEzHHcvuQxxT/PXNgD+VrnwH7woaxaBXD1M9Fz
+	fzFAdogtCbYJ34EYkzNsutbfn7eqZc6tzyEdxUm3jGTIWbez5SAfh8b7ss5JY2y2okTOVV0/DaE
+	HKerGbVQ+wzEZ2A4TESgH6oR+6t2WbzY8MJedQ9sqXfQSNIGHBUyYF2HcAMOycJiXMwIadPo28o
+	0EQS8Egoh5BXuJQKUhMlazjXY59p8v/rXw4gBYXVLAJvBxzXto3i6MEqA4dMR+Lql+jttndFFEG
+	RxbblW6IgnFQ2ZEx998u8nPPCND3jhfCJ1k6ZUDHE+lDk/Cdp923yZW34ABASBFLV44fopa0A=
+X-Received: by 2002:a05:600c:83c3:b0:48f:d612:3c59 with SMTP id 5b1f17b1804b1-490c25a21a9mr135656445e9.9.1780737383320;
+        Sat, 06 Jun 2026 02:16:23 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3fd663sm247272215e9.10.2026.06.06.02.16.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jun 2026 02:16:23 -0700 (PDT)
+Date: Sat, 6 Jun 2026 10:16:20 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Florian Weimer <fweimer@redhat.com>, Askar Safin <safinaskar@gmail.com>,
+ metze@samba.org, akpm@linux-foundation.org, axboe@kernel.dk,
+ brauner@kernel.org, david@kernel.org, dhowells@redhat.com,
+ hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org,
+ patches@lists.linux.dev, pfalcato@suse.de, viro@zeniv.linux.org.uk,
+ willy@infradead.org
+Subject: Re: [PATCH 2/3] vmsplice: make vmsplice a trivial wrapper for
+ preadv2/pwritev2
+Message-ID: <20260606101620.602ed92d@pumpkin>
+In-Reply-To: <CAHk-=wiTQr4YYYUH38srGvWAq3_UpDeAPR+qZWVyf-ZU7z8Hzw@mail.gmail.com>
+References: <f919874c-065e-48be-ac5b-300c4ab86d4e@samba.org>
+	<20260603211736.755139-1-safinaskar@gmail.com>
+	<20260604100609.6b37f500@pumpkin>
+	<CAHk-=wjvb56qo27-axALOKCY-CjLsj9_294zeBovPVJaYm14dA@mail.gmail.com>
+	<20260604183829.63c35fd9@pumpkin>
+	<CAHk-=wip3mwLOHOYJ9TtjDxOaq9YUXmuCg2AycyASGgeY6qqUw@mail.gmail.com>
+	<20260604223216.73468830@pumpkin>
+	<CAHk-=wh1Avi8FGbWkt9k0Z-KXWB0spo5mQyowO8PB2sJ3unbkw@mail.gmail.com>
+	<87se71jps4.fsf@oldenburg.str.redhat.com>
+	<CAHk-=wjkZSAhxykvG6tQM5DnBoS30_XCKkYpCsQwEGcxJb=i3Q@mail.gmail.com>
+	<87wlwdhrvr.fsf@oldenburg.str.redhat.com>
+	<CAHk-=wiTQr4YYYUH38srGvWAq3_UpDeAPR+qZWVyf-ZU7z8Hzw@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-qnx4_block_map() follows the on-disk extent chain. For each extent block
-(struct qnx4_xblk, one 512-byte QNX4 block) it walks xblk->xblk_xtnts[ix]
-using xblk->xblk_num_xtnts as the loop bound:
+On Fri, 5 Jun 2026 10:12:05 -0700
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-=09block =3D try_extent(&xblk->xblk_xtnts[ix], &offset);
-=09...
-=09if (++ix >=3D xblk->xblk_num_xtnts) { ... ix =3D 0; }
+> On Fri, 5 Jun 2026 at 09:30, Florian Weimer <fweimer@redhat.com> wrote:
+> >  
+> > > Uhhuh. But that is only specific to 'bool', right?  
+> >
+> > Also char and short.  
+> 
+> That sounds like a complete ABI violation as far as I can tell.
+> 
+> Scary. Because I would not be surprised if we have code that assumes otherwise.
+> 
+> Now, the kernel *seldom* uses char/short types, and since compilers
+> are typically at least self-consistent in those cases and we don't
+> interact directly with untrusted sources.
 
-xblk_xtnts[] is a fixed QNX4_MAX_XTNTS_PER_XBLK (60) array, but
-xblk_num_xtnts is an on-disk u8 (up to 255) that is never validated. A
-crafted image with xblk_num_xtnts > 60 makes ix walk past xblk_xtnts[60],
-reading past the end of the 512-byte extent block (an out-of-bounds read
-of the buffer_head data).
+There are plenty of places where char/short are used for function call
+parameters/results (and not for single characters or similar).
 
-Reject an extent count larger than the array, right after the "IamXblk"
-signature check.
+I'm sure some people (even some who should really know better) think
+the smaller type will save space.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
----
-Everything below the --- is dropped by git am.
+I've always worried about whether the calling or called code is responsible
+for ensuring the unused bits are zero (or maybe the sign extension of a
+signed value).
+Clearly the compiler should obey its own rules - so mostly it is just
+extra instruction to do the masking.
+But for interactions with asm code, and possibly code that gets mixed
+between gcc and clang (maybe for out of tree modules) it does matter.
 
-Class / impact: CWE-125 out-of-bounds read (root CWE-129). Reachable only
-by mounting a crafted qnx4 image (CAP_SYS_ADMIN; not unprivileged-userns
-mountable) and reading a file with a long extent chain. Read-only, no write
-primitive; on a live mount the 512-byte block shares a 4096-byte page-cache
-page so the read lands in adjacent in-page data of the same image -> a
-robustness/hardening fix.
+You also don't really want to be doing maths of char/short (and there
+are quite a of of those as well). I think it is only m86 and m68k that
+actually have 8/16 bits maths instructions (is s390 old enough?)
+everywhere else the compiler has to explicitly mask the high bits.
 
-Affected: present since fs/qnx4/inode.c entered git at v2.6.12-rc2 (the
-extent walk predates git). Verified at mainline v7.1-rc6 and stable
-v6.12.92.
+Maybe it is time to 'nuke' all the 'short' locals/parameters/results
+(eg from htons()) as well as all the 'long' for values than aren't
+dependant on 32/64 bit builds.
 
-Reproducer: a qnx4 image whose file uses an indirect extent block
-("IamXblk") with xblk_num_xtnts > 60 (e.g. 255); mount and read that file.
-
-A/B verification (CONFIG_KASAN_GENERIC=3Dy, kasan.fault=3Dreport, x86-64). =
-The
-on-disk extent block is exactly 512 bytes; reproduced on a kmalloc(512)
-copy of the walk so KASAN sees the boundary:
-  - Without this patch (xblk_num_xtnts =3D 255):
-      BUG: KASAN: slab-out-of-bounds in <qnx4 xtnt walk>
-      Read of size 4 ... located 4 bytes to the right of the 512-byte
-        region (cache kmalloc-512)
-  - Control (xblk_num_xtnts =3D 5): no report.
-  - With this patch (xblk_num_xtnts =3D 255): no report, block rejected -EI=
-O.
-  Also an ABI-invariant AddressSanitizer extraction (-m64 and -m32):
-  heap-buffer-overflow read without the patch, clean with it.
-
- fs/qnx4/inode.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/fs/qnx4/inode.c b/fs/qnx4/inode.c
-index 3828ba7d4492..f244e197e2df 100644
---- a/fs/qnx4/inode.c
-+++ b/fs/qnx4/inode.c
-@@ -112,6 +112,12 @@ unsigned long qnx4_block_map( struct inode *inode, lon=
-g iblock )
- =09=09=09=09=09brelse(bh);
- =09=09=09=09=09return -EIO;
- =09=09=09=09}
-+=09=09=09=09if (xblk->xblk_num_xtnts > QNX4_MAX_XTNTS_PER_XBLK) {
-+=09=09=09=09=09QNX4DEBUG((KERN_ERR "qnx4: bad xtnt count %u\n",
-+=09=09=09=09=09=09   xblk->xblk_num_xtnts));
-+=09=09=09=09=09brelse(bh);
-+=09=09=09=09=09return -EIO;
-+=09=09=09=09}
- =09=09=09}
- =09=09=09block =3D try_extent(&xblk->xblk_xtnts[ix], &offset);
- =09=09=09if (block) {
---=20
-2.43.0
-
+-- David
 
