@@ -1,117 +1,128 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37906299931
-	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 04:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780718686; cv=pass; b=hBf7ReF4DZBwC1FRj6zfjhkAk1G0O9AA5s+bjZbCPzSy9dbK2DHRV4YXx0LBOpC3tlRT1+q+TlHDmD3VpkER3oPjNB0vJcuuOYg+J3rPslgDqjplDC0ghh0gyjfrc4C14mQUlkkCiTIn2Vj876CQfAC3WNF+RH5UXIXvh/BDkmQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780718686; c=relaxed/simple;
-	bh=/kolzi35RAkOWhd/0jJm3K8g2kKO9ZjRvO8Ed1IyFY4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oEvy262waHq0ijxX4SltkPd3EK/JQ0GvUliB67XK5sN30hyq7J7AGlso/sRv5KdlD8izPVJowSq9YJThman1hCzq0TKgItIKtLB4khyM5uf1ia8LV/DSBz1uFyyagqJ7GoLYAp5HQUNrAwij5oTMcvnXRQ9X4j5lJorpGNkxsdQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUrG+71G; arc=pass smtp.client-ip=74.125.224.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC8878F39;
+	Sat,  6 Jun 2026 04:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780719480; cv=none; b=qlyX2GOeFxzMgU3lW/YdMhajsb2h9IMuYEGF4OoAWrtXdumz9A2jcuO1T6L2+UB/gVj0l+zabT9Qj+n9IaJzdrlWpfV4XrYmLE7nEPE5xuPAkBLoW/wssGlZnmoEFKJKRkI1buEmDt5e6UsMLzTOsL+V/vb7lahNvN4vztGM1HY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780719480; c=relaxed/simple;
+	bh=XDLGXsCF2qkos5D4rVI5/mAGTKp9El+MAmY1Ldecn9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jf0DK8XliHfycuWze4PwauiszNYtOuw3df0aglUHesNqoWCFebZy0UIc4YPpBtNtnX4PoH1xkS2tGNfXtN2ZtpzoLGh7EgS/7icH2cIFvwaECnWj+nUukw4a9GxOCi6oX5oR7R/j/tOWYjXWNK75T+CodMePfvW2O59mjjxP5do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1HJoEPB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUrG+71G"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-660ea43107fso2795843d50.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 05 Jun 2026 21:04:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780718684; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bpP3XaSykBHGUd4XKOuvpcvHHZcG2RmgyuktbcoPiipALcAPo9o/PbY/9BLCe7F2G/
-         n5HPBZvH/P+agCwbSxlBcbK7YTIQORrYeKfF+O2x85pLXQEGOnY1zdOCWuN0G64iR1Og
-         5Hg+tVZZ7ZSRLc1JGdn4OjrV2Ev4c95NmOcfHzlBCZa8GypeAp49aBSAqDHVxctgHAXg
-         CIC/8URMsuFVZeYZDeEt4x9D3WfxD7L2DxX7KOES0fn81XAGoRv6CXKYzXlyB2rJGxV4
-         EwPwaXn3snfabyKzQVS0Brv+L25SNR/lmdSdoWQ2cL0OECP1LW2H5yIB0QDbj2/RVWWX
-         cebw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Q5nyw30xxOLFYvDGydQHVhIa2yDgTqTxsxdE4HUTuzs=;
-        fh=R95MoQ7n1EalqFAoFrqcuPZM7AX5dlpny0LjULrbVRg=;
-        b=KHa71WuFB+iQ9hfjvkDGUp6GW/pQ6YqB24XBQnFtU8D4Ly9uWl6VHhdSGFGpWVW64H
-         WBokhOdb8SJd7oyfma7LEbo/3bSZE+n2+/B3Sf48rEdzNPi+jiWTktAL3rEikmK06NGX
-         0vfbB1FnYhIKkpGBD2QD+mPfrTQgVTVXiO8R9qK27tXh/+hIF0SaP+LhvV0elp7ibHL7
-         vH4iaDlLPsAY42qyzVC0f5zvLWNm5aUmZITCP6ZYogvxXujglkPN0rOjElCqZqnblri1
-         bVtvIa62UxZWpnAoXU+6BxkICjNG0b/s3BVzNv9uKtmmNXAtfcZDuwVlVyCINAtJSGsB
-         7dKw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780718684; x=1781323484; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q5nyw30xxOLFYvDGydQHVhIa2yDgTqTxsxdE4HUTuzs=;
-        b=BUrG+71G075P/ISsylSC40dBYzafy3ohWdHFhiqVpQs1IbWtznDxAT3GdwIHF/itlf
-         PmNUnIzWeDlaF7+dCHFeYoBvkQRT94HDaPEiyUG9ppdlgqL24hxH78WM4Nr8O9qf5tio
-         Wv97G5bEC8l02gH/CAHaEbHt9um/2Cqrxn/uFKHPVZ4Y94MBrgF1YrQOBLICCmpI9SuJ
-         FH8dCWp3099+iqm++Lfe9FEpeH6s1CmZVfleBhRyTKnjtoOv9ZGVfP5QUavGUupKwCVo
-         sbEIaoCWpieYmI+g9U9V0PqfujyTMlI0SX5uPlYMOCY61e5GN5sZUxA4A8X4pZI54kHa
-         /gWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780718684; x=1781323484;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Q5nyw30xxOLFYvDGydQHVhIa2yDgTqTxsxdE4HUTuzs=;
-        b=B/wPfxqveP3mIEZXCGkj8VhtXdCi6najGOdaE3AHCeg7qf/xFbdM4xla/QCqH0+Qzb
-         T0h/ITx2XrBtqTYsE6qIFccisTLoFWmbdFdRsBuReVybc4nvGfDuyUDAkwDzNPbvVjRe
-         c9LKnmo7sYP6hsZ4+beRTOO+y6/ayH6UMilwYmqAGsae+/mAC4vgRfTjqVc2KYT7M7go
-         JVghKRXE0ajmtWK0n+xa9IUiMiV4wjraTtgLgPVBvMVwYoZbb2dUWXYju3OIPCm9kZ9h
-         JAgqKJkwjSCuvaLSML84XNMdi8xx2JJgY7yxthOSz4KItJggysopPWDmGTlDy8skYATx
-         +8SQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+iDQbI56rez4f8T3Oa89EEwvKCJjJiLqYrpm1avxk0aPxcwxUAkMMBKo4l2S1G4wjQa9PZDZqJfWBlXJSn@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdKZhRv7kwzTWKlj6EJuH3DmRVbCO5q8eHsb+rpb/R7FASpUUV
-	ZQEVNAb7KbqoHDki8Juz+ZG5MRK5Ss0kpUZm0z6qxFORFFVhHt8MsuyP7eqM3mbolCuxevc53zv
-	v+VI17iracM9EtIAQByp0TDLNjU0QXts=
-X-Gm-Gg: Acq92OFdspr35T6eqCxS79XxQ1mPPTpBWo3huDfWB2UcSKl9h2ANc30uQvMTE49pn3r
-	KT81xFaOOLk23wVNTL/l2jx3Bl4kIPR9lQtTY8FbWCDb/kUCGbyaboJl9SODox/lcoI33wmmHSz
-	uaa0aXyhRbyrus3b94XpyvmvkT9FC3HI0kDRQ6ZsyHrKDdD3bmDGfqb7bSor6W5TXfj9gHls2ZN
-	xuRzpiNLPxbd6IB3r+0trS8L+bJnPZPiSAPXJuXev6dn42KzwJ25G5IU7y97zaxgWEIHUTfO/Hu
-	O1YUh+mkhnFEtAjhXQ==
-X-Received: by 2002:a05:690e:4388:b0:660:8253:b836 with SMTP id
- 956f58d0204a3-66106dcf1c5mr3499348d50.5.1780718684138; Fri, 05 Jun 2026
- 21:04:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1HJoEPB"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5630C1F00893;
+	Sat,  6 Jun 2026 04:17:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780719479;
+	bh=kjUNKYpq5pjXLHnVC3ZiQ8Fa37UTFYL+RiCkut7PVYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y1HJoEPBpbUwCAV6+RrWqcoJda1TX0xm0y4FXfNTNyh0bEitF/HRhDz0p+iV72TWN
+	 aFPOi5txqrjE700HRJItDvcl7Wjklj4D/M5ZJjJGl+G0jSUtgyxduR6jkrxVZPRKJu
+	 Zph8vsWittgRkGGAdGeiUPqlTp9lmmX8XbeL6APtOIfCUwFXsfnKTmtM4f856nH2i+
+	 xZHy9dXdrtpxdcaynCzp/2iCRzLDct3LvN9aPkWZHNMx0tZnkXy/IsET9By0tL2sLF
+	 PkXcd585XGI5eu2yogPDHeAnzK1f0vPalB9xd1OWdFv9oCNOBd5E4PDZ+h07/imDZC
+	 3oynQoy5X5OEw==
+Date: Fri, 5 Jun 2026 21:17:58 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev,
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 9/9] fuse: set iomap backing device block size
+Message-ID: <20260606041758.GH6095@frogsfrogsfrogs>
+References: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
+ <177922946372.2439242.13829037107289830266.stgit@frogsfrogsfrogs>
+ <CAJnrk1ZQbvCL=ok4WHBn0gC+=k88Cejts_-_DP3epa51Wz5+5g@mail.gmail.com>
+ <20260605000134.GJ6070@frogsfrogsfrogs>
+ <CAJnrk1Zig5+97Qs3JiaSgLE1KJMn-mgXSFUcxM9-kv6xvpfBHA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKqfh0HhN4zzV2=WJwC4ejRQup7Q3L6MkUegC9Bc0xFmzK+Msg@mail.gmail.com>
- <aiOXiumEOIPOQm93@casper.infradead.org>
-In-Reply-To: <aiOXiumEOIPOQm93@casper.infradead.org>
-From: Maxwell Doose <m32285159@gmail.com>
-Date: Fri, 5 Jun 2026 23:02:44 -0500
-X-Gm-Features: AVVi8CcTKe8nUPwkHKM-8IJXRSL1KyCbccoKOcaMpCJ8JQ7Hhm6cDDqx8lFblxc
-Message-ID: <CAKqfh0GNMAnNVvTu-aydHWywR4w-+E+FBtHEV_TCXxzvh6F4uA@mail.gmail.com>
-Subject: Re: [RFC] Maintainership of the EFS filesystem
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	linux-fsdevel@vger.kernel.org, open list <linux-kernel@vger.kernel.org>, 
-	Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Zig5+97Qs3JiaSgLE1KJMn-mgXSFUcxM9-kv6xvpfBHA@mail.gmail.com>
 
-On Fri, Jun 5, 2026 at 10:44=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
->
-> As I said, I don't see the point.  Do you have any EFS filesystems?
+On Fri, Jun 05, 2026 at 10:41:48AM -0700, Joanne Koong wrote:
+> On Thu, Jun 4, 2026 at 5:01 PM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Fri, May 22, 2026 at 06:06:15PM -0700, Joanne Koong wrote:
+> > > On Tue, May 19, 2026 at 3:33 PM Darrick J. Wong <djwong@kernel.org> wrote:
+> > > >
+> > > > From: Darrick J. Wong <djwong@kernel.org>
+> > > >
+> > > > Add a new ioctl so that an unprivileged fuse server can set the block
+> > > > size of a bdev that's opened for iomap usage.
+> > >
+> > > If I'm understanding it correctly, doesn't the fs/iomap layer align
+> > > all i/o to the fuse file inode->i_blkbits and submits bios to the
+> > > underlying iomap->bdev without ever reading the bdev's
+> > > inode->i_blkbits? Why do we need this fuse ioctl then for setting the
+> > > block size of a bdev?
+> >
+> > It's not for the regular file IO, it's for the blockdev pagecache that
+> > sits in front of filesystem metadata IO.  Block devices do writeback of
+> > their pagecache in units of buffer heads, which is a problem if the
+> > buffer head size is not aligned to the fsblock size.
+> >
+> > Basically, imagine a 1k-fsblock filesystem with 4k pages.  Let us
+> > further assume that block 0 is a superblock, and block 1 is the only
+> > file data in the whole filesystem.
+> >
+> > If the BLKBSZGET size is also 4k, then dirtying the superblock now means
+> > that the bdev pagecache will think that the whole 4k is dirty, because
+> > there's only one bh for the whole 4k.
+> >
+> > Now let's say iomap writes to the sole file data block.  The ondisk data
+> > is newer than the bdev pagecache.  Next, the fuse server initiates
+> > writeout of the dirty bdev pagecache.  It writes the whole page out to
+> > disk, which means the ondisk super is newest, but the file data block
+> > has just been clobbered by stale bdev pagecache!
+> >
+> > Ouch.
+> >
+> > So if we can set the bh size to 1k, we avoid the clobbering.
+> 
+> Thanks for the explanation.
+> 
+> From what I remember, fuseblk servers can pass in a size at mount time
+> for what the kernel should use for filesystem inode i_blkbits size.
+> imo it seems like the responsibility of the fuse server to make sure
+> to pass in a value that matches the buffer head size of the block
+> device it's using, or does this not suffice for what you need?
 
-I don't personally have any EFS filesystems but that doesn't mean that
-others don't.
+Correct, but fuseblk only works with a single block device, whereas you
+can open multiple block devices, register them as iomap backing files,
+and use all of them with files.  You might have sufficient privilege to
+open the bdev O_EXCL, but not necessarily CAP_SYS_ADMIN to change the
+blocksize.
 
-> Are you volunteering to do any major development on it?
+--D
 
-Like I said, we've already found some problems, and like I said I'd
-like to fix those before it becomes a FUSE as you suggested. So I
-guess I'll volunteer to do some major development for it as well.
-
-> Why shouldn't we just delete it?
-
-Because in my eyes it's an awful practice to just delete something
-overnight (probably not your plan but still), I think we need to have
-some maintenance for some time before this gets removed.
+> Thanks,
+> Joanne
+> 
+> >
+> > > It seems like this ioctl is re-implementing the BLKBSZSET ioctl but
+> > > bypasses the cap sys admin privilege checking that the BLKBSZSET ioctl
+> > > requires, which seems like a security violation. Am I understanding
+> > > this correctly?
+> >
+> > It is, but the assumption was that you'd only get fuse-iomap if you
+> > already had CAP_SYS_RAWIO, so you have to have some privilege.  But I
+> > concede that RAWIO != ADMIN.  This might be unnecessary now that fuse
+> > service containers can ask the mount helper to open a bdev in O_EXCL
+> > mode and set a particular blocksize.
+> >
+> > Though note the weird thing -- a sysadmin can use chmod to let
+> > unprivileged userspace to open a bdev and it can open it O_EXCL, but it
+> > can't set the block size unless they have CAP_SYS_ADMIN.
+> >
+> > --D
+> >
