@@ -1,125 +1,122 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-244122.protonmail.ch (mail-244122.protonmail.ch [109.224.244.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC99F3815ED
-	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 10:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B493815ED
+	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 10:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780741377; cv=none; b=ZJzM2xEYJdjV3nobzaFTEJsG0tt1c1RTq89H/4Xmo67fRQ9u36kGUVEUe8T5W0i74Lt2ZRt5fbepRKje8mfZQJ8jZcYjKx9nhKZP96ImWutjt1aRaMMBaLL/Swj1z1E3Mk7NSjmJKa0npxjdHb8Dn5Nt72nssj4QuGXhuH2L/fs=
+	t=1780741585; cv=none; b=acR7nMB8X1UwXrz1efTxUb5Fjpps0LT+HCgKs7ZlLRAYWpOIjus2gAFjvmixe+BnFt9Q01Hgs/82q+j/KM33Q1a1eMfFJIIso8XLlSs5oz+mBOHg2clIVRuGbyJfxRNnOIcaVuHJI+hzZlHSoMvvA/cXuZNO/UZNxV6bzpn56r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780741377; c=relaxed/simple;
-	bh=6ZCo5g5YBCheH6lxLHUPDkhAwohoDkXUQMyBGc7LXHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N3g6hbLjSsPFUtfEry8c4UKwqhI6pD/3jMVpJM1MZu9KcF2sHhaw+Goq0bG/CstaWYgRY6Z90z04e1QVC712YHj9KCzKOFxZ+x4Jvp9Hn2SbDt8oTgI0RRdq8yy6xJ3vs+4H1eGXsmXxBsotqc2+IJ/L1KwM6ptLiuopp4LFe2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKtg9Daq; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780741585; c=relaxed/simple;
+	bh=pvXHi3ta4wO2EOw3QAhPaAH8c0r+9f6hbzLuXLNshok=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=iOvK5gjtEphz5WP5SSTY4H7k0alzeBWJJnDd85fH5ZRKS4XyCfx3VfKcG1lkSBubgbFiBKDtawtBiBhhQ9rlFcnZnE/u/1YfUK2jsLDGgS2PB5KML5wrybZS3SjotL+3eW63h/73XHO85Ik/wtwLhUBcpt8VrPbNBJ2xYY1kplE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=ZqEhVIqa; arc=none smtp.client-ip=109.224.244.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKtg9Daq"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4600ddc4017so2090061f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 03:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780741374; x=1781346174; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+PYftnEwTkOLQeoNu4nW8+o38nbEt2RMPyp6dfwToa0=;
-        b=hKtg9DaqIzHht9h/SEID0icP61633FjrvmqTBmsAZc+rb3Xco+LhMeWPch3DMUAbAk
-         hcZM2qcGxPM3XWviyLgvYy7mAvDsndr9Lz1n0ujQsJuFZSxRESfzlpAcK2CMJmYl1JYZ
-         n8RBnwflPJti7i9pBZDIDjG6buA+ViQumBbw+iOt5kJH4S0PRJ+wodn8QgjXoKtuaONc
-         8F2szrieZFskNupvhkMwOQi4eF4wGGJnyUG2NqenMFhWpyMALaet5dmcKNCFzw+7E+WL
-         ZDGARKitTcWKzLeXlpTmHUi5EDrFSZn/4yYa8Z+kgvUxtWDTmOSz9tfjTwwUAirM/haW
-         m5xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780741374; x=1781346174;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+PYftnEwTkOLQeoNu4nW8+o38nbEt2RMPyp6dfwToa0=;
-        b=Gjk1k79vuNFUJdUuYWc1CshvDHGeirDjpi5eL3TkscDwNmQ1Sczl8QcpxsOro9DYrC
-         R1/YmLIu9DUaQvlF5ryDF5KVFQALaKm1bGagjNybhLfBmRzDOWNCfHCX+ESlN6wkhSg9
-         mtO5iXQls8rPuVwPB3e6Sji38yYAztf3hdUZJdgLcq/WjF/htQCT3DkZmhjhrmQkqHIJ
-         1jPxMs2IH5bjllJ0zRIrRPTqKuAB4AHELn6taGPSXMm1ag7tWY2xOmw2usnR2o6hoan4
-         fOlPcro/AfnZdpQCsjlNfWhMoCIU/13/gF79LjAwvJK1a5Vgbq9WGodk7CArw+QnrNxf
-         dz4g==
-X-Forwarded-Encrypted: i=1; AFNElJ+Tsfiqzrbi3rekXotsbA4d6aCR3l+FMKeyQ9AprF/to3pWmicC8O3oDPctqzvR5pyphkavlvfI78+13mUV@vger.kernel.org
-X-Gm-Message-State: AOJu0YzibvpxAbWtJb0kyS37THCjzMmFABYionewHxFEcD6zwdcu5bzu
-	CmaEwSdc5zhHn53UhpDmUs+IQuwTJyeRDR8HNK6CFXeG9Gii5iQd92Sk
-X-Gm-Gg: Acq92OGYXwq3xkZzTNpuEtpqw2rY8d5sKB5hy6WX2/d04+Qgoucy8IQ15wGMJHJWn5y
-	9gGboPN5WQyByrLKhg62hnTdVzhIBCC+5+3lE6dE07yVHGERmY6n+2JF7PdVUEYT6tRKf031TPN
-	gm0myllnf84wx7eLE990rTPytOOhW79/+w30aNbzXfM/qPQ7IiCFd51gGUXKO8uuO9EdsDmL18y
-	n36sJJHCdh33iIIMKK2pExo3E8r/zYX7Muh/p2Tm0PCfPWpNraSVHyUBG3+huyb5Mq1GbOmuwQB
-	z/2UIGNxp1FYfhiQMlYjAS9niTARDiVGuaxXJ0Sek7znE0RysBjZncfI+JcgWOU7fsQHI7dMFHY
-	PGHHRqismoi+WPPSUMOWHlTX14itgN15f8OI7YupwatHfgMOZiuhUbIyEtp0xuPxIiqLz1L40Vh
-	SUP1IETQjRtOtW94QkRCDeT60u7dPiJpL0DHP6dRL028VQQTS/btl7G/oPxCurGCOgQdksGPuMG
-	mWZHzLxQA==
-X-Received: by 2002:a05:600c:35d4:b0:490:b8d3:5dcc with SMTP id 5b1f17b1804b1-490c25e4634mr128363515e9.19.1780741374229;
-        Sat, 06 Jun 2026 03:22:54 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcae2sm35545066f8f.6.2026.06.06.03.22.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jun 2026 03:22:53 -0700 (PDT)
-Date: Sat, 6 Jun 2026 11:22:52 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Stefan Metzmacher <metze@samba.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andy Lutomirski
- <luto@amacapital.net>, Askar Safin <safinaskar@gmail.com>,
- akpm@linux-foundation.org, axboe@kernel.dk, brauner@kernel.org,
- david@kernel.org, dhowells@redhat.com, hch@infradead.org, jack@suse.cz,
- linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, miklos@szeredi.hu,
- netdev@vger.kernel.org, patches@lists.linux.dev, pfalcato@suse.de,
- viro@zeniv.linux.org.uk, willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-Message-ID: <20260606112252.3c70bad6@pumpkin>
-In-Reply-To: <634c8ae2-3f1c-46b1-b002-1e2ac797dd80@samba.org>
-References: <CAHk-=wiAqf0PdZ4AKj_4riUnnEb=g_ZNPkLnXrByA9BBHYiFRg@mail.gmail.com>
-	<20260602225426.122258-1-safinaskar@gmail.com>
-	<CAHk-=wgKy4dP0oQCNKyMQQf3-uVpaigmDyH6_T0Via76gWST9g@mail.gmail.com>
-	<CALCETrWx8-Q5-rK1KnAPCxCbXaWCd=Yfs_Pr8qVMa8k8L6of1w@mail.gmail.com>
-	<CAHk-=wizkDXRut5xLXRF-CVUVYMaZ5AOexxeghOAoXPb4yAvQg@mail.gmail.com>
-	<512d948f-7883-4d8c-b2c5-a777e70ca975@samba.org>
-	<20260605131942.4584728e@pumpkin>
-	<634c8ae2-3f1c-46b1-b002-1e2ac797dd80@samba.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="ZqEhVIqa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1780741572; x=1781000772;
+	bh=mBmeMh/kwa5Ri4KCTTimk4svEA/2Fb5nXcUXUl5S9dY=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=ZqEhVIqav6CJD/KImYyrbFN3s+1/2fDxC5PJMaGXqVPtJcFN3GkGqIrhRyphN1ZvH
+	 TQQq4CihDPcgSplDrm99Pd9PAe5nwjOnEipV1aUYzrPnf6zZAKp2TLa4SdZTpxBkMn
+	 chS+fBXVmJyQdgY1cBJh+ImK0peO7qDFZ6zkrDyNJCroIcrfHYWBXo8+Po8tu2d2YP
+	 iO3ISzopkkb+/mJ4cPAbxDtZLQ/UFW1cIVN6M7nPCyULuQ0+2YVVSxxdtE7Nf/VHUM
+	 wo7I5apyUdCaJwBBr6kXWijbqYKHHN/XHAUs7lVslgseyoKYZiwPdFW3oCe5QhcVnO
+	 OLH4oqvrV/o4A==
+Date: Sat, 06 Jun 2026 10:26:10 +0000
+To: Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
+From: Bryam Vargas <hexlabsecurity@proton.me>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ntfs: fix u16 truncation of restart-area length check
+Message-ID: <20260606102606.74510-1-hexlabsecurity@proton.me>
+Feedback-ID: 199661219:user:proton
+X-Pm-Message-ID: ea8970d85ef9923f6e4daa4dbda35a2044920e21
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 5 Jun 2026 17:20:34 +0200
-Stefan Metzmacher <metze@samba.org> wrote:
+ntfs_check_restart_area() validates that the $LogFile restart area and
+its trailing log client record array fit within the system page size:
 
-> Hi David,
-> 
-> >>> So sendfile() as a concept (whether you use combinations of splice()
-> >>> system calls or the sendfile system call itsefl) isn't necessarily
-> >>> only about the zero-copy, it's really also about avoiding the user
-> >>> space memory management.  
-> >>
-> >> I don't think so. Ok, maybe for webservers just serving tiny
-> >> html files, that's true. But for me with Samba it's really the
-> >> copy_to/from_iter() that is the major factor.  
-> > 
-> > Is that copy also doing the ip checksum?  
-> 
-> Not in my tests. I guess there's offload in the network hardware
-> for this.
+=09u16 ra_ofs, ra_len, ca_ofs;
+=09...
+=09ra_len =3D ca_ofs + le16_to_cpu(ra->log_clients) *
+=09=09=09sizeof(struct log_client_record);
+=09if (ra_ofs + ra_len > le32_to_cpu(rp->system_page_size) || ...)
+=09=09return false;
 
-There will be, it is just whether the syscall checksum is actually
-being suppressed.
+ra_len is u16, but the right-hand side is computed in size_t
+(sizeof(struct log_client_record) =3D=3D 160). Both ca_ofs and log_clients
+come straight from the on-disk restart area. With an on-disk
+log_clients of 410 the product 410 * 160 =3D 65600; adding ca_ofs and
+storing into the u16 ra_len truncates modulo 65536 (e.g. ca_ofs 64
+gives ra_len 128), so the "fits in the page" check passes even though
+the client array described by log_clients extends far beyond the page.
 
--- David
+ntfs_check_log_client_array() then walks the array bounded only by the
+on-disk log_clients count:
 
-> 
-> At least at the syscall layer of sendmsg() there's no checksuming
-> happening.
-> 
-> metze
-> 
+=09cr =3D ca + idx;
+=09if (cr->prev_client !=3D LOGFILE_NO_CLIENT) ...
+
+For log_clients 410 it dereferences records up to ca + 409 * 160,
+~64 KiB past the kvzalloc(system_page_size) restart-page buffer -- an
+out-of-bounds read of attacker-controlled extent, reachable when a
+crafted NTFS image is mounted (load_and_check_logfile() at mount time).
+This is the in-kernel analogue of CVE-2022-30789, fixed in the ntfs-3g
+userspace driver but never in this revived classic driver.
+
+Compute the restart-area length in a u32 so the existing bounds check
+rejects an over-large client array instead of being defeated by the
+truncation.
+
+Fixes: 1e9ea7e04472 ("Revert \"fs: Remove NTFS classic\"")
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
+---
+Reproduced on a KASAN build (in-kernel ntfs, fresh-boot slab) by
+mounting a crafted image whose $LogFile restart area sets
+log_clients=3D410 (ra_len truncates to a value that passes the
+system-page-size check):
+
+  BUG: KASAN: slab-out-of-bounds in ntfs_check_logfile+0x1e52/0x2460 [ntfs]
+  Read of size 2 ... by task mount
+    (cr->prev_client, with ntfs_check_log_client_array() inlined)
+    ntfs_fill_super -> ntfs_iget -> ntfs_check_logfile
+  Allocated by task ...: __kasan_kmalloc -- the kvzalloc(system_page_size)
+  restart-page buffer (the OOB read lands at buffer_base + system_page_size=
+)
+
+With this patch the same image is rejected by the existing
+ntfs_check_restart_area() bound (ra_len is no longer truncated), so
+ntfs_check_log_client_array() is never reached, no OOB access occurs,
+and the mount fails over to read-only. A clean image is unaffected.
+Full A/B logs available on request.
+
+ fs/ntfs/logfile.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/fs/ntfs/logfile.c b/fs/ntfs/logfile.c
+--- a/fs/ntfs/logfile.c
++++ b/fs/ntfs/logfile.c
+@@ -132,7 +132,8 @@ static bool ntfs_check_restart_area(struct inode *vi, s=
+truct restart_page_header *rp)
+ {
+ =09u64 file_size;
+ =09struct restart_area *ra;
+-=09u16 ra_ofs, ra_len, ca_ofs;
++=09u16 ra_ofs, ca_ofs;
++=09u32 ra_len;
+ =09u8 fs_bits;
+
+ =09ntfs_debug("Entering.");
+--
+2.43.0
 
