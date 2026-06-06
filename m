@@ -1,64 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7250939AD33
-	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 12:26:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C34F3A5E96
+	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 12:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780748778; cv=none; b=JUN4KGsdhOGi0Ig8Va2IB3w7V9qhRnnu2Tl+lj7BHlvVyswkuI8yj8tGDfh64q2mWhaJaExQxeuL66l+tGHKHOL1/LJ0Xe+KFYdtWYIoittRSJLRUIs0aPJ3bOsSX0XI6FqM59zxgqlmibSN9jh10t0bWE/DkG5OZxgSuDo9Krg=
+	t=1780749502; cv=none; b=AJdxZLW1K/S+iK8nGoXd0igwNBvk86Jmo0ta8nrPGlszw1S0J5UcdFxLh7P9Jb9LGJBWgnJvp2SxGb8GXAl5voY90n2aQ+VeY+KZcXKv6TG2WyjnaoT6eYw1sPIJdDguYR+b94WvRPSuwDHptG4vEmEgy6lC9UrxpYDYZ81In5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780748778; c=relaxed/simple;
-	bh=Sx5uRKbJAWrpHbk4G+Heq6JXqNc2Fx/dHMM/ldJ/uIY=;
+	s=arc-20240116; t=1780749502; c=relaxed/simple;
+	bh=5bF6U3qRuqcKHlsLeyp8RXBNPx8GWRLq1CN6/KzYY3s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NPZdh/lb9aWfmudOARX4fT3miXlnUSVOdFLWwBBiJkl3ujKH0JWl4De9E5MMT1jlZaPHD2kZS2pygvQm1gTahBroXh7ywR+JG99xlDjQ2w/BP9d4279fl/E7Qp8lOyFP5bYSIFWKg5BYM8WgSfZowMPCPpmGfxri+ujWH64ci2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y64vaCke; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=jENRfm+gogDyc0lqYEFSGoBREBiX5BWyRmXIthRiDJomyPesjHJcnwXw3b2ZLwq//Bw/D+FwytMxlSuwrrVfPMsdwNGBlCbi3Q5JhIH8nD+GZ9Oc96wh3G+fiHwvnaRrAx4ObQrF3Wy1z1ZY6QlUuFkToxABMhaUMssaizW58yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GXCc7MkC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y64vaCke"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 248761F0089E
-	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 12:26:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GXCc7MkC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E2AB1F00893
+	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 12:38:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780748777;
-	bh=Sx5uRKbJAWrpHbk4G+Heq6JXqNc2Fx/dHMM/ldJ/uIY=;
+	s=k20260515; t=1780749501;
+	bh=5bF6U3qRuqcKHlsLeyp8RXBNPx8GWRLq1CN6/KzYY3s=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Y64vaCke9LESWootzpP7pmk1OxsI/qqsuXJcZgXtcjLEcxP7GBFYPFk1y2ENnelIs
-	 +RFucPOhHSwaSY0P+nr1qlbyAXaBqRLF6kc60O6sPb5zhVf4FaswHv/JdACFKmXIdL
-	 YLerP/vPWyd8m0+GBRJ/fJfGfRyYZEU5Dlg0IAbWAPU28nqVAFUFWDWKpjHpefm3YW
-	 5eQnXvzm5JKwB7cnFel2j1V33Q7KDZS19DuxjwYdEk8sKCwfA+68l/mVq4vG8jlxPg
-	 PYXHzeWNK8TK0WDXWKGlyaVCmWEESOTqm1ACoHCq4p+BlyXChUSnsyP8tE2W2NcrL8
-	 nY0WvTdZU2G4A==
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-bec3f69d343so418847766b.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 05:26:17 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxmKjV6gjBdpNVQF0qEAn/WIq11GTh9ZztR49TZj6CXdteFGyNr
-	xEMh109En0wMRCZJ+uH6TbMcXYNWO0CuFnltE9uErXUXUffmECKfXyOuqtpNqsB0Bta51DMmpkf
-	2QQ6hyPaWwFrg+1CBsnXKvVp3exLzg2Y=
-X-Received: by 2002:a17:907:d045:b0:bed:d329:1ed9 with SMTP id
- a640c23a62f3a-bf37283ced8mr397839566b.33.1780748775785; Sat, 06 Jun 2026
- 05:26:15 -0700 (PDT)
+	b=GXCc7MkC6fUrWOQ1WS7gNE7AjaOmsHuwWd7pwS0HHLMkEAyOaRFxUeo4hT8YlTte1
+	 5pB8veDK7UddnDraYuJgTaSu6FyNcR1FZZdAtKXLf2ETJ2p/ZUVCqpSPnaKv58bOQS
+	 WKn6vS/B1lZsCj46bwkSvL3hJzNKpXcbxphy+dv+ysUNMHE0p1qMDOe0yxYoMdgyTL
+	 wu4A7eL7Izdf8F/mccsU6/ZVu6Ch9bmY3DsA1tTPGF1Im/wblZTYTvI7FrlhbkqXNS
+	 3+nBMYSHwgy0+kxWODxOQI3tEvVWwvGqZdqj8Yv04asuN2n4yARhewap8dDzmfZZPy
+	 QKfShpVAigmhA==
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bec450b950dso401870466b.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 05:38:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+7LMVn7kkgxZnoyCoJfaefPlEgC6Fr/gLnQT8ohcdiS7QHmnV64ZKEO5AgWj564U7jLSLcMO7btxtsaw8R@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq91ykSJ/27kgEojpn+SPmTsrTuCs1SEAt1tvNvVMtjQbpaW0S
+	YVLR7YHUE7zlzDlRjzEAJ99UyXyB2Sa0d/SDrydb2OMQ3XbZBdhMH20cxbft9wanNud+eQSrxyd
+	9dvJph99IxEOyFKVjkZcGMV8vhEGwFC8=
+X-Received: by 2002:a17:907:60d5:b0:bee:66ba:36b9 with SMTP id
+ a640c23a62f3a-bf3739f9d34mr373654666b.44.1780749499788; Sat, 06 Jun 2026
+ 05:38:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260606064956.2722874-1-viro@zeniv.linux.org.uk> <20260606064956.2722874-6-viro@zeniv.linux.org.uk>
-In-Reply-To: <20260606064956.2722874-6-viro@zeniv.linux.org.uk>
+References: <20260606102606.74510-1-hexlabsecurity@proton.me>
+In-Reply-To: <20260606102606.74510-1-hexlabsecurity@proton.me>
 From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Sat, 6 Jun 2026 21:26:03 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8HYGvh-cbkE4Gi+ud7Oen6AQtMRy=HR1hhzwbqRRRHag@mail.gmail.com>
-X-Gm-Features: AVVi8CdCjHc39AuzVuqFdOlSPpqHYSgU2Ec-cAQKNy182yc-rTXXvUjUaep6O_g
-Message-ID: <CAKYAXd8HYGvh-cbkE4Gi+ud7Oen6AQtMRy=HR1hhzwbqRRRHag@mail.gmail.com>
-Subject: Re: [PATCH 5/6] ntfs: use d_splice_alias() for ->lookup() return value
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Tyler Hicks <code@tyhicks.com>, 
-	Andreas Gruenbacher <agruenba@redhat.com>
+Date: Sat, 6 Jun 2026 21:38:07 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_F-SAXX2_hzxJEz6f6q2XOaZqMPf=NktqmELPKTxdUeg@mail.gmail.com>
+X-Gm-Features: AVVi8CfUnc-0hKG-zgv2udORvzzdt7_hO3dxPSobgJ_DYjBSuL7cZAFKpmyOtlY
+Message-ID: <CAKYAXd_F-SAXX2_hzxJEz6f6q2XOaZqMPf=NktqmELPKTxdUeg@mail.gmail.com>
+Subject: Re: [PATCH] ntfs: fix u16 truncation of restart-area length check
+To: Bryam Vargas <hexlabsecurity@proton.me>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 6, 2026 at 3:50=E2=80=AFPM Al Viro <viro@zeniv.linux.org.uk> wr=
-ote:
->
-> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-Reviewed-by: Namjae Jeon <linkinjeon@kernel.org>
-Thanks!
+Hi Bryam,
+
+It seems your email client is using Quoted-Printable encoding instead
+of plain text mode. As a result, tabs are converted to =09, and lines
+are broken with =, which corrupts the patch and makes it impossible to
+apply via git am.
+This issue affects all of your recent ntfs patches, so none of them
+can be applied.
+Please configure your email client to send messages in plain text mode
+without any encoding, or preferably, use git send-email to resend the
+patches.
+
+diff --git a/fs/ntfs/logfile.c b/fs/ntfs/logfile.c
+--- a/fs/ntfs/logfile.c
++++ b/fs/ntfs/logfile.c
+@@ -132,7 +132,8 @@ static bool ntfs_check_restart_area(struct inode *vi, s=
+truct restart_page_header *rp)
+ {
+ =09u64 file_size;
+ =09struct restart_area *ra;
+-=09u16 ra_ofs, ra_len, ca_ofs;
++=09u16 ra_ofs, ca_ofs;
++=09u32 ra_len;
+ =09u8 fs_bits;
+
+ =09ntfs_debug("Entering.");
+--
+2.43.0
