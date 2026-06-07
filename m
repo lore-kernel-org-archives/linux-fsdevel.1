@@ -1,70 +1,74 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4503514A4F0
-	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 05:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7750029B77E
+	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 05:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780809451; cv=none; b=ePakR3Np1ndNFlPwzibqc/VwkVvoLKjGkWnUPOzDkFMXXOzVxhDsj3Tc3BCDIoFY2yTBG3pR+tzj1pNZlLWc2WchuAhDABgOWL5SqjgUaYGQBdkJmlANVT+afUv2mZTREIiqmhzhEX1ymreFfnStSyzSLzVu6TH7CAs7nvTeRCQ=
+	t=1780809452; cv=none; b=tZqrntoPMChBmLabppo1d4UMPE/F+QhRchcTfQXF+8rdrev6MEe7+2CK3tvWYiRIJZm5yhN6H9FCc60T4CDhrhC5OlHeEmxIb/f6Yyjanm1wRZTMCVqU53J4gS9NUZdguGbauyJT6y20lrViZXju19ThvkUQB5VVVIVG+EmhTaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780809451; c=relaxed/simple;
-	bh=BzcwqwmkbuNr2Myu7m9WfZdIqMCu8JCUo6H4qhFJ0FE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RwTfaiCkT3Y9S4LA0zVL0bB7nj5VvB8ycIXg42sUyF8xXh0xJ9BOm6/qY0VR4Gpns13IvBsbakCwcmlzbOD2LwqhX6y5eVUfsDZEACxGm1107rm5RexrP1dQ7kq1b2QduKePYJbNHT8TEBplLaDkQEYUCAatgItje5+xeuVo0Q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kTCUKbcx; arc=none smtp.client-ip=209.85.215.176
+	s=arc-20240116; t=1780809452; c=relaxed/simple;
+	bh=j+xZy8gt8DDV+QgucaCN87y/EmcwMb0teW0b/sea2b4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FNqWMXNmQyxta9xWDgvu9wD3eduSwRFtjCQHCKLbzyaZrn0d4M9peR4NfxO4zTT6OG45xqV3aFvzAqcKo9XPd1q3sFrw1T4Es+NoNvs6ew4ra27+VE76MwN7YyN0UhsGSwYJBf4LWOrg5Zu2jXyub9kVQbZrFwnGRGaKOV1I8bI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bg9c7Ck0; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kTCUKbcx"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c857fd61f8aso99926a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 22:17:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bg9c7Ck0"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c0c35980c6so6696625ad.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 06 Jun 2026 22:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780809448; x=1781414248; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mKWyZ9RL9JnW73ObQxrP4w2rasSr9tGKj3O0aXlEuyk=;
-        b=kTCUKbcxOXQyLslfOlod8raW9+5LJ98ehTeQ/xLiW/Dmd52hW7ZXDYPnVlwI/j7kNw
-         OpnFNsVc9itwcnQRJFj5be1rEawFCO8Sw7sTpLeK5Cjf8hFZyZJj6T9SwFGuSqevbZAn
-         20qwRtj4WcPiOufOnWHSV0E49PurlU/tkBOPVxhKaeYQD5NNvhTkSe1OZvU6ovn7pvM+
-         QiG0J7Bwry+VH99bF4KwttVVLhdsiiKGojqdnJoyivWmWmnX1LDws6Gt+85d15H/Jysm
-         gE3M+LmDKbIsmpu3CaP8aID0YUUaZapLNjpex06UinEdN3BwBvfy2cJnQbeEFC3VKZFq
-         crZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780809448; x=1781414248;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780809451; x=1781414251; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mKWyZ9RL9JnW73ObQxrP4w2rasSr9tGKj3O0aXlEuyk=;
-        b=lXa+b+BCgC6IAz1xycojhS2Tr/3PcVk6h1LjaCcHigu8fED9RPSJtVjCCJyqLxjvwQ
-         nOHg12wDegRyBvUpSGnEbMp7LvTK3cZqXbGcQYww+u/T15XI8iz3JlVUkUPhJ+64iDXn
-         oWVB/9g7ll2+LRK2dK6/nMbb24B/g6QGBShQ+4wOtBq5fwskd7480isr1ZF8bH5OT+Bj
-         MQdJsV+BufgMGpyBEqZx1l0oq5eXYyTHHyoAd6HtRii+oQFNAZm95V+FhSzOxS0ip0m5
-         4Rqhd6PJAvSCq6aiBIUzp/uz1TKPkOp/DWahUayS87f/mWZU+DnpUhb6BmXrQeZmzxRx
-         W4hg==
-X-Gm-Message-State: AOJu0YxGmi+uJS+BpocQFs/OEQ3SXL4DlGOBWWgm3N2idZVA7j/M1GIK
-	K5D0Cj6itifo4lUhEl5CNc5gBAnj5WlD+NVi3xKDD1O5YVptQcoqlGbmnRl6yw==
-X-Gm-Gg: Acq92OHmsoix58D8fanI9BQalAlSn6idkxWDny+gD+R5Lbdpw6rqNABOoqnU94xX2q7
-	ffULxWBbYZf+sB0cfzuLfIfWb6cFjWs4B+BC+f+taso+nEYNFMO9Ehz9WEpij4xh0xvI740jt7a
-	qrm/1I9tdXZce1dNs5X64awMXz3XeBjDiKffFXRhGyVwuMgPpCTFdg5qxmBggvexViBZjP1nlQh
-	nqfpHUMdUGuvnLl6qdPo+ub8t/yyT669SgKnFp6Lxiy+qhesI63Fuat/QfNWpUFDWOZuraXJK+j
-	vwFhwoHdhZMESqteiusujughs+FFF4XZf0AJnDK70R30sg4pJcJF1e3XUVmz7eEYGKT9BOa5Om9
-	ZfjxThhkzUfpFU7nqdrwU8wSaJWF+hJoqKXgaFgDAn8CG/NOU7vv3pSlR4ybmFHlo4yrM//3yOz
-	KoXaSz0PWQEY4kFrTLYVGzslcs9EY=
-X-Received: by 2002:a05:6a00:1146:b0:842:5a15:6fa6 with SMTP id d2e1a72fcca58-842b0e8decfmr4577687b3a.3.1780809448349;
-        Sat, 06 Jun 2026 22:17:28 -0700 (PDT)
+        bh=s/xh4ji4ljzs7Ld2VhqWZs4IQIsCD/V0jgUFhhnWvko=;
+        b=Bg9c7Ck0L7xjNgIWEDnGguzpc867L2BAS5vr7QEM/Qg7br8Z6+LAlr4mn4jmpOQLQi
+         3GXNspQcrg4yOyfH/b5R3tDshIsvkszEqsHL+iQkjb+fH07OzMkp7TvBkbS3KmDSDkao
+         JVCqDmDkgQZ0Lbgj98abD3ncD8zeRQ8cTfC3gX4mrrceZ0/vmbTRJ5cjTuSHqx10EGg+
+         lB5V/bv/dgdf++achcWip4zupIRr9xnMA3nUzQWEaSOyZfPqaKVmqb3TZHWqVOoKj4Ib
+         pOfiOagv4cuLVC4Bdu4AtHN+f8zlGZYBuoSCChleIk4LLVdKiCQSi4ixc+uNC+vp94Yb
+         qr6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780809451; x=1781414251;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=s/xh4ji4ljzs7Ld2VhqWZs4IQIsCD/V0jgUFhhnWvko=;
+        b=L0UmOjWjvri3khAkZvjG3Hqa5QjUHYNsbzzzLgsNdphYeXvA16sWmj84fSNEV5Rpt+
+         eznmygjzGlDoNLjEhoIE8KS5w3vRCRTV4fKRw2agJGjnSnBWJ7C5FeptY1styPemD2WC
+         awQSZrOvu47nNDwXH3kY4MoR90t8C8cZF2B26S912fOLGXLedEcv5mNYTEsj2lQX7eh0
+         CszphOkEWSL5neGZA3p2KaD1mi350+2bY8r2tTqNKLDaOFmUyvYFSq4uzRFgklmXfdpW
+         E6KvN0T3+6sLwKwY8WGvHyJdHQ3GdtFBQKLHwssl6s0YT8ZKyDIJ6Bh0slORk+t1GKi4
+         pRqw==
+X-Gm-Message-State: AOJu0YylBMnuxyR4rO3sUBImc50Tnq2a8pldaI1h4XoebqSOZw2i2+t8
+	s8fhynIuFGSkNHqDrbjX6GhER4NFR1kvffwwAN2V/ZQutUw5Fj2YB6vp
+X-Gm-Gg: Acq92OGyem3zmSdZKzXuWWej5X37wtuS7YxB41Am+dHe1K8TzCQ3xgF/KkavwN1numP
+	/aBsLZ6nC72J1PjBbMXnltUb52K89RnLjR4vdPJGrKKkIoZE4jnxwn4uBEXULZK8qacLnrcUn4W
+	gHd9UgxxaL3+IZIkhFui3G3gsxXCwni0/KS+vatpuMHVI84HakdJTVm0lUmU6BV8XBw+g9A9Cbv
+	HZuASJVhEBTPwbz+WvPqopq5AAsxoVwPPQ3cmbS0uvFYVwTxm1NOdQ/OzUCAw04wLc+DYwpcdQZ
+	wxdWS5RKUUocFIKUdZFd73hS3Mb16wMvoRsBh3rydIAiBuztQCXGKfnZ6sKuNzpEoPHT7NTTmw+
+	otl0yvwlng1tOSnfT0g2ksaInf6RICOwbi50h7AvxGJKoUEgt6H3E59NI6LdkZIXNK2vFAdWO47
+	YF2mvCci2i/6TT3A2KEWbWYj6sOC4=
+X-Received: by 2002:a17:90b:2708:b0:368:f0a:1c49 with SMTP id 98e67ed59e1d1-370ebdfd031mr5330721a91.0.1780809450653;
+        Sat, 06 Jun 2026 22:17:30 -0700 (PDT)
 Received: from ser8.. ([221.156.231.192])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828e5638sm14494648b3a.50.2026.06.06.22.17.26
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828e5638sm14494648b3a.50.2026.06.06.22.17.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jun 2026 22:17:27 -0700 (PDT)
+        Sat, 06 Jun 2026 22:17:30 -0700 (PDT)
 From: DaeMyung Kang <charsyam@gmail.com>
 To: Namjae Jeon <linkinjeon@kernel.org>,
 	Hyunchul Lee <hyc.lee@gmail.com>
 Cc: linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	DaeMyung Kang <charsyam@gmail.com>
-Subject: [PATCH v5 0/4] ntfs: finish index root lookup validation
-Date: Sun,  7 Jun 2026 14:17:19 +0900
-Message-ID: <20260607051723.1499833-1-charsyam@gmail.com>
+Subject: [PATCH v5 1/4] ntfs: reject non-resident records for resident-only attributes
+Date: Sun,  7 Jun 2026 14:17:20 +0900
+Message-ID: <20260607051723.1499833-2-charsyam@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260607051723.1499833-1-charsyam@gmail.com>
+References: <20260607051723.1499833-1-charsyam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,78 +77,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This v5 is based on the current linux-ntfs ntfs-next branch at commit
-c864077b8d73 ("ntfs: use d_splice_alias() for ->lookup() return value").
-That branch already contains v4 patches 1/6 through 4/6, the
-ntfs_readdir() index-root entries_offset validation, and the initial
-resident $INDEX_ROOT lookup validator. This series does not resend those
-applied patches.
+The shared lookup-time attribute validator rejects non-resident
+$FILE_NAME and $VOLUME_NAME records because their formats require
+resident values and callers handle returned records as resident
+attributes. Other resident-only attribute types still pass through the
+generic non-resident mapping-pairs checks.
 
-The extent inode lifetime fix is independent of this attribute
-validation work and is not included in this series.
+That leaves real resident/non-resident union confusion paths. Inode load
+looks up $STANDARD_INFORMATION and then reads data.resident.value_offset
+without checking a->non_resident. ntfs_inode_sync_standard_information()
+does the same when updating the standard information value.
+ntfs_write_volume_flags() also looks up $VOLUME_INFORMATION and reads
+data.resident.value_offset directly. $INDEX_ROOT callers in dir.c and
+index.c depend on the same lookup contract before consuming the resident
+index root value.
 
-The merged lookup-time $INDEX_ROOT validator does not yet validate
-index.allocated_size. Enabling that check exposed a generic/013 failure
-in earlier testing because ntfs_ir_reparent() could publish a larger
-resident root header before growing the resident value. In the failing
-case, the root had value_len=48, index_size=32, index_length=40, and
-allocated_size=40, so allocated_size validation correctly rejected the
-transient layout and ntfsprogs-plus ntfsck reported a corrupt index root.
-Patches 2 and 3 are the prerequisite resize-ordering fixes for enabling
-that allocated_size validation: patch 2 fixes the grow side, and patch 3
-keeps the shrink side consistent for the same validator.
+Reject non-resident records for all resident-only attribute types in the
+shared validator. Keep the existing $FILE_NAME and $VOLUME_NAME behavior,
+but factor it through a helper and extend it to
+$STANDARD_INFORMATION, $OBJECT_ID, $VOLUME_INFORMATION, $INDEX_ROOT, and
+$EA_INFORMATION. For $OBJECT_ID and $EA_INFORMATION this is contract
+hardening for resident-only formats; this patch only rejects the
+non-resident form and does not add new resident value validation for
+those types.
 
-Patch 1 also finishes the lookup contract for resident-only attributes.
-The current shared validator rejects non-resident $FILE_NAME and
-$VOLUME_NAME records, but other resident-only attribute types can still
-pass the non-resident path. That is unsafe for callers such as
-$STANDARD_INFORMATION and $VOLUME_INFORMATION users that read
-data.resident.value_offset after lookup, and it also makes the
-$INDEX_ROOT lookup contract incomplete. The patch factors the existing
-checks into a resident-only helper and extends it to the remaining
-resident-only types.
+Signed-off-by: DaeMyung Kang <charsyam@gmail.com>
+---
+ fs/ntfs/attrib.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-Patch 4 extends the merged $INDEX_ROOT validator to check
-index.allocated_size. The driver does consume root index.allocated_size
-as the capacity field in
-ntfs_ie_add() when deciding whether an insert can be done in place, and
-ntfs_ie_insert() does not re-check that boundary. The validation only
-rejects layouts where allocated_size extends past the resident value;
-valid slack remains allowed as index_length <= allocated_size <= the
-resident index area.
-
-The current series applies cleanly to linux-ntfs ntfs-next commit
-c864077b8d73 ("ntfs: use d_splice_alias() for ->lookup() return value")
-with `git am -p3`. checkpatch.pl --strict and git diff --check were clean.
-
-The same final validator and resize-ordering changes were also tested on
-the earlier clean v4 application stack used for runtime testing. A KASAN
-kernel with CONFIG_NTFS_FS=y built successfully, and KASAN generic/013
-passed three consecutive runs. ntfsprogs-plus ntfsck v1.0.0, built from
-ntfsprogs-plus revision 53943dae, reported the three resulting generic/013
-test images clean with `ntfsck -n` (errors:0, fixed:0).
-
-Changes since v4:
-- Do not resend v4 patches 1/6 through 4/6, which have already been
-  applied.
-- Add a resident-only attribute helper and reject non-resident records
-  for the remaining resident-only attribute types.
-- Add the ntfs_ir_reparent() grow-before-header fix required before
-  enabling the allocated_size part of the $INDEX_ROOT validator.
-- Keep the ntfs_ir_truncate() shrink-ordering fix, now framed as the
-  shrink-side consistency fix for lookup-time $INDEX_ROOT validation.
-- Rework the final patch as an incremental allocated_size check for the
-  $INDEX_ROOT validator already merged in ntfs-next.
-
-DaeMyung Kang (4):
-  ntfs: reject non-resident records for resident-only attributes
-  ntfs: grow index root value before reparent header update
-  ntfs: update index root allocated size before shrink
-  ntfs: validate index root allocated_size on lookup
-
- fs/ntfs/attrib.c | 24 ++++++++++++++--
- fs/ntfs/index.c  | 96 ++++++++++++++++++++++++++++++++++++++++++----------------------
- 2 files changed, 85 insertions(+), 35 deletions(-)
-
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index 7e293b85ad19..0fb2b6acf8b2 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -595,6 +595,22 @@ static u32 ntfs_resident_attr_min_value_length(const __le32 type)
+ 	}
+ }
+ 
++static bool ntfs_attr_type_must_be_resident(const __le32 type)
++{
++	switch (type) {
++	case AT_STANDARD_INFORMATION:
++	case AT_FILE_NAME:
++	case AT_OBJECT_ID:
++	case AT_VOLUME_NAME:
++	case AT_VOLUME_INFORMATION:
++	case AT_INDEX_ROOT:
++	case AT_EA_INFORMATION:
++		return true;
++	default:
++		return false;
++	}
++}
++
+ static bool ntfs_file_name_attr_value_is_valid(const u8 *value, const u32 value_length)
+ {
+ 	const struct file_name_attr *fn;
+@@ -665,7 +681,7 @@ static bool ntfs_attr_value_is_valid(struct ntfs_volume *vol,
+ 	u32 min_len;
+ 
+ 	if (a->non_resident) {
+-		if (a->type == AT_FILE_NAME || a->type == AT_VOLUME_NAME)
++		if (ntfs_attr_type_must_be_resident(a->type))
+ 			goto corrupt;
+ 		if (!ntfs_non_resident_attr_value_is_valid(a))
+ 			goto corrupt;
 -- 
 2.43.0
