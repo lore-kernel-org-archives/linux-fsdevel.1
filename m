@@ -1,118 +1,166 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a11-129.smtp-out.amazonses.com (a11-129.smtp-out.amazonses.com [54.240.11.129])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C40730E838
-	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 18:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB7A2E718B;
+	Sun,  7 Jun 2026 19:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780857606; cv=none; b=o+QS6hEA8NoaqHQTxtHRY9xHy3x8sZyc74uFk6nEy8znvly+dMRiI/4XOBoKHYDzycf18lxOigDKL61cnJU2WX3iKHxqRyGhQOjYsYyFAc05qGlWiWNn+7N8XVlZuBPnBKSjjYx7FJGzdmqjXV0kh7KUBcVO9HiNDJfsyTybt5U=
+	t=1780860754; cv=none; b=lEPqHzcecn+9e5ZlVYmUToI4X9NAHeWqI+Bnggxz81KFfwXB6Z1a0EslM6qwv/FWiK+sYdrf7M2p/XdkgkO8AiwobfMMtNPXh2FGrNqngKbp1l954dr2l7EoI0pBd+1HbODhJzAyggAEiXuzBgkldtiyjhoHwvrzx/4rossgZJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780857606; c=relaxed/simple;
-	bh=x8Z/kZPJbC8/Fv1CvcNt3yyEwoKOPTmPHfT6NYYJ/8I=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=ujSmd1RjQHt1wpKGadrDVt2k45L7y04Bvb7/5WGQLeM3P8uCqe1FZCwfCbwoC0SM95XImwuwqrFA3It6spkauuk12ZNjLcmJkRlccB4fW6U93lFIW3th3SAtDgul/ZeES0FsekkIPUpmqcoSIGp40C5ql3nxY6CvGGPMo8WqxrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=uIUuaj2+; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1780860754; c=relaxed/simple;
+	bh=jt8Aj0XIoUivbpwTIcdaYSD25WtNq6BIuZR1ziWfZe0=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:References:
+	 Message-ID; b=RDeMoqnVCJ+mmPQM+RIbd+IUaHtY5e1V2eFS95rFll6aTO6RD9r94FgMkPXHUuYRLu7/xe23VdLVwkgatkurFf93oLC38jCwvpVkcRoiR9BnqcUEunDSLuQiQoCzG0jCi7V+vOujoOWY6NpGjRg6k8GZBng548ijZdLFFgRGkcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=CpVLVpKg; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=CNWNqItN; arc=none smtp.client-ip=54.240.11.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="uIUuaj2+"
-X-KPN-MessageId: 48db96fa-62a0-11f1-8ff7-005056999439
-Received: from mta.kpnmail.nl (unknown [10.31.161.189])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 48db96fa-62a0-11f1-8ff7-005056999439;
-	Sun, 07 Jun 2026 20:39:58 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 48dc67c6-62a0-11f1-b5d4-0050569981f5;
-	Sun, 07 Jun 2026 20:39:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=OCaItIhxH27o2mCXjo8Dr1EamQ166KnS1GVOoVaGWCE=;
-	b=uIUuaj2+40SgWq6Nia320B0pZBjNY7qS9LQIkbw/bgfnqtkREgxx2Q4ALAfT7LkPunvfpCNdvjIvT
-	 RpviEqwqdn7tsIjUvI/urGe5hBBFLiNiqnzc1vVTbKu6bWp9uVmcqEYHhS5C8rYTmFk6fBowfiRq6r
-	 wSYTAwx3xfd/yuzN3B55jOS13k9czwoxFEzRpALWL5o73VtRIqs1x0eyucTuQGBJ6hk5qgwwApbuq7
-	 rW1KPMgnsL8mNxAILwtMD+7GZAem/VCCW3VCAgFeXQasvHqywk4agXyToGnQsYYfgwzIgrZnTE0dCg
-	 g+Iobv0J2XN0CU4qUYckG70gWyyHNBA==
-X-KPN-MID: 33|Mh6tuC3tC/6R131M7+3S3XKagWHMP+2wUsemglHj6g0X9lPbiFydRNyCacEpi8X
- QXZwR7PcxHMq+0aKu+a5V7BrH6sAbFbgTkNHWuTfOV/c=
-X-CMASSUN: 33|NIZjmHoaoNL6smGFLmx1kEYybBdFxNN/Rqp9ZAKDNPUNn6VO5fULP281bdLJiiN
- 8um1i9hoqCWuCdRn0heFOSA==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh07 (cpxoxapps-mh07.personalcloud.so.kpn.org [10.128.135.213])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 48d5fc1d-62a0-11f1-b8d7-005056995d6c;
-	Sun, 07 Jun 2026 20:39:58 +0200 (CEST)
-Date: Sun, 7 Jun 2026 20:39:58 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <696696440.856299.1780857598136@kpc.webmail.kpnmail.nl>
-Subject: Re: [PATCH 1/3] file: add fd_except cleanup class
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="CpVLVpKg";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="CNWNqItN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1780860752;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id;
+	bh=jt8Aj0XIoUivbpwTIcdaYSD25WtNq6BIuZR1ziWfZe0=;
+	b=CpVLVpKgWfXsumK32PV+OSPxUipVIHCX/GA8GpkYJUYCrTmid5ud5lP7z8B/INjc
+	SBHGlHb/ear4mecVA30WUxWuqwOdXrkhgPcn4Okc3UzxIVg1UvnQm10fK+hcVpXaBs9
+	vyrQ7L0i3EywErIEZMeymBh9xTq1P2JNsYSQo1UM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1780860752;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id:Feedback-ID;
+	bh=jt8Aj0XIoUivbpwTIcdaYSD25WtNq6BIuZR1ziWfZe0=;
+	b=CNWNqItNO5wZEQr4bau0YhELU+mBy8YwTZeLQBKlRmG8qIm6xiyqnqSnheSibC/P
+	WFOETu+bWjdxUq3hkrG3ztzx8QgwOe4BWG4WcxcqwLEGXyn7yc0eZogje8BaM8Ljkhj
+	QAkxWdA01Y2WTLfyWJCfTzS7ka4sNjnWqUEz3kNU=
+Subject: [PATCH V4 0/9] Fixes to the previously-merged drivers/dax/fsdev
+ series
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
+	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>
+Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?Christian_Brauner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>, 
+	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
+	=?UTF-8?Q?John_Groves?= <john@groves.net>
+Date: Sun, 7 Jun 2026 19:32:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+References: <20260607193224.94244-1-john@jagalactic.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHc9rRhSPXw4ZdTQtuvnkZG9OrQIg==
+Thread-Topic: [PATCH V4 0/9] Fixes to the previously-merged drivers/dax/fsdev
+ series
+X-Wm-Sent-Timestamp: 1780860751
+X-Original-Mailer: git-send-email 2.52.0
+Message-ID: <0100019ea3929225-a0f8e6f7-30ae-4f8e-ae6f-19129666c4c3-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.06.07-54.240.11.129
 
-On Sun, Jun 07, 2026 at 06:41:34PM +0200, Andreas Gruenbacher wrote:
-> CLASS(fd_except, f)(fd, mask) allows to specify whether to accept or reject
-> O_PATH file descriptors by passing a mode value of 0 or FMODE_PATH rather than
-> using a specific cleanup class for each case (CLASS(fd, f)(fd) or CLASS(fd_raw,
-> f)(fd)).
-> 
-> Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-> ---
->  fs/file.c            | 5 +++++
->  include/linux/file.h | 2 ++
->  2 files changed, 7 insertions(+)
-> 
-> diff --git a/fs/file.c b/fs/file.c
-> index 2c81c0b162d0..c34049b36e6f 100644
-> --- a/fs/file.c
-> +++ b/fs/file.c
-> @@ -1211,6 +1211,11 @@ struct fd fdget(unsigned int fd)
->  }
->  EXPORT_SYMBOL(fdget);
->  
-> +struct fd fdget_except(unsigned int fd, fmode_t mask)
-> +{
-> +	return __fget_light(fd, mask);
-> +}
-> +
->  struct fd fdget_raw(unsigned int fd)
->  {
->  	return __fget_light(fd, 0);
-> diff --git a/include/linux/file.h b/include/linux/file.h
-> index 27484b444d31..947765f064fe 100644
-> --- a/include/linux/file.h
-> +++ b/include/linux/file.h
-> @@ -70,6 +70,7 @@ extern struct file *fget_task_next(struct task_struct *task, unsigned int *fd);
->  extern void __f_unlock_pos(struct file *);
->  
->  struct fd fdget(unsigned int fd);
-> +struct fd fdget_except(unsigned int fd, fmode_t mask);
->  struct fd fdget_raw(unsigned int fd);
->  struct fd fdget_pos(unsigned int fd);
->  
-> @@ -81,6 +82,7 @@ static inline void fdput_pos(struct fd f)
->  }
->  
->  DEFINE_CLASS(fd, struct fd, fdput(_T), fdget(fd), int fd)
-> +DEFINE_CLASS(fd_except, struct fd, fdput(_T), fdget_except(fd, mask), int fd, fmode_t mask)
->  DEFINE_CLASS(fd_raw, struct fd, fdput(_T), fdget_raw(fd), int fd)
->  DEFINE_CLASS(fd_pos, struct fd, fdput_pos(_T), fdget_pos(fd), int fd)
->  
-> -- 
-> 2.54.0
-> 
+From: John Groves <john@groves.net>
 
-Looks fine to me, but I do dislike the fdget_except() name. Maybe if
-fd_raw() is only used for DEFINE_CLASS(fd_raw) anyway, we can just
-reuse it.
+This series applies bug fixes (mostly found via sashiko) to the dax/fsdev 
+series. This has been soaking in the famfs CI pipeline for 2+ weeks and
+1) won't affect anything that doesn't use drivers/dax/fsdev.c, and 2)
+doesn't affect any known workloads - although the bugs would have 
+manifested when multi-range DCD dax devices are a thing (soon-ish).
+
+Most of the series is confined to drivers/dax/fsdev.c. Two patches
+touch shared DAX core: patch 7 changes fs_put_dax() in 
+drivers/dax/super.c (used by ext2/ext4/erofs/xfs, though only
+holder-passing callers, like XFS in-tree, will see a new warning if
+they misuse fs_put_dax(). 
+
+Although patch 8 adjusts the dax_dev lookup API in super.c / dax.h, this 
+does not affect the above file systems; they use fs_dax_get_by_bdev() 
+instead.
+
+Changes since V3:
+
+- Patch 4: Adopted Dave's suggested refactor -- factor out
+  fsdev_acquire_pgmap() and defer the dev_dax->pgmap assignment until
+  probe can no longer fail, replacing the goto-based cleanup. Did not
+  carry Alison's V3 Reviewed-by due to the rewrite.
+- Patch 5: Also remove the now write-only dev_dax->virt_addr field,
+  per Dave's review.
+- Patch 7: Fixed the WARN_ON() to tolerate holder_data == NULL, which
+  legitimately occurs when kill_dax() clears it during device removal
+  under a live holder (per Dave's review). Wrong-holder calls still
+  warn.
+- Patch 8: Kept the Fixes tag -- the exported symbol itself is the
+  hazard; stable kernels carrying the export should want this fix.
+
+Changes since V2:
+
+* Patch 1 (comment fix): No change. Responded to Dave's question about
+  the dropped precondition -- the new comment correctly covers both
+  callers; fsdev_clear_folio_state() does not guarantee share==0 before
+  calling, so the old precondition was no longer universally true.
+* V2 patch 2 (three fixes): Split into three separate patches (patches
+  2-4) per Dave's review.
+* V2 patch 3 (two fixes): Split into two separate patches (patches 5-6)
+  per Dave's review.
+* V2 patch 4 (clamp direct_access / remove cached_size): Dropped.
+  Dave's analysis correctly showed the claimed bug does not exist --
+  dax_pgoff_to_phys() already enforces that the full requested size fits
+  within a single range before returning, making the clamp a no-op in
+  every reachable path.
+* V2 patch 5 (holder_ops race): Use WRITE_ONCE() for the holder_ops
+  store; add WARN_ON() on the cmpxchg result to catch wrong-holder and
+  double-put API contract violations; fix the inline comment, which
+  incorrectly claimed dax_holder_notify_failure() consults holder_ops
+  only when holder_data is non-NULL.
+* V2 patch 6 (dax_dev_find): Add dax_alive() check under dax_read_lock()
+  after ilookup5() to prevent returning a device that is concurrently
+  being torn down by kill_dax().
+* V2 patch 7 (formatting cleanup): Drop incorrect Fixes: tag; add
+  Dave's Reviewed-by.
+* The series grows from 7 to 9 patches.
+
+Changes since v1:
+* Dropped modes from patch 6 to fs/fuse/famfs.c and 
+  fs/famfs/famfs_inode.c, which are not upstream so it broke
+  attempts to apply the series. Oops...
+* Added patch 7, which addresses a previously-missed review comment
+  from Jonathan - minor cleanup
+
+
+John Groves (9):
+  dax: fix misleading comment about share/index union in
+    dax_folio_reset_order()
+  dax/fsdev: fix multi-range offset in memory_failure handler
+  dax/fsdev: clear vmemmap_shift when binding static pgmap
+  dax/fsdev: don't leave a dangling dev_dax->pgmap on probe failure
+  dax/fsdev: use __va(phys) for kaddr in direct_access
+  dax/fsdev: fail probe on invalid pgmap offset
+  dax: fix holder_ops race in fs_put_dax()
+  dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
+  dax: fsdev.c minor formatting cleanup
+
+ drivers/dax/dax-private.h |   2 -
+ drivers/dax/fsdev.c       | 126 +++++++++++++++++++++++++-------------
+ drivers/dax/super.c       |  80 ++++++++++++++++++++++--
+ fs/dax.c                  |  12 ++--
+ include/linux/dax.h       |   6 +-
+ 5 files changed, 168 insertions(+), 58 deletions(-)
+
+
+base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
+-- 
+2.53.0
+
