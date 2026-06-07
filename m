@@ -1,112 +1,124 @@
-Received: from a10-72.smtp-out.amazonses.com (a10-72.smtp-out.amazonses.com [54.240.10.72])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9C430595B;
-	Sun,  7 Jun 2026 19:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.10.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D80D30E838
+	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 19:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780860871; cv=none; b=TUMjTitkBbxUO+USx/nSiHoTQlzPRAF7W6mqDCVbCqeInCJyy5KkU56Rl+4qJNvrVK8LGnBgpJBEqwOrEOBLuKOGMu9OQokz+eL182dFSj/DS2PpCrLVA61gD69TY21VkgEyJmZBUPu9KUa5SdjaH6wcFFWhqBntL5filJY4lLE=
+	t=1780860995; cv=none; b=ivYiuwb71PsRmGBguI/o4xVOA9quJ3ZJdLtSoI6MLI0nGoEwplUsFbkhYva1ugeZPu6LaAtXhkFoS5y/dPLdRBCh7E5ZNvuPZJkJFEbzmOfq68A+clbJahOXuC9C9l770Va8YGWMPYueAh2GAL45sqcN1X6NDLgzSOckfuHXz3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780860871; c=relaxed/simple;
-	bh=RsEuiAYwrQWt2K1/ew5KvUu/8EPEugpPlSv6qnbJNvk=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=q9SC0YQ/VrxKnhwTUDq4mfHHuz+zYHDK14t0ahwpqdHaGToSTC20MKY3QnDOFRrsQHiy2AdTGbPnVes6d6wwOj9roV82pqFsvV1d8Kn8t6ZWE16DKOPYEMu0/cd0LDnhdvzXV8YsaAUjffbTcaSI17jFGivDRFwdedlzvMq7Pvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=mlsSPMoy; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=g1Kz6MlS; arc=none smtp.client-ip=54.240.10.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1780860995; c=relaxed/simple;
+	bh=XkUR9tf10XvlaAoORBGQLAImMyjVjlWonI9NzNNf9i4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XqWFGp1tp4Ss0JB4l9kwEGigWikLZ0Ih2CK1L7oUqNX9Q6WNorECAmvhcO306iFwJECcdhFX5VkjXMZjcAfMHeEQFY3cH3a9Lex0dD06weuQC2OkszvLMm3Y/Kli3Q+Mwj/s6/eBSk7srYjCMP6J1yOsUifg8LgiX7txIOBlWmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=EPvV2kip; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B4MOlcsa; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="mlsSPMoy";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="g1Kz6MlS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1780860869;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=RsEuiAYwrQWt2K1/ew5KvUu/8EPEugpPlSv6qnbJNvk=;
-	b=mlsSPMoynNMBfoXK2+pAXEpj2mxZw+2bkgHHX8r2k8U+YWrwLUX9/7cqt6g7nNtA
-	TXLZTGumQr15ae46awkYP95pTaEj2WE90/sp62pNMEv+sSKHpFnnqMf6jq4xpnXSWLT
-	0bFa+llg4ysopw3bP6pqIneLCgkt6ZaKIyfD0mmA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1780860869;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=RsEuiAYwrQWt2K1/ew5KvUu/8EPEugpPlSv6qnbJNvk=;
-	b=g1Kz6MlSSKWHGPdfNRXS+iP2iMwvddxxbv0u2nedZCNYep5A+AqfSpx1y2cqyXf8
-	er7Xax6tuTzH9PNlIObw45dl2v6TRFL7OzbGTTsOuX2cGL72GFQoMQsZlWy25Jtr2Jq
-	IzFhYcf/WL4fa0H0NTisJcNAqowjFmOzIsTGjns8=
-Subject: [PATCH V4 9/9] dax: fsdev.c minor formatting cleanup
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?Christian_Brauner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>, 
-	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
-	=?UTF-8?Q?John_Groves?= <john@groves.net>
-Date: Sun, 7 Jun 2026 19:34:28 +0000
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="EPvV2kip";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B4MOlcsa"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id A54C3EC0088;
+	Sun,  7 Jun 2026 15:36:32 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sun, 07 Jun 2026 15:36:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1780860992;
+	 x=1780947392; bh=XSwwL419DcNkxB4bTWBifhWQAJb+qLSQNt44TgbIJ0Y=; b=
+	EPvV2kipa2/TJFV5H4jBvw8g4ZreaUAN39E7lVRCkhq4LhEEi0YjP3Me9a8Nex6h
+	RZISv3Ew0b2/IqzJ2pdlQLzbPUWggbBp3E92NDdm46ecg4z9AXQNLeNhJdssht6R
+	VUXuLMMkNQwBMacBBcwoRg+kfGza3i14oWZHOIcxciPoEwNJzppF3M55b1Bv0ZKk
+	kdoehsGiKOXwIiD9wKSCHVr41uce0X5VyyOhvf1sBMVjNKe6isi9FG3nJJ8CgOuJ
+	ygxQam7DSsC1xcBJ5XCcyL9KStLmUDVRp6vG0Jiv5Mje8waNaKhFCgKjU+uDOROF
+	GL7EvYpPVdFC345ilTZgKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780860992; x=
+	1780947392; bh=XSwwL419DcNkxB4bTWBifhWQAJb+qLSQNt44TgbIJ0Y=; b=B
+	4MOlcsa/T8Z32cJA3zmemTKk5BQ2EFuBQAvs+NgjzlZo/r61ONci/nylJI0olvlG
+	vKB/7sGWMJOPr2rEdaZNh1u0a5+sii0mvenhkuUjYi5gkkaYzilwVX/+TN5lXKG2
+	ml8nML/z1x437zNL2R6djJOOFo/ZLG58rPPeN0unMWyHxNsDUN4EMXa32l7DE47V
+	ujniY8SJ5eNcLhQEYtr1SBRdRTI/oqe4DKeQc2baUVBS4si2s4UxdYeV4YdFDEZx
+	K4wH3EuXu62Y/0webZ0odbF7hfGIGoPIC4npCiEjUvjnxuSs+QXaUQ+FvbcEYo0n
+	9k5zTdyKd5Xlp4zQIRc9w==
+X-ME-Sender: <xms:QMglamVCd7TvAWAVROrJZxB-kSmisHfguooQu1A__AczhhVKxlpWew>
+    <xme:QMglaqWGVLBzKNW1yndxoZQRRDCuK37LKxrq9XgRCyY10Ow6g8ScR-gP7jBF94bo0
+    lQsyafo-SYrvPraaxPhUHgBA-Cai6slAbvCHysnl3VpyDGlBhpq>
+X-ME-Received: <xmr:QMglatcNc6XEkUZHNsTs1iGFy7kH3XikZkklhga-9EatBlUd92rbaARHcfM0X94SBzb9yohzGYmXg-m9O74P_K0aA0Mr6U27_7cd_wbZsBvFkQabxg>
+X-ME-Proxy-Cause: dmFkZTGYKfWrHwMoSt7CsAPhHuasxa8Kdu+hu/0kE4AjmrCOkQNq8X/rtsZnAtc1fr5NEh
+    +Fo4cpoydqHHMXft1idvRvA7926fHyjaWpnT4an9RVt1h2UvEM3Va/gspmdDihNufXA0r/
+    PgO97iaDJq0toyrcdqutRmDyVIZIG3DIWB7zUrsvjouhCHJZPZGH8lnzqNN2X95kw+F3kA
+    tOBhLowJpsfzUYDKQqAB/pr9ICKIngiW9ETAp5oFfy/6RjY9XQDWJphIv2Wf/RixsmFkAN
+    O2QVWp7JX/mCfxvQyjYmIb0rF0WWnFYo9N9yBKoyPaPgO4682MQ3OItqs4lNB9Ha+IfaFK
+    tAOv4VZ/+Gjc84K810oB3ycIL78fs5drBJtXZdyiQ00111J8x2Gi9tiu7BouCPgi+uAkgF
+    eHbefah3seMW/PJ269aMeKKmJc3DZ0LS46BkRJBUd7oiZU7xQVbQ8Bagwd8Dr7ly6qiLkD
+    453Rjg1GpZWR61m2AU23PElXc1h/0n2nvjRmSl4ETc28klUjOm185k/VeR2Jqg6muR9ljQ
+    HMhOmdceE7Xbf9r8NGXuPv2WfHmyVGf9Ley+/+UNLDWFUtw3NOBPu/oO/jHYGaWMoQzTdu
+    yRVIeoNgdmrGCr8GXGXaT5FirmW9KToTDDYLdChRVSzTIWxWC4OaveWhwBQg
+X-ME-Proxy: <xmx:QMglarWPMQ8QcPBV9U_AvRAH1lkw1mIfPDG1056hCE0dW_0JPXK7Vg>
+    <xmx:QMglaufX5d0GxSwD3YWqnd9cbWpOxuXnYjZhUpB7ns5llrGGcVOY4Q>
+    <xmx:QMglavM3-bjACbQe_a7wgsAIXE7zF7Wt8qk5fWgYq7m8Y9b5Q2woVg>
+    <xmx:QMglakgyT2Y7tJjiuB-ogM8XVHlMPJFfZw4UGicUO4HJQzBBhx8OVQ>
+    <xmx:QMglavkPgmqGErEdNhEc6WFtUKldXYppu7eMftsM4ozt3kXbIjwy3pq3>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 7 Jun 2026 15:36:31 -0400 (EDT)
+Message-ID: <a36689e2-705f-4311-a04e-55462fee1713@bsbernd.com>
+Date: Sun, 7 Jun 2026 21:36:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] mount_service: don't pass the chopped buffer to
+ apply_fsconfig_mount_opts
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+References: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
+ <178044567862.1435997.14889132979032394431.stgit@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <178044567862.1435997.14889132979032394431.stgit@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: 
- <0100019ea3929225-a0f8e6f7-30ae-4f8e-ae6f-19129666c4c3-000000@email.amazonses.com>
-References: 
- <0100019ea3929225-a0f8e6f7-30ae-4f8e-ae6f-19129666c4c3-000000@email.amazonses.com> 
- <20260607193423.94427-1-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHc9rRhSPXw4ZdTQtuvnkZG9OrQIgAAEYSc
-Thread-Topic: [PATCH V4 9/9] dax: fsdev.c minor formatting cleanup
-X-Wm-Sent-Timestamp: 1780860867
-X-Original-Mailer: git-send-email 2.52.0
-Message-ID: <0100019ea39458e0-a6d54b5d-f00a-46b7-8c98-e230193654c5-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.06.07-54.240.10.72
+Content-Transfer-Encoding: 7bit
 
-From: John Groves <John@Groves.net>=0D=0A=0D=0AAddress some comments from=
- Jonathan that were missed in the merged=0D=0Aseries. Fix line wrapping i=
-n fsdev_dax_recovery_write() and=0D=0Afsdev_dax_zero_page_range() signatu=
-res.=0D=0A=0D=0AReviewed-by: Dave Jiang <dave.jiang@intel.com>=0D=0ARevie=
-wed-by: Alison Schofield <alison.schofield@intel.com>=0D=0ASigned-off-by:=
- John Groves <john@groves.net>=0D=0A---=0D=0A drivers/dax/fsdev.c | 15 ++=
-++++++-------=0D=0A 1 file changed, 8 insertions(+), 7 deletions(-)=0D=0A=
-=0D=0Adiff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c=0D=0Aindex d=
-cb512625ce65..565d93926ec40 100644=0D=0A--- a/drivers/dax/fsdev.c=0D=0A++=
-+ b/drivers/dax/fsdev.c=0D=0A@@ -45,8 +45,8 @@ static void fsdev_write_da=
-x(void *addr, struct page *page,=0D=0A }=0D=0A=20=0D=0A static long __fsd=
-ev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,=0D=0A-=09=
-=09=09long nr_pages, enum dax_access_mode mode, void **kaddr,=0D=0A-=09=09=
-=09unsigned long *pfn)=0D=0A+=09=09long nr_pages, enum dax_access_mode mo=
-de, void **kaddr,=0D=0A+=09=09unsigned long *pfn)=0D=0A {=0D=0A =09struct=
- dev_dax *dev_dax =3D dax_get_private(dax_dev);=0D=0A =09size_t size =3D =
-nr_pages << PAGE_SHIFT;=0D=0A@@ -80,7 +80,8 @@ static int fsdev_dax_zero_=
-page_range(struct dax_device *dax_dev,=0D=0A =09long rc;=0D=0A=20=0D=0A =09=
-WARN_ONCE(nr_pages > 1, "%s: nr_pages > 1\n", __func__);=0D=0A-=09rc =3D =
-__fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS, &kaddr, NULL);=0D=
-=0A+=09rc =3D __fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS,=0D=
-=0A+=09=09=09=09       &kaddr, NULL);=0D=0A =09if (rc < 0)=0D=0A =09=09re=
-turn rc;=0D=0A =09fsdev_write_dax(kaddr, ZERO_PAGE(0), 0, PAGE_SIZE);=0D=0A=
-@@ -88,15 +89,15 @@ static int fsdev_dax_zero_page_range(struct dax_devic=
-e *dax_dev,=0D=0A }=0D=0A=20=0D=0A static long fsdev_dax_direct_access(st=
-ruct dax_device *dax_dev,=0D=0A-=09=09  pgoff_t pgoff, long nr_pages, enu=
-m dax_access_mode mode,=0D=0A-=09=09  void **kaddr, unsigned long *pfn)=0D=
-=0A+=09=09pgoff_t pgoff, long nr_pages, enum dax_access_mode mode,=0D=0A+=
-=09=09void **kaddr, unsigned long *pfn)=0D=0A {=0D=0A =09return __fsdev_d=
-ax_direct_access(dax_dev, pgoff, nr_pages, mode,=0D=0A =09=09=09=09=09 ka=
-ddr, pfn);=0D=0A }=0D=0A=20=0D=0A-static size_t fsdev_dax_recovery_write(=
-struct dax_device *dax_dev, pgoff_t pgoff,=0D=0A-=09=09void *addr, size_t=
- bytes, struct iov_iter *i)=0D=0A+static size_t fsdev_dax_recovery_write(=
-struct dax_device *dax_dev,=0D=0A+=09=09pgoff_t pgoff, void *addr, size_t=
- bytes, struct iov_iter *i)=0D=0A {=0D=0A =09return _copy_from_iter_flush=
-cache(addr, bytes, i);=0D=0A }=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
+
+
+On 6/3/26 02:15, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> If mount_service_handle_mntopts_cmd previously looked at the mount
+> options to screen for allow_{other,root}, then tokstr (aka oc->value)
+> has been modified and not put back.  This causes truncation of the mount
+> options passed to fsconfig, so let's use the snapshot that we took
+> previously.  Codex noticed this.
+> 
+> Fixes: 7211953256526f ("mount_service: use the fsmount API helpers from mount_fsmount.c")
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  util/mount_service.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> 
+> diff --git a/util/mount_service.c b/util/mount_service.c
+> index adcc7a296645ff..360a78bab3bd3d 100644
+> --- a/util/mount_service.c
+> +++ b/util/mount_service.c
+> @@ -994,7 +994,7 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+>  
+>  #ifdef HAVE_NEW_MOUNT_API
+>  	if (mo->fsopenfd >= 0) {
+> -		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, oc->value);
+> +		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, mntopts);
+
+Btw, what does "oc" stand for? I would have probably called it "cmd".
+
+Thanks,
+Bernd
