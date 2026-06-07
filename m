@@ -1,209 +1,466 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C94B2E3AF1;
-	Sun,  7 Jun 2026 10:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780829741; cv=none; b=qvg7l7AQi2c/uQgPsIoTRiMr8YRGyBbQ23zahUsVb3SyPD+o9jEB5ozTM/+7vMmWjq+gNodqK70O3kKzQkOshbhbsv0jG0//gpMwID5XLzl3RPHvA2LymSNKcXOiy1i8ocul4azJnr5/pbOF4yTlwg+Tc4rU5OkHZBM3/gNPaeU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780829741; c=relaxed/simple;
-	bh=2Ke8GL6eZs0K05NJS+Nqfez/Em+cRte7rAqtogW1I8g=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=jbVRZVJz7aWi7dnJ0NSkgyOqweBhe+/FSTYARb7Mt16LYSd81vs1I/AhmZGV84tW6po/0Mi/c1JkdAaKaS8zLSyqpkFNny+bNjfieV2GiBhqlCJ4bNnOab1CCKxYoiFfgxJ8+j2zLinUeRgGlYypmig36/SMp+eS/AlzeV6cY7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 657AsxJ2063554;
-	Sun, 7 Jun 2026 19:54:59 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 657Asxm5063536
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 7 Jun 2026 19:54:59 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <3244d4dd-8254-47c0-9609-b1db53450c7c@I-love.SAKURA.ne.jp>
-Date: Sun, 7 Jun 2026 19:54:58 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A42317158;
+	Sun,  7 Jun 2026 13:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780838586; cv=pass; b=PfPbX3Boj5kFyKUquy+DG+cncw0FbIWK1C7/89jZEO3DQVegqoGvc9All61I9eIwqSXyfGBweVdszB3bOWoCWvecf5Logpn6aroN3lY0zmy/YwpWNzLVkOjqdKCF7DmYl7Umww+j3GJ1w+AKq7OPJaDOXIqN3LKYrmjVCXWslNE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780838586; c=relaxed/simple;
+	bh=r5F2Kc+toV8nalkWkiOrGvNzEJWRjQ4xWOudCDIGf4s=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=FBku6j1jcnh22EcfVDEosQPFaj+otDBMj1M05j586AQhaem0l3AKxeOojtOHqFPU41lVVAYjCmWQskN5NG4D42/xXX1xINj8oRhBtHdiCKg8f23R6hrCKF+BpUHvROcjbjn0xHKb3qRZCT+LMNQkQxBgFJIuRF51Lyna0IYcvjs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=cgw0GxaV; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="cgw0GxaV"
+ARC-Seal: i=1; a=rsa-sha256; t=1780838536; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MhU2rKZcEEU4udEPdDeHuLN9IlYwnt1p1/BhVzyVWRkVzSIMjcuoTafZOgiH08LKW5tOayVimc+zfePrURes2I/kprNOhOsL/V0uhNN5+XWk2EcB1aqWgJ4YtGabseH1Rc94HShkFdc4qnlNfoUcAdQkkqEKZbn86QiF1YgtBVg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1780838536; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=c8zi6w1KcsLgtdWmWEW8oBFp/uYrjVYwQ27JP33BSQM=; 
+	b=S3tZ0w/s2zYTLwp3GqEggDnjZgmSnbwvdHqh0YZ+0CB7jJBKO+qpK7XRkYgPAGKhjTGsuBu8JUioUj/2nO5LLShZj3glTwXz0JT05YnI7vPzb6teO7yNRvgedNb0Jt6Wt5allYMC5PC5BybmzMFZM+x0/VSS4mNvGqjifCAFi3w=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=linux.beauty;
+	spf=pass  smtp.mailfrom=me@linux.beauty;
+	dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780838536;
+	s=zmail; d=linux.beauty; i=me@linux.beauty;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=c8zi6w1KcsLgtdWmWEW8oBFp/uYrjVYwQ27JP33BSQM=;
+	b=cgw0GxaVBsHNzQoMY2MyrEEQjFILrEJA00aC3ra1p7FfWUPdXTPiajC+DwSpWUA2
+	DoBTiGfVhkanWL4SqIICdl8RSTY/V0t8imtak2NetUogKCKaO3A6TxUMiiyzZrM2Jyb
+	7uBB/7qUc3VifqFHlJrFnuxJsZq2WVvnQwBm5WRo=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1780838529335809.7321442050796; Sun, 7 Jun 2026 06:22:09 -0700 (PDT)
+Date: Sun, 07 Jun 2026 21:22:09 +0800
+From: Li Chen <me@linux.beauty>
+To: "Gabriel Krisman Bertazi" <krisman@suse.de>
+Cc: "Christian Brauner" <brauner@kernel.org>, "Kees Cook" <kees@kernel.org>,
+	"Alexander Viro" <viro@zeniv.linux.org.uk>,
+	"linux-fsdevel" <linux-fsdevel@vger.kernel.org>,
+	"linux-api" <linux-api@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-mm" <linux-mm@kvack.org>,
+	"linux-arch" <linux-arch@vger.kernel.org>,
+	"linux-doc" <linux-doc@vger.kernel.org>,
+	"linux-kselftest" <linux-kselftest@vger.kernel.org>,
+	"x86" <x86@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+	"Andy Lutomirski" <luto@kernel.org>,
+	"Thomas Gleixner" <tglx@kernel.org>,
+	"Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+	"Dave Hansen" <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, "Jan Kara" <jack@suse.cz>,
+	"Jonathan Corbet" <corbet@lwn.net>,
+	"Shuah Khan" <skhan@linuxfoundation.org>
+Message-ID: <19ea23f7926.45a052d5738848.4069075037120141318@linux.beauty>
+In-Reply-To: <87fr31xdz3.fsf@mailhost.krisman.be>
+References: <20260528095235.2491226-1-me@linux.beauty> <87fr31xdz3.fsf@mailhost.krisman.be>
+Subject: Re: [RFC PATCH v1 00/13] exec: add spawn templates for repeated
+ executable startup
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v4] loop: Fix NULL pointer dereference in lo_rw_aio()
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>,
-        Damien Le Moal <dlemoal@kernel.org>, Ming Lei <tom.leiming@gmail.com>,
-        linux-block <linux-block@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
-        linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
-        Hillf Danton <hdanton@sina.com>
-References: <20260529220600.1226-1-hdanton@sina.com>
- <b27609f0-59f0-403d-90af-274c55df817e@I-love.SAKURA.ne.jp>
-Content-Language: en-US
-In-Reply-To: <b27609f0-59f0-403d-90af-274c55df817e@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav404.rs.sakura.ne.jp
-X-Virus-Status: clean
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-syzbot is reporting NULL pointer dereference in lo_rw_aio() [1][2].
-An analysis by the Gemini AI collaborator [3] considers that this problem
-is caused by a timing shift primarily exposed by commit 65565ca5f99b
-("block: unify the synchronous bi_end_io callbacks"), along with helper
-refactorings like commit 92c3737a2473 ("block: add a bio_submit_or_kill
-helper").
+Hi Gabriel,
 
-But due to difficulty of reproducing this race, discussion about what is
-happening and how to fix this problem is stalling. Also, we haven't
-identified how many filesystems are subjected to this problem.
+Yes, I looked at Josh's slides and your RFC a few days ago.
 
-Therefore, this patch introduces a grace period for flushing pending I/O
-requests (which should be a good thing from the perspective of defensive
-programming) so that we won't hit NULL pointer dereference problem, and
-also emits BUG: message in order to help filesystem developers identify
-the caller of an I/O request that failed to wait for completion so that
-filesystem developers can fix such caller to wait for completion.
+I agree that io_uring is a very interesting direction, and I can see why it
+fits the "ordered setup operations before exec" model.
 
-Note that emitting BUG: message is enabled only if CONFIG_KCOV=y, for
-this check is a waste of computation resources for almost all users.
+My current preference is still to first explore a pidfd/pidfs-based builder=
+,
+modeled roughly like fsconfig(). Process creation feels like a core process
+lifecycle API, and I think a normal fd-based syscall interface may be easie=
+r
+for libc, language runtimes, shells,and sandboxing tools to adopt.
 
-Link: https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28 [1]
-Link: https://syzkaller.appspot.com/bug?extid=bc273027d5643e48e5b3 [2]
-Link: https://lkml.kernel.org/r/fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp [3]
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
- drivers/block/loop.c | 82 ++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 80 insertions(+), 2 deletions(-)
+My hesitation is practical rather than conceptual.Some important
+deployments still disable io_uring entirely; Docker's default seccomp
+profile blocks the io_uring syscalls, and Google has disabled or restricted
+io_uring in ChromeOS, Android app processes, and production servers.
 
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 0000913f7efc..4ff254d8b623 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -85,8 +85,26 @@ struct loop_cmd {
- 	struct bio_vec *bvec;
- 	struct cgroup_subsys_state *blkcg_css;
- 	struct cgroup_subsys_state *memcg_css;
-+#ifdef CONFIG_KCOV
-+	unsigned long stack_entries[30];
-+	int stack_nr;
-+	pid_t pid;
-+	char comm[TASK_COMM_LEN];
-+#endif
- };
- 
-+static void loop_check_io_race(struct loop_device *lo, struct loop_cmd *cmd)
-+{
-+#ifdef CONFIG_KCOV
-+	if (unlikely(data_race(READ_ONCE(lo->lo_state)) == Lo_rundown)) {
-+		pr_err("BUG: %s/%u is doing I/O request on loop%d in Lo_rundown state.\n",
-+		       cmd->comm, cmd->pid, lo->lo_number);
-+		printk("Call trace:\n");
-+		stack_trace_print(cmd->stack_entries, cmd->stack_nr, 4);
-+	}
-+#endif
-+}
+I will study your io_uring work more carefully and compare the two directio=
+ns.
+One possible outcome is that io_uring can drive/share the same builder obje=
+ct later;
+I do not know that yet.
+
+Thanks for pointing this out.
+
+ ---- On Fri, 05 Jun 2026 22:24:00 +0800  Gabriel Krisman Bertazi <krisman@=
+suse.de> wrote ---=20
+ > Li Chen <me@linux.beauty> writes:
+ >=20
+ > > Hi,
+ > >
+ > > This is an early RFC for an idea that is probably still rough in both =
+the
+ > > UAPI and implementation details. Sorry for the rough edges; I am sendi=
+ng
+ > > it now to check whether this direction is worth pursuing and to get
+ > > feedback on the kernel/userspace boundary.
+ > >
+ > > The series is based on linux-next version 20260518.
+ > >
+ > > This RFC adds spawn_template, a userspace-controlled exec acceleration
+ > > mechanism for runtimes that repeatedly start the same executable with
+ > > different argv, envp, and per-spawn file descriptor setup.
+ >=20
+ > Have you looked at Josh's proposal to do this over io_uring [1] and my
+ > implementation of it at [2]?  I think io_uring is a very natural
+ > interface for something like this, it will avoid adding a larger API,
+ > since you could, in theory, set up the entire new task context using
+ > regular io_uring operations in an io workqueue and then starting it woul=
+d
+ > be a matter of forking the pre-configured io thread with a new io_uring
+ > operation.
+ >=20
+ > [1]
+ > https://lpc.events/event/16/contributions/1213/attachments/1012/1945/io-=
+uring-spawn.pdf
+ > [2] https://lwn.net/Articles/1001622/
+ >=20
+ > >
+ > > The main target is agent runtimes. Modern coding agents repeatedly sta=
+rt
+ > > short-lived helper tools such as rg, git, sed, awk, python, node, and
+ > > shell wrappers while they inspect and edit a workspace. Those runtimes
+ > > already know which tools are hot, and they are also the right place to
+ > > decide policy. The kernel does not choose names such as rg, git, or se=
+d.
+ > > Userspace opts in by creating a template fd for one executable, then u=
+ses
+ > > that fd for later spawns. Launchers, shells, and build systems have a
+ > > similar repeated-startup shape and could use the same primitive, but t=
+he
+ > > agent runtime case is the main motivation for this RFC.
+ > >
+ > > The mechanism applies to the executable that userspace asks the kernel=
+ to
+ > > start. If an agent runtime directly starts /usr/bin/rg, the rg executa=
+ble
+ > > is the template target. If the runtime starts /usr/bin/bash -c "rg ...=
+ |
+ > > head", the shell is the template target unless the shell itself opts i=
+n
+ > > when it starts rg and head. The kernel does not parse the shell comman=
+d
+ > > string or rewrite inner commands into template spawns. Userspace has t=
+o
+ > > call spawn_template for those inner commands explicitly:
+ > >
+ > >     direct exec                 shell wrapper
+ > >     -----------                 -------------
+ > >     agent                       agent
+ > >       template("/usr/bin/rg")     template("/usr/bin/bash")
+ > >       spawn rg argv              spawn bash -c "rg ... | head"
+ > >
+ > >     kernel target: rg          kernel target: bash
+ > >     rg startup benefits        rg/head need shell opt-in
+ > >
+ > > Several agent runtime discussions are moving toward direct argv-style
+ > > exec tools for both security and policy clarity. For example, opencode
+ > > issue #2206 proposes an exec tool as a safer alternative to a shell-on=
+ly
+ > > bash tool:
+ > >
+ > > https://github.com/anomalyco/opencode/issues/2206
+ > >
+ > > spawn_template is meant to support both models. Direct exec users can
+ > > cache the actual hot tool. Shell-wrapper users can cache the shell and
+ > > still reduce shell startup cost. If a shell or an agent runtime later
+ > > uses the same API for commands started inside a shell command, those
+ > > inner tools can benefit too.
+ > >
+ > > Each spawn still goes through the normal exec path. The template reuse=
+s
+ > > only metadata that can be revalidated before use. Credential preparati=
+on,
+ > > permission checks, binary handler checks, secure-exec handling, and LS=
+M
+ > > hooks remain on the normal execve path.
+ > >
+ > > The UAPI has two operations. spawn_template_create() creates an
+ > > anonymous-inode template fd from either an executable fd or an absolut=
+e
+ > > executable path. spawn_template_spawn() starts one child from that
+ > > template, applies per-spawn fd, cwd, and signal actions, and returns b=
+oth
+ > > pid and pidfd.
+ > >
+ > > fd inheritance is deliberately conservative. By default, after the
+ > > requested per-spawn actions have run, the child closes fds above stder=
+r.
+ > > An agent runtime can still request traditional inheritance explicitly,
+ > > but helper tools do not inherit unrelated secret files or sockets by
+ > > accident. The create-time actions fields are reserved and rejected in
+ > > this RFC because fd numbers are per-process state, not stable reusable
+ > > objects. The caller supplies fd actions for each spawn instead.
+ > >
+ > > A typical agent runtime would keep one template per hot executable and
+ > > still build argv, envp, cwd, and pipe wiring for each tool call:
+ > >
+ > >     rg_tmpl =3D spawn_template_create("/usr/bin/rg");
+ > >
+ > >     for each search request:
+ > >         out_r, out_w =3D pipe_cloexec();
+ > >         err_r, err_w =3D pipe_cloexec();
+ > >         actions =3D [
+ > >             FCHDIR(worktree_fd),
+ > >             DUP2(out_w, STDOUT_FILENO),
+ > >             DUP2(err_w, STDERR_FILENO),
+ > >         ];
+ > >         child =3D spawn_template_spawn(rg_tmpl, rg_argv, envp, actions=
+);
+ > >         close(out_w);
+ > >         close(err_w);
+ > >         read out_r and err_r;
+ > >         waitid(P_PIDFD, child.pidfd, ...);
+ > >
+ > > A shell-wrapper runtime would use the same shape with a template for
+ > > /usr/bin/bash and argv such as ["/usr/bin/bash", "-c", command]. That
+ > > reduces shell startup cost, but it does not cache rg or head inside th=
+at
+ > > command unless the shell also opts into spawn_template for commands it
+ > > starts internally.
+ > >
+ > > The template pins the executable and denies writes to that file while =
+the
+ > > template fd is alive, so cached executable metadata cannot race with a
+ > > writer changing the same inode. This means direct in-place writes to t=
+he
+ > > executable can fail while a runtime keeps a template open. It does not
+ > > block the common package-manager update pattern where a new inode is
+ > > written and then atomically renamed over the old path. In that case th=
+e
+ > > old path-created template becomes stale, spawn_template_spawn() reject=
+s
+ > > it with ESTALE, and the runtime should close and recreate the template
+ > > for the new executable.
+ > >
+ > >     in-place write              package-manager update
+ > >     --------------              ----------------------
+ > >     template pins old inode     write new inode
+ > >     write(old inode) denied     rename(new, "/usr/bin/rg")
+ > >
+ > >     cached metadata safe        old template sees path mismatch
+ > >                                 spawn_template_spawn() =3D -ESTALE
+ > >                                 recreate template for new inode
+ > >
+ > > Each spawn revalidates executable identity before cached metadata is
+ > > used. Path-created templates only accept absolute paths: a relative pa=
+th
+ > > such as ./tool depends on cwd, and the same string can name a differen=
+t
+ > > file after chdir. For an absolute path template, each spawn reopens th=
+e
+ > > path and checks that it still resolves to the executable recorded when
+ > > the template was created. If the path now names a replaced file, the
+ > > template is stale and userspace should close and recreate it.
+ > >
+ > > A template fd can be passed over SCM_RIGHTS like any other fd, but thi=
+s
+ > > RFC does not treat that as delegation. spawn_template_spawn() only wor=
+ks
+ > > while the caller still has the same struct cred object that created th=
+e
+ > > template. If another task, or the same task after a credential change,
+ > > receives the fd, spawn fails instead of running the executable using t=
+he
+ > > creator's launch authority:
+ > >
+ > >     ordinary fd                         spawn_template fd
+ > >     -----------                         -----------------
+ > >     A: open log                         A: create rg template
+ > >     A -> B: SCM_RIGHTS(fd)              A -> B: SCM_RIGHTS(tfd)
+ > >
+ > >     B: read(fd) =3D ok                    B: spawn(tfd) =3D -EACCES
+ > >                                         B: create own rg template
+ > >                                         B: spawn(own_tfd) =3D ok
+ > >
+ > >     open-file use is delegated          spawn authority is not delegat=
+ed
+ > >
+ > > The cached state is intentionally small. The template fd keeps the ope=
+ned
+ > > main executable file, an optional absolute path string, the creator
+ > > credential pointer, and the deny-write state. The executable identity =
+key
+ > > records device, inode, size, mode, owner, ctime, and mtime, and is
+ > > rechecked before cached metadata is used. The ELF cache keeps only the
+ > > main executable's ELF header, program header table, and program header
+ > > count.
+ > >
+ > >     cached in this RFC          not cached in this RFC
+ > >     ------------------          ----------------------
+ > >     opened main executable      PT_INTERP metadata
+ > >     executable identity key     shared-library graph
+ > >     main ELF header             VMA layout metadata
+ > >     main ELF program headers    cross-process metadata sharing
+ > >     creator cred pointer
+ > >     deny-write state
+ > >
+ > > This RFC does not cache ELF interpreter metadata, shared-library
+ > > dependency state, or derived mapping-layout state. Shared-library
+ > > resolution is dynamic linker policy and depends on LD_LIBRARY_PATH,
+ > > RPATH, RUNPATH, /etc/ld.so.cache, mount namespaces, and secure-exec
+ > > state. It also does not share cached executable metadata between templ=
+ate
+ > > fds created by different processes. Each template owns its small cache=
+d
+ > > metadata object in this RFC.
+ > >
+ > > Performance
+ > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ > >
+ > > The numbers below come from my separate local autogen-bench project.
+ > > autogen-bench uses AutoGen [1] Core as the agent harness: RoutedAgent
+ > > instances run under SingleThreadedAgentRuntime, and RPC-style dispatch
+ > > fans out concurrent tool-call requests to worker agents. The workload
+ > > definitions, generated test files, and subprocess/spawn_template backe=
+nds
+ > > are local to autogen-bench.
+ > >
+ > > The agent-tools preset includes direct tool calls and shell-wrapper fo=
+rms
+ > > for:
+ > >
+ > > rg, grep, sed, awk, cat, head, tail, find, stat, ls, git-status, git-d=
+iff,
+ > > python-small, node-small, sh-c, and bash-c.
+ > >
+ > > The benchmark is launch-heavy but not no-op: it searches generated
+ > > Python-like source files, reads sample files, runs small Python and
+ > > Node.js programs, and runs git status and git diff in a small reposito=
+ry.
+ > > It does not include model inference or long-running tool work, so the
+ > > numbers mainly describe the short-tool regime.
+ > >
+ > > The subprocess column starts each tool call through the existing
+ > > userspace launch path. The spawn_template column creates templates for
+ > > hot executables and uses spawn_template_spawn() for later calls.
+ > >
+ > > Total in-flight tool calls stay at 16; only the worker-process split
+ > > changes. For example, 4x4 means 4 worker processes with 4 in-flight to=
+ol
+ > > calls each. The two time_s values are subprocess/spawn_template wall
+ > > times.
+ > >
+ > > Workload     Calls  subprocess  spawn_template  time_s       Delta
+ > > (workers)    calls  calls/s     calls/s         seconds
+ > > 1x16         6144      411.04          420.32   14.95/14.62  +2.26%
+ > > 2x8          6144      666.78          690.08    9.21/8.90   +3.49%
+ > > 4x4          6144      955.61         1003.25    6.43/6.12   +4.99%
+ > > 8x2          6144     1048.25         1069.18    5.86/5.75   +2.00%
+ > >
+ > > The table measures the whole mixed workload, including both process
+ > > startup and the short tool work done after exec. Since this workload i=
+s
+ > > launch-heavy, the possible launch-side savings include:
+ > >
+ > > - the template fd keeps an opened executable, avoiding repeated ordina=
+ry
+ > >   open/path setup for that executable;
+ > > - the kernel can reuse cached main-executable ELF header and program
+ > >   header metadata after revalidation;
+ > > - the fork-and-exec-style launch is submitted as one
+ > >   spawn_template_spawn() operation;
+ > > - fd, cwd, and signal actions run in the child kernel path instead of
+ > >   being driven one syscall at a time by userspace child glue;
+ > > - pid and pidfd are returned by the same operation, reducing some
+ > >   runtime-side bookkeeping.
+ > >
+ > > In local experiments before this RFC, I also tried caching ELF
+ > > interpreter metadata and derived ELF mapping-layout metadata. A focuse=
+d
+ > > repeated-exec benchmark did not show a stable standalone throughput ga=
+in
+ > > for those two optimizations, so this RFC leaves them out and keeps onl=
+y
+ > > the main executable metadata cache.
+ > >
+ > > I also tried sharing main-executable ELF metadata across template fds
+ > > created by different processes for the same executable identity. That =
+can
+ > > reduce duplicated metadata memory when many agent worker processes cre=
+ate
+ > > their own templates for /usr/bin/rg, /usr/bin/git, and similar tools, =
+but
+ > > it did not show a stable throughput win in local multi-agent tests. It
+ > > also adds cache keying, lifetime, invalidation, credential, and namesp=
+ace
+ > > questions to the RFC. This version therefore keeps per-template metada=
+ta
+ > > ownership and leaves cross-process sharing out.
+ > >
+ > > Sorry again for the rough edges in this RFC. I would appreciate feedba=
+ck
+ > > on whether this direction is useful and what the right API boundary
+ > > should be.
+ > >
+ > > Thanks,
+ > > Li
+ > >
+ > > [1]: https://github.com/microsoft/autogen
+ > >
+ > > Li Chen (13):
+ > >   exec: factor argument setup out of do_execveat_common()
+ > >   exec: add an internal helper for opened executables
+ > >   file: expose helpers for in-kernel fd actions
+ > >   exec: add spawn template UAPI definitions
+ > >   exec: add spawn template file descriptors
+ > >   exec: add spawn_template_spawn()
+ > >   exec: validate spawn template executable identity
+ > >   binfmt_elf: cache ELF metadata for spawn templates
+ > >   Documentation: describe spawn templates
+ > >   exec: require absolute paths for path-created templates
+ > >   exec: let close-range actions target the max fd
+ > >   syscalls: add generic spawn template entries
+ > >   selftests/exec: cover spawn template basics
+ > >
+ > >  Documentation/userspace-api/index.rst         |   1 +
+ > >  .../userspace-api/spawn_template.rst          | 153 +++
+ > >  MAINTAINERS                                   |   6 +
+ > >  arch/x86/entry/syscalls/syscall_64.tbl        |   3 +-
+ > >  fs/Makefile                                   |   2 +-
+ > >  fs/binfmt_elf.c                               | 104 +-
+ > >  fs/exec.c                                     | 162 ++-
+ > >  fs/file.c                                     |  11 +-
+ > >  fs/spawn_template.c                           | 619 +++++++++++
+ > >  include/linux/binfmts.h                       |  10 +
+ > >  include/linux/fdtable.h                       |   2 +
+ > >  include/linux/spawn_template.h                |  72 ++
+ > >  include/linux/syscalls.h                      |   7 +
+ > >  include/uapi/asm-generic/unistd.h             |   7 +-
+ > >  include/uapi/linux/spawn_template.h           |  62 ++
+ > >  scripts/syscall.tbl                           |   2 +
+ > >  tools/testing/selftests/exec/Makefile         |   1 +
+ > >  tools/testing/selftests/exec/spawn_template.c | 997 +++++++++++++++++=
 +
- #define LOOP_IDLE_WORKER_TIMEOUT (60 * HZ)
- #define LOOP_DEFAULT_HW_Q_DEPTH 128
- 
-@@ -1747,8 +1765,59 @@ static void lo_release(struct gendisk *disk)
- 	need_clear = (lo->lo_state == Lo_rundown);
- 	mutex_unlock(&lo->lo_mutex);
- 
--	if (need_clear)
-+	if (need_clear) {
-+		/*
-+		 * Temporarily release disk->open_mutex in order to flush pending I/O
-+		 * requests before clearing the backing device.
-+		 *
-+		 * This is a layering violation. But since bdev->bd_disk->fops->release()
-+		 * (which is mapped to lo_release()) is the final function which
-+		 * blkdev_put_whole() from bdev_release() calls immediately before
-+		 * releasing disk->open_mutex, this changes nothing except opens a new
-+		 * race window for allowing disk->fops->open() (which is mapped to
-+		 * lo_open()) to be called.
-+		 *
-+		 * Even if lo_open() is called from blkdev_get_whole() due to this race,
-+		 * the Lo_rundown state guarantees that lo_open() will fail with -ENXIO.
-+		 * Thus, there will be effectively no change caused by this violation.
-+		 */
-+		mutex_unlock(&lo->lo_disk->open_mutex);
-+		/*
-+		 * Now that loop_queue_rq() sees lo->lo_state != Lo_bound,
-+		 * wait for already started loop_queue_rq() to complete.
-+		 */
-+		synchronize_rcu();
-+		/*
-+		 * Now that no more works are scheduled by loop_queue_rq(),
-+		 * wait for already scheduled works to complete.
-+		 */
-+		drain_workqueue(lo->workqueue);
-+		/*
-+		 * Now that no more AIO requests are scheduled by lo_rw_aio(),
-+		 * wait for already started AIO to complete.
-+		 *
-+		 * Due to synchronize_rcu() + drain_workqueue() sequence above,
-+		 * calling blk_mq_unfreeze_queue() immediately after blk_mq_freeze_queue()
-+		 * returns has to be safe, for loop_queue_rq() no longer schedules new
-+		 * lo_rw_aio() works and lo_rw_aio() no longer submits new AIO requests.
-+		 *
-+		 * Deferring blk_mq_unfreeze_queue() does not help because we are about
-+		 * to clear the backing device and drop the refcount for the backing device.
-+		 * There is nothing we can do if blk_mq_freeze_queue() fails to flush.
-+		 */
-+		blk_mq_unfreeze_queue(lo->lo_queue, blk_mq_freeze_queue(lo->lo_queue));
-+		/*
-+		 * Perform remaining cleanup, with disk->open_mutex held.
-+		 *
-+		 * The lo->lo_state should remain Lo_rundown despite we temporarily
-+		 * released disk->open_mutex, for I am the only and the last user of
-+		 * this loop device because lo_open() cannot succeed.
-+		 */
-+		mutex_lock(&lo->lo_disk->open_mutex);
-+		if (WARN_ON(data_race(READ_ONCE(lo->lo_state)) != Lo_rundown))
-+			return;
- 		__loop_clr_fd(lo);
-+	}
- }
- 
- static void lo_free_disk(struct gendisk *disk)
-@@ -1855,10 +1924,18 @@ static blk_status_t loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	struct loop_cmd *cmd = blk_mq_rq_to_pdu(rq);
- 	struct loop_device *lo = rq->q->queuedata;
- 
-+#ifdef CONFIG_KCOV
-+	cmd->stack_nr = stack_trace_save(cmd->stack_entries, ARRAY_SIZE(cmd->stack_entries), 0);
-+	cmd->pid = current->pid;
-+	get_task_comm(cmd->comm, current);
-+#endif
-+
- 	blk_mq_start_request(rq);
- 
--	if (data_race(READ_ONCE(lo->lo_state)) != Lo_bound)
-+	if (data_race(READ_ONCE(lo->lo_state)) != Lo_bound) {
-+		loop_check_io_race(lo, cmd);
- 		return BLK_STS_IOERR;
-+	}
- 
- 	switch (req_op(rq)) {
- 	case REQ_OP_FLUSH:
-@@ -1901,6 +1978,7 @@ static void loop_handle_cmd(struct loop_cmd *cmd)
- 	int ret = 0;
- 	struct mem_cgroup *old_memcg = NULL;
- 
-+	loop_check_io_race(lo, cmd);
- 	if (write && (lo->lo_flags & LO_FLAGS_READ_ONLY)) {
- 		ret = -EIO;
- 		goto failed;
--- 
-2.47.3
+ > >  18 files changed, 2179 insertions(+), 42 deletions(-)
+ > >  create mode 100644 Documentation/userspace-api/spawn_template.rst
+ > >  create mode 100644 fs/spawn_template.c
+ > >  create mode 100644 include/linux/spawn_template.h
+ > >  create mode 100644 include/uapi/linux/spawn_template.h
+ > >  create mode 100644 tools/testing/selftests/exec/spawn_template.c
+ >=20
+ > --=20
+ > Gabriel Krisman Bertazi
+ >=20
 
+Regards,
+Li=E2=80=8B
 
