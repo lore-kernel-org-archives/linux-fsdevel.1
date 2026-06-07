@@ -1,83 +1,209 @@
-Received: from mail-01.1984.is (mail-01.1984.is [185.112.145.69])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244B878C9C;
-	Sun,  7 Jun 2026 10:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.112.145.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C94B2E3AF1;
+	Sun,  7 Jun 2026 10:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780826528; cv=none; b=YhBbS6R0oL1Pnm3Dv8n+IIdHeRlSdosgBUlB+WP4/cv70Rkc0UAJlntEaF6W63jz9/7TQhtdW81MJjIRFIyZ3vRiSoggbd0EauTmrXlcowT1wgQtqU/gDnYXAUkPyp5dcH+b488ksi5WHGaZ6xdtg5EgJkJ65ff4LaioqyN13cc=
+	t=1780829741; cv=none; b=qvg7l7AQi2c/uQgPsIoTRiMr8YRGyBbQ23zahUsVb3SyPD+o9jEB5ozTM/+7vMmWjq+gNodqK70O3kKzQkOshbhbsv0jG0//gpMwID5XLzl3RPHvA2LymSNKcXOiy1i8ocul4azJnr5/pbOF4yTlwg+Tc4rU5OkHZBM3/gNPaeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780826528; c=relaxed/simple;
-	bh=bipTQkn4p1MP/1SyE5UFCgLwsyCGmogZgGboOdqOo6A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Content-Type:Message-ID:
-	 Date; b=VwC2qMsF9XjzCxl+yN01e5mv6etkml2Z30c4WNGj6lYGiQX5CrEj9i5l3A7rA+OmaGJu1/gkCg8ySN48NUBogzdXuPVNRfyAVOA5f3ChrL9KFE/omH+SrUJI+GmhHObrLXgyIWOGEOtfOnxvJKye5wisJfZqoxQgp1ZFAFXyGdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=TEhVJH7q; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=eGsOv1k2; arc=none smtp.client-ip=185.112.145.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkoc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="TEhVJH7q";
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="eGsOv1k2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=berkoc.com;
-	s=1984; h=Date:Message-ID:Content-Type:References:In-Reply-To:Subject:Cc:To:
-	From:Sender:Reply-To:MIME-Version:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=bipTQkn4p1MP/1SyE5UFCgLwsyCGmogZgGboOdqOo6A=; b=TEhVJH7q8DnNVPdywjZnnxdtYd
-	x382/SkqV26I9QmhEUcJHv8rbtTCV21n9uVtJEEEgUsoW7daVwdeucTVOQHpvhc5FiBattS9NHT8A
-	2FCIL7GIhfZqg31lqY9wKqDGKGYkTQs0C1mkNiyivbKpSTHWFVDz5Fi5nMRb9hpOJNl+9CwdbsX81
-	ApcpfnNIt/k0PRpkQS8IMXR4XQLcweoYtgO7sbh7kOO4GNNR2rwQ0j7y2JKlk1edJatpl3NQGnacC
-	7ce4AmJS1VfVAuUN07Jcjq88AKsdB5NXJ60HUcIWJijUjwAmd3uiZSDzmwfoxzXCX0GHZKq9P4Elu
-	mBPqBOeA==;
-Received: from localhost
-	by mail-01.1984.is with utf8esmtp (Exim 4.96)
-	(envelope-from <me@berkoc.com>)
-	id 1wWAKA-00GyE8-1q;
-	Sun, 07 Jun 2026 10:01:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=berkoc.com;
- i=@berkoc.com; q=dns/txt; s=me; t=1780826454; h=message-id : date :
- subject : cc : to : from : sender : reply-to;
- bh=bipTQkn4p1MP/1SyE5UFCgLwsyCGmogZgGboOdqOo6A=;
- b=eGsOv1k2jpJNcmqu0epn0IvmX6hm9ta9lY6OSUCAPdEVH9sz3wIswep1Bu9DisZdlLWbq
- gKcSALlTMny5X07Zarq+gsnV7E9psV0/1q4uPxeUb0MH/jgwC/DwlpCtMdIXosGypSEscf3
- 7kaBwowJNcKqvWt/MS731ifcpuKJpxtWNwYG2Eat6DiYTNnamOUsMoguIJrS75De8pladQG
- dTTUee/dxjU0ah9zTRkiL07BdRaZobRLHKJlXCnHIx9fdNewq1k4ZJWavMbrnu8tbxlr7rL
- eH/2cNH+lHIuX/oaLZtJpvk2Q8kQHhOVYp0+XyVTy9vv65VZDkVPpZrSf8iQ==
-From: Berkant Koc <me@berkoc.com>
-To: Bernd Schubert <bschubert@ddn.com>,
- Joanne Koong <joannelkoong@gmail.com>,
- Shuvam Pandey <shuvampandey1@gmail.com>
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>,
- Zhenghang Xiao <kipreyyy@gmail.com>
-Subject: Re: [PATCH] fuse: {io-uring} use request cleanup helper on commit
- setup failure
-In-Reply-To: <d486fde6-c78d-4a78-8dbd-43b8afaa90cd@ddn.com>
-References: <178059213410.15421.10567268398539539875@gmail.com>
- <CAJnrk1YH_SC9doHp60Vuajc-mzQiopPExMPQVVDtFHzB8vTM6Q@mail.gmail.com>
- <d486fde6-c78d-4a78-8dbd-43b8afaa90cd@ddn.com>
-Content-Type: text/plain; charset=UTF-8
-Message-ID: <178082645430.1952267.3613935151307581690@berkoc.com>
-Date: Sun, 07 Jun 2026 12:00:54 +0200
-X-Spam-Score: -0.2 (/)
-X-Authenticated-User: me@berkoc.com
-X-Sender-Address: me@berkoc.com
+	s=arc-20240116; t=1780829741; c=relaxed/simple;
+	bh=2Ke8GL6eZs0K05NJS+Nqfez/Em+cRte7rAqtogW1I8g=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=jbVRZVJz7aWi7dnJ0NSkgyOqweBhe+/FSTYARb7Mt16LYSd81vs1I/AhmZGV84tW6po/0Mi/c1JkdAaKaS8zLSyqpkFNny+bNjfieV2GiBhqlCJ4bNnOab1CCKxYoiFfgxJ8+j2zLinUeRgGlYypmig36/SMp+eS/AlzeV6cY7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 657AsxJ2063554;
+	Sun, 7 Jun 2026 19:54:59 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 657Asxm5063536
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sun, 7 Jun 2026 19:54:59 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <3244d4dd-8254-47c0-9609-b1db53450c7c@I-love.SAKURA.ne.jp>
+Date: Sun, 7 Jun 2026 19:54:58 +0900
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH v4] loop: Fix NULL pointer dereference in lo_rw_aio()
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Bart Van Assche <bvanassche@acm.org>, Christoph Hellwig <hch@lst.de>,
+        Damien Le Moal <dlemoal@kernel.org>, Ming Lei <tom.leiming@gmail.com>,
+        linux-block <linux-block@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-btrfs@vger.kernel.org, David Sterba <dsterba@suse.com>,
+        linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+        Hillf Danton <hdanton@sina.com>
+References: <20260529220600.1226-1-hdanton@sina.com>
+ <b27609f0-59f0-403d-90af-274c55df817e@I-love.SAKURA.ne.jp>
+Content-Language: en-US
+In-Reply-To: <b27609f0-59f0-403d-90af-274c55df817e@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Anti-Virus-Server: fsav404.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-On Thu, 4 Jun 2026 19:36:15 +0200, Bernd Schubert wrote:
-> Out of interest, did you see the entire series I had submitted?
+syzbot is reporting NULL pointer dereference in lo_rw_aio() [1][2].
+An analysis by the Gemini AI collaborator [3] considers that this problem
+is caused by a timing shift primarily exposed by commit 65565ca5f99b
+("block: unify the synchronous bi_end_io callbacks"), along with helper
+refactorings like commit 92c3737a2473 ("block: add a bio_submit_or_kill
+helper").
 
-Yes, I went through the full v3 series, thanks for picking these up.
-My standalone "use request cleanup helper" change is covered by 3/4
-and 4/4, so I will drop it rather than carry a duplicate.
+But due to difficulty of reproducing this race, discussion about what is
+happening and how to fix this problem is stalling. Also, we haven't
+identified how many filesystems are subjected to this problem.
 
-I still have the reproducer that surfaced the commit_fetch and
-async_stop_queues races. Once v3 settles I will run it against the
-series and follow up with a Tested-by if it holds.
+Therefore, this patch introduces a grace period for flushing pending I/O
+requests (which should be a good thing from the perspective of defensive
+programming) so that we won't hit NULL pointer dereference problem, and
+also emits BUG: message in order to help filesystem developers identify
+the caller of an I/O request that failed to wait for completion so that
+filesystem developers can fix such caller to wait for completion.
 
-Thanks,
-Berkant
+Note that emitting BUG: message is enabled only if CONFIG_KCOV=y, for
+this check is a waste of computation resources for almost all users.
+
+Link: https://syzkaller.appspot.com/bug?extid=cd8a9a308e879a4e2c28 [1]
+Link: https://syzkaller.appspot.com/bug?extid=bc273027d5643e48e5b3 [2]
+Link: https://lkml.kernel.org/r/fbb3edda-f108-4e5b-acf2-266f043f8125@I-love.SAKURA.ne.jp [3]
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ drivers/block/loop.c | 82 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 80 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 0000913f7efc..4ff254d8b623 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -85,8 +85,26 @@ struct loop_cmd {
+ 	struct bio_vec *bvec;
+ 	struct cgroup_subsys_state *blkcg_css;
+ 	struct cgroup_subsys_state *memcg_css;
++#ifdef CONFIG_KCOV
++	unsigned long stack_entries[30];
++	int stack_nr;
++	pid_t pid;
++	char comm[TASK_COMM_LEN];
++#endif
+ };
+ 
++static void loop_check_io_race(struct loop_device *lo, struct loop_cmd *cmd)
++{
++#ifdef CONFIG_KCOV
++	if (unlikely(data_race(READ_ONCE(lo->lo_state)) == Lo_rundown)) {
++		pr_err("BUG: %s/%u is doing I/O request on loop%d in Lo_rundown state.\n",
++		       cmd->comm, cmd->pid, lo->lo_number);
++		printk("Call trace:\n");
++		stack_trace_print(cmd->stack_entries, cmd->stack_nr, 4);
++	}
++#endif
++}
++
+ #define LOOP_IDLE_WORKER_TIMEOUT (60 * HZ)
+ #define LOOP_DEFAULT_HW_Q_DEPTH 128
+ 
+@@ -1747,8 +1765,59 @@ static void lo_release(struct gendisk *disk)
+ 	need_clear = (lo->lo_state == Lo_rundown);
+ 	mutex_unlock(&lo->lo_mutex);
+ 
+-	if (need_clear)
++	if (need_clear) {
++		/*
++		 * Temporarily release disk->open_mutex in order to flush pending I/O
++		 * requests before clearing the backing device.
++		 *
++		 * This is a layering violation. But since bdev->bd_disk->fops->release()
++		 * (which is mapped to lo_release()) is the final function which
++		 * blkdev_put_whole() from bdev_release() calls immediately before
++		 * releasing disk->open_mutex, this changes nothing except opens a new
++		 * race window for allowing disk->fops->open() (which is mapped to
++		 * lo_open()) to be called.
++		 *
++		 * Even if lo_open() is called from blkdev_get_whole() due to this race,
++		 * the Lo_rundown state guarantees that lo_open() will fail with -ENXIO.
++		 * Thus, there will be effectively no change caused by this violation.
++		 */
++		mutex_unlock(&lo->lo_disk->open_mutex);
++		/*
++		 * Now that loop_queue_rq() sees lo->lo_state != Lo_bound,
++		 * wait for already started loop_queue_rq() to complete.
++		 */
++		synchronize_rcu();
++		/*
++		 * Now that no more works are scheduled by loop_queue_rq(),
++		 * wait for already scheduled works to complete.
++		 */
++		drain_workqueue(lo->workqueue);
++		/*
++		 * Now that no more AIO requests are scheduled by lo_rw_aio(),
++		 * wait for already started AIO to complete.
++		 *
++		 * Due to synchronize_rcu() + drain_workqueue() sequence above,
++		 * calling blk_mq_unfreeze_queue() immediately after blk_mq_freeze_queue()
++		 * returns has to be safe, for loop_queue_rq() no longer schedules new
++		 * lo_rw_aio() works and lo_rw_aio() no longer submits new AIO requests.
++		 *
++		 * Deferring blk_mq_unfreeze_queue() does not help because we are about
++		 * to clear the backing device and drop the refcount for the backing device.
++		 * There is nothing we can do if blk_mq_freeze_queue() fails to flush.
++		 */
++		blk_mq_unfreeze_queue(lo->lo_queue, blk_mq_freeze_queue(lo->lo_queue));
++		/*
++		 * Perform remaining cleanup, with disk->open_mutex held.
++		 *
++		 * The lo->lo_state should remain Lo_rundown despite we temporarily
++		 * released disk->open_mutex, for I am the only and the last user of
++		 * this loop device because lo_open() cannot succeed.
++		 */
++		mutex_lock(&lo->lo_disk->open_mutex);
++		if (WARN_ON(data_race(READ_ONCE(lo->lo_state)) != Lo_rundown))
++			return;
+ 		__loop_clr_fd(lo);
++	}
+ }
+ 
+ static void lo_free_disk(struct gendisk *disk)
+@@ -1855,10 +1924,18 @@ static blk_status_t loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct loop_cmd *cmd = blk_mq_rq_to_pdu(rq);
+ 	struct loop_device *lo = rq->q->queuedata;
+ 
++#ifdef CONFIG_KCOV
++	cmd->stack_nr = stack_trace_save(cmd->stack_entries, ARRAY_SIZE(cmd->stack_entries), 0);
++	cmd->pid = current->pid;
++	get_task_comm(cmd->comm, current);
++#endif
++
+ 	blk_mq_start_request(rq);
+ 
+-	if (data_race(READ_ONCE(lo->lo_state)) != Lo_bound)
++	if (data_race(READ_ONCE(lo->lo_state)) != Lo_bound) {
++		loop_check_io_race(lo, cmd);
+ 		return BLK_STS_IOERR;
++	}
+ 
+ 	switch (req_op(rq)) {
+ 	case REQ_OP_FLUSH:
+@@ -1901,6 +1978,7 @@ static void loop_handle_cmd(struct loop_cmd *cmd)
+ 	int ret = 0;
+ 	struct mem_cgroup *old_memcg = NULL;
+ 
++	loop_check_io_race(lo, cmd);
+ 	if (write && (lo->lo_flags & LO_FLAGS_READ_ONLY)) {
+ 		ret = -EIO;
+ 		goto failed;
+-- 
+2.47.3
+
+
