@@ -1,168 +1,172 @@
-Received: from mail-244122.protonmail.ch (mail-244122.protonmail.ch [109.224.244.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC492DECB2;
-	Sun,  7 Jun 2026 06:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.122
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780814522; cv=none; b=HZdo3stz9UmSycIPn+FUu72Beu8elJ4BngCo7PlOInfOZDq+qMr/CFDwpQShwKGizg4RDB9ggk34WGtpsgWOwOUwg13jendqA9yLuKxfB5l00ygk0FkdAJ2bmTN7nNYOj0+6/cdYKX+c5vodVwDrSO6QWS6vJS/BG8LkvDhWUqU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780814522; c=relaxed/simple;
-	bh=BuiSfxqDRqy+bZd1DDJdaeMdjXpeMvAcnPTxMBU/cBo=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZWqknEUAPzt8ymuXHK54gk76kIoZ4tAmGQOcI+x0y33jU0uhxLupqnpxzRPcoHRgTZ3N+85Taim3bFSVJ0JHTtpYmXB0PGzvET4DI6byg1i2mBRFVHsF+iwnguBqWwavkq0GNpyGdTGaVI3sQV4EDI6OkBKeEs655UhtLUWjzus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=SOfgBux8; arc=none smtp.client-ip=109.224.244.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D6A374E6F
+	for <linux-fsdevel@vger.kernel.org>; Sun,  7 Jun 2026 08:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780822322; cv=pass; b=QkCDh0vB5W/zZYnLhcbZNawkPIuG/47YWXd/R76j4EQo87nWTVV6Hs0EROsVxbPXhUbgt7Eu/eJhbnLxjoXrpV5ZwkZM273H1r6MOxzyu+oAP75i73KD7HuQyO1AyVllrWTqBhs/V0i1j06bdnciuYq9R9zmW7tdxrMfXbUoh4o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780822322; c=relaxed/simple;
+	bh=HQ7eL9H0vx1RkQQYjPnLRgCiNO5wDU8NIfENntL+T0Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MrWnSRl/VllifWYDOryyWWOs/9mTE9ilXKNW5W3rv0RuOOg6WvihwnHTF0eqS8AoqwTW/hsdZO5UXBPZeJFFMHHxiz3hpuEpJXPZh00HrPGgflrqrXbT8B39MXKeiU6xDA4OCzPJLS7s4w96R1JZkGgrwAfYNSUKSr15C8Lekek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pohkLFCO; arc=pass smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="SOfgBux8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=hl3rxk3g3zeibjpbkndxqgvdx4.protonmail; t=1780814516; x=1781073716;
-	bh=ouxlaolgQp+Gc3+2G3Aor3mUeIjJ+oLThyUA98+rHQI=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=SOfgBux8ntD21c44NYVCfIHeVkEA+sqGTRydExS92UAgWgb+FxEnrZn3otCOe+lRY
-	 ptr5Q9eAS3G2razxFkRxG0Lw7TFfk5eDJoPgAaZPjoJH+SC0eN2+qYDVwV4H1xl0JM
-	 krzBhPk1p/1JcmfyNsY74XldIYvylqThVfY9zd25YKMrNBJR54KVJw+VtxUKyXjeKY
-	 1EFxDj2RaC+OvQSzQrHD94amAo3q0lq2rWentyVEW4d+ZNbdJ2srMaAD2uPqQjK4/S
-	 xRYp8RYk1UMQaR2f+JgrINB2ZnPQiRzbAge0G51ut9ZFgVZzULqE3GB5l7Q5jn8Xhq
-	 snh5C4I+Vg4cw==
-Date: Sun, 07 Jun 2026 06:41:50 +0000
-To: Nicolas Pitre <nico@fluxnic.net>
-From: Bryam Vargas <hexlabsecurity@proton.me>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] cramfs: bound the XIP direct-mapping reads to the image size
-Message-ID: <20260607064146.302647-1-hexlabsecurity@proton.me>
-Feedback-ID: 199661219:user:proton
-X-Pm-Message-ID: 1668ab6b1a046ac4c87d1648c0d05d8993f4bd88
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pohkLFCO"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-beb8a08a6c8so463229566b.2
+        for <linux-fsdevel@vger.kernel.org>; Sun, 07 Jun 2026 01:51:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780822318; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VHsgKxAKlB9mejC7nsDLx4sBOy2JkbD5CeaBqMtDtzh3+QC8HxxAwdrLM5cRH4scU3
+         wv0g+9Z6Tgw5rfi4wd50OxMKdjp4y5O77xITWKsYXuaO/VEtdrcoB2+VEn4jygL2sARb
+         QPp/WUdkPoT8u0wGbbBdwzF9mROT/1imV0ztcPdXx9uOV3WQ4yxU4htLsrui1cKy9Poa
+         C6dIExX4L+6nV3HqbMlwYF4WXWaGLavEWQeG+we4JEBKHavWCU7M8vHUlJ8cxT6E21Q/
+         rQc25540CzEyaH+BQ+xcFmduFuEn089OAMNFx3izRZw+a7S497b+qZs9VQW8fFrgraDh
+         bMog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oJViM4BQ64chJ+VWkODF1kN38NNZkSsZpn+5VIMmcf0=;
+        fh=mJ40TL5Tysvw5C3OO9KCjCvnFWiSc4vH0sAC/xVBxp8=;
+        b=Kyf92WlKUhDKtmVlCOuYq/C3hSkXGi+v+J5AJHyRhYflU5U6Z5Iel4B9RiPTILCy0s
+         sPK7BX1PLfNwB8PAP1ysyTpe/U6mu36SiankBHYUjt1TGQ7wTJaFyoRBkqddguiEo2Vf
+         XvvXUmaUfGqGhGZ4rnU37UJfAnW6q2hHSrJwz17VSdmU7xT8uFVYOJJ1qW5AMeq+77Q4
+         u6KsWgQFkyv21uXdZyvDAiGLOqsArWFa2VwcrKasj9zEFgrK8O2iO1AaHhkLXYsgTN1E
+         9duLN9F96Mii6VYv7LEHKyIOwGVlJb9QJMvHGQohZIZhmgxeD0hU+ZtjryfscoIvBljA
+         5FJw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780822318; x=1781427118; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oJViM4BQ64chJ+VWkODF1kN38NNZkSsZpn+5VIMmcf0=;
+        b=pohkLFCOrK+PE33sMCk4JH2ydXgDiKXlr/hp6fPDDAcOOWQs5BkeaH29kO8V0Rbyof
+         MzfkDDodi1Fkp5H34UDQIOvxNg95YL4kMIzIP6/k5EgVkhuv94g+ecmKqJ6Uy0jcnP0F
+         HyJqj72Q4mDOOL6IWLo+TcFXOeQwLdfydYRtDPqDPGjLq8wzQ4q1mbBPkAOSg2TC0jAj
+         /hMyWQF0jqK80WSrRqWUyZomrscuDOZ1pdmjykRDZQ/EMLAhBp/A41cmFxP1wM6RSd+1
+         RjNo+Mz2EY/wUakvg7p56lgHQdV+2zbr/bn9OxqFXiu2waWjIelpa9H+ZHV7da25FwKf
+         79LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780822318; x=1781427118;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oJViM4BQ64chJ+VWkODF1kN38NNZkSsZpn+5VIMmcf0=;
+        b=Sof/lohHy//hIEQArbqv0dQZ2qXxOreHuxwzu6HgJvnmimxuTJam6wY5BTkxbYO1LG
+         Nep+tCPJ56YwxwH5mBwllD+avIM9t+dnC8w6bwapzykAxpcKEfDStQ6w8jwgiqOEM8Zc
+         Bvqq9TKD6CJzcVzghOPu59UKzgjuacTf4SZXWQ7xAPMoFHddbrl2XunpEvROqdVSoRK9
+         aCbFaKZJyA1sEpxRF6tzMRObc2oR3Qndu5ycaCtrbafk7ljyqxSbcfVFm0A1X3vcPshM
+         2It50xiGYucpy3D+yeuPthe4nWSYBqkutp5mJFFXrTM1EKlNWvSF8LlTLQFj/Jqt5k1r
+         tEjw==
+X-Forwarded-Encrypted: i=1; AFNElJ8ROIb6KasS4nCIhJvxzIikKVClyqKdF2SyCAI16+NPl36J6sZd86170CRqCMEvu9ir2SSBoh5eSXLSOVHP@vger.kernel.org
+X-Gm-Message-State: AOJu0YxF2A9Ny6h9dSGMfCB2TyLbgPSYx4xJRPb9FQCr+uQAXq8WJkvV
+	0Q2HEXhTRJfeDkOP/4Lj6CdNap/U6i1BIo5HAB8zqNFtux5+BZkgf1f3z3lskieMTvoEe5NtKjs
+	brmTZSVpvRGrJde+ID4bqHIBFkYjvHPg=
+X-Gm-Gg: Acq92OEt83SZldEzqFyC5Y5u5FgaBFYhEqXg00I8VItjkhiKDWTFLFCgsHihntwfwdR
+	22yMulJs1GKr6jwSoDe64gUko3+N59cZiTuaGCzabpyLM+fWRt1ZOQvivhIA0NhdNvP2lHvHTpP
+	VDrsqu5jUpbe0So8uujWmORV4JRq/kHmxY/JTuv7Afo9P3UpJkI4Ztayr+vTVPf3Zrgw+WMB9Gi
+	kMZT2dUbduqWE6UH7VkAirj9Q/spgm1ziLux1et5mNhcEHKo2BO+qLxkKc5e/oHCosWm4qguKXT
+	+I77pjlt6fbNbGz7vsn03r3Mn9DD3EzzG11JTYIPmWO4a9tgqWQk
+X-Received: by 2002:a17:907:948e:b0:bec:5ebd:e169 with SMTP id
+ a640c23a62f3a-bf37263c586mr540431666b.22.1780822317605; Sun, 07 Jun 2026
+ 01:51:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <177922944800.2436629.7011047808676668088.stgit@frogsfrogsfrogs>
+ <177922944844.2436629.11205124993260163523.stgit@frogsfrogsfrogs>
+ <CAOQ4uxjJ0eF0vE0hgsNoWqqD+UQ4r-1-b7493cYNPUGSUR+tcA@mail.gmail.com> <20260606045414.GK6095@frogsfrogsfrogs>
+In-Reply-To: <20260606045414.GK6095@frogsfrogsfrogs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sun, 7 Jun 2026 10:51:46 +0200
+X-Gm-Features: AVVi8CeX-CYWtozPdEggLEr7SF-dFvqQRU9-1yBy6T9oPM-xGLFMx0PzO09WKqo
+Message-ID: <CAOQ4uxgWmXFxg1LG-J7hEW-Xs3jeEP2WP-zL23aZG-XGhRZ9KA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] fuse: move the passthrough-specific code back to passthrough.c
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev, 
+	bernd@bsbernd.com, joannelkoong@gmail.com, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The physically-mapped (XIP) fast path dereferences the linear filesystem
-image directly using offsets taken from the on-disk inode.  Unlike the
-normal read path (cramfs_direct_read()), cramfs_get_block_range() and
-cramfs_last_page_is_shared() do not check those offsets against the image
-size before dereferencing:
+On Sat, Jun 6, 2026 at 6:54=E2=80=AFAM Darrick J. Wong <djwong@kernel.org> =
+wrote:
+>
+> On Fri, May 22, 2026 at 12:03:38PM +0200, Amir Goldstein wrote:
+> > On Wed, May 20, 2026 at 12:29=E2=80=AFAM Darrick J. Wong <djwong@kernel=
+.org> wrote:
+> > >
+> > > From: Darrick J. Wong <djwong@kernel.org>
+> > >
+> > > In preparation for iomap, move the passthrough-specific validation co=
+de
+> > > back to passthrough.c and create a new Kconfig item for conditional
+> > > compilation of backing.c.  In the next patch, iomap will share the
+> > > backing structures.
+> > >
+> > > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> >
+> > Please add
+> >
+> > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+> >
+> > and please keep in it future postings even with minor changes.
+> > I realize that fuse_backing_id_remove() was changed in this version,
+> > so that's fine, but I only know that because recent revision still fits=
+ in
+> > my ever shrinking context window..
+> >
+> > We discussed the fact that no one has lots of spare time for review
+> > and re-review is a big production killer (in general).
+> >
+> > You must know that very well as a review and also that having
+> > a "what has changed since last patch rev" is very useful for reviewers
+> > and also very expensive for authors to maintain...
+> > ...unless AI agents can help to generate per patch Changes
+> > for the post --- notes?
+> >
+> > I assume that Agent can do that on a patch set after it was created
+> > just by giving it two sets of patches?
+> > For the very least, producing a "No changes since v.." should be easy
+> > and useful.
+> > Letting Agent go over mailbox and verifying that all RVBs have been
+> > applied is also trivial.
+> > I realize that patchworks and b4 review can help with these tasks
+> > but they are more tuned for maintainers and less for authors
+> > (I think).
+> >
+> > Obviously, I could do that with an agent on my side, but that is not
+> > a good use of resources and not a good model to put this burden
+> > on all the reviewers.
+> >
+> > Worth a try IMO.
+>
+> How about a range diff? e.g.
+>
+> https://lore.kernel.org/linux-fsdevel/177758364789.1315233.15610945404741=
+826500.stg-ugh@frogsfrogsfrogs/
+>
+> I think I'd rather spit those out than either (a) try to remember all
+> the changes (esp. minor ones) that I slipped in between two patchbombs,
+> or (b) go all agenthappy.
 
-=09blockptrs =3D (u32 *)(sbi->linear_virt_addr + OFFSET(inode) + pgoff * 4)=
-;
-=09first_block_addr =3D blockptrs[0] & ~CRAMFS_BLK_FLAGS;
+Maybe I don't know.
+At the very least, range diff would provide the annotation
+"no change since last version", which I find useful.
 
-OFFSET(inode) (the inode data offset) and the block pointers are read
-from the untrusted on-disk image.  A crafted cramfs image with the
-CRAMFS_FLAG_EXT_BLOCK_POINTERS feature and an out-of-range inode offset
-makes the block-pointer read -- and the subsequent tail-data scan in
-cramfs_last_page_is_shared() -- dereference memory outside the mapped
-image.  mmap()ing a regular file on such an image then faults in the
-kernel (page fault in cramfs_physmem_mmap()).
+My point was that the load of reviews is very high
+so if something can be done to reduce the load of re-review
+it is going to be a win.
 
-Bound every linear-image dereference in the XIP path to sbi->size, the
-same way cramfs_direct_read() already does, and fall back to the bounded
-paging path on any out-of-range access.
+Anyway, as long as my RVB is preserved across revisions
+I am good.
 
-Fixes: eddcd97659e3 ("cramfs: add mmap support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
----
-Reproduced on v7.1-rc6 with KASAN, CONFIG_CRAMFS_MTD + MTD_MTDRAM (a small
-RAM-backed mtd as the linear cramfs backing).  A crafted cramfs image with
-CRAMFS_FLAG_EXT_BLOCK_POINTERS set and a regular file whose on-disk inode
-offset is out of range, mounted over the mtd backend, faults the kernel whe=
-n
-the file is mmap()ed:
-
-  BUG: unable to handle page fault for address ...
-  #PF: supervisor read access in kernel mode
-  RIP: ... cramfs_physmem_mmap+0x...
-   __mmap_region
-   mmap_region
-   do_mmap
-   vm_mmap_pgoff
-   ksys_mmap_pgoff
-
-A control image with an in-range offset maps and reads cleanly.  With this
-patch the crafted image's XIP fast path detects the out-of-range offset and
-falls back to the bounded paging path; no fault occurs.
-
- fs/cramfs/inode.c | 32 ++++++++++++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
-
-diff --git a/fs/cramfs/inode.c b/fs/cramfs/inode.c
-index 4edbfccd0bbe..014072a65c5b 100644
---- a/fs/cramfs/inode.c
-+++ b/fs/cramfs/inode.c
-@@ -298,13 +298,22 @@ static u32 cramfs_get_block_range(struct inode *inode=
-, u32 pgoff, u32 *pages)
- {
- =09struct cramfs_sb_info *sbi =3D CRAMFS_SB(inode->i_sb);
- =09int i;
--=09u32 *blockptrs, first_block_addr;
-+=09u32 *blockptrs, first_block_addr, data_addr;
-=20
- =09/*
- =09 * We can dereference memory directly here as this code may be
- =09 * reached only when there is a direct filesystem image mapping
- =09 * available in memory.
-+=09 *
-+=09 * The block pointer array lives at OFFSET(inode) inside the image.
-+=09 * OFFSET() and the block pointers are taken from the (untrusted)
-+=09 * on-disk inode, so bound every access to the image the same way
-+=09 * cramfs_direct_read() does before dereferencing it.
- =09 */
-+=09if (OFFSET(inode) > sbi->size ||
-+=09    ((u64)pgoff + *pages) * 4 > sbi->size - OFFSET(inode))
-+=09=09return 0;
-+
- =09blockptrs =3D (u32 *)(sbi->linear_virt_addr + OFFSET(inode) + pgoff * 4=
-);
- =09first_block_addr =3D blockptrs[0] & ~CRAMFS_BLK_FLAGS;
- =09i =3D 0;
-@@ -324,7 +333,14 @@ static u32 cramfs_get_block_range(struct inode *inode,=
- u32 pgoff, u32 *pages)
- =09} while (++i < *pages);
-=20
- =09*pages =3D i;
--=09return first_block_addr << CRAMFS_BLK_DIRECT_PTR_SHIFT;
-+
-+=09/* The mapped data range must also lie within the image. */
-+=09data_addr =3D first_block_addr << CRAMFS_BLK_DIRECT_PTR_SHIFT;
-+=09if (data_addr > sbi->size ||
-+=09    (u64)*pages * PAGE_SIZE > sbi->size - data_addr)
-+=09=09return 0;
-+
-+=09return data_addr;
- }
-=20
- #ifdef CONFIG_MMU
-@@ -345,9 +361,21 @@ static bool cramfs_last_page_is_shared(struct inode *i=
-node)
- =09if (!partial)
- =09=09return false;
- =09last_page =3D inode->i_size >> PAGE_SHIFT;
-+
-+=09/*
-+=09 * The block pointer and the tail data are read directly from the
-+=09 * image at offsets derived from the untrusted on-disk inode; bound
-+=09 * both accesses to the image.  On any overflow treat the last page
-+=09 * as shared so the caller falls back to the bounded paging path.
-+=09 */
-+=09if (OFFSET(inode) > sbi->size ||
-+=09    ((u64)last_page + 1) * 4 > sbi->size - OFFSET(inode))
-+=09=09return true;
- =09blockptrs =3D (u32 *)(sbi->linear_virt_addr + OFFSET(inode));
- =09blockaddr =3D blockptrs[last_page] & ~CRAMFS_BLK_FLAGS;
- =09blockaddr <<=3D CRAMFS_BLK_DIRECT_PTR_SHIFT;
-+=09if (blockaddr > sbi->size || sbi->size - blockaddr < PAGE_SIZE)
-+=09=09return true;
- =09tail_data =3D sbi->linear_virt_addr + blockaddr + partial;
- =09return memchr_inv(tail_data, 0, PAGE_SIZE - partial) ? true : false;
- }
---=20
-2.43.0
-
-
+Thanks,
+Amir.
